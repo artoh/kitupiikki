@@ -8,4 +8,11 @@ TARGET = kitupiikki
 
 TEMPLATE = app
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    uusikp/uusikirjanpito.cpp
+
+HEADERS += \
+    uusikp/uusikirjanpito.h
+
+RESOURCES += \
+    kitupiikki.qrc

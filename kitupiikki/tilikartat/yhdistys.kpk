@@ -1,0 +1,219 @@
+[otsikko]
+Yhdistys
+[kuvaus]
+Yhdistyksen tilikartta
+[tilit]
+A;1011;Perustamismenot
+A;1021;Tutkimusmenot
+A;1031;Kehittämismenot
+A;1041;Aineettomat oikeudet
+A;1081;Muut pitkävaikutteiset menot
+A;1091;Ennakkomaksut
+A;1111;Maa- ja vesialueet
+A;1121;Maanvuokraoikeudet
+AP;1151;Rakennukset ja rakennelmat
+AP;1171;Rakennusten vuokraoikeudet
+AP;1211;Koneet ja kalusto
+AP;1311;Muut aineelliset hyödykkeet (poistokelpoiset)
+A;1351;Ennakkomaksut ja keskeneräiset hankinnat
+A;1411;Osuudet ja osakkeet
+A;1451;Muut sijoitukset
+A;1511;Aineet ja tarvikkeet
+A;1521;Keskeneräiset tuotteet
+A;1531;Valmiit tuotteet
+A;1541;Tavarat
+A;1551;Muu vaihto-omaisuus
+A;1561;Ennakkomaksut
+A;1611;Myyntisaamiset (pitkäaikaiset)
+A;1641;Lainasaamiset (pitkäaikaiset)
+A;1651;Muut saamiset (pitkäaikaiset)
+A;1661;Maksamattomat osakkeet/osuudet (pitkäaikaiset)
+A;1671;Siirtosaamiset (pitkäaikaiset)
+A;1681;Laskennalliset verosaamiset (pitkäaikaiset)
+A;1711;Myyntisaamiset
+A;1761;Lainasaamiset
+A;1771;Muut saamiset
+A;1791;Maksamattomat osakkeet/osuudet
+A;1811;Siirtosaamiset
+A;1841;Laskennalliset verosaamiset
+A;1851;Osakkeet ja osuudet
+A;1881;Muut arvopaperit
+ARK;1901;Käteisvarat
+ARP;1911;Pankkitili
+B;2011;Peruspääoma
+BE;2251;Edellisten tilikausien ylijäämät
+B;2411;Poistoero
+B;2451;Vapaaehtoiset varaukset
+B;2511;Eläkevaraukset;
+B;2521;Verovaraukset
+B;2531;Muut pakolliset varaukset
+B;2631;Lainat rahoituslaitoksilta (pitkäaikaiset)
+B;2651;Eläkelainat (pitkäaikaiset)
+B;2661;Saadut ennakot (pitkäaikaiset)
+B;2671;Ostovelat (pitkäaikaiset)
+B;2681;Rahoitusvekselit (pitkäaikaiset)
+B;2731;Muut velat (pitkäaikaiset)
+B;2751;Siirtovelat (pitkäaikaiset)
+B;2831;Lainat rahoituslaitoksilta
+B;2851;Eläkelainat
+B;2861;Saadut ennakot
+B;2871;Ostovelat
+B;2891;Rahoitusvekselit
+B;2931;Ennakonpidätys- ja sosiaaliturvamaksuvelka
+B;2945;Arvonlisäverovelka
+B;2959;Muut velat
+B;2961;Siirtovelat
+T;3001;Osallistumismaksut
+T;3101;Lahjoitukset
+T;3901;Muut varsinaisen toiminnan tuotot
+M;4001;Palkat
+M;4011;Lisät ja korvaukset
+M;4021;Loma-ajan palkat
+M;4031;Palkkiot
+M;4041;Luontoisedut
+M;4049;Luontoisetujen vastatili
+M;4051;Saadut sairausvakuutuskorvaukset
+M;4061;Saadut tapaturmavakuutuskorvaukset
+M;4101;Maksetut eläkkeet
+M;4111;Pakolliset eläkevakuutusmaksut
+M;4115;Vapaaehtoiset eläkevakuutusmaksut
+M;4121;Sosiaaliturvamaksut
+M;4131;Tapaturmavakuutusmaksut
+M;4135;Ryhmähenkivakuutusmaksut
+M;4141;Työttömyysvakuutusmaksut
+M;4151;Muut henkilöstön vakuutusmaksut
+M;4201;Toiminnan kulut
+M;4291;Muut toiminnan kulut
+M;4301;Henkilökunnan koulutus
+M;4311;Virkistys- ja harrastustoiminta
+M;4321;Työterveyshuolto
+M;4331;Henkilökunnan ruokailu
+M;4341;Työvaatteet ja suojavälineet
+M;4391;Muut henkilökunnan kulut
+M;4401;Toimitilavuokrat
+M;4411;Sähkö
+M;4413;Lämmitys
+M;4415;Vesi ja jätevesi
+M;4421;Rakennusten korjaus
+M;4423;Ulkoalueiden huolto
+M;4431;Siivous- ja puhtaanapito
+M;4433;Jätehuolto
+M;4441;Kiinteistövakuutukset
+M;4451;Kiinteistövero
+M;4461;Vartiointi- ja turvallisuuskulut
+M;4491;Muut toimitilakulut
+M;4501;Ajoneuvovuokrat
+M;4511;Ajoneuvojen polttoaine
+M;4521;Ajoneuvojen huolto ja korjaus
+M;4531;Ajoneuvojen julkiset maksut
+M;4541;Ajoneuvovakuutukse
+M;4591;Muut ajoneuvokulut
+M;4601;Kone- ja kalustohankinnat
+M;4611;Kone- ja kalustovuokrat
+M;4621;Koneiden ja kaluston korjaus
+M;4631;Koneiden ja kaluston vakuutukset
+M;4691;Muut kone- ja kalustokulut
+M;4701;Matkaliput
+M;4711;Taksikulut
+M;4721;Majoituskulut
+M;4731;Matkavakuutukset
+M;4741;Kilometrikorvaukset
+M;4751;Päivärahat
+M;4761;Ateriakorvaukset
+M;4791;Muut matkakulut
+M;4801;Mainoskulut
+M;4811;Messut ja näyttelyt
+M;4821;Lahjoitukset
+M;4841;Muut markkinointikulut
+M;4851;Taloushallintopalvelut
+M;4861;Tilintarkastuspalvelut
+M;4871;Laki- ja konsultointipalvelut
+M;4891;Muut hallintopalvelut
+M;4901;Kirjat
+M;4903;Lehdet
+M;4911;Puhelinkulut
+M;4913;Datasiirtokulut
+M;4915;Postikulut
+M;4921;Rahaliikenteen kulut
+M;4931;Vastuuvakuutukset
+M;4933;Esinevakuutukset
+M;4935;Muut vakuutukset
+M;4941;Toimistotarvikkeet
+M;4951;Kokous- ja neuvottelukulut
+M;4961;Edustuskulut
+M;4971;Viranomaismaksut
+M;4991;Muut hallintokulut
+T;5001;Jäsenmaksutulot
+T;5011;Kannatusmaksutulot
+T;5021;Mainostulot
+T;5031;Myyntitulot
+T;5041;Muut varainhankinnan tuotot
+M;5051;Jäsenmaksukulut
+M;5061;Ostot (myytävät tuotteet)
+M;5071;Myyntikulut
+M;5081;Muut varainhankinnan kulut
+T;6001;Osinkotuotot
+T;6011;Korkotuotot
+T;6021;Vuokratuotot
+T;6031;Muut sijoitustoiminnan tuotot
+M;6101;Korkokulut
+M;6111;Muut sijoitustoiminnan kulut
+T;7001;Satunnaiset tuotot
+M;7101;Satunnaiset kulut
+T;7501;Yleisavustukset
+P;8001;Poistot koneista ja kalustosta
+P;8011;Poistot rakennuksista
+P;9001;Poistoeron muutos
+P;9011;Vapaaehtoisten varausten muutos
+M;9501;Tuloverot
+M;9511;Muut välittömät verot
+[otsikot]
+O:1000..2999;Tase
+A;1000..1999;Vastaavaa
+A;1000..1599;Pysyvät vastaavat
+A;1000..1999;Aineettomat hyödykkeet
+A;1200..1399;Aineelliset hyödykkeet
+A;1400..1499;Sijoitukset
+A;1500..1999;Vaihtuvat vastaavat
+A;1500..1599;Vaihto-omaisuus
+A;1600..1699;Pitkäaikaiset saamiset
+A;1700..1799;Lyhytaikaiset saamiset
+A;1800..1899;Rahoitusarvopaperit
+A;1900..1999;Rahat ja pankkisaamiset
+B;2000..2999;Vastattavaa
+B;2000..2399;Oma pääoma
+B;2400..2499;Tilinpäätössiirtojen kertymä
+B;2500..2599;Pakolliset varaukset
+B;2600..2999;Vieras pääoma
+B;2600..2799;Pitkäaikainen vieras pääoma
+B;2800..2999;Lyhytaikainen vieras pääoma
+O;3000..9999;Tuloslaskelma
+O;3000..4999;Varsinainen toiminta
+T;3000..3999;Varsinaisen toiminnan tuotot
+M;4000..4999;Varsinaisen toiminnan kulut
+M;4000..4199;Henkilöstökulut
+M;4000..4099;Palkat ja palkkiot
+M;4100..4199;Henkilöstösivukulut
+M;4200..4999;Muut kulut
+M;4200..4299;Toiminnan kulut
+M;4300..4399;Henkilökunnan kulut
+M;4500..4599;Ajoneuvokulut
+M;4600..4699;Kone- ja kalustokulut
+M;4700..4799;Matkakulut
+M;4801..4849;Markkinointikulut
+M;4850..4899;Hallintopalvelut
+M;4900..4999;Muut hallintokulut
+O;5000..5999;Varainhankinta
+T;5000..5499;Varainhankinnan tulot
+M;5500..5999;Varainhankinnan kulut
+O;6000..6999;Sijoitus- ja rahoitustoiminta
+T;6000..6099;Sijoitus- ja rahoitustoiminnan tulot
+M;6100..6199;Sijoitus- ja rahoitustoiminnan menot
+O;7000..7499;Satunnaiset erät
+T;7000..7099;Satunnaiset tulot
+M;7100..7199;Satunnaiset kulut
+T;7500..7599;Yleisavustukset
+P;8000..8199;Poistot
+P;9000..9499;Tilinpäätössiirrot
+P;9500..9599;Tuloverot ja muut välittömät verot
+
