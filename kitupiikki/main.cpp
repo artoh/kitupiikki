@@ -15,11 +15,11 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QCoreApplication>
+#include <QApplication>
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
+    QApplication a(argc, argv);
 
     return a.exec();
 }
