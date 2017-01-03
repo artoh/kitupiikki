@@ -28,17 +28,21 @@
 #include "introsivu.h"
 #include "nimisivu.h"
 #include "tilikarttasivu.h"
+#include "tilikausisivu.h"
+#include "sijaintisivu.h"
 #include "loppusivu.h"
 
 UusiKirjanpito::UusiKirjanpito() :
     QWizard()
 {
-    setWindowIcon(QIcon(":/r/Possu64.png"));
+    setWindowIcon(QIcon(":/pic/Possu64.png"));
     setWindowTitle("Uuden kirjanpidon luominen");
-    setPixmap( WatermarkPixmap, QPixmap(":/r/Possu64.png") );
+    setPixmap( WatermarkPixmap, QPixmap(":/pic/Possu64.png") );
     addPage( new IntroSivu());
     addPage( new NimiSivu());
     addPage( new TilikarttaSivu);
+    addPage( new TilikausiSivu );
+    addPage( new SijaintiSivu );
     addPage( new LoppuSivu );
 }
 

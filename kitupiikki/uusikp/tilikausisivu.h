@@ -15,32 +15,26 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QLabel>
-#include <QVBoxLayout>
+#ifndef TILIKAUSISIVU_H
+#define TILIKAUSISIVU_H
 
-#include "loppusivu.h"
-#include "uusikirjanpito.h"
+#include <QWizardPage>
+#include "ui_tilikausi.h"
 
-LoppuSivu::LoppuSivu()
+class TilikausiSivu : public QWizardPage
 {
-    setTitle("Valmista");
+    Q_OBJECT
 
-    QLabel *teksti = new QLabel("Kaikki on nyt valmista.");
+protected:
+    Ui::TilikausiSivu *ui;
 
-    karttaLabel = new QLabel();
+public:
+    TilikausiSivu();
+    ~TilikausiSivu();
 
-    QVBoxLayout *leiska = new QVBoxLayout();
-    leiska->addWidget(teksti);
-    leiska->addWidget(karttaLabel);
+public slots:
+    void alkuPaivaMuuttui(const QDate& date);
 
-    setLayout(leiska);
+};
 
-}
-
-void LoppuSivu::initializePage()
-{
-    QString polku = field("tilikartta").toString();
-    QString introteksti = UusiKirjanpito::lueKtkTiedosto(polku).value("intro").join("\n");
-
-    karttaLabel->setText(introteksti);
-}
+#endif // TILIKAUSISIVU_H

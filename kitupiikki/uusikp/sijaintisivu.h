@@ -18,12 +18,26 @@
 #ifndef SIJAINTISIVU_H
 #define SIJAINTISIVU_H
 
-#include <QWidget>
+#include <QWizardPage>
+
+#include "ui_sijainti.h"
 
 class SijaintiSivu : public QWizardPage
 {
+    Q_OBJECT
+
+protected:
+    Ui::SijaintiSivu *ui;
 public:
     SijaintiSivu();
+    ~SijaintiSivu();
+
+protected slots:
+    void vaihdaSijainti();
+
+protected:
+    void initializePage();
+    void estaTuplaHakemistot();
 };
 
 #endif // SIJAINTISIVU_H

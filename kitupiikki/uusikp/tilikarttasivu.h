@@ -35,6 +35,7 @@ public:
 
 protected:
     void lataaSisaisetKartat();
+    void initializePage();
 
 protected slots:
     void lataaTiedostosta();    /** Näyttää tiedostodialogin ja lataa tilikartan tiedostosta*/

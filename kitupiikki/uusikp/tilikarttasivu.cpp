@@ -26,7 +26,7 @@
 
 TilikarttaSivu::TilikarttaSivu()
 {
-    setTitle("Valitse tilikartta");
+    setTitle("Tilikartta");
     ui = new Ui::TilikarttaSivu();
     ui->setupUi(this);
 
@@ -65,6 +65,12 @@ void TilikarttaSivu::lataaSisaisetKartat()
         item->setData(Qt::UserRole, polku);
     }
 
+}
+
+void TilikarttaSivu::initializePage()
+{
+    ui->tilikarttaList->selectionModel()->clearSelection();
+    ui->kuvausLabel->clear();
 }
 
 void TilikarttaSivu::lataaTiedostosta()
