@@ -23,6 +23,12 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
+    a.setApplicationName("Kitupiikki");
+    a.setApplicationVersion("0.00A00");
+    a.setOrganizationDomain("artoh.github.io");
+    a.setOrganizationName("Kitupiikki Kirjanpito");
+
+
     UusiKirjanpito::aloitaUusiKirjanpito();
 
     // return a.exec();

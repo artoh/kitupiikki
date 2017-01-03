@@ -27,6 +27,8 @@
 #include <QSqlQuery>
 #include <QMapIterator>
 
+#include <QApplication>
+
 #include "uusikirjanpito.h"
 
 #include "introsivu.h"
@@ -151,13 +153,14 @@ bool UusiKirjanpito::alustaKirjanpito()
     // Kirjataan tietokannan perustietoja
     query.addBindValue("nimi"); query.addBindValue( field("nimi").toString() ); query.exec();
     query.addBindValue("ytunnus"); query.addBindValue( field("ytunnus").toString() ); query.exec();
-    query.addBindValue("luotu"); query.addBindValue( QDate::currentDate().toString(Qt::ISODate) ); query.exec();
     if( field("todellinen").toBool())
         { query.addBindValue("harjoitus"); query.addBindValue( 0 ); }
     else
         { query.addBindValue("harjoitus"); query.addBindValue( 1 ); }
     query.exec();
 
+    query.addBindValue("luotu"); query.addBindValue( QDate::currentDate().toString(Qt::ISODate) ); query.exec();
+    query.addBindValue("versio"); query.addBindValue( qApp->applicationVersion() ); query.exec();
 
 
 
