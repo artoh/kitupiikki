@@ -15,10 +15,81 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QDebug>
+
+#include <QPixmap>
+#include <QIcon>
+
+#include <QFile>
+#include <QTextStream>
+
 #include "uusikirjanpito.h"
+
+#include "introsivu.h"
+#include "nimisivu.h"
+#include "tilikarttasivu.h"
+#include "loppusivu.h"
 
 UusiKirjanpito::UusiKirjanpito() :
     QWizard()
 {
+    setWindowIcon(QIcon(":/r/Possu64.png"));
+    setWindowTitle("Uuden kirjanpidon luominen");
+    setPixmap( WatermarkPixmap, QPixmap(":/r/Possu64.png") );
+    addPage( new IntroSivu());
+    addPage( new NimiSivu());
+    addPage( new TilikarttaSivu);
+    addPage( new LoppuSivu );
+}
 
+
+QString UusiKirjanpito::aloitaUusiKirjanpito()
+{
+    UusiKirjanpito velho;
+
+    velho.exec();
+
+    // qDebug() << velho.field("todellinen").toBool();
+
+    return QString();
+}
+
+QMap<QString, QStringList> UusiKirjanpito::lueKtkTiedosto(const QString &polku)
+{
+    // ktk-tiedosto koostuu osista, jotka merkitään [otsikko] ja
+    // niiden väleissä olevista tiedoista. Rivi voidaan
+    // kommentoida #-merkillä
+
+
+    QMap<QString, QStringList> tiedot;
+
+    QFile tiedosto(polku);
+    if( tiedosto.open(QIODevice::ReadOnly))
+    {
+        QTextStream in(&tiedosto);
+        in.setCodec("utf8");
+        QString nykyavain;
+        QStringList nykytieto;
+
+        while( !in.atEnd())
+        {
+            QString rivi = in.readLine();
+            if( rivi.startsWith('[') && rivi.endsWith(']'))
+            {
+                // Tallennetaan nykyinen
+                if( !nykyavain.isEmpty())
+                    tiedot[nykyavain] = nykytieto;
+                // Aloitetaan uusi
+                nykyavain = rivi.mid(1, rivi.length() - 2);
+                nykytieto.clear();
+            }
+            else if( !rivi.startsWith('#') && !nykyavain.isEmpty())
+                nykytieto.append(rivi);
+        }
+        // Tiedoston lopussa päätetään viimeinen tieto
+        if( !nykyavain.isEmpty())
+            tiedot[nykyavain] = nykytieto;
+    }
+
+    return tiedot;
 }

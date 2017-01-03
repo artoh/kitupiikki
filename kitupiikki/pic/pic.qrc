@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/pic">
+        <file>Possu64.png</file>
+        <file>Possu256.png</file>
+    </qresource>
+</RCC>

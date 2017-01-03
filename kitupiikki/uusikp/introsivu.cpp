@@ -15,15 +15,19 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QApplication>
+#include "introsivu.h"
 
-#include "uusikp/uusikirjanpito.h"
-
-int main(int argc, char *argv[])
+IntroSivu::IntroSivu()
 {
-    QApplication a(argc, argv);
+    setTitle("Tervetuloa");
 
-    UusiKirjanpito::aloitaUusiKirjanpito();
+    ui = new Ui::Intro();
+    ui->setupUi(this);
 
-    // return a.exec();
+    registerField("todellinen", ui->todellinenRadio);
+}
+
+IntroSivu::~IntroSivu()
+{
+    delete ui;
 }

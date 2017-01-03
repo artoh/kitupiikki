@@ -15,15 +15,32 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QApplication>
+#include <QLabel>
+#include <QHBoxLayout>
 
-#include "uusikp/uusikirjanpito.h"
+#include "loppusivu.h"
+#include "uusikirjanpito.h"
 
-int main(int argc, char *argv[])
+LoppuSivu::LoppuSivu()
 {
-    QApplication a(argc, argv);
+    setTitle("Valmista");
 
-    UusiKirjanpito::aloitaUusiKirjanpito();
+    QLabel *teksti = new QLabel("Kaikki on nyt valmista.");
 
-    // return a.exec();
+    karttaLabel = new QLabel();
+
+    QHBoxLayout *leiska = new QHBoxLayout();
+    leiska->addWidget(teksti);
+    leiska->addWidget(karttaLabel);
+
+    setLayout(leiska);
+
+}
+
+void LoppuSivu::initializePage()
+{
+    QString polku = field("tilikartta").toString();
+    QString introteksti = UusiKirjanpito::lueKtkTiedosto(polku).value("intro").join("\n");
+
+    karttaLabel->setText(introteksti);
 }

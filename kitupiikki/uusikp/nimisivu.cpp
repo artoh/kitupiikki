@@ -15,15 +15,21 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QApplication>
+#include "nimisivu.h"
 
-#include "uusikp/uusikirjanpito.h"
-
-int main(int argc, char *argv[])
+NimiSivu::NimiSivu()
 {
-    QApplication a(argc, argv);
+    setTitle("Organisaation tiedot");
+    ui = new Ui::NimiSivu();
+    ui->setupUi(this);
 
-    UusiKirjanpito::aloitaUusiKirjanpito();
+    registerField("nimi*",ui->nimiEdit);
+    registerField("ytunnus",ui->ytunnusEdit);
 
-    // return a.exec();
+}
+
+NimiSivu::~NimiSivu()
+{
+    delete ui;
+
 }

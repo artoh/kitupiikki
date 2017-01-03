@@ -15,15 +15,21 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QApplication>
+#ifndef INTROSIVU_H
+#define INTROSIVU_H
 
-#include "uusikp/uusikirjanpito.h"
+#include <QWizard>
 
-int main(int argc, char *argv[])
+#include "ui_intro.h"
+
+class IntroSivu : public QWizardPage
 {
-    QApplication a(argc, argv);
+protected:
+    Ui::Intro *ui;
 
-    UusiKirjanpito::aloitaUusiKirjanpito();
+public:
+    IntroSivu();
+    ~IntroSivu();
+};
 
-    // return a.exec();
-}
+#endif // INTROSIVU_H

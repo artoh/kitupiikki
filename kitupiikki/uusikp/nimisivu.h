@@ -15,15 +15,20 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QApplication>
+#ifndef NIMISIVU_H
+#define NIMISIVU_H
 
-#include "uusikp/uusikirjanpito.h"
+#include <QWizardPage>
 
-int main(int argc, char *argv[])
+#include "ui_nimi.h"
+
+class NimiSivu : public QWizardPage
 {
-    QApplication a(argc, argv);
+protected:
+    Ui::NimiSivu *ui;
+public:
+    NimiSivu();
+    ~NimiSivu();
+};
 
-    UusiKirjanpito::aloitaUusiKirjanpito();
-
-    // return a.exec();
-}
+#endif // NIMISIVU_H

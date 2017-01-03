@@ -15,15 +15,22 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QApplication>
+#ifndef LOPPUSIVU_H
+#define LOPPUSIVU_H
 
-#include "uusikp/uusikirjanpito.h"
+#include <QWizardPage>
+#include <QLabel>
 
-int main(int argc, char *argv[])
+class LoppuSivu : public QWizardPage
 {
-    QApplication a(argc, argv);
+protected:
+    QLabel *karttaLabel;
 
-    UusiKirjanpito::aloitaUusiKirjanpito();
+public:
+    LoppuSivu();
 
-    // return a.exec();
-}
+protected:
+    void initializePage();
+};
+
+#endif // LOPPUSIVU_H

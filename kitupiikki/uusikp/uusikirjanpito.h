@@ -19,7 +19,9 @@
 #define UUSIKIRJANPITO_H
 
 #include <QWizard>
+#include <QMap>
 
+#include "ui_intro.h"
 
 /**
  * @brief Uuden kirjanpidon luominen
@@ -30,15 +32,24 @@
  */
 class UusiKirjanpito : public QWizard
 {
+    Q_OBJECT
+
 protected:
     UusiKirjanpito();
 
 public:
     /**
      * @brief Näyttää valintavelhon ja luo uuden kirjanpidon
-     * @return Polku uuden kirjanpidon hakemistoon tai null, ellei luominen onnistunut
+     * @return Polku uuden kirjanpidon hakemistoon tai String(), ellei luominen onnistunut
      */
     static QString aloitaUusiKirjanpito();
+
+    /**
+     * @brief Lukee Kitupiikin tilikartta -muotoisen tiedoston
+     * @param Tiedostonpolku
+     * @return Tiedoston sisältö. QMap:issa avaimena osion nimi esim. [kuvaus] ja sisältö QStringList-muodossa
+     */
+    static QMap<QString,QStringList> lueKtkTiedosto(const QString& polku);
 
 };
 

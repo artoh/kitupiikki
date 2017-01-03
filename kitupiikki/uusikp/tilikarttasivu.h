@@ -15,15 +15,31 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QApplication>
+#ifndef TILIKARTTASIVU_H
+#define TILIKARTTASIVU_H
 
-#include "uusikp/uusikirjanpito.h"
+#include <QWizardPage>
 
-int main(int argc, char *argv[])
+#include "ui_tilikartta.h"
+
+class TilikarttaSivu : public QWizardPage
 {
-    QApplication a(argc, argv);
+    Q_OBJECT
 
-    UusiKirjanpito::aloitaUusiKirjanpito();
+protected:
+    Ui::TilikarttaSivu *ui;
 
-    // return a.exec();
-}
+public:
+    TilikarttaSivu();
+    ~TilikarttaSivu();
+
+protected:
+    void lataaSisaisetKartat();
+
+protected slots:
+    void lataaTiedostosta();    /** Näyttää tiedostodialogin ja lataa tilikartan tiedostosta*/
+    void valitseTilikartta(const QString& polku); /** Valitsee tilikarttatiedoston ja päivittää näytettävät tiedot*/
+    void listaltaValittu();
+};
+
+#endif // TILIKARTTASIVU_H

@@ -1,7 +1,11 @@
-[otsikko]
+[nimi]
 Yhdistys
 [kuvaus]
-Yhdistyksen tilikartta
+<b>Yhdistyksen tilikartta</b>
+<p>Yhdistyskaavan mukainen tilikartta</p>
+<p>Kitupiikki 2.1.2017</p>
+[intro]
+Pidä yhdistyksesi lippu korkealla!
 [tilit]
 A;1011;Perustamismenot
 A;1021;Tutkimusmenot
