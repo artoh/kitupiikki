@@ -54,17 +54,17 @@ void SijaintiSivu::vaihdaSijainti()
 void SijaintiSivu::initializePage()
 {
     QString nimi = field("nimi").toString();
-    QString siistitty = nimi.replace("ä","a").replace("ö","o")
+    nimi.replace("ä","a").replace("ö","o")
             .replace("Ä","A").replace("Ö","o")
-            .replace("å","a").replace("Å","å")
+            .replace("å","a").replace("Å","A")
             .replace(QRegularExpression("[^a-zA-Z0-9]"),"");
 
     if( field("todellinen").toBool() )
-        siistitty += "-kirjanpito";
+        nimi += "-kirjanpito";
     else
-        siistitty += "-kokeilu";
+        nimi += "-kokeilu";
 
-    ui->hakemistoEdit->setText(siistitty);
+    ui->hakemistoEdit->setText(nimi);
     estaTuplaHakemistot();
 }
 
@@ -72,16 +72,16 @@ void SijaintiSivu::estaTuplaHakemistot()
 {
     QString hakemisto = ui->hakemistoEdit->text();
     // Poistetaan lopussa mahdollisesti jo oleva numerolisäys
-    QString nimi = hakemisto.replace(QRegularExpression("-\\d*$"),"");
+    hakemisto.replace(QRegularExpression("-\\d*$"),"");
 
     QString lisake = "";
     int lisanumero = 0;
-    while( QFile(ui->sijaintiEdit->text() + "/" + nimi + lisake).exists() )
+    while( QFile(ui->sijaintiEdit->text() + "/" + hakemisto + lisake).exists() )
     {
         lisanumero++;
         lisake = QString("-%1").arg(lisanumero);
     }
 
-    ui->hakemistoEdit->setText(nimi + lisake);
+    ui->hakemistoEdit->setText(hakemisto + lisake);
 }
 
