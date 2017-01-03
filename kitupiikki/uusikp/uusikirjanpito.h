@@ -51,6 +51,13 @@ public:
      */
     static QMap<QString,QStringList> lueKtkTiedosto(const QString& polku);
 
+protected:
+    /**
+     * @brief Luo hakemistorakenteen ja tietokannan
+     * @return Tosi jos onnistui
+     */
+    bool alustaKirjanpito();
+
 };
 
 #endif // UUSIKIRJANPITO_H

@@ -15,13 +15,17 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QDebug>
+#include <QDir>
 
 #include <QPixmap>
 #include <QIcon>
 
 #include <QFile>
 #include <QTextStream>
+
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QMapIterator>
 
 #include "uusikirjanpito.h"
 
@@ -53,9 +57,12 @@ QString UusiKirjanpito::aloitaUusiKirjanpito()
 
     velho.exec();
 
-    // qDebug() << velho.field("todellinen").toBool();
-
-    return QString();
+    if( velho.alustaKirjanpito())
+        // Palautetaan uuden kirjanpidon hakemistopolku
+        return velho.field("sijainti").toString() + "/" + velho.field("hakemisto").toString();
+    else
+        // Epäonnistui, tyhjä merkkijono
+        return QString();
 }
 
 QMap<QString, QStringList> UusiKirjanpito::lueKtkTiedosto(const QString &polku)
@@ -96,4 +103,75 @@ QMap<QString, QStringList> UusiKirjanpito::lueKtkTiedosto(const QString &polku)
     }
 
     return tiedot;
+}
+
+bool UusiKirjanpito::alustaKirjanpito()
+{
+    QString hakemistopolku = field("sijainti").toString() + "/" + field("hakemisto").toString();
+    QDir hakemisto;
+
+    // Luodaan hakemisto
+    if( !hakemisto.mkdir(hakemistopolku) || !hakemisto.cd(hakemistopolku))
+        return false;
+
+    // Luodaan alihakemistot
+    hakemisto.mkdir("tositteet");
+    hakemisto.mkdir("arkisto");
+
+    // Luodaan tietokanta
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE","luonti");
+    db.setDatabaseName(hakemistopolku + "/kitupiikki.sqlite");
+    if( !db.open())
+    {
+        return false;
+    }
+    QSqlQuery query(db);
+
+    // Luodaan tietokanta
+    // Tietokannan luontikäskyt ovat resurssitiedostossa luo.sql
+    QFile sqltiedosto(":/sql/luo.sql");
+    sqltiedosto.open(QIODevice::ReadOnly);
+    QTextStream in(&sqltiedosto);
+    QString sqluonti = in.readAll();
+    sqluonti.replace("\n","");
+    QStringList sqlista = sqluonti.split(";");
+    foreach (QString kysely,sqlista)
+    {
+        query.exec(kysely);
+    }
+
+
+    // Ladataan karttatiedosto
+    QMap<QString,QStringList> kartta = lueKtkTiedosto( field("tilikartta").toString() );
+
+    // Asetustauluun kirjoittaminen
+    query.prepare("INSERT INTO asetus (avain, arvo)"
+                  "VALUES (?,?)");
+
+    // Kirjataan tietokannan perustietoja
+    query.addBindValue("nimi"); query.addBindValue( field("nimi").toString() ); query.exec();
+    query.addBindValue("ytunnus"); query.addBindValue( field("ytunnus").toString() ); query.exec();
+    query.addBindValue("luotu"); query.addBindValue( QDate::currentDate().toString(Qt::ISODate) ); query.exec();
+
+    // Siirretään asetustauluun tilikartan tiedot
+    // TODO: Vain osa, tietyllä tavalla (esim *-alku)
+    QMapIterator<QString,QStringList> i(kartta);
+    while( i.hasNext())
+    {
+        i.next();
+        query.addBindValue("tk/" + i.key() );
+        query.addBindValue(i.value().join("\n"));
+        query.exec();
+    }
+
+    // Tilien kirjoittaminen
+
+
+    // Otsikkojen kirjoittaminen
+
+
+    db.close();
+
+    return true;
+
 }

@@ -28,7 +28,8 @@ HEADERS += \
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
-    pic/pic.qrc
+    pic/pic.qrc \
+    uusikp/sql.qrc
 
 FORMS += \
     uusikp/intro.ui \
@@ -36,3 +37,6 @@ FORMS += \
     uusikp/tilikartta.ui \
     uusikp/sijainti.ui \
     uusikp/tilikausi.ui
+
+DISTFILES += \
+    uusikp/luo.sql
