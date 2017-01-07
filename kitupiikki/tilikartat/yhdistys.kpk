@@ -6,6 +6,8 @@ Yhdistys
 <p>Kitupiikki 2.1.2017</p>
 [intro]
 Pidä yhdistyksesi lippu korkealla!
+[*tilikartta]
+Yhdistys (KP 2.1.2017)
 [tilit]
 A;1011;Perustamismenot
 A;1021;Tutkimusmenot
@@ -220,4 +222,3 @@ T;7500..7599;Yleisavustukset
 P;8000..8199;Poistot
 P;9000..9499;Tilinpäätössiirrot
 P;9500..9599;Tuloverot ja muut välittömät verot
-

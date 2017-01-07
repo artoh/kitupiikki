@@ -1,6 +1,7 @@
 var NAVTREE =
 [
   [ "Kitupiikki", "index.html", [
+    [ "tilikartat", "md_kitupiikki_tilikartat_tilikartat.html", null ],
     [ "Luokat", "annotated.html", [
       [ "Luokkalista", "annotated.html", "annotated_dup" ],
       [ "Luokkaluettelo", "classes.html", null ],

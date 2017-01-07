@@ -28,6 +28,8 @@
 #include <QMapIterator>
 
 #include <QApplication>
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
 
 #include "uusikirjanpito.h"
 
@@ -162,26 +164,80 @@ bool UusiKirjanpito::alustaKirjanpito()
     query.addBindValue("luotu"); query.addBindValue( QDate::currentDate().toString(Qt::ISODate) ); query.exec();
     query.addBindValue("versio"); query.addBindValue( qApp->applicationVersion() ); query.exec();
 
-
+    if( field("onekakausi").toBool())    {
+        // Ensimmäinen tilikausi, tilinavausta ei tarvita
+        query.addBindValue("tilinavaus"); query.addBindValue( 0 ); query.exec();
+    } else {
+        // Tilinavaustiedot puuttuvat
+        query.addBindValue("tilinavaus"); query.addBindValue( 2 ); query.exec();
+    }
 
     // Siirretään asetustauluun tilikartan tiedot
-    // TODO: Vain osa, tietyllä tavalla (esim *-alku)
+    // jotka alkavat *-merkillä
     QMapIterator<QString,QStringList> i(kartta);
     while( i.hasNext())
     {
         i.next();
-        query.addBindValue("tk/" + i.key() );
-        query.addBindValue(i.value().join("\n"));
-        query.exec();
+        if( i.key().startsWith("*"))
+        {
+            query.addBindValue( i.key() );
+            query.addBindValue( i.value().join("\n"));
+            query.exec();
+        }
     }
 
     // Tilien kirjoittaminen
-
+    query.prepare("INSERT INTO tili(nro,nimi,tyyppi) values(?,?,?) ");
+    QStringList tililista = kartta.value("tilit");
+    foreach ( QString tili, tililista)
+    {
+        // Tilitietueet ovat muotoa tyyppi;numero;nimi
+        QStringList splitti = tili.split(";");
+        if( splitti.count() > 2)
+        {
+            query.addBindValue(splitti[1].toInt() );
+            query.addBindValue(splitti[2]);
+            query.addBindValue(splitti[0]);
+            query.exec();
+        }
+    }
 
     // Otsikkojen kirjoittaminen
+    query.prepare("INSERT INTO tiliotsikko(tilista,tiliin,otsikko,tyyppi) values(?,?,?,?)");
+    foreach (QString otsikkorivi, kartta.value("otsikot"))
+    {
+        // Otsikkotietueet tyyppi;mista..mihin;otsikko
+        QStringList splitti = otsikkorivi.split(";");
+        if( splitti.count() > 2)
+        {
+            QStringList mimisplit = splitti[1].split("..");
+            if( mimisplit.count() != 2)
+                continue;   // Epäkelpo
+            query.addBindValue( mimisplit[0].toInt() ); // Mistä
+            query.addBindValue( mimisplit[1].toInt() ); // Mihin
+            query.addBindValue( splitti[2]);    // Otsikko
+            query.addBindValue( splitti[0]);    // tyyppi
+            query.exec();
+        }
+    }
 
 
     // Tilikausien kirjoittaminen
+    // Nykyinen tilikausi
+    query.prepare("INSERT INTO tilikausi(alkaa,loppuu,lukittu) values(?,?,?)");
+    query.addBindValue( field("alkaa").toDate() );
+    query.addBindValue( field("paattyy").toDate());
+    query.addBindValue( QVariant() );
+    query.exec();
+
+    if( !field("onekakausi").toBool())
+    {
+        // Edellinen tilikausi. Lukitaan, ei estä tilin avausta.
+        query.addBindValue( field("edalkoi").toDate());
+        query.addBindValue( field("edpaattyi").toDate());
+        query.addBindValue( field("edpaattyi").toDate());
+        query.exec();
+    }
 
 
     db.close();

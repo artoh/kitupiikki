@@ -37,7 +37,7 @@ TilikausiSivu::TilikausiSivu()
              this, SLOT(alkuPaivaMuuttui(QDate)));
 
     registerField("alkaa", ui->ekaAlkaa);
-    registerField("paatty", ui->ekaPaattyy);
+    registerField("paattyy", ui->ekaPaattyy);
     registerField("onekakausi",ui->aloittavaTilikausiCheck);
     registerField("edalkoi", ui->edellinenAlkoi);
     registerField("edpaattyi", ui->edellinenPaattyi);
