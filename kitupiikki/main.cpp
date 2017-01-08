@@ -18,6 +18,8 @@
 #include <QApplication>
 
 #include "uusikp/uusikirjanpito.h"
+#include "kitupiikkiikkuna.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -29,7 +31,10 @@ int main(int argc, char *argv[])
     a.setOrganizationName("Kitupiikki Kirjanpito");
 
 
-    UusiKirjanpito::aloitaUusiKirjanpito();
+    KitupiikkiIkkuna ikkuna;
+    ikkuna.show();
 
-    // return a.exec();
+    // UusiKirjanpito::aloitaUusiKirjanpito();
+
+    return a.exec();
 }

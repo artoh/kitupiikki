@@ -22,6 +22,9 @@
 
 #include "ui_tilikartta.h"
 
+/**
+ * @brief Uuden kirjanpidon velhon sivu, jossa valitaan tilikartta
+ */
 class TilikarttaSivu : public QWizardPage
 {
     Q_OBJECT

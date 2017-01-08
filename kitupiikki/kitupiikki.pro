@@ -1,6 +1,7 @@
 QT += gui
 QT += widgets
 QT += sql
+QT += webenginewidgets
 
 CONFIG += c++11
 
@@ -15,7 +16,10 @@ SOURCES += main.cpp \
     uusikp/tilikarttasivu.cpp \
     uusikp/loppusivu.cpp \
     uusikp/sijaintisivu.cpp \
-    uusikp/tilikausisivu.cpp
+    uusikp/tilikausisivu.cpp \
+    kitupiikkiikkuna.cpp \
+    aloitussivu/aloitussivu.cpp \
+    aloitussivu/sisalto.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -24,12 +28,16 @@ HEADERS += \
     uusikp/tilikarttasivu.h \
     uusikp/loppusivu.h \
     uusikp/sijaintisivu.h \
-    uusikp/tilikausisivu.h
+    uusikp/tilikausisivu.h \
+    kitupiikkiikkuna.h \
+    aloitussivu/aloitussivu.h \
+    aloitussivu/sisalto.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
     pic/pic.qrc \
-    uusikp/sql.qrc
+    uusikp/sql.qrc \
+    aloitussivu/qrc/aloitus.qrc
 
 FORMS += \
     uusikp/intro.ui \
@@ -39,4 +47,6 @@ FORMS += \
     uusikp/tilikausi.ui
 
 DISTFILES += \
-    uusikp/luo.sql
+    uusikp/luo.sql \
+    aloitussivu/qrc/avaanappi.png \
+    aloitussivu/qrc/aloitus.css

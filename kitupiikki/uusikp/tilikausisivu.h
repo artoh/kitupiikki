@@ -21,6 +21,9 @@
 #include <QWizardPage>
 #include "ui_tilikausi.h"
 
+/**
+ * @brief Uuden kirjanpidon velhon sivu, jossa määritellään nykyinen ja edellinen tilikausi
+ */
 class TilikausiSivu : public QWizardPage
 {
     Q_OBJECT

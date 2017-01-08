@@ -15,25 +15,26 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef LOPPUSIVU_H
-#define LOPPUSIVU_H
+#ifndef ALOITUSSIVU_H
+#define ALOITUSSIVU_H
 
-#include <QWizardPage>
-#include <QLabel>
+#include <QTextBrowser>
 
-/**
- * @brief Uuden kirjanpidon velhon loppusivu
- */
-class LoppuSivu : public QWizardPage
+class AloitusSivu : public QTextBrowser
 {
-protected:
-    QLabel *karttaLabel;
-
+    Q_OBJECT
 public:
-    LoppuSivu();
+    AloitusSivu();
+
+protected slots:
+    void linkkiKlikattu(const QUrl& url);
+
+signals:
+    void toiminto(const QString& toiminto);
 
 protected:
-    void initializePage();
+    void lisaaTaulu(const QString& otsikko, const QString& sisalto, const QString& linkit, const QString& kuva);
+
 };
 
-#endif // LOPPUSIVU_H
+#endif // ALOITUSSIVU_H

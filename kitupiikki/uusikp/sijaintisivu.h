@@ -22,6 +22,9 @@
 
 #include "ui_sijainti.h"
 
+/**
+ * @brief Uuden kirjanpidon velhon sivu, jossa kysytään tiedoston sijainti
+ */
 class SijaintiSivu : public QWizardPage
 {
     Q_OBJECT

@@ -22,6 +22,9 @@
 
 #include "ui_nimi.h"
 
+/**
+ * @brief Uuden kirjanpidon velhon sivu, jossa kysytään kirjanpidon nimi
+ */
 class NimiSivu : public QWizardPage
 {
 protected:

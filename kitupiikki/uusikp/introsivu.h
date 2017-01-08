@@ -22,6 +22,9 @@
 
 #include "ui_intro.h"
 
+/**
+ * @brief Uuden kirjanpidon velhon introsivu
+ */
 class IntroSivu : public QWizardPage
 {
 protected:

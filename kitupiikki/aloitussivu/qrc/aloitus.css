@@ -1,0 +1,37 @@
+body
+{
+    background: lightgray;
+    font-family: Sans;
+    font-size: 12pt;
+}
+
+div.oikea
+{
+    width: 25%;
+    float: right;
+}
+
+p.nappi
+{
+    text-align: center;
+}
+
+div.loota
+{
+    width: 70%;
+    border: 1px solid black;
+    border-radius: 3px;
+    box-shadow: 4px 4px gray;
+    background: white;
+    margin-bottom: 12pt;
+}
+
+div.otsake
+{
+    background: green;
+    padding: 3px;
+    color: white;
+    font-size: 16pt;
+}
+
+
