@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['nimisivu',['NimiSivu',['../class_nimi_sivu.html',1,'']]]
+  ['kitupiikkiikkuna',['KitupiikkiIkkuna',['../class_kitupiikki_ikkuna.html',1,'']]]
 ];

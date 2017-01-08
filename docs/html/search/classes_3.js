@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['sijaintisivu',['SijaintiSivu',['../class_sijainti_sivu.html',1,'']]]
+  ['loppusivu',['LoppuSivu',['../class_loppu_sivu.html',1,'']]]
 ];

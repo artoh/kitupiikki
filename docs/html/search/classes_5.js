@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['uusikirjanpito',['UusiKirjanpito',['../class_uusi_kirjanpito.html',1,'']]]
+  ['sijaintisivu',['SijaintiSivu',['../class_sijainti_sivu.html',1,'']]],
+  ['sisalto',['Sisalto',['../class_sisalto.html',1,'']]]
 ];
