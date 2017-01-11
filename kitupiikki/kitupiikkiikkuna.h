@@ -26,6 +26,7 @@ class QAction;
 class QActionGroup;
 class QToolBar;
 class AloitusSivu;
+class KirjausSivu;
 class MaaritysSivu;
 class Kirjanpito;
 class QDateEdit;
@@ -77,6 +78,7 @@ protected:
     QDateEdit *harjoituspvmEdit;
 
     AloitusSivu *aloitussivu;
+    KirjausSivu *kirjaussivu;
     MaaritysSivu *maarityssivu;
 
 protected:

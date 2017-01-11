@@ -22,7 +22,12 @@ SOURCES += main.cpp \
     aloitussivu/sisalto.cpp \
     db/kirjanpito.cpp \
     maaritys/perusvalinnat.cpp \
-    maaritys/maarityssivu.cpp
+    maaritys/maarityssivu.cpp \
+    kirjaus/kirjauswg.cpp \
+    kirjaus/kirjaussivu.cpp \
+    kirjaus/tositewg.cpp \
+    db/tili.cpp \
+    kirjaus/vientimodel.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -37,7 +42,12 @@ HEADERS += \
     aloitussivu/sisalto.h \
     db/kirjanpito.h \
     maaritys/perusvalinnat.h \
-    maaritys/maarityssivu.h
+    maaritys/maarityssivu.h \
+    kirjaus/kirjauswg.h \
+    kirjaus/kirjaussivu.h \
+    kirjaus/tositewg.h \
+    db/tili.h \
+    kirjaus/vientimodel.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -52,7 +62,8 @@ FORMS += \
     uusikp/sijainti.ui \
     uusikp/tilikausi.ui \
     maaritys/perusvalinnat.ui \
-    kirjaus/kirjaus.ui
+    kirjaus/kirjaus.ui \
+    kirjaus/tositewg.ui
 
 DISTFILES += \
     uusikp/luo.sql \

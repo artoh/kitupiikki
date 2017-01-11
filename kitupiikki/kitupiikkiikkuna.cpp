@@ -30,6 +30,7 @@
 #include "kitupiikkiikkuna.h"
 
 #include "aloitussivu/aloitussivu.h"
+#include "kirjaus/kirjaussivu.h"
 #include "maaritys/maarityssivu.h"
 
 #include "uusikp/uusikirjanpito.h"
@@ -49,11 +50,13 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent)
     aloitussivu->lataaAloitussivu(kirjanpito);
     connect( aloitussivu, SIGNAL(toiminto(QString)), this, SLOT(toiminto(QString)));
 
+    kirjaussivu = new KirjausSivu(kirjanpito);
     maarityssivu = new MaaritysSivu(kirjanpito);
 
 
     pino = new QStackedWidget;
     pino->addWidget( aloitussivu);
+    pino->addWidget( kirjaussivu );
     pino->addWidget( maarityssivu);
     setCentralWidget(pino);
 
@@ -90,6 +93,10 @@ void KitupiikkiIkkuna::valitseSivu(int mikasivu)
     {
         aloitussivu->lataaOhje();
         pino->setCurrentWidget( aloitussivu);
+    }
+    else if( mikasivu == KIRJAUSSIVU)
+    {
+        pino->setCurrentWidget( kirjaussivu);
     }
     else if( mikasivu == MAARITYSSIVU)
     {
@@ -192,5 +199,6 @@ void KitupiikkiIkkuna::luoStatusBar()
 
     statusBar()->addPermanentWidget(harjoituspvmEdit);
     connect( harjoituspvmEdit, SIGNAL(dateChanged(QDate)), kirjanpito, SLOT(asetaHarjoitteluPvm(QDate)));
+    // Päivän vaihtamisen pitäisi myös päivittää näytettävä aloitussivu
     harjoituspvmEdit->setVisible(false);
 }

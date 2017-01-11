@@ -96,6 +96,21 @@ QDate Kirjanpito::paivamaara() const
         return QDate::currentDate();
 }
 
+QList<Tili> Kirjanpito::tilit(QString tyyppisuodatin, int tilasuodatin) const
+{
+    QList<Tili> lista;
+    foreach (Tili tili, tilit_) {
+       if( tyyppisuodatin.isEmpty())
+       {
+           if( tili.tila() >= tilasuodatin)
+               lista.append(tili);
+       }
+       else if( tili.tyyppi().startsWith(tyyppisuodatin) && tili.tila() >= tilasuodatin)
+           lista.append(tili);
+    }
+    return lista;
+}
+
 
 bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
 {
@@ -111,6 +126,21 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
     {
         asetukset[query.value(0).toString()] = query.value(1).toString();
     }
+
+    // Ladataan tilt
+    query.exec("SELECT nro, nimi, ohje, tyyppi, tila, json FROM tili");
+    while( query.next())
+    {
+        tilit_[ query.value(0).toInt()] = Tili( query.value(0).toInt(),
+                                               query.value(1).toString(),
+                                               query.value(2).toString(),
+                                               query.value(3).toString(),
+                                               query.value(4).toInt(),
+                                               query.value(5).toString());
+    }
+
+
+
 
     polkuTiedostoon = tiedosto;
 

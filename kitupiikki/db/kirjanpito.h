@@ -31,6 +31,8 @@
 #include <QSqlDatabase>
 #include <QDate>
 
+#include "tili.h"
+
 /**
  * @brief Kirjanpidon käsittely
  *
@@ -75,6 +77,9 @@ public:
      */
     QDate paivamaara() const;
 
+    Tili tili(int tilinumero) const { return tilit_[tilinumero] ; }
+    QList<Tili> tilit(QString tyyppisuodatin = QString(), int tilasuodatin = 0) const;
+
 signals:
     void tietokantaVaihtui();
 
@@ -90,6 +95,8 @@ public slots:
 
 protected:
     QMap<QString,QString> asetukset;
+    QMap<int,Tili> tilit_;
+
     QString polkuTiedostoon;
     QSqlDatabase db;
     QMap<QString,QString> viimetiedostot;
