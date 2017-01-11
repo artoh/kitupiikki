@@ -19,7 +19,7 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"aloitussivu_2aloitussivu_8h_source.html"
+"aloitussivu_8h_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

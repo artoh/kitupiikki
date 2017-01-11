@@ -24,6 +24,16 @@
 #include "ui_intro.h"
 
 /**
+  * @dir uusikp
+  * @brief Uuden kirjanpidon luomiseen ja luontiasetusvelhoon liittyvät luokat
+  *
+  * Uusi kirjanpito luodaan UusiKirjanpito::aloitaUusiKirjanpito()-funktiolla
+  *
+  */
+
+
+
+/**
  * @brief Uuden kirjanpidon luominen
  *
  * Uusi kirjanpito luodaan aloitaUusiKirjanpito()-funktiolla, joka näyttää

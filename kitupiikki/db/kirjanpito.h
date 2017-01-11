@@ -1,0 +1,99 @@
+/*
+   Copyright (C) 2017 Arto Hyvättinen
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+
+/**
+ * @dir db
+ * @brief Tietokantaan (kirjanpidon hakemistoon) liittyvät luokat
+ *
+ */
+
+#ifndef KIRJANPITO_H
+#define KIRJANPITO_H
+
+#include <QObject>
+#include <QMap>
+#include <QDir>
+#include <QSqlDatabase>
+#include <QDate>
+
+/**
+ * @brief Kirjanpidon käsittely
+ *
+ * Tämä luokka luodaan pääikkunaa alustettaessa, ja tietokanta avataan avaa-funktiolla
+ *
+ *
+ */
+class Kirjanpito : public QObject
+{
+    Q_OBJECT
+public:
+    Kirjanpito(QObject *parent = 0);
+    ~Kirjanpito();
+
+    QString asetus(const QString& avain) const;
+    void aseta(const QString& avain, const QString& arvo);
+
+    /**
+     * @brief Hakemisto, jossa kirjanpito (kitupiikki.sqlite)
+     * @return hakemisto
+     */
+    QDir hakemisto();
+
+    /**
+     * @brief Luettelo viimeksi avatuista tiedostoista
+     * @return Luettelo, rivit muotoa polku;otsikko
+     */
+    QStringList viimeisetTiedostot() const;
+
+    /**
+     * @brief Käytetäänkö harjoittelutilassa
+     * @return tosi, jos harjoitellaan
+     */
+    bool onkoHarjoitus() const { return asetus("harjoitus").toInt() > 0 ; }
+
+    /**
+     * @brief Nykyinen tai harjoittelutilassa muokattu päivämäärä
+     *
+     * Harjoittelutila mahdollistaa päivämäärän muuttamisen, jotta päästään testaamaan
+     * tilinpäätökseen tms. liittyviä toimia
+     * @return Päivämäärä
+     */
+    QDate paivamaara() const;
+
+signals:
+    void tietokantaVaihtui();
+
+public slots:
+    /**
+     * @brief Avaa kirjanpitotietokannan
+     * @param tiedosto Kirjanpidon kitupiikki.sqlite-tiedoston täydellinen polku
+     * @return tosi, jos onnistuu
+     */
+    bool avaaTietokanta(const QString& tiedosto);
+
+    void asetaHarjoitteluPvm(const QDate& pvm);
+
+protected:
+    QMap<QString,QString> asetukset;
+    QString polkuTiedostoon;
+    QSqlDatabase db;
+    QMap<QString,QString> viimetiedostot;
+    QDate harjoitusPvm;
+};
+
+#endif // KIRJANPITO_H

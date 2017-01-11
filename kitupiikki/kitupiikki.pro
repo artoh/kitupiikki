@@ -19,7 +19,10 @@ SOURCES += main.cpp \
     uusikp/tilikausisivu.cpp \
     kitupiikkiikkuna.cpp \
     aloitussivu/aloitussivu.cpp \
-    aloitussivu/sisalto.cpp
+    aloitussivu/sisalto.cpp \
+    db/kirjanpito.cpp \
+    maaritys/perusvalinnat.cpp \
+    maaritys/maarityssivu.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -31,7 +34,10 @@ HEADERS += \
     uusikp/tilikausisivu.h \
     kitupiikkiikkuna.h \
     aloitussivu/aloitussivu.h \
-    aloitussivu/sisalto.h
+    aloitussivu/sisalto.h \
+    db/kirjanpito.h \
+    maaritys/perusvalinnat.h \
+    maaritys/maarityssivu.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -44,7 +50,9 @@ FORMS += \
     uusikp/nimi.ui \
     uusikp/tilikartta.ui \
     uusikp/sijainti.ui \
-    uusikp/tilikausi.ui
+    uusikp/tilikausi.ui \
+    maaritys/perusvalinnat.ui \
+    kirjaus/kirjaus.ui
 
 DISTFILES += \
     uusikp/luo.sql \

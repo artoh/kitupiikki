@@ -34,4 +34,28 @@ div.otsake
     font-size: 16pt;
 }
 
+div.vtiedosto
+{
+    min-height: 64px;
+    margin-bottom: 6pt;
+    clear: left;
+
+}
+
+div.vtiedosto > a
+{
+    text-decoration: none;
+    color: black;
+}
+
+div.vtiedosto > a > img
+{
+    float: left;
+}
+
+img.kpkuvake
+{
+    float: left;
+    margin-right: 2em;
+}
 

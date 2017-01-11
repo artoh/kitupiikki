@@ -49,8 +49,10 @@ public:
     void lisaaLaatikko(const QString& otsikko, const QString& sisalto);
     /**
      * @brief Näyttää valmiiksi kirjoitetun sivun
+     *
+     * @param baseurl KantaUrl, käytetään kirjanpidon hakemistoa jotta voidaan hakea kuvat yms.
      */
-    void valmis();
+    void valmis(const QString &polku ="");
 
 protected:
     bool acceptNavigationRequest(const QUrl &url, NavigationType type, bool isMainFrame);

@@ -127,16 +127,16 @@ $(document).ready(function(){initNavTree('class_kitupiikki_ikkuna.html','');});
 Luokan KitupiikkiIkkuna luokkakaavio</div>
 <div class="dyncontent">
 <div class="center"><img src="class_kitupiikki_ikkuna__inherit__graph.png" border="0" usemap="#_kitupiikki_ikkuna_inherit__map" alt="Inheritance graph"/></div>
-<map name="_kitupiikki_ikkuna_inherit__map" id="_kitupiikki_ikkuna_inherit__map">
-</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">selite</a>]</span></center></div>
 <div class="dynheader">
 Yhteistyökaavio luokalle KitupiikkiIkkuna:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_kitupiikki_ikkuna__coll__graph.png" border="0" usemap="#_kitupiikki_ikkuna_coll__map" alt="Collaboration graph"/></div>
 <map name="_kitupiikki_ikkuna_coll__map" id="_kitupiikki_ikkuna_coll__map">
-<area shape="rect" id="node3" href="class_aloitus_sivu.html" title="Webipohjaiset aloitus&#45; ja ohjesivut. " alt="" coords="156,171,244,197"/>
-<area shape="rect" id="node6" href="class_sisalto.html" title="Webipohjaisen sivun sisällön käsittely. " alt="" coords="289,81,351,108"/>
+<area shape="rect" id="node3" href="class_aloitus_sivu.html" title="Webipohjaiset aloitus&#45; ja ohjesivut. " alt="" coords="136,171,224,197"/>
+<area shape="rect" id="node5" href="class_sisalto.html" title="Webipohjaisen sivun sisällön käsittely. " alt="" coords="167,81,230,108"/>
+<area shape="rect" id="node7" href="class_maaritys_sivu.html" title="Määritykset sisältävä QWidget. " alt="" coords="248,171,347,197"/>
+<area shape="rect" id="node9" href="class_kirjanpito.html" title="Kirjanpidon käsittely. " alt="" coords="371,171,447,197"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">selite</a>]</span></center></div>
 <table class="memberdecls">
@@ -163,6 +163,9 @@ Julkiset vastineet</h2></td></tr>
 <tr class="memitem:ac0c50c4d9e4728fabeebaa95c81c9ad4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_kitupiikki_ikkuna.html#ac0c50c4d9e4728fabeebaa95c81c9ad4">toiminto</a> (const QString &amp;toiminto)</td></tr>
 <tr class="memdesc:ac0c50c4d9e4728fabeebaa95c81c9ad4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tehdään toiminto. Tätä käytetään aloitussivun nappien yhdistämisessä.  <a href="#ac0c50c4d9e4728fabeebaa95c81c9ad4">Lisää...</a><br /></td></tr>
 <tr class="separator:ac0c50c4d9e4728fabeebaa95c81c9ad4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa30eb87c67961df0c19edce85340caa2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa30eb87c67961df0c19edce85340caa2"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>kirjanpitoLadattu</b> ()</td></tr>
+<tr class="separator:aa30eb87c67961df0c19edce85340caa2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Julkiset jäsenfunktiot</h2></td></tr>
@@ -184,21 +187,36 @@ QAction *&#160;</td><td class="memItemRight" valign="bottom"><b>luosivuAktio</b>
 <tr class="memitem:a3728ac7b94c405e029b1041c09cd321a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3728ac7b94c405e029b1041c09cd321a"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>luoPalkkiJaSivuAktiot</b> ()</td></tr>
 <tr class="separator:a3728ac7b94c405e029b1041c09cd321a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62bb09af5f1f656382a2085ab30897d0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a62bb09af5f1f656382a2085ab30897d0"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>luoStatusBar</b> ()</td></tr>
+<tr class="separator:a62bb09af5f1f656382a2085ab30897d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Suojellut attribuutit</h2></td></tr>
+<tr class="memitem:ab40e6277eb270df1158d5d2ef2ede614"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab40e6277eb270df1158d5d2ef2ede614"></a>
+<a class="el" href="class_kirjanpito.html">Kirjanpito</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>kirjanpito</b></td></tr>
+<tr class="separator:ab40e6277eb270df1158d5d2ef2ede614"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6cfc36c9f3bfa9b606f290788518c79d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6cfc36c9f3bfa9b606f290788518c79d"></a>
+QStackedWidget *&#160;</td><td class="memItemRight" valign="bottom"><b>pino</b></td></tr>
+<tr class="separator:a6cfc36c9f3bfa9b606f290788518c79d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2279277014b6831ff76168cc72d78d87"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2279277014b6831ff76168cc72d78d87"></a>
 QToolBar *&#160;</td><td class="memItemRight" valign="bottom"><b>toolbar</b></td></tr>
 <tr class="separator:a2279277014b6831ff76168cc72d78d87"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad926d757b57936e2e769373040584951"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad926d757b57936e2e769373040584951"></a>
 QActionGroup *&#160;</td><td class="memItemRight" valign="bottom"><b>aktioryhma</b></td></tr>
 <tr class="separator:ad926d757b57936e2e769373040584951"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a67af44abaf5bfc3d862e693f67d2071e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a67af44abaf5bfc3d862e693f67d2071e"></a>
-<a class="el" href="class_aloitus_sivu.html">AloitusSivu</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>aloitussivu</b></td></tr>
-<tr class="separator:a67af44abaf5bfc3d862e693f67d2071e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae00c5a24c1064ff2c1b3b600db8b0c50"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae00c5a24c1064ff2c1b3b600db8b0c50"></a>
 QAction *&#160;</td><td class="memItemRight" valign="bottom"><b>sivuaktiot</b> [7]</td></tr>
 <tr class="separator:ae00c5a24c1064ff2c1b3b600db8b0c50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76511bae71c4a1a49e8a950cd80b2a21"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a76511bae71c4a1a49e8a950cd80b2a21"></a>
+QDateEdit *&#160;</td><td class="memItemRight" valign="bottom"><b>harjoituspvmEdit</b></td></tr>
+<tr class="separator:a76511bae71c4a1a49e8a950cd80b2a21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67af44abaf5bfc3d862e693f67d2071e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a67af44abaf5bfc3d862e693f67d2071e"></a>
+<a class="el" href="class_aloitus_sivu.html">AloitusSivu</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>aloitussivu</b></td></tr>
+<tr class="separator:a67af44abaf5bfc3d862e693f67d2071e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81b301471819215f8b8b1229371aa199"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a81b301471819215f8b8b1229371aa199"></a>
+<a class="el" href="class_maaritys_sivu.html">MaaritysSivu</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>maarityssivu</b></td></tr>
+<tr class="separator:a81b301471819215f8b8b1229371aa199"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Yksityiskohtainen selite</h2>
 <div class="textblock"><p>Ohjelmiston pääikkuna. </p>

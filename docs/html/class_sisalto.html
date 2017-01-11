@@ -125,15 +125,11 @@ $(document).ready(function(){initNavTree('class_sisalto.html','');});
 Luokan Sisalto luokkakaavio</div>
 <div class="dyncontent">
 <div class="center"><img src="class_sisalto__inherit__graph.png" border="0" usemap="#_sisalto_inherit__map" alt="Inheritance graph"/></div>
-<map name="_sisalto_inherit__map" id="_sisalto_inherit__map">
-</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">selite</a>]</span></center></div>
 <div class="dynheader">
 Yhteistyökaavio luokalle Sisalto:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_sisalto__coll__graph.png" border="0" usemap="#_sisalto_coll__map" alt="Collaboration graph"/></div>
-<map name="_sisalto_coll__map" id="_sisalto_coll__map">
-</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">selite</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="signals"></a>
@@ -150,10 +146,9 @@ Julkiset jäsenfunktiot</h2></td></tr>
 <tr class="memitem:a30c303c1069c1132d3ee3e5d5ac8dcd3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_sisalto.html#a30c303c1069c1132d3ee3e5d5ac8dcd3">lisaaLaatikko</a> (const QString &amp;otsikko, const QString &amp;sisalto)</td></tr>
 <tr class="memdesc:a30c303c1069c1132d3ee3e5d5ac8dcd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lisää laatikon aloitussivun pääpalstalle.  <a href="#a30c303c1069c1132d3ee3e5d5ac8dcd3">Lisää...</a><br /></td></tr>
 <tr class="separator:a30c303c1069c1132d3ee3e5d5ac8dcd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a523f3fb66f6264b4492750b85cc0a5a9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a523f3fb66f6264b4492750b85cc0a5a9"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_sisalto.html#a523f3fb66f6264b4492750b85cc0a5a9">valmis</a> ()</td></tr>
-<tr class="memdesc:a523f3fb66f6264b4492750b85cc0a5a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Näyttää valmiiksi kirjoitetun sivun. <br /></td></tr>
-<tr class="separator:a523f3fb66f6264b4492750b85cc0a5a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c46a9929afc9a89449ea6feaff9e099"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_sisalto.html#a5c46a9929afc9a89449ea6feaff9e099">valmis</a> (const QString &amp;polku=&quot;&quot;)</td></tr>
+<tr class="memdesc:a5c46a9929afc9a89449ea6feaff9e099"><td class="mdescLeft">&#160;</td><td class="mdescRight">Näyttää valmiiksi kirjoitetun sivun.  <a href="#a5c46a9929afc9a89449ea6feaff9e099">Lisää...</a><br /></td></tr>
+<tr class="separator:a5c46a9929afc9a89449ea6feaff9e099"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Suojatut jäsenfunktiot</h2></td></tr>
@@ -257,6 +252,30 @@ QString&#160;</td><td class="memItemRight" valign="bottom"><b>txt</b></td></tr>
 <dl class="params"><dt>Parametrit</dt><dd>
   <table class="params">
     <tr><td class="paramname">toimintonimi</td><td>toiminto (avaa,uusi) tai avattavan tiedoston koko polku </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a5c46a9929afc9a89449ea6feaff9e099"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Sisalto::valmis </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>polku</em> = <code>&quot;&quot;</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Näyttää valmiiksi kirjoitetun sivun. </p>
+<dl class="params"><dt>Parametrit</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">baseurl</td><td>KantaUrl, käytetään kirjanpidon hakemistoa jotta voidaan hakea kuvat yms. </td></tr>
   </table>
   </dd>
 </dl>

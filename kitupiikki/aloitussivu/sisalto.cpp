@@ -36,24 +36,14 @@ void Sisalto::lisaaLaatikko(const QString &otsikko, const QString &sisalto)
     txt += sisalto + "</div>\n";
 }
 
-void Sisalto::valmis()
+void Sisalto::valmis(const QString& polku)
 {
-    QString alku = "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:/aloitus/aloitus.css\"></head><body>";
 
-    alku += "<div class=oikea>"
-            "<p class=nappi><a href=ktp:/uusi><img src=qrc:/aloitus/uusinappi.png></a>"
-            "<p class=nappi><a href=ktp:/avaa><img src=qrc:/aloitus/avaanappi.png></a>"
-            "<hr><h3>Viimeiset tiedostot</h3>"
-            "<a href=avaa:/tmp/kokeilu>Kokeilukirjanpito</a>"
-            "</div>";
-
-    QString loppu = "</body></html>";
-
-    setHtml( alku + txt + loppu );
+    setHtml( txt, QUrl("file://" + polku ) );
     txt = "";
 }
 
-bool Sisalto::acceptNavigationRequest(const QUrl &url, QWebEnginePage::NavigationType type, bool isMainFrame)
+bool Sisalto::acceptNavigationRequest(const QUrl &url, QWebEnginePage::NavigationType /* type */, bool /* isMainFrame */)
 {
     qDebug() << url;
     qDebug() << url.path();

@@ -109,7 +109,6 @@ $(document).ready(function(){initNavTree('class_aloitus_sivu.html','');});
   <div class="summary">
 <a href="#pub-slots">Julkiset vastineet</a> &#124;
 <a href="#signals">Signaalit</a> &#124;
-<a href="#pro-slots">Suojatut vastineet</a> &#124;
 <a href="#pro-methods">Suojatut jäsenfunktiot</a> &#124;
 <a href="#pro-attribs">Suojellut attribuutit</a> &#124;
 <a href="class_aloitus_sivu-members.html">Lista kaikista jäsenistä</a>  </div>
@@ -121,28 +120,26 @@ $(document).ready(function(){initNavTree('class_aloitus_sivu.html','');});
 <p>Webipohjaiset aloitus- ja ohjesivut.  
  <a href="class_aloitus_sivu.html#details">Lisää...</a></p>
 
-<p><code>#include &lt;<a class="el" href="aloitussivu_2aloitussivu_8h_source.html">aloitussivu.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="aloitussivu_8h_source.html">aloitussivu.h</a>&gt;</code></p>
 <div class="dynheader">
 Luokan AloitusSivu luokkakaavio</div>
 <div class="dyncontent">
 <div class="center"><img src="class_aloitus_sivu__inherit__graph.png" border="0" usemap="#_aloitus_sivu_inherit__map" alt="Inheritance graph"/></div>
-<map name="_aloitus_sivu_inherit__map" id="_aloitus_sivu_inherit__map">
-</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">selite</a>]</span></center></div>
 <div class="dynheader">
 Yhteistyökaavio luokalle AloitusSivu:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_aloitus_sivu__coll__graph.png" border="0" usemap="#_aloitus_sivu_coll__map" alt="Collaboration graph"/></div>
 <map name="_aloitus_sivu_coll__map" id="_aloitus_sivu_coll__map">
-<area shape="rect" id="node4" href="class_sisalto.html" title="Webipohjaisen sivun sisällön käsittely. " alt="" coords="289,81,351,108"/>
+<area shape="rect" id="node3" href="class_sisalto.html" title="Webipohjaisen sivun sisällön käsittely. " alt="" coords="158,81,221,108"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">selite</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-slots"></a>
 Julkiset vastineet</h2></td></tr>
-<tr class="memitem:a827d8d8fb72774060d39e6d52be39062"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a827d8d8fb72774060d39e6d52be39062"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>lataaAloitussivu</b> ()</td></tr>
-<tr class="separator:a827d8d8fb72774060d39e6d52be39062"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d2759f4810e48fc25bd9e4a79a2886d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aloitus_sivu.html#a5d2759f4810e48fc25bd9e4a79a2886d">lataaAloitussivu</a> (<a class="el" href="class_kirjanpito.html">Kirjanpito</a> *kirjanpito)</td></tr>
+<tr class="memdesc:a5d2759f4810e48fc25bd9e4a79a2886d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Näyttää aloitussivun.  <a href="#a5d2759f4810e48fc25bd9e4a79a2886d">Lisää...</a><br /></td></tr>
+<tr class="separator:a5d2759f4810e48fc25bd9e4a79a2886d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a017a08e7ca2dbda0d4f4420b7dea9185"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a017a08e7ca2dbda0d4f4420b7dea9185"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aloitus_sivu.html#a017a08e7ca2dbda0d4f4420b7dea9185">lataaOhje</a> ()</td></tr>
 <tr class="memdesc:a017a08e7ca2dbda0d4f4420b7dea9185"><td class="mdescLeft">&#160;</td><td class="mdescRight">Näyttää ohjeiden pääsivun. <br /></td></tr>
@@ -153,21 +150,21 @@ Signaalit</h2></td></tr>
 <tr class="memitem:af4ce811f5e04cbc8f3433bc31ff9fe4a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_aloitus_sivu.html#af4ce811f5e04cbc8f3433bc31ff9fe4a">toiminto</a> (const QString toiminto)</td></tr>
 <tr class="memdesc:af4ce811f5e04cbc8f3433bc31ff9fe4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ilmoittaa että käyttäjä on valinnut aloitussivulta toiminnon tai tiedoston avaaamisen.  <a href="#af4ce811f5e04cbc8f3433bc31ff9fe4a">Lisää...</a><br /></td></tr>
 <tr class="separator:af4ce811f5e04cbc8f3433bc31ff9fe4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac63cff2197d3a3792575d31259bd5437"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac63cff2197d3a3792575d31259bd5437"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>toiminto</b> (const QString &amp;toiminto)</td></tr>
-<tr class="separator:ac63cff2197d3a3792575d31259bd5437"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-slots"></a>
-Suojatut vastineet</h2></td></tr>
-<tr class="memitem:a2abbfebd4e034e4f6ed97940a692ec4a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2abbfebd4e034e4f6ed97940a692ec4a"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>linkkiKlikattu</b> (const QUrl &amp;url)</td></tr>
-<tr class="separator:a2abbfebd4e034e4f6ed97940a692ec4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Suojatut jäsenfunktiot</h2></td></tr>
-<tr class="memitem:acfeedea0a184a6566c9d8270dc5f7899"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acfeedea0a184a6566c9d8270dc5f7899"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>lisaaTaulu</b> (const QString &amp;otsikko, const QString &amp;sisalto, const QString &amp;linkit, const QString &amp;kuva)</td></tr>
-<tr class="separator:acfeedea0a184a6566c9d8270dc5f7899"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a375a26c0bdc2c615b7f1c990400ed34a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a375a26c0bdc2c615b7f1c990400ed34a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>lisaaTxt</b> (const QString &amp;txt)</td></tr>
+<tr class="separator:a375a26c0bdc2c615b7f1c990400ed34a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add91689e7645d649aae893738135c55d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="add91689e7645d649aae893738135c55d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>sivunAloitus</b> (<a class="el" href="class_kirjanpito.html">Kirjanpito</a> *kirjanpito)</td></tr>
+<tr class="separator:add91689e7645d649aae893738135c55d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a530225f549512500bda69c04f06c46e5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a530225f549512500bda69c04f06c46e5"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>kpAvattu</b> (<a class="el" href="class_kirjanpito.html">Kirjanpito</a> *kirjanpito)</td></tr>
+<tr class="separator:a530225f549512500bda69c04f06c46e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad54ebf9fb27e2e117b464c22e1f4fcb5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad54ebf9fb27e2e117b464c22e1f4fcb5"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>alatunniste</b> ()</td></tr>
+<tr class="separator:ad54ebf9fb27e2e117b464c22e1f4fcb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Suojellut attribuutit</h2></td></tr>
@@ -179,6 +176,38 @@ Suojellut attribuutit</h2></td></tr>
 <div class="textblock"><p>Webipohjaiset aloitus- ja ohjesivut. </p>
 <p>QWebEngineView-pohjainen web-sivun näyttäjä, jolla esitetään tilannesidonnaisia opasteita näyttävä aloitussivu sekä ohjelman omat ohjeet. </p>
 </div><h2 class="groupheader">Jäsenfunktioiden dokumentaatio</h2>
+<a class="anchor" id="a5d2759f4810e48fc25bd9e4a79a2886d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AloitusSivu::lataaAloitussivu </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_kirjanpito.html">Kirjanpito</a> *&#160;</td>
+          <td class="paramname"><em>kirjanpito</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Näyttää aloitussivun. </p>
+<dl class="params"><dt>Parametrit</dt><dd>
+  <table class="params">
+    <tr><td class="paramname"><a class="el" href="class_kirjanpito.html" title="Kirjanpidon käsittely. ">Kirjanpito</a></td><td>Kirjanpidon tietokantaolio </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="af4ce811f5e04cbc8f3433bc31ff9fe4a"></a>
 <div class="memitem">
 <div class="memproto">
@@ -212,7 +241,7 @@ Suojellut attribuutit</h2></td></tr>
 </div>
 </div>
 <hr/>Dokumentaatio tälle luokalle luotiin seuraavista tiedostoista:<ul>
-<li>kitupiikki/aloitussivu/<a class="el" href="aloitussivu_2aloitussivu_8h_source.html">aloitussivu.h</a></li>
+<li>kitupiikki/aloitussivu/<a class="el" href="aloitussivu_8h_source.html">aloitussivu.h</a></li>
 <li>kitupiikki/aloitussivu/aloitussivu.cpp</li>
 </ul>
 </div><!-- contents -->

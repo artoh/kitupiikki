@@ -18,35 +18,57 @@
 #include <QAction>
 #include <QActionGroup>
 
+#include <QStackedWidget>
 #include <QToolBar>
 #include <QSettings>
 #include <QStatusBar>
+#include <QFileDialog>
+#include <QDateEdit>
 
 #include <QDebug>
 
 #include "kitupiikkiikkuna.h"
 
 #include "aloitussivu/aloitussivu.h"
+#include "maaritys/maarityssivu.h"
 
 #include "uusikp/uusikirjanpito.h"
 
+#include "db/kirjanpito.h"
+
 KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent)
 {
+    kirjanpito = new Kirjanpito(this);
+    connect( kirjanpito, SIGNAL(tietokantaVaihtui()), this, SLOT(kirjanpitoLadattu()));
+
     setWindowIcon(QIcon(":/pic/Possu64.png"));
     luoPalkkiJaSivuAktiot();
+    luoStatusBar();
 
     aloitussivu = new AloitusSivu();
+    aloitussivu->lataaAloitussivu(kirjanpito);
     connect( aloitussivu, SIGNAL(toiminto(QString)), this, SLOT(toiminto(QString)));
 
-    QSettings settings;
-    restoreGeometry( settings.value("geometry").toByteArray());
+    maarityssivu = new MaaritysSivu(kirjanpito);
 
-    valitseSivu(ALOITUSSIVU);
+
+    pino = new QStackedWidget;
+    pino->addWidget( aloitussivu);
+    pino->addWidget( maarityssivu);
+    setCentralWidget(pino);
 
     statusBar()->showMessage("Tervetuloa",1000);
 
+    // Himmennetään ne valinnat, jotka mahdollisia vain kirjanpidon ollessa auki
     for(int i=KIRJAUSSIVU; i<OHJESIVU;i++)
         sivuaktiot[i]->setEnabled(false);
+
+    QSettings settings;
+    restoreGeometry( settings.value("geometry").toByteArray());
+    // Ladataan viimeksi avoinna ollut kirjanpito
+    if( settings.contains("viimeisin"))
+        kirjanpito->avaaTietokanta(settings.value("viimeisin").toString());
+
 
 }
 
@@ -54,15 +76,27 @@ KitupiikkiIkkuna::~KitupiikkiIkkuna()
 {
     QSettings settings;
     settings.setValue("geometry",saveGeometry());
+    settings.setValue("viimeisin", kirjanpito->hakemisto().absoluteFilePath("kitupiikki.sqlite"));
 }
 
 void KitupiikkiIkkuna::valitseSivu(int mikasivu)
 {
-    setCentralWidget( aloitussivu );
     if( mikasivu == ALOITUSSIVU)
-        aloitussivu->lataaAloitussivu();
+    {
+        aloitussivu->lataaAloitussivu(kirjanpito);
+        pino->setCurrentWidget( aloitussivu );
+    }
     else if( mikasivu == OHJESIVU)
+    {
         aloitussivu->lataaOhje();
+        pino->setCurrentWidget( aloitussivu);
+    }
+    else if( mikasivu == MAARITYSSIVU)
+    {
+        maarityssivu->nollaa();
+        pino->setCurrentWidget( maarityssivu);
+    }
+
 }
 
 void KitupiikkiIkkuna::toiminto(const QString &toiminto)
@@ -70,7 +104,39 @@ void KitupiikkiIkkuna::toiminto(const QString &toiminto)
     if( toiminto == "uusi")
     {
         QString uusitiedosto = UusiKirjanpito::aloitaUusiKirjanpito();
+        if( !uusitiedosto.isEmpty())
+            kirjanpito->avaaTietokanta(uusitiedosto + "/kitupiikki.sqlite");
     }
+    else if( toiminto == "avaa")
+    {
+        QString polku = QFileDialog::getOpenFileName(this, "Avaa kirjanpito",
+                                                     QDir::homePath(),"Kirjanpito (kitupiikki.sqlite)");
+        if( !polku.isEmpty())
+            kirjanpito->avaaTietokanta(polku);
+    }
+    else if( toiminto.startsWith("/"))
+    {
+        // Avataan yksi viimeisimmistä tietokannoista
+        kirjanpito->avaaTietokanta(toiminto);
+    }
+}
+
+void KitupiikkiIkkuna::kirjanpitoLadattu()
+{
+    if( !kirjanpito->asetus("nimi").isEmpty())
+    {
+        if( kirjanpito->onkoHarjoitus())
+            setWindowTitle( tr("%1 - Kitupiikki [Harjoittelu]").arg(kirjanpito->asetus("nimi")));
+        else
+            setWindowTitle( tr("%1 - Kitupiikki").arg(kirjanpito->asetus("nimi")));
+
+        harjoituspvmEdit->setVisible( kirjanpito->onkoHarjoitus());
+
+        for(int i=KIRJAUSSIVU; i<OHJESIVU;i++)
+            sivuaktiot[i]->setEnabled(true);
+    }
+
+    valitseSivu(ALOITUSSIVU);
 }
 
 void KitupiikkiIkkuna::aktivoiSivu(QAction *aktio)
@@ -117,4 +183,14 @@ void KitupiikkiIkkuna::luoPalkkiJaSivuAktiot()
     connect(aktioryhma, SIGNAL(triggered(QAction*)), this, SLOT(aktivoiSivu(QAction*)));
 
     addToolBar(Qt::LeftToolBarArea, toolbar);
+}
+
+void KitupiikkiIkkuna::luoStatusBar()
+{
+    harjoituspvmEdit = new QDateEdit();
+    harjoituspvmEdit->setDate(QDate::currentDate());
+
+    statusBar()->addPermanentWidget(harjoituspvmEdit);
+    connect( harjoituspvmEdit, SIGNAL(dateChanged(QDate)), kirjanpito, SLOT(asetaHarjoitteluPvm(QDate)));
+    harjoituspvmEdit->setVisible(false);
 }

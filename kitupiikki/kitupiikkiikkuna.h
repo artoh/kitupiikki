@@ -21,11 +21,15 @@
 #include <QMainWindow>
 #include <QMap>
 
+class QStackedWidget;
 class QAction;
 class QActionGroup;
 class QToolBar;
-
 class AloitusSivu;
+class MaaritysSivu;
+class Kirjanpito;
+class QDateEdit;
+
 
 /**
  * @brief Ohjelmiston pääikkuna
@@ -57,21 +61,31 @@ public slots:
      */
     void toiminto(const QString& toiminto);
 
+    void kirjanpitoLadattu();
+
 protected slots:
     void aktivoiSivu(QAction* aktio);
 
 protected:
+    Kirjanpito *kirjanpito;
+
+    QStackedWidget *pino;
     QToolBar *toolbar;
     QActionGroup *aktioryhma;
+    QAction *sivuaktiot[7];
+
+    QDateEdit *harjoituspvmEdit;
 
     AloitusSivu *aloitussivu;
-    QAction *sivuaktiot[7];
+    MaaritysSivu *maarityssivu;
 
 protected:
     QAction *luosivuAktio(const QString& nimi, const QString& kuva,
                           const QString& vihje, const QString& pikanappain,
                           Sivu sivut);
     void luoPalkkiJaSivuAktiot();
+
+    void luoStatusBar();
 
 };
 
