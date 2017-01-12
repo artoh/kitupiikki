@@ -15,19 +15,28 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "tositewg.h"
+#ifndef TILIDELEGAATTI_H
+#define TILIDELEGAATTI_H
+
+#include <QItemDelegate>
+
+class Kirjanpito;
 
 
-TositeWg::TositeWg() : QWidget()
+class TiliDelegaatti : public QItemDelegate
 {
-    ui = new Ui::TositeWg;
-    ui->setupUi(this);
+    Q_OBJECT
 
-}
+public:
+    TiliDelegaatti(Kirjanpito *kp);
 
-TositeWg::~TositeWg()
-{
-    delete ui;
-}
+    QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    void setEditorData(QWidget *editor, const QModelIndex &index) const;
+    void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
 
+protected:
+    Kirjanpito *kirjanpito;
 
+};
+
+#endif // TILIDELEGAATTI_H

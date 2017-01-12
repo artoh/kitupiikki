@@ -16,8 +16,10 @@
 */
 
 #include "vientimodel.h"
+#include "kirjauswg.h"
+#include "db/kirjanpito.h"
 
-VientiModel::VientiModel()
+VientiModel::VientiModel(Kirjanpito *kp, KirjausWg *kwg) : kirjanpito(kp), kirjauswg(kwg)
 {
 
 }
@@ -66,10 +68,74 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
 {
     if( !index.isValid())
         return QVariant();
-    if( role==Qt::DisplayRole )
+    if( role==Qt::DisplayRole || role == Qt::EditRole)
     {
-        return QVariant("NNNN");
+        VientiRivi rivi = viennit[index.row()];
+        switch (index.column())
+        {
+            case PVM: return QVariant( rivi.pvm );
+
+            case TILI:
+                if( rivi.tili.numero())
+                    return QVariant( QString("%1 %2").arg(rivi.tili.numero()).arg(rivi.tili.nimi()) );
+                else
+                    return QVariant();
+
+            case DEBET: return QVariant( float( rivi.debetSnt / 100) );
+            case KREDIT: return QVariant( float( rivi.kreditSnt / 100) );
+            case SELITE: return QVariant( rivi.selite );
+            case KUSTANNUSPAIKKA: return QVariant( "");
+            case PROJEKTI: return QVariant("");
+        }
     }
     return QVariant();
 }
+
+bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    switch (index.column())
+    {
+    case TILI:
+        viennit[index.row()].tili = kirjanpito->tili( value.toInt() );
+        return true;
+    case SELITE:
+        viennit[index.row()].selite = value.toString();
+        return true;
+    default:
+        return false;
+    }
+}
+
+Qt::ItemFlags VientiModel::flags(const QModelIndex &index) const
+{
+    return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
+
+    return QAbstractTableModel::flags(index);
+}
+
+bool VientiModel::insertRows(int row, int count, const QModelIndex & /* parent */)
+{
+    beginInsertRows( QModelIndex(), row, row + count - 1);
+    for(int i=0; i < count; i++)
+        viennit.insert(row, uusiRivi() );
+    endInsertRows();
+    return true;
+}
+
+bool VientiModel::lisaaRivi()
+{
+    return insertRows( rowCount(QModelIndex()), 1, QModelIndex() );
+
+}
+
+VientiRivi VientiModel::uusiRivi()
+{
+    VientiRivi uusirivi;
+
+    uusirivi.pvm = kirjauswg->tositePvm();
+
+    return uusirivi;
+}
+
+
 

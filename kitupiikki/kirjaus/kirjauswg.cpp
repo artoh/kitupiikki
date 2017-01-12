@@ -16,16 +16,45 @@
 */
 
 #include "kirjauswg.h"
+#include "vientimodel.h"
+#include "tilidelegaatti.h"
 
-KirjausWg::KirjausWg(QWidget *parent) : QWidget(parent)
+#include "db/kirjanpito.h"
+
+KirjausWg::KirjausWg(Kirjanpito *kp) : QWidget(), kirjanpito(kp)
 {
+    viennitModel = new VientiModel(kp, this);
+
     ui = new Ui::KirjausWg();
     ui->setupUi(this);
 
-    ui->viennitView->setModel(&viennitModel);
+    ui->viennitView->setModel(viennitModel);
+    ui->viennitView->setItemDelegateForColumn( VientiModel::TILI, new TiliDelegaatti(kp) );
+
+    connect( ui->lisaaRiviNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaRivi()));
+
+    tyhjenna();
 }
 
 KirjausWg::~KirjausWg()
 {
     delete ui;
+    delete viennitModel;
+}
+
+QDate KirjausWg::tositePvm() const
+{
+    return ui->tositePvmEdit->date();
+}
+
+void KirjausWg::lisaaRivi()
+{
+    viennitModel->lisaaRivi();
+    ui->viennitView->setFocus();
+    ui->viennitView->setCurrentIndex( viennitModel->index( viennitModel->rowCount(QModelIndex()), VientiModel::TILI ) );
+}
+
+void KirjausWg::tyhjenna()
+{
+    ui->tositePvmEdit->setDate( kirjanpito->paivamaara() );
 }

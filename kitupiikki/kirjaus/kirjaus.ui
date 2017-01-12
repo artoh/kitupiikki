@@ -42,12 +42,15 @@
      <item>
       <widget class="QLineEdit" name="otsikkoEdit"/>
      </item>
+     <item>
+      <widget class="QComboBox" name="tositetyyppiCombo"/>
+     </item>
     </layout>
    </item>
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="viennit">
       <attribute name="title">
@@ -73,9 +76,22 @@
           </spacer>
          </item>
          <item>
+          <widget class="QPushButton" name="poistariviNappi">
+           <property name="text">
+            <string>Poista rivi</string>
+           </property>
+           <property name="shortcut">
+            <string>Ctrl+S</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QPushButton" name="lisaaRiviNappi">
            <property name="text">
             <string>Lisää rivi</string>
+           </property>
+           <property name="shortcut">
+            <string>Ins</string>
            </property>
           </widget>
          </item>
@@ -428,5 +444,22 @@
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>tositePvmEdit</sender>
+   <signal>dateChanged(QDate)</signal>
+   <receiver>avustajaPvmEdit</receiver>
+   <slot>setDate(QDate)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>180</x>
+     <y>17</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>663</x>
+     <y>89</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

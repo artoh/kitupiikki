@@ -26,7 +26,7 @@
 
 KirjausSivu::KirjausSivu(Kirjanpito *kirjanpito) : QWidget()
 {
-    kirjauswg = new KirjausWg();
+    kirjauswg = new KirjausWg(kirjanpito);
     tositewg = new TositeWg();
 
     QSplitter *splitter = new QSplitter(Qt::Vertical);

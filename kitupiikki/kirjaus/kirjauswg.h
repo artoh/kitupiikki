@@ -22,23 +22,30 @@
 
 #include "ui_kirjaus.h"
 
-#include "vientimodel.h"
+class VientiModel;
+
+
+class Kirjanpito;
 
 class KirjausWg : public QWidget
 {
     Q_OBJECT
 public:
-    explicit KirjausWg(QWidget *parent = 0);
+    KirjausWg(Kirjanpito *kp);
     ~KirjausWg();
+
+    QDate tositePvm() const;
 
 signals:
 
 public slots:
-
+    void lisaaRivi();
+    void tyhjenna();
 
 protected:
     Ui::KirjausWg *ui;
-    VientiModel viennitModel;
+    VientiModel *viennitModel;
+    Kirjanpito *kirjanpito;
 };
 
 #endif // KIRJAUSWG_H

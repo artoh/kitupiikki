@@ -23,13 +23,16 @@
 #include "db/tili.h"
 #include <QList>
 
+class Kirjanpito;
+class KirjausWg;
+
 struct VientiRivi
 {
     QDate pvm;
     Tili tili;
     QString selite;
-    int debetSnt;
-    int kreditSnt;
+    int debetSnt = 0;
+    int kreditSnt = 0;
 };
 
 
@@ -44,16 +47,24 @@ public:
     };
 
 
-    VientiModel();
+    VientiModel(Kirjanpito *kp, KirjausWg *kwg);
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     QVariant data(const QModelIndex &index, int role) const;
+    bool setData(const QModelIndex &index, const QVariant &value, int role);
+    Qt::ItemFlags flags(const QModelIndex &index) const;
+    bool insertRows(int row, int count, const QModelIndex &);
+    bool lisaaRivi();
 
 
 protected:
     QList<VientiRivi> viennit;
+    Kirjanpito *kirjanpito;
+    KirjausWg *kirjauswg;
+
+    VientiRivi uusiRivi();
 };
 
 #endif // VIENTIMODEL_H

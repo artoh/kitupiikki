@@ -21,6 +21,8 @@
 #include <QWidget>
 #include "ui_tositewg.h"
 
+
+
 class TositeWg : public QWidget
 {
     Q_OBJECT
@@ -28,8 +30,12 @@ public:
     TositeWg();
     ~TositeWg();
 
+public slots:
+
+
 protected:
     Ui::TositeWg *ui;
+
 };
 
 #endif // TOSITEWG_H
