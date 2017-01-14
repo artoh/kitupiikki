@@ -26,8 +26,12 @@
 class Kirjanpito;
 class KirjausWg;
 
+/**
+ * @brief Yhden viennin tiedot
+ */
 struct VientiRivi
 {
+    int vientiId = 0;
     QDate pvm;
     Tili tili;
     QString selite;
@@ -58,6 +62,11 @@ public:
     bool insertRows(int row, int count, const QModelIndex &);
     bool lisaaRivi();
 
+public slots:
+    void tallenna(int tositeid);
+
+signals:
+    void siirrySarakkeeseen(QModelIndex index);
 
 protected:
     QList<VientiRivi> viennit;

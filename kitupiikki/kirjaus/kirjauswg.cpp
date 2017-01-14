@@ -18,10 +18,14 @@
 #include "kirjauswg.h"
 #include "vientimodel.h"
 #include "tilidelegaatti.h"
+#include "eurodelegaatti.h"
 
 #include "db/kirjanpito.h"
 
-KirjausWg::KirjausWg(Kirjanpito *kp) : QWidget(), kirjanpito(kp)
+#include <QDebug>
+#include <QSqlQuery>
+
+KirjausWg::KirjausWg(Kirjanpito *kp) : QWidget(), kirjanpito(kp), tositeId(0)
 {
     viennitModel = new VientiModel(kp, this);
 
@@ -29,9 +33,20 @@ KirjausWg::KirjausWg(Kirjanpito *kp) : QWidget(), kirjanpito(kp)
     ui->setupUi(this);
 
     ui->viennitView->setModel(viennitModel);
+    connect( viennitModel, SIGNAL(siirrySarakkeeseen(QModelIndex)), ui->viennitView, SLOT(setCurrentIndex(QModelIndex)));
+    connect( viennitModel, SIGNAL(siirrySarakkeeseen(QModelIndex)), ui->viennitView, SLOT(edit(QModelIndex)));
+
     ui->viennitView->setItemDelegateForColumn( VientiModel::TILI, new TiliDelegaatti(kp) );
 
+    ui->viennitView->setItemDelegateForColumn( VientiModel::DEBET, new EuroDelegaatti);
+    ui->viennitView->setItemDelegateForColumn( VientiModel::KREDIT, new EuroDelegaatti);
+
+    ui->viennitView->hideColumn(VientiModel::PROJEKTI);
+    ui->viennitView->hideColumn(VientiModel::KUSTANNUSPAIKKA);
+    ui->viennitView->horizontalHeader()->setStretchLastSection(true);
+
     connect( ui->lisaaRiviNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaRivi()));
+    connect( ui->tallennaButton, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
 
     tyhjenna();
 }
@@ -51,10 +66,36 @@ void KirjausWg::lisaaRivi()
 {
     viennitModel->lisaaRivi();
     ui->viennitView->setFocus();
-    ui->viennitView->setCurrentIndex( viennitModel->index( viennitModel->rowCount(QModelIndex()), VientiModel::TILI ) );
+
+    QModelIndex indeksi = viennitModel->index( viennitModel->rowCount(QModelIndex()) - 1, VientiModel::TILI );
+
+    ui->viennitView->setCurrentIndex( indeksi  );
+    ui->viennitView->edit( indeksi );
 }
 
 void KirjausWg::tyhjenna()
 {
+    tositeId = 0;
     ui->tositePvmEdit->setDate( kirjanpito->paivamaara() );
+}
+
+void KirjausWg::tallenna()
+{
+    if( tositeId )
+    {
+        // update
+    }
+    else
+    {
+        QSqlQuery query;
+        query.prepare("INSERT INTO tosite(pvm,otsikko,kommentti) values(:pvm,:otsikko,:kommentti)");
+        query.bindValue(":pvm", ui->tositePvmEdit->date());
+        query.bindValue(":otsikko", ui->otsikkoEdit->text());
+        query.bindValue(":kommentti", ui->kommentitEdit->document()->toPlainText());
+        query.exec();
+
+        tositeId = query.lastInsertId().toInt();
+        qDebug() << tositeId;
+        viennitModel->tallenna(tositeId);
+    }
 }

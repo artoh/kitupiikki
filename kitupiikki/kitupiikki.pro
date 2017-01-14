@@ -28,7 +28,8 @@ SOURCES += main.cpp \
     kirjaus/tositewg.cpp \
     db/tili.cpp \
     kirjaus/vientimodel.cpp \
-    kirjaus/tilidelegaatti.cpp
+    kirjaus/tilidelegaatti.cpp \
+    kirjaus/eurodelegaatti.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -49,7 +50,8 @@ HEADERS += \
     kirjaus/tositewg.h \
     db/tili.h \
     kirjaus/vientimodel.h \
-    kirjaus/tilidelegaatti.h
+    kirjaus/tilidelegaatti.h \
+    kirjaus/eurodelegaatti.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

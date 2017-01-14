@@ -41,11 +41,14 @@ signals:
 public slots:
     void lisaaRivi();
     void tyhjenna();
+    void tallenna();
 
 protected:
     Ui::KirjausWg *ui;
     VientiModel *viennitModel;
     Kirjanpito *kirjanpito;
+
+    int tositeId;   /** Käsiteltävänä olevan tositteen id tai 0 jos tositetta ei tallennettu */
 };
 
 #endif // KIRJAUSWG_H

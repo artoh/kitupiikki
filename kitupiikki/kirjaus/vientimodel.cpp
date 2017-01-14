@@ -19,6 +19,9 @@
 #include "kirjauswg.h"
 #include "db/kirjanpito.h"
 
+#include <QDebug>
+#include <QSqlQuery>
+
 VientiModel::VientiModel(Kirjanpito *kp, KirjausWg *kwg) : kirjanpito(kp), kirjauswg(kwg)
 {
 
@@ -81,12 +84,34 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
                 else
                     return QVariant();
 
-            case DEBET: return QVariant( float( rivi.debetSnt / 100) );
-            case KREDIT: return QVariant( float( rivi.kreditSnt / 100) );
+            case DEBET:
+                if( role == Qt::EditRole)
+                    return QVariant( rivi.debetSnt);
+                else if( rivi.debetSnt )                    
+                    return QVariant( QString("%L1 €").arg(rivi.debetSnt / 100.0,0,'f',2));
+                else
+                    return QVariant();
+
+            case KREDIT:
+                if( role == Qt::EditRole)
+                    return QVariant( rivi.kreditSnt);
+                else if( rivi.kreditSnt )
+                    return QVariant( QString("%1 €").arg(rivi.kreditSnt / 100.0,0,'f',2));
+                else
+                    return QVariant();
+
             case SELITE: return QVariant( rivi.selite );
             case KUSTANNUSPAIKKA: return QVariant( "");
             case PROJEKTI: return QVariant("");
         }
+    }
+    else if( role == Qt::TextAlignmentRole)
+    {
+        if( index.column()==KREDIT || index.column() == DEBET)
+            return QVariant(Qt::AlignRight | Qt::AlignVCenter);
+        else
+            return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
+
     }
     return QVariant();
 }
@@ -96,10 +121,30 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int r
     switch (index.column())
     {
     case TILI:
-        viennit[index.row()].tili = kirjanpito->tili( value.toInt() );
+    {
+        Tili uusitili = kirjanpito->tili( value.toInt() );
+        viennit[index.row()].tili = uusitili;
+        qDebug() << uusitili.nimi() << "(" << uusitili.tyyppi() << ")";
+        // Jos kirjataan tulotilille, niin siirrytään syöttämään kredit-summaa
+        if( uusitili.tyyppi().startsWith('T'))
+            emit siirrySarakkeeseen(index.sibling(index.row(), KREDIT));
         return true;
+    }
     case SELITE:
         viennit[index.row()].selite = value.toString();
+        return true;
+    case DEBET:
+        viennit[index.row()].debetSnt = value.toInt();
+        if(value.toInt())
+        {
+            viennit[index.row()].kreditSnt = 0;
+            emit siirrySarakkeeseen(index.sibling(index.row(), SELITE));
+        }
+        return true;
+    case KREDIT:
+        viennit[index.row()].kreditSnt = value.toInt();
+        if( value.toInt())
+        viennit[index.row()].debetSnt = 0;
         return true;
     default:
         return false;
@@ -126,6 +171,37 @@ bool VientiModel::lisaaRivi()
 {
     return insertRows( rowCount(QModelIndex()), 1, QModelIndex() );
 
+}
+
+void VientiModel::tallenna(int tositeid)
+{
+    QSqlQuery query;
+    foreach (VientiRivi rivi, viennit)
+    {
+        if( rivi.vientiId )
+        {
+            query.prepare("UPDATE vienti SET pvm=:pvm, tili=:tili, debetsnt=:debetsnt, "
+                          "kreditsnt=:kreditsnt, selite=:selite WHERE id=:id");
+            query.bindValue(":id", rivi.vientiId);
+        }
+        else
+            query.prepare("INSERT INTO vienti(tosite,pvm,tili,debetsnt,kreditsnt,selite) "
+                                "VALUES(:tosite,:pvm,:tili,:debetsnt,:kreditsnt,:selite)");
+
+
+        query.bindValue(":tosite", tositeid);
+        query.bindValue(":pvm", rivi.pvm);
+        query.bindValue(":tili", rivi.tili.numero());
+        query.bindValue(":debetsnt", rivi.debetSnt);
+        query.bindValue(":kreditsnt", rivi.kreditSnt);
+        query.bindValue(":selite", rivi.selite);
+        query.exec();
+
+        if( !rivi.vientiId)
+            rivi.vientiId = query.lastInsertId();
+    }
+    // Lopuksi pitäisi vielä poistaa ne rivit, jotka on poistettu...
+    // Tätä varten voisi ylläpitää poistettujen vientien Id-listaa
 }
 
 VientiRivi VientiModel::uusiRivi()

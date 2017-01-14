@@ -15,16 +15,21 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "tili.h"
+#ifndef EURODELEGAATTI_H
+#define EURODELEGAATTI_H
 
-#include <QDebug>
+#include <QItemDelegate>
 
-Tili::Tili() : numero_(0), tila_(-1)
+class EuroDelegaatti : public QItemDelegate
 {
+    Q_OBJECT
+public:
+    EuroDelegaatti();
 
-}
+    QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    void setEditorData(QWidget *editor, const QModelIndex &index) const;
+    void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
 
-Tili::Tili(int tnumero, const QString tnimi, const QString &tohje, const QString ttyyppi, int ttila, const QString tjson) :
-    numero_(tnumero), nimi_(tnimi), ohje_(tohje),tyyppi_(ttyyppi) , tila_(ttila), json_(tjson)
-{
-}
+};
+
+#endif // EURODELEGAATTI_H

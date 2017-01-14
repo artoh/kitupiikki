@@ -21,6 +21,7 @@
 #include "tilidelegaatti.h"
 
 #include "db/kirjanpito.h"
+#include "vientimodel.h"
 
 TiliDelegaatti::TiliDelegaatti(Kirjanpito *kp):
     kirjanpito(kp)
