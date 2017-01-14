@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['perusvalinnat',['Perusvalinnat',['../class_perusvalinnat.html',1,'']]]
+  ['nimisivu',['NimiSivu',['../class_nimi_sivu.html',1,'']]]
 ];

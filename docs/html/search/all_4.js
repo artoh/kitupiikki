@@ -1,10 +1,8 @@
 var searchData=
 [
-  ['lataaaloitussivu',['lataaAloitussivu',['../class_aloitus_sivu.html#a5d2759f4810e48fc25bd9e4a79a2886d',1,'AloitusSivu']]],
-  ['lataaohje',['lataaOhje',['../class_aloitus_sivu.html#a017a08e7ca2dbda0d4f4420b7dea9185',1,'AloitusSivu']]],
-  ['lisaalaatikko',['lisaaLaatikko',['../class_sisalto.html#a30c303c1069c1132d3ee3e5d5ac8dcd3',1,'Sisalto']]],
-  ['lisaatxt',['lisaaTxt',['../class_sisalto.html#a84db5201133025ec39b14a5766b9e7e6',1,'Sisalto']]],
-  ['listaltavalittu',['listaltaValittu',['../class_tilikartta_sivu.html#a3351808ed9e8e82c63e08814b8503b78',1,'TilikarttaSivu']]],
-  ['loppusivu',['LoppuSivu',['../class_loppu_sivu.html',1,'']]],
-  ['luektktiedosto',['lueKtkTiedosto',['../class_uusi_kirjanpito.html#abaa60dd2ef47a4dae79b2a3424ca74e7',1,'UusiKirjanpito']]]
+  ['kertymapaivalle',['kertymaPaivalle',['../class_tili.html#aa2b1950bf33673a2310fecea80543e5d',1,'Tili']]],
+  ['kirjanpito',['Kirjanpito',['../class_kirjanpito.html',1,'']]],
+  ['kirjaussivu',['KirjausSivu',['../class_kirjaus_sivu.html',1,'']]],
+  ['kirjauswg',['KirjausWg',['../class_kirjaus_wg.html',1,'']]],
+  ['kitupiikkiikkuna',['KitupiikkiIkkuna',['../class_kitupiikki_ikkuna.html',1,'']]]
 ];

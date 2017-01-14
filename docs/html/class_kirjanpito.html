@@ -125,15 +125,11 @@ $(document).ready(function(){initNavTree('class_kirjanpito.html','');});
 Luokan Kirjanpito luokkakaavio</div>
 <div class="dyncontent">
 <div class="center"><img src="class_kirjanpito__inherit__graph.png" border="0" usemap="#_kirjanpito_inherit__map" alt="Inheritance graph"/></div>
-<map name="_kirjanpito_inherit__map" id="_kirjanpito_inherit__map">
-</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">selite</a>]</span></center></div>
 <div class="dynheader">
 Yhteistyökaavio luokalle Kirjanpito:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_kirjanpito__coll__graph.png" border="0" usemap="#_kirjanpito_coll__map" alt="Collaboration graph"/></div>
-<map name="_kirjanpito_coll__map" id="_kirjanpito_coll__map">
-</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">selite</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-slots"></a>
@@ -174,12 +170,30 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>aseta</b> (const QStr
 <tr class="memitem:ad08cb28a082135e64d480fea08b95b1b"><td class="memItemLeft" align="right" valign="top">QDate&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_kirjanpito.html#ad08cb28a082135e64d480fea08b95b1b">paivamaara</a> () const </td></tr>
 <tr class="memdesc:ad08cb28a082135e64d480fea08b95b1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nykyinen tai harjoittelutilassa muokattu päivämäärä  <a href="#ad08cb28a082135e64d480fea08b95b1b">Lisää...</a><br /></td></tr>
 <tr class="separator:ad08cb28a082135e64d480fea08b95b1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38801ebc1244c5f4d4631ad508bc80f8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a38801ebc1244c5f4d4631ad508bc80f8"></a>
+<a class="el" href="class_tili.html">Tili</a>&#160;</td><td class="memItemRight" valign="bottom"><b>tili</b> (int tilinumero) const </td></tr>
+<tr class="separator:a38801ebc1244c5f4d4631ad508bc80f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f3fdf71bd0c2ad466963cb1de0ae168"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7f3fdf71bd0c2ad466963cb1de0ae168"></a>
+QList&lt; <a class="el" href="class_tili.html">Tili</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>tilit</b> (QString tyyppisuodatin=QString(), int tilasuodatin=0) const </td></tr>
+<tr class="separator:a7f3fdf71bd0c2ad466963cb1de0ae168"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50fb78d3654a3c2ee0041734b0b204f8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a50fb78d3654a3c2ee0041734b0b204f8"></a>
+QList&lt; <a class="el" href="class_tilikausi.html">Tilikausi</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>tilikaudet</b> () const </td></tr>
+<tr class="separator:a50fb78d3654a3c2ee0041734b0b204f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f328de73b1433a8cecde92d590a4c73"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4f328de73b1433a8cecde92d590a4c73"></a>
+<a class="el" href="class_tilikausi.html">Tilikausi</a>&#160;</td><td class="memItemRight" valign="bottom"><b>tilikausiPaivalle</b> (const QDate &amp;paiva) const </td></tr>
+<tr class="separator:a4f328de73b1433a8cecde92d590a4c73"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Suojellut attribuutit</h2></td></tr>
 <tr class="memitem:a92a1e6b54c3b0017ab4b393666ad857f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a92a1e6b54c3b0017ab4b393666ad857f"></a>
 QMap&lt; QString, QString &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>asetukset</b></td></tr>
 <tr class="separator:a92a1e6b54c3b0017ab4b393666ad857f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3244ec7deef0eb6256e88a55deb83ad2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3244ec7deef0eb6256e88a55deb83ad2"></a>
+QMap&lt; int, <a class="el" href="class_tili.html">Tili</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>tilit_</b></td></tr>
+<tr class="separator:a3244ec7deef0eb6256e88a55deb83ad2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac413a6a102233f0c305d70d866101e81"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac413a6a102233f0c305d70d866101e81"></a>
+QList&lt; <a class="el" href="class_tilikausi.html">Tilikausi</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>tilikaudet_</b></td></tr>
+<tr class="separator:ac413a6a102233f0c305d70d866101e81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0320868a9066745bd21bb4743c1b79e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad0320868a9066745bd21bb4743c1b79e"></a>
 QString&#160;</td><td class="memItemRight" valign="bottom"><b>polkuTiedostoon</b></td></tr>
 <tr class="separator:ad0320868a9066745bd21bb4743c1b79e"><td class="memSeparator" colspan="2">&#160;</td></tr>

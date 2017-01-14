@@ -4,7 +4,6 @@ var class_kitupiikki_ikkuna =
       [ "ALOITUSSIVU", "class_kitupiikki_ikkuna.html#a5dacf38ada09211064f192673ed77b7dabc053b7d8265324bc32d09d27fc6bb79", null ],
       [ "KIRJAUSSIVU", "class_kitupiikki_ikkuna.html#a5dacf38ada09211064f192673ed77b7da47a6f53f3d320703ed00c53adce38215", null ],
       [ "PAIVAKIRJASIVU", "class_kitupiikki_ikkuna.html#a5dacf38ada09211064f192673ed77b7daf69c3e4e58c80a126551ea515223cc8f", null ],
-      [ "PAAKIRJASIVU", "class_kitupiikki_ikkuna.html#a5dacf38ada09211064f192673ed77b7dacd66488a8919a1dadbe5bd680931e570", null ],
       [ "TULOSTESIVU", "class_kitupiikki_ikkuna.html#a5dacf38ada09211064f192673ed77b7da0ab3503e3c6a0cfe2d9ce5cb43ed7349", null ],
       [ "MAARITYSSIVU", "class_kitupiikki_ikkuna.html#a5dacf38ada09211064f192673ed77b7da430a622872f622e49bf51d1ea3a9c2d1", null ],
       [ "OHJESIVU", "class_kitupiikki_ikkuna.html#a5dacf38ada09211064f192673ed77b7dab5cee667ad9c210a1bfb5a6183fdf004", null ]
@@ -22,8 +21,10 @@ var class_kitupiikki_ikkuna =
     [ "aloitussivu", "class_kitupiikki_ikkuna.html#a67af44abaf5bfc3d862e693f67d2071e", null ],
     [ "harjoituspvmEdit", "class_kitupiikki_ikkuna.html#a76511bae71c4a1a49e8a950cd80b2a21", null ],
     [ "kirjanpito", "class_kitupiikki_ikkuna.html#ab40e6277eb270df1158d5d2ef2ede614", null ],
+    [ "kirjaussivu", "class_kitupiikki_ikkuna.html#a6aa82fe5f2af069224dda08f5914d73d", null ],
     [ "maarityssivu", "class_kitupiikki_ikkuna.html#a81b301471819215f8b8b1229371aa199", null ],
     [ "pino", "class_kitupiikki_ikkuna.html#a6cfc36c9f3bfa9b606f290788518c79d", null ],
+    [ "selaussivu", "class_kitupiikki_ikkuna.html#ae3c5d5cd2435762b00a317d8881dc3e1", null ],
     [ "sivuaktiot", "class_kitupiikki_ikkuna.html#ae00c5a24c1064ff2c1b3b600db8b0c50", null ],
     [ "toolbar", "class_kitupiikki_ikkuna.html#a2279277014b6831ff76168cc72d78d87", null ]
 ];

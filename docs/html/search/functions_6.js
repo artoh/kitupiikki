@@ -1,7 +1,4 @@
 var searchData=
 [
-  ['valitsesivu',['valitseSivu',['../class_kitupiikki_ikkuna.html#a15e16b112cba77f38bacae58bc9c4b04',1,'KitupiikkiIkkuna']]],
-  ['valitsetilikartta',['valitseTilikartta',['../class_tilikartta_sivu.html#abce4ba595b7ae97c918debd85a66fdab',1,'TilikarttaSivu']]],
-  ['valmis',['valmis',['../class_sisalto.html#a5c46a9929afc9a89449ea6feaff9e099',1,'Sisalto']]],
-  ['viimeisettiedostot',['viimeisetTiedostot',['../class_kirjanpito.html#a56b79e423735a2debf2a1947657614dd',1,'Kirjanpito']]]
+  ['toiminto',['toiminto',['../class_aloitus_sivu.html#af4ce811f5e04cbc8f3433bc31ff9fe4a',1,'AloitusSivu::toiminto()'],['../class_sisalto.html#ae68db98777182b5751cf11a32871ea06',1,'Sisalto::toiminto()'],['../class_kitupiikki_ikkuna.html#ac0c50c4d9e4728fabeebaa95c81c9ad4',1,'KitupiikkiIkkuna::toiminto()']]]
 ];

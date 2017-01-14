@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['nimisivu',['NimiSivu',['../class_nimi_sivu.html',1,'']]]
+  ['maarityssivu',['MaaritysSivu',['../class_maaritys_sivu.html',1,'']]]
 ];

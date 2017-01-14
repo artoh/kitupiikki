@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['introsivu',['IntroSivu',['../class_intro_sivu.html',1,'']]]
+  ['eurodelegaatti',['EuroDelegaatti',['../class_euro_delegaatti.html',1,'']]]
 ];
