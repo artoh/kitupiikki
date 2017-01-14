@@ -96,7 +96,7 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
                 if( role == Qt::EditRole)
                     return QVariant( rivi.kreditSnt);
                 else if( rivi.kreditSnt )
-                    return QVariant( QString("%1 €").arg(rivi.kreditSnt / 100.0,0,'f',2));
+                    return QVariant( QString("%L1 €").arg(rivi.kreditSnt / 100.0,0,'f',2));
                 else
                     return QVariant();
 
@@ -120,6 +120,10 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int r
 {
     switch (index.column())
     {
+    case PVM:
+        viennit[index.row()].pvm = value.toDate();
+        emit siirryRuutuun( index.sibling(index.row(), TILI) );
+        return true;
     case TILI:
     {
         Tili uusitili = kirjanpito->tili( value.toInt() );
@@ -127,7 +131,9 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int r
         qDebug() << uusitili.nimi() << "(" << uusitili.tyyppi() << ")";
         // Jos kirjataan tulotilille, niin siirrytään syöttämään kredit-summaa
         if( uusitili.tyyppi().startsWith('T'))
-            emit siirrySarakkeeseen(index.sibling(index.row(), KREDIT));
+            emit siirryRuutuun(index.sibling(index.row(), KREDIT));
+        else
+            emit siirryRuutuun(index.sibling(index.row(), DEBET));
         return true;
     }
     case SELITE:
@@ -138,13 +144,16 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int r
         if(value.toInt())
         {
             viennit[index.row()].kreditSnt = 0;
-            emit siirrySarakkeeseen(index.sibling(index.row(), SELITE));
+            emit siirryRuutuun(index.sibling(index.row(), SELITE));
         }
+        emit muuttunut();
         return true;
     case KREDIT:
         viennit[index.row()].kreditSnt = value.toInt();
         if( value.toInt())
         viennit[index.row()].debetSnt = 0;
+        emit siirryRuutuun(index.sibling(index.row(), SELITE));
+        emit muuttunut();
         return true;
     default:
         return false;
@@ -164,6 +173,7 @@ bool VientiModel::insertRows(int row, int count, const QModelIndex & /* parent *
     for(int i=0; i < count; i++)
         viennit.insert(row, uusiRivi() );
     endInsertRows();
+    emit muuttunut();
     return true;
 }
 
@@ -173,11 +183,32 @@ bool VientiModel::lisaaRivi()
 
 }
 
+int VientiModel::debetSumma() const
+{
+    int summa = 0;
+    foreach (VientiRivi rivi, viennit)
+    {
+        summa += rivi.debetSnt;
+    }
+    return summa;
+}
+
+int VientiModel::kreditSumma() const
+{
+    int summa = 0;
+    foreach (VientiRivi rivi, viennit)
+    {
+        summa += rivi.kreditSnt;
+    }
+    return summa;
+}
+
 void VientiModel::tallenna(int tositeid)
 {
     QSqlQuery query;
-    foreach (VientiRivi rivi, viennit)
+    for(int i=0; i < viennit.count() ; i++)
     {
+        VientiRivi rivi = viennit[i];
         if( rivi.vientiId )
         {
             query.prepare("UPDATE vienti SET pvm=:pvm, tili=:tili, debetsnt=:debetsnt, "
@@ -197,11 +228,19 @@ void VientiModel::tallenna(int tositeid)
         query.bindValue(":selite", rivi.selite);
         query.exec();
 
-        if( !rivi.vientiId)
-            rivi.vientiId = query.lastInsertId();
+        if( !rivi.vientiId )
+            viennit[i].vientiId = query.lastInsertId().toInt();
     }
     // Lopuksi pitäisi vielä poistaa ne rivit, jotka on poistettu...
     // Tätä varten voisi ylläpitää poistettujen vientien Id-listaa
+}
+
+void VientiModel::tyhjaa()
+{
+    beginResetModel();
+    viennit.clear();
+    endResetModel();
+    emit muuttunut();
 }
 
 VientiRivi VientiModel::uusiRivi()
@@ -209,6 +248,20 @@ VientiRivi VientiModel::uusiRivi()
     VientiRivi uusirivi;
 
     uusirivi.pvm = kirjauswg->tositePvm();
+
+    int debetit = debetSumma();
+    int kreditit = kreditSumma();
+
+    // Täytetään automaattisesti, elleivät tilit vielä täsmää
+    if( kreditit >= 0 && debetit >= 0 && kreditit != debetit)
+    {
+        if( kreditit > debetit)
+            uusirivi.debetSnt = kreditit - debetit;
+        else
+            uusirivi.kreditSnt = debetit - kreditit;
+
+        uusirivi.selite = viennit.last().selite;
+    }
 
     return uusirivi;
 }

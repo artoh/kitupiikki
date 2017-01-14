@@ -32,7 +32,7 @@
 #include "aloitussivu/aloitussivu.h"
 #include "kirjaus/kirjaussivu.h"
 #include "maaritys/maarityssivu.h"
-
+#include "selaus/selauswg.h"
 #include "uusikp/uusikirjanpito.h"
 
 #include "db/kirjanpito.h"
@@ -51,12 +51,14 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent)
     connect( aloitussivu, SIGNAL(toiminto(QString)), this, SLOT(toiminto(QString)));
 
     kirjaussivu = new KirjausSivu(kirjanpito);
+    selaussivu = new SelausWg(kirjanpito);
     maarityssivu = new MaaritysSivu(kirjanpito);
 
 
     pino = new QStackedWidget;
     pino->addWidget( aloitussivu);
     pino->addWidget( kirjaussivu );
+    pino->addWidget( selaussivu );
     pino->addWidget( maarityssivu);
     setCentralWidget(pino);
 
@@ -103,6 +105,10 @@ void KitupiikkiIkkuna::valitseSivu(int mikasivu)
         maarityssivu->nollaa();
         pino->setCurrentWidget( maarityssivu);
     }
+    else if( mikasivu == PAIVAKIRJASIVU )
+    {
+        pino->setCurrentWidget( selaussivu);
+    }
 
 }
 
@@ -141,6 +147,8 @@ void KitupiikkiIkkuna::kirjanpitoLadattu()
 
         for(int i=KIRJAUSSIVU; i<OHJESIVU;i++)
             sivuaktiot[i]->setEnabled(true);
+
+        selaussivu->alusta();
     }
 
     valitseSivu(ALOITUSSIVU);
@@ -180,8 +188,8 @@ void KitupiikkiIkkuna::luoPalkkiJaSivuAktiot()
     aktioryhma = new QActionGroup(this);
     luosivuAktio("Aloita",":/pic/Possu64.png","Erilaisia ohjattuja toimia","Home", ALOITUSSIVU);
     luosivuAktio("Uusi\ntosite",":/pic/uusitosite.png","Kirjaa uusi tosite","Ctrl+N", KIRJAUSSIVU);
-    luosivuAktio("Päiväkirja",":/pic/Paivakirja64.png","Selaa kirjauksia aikajärjestyksessä","F3", PAIVAKIRJASIVU);
-    luosivuAktio("Pääkirja",":/pic/Diary64.png","Selaa kirjauksia tileittäin","F4", PAAKIRJASIVU);
+    luosivuAktio("Selaa",":/pic/Paivakirja64.png","Selaa kirjauksia aikajärjestyksessä","F3", PAIVAKIRJASIVU);
+ //   luosivuAktio("Pääkirja",":/pic/Diary64.png","Selaa kirjauksia tileittäin","F4", PAAKIRJASIVU);
     luosivuAktio("Tulosteet",":/pic/print.png","Tulosta erilaisia raportteja","F5", TULOSTESIVU);
     luosivuAktio("Määritykset",":/pic/ratas.png","Kirjanpitoon liittyvät määritykset","F6", MAARITYSSIVU);
     luosivuAktio("Ohje",":/pic/ohje.png","Kitupiikin ohjeet","F1", OHJESIVU);

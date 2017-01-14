@@ -29,7 +29,10 @@ SOURCES += main.cpp \
     db/tili.cpp \
     kirjaus/vientimodel.cpp \
     kirjaus/tilidelegaatti.cpp \
-    kirjaus/eurodelegaatti.cpp
+    kirjaus/eurodelegaatti.cpp \
+    selaus/selauswg.cpp \
+    db/tilikausi.cpp \
+    selaus/selausmodel.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -51,7 +54,10 @@ HEADERS += \
     db/tili.h \
     kirjaus/vientimodel.h \
     kirjaus/tilidelegaatti.h \
-    kirjaus/eurodelegaatti.h
+    kirjaus/eurodelegaatti.h \
+    selaus/selauswg.h \
+    db/tilikausi.h \
+    selaus/selausmodel.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -67,7 +73,8 @@ FORMS += \
     uusikp/tilikausi.ui \
     maaritys/perusvalinnat.ui \
     kirjaus/kirjaus.ui \
-    kirjaus/tositewg.ui
+    kirjaus/tositewg.ui \
+    selaus/selauswg.ui
 
 DISTFILES += \
     uusikp/luo.sql \

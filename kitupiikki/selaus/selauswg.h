@@ -15,41 +15,36 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef KIRJAUSWG_H
-#define KIRJAUSWG_H
+#ifndef SELAUSWG_H
+#define SELAUSWG_H
 
 #include <QWidget>
 
-#include "ui_kirjaus.h"
-
-class VientiModel;
-
+#include "ui_selauswg.h"
 
 class Kirjanpito;
+class SelausModel;
+class QSortFilterProxyModel;
 
-class KirjausWg : public QWidget
+class SelausWg : public QWidget
 {
     Q_OBJECT
+
 public:
-    KirjausWg(Kirjanpito *kp);
-    ~KirjausWg();
-
-    QDate tositePvm() const;
-
-signals:
+    SelausWg(Kirjanpito *kp);
+    ~SelausWg();
 
 public slots:
-    void lisaaRivi();
-    void tyhjenna();
-    void tallenna();
-    void naytaSummat();
+    void alusta();
+    void paivita();
+    void suodata();
+    void paivitaSummat();
 
-protected:
-    Ui::KirjausWg *ui;
-    VientiModel *viennitModel;
+private:
+    Ui::SelausWg *ui;
     Kirjanpito *kirjanpito;
-
-    int tositeId;   /** Käsiteltävänä olevan tositteen id tai 0 jos tositetta ei tallennettu */
+    SelausModel *model;
+    QSortFilterProxyModel *proxyModel;
 };
 
-#endif // KIRJAUSWG_H
+#endif // SELAUSWG_H

@@ -15,41 +15,11 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef KIRJAUSWG_H
-#define KIRJAUSWG_H
+#include "tilikausi.h"
 
-#include <QWidget>
-
-#include "ui_kirjaus.h"
-
-class VientiModel;
-
-
-class Kirjanpito;
-
-class KirjausWg : public QWidget
+Tilikausi::Tilikausi(QDate tkalkaa, QDate tkpaattyy) :
+    alkaa_(tkalkaa),
+    paattyy_(tkpaattyy)
 {
-    Q_OBJECT
-public:
-    KirjausWg(Kirjanpito *kp);
-    ~KirjausWg();
 
-    QDate tositePvm() const;
-
-signals:
-
-public slots:
-    void lisaaRivi();
-    void tyhjenna();
-    void tallenna();
-    void naytaSummat();
-
-protected:
-    Ui::KirjausWg *ui;
-    VientiModel *viennitModel;
-    Kirjanpito *kirjanpito;
-
-    int tositeId;   /** Käsiteltävänä olevan tositteen id tai 0 jos tositetta ei tallennettu */
-};
-
-#endif // KIRJAUSWG_H
+}

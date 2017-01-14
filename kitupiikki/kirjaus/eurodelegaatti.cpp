@@ -36,7 +36,7 @@ QWidget *EuroDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewIte
 void EuroDelegaatti::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
     QDoubleSpinBox *sbox = qobject_cast<QDoubleSpinBox*>(editor);
-    sbox->setValue( index.data().toInt() / 100.0 );
+    sbox->setValue( index.data(Qt::EditRole).toDouble() / 100.0 );
 }
 
 void EuroDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const

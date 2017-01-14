@@ -32,6 +32,7 @@
 #include <QDate>
 
 #include "tili.h"
+#include "tilikausi.h"
 
 /**
  * @brief Kirjanpidon käsittely
@@ -80,6 +81,9 @@ public:
     Tili tili(int tilinumero) const { return tilit_[tilinumero] ; }
     QList<Tili> tilit(QString tyyppisuodatin = QString(), int tilasuodatin = 0) const;
 
+    QList<Tilikausi> tilikaudet() const { return tilikaudet_; }
+    Tilikausi tilikausiPaivalle(const QDate &paiva) const;
+
 signals:
     void tietokantaVaihtui();
 
@@ -96,6 +100,7 @@ public slots:
 protected:
     QMap<QString,QString> asetukset;
     QMap<int,Tili> tilit_;
+    QList<Tilikausi> tilikaudet_;
 
     QString polkuTiedostoon;
     QSqlDatabase db;

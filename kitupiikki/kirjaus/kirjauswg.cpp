@@ -24,6 +24,7 @@
 
 #include <QDebug>
 #include <QSqlQuery>
+#include <QMessageBox>
 
 KirjausWg::KirjausWg(Kirjanpito *kp) : QWidget(), kirjanpito(kp), tositeId(0)
 {
@@ -33,8 +34,9 @@ KirjausWg::KirjausWg(Kirjanpito *kp) : QWidget(), kirjanpito(kp), tositeId(0)
     ui->setupUi(this);
 
     ui->viennitView->setModel(viennitModel);
-    connect( viennitModel, SIGNAL(siirrySarakkeeseen(QModelIndex)), ui->viennitView, SLOT(setCurrentIndex(QModelIndex)));
-    connect( viennitModel, SIGNAL(siirrySarakkeeseen(QModelIndex)), ui->viennitView, SLOT(edit(QModelIndex)));
+    connect( viennitModel, SIGNAL(siirryRuutuun(QModelIndex)), ui->viennitView, SLOT(setCurrentIndex(QModelIndex)));
+    connect( viennitModel, SIGNAL(siirryRuutuun(QModelIndex)), ui->viennitView, SLOT(edit(QModelIndex)));
+    connect( viennitModel, SIGNAL(muuttunut()), this, SLOT(naytaSummat()));
 
     ui->viennitView->setItemDelegateForColumn( VientiModel::TILI, new TiliDelegaatti(kp) );
 
@@ -47,6 +49,8 @@ KirjausWg::KirjausWg(Kirjanpito *kp) : QWidget(), kirjanpito(kp), tositeId(0)
 
     connect( ui->lisaaRiviNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaRivi()));
     connect( ui->tallennaButton, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
+    connect( ui->hylkaaNappi, SIGNAL(clicked(bool)), this, SLOT(tyhjenna()));
+
 
     tyhjenna();
 }
@@ -77,25 +81,69 @@ void KirjausWg::tyhjenna()
 {
     tositeId = 0;
     ui->tositePvmEdit->setDate( kirjanpito->paivamaara() );
+    ui->otsikkoEdit->clear();
+    ui->kommentitEdit->clear();
+    ui->tositePvmEdit->setFocus();
+
+    viennitModel->tyhjaa();
 }
 
 void KirjausWg::tallenna()
 {
+    // Ensin tarkistetaan, että täsmää
+    int debetit = viennitModel->debetSumma();
+    int kreditit = viennitModel->kreditSumma();
+
+    if( debetit == 0 && kreditit == 0)
+    {
+        QMessageBox::critical(this, tr("Kitupiikki"), tr("Vientejä ei ole kirjattu"));
+        return;
+    }
+    else if( debetit != kreditit)
+    {
+        // Kirjausten puolet eivät täsmää.
+        if( QMessageBox::critical(this,tr("Kitupiikki"), tr("Debet- ja kredit-kirjaukset eivät täsmää.\n"
+                                                       "Haluatko kuitenkin tallentaa kirjaukset?"),
+                                  QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes )
+            return;
+    }
+    // Tarkistetaan, että joka rivillä on tili
+    for(int i=0; i<viennitModel->rowCount(QModelIndex()); i++)
+    {
+        if( viennitModel->index(i, VientiModel::TILI).data().isNull() )
+        {
+            QMessageBox::critical(this, tr("Kitupiikki"), tr("Rivillä %1 tili on tyhjä").arg(i + 1));
+            return;
+        }
+    }
+
+
+    QSqlQuery query;
+
     if( tositeId )
     {
-        // update
+        query.prepare("UPDATE tosite SET pvm=:pvm, otsikko=:otsikko, kommentti=:kommentti "
+                      "WHERE id=:id");
+        query.bindValue(":id", tositeId);
     }
     else
-    {
-        QSqlQuery query;
         query.prepare("INSERT INTO tosite(pvm,otsikko,kommentti) values(:pvm,:otsikko,:kommentti)");
-        query.bindValue(":pvm", ui->tositePvmEdit->date());
-        query.bindValue(":otsikko", ui->otsikkoEdit->text());
-        query.bindValue(":kommentti", ui->kommentitEdit->document()->toPlainText());
-        query.exec();
 
+    query.bindValue(":pvm", ui->tositePvmEdit->date());
+    query.bindValue(":otsikko", ui->otsikkoEdit->text());
+    query.bindValue(":kommentti", ui->kommentitEdit->document()->toPlainText());
+    query.exec();
+
+    if( !tositeId)
         tositeId = query.lastInsertId().toInt();
-        qDebug() << tositeId;
-        viennitModel->tallenna(tositeId);
-    }
+
+    viennitModel->tallenna(tositeId);
+
+    tyhjenna(); // Aloitetaan uusi kirjaus
+}
+
+void KirjausWg::naytaSummat()
+{
+    ui->summaLabel->setText( tr("Debet %L1 €    Kredit %L2 €").arg(((double)viennitModel->debetSumma())/100.0 ,0,'f',2)
+                             .arg(((double)viennitModel->kreditSumma()) / 100.0 ,0,'f',2));
 }

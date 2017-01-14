@@ -27,6 +27,7 @@ class QActionGroup;
 class QToolBar;
 class AloitusSivu;
 class KirjausSivu;
+class SelausWg;
 class MaaritysSivu;
 class Kirjanpito;
 class QDateEdit;
@@ -45,7 +46,7 @@ public:
     KitupiikkiIkkuna(QWidget *parent = 0);
     ~KitupiikkiIkkuna();
 
-    enum Sivu { ALOITUSSIVU, KIRJAUSSIVU, PAIVAKIRJASIVU, PAAKIRJASIVU, TULOSTESIVU, MAARITYSSIVU, OHJESIVU    };
+    enum Sivu { ALOITUSSIVU, KIRJAUSSIVU, PAIVAKIRJASIVU, TULOSTESIVU, MAARITYSSIVU, OHJESIVU    };
 
 signals:
 
@@ -79,6 +80,7 @@ protected:
 
     AloitusSivu *aloitussivu;
     KirjausSivu *kirjaussivu;
+    SelausWg *selaussivu;
     MaaritysSivu *maarityssivu;
 
 protected:

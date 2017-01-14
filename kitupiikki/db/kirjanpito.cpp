@@ -111,6 +111,17 @@ QList<Tili> Kirjanpito::tilit(QString tyyppisuodatin, int tilasuodatin) const
     return lista;
 }
 
+Tilikausi Kirjanpito::tilikausiPaivalle(const QDate &paiva) const
+{
+    foreach (Tilikausi kausi, tilikaudet())
+    {
+        // Osuuko pyydetty päivä kysyttyyn jaksoon
+        if( kausi.alkaa().daysTo(paiva) >= 0 and paiva.daysTo(kausi.paattyy()) >= 0)
+            return kausi;
+    }
+    return Tilikausi(QDate(), QDate()); // Kelvoton tilikausi
+}
+
 
 bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
 {
@@ -139,7 +150,13 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
                                                query.value(5).toString());
     }
 
-
+    // Ladataan tilikaudet
+    query.exec("SELECT alkaa,loppuu FROM tilikausi ORDER BY alkaa");
+    while (query.next())
+    {
+        tilikaudet_.append(Tilikausi( query.value(0).toDate(),
+                                      query.value(1).toDate() ));
+    }
 
 
     polkuTiedostoon = tiedosto;

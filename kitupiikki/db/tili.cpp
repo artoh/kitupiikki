@@ -18,6 +18,7 @@
 #include "tili.h"
 
 #include <QDebug>
+#include <QSqlQuery>
 
 Tili::Tili() : numero_(0), tila_(-1)
 {
@@ -28,3 +29,30 @@ Tili::Tili(int tnumero, const QString tnimi, const QString &tohje, const QString
     numero_(tnumero), nimi_(tnimi), ohje_(tohje),tyyppi_(ttyyppi) , tila_(ttila), json_(tjson)
 {
 }
+
+int Tili::kertymaPaivalle(const QDate &pvm)
+{
+    QString kysymys = QString("select sum(debetsnt), sum(kreditsnt) from vienti "
+            " where tili = %1 and pvm <= \"%2\" ")
+            .arg(numero())
+            .arg(pvm.toString(Qt::ISODate));
+
+    QSqlQuery kysely(kysymys);
+    if( kysely.next())
+    {
+        int debetKertyma = kysely.value(0).toInt();
+        int kreditKertyma = kysely.value(1).toInt();
+
+        if( onkoTasetili() )
+            return debetKertyma - kreditKertyma;
+        else
+            return kreditKertyma - debetKertyma;
+    }
+    return 0;
+}
+
+bool Tili::onkoTasetili() const
+{
+    return( tyyppi().startsWith('A') || tyyppi().startsWith('B'));
+}
+

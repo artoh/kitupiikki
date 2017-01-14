@@ -19,6 +19,7 @@
 #define TILI_H
 
 #include <QString>
+#include <QDate>
 
 class Tili
 {
@@ -31,7 +32,19 @@ public:
     QString tyyppi() const { return tyyppi_; }
     int tila() const { return tila_; }
 
+    /**
+     * @brief Laskee alusta ko. paivan loppuun saakka kertyneen saldon
+     *
+     * Tasetileillä tämä on saldo ko. päivän lopussa,
+     * tulostileillä tästä pitää vähentää kertymä edellisen tilikauden
+     * lopussa
+     *
+     * @param pvm Päivä, jonka loppuun kertymä lasketaan
+     * @return Kertymä sentteinä
+     */
+    int kertymaPaivalle(const QDate &pvm);
 
+    bool onkoTasetili() const;
 
 protected:
     int numero_;

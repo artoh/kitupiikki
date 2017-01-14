@@ -63,6 +63,13 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
+          <widget class="QLabel" name="summaLabel">
+           <property name="text">
+            <string> </string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <spacer name="horizontalSpacer_2">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -433,6 +440,9 @@
       <widget class="QPushButton" name="tallennaButton">
        <property name="text">
         <string>Tallenna</string>
+       </property>
+       <property name="shortcut">
+        <string>Ctrl+Return</string>
        </property>
        <property name="default">
         <bool>true</bool>

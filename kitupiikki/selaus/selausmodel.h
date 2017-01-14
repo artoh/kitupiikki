@@ -15,70 +15,58 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef VIENTIMODEL_H
-#define VIENTIMODEL_H
+#ifndef SELAUSMODEL_H
+#define SELAUSMODEL_H
 
 #include <QAbstractTableModel>
-#include <QDate>
-#include "db/tili.h"
 #include <QList>
+#include <QDate>
+
+#include "db/tili.h"
 
 class Kirjanpito;
-class KirjausWg;
 
-/**
- * @brief Yhden viennin tiedot
- */
-struct VientiRivi
+
+struct SelausRivi
 {
-    int vientiId = 0;
+    int tositeId;
     QDate pvm;
     Tili tili;
     QString selite;
-    int debetSnt = 0;
-    int kreditSnt = 0;
+    int debetSnt;
+    int kreditSnt;
 };
 
 
-class VientiModel : public QAbstractTableModel
+
+class SelausModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
 
-    enum VientiSarake
+    enum SelausSarake
     {
-        PVM, TILI, DEBET, KREDIT, KUSTANNUSPAIKKA, PROJEKTI, SELITE
+        PVM, TILI, DEBET, KREDIT, SELITE
     };
 
-
-    VientiModel(Kirjanpito *kp, KirjausWg *kwg);
+    SelausModel(Kirjanpito *kp);
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
+
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     QVariant data(const QModelIndex &index, int role) const;
-    bool setData(const QModelIndex &index, const QVariant &value, int role);
-    Qt::ItemFlags flags(const QModelIndex &index) const;
-    bool insertRows(int row, int count, const QModelIndex &);
-    bool lisaaRivi();
 
-    int debetSumma() const;
-    int kreditSumma() const;
+    QStringList kaytetytTilit() const { return tileilla; }
 
 public slots:
-    void tallenna(int tositeid);
-    void tyhjaa();
-
-signals:
-    void siirryRuutuun(QModelIndex index);
-    void muuttunut();
+    void lataa(const QDate& alkaa, const QDate& loppuu);
 
 protected:
-    QList<VientiRivi> viennit;
     Kirjanpito *kirjanpito;
-    KirjausWg *kirjauswg;
+    QList<SelausRivi> rivit;
+    QStringList tileilla;
 
-    VientiRivi uusiRivi();
 };
 
-#endif // VIENTIMODEL_H
+#endif // SELAUSMODEL_H
