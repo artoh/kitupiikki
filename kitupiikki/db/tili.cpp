@@ -25,8 +25,8 @@ Tili::Tili() : numero_(0), tila_(-1)
 
 }
 
-Tili::Tili(int tnumero, const QString tnimi, const QString &tohje, const QString ttyyppi, int ttila, const QString tjson) :
-    numero_(tnumero), nimi_(tnimi), ohje_(tohje),tyyppi_(ttyyppi) , tila_(ttila), json_(tjson)
+Tili::Tili(int tnumero, const QString tnimi, const QString &tohje, const QString ttyyppi, int ttila, const QString tjson, int otsikkotaso) :
+    numero_(tnumero), nimi_(tnimi), ohje_(tohje),tyyppi_(ttyyppi) , tila_(ttila), json_(tjson), otsikkotaso_(otsikkotaso)
 {
 }
 
@@ -54,5 +54,12 @@ int Tili::kertymaPaivalle(const QDate &pvm)
 bool Tili::onkoTasetili() const
 {
     return( tyyppi().startsWith('A') || tyyppi().startsWith('B'));
+}
+
+int Tili::kasitunnus(int tunnus)
+{
+    while( tunnus < 10000000)
+        tunnus = tunnus * 10;
+    return tunnus;
 }
 

@@ -102,10 +102,10 @@ QList<Tili> Kirjanpito::tilit(QString tyyppisuodatin, int tilasuodatin) const
     foreach (Tili tili, tilit_) {
        if( tyyppisuodatin.isEmpty())
        {
-           if( tili.tila() >= tilasuodatin)
+           if( tili.tila() >= tilasuodatin && !tili.otsikkotaso())
                lista.append(tili);
        }
-       else if( tili.tyyppi().startsWith(tyyppisuodatin) && tili.tila() >= tilasuodatin)
+       else if( tili.tyyppi().startsWith(tyyppisuodatin) && tili.tila() >= tilasuodatin && !tili.otsikkotaso())
            lista.append(tili);
     }
     return lista;
@@ -139,7 +139,7 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
     }
 
     // Ladataan tilt
-    query.exec("SELECT nro, nimi, ohje, tyyppi, tila, json FROM tili");
+    query.exec("SELECT nro, nimi, ohje, tyyppi, tila, json, otsikkotaso FROM tili");
     while( query.next())
     {
         tilit_[ query.value(0).toInt()] = Tili( query.value(0).toInt(),
@@ -147,7 +147,8 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
                                                query.value(2).toString(),
                                                query.value(3).toString(),
                                                query.value(4).toInt(),
-                                               query.value(5).toString());
+                                               query.value(5).toString(),
+                                                query.value(6).toInt());
     }
 
     // Ladataan tilikaudet

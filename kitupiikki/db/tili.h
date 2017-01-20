@@ -25,12 +25,14 @@ class Tili
 {
 public:
     Tili();
-    Tili(int tnumero, const QString tnimi, const QString& tohje, const QString ttyyppi, int ttila, const QString tjson);
+    Tili(int tnumero, const QString tnimi, const QString& tohje, const QString ttyyppi, int ttila, const QString tjson, int otsikkotaso = 0);
 
     int numero() const { return numero_; }
     QString nimi() const { return nimi_; }
     QString tyyppi() const { return tyyppi_; }
     int tila() const { return tila_; }
+    int otsikkotaso() const { return otsikkotaso_; }
+    int kasitunnus() const { return kasitunnus(numero_); }
 
     /**
      * @brief Laskee alusta ko. paivan loppuun saakka kertyneen saldon
@@ -46,6 +48,8 @@ public:
 
     bool onkoTasetili() const;
 
+    static int kasitunnus(int tunnus);
+
 protected:
     int numero_;
     QString nimi_;
@@ -53,6 +57,7 @@ protected:
     QString tyyppi_;
     int tila_;
     QString json_;
+    int otsikkotaso_;
 };
 
 #endif // TILI_H

@@ -8,6 +8,7 @@ CREATE TABLE tili (
     ohje   TEXT,
     tyyppi VARCHAR (10) NOT NULL,
     tila   INTEGER      DEFAULT (1),
+    otsikkotaso INTEGER DEFAULT (0),
     json   TEXT
 ) ;
 
