@@ -21,3 +21,59 @@ TiliSailo::TiliSailo(QObject *parent) : QObject(parent)
 {
 
 }
+
+TiliSailo::~TiliSailo()
+{
+    tyhjenna();
+}
+
+QList<Tili *> TiliSailo::tilit(Tyyppisuodatin tyyppisuodatin, int tilasuodatin, int otsikkosuodatin)
+{
+    QList<Tili*> lista;
+    foreach (Tili* tili, kasijarjestyslista)
+    {
+        if( tili->tila() < tilasuodatin)
+            continue;   // Tila ei kelpaa
+
+        // Erilaiset tyyppisuodattimet
+        if( tyyppisuodatin == TASE && !tili->onkoTasetili())
+            continue;
+        if( tyyppisuodatin == TULOS && tili->onkoTasetili())
+            continue;
+        if( tyyppisuodatin == TULO && !tili->onkoTulotili())
+            continue;
+        if( tyyppisuodatin == MENO && !tili->onkoMenotili() )
+
+
+        if( !tyyppisuodatin.isEmpty() && !tili->tyyppi().startsWith(tyyppisuodatin))
+            continue;   // Tyyppi ei kelpaa
+        if( otsikkosuodatin == 0 )
+        {
+            if( tili->otsikkotaso())
+                continue;   // Haettiin vain tilejä
+        }
+        else if( otsikkosuodatin > 0)
+        {
+            // Haetaan otsikkoja max (otsikkosuodatin) tasolta, ei tilejä
+            if( tili->otsikkotaso() == 0 || tili->otsikkotaso() > otsikkosuodatin)
+                continue;
+        }
+        // Kaikki ehdot on nyt täytetty
+
+        lista.append(tili);
+    }
+    return lista;
+
+}
+
+void TiliSailo::indeksoi()
+{
+    kasijarjestyslista.clear();
+    hakutaulu.clear();
+
+    foreach (Tili *ntili, tililista)
+    {
+        kasijarjestyslista[ ntili->kasitunnus() ] = ntili;
+        hakutaulu[ ntili->numero() ] = ntili;
+    }
+}

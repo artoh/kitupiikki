@@ -56,6 +56,16 @@ bool Tili::onkoTasetili() const
     return( tyyppi().startsWith('A') || tyyppi().startsWith('B'));
 }
 
+bool Tili::onkoTulotili() const
+{
+    return tyyppi().startsWith('T');
+}
+
+bool Tili::onkoMenotili() const
+{
+    return tyyppi().startsWith('M');
+}
+
 int Tili::kasitunnus(int tunnus)
 {
     while( tunnus < 10000000)

@@ -20,15 +20,45 @@
 
 #include <QObject>
 
+#include "tili.h"
+#include <QMap>
+#include <QList>
+
+/**
+ * @brief Tilien säiliö
+ */
 class TiliSailo : public QObject
 {
     Q_OBJECT
 public:
+    enum Tyyppisuodatin { KAIKKI, TASE, TULOS, TULO, MENO } ;
+
+
     explicit TiliSailo(QObject *parent = 0);
+    ~TiliSailo();
+
+    Tili* tili(int tilinumero) { return hakutaulu[tilinumero]; }
+
+    QList<Tili*> tilit(Tyyppisuodatin tyyppisuodatin = KAIKKI, int tilasuodatin = 0,
+                       int otsikkosuodatin = -1);
+
 
 signals:
 
 public slots:
+    void tyhjenna();
+    /**
+     * @brief Indeksoi haettaessa käytettävät taulut
+     *
+     * Tätä funktiota pitää kutsua joka kerta sen jälkeen, kun jonkun tilin
+     * numeroa on muutettu tai tilejä on luotu/ladattu tai poistettu
+     */
+    void indeksoi();
+
+protected:
+    QList<Tili*> tililista;
+    QMap<int,Tili*> kasijarjestyslista;
+    QHash<int,Tili*> hakutaulu;
 };
 
 #endif // TILISAILO_H
