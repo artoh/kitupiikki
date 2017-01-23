@@ -43,10 +43,9 @@ QList<Tili *> TiliSailo::tilit(Tyyppisuodatin tyyppisuodatin, int tilasuodatin, 
         if( tyyppisuodatin == TULO && !tili->onkoTulotili())
             continue;
         if( tyyppisuodatin == MENO && !tili->onkoMenotili() )
+            continue;
 
 
-        if( !tyyppisuodatin.isEmpty() && !tili->tyyppi().startsWith(tyyppisuodatin))
-            continue;   // Tyyppi ei kelpaa
         if( otsikkosuodatin == 0 )
         {
             if( tili->otsikkotaso())
@@ -64,6 +63,12 @@ QList<Tili *> TiliSailo::tilit(Tyyppisuodatin tyyppisuodatin, int tilasuodatin, 
     }
     return lista;
 
+}
+
+void TiliSailo::tyhjenna()
+{
+    tililista.clear();
+    indeksoi();
 }
 
 void TiliSailo::indeksoi()
