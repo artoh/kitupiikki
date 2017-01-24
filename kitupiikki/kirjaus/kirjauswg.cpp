@@ -175,7 +175,7 @@ void KirjausWg::lataaTosite(int id)
         // Sitten ladataan vielä viennit
         viennitModel->lataa(id);
         naytaSummat();
-        ui->tabWidget->setCurrentIndex(0);
+        ui->tabWidget->setCurrentIndex(VIENNIT);
     }
 }
 

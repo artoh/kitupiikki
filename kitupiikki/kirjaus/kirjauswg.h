@@ -37,6 +37,8 @@ public:
 
     QDate tositePvm() const;
 
+    enum Valilehdet { VIENNIT, KOMMENTIT, TILIOTE, AVUSTAJA } ;
+
 signals:
 
 public slots:

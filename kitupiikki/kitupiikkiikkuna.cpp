@@ -100,6 +100,7 @@ void KitupiikkiIkkuna::valitseSivu(int mikasivu)
     }
     else if( mikasivu == KIRJAUSSIVU)
     {
+        kirjaussivu->tyhjenna();
         pino->setCurrentWidget( kirjaussivu);
     }
     else if( mikasivu == MAARITYSSIVU)
@@ -167,7 +168,7 @@ void KitupiikkiIkkuna::naytaTosite(int tositeid)
 {
     qDebug() << "Nayta " << tositeid;
     kirjaussivu->naytaTosite(tositeid);
-    valitseSivu(KIRJAUSSIVU);
+    pino->setCurrentWidget( kirjaussivu );
 }
 
 QAction *KitupiikkiIkkuna::luosivuAktio(const QString &nimi, const QString &kuva, const QString &vihje, const QString &pikanappain, Sivu sivu)
