@@ -243,6 +243,30 @@ void VientiModel::tyhjaa()
     emit muuttunut();
 }
 
+void VientiModel::lataa(int tositeid)
+{
+    beginResetModel();
+    viennit.clear();
+
+    QSqlQuery query;
+    query.exec(QString("SELECT id, pvm, tili, debetsnt, kreditsnt, selite FROM vienti WHERE tosite=%1 "
+                       "ORDER BY id").arg(tositeid));
+    while( query.next())
+    {
+        VientiRivi rivi;
+        rivi.vientiId = query.value("id").toInt();
+        rivi.pvm = query.value("pvm").toDate();
+        rivi.tili = kirjanpito->tili( query.value("tili").toInt() );
+        rivi.debetSnt = query.value("debetsnt").toInt();
+        rivi.kreditSnt = query.value("kreditsnt").toInt();
+        rivi.selite = query.value("selite").toString();
+        viennit.append(rivi);
+    }
+
+
+    endResetModel();
+}
+
 VientiRivi VientiModel::uusiRivi()
 {
     VientiRivi uusirivi;

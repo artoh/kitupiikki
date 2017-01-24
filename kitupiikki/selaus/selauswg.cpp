@@ -22,6 +22,8 @@
 #include <QSortFilterProxyModel>
 #include <QSqlQuery>
 
+#include <QDebug>
+
 SelausWg::SelausWg(Kirjanpito *kp) :
     QWidget(),
     ui(new Ui::SelausWg),
@@ -39,13 +41,14 @@ SelausWg::SelausWg(Kirjanpito *kp) :
 
     ui->selausView->horizontalHeader()->setStretchLastSection(true);
     ui->selausView->verticalHeader()->hide();
-    ui->selausView->setSelectionBehavior(QAbstractItemView::SelectRows);
-    ui->selausView->setSortingEnabled(true);
+
     ui->selausView->sortByColumn(SelausModel::PVM, Qt::AscendingOrder);
 
     connect( ui->alkuEdit, SIGNAL(editingFinished()), this, SLOT(paivita()));
     connect( ui->loppuEdit, SIGNAL(editingFinished()), this, SLOT(paivita()));
     connect( ui->tiliCombo, SIGNAL(currentTextChanged(QString)), this, SLOT(suodata()));
+
+    connect( ui->selausView, SIGNAL(activated(QModelIndex)), this, SLOT(naytaTositeRivilta(QModelIndex)));
 
 }
 
@@ -131,4 +134,11 @@ void SelausWg::paivitaSummat()
                 .arg(((double)muutos) / 100.0, 0, 'f', 2  );
     }
     ui->summaLabel->setText(teksti);
+}
+
+void SelausWg::naytaTositeRivilta(QModelIndex index)
+{
+    int id = index.data( Qt::UserRole).toInt();
+    qDebug() << "Näyttöpyyntö " << id;
+    emit tositeValittu( id );
 }

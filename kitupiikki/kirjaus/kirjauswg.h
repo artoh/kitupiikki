@@ -44,6 +44,7 @@ public slots:
     void tyhjenna();
     void tallenna();
     void naytaSummat();
+    void lataaTosite(int id);
 
 protected:
     Ui::KirjausWg *ui;

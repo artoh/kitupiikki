@@ -67,6 +67,7 @@ public slots:
 
 protected slots:
     void aktivoiSivu(QAction* aktio);
+    void naytaTosite(int tositeid);
 
 protected:
     Kirjanpito *kirjanpito;

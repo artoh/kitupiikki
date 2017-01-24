@@ -43,3 +43,8 @@ KirjausSivu::~KirjausSivu()
 {
     delete kirjauswg;
 }
+
+void KirjausSivu::naytaTosite(int tositeId)
+{
+    kirjauswg->lataaTosite(tositeId);
+}

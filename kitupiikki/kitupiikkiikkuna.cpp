@@ -74,6 +74,8 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent)
     if( settings.contains("viimeisin"))
         kirjanpito->avaaTietokanta(settings.value("viimeisin").toString());
 
+    connect( selaussivu, SIGNAL(tositeValittu(int)), this, SLOT(naytaTosite(int)) );
+
 
 }
 
@@ -159,6 +161,13 @@ void KitupiikkiIkkuna::aktivoiSivu(QAction *aktio)
     int sivu = aktio->data().toInt();
     qDebug() << "Sivulle " << sivu;
     valitseSivu(sivu);
+}
+
+void KitupiikkiIkkuna::naytaTosite(int tositeid)
+{
+    qDebug() << "Nayta " << tositeid;
+    kirjaussivu->naytaTosite(tositeid);
+    valitseSivu(KIRJAUSSIVU);
 }
 
 QAction *KitupiikkiIkkuna::luosivuAktio(const QString &nimi, const QString &kuva, const QString &vihje, const QString &pikanappain, Sivu sivu)

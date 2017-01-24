@@ -39,6 +39,10 @@ public slots:
     void paivita();
     void suodata();
     void paivitaSummat();
+    void naytaTositeRivilta(QModelIndex index);
+
+signals:
+    void tositeValittu(int id);
 
 private:
     Ui::SelausWg *ui;

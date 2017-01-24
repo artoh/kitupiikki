@@ -109,6 +109,12 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
             return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
 
     }
+    else if( role == Qt::UserRole)
+    {
+        // UserRolena on tositeid, jotta selauksesta pääsee helposti tositteeseen
+        SelausRivi rivi = rivit[ index.row()];
+        return QVariant( rivi.tositeId );
+    }
     return QVariant();
 }
 

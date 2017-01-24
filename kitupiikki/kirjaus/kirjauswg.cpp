@@ -154,3 +154,21 @@ void KirjausWg::naytaSummat()
     ui->summaLabel->setText( tr("Debet %L1 €    Kredit %L2 €").arg(((double)viennitModel->debetSumma())/100.0 ,0,'f',2)
                              .arg(((double)viennitModel->kreditSumma()) / 100.0 ,0,'f',2));
 }
+
+void KirjausWg::lataaTosite(int id)
+{
+    QSqlQuery query;
+    query.exec( QString("SELECT pvm, otsikko, kommentti, tunniste, tiedosto, tunniste FROM tosite WHERE id=%1").arg(id) );
+    if( query.next())
+    {
+        tositeId = id;
+        ui->tositePvmEdit->setDate( query.value("pvm").toDate() );
+        ui->otsikkoEdit->setText( query.value("otsikko").toString());
+        ui->kommentitEdit->setPlainText( query.value("kommentti").toString());
+        tositewg->tyhjenna( query.value("tunniste").toString(), query.value("tiedosto").toString() );
+
+        // Sitten ladataan vielä viennit
+        viennitModel->lataa(id);
+        naytaSummat();
+    }
+}

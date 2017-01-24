@@ -68,6 +68,7 @@ public:
 public slots:
     void tallenna(int tositeid);
     void tyhjaa();
+    void lataa(int tositeid);
 
 signals:
     void siirryRuutuun(QModelIndex index);

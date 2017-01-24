@@ -34,6 +34,7 @@ public:
 signals:
 
 public slots:
+    void naytaTosite(int tositeId);
 
 protected:
     KirjausWg *kirjauswg;

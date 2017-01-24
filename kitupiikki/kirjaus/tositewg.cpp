@@ -69,7 +69,6 @@ bool TositeWg::tallennaTosite(int tositeId)
     if( uusitiedostopolku.isEmpty())
         return false;     // Tositetiedosto ei vaihtunut
 
-    // Ensin poistetaan vanha tiedosto ja tallennetaan uusi
 
     // Uuden tallentaminen
     QFileInfo info( uusitiedostopolku );
@@ -124,6 +123,8 @@ void TositeWg::valitseTiedosto()
 
 void TositeWg::tyhjenna(const QString &tositenumero, const QString &tositetiedosto)
 {
+    qDebug() << " Tosite " << tositenumero << " : " << tositetiedosto;
+
     ui->tositenroEdit->setText( tositenumero);
     if( tositetiedosto.isEmpty())
     {
@@ -132,7 +133,7 @@ void TositeWg::tyhjenna(const QString &tositenumero, const QString &tositetiedos
     }
     else
     {
-        alkuperainentiedostopolku = tositetiedosto;
+        alkuperainentiedostopolku = kirjanpito->hakemisto().absoluteFilePath("tositteet/" + tositetiedosto);
         naytaTosite( alkuperainentiedostopolku );
     }
 }
