@@ -18,23 +18,44 @@
 #ifndef TOSITEWG_H
 #define TOSITEWG_H
 
-#include <QWidget>
+#include <QStackedWidget>
 #include "ui_tositewg.h"
 
+#include "db/kirjanpito.h"
 
+class QGraphicsScene;
+class QGraphicsView;
 
-class TositeWg : public QWidget
+class TositeWg : public QStackedWidget
 {
     Q_OBJECT
 public:
-    TositeWg();
+    TositeWg(Kirjanpito *kp);
     ~TositeWg();
 
-public slots:
+    QString tositeTunniste() const;
+    bool onkoTiedostoa() const;
 
+    bool tallennaTosite(int tositeId);
+
+public slots:
+    void lataaTosite(const QString& tositetiedostonpolku);
+    void valitseTiedosto();
+
+    void tyhjenna(const QString& tositenumero = QString(),
+                  const QString& tositetiedosto = QString());
 
 protected:
+    Kirjanpito *kirjanpito;
     Ui::TositeWg *ui;
+
+    QGraphicsScene* scene;
+    QGraphicsView *view;
+
+    QString uusitiedostopolku;
+    QString alkuperainentiedostopolku;
+
+    void naytaTosite(const QString& tositetiedostonpolku);
 
 };
 

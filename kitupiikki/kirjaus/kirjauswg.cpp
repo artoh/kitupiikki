@@ -26,7 +26,7 @@
 #include <QSqlQuery>
 #include <QMessageBox>
 
-KirjausWg::KirjausWg(Kirjanpito *kp) : QWidget(), kirjanpito(kp), tositeId(0)
+KirjausWg::KirjausWg(Kirjanpito *kp, TositeWg *tosite) : QWidget(), kirjanpito(kp), tositewg(tosite), tositeId(0)
 {
     viennitModel = new VientiModel(kp, this);
 
@@ -85,6 +85,8 @@ void KirjausWg::tyhjenna()
     ui->kommentitEdit->clear();
     ui->tositePvmEdit->setFocus();
 
+    tositewg->tyhjenna();
+
     viennitModel->tyhjaa();
 }
 
@@ -122,22 +124,27 @@ void KirjausWg::tallenna()
 
     if( tositeId )
     {
-        query.prepare("UPDATE tosite SET pvm=:pvm, otsikko=:otsikko, kommentti=:kommentti "
+        query.prepare("UPDATE tosite SET pvm=:pvm, otsikko=:otsikko, kommentti=:kommentti, tunniste=:tunniste "
                       "WHERE id=:id");
         query.bindValue(":id", tositeId);
     }
     else
-        query.prepare("INSERT INTO tosite(pvm,otsikko,kommentti) values(:pvm,:otsikko,:kommentti)");
+        query.prepare("INSERT INTO tosite(pvm,otsikko,kommentti,tunniste) values(:pvm,:otsikko,:kommentti,:tunniste)");
 
     query.bindValue(":pvm", ui->tositePvmEdit->date());
     query.bindValue(":otsikko", ui->otsikkoEdit->text());
     query.bindValue(":kommentti", ui->kommentitEdit->document()->toPlainText());
+    query.bindValue(":tunniste", tositewg->tositeTunniste());
     query.exec();
 
     if( !tositeId)
         tositeId = query.lastInsertId().toInt();
 
+
+    tositewg->tallennaTosite(tositeId); // Tallentaa tositetiedoston
+
     viennitModel->tallenna(tositeId);
+
 
     tyhjenna(); // Aloitetaan uusi kirjaus
 }
