@@ -117,7 +117,7 @@ void TositeWg::lataaTosite(const QString &tositetiedostonpolku)
 
 void TositeWg::valitseTiedosto()
 {
-    QString polku = QFileDialog::getOpenFileName(this, tr("Valitse tosite"),QString(),tr("Kuvat (*.png, *.jpg)"));
+    QString polku = QFileDialog::getOpenFileName(this, tr("Valitse tosite"),QString(),tr("Kuvat (*.png *.jpg)"));
     if( !polku.isEmpty())
         lataaTosite(polku);
 }
