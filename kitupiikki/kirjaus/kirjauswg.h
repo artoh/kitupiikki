@@ -49,6 +49,7 @@ public slots:
     void lataaTosite(int id);
     void paivitaKommenttiMerkki();
     void tarkistaTunniste();
+    void korjaaTunniste();
 
 protected:
     Ui::KirjausWg *ui;
@@ -57,6 +58,9 @@ protected:
     TositeWg *tositewg;
 
     int tositeId;   /** Käsiteltävänä olevan tositteen id tai 0 jos tositetta ei tallennettu */
+
+    int seuraavaNumero();   /** Seuraava vapaa numero tälle tilikaudelle */
+    bool kelpaakoTunniste();
 
 
 };

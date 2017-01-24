@@ -53,6 +53,7 @@ KirjausWg::KirjausWg(Kirjanpito *kp, TositeWg *tosite) : QWidget(), kirjanpito(k
     connect( ui->kommentitEdit, SIGNAL(textChanged()), this, SLOT(paivitaKommenttiMerkki()));
 
     connect( ui->tunnisteEdit, SIGNAL(textChanged(QString)), this, SLOT(tarkistaTunniste()));
+    connect( ui->tositePvmEdit, SIGNAL(dateChanged(QDate)), this, SLOT(korjaaTunniste()));
 
     tyhjenna();
 }
@@ -91,13 +92,8 @@ void KirjausWg::tyhjenna()
 
     // Haetaan seuraava vapaa tunniste
     QSqlQuery query;
-    query.exec("SELECT max(tunniste) FROM tosite WHERE abs(tunniste)>0");
-    if( query.next())
-    {
-        int seuraava = query.value(0).toInt() + 1;
-        ui->tunnisteEdit->setText( QString::number(seuraava) );
-    }
 
+    ui->tunnisteEdit->setText( QString::number( seuraavaNumero() ) );
 
     ui->idLabel->clear();
 
@@ -212,23 +208,53 @@ void KirjausWg::paivitaKommenttiMerkki()
 
 void KirjausWg::tarkistaTunniste()
 {
-    // Huppista... mutta nykyisen pitäisi kelvata
 
-    Tilikausi nykyinen = kirjanpito->tilikausiPaivalle( ui->tositePvmEdit->date() );
+    if( kelpaakoTunniste() )
+    {
+        ui->tunnisteEdit->setStyleSheet("color: black;");
+    }
+    else
+    {
+        ui->tunnisteEdit->setStyleSheet("color: red;");
+    }
+}
+
+void KirjausWg::korjaaTunniste()
+{
+    if( !kelpaakoTunniste())
+        ui->tunnisteEdit->setText( QString::number(seuraavaNumero()) );
+    tarkistaTunniste();
+}
+
+int KirjausWg::seuraavaNumero()
+{
+    Tilikausi kausi = kirjanpito->tilikausiPaivalle( ui->tositePvmEdit->date());
+
+    QString kysymys = QString("SELECT max(tunniste) FROM tosite WHERE abs(tunniste)>0 "
+                    "AND pvm BETWEEN \"%1\" AND \"%2\" ")
+                                .arg(kausi.alkaa().toString(Qt::ISODate))
+                                .arg(kausi.paattyy().toString(Qt::ISODate));
+    qDebug() << kysymys;
+
+    QSqlQuery kysely;
+    kysely.exec(kysymys);
+    if( kysely.next())
+        return kysely.value(0).toInt() + 1;
+    else
+        return 0;
+}
+
+bool KirjausWg::kelpaakoTunniste()
+{
+    // Onko kyseisellä kaudella jo tämä tunniste käytössä????
+    Tilikausi kausi = kirjanpito->tilikausiPaivalle( ui->tositePvmEdit->date() );
     QString kysymys = QString("SELECT id FROM tosite WHERE tunniste=\"%1\" "
                               "AND pvm BETWEEN \"%2\" AND \"%3\" AND id <> %4").arg(ui->tunnisteEdit->text())
-                                                          .arg(nykyinen.alkaa().toString(Qt::ISODate))
-                                                          .arg(nykyinen.paattyy().toString(Qt::ISODate))
+                                                          .arg(kausi.alkaa().toString(Qt::ISODate))
+                                                          .arg(kausi.paattyy().toString(Qt::ISODate))
                                                           .arg(tositeId);
     qDebug() << kysymys;
     QSqlQuery kysely;
     kysely.exec(kysymys);
-    if( kysely.next())
-    {
-        ui->tunnisteEdit->setStyleSheet("color: red;");
-    }
-    else
-    {
-        ui->tunnisteEdit->setStyleSheet("color: black;");
-    }
+    return !kysely.next();
 }
