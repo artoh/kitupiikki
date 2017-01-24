@@ -52,6 +52,7 @@ KirjausWg::KirjausWg(Kirjanpito *kp, TositeWg *tosite) : QWidget(), kirjanpito(k
     connect( ui->hylkaaNappi, SIGNAL(clicked(bool)), this, SLOT(tyhjenna()));
     connect( ui->kommentitEdit, SIGNAL(textChanged()), this, SLOT(paivitaKommenttiMerkki()));
 
+    connect( ui->tunnisteEdit, SIGNAL(textChanged(QString)), this, SLOT(tarkistaTunniste()));
 
     tyhjenna();
 }
@@ -85,9 +86,23 @@ void KirjausWg::tyhjenna()
     ui->otsikkoEdit->clear();
     ui->kommentitEdit->clear();
     ui->tositePvmEdit->setFocus();
+
+    ui->tunnisteEdit->clear();
+
+    // Haetaan seuraava vapaa tunniste
+    QSqlQuery query;
+    query.exec("SELECT max(tunniste) FROM tosite WHERE abs(tunniste)>0");
+    if( query.next())
+    {
+        int seuraava = query.value(0).toInt() + 1;
+        ui->tunnisteEdit->setText( QString::number(seuraava) );
+    }
+
+
     ui->idLabel->clear();
 
     tositewg->tyhjenna();
+
 
     viennitModel->tyhjaa();
     ui->tabWidget->setCurrentIndex(0);
@@ -137,7 +152,8 @@ void KirjausWg::tallenna()
     query.bindValue(":pvm", ui->tositePvmEdit->date());
     query.bindValue(":otsikko", ui->otsikkoEdit->text());
     query.bindValue(":kommentti", ui->kommentitEdit->document()->toPlainText());
-    query.bindValue(":tunniste", tositewg->tositeTunniste());
+    if( !ui->tunnisteEdit->text().isEmpty())
+        query.bindValue(":tunniste", ui->tunnisteEdit->text());
     query.exec();
 
     if( !tositeId)
@@ -168,6 +184,8 @@ void KirjausWg::lataaTosite(int id)
         ui->tositePvmEdit->setDate( query.value("pvm").toDate() );
         ui->otsikkoEdit->setText( query.value("otsikko").toString());
         ui->kommentitEdit->setPlainText( query.value("kommentti").toString());
+        ui->tunnisteEdit->setText( query.value("tunniste").toString());
+
         tositewg->tyhjenna( query.value("tunniste").toString(), query.value("tiedosto").toString() );
 
         ui->idLabel->setText(tr("# %1").arg(id));
@@ -190,4 +208,27 @@ void KirjausWg::paivitaKommenttiMerkki()
         ui->tabWidget->setTabIcon(1, QIcon(":/pic/kommentti.png"));
     }
 
+}
+
+void KirjausWg::tarkistaTunniste()
+{
+    // Huppista... mutta nykyisen pitäisi kelvata
+
+    Tilikausi nykyinen = kirjanpito->tilikausiPaivalle( ui->tositePvmEdit->date() );
+    QString kysymys = QString("SELECT id FROM tosite WHERE tunniste=\"%1\" "
+                              "AND pvm BETWEEN \"%2\" AND \"%3\" AND id <> %4").arg(ui->tunnisteEdit->text())
+                                                          .arg(nykyinen.alkaa().toString(Qt::ISODate))
+                                                          .arg(nykyinen.paattyy().toString(Qt::ISODate))
+                                                          .arg(tositeId);
+    qDebug() << kysymys;
+    QSqlQuery kysely;
+    kysely.exec(kysymys);
+    if( kysely.next())
+    {
+        ui->tunnisteEdit->setStyleSheet("color: red;");
+    }
+    else
+    {
+        ui->tunnisteEdit->setStyleSheet("color: black;");
+    }
 }

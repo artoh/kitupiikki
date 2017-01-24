@@ -24,6 +24,9 @@
 #include <QStatusBar>
 #include <QFileDialog>
 #include <QDateEdit>
+#include <QMouseEvent>
+
+#include <QMenuBar>
 
 #include <QDebug>
 
@@ -45,6 +48,11 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent)
     setWindowIcon(QIcon(":/pic/Possu64.png"));
     luoPalkkiJaSivuAktiot();
     luoStatusBar();
+
+    // Nämä valikot ovat tässä lähinnä käyttöliittymätestin kannalta ;)
+    menuBar()->addMenu("Kirjanpito");
+    menuBar()->addMenu("Tosite");
+    menuBar()->addMenu("Raportit");
 
     aloitussivu = new AloitusSivu();
     aloitussivu->lataaAloitussivu(kirjanpito);
@@ -169,6 +177,13 @@ void KitupiikkiIkkuna::naytaTosite(int tositeid)
     qDebug() << "Nayta " << tositeid;
     kirjaussivu->naytaTosite(tositeid);
     pino->setCurrentWidget( kirjaussivu );
+}
+
+void KitupiikkiIkkuna::mousePressEvent(QMouseEvent *event)
+{
+    // Vähän kokeellista: laitetaan back-napilla selaukseen
+    if( event->button() == Qt::BackButton )
+        pino->setCurrentWidget( selaussivu );
 }
 
 QAction *KitupiikkiIkkuna::luosivuAktio(const QString &nimi, const QString &kuva, const QString &vihje, const QString &pikanappain, Sivu sivu)

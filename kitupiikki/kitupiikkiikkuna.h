@@ -70,6 +70,9 @@ protected slots:
     void naytaTosite(int tositeid);
 
 protected:
+    void mousePressEvent(QMouseEvent *event);
+
+protected:
     Kirjanpito *kirjanpito;
 
     QStackedWidget *pino;

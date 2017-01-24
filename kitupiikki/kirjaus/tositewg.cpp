@@ -52,8 +52,6 @@ TositeWg::~TositeWg()
 
 QString TositeWg::tositeTunniste() const
 {
-    if( uusitiedostopolku.isEmpty())
-        return ui->tositenroEdit->text();
     return QString();
 }
 
@@ -124,7 +122,6 @@ void TositeWg::tyhjenna(const QString &tositenumero, const QString &tositetiedos
 {
     qDebug() << " Tosite " << tositenumero << " : " << tositetiedosto;
 
-    ui->tositenroEdit->setText( tositenumero);
     uusitiedostopolku.clear();
 
     if( tositetiedosto.isEmpty())

@@ -48,6 +48,7 @@ public slots:
     void naytaSummat();
     void lataaTosite(int id);
     void paivitaKommenttiMerkki();
+    void tarkistaTunniste();
 
 protected:
     Ui::KirjausWg *ui;
@@ -56,6 +57,8 @@ protected:
     TositeWg *tositewg;
 
     int tositeId;   /** Käsiteltävänä olevan tositteen id tai 0 jos tositetta ei tallennettu */
+
+
 };
 
 #endif // KIRJAUSWG_H
