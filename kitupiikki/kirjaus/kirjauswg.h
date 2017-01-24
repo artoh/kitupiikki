@@ -45,6 +45,7 @@ public slots:
     void tallenna();
     void naytaSummat();
     void lataaTosite(int id);
+    void paivitaKommenttiMerkki();
 
 protected:
     Ui::KirjausWg *ui;

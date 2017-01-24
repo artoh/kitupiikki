@@ -50,6 +50,7 @@ KirjausWg::KirjausWg(Kirjanpito *kp, TositeWg *tosite) : QWidget(), kirjanpito(k
     connect( ui->lisaaRiviNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaRivi()));
     connect( ui->tallennaButton, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
     connect( ui->hylkaaNappi, SIGNAL(clicked(bool)), this, SLOT(tyhjenna()));
+    connect( ui->kommentitEdit, SIGNAL(textChanged()), this, SLOT(paivitaKommenttiMerkki()));
 
 
     tyhjenna();
@@ -84,10 +85,12 @@ void KirjausWg::tyhjenna()
     ui->otsikkoEdit->clear();
     ui->kommentitEdit->clear();
     ui->tositePvmEdit->setFocus();
+    ui->idLabel->clear();
 
     tositewg->tyhjenna();
 
     viennitModel->tyhjaa();
+    ui->tabWidget->setCurrentIndex(0);
 }
 
 void KirjausWg::tallenna()
@@ -143,7 +146,7 @@ void KirjausWg::tallenna()
 
     tositewg->tallennaTosite(tositeId); // Tallentaa tositetiedoston
 
-    viennitModel->tallenna(tositeId);
+    viennitModel->tallenna(tositeId);   // Tallentaa viennit
 
 
     tyhjenna(); // Aloitetaan uusi kirjaus
@@ -167,8 +170,24 @@ void KirjausWg::lataaTosite(int id)
         ui->kommentitEdit->setPlainText( query.value("kommentti").toString());
         tositewg->tyhjenna( query.value("tunniste").toString(), query.value("tiedosto").toString() );
 
+        ui->idLabel->setText(tr("# %1").arg(id));
+
         // Sitten ladataan vielä viennit
         viennitModel->lataa(id);
         naytaSummat();
+        ui->tabWidget->setCurrentIndex(0);
     }
+}
+
+void KirjausWg::paivitaKommenttiMerkki()
+{
+    if( ui->kommentitEdit->document()->toPlainText().isEmpty())
+    {
+        ui->tabWidget->setTabIcon(1, QIcon());
+    }
+    else
+    {
+        ui->tabWidget->setTabIcon(1, QIcon(":/pic/kommentti.png"));
+    }
+
 }

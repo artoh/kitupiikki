@@ -11,5 +11,7 @@
         <file>Diary64.png</file>
         <file>uusinappi.png</file>
         <file>avaanappi.png</file>
+        <file>kommentti.png</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>

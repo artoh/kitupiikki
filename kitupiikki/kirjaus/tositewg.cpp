@@ -89,7 +89,6 @@ bool TositeWg::tallennaTosite(int tositeId)
 
     QFile uusitiedosto(kopiopolku);
     uusitiedosto.open(QIODevice::WriteOnly);
-//    qDebug() << uusitiedosto.errorString();
     uusitiedosto.write(sisalto);
     uusitiedosto.close();
 
@@ -126,10 +125,12 @@ void TositeWg::tyhjenna(const QString &tositenumero, const QString &tositetiedos
     qDebug() << " Tosite " << tositenumero << " : " << tositetiedosto;
 
     ui->tositenroEdit->setText( tositenumero);
+    uusitiedostopolku.clear();
+
     if( tositetiedosto.isEmpty())
     {
         setCurrentIndex(0);
-        uusitiedostopolku = QString();
+        alkuperainentiedostopolku = QString();
     }
     else
     {
