@@ -37,7 +37,7 @@ public:
 
     QDate tositePvm() const;
 
-    enum Valilehdet { VIENNIT, KOMMENTIT, TILIOTE, AVUSTAJA } ;
+    enum Valilehdet { VIENNIT, KOMMENTIT, LIITTEET, TILIOTE, AVUSTAJA } ;
 
 signals:
 

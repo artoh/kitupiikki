@@ -54,7 +54,7 @@
      </property>
      <widget class="QWidget" name="viennit">
       <attribute name="title">
-       <string>Viennit</string>
+       <string>&amp;Viennit</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
@@ -108,7 +108,7 @@
      </widget>
      <widget class="QWidget" name="kommentit">
       <attribute name="title">
-       <string>Kommentit</string>
+       <string>&amp;Kommentit</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
@@ -122,7 +122,7 @@
      </widget>
      <widget class="QWidget" name="liitteet">
       <attribute name="title">
-       <string>Liitteet</string>
+       <string>&amp;Liitteet</string>
       </attribute>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
