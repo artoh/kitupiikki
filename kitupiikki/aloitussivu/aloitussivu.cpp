@@ -17,6 +17,7 @@
 
 #include <QFile>
 #include <QStringList>
+#include <QSqlQuery>
 #include "aloitussivu.h"
 
 #include "sisalto.h"
@@ -111,7 +112,27 @@ void AloitusSivu::kpAvattu(Kirjanpito *kirjanpito)
         sisalto->lisaaLaatikko("Tee tilinavaus","Syötä viimesimmältä tilinpäätökseltä tilien "
                  "avaavat saldot järjestelmään.");
     }
+    saldot(kirjanpito);
 
+}
+
+void AloitusSivu::saldot(Kirjanpito *kirjanpito)
+{
+    // Ensin saldot
+    lisaaTxt(tr("<h3>Saldot %1</h3>").arg(kirjanpito->paivamaara().toString(Qt::SystemLocaleShortDate)));
+    QSqlQuery kysely;
+    kysely.exec(QString("select tili, nimi, sum(debetsnt), sum(kreditsnt) from vientivw where tyyppi like \"A%\" or tyyppi like \"B%\" and pvm <= \"%1\"group by tili").arg(kirjanpito->paivamaara().toString(Qt::ISODate)));
+    lisaaTxt("<table>");
+    while( kysely.next())
+    {
+        int saldosnt = kysely.value(2).toInt() - kysely.value(3).toInt();
+        lisaaTxt( tr("<tr><td>%1 %2</td><td>%L3 €</td></tr>").arg(kysely.value(0).toInt())
+                                                           .arg(kysely.value(1).toString())
+                                                           .arg( ((double) saldosnt ) / 100,0,'f',2 ) );
+    }
+    lisaaTxt("</table>");
+
+    // Sitten tulos
 }
 
 void AloitusSivu::alatunniste()

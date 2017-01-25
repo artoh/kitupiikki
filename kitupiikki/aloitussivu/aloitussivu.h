@@ -60,6 +60,7 @@ protected:
     void lisaaTxt(const QString& txt);
     void sivunAloitus(Kirjanpito *kirjanpito);
     void kpAvattu(Kirjanpito *kirjanpito);
+    void saldot(Kirjanpito *kirjanpito);
     void alatunniste();
 
     Sisalto *sisalto;
