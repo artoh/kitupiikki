@@ -23,8 +23,7 @@
 #include "db/kirjanpito.h"
 #include "vientimodel.h"
 
-TiliDelegaatti::TiliDelegaatti(Kirjanpito *kp):
-    kirjanpito(kp)
+TiliDelegaatti::TiliDelegaatti()
 {
 
 }
@@ -33,7 +32,7 @@ QWidget *TiliDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewIte
 {
     QLineEdit *editor = new QLineEdit(parent);
 
-    QList<Tili> tilit= kirjanpito->tilit();
+    QList<Tili> tilit= Kirjanpito::db()->tilit();
 
     QStringList tililista;
 
@@ -63,7 +62,7 @@ void TiliDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *model, co
 
     // Sitten pitää etsiä tiliä tililistalta
     // Täydentää seuraavaan sopivaan
-    QList<Tili> tilit = kirjanpito->tilit();
+    QList<Tili> tilit = Kirjanpito::db()->tilit();
     foreach (Tili tili, tilit)
     {
         QString numeroTeksti = QString::number(tili.numero());

@@ -26,7 +26,7 @@
 Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
     harjoitusPvm( QDate::currentDate())
 {
-    db = QSqlDatabase::addDatabase("QSQLITE");
+    tietokanta = QSqlDatabase::addDatabase("QSQLITE");
     QSettings settings;
 
     // Ladataan viimeisten tiedostojen lista.
@@ -41,7 +41,7 @@ Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
 
 Kirjanpito::~Kirjanpito()
 {
-    db.close();
+    tietokanta.close();
 }
 
 QString Kirjanpito::asetus(const QString &avain) const
@@ -66,7 +66,7 @@ void Kirjanpito::aseta(const QString &avain, const QString &arvo)
     query.bindValue(":arvo",arvo);
     query.exec();
     asetukset[avain] = arvo;
-    db.commit();
+    tietokanta.commit();
 }
 
 QDir Kirjanpito::hakemisto()
@@ -125,9 +125,9 @@ Tilikausi Kirjanpito::tilikausiPaivalle(const QDate &paiva) const
 
 bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
 {
-    db.setDatabaseName(tiedosto);
+    tietokanta.setDatabaseName(tiedosto);
 
-    if( !db.open() )
+    if( !tietokanta.open() )
         return false;
 
     // Ladataan asetukset
@@ -188,3 +188,13 @@ void Kirjanpito::muokattu()
 {
     emit kirjanpitoaMuokattu();
 }
+
+Kirjanpito *Kirjanpito::db()
+{
+    if( !instanssi__ )
+        instanssi__ = new Kirjanpito;
+    return instanssi__;
+
+}
+
+Kirjanpito* Kirjanpito::instanssi__ = 0;

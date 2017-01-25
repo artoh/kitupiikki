@@ -32,12 +32,12 @@ AloitusSivu::AloitusSivu()
     connect(sisalto, SIGNAL(toiminto(QString)), this, SIGNAL(toiminto(QString)));
 }
 
-void AloitusSivu::lataaAloitussivu(Kirjanpito *kirjanpito)
+void AloitusSivu::lataaAloitussivu()
 {
 
-    if( kirjanpito->asetus("nimi").isEmpty())
+    if( Kirjanpito::db()->asetus("nimi").isEmpty())
     {
-        sivunAloitus(kirjanpito);
+        sivunAloitus();
         lisaaTxt("<h1>Tervetuloa!</h1>"
                  "<p>Kitupiikki on suomalainen avoimen lähdekoodin kirjanpito-ohjelmisto. Ohjelmistoa saa käyttää, kopioida ja muokata "
                  "maksutta.</p>"
@@ -49,10 +49,10 @@ void AloitusSivu::lataaAloitussivu(Kirjanpito *kirjanpito)
     }
     else
     {
-        sivunAloitus(kirjanpito);
-        kpAvattu(kirjanpito);
+        sivunAloitus();
+        kpAvattu();
         alatunniste();
-        sisalto->valmis( kirjanpito->hakemisto().absoluteFilePath("index"));
+        sisalto->valmis( Kirjanpito::db()->hakemisto().absoluteFilePath("index"));
     }
 
 }
@@ -67,7 +67,7 @@ void AloitusSivu::lisaaTxt(const QString &txt)
     sisalto->lisaaTxt(txt);
 }
 
-void AloitusSivu::sivunAloitus(Kirjanpito *kirjanpito)
+void AloitusSivu::sivunAloitus()
 {
     lisaaTxt("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:/aloitus/aloitus.css\"></head><body>");
 
@@ -76,7 +76,7 @@ void AloitusSivu::sivunAloitus(Kirjanpito *kirjanpito)
             "<p class=nappi><a href=ktp:/avaa><img src=qrc:/aloitus/avaanappi.png></a>"
             "<hr><h3>Viimeiset tiedostot</h3>");
 
-    QStringList viimeiset = kirjanpito->viimeisetTiedostot();
+    QStringList viimeiset = Kirjanpito::db()->viimeisetTiedostot();
 
 
     foreach (QString viimeinen,viimeiset)
@@ -94,34 +94,37 @@ void AloitusSivu::sivunAloitus(Kirjanpito *kirjanpito)
     sisalto->lisaaTxt("</div>");
 }
 
-void AloitusSivu::kpAvattu(Kirjanpito *kirjanpito)
+void AloitusSivu::kpAvattu()
 {
-    if( QFile::exists( kirjanpito->hakemisto().absoluteFilePath("logo128.png")))
+    if( QFile::exists( Kirjanpito::db()->hakemisto().absoluteFilePath("logo128.png")))
     {
         lisaaTxt("<img class=kpkuvake src=logo128.png>");
     }
-    lisaaTxt(tr("<h1>%1</h1>").arg( kirjanpito->asetus("nimi")));
+    lisaaTxt(tr("<h1>%1</h1>").arg( Kirjanpito::db()->asetus("nimi")));
 
-    if( kirjanpito->asetus("harjoitus").toInt())
+    if( Kirjanpito::db()->asetus("harjoitus").toInt())
     {
         sisalto->lisaaLaatikko("Harjoittelutila käytössä","Voit nopeuttaa ajan kulumista näytön oikeassa alakulmassa olevasta valinnasta. "
                                "Näin pääset harjoittelemaan tilikauden vaihtamista ja tilinpäätöksen laatimista.");
     }
-    if( kirjanpito->asetus("tilinavaus").toInt() > 1)
+    if( Kirjanpito::db()->asetus("tilinavaus").toInt() > 1)
     {
         sisalto->lisaaLaatikko("Tee tilinavaus","Syötä viimesimmältä tilinpäätökseltä tilien "
                  "avaavat saldot järjestelmään.");
     }
-    saldot(kirjanpito);
+    saldot();
 
 }
 
-void AloitusSivu::saldot(Kirjanpito *kirjanpito)
+void AloitusSivu::saldot()
 {
     // Ensin saldot
     // lisaaTxt(tr("<h3>Saldot %1</h3>").arg(kirjanpito->paivamaara().toString(Qt::SystemLocaleShortDate)));
     QSqlQuery kysely;
-    kysely.exec(QString("select tili, nimi, sum(debetsnt), sum(kreditsnt) from vientivw where tyyppi like \"AR%\" and pvm <= \"%1\" group by tili").arg(kirjanpito->paivamaara().toString(Qt::ISODate)));
+
+    kysely.exec(QString("select tili, nimi, sum(debetsnt), sum(kreditsnt) from vientivw where tyyppi like \"AR%\" and pvm <= \"%1\" group by tili")
+                .arg(Kirjanpito::db()->paivamaara().toString(Qt::ISODate)));
+
     lisaaTxt("<h3>Rahavarat</h3><table>");
     int saldosumma = 0;
     while( kysely.next())
@@ -136,13 +139,13 @@ void AloitusSivu::saldot(Kirjanpito *kirjanpito)
     lisaaTxt("</table>");
 
     // Sitten tulot
-    Tilikausi tilikausi = kirjanpito->tilikausiPaivalle( kirjanpito->paivamaara());
+    Tilikausi tilikausi = Kirjanpito::db()->tilikausiPaivalle( Kirjanpito::db()->paivamaara());
     kysely.exec(QString("select tili, nimi, sum(debetsnt), sum(kreditsnt) from vientivw where tyyppi like \"T%\" AND pvm BETWEEN \"%1\" AND \"%2\" group by tili")
                 .arg(tilikausi.alkaa().toString(Qt::ISODate)  )
                 .arg(tilikausi.paattyy().toString(Qt::ISODate)));
 
     lisaaTxt("<h3>Tulot</h3><table>");
-    int summatulot;
+    int summatulot = 0;
 
     while( kysely.next())
     {

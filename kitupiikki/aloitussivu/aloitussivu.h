@@ -21,7 +21,7 @@
 #include <QWebEngineView>
 
 class Sisalto;
-class Kirjanpito;
+
 
 /**
  * @brief Webipohjaiset aloitus- ja ohjesivut
@@ -42,7 +42,7 @@ public slots:
      * @brief Näyttää aloitussivun
      * @param Kirjanpito Kirjanpidon tietokantaolio
      */
-    void lataaAloitussivu(Kirjanpito* kirjanpito);
+    void lataaAloitussivu();
 
     /**
      * @brief Näyttää ohjeiden pääsivun
@@ -58,9 +58,9 @@ signals:
 
 protected:
     void lisaaTxt(const QString& txt);
-    void sivunAloitus(Kirjanpito *kirjanpito);
-    void kpAvattu(Kirjanpito *kirjanpito);
-    void saldot(Kirjanpito *kirjanpito);
+    void sivunAloitus();
+    void kpAvattu();
+    void saldot();
     void alatunniste();
 
     Sisalto *sisalto;

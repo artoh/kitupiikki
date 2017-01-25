@@ -21,7 +21,6 @@
 #include <QStackedWidget>
 #include "ui_tositewg.h"
 
-#include "db/kirjanpito.h"
 
 class QGraphicsScene;
 class QGraphicsView;
@@ -30,7 +29,7 @@ class TositeWg : public QStackedWidget
 {
     Q_OBJECT
 public:
-    TositeWg(Kirjanpito *kp);
+    TositeWg();
     ~TositeWg();
 
     QString tositeTunniste() const;
@@ -46,7 +45,6 @@ public slots:
                   const QString& tositetiedosto = QString());
 
 protected:
-    Kirjanpito *kirjanpito;
     Ui::TositeWg *ui;
 
     QGraphicsScene* scene;

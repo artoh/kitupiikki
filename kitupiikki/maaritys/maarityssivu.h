@@ -22,7 +22,6 @@
 
 class QStackedWidget;
 class QListWidget;
-class Kirjanpito;
 
 /**
  * @brief Määritykset sisältävä QWidget
@@ -31,7 +30,7 @@ class MaaritysSivu : public QWidget
 {
     Q_OBJECT
 public:
-    MaaritysSivu(Kirjanpito* kirjanpito);
+    MaaritysSivu();
 
 signals:
     void nollaaKaikki();

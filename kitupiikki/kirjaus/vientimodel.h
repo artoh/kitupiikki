@@ -23,7 +23,6 @@
 #include "db/tili.h"
 #include <QList>
 
-class Kirjanpito;
 class KirjausWg;
 
 /**
@@ -51,7 +50,7 @@ public:
     };
 
 
-    VientiModel(Kirjanpito *kp, KirjausWg *kwg);
+    VientiModel(KirjausWg *kwg);
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
@@ -76,7 +75,6 @@ signals:
 
 protected:
     QList<VientiRivi> viennit;
-    Kirjanpito *kirjanpito;
     KirjausWg *kirjauswg;
 
     VientiRivi uusiRivi();

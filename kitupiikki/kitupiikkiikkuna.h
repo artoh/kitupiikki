@@ -29,7 +29,6 @@ class AloitusSivu;
 class KirjausSivu;
 class SelausWg;
 class MaaritysSivu;
-class Kirjanpito;
 class QDateEdit;
 
 
@@ -73,7 +72,6 @@ protected:
     void mousePressEvent(QMouseEvent *event);
 
 protected:
-    Kirjanpito *kirjanpito;
 
     QStackedWidget *pino;
     QToolBar *toolbar;

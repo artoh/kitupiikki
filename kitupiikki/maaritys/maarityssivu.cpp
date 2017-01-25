@@ -23,12 +23,12 @@
 
 #include "perusvalinnat.h"
 
-MaaritysSivu::MaaritysSivu(Kirjanpito *kirjanpito) :
+MaaritysSivu::MaaritysSivu() :
     QWidget(0)
 {
     pino = new QStackedWidget;
 
-    Perusvalinnat *pvalinnat = new Perusvalinnat(kirjanpito);
+    Perusvalinnat *pvalinnat = new Perusvalinnat();
     pino->addWidget( pvalinnat );
 
     lista = new QListWidget;

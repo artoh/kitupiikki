@@ -24,7 +24,6 @@
 
 #include "db/tili.h"
 
-class Kirjanpito;
 
 
 struct SelausRivi
@@ -49,7 +48,7 @@ public:
         PVM, TILI, DEBET, KREDIT, SELITE
     };
 
-    SelausModel(Kirjanpito *kp);
+    SelausModel();
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
@@ -63,7 +62,6 @@ public slots:
     void lataa(const QDate& alkaa, const QDate& loppuu);
 
 protected:
-    Kirjanpito *kirjanpito;
     QList<SelausRivi> rivit;
     QStringList tileilla;
 

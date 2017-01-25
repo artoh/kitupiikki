@@ -22,7 +22,6 @@
 
 #include "ui_selauswg.h"
 
-class Kirjanpito;
 class SelausModel;
 class QSortFilterProxyModel;
 
@@ -31,7 +30,7 @@ class SelausWg : public QWidget
     Q_OBJECT
 
 public:
-    SelausWg(Kirjanpito *kp);
+    SelausWg();
     ~SelausWg();
 
 public slots:
@@ -46,7 +45,6 @@ signals:
 
 private:
     Ui::SelausWg *ui;
-    Kirjanpito *kirjanpito;
     SelausModel *model;
     QSortFilterProxyModel *proxyModel;
 };

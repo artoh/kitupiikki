@@ -26,10 +26,9 @@
 #include "db/kirjanpito.h"
 
 
-Perusvalinnat::Perusvalinnat(Kirjanpito *kp) :
+Perusvalinnat::Perusvalinnat() :
     QWidget(),
-    ui(new Ui::Perusvalinnat),
-    kirjanpito(kp)
+    ui(new Ui::Perusvalinnat)
 {
     ui->setupUi(this);
 
@@ -45,15 +44,15 @@ Perusvalinnat::~Perusvalinnat()
 
 void Perusvalinnat::nollaa()
 {
-    ui->organisaatioEdit->setText( kirjanpito->asetus("nimi") );
-    ui->ytunnusEdit->setText( kirjanpito->asetus("ytunnus"));
+    ui->organisaatioEdit->setText( Kirjanpito::db()->asetus("nimi") );
+    ui->ytunnusEdit->setText( Kirjanpito::db()->asetus("ytunnus"));
 
     uusilogo = QImage();
 
     // Jos logotiedosto, merkitään se
-    QFile logotiedosto( kirjanpito->hakemisto().absoluteFilePath("logo64.png"));
+    QFile logotiedosto( Kirjanpito::db()->hakemisto().absoluteFilePath("logo64.png"));
     if( logotiedosto.exists())
-        ui->logoLabel->setPixmap( QPixmap( kirjanpito->hakemisto().absoluteFilePath("logo64.png") ));
+        ui->logoLabel->setPixmap( QPixmap( Kirjanpito::db()->hakemisto().absoluteFilePath("logo64.png") ));
     else
         ui->logoLabel->clear();
 
@@ -71,23 +70,23 @@ void Perusvalinnat::vaihdaLogo()
 
 void Perusvalinnat::tallenna()
 {
-    kirjanpito->aseta("nimi", ui->organisaatioEdit->text());
-    kirjanpito->aseta("ytunnus", ui->ytunnusEdit->text());
+    Kirjanpito::db()->aseta("nimi", ui->organisaatioEdit->text());
+    Kirjanpito::db()->aseta("ytunnus", ui->ytunnusEdit->text());
 
     // Logosta tallennetaan logo64.png ja logo128.png -versiot
     if( !uusilogo.isNull())
     {
 
-        QFile tiedosto64( kirjanpito->hakemisto().absoluteFilePath("logo64.png") );
+        QFile tiedosto64( Kirjanpito::db()->hakemisto().absoluteFilePath("logo64.png") );
         if( tiedosto64.exists())
             tiedosto64.remove();
-        QFile tiedosto128( kirjanpito->hakemisto().absoluteFilePath("logo128.png"));
+        QFile tiedosto128( Kirjanpito::db()->hakemisto().absoluteFilePath("logo128.png"));
         if( tiedosto128.exists())
             tiedosto128.remove();
         // Sitten tallennetaan
 
-        uusilogo.scaled(64, 64, Qt::KeepAspectRatio).save( kirjanpito->hakemisto().absoluteFilePath("logo64.png")  );
-        uusilogo.scaled(128, 128, Qt::KeepAspectRatio).save( kirjanpito->hakemisto().absoluteFilePath("logo128.png")  );
+        uusilogo.scaled(64, 64, Qt::KeepAspectRatio).save( Kirjanpito::db()->hakemisto().absoluteFilePath("logo64.png")  );
+        uusilogo.scaled(128, 128, Qt::KeepAspectRatio).save( Kirjanpito::db()->hakemisto().absoluteFilePath("logo128.png")  );
     }
 
 }

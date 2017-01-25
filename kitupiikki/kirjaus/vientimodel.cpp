@@ -22,7 +22,7 @@
 #include <QDebug>
 #include <QSqlQuery>
 
-VientiModel::VientiModel(Kirjanpito *kp, KirjausWg *kwg) : kirjanpito(kp), kirjauswg(kwg)
+VientiModel::VientiModel(KirjausWg *kwg) : kirjauswg(kwg)
 {
 
 }
@@ -126,7 +126,7 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int r
         return true;
     case TILI:
     {
-        Tili uusitili = kirjanpito->tili( value.toInt() );
+        Tili uusitili = Kirjanpito::db()->tili( value.toInt() );
         viennit[index.row()].tili = uusitili;
         qDebug() << uusitili.nimi() << "(" << uusitili.tyyppi() << ")";
         // Jos kirjataan tulotilille, niin siirrytään syöttämään kredit-summaa
@@ -256,7 +256,7 @@ void VientiModel::lataa(int tositeid)
         VientiRivi rivi;
         rivi.vientiId = query.value("id").toInt();
         rivi.pvm = query.value("pvm").toDate();
-        rivi.tili = kirjanpito->tili( query.value("tili").toInt() );
+        rivi.tili = Kirjanpito::db()->tili( query.value("tili").toInt() );
         rivi.debetSnt = query.value("debetsnt").toInt();
         rivi.kreditSnt = query.value("kreditsnt").toInt();
         rivi.selite = query.value("selite").toString();

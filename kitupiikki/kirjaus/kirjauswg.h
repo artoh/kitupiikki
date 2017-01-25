@@ -32,7 +32,7 @@ class KirjausWg : public QWidget
 {
     Q_OBJECT
 public:
-    KirjausWg(Kirjanpito *kp, TositeWg *tosite);
+    KirjausWg(TositeWg *tosite);
     ~KirjausWg();
 
     QDate tositePvm() const;
@@ -53,7 +53,6 @@ public slots:
 protected:
     Ui::KirjausWg *ui;
     VientiModel *viennitModel;
-    Kirjanpito *kirjanpito;
     TositeWg *tositewg;
 
     int tositeId;   /** Käsiteltävänä olevan tositteen id tai 0 jos tositetta ei tallennettu */

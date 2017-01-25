@@ -42,8 +42,8 @@
 
 KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent)
 {
-    kirjanpito = new Kirjanpito(this);
-    connect( kirjanpito, SIGNAL(tietokantaVaihtui()), this, SLOT(kirjanpitoLadattu()));
+
+    connect( Kirjanpito::db(), SIGNAL(tietokantaVaihtui()), this, SLOT(kirjanpitoLadattu()));
 
     setWindowIcon(QIcon(":/pic/Possu64.png"));
     luoPalkkiJaSivuAktiot();
@@ -55,12 +55,12 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent)
     menuBar()->addMenu("Raportit");
 
     aloitussivu = new AloitusSivu();
-    aloitussivu->lataaAloitussivu(kirjanpito);
+    aloitussivu->lataaAloitussivu();
     connect( aloitussivu, SIGNAL(toiminto(QString)), this, SLOT(toiminto(QString)));
 
-    kirjaussivu = new KirjausSivu(kirjanpito);
-    selaussivu = new SelausWg(kirjanpito);
-    maarityssivu = new MaaritysSivu(kirjanpito);
+    kirjaussivu = new KirjausSivu();
+    selaussivu = new SelausWg();
+    maarityssivu = new MaaritysSivu();
 
 
     pino = new QStackedWidget;
@@ -80,7 +80,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent)
     restoreGeometry( settings.value("geometry").toByteArray());
     // Ladataan viimeksi avoinna ollut kirjanpito
     if( settings.contains("viimeisin"))
-        kirjanpito->avaaTietokanta(settings.value("viimeisin").toString());
+        Kirjanpito::db()->avaaTietokanta(settings.value("viimeisin").toString());
 
     connect( selaussivu, SIGNAL(tositeValittu(int)), this, SLOT(naytaTosite(int)) );
 
@@ -91,14 +91,14 @@ KitupiikkiIkkuna::~KitupiikkiIkkuna()
 {
     QSettings settings;
     settings.setValue("geometry",saveGeometry());
-    settings.setValue("viimeisin", kirjanpito->hakemisto().absoluteFilePath("kitupiikki.sqlite"));
+    settings.setValue("viimeisin", Kirjanpito::db()->hakemisto().absoluteFilePath("kitupiikki.sqlite"));
 }
 
 void KitupiikkiIkkuna::valitseSivu(int mikasivu)
 {
     if( mikasivu == ALOITUSSIVU)
     {
-        aloitussivu->lataaAloitussivu(kirjanpito);
+        aloitussivu->lataaAloitussivu();
         pino->setCurrentWidget( aloitussivu );
     }
     else if( mikasivu == OHJESIVU)
@@ -129,32 +129,32 @@ void KitupiikkiIkkuna::toiminto(const QString &toiminto)
     {
         QString uusitiedosto = UusiKirjanpito::aloitaUusiKirjanpito();
         if( !uusitiedosto.isEmpty())
-            kirjanpito->avaaTietokanta(uusitiedosto + "/kitupiikki.sqlite");
+            Kirjanpito::db()->avaaTietokanta(uusitiedosto + "/kitupiikki.sqlite");
     }
     else if( toiminto == "avaa")
     {
         QString polku = QFileDialog::getOpenFileName(this, "Avaa kirjanpito",
                                                      QDir::homePath(),"Kirjanpito (kitupiikki.sqlite)");
         if( !polku.isEmpty())
-            kirjanpito->avaaTietokanta(polku);
+            Kirjanpito::db()->avaaTietokanta(polku);
     }
     else if( toiminto.startsWith("/"))
     {
         // Avataan yksi viimeisimmistä tietokannoista
-        kirjanpito->avaaTietokanta(toiminto);
+        Kirjanpito::db()->avaaTietokanta(toiminto);
     }
 }
 
 void KitupiikkiIkkuna::kirjanpitoLadattu()
 {
-    if( !kirjanpito->asetus("nimi").isEmpty())
+    if( !Kirjanpito::db()->asetus("nimi").isEmpty())
     {
-        if( kirjanpito->onkoHarjoitus())
-            setWindowTitle( tr("%1 - Kitupiikki [Harjoittelu]").arg(kirjanpito->asetus("nimi")));
+        if( Kirjanpito::db()->onkoHarjoitus())
+            setWindowTitle( tr("%1 - Kitupiikki [Harjoittelu]").arg(Kirjanpito::db()->asetus("nimi")));
         else
-            setWindowTitle( tr("%1 - Kitupiikki").arg(kirjanpito->asetus("nimi")));
+            setWindowTitle( tr("%1 - Kitupiikki").arg(Kirjanpito::db()->asetus("nimi")));
 
-        harjoituspvmEdit->setVisible( kirjanpito->onkoHarjoitus());
+        harjoituspvmEdit->setVisible( Kirjanpito::db()->onkoHarjoitus());
 
         for(int i=KIRJAUSSIVU; i<OHJESIVU;i++)
             sivuaktiot[i]->setEnabled(true);
@@ -231,7 +231,7 @@ void KitupiikkiIkkuna::luoStatusBar()
     harjoituspvmEdit->setDate(QDate::currentDate());
 
     statusBar()->addPermanentWidget(harjoituspvmEdit);
-    connect( harjoituspvmEdit, SIGNAL(dateChanged(QDate)), kirjanpito, SLOT(asetaHarjoitteluPvm(QDate)));
+    connect( harjoituspvmEdit, SIGNAL(dateChanged(QDate)), Kirjanpito::db(), SLOT(asetaHarjoitteluPvm(QDate)));
     // Päivän vaihtamisen pitäisi myös päivittää näytettävä aloitussivu
     harjoituspvmEdit->setVisible(false);
 }

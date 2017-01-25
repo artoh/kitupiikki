@@ -22,8 +22,7 @@
 
 #include <QDebug>
 
-SelausModel::SelausModel(Kirjanpito *kp) :
-    kirjanpito(kp)
+SelausModel::SelausModel()
 {
 
 }
@@ -139,7 +138,7 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
         SelausRivi rivi;
         rivi.tositeId = query.value(0).toInt();
         rivi.pvm = query.value(1).toDate();
-        rivi.tili = kirjanpito->tili( query.value(2).toInt());
+        rivi.tili = Kirjanpito::db()->tili( query.value(2).toInt());
         rivi.debetSnt = query.value(3).toInt();
         rivi.kreditSnt = query.value(4).toInt();
         rivi.selite = query.value(5).toString();

@@ -26,9 +26,9 @@
 #include <QSqlQuery>
 #include <QMessageBox>
 
-KirjausWg::KirjausWg(Kirjanpito *kp, TositeWg *tosite) : QWidget(), kirjanpito(kp), tositewg(tosite), tositeId(0)
+KirjausWg::KirjausWg(TositeWg *tosite) : QWidget(), tositewg(tosite), tositeId(0)
 {
-    viennitModel = new VientiModel(kp, this);
+    viennitModel = new VientiModel(this);
 
     ui = new Ui::KirjausWg();
     ui->setupUi(this);
@@ -38,7 +38,7 @@ KirjausWg::KirjausWg(Kirjanpito *kp, TositeWg *tosite) : QWidget(), kirjanpito(k
     connect( viennitModel, SIGNAL(siirryRuutuun(QModelIndex)), ui->viennitView, SLOT(edit(QModelIndex)));
     connect( viennitModel, SIGNAL(muuttunut()), this, SLOT(naytaSummat()));
 
-    ui->viennitView->setItemDelegateForColumn( VientiModel::TILI, new TiliDelegaatti(kp) );
+    ui->viennitView->setItemDelegateForColumn( VientiModel::TILI, new TiliDelegaatti() );
 
     ui->viennitView->setItemDelegateForColumn( VientiModel::DEBET, new EuroDelegaatti);
     ui->viennitView->setItemDelegateForColumn( VientiModel::KREDIT, new EuroDelegaatti);
@@ -83,7 +83,7 @@ void KirjausWg::lisaaRivi()
 void KirjausWg::tyhjenna()
 {
     tositeId = 0;
-    ui->tositePvmEdit->setDate( kirjanpito->paivamaara() );
+    ui->tositePvmEdit->setDate( Kirjanpito::db()->paivamaara() );
     ui->otsikkoEdit->clear();
     ui->kommentitEdit->clear();
     ui->tositePvmEdit->setFocus();
@@ -160,7 +160,7 @@ void KirjausWg::tallenna()
 
     viennitModel->tallenna(tositeId);   // Tallentaa viennit
 
-    kirjanpito->muokattu(); // Ilmoittaa, että kirjanpitoa on muokattu ja näkymät pitää päivittää
+    Kirjanpito::db()->muokattu(); // Ilmoittaa, että kirjanpitoa on muokattu ja näkymät pitää päivittää
 
     tyhjenna(); // Aloitetaan uusi kirjaus
 }
@@ -229,7 +229,7 @@ void KirjausWg::korjaaTunniste()
 
 int KirjausWg::seuraavaNumero()
 {
-    Tilikausi kausi = kirjanpito->tilikausiPaivalle( ui->tositePvmEdit->date());
+    Tilikausi kausi = Kirjanpito::db()->tilikausiPaivalle( ui->tositePvmEdit->date());
 
     QString kysymys = QString("SELECT max(tunniste) FROM tosite WHERE abs(tunniste)>0 "
                     "AND pvm BETWEEN \"%1\" AND \"%2\" ")
@@ -248,7 +248,7 @@ int KirjausWg::seuraavaNumero()
 bool KirjausWg::kelpaakoTunniste()
 {
     // Onko kyseisellä kaudella jo tämä tunniste käytössä????
-    Tilikausi kausi = kirjanpito->tilikausiPaivalle( ui->tositePvmEdit->date() );
+    Tilikausi kausi = Kirjanpito::db()->tilikausiPaivalle( ui->tositePvmEdit->date() );
     QString kysymys = QString("SELECT id FROM tosite WHERE tunniste=\"%1\" "
                               "AND pvm BETWEEN \"%2\" AND \"%3\" AND id <> %4").arg(ui->tunnisteEdit->text())
                                                           .arg(kausi.alkaa().toString(Qt::ISODate))

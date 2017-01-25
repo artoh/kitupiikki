@@ -22,13 +22,12 @@
 
 class KirjausWg;
 class TositeWg;
-class Kirjanpito;
 
 class KirjausSivu : public QWidget
 {
     Q_OBJECT
 public:
-    KirjausSivu(Kirjanpito* kirjanpito);
+    KirjausSivu();
     ~KirjausSivu();
 
 signals:

@@ -20,22 +20,19 @@
 
 #include <QItemDelegate>
 
-class Kirjanpito;
-
 
 class TiliDelegaatti : public QItemDelegate
 {
     Q_OBJECT
 
 public:
-    TiliDelegaatti(Kirjanpito *kp);
+    TiliDelegaatti();
 
     QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
     void setEditorData(QWidget *editor, const QModelIndex &index) const;
     void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
 
 protected:
-    Kirjanpito *kirjanpito;
 
 };
 

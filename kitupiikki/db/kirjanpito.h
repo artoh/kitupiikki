@@ -37,15 +37,17 @@
 /**
  * @brief Kirjanpidon käsittely
  *
- * Tämä luokka luodaan pääikkunaa alustettaessa, ja tietokanta avataan avaa-funktiolla
+ * Ainokainen, jonka kautta käsitellään tietokantaa
  *
  *
  */
 class Kirjanpito : public QObject
 {
     Q_OBJECT
-public:
+
+protected:
     Kirjanpito(QObject *parent = 0);
+public:
     ~Kirjanpito();
 
     QString asetus(const QString& avain) const;
@@ -106,9 +108,19 @@ protected:
     QList<Tilikausi> tilikaudet_;
 
     QString polkuTiedostoon;
-    QSqlDatabase db;
+    QSqlDatabase tietokanta;
     QMap<QString,QString> viimetiedostot;
     QDate harjoitusPvm;
+
+public:
+    /**
+     * @brief Staattinen funktio, jonka kautta Kirjanpitoon päästään käsiksi
+     * @return
+     */
+    static Kirjanpito *db();
+
+private:
+    static Kirjanpito *instanssi__;
 };
 
 #endif // KIRJANPITO_H

@@ -24,10 +24,10 @@
 #include "kirjauswg.h"
 #include "tositewg.h"
 
-KirjausSivu::KirjausSivu(Kirjanpito *kirjanpito) : QWidget()
+KirjausSivu::KirjausSivu() : QWidget()
 {
-    tositewg = new TositeWg(kirjanpito);
-    kirjauswg = new KirjausWg(kirjanpito, tositewg);
+    tositewg = new TositeWg();
+    kirjauswg = new KirjausWg(tositewg);
 
     QSplitter *splitter = new QSplitter(Qt::Vertical);
     splitter->addWidget(tositewg);

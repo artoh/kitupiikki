@@ -21,7 +21,7 @@
 #include <QWidget>
 #include <QImage>
 
-class Kirjanpito;
+
 
 namespace Ui {
 class Perusvalinnat;
@@ -32,7 +32,7 @@ class Perusvalinnat : public QWidget
     Q_OBJECT
 
 public:
-    Perusvalinnat(Kirjanpito* kp);
+    Perusvalinnat();
     ~Perusvalinnat();
 
 public slots:
@@ -42,7 +42,6 @@ public slots:
 
 private:
     Ui::Perusvalinnat *ui;
-    Kirjanpito* kirjanpito;
     QImage uusilogo;
 };
 

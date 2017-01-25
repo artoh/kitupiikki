@@ -28,9 +28,10 @@
 #include <QDebug>
 
 #include "tositewg.h"
+#include "db/kirjanpito.h"
 
 
-TositeWg::TositeWg(Kirjanpito *kp) : QStackedWidget(), kirjanpito(kp)
+TositeWg::TositeWg() : QStackedWidget()
 {
     QWidget *paasivu = new QWidget();
     ui = new Ui::TositeWg;
@@ -74,7 +75,7 @@ bool TositeWg::tallennaTosite(int tositeId)
             .arg(tositeId,8,10,QChar('0'))
             .arg( info.suffix());
 
-    QString kopiopolku = kirjanpito->hakemisto().absoluteFilePath("tositteet/" + tnimi);
+    QString kopiopolku = Kirjanpito::db()->hakemisto().absoluteFilePath("tositteet/" + tnimi);
 
     QFile tiedosto(uusitiedostopolku);
     tiedosto.open(QIODevice::ReadOnly);
@@ -131,7 +132,7 @@ void TositeWg::tyhjenna(const QString &tositenumero, const QString &tositetiedos
     }
     else
     {
-        alkuperainentiedostopolku = kirjanpito->hakemisto().absoluteFilePath("tositteet/" + tositetiedosto);
+        alkuperainentiedostopolku = Kirjanpito::db()->hakemisto().absoluteFilePath("tositteet/" + tositetiedosto);
         naytaTosite( alkuperainentiedostopolku );
     }
 }

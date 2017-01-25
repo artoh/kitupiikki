@@ -24,13 +24,12 @@
 
 #include <QDebug>
 
-SelausWg::SelausWg(Kirjanpito *kp) :
+SelausWg::SelausWg() :
     QWidget(),
-    ui(new Ui::SelausWg),
-    kirjanpito(kp)
+    ui(new Ui::SelausWg)
 {
     ui->setupUi(this);
-    model = new SelausModel(kp);
+    model = new SelausModel();
 
     proxyModel = new QSortFilterProxyModel(this);
     proxyModel->setSourceModel(model);
@@ -50,7 +49,7 @@ SelausWg::SelausWg(Kirjanpito *kp) :
 
     connect( ui->selausView, SIGNAL(activated(QModelIndex)), this, SLOT(naytaTositeRivilta(QModelIndex)));
 
-    connect( kirjanpito, SIGNAL(kirjanpitoaMuokattu()), this, SLOT(paivita()));
+    connect( Kirjanpito::db(), SIGNAL(kirjanpitoaMuokattu()), this, SLOT(paivita()));
 
 }
 
@@ -61,9 +60,9 @@ SelausWg::~SelausWg()
 
 void SelausWg::alusta()
 {
-    QDate alku = kirjanpito->tilikaudet().first().alkaa();
-    QDate nytalkaa = kirjanpito->tilikaudet().last().alkaa();
-    QDate loppu = kirjanpito->tilikaudet().last().paattyy();
+    QDate alku = Kirjanpito::db()->tilikaudet().first().alkaa();
+    QDate nytalkaa = Kirjanpito::db()->tilikaudet().last().alkaa();
+    QDate loppu = Kirjanpito::db()->tilikaudet().last().paattyy();
 
     ui->alkuEdit->setDateRange(alku, loppu);
     ui->loppuEdit->setDateRange(alku, loppu);
@@ -114,7 +113,7 @@ void SelausWg::paivitaSummat()
         // Tili on valittuna
         QString valittuTekstina = ui->tiliCombo->currentText();
         int valittunro = valittuTekstina.left( valittuTekstina.indexOf(' ') ).toInt();
-        Tili valittutili = kirjanpito->tili(valittunro);
+        Tili valittutili = Kirjanpito::db()->tili(valittunro);
 
         int kertyma = 0;
         int muutos = 0;
@@ -127,7 +126,7 @@ void SelausWg::paivitaSummat()
         {
             // Tulostili
             // Tämän tilikauden aloittavaa päivää edeltävä päivä, jonka kertymä vähennetään
-            QDate edloppuupvm = kirjanpito->tilikausiPaivalle(ui->loppuEdit->date()).alkaa().addDays(-1);
+            QDate edloppuupvm = Kirjanpito::db()->tilikausiPaivalle(ui->loppuEdit->date()).alkaa().addDays(-1);
             kertyma = valittutili.kertymaPaivalle( ui->loppuEdit->date()) - valittutili.kertymaPaivalle( edloppuupvm );
             muutos = kreditSumma - debetSumma;
         }
