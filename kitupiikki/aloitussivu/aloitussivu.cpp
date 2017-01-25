@@ -118,8 +118,11 @@ void AloitusSivu::kpAvattu()
 
 void AloitusSivu::saldot()
 {
-    // Ensin saldot
-    // lisaaTxt(tr("<h3>Saldot %1</h3>").arg(kirjanpito->paivamaara().toString(Qt::SystemLocaleShortDate)));
+    Tilikausi tilikausi = Kirjanpito::db()->tilikausiPaivalle( Kirjanpito::db()->paivamaara());
+
+    lisaaTxt(tr("<h2>Tilikausi %1 - %2</h2>").arg(tilikausi.alkaa().toString(Qt::SystemLocaleShortDate))
+             .arg(tilikausi.paattyy().toString(Qt::SystemLocaleShortDate)));
+
     QSqlQuery kysely;
 
     kysely.exec(QString("select tili, nimi, sum(debetsnt), sum(kreditsnt) from vientivw where tyyppi like \"AR%\" and pvm <= \"%1\" group by tili")
@@ -139,7 +142,6 @@ void AloitusSivu::saldot()
     lisaaTxt("</table>");
 
     // Sitten tulot
-    Tilikausi tilikausi = Kirjanpito::db()->tilikausiPaivalle( Kirjanpito::db()->paivamaara());
     kysely.exec(QString("select tili, nimi, sum(debetsnt), sum(kreditsnt) from vientivw where tyyppi like \"T%\" AND pvm BETWEEN \"%1\" AND \"%2\" group by tili")
                 .arg(tilikausi.alkaa().toString(Qt::ISODate)  )
                 .arg(tilikausi.paattyy().toString(Qt::ISODate)));
