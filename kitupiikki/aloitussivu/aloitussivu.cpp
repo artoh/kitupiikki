@@ -122,7 +122,7 @@ void AloitusSivu::saldot(Kirjanpito *kirjanpito)
     // lisaaTxt(tr("<h3>Saldot %1</h3>").arg(kirjanpito->paivamaara().toString(Qt::SystemLocaleShortDate)));
     QSqlQuery kysely;
     kysely.exec(QString("select tili, nimi, sum(debetsnt), sum(kreditsnt) from vientivw where tyyppi like \"AR%\" and pvm <= \"%1\" group by tili").arg(kirjanpito->paivamaara().toString(Qt::ISODate)));
-    lisaaTxt("<table>");
+    lisaaTxt("<h3>Rahavarat</h3><table>");
     int saldosumma = 0;
     while( kysely.next())
     {
@@ -141,7 +141,7 @@ void AloitusSivu::saldot(Kirjanpito *kirjanpito)
                 .arg(tilikausi.alkaa().toString(Qt::ISODate)  )
                 .arg(tilikausi.paattyy().toString(Qt::ISODate)));
 
-    lisaaTxt("<table>");
+    lisaaTxt("<h3>Tulot</h3><table>");
     int summatulot;
 
     while( kysely.next())
@@ -162,7 +162,7 @@ void AloitusSivu::saldot(Kirjanpito *kirjanpito)
                 .arg(tilikausi.paattyy().toString(Qt::ISODate)));
 
 
-    lisaaTxt("<table>");
+    lisaaTxt("<h3>Menot</h3><table>");
     int summamenot = 0;
 
     while( kysely.next())

@@ -86,6 +86,7 @@ public:
 
 signals:
     void tietokantaVaihtui();
+    void kirjanpitoaMuokattu();
 
 public slots:
     /**
@@ -96,6 +97,8 @@ public slots:
     bool avaaTietokanta(const QString& tiedosto);
 
     void asetaHarjoitteluPvm(const QDate& pvm);
+
+    void muokattu();
 
 protected:
     QMap<QString,QString> asetukset;

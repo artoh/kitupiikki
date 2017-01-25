@@ -39,7 +39,6 @@ public:
 
     enum Valilehdet { VIENNIT, KOMMENTIT, LIITTEET, TILIOTE, AVUSTAJA } ;
 
-signals:
 
 public slots:
     void lisaaRivi();

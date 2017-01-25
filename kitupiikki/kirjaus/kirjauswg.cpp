@@ -160,6 +160,7 @@ void KirjausWg::tallenna()
 
     viennitModel->tallenna(tositeId);   // Tallentaa viennit
 
+    kirjanpito->muokattu(); // Ilmoittaa, että kirjanpitoa on muokattu ja näkymät pitää päivittää
 
     tyhjenna(); // Aloitetaan uusi kirjaus
 }

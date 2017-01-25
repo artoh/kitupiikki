@@ -50,6 +50,8 @@ SelausWg::SelausWg(Kirjanpito *kp) :
 
     connect( ui->selausView, SIGNAL(activated(QModelIndex)), this, SLOT(naytaTositeRivilta(QModelIndex)));
 
+    connect( kirjanpito, SIGNAL(kirjanpitoaMuokattu()), this, SLOT(paivita()));
+
 }
 
 SelausWg::~SelausWg()
