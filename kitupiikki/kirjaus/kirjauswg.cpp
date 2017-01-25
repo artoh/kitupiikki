@@ -49,7 +49,7 @@ KirjausWg::KirjausWg(TositeWg *tosite) : QWidget(), tositewg(tosite), tositeId(0
 
     connect( ui->lisaaRiviNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaRivi()));
     connect( ui->tallennaButton, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
-    connect( ui->hylkaaNappi, SIGNAL(clicked(bool)), this, SLOT(tyhjenna()));
+    connect( ui->hylkaaNappi, SIGNAL(clicked(bool)), this, SLOT(hylkaa()));
     connect( ui->kommentitEdit, SIGNAL(textChanged()), this, SLOT(paivitaKommenttiMerkki()));
 
     connect( ui->tunnisteEdit, SIGNAL(textChanged(QString)), this, SLOT(tarkistaTunniste()));
@@ -162,7 +162,14 @@ void KirjausWg::tallenna()
 
     Kirjanpito::db()->muokattu(); // Ilmoittaa, että kirjanpitoa on muokattu ja näkymät pitää päivittää
 
-    tyhjenna(); // Aloitetaan uusi kirjaus
+    tyhjenna(); // Tyhjennetään
+    emit Kirjanpito::db()->palaaEdelliselleSivulle();
+}
+
+void KirjausWg::hylkaa()
+{
+    tyhjenna();
+    emit Kirjanpito::db()->palaaEdelliselleSivulle();
 }
 
 void KirjausWg::naytaSummat()

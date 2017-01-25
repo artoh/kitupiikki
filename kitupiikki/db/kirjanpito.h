@@ -89,6 +89,7 @@ public:
 signals:
     void tietokantaVaihtui();
     void kirjanpitoaMuokattu();
+    void palaaEdelliselleSivulle();
 
 public slots:
     /**

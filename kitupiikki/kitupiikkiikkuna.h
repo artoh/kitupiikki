@@ -20,6 +20,7 @@
 
 #include <QMainWindow>
 #include <QMap>
+#include <QStack>
 
 class QStackedWidget;
 class QAction;
@@ -45,7 +46,7 @@ public:
     KitupiikkiIkkuna(QWidget *parent = 0);
     ~KitupiikkiIkkuna();
 
-    enum Sivu { ALOITUSSIVU, KIRJAUSSIVU, PAIVAKIRJASIVU, TULOSTESIVU, MAARITYSSIVU, OHJESIVU    };
+    enum Sivu { ALOITUSSIVU, KIRJAUSSIVU, SELAUSSIVU, TULOSTESIVU, MAARITYSSIVU, OHJESIVU    };
 
 signals:
 
@@ -54,7 +55,7 @@ public slots:
      * @brief Vaihtaa näytettävän sivun
      * @param mikasivu Mikä sivu näytetään (enum)
      */
-    void valitseSivu(int mikasivu);
+    void valitseSivu(int mikasivu, bool paluu = false);
 
     /**
      * @brief Tehdään toiminto. Tätä käytetään aloitussivun nappien yhdistämisessä.
@@ -64,9 +65,13 @@ public slots:
 
     void kirjanpitoLadattu();
 
+    void palaaSivulta();
+
+
 protected slots:
     void aktivoiSivu(QAction* aktio);
     void naytaTosite(int tositeid);
+
 
 protected:
     void mousePressEvent(QMouseEvent *event);
@@ -84,6 +89,7 @@ protected:
     KirjausSivu *kirjaussivu;
     SelausWg *selaussivu;
     MaaritysSivu *maarityssivu;
+    QStack<int> edellisetIndeksit;
 
 protected:
     QAction *luosivuAktio(const QString& nimi, const QString& kuva,
@@ -92,6 +98,7 @@ protected:
     void luoPalkkiJaSivuAktiot();
 
     void luoStatusBar();
+
 
 };
 

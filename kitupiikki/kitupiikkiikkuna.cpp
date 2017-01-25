@@ -44,6 +44,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent)
 {
 
     connect( Kirjanpito::db(), SIGNAL(tietokantaVaihtui()), this, SLOT(kirjanpitoLadattu()));
+    connect(Kirjanpito::db(), SIGNAL(palaaEdelliselleSivulle()), this, SLOT(palaaSivulta()));
 
     setWindowIcon(QIcon(":/pic/Possu64.png"));
     luoPalkkiJaSivuAktiot();
@@ -94,8 +95,12 @@ KitupiikkiIkkuna::~KitupiikkiIkkuna()
     settings.setValue("viimeisin", Kirjanpito::db()->hakemisto().absoluteFilePath("kitupiikki.sqlite"));
 }
 
-void KitupiikkiIkkuna::valitseSivu(int mikasivu)
+void KitupiikkiIkkuna::valitseSivu(int mikasivu, bool paluu)
 {
+    if( !paluu )
+        edellisetIndeksit.push( pino->currentIndex() );
+    sivuaktiot[mikasivu]->setChecked(true);
+
     if( mikasivu == ALOITUSSIVU)
     {
         aloitussivu->lataaAloitussivu();
@@ -116,7 +121,7 @@ void KitupiikkiIkkuna::valitseSivu(int mikasivu)
         maarityssivu->nollaa();
         pino->setCurrentWidget( maarityssivu);
     }
-    else if( mikasivu == PAIVAKIRJASIVU )
+    else if( mikasivu == SELAUSSIVU )
     {
         pino->setCurrentWidget( selaussivu);
     }
@@ -163,7 +168,16 @@ void KitupiikkiIkkuna::kirjanpitoLadattu()
     }
 
     valitseSivu(ALOITUSSIVU);
+    edellisetIndeksit.clear();  // Tyhjennetään "selaushistoria"
 }
+
+void KitupiikkiIkkuna::palaaSivulta()
+{
+    if( !edellisetIndeksit.isEmpty())
+        valitseSivu( edellisetIndeksit.pop(), true );
+}
+
+
 
 void KitupiikkiIkkuna::aktivoiSivu(QAction *aktio)
 {
@@ -174,16 +188,15 @@ void KitupiikkiIkkuna::aktivoiSivu(QAction *aktio)
 
 void KitupiikkiIkkuna::naytaTosite(int tositeid)
 {
-    qDebug() << "Nayta " << tositeid;
+    valitseSivu( KIRJAUSSIVU );
     kirjaussivu->naytaTosite(tositeid);
-    pino->setCurrentWidget( kirjaussivu );
 }
 
 void KitupiikkiIkkuna::mousePressEvent(QMouseEvent *event)
 {
-    // Vähän kokeellista: laitetaan back-napilla selaukseen
+    // Vähän kokeellista: palataan edelliselle sivulle, jos menty Käy-valinnalla ;)
     if( event->button() == Qt::BackButton )
-        pino->setCurrentWidget( selaussivu );
+        palaaSivulta();
 }
 
 QAction *KitupiikkiIkkuna::luosivuAktio(const QString &nimi, const QString &kuva, const QString &vihje, const QString &pikanappain, Sivu sivu)
@@ -213,7 +226,7 @@ void KitupiikkiIkkuna::luoPalkkiJaSivuAktiot()
     aktioryhma = new QActionGroup(this);
     luosivuAktio("Aloita",":/pic/Possu64.png","Erilaisia ohjattuja toimia","Home", ALOITUSSIVU);
     luosivuAktio("Uusi\ntosite",":/pic/uusitosite.png","Kirjaa uusi tosite","Ctrl+N", KIRJAUSSIVU);
-    luosivuAktio("Selaa",":/pic/Paivakirja64.png","Selaa kirjauksia aikajärjestyksessä","F3", PAIVAKIRJASIVU);
+    luosivuAktio("Selaa",":/pic/Paivakirja64.png","Selaa kirjauksia aikajärjestyksessä","F3", SELAUSSIVU);
  //   luosivuAktio("Pääkirja",":/pic/Diary64.png","Selaa kirjauksia tileittäin","F4", PAAKIRJASIVU);
     luosivuAktio("Tulosteet",":/pic/print.png","Tulosta erilaisia raportteja","F5", TULOSTESIVU);
     luosivuAktio("Määritykset",":/pic/ratas.png","Kirjanpitoon liittyvät määritykset","F6", MAARITYSSIVU);

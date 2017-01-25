@@ -126,7 +126,7 @@ void AloitusSivu::saldot()
     QSqlQuery kysely;
 
     kysely.exec(QString("select tili, nimi, sum(debetsnt), sum(kreditsnt) from vientivw where tyyppi like \"AR%\" and pvm <= \"%1\" group by tili")
-                .arg(Kirjanpito::db()->paivamaara().toString(Qt::ISODate)));
+                .arg(tilikausi.paattyy().toString(Qt::ISODate)));
 
     lisaaTxt("<h3>Rahavarat</h3><table>");
     int saldosumma = 0;

@@ -44,6 +44,7 @@ public slots:
     void lisaaRivi();
     void tyhjenna();
     void tallenna();
+    void hylkaa();
     void naytaSummat();
     void lataaTosite(int id);
     void paivitaKommenttiMerkki();
