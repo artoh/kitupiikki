@@ -121,18 +121,65 @@ void AloitusSivu::saldot(Kirjanpito *kirjanpito)
     // Ensin saldot
     lisaaTxt(tr("<h3>Saldot %1</h3>").arg(kirjanpito->paivamaara().toString(Qt::SystemLocaleShortDate)));
     QSqlQuery kysely;
-    kysely.exec(QString("select tili, nimi, sum(debetsnt), sum(kreditsnt) from vientivw where tyyppi like \"A%\" or tyyppi like \"B%\" and pvm <= \"%1\"group by tili").arg(kirjanpito->paivamaara().toString(Qt::ISODate)));
+    kysely.exec(QString("select tili, nimi, sum(debetsnt), sum(kreditsnt) from vientivw where tyyppi like \"A%\" or tyyppi like \"B%\" and pvm <= \"%1\" group by tili").arg(kirjanpito->paivamaara().toString(Qt::ISODate)));
     lisaaTxt("<table>");
+    int saldosumma = 0;
     while( kysely.next())
     {
         int saldosnt = kysely.value(2).toInt() - kysely.value(3).toInt();
-        lisaaTxt( tr("<tr><td>%1 %2</td><td>%L3 €</td></tr>").arg(kysely.value(0).toInt())
+        saldosumma += saldosnt;
+        lisaaTxt( tr("<tr><td>%1 %2</td><td class=euro>%L3 €</td></tr>").arg(kysely.value(0).toInt())
                                                            .arg(kysely.value(1).toString())
                                                            .arg( ((double) saldosnt ) / 100,0,'f',2 ) );
     }
+    lisaaTxt( tr("<tr class=summa><td>Yhteensä</td><td class=euro>%L1 €</td></tr>").arg( ((double) saldosumma ) / 100,0,'f',2 ) );
     lisaaTxt("</table>");
 
-    // Sitten tulos
+    // Sitten tulot
+    Tilikausi tilikausi = kirjanpito->tilikausiPaivalle( kirjanpito->paivamaara());
+    kysely.exec(QString("select tili, nimi, sum(debetsnt), sum(kreditsnt) from vientivw where tyyppi like \"T%\" AND pvm BETWEEN \"%1\" AND \"%2\" group by tili")
+                .arg(tilikausi.alkaa().toString(Qt::ISODate)  )
+                .arg(tilikausi.paattyy().toString(Qt::ISODate)));
+
+    lisaaTxt("<h3>Tulot</h3>");
+    lisaaTxt("<table>");
+    int summatulot;
+
+    while( kysely.next())
+    {
+        int saldosnt = kysely.value(3).toInt() - kysely.value(2).toInt();
+        summatulot += saldosnt;
+        lisaaTxt( tr("<tr><td>%1 %2</td><td class=euro>%L3 €</td></tr>").arg(kysely.value(0).toInt())
+                                                           .arg(kysely.value(1).toString())
+                                                           .arg( ((double) saldosnt ) / 100,0,'f',2 ) );
+    }
+    lisaaTxt( tr("<tr class=summa><td>Yhteensä</td><td class=euro>%L1 €</td></tr>").arg( ((double) summatulot ) / 100,0,'f',2 ) );
+    lisaaTxt("</table>");
+
+
+    // Lopuksi menot
+    kysely.exec(QString("select tili, nimi, sum(debetsnt), sum(kreditsnt) from vientivw where tyyppi like \"M%\" AND pvm BETWEEN \"%1\" AND \"%2\" group by tili")
+                .arg(tilikausi.alkaa().toString(Qt::ISODate)  )
+                .arg(tilikausi.paattyy().toString(Qt::ISODate)));
+
+    lisaaTxt("<h3>Menot</h3>");
+    lisaaTxt("<table>");
+    int summamenot = 0;
+
+    while( kysely.next())
+    {
+        int saldosnt = kysely.value(2).toInt() - kysely.value(3).toInt();
+        summamenot += saldosnt;
+        lisaaTxt( tr("<tr><td>%1 %2</td><td class=euro>%L3 €</td></tr>").arg(kysely.value(0).toInt())
+                                                           .arg(kysely.value(1).toString())
+                                                           .arg( ((double) saldosnt ) / 100,0,'f',2 ) );
+    }
+    lisaaTxt( tr("<tr class=summa><td>Yhteensä</td><td class=euro>%L1 €</td></tr>").arg( ((double) summamenot ) / 100,0,'f',2 ) );
+    lisaaTxt("</table>");
+
+    lisaaTxt( tr("<p><table><tr class=kokosumma><td>Yli/alijäämä</td><td class=euro> %L1 €</td></tr></table>").arg(( ((double) (summatulot - summamenot) ) / 100), 0,'f',2 )) ;
+
+
 }
 
 void AloitusSivu::alatunniste()

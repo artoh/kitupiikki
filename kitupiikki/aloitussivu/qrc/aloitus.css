@@ -59,3 +59,41 @@ img.kpkuvake
     margin-right: 2em;
 }
 
+h1
+{
+    font-size: 20pt;
+    font-family: Sans;
+    font-weight: normal;
+    min-height: 128px;
+}
+
+table
+{
+    width: 70%;
+}
+
+td
+{
+    border-bottom: 1px solid gray;
+}
+
+tr.summa > td
+{
+    font-weight: bold;
+    border-bottom: none;
+    border-top: 1px solid gray;
+}
+
+
+tr.kokosumma > td
+{
+    font-weight: bold;
+    border-bottom: none;
+    border-top: 2px solid gray;
+}
+
+td.euro
+{
+    text-align: right;
+}
+
