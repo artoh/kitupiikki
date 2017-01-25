@@ -119,9 +119,9 @@ void AloitusSivu::kpAvattu(Kirjanpito *kirjanpito)
 void AloitusSivu::saldot(Kirjanpito *kirjanpito)
 {
     // Ensin saldot
-    lisaaTxt(tr("<h3>Saldot %1</h3>").arg(kirjanpito->paivamaara().toString(Qt::SystemLocaleShortDate)));
+    // lisaaTxt(tr("<h3>Saldot %1</h3>").arg(kirjanpito->paivamaara().toString(Qt::SystemLocaleShortDate)));
     QSqlQuery kysely;
-    kysely.exec(QString("select tili, nimi, sum(debetsnt), sum(kreditsnt) from vientivw where tyyppi like \"A%\" or tyyppi like \"B%\" and pvm <= \"%1\" group by tili").arg(kirjanpito->paivamaara().toString(Qt::ISODate)));
+    kysely.exec(QString("select tili, nimi, sum(debetsnt), sum(kreditsnt) from vientivw where tyyppi like \"AR%\" and pvm <= \"%1\" group by tili").arg(kirjanpito->paivamaara().toString(Qt::ISODate)));
     lisaaTxt("<table>");
     int saldosumma = 0;
     while( kysely.next())
@@ -132,7 +132,7 @@ void AloitusSivu::saldot(Kirjanpito *kirjanpito)
                                                            .arg(kysely.value(1).toString())
                                                            .arg( ((double) saldosnt ) / 100,0,'f',2 ) );
     }
-    lisaaTxt( tr("<tr class=summa><td>Yhteensä</td><td class=euro>%L1 €</td></tr>").arg( ((double) saldosumma ) / 100,0,'f',2 ) );
+    lisaaTxt( tr("<tr class=summa><td>Rahavarat yhteensä</td><td class=euro>%L1 €</td></tr>").arg( ((double) saldosumma ) / 100,0,'f',2 ) );
     lisaaTxt("</table>");
 
     // Sitten tulot
@@ -141,7 +141,6 @@ void AloitusSivu::saldot(Kirjanpito *kirjanpito)
                 .arg(tilikausi.alkaa().toString(Qt::ISODate)  )
                 .arg(tilikausi.paattyy().toString(Qt::ISODate)));
 
-    lisaaTxt("<h3>Tulot</h3>");
     lisaaTxt("<table>");
     int summatulot;
 
@@ -153,7 +152,7 @@ void AloitusSivu::saldot(Kirjanpito *kirjanpito)
                                                            .arg(kysely.value(1).toString())
                                                            .arg( ((double) saldosnt ) / 100,0,'f',2 ) );
     }
-    lisaaTxt( tr("<tr class=summa><td>Yhteensä</td><td class=euro>%L1 €</td></tr>").arg( ((double) summatulot ) / 100,0,'f',2 ) );
+    lisaaTxt( tr("<tr class=summa><td>Tulot yhteensä</td><td class=euro>%L1 €</td></tr>").arg( ((double) summatulot ) / 100,0,'f',2 ) );
     lisaaTxt("</table>");
 
 
@@ -162,7 +161,7 @@ void AloitusSivu::saldot(Kirjanpito *kirjanpito)
                 .arg(tilikausi.alkaa().toString(Qt::ISODate)  )
                 .arg(tilikausi.paattyy().toString(Qt::ISODate)));
 
-    lisaaTxt("<h3>Menot</h3>");
+
     lisaaTxt("<table>");
     int summamenot = 0;
 
@@ -174,7 +173,7 @@ void AloitusSivu::saldot(Kirjanpito *kirjanpito)
                                                            .arg(kysely.value(1).toString())
                                                            .arg( ((double) saldosnt ) / 100,0,'f',2 ) );
     }
-    lisaaTxt( tr("<tr class=summa><td>Yhteensä</td><td class=euro>%L1 €</td></tr>").arg( ((double) summamenot ) / 100,0,'f',2 ) );
+    lisaaTxt( tr("<tr class=summa><td>Menot yhteensä</td><td class=euro>%L1 €</td></tr>").arg( ((double) summamenot ) / 100,0,'f',2 ) );
     lisaaTxt("</table>");
 
     lisaaTxt( tr("<p><table><tr class=kokosumma><td>Yli/alijäämä</td><td class=euro> %L1 €</td></tr></table>").arg(( ((double) (summatulot - summamenot) ) / 100), 0,'f',2 )) ;
