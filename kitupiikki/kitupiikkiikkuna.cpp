@@ -227,8 +227,7 @@ void KitupiikkiIkkuna::luoPalkkiJaSivuAktiot()
     luosivuAktio("Aloita",":/pic/Possu64.png","Erilaisia ohjattuja toimia","Home", ALOITUSSIVU);
     luosivuAktio("Uusi\ntosite",":/pic/uusitosite.png","Kirjaa uusi tosite","Ctrl+N", KIRJAUSSIVU);
     luosivuAktio("Selaa",":/pic/Paivakirja64.png","Selaa kirjauksia aikajärjestyksessä","F3", SELAUSSIVU);
- //   luosivuAktio("Pääkirja",":/pic/Diary64.png","Selaa kirjauksia tileittäin","F4", PAAKIRJASIVU);
-    luosivuAktio("Tulosteet",":/pic/print.png","Tulosta erilaisia raportteja","F5", TULOSTESIVU);
+    luosivuAktio("Tulosteet",":/pic/print.png","Tulosta erilaisia raportteja","Ctrl+P", TULOSTESIVU);
     luosivuAktio("Määritykset",":/pic/ratas.png","Kirjanpitoon liittyvät määritykset","F6", MAARITYSSIVU);
     luosivuAktio("Ohje",":/pic/ohje.png","Kitupiikin ohjeet","F1", OHJESIVU);
     aktioryhma->actions().first()->setChecked(true);
