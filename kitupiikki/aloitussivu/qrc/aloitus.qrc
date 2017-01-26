@@ -4,5 +4,7 @@
         <file>avaanappi.png</file>
         <file>aloitus.css</file>
         <file>ohje.html</file>
+        <file>next.png</file>
+        <file>previous.png</file>
     </qresource>
 </RCC>

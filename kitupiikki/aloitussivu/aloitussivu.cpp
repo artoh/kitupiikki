@@ -122,7 +122,7 @@ void AloitusSivu::saldot()
     // TODO: Miten tämä vaihdetaan
     tilikausi = Kirjanpito::db()->tilikausiPaivalle( Kirjanpito::db()->paivamaara());
 
-    lisaaTxt(tr("<h2>Tilikausi %1 - %2</h2>").arg(tilikausi.alkaa().toString(Qt::SystemLocaleShortDate))
+    lisaaTxt(tr("<h2><img src=qrc:/aloitus/previous.png>Tilikausi %1 - %2<img src=qrc:/aloitus/next.png></h2>").arg(tilikausi.alkaa().toString(Qt::SystemLocaleShortDate))
              .arg(tilikausi.paattyy().toString(Qt::SystemLocaleShortDate)));
 
     QSqlQuery kysely;
