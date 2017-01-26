@@ -29,6 +29,7 @@ class QToolBar;
 class AloitusSivu;
 class KirjausSivu;
 class SelausWg;
+class RaporttiSivu;
 class MaaritysSivu;
 class QDateEdit;
 class QDockWidget;
@@ -92,6 +93,7 @@ protected:
     AloitusSivu *aloitussivu;
     KirjausSivu *kirjaussivu;
     SelausWg *selaussivu;
+    RaporttiSivu *raporttisivu;
     MaaritysSivu *maarityssivu;
     QStack<int> edellisetIndeksit;
 

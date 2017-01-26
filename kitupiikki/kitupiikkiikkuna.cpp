@@ -37,6 +37,7 @@
 #include "kirjaus/kirjaussivu.h"
 #include "maaritys/maarityssivu.h"
 #include "selaus/selauswg.h"
+#include "raportti/raporttisivu.h"
 #include "uusikp/uusikirjanpito.h"
 
 #include "db/kirjanpito.h"
@@ -66,12 +67,14 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent)
     kirjaussivu = new KirjausSivu();
     selaussivu = new SelausWg();
     maarityssivu = new MaaritysSivu();
+    raporttisivu = new RaporttiSivu();
 
 
     pino = new QStackedWidget;
     pino->addWidget( aloitussivu);
     pino->addWidget( kirjaussivu );
     pino->addWidget( selaussivu );
+    pino->addWidget( raporttisivu );
     pino->addWidget( maarityssivu);
     setCentralWidget(pino);
 
@@ -128,6 +131,10 @@ void KitupiikkiIkkuna::valitseSivu(int mikasivu, bool paluu)
     else if( mikasivu == SELAUSSIVU )
     {
         pino->setCurrentWidget( selaussivu);
+    }
+    else if( mikasivu == TULOSTESIVU )
+    {
+        pino->setCurrentWidget( raporttisivu );
     }
 
 }
