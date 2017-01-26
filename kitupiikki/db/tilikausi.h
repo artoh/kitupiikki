@@ -23,6 +23,7 @@
 class Tilikausi
 {
 public:
+    Tilikausi();
     Tilikausi(QDate tkalkaa, QDate tkpaattyy);
 
     QDate alkaa() const { return alkaa_; }

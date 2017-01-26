@@ -21,6 +21,7 @@
 #include <QWidget>
 
 #include "ui_selauswg.h"
+#include "db/tilikausi.h"
 
 class SelausModel;
 class QSortFilterProxyModel;
@@ -39,6 +40,8 @@ public slots:
     void suodata();
     void paivitaSummat();
     void naytaTositeRivilta(QModelIndex index);
+
+    void selaa(int tilinumero, Tilikausi tilikausi);
 
 signals:
     void tositeValittu(int id);

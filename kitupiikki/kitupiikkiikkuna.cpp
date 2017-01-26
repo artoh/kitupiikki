@@ -41,6 +41,7 @@
 
 #include "db/kirjanpito.h"
 
+
 KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent)
 {
 
@@ -86,6 +87,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent)
         Kirjanpito::db()->avaaTietokanta(settings.value("viimeisin").toString());
 
     connect( selaussivu, SIGNAL(tositeValittu(int)), this, SLOT(naytaTosite(int)) );
+    connect( aloitussivu, SIGNAL(selaus(int,Tilikausi)), this, SLOT(selaaTilia(int,Tilikausi)));
 
 
 }
@@ -177,6 +179,12 @@ void KitupiikkiIkkuna::palaaSivulta()
 {
     if( !edellisetIndeksit.isEmpty())
         valitseSivu( edellisetIndeksit.pop(), true );
+}
+
+void KitupiikkiIkkuna::selaaTilia(int tilinumero, Tilikausi tilikausi)
+{
+    valitseSivu( SELAUSSIVU );
+    selaussivu->selaa(tilinumero, tilikausi);
 }
 
 

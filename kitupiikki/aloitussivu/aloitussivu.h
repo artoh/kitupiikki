@@ -20,6 +20,9 @@
 
 #include <QWebEngineView>
 
+
+#include "db/tilikausi.h"
+
 class Sisalto;
 
 
@@ -49,12 +52,20 @@ public slots:
      */
     void lataaOhje();
 
+    /**
+     * @brief Sisältö kutsuu tätä, kun pyydetään selausta selaa:-protokollalla
+     * @param tilinumero
+     */
+    void selaaTilia(int tilinumero);
+
 signals:
     /**
      * @brief Ilmoittaa että käyttäjä on valinnut aloitussivulta toiminnon tai tiedoston avaaamisen
      * @param toiminto toiminto (avaa,uusi) tai avattavan tiedoston koko polku
      */
     void toiminto(const QString toiminto);
+
+    void selaus(int tilinumero, Tilikausi tilikausi);
 
 protected:
     void lisaaTxt(const QString& txt);
@@ -64,6 +75,7 @@ protected:
     void alatunniste();
 
     Sisalto *sisalto;
+    Tilikausi tilikausi;
 };
 
 #endif // ALOITUSSIVU_H

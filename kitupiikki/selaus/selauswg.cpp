@@ -143,3 +143,16 @@ void SelausWg::naytaTositeRivilta(QModelIndex index)
     qDebug() << "Näyttöpyyntö " << id;
     emit tositeValittu( id );
 }
+
+void SelausWg::selaa(int tilinumero, Tilikausi tilikausi)
+{
+    // Ohjelmallisesti selaa tiettynä tilikautena tiettyä tiliä
+    ui->alkuEdit->setDate( tilikausi.alkaa());
+    ui->loppuEdit->setDate( tilikausi.paattyy());
+    paivita();
+
+    Tili selattava = Kirjanpito::db()->tili(tilinumero);
+
+    ui->tiliCombo->setCurrentText(QString("%1 %2").arg(selattava.numero() ).arg(selattava.nimi()));
+
+}

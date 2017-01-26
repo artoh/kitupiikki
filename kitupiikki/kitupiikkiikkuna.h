@@ -33,6 +33,7 @@ class MaaritysSivu;
 class QDateEdit;
 class QDockWidget;
 
+#include "db/tilikausi.h"
 
 /**
  * @brief Ohjelmiston pääikkuna
@@ -67,6 +68,8 @@ public slots:
     void kirjanpitoLadattu();
 
     void palaaSivulta();
+
+    void selaaTilia(int tilinumero, Tilikausi tilikausi);
 
 
 protected slots:

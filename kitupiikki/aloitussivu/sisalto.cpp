@@ -58,6 +58,11 @@ bool Sisalto::acceptNavigationRequest(const QUrl &url, QWebEnginePage::Navigatio
         emit( toiminto(url.path()));
         return false;
     }
+    else if( url.scheme() == "selaa")
+    {
+        emit selaa( url.fileName().toInt());
+        return false;
+    }
     else
         return true;
 }

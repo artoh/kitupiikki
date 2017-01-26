@@ -17,6 +17,11 @@
 
 #include "tilikausi.h"
 
+Tilikausi::Tilikausi()
+{
+
+}
+
 Tilikausi::Tilikausi(QDate tkalkaa, QDate tkpaattyy) :
     alkaa_(tkalkaa),
     paattyy_(tkpaattyy)

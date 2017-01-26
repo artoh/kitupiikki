@@ -64,6 +64,8 @@ signals:
      */
     void toiminto(const QString& toimintonimi);
 
+    void selaa( int tilinumero);
+
 protected:
     QString txt;
 

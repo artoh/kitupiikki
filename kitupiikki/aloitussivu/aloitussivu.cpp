@@ -30,6 +30,7 @@ AloitusSivu::AloitusSivu()
     setPage(sisalto);
 
     connect(sisalto, SIGNAL(toiminto(QString)), this, SIGNAL(toiminto(QString)));
+    connect(sisalto, SIGNAL(selaa(int)), this, SLOT(selaaTilia(int)));
 }
 
 void AloitusSivu::lataaAloitussivu()
@@ -60,6 +61,11 @@ void AloitusSivu::lataaAloitussivu()
 void AloitusSivu::lataaOhje()
 {
     sisalto->load(QUrl("qrc:/aloitus/ohje.html"));
+}
+
+void AloitusSivu::selaaTilia(int tilinumero)
+{
+    emit selaus(tilinumero, tilikausi);
 }
 
 void AloitusSivu::lisaaTxt(const QString &txt)
@@ -113,7 +119,8 @@ void AloitusSivu::kpAvattu()
 
 void AloitusSivu::saldot()
 {
-    Tilikausi tilikausi = Kirjanpito::db()->tilikausiPaivalle( Kirjanpito::db()->paivamaara());
+    // TODO: Miten tämä vaihdetaan
+    tilikausi = Kirjanpito::db()->tilikausiPaivalle( Kirjanpito::db()->paivamaara());
 
     lisaaTxt(tr("<h2>Tilikausi %1 - %2</h2>").arg(tilikausi.alkaa().toString(Qt::SystemLocaleShortDate))
              .arg(tilikausi.paattyy().toString(Qt::SystemLocaleShortDate)));
@@ -129,7 +136,7 @@ void AloitusSivu::saldot()
     {
         int saldosnt = kysely.value(2).toInt() - kysely.value(3).toInt();
         saldosumma += saldosnt;
-        lisaaTxt( tr("<tr><td>%1 %2</td><td class=euro>%L3 €</td></tr>").arg(kysely.value(0).toInt())
+        lisaaTxt( tr("<tr><td><a href=\"selaa:%1\">%1 %2</a></td><td class=euro>%L3 €</td></tr>").arg(kysely.value(0).toInt())
                                                            .arg(kysely.value(1).toString())
                                                            .arg( ((double) saldosnt ) / 100,0,'f',2 ) );
     }
@@ -148,7 +155,7 @@ void AloitusSivu::saldot()
     {
         int saldosnt = kysely.value(3).toInt() - kysely.value(2).toInt();
         summatulot += saldosnt;
-        lisaaTxt( tr("<tr><td>%1 %2</td><td class=euro>%L3 €</td></tr>").arg(kysely.value(0).toInt())
+        lisaaTxt( tr("<tr><td><a href=\"selaa:%1\">%1 %2</a></td><td class=euro>%L3 €</td></tr>").arg(kysely.value(0).toInt())
                                                            .arg(kysely.value(1).toString())
                                                            .arg( ((double) saldosnt ) / 100,0,'f',2 ) );
     }
@@ -169,7 +176,7 @@ void AloitusSivu::saldot()
     {
         int saldosnt = kysely.value(2).toInt() - kysely.value(3).toInt();
         summamenot += saldosnt;
-        lisaaTxt( tr("<tr><td>%1 %2</td><td class=euro>%L3 €</td></tr>").arg(kysely.value(0).toInt())
+        lisaaTxt( tr("<tr><td><a href=\"selaa:%1\">%1 %2</a></td><td class=euro>%L3 €</td></tr>").arg(kysely.value(0).toInt())
                                                            .arg(kysely.value(1).toString())
                                                            .arg( ((double) saldosnt ) / 100,0,'f',2 ) );
     }
