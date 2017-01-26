@@ -102,11 +102,6 @@ void AloitusSivu::kpAvattu()
     }
     lisaaTxt(tr("<h1>%1</h1>").arg( Kirjanpito::db()->asetus("nimi")));
 
-    if( Kirjanpito::db()->asetus("harjoitus").toInt())
-    {
-        sisalto->lisaaLaatikko("Harjoittelutila käytössä","Voit nopeuttaa ajan kulumista näytön oikeassa alakulmassa olevasta valinnasta. "
-                               "Näin pääset harjoittelemaan tilikauden vaihtamista ja tilinpäätöksen laatimista.");
-    }
     if( Kirjanpito::db()->asetus("tilinavaus").toInt() > 1)
     {
         sisalto->lisaaLaatikko("Tee tilinavaus","Syötä viimesimmältä tilinpäätökseltä tilien "
