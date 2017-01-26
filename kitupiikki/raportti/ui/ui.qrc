@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/raportti">
+        <file>paivakirja.ui</file>
+    </qresource>
+</RCC>

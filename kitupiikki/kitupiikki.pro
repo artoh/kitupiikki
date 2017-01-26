@@ -2,6 +2,8 @@ QT += gui
 QT += widgets
 QT += sql
 QT += webenginewidgets
+QT += uitools
+QT += printsupport
 
 CONFIG += c++11
 
@@ -33,7 +35,9 @@ SOURCES += main.cpp \
     selaus/selauswg.cpp \
     db/tilikausi.cpp \
     selaus/selausmodel.cpp \
-    raportti/raporttisivu.cpp
+    raportti/raporttisivu.cpp \
+    raportti/raportti.cpp \
+    raportti/paivakirjaraportti.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -59,13 +63,16 @@ HEADERS += \
     selaus/selauswg.h \
     db/tilikausi.h \
     selaus/selausmodel.h \
-    raportti/raporttisivu.h
+    raportti/raporttisivu.h \
+    raportti/raportti.h \
+    raportti/paivakirjaraportti.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
     pic/pic.qrc \
     uusikp/sql.qrc \
-    aloitussivu/qrc/aloitus.qrc
+    aloitussivu/qrc/aloitus.qrc \
+    raportti/ui/ui.qrc
 
 FORMS += \
     uusikp/intro.ui \
@@ -76,7 +83,9 @@ FORMS += \
     maaritys/perusvalinnat.ui \
     kirjaus/kirjaus.ui \
     kirjaus/tositewg.ui \
-    selaus/selauswg.ui
+    selaus/selauswg.ui \
+    raportti/ui/paivakirja.ui \
+    raportti/raportti.ui
 
 DISTFILES += \
     uusikp/luo.sql \

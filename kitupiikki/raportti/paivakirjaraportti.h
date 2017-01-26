@@ -15,44 +15,23 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef RAPORTTISIVU_H
-#define RAPORTTISIVU_H
+#ifndef PAIVAKIRJARAPORTTI_H
+#define PAIVAKIRJARAPORTTI_H
 
-#include <QWidget>
-#include <QPrinter>
-
-#include "ui_raportti.h"
 #include "raportti.h"
 
-
-class QListWidget;
-class QFrame;
-
-class RaporttiSivu : public QWidget
+class PaivakirjaRaportti : public Raportti
 {
-    Q_OBJECT
 public:
-    enum { RAPORTTIID = Qt::UserRole, LOMAKE = Qt::UserRole + 1 } ;
+    PaivakirjaRaportti();
 
-    explicit RaporttiSivu(QWidget *parent = 0);
+    QString raporttinimi() const { return "Päiväkirja"; }
+    QString lomake() const { return "paivakirja"; }
+    QIcon kuvake() const { return QIcon(":/pic/Paivakirja64.png"); }
 
-signals:
+    void alustaLomake(QWidget *kehys);
 
-public slots:
-    void raporttiValittu(QListWidgetItem *item);
-    void tulosta();
-    void esikatsele();
-    void tyhjenna();
-
-protected:
-    void lataaUi(const QString& uinimi);
-    void lisaaRaportti(Raportti *raportti);
-
-protected:
-    Ui::RaporttiWg *ui;
-    QList<Raportti*> raportit;
-    Raportti *nykyraportti;
-    QPrinter printer;
+    void tulosta(QPrinter *printer, QWidget *kehys);
 };
 
-#endif // RAPORTTISIVU_H
+#endif // PAIVAKIRJARAPORTTI_H
