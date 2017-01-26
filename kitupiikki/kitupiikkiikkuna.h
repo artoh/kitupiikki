@@ -31,6 +31,7 @@ class KirjausSivu;
 class SelausWg;
 class MaaritysSivu;
 class QDateEdit;
+class QDockWidget;
 
 
 /**
@@ -83,7 +84,7 @@ protected:
     QActionGroup *aktioryhma;
     QAction *sivuaktiot[7];
 
-    QDateEdit *harjoituspvmEdit;
+    QDockWidget *harjoitusDock;
 
     AloitusSivu *aloitussivu;
     KirjausSivu *kirjaussivu;
@@ -97,7 +98,7 @@ protected:
                           Sivu sivut);
     void luoPalkkiJaSivuAktiot();
 
-    void luoStatusBar();
+    void luoHarjoitusDock();
 
 
 };

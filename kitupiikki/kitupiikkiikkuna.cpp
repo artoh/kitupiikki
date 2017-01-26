@@ -29,6 +29,7 @@
 #include <QMenuBar>
 
 #include <QDebug>
+#include <QDockWidget>
 
 #include "kitupiikkiikkuna.h"
 
@@ -48,12 +49,14 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent)
 
     setWindowIcon(QIcon(":/pic/Possu64.png"));
     luoPalkkiJaSivuAktiot();
-    luoStatusBar();
+    luoHarjoitusDock();
 
     // Nämä valikot ovat tässä lähinnä käyttöliittymätestin kannalta ;)
-    menuBar()->addMenu("Kirjanpito");
-    menuBar()->addMenu("Tosite");
-    menuBar()->addMenu("Raportit");
+    // menuBar()->addMenu("Kirjanpito");
+    // menuBar()->addMenu("Tosite");
+    // menuBar()->addMenu("Raportit");
+
+
 
     aloitussivu = new AloitusSivu();
     aloitussivu->lataaAloitussivu();
@@ -71,7 +74,6 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent)
     pino->addWidget( maarityssivu);
     setCentralWidget(pino);
 
-    statusBar()->showMessage("Tervetuloa",1000);
 
     // Himmennetään ne valinnat, jotka mahdollisia vain kirjanpidon ollessa auki
     for(int i=KIRJAUSSIVU; i<OHJESIVU;i++)
@@ -159,7 +161,7 @@ void KitupiikkiIkkuna::kirjanpitoLadattu()
         else
             setWindowTitle( tr("%1 - Kitupiikki").arg(Kirjanpito::db()->asetus("nimi")));
 
-        harjoituspvmEdit->setVisible( Kirjanpito::db()->onkoHarjoitus());
+        harjoitusDock->setVisible( Kirjanpito::db()->onkoHarjoitus());
 
         for(int i=KIRJAUSSIVU; i<OHJESIVU;i++)
             sivuaktiot[i]->setEnabled(true);
@@ -237,13 +239,30 @@ void KitupiikkiIkkuna::luoPalkkiJaSivuAktiot()
     addToolBar(Qt::LeftToolBarArea, toolbar);
 }
 
-void KitupiikkiIkkuna::luoStatusBar()
-{
-    harjoituspvmEdit = new QDateEdit();
-    harjoituspvmEdit->setDate(QDate::currentDate());
 
-    statusBar()->addPermanentWidget(harjoituspvmEdit);
-    connect( harjoituspvmEdit, SIGNAL(dateChanged(QDate)), Kirjanpito::db(), SLOT(asetaHarjoitteluPvm(QDate)));
-    // Päivän vaihtamisen pitäisi myös päivittää näytettävä aloitussivu
-    harjoituspvmEdit->setVisible(false);
+void KitupiikkiIkkuna::luoHarjoitusDock()
+{
+    QLabel *teksti = new QLabel("<b>Harjoittelutila käytössä</b> Voit nopeuttaa ajan kulumista");
+    teksti->setStyleSheet("color: white;");
+
+    QDateEdit *pvmedit = new QDateEdit;
+    pvmedit->setDate( QDate::currentDate());
+    pvmedit->setStyleSheet("background: white;");
+
+    QHBoxLayout *leiska = new QHBoxLayout;
+    leiska->addWidget(teksti, 3);
+    leiska->addWidget(pvmedit,1, Qt::AlignRight);
+
+    QWidget *wg = new QWidget;
+    wg->setLayout(leiska);
+
+    harjoitusDock = new QDockWidget;
+    harjoitusDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
+    harjoitusDock->setWidget(wg);
+    harjoitusDock->setStyleSheet("background: green");
+    harjoitusDock->setTitleBarWidget(new QWidget(this));
+
+    addDockWidget(Qt::TopDockWidgetArea, harjoitusDock);
+    connect( pvmedit, SIGNAL(dateChanged(QDate)), Kirjanpito::db(), SLOT(asetaHarjoitteluPvm(QDate)));
+    harjoitusDock->setVisible(false);
 }
