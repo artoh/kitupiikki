@@ -60,6 +60,9 @@ public:
      */
     virtual void tulosta(QPrinter *printer);
 
+    void tulostaYlatunniste(QPainter *painter, int sivu, const QString& otsikko, const QString& alaotsikko = QString());
+
+
 signals:
 
 public slots:

@@ -155,6 +155,12 @@ void KirjausWg::tallenna()
     if( !tositeId)
         tositeId = query.lastInsertId().toInt();
 
+    if( !tositeId)
+    {
+        QMessageBox::critical(this,tr("Tallennus ei onnistu"),tr("Tositteen lisääminen ei onnistunut!"));
+        return;
+    }
+
 
     tositewg->tallennaTosite(tositeId); // Tallentaa tositetiedoston
 
@@ -238,8 +244,8 @@ int KirjausWg::seuraavaNumero()
 {
     Tilikausi kausi = Kirjanpito::db()->tilikausiPaivalle( ui->tositePvmEdit->date());
 
-    QString kysymys = QString("SELECT max(tunniste) FROM tosite WHERE abs(tunniste)>0 "
-                    "AND pvm BETWEEN \"%1\" AND \"%2\" ")
+    QString kysymys = QString("SELECT max(abs(tunniste)) FROM tosite WHERE "
+                    " pvm BETWEEN \"%1\" AND \"%2\" ")
                                 .arg(kausi.alkaa().toString(Qt::ISODate))
                                 .arg(kausi.paattyy().toString(Qt::ISODate));
     qDebug() << kysymys;
@@ -249,7 +255,7 @@ int KirjausWg::seuraavaNumero()
     if( kysely.next())
         return kysely.value(0).toInt() + 1;
     else
-        return 0;
+        return 1;
 }
 
 bool KirjausWg::kelpaakoTunniste()
