@@ -27,13 +27,9 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QFrame" name="kehys">
-       <property name="frameShape">
-        <enum>QFrame::StyledPanel</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
-       </property>
+      <widget class="QStackedWidget" name="pino">
+       <widget class="QWidget" name="page"/>
+       <widget class="QWidget" name="page_2"/>
       </widget>
      </item>
      <item>

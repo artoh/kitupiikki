@@ -30,19 +30,19 @@
  *
  *
  */
-class Raportti : public QObject
+class Raportti : public QWidget
 {
     Q_OBJECT
 public:
-    Raportti(QObject *parent = 0);
+    Raportti(QWidget *parent = 0);
 
     virtual QString raporttinimi() const = 0;
-    virtual QString lomake() const = 0;
     virtual QIcon kuvake() const;
+    virtual bool onkoTulostettava() const { return true; }
 
-    virtual void alustaLomake(QWidget *kehys);
+    virtual void alustaLomake();
 
-    virtual void tulosta(QPrinter *printer, QWidget *kehys);
+    virtual void tulosta(QPrinter *printer);
 
 signals:
 

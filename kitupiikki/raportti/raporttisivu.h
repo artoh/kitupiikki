@@ -24,15 +24,11 @@
 #include "ui_raportti.h"
 #include "raportti.h"
 
-
-class QListWidget;
-class QFrame;
-
 class RaporttiSivu : public QWidget
 {
     Q_OBJECT
 public:
-    enum { RAPORTTIID = Qt::UserRole, LOMAKE = Qt::UserRole + 1 } ;
+    enum { RAPORTTIID = Qt::UserRole } ;
 
     explicit RaporttiSivu(QWidget *parent = 0);
 
@@ -45,7 +41,6 @@ public slots:
     void tyhjenna();
 
 protected:
-    void lataaUi(const QString& uinimi);
     void lisaaRaportti(Raportti *raportti);
 
 protected:

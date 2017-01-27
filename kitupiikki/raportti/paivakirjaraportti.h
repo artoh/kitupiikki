@@ -19,19 +19,26 @@
 #define PAIVAKIRJARAPORTTI_H
 
 #include "raportti.h"
+#include "ui_paivakirja.h"
 
 class PaivakirjaRaportti : public Raportti
 {
+    Q_OBJECT
 public:
     PaivakirjaRaportti();
+    ~PaivakirjaRaportti();
 
     QString raporttinimi() const { return "Päiväkirja"; }
-    QString lomake() const { return "paivakirja"; }
     QIcon kuvake() const { return QIcon(":/pic/Paivakirja64.png"); }
 
-    void alustaLomake(QWidget *kehys);
+    bool onkoTulostettava() const { return false; }
 
-    void tulosta(QPrinter *printer, QWidget *kehys);
+    void alustaLomake();
+
+    void tulosta(QPrinter *printer);
+
+protected:
+    Ui::Paivakirja *ui;
 };
 
 #endif // PAIVAKIRJARAPORTTI_H

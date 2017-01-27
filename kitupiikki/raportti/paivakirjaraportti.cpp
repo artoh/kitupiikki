@@ -24,20 +24,23 @@
 
 PaivakirjaRaportti::PaivakirjaRaportti()
 {
-
+    ui = new Ui::Paivakirja;
+    ui->setupUi(this);
 }
 
-void PaivakirjaRaportti::alustaLomake(QWidget *kehys)
+PaivakirjaRaportti::~PaivakirjaRaportti()
 {
-    QDateEdit *alkaaEdit = kehys->findChild<QDateEdit*>("alkupvm");
-    QDateEdit *loppuuEdit = kehys->findChild<QDateEdit*>("loppupvm");
-
-    Tilikausi nykykausi = Kirjanpito::db()->tilikausiPaivalle( Kirjanpito::db()->paivamaara() );
-    alkaaEdit->setDate(nykykausi.alkaa());
-    loppuuEdit->setDate(nykykausi.paattyy());
+    delete ui;
 }
 
-void PaivakirjaRaportti::tulosta(QPrinter *printer, QWidget *kehys)
+void PaivakirjaRaportti::alustaLomake()
+{
+    Tilikausi nykykausi = Kirjanpito::db()->tilikausiPaivalle( Kirjanpito::db()->paivamaara() );
+    ui->alkupvm->setDate(nykykausi.alkaa());
+    ui->loppupvm->setDate(nykykausi.paattyy());
+}
+
+void PaivakirjaRaportti::tulosta(QPrinter *printer)
 {
     QPainter painter(printer);
     painter.drawText(100,100,"Kokeilua ja testiä");

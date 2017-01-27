@@ -17,7 +17,7 @@
 
 #include "raportti.h"
 
-Raportti::Raportti(QObject *parent) : QObject(parent)
+Raportti::Raportti(QWidget *parent) : QWidget(parent)
 {
 
 }
@@ -27,12 +27,12 @@ QIcon Raportti::kuvake() const
     return QIcon();
 }
 
-void Raportti::alustaLomake(QWidget *kehys)
+void Raportti::alustaLomake()
 {
 
 }
 
-void Raportti::tulosta(QPrinter *printer, QWidget *kehys)
+void Raportti::tulosta(QPrinter *printer)
 {
 
 }

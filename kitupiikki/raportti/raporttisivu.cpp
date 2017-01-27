@@ -19,10 +19,11 @@
 #include <QFrame>
 #include <QHBoxLayout>
 
-#include <QUiLoader>
 #include <QFile>
 #include <QTemporaryFile>
 #include <QUrl>
+
+#include <QDebug>
 
 #include <QPrintDialog>
 #include <QDesktopServices>
@@ -49,9 +50,14 @@ RaporttiSivu::RaporttiSivu(QWidget *parent) : QWidget(parent),
 
 void RaporttiSivu::raporttiValittu(QListWidgetItem *item)
 {
-    lataaUi( item->data(LOMAKE).toString());
+
     nykyraportti = raportit[ item->data(RAPORTTIID).toInt()];
-    nykyraportti->alustaLomake(ui->kehys);
+
+    ui->pino->setCurrentWidget(nykyraportti);
+    nykyraportti->alustaLomake();
+
+    ui->esikatseleNappi->setVisible( nykyraportti->onkoTulostettava());
+    ui->tulostaNappi->setVisible( nykyraportti->onkoTulostettava());
 
 }
 
@@ -63,7 +69,7 @@ void RaporttiSivu::tulosta()
     QPrintDialog printDialog( &printer, this );
     if( printDialog.exec())
     {
-        nykyraportti->tulosta(&printer, ui->kehys);
+        nykyraportti->tulosta(&printer);
     }
 }
 
@@ -75,7 +81,7 @@ void RaporttiSivu::esikatsele()
     file->close();
 
     printer.setOutputFileName( file->fileName() );
-    nykyraportti->tulosta(&printer, ui->kehys);
+    nykyraportti->tulosta(&printer);
     QDesktopServices::openUrl( QUrl(file->fileName()) );
 
 }
@@ -83,27 +89,16 @@ void RaporttiSivu::esikatsele()
 void RaporttiSivu::tyhjenna()
 {
     if( nykyraportti )
-        nykyraportti->alustaLomake(ui->kehys);
+        nykyraportti->alustaLomake();
 }
 
-void RaporttiSivu::lataaUi(const QString &uinimi)
-{
-    QUiLoader loader;
-    QFile tiedosto( QString(":/raportti/%1.ui").arg(uinimi));
-    tiedosto.open( QFile::ReadOnly);
-
-    QWidget *widget = loader.load(&tiedosto, this);
-    QHBoxLayout *leiska = new QHBoxLayout;
-    leiska->addWidget(widget);
-    ui->kehys->setLayout(leiska);
-
-}
 
 void RaporttiSivu::lisaaRaportti(Raportti *raportti)
 {
     QListWidgetItem *item = new QListWidgetItem(raportti->raporttinimi(), ui->lista);
-    item->setData(LOMAKE, QVariant(raportti->lomake() ));
     item->setData(RAPORTTIID, QVariant( raportit.count()));
     item->setIcon(raportti->kuvake());
     raportit.append(raportti);
+    ui->pino->addWidget(raportti);
+
 }

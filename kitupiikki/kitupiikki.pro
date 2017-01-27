@@ -2,7 +2,6 @@ QT += gui
 QT += widgets
 QT += sql
 QT += webenginewidgets
-QT += uitools
 QT += printsupport
 
 CONFIG += c++11
@@ -71,8 +70,7 @@ RESOURCES += \
     tilikartat/tilikartat.qrc \
     pic/pic.qrc \
     uusikp/sql.qrc \
-    aloitussivu/qrc/aloitus.qrc \
-    raportti/ui/ui.qrc
+    aloitussivu/qrc/aloitus.qrc
 
 FORMS += \
     uusikp/intro.ui \
@@ -84,8 +82,8 @@ FORMS += \
     kirjaus/kirjaus.ui \
     kirjaus/tositewg.ui \
     selaus/selauswg.ui \
-    raportti/ui/paivakirja.ui \
-    raportti/raportti.ui
+    raportti/raportti.ui \
+    raportti/paivakirja.ui
 
 DISTFILES += \
     uusikp/luo.sql \
