@@ -170,6 +170,16 @@ bool UusiKirjanpito::alustaKirjanpito()
     } else {
         // Tilinavaustiedot puuttuvat
         query.addBindValue("tilinavaus"); query.addBindValue( 2 ); query.exec();
+
+        // Päivä, jolle tilinavaus kirjataan
+        query.addBindValue("tilinavauspvm");
+        query.addBindValue( field("edpaattyi").toDate().toString(Qt::ISODate));
+        query.exec();
+
+        // Lukitaan kirjauksilta
+        query.addBindValue("tilitpaatetty");
+        query.addBindValue( field("edpaattyi").toDate().toString(Qt::ISODate));
+        query.exec();
     }
 
     // Siirretään asetustauluun tilikartan tiedot
@@ -241,6 +251,15 @@ bool UusiKirjanpito::alustaKirjanpito()
         // Edellinen tilikausi. Lukitaan, ei estä tilin avausta.
         query.addBindValue( field("edalkoi").toDate());
         query.addBindValue( field("edpaattyi").toDate());
+        query.addBindValue( field("edpaattyi").toDate());
+        query.exec();
+    }
+
+    // Kirjoitetaan nollatosite tilien avaamiseen
+    if( !field("onekakausi").toBool())
+    {
+        query.prepare("INSERT INTO TOSITE(id,pvm,otsikko,tyyppi) "
+                      "VALUES (0,?,\"Tilinavaus\",1)");
         query.addBindValue( field("edpaattyi").toDate());
         query.exec();
     }

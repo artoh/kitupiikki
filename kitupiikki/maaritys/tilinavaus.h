@@ -15,38 +15,30 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QListWidget>
-#include <QStackedWidget>
-#include <QHBoxLayout>
+#ifndef TILINAVAUS_H
+#define TILINAVAUS_H
 
-#include "maarityssivu.h"
+#include <QWidget>
 
-#include "perusvalinnat.h"
-#include "tilinavaus.h"
+#include "ui_tilinavaus.h"
+#include "tilinavausmodel.h"
 
-MaaritysSivu::MaaritysSivu() :
-    QWidget(0)
+class Tilinavaus : public QWidget
 {
-    pino = new QStackedWidget;
+    Q_OBJECT
+public:
+    explicit Tilinavaus(QWidget *parent = 0);
+    ~Tilinavaus();
 
-    pino->addWidget( new Perusvalinnat );
-    pino->addWidget( new Tilinavaus );
+signals:
 
-    lista = new QListWidget;
-    lista->addItem("Perusvalinnat");
-    lista->addItem("Tilinavaus");
+public slots:
+    void naytaInfo(QString info);
+    void tsekkaaMuokkaus();
 
-    connect(lista, SIGNAL(currentRowChanged(int)), pino, SLOT(setCurrentIndex(int)));
+private:
+    Ui::Tilinavaus *ui;
+    TilinavausModel *model;
+};
 
-    QHBoxLayout *leiska = new QHBoxLayout;
-    leiska->addWidget(lista,0);
-    leiska->addWidget(pino,1);
-
-    setLayout(leiska);
-
-}
-
-void MaaritysSivu::nollaa()
-{
-    emit nollaaKaikki();
-}
+#endif // TILINAVAUS_H

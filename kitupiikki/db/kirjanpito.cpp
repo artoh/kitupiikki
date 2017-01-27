@@ -46,7 +46,7 @@ Kirjanpito::~Kirjanpito()
 
 QString Kirjanpito::asetus(const QString &avain) const
 {
-    return asetukset.value(avain);
+    return asetukset.value(avain, QString());
 }
 
 void Kirjanpito::aseta(const QString &avain, const QString &arvo)

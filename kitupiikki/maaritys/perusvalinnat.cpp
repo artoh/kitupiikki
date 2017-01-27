@@ -35,6 +35,7 @@ Perusvalinnat::Perusvalinnat() :
     connect(ui->vaihdaLogoNappi, SIGNAL(clicked(bool)), this, SLOT(vaihdaLogo()));
     connect(ui->nollaaNappi, SIGNAL(clicked(bool)), this, SLOT(nollaa()));
     connect(ui->tallennaNappi, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
+    connect( Kirjanpito::db(), SIGNAL(tietokantaVaihtui()), this, SLOT(nollaa()));
 }
 
 Perusvalinnat::~Perusvalinnat()

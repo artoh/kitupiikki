@@ -208,7 +208,7 @@ T;70001;Satunnaiset tulot;2
 T;7001;Satunnaiset tuotot
 M;7100;Satunnaiset kulut;2
 M;7101;Satunnaiset kulut
-T;7500;Yleisavustukset:1
+T;7500;Yleisavustukset;1
 T;7501;Yleisavustukset
 MP;8000;Poistot;1
 MP;8001;Poistot koneista ja kalustosta

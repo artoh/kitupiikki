@@ -36,7 +36,9 @@ SOURCES += main.cpp \
     selaus/selausmodel.cpp \
     raportti/raporttisivu.cpp \
     raportti/raportti.cpp \
-    raportti/paivakirjaraportti.cpp
+    raportti/paivakirjaraportti.cpp \
+    maaritys/tilinavaus.cpp \
+    maaritys/tilinavausmodel.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -64,7 +66,9 @@ HEADERS += \
     selaus/selausmodel.h \
     raportti/raporttisivu.h \
     raportti/raportti.h \
-    raportti/paivakirjaraportti.h
+    raportti/paivakirjaraportti.h \
+    maaritys/tilinavaus.h \
+    maaritys/tilinavausmodel.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -83,7 +87,8 @@ FORMS += \
     kirjaus/tositewg.ui \
     selaus/selauswg.ui \
     raportti/raportti.ui \
-    raportti/paivakirja.ui
+    raportti/paivakirja.ui \
+    maaritys/tilinavaus.ui
 
 DISTFILES += \
     uusikp/luo.sql \
