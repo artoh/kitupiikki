@@ -31,8 +31,6 @@ public:
     QString raporttinimi() const { return "Päiväkirja"; }
     QIcon kuvake() const { return QIcon(":/pic/Paivakirja64.png"); }
 
-    bool onkoTulostettava() const { return false; }
-
     void alustaLomake();
 
     void tulosta(QPrinter *printer);

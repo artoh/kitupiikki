@@ -36,12 +36,28 @@ class Raportti : public QWidget
 public:
     Raportti(QWidget *parent = 0);
 
+    /**
+     * @brief Raporttilistassa näytettävä raportin nimi
+     * @return
+     */
     virtual QString raporttinimi() const = 0;
     virtual QIcon kuvake() const;
+
+    /**
+     * @brief Näytetäänkö raportin lomakkeella esikatselu- ja tulostuspainikkeet
+     * @return tosi, jos tulostettava
+     */
     virtual bool onkoTulostettava() const { return true; }
 
+    /**
+     * @brief Kutsutaan, kun tämä lomake valitaan
+     */
     virtual void alustaLomake();
 
+    /**
+     * @brief Kutsutaan, kun raportti pitää tulostaa
+     * @param printer
+     */
     virtual void tulosta(QPrinter *printer);
 
 signals:

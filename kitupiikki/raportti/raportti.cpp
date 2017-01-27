@@ -32,7 +32,7 @@ void Raportti::alustaLomake()
 
 }
 
-void Raportti::tulosta(QPrinter *printer)
+void Raportti::tulosta(QPrinter */*printer*/)
 {
 
 }
