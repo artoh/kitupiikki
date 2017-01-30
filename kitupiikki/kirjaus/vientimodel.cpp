@@ -18,6 +18,7 @@
 #include "vientimodel.h"
 #include "kirjauswg.h"
 #include "db/kirjanpito.h"
+#include "db/tilikausi.h"
 
 #include <QDebug>
 #include <QSqlQuery>
@@ -120,7 +121,7 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int r
 {
     switch (index.column())
     {
-    case PVM:
+    case PVM:      
         viennit[index.row()].pvm = value.toDate();
         emit siirryRuutuun( index.sibling(index.row(), TILI) );
         return true;
@@ -162,9 +163,10 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int r
 
 Qt::ItemFlags VientiModel::flags(const QModelIndex &index) const
 {
-    return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
-
-    return QAbstractTableModel::flags(index);
+    if( muokkausSallittu)
+        return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
+    else
+        return QAbstractTableModel::flags(index);
 }
 
 bool VientiModel::insertRows(int row, int count, const QModelIndex & /* parent */)
@@ -174,6 +176,7 @@ bool VientiModel::insertRows(int row, int count, const QModelIndex & /* parent *
         viennit.insert(row, uusiRivi() );
     endInsertRows();
     emit muuttunut();
+    emit vientejaOnTaiEi(true);
     return true;
 }
 
@@ -266,6 +269,13 @@ void VientiModel::lataa(int tositeid)
 
     endResetModel();
 }
+
+void VientiModel::salliMuokkaus(bool sallitaanko)
+{
+    muokkausSallittu = sallitaanko;
+}
+
+
 
 VientiRivi VientiModel::uusiRivi()
 {

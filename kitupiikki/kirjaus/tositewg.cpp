@@ -137,6 +137,7 @@ void TositeWg::tyhjenna(const QString &tositenumero, const QString &tositetiedos
     }
 }
 
+
 void TositeWg::naytaTosite(const QString &tositetiedostonpolku)
 {
     scene->clear();

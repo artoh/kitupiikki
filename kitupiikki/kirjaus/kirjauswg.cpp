@@ -19,12 +19,15 @@
 #include "vientimodel.h"
 #include "tilidelegaatti.h"
 #include "eurodelegaatti.h"
+#include "pvmdelegaatti.h"
 
 #include "db/kirjanpito.h"
+#include "db/tositetyyppi.h"
 
 #include <QDebug>
 #include <QSqlQuery>
 #include <QMessageBox>
+#include <QIntValidator>
 
 KirjausWg::KirjausWg(TositeWg *tosite) : QWidget(), tositewg(tosite), tositeId(0)
 {
@@ -38,14 +41,16 @@ KirjausWg::KirjausWg(TositeWg *tosite) : QWidget(), tositewg(tosite), tositeId(0
     connect( viennitModel, SIGNAL(siirryRuutuun(QModelIndex)), ui->viennitView, SLOT(edit(QModelIndex)));
     connect( viennitModel, SIGNAL(muuttunut()), this, SLOT(naytaSummat()));
 
+    ui->viennitView->setItemDelegateForColumn( VientiModel::PVM, new PvmDelegaatti(ui->tositePvmEdit));
     ui->viennitView->setItemDelegateForColumn( VientiModel::TILI, new TiliDelegaatti() );
-
     ui->viennitView->setItemDelegateForColumn( VientiModel::DEBET, new EuroDelegaatti);
     ui->viennitView->setItemDelegateForColumn( VientiModel::KREDIT, new EuroDelegaatti);
 
     ui->viennitView->hideColumn(VientiModel::PROJEKTI);
     ui->viennitView->hideColumn(VientiModel::KUSTANNUSPAIKKA);
     ui->viennitView->horizontalHeader()->setStretchLastSection(true);
+
+    ui->tunnisteEdit->setValidator( new QIntValidator(1,99999999) );
 
     connect( ui->lisaaRiviNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaRivi()));
     connect( ui->tallennaButton, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
@@ -54,8 +59,14 @@ KirjausWg::KirjausWg(TositeWg *tosite) : QWidget(), tositewg(tosite), tositeId(0
 
     connect( ui->tunnisteEdit, SIGNAL(textChanged(QString)), this, SLOT(tarkistaTunniste()));
     connect( ui->tositePvmEdit, SIGNAL(dateChanged(QDate)), this, SLOT(korjaaTunniste()));
+    connect( ui->tositetyyppiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(vaihdaTositeTyyppi()));
 
-    tyhjenna();
+    // Tällä lukitaan tositteen pvm pysymään samalla tilikaudella jos tositteella on jo vientejä
+    connect( viennitModel, SIGNAL(vientejaOnTaiEi(bool)), this, SLOT(lukitseTilikaudelle(bool)));
+    // Jos tosite kirjataan toiselle tilikaudelle, haetaan uusi numero
+    connect( ui->tositePvmEdit, SIGNAL(dateChanged(QDate)), this, SLOT(tarkistaTunnisteJosTilikausiVaihtui(QDate)));
+
+    connect( Kirjanpito::db(), SIGNAL(tietokantaVaihtui()), this, SLOT(lataaTositetyypit()));
 }
 
 KirjausWg::~KirjausWg()
@@ -86,7 +97,6 @@ void KirjausWg::tyhjenna()
     ui->tositePvmEdit->setDate( Kirjanpito::db()->paivamaara() );
     ui->otsikkoEdit->clear();
     ui->kommentitEdit->clear();
-    ui->tositePvmEdit->setFocus();
 
     ui->tunnisteEdit->clear();
 
@@ -99,9 +109,14 @@ void KirjausWg::tyhjenna()
 
     tositewg->tyhjenna();
 
-
     viennitModel->tyhjaa();
     ui->tabWidget->setCurrentIndex(0);
+    // Laittaa samalla päivämäärärajat
+    ui->tositePvmEdit->setDateRange(Kirjanpito::db()->tilitpaatetty().addDays(1), Kirjanpito::db()->viimeinenpaiva());
+
+    ui->tositePvmEdit->setFocus();
+
+    salliMuokkaus(true);
 }
 
 void KirjausWg::tallenna()
@@ -133,24 +148,28 @@ void KirjausWg::tallenna()
         }
     }
 
-
+    // Tallennuskysely
     QSqlQuery query;
 
     if( tositeId )
     {
-        query.prepare("UPDATE tosite SET pvm=:pvm, otsikko=:otsikko, kommentti=:kommentti, tunniste=:tunniste "
+        query.prepare("UPDATE tosite SET pvm=:pvm, otsikko=:otsikko, kommentti=:kommentti, tunniste=:tunniste, tyyppi=:tyyppi "
                       "WHERE id=:id");
         query.bindValue(":id", tositeId);
     }
     else
-        query.prepare("INSERT INTO tosite(pvm,otsikko,kommentti,tunniste) values(:pvm,:otsikko,:kommentti,:tunniste)");
+        query.prepare("INSERT INTO tosite(pvm,otsikko,kommentti,tunniste,tyyppi) values(:pvm,:otsikko,:kommentti,:tunniste,:tyyppi)");
 
     query.bindValue(":pvm", ui->tositePvmEdit->date());
     query.bindValue(":otsikko", ui->otsikkoEdit->text());
     query.bindValue(":kommentti", ui->kommentitEdit->document()->toPlainText());
     if( !ui->tunnisteEdit->text().isEmpty())
         query.bindValue(":tunniste", ui->tunnisteEdit->text());
+    query.bindValue(":tyyppi",  ui->tositetyyppiCombo->currentData().toString());
+
     query.exec();
+
+
 
     if( !tositeId)
         tositeId = query.lastInsertId().toInt();
@@ -187,14 +206,28 @@ void KirjausWg::naytaSummat()
 void KirjausWg::lataaTosite(int id)
 {
     QSqlQuery query;
-    query.exec( QString("SELECT pvm, otsikko, kommentti, tunniste, tiedosto, tunniste FROM tosite WHERE id=%1").arg(id) );
+    query.exec( QString("SELECT pvm, otsikko, kommentti, tunniste, tiedosto, tunniste, tyyppi FROM tosite WHERE id=%1").arg(id) );
     if( query.next())
     {
         tositeId = id;
+
+        // Jos systeemitosite taikka lukitulla ajalla, niin sitten ei voi muokata !
+        if( query.value("tyyppi")=="*" ||  ui->tositePvmEdit->date() <= Kirjanpito::db()->tilitpaatetty())
+        {
+            salliMuokkaus(false);
+        }
+        else
+        {
+            salliMuokkaus(true);
+        }
+
+
         ui->tositePvmEdit->setDate( query.value("pvm").toDate() );
         ui->otsikkoEdit->setText( query.value("otsikko").toString());
         ui->kommentitEdit->setPlainText( query.value("kommentti").toString());
         ui->tunnisteEdit->setText( query.value("tunniste").toString());
+
+        ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( query.value("tyyppi") ) );
 
         tositewg->tyhjenna( query.value("tunniste").toString(), query.value("tiedosto").toString() );
 
@@ -204,7 +237,12 @@ void KirjausWg::lataaTosite(int id)
         viennitModel->lataa(id);
         naytaSummat();
         ui->tabWidget->setCurrentIndex(VIENNIT);
+
+
     }
+    ui->tabWidget->setCurrentIndex(0);
+    ui->tositePvmEdit->setFocus();
+
 }
 
 void KirjausWg::paivitaKommenttiMerkki()
@@ -240,16 +278,84 @@ void KirjausWg::korjaaTunniste()
     tarkistaTunniste();
 }
 
+void KirjausWg::salliMuokkaus(bool sallitaanko)
+{
+    ui->tositePvmEdit->setEnabled(sallitaanko);
+    ui->tositetyyppiCombo->setEnabled(sallitaanko);
+    ui->kommentitEdit->setEnabled(sallitaanko);
+    ui->tunnisteEdit->setEnabled(sallitaanko);
+    ui->tallennaButton->setEnabled(sallitaanko);
+    ui->otsikkoEdit->setEnabled(sallitaanko);
+
+    viennitModel->salliMuokkaus(sallitaanko);
+    tositewg->setEnabled(sallitaanko);
+
+    if(sallitaanko)
+        ui->tositePvmEdit->setDateRange(Kirjanpito::db()->tilitpaatetty().addDays(1), Kirjanpito::db()->viimeinenpaiva());
+    else
+        ui->tositePvmEdit->setDateRange( Kirjanpito::db()->tilikaudet().first().alkaa(), Kirjanpito::db()->tilikaudet().last().paattyy() );
+
+}
+
+void KirjausWg::lataaTositetyypit()
+{
+    // Lataa käytettävissä olevat tositetyypit comboon
+
+    ui->tositetyyppiCombo->clear();
+    foreach (TositeTyyppi tyyppi, Kirjanpito::db()->tositetyypit())
+    {
+        if( tyyppi.onkoKaytettavissa())
+            ui->tositetyyppiCombo->addItem( tyyppi.nimi(), QVariant(tyyppi.tunnus()));
+    }
+    tyhjenna();
+
+}
+
+void KirjausWg::vaihdaTositeTyyppi()
+{
+    ui->tyyppiLabel->setText( ui->tositetyyppiCombo->currentData().toString() );
+    // Vaihdetaan myös numerointi uuden tunnistetyypin mukaiseksi
+    ui->tunnisteEdit->setText( QString::number( seuraavaNumero() ) );
+}
+
+void KirjausWg::lukitseTilikaudelle(bool lukitaanko)
+{
+    if( lukitaanko )
+    {
+        Tilikausi tilikausi = Kirjanpito::db()->tilikausiPaivalle( ui->tositePvmEdit->date());
+        ui->tositePvmEdit->setDateRange( tilikausi.alkaa(), tilikausi.paattyy() );
+    }
+    else
+    {
+        ui->tositePvmEdit->setDateRange(Kirjanpito::db()->tilitpaatetty().addDays(1), Kirjanpito::db()->viimeinenpaiva());
+    }
+}
+
+void KirjausWg::tarkistaTunnisteJosTilikausiVaihtui(QDate uusipaiva)
+{
+    if( edellinenpvm.isValid())
+    {
+        Tilikausi edellinen = Kirjanpito::db()->tilikausiPaivalle(edellinenpvm);
+        Tilikausi nykyinen = Kirjanpito::db()->tilikausiPaivalle(uusipaiva);
+
+        if( edellinen.alkaa() != nykyinen.alkaa() )
+            // Vaihdetaan tunnistenumero
+            ui->tunnisteEdit->setText( QString::number( seuraavaNumero() ) );
+    }
+    edellinenpvm = uusipaiva;
+}
+
+
 int KirjausWg::seuraavaNumero()
 {
     Tilikausi kausi = Kirjanpito::db()->tilikausiPaivalle( ui->tositePvmEdit->date());
 
-    QString kysymys = QString("SELECT max(abs(tunniste)) FROM tosite WHERE "
-                    " pvm BETWEEN \"%1\" AND \"%2\" ")
+    QString kysymys = QString("SELECT max(tunniste) FROM tosite WHERE "
+                    " pvm BETWEEN \"%1\" AND \"%2\" "
+                    " AND tyyppi=\"%3\" ")
                                 .arg(kausi.alkaa().toString(Qt::ISODate))
-                                .arg(kausi.paattyy().toString(Qt::ISODate));
-    qDebug() << kysymys;
-
+                                .arg(kausi.paattyy().toString(Qt::ISODate))
+                                .arg( ui->tositetyyppiCombo->currentData().toString());
     QSqlQuery kysely;
     kysely.exec(kysymys);
     if( kysely.next())
@@ -260,14 +366,15 @@ int KirjausWg::seuraavaNumero()
 
 bool KirjausWg::kelpaakoTunniste()
 {
-    // Onko kyseisellä kaudella jo tämä tunniste käytössä????
+    // Onko kyseisellä kaudella ja samalla tyypillä
     Tilikausi kausi = Kirjanpito::db()->tilikausiPaivalle( ui->tositePvmEdit->date() );
     QString kysymys = QString("SELECT id FROM tosite WHERE tunniste=\"%1\" "
-                              "AND pvm BETWEEN \"%2\" AND \"%3\" AND id <> %4").arg(ui->tunnisteEdit->text())
+                              "AND pvm BETWEEN \"%2\" AND \"%3\" AND id <> %4 "
+                              "AND tyyppi=\"%5\" ").arg(ui->tunnisteEdit->text())
                                                           .arg(kausi.alkaa().toString(Qt::ISODate))
                                                           .arg(kausi.paattyy().toString(Qt::ISODate))
-                                                          .arg(tositeId);
-    qDebug() << kysymys;
+                                                          .arg(tositeId)
+                                                          .arg(ui->tositetyyppiCombo->currentData().toString() );
     QSqlQuery kysely;
     kysely.exec(kysymys);
     return !kysely.next();

@@ -40,7 +40,7 @@ CREATE TABLE tosite (
     pvm       DATE         NOT NULL,
     otsikko   TEXT,
     kommentti TEXT,
-    tunniste  VARCHAR (32),
+    tunniste  INTEGER,
     tiliote   INTEGER      REFERENCES tili (nro) ON UPDATE CASCADE,
     tiedosto  VARCHAR (60),
     sha       TEXT,

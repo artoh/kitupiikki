@@ -33,6 +33,7 @@
 
 #include "tili.h"
 #include "tilikausi.h"
+#include "tositetyyppi.h"
 
 /**
  * @brief Kirjanpidon käsittely
@@ -80,10 +81,19 @@ public:
      */
     QDate paivamaara() const;
 
+    /**
+     * @brief Päivämäärä, johon saakka tilit on päätetty eli ei voi enää muokata
+     * @return
+     */
+    QDate tilitpaatetty() const { return tilitpaatettupvm; }
+    QDate viimeinenpaiva() const { return tilikaudet_.last().paattyy(); }
+
     Tili tili(int tilinumero) const { return tilit_[tilinumero] ; }
     QList<Tili> tilit(QString tyyppisuodatin = QString(), int tilasuodatin = 0) const;
 
     QList<Tilikausi> tilikaudet() const { return tilikaudet_; }
+    QList<TositeTyyppi> tositetyypit() const { return tositetyypit_; }
+
     Tilikausi tilikausiPaivalle(const QDate &paiva) const;
 
 signals:
@@ -107,11 +117,13 @@ protected:
     QMap<QString,QString> asetukset;
     QMap<int,Tili> tilit_;
     QList<Tilikausi> tilikaudet_;
+    QList<TositeTyyppi> tositetyypit_;
 
     QString polkuTiedostoon;
     QSqlDatabase tietokanta;
     QMap<QString,QString> viimetiedostot;
     QDate harjoitusPvm;
+    QDate tilitpaatettupvm;
 
 public:
     /**

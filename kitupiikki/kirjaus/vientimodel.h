@@ -69,15 +69,20 @@ public slots:
     void tyhjaa();
     void lataa(int tositeid);
 
+    void salliMuokkaus(bool sallitaanko);
+
+
 signals:
     void siirryRuutuun(QModelIndex index);
     void muuttunut();
+    void vientejaOnTaiEi(bool onko);
 
 protected:
     QList<VientiRivi> viennit;
     KirjausWg *kirjauswg;
 
     VientiRivi uusiRivi();
+    bool muokkausSallittu;
 };
 
 #endif // VIENTIMODEL_H

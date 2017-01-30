@@ -199,8 +199,15 @@ void KitupiikkiIkkuna::selaaTilia(int tilinumero, Tilikausi tilikausi)
 void KitupiikkiIkkuna::aktivoiSivu(QAction *aktio)
 {
     int sivu = aktio->data().toInt();
-    qDebug() << "Sivulle " << sivu;
-    valitseSivu(sivu);
+    if( sivu == KIRJAUSSIVU)
+    {
+        // Kun kirjaussivu valitaan, tyhjennetään edellisten luettelo jottei
+        // tule paluuta kirjauksen jälkeen
+        edellisetIndeksit.clear();
+        valitseSivu(KIRJAUSSIVU, true);
+    }
+    else
+        valitseSivu(sivu);
 }
 
 void KitupiikkiIkkuna::naytaTosite(int tositeid)

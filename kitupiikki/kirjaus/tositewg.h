@@ -44,6 +44,7 @@ public slots:
     void tyhjenna(const QString& tositenumero = QString(),
                   const QString& tositetiedosto = QString());
 
+
 protected:
     Ui::TositeWg *ui;
 

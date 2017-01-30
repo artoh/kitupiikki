@@ -38,7 +38,9 @@ SOURCES += main.cpp \
     raportti/raportti.cpp \
     raportti/paivakirjaraportti.cpp \
     maaritys/tilinavaus.cpp \
-    maaritys/tilinavausmodel.cpp
+    maaritys/tilinavausmodel.cpp \
+    db/tositetyyppi.cpp \
+    kirjaus/pvmdelegaatti.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -68,7 +70,9 @@ HEADERS += \
     raportti/raportti.h \
     raportti/paivakirjaraportti.h \
     maaritys/tilinavaus.h \
-    maaritys/tilinavausmodel.h
+    maaritys/tilinavausmodel.h \
+    db/tositetyyppi.h \
+    kirjaus/pvmdelegaatti.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

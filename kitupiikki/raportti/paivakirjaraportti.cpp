@@ -47,7 +47,7 @@ void PaivakirjaRaportti::tulosta(QPrinter *printer)
     QPainter painter(printer);
 
     QSqlQuery kysely;
-    QString kysymys = QString("SELECT pvm, tili, debetsnt, kreditsnt, selite, tunniste, nimi from vientivw "
+    QString kysymys = QString("SELECT pvm, tili, debetsnt, kreditsnt, selite, tunniste, nimi, tyyppi from vientivw "
                               "WHERE pvm BETWEEN \"%1\" AND \"%2\" ORDER BY pvm")
                               .arg( ui->alkupvm->date().toString(Qt::ISODate) )
                               .arg( ui->loppupvm->date().toString(Qt::ISODate));
@@ -124,7 +124,7 @@ void PaivakirjaRaportti::tulosta(QPrinter *printer)
 
 
         painter.drawText( QRect(0,0,pvmleveys,rivinkorkeus), Qt::AlignLeft, kysely.value("pvm").toDate().toString(Qt::SystemLocaleShortDate)  );
-        painter.drawText( QRect( pvmleveys, 0, tositeleveys, rivinkorkeus ), Qt::AlignLeft, kysely.value("tunniste").toString() );
+        painter.drawText( QRect( pvmleveys, 0, tositeleveys, rivinkorkeus ), Qt::AlignLeft, kysely.value("tyyppi").toString() + kysely.value("tunniste").toString() );
         painter.drawText( QRect( pvmleveys + tositeleveys, 0, tilileveys, rivinkorkeus), Qt::AlignLeft, tr("%1 %2").arg(kysely.value("tili").toString()).arg(kysely.value("nimi").toString()));
         painter.drawText( seliterect, Qt::TextWordWrap, kysely.value("selite").toString());
         if( kysely.value("debetsnt").toInt() )
@@ -132,7 +132,10 @@ void PaivakirjaRaportti::tulosta(QPrinter *printer)
         if( kysely.value("kreditsnt").toInt())
             painter.drawText( QRect( sivunleveys - euroleveys, 0, euroleveys, rivinkorkeus), Qt::AlignRight, QString("%L1").arg( kysely.value("kreditsnt").toDouble() / 100.0 ,0,'f',2 ) );
 
-        painter.translate(0, seliterect.height());
+        if( seliterect.height() > rivinkorkeus)
+            painter.translate(0, seliterect.height());
+        else
+            painter.translate(0, rivinkorkeus);
 
     }
     // Tyhjennetään alalaita mahdollisista raidoista

@@ -65,8 +65,7 @@ void Kirjanpito::aseta(const QString &avain, const QString &arvo)
     query.bindValue(":avain", avain);
     query.bindValue(":arvo",arvo);
     query.exec();
-    asetukset[avain] = arvo;
-    tietokanta.commit();
+    asetukset[avain] = arvo;    
 }
 
 QDir Kirjanpito::hakemisto()
@@ -138,6 +137,8 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
         asetukset[query.value(0).toString()] = query.value(1).toString();
     }
 
+    tilitpaatettupvm = QDate::fromString( asetus("tilitpaatetty") , Qt::ISODate);
+
     // Ladataan tilt
     query.exec("SELECT nro, nimi, ohje, tyyppi, tila, json, otsikkotaso FROM tili");
     while( query.next())
@@ -157,6 +158,14 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
     {
         tilikaudet_.append(Tilikausi( query.value(0).toDate(),
                                       query.value(1).toDate() ));
+    }
+
+    // Ladataan tositetyypit
+    query.exec("SELECT tunnus, nimi FROM tositetyyppi ORDER BY nimi");
+    while( query.next())
+    {
+        tositetyypit_.append(TositeTyyppi( query.value(0).toString(),
+                                           query.value(1).toString()));
     }
 
 

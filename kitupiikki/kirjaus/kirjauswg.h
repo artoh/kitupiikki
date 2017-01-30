@@ -23,6 +23,7 @@
 #include "ui_kirjaus.h"
 #include "tositewg.h"
 
+
 class VientiModel;
 
 
@@ -51,6 +52,30 @@ public slots:
     void tarkistaTunniste();
     void korjaaTunniste();
 
+
+    /**
+     * @brief Määrää saako tositetta muokata
+     *
+     * Järjestelmätositteiden sekä päätettyjen tilikausien tositteiden muokkaamista ei sallita
+     *
+     * @param sallitaanko
+     */
+    void salliMuokkaus(bool sallitaanko);
+
+    /**
+     * @brief Lataa tositetyypin valintaan käytettävissä olevat tositetyypit
+     */
+    void lataaTositetyypit();
+    void vaihdaTositeTyyppi();
+
+    /**
+     * @brief Kun tositteella on kirjauksia, ei tositteen tilikautta voi enää vaihtaa
+     * @param lukitaanko
+     */
+    void lukitseTilikaudelle(bool lukitaanko);
+
+    void tarkistaTunnisteJosTilikausiVaihtui(QDate uusipaiva);
+
 protected:
     Ui::KirjausWg *ui;
     VientiModel *viennitModel;
@@ -60,6 +85,8 @@ protected:
 
     int seuraavaNumero();   /** Seuraava vapaa numero tälle tilikaudelle */
     bool kelpaakoTunniste();
+    QDate edellinenpvm;
+
 
 
 };
