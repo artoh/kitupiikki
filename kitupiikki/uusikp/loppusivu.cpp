@@ -25,7 +25,7 @@ LoppuSivu::LoppuSivu()
 {
     setTitle("Valmista");
 
-    QLabel *teksti = new QLabel("Kaikki on nyt valmista.");
+    QLabel *teksti = new QLabel("Kitupiikki on valmis luomaan uuden kirjanpidon.");
 
     karttaLabel = new QLabel();
 

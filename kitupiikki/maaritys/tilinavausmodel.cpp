@@ -164,7 +164,7 @@ qDebug() << avauspaiva;
         kysely.bindValue(":pvm", avauspaiva);
         kysely.bindValue(":tili", tili.numero());
 
-        if( tili.tyyppi().startsWith('A') || tili.tyyppi().startsWith('C'))
+        if( tili.tyyppi().startsWith('A') || tili.tyyppi().startsWith('M'))
         {
             kysely.bindValue(":debet", iter.value());
             kysely.bindValue(":kredit", QVariant());

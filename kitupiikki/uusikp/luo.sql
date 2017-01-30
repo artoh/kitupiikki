@@ -27,15 +27,13 @@ CREATE TABLE tilikausi (
 );
 
 CREATE TABLE tositetyyppi (
-    id   INTEGER      PRIMARY KEY
-                            UNIQUE,
+    tunnus   VARCHAR(5)      PRIMARY KEY ASC,
     nimi VARCHAR (60) NOT NULL
 );
 
-INSERT INTO tositetyyppi ( nimi,id) VALUES
-  ('Tilinavaus', 1),
-  ('Tilinpäätöskirjaus', 19),
-  ('Normaali',100 );
+INSERT INTO tositetyyppi ( tunnus,nimi) VALUES
+  ('*','Järjestelmän tosite'),
+  ('','Muu tosite' );
 
 CREATE TABLE tosite (
     id        INTEGER      PRIMARY KEY AUTOINCREMENT,
@@ -46,8 +44,8 @@ CREATE TABLE tosite (
     tiliote   INTEGER      REFERENCES tili (nro) ON UPDATE CASCADE,
     tiedosto  VARCHAR (60),
     sha       TEXT,
-    tyyppi                 REFERENCES tositetyyppi (id)
-                                 DEFAULT (100),
+    tyyppi    VARCHAR(6)         REFERENCES tositetyyppi (tunnus)
+                                 DEFAULT (''),
     json      TEXT
 );
 

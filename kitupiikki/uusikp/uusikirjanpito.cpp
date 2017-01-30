@@ -31,6 +31,8 @@
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 
+#include <QProgressDialog>
+
 #include "uusikirjanpito.h"
 
 #include "introsivu.h"
@@ -111,6 +113,21 @@ QMap<QString, QStringList> UusiKirjanpito::lueKtkTiedosto(const QString &polku)
 
 bool UusiKirjanpito::alustaKirjanpito()
 {
+    // Ladataan karttatiedosto
+    QMap<QString,QStringList> kartta = lueKtkTiedosto( field("tilikartta").toString() );
+
+    // Näyttää QProgressDialogin jotta käyttäjä ei hermostu
+    // Koska hitain osuus on tilien kirjoittaminen, päivätetään dialogia aina tilejä kirjoitettaessa
+    // ja sitä varten lasketaan "prosessilukuun" tilien ja otsikkojen lukumäärä.
+
+    int prosessiluku = 9 + kartta.value("otsikot").count() + kartta.value("tilit").count();
+    QProgressDialog progDlg(tr("Luodaan uutta kirjanpitoa"), QString(), 1, prosessiluku);
+    progDlg.setMinimumDuration(0);
+    progDlg.setValue(1);
+    progDlg.setWindowModality(Qt::WindowModal);
+    qApp->processEvents();
+
+
     QString hakemistopolku = field("sijainti").toString() + "/" + field("hakemisto").toString();
     QDir hakemisto;
 
@@ -122,6 +139,8 @@ bool UusiKirjanpito::alustaKirjanpito()
     hakemisto.mkdir("tositteet");
     hakemisto.mkdir("arkisto");
 
+    progDlg.setValue( progDlg.value() + 1 );
+
     // Luodaan tietokanta
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE","luonti");
     db.setDatabaseName(hakemistopolku + "/kitupiikki.sqlite");
@@ -130,6 +149,8 @@ bool UusiKirjanpito::alustaKirjanpito()
         return false;
     }
     QSqlQuery query(db);
+
+    progDlg.setValue( progDlg.value() + 1 );
 
     // Luodaan tietokanta
     // Tietokannan luontikäskyt ovat resurssitiedostossa luo.sql
@@ -142,11 +163,11 @@ bool UusiKirjanpito::alustaKirjanpito()
     foreach (QString kysely,sqlista)
     {
         query.exec(kysely);
+        qApp->processEvents();
     }
 
+    progDlg.setValue( progDlg.value() + 1 );
 
-    // Ladataan karttatiedosto
-    QMap<QString,QStringList> kartta = lueKtkTiedosto( field("tilikartta").toString() );
 
     // Asetustauluun kirjoittaminen
     query.prepare("INSERT INTO asetus (avain, arvo)"
@@ -182,6 +203,8 @@ bool UusiKirjanpito::alustaKirjanpito()
         query.exec();
     }
 
+    progDlg.setValue( progDlg.value() + 1 );
+
     // Siirretään asetustauluun tilikartan tiedot
     // jotka alkavat *-merkillä
     QMapIterator<QString,QStringList> i(kartta);
@@ -195,6 +218,8 @@ bool UusiKirjanpito::alustaKirjanpito()
             query.exec();
         }
     }
+
+    progDlg.setValue( progDlg.value() + 1 );
 
     // Tilien kirjoittaminen
     query.prepare("INSERT INTO tili(nro,nimi,tyyppi,otsikkotaso) values(?,?,?,?) ");
@@ -216,7 +241,9 @@ bool UusiKirjanpito::alustaKirjanpito()
             query.addBindValue(otsikkotaso);
             query.exec();
         }
+        progDlg.setValue( progDlg.value() + 1 );
     }
+
 
     // Otsikkojen kirjoittaminen
     query.prepare("INSERT INTO tiliotsikko(tilista,tiliin,otsikko,tyyppi) values(?,?,?,?)");
@@ -235,8 +262,8 @@ bool UusiKirjanpito::alustaKirjanpito()
             query.addBindValue( splitti[0]);    // tyyppi
             query.exec();
         }
+        progDlg.setValue( progDlg.value() + 1 );
     }
-
 
     // Tilikausien kirjoittaminen
     // Nykyinen tilikausi
@@ -255,15 +282,17 @@ bool UusiKirjanpito::alustaKirjanpito()
         query.exec();
     }
 
+    progDlg.setValue( progDlg.value() + 1 );
+
     // Kirjoitetaan nollatosite tilien avaamiseen
     if( !field("onekakausi").toBool())
     {
         query.prepare("INSERT INTO TOSITE(id,pvm,otsikko,tyyppi) "
-                      "VALUES (0,?,\"Tilinavaus\",1)");
+                      "VALUES (0,?,\"Tilinavaus\",\"*\")");
         query.addBindValue( field("edpaattyi").toDate());
         query.exec();
     }
-
+    progDlg.setValue( prosessiluku );
 
     db.close();
 
