@@ -26,12 +26,12 @@ CREATE TABLE tilikausi (
     json   TEXT
 );
 
-CREATE TABLE tositetyyppi (
+CREATE TABLE tositelaji (
     tunnus   VARCHAR(5)      PRIMARY KEY ASC,
     nimi VARCHAR (60) NOT NULL
 );
 
-INSERT INTO tositetyyppi ( tunnus,nimi) VALUES
+INSERT INTO tositelaji ( tunnus,nimi) VALUES
   ('*','Järjestelmän tosite'),
   ('','Muu tosite' );
 
@@ -44,7 +44,7 @@ CREATE TABLE tosite (
     tiliote   INTEGER      REFERENCES tili (nro) ON UPDATE CASCADE,
     tiedosto  VARCHAR (60),
     sha       TEXT,
-    tyyppi    VARCHAR(6)         REFERENCES tositetyyppi (tunnus)
+    laji    VARCHAR(6)         REFERENCES tositelaji (tunnus)
                                  DEFAULT (''),
     json      TEXT
 );
@@ -97,6 +97,7 @@ CREATE VIEW vientivw AS
            vienti.projekti,
            vienti.json,
            vienti.tosite,
+           tosite.laji as tositelaji,
            tosite.tunniste,
            tili.nimi,
            tili.tyyppi

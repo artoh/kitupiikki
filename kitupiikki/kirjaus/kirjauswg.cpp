@@ -153,12 +153,12 @@ void KirjausWg::tallenna()
 
     if( tositeId )
     {
-        query.prepare("UPDATE tosite SET pvm=:pvm, otsikko=:otsikko, kommentti=:kommentti, tunniste=:tunniste, tyyppi=:tyyppi "
+        query.prepare("UPDATE tosite SET pvm=:pvm, otsikko=:otsikko, kommentti=:kommentti, tunniste=:tunniste, laji=:tyyppi "
                       "WHERE id=:id");
         query.bindValue(":id", tositeId);
     }
     else
-        query.prepare("INSERT INTO tosite(pvm,otsikko,kommentti,tunniste,tyyppi) values(:pvm,:otsikko,:kommentti,:tunniste,:tyyppi)");
+        query.prepare("INSERT INTO tosite(pvm,otsikko,kommentti,tunniste,laji) values(:pvm,:otsikko,:kommentti,:tunniste,:tyyppi)");
 
     query.bindValue(":pvm", ui->tositePvmEdit->date());
     query.bindValue(":otsikko", ui->otsikkoEdit->text());
@@ -206,13 +206,13 @@ void KirjausWg::naytaSummat()
 void KirjausWg::lataaTosite(int id)
 {
     QSqlQuery query;
-    query.exec( QString("SELECT pvm, otsikko, kommentti, tunniste, tiedosto, tunniste, tyyppi FROM tosite WHERE id=%1").arg(id) );
+    query.exec( QString("SELECT pvm, otsikko, kommentti, tunniste, tiedosto, tunniste, laji FROM tosite WHERE id=%1").arg(id) );
     if( query.next())
     {
         tositeId = id;
 
         // Jos systeemitosite taikka lukitulla ajalla, niin sitten ei voi muokata !
-        if( query.value("tyyppi")=="*" ||  ui->tositePvmEdit->date() <= Kirjanpito::db()->tilitpaatetty())
+        if( query.value("laji")=="*" ||  ui->tositePvmEdit->date() <= Kirjanpito::db()->tilitpaatetty())
         {
             salliMuokkaus(false);
         }
@@ -225,9 +225,9 @@ void KirjausWg::lataaTosite(int id)
         ui->tositePvmEdit->setDate( query.value("pvm").toDate() );
         ui->otsikkoEdit->setText( query.value("otsikko").toString());
         ui->kommentitEdit->setPlainText( query.value("kommentti").toString());
-        ui->tunnisteEdit->setText( query.value("tunniste").toString());
+        ui->tunnisteEdit->setText( query.value("laji").toString());
 
-        ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( query.value("tyyppi") ) );
+        ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( query.value("laji") ) );
 
         tositewg->tyhjenna( query.value("tunniste").toString(), query.value("tiedosto").toString() );
 
@@ -352,7 +352,7 @@ int KirjausWg::seuraavaNumero()
 
     QString kysymys = QString("SELECT max(tunniste) FROM tosite WHERE "
                     " pvm BETWEEN \"%1\" AND \"%2\" "
-                    " AND tyyppi=\"%3\" ")
+                    " AND laji=\"%3\" ")
                                 .arg(kausi.alkaa().toString(Qt::ISODate))
                                 .arg(kausi.paattyy().toString(Qt::ISODate))
                                 .arg( ui->tositetyyppiCombo->currentData().toString());
@@ -370,7 +370,7 @@ bool KirjausWg::kelpaakoTunniste()
     Tilikausi kausi = Kirjanpito::db()->tilikausiPaivalle( ui->tositePvmEdit->date() );
     QString kysymys = QString("SELECT id FROM tosite WHERE tunniste=\"%1\" "
                               "AND pvm BETWEEN \"%2\" AND \"%3\" AND id <> %4 "
-                              "AND tyyppi=\"%5\" ").arg(ui->tunnisteEdit->text())
+                              "AND laji=\"%5\" ").arg(ui->tunnisteEdit->text())
                                                           .arg(kausi.alkaa().toString(Qt::ISODate))
                                                           .arg(kausi.paattyy().toString(Qt::ISODate))
                                                           .arg(tositeId)

@@ -161,7 +161,7 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
     }
 
     // Ladataan tositetyypit
-    query.exec("SELECT tunnus, nimi FROM tositetyyppi ORDER BY nimi");
+    query.exec("SELECT tunnus, nimi FROM tositelaji ORDER BY nimi");
     while( query.next())
     {
         tositetyypit_.append(TositeTyyppi( query.value(0).toString(),
