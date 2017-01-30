@@ -47,6 +47,8 @@ public:
     int kertymaPaivalle(const QDate &pvm);
 
     bool onkoTasetili() const;
+    bool onkoTulotili() const;
+    bool onkoMenotili() const;
 
     static int kasitunnus(int tunnus);
 
