@@ -32,8 +32,7 @@ SOURCES += main.cpp \
     kirjaus/eurodelegaatti.cpp \
     selaus/selauswg.cpp \
     db/tilikausi.cpp \
-    selaus/selausmodel.cpp \
-    db/tilisailo.cpp
+    selaus/selausmodel.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -58,8 +57,7 @@ HEADERS += \
     kirjaus/eurodelegaatti.h \
     selaus/selauswg.h \
     db/tilikausi.h \
-    selaus/selausmodel.h \
-    db/tilisailo.h
+    selaus/selausmodel.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
