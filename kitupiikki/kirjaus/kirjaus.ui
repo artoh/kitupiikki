@@ -427,6 +427,19 @@
       </widget>
      </item>
      <item>
+      <widget class="QLabel" name="tyyppiLabel">
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>  </string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QLineEdit" name="tunnisteEdit">
        <property name="placeholderText">
         <string/>
@@ -449,7 +462,7 @@
      <item>
       <widget class="QLabel" name="idLabel">
        <property name="text">
-        <string>  </string>
+        <string/>
        </property>
       </widget>
      </item>

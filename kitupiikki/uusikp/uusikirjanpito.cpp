@@ -292,6 +292,7 @@ bool UusiKirjanpito::alustaKirjanpito()
         query.addBindValue( field("edpaattyi").toDate());
         query.exec();
     }
+    // Prosessi valmis
     progDlg.setValue( prosessiluku );
 
     db.close();
