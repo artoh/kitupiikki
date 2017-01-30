@@ -136,7 +136,7 @@ void TilinavausModel::lataa()
         int debet = kysely.value("debetsnt").toInt();
         int kredit = kysely.value("kreditsnt").toInt();
 
-        if( tili.tyyppi().startsWith('A') || tili.tyyppi().startsWith('M'))
+        if( tili.onkoVastaavaaTili() || tili.onkoMenotili())
             saldot[ tili.numero()] = debet - kredit;
         else
             saldot[ tili.numero()] = kredit - debet;
@@ -191,13 +191,13 @@ void TilinavausModel::paivitaInfo()
     {
         iter.next();
         Tili tili = Kirjanpito::db()->tili( iter.key());
-        if( tili.tyyppi().startsWith("A"))
+        if( tili.onkoVastaavaaTili() )
             tasevastaavaa += iter.value();
-        else if( tili.tyyppi().startsWith("B"))
+        else if( tili.onkoVastattavaaTili())
             tasevastattavaa += iter.value();
-        else if( tili.tyyppi().startsWith("T"))
+        else if( tili.onkoTulotili())
             tulos += iter.value();
-        else if( tili.tyyppi().startsWith("M"))
+        else if( tili.onkoMenotili())
             tulos -= iter.value();
     }
 

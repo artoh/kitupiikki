@@ -49,6 +49,8 @@ public:
     bool onkoTasetili() const;
     bool onkoTulotili() const;
     bool onkoMenotili() const;
+    bool onkoVastaavaaTili() const;
+    bool onkoVastattavaaTili() const;
 
     static int kasitunnus(int tunnus);
 

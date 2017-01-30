@@ -56,6 +56,7 @@ bool Tili::onkoTasetili() const
     return( tyyppi().startsWith('A') || tyyppi().startsWith('B'));
 }
 
+
 bool Tili::onkoTulotili() const
 {
     return tyyppi().startsWith('T');
@@ -64,6 +65,16 @@ bool Tili::onkoTulotili() const
 bool Tili::onkoMenotili() const
 {
     return tyyppi().startsWith('M');
+}
+
+bool Tili::onkoVastaavaaTili() const
+{
+    return tyyppi().startsWith('A');
+}
+
+bool Tili::onkoVastattavaaTili() const
+{
+    return tyyppi().startsWith('B');
 }
 
 int Tili::kasitunnus(int tunnus)
