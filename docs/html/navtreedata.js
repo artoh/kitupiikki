@@ -20,7 +20,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "aloitussivu_8h_source.html",
-"sijaintisivu_8h_source.html"
+"class_tilikartta_sivu.html#a1e8a3d06603f31ac39b54c6917f6c675"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

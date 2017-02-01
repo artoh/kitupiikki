@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['eurodelegaatti',['EuroDelegaatti',['../class_euro_delegaatti.html',1,'']]]
+  ['db',['db',['../class_kirjanpito.html#a242c74169bc38bd737300d45d59e6dbf',1,'Kirjanpito']]]
 ];

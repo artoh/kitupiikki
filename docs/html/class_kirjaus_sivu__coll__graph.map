@@ -1,6 +1,5 @@
 <map id="KirjausSivu" name="KirjausSivu">
-<area shape="rect" id="node3" href="$class_tosite_wg.html" title="TositeWg" alt="" coords="43,171,122,197"/>
-<area shape="rect" id="node4" href="$class_kirjaus_wg.html" title="KirjausWg" alt="" coords="183,171,265,197"/>
-<area shape="rect" id="node5" href="$class_vienti_model.html" title="VientiModel" alt="" coords="317,260,408,287"/>
-<area shape="rect" id="node7" href="$class_kirjanpito.html" title="Kirjanpidon käsittely. " alt="" coords="347,81,423,108"/>
+<area shape="rect" id="node5" href="$class_kirjaus_wg.html" title="KirjausWg" alt="" coords="183,171,266,197"/>
+<area shape="rect" id="node3" href="$class_tosite_wg.html" title="TositeWg" alt="" coords="108,81,187,108"/>
+<area shape="rect" id="node6" href="$class_vienti_model.html" title="VientiModel" alt="" coords="303,260,394,287"/>
 </map>

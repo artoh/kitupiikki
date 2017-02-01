@@ -110,6 +110,8 @@ $(document).ready(function(){initNavTree('class_kirjanpito.html','');});
 <a href="#pub-slots">Julkiset vastineet</a> &#124;
 <a href="#signals">Signaalit</a> &#124;
 <a href="#pub-methods">Julkiset jäsenfunktiot</a> &#124;
+<a href="#pub-static-methods">Staattiset julkiset jäsenfunktiot</a> &#124;
+<a href="#pro-methods">Suojatut jäsenfunktiot</a> &#124;
 <a href="#pro-attribs">Suojellut attribuutit</a> &#124;
 <a href="class_kirjanpito-members.html">Lista kaikista jäsenistä</a>  </div>
   <div class="headertitle">
@@ -140,18 +142,24 @@ Julkiset vastineet</h2></td></tr>
 <tr class="memitem:ab3a29ad110dfdf37b77968770f429f74"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab3a29ad110dfdf37b77968770f429f74"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>asetaHarjoitteluPvm</b> (const QDate &amp;pvm)</td></tr>
 <tr class="separator:ab3a29ad110dfdf37b77968770f429f74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f3668259d93c416e55486b42d4f4a83"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1f3668259d93c416e55486b42d4f4a83"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>muokattu</b> ()</td></tr>
+<tr class="separator:a1f3668259d93c416e55486b42d4f4a83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="signals"></a>
 Signaalit</h2></td></tr>
 <tr class="memitem:aec449d31711be4c66ffa3025f85c8297"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aec449d31711be4c66ffa3025f85c8297"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>tietokantaVaihtui</b> ()</td></tr>
 <tr class="separator:aec449d31711be4c66ffa3025f85c8297"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4c74e4ca0e5c3f6731d5518ed4fa05c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af4c74e4ca0e5c3f6731d5518ed4fa05c"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>kirjanpitoaMuokattu</b> ()</td></tr>
+<tr class="separator:af4c74e4ca0e5c3f6731d5518ed4fa05c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f223abe7e56a8be6cfde6db251f9b62"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9f223abe7e56a8be6cfde6db251f9b62"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>palaaEdelliselleSivulle</b> ()</td></tr>
+<tr class="separator:a9f223abe7e56a8be6cfde6db251f9b62"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Julkiset jäsenfunktiot</h2></td></tr>
-<tr class="memitem:a78ebfbe994b60de0e52badd56b135446"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a78ebfbe994b60de0e52badd56b135446"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Kirjanpito</b> (QObject *parent=0)</td></tr>
-<tr class="separator:a78ebfbe994b60de0e52badd56b135446"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a37d5501e9abf75d988cf3e48c024f98f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a37d5501e9abf75d988cf3e48c024f98f"></a>
 QString&#160;</td><td class="memItemRight" valign="bottom"><b>asetus</b> (const QString &amp;avain) const </td></tr>
 <tr class="separator:a37d5501e9abf75d988cf3e48c024f98f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -170,6 +178,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>aseta</b> (const QStr
 <tr class="memitem:ad08cb28a082135e64d480fea08b95b1b"><td class="memItemLeft" align="right" valign="top">QDate&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_kirjanpito.html#ad08cb28a082135e64d480fea08b95b1b">paivamaara</a> () const </td></tr>
 <tr class="memdesc:ad08cb28a082135e64d480fea08b95b1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nykyinen tai harjoittelutilassa muokattu päivämäärä  <a href="#ad08cb28a082135e64d480fea08b95b1b">Lisää...</a><br /></td></tr>
 <tr class="separator:ad08cb28a082135e64d480fea08b95b1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e52647506500a381c2cd1763aa8bcf7"><td class="memItemLeft" align="right" valign="top">QDate&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_kirjanpito.html#a9e52647506500a381c2cd1763aa8bcf7">tilitpaatetty</a> () const </td></tr>
+<tr class="memdesc:a9e52647506500a381c2cd1763aa8bcf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Päivämäärä, johon saakka tilit on päätetty eli ei voi enää muokata.  <a href="#a9e52647506500a381c2cd1763aa8bcf7">Lisää...</a><br /></td></tr>
+<tr class="separator:a9e52647506500a381c2cd1763aa8bcf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad928688f816449a2908df81112f57e43"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad928688f816449a2908df81112f57e43"></a>
+QDate&#160;</td><td class="memItemRight" valign="bottom"><b>viimeinenpaiva</b> () const </td></tr>
+<tr class="separator:ad928688f816449a2908df81112f57e43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a38801ebc1244c5f4d4631ad508bc80f8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a38801ebc1244c5f4d4631ad508bc80f8"></a>
 <a class="el" href="class_tili.html">Tili</a>&#160;</td><td class="memItemRight" valign="bottom"><b>tili</b> (int tilinumero) const </td></tr>
 <tr class="separator:a38801ebc1244c5f4d4631ad508bc80f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -179,9 +193,24 @@ QList&lt; <a class="el" href="class_tili.html">Tili</a> &gt;&#160;</td><td class
 <tr class="memitem:a50fb78d3654a3c2ee0041734b0b204f8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a50fb78d3654a3c2ee0041734b0b204f8"></a>
 QList&lt; <a class="el" href="class_tilikausi.html">Tilikausi</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>tilikaudet</b> () const </td></tr>
 <tr class="separator:a50fb78d3654a3c2ee0041734b0b204f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf87c5d8bae503a9672e833d5f939cdb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acf87c5d8bae503a9672e833d5f939cdb"></a>
+QList&lt; <a class="el" href="class_tosite_tyyppi.html">TositeTyyppi</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>tositetyypit</b> () const </td></tr>
+<tr class="separator:acf87c5d8bae503a9672e833d5f939cdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4f328de73b1433a8cecde92d590a4c73"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4f328de73b1433a8cecde92d590a4c73"></a>
 <a class="el" href="class_tilikausi.html">Tilikausi</a>&#160;</td><td class="memItemRight" valign="bottom"><b>tilikausiPaivalle</b> (const QDate &amp;paiva) const </td></tr>
 <tr class="separator:a4f328de73b1433a8cecde92d590a4c73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Staattiset julkiset jäsenfunktiot</h2></td></tr>
+<tr class="memitem:a242c74169bc38bd737300d45d59e6dbf"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_kirjanpito.html">Kirjanpito</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_kirjanpito.html#a242c74169bc38bd737300d45d59e6dbf">db</a> ()</td></tr>
+<tr class="memdesc:a242c74169bc38bd737300d45d59e6dbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Staattinen funktio, jonka kautta Kirjanpitoon päästään käsiksi.  <a href="#a242c74169bc38bd737300d45d59e6dbf">Lisää...</a><br /></td></tr>
+<tr class="separator:a242c74169bc38bd737300d45d59e6dbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Suojatut jäsenfunktiot</h2></td></tr>
+<tr class="memitem:a78ebfbe994b60de0e52badd56b135446"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a78ebfbe994b60de0e52badd56b135446"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Kirjanpito</b> (QObject *parent=0)</td></tr>
+<tr class="separator:a78ebfbe994b60de0e52badd56b135446"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Suojellut attribuutit</h2></td></tr>
@@ -194,22 +223,28 @@ QMap&lt; int, <a class="el" href="class_tili.html">Tili</a> &gt;&#160;</td><td c
 <tr class="memitem:ac413a6a102233f0c305d70d866101e81"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac413a6a102233f0c305d70d866101e81"></a>
 QList&lt; <a class="el" href="class_tilikausi.html">Tilikausi</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>tilikaudet_</b></td></tr>
 <tr class="separator:ac413a6a102233f0c305d70d866101e81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cb9b9d395b23c3c27fd4775f8163e63"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0cb9b9d395b23c3c27fd4775f8163e63"></a>
+QList&lt; <a class="el" href="class_tosite_tyyppi.html">TositeTyyppi</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>tositetyypit_</b></td></tr>
+<tr class="separator:a0cb9b9d395b23c3c27fd4775f8163e63"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0320868a9066745bd21bb4743c1b79e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad0320868a9066745bd21bb4743c1b79e"></a>
 QString&#160;</td><td class="memItemRight" valign="bottom"><b>polkuTiedostoon</b></td></tr>
 <tr class="separator:ad0320868a9066745bd21bb4743c1b79e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a02d603b482028bcd39683ae0e5974904"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a02d603b482028bcd39683ae0e5974904"></a>
-QSqlDatabase&#160;</td><td class="memItemRight" valign="bottom"><b>db</b></td></tr>
-<tr class="separator:a02d603b482028bcd39683ae0e5974904"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf47f217e75dbc4acb8a11006ac2cb21"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abf47f217e75dbc4acb8a11006ac2cb21"></a>
+QSqlDatabase&#160;</td><td class="memItemRight" valign="bottom"><b>tietokanta</b></td></tr>
+<tr class="separator:abf47f217e75dbc4acb8a11006ac2cb21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af382c4daa770f8c19413aeadc290d738"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af382c4daa770f8c19413aeadc290d738"></a>
 QMap&lt; QString, QString &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>viimetiedostot</b></td></tr>
 <tr class="separator:af382c4daa770f8c19413aeadc290d738"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa82beff2cfa468864b2cf8f92a2ead7b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa82beff2cfa468864b2cf8f92a2ead7b"></a>
 QDate&#160;</td><td class="memItemRight" valign="bottom"><b>harjoitusPvm</b></td></tr>
 <tr class="separator:aa82beff2cfa468864b2cf8f92a2ead7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6598b784e6ff66c9f70faae60440aaf8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6598b784e6ff66c9f70faae60440aaf8"></a>
+QDate&#160;</td><td class="memItemRight" valign="bottom"><b>tilitpaatettupvm</b></td></tr>
+<tr class="separator:a6598b784e6ff66c9f70faae60440aaf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Yksityiskohtainen selite</h2>
 <div class="textblock"><p>Kirjanpidon käsittely. </p>
-<p>Tämä luokka luodaan pääikkunaa alustettaessa, ja tietokanta avataan avaa-funktiolla </p>
+<p>Ainokainen, jonka kautta käsitellään tietokantaa </p>
 </div><h2 class="groupheader">Jäsenfunktioiden dokumentaatio</h2>
 <a class="anchor" id="aaab972157e0cd6874ce8713109517eba"></a>
 <div class="memitem">
@@ -241,6 +276,32 @@ QDate&#160;</td><td class="memItemRight" valign="bottom"><b>harjoitusPvm</b></td
   </dd>
 </dl>
 <dl class="section return"><dt>Palauttaa</dt><dd>tosi, jos onnistuu </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a242c74169bc38bd737300d45d59e6dbf"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_kirjanpito.html">Kirjanpito</a> * Kirjanpito::db </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Staattinen funktio, jonka kautta Kirjanpitoon päästään käsiksi. </p>
+<dl class="section return"><dt>Palauttaa</dt><dd></dd></dl>
 
 </div>
 </div>
@@ -303,6 +364,32 @@ QDate&#160;</td><td class="memItemRight" valign="bottom"><b>harjoitusPvm</b></td
 
 <p>Nykyinen tai harjoittelutilassa muokattu päivämäärä </p>
 <p>Harjoittelutila mahdollistaa päivämäärän muuttamisen, jotta päästään testaamaan tilinpäätökseen tms. liittyviä toimia </p><dl class="section return"><dt>Palauttaa</dt><dd>Päivämäärä </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a9e52647506500a381c2cd1763aa8bcf7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QDate Kirjanpito::tilitpaatetty </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Päivämäärä, johon saakka tilit on päätetty eli ei voi enää muokata. </p>
+<dl class="section return"><dt>Palauttaa</dt><dd></dd></dl>
 
 </div>
 </div>

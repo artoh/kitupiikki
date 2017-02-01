@@ -133,15 +133,17 @@ Yhteistyökaavio luokalle KitupiikkiIkkuna:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_kitupiikki_ikkuna__coll__graph.png" border="0" usemap="#_kitupiikki_ikkuna_coll__map" alt="Collaboration graph"/></div>
 <map name="_kitupiikki_ikkuna_coll__map" id="_kitupiikki_ikkuna_coll__map">
-<area shape="rect" id="node3" href="class_kirjaus_sivu.html" title="KirjausSivu" alt="" coords="377,272,465,299"/>
-<area shape="rect" id="node5" href="class_tosite_wg.html" title="TositeWg" alt="" coords="294,171,373,197"/>
-<area shape="rect" id="node6" href="class_kirjaus_wg.html" title="KirjausWg" alt="" coords="464,171,547,197"/>
-<area shape="rect" id="node11" href="class_selaus_wg.html" title="SelausWg" alt="" coords="119,221,201,248"/>
-<area shape="rect" id="node16" href="class_maaritys_sivu.html" title="Määritykset sisältävä QWidget. " alt="" coords="208,221,307,248"/>
-<area shape="rect" id="node7" href="class_vienti_model.html" title="VientiModel" alt="" coords="648,272,739,299"/>
-<area shape="rect" id="node9" href="class_kirjanpito.html" title="Kirjanpidon käsittely. " alt="" coords="729,81,805,108"/>
-<area shape="rect" id="node12" href="class_aloitus_sivu.html" title="Webipohjaiset aloitus&#45; ja ohjesivut. " alt="" coords="919,272,1007,299"/>
-<area shape="rect" id="node14" href="class_sisalto.html" title="Webipohjaisen sivun sisällön käsittely. " alt="" coords="1051,171,1114,197"/>
+<area shape="rect" id="node3" href="class_kirjaus_sivu.html" title="KirjausSivu" alt="" coords="497,272,585,299"/>
+<area shape="rect" id="node7" href="class_kirjaus_wg.html" title="KirjausWg" alt="" coords="600,171,683,197"/>
+<area shape="rect" id="node10" href="class_selaus_wg.html" title="SelausWg" alt="" coords="248,221,331,248"/>
+<area shape="rect" id="node16" href="class_maaritys_sivu.html" title="Määritykset sisältävä QWidget. " alt="" coords="337,221,436,248"/>
+<area shape="rect" id="node17" href="class_raportti_sivu.html" title="RaporttiSivu" alt="" coords="137,272,231,299"/>
+<area shape="rect" id="node18" href="class_raportti.html" title="The Raportin kantaluokka. " alt="" coords="111,171,179,197"/>
+<area shape="rect" id="node5" href="class_tosite_wg.html" title="TositeWg" alt="" coords="523,81,602,108"/>
+<area shape="rect" id="node8" href="class_vienti_model.html" title="VientiModel" alt="" coords="720,272,811,299"/>
+<area shape="rect" id="node11" href="class_aloitus_sivu.html" title="Webipohjaiset aloitus&#45; ja ohjesivut. " alt="" coords="1004,272,1092,299"/>
+<area shape="rect" id="node13" href="class_sisalto.html" title="Webipohjaisen sivun sisällön käsittely. " alt="" coords="1097,171,1159,197"/>
+<area shape="rect" id="node15" href="class_tilikausi.html" title="Tilikausi" alt="" coords="1183,171,1254,197"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">selite</a>]</span></center></div>
 <table class="memberdecls">
@@ -150,7 +152,7 @@ Julkiset tyypit</h2></td></tr>
 <tr class="memitem:a5dacf38ada09211064f192673ed77b7d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5dacf38ada09211064f192673ed77b7d"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>Sivu</b> { <br />
 &#160;&#160;<b>ALOITUSSIVU</b>, 
 <b>KIRJAUSSIVU</b>, 
-<b>PAIVAKIRJASIVU</b>, 
+<b>SELAUSSIVU</b>, 
 <b>TULOSTESIVU</b>, 
 <br />
 &#160;&#160;<b>MAARITYSSIVU</b>, 
@@ -161,15 +163,21 @@ Julkiset tyypit</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-slots"></a>
 Julkiset vastineet</h2></td></tr>
-<tr class="memitem:a15e16b112cba77f38bacae58bc9c4b04"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_kitupiikki_ikkuna.html#a15e16b112cba77f38bacae58bc9c4b04">valitseSivu</a> (int mikasivu)</td></tr>
-<tr class="memdesc:a15e16b112cba77f38bacae58bc9c4b04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vaihtaa näytettävän sivun.  <a href="#a15e16b112cba77f38bacae58bc9c4b04">Lisää...</a><br /></td></tr>
-<tr class="separator:a15e16b112cba77f38bacae58bc9c4b04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad10dcae14eda484c641109d5eb8ef920"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_kitupiikki_ikkuna.html#ad10dcae14eda484c641109d5eb8ef920">valitseSivu</a> (int mikasivu, bool paluu=false)</td></tr>
+<tr class="memdesc:ad10dcae14eda484c641109d5eb8ef920"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vaihtaa näytettävän sivun.  <a href="#ad10dcae14eda484c641109d5eb8ef920">Lisää...</a><br /></td></tr>
+<tr class="separator:ad10dcae14eda484c641109d5eb8ef920"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0c50c4d9e4728fabeebaa95c81c9ad4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_kitupiikki_ikkuna.html#ac0c50c4d9e4728fabeebaa95c81c9ad4">toiminto</a> (const QString &amp;toiminto)</td></tr>
 <tr class="memdesc:ac0c50c4d9e4728fabeebaa95c81c9ad4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tehdään toiminto. Tätä käytetään aloitussivun nappien yhdistämisessä.  <a href="#ac0c50c4d9e4728fabeebaa95c81c9ad4">Lisää...</a><br /></td></tr>
 <tr class="separator:ac0c50c4d9e4728fabeebaa95c81c9ad4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa30eb87c67961df0c19edce85340caa2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa30eb87c67961df0c19edce85340caa2"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>kirjanpitoLadattu</b> ()</td></tr>
 <tr class="separator:aa30eb87c67961df0c19edce85340caa2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cf0256ecb8b98bec1b4c0e397937272"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7cf0256ecb8b98bec1b4c0e397937272"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>palaaSivulta</b> ()</td></tr>
+<tr class="separator:a7cf0256ecb8b98bec1b4c0e397937272"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0ea862be50c691c7a9ceffa91876906"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af0ea862be50c691c7a9ceffa91876906"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>selaaTilia</b> (int tilinumero, <a class="el" href="class_tilikausi.html">Tilikausi</a> tilikausi)</td></tr>
+<tr class="separator:af0ea862be50c691c7a9ceffa91876906"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Julkiset jäsenfunktiot</h2></td></tr>
@@ -182,24 +190,27 @@ Suojatut vastineet</h2></td></tr>
 <tr class="memitem:a1d9443b74894abb8a7153ca8f3b5c7fd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1d9443b74894abb8a7153ca8f3b5c7fd"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>aktivoiSivu</b> (QAction *aktio)</td></tr>
 <tr class="separator:a1d9443b74894abb8a7153ca8f3b5c7fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d929d14540bc9ec2a7c0eaf7426b139"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9d929d14540bc9ec2a7c0eaf7426b139"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>naytaTosite</b> (int tositeid)</td></tr>
+<tr class="separator:a9d929d14540bc9ec2a7c0eaf7426b139"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Suojatut jäsenfunktiot</h2></td></tr>
+<tr class="memitem:a75567deae87b9b54e64d90ecfce48433"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a75567deae87b9b54e64d90ecfce48433"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>mousePressEvent</b> (QMouseEvent *event)</td></tr>
+<tr class="separator:a75567deae87b9b54e64d90ecfce48433"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8332a48e08cb38ec807872d2b116239d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8332a48e08cb38ec807872d2b116239d"></a>
 QAction *&#160;</td><td class="memItemRight" valign="bottom"><b>luosivuAktio</b> (const QString &amp;nimi, const QString &amp;kuva, const QString &amp;vihje, const QString &amp;pikanappain, Sivu sivut)</td></tr>
 <tr class="separator:a8332a48e08cb38ec807872d2b116239d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3728ac7b94c405e029b1041c09cd321a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3728ac7b94c405e029b1041c09cd321a"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>luoPalkkiJaSivuAktiot</b> ()</td></tr>
 <tr class="separator:a3728ac7b94c405e029b1041c09cd321a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a62bb09af5f1f656382a2085ab30897d0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a62bb09af5f1f656382a2085ab30897d0"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>luoStatusBar</b> ()</td></tr>
-<tr class="separator:a62bb09af5f1f656382a2085ab30897d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ae0cc871884d48c997e8ab9c8df3066"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9ae0cc871884d48c997e8ab9c8df3066"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>luoHarjoitusDock</b> ()</td></tr>
+<tr class="separator:a9ae0cc871884d48c997e8ab9c8df3066"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Suojellut attribuutit</h2></td></tr>
-<tr class="memitem:ab40e6277eb270df1158d5d2ef2ede614"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab40e6277eb270df1158d5d2ef2ede614"></a>
-<a class="el" href="class_kirjanpito.html">Kirjanpito</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>kirjanpito</b></td></tr>
-<tr class="separator:ab40e6277eb270df1158d5d2ef2ede614"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6cfc36c9f3bfa9b606f290788518c79d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6cfc36c9f3bfa9b606f290788518c79d"></a>
 QStackedWidget *&#160;</td><td class="memItemRight" valign="bottom"><b>pino</b></td></tr>
 <tr class="separator:a6cfc36c9f3bfa9b606f290788518c79d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -212,9 +223,9 @@ QActionGroup *&#160;</td><td class="memItemRight" valign="bottom"><b>aktioryhma<
 <tr class="memitem:ae00c5a24c1064ff2c1b3b600db8b0c50"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae00c5a24c1064ff2c1b3b600db8b0c50"></a>
 QAction *&#160;</td><td class="memItemRight" valign="bottom"><b>sivuaktiot</b> [7]</td></tr>
 <tr class="separator:ae00c5a24c1064ff2c1b3b600db8b0c50"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a76511bae71c4a1a49e8a950cd80b2a21"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a76511bae71c4a1a49e8a950cd80b2a21"></a>
-QDateEdit *&#160;</td><td class="memItemRight" valign="bottom"><b>harjoituspvmEdit</b></td></tr>
-<tr class="separator:a76511bae71c4a1a49e8a950cd80b2a21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad96a8c0a3aae17a2f24902260062f910"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad96a8c0a3aae17a2f24902260062f910"></a>
+QDockWidget *&#160;</td><td class="memItemRight" valign="bottom"><b>harjoitusDock</b></td></tr>
+<tr class="separator:ad96a8c0a3aae17a2f24902260062f910"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67af44abaf5bfc3d862e693f67d2071e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a67af44abaf5bfc3d862e693f67d2071e"></a>
 <a class="el" href="class_aloitus_sivu.html">AloitusSivu</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>aloitussivu</b></td></tr>
 <tr class="separator:a67af44abaf5bfc3d862e693f67d2071e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -224,9 +235,15 @@ QDateEdit *&#160;</td><td class="memItemRight" valign="bottom"><b>harjoituspvmEd
 <tr class="memitem:ae3c5d5cd2435762b00a317d8881dc3e1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae3c5d5cd2435762b00a317d8881dc3e1"></a>
 <a class="el" href="class_selaus_wg.html">SelausWg</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>selaussivu</b></td></tr>
 <tr class="separator:ae3c5d5cd2435762b00a317d8881dc3e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50ea13d23f2b16e1c902295ea814278e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a50ea13d23f2b16e1c902295ea814278e"></a>
+<a class="el" href="class_raportti_sivu.html">RaporttiSivu</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>raporttisivu</b></td></tr>
+<tr class="separator:a50ea13d23f2b16e1c902295ea814278e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a81b301471819215f8b8b1229371aa199"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a81b301471819215f8b8b1229371aa199"></a>
 <a class="el" href="class_maaritys_sivu.html">MaaritysSivu</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>maarityssivu</b></td></tr>
 <tr class="separator:a81b301471819215f8b8b1229371aa199"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a020d6cc938a6f3eb6c35c5a8a4d47d7a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a020d6cc938a6f3eb6c35c5a8a4d47d7a"></a>
+QStack&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>edellisetIndeksit</b></td></tr>
+<tr class="separator:a020d6cc938a6f3eb6c35c5a8a4d47d7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Yksityiskohtainen selite</h2>
 <div class="textblock"><p>Ohjelmiston pääikkuna. </p>
@@ -264,7 +281,7 @@ QDateEdit *&#160;</td><td class="memItemRight" valign="bottom"><b>harjoituspvmEd
 
 </div>
 </div>
-<a class="anchor" id="a15e16b112cba77f38bacae58bc9c4b04"></a>
+<a class="anchor" id="ad10dcae14eda484c641109d5eb8ef920"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -275,8 +292,18 @@ QDateEdit *&#160;</td><td class="memItemRight" valign="bottom"><b>harjoituspvmEd
           <td class="memname">void KitupiikkiIkkuna::valitseSivu </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>mikasivu</em></td><td>)</td>
+          <td class="paramname"><em>mikasivu</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>paluu</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>

@@ -108,7 +108,7 @@ $(document).ready(function(){initNavTree('class_selaus_wg.html','');});
 <div class="header">
   <div class="summary">
 <a href="#pub-slots">Julkiset vastineet</a> &#124;
-<a href="#pub-methods">Julkiset jäsenfunktiot</a> &#124;
+<a href="#signals">Signaalit</a> &#124;
 <a href="class_selaus_wg-members.html">Lista kaikista jäsenistä</a>  </div>
   <div class="headertitle">
 <div class="title">SelausWg luokkareferenssi</div>  </div>
@@ -118,15 +118,11 @@ $(document).ready(function(){initNavTree('class_selaus_wg.html','');});
 Luokan SelausWg luokkakaavio</div>
 <div class="dyncontent">
 <div class="center"><img src="class_selaus_wg__inherit__graph.png" border="0" usemap="#_selaus_wg_inherit__map" alt="Inheritance graph"/></div>
-<map name="_selaus_wg_inherit__map" id="_selaus_wg_inherit__map">
-</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">selite</a>]</span></center></div>
 <div class="dynheader">
 Yhteistyökaavio luokalle SelausWg:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_selaus_wg__coll__graph.png" border="0" usemap="#_selaus_wg_coll__map" alt="Collaboration graph"/></div>
-<map name="_selaus_wg_coll__map" id="_selaus_wg_coll__map">
-</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">selite</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-slots"></a>
@@ -143,12 +139,18 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>suodata</b> ()</td></
 <tr class="memitem:ab50efcaa9f5083e3c4a1eddf57bab7a2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab50efcaa9f5083e3c4a1eddf57bab7a2"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>paivitaSummat</b> ()</td></tr>
 <tr class="separator:ab50efcaa9f5083e3c4a1eddf57bab7a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ff2d1e0db4194be6517b1bb04e209e8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9ff2d1e0db4194be6517b1bb04e209e8"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>naytaTositeRivilta</b> (QModelIndex index)</td></tr>
+<tr class="separator:a9ff2d1e0db4194be6517b1bb04e209e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6451b10d133eeab7d24d02f3c4f11107"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6451b10d133eeab7d24d02f3c4f11107"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>selaa</b> (int tilinumero, <a class="el" href="class_tilikausi.html">Tilikausi</a> tilikausi)</td></tr>
+<tr class="separator:a6451b10d133eeab7d24d02f3c4f11107"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
-Julkiset jäsenfunktiot</h2></td></tr>
-<tr class="memitem:a913f5eb1f3e77d1d8231c2063cf4c2cb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a913f5eb1f3e77d1d8231c2063cf4c2cb"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SelausWg</b> (<a class="el" href="class_kirjanpito.html">Kirjanpito</a> *kp)</td></tr>
-<tr class="separator:a913f5eb1f3e77d1d8231c2063cf4c2cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="signals"></a>
+Signaalit</h2></td></tr>
+<tr class="memitem:a30ade4338b29dbfe0bd0c91ec8260e2a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a30ade4338b29dbfe0bd0c91ec8260e2a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>tositeValittu</b> (int id)</td></tr>
+<tr class="separator:a30ade4338b29dbfe0bd0c91ec8260e2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>Dokumentaatio tälle luokalle luotiin seuraavista tiedostoista:<ul>
 <li>kitupiikki/selaus/<a class="el" href="selauswg_8h_source.html">selauswg.h</a></li>

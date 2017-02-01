@@ -107,6 +107,9 @@ $(document).ready(function(){initNavTree('class_tosite_wg.html','');});
 
 <div class="header">
   <div class="summary">
+<a href="#pub-slots">Julkiset vastineet</a> &#124;
+<a href="#pub-methods">Julkiset jäsenfunktiot</a> &#124;
+<a href="#pro-methods">Suojatut jäsenfunktiot</a> &#124;
 <a href="#pro-attribs">Suojellut attribuutit</a> &#124;
 <a href="class_tosite_wg-members.html">Lista kaikista jäsenistä</a>  </div>
   <div class="headertitle">
@@ -128,11 +131,53 @@ Yhteistyökaavio luokalle TositeWg:</div>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">selite</a>]</span></center></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-slots"></a>
+Julkiset vastineet</h2></td></tr>
+<tr class="memitem:a8225228b5961e98d68ee20839ca335ce"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8225228b5961e98d68ee20839ca335ce"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>lataaTosite</b> (const QString &amp;tositetiedostonpolku)</td></tr>
+<tr class="separator:a8225228b5961e98d68ee20839ca335ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad469aa51fe8e682c2dfec0c0ce50de9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aad469aa51fe8e682c2dfec0c0ce50de9"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>valitseTiedosto</b> ()</td></tr>
+<tr class="separator:aad469aa51fe8e682c2dfec0c0ce50de9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2af6aa19eda387b5e59bc2826b7f0ab0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2af6aa19eda387b5e59bc2826b7f0ab0"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>tyhjenna</b> (const QString &amp;tositenumero=QString(), const QString &amp;tositetiedosto=QString())</td></tr>
+<tr class="separator:a2af6aa19eda387b5e59bc2826b7f0ab0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Julkiset jäsenfunktiot</h2></td></tr>
+<tr class="memitem:ae91fc12af640197d2028cc95287e4cbb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae91fc12af640197d2028cc95287e4cbb"></a>
+QString&#160;</td><td class="memItemRight" valign="bottom"><b>tositeTunniste</b> () const </td></tr>
+<tr class="separator:ae91fc12af640197d2028cc95287e4cbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a357c1256ad234527af7f8139b9fc37a9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a357c1256ad234527af7f8139b9fc37a9"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>onkoTiedostoa</b> () const </td></tr>
+<tr class="separator:a357c1256ad234527af7f8139b9fc37a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a884721fb2cf682f17e3c3500aa084c29"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a884721fb2cf682f17e3c3500aa084c29"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>tallennaTosite</b> (int tositeId)</td></tr>
+<tr class="separator:a884721fb2cf682f17e3c3500aa084c29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Suojatut jäsenfunktiot</h2></td></tr>
+<tr class="memitem:a4a4ff58ba8ce76b316be99393e95bc08"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4a4ff58ba8ce76b316be99393e95bc08"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>naytaTosite</b> (const QString &amp;tositetiedostonpolku)</td></tr>
+<tr class="separator:a4a4ff58ba8ce76b316be99393e95bc08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Suojellut attribuutit</h2></td></tr>
 <tr class="memitem:a519b007cae63c69e2ff153a91ac7caaa"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a519b007cae63c69e2ff153a91ac7caaa"></a>
 Ui::TositeWg *&#160;</td><td class="memItemRight" valign="bottom"><b>ui</b></td></tr>
 <tr class="separator:a519b007cae63c69e2ff153a91ac7caaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3515d4609e5c229876251803245195e3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3515d4609e5c229876251803245195e3"></a>
+QGraphicsScene *&#160;</td><td class="memItemRight" valign="bottom"><b>scene</b></td></tr>
+<tr class="separator:a3515d4609e5c229876251803245195e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5028fb14e85ff45b762358b7b7fd2e6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae5028fb14e85ff45b762358b7b7fd2e6"></a>
+QGraphicsView *&#160;</td><td class="memItemRight" valign="bottom"><b>view</b></td></tr>
+<tr class="separator:ae5028fb14e85ff45b762358b7b7fd2e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a453dd710287c066be200a8d5c8f93ad3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a453dd710287c066be200a8d5c8f93ad3"></a>
+QString&#160;</td><td class="memItemRight" valign="bottom"><b>uusitiedostopolku</b></td></tr>
+<tr class="separator:a453dd710287c066be200a8d5c8f93ad3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ca56e857571ab09f06a58846c9e544a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4ca56e857571ab09f06a58846c9e544a"></a>
+QString&#160;</td><td class="memItemRight" valign="bottom"><b>alkuperainentiedostopolku</b></td></tr>
+<tr class="separator:a4ca56e857571ab09f06a58846c9e544a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>Dokumentaatio tälle luokalle luotiin seuraavista tiedostoista:<ul>
 <li>kitupiikki/kirjaus/<a class="el" href="tositewg_8h_source.html">tositewg.h</a></li>

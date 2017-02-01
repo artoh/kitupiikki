@@ -107,8 +107,10 @@ $(document).ready(function(){initNavTree('class_kirjaus_wg.html','');});
 
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Julkiset tyypit</a> &#124;
 <a href="#pub-slots">Julkiset vastineet</a> &#124;
 <a href="#pub-methods">Julkiset jäsenfunktiot</a> &#124;
+<a href="#pro-methods">Suojatut jäsenfunktiot</a> &#124;
 <a href="#pro-attribs">Suojellut attribuutit</a> &#124;
 <a href="class_kirjaus_wg-members.html">Lista kaikista jäsenistä</a>  </div>
   <div class="headertitle">
@@ -119,19 +121,30 @@ $(document).ready(function(){initNavTree('class_kirjaus_wg.html','');});
 Luokan KirjausWg luokkakaavio</div>
 <div class="dyncontent">
 <div class="center"><img src="class_kirjaus_wg__inherit__graph.png" border="0" usemap="#_kirjaus_wg_inherit__map" alt="Inheritance graph"/></div>
-<map name="_kirjaus_wg_inherit__map" id="_kirjaus_wg_inherit__map">
-</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">selite</a>]</span></center></div>
 <div class="dynheader">
 Yhteistyökaavio luokalle KirjausWg:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_kirjaus_wg__coll__graph.png" border="0" usemap="#_kirjaus_wg_coll__map" alt="Collaboration graph"/></div>
 <map name="_kirjaus_wg_coll__map" id="_kirjaus_wg_coll__map">
-<area shape="rect" id="node3" href="class_vienti_model.html" title="VientiModel" alt="" coords="178,260,269,287"/>
-<area shape="rect" id="node5" href="class_kirjanpito.html" title="Kirjanpidon käsittely. " alt="" coords="176,81,252,108"/>
+<area shape="rect" id="node5" href="class_vienti_model.html" title="VientiModel" alt="" coords="82,260,173,287"/>
+<area shape="rect" id="node3" href="class_tosite_wg.html" title="TositeWg" alt="" coords="243,81,321,108"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">selite</a>]</span></center></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Julkiset tyypit</h2></td></tr>
+<tr class="memitem:a2af8f3c1bcd40bf53d4b4c1835b74cfe"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2af8f3c1bcd40bf53d4b4c1835b74cfe"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>Valilehdet</b> { <br />
+&#160;&#160;<b>VIENNIT</b>, 
+<b>KOMMENTIT</b>, 
+<b>LIITTEET</b>, 
+<b>TILIOTE</b>, 
+<br />
+&#160;&#160;<b>AVUSTAJA</b>
+<br />
+ }</td></tr>
+<tr class="separator:a2af8f3c1bcd40bf53d4b4c1835b74cfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-slots"></a>
 Julkiset vastineet</h2></td></tr>
 <tr class="memitem:a649deff0784a1e5ce6443a164114a9ee"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a649deff0784a1e5ce6443a164114a9ee"></a>
@@ -143,18 +156,56 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>tyhjenna</b> ()</td><
 <tr class="memitem:a0b49d8402f70257cab8b2b11d04628c5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0b49d8402f70257cab8b2b11d04628c5"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>tallenna</b> ()</td></tr>
 <tr class="separator:a0b49d8402f70257cab8b2b11d04628c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae93e71978197fa1484e8d75fa9402ab6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae93e71978197fa1484e8d75fa9402ab6"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>hylkaa</b> ()</td></tr>
+<tr class="separator:ae93e71978197fa1484e8d75fa9402ab6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2001bb83e6b440a5a7addc34ccf8a53b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2001bb83e6b440a5a7addc34ccf8a53b"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>naytaSummat</b> ()</td></tr>
 <tr class="separator:a2001bb83e6b440a5a7addc34ccf8a53b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90c64e6617a2b2c449725b172e8c95cf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a90c64e6617a2b2c449725b172e8c95cf"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>lataaTosite</b> (int id)</td></tr>
+<tr class="separator:a90c64e6617a2b2c449725b172e8c95cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49cb45e69a60a96734bad9608ac4e737"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a49cb45e69a60a96734bad9608ac4e737"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>paivitaKommenttiMerkki</b> ()</td></tr>
+<tr class="separator:a49cb45e69a60a96734bad9608ac4e737"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22cdbdc928af0577f418e3a9f99da380"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a22cdbdc928af0577f418e3a9f99da380"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>tarkistaTunniste</b> ()</td></tr>
+<tr class="separator:a22cdbdc928af0577f418e3a9f99da380"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96ba91191b77eba7a7af2660a6535f45"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a96ba91191b77eba7a7af2660a6535f45"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>korjaaTunniste</b> ()</td></tr>
+<tr class="separator:a96ba91191b77eba7a7af2660a6535f45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1eaddd0a2c8ed85dcc8f0c4c17efdb98"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_kirjaus_wg.html#a1eaddd0a2c8ed85dcc8f0c4c17efdb98">salliMuokkaus</a> (bool sallitaanko)</td></tr>
+<tr class="memdesc:a1eaddd0a2c8ed85dcc8f0c4c17efdb98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Määrää saako tositetta muokata.  <a href="#a1eaddd0a2c8ed85dcc8f0c4c17efdb98">Lisää...</a><br /></td></tr>
+<tr class="separator:a1eaddd0a2c8ed85dcc8f0c4c17efdb98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabb40dd5c954549901cadec6fc04967d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aabb40dd5c954549901cadec6fc04967d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_kirjaus_wg.html#aabb40dd5c954549901cadec6fc04967d">lataaTositetyypit</a> ()</td></tr>
+<tr class="memdesc:aabb40dd5c954549901cadec6fc04967d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lataa tositetyypin valintaan käytettävissä olevat tositetyypit. <br /></td></tr>
+<tr class="separator:aabb40dd5c954549901cadec6fc04967d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63cd30d0fcd367745349c7c07db6261e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a63cd30d0fcd367745349c7c07db6261e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>vaihdaTositeTyyppi</b> ()</td></tr>
+<tr class="separator:a63cd30d0fcd367745349c7c07db6261e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a169d12409447888c07ae31ff6c59e8d7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_kirjaus_wg.html#a169d12409447888c07ae31ff6c59e8d7">lukitseTilikaudelle</a> (bool lukitaanko)</td></tr>
+<tr class="memdesc:a169d12409447888c07ae31ff6c59e8d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Kun tositteella on kirjauksia, ei tositteen tilikautta voi enää vaihtaa.  <a href="#a169d12409447888c07ae31ff6c59e8d7">Lisää...</a><br /></td></tr>
+<tr class="separator:a169d12409447888c07ae31ff6c59e8d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68ae0ea666c5e666a751780710c8279f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a68ae0ea666c5e666a751780710c8279f"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>tarkistaTunnisteJosTilikausiVaihtui</b> (QDate uusipaiva)</td></tr>
+<tr class="separator:a68ae0ea666c5e666a751780710c8279f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Julkiset jäsenfunktiot</h2></td></tr>
-<tr class="memitem:a6101c638d24f066cde074d94f1961acf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6101c638d24f066cde074d94f1961acf"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>KirjausWg</b> (<a class="el" href="class_kirjanpito.html">Kirjanpito</a> *kp)</td></tr>
-<tr class="separator:a6101c638d24f066cde074d94f1961acf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5af51a1faff6a411fcc65c5a0679dce1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5af51a1faff6a411fcc65c5a0679dce1"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>KirjausWg</b> (<a class="el" href="class_tosite_wg.html">TositeWg</a> *tosite)</td></tr>
+<tr class="separator:a5af51a1faff6a411fcc65c5a0679dce1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ed2265ed2e60f06489b4c42ffeafbde"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5ed2265ed2e60f06489b4c42ffeafbde"></a>
 QDate&#160;</td><td class="memItemRight" valign="bottom"><b>tositePvm</b> () const </td></tr>
 <tr class="separator:a5ed2265ed2e60f06489b4c42ffeafbde"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Suojatut jäsenfunktiot</h2></td></tr>
+<tr class="memitem:a1d65135c8f91a5cae2ab3833a2ca04d5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_kirjaus_wg.html#a1d65135c8f91a5cae2ab3833a2ca04d5">seuraavaNumero</a> ()</td></tr>
+<tr class="separator:a1d65135c8f91a5cae2ab3833a2ca04d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e8fe0224f728e272b98751276300372"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_kirjaus_wg.html#a7e8fe0224f728e272b98751276300372">kelpaakoTunniste</a> ()</td></tr>
+<tr class="separator:a7e8fe0224f728e272b98751276300372"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Suojellut attribuutit</h2></td></tr>
@@ -164,13 +215,130 @@ Ui::KirjausWg *&#160;</td><td class="memItemRight" valign="bottom"><b>ui</b></td
 <tr class="memitem:a11076f13c0e0d29d4ec239be8f2b5ee8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a11076f13c0e0d29d4ec239be8f2b5ee8"></a>
 <a class="el" href="class_vienti_model.html">VientiModel</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>viennitModel</b></td></tr>
 <tr class="separator:a11076f13c0e0d29d4ec239be8f2b5ee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a609d4ecd8527b43a5fdabe1d88f56326"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a609d4ecd8527b43a5fdabe1d88f56326"></a>
-<a class="el" href="class_kirjanpito.html">Kirjanpito</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>kirjanpito</b></td></tr>
-<tr class="separator:a609d4ecd8527b43a5fdabe1d88f56326"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5be8f19c53074c361b58d12384c44a0f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5be8f19c53074c361b58d12384c44a0f"></a>
+<a class="el" href="class_tosite_wg.html">TositeWg</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>tositewg</b></td></tr>
+<tr class="separator:a5be8f19c53074c361b58d12384c44a0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab9ee0c069da9601313550b7b1804cee6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab9ee0c069da9601313550b7b1804cee6"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>tositeId</b></td></tr>
 <tr class="separator:ab9ee0c069da9601313550b7b1804cee6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3646db50e98fea13943813f44c79249"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae3646db50e98fea13943813f44c79249"></a>
+QDate&#160;</td><td class="memItemRight" valign="bottom"><b>edellinenpvm</b></td></tr>
+<tr class="separator:ae3646db50e98fea13943813f44c79249"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Jäsenfunktioiden dokumentaatio</h2>
+<a class="anchor" id="a7e8fe0224f728e272b98751276300372"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool KirjausWg::kelpaakoTunniste </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Seuraava vapaa numero tälle tilikaudelle </p>
+
+</div>
+</div>
+<a class="anchor" id="a169d12409447888c07ae31ff6c59e8d7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void KirjausWg::lukitseTilikaudelle </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>lukitaanko</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Kun tositteella on kirjauksia, ei tositteen tilikautta voi enää vaihtaa. </p>
+<dl class="params"><dt>Parametrit</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lukitaanko</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a1eaddd0a2c8ed85dcc8f0c4c17efdb98"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void KirjausWg::salliMuokkaus </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>sallitaanko</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Määrää saako tositetta muokata. </p>
+<p>Järjestelmätositteiden sekä päätettyjen tilikausien tositteiden muokkaamista ei sallita</p>
+<dl class="params"><dt>Parametrit</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sallitaanko</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a1d65135c8f91a5cae2ab3833a2ca04d5"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int KirjausWg::seuraavaNumero </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Käsiteltävänä olevan tositteen id tai 0 jos tositetta ei tallennettu </p>
+
+</div>
+</div>
 <hr/>Dokumentaatio tälle luokalle luotiin seuraavista tiedostoista:<ul>
 <li>kitupiikki/kirjaus/<a class="el" href="kirjauswg_8h_source.html">kirjauswg.h</a></li>
 <li>kitupiikki/kirjaus/kirjauswg.cpp</li>

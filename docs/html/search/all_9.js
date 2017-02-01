@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['paivamaara',['paivamaara',['../class_kirjanpito.html#ad08cb28a082135e64d480fea08b95b1b',1,'Kirjanpito']]],
-  ['perusvalinnat',['Perusvalinnat',['../class_perusvalinnat.html',1,'']]]
+  ['onkoharjoitus',['onkoHarjoitus',['../class_kirjanpito.html#a77ea14a9ea4ba9ebac41c67c3de2a1d7',1,'Kirjanpito']]],
+  ['onkotulostettava',['onkoTulostettava',['../class_raportti.html#a4d63dbf8728a23e7e2edc1b2f7148189',1,'Raportti']]]
 ];
