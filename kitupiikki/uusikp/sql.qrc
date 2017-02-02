@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/sql">
-        <file>luo.sql</file>
-    </qresource>
-</RCC>
