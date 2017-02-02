@@ -38,6 +38,11 @@ MaaritysSivu::MaaritysSivu() :
     lista->addItem("Perusvalinnat");
     lista->addItem("Tilinavaus");
     lista->addItem("Tositelajit");
+    lista->addItem("Kustannuspaikat");
+    lista->addItem("Projektit");
+    lista->addItem("Tilikaudet");
+    lista->addItem("Arvonlisävero");
+    lista->addItem("Raporttipohjat");
 
     connect(lista, SIGNAL(currentRowChanged(int)), pino, SLOT(setCurrentIndex(int)));
 

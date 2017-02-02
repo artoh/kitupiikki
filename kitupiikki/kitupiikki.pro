@@ -42,7 +42,8 @@ SOURCES += main.cpp \
     db/tositetyyppi.cpp \
     kirjaus/pvmdelegaatti.cpp \
     maaritys/tositelajit.cpp \
-    maaritys/tositelajitmodel.cpp
+    maaritys/tositelajitmodel.cpp \
+    db/projektimodel.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -76,7 +77,8 @@ HEADERS += \
     db/tositetyyppi.h \
     kirjaus/pvmdelegaatti.h \
     maaritys/tositelajit.h \
-    maaritys/tositelajitmodel.h
+    maaritys/tositelajitmodel.h \
+    db/projektimodel.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
