@@ -84,7 +84,7 @@ Qt::ItemFlags TositelajitModel::flags(const QModelIndex &index) const
     // Oletustositetyypin "" tunnusta ei saa muokata
     // Käytössä olevan tositetyypi tunnusta ei saa muokata
 
-    if( laji.tunnus == "*" || ( index.column()==TUNNUS && ( laji.kaytossa || laji.tunnus=="" )))
+    if( laji.tunnus == "*" || ( index.column()==TUNNUS && ( laji.kaytossa || (laji.tunnus=="" && laji.riviId) )))
         return QAbstractTableModel::flags(index);
     else
         return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
@@ -121,7 +121,7 @@ void TositelajitModel::lataa()
         laji.nimi = kysely.value(2).toString();
 
         // Jos tositteella on kirjauksia, ei lajin tunnusta saa muuttaa tai lajia poistaa!
-        QSqlQuery apukysely( QString("SELECT id FROM tosite WHERE tositelaji=\"%1\" LIMIT 1").arg(laji.tunnus));
+        QSqlQuery apukysely( QString("SELECT id FROM tosite WHERE laji=\"%1\" LIMIT 1").arg(laji.tunnus));
         laji.kaytossa = apukysely.next();
 
         lajit_.append( laji );
@@ -133,12 +133,11 @@ void TositelajitModel::lataa()
 bool TositelajitModel::tallenna()
 {
     // Tämä onkin sitten jo vähän haastavampi
-    // Ja sitten kirjanpitoa pitää taas ladata!
 
     QSqlQuery tallennus;
     foreach (TositeLajiModelSisainen::Tositelaji laji, lajit_)
     {
-        if( laji.muokattu)
+        if( laji.muokattu && !laji.nimi.isEmpty() && ( laji.riviId == 0 | !laji.tunnus.isEmpty() ) )
         {
             if( laji.riviId )
             {
@@ -159,6 +158,14 @@ bool TositelajitModel::tallenna()
 
     // Ladataan tietokanta uudelleen, jotta rakenteen muutos päivittyy kaikkialle
     return Kirjanpito::db()->lataaUudelleen();
+}
+
+void TositelajitModel::lisaaRivi()
+{
+    beginInsertRows( QModelIndex(), lajit_.count(), lajit_.count() );
+    TositeLajiModelSisainen::Tositelaji laji;
+    lajit_.append(laji);
+    endInsertRows();
 }
 
 

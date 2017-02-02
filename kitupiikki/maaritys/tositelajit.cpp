@@ -27,6 +27,7 @@ Tositelajit::Tositelajit(QWidget *parent) : QWidget(parent)
 
     connect(ui->tallennaNappi, SIGNAL(clicked(bool)), model, SLOT(tallenna()));
     connect(ui->peruNappi, SIGNAL(clicked(bool)), model, SLOT(lataa()));
+    connect(ui->uusiNappi, SIGNAL(clicked(bool)), model, SLOT(lisaaRivi()));
 }
 
 Tositelajit::~Tositelajit()

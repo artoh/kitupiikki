@@ -70,6 +70,7 @@ public:
 public slots:
     void lataa();
     bool tallenna();
+    void lisaaRivi();
 
 protected:
     QList<TositeLajiModelSisainen::Tositelaji> lajit_;
