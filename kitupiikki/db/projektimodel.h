@@ -53,7 +53,7 @@ public:
         IdRooli = Qt::UserRole + 1
     };
 
-    ProjektiModel();
+    ProjektiModel(QObject *parent = 0);
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
@@ -68,6 +68,7 @@ public:
 
 public slots:
     void lataa();
+    void lisaaUusi(const QString nimi = QString());
 
 
 protected:

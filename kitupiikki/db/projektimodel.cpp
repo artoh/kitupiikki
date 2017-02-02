@@ -18,18 +18,21 @@
 #include <QSqlQuery>
 
 #include "projektimodel.h"
+#include "db/kirjanpito.h"
+#include "db/tilikausi.h"
 
-ProjektiModel::ProjektiModel()
+ProjektiModel::ProjektiModel(QObject *parent) :
+    QAbstractTableModel(parent)
 {
 
 }
 
-int ProjektiModel::rowCount(const QModelIndex &parent) const
+int ProjektiModel::rowCount(const QModelIndex & /* parent */) const
 {
     return projektit_.count();
 }
 
-int ProjektiModel::columnCount(const QModelIndex &parent) const
+int ProjektiModel::columnCount(const QModelIndex & /* parent */) const
 {
     return 3;
 }
@@ -86,6 +89,9 @@ Qt::ItemFlags ProjektiModel::flags(const QModelIndex &index) const
 
 bool ProjektiModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
+    if( role != Qt::EditRole)
+        return false;
+
     projektit_[ index.row() ].muokattu = true;
     if( index.column() == NIMI)
         projektit_[ index.row() ].nimi = value.toString();
@@ -122,4 +128,19 @@ void ProjektiModel::lataa()
         projektit_.append(uusi);
     }
     endResetModel();
+}
+
+void ProjektiModel::lisaaUusi(const QString nimi)
+{
+    beginInsertRows(QModelIndex(), projektit_.count(), projektit_.count());
+    Projekti uusi;
+    uusi.nimi = nimi;
+
+    Tilikausi nykyinen = Kirjanpito::db()->tilikausiPaivalle( Kirjanpito::db()->paivamaara() );
+
+    uusi.alkaa = nykyinen.alkaa();
+    uusi.paattyy = nykyinen.paattyy();
+
+    projektit_.append( uusi );
+    endInsertRows();
 }

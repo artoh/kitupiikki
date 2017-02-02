@@ -50,8 +50,8 @@ CREATE TABLE tosite (
 );
 
 CREATE TABLE kustannuspaikka (
-    nro  INTEGER      PRIMARY KEY,
-    kustannuspaikkanimi VARCHAR (60) NOT NULL
+    id  INTEGER      PRIMARY KEY AUTOINCREMENT,
+    nimi VARCHAR (60) NOT NULL
 );
 
 CREATE TABLE projekti (
