@@ -22,22 +22,45 @@
 #include <QDate>
 #include <QList>
 
+
+
+/**
+ * @brief Projektin luokka
+ */
+
+class Projekti
+{
+public:
+    Projekti(const QString& nimi = QString());
+    Projekti(int id, QString nimi, QDate alkaa, QDate paattyy);
+
+    int id() const { return id_; }
+    QString nimi() const { return nimi_; }
+    QDate alkaa() const { return alkaa_; }
+    QDate paattyy() const { return paattyy_; }
+
+    bool muokattu() const { return muokattu_; }
+
+    void asetaId(int id);
+    void asetaNimi(const QString& nimi);
+    void asetaAlkaa(const QDate& alkaa);
+    void asetaPaattyy(const QDate& paattyy);
+    void nollaaMuokattu();
+
+protected:
+    int id_;
+    QString nimi_;
+    QDate alkaa_;
+    QDate paattyy_;
+    bool muokattu_;
+};
+
+
 /**
  * @brief Projektien luettelo
  *
  * Projekti-id löytyy myös IdRoolista
  */
-
-struct Projekti
-{
-    int projektiId = 0;
-    QString nimi;
-    QDate alkaa;
-    QDate paattyy;
-    bool muokattu = false;
-};
-
-
 class ProjektiModel : public QAbstractTableModel
 {
     Q_OBJECT
@@ -63,8 +86,9 @@ public:
     Qt::ItemFlags flags(const QModelIndex &index) const;
     bool setData(const QModelIndex &index, const QVariant &value, int role);
 
-
-    Projekti projekti(int id);
+    QString nimi(int id) const;
+    Projekti projekti(int id) const;
+    QList<Projekti> projektit() const;
 
 public slots:
     void lataa();

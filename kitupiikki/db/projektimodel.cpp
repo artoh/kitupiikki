@@ -21,6 +21,58 @@
 #include "db/kirjanpito.h"
 #include "db/tilikausi.h"
 
+
+//
+//  Projekti
+//
+
+Projekti::Projekti(const QString &nimi) :
+    id_(0), nimi_(nimi), muokattu_(false)
+{
+
+}
+
+Projekti::Projekti(int id, QString nimi, QDate alkaa, QDate paattyy)
+    : id_(id), nimi_(nimi), alkaa_(alkaa), paattyy_(paattyy)
+{
+
+}
+
+void Projekti::asetaId(int id)
+{
+    id_ = id;
+    muokattu_ = true;
+}
+
+void Projekti::asetaNimi(const QString &nimi)
+{
+    nimi_ = nimi;
+    muokattu_ = true;
+}
+
+void Projekti::asetaAlkaa(const QDate &alkaa)
+{
+    alkaa_ = alkaa;
+    muokattu_ = true;
+}
+
+void Projekti::asetaPaattyy(const QDate &paattyy)
+{
+    paattyy_ = paattyy;
+    muokattu_ = true;
+}
+
+void Projekti::nollaaMuokattu()
+{
+    muokattu_ = false;
+}
+
+//
+//  ProjektiModel
+//
+
+
+
 ProjektiModel::ProjektiModel(QObject *parent) :
     QAbstractTableModel(parent)
 {
@@ -67,16 +119,16 @@ QVariant ProjektiModel::data(const QModelIndex &index, int role) const
     Projekti projekti = projektit_[index.row()];
 
     if( role == IdRooli)
-        return QVariant( projekti.projektiId);
+        return QVariant( projekti.id() );
     else if( role == Qt::TextAlignmentRole)
         return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
     else if( role == Qt::DisplayRole || role == Qt::EditRole)
     {
         switch( index.column())
         {
-            case NIMI: return QVariant( projekti.nimi);
-            case ALKAA: return QVariant(projekti.alkaa);
-            case PAATTYY: return QVariant(projekti.paattyy);
+            case NIMI: return QVariant( projekti.nimi() );
+            case ALKAA: return QVariant(projekti.alkaa() );
+            case PAATTYY: return QVariant(projekti.paattyy());
         }
     }
     return QVariant();
@@ -92,25 +144,34 @@ bool ProjektiModel::setData(const QModelIndex &index, const QVariant &value, int
     if( role != Qt::EditRole)
         return false;
 
-    projektit_[ index.row() ].muokattu = true;
     if( index.column() == NIMI)
-        projektit_[ index.row() ].nimi = value.toString();
+        projektit_[ index.row() ].asetaNimi(value.toString());
     else if( index.column() == ALKAA )
-        projektit_[ index.row() ].alkaa = value.toDate();
+        projektit_[ index.row() ].asetaAlkaa( value.toDate() );
     else if( index.column() == PAATTYY)
-        projektit_[ index.column()].paattyy = value.toDate();
+        projektit_[ index.column()].asetaPaattyy( value.toDate() );
 
     return true;
 }
 
-Projekti ProjektiModel::projekti(int id)
+QString ProjektiModel::nimi(int id) const
+{
+    return projekti(id).nimi();
+}
+
+Projekti ProjektiModel::projekti(int id) const
 {
     foreach (Projekti projekti, projektit_)
     {
-        if( projekti.projektiId == id)
+        if( projekti.id() == id)
             return projekti;
     }
     return Projekti();
+}
+
+QList<Projekti> ProjektiModel::projektit() const
+{
+    return projektit_;
 }
 
 void ProjektiModel::lataa()
@@ -120,12 +181,10 @@ void ProjektiModel::lataa()
     QSqlQuery kysely("select id, nimi, alkaa, loppuu FROM projekti");
     while( kysely.next() )
     {
-        Projekti uusi;
-        uusi.projektiId = kysely.value(0).toInt();
-        uusi.nimi = kysely.value(1).toString();
-        uusi.alkaa = kysely.value(2).toDate();
-        uusi.paattyy = kysely.value(3).toDate();
-        projektit_.append(uusi);
+        projektit_.append( Projekti( kysely.value(0).toInt(),
+                                     kysely.value(1).toString(),
+                                     kysely.value(2).toDate(),
+                                     kysely.value(3).toDate()));
     }
     endResetModel();
 }
@@ -133,14 +192,13 @@ void ProjektiModel::lataa()
 void ProjektiModel::lisaaUusi(const QString nimi)
 {
     beginInsertRows(QModelIndex(), projektit_.count(), projektit_.count());
-    Projekti uusi;
-    uusi.nimi = nimi;
 
+    // Oletuksena projekti on nykyisen tilikauden pituinen
     Tilikausi nykyinen = Kirjanpito::db()->tilikausiPaivalle( Kirjanpito::db()->paivamaara() );
+    projektit_.append( Projekti(0, nimi, nykyinen.alkaa(), nykyinen.paattyy()) );
 
-    uusi.alkaa = nykyinen.alkaa();
-    uusi.paattyy = nykyinen.paattyy();
-
-    projektit_.append( uusi );
     endInsertRows();
 }
+
+
+
