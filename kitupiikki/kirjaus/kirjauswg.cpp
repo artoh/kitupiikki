@@ -302,7 +302,7 @@ void KirjausWg::lataaTositetyypit()
     // Lataa käytettävissä olevat tositetyypit comboon
 
     ui->tositetyyppiCombo->clear();
-    foreach (TositeTyyppi tyyppi, Kirjanpito::db()->tositetyypit())
+    foreach (TositeTyyppi tyyppi, Kirjanpito::db()->tositelajit())
     {
         if( tyyppi.onkoKaytettavissa())
             ui->tositetyyppiCombo->addItem( tyyppi.nimi(), QVariant(tyyppi.tunnus()));

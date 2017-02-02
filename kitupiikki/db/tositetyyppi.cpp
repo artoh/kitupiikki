@@ -28,3 +28,13 @@ bool TositeTyyppi::onkoKaytettavissa() const
     // Järjestelmätositetyyppi ei ole käytettävissä
     return tunnus_ != "*";
 }
+
+void TositeTyyppi::asetaTunnus(const QString &tunnus)
+{
+    tunnus_ = tunnus;
+}
+
+void TositeTyyppi::asetaNimi(const QString &nimi)
+{
+    nimi_ = nimi;
+}

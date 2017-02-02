@@ -15,35 +15,28 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TOSITETYYPPI_H
-#define TOSITETYYPPI_H
+#ifndef TOSITELAJIT_H
+#define TOSITELAJIT_H
 
-#include <QString>
+#include <QWidget>
 
-/**
- * @brief Tositelaji
- *
- * Eri lajiset tositteet numeroidaan omiin sarjoihinsa tunnuksen mukaan
- * Tunnus "" on varattu Muille tositteille ja * Järjestelmätositteille
- *
- */
-class TositeTyyppi
+#include "ui_tositelajit.h"
+#include "tositelajitmodel.h"
+
+class Tositelajit : public QWidget
 {
+    Q_OBJECT
 public:
-    TositeTyyppi(const QString& tunnus, const QString nimi);
+    explicit Tositelajit(QWidget *parent = 0);
+    ~Tositelajit();
 
-    QString tunnus() const { return tunnus_; }
-    QString nimi() const { return nimi_; }
+signals:
 
-    bool onkoKaytettavissa() const;
-
-    void asetaTunnus(const QString& tunnus);
-    void asetaNimi(const QString& nimi);
+public slots:
 
 protected:
-    QString tunnus_;
-    QString nimi_;
-
+    Ui::Tositelajit *ui;
+    TositelajitModel *model;
 };
 
-#endif // TOSITETYYPPI_H
+#endif // TOSITELAJIT_H

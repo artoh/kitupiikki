@@ -106,7 +106,7 @@ Qt::ItemFlags TilinavausModel::flags(const QModelIndex &index) const
 bool TilinavausModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     int tilinumero = tilit[ index.row()].numero();
-    saldot[tilinumero] = value.toInt(); // Deledaatti käsittelee senttejä
+    saldot[tilinumero] = value.toInt(); // Delegaatti käsittelee senttejä
     paivitaInfo();
     return true;
 }

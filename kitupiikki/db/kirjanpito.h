@@ -92,7 +92,7 @@ public:
     QList<Tili> tilit(QString tyyppisuodatin = QString(), int tilasuodatin = 0) const;
 
     QList<Tilikausi> tilikaudet() const { return tilikaudet_; }
-    QList<TositeTyyppi> tositetyypit() const { return tositetyypit_; }
+    QList<TositeTyyppi> tositelajit() const { return tositetyypit_; }
 
     Tilikausi tilikausiPaivalle(const QDate &paiva) const;
 
@@ -108,6 +108,12 @@ public slots:
      * @return tosi, jos onnistuu
      */
     bool avaaTietokanta(const QString& tiedosto);
+
+    /**
+     * @brief Lataa tietokannan uudelleen rakenteen muutoksen jälkeen
+     * @return tosi, jos onnistui
+     */
+    bool lataaUudelleen();
 
     void asetaHarjoitteluPvm(const QDate& pvm);
 

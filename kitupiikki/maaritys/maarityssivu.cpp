@@ -23,6 +23,7 @@
 
 #include "perusvalinnat.h"
 #include "tilinavaus.h"
+#include "tositelajit.h"
 
 MaaritysSivu::MaaritysSivu() :
     QWidget(0)
@@ -31,10 +32,12 @@ MaaritysSivu::MaaritysSivu() :
 
     pino->addWidget( new Perusvalinnat );
     pino->addWidget( new Tilinavaus );
+    pino->addWidget( new Tositelajit);
 
     lista = new QListWidget;
     lista->addItem("Perusvalinnat");
     lista->addItem("Tilinavaus");
+    lista->addItem("Tositelajit");
 
     connect(lista, SIGNAL(currentRowChanged(int)), pino, SLOT(setCurrentIndex(int)));
 

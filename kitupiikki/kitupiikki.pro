@@ -40,7 +40,9 @@ SOURCES += main.cpp \
     maaritys/tilinavaus.cpp \
     maaritys/tilinavausmodel.cpp \
     db/tositetyyppi.cpp \
-    kirjaus/pvmdelegaatti.cpp
+    kirjaus/pvmdelegaatti.cpp \
+    maaritys/tositelajit.cpp \
+    maaritys/tositelajitmodel.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -72,7 +74,9 @@ HEADERS += \
     maaritys/tilinavaus.h \
     maaritys/tilinavausmodel.h \
     db/tositetyyppi.h \
-    kirjaus/pvmdelegaatti.h
+    kirjaus/pvmdelegaatti.h \
+    maaritys/tositelajit.h \
+    maaritys/tositelajitmodel.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -92,7 +96,8 @@ FORMS += \
     selaus/selauswg.ui \
     raportti/raportti.ui \
     raportti/paivakirja.ui \
-    maaritys/tilinavaus.ui
+    maaritys/tilinavaus.ui \
+    maaritys/tositelajit.ui
 
 DISTFILES += \
     uusikp/luo.sql \

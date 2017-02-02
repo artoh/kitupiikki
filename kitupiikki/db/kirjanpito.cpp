@@ -188,6 +188,11 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
     return true;
 }
 
+bool Kirjanpito::lataaUudelleen()
+{
+    return avaaTietokanta(hakemisto().absoluteFilePath("kitupiikki.sqlite"));
+}
+
 void Kirjanpito::asetaHarjoitteluPvm(const QDate &pvm)
 {
     harjoitusPvm = pvm;
