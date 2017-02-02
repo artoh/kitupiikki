@@ -25,7 +25,7 @@ TositelajitModel::TositelajitModel()
     connect( Kirjanpito::db(), SIGNAL(tietokantaVaihtui()), this, SLOT(lataa()));
 }
 
-int TositelajitModel::rowCount(const QModelIndex &parent) const
+int TositelajitModel::rowCount(const QModelIndex & parent ) const
 {
     return lajit_.count();
 }

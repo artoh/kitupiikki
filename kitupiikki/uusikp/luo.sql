@@ -27,7 +27,8 @@ CREATE TABLE tilikausi (
 );
 
 CREATE TABLE tositelaji (
-    tunnus   VARCHAR(5)      PRIMARY KEY ASC,
+    id       INTEGER         PRIMARY KEY AUTOINCREMENT,
+    tunnus   VARCHAR(5)      UNIQUE NOT NULL,
     nimi VARCHAR (60) NOT NULL
 );
 

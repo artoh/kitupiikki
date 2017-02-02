@@ -15,33 +15,44 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TOSITELAJITMODEL_H
-#define TOSITELAJITMODEL_H
+#ifndef TOSITELAJIMODEL_H
+#define TOSITELAJIMODEL_H
 
 #include <QAbstractTableModel>
 
-#include "db/kirjanpito.h"
-#include "db/tositetyyppi.h"
-
-
-namespace TositeLajiModelSisainen
+/**
+ * @brief Tositelaji, joka muodostaa oman numerosarjan
+ */
+class TositeLaji
 {
+public:
+    TositeLaji();
+    TositeLaji(int id, QString tunnus, QString nimi);
 
-    struct Tositelaji
-    {
-            int riviId = 0;
-            QString tunnus;
-            QString nimi;
-            bool kaytossa = false;
-            bool muokattu = false;
-    };
-}
+    int id() const { return id_; }
+    QString tunnus() const { return tunnus_; }
+    QString nimi() const { return nimi_; }
+    bool muokattu() const { return muokattu_; }
+
+    void asetaId(int id);
+    void asetaTunnus(const QString& tunnus);
+    void asetaNimi(const QString& nimi);
+    void nollaaMuokattu();
+
+
+protected:
+    int id_;
+    QString tunnus_;
+    QString nimi_;
+    bool muokattu_;
+};
 
 
 /**
- * @brief Tositetyyppien muokkaamiseen käytettävä model
+ * @brief Model Tositelajeille
  */
-class TositelajitModel : public QAbstractTableModel
+
+class TositeLajiModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
@@ -50,7 +61,7 @@ public:
         TUNNUS, NIMI
     };
 
-    TositelajitModel();
+    TositeLajiModel(QObject *parent = 0);
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
@@ -67,7 +78,7 @@ public slots:
     void lisaaRivi();
 
 protected:
-    QList<TositeLajiModelSisainen::Tositelaji> lajit_;
+    QList<TositeLaji> lajit_;
 };
 
-#endif // TOSITELAJITMODEL_H
+#endif // TOSITELAJIMODEL_H

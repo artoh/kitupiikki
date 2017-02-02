@@ -21,7 +21,8 @@
 #include <QWidget>
 
 #include "ui_tositelajit.h"
-#include "tositelajitmodel.h"
+// #include "tositelajitmodel.h"
+#include "db/tositelajimodel.h"
 
 class Tositelajit : public QWidget
 {
@@ -36,7 +37,7 @@ public slots:
 
 protected:
     Ui::Tositelajit *ui;
-    TositelajitModel *model;
+    TositeLajiModel *model;
 };
 
 #endif // TOSITELAJIT_H

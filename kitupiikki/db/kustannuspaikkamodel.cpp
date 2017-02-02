@@ -22,7 +22,7 @@
 
 
 Kustannuspaikka::Kustannuspaikka(const QString kpnimi)
-    : id_(0), nimi(kpnimi), muokattu_(false)
+    : id_(0), nimi_(kpnimi), muokattu_(false)
 {
 
 }

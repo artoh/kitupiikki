@@ -22,7 +22,7 @@ Tositelajit::Tositelajit(QWidget *parent) : QWidget(parent)
     ui = new Ui::Tositelajit;
     ui->setupUi(this);
 
-    model = new TositelajitModel;
+    model = new TositeLajiModel;
     ui->view->setModel(model);
 
     connect(ui->tallennaNappi, SIGNAL(clicked(bool)), model, SLOT(tallenna()));
