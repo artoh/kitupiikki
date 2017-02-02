@@ -25,8 +25,9 @@ class Tili
 {
 public:
     Tili();
-    Tili(int tnumero, const QString tnimi, const QString& tohje, const QString ttyyppi, int ttila, const QString tjson, int otsikkotaso = 0);
+    Tili(int id,int tnumero, const QString tnimi, const QString& tohje, const QString ttyyppi, int ttila, const QString tjson, int otsikkotaso = 0);
 
+    int id() const { return id_; }
     int numero() const { return numero_; }
     QString nimi() const { return nimi_; }
     QString tyyppi() const { return tyyppi_; }
@@ -55,6 +56,7 @@ public:
     static int kasitunnus(int tunnus);
 
 protected:
+    int id_;
     int numero_;
     QString nimi_;
     QString ohje_;

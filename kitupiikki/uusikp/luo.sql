@@ -3,7 +3,8 @@ CREATE TABLE asetus (
  arvo TEXT) ;
 
 CREATE TABLE tili (
-    nro    INTEGER      PRIMARY KEY ASC  NOT NULL UNIQUE,
+    id     INTEGER      PRIMARY KEY AUTOINCREMENT,
+    nro    INTEGER      UNIQUE,
     nimi   VARCHAR (60) NOT NULL,
     ohje   TEXT,
     tyyppi VARCHAR (10) NOT NULL,
@@ -32,9 +33,9 @@ CREATE TABLE tositelaji (
     nimi VARCHAR (60) NOT NULL
 );
 
-INSERT INTO tositelaji ( tunnus,nimi) VALUES
-  ('*','Järjestelmän tosite'),
-  ('','Muu tosite' );
+INSERT INTO tositelaji ( id, tunnus,nimi) VALUES
+  (0,'***','Järjestelmän tosite'),
+  (1,'','Muu tosite' );
 
 CREATE TABLE tosite (
     id        INTEGER      PRIMARY KEY AUTOINCREMENT,
@@ -42,11 +43,11 @@ CREATE TABLE tosite (
     otsikko   TEXT,
     kommentti TEXT,
     tunniste  INTEGER,
-    tiliote   INTEGER      REFERENCES tili (nro) ON UPDATE CASCADE,
+    tiliote   INTEGER      REFERENCES tili (id) ON UPDATE CASCADE,
     tiedosto  VARCHAR (60),
     sha       TEXT,
-    laji    VARCHAR(6)         REFERENCES tositelaji (tunnus)
-                                 DEFAULT (''),
+    laji      INTEGER         REFERENCES tositelaji (id)
+                                 DEFAULT (1),
     json      TEXT
 );
 
@@ -67,7 +68,7 @@ CREATE TABLE vienti (
     tosite          INTEGER NOT NULL
                             REFERENCES tosite (id),
     pvm       DATE    NOT NULL,
-    tili            INTEGER REFERENCES tili (tilinro) ON DELETE RESTRICT
+    tili            INTEGER REFERENCES tili (id) ON DELETE RESTRICT
                                                       ON UPDATE RESTRICT,
     debetsnt        BIGINT,
     kreditsnt       BIGINT,
@@ -98,12 +99,14 @@ CREATE VIEW vientivw AS
            vienti.projekti,
            vienti.json,
            vienti.tosite,
-           tosite.laji as tositelaji,
+           tositelaji.tunnus as tositelaji,
            tosite.tunniste,
            tili.nimi,
            tili.tyyppi
       FROM vienti,
            tosite,
-           tili
+           tili,
+           tositelaji
      WHERE vienti.tosite = tosite.id AND
-           vienti.tili = tili.nro
+           vienti.tili = tili.id AND
+           tosite.laji = tositelaji.id

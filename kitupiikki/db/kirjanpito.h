@@ -35,6 +35,8 @@
 #include "tilikausi.h"
 #include "tositetyyppi.h"
 
+#include "tositelajimodel.h"
+
 /**
  * @brief Kirjanpidon käsittely
  *
@@ -96,6 +98,8 @@ public:
 
     Tilikausi tilikausiPaivalle(const QDate &paiva) const;
 
+    TositeLajiModel *tositelajiModel() { return tositelajiModel_; }
+
 signals:
     void tietokantaVaihtui();
     void kirjanpitoaMuokattu();
@@ -130,6 +134,8 @@ protected:
     QMap<QString,QString> viimetiedostot;
     QDate harjoitusPvm;
     QDate tilitpaatettupvm;
+
+    TositeLajiModel *tositelajiModel_;
 
 public:
     /**

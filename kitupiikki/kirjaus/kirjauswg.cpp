@@ -66,7 +66,9 @@ KirjausWg::KirjausWg(TositeWg *tosite) : QWidget(), tositewg(tosite), tositeId(0
     // Jos tosite kirjataan toiselle tilikaudelle, haetaan uusi numero
     connect( ui->tositePvmEdit, SIGNAL(dateChanged(QDate)), this, SLOT(tarkistaTunnisteJosTilikausiVaihtui(QDate)));
 
-    connect( Kirjanpito::db(), SIGNAL(tietokantaVaihtui()), this, SLOT(lataaTositetyypit()));
+    // connect( Kirjanpito::db(), SIGNAL(tietokantaVaihtui()), this, SLOT(lataaTositetyypit()));
+    ui->tositetyyppiCombo->setModel( Kirjanpito::db()->tositelajiModel());
+    ui->tositetyyppiCombo->setModelColumn( TositeLajiModel::NIMI);
 }
 
 KirjausWg::~KirjausWg()
@@ -165,7 +167,7 @@ void KirjausWg::tallenna()
     query.bindValue(":kommentti", ui->kommentitEdit->document()->toPlainText());
     if( !ui->tunnisteEdit->text().isEmpty())
         query.bindValue(":tunniste", ui->tunnisteEdit->text());
-    query.bindValue(":tyyppi",  ui->tositetyyppiCombo->currentData().toString());
+    query.bindValue(":tyyppi",  ui->tositetyyppiCombo->currentData(TositeLajiModel::IdRooli).toString());
 
     query.exec();
 
@@ -227,7 +229,7 @@ void KirjausWg::lataaTosite(int id)
         ui->kommentitEdit->setPlainText( query.value("kommentti").toString());
         ui->tunnisteEdit->setText( query.value("laji").toString());
 
-        ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( query.value("laji") ) );
+        ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( query.value("laji"), TositeLajiModel::IdRooli ) );
 
         tositewg->tyhjenna( query.value("tunniste").toString(), query.value("tiedosto").toString() );
 
@@ -313,7 +315,10 @@ void KirjausWg::lataaTositetyypit()
 
 void KirjausWg::vaihdaTositeTyyppi()
 {
-    ui->tyyppiLabel->setText( ui->tositetyyppiCombo->currentData().toString() );
+    ui->tyyppiLabel->setText( ui->tositetyyppiCombo->currentData(TositeLajiModel::TunnusRooli).toString() );
+
+
+    // ui->tyyppiLabel->setText( ui->tositetyyppiCombo->currentData().toString() );
     // Vaihdetaan myös numerointi uuden tunnistetyypin mukaiseksi
     ui->tunnisteEdit->setText( QString::number( seuraavaNumero() ) );
 }
@@ -355,7 +360,7 @@ int KirjausWg::seuraavaNumero()
                     " AND laji=\"%3\" ")
                                 .arg(kausi.alkaa().toString(Qt::ISODate))
                                 .arg(kausi.paattyy().toString(Qt::ISODate))
-                                .arg( ui->tositetyyppiCombo->currentData().toString());
+                                .arg( ui->tositetyyppiCombo->currentData(TositeLajiModel::IdRooli).toInt());
     QSqlQuery kysely;
     kysely.exec(kysymys);
     if( kysely.next())
@@ -374,7 +379,7 @@ bool KirjausWg::kelpaakoTunniste()
                                                           .arg(kausi.alkaa().toString(Qt::ISODate))
                                                           .arg(kausi.paattyy().toString(Qt::ISODate))
                                                           .arg(tositeId)
-                                                          .arg(ui->tositetyyppiCombo->currentData().toString() );
+                                                          .arg(ui->tositetyyppiCombo->currentData(TositeLajiModel::IdRooli).toInt() );
     QSqlQuery kysely;
     kysely.exec(kysymys);
     return !kysely.next();

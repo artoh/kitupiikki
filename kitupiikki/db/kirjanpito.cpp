@@ -37,6 +37,10 @@ Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
         if( QFile::exists( split[0] ))
             viimetiedostot[split[0]]=split[1];
     }
+
+    tositelajiModel_ = new TositeLajiModel(this);
+    connect(this, SIGNAL(tietokantaVaihtui()), tositelajiModel(), SLOT(lataa()));
+
 }
 
 Kirjanpito::~Kirjanpito()
@@ -140,10 +144,11 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
     tilitpaatettupvm = QDate::fromString( asetus("tilitpaatetty") , Qt::ISODate);
 
     // Ladataan tilt
-    query.exec("SELECT nro, nimi, ohje, tyyppi, tila, json, otsikkotaso FROM tili");
+    query.exec("SELECT nro, nimi, ohje, tyyppi, tila, json, otsikkotaso, id FROM tili");
     while( query.next())
     {
-        tilit_[ query.value(0).toInt()] = Tili( query.value(0).toInt(),
+        tilit_[ query.value(7).toInt()] = Tili( query.value(7).toInt(),
+                                                query.value(0).toInt(),
                                                query.value(1).toString(),
                                                query.value(2).toString(),
                                                query.value(3).toString(),

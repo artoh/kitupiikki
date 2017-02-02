@@ -288,7 +288,7 @@ bool UusiKirjanpito::alustaKirjanpito()
     if( !field("onekakausi").toBool())
     {
         query.prepare("INSERT INTO TOSITE(id,pvm,otsikko,laji) "
-                      "VALUES (0,?,\"Tilinavaus\",\"*\")");
+                      "VALUES (0,?,\"Tilinavaus\",0)");
         query.addBindValue( field("edpaattyi").toDate());
         query.exec();
     }

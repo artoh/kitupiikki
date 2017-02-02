@@ -225,7 +225,7 @@ void VientiModel::tallenna(int tositeid)
 
         query.bindValue(":tosite", tositeid);
         query.bindValue(":pvm", rivi.pvm);
-        query.bindValue(":tili", rivi.tili.numero());
+        query.bindValue(":tili", rivi.tili.id());
         query.bindValue(":debetsnt", rivi.debetSnt);
         query.bindValue(":kreditsnt", rivi.kreditSnt);
         query.bindValue(":selite", rivi.selite);

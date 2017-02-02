@@ -68,7 +68,7 @@ void TiliDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *model, co
         QString numeroTeksti = QString::number(tili.numero());
         if( numeroTeksti.startsWith(sana))
         {
-            model->setData(index, QVariant( tili.numero()));
+            model->setData(index, QVariant( tili.id()));
             return;
         }
     }

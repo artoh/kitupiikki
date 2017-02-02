@@ -49,7 +49,7 @@ protected:
 
 
 /**
- * @brief Model Tositelajeille
+ * @brief Tositelajien model
  */
 
 class TositeLajiModel : public QAbstractTableModel
@@ -59,6 +59,13 @@ public:
     enum Sarake
     {
         TUNNUS, NIMI
+    };
+
+    enum
+    {
+        IdRooli = Qt::UserRole,
+        TunnusRooli = Qt::UserRole + 1,
+        NimiRooli = Qt::UserRole + 2
     };
 
     TositeLajiModel(QObject *parent = 0);
@@ -71,6 +78,8 @@ public:
 
     Qt::ItemFlags flags(const QModelIndex &index) const;
     bool setData(const QModelIndex &index, const QVariant &value, int role);
+
+    TositeLaji tositelaji(int id) const;
 
 public slots:
     void lataa();

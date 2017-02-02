@@ -25,8 +25,8 @@ Tili::Tili() : numero_(0), tila_(-1)
 
 }
 
-Tili::Tili(int tnumero, const QString tnimi, const QString &tohje, const QString ttyyppi, int ttila, const QString tjson, int otsikkotaso) :
-    numero_(tnumero), nimi_(tnimi), ohje_(tohje),tyyppi_(ttyyppi) , tila_(ttila), json_(tjson), otsikkotaso_(otsikkotaso)
+Tili::Tili(int id, int tnumero, const QString tnimi, const QString &tohje, const QString ttyyppi, int ttila, const QString tjson, int otsikkotaso) :
+    id_(id), numero_(tnumero), nimi_(tnimi), ohje_(tohje),tyyppi_(ttyyppi) , tila_(ttila), json_(tjson), otsikkotaso_(otsikkotaso)
 {
 }
 

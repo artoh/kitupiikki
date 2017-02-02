@@ -20,6 +20,8 @@
 
 #include <QSqlQuery>
 
+#include <QDebug>
+
 //
 //  TositeLaji
 //
@@ -66,8 +68,7 @@ void TositeLaji::nollaaMuokattu()
 TositeLajiModel::TositeLajiModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
-    // TODO: Tähän oikea signaali
-    connect( Kirjanpito::db(), SIGNAL(tietokantaVaihtui()), this, SLOT(lataa()));
+
 }
 
 int TositeLajiModel::rowCount(const QModelIndex & /* parent */ ) const
@@ -102,17 +103,27 @@ QVariant TositeLajiModel::data(const QModelIndex &index, int role) const
 {
     if( !index.isValid())
         return QVariant();
-    if( role == Qt::DisplayRole || role == Qt::EditRole)
+
+    TositeLaji laji = lajit_[index.row()];
+
+    if( role == IdRooli)
+        return QVariant( laji.id() );
+    else if( role == TunnusRooli)
+        return QVariant( laji.tunnus());
+    else if( role == NimiRooli)
+        return QVariant( laji.nimi());
+
+    else if( role == Qt::DisplayRole || role == Qt::EditRole)
     {
         switch (index.column())
         {
-            case TUNNUS: return QVariant( lajit_[ index.row() ].tunnus() );
+            case TUNNUS: return QVariant(laji.tunnus() );
 
             case NIMI:
-                if( lajit_[index.row()].nimi().isEmpty() && role==Qt::DisplayRole)
+                if( laji.nimi().isEmpty() && role==Qt::DisplayRole)
                     return QVariant( tr("<Uusi tositelaji>"));
                 else
-                    return QVariant( lajit_[index.row()].nimi() );
+                    return QVariant( laji.nimi() );
         }
     }
     else if( role == Qt::TextAlignmentRole)
@@ -134,7 +145,7 @@ Qt::ItemFlags TositeLajiModel::flags(const QModelIndex &index) const
     return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
 }
 
-bool TositeLajiModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool TositeLajiModel::setData(const QModelIndex &index, const QVariant &value, int /* role */)
 {
     switch (index.column()) {
     case TUNNUS:
@@ -150,17 +161,33 @@ bool TositeLajiModel::setData(const QModelIndex &index, const QVariant &value, i
     return false;
 }
 
+TositeLaji TositeLajiModel::tositelaji(int id) const
+{
+    if( id == 0)
+        return TositeLaji(0,"***","Järjestelmän tosite");
+
+    foreach (TositeLaji laji, lajit_)
+    {
+        if( laji.id() == id)
+            return laji;
+    }
+    return TositeLaji();
+}
+
 void TositeLajiModel::lataa()
 {
     beginResetModel();
 
     lajit_.clear();
-    QSqlQuery kysely("SELECT _rowid_,tunnus,nimi FROM tositelaji");
+    QSqlQuery kysely("SELECT id,tunnus,nimi FROM tositelaji");
+    qDebug() << kysely.lastQuery();
     while( kysely.next())
     {
-
-        lajit_.append( TositeLaji(kysely.value(0).toInt(), kysely.value(1).toString(),
-                                  kysely.value(2).toString()) );
+        qDebug() << kysely.value(0).toInt() << " - " << kysely.value(1).toString() << " - " << kysely.value(2).toString() ;
+        // Järjestelmätositetta ei laiteta näkyviin
+        if( kysely.value(0).toInt() > 0)
+            lajit_.append( TositeLaji(kysely.value(0).toInt(), kysely.value(1).toString(),
+                                      kysely.value(2).toString()) );
     }
 
     endResetModel();
@@ -169,9 +196,11 @@ void TositeLajiModel::lataa()
 bool TositeLajiModel::tallenna()
 {
     QSqlQuery tallennus;
-    foreach (TositeLaji laji, lajit_)
+    for(int i=0; i < lajit_.count(); i++)
     {
-        if( (laji.muokattu()) && (!laji.nimi().isEmpty()) && ( laji.id() == 0 | !laji.tunnus().isEmpty() ) )
+        TositeLaji laji = lajit_[i];
+
+        if( (laji.muokattu()) && (!laji.nimi().isEmpty()) && ( laji.id() == 0 || !laji.tunnus().isEmpty() ) )
         {
             if( laji.id() )
             {
@@ -185,7 +214,11 @@ bool TositeLajiModel::tallenna()
             tallennus.bindValue(":tunnus", laji.tunnus() );
             tallennus.bindValue(":nimi", laji.nimi() );
 
-            tallennus.exec();
+            if(tallennus.exec())
+                lajit_[i].nollaaMuokattu();
+
+            if( laji.id())
+                lajit_[i].asetaId( tallennus.lastInsertId().toInt());
         }
 
     }
