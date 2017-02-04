@@ -66,7 +66,7 @@ KirjausWg::KirjausWg(TositeWg *tosite) : QWidget(), tositewg(tosite), tositeId(0
     // Jos tosite kirjataan toiselle tilikaudelle, haetaan uusi numero
     connect( ui->tositePvmEdit, SIGNAL(dateChanged(QDate)), this, SLOT(tarkistaTunnisteJosTilikausiVaihtui(QDate)));
 
-    // connect( Kirjanpito::db(), SIGNAL(tietokantaVaihtui()), this, SLOT(lataaTositetyypit()));
+    connect( Kirjanpito::db(), SIGNAL(tietokantaVaihtui()), this, SLOT(hylkaa()) );
     ui->tositetyyppiCombo->setModel( Kirjanpito::db()->tositelajiModel());
     ui->tositetyyppiCombo->setModelColumn( TositeLajiModel::NIMI);
 }
@@ -196,6 +196,7 @@ void KirjausWg::tallenna()
 void KirjausWg::hylkaa()
 {
     tyhjenna();
+    ui->tositetyyppiCombo->setCurrentIndex(0);
     emit Kirjanpito::db()->palaaEdelliselleSivulle();
 }
 
