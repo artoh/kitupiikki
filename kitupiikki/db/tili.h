@@ -21,11 +21,14 @@
 #include <QString>
 #include <QDate>
 
+/**
+ * @brief Tilin tai otsikon tiedot
+ */
 class Tili
 {
 public:
     Tili();
-    Tili(int id,int tnumero, const QString tnimi, const QString& tohje, const QString ttyyppi, int ttila, const QString tjson, int otsikkotaso = 0);
+    Tili(int id,int numero, const QString& nimi, const QString& tyyppi, int tila, int otsikkotaso = 0);
 
     int id() const { return id_; }
     int numero() const { return numero_; }
@@ -33,7 +36,36 @@ public:
     QString tyyppi() const { return tyyppi_; }
     int tila() const { return tila_; }
     int otsikkotaso() const { return otsikkotaso_; }
-    int kasitunnus() const { return kasitunnus(numero_); }
+    bool muokattu() const { return muokattu_; }
+
+    void asetaId(int id) { id_ = id; }
+    void asetaNumero(int numero) { numero_ = numero; muokattu_ = true; }
+    void asetaNimi(const QString& nimi) { nimi_ = nimi; muokattu_ = true; }
+    void asetaTyyppi(const QString& tyyppi) { tyyppi_ = tyyppi, muokattu_ = true; }
+    void asetaTila(int tila) { tila_ = tila; muokattu_ = true; }
+    void asetaOtsikkotaso(int taso) { otsikkotaso_ = taso; muokattu_ = true; }
+
+    void nollaaMuokattu() { muokattu_ = false; }
+
+    /**
+     * @brief Onko tilillä tarvittavat tiedot, että voi tallettaa
+     * @return
+     */
+    bool onkoValidi() const;
+
+    /**
+     * @brief Yhdeksännumeroinen tilinumeron vertailuluku, jonka avulla
+     * tilit saadaan oikeaan järjestykseen.
+     *
+     * Viimeinen numero kertoo otsikkotason - 1, tileillä se on 9
+     * Otsikkotasoja saa olla siis enintään yhdeksän
+     *
+     * tili 1234 -> 123400009
+     * 2. tason otsikko 1230 -> 123000002
+     *
+     * @return
+     */
+    int ysivertailuluku() const;
 
     /**
      * @brief Laskee alusta ko. paivan loppuun saakka kertyneen saldon
@@ -53,17 +85,30 @@ public:
     bool onkoVastaavaaTili() const;
     bool onkoVastattavaaTili() const;
 
-    static int kasitunnus(int tunnus);
+    /**
+     * @brief Laskee yhdeksännumeroisen vertailuluvun
+     *
+     * Näiden vertailulukujen avulla tilit saadaan järjestykseen ja voidaan vertailla, kuuluuko
+     * tili jollekin välille. Ysiluku saadaan pidentämällä numero yhdeksännumeroiseksi niin,
+     * että 1234 -> 123400000 mutta lopussa 1234 -> 123499999
+     *
+     * @param luku Pidennettävä tililuku
+     * @param loppuu Tosi, jos halutaan loppukasiluku
+     * @return Yhdeksännnumeroiseksi pidennetty tilinumero
+     */
+    static int ysiluku(int luku, bool loppuu = false);
+
+protected:
+    static int laskeysiluku(int luku);
 
 protected:
     int id_;
     int numero_;
     QString nimi_;
-    QString ohje_;
     QString tyyppi_;
     int tila_;
-    QString json_;
     int otsikkotaso_;
+    bool muokattu_;
 };
 
 #endif // TILI_H

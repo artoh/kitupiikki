@@ -20,14 +20,28 @@
 #include <QDebug>
 #include <QSqlQuery>
 
-Tili::Tili() : numero_(0), tila_(-1)
+Tili::Tili() : id_(0), numero_(0), tila_(0), otsikkotaso_(0), muokattu_(false)
 {
 
 }
 
-Tili::Tili(int id, int tnumero, const QString tnimi, const QString &tohje, const QString ttyyppi, int ttila, const QString tjson, int otsikkotaso) :
-    id_(id), numero_(tnumero), nimi_(tnimi), ohje_(tohje),tyyppi_(ttyyppi) , tila_(ttila), json_(tjson), otsikkotaso_(otsikkotaso)
+Tili::Tili(int id, int numero, const QString &nimi, const QString &tyyppi, int tila, int otsikkotaso) :
+    id_(id), numero_(numero), nimi_(nimi), tyyppi_(tyyppi), tila_(tila), otsikkotaso_(otsikkotaso), muokattu_(false)
+
 {
+}
+
+bool Tili::onkoValidi() const
+{
+    return numero() > 0 && !nimi().isEmpty();
+}
+
+int Tili::ysivertailuluku() const
+{
+    if( !otsikkotaso())
+        return laskeysiluku( numero()) + 9; // Tavallinen tili
+    else
+        return laskeysiluku( numero() ) + otsikkotaso();
 }
 
 int Tili::kertymaPaivalle(const QDate &pvm)
@@ -77,10 +91,19 @@ bool Tili::onkoVastattavaaTili() const
     return tyyppi().startsWith('B');
 }
 
-int Tili::kasitunnus(int tunnus)
+int Tili::ysiluku(int luku, bool loppuu)
 {
-    while( tunnus < 10000000)
-        tunnus = tunnus * 10;
-    return tunnus;
+    if( loppuu )
+        return laskeysiluku(luku + 1) - 1;
+    else
+        return laskeysiluku(luku);
 }
+
+int Tili::laskeysiluku(int luku)
+{
+    while( luku < 1000000000)
+        luku = luku * 10;
+    return luku;
+}
+
 

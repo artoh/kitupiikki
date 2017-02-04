@@ -133,10 +133,8 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
         tilit_[ query.value(7).toInt()] = Tili( query.value(7).toInt(),
                                                 query.value(0).toInt(),
                                                query.value(1).toString(),
-                                               query.value(2).toString(),
                                                query.value(3).toString(),
                                                query.value(4).toInt(),
-                                               query.value(5).toString(),
                                                 query.value(6).toInt());
     }
 

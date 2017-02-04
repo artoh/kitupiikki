@@ -233,6 +233,9 @@ bool UusiKirjanpito::alustaKirjanpito()
 
 
     // Otsikkojen kirjoittaminen
+    /*
+     *  Kommentoidaan ulos, koska otsikot kuvataan tilitaulussa
+     *
     query.prepare("INSERT INTO tiliotsikko(tilista,tiliin,otsikko,tyyppi) values(?,?,?,?)");
     foreach (QString otsikkorivi, kartta.value("otsikot"))
     {
@@ -251,6 +254,8 @@ bool UusiKirjanpito::alustaKirjanpito()
         }
         progDlg.setValue( progDlg.value() + 1 );
     }
+
+    */
 
     // Tilikausien kirjoittaminen
     // Nykyinen tilikausi

@@ -4,12 +4,12 @@ CREATE TABLE asetus (
 
 CREATE TABLE tili (
     id     INTEGER      PRIMARY KEY AUTOINCREMENT,
-    nro    INTEGER      UNIQUE,
+    nro    INTEGER      NOT NULL,
     nimi   VARCHAR (60) NOT NULL,
-    ohje   TEXT,
     tyyppi VARCHAR (10) NOT NULL,
     tila   INTEGER      DEFAULT (1),
     otsikkotaso INTEGER DEFAULT (0),
+    ysiluku INTEGER    NOT NULL,
     json   TEXT
 ) ;
 
@@ -60,7 +60,7 @@ CREATE TABLE projekti (
     id     INTEGER      PRIMARY KEY AUTOINCREMENT,
     nimi   VARCHAR (60) NOT NULL,
     alkaa  DATE,
-    loppuu              NOT NULL
+    loppuu DATE
 );
 
 CREATE TABLE vienti (
