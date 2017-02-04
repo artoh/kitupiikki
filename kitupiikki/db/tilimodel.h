@@ -35,7 +35,7 @@ public:
         NUMERO, NIMI
     };
 
-    TiliModel(QSqlDatabase *tietokanta, QObject *parent);
+    TiliModel(QSqlDatabase *tietokanta, QObject *parent = 0);
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;

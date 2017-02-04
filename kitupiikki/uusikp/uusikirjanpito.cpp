@@ -43,6 +43,8 @@
 #include "loppusivu.h"
 
 #include "db/asetusmodel.h"
+#include "db/tilimodel.h"
+#include "db/tili.h"
 
 UusiKirjanpito::UusiKirjanpito() :
     QWizard()
@@ -209,7 +211,10 @@ bool UusiKirjanpito::alustaKirjanpito()
     progDlg.setValue( progDlg.value() + 1 );
 
     // Tilien kirjoittaminen
-    query.prepare("INSERT INTO tili(nro,nimi,tyyppi,otsikkotaso) values(?,?,?,?) ");
+//    query.prepare("INSERT INTO tili(nro,nimi,tyyppi,otsikkotaso) values(?,?,?,?) ");
+
+    TiliModel tilit(&db);
+
     QStringList tililista = kartta.value("tilit");
     foreach ( QString tili, tililista)
     {
@@ -222,14 +227,23 @@ bool UusiKirjanpito::alustaKirjanpito()
             if( splitti.count() > 3)
                 otsikkotaso = splitti[3].toInt();
 
+            Tili tili;
+            tili.asetaTyyppi( splitti[0] );
+            tili.asetaNumero( splitti[1].toInt() );
+            tili.asetaOtsikkotaso( otsikkotaso );
+            tilit.lisaaTili(tili);
+/*
             query.addBindValue(splitti[1].toInt() );
             query.addBindValue(splitti[2]);
             query.addBindValue(splitti[0]);
             query.addBindValue(otsikkotaso);
             query.exec();
+            */
         }
         progDlg.setValue( progDlg.value() + 1 );
     }
+
+    tilit.tallenna();
 
 
     // Otsikkojen kirjoittaminen
