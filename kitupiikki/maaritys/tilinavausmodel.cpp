@@ -27,12 +27,12 @@ TilinavausModel::TilinavausModel()
     connect(Kirjanpito::db(), SIGNAL(tietokantaVaihtui()), this, SLOT(lataa()));
 }
 
-int TilinavausModel::rowCount(const QModelIndex &parent) const
+int TilinavausModel::rowCount(const QModelIndex & /* parent */ ) const
 {
     return tilit.count();
 }
 
-int TilinavausModel::columnCount(const QModelIndex &parent) const
+int TilinavausModel::columnCount(const QModelIndex & /* parent */) const
 {
     return 3;
 }
@@ -103,7 +103,7 @@ Qt::ItemFlags TilinavausModel::flags(const QModelIndex &index) const
         return QAbstractTableModel::flags(index);
 }
 
-bool TilinavausModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool TilinavausModel::setData(const QModelIndex &index, const QVariant &value, int /* role */)
 {
     int tilinumero = tilit[ index.row()].numero();
     saldot[tilinumero] = value.toInt(); // Delegaatti käsittelee senttejä
@@ -152,7 +152,7 @@ bool TilinavausModel::tallenna()
     QSqlQuery kysely("delete from vienti where tosite=0");
 
     QDate avauspaiva = QDate::fromString( Kirjanpito::db()->asetus("tilinavauspvm"),Qt::ISODate );
-qDebug() << avauspaiva;
+
     kysely.prepare("INSERT INTO vienti(tosite,pvm,tili,debetsnt,kreditsnt,selite) "
                    "VALUES (0,:pvm,:tili,:debet,:kredit,\"Tilinavaus\")");
 
@@ -178,6 +178,8 @@ qDebug() << avauspaiva;
         qDebug() << kysely.lastQuery() << " " << kysely.lastError().text();
     }
     Kirjanpito::db()->aseta("tilinavaus","1");   // Tilit merkitään avatuiksi
+
+    return true;
 }
 
 void TilinavausModel::paivitaInfo()

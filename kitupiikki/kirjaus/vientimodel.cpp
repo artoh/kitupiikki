@@ -28,12 +28,12 @@ VientiModel::VientiModel(KirjausWg *kwg) : kirjauswg(kwg)
 
 }
 
-int VientiModel::rowCount(const QModelIndex &parent) const
+int VientiModel::rowCount(const QModelIndex & /* parent */) const
 {
     return viennit.count();
 }
 
-int VientiModel::columnCount(const QModelIndex &parent) const
+int VientiModel::columnCount(const QModelIndex & /* parent */) const
 {
     return 7;
 }
@@ -117,7 +117,7 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int /* role */)
 {
     switch (index.column())
     {

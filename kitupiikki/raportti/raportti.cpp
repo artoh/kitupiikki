@@ -49,7 +49,7 @@ void Raportti::tulostaYlatunniste(QPainter *painter, int sivu, const QString &ot
     painter->setFont(QFont("Sans",10));
 
     int sivunleveys = painter->window().width();
-    int sivunkorkeus = painter->window().height();
+//    int sivunkorkeus = painter->window().height();
     int rivinkorkeus = painter->fontMetrics().height();
 
     QString nimi = Kirjanpito::db()->asetus("nimi");

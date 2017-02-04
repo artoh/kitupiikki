@@ -25,7 +25,7 @@ PvmDelegaatti::PvmDelegaatti(QDateEdit *kantapaivaeditori) :
 
 }
 
-QWidget *PvmDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
+QWidget *PvmDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem & /* option */, const QModelIndex & /* index */ ) const
 {
     QDateEdit *edit = new QDateEdit(parent);
 

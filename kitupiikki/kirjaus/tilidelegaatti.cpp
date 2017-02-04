@@ -28,7 +28,7 @@ TiliDelegaatti::TiliDelegaatti()
 
 }
 
-QWidget *TiliDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
+QWidget *TiliDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem & /* option */, const QModelIndex & /* index */) const
 {
     QLineEdit *editor = new QLineEdit(parent);
 
