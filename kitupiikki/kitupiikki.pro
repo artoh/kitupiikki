@@ -43,7 +43,8 @@ SOURCES += main.cpp \
     maaritys/tositelajit.cpp \
     db/projektimodel.cpp \
     db/kustannuspaikkamodel.cpp \
-    db/tositelajimodel.cpp
+    db/tositelajimodel.cpp \
+    db/asetusmodel.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -78,7 +79,8 @@ HEADERS += \
     maaritys/tositelajit.h \
     db/projektimodel.h \
     db/kustannuspaikkamodel.h \
-    db/tositelajimodel.h
+    db/tositelajimodel.h \
+    db/asetusmodel.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

@@ -42,6 +42,8 @@
 #include "sijaintisivu.h"
 #include "loppusivu.h"
 
+#include "db/asetusmodel.h"
+
 UusiKirjanpito::UusiKirjanpito() :
     QWizard()
 {
@@ -169,38 +171,25 @@ bool UusiKirjanpito::alustaKirjanpito()
     progDlg.setValue( progDlg.value() + 1 );
 
 
-    // Asetustauluun kirjoittaminen
-    query.prepare("INSERT INTO asetus (avain, arvo)"
-                  "VALUES (?,?)");
+    AsetusModel asetukset(&db);
 
     // Kirjataan tietokannan perustietoja
-    query.addBindValue("nimi"); query.addBindValue( field("nimi").toString() ); query.exec();
-    query.addBindValue("ytunnus"); query.addBindValue( field("ytunnus").toString() ); query.exec();
-    if( field("todellinen").toBool())
-        { query.addBindValue("harjoitus"); query.addBindValue( 0 ); }
-    else
-        { query.addBindValue("harjoitus"); query.addBindValue( 1 ); }
-    query.exec();
 
-    query.addBindValue("luotu"); query.addBindValue( QDate::currentDate().toString(Qt::ISODate) ); query.exec();
-    query.addBindValue("versio"); query.addBindValue( qApp->applicationVersion() ); query.exec();
+    asetukset.aseta("nimi", field("nimi"));
+    asetukset.aseta("ytunnus", field("ytunnus"));
+    asetukset.aseta("harjoitus", field("todellinen"));
+
+    asetukset.aseta("luotu", QDate::currentDate());
+    asetukset.aseta("versio", qApp->applicationVersion());
 
     if( field("onekakausi").toBool())    {
         // Ensimmäinen tilikausi, tilinavausta ei tarvita
-        query.addBindValue("tilinavaus"); query.addBindValue( 0 ); query.exec();
+        asetukset.aseta("tilinavaus",0);
     } else {
         // Tilinavaustiedot puuttuvat
-        query.addBindValue("tilinavaus"); query.addBindValue( 2 ); query.exec();
-
-        // Päivä, jolle tilinavaus kirjataan
-        query.addBindValue("tilinavauspvm");
-        query.addBindValue( field("edpaattyi").toDate().toString(Qt::ISODate));
-        query.exec();
-
-        // Lukitaan kirjauksilta
-        query.addBindValue("tilitpaatetty");
-        query.addBindValue( field("edpaattyi").toDate().toString(Qt::ISODate));
-        query.exec();
+        asetukset.aseta("tilinavaus", 2);
+        asetukset.aseta("tilinavauspvm", field("edpaattyi").toDate());
+        asetukset.aseta("tilitpaatetty", field("edpaattyi").toDate());
     }
 
     progDlg.setValue( progDlg.value() + 1 );
@@ -213,9 +202,7 @@ bool UusiKirjanpito::alustaKirjanpito()
         i.next();
         if( i.key().startsWith("*"))
         {
-            query.addBindValue( i.key() );
-            query.addBindValue( i.value().join("\n"));
-            query.exec();
+            asetukset.aseta( i.key(), i.value());
         }
     }
 

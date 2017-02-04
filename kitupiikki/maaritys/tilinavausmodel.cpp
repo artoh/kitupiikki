@@ -151,7 +151,8 @@ bool TilinavausModel::tallenna()
 
     QSqlQuery kysely("delete from vienti where tosite=0");
 
-    QDate avauspaiva = QDate::fromString( Kirjanpito::db()->asetus("tilinavauspvm"),Qt::ISODate );
+    QDate avauspaiva = Kirjanpito::db()->asetusModel()->pvm("tilinavauspvm");
+
 
     kysely.prepare("INSERT INTO vienti(tosite,pvm,tili,debetsnt,kreditsnt,selite) "
                    "VALUES (0,:pvm,:tili,:debet,:kredit,\"Tilinavaus\")");

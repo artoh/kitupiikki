@@ -41,6 +41,8 @@ Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
     tositelajiModel_ = new TositeLajiModel(this);
     connect(this, SIGNAL(tietokantaVaihtui()), tositelajiModel(), SLOT(lataa()));
 
+    asetusModel_ = new AsetusModel(&tietokanta, this);
+
 }
 
 Kirjanpito::~Kirjanpito()
@@ -50,26 +52,12 @@ Kirjanpito::~Kirjanpito()
 
 QString Kirjanpito::asetus(const QString &avain) const
 {
-    return asetukset.value(avain, QString());
+    return asetusModel()->asetus(avain);
 }
 
 void Kirjanpito::aseta(const QString &avain, const QString &arvo)
 {
-    QSqlQuery query;
-    if( asetukset.contains(avain))
-    {
-        // Asetus on jo, se vain päivitetään
-        query.prepare("UPDATE asetus SET arvo=:arvo where AVAIN=:avain");
-    }
-    else
-    {
-        // Luodaan uusi asetus
-        query.prepare("INSERT INTO asetus(avain,arvo) VALUES(:avain,:arvo)");
-    }
-    query.bindValue(":avain", avain);
-    query.bindValue(":arvo",arvo);
-    query.exec();
-    asetukset[avain] = arvo;    
+    asetusModel()->aseta(avain, arvo);
 }
 
 QDir Kirjanpito::hakemisto()
@@ -133,15 +121,10 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
     if( !tietokanta.open() )
         return false;
 
-    // Ladataan asetukset
-    QSqlQuery query;
-    query.exec("SELECT avain,arvo FROM asetus");
-    while( query.next())
-    {
-        asetukset[query.value(0).toString()] = query.value(1).toString();
-    }
+    // Ladataankin asetukset modelista
+    asetusModel_->lataa();
 
-    tilitpaatettupvm = QDate::fromString( asetus("tilitpaatetty") , Qt::ISODate);
+    QSqlQuery query( tietokanta );
 
     // Ladataan tilt
     query.exec("SELECT nro, nimi, ohje, tyyppi, tila, json, otsikkotaso, id FROM tili");

@@ -35,6 +35,7 @@
 #include "tilikausi.h"
 
 #include "tositelajimodel.h"
+#include "asetusmodel.h"
 
 /**
  * @brief Kirjanpidon käsittely
@@ -71,7 +72,7 @@ public:
      * @brief Käytetäänkö harjoittelutilassa
      * @return tosi, jos harjoitellaan
      */
-    bool onkoHarjoitus() const { return asetus("harjoitus").toInt() > 0 ; }
+    bool onkoHarjoitus() const { return asetusModel()->onko("harjoitus"); }
 
     /**
      * @brief Nykyinen tai harjoittelutilassa muokattu päivämäärä
@@ -86,7 +87,7 @@ public:
      * @brief Päivämäärä, johon saakka tilit on päätetty eli ei voi enää muokata
      * @return
      */
-    QDate tilitpaatetty() const { return tilitpaatettupvm; }
+    QDate tilitpaatetty() const { return asetusModel()->pvm("tilitpaatetty"); }
     QDate viimeinenpaiva() const { return tilikaudet_.last().paattyy(); }
 
     Tili tili(int tilinumero) const { return tilit_[tilinumero] ; }
@@ -97,6 +98,7 @@ public:
     Tilikausi tilikausiPaivalle(const QDate &paiva) const;
 
     TositeLajiModel *tositelajiModel() { return tositelajiModel_; }
+    AsetusModel *asetusModel() const { return asetusModel_; }
 
 signals:
     void tietokantaVaihtui();
@@ -133,6 +135,7 @@ protected:
     QDate tilitpaatettupvm;
 
     TositeLajiModel *tositelajiModel_;
+    AsetusModel *asetusModel_;
 
 public:
     /**
