@@ -39,10 +39,8 @@ SOURCES += main.cpp \
     raportti/paivakirjaraportti.cpp \
     maaritys/tilinavaus.cpp \
     maaritys/tilinavausmodel.cpp \
-    db/tositetyyppi.cpp \
     kirjaus/pvmdelegaatti.cpp \
     maaritys/tositelajit.cpp \
-    maaritys/tositelajitmodel.cpp \
     db/projektimodel.cpp \
     db/kustannuspaikkamodel.cpp \
     db/tositelajimodel.cpp
@@ -76,10 +74,8 @@ HEADERS += \
     raportti/paivakirjaraportti.h \
     maaritys/tilinavaus.h \
     maaritys/tilinavausmodel.h \
-    db/tositetyyppi.h \
     kirjaus/pvmdelegaatti.h \
     maaritys/tositelajit.h \
-    maaritys/tositelajitmodel.h \
     db/projektimodel.h \
     db/kustannuspaikkamodel.h \
     db/tositelajimodel.h

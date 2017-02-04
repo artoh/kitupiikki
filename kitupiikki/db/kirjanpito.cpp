@@ -165,14 +165,6 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
                                       query.value(1).toDate() ));
     }
 
-    // Ladataan tositetyypit
-    query.exec("SELECT tunnus, nimi FROM tositelaji ORDER BY nimi");
-    while( query.next())
-    {
-        tositetyypit_.append(TositeTyyppi( query.value(0).toString(),
-                                           query.value(1).toString()));
-    }
-
 
     polkuTiedostoon = tiedosto;
 

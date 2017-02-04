@@ -33,7 +33,6 @@
 
 #include "tili.h"
 #include "tilikausi.h"
-#include "tositetyyppi.h"
 
 #include "tositelajimodel.h"
 
@@ -94,7 +93,6 @@ public:
     QList<Tili> tilit(QString tyyppisuodatin = QString(), int tilasuodatin = 0) const;
 
     QList<Tilikausi> tilikaudet() const { return tilikaudet_; }
-    QList<TositeTyyppi> tositelajit() const { return tositetyypit_; }
 
     Tilikausi tilikausiPaivalle(const QDate &paiva) const;
 
@@ -127,7 +125,6 @@ protected:
     QMap<QString,QString> asetukset;
     QMap<int,Tili> tilit_;
     QList<Tilikausi> tilikaudet_;
-    QList<TositeTyyppi> tositetyypit_;
 
     QString polkuTiedostoon;
     QSqlDatabase tietokanta;

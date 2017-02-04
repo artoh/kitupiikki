@@ -62,10 +62,6 @@ public slots:
      */
     void salliMuokkaus(bool sallitaanko);
 
-    /**
-     * @brief Lataa tositetyypin valintaan käytettävissä olevat tositetyypit
-     */
-    void lataaTositetyypit();
     void vaihdaTositeTyyppi();
 
     /**

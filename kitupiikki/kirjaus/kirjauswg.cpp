@@ -22,7 +22,6 @@
 #include "pvmdelegaatti.h"
 
 #include "db/kirjanpito.h"
-#include "db/tositetyyppi.h"
 
 #include <QDebug>
 #include <QSqlQuery>
@@ -297,20 +296,6 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
         ui->tositePvmEdit->setDateRange(Kirjanpito::db()->tilitpaatetty().addDays(1), Kirjanpito::db()->viimeinenpaiva());
     else
         ui->tositePvmEdit->setDateRange( Kirjanpito::db()->tilikaudet().first().alkaa(), Kirjanpito::db()->tilikaudet().last().paattyy() );
-
-}
-
-void KirjausWg::lataaTositetyypit()
-{
-    // Lataa käytettävissä olevat tositetyypit comboon
-
-    ui->tositetyyppiCombo->clear();
-    foreach (TositeTyyppi tyyppi, Kirjanpito::db()->tositelajit())
-    {
-        if( tyyppi.onkoKaytettavissa())
-            ui->tositetyyppiCombo->addItem( tyyppi.nimi(), QVariant(tyyppi.tunnus()));
-    }
-    tyhjenna();
 
 }
 
