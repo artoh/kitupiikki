@@ -17,12 +17,15 @@
 
 
 #include <QSqlQuery>
+#include <QSqlError>
+
+#include <QDebug>
 
 #include "tilimodel.h"
 #include "tili.h"
 
 
-TiliModel::TiliModel(QSqlDatabase *tietokanta, QObject *parent) :
+TiliModel::TiliModel(QSqlDatabase tietokanta, QObject *parent) :
     QAbstractTableModel(parent), tietokanta_(tietokanta)
 {
 
@@ -84,7 +87,7 @@ void TiliModel::lataa()
     beginResetModel();
     tilit_.clear();
 
-    QSqlQuery kysely( *tietokanta_ );
+    QSqlQuery kysely( tietokanta_ );
     kysely.exec("SELECT id, nro, nimi, tyyppi, tila,"
                 "otsikkotaso FROM tili ORDER BY ysiluku");
 
@@ -104,7 +107,7 @@ void TiliModel::lataa()
 
 void TiliModel::tallenna()
 {
-    QSqlQuery kysely(*tietokanta_);
+    QSqlQuery kysely(tietokanta_);
     foreach (Tili tili, tilit_)
     {
         if( tili.onkoValidi() && tili.muokattu())
@@ -124,18 +127,20 @@ void TiliModel::tallenna()
                                "VALUES(:nro, :nimi, :tyyppi, :tila, :otsikkotaso, :ysiluku) ");
 
             }
-            kysely.bindValue("nro", tili.numero());
-            kysely.bindValue("nimi", tili.nimi());
-            kysely.bindValue("tyyppi", tili.tyyppi());
-            kysely.bindValue("tila", tili.tila());
-            kysely.bindValue("otsikkotaso", tili.otsikkotaso());
-            kysely.bindValue("ysiluku", tili.ysivertailuluku());
+            kysely.bindValue(":nro", tili.numero());
+            kysely.bindValue(":nimi", tili.nimi());
+            kysely.bindValue(":tyyppi", tili.tyyppi());
+            kysely.bindValue(":tila", tili.tila());
+            kysely.bindValue(":otsikkotaso", tili.otsikkotaso());
+            kysely.bindValue(":ysiluku", tili.ysivertailuluku());
 
             if( kysely.exec() )
                 tili.nollaaMuokattu();
 
             if( tili.id())
                 tili.asetaId( kysely.lastInsertId().toInt() );
+
+            qDebug() << kysely.lastInsertId() << " * " <<  kysely.lastError().text();
 
         }
     }

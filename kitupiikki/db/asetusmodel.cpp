@@ -76,7 +76,7 @@ void AsetusModel::aseta(const QString &avain, bool totuusarvo)
         aseta( avain, "EI");
 }
 
-void AsetusModel::aseta(const QString &avain, const QVariant &arvo)
+void AsetusModel::asetaVar(const QString &avain, const QVariant &arvo)
 {
     if( arvo.type() == QVariant::Date)
         aseta( avain, arvo.toDate().toString(Qt::ISODate));
@@ -93,6 +93,16 @@ void AsetusModel::aseta(const QString &avain, const QVariant &arvo)
     }
     else
         aseta( avain, arvo.toString());
+}
+
+QStringList AsetusModel::lista(const QString &avain) const
+{
+    return asetus(avain).split('\n');
+}
+
+void AsetusModel::aseta(const QString &avain, const QStringList &arvo)
+{
+    aseta( avain, arvo.join('\n'));
 }
 
 int AsetusModel::luku(const QString &avain) const

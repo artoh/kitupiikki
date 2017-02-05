@@ -41,7 +41,7 @@ int Tili::ysivertailuluku() const
     if( !otsikkotaso())
         return laskeysiluku( numero()) + 9; // Tavallinen tili
     else
-        return laskeysiluku( numero() ) + otsikkotaso();
+        return laskeysiluku( numero() ) + otsikkotaso() - 1; // Otsikko
 }
 
 int Tili::kertymaPaivalle(const QDate &pvm)
@@ -101,7 +101,7 @@ int Tili::ysiluku(int luku, bool loppuu)
 
 int Tili::laskeysiluku(int luku)
 {
-    while( luku < 1000000000)
+    while( luku <= 99999999 )
         luku = luku * 10;
     return luku;
 }

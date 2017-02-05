@@ -44,7 +44,10 @@ public:
     bool onko(const QString& avain) const;
     void aseta(const QString& avain, bool totuusarvo);
 
-    void aseta(const QString& avain, const QVariant& arvo);
+    void asetaVar(const QString& avain, const QVariant& arvo);
+
+    QStringList lista(const QString& avain) const;
+    void aseta(const QString& avain, const QStringList& arvo);
 
     int luku(const QString& avain) const;
     void aseta(const QString &avain, int luku);

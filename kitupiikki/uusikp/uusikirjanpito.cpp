@@ -46,6 +46,8 @@
 #include "db/tilimodel.h"
 #include "db/tili.h"
 
+#include <QDebug>
+
 UusiKirjanpito::UusiKirjanpito() :
     QWizard()
 {
@@ -177,9 +179,9 @@ bool UusiKirjanpito::alustaKirjanpito()
 
     // Kirjataan tietokannan perustietoja
 
-    asetukset.aseta("nimi", field("nimi"));
-    asetukset.aseta("ytunnus", field("ytunnus"));
-    asetukset.aseta("harjoitus", field("todellinen"));
+    asetukset.aseta("nimi", field("nimi").toString());
+    asetukset.aseta("ytunnus", field("ytunnus").toString());
+    asetukset.aseta("harjoitus", field("todellinen").toString());
 
     asetukset.aseta("luotu", QDate::currentDate());
     asetukset.aseta("versio", qApp->applicationVersion());
@@ -213,7 +215,7 @@ bool UusiKirjanpito::alustaKirjanpito()
     // Tilien kirjoittaminen
 //    query.prepare("INSERT INTO tili(nro,nimi,tyyppi,otsikkotaso) values(?,?,?,?) ");
 
-    TiliModel tilit(&db);
+    TiliModel tilit(db);
 
     QStringList tililista = kartta.value("tilit");
     foreach ( QString tili, tililista)
@@ -230,6 +232,7 @@ bool UusiKirjanpito::alustaKirjanpito()
             Tili tili;
             tili.asetaTyyppi( splitti[0] );
             tili.asetaNumero( splitti[1].toInt() );
+            tili.asetaNimi( splitti[2]);
             tili.asetaOtsikkotaso( otsikkotaso );
             tilit.lisaaTili(tili);
 /*
@@ -242,6 +245,8 @@ bool UusiKirjanpito::alustaKirjanpito()
         }
         progDlg.setValue( progDlg.value() + 1 );
     }
+
+    qDebug() << tilit.rowCount( QModelIndex() ) << " tiliä talletettu ";
 
     tilit.tallenna();
 

@@ -24,7 +24,7 @@ IntroSivu::IntroSivu()
     ui = new Ui::Intro();
     ui->setupUi(this);
 
-    registerField("harjoitus", ui->harjoitteluRadio);
+    registerField("todellinen", ui->todellinenRadio);
 }
 
 IntroSivu::~IntroSivu()
