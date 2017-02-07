@@ -69,7 +69,12 @@ void TiliModel::lisaaTili(Tili uusi)
 
 Tili TiliModel::tili(int id) const
 {
-    return tilit_.value(id);
+    foreach (Tili tili, tilit_)
+    {
+        if( tili.id() == numero)
+            return tili;
+    }
+    return Tili();
 }
 
 Tili TiliModel::tiliNumerolla(int numero) const
