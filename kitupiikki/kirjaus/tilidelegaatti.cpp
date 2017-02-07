@@ -39,7 +39,7 @@ QWidget *TiliDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewIte
     QCompleter *taydennin = new QCompleter() ;
 
     QSortFilterProxyModel *proxy = new QSortFilterProxyModel(parent);
-    proxy->setSourceModel( Kirjanpito::db()->tiliModel() );
+    proxy->setSourceModel( Kirjanpito::db()->tilit() );
     proxy->setFilterRole( TiliModel::OtsikkotasoRooli);
     proxy->setFilterFixedString("0");
 
@@ -66,9 +66,10 @@ void TiliDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *model, co
 
     // Sitten pitää etsiä tiliä tililistalta
     // Täydentää seuraavaan sopivaan
-    QList<Tili> tilit = Kirjanpito::db()->tilit();
-    foreach (Tili tili, tilit)
+    for(int i=0; i < kp()->tilit()->rowCount(QModelIndex()); i++)
     {
+        Tili tili = kp()->tilit()->tiliIndeksilla(i);
+
         QString numeroTeksti = QString::number(tili.numero());
         if( numeroTeksti.startsWith(sana))
         {

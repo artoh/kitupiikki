@@ -53,7 +53,8 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
 
     void lisaaTili( Tili uusi);
-    Tili tili(int id) const;
+    Tili tiliIdlla(int id) const;
+    Tili tiliIndeksilla(int i) const { return tilit_.value(i); }
     Tili tiliNumerolla(int numero) const;
 
 public slots:

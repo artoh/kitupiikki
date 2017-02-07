@@ -60,14 +60,18 @@ SelausWg::~SelausWg()
 
 void SelausWg::alusta()
 {
-    QDate alku = Kirjanpito::db()->tilikaudet().first().alkaa();
-    QDate nytalkaa = Kirjanpito::db()->tilikaudet().last().alkaa();
-    QDate loppu = Kirjanpito::db()->tilikaudet().last().paattyy();
+    QDate alku = Kirjanpito::db()->tilikaudet()->kirjanpitoAlkaa();
+
+    Tilikausi nytkausi = Kirjanpito::db()->tilikaudet()->tilikausiPaivalle( Kirjanpito::db()->paivamaara() );
+
+    QDate nytalkaa = nytkausi.alkaa();
+    QDate nytloppuu = nytkausi.paattyy();
+    QDate loppu = Kirjanpito::db()->tilikaudet()->kirjanpitoLoppuu();
 
     ui->alkuEdit->setDateRange(alku, loppu);
     ui->loppuEdit->setDateRange(alku, loppu);
     ui->alkuEdit->setDate(nytalkaa);
-    ui->loppuEdit->setDate(loppu);
+    ui->loppuEdit->setDate(nytloppuu);
 
     paivita();
 }
@@ -113,7 +117,7 @@ void SelausWg::paivitaSummat()
         // Tili on valittuna
         QString valittuTekstina = ui->tiliCombo->currentText();
         int valittunro = valittuTekstina.left( valittuTekstina.indexOf(' ') ).toInt();
-        Tili valittutili = Kirjanpito::db()->tili(valittunro);
+        Tili valittutili = Kirjanpito::db()->tilit()->tiliNumerolla(valittunro);
 
         int kertyma = 0;
         int muutos = 0;
@@ -151,7 +155,7 @@ void SelausWg::selaa(int tilinumero, Tilikausi tilikausi)
     ui->loppuEdit->setDate( tilikausi.paattyy());
     paivita();
 
-    Tili selattava = Kirjanpito::db()->tili(tilinumero);
+    Tili selattava = Kirjanpito::db()->tilit()->tiliNumerolla(tilinumero);
 
     ui->tiliCombo->setCurrentText(QString("%1 %2").arg(selattava.numero() ).arg(selattava.nimi()));
 

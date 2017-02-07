@@ -82,7 +82,7 @@ void TiliModel::lisaaTili(Tili uusi)
     endInsertRows();
 }
 
-Tili TiliModel::tili(int id) const
+Tili TiliModel::tiliIdlla(int id) const
 {
     foreach (Tili tili, tilit_)
     {

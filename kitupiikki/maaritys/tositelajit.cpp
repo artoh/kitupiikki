@@ -24,7 +24,7 @@ Tositelajit::Tositelajit(QWidget *parent) : QWidget(parent)
     ui = new Ui::Tositelajit;
     ui->setupUi(this);
 
-    model = Kirjanpito::db()->tositelajiModel();
+    model = Kirjanpito::db()->tositelajit();
     ui->view->setModel(model);
 
     connect(ui->tallennaNappi, SIGNAL(clicked(bool)), model, SLOT(tallenna()));

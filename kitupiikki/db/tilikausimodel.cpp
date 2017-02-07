@@ -62,6 +62,32 @@ void TilikausiModel::lisaaTilikausi(Tilikausi tilikausi)
     endInsertRows();
 }
 
+Tilikausi TilikausiModel::tilikausiPaivalle(const QDate &paiva) const
+{
+    foreach (Tilikausi kausi, kaudet_)
+    {
+        // Osuuko pyydetty päivä kysyttyyn jaksoon
+        if( kausi.alkaa().daysTo(paiva) >= 0 and paiva.daysTo(kausi.paattyy()) >= 0)
+            return kausi;
+    }
+    return Tilikausi(QDate(), QDate()); // Kelvoton tilikausi
+
+}
+
+QDate TilikausiModel::kirjanpitoAlkaa() const
+{
+    if( kaudet_.count())
+        return kaudet_.first().alkaa();
+    return QDate();
+}
+
+QDate TilikausiModel::kirjanpitoLoppuu() const
+{
+    if( kaudet_.count())
+        return kaudet_.last().paattyy();
+    return QDate();
+}
+
 void TilikausiModel::lataa()
 {
     beginResetModel();

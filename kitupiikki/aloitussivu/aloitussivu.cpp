@@ -108,7 +108,7 @@ void AloitusSivu::kpAvattu()
     }
     lisaaTxt(tr("<h1>%1</h1>").arg( Kirjanpito::db()->asetus("nimi")));
 
-    if( Kirjanpito::db()->asetusModel()->onko("tilinavaus") )
+    if( Kirjanpito::db()->asetukset()->onko("tilinavaus") )
     {
         sisalto->lisaaLaatikko("Tee tilinavaus","Syötä viimesimmältä tilinpäätökseltä tilien "
                  "avaavat saldot järjestelmään.");

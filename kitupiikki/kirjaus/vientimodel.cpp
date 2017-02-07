@@ -127,7 +127,7 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int /
         return true;
     case TILI:
     {
-        Tili uusitili = Kirjanpito::db()->tili( value.toInt() );
+        Tili uusitili = Kirjanpito::db()->tilit()->tiliNumerolla( value.toInt());
         viennit[index.row()].tili = uusitili;
         qDebug() << uusitili.nimi() << "(" << uusitili.tyyppi() << ")";
         // Jos kirjataan tulotilille, niin siirrytään syöttämään kredit-summaa
@@ -259,7 +259,7 @@ void VientiModel::lataa(int tositeid)
         VientiRivi rivi;
         rivi.vientiId = query.value("id").toInt();
         rivi.pvm = query.value("pvm").toDate();
-        rivi.tili = Kirjanpito::db()->tili( query.value("tili").toInt() );
+        rivi.tili = Kirjanpito::db()->tilit()->tiliIdlla( query.value("tili").toInt());
         rivi.debetSnt = query.value("debetsnt").toInt();
         rivi.kreditSnt = query.value("kreditsnt").toInt();
         rivi.selite = query.value("selite").toString();

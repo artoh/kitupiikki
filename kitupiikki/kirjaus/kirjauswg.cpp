@@ -66,7 +66,7 @@ KirjausWg::KirjausWg(TositeWg *tosite) : QWidget(), tositewg(tosite), tositeId(0
     connect( ui->tositePvmEdit, SIGNAL(dateChanged(QDate)), this, SLOT(tarkistaTunnisteJosTilikausiVaihtui(QDate)));
 
     connect( Kirjanpito::db(), SIGNAL(tietokantaVaihtui()), this, SLOT(hylkaa()) );
-    ui->tositetyyppiCombo->setModel( Kirjanpito::db()->tositelajiModel());
+    ui->tositetyyppiCombo->setModel( Kirjanpito::db()->tositelajit());
     ui->tositetyyppiCombo->setModelColumn( TositelajiModel::NIMI);
 }
 
@@ -295,7 +295,7 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
     if(sallitaanko)
         ui->tositePvmEdit->setDateRange(Kirjanpito::db()->tilitpaatetty().addDays(1), Kirjanpito::db()->viimeinenpaiva());
     else
-        ui->tositePvmEdit->setDateRange( Kirjanpito::db()->tilikaudet().first().alkaa(), Kirjanpito::db()->tilikaudet().last().paattyy() );
+        ui->tositePvmEdit->setDateRange( Kirjanpito::db()->tilikaudet()->kirjanpitoAlkaa() , Kirjanpito::db()->tilikaudet()->kirjanpitoLoppuu() );
 
 }
 

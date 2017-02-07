@@ -29,7 +29,7 @@ TilinavausModel::TilinavausModel()
 
 int TilinavausModel::rowCount(const QModelIndex & /* parent */ ) const
 {
-    return tilit.count();
+    return kp()->tilit()->rowCount( QModelIndex());
 }
 
 int TilinavausModel::columnCount(const QModelIndex & /* parent */) const
@@ -62,7 +62,7 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
         return QVariant();
     if( role == Qt::DisplayRole || role == Qt::EditRole)
     {
-        Tili tili = tilit[ index.row()];
+        Tili tili = kp()->tilit()->tiliIndeksilla( index.row());
 
         switch (index.column())
         {
@@ -72,7 +72,7 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
                     return QVariant( tili.nimi());
 
             case SALDO:
-                int saldo = saldot.value( tili.numero(), 0);
+                int saldo = saldot.value( tili.id(), 0);
                 if( role == Qt::EditRole)
                     return QVariant(saldo);
 
@@ -92,12 +92,23 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
             return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
 
     }
+    else if( role == Qt::FontRole)
+    {
+        Tili tili = kp()->tilit()->tiliIndeksilla( index.row());
+        QFont fontti;
+        if( tili.otsikkotaso() )
+            fontti.setBold(true);
+        return QVariant( fontti );
+    }
+
+
     return QVariant();
 }
 
 Qt::ItemFlags TilinavausModel::flags(const QModelIndex &index) const
 {
-    if( index.column() == SALDO)
+    Tili tili = kp()->tilit()->tiliIndeksilla( index.row());
+    if( index.column() == SALDO && !tili.otsikkotaso())
         return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
     else
         return QAbstractTableModel::flags(index);
@@ -105,8 +116,8 @@ Qt::ItemFlags TilinavausModel::flags(const QModelIndex &index) const
 
 bool TilinavausModel::setData(const QModelIndex &index, const QVariant &value, int /* role */)
 {
-    int tilinumero = tilit[ index.row()].numero();
-    saldot[tilinumero] = value.toInt(); // Delegaatti käsittelee senttejä
+    int tiliid = kp()->tilit()->tiliIndeksilla( index.row()).id();
+    saldot[tiliid] = value.toInt(); // Delegaatti käsittelee senttejä
     paivitaInfo();
     return true;
 }
@@ -122,17 +133,15 @@ bool TilinavausModel::voikoMuokata()
 void TilinavausModel::lataa()
 {
     beginResetModel();
-    tilit = Kirjanpito::db()->tilit();
     saldot.clear();
 
 
     QSqlQuery kysely("select tili, debetsnt, kreditsnt from vienti where tosite=0");
 
-    qDebug() << tilit.count() << "Tiliä" << kysely.lastQuery();
 
     while(kysely.next())
     {
-        Tili tili = Kirjanpito::db()->tili( kysely.value("tili").toInt() );
+        Tili tili = Kirjanpito::db()->tilit()->tiliIdlla( kysely.value("tili").toInt() );
         int debet = kysely.value("debetsnt").toInt();
         int kredit = kysely.value("kreditsnt").toInt();
 
@@ -151,7 +160,7 @@ bool TilinavausModel::tallenna()
 
     QSqlQuery kysely("delete from vienti where tosite=0");
 
-    QDate avauspaiva = Kirjanpito::db()->asetusModel()->pvm("tilinavauspvm");
+    QDate avauspaiva = Kirjanpito::db()->asetukset()->pvm("tilinavauspvm");
 
 
     kysely.prepare("INSERT INTO vienti(tosite,pvm,tili,debetsnt,kreditsnt,selite) "
@@ -161,9 +170,9 @@ bool TilinavausModel::tallenna()
     while( iter.hasNext())
     {
         iter.next();
-        Tili tili = Kirjanpito::db()->tili( iter.key() );
+        Tili tili = Kirjanpito::db()->tilit()->tiliIdlla( iter.key() );
         kysely.bindValue(":pvm", avauspaiva);
-        kysely.bindValue(":tili", tili.numero());
+        kysely.bindValue(":tili", tili.id());
 
         if( tili.tyyppi().startsWith('A') || tili.tyyppi().startsWith('M'))
         {
@@ -193,7 +202,7 @@ void TilinavausModel::paivitaInfo()
     while( iter.hasNext() )
     {
         iter.next();
-        Tili tili = Kirjanpito::db()->tili( iter.key());
+        Tili tili = Kirjanpito::db()->tilit()->tiliIdlla( iter.key());
         if( tili.onkoVastaavaaTili() )
             tasevastaavaa += iter.value();
         else if( tili.onkoVastattavaaTili())

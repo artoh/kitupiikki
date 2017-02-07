@@ -43,6 +43,10 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
 
     void lisaaTilikausi( Tilikausi tilikausi);
+    Tilikausi tilikausiPaivalle(const QDate &paiva) const;
+
+    QDate kirjanpitoAlkaa() const;
+    QDate kirjanpitoLoppuu() const;
 
 public slots:
     void lataa();

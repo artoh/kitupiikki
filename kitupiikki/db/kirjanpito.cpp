@@ -41,7 +41,7 @@ Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
     asetusModel_ = new AsetusModel(tietokanta, this);
     tositelajiModel_ = new TositelajiModel(this);
     tiliModel_ = new TiliModel( tietokanta, this);
-
+    tilikaudetModel_ = new TilikausiModel(tietokanta, this);
 }
 
 Kirjanpito::~Kirjanpito()
@@ -51,12 +51,12 @@ Kirjanpito::~Kirjanpito()
 
 QString Kirjanpito::asetus(const QString &avain) const
 {
-    return asetusModel()->asetus(avain);
+    return asetukset()->asetus(avain);
 }
 
 void Kirjanpito::aseta(const QString &avain, const QString &arvo)
 {
-    asetusModel()->aseta(avain, arvo);
+    asetukset()->aseta(avain, arvo);
 }
 
 QDir Kirjanpito::hakemisto()
@@ -86,31 +86,12 @@ QDate Kirjanpito::paivamaara() const
         return QDate::currentDate();
 }
 
-QList<Tili> Kirjanpito::tilit(QString tyyppisuodatin, int tilasuodatin) const
-{
-    QList<Tili> lista;
-    foreach (Tili tili, tilit_) {
-       if( tyyppisuodatin.isEmpty())
-       {
-           if( tili.tila() >= tilasuodatin && !tili.otsikkotaso())
-               lista.append(tili);
-       }
-       else if( tili.tyyppi().startsWith(tyyppisuodatin) && tili.tila() >= tilasuodatin && !tili.otsikkotaso())
-           lista.append(tili);
-    }
-    return lista;
-}
 
 Tilikausi Kirjanpito::tilikausiPaivalle(const QDate &paiva) const
 {
-    foreach (Tilikausi kausi, tilikaudet())
-    {
-        // Osuuko pyydetty päivä kysyttyyn jaksoon
-        if( kausi.alkaa().daysTo(paiva) >= 0 and paiva.daysTo(kausi.paattyy()) >= 0)
-            return kausi;
-    }
-    return Tilikausi(QDate(), QDate()); // Kelvoton tilikausi
+    return tilikaudet()->tilikausiPaivalle(paiva);
 }
+
 
 
 bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
@@ -124,34 +105,13 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
     asetusModel_->lataa();
     tositelajiModel_->lataa();
     tiliModel_->lataa();
-
-    QSqlQuery query( tietokanta );
-
-    // Ladataan tilt
-    query.exec("SELECT nro, nimi, ohje, tyyppi, tila, json, otsikkotaso, id FROM tili");
-    while( query.next())
-    {
-        tilit_[ query.value(7).toInt()] = Tili( query.value(7).toInt(),
-                                                query.value(0).toInt(),
-                                               query.value(1).toString(),
-                                               query.value(3).toString(),
-                                               query.value(4).toInt(),
-                                                query.value(6).toInt());
-    }
-
-    // Ladataan tilikaudet
-    query.exec("SELECT alkaa,loppuu FROM tilikausi ORDER BY alkaa");
-    while (query.next())
-    {
-        tilikaudet_.append(Tilikausi( query.value(0).toDate(),
-                                      query.value(1).toDate() ));
-    }
+    tilikaudetModel_->lataa();
 
 
     polkuTiedostoon = tiedosto;
 
     // Lisätään viimeisten tiedostojen listaan
-    if(asetus("harjoitus").toInt())
+    if( onkoHarjoitus() )
         viimetiedostot[ tiedosto ] = asetus("nimi") + " (harjoittelu)";
     else
         viimetiedostot[ tiedosto ] = asetus("nimi");
@@ -159,7 +119,6 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
 
     QSettings settings;
     settings.setValue("viimeiset",viimeisetTiedostot());
-
 
     // Ilmoitetaan, että tietokanta on vaihtunut
     emit tietokantaVaihtui();
@@ -191,3 +150,5 @@ Kirjanpito *Kirjanpito::db()
 }
 
 Kirjanpito* Kirjanpito::instanssi__ = 0;
+
+Kirjanpito *kp()  { return Kirjanpito::db(); }

@@ -61,7 +61,6 @@ signals:
     void infoteksti(QString teksti);
 
 protected:
-    QList<Tili> tilit;
     QMap<int,int> saldot;
 };
 

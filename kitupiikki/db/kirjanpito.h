@@ -37,6 +37,7 @@
 #include "tositelajimodel.h"
 #include "asetusmodel.h"
 #include "tilimodel.h"
+#include "tilikausimodel.h"
 
 /**
  * @brief Kirjanpidon käsittely
@@ -73,7 +74,7 @@ public:
      * @brief Käytetäänkö harjoittelutilassa
      * @return tosi, jos harjoitellaan
      */
-    bool onkoHarjoitus() const { return asetusModel()->onko("harjoitus"); }
+    bool onkoHarjoitus() const { return asetukset()->onko("harjoitus"); }
 
     /**
      * @brief Nykyinen tai harjoittelutilassa muokattu päivämäärä
@@ -88,19 +89,16 @@ public:
      * @brief Päivämäärä, johon saakka tilit on päätetty eli ei voi enää muokata
      * @return
      */
-    QDate tilitpaatetty() const { return asetusModel()->pvm("tilitpaatetty"); }
-    QDate viimeinenpaiva() const { return tilikaudet_.last().paattyy(); }
-
-    Tili tili(int tilinumero) const { return tilit_[tilinumero] ; }
-    QList<Tili> tilit(QString tyyppisuodatin = QString(), int tilasuodatin = 0) const;
-
-    QList<Tilikausi> tilikaudet() const { return tilikaudet_; }
+    QDate tilitpaatetty() const { return asetukset()->pvm("tilitpaatetty"); }
+    QDate viimeinenpaiva() const { return tilikaudet()->kirjanpitoLoppuu(); }
 
     Tilikausi tilikausiPaivalle(const QDate &paiva) const;
 
-    TositelajiModel *tositelajiModel() { return tositelajiModel_; }
-    AsetusModel *asetusModel() const { return asetusModel_; }
-    TiliModel *tiliModel() const { return tiliModel_; }
+
+    TositelajiModel *tositelajit() { return tositelajiModel_; }
+    AsetusModel *asetukset() const { return asetusModel_; }
+    TiliModel *tilit() const { return tiliModel_; }
+    TilikausiModel *tilikaudet() const { return tilikaudetModel_; }
 
 signals:
     void tietokantaVaihtui();
@@ -126,19 +124,15 @@ public slots:
     void muokattu();
 
 protected:
-    QMap<QString,QString> asetukset;
-    QMap<int,Tili> tilit_;
-    QList<Tilikausi> tilikaudet_;
-
     QString polkuTiedostoon;
     QSqlDatabase tietokanta;
     QMap<QString,QString> viimetiedostot;
     QDate harjoitusPvm;
-    QDate tilitpaatettupvm;
 
     TositelajiModel *tositelajiModel_;
     AsetusModel *asetusModel_;
     TiliModel *tiliModel_;
+    TilikausiModel *tilikaudetModel_;
 
 public:
     /**
@@ -150,5 +144,8 @@ public:
 private:
     static Kirjanpito *instanssi__;
 };
+
+
+Kirjanpito* kp();
 
 #endif // KIRJANPITO_H
