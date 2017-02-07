@@ -1,5 +1,5 @@
 <map id="Graafinen luokkahierarkia" name="Graafinen luokkahierarkia">
-<area shape="rect" id="node2" href="$class_euro_delegaatti.html" title="EuroDelegaatti" alt="" coords="164,5,272,32"/>
+<area shape="rect" id="node2" href="$class_euro_delegaatti.html" title="Delegaatti rahamäärien näyttämiseen taulukossa. " alt="" coords="164,5,272,32"/>
 <area shape="rect" id="node3" href="$class_pvm_delegaatti.html" title="Delegaatti, joka vaatii kirjauksen samalle tilikaudelle kuin sille annettu QDateEdit. " alt="" coords="164,56,272,83"/>
-<area shape="rect" id="node4" href="$class_tili_delegaatti.html" title="TiliDelegaatti" alt="" coords="169,107,267,133"/>
+<area shape="rect" id="node4" href="$class_tili_delegaatti.html" title="Delegaatti tilin valitsemiseen täydennyksen avulla. " alt="" coords="169,107,267,133"/>
 </map>

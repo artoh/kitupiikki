@@ -2,7 +2,6 @@ var class_kirjanpito =
 [
     [ "Kirjanpito", "class_kirjanpito.html#a78ebfbe994b60de0e52badd56b135446", null ],
     [ "~Kirjanpito", "class_kirjanpito.html#ac15435ec87fc16f4151a0a84f2f54b7b", null ],
-    [ "aseta", "class_kirjanpito.html#a5afc3bdbec1fdc995d0c48f446c105d5", null ],
     [ "asetaHarjoitteluPvm", "class_kirjanpito.html#ab3a29ad110dfdf37b77968770f429f74", null ],
     [ "asetukset", "class_kirjanpito.html#ae4ca03d7258e89f9e095aef2e42d345b", null ],
     [ "asetus", "class_kirjanpito.html#a37d5501e9abf75d988cf3e48c024f98f", null ],
@@ -20,7 +19,6 @@ var class_kirjanpito =
     [ "tilit", "class_kirjanpito.html#a860cf5711ca5e5fbdc234c6049741e98", null ],
     [ "tilitpaatetty", "class_kirjanpito.html#a9e52647506500a381c2cd1763aa8bcf7", null ],
     [ "tositelajit", "class_kirjanpito.html#a71110387fd7a432c125b8236a0f094af", null ],
-    [ "viimeinenpaiva", "class_kirjanpito.html#ad928688f816449a2908df81112f57e43", null ],
     [ "viimeisetTiedostot", "class_kirjanpito.html#a56b79e423735a2debf2a1947657614dd", null ],
     [ "asetusModel_", "class_kirjanpito.html#a34889d1678410d2094eb02d4fb141318", null ],
     [ "harjoitusPvm", "class_kirjanpito.html#aa82beff2cfa468864b2cf8f92a2ead7b", null ],
