@@ -71,9 +71,9 @@ bool AsetusModel::onko(const QString &avain) const
 void AsetusModel::aseta(const QString &avain, bool totuusarvo)
 {
     if( totuusarvo )
-        aseta( avain, "JAA");
+        aseta( avain, QString("ON"));
     else
-        aseta( avain, "EI");
+        aseta( avain, QString("EI"));
 }
 
 void AsetusModel::asetaVar(const QString &avain, const QVariant &arvo)
@@ -83,9 +83,9 @@ void AsetusModel::asetaVar(const QString &avain, const QVariant &arvo)
     else if( arvo.type() == QVariant::Bool)
     {
         if( arvo.toBool())
-            aseta( avain, "JAA");
+            aseta( avain, true);
         else
-            aseta( avain, "EI");
+            aseta( avain, false );
     }
     else if( arvo.type() == QVariant::StringList)
     {

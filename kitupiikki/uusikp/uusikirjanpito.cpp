@@ -183,7 +183,7 @@ bool UusiKirjanpito::alustaKirjanpito()
 
     asetukset.aseta("nimi", field("nimi").toString());
     asetukset.aseta("ytunnus", field("ytunnus").toString());
-    asetukset.aseta("harjoitus", field("todellinen").toString());
+    asetukset.aseta("harjoitus", field("todellinen").toBool());
 
     asetukset.aseta("luotu", QDate::currentDate());
     asetukset.aseta("versio", qApp->applicationVersion());
