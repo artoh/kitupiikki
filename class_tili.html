@@ -109,18 +109,27 @@ $(document).ready(function(){initNavTree('class_tili.html','');});
   <div class="summary">
 <a href="#pub-methods">Julkiset jäsenfunktiot</a> &#124;
 <a href="#pub-static-methods">Staattiset julkiset jäsenfunktiot</a> &#124;
+<a href="#pro-static-methods">Staattiset suojatut jäsenfunktiot</a> &#124;
 <a href="#pro-attribs">Suojellut attribuutit</a> &#124;
 <a href="class_tili-members.html">Lista kaikista jäsenistä</a>  </div>
   <div class="headertitle">
 <div class="title">Tili luokkareferenssi</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Tilin tai otsikon tiedot.  
+ <a href="class_tili.html#details">Lisää...</a></p>
+
+<p><code>#include &lt;<a class="el" href="tili_8h_source.html">tili.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Julkiset jäsenfunktiot</h2></td></tr>
-<tr class="memitem:a059aadc483e2ca118547032f16e596c3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a059aadc483e2ca118547032f16e596c3"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Tili</b> (int tnumero, const QString tnimi, const QString &amp;tohje, const QString ttyyppi, int ttila, const QString tjson, int otsikkotaso=0)</td></tr>
-<tr class="separator:a059aadc483e2ca118547032f16e596c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab38e746e460a48efd64c0c43c55a1116"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab38e746e460a48efd64c0c43c55a1116"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Tili</b> (int id, int numero, const QString &amp;nimi, const QString &amp;tyyppi, int tila, int otsikkotaso=0)</td></tr>
+<tr class="separator:ab38e746e460a48efd64c0c43c55a1116"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a9312c186c8c9fc427e4269cbeeb264"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5a9312c186c8c9fc427e4269cbeeb264"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>id</b> () const </td></tr>
+<tr class="separator:a5a9312c186c8c9fc427e4269cbeeb264"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ddbe9567e9afa5131a36c76b3f11081"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5ddbe9567e9afa5131a36c76b3f11081"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>numero</b> () const </td></tr>
 <tr class="separator:a5ddbe9567e9afa5131a36c76b3f11081"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -136,9 +145,36 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>tila</b> () const </td
 <tr class="memitem:a25f734d72964f305e7c884a0fba9d841"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a25f734d72964f305e7c884a0fba9d841"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>otsikkotaso</b> () const </td></tr>
 <tr class="separator:a25f734d72964f305e7c884a0fba9d841"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6032cdb555ea483d57fe40cbbba340c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac6032cdb555ea483d57fe40cbbba340c"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>kasitunnus</b> () const </td></tr>
-<tr class="separator:ac6032cdb555ea483d57fe40cbbba340c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7f825c2abaf9591979e3b4d204e25e3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa7f825c2abaf9591979e3b4d204e25e3"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>muokattu</b> () const </td></tr>
+<tr class="separator:aa7f825c2abaf9591979e3b4d204e25e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa88b538f216118db7ee7240e1dbd7009"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa88b538f216118db7ee7240e1dbd7009"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>asetaId</b> (int id)</td></tr>
+<tr class="separator:aa88b538f216118db7ee7240e1dbd7009"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e757aa36653e4de309e664afd8534a1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1e757aa36653e4de309e664afd8534a1"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>asetaNumero</b> (int numero)</td></tr>
+<tr class="separator:a1e757aa36653e4de309e664afd8534a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfddd492e1b5921807ddaf333ef9202c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abfddd492e1b5921807ddaf333ef9202c"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>asetaNimi</b> (const QString &amp;nimi)</td></tr>
+<tr class="separator:abfddd492e1b5921807ddaf333ef9202c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c8732b525fb18ff84deb72ce69ed5d9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3c8732b525fb18ff84deb72ce69ed5d9"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>asetaTyyppi</b> (const QString &amp;tyyppi)</td></tr>
+<tr class="separator:a3c8732b525fb18ff84deb72ce69ed5d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefeb8300713cae6957315765ab1c27ba"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aefeb8300713cae6957315765ab1c27ba"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>asetaTila</b> (int tila)</td></tr>
+<tr class="separator:aefeb8300713cae6957315765ab1c27ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2725bb453cbd17aceca09ae499319054"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2725bb453cbd17aceca09ae499319054"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>asetaOtsikkotaso</b> (int taso)</td></tr>
+<tr class="separator:a2725bb453cbd17aceca09ae499319054"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a020a25e2547ffb814e5d745d7c632dfb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a020a25e2547ffb814e5d745d7c632dfb"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>nollaaMuokattu</b> ()</td></tr>
+<tr class="separator:a020a25e2547ffb814e5d745d7c632dfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54e11082d73f3be05f08b65e3ef89605"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tili.html#a54e11082d73f3be05f08b65e3ef89605">onkoValidi</a> () const </td></tr>
+<tr class="memdesc:a54e11082d73f3be05f08b65e3ef89605"><td class="mdescLeft">&#160;</td><td class="mdescRight">Onko tilillä tarvittavat tiedot, että voi tallettaa.  <a href="#a54e11082d73f3be05f08b65e3ef89605">Lisää...</a><br /></td></tr>
+<tr class="separator:a54e11082d73f3be05f08b65e3ef89605"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf1d60dd85233e8211a517a8c5ce580c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tili.html#aaf1d60dd85233e8211a517a8c5ce580c">ysivertailuluku</a> () const </td></tr>
+<tr class="memdesc:aaf1d60dd85233e8211a517a8c5ce580c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Yhdeksännumeroinen tilinumeron vertailuluku, jonka avulla tilit saadaan oikeaan järjestykseen.  <a href="#aaf1d60dd85233e8211a517a8c5ce580c">Lisää...</a><br /></td></tr>
+<tr class="separator:aaf1d60dd85233e8211a517a8c5ce580c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa2b1950bf33673a2310fecea80543e5d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tili.html#aa2b1950bf33673a2310fecea80543e5d">kertymaPaivalle</a> (const QDate &amp;pvm)</td></tr>
 <tr class="memdesc:aa2b1950bf33673a2310fecea80543e5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Laskee alusta ko. paivan loppuun saakka kertyneen saldon.  <a href="#aa2b1950bf33673a2310fecea80543e5d">Lisää...</a><br /></td></tr>
 <tr class="separator:aa2b1950bf33673a2310fecea80543e5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -160,35 +196,43 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>onkoVastattavaaTili</
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Staattiset julkiset jäsenfunktiot</h2></td></tr>
-<tr class="memitem:a3006bde7021868b8a13022d3ce185239"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3006bde7021868b8a13022d3ce185239"></a>
-static int&#160;</td><td class="memItemRight" valign="bottom"><b>kasitunnus</b> (int tunnus)</td></tr>
-<tr class="separator:a3006bde7021868b8a13022d3ce185239"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c8baab107d87cce1de34173ab269850"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tili.html#a4c8baab107d87cce1de34173ab269850">ysiluku</a> (int luku, bool loppuu=false)</td></tr>
+<tr class="memdesc:a4c8baab107d87cce1de34173ab269850"><td class="mdescLeft">&#160;</td><td class="mdescRight">Laskee yhdeksännumeroisen vertailuluvun.  <a href="#a4c8baab107d87cce1de34173ab269850">Lisää...</a><br /></td></tr>
+<tr class="separator:a4c8baab107d87cce1de34173ab269850"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-methods"></a>
+Staattiset suojatut jäsenfunktiot</h2></td></tr>
+<tr class="memitem:a28804dde6753d714c50693a36d85fde0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a28804dde6753d714c50693a36d85fde0"></a>
+static int&#160;</td><td class="memItemRight" valign="bottom"><b>laskeysiluku</b> (int luku)</td></tr>
+<tr class="separator:a28804dde6753d714c50693a36d85fde0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Suojellut attribuutit</h2></td></tr>
+<tr class="memitem:a9b60282d8a75b4a192413fb0ffe28c9b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9b60282d8a75b4a192413fb0ffe28c9b"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>id_</b></td></tr>
+<tr class="separator:a9b60282d8a75b4a192413fb0ffe28c9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a48c689f6b7507ea5f0817f01937f7527"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a48c689f6b7507ea5f0817f01937f7527"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>numero_</b></td></tr>
 <tr class="separator:a48c689f6b7507ea5f0817f01937f7527"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b5439d8efff738f1d8a38a2d31a1ee2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2b5439d8efff738f1d8a38a2d31a1ee2"></a>
 QString&#160;</td><td class="memItemRight" valign="bottom"><b>nimi_</b></td></tr>
 <tr class="separator:a2b5439d8efff738f1d8a38a2d31a1ee2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac3d8f408b7b6662a4d474b1e9e1fd66b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac3d8f408b7b6662a4d474b1e9e1fd66b"></a>
-QString&#160;</td><td class="memItemRight" valign="bottom"><b>ohje_</b></td></tr>
-<tr class="separator:ac3d8f408b7b6662a4d474b1e9e1fd66b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab679aa7c7bae0daba0a5a7d09d5d1160"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab679aa7c7bae0daba0a5a7d09d5d1160"></a>
 QString&#160;</td><td class="memItemRight" valign="bottom"><b>tyyppi_</b></td></tr>
 <tr class="separator:ab679aa7c7bae0daba0a5a7d09d5d1160"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5216b1c7f94edb93105776ad1e826847"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5216b1c7f94edb93105776ad1e826847"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>tila_</b></td></tr>
 <tr class="separator:a5216b1c7f94edb93105776ad1e826847"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4737b6938b8d767d094922f393fc8f3c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4737b6938b8d767d094922f393fc8f3c"></a>
-QString&#160;</td><td class="memItemRight" valign="bottom"><b>json_</b></td></tr>
-<tr class="separator:a4737b6938b8d767d094922f393fc8f3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a50de6ef2faa3a4b42e7551ac5f0333f8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a50de6ef2faa3a4b42e7551ac5f0333f8"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>otsikkotaso_</b></td></tr>
 <tr class="separator:a50de6ef2faa3a4b42e7551ac5f0333f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a5738558f5a7b418fd9e872f49d59df"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8a5738558f5a7b418fd9e872f49d59df"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>muokattu_</b></td></tr>
+<tr class="separator:a8a5738558f5a7b418fd9e872f49d59df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Jäsenfunktioiden dokumentaatio</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Yksityiskohtainen selite</h2>
+<div class="textblock"><p>Tilin tai otsikon tiedot. </p>
+</div><h2 class="groupheader">Jäsenfunktioiden dokumentaatio</h2>
 <a class="anchor" id="aa2b1950bf33673a2310fecea80543e5d"></a>
 <div class="memitem">
 <div class="memproto">
@@ -212,6 +256,91 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>otsikkotaso_</b></td><
   </dd>
 </dl>
 <dl class="section return"><dt>Palauttaa</dt><dd>Kertymä sentteinä </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a54e11082d73f3be05f08b65e3ef89605"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Tili::onkoValidi </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Onko tilillä tarvittavat tiedot, että voi tallettaa. </p>
+<dl class="section return"><dt>Palauttaa</dt><dd></dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a4c8baab107d87cce1de34173ab269850"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Tili::ysiluku </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>luku</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>loppuu</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Laskee yhdeksännumeroisen vertailuluvun. </p>
+<p>Näiden vertailulukujen avulla tilit saadaan järjestykseen ja voidaan vertailla, kuuluuko tili jollekin välille. Ysiluku saadaan pidentämällä numero yhdeksännumeroiseksi niin, että 1234 -&gt; 123400000 mutta lopussa 1234 -&gt; 123499999</p>
+<dl class="params"><dt>Parametrit</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">luku</td><td>Pidennettävä tililuku </td></tr>
+    <tr><td class="paramname">loppuu</td><td>Tosi, jos halutaan loppukasiluku </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Palauttaa</dt><dd>Yhdeksännnumeroiseksi pidennetty tilinumero </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aaf1d60dd85233e8211a517a8c5ce580c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Tili::ysivertailuluku </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Yhdeksännumeroinen tilinumeron vertailuluku, jonka avulla tilit saadaan oikeaan järjestykseen. </p>
+<p>Viimeinen numero kertoo otsikkotason - 1, tileillä se on 9 Otsikkotasoja saa olla siis enintään yhdeksän</p>
+<p>tili 1234 -&gt; 123400009</p><ol type="1">
+<li>tason otsikko 1230 -&gt; 123000002</li>
+</ol>
+<dl class="section return"><dt>Palauttaa</dt><dd></dd></dl>
 
 </div>
 </div>

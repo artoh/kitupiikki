@@ -13,7 +13,6 @@ var class_kirjaus_wg =
     [ "kelpaakoTunniste", "class_kirjaus_wg.html#a7e8fe0224f728e272b98751276300372", null ],
     [ "korjaaTunniste", "class_kirjaus_wg.html#a96ba91191b77eba7a7af2660a6535f45", null ],
     [ "lataaTosite", "class_kirjaus_wg.html#a90c64e6617a2b2c449725b172e8c95cf", null ],
-    [ "lataaTositetyypit", "class_kirjaus_wg.html#aabb40dd5c954549901cadec6fc04967d", null ],
     [ "lisaaRivi", "class_kirjaus_wg.html#a649deff0784a1e5ce6443a164114a9ee", null ],
     [ "lukitseTilikaudelle", "class_kirjaus_wg.html#a169d12409447888c07ae31ff6c59e8d7", null ],
     [ "naytaSummat", "class_kirjaus_wg.html#a2001bb83e6b440a5a7addc34ccf8a53b", null ],

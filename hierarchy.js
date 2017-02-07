@@ -1,8 +1,13 @@
 var hierarchy =
 [
+    [ "Kohdennus", "class_kohdennus.html", null ],
     [ "QAbstractTableModel", null, [
+      [ "KohdennusModel", "class_kohdennus_model.html", null ],
       [ "SelausModel", "class_selaus_model.html", null ],
+      [ "TilikausiModel", "class_tilikausi_model.html", null ],
+      [ "TiliModel", "class_tili_model.html", null ],
       [ "TilinavausModel", "class_tilinavaus_model.html", null ],
+      [ "TositelajiModel", "class_tositelaji_model.html", null ],
       [ "VientiModel", "class_vienti_model.html", null ]
     ] ],
     [ "QItemDelegate", null, [
@@ -14,6 +19,7 @@ var hierarchy =
       [ "KitupiikkiIkkuna", "class_kitupiikki_ikkuna.html", null ]
     ] ],
     [ "QObject", null, [
+      [ "AsetusModel", "class_asetus_model.html", null ],
       [ "Kirjanpito", "class_kirjanpito.html", null ]
     ] ],
     [ "QStackedWidget", null, [
@@ -35,7 +41,8 @@ var hierarchy =
       ] ],
       [ "RaporttiSivu", "class_raportti_sivu.html", null ],
       [ "SelausWg", "class_selaus_wg.html", null ],
-      [ "Tilinavaus", "class_tilinavaus.html", null ]
+      [ "Tilinavaus", "class_tilinavaus.html", null ],
+      [ "Tositelajit", "class_tositelajit.html", null ]
     ] ],
     [ "QWizard", null, [
       [ "UusiKirjanpito", "class_uusi_kirjanpito.html", null ]
@@ -51,6 +58,6 @@ var hierarchy =
     [ "SelausRivi", "struct_selaus_rivi.html", null ],
     [ "Tili", "class_tili.html", null ],
     [ "Tilikausi", "class_tilikausi.html", null ],
-    [ "TositeTyyppi", "class_tosite_tyyppi.html", null ],
+    [ "Tositelaji", "class_tositelaji.html", null ],
     [ "VientiRivi", "struct_vienti_rivi.html", null ]
 ];

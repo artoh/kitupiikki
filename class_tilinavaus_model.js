@@ -17,6 +17,5 @@ var class_tilinavaus_model =
     [ "setData", "class_tilinavaus_model.html#ab389a7f129e48bca7a7b3f7a5dddc2cd", null ],
     [ "tallenna", "class_tilinavaus_model.html#a5303768a5c3aa61bdddbcdea3756c183", null ],
     [ "voikoMuokata", "class_tilinavaus_model.html#aa2b8d8158bccfa2af95a511e6aef3ca2", null ],
-    [ "saldot", "class_tilinavaus_model.html#a3e850787c22e98fa3fa8f67fcdec85ad", null ],
-    [ "tilit", "class_tilinavaus_model.html#ac93a98e184108fe1c27bf9171fab3ead", null ]
+    [ "saldot", "class_tilinavaus_model.html#a3e850787c22e98fa3fa8f67fcdec85ad", null ]
 ];

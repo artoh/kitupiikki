@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['tilikartat',['tilikartat',['../md_kitupiikki_tilikartat_tilikartat.html',1,'']]]
+  ['kitupiikki',['Kitupiikki',['../index.html',1,'']]]
 ];
