@@ -67,19 +67,28 @@ QVariant KohdennusModel::data(const QModelIndex &index, int role) const
     if( !index.isValid())
         return QVariant();
 
-    Kohdennus projekti = projektit_[index.row()];
+    Kohdennus kohdennus = projektit_[index.row()];
 
     if( role == IdRooli)
-        return QVariant( projekti.id() );
+        return QVariant( kohdennus.id() );
+    else if( role == TyyppiRoole)
+        return QVariant( kohdennus.tyyppi() );
+    else if( role == NimiRooli )
+        return kohdennus.nimi();
+    else if( role == AlkaaRooli)
+        return kohdennus.alkaa();
+    else if( role == PaattyyRooli)
+        return kohdennus.paattyy();
+
     else if( role == Qt::TextAlignmentRole)
         return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
     else if( role == Qt::DisplayRole || role == Qt::EditRole)
     {
         switch( index.column())
         {
-            case NIMI: return QVariant( projekti.nimi() );
-            case ALKAA: return QVariant(projekti.alkaa() );
-            case PAATTYY: return QVariant(projekti.paattyy());
+            case NIMI: return QVariant( kohdennus.nimi() );
+            case ALKAA: return QVariant(kohdennus.alkaa() );
+            case PAATTYY: return QVariant(kohdennus.paattyy());
         }
     }
     return QVariant();
@@ -129,24 +138,34 @@ void KohdennusModel::lataa()
 {
     beginResetModel();
     projektit_.clear();
-    QSqlQuery kysely("select id, nimi, alkaa, loppuu FROM projekti");
+    QSqlQuery kysely("select id, tyyppi, nimi, alkaa, loppuu FROM kohdennus");
     while( kysely.next() )
     {
         projektit_.append( Kohdennus( kysely.value(0).toInt(),
-                                     kysely.value(1).toString(),
-                                     kysely.value(2).toDate(),
-                                     kysely.value(3).toDate()));
+                                     kysely.value(1).toInt(),
+                                     kysely.value(2).toString(),
+                                     kysely.value(3).toDate(),
+                                     kysely.value(4).toDate()));
     }
     endResetModel();
 }
 
-void KohdennusModel::lisaaUusi(const QString nimi)
+void KohdennusModel::lisaaUusi(int tyyppi, const QString nimi)
 {
     beginInsertRows(QModelIndex(), projektit_.count(), projektit_.count());
 
-    // Oletuksena projekti on nykyisen tilikauden pituinen
-    Tilikausi nykyinen = Kirjanpito::db()->tilikausiPaivalle( Kirjanpito::db()->paivamaara() );
-    projektit_.append( Kohdennus(0, nimi, nykyinen.alkaa(), nykyinen.paattyy()) );
+
+    if( tyyppi == Kohdennus::KUSTANNUSPAIKKA)
+        // Lisätään kustannuspaikka. Kustannuspaikalla ei oletuksena ole kestoa
+        projektit_.append( Kohdennus(Kohdennus::KUSTANNUSPAIKKA));
+    else
+    {
+        // Lisätään projekti
+        // Oletuksena projekti on nykyisen tilikauden pituinen
+        Tilikausi nykyinen = Kirjanpito::db()->tilikausiPaivalle( Kirjanpito::db()->paivamaara() );
+        projektit_.append( Kohdennus(0, Kohdennus::PROJEKTI, nimi, nykyinen.alkaa(), nykyinen.paattyy()));
+    }
+
 
     endInsertRows();
 }

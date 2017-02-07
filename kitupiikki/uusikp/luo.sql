@@ -51,32 +51,32 @@ CREATE TABLE tosite (
     json      TEXT
 );
 
-CREATE TABLE kustannuspaikka (
-    id  INTEGER      PRIMARY KEY AUTOINCREMENT,
-    nimi VARCHAR (60) NOT NULL
-);
 
-CREATE TABLE projekti (
+CREATE TABLE kohdennus (
     id     INTEGER      PRIMARY KEY AUTOINCREMENT,
     nimi   VARCHAR (60) NOT NULL,
     alkaa  DATE,
-    loppuu DATE
+    loppuu DATE,
+    tyyppi INTEGER  NOT NULL
 );
 
+INSERT INTO kohdennus(id, nimi, tyyppi) VALUES(0,"Ei kohdenneta",0);
+
+
 CREATE TABLE vienti (
-    id        INTEGER PRIMARY KEY AUTOINCREMENT,
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
     tosite          INTEGER NOT NULL
                             REFERENCES tosite (id),
-    pvm       DATE    NOT NULL,
+    pvm             DATE    NOT NULL,
     tili            INTEGER REFERENCES tili (id) ON DELETE RESTRICT
-                                                      ON UPDATE RESTRICT,
+                                                 ON UPDATE RESTRICT,
     debetsnt        BIGINT,
     kreditsnt       BIGINT,
     selite          TEXT,
-    kustannuspaikka         REFERENCES kustannuspaikka (nro) ON DELETE RESTRICT
-                                                                            ON UPDATE CASCADE,
-    projekti        INTEGER REFERENCES projekti (id) ON DELETE RESTRICT
-                                                             ON UPDATE CASCADE,
+    kustannuspaikka         REFERENCES kohdennus (id) ON DELETE RESTRICT
+                                                      ON UPDATE CASCADE,
+    projekti        INTEGER REFERENCES kohdennus (id) ON DELETE RESTRICT
+                                                      ON UPDATE CASCADE,
     json            TEXT
 );
 

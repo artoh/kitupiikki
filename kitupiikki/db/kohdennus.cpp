@@ -18,14 +18,14 @@
 #include "kohdennus.h"
 
 
-Kohdennus::Kohdennus(const QString &nimi) :
-    id_(0), nimi_(nimi), muokattu_(false)
+Kohdennus::Kohdennus(int tyyppi, const QString &nimi) :
+    id_(0), tyyppi_(tyyppi), nimi_(nimi), muokattu_(false)
 {
 
 }
 
-Kohdennus::Kohdennus(int id, QString nimi, QDate alkaa, QDate paattyy)
-    : id_(id), nimi_(nimi), alkaa_(alkaa), paattyy_(paattyy)
+Kohdennus::Kohdennus(int id, int tyyppi, QString nimi, QDate alkaa, QDate paattyy)
+    : id_(id), tyyppi_(tyyppi), nimi_(nimi), alkaa_(alkaa), paattyy_(paattyy)
 {
 
 }
@@ -51,6 +51,12 @@ void Kohdennus::asetaAlkaa(const QDate &alkaa)
 void Kohdennus::asetaPaattyy(const QDate &paattyy)
 {
     paattyy_ = paattyy;
+    muokattu_ = true;
+}
+
+void Kohdennus::asetaTyyppi(Kohdennus::KohdennusTyyppi tyyppi)
+{
+    tyyppi_ = tyyppi;
     muokattu_ = true;
 }
 

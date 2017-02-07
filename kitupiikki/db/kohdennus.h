@@ -22,19 +22,28 @@
 #include <QDate>
 
 /**
- * @brief Projektin luokka
+ * @brief Kirjauksen kohdennus kustannuspaikalle tai projektiin
  */
 
 class Kohdennus
 {
 public:
-    Kohdennus(const QString& nimi = QString());
-    Kohdennus(int id, QString nimi, QDate alkaa, QDate paattyy);
+
+    enum KohdennusTyyppi
+    {
+        EIKOHDENNETA = 0,
+        KUSTANNUSPAIKKA = 1,
+        PROJEKTI = 2
+    };
+
+    Kohdennus(int tyyppi = EIKOHDENNETA, const QString& nimi = QString());
+    Kohdennus(int id, int tyyppi, QString nimi, QDate alkaa = QDate(), QDate paattyy = QDate());
 
     int id() const { return id_; }
     QString nimi() const { return nimi_; }
     QDate alkaa() const { return alkaa_; }
     QDate paattyy() const { return paattyy_; }
+    int tyyppi() const { return tyyppi_; }
 
     bool muokattu() const { return muokattu_; }
 
@@ -42,13 +51,16 @@ public:
     void asetaNimi(const QString& nimi);
     void asetaAlkaa(const QDate& alkaa);
     void asetaPaattyy(const QDate& paattyy);
+    void asetaTyyppi(KohdennusTyyppi tyyppi);
     void nollaaMuokattu();
 
 protected:
     int id_;
+    int tyyppi_;
     QString nimi_;
     QDate alkaa_;
     QDate paattyy_;
+
     bool muokattu_;
 };
 

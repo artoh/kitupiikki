@@ -42,7 +42,11 @@ public:
 
     enum
     {
-        IdRooli = Qt::UserRole + 1
+        IdRooli = Qt::UserRole + 1,
+        TyyppiRoole = Qt::UserRole + 2,
+        NimiRooli = Qt::UserRole + 3,
+        AlkaaRooli = Qt::UserRole + 4,
+        PaattyyRooli = Qt::UserRole + 5
     };
 
     KohdennusModel(QObject *parent = 0);
@@ -61,7 +65,7 @@ public:
 
 public slots:
     void lataa();
-    void lisaaUusi(const QString nimi = QString());
+    void lisaaUusi(int tyyppi, const QString nimi = QString());
 
 
 protected:
