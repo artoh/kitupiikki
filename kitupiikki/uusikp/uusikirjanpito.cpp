@@ -45,6 +45,7 @@
 #include "db/asetusmodel.h"
 #include "db/tilimodel.h"
 #include "db/tili.h"
+#include "db/tilikausimodel.h"
 
 #include <QDebug>
 
@@ -166,6 +167,7 @@ bool UusiKirjanpito::alustaKirjanpito()
     QString sqluonti = in.readAll();
     sqluonti.replace("\n","");
     QStringList sqlista = sqluonti.split(";");
+
     foreach (QString kysely,sqlista)
     {
         query.exec(kysely);
@@ -175,7 +177,7 @@ bool UusiKirjanpito::alustaKirjanpito()
     progDlg.setValue( progDlg.value() + 1 );
 
 
-    AsetusModel asetukset(&db);
+    AsetusModel asetukset(db);
 
     // Kirjataan tietokannan perustietoja
 
@@ -185,16 +187,6 @@ bool UusiKirjanpito::alustaKirjanpito()
 
     asetukset.aseta("luotu", QDate::currentDate());
     asetukset.aseta("versio", qApp->applicationVersion());
-
-    if( field("onekakausi").toBool())    {
-        // Ensimmäinen tilikausi, tilinavausta ei tarvita
-        asetukset.aseta("tilinavaus",0);
-    } else {
-        // Tilinavaustiedot puuttuvat
-        asetukset.aseta("tilinavaus", 2);
-        asetukset.aseta("tilinavauspvm", field("edpaattyi").toDate());
-        asetukset.aseta("tilitpaatetty", field("edpaattyi").toDate());
-    }
 
     progDlg.setValue( progDlg.value() + 1 );
 
@@ -212,9 +204,7 @@ bool UusiKirjanpito::alustaKirjanpito()
 
     progDlg.setValue( progDlg.value() + 1 );
 
-    // Tilien kirjoittaminen
-//    query.prepare("INSERT INTO tili(nro,nimi,tyyppi,otsikkotaso) values(?,?,?,?) ");
-
+    // Tilien ja otsikkojen kirjoittaminen
     TiliModel tilit(db);
 
     QStringList tililista = kartta.value("tilit");
@@ -235,13 +225,6 @@ bool UusiKirjanpito::alustaKirjanpito()
             tili.asetaNimi( splitti[2]);
             tili.asetaOtsikkotaso( otsikkotaso );
             tilit.lisaaTili(tili);
-/*
-            query.addBindValue(splitti[1].toInt() );
-            query.addBindValue(splitti[2]);
-            query.addBindValue(splitti[0]);
-            query.addBindValue(otsikkotaso);
-            query.exec();
-            */
         }
         progDlg.setValue( progDlg.value() + 1 );
     }
@@ -251,47 +234,28 @@ bool UusiKirjanpito::alustaKirjanpito()
     tilit.tallenna();
 
 
-    // Otsikkojen kirjoittaminen
-    /*
-     *  Kommentoidaan ulos, koska otsikot kuvataan tilitaulussa
-     *
-    query.prepare("INSERT INTO tiliotsikko(tilista,tiliin,otsikko,tyyppi) values(?,?,?,?)");
-    foreach (QString otsikkorivi, kartta.value("otsikot"))
-    {
-        // Otsikkotietueet tyyppi;mista..mihin;otsikko
-        QStringList splitti = otsikkorivi.split(";");
-        if( splitti.count() > 2)
-        {
-            QStringList mimisplit = splitti[1].split("..");
-            if( mimisplit.count() != 2)
-                continue;   // Epäkelpo
-            query.addBindValue( mimisplit[0].toInt() ); // Mistä
-            query.addBindValue( mimisplit[1].toInt() ); // Mihin
-            query.addBindValue( splitti[2]);    // Otsikko
-            query.addBindValue( splitti[0]);    // tyyppi
-            query.exec();
-        }
-        progDlg.setValue( progDlg.value() + 1 );
-    }
-
-    */
 
     // Tilikausien kirjoittaminen
     // Nykyinen tilikausi
-    query.prepare("INSERT INTO tilikausi(alkaa,loppuu,lukittu) values(?,?,?)");
-    query.addBindValue( field("alkaa").toDate() );
-    query.addBindValue( field("paattyy").toDate());
-    query.addBindValue( QVariant() );
-    query.exec();
 
-    if( !field("onekakausi").toBool())
+    TilikausiModel tilikaudet(db);
+    tilikaudet.lisaaTilikausi( Tilikausi( field("alkaa").toDate(), field("paattyy").toDate() ));
+
+    if( field("onekakausi").toBool())
     {
-        // Edellinen tilikausi. Lukitaan, ei estä tilin avausta.
-        query.addBindValue( field("edalkoi").toDate());
-        query.addBindValue( field("edpaattyi").toDate());
-        query.addBindValue( field("edpaattyi").toDate());
-        query.exec();
+        // Ensimmäinen tilikausi, tilinavausta ei tarvita
+        asetukset.aseta("tilinavaus",0);
     }
+    else
+    {
+        // Edellinen tilikausi.
+        tilikaudet.lisaaTilikausi( Tilikausi(field("edalkoi").toDate(), field("edpaattyi").toDate()  ) );
+
+        asetukset.aseta("tilinavaus", 2);
+        asetukset.aseta("tilinavauspvm", field("edpaattyi").toDate());
+        asetukset.aseta("tilitpaatetty", field("edpaattyi").toDate());
+    }
+    tilikaudet.tallenna();
 
     progDlg.setValue( progDlg.value() + 1 );
 

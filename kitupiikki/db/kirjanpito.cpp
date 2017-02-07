@@ -38,7 +38,7 @@ Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
             viimetiedostot[split[0]]=split[1];
     }
 
-    asetusModel_ = new AsetusModel(&tietokanta, this);
+    asetusModel_ = new AsetusModel(tietokanta, this);
     tositelajiModel_ = new TositelajiModel(this);
     tiliModel_ = new TiliModel( tietokanta, this);
 

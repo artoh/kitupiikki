@@ -46,7 +46,8 @@ SOURCES += main.cpp \
     db/tilimodel.cpp \
     db/kohdennusmodel.cpp \
     db/kohdennus.cpp \
-    db/tositelaji.cpp
+    db/tositelaji.cpp \
+    db/tilikausimodel.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -84,7 +85,8 @@ HEADERS += \
     db/tilimodel.h \
     db/kohdennusmodel.h \
     db/kohdennus.h \
-    db/tositelaji.h
+    db/tositelaji.h \
+    db/tilikausimodel.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

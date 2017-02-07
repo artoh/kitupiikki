@@ -33,7 +33,7 @@ class AsetusModel : public QObject
 {
     Q_OBJECT
 public:
-    explicit AsetusModel(QSqlDatabase *tietokanta, QObject *parent = 0);
+    explicit AsetusModel(QSqlDatabase tietokanta, QObject *parent = 0);
 
     QString asetus(const QString& avain) const { return asetukset_.value(avain, QString()); }
     void aseta(const QString& avain, const QString& arvo);
@@ -60,7 +60,7 @@ public slots:
 
 protected:
     QHash<QString,QString> asetukset_;
-    QSqlDatabase *tietokanta_;
+    QSqlDatabase tietokanta_;
 
 };
 

@@ -13,17 +13,10 @@ CREATE TABLE tili (
     json   TEXT
 ) ;
 
-CREATE TABLE tiliotsikko (
-    tilista       INTEGER      NOT NULL,
-    tiliin                     NOT NULL,
-    otsikko       VARCHAR (60) NOT NULL,
-    tyyppi VARCHAR (10) DEFAULT O
-);
 
 CREATE TABLE tilikausi (
     alkaa  DATE PRIMARY KEY  UNIQUE  NOT NULL,
     loppuu DATE UNIQUE  NOT NULL,
-    lukittu DATE ,
     json   TEXT
 );
 

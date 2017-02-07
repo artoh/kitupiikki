@@ -38,7 +38,7 @@ int TiliModel::rowCount(const QModelIndex & /* parent */) const
 
 int TiliModel::columnCount(const QModelIndex & /* parent */) const
 {
-    return 2;
+    return 3;
 }
 
 QVariant TiliModel::data(const QModelIndex &index, int role) const

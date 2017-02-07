@@ -25,7 +25,7 @@
 
 
 
-AsetusModel::AsetusModel(QSqlDatabase *tietokanta, QObject *parent)
+AsetusModel::AsetusModel(QSqlDatabase tietokanta, QObject *parent)
     :   QObject(parent), tietokanta_(tietokanta)
 {
 
@@ -33,7 +33,7 @@ AsetusModel::AsetusModel(QSqlDatabase *tietokanta, QObject *parent)
 
 void AsetusModel::aseta(const QString &avain, const QString &arvo)
 {
-    QSqlQuery query(*tietokanta_);
+    QSqlQuery query(tietokanta_);
     if( asetukset_.contains(avain))
     {
         // Asetus on jo, se vain päivitetään
@@ -117,7 +117,7 @@ void AsetusModel::aseta(const QString& avain, int luku)
 
 void AsetusModel::lataa()
 {
-    QSqlQuery query(*tietokanta_);
+    QSqlQuery query(tietokanta_);
     query.exec("SELECT avain,arvo FROM asetus");
     while( query.next())
     {
