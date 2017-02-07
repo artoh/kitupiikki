@@ -38,10 +38,9 @@ Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
             viimetiedostot[split[0]]=split[1];
     }
 
-    tositelajiModel_ = new TositelajiModel(this);
-    connect(this, SIGNAL(tietokantaVaihtui()), tositelajiModel(), SLOT(lataa()));
-
     asetusModel_ = new AsetusModel(&tietokanta, this);
+    tositelajiModel_ = new TositelajiModel(this);
+    tiliModel_ = new TiliModel( tietokanta, this);
 
 }
 
@@ -121,8 +120,10 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
     if( !tietokanta.open() )
         return false;
 
-    // Ladataankin asetukset modelista
+    // Ladataankin asetukset yms modelista
     asetusModel_->lataa();
+    tositelajiModel_->lataa();
+    tiliModel_->lataa();
 
     QSqlQuery query( tietokanta );
 

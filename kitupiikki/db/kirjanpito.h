@@ -36,6 +36,7 @@
 
 #include "tositelajimodel.h"
 #include "asetusmodel.h"
+#include "tilimodel.h"
 
 /**
  * @brief Kirjanpidon käsittely
@@ -99,6 +100,7 @@ public:
 
     TositelajiModel *tositelajiModel() { return tositelajiModel_; }
     AsetusModel *asetusModel() const { return asetusModel_; }
+    TiliModel *tiliModel() const { return tiliModel_; }
 
 signals:
     void tietokantaVaihtui();
@@ -136,6 +138,7 @@ protected:
 
     TositelajiModel *tositelajiModel_;
     AsetusModel *asetusModel_;
+    TiliModel *tiliModel_;
 
 public:
     /**

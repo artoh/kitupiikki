@@ -15,8 +15,8 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PROJEKTIMODEL_H
-#define PROJEKTIMODEL_H
+#ifndef KOHDENNUSMODEL_H
+#define KOHDENNUSMODEL_H
 
 #include <QAbstractTableModel>
 #include <QDate>
@@ -74,4 +74,4 @@ protected:
 
 };
 
-#endif // PROJEKTIMODEL_H
+#endif // KOHDENNUSMODEL_H

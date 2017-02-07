@@ -43,13 +43,28 @@ int TiliModel::columnCount(const QModelIndex & /* parent */) const
 
 QVariant TiliModel::data(const QModelIndex &index, int role) const
 {
-    if( !index.isValid())
+    if( !index.isValid())     
         return QVariant();
-    if( role == Qt::DisplayRole)
+
+    Tili tili = tilit_.value(index.row());
+
+    if( role == IdRooli )
+        return QVariant( tili.id());
+    else if( role == NroRooli )
+        return QVariant( tili.numero());
+    else if( role == NimiRooli )
+        return QVariant( tili.nimi());
+    else if( role == NroNimiRooli)
+        return QVariant( QString("%1 %2").arg(tili.numero()).arg(tili.nimi()));
+    else if( role == OtsikkotasoRooli)
+        return QVariant( tili.otsikkotaso());
+
+    else if( role == Qt::DisplayRole || role == Qt::EditRole)
     {
-        Tili tili = tilit_.value(index.row());
         switch (index.column())
         {
+        case NRONIMI :
+            return QVariant( QString("%1 %2").arg(tili.numero()).arg(tili.nimi()));
         case NUMERO:
             return QVariant( tili.numero());
         case NIMI :
@@ -81,7 +96,7 @@ Tili TiliModel::tiliNumerolla(int numero) const
 {
     foreach (Tili tili, tilit_)
     {
-        if( tili.numero() == numero)
+        if( tili.numero() == numero && tili.otsikkotaso() == 0)
             return tili;
     }
     return Tili();
@@ -144,8 +159,6 @@ void TiliModel::tallenna()
 
             if( tili.id())
                 tili.asetaId( kysely.lastInsertId().toInt() );
-
-            qDebug() << kysely.lastInsertId() << " * " <<  kysely.lastError().text();
 
         }
     }

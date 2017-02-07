@@ -29,6 +29,7 @@ Tili::Tili(int id, int numero, const QString &nimi, const QString &tyyppi, int t
     id_(id), numero_(numero), nimi_(nimi), tyyppi_(tyyppi), tila_(tila), otsikkotaso_(otsikkotaso), muokattu_(false)
 
 {
+
 }
 
 bool Tili::onkoValidi() const

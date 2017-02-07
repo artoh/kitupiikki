@@ -32,8 +32,18 @@ public:
 
     enum Sarake
     {
-        NUMERO, NIMI
+        NRONIMI, NUMERO, NIMI
     };
+
+    enum
+    {
+        IdRooli = Qt::UserRole + 1,
+        NroRooli = Qt::UserRole + 2,
+        NimiRooli = Qt::UserRole + 3,
+        NroNimiRooli = Qt::UserRole + 4,
+        OtsikkotasoRooli = Qt::UserRole + 5
+    };
+
 
     TiliModel(QSqlDatabase tietokanta, QObject *parent = 0);
 

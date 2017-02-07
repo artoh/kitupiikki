@@ -18,6 +18,8 @@
 #include <QCompleter>
 #include <QLineEdit>
 
+#include <QSortFilterProxyModel>
+
 #include "tilidelegaatti.h"
 
 #include "db/kirjanpito.h"
@@ -32,16 +34,18 @@ QWidget *TiliDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewIte
 {
     QLineEdit *editor = new QLineEdit(parent);
 
-    QList<Tili> tilit= Kirjanpito::db()->tilit();
+    // Tilivalintaan TiliModelista tilit (taso 0)
 
-    QStringList tililista;
+    QCompleter *taydennin = new QCompleter() ;
 
-    foreach (Tili tili, tilit)
-    {
-        tililista.append( QString("%1 %2").arg(tili.numero()).arg(tili.nimi()) );
-    }
+    QSortFilterProxyModel *proxy = new QSortFilterProxyModel(parent);
+    proxy->setSourceModel( Kirjanpito::db()->tiliModel() );
+    proxy->setFilterRole( TiliModel::OtsikkotasoRooli);
+    proxy->setFilterFixedString("0");
 
-    QCompleter *taydennin = new QCompleter( tililista);
+    taydennin->setCompletionColumn( TiliModel::NRONIMI);
+    taydennin->setModel( proxy );
+
     taydennin->setCompletionMode( QCompleter::UnfilteredPopupCompletion);
     editor->setCompleter(taydennin);
 
