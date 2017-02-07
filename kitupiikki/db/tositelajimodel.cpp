@@ -22,67 +22,25 @@
 
 #include <QDebug>
 
-//
-//  TositeLaji
-//
 
-TositeLaji::TositeLaji() :
-    id_(0), muokattu_(false)
-{
-
-}
-
-TositeLaji::TositeLaji(int id, QString tunnus, QString nimi) :
-    id_(id), tunnus_(tunnus), nimi_(nimi), muokattu_(false)
-{
-
-}
-
-void TositeLaji::asetaId(int id)
-{
-    id_ = id;
-    muokattu_ = true;
-}
-
-void TositeLaji::asetaTunnus(const QString &tunnus)
-{
-    tunnus_ = tunnus;
-    muokattu_ = true;
-}
-
-void TositeLaji::asetaNimi(const QString &nimi)
-{
-    nimi_ = nimi;
-    muokattu_ = true;
-}
-
-void TositeLaji::nollaaMuokattu()
-{
-    muokattu_ = false;
-}
-
-//
-//  TositeLajiModel
-//
-
-TositeLajiModel::TositeLajiModel(QObject *parent)
+TositelajiModel::TositelajiModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
 
 }
 
-int TositeLajiModel::rowCount(const QModelIndex & /* parent */ ) const
+int TositelajiModel::rowCount(const QModelIndex & /* parent */ ) const
 {
     return lajit_.count();
 
 }
 
-int TositeLajiModel::columnCount(const QModelIndex & /* parent */) const
+int TositelajiModel::columnCount(const QModelIndex & /* parent */) const
 {
     return 2;
 }
 
-QVariant TositeLajiModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant TositelajiModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if( role == Qt::TextAlignmentRole)
         return QVariant( Qt::AlignCenter | Qt::AlignVCenter);
@@ -99,12 +57,12 @@ QVariant TositeLajiModel::headerData(int section, Qt::Orientation orientation, i
     return QVariant();
 }
 
-QVariant TositeLajiModel::data(const QModelIndex &index, int role) const
+QVariant TositelajiModel::data(const QModelIndex &index, int role) const
 {
     if( !index.isValid())
         return QVariant();
 
-    TositeLaji laji = lajit_[index.row()];
+    Tositelaji laji = lajit_[index.row()];
 
     if( role == IdRooli)
         return QVariant( laji.id() );
@@ -133,11 +91,11 @@ QVariant TositeLajiModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-Qt::ItemFlags TositeLajiModel::flags(const QModelIndex &index) const
+Qt::ItemFlags TositelajiModel::flags(const QModelIndex &index) const
 {
     // TODO: Tässä pitäisi selvittää, onko tyyppi käytössä että saako sitä muokata...
 
-    TositeLaji laji = lajit_[ index.row()];
+    Tositelaji laji = lajit_[ index.row()];
 
     if( laji.tunnus() == "*" || ( index.column()==TUNNUS && laji.tunnus()=="" && laji.id()) )
         return QAbstractTableModel::flags(index);
@@ -145,7 +103,7 @@ Qt::ItemFlags TositeLajiModel::flags(const QModelIndex &index) const
     return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
 }
 
-bool TositeLajiModel::setData(const QModelIndex &index, const QVariant &value, int /* role */)
+bool TositelajiModel::setData(const QModelIndex &index, const QVariant &value, int /* role */)
 {
     switch (index.column()) {
     case TUNNUS:
@@ -161,20 +119,20 @@ bool TositeLajiModel::setData(const QModelIndex &index, const QVariant &value, i
     return false;
 }
 
-TositeLaji TositeLajiModel::tositelaji(int id) const
+Tositelaji TositelajiModel::tositelaji(int id) const
 {
     if( id == 0)
-        return TositeLaji(0,"***","Järjestelmän tosite");
+        return Tositelaji(0,"***","Järjestelmän tosite");
 
-    foreach (TositeLaji laji, lajit_)
+    foreach (Tositelaji laji, lajit_)
     {
         if( laji.id() == id)
             return laji;
     }
-    return TositeLaji();
+    return Tositelaji();
 }
 
-void TositeLajiModel::lataa()
+void TositelajiModel::lataa()
 {
     beginResetModel();
 
@@ -186,19 +144,19 @@ void TositeLajiModel::lataa()
         qDebug() << kysely.value(0).toInt() << " - " << kysely.value(1).toString() << " - " << kysely.value(2).toString() ;
         // Järjestelmätositetta ei laiteta näkyviin
         if( kysely.value(0).toInt() > 0)
-            lajit_.append( TositeLaji(kysely.value(0).toInt(), kysely.value(1).toString(),
+            lajit_.append( Tositelaji(kysely.value(0).toInt(), kysely.value(1).toString(),
                                       kysely.value(2).toString()) );
     }
 
     endResetModel();
 }
 
-bool TositeLajiModel::tallenna()
+bool TositelajiModel::tallenna()
 {
     QSqlQuery tallennus;
     for(int i=0; i < lajit_.count(); i++)
     {
-        TositeLaji laji = lajit_[i];
+        Tositelaji laji = lajit_[i];
 
         if( (laji.muokattu()) && (!laji.nimi().isEmpty()) && ( laji.id() == 0 || !laji.tunnus().isEmpty() ) )
         {
@@ -225,9 +183,9 @@ bool TositeLajiModel::tallenna()
     return true;
 }
 
-void TositeLajiModel::lisaaRivi()
+void TositelajiModel::lisaaRivi()
 {
     beginInsertRows( QModelIndex(), lajit_.count(), lajit_.count() );
-    lajit_.append( TositeLaji());
+    lajit_.append( Tositelaji());
     endInsertRows();
 }

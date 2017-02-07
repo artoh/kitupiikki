@@ -41,11 +41,12 @@ SOURCES += main.cpp \
     maaritys/tilinavausmodel.cpp \
     kirjaus/pvmdelegaatti.cpp \
     maaritys/tositelajit.cpp \
-    db/projektimodel.cpp \
-    db/kustannuspaikkamodel.cpp \
     db/tositelajimodel.cpp \
     db/asetusmodel.cpp \
-    db/tilimodel.cpp
+    db/tilimodel.cpp \
+    db/kohdennusmodel.cpp \
+    db/kohdennus.cpp \
+    db/tositelaji.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -78,11 +79,12 @@ HEADERS += \
     maaritys/tilinavausmodel.h \
     kirjaus/pvmdelegaatti.h \
     maaritys/tositelajit.h \
-    db/projektimodel.h \
-    db/kustannuspaikkamodel.h \
     db/tositelajimodel.h \
     db/asetusmodel.h \
-    db/tilimodel.h
+    db/tilimodel.h \
+    db/kohdennusmodel.h \
+    db/kohdennus.h \
+    db/tositelaji.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

@@ -15,29 +15,46 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TOSITELAJIT_H
-#define TOSITELAJIT_H
+#include "kohdennus.h"
 
-#include <QWidget>
 
-#include "ui_tositelajit.h"
-// #include "tositelajitmodel.h"
-#include "db/tositelajimodel.h"
-
-class Tositelajit : public QWidget
+Kohdennus::Kohdennus(const QString &nimi) :
+    id_(0), nimi_(nimi), muokattu_(false)
 {
-    Q_OBJECT
-public:
-    explicit Tositelajit(QWidget *parent = 0);
-    ~Tositelajit();
 
-signals:
+}
 
-public slots:
+Kohdennus::Kohdennus(int id, QString nimi, QDate alkaa, QDate paattyy)
+    : id_(id), nimi_(nimi), alkaa_(alkaa), paattyy_(paattyy)
+{
 
-protected:
-    Ui::Tositelajit *ui;
-    TositelajiModel *model;
-};
+}
 
-#endif // TOSITELAJIT_H
+void Kohdennus::asetaId(int id)
+{
+    id_ = id;
+    muokattu_ = true;
+}
+
+void Kohdennus::asetaNimi(const QString &nimi)
+{
+    nimi_ = nimi;
+    muokattu_ = true;
+}
+
+void Kohdennus::asetaAlkaa(const QDate &alkaa)
+{
+    alkaa_ = alkaa;
+    muokattu_ = true;
+}
+
+void Kohdennus::asetaPaattyy(const QDate &paattyy)
+{
+    paattyy_ = paattyy;
+    muokattu_ = true;
+}
+
+void Kohdennus::nollaaMuokattu()
+{
+    muokattu_ = false;
+}

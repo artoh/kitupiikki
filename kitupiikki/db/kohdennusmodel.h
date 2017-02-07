@@ -15,64 +15,40 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef KUSTANNUSPAIKKAMODEL_H
-#define KUSTANNUSPAIKKAMODEL_H
+#ifndef PROJEKTIMODEL_H
+#define PROJEKTIMODEL_H
 
 #include <QAbstractTableModel>
+#include <QDate>
 #include <QList>
 
-
-/**
- * @brief The Kustannuspaikan tiedot
- */
-class Kustannuspaikka
-{
-public:
-    Kustannuspaikka(const QString kpnimi = QString());
-    Kustannuspaikka(int id, const QString kpnimi);
-
-    int id() const { return id_; }
-    QString nimi() const { return nimi_; }
-
-    void asetaId(int id) { id_ = id; muokattu_ = true; }
-    void asetaNimi(const QString& kpnimi) { nimi_ = kpnimi; muokattu_ = true; }
-
-    bool muokattu() const { return muokattu_; }
-    void nollaaMuokattu() { muokattu_ = false; }
-
-protected:
-    int id_;
-    QString nimi_;
-    bool muokattu_;
-};
+#include "kohdennus.h"
 
 
 /**
- * @brief Kustannuspaikkojen luettelo
+ * @brief Kohdennusten luettelo
  *
- * Luettelo kustannuspaikoista, numero on IdRooli:ssa
  *
  */
-class KustannuspaikkaModel : public QAbstractTableModel
+class KohdennusModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
+
+    enum Sarake
+    {
+        NIMI, ALKAA, PAATTYY
+    };
 
     enum
     {
         IdRooli = Qt::UserRole + 1
     };
 
-    enum Sarake
-    {
-        NIMI
-    };
-
-    KustannuspaikkaModel(QObject *parent = 0);
+    KohdennusModel(QObject *parent = 0);
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
-
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     QVariant data(const QModelIndex &index, int role) const;
 
@@ -80,16 +56,18 @@ public:
     bool setData(const QModelIndex &index, const QVariant &value, int role);
 
     QString nimi(int id) const;
-    Kustannuspaikka kustannuspaikka(int id) const;
-    QList<Kustannuspaikka> kustannuspaikat() const;
+    Kohdennus projekti(int id) const;
+    QList<Kohdennus> projektit() const;
 
 public slots:
     void lataa();
-    void lisaaUusi(const QString& nimi = QString());
+    void lisaaUusi(const QString nimi = QString());
+
 
 protected:
-    QList<Kustannuspaikka> kustannuspaikat_;
+    QList<Kohdennus> projektit_;
+
 
 };
 
-#endif // KUSTANNUSPAIKKAMODEL_H
+#endif // PROJEKTIMODEL_H

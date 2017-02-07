@@ -67,7 +67,7 @@ KirjausWg::KirjausWg(TositeWg *tosite) : QWidget(), tositewg(tosite), tositeId(0
 
     connect( Kirjanpito::db(), SIGNAL(tietokantaVaihtui()), this, SLOT(hylkaa()) );
     ui->tositetyyppiCombo->setModel( Kirjanpito::db()->tositelajiModel());
-    ui->tositetyyppiCombo->setModelColumn( TositeLajiModel::NIMI);
+    ui->tositetyyppiCombo->setModelColumn( TositelajiModel::NIMI);
 }
 
 KirjausWg::~KirjausWg()
@@ -166,7 +166,7 @@ void KirjausWg::tallenna()
     query.bindValue(":kommentti", ui->kommentitEdit->document()->toPlainText());
     if( !ui->tunnisteEdit->text().isEmpty())
         query.bindValue(":tunniste", ui->tunnisteEdit->text());
-    query.bindValue(":tyyppi",  ui->tositetyyppiCombo->currentData(TositeLajiModel::IdRooli).toString());
+    query.bindValue(":tyyppi",  ui->tositetyyppiCombo->currentData(TositelajiModel::IdRooli).toString());
 
     query.exec();
 
@@ -229,7 +229,7 @@ void KirjausWg::lataaTosite(int id)
         ui->kommentitEdit->setPlainText( query.value("kommentti").toString());
         ui->tunnisteEdit->setText( query.value("laji").toString());
 
-        ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( query.value("laji"), TositeLajiModel::IdRooli ) );
+        ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( query.value("laji"), TositelajiModel::IdRooli ) );
 
         tositewg->tyhjenna( query.value("tunniste").toString(), query.value("tiedosto").toString() );
 
@@ -301,7 +301,7 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
 
 void KirjausWg::vaihdaTositeTyyppi()
 {
-    ui->tyyppiLabel->setText( ui->tositetyyppiCombo->currentData(TositeLajiModel::TunnusRooli).toString() );
+    ui->tyyppiLabel->setText( ui->tositetyyppiCombo->currentData(TositelajiModel::TunnusRooli).toString() );
 
 
     // ui->tyyppiLabel->setText( ui->tositetyyppiCombo->currentData().toString() );
@@ -346,7 +346,7 @@ int KirjausWg::seuraavaNumero()
                     " AND laji=\"%3\" ")
                                 .arg(kausi.alkaa().toString(Qt::ISODate))
                                 .arg(kausi.paattyy().toString(Qt::ISODate))
-                                .arg( ui->tositetyyppiCombo->currentData(TositeLajiModel::IdRooli).toInt());
+                                .arg( ui->tositetyyppiCombo->currentData(TositelajiModel::IdRooli).toInt());
     QSqlQuery kysely;
     kysely.exec(kysymys);
     if( kysely.next())
@@ -365,7 +365,7 @@ bool KirjausWg::kelpaakoTunniste()
                                                           .arg(kausi.alkaa().toString(Qt::ISODate))
                                                           .arg(kausi.paattyy().toString(Qt::ISODate))
                                                           .arg(tositeId)
-                                                          .arg(ui->tositetyyppiCombo->currentData(TositeLajiModel::IdRooli).toInt() );
+                                                          .arg(ui->tositetyyppiCombo->currentData(TositelajiModel::IdRooli).toInt() );
     QSqlQuery kysely;
     kysely.exec(kysymys);
     return !kysely.next();

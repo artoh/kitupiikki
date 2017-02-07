@@ -71,7 +71,7 @@ Tili TiliModel::tili(int id) const
 {
     foreach (Tili tili, tilit_)
     {
-        if( tili.id() == numero)
+        if( tili.id() == id)
             return tili;
     }
     return Tili();

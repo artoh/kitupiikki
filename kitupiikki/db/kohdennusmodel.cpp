@@ -17,79 +17,30 @@
 
 #include <QSqlQuery>
 
-#include "projektimodel.h"
+#include "kohdennusmodel.h"
 #include "db/kirjanpito.h"
 #include "db/tilikausi.h"
 
 
-//
-//  Projekti
-//
-
-Projekti::Projekti(const QString &nimi) :
-    id_(0), nimi_(nimi), muokattu_(false)
-{
-
-}
-
-Projekti::Projekti(int id, QString nimi, QDate alkaa, QDate paattyy)
-    : id_(id), nimi_(nimi), alkaa_(alkaa), paattyy_(paattyy)
-{
-
-}
-
-void Projekti::asetaId(int id)
-{
-    id_ = id;
-    muokattu_ = true;
-}
-
-void Projekti::asetaNimi(const QString &nimi)
-{
-    nimi_ = nimi;
-    muokattu_ = true;
-}
-
-void Projekti::asetaAlkaa(const QDate &alkaa)
-{
-    alkaa_ = alkaa;
-    muokattu_ = true;
-}
-
-void Projekti::asetaPaattyy(const QDate &paattyy)
-{
-    paattyy_ = paattyy;
-    muokattu_ = true;
-}
-
-void Projekti::nollaaMuokattu()
-{
-    muokattu_ = false;
-}
-
-//
-//  ProjektiModel
-//
 
 
-
-ProjektiModel::ProjektiModel(QObject *parent) :
+KohdennusModel::KohdennusModel(QObject *parent) :
     QAbstractTableModel(parent)
 {
 
 }
 
-int ProjektiModel::rowCount(const QModelIndex & /* parent */) const
+int KohdennusModel::rowCount(const QModelIndex & /* parent */) const
 {
     return projektit_.count();
 }
 
-int ProjektiModel::columnCount(const QModelIndex & /* parent */) const
+int KohdennusModel::columnCount(const QModelIndex & /* parent */) const
 {
     return 3;
 }
 
-QVariant ProjektiModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant KohdennusModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if( role == Qt::TextAlignmentRole)
         return QVariant( Qt::AlignCenter | Qt::AlignVCenter);
@@ -111,12 +62,12 @@ QVariant ProjektiModel::headerData(int section, Qt::Orientation orientation, int
     return QVariant( section + 1);
 }
 
-QVariant ProjektiModel::data(const QModelIndex &index, int role) const
+QVariant KohdennusModel::data(const QModelIndex &index, int role) const
 {
     if( !index.isValid())
         return QVariant();
 
-    Projekti projekti = projektit_[index.row()];
+    Kohdennus projekti = projektit_[index.row()];
 
     if( role == IdRooli)
         return QVariant( projekti.id() );
@@ -134,12 +85,12 @@ QVariant ProjektiModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-Qt::ItemFlags ProjektiModel::flags(const QModelIndex &index) const
+Qt::ItemFlags KohdennusModel::flags(const QModelIndex &index) const
 {
     return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
 }
 
-bool ProjektiModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool KohdennusModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if( role != Qt::EditRole)
         return false;
@@ -154,34 +105,34 @@ bool ProjektiModel::setData(const QModelIndex &index, const QVariant &value, int
     return true;
 }
 
-QString ProjektiModel::nimi(int id) const
+QString KohdennusModel::nimi(int id) const
 {
     return projekti(id).nimi();
 }
 
-Projekti ProjektiModel::projekti(int id) const
+Kohdennus KohdennusModel::projekti(int id) const
 {
-    foreach (Projekti projekti, projektit_)
+    foreach (Kohdennus projekti, projektit_)
     {
         if( projekti.id() == id)
             return projekti;
     }
-    return Projekti();
+    return Kohdennus();
 }
 
-QList<Projekti> ProjektiModel::projektit() const
+QList<Kohdennus> KohdennusModel::projektit() const
 {
     return projektit_;
 }
 
-void ProjektiModel::lataa()
+void KohdennusModel::lataa()
 {
     beginResetModel();
     projektit_.clear();
     QSqlQuery kysely("select id, nimi, alkaa, loppuu FROM projekti");
     while( kysely.next() )
     {
-        projektit_.append( Projekti( kysely.value(0).toInt(),
+        projektit_.append( Kohdennus( kysely.value(0).toInt(),
                                      kysely.value(1).toString(),
                                      kysely.value(2).toDate(),
                                      kysely.value(3).toDate()));
@@ -189,13 +140,13 @@ void ProjektiModel::lataa()
     endResetModel();
 }
 
-void ProjektiModel::lisaaUusi(const QString nimi)
+void KohdennusModel::lisaaUusi(const QString nimi)
 {
     beginInsertRows(QModelIndex(), projektit_.count(), projektit_.count());
 
     // Oletuksena projekti on nykyisen tilikauden pituinen
     Tilikausi nykyinen = Kirjanpito::db()->tilikausiPaivalle( Kirjanpito::db()->paivamaara() );
-    projektit_.append( Projekti(0, nimi, nykyinen.alkaa(), nykyinen.paattyy()) );
+    projektit_.append( Kohdennus(0, nimi, nykyinen.alkaa(), nykyinen.paattyy()) );
 
     endInsertRows();
 }

@@ -20,39 +20,14 @@
 
 #include <QAbstractTableModel>
 
-/**
- * @brief Tositelaji, joka muodostaa oman numerosarjan
- */
-class TositeLaji
-{
-public:
-    TositeLaji();
-    TositeLaji(int id, QString tunnus, QString nimi);
-
-    int id() const { return id_; }
-    QString tunnus() const { return tunnus_; }
-    QString nimi() const { return nimi_; }
-    bool muokattu() const { return muokattu_; }
-
-    void asetaId(int id);
-    void asetaTunnus(const QString& tunnus);
-    void asetaNimi(const QString& nimi);
-    void nollaaMuokattu();
-
-
-protected:
-    int id_;
-    QString tunnus_;
-    QString nimi_;
-    bool muokattu_;
-};
+#include "tositelaji.h"
 
 
 /**
  * @brief Tositelajien model
  */
 
-class TositeLajiModel : public QAbstractTableModel
+class TositelajiModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
@@ -68,7 +43,7 @@ public:
         NimiRooli = Qt::UserRole + 2
     };
 
-    TositeLajiModel(QObject *parent = 0);
+    TositelajiModel(QObject *parent = 0);
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
@@ -79,7 +54,7 @@ public:
     Qt::ItemFlags flags(const QModelIndex &index) const;
     bool setData(const QModelIndex &index, const QVariant &value, int role);
 
-    TositeLaji tositelaji(int id) const;
+    Tositelaji tositelaji(int id) const;
 
 public slots:
     void lataa();
@@ -87,7 +62,7 @@ public slots:
     void lisaaRivi();
 
 protected:
-    QList<TositeLaji> lajit_;
+    QList<Tositelaji> lajit_;
 };
 
 #endif // TOSITELAJIMODEL_H

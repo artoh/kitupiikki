@@ -38,7 +38,7 @@ Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
             viimetiedostot[split[0]]=split[1];
     }
 
-    tositelajiModel_ = new TositeLajiModel(this);
+    tositelajiModel_ = new TositelajiModel(this);
     connect(this, SIGNAL(tietokantaVaihtui()), tositelajiModel(), SLOT(lataa()));
 
     asetusModel_ = new AsetusModel(&tietokanta, this);

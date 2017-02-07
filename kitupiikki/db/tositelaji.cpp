@@ -15,29 +15,40 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TOSITELAJIT_H
-#define TOSITELAJIT_H
+#include "tositelaji.h"
 
-#include <QWidget>
-
-#include "ui_tositelajit.h"
-// #include "tositelajitmodel.h"
-#include "db/tositelajimodel.h"
-
-class Tositelajit : public QWidget
+Tositelaji::Tositelaji() :
+    id_(0), muokattu_(false)
 {
-    Q_OBJECT
-public:
-    explicit Tositelajit(QWidget *parent = 0);
-    ~Tositelajit();
 
-signals:
+}
 
-public slots:
+Tositelaji::Tositelaji(int id, QString tunnus, QString nimi) :
+    id_(id), tunnus_(tunnus), nimi_(nimi), muokattu_(false)
+{
 
-protected:
-    Ui::Tositelajit *ui;
-    TositelajiModel *model;
-};
+}
 
-#endif // TOSITELAJIT_H
+void Tositelaji::asetaId(int id)
+{
+    id_ = id;
+    muokattu_ = true;
+}
+
+void Tositelaji::asetaTunnus(const QString &tunnus)
+{
+    tunnus_ = tunnus;
+    muokattu_ = true;
+}
+
+void Tositelaji::asetaNimi(const QString &nimi)
+{
+    nimi_ = nimi;
+    muokattu_ = true;
+}
+
+void Tositelaji::nollaaMuokattu()
+{
+    muokattu_ = false;
+}
+

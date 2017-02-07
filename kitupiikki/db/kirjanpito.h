@@ -97,7 +97,7 @@ public:
 
     Tilikausi tilikausiPaivalle(const QDate &paiva) const;
 
-    TositeLajiModel *tositelajiModel() { return tositelajiModel_; }
+    TositelajiModel *tositelajiModel() { return tositelajiModel_; }
     AsetusModel *asetusModel() const { return asetusModel_; }
 
 signals:
@@ -134,7 +134,7 @@ protected:
     QDate harjoitusPvm;
     QDate tilitpaatettupvm;
 
-    TositeLajiModel *tositelajiModel_;
+    TositelajiModel *tositelajiModel_;
     AsetusModel *asetusModel_;
 
 public:

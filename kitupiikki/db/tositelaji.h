@@ -15,29 +15,36 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TOSITELAJIT_H
-#define TOSITELAJIT_H
+#ifndef TOSITELAJI_H
+#define TOSITELAJI_H
 
-#include <QWidget>
+#include <QString>
 
-#include "ui_tositelajit.h"
-// #include "tositelajitmodel.h"
-#include "db/tositelajimodel.h"
-
-class Tositelajit : public QWidget
+/**
+ * @brief Tositelaji, joka muodostaa oman numerosarjan
+ */
+class Tositelaji
 {
-    Q_OBJECT
 public:
-    explicit Tositelajit(QWidget *parent = 0);
-    ~Tositelajit();
+    Tositelaji();
+    Tositelaji(int id, QString tunnus, QString nimi);
 
-signals:
+    int id() const { return id_; }
+    QString tunnus() const { return tunnus_; }
+    QString nimi() const { return nimi_; }
+    bool muokattu() const { return muokattu_; }
 
-public slots:
+    void asetaId(int id);
+    void asetaTunnus(const QString& tunnus);
+    void asetaNimi(const QString& nimi);
+    void nollaaMuokattu();
+
 
 protected:
-    Ui::Tositelajit *ui;
-    TositelajiModel *model;
+    int id_;
+    QString tunnus_;
+    QString nimi_;
+    bool muokattu_;
 };
 
-#endif // TOSITELAJIT_H
+#endif // TOSITELAJI_H
