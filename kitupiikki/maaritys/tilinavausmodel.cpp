@@ -187,7 +187,7 @@ bool TilinavausModel::tallenna()
         kysely.exec();
         qDebug() << kysely.lastQuery() << " " << kysely.lastError().text();
     }
-    Kirjanpito::db()->aseta("tilinavaus","1");   // Tilit merkitään avatuiksi
+    kp()->asetukset()->aseta("tilinavaus","1");   // Tilit merkitään avatuiksi
 
     return true;
 }

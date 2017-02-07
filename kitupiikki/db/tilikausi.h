@@ -20,6 +20,9 @@
 
 #include <QDate>
 
+/**
+ * @brief Yhden tilikauden tiedot
+ */
 class Tilikausi
 {
 public:

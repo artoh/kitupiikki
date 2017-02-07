@@ -71,8 +71,8 @@ void Perusvalinnat::vaihdaLogo()
 
 void Perusvalinnat::tallenna()
 {
-    Kirjanpito::db()->aseta("nimi", ui->organisaatioEdit->text());
-    Kirjanpito::db()->aseta("ytunnus", ui->ytunnusEdit->text());
+    kp()->asetukset()->aseta("nimi", ui->organisaatioEdit->text());
+    kp()->asetukset()->aseta("ytunnus", ui->ytunnusEdit->text());
 
     // Logosta tallennetaan logo64.png ja logo128.png -versiot
     if( !uusilogo.isNull())

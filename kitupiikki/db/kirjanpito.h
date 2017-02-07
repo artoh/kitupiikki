@@ -55,8 +55,15 @@ protected:
 public:
     ~Kirjanpito();
 
+    /**
+     * @brief Kirjanpidon asetuksen palauttaminen
+     *
+     * @deprecated Käytä asetukset()->asetus()
+     *
+     * @param avain
+     * @return Asetuksen arvo
+     */
     QString asetus(const QString& avain) const;
-    void aseta(const QString& avain, const QString& arvo);
 
     /**
      * @brief Hakemisto, jossa kirjanpito (kitupiikki.sqlite)
@@ -90,14 +97,31 @@ public:
      * @return
      */
     QDate tilitpaatetty() const { return asetukset()->pvm("tilitpaatetty"); }
-    QDate viimeinenpaiva() const { return tilikaudet()->kirjanpitoLoppuu(); }
 
     Tilikausi tilikausiPaivalle(const QDate &paiva) const;
 
-
+    /**
+     * @brief Tositelajien model
+     * @return
+     */
     TositelajiModel *tositelajit() { return tositelajiModel_; }
+
+    /**
+     * @brief Asetusten model
+     * @return
+     */
     AsetusModel *asetukset() const { return asetusModel_; }
+
+    /**
+     * @brief Tilien model
+     * @return
+     */
     TiliModel *tilit() const { return tiliModel_; }
+
+    /**
+     * @brief Tilikausien model
+     * @return
+     */
     TilikausiModel *tilikaudet() const { return tilikaudetModel_; }
 
 signals:
@@ -119,8 +143,15 @@ public slots:
      */
     bool lataaUudelleen();
 
+    /**
+     * @brief Asettaa päivämäärän, jota harjoittelutilassa eletään
+     * @param pvm
+     */
     void asetaHarjoitteluPvm(const QDate& pvm);
 
+    /**
+     * @brief Ilmoittaa, että kirjanpitoa on muokattu
+     */
     void muokattu();
 
 protected:
@@ -137,6 +168,9 @@ protected:
 public:
     /**
      * @brief Staattinen funktio, jonka kautta Kirjanpitoon päästään käsiksi
+     *
+     * Lyhyyden vuoksi voi käyttää myös globaalia kp()-funktiota
+     *
      * @return
      */
     static Kirjanpito *db();
@@ -145,7 +179,13 @@ private:
     static Kirjanpito *instanssi__;
 };
 
-
+/**
+ * @brief Globaali funktio kirjanpitoon pääsemiseksi
+ *
+ * Lyhenne funktiolle Kirjanpito::db()
+ *
+ * @return
+ */
 Kirjanpito* kp();
 
 #endif // KIRJANPITO_H

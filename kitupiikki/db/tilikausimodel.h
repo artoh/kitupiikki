@@ -23,7 +23,12 @@
 
 #include "tilikausi.h"
 
-
+/**
+ * @brief Tilikaudet
+ *
+ * Model tilikausien selaamiseen ja muokkaamiseen
+ *
+ */
 class TilikausiModel : public QAbstractTableModel
 {
     Q_OBJECT

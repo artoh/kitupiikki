@@ -20,7 +20,9 @@
 
 #include <QItemDelegate>
 
-
+/**
+ * @brief Delegaatti tilin valitsemiseen täydennyksen avulla
+ */
 class TiliDelegaatti : public QItemDelegate
 {
     Q_OBJECT

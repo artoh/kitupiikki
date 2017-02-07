@@ -113,7 +113,7 @@ void KirjausWg::tyhjenna()
     viennitModel->tyhjaa();
     ui->tabWidget->setCurrentIndex(0);
     // Laittaa samalla päivämäärärajat
-    ui->tositePvmEdit->setDateRange(Kirjanpito::db()->tilitpaatetty().addDays(1), Kirjanpito::db()->viimeinenpaiva());
+    ui->tositePvmEdit->setDateRange(Kirjanpito::db()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu()  );
 
     ui->tositePvmEdit->setFocus();
 
@@ -293,7 +293,7 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
     tositewg->setEnabled(sallitaanko);
 
     if(sallitaanko)
-        ui->tositePvmEdit->setDateRange(Kirjanpito::db()->tilitpaatetty().addDays(1), Kirjanpito::db()->viimeinenpaiva());
+        ui->tositePvmEdit->setDateRange(Kirjanpito::db()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );
     else
         ui->tositePvmEdit->setDateRange( Kirjanpito::db()->tilikaudet()->kirjanpitoAlkaa() , Kirjanpito::db()->tilikaudet()->kirjanpitoLoppuu() );
 
@@ -318,7 +318,7 @@ void KirjausWg::lukitseTilikaudelle(bool lukitaanko)
     }
     else
     {
-        ui->tositePvmEdit->setDateRange(Kirjanpito::db()->tilitpaatetty().addDays(1), Kirjanpito::db()->viimeinenpaiva());
+        ui->tositePvmEdit->setDateRange(Kirjanpito::db()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );
     }
 }
 

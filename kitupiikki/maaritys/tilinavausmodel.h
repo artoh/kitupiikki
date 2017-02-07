@@ -24,6 +24,12 @@
 
 #include "db/kirjanpito.h"
 
+/**
+ * @brief Tilinavaukset
+ *
+ * Tätä modelia käytetään tilinavausten syöttämiseen määrittelynäkymässä
+ *
+ */
 class TilinavausModel : public QAbstractTableModel
 {
     Q_OBJECT

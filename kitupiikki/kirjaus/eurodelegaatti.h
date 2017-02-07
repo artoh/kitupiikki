@@ -20,6 +20,12 @@
 
 #include <QItemDelegate>
 
+/**
+ * @brief Delegaatti rahamäärien näyttämiseen taulukossa
+ *
+ * Rahamäärä on tallennettu sentteinä, ja delegaatti muuntaa euroiksi ja euroista
+ *
+ */
 class EuroDelegaatti : public QItemDelegate
 {
     Q_OBJECT

@@ -54,10 +54,6 @@ QString Kirjanpito::asetus(const QString &avain) const
     return asetukset()->asetus(avain);
 }
 
-void Kirjanpito::aseta(const QString &avain, const QString &arvo)
-{
-    asetukset()->aseta(avain, arvo);
-}
 
 QDir Kirjanpito::hakemisto()
 {

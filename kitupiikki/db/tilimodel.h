@@ -24,7 +24,12 @@
 
 #include "db/tili.h"
 
-
+/**
+ * @brief Tilit
+ *
+ * Tilien tiedot
+ *
+ */
 class TiliModel : public QAbstractTableModel
 {
     Q_OBJECT
