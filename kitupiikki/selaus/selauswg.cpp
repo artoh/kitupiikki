@@ -25,7 +25,7 @@
 #include <QDebug>
 
 SelausWg::SelausWg() :
-    QWidget(),
+    KitupiikkiSivu(),
     ui(new Ui::SelausWg)
 {
     ui->setupUi(this);

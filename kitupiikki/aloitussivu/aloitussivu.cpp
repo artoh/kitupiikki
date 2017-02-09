@@ -18,27 +18,73 @@
 #include <QFile>
 #include <QStringList>
 #include <QSqlQuery>
+
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QPushButton>
+#include <QSettings>
+#include <QFileDialog>
+
+#include <QListWidget>
+
 #include "aloitussivu.h"
 
 #include "sisalto.h"
 
 #include "db/kirjanpito.h"
+#include "uusikp/uusikirjanpito.h"
 
-AloitusSivu::AloitusSivu()
+AloitusSivu::AloitusSivu() :
+    KitupiikkiSivu(0)
 {
+    view = new QWebEngineView();
     sisalto = new Sisalto();
-    setPage(sisalto);
+    view->setPage(sisalto);
+
+
+    QVBoxLayout *sivuleiska = new QVBoxLayout;
+    QPushButton *uusinappi = new QPushButton(QIcon(":/pic/uusitiedosto.png"),"Uusi kirjanpito");
+    QPushButton *avaanappi = new QPushButton(QIcon(":/pic/avaatiedosto.png"),"Avaa kirjanpito");
+    QPushButton *tuonappi = new QPushButton(QIcon(":/pic/tuotiedosto.png"),"Tuo kirjanpito");
+    QPushButton *aboutnappi = new QPushButton(QIcon(":/pic/info.png"),"Tietoja");
+    QPushButton *webnappi = new QPushButton(QIcon(":/pic/kotisivu.png"),"Ohjelman kotisivu");
+
+    viimelista = new QListWidget;
+
+
+    sivuleiska->addWidget(uusinappi);
+    sivuleiska->addWidget(avaanappi);
+    sivuleiska->addWidget(tuonappi);
+
+    sivuleiska->addWidget(viimelista);
+    sivuleiska->addWidget(aboutnappi);
+    sivuleiska->addWidget(webnappi);
+
+    QHBoxLayout *paaleiska = new QHBoxLayout;
+    paaleiska->addWidget( view, 1);
+    paaleiska->addLayout(sivuleiska, 0);
+    setLayout( paaleiska );
+
 
     connect(sisalto, SIGNAL(toiminto(QString)), this, SIGNAL(toiminto(QString)));
     connect(sisalto, SIGNAL(selaa(int)), this, SLOT(selaaTilia(int)));
+
+    connect( uusinappi, SIGNAL(clicked(bool)), this, SLOT(uusiTietokanta()));
+    connect( avaanappi, SIGNAL(clicked(bool)), this, SLOT(avaaTietokanta()));
+    connect( viimelista, SIGNAL(itemActivated(QListWidgetItem*)), this, SLOT(viimeisinTietokanta(QListWidgetItem*)));
+    connect(webnappi, SIGNAL(clicked(bool)), this, SLOT(kotisivulle()));
+
+    lisaaViimetiedostot();
+
 }
 
 void AloitusSivu::lataaAloitussivu()
 {
+    lisaaTxt("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:/aloitus/aloitus.css\"></head><body>");
 
     if( Kirjanpito::db()->asetus("nimi").isEmpty())
     {
-        sivunAloitus();
+
         lisaaTxt("<h1>Tervetuloa!</h1>"
                  "<p>Kitupiikki on suomalainen avoimen lähdekoodin kirjanpito-ohjelmisto. Ohjelmistoa saa käyttää, kopioida ja muokata "
                  "maksutta.</p>"
@@ -50,7 +96,6 @@ void AloitusSivu::lataaAloitussivu()
     }
     else
     {
-        sivunAloitus();
         kpAvattu();
         alatunniste();
         sisalto->valmis( Kirjanpito::db()->hakemisto().absoluteFilePath("index"));
@@ -68,37 +113,38 @@ void AloitusSivu::selaaTilia(int tilinumero)
     emit selaus(tilinumero, tilikausi);
 }
 
+void AloitusSivu::uusiTietokanta()
+{
+    QString uusitiedosto = UusiKirjanpito::aloitaUusiKirjanpito();
+    if( !uusitiedosto.isEmpty())
+        Kirjanpito::db()->avaaTietokanta(uusitiedosto + "/kitupiikki.sqlite");
+}
+
+void AloitusSivu::avaaTietokanta()
+{
+    QString polku = QFileDialog::getOpenFileName(this, "Avaa kirjanpito",
+                                                 QDir::homePath(),"Kirjanpito (kitupiikki.sqlite)");
+    if( !polku.isEmpty())
+        Kirjanpito::db()->avaaTietokanta(polku);
+
+}
+
+void AloitusSivu::viimeisinTietokanta(QListWidgetItem *item)
+{
+    Kirjanpito::db()->avaaTietokanta( item->data(Qt::UserRole).toString());
+}
+
+void AloitusSivu::kotisivulle()
+{
+    sisalto->load(QUrl("http://kitupiikki.wordpress.com"));
+}
+
+
 void AloitusSivu::lisaaTxt(const QString &txt)
 {
     sisalto->lisaaTxt(txt);
 }
 
-void AloitusSivu::sivunAloitus()
-{
-    lisaaTxt("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:/aloitus/aloitus.css\"></head><body>");
-
-    lisaaTxt("<div class=oikea>"
-            "<p class=nappi><a href=ktp:/uusi><img src=qrc:/aloitus/uusinappi.png></a>"
-            "<p class=nappi><a href=ktp:/avaa><img src=qrc:/aloitus/avaanappi.png></a>"
-            "<hr><h3>Viimeiset tiedostot</h3>");
-
-    QStringList viimeiset = Kirjanpito::db()->viimeisetTiedostot();
-
-
-    foreach (QString viimeinen,viimeiset)
-    {
-        QStringList splitti = viimeinen.split(";");
-        QString polku = splitti[0];
-        QString nimi = splitti[1];
-        QString kuvake = QFileInfo(polku).absoluteDir().absoluteFilePath("logo64.png");
-        if( QFile::exists(kuvake))
-            lisaaTxt( QString("<div class=vtiedosto><a href=\"avaa:%1\"><img src=\"%3\">%2</a></div>").arg(polku, nimi, kuvake ) );
-        else
-            lisaaTxt( QString("<div class=vtiedosto><a href=\"avaa:%1\" class=tiedosto>%2</a></div>").arg(polku, nimi) );
-    }
-
-    sisalto->lisaaTxt("</div>");
-}
 
 void AloitusSivu::kpAvattu()
 {
@@ -195,4 +241,33 @@ void AloitusSivu::alatunniste()
     lisaaTxt("<a href=https://artoh.github.io/kitupiikki>artoh.github.io/kitupiikki</a>");
 
     lisaaTxt("</body></html>");
+}
+
+void AloitusSivu::lisaaViimetiedostot()
+{
+    QSettings settings;
+    QStringList lista = settings.value("viimeiset").toStringList();
+
+    viimelista->clear();
+
+    foreach (QString rivi, lista)
+    {
+        QStringList palat = rivi.split(';');
+        QString polku = palat.at(0);
+        QString nimi = palat.at(1);
+        QString kuvake = QFileInfo(polku).absoluteDir().absoluteFilePath("logo64.png");
+
+        if( polku.contains(".sqlite") && QFile::exists(polku))
+        {
+
+            QListWidgetItem *item = new QListWidgetItem;
+            item->setText( nimi );
+            if( QFile::exists(kuvake))
+                item->setIcon( QIcon(kuvake));
+            item->setData(Qt::UserRole, polku);
+            viimelista->addItem(item);
+        }
+    }
+
+
 }

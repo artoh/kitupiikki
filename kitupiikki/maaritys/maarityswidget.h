@@ -20,6 +20,17 @@
 
 #include <QWidget>
 
+/**
+ * @brief Määrityssivujen widgetin kantaluokka
+ *
+ * Määrityssivu luodaan vasta, kun se näytetään.
+ * Sivu alustetaan nollaa()-funktiota kutsuttaessa ja tallennetaan
+ * tallenna()-kutsusta
+ *
+ * onkomuokattu() palauttaa, onko tässä widgetissa tallentamattomia muutoksia.
+ * Jos tallentamattomalta sivulta poistutaan, kysytään ensin varmennus
+ *
+ */
 class MaaritysWidget : public QWidget
 {
     Q_OBJECT
@@ -30,8 +41,20 @@ public:
 signals:
 
 public:
+    /**
+     * @brief Lataa näytettävälle sivulle tallennetut tiedot
+     * @return onnistuiko
+     */
     virtual bool nollaa() = 0;
+    /**
+     * @brief Tallettaa tehdyt asetukset
+     * @return onnistuiko
+     */
     virtual bool tallenna() = 0;
+    /**
+     * @brief Onko sivulla tallentamattomia muokkauksia
+     * @return tosi jos tallentamttomia muutoksia
+     */
     virtual bool onkoMuokattu() { return false; }
 };
 

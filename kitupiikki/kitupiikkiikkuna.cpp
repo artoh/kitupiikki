@@ -39,6 +39,7 @@
 #include "selaus/selauswg.h"
 #include "raportti/raporttisivu.h"
 #include "uusikp/uusikirjanpito.h"
+#include "ohje/ohjesivu.h"
 
 #include "db/kirjanpito.h"
 
@@ -68,6 +69,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent)
     selaussivu = new SelausWg();
     maarityssivu = new MaaritysSivu();
     raporttisivu = new RaporttiSivu();
+    ohjesivu = new OhjeSivu();
 
 
     pino = new QStackedWidget;
@@ -76,6 +78,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent)
     pino->addWidget( selaussivu );
     pino->addWidget( raporttisivu );
     pino->addWidget( maarityssivu);
+    pino->addWidget( ohjesivu );
     setCentralWidget(pino);
 
 
@@ -115,8 +118,7 @@ void KitupiikkiIkkuna::valitseSivu(int mikasivu, bool paluu)
     }
     else if( mikasivu == OHJESIVU)
     {
-        aloitussivu->lataaOhje();
-        pino->setCurrentWidget( aloitussivu);
+        pino->setCurrentWidget( ohjesivu);
     }
     else if( mikasivu == KIRJAUSSIVU)
     {

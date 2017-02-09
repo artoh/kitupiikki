@@ -12,6 +12,11 @@
         <file>uusinappi.png</file>
         <file>avaanappi.png</file>
         <file>kommentti.png</file>
+        <file>avaatiedosto.png</file>
+        <file>uusitiedosto.png</file>
+        <file>tuotiedosto.png</file>
+        <file>kotisivu.png</file>
+        <file>info.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

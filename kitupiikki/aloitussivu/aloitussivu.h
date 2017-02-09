@@ -19,11 +19,13 @@
 #define ALOITUSSIVU_H
 
 #include <QWebEngineView>
-
+#include <QListWidget>
 
 #include "db/tilikausi.h"
+#include "kitupiikkisivu.h"
 
 class Sisalto;
+
 
 
 /**
@@ -33,7 +35,7 @@ class Sisalto;
  * sekä ohjelman omat ohjeet.
  *
  */
-class AloitusSivu : public QWebEngineView
+class AloitusSivu : public KitupiikkiSivu
 {
     Q_OBJECT
 
@@ -58,6 +60,11 @@ public slots:
      */
     void selaaTilia(int tilinumero);
 
+    void uusiTietokanta();
+    void avaaTietokanta();
+    void viimeisinTietokanta(QListWidgetItem* item);
+    void kotisivulle();
+
 signals:
     /**
      * @brief Ilmoittaa että käyttäjä on valinnut aloitussivulta toiminnon tai tiedoston avaaamisen
@@ -69,13 +76,17 @@ signals:
 
 protected:
     void lisaaTxt(const QString& txt);
-    void sivunAloitus();
     void kpAvattu();
     void saldot();
     void alatunniste();
 
+    void lisaaViimetiedostot();
+
+    QWebEngineView *view;
     Sisalto *sisalto;
     Tilikausi tilikausi;
+
+    QListWidget *viimelista;
 };
 
 #endif // ALOITUSSIVU_H

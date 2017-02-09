@@ -19,20 +19,32 @@
 #define MAARITYSSIVU_H
 
 #include <QWidget>
+#include <QIcon>
 
 #include "maarityswidget.h"
+#include "kitupiikkisivu.h"
 
 class QStackedWidget;
 class QListWidget;
 class QVBoxLayout;
+class QListWidgetItem;
 
 /**
- * @brief Määritykset sisältävä QWidget
+ * @brief Määrityssivun sisältävä QWidget
  */
-class MaaritysSivu : public QWidget
+class MaaritysSivu : public KitupiikkiSivu
 {
     Q_OBJECT
 public:
+
+    enum Sivut
+    {
+        PERUSVALINNAT,
+        TILINAVAUS,
+        TOSITELAJIT
+    };
+
+
     MaaritysSivu();
 
 signals:
@@ -45,11 +57,17 @@ public slots:
 
     void aktivoiSivu(int sivu);
 
+    void valitseSivu( QListWidgetItem *item);
+
+protected:
+    void lisaaSivu(const QString& otsikko, Sivut sivu, const QIcon& kuvake = QIcon());
+
 protected:
     QListWidget *lista;
     QStackedWidget *pino;
 
     MaaritysWidget *nykyinen;
+    QListWidgetItem *nykyItem;
     QVBoxLayout *sivuleiska;
 
 };

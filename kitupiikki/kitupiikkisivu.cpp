@@ -15,32 +15,9 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef KIRJAUSSIVU_H
-#define KIRJAUSSIVU_H
-
-#include <QWidget>
-
 #include "kitupiikkisivu.h"
 
-class KirjausWg;
-class TositeWg;
-
-class KirjausSivu : public KitupiikkiSivu
+KitupiikkiSivu::KitupiikkiSivu(QWidget *parent) : QWidget(parent)
 {
-    Q_OBJECT
-public:
-    KirjausSivu();
-    ~KirjausSivu();
 
-signals:
-
-public slots:
-    void naytaTosite(int tositeId);
-    void tyhjenna();
-
-protected:
-    KirjausWg *kirjauswg;
-    TositeWg *tositewg;
-};
-
-#endif // KIRJAUSSIVU_H
+}

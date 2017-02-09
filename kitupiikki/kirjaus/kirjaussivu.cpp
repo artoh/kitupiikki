@@ -24,7 +24,7 @@
 #include "kirjauswg.h"
 #include "tositewg.h"
 
-KirjausSivu::KirjausSivu() : QWidget()
+KirjausSivu::KirjausSivu() : KitupiikkiSivu()
 {
     tositewg = new TositeWg();
     kirjauswg = new KirjausWg(tositewg);

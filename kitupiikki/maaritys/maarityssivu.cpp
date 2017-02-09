@@ -32,28 +32,16 @@
 #include <QDebug>
 
 MaaritysSivu::MaaritysSivu() :
-    QWidget(0), nykyinen(0)
+    KitupiikkiSivu(0), nykyinen(0), nykyItem(0)
 {
-    /*
-    pino = new QStackedWidget;
-
-    pino->addWidget( new Perusvalinnat );
-    pino->addWidget( new Tilinavaus );
-    pino->addWidget( new Tositelajit);
-    */
 
     lista = new QListWidget;
-    lista->addItem("Perusvalinnat");
-    lista->addItem("Tilinavaus");
-    lista->addItem("Tositelajit");
-    lista->addItem("Kustannuspaikat");
-    lista->addItem("Projektit");
-    lista->addItem("Tilikaudet");
-    lista->addItem("Arvonlisävero");
-    lista->addItem("Raporttipohjat");
 
-    // connect(lista, SIGNAL(currentRowChanged(int)), pino, SLOT(setCurrentIndex(int)));
-    connect( lista, SIGNAL(currentRowChanged(int)), this, SLOT(aktivoiSivu(int)));
+    lisaaSivu("Perusvalinnat", PERUSVALINNAT);
+    lisaaSivu("Tilinavaus", TILINAVAUS);
+    lisaaSivu("Tositelajit", TOSITELAJIT);
+
+    connect( lista, SIGNAL(itemActivated(QListWidgetItem*)), this, SLOT(valitseSivu(QListWidgetItem*)));
 
     QHBoxLayout *leiska = new QHBoxLayout;
     leiska->addWidget(lista,0);
@@ -74,6 +62,8 @@ MaaritysSivu::MaaritysSivu() :
 
     connect( perunappi, SIGNAL(clicked(bool)), this, SLOT(peru()));
     connect( tallennanappi, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
+
+
 
 }
 
@@ -122,4 +112,53 @@ void MaaritysSivu::aktivoiSivu(int sivu)
         sivuleiska->insertWidget(0, nykyinen );
         nykyinen->nollaa();
     }
+}
+
+void MaaritysSivu::valitseSivu(QListWidgetItem *item)
+{
+    if( nykyinen)
+    {
+        if( nykyinen->onkoMuokattu() )
+        {
+            // Nykyistä on muokattu eikä tallennettu
+            if( QMessageBox::question(this, tr("Kitupiikki"), tr("Asetuksia on muutettu. Poistutko sivulta tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
+            {
+                lista->setCurrentItem( nykyItem );
+                return;
+            }
+        }
+
+        sivuleiska->removeWidget(nykyinen);
+        delete nykyinen;
+        nykyinen = 0;
+    }
+
+    int sivu = item->data(Qt::UserRole).toInt();
+
+
+    if( sivu == PERUSVALINNAT)
+        nykyinen = new Perusvalinnat;
+    else if( sivu == TILINAVAUS)
+        nykyinen = new Tilinavaus;
+    else if( sivu == TOSITELAJIT)
+        nykyinen = new Tositelajit;
+
+    nykyItem = item;
+
+    if( nykyinen )
+    {
+        sivuleiska->insertWidget(0, nykyinen );
+        nykyinen->nollaa();
+    }
+
+    item->setSelected(true);
+}
+
+void MaaritysSivu::lisaaSivu(const QString &otsikko, MaaritysSivu::Sivut sivu, const QIcon &kuvake)
+{
+    QListWidgetItem *item = new QListWidgetItem();
+    item->setText( otsikko );
+    item->setIcon(kuvake);
+    item->setData( Qt::UserRole, QVariant(sivu));
+    lista->addItem( item);
 }

@@ -15,32 +15,17 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef KIRJAUSSIVU_H
-#define KIRJAUSSIVU_H
+#include "ohjesivu.h"
 
-#include <QWidget>
+#include <QWebEngineView>
+#include <QHBoxLayout>
 
-#include "kitupiikkisivu.h"
-
-class KirjausWg;
-class TositeWg;
-
-class KirjausSivu : public KitupiikkiSivu
+OhjeSivu::OhjeSivu(QWidget *parent) : KitupiikkiSivu(parent)
 {
-    Q_OBJECT
-public:
-    KirjausSivu();
-    ~KirjausSivu();
+    QWebEngineView *view = new QWebEngineView;
+    QHBoxLayout *leiska = new QHBoxLayout;
+    leiska->addWidget(view);
+    setLayout(leiska);
 
-signals:
-
-public slots:
-    void naytaTosite(int tositeId);
-    void tyhjenna();
-
-protected:
-    KirjausWg *kirjauswg;
-    TositeWg *tositewg;
-};
-
-#endif // KIRJAUSSIVU_H
+    view->load(QUrl("qrc:/ohje/index.html"));
+}

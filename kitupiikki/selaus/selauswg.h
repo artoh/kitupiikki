@@ -23,10 +23,12 @@
 #include "ui_selauswg.h"
 #include "db/tilikausi.h"
 
+#include "kitupiikkisivu.h"
+
 class SelausModel;
 class QSortFilterProxyModel;
 
-class SelausWg : public QWidget
+class SelausWg : public KitupiikkiSivu
 {
     Q_OBJECT
 

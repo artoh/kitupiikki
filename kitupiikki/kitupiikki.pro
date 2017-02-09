@@ -48,7 +48,9 @@ SOURCES += main.cpp \
     db/kohdennus.cpp \
     db/tositelaji.cpp \
     db/tilikausimodel.cpp \
-    maaritys/maarityswidget.cpp
+    maaritys/maarityswidget.cpp \
+    kitupiikkisivu.cpp \
+    ohje/ohjesivu.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -88,13 +90,16 @@ HEADERS += \
     db/kohdennus.h \
     db/tositelaji.h \
     db/tilikausimodel.h \
-    maaritys/maarityswidget.h
+    maaritys/maarityswidget.h \
+    kitupiikkisivu.h \
+    ohje/ohjesivu.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
     pic/pic.qrc \
     uusikp/sql.qrc \
-    aloitussivu/qrc/aloitus.qrc
+    aloitussivu/qrc/aloitus.qrc \
+    ohje/ohje.qrc
 
 FORMS += \
     uusikp/intro.ui \

@@ -31,6 +31,8 @@ class KirjausSivu;
 class SelausWg;
 class RaporttiSivu;
 class MaaritysSivu;
+class OhjeSivu;
+
 class QDateEdit;
 class QDockWidget;
 
@@ -95,6 +97,8 @@ protected:
     SelausWg *selaussivu;
     RaporttiSivu *raporttisivu;
     MaaritysSivu *maarityssivu;
+    OhjeSivu *ohjesivu;
+
     QStack<int> edellisetIndeksit;
 
 protected:
