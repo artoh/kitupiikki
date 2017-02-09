@@ -168,7 +168,7 @@ void AloitusSivu::saldot()
 
     QSqlQuery kysely;
 
-    kysely.exec(QString("select tili, nimi, sum(debetsnt), sum(kreditsnt) from vientivw where tyyppi like \"AR%\" and pvm <= \"%1\" group by tili")
+    kysely.exec(QString("select nro, nimi, sum(debetsnt), sum(kreditsnt) from vientivw where tyyppi like \"AR%\" and pvm <= \"%1\" group by tili")
                 .arg(tilikausi.paattyy().toString(Qt::ISODate)));
 
     lisaaTxt("<h3>Rahavarat</h3><table>");
@@ -185,7 +185,7 @@ void AloitusSivu::saldot()
     lisaaTxt("</table>");
 
     // Sitten tulot
-    kysely.exec(QString("select tili, nimi, sum(debetsnt), sum(kreditsnt) from vientivw where tyyppi like \"T%\" AND pvm BETWEEN \"%1\" AND \"%2\" group by tili")
+    kysely.exec(QString("select nro, nimi, sum(debetsnt), sum(kreditsnt) from vientivw where tyyppi like \"T%\" AND pvm BETWEEN \"%1\" AND \"%2\" group by tili")
                 .arg(tilikausi.alkaa().toString(Qt::ISODate)  )
                 .arg(tilikausi.paattyy().toString(Qt::ISODate)));
 
@@ -205,7 +205,7 @@ void AloitusSivu::saldot()
 
 
     // Lopuksi menot
-    kysely.exec(QString("select tili, nimi, sum(debetsnt), sum(kreditsnt) from vientivw where tyyppi like \"M%\" AND pvm BETWEEN \"%1\" AND \"%2\" group by tili")
+    kysely.exec(QString("select nro, nimi, sum(debetsnt), sum(kreditsnt) from vientivw where tyyppi like \"M%\" AND pvm BETWEEN \"%1\" AND \"%2\" group by tili")
                 .arg(tilikausi.alkaa().toString(Qt::ISODate)  )
                 .arg(tilikausi.paattyy().toString(Qt::ISODate)));
 
