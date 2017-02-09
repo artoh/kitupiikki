@@ -18,6 +18,10 @@
 #include <QListWidget>
 #include <QStackedWidget>
 #include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QPushButton>
+
+#include <QMessageBox>
 
 #include "maarityssivu.h"
 
@@ -25,14 +29,18 @@
 #include "tilinavaus.h"
 #include "tositelajit.h"
 
+#include <QDebug>
+
 MaaritysSivu::MaaritysSivu() :
-    QWidget(0)
+    QWidget(0), nykyinen(0)
 {
+    /*
     pino = new QStackedWidget;
 
     pino->addWidget( new Perusvalinnat );
     pino->addWidget( new Tilinavaus );
     pino->addWidget( new Tositelajit);
+    */
 
     lista = new QListWidget;
     lista->addItem("Perusvalinnat");
@@ -44,17 +52,74 @@ MaaritysSivu::MaaritysSivu() :
     lista->addItem("Arvonlisävero");
     lista->addItem("Raporttipohjat");
 
-    connect(lista, SIGNAL(currentRowChanged(int)), pino, SLOT(setCurrentIndex(int)));
+    // connect(lista, SIGNAL(currentRowChanged(int)), pino, SLOT(setCurrentIndex(int)));
+    connect( lista, SIGNAL(currentRowChanged(int)), this, SLOT(aktivoiSivu(int)));
 
     QHBoxLayout *leiska = new QHBoxLayout;
     leiska->addWidget(lista,0);
-    leiska->addWidget(pino,1);
+
+    sivuleiska = new QVBoxLayout;
+    leiska->addLayout(sivuleiska, 1);
+
+    QHBoxLayout *nappiLeiska = new QHBoxLayout;
+    nappiLeiska->addStretch();
+    QPushButton *perunappi = new QPushButton(tr("Peru"));
+    QPushButton *tallennanappi = new QPushButton( tr("Tallenna"));
+    nappiLeiska->addWidget(perunappi);
+    nappiLeiska->addWidget(tallennanappi);
+
+    sivuleiska->addLayout(nappiLeiska);
 
     setLayout(leiska);
+
+    connect( perunappi, SIGNAL(clicked(bool)), this, SLOT(peru()));
+    connect( tallennanappi, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
 
 }
 
 void MaaritysSivu::nollaa()
 {
     emit nollaaKaikki();
+}
+
+void MaaritysSivu::peru()
+{
+    if( nykyinen )
+        nykyinen->nollaa();
+}
+
+void MaaritysSivu::tallenna()
+{
+    if( nykyinen )
+        nykyinen->tallenna();
+}
+
+void MaaritysSivu::aktivoiSivu(int sivu)
+{
+
+    if( nykyinen)
+    {
+        if( nykyinen->onkoMuokattu() )
+        {
+            if( QMessageBox::question(this, tr("Kitupiikki"), tr("Asetuksia on muutettu. Poistutko sivulta tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
+                return;
+        }
+
+        sivuleiska->removeWidget(nykyinen);
+        delete nykyinen;
+        nykyinen = 0;
+    }
+
+    if( sivu == 0)
+        nykyinen = new Perusvalinnat;
+    else if( sivu == 1)
+        nykyinen = new Tilinavaus;
+    else if( sivu == 2)
+        nykyinen = new Tositelajit;
+
+    if( nykyinen )
+    {
+        sivuleiska->insertWidget(0, nykyinen );
+        nykyinen->nollaa();
+    }
 }

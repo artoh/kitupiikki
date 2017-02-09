@@ -47,7 +47,7 @@ void PaivakirjaRaportti::tulosta(QPrinter *printer)
     QPainter painter(printer);
 
     QSqlQuery kysely;
-    QString kysymys = QString("SELECT pvm, tili, debetsnt, kreditsnt, selite, tunniste, nimi, tyyppi, tositelaji from vientivw "
+    QString kysymys = QString("SELECT pvm, nro, debetsnt, kreditsnt, selite, tunniste, nimi, tyyppi, tositelaji from vientivw "
                               "WHERE pvm BETWEEN \"%1\" AND \"%2\" ORDER BY pvm")
                               .arg( ui->alkupvm->date().toString(Qt::ISODate) )
                               .arg( ui->loppupvm->date().toString(Qt::ISODate));
@@ -125,7 +125,7 @@ void PaivakirjaRaportti::tulosta(QPrinter *printer)
 
         painter.drawText( QRect(0,0,pvmleveys,rivinkorkeus), Qt::AlignLeft, kysely.value("pvm").toDate().toString(Qt::SystemLocaleShortDate)  );
         painter.drawText( QRect( pvmleveys, 0, tositeleveys, rivinkorkeus ), Qt::AlignLeft, kysely.value("tositelaji").toString() + kysely.value("tunniste").toString() );
-        painter.drawText( QRect( pvmleveys + tositeleveys, 0, tilileveys, rivinkorkeus), Qt::AlignLeft, tr("%1 %2").arg(kysely.value("tili").toString()).arg(kysely.value("nimi").toString()));
+        painter.drawText( QRect( pvmleveys + tositeleveys, 0, tilileveys, rivinkorkeus), Qt::AlignLeft, tr("%1 %2").arg(kysely.value("nro").toString()).arg(kysely.value("nimi").toString()));
         painter.drawText( seliterect, Qt::TextWordWrap, kysely.value("selite").toString());
         if( kysely.value("debetsnt").toInt() )
             painter.drawText( QRect( sivunleveys - 2 * euroleveys, 0, euroleveys, rivinkorkeus), Qt::AlignRight, QString("%L1").arg( kysely.value("debetsnt").toDouble() / 100.0 ,0,'f',2 ) );

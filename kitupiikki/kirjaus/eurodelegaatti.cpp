@@ -24,7 +24,7 @@ EuroDelegaatti::EuroDelegaatti()
 
 }
 
-QWidget *EuroDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
+QWidget *EuroDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem & /* option */, const QModelIndex & /* index */) const
 {
     QDoubleSpinBox *sbox = new QDoubleSpinBox(parent);
     sbox->setSuffix("€");

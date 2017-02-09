@@ -94,6 +94,7 @@ CREATE VIEW vientivw AS
            vienti.tosite,
            tositelaji.tunnus as tositelaji,
            tosite.tunniste,
+           tili.nro,
            tili.nimi,
            tili.tyyppi
       FROM vienti,

@@ -19,7 +19,7 @@
 #include "tilinavausmodel.h"
 #include "kirjaus/eurodelegaatti.h"
 
-Tilinavaus::Tilinavaus(QWidget *parent) : QWidget(parent)
+Tilinavaus::Tilinavaus(QWidget *parent) : MaaritysWidget(parent)
 {
     ui = new Ui::Tilinavaus;
     ui->setupUi(this);
@@ -29,10 +29,10 @@ Tilinavaus::Tilinavaus(QWidget *parent) : QWidget(parent)
 
     ui->tiliView->setItemDelegateForColumn( TilinavausModel::SALDO, new EuroDelegaatti);
 
+    ui->tiliView->resizeColumnsToContents();
+    tsekkaaMuokkaus();
+
     connect(model, SIGNAL(infoteksti(QString)), this, SLOT(naytaInfo(QString)));
-    connect(Kirjanpito::db(), SIGNAL(tietokantaVaihtui()), ui->tiliView, SLOT(resizeColumnsToContents()));
-    connect(Kirjanpito::db(), SIGNAL(tietokantaVaihtui()), this, SLOT(tsekkaaMuokkaus()));
-    connect(ui->tallennaNappi, SIGNAL(clicked(bool)), model, SLOT(tallenna()));
 }
 
 Tilinavaus::~Tilinavaus()
@@ -47,6 +47,17 @@ void Tilinavaus::naytaInfo(QString info)
 
 void Tilinavaus::tsekkaaMuokkaus()
 {
-    ui->tallennaNappi->setEnabled( model->voikoMuokata());
     ui->tiliView->setEnabled(model->voikoMuokata());
+}
+
+bool Tilinavaus::nollaa()
+{
+    model->lataa();
+    return true;
+}
+
+bool Tilinavaus::tallenna()
+{
+    model->tallenna();
+    return true;
 }

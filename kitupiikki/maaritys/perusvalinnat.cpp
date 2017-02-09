@@ -27,15 +27,13 @@
 
 
 Perusvalinnat::Perusvalinnat() :
-    QWidget(),
+    MaaritysWidget(),
     ui(new Ui::Perusvalinnat)
 {
     ui->setupUi(this);
 
     connect(ui->vaihdaLogoNappi, SIGNAL(clicked(bool)), this, SLOT(vaihdaLogo()));
-    connect(ui->nollaaNappi, SIGNAL(clicked(bool)), this, SLOT(nollaa()));
-    connect(ui->tallennaNappi, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
-    connect( Kirjanpito::db(), SIGNAL(tietokantaVaihtui()), this, SLOT(nollaa()));
+
 }
 
 Perusvalinnat::~Perusvalinnat()
@@ -43,7 +41,7 @@ Perusvalinnat::~Perusvalinnat()
     delete ui;
 }
 
-void Perusvalinnat::nollaa()
+bool Perusvalinnat::nollaa()
 {
     ui->organisaatioEdit->setText( Kirjanpito::db()->asetus("nimi") );
     ui->ytunnusEdit->setText( Kirjanpito::db()->asetus("ytunnus"));
@@ -56,7 +54,7 @@ void Perusvalinnat::nollaa()
         ui->logoLabel->setPixmap( QPixmap( Kirjanpito::db()->hakemisto().absoluteFilePath("logo64.png") ));
     else
         ui->logoLabel->clear();
-
+    return true;
 }
 
 void Perusvalinnat::vaihdaLogo()
@@ -69,7 +67,14 @@ void Perusvalinnat::vaihdaLogo()
     }
 }
 
-void Perusvalinnat::tallenna()
+bool Perusvalinnat::onkoMuokattu()
+{
+    return  ui->organisaatioEdit->text() != kp()->asetus("nimi")  ||
+            ui->ytunnusEdit->text() != kp()->asetus("ytunnus") ||
+            !uusilogo.isNull();
+}
+
+bool Perusvalinnat::tallenna()
 {
     kp()->asetukset()->aseta("nimi", ui->organisaatioEdit->text());
     kp()->asetukset()->aseta("ytunnus", ui->ytunnusEdit->text());
@@ -89,5 +94,5 @@ void Perusvalinnat::tallenna()
         uusilogo.scaled(64, 64, Qt::KeepAspectRatio).save( Kirjanpito::db()->hakemisto().absoluteFilePath("logo64.png")  );
         uusilogo.scaled(128, 128, Qt::KeepAspectRatio).save( Kirjanpito::db()->hakemisto().absoluteFilePath("logo128.png")  );
     }
-
+    return true;
 }

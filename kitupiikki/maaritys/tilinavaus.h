@@ -23,7 +23,9 @@
 #include "ui_tilinavaus.h"
 #include "tilinavausmodel.h"
 
-class Tilinavaus : public QWidget
+#include "maarityswidget.h"
+
+class Tilinavaus : public MaaritysWidget
 {
     Q_OBJECT
 public:
@@ -35,6 +37,10 @@ signals:
 public slots:
     void naytaInfo(QString info);
     void tsekkaaMuokkaus();
+
+public:
+    bool nollaa();
+    bool tallenna();
 
 private:
     Ui::Tilinavaus *ui;

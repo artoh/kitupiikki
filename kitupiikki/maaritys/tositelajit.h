@@ -24,7 +24,9 @@
 // #include "tositelajitmodel.h"
 #include "db/tositelajimodel.h"
 
-class Tositelajit : public QWidget
+#include "maarityswidget.h"
+
+class Tositelajit : public MaaritysWidget
 {
     Q_OBJECT
 public:
@@ -34,6 +36,10 @@ public:
 signals:
 
 public slots:
+
+public:
+    bool tallenna();
+    bool nollaa();
 
 protected:
     Ui::Tositelajit *ui;

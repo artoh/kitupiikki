@@ -20,8 +20,11 @@
 
 #include <QWidget>
 
+#include "maarityswidget.h"
+
 class QStackedWidget;
 class QListWidget;
+class QVBoxLayout;
 
 /**
  * @brief Määritykset sisältävä QWidget
@@ -37,9 +40,18 @@ signals:
 public slots:
     void nollaa();
 
+    void peru();
+    void tallenna();
+
+    void aktivoiSivu(int sivu);
+
 protected:
     QListWidget *lista;
     QStackedWidget *pino;
+
+    MaaritysWidget *nykyinen;
+    QVBoxLayout *sivuleiska;
+
 };
 
 #endif // MAARITYSSIVU_H

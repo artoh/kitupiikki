@@ -19,7 +19,7 @@
 #include "db/kirjanpito.h"
 
 
-Tositelajit::Tositelajit(QWidget *parent) : QWidget(parent)
+Tositelajit::Tositelajit(QWidget *parent) : MaaritysWidget(parent)
 {
     ui = new Ui::Tositelajit;
     ui->setupUi(this);
@@ -27,12 +27,22 @@ Tositelajit::Tositelajit(QWidget *parent) : QWidget(parent)
     model = Kirjanpito::db()->tositelajit();
     ui->view->setModel(model);
 
-    connect(ui->tallennaNappi, SIGNAL(clicked(bool)), model, SLOT(tallenna()));
-    connect(ui->peruNappi, SIGNAL(clicked(bool)), model, SLOT(lataa()));
     connect(ui->uusiNappi, SIGNAL(clicked(bool)), model, SLOT(lisaaRivi()));
 }
 
 Tositelajit::~Tositelajit()
 {
     delete ui;
+}
+
+bool Tositelajit::tallenna()
+{
+    model->tallenna();
+    return true;
+}
+
+bool Tositelajit::nollaa()
+{
+    model->lataa();
+    return true;
 }

@@ -15,37 +15,24 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PERUSVALINNAT_H
-#define PERUSVALINNAT_H
+#ifndef MAARITYSWIDGET_H
+#define MAARITYSWIDGET_H
 
 #include <QWidget>
-#include <QImage>
 
-#include "maarityswidget.h"
-
-namespace Ui {
-class Perusvalinnat;
-}
-
-class Perusvalinnat : public MaaritysWidget
+class MaaritysWidget : public QWidget
 {
     Q_OBJECT
+public:
+    MaaritysWidget(QWidget *parent = 0);
+    ~MaaritysWidget();
+
+signals:
 
 public:
-    Perusvalinnat();
-    ~Perusvalinnat();
-
-public:
-    bool nollaa();
-    bool tallenna();
-    bool onkoMuokattu();
-
-public slots:
-    void vaihdaLogo();
-
-private:
-    Ui::Perusvalinnat *ui;
-    QImage uusilogo;
+    virtual bool nollaa() = 0;
+    virtual bool tallenna() = 0;
+    virtual bool onkoMuokattu() { return false; }
 };
 
-#endif // PERUSVALINNAT_H
+#endif // MAARITYSWIDGET_H

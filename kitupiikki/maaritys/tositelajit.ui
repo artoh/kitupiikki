@@ -50,20 +50,6 @@
        </property>
       </spacer>
      </item>
-     <item>
-      <widget class="QPushButton" name="peruNappi">
-       <property name="text">
-        <string>Peruuta</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="tallennaNappi">
-       <property name="text">
-        <string>Tallenna</string>
-       </property>
-      </widget>
-     </item>
     </layout>
    </item>
   </layout>
