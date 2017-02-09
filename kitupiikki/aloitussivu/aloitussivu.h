@@ -64,7 +64,6 @@ protected:
     void lisaaTxt(const QString& txt);
     void kpAvattu();
     void saldot();
-    void alatunniste();
 
     void lisaaViimetiedostot();
 

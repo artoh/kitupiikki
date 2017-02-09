@@ -91,14 +91,12 @@ void AloitusSivu::siirrySivulle()
                  "maksutta.</p>"
                  "<p>Tutustu lukemalla ohjeita, tai aloita heti kokeilemalla <a href=ktp:uusi>uuden kirjanpidon luomista</a>. Ohjelmisto neuvoo sekä "
                  "uuden kirjanpidon aloittamisessa että myöhemmin matkan varrella.<p>");
-        alatunniste();
         sisalto->valmis("qrc:/aloitus/");
 
     }
     else
     {
         kpAvattu();
-        alatunniste();
         sisalto->valmis( Kirjanpito::db()->hakemisto().absoluteFilePath("index"));
     }
 }
@@ -229,14 +227,6 @@ void AloitusSivu::saldot()
 
 }
 
-void AloitusSivu::alatunniste()
-{
-    lisaaTxt("<hr><p>Kitupiikki &copy; Arto Hyvättinen 2017<br>Ohjelmaa saa käyttää, levittää ja muokata maksutta GNU General Public License 3:n ehtojen mukaisesti. "
-             "Ohjelmalle ei anneta takuuta, eikä ohjelman aiheuttamista vahingoista oteta vastuuta. Ohjelman lähdekoodin löydät kotisivulta:<br>");
-    lisaaTxt("<a href=https://artoh.github.io/kitupiikki>artoh.github.io/kitupiikki</a>");
-
-    lisaaTxt("</body></html>");
-}
 
 void AloitusSivu::lisaaViimetiedostot()
 {

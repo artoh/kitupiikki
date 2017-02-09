@@ -94,5 +94,6 @@ bool Perusvalinnat::tallenna()
         uusilogo.scaled(64, 64, Qt::KeepAspectRatio).save( Kirjanpito::db()->hakemisto().absoluteFilePath("logo64.png")  );
         uusilogo.scaled(128, 128, Qt::KeepAspectRatio).save( Kirjanpito::db()->hakemisto().absoluteFilePath("logo128.png")  );
     }
+    uusilogo = QImage();
     return true;
 }
