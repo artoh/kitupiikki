@@ -129,7 +129,7 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int /
     {
         Tili uusitili = Kirjanpito::db()->tilit()->tiliNumerolla( value.toInt());
         viennit[index.row()].tili = uusitili;
-        qDebug() << uusitili.nimi() << "(" << uusitili.tyyppi() << ")";
+        qDebug() << uusitili.nimi() << "(" << uusitili.tyyppi() << ")" << value.toInt();
         // Jos kirjataan tulotilille, niin siirrytään syöttämään kredit-summaa
         if( uusitili.tyyppi().startsWith('T'))
             emit siirryRuutuun(index.sibling(index.row(), KREDIT));
