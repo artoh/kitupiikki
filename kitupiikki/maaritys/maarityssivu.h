@@ -47,16 +47,23 @@ public:
 
     MaaritysSivu();
 
-signals:
-    void nollaaKaikki();
-public slots:
-    void nollaa();
+    void siirrySivulle();
+    bool poistuSivulta();
 
+public slots:
+    /**
+     * @brief Peru-napilla nollataan lomake
+     */
     void peru();
+    /**
+     * @brief Tallenna-napilla tallennetaan
+     */
     void tallenna();
 
-    void aktivoiSivu(int sivu);
-
+    /**
+     * @brief Valitaan näytettävä sivu
+     * @param item Sivut-enum
+     */
     void valitseSivu( QListWidgetItem *item);
 
 protected:

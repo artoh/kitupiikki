@@ -20,6 +20,7 @@
 
 #include <QMainWindow>
 #include <QMap>
+#include <QVector>
 #include <QStack>
 
 class QStackedWidget;
@@ -37,6 +38,7 @@ class QDateEdit;
 class QDockWidget;
 
 #include "db/tilikausi.h"
+#include "kitupiikkisivu.h"
 
 /**
  * @brief Ohjelmiston pääikkuna
@@ -62,12 +64,6 @@ public slots:
      */
     void valitseSivu(int mikasivu, bool paluu = false);
 
-    /**
-     * @brief Tehdään toiminto. Tätä käytetään aloitussivun nappien yhdistämisessä.
-     * @param toiminto Toiminnon nimi
-     */
-    void toiminto(const QString& toiminto);
-
     void kirjanpitoLadattu();
 
     void palaaSivulta();
@@ -88,7 +84,9 @@ protected:
     QStackedWidget *pino;
     QToolBar *toolbar;
     QActionGroup *aktioryhma;
-    QAction *sivuaktiot[7];
+
+    QAction* sivuaktiot[OHJESIVU + 2];
+    KitupiikkiSivu* sivut[OHJESIVU + 2];
 
     QDockWidget *harjoitusDock;
 
@@ -99,13 +97,16 @@ protected:
     MaaritysSivu *maarityssivu;
     OhjeSivu *ohjesivu;
 
+    KitupiikkiSivu *nykysivu;
+
     QStack<int> edellisetIndeksit;
 
+
+
 protected:
-    QAction *luosivuAktio(const QString& nimi, const QString& kuva,
-                          const QString& vihje, const QString& pikanappain,
-                          Sivu sivut);
-    void luoPalkkiJaSivuAktiot();
+    QAction *lisaaSivu(const QString& nimi, const QString& kuva,
+                          const QString& vihje, const QString& pikanappain, Sivu sivutunnus, KitupiikkiSivu *sivu);
+    void lisaaSivut();
 
     void luoHarjoitusDock();
 

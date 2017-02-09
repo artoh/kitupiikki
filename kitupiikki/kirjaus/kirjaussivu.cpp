@@ -44,12 +44,13 @@ KirjausSivu::~KirjausSivu()
     delete kirjauswg;
 }
 
+void KirjausSivu::siirrySivulle()
+{
+    kirjauswg->tyhjenna();
+}
+
 void KirjausSivu::naytaTosite(int tositeId)
 {
     kirjauswg->lataaTosite(tositeId);
 }
 
-void KirjausSivu::tyhjenna()
-{
-    kirjauswg->tyhjenna();
-}

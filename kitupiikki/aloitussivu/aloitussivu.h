@@ -43,16 +43,8 @@ public:
     AloitusSivu();
 
 public slots:
-    /**
-     * @brief Näyttää aloitussivun
-     * @param Kirjanpito Kirjanpidon tietokantaolio
-     */
-    void lataaAloitussivu();
 
-    /**
-     * @brief Näyttää ohjeiden pääsivun
-     */
-    void lataaOhje();
+    void siirrySivulle();
 
     /**
      * @brief Sisältö kutsuu tätä, kun pyydetään selausta selaa:-protokollalla
@@ -66,12 +58,6 @@ public slots:
     void kotisivulle();
 
 signals:
-    /**
-     * @brief Ilmoittaa että käyttäjä on valinnut aloitussivulta toiminnon tai tiedoston avaaamisen
-     * @param toiminto toiminto (avaa,uusi) tai avattavan tiedoston koko polku
-     */
-    void toiminto(const QString toiminto);
-
     void selaus(int tilinumero, Tilikausi tilikausi);
 
 protected:

@@ -24,7 +24,9 @@
 #include "ui_raportti.h"
 #include "raportti.h"
 
-class RaporttiSivu : public QWidget
+#include "kitupiikkisivu.h"
+
+class RaporttiSivu : public KitupiikkiSivu
 {
     Q_OBJECT
 public:
@@ -32,13 +34,15 @@ public:
 
     explicit RaporttiSivu(QWidget *parent = 0);
 
+    void siirrySivulle();
+
 signals:
 
 public slots:
     void raporttiValittu(QListWidgetItem *item);
     void tulosta();
     void esikatsele();
-    void tyhjenna();
+
 
 protected:
     void lisaaRaportti(Raportti *raportti);

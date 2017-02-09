@@ -37,9 +37,9 @@ MaaritysSivu::MaaritysSivu() :
 
     lista = new QListWidget;
 
-    lisaaSivu("Perusvalinnat", PERUSVALINNAT);
-    lisaaSivu("Tilinavaus", TILINAVAUS);
-    lisaaSivu("Tositelajit", TOSITELAJIT);
+    lisaaSivu("Perusvalinnat", PERUSVALINNAT, QIcon(":/pic/asetusloota.png"));
+    lisaaSivu("Tilinavaus", TILINAVAUS, QIcon(":/pic/rahaa.png"));
+    lisaaSivu("Tositelajit", TOSITELAJIT, QIcon(":/pic/kansiot.png"));
 
     connect( lista, SIGNAL(itemActivated(QListWidgetItem*)), this, SLOT(valitseSivu(QListWidgetItem*)));
 
@@ -67,10 +67,26 @@ MaaritysSivu::MaaritysSivu() :
 
 }
 
-void MaaritysSivu::nollaa()
+void MaaritysSivu::siirrySivulle()
 {
-    emit nollaaKaikki();
+    valitseSivu( lista->item(0) );
 }
+
+bool MaaritysSivu::poistuSivulta()
+{
+    if( nykyinen && nykyinen->onkoMuokattu())
+    {
+        // Nykyistä on muokattu eikä tallennettu
+        if( QMessageBox::question(this, tr("Kitupiikki"), tr("Asetuksia on muutettu. Poistutko sivulta tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
+        {
+            return false;
+        }
+        delete nykyinen;
+        nykyinen = 0;
+    }
+    return true;
+}
+
 
 void MaaritysSivu::peru()
 {
@@ -84,35 +100,6 @@ void MaaritysSivu::tallenna()
         nykyinen->tallenna();
 }
 
-void MaaritysSivu::aktivoiSivu(int sivu)
-{
-
-    if( nykyinen)
-    {
-        if( nykyinen->onkoMuokattu() )
-        {
-            if( QMessageBox::question(this, tr("Kitupiikki"), tr("Asetuksia on muutettu. Poistutko sivulta tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
-                return;
-        }
-
-        sivuleiska->removeWidget(nykyinen);
-        delete nykyinen;
-        nykyinen = 0;
-    }
-
-    if( sivu == 0)
-        nykyinen = new Perusvalinnat;
-    else if( sivu == 1)
-        nykyinen = new Tilinavaus;
-    else if( sivu == 2)
-        nykyinen = new Tositelajit;
-
-    if( nykyinen )
-    {
-        sivuleiska->insertWidget(0, nykyinen );
-        nykyinen->nollaa();
-    }
-}
 
 void MaaritysSivu::valitseSivu(QListWidgetItem *item)
 {

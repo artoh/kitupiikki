@@ -29,6 +29,17 @@ class KitupiikkiSivu : public QWidget
 public:
     explicit KitupiikkiSivu(QWidget *parent = 0);
 
+    /**
+     * @brief Kutsutaan, kun ollaan siirtymässä toiselle sivulle
+     * @return true, jos sivulta saa poistus
+     */
+    virtual bool poistuSivulta() { return true; }
+
+    /**
+     * @brief Kutsutaan, kun tälle sivulle ollaan siirtymässä
+     */
+    virtual void siirrySivulle() {;}
+
 signals:
 
 public slots:

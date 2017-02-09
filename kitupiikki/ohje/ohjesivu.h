@@ -20,6 +20,9 @@
 
 #include "kitupiikkisivu.h"
 
+/**
+ * @brief Ohjeet näyttävä sivu
+ */
 class OhjeSivu : public KitupiikkiSivu
 {
     Q_OBJECT

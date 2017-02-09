@@ -33,7 +33,7 @@
 #include "paivakirjaraportti.h"
 #include "db/kirjanpito.h"
 
-RaporttiSivu::RaporttiSivu(QWidget *parent) : QWidget(parent),
+RaporttiSivu::RaporttiSivu(QWidget *parent) : KitupiikkiSivu(parent),
     nykyraportti(0), printer(QPrinter::HighResolution)
 {
     ui = new Ui::RaporttiWg();
@@ -41,11 +41,20 @@ RaporttiSivu::RaporttiSivu(QWidget *parent) : QWidget(parent),
 
     lisaaRaportti(new PaivakirjaRaportti);
 
-    connect( Kirjanpito::db(), SIGNAL(tietokantaVaihtui()), this, SLOT(tyhjenna()));
+    ui->lista->setCurrentRow(0);
+
     connect( ui->lista, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), this, SLOT(raporttiValittu(QListWidgetItem*)));
     connect( ui->tulostaNappi, SIGNAL(clicked(bool)), this, SLOT(tulosta()));
     connect( ui->esikatseleNappi, SIGNAL(clicked(bool)), this, SLOT(esikatsele()));
 
+}
+
+void RaporttiSivu::siirrySivulle()
+{
+    if( !nykyraportti)
+        raporttiValittu( ui->lista->item(0));
+    else
+        nykyraportti->alustaLomake();
 }
 
 void RaporttiSivu::raporttiValittu(QListWidgetItem *item)
@@ -84,12 +93,6 @@ void RaporttiSivu::esikatsele()
     nykyraportti->tulosta(&printer);
     QDesktopServices::openUrl( QUrl(file->fileName()) );
 
-}
-
-void RaporttiSivu::tyhjenna()
-{
-    if( nykyraportti )
-        nykyraportti->alustaLomake();
 }
 
 

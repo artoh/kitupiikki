@@ -17,6 +17,9 @@
         <file>tuotiedosto.png</file>
         <file>kotisivu.png</file>
         <file>info.png</file>
+        <file>asetusloota.png</file>
+        <file>rahaa.png</file>
+        <file>kansiot.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

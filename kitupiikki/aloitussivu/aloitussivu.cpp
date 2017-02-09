@@ -66,7 +66,6 @@ AloitusSivu::AloitusSivu() :
     setLayout( paaleiska );
 
 
-    connect(sisalto, SIGNAL(toiminto(QString)), this, SIGNAL(toiminto(QString)));
     connect(sisalto, SIGNAL(selaa(int)), this, SLOT(selaaTilia(int)));
 
     connect( uusinappi, SIGNAL(clicked(bool)), this, SLOT(uusiTietokanta()));
@@ -78,8 +77,10 @@ AloitusSivu::AloitusSivu() :
 
 }
 
-void AloitusSivu::lataaAloitussivu()
+
+void AloitusSivu::siirrySivulle()
 {
+    // Lataa aloitussivun
     lisaaTxt("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:/aloitus/aloitus.css\"></head><body>");
 
     if( Kirjanpito::db()->asetus("nimi").isEmpty())
@@ -100,12 +101,6 @@ void AloitusSivu::lataaAloitussivu()
         alatunniste();
         sisalto->valmis( Kirjanpito::db()->hakemisto().absoluteFilePath("index"));
     }
-
-}
-
-void AloitusSivu::lataaOhje()
-{
-    sisalto->load(QUrl("qrc:/aloitus/ohje.html"));
 }
 
 void AloitusSivu::selaaTilia(int tilinumero)

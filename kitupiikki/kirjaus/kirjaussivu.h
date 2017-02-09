@@ -32,11 +32,12 @@ public:
     KirjausSivu();
     ~KirjausSivu();
 
+    void siirrySivulle();
+
 signals:
 
 public slots:
     void naytaTosite(int tositeId);
-    void tyhjenna();
 
 protected:
     KirjausWg *kirjauswg;

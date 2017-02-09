@@ -44,15 +44,14 @@
 #include "db/kirjanpito.h"
 
 
-KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent)
+KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
+    nykysivu(0)
 {
 
     connect( Kirjanpito::db(), SIGNAL(tietokantaVaihtui()), this, SLOT(kirjanpitoLadattu()));
     connect(Kirjanpito::db(), SIGNAL(palaaEdelliselleSivulle()), this, SLOT(palaaSivulta()));
 
     setWindowIcon(QIcon(":/pic/Possu64.png"));
-    luoPalkkiJaSivuAktiot();
-    luoHarjoitusDock();
 
     // Nämä valikot ovat tässä lähinnä käyttöliittymätestin kannalta ;)
     // menuBar()->addMenu("Kirjanpito");
@@ -62,8 +61,6 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent)
 
 
     aloitussivu = new AloitusSivu();
-    aloitussivu->lataaAloitussivu();
-    connect( aloitussivu, SIGNAL(toiminto(QString)), this, SLOT(toiminto(QString)));
 
     kirjaussivu = new KirjausSivu();
     selaussivu = new SelausWg();
@@ -71,15 +68,11 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent)
     raporttisivu = new RaporttiSivu();
     ohjesivu = new OhjeSivu();
 
-
     pino = new QStackedWidget;
-    pino->addWidget( aloitussivu);
-    pino->addWidget( kirjaussivu );
-    pino->addWidget( selaussivu );
-    pino->addWidget( raporttisivu );
-    pino->addWidget( maarityssivu);
-    pino->addWidget( ohjesivu );
     setCentralWidget(pino);
+
+    lisaaSivut();
+    luoHarjoitusDock();
 
 
     // Himmennetään ne valinnat, jotka mahdollisia vain kirjanpidon ollessa auki
@@ -109,59 +102,26 @@ void KitupiikkiIkkuna::valitseSivu(int mikasivu, bool paluu)
 {
     if( !paluu )
         edellisetIndeksit.push( pino->currentIndex() );
+
+    if( nykysivu && !nykysivu->poistuSivulta())
+    {
+        // Sivulta ei saa poistua!
+        // Palautetaan valinta nykyiselle sivulle
+        sivuaktiot[ pino->currentIndex() ]->setChecked(true);
+        return;
+    }
+
+    nykysivu = sivut[mikasivu];
     sivuaktiot[mikasivu]->setChecked(true);
 
-    if( mikasivu == ALOITUSSIVU)
-    {
-        aloitussivu->lataaAloitussivu();
-        pino->setCurrentWidget( aloitussivu );
-    }
-    else if( mikasivu == OHJESIVU)
-    {
-        pino->setCurrentWidget( ohjesivu);
-    }
-    else if( mikasivu == KIRJAUSSIVU)
-    {
-        kirjaussivu->tyhjenna();
-        pino->setCurrentWidget( kirjaussivu);
-    }
-    else if( mikasivu == MAARITYSSIVU)
-    {
-        maarityssivu->nollaa();
-        pino->setCurrentWidget( maarityssivu);
-    }
-    else if( mikasivu == SELAUSSIVU )
-    {
-        pino->setCurrentWidget( selaussivu);
-    }
-    else if( mikasivu == TULOSTESIVU )
-    {
-        pino->setCurrentWidget( raporttisivu );
-    }
+    // Laittaa sivun valmiiksi
+    nykysivu->siirrySivulle();
+
+    // Sivu esille
+    pino->setCurrentWidget( nykysivu);
 
 }
 
-void KitupiikkiIkkuna::toiminto(const QString &toiminto)
-{
-    if( toiminto == "uusi")
-    {
-        QString uusitiedosto = UusiKirjanpito::aloitaUusiKirjanpito();
-        if( !uusitiedosto.isEmpty())
-            Kirjanpito::db()->avaaTietokanta(uusitiedosto + "/kitupiikki.sqlite");
-    }
-    else if( toiminto == "avaa")
-    {
-        QString polku = QFileDialog::getOpenFileName(this, "Avaa kirjanpito",
-                                                     QDir::homePath(),"Kirjanpito (kitupiikki.sqlite)");
-        if( !polku.isEmpty())
-            Kirjanpito::db()->avaaTietokanta(polku);
-    }
-    else if( toiminto.startsWith("/"))
-    {
-        // Avataan yksi viimeisimmistä tietokannoista
-        Kirjanpito::db()->avaaTietokanta(toiminto);
-    }
-}
 
 void KitupiikkiIkkuna::kirjanpitoLadattu()
 {
@@ -196,8 +156,6 @@ void KitupiikkiIkkuna::selaaTilia(int tilinumero, Tilikausi tilikausi)
     selaussivu->selaa(tilinumero, tilikausi);
 }
 
-
-
 void KitupiikkiIkkuna::aktivoiSivu(QAction *aktio)
 {
     int sivu = aktio->data().toInt();
@@ -225,7 +183,8 @@ void KitupiikkiIkkuna::mousePressEvent(QMouseEvent *event)
         palaaSivulta();
 }
 
-QAction *KitupiikkiIkkuna::luosivuAktio(const QString &nimi, const QString &kuva, const QString &vihje, const QString &pikanappain, Sivu sivu)
+QAction *KitupiikkiIkkuna::lisaaSivu(const QString &nimi, const QString &kuva, const QString &vihje, const QString &pikanappain, Sivu sivutunnus,
+                                     KitupiikkiSivu *sivu)
 {
     QAction *uusi = new QAction( nimi, aktioryhma);
     uusi->setIcon( QIcon(kuva));
@@ -233,14 +192,18 @@ QAction *KitupiikkiIkkuna::luosivuAktio(const QString &nimi, const QString &kuva
     uusi->setShortcut(QKeySequence(pikanappain));
     uusi->setCheckable(true);
     uusi->setActionGroup(aktioryhma);
-    uusi->setData(sivu);
+    uusi->setData(sivutunnus);
     toolbar->addAction(uusi);
-    sivuaktiot[sivu] = uusi;
+
+    sivuaktiot[sivutunnus] = uusi;
+    sivut[sivutunnus] = sivu;
+
+    pino->addWidget(sivu);
 
     return uusi;
 }
 
-void KitupiikkiIkkuna::luoPalkkiJaSivuAktiot()
+void KitupiikkiIkkuna::lisaaSivut()
 {
     // Luodaan vasemman reunan työkalupalkki
     toolbar = new QToolBar(this);
@@ -250,12 +213,12 @@ void KitupiikkiIkkuna::luoPalkkiJaSivuAktiot()
     toolbar->setMovable(false);
 
     aktioryhma = new QActionGroup(this);
-    luosivuAktio("Aloita",":/pic/Possu64.png","Erilaisia ohjattuja toimia","Home", ALOITUSSIVU);
-    luosivuAktio("Uusi\ntosite",":/pic/uusitosite.png","Kirjaa uusi tosite","Ctrl+N", KIRJAUSSIVU);
-    luosivuAktio("Selaa",":/pic/Paivakirja64.png","Selaa kirjauksia aikajärjestyksessä","F3", SELAUSSIVU);
-    luosivuAktio("Tulosteet",":/pic/print.png","Tulosta erilaisia raportteja","Ctrl+P", TULOSTESIVU);
-    luosivuAktio("Määritykset",":/pic/ratas.png","Kirjanpitoon liittyvät määritykset","F6", MAARITYSSIVU);
-    luosivuAktio("Ohje",":/pic/ohje.png","Kitupiikin ohjeet","F1", OHJESIVU);
+    lisaaSivu("Aloita",":/pic/Possu64.png","Erilaisia ohjattuja toimia","Home", ALOITUSSIVU, aloitussivu);
+    lisaaSivu("Uusi\ntosite",":/pic/uusitosite.png","Kirjaa uusi tosite","Ctrl+N", KIRJAUSSIVU, kirjaussivu);
+    lisaaSivu("Selaa",":/pic/Paivakirja64.png","Selaa kirjauksia aikajärjestyksessä","F3", SELAUSSIVU, selaussivu);
+    lisaaSivu("Tulosteet",":/pic/print.png","Tulosta erilaisia raportteja","Ctrl+P", TULOSTESIVU, raporttisivu);
+    lisaaSivu("Määritykset",":/pic/ratas.png","Kirjanpitoon liittyvät määritykset","F6", MAARITYSSIVU, maarityssivu);
+    lisaaSivu("Ohje",":/pic/ohje.png","Kitupiikin ohjeet","F1", OHJESIVU, ohjesivu);
     aktioryhma->actions().first()->setChecked(true);
 
     connect(aktioryhma, SIGNAL(triggered(QAction*)), this, SLOT(aktivoiSivu(QAction*)));
