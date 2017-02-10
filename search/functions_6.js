@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['onkoharjoitus',['onkoHarjoitus',['../class_kirjanpito.html#a77ea14a9ea4ba9ebac41c67c3de2a1d7',1,'Kirjanpito']]],
-  ['onkotulostettava',['onkoTulostettava',['../class_raportti.html#a4d63dbf8728a23e7e2edc1b2f7148189',1,'Raportti']]],
-  ['onkovalidi',['onkoValidi',['../class_tili.html#a54e11082d73f3be05f08b65e3ef89605',1,'Tili']]]
+  ['nollaa',['nollaa',['../class_maaritys_widget.html#aa262490980caa58e8dd9c0ce69a9e486',1,'MaaritysWidget::nollaa()'],['../class_perusvalinnat.html#a2d8dbaea11622b6f980db31244d82df9',1,'Perusvalinnat::nollaa()'],['../class_tilinavaus.html#a69610eef0a043ea0f06a6fb8351d3246',1,'Tilinavaus::nollaa()'],['../class_tositelajit.html#a9a30870f0415e1a8223d5c94824fc087',1,'Tositelajit::nollaa()']]]
 ];

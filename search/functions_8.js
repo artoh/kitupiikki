@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['raporttinimi',['raporttinimi',['../class_paivakirja_raportti.html#a830d3a8e586e10d050f7a6f7a520d8eb',1,'PaivakirjaRaportti::raporttinimi()'],['../class_raportti.html#ab5f6d5fd7fcbef60c2451a6956582958',1,'Raportti::raporttinimi()']]]
+  ['paivamaara',['paivamaara',['../class_kirjanpito.html#ad08cb28a082135e64d480fea08b95b1b',1,'Kirjanpito']]],
+  ['peru',['peru',['../class_maaritys_sivu.html#a24869064f5eda80d6a4d0d662e2d56ee',1,'MaaritysSivu']]],
+  ['poistusivulta',['poistuSivulta',['../class_kitupiikki_sivu.html#af9b2b7fbae59b2269a1b7c16ac6c4d92',1,'KitupiikkiSivu::poistuSivulta()'],['../class_maaritys_sivu.html#a7816bf3e18324c5171c5473f5996d3a4',1,'MaaritysSivu::poistuSivulta()']]]
 ];

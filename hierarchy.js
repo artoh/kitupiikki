@@ -20,7 +20,8 @@ var hierarchy =
     ] ],
     [ "QObject", null, [
       [ "AsetusModel", "class_asetus_model.html", null ],
-      [ "Kirjanpito", "class_kirjanpito.html", null ]
+      [ "Kirjanpito", "class_kirjanpito.html", null ],
+      [ "RaportinKirjoittaja", "class_raportin_kirjoittaja.html", null ]
     ] ],
     [ "QStackedWidget", null, [
       [ "TositeWg", "class_tosite_wg.html", null ]
@@ -28,21 +29,24 @@ var hierarchy =
     [ "QWebEnginePage", null, [
       [ "Sisalto", "class_sisalto.html", null ]
     ] ],
-    [ "QWebEngineView", null, [
-      [ "AloitusSivu", "class_aloitus_sivu.html", null ]
-    ] ],
     [ "QWidget", null, [
-      [ "KirjausSivu", "class_kirjaus_sivu.html", null ],
       [ "KirjausWg", "class_kirjaus_wg.html", null ],
-      [ "MaaritysSivu", "class_maaritys_sivu.html", null ],
-      [ "Perusvalinnat", "class_perusvalinnat.html", null ],
+      [ "KitupiikkiSivu", "class_kitupiikki_sivu.html", [
+        [ "AloitusSivu", "class_aloitus_sivu.html", null ],
+        [ "KirjausSivu", "class_kirjaus_sivu.html", null ],
+        [ "MaaritysSivu", "class_maaritys_sivu.html", null ],
+        [ "OhjeSivu", "class_ohje_sivu.html", null ],
+        [ "RaporttiSivu", "class_raportti_sivu.html", null ],
+        [ "SelausWg", "class_selaus_wg.html", null ]
+      ] ],
+      [ "MaaritysWidget", "class_maaritys_widget.html", [
+        [ "Perusvalinnat", "class_perusvalinnat.html", null ],
+        [ "Tilinavaus", "class_tilinavaus.html", null ],
+        [ "Tositelajit", "class_tositelajit.html", null ]
+      ] ],
       [ "Raportti", "class_raportti.html", [
         [ "PaivakirjaRaportti", "class_paivakirja_raportti.html", null ]
-      ] ],
-      [ "RaporttiSivu", "class_raportti_sivu.html", null ],
-      [ "SelausWg", "class_selaus_wg.html", null ],
-      [ "Tilinavaus", "class_tilinavaus.html", null ],
-      [ "Tositelajit", "class_tositelajit.html", null ]
+      ] ]
     ] ],
     [ "QWizard", null, [
       [ "UusiKirjanpito", "class_uusi_kirjanpito.html", null ]
@@ -55,6 +59,9 @@ var hierarchy =
       [ "TilikarttaSivu", "class_tilikartta_sivu.html", null ],
       [ "TilikausiSivu", "class_tilikausi_sivu.html", null ]
     ] ],
+    [ "RaporttiRivi", "class_raportti_rivi.html", null ],
+    [ "RaporttiRiviSarake", "struct_raportti_rivi_sarake.html", null ],
+    [ "RaporttiSarake", "struct_raportti_sarake.html", null ],
     [ "SelausRivi", "struct_selaus_rivi.html", null ],
     [ "Tili", "class_tili.html", null ],
     [ "Tilikausi", "class_tilikausi.html", null ],

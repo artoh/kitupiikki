@@ -1,2 +1,4 @@
 <map id="MaaritysSivu" name="MaaritysSivu">
+<area shape="rect" id="node2" href="$class_kitupiikki_sivu.html" title="Kantaluokka pääikkunassa näytettäville sivuille. " alt="" coords="5,81,107,108"/>
+<area shape="rect" id="node4" href="$class_maaritys_widget.html" title="Määrityssivujen widgetin kantaluokka. " alt="" coords="131,81,245,108"/>
 </map>

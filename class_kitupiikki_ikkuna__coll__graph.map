@@ -1,13 +1,16 @@
 <map id="KitupiikkiIkkuna" name="KitupiikkiIkkuna">
-<area shape="rect" id="node3" href="$class_kirjaus_sivu.html" title="KirjausSivu" alt="" coords="497,272,585,299"/>
-<area shape="rect" id="node7" href="$class_kirjaus_wg.html" title="KirjausWg" alt="" coords="600,171,683,197"/>
-<area shape="rect" id="node10" href="$class_selaus_wg.html" title="SelausWg" alt="" coords="248,221,331,248"/>
-<area shape="rect" id="node16" href="$class_maaritys_sivu.html" title="Määritykset sisältävä QWidget. " alt="" coords="337,221,436,248"/>
-<area shape="rect" id="node17" href="$class_raportti_sivu.html" title="RaporttiSivu" alt="" coords="137,272,231,299"/>
-<area shape="rect" id="node18" href="$class_raportti.html" title="The Raportin kantaluokka. " alt="" coords="111,171,179,197"/>
-<area shape="rect" id="node5" href="$class_tosite_wg.html" title="TositeWg" alt="" coords="523,81,602,108"/>
-<area shape="rect" id="node8" href="$class_vienti_model.html" title="VientiModel" alt="" coords="720,272,811,299"/>
-<area shape="rect" id="node11" href="$class_aloitus_sivu.html" title="Webipohjaiset aloitus&#45; ja ohjesivut. " alt="" coords="1004,272,1092,299"/>
-<area shape="rect" id="node13" href="$class_sisalto.html" title="Webipohjaisen sivun sisällön käsittely. " alt="" coords="1097,171,1159,197"/>
-<area shape="rect" id="node15" href="$class_tilikausi.html" title="Yhden tilikauden tiedot. " alt="" coords="1183,171,1254,197"/>
+<area shape="rect" id="node3" href="$class_ohje_sivu.html" title="Ohjeet näyttävä sivu. " alt="" coords="696,381,771,408"/>
+<area shape="rect" id="node4" href="$class_kitupiikki_sivu.html" title="Kantaluokka pääikkunassa näytettäville sivuille. " alt="" coords="430,337,531,364"/>
+<area shape="rect" id="node6" href="$class_kirjaus_sivu.html" title="KirjausSivu" alt="" coords="689,188,777,215"/>
+<area shape="rect" id="node12" href="$class_selaus_wg.html" title="SelausWg" alt="" coords="692,432,775,459"/>
+<area shape="rect" id="node13" href="$class_aloitus_sivu.html" title="Webipohjaiset aloitus&#45; ja ohjesivut. " alt="" coords="689,533,777,560"/>
+<area shape="rect" id="node17" href="$class_maaritys_sivu.html" title="Määrityssivun sisältävä QWidget. " alt="" coords="684,253,783,280"/>
+<area shape="rect" id="node19" href="$class_raportti_sivu.html" title="RaporttiSivu" alt="" coords="686,483,781,509"/>
+<area shape="rect" id="node9" href="$class_kirjaus_wg.html" title="KirjausWg" alt="" coords="439,123,522,149"/>
+<area shape="rect" id="node18" href="$class_maaritys_widget.html" title="Määrityssivujen widgetin kantaluokka. " alt="" coords="424,269,537,296"/>
+<area shape="rect" id="node20" href="$class_raportti.html" title="The Raportin kantaluokka. " alt="" coords="447,427,515,453"/>
+<area shape="rect" id="node7" href="$class_tosite_wg.html" title="TositeWg" alt="" coords="201,151,280,177"/>
+<area shape="rect" id="node10" href="$class_vienti_model.html" title="VientiModel" alt="" coords="688,63,779,89"/>
+<area shape="rect" id="node14" href="$class_sisalto.html" title="Webipohjaisen sivun sisällön käsittely. " alt="" coords="449,584,512,611"/>
+<area shape="rect" id="node16" href="$class_tilikausi.html" title="Yhden tilikauden tiedot. " alt="" coords="445,533,516,560"/>
 </map>

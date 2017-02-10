@@ -1,4 +1,5 @@
 <map id="AloitusSivu" name="AloitusSivu">
-<area shape="rect" id="node3" href="$class_sisalto.html" title="Webipohjaisen sivun sisällön käsittely. " alt="" coords="158,81,221,108"/>
-<area shape="rect" id="node5" href="$class_tilikausi.html" title="Yhden tilikauden tiedot. " alt="" coords="245,81,315,108"/>
+<area shape="rect" id="node2" href="$class_kitupiikki_sivu.html" title="Kantaluokka pääikkunassa näytettäville sivuille. " alt="" coords="5,81,107,108"/>
+<area shape="rect" id="node4" href="$class_sisalto.html" title="Webipohjaisen sivun sisällön käsittely. " alt="" coords="137,81,199,108"/>
+<area shape="rect" id="node6" href="$class_tilikausi.html" title="Yhden tilikauden tiedot. " alt="" coords="223,81,294,108"/>
 </map>

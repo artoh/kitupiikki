@@ -107,8 +107,10 @@ $(document).ready(function(){initNavTree('class_maaritys_sivu.html','');});
 
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Julkiset tyypit</a> &#124;
 <a href="#pub-slots">Julkiset vastineet</a> &#124;
-<a href="#signals">Signaalit</a> &#124;
+<a href="#pub-methods">Julkiset jäsenfunktiot</a> &#124;
+<a href="#pro-methods">Suojatut jäsenfunktiot</a> &#124;
 <a href="#pro-attribs">Suojellut attribuutit</a> &#124;
 <a href="class_maaritys_sivu-members.html">Lista kaikista jäsenistä</a>  </div>
   <div class="headertitle">
@@ -116,7 +118,7 @@ $(document).ready(function(){initNavTree('class_maaritys_sivu.html','');});
 </div><!--header-->
 <div class="contents">
 
-<p>Määritykset sisältävä QWidget.  
+<p>Määrityssivun sisältävä QWidget.  
  <a href="class_maaritys_sivu.html#details">Lisää...</a></p>
 
 <p><code>#include &lt;<a class="el" href="maarityssivu_8h_source.html">maarityssivu.h</a>&gt;</code></p>
@@ -124,24 +126,61 @@ $(document).ready(function(){initNavTree('class_maaritys_sivu.html','');});
 Luokan MaaritysSivu luokkakaavio</div>
 <div class="dyncontent">
 <div class="center"><img src="class_maaritys_sivu__inherit__graph.png" border="0" usemap="#_maaritys_sivu_inherit__map" alt="Inheritance graph"/></div>
+<map name="_maaritys_sivu_inherit__map" id="_maaritys_sivu_inherit__map">
+<area shape="rect" id="node2" href="class_kitupiikki_sivu.html" title="Kantaluokka pääikkunassa näytettäville sivuille. " alt="" coords="5,80,107,107"/>
+</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">selite</a>]</span></center></div>
 <div class="dynheader">
 Yhteistyökaavio luokalle MaaritysSivu:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_maaritys_sivu__coll__graph.png" border="0" usemap="#_maaritys_sivu_coll__map" alt="Collaboration graph"/></div>
+<map name="_maaritys_sivu_coll__map" id="_maaritys_sivu_coll__map">
+<area shape="rect" id="node2" href="class_kitupiikki_sivu.html" title="Kantaluokka pääikkunassa näytettäville sivuille. " alt="" coords="5,81,107,108"/>
+<area shape="rect" id="node4" href="class_maaritys_widget.html" title="Määrityssivujen widgetin kantaluokka. " alt="" coords="131,81,245,108"/>
+</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">selite</a>]</span></center></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Julkiset tyypit</h2></td></tr>
+<tr class="memitem:abf5fd8dc071dc65003918bb6f3629883"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abf5fd8dc071dc65003918bb6f3629883"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>Sivut</b> { <b>PERUSVALINNAT</b>, 
+<b>TILINAVAUS</b>, 
+<b>TOSITELAJIT</b>
+ }</td></tr>
+<tr class="separator:abf5fd8dc071dc65003918bb6f3629883"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-slots"></a>
 Julkiset vastineet</h2></td></tr>
-<tr class="memitem:af6786024c91a7eee2a9b05b30f59b52e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af6786024c91a7eee2a9b05b30f59b52e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>nollaa</b> ()</td></tr>
-<tr class="separator:af6786024c91a7eee2a9b05b30f59b52e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24869064f5eda80d6a4d0d662e2d56ee"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a24869064f5eda80d6a4d0d662e2d56ee"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_maaritys_sivu.html#a24869064f5eda80d6a4d0d662e2d56ee">peru</a> ()</td></tr>
+<tr class="memdesc:a24869064f5eda80d6a4d0d662e2d56ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Peru-napilla nollataan lomake. <br /></td></tr>
+<tr class="separator:a24869064f5eda80d6a4d0d662e2d56ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3207e557c36eca5a515cb07075d3986e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3207e557c36eca5a515cb07075d3986e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_maaritys_sivu.html#a3207e557c36eca5a515cb07075d3986e">tallenna</a> ()</td></tr>
+<tr class="memdesc:a3207e557c36eca5a515cb07075d3986e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tallenna-napilla tallennetaan. <br /></td></tr>
+<tr class="separator:a3207e557c36eca5a515cb07075d3986e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b609cb2f9d0f946438c8ff668a54528"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_maaritys_sivu.html#a5b609cb2f9d0f946438c8ff668a54528">valitseSivu</a> (QListWidgetItem *item)</td></tr>
+<tr class="memdesc:a5b609cb2f9d0f946438c8ff668a54528"><td class="mdescLeft">&#160;</td><td class="mdescRight">Valitaan näytettävä sivu.  <a href="#a5b609cb2f9d0f946438c8ff668a54528">Lisää...</a><br /></td></tr>
+<tr class="separator:a5b609cb2f9d0f946438c8ff668a54528"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="signals"></a>
-Signaalit</h2></td></tr>
-<tr class="memitem:acbf59187767970b64c059f98c24cec39"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acbf59187767970b64c059f98c24cec39"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>nollaaKaikki</b> ()</td></tr>
-<tr class="separator:acbf59187767970b64c059f98c24cec39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Julkiset jäsenfunktiot</h2></td></tr>
+<tr class="memitem:a3a921de4ecbed5e7bd9b27a155791bf9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3a921de4ecbed5e7bd9b27a155791bf9"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_maaritys_sivu.html#a3a921de4ecbed5e7bd9b27a155791bf9">siirrySivulle</a> ()</td></tr>
+<tr class="memdesc:a3a921de4ecbed5e7bd9b27a155791bf9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Kutsutaan, kun tälle sivulle ollaan siirtymässä <br /></td></tr>
+<tr class="separator:a3a921de4ecbed5e7bd9b27a155791bf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7816bf3e18324c5171c5473f5996d3a4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_maaritys_sivu.html#a7816bf3e18324c5171c5473f5996d3a4">poistuSivulta</a> ()</td></tr>
+<tr class="memdesc:a7816bf3e18324c5171c5473f5996d3a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Kutsutaan, kun ollaan siirtymässä toiselle sivulle.  <a href="#a7816bf3e18324c5171c5473f5996d3a4">Lisää...</a><br /></td></tr>
+<tr class="separator:a7816bf3e18324c5171c5473f5996d3a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_class_kitupiikki_sivu"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_kitupiikki_sivu')"><img src="closed.png" alt="-"/>&#160;Julkiset jäsenfunktiot inherited from <a class="el" href="class_kitupiikki_sivu.html">KitupiikkiSivu</a></td></tr>
+<tr class="memitem:ad171f6164774d383fbfc85e2db971b0a inherit pub_methods_class_kitupiikki_sivu"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad171f6164774d383fbfc85e2db971b0a"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>KitupiikkiSivu</b> (QWidget *parent=0)</td></tr>
+<tr class="separator:ad171f6164774d383fbfc85e2db971b0a inherit pub_methods_class_kitupiikki_sivu"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Suojatut jäsenfunktiot</h2></td></tr>
+<tr class="memitem:aceed16f80cea79973d18c78bc5e61711"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aceed16f80cea79973d18c78bc5e61711"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>lisaaSivu</b> (const QString &amp;otsikko, Sivut sivu, const QIcon &amp;kuvake=QIcon())</td></tr>
+<tr class="separator:aceed16f80cea79973d18c78bc5e61711"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Suojellut attribuutit</h2></td></tr>
@@ -151,10 +190,80 @@ QListWidget *&#160;</td><td class="memItemRight" valign="bottom"><b>lista</b></t
 <tr class="memitem:aa7fe043574fcaf5be248a840d0febf50"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa7fe043574fcaf5be248a840d0febf50"></a>
 QStackedWidget *&#160;</td><td class="memItemRight" valign="bottom"><b>pino</b></td></tr>
 <tr class="separator:aa7fe043574fcaf5be248a840d0febf50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add5801ff16f51df988154b744ff52630"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="add5801ff16f51df988154b744ff52630"></a>
+<a class="el" href="class_maaritys_widget.html">MaaritysWidget</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>nykyinen</b></td></tr>
+<tr class="separator:add5801ff16f51df988154b744ff52630"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a075f3d27543b1a471ebcd11fc4c8d8c0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a075f3d27543b1a471ebcd11fc4c8d8c0"></a>
+QListWidgetItem *&#160;</td><td class="memItemRight" valign="bottom"><b>nykyItem</b></td></tr>
+<tr class="separator:a075f3d27543b1a471ebcd11fc4c8d8c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7b491574ed846ca3cfde60713988552"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa7b491574ed846ca3cfde60713988552"></a>
+QVBoxLayout *&#160;</td><td class="memItemRight" valign="bottom"><b>sivuleiska</b></td></tr>
+<tr class="separator:aa7b491574ed846ca3cfde60713988552"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Yksityiskohtainen selite</h2>
-<div class="textblock"><p>Määritykset sisältävä QWidget. </p>
-</div><hr/>Dokumentaatio tälle luokalle luotiin seuraavista tiedostoista:<ul>
+<div class="textblock"><p>Määrityssivun sisältävä QWidget. </p>
+</div><h2 class="groupheader">Jäsenfunktioiden dokumentaatio</h2>
+<a class="anchor" id="a7816bf3e18324c5171c5473f5996d3a4"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool MaaritysSivu::poistuSivulta </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Kutsutaan, kun ollaan siirtymässä toiselle sivulle. </p>
+<dl class="section return"><dt>Palauttaa</dt><dd>true, jos sivulta saa poistus </dd></dl>
+
+<p>Uudelleentoteuttaa luokan <a class="el" href="class_kitupiikki_sivu.html#af9b2b7fbae59b2269a1b7c16ac6c4d92">KitupiikkiSivu</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5b609cb2f9d0f946438c8ff668a54528"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MaaritysSivu::valitseSivu </td>
+          <td>(</td>
+          <td class="paramtype">QListWidgetItem *&#160;</td>
+          <td class="paramname"><em>item</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">slot</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Valitaan näytettävä sivu. </p>
+<dl class="params"><dt>Parametrit</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">item</td><td>Sivut-enum </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>Dokumentaatio tälle luokalle luotiin seuraavista tiedostoista:<ul>
 <li>kitupiikki/maaritys/<a class="el" href="maarityssivu_8h_source.html">maarityssivu.h</a></li>
 <li>kitupiikki/maaritys/maarityssivu.cpp</li>
 </ul>

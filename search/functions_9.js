@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['sallimuokkaus',['salliMuokkaus',['../class_kirjaus_wg.html#a1eaddd0a2c8ed85dcc8f0c4c17efdb98',1,'KirjausWg']]],
-  ['selaatilia',['selaaTilia',['../class_aloitus_sivu.html#ac7811a9c532096d2724e3bea4b1937bb',1,'AloitusSivu']]],
-  ['seuraavanumero',['seuraavaNumero',['../class_kirjaus_wg.html#a1d65135c8f91a5cae2ab3833a2ca04d5',1,'KirjausWg']]]
+  ['raporttinimi',['raporttinimi',['../class_paivakirja_raportti.html#a830d3a8e586e10d050f7a6f7a520d8eb',1,'PaivakirjaRaportti::raporttinimi()'],['../class_raportti.html#ab5f6d5fd7fcbef60c2451a6956582958',1,'Raportti::raporttinimi()']]]
 ];

@@ -1,3 +1,4 @@
 <map id="RaporttiSivu" name="RaporttiSivu">
-<area shape="rect" id="node3" href="$class_raportti.html" title="The Raportin kantaluokka. " alt="" coords="69,81,137,108"/>
+<area shape="rect" id="node2" href="$class_kitupiikki_sivu.html" title="Kantaluokka pääikkunassa näytettäville sivuille. " alt="" coords="5,81,107,108"/>
+<area shape="rect" id="node4" href="$class_raportti.html" title="The Raportin kantaluokka. " alt="" coords="131,81,199,108"/>
 </map>
