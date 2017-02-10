@@ -25,6 +25,9 @@
 
 #include "raporttirivi.h"
 
+/**
+ * @brief  Yksi raportin sarake, RaportinKirjoittajan sisäiseen käyttöön
+ */
 struct RaporttiSarake
 {
     QString leveysteksti;
@@ -37,6 +40,31 @@ struct RaporttiSarake
  * @brief Raporttien kirjoittaja
  *
  * Tällä luokalla kirjoitetaan raportit
+ *
+ * Raportin ylätunniste tulostetaan, jos sille on määritelty otsikko
+ *
+ *    Raportinkirjoittaja kirjoittaja;
+ *    kirjoittaja.asetaOtsikko("RAPORTTI");
+ *
+ * Raportille voi lisätä yhden tai useamman otsakerivin, jotka toistuvat joka sivulla
+ *
+ *    RaporttiRivi otsikko;
+ *    otsikko.lisaa("Pvm");
+ *    otsikko.lisaa("Selite");
+ *    otsikko.lisaa("Euroa", 1, true);  // Yhden sarakkeen leveys, tasaus oikealle
+ *    kirjoittaja.lisaaOtsake(otsikko);
+ *
+ * Sitten raportille lisätään sisältö
+ *
+ *    RaporttiRivi rivi;
+ *    rivi.lisaa( QDate(2017,12,31) );
+ *    rivi.lisaa( "Oma selite" );
+ *    rivi.lisaa( 1240 );  // 12.40 €
+ *
+ * Ja lopuksi raportti tulostetaan
+ *
+ *    raportti.tulosta( &printer );
+ *
  */
 class RaportinKirjoittaja : public QObject
 {
@@ -80,7 +108,7 @@ public:
      * @brief Tulostaa kirjoitetun raportin
      * @param printer
      */
-    void tulosta(QPrinter *printer);
+    void tulosta(QPrinter *printer, bool raidoita = false);
 
 
 signals:

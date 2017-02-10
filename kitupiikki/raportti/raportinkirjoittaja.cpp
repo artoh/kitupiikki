@@ -79,7 +79,7 @@ void RaportinKirjoittaja::lisaaRivi(RaporttiRivi rivi)
     rivit_.append(rivi);
 }
 
-void RaportinKirjoittaja::tulosta(QPrinter *printer)
+void RaportinKirjoittaja::tulosta(QPrinter *printer, bool raidoita)
 {
     if( rivit_.isEmpty())
         return;     // Ei tulostettavaa !
@@ -112,7 +112,6 @@ void RaportinKirjoittaja::tulosta(QPrinter *printer)
        leveydet[i] = leveys;
        jaljella -= leveys;
 
-       qDebug() << i << " leveys " << leveys << " jaljella " << jaljella;
     }
 
     // Jaetaan vielä jäljellä oleva tila
@@ -121,7 +120,6 @@ void RaportinKirjoittaja::tulosta(QPrinter *printer)
         if( sarakkeet_[i].jakotekija)
         {
             leveydet[i] = jaljella * sarakkeet_[i].jakotekija / tekijayhteensa;
-            qDebug() << " ** "  << i << " " << leveydet[i];
         }
     }
 
@@ -129,6 +127,7 @@ void RaportinKirjoittaja::tulosta(QPrinter *printer)
     // voidaan aloittaa
 
     int sivu = 1;
+    int rivilla = 0;
 
     foreach (RaporttiRivi rivi, rivit_)
     {
@@ -175,6 +174,7 @@ void RaportinKirjoittaja::tulosta(QPrinter *printer)
             // Sivu tulee täyteen
             printer->newPage();
             sivu++;
+            rivilla = 0;
             painter.restore();
         }
 
@@ -185,9 +185,11 @@ void RaportinKirjoittaja::tulosta(QPrinter *printer)
             painter.save();
 
             // Tulostetaan ylätunniste
+            if( !otsikko_.isEmpty())
+                tulostaYlatunniste( &painter, sivu);
 
-            tulostaYlatunniste( &painter, sivu);
-            painter.translate(0, rivinkorkeus);
+            if( !otsakkeet_.isEmpty())
+                painter.translate(0, rivinkorkeus);
 
             // Otsikkorivit
             foreach (RaporttiRivi otsikkorivi, otsakkeet_)
@@ -196,7 +198,7 @@ void RaportinKirjoittaja::tulosta(QPrinter *printer)
                 sarake = 0;
 
                 for( int i = 0; i < otsikkorivi.sarakkeita(); i++)
-                {
+                {                     
                     int lippu = 0;
                     if( otsikkorivi.tasattuOikealle(i))
                         lippu = Qt::AlignRight;
@@ -209,12 +211,26 @@ void RaportinKirjoittaja::tulosta(QPrinter *printer)
                     }
                     painter.drawText( QRect(x,0,sarakeleveys,rivinkorkeus),
                                       lippu, otsikkorivi.teksti(i));
+
                     x += sarakeleveys;
                 }
                 painter.translate(0, rivinkorkeus);
             } // Otsikkorivi
+            if( !otsikko_.isEmpty() || !otsakkeet_.isEmpty())
+                painter.drawLine(0,0,sivunleveys,0);
+        }
 
-            painter.drawLine(0,0,sivunleveys,0);
+        // Jos raidoitus, niin raidoitetaan eli osan rivien taakse harmaata
+        if( raidoita && rivilla % 6 > 2)
+        {
+            painter.save();
+            painter.setBrush(QBrush(Qt::lightGray));
+            painter.setPen(Qt::NoPen);
+
+            painter.drawRect(0,0,sivunleveys, korkeinrivi);
+
+            painter.restore();
+
         }
 
         // Sitten tulostetaan tämä varsinainen rivi
@@ -223,6 +239,7 @@ void RaportinKirjoittaja::tulosta(QPrinter *printer)
             painter.drawText( laatikot[i], liput[i] , rivi.teksti(i) );
         }
         painter.translate(0, korkeinrivi);
+        rivilla++;
     }
 
     painter.restore();

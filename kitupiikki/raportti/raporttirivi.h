@@ -23,7 +23,7 @@
 #include <QList>
 
 /**
- * @brief Yhden sarakkeen tiedot
+ * @brief Yhden raportin sarakkeen tiedot, RaporttiRivin käyttöön
  */
 struct RaporttiRiviSarake
 {
@@ -35,20 +35,63 @@ struct RaporttiRiviSarake
 
 /**
  * @brief Yksi raportin tai otsakkeen rivi
+ *
+ * Käytetään kirjoitettaessa raportteja RaportinKirjoittaja:lla
+ *
+ * @see RaportinKirjoittaja
+ *
  */
 class RaporttiRivi
 {
 public:
     RaporttiRivi();
 
+    /**
+     * @brief Lisää tekstisarakkeen
+     * @param teksti Lisättävä teksti
+     * @param sarakkeet Kuinka monen sarakkeen levyisenä
+     * @param tasaaOikealle Tasataanko oikealle (oletuksena vasemmalle)
+     */
     void lisaa(const QString& teksti, int sarakkeet = 1, bool tasaaOikealle = false);
-    void lisaa(int sentit, int sarakkeet = 1, bool tulostanollat = false);
-    void lisaa(const QDate& pvm, int sarakkeet = 1);
+    /**
+     * @brief Lisää rahamäärän
+     * @param sentit Rahamäärä sentteinä
+     * @param tulostanollat Tulostetaanko nollat (oletuksena ei)
+     */
+    void lisaa(int sentit,bool tulostanollat = false);
 
+    /**
+     * @brief Lisää päivämäärän
+     * @param pvm Päivämäärä QDate:na
+     */
+    void lisaa(const QDate& pvm);
+
+    /**
+     * @brief Sarakkeiden lukumäärä
+     * @return
+     */
     int sarakkeita() const { return sarakkeet_.count(); }
-    QString teksti(int rivi) { return sarakkeet_[rivi].teksti; }
-    int leveysSaraketta(int rivi) { return sarakkeet_[rivi].leveysSaraketta; }
-    bool tasattuOikealle(int rivi) { return sarakkeet_[rivi].tasaaOikealle; }
+
+    /**
+     * @brief Tulostettava teksti
+     * @param sarake Sarakkeen indeksi
+     * @return
+     */
+    QString teksti(int sarake) { return sarakkeet_[sarake].teksti; }
+
+    /**
+     * @brief Kuinka monta ruudukkosaraketta tämä sarake täyttää
+     * @param sarake
+     * @return
+     */
+    int leveysSaraketta(int sarake) { return sarakkeet_[sarake].leveysSaraketta; }
+
+    /**
+     * @brief Onko sarake tasattu oikealle
+     * @param sarake
+     * @return
+     */
+    bool tasattuOikealle(int sarake) { return sarakkeet_[sarake].tasaaOikealle; }
 
 
 

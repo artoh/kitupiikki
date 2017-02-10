@@ -31,18 +31,18 @@ void RaporttiRivi::lisaa(const QString &teksti, int sarakkeet, bool tasaaOikeall
     sarakkeet_.append(uusi);
 }
 
-void RaporttiRivi::lisaa(int sentit, int sarakkeet, bool tulostanollat)
+void RaporttiRivi::lisaa(int sentit, bool tulostanollat)
 {
     if( !sentit && !tulostanollat)
         // Ei tulosta nollalukuja
         lisaa(QString());
     else
-        lisaa( QString("%L1").arg( ((double) sentit) / 100.0 ,0,'f',2 ), sarakkeet, true);
+        lisaa( QString("%L1").arg( ((double) sentit) / 100.0 ,0,'f',2 ), 1, true);
 }
 
-void RaporttiRivi::lisaa(const QDate &pvm, int sarakkeet)
+void RaporttiRivi::lisaa(const QDate &pvm)
 {
-    lisaa( pvm.toString(Qt::SystemLocaleShortDate), sarakkeet );
+    lisaa( pvm.toString(Qt::SystemLocaleShortDate));
 }
 
 
