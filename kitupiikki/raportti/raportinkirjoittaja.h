@@ -18,7 +18,6 @@
 #ifndef RAPORTINKIRJOITTAJA_H
 #define RAPORTINKIRJOITTAJA_H
 
-#include <QObject>
 #include <QString>
 #include <QList>
 #include <QPrinter>
@@ -43,34 +42,42 @@ struct RaporttiSarake
  *
  * Raportin ylätunniste tulostetaan, jos sille on määritelty otsikko
  *
+ * @code
  *    Raportinkirjoittaja kirjoittaja;
  *    kirjoittaja.asetaOtsikko("RAPORTTI");
+ * @endcode
  *
  * Raportille voi lisätä yhden tai useamman otsakerivin, jotka toistuvat joka sivulla
  *
+ * @code
  *    RaporttiRivi otsikko;
  *    otsikko.lisaa("Pvm");
  *    otsikko.lisaa("Selite");
  *    otsikko.lisaa("Euroa", 1, true);  // Yhden sarakkeen leveys, tasaus oikealle
  *    kirjoittaja.lisaaOtsake(otsikko);
+ * @endcode
  *
  * Sitten raportille lisätään sisältö
  *
+ * @code
  *    RaporttiRivi rivi;
  *    rivi.lisaa( QDate(2017,12,31) );
  *    rivi.lisaa( "Oma selite" );
  *    rivi.lisaa( 1240 );  // 12.40 €
+ * @endcode
  *
  * Ja lopuksi raportti tulostetaan
  *
+ * @code
  *    raportti.tulosta( &printer );
+ * @endcode
  *
  */
-class RaportinKirjoittaja : public QObject
+class RaportinKirjoittaja
 {
-    Q_OBJECT
+
 public:
-    explicit RaportinKirjoittaja(QObject *parent = 0);
+    RaportinKirjoittaja();
 
     void asetaOtsikko(const QString& otsikko);
     void asetaKausiteksti(const QString& kausiteksti);

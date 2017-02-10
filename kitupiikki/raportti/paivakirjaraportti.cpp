@@ -44,7 +44,7 @@ void PaivakirjaRaportti::alustaLomake()
     ui->loppupvm->setDate(nykykausi.paattyy());
 }
 
-void PaivakirjaRaportti::tulosta(QPrinter *printer)
+RaportinKirjoittaja PaivakirjaRaportti::raportti()
 {
 
     RaportinKirjoittaja kirjoittaja;
@@ -87,6 +87,6 @@ void PaivakirjaRaportti::tulosta(QPrinter *printer)
         kirjoittaja.lisaaRivi( rivi );
     }
 
-    kirjoittaja.tulosta( printer , ui->raidoita->isChecked());
+    return kirjoittaja;
 
 }

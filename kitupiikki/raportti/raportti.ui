@@ -33,6 +33,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QCheckBox" name="raitaCheck">
+       <property name="text">
+        <string>Raidoita tausta</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <spacer name="horizontalSpacer">

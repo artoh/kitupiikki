@@ -78,7 +78,7 @@ void RaporttiSivu::tulosta()
     QPrintDialog printDialog( &printer, this );
     if( printDialog.exec())
     {
-        nykyraportti->tulosta(&printer);
+        nykyraportti->raportti().tulosta( &printer, ui->raitaCheck->isChecked());
     }
 }
 
@@ -90,7 +90,7 @@ void RaporttiSivu::esikatsele()
     file->close();
 
     printer.setOutputFileName( file->fileName() );
-    nykyraportti->tulosta(&printer);
+    nykyraportti->raportti().tulosta(&printer, ui->raitaCheck->isChecked());
     QDesktopServices::openUrl( QUrl(file->fileName()) );
 
 }

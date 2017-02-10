@@ -23,7 +23,7 @@
 
 #include <QDebug>
 
-RaportinKirjoittaja::RaportinKirjoittaja(QObject *parent) : QObject(parent)
+RaportinKirjoittaja::RaportinKirjoittaja()
 {
 
 }
@@ -266,7 +266,7 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu)
     painter->translate(0, rivinkorkeus);
 
     QString ytunnus = Kirjanpito::db()->asetus("ytunnus") ;
-    QString sivustr = tr("Sivu %1").arg(sivu);
+    QString sivustr = QString("Sivu %1").arg(sivu);
 
     painter->drawText(QRect(0,0,sivunleveys/4, rivinkorkeus ), Qt::AlignLeft, ytunnus );
     painter->drawText(QRect(sivunleveys/4,0,sivunleveys/2, rivinkorkeus  ), Qt::AlignHCenter, kausiteksti_);

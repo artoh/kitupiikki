@@ -33,7 +33,7 @@ public:
 
     void alustaLomake();
 
-    void tulosta(QPrinter *printer);
+    RaportinKirjoittaja raportti();
 
 protected:
     Ui::Paivakirja *ui;
