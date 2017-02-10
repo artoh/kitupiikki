@@ -50,7 +50,9 @@ SOURCES += main.cpp \
     db/tilikausimodel.cpp \
     maaritys/maarityswidget.cpp \
     kitupiikkisivu.cpp \
-    ohje/ohjesivu.cpp
+    ohje/ohjesivu.cpp \
+    raportti/raportinkirjoittaja.cpp \
+    raportti/raporttirivi.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -92,7 +94,9 @@ HEADERS += \
     db/tilikausimodel.h \
     maaritys/maarityswidget.h \
     kitupiikkisivu.h \
-    ohje/ohjesivu.h
+    ohje/ohjesivu.h \
+    raportti/raportinkirjoittaja.h \
+    raportti/raporttirivi.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
