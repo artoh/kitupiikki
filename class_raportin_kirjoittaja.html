@@ -124,15 +124,11 @@ $(document).ready(function(){initNavTree('class_raportin_kirjoittaja.html','');}
 Luokan RaportinKirjoittaja luokkakaavio</div>
 <div class="dyncontent">
 <div class="center"><img src="class_raportin_kirjoittaja__inherit__graph.png" border="0" usemap="#_raportin_kirjoittaja_inherit__map" alt="Inheritance graph"/></div>
-<map name="_raportin_kirjoittaja_inherit__map" id="_raportin_kirjoittaja_inherit__map">
-</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">selite</a>]</span></center></div>
 <div class="dynheader">
 Yhteistyökaavio luokalle RaportinKirjoittaja:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_raportin_kirjoittaja__coll__graph.png" border="0" usemap="#_raportin_kirjoittaja_coll__map" alt="Collaboration graph"/></div>
-<map name="_raportin_kirjoittaja_coll__map" id="_raportin_kirjoittaja_coll__map">
-</map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">selite</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -201,14 +197,10 @@ QList&lt; <a class="el" href="class_raportti_rivi.html">RaporttiRivi</a> &gt;&#1
 <div class="textblock"><p>Raporttien kirjoittaja. </p>
 <p>Tällä luokalla kirjoitetaan raportit</p>
 <p>Raportin ylätunniste tulostetaan, jos sille on määritelty otsikko</p>
-<p>Raportinkirjoittaja kirjoittaja; kirjoittaja.asetaOtsikko("RAPORTTI");</p>
-<p>Raportille voi lisätä yhden tai useamman otsakerivin, jotka toistuvat joka sivulla</p>
-<p><a class="el" href="class_raportti_rivi.html" title="Yksi raportin tai otsakkeen rivi. ">RaporttiRivi</a> otsikko; otsikko.lisaa("Pvm"); otsikko.lisaa("Selite"); otsikko.lisaa("Euroa", 1, true); // Yhden sarakkeen leveys, tasaus oikealle kirjoittaja.lisaaOtsake(otsikko);</p>
-<p>Sitten raportille lisätään sisältö</p>
-<p><a class="el" href="class_raportti_rivi.html" title="Yksi raportin tai otsakkeen rivi. ">RaporttiRivi</a> rivi; rivi.lisaa( QDate(2017,12,31) ); rivi.lisaa( "Oma selite" ); rivi.lisaa( 1240 ); // 12.40 €</p>
-<p>Ja lopuksi raportti tulostetaan</p>
-<p>raportti.tulosta( &amp;printer ); </p>
-</div><h2 class="groupheader">Jäsenfunktioiden dokumentaatio</h2>
+<div class="fragment"><div class="line">Raportinkirjoittaja kirjoittaja;</div><div class="line">kirjoittaja.asetaOtsikko(<span class="stringliteral">&quot;RAPORTTI&quot;</span>);</div></div><!-- fragment --><p>Raportille voi lisätä yhden tai useamman otsakerivin, jotka toistuvat joka sivulla</p>
+<div class="fragment"><div class="line"><a class="code" href="class_raportti_rivi.html">RaporttiRivi</a> otsikko;</div><div class="line">otsikko.<a class="code" href="class_raportti_rivi.html#a0558dca81e000ac8cb732c56167340c6">lisaa</a>(<span class="stringliteral">&quot;Pvm&quot;</span>);</div><div class="line">otsikko.<a class="code" href="class_raportti_rivi.html#a0558dca81e000ac8cb732c56167340c6">lisaa</a>(<span class="stringliteral">&quot;Selite&quot;</span>);</div><div class="line">otsikko.<a class="code" href="class_raportti_rivi.html#a0558dca81e000ac8cb732c56167340c6">lisaa</a>(<span class="stringliteral">&quot;Euroa&quot;</span>, 1, <span class="keyword">true</span>);  <span class="comment">// Yhden sarakkeen leveys, tasaus oikealle</span></div><div class="line">kirjoittaja.lisaaOtsake(otsikko);</div></div><!-- fragment --><p>Sitten raportille lisätään sisältö</p>
+<div class="fragment"><div class="line"><a class="code" href="class_raportti_rivi.html">RaporttiRivi</a> rivi;</div><div class="line">rivi.<a class="code" href="class_raportti_rivi.html#a0558dca81e000ac8cb732c56167340c6">lisaa</a>( QDate(2017,12,31) );</div><div class="line">rivi.<a class="code" href="class_raportti_rivi.html#a0558dca81e000ac8cb732c56167340c6">lisaa</a>( <span class="stringliteral">&quot;Oma selite&quot;</span> );</div><div class="line">rivi.<a class="code" href="class_raportti_rivi.html#a0558dca81e000ac8cb732c56167340c6">lisaa</a>( 1240 );  <span class="comment">// 12.40 €</span></div></div><!-- fragment --><p>Ja lopuksi raportti tulostetaan</p>
+<div class="fragment"><div class="line">raportti.tulosta( &amp;printer );</div></div><!-- fragment --> </div><h2 class="groupheader">Jäsenfunktioiden dokumentaatio</h2>
 <a class="anchor" id="a28ec3dc3e3412a04bad895035365e333"></a>
 <div class="memitem">
 <div class="memproto">
