@@ -24,8 +24,8 @@
 
 
 
-KohdennusModel::KohdennusModel(QObject *parent) :
-    QAbstractTableModel(parent)
+KohdennusModel::KohdennusModel(QSqlDatabase tietokanta, QObject *parent) :
+    QAbstractTableModel(parent), tietokanta_(tietokanta)
 {
 
 }
@@ -138,7 +138,9 @@ void KohdennusModel::lataa()
 {
     beginResetModel();
     projektit_.clear();
-    QSqlQuery kysely("select id, tyyppi, nimi, alkaa, loppuu FROM kohdennus");
+    QSqlQuery kysely(tietokanta_);
+
+    kysely.exec("select id, tyyppi, nimi, alkaa, loppuu FROM kohdennus");
     while( kysely.next() )
     {
         projektit_.append( Kohdennus( kysely.value(0).toInt(),

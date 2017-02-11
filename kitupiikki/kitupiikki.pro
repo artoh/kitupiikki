@@ -28,7 +28,6 @@ SOURCES += main.cpp \
     kirjaus/kirjaussivu.cpp \
     kirjaus/tositewg.cpp \
     db/tili.cpp \
-    kirjaus/vientimodel.cpp \
     kirjaus/tilidelegaatti.cpp \
     kirjaus/eurodelegaatti.cpp \
     selaus/selauswg.cpp \
@@ -52,7 +51,11 @@ SOURCES += main.cpp \
     kitupiikkisivu.cpp \
     ohje/ohjesivu.cpp \
     raportti/raportinkirjoittaja.cpp \
-    raportti/raporttirivi.cpp
+    raportti/raporttirivi.cpp \
+    db/tositemodel.cpp \
+    db/vientimodel.cpp \
+    db/liitemodel.cpp \
+    db/jsonkentta.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -72,7 +75,6 @@ HEADERS += \
     kirjaus/kirjaussivu.h \
     kirjaus/tositewg.h \
     db/tili.h \
-    kirjaus/vientimodel.h \
     kirjaus/tilidelegaatti.h \
     kirjaus/eurodelegaatti.h \
     selaus/selauswg.h \
@@ -96,7 +98,11 @@ HEADERS += \
     kitupiikkisivu.h \
     ohje/ohjesivu.h \
     raportti/raportinkirjoittaja.h \
-    raportti/raporttirivi.h
+    raportti/raporttirivi.h \
+    db/tositemodel.h \
+    db/vientimodel.h \
+    db/liitemodel.h \
+    db/jsonkentta.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

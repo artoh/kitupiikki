@@ -16,7 +16,6 @@
 */
 
 #include "kirjauswg.h"
-#include "vientimodel.h"
 #include "tilidelegaatti.h"
 #include "eurodelegaatti.h"
 #include "pvmdelegaatti.h"
@@ -28,17 +27,20 @@
 #include <QMessageBox>
 #include <QIntValidator>
 
-KirjausWg::KirjausWg(TositeWg *tosite) : QWidget(), tositewg(tosite), tositeId(0)
+#include <QSortFilterProxyModel>
+
+KirjausWg::KirjausWg(TositeModel *tositeModel) : QWidget(), model(tositeModel), tositeId(0)
 {
-    viennitModel = new VientiModel(this);
+
 
     ui = new Ui::KirjausWg();
     ui->setupUi(this);
 
-    ui->viennitView->setModel(viennitModel);
-    connect( viennitModel, SIGNAL(siirryRuutuun(QModelIndex)), ui->viennitView, SLOT(setCurrentIndex(QModelIndex)));
-    connect( viennitModel, SIGNAL(siirryRuutuun(QModelIndex)), ui->viennitView, SLOT(edit(QModelIndex)));
-    connect( viennitModel, SIGNAL(muuttunut()), this, SLOT(naytaSummat()));
+    ui->viennitView->setModel( model->vientiModel() );
+
+    connect( model->vientiModel() , SIGNAL(siirryRuutuun(QModelIndex)), ui->viennitView, SLOT(setCurrentIndex(QModelIndex)));
+    connect( model->vientiModel(), SIGNAL(siirryRuutuun(QModelIndex)), ui->viennitView, SLOT(edit(QModelIndex)));
+    connect( model->vientiModel(), SIGNAL(muuttunut()), this, SLOT(naytaSummat()));
 
     ui->viennitView->setItemDelegateForColumn( VientiModel::PVM, new PvmDelegaatti(ui->tositePvmEdit));
     ui->viennitView->setItemDelegateForColumn( VientiModel::TILI, new TiliDelegaatti() );
@@ -61,19 +63,38 @@ KirjausWg::KirjausWg(TositeWg *tosite) : QWidget(), tositewg(tosite), tositeId(0
     connect( ui->tositetyyppiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(vaihdaTositeTyyppi()));
 
     // Tällä lukitaan tositteen pvm pysymään samalla tilikaudella jos tositteella on jo vientejä
-    connect( viennitModel, SIGNAL(vientejaOnTaiEi(bool)), this, SLOT(lukitseTilikaudelle(bool)));
+    // connect( viennitModel, SIGNAL(vientejaOnTaiEi(bool)), this, SLOT(lukitseTilikaudelle(bool)));
     // Jos tosite kirjataan toiselle tilikaudelle, haetaan uusi numero
     connect( ui->tositePvmEdit, SIGNAL(dateChanged(QDate)), this, SLOT(tarkistaTunnisteJosTilikausiVaihtui(QDate)));
 
     connect( Kirjanpito::db(), SIGNAL(tietokantaVaihtui()), this, SLOT(hylkaa()) );
     ui->tositetyyppiCombo->setModel( Kirjanpito::db()->tositelajit());
     ui->tositetyyppiCombo->setModelColumn( TositelajiModel::NIMI);
+
+
+
+    connect( ui->tositePvmEdit, SIGNAL(dateChanged(QDate)), model, SLOT(asetaPvm(QDate)));
+    connect( ui->otsikkoEdit, SIGNAL(textChanged(QString)), model, SLOT(asetaOtsikko(QString)));
+
+    // Tiliotteen tilivalintaan hyväksytään vain rahoitustilit
+
+    QSortFilterProxyModel *proxy = new QSortFilterProxyModel(this);
+    proxy->setSourceModel( kp()->tilit());
+    proxy->setFilterRole( TiliModel::TyyppiRooli);
+    proxy->setFilterFixedString("AR");
+    proxy->setSortRole(TiliModel::NroRooli);
+
+    ui->tiliotetiliCombo->setModel( proxy );
+    ui->tiliotetiliCombo->setModelColumn(TiliModel::NRONIMI);
+
+
+    ui->liiteView->setModel( model->liiteModel() );
 }
 
 KirjausWg::~KirjausWg()
 {
     delete ui;
-    delete viennitModel;
+    delete model;
 }
 
 QDate KirjausWg::tositePvm() const
@@ -83,10 +104,10 @@ QDate KirjausWg::tositePvm() const
 
 void KirjausWg::lisaaRivi()
 {
-    viennitModel->lisaaRivi();
+    model->vientiModel()->lisaaRivi();
     ui->viennitView->setFocus();
 
-    QModelIndex indeksi = viennitModel->index( viennitModel->rowCount(QModelIndex()) - 1, VientiModel::TILI );
+    QModelIndex indeksi = model->vientiModel()->index( model->vientiModel()->rowCount(QModelIndex()) - 1, VientiModel::TILI );
 
     ui->viennitView->setCurrentIndex( indeksi  );
     ui->viennitView->edit( indeksi );
@@ -96,6 +117,8 @@ void KirjausWg::tyhjenna()
 {
     tositeId = 0;
     ui->tositePvmEdit->setDate( Kirjanpito::db()->paivamaara() );
+    model->asetaPvm( kp()->paivamaara() );
+
     ui->otsikkoEdit->clear();
     ui->kommentitEdit->clear();
 
@@ -108,9 +131,7 @@ void KirjausWg::tyhjenna()
 
     ui->idLabel->clear();
 
-    tositewg->tyhjenna();
-
-    viennitModel->tyhjaa();
+    model->tyhjaa();
     ui->tabWidget->setCurrentIndex(0);
     // Laittaa samalla päivämäärärajat
     ui->tositePvmEdit->setDateRange(Kirjanpito::db()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu()  );
@@ -122,6 +143,26 @@ void KirjausWg::tyhjenna()
 
 void KirjausWg::tallenna()
 {
+    model->asetaKommentti( ui->kommentitEdit->toPlainText() );
+    model->asetaTunniste( ui->tunnisteEdit->text().toInt());
+
+    if( ui->tilioteBox->isChecked())
+    {
+        model->asetaTiliotetili( ui->tiliotetiliCombo->currentData(TiliModel::IdRooli).toInt() );
+        model->json()->set("TilioteAlkaa", ui->tiliotealkaenEdit->date());
+        model->json()->set("TilioteLoppuu", ui->tilioteloppuenEdit->date());
+    }
+    else
+    {
+        model->asetaTiliotetili(0);
+        model->json()->unset("TilioteAlkaa");
+        model->json()->unset("TilioteLoppuu");
+    }
+
+
+    model->tallenna();
+
+    /*
     // Ensin tarkistetaan, että täsmää
     int debetit = viennitModel->debetSumma();
     int kreditit = viennitModel->kreditSumma();
@@ -190,6 +231,7 @@ void KirjausWg::tallenna()
 
     tyhjenna(); // Tyhjennetään
     emit Kirjanpito::db()->palaaEdelliselleSivulle();
+    */
 }
 
 void KirjausWg::hylkaa()
@@ -201,12 +243,37 @@ void KirjausWg::hylkaa()
 
 void KirjausWg::naytaSummat()
 {
-    ui->summaLabel->setText( tr("Debet %L1 €    Kredit %L2 €").arg(((double)viennitModel->debetSumma())/100.0 ,0,'f',2)
-                             .arg(((double)viennitModel->kreditSumma()) / 100.0 ,0,'f',2));
+    // ui->summaLabel->setText( tr("Debet %L1 €    Kredit %L2 €").arg(((double)viennitModel->debetSumma())/100.0 ,0,'f',2)
+    //                         .arg(((double)viennitModel->kreditSumma()) / 100.0 ,0,'f',2));
 }
 
 void KirjausWg::lataaTosite(int id)
 {
+    model->lataa(id);
+
+    ui->tositePvmEdit->setDate( model->pvm() );
+    ui->otsikkoEdit->setText( model->otsikko() );
+    ui->kommentitEdit->setPlainText( model->kommentti());
+    ui->tunnisteEdit->setText( QString::number(model->tunniste()));
+    ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( model->tositelaji().id(), TositelajiModel::IdRooli ) );
+
+    ui->tilioteBox->setChecked( model->tiliotetili() != 0 );
+    // Tiliotetilin yhdistämiset!
+    if( model->tiliotetili())
+    {
+        ui->tiliotetiliCombo->setCurrentIndex( ui->tiliotetiliCombo->findData( QVariant(model->tiliotetili()) ,TiliModel::IdRooli ) );
+        ui->tiliotealkaenEdit->setDate( model->json()->date("TilioteAlkaa") );
+        ui->tilioteloppuenEdit->setDate( model->json()->date("TilioteLoppuu"));
+    }
+
+
+    ui->tabWidget->setCurrentIndex(0);
+    ui->tositePvmEdit->setFocus();
+
+    return;
+
+    /*
+
     QSqlQuery query;
     query.exec( QString("SELECT pvm, otsikko, kommentti, tunniste, tiedosto, tunniste, laji FROM tosite WHERE id=%1").arg(id) );
     if( query.next())
@@ -244,7 +311,7 @@ void KirjausWg::lataaTosite(int id)
     }
     ui->tabWidget->setCurrentIndex(0);
     ui->tositePvmEdit->setFocus();
-
+    */
 }
 
 void KirjausWg::paivitaKommenttiMerkki()
@@ -266,6 +333,7 @@ void KirjausWg::tarkistaTunniste()
     if( kelpaakoTunniste() )
     {
         ui->tunnisteEdit->setStyleSheet("color: black;");
+        model->asetaTunniste( ui->tunnisteEdit->text().toInt() );
     }
     else
     {
@@ -289,8 +357,7 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
     ui->tallennaButton->setEnabled(sallitaanko);
     ui->otsikkoEdit->setEnabled(sallitaanko);
 
-    viennitModel->salliMuokkaus(sallitaanko);
-    tositewg->setEnabled(sallitaanko);
+    // viennitModel->salliMuokkaus(sallitaanko);
 
     if(sallitaanko)
         ui->tositePvmEdit->setDateRange(Kirjanpito::db()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );
@@ -302,7 +369,7 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
 void KirjausWg::vaihdaTositeTyyppi()
 {
     ui->tyyppiLabel->setText( ui->tositetyyppiCombo->currentData(TositelajiModel::TunnusRooli).toString() );
-
+    model->asetaTositelaji( ui->tositetyyppiCombo->currentData(TositelajiModel::IdRooli).toInt() );
 
     // ui->tyyppiLabel->setText( ui->tositetyyppiCombo->currentData().toString() );
     // Vaihdetaan myös numerointi uuden tunnistetyypin mukaiseksi

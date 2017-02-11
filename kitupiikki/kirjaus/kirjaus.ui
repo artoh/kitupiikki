@@ -50,7 +50,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="viennit">
       <attribute name="title">
@@ -126,7 +126,17 @@
       </attribute>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
-        <widget class="QListView" name="liiteView"/>
+        <widget class="QListView" name="liiteView">
+         <property name="iconSize">
+          <size>
+           <width>128</width>
+           <height>128</height>
+          </size>
+         </property>
+         <property name="viewMode">
+          <enum>QListView::IconMode</enum>
+         </property>
+        </widget>
        </item>
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -435,7 +445,7 @@
         </font>
        </property>
        <property name="text">
-        <string>  </string>
+        <string/>
        </property>
       </widget>
      </item>

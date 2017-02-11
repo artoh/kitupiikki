@@ -37,8 +37,6 @@ CREATE TABLE tosite (
     kommentti TEXT,
     tunniste  INTEGER,
     tiliote   INTEGER      REFERENCES tili (id) ON UPDATE CASCADE,
-    tiedosto  VARCHAR (60),
-    sha       TEXT,
     laji      INTEGER         REFERENCES tositelaji (id)
                                  DEFAULT (1),
     json      TEXT
@@ -75,6 +73,7 @@ CREATE TABLE vienti (
 
 CREATE TABLE liite (
     id       INTEGER      PRIMARY KEY AUTOINCREMENT,
+    liiteno  INTEGER      NOT NULL,
     tosite   INTEGER      REFERENCES tosite (id) ON DELETE RESTRICT
                                                  ON UPDATE RESTRICT,
     otsikko  TEXT,

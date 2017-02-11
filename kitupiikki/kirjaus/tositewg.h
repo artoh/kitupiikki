@@ -21,6 +21,7 @@
 #include <QStackedWidget>
 #include "ui_tositewg.h"
 
+#include "db/tositemodel.h"
 
 class QGraphicsScene;
 class QGraphicsView;
@@ -29,7 +30,7 @@ class TositeWg : public QStackedWidget
 {
     Q_OBJECT
 public:
-    TositeWg();
+    TositeWg(TositeModel *tositemodel);
     ~TositeWg();
 
     QString tositeTunniste() const;
@@ -47,6 +48,7 @@ public slots:
 
 protected:
     Ui::TositeWg *ui;
+    TositeModel *model;
 
     QGraphicsScene* scene;
     QGraphicsView *view;

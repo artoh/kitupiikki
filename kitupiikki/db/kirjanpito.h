@@ -38,6 +38,7 @@
 #include "asetusmodel.h"
 #include "tilimodel.h"
 #include "tilikausimodel.h"
+#include "tositemodel.h"
 
 /**
  * @brief Kirjanpidon käsittely
@@ -124,6 +125,12 @@ public:
      */
     TilikausiModel *tilikaudet() const { return tilikaudetModel_; }
 
+    /**
+     * @brief Palauttaa TositeModel:in, jonka kautta pääsee tositteisiin
+     * @return
+     */
+    TositeModel *tositemodel(QObject *parent = 0) const;
+
 signals:
     void tietokantaVaihtui();
     void kirjanpitoaMuokattu();
@@ -155,8 +162,8 @@ public slots:
     void muokattu();
 
 protected:
-    QString polkuTiedostoon;
-    QSqlDatabase tietokanta;
+    QString polkuTiedostoon_;
+    QSqlDatabase tietokanta_;
     QMap<QString,QString> viimetiedostot;
     QDate harjoitusPvm;
 

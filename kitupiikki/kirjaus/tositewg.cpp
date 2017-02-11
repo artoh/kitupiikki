@@ -31,7 +31,8 @@
 #include "db/kirjanpito.h"
 
 
-TositeWg::TositeWg() : QStackedWidget()
+TositeWg::TositeWg(TositeModel *tositemodel)
+    : QStackedWidget(), model(tositemodel)
 {
     QWidget *paasivu = new QWidget();
     ui = new Ui::TositeWg;
@@ -109,6 +110,9 @@ bool TositeWg::tallennaTosite(int tositeId)
 void TositeWg::lataaTosite(const QString &tositetiedostonpolku)
 {
     uusitiedostopolku = tositetiedostonpolku;
+
+    model->liiteModel()->lisaaTiedosto( tositetiedostonpolku, "Tosite");
+
     naytaTosite(uusitiedostopolku);
 }
 

@@ -19,15 +19,11 @@
 #define VIENTIMODEL_H
 
 #include <QAbstractTableModel>
-#include <QDate>
+
 #include "db/tili.h"
-#include <QList>
 
-class KirjausWg;
+class TositeModel;
 
-/**
- * @brief Yhden viennin tiedot
- */
 struct VientiRivi
 {
     int vientiId = 0;
@@ -50,7 +46,7 @@ public:
     };
 
 
-    VientiModel(KirjausWg *kwg);
+    VientiModel(TositeModel *tositemodel);
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
@@ -61,25 +57,25 @@ public:
     bool insertRows(int row, int count, const QModelIndex &);
     bool lisaaRivi();
 
+    bool lisaaVienti(const QDate& pvm, int tilinumero, const QString& selite,
+                     int debetSnt, int kreditSnt);
+
     int debetSumma() const;
     int kreditSumma() const;
 
 public slots:
-    void tallenna(int tositeid);
+    void tallenna();
     void tyhjaa();
-    void lataa(int tositeid);
-
-    void salliMuokkaus(bool sallitaanko);
+    void lataa();
 
 
 signals:
     void siirryRuutuun(QModelIndex index);
     void muuttunut();
-    void vientejaOnTaiEi(bool onko);
 
 protected:
-    QList<VientiRivi> viennit;
-    KirjausWg *kirjauswg;
+    TositeModel *tositeModel_;
+    QList<VientiRivi> viennit_;
 
     VientiRivi uusiRivi();
     bool muokkausSallittu;

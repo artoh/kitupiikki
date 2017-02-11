@@ -23,8 +23,8 @@
 #include "ui_kirjaus.h"
 #include "tositewg.h"
 
+#include "db/tositemodel.h"
 
-class VientiModel;
 
 
 class Kirjanpito;
@@ -33,7 +33,7 @@ class KirjausWg : public QWidget
 {
     Q_OBJECT
 public:
-    KirjausWg(TositeWg *tosite);
+    KirjausWg(TositeModel *tositeModel);
     ~KirjausWg();
 
     QDate tositePvm() const;
@@ -74,8 +74,9 @@ public slots:
 
 protected:
     Ui::KirjausWg *ui;
-    VientiModel *viennitModel;
-    TositeWg *tositewg;
+
+    TositeModel *model;
+
 
     int tositeId;   /** Käsiteltävänä olevan tositteen id tai 0 jos tositetta ei tallennettu */
 

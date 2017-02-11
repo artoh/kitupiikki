@@ -21,6 +21,7 @@
 #include <QAbstractTableModel>
 #include <QDate>
 #include <QList>
+#include <QSqlDatabase>
 
 #include "kohdennus.h"
 
@@ -49,7 +50,7 @@ public:
         PaattyyRooli = Qt::UserRole + 5
     };
 
-    KohdennusModel(QObject *parent = 0);
+    KohdennusModel(QSqlDatabase tietokanta, QObject *parent = 0);
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
@@ -69,6 +70,7 @@ public slots:
 
 
 protected:
+    QSqlDatabase tietokanta_;
     QList<Kohdennus> projektit_;
 
 

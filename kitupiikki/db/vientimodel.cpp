@@ -15,22 +15,22 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "vientimodel.h"
-#include "kirjauswg.h"
+#include "db/vientimodel.h"
+#include "db/tositemodel.h"
 #include "db/kirjanpito.h"
 #include "db/tilikausi.h"
 
 #include <QDebug>
 #include <QSqlQuery>
 
-VientiModel::VientiModel(KirjausWg *kwg) : kirjauswg(kwg)
+VientiModel::VientiModel(TositeModel *tositemodel) : tositeModel_(tositemodel)
 {
 
 }
 
 int VientiModel::rowCount(const QModelIndex & /* parent */) const
 {
-    return viennit.count();
+    return viennit_.count();
 }
 
 int VientiModel::columnCount(const QModelIndex & /* parent */) const
@@ -74,7 +74,7 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
         return QVariant();
     if( role==Qt::DisplayRole || role == Qt::EditRole)
     {
-        VientiRivi rivi = viennit[index.row()];
+        VientiRivi rivi = viennit_[index.row()];
         switch (index.column())
         {
             case PVM: return QVariant( rivi.pvm );
@@ -88,7 +88,7 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
             case DEBET:
                 if( role == Qt::EditRole)
                     return QVariant( rivi.debetSnt);
-                else if( rivi.debetSnt )                    
+                else if( rivi.debetSnt )
                     return QVariant( QString("%L1 €").arg(rivi.debetSnt / 100.0,0,'f',2));
                 else
                     return QVariant();
@@ -121,14 +121,15 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int /
 {
     switch (index.column())
     {
-    case PVM:      
-        viennit[index.row()].pvm = value.toDate();
+    case PVM:
+        viennit_[index.row()].pvm = value.toDate();
         emit siirryRuutuun( index.sibling(index.row(), TILI) );
         return true;
     case TILI:
     {
+        // Tili asetetaan numerolla!
         Tili uusitili = Kirjanpito::db()->tilit()->tiliNumerolla( value.toInt());
-        viennit[index.row()].tili = uusitili;
+        viennit_[index.row()].tili = uusitili;
         qDebug() << uusitili.nimi() << "(" << uusitili.tyyppi() << ")" << value.toInt();
         // Jos kirjataan tulotilille, niin siirrytään syöttämään kredit-summaa
         if( uusitili.tyyppi().startsWith('T'))
@@ -138,21 +139,21 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int /
         return true;
     }
     case SELITE:
-        viennit[index.row()].selite = value.toString();
+        viennit_[index.row()].selite = value.toString();
         return true;
     case DEBET:
-        viennit[index.row()].debetSnt = value.toInt();
+        viennit_[index.row()].debetSnt = value.toInt();
         if(value.toInt())
         {
-            viennit[index.row()].kreditSnt = 0;
+            viennit_[index.row()].kreditSnt = 0;
             emit siirryRuutuun(index.sibling(index.row(), SELITE));
         }
         emit muuttunut();
         return true;
     case KREDIT:
-        viennit[index.row()].kreditSnt = value.toInt();
+        viennit_[index.row()].kreditSnt = value.toInt();
         if( value.toInt())
-        viennit[index.row()].debetSnt = 0;
+        viennit_[index.row()].debetSnt = 0;
         emit siirryRuutuun(index.sibling(index.row(), SELITE));
         emit muuttunut();
         return true;
@@ -173,10 +174,10 @@ bool VientiModel::insertRows(int row, int count, const QModelIndex & /* parent *
 {
     beginInsertRows( QModelIndex(), row, row + count - 1);
     for(int i=0; i < count; i++)
-        viennit.insert(row, uusiRivi() );
+        viennit_.insert(row, uusiRivi() );
     endInsertRows();
     emit muuttunut();
-    emit vientejaOnTaiEi(true);
+    // emit vientejaOnTaiEi(true);
     return true;
 }
 
@@ -186,10 +187,26 @@ bool VientiModel::lisaaRivi()
 
 }
 
+bool VientiModel::lisaaVienti(const QDate &pvm, int tilinumero, const QString &selite, int debetSnt, int kreditSnt)
+{
+    VientiRivi uusi;
+    uusi.pvm = pvm;
+    uusi.tili = kp()->tilit()->tiliNumerolla(tilinumero);
+    uusi.selite = selite;
+    uusi.debetSnt = debetSnt;
+    uusi.kreditSnt = kreditSnt;
+
+    beginInsertRows( QModelIndex(), viennit_.count(), viennit_.count());
+    viennit_.append( uusi );
+    endInsertRows();
+
+    return true;
+}
+
 int VientiModel::debetSumma() const
 {
     int summa = 0;
-    foreach (VientiRivi rivi, viennit)
+    foreach (VientiRivi rivi, viennit_)
     {
         summa += rivi.debetSnt;
     }
@@ -199,19 +216,19 @@ int VientiModel::debetSumma() const
 int VientiModel::kreditSumma() const
 {
     int summa = 0;
-    foreach (VientiRivi rivi, viennit)
+    foreach (VientiRivi rivi, viennit_)
     {
         summa += rivi.kreditSnt;
     }
     return summa;
 }
 
-void VientiModel::tallenna(int tositeid)
+void VientiModel::tallenna()
 {
-    QSqlQuery query;
-    for(int i=0; i < viennit.count() ; i++)
+    QSqlQuery query(tositeModel_->tietokanta());
+    for(int i=0; i < viennit_.count() ; i++)
     {
-        VientiRivi rivi = viennit[i];
+        VientiRivi rivi = viennit_[i];
         if( rivi.vientiId )
         {
             query.prepare("UPDATE vienti SET pvm=:pvm, tili=:tili, debetsnt=:debetsnt, "
@@ -223,7 +240,7 @@ void VientiModel::tallenna(int tositeid)
                                 "VALUES(:tosite,:pvm,:tili,:debetsnt,:kreditsnt,:selite)");
 
 
-        query.bindValue(":tosite", tositeid);
+        query.bindValue(":tosite", tositeModel_->id() );
         query.bindValue(":pvm", rivi.pvm);
         query.bindValue(":tili", rivi.tili.id());
         query.bindValue(":debetsnt", rivi.debetSnt);
@@ -232,7 +249,7 @@ void VientiModel::tallenna(int tositeid)
         query.exec();
 
         if( !rivi.vientiId )
-            viennit[i].vientiId = query.lastInsertId().toInt();
+            viennit_[i].vientiId = query.lastInsertId().toInt();
     }
     // Lopuksi pitäisi vielä poistaa ne rivit, jotka on poistettu...
     // Tätä varten voisi ylläpitää poistettujen vientien Id-listaa
@@ -241,19 +258,18 @@ void VientiModel::tallenna(int tositeid)
 void VientiModel::tyhjaa()
 {
     beginResetModel();
-    viennit.clear();
+    viennit_.clear();
     endResetModel();
-    emit muuttunut();
 }
 
-void VientiModel::lataa(int tositeid)
+void VientiModel::lataa()
 {
     beginResetModel();
-    viennit.clear();
+    viennit_.clear();
 
-    QSqlQuery query;
+    QSqlQuery query( tositeModel_->tietokanta() );
     query.exec(QString("SELECT id, pvm, tili, debetsnt, kreditsnt, selite FROM vienti WHERE tosite=%1 "
-                       "ORDER BY id").arg(tositeid));
+                       "ORDER BY id").arg( tositeModel_->id() ));
     while( query.next())
     {
         VientiRivi rivi;
@@ -263,16 +279,11 @@ void VientiModel::lataa(int tositeid)
         rivi.debetSnt = query.value("debetsnt").toInt();
         rivi.kreditSnt = query.value("kreditsnt").toInt();
         rivi.selite = query.value("selite").toString();
-        viennit.append(rivi);
+        viennit_.append(rivi);
     }
 
 
     endResetModel();
-}
-
-void VientiModel::salliMuokkaus(bool sallitaanko)
-{
-    muokkausSallittu = sallitaanko;
 }
 
 
@@ -281,7 +292,7 @@ VientiRivi VientiModel::uusiRivi()
 {
     VientiRivi uusirivi;
 
-    uusirivi.pvm = kirjauswg->tositePvm();
+    uusirivi.pvm = tositeModel_->pvm();
 
     int debetit = debetSumma();
     int kreditit = kreditSumma();
@@ -294,7 +305,7 @@ VientiRivi VientiModel::uusiRivi()
         else
             uusirivi.kreditSnt = debetit - kreditit;
 
-        uusirivi.selite = viennit.last().selite;
+        uusirivi.selite = viennit_.last().selite;
     }
 
     return uusirivi;

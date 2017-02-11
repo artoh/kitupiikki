@@ -26,7 +26,7 @@
 Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
     harjoitusPvm( QDate::currentDate())
 {
-    tietokanta = QSqlDatabase::addDatabase("QSQLITE");
+    tietokanta_ = QSqlDatabase::addDatabase("QSQLITE");
     QSettings settings;
 
     // Ladataan viimeisten tiedostojen lista.
@@ -38,15 +38,15 @@ Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
             viimetiedostot[split[0]]=split[1];
     }
 
-    asetusModel_ = new AsetusModel(tietokanta, this);
+    asetusModel_ = new AsetusModel(tietokanta_, this);
     tositelajiModel_ = new TositelajiModel(this);
-    tiliModel_ = new TiliModel( tietokanta, this);
-    tilikaudetModel_ = new TilikausiModel(tietokanta, this);
+    tiliModel_ = new TiliModel( tietokanta_, this);
+    tilikaudetModel_ = new TilikausiModel(tietokanta_, this);
 }
 
 Kirjanpito::~Kirjanpito()
 {
-    tietokanta.close();
+    tietokanta_.close();
 }
 
 QString Kirjanpito::asetus(const QString &avain) const
@@ -57,7 +57,7 @@ QString Kirjanpito::asetus(const QString &avain) const
 
 QDir Kirjanpito::hakemisto()
 {
-    QFileInfo finfo(polkuTiedostoon);
+    QFileInfo finfo(polkuTiedostoon_);
     return finfo.absoluteDir();
 }
 
@@ -88,13 +88,18 @@ Tilikausi Kirjanpito::tilikausiPaivalle(const QDate &paiva) const
     return tilikaudet()->tilikausiPaivalle(paiva);
 }
 
+TositeModel *Kirjanpito::tositemodel(QObject *parent) const
+{
+    return new TositeModel( tietokanta_ , parent);
+}
+
 
 
 bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
 {
-    tietokanta.setDatabaseName(tiedosto);
+    tietokanta_.setDatabaseName(tiedosto);
 
-    if( !tietokanta.open() )
+    if( !tietokanta_.open() )
         return false;
 
     // Ladataankin asetukset yms modelista
@@ -104,7 +109,7 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
     tilikaudetModel_->lataa();
 
 
-    polkuTiedostoon = tiedosto;
+    polkuTiedostoon_ = tiedosto;
 
     // Lisätään viimeisten tiedostojen listaan
     if( onkoHarjoitus() )

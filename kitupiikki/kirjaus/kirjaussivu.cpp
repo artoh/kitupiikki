@@ -24,10 +24,15 @@
 #include "kirjauswg.h"
 #include "tositewg.h"
 
+#include "db/kirjanpito.h"
+#include "db/tositemodel.h"
+
 KirjausSivu::KirjausSivu() : KitupiikkiSivu()
 {
-    tositewg = new TositeWg();
-    kirjauswg = new KirjausWg(tositewg);
+    TositeModel *model = kp()->tositemodel();
+
+    tositewg = new TositeWg(model);
+    kirjauswg = new KirjausWg(model);
 
     QSplitter *splitter = new QSplitter(Qt::Vertical);
     splitter->addWidget(tositewg);
