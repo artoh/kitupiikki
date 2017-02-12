@@ -81,6 +81,6 @@ void KirjausSivu::naytaTosite(int tositeId)
 void KirjausSivu::tositeKasitelty()
 {
     if( palataanTakaisin_)
-        emit kp()->palaaEdelliselleSivulle();
+        emit palaaEdelliselleSivulle();
 }
 

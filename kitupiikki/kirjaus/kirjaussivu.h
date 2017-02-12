@@ -26,6 +26,16 @@
 class KirjausWg;
 class NaytaliiteWg;
 
+/**
+ * @brief Sivu, jolla kirjaukset tehdään
+ *
+ * Sivun yläpuolistkolla on NaytaliiteWg liiteen esittämiseen ja lisäämiseen,
+ * alapuoliskolla KirjausWg kirjauksen muokkaamiseen
+ *
+ * naytatosite-funktiolla saadaan tosite muokattavaksi, ja muokkaamisen jälkeen
+ * palataan edelliselle sivulle
+ *
+ */
 class KirjausSivu : public KitupiikkiSivu
 {
     Q_OBJECT
@@ -37,6 +47,10 @@ public:
     bool poistuSivulta();
 
 signals:
+    /**
+     * @brief Palataan sivulle, josta tänne on tultu
+     */
+    void palaaEdelliselleSivulle();
 
 public slots:
     void naytaTosite(int tositeId);

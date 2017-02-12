@@ -132,9 +132,14 @@ public:
     TositeModel *tositemodel(QObject *parent = 0);
 
 signals:
+    /**
+     * @brief Tietokanta on avattu
+     */
     void tietokantaVaihtui();
+    /**
+     * @brief Kirjanpitoa on muokattu (tallennettu muokattu vienti)
+     */
     void kirjanpitoaMuokattu();
-    void palaaEdelliselleSivulle();
 
 public slots:
     /**
@@ -156,10 +161,6 @@ public slots:
      */
     void asetaHarjoitteluPvm(const QDate& pvm);
 
-    /**
-     * @brief Ilmoittaa, että kirjanpitoa on muokattu
-     */
-    void muokattu();
 
 protected:
     QString polkuTiedostoon_;

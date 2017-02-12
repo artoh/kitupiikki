@@ -137,10 +137,6 @@ void Kirjanpito::asetaHarjoitteluPvm(const QDate &pvm)
     harjoitusPvm = pvm;
 }
 
-void Kirjanpito::muokattu()
-{
-    emit kirjanpitoaMuokattu();
-}
 
 Kirjanpito *Kirjanpito::db()
 {

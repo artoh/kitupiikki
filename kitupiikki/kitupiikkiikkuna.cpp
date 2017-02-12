@@ -49,7 +49,6 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 {
 
     connect( Kirjanpito::db(), SIGNAL(tietokantaVaihtui()), this, SLOT(kirjanpitoLadattu()));
-    connect(Kirjanpito::db(), SIGNAL(palaaEdelliselleSivulle()), this, SLOT(palaaSivulta()));
 
     setWindowIcon(QIcon(":/pic/Possu64.png"));
 
@@ -67,6 +66,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     maarityssivu = new MaaritysSivu();
     raporttisivu = new RaporttiSivu();
     ohjesivu = new OhjeSivu();
+
 
     pino = new QStackedWidget;
     setCentralWidget(pino);
@@ -87,6 +87,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 
     connect( selaussivu, SIGNAL(tositeValittu(int)), this, SLOT(naytaTosite(int)) );
     connect( aloitussivu, SIGNAL(selaus(int,Tilikausi)), this, SLOT(selaaTilia(int,Tilikausi)));
+    connect( kirjaussivu, SIGNAL(palaaEdelliselleSivulle()), this, SLOT(palaaSivulta()));
 
 
 }

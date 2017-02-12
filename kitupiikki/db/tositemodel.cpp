@@ -211,4 +211,5 @@ void TositeModel::tallenna()
     liiteModel_->tallenna();
 
     muokattu_ = false;
+    emit kp()->kirjanpitoaMuokattu();
 }

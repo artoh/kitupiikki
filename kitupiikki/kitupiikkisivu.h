@@ -42,6 +42,7 @@ public:
 
 signals:
 
+
 public slots:
 };
 
