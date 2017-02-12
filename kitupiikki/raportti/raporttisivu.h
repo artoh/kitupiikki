@@ -26,6 +26,13 @@
 
 #include "kitupiikkisivu.h"
 
+/**
+ * @brief Raporttien tulostussivu
+ *
+ * Sivun vasemmassa laidassa on raporttiluettelo, josta valitaan
+ * näytettävä raportti.
+ *
+ */
 class RaporttiSivu : public KitupiikkiSivu
 {
     Q_OBJECT

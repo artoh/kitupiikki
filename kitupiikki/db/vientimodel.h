@@ -24,6 +24,9 @@
 
 class TositeModel;
 
+/**
+ * @brief Yhden viennin tiedot. VientiModel käyttää.
+ */
 struct VientiRivi
 {
     int vientiId = 0;
@@ -34,7 +37,15 @@ struct VientiRivi
     int kreditSnt = 0;
 };
 
-
+/**
+ * @brief Yhden tositteen vientien tiedot
+ *
+ * Vientejä muokataan tämän modelin kautta, saadaan TositeModelin
+ * vientiModel()-funktiolla
+ *
+ * Mahdollistaa vientien näyttämisen suoraan taulukossa
+ *
+ */
 class VientiModel : public QAbstractTableModel
 {
     Q_OBJECT

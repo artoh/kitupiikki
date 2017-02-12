@@ -26,6 +26,12 @@
 
 #include "maarityswidget.h"
 
+/**
+ * @brief MääritysWidget tositelajien määrittämiseen
+ *
+ * Tositelajit erittelevät tositteita eri tarkenteilla omille numerosarjoilleen
+ *
+ */
 class Tositelajit : public MaaritysWidget
 {
     Q_OBJECT

@@ -25,6 +25,17 @@
 class QGraphicsScene;
 class QGraphicsView;
 
+/**
+ * @brief Liitteen näyttäminen
+ *
+ * Tämä widget muodostaa KirjausSivun yläpuoliskon.
+ *
+ * naytaTiedosto-funktiolla (slot) näytetään haluttu tiedosto
+ * Jos käyttäjä valitsee tai tiputtaa tiedoston, lähetetään lisaaLiite-signal
+ *
+ * Tällä hetkellä tukee kuvatiedostoja (jpg, png)
+ *
+ */
 class NaytaliiteWg : public QStackedWidget
 {
     Q_OBJECT

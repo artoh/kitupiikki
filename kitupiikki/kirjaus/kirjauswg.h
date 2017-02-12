@@ -29,6 +29,13 @@
 
 class Kirjanpito;
 
+/**
+ * @brief Kirjausten muokkaus
+ *
+ * Widget muodostaa KirjausSivun alapuoliskon.
+ * Tietoja käsitellän TositeModel:in kautta.
+ *
+ */
 class KirjausWg : public QWidget
 {
     Q_OBJECT

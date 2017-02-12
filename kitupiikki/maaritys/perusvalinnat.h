@@ -27,6 +27,9 @@ namespace Ui {
 class Perusvalinnat;
 }
 
+/**
+ * @brief Määrityswidget perusvalinnoille (nimi, y-tunnus, logo)
+ */
 class Perusvalinnat : public MaaritysWidget
 {
     Q_OBJECT

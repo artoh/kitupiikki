@@ -25,6 +25,13 @@
 
 #include "maarityswidget.h"
 
+/**
+ * @brief Määritywidget kirjanpidon tilinavauksen kirjaamiseen
+ *
+ * Näyttää taulukon, johon voi tilien kohdalle kirjata avaavat summat
+ * edellisestä tilinpäätöksestä
+ *
+ */
 class Tilinavaus : public MaaritysWidget
 {
     Q_OBJECT

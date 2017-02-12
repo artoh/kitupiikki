@@ -21,6 +21,11 @@
 #include "raportti.h"
 #include "ui_paivakirja.h"
 
+/**
+ * @brief Päiväkirjan tulostava raportti
+ *
+ * Päiväkirjassa on halutun päivämäärävälin viennit aikajärjestyksessä
+ */
 class PaivakirjaRaportti : public Raportti
 {
     Q_OBJECT
