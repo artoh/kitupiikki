@@ -77,6 +77,12 @@ public:
      */
     bool kelpaakoTunniste(int tunnistenumero) const;
 
+    /**
+     * @brief Onko tallentamattomia muokkauksia
+     * @return tosi, jos muokattu
+     */
+    bool muokattu();
+
 signals:
 
 
@@ -107,6 +113,8 @@ protected:
     JsonKentta json_;
 
     QSqlDatabase *tietokanta_;
+
+    bool muokattu_;
 
 
     VientiModel* vientiModel_;

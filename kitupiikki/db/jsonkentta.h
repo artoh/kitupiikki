@@ -47,10 +47,20 @@ public:
     QVariant toSqlJson();
     void fromJson(const QByteArray& json);
 
+    /**
+     * @brief Onko muokattu
+     *
+     * Muokkaus nollautuu, kun tiedot haetaan fromJson -funktiolla tai
+     * viedään toSqlJson -funktiolla
+     *
+     * @return tosi, jos muokattu
+     */
+    bool muokattu() const { return muokattu_; }
 
 
 protected:
     QVariantMap map_;
+    bool muokattu_;
 };
 
 #endif // JSONKENTTA_H

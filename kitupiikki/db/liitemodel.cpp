@@ -56,7 +56,7 @@ QString Liite::tarkenne() const
 
 
 LiiteModel::LiiteModel(TositeModel *tositemodel, QObject *parent)
-    : QAbstractListModel(parent), tositeModel_(tositemodel)
+    : QAbstractListModel(parent), tositeModel_(tositemodel), muokattu_(false)
 {
 
 }
@@ -109,6 +109,7 @@ void LiiteModel::lisaaTiedosto(const QString &polku, const QString &otsikko)
     liitteet_.append(uusi);
 
     endInsertRows();
+    muokattu_ = true;
 }
 
 void LiiteModel::lataa()
@@ -130,6 +131,7 @@ void LiiteModel::lataa()
         liitteet_.append(uusi);
     }
     endResetModel();
+    muokattu_ = false;
 }
 
 void LiiteModel::tyhjaa()
@@ -137,6 +139,7 @@ void LiiteModel::tyhjaa()
     beginResetModel();
     liitteet_.clear();
     endResetModel();
+    muokattu_ = false;
 }
 
 void LiiteModel::tallenna()
@@ -207,6 +210,7 @@ void LiiteModel::tallenna()
                 liitteet_[i].id = kysely.lastInsertId().toInt();
         }
     }
+    muokattu_ = false;
 }
 
 int LiiteModel::seuraavaNumero() const

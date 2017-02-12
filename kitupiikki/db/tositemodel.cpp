@@ -26,7 +26,7 @@
 #include <QSqlError>
 
 TositeModel::TositeModel(QSqlDatabase *tietokanta, QObject *parent)
-    : QObject(parent), tietokanta_(tietokanta)
+    : QObject(parent), tietokanta_(tietokanta), muokattu_(false)
 {
     vientiModel_ = new VientiModel(this);
     liiteModel_ = new LiiteModel(this);
@@ -76,24 +76,33 @@ bool TositeModel::kelpaakoTunniste(int tunnistenumero) const
     return !kysely.next();
 }
 
+bool TositeModel::muokattu()
+{
+    return muokattu_ || vientiModel()->muokattu() || json()->muokattu() || liiteModel()->muokattu();
+}
+
 void TositeModel::asetaPvm(const QDate &pvm)
 {
     pvm_ = pvm;
+    muokattu_ = true;
 }
 
 void TositeModel::asetaOtsikko(const QString &otsikko)
 {
     otsikko_ = otsikko;
+    muokattu_ = true;
 }
 
 void TositeModel::asetaKommentti(const QString &kommentti)
 {
     kommentti_ = kommentti;
+    muokattu_ = true;
 }
 
 void TositeModel::asetaTunniste(int tunniste)
 {
     tunniste_ = tunniste;
+    muokattu_ = true;
 }
 
 
@@ -105,7 +114,7 @@ void TositeModel::asetaTositelaji(int tositelajiId)
         // Vaihdetaan sopiva tunniste
         tunniste_ = seuraavaTunnistenumero();
 
-        qDebug() << tositelaji().nimi() << " n:o" << tunniste();
+        muokattu_ = true;
     }
 
 }
@@ -113,6 +122,7 @@ void TositeModel::asetaTositelaji(int tositelajiId)
 void TositeModel::asetaTiliotetili(int tiliId)
 {
     tiliotetili_ = tiliId;
+    muokattu_ = true;
 }
 
 void TositeModel::lataa(int id)
@@ -136,6 +146,7 @@ void TositeModel::lataa(int id)
         vientiModel_->lataa();
         liiteModel_->lataa();
     }
+    muokattu_ = false;
 }
 
 void TositeModel::tyhjaa()
@@ -151,6 +162,7 @@ void TositeModel::tyhjaa()
 
     vientiModel_->tyhjaa();
     liiteModel_->tyhjaa();
+    muokattu_ = false;
 
 }
 
@@ -197,4 +209,6 @@ void TositeModel::tallenna()
 
     vientiModel_->tallenna();
     liiteModel_->tallenna();
+
+    muokattu_ = false;
 }

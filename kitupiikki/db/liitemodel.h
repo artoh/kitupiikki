@@ -75,6 +75,7 @@ public:
 
     void lisaaTiedosto(const QString& polku, const QString& otsikko);
 
+    bool muokattu() const { return muokattu_; }
 public slots:
     void lataa();
     void tyhjaa();
@@ -85,8 +86,8 @@ protected:
     int seuraavaNumero() const;
 
     TositeModel *tositeModel_;
-
     QList<Liite> liitteet_;
+    bool muokattu_;
 };
 
 #endif // LIITEMODEL_H

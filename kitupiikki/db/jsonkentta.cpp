@@ -21,7 +21,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-JsonKentta::JsonKentta()
+JsonKentta::JsonKentta() : muokattu_(false)
 {
 
 }
@@ -29,21 +29,25 @@ JsonKentta::JsonKentta()
 void JsonKentta::set(const QString &avain, const QString &arvo)
 {
     map_[avain] = QVariant(arvo);
+    muokattu_ = true;
 }
 
 void JsonKentta::set(const QString &avain, const QDate &pvm)
 {
     map_[avain] = QVariant(pvm.toString(Qt::ISODate));
+    muokattu_ = true;
 }
 
 void JsonKentta::set(const QString &avain, int arvo)
 {
     map_[avain] = QVariant(arvo);
+    muokattu_ = true;
 }
 
 void JsonKentta::unset(const QString &avain)
 {
     map_.remove(avain);
+    muokattu_ = true;
 }
 
 QString JsonKentta::str(const QString &avain)
@@ -73,6 +77,7 @@ QVariant JsonKentta::toSqlJson()
         return QVariant( toJson() );
     else
         return QVariant();
+    muokattu_ = false;
 
 
 }
@@ -81,4 +86,5 @@ void JsonKentta::fromJson(const QByteArray &json)
 {
     QJsonDocument doc = QJsonDocument::fromJson( json );
     map_ = doc.object().toVariantMap();
+    muokattu_ = false;
 }

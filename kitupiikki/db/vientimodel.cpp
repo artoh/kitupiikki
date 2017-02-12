@@ -23,7 +23,7 @@
 #include <QDebug>
 #include <QSqlQuery>
 
-VientiModel::VientiModel(TositeModel *tositemodel) : tositeModel_(tositemodel)
+VientiModel::VientiModel(TositeModel *tositemodel) : tositeModel_(tositemodel), muokattu_(false)
 {
 
 }
@@ -119,6 +119,8 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
 
 bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int /* role */)
 {
+    muokattu_ = true;
+
     switch (index.column())
     {
     case PVM:
@@ -164,7 +166,8 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int /
 
 Qt::ItemFlags VientiModel::flags(const QModelIndex &index) const
 {
-    if( muokkausSallittu)
+    // TODO: Onko muokkaus sallittu
+    if( false )
         return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
     else
         return QAbstractTableModel::flags(index);
@@ -253,12 +256,15 @@ void VientiModel::tallenna()
     }
     // Lopuksi pitäisi vielä poistaa ne rivit, jotka on poistettu...
     // Tätä varten voisi ylläpitää poistettujen vientien Id-listaa
+
+    muokattu_ = false;
 }
 
 void VientiModel::tyhjaa()
 {
     beginResetModel();
     viennit_.clear();
+    muokattu_ = false;
     endResetModel();
 }
 

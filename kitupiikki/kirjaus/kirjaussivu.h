@@ -21,6 +21,7 @@
 #include <QWidget>
 
 #include "kitupiikkisivu.h"
+#include "db/tositemodel.h"
 
 class KirjausWg;
 class NaytaliiteWg;
@@ -33,15 +34,24 @@ public:
     ~KirjausSivu();
 
     void siirrySivulle();
+    bool poistuSivulta();
 
 signals:
 
 public slots:
     void naytaTosite(int tositeId);
+    void tositeKasitelty();
 
 protected:
     KirjausWg *kirjauswg;
     NaytaliiteWg *liitewg;
+
+    TositeModel *model;
+
+    /**
+     * @brief Palataanko tämän tositteen käsittelyn jälkeen takaisin edelliseen
+     */
+    bool palataanTakaisin_;
 };
 
 #endif // KIRJAUSSIVU_H

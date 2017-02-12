@@ -33,7 +33,7 @@ class KirjausWg : public QWidget
 {
     Q_OBJECT
 public:
-    KirjausWg(QWidget *parent=0);
+    KirjausWg(TositeModel *tositeModel, QWidget *parent=0);
     ~KirjausWg();
 
     QDate tositePvm() const;
@@ -92,10 +92,16 @@ public slots:
 
 signals:
     void liiteValittu(const QString& tiedostopolku);
+    /**
+     * @brief Yksi tosite on saatu käsiteltyä.
+     *
+     * Jos ollaan tultu selauksesta, palataan selaukseen
+     */
+    void tositeKasitelty();
 
 protected:
     Ui::KirjausWg *ui;
-    TositeModel *model;
+    TositeModel *model_;
 
 
 

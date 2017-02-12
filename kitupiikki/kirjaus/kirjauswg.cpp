@@ -30,19 +30,17 @@
 
 #include <QSortFilterProxyModel>
 
-KirjausWg::KirjausWg(QWidget *parent)
-    : QWidget(parent)
+KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
+    : QWidget(parent), model_(tositeModel)
 {
-    model = kp()->tositemodel();
-
     ui = new Ui::KirjausWg();
     ui->setupUi(this);
 
-    ui->viennitView->setModel( model->vientiModel() );
+    ui->viennitView->setModel( model_->vientiModel() );
 
-    connect( model->vientiModel() , SIGNAL(siirryRuutuun(QModelIndex)), ui->viennitView, SLOT(setCurrentIndex(QModelIndex)));
-    connect( model->vientiModel(), SIGNAL(siirryRuutuun(QModelIndex)), ui->viennitView, SLOT(edit(QModelIndex)));
-    connect( model->vientiModel(), SIGNAL(muuttunut()), this, SLOT(naytaSummat()));
+    connect( model_->vientiModel() , SIGNAL(siirryRuutuun(QModelIndex)), ui->viennitView, SLOT(setCurrentIndex(QModelIndex)));
+    connect( model_->vientiModel(), SIGNAL(siirryRuutuun(QModelIndex)), ui->viennitView, SLOT(edit(QModelIndex)));
+    connect( model_->vientiModel(), SIGNAL(muuttunut()), this, SLOT(naytaSummat()));
 
     ui->viennitView->setItemDelegateForColumn( VientiModel::PVM, new PvmDelegaatti(ui->tositePvmEdit));
     ui->viennitView->setItemDelegateForColumn( VientiModel::TILI, new TiliDelegaatti() );
@@ -63,7 +61,7 @@ KirjausWg::KirjausWg(QWidget *parent)
     ui->tositetyyppiCombo->setModel( Kirjanpito::db()->tositelajit());
     ui->tositetyyppiCombo->setModelColumn( TositelajiModel::NIMI);
 
-    connect( ui->tositePvmEdit, SIGNAL(dateChanged(QDate)), model, SLOT(asetaPvm(QDate)));
+    connect( ui->tositePvmEdit, SIGNAL(dateChanged(QDate)), model_, SLOT(asetaPvm(QDate)));
     connect( ui->tositetyyppiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(vaihdaTositeTyyppi()));
     connect( ui->tunnisteEdit, SIGNAL(textChanged(QString)), this, SLOT(paivitaTunnisteVari()));
 
@@ -77,7 +75,7 @@ KirjausWg::KirjausWg(QWidget *parent)
     ui->tiliotetiliCombo->setModel( proxy );
     ui->tiliotetiliCombo->setModelColumn(TiliModel::NRONIMI);
 
-    ui->liiteView->setModel( model->liiteModel() );
+    ui->liiteView->setModel( model_->liiteModel() );
     connect( ui->liiteView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
              this, SLOT(liiteValinta(QModelIndex)));
     connect( ui->lisaaliiteNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaLiite()));
@@ -86,7 +84,7 @@ KirjausWg::KirjausWg(QWidget *parent)
 KirjausWg::~KirjausWg()
 {
     delete ui;
-    delete model;
+    delete model_;
 }
 
 QDate KirjausWg::tositePvm() const
@@ -96,10 +94,10 @@ QDate KirjausWg::tositePvm() const
 
 void KirjausWg::lisaaRivi()
 {
-    model->vientiModel()->lisaaRivi();
+    model_->vientiModel()->lisaaRivi();
     ui->viennitView->setFocus();
 
-    QModelIndex indeksi = model->vientiModel()->index( model->vientiModel()->rowCount(QModelIndex()) - 1, VientiModel::TILI );
+    QModelIndex indeksi = model_->vientiModel()->index( model_->vientiModel()->rowCount(QModelIndex()) - 1, VientiModel::TILI );
 
     ui->viennitView->setCurrentIndex( indeksi  );
     ui->viennitView->edit( indeksi );
@@ -108,41 +106,48 @@ void KirjausWg::lisaaRivi()
 void KirjausWg::tyhjenna()
 {
     // Tyhjennetään ensin model
-    model->tyhjaa();
+    model_->tyhjaa();
     // ja sitten päivitetään lomakkeen tiedot modelista
     tiedotModelista();
 }
 
 void KirjausWg::tallenna()
 {
+    // TODO: Onko virheitä
+    // 1) Debet ja kredit eivät täsmää
+    // 2) Rivit vailinnaisia
+    // ...
+
     tiedotModeliin();
-    model->tallenna();
+    model_->tallenna();
+    tyhjenna();
+    emit tositeKasitelty();;
 }
 
 void KirjausWg::hylkaa()
 {
     tyhjenna();
     ui->tositetyyppiCombo->setCurrentIndex(0);
-    emit Kirjanpito::db()->palaaEdelliselleSivulle();
+    emit tositeKasitelty();
 }
 
 void KirjausWg::naytaSummat()
 {
-    // ui->summaLabel->setText( tr("Debet %L1 €    Kredit %L2 €").arg(((double)viennitModel->debetSumma())/100.0 ,0,'f',2)
-    //                         .arg(((double)viennitModel->kreditSumma()) / 100.0 ,0,'f',2));
+    ui->summaLabel->setText( tr("Debet %L1 €    Kredit %L2 €").arg(((double) model_->vientiModel()->debetSumma())/100.0 ,0,'f',2)
+                             .arg(((double) model_->vientiModel()->kreditSumma()) / 100.0 ,0,'f',2));
 }
 
 void KirjausWg::lataaTosite(int id)
 {
-    model->lataa(id);
+    model_->lataa(id);
 
     tiedotModelista();
 
     ui->tabWidget->setCurrentIndex(0);
     ui->tositePvmEdit->setFocus();
 
-    if( model->liiteModel()->rowCount(QModelIndex()))
-        ui->liiteView->setCurrentIndex( model->liiteModel()->index(0) );
+    if( model_->liiteModel()->rowCount(QModelIndex()))
+        ui->liiteView->setCurrentIndex( model_->liiteModel()->index(0) );
 
 }
 
@@ -161,7 +166,7 @@ void KirjausWg::paivitaKommenttiMerkki()
 
 void KirjausWg::paivitaTunnisteVari()
 {
-    if( model->kelpaakoTunniste( ui->tunnisteEdit->text().toInt() ))
+    if( model_->kelpaakoTunniste( ui->tunnisteEdit->text().toInt() ))
         ui->tunnisteEdit->setStyleSheet("color: black;");
     else
         ui->tunnisteEdit->setStyleSheet("color: red;");
@@ -173,9 +178,9 @@ void KirjausWg::lisaaLiite(const QString polku)
     if( !polku.isEmpty())
     {
         QFileInfo info(polku);
-        model->liiteModel()->lisaaTiedosto(polku, info.fileName());
+        model_->liiteModel()->lisaaTiedosto(polku, info.fileName());
         // Valitsee lisätyn liitteen
-        ui->liiteView->setCurrentIndex( model->liiteModel()->index( model->liiteModel()->rowCount(QModelIndex()) - 1 ) );
+        ui->liiteView->setCurrentIndex( model_->liiteModel()->index( model_->liiteModel()->rowCount(QModelIndex()) - 1 ) );
     }
 
 }
@@ -188,42 +193,42 @@ void KirjausWg::lisaaLiite()
 
 void KirjausWg::tiedotModeliin()
 {
-    model->asetaPvm( ui->tositePvmEdit->date());
-    model->asetaOtsikko( ui->otsikkoEdit->text());
-    model->asetaTunniste( ui->tunnisteEdit->text().toInt());
-    model->asetaTositelaji( ui->tositetyyppiCombo->currentData( TositelajiModel::IdRooli).toInt() );
+    model_->asetaPvm( ui->tositePvmEdit->date());
+    model_->asetaOtsikko( ui->otsikkoEdit->text());
+    model_->asetaTunniste( ui->tunnisteEdit->text().toInt());
+    model_->asetaTositelaji( ui->tositetyyppiCombo->currentData( TositelajiModel::IdRooli).toInt() );
 
-    model->asetaKommentti( ui->kommentitEdit->toPlainText() );
+    model_->asetaKommentti( ui->kommentitEdit->toPlainText() );
 
     if( ui->tilioteBox->isChecked())
     {
-        model->asetaTiliotetili( ui->tiliotetiliCombo->currentData(TiliModel::IdRooli).toInt() );
-        model->json()->set("TilioteAlkaa", ui->tiliotealkaenEdit->date());
-        model->json()->set("TilioteLoppuu", ui->tilioteloppuenEdit->date());
+        model_->asetaTiliotetili( ui->tiliotetiliCombo->currentData(TiliModel::IdRooli).toInt() );
+        model_->json()->set("TilioteAlkaa", ui->tiliotealkaenEdit->date());
+        model_->json()->set("TilioteLoppuu", ui->tilioteloppuenEdit->date());
     }
     else
     {
-        model->asetaTiliotetili(0);
-        model->json()->unset("TilioteAlkaa");
-        model->json()->unset("TilioteLoppuu");
+        model_->asetaTiliotetili(0);
+        model_->json()->unset("TilioteAlkaa");
+        model_->json()->unset("TilioteLoppuu");
     }
 }
 
 void KirjausWg::tiedotModelista()
 {
-    ui->tositePvmEdit->setDate( model->pvm() );
-    ui->otsikkoEdit->setText( model->otsikko() );
-    ui->kommentitEdit->setPlainText( model->kommentti());
-    ui->tunnisteEdit->setText( QString::number(model->tunniste()));
-    ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( model->tositelaji().id(), TositelajiModel::IdRooli ) );
+    ui->tositePvmEdit->setDate( model_->pvm() );
+    ui->otsikkoEdit->setText( model_->otsikko() );
+    ui->kommentitEdit->setPlainText( model_->kommentti());
+    ui->tunnisteEdit->setText( QString::number(model_->tunniste()));
+    ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( model_->tositelaji().id(), TositelajiModel::IdRooli ) );
 
-    ui->tilioteBox->setChecked( model->tiliotetili() != 0 );
+    ui->tilioteBox->setChecked( model_->tiliotetili() != 0 );
     // Tiliotetilin yhdistämiset!
-    if( model->tiliotetili())
+    if( model_->tiliotetili())
     {
-        ui->tiliotetiliCombo->setCurrentIndex( ui->tiliotetiliCombo->findData( QVariant(model->tiliotetili()) ,TiliModel::IdRooli ) );
-        ui->tiliotealkaenEdit->setDate( model->json()->date("TilioteAlkaa") );
-        ui->tilioteloppuenEdit->setDate( model->json()->date("TilioteLoppuu"));
+        ui->tiliotetiliCombo->setCurrentIndex( ui->tiliotetiliCombo->findData( QVariant(model_->tiliotetili()) ,TiliModel::IdRooli ) );
+        ui->tiliotealkaenEdit->setDate( model_->json()->date("TilioteAlkaa") );
+        ui->tilioteloppuenEdit->setDate( model_->json()->date("TilioteLoppuu"));
     }
 }
 
@@ -247,11 +252,11 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
 
 void KirjausWg::vaihdaTositeTyyppi()
 {
-    model->asetaTositelaji( ui->tositetyyppiCombo->currentData(TositelajiModel::IdRooli).toInt() );
-    ui->tyyppiLabel->setText( model->tositelaji().tunnus());
+    model_->asetaTositelaji( ui->tositetyyppiCombo->currentData(TositelajiModel::IdRooli).toInt() );
+    ui->tyyppiLabel->setText( model_->tositelaji().tunnus());
 
     // Päivitetään tositenumero modelista ;)
-    ui->tunnisteEdit->setText( QString::number(model->tunniste() ));
+    ui->tunnisteEdit->setText( QString::number(model_->tunniste() ));
 }
 
 void KirjausWg::liiteValinta(const QModelIndex &valittu)

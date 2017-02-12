@@ -18,6 +18,7 @@
 
 #include <QSplitter>
 #include <QHBoxLayout>
+#include <QMessageBox>
 
 #include "kirjaussivu.h"
 
@@ -29,9 +30,10 @@
 
 KirjausSivu::KirjausSivu() : KitupiikkiSivu()
 {
+    model = kp()->tositemodel();
 
     liitewg = new NaytaliiteWg();
-    kirjauswg = new KirjausWg();
+    kirjauswg = new KirjausWg(model);
 
     QSplitter *splitter = new QSplitter(Qt::Vertical);
     splitter->addWidget(liitewg);
@@ -44,6 +46,7 @@ KirjausSivu::KirjausSivu() : KitupiikkiSivu()
 
     connect( liitewg, SIGNAL(lisaaLiite(QString)), kirjauswg, SLOT(lisaaLiite(QString)));
     connect( kirjauswg, SIGNAL(liiteValittu(QString)), liitewg, SLOT(naytaTiedosto(QString)));
+    connect( kirjauswg, SIGNAL(tositeKasitelty()), this, SLOT(tositeKasitelty()));
 }
 
 KirjausSivu::~KirjausSivu()
@@ -53,11 +56,31 @@ KirjausSivu::~KirjausSivu()
 
 void KirjausSivu::siirrySivulle()
 {
+    palataanTakaisin_ = false;
     kirjauswg->tyhjenna();
+}
+
+bool KirjausSivu::poistuSivulta()
+{
+    if( model->muokattu())
+    {
+        if( QMessageBox::question(this, tr("Kitupiikki"), tr("Nykyistä kirjausta on muokattu. Poistutko sivulta tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
+        {
+            return false;
+        }
+    }
+    return true;
 }
 
 void KirjausSivu::naytaTosite(int tositeId)
 {
+    palataanTakaisin_ = true;
     kirjauswg->lataaTosite(tositeId);
+}
+
+void KirjausSivu::tositeKasitelty()
+{
+    if( palataanTakaisin_)
+        emit kp()->palaaEdelliselleSivulle();
 }
 

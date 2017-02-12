@@ -63,6 +63,12 @@ public:
     int debetSumma() const;
     int kreditSumma() const;
 
+    /**
+     * @brief Onko vientejä muokattu tallennuksen jälkeen
+     * @return
+     */
+    bool muokattu() const { return muokattu_; }
+
 public slots:
     void tallenna();
     void tyhjaa();
@@ -78,7 +84,7 @@ protected:
     QList<VientiRivi> viennit_;
 
     VientiRivi uusiRivi();
-    bool muokkausSallittu;
+    bool muokattu_;
 };
 
 #endif // VIENTIMODEL_H
