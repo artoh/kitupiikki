@@ -25,7 +25,7 @@
 #include "tili.h"
 
 
-TiliModel::TiliModel(QSqlDatabase tietokanta, QObject *parent) :
+TiliModel::TiliModel(QSqlDatabase *tietokanta, QObject *parent) :
     QAbstractTableModel(parent), tietokanta_(tietokanta)
 {
 
@@ -109,7 +109,7 @@ void TiliModel::lataa()
     beginResetModel();
     tilit_.clear();
 
-    QSqlQuery kysely( tietokanta_ );
+    QSqlQuery kysely( *tietokanta_ );
     kysely.exec("SELECT id, nro, nimi, tyyppi, tila,"
                 "otsikkotaso FROM tili ORDER BY ysiluku");
 
@@ -129,7 +129,7 @@ void TiliModel::lataa()
 
 void TiliModel::tallenna()
 {
-    QSqlQuery kysely(tietokanta_);
+    QSqlQuery kysely(*tietokanta_);
     foreach (Tili tili, tilit_)
     {
         if( tili.onkoValidi() && tili.muokattu())

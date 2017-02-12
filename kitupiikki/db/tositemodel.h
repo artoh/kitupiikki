@@ -26,6 +26,7 @@
 #include "db/tositelaji.h"
 #include "db/jsonkentta.h"
 #include "db/liitemodel.h"
+#include "db/kirjanpito.h"
 
 /**
  * @brief Tositteen tiedot
@@ -34,7 +35,7 @@ class TositeModel : public QObject
 {
     Q_OBJECT
 public:
-    TositeModel(QSqlDatabase tietokanta, QObject *parent = 0);
+    TositeModel(QSqlDatabase *tietokanta, QObject *parent = 0);
 
     int id() const { return id_; }
     QDate pvm() const { return pvm_; }
@@ -59,9 +60,22 @@ public:
     VientiModel *vientiModel() { return vientiModel_; }
     LiiteModel* liiteModel() { return liiteModel_; }
 
-    QSqlDatabase tietokanta() { return tietokanta_; }
+    QSqlDatabase *tietokanta() { return tietokanta_; }
 
     JsonKentta *json() { return &json_; }
+
+    /**
+     * @brief Palauttaa seuraavan mahdollisen tunnistenumeron
+     * @return
+     */
+    int seuraavaTunnistenumero() const;
+
+    /**
+     * @brief Kertoo, onko sanottu tunnistenumero kelvollinen
+     * @param tunniste
+     * @return
+     */
+    bool kelpaakoTunniste(int tunnistenumero) const;
 
 signals:
 
@@ -92,7 +106,7 @@ protected:
 
     JsonKentta json_;
 
-    QSqlDatabase tietokanta_;
+    QSqlDatabase *tietokanta_;
 
 
     VientiModel* vientiModel_;

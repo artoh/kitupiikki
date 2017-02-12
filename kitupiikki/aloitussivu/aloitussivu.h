@@ -41,6 +41,7 @@ class AloitusSivu : public KitupiikkiSivu
 
 public:
     AloitusSivu();
+    ~AloitusSivu();
 
 public slots:
 

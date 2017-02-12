@@ -67,6 +67,16 @@ QByteArray JsonKentta::toJson()
     return doc.toJson( QJsonDocument::Compact);
 }
 
+QVariant JsonKentta::toSqlJson()
+{
+    if( map_.count())
+        return QVariant( toJson() );
+    else
+        return QVariant();
+
+
+}
+
 void JsonKentta::fromJson(const QByteArray &json)
 {
     QJsonDocument doc = QJsonDocument::fromJson( json );

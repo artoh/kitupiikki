@@ -19,6 +19,7 @@
 #define TOSITELAJIMODEL_H
 
 #include <QAbstractTableModel>
+#include <QSqlDatabase>
 
 #include "tositelaji.h"
 
@@ -43,7 +44,7 @@ public:
         NimiRooli = Qt::UserRole + 2
     };
 
-    TositelajiModel(QObject *parent = 0);
+    TositelajiModel(QSqlDatabase *tietokanta, QObject *parent = 0);
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
@@ -63,6 +64,7 @@ public slots:
 
 protected:
     QList<Tositelaji> lajit_;
+    QSqlDatabase *tietokanta_;
 };
 
 #endif // TOSITELAJIMODEL_H

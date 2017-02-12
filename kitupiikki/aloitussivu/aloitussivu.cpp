@@ -77,6 +77,11 @@ AloitusSivu::AloitusSivu() :
 
 }
 
+AloitusSivu::~AloitusSivu()
+{
+
+}
+
 
 void AloitusSivu::siirrySivulle()
 {

@@ -38,10 +38,10 @@ Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
             viimetiedostot[split[0]]=split[1];
     }
 
-    asetusModel_ = new AsetusModel(tietokanta_, this);
-    tositelajiModel_ = new TositelajiModel(this);
-    tiliModel_ = new TiliModel( tietokanta_, this);
-    tilikaudetModel_ = new TilikausiModel(tietokanta_, this);
+    asetusModel_ = new AsetusModel(&tietokanta_, this);
+    tositelajiModel_ = new TositelajiModel(&tietokanta_, this);
+    tiliModel_ = new TiliModel( &tietokanta_, this);
+    tilikaudetModel_ = new TilikausiModel(&tietokanta_, this);
 }
 
 Kirjanpito::~Kirjanpito()
@@ -88,9 +88,9 @@ Tilikausi Kirjanpito::tilikausiPaivalle(const QDate &paiva) const
     return tilikaudet()->tilikausiPaivalle(paiva);
 }
 
-TositeModel *Kirjanpito::tositemodel(QObject *parent) const
+TositeModel *Kirjanpito::tositemodel(QObject *parent)
 {
-    return new TositeModel( tietokanta_ , parent);
+    return new TositeModel( &tietokanta_ , parent);
 }
 
 

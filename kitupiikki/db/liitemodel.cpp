@@ -117,7 +117,7 @@ void LiiteModel::lataa()
     endResetModel();
     liitteet_.clear();
 
-    QSqlQuery kysely( tositeModel_->tietokanta());
+    QSqlQuery kysely( *tositeModel_->tietokanta());
     kysely.exec( QString("SELECT id, liiteno, otsikko, tiedosto, sha "
                          "FROM liite WHERE tosite=%1 ORDER BY liiteno").arg( tositeModel_->id() ));
     while( kysely.next())
@@ -142,7 +142,7 @@ void LiiteModel::tyhjaa()
 
 void LiiteModel::tallenna()
 {
-    QSqlQuery kysely( tositeModel_->tietokanta());
+    QSqlQuery kysely( *tositeModel_->tietokanta());
     for( int i=0; i<liitteet_.count(); i++)
     {
         // Ensin mahdollinen tiedoston kopiointi

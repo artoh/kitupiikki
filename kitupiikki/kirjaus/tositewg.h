@@ -33,18 +33,9 @@ public:
     TositeWg(TositeModel *tositemodel);
     ~TositeWg();
 
-    QString tositeTunniste() const;
-    bool onkoTiedostoa() const;
-
-    bool tallennaTosite(int tositeId);
-
 public slots:
-    void lataaTosite(const QString& tositetiedostonpolku);
     void valitseTiedosto();
-
-    void tyhjenna(const QString& tositenumero = QString(),
-                  const QString& tositetiedosto = QString());
-
+    void paivita();
 
 protected:
     Ui::TositeWg *ui;
@@ -52,11 +43,6 @@ protected:
 
     QGraphicsScene* scene;
     QGraphicsView *view;
-
-    QString uusitiedostopolku;
-    QString alkuperainentiedostopolku;
-
-    void naytaTosite(const QString& tositetiedostonpolku);
 
 };
 

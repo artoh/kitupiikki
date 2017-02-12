@@ -25,7 +25,7 @@
 #include <QDebug>
 #include <QSqlError>
 
-TositeModel::TositeModel(QSqlDatabase tietokanta, QObject *parent)
+TositeModel::TositeModel(QSqlDatabase *tietokanta, QObject *parent)
     : QObject(parent), tietokanta_(tietokanta)
 {
     vientiModel_ = new VientiModel(this);
@@ -36,6 +36,41 @@ TositeModel::TositeModel(QSqlDatabase tietokanta, QObject *parent)
 Tositelaji TositeModel::tositelaji() const
 {
     return kp()->tositelajit()->tositelaji( tositelaji_ );
+}
+
+int TositeModel::seuraavaTunnistenumero() const
+{
+    Tilikausi kausi = kp()->tilikausiPaivalle( pvm() );
+    QString kysymys = QString("SELECT max(tunniste) FROM tosite WHERE "
+                    " pvm BETWEEN \"%1\" AND \"%2\" "
+                    " AND laji=\"%3\" ")
+                                .arg(kausi.alkaa().toString(Qt::ISODate))
+                                .arg(kausi.paattyy().toString(Qt::ISODate))
+                                .arg( tositelaji_ );
+
+    QSqlQuery kysely( *tietokanta_ );
+    kysely.exec();
+    if( kysely.next())
+        return kysely.value(0).toInt() + 1;
+    else
+        return 1;
+}
+
+bool TositeModel::kelpaakoTunniste(int tunnistenumero) const
+{
+    // Tunniste ei kelpaa, jos kyseisellä kaudella se on jo
+
+    Tilikausi kausi = kp()->tilikausiPaivalle( pvm() );
+    QString kysymys = QString("SELECT id FROM tosite WHERE tunniste=\"%1\" "
+                              "AND pvm BETWEEN \"%2\" AND \"%3\" AND id <> %4 "
+                              "AND laji=\"%5\" ").arg( tunnistenumero )
+                                                 .arg(kausi.alkaa().toString(Qt::ISODate))
+                                                 .arg(kausi.paattyy().toString(Qt::ISODate))
+                                                 .arg( id() )
+                                                 .arg( tositelaji_ );
+    QSqlQuery kysely( *tietokanta_ );
+    kysely.exec(kysymys);
+    return !kysely.next();
 }
 
 void TositeModel::asetaPvm(const QDate &pvm)
@@ -56,14 +91,18 @@ void TositeModel::asetaKommentti(const QString &kommentti)
 void TositeModel::asetaTunniste(int tunniste)
 {
     tunniste_ = tunniste;
-    // TODO: Tarkistukset
 }
 
 
 void TositeModel::asetaTositelaji(int tositelajiId)
 {
-    tositelaji_ = tositelajiId;
-    // TODO: Tarkistukset
+    if( tositelajiId != tositelaji_)
+    {
+        tositelaji_ = tositelajiId;
+        // Vaihdetaan sopiva tunniste
+        tunniste_ = seuraavaTunnistenumero();
+    }
+
 }
 
 void TositeModel::asetaTiliotetili(int tiliId)
@@ -75,7 +114,7 @@ void TositeModel::lataa(int id)
 {
     // Lataa tositteen
 
-    QSqlQuery kysely(tietokanta_);
+    QSqlQuery kysely(*tietokanta_);
     kysely.exec( QString("SELECT pvm, otsikko, kommentti, tunniste,"
                               "laji, tiliote, json FROM tosite "
                               "WHERE id = %1").arg(id));
@@ -101,12 +140,13 @@ void TositeModel::tyhjaa()
     pvm_ = kp()->paivamaara();
     otsikko_ = QString();
     kommentti_ = QString();
-    tunniste_ = 0;
     tositelaji_ = 1;
+    tunniste_ = seuraavaTunnistenumero();
     tiliotetili_ = 0;
 
     vientiModel_->tyhjaa();
     liiteModel_->tyhjaa();
+
 }
 
 void TositeModel::tallenna()
@@ -114,11 +154,11 @@ void TositeModel::tallenna()
     // Tallentaa tositteen
 
 
-    QSqlQuery kysely(tietokanta_);
+    QSqlQuery kysely(*tietokanta_);
     if( id() )
     {
-        kysely.prepare("UPDATE tosite SET pvm=:pvm, otsikko=:otsikko, kommentti:=kommentti,"
-                       "tunniste=:tunniste, laji=:laji, tiliote=:tiliote, json:=json WHERE id=:id");
+        kysely.prepare("UPDATE tosite SET pvm=:pvm, otsikko=:otsikko, kommentti=:kommentti, "
+                       "tunniste=:tunniste, laji=:laji, tiliote=:tiliote, json=:json WHERE id=:id");
         kysely.bindValue(":id", id());
     }
     else

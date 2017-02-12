@@ -51,7 +51,7 @@ public:
     };
 
 
-    TiliModel(QSqlDatabase tietokanta, QObject *parent = 0);
+    TiliModel(QSqlDatabase *tietokanta, QObject *parent = 0);
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
@@ -68,7 +68,7 @@ public slots:
     void tallenna();
 
 protected:
-    QSqlDatabase tietokanta_;
+    QSqlDatabase *tietokanta_;
 
     QList<Tili> tilit_;
 

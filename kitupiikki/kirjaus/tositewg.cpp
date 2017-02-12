@@ -45,6 +45,8 @@ TositeWg::TositeWg(TositeModel *tositemodel)
     addWidget(view);
 
     connect(ui->valitseTiedostoNappi, SIGNAL(clicked(bool)), this, SLOT(valitseTiedosto()));
+    connect( model->liiteModel(), SIGNAL(modelReset()), this, SLOT(paivita()));
+    connect( model->liiteModel(), SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(paivita()));
 }
 
 TositeWg::~TositeWg()
@@ -52,104 +54,32 @@ TositeWg::~TositeWg()
     delete ui;
 }
 
-QString TositeWg::tositeTunniste() const
-{
-    return QString();
-}
-
-bool TositeWg::onkoTiedostoa() const
-{
-    return (!alkuperainentiedostopolku.isEmpty()) && (!uusitiedostopolku.isEmpty());
-}
-
-
-
-bool TositeWg::tallennaTosite(int tositeId)
-{
-    if( uusitiedostopolku.isEmpty())
-        return false;     // Tositetiedosto ei vaihtunut
-
-
-    // Uuden tallentaminen
-    QFileInfo info( uusitiedostopolku );
-    QString tnimi = QString("%1.%2")
-            .arg(tositeId,8,10,QChar('0'))
-            .arg( info.suffix());
-
-    QString kopiopolku = Kirjanpito::db()->hakemisto().absoluteFilePath("tositteet/" + tnimi);
-
-    QFile tiedosto(uusitiedostopolku);
-    tiedosto.open(QIODevice::ReadOnly);
-    QByteArray sisalto = tiedosto.readAll();
-    tiedosto.close();
-
-    // Lasketaan SHA256-tiiviste eheyden varmistamiseksi
-    QCryptographicHash hash(QCryptographicHash::Sha256);
-    hash.addData(sisalto);
-
-    QFile uusitiedosto(kopiopolku);
-    uusitiedosto.open(QIODevice::WriteOnly);
-    uusitiedosto.write(sisalto);
-    uusitiedosto.close();
-
-
-    qDebug() << kopiopolku;
-
-    QSqlQuery kysely;
-
-    kysely.prepare("UPDATE tosite SET tiedosto=:tiedosto, sha=:sha WHERE id=:id");
-    kysely.bindValue(":tiedosto", tnimi);
-    kysely.bindValue(":id", tositeId);
-    kysely.bindValue(":sha", hash.result().toHex() );
-    kysely.exec();
-
-    return true;
-
-}
-
-void TositeWg::lataaTosite(const QString &tositetiedostonpolku)
-{
-    uusitiedostopolku = tositetiedostonpolku;
-
-    model->liiteModel()->lisaaTiedosto( tositetiedostonpolku, "Tosite");
-
-    naytaTosite(uusitiedostopolku);
-}
-
 void TositeWg::valitseTiedosto()
 {
     QString polku = QFileDialog::getOpenFileName(this, tr("Valitse tosite"),QString(),tr("Kuvat (*.png *.jpg)"));
     if( !polku.isEmpty())
-        lataaTosite(polku);
+    {
+        QFileInfo info(polku);
+        model->liiteModel()->lisaaTiedosto( polku, info.fileName());
+    }
 }
 
-void TositeWg::tyhjenna(const QString &tositenumero, const QString &tositetiedosto)
+void TositeWg::paivita()
 {
-    qDebug() << " Tosite " << tositenumero << " : " << tositetiedosto;
-
-    uusitiedostopolku.clear();
-
-    if( tositetiedosto.isEmpty())
+    if( model->liiteModel()->rowCount( QModelIndex()))
     {
-        setCurrentIndex(0);
-        alkuperainentiedostopolku = QString();
+        // Näytä tiedosto
+        scene->clear();
+        QPixmap kuva( model->liiteModel()->data( model->liiteModel()->index(0,0), LiiteModel::Polkurooli ).toString() );
+        scene->addPixmap(kuva);
+        view->fitInView(0,0,kuva.width(), kuva.height(), Qt::KeepAspectRatio);
+
+        setCurrentIndex(1);
     }
     else
     {
-        alkuperainentiedostopolku = Kirjanpito::db()->hakemisto().absoluteFilePath("tositteet/" + tositetiedosto);
-        naytaTosite( alkuperainentiedostopolku );
+        setCurrentIndex(0);
     }
-}
-
-
-void TositeWg::naytaTosite(const QString &tositetiedostonpolku)
-{
-    scene->clear();
-    QPixmap kuva(tositetiedostonpolku);
-    scene->addPixmap(kuva);
-    view->fitInView(0,0,kuva.width(), kuva.height(), Qt::KeepAspectRatio);
-
-    setCurrentIndex(1);
 }
 
 

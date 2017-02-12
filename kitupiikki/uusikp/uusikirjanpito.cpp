@@ -177,7 +177,7 @@ bool UusiKirjanpito::alustaKirjanpito()
     progDlg.setValue( progDlg.value() + 1 );
 
 
-    AsetusModel asetukset(db);
+    AsetusModel asetukset(&db);
 
     // Kirjataan tietokannan perustietoja
 
@@ -205,7 +205,7 @@ bool UusiKirjanpito::alustaKirjanpito()
     progDlg.setValue( progDlg.value() + 1 );
 
     // Tilien ja otsikkojen kirjoittaminen
-    TiliModel tilit(db);
+    TiliModel tilit(&db);
 
     QStringList tililista = kartta.value("tilit");
     foreach ( QString tili, tililista)
@@ -238,7 +238,7 @@ bool UusiKirjanpito::alustaKirjanpito()
     // Tilikausien kirjoittaminen
     // Nykyinen tilikausi
 
-    TilikausiModel tilikaudet(db);
+    TilikausiModel tilikaudet(&db);
     tilikaudet.lisaaTilikausi( Tilikausi( field("alkaa").toDate(), field("paattyy").toDate() ));
 
     if( field("onekakausi").toBool())

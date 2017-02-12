@@ -40,7 +40,7 @@ public:
     };
 
 
-    TilikausiModel(QSqlDatabase tietokanta, QObject *parent = 0);
+    TilikausiModel(QSqlDatabase *tietokanta, QObject *parent = 0);
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
@@ -58,7 +58,7 @@ public slots:
     void tallenna();
 
 protected:
-    QSqlDatabase tietokanta_;
+    QSqlDatabase *tietokanta_;
     QList<Tilikausi> kaudet_;
 };
 

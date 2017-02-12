@@ -70,6 +70,7 @@ void TilikarttaSivu::lataaSisaisetKartat()
 void TilikarttaSivu::initializePage()
 {
     ui->tilikarttaList->selectionModel()->clearSelection();
+    ui->tilikarttaList->setCurrentRow(-1);
     ui->kuvausLabel->clear();
 }
 

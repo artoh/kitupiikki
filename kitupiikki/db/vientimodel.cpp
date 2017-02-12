@@ -225,7 +225,7 @@ int VientiModel::kreditSumma() const
 
 void VientiModel::tallenna()
 {
-    QSqlQuery query(tositeModel_->tietokanta());
+    QSqlQuery query(*tositeModel_->tietokanta());
     for(int i=0; i < viennit_.count() ; i++)
     {
         VientiRivi rivi = viennit_[i];
@@ -267,7 +267,7 @@ void VientiModel::lataa()
     beginResetModel();
     viennit_.clear();
 
-    QSqlQuery query( tositeModel_->tietokanta() );
+    QSqlQuery query( *tositeModel_->tietokanta() );
     query.exec(QString("SELECT id, pvm, tili, debetsnt, kreditsnt, selite FROM vienti WHERE tosite=%1 "
                        "ORDER BY id").arg( tositeModel_->id() ));
     while( query.next())

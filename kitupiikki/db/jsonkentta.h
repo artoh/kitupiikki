@@ -44,7 +44,9 @@ public:
     int luku(const QString& avain);
 
     QByteArray toJson();
+    QVariant toSqlJson();
     void fromJson(const QByteArray& json);
+
 
 
 protected:

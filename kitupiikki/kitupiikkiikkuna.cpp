@@ -62,7 +62,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 
     aloitussivu = new AloitusSivu();
 
-    kirjaussivu = new KirjausSivu();
+    kirjaussivu =  new KirjausSivu();
     selaussivu = new SelausWg();
     maarityssivu = new MaaritysSivu();
     raporttisivu = new RaporttiSivu();

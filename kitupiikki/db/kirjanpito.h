@@ -129,7 +129,7 @@ public:
      * @brief Palauttaa TositeModel:in, jonka kautta pääsee tositteisiin
      * @return
      */
-    TositeModel *tositemodel(QObject *parent = 0) const;
+    TositeModel *tositemodel(QObject *parent = 0);
 
 signals:
     void tietokantaVaihtui();

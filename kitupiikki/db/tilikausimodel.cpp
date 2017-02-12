@@ -19,7 +19,7 @@
 
 #include "tilikausimodel.h"
 
-TilikausiModel::TilikausiModel(QSqlDatabase tietokanta, QObject *parent) :
+TilikausiModel::TilikausiModel(QSqlDatabase *tietokanta, QObject *parent) :
     QAbstractTableModel(parent), tietokanta_(tietokanta)
 {
 
@@ -93,7 +93,7 @@ void TilikausiModel::lataa()
     beginResetModel();
     kaudet_.clear();
 
-    QSqlQuery kysely(tietokanta_);
+    QSqlQuery kysely(*tietokanta_);
 
     kysely.exec("SELECT alkaa, loppuu FROM tilikausi ORDER BY alkaa");
     while( kysely.next())
@@ -108,7 +108,7 @@ void TilikausiModel::tallenna()
     // Tilikausi tallennetaan aina kirjoittamalla se kokonaan uudelleen
     tietokanta_.transaction();
 
-    QSqlQuery kysely(tietokanta_);
+    QSqlQuery kysely(*tietokanta_);
     kysely.exec("DELETE FROM tilikausi");
 
     kysely.prepare("INSERT INTO tilikausi(alkaa,loppuu) VALUES(:alku,:loppu)");

@@ -23,8 +23,8 @@
 #include <QDebug>
 
 
-TositelajiModel::TositelajiModel(QObject *parent)
-    : QAbstractTableModel(parent)
+TositelajiModel::TositelajiModel(QSqlDatabase *tietokanta, QObject *parent)
+    : QAbstractTableModel(parent), tietokanta_(tietokanta)
 {
 
 }
@@ -137,8 +137,8 @@ void TositelajiModel::lataa()
     beginResetModel();
 
     lajit_.clear();
-    QSqlQuery kysely("SELECT id,tunnus,nimi FROM tositelaji");
-    qDebug() << kysely.lastQuery();
+    QSqlQuery kysely(*tietokanta_);
+    kysely.exec("SELECT id,tunnus,nimi FROM tositelaji");
     while( kysely.next())
     {
         qDebug() << kysely.value(0).toInt() << " - " << kysely.value(1).toString() << " - " << kysely.value(2).toString() ;
@@ -153,7 +153,7 @@ void TositelajiModel::lataa()
 
 bool TositelajiModel::tallenna()
 {
-    QSqlQuery tallennus;
+    QSqlQuery tallennus( *tietokanta_);
     for(int i=0; i < lajit_.count(); i++)
     {
         Tositelaji laji = lajit_[i];

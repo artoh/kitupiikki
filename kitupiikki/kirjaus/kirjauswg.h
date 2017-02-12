@@ -46,11 +46,26 @@ public slots:
     void tyhjenna();
     void tallenna();
     void hylkaa();
+
     void naytaSummat();
     void lataaTosite(int id);
+
     void paivitaKommenttiMerkki();
-    void tarkistaTunniste();
-    void korjaaTunniste();
+    /**
+     * @brief Jos tunniste ei ole kelpo, värjätään se punaiseksi!
+     */
+    void paivitaTunnisteVari();
+
+    void lisaaLiite();
+
+    /**
+     * @brief Siirtää lomakkeen tiedot modeliin
+     */
+    void tiedotModeliin();
+    /**
+     * @brief Hakee tiedot modelista lomakkeeseen;
+     */
+    void tiedotModelista();
 
 
     /**
@@ -64,25 +79,11 @@ public slots:
 
     void vaihdaTositeTyyppi();
 
-    /**
-     * @brief Kun tositteella on kirjauksia, ei tositteen tilikautta voi enää vaihtaa
-     * @param lukitaanko
-     */
-    void lukitseTilikaudelle(bool lukitaanko);
-
-    void tarkistaTunnisteJosTilikausiVaihtui(QDate uusipaiva);
 
 protected:
     Ui::KirjausWg *ui;
-
     TositeModel *model;
 
-
-    int tositeId;   /** Käsiteltävänä olevan tositteen id tai 0 jos tositetta ei tallennettu */
-
-    int seuraavaNumero();   /** Seuraava vapaa numero tälle tilikaudelle */
-    bool kelpaakoTunniste();
-    QDate edellinenpvm;
 
 
 
