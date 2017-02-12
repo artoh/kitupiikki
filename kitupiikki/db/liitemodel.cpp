@@ -47,7 +47,6 @@ QString Liite::tarkenne() const
 
     int indeksi = apu.lastIndexOf('.');
 
-qDebug() << apu << " --- " << indeksi;
     if( indeksi > 0)
     {
         return apu.mid( indeksi + 1).toLower();

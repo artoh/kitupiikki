@@ -15,35 +15,36 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TOSITEWG_H
-#define TOSITEWG_H
+#ifndef NAYTALIITEWG_H
+#define NAYTALIITEWG_H
 
 #include <QStackedWidget>
 #include "ui_tositewg.h"
 
-#include "db/tositemodel.h"
 
 class QGraphicsScene;
 class QGraphicsView;
 
-class TositeWg : public QStackedWidget
+class NaytaliiteWg : public QStackedWidget
 {
     Q_OBJECT
 public:
-    TositeWg(TositeModel *tositemodel);
-    ~TositeWg();
+    NaytaliiteWg(QWidget *parent=0);
+    ~NaytaliiteWg();
 
 public slots:
     void valitseTiedosto();
-    void paivita();
+    void naytaTiedosto(const QString& polku);
+
+signals:
+    void lisaaLiite(const QString& polku);
 
 protected:
     Ui::TositeWg *ui;
-    TositeModel *model;
 
     QGraphicsScene* scene;
     QGraphicsView *view;
 
 };
 
-#endif // TOSITEWG_H
+#endif // NAYTALIITEWG_H

@@ -27,12 +27,12 @@
 
 #include <QDebug>
 
-#include "tositewg.h"
+#include "naytaliitewg.h"
 #include "db/kirjanpito.h"
 
 
-TositeWg::TositeWg(TositeModel *tositemodel)
-    : QStackedWidget(), model(tositemodel)
+NaytaliiteWg::NaytaliiteWg(QWidget *parent)
+    : QStackedWidget(parent)
 {
     QWidget *paasivu = new QWidget();
     ui = new Ui::TositeWg;
@@ -45,40 +45,37 @@ TositeWg::TositeWg(TositeModel *tositemodel)
     addWidget(view);
 
     connect(ui->valitseTiedostoNappi, SIGNAL(clicked(bool)), this, SLOT(valitseTiedosto()));
-    connect( model->liiteModel(), SIGNAL(modelReset()), this, SLOT(paivita()));
-    connect( model->liiteModel(), SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(paivita()));
 }
 
-TositeWg::~TositeWg()
+NaytaliiteWg::~NaytaliiteWg()
 {
     delete ui;
 }
 
-void TositeWg::valitseTiedosto()
+void NaytaliiteWg::valitseTiedosto()
 {
     QString polku = QFileDialog::getOpenFileName(this, tr("Valitse tosite"),QString(),tr("Kuvat (*.png *.jpg)"));
     if( !polku.isEmpty())
     {
-        QFileInfo info(polku);
-        model->liiteModel()->lisaaTiedosto( polku, info.fileName());
+        emit lisaaLiite( polku );
     }
 }
 
-void TositeWg::paivita()
+void NaytaliiteWg::naytaTiedosto(const QString &polku)
 {
-    if( model->liiteModel()->rowCount( QModelIndex()))
+    if( polku.isEmpty())
+    {
+        setCurrentIndex(0);
+    }
+    else
     {
         // Näytä tiedosto
         scene->clear();
-        QPixmap kuva( model->liiteModel()->data( model->liiteModel()->index(0,0), LiiteModel::Polkurooli ).toString() );
+        QPixmap kuva( polku );
         scene->addPixmap(kuva);
         view->fitInView(0,0,kuva.width(), kuva.height(), Qt::KeepAspectRatio);
 
         setCurrentIndex(1);
-    }
-    else
-    {
-        setCurrentIndex(0);
     }
 }
 

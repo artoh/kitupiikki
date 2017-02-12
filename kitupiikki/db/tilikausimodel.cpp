@@ -106,7 +106,7 @@ void TilikausiModel::lataa()
 void TilikausiModel::tallenna()
 {
     // Tilikausi tallennetaan aina kirjoittamalla se kokonaan uudelleen
-    tietokanta_.transaction();
+    tietokanta_->transaction();
 
     QSqlQuery kysely(*tietokanta_);
     kysely.exec("DELETE FROM tilikausi");
@@ -119,5 +119,5 @@ void TilikausiModel::tallenna()
         kysely.exec();
     }
 
-    tietokanta_.commit();
+    tietokanta_->commit();
 }

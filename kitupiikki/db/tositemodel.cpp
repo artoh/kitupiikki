@@ -49,7 +49,10 @@ int TositeModel::seuraavaTunnistenumero() const
                                 .arg( tositelaji_ );
 
     QSqlQuery kysely( *tietokanta_ );
-    kysely.exec();
+    kysely.exec(kysymys);
+
+    qDebug() << kysely.lastError().text() << "  " << kysely.lastQuery() << " p " << pvm().toString();
+
     if( kysely.next())
         return kysely.value(0).toInt() + 1;
     else
@@ -101,6 +104,8 @@ void TositeModel::asetaTositelaji(int tositelajiId)
         tositelaji_ = tositelajiId;
         // Vaihdetaan sopiva tunniste
         tunniste_ = seuraavaTunnistenumero();
+
+        qDebug() << tositelaji().nimi() << " n:o" << tunniste();
     }
 
 }

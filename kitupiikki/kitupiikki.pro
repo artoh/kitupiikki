@@ -26,7 +26,6 @@ SOURCES += main.cpp \
     maaritys/maarityssivu.cpp \
     kirjaus/kirjauswg.cpp \
     kirjaus/kirjaussivu.cpp \
-    kirjaus/tositewg.cpp \
     db/tili.cpp \
     kirjaus/tilidelegaatti.cpp \
     kirjaus/eurodelegaatti.cpp \
@@ -55,7 +54,8 @@ SOURCES += main.cpp \
     db/tositemodel.cpp \
     db/vientimodel.cpp \
     db/liitemodel.cpp \
-    db/jsonkentta.cpp
+    db/jsonkentta.cpp \
+    kirjaus/naytaliitewg.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -73,7 +73,6 @@ HEADERS += \
     maaritys/maarityssivu.h \
     kirjaus/kirjauswg.h \
     kirjaus/kirjaussivu.h \
-    kirjaus/tositewg.h \
     db/tili.h \
     kirjaus/tilidelegaatti.h \
     kirjaus/eurodelegaatti.h \
@@ -102,7 +101,8 @@ HEADERS += \
     db/tositemodel.h \
     db/vientimodel.h \
     db/liitemodel.h \
-    db/jsonkentta.h
+    db/jsonkentta.h \
+    kirjaus/naytaliitewg.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

@@ -23,7 +23,7 @@
 #include "kitupiikkisivu.h"
 
 class KirjausWg;
-class TositeWg;
+class NaytaliiteWg;
 
 class KirjausSivu : public KitupiikkiSivu
 {
@@ -41,7 +41,7 @@ public slots:
 
 protected:
     KirjausWg *kirjauswg;
-    TositeWg *tositewg;
+    NaytaliiteWg *liitewg;
 };
 
 #endif // KIRJAUSSIVU_H

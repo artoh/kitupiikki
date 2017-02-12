@@ -30,8 +30,11 @@
 
 #include <QSortFilterProxyModel>
 
-KirjausWg::KirjausWg(TositeModel *tositeModel) : QWidget(), model(tositeModel)
+KirjausWg::KirjausWg(QWidget *parent)
+    : QWidget(parent)
 {
+    model = kp()->tositemodel();
+
     ui = new Ui::KirjausWg();
     ui->setupUi(this);
 
@@ -75,6 +78,8 @@ KirjausWg::KirjausWg(TositeModel *tositeModel) : QWidget(), model(tositeModel)
     ui->tiliotetiliCombo->setModelColumn(TiliModel::NRONIMI);
 
     ui->liiteView->setModel( model->liiteModel() );
+    connect( ui->liiteView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
+             this, SLOT(liiteValinta(QModelIndex)));
     connect( ui->lisaaliiteNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaLiite()));
 }
 
@@ -136,6 +141,9 @@ void KirjausWg::lataaTosite(int id)
     ui->tabWidget->setCurrentIndex(0);
     ui->tositePvmEdit->setFocus();
 
+    if( model->liiteModel()->rowCount(QModelIndex()))
+        ui->liiteView->setCurrentIndex( model->liiteModel()->index(0) );
+
 }
 
 void KirjausWg::paivitaKommenttiMerkki()
@@ -160,16 +168,23 @@ void KirjausWg::paivitaTunnisteVari()
 
 }
 
-void KirjausWg::lisaaLiite()
+void KirjausWg::lisaaLiite(const QString polku)
 {
-    QString polku = QFileDialog::getOpenFileName(this, tr("Lisää liite"),QString(),tr("Kuvat (*.png *.jpg)"));
     if( !polku.isEmpty())
     {
         QFileInfo info(polku);
         model->liiteModel()->lisaaTiedosto(polku, info.fileName());
+        // Valitsee lisätyn liitteen
+        ui->liiteView->setCurrentIndex( model->liiteModel()->index( model->liiteModel()->rowCount(QModelIndex()) - 1 ) );
     }
 
 }
+
+void KirjausWg::lisaaLiite()
+{
+    lisaaLiite(QFileDialog::getOpenFileName(this, tr("Lisää liite"),QString(),tr("Kuvat (*.png *.jpg)")));
+}
+
 
 void KirjausWg::tiedotModeliin()
 {
@@ -237,5 +252,19 @@ void KirjausWg::vaihdaTositeTyyppi()
 
     // Päivitetään tositenumero modelista ;)
     ui->tunnisteEdit->setText( QString::number(model->tunniste() ));
+}
+
+void KirjausWg::liiteValinta(const QModelIndex &valittu)
+{
+    if( !valittu.isValid())
+    {
+        ui->poistaLiiteNappi->setDisabled(true);
+        emit liiteValittu( QString());
+    }
+    else
+    {
+        ui->poistaLiiteNappi->setEnabled(true);
+        emit liiteValittu( valittu.data(LiiteModel::Polkurooli).toString() );
+    }
 }
 

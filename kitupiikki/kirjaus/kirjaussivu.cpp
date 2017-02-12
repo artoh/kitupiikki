@@ -22,26 +22,28 @@
 #include "kirjaussivu.h"
 
 #include "kirjauswg.h"
-#include "tositewg.h"
+#include "naytaliitewg.h"
 
 #include "db/kirjanpito.h"
 #include "db/tositemodel.h"
 
 KirjausSivu::KirjausSivu() : KitupiikkiSivu()
 {
-    TositeModel *model = kp()->tositemodel();
 
-    tositewg = new TositeWg(model);
-    kirjauswg = new KirjausWg(model);
+    liitewg = new NaytaliiteWg();
+    kirjauswg = new KirjausWg();
 
     QSplitter *splitter = new QSplitter(Qt::Vertical);
-    splitter->addWidget(tositewg);
+    splitter->addWidget(liitewg);
     splitter->addWidget(kirjauswg);
 
     QHBoxLayout *leiska = new QHBoxLayout;
     leiska->addWidget(splitter);
 
     setLayout(leiska);
+
+    connect( liitewg, SIGNAL(lisaaLiite(QString)), kirjauswg, SLOT(lisaaLiite(QString)));
+    connect( kirjauswg, SIGNAL(liiteValittu(QString)), liitewg, SLOT(naytaTiedosto(QString)));
 }
 
 KirjausSivu::~KirjausSivu()

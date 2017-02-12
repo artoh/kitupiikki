@@ -21,7 +21,7 @@
 #include <QWidget>
 
 #include "ui_kirjaus.h"
-#include "tositewg.h"
+#include "naytaliitewg.h"
 
 #include "db/tositemodel.h"
 
@@ -33,7 +33,7 @@ class KirjausWg : public QWidget
 {
     Q_OBJECT
 public:
-    KirjausWg(TositeModel *tositeModel);
+    KirjausWg(QWidget *parent=0);
     ~KirjausWg();
 
     QDate tositePvm() const;
@@ -56,6 +56,11 @@ public slots:
      */
     void paivitaTunnisteVari();
 
+    /**
+     * @brief Lisätään liite
+     * @param polku Polku liitetiedostoon.
+     */
+    void lisaaLiite(const QString polku);
     void lisaaLiite();
 
     /**
@@ -79,6 +84,14 @@ public slots:
 
     void vaihdaTositeTyyppi();
 
+    /**
+     * @brief Liitetiedosto valittu, näytetään se
+     * @param selected
+     */
+    void liiteValinta(const QModelIndex& valittu);
+
+signals:
+    void liiteValittu(const QString& tiedostopolku);
 
 protected:
     Ui::KirjausWg *ui;
