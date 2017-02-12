@@ -25,7 +25,9 @@
 #include "db/tili.h"
 
 
-
+/**
+ * @brief SelausModel:in yhden rivin (viennin) tiedot
+ */
 struct SelausRivi
 {
     int tositeId;
@@ -36,8 +38,9 @@ struct SelausRivi
     int kreditSnt;
 };
 
-
-
+/**
+ * @brief Selaussivun model vientien selaamiseen
+ */
 class SelausModel : public QAbstractTableModel
 {
     Q_OBJECT

@@ -28,6 +28,13 @@
 class SelausModel;
 class QSortFilterProxyModel;
 
+/**
+ * @brief Sivu kirjausten selaamiseen
+ *
+ * Sivulla on taulukko vienneistä sekä widgetit selauksen rajaamiseen
+ * ajan ja tilin perusteella
+ *
+ */
 class SelausWg : public KitupiikkiSivu
 {
     Q_OBJECT
