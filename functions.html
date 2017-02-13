@@ -80,6 +80,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Etsi');
     <ul class="tablist">
       <li class="current"><a href="functions.html"><span>Kaikki</span></a></li>
       <li><a href="functions_func.html"><span>Funktiot</span></a></li>
+      <li><a href="functions_vars.html"><span>Muuttujat</span></a></li>
     </ul>
   </div>
   <div id="navrow4" class="tabs3">
@@ -174,10 +175,13 @@ $(document).ready(function(){initNavTree('functions.html','');});
 
 <h3><a class="anchor" id="index_k"></a>- k -</h3><ul>
 <li>kelpaakoTunniste()
-: <a class="el" href="class_kirjaus_wg.html#a7e8fe0224f728e272b98751276300372">KirjausWg</a>
+: <a class="el" href="class_tosite_model.html#a616fa1e7ecec242bcb954ab36551005f">TositeModel</a>
 </li>
 <li>kertymaPaivalle()
 : <a class="el" href="class_tili.html#aa2b1950bf33673a2310fecea80543e5d">Tili</a>
+</li>
+<li>kirjanpitoaMuokattu()
+: <a class="el" href="class_kirjanpito.html#af4c74e4ca0e5c3f6731d5518ed4fa05c">Kirjanpito</a>
 </li>
 </ul>
 
@@ -189,14 +193,20 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>leveysSaraketta()
 : <a class="el" href="class_raportti_rivi.html#a0548e9c8d445ac9ce167bab9f74ca3ad">RaporttiRivi</a>
 </li>
+<li>liiteValinta()
+: <a class="el" href="class_kirjaus_wg.html#a9ffb67f93c51980777361afa27b4f6c0">KirjausWg</a>
+</li>
 <li>lisaa()
-: <a class="el" href="class_raportti_rivi.html#aa933c287c1e17affea94c5d98a51b8de">RaporttiRivi</a>
+: <a class="el" href="class_raportti_rivi.html#a0558dca81e000ac8cb732c56167340c6">RaporttiRivi</a>
 </li>
 <li>lisaaEurosarake()
 : <a class="el" href="class_raportin_kirjoittaja.html#af93e062ff0d7bf65598aaff419247958">RaportinKirjoittaja</a>
 </li>
 <li>lisaaLaatikko()
 : <a class="el" href="class_sisalto.html#a30c303c1069c1132d3ee3e5d5ac8dcd3">Sisalto</a>
+</li>
+<li>lisaaLiite()
+: <a class="el" href="class_kirjaus_wg.html#a2df843feed0886c5bfafe317931cc028">KirjausWg</a>
 </li>
 <li>lisaaPvmSarake()
 : <a class="el" href="class_raportin_kirjoittaja.html#accede044daddea28c5167d7dfd697d35">RaportinKirjoittaja</a>
@@ -216,15 +226,14 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>lueKtkTiedosto()
 : <a class="el" href="class_uusi_kirjanpito.html#abaa60dd2ef47a4dae79b2a3424ca74e7">UusiKirjanpito</a>
 </li>
-<li>lukitseTilikaudelle()
-: <a class="el" href="class_kirjaus_wg.html#a169d12409447888c07ae31ff6c59e8d7">KirjausWg</a>
-</li>
 </ul>
 
 
 <h3><a class="anchor" id="index_m"></a>- m -</h3><ul>
 <li>muokattu()
-: <a class="el" href="class_kirjanpito.html#a1f3668259d93c416e55486b42d4f4a83">Kirjanpito</a>
+: <a class="el" href="class_json_kentta.html#a27dcb36d5b51bb4ba3f848f35bd13752">JsonKentta</a>
+, <a class="el" href="class_tosite_model.html#a9d6b0a41fe13eb20ce4d692c28f6a5e9">TositeModel</a>
+, <a class="el" href="class_vienti_model.html#a2f8d7a2ef0bf480d971e2e10c2a52f28">VientiModel</a>
 </li>
 </ul>
 
@@ -260,17 +269,31 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>paivamaara()
 : <a class="el" href="class_kirjanpito.html#ad08cb28a082135e64d480fea08b95b1b">Kirjanpito</a>
 </li>
+<li>paivitaTunnisteVari()
+: <a class="el" href="class_kirjaus_wg.html#adca531e8a124a6ac1962418834c72710">KirjausWg</a>
+</li>
+<li>palaaEdelliselleSivulle()
+: <a class="el" href="class_kirjaus_sivu.html#a8e9e890ed59215b888d53d3c264b8de1">KirjausSivu</a>
+</li>
+<li>palataanTakaisin_
+: <a class="el" href="class_kirjaus_sivu.html#a062e564742a0dbbee33c35289464c338">KirjausSivu</a>
+</li>
 <li>peru()
 : <a class="el" href="class_maaritys_sivu.html#a24869064f5eda80d6a4d0d662e2d56ee">MaaritysSivu</a>
 </li>
 <li>poistuSivulta()
-: <a class="el" href="class_kitupiikki_sivu.html#af9b2b7fbae59b2269a1b7c16ac6c4d92">KitupiikkiSivu</a>
+: <a class="el" href="class_kirjaus_sivu.html#a8787348ae6766eea2f9619c0a527a983">KirjausSivu</a>
+, <a class="el" href="class_kitupiikki_sivu.html#af9b2b7fbae59b2269a1b7c16ac6c4d92">KitupiikkiSivu</a>
 , <a class="el" href="class_maaritys_sivu.html#a7816bf3e18324c5171c5473f5996d3a4">MaaritysSivu</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_r"></a>- r -</h3><ul>
+<li>raportti()
+: <a class="el" href="class_paivakirja_raportti.html#a4649c5477b600ece7463402b8c8329d6">PaivakirjaRaportti</a>
+, <a class="el" href="class_raportti.html#a5f92f798c9bfd7ebd148e3c31d58502d">Raportti</a>
+</li>
 <li>raporttinimi()
 : <a class="el" href="class_paivakirja_raportti.html#a830d3a8e586e10d050f7a6f7a520d8eb">PaivakirjaRaportti</a>
 , <a class="el" href="class_raportti.html#ab5f6d5fd7fcbef60c2451a6956582958">Raportti</a>
@@ -288,8 +311,8 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>selaaTilia()
 : <a class="el" href="class_aloitus_sivu.html#ac7811a9c532096d2724e3bea4b1937bb">AloitusSivu</a>
 </li>
-<li>seuraavaNumero()
-: <a class="el" href="class_kirjaus_wg.html#a1d65135c8f91a5cae2ab3833a2ca04d5">KirjausWg</a>
+<li>seuraavaTunnistenumero()
+: <a class="el" href="class_tosite_model.html#ab00059b9577b26a71b4f95d2c35daaf6">TositeModel</a>
 </li>
 <li>siirrySivulle()
 : <a class="el" href="class_kirjaus_sivu.html#afc1397cd8a8129226b197169900485fa">KirjausSivu</a>
@@ -308,14 +331,32 @@ $(document).ready(function(){initNavTree('functions.html','');});
 , <a class="el" href="class_tilinavaus.html#a9b42d3d7d5d850d976581fb993eb45f7">Tilinavaus</a>
 , <a class="el" href="class_tositelajit.html#a52279042e1d923c5efcfcaa899d2bbe6">Tositelajit</a>
 </li>
+<li>tarkenne()
+: <a class="el" href="struct_liite.html#ae7967d1b7ef9a843c264b822270ad3b5">Liite</a>
+</li>
 <li>tasattuOikealle()
 : <a class="el" href="class_raportti_rivi.html#a74a0643bbd7f6d0fa78c864468196571">RaporttiRivi</a>
 </li>
 <li>teksti()
 : <a class="el" href="class_raportti_rivi.html#ab27a8a0b393e8fcc8c867ecade902412">RaporttiRivi</a>
 </li>
+<li>tiedostopolku()
+: <a class="el" href="struct_liite.html#acb2208702e2d04c2dde3095ac87b9c48">Liite</a>
+</li>
+<li>tiedotModeliin()
+: <a class="el" href="class_kirjaus_wg.html#a091b79b0b66cdcb094377164d7208f25">KirjausWg</a>
+</li>
+<li>tiedotModelista()
+: <a class="el" href="class_kirjaus_wg.html#ab7287ef360b130a49e662788b292d8da">KirjausWg</a>
+</li>
+<li>tietokantaVaihtui()
+: <a class="el" href="class_kirjanpito.html#aec449d31711be4c66ffa3025f85c8297">Kirjanpito</a>
+</li>
 <li>tilikaudet()
 : <a class="el" href="class_kirjanpito.html#aa290c9c4adde90625749740f205beae7">Kirjanpito</a>
+</li>
+<li>tiliotetili()
+: <a class="el" href="class_tosite_model.html#aff2f19ce0ee32de90264dc843805613a">TositeModel</a>
 </li>
 <li>tilit()
 : <a class="el" href="class_kirjanpito.html#a860cf5711ca5e5fbdc234c6049741e98">Kirjanpito</a>
@@ -326,13 +367,17 @@ $(document).ready(function(){initNavTree('functions.html','');});
 <li>toiminto()
 : <a class="el" href="class_sisalto.html#ae68db98777182b5751cf11a32871ea06">Sisalto</a>
 </li>
+<li>tositeKasitelty()
+: <a class="el" href="class_kirjaus_wg.html#acb8bce14c4a5c2b02368fb06f78e1ae2">KirjausWg</a>
+</li>
 <li>tositelajit()
 : <a class="el" href="class_kirjanpito.html#a71110387fd7a432c125b8236a0f094af">Kirjanpito</a>
 </li>
+<li>tositemodel()
+: <a class="el" href="class_kirjanpito.html#a842e0ff7f201d87886c353a8209e8dde">Kirjanpito</a>
+</li>
 <li>tulosta()
-: <a class="el" href="class_paivakirja_raportti.html#a87583e17c63d67fbc94a10d15282cc77">PaivakirjaRaportti</a>
-, <a class="el" href="class_raportin_kirjoittaja.html#a764f286ca0b2a8520457c115874d2154">RaportinKirjoittaja</a>
-, <a class="el" href="class_raportti.html#aa935c9b62799e1b333a6ce0bd9cca3e2">Raportti</a>
+: <a class="el" href="class_raportin_kirjoittaja.html#a764f286ca0b2a8520457c115874d2154">RaportinKirjoittaja</a>
 </li>
 </ul>
 

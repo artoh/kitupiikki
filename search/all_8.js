@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['nimisivu',['NimiSivu',['../class_nimi_sivu.html',1,'']]],
-  ['nollaa',['nollaa',['../class_maaritys_widget.html#aa262490980caa58e8dd9c0ce69a9e486',1,'MaaritysWidget::nollaa()'],['../class_perusvalinnat.html#a2d8dbaea11622b6f980db31244d82df9',1,'Perusvalinnat::nollaa()'],['../class_tilinavaus.html#a69610eef0a043ea0f06a6fb8351d3246',1,'Tilinavaus::nollaa()'],['../class_tositelajit.html#a9a30870f0415e1a8223d5c94824fc087',1,'Tositelajit::nollaa()']]]
+  ['maarityssivu',['MaaritysSivu',['../class_maaritys_sivu.html',1,'']]],
+  ['maarityswidget',['MaaritysWidget',['../class_maaritys_widget.html',1,'']]],
+  ['muokattu',['muokattu',['../class_json_kentta.html#a27dcb36d5b51bb4ba3f848f35bd13752',1,'JsonKentta::muokattu()'],['../class_tosite_model.html#a9d6b0a41fe13eb20ce4d692c28f6a5e9',1,'TositeModel::muokattu()'],['../class_vienti_model.html#a2f8d7a2ef0bf480d971e2e10c2a52f28',1,'VientiModel::muokattu()']]]
 ];

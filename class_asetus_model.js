@@ -1,6 +1,6 @@
 var class_asetus_model =
 [
-    [ "AsetusModel", "class_asetus_model.html#adda8c9880dc50ec6f4b1a56bc7b1cfa3", null ],
+    [ "AsetusModel", "class_asetus_model.html#a9f1574cab268b3145e397b9dfd101763", null ],
     [ "aseta", "class_asetus_model.html#a536acdfd33f9b4557558537facabd0ad", null ],
     [ "aseta", "class_asetus_model.html#ad8dba9f0feba7af870c87c7f1db32a79", null ],
     [ "aseta", "class_asetus_model.html#a0dc2070bc4ae311258b609817332524b", null ],
@@ -14,5 +14,5 @@ var class_asetus_model =
     [ "onko", "class_asetus_model.html#a90e36b4a44778ceb3c89ab5eb0ab54e6", null ],
     [ "pvm", "class_asetus_model.html#a028d12922b760756b9e94c776a93cbc3", null ],
     [ "asetukset_", "class_asetus_model.html#a19308f2606cabb13e89cf5b607b6b71c", null ],
-    [ "tietokanta_", "class_asetus_model.html#a6f70d6b55d9562637f620619a778838d", null ]
+    [ "tietokanta_", "class_asetus_model.html#aca42bea2e45bc80eea9c91191f52d810", null ]
 ];

@@ -1,4 +1,5 @@
 <map id="VientiModel" name="VientiModel">
-<area shape="rect" id="node3" href="$class_kirjaus_wg.html" title="KirjausWg" alt="" coords="133,171,215,197"/>
-<area shape="rect" id="node5" href="$class_tosite_wg.html" title="TositeWg" alt="" coords="103,81,181,108"/>
+<area shape="rect" id="node3" href="$class_tosite_model.html" title="Tositteen tiedot. " alt="" coords="174,171,267,197"/>
+<area shape="rect" id="node6" href="$class_liite_model.html" title="Tositteen litteet esittävä model. " alt="" coords="77,260,159,287"/>
+<area shape="rect" id="node5" href="$class_json_kentta.html" title="json&#45;muotoisten kenttien käsittely " alt="" coords="143,81,231,108"/>
 </map>

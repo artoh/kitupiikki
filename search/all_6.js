@@ -1,16 +1,14 @@
 var searchData=
 [
-  ['lataauudelleen',['lataaUudelleen',['../class_kirjanpito.html#a4d2c25cc83dd47fedf9a897a690c9f89',1,'Kirjanpito']]],
-  ['leveyssaraketta',['leveysSaraketta',['../class_raportti_rivi.html#a0548e9c8d445ac9ce167bab9f74ca3ad',1,'RaporttiRivi']]],
-  ['lisaa',['lisaa',['../class_raportti_rivi.html#a0558dca81e000ac8cb732c56167340c6',1,'RaporttiRivi::lisaa(const QString &amp;teksti, int sarakkeet=1, bool tasaaOikealle=false)'],['../class_raportti_rivi.html#a9d24f493f717eb275970743c897ff78a',1,'RaporttiRivi::lisaa(int sentit, bool tulostanollat=false)'],['../class_raportti_rivi.html#aa933c287c1e17affea94c5d98a51b8de',1,'RaporttiRivi::lisaa(const QDate &amp;pvm)']]],
-  ['lisaaeurosarake',['lisaaEurosarake',['../class_raportin_kirjoittaja.html#af93e062ff0d7bf65598aaff419247958',1,'RaportinKirjoittaja']]],
-  ['lisaalaatikko',['lisaaLaatikko',['../class_sisalto.html#a30c303c1069c1132d3ee3e5d5ac8dcd3',1,'Sisalto']]],
-  ['lisaapvmsarake',['lisaaPvmSarake',['../class_raportin_kirjoittaja.html#accede044daddea28c5167d7dfd697d35',1,'RaportinKirjoittaja']]],
-  ['lisaasarake',['lisaaSarake',['../class_raportin_kirjoittaja.html#a28ec3dc3e3412a04bad895035365e333',1,'RaportinKirjoittaja::lisaaSarake(const QString &amp;leveysteksti)'],['../class_raportin_kirjoittaja.html#ac253ee86a6b03a4e8acb79f32a4bd5ca',1,'RaportinKirjoittaja::lisaaSarake(int leveysprosentti)']]],
-  ['lisaatxt',['lisaaTxt',['../class_sisalto.html#a84db5201133025ec39b14a5766b9e7e6',1,'Sisalto']]],
-  ['lisaavenyvasarake',['lisaaVenyvaSarake',['../class_raportin_kirjoittaja.html#ad6273a72bca5d3ca679d71d0d46a477d',1,'RaportinKirjoittaja']]],
-  ['listaltavalittu',['listaltaValittu',['../class_tilikartta_sivu.html#a3351808ed9e8e82c63e08814b8503b78',1,'TilikarttaSivu']]],
-  ['loppusivu',['LoppuSivu',['../class_loppu_sivu.html',1,'']]],
-  ['luektktiedosto',['lueKtkTiedosto',['../class_uusi_kirjanpito.html#abaa60dd2ef47a4dae79b2a3424ca74e7',1,'UusiKirjanpito']]],
-  ['lukitsetilikaudelle',['lukitseTilikaudelle',['../class_kirjaus_wg.html#a169d12409447888c07ae31ff6c59e8d7',1,'KirjausWg']]]
+  ['kitupiikki',['Kitupiikki',['../index.html',1,'']]],
+  ['kelpaakotunniste',['kelpaakoTunniste',['../class_tosite_model.html#a616fa1e7ecec242bcb954ab36551005f',1,'TositeModel']]],
+  ['kertymapaivalle',['kertymaPaivalle',['../class_tili.html#aa2b1950bf33673a2310fecea80543e5d',1,'Tili']]],
+  ['kirjanpito',['Kirjanpito',['../class_kirjanpito.html',1,'']]],
+  ['kirjanpitoamuokattu',['kirjanpitoaMuokattu',['../class_kirjanpito.html#af4c74e4ca0e5c3f6731d5518ed4fa05c',1,'Kirjanpito']]],
+  ['kirjaussivu',['KirjausSivu',['../class_kirjaus_sivu.html',1,'']]],
+  ['kirjauswg',['KirjausWg',['../class_kirjaus_wg.html',1,'']]],
+  ['kitupiikkiikkuna',['KitupiikkiIkkuna',['../class_kitupiikki_ikkuna.html',1,'']]],
+  ['kitupiikkisivu',['KitupiikkiSivu',['../class_kitupiikki_sivu.html',1,'']]],
+  ['kohdennus',['Kohdennus',['../class_kohdennus.html',1,'']]],
+  ['kohdennusmodel',['KohdennusModel',['../class_kohdennus_model.html',1,'']]]
 ];

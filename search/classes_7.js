@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['ohjesivu',['OhjeSivu',['../class_ohje_sivu.html',1,'']]]
+  ['naytaliitewg',['NaytaliiteWg',['../class_naytaliite_wg.html',1,'']]],
+  ['nimisivu',['NimiSivu',['../class_nimi_sivu.html',1,'']]]
 ];

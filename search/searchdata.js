@@ -1,9 +1,10 @@
 var indexSectionsWithContent =
 {
-  0: "adehiklmnoprstuvy",
-  1: "aeiklmnoprstuv",
+  0: "adehijklmnoprstuvy",
+  1: "aeijklmnoprstuv",
   2: "adhklmnoprstvy",
-  3: "ktv"
+  3: "p",
+  4: "ktv"
 };
 
 var indexSectionNames =
@@ -11,7 +12,8 @@ var indexSectionNames =
   0: "all",
   1: "classes",
   2: "functions",
-  3: "pages"
+  3: "variables",
+  4: "pages"
 };
 
 var indexSectionLabels =
@@ -19,6 +21,7 @@ var indexSectionLabels =
   0: "Kaikki",
   1: "Luokat",
   2: "Funktiot",
-  3: "Sivut"
+  3: "Muuttujat",
+  4: "Sivut"
 };
 

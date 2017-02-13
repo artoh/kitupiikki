@@ -1,6 +1,6 @@
 var class_raportin_kirjoittaja =
 [
-    [ "RaportinKirjoittaja", "class_raportin_kirjoittaja.html#a9abc6d0fd89a3c59eee04bdc9af84914", null ],
+    [ "RaportinKirjoittaja", "class_raportin_kirjoittaja.html#ab821c9ef8c5b721a7d2ee3796ae6e1b6", null ],
     [ "asetaKausiteksti", "class_raportin_kirjoittaja.html#ac46ef2b1be46a35b1ab3925bad7e3340", null ],
     [ "asetaOtsikko", "class_raportin_kirjoittaja.html#a0074d6850b44f8dbb97eb691acd0bc7b", null ],
     [ "lisaaEurosarake", "class_raportin_kirjoittaja.html#af93e062ff0d7bf65598aaff419247958", null ],

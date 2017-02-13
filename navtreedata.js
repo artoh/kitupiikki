@@ -9,7 +9,8 @@ var NAVTREE =
       [ "Luokkahierarkia", "hierarchy.html", "hierarchy" ],
       [ "Luokan jäsenet", "functions.html", [
         [ "Kaikki", "functions.html", null ],
-        [ "Funktiot", "functions_func.html", null ]
+        [ "Funktiot", "functions_func.html", null ],
+        [ "Muuttujat", "functions_vars.html", null ]
       ] ]
     ] ],
     [ "Tiedostot", null, [
@@ -21,8 +22,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "aloitussivu_8h_source.html",
-"class_pvm_delegaatti.html#ae5ee4c630067564bebdf4e1893d5545e",
-"class_tositelaji_model.html#a3276260c6ffd68334f18fef74e883aa0"
+"class_maaritys_sivu.html#aa7fe043574fcaf5be248a840d0febf50",
+"class_tilinavaus_model.html#a5303768a5c3aa61bdddbcdea3756c183"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

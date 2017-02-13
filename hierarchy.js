@@ -1,6 +1,11 @@
 var hierarchy =
 [
+    [ "JsonKentta", "class_json_kentta.html", null ],
     [ "Kohdennus", "class_kohdennus.html", null ],
+    [ "Liite", "struct_liite.html", null ],
+    [ "QAbstractListModel", null, [
+      [ "LiiteModel", "class_liite_model.html", null ]
+    ] ],
     [ "QAbstractTableModel", null, [
       [ "KohdennusModel", "class_kohdennus_model.html", null ],
       [ "SelausModel", "class_selaus_model.html", null ],
@@ -21,10 +26,10 @@ var hierarchy =
     [ "QObject", null, [
       [ "AsetusModel", "class_asetus_model.html", null ],
       [ "Kirjanpito", "class_kirjanpito.html", null ],
-      [ "RaportinKirjoittaja", "class_raportin_kirjoittaja.html", null ]
+      [ "TositeModel", "class_tosite_model.html", null ]
     ] ],
     [ "QStackedWidget", null, [
-      [ "TositeWg", "class_tosite_wg.html", null ]
+      [ "NaytaliiteWg", "class_naytaliite_wg.html", null ]
     ] ],
     [ "QWebEnginePage", null, [
       [ "Sisalto", "class_sisalto.html", null ]
@@ -59,6 +64,7 @@ var hierarchy =
       [ "TilikarttaSivu", "class_tilikartta_sivu.html", null ],
       [ "TilikausiSivu", "class_tilikausi_sivu.html", null ]
     ] ],
+    [ "RaportinKirjoittaja", "class_raportin_kirjoittaja.html", null ],
     [ "RaporttiRivi", "class_raportti_rivi.html", null ],
     [ "RaporttiRiviSarake", "struct_raportti_rivi_sarake.html", null ],
     [ "RaporttiSarake", "struct_raportti_sarake.html", null ],

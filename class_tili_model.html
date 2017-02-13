@@ -145,7 +145,8 @@ Julkiset tyypit</h2></td></tr>
 <b>NimiRooli</b> = Qt::UserRole + 3, 
 <b>NroNimiRooli</b> = Qt::UserRole + 4, 
 <br />
-&#160;&#160;<b>OtsikkotasoRooli</b> = Qt::UserRole + 5
+&#160;&#160;<b>OtsikkotasoRooli</b> = Qt::UserRole + 5, 
+<b>TyyppiRooli</b> = Qt::UserRole + 6
 <br />
  }</td></tr>
 <tr class="separator:ab69fb9c410f162b8692790073d58e3cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -161,9 +162,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>tallenna</b> ()</td><
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Julkiset jäsenfunktiot</h2></td></tr>
-<tr class="memitem:a8c37fe43464bd3ace21773ca18243aef"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8c37fe43464bd3ace21773ca18243aef"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>TiliModel</b> (QSqlDatabase tietokanta, QObject *parent=0)</td></tr>
-<tr class="separator:a8c37fe43464bd3ace21773ca18243aef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff420781fe9eac31382d3663a4106422"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aff420781fe9eac31382d3663a4106422"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>TiliModel</b> (QSqlDatabase *tietokanta, QObject *parent=0)</td></tr>
+<tr class="separator:aff420781fe9eac31382d3663a4106422"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a36660691234cc160b0421d3a0d1f3758"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a36660691234cc160b0421d3a0d1f3758"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>rowCount</b> (const QModelIndex &amp;parent) const </td></tr>
 <tr class="separator:a36660691234cc160b0421d3a0d1f3758"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -188,9 +189,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>lisaaTili</b> (<a cla
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Suojellut attribuutit</h2></td></tr>
-<tr class="memitem:a9eae6d7fe9ca63e49e0ca710cf720a67"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9eae6d7fe9ca63e49e0ca710cf720a67"></a>
-QSqlDatabase&#160;</td><td class="memItemRight" valign="bottom"><b>tietokanta_</b></td></tr>
-<tr class="separator:a9eae6d7fe9ca63e49e0ca710cf720a67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24ddac089c7268742b2d36ba05013091"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a24ddac089c7268742b2d36ba05013091"></a>
+QSqlDatabase *&#160;</td><td class="memItemRight" valign="bottom"><b>tietokanta_</b></td></tr>
+<tr class="separator:a24ddac089c7268742b2d36ba05013091"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aefaf5b13b883875c34f32f0f85c4588d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aefaf5b13b883875c34f32f0f85c4588d"></a>
 QList&lt; <a class="el" href="class_tili.html">Tili</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>tilit_</b></td></tr>
 <tr class="separator:aefaf5b13b883875c34f32f0f85c4588d"><td class="memSeparator" colspan="2">&#160;</td></tr>

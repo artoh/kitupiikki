@@ -10,7 +10,7 @@ var class_kohdennus_model =
       [ "ALKAA", "class_kohdennus_model.html#ab1ba83581b9034621287d8fa9a69cadda8c27a39658aafabbb2485378814f663c", null ],
       [ "PAATTYY", "class_kohdennus_model.html#ab1ba83581b9034621287d8fa9a69cadda4871083ad7bdaa7ba3a561d1bcc32891", null ]
     ] ],
-    [ "KohdennusModel", "class_kohdennus_model.html#ab3ba890d7b3df31df7d47971c57cb479", null ],
+    [ "KohdennusModel", "class_kohdennus_model.html#ad37c6b65c56daf59c026cf694eac7d08", null ],
     [ "columnCount", "class_kohdennus_model.html#a4ed4940b52283eb10160e193f0b96c17", null ],
     [ "data", "class_kohdennus_model.html#aca0d2a5ab1895c0573491690de7e3d57", null ],
     [ "flags", "class_kohdennus_model.html#af7b377bb9bfe83a2e03527b39bc2bf59", null ],
@@ -22,5 +22,6 @@ var class_kohdennus_model =
     [ "projektit", "class_kohdennus_model.html#ab429981630bb99a8bad1f4e3b28e36b4", null ],
     [ "rowCount", "class_kohdennus_model.html#ae1a5409735ef23d90b1bc9b05a75f1e7", null ],
     [ "setData", "class_kohdennus_model.html#a7b76a0cba1b41e49cbf4d258702f4c0f", null ],
-    [ "projektit_", "class_kohdennus_model.html#ad3c44adb1cae66a1929f18bc8d0e2310", null ]
+    [ "projektit_", "class_kohdennus_model.html#ad3c44adb1cae66a1929f18bc8d0e2310", null ],
+    [ "tietokanta_", "class_kohdennus_model.html#a67c13b0ec27e9ec3d190447b57349e28", null ]
 ];

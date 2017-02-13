@@ -114,6 +114,11 @@ $(document).ready(function(){initNavTree('class_paivakirja_raportti.html','');})
 <div class="title">PaivakirjaRaportti luokkareferenssi</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Päiväkirjan tulostava raportti.  
+ <a href="class_paivakirja_raportti.html#details">Lisää...</a></p>
+
+<p><code>#include &lt;<a class="el" href="paivakirjaraportti_8h_source.html">paivakirjaraportti.h</a>&gt;</code></p>
 <div class="dynheader">
 Luokan PaivakirjaRaportti luokkakaavio</div>
 <div class="dyncontent">
@@ -143,9 +148,9 @@ QIcon&#160;</td><td class="memItemRight" valign="bottom"><b>kuvake</b> () const 
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_paivakirja_raportti.html#a3c10b86b2c5d4b0eedfca7ef2a60f4ac">alustaLomake</a> ()</td></tr>
 <tr class="memdesc:a3c10b86b2c5d4b0eedfca7ef2a60f4ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Kutsutaan, kun tämä lomake valitaan. <br /></td></tr>
 <tr class="separator:a3c10b86b2c5d4b0eedfca7ef2a60f4ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a87583e17c63d67fbc94a10d15282cc77"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_paivakirja_raportti.html#a87583e17c63d67fbc94a10d15282cc77">tulosta</a> (QPrinter *printer)</td></tr>
-<tr class="memdesc:a87583e17c63d67fbc94a10d15282cc77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Kutsutaan, kun raportti pitää tulostaa.  <a href="#a87583e17c63d67fbc94a10d15282cc77">Lisää...</a><br /></td></tr>
-<tr class="separator:a87583e17c63d67fbc94a10d15282cc77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4649c5477b600ece7463402b8c8329d6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_raportin_kirjoittaja.html">RaportinKirjoittaja</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_paivakirja_raportti.html#a4649c5477b600ece7463402b8c8329d6">raportti</a> ()</td></tr>
+<tr class="memdesc:a4649c5477b600ece7463402b8c8329d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Palauttaa pyydetyn raportin.  <a href="#a4649c5477b600ece7463402b8c8329d6">Lisää...</a><br /></td></tr>
+<tr class="separator:a4649c5477b600ece7463402b8c8329d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_raportti"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_raportti')"><img src="closed.png" alt="-"/>&#160;Julkiset jäsenfunktiot inherited from <a class="el" href="class_raportti.html">Raportti</a></td></tr>
 <tr class="memitem:a4967c1662fafd29c506e3f9775f21afe inherit pub_methods_class_raportti"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4967c1662fafd29c506e3f9775f21afe"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Raportti</b> (QWidget *parent=0)</td></tr>
@@ -153,9 +158,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:a4d63dbf8728a23e7e2edc1b2f7148189 inherit pub_methods_class_raportti"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_raportti.html#a4d63dbf8728a23e7e2edc1b2f7148189">onkoTulostettava</a> () const </td></tr>
 <tr class="memdesc:a4d63dbf8728a23e7e2edc1b2f7148189 inherit pub_methods_class_raportti"><td class="mdescLeft">&#160;</td><td class="mdescRight">Näytetäänkö raportin lomakkeella esikatselu- ja tulostuspainikkeet.  <a href="#a4d63dbf8728a23e7e2edc1b2f7148189">Lisää...</a><br /></td></tr>
 <tr class="separator:a4d63dbf8728a23e7e2edc1b2f7148189 inherit pub_methods_class_raportti"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6df8d338aedb9aaea234d684b460272c inherit pub_methods_class_raportti"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6df8d338aedb9aaea234d684b460272c"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>tulostaYlatunniste</b> (QPainter *painter, int sivu, const QString &amp;otsikko, const QString &amp;alaotsikko=QString())</td></tr>
-<tr class="separator:a6df8d338aedb9aaea234d684b460272c inherit pub_methods_class_raportti"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Suojellut attribuutit</h2></td></tr>
@@ -163,7 +165,38 @@ Suojellut attribuutit</h2></td></tr>
 Ui::Paivakirja *&#160;</td><td class="memItemRight" valign="bottom"><b>ui</b></td></tr>
 <tr class="separator:abc7c830b04547afbe109907d98999c39"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Jäsenfunktioiden dokumentaatio</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Yksityiskohtainen selite</h2>
+<div class="textblock"><p>Päiväkirjan tulostava raportti. </p>
+<p>Päiväkirjassa on halutun päivämäärävälin viennit aikajärjestyksessä </p>
+</div><h2 class="groupheader">Jäsenfunktioiden dokumentaatio</h2>
+<a class="anchor" id="a4649c5477b600ece7463402b8c8329d6"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_raportin_kirjoittaja.html">RaportinKirjoittaja</a> PaivakirjaRaportti::raportti </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Palauttaa pyydetyn raportin. </p>
+<dl class="section return"><dt>Palauttaa</dt><dd></dd></dl>
+
+<p>Toteuttaa luokan <a class="el" href="class_raportti.html#a5f92f798c9bfd7ebd148e3c31d58502d">Raportti</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a830d3a8e586e10d050f7a6f7a520d8eb"></a>
 <div class="memitem">
 <div class="memproto">
@@ -189,40 +222,6 @@ Ui::Paivakirja *&#160;</td><td class="memItemRight" valign="bottom"><b>ui</b></t
 <dl class="section return"><dt>Palauttaa</dt><dd></dd></dl>
 
 <p>Toteuttaa luokan <a class="el" href="class_raportti.html#ab5f6d5fd7fcbef60c2451a6956582958">Raportti</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a87583e17c63d67fbc94a10d15282cc77"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void PaivakirjaRaportti::tulosta </td>
-          <td>(</td>
-          <td class="paramtype">QPrinter *&#160;</td>
-          <td class="paramname"><em>printer</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Kutsutaan, kun raportti pitää tulostaa. </p>
-<dl class="params"><dt>Parametrit</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">printer</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Uudelleentoteuttaa luokan <a class="el" href="class_raportti.html#aa935c9b62799e1b333a6ce0bd9cca3e2">Raportti</a>.</p>
 
 </div>
 </div>

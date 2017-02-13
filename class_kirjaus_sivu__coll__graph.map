@@ -1,6 +1,9 @@
 <map id="KirjausSivu" name="KirjausSivu">
-<area shape="rect" id="node2" href="$class_kitupiikki_sivu.html" title="Kantaluokka pääikkunassa näytettäville sivuille. " alt="" coords="5,171,107,197"/>
-<area shape="rect" id="node6" href="$class_kirjaus_wg.html" title="KirjausWg" alt="" coords="232,171,315,197"/>
-<area shape="rect" id="node4" href="$class_tosite_wg.html" title="TositeWg" alt="" coords="157,81,235,108"/>
-<area shape="rect" id="node7" href="$class_vienti_model.html" title="VientiModel" alt="" coords="352,260,443,287"/>
+<area shape="rect" id="node2" href="$class_kitupiikki_sivu.html" title="Kantaluokka pääikkunassa näytettäville sivuille. " alt="" coords="139,184,241,211"/>
+<area shape="rect" id="node11" href="$class_kirjaus_wg.html" title="Kirjausten muokkaus. " alt="" coords="265,184,347,211"/>
+<area shape="rect" id="node4" href="$class_tosite_model.html" title="Tositteen tiedot. " alt="" coords="447,95,541,121"/>
+<area shape="rect" id="node7" href="$class_vienti_model.html" title="Yhden tositteen vientien tiedot. " alt="" coords="709,184,799,211"/>
+<area shape="rect" id="node9" href="$class_liite_model.html" title="Tositteen litteet esittävä model. " alt="" coords="508,184,589,211"/>
+<area shape="rect" id="node6" href="$class_json_kentta.html" title="json&#45;muotoisten kenttien käsittely " alt="" coords="502,5,590,32"/>
+<area shape="rect" id="node12" href="$class_naytaliite_wg.html" title="Liitteen näyttäminen. " alt="" coords="17,184,115,211"/>
 </map>

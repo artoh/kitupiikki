@@ -123,7 +123,7 @@ Luokan Raportti luokkakaavio</div>
 <div class="dyncontent">
 <div class="center"><img src="class_raportti__inherit__graph.png" border="0" usemap="#_raportti_inherit__map" alt="Inheritance graph"/></div>
 <map name="_raportti_inherit__map" id="_raportti_inherit__map">
-<area shape="rect" id="node3" href="class_paivakirja_raportti.html" title="PaivakirjaRaportti" alt="" coords="5,155,131,181"/>
+<area shape="rect" id="node3" href="class_paivakirja_raportti.html" title="Päiväkirjan tulostava raportti. " alt="" coords="5,155,131,181"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">selite</a>]</span></center></div>
 <div class="dynheader">
@@ -150,12 +150,9 @@ virtual QIcon&#160;</td><td class="memItemRight" valign="bottom"><b>kuvake</b> (
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_raportti.html#af122de2564c30b5d381a75dc80def0a1">alustaLomake</a> ()</td></tr>
 <tr class="memdesc:af122de2564c30b5d381a75dc80def0a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Kutsutaan, kun tämä lomake valitaan. <br /></td></tr>
 <tr class="separator:af122de2564c30b5d381a75dc80def0a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa935c9b62799e1b333a6ce0bd9cca3e2"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_raportti.html#aa935c9b62799e1b333a6ce0bd9cca3e2">tulosta</a> (QPrinter *printer)</td></tr>
-<tr class="memdesc:aa935c9b62799e1b333a6ce0bd9cca3e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Kutsutaan, kun raportti pitää tulostaa.  <a href="#aa935c9b62799e1b333a6ce0bd9cca3e2">Lisää...</a><br /></td></tr>
-<tr class="separator:aa935c9b62799e1b333a6ce0bd9cca3e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6df8d338aedb9aaea234d684b460272c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6df8d338aedb9aaea234d684b460272c"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>tulostaYlatunniste</b> (QPainter *painter, int sivu, const QString &amp;otsikko, const QString &amp;alaotsikko=QString())</td></tr>
-<tr class="separator:a6df8d338aedb9aaea234d684b460272c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f92f798c9bfd7ebd148e3c31d58502d"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_raportin_kirjoittaja.html">RaportinKirjoittaja</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_raportti.html#a5f92f798c9bfd7ebd148e3c31d58502d">raportti</a> ()=0</td></tr>
+<tr class="memdesc:a5f92f798c9bfd7ebd148e3c31d58502d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Palauttaa pyydetyn raportin.  <a href="#a5f92f798c9bfd7ebd148e3c31d58502d">Lisää...</a><br /></td></tr>
+<tr class="separator:a5f92f798c9bfd7ebd148e3c31d58502d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Yksityiskohtainen selite</h2>
 <div class="textblock"><p>The Raportin kantaluokka. </p>
@@ -186,6 +183,34 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>tulostaYlatunniste</b
 
 </div>
 </div>
+<a class="anchor" id="a5f92f798c9bfd7ebd148e3c31d58502d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="class_raportin_kirjoittaja.html">RaportinKirjoittaja</a> Raportti::raportti </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Palauttaa pyydetyn raportin. </p>
+<dl class="section return"><dt>Palauttaa</dt><dd></dd></dl>
+
+<p>Toteutettu luokassa <a class="el" href="class_paivakirja_raportti.html#a4649c5477b600ece7463402b8c8329d6">PaivakirjaRaportti</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="ab5f6d5fd7fcbef60c2451a6956582958"></a>
 <div class="memitem">
 <div class="memproto">
@@ -211,40 +236,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>tulostaYlatunniste</b
 <dl class="section return"><dt>Palauttaa</dt><dd></dd></dl>
 
 <p>Toteutettu luokassa <a class="el" href="class_paivakirja_raportti.html#a830d3a8e586e10d050f7a6f7a520d8eb">PaivakirjaRaportti</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aa935c9b62799e1b333a6ce0bd9cca3e2"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Raportti::tulosta </td>
-          <td>(</td>
-          <td class="paramtype">QPrinter *&#160;</td>
-          <td class="paramname"><em>printer</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Kutsutaan, kun raportti pitää tulostaa. </p>
-<dl class="params"><dt>Parametrit</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">printer</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Uudelleentoteutetaan luokassa <a class="el" href="class_paivakirja_raportti.html#a87583e17c63d67fbc94a10d15282cc77">PaivakirjaRaportti</a>.</p>
 
 </div>
 </div>

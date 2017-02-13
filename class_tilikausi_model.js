@@ -4,7 +4,7 @@ var class_tilikausi_model =
       [ "ALKAA", "class_tilikausi_model.html#a6f9198a542f49e42e99a505a498a1e4ea7f2088124e18715499d304ce84f54330", null ],
       [ "PAATTYY", "class_tilikausi_model.html#a6f9198a542f49e42e99a505a498a1e4ea12951a8ef7d256dff5f5dc2a7ed7534b", null ]
     ] ],
-    [ "TilikausiModel", "class_tilikausi_model.html#a58453a070a09de9a69a9123d3de059fe", null ],
+    [ "TilikausiModel", "class_tilikausi_model.html#a3859f2e354e62782048ee211bc0200bb", null ],
     [ "columnCount", "class_tilikausi_model.html#afdfca206fe5abf591ca02c341789a8a2", null ],
     [ "data", "class_tilikausi_model.html#a5bfe2958a25b12545e6e5ff7fcea44be", null ],
     [ "kirjanpitoAlkaa", "class_tilikausi_model.html#aef2c0801d9bf9fe477b7826c96419c50", null ],
@@ -15,5 +15,5 @@ var class_tilikausi_model =
     [ "tallenna", "class_tilikausi_model.html#a85b725519bce400acc538d908fc69ca5", null ],
     [ "tilikausiPaivalle", "class_tilikausi_model.html#a7651779b1398e64c296313574d1da170", null ],
     [ "kaudet_", "class_tilikausi_model.html#a67267107e00cb0f2d822cb491033f88e", null ],
-    [ "tietokanta_", "class_tilikausi_model.html#ab718f2f35a6c4c2af040b9bd1fae19ff", null ]
+    [ "tietokanta_", "class_tilikausi_model.html#a4121cf09335f8771e5697f501192454d", null ]
 ];

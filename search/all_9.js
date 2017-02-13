@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['ohjesivu',['OhjeSivu',['../class_ohje_sivu.html',1,'']]],
-  ['onkoharjoitus',['onkoHarjoitus',['../class_kirjanpito.html#a77ea14a9ea4ba9ebac41c67c3de2a1d7',1,'Kirjanpito']]],
-  ['onkomuokattu',['onkoMuokattu',['../class_maaritys_widget.html#af4c62201756bc6a4e5adf055f8886f08',1,'MaaritysWidget::onkoMuokattu()'],['../class_perusvalinnat.html#a3104b470e7f9d6feeb78f2cffdd0f9c6',1,'Perusvalinnat::onkoMuokattu()']]],
-  ['onkotulostettava',['onkoTulostettava',['../class_raportti.html#a4d63dbf8728a23e7e2edc1b2f7148189',1,'Raportti']]],
-  ['onkovalidi',['onkoValidi',['../class_tili.html#a54e11082d73f3be05f08b65e3ef89605',1,'Tili']]]
+  ['naytaliitewg',['NaytaliiteWg',['../class_naytaliite_wg.html',1,'']]],
+  ['nimisivu',['NimiSivu',['../class_nimi_sivu.html',1,'']]],
+  ['nollaa',['nollaa',['../class_maaritys_widget.html#aa262490980caa58e8dd9c0ce69a9e486',1,'MaaritysWidget::nollaa()'],['../class_perusvalinnat.html#a2d8dbaea11622b6f980db31244d82df9',1,'Perusvalinnat::nollaa()'],['../class_tilinavaus.html#a69610eef0a043ea0f06a6fb8351d3246',1,'Tilinavaus::nollaa()'],['../class_tositelajit.html#a9a30870f0415e1a8223d5c94824fc087',1,'Tositelajit::nollaa()']]]
 ];

@@ -1,16 +1,3 @@
 <map id="Graafinen luokkahierarkia" name="Graafinen luokkahierarkia">
-<area shape="rect" id="node2" href="$class_kirjaus_wg.html" title="KirjausWg" alt="" coords="142,132,225,159"/>
-<area shape="rect" id="node3" href="$class_kitupiikki_sivu.html" title="Kantaluokka pääikkunassa näytettäville sivuille. " alt="" coords="133,183,234,209"/>
-<area shape="rect" id="node10" href="$class_maaritys_widget.html" title="Määrityssivujen widgetin kantaluokka. " alt="" coords="127,335,240,361"/>
-<area shape="rect" id="node14" href="$class_raportti.html" title="The Raportin kantaluokka. " alt="" coords="149,411,217,437"/>
-<area shape="rect" id="node4" href="$class_aloitus_sivu.html" title="Webipohjaiset aloitus&#45; ja ohjesivut. " alt="" coords="307,5,395,32"/>
-<area shape="rect" id="node5" href="$class_kirjaus_sivu.html" title="KirjausSivu" alt="" coords="307,56,395,83"/>
-<area shape="rect" id="node6" href="$class_maaritys_sivu.html" title="Määrityssivun sisältävä QWidget. " alt="" coords="301,107,400,133"/>
-<area shape="rect" id="node7" href="$class_ohje_sivu.html" title="Ohjeet näyttävä sivu. " alt="" coords="313,157,388,184"/>
-<area shape="rect" id="node8" href="$class_raportti_sivu.html" title="RaporttiSivu" alt="" coords="303,208,398,235"/>
-<area shape="rect" id="node9" href="$class_selaus_wg.html" title="SelausWg" alt="" coords="309,259,392,285"/>
-<area shape="rect" id="node11" href="$class_perusvalinnat.html" title="Perusvalinnat" alt="" coords="300,309,401,336"/>
-<area shape="rect" id="node12" href="$class_tilinavaus.html" title="Tilinavaus" alt="" coords="310,360,391,387"/>
-<area shape="rect" id="node13" href="$class_tositelajit.html" title="Tositelajit" alt="" coords="311,411,390,437"/>
-<area shape="rect" id="node15" href="$class_paivakirja_raportti.html" title="PaivakirjaRaportti" alt="" coords="288,461,413,488"/>
+<area shape="rect" id="node1" href="$class_json_kentta.html" title="json&#45;muotoisten kenttien käsittely " alt="" coords="5,5,93,32"/>
 </map>

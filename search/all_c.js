@@ -1,13 +1,10 @@
 var searchData=
 [
-  ['sallimuokkaus',['salliMuokkaus',['../class_kirjaus_wg.html#a1eaddd0a2c8ed85dcc8f0c4c17efdb98',1,'KirjausWg']]],
-  ['sarakkeita',['sarakkeita',['../class_raportti_rivi.html#aba0982ea9653dc00ce749abfe1e88e06',1,'RaporttiRivi']]],
-  ['selaatilia',['selaaTilia',['../class_aloitus_sivu.html#ac7811a9c532096d2724e3bea4b1937bb',1,'AloitusSivu']]],
-  ['selausmodel',['SelausModel',['../class_selaus_model.html',1,'']]],
-  ['selausrivi',['SelausRivi',['../struct_selaus_rivi.html',1,'']]],
-  ['selauswg',['SelausWg',['../class_selaus_wg.html',1,'']]],
-  ['seuraavanumero',['seuraavaNumero',['../class_kirjaus_wg.html#a1d65135c8f91a5cae2ab3833a2ca04d5',1,'KirjausWg']]],
-  ['siirrysivulle',['siirrySivulle',['../class_kirjaus_sivu.html#afc1397cd8a8129226b197169900485fa',1,'KirjausSivu::siirrySivulle()'],['../class_kitupiikki_sivu.html#a9c0566f022d62084fce42b95e0b399c3',1,'KitupiikkiSivu::siirrySivulle()'],['../class_maaritys_sivu.html#a3a921de4ecbed5e7bd9b27a155791bf9',1,'MaaritysSivu::siirrySivulle()'],['../class_raportti_sivu.html#a4d05d4e7638fd422624d84bd5fcee034',1,'RaporttiSivu::siirrySivulle()']]],
-  ['sijaintisivu',['SijaintiSivu',['../class_sijainti_sivu.html',1,'']]],
-  ['sisalto',['Sisalto',['../class_sisalto.html',1,'']]]
+  ['raportinkirjoittaja',['RaportinKirjoittaja',['../class_raportin_kirjoittaja.html',1,'']]],
+  ['raportti',['Raportti',['../class_raportti.html',1,'Raportti'],['../class_paivakirja_raportti.html#a4649c5477b600ece7463402b8c8329d6',1,'PaivakirjaRaportti::raportti()'],['../class_raportti.html#a5f92f798c9bfd7ebd148e3c31d58502d',1,'Raportti::raportti()']]],
+  ['raporttinimi',['raporttinimi',['../class_paivakirja_raportti.html#a830d3a8e586e10d050f7a6f7a520d8eb',1,'PaivakirjaRaportti::raporttinimi()'],['../class_raportti.html#ab5f6d5fd7fcbef60c2451a6956582958',1,'Raportti::raporttinimi()']]],
+  ['raporttirivi',['RaporttiRivi',['../class_raportti_rivi.html',1,'']]],
+  ['raporttirivisarake',['RaporttiRiviSarake',['../struct_raportti_rivi_sarake.html',1,'']]],
+  ['raporttisarake',['RaporttiSarake',['../struct_raportti_sarake.html',1,'']]],
+  ['raporttisivu',['RaporttiSivu',['../class_raportti_sivu.html',1,'']]]
 ];

@@ -1,5 +1,5 @@
 <map id="Graafinen luokkahierarkia" name="Graafinen luokkahierarkia">
-<area shape="rect" id="node2" href="$class_asetus_model.html" title="Asetusten käsittely. " alt="" coords="137,5,236,32"/>
-<area shape="rect" id="node3" href="$class_kirjanpito.html" title="Kirjanpidon käsittely. " alt="" coords="149,56,225,83"/>
-<area shape="rect" id="node4" href="$class_raportin_kirjoittaja.html" title="Raporttien kirjoittaja. " alt="" coords="124,107,249,133"/>
+<area shape="rect" id="node2" href="$class_asetus_model.html" title="Asetusten käsittely. " alt="" coords="124,5,223,32"/>
+<area shape="rect" id="node3" href="$class_kirjanpito.html" title="Kirjanpidon käsittely. " alt="" coords="135,56,211,83"/>
+<area shape="rect" id="node4" href="$class_tosite_model.html" title="Tositteen tiedot. " alt="" coords="127,107,220,133"/>
 </map>

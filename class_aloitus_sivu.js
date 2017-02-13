@@ -1,6 +1,7 @@
 var class_aloitus_sivu =
 [
     [ "AloitusSivu", "class_aloitus_sivu.html#a70863fd7510c87935039f0e19ffe2cf7", null ],
+    [ "~AloitusSivu", "class_aloitus_sivu.html#a2eaf6478560ff59e784597f070b4067f", null ],
     [ "avaaTietokanta", "class_aloitus_sivu.html#ac70a0ba71d030804684f4a3b249f884a", null ],
     [ "kotisivulle", "class_aloitus_sivu.html#a80497beb541d957332d561ea531a7f5c", null ],
     [ "kpAvattu", "class_aloitus_sivu.html#a8eb2880832b997e5a0dd30556f036596", null ],

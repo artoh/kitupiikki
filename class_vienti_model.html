@@ -118,6 +118,11 @@ $(document).ready(function(){initNavTree('class_vienti_model.html','');});
 <div class="title">VientiModel luokkareferenssi</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Yhden tositteen vientien tiedot.  
+ <a href="class_vienti_model.html#details">Lisää...</a></p>
+
+<p><code>#include &lt;<a class="el" href="vientimodel_8h_source.html">vientimodel.h</a>&gt;</code></p>
 <div class="dynheader">
 Luokan VientiModel luokkakaavio</div>
 <div class="dyncontent">
@@ -128,8 +133,9 @@ Yhteistyökaavio luokalle VientiModel:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_vienti_model__coll__graph.png" border="0" usemap="#_vienti_model_coll__map" alt="Collaboration graph"/></div>
 <map name="_vienti_model_coll__map" id="_vienti_model_coll__map">
-<area shape="rect" id="node3" href="class_kirjaus_wg.html" title="KirjausWg" alt="" coords="133,171,215,197"/>
-<area shape="rect" id="node5" href="class_tosite_wg.html" title="TositeWg" alt="" coords="103,81,181,108"/>
+<area shape="rect" id="node3" href="class_tosite_model.html" title="Tositteen tiedot. " alt="" coords="174,171,267,197"/>
+<area shape="rect" id="node6" href="class_liite_model.html" title="Tositteen litteet esittävä model. " alt="" coords="77,260,159,287"/>
+<area shape="rect" id="node5" href="class_json_kentta.html" title="json&#45;muotoisten kenttien käsittely " alt="" coords="143,81,231,108"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">selite</a>]</span></center></div>
 <table class="memberdecls">
@@ -150,18 +156,15 @@ Julkiset tyypit</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-slots"></a>
 Julkiset vastineet</h2></td></tr>
-<tr class="memitem:a04a3729522e008e74298754214f42e85"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a04a3729522e008e74298754214f42e85"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>tallenna</b> (int tositeid)</td></tr>
-<tr class="separator:a04a3729522e008e74298754214f42e85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02efbb74162e7ba658a386d16da81d62"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a02efbb74162e7ba658a386d16da81d62"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>tallenna</b> ()</td></tr>
+<tr class="separator:a02efbb74162e7ba658a386d16da81d62"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abef7e5417711d557dbd800600a8f4db0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abef7e5417711d557dbd800600a8f4db0"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>tyhjaa</b> ()</td></tr>
 <tr class="separator:abef7e5417711d557dbd800600a8f4db0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3282eb13bbd4b238050851aed73f2399"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3282eb13bbd4b238050851aed73f2399"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>lataa</b> (int tositeid)</td></tr>
-<tr class="separator:a3282eb13bbd4b238050851aed73f2399"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af3a1114c8139e0f85f49404cfa1c704a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af3a1114c8139e0f85f49404cfa1c704a"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>salliMuokkaus</b> (bool sallitaanko)</td></tr>
-<tr class="separator:af3a1114c8139e0f85f49404cfa1c704a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17866a99c8a945299261e38307528135"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a17866a99c8a945299261e38307528135"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>lataa</b> ()</td></tr>
+<tr class="separator:a17866a99c8a945299261e38307528135"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="signals"></a>
 Signaalit</h2></td></tr>
@@ -171,15 +174,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>siirryRuutuun</b> (QM
 <tr class="memitem:aa8eede9710f2df946da485b92a2b06c2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa8eede9710f2df946da485b92a2b06c2"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>muuttunut</b> ()</td></tr>
 <tr class="separator:aa8eede9710f2df946da485b92a2b06c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9edc87be52ab4aac92c9bd0d815063fb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9edc87be52ab4aac92c9bd0d815063fb"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>vientejaOnTaiEi</b> (bool onko)</td></tr>
-<tr class="separator:a9edc87be52ab4aac92c9bd0d815063fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Julkiset jäsenfunktiot</h2></td></tr>
-<tr class="memitem:ad2a85fa720b8de0b2e8095b0695da5bb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad2a85fa720b8de0b2e8095b0695da5bb"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>VientiModel</b> (<a class="el" href="class_kirjaus_wg.html">KirjausWg</a> *kwg)</td></tr>
-<tr class="separator:ad2a85fa720b8de0b2e8095b0695da5bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf040f4f19eed22e69118acec67cbd2e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abf040f4f19eed22e69118acec67cbd2e"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>VientiModel</b> (<a class="el" href="class_tosite_model.html">TositeModel</a> *tositemodel)</td></tr>
+<tr class="separator:abf040f4f19eed22e69118acec67cbd2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7a4b207e133d20c2f2adc2473d3d26f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae7a4b207e133d20c2f2adc2473d3d26f"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>rowCount</b> (const QModelIndex &amp;parent) const </td></tr>
 <tr class="separator:ae7a4b207e133d20c2f2adc2473d3d26f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -204,12 +204,18 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>insertRows</b> (int r
 <tr class="memitem:a131567a7bb284bc74b57d3e7eb026c64"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a131567a7bb284bc74b57d3e7eb026c64"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>lisaaRivi</b> ()</td></tr>
 <tr class="separator:a131567a7bb284bc74b57d3e7eb026c64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbe36942880ada136ad849e765ed0382"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acbe36942880ada136ad849e765ed0382"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>lisaaVienti</b> (const QDate &amp;pvm, int tilinumero, const QString &amp;selite, int debetSnt, int kreditSnt)</td></tr>
+<tr class="separator:acbe36942880ada136ad849e765ed0382"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a34770ed6898b69cf1df5af0c75e08f90"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a34770ed6898b69cf1df5af0c75e08f90"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>debetSumma</b> () const </td></tr>
 <tr class="separator:a34770ed6898b69cf1df5af0c75e08f90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb29ad0f74daf10c57e768a7f53b71be"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afb29ad0f74daf10c57e768a7f53b71be"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>kreditSumma</b> () const </td></tr>
 <tr class="separator:afb29ad0f74daf10c57e768a7f53b71be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f8d7a2ef0bf480d971e2e10c2a52f28"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_vienti_model.html#a2f8d7a2ef0bf480d971e2e10c2a52f28">muokattu</a> () const </td></tr>
+<tr class="memdesc:a2f8d7a2ef0bf480d971e2e10c2a52f28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Onko vientejä muokattu tallennuksen jälkeen.  <a href="#a2f8d7a2ef0bf480d971e2e10c2a52f28">Lisää...</a><br /></td></tr>
+<tr class="separator:a2f8d7a2ef0bf480d971e2e10c2a52f28"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Suojatut jäsenfunktiot</h2></td></tr>
@@ -219,19 +225,50 @@ Suojatut jäsenfunktiot</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Suojellut attribuutit</h2></td></tr>
-<tr class="memitem:a965d7bc5522f4d6c2b1a2e5865fbf908"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a965d7bc5522f4d6c2b1a2e5865fbf908"></a>
-QList&lt; <a class="el" href="struct_vienti_rivi.html">VientiRivi</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>viennit</b></td></tr>
-<tr class="separator:a965d7bc5522f4d6c2b1a2e5865fbf908"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6fde0ef3ad389bbb547109b49d219768"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6fde0ef3ad389bbb547109b49d219768"></a>
-<a class="el" href="class_kirjaus_wg.html">KirjausWg</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>kirjauswg</b></td></tr>
-<tr class="separator:a6fde0ef3ad389bbb547109b49d219768"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a44a831b56b8ec2d0c3967c241d28edaf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a44a831b56b8ec2d0c3967c241d28edaf"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>muokkausSallittu</b></td></tr>
-<tr class="separator:a44a831b56b8ec2d0c3967c241d28edaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f3b00115c99ecd1392fbdeeb69c54b2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2f3b00115c99ecd1392fbdeeb69c54b2"></a>
+<a class="el" href="class_tosite_model.html">TositeModel</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>tositeModel_</b></td></tr>
+<tr class="separator:a2f3b00115c99ecd1392fbdeeb69c54b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b707a7be962c6b77b5e9a3f0099ac82"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5b707a7be962c6b77b5e9a3f0099ac82"></a>
+QList&lt; <a class="el" href="struct_vienti_rivi.html">VientiRivi</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>viennit_</b></td></tr>
+<tr class="separator:a5b707a7be962c6b77b5e9a3f0099ac82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1703cdcf0e36d2c4274a98e297ec906"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae1703cdcf0e36d2c4274a98e297ec906"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>muokattu_</b></td></tr>
+<tr class="separator:ae1703cdcf0e36d2c4274a98e297ec906"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Yksityiskohtainen selite</h2>
+<div class="textblock"><p>Yhden tositteen vientien tiedot. </p>
+<p>Vientejä muokataan tämän modelin kautta, saadaan TositeModelin vientiModel()-funktiolla</p>
+<p>Mahdollistaa vientien näyttämisen suoraan taulukossa </p>
+</div><h2 class="groupheader">Jäsenfunktioiden dokumentaatio</h2>
+<a class="anchor" id="a2f8d7a2ef0bf480d971e2e10c2a52f28"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool VientiModel::muokattu </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Onko vientejä muokattu tallennuksen jälkeen. </p>
+<dl class="section return"><dt>Palauttaa</dt><dd></dd></dl>
+
+</div>
+</div>
 <hr/>Dokumentaatio tälle luokalle luotiin seuraavista tiedostoista:<ul>
-<li>kitupiikki/kirjaus/<a class="el" href="vientimodel_8h_source.html">vientimodel.h</a></li>
-<li>kitupiikki/kirjaus/vientimodel.cpp</li>
+<li>kitupiikki/db/<a class="el" href="vientimodel_8h_source.html">vientimodel.h</a></li>
+<li>kitupiikki/db/vientimodel.cpp</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
