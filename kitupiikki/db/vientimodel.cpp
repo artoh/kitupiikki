@@ -37,7 +37,7 @@ int VientiModel::rowCount(const QModelIndex & /* parent */) const
 
 int VientiModel::columnCount(const QModelIndex & /* parent */) const
 {
-    return 7;
+    return 8;
 }
 
 QVariant VientiModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -58,6 +58,8 @@ QVariant VientiModel::headerData(int section, Qt::Orientation orientation, int r
                 return QVariant("Debet");
             case KREDIT:
                 return QVariant("Kredit");
+            case ALV:
+                return QVariant("Alv");
             case SELITE:
                 return QVariant("Selite");
             case KUSTANNUSPAIKKA :
@@ -74,9 +76,35 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
 {
     if( !index.isValid())
         return QVariant();
-    if( role==Qt::DisplayRole || role == Qt::EditRole)
+
+    VientiRivi rivi = viennit_[index.row()];
+
+    if( role == IdRooli)
+        return QVariant( rivi.id );
+    else if( role == PvmRooli)
+        return QVariant( rivi.pvm );
+    else if( role == TiliNumeroRooli)
+        return QVariant( rivi.tili.numero());
+    else if( role == DebetRooli)
+        return QVariant( rivi.debetSnt );
+    else if( role == KreditRooli)
+        return QVariant( rivi.kreditSnt);
+    else if( role == AlvKoodiRooli)
+        return QVariant( rivi.alvkoodi );
+    else if( role == AlvProsenttiRooli)
+        return QVariant( rivi.alvprosentti);
+    else if( role == KustannuspaikkaRooli)
+        return QVariant( rivi.kustannuspaikka.id());
+    else if( role == ProjektiRooli)
+        return QVariant( rivi.projekti.id());
+    else if( role == LuotuRooli)
+        return QVariant( rivi.luotu);
+    else if( role == MuokattuRooli)
+        return QVariant( rivi.muokattu)
+
+
+    else if( role==Qt::DisplayRole || role == Qt::EditRole)
     {
-        VientiRivi rivi = viennit_[index.row()];
         switch (index.column())
         {
             case PVM: return QVariant( rivi.pvm );
@@ -103,9 +131,22 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
                 else
                     return QVariant();
 
+            case ALV:
+                if( rivi.alvkoodi == AlvKoodi::EIALV)
+                    return QVariant("-");
+                else if( rivi.alvkoodi == AlvKoodi::ALVNETTO)
+                    return QVariant( tr("Netto %1 %").arg( rivi.alvprosentti) );
+                else if( rivi.alvkoodi == AlvKoodi::ALVBRUTTO)
+                    return QVariant( tr("Brutto %1 %").arg( rivi.alvprosentti));
+                else if( rivi.alvkoodi == AlvKoodi::ALVKIRJAUS)
+                    return QVariant( tr(" %1 %").arg(rivi.alvprosentti));
+                else
+                    return QVariant();
+
+
             case SELITE: return QVariant( rivi.selite );
-            case KUSTANNUSPAIKKA: return QVariant( "");
-            case PROJEKTI: return QVariant("");
+            case KUSTANNUSPAIKKA: return QVariant(rivi.kustannuspaikka.nimi()  );
+            case PROJEKTI: return QVariant(rivi.projekti.nimi());
         }
     }
     else if( role == Qt::TextAlignmentRole)
@@ -238,15 +279,17 @@ void VientiModel::tallenna()
         {
             query.prepare("UPDATE vienti SET pvm=:pvm, tili=:tili, debetsnt=:debetsnt, "
                           "kreditsnt=:kreditsnt, selite=:selite, alvkoodi=:alvkoodi,"
-                          "alvprosentti=:alvprosentti, muokattu=:muokattu, json=:json WHERE id=:id");
+                          "kustannuspaikka=:kustannuspaikka, projekti=:projekti"
+                          "alvprosentti=:alvprosentti, muokattu=:muokattu, json=:json,"
+                          " WHERE id=:id");
             query.bindValue(":id", rivi.vientiId);
         }
         else
         {
             query.prepare("INSERT INTO vienti(tosite,pvm,tili,debetsnt,kreditsnt,selite,"
-                           "alvkoodi, luotu, muokattu) "
+                           "alvkoodi, luotu, muokattu, json, kustannuspaikka, projekti) "
                             "VALUES(:tosite,:pvm,:tili,:debetsnt,:kreditsnt,:selite,"
-                            ":alvkoodi, :luotu, :muokattu, json=:json)");
+                            ":alvkoodi, :luotu, :muokattu, :json, :kustannuspaikka, :projekti)");
             query.bindValue(":luotu", QVariant( QDateTime(kp()->paivamaara(), QTime::currentTime() ) ) );
         }
 
@@ -260,6 +303,8 @@ void VientiModel::tallenna()
         query.bindValue(":alvkoodi", rivi.alvkoodi);
         query.bindValue(":alvprosentti", rivi.alvprosentti);
         query.bindValue(":muokattu", QVariant( QDateTime(kp()->paivamaara(), QTime::currentTime() ) ) );
+        query.bindValue(":kustannuspaikka", rivi.kustannuspaikka.id());
+        query.bindValue(":projekti", rivi.projekti.id());
         query.bindValue(":json", rivi.json.toSqlJson());
         query.exec();
 
@@ -287,7 +332,8 @@ void VientiModel::lataa()
 
     QSqlQuery query( *tositeModel_->tietokanta() );
     query.exec(QString("SELECT id, pvm, tili, debetsnt, kreditsnt, selite, "
-                       "alvkoodi, alvprosentti, luotu, muokattu, json "
+                       "alvkoodi, alvprosentti, luotu, muokattu, json, "
+                       "kustannuspaikka, projekti "
                        "FROM vienti WHERE tosite=%1 "
                        "ORDER BY id").arg( tositeModel_->id() ));
     while( query.next())
@@ -303,6 +349,8 @@ void VientiModel::lataa()
         rivi.alvprosentti = query.value("alvprosentti").toInt();
         rivi.luotu = query.value("luotu").toDateTime();
         rivi.muokattu = query.value("muokattu").toDateTime();
+        rivi.kustannuspaikka = kp()->kohdennukset()->kohdennus( query.value("kustannuspaikka").toInt());
+        rivi.projekti = kp()->kohdennukset()->kohdennus( query.value("projekti").toInt());
         rivi.json.fromJson( query.value("json").toByteArray() );
         viennit_.append(rivi);
     }
