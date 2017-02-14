@@ -28,26 +28,38 @@ JsonKentta::JsonKentta() : muokattu_(false)
 
 void JsonKentta::set(const QString &avain, const QString &arvo)
 {
-    map_[avain] = QVariant(arvo);
-    muokattu_ = true;
+    if( arvo != map_.value(avain).toString())
+    {
+        map_[avain] = QVariant(arvo);
+        muokattu_ = true;
+    }
 }
 
 void JsonKentta::set(const QString &avain, const QDate &pvm)
 {
-    map_[avain] = QVariant(pvm.toString(Qt::ISODate));
-    muokattu_ = true;
+    if( arvo != QDate::fromString(map_.value(avain).toString()), Qt::ISODate)
+    {
+        map_[avain] = QVariant(pvm.toString(Qt::ISODate));
+        muokattu_ = true;
+    }
 }
 
 void JsonKentta::set(const QString &avain, int arvo)
 {
-    map_[avain] = QVariant(arvo);
-    muokattu_ = true;
+    if( map_.value(avain).toInt() != arvo )
+    {
+        map_[avain] = QVariant(arvo);
+        muokattu_ = true;
+    }
 }
 
 void JsonKentta::unset(const QString &avain)
 {
-    map_.remove(avain);
-    muokattu_ = true;
+    if( map_.contains(avain))
+    {
+        map_.remove(avain);
+        muokattu_ = true;
+    }
 }
 
 QString JsonKentta::str(const QString &avain)

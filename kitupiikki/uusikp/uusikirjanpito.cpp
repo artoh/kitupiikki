@@ -224,6 +224,7 @@ bool UusiKirjanpito::alustaKirjanpito()
             tili.asetaNumero( splitti[1].toInt() );
             tili.asetaNimi( splitti[2]);
             tili.asetaOtsikkotaso( otsikkotaso );
+            tili.asetaTila(1);
             tilit.lisaaTili(tili);
         }
         progDlg.setValue( progDlg.value() + 1 );
@@ -231,8 +232,9 @@ bool UusiKirjanpito::alustaKirjanpito()
 
     qDebug() << tilit.rowCount( QModelIndex() ) << " tiliä talletettu ";
 
+    db.transaction();
     tilit.tallenna();
-
+    db.commit();
 
 
     // Tilikausien kirjoittaminen

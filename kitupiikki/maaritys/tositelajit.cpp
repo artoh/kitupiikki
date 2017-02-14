@@ -24,7 +24,7 @@ Tositelajit::Tositelajit(QWidget *parent) : MaaritysWidget(parent)
     ui = new Ui::Tositelajit;
     ui->setupUi(this);
 
-    model = Kirjanpito::db()->tositelajit();
+    model = new TositelajiModel( kp()->tietokanta(), this);
     ui->view->setModel(model);
 
     connect(ui->uusiNappi, SIGNAL(clicked(bool)), model, SLOT(lisaaRivi()));
@@ -37,7 +37,10 @@ Tositelajit::~Tositelajit()
 
 bool Tositelajit::tallenna()
 {
+    // Tallentaa nämä tietokantaan
     model->tallenna();
+    // Lataa kirjanpidon modelin
+    kp()->tositelajit()->lataa();
     return true;
 }
 

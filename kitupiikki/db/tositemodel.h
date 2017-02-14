@@ -56,7 +56,7 @@ public:
     int tiliotetili() const { return tiliotetili_; }
 
 
-    bool muokkausSallittu() const { return true; }
+    bool muokkausSallittu() const;
     VientiModel *vientiModel() { return vientiModel_; }
     LiiteModel* liiteModel() { return liiteModel_; }
 

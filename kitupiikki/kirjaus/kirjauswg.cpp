@@ -61,7 +61,8 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
 
     connect( ui->tositePvmEdit, SIGNAL(dateChanged(QDate)), model_, SLOT(asetaPvm(QDate)));
     connect( ui->tositetyyppiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(vaihdaTositeTyyppi()));
-    connect( ui->tunnisteEdit, SIGNAL(textChanged(QString)), this, SLOT(paivitaTunnisteVari()));
+    connect( ui->tunnisteEdit, SIGNAL(textEdited(QString)), this, SLOT(paivitaTunnisteVari()));
+    connect( ui->otsikkoEdit, SIGNAL(textEdited(QString)), model_, SLOT(asetaOtsikko(QString)));
 
     // Tiliotteen tilivalintaan hyväksytään vain rahoitustilit
     QSortFilterProxyModel *proxy = new QSortFilterProxyModel(this);
@@ -107,6 +108,8 @@ void KirjausWg::tyhjenna()
     model_->tyhjaa();
     // ja sitten päivitetään lomakkeen tiedot modelista
     tiedotModelista();
+    // Sallitaan muokkaus
+    salliMuokkaus( model_->muokkausSallittu());
 }
 
 void KirjausWg::tallenna()
@@ -140,6 +143,9 @@ void KirjausWg::lataaTosite(int id)
     model_->lataa(id);
 
     tiedotModelista();
+
+    // Estää muokkauksen, jos on lukittu
+    salliMuokkaus( model_->muokkausSallittu());
 
     ui->tabWidget->setCurrentIndex(0);
     ui->tositePvmEdit->setFocus();
@@ -238,8 +244,6 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
     ui->tunnisteEdit->setEnabled(sallitaanko);
     ui->tallennaButton->setEnabled(sallitaanko);
     ui->otsikkoEdit->setEnabled(sallitaanko);
-
-    // viennitModel->salliMuokkaus(sallitaanko);
 
     if(sallitaanko)
         ui->tositePvmEdit->setDateRange(Kirjanpito::db()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );

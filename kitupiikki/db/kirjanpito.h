@@ -138,6 +138,16 @@ public:
      */
     KohdennusModel *kohdennukset() const { return kohdennukset_; }
 
+    /**
+     * @brief Sql-tietokanta
+     *
+     * Tätä käytetään, kun modelin arvot luetaan suoraan tietokannasta, siis
+     * muokattaessa kun ei haluta muokata suoraan käytössä olevaa modelia
+     *
+     * @return
+     */
+    QSqlDatabase *tietokanta()  { return &tietokanta_; }
+
 signals:
     /**
      * @brief Tietokanta on avattu

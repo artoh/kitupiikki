@@ -15,40 +15,29 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TOSITELAJIT_H
-#define TOSITELAJIT_H
+#ifndef TILIKARTTAMUOKKAUS_H
+#define TILIKARTTAMUOKKAUS_H
 
-#include <QWidget>
-
-#include "ui_tositelajit.h"
-#include "db/tositelajimodel.h"
-
+#include "ui_tilikarttamuokkaus.h"
 #include "maarityswidget.h"
+#include "db/tilimodel.h"
 
 /**
- * @brief MääritysWidget tositelajien määrittämiseen
- *
- * Tositelajit erittelevät tositteita eri tarkenteilla omille numerosarjoilleen
- *
+ * @brief Tilikarta muokkaus
  */
-class Tositelajit : public MaaritysWidget
+class TilikarttaMuokkaus : public MaaritysWidget
 {
     Q_OBJECT
 public:
-    explicit Tositelajit(QWidget *parent = 0);
-    ~Tositelajit();
+    TilikarttaMuokkaus(QWidget *parent=0);
+    ~TilikarttaMuokkaus();
 
-signals:
-
-public slots:
-
-public:
-    bool tallenna();
     bool nollaa();
+    bool tallenna();
 
 protected:
-    Ui::Tositelajit *ui;
-    TositelajiModel *model;
+    Ui::Tilikartta *ui;
+    TiliModel *model;
 };
 
-#endif // TOSITELAJIT_H
+#endif // TILIKARTTAMUOKKAUS_H

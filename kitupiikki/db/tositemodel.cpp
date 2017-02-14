@@ -38,6 +38,16 @@ Tositelaji TositeModel::tositelaji() const
     return kp()->tositelajit()->tositelaji( tositelaji_ );
 }
 
+bool TositeModel::muokkausSallittu() const
+{
+    // Jos järjestelmätosite tai päätetyllä tilikaudella, niin
+    // ei saa muokata
+    if( tositelaji().id() == 0 || kp()->tilitpaatetty().daysTo( pvm () ) < 0)
+        return false;
+
+    return true;
+}
+
 int TositeModel::seuraavaTunnistenumero() const
 {
     Tilikausi kausi = kp()->tilikausiPaivalle( pvm() );
@@ -83,26 +93,38 @@ bool TositeModel::muokattu()
 
 void TositeModel::asetaPvm(const QDate &pvm)
 {
-    pvm_ = pvm;
-    muokattu_ = true;
+    if( pvm != pvm_)
+    {
+        pvm_ = pvm;
+        muokattu_ = true;
+    }
 }
 
 void TositeModel::asetaOtsikko(const QString &otsikko)
 {
-    otsikko_ = otsikko;
-    muokattu_ = true;
+    if( otsikko != otsikko_)
+    {
+        otsikko_ = otsikko;
+        muokattu_ = true;
+    }
 }
 
 void TositeModel::asetaKommentti(const QString &kommentti)
 {
-    kommentti_ = kommentti;
-    muokattu_ = true;
+    if( kommentti != kommentti_)
+    {
+        kommentti_ = kommentti;
+        muokattu_ = true;
+    }
 }
 
 void TositeModel::asetaTunniste(int tunniste)
 {
-    tunniste_ = tunniste;
-    muokattu_ = true;
+    if( tunniste != tunniste_)
+    {
+        tunniste_ = tunniste;
+        muokattu_ = true;
+    }
 }
 
 
@@ -121,8 +143,11 @@ void TositeModel::asetaTositelaji(int tositelajiId)
 
 void TositeModel::asetaTiliotetili(int tiliId)
 {
-    tiliotetili_ = tiliId;
-    muokattu_ = true;
+    if( tiliId != tiliotetili_)
+    {
+        tiliotetili_ = tiliId;
+        muokattu_ = true;
+    }
 }
 
 void TositeModel::lataa(int id)
@@ -210,6 +235,6 @@ void TositeModel::tallenna()
     vientiModel_->tallenna();
     liiteModel_->tallenna();
 
-    muokattu_ = false;
     emit kp()->kirjanpitoaMuokattu();
+    muokattu_ = false;
 }

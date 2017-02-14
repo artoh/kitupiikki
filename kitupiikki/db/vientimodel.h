@@ -85,9 +85,18 @@ public:
 
     enum
     {
-        IdRooli, PvmRooli, TiliNumeroRooli, DebetRooli, KreditRooli, AlvKoodiRooli,
-        AlvProsenttiRooli, KohdennusRooli, SeliteRooli,
-        LuotuRooli, MuokattuRooli, RiviRooli
+        IdRooli = Qt::UserRole + 1,
+        PvmRooli = Qt::UserRole + 2,
+        TiliNumeroRooli = Qt::UserRole + 3,
+        DebetRooli = Qt::UserRole + 4,
+        KreditRooli = Qt::UserRole + 5,
+        AlvKoodiRooli = Qt::UserRole + 6,
+        AlvProsenttiRooli = Qt::UserRole + 7,
+        KohdennusRooli = Qt::UserRole + 8,
+        SeliteRooli = Qt::UserRole + 9,
+        LuotuRooli = Qt::UserRole +10,
+        MuokattuRooli = Qt::UserRole + 11,
+        RiviRooli = Qt::UserRole + 12
     };
 
 

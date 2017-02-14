@@ -28,6 +28,7 @@
 #include "perusvalinnat.h"
 #include "tilinavaus.h"
 #include "tositelajit.h"
+#include "tilikarttamuokkaus.h"
 
 #include <QDebug>
 
@@ -40,6 +41,7 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu("Perusvalinnat", PERUSVALINNAT, QIcon(":/pic/asetusloota.png"));
     lisaaSivu("Tilinavaus", TILINAVAUS, QIcon(":/pic/rahaa.png"));
     lisaaSivu("Tositelajit", TOSITELAJIT, QIcon(":/pic/kansiot.png"));
+    lisaaSivu("Tilikartta", TILIKARTTA, QIcon(":/pic/kansiot.png"));
 
     connect( lista, SIGNAL(itemActivated(QListWidgetItem*)), this, SLOT(valitseSivu(QListWidgetItem*)));
 
@@ -129,6 +131,8 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         nykyinen = new Tilinavaus;
     else if( sivu == TOSITELAJIT)
         nykyinen = new Tositelajit;
+    else if( sivu == TILIKARTTA)
+        nykyinen = new TilikarttaMuokkaus;
 
     nykyItem = item;
 

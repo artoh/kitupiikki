@@ -15,40 +15,34 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TOSITELAJIT_H
-#define TOSITELAJIT_H
+#include "tilikarttamuokkaus.h"
+#include "db/kirjanpito.h"
 
-#include <QWidget>
-
-#include "ui_tositelajit.h"
-#include "db/tositelajimodel.h"
-
-#include "maarityswidget.h"
-
-/**
- * @brief MääritysWidget tositelajien määrittämiseen
- *
- * Tositelajit erittelevät tositteita eri tarkenteilla omille numerosarjoilleen
- *
- */
-class Tositelajit : public MaaritysWidget
+TilikarttaMuokkaus::TilikarttaMuokkaus(QWidget *parent)
+    : MaaritysWidget(parent)
 {
-    Q_OBJECT
-public:
-    explicit Tositelajit(QWidget *parent = 0);
-    ~Tositelajit();
+    ui = new Ui::Tilikartta;
+    ui->setupUi(this);
 
-signals:
+    model = new TiliModel( kp()->tietokanta(), this);
+    ui->view->setModel(model);
+    ui->view->hideColumn( TiliModel::NRONIMI);
+}
 
-public slots:
+TilikarttaMuokkaus::~TilikarttaMuokkaus()
+{
+    delete ui;
+}
 
-public:
-    bool tallenna();
-    bool nollaa();
+bool TilikarttaMuokkaus::nollaa()
+{
+    model->lataa();
+    ui->view->resizeColumnsToContents();
+    ui->view->horizontalHeader()->stretchLastSection();
+    return true;
+}
 
-protected:
-    Ui::Tositelajit *ui;
-    TositelajiModel *model;
-};
-
-#endif // TOSITELAJIT_H
+bool TilikarttaMuokkaus::tallenna()
+{
+    return false;
+}

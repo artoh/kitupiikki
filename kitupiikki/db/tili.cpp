@@ -74,12 +74,12 @@ bool Tili::onkoTasetili() const
 
 bool Tili::onkoTulotili() const
 {
-    return tyyppi().startsWith('T');
+    return tyyppi().startsWith('C');
 }
 
 bool Tili::onkoMenotili() const
 {
-    return tyyppi().startsWith('M');
+    return tyyppi().startsWith('D');
 }
 
 bool Tili::onkoVastaavaaTili() const

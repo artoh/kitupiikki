@@ -20,6 +20,7 @@
 #include <QSqlError>
 #include <QColor>
 #include <QDebug>
+#include <QFont>
 
 #include "tilimodel.h"
 #include "tili.h"
@@ -41,6 +42,29 @@ int TiliModel::rowCount(const QModelIndex & /* parent */) const
 int TiliModel::columnCount(const QModelIndex & /* parent */) const
 {
     return 4;
+}
+
+QVariant TiliModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    {
+        if( role == Qt::TextAlignmentRole)
+            return QVariant( Qt::AlignCenter | Qt::AlignVCenter);
+        else if( orientation == Qt::Horizontal && role == Qt::DisplayRole )
+        {
+            switch (section)
+            {
+            case NRONIMI :
+                return QVariant("Numero ja nimi");
+            case NUMERO:
+                return QVariant("Numero");
+            case NIMI :
+                return QVariant("Nimi");
+            case TYYPPI:
+                return QVariant("Tilityyppi");
+            }
+        }
+        return QVariant();
+    }
 }
 
 QVariant TiliModel::data(const QModelIndex &index, int role) const
@@ -74,6 +98,15 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
         case NIMI :
             return QVariant( tili.nimi());
         case TYYPPI:
+            if( tili.otsikkotaso() )
+            {
+                // Otsikoiden tyyppitekstinä on tieto otsikon tasosta sisennettynä
+                QString otsikkotxt;
+                for(int i=0; i<tili.otsikkotaso() - 1; i++)
+                    otsikkotxt += " ";
+                otsikkotxt += tr("%1. taso").arg(tili.otsikkotaso());
+                return QVariant( otsikkotxt );
+            }
             return QVariant( tilityypit__.value( tili.tyyppi()));
         }
     }
@@ -84,6 +117,13 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
             return QColor(Qt::darkGray);
         else
             return QColor(Qt::black);
+    }
+    else if( role == Qt::FontRole)
+    {
+        QFont fontti;
+        if( tili.otsikkotaso())
+            fontti.setBold(true);
+        return QVariant( fontti );
     }
 
     return QVariant();
@@ -139,8 +179,8 @@ void TiliModel::lataa()
     tilit_.clear();
 
     QSqlQuery kysely( *tietokanta_ );
-    kysely.exec("SELECT id, nro, nimi, tyyppi, tila, json"
-                "otsikkotaso FROM tili ORDER BY ysiluku");
+    kysely.exec("SELECT id, nro, nimi, tyyppi, tila, otsikkotaso,json "
+                " FROM tili ORDER BY ysiluku");
 
     while(kysely.next())
     {

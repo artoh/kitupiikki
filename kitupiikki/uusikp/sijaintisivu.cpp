@@ -59,10 +59,10 @@ void SijaintiSivu::initializePage()
             .replace("å","a").replace("Å","A")
             .replace(QRegularExpression("[^a-zA-Z0-9]"),"");
 
-    if( field("todellinen").toBool() )
-        nimi += "-kirjanpito";
-    else
+    if( field("harjoittelu").toBool() )
         nimi += "-kokeilu";
+    else
+        nimi += "-kirjanpito";
 
     ui->hakemistoEdit->setText(nimi);
     estaTuplaHakemistot();

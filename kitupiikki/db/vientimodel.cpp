@@ -24,6 +24,7 @@
 
 #include <QDebug>
 #include <QSqlQuery>
+#include <QSqlError>
 
 VientiModel::VientiModel(TositeModel *tositemodel) : tositeModel_(tositemodel), muokattu_(false)
 {
@@ -37,7 +38,7 @@ int VientiModel::rowCount(const QModelIndex & /* parent */) const
 
 int VientiModel::columnCount(const QModelIndex & /* parent */) const
 {
-    return 8;
+    return 7;
 }
 
 QVariant VientiModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -76,7 +77,7 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
     if( !index.isValid())
         return QVariant();
 
-    VientiRivi rivi = viennit_[index.row()];
+    VientiRivi rivi = viennit_.value( index.row() );
 
     if( role == IdRooli)
         return QVariant( rivi.vientiId );
@@ -207,8 +208,13 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int /
 
 Qt::ItemFlags VientiModel::flags(const QModelIndex &index) const
 {
-    // TODO: Onko muokkaus sallittu
-    if( false )
+
+    VientiRivi rivi = viennit_.value(index.row());
+
+    // Vientien muokkaus: Jos model sallii (ei ole järjestelmätosite eikä
+    // päätetyllä tilikaudella) eikä ole automaattinen alv-nettokirjaus
+
+    if( tositeModel_->muokkausSallittu() && rivi.riviNro < 10000 )
         return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
     else
         return QAbstractTableModel::flags(index);
@@ -323,8 +329,9 @@ void VientiModel::tyhjaa()
 {
     beginResetModel();
     viennit_.clear();
-    muokattu_ = false;
     endResetModel();
+    muokattu_ = false;
+    emit muuttunut();
 }
 
 void VientiModel::lataa()
@@ -357,8 +364,11 @@ void VientiModel::lataa()
         viennit_.append(rivi);
     }
 
+    qDebug() << query.lastQuery() << " - " << query.lastError().text();
 
     endResetModel();
+    muokattu_ = false;
+    emit muuttunut();
 }
 
 

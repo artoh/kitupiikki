@@ -41,7 +41,8 @@ public:
     {
         PERUSVALINNAT,
         TILINAVAUS,
-        TOSITELAJIT
+        TOSITELAJIT,
+        TILIKARTTA
     };
 
 
