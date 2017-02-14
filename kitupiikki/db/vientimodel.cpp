@@ -62,10 +62,9 @@ QVariant VientiModel::headerData(int section, Qt::Orientation orientation, int r
                 return QVariant("Alv");
             case SELITE:
                 return QVariant("Selite");
-            case KUSTANNUSPAIKKA :
-                return QVariant("Kustannuspaikka");
-            case PROJEKTI:
-                return QVariant("Projekti");
+            case KOHDENNUS :
+                return QVariant("Kohdennus");
+
         }
 
     }
@@ -93,10 +92,8 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
         return QVariant( rivi.alvkoodi );
     else if( role == AlvProsenttiRooli)
         return QVariant( rivi.alvprosentti);
-    else if( role == KustannuspaikkaRooli)
-        return QVariant( rivi.kustannuspaikka.id());
-    else if( role == ProjektiRooli)
-        return QVariant( rivi.projekti.id());
+    else if( role == KohdennusRooli)
+        return QVariant( rivi.kohdennus.id());
     else if( role == LuotuRooli)
         return QVariant( rivi.luotu);
     else if( role == MuokattuRooli)
@@ -147,8 +144,7 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
 
 
             case SELITE: return QVariant( rivi.selite );
-            case KUSTANNUSPAIKKA: return QVariant(rivi.kustannuspaikka.nimi()  );
-            case PROJEKTI: return QVariant(rivi.projekti.nimi());
+            case KOHDENNUS: return QVariant(rivi.kohdennus.nimi()  );
         }
     }
     else if( role == Qt::TextAlignmentRole)
@@ -286,17 +282,16 @@ void VientiModel::tallenna()
         {
             query.prepare("UPDATE vienti SET pvm=:pvm, tili=:tili, debetsnt=:debetsnt, "
                           "kreditsnt=:kreditsnt, selite=:selite, alvkoodi=:alvkoodi,"
-                          "kustannuspaikka=:kustannuspaikka, projekti=:projekti"
-                          "alvprosentti=:alvprosentti, muokattu=:muokattu, json=:json"
+                          "kohdennus=:kohdennus, alvprosentti=:alvprosentti, muokattu=:muokattu, json=:json"
                           " WHERE id=:id");
             query.bindValue(":id", rivi.vientiId);
         }
         else
         {
             query.prepare("INSERT INTO vienti(tosite,pvm,tili,debetsnt,kreditsnt,selite,"
-                           "alvkoodi, luotu, muokattu, json, kustannuspaikka, projekti, vientirivi) "
+                           "alvkoodi, luotu, muokattu, json, kohdennus, vientirivi) "
                             "VALUES(:tosite,:pvm,:tili,:debetsnt,:kreditsnt,:selite,"
-                            ":alvkoodi, :luotu, :muokattu, :json, :kustannuspaikka, :projekti, :rivinro)");
+                            ":alvkoodi, :luotu, :muokattu, :json, :kohdennus, :rivinro)");
             query.bindValue(":luotu",  QDateTime(kp()->paivamaara(), QTime::currentTime() ) );
             query.bindValue(":rivinro", rivi.riviNro);
         }
@@ -311,8 +306,7 @@ void VientiModel::tallenna()
         query.bindValue(":alvkoodi", rivi.alvkoodi);
         query.bindValue(":alvprosentti", rivi.alvprosentti);
         query.bindValue(":muokattu", QVariant( QDateTime(kp()->paivamaara(), QTime::currentTime() ) ) );
-        query.bindValue(":kustannuspaikka", rivi.kustannuspaikka.id());
-        query.bindValue(":projekti", rivi.projekti.id());
+        query.bindValue(":kohdennus", rivi.kohdennus.id());
         query.bindValue(":json", rivi.json.toSqlJson());
         query.exec();
 
@@ -341,7 +335,7 @@ void VientiModel::lataa()
     QSqlQuery query( *tositeModel_->tietokanta() );
     query.exec(QString("SELECT id, pvm, tili, debetsnt, kreditsnt, selite, "
                        "alvkoodi, alvprosentti, luotu, muokattu, json, "
-                       "kustannuspaikka, projekti, vientirivi "
+                       "kohdennus, vientirivi "
                        "FROM vienti WHERE tosite=%1 "
                        "ORDER BY id").arg( tositeModel_->id() ));
     while( query.next())
@@ -357,8 +351,7 @@ void VientiModel::lataa()
         rivi.alvprosentti = query.value("alvprosentti").toInt();
         rivi.luotu = query.value("luotu").toDateTime();
         rivi.muokattu = query.value("muokattu").toDateTime();
-        rivi.kustannuspaikka = kp()->kohdennukset()->kohdennus( query.value("kustannuspaikka").toInt());
-        rivi.projekti = kp()->kohdennukset()->kohdennus( query.value("projekti").toInt());
+        rivi.kohdennus = kp()->kohdennukset()->kohdennus( query.value("kohdennus").toInt());
         rivi.riviNro = query.value("vientirivi").toInt();
         rivi.json.fromJson( query.value("json").toByteArray() );
         viennit_.append(rivi);

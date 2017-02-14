@@ -47,8 +47,6 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     ui->viennitView->setItemDelegateForColumn( VientiModel::DEBET, new EuroDelegaatti);
     ui->viennitView->setItemDelegateForColumn( VientiModel::KREDIT, new EuroDelegaatti);
 
-    ui->viennitView->hideColumn(VientiModel::PROJEKTI);
-    ui->viennitView->hideColumn(VientiModel::KUSTANNUSPAIKKA);
     ui->viennitView->horizontalHeader()->setStretchLastSection(true);
 
     ui->tunnisteEdit->setValidator( new QIntValidator(1,99999999) );

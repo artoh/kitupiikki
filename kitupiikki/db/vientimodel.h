@@ -58,8 +58,7 @@ struct VientiRivi
     int kreditSnt = 0;
     int alvkoodi = 0;
     int alvprosentti = 0;
-    Kohdennus kustannuspaikka;
-    Kohdennus projekti;
+    Kohdennus kohdennus;
     QDateTime luotu;
     QDateTime muokattu;
     JsonKentta json;
@@ -81,13 +80,13 @@ public:
 
     enum VientiSarake
     {
-        PVM, TILI, DEBET, KREDIT, ALV, KUSTANNUSPAIKKA, PROJEKTI, SELITE
+        PVM, TILI, DEBET, KREDIT, ALV, KOHDENNUS, SELITE
     };
 
     enum
     {
         IdRooli, PvmRooli, TiliNumeroRooli, DebetRooli, KreditRooli, AlvKoodiRooli,
-        AlvProsenttiRooli, KustannuspaikkaRooli, ProjektiRooli, SeliteRooli,
+        AlvProsenttiRooli, KohdennusRooli, SeliteRooli,
         LuotuRooli, MuokattuRooli, RiviRooli
     };
 

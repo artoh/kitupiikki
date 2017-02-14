@@ -51,7 +51,7 @@ CREATE TABLE kohdennus (
     tyyppi INTEGER  NOT NULL
 );
 
-INSERT INTO kohdennus(id, nimi, tyyppi) VALUES(0,"Ei kohdenneta",0);
+INSERT INTO kohdennus(id, nimi, tyyppi) VALUES(0,"",0);
 
 
 CREATE TABLE vienti (
@@ -67,9 +67,7 @@ CREATE TABLE vienti (
     selite          TEXT,
     alvkoodi        INTEGER DEFAULT(0),
     alvprosentti    INTEGER DEFAULT(0),
-    kustannuspaikka         REFERENCES kohdennus (id) ON DELETE RESTRICT
-                                                      ON UPDATE CASCADE,
-    projekti        INTEGER REFERENCES kohdennus (id) ON DELETE RESTRICT
+    kohdennus        INTEGER REFERENCES kohdennus (id) ON DELETE RESTRICT
                                                       ON UPDATE CASCADE,
     json            TEXT,
     luotu           DATETIME,

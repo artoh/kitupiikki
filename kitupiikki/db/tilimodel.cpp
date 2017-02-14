@@ -18,7 +18,7 @@
 
 #include <QSqlQuery>
 #include <QSqlError>
-
+#include <QColor>
 #include <QDebug>
 
 #include "tilimodel.h"
@@ -81,9 +81,9 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
     else if( role == Qt::TextColorRole)
     {
         if( !tili.tila() )
-            return Qt::darkGray;
+            return QColor(Qt::darkGray);
         else
-            return Qt::black;
+            return QColor(Qt::black);
     }
 
     return QVariant();
@@ -196,3 +196,5 @@ void TiliModel::tallenna()
         }
     }
 }
+
+QMap<QString,QString> TiliModel::tilityypit__;
