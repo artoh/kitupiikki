@@ -20,6 +20,8 @@
 #include "db/kirjanpito.h"
 #include "db/tilikausi.h"
 
+
+
 #include <QDebug>
 #include <QSqlQuery>
 
@@ -235,12 +237,18 @@ void VientiModel::tallenna()
         if( rivi.vientiId )
         {
             query.prepare("UPDATE vienti SET pvm=:pvm, tili=:tili, debetsnt=:debetsnt, "
-                          "kreditsnt=:kreditsnt, selite=:selite WHERE id=:id");
+                          "kreditsnt=:kreditsnt, selite=:selite, alvkoodi=:alvkoodi,"
+                          "alvprosentti=:alvprosentti, muokattu=:muokattu, json=:json WHERE id=:id");
             query.bindValue(":id", rivi.vientiId);
         }
         else
-            query.prepare("INSERT INTO vienti(tosite,pvm,tili,debetsnt,kreditsnt,selite) "
-                                "VALUES(:tosite,:pvm,:tili,:debetsnt,:kreditsnt,:selite)");
+        {
+            query.prepare("INSERT INTO vienti(tosite,pvm,tili,debetsnt,kreditsnt,selite,"
+                           "alvkoodi, luotu, muokattu) "
+                            "VALUES(:tosite,:pvm,:tili,:debetsnt,:kreditsnt,:selite,"
+                            ":alvkoodi, :luotu, :muokattu, json=:json)");
+            query.bindValue(":luotu", QVariant( QDateTime(kp()->paivamaara(), QTime::currentTime() ) ) );
+        }
 
 
         query.bindValue(":tosite", tositeModel_->id() );
@@ -249,6 +257,10 @@ void VientiModel::tallenna()
         query.bindValue(":debetsnt", rivi.debetSnt);
         query.bindValue(":kreditsnt", rivi.kreditSnt);
         query.bindValue(":selite", rivi.selite);
+        query.bindValue(":alvkoodi", rivi.alvkoodi);
+        query.bindValue(":alvprosentti", rivi.alvprosentti);
+        query.bindValue(":muokattu", QVariant( QDateTime(kp()->paivamaara(), QTime::currentTime() ) ) );
+        query.bindValue(":json", rivi.json.toSqlJson());
         query.exec();
 
         if( !rivi.vientiId )
@@ -274,7 +286,9 @@ void VientiModel::lataa()
     viennit_.clear();
 
     QSqlQuery query( *tositeModel_->tietokanta() );
-    query.exec(QString("SELECT id, pvm, tili, debetsnt, kreditsnt, selite FROM vienti WHERE tosite=%1 "
+    query.exec(QString("SELECT id, pvm, tili, debetsnt, kreditsnt, selite, "
+                       "alvkoodi, alvprosentti, luotu, muokattu, json "
+                       "FROM vienti WHERE tosite=%1 "
                        "ORDER BY id").arg( tositeModel_->id() ));
     while( query.next())
     {
@@ -285,6 +299,11 @@ void VientiModel::lataa()
         rivi.debetSnt = query.value("debetsnt").toInt();
         rivi.kreditSnt = query.value("kreditsnt").toInt();
         rivi.selite = query.value("selite").toString();
+        rivi.alvkoodi = query.value("alvkoodi").toInt();
+        rivi.alvprosentti = query.value("alvprosentti").toInt();
+        rivi.luotu = query.value("luotu").toDateTime();
+        rivi.muokattu = query.value("muokattu").toDateTime();
+        rivi.json.fromJson( query.value("json").toByteArray() );
         viennit_.append(rivi);
     }
 

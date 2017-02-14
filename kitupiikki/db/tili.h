@@ -21,6 +21,8 @@
 #include <QString>
 #include <QDate>
 
+#include "jsonkentta.h"
+
 /**
  * @brief Tilin tai otsikon tiedot
  */
@@ -36,7 +38,17 @@ public:
     QString tyyppi() const { return tyyppi_; }
     int tila() const { return tila_; }
     int otsikkotaso() const { return otsikkotaso_; }
-    bool muokattu() const { return muokattu_; }
+    bool muokattu() const { return muokattu_ || json_.muokattu(); }
+
+    /**
+     * @brief Palauttaa json-tiedot
+     *
+     * JsonKentta-oliossa on mahdollisuus säilöä erilaista tietoa, jonka lisääminen
+     * ei edellytä tietokannan muutoksia.
+     *
+     * @return
+     */
+    JsonKentta *json()  { return &json_; }
 
     void asetaId(int id) { id_ = id; }
     void asetaNumero(int numero) { numero_ = numero; muokattu_ = true; }
@@ -108,6 +120,7 @@ protected:
     QString tyyppi_;
     int tila_;
     int otsikkotaso_;
+    JsonKentta json_;
     bool muokattu_;
 };
 

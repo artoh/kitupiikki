@@ -70,7 +70,9 @@ CREATE TABLE vienti (
                                                       ON UPDATE CASCADE,
     projekti        INTEGER REFERENCES kohdennus (id) ON DELETE RESTRICT
                                                       ON UPDATE CASCADE,
-    json            TEXT
+    json            TEXT,
+    luotu           DATETIME,
+    muokattu        DATETIME
 );
 
 CREATE TABLE liite (

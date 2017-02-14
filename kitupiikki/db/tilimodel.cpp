@@ -110,7 +110,7 @@ void TiliModel::lataa()
     tilit_.clear();
 
     QSqlQuery kysely( *tietokanta_ );
-    kysely.exec("SELECT id, nro, nimi, tyyppi, tila,"
+    kysely.exec("SELECT id, nro, nimi, tyyppi, tila, json"
                 "otsikkotaso FROM tili ORDER BY ysiluku");
 
     while(kysely.next())
@@ -122,6 +122,7 @@ void TiliModel::lataa()
                    kysely.value(4).toInt(),     // tila
                    kysely.value(5).toInt()      // otsikkotaso
                    );
+        uusi.json()->fromJson( kysely.value(6).toByteArray());  // Luetaan json-kentät
         tilit_.append(uusi);
     }
     endResetModel();
@@ -138,15 +139,15 @@ void TiliModel::tallenna()
             {
                 // Muokkaus
                 kysely.prepare("UPDATE tili SET nro=:nro, nimi=:nimi, tyyppi=:tyyppi, "
-                               "tila=:tila, otsikkotaso=:otsikkotaso, ysiluku=:ysiluku "
+                               "tila=:tila, otsikkotaso=:otsikkotaso, ysiluku=:ysiluku, json=:json "
                                "WHERE id=:id");
                 kysely.bindValue(":id", tili.id());
             }
             else
             {
                 // Tallennus
-                kysely.prepare("INSERT INTO tili(nro, nimi, tyyppi, tila, otsikkotaso, ysiluku) "
-                               "VALUES(:nro, :nimi, :tyyppi, :tila, :otsikkotaso, :ysiluku) ");
+                kysely.prepare("INSERT INTO tili(nro, nimi, tyyppi, tila, otsikkotaso, ysiluku, json) "
+                               "VALUES(:nro, :nimi, :tyyppi, :tila, :otsikkotaso, :ysiluku, :json) ");
 
             }
             kysely.bindValue(":nro", tili.numero());
@@ -155,6 +156,7 @@ void TiliModel::tallenna()
             kysely.bindValue(":tila", tili.tila());
             kysely.bindValue(":otsikkotaso", tili.otsikkotaso());
             kysely.bindValue(":ysiluku", tili.ysivertailuluku());
+            kysely.bindValue(":json", tili.json()->toSqlJson());
 
             if( kysely.exec() )
                 tili.nollaaMuokattu();

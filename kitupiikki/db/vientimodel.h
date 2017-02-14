@@ -21,8 +21,24 @@
 #include <QAbstractTableModel>
 
 #include "db/tili.h"
+#include "db/jsonkentta.h"
 
 class TositeModel;
+
+/**
+ * @brief Viennin alv-kirjauksen laji
+ */
+enum AlvKoodi
+{
+    EIALV = 0,
+    ALVNETTO = 1,
+    ALVBRUTTO = 2,
+    YHTEISO_TAVARAT = 3,
+    YHTEISO_PALVELU = 4,
+    KAANNETTY_RAKENNUS = 5,
+    ALVKIRJAUS = 99
+};
+
 
 /**
  * @brief Yhden viennin tiedot. VientiModel käyttää.
@@ -35,6 +51,11 @@ struct VientiRivi
     QString selite;
     int debetSnt = 0;
     int kreditSnt = 0;
+    int alvkoodi = 0;
+    int alvprosentti = 0;
+    QDateTime luotu;
+    QDateTime muokattu;
+    JsonKentta json;
 };
 
 /**
