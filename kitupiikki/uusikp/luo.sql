@@ -64,6 +64,8 @@ CREATE TABLE vienti (
     debetsnt        BIGINT,
     kreditsnt       BIGINT,
     selite          TEXT,
+    alvkoodi        INTEGER DEFAULT(0),
+    alvprosentti    INTEGER DEFAULT(0),
     kustannuspaikka         REFERENCES kohdennus (id) ON DELETE RESTRICT
                                                       ON UPDATE CASCADE,
     projekti        INTEGER REFERENCES kohdennus (id) ON DELETE RESTRICT
