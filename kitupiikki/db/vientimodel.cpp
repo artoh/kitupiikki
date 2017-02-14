@@ -409,6 +409,7 @@ int VientiModel::seuraavaRiviNumero()
         if( rivi.riviNro >= seuraava && rivi.riviNro < 10000)
             seuraava = rivi.riviNro + 1;
     }
+    return seuraava;
 }
 
 

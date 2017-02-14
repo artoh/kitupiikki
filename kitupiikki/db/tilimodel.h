@@ -37,7 +37,7 @@ public:
 
     enum Sarake
     {
-        NRONIMI, NUMERO, NIMI
+        NRONIMI, NUMERO, NIMI, TYYPPI
     };
 
     enum
@@ -63,6 +63,9 @@ public:
     Tili tiliIndeksilla(int i) const { return tilit_.value(i); }
     Tili tiliNumerolla(int numero) const;
 
+    static QMap<QString,QString> tiliTyyppiTaulu() { return tilityypit__; }
+    static void luoTilityyppitaulu();
+
 public slots:
     void lataa();
     void tallenna();
@@ -71,6 +74,7 @@ protected:
     QSqlDatabase *tietokanta_;
 
     QList<Tili> tilit_;
+    static QMap<QString,QString> tilityypit__;
 
 };
 

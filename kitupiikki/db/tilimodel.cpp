@@ -28,7 +28,9 @@
 TiliModel::TiliModel(QSqlDatabase *tietokanta, QObject *parent) :
     QAbstractTableModel(parent), tietokanta_(tietokanta)
 {
-
+    // Ellei vielä ole luotu, niin luodaan tilityyppitaulu
+    if( !tilityypit__.count())
+        luoTilityyppitaulu();
 }
 
 int TiliModel::rowCount(const QModelIndex & /* parent */) const
@@ -38,7 +40,7 @@ int TiliModel::rowCount(const QModelIndex & /* parent */) const
 
 int TiliModel::columnCount(const QModelIndex & /* parent */) const
 {
-    return 3;
+    return 4;
 }
 
 QVariant TiliModel::data(const QModelIndex &index, int role) const
@@ -71,8 +73,19 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
             return QVariant( tili.numero());
         case NIMI :
             return QVariant( tili.nimi());
+        case TYYPPI:
+            return QVariant( tilityypit__.value( tili.tyyppi()));
         }
     }
+
+    else if( role == Qt::TextColorRole)
+    {
+        if( !tili.tila() )
+            return Qt::darkGray;
+        else
+            return Qt::black;
+    }
+
     return QVariant();
 }
 
@@ -102,6 +115,22 @@ Tili TiliModel::tiliNumerolla(int numero) const
             return tili;
     }
     return Tili();
+}
+
+
+void TiliModel::luoTilityyppitaulu()
+{
+    tilityypit__.insert("A","Vastaavaa");
+    tilityypit__.insert("AL","Arvonlisäverosaatavat");
+    tilityypit__.insert("AR","Rahavarat");
+    tilityypit__.insert("AP","Poistokelpoinen omaisuus");
+    tilityypit__.insert("B","Vastattavaa");
+    tilityypit__.insert("BE","Edellisten tilikausien voitto/tappio");
+    tilityypit__.insert("BL","Arvonlisäverovelka");
+    tilityypit__.insert("BV","Verovelka");
+    tilityypit__.insert("C","Tulot");
+    tilityypit__.insert("D","Menot");
+    tilityypit__.insert("DP","Poistot");
 }
 
 void TiliModel::lataa()
