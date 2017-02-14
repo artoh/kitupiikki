@@ -61,8 +61,8 @@ public:
     bool setData(const QModelIndex &index, const QVariant &value, int role);
 
     QString nimi(int id) const;
-    Kohdennus projekti(int id) const;
-    QList<Kohdennus> projektit() const;
+    Kohdennus kohdennus(int id) const;
+    QList<Kohdennus> kohdennukset() const;
 
 public slots:
     void lataa();

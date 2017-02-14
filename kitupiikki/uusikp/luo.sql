@@ -58,6 +58,7 @@ CREATE TABLE vienti (
     id              INTEGER PRIMARY KEY AUTOINCREMENT,
     tosite          INTEGER NOT NULL
                             REFERENCES tosite (id),
+    vientirivi      INTEGER NOT NULL,
     pvm             DATE    NOT NULL,
     tili            INTEGER REFERENCES tili (id) ON DELETE RESTRICT
                                                  ON UPDATE RESTRICT,

@@ -21,24 +21,28 @@
 #include <QAbstractTableModel>
 
 #include "db/tili.h"
+#include "db/kohdennus.h"
 #include "db/jsonkentta.h"
 
 class TositeModel;
 
-/**
- * @brief Viennin alv-kirjauksen laji
- */
-enum AlvKoodi
-{
-    EIALV = 0,
-    ALVNETTO = 1,
-    ALVBRUTTO = 2,
-    YHTEISO_TAVARAT = 3,
-    YHTEISO_PALVELU = 4,
-    KAANNETTY_RAKENNUS = 5,
-    ALVKIRJAUS = 99
-};
 
+namespace AlvKoodi {
+    /**
+     * @brief Viennin alv-kirjauksen laji
+     */
+    enum
+    {
+        EIALV = 0,
+        ALVNETTO = 1,
+        ALVBRUTTO = 2,
+        YHTEISO_TAVARAT = 3,
+        YHTEISO_PALVELU = 4,
+        KAANNETTY_RAKENNUS = 5,
+        ALVKIRJAUS = 99
+    };
+
+};
 
 /**
  * @brief Yhden viennin tiedot. VientiModel käyttää.
@@ -46,6 +50,7 @@ enum AlvKoodi
 struct VientiRivi
 {
     int vientiId = 0;
+    int riviNro = 0;
     QDate pvm;
     Tili tili;
     QString selite;
@@ -53,6 +58,8 @@ struct VientiRivi
     int kreditSnt = 0;
     int alvkoodi = 0;
     int alvprosentti = 0;
+    Kohdennus kustannuspaikka;
+    Kohdennus projekti;
     QDateTime luotu;
     QDateTime muokattu;
     JsonKentta json;
@@ -74,7 +81,14 @@ public:
 
     enum VientiSarake
     {
-        PVM, TILI, DEBET, KREDIT, KUSTANNUSPAIKKA, PROJEKTI, SELITE
+        PVM, TILI, DEBET, KREDIT, ALV, KUSTANNUSPAIKKA, PROJEKTI, SELITE
+    };
+
+    enum
+    {
+        IdRooli, PvmRooli, TiliNumeroRooli, DebetRooli, KreditRooli, AlvKoodiRooli,
+        AlvProsenttiRooli, KustannuspaikkaRooli, ProjektiRooli, SeliteRooli,
+        LuotuRooli, MuokattuRooli, RiviRooli
     };
 
 
@@ -90,7 +104,7 @@ public:
     bool lisaaRivi();
 
     bool lisaaVienti(const QDate& pvm, int tilinumero, const QString& selite,
-                     int debetSnt, int kreditSnt);
+                     int debetSnt, int kreditSnt, int rivinro = 0);
 
     int debetSumma() const;
     int kreditSumma() const;
@@ -116,6 +130,7 @@ protected:
     QList<VientiRivi> viennit_;
 
     VientiRivi uusiRivi();
+    int seuraavaRiviNumero();
     bool muokattu_;
 };
 

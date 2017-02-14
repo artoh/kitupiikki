@@ -42,6 +42,7 @@ Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
     tositelajiModel_ = new TositelajiModel(&tietokanta_, this);
     tiliModel_ = new TiliModel( &tietokanta_, this);
     tilikaudetModel_ = new TilikausiModel(&tietokanta_, this);
+    kohdennukset_ = new KohdennusModel(&tietokanta_, this);
 }
 
 Kirjanpito::~Kirjanpito()

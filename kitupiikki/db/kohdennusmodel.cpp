@@ -116,10 +116,10 @@ bool KohdennusModel::setData(const QModelIndex &index, const QVariant &value, in
 
 QString KohdennusModel::nimi(int id) const
 {
-    return projekti(id).nimi();
+    return kohdennus(id).nimi();
 }
 
-Kohdennus KohdennusModel::projekti(int id) const
+Kohdennus KohdennusModel::kohdennus(int id) const
 {
     foreach (Kohdennus projekti, projektit_)
     {
@@ -129,7 +129,7 @@ Kohdennus KohdennusModel::projekti(int id) const
     return Kohdennus();
 }
 
-QList<Kohdennus> KohdennusModel::projektit() const
+QList<Kohdennus> KohdennusModel::kohdennukset() const
 {
     return projektit_;
 }

@@ -39,6 +39,7 @@
 #include "tilimodel.h"
 #include "tilikausimodel.h"
 #include "tositemodel.h"
+#include "kohdennusmodel.h"
 
 /**
  * @brief Kirjanpidon käsittely
@@ -131,6 +132,12 @@ public:
      */
     TositeModel *tositemodel(QObject *parent = 0);
 
+    /**
+     * @brief Kohdennusten eli kustannuspaikkojen ja projektien model
+     * @return
+     */
+    KohdennusModel *kohdennukset() const { return kohdennukset_; }
+
 signals:
     /**
      * @brief Tietokanta on avattu
@@ -172,6 +179,7 @@ protected:
     AsetusModel *asetusModel_;
     TiliModel *tiliModel_;
     TilikausiModel *tilikaudetModel_;
+    KohdennusModel *kohdennukset_;
 
 public:
     /**
