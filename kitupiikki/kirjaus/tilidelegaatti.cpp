@@ -15,10 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QCompleter>
-#include <QLineEdit>
-
-#include <QSortFilterProxyModel>
+#include "db/tilinvalintaline.h"
 
 #include "tilidelegaatti.h"
 
@@ -31,53 +28,27 @@ TiliDelegaatti::TiliDelegaatti()
 
 QWidget *TiliDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem & /* option */, const QModelIndex & /* index */) const
 {
-    QLineEdit *editor = new QLineEdit(parent);
-
-    // Tilivalintaan TiliModelista tilit (taso 0)
-
-    QCompleter *taydennin = new QCompleter() ;
-
-    QSortFilterProxyModel *proxy = new QSortFilterProxyModel(parent);
-    proxy->setSourceModel( Kirjanpito::db()->tilit() );
-    proxy->setFilterRole( TiliModel::OtsikkotasoRooli);
-    proxy->setFilterFixedString("0");
-
-    taydennin->setCompletionColumn( TiliModel::NRONIMI);
-    taydennin->setModel( proxy );
-
-    taydennin->setCompletionMode( QCompleter::UnfilteredPopupCompletion);
-    editor->setCompleter(taydennin);
-
+    TilinvalintaLineDelegaatille *editor = new TilinvalintaLineDelegaatille(parent);
     return editor;
 }
 
 void TiliDelegaatti::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    QLineEdit *lineeditor = qobject_cast<QLineEdit*>(editor);
-    lineeditor->setText( index.data().toString());
+    TilinvalintaLineDelegaatille *tilinvalinta = qobject_cast<TilinvalintaLineDelegaatille*>(editor);
+    tilinvalinta->valitseTiliNumerolla( index.data(VientiModel::TiliNumeroRooli).toInt() );
+
 }
 
 void TiliDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
-    QLineEdit *lineeditor = qobject_cast<QLineEdit*>(editor);
-    QString tekstina = lineeditor->text();
-    QString sana = tekstina.left( tekstina.indexOf(' ') );
+    TilinvalintaLineDelegaatille *tilieditor = qobject_cast<TilinvalintaLineDelegaatille*>(editor);
 
-    // Sitten pitää etsiä tiliä tililistalta
-    // Täydentää seuraavaan sopivaan
-    for(int i=0; i < kp()->tilit()->rowCount(QModelIndex()); i++)
-    {
-        Tili tili = kp()->tilit()->tiliIndeksilla(i);
-
-        QString numeroTeksti = QString::number(tili.numero());
-        if( numeroTeksti.startsWith(sana))
-        {
-            model->setData(index, QVariant( tili.numero()));
-            return;
-        }
-    }
-
+    if( tilieditor->valittuTilinumero())
+        model->setData(index, tilieditor->valittuTilinumero());
+    else
+        model->setData(index, tilieditor->tilinimiAlkaa() );
 }
+
 
 
 

@@ -20,7 +20,7 @@
 #include "db/kirjanpito.h"
 #include "db/tilikausi.h"
 
-
+#include "db/tilinvalintadialogi.h"
 
 #include <QDebug>
 #include <QSqlQuery>
@@ -172,11 +172,15 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int /
     case TILI:
     {
         // Tili asetetaan numerolla!
-        Tili uusitili = Kirjanpito::db()->tilit()->tiliNumerolla( value.toInt());
+        Tili uusitili;
+        if( value.toInt())
+            uusitili = kp()->tilit()->tiliNumerolla( value.toInt());
+        else
+            uusitili = TilinValintaDialogi::valitseTili(value.toString());
+
         viennit_[index.row()].tili = uusitili;
-        qDebug() << uusitili.nimi() << "(" << uusitili.tyyppi() << ")" << value.toInt();
         // Jos kirjataan tulotilille, niin siirrytään syöttämään kredit-summaa
-        if( uusitili.tyyppi().startsWith('T'))
+        if( uusitili.onkoTulotili())
             emit siirryRuutuun(index.sibling(index.row(), KREDIT));
         else
             emit siirryRuutuun(index.sibling(index.row(), DEBET));

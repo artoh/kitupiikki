@@ -15,34 +15,30 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TILIDELEGAATTI_H
-#define TILIDELEGAATTI_H
+#ifndef TILINVALINTADIALOGI_H
+#define TILINVALINTADIALOGI_H
 
-#include <QItemDelegate>
+#include <QDialog>
 
-#include "db/tili.h"
-#include "db/vientimodel.h"
+#include "tili.h"
 
-/**
- * @brief Delegaatti tilin valitsemiseen täydennyksen avulla
- */
-class TiliDelegaatti : public QItemDelegate
+namespace Ui {
+class TilinValintaDialogi;
+}
+
+class TilinValintaDialogi : public QDialog
 {
     Q_OBJECT
 
 public:
-    TiliDelegaatti();
+    explicit TilinValintaDialogi(QWidget *parent = 0);
+    ~TilinValintaDialogi();
 
-    QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-    void setEditorData(QWidget *editor, const QModelIndex &index) const;
-    void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
+private:
+    Ui::TilinValintaDialogi *ui;
 
-protected:
-    VientiModel *model_;
-
-
-
-
+public:
+    static Tili valitseTili(const QString& alku);
 };
 
-#endif // TILIDELEGAATTI_H
+#endif // TILINVALINTADIALOGI_H

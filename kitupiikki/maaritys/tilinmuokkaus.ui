@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>tilinmuokkausDialog</class>
+ <widget class="QDialog" name="tilinmuokkausDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>328</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Tilin muokkaus</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QRadioButton" name="tiliRadio">
+     <property name="text">
+      <string>Tili</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QRadioButton" name="otsikkoRadio">
+     <property name="text">
+      <string>Otsikko</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Numero</string>
+       </property>
+       <property name="buddy">
+        <cstring>numeroEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="numeroEdit"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Nimi</string>
+       </property>
+       <property name="buddy">
+        <cstring>nimiEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="nimiEdit"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Otsikkotaso</string>
+       </property>
+       <property name="buddy">
+        <cstring>tasoSpin</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QSpinBox" name="tasoSpin">
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>9</number>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Tilityyppi</string>
+       </property>
+       <property name="buddy">
+        <cstring>tyyppiCombo</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QComboBox" name="tyyppiCombo"/>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Vastatili</string>
+       </property>
+       <property name="buddy">
+        <cstring>vastatiliEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="vastatiliEdit"/>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>Veroprosentti</string>
+       </property>
+       <property name="buddy">
+        <cstring>veroSpin</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QSpinBox" name="veroSpin">
+       <property name="suffix">
+        <string>%</string>
+       </property>
+       <property name="prefix">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>Verolaji</string>
+       </property>
+       <property name="buddy">
+        <cstring>veroCombo</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="QComboBox" name="veroCombo">
+       <item>
+        <property name="text">
+         <string>Veroton</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Oletus alv-käsittely</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Nettokirjaus</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Bruttokirjaus</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Tavaran yhteisömyynti</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Palveluiden yhteisömyynti</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Rakennuspalveluiden käännetty verovelvollisuus</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>tilinmuokkausDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>227</x>
+     <y>311</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>tilinmuokkausDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>295</x>
+     <y>317</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>otsikkoRadio</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_3</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>56</x>
+     <y>39</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>55</x>
+     <y>122</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>otsikkoRadio</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>tasoSpin</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>200</x>
+     <y>49</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>201</x>
+     <y>124</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tiliRadio</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>tyyppiCombo</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>131</x>
+     <y>22</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>243</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tiliRadio</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>vastatiliEdit</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>157</x>
+     <y>26</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>151</x>
+     <y>185</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tiliRadio</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>veroSpin</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>175</x>
+     <y>28</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>175</x>
+     <y>223</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tiliRadio</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>veroCombo</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>231</x>
+     <y>23</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>232</x>
+     <y>237</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tiliRadio</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_4</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>30</x>
+     <y>28</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>28</x>
+     <y>154</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tiliRadio</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_5</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>72</x>
+     <y>23</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>55</x>
+     <y>186</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tiliRadio</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_6</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>94</x>
+     <y>27</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>77</x>
+     <y>212</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tiliRadio</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label_7</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>83</x>
+     <y>27</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>49</x>
+     <y>241</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

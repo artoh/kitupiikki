@@ -86,6 +86,8 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
         return QVariant( tili.otsikkotaso());
     else if( role == TyyppiRooli )
         return QVariant( tili.tyyppi());
+    else if( role == YsiRooli)
+        return QVariant( tili.ysivertailuluku());
 
     else if( role == Qt::DisplayRole || role == Qt::EditRole)
     {

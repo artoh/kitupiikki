@@ -15,34 +15,41 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TILIDELEGAATTI_H
-#define TILIDELEGAATTI_H
+#ifndef TILINVALINTALINE_H
+#define TILINVALINTALINE_H
 
-#include <QItemDelegate>
-
-#include "db/tili.h"
-#include "db/vientimodel.h"
+#include <QLineEdit>
+#include <QModelIndex>
+#include "kirjanpito.h"
+#include "vientimodel.h"
 
 /**
- * @brief Delegaatti tilin valitsemiseen täydennyksen avulla
+ * @brief QLineEditor, joka valitsee tilejä delegaatille
+ *
+ * Tämä säädetty delegaatin käyttöön: jos pitäisi mennä
+ * valintaikkunaan, heittää fokuksen vanhemmalle
+ *
  */
-class TiliDelegaatti : public QItemDelegate
+class TilinvalintaLineDelegaatille : public QLineEdit
 {
     Q_OBJECT
-
 public:
-    TiliDelegaatti();
+    TilinvalintaLineDelegaatille(QWidget *parent = 0);
 
-    QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-    void setEditorData(QWidget *editor, const QModelIndex &index) const;
-    void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
+    void valitseTiliNumerolla(int tilinumero);
+    int valittuTilinumero() const;
+
+    QString tilinimiAlkaa() const { return alku_; }
 
 protected:
-    VientiModel *model_;
+    void keyPressEvent(QKeyEvent *event);
 
+public slots:
+    void valitseTili(Tili tili);
 
-
+protected:
+    QString alku_;
 
 };
 
-#endif // TILIDELEGAATTI_H
+#endif // TILINVALINTALINE_H

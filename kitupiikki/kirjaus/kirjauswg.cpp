@@ -43,7 +43,7 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( model_->vientiModel(), SIGNAL(muuttunut()), this, SLOT(naytaSummat()));
 
     ui->viennitView->setItemDelegateForColumn( VientiModel::PVM, new PvmDelegaatti(ui->tositePvmEdit));
-    ui->viennitView->setItemDelegateForColumn( VientiModel::TILI, new TiliDelegaatti() );
+    ui->viennitView->setItemDelegateForColumn( VientiModel::TILI, new TiliDelegaatti( ) );
     ui->viennitView->setItemDelegateForColumn( VientiModel::DEBET, new EuroDelegaatti);
     ui->viennitView->setItemDelegateForColumn( VientiModel::KREDIT, new EuroDelegaatti);
 

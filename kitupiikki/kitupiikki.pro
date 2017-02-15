@@ -56,7 +56,9 @@ SOURCES += main.cpp \
     db/liitemodel.cpp \
     db/jsonkentta.cpp \
     kirjaus/naytaliitewg.cpp \
-    maaritys/tilikarttamuokkaus.cpp
+    maaritys/tilikarttamuokkaus.cpp \
+    db/tilinvalintaline.cpp \
+    db/tilinvalintadialogi.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -104,7 +106,9 @@ HEADERS += \
     db/liitemodel.h \
     db/jsonkentta.h \
     kirjaus/naytaliitewg.h \
-    maaritys/tilikarttamuokkaus.h
+    maaritys/tilikarttamuokkaus.h \
+    db/tilinvalintaline.h \
+    db/tilinvalintadialogi.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -127,7 +131,9 @@ FORMS += \
     raportti/paivakirja.ui \
     maaritys/tilinavaus.ui \
     maaritys/tositelajit.ui \
-    maaritys/tilikarttamuokkaus.ui
+    maaritys/tilikarttamuokkaus.ui \
+    maaritys/tilinmuokkaus.ui \
+    db/tilinvalintadialogi.ui
 
 DISTFILES += \
     uusikp/luo.sql \
