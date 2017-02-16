@@ -33,6 +33,10 @@ public:
 protected:
     void lataa();
 
+protected slots:
+    void veroEnablePaivita();
+    void otsikkoTasoPaivita();
+
 protected:
     Ui::tilinmuokkausDialog *ui;
     TiliModel *model_;

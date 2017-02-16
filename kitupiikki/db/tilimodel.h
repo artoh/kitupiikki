@@ -29,10 +29,6 @@
  *
  * Tilien tiedot
  *
- * json-määreitä
- * Vastatili:  Oletusvastatili kirjauksille
- * AlvProsentti: Oletus arvonlisäveron prosentti
- *
  *
  */
 class TiliModel : public QAbstractTableModel
@@ -74,7 +70,8 @@ public:
     Tili tiliNumerolla(int numero) const;
 
     static QMap<QString,QString> tiliTyyppiTaulu() { return tilityypit__; }
-    static void luoTilityyppitaulu();
+    static QMap<int,QString> veroTyyppiTaulu() { return verotyypit__; }
+    static void luoTyyppiTaulut();
 
 public slots:
     void lataa();
@@ -85,6 +82,7 @@ protected:
 
     QList<Tili> tilit_;
     static QMap<QString,QString> tilityypit__;
+    static QMap<int,QString> verotyypit__;
 
 };
 

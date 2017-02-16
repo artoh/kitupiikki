@@ -32,7 +32,7 @@ TiliModel::TiliModel(QSqlDatabase *tietokanta, QObject *parent) :
 {
     // Ellei vielä ole luotu, niin luodaan tilityyppitaulu
     if( !tilityypit__.count())
-        luoTilityyppitaulu();
+        luoTyyppiTaulut();
 }
 
 int TiliModel::rowCount(const QModelIndex & /* parent */) const
@@ -185,7 +185,7 @@ Tili TiliModel::tiliNumerolla(int numero) const
 }
 
 
-void TiliModel::luoTilityyppitaulu()
+void TiliModel::luoTyyppiTaulut()
 {
     tilityypit__.insert("A","Vastaavaa");
     tilityypit__.insert("AL","Arvonlisäverosaatavat");
@@ -198,6 +198,13 @@ void TiliModel::luoTilityyppitaulu()
     tilityypit__.insert("C","Tulot");
     tilityypit__.insert("D","Menot");
     tilityypit__.insert("DP","Poistot");
+
+    verotyypit__.insert(0,"Veroton");
+    verotyypit__.insert(1,"Nettoperustainen alv-kirjaus");
+    verotyypit__.insert(2,"Bruttoperustainen alv-kirjaus");
+    verotyypit__.insert(3,"Tavaroiden yhteisömyynti");
+    verotyypit__.insert(4,"Palveluiden yhteisömyynti");
+    verotyypit__.insert(5,"Käänteinen arvonlisävelvollisuus");
 }
 
 void TiliModel::lataa()
@@ -267,3 +274,4 @@ void TiliModel::tallenna()
 }
 
 QMap<QString,QString> TiliModel::tilityypit__;
+QMap<int,QString> TiliModel::verotyypit__;

@@ -25,6 +25,12 @@
 
 /**
  * @brief Tilin tai otsikon tiedot
+ *
+ * json-määreitä
+ * -------------
+ * Vastatili:  Oletusvastatili kirjauksille
+ * AlvProsentti: Oletus arvonlisäveron prosentti
+ **
  */
 class Tili
 {

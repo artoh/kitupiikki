@@ -16,6 +16,7 @@
 */
 
 #include <QMapIterator>
+#include <QIntValidator>
 
 #include "tilinmuokkausdialog.h"
 #include "db/tilimodel.h"
@@ -27,16 +28,30 @@ TilinMuokkausDialog::TilinMuokkausDialog(TiliModel *model, QModelIndex index) :
     ui = new Ui::tilinmuokkausDialog();
     ui->setupUi(this);
 
-    QMapIterator<QString,QString> iter( model_->tiliTyyppiTaulu() );
+    ui->numeroEdit->setValidator( new QIntValidator(1,99999999, ui->numeroEdit));
 
     // Laitetaan tyyppivaihtoehdot paikalleen
+    QMapIterator<QString,QString> iter( model_->tiliTyyppiTaulu() );
     while( iter.hasNext() )
     {
         iter.next();
         ui->tyyppiCombo->addItem( QIcon(),iter.value(), iter.key());
     }
 
+    // Laitetaa verotyypit paikalleen
+    QMapIterator<int,QString> veroIter(model->veroTyyppiTaulu());
+    while( iter.hasNext())
+    {
+        iter.next();
+        ui->veroCombo->addItem(QIcon(), iter.value(), iter.key());
+    }
+
+
+    connect( ui->veroCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(veroEnablePaivita()));
+    connect( ui->numeroEdit, SIGNAL(textChanged(QString)), this, SLOT(otsikkoTasoPaivita()));
+
     lataa();
+
 }
 
 TilinMuokkausDialog::~TilinMuokkausDialog()
@@ -47,6 +62,9 @@ TilinMuokkausDialog::~TilinMuokkausDialog()
 void TilinMuokkausDialog::lataa()
 {
     Tili tili = model_->tiliIndeksilla( index_.row());
+
+    ui->tasoSpin->setVisible(false);
+    ui->tasoLabel->setVisible(false);
 
     ui->tiliRadio->setChecked( tili.otsikkotaso() == 0);
     ui->otsikkoRadio->setChecked( tili.otsikkotaso() );
@@ -59,6 +77,29 @@ void TilinMuokkausDialog::lataa()
 
     ui->vastatiliEdit->valitseTiliIdlla( tili.json()->luku("Vastatili") );
     ui->veroSpin->setValue( tili.json()->luku("AlvProsentti"));
+    ui->veroCombo->setCurrentIndex( ui->tyyppiCombo->findData( tili.json()->luku("AlvLaji")));
+}
 
+void TilinMuokkausDialog::veroEnablePaivita()
+{
+    // Jos veroton, niin eipä silloin laiteta alv-prosenttia
+    ui->veroSpin->setEnabled( ui->veroCombo->currentData().toInt() != 0 );
+}
 
+void TilinMuokkausDialog::otsikkoTasoPaivita()
+{
+    // Mahdollinen otsikkotaso on vain yksi enemmän kuin edellinen otsikkotaso
+    int isoinluku = 1;
+    int ysilukuna = Tili::ysiluku( ui->numeroEdit->text().toInt());
+
+    for( int i = 0; i < model_->rowCount(QModelIndex()); i++)
+    {
+        Tili tili = model_->tiliIndeksilla(i);
+        if( tili.ysivertailuluku() >= ysilukuna)
+            // Tämän tilin paikka löydetty, eli tässä ollaan!
+            break;
+        if( tili.otsikkotaso() )
+            isoinluku = tili.otsikkotaso() + 1;
+    }
+    ui->tasoSpin->setMaximum( isoinluku );
 }

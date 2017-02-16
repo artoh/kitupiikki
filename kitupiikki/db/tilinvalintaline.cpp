@@ -133,7 +133,12 @@ void TilinvalintaLine::keyPressEvent(QKeyEvent *event)
     if( event->text().at(0).isLetter()
             || event->key() == Qt::Key_Space)
     {
-        Tili valittu = TilinValintaDialogi::valitseTili(event->text(), proxyTila_->filterRegExp().pattern() );
+        Tili valittu;
+
+        if( event->key() == Qt::Key_Space)
+            valittu = TilinValintaDialogi::valitseTili(event->text(), proxyTyyppi_->filterRegExp().pattern() );
+        else
+            valittu = TilinValintaDialogi::valitseTili(QString(), proxyTyyppi_->filterRegExp().pattern() );
         if( valittu.id())
             valitseTili( valittu);
     }
