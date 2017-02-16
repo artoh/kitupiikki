@@ -192,7 +192,7 @@
   <customwidget>
    <class>TilinvalintaLine</class>
    <extends>QLineEdit</extends>
-   <header>tilinvalintaline.h</header>
+   <header>db/tilinvalintaline.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -29,6 +29,11 @@
  *
  * Tilien tiedot
  *
+ * json-määreitä
+ * Vastatili:  Oletusvastatili kirjauksille
+ * AlvProsentti: Oletus arvonlisäveron prosentti
+ *
+ *
  */
 class TiliModel : public QAbstractTableModel
 {

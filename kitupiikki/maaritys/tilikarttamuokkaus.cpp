@@ -22,6 +22,7 @@
 #include "tilikarttamuokkaus.h"
 #include "db/kirjanpito.h"
 #include "db/tili.h"
+#include "tilinmuokkausdialog.h"
 
 TilikarttaMuokkaus::TilikarttaMuokkaus(QWidget *parent)
     : MaaritysWidget(parent)
@@ -45,6 +46,8 @@ TilikarttaMuokkaus::TilikarttaMuokkaus(QWidget *parent)
 
     connect(ui->view->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
             this, SLOT(riviValittu(QModelIndex)));
+
+    connect(ui->muokkaaNappi, SIGNAL(clicked(bool)), this, SLOT(muokkaa()));
 
 
 }
@@ -100,5 +103,11 @@ void TilikarttaMuokkaus::riviValittu(const QModelIndex& index)
 
     Tili tili = model->tiliIndeksilla( index.row());
     ui->poistaNappi->setDisabled( tili.montakoVientia() );
+}
+
+void TilikarttaMuokkaus::muokkaa()
+{
+    TilinMuokkausDialog dlg(model, ui->view->currentIndex());
+    dlg.exec();
 }
 

@@ -58,7 +58,8 @@ SOURCES += main.cpp \
     kirjaus/naytaliitewg.cpp \
     maaritys/tilikarttamuokkaus.cpp \
     db/tilinvalintaline.cpp \
-    db/tilinvalintadialogi.cpp
+    db/tilinvalintadialogi.cpp \
+    maaritys/tilinmuokkausdialog.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -108,7 +109,8 @@ HEADERS += \
     kirjaus/naytaliitewg.h \
     maaritys/tilikarttamuokkaus.h \
     db/tilinvalintaline.h \
-    db/tilinvalintadialogi.h
+    db/tilinvalintadialogi.h \
+    maaritys/tilinmuokkausdialog.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

@@ -15,35 +15,30 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TILIKARTTAMUOKKAUS_H
-#define TILIKARTTAMUOKKAUS_H
+#ifndef TILINMUOKKAUSDIALOG_H
+#define TILINMUOKKAUSDIALOG_H
 
-#include "ui_tilikarttamuokkaus.h"
-#include "maarityswidget.h"
+#include <QDialog>
+
+#include "ui_tilinmuokkaus.h"
 #include "db/tilimodel.h"
 
-/**
- * @brief Tilikarta muokkaus
- */
-class TilikarttaMuokkaus : public MaaritysWidget
+class TilinMuokkausDialog : public QDialog
 {
     Q_OBJECT
-public:
-    TilikarttaMuokkaus(QWidget *parent=0);
-    ~TilikarttaMuokkaus();
-
-    bool nollaa();
-    bool tallenna();
-
-public slots:
-    void muutaTila(int tila);
-
-    void riviValittu(const QModelIndex &index);
-    void muokkaa();
+public:    
+    TilinMuokkausDialog(TiliModel *model, QModelIndex index = QModelIndex());
+    ~TilinMuokkausDialog();
 
 protected:
-    Ui::Tilikartta *ui;
-    TiliModel *model;
+    void lataa();
+
+protected:
+    Ui::tilinmuokkausDialog *ui;
+    TiliModel *model_;
+    QModelIndex index_;
+
+
 };
 
-#endif // TILIKARTTAMUOKKAUS_H
+#endif // TILINMUOKKAUSDIALOG_H

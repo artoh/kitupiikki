@@ -40,6 +40,7 @@ public:
 
 public slots:
     void valitseTiliNumerolla(int tilinumero);
+    void valitseTiliIdlla(int tiliId);
     void valitseTili(Tili tili);
 
     void suodataTyypilla(const QString& regexp);
@@ -78,6 +79,7 @@ protected:
  */
 class TilinvalintaLine : public KantaTilinvalintaLine
 {
+public:
     TilinvalintaLine(QWidget *parent = 0);
 
 protected:

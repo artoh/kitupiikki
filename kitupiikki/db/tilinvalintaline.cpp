@@ -57,9 +57,18 @@ void KantaTilinvalintaLine::valitseTiliNumerolla(int tilinumero)
 
 }
 
+void KantaTilinvalintaLine::valitseTiliIdlla(int tiliId)
+{
+    Tili tili = kp()->tilit()->tiliIdlla(tiliId);
+    valitseTili(tili);
+}
+
 void KantaTilinvalintaLine::valitseTili(Tili tili)
 {
-    setText( tr("%1 %2").arg(tili.numero()).arg(tili.nimi()));
+    if( tili.id())
+        setText( tr("%1 %2").arg(tili.numero()).arg(tili.nimi()));
+    else
+        setText("");
 
 }
 
