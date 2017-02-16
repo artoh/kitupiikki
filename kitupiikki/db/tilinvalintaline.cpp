@@ -19,41 +19,57 @@
 #include "tilinvalintadialogi.h"
 
 #include <QCompleter>
-#include <QSortFilterProxyModel>
+
 #include <QDebug>
 #include <QKeyEvent>
 
-TilinvalintaLineDelegaatille::TilinvalintaLineDelegaatille(QWidget *parent)
+KantaTilinvalintaLine::KantaTilinvalintaLine(QWidget *parent)
     : QLineEdit(parent)
 {
+
+
+    proxyTyyppi_ = new QSortFilterProxyModel(parent);
+    proxyTyyppi_->setSourceModel( kp()->tilit());
+    proxyTyyppi_->setFilterRole(TiliModel::TyyppiRooli);
+    proxyTyyppi_->setFilterRegExp("[ABCD].*");
+
+    proxyTila_ = new QSortFilterProxyModel(parent);
+    proxyTila_->setSourceModel(proxyTyyppi_);
+    proxyTila_->setFilterRole(TiliModel::TilaRooli);
+    proxyTila_->setFilterRegExp("[12]");
+
     QCompleter *taydennin = new QCompleter() ;
-
-    QSortFilterProxyModel *proxy = new QSortFilterProxyModel(parent);
-    proxy->setSourceModel( Kirjanpito::db()->tilit() );
-    proxy->setFilterRole( TiliModel::OtsikkotasoRooli);
-    proxy->setFilterFixedString("0");
-
     taydennin->setCompletionColumn( TiliModel::NRONIMI);
-    taydennin->setModel( proxy );
+    taydennin->setModel( proxyTila_ );
 
     taydennin->setCompletionMode( QCompleter::UnfilteredPopupCompletion);
     setCompleter(taydennin);
 
-    connect(this, SIGNAL(tiliValittu(Tili)), this, SLOT(valitseTili(Tili)));
 }
 
-void TilinvalintaLineDelegaatille::valitseTiliNumerolla(int tilinumero)
+void KantaTilinvalintaLine::valitseTiliNumerolla(int tilinumero)
 {
     if( tilinumero )
     {
         Tili tili = kp()->tilit()->tiliNumerolla(tilinumero);
-        setText( tr("%1 %2").arg(tili.numero()).arg(tili.nimi()));
+        valitseTili(tili);
     }
 
 }
 
+void KantaTilinvalintaLine::valitseTili(Tili tili)
+{
+    setText( tr("%1 %2").arg(tili.numero()).arg(tili.nimi()));
 
-int TilinvalintaLineDelegaatille::valittuTilinumero() const
+}
+
+void KantaTilinvalintaLine::suodataTyypilla(const QString &regexp)
+{
+    proxyTyyppi_->setFilterRegExp(regexp);
+}
+
+
+int KantaTilinvalintaLine::valittuTilinumero() const
 {
     QString sana = text().left( text().indexOf(' '));
     if( sana.isEmpty() || !sana.at(0).isDigit() )
@@ -74,6 +90,14 @@ int TilinvalintaLineDelegaatille::valittuTilinumero() const
     return 0;
 }
 
+
+
+TilinvalintaLineDelegaatille::TilinvalintaLineDelegaatille(QWidget *parent) :
+    KantaTilinvalintaLine(parent)
+{
+
+}
+
 void TilinvalintaLineDelegaatille::keyPressEvent(QKeyEvent *event)
 {
     if( event->text().at(0).isLetter()
@@ -86,9 +110,24 @@ void TilinvalintaLineDelegaatille::keyPressEvent(QKeyEvent *event)
         QLineEdit::keyPressEvent(event);
 }
 
-void TilinvalintaLineDelegaatille::valitseTili(Tili tili)
+
+
+TilinvalintaLine::TilinvalintaLine(QWidget *parent)
+    : KantaTilinvalintaLine(parent)
 {
-    setText( tr("%1 %2").arg(tili.numero()).arg(tili.nimi()));
+
 }
 
+void TilinvalintaLine::keyPressEvent(QKeyEvent *event)
+{
 
+    if( event->text().at(0).isLetter()
+            || event->key() == Qt::Key_Space)
+    {
+        Tili valittu = TilinValintaDialogi::valitseTili(event->text(), proxyTila_->filterRegExp().pattern() );
+        if( valittu.id())
+            valitseTili( valittu);
+    }
+    else
+        QLineEdit::keyPressEvent(event);
+}

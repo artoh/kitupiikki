@@ -15,7 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QSortFilterProxyModel>
+
 
 #include "tilinvalintadialogi.h"
 #include "ui_tilinvalintadialogi.h"
@@ -28,20 +28,33 @@ TilinValintaDialogi::TilinValintaDialogi(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QSortFilterProxyModel *proxy = new QSortFilterProxyModel(this);
-    proxy->setSourceModel( kp()->tilit());
-    proxy->setFilterRole( TiliModel::NimiRooli);
-    proxy->setFilterCaseSensitivity(Qt::CaseInsensitive);
-    proxy->setSortRole(TiliModel::YsiRooli);
+    proxyNimi = new QSortFilterProxyModel(this);
+    proxyNimi->setSourceModel( kp()->tilit());
+    proxyNimi->setFilterRole( TiliModel::NimiRooli);
+    proxyNimi->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    proxyNimi->setSortRole(TiliModel::YsiRooli);
 
+    proxyTyyppi = new QSortFilterProxyModel(this);
+    proxyTyyppi->setSourceModel(proxyNimi);
+    proxyTyyppi->setFilterRole(TiliModel::TyyppiRooli);
 
-    ui->view->setModel(proxy);
+    proxyTila = new QSortFilterProxyModel(this);
+    proxyTila->setSourceModel(proxyTyyppi);
+    proxyTila->setFilterRole(TiliModel::TilaRooli);
+    proxyTila->setFilterRegExp("[12]");
+
+    ui->view->setModel(proxyTila);
     ui->view->setColumnHidden(TiliModel::NRONIMI, true);
 
-    connect(ui->suodatusEdit, SIGNAL(textChanged(QString)),
-            proxy, SLOT(setFilterFixedString(QString)));
-
     ui->view->resizeColumnsToContents();
+
+    connect( ui->suosikitNappi, SIGNAL(toggled(bool)),
+             this, SLOT(suodataSuosikit(bool)));
+    connect( ui->suodatusEdit, SIGNAL(textChanged(QString)),
+             this, SLOT(suodata(QString)));
+    connect( ui->view, SIGNAL(clicked(QModelIndex)),
+             this, SLOT(klikattu(QModelIndex)));
+
 
 }
 
@@ -50,13 +63,78 @@ TilinValintaDialogi::~TilinValintaDialogi()
     delete ui;
 }
 
+Tili TilinValintaDialogi::valittu() const
+{
+    int tiliId = ui->view->currentIndex().data(TiliModel::IdRooli).toInt();
+    return kp()->tilit()->tiliIdlla(tiliId);
+}
 
-Tili TilinValintaDialogi::valitseTili(const QString &alku)
+void TilinValintaDialogi::suodata(const QString &alku)
+{
+    proxyNimi->setFilterFixedString(alku);
+
+    if( tyyppiSuodatin.isEmpty())
+    {
+        if( alku.isEmpty())
+            proxyTyyppi->setFilterFixedString("");
+        else
+            proxyTyyppi->setFilterRegExp("[ABCD].*");
+    }
+    else
+        proxyTyyppi->setFilterRegExp( tyyppiSuodatin );
+
+    // Jos enää vain yksi tili osuu suodattimeen,
+    // valitaan se automaattisesti
+    if( ui->view->model()->rowCount(QModelIndex()) == 1)
+    {
+        ui->view->setCurrentIndex( ui->view->model()->index(0,0) );
+        ui->valitseNappi->setEnabled(true);
+    }
+    else
+    {
+        ui->valitseNappi->setEnabled(false);
+    }
+
+}
+
+void TilinValintaDialogi::suodataTyyppi(const QString &regexp)
+{
+    tyyppiSuodatin = regexp;
+    suodata(ui->suodatusEdit->text());
+}
+
+void TilinValintaDialogi::suodataSuosikit(bool suodatetaanko)
+{
+    if( suodatetaanko)
+        proxyTila->setFilterFixedString("2");
+    else
+        proxyTila->setFilterRegExp("[12]");
+
+
+}
+
+void TilinValintaDialogi::klikattu(const QModelIndex &index)
+{
+    if(index.data(TiliModel::OtsikkotasoRooli) == 0)
+    {
+        // Valittu tili eikä otsikkoa
+        accept();
+    }
+}
+
+
+
+
+Tili TilinValintaDialogi::valitseTili(const QString &alku, const QString &tyyppiSuodatin)
 {
     TilinValintaDialogi dlg;
     dlg.ui->suodatusEdit->setText(alku);
+    dlg.suodataTyyppi(tyyppiSuodatin);
 
     if( dlg.exec())
-        return kp()->tilit()->tiliNumerolla(1911);
+    {
+        return dlg.valittu();
+    }
     return Tili();
 }
+

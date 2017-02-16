@@ -19,6 +19,7 @@
 #define TILINVALINTADIALOGI_H
 
 #include <QDialog>
+#include <QSortFilterProxyModel>
 
 #include "tili.h"
 
@@ -34,11 +35,33 @@ public:
     explicit TilinValintaDialogi(QWidget *parent = 0);
     ~TilinValintaDialogi();
 
+    Tili valittu() const;
+
+public slots:
+    void suodata(const QString& alku);
+    void suodataTyyppi(const QString& regexp);
+    void suodataSuosikit(bool suodatetaanko);
+
+protected slots:
+    void klikattu(const QModelIndex& index);
+
+
 private:
     Ui::TilinValintaDialogi *ui;
+    QSortFilterProxyModel* proxyNimi;
+    QSortFilterProxyModel* proxyTyyppi;
+    QSortFilterProxyModel* proxyTila;
+
+    QString tyyppiSuodatin;
 
 public:
-    static Tili valitseTili(const QString& alku);
+    /**
+     * @brief Näyttää dialogin, josta voi valita tilin
+     * @param alku
+     * @return
+     */
+    static Tili valitseTili(const QString& alku, const QString& tyyppiSuodatin = QString("[ABCD]"));
+
 };
 
 #endif // TILINVALINTADIALOGI_H

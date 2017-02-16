@@ -20,8 +20,35 @@
 
 #include <QLineEdit>
 #include <QModelIndex>
+#include <QSortFilterProxyModel>
+
 #include "kirjanpito.h"
 #include "vientimodel.h"
+
+
+/**
+ * @brief Kantaluokka tilien valinnan lineEditille
+ */
+class KantaTilinvalintaLine : public QLineEdit
+{
+    Q_OBJECT
+
+public:
+    KantaTilinvalintaLine( QWidget *parent=0);
+
+    int valittuTilinumero() const;
+
+public slots:
+    void valitseTiliNumerolla(int tilinumero);
+    void valitseTili(Tili tili);
+
+    void suodataTyypilla(const QString& regexp);
+
+protected:
+    QSortFilterProxyModel *proxyTyyppi_;
+    QSortFilterProxyModel *proxyTila_;
+};
+
 
 /**
  * @brief QLineEditor, joka valitsee tilejä delegaatille
@@ -30,26 +57,31 @@
  * valintaikkunaan, heittää fokuksen vanhemmalle
  *
  */
-class TilinvalintaLineDelegaatille : public QLineEdit
+class TilinvalintaLineDelegaatille : public KantaTilinvalintaLine
 {
     Q_OBJECT
 public:
     TilinvalintaLineDelegaatille(QWidget *parent = 0);
-
-    void valitseTiliNumerolla(int tilinumero);
-    int valittuTilinumero() const;
-
     QString tilinimiAlkaa() const { return alku_; }
 
 protected:
     void keyPressEvent(QKeyEvent *event);
 
-public slots:
-    void valitseTili(Tili tili);
 
 protected:
     QString alku_;
 
+};
+
+/**
+ * @brief Tilin valinta täydentyvällä editorilla, jossa pomppudialogi
+ */
+class TilinvalintaLine : public KantaTilinvalintaLine
+{
+    TilinvalintaLine(QWidget *parent = 0);
+
+protected:
+    void keyPressEvent(QKeyEvent *event);
 };
 
 #endif // TILINVALINTALINE_H

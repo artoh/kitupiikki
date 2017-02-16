@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>624</width>
+    <height>387</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,14 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QTableView" name="view"/>
+    <widget class="QTableView" name="view">
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+    </widget>
    </item>
    <item>
     <widget class="QLineEdit" name="suodatusEdit"/>
@@ -26,6 +33,9 @@
       <widget class="QPushButton" name="suosikitNappi">
        <property name="text">
         <string>Suosikit</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -63,6 +73,13 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>suodatusEdit</tabstop>
+  <tabstop>valitseNappi</tabstop>
+  <tabstop>peruNappi</tabstop>
+  <tabstop>suosikitNappi</tabstop>
+  <tabstop>view</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

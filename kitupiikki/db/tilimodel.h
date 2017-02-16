@@ -48,7 +48,8 @@ public:
         NroNimiRooli = Qt::UserRole + 4,
         OtsikkotasoRooli = Qt::UserRole + 5,
         TyyppiRooli = Qt::UserRole + 6,
-        YsiRooli = Qt::UserRole + 7
+        YsiRooli = Qt::UserRole + 7,
+        TilaRooli = Qt::UserRole + 8
     };
 
 
