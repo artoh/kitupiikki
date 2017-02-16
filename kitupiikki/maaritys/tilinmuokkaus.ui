@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>428</width>
     <height>328</height>
    </rect>
   </property>
@@ -103,7 +103,7 @@
       </widget>
      </item>
      <item row="4" column="1">
-      <widget class="QLineEdit" name="vastatiliEdit"/>
+      <widget class="TilinvalintaLine" name="vastatiliEdit"/>
      </item>
      <item row="5" column="0">
       <widget class="QLabel" name="label_6">
@@ -188,6 +188,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>TilinvalintaLine</class>
+   <extends>QLineEdit</extends>
+   <header>tilinvalintaline.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

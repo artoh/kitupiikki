@@ -35,6 +35,11 @@ public:
     bool nollaa();
     bool tallenna();
 
+public slots:
+    void muutaTila(int tila);
+
+    void riviValittu(const QModelIndex &index);
+
 protected:
     Ui::Tilikartta *ui;
     TiliModel *model;

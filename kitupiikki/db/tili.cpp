@@ -66,6 +66,14 @@ int Tili::kertymaPaivalle(const QDate &pvm)
     return 0;
 }
 
+int Tili::montakoVientia() const
+{
+    QSqlQuery kysely( QString("SELECT sum(id) FROM vienti WHERE tili=%1").arg(id()) );
+    if( kysely.next())
+        return kysely.value(0).toInt();
+    return 0;
+}
+
 bool Tili::onkoTasetili() const
 {
     return( tyyppi().startsWith('A') || tyyppi().startsWith('B'));

@@ -20,6 +20,10 @@
         <file>kansiot.png</file>
         <file>kuva.png</file>
         <file>pdf.png</file>
+        <file>eikaytossa.png</file>
+        <file>lisaa.png</file>
+        <file>poista.png</file>
+        <file>tahti.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

@@ -21,6 +21,7 @@
 #include <QColor>
 #include <QDebug>
 #include <QFont>
+#include <QIcon>
 
 #include "tilimodel.h"
 #include "tili.h"
@@ -42,6 +43,20 @@ int TiliModel::rowCount(const QModelIndex & /* parent */) const
 int TiliModel::columnCount(const QModelIndex & /* parent */) const
 {
     return 4;
+}
+
+bool TiliModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+
+    if( role == TiliModel::TilaRooli)
+    {
+        tilit_[index.row()].asetaTila(value.toInt());
+
+        emit dataChanged(index.sibling(index.row(), 0 ), index.sibling(index.row(), columnCount(QModelIndex())) );
+        return true;
+    }
+
+    return false;
 }
 
 QVariant TiliModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -108,7 +123,7 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
                 QString otsikkotxt;
                 for(int i=0; i<tili.otsikkotaso() - 1; i++)
                     otsikkotxt += " ";
-                otsikkotxt += tr("%1. taso").arg(tili.otsikkotaso());
+                otsikkotxt += tr("Otsikko %1").arg(tili.otsikkotaso());
                 return QVariant( otsikkotxt );
             }
             return QVariant( tilityypit__.value( tili.tyyppi()));
@@ -117,11 +132,19 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
 
     else if( role == Qt::TextColorRole)
     {
-        if( !tili.tila() )
+        if( tili.tila() == 0 )
             return QColor(Qt::darkGray);
         else
             return QColor(Qt::black);
     }
+    else if( role == Qt::DecorationRole && index.column() == NIMI)
+    {
+        if( tili.tila() == 0)
+            return QIcon(":/pic/eikaytossa.png");
+        else if( tili.tila() == 2)
+            return QIcon(":/pic/tahti.png");
+    }
+
     else if( role == Qt::FontRole)
     {
         QFont fontti;
@@ -203,6 +226,7 @@ void TiliModel::lataa()
 
 void TiliModel::tallenna()
 {
+    tietokanta_->transaction();
     QSqlQuery kysely(*tietokanta_);
     foreach (Tili tili, tilit_)
     {
@@ -239,6 +263,7 @@ void TiliModel::tallenna()
 
         }
     }
+    tietokanta_->commit();
 }
 
 QMap<QString,QString> TiliModel::tilityypit__;

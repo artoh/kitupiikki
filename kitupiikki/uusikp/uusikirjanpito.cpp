@@ -232,9 +232,7 @@ bool UusiKirjanpito::alustaKirjanpito()
 
     qDebug() << tilit.rowCount( QModelIndex() ) << " tiliä talletettu ";
 
-    db.transaction();
     tilit.tallenna();
-    db.commit();
 
 
     // Tilikausien kirjoittaminen

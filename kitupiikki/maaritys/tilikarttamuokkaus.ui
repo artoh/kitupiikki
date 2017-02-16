@@ -34,6 +34,10 @@
        <property name="text">
         <string>Uusi...</string>
        </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
+       </property>
       </widget>
      </item>
      <item>
@@ -47,6 +51,10 @@
       <widget class="QPushButton" name="poistaNappi">
        <property name="text">
         <string>Poista</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/poista.png</normaloff>:/pic/poista.png</iconset>
        </property>
       </widget>
      </item>
@@ -68,12 +76,28 @@
        <property name="text">
         <string>Piilota</string>
        </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/eikaytossa.png</normaloff>:/pic/eikaytossa.png</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="autoExclusive">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="normaaliNappi">
        <property name="text">
         <string>Normaali</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="autoExclusive">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -82,12 +106,24 @@
        <property name="text">
         <string>Suosikki</string>
        </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/tahti.png</normaloff>:/pic/tahti.png</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="autoExclusive">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
     </layout>
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
  <connections/>
 </ui>

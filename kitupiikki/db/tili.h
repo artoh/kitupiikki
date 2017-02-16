@@ -91,6 +91,15 @@ public:
      */
     int kertymaPaivalle(const QDate &pvm);
 
+    /**
+     * @brief Montako kirjausta tälle tilille
+     *
+     * Käytetään valvomaan sitä, ettei käytössä olevaa tiliä voi poistaa
+     *
+     * @return Kirjausten määrä
+     */
+    int montakoVientia() const;
+
     bool onkoTasetili() const;
     bool onkoTulotili() const;
     bool onkoMenotili() const;
