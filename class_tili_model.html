@@ -110,7 +110,9 @@ $(document).ready(function(){initNavTree('class_tili_model.html','');});
 <a href="#pub-types">Julkiset tyypit</a> &#124;
 <a href="#pub-slots">Julkiset vastineet</a> &#124;
 <a href="#pub-methods">Julkiset jäsenfunktiot</a> &#124;
+<a href="#pub-static-methods">Staattiset julkiset jäsenfunktiot</a> &#124;
 <a href="#pro-attribs">Suojellut attribuutit</a> &#124;
+<a href="#pro-static-attribs">Staattiset suojellut attribuutit</a> &#124;
 <a href="class_tili_model-members.html">Lista kaikista jäsenistä</a>  </div>
   <div class="headertitle">
 <div class="title">TiliModel luokkareferenssi</div>  </div>
@@ -136,7 +138,8 @@ Yhteistyökaavio luokalle TiliModel:</div>
 Julkiset tyypit</h2></td></tr>
 <tr class="memitem:a8b8a00105c3d54f7f0804ef3d78d2195"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8b8a00105c3d54f7f0804ef3d78d2195"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>Sarake</b> { <b>NRONIMI</b>, 
 <b>NUMERO</b>, 
-<b>NIMI</b>
+<b>NIMI</b>, 
+<b>TYYPPI</b>
  }</td></tr>
 <tr class="separator:a8b8a00105c3d54f7f0804ef3d78d2195"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab69fb9c410f162b8692790073d58e3cb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab69fb9c410f162b8692790073d58e3cb"></a>enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
@@ -146,7 +149,9 @@ Julkiset tyypit</h2></td></tr>
 <b>NroNimiRooli</b> = Qt::UserRole + 4, 
 <br />
 &#160;&#160;<b>OtsikkotasoRooli</b> = Qt::UserRole + 5, 
-<b>TyyppiRooli</b> = Qt::UserRole + 6
+<b>TyyppiRooli</b> = Qt::UserRole + 6, 
+<b>YsiRooli</b> = Qt::UserRole + 7, 
+<b>TilaRooli</b> = Qt::UserRole + 8
 <br />
  }</td></tr>
 <tr class="separator:ab69fb9c410f162b8692790073d58e3cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -171,6 +176,12 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>rowCount</b> (const QM
 <tr class="memitem:a42c40dac167f79f8411b238dce0ba1b2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a42c40dac167f79f8411b238dce0ba1b2"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>columnCount</b> (const QModelIndex &amp;parent) const </td></tr>
 <tr class="separator:a42c40dac167f79f8411b238dce0ba1b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ab7822e857289ece02b364fb70ac76d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1ab7822e857289ece02b364fb70ac76d"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>setData</b> (const QModelIndex &amp;index, const QVariant &amp;value, int role)</td></tr>
+<tr class="separator:a1ab7822e857289ece02b364fb70ac76d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee71282ccb57583fa8ffc16da7dda8a9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aee71282ccb57583fa8ffc16da7dda8a9"></a>
+QVariant&#160;</td><td class="memItemRight" valign="bottom"><b>headerData</b> (int section, Qt::Orientation orientation, int role) const </td></tr>
+<tr class="separator:aee71282ccb57583fa8ffc16da7dda8a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0db72413923618fdf1416a23884bbedf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0db72413923618fdf1416a23884bbedf"></a>
 QVariant&#160;</td><td class="memItemRight" valign="bottom"><b>data</b> (const QModelIndex &amp;index, int role) const </td></tr>
 <tr class="separator:a0db72413923618fdf1416a23884bbedf"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -186,6 +197,24 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>lisaaTili</b> (<a cla
 <tr class="memitem:a0e601955dd7c6b05557ac440875956bd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0e601955dd7c6b05557ac440875956bd"></a>
 <a class="el" href="class_tili.html">Tili</a>&#160;</td><td class="memItemRight" valign="bottom"><b>tiliNumerolla</b> (int numero) const </td></tr>
 <tr class="separator:a0e601955dd7c6b05557ac440875956bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41293c47b5ebc0a4da5e6088c83ccb2a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a41293c47b5ebc0a4da5e6088c83ccb2a"></a>
+<a class="el" href="class_json_kentta.html">JsonKentta</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>jsonIndeksilla</b> (int i)</td></tr>
+<tr class="separator:a41293c47b5ebc0a4da5e6088c83ccb2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adaa341ba543bdde10f2a234ff4caaed5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adaa341ba543bdde10f2a234ff4caaed5"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>onkoMuokattu</b> () const </td></tr>
+<tr class="separator:adaa341ba543bdde10f2a234ff4caaed5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Staattiset julkiset jäsenfunktiot</h2></td></tr>
+<tr class="memitem:a8e32464178e60b31a0c6a68d99652543"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8e32464178e60b31a0c6a68d99652543"></a>
+static QMap&lt; QString, QString &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>tiliTyyppiTaulu</b> ()</td></tr>
+<tr class="separator:a8e32464178e60b31a0c6a68d99652543"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55eaa0450a273fc4d0a9be81c3de785c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a55eaa0450a273fc4d0a9be81c3de785c"></a>
+static QMap&lt; int, QString &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>veroTyyppiTaulu</b> ()</td></tr>
+<tr class="separator:a55eaa0450a273fc4d0a9be81c3de785c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2a0ee0155bebdb886b1ab3e84642c23"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af2a0ee0155bebdb886b1ab3e84642c23"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>luoTyyppiTaulut</b> ()</td></tr>
+<tr class="separator:af2a0ee0155bebdb886b1ab3e84642c23"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Suojellut attribuutit</h2></td></tr>
@@ -195,6 +224,15 @@ QSqlDatabase *&#160;</td><td class="memItemRight" valign="bottom"><b>tietokanta_
 <tr class="memitem:aefaf5b13b883875c34f32f0f85c4588d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aefaf5b13b883875c34f32f0f85c4588d"></a>
 QList&lt; <a class="el" href="class_tili.html">Tili</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>tilit_</b></td></tr>
 <tr class="separator:aefaf5b13b883875c34f32f0f85c4588d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-attribs"></a>
+Staattiset suojellut attribuutit</h2></td></tr>
+<tr class="memitem:ae4338dac49fdd76f299c11d5513e0ea4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae4338dac49fdd76f299c11d5513e0ea4"></a>
+static QMap&lt; QString, QString &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>tilityypit__</b></td></tr>
+<tr class="separator:ae4338dac49fdd76f299c11d5513e0ea4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6faba04d07d53822c952aa7d4736a4a7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6faba04d07d53822c952aa7d4736a4a7"></a>
+static QMap&lt; int, QString &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>verotyypit__</b></td></tr>
+<tr class="separator:a6faba04d07d53822c952aa7d4736a4a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Yksityiskohtainen selite</h2>
 <div class="textblock"><p>Tilit. </p>

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>Kitupiikki: tilikartat</title>
+<title>Kitupiikki: Tilikartat</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -99,15 +99,55 @@ $(document).ready(function(){initNavTree('md_kitupiikki_tilikartat_tilikartat.ht
 
 <div class="header">
   <div class="headertitle">
-<div class="title">tilikartat </div>  </div>
+<div class="title">Tilikartat </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>#Tilikartat</p>
-<p>Tämä hakemisto sisältää tilikarttojen pohjat. Ohjelman vakiotilikartat liitetään ohjelmatiedostoon resursseina (tilikartat.qrc) mutta tilikartan voi ladata myös .kpk-tiedostosta.</p>
-<h2>Tilikarttatiedoston muoto</h2>
-<p>[nimi] Luettelossa näytettävä nimi</p>
-<p>[kuvaus] Luettelon vieressä näytettävä tilikartan kuvaus. Kuvauksen pitäisi olla niin tarkka, että sen perusteella pystyy valitsemaan oikean tilikartan.</p>
-<p>[tilit] </p>
+<div class="textblock"><p>Tämä hakemisto sisältää tilikarttojen pohjat. Ohjelman vakiotilikartat liitetään ohjelmatiedostoon resursseina (tilikartat.qrc) mutta tilikartan voi ladata myös .kpk-tiedostosta.</p>
+<h2>Tilikarttatiedoston muoto </h2>
+<p>Tiedosto koostuu osista, joissa on ensin otsikko hakasulkujen välissä </p><pre class="fragment">[nimi]
+Luettelossa näytettävä nimi
+</pre><table class="doxtable">
+<tr>
+<th>Otsikko </th><th>Muoto </th><th>Sisältö  </th></tr>
+<tr>
+<td>nimi </td><td>Merkkijono </td><td>Luettelossa näytettävä nimi </td></tr>
+<tr>
+<td>kuvaus </td><td>Tekstiä (html) </td><td>Luettelon vieressä näytettävä tilikartan kuvaus. Kuvauksen pitäisi olla niin tarkka, että sen perusteella voi valita oikean tilikartan </td></tr>
+<tr>
+<td>tilit </td><td>Tilit*(#tilit) </td><td>Tilit </td></tr>
+</table>
+<h2>Tilit </h2>
+<p>Jokainen tili on omalla rivillään. Ensimmäisessä sarakkeessa on tyyppi ja valinnat, toisessa tilinumero ja kolmannessa nimi. </p><pre class="fragment">H1          10      Vastaavaa
+A           1001    Perustaminen
+AR          1100    Rahavarat
+C23/1100    3100    Myynti 23%
+</pre><p>Tilityypit</p>
+<table class="doxtable">
+<tr>
+<th>Tunnus </th><th>Selite  </th></tr>
+<tr>
+<td>A </td><td>Vastaavaa </td></tr>
+<tr>
+<td>AR </td><td>Rahavarojen tili </td></tr>
+<tr>
+<td>AP </td><td>Poistettava omaisuus </td></tr>
+<tr>
+<td>AL </td><td>Alv-saatavat </td></tr>
+<tr>
+<td>B </td><td>Vastattavaa </td></tr>
+<tr>
+<td>BE </td><td>Edellisten tilikausien yli/alijäämä </td></tr>
+<tr>
+<td>BL </td><td>Alv-velka </td></tr>
+<tr>
+<td>C </td><td>Tulot </td></tr>
+<tr>
+<td>C**nn** </td><td>Arvonlisäverollinen myynti </td></tr>
+<tr>
+<td>D </td><td>Menot </td></tr>
+<tr>
+<td>DP </td><td>Poistot </td></tr>
+</table>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

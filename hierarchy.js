@@ -15,10 +15,20 @@ var hierarchy =
       [ "TositelajiModel", "class_tositelaji_model.html", null ],
       [ "VientiModel", "class_vienti_model.html", null ]
     ] ],
+    [ "QDialog", null, [
+      [ "TilinMuokkausDialog", "class_tilin_muokkaus_dialog.html", null ],
+      [ "TilinValintaDialogi", "class_tilin_valinta_dialogi.html", null ]
+    ] ],
     [ "QItemDelegate", null, [
       [ "EuroDelegaatti", "class_euro_delegaatti.html", null ],
       [ "PvmDelegaatti", "class_pvm_delegaatti.html", null ],
       [ "TiliDelegaatti", "class_tili_delegaatti.html", null ]
+    ] ],
+    [ "QLineEdit", null, [
+      [ "KantaTilinvalintaLine", "class_kanta_tilinvalinta_line.html", [
+        [ "TilinvalintaLine", "class_tilinvalinta_line.html", null ],
+        [ "TilinvalintaLineDelegaatille", "class_tilinvalinta_line_delegaatille.html", null ]
+      ] ]
     ] ],
     [ "QMainWindow", null, [
       [ "KitupiikkiIkkuna", "class_kitupiikki_ikkuna.html", null ]
@@ -46,6 +56,7 @@ var hierarchy =
       ] ],
       [ "MaaritysWidget", "class_maaritys_widget.html", [
         [ "Perusvalinnat", "class_perusvalinnat.html", null ],
+        [ "TilikarttaMuokkaus", "class_tilikartta_muokkaus.html", null ],
         [ "Tilinavaus", "class_tilinavaus.html", null ],
         [ "Tositelajit", "class_tositelajit.html", null ]
       ] ],

@@ -1,0 +1,5 @@
+<map id="TositeModel" name="TositeModel">
+<area shape="rect" id="node4" href="$class_vienti_model.html" title="Yhden tositteen vientien tiedot. " alt="" coords="389,184,479,211"/>
+<area shape="rect" id="node6" href="$class_liite_model.html" title="Tositteen litteet esittävä model. " alt="" coords="77,184,159,211"/>
+<area shape="rect" id="node3" href="$class_json_kentta.html" title="json&#45;muotoisten kenttien käsittely " alt="" coords="278,5,366,32"/>
+</map>

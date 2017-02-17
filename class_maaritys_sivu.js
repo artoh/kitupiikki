@@ -3,7 +3,8 @@ var class_maaritys_sivu =
     [ "Sivut", "class_maaritys_sivu.html#abf5fd8dc071dc65003918bb6f3629883", [
       [ "PERUSVALINNAT", "class_maaritys_sivu.html#abf5fd8dc071dc65003918bb6f3629883afbd3466b82bb66b9f934bf7db7544bff", null ],
       [ "TILINAVAUS", "class_maaritys_sivu.html#abf5fd8dc071dc65003918bb6f3629883a195ad092d3d884c1a945169522fdaefd", null ],
-      [ "TOSITELAJIT", "class_maaritys_sivu.html#abf5fd8dc071dc65003918bb6f3629883a9ffec946089da3ddae05cbc060f7f4b4", null ]
+      [ "TOSITELAJIT", "class_maaritys_sivu.html#abf5fd8dc071dc65003918bb6f3629883a9ffec946089da3ddae05cbc060f7f4b4", null ],
+      [ "TILIKARTTA", "class_maaritys_sivu.html#abf5fd8dc071dc65003918bb6f3629883a961ec08f64b087887bf23f574867341e", null ]
     ] ],
     [ "MaaritysSivu", "class_maaritys_sivu.html#a756b182f3ba11449c1cdadd7f54387c1", null ],
     [ "lisaaSivu", "class_maaritys_sivu.html#aceed16f80cea79973d18c78bc5e61711", null ],

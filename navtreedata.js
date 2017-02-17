@@ -1,7 +1,9 @@
 var NAVTREE =
 [
   [ "Kitupiikki", "index.html", [
-    [ "tilikartat", "md_kitupiikki_tilikartat_tilikartat.html", null ],
+    [ "Asetukset", "md_kitupiikki_db_asetukset.html", null ],
+    [ "json-kentät", "md_kitupiikki_db_json.html", null ],
+    [ "Tilikartat", "md_kitupiikki_tilikartat_tilikartat.html", null ],
     [ "Vanhentuneiden lista", "deprecated.html", null ],
     [ "Luokat", "annotated.html", [
       [ "Luokkalista", "annotated.html", "annotated_dup" ],
@@ -22,8 +24,9 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "aloitussivu_8h_source.html",
-"class_maaritys_sivu.html#aa7fe043574fcaf5be248a840d0febf50",
-"class_tilinavaus_model.html#a5303768a5c3aa61bdddbcdea3756c183"
+"class_loppu_sivu.html#a42288257adc96f78d2b3a9f3551dab9d",
+"class_tilikausi.html#ae642c932bc1a5f8bbf8223a9a44c9b05",
+"selausmodel_8h_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['kitupiikki',['Kitupiikki',['../index.html',1,'']]]
+  ['asetukset',['Asetukset',['../md_kitupiikki_db_asetukset.html',1,'']]]
 ];

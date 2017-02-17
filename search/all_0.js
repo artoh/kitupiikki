@@ -8,5 +8,6 @@ var searchData=
   ['asetukset',['asetukset',['../class_kirjanpito.html#ae4ca03d7258e89f9e095aef2e42d345b',1,'Kirjanpito']]],
   ['asetus',['asetus',['../class_kirjanpito.html#a37d5501e9abf75d988cf3e48c024f98f',1,'Kirjanpito']]],
   ['asetusmodel',['AsetusModel',['../class_asetus_model.html',1,'']]],
-  ['avaatietokanta',['avaaTietokanta',['../class_kirjanpito.html#aaab972157e0cd6874ce8713109517eba',1,'Kirjanpito']]]
+  ['avaatietokanta',['avaaTietokanta',['../class_kirjanpito.html#aaab972157e0cd6874ce8713109517eba',1,'Kirjanpito']]],
+  ['asetukset',['Asetukset',['../md_kitupiikki_db_asetukset.html',1,'']]]
 ];

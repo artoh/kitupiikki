@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['vanhentuneiden_20lista',['Vanhentuneiden lista',['../deprecated.html',1,'']]]
+  ['kitupiikki',['Kitupiikki',['../index.html',1,'']]]
 ];

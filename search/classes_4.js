@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['kantatilinvalintaline',['KantaTilinvalintaLine',['../class_kanta_tilinvalinta_line.html',1,'']]],
   ['kirjanpito',['Kirjanpito',['../class_kirjanpito.html',1,'']]],
   ['kirjaussivu',['KirjausSivu',['../class_kirjaus_sivu.html',1,'']]],
   ['kirjauswg',['KirjausWg',['../class_kirjaus_wg.html',1,'']]],

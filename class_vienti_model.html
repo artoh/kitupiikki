@@ -147,12 +147,30 @@ Julkiset tyypit</h2></td></tr>
 <b>DEBET</b>, 
 <b>KREDIT</b>, 
 <br />
-&#160;&#160;<b>KUSTANNUSPAIKKA</b>, 
-<b>PROJEKTI</b>, 
+&#160;&#160;<b>ALV</b>, 
+<b>KOHDENNUS</b>, 
 <b>SELITE</b>
 <br />
  }</td></tr>
 <tr class="separator:a5399baba87922f4484685173b4cc5df6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59f6c7f3003f72338ea0d1864c2e641e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a59f6c7f3003f72338ea0d1864c2e641e"></a>enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
+&#160;&#160;<b>IdRooli</b> = Qt::UserRole + 1, 
+<b>PvmRooli</b> = Qt::UserRole + 2, 
+<b>TiliNumeroRooli</b> = Qt::UserRole + 3, 
+<b>DebetRooli</b> = Qt::UserRole + 4, 
+<br />
+&#160;&#160;<b>KreditRooli</b> = Qt::UserRole + 5, 
+<b>AlvKoodiRooli</b> = Qt::UserRole + 6, 
+<b>AlvProsenttiRooli</b> = Qt::UserRole + 7, 
+<b>KohdennusRooli</b> = Qt::UserRole + 8, 
+<br />
+&#160;&#160;<b>SeliteRooli</b> = Qt::UserRole + 9, 
+<b>LuotuRooli</b> = Qt::UserRole +10, 
+<b>MuokattuRooli</b> = Qt::UserRole + 11, 
+<b>RiviRooli</b> = Qt::UserRole + 12
+<br />
+ }</td></tr>
+<tr class="separator:a59f6c7f3003f72338ea0d1864c2e641e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-slots"></a>
 Julkiset vastineet</h2></td></tr>
@@ -204,9 +222,9 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>insertRows</b> (int r
 <tr class="memitem:a131567a7bb284bc74b57d3e7eb026c64"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a131567a7bb284bc74b57d3e7eb026c64"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>lisaaRivi</b> ()</td></tr>
 <tr class="separator:a131567a7bb284bc74b57d3e7eb026c64"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acbe36942880ada136ad849e765ed0382"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acbe36942880ada136ad849e765ed0382"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>lisaaVienti</b> (const QDate &amp;pvm, int tilinumero, const QString &amp;selite, int debetSnt, int kreditSnt)</td></tr>
-<tr class="separator:acbe36942880ada136ad849e765ed0382"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aedaa6280f4b4d27a2c613e711dcab50f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aedaa6280f4b4d27a2c613e711dcab50f"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>lisaaVienti</b> (const QDate &amp;pvm, int tilinumero, const QString &amp;selite, int debetSnt, int kreditSnt, int rivinro=0)</td></tr>
+<tr class="separator:aedaa6280f4b4d27a2c613e711dcab50f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a34770ed6898b69cf1df5af0c75e08f90"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a34770ed6898b69cf1df5af0c75e08f90"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>debetSumma</b> () const </td></tr>
 <tr class="separator:a34770ed6898b69cf1df5af0c75e08f90"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -222,6 +240,9 @@ Suojatut jäsenfunktiot</h2></td></tr>
 <tr class="memitem:a3340f740f15a6a22e9a35dbce1dee8e8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3340f740f15a6a22e9a35dbce1dee8e8"></a>
 <a class="el" href="struct_vienti_rivi.html">VientiRivi</a>&#160;</td><td class="memItemRight" valign="bottom"><b>uusiRivi</b> ()</td></tr>
 <tr class="separator:a3340f740f15a6a22e9a35dbce1dee8e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7a48795eeb6c40b62b72541493d42bf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad7a48795eeb6c40b62b72541493d42bf"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>seuraavaRiviNumero</b> ()</td></tr>
+<tr class="separator:ad7a48795eeb6c40b62b72541493d42bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Suojellut attribuutit</h2></td></tr>

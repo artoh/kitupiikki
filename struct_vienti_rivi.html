@@ -123,7 +123,9 @@ Yhteistyökaavio luokalle VientiRivi:</div>
 <div class="dyncontent">
 <div class="center"><img src="struct_vienti_rivi__coll__graph.png" border="0" usemap="#_vienti_rivi_coll__map" alt="Collaboration graph"/></div>
 <map name="_vienti_rivi_coll__map" id="_vienti_rivi_coll__map">
-<area shape="rect" id="node2" href="class_tili.html" title="Tilin tai otsikon tiedot. " alt="" coords="25,5,64,32"/>
+<area shape="rect" id="node2" href="class_tili.html" title="Tilin tai otsikon tiedot. " alt="" coords="74,95,113,121"/>
+<area shape="rect" id="node3" href="class_json_kentta.html" title="json&#45;muotoisten kenttien käsittely " alt="" coords="5,5,93,32"/>
+<area shape="rect" id="node4" href="class_kohdennus.html" title="Kirjauksen kohdennus kustannuspaikalle tai projektiin. " alt="" coords="137,95,223,121"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">selite</a>]</span></center></div>
 <table class="memberdecls">
@@ -132,6 +134,9 @@ Julkiset attribuutit</h2></td></tr>
 <tr class="memitem:ae7676843a45cf159079fa83ff3e0a070"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae7676843a45cf159079fa83ff3e0a070"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>vientiId</b> = 0</td></tr>
 <tr class="separator:ae7676843a45cf159079fa83ff3e0a070"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08668384b61fb4d67f1be89c4e13478e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a08668384b61fb4d67f1be89c4e13478e"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>riviNro</b> = 0</td></tr>
+<tr class="separator:a08668384b61fb4d67f1be89c4e13478e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2d26c63a0c5520de09be9570b63216b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad2d26c63a0c5520de09be9570b63216b"></a>
 QDate&#160;</td><td class="memItemRight" valign="bottom"><b>pvm</b></td></tr>
 <tr class="separator:ad2d26c63a0c5520de09be9570b63216b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -147,6 +152,24 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>debetSnt</b> = 0</td><
 <tr class="memitem:aed4f3db50535a2c307088bd10346cde3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aed4f3db50535a2c307088bd10346cde3"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>kreditSnt</b> = 0</td></tr>
 <tr class="separator:aed4f3db50535a2c307088bd10346cde3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af80193d06d6e971bb3eb37133cb853f8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af80193d06d6e971bb3eb37133cb853f8"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>alvkoodi</b> = 0</td></tr>
+<tr class="separator:af80193d06d6e971bb3eb37133cb853f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f75bb2461fa7417edba21ccdd77a163"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8f75bb2461fa7417edba21ccdd77a163"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>alvprosentti</b> = 0</td></tr>
+<tr class="separator:a8f75bb2461fa7417edba21ccdd77a163"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa188e7de7596a73f58c40ae00ea8a84d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa188e7de7596a73f58c40ae00ea8a84d"></a>
+<a class="el" href="class_kohdennus.html">Kohdennus</a>&#160;</td><td class="memItemRight" valign="bottom"><b>kohdennus</b></td></tr>
+<tr class="separator:aa188e7de7596a73f58c40ae00ea8a84d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6348d0d6ef3b9e14446be827bafa45b3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6348d0d6ef3b9e14446be827bafa45b3"></a>
+QDateTime&#160;</td><td class="memItemRight" valign="bottom"><b>luotu</b></td></tr>
+<tr class="separator:a6348d0d6ef3b9e14446be827bafa45b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27839058d9c7dd15c5596cd0b362340d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a27839058d9c7dd15c5596cd0b362340d"></a>
+QDateTime&#160;</td><td class="memItemRight" valign="bottom"><b>muokattu</b></td></tr>
+<tr class="separator:a27839058d9c7dd15c5596cd0b362340d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8856ba0cfbcb06876ed8b569449d691"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa8856ba0cfbcb06876ed8b569449d691"></a>
+<a class="el" href="class_json_kentta.html">JsonKentta</a>&#160;</td><td class="memItemRight" valign="bottom"><b>json</b></td></tr>
+<tr class="separator:aa8856ba0cfbcb06876ed8b569449d691"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Yksityiskohtainen selite</h2>
 <div class="textblock"><p>Yhden viennin tiedot. <a class="el" href="class_vienti_model.html" title="Yhden tositteen vientien tiedot. ">VientiModel</a> käyttää. </p>

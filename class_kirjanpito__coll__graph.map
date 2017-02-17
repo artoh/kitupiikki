@@ -1,6 +1,7 @@
 <map id="Kirjanpito" name="Kirjanpito">
-<area shape="rect" id="node6" href="$class_asetus_model.html" title="Asetusten käsittely. " alt="" coords="49,81,147,108"/>
+<area shape="rect" id="node7" href="$class_asetus_model.html" title="Asetusten käsittely. " alt="" coords="49,81,147,108"/>
 <area shape="rect" id="node3" href="$class_tilikausi_model.html" title="Tilikaudet. " alt="" coords="172,81,277,108"/>
 <area shape="rect" id="node5" href="$class_tositelaji_model.html" title="Tositelajien model. " alt="" coords="302,81,411,108"/>
-<area shape="rect" id="node7" href="$class_tili_model.html" title="Tilit. " alt="" coords="435,81,510,108"/>
+<area shape="rect" id="node6" href="$class_kohdennus_model.html" title="Kohdennusten luettelo. " alt="" coords="435,81,558,108"/>
+<area shape="rect" id="node8" href="$class_tili_model.html" title="Tilit. " alt="" coords="582,81,657,108"/>
 </map>
