@@ -255,7 +255,7 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu)
     int sivunleveys = painter->window().width();
     int rivinkorkeus = painter->fontMetrics().height();
 
-    QString nimi = Kirjanpito::db()->asetus("nimi");
+    QString nimi = Kirjanpito::db()->asetus("Nimi");
     QString paivays = QDate::currentDate().toString(Qt::SystemLocaleShortDate);
 
 
@@ -265,7 +265,7 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu)
 
     painter->translate(0, rivinkorkeus);
 
-    QString ytunnus = Kirjanpito::db()->asetus("ytunnus") ;
+    QString ytunnus = Kirjanpito::db()->asetus("Ytunnus") ;
     QString sivustr = QString("Sivu %1").arg(sivu);
 
     painter->drawText(QRect(0,0,sivunleveys/4, rivinkorkeus ), Qt::AlignLeft, ytunnus );

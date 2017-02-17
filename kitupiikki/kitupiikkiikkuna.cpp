@@ -126,12 +126,12 @@ void KitupiikkiIkkuna::valitseSivu(int mikasivu, bool paluu)
 
 void KitupiikkiIkkuna::kirjanpitoLadattu()
 {
-    if( !Kirjanpito::db()->asetus("nimi").isEmpty())
+    if( !Kirjanpito::db()->asetus("Nimi").isEmpty())
     {
         if( Kirjanpito::db()->onkoHarjoitus())
-            setWindowTitle( tr("%1 - Kitupiikki [Harjoittelu]").arg(Kirjanpito::db()->asetus("nimi")));
+            setWindowTitle( tr("%1 - Kitupiikki [Harjoittelu]").arg(Kirjanpito::db()->asetus("Nimi")));
         else
-            setWindowTitle( tr("%1 - Kitupiikki").arg(Kirjanpito::db()->asetus("nimi")));
+            setWindowTitle( tr("%1 - Kitupiikki").arg(Kirjanpito::db()->asetus("Nimi")));
 
         harjoitusDock->setVisible( Kirjanpito::db()->onkoHarjoitus());
 

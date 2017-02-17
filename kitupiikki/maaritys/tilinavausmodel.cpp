@@ -124,8 +124,8 @@ bool TilinavausModel::setData(const QModelIndex &index, const QVariant &value, i
 
 bool TilinavausModel::voikoMuokata()
 {
-    QString avaus = Kirjanpito::db()->asetus("tilinavauspvm");
-    QString paatetty = Kirjanpito::db()->asetus("tilitpaatetty");
+    QString avaus = Kirjanpito::db()->asetus("TilinavausPvm");
+    QString paatetty = Kirjanpito::db()->asetus("TilitPaatetty");
 
     return ( !avaus.isEmpty() && avaus == paatetty);
 }
@@ -187,7 +187,7 @@ bool TilinavausModel::tallenna()
         kysely.exec();
         qDebug() << kysely.lastQuery() << " " << kysely.lastError().text();
     }
-    kp()->asetukset()->aseta("tilinavaus","1");   // Tilit merkitään avatuiksi
+    kp()->asetukset()->aseta("Tilinavaus","1");   // Tilit merkitään avatuiksi
 
     return true;
 }

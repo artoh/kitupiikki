@@ -43,8 +43,8 @@ Perusvalinnat::~Perusvalinnat()
 
 bool Perusvalinnat::nollaa()
 {
-    ui->organisaatioEdit->setText( Kirjanpito::db()->asetus("nimi") );
-    ui->ytunnusEdit->setText( Kirjanpito::db()->asetus("ytunnus"));
+    ui->organisaatioEdit->setText( Kirjanpito::db()->asetus("Nimi") );
+    ui->ytunnusEdit->setText( Kirjanpito::db()->asetus("Ytunnus"));
 
     uusilogo = QImage();
 
@@ -69,15 +69,15 @@ void Perusvalinnat::vaihdaLogo()
 
 bool Perusvalinnat::onkoMuokattu()
 {
-    return  ui->organisaatioEdit->text() != kp()->asetus("nimi")  ||
-            ui->ytunnusEdit->text() != kp()->asetus("ytunnus") ||
+    return  ui->organisaatioEdit->text() != kp()->asetus("Nimi")  ||
+            ui->ytunnusEdit->text() != kp()->asetus("Ytunnus") ||
             !uusilogo.isNull();
 }
 
 bool Perusvalinnat::tallenna()
 {
-    kp()->asetukset()->aseta("nimi", ui->organisaatioEdit->text());
-    kp()->asetukset()->aseta("ytunnus", ui->ytunnusEdit->text());
+    kp()->asetukset()->aseta("Nimi", ui->organisaatioEdit->text());
+    kp()->asetukset()->aseta("Ytunnus", ui->ytunnusEdit->text());
 
     // Logosta tallennetaan logo64.png ja logo128.png -versiot
     if( !uusilogo.isNull())

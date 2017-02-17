@@ -83,7 +83,7 @@ public:
      * @brief Käytetäänkö harjoittelutilassa
      * @return tosi, jos harjoitellaan
      */
-    bool onkoHarjoitus() const { return asetukset()->onko("harjoitus"); }
+    bool onkoHarjoitus() const { return asetukset()->onko("Harjoitus"); }
 
     /**
      * @brief Nykyinen tai harjoittelutilassa muokattu päivämäärä
@@ -98,7 +98,7 @@ public:
      * @brief Päivämäärä, johon saakka tilit on päätetty eli ei voi enää muokata
      * @return
      */
-    QDate tilitpaatetty() const { return asetukset()->pvm("tilitpaatetty"); }
+    QDate tilitpaatetty() const { return asetukset()->pvm("TilitPaatetty"); }
 
     Tilikausi tilikausiPaivalle(const QDate &paiva) const;
 

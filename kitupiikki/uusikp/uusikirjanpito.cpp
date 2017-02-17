@@ -181,24 +181,24 @@ bool UusiKirjanpito::alustaKirjanpito()
 
     // Kirjataan tietokannan perustietoja
 
-    asetukset.aseta("nimi", field("nimi").toString());
-    asetukset.aseta("ytunnus", field("ytunnus").toString());
-    asetukset.aseta("harjoitus", field("harjoitus").toBool());
+    asetukset.aseta("Nimi", field("nimi").toString());
+    asetukset.aseta("Ytunnus", field("ytunnus").toString());
+    asetukset.aseta("Harjoitus", field("harjoitus").toBool());
 
-    asetukset.aseta("luotu", QDate::currentDate());
-    asetukset.aseta("versio", qApp->applicationVersion());
+    asetukset.aseta("Luotu", QDate::currentDate());
+    asetukset.aseta("Versio", qApp->applicationVersion());
 
     progDlg.setValue( progDlg.value() + 1 );
 
     // Siirretään asetustauluun tilikartan tiedot
-    // jotka alkavat *-merkillä
+    // jotka alkavat *-merkillä, ilman *-merkkiä
     QMapIterator<QString,QStringList> i(kartta);
     while( i.hasNext())
     {
         i.next();
         if( i.key().startsWith("*"))
         {
-            asetukset.aseta( i.key(), i.value());
+            asetukset.aseta( i.key().mid(1), i.value());
         }
     }
 
@@ -244,16 +244,16 @@ bool UusiKirjanpito::alustaKirjanpito()
     if( field("onekakausi").toBool())
     {
         // Ensimmäinen tilikausi, tilinavausta ei tarvita
-        asetukset.aseta("tilinavaus",0);
+        asetukset.aseta("Tilinavaus",0);
     }
     else
     {
         // Edellinen tilikausi.
         tilikaudet.lisaaTilikausi( Tilikausi(field("edalkoi").toDate(), field("edpaattyi").toDate()  ) );
 
-        asetukset.aseta("tilinavaus", 2);
-        asetukset.aseta("tilinavauspvm", field("edpaattyi").toDate());
-        asetukset.aseta("tilitpaatetty", field("edpaattyi").toDate());
+        asetukset.aseta("Tilinavaus", 2);
+        asetukset.aseta("TilinavausPvm", field("edpaattyi").toDate());
+        asetukset.aseta("TilitPaatetty", field("edpaattyi").toDate());
     }
     tilikaudet.tallenna();
 
