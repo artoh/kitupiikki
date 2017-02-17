@@ -222,7 +222,7 @@ void TositeModel::tallenna()
     else
         kysely.bindValue(":tiliote", QVariant());
 
-    kysely.bindValue(":json", json_.toJson());
+    kysely.bindValue(":json", json_.toSqlJson());
 
 
     kysely.exec();

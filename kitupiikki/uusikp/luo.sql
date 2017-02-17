@@ -90,8 +90,8 @@ CREATE VIEW vientivw AS
            vienti.debetsnt,
            vienti.kreditsnt,
            vienti.selite,
-           vienti.kustannuspaikka,
-           vienti.projekti,
+           vienti.kohdennus,
+           kohdennus.nimi,
            vienti.json,
            vienti.tosite,
            tositelaji.tunnus as tositelaji,
@@ -102,7 +102,9 @@ CREATE VIEW vientivw AS
       FROM vienti,
            tosite,
            tili,
-           tositelaji
+           tositelaji,
+           kohdennus
      WHERE vienti.tosite = tosite.id AND
            vienti.tili = tili.id AND
-           tosite.laji = tositelaji.id
+           tosite.laji = tositelaji.id AND
+           vienti.kohdennus = kohdennus.id

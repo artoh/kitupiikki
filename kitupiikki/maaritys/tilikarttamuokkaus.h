@@ -18,6 +18,8 @@
 #ifndef TILIKARTTAMUOKKAUS_H
 #define TILIKARTTAMUOKKAUS_H
 
+#include <QSortFilterProxyModel>
+
 #include "ui_tilikarttamuokkaus.h"
 #include "maarityswidget.h"
 #include "db/tilimodel.h"
@@ -34,16 +36,19 @@ public:
 
     bool nollaa();
     bool tallenna();
+    bool onkoMuokattu();
 
 public slots:
     void muutaTila(int tila);
 
     void riviValittu(const QModelIndex &index);
     void muokkaa();
+    void uusi();
 
 protected:
     Ui::Tilikartta *ui;
     TiliModel *model;
+    QSortFilterProxyModel *proxy;
 };
 
 #endif // TILIKARTTAMUOKKAUS_H

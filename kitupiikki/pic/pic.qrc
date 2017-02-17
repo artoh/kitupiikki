@@ -24,6 +24,13 @@
         <file>lisaa.png</file>
         <file>poista.png</file>
         <file>tahti.png</file>
+        <file>valilehdet.png</file>
+        <file>lisaarivi.png</file>
+        <file>poistarivi.png</file>
+        <file>taikuri.png</file>
+        <file>ok.png</file>
+        <file>peru.png</file>
+        <file>roskis.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

@@ -41,7 +41,7 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu("Perusvalinnat", PERUSVALINNAT, QIcon(":/pic/asetusloota.png"));
     lisaaSivu("Tilinavaus", TILINAVAUS, QIcon(":/pic/rahaa.png"));
     lisaaSivu("Tositelajit", TOSITELAJIT, QIcon(":/pic/kansiot.png"));
-    lisaaSivu("Tilikartta", TILIKARTTA, QIcon(":/pic/kansiot.png"));
+    lisaaSivu("Tilikartta", TILIKARTTA, QIcon(":/pic/valilehdet.png"));
 
     connect( lista, SIGNAL(itemActivated(QListWidgetItem*)), this, SLOT(valitseSivu(QListWidgetItem*)));
 

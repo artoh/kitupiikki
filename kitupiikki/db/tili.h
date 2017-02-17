@@ -124,6 +124,17 @@ public:
      * @return Yhdeksännnumeroiseksi pidennetty tilinumero
      */
     static int ysiluku(int luku, bool loppuu = false);
+    /**
+     * @brief Laskee yhdeksännumeroisen vertailuluvun
+     *
+     * Pidennyksen viimeinen numero on tileillä 9, otsikoilla (taso-1)
+     * Näin tätä lukua voidaan käyttää tilien lajitteluun
+     *
+     * @param luku Pidennettävä tililuku
+     * @param taso Tasonumero
+     * @return
+     */
+    static int ysiluku(int luku, int taso);
 
 protected:
     static int laskeysiluku(int luku);

@@ -68,10 +68,13 @@ public:
     Tili tiliIdlla(int id) const;
     Tili tiliIndeksilla(int i) const { return tilit_.value(i); }
     Tili tiliNumerolla(int numero) const;
+    JsonKentta *jsonIndeksilla(int i);
 
     static QMap<QString,QString> tiliTyyppiTaulu() { return tilityypit__; }
     static QMap<int,QString> veroTyyppiTaulu() { return verotyypit__; }
     static void luoTyyppiTaulut();
+
+    bool onkoMuokattu() const;
 
 public slots:
     void lataa();

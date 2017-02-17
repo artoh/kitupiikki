@@ -39,10 +39,7 @@ bool Tili::onkoValidi() const
 
 int Tili::ysivertailuluku() const
 {
-    if( !otsikkotaso())
-        return laskeysiluku( numero()) + 9; // Tavallinen tili
-    else
-        return laskeysiluku( numero() ) + otsikkotaso() - 1; // Otsikko
+    return ysiluku( numero(), otsikkotaso() );
 }
 
 int Tili::kertymaPaivalle(const QDate &pvm)
@@ -98,6 +95,14 @@ bool Tili::onkoVastaavaaTili() const
 bool Tili::onkoVastattavaaTili() const
 {
     return tyyppi().startsWith('B');
+}
+
+int Tili::ysiluku(int luku, int taso)
+{
+    if( !taso )
+        return ysiluku(luku) + 9;
+    else
+        return ysiluku(luku) + taso - 1;
 }
 
 int Tili::ysiluku(int luku, bool loppuu)

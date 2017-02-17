@@ -15,6 +15,13 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Tilikartta&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QTableView" name="view">
      <property name="editTriggers">
       <set>QAbstractItemView::NoEditTriggers</set>
@@ -42,6 +49,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="muokkaaNappi">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Muokkaa</string>
        </property>
@@ -49,6 +59,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="poistaNappi">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Poista</string>
        </property>

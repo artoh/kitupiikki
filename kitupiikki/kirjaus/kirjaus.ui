@@ -91,6 +91,10 @@
            <property name="text">
             <string>Poista rivi</string>
            </property>
+           <property name="icon">
+            <iconset resource="../pic/pic.qrc">
+             <normaloff>:/pic/poistarivi.png</normaloff>:/pic/poistarivi.png</iconset>
+           </property>
            <property name="shortcut">
             <string>Ctrl+S</string>
            </property>
@@ -100,6 +104,10 @@
           <widget class="QPushButton" name="lisaaRiviNappi">
            <property name="text">
             <string>Lisää rivi</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../pic/pic.qrc">
+             <normaloff>:/pic/lisaarivi.png</normaloff>:/pic/lisaarivi.png</iconset>
            </property>
            <property name="shortcut">
             <string>Ins</string>
@@ -308,6 +316,10 @@
        <property name="text">
         <string>Avustaja (F12)</string>
        </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/taikuri.png</normaloff>:/pic/taikuri.png</iconset>
+       </property>
        <property name="shortcut">
         <string>F12</string>
        </property>
@@ -327,16 +339,13 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="hylkaaNappi">
-       <property name="text">
-        <string>Hylkää</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="tallennaButton">
        <property name="text">
         <string>Tallenna</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../pic/ok.png</normaloff>../pic/ok.png</iconset>
        </property>
        <property name="shortcut">
         <string>Ctrl+Return</string>
@@ -346,10 +355,23 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QPushButton" name="hylkaaNappi">
+       <property name="text">
+        <string>Hylkää</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/peru.png</normaloff>:/pic/peru.png</iconset>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
  <connections/>
 </ui>

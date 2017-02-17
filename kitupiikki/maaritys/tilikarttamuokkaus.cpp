@@ -30,8 +30,13 @@ TilikarttaMuokkaus::TilikarttaMuokkaus(QWidget *parent)
     ui = new Ui::Tilikartta;
     ui->setupUi(this);
 
+
     model = new TiliModel( kp()->tietokanta(), this);
-    ui->view->setModel(model);
+    proxy = new QSortFilterProxyModel(this);
+    proxy->setSourceModel(model);
+    proxy->setSortRole(TiliModel::YsiRooli);
+
+    ui->view->setModel(proxy);
     ui->view->hideColumn( TiliModel::NRONIMI);
 
     // Tilin tilaa muuttavat napit käsitellään signaalimappauksella
@@ -48,7 +53,8 @@ TilikarttaMuokkaus::TilikarttaMuokkaus(QWidget *parent)
             this, SLOT(riviValittu(QModelIndex)));
 
     connect(ui->muokkaaNappi, SIGNAL(clicked(bool)), this, SLOT(muokkaa()));
-
+    connect( ui->uusiNappi, SIGNAL(clicked(bool)), this, SLOT(uusi()));
+    connect( ui->view, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(muokkaa()));
 
 }
 
@@ -66,6 +72,13 @@ bool TilikarttaMuokkaus::nollaa()
 }
 
 bool TilikarttaMuokkaus::tallenna()
+{
+    model->tallenna();
+    kp()->tilit()->lataa();
+    return true;
+}
+
+bool TilikarttaMuokkaus::onkoMuokattu()
 {
     return false;
 }
@@ -96,6 +109,9 @@ void TilikarttaMuokkaus::muutaTila(int tila)
 
 void TilikarttaMuokkaus::riviValittu(const QModelIndex& index)
 {
+    ui->muokkaaNappi->setEnabled( index.isValid());
+
+
     int tila = index.data(TiliModel::TilaRooli).toInt();
     ui->piilotaNappi->setChecked( tila == 0);
     ui->normaaliNappi->setChecked( tila == 1);
@@ -107,7 +123,17 @@ void TilikarttaMuokkaus::riviValittu(const QModelIndex& index)
 
 void TilikarttaMuokkaus::muokkaa()
 {
-    TilinMuokkausDialog dlg(model, ui->view->currentIndex());
+
+    TilinMuokkausDialog dlg(model, proxy->mapToSource(ui->view->currentIndex()));
     dlg.exec();
+    proxy->sort(0);
+
+}
+
+void TilikarttaMuokkaus::uusi()
+{
+    TilinMuokkausDialog dlg(model);
+    dlg.exec();
+    proxy->sort(0);
 }
 

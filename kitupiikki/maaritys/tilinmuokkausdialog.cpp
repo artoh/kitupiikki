@@ -21,6 +21,7 @@
 #include <QDebug>
 #include <QPushButton>
 #include <QMessageBox>
+#include <QIntValidator>
 
 #include "tilinmuokkausdialog.h"
 #include "db/tilimodel.h"
@@ -32,10 +33,7 @@ TilinMuokkausDialog::TilinMuokkausDialog(TiliModel *model, QModelIndex index) :
     ui = new Ui::tilinmuokkausDialog();
     ui->setupUi(this);
 
-    nroValidator_ = new QRegExpValidator(this);
-    nroValidator_->setRegExp(QRegExp("[0-9]{1,8}"));
-
-    ui->numeroEdit->setValidator( nroValidator_);
+    ui->numeroEdit->setValidator( new QIntValidator(0,999999999,this));
 
     ui->vastatiliEdit->asetaModel( model );
 
@@ -52,14 +50,18 @@ TilinMuokkausDialog::TilinMuokkausDialog(TiliModel *model, QModelIndex index) :
     while( veroIter.hasNext())
     {
         veroIter.next();
-        ui->veroCombo->addItem(QIcon(), veroIter.value(), QString::number(veroIter.key()));
+        ui->veroCombo->addItem(QIcon(), veroIter.value(), veroIter.key());
     }
+
+    // Vain otsikkoon liittyvät piilotetaan
+    ui->tasoSpin->setVisible(false);
+    ui->tasoLabel->setVisible(false);
 
     connect( ui->veroCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(veroEnablePaivita()));
     connect( ui->numeroEdit, SIGNAL(textChanged(QString)), this, SLOT(otsikkoTasoPaivita()));
 
     connect( ui->nimiEdit, SIGNAL(textEdited(QString)), this, SLOT(tarkasta()));
-    connect( ui->numeroEdit, SIGNAL(textEdited(QString)), this, SLOT(tarkasta()));
+    connect( ui->numeroEdit, SIGNAL(textEdited(QString)), this, SLOT(nroMuuttaaTyyppia(QString)));
     connect( ui->tyyppiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(tarkasta()));
 
     // Tallennusnappi ei käytössä ennen kuin tiedot kunnossa
@@ -83,9 +85,6 @@ void TilinMuokkausDialog::lataa()
     ui->tiliRadio->setEnabled(false);
     ui->otsikkoRadio->setEnabled(false);
 
-    ui->tasoSpin->setVisible(false);
-    ui->tasoLabel->setVisible(false);
-
     ui->tiliRadio->setChecked( tili.otsikkotaso() == 0);
     ui->otsikkoRadio->setChecked( tili.otsikkotaso() );
 
@@ -97,7 +96,12 @@ void TilinMuokkausDialog::lataa()
     ui->vastatiliEdit->valitseTiliNumerolla(tili.json()->luku("Vastatili") );
 
     ui->veroSpin->setValue( tili.json()->luku("AlvProsentti"));
-    ui->veroCombo->setCurrentIndex( ui->tyyppiCombo->findData( QString::number(tili.json()->luku("AlvLaji"))));
+
+    int alvlaji = tili.json()->luku("AlvLaji");
+
+    qDebug() << "Laji " << alvlaji;
+
+    ui->veroCombo->setCurrentIndex( ui->veroCombo->findData( alvlaji ) );
 
     tarkasta();
 }
@@ -106,43 +110,75 @@ void TilinMuokkausDialog::veroEnablePaivita()
 {
     // Jos veroton, niin eipä silloin laiteta alv-prosenttia
     ui->veroSpin->setEnabled( ui->veroCombo->currentData().toInt() != 0 );
+
+qDebug() << ui->veroCombo->currentData();
+qDebug() << ui->veroCombo->currentData().toInt() << "  " << ui->veroSpin->value() << " % ";
 }
 
 void TilinMuokkausDialog::otsikkoTasoPaivita()
 {
-    // Mahdollinen otsikkotaso on vain yksi enemmän kuin edellinen otsikkotaso
-    int isoinluku = 1;
-    int ysilukuna = Tili::ysiluku( ui->numeroEdit->text().toInt());
-
-    for( int i = 0; i < model_->rowCount(QModelIndex()); i++)
+    if( ui->numeroEdit->text().toInt())
     {
-        Tili tili = model_->tiliIndeksilla(i);
-        if( tili.ysivertailuluku() >= ysilukuna)
-            // Tämän tilin paikka löydetty, eli tässä ollaan!
-            break;
-        if( tili.otsikkotaso() )
-            isoinluku = tili.otsikkotaso() + 1;
+        // Mahdollinen otsikkotaso on vain yksi enemmän kuin edellinen otsikkotaso
+        int isoinluku = 1;
+        int ysilukuna = Tili::ysiluku( ui->numeroEdit->text().toInt());
+
+        for( int i = 0; i < model_->rowCount(QModelIndex()); i++)
+        {
+            Tili tili = model_->tiliIndeksilla(i);
+            if( tili.ysivertailuluku() >= ysilukuna)
+                // Tämän tilin paikka löydetty, eli tässä ollaan!
+                break;
+            if( tili.otsikkotaso() )
+                isoinluku = tili.otsikkotaso() + 1;
+        }
+        ui->tasoSpin->setMaximum( isoinluku );
     }
-    ui->tasoSpin->setMaximum( isoinluku );
+}
+
+void TilinMuokkausDialog::nroMuuttaaTyyppia(const QString &nroteksti)
+{
+    if( !nroteksti.isEmpty())
+    {
+        int ekanro = nroteksti.left(1).toInt();
+
+        // Jos numero alkaa 1, pitää olla vastaavaa-tili
+        // 2 pitää olla vastattavaa
+        // 3-> pitää olla tulostili
+
+        if( ekanro == 1 && !ui->tyyppiCombo->currentData().toString().startsWith('A'))
+            ui->tyyppiCombo->setCurrentIndex( ui->tyyppiCombo->findData("A") );
+        else if( ekanro == 2 && !ui->tyyppiCombo->currentData().toString().startsWith('B'))
+            ui->tyyppiCombo->setCurrentIndex( ui->tyyppiCombo->findData("B") );
+        else if( ekanro == 3 && ( ui->tyyppiCombo->currentData().toString().startsWith('A') ||
+                             ui->tyyppiCombo->currentData().toString().startsWith('B')))
+            ui->tyyppiCombo->setCurrentIndex( ui->tyyppiCombo->findData("C") );
+        else if( ekanro > 3 && ( ui->tyyppiCombo->currentData().toString().startsWith('A') ||
+                             ui->tyyppiCombo->currentData().toString().startsWith('B')))
+            ui->tyyppiCombo->setCurrentIndex( ui->tyyppiCombo->findData("D") );
+    }
+    tarkasta(); // Lopuksi tarkastetaan kelpaako numero
 }
 
 void TilinMuokkausDialog::tarkasta()
 {
 
    int luku = ui->numeroEdit->text().toInt();
-   int ysina = Tili::ysiluku(luku);   // Ysivertailunumero
-   if(ui->tiliRadio->isChecked())
-       ysina += 9;
-   else
-       ysina += ui->tasoSpin->value();
 
    // Nimen ja numeron pitää olla täytetty
    if(  !luku || ui->nimiEdit->text().isEmpty() )
-    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+   {
+        ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+        return;
+   }
+   int taso = ui->tasoSpin->value();
+   if( ui->tiliRadio->isChecked())
+       taso = 0;
 
+   int ysina = Tili::ysiluku(luku, taso);   // Ysivertailunumero
 
    // Tarkastetaan, ettei numero ole tupla
-   if( luku != index_.data(TiliModel::NroRooli).toInt())
+   if( ysina != Tili::ysiluku(index_.data(TiliModel::NroRooli).toInt(), taso) )
    {
        for( int i = 0; i < model_->rowCount(QModelIndex()); i++)
            if( model_->tiliIndeksilla(i).ysivertailuluku() == ysina)
@@ -161,29 +197,34 @@ void TilinMuokkausDialog::tarkasta()
 
 void TilinMuokkausDialog::accept()
 {
-    int ekanumero = ui->numeroEdit->text().left(1).toInt();
-    QChar tyyppikirjain = ui->tyyppiCombo->currentData().toString().at(0);
+    ui->buttonBox->setFocus();
 
-    // Tarkistetaan ensin, että tilinumero osuu oikeaan väliin
-    if( ui->tiliRadio->isChecked() &&
-        ( (tyyppikirjain == 'A' && ekanumero != 0) ||
-          (tyyppikirjain == 'B' && ekanumero != 1) ||
-          (tyyppikirjain == 'C' && ekanumero < 3 ) ||
-          (tyyppikirjain == 'D' && ekanumero < 3)))
+    if( ui->tiliRadio->isChecked() && ui->tyyppiCombo->currentIndex() > -1)
     {
-        QMessageBox::critical(this, tr("Tilinumero on virheellinen"),
-                              tr("<b>Tilinumero ei sovi tilin tyyppiin</b><br>"
-                                 "Vastaavaa-tilit alkavat 1<br>"
-                                 "Vastattavaa-tilit alkavat 2<br>"
-                                 "Muut tilit alkavat 3..9"));
-        return;
-    }
 
+        int ekanumero = ui->numeroEdit->text().left(1).toInt();
+        QChar tyyppikirjain = ui->tyyppiCombo->currentData().toString().at(0);
+
+        // Tarkistetaan ensin, että tilinumero osuu oikeaan väliin
+        if(  (tyyppikirjain == 'A' && ekanumero != 1) ||
+              (tyyppikirjain == 'B' && ekanumero != 2) ||
+              (tyyppikirjain == 'C' && ekanumero < 3 ) ||
+              (tyyppikirjain == 'D' && ekanumero < 3)   )
+        {
+            QMessageBox::critical(this, tr("Tilinumero on virheellinen"),
+                                  tr("<b>Tilinumero ei sovi tilin tyyppiin</b><br>"
+                                     "Vastaavaa-tilit alkavat 1<br>"
+                                     "Vastattavaa-tilit alkavat 2<br>"
+                                     "Muut tilit alkavat 3..9"));
+            return;
+        }
+
+    }
     // Kaikki kunnossa eli voidaan tallentaa modeliin
     QString tyyppi = ui->tyyppiCombo->currentData().toString();
     int taso = ui->tasoSpin->value();
 
-    if( ui->otsikkoRadio)
+    if( ui->otsikkoRadio->isChecked())
         tyyppi = QString("H%1").arg(ui->tasoSpin->value());
     else
         taso = 0;
@@ -193,8 +234,11 @@ void TilinMuokkausDialog::accept()
     if( !index_.isValid())
     {
         // Uusi tili
-        uusitili = Tili(0, ui->numeroEdit->text().toInt(), ui->nimiEdit->text(),
-                      tyyppi, 1, taso);
+        uusitili.asetaNumero(ui->numeroEdit->text().toInt());
+        uusitili.asetaNimi( ui->nimiEdit->text());
+        uusitili.asetaTyyppi( tyyppi );
+        uusitili.asetaOtsikkotaso( taso );
+
         json = uusitili.json();
 
     }
@@ -205,7 +249,7 @@ void TilinMuokkausDialog::accept()
         model_->setData(index_, ui->nimiEdit->text(), TiliModel::NimiRooli);
         model_->setData(index_, taso, TiliModel::OtsikkotasoRooli);
         model_->setData(index_, tyyppi, TiliModel::TyyppiRooli);
-        json = model_->tiliIndeksilla(index_.row()).json();
+        json = model_->jsonIndeksilla( index_.row());
     }
 
     if( !taso )

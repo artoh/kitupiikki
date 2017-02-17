@@ -19,7 +19,6 @@
 #define TILINMUOKKAUSDIALOG_H
 
 #include <QDialog>
-#include <QRegExpValidator>
 
 #include "ui_tilinmuokkaus.h"
 #include "db/tilimodel.h"
@@ -37,6 +36,19 @@ protected:
 protected slots:
     void veroEnablePaivita();
     void otsikkoTasoPaivita();
+
+    /**
+     * @brief Muuttaa tyyppiä numeron mukaiseksi
+     *
+     * Kun tilin numeroa on muokattu, muutetaan tilityyppi:
+     * 1 -> Vastaavaa
+     * 2 -> Vastattavaa
+     * 3 -> Tulotili
+     * 4..-> Menotili
+     *
+     * @param nroteksti
+     */
+    void nroMuuttaaTyyppia(const QString& nroteksti);
     /**
      * @brief Tarkistaa, ettei numero vain ole jo käytössä
      * @param nroTekstina
@@ -49,7 +61,6 @@ protected:
     Ui::tilinmuokkausDialog *ui;
     TiliModel *model_;
     QModelIndex index_;
-    QRegExpValidator *nroValidator_;
 
 
 };

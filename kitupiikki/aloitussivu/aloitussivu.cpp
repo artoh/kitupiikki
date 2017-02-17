@@ -88,14 +88,15 @@ void AloitusSivu::siirrySivulle()
     // Lataa aloitussivun
     lisaaTxt("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:/aloitus/aloitus.css\"></head><body>");
 
-    if( Kirjanpito::db()->asetus("nimi").isEmpty())
+    if( !kp()->asetukset()->onko("Nimi"))
     {
 
         lisaaTxt("<h1>Tervetuloa!</h1>"
                  "<p>Kitupiikki on suomalainen avoimen lähdekoodin kirjanpito-ohjelmisto. Ohjelmistoa saa käyttää, kopioida ja muokata "
                  "maksutta.</p>"
                  "<p>Tutustu lukemalla ohjeita, tai aloita heti kokeilemalla <a href=ktp:uusi>uuden kirjanpidon luomista</a>. Ohjelmisto neuvoo sekä "
-                 "uuden kirjanpidon aloittamisessa että myöhemmin matkan varrella.<p>");
+                 "uuden kirjanpidon aloittamisessa että myöhemmin matkan varrella.<p>"
+                 "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/QqBKIy9BzLI\" frameborder=\"0\"></iframe>");
         sisalto->valmis("qrc:/aloitus/");
 
     }
@@ -150,9 +151,9 @@ void AloitusSivu::kpAvattu()
     {
         lisaaTxt("<img class=kpkuvake src=logo128.png>");
     }
-    lisaaTxt(tr("<h1>%1</h1>").arg( Kirjanpito::db()->asetus("nimi")));
+    lisaaTxt(tr("<h1>%1</h1>").arg( Kirjanpito::db()->asetus("Nimi")));
 
-    if( Kirjanpito::db()->asetukset()->onko("tilinavaus") )
+    if( Kirjanpito::db()->asetukset()->onko("Tilinavaus") )
     {
         sisalto->lisaaLaatikko("Tee tilinavaus","Syötä viimesimmältä tilinpäätökseltä tilien "
                  "avaavat saldot järjestelmään.");

@@ -202,6 +202,11 @@ Tili TiliModel::tiliNumerolla(int numero) const
     return Tili();
 }
 
+JsonKentta *TiliModel::jsonIndeksilla(int i)
+{
+    return tilit_[i].json();
+}
+
 
 void TiliModel::luoTyyppiTaulut()
 {
@@ -229,6 +234,16 @@ void TiliModel::luoTyyppiTaulut()
     verotyypit__.insert(AlvKoodi::RAKENNUSPALVELU_MYYNTI,"Rakennuspalveluiden myynti");
     verotyypit__.insert(AlvKoodi::RAKENNUSPALVELU_OSTO,"Rakennuspalveluiden osto");
 
+}
+
+bool TiliModel::onkoMuokattu() const
+{
+    foreach (Tili tili, tilit_)
+    {
+        if( tili.muokattu())
+            return true;        // Tosi, jos yhtäkin tiliä muokattu
+    }
+    return false;
 }
 
 void TiliModel::lataa()
