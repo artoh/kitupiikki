@@ -134,14 +134,9 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
             case ALV:
                 if( rivi.alvkoodi == AlvKoodi::EIALV)
                     return QVariant("-");
-                else if( rivi.alvkoodi == AlvKoodi::ALVNETTO)
-                    return QVariant( tr("Netto %1 %").arg( rivi.alvprosentti) );
-                else if( rivi.alvkoodi == AlvKoodi::ALVBRUTTO)
-                    return QVariant( tr("Brutto %1 %").arg( rivi.alvprosentti));
-                else if( rivi.alvkoodi == AlvKoodi::ALVKIRJAUS)
-                    return QVariant( tr(" %1 %").arg(rivi.alvprosentti));
                 else
-                    return QVariant();
+                    return QVariant( QString("%1 %").arg(rivi.alvprosentti));
+                // TODO: Alv-lajit (esim. pieninä kuvakkeina)
 
 
             case SELITE: return QVariant( rivi.selite );

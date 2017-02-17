@@ -109,7 +109,7 @@ TilinvalintaLineDelegaatille::TilinvalintaLineDelegaatille(QWidget *parent) :
 
 void TilinvalintaLineDelegaatille::keyPressEvent(QKeyEvent *event)
 {
-    if( event->text().at(0).isLetter()
+    if( (!event->text().isEmpty() && event->text().at(0).isLetter())
             || event->key() == Qt::Key_Space)
     {
         alku_ = event->text();
@@ -122,26 +122,32 @@ void TilinvalintaLineDelegaatille::keyPressEvent(QKeyEvent *event)
 
 
 TilinvalintaLine::TilinvalintaLine(QWidget *parent)
-    : KantaTilinvalintaLine(parent)
+    : KantaTilinvalintaLine(parent), model_( 0 )
 {
 
+}
+
+void TilinvalintaLine::asetaModel(TiliModel *model)
+{
+    proxyTyyppi_->setSourceModel( model );
+    model_ = model;
 }
 
 void TilinvalintaLine::keyPressEvent(QKeyEvent *event)
 {
 
-    if( event->text().at(0).isLetter()
+    if( (!event->text().isEmpty() && event->text().at(0).isLetter())
             || event->key() == Qt::Key_Space)
     {
         Tili valittu;
 
         if( event->key() == Qt::Key_Space)
-            valittu = TilinValintaDialogi::valitseTili(event->text(), proxyTyyppi_->filterRegExp().pattern() );
+            valittu = TilinValintaDialogi::valitseTili(QString(), proxyTyyppi_->filterRegExp().pattern(), model_ );
         else
-            valittu = TilinValintaDialogi::valitseTili(QString(), proxyTyyppi_->filterRegExp().pattern() );
+            valittu = TilinValintaDialogi::valitseTili( event->text(), proxyTyyppi_->filterRegExp().pattern(), model_ );
         if( valittu.id())
             valitseTili( valittu);
     }
     else
-        QLineEdit::keyPressEvent(event);
+        KantaTilinvalintaLine::keyPressEvent(event);
 }

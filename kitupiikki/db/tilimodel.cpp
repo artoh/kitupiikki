@@ -25,6 +25,7 @@
 
 #include "tilimodel.h"
 #include "tili.h"
+#include "vientimodel.h"
 
 
 TiliModel::TiliModel(QSqlDatabase *tietokanta, QObject *parent) :
@@ -53,8 +54,25 @@ bool TiliModel::setData(const QModelIndex &index, const QVariant &value, int rol
         tilit_[index.row()].asetaTila(value.toInt());
 
         emit dataChanged(index.sibling(index.row(), 0 ), index.sibling(index.row(), columnCount(QModelIndex())) );
-        return true;
     }
+    else if( role == TiliModel::NroRooli)
+    {
+        tilit_[ index.row()].asetaNumero( value.toInt());
+    }
+    else if( role == TiliModel::NimiRooli)
+    {
+        tilit_[index.row()].asetaNimi( value.toString());
+    }
+    else if( role == TiliModel::OtsikkotasoRooli)
+    {
+        tilit_[index.row()].asetaOtsikkotaso( value.toInt());
+    }
+    else if( role == TiliModel::TyyppiRooli)
+    {
+        tilit_[index.row()].asetaTyyppi( value.toString());
+    }
+    else
+        return false;
 
     return false;
 }
@@ -199,12 +217,18 @@ void TiliModel::luoTyyppiTaulut()
     tilityypit__.insert("D","Menot");
     tilityypit__.insert("DP","Poistot");
 
-    verotyypit__.insert(0,"Veroton");
-    verotyypit__.insert(1,"Nettoperustainen alv-kirjaus");
-    verotyypit__.insert(2,"Bruttoperustainen alv-kirjaus");
-    verotyypit__.insert(3,"Tavaroiden yhteisömyynti");
-    verotyypit__.insert(4,"Palveluiden yhteisömyynti");
-    verotyypit__.insert(5,"Käänteinen arvonlisävelvollisuus");
+    verotyypit__.insert(AlvKoodi::EIALV,"Veroton");
+    verotyypit__.insert(AlvKoodi::MYYNNIT_NETTO,"Verollinen myynti, nettokirjaus");
+    verotyypit__.insert(AlvKoodi::OSTOT_NETTO,"Verollinen osto, nettokirjaus");
+    verotyypit__.insert(AlvKoodi::MYYNNIT_BRUTTO,"Verollinen myynti, bruttokirjaus");
+    verotyypit__.insert(AlvKoodi::OSTOT_BRUTTO,"Verollinen osto, bruttokirjaus");
+    verotyypit__.insert(AlvKoodi::YHTEISOMYYNTI_TAVARAT,"Tavaroiden yhteisömyynti");
+    verotyypit__.insert(AlvKoodi::YHTEISOMYYNTI_PALVELUT,"Palveluiden yhteisömyynti");
+    verotyypit__.insert(AlvKoodi::YHTEISOHANKINNAT_TAVARAT,"Tavaroiden yhteisöhankinnat");
+    verotyypit__.insert(AlvKoodi::YHTEISOHANKINNAT_PALVELUT,"Palveluiden yhteisöhankinnat");
+    verotyypit__.insert(AlvKoodi::RAKENNUSPALVELU_MYYNTI,"Rakennuspalveluiden myynti");
+    verotyypit__.insert(AlvKoodi::RAKENNUSPALVELU_OSTO,"Rakennuspalveluiden osto");
+
 }
 
 void TiliModel::lataa()

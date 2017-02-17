@@ -22,6 +22,7 @@
 #include <QSortFilterProxyModel>
 
 #include "tili.h"
+#include "tilimodel.h"
 
 namespace Ui {
 class TilinValintaDialogi;
@@ -41,6 +42,7 @@ public slots:
     void suodata(const QString& alku);
     void suodataTyyppi(const QString& regexp);
     void suodataSuosikit(bool suodatetaanko);
+    void asetaModel(TiliModel *model);
 
 protected slots:
     void klikattu(const QModelIndex& index);
@@ -60,7 +62,7 @@ public:
      * @param alku
      * @return
      */
-    static Tili valitseTili(const QString& alku, const QString& tyyppiSuodatin = QString("[ABCD]"));
+    static Tili valitseTili(const QString& alku, const QString& tyyppiSuodatin = QString("[ABCD]"), TiliModel *model = 0);
 
 };
 

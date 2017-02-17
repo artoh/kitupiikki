@@ -74,7 +74,7 @@ QDate JsonKentta::date(const QString &avain)
 
 int JsonKentta::luku(const QString &avain)
 {
-    return map_.value(avain).toInt();
+    return map_.value(avain,"0").toInt();
 }
 
 QByteArray JsonKentta::toJson()

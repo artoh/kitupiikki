@@ -20,7 +20,7 @@
 #include <QDebug>
 #include <QSqlQuery>
 
-Tili::Tili() : id_(0), numero_(0), tila_(0), otsikkotaso_(0), muokattu_(false)
+Tili::Tili() : id_(0), numero_(0), tila_(1), otsikkotaso_(0), muokattu_(false)
 {
 
 }

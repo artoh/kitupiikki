@@ -79,7 +79,7 @@ public:
      * Otsikkotasoja saa olla siis enintään yhdeksän
      *
      * tili 1234 -> 123400009
-     * 2. tason otsikko 1230 -> 123000002
+     * 2. tason otsikko 1230 -> 123000001
      *
      * @return
      */

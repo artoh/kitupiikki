@@ -140,4 +140,6 @@ FORMS += \
 DISTFILES += \
     uusikp/luo.sql \
     aloitussivu/qrc/avaanappi.png \
-    aloitussivu/qrc/aloitus.css
+    aloitussivu/qrc/aloitus.css \
+    db/asetukset.md \
+    db/json.md

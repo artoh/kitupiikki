@@ -18,6 +18,10 @@
 #include <QMapIterator>
 #include <QIntValidator>
 
+#include <QDebug>
+#include <QPushButton>
+#include <QMessageBox>
+
 #include "tilinmuokkausdialog.h"
 #include "db/tilimodel.h"
 #include "db/tilinvalintaline.h"
@@ -28,7 +32,12 @@ TilinMuokkausDialog::TilinMuokkausDialog(TiliModel *model, QModelIndex index) :
     ui = new Ui::tilinmuokkausDialog();
     ui->setupUi(this);
 
-    ui->numeroEdit->setValidator( new QIntValidator(1,99999999, ui->numeroEdit));
+    nroValidator_ = new QRegExpValidator(this);
+    nroValidator_->setRegExp(QRegExp("[0-9]{1,8}"));
+
+    ui->numeroEdit->setValidator( nroValidator_);
+
+    ui->vastatiliEdit->asetaModel( model );
 
     // Laitetaan tyyppivaihtoehdot paikalleen
     QMapIterator<QString,QString> iter( model_->tiliTyyppiTaulu() );
@@ -39,18 +48,25 @@ TilinMuokkausDialog::TilinMuokkausDialog(TiliModel *model, QModelIndex index) :
     }
 
     // Laitetaa verotyypit paikalleen
-    QMapIterator<int,QString> veroIter(model->veroTyyppiTaulu());
-    while( iter.hasNext())
+    QMapIterator<int,QString> veroIter(model_->veroTyyppiTaulu());
+    while( veroIter.hasNext())
     {
-        iter.next();
-        ui->veroCombo->addItem(QIcon(), iter.value(), iter.key());
+        veroIter.next();
+        ui->veroCombo->addItem(QIcon(), veroIter.value(), QString::number(veroIter.key()));
     }
-
 
     connect( ui->veroCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(veroEnablePaivita()));
     connect( ui->numeroEdit, SIGNAL(textChanged(QString)), this, SLOT(otsikkoTasoPaivita()));
 
-    lataa();
+    connect( ui->nimiEdit, SIGNAL(textEdited(QString)), this, SLOT(tarkasta()));
+    connect( ui->numeroEdit, SIGNAL(textEdited(QString)), this, SLOT(tarkasta()));
+    connect( ui->tyyppiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(tarkasta()));
+
+    // Tallennusnappi ei käytössä ennen kuin tiedot kunnossa
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+
+    if( index.isValid())
+        lataa();
 
 }
 
@@ -63,6 +79,10 @@ void TilinMuokkausDialog::lataa()
 {
     Tili tili = model_->tiliIndeksilla( index_.row());
 
+    // Ei voi muuttaa otsikkoa tiliksi tai päin vastoin
+    ui->tiliRadio->setEnabled(false);
+    ui->otsikkoRadio->setEnabled(false);
+
     ui->tasoSpin->setVisible(false);
     ui->tasoLabel->setVisible(false);
 
@@ -74,10 +94,12 @@ void TilinMuokkausDialog::lataa()
     ui->tasoSpin->setValue( tili.otsikkotaso());
 
     ui->tyyppiCombo->setCurrentIndex( ui->tyyppiCombo->findData( tili.tyyppi()) );
+    ui->vastatiliEdit->valitseTiliNumerolla(tili.json()->luku("Vastatili") );
 
-    ui->vastatiliEdit->valitseTiliIdlla( tili.json()->luku("Vastatili") );
     ui->veroSpin->setValue( tili.json()->luku("AlvProsentti"));
-    ui->veroCombo->setCurrentIndex( ui->tyyppiCombo->findData( tili.json()->luku("AlvLaji")));
+    ui->veroCombo->setCurrentIndex( ui->tyyppiCombo->findData( QString::number(tili.json()->luku("AlvLaji"))));
+
+    tarkasta();
 }
 
 void TilinMuokkausDialog::veroEnablePaivita()
@@ -103,3 +125,116 @@ void TilinMuokkausDialog::otsikkoTasoPaivita()
     }
     ui->tasoSpin->setMaximum( isoinluku );
 }
+
+void TilinMuokkausDialog::tarkasta()
+{
+
+   int luku = ui->numeroEdit->text().toInt();
+   int ysina = Tili::ysiluku(luku);   // Ysivertailunumero
+   if(ui->tiliRadio->isChecked())
+       ysina += 9;
+   else
+       ysina += ui->tasoSpin->value();
+
+   // Nimen ja numeron pitää olla täytetty
+   if(  !luku || ui->nimiEdit->text().isEmpty() )
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+
+
+   // Tarkastetaan, ettei numero ole tupla
+   if( luku != index_.data(TiliModel::NroRooli).toInt())
+   {
+       for( int i = 0; i < model_->rowCount(QModelIndex()); i++)
+           if( model_->tiliIndeksilla(i).ysivertailuluku() == ysina)
+           {
+               // Sama numero on jo käytössä, ei siis kelpaa!
+               ui->numeroEdit->setStyleSheet("color: red;");
+               ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+               return;
+           }
+   }
+   // Ei löytynyt samaa
+   ui->numeroEdit->setStyleSheet("color: black;");
+   ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
+
+}
+
+void TilinMuokkausDialog::accept()
+{
+    int ekanumero = ui->numeroEdit->text().left(1).toInt();
+    QChar tyyppikirjain = ui->tyyppiCombo->currentData().toString().at(0);
+
+    // Tarkistetaan ensin, että tilinumero osuu oikeaan väliin
+    if( ui->tiliRadio->isChecked() &&
+        ( (tyyppikirjain == 'A' && ekanumero != 0) ||
+          (tyyppikirjain == 'B' && ekanumero != 1) ||
+          (tyyppikirjain == 'C' && ekanumero < 3 ) ||
+          (tyyppikirjain == 'D' && ekanumero < 3)))
+    {
+        QMessageBox::critical(this, tr("Tilinumero on virheellinen"),
+                              tr("<b>Tilinumero ei sovi tilin tyyppiin</b><br>"
+                                 "Vastaavaa-tilit alkavat 1<br>"
+                                 "Vastattavaa-tilit alkavat 2<br>"
+                                 "Muut tilit alkavat 3..9"));
+        return;
+    }
+
+    // Kaikki kunnossa eli voidaan tallentaa modeliin
+    QString tyyppi = ui->tyyppiCombo->currentData().toString();
+    int taso = ui->tasoSpin->value();
+
+    if( ui->otsikkoRadio)
+        tyyppi = QString("H%1").arg(ui->tasoSpin->value());
+    else
+        taso = 0;
+
+    JsonKentta *json;
+    Tili uusitili;
+    if( !index_.isValid())
+    {
+        // Uusi tili
+        uusitili = Tili(0, ui->numeroEdit->text().toInt(), ui->nimiEdit->text(),
+                      tyyppi, 1, taso);
+        json = uusitili.json();
+
+    }
+    else
+    {
+        // Päivitetään tili modeliin
+        model_->setData(index_, ui->numeroEdit->text().toInt(), TiliModel::NroRooli);
+        model_->setData(index_, ui->nimiEdit->text(), TiliModel::NimiRooli);
+        model_->setData(index_, taso, TiliModel::OtsikkotasoRooli);
+        model_->setData(index_, tyyppi, TiliModel::TyyppiRooli);
+        json = model_->tiliIndeksilla(index_.row()).json();
+    }
+
+    if( !taso )
+    {
+        // Tilistä kirjoitetaan json-kentät
+
+        if( ui->vastatiliEdit->valittuTilinumero() )
+            json->set("Vastatili", ui->vastatiliEdit->valittuTilinumero());
+        else
+            json->unset("Vastatili");
+
+        if( ui->veroCombo->currentData().toInt())
+        {
+            json->set("AlvLaji", ui->veroCombo->currentData().toInt());
+            if( ui->veroSpin->value())
+                json->set("AlvProsentti", ui->veroSpin->value());
+
+        }
+        else
+        {
+            json->unset("AlvLaji");
+            json->unset("AlvProsentti");
+        }
+    }
+
+    if( uusitili.numero() )     // Lisätään uusi tili
+        model_->lisaaTili( uusitili );
+
+
+    QDialog::accept();
+}
+

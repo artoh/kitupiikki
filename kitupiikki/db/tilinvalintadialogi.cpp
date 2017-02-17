@@ -113,6 +113,11 @@ void TilinValintaDialogi::suodataSuosikit(bool suodatetaanko)
 
 }
 
+void TilinValintaDialogi::asetaModel(TiliModel *model)
+{
+    proxyNimi->setSourceModel( model );
+}
+
 void TilinValintaDialogi::klikattu(const QModelIndex &index)
 {
     if(index.data(TiliModel::OtsikkotasoRooli) == 0)
@@ -125,9 +130,12 @@ void TilinValintaDialogi::klikattu(const QModelIndex &index)
 
 
 
-Tili TilinValintaDialogi::valitseTili(const QString &alku, const QString &tyyppiSuodatin)
+Tili TilinValintaDialogi::valitseTili(const QString &alku, const QString &tyyppiSuodatin, TiliModel *model)
 {
     TilinValintaDialogi dlg;
+    if( model )
+        dlg.asetaModel( model );
+
     dlg.ui->suodatusEdit->setText(alku);
     dlg.suodataTyyppi(tyyppiSuodatin);
 

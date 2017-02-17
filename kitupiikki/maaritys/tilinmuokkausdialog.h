@@ -19,6 +19,7 @@
 #define TILINMUOKKAUSDIALOG_H
 
 #include <QDialog>
+#include <QRegExpValidator>
 
 #include "ui_tilinmuokkaus.h"
 #include "db/tilimodel.h"
@@ -36,11 +37,19 @@ protected:
 protected slots:
     void veroEnablePaivita();
     void otsikkoTasoPaivita();
+    /**
+     * @brief Tarkistaa, ettei numero vain ole jo käytössä
+     * @param nroTekstina
+     */
+    void tarkasta();
+
+    void accept();
 
 protected:
     Ui::tilinmuokkausDialog *ui;
     TiliModel *model_;
     QModelIndex index_;
+    QRegExpValidator *nroValidator_;
 
 
 };

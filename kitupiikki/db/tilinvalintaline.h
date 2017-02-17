@@ -79,11 +79,16 @@ protected:
  */
 class TilinvalintaLine : public KantaTilinvalintaLine
 {
+    Q_OBJECT
 public:
     TilinvalintaLine(QWidget *parent = 0);
 
+public slots:
+    void asetaModel( TiliModel *model);
+
 protected:
     void keyPressEvent(QKeyEvent *event);
+    TiliModel *model_;
 };
 
 #endif // TILINVALINTALINE_H

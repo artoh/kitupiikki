@@ -34,11 +34,16 @@ namespace AlvKoodi {
     enum
     {
         EIALV = 0,
-        ALVNETTO = 1,
-        ALVBRUTTO = 2,
-        YHTEISO_TAVARAT = 3,
-        YHTEISO_PALVELU = 4,
-        KAANNETTY_RAKENNUS = 5,
+        MYYNNIT_NETTO = 11,
+        OSTOT_NETTO = 12,
+        MYYNNIT_BRUTTO = 21,
+        OSTOT_BRUTTO = 22,
+        YHTEISOMYYNTI_TAVARAT = 31,
+        YHTEISOHANKINNAT_TAVARAT = 32,
+        YHTEISOMYYNTI_PALVELUT = 41,
+        YHTEISOHANKINNAT_PALVELUT = 42,
+        RAKENNUSPALVELU_MYYNTI = 51,
+        RAKENNUSPALVELU_OSTO = 52,
         ALVKIRJAUS = 99
     };
 
