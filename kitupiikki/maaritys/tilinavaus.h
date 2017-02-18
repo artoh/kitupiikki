@@ -48,6 +48,7 @@ public slots:
 public:
     bool nollaa();
     bool tallenna();
+    bool onkoMuokattu();
 
 private:
     Ui::Tilinavaus *ui;

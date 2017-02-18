@@ -44,10 +44,11 @@ public:
     enum
     {
         IdRooli = Qt::UserRole + 1,
-        TyyppiRoole = Qt::UserRole + 2,
+        TyyppiRooli = Qt::UserRole + 2,
         NimiRooli = Qt::UserRole + 3,
         AlkaaRooli = Qt::UserRole + 4,
-        PaattyyRooli = Qt::UserRole + 5
+        PaattyyRooli = Qt::UserRole + 5,
+        VientejaRooli = Qt::UserRole + 6
     };
 
     KohdennusModel(QSqlDatabase *tietokanta, QObject *parent = 0);
@@ -57,21 +58,30 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     QVariant data(const QModelIndex &index, int role) const;
 
-    Qt::ItemFlags flags(const QModelIndex &index) const;
     bool setData(const QModelIndex &index, const QVariant &value, int role);
 
     QString nimi(int id) const;
     Kohdennus kohdennus(int id) const;
     QList<Kohdennus> kohdennukset() const;
 
+    /**
+     * @brief Poistaa kohdennuksen
+     * @param riviIndeksi Indeksi (index.row()) poistettavaan
+     */
+    void poistaRivi(int riviIndeksi);
+
+    bool onkoMuokattu() const;
+
 public slots:
     void lataa();
-    void lisaaUusi(int tyyppi, const QString nimi = QString());
+    void lisaaUusi(Kohdennus uusi);
+    void tallenna();
 
 
 protected:
     QSqlDatabase *tietokanta_;
-    QList<Kohdennus> projektit_;
+    QList<Kohdennus> kohdennukset_;
+    QList<int> poistetutIdt_;
 
 
 };

@@ -22,9 +22,10 @@
 #include <QSqlError>
 #include <QDebug>
 
-TilinavausModel::TilinavausModel()
+TilinavausModel::TilinavausModel() :
+    muokattu_(false)
 {
-    connect(Kirjanpito::db(), SIGNAL(tietokantaVaihtui()), this, SLOT(lataa()));
+
 }
 
 int TilinavausModel::rowCount(const QModelIndex & /* parent */ ) const
@@ -119,6 +120,7 @@ bool TilinavausModel::setData(const QModelIndex &index, const QVariant &value, i
     int tiliid = kp()->tilit()->tiliIndeksilla( index.row()).id();
     saldot[tiliid] = value.toInt(); // Delegaatti käsittelee senttejä
     paivitaInfo();
+    muokattu_ = true;
     return true;
 }
 
@@ -153,6 +155,7 @@ void TilinavausModel::lataa()
     }
     paivitaInfo();
     endResetModel();
+    muokattu_ = false;
 }
 
 bool TilinavausModel::tallenna()
@@ -189,6 +192,7 @@ bool TilinavausModel::tallenna()
     }
     kp()->asetukset()->aseta("Tilinavaus","1");   // Tilit merkitään avatuiksi
 
+    muokattu_ = false;
     return true;
 }
 

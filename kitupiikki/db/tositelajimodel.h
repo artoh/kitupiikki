@@ -34,14 +34,16 @@ class TositelajiModel : public QAbstractTableModel
 public:
     enum Sarake
     {
-        TUNNUS, NIMI
+        TUNNUS, NIMI, VASTATILI
     };
 
     enum
     {
         IdRooli = Qt::UserRole,
         TunnusRooli = Qt::UserRole + 1,
-        NimiRooli = Qt::UserRole + 2
+        NimiRooli = Qt::UserRole + 2,
+        VastatiliNroRooli = Qt::UserRole + 3,
+        TositeMaaraRooli = Qt::UserRole +4
     };
 
     TositelajiModel(QSqlDatabase *tietokanta, QObject *parent = 0);
@@ -52,19 +54,22 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     QVariant data(const QModelIndex &index, int role) const;
 
-    Qt::ItemFlags flags(const QModelIndex &index) const;
     bool setData(const QModelIndex &index, const QVariant &value, int role);
+    bool onkoMuokattu() const;
+
+    void poistaRivi(int riviIndeksi);
 
     Tositelaji tositelaji(int id) const;
 
 public slots:
     void lataa();
     bool tallenna();
-    void lisaaRivi();
+    void lisaaRivi(Tositelaji laji);
 
 protected:
     QList<Tositelaji> lajit_;
     QSqlDatabase *tietokanta_;
+    QList<int> poistetutIdt_;
 };
 
 #endif // TOSITELAJIMODEL_H

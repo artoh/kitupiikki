@@ -39,18 +39,19 @@ public:
     ~MaaritysWidget();
 
 signals:
+    void tallennaKaytossa(bool onko);
 
 public:
     /**
      * @brief Lataa näytettävälle sivulle tallennetut tiedot
      * @return onnistuiko
      */
-    virtual bool nollaa() = 0;
+    virtual bool nollaa() {return false;}
     /**
      * @brief Tallettaa tehdyt asetukset
      * @return onnistuiko
      */
-    virtual bool tallenna() = 0;
+    virtual bool tallenna() {return false;}
     /**
      * @brief Onko sivulla tallentamattomia muokkauksia
      * @return tosi jos tallentamttomia muutoksia

@@ -16,6 +16,10 @@
 */
 
 #include <QSqlQuery>
+#include <QIcon>
+
+#include <QDebug>
+#include <QSqlError>
 
 #include "kohdennusmodel.h"
 #include "db/kirjanpito.h"
@@ -32,7 +36,7 @@ KohdennusModel::KohdennusModel(QSqlDatabase *tietokanta, QObject *parent) :
 
 int KohdennusModel::rowCount(const QModelIndex & /* parent */) const
 {
-    return projektit_.count();
+    return kohdennukset_.count();
 }
 
 int KohdennusModel::columnCount(const QModelIndex & /* parent */) const
@@ -59,7 +63,7 @@ QVariant KohdennusModel::headerData(int section, Qt::Orientation orientation, in
         }
 
     }
-    return QVariant( section + 1);
+    return QVariant();
 }
 
 QVariant KohdennusModel::data(const QModelIndex &index, int role) const
@@ -67,11 +71,11 @@ QVariant KohdennusModel::data(const QModelIndex &index, int role) const
     if( !index.isValid())
         return QVariant();
 
-    Kohdennus kohdennus = projektit_[index.row()];
+    Kohdennus kohdennus = kohdennukset_[index.row()];
 
     if( role == IdRooli)
         return QVariant( kohdennus.id() );
-    else if( role == TyyppiRoole)
+    else if( role == TyyppiRooli)
         return QVariant( kohdennus.tyyppi() );
     else if( role == NimiRooli )
         return kohdennus.nimi();
@@ -79,6 +83,8 @@ QVariant KohdennusModel::data(const QModelIndex &index, int role) const
         return kohdennus.alkaa();
     else if( role == PaattyyRooli)
         return kohdennus.paattyy();
+    else if( role == VientejaRooli)
+        return kohdennus.montakoVientia();
 
     else if( role == Qt::TextAlignmentRole)
         return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
@@ -91,27 +97,40 @@ QVariant KohdennusModel::data(const QModelIndex &index, int role) const
             case PAATTYY: return QVariant(kohdennus.paattyy());
         }
     }
+    else if( role == Qt::DecorationRole && index.column() == NIMI)
+    {
+        if( kohdennus.tyyppi() == Kohdennus::PROJEKTI)
+            return QIcon(":/pic/projekti.png");
+        else if( kohdennus.tyyppi() == Kohdennus::KUSTANNUSPAIKKA)
+            return QIcon(":/pic/kohdennus.png");
+    }
+
     return QVariant();
 }
 
-Qt::ItemFlags KohdennusModel::flags(const QModelIndex &index) const
-{
-    return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
-}
 
 bool KohdennusModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if( role != Qt::EditRole)
-        return false;
-
-    if( index.column() == NIMI)
-        projektit_[ index.row() ].asetaNimi(value.toString());
-    else if( index.column() == ALKAA )
-        projektit_[ index.row() ].asetaAlkaa( value.toDate() );
-    else if( index.column() == PAATTYY)
-        projektit_[ index.column()].asetaPaattyy( value.toDate() );
-
-    return true;
+    if( role == TyyppiRooli)
+    {
+        if( value.toInt() == Kohdennus::PROJEKTI)
+            kohdennukset_[index.row()].asetaTyyppi( Kohdennus::PROJEKTI);
+        else if( value.toInt() == Kohdennus::KUSTANNUSPAIKKA)
+            kohdennukset_[index.row()].asetaTyyppi( Kohdennus::KUSTANNUSPAIKKA);
+    }
+    else if( role == NimiRooli)
+    {
+        kohdennukset_[ index.row()].asetaNimi( value.toString());
+    }
+    else if( role == AlkaaRooli)
+    {
+        kohdennukset_[index.row()].asetaAlkaa( value.toDate());
+    }
+    else if( role == PaattyyRooli)
+    {
+        kohdennukset_[index.row()].asetaPaattyy( value.toDate());
+    }
+    return false;
 }
 
 QString KohdennusModel::nimi(int id) const
@@ -121,7 +140,7 @@ QString KohdennusModel::nimi(int id) const
 
 Kohdennus KohdennusModel::kohdennus(int id) const
 {
-    foreach (Kohdennus projekti, projektit_)
+    foreach (Kohdennus projekti, kohdennukset_)
     {
         if( projekti.id() == id)
             return projekti;
@@ -131,19 +150,45 @@ Kohdennus KohdennusModel::kohdennus(int id) const
 
 QList<Kohdennus> KohdennusModel::kohdennukset() const
 {
-    return projektit_;
+    return kohdennukset_;
+}
+
+void KohdennusModel::poistaRivi(int riviIndeksi)
+{
+    Kohdennus kohdennus = kohdennukset_[riviIndeksi];
+    if( kohdennus.montakoVientia() )
+        return;         // Ei voi poistaa, jos kirjauksia
+
+    beginRemoveRows( QModelIndex(), riviIndeksi, riviIndeksi);
+    if( kohdennus.id() )
+        poistetutIdt_.append( kohdennus.id());
+
+    kohdennukset_.removeAt(riviIndeksi);
+    endRemoveRows();
+}
+
+bool KohdennusModel::onkoMuokattu() const
+{
+    if( poistetutIdt_.count())
+        return true;
+    foreach (Kohdennus kohdennus, kohdennukset_)
+    {
+        if( kohdennus.muokattu())
+            return true;
+    }
+    return false;
 }
 
 void KohdennusModel::lataa()
 {
     beginResetModel();
-    projektit_.clear();
+    kohdennukset_.clear();
     QSqlQuery kysely(*tietokanta_);
 
     kysely.exec("select id, tyyppi, nimi, alkaa, loppuu FROM kohdennus");
     while( kysely.next() )
     {
-        projektit_.append( Kohdennus( kysely.value(0).toInt(),
+        kohdennukset_.append( Kohdennus( kysely.value(0).toInt(),
                                      kysely.value(1).toInt(),
                                      kysely.value(2).toString(),
                                      kysely.value(3).toDate(),
@@ -152,24 +197,57 @@ void KohdennusModel::lataa()
     endResetModel();
 }
 
-void KohdennusModel::lisaaUusi(int tyyppi, const QString nimi)
+void KohdennusModel::lisaaUusi(Kohdennus uusi)
 {
-    beginInsertRows(QModelIndex(), projektit_.count(), projektit_.count());
-
-
-    if( tyyppi == Kohdennus::KUSTANNUSPAIKKA)
-        // Lisätään kustannuspaikka. Kustannuspaikalla ei oletuksena ole kestoa
-        projektit_.append( Kohdennus(Kohdennus::KUSTANNUSPAIKKA));
-    else
-    {
-        // Lisätään projekti
-        // Oletuksena projekti on nykyisen tilikauden pituinen
-        Tilikausi nykyinen = Kirjanpito::db()->tilikausiPaivalle( Kirjanpito::db()->paivamaara() );
-        projektit_.append( Kohdennus(0, Kohdennus::PROJEKTI, nimi, nykyinen.alkaa(), nykyinen.paattyy()));
-    }
-
-
+    beginInsertRows(QModelIndex(), kohdennukset_.count(), kohdennukset_.count());
+    kohdennukset_.append( uusi );
     endInsertRows();
+}
+
+void KohdennusModel::tallenna()
+{
+    tietokanta_->transaction();
+    QSqlQuery kysely(*tietokanta_);
+
+    for(int i=0; i < kohdennukset_.count(); i++)
+    {
+        Kohdennus kohdennus = kohdennukset_[i];
+        if( kohdennus.muokattu())
+        {
+            if( kohdennus.id())
+            {
+                // Muokkaus
+                kysely.prepare("UPDATE kohdennus SET nimi=:nimi, tyyppi=:tyyppi,"
+                               "alkaa=:alkaa, loppuu=:loppuu WHERE id=:id");
+                kysely.bindValue(":id", kohdennus.id());
+            }
+            else
+            {
+                kysely.prepare("INSERT INTO kohdennus(tyyppi, nimi, alkaa, loppuu) "
+                               "VALUES(:tyyppi, :nimi, :alkaa, :loppuu) ");
+            }
+            kysely.bindValue(":nimi", kohdennus.nimi());
+            kysely.bindValue(":tyyppi", kohdennus.tyyppi());
+            kysely.bindValue(":alkaa", kohdennus.alkaa());
+            kysely.bindValue(":loppuu", kohdennus.paattyy());
+
+            if( kysely.exec() )
+                kohdennukset_[i].nollaaMuokattu();
+
+            if( !kohdennus.id() )
+                kohdennukset_[i].asetaId( kysely.lastInsertId().toInt());
+
+            qDebug() << kysely.lastQuery() << " " << kysely.lastError().text() << " " << kohdennus.nimi() << "  "
+                     << kysely.lastInsertId().toInt();
+        }
+    }
+    foreach (int id, poistetutIdt_)
+    {
+        kysely.exec( QString("DELETE FROM kohdennus WHERE id=%1").arg(id));
+    }
+    poistetutIdt_.clear();
+
+    tietokanta_->commit();
 }
 
 

@@ -17,7 +17,7 @@
 
 #include "tositelajit.h"
 #include "db/kirjanpito.h"
-
+#include "tositelajidialogi.h"
 
 Tositelajit::Tositelajit(QWidget *parent) : MaaritysWidget(parent)
 {
@@ -25,14 +25,55 @@ Tositelajit::Tositelajit(QWidget *parent) : MaaritysWidget(parent)
     ui->setupUi(this);
 
     model = new TositelajiModel( kp()->tietokanta(), this);
-    ui->view->setModel(model);
 
-    connect(ui->uusiNappi, SIGNAL(clicked(bool)), model, SLOT(lisaaRivi()));
+    proxy = new QSortFilterProxyModel(this);
+    proxy->setSourceModel( model );
+    proxy->setSortRole( TositelajiModel::TunnusRooli);
+
+    ui->view->setModel(proxy);
+
+    connect( ui->view->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
+             this, SLOT(riviValittu(QModelIndex)));
+    connect( ui->uusiNappi, SIGNAL(clicked(bool)), this, SLOT(uusi()));
+    connect( ui->muokkaaNappi, SIGNAL(clicked(bool)), this, SLOT(muokkaa()));
+    connect( ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poista()));
+
 }
 
 Tositelajit::~Tositelajit()
 {
     delete ui;
+}
+
+void Tositelajit::uusi()
+{
+    TositelajiDialogi dlg( model );
+    dlg.exec();
+    proxy->sort(0);
+    emit tallennaKaytossa( onkoMuokattu() );
+}
+
+void Tositelajit::muokkaa()
+{
+    TositelajiDialogi dlg( model, proxy->mapToSource( ui->view->currentIndex()));
+    dlg.exec();
+    proxy->sort(0);
+    emit tallennaKaytossa( onkoMuokattu());
+}
+
+void Tositelajit::poista()
+{
+    model->poistaRivi( proxy->mapToSource(ui->view->currentIndex()).row() );
+    emit tallennaKaytossa( onkoMuokattu());
+}
+
+void Tositelajit::riviValittu(const QModelIndex &index)
+{
+    ui->muokkaaNappi->setEnabled( index.isValid());
+    ui->poistaNappi->setEnabled( index.isValid() &&
+                                 index.data(TositelajiModel::IdRooli).toInt() > 1 &&
+                                 index.data(TositelajiModel::TositeMaaraRooli).toInt() == 0);
+
 }
 
 bool Tositelajit::tallenna()
@@ -47,5 +88,16 @@ bool Tositelajit::tallenna()
 bool Tositelajit::nollaa()
 {
     model->lataa();
+
+    ui->view->setColumnWidth(TositelajiModel::TUNNUS, ui->view->width() / 4 - 2 );
+    ui->view->setColumnWidth(TositelajiModel::NIMI, ui->view->width() / 2);
+
+    proxy->sort(0);
+
     return true;
+}
+
+bool Tositelajit::onkoMuokattu()
+{
+    return model->onkoMuokattu();
 }

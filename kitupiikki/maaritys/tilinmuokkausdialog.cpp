@@ -57,6 +57,10 @@ TilinMuokkausDialog::TilinMuokkausDialog(TiliModel *model, QModelIndex index) :
     ui->tasoSpin->setVisible(false);
     ui->tasoLabel->setVisible(false);
 
+    // Tilinumeron muutosvaroitus piiloon
+    ui->varoitusKuva->setVisible(false);
+    ui->varoitusLabel->setVisible(false);
+
     connect( ui->veroCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(veroEnablePaivita()));
     connect( ui->numeroEdit, SIGNAL(textChanged(QString)), this, SLOT(otsikkoTasoPaivita()));
 
@@ -158,6 +162,7 @@ void TilinMuokkausDialog::nroMuuttaaTyyppia(const QString &nroteksti)
             ui->tyyppiCombo->setCurrentIndex( ui->tyyppiCombo->findData("D") );
     }
     tarkasta(); // Lopuksi tarkastetaan kelpaako numero
+
 }
 
 void TilinMuokkausDialog::tarkasta()
@@ -176,6 +181,22 @@ void TilinMuokkausDialog::tarkasta()
        taso = 0;
 
    int ysina = Tili::ysiluku(luku, taso);   // Ysivertailunumero
+
+   // Jos numero vaihtuu, näytetään siitä varoitus
+   // Tämä siksi, että monet määritykset liittyvät tilin numeroon
+   if( ui->tiliRadio->isChecked() &&
+           index_.data(TiliModel::IdRooli).toInt() > 0 &&
+           index_.data(TiliModel::NroRooli).toInt() != luku )
+   {
+       ui->varoitusKuva->setVisible(true);
+       ui->varoitusLabel->setVisible(true);
+   }
+   else
+   {
+       ui->varoitusKuva->setVisible(false);
+       ui->varoitusLabel->setVisible(false);
+   }
+
 
    // Tarkastetaan, ettei numero ole tupla
    if( ysina != Tili::ysiluku(index_.data(TiliModel::NroRooli).toInt(), taso) )

@@ -28,6 +28,8 @@ class QStackedWidget;
 class QListWidget;
 class QVBoxLayout;
 class QListWidgetItem;
+class QButton;
+class QPushButton;
 
 /**
  * @brief Määrityssivun sisältävä QWidget
@@ -42,7 +44,8 @@ public:
         PERUSVALINNAT,
         TILINAVAUS,
         TOSITELAJIT,
-        TILIKARTTA
+        TILIKARTTA,
+        KOHDENNUS
     };
 
 
@@ -68,7 +71,15 @@ public slots:
     void valitseSivu( QListWidgetItem *item);
 
 protected:
-    void lisaaSivu(const QString& otsikko, Sivut sivu, const QIcon& kuvake = QIcon());
+    /**
+     * @brief Lisää sivun luetteloon
+     * @param otsikko Luettelossa oleva teksti
+     * @param sivu Sivun enum, jonka perusteella valittu sivu luodaan
+     * @param kuvake Kuvake
+     * @param tallennaPeruNapit Näytetäänkö sivulla Tallenna- ja peru-napit
+     */
+    void lisaaSivu(const QString& otsikko, Sivut sivu,
+                   const QIcon& kuvake = QIcon(), bool tallennaPeruNapit = true);
 
 protected:
     QListWidget *lista;
@@ -77,6 +88,9 @@ protected:
     MaaritysWidget *nykyinen;
     QListWidgetItem *nykyItem;
     QVBoxLayout *sivuleiska;
+
+    QPushButton *tallennanappi;
+    QPushButton *perunappi;
 
 };
 

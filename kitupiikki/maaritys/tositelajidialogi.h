@@ -15,41 +15,38 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PERUSVALINNAT_H
-#define PERUSVALINNAT_H
+#ifndef TOSITELAJIDIALOGI_H
+#define TOSITELAJIDIALOGI_H
 
-#include <QWidget>
-#include <QImage>
+#include <QDialog>
 
-#include "maarityswidget.h"
+#include <QModelIndex>
+#include "db/tositelajimodel.h"
 
 namespace Ui {
-class Perusvalinnat;
+class TositelajiDialogi;
 }
 
-/**
- * @brief Määrityswidget perusvalinnoille (nimi, y-tunnus, logo)
- */
-class Perusvalinnat : public MaaritysWidget
+class TositelajiDialogi : public QDialog
 {
     Q_OBJECT
 
 public:
-    Perusvalinnat();
-    ~Perusvalinnat();
+     TositelajiDialogi(TositelajiModel *model,
+             const QModelIndex& index = QModelIndex(), QWidget *parent = 0);
+    ~TositelajiDialogi();
 
-public:
-    bool nollaa();
-    bool tallenna();
-    bool onkoMuokattu();
+protected slots:
+    void lataa();
+    void tarkasta();
 
-public slots:
-    void vaihdaLogo();
-    void ilmoitaMuokattu();
+    void accept();
 
 private:
-    Ui::Perusvalinnat *ui;
-    QImage uusilogo;
+    Ui::TositelajiDialogi *ui;
+
+    TositelajiModel *model_;
+    QModelIndex indeksi_;
 };
 
-#endif // PERUSVALINNAT_H
+#endif // TOSITELAJIDIALOGI_H

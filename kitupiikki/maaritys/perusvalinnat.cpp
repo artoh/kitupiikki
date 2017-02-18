@@ -34,6 +34,11 @@ Perusvalinnat::Perusvalinnat() :
 
     connect(ui->vaihdaLogoNappi, SIGNAL(clicked(bool)), this, SLOT(vaihdaLogo()));
 
+    connect( ui->organisaatioEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
+    connect( ui->ytunnusEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
+    connect( ui->alvRyhma, SIGNAL(clicked(bool)), this, SLOT(ilmoitaMuokattu()));
+    connect( ui->alvTehtyDate, SIGNAL(dateChanged(QDate)), this, SLOT(ilmoitaMuokattu()));
+
 }
 
 Perusvalinnat::~Perusvalinnat()
@@ -65,6 +70,12 @@ void Perusvalinnat::vaihdaLogo()
         uusilogo.load( tiedostopolku );
         ui->logoLabel->setPixmap( QPixmap::fromImage( uusilogo.scaled(64, 64, Qt::KeepAspectRatio) ) );
     }
+    ilmoitaMuokattu();
+}
+
+void Perusvalinnat::ilmoitaMuokattu()
+{
+    emit tallennaKaytossa( onkoMuokattu());
 }
 
 bool Perusvalinnat::onkoMuokattu()

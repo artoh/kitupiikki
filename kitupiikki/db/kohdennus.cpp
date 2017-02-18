@@ -15,25 +15,36 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QSqlQuery>
+#include <QVariant>
+
 #include "kohdennus.h"
 
 
 Kohdennus::Kohdennus(int tyyppi, const QString &nimi) :
-    id_(0), tyyppi_(tyyppi), nimi_(nimi), muokattu_(false)
+    id_(0), tyyppi_(tyyppi), nimi_(nimi), muokattu_(true)
 {
 
 }
 
 Kohdennus::Kohdennus(int id, int tyyppi, QString nimi, QDate alkaa, QDate paattyy)
-    : id_(id), tyyppi_(tyyppi), nimi_(nimi), alkaa_(alkaa), paattyy_(paattyy)
+    : id_(id), tyyppi_(tyyppi), nimi_(nimi), alkaa_(alkaa), paattyy_(paattyy),
+      muokattu_(false)
 {
 
+}
+
+int Kohdennus::montakoVientia() const
+{
+    QSqlQuery kysely( QString("SELECT sum(id) FROM vienti WHERE kohdennus=%1").arg(id()) );
+    if( kysely.next())
+        return kysely.value(0).toInt();
+    return 0;
 }
 
 void Kohdennus::asetaId(int id)
 {
     id_ = id;
-    muokattu_ = true;
 }
 
 void Kohdennus::asetaNimi(const QString &nimi)

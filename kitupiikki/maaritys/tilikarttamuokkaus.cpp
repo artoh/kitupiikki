@@ -54,6 +54,8 @@ TilikarttaMuokkaus::TilikarttaMuokkaus(QWidget *parent)
 
     connect(ui->muokkaaNappi, SIGNAL(clicked(bool)), this, SLOT(muokkaa()));
     connect( ui->uusiNappi, SIGNAL(clicked(bool)), this, SLOT(uusi()));
+    connect( ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poista()));
+
     connect( ui->view, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(muokkaa()));
 
 }
@@ -66,6 +68,8 @@ TilikarttaMuokkaus::~TilikarttaMuokkaus()
 bool TilikarttaMuokkaus::nollaa()
 {
     model->lataa();
+    proxy->sort(0);
+
     ui->view->resizeColumnsToContents();
     ui->view->horizontalHeader()->stretchLastSection();
     return true;
@@ -80,7 +84,7 @@ bool TilikarttaMuokkaus::tallenna()
 
 bool TilikarttaMuokkaus::onkoMuokattu()
 {
-    return false;
+    return model->onkoMuokattu();
 }
 
 void TilikarttaMuokkaus::muutaTila(int tila)
@@ -105,6 +109,7 @@ void TilikarttaMuokkaus::muutaTila(int tila)
         }
     }
     riviValittu(index);
+    tallennaKaytossa( onkoMuokattu() );
 }
 
 void TilikarttaMuokkaus::riviValittu(const QModelIndex& index)
@@ -127,6 +132,7 @@ void TilikarttaMuokkaus::muokkaa()
     TilinMuokkausDialog dlg(model, proxy->mapToSource(ui->view->currentIndex()));
     dlg.exec();
     proxy->sort(0);
+    emit tallennaKaytossa( onkoMuokattu() );
 
 }
 
@@ -135,5 +141,13 @@ void TilikarttaMuokkaus::uusi()
     TilinMuokkausDialog dlg(model);
     dlg.exec();
     proxy->sort(0);
+    emit tallennaKaytossa( onkoMuokattu() );
+}
+
+void TilikarttaMuokkaus::poista()
+{
+    if( ui->view->currentIndex().isValid())
+        model->poistaRivi(  proxy->mapToSource(ui->view->currentIndex()).row());
+    emit tallennaKaytossa( onkoMuokattu() );
 }
 

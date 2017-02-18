@@ -43,6 +43,7 @@ Tilinavaus::~Tilinavaus()
 void Tilinavaus::naytaInfo(QString info)
 {
     ui->infoLabel->setText(info);
+    emit tallennaKaytossa( onkoMuokattu());
 }
 
 void Tilinavaus::tsekkaaMuokkaus()
@@ -53,11 +54,18 @@ void Tilinavaus::tsekkaaMuokkaus()
 bool Tilinavaus::nollaa()
 {
     model->lataa();
+    emit tallennaKaytossa(onkoMuokattu());
     return true;
 }
 
 bool Tilinavaus::tallenna()
 {
     model->tallenna();
+    emit tallennaKaytossa(onkoMuokattu());
     return true;
+}
+
+bool Tilinavaus::onkoMuokattu()
+{
+    return model->onkoMuokattu();
 }

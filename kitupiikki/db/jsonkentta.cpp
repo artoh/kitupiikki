@@ -21,6 +21,8 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
+#include <QDebug>
+
 JsonKentta::JsonKentta() : muokattu_(false)
 {
 
@@ -85,13 +87,11 @@ QByteArray JsonKentta::toJson()
 
 QVariant JsonKentta::toSqlJson()
 {
+    muokattu_ = false;
     if( map_.count())
         return QVariant( toJson() );
     else
         return QVariant();
-    muokattu_ = false;
-
-
 }
 
 void JsonKentta::fromJson(const QByteArray &json)

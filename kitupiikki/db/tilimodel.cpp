@@ -182,6 +182,21 @@ void TiliModel::lisaaTili(Tili uusi)
     endInsertRows();
 }
 
+void TiliModel::poistaRivi(int riviIndeksi)
+{
+    Tili tili = tilit_[riviIndeksi];
+    if( tili.montakoVientia())
+        return;         // Ei voi poistaa, jos kirjauksia
+
+    beginRemoveRows( QModelIndex(), riviIndeksi, riviIndeksi);
+    if( tili.id() )
+        poistetutIdt_.append( tili.id());
+
+    tilit_.removeAt(riviIndeksi);
+    endRemoveRows();
+
+}
+
 Tili TiliModel::tiliIdlla(int id) const
 {
     foreach (Tili tili, tilit_)
@@ -238,6 +253,9 @@ void TiliModel::luoTyyppiTaulut()
 
 bool TiliModel::onkoMuokattu() const
 {
+    if( poistetutIdt_.count())  // Tallennettuja rivejä poistettu
+        return true;
+
     foreach (Tili tili, tilit_)
     {
         if( tili.muokattu())
@@ -274,8 +292,9 @@ void TiliModel::tallenna()
 {
     tietokanta_->transaction();
     QSqlQuery kysely(*tietokanta_);
-    foreach (Tili tili, tilit_)
+    for( int i=0; i < tilit_.count() ; i++)
     {
+        Tili tili = tilit_[i];
         if( tili.onkoValidi() && tili.muokattu())
         {
             if( tili.id())
@@ -302,13 +321,20 @@ void TiliModel::tallenna()
             kysely.bindValue(":json", tili.json()->toSqlJson());
 
             if( kysely.exec() )
-                tili.nollaaMuokattu();
+                tilit_[i].nollaaMuokattu();
 
-            if( tili.id())
-                tili.asetaId( kysely.lastInsertId().toInt() );
+            if( !tili.id())
+                tilit_[i].asetaId( kysely.lastInsertId().toInt() );
 
         }
     }
+
+    foreach (int id, poistetutIdt_)
+    {
+        kysely.exec( QString("DELETE FROM tili WHERE id=%1").arg(id) );
+    }
+    poistetutIdt_.clear();
+
     tietokanta_->commit();
 }
 

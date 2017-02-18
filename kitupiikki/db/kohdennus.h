@@ -47,6 +47,12 @@ public:
 
     bool muokattu() const { return muokattu_; }
 
+    /**
+     * @brief Montako kirjausta tälle kohdennukselle
+     * @return
+     */
+    int montakoVientia() const;
+
     void asetaId(int id);
     void asetaNimi(const QString& nimi);
     void asetaAlkaa(const QDate& alkaa);

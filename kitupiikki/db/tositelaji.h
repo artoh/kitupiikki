@@ -20,6 +20,8 @@
 
 #include <QString>
 
+#include "jsonkentta.h"
+
 /**
  * @brief Tositelaji, joka muodostaa oman numerosarjan
  */
@@ -27,23 +29,28 @@ class Tositelaji
 {
 public:
     Tositelaji();
-    Tositelaji(int id, QString tunnus, QString nimi);
+    Tositelaji(int id, QString tunnus, QString nimi,
+               QByteArray json = QByteArray());
 
     int id() const { return id_; }
     QString tunnus() const { return tunnus_; }
     QString nimi() const { return nimi_; }
-    bool muokattu() const { return muokattu_; }
+    bool muokattu() const { return muokattu_ | json_.muokattu(); }
+
+    JsonKentta *json() { return &json_; }
 
     void asetaId(int id);
     void asetaTunnus(const QString& tunnus);
     void asetaNimi(const QString& nimi);
     void nollaaMuokattu();
 
+    int montakoTositetta() const;
 
 protected:
     int id_;
     QString tunnus_;
     QString nimi_;
+    JsonKentta json_;
     bool muokattu_;
 };
 

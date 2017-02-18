@@ -21,7 +21,7 @@
 #include <QSqlQuery>
 
 #include <QDebug>
-
+#include <QSqlError>
 
 TositelajiModel::TositelajiModel(QSqlDatabase *tietokanta, QObject *parent)
     : QAbstractTableModel(parent), tietokanta_(tietokanta)
@@ -37,7 +37,7 @@ int TositelajiModel::rowCount(const QModelIndex & /* parent */ ) const
 
 int TositelajiModel::columnCount(const QModelIndex & /* parent */) const
 {
-    return 2;
+    return 3;
 }
 
 QVariant TositelajiModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -52,6 +52,8 @@ QVariant TositelajiModel::headerData(int section, Qt::Orientation orientation, i
             return QVariant("Tunnus");
         case NIMI:
             return QVariant("Nimi");
+        case VASTATILI:
+            return QVariant("Vastatili");
         }
     }
     return QVariant();
@@ -70,6 +72,10 @@ QVariant TositelajiModel::data(const QModelIndex &index, int role) const
         return QVariant( laji.tunnus());
     else if( role == NimiRooli)
         return QVariant( laji.nimi());
+    else if( role == VastatiliNroRooli)
+        return QVariant( laji.json()->luku("Vastatili"));
+    else if( role == TositeMaaraRooli)
+        return laji.montakoTositetta();
 
     else if( role == Qt::DisplayRole || role == Qt::EditRole)
     {
@@ -78,10 +84,16 @@ QVariant TositelajiModel::data(const QModelIndex &index, int role) const
             case TUNNUS: return QVariant(laji.tunnus() );
 
             case NIMI:
-                if( laji.nimi().isEmpty() && role==Qt::DisplayRole)
-                    return QVariant( tr("<Uusi tositelaji>"));
-                else
                     return QVariant( laji.nimi() );
+            case VASTATILI:
+                // json talletetaan vastatilin tilinumero
+                int tilinro = laji.json()->luku("Vastatili");
+                if( tilinro)
+                {
+                    Tili tili = kp()->tilit()->tiliNumerolla(tilinro);
+                    return QVariant( QString("%1 %2").arg(tili.numero()).arg(tili.nimi()) );
+                }
+                return QVariant();
         }
     }
     else if( role == Qt::TextAlignmentRole)
@@ -91,32 +103,55 @@ QVariant TositelajiModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-Qt::ItemFlags TositelajiModel::flags(const QModelIndex &index) const
+
+bool TositelajiModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    // TODO: Tässä pitäisi selvittää, onko tyyppi käytössä että saako sitä muokata...
-
-    Tositelaji laji = lajit_[ index.row()];
-
-    if( laji.tunnus() == "*" || ( index.column()==TUNNUS && laji.tunnus()=="" && laji.id()) )
-        return QAbstractTableModel::flags(index);
-
-    return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
-}
-
-bool TositelajiModel::setData(const QModelIndex &index, const QVariant &value, int /* role */)
-{
-    switch (index.column()) {
-    case TUNNUS:
-        lajit_[ index.row()].asetaTunnus( value.toString());
-        return true;
-    case NIMI:
-        lajit_[ index.row()].asetaNimi(value.toString());
-        return true;
-    default:
-        ;
+    if( role == Qt::EditRole)
+    {
+        switch (index.column()) {
+        case TUNNUS:
+            lajit_[ index.row()].asetaTunnus( value.toString());
+            return true;
+        case NIMI:
+            lajit_[ index.row()].asetaNimi(value.toString());
+            return true;
+        case VASTATILI:
+            if( value.toInt())
+                lajit_[index.row()].json()->set("Vastatili", value.toInt());
+            else
+                lajit_[index.row()].json()->unset("Vastatili");
+        default:
+            ;
+        }
     }
 
     return false;
+}
+
+bool TositelajiModel::onkoMuokattu() const
+{
+    if( poistetutIdt_.count())
+        return true;
+    foreach (Tositelaji laji, lajit_)
+    {
+        if( laji.muokattu())
+            return true;
+    }
+    return false;
+}
+
+void TositelajiModel::poistaRivi(int riviIndeksi)
+{
+    Tositelaji laji = lajit_[riviIndeksi];
+
+    if( laji.montakoTositetta() || laji.id() < 2)
+        return;     // Käytettyjä tai suojattuja ei voi poistaa!
+
+    beginRemoveRows( QModelIndex(), riviIndeksi, riviIndeksi);
+    if( laji.id())
+        poistetutIdt_.append( laji.id());
+    lajit_.removeAt( riviIndeksi);
+    endRemoveRows();
 }
 
 Tositelaji TositelajiModel::tositelaji(int id) const
@@ -138,14 +173,13 @@ void TositelajiModel::lataa()
 
     lajit_.clear();
     QSqlQuery kysely(*tietokanta_);
-    kysely.exec("SELECT id,tunnus,nimi FROM tositelaji");
+    kysely.exec("SELECT id,tunnus,nimi,json FROM tositelaji");
     while( kysely.next())
     {
-        qDebug() << kysely.value(0).toInt() << " - " << kysely.value(1).toString() << " - " << kysely.value(2).toString() ;
         // Järjestelmätositetta ei laiteta näkyviin
-        if( kysely.value(0).toInt() > 0)
+        if( kysely.value(0) > 0 )
             lajit_.append( Tositelaji(kysely.value(0).toInt(), kysely.value(1).toString(),
-                                      kysely.value(2).toString()) );
+                                      kysely.value(2).toString(), kysely.value(3).toByteArray() ));
     }
 
     endResetModel();
@@ -156,36 +190,43 @@ bool TositelajiModel::tallenna()
     QSqlQuery tallennus( *tietokanta_);
     for(int i=0; i < lajit_.count(); i++)
     {
-        Tositelaji laji = lajit_[i];
 
-        if( (laji.muokattu()) && (!laji.nimi().isEmpty()) && ( laji.id() == 0 || !laji.tunnus().isEmpty() ) )
+        if( lajit_[i].muokattu() )
         {
-            if( laji.id() )
+            if( lajit_[i].id() )
             {
-                tallennus.prepare("UPDATE tositelaji SET tunnus=:tunnus, nimi=:nimi WHERE _rowid_=:id");
-                tallennus.bindValue(":id", laji.id());
+                tallennus.prepare("UPDATE tositelaji SET tunnus=:tunnus, nimi=:nimi, json=:json WHERE _rowid_=:id");
+                tallennus.bindValue(":id", lajit_[i].id());
             }
             else
             {
-                tallennus.prepare("INSERT INTO tositelaji(tunnus,nimi) VALUES(:tunnus,:nimi)");
+                tallennus.prepare("INSERT INTO tositelaji(tunnus,nimi,json) VALUES(:tunnus,:nimi,:json)");
             }
-            tallennus.bindValue(":tunnus", laji.tunnus() );
-            tallennus.bindValue(":nimi", laji.nimi() );
+            tallennus.bindValue(":tunnus", lajit_[i].tunnus() );
+            tallennus.bindValue(":nimi", lajit_[i].nimi() );
+            tallennus.bindValue(":json", lajit_[i].json()->toSqlJson() );
 
             if(tallennus.exec())
                 lajit_[i].nollaaMuokattu();
 
-            if( laji.id())
+            if( !lajit_[i].id())
                 lajit_[i].asetaId( tallennus.lastInsertId().toInt());
+
         }
 
     }
+    foreach (int id, poistetutIdt_)
+    {
+        tallennus.exec( QString("DELETE tositelaji WHERE id=%1").arg(id));
+    }
+    poistetutIdt_.clear();
+
     return true;
 }
 
-void TositelajiModel::lisaaRivi()
+void TositelajiModel::lisaaRivi(Tositelaji laji)
 {
     beginInsertRows( QModelIndex(), lajit_.count(), lajit_.count() );
-    lajit_.append( Tositelaji());
+    lajit_.append( laji );
     endInsertRows();
 }

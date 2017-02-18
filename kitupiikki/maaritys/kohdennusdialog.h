@@ -15,41 +15,43 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PERUSVALINNAT_H
-#define PERUSVALINNAT_H
+#ifndef KOHDENNUSDIALOG_H
+#define KOHDENNUSDIALOG_H
 
-#include <QWidget>
-#include <QImage>
+#include <QDialog>
 
-#include "maarityswidget.h"
+#include <QModelIndex>
+#include "db/kohdennusmodel.h"
 
 namespace Ui {
-class Perusvalinnat;
+class KohdennusDialog;
 }
 
-/**
- * @brief Määrityswidget perusvalinnoille (nimi, y-tunnus, logo)
- */
-class Perusvalinnat : public MaaritysWidget
+class KohdennusDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    Perusvalinnat();
-    ~Perusvalinnat();
+    KohdennusDialog(KohdennusModel *model,
+                    QModelIndex index = QModelIndex(),
+                    QWidget *parent = 0);
+    ~KohdennusDialog();
 
-public:
-    bool nollaa();
-    bool tallenna();
-    bool onkoMuokattu();
+protected slots:
+    void tarkennaLoppuMinimi();
 
-public slots:
-    void vaihdaLogo();
-    void ilmoitaMuokattu();
+    void accept();
+
+protected:
+    void lataa();
+    void tallenna();
 
 private:
-    Ui::Perusvalinnat *ui;
-    QImage uusilogo;
+    Ui::KohdennusDialog *ui;
+
+protected:
+    KohdennusModel *model_;
+    QModelIndex index_;
 };
 
-#endif // PERUSVALINNAT_H
+#endif // KOHDENNUSDIALOG_H

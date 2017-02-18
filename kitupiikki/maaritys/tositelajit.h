@@ -19,6 +19,7 @@
 #define TOSITELAJIT_H
 
 #include <QWidget>
+#include <QSortFilterProxyModel>
 
 #include "ui_tositelajit.h"
 #include "db/tositelajimodel.h"
@@ -41,14 +42,22 @@ public:
 signals:
 
 public slots:
+    void uusi();
+    void muokkaa();
+    void poista();
+
+    void riviValittu(const QModelIndex& index);
 
 public:
     bool tallenna();
     bool nollaa();
+    bool onkoMuokattu();
 
 protected:
     Ui::Tositelajit *ui;
     TositelajiModel *model;
+
+    QSortFilterProxyModel *proxy;
 };
 
 #endif // TOSITELAJIT_H

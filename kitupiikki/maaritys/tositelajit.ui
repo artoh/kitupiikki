@@ -23,6 +23,12 @@
    </item>
    <item>
     <widget class="QTableView" name="view">
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
      <attribute name="horizontalHeaderStretchLastSection">
       <bool>true</bool>
      </attribute>
@@ -33,7 +39,42 @@
      <item>
       <widget class="QPushButton" name="uusiNappi">
        <property name="text">
-        <string>Uusi tositelaji</string>
+        <string>Uusi</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
+       </property>
+       <property name="shortcut">
+        <string>Ins</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="muokkaaNappi">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Muokkaa</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/muokkaa.png</normaloff>:/pic/muokkaa.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="poistaNappi">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Poista</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/poista.png</normaloff>:/pic/poista.png</iconset>
        </property>
       </widget>
      </item>
@@ -54,6 +95,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
  <connections/>
 </ui>

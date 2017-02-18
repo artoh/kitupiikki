@@ -25,7 +25,7 @@
 #include "db/tilimodel.h"
 
 /**
- * @brief Tilikarta muokkaus
+ * @brief Tilikartan muokkaussivu
  */
 class TilikarttaMuokkaus : public MaaritysWidget
 {
@@ -44,6 +44,7 @@ public slots:
     void riviValittu(const QModelIndex &index);
     void muokkaa();
     void uusi();
+    void poista();
 
 protected:
     Ui::Tilikartta *ui;

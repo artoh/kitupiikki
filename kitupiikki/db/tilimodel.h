@@ -65,6 +65,8 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
 
     void lisaaTili( Tili uusi);
+    void poistaRivi( int riviIndeksi );
+
     Tili tiliIdlla(int id) const;
     Tili tiliIndeksilla(int i) const { return tilit_.value(i); }
     Tili tiliNumerolla(int numero) const;
@@ -86,6 +88,7 @@ protected:
     QList<Tili> tilit_;
     static QMap<QString,QString> tilityypit__;
     static QMap<int,QString> verotyypit__;
+    QList<int> poistetutIdt_;
 
 };
 

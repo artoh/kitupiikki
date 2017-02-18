@@ -15,41 +15,47 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PERUSVALINNAT_H
-#define PERUSVALINNAT_H
+#ifndef KOHDENNUSMUOKKAUS_H
+#define KOHDENNUSMUOKKAUS_H
 
-#include <QWidget>
-#include <QImage>
+#include <QSortFilterProxyModel>
 
 #include "maarityswidget.h"
+#include "ui_kohdennukset.h"
+#include "kohdennusmuokkaus.h"
 
-namespace Ui {
-class Perusvalinnat;
-}
+#include "db/kohdennusmodel.h"
 
 /**
- * @brief Määrityswidget perusvalinnoille (nimi, y-tunnus, logo)
+ * @brief Kohdennusten muokkaussivu
  */
-class Perusvalinnat : public MaaritysWidget
+class KohdennusMuokkaus : public MaaritysWidget
 {
     Q_OBJECT
-
 public:
-    Perusvalinnat();
-    ~Perusvalinnat();
+    KohdennusMuokkaus(QWidget *parent = 0);
+    ~KohdennusMuokkaus();
 
-public:
     bool nollaa();
     bool tallenna();
     bool onkoMuokattu();
 
 public slots:
-    void vaihdaLogo();
-    void ilmoitaMuokattu();
+    void uusi();
+    void muokkaa();
+    void poista();
 
-private:
-    Ui::Perusvalinnat *ui;
-    QImage uusilogo;
+    /**
+     * @brief Kun rivi on valittu, merkitsee mitä nappia voi painaa (Muokkaa, Poista)
+     * @param index
+     */
+    void riviValittu(const QModelIndex& index);
+
+protected:
+    Ui::Kohdennukset *ui;
+    KohdennusModel *model;
+    QSortFilterProxyModel *proxy;
+
 };
 
-#endif // PERUSVALINNAT_H
+#endif // KOHDENNUSMUOKKAUS_H

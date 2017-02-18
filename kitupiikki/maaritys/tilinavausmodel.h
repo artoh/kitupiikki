@@ -57,6 +57,8 @@ public:
      */
     bool voikoMuokata();
 
+    bool onkoMuokattu() const { return muokattu_; }
+
 public slots:
     void lataa();
     bool tallenna();
@@ -68,6 +70,7 @@ signals:
 
 protected:
     QMap<int,int> saldot;
+    bool muokattu_;
 };
 
 #endif // TILINAVAUSMODEL_H

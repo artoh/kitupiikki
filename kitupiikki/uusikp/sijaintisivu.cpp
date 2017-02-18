@@ -59,7 +59,7 @@ void SijaintiSivu::initializePage()
             .replace("å","a").replace("Å","A")
             .replace(QRegularExpression("[^a-zA-Z0-9]"),"");
 
-    if( field("harjoittelu").toBool() )
+    if( field("harjoitus").toBool() )
         nimi += "-kokeilu";
     else
         nimi += "-kirjanpito";

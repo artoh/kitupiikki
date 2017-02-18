@@ -31,6 +31,11 @@
         <file>ok.png</file>
         <file>peru.png</file>
         <file>roskis.png</file>
+        <file>kohdennus.png</file>
+        <file>projekti.png</file>
+        <file>muokkaa.png</file>
+        <file>kirjalaatikko.png</file>
+        <file>varoitus.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

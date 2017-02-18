@@ -23,7 +23,8 @@ CREATE TABLE tilikausi (
 CREATE TABLE tositelaji (
     id       INTEGER         PRIMARY KEY AUTOINCREMENT,
     tunnus   VARCHAR(5)      UNIQUE NOT NULL,
-    nimi VARCHAR (60) NOT NULL
+    nimi     VARCHAR (60)    NOT NULL,
+    json     TEXT
 );
 
 INSERT INTO tositelaji ( id, tunnus,nimi) VALUES
@@ -51,7 +52,7 @@ CREATE TABLE kohdennus (
     tyyppi INTEGER  NOT NULL
 );
 
-INSERT INTO kohdennus(id, nimi, tyyppi) VALUES(0,"",0);
+INSERT INTO kohdennus(id, nimi, tyyppi) VALUES(0,"(Ei kohdennusta)",0);
 
 
 CREATE TABLE vienti (

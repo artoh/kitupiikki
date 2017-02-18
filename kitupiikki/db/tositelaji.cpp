@@ -17,22 +17,24 @@
 
 #include "tositelaji.h"
 
+#include <QSqlQuery>
+
 Tositelaji::Tositelaji() :
     id_(0), muokattu_(false)
 {
 
 }
 
-Tositelaji::Tositelaji(int id, QString tunnus, QString nimi) :
+Tositelaji::Tositelaji(int id, QString tunnus, QString nimi, QByteArray json) :
     id_(id), tunnus_(tunnus), nimi_(nimi), muokattu_(false)
 {
-
+    if( !json.isEmpty())
+        json_.fromJson(json);
 }
 
 void Tositelaji::asetaId(int id)
 {
     id_ = id;
-    muokattu_ = true;
 }
 
 void Tositelaji::asetaTunnus(const QString &tunnus)
@@ -50,5 +52,17 @@ void Tositelaji::asetaNimi(const QString &nimi)
 void Tositelaji::nollaaMuokattu()
 {
     muokattu_ = false;
+}
+
+int Tositelaji::montakoTositetta() const
+{
+    if( id() == 0)
+        return 0;
+
+    QSqlQuery kysely( QString("SELECT COUNT(id) FROM tosite WHERE laji=%1").arg( id()) );
+    if( kysely.next())
+        return kysely.value(0).toInt();
+
+    return 0;
 }
 

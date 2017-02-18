@@ -29,6 +29,7 @@
 #include "tilinavaus.h"
 #include "tositelajit.h"
 #include "tilikarttamuokkaus.h"
+#include "kohdennusmuokkaus.h"
 
 #include <QDebug>
 
@@ -39,9 +40,10 @@ MaaritysSivu::MaaritysSivu() :
     lista = new QListWidget;
 
     lisaaSivu("Perusvalinnat", PERUSVALINNAT, QIcon(":/pic/asetusloota.png"));
-    lisaaSivu("Tilinavaus", TILINAVAUS, QIcon(":/pic/rahaa.png"));
-    lisaaSivu("Tositelajit", TOSITELAJIT, QIcon(":/pic/kansiot.png"));
     lisaaSivu("Tilikartta", TILIKARTTA, QIcon(":/pic/valilehdet.png"));
+    lisaaSivu("Tositelajit", TOSITELAJIT, QIcon(":/pic/kansiot.png"));
+    lisaaSivu("Kohdennukset", KOHDENNUS, QIcon(":/pic/kohdennus.png"));
+    lisaaSivu("Tilinavaus", TILINAVAUS, QIcon(":/pic/rahaa.png"));
 
     connect( lista, SIGNAL(itemActivated(QListWidgetItem*)), this, SLOT(valitseSivu(QListWidgetItem*)));
 
@@ -53,10 +55,12 @@ MaaritysSivu::MaaritysSivu() :
 
     QHBoxLayout *nappiLeiska = new QHBoxLayout;
     nappiLeiska->addStretch();
-    QPushButton *perunappi = new QPushButton(tr("Peru"));
-    QPushButton *tallennanappi = new QPushButton( tr("Tallenna"));
-    nappiLeiska->addWidget(perunappi);
+    perunappi = new QPushButton(tr("Peru"));
+    tallennanappi = new QPushButton( tr("Tallenna"));
+    tallennanappi->setShortcut(QKeySequence(QKeySequence::Save));
+
     nappiLeiska->addWidget(tallennanappi);
+    nappiLeiska->addWidget(perunappi);
 
     sivuleiska->addLayout(nappiLeiska);
 
@@ -93,13 +97,20 @@ bool MaaritysSivu::poistuSivulta()
 void MaaritysSivu::peru()
 {
     if( nykyinen )
+    {
         nykyinen->nollaa();
+        tallennanappi->setEnabled( nykyinen->onkoMuokattu());
+    }
 }
 
 void MaaritysSivu::tallenna()
 {
     if( nykyinen )
+    {
         nykyinen->tallenna();
+        tallennanappi->setEnabled( nykyinen->onkoMuokattu());
+    }
+
 }
 
 
@@ -133,23 +144,37 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         nykyinen = new Tositelajit;
     else if( sivu == TILIKARTTA)
         nykyinen = new TilikarttaMuokkaus;
+    else if( sivu == KOHDENNUS)
+        nykyinen = new KohdennusMuokkaus;
 
     nykyItem = item;
 
     if( nykyinen )
     {
         sivuleiska->insertWidget(0, nykyinen );
+        qApp->processEvents();  // Jotta tulee näkyväksi ja voidaan säätää kokoa
         nykyinen->nollaa();
     }
 
     item->setSelected(true);
+
+    perunappi->setVisible( item->data(Qt::UserRole+1).toBool() );
+    tallennanappi->setVisible( item->data(Qt::UserRole+1).toBool());
+
+    if( tallennanappi->isVisible())
+    {
+        tallennanappi->setEnabled( nykyinen->onkoMuokattu() );
+        connect( nykyinen, SIGNAL(tallennaKaytossa(bool)), tallennanappi, SLOT(setEnabled(bool)));
+    }
+
 }
 
-void MaaritysSivu::lisaaSivu(const QString &otsikko, MaaritysSivu::Sivut sivu, const QIcon &kuvake)
+void MaaritysSivu::lisaaSivu(const QString &otsikko, MaaritysSivu::Sivut sivu, const QIcon &kuvake, bool tallennaPeruNapit)
 {
     QListWidgetItem *item = new QListWidgetItem();
     item->setText( otsikko );
     item->setIcon(kuvake);
     item->setData( Qt::UserRole, QVariant(sivu));
+    item->setData( Qt::UserRole+1, QVariant( tallennaPeruNapit ));  // Näytetäänkö alarivin napit
     lista->addItem( item);
 }
