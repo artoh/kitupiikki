@@ -151,12 +151,22 @@ public:
 signals:
     /**
      * @brief Tietokanta on avattu
+     *
+     * Kirjanpito vaihtui ja kaikki tiedot ladataan uudelleen
      */
     void tietokantaVaihtui();
     /**
      * @brief Kirjanpitoa on muokattu (tallennettu muokattu vienti)
      */
     void kirjanpitoaMuokattu();
+
+    /**
+     * @brief Tilikausi on päätetty
+     *
+     * Päätetylle tilikaudelle ei voi enää kirjata mitään. Siksi tilikauden päättäminen vaikuttaa
+     * eri valintoihin, ja siitä ilmoitetaan signaalilla.
+     */
+    void tilikausiPaatetty();
 
 public slots:
     /**

@@ -73,6 +73,7 @@ MaaritysSivu::MaaritysSivu() :
 
     connect( perunappi, SIGNAL(clicked(bool)), this, SLOT(peru()));
     connect( tallennanappi, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
+    connect( kp(), SIGNAL(tilikausiPaatetty()), this, SLOT(paivitaNakyvat()));
 
 }
 
