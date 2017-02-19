@@ -36,8 +36,7 @@ Perusvalinnat::Perusvalinnat() :
 
     connect( ui->organisaatioEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
     connect( ui->ytunnusEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
-    connect( ui->alvRyhma, SIGNAL(clicked(bool)), this, SLOT(ilmoitaMuokattu()));
-    connect( ui->alvTehtyDate, SIGNAL(dateChanged(QDate)), this, SLOT(ilmoitaMuokattu()));
+    connect( ui->alvCheck, SIGNAL(clicked(bool)), this, SLOT(ilmoitaMuokattu()));
 
 }
 
@@ -50,6 +49,7 @@ bool Perusvalinnat::nollaa()
 {
     ui->organisaatioEdit->setText( Kirjanpito::db()->asetus("Nimi") );
     ui->ytunnusEdit->setText( Kirjanpito::db()->asetus("Ytunnus"));
+    ui->alvCheck->setChecked( kp()->asetukset()->onko("AlvVelvollinen"));
 
     uusilogo = QImage();
 
@@ -82,6 +82,7 @@ bool Perusvalinnat::onkoMuokattu()
 {
     return  ui->organisaatioEdit->text() != kp()->asetus("Nimi")  ||
             ui->ytunnusEdit->text() != kp()->asetus("Ytunnus") ||
+            ui->alvCheck->isChecked() != kp()->asetukset()->onko("AlvVelvollinen") ||
             !uusilogo.isNull();
 }
 
@@ -89,6 +90,7 @@ bool Perusvalinnat::tallenna()
 {
     kp()->asetukset()->aseta("Nimi", ui->organisaatioEdit->text());
     kp()->asetukset()->aseta("Ytunnus", ui->ytunnusEdit->text());
+    kp()->asetukset()->aseta("AlvVelvollinen", ui->alvCheck->isChecked());
 
     // Logosta tallennetaan logo64.png ja logo128.png -versiot
     if( !uusilogo.isNull())
@@ -106,5 +108,8 @@ bool Perusvalinnat::tallenna()
         uusilogo.scaled(128, 128, Qt::KeepAspectRatio).save( Kirjanpito::db()->hakemisto().absoluteFilePath("logo128.png")  );
     }
     uusilogo = QImage();
+
+    emit asetuksiaMuutettu();   // alv-verovelvollisuus vaikuttaa verovälilehden näkymiseen
+
     return true;
 }

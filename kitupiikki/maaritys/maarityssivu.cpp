@@ -45,6 +45,11 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu("Kohdennukset", KOHDENNUS, QIcon(":/pic/kohdennus.png"));
     lisaaSivu("Tilinavaus", TILINAVAUS, QIcon(":/pic/rahaa.png"));
 
+    // Nämä vielä paikanpitäjiä...
+    lisaaSivu("Tilikaudet", TILIKAUDET, QIcon(":/pic/kirjalaatikko.png"), false );
+    lisaaSivu("Arvonlisävero", ALV, QIcon(":/pic/karhu.png"));
+    lisaaSivu("Työkalut", TYOKALUT, QIcon(":/pic/vasara.png"), false);
+
     connect( lista, SIGNAL(itemActivated(QListWidgetItem*)), this, SLOT(valitseSivu(QListWidgetItem*)));
 
     QHBoxLayout *leiska = new QHBoxLayout;
@@ -69,13 +74,12 @@ MaaritysSivu::MaaritysSivu() :
     connect( perunappi, SIGNAL(clicked(bool)), this, SLOT(peru()));
     connect( tallennanappi, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
 
-
-
 }
 
 void MaaritysSivu::siirrySivulle()
 {
     valitseSivu( lista->item(0) );
+    paivitaNakyvat();   // Piilottaa luettelosta ne valinnat, jotka eivät ole käytössä
 }
 
 bool MaaritysSivu::poistuSivulta()
@@ -146,6 +150,8 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         nykyinen = new TilikarttaMuokkaus;
     else if( sivu == KOHDENNUS)
         nykyinen = new KohdennusMuokkaus;
+    else
+        nykyinen = new Perusvalinnat;   // Tilipäinen
 
     nykyItem = item;
 
@@ -165,7 +171,22 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
     {
         tallennanappi->setEnabled( nykyinen->onkoMuokattu() );
         connect( nykyinen, SIGNAL(tallennaKaytossa(bool)), tallennanappi, SLOT(setEnabled(bool)));
+        connect( nykyinen, SIGNAL(asetuksiaMuutettu()), this, SLOT(paivitaNakyvat()));
     }
+
+}
+
+void MaaritysSivu::paivitaNakyvat()
+{
+    // ALV
+    // Jos merkitty alv-velvolliseksi
+    QListWidgetItem *item = lista->item( ALV );
+    item->setHidden( !kp()->asetukset()->onko("AlvVelvollinen") );
+
+    // Tilinavaus
+    // Jos tilit avattavissa eikä avaustilikautta ole vielä päätetty
+    item = lista->item( TILINAVAUS );
+    item->setHidden( kp()->asetukset()->luku("Tilinavaus") == 0 || kp()->tilitpaatetty() != kp()->asetukset()->pvm("TilinavausPvm") );
 
 }
 

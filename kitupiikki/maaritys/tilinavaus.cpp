@@ -30,7 +30,6 @@ Tilinavaus::Tilinavaus(QWidget *parent) : MaaritysWidget(parent)
     ui->tiliView->setItemDelegateForColumn( TilinavausModel::SALDO, new EuroDelegaatti);
 
     ui->tiliView->resizeColumnsToContents();
-    tsekkaaMuokkaus();
 
     connect(model, SIGNAL(infoteksti(QString)), this, SLOT(naytaInfo(QString)));
 }
@@ -44,11 +43,6 @@ void Tilinavaus::naytaInfo(QString info)
 {
     ui->infoLabel->setText(info);
     emit tallennaKaytossa( onkoMuokattu());
-}
-
-void Tilinavaus::tsekkaaMuokkaus()
-{
-    ui->tiliView->setEnabled(model->voikoMuokata());
 }
 
 bool Tilinavaus::nollaa()

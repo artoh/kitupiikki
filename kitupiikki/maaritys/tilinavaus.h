@@ -43,7 +43,6 @@ signals:
 
 public slots:
     void naytaInfo(QString info);
-    void tsekkaaMuokkaus();
 
 public:
     bool nollaa();

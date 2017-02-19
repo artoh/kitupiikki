@@ -103,74 +103,10 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="alvRyhma">
-     <property name="font">
-      <font>
-       <weight>50</weight>
-       <bold>false</bold>
-      </font>
+    <widget class="QCheckBox" name="alvCheck">
+     <property name="text">
+      <string>Arvonlisäverovelvollinen</string>
      </property>
-     <property name="title">
-      <string>Arvonlisäveron tilittäminen</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <widget class="QRadioButton" name="eiAlvRadio">
-        <property name="text">
-         <string>Ei arvonlisäverovelvollinen</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="alvKuukausiRadio">
-        <property name="text">
-         <string>Verokausi kalenterikuukausi</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="alvNeljannesRadio">
-        <property name="text">
-         <string>Verokausi neljänneskalenterivuosi</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="alvVuosiRadio">
-        <property name="text">
-         <string>Verokausi kalenterivuosi</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
-         <widget class="QLabel" name="label_4">
-          <property name="text">
-           <string>Arvonlisäveroilmoitukset tehty</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QDateEdit" name="alvTehtyDate">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_5">
-          <property name="text">
-           <string>saakka</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
     </widget>
    </item>
    <item>
@@ -189,22 +125,5 @@
   </layout>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>eiAlvRadio</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>alvTehtyDate</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>204</x>
-     <y>239</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>275</x>
-     <y>344</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

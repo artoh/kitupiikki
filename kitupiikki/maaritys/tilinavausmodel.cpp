@@ -124,13 +124,6 @@ bool TilinavausModel::setData(const QModelIndex &index, const QVariant &value, i
     return true;
 }
 
-bool TilinavausModel::voikoMuokata()
-{
-    QString avaus = Kirjanpito::db()->asetus("TilinavausPvm");
-    QString paatetty = Kirjanpito::db()->asetus("TilitPaatetty");
-
-    return ( !avaus.isEmpty() && avaus == paatetty);
-}
 
 void TilinavausModel::lataa()
 {

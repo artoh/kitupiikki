@@ -36,6 +36,8 @@
         <file>muokkaa.png</file>
         <file>kirjalaatikko.png</file>
         <file>varoitus.png</file>
+        <file>vasara.png</file>
+        <file>karhu.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

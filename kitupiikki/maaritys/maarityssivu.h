@@ -42,10 +42,13 @@ public:
     enum Sivut
     {
         PERUSVALINNAT,
-        TILINAVAUS,
-        TOSITELAJIT,
         TILIKARTTA,
-        KOHDENNUS
+        TOSITELAJIT,
+        KOHDENNUS,
+        TILINAVAUS,
+        TILIKAUDET,
+        ALV,
+        TYOKALUT
     };
 
 
@@ -69,6 +72,11 @@ public slots:
      * @param item Sivut-enum
      */
     void valitseSivu( QListWidgetItem *item);
+
+    /**
+     * @brief Päivittää määritysten mukaan sen, mitkä sivut näkyvät
+     */
+    void paivitaNakyvat();
 
 protected:
     /**

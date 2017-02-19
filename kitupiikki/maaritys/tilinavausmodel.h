@@ -51,12 +51,6 @@ public:
     Qt::ItemFlags flags(const QModelIndex &index) const;
     bool setData(const QModelIndex &index, const QVariant &value, int role);
 
-    /**
-     * @brief Voiko tilinavausta vielä muokata
-     * @return
-     */
-    bool voikoMuokata();
-
     bool onkoMuokattu() const { return muokattu_; }
 
 public slots:
