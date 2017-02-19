@@ -43,6 +43,7 @@ Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
     tiliModel_ = new TiliModel( &tietokanta_, this);
     tilikaudetModel_ = new TilikausiModel(&tietokanta_, this);
     kohdennukset_ = new KohdennusModel(&tietokanta_, this);
+    veroTyypit_ = new VerotyyppiModel(this);
 }
 
 Kirjanpito::~Kirjanpito()
@@ -108,6 +109,7 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
     tositelajiModel_->lataa();
     tiliModel_->lataa();
     tilikaudetModel_->lataa();
+    kohdennukset_->lataa();
 
 
     polkuTiedostoon_ = tiedosto;

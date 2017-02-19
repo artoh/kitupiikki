@@ -279,7 +279,7 @@ void KirjausWg::liiteValinta(const QModelIndex &valittu)
 
 void KirjausWg::kirjausApuri()
 {
-    KirjausApuriDialog dlg;
+    KirjausApuriDialog dlg( model_, this);
     dlg.exec();
 }
 

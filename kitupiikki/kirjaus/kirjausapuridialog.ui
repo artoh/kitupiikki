@@ -45,15 +45,15 @@
      <item row="1" column="0">
       <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>Brutto</string>
+        <string>Määrä</string>
        </property>
        <property name="buddy">
-        <cstring>bruttoSpin</cstring>
+        <cstring>euroSpin</cstring>
        </property>
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QDoubleSpinBox" name="bruttoSpin">
+      <widget class="QDoubleSpinBox" name="euroSpin">
        <property name="suffix">
         <string>€</string>
        </property>
@@ -66,9 +66,9 @@
       </widget>
      </item>
      <item row="2" column="0">
-      <widget class="QLabel" name="label_4">
+      <widget class="QLabel" name="nettoLabel">
        <property name="text">
-        <string>Netto</string>
+        <string>Veroton</string>
        </property>
        <property name="buddy">
         <cstring>nettoSpin</cstring>
@@ -107,12 +107,12 @@
         <string>Kohdennus</string>
        </property>
        <property name="buddy">
-        <cstring>kohdennusSpin</cstring>
+        <cstring>kohdennusCombo</cstring>
        </property>
       </widget>
      </item>
      <item row="4" column="1">
-      <widget class="QComboBox" name="kohdennusSpin"/>
+      <widget class="QComboBox" name="kohdennusCombo"/>
      </item>
      <item row="5" column="0">
       <widget class="QLabel" name="label_6">
@@ -141,7 +141,7 @@
       <widget class="QLineEdit" name="seliteEdit"/>
      </item>
      <item row="7" column="0">
-      <widget class="QLabel" name="label_8">
+      <widget class="QLabel" name="alvlajiLabel">
        <property name="text">
         <string>Alv-laji</string>
        </property>
@@ -154,7 +154,7 @@
       <widget class="QComboBox" name="alvCombo"/>
      </item>
      <item row="8" column="0">
-      <widget class="QLabel" name="label_9">
+      <widget class="QLabel" name="alvprossaLabel">
        <property name="text">
         <string>Alv-prosentti</string>
        </property>
@@ -208,8 +208,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>304</y>
+     <x>227</x>
+     <y>513</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -224,8 +224,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>310</y>
+     <x>295</x>
+     <y>519</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

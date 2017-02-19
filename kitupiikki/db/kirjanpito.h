@@ -40,6 +40,7 @@
 #include "tilikausimodel.h"
 #include "tositemodel.h"
 #include "kohdennusmodel.h"
+#include "verotyyppimodel.h"
 
 /**
  * @brief Kirjanpidon käsittely
@@ -139,6 +140,12 @@ public:
     KohdennusModel *kohdennukset() const { return kohdennukset_; }
 
     /**
+     * @brief Palauttaa alv-kirjauksen tyypit sisältävän modelin
+     * @return
+     */
+    VerotyyppiModel *alvTyypit() const { return veroTyypit_; }
+
+    /**
      * @brief Sql-tietokanta
      *
      * Tätä käytetään, kun modelin arvot luetaan suoraan tietokannasta, siis
@@ -200,6 +207,7 @@ protected:
     TiliModel *tiliModel_;
     TilikausiModel *tilikaudetModel_;
     KohdennusModel *kohdennukset_;
+    VerotyyppiModel *veroTyypit_;
 
 public:
     /**

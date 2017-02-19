@@ -63,7 +63,8 @@ SOURCES += main.cpp \
     maaritys/kohdennusmuokkaus.cpp \
     maaritys/kohdennusdialog.cpp \
     maaritys/tositelajidialogi.cpp \
-    kirjaus/kirjausapuridialog.cpp
+    kirjaus/kirjausapuridialog.cpp \
+    db/verotyyppimodel.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -118,7 +119,8 @@ HEADERS += \
     maaritys/kohdennusmuokkaus.h \
     maaritys/kohdennusdialog.h \
     maaritys/tositelajidialogi.h \
-    kirjaus/kirjausapuridialog.h
+    kirjaus/kirjausapuridialog.h \
+    db/verotyyppimodel.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

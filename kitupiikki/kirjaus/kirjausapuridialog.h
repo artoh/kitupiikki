@@ -18,6 +18,8 @@
 #ifndef KIRJAUSAPURIDIALOG_H
 #define KIRJAUSAPURIDIALOG_H
 
+#include "db/tositemodel.h"
+
 #include <QDialog>
 
 namespace Ui {
@@ -29,11 +31,29 @@ class KirjausApuriDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit KirjausApuriDialog(QWidget *parent = 0);
+    KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent = 0);
     ~KirjausApuriDialog();
+
+
+public slots:
+    void tiliTaytetty();
+    void laskeNetto();
+    void laskeBrutto();
+    void laskeVerolla();
+    void alvLajiMuuttui();
+
+    void tarkasta();
+
+protected:
+    void teeEhdotus(const QString& teksti, bool tiliOnDebet, const QIcon& kuvake = QIcon());
 
 private:
     Ui::KirjausApuriDialog *ui;
+    TositeModel *model;
+
+    double bruttoEur = 0.0;
+    double nettoEur = 0.0;
+
 };
 
 #endif // KIRJAUSAPURIDIALOG_H

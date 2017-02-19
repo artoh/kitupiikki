@@ -130,7 +130,10 @@ bool KohdennusModel::setData(const QModelIndex &index, const QVariant &value, in
     {
         kohdennukset_[index.row()].asetaPaattyy( value.toDate());
     }
-    return false;
+    else
+        return false;
+
+    return true;
 }
 
 QString KohdennusModel::nimi(int id) const
