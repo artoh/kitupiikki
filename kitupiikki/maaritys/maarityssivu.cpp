@@ -78,8 +78,8 @@ MaaritysSivu::MaaritysSivu() :
 
 void MaaritysSivu::siirrySivulle()
 {
-    valitseSivu( lista->item(0) );
     paivitaNakyvat();   // Piilottaa luettelosta ne valinnat, jotka eivät ole käytössä
+    valitseSivu( lista->item(0) );
 }
 
 bool MaaritysSivu::poistuSivulta()
@@ -91,9 +91,14 @@ bool MaaritysSivu::poistuSivulta()
         {
             return false;
         }
+    }
+
+    if( nykyinen )
+    {
         delete nykyinen;
         nykyinen = 0;
     }
+
     return true;
 }
 
@@ -113,6 +118,7 @@ void MaaritysSivu::tallenna()
     {
         nykyinen->tallenna();
         tallennanappi->setEnabled( nykyinen->onkoMuokattu());
+        paivitaNakyvat();
     }
 
 }
@@ -171,7 +177,6 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
     {
         tallennanappi->setEnabled( nykyinen->onkoMuokattu() );
         connect( nykyinen, SIGNAL(tallennaKaytossa(bool)), tallennanappi, SLOT(setEnabled(bool)));
-        connect( nykyinen, SIGNAL(asetuksiaMuutettu()), this, SLOT(paivitaNakyvat()));
     }
 
 }

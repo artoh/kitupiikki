@@ -45,13 +45,6 @@ signals:
      */
     void tallennaKaytossa(bool onko);
 
-    /**
-     * @brief Ilmoittaa, kun on muutettu sellaisia asetuksia, jotka vaikuttavat välilehtiin
-     *
-     * Esimerkiksi alv-velvollisuus näyttää alv-välilehden ja riippuen tilinpäätöspäivästä piilotetaan tilinavausvälilehti
-     */
-    void asetuksiaMuutettu();
-
 public:
     /**
      * @brief Lataa näytettävälle sivulle tallennetut tiedot

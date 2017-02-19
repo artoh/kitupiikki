@@ -109,7 +109,5 @@ bool Perusvalinnat::tallenna()
     }
     uusilogo = QImage();
 
-    emit asetuksiaMuutettu();   // alv-verovelvollisuus vaikuttaa verovälilehden näkymiseen
-
     return true;
 }
