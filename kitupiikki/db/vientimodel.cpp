@@ -214,7 +214,21 @@ Qt::ItemFlags VientiModel::flags(const QModelIndex &index) const
     // päätetyllä tilikaudella) eikä ole automaattinen alv-nettokirjaus
 
     if( tositeModel_->muokkausSallittu() && rivi.riviNro < 10000 )
+    {
+        // Alv-saraketta ei voi suoraan muokata, vaan siihen tarvitaan oma dialogi
+        // Samoin kohdennusta voi muokata vain, jos tili ei ole tasetili
+        if( index.column() == ALV )
+        {
+            return QAbstractTableModel::flags(index);
+        }
+        else if( index.column() == KOHDENNUS)
+        {
+            if( !rivi.tili.numero() || rivi.tili.onkoTasetili())
+                return QAbstractTableModel::flags(index);
+        }
+
         return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
+    }
     else
         return QAbstractTableModel::flags(index);
 }

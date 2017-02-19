@@ -97,6 +97,11 @@ public slots:
      */
     void liiteValinta(const QModelIndex& valittu);
 
+    /**
+     * @brief Näyttää kirjausapurin
+     */
+    void kirjausApuri();
+
 signals:
     void liiteValittu(const QString& tiedostopolku);
     /**

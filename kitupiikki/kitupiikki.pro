@@ -62,7 +62,8 @@ SOURCES += main.cpp \
     maaritys/tilinmuokkausdialog.cpp \
     maaritys/kohdennusmuokkaus.cpp \
     maaritys/kohdennusdialog.cpp \
-    maaritys/tositelajidialogi.cpp
+    maaritys/tositelajidialogi.cpp \
+    kirjaus/kirjausapuridialog.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -116,7 +117,8 @@ HEADERS += \
     maaritys/tilinmuokkausdialog.h \
     maaritys/kohdennusmuokkaus.h \
     maaritys/kohdennusdialog.h \
-    maaritys/tositelajidialogi.h
+    maaritys/tositelajidialogi.h \
+    kirjaus/kirjausapuridialog.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -144,7 +146,8 @@ FORMS += \
     db/tilinvalintadialogi.ui \
     maaritys/kohdennukset.ui \
     maaritys/kohdennusdialog.ui \
-    maaritys/tositelajidialogi.ui
+    maaritys/tositelajidialogi.ui \
+    kirjaus/kirjausapuridialog.ui
 
 DISTFILES += \
     uusikp/luo.sql \

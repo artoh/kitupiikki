@@ -48,6 +48,7 @@ public:
         TILINAVAUS,
         TILIKAUDET,
         ALV,
+        RAPORTIT,
         TYOKALUT
     };
 

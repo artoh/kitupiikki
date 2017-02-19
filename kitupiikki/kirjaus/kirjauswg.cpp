@@ -21,6 +21,7 @@
 #include "pvmdelegaatti.h"
 
 #include "db/kirjanpito.h"
+#include "kirjausapuridialog.h"
 
 #include <QDebug>
 #include <QSqlQuery>
@@ -55,6 +56,7 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( ui->tallennaButton, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
     connect( ui->hylkaaNappi, SIGNAL(clicked(bool)), this, SLOT(hylkaa()));
     connect( ui->kommentitEdit, SIGNAL(textChanged()), this, SLOT(paivitaKommenttiMerkki()));
+    connect( ui->apuriNappi, SIGNAL(clicked(bool)), this, SLOT(kirjausApuri()));
 
     ui->tositetyyppiCombo->setModel( Kirjanpito::db()->tositelajit());
     ui->tositetyyppiCombo->setModelColumn( TositelajiModel::NIMI);
@@ -273,5 +275,11 @@ void KirjausWg::liiteValinta(const QModelIndex &valittu)
         ui->poistaLiiteNappi->setEnabled(true);
         emit liiteValittu( valittu.data(LiiteModel::Polkurooli).toString() );
     }
+}
+
+void KirjausWg::kirjausApuri()
+{
+    KirjausApuriDialog dlg;
+    dlg.exec();
 }
 

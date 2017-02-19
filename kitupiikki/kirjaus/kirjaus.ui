@@ -312,16 +312,16 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="apuriNappi">
        <property name="text">
-        <string>Avustaja (F12)</string>
+        <string>Avustaja </string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/taikuri.png</normaloff>:/pic/taikuri.png</iconset>
        </property>
        <property name="shortcut">
-        <string>F12</string>
+        <string>Return</string>
        </property>
       </widget>
      </item>
