@@ -133,14 +133,22 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
 
             case ALV:
                 if( rivi.alvkoodi == AlvKoodi::EIALV)
-                    return QVariant("-");
+                    return QVariant();
                 else
                     return QVariant( QString("%1 %").arg(rivi.alvprosentti));
                 // TODO: Alv-lajit (esim. pieninä kuvakkeina)
 
 
             case SELITE: return QVariant( rivi.selite );
-            case KOHDENNUS: return QVariant(rivi.kohdennus.nimi()  );
+            case KOHDENNUS:
+                if( role == Qt::DisplayRole)
+                    if( rivi.kohdennus.tyyppi() == Kohdennus::EIKOHDENNETA)
+                        // Ei kohdennusta näyttää tyhjää
+                        return QVariant();
+                    else
+                        return QVariant(rivi.kohdennus.nimi()  );
+                else if(role == Qt::EditRole)
+                    return QVariant( rivi.kohdennus.id());
         }
     }
     else if( role == Qt::TextAlignmentRole)
@@ -149,6 +157,14 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
             return QVariant(Qt::AlignRight | Qt::AlignVCenter);
         else
             return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
+
+    }
+    else if( role == Qt::DecorationRole && index.column() == KOHDENNUS)
+    {
+        if( rivi.kohdennus.tyyppi() == Kohdennus::PROJEKTI)
+            return QIcon(":/pic/projekti.png");
+        else if( rivi.kohdennus.tyyppi() == Kohdennus::KUSTANNUSPAIKKA)
+            return QIcon(":/pic/kohdennus.png");
 
     }
     return QVariant();
@@ -196,7 +212,7 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
             if(value.toInt())
             {
                 viennit_[index.row()].kreditSnt = 0;
-                emit siirryRuutuun(index.sibling(index.row(), SELITE));
+                emit siirryRuutuun(index.sibling(index.row(), KOHDENNUS));
             }
             emit muuttunut();
             return true;
@@ -204,8 +220,12 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
             viennit_[index.row()].kreditSnt = value.toInt();
             if( value.toInt())
             viennit_[index.row()].debetSnt = 0;
-            emit siirryRuutuun(index.sibling(index.row(), SELITE));
+            emit siirryRuutuun(index.sibling(index.row(), KOHDENNUS));
             emit muuttunut();
+            return true;
+        case KOHDENNUS:
+            viennit_[rivi].kohdennus = kp()->kohdennukset()->kohdennus(value.toInt());
+            qDebug() << kp()->kohdennukset()->kohdennus( value.toInt()).nimi()  << " ****" << value;
             return true;
         default:
             return false;
@@ -222,9 +242,15 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
     else if( role == SeliteRooli)
         viennit_[rivi].selite = value.toString();
     else if( role == DebetRooli)
+    {
         viennit_[rivi].debetSnt = value.toInt();
+        emit muuttunut();
+    }
     else if( role == KreditRooli)
+    {
         viennit_[rivi].kreditSnt = value.toInt();
+        emit muuttunut();
+    }
     else if( role == KohdennusRooli)
         viennit_[rivi].kohdennus=kp()->kohdennukset()->kohdennus( value.toInt());
     else
@@ -275,6 +301,19 @@ bool VientiModel::insertRows(int row, int count, const QModelIndex & /* parent *
 bool VientiModel::lisaaRivi()
 {
     return insertRows( rowCount(QModelIndex()), 1, QModelIndex() );
+
+}
+
+void VientiModel::poistaRivi(int rivi)
+{
+    // Jos vienti on tietokannassa, pitää se poistaa myöskin sieltä
+    if( viennit_[rivi].vientiId)
+        poistetutVientiIdt_.append( viennit_[rivi].vientiId);
+
+    beginRemoveColumns( QModelIndex(), rivi, rivi);
+    viennit_.removeAt(rivi);
+    endRemoveRows();
+    emit muuttunut();       // Rivin poisto muuttaa debet/kredit täsmäystä
 
 }
 
@@ -371,7 +410,10 @@ void VientiModel::tallenna()
             viennit_[i].vientiId = query.lastInsertId().toInt();
     }
     // Lopuksi pitäisi vielä poistaa ne rivit, jotka on poistettu...
-    // Tätä varten voisi ylläpitää poistettujen vientien Id-listaa
+    foreach (int id, poistetutVientiIdt_)
+    {
+        query.exec( QString("DELETE FROM vienti WHERE id=%1").arg(id));
+    }
 
     muokattu_ = false;
 }
@@ -428,28 +470,49 @@ VientiRivi VientiModel::uusiRivi()
 {
     VientiRivi uusirivi;
 
-    uusirivi.pvm = tositeModel_->pvm();
     uusirivi.riviNro = seuraavaRiviNumero();
 
     int debetit = debetSumma();
     int kreditit = kreditSumma();
 
-    // Ensimmäiseen vientiin kopioidaan tositteen otsikko
+    // Ensimmäiseen vientiin kopioidaan tositteen otsikko ja päivämäärä
     if( !viennit_.count() )
-        uusirivi.selite = tositeModel_->otsikko();
-    // Täytetään automaattisesti, elleivät tilit vielä täsmää
-    else if( kreditit >= 0 && debetit >= 0 && kreditit != debetit)
     {
-        if( kreditit > debetit)
-            uusirivi.debetSnt = kreditit - debetit;
-        else
-            uusirivi.kreditSnt = debetit - kreditit;
+        // Uuden rivin pvm tositteen päivämäärästä
+        // Jos tositetyypille on määrätty oletustili, otetaan se käyttöön
+        uusirivi.pvm = tositeModel_->pvm();
+        uusirivi.selite = tositeModel_->otsikko();
 
-        uusirivi.selite = viennit_.last().selite;
+        if( tositeModel_->tositelaji().json()->luku("Oletustili") )
+            uusirivi.tili = kp()->tilit()->tiliNumerolla(  tositeModel_->tositelaji().json()->luku("Oletustili") );
     }
+    else
+    {
+        // Päivämäärä edellisestä kirjauksesta
+        uusirivi.pvm = viennit_.last().pvm;
 
-    // TODO: Tilin "arvaaminen"
+        // Jos kirjaukset eivät täsmää, tarvitaan vastatiliä jolle lasketaan jo vastatilisummaa
+        if( kreditit >= 0 && debetit >= 0 && kreditit != debetit && viennit_.count())
+        {
+            if( kreditit > debetit)
+                uusirivi.debetSnt = kreditit - debetit;
+            else
+                uusirivi.kreditSnt = debetit - kreditit;
 
+            uusirivi.selite = viennit_.last().selite;
+
+            // Arvataan edellisen tilin vastatiliä tai tositelajin vastatiliä
+            Tili edellinen = viennit_.last().tili;
+            if( edellinen.json()->luku("Vastatili"))
+            {
+                uusirivi.tili = kp()->tilit()->tiliNumerolla( edellinen.json()->luku("Vastatili") );
+            }
+            else if( tositeModel_->tositelaji().json()->luku("Vastatili"))
+            {
+                uusirivi.tili = kp()->tilit()->tiliNumerolla(  tositeModel_->tositelaji().json()->luku("Vastatili") );
+            }
+        }
+    }
 
     return uusirivi;
 }
@@ -459,8 +522,7 @@ int VientiModel::seuraavaRiviNumero()
     int seuraava = 1;
     foreach (VientiRivi rivi, viennit_)
     {
-        // 10000 suuremmat rivinumerot ovat alv-vientejä
-        if( rivi.riviNro >= seuraava && rivi.riviNro < 10000)
+        if( rivi.riviNro >= seuraava )
             seuraava = rivi.riviNro + 1;
     }
     return seuraava;

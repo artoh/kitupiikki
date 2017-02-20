@@ -78,6 +78,8 @@ QVariant TositelajiModel::data(const QModelIndex &index, int role) const
         return laji.montakoTositetta();
     else if( role == KirjausTyyppiRooli)
         return QVariant( laji.json()->luku("Kirjaustyyppi"));
+    else if( role == OletustiliRooli)
+        return QVariant( laji.json()->luku("Oletustili"));
 
     else if( role == Qt::DisplayRole || role == Qt::EditRole)
     {
@@ -133,6 +135,8 @@ bool TositelajiModel::setData(const QModelIndex &index, const QVariant &value, i
         else
             lajit_[index.row()].json()->unset("Kirjaustyyppi");
     }
+    else if( role == OletustiliRooli)
+        lajit_[index.row()].json()->set("Oletustili", value.toInt());
 
     return false;
 }
@@ -174,6 +178,15 @@ Tositelaji TositelajiModel::tositelaji(int id) const
             return laji;
     }
     return Tositelaji();
+}
+
+QModelIndex TositelajiModel::lisaaRivi()
+{
+    beginInsertRows( QModelIndex(), lajit_.count(), lajit_.count() );
+    lajit_.append( Tositelaji() );
+    endInsertRows();
+    return index( lajit_.count()-1, 0);
+
 }
 
 void TositelajiModel::lataa()
@@ -233,9 +246,4 @@ bool TositelajiModel::tallenna()
     return true;
 }
 
-void TositelajiModel::lisaaRivi(Tositelaji laji)
-{
-    beginInsertRows( QModelIndex(), lajit_.count(), lajit_.count() );
-    lajit_.append( laji );
-    endInsertRows();
-}
+

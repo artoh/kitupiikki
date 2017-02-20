@@ -50,6 +50,7 @@ public:
 
 public slots:
     void lisaaRivi();
+    void poistaRivi();
     void tyhjenna();
     void tallenna();
     void hylkaa();

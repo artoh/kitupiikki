@@ -24,7 +24,11 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="tunnusEdit"/>
+      <widget class="QLineEdit" name="tunnusEdit">
+       <property name="maxLength">
+        <number>6</number>
+       </property>
+      </widget>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label_2">
@@ -36,15 +40,33 @@
      <item row="1" column="1">
       <widget class="QLineEdit" name="nimiEdit"/>
      </item>
-     <item row="2" column="0">
+     <item row="3" column="0">
       <widget class="QLabel" name="label_3">
        <property name="text">
         <string>Oletusvastatili</string>
        </property>
       </widget>
      </item>
+     <item row="3" column="1">
+      <widget class="TilinvalintaLine" name="vastatiliEdit">
+       <property name="placeholderText">
+        <string>Kirjausten oletustasetili</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Oletustili</string>
+       </property>
+      </widget>
+     </item>
      <item row="2" column="1">
-      <widget class="TilinvalintaLine" name="vastatiliEdit"/>
+      <widget class="TilinvalintaLine" name="oletusTiliEdit">
+       <property name="placeholderText">
+        <string>Kirjausten oletustili (meno- tai tulotili)</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -110,6 +132,16 @@
    <header>db/tilinvalintaline.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>tunnusEdit</tabstop>
+  <tabstop>nimiEdit</tabstop>
+  <tabstop>oletusTiliEdit</tabstop>
+  <tabstop>vastatiliEdit</tabstop>
+  <tabstop>kaikkiRadio</tabstop>
+  <tabstop>ostoRadio</tabstop>
+  <tabstop>myyntiRadio</tabstop>
+  <tabstop>tilioteRadio</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

@@ -52,7 +52,8 @@ public:
         NimiRooli = Qt::UserRole + 2,
         VastatiliNroRooli = Qt::UserRole + 3,
         TositeMaaraRooli = Qt::UserRole +4,
-        KirjausTyyppiRooli = Qt::UserRole + 5
+        KirjausTyyppiRooli = Qt::UserRole + 5,
+        OletustiliRooli = Qt::UserRole + 6
 
     };
 
@@ -71,10 +72,12 @@ public:
 
     Tositelaji tositelaji(int id) const;
 
+    QModelIndex lisaaRivi();
+
+
 public slots:
     void lataa();
     bool tallenna();
-    void lisaaRivi(Tositelaji laji);
 
 protected:
     QList<Tositelaji> lajit_;

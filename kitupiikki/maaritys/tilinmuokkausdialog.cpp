@@ -103,9 +103,15 @@ void TilinMuokkausDialog::lataa()
 
     int alvlaji = tili.json()->luku("AlvLaji");
 
-    qDebug() << "Laji " << alvlaji;
-
     ui->veroCombo->setCurrentIndex( ui->veroCombo->findData( alvlaji ) );
+
+    // Ellei alv-toimintoja käytettävissä, ne piilotetaan
+    bool alvKaytossa = kp()->asetukset()->onko("AlvVelvollinen");
+    ui->verolajiLabel->setVisible( alvKaytossa );
+    ui->veroCombo->setVisible( alvKaytossa );
+    ui->veroprosenttiLabel->setVisible( alvKaytossa );
+    ui->veroSpin->setVisible( alvKaytossa);
+
 
     tarkasta();
 }

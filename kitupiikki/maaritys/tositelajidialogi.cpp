@@ -36,6 +36,7 @@ TositelajiDialogi::TositelajiDialogi(TositelajiModel *model, const QModelIndex &
     else
         ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 
+    ui->oletusTiliEdit->suodataTyypilla("[CD].*");
     ui->vastatiliEdit->suodataTyypilla("[AB].*");
 
     connect( ui->tunnusEdit, SIGNAL(textEdited(QString)), this, SLOT(tarkasta()));
@@ -101,6 +102,8 @@ void TositelajiDialogi::vastatilivalittu()
 {
     Tili tili = kp()->tilit()->tiliNumerolla( ui->vastatiliEdit->valittuTilinumero() );
     ui->tilioteRadio->setEnabled( tili.onkoRahaTili() );
+    if( tili.onkoRahaTili())
+        ui->tilioteRadio->setText( tr("Tiliotteita tilille %1 %2").arg(tili.numero()).arg(tili.nimi()));
 
 
 }
@@ -116,24 +119,15 @@ void TositelajiDialogi::accept()
         kirjaustyyppi = TositelajiModel::TILIOTE;
 
 
-    if( indeksi_.isValid())
-    {
-        model_->setData( indeksi_.sibling( indeksi_.row(), TositelajiModel::TUNNUS ) , ui->tunnusEdit->text(), Qt::EditRole );
-        model_->setData( indeksi_.sibling( indeksi_.row(), TositelajiModel::NIMI ) , ui->nimiEdit->text(), Qt::EditRole );
-        model_->setData( indeksi_.sibling( indeksi_.row(), TositelajiModel::VASTATILI ) , ui->vastatiliEdit->valittuTilinumero() , Qt::EditRole );
-        model_->setData( indeksi_.sibling( indeksi_.row(), 0 ) , kirjaustyyppi , TositelajiModel::KirjausTyyppiRooli );
+    if( !indeksi_.isValid())
+        indeksi_ = model_->lisaaRivi();
 
-    }
-    else
-    {
-        Tositelaji laji;
-        laji.asetaNimi( ui->nimiEdit->text());
-        laji.asetaTunnus( ui->tunnusEdit->text());
-        if( ui->vastatiliEdit->valittuTilinumero())
-            laji.json()->set("Vastatili", ui->vastatiliEdit->valittuTilinumero());
-        if( kirjaustyyppi )
-            laji.json()->set("Kirjaustyyppi", kirjaustyyppi);
-        model_->lisaaRivi( laji );
-    }
+
+    model_->setData( indeksi_.sibling( indeksi_.row(), TositelajiModel::TUNNUS ) , ui->tunnusEdit->text(), Qt::EditRole );
+    model_->setData( indeksi_.sibling( indeksi_.row(), TositelajiModel::NIMI ) , ui->nimiEdit->text(), Qt::EditRole );
+    model_->setData( indeksi_.sibling( indeksi_.row(), TositelajiModel::VASTATILI ) , ui->vastatiliEdit->valittuTilinumero() , Qt::EditRole );
+    model_->setData( indeksi_, kirjaustyyppi , TositelajiModel::KirjausTyyppiRooli );
+    model_->setData( indeksi_, ui->oletusTiliEdit->valittuTilinumero(), TositelajiModel::OletustiliRooli );
+
     QDialog::accept();
 }

@@ -19,9 +19,11 @@
 #include "tilidelegaatti.h"
 #include "eurodelegaatti.h"
 #include "pvmdelegaatti.h"
+#include "kirjausapuridialog.h"
+#include "kohdennusdelegaatti.h"
 
 #include "db/kirjanpito.h"
-#include "kirjausapuridialog.h"
+
 
 #include <QDebug>
 #include <QSqlQuery>
@@ -47,12 +49,14 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     ui->viennitView->setItemDelegateForColumn( VientiModel::TILI, new TiliDelegaatti( ) );
     ui->viennitView->setItemDelegateForColumn( VientiModel::DEBET, new EuroDelegaatti);
     ui->viennitView->setItemDelegateForColumn( VientiModel::KREDIT, new EuroDelegaatti);
+    ui->viennitView->setItemDelegateForColumn( VientiModel::KOHDENNUS, new KohdennusDelegaatti);
 
     ui->viennitView->horizontalHeader()->setStretchLastSection(true);
 
     ui->tunnisteEdit->setValidator( new QIntValidator(1,99999999) );
 
     connect( ui->lisaaRiviNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaRivi()));
+    connect( ui->poistariviNappi, SIGNAL(clicked(bool)), this, SLOT(poistaRivi()));
     connect( ui->tallennaButton, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
     connect( ui->hylkaaNappi, SIGNAL(clicked(bool)), this, SLOT(hylkaa()));
     connect( ui->kommentitEdit, SIGNAL(textChanged()), this, SLOT(paivitaKommenttiMerkki()));
@@ -108,6 +112,15 @@ void KirjausWg::lisaaRivi()
     ui->viennitView->edit( indeksi );
 }
 
+void KirjausWg::poistaRivi()
+{
+    QModelIndex nykyinen = ui->viennitView->currentIndex();
+    if( nykyinen.isValid() && nykyinen.sibling(nykyinen.row(), VientiModel::SELITE).flags() & Qt::ItemIsEditable)
+    {
+        model_->vientiModel()->poistaRivi( nykyinen.row());
+    }
+}
+
 void KirjausWg::tyhjenna()
 {
     // Tyhjennetään ensin model
@@ -116,6 +129,8 @@ void KirjausWg::tyhjenna()
     tiedotModelista();
     // Sallitaan muokkaus
     salliMuokkaus( model_->muokkausSallittu());
+    // Verosarake näytetään vain, jos alv-toiminnot käytössä
+    ui->viennitView->setColumnHidden( VientiModel::ALV, !kp()->asetukset()->onko("AlvVelvollinen") );
 }
 
 void KirjausWg::tallenna()
@@ -129,6 +144,8 @@ void KirjausWg::tallenna()
     model_->tallenna();
     tyhjenna();
     emit tositeKasitelty();;
+
+    ui->tositePvmEdit->setFocus();
 }
 
 void KirjausWg::hylkaa()
@@ -277,6 +294,11 @@ void KirjausWg::vaihdaTositeTyyppi()
             ui->otsikkoEdit->setText( QString("Tiliote %1 ajalta %2 - %3")
                     .arg(otetili.nimi()).arg(ui->tiliotealkaenEdit->date().toString(Qt::SystemLocaleShortDate))
                     .arg( ui->tilioteloppuenEdit->date().toString(Qt::SystemLocaleShortDate)));
+    }
+    else
+    {
+        model_->asetaTiliotetili(0);
+        ui->tilioteBox->setChecked(false);
     }
 
 }

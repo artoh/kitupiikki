@@ -64,7 +64,7 @@ public:
 
     enum VientiSarake
     {
-        PVM, TILI, DEBET, KREDIT, ALV, KOHDENNUS, SELITE
+        PVM, TILI, DEBET, KREDIT, KOHDENNUS, ALV, SELITE
     };
 
     enum
@@ -94,6 +94,13 @@ public:
     Qt::ItemFlags flags(const QModelIndex &index) const;
     bool insertRows(int row, int count, const QModelIndex &);
     bool lisaaRivi();
+
+    /**
+     * @brief Poistaa rivin
+     * @param rivi Rivin indeksi
+     * @return
+     */
+    void poistaRivi(int rivi);
 
     bool lisaaVienti(const QDate& pvm, int tilinumero, const QString& selite,
                      int debetSnt, int kreditSnt, int rivinro = 0);
@@ -135,6 +142,8 @@ protected:
     VientiRivi uusiRivi();
     int seuraavaRiviNumero();
     bool muokattu_;
+
+    QList<int> poistetutVientiIdt_;
 };
 
 #endif // VIENTIMODEL_H

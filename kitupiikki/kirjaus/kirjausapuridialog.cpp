@@ -34,30 +34,48 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     ui->alvlajiLabel->setVisible(false);
     ui->alvSpin->setVisible(false);
     ui->alvprossaLabel->setVisible(false);
+    ui->kohdennusLabel->setVisible(false);
+    ui->kohdennusCombo->setVisible(false);
 
     ui->kohdennusCombo->setModel( kp()->kohdennukset() );
     ui->kohdennusCombo->setModelColumn( KohdennusModel::NIMI );
 
     ui->alvCombo->setModel( kp()->alvTyypit() );
 
+    ui->buttonBox->button( QDialogButtonBox::Ok )->setEnabled( false );
+
+    connect( ui->tiliEdit, SIGNAL(textChanged(QString)), this, SLOT(tiliTaytetty()));
+    connect( ui->vastatiliEdit, SIGNAL(textChanged(QString)), this, SLOT(tarkasta()));
+    connect( ui->alvCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(alvLajiMuuttui()));
+    connect( ui->euroSpin, SIGNAL(editingFinished()), this, SLOT(laskeNetto()));
+    connect( ui->nettoSpin, SIGNAL(editingFinished()), this, SLOT(laskeBrutto()));
+    connect( ui->alvSpin, SIGNAL(editingFinished()), this, SLOT(laskeVerolla()));
+
     // Hakee tositteen tiedoista esitäytöt
     ui->pvmDate->setDate( model->pvm() );
     ui->seliteEdit->setText( model->otsikko());
 
-    // Jos kirjataan tiliotteelle, niin tiliotetili laitetaan valmiiksi paikalleen
+    ui->tiliEdit->valitseTiliNumerolla( model->tositelaji().json()->luku("Oletustili"));
 
+    // Jos kirjataan tiliotteelle, niin tiliotetili lukitaan vastatiliksi
+    if( model->tiliotetili())
+    {
+        ui->vastatiliEdit->valitseTiliIdlla( model->tiliotetili());
+        ui->vastatiliEdit->setEnabled(false);
+    }
+    else
+    {
+        // Suodatetaan tili valintojen mukaan
+        int kirjauslaji = model->tositelaji().json()->luku("Kirjaustyyppi");
+        if( kirjauslaji == TositelajiModel::OSTOLASKUT)
+            ui->tiliEdit->suodataTyypilla("D.*");
+        else if(kirjauslaji == TositelajiModel::MYYNTILASKUT)
+            ui->tiliEdit->suodataTyypilla("C.*");
 
-    // Jos tositelajille on määritelty oletusvastatili, esitäytetään sekin
-    ui->vastatiliEdit->valitseTiliNumerolla( model->tositelaji().json()->luku("Vastatili") );
+        // Jos tositelajille on määritelty oletusvastatili, esitäytetään sekin
+        ui->vastatiliEdit->valitseTiliNumerolla( model->tositelaji().json()->luku("Vastatili") );
+    }
 
-    ui->buttonBox->button( QDialogButtonBox::Ok )->setEnabled( false );
-
-    connect( ui->tiliEdit, SIGNAL(textChanged(QString)), this, SLOT(tiliTaytetty()));
-    connect( ui->euroSpin, SIGNAL(editingFinished()), this, SLOT(laskeNetto()));
-    connect( ui->nettoSpin, SIGNAL(editingFinished()), this, SLOT(laskeBrutto()));
-    connect( ui->alvSpin, SIGNAL(editingFinished()), this, SLOT(laskeVerolla()));
-    connect( ui->vastatiliEdit, SIGNAL(textChanged(QString)), this, SLOT(tarkasta()));
-    connect( ui->alvCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(alvLajiMuuttui()));
 
 }
 
@@ -71,13 +89,15 @@ void KirjausApuriDialog::tiliTaytetty()
     // Jos tilillä on vastatili, niin täytetään se
     Tili tili = kp()->tilit()->tiliNumerolla(  ui->tiliEdit->valittuTilinumero() );
 
-    qDebug() << tili.id() << " " << tili.nimi() << " TASE " << tili.onkoTasetili() << " alv " << kp()->asetukset()->onko("AlvVelvollinen");
-
     if( tili.id())
     {
         ui->vastatiliEdit->valitseTiliNumerolla( tili.json()->luku("Vastatili") );
         ui->alvSpin->setValue( tili.json()->luku("AlvProsentti"));
         ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( tili.json()->luku("AlvLaji") ) );
+
+        // Näytetään kohdennus jos tulostili
+        ui->kohdennusCombo->setVisible( !tili.onkoTasetili());
+        ui->kohdennusLabel->setVisible( !tili.onkoTasetili());
     }
     tarkasta();
 }
@@ -133,9 +153,8 @@ void KirjausApuriDialog::tarkasta()
     Tili tili = kp()->tilit()->tiliNumerolla( ui->tiliEdit->valittuTilinumero() );
     Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliEdit->valittuTilinumero());
 
-    // Samoin täytetään täältä verotiedot
+    // Näytetään verot jos ollaan tulotilillä ja verovelvollisuus
     bool naytaVeroruudut = kp()->asetukset()->onko("AlvVelvollinen") && !tili.onkoTasetili() && vastatili.onkoTasetili();
-
 
     ui->alvlajiLabel->setVisible(naytaVeroruudut);
     ui->alvCombo->setVisible(naytaVeroruudut);
@@ -148,12 +167,12 @@ void KirjausApuriDialog::tarkasta()
         // 1) Tavanomainen myynti: Tulotili -> Tasetili
         if( tili.onkoTulotili() && vastatili.onkoTasetili())
         {
-            teeEhdotus(  QString("Tuloa (myynti) tulotili %1 %2 kredit, tasetili %3 %4 debet")
+            teeEhdotus(  QString("Tuloa (myynti) \ntulotili \t%1 %2 \tkredit, \ntasetili \t%3 %4 \tdebet")
                          .arg(tili.numero()).arg(tili.nimi()).arg(vastatili.numero()).arg(vastatili.nimi()) , false );
         }
         else if( tili.onkoMenotili() && vastatili.onkoTasetili() )
         {
-            teeEhdotus(  QString("Menoa (osto) menotili %1 %2 debet, tasetili %3 %4 kredit")
+            teeEhdotus(  QString("Menoa (osto) \nmenotili  \t%1 %2 \tdebet, \ntasetili \t%3 %4 \tkredit")
                          .arg(tili.numero()).arg(tili.nimi()).arg(vastatili.numero()).arg(vastatili.nimi()) , true );
         }
         else

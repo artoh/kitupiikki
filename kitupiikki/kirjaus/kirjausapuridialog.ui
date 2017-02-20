@@ -102,7 +102,7 @@
       <widget class="TilinvalintaLine" name="vastatiliEdit"/>
      </item>
      <item row="4" column="0">
-      <widget class="QLabel" name="label_5">
+      <widget class="QLabel" name="kohdennusLabel">
        <property name="text">
         <string>Kohdennus</string>
        </property>
@@ -201,6 +201,18 @@
    <header>db/tilinvalintaline.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>tiliEdit</tabstop>
+  <tabstop>euroSpin</tabstop>
+  <tabstop>nettoSpin</tabstop>
+  <tabstop>vastatiliEdit</tabstop>
+  <tabstop>kohdennusCombo</tabstop>
+  <tabstop>pvmDate</tabstop>
+  <tabstop>seliteEdit</tabstop>
+  <tabstop>alvCombo</tabstop>
+  <tabstop>alvSpin</tabstop>
+  <tabstop>kirjausList</tabstop>
+ </tabstops>
  <resources>
   <include location="../pic/pic.qrc"/>
  </resources>
