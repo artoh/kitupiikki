@@ -175,6 +175,51 @@ void KirjausApuriDialog::tarkasta()
 
 }
 
+void KirjausApuriDialog::accept()
+{
+    // Tehdään asiaankuuluvat kirjaukset
+
+    // Ensivaiheessa veroton kirjaus
+    VientiModel *viennit = model->vientiModel();
+
+    QModelIndex index = model->vientiModel()->lisaaVienti();
+    viennit->setData(index, ui->pvmDate->date(), VientiModel::PvmRooli);
+    viennit->setData(index, ui->seliteEdit->text(), VientiModel::SeliteRooli);
+    viennit->setData(index, ui->tiliEdit->valittuTilinumero(), VientiModel::TiliNumeroRooli);
+
+    // UserRole kertoo, onko ensimmäinen tili debet
+    int ekaSentit = ui->euroSpin->value() * 100;
+
+    if( ui->kirjausList->currentItem()->data( Qt::UserRole).toBool())
+        viennit->setData(index, ekaSentit, VientiModel::DebetRooli);
+    else
+        viennit->setData(index, ekaSentit, VientiModel::KreditRooli);
+
+    // Kohdennus
+    viennit->setData(index, ui->kohdennusCombo->currentData(KohdennusModel::IdRooli), VientiModel::KohdennusRooli);
+
+    // TODO: Veroruudut
+
+
+    index = model->vientiModel()->lisaaVienti();
+    viennit->setData(index, ui->pvmDate->date(), VientiModel::PvmRooli);
+    viennit->setData(index, ui->seliteEdit->text(), VientiModel::SeliteRooli);
+    viennit->setData(index, ui->vastatiliEdit->valittuTilinumero(), VientiModel::TiliNumeroRooli);
+
+
+    if( !ui->kirjausList->currentIndex().data(Qt::UserRole).toBool())
+        viennit->setData(index, ekaSentit, VientiModel::DebetRooli);
+    else
+        viennit->setData(index, ekaSentit, VientiModel::KreditRooli);
+
+    // Kohdennus
+    viennit->setData(index, ui->kohdennusCombo->currentData(KohdennusModel::IdRooli), VientiModel::KohdennusRooli);
+
+
+    QDialog::accept();
+
+}
+
 void KirjausApuriDialog::teeEhdotus(const QString &teksti, bool tiliOnDebet, const QIcon &kuvake)
 {
     // Lisää kirjausehdotuslistaan ehdotuksen

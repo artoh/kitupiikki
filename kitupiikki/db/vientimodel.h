@@ -98,6 +98,17 @@ public:
     bool lisaaVienti(const QDate& pvm, int tilinumero, const QString& selite,
                      int debetSnt, int kreditSnt, int rivinro = 0);
 
+    /**
+     * @brief Lisää viennin
+     *
+     * Lisää tyhjän viennin. Tätä käytetään, kun vienti lisätään ohjelmallisesti ja
+     * sitä muokataan setData-rajapintaa käyttäen.
+     *
+     * @return indeksi uuteen vientiin
+     */
+    QModelIndex lisaaVienti();
+
+
     int debetSumma() const;
     int kreditSumma() const;
 

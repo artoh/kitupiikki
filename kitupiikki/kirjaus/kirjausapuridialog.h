@@ -44,6 +44,8 @@ public slots:
 
     void tarkasta();
 
+    void accept();
+
 protected:
     void teeEhdotus(const QString& teksti, bool tiliOnDebet, const QIcon& kuvake = QIcon());
 

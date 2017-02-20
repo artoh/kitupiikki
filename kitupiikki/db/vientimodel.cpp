@@ -154,55 +154,83 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int /* role */)
+bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  role )
 {
     muokattu_ = true;
 
-    switch (index.column())
-    {
-    case PVM:
-        viennit_[index.row()].pvm = value.toDate();
-        emit siirryRuutuun( index.sibling(index.row(), TILI) );
-        return true;
-    case TILI:
-    {
-        // Tili asetetaan numerolla!
-        Tili uusitili;
-        if( value.toInt())
-            uusitili = kp()->tilit()->tiliNumerolla( value.toInt());
-        else if(!value.toString().isEmpty())
-            uusitili = TilinValintaDialogi::valitseTili(value.toString());
+    int rivi = index.row();
 
-        viennit_[index.row()].tili = uusitili;
-        // Jos kirjataan tulotilille, niin siirrytään syöttämään kredit-summaa
-        if( uusitili.onkoTulotili())
-            emit siirryRuutuun(index.sibling(index.row(), KREDIT));
-        else
-            emit siirryRuutuun(index.sibling(index.row(), DEBET));
-        return true;
-    }
-    case SELITE:
-        viennit_[index.row()].selite = value.toString();
-        return true;
-    case DEBET:
-        viennit_[index.row()].debetSnt = value.toInt();
-        if(value.toInt())
+    // EditRole käsittelee käyttäjän vientiruudukossa tekemät muutokset
+    if( role == Qt::EditRole)
+    {
+
+
+        switch (index.column())
         {
-            viennit_[index.row()].kreditSnt = 0;
-            emit siirryRuutuun(index.sibling(index.row(), SELITE));
+        case PVM:
+            viennit_[index.row()].pvm = value.toDate();
+            emit siirryRuutuun( index.sibling(index.row(), TILI) );
+            return true;
+        case TILI:
+        {
+            // Tili asetetaan numerolla!
+            Tili uusitili;
+            if( value.toInt())
+                uusitili = kp()->tilit()->tiliNumerolla( value.toInt());
+            else if(!value.toString().isEmpty())
+                uusitili = TilinValintaDialogi::valitseTili(value.toString());
+
+            viennit_[index.row()].tili = uusitili;
+            // Jos kirjataan tulotilille, niin siirrytään syöttämään kredit-summaa
+            if( uusitili.onkoTulotili())
+                emit siirryRuutuun(index.sibling(index.row(), KREDIT));
+            else
+                emit siirryRuutuun(index.sibling(index.row(), DEBET));
+            return true;
         }
-        emit muuttunut();
-        return true;
-    case KREDIT:
-        viennit_[index.row()].kreditSnt = value.toInt();
-        if( value.toInt())
-        viennit_[index.row()].debetSnt = 0;
-        emit siirryRuutuun(index.sibling(index.row(), SELITE));
-        emit muuttunut();
-        return true;
-    default:
-        return false;
+        case SELITE:
+            viennit_[index.row()].selite = value.toString();
+            return true;
+        case DEBET:
+            viennit_[index.row()].debetSnt = value.toInt();
+            if(value.toInt())
+            {
+                viennit_[index.row()].kreditSnt = 0;
+                emit siirryRuutuun(index.sibling(index.row(), SELITE));
+            }
+            emit muuttunut();
+            return true;
+        case KREDIT:
+            viennit_[index.row()].kreditSnt = value.toInt();
+            if( value.toInt())
+            viennit_[index.row()].debetSnt = 0;
+            emit siirryRuutuun(index.sibling(index.row(), SELITE));
+            emit muuttunut();
+            return true;
+        default:
+            return false;
+        }
     }
+
+    // Käytettäessä omia rooleja muokkaus tulee ohjelmallisesti eli
+    // ei ole tarvetta siirtää käyttäjää ruudusta toiseen
+
+    if( role == PvmRooli)
+        viennit_[rivi].pvm = value.toDate();
+    else if( role == TiliNumeroRooli)
+        viennit_[rivi].tili = kp()->tilit()->tiliNumerolla( value.toInt() );
+    else if( role == SeliteRooli)
+        viennit_[rivi].selite = value.toString();
+    else if( role == DebetRooli)
+        viennit_[rivi].debetSnt = value.toInt();
+    else if( role == KreditRooli)
+        viennit_[rivi].kreditSnt = value.toInt();
+    else if( role == KohdennusRooli)
+        viennit_[rivi].kohdennus=kp()->kohdennukset()->kohdennus( value.toInt());
+    else
+        return false;
+
+    return true;
 }
 
 Qt::ItemFlags VientiModel::flags(const QModelIndex &index) const
@@ -269,6 +297,16 @@ bool VientiModel::lisaaVienti(const QDate &pvm, int tilinumero, const QString &s
     endInsertRows();
 
     return true;
+}
+
+QModelIndex VientiModel::lisaaVienti()
+{
+    beginInsertRows( QModelIndex(), viennit_.count(), viennit_.count());
+
+    viennit_.append( VientiRivi());
+
+    endInsertRows();
+    return index( viennit_.count() - 1, 0);
 }
 
 int VientiModel::debetSumma() const
