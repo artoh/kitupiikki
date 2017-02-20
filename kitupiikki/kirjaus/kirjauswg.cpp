@@ -61,6 +61,10 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     ui->tositetyyppiCombo->setModel( Kirjanpito::db()->tositelajit());
     ui->tositetyyppiCombo->setModelColumn( TositelajiModel::NIMI);
 
+    // Kun tositteen päivää vaihdetaan, vaihtuu myös tiliotepäivät.
+    // Siksi tosipäivä ladattava aina ennen tiliotepäiviä!
+    connect( ui->tositePvmEdit, SIGNAL(dateChanged(QDate)), this, SLOT(tiliotePaivayksienPaivitys()));
+
     connect( ui->tositePvmEdit, SIGNAL(dateChanged(QDate)), model_, SLOT(asetaPvm(QDate)));
     connect( ui->tositetyyppiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(vaihdaTositeTyyppi()));
     connect( ui->tunnisteEdit, SIGNAL(textEdited(QString)), this, SLOT(paivitaTunnisteVari()));
@@ -261,6 +265,20 @@ void KirjausWg::vaihdaTositeTyyppi()
 
     // Päivitetään tositenumero modelista ;)
     ui->tunnisteEdit->setText( QString::number(model_->tunniste() ));
+
+    // Jos tositelaji kirjaa tiliotteita, aktivoidaan tiliotteen kirjaaminen
+    if( model_->tositelaji().json()->luku("Kirjaustyyppi") == TositelajiModel::TILIOTE)
+    {
+        Tili otetili = kp()->tilit()->tiliNumerolla( model_->tositelaji().json()->luku("Vastatili") );
+        ui->tiliotetiliCombo->setCurrentIndex( ui->tiliotetiliCombo->findData(otetili.id(), TiliModel::IdRooli)  );
+        model_->asetaTiliotetili( otetili.id() );
+        ui->tilioteBox->setChecked(true);
+        if( ui->otsikkoEdit->text().isEmpty())
+            ui->otsikkoEdit->setText( QString("Tiliote %1 ajalta %2 - %3")
+                    .arg(otetili.nimi()).arg(ui->tiliotealkaenEdit->date().toString(Qt::SystemLocaleShortDate))
+                    .arg( ui->tilioteloppuenEdit->date().toString(Qt::SystemLocaleShortDate)));
+    }
+
 }
 
 void KirjausWg::liiteValinta(const QModelIndex &valittu)
@@ -281,5 +299,16 @@ void KirjausWg::kirjausApuri()
 {
     KirjausApuriDialog dlg( model_, this);
     dlg.exec();
+}
+
+void KirjausWg::tiliotePaivayksienPaivitys()
+{
+    // Tiliotepäiväyksen kirjauksen kuukauden alkuun ja loppuun
+    QDate paiva = ui->tositePvmEdit->date();
+    paiva = paiva.addDays( 1 - paiva.day() );   // Siirretään kuukauden alkuun
+    ui->tiliotealkaenEdit->setDate( paiva );
+    paiva = paiva.addMonths(1).addDays(-1); // Siirrytään kuukauden loppuun
+    ui->tilioteloppuenEdit->setDate(paiva);
+
 }
 

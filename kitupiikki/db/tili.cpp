@@ -97,6 +97,11 @@ bool Tili::onkoVastattavaaTili() const
     return tyyppi().startsWith('B');
 }
 
+bool Tili::onkoRahaTili() const
+{
+    return tyyppi().startsWith("AR");
+}
+
 int Tili::ysiluku(int luku, int taso)
 {
     if( !taso )

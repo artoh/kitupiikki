@@ -44,6 +44,9 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     ui->pvmDate->setDate( model->pvm() );
     ui->seliteEdit->setText( model->otsikko());
 
+    // Jos kirjataan tiliotteelle, niin tiliotetili laitetaan valmiiksi paikalleen
+
+
     // Jos tositelajille on määritelty oletusvastatili, esitäytetään sekin
     ui->vastatiliEdit->valitseTiliNumerolla( model->tositelaji().json()->luku("Vastatili") );
 
@@ -131,34 +134,37 @@ void KirjausApuriDialog::tarkasta()
     Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliEdit->valittuTilinumero());
 
     // Samoin täytetään täältä verotiedot
-    bool naytaVeroruudut = kp()->asetukset()->onko("AlvVelvollinen") && !tili.onkoTasetili()
-            && ( !vastatili.onkoTasetili() || vastatili.tyyppi() == "AP");
+    bool naytaVeroruudut = kp()->asetukset()->onko("AlvVelvollinen") && !tili.onkoTasetili() && vastatili.onkoTasetili();
+
 
     ui->alvlajiLabel->setVisible(naytaVeroruudut);
     ui->alvCombo->setVisible(naytaVeroruudut);
 
 
-    // Vaaditaan eurosumma sekä molemmat tilit, silloin tehdään kirjausehdotukset
-    if( ui->tiliEdit->valittuTilinumero() && ui->vastatiliEdit->valittuTilinumero()
-            && ui->euroSpin->value())
+    // Vaaditaan molemmat tilit, silloin tehdään kirjausehdotukset
+    if( ui->tiliEdit->valittuTilinumero() && ui->vastatiliEdit->valittuTilinumero() )
     {
 
         // 1) Tavanomainen myynti: Tulotili -> Tasetili
         if( tili.onkoTulotili() && vastatili.onkoTasetili())
         {
-            teeEhdotus(  QString("Tuloa (myynti) tulotili %1 kredit, tasetili %2 debet").arg(tili.numero()).arg(vastatili.numero()) , false );
+            teeEhdotus(  QString("Tuloa (myynti) tulotili %1 %2 kredit, tasetili %3 %4 debet")
+                         .arg(tili.numero()).arg(tili.nimi()).arg(vastatili.numero()).arg(vastatili.nimi()) , false );
         }
         else if( tili.onkoMenotili() && vastatili.onkoTasetili() )
         {
-            teeEhdotus( QString("Menoa (osto) menotili %1 debet, tasetili %2 kredit").arg(tili.numero()).arg(vastatili.numero()), true );
+            teeEhdotus(  QString("Menoa (osto) menotili %1 %2 debet, tasetili %3 %4 kredit")
+                         .arg(tili.numero()).arg(tili.nimi()).arg(vastatili.numero()).arg(vastatili.nimi()) , true );
         }
         else
         {
-            teeEhdotus( QString("Siirto TILILTÄ %1 kredit, TILILLE %2 debet").arg(tili.numero()).arg(vastatili.numero()), false );
-            teeEhdotus( QString("Siirto TILILTÄ %2 kredit, TILILLE %1 debet").arg(tili.numero()).arg(vastatili.numero()), true );
+            teeEhdotus(  QString("Siirto TILILTÄ %1 %2 kredit, TILILLE %3 %4 debet")
+                         .arg(tili.numero()).arg(tili.nimi()).arg(vastatili.numero()).arg(vastatili.nimi()) , false );
+            teeEhdotus(  QString("Siirto TILILTÄ %3 %4 kredit, TILILLE %1 %2 debet")
+                         .arg(tili.numero()).arg(tili.nimi()).arg(vastatili.numero()).arg(vastatili.nimi()) , true );
         }
 
-        ui->buttonBox->button( QDialogButtonBox::Ok )->setEnabled( true );
+        ui->buttonBox->button( QDialogButtonBox::Ok )->setEnabled( ui->euroSpin->value() != 0 );
         ui->kirjausList->setCurrentRow(0);
 
     }

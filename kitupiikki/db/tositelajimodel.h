@@ -37,13 +37,23 @@ public:
         TUNNUS, NIMI, VASTATILI
     };
 
+    enum KirjausTyyppi
+    {
+        KAIKKIKIRJAUKSET,
+        OSTOLASKUT,
+        MYYNTILASKUT,
+        TILIOTE
+    };
+
     enum
     {
         IdRooli = Qt::UserRole,
         TunnusRooli = Qt::UserRole + 1,
         NimiRooli = Qt::UserRole + 2,
         VastatiliNroRooli = Qt::UserRole + 3,
-        TositeMaaraRooli = Qt::UserRole +4
+        TositeMaaraRooli = Qt::UserRole +4,
+        KirjausTyyppiRooli = Qt::UserRole + 5
+
     };
 
     TositelajiModel(QSqlDatabase *tietokanta, QObject *parent = 0);

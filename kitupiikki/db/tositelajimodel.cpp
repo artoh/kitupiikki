@@ -76,6 +76,8 @@ QVariant TositelajiModel::data(const QModelIndex &index, int role) const
         return QVariant( laji.json()->luku("Vastatili"));
     else if( role == TositeMaaraRooli)
         return laji.montakoTositetta();
+    else if( role == KirjausTyyppiRooli)
+        return QVariant( laji.json()->luku("Kirjaustyyppi"));
 
     else if( role == Qt::DisplayRole || role == Qt::EditRole)
     {
@@ -123,6 +125,13 @@ bool TositelajiModel::setData(const QModelIndex &index, const QVariant &value, i
         default:
             ;
         }
+    }
+    else if( role == KirjausTyyppiRooli )
+    {
+        if( value.toInt())
+            lajit_[index.row()].json()->set("Kirjaustyyppi", value.toInt());
+        else
+            lajit_[index.row()].json()->unset("Kirjaustyyppi");
     }
 
     return false;

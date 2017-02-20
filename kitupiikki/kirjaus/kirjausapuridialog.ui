@@ -176,7 +176,11 @@
     </layout>
    </item>
    <item>
-    <widget class="QListWidget" name="kirjausList"/>
+    <widget class="QListWidget" name="kirjausList">
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">

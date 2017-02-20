@@ -18,6 +18,8 @@
 #include <QDialogButtonBox>
 #include <QPushButton>
 
+#include <QDebug>
+
 #include "tositelajidialogi.h"
 #include "ui_tositelajidialogi.h"
 
@@ -34,8 +36,12 @@ TositelajiDialogi::TositelajiDialogi(TositelajiModel *model, const QModelIndex &
     else
         ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 
+    ui->vastatiliEdit->suodataTyypilla("[AB].*");
+
     connect( ui->tunnusEdit, SIGNAL(textEdited(QString)), this, SLOT(tarkasta()));
     connect( ui->nimiEdit, SIGNAL(textEdited(QString)), this, SLOT(tarkasta()));
+    connect( ui->vastatiliEdit, SIGNAL(textChanged(QString)), this, SLOT(vastatilivalittu()));
+
 
 }
 
@@ -50,11 +56,20 @@ void TositelajiDialogi::lataa()
     ui->nimiEdit->setText( indeksi_.data(TositelajiModel::NimiRooli).toString());
     ui->vastatiliEdit->valitseTiliNumerolla( indeksi_.data(TositelajiModel::VastatiliNroRooli).toInt() );
 
+    int kirjaustyyppi = indeksi_.data( TositelajiModel::KirjausTyyppiRooli).toInt();
+    ui->kaikkiRadio->setChecked( kirjaustyyppi == TositelajiModel::KAIKKIKIRJAUKSET);
+    ui->ostoRadio->setChecked( kirjaustyyppi == TositelajiModel::OSTOLASKUT);
+    ui->myyntiRadio->setChecked( kirjaustyyppi == TositelajiModel::MYYNTILASKUT);
+    ui->tilioteRadio->setChecked( kirjaustyyppi == TositelajiModel::TILIOTE);
+
+
     if( indeksi_.data( TositelajiModel::IdRooli).toInt() == 1)
     {
-        // Oletustositelaji "Muut" pitää säilyttää, ei saa muuttaa!
+        // Oletustositelaji Muut lyhenne "" pitää säilyttää, ei saa muuttaa!
         ui->tunnusEdit->setEnabled(false);
     }
+
+    vastatilivalittu();     // Rahatilille on mahdollista valita pankkitili
 }
 
 void TositelajiDialogi::tarkasta()
@@ -82,13 +97,32 @@ void TositelajiDialogi::tarkasta()
 
 }
 
+void TositelajiDialogi::vastatilivalittu()
+{
+    Tili tili = kp()->tilit()->tiliNumerolla( ui->vastatiliEdit->valittuTilinumero() );
+    ui->tilioteRadio->setEnabled( tili.onkoRahaTili() );
+
+
+}
+
 void TositelajiDialogi::accept()
 {
+    int kirjaustyyppi = TositelajiModel::KAIKKIKIRJAUKSET;
+    if( ui->ostoRadio->isChecked())
+        kirjaustyyppi = TositelajiModel::OSTOLASKUT;
+    else if( ui->myyntiRadio->isChecked())
+        kirjaustyyppi = TositelajiModel::MYYNTILASKUT;
+    else if( ui->tilioteRadio->isChecked())
+        kirjaustyyppi = TositelajiModel::TILIOTE;
+
+
     if( indeksi_.isValid())
     {
         model_->setData( indeksi_.sibling( indeksi_.row(), TositelajiModel::TUNNUS ) , ui->tunnusEdit->text(), Qt::EditRole );
         model_->setData( indeksi_.sibling( indeksi_.row(), TositelajiModel::NIMI ) , ui->nimiEdit->text(), Qt::EditRole );
         model_->setData( indeksi_.sibling( indeksi_.row(), TositelajiModel::VASTATILI ) , ui->vastatiliEdit->valittuTilinumero() , Qt::EditRole );
+        model_->setData( indeksi_.sibling( indeksi_.row(), 0 ) , kirjaustyyppi , TositelajiModel::KirjausTyyppiRooli );
+
     }
     else
     {
@@ -97,6 +131,8 @@ void TositelajiDialogi::accept()
         laji.asetaTunnus( ui->tunnusEdit->text());
         if( ui->vastatiliEdit->valittuTilinumero())
             laji.json()->set("Vastatili", ui->vastatiliEdit->valittuTilinumero());
+        if( kirjaustyyppi )
+            laji.json()->set("Kirjaustyyppi", kirjaustyyppi);
         model_->lisaaRivi( laji );
     }
     QDialog::accept();

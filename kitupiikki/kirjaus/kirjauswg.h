@@ -102,6 +102,8 @@ public slots:
      */
     void kirjausApuri();
 
+    void tiliotePaivayksienPaivitys();
+
 signals:
     void liiteValittu(const QString& tiedostopolku);
     /**

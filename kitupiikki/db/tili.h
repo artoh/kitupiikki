@@ -106,6 +106,11 @@ public:
     bool onkoMenotili() const;
     bool onkoVastaavaaTili() const;
     bool onkoVastattavaaTili() const;
+    /**
+     * @brief Onko tili rahatili (AR) eli pankkitili tai käteisvarat
+     * @return
+     */
+    bool onkoRahaTili() const;
 
     /**
      * @brief Laskee yhdeksännumeroisen vertailuluvun

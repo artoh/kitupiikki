@@ -39,6 +39,7 @@ public:
 protected slots:
     void lataa();
     void tarkasta();
+    void vastatilivalittu();
 
     void accept();
 
