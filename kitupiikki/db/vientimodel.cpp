@@ -376,6 +376,10 @@ void VientiModel::tallenna()
     for(int i=0; i < viennit_.count() ; i++)
     {
         VientiRivi rivi = viennit_[i];
+
+        if(( rivi.kreditSnt == 0 && rivi.debetSnt == 0) || rivi.tili.id() == 0)
+            continue;       // "Tyhjä" rivi, ei tallenneta
+
         if( rivi.vientiId )
         {
             query.prepare("UPDATE vienti SET pvm=:pvm, tili=:tili, debetsnt=:debetsnt, "

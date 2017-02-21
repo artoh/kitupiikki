@@ -46,12 +46,8 @@ TilinMuokkausDialog::TilinMuokkausDialog(TiliModel *model, QModelIndex index) :
     }
 
     // Laitetaa verotyypit paikalleen
-    QMapIterator<int,QString> veroIter(model_->veroTyyppiTaulu());
-    while( veroIter.hasNext())
-    {
-        veroIter.next();
-        ui->veroCombo->addItem(QIcon(), veroIter.value(), veroIter.key());
-    }
+
+    ui->veroCombo->setModel( kp()->alvTyypit());
 
     // Vain otsikkoon liittyvät piilotetaan
     ui->tasoSpin->setVisible(false);
@@ -112,7 +108,7 @@ void TilinMuokkausDialog::lataa()
 
     int alvlaji = tili.json()->luku("AlvLaji");
 
-    ui->veroCombo->setCurrentIndex( ui->veroCombo->findData( alvlaji ) );
+    ui->veroCombo->setCurrentIndex( ui->veroCombo->findData( alvlaji , VerotyyppiModel::KoodiRooli) );
 
     tarkasta();
 }
@@ -120,10 +116,8 @@ void TilinMuokkausDialog::lataa()
 void TilinMuokkausDialog::veroEnablePaivita()
 {
     // Jos veroton, niin eipä silloin laiteta alv-prosenttia
-    ui->veroSpin->setEnabled( ui->veroCombo->currentData().toInt() != 0 );
+    ui->veroSpin->setEnabled( ui->veroCombo->currentData(VerotyyppiModel::KoodiRooli).toInt() != 0 );
 
-qDebug() << ui->veroCombo->currentData();
-qDebug() << ui->veroCombo->currentData().toInt() << "  " << ui->veroSpin->value() << " % ";
 }
 
 void TilinMuokkausDialog::otsikkoTasoPaivita()
@@ -289,18 +283,8 @@ void TilinMuokkausDialog::accept()
         else
             json->unset("Vastatili");
 
-        if( ui->veroCombo->currentData().toInt())
-        {
-            json->set("AlvLaji", ui->veroCombo->currentData().toInt());
-            if( ui->veroSpin->value())
-                json->set("AlvProsentti", ui->veroSpin->value());
-
-        }
-        else
-        {
-            json->unset("AlvLaji");
-            json->unset("AlvProsentti");
-        }
+        json->set("AlvLaji", ui->veroCombo->currentData(VerotyyppiModel::KoodiRooli).toInt());
+        json->set("AlvProsentti", ui->veroSpin->value());
     }
 
     if( uusitili.numero() )     // Lisätään uusi tili

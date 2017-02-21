@@ -50,6 +50,16 @@ void AsetusModel::aseta(const QString &avain, const QString &arvo)
     asetukset_[avain] = arvo;
 }
 
+void AsetusModel::poista(const QString &avain)
+{
+    if( asetukset_.contains(avain))
+    {
+        QSqlQuery query(*tietokanta_);
+        query.exec( QString("DELETE from asetus WHERE avain=\"%1\"").arg(avain));
+        asetukset_.remove(avain);
+    }
+}
+
 QDate AsetusModel::pvm(const QString &avain) const
 {
     return QDate::fromString( asetus(avain), Qt::ISODate );
@@ -80,7 +90,7 @@ void AsetusModel::asetaVar(const QString &avain, const QVariant &arvo)
 {
     if( arvo.isNull())
     {
-        asetukset_.remove(avain);
+        poista(avain);
     }
     else if( arvo.type() == QVariant::Date)
         aseta( avain, arvo.toDate().toString(Qt::ISODate));
@@ -117,9 +127,22 @@ int AsetusModel::luku(const QString &avain) const
 void AsetusModel::aseta(const QString& avain, int luku)
 {
     if( !luku)
-        asetukset_.remove(avain);
+        poista(avain);  // Nolla-arvolla asetus poistetaan (on joka tapauksessa tallella)
     else
         aseta(avain, QString::number(luku));
+}
+
+QStringList AsetusModel::avaimet(const QString &avaimenAlku) const
+{
+    if( avaimenAlku.isEmpty())
+        return asetukset_.keys();
+    QStringList vastaus;
+    foreach (QString avain, asetukset_.keys())
+    {
+        if( avain.startsWith(avaimenAlku))
+            vastaus.append( avain);
+    }
+    return vastaus;
 }
 
 void AsetusModel::lataa()

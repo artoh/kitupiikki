@@ -101,11 +101,11 @@ void TositelajiDialogi::tarkasta()
 void TositelajiDialogi::vastatilivalittu()
 {
     Tili tili = kp()->tilit()->tiliNumerolla( ui->vastatiliEdit->valittuTilinumero() );
+
     ui->tilioteRadio->setEnabled( tili.onkoRahaTili() );
+
     if( tili.onkoRahaTili())
         ui->tilioteRadio->setText( tr("Tiliotteita tilille %1 %2").arg(tili.numero()).arg(tili.nimi()));
-
-
 }
 
 void TositelajiDialogi::accept()

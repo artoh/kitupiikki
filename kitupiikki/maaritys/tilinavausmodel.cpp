@@ -159,18 +159,21 @@ bool TilinavausModel::tallenna()
     QDate avauspaiva = Kirjanpito::db()->asetukset()->pvm("tilinavauspvm");
 
 
-    kysely.prepare("INSERT INTO vienti(tosite,pvm,tili,debetsnt,kreditsnt,selite) "
-                   "VALUES (0,:pvm,:tili,:debet,:kredit,\"Tilinavaus\")");
+    kysely.prepare("INSERT INTO vienti(tosite,pvm,tili,debetsnt,kreditsnt,selite, vientirivi) "
+                   "VALUES (0,:pvm,:tili,:debet,:kredit,\"Tilinavaus\", :vientirivi)");
 
     QMapIterator<int,int> iter(saldot);
+    int vientirivi = 1;
+
     while( iter.hasNext())
     {
         iter.next();
         Tili tili = Kirjanpito::db()->tilit()->tiliIdlla( iter.key() );
         kysely.bindValue(":pvm", avauspaiva);
         kysely.bindValue(":tili", tili.id());
+        kysely.bindValue(":vientirivi", vientirivi);
 
-        if( tili.tyyppi().startsWith('A') || tili.tyyppi().startsWith('M'))
+        if( tili.onkoVastaavaaTili() || tili.onkoMenotili() )
         {
             kysely.bindValue(":debet", iter.value());
             kysely.bindValue(":kredit", QVariant());

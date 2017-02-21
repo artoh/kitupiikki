@@ -37,8 +37,18 @@ class AsetusModel : public QObject
 public:
     explicit AsetusModel(QSqlDatabase *tietokanta, QObject *parent = 0);
 
+    /**
+     * @brief Palauttaa asetuksen annetulla avaimella
+     * @param avain Haettava avain
+     * @return asetus, tai String() jos asetusta ei ole
+     */
     QString asetus(const QString& avain) const { return asetukset_.value(avain, QString()); }
     void aseta(const QString& avain, const QString& arvo);
+    /**
+     * @brief Poistaa asetuksen annetulla avaimella
+     * @param avain
+     */
+    void poista(const QString& avain);
 
     QDate pvm(const QString& avain) const;
     void aseta(const QString &avain, const QDate& pvm);
@@ -53,6 +63,13 @@ public:
 
     int luku(const QString& avain) const;
     void aseta(const QString &avain, int luku);
+
+    /**
+     * @brief Palauttaa listan avaimista, jotka alkavat annetulla alulla
+     * @param avaimenAlku Teksti, jolla haettavat avaimet alkavat, tyhjä hakee kaikki
+     * @return
+     */
+    QStringList avaimet(const QString& avaimenAlku = QString()) const;
 
 signals:
 

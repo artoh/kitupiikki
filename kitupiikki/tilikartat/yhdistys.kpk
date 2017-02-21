@@ -6,7 +6,7 @@ Yhdistys
 <p>Kitupiikki 2.1.2017</p>
 [intro]
 Pidä yhdistyksesi lippu korkealla!
-[*tilikartta]
+[Tilikartta]
 Yhdistys (KP 2.1.2017)
 [tilit]
 H1;1000;Vastaavaa;1
@@ -219,3 +219,25 @@ MP;9011;Vapaaehtoisten varausten muutos
 H1;9500;Tuloverot ja muut välittömät verot;1
 D;9501;Tuloverot
 D;9511;Muut välittömät verot
+[Raportti/Tuloslaskelma]
+:tulos
+H bold      Tuloslaskelma
+
+H           Varsinainen toiminta
+S 3..3      Varsinaisen toiminnan tulot
+S 4..4      Varsinaisen toiminnan menot
+S 3..4      Toimintajäämä
+
+H           Varainhankinta
+S 5..50     Varainhankinnnan tulot
+S 50..59    Varainhankinnan menot
+S 5..5      Varainhankinnan tuotto
+[Raportti/Tase]
+:tase
+H bold      VASTAAVAA
+S 1..1      Vastaavaa yhteensä
+
+H bold      Vastattavaa
+S 2..2      Muut vastattavat
+S 0         Yli/alijäämä
+S 0 2..2    Vastattavaa yhteensä

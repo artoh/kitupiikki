@@ -141,8 +141,27 @@ void KirjausWg::tallenna()
 {
     // TODO: Onko virheitä
     // 1) Debet ja kredit eivät täsmää
-    // 2) Rivit vailinnaisia
-    // ...
+    // 2) Ei yhtään vientiä (debet ja kredit nollia)
+
+    if( model_->vientiModel()->debetSumma() == 0 && model_->vientiModel()->kreditSumma() == 0)
+    {
+        if( QMessageBox::question(this, tr("Tosite puutteellinen"),
+           tr("Tositteeseen ei ole kirjattu yhtään vientiä.\n"
+              "Näin voi menetellä esim. liitetietotositteiden kanssa.\n\n"
+              "Tallennetaanko tosite ilman vientejä?"),
+            QMessageBox::Yes, QMessageBox::Cancel) != QMessageBox::Yes)
+            return;
+    }
+    else if( model_->vientiModel()->debetSumma() != model_->vientiModel()->kreditSumma() )
+    {
+        if( QMessageBox::question(this, tr("Tosite ei täsmää"),
+           tr("Tositteen debet-kirjausten summa ei täsmää kredit-kirjausten kanssa.\n"
+              "Yleensä tämä tarkoittaa virheellistä kirjausta, ellei kyse ole erityisestä "
+              "kirjanpitoteknisestä kirjauksesta, kuten tilien avaaaminen.\n\n"
+              "Tallennetaanko tosite, joka ei täsmää?"),
+            QMessageBox::Yes, QMessageBox::Cancel) != QMessageBox::Yes)
+            return;
+    }
 
     tiedotModeliin();
     model_->tallenna();

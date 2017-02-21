@@ -143,7 +143,7 @@ bool UusiKirjanpito::alustaKirjanpito()
         return false;
 
     // Luodaan alihakemistot
-    hakemisto.mkdir("tositteet");
+    hakemisto.mkdir("liitteet");
     hakemisto.mkdir("arkisto");
 
     progDlg.setValue( progDlg.value() + 1 );
@@ -191,12 +191,12 @@ bool UusiKirjanpito::alustaKirjanpito()
     progDlg.setValue( progDlg.value() + 1 );
 
     // Siirretään asetustauluun tilikartan tiedot
-    // jotka alkavat *-merkillä, ilman *-merkkiä
+    // jotka alkavat [Isolla kirjaimella]
     QMapIterator<QString,QStringList> i(kartta);
     while( i.hasNext())
     {
         i.next();
-        if( i.key().startsWith("*"))
+        if( !i.key().isEmpty() && i.key().at(0).isUpper() )
         {
             asetukset.aseta( i.key().mid(1), i.value());
         }
