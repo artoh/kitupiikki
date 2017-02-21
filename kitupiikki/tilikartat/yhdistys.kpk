@@ -221,17 +221,35 @@ D;9501;Tuloverot
 D;9511;Muut välittömät verot
 [Raportti/Tuloslaskelma]
 :tulos
-H bold      Tuloslaskelma
+H bold          Tuloslaskelma
 
-H           Varsinainen toiminta
-S 3..3      Varsinaisen toiminnan tulot
-S 4..4      Varsinaisen toiminnan menot
-S 3..4      Toimintajäämä
+H               Varsinainen toiminta
 
-H           Varainhankinta
-S 5..50     Varainhankinnnan tulot
-S 50..59    Varainhankinnan menot
-S 5..5      Varainhankinnan tuotto
+S 3             1. Tulot
+S 4  8          2. Kulut
+S 4..41         a) Henkilöstökulut
+S 8             b) Poistot
+S 42..49        c) Muut kulut
+
+S 3..4 8        3. Tuotto-/Kulujäämä
+
+H               Varainhankinta
+S 5..504        4. Tuotot
+S 505..509      5. Kulut
+S  3..5 8       6. Tuotto-/Kulujäämä
+
+H               Sijoitus- ja rahoitustoiminta
+S 60            7. Tuotot
+S 61            8. Kulut
+S 2..6 8        9. Tuotto-/Kulujäämä
+
+S 75            10. Yleisavustukset
+
+S 2..8          11. Tilikauden tulos
+
+S 9             12. Tilinpäätössiirrot
+
+S 1..9          13. Tilikauden ylijäämä (alijäämä)
 [Raportti/Tase]
 :tase
 H bold      VASTAAVAA

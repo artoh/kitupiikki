@@ -25,6 +25,18 @@
 
 #include <QDebug>
 
+/*
+Entäpä jos raporttimuoto olisin näin päin niin saataisiin ehkä vielä selkeämmin?
+
+Varsinainen toiminta                H   B
+1. Tulot                            S       3
+2. Kulut                            S       4,8
+ a) Henkilöstökulut                 s       4..41
+ b) Poistot                         s       8
+ c) Muut kulut                      s       42..49
+
+*/
+
 RaporttiTesti::RaporttiTesti(const QString &nimike)
     : nimi(nimike)
 {
@@ -40,7 +52,7 @@ RaportinKirjoittaja RaporttiTesti::raportti()
     kirjoittaja.asetaOtsikko( nimi );
     kirjoittaja.asetaKausiteksti("Kaikki - testiä");
 
-    kirjoittaja.lisaaVenyvaSarake();
+    kirjoittaja.lisaaSarake(25);
     kirjoittaja.lisaaEurosarake();
 
     QMap<int,int> summat;
@@ -62,8 +74,10 @@ RaportinKirjoittaja RaporttiTesti::raportti()
         // Sitten raporttia
         // H/h S/s d   bold 2..3 1..3 4510    Tekstiä
 
-        QRegularExpression re("(.+?)\\s{3,}(.+)");
+        QRegularExpression re("(.+?)(\\s{3,}|\\t)(.+)");
         QRegularExpression valiRe("(\\d+)\\.\\.(\\d+)");
+
+        // Vaihtoehtoinen välire, jolla myös yksinäinen: (\d+)(\.\.)?(\d*)
 
 
         foreach (QString rivi, lista)
@@ -77,14 +91,15 @@ RaportinKirjoittaja RaporttiTesti::raportti()
 
             QRegularExpressionMatch match = re.match(rivi);
             QStringList params = match.captured(1).split(' ');
-            QString teksti = match.captured(2);
+            QString teksti = match.captured(3);
 
             int summa = 0;
 
             // Tehdään laskelma
             foreach (QString param, params)
             {
-                if( param.at(0).isDigit())
+
+                if( !param.isEmpty() && param.at(0).isDigit())
                 {
 
                     int alkaen = 0;
@@ -114,7 +129,7 @@ RaportinKirjoittaja RaporttiTesti::raportti()
                             summa += iter.value();      // Lisättiin summa summarumiin!
                     }
 
-                    qDebug() << param << "     " << alkaen << " ... " << loppuen << "  = " << summa;
+                    qDebug() << param << "*     " << alkaen << " ... " << loppuen << "  = " << summa;
 
                 }
                 // Tähän tulee kaikkiin mahdollisiin muihin valintoihin ja fonttimääreisiin ja muihin liittyvät leikit

@@ -137,7 +137,7 @@ public:
     static int ysiluku(int luku, int taso);
 
 protected:
-    static int laskeysiluku(int luku);
+    static int laskeysiluku(int luku, bool loppuu = false);
 
 protected:
     int id_;

@@ -112,19 +112,20 @@ int Tili::ysiluku(int luku, int taso)
 
 int Tili::ysiluku(int luku, bool loppuu)
 {
-    if( loppuu )
-        return laskeysiluku(luku + 1) - 1;
-    else
-        return laskeysiluku(luku);
+    return laskeysiluku(luku, loppuu);
 }
 
-int Tili::laskeysiluku(int luku)
+int Tili::laskeysiluku(int luku, bool loppuu)
 {
     if( !luku )     // Nolla on nolla eikä voi muuta olla!
         return 0;
 
     while( luku <= 99999999 )
+    {
         luku = luku * 10;
+        if( loppuu )
+            luku = luku + 9;    // Loppuluku täytetään ysillä
+    }
     return luku;
 }
 
