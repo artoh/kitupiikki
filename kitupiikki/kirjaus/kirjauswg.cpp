@@ -30,6 +30,8 @@
 #include <QMessageBox>
 #include <QIntValidator>
 #include <QFileDialog>
+#include <QDesktopServices>
+#include <QUrl>
 
 #include <QSortFilterProxyModel>
 
@@ -88,6 +90,8 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( ui->liiteView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
              this, SLOT(liiteValinta(QModelIndex)));
     connect( ui->lisaaliiteNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaLiite()));
+    connect( ui->avaaNappi, SIGNAL(clicked(bool)), this, SLOT(naytaLiite()));
+    connect( ui->poistaLiiteNappi, SIGNAL(clicked(bool)), this, SLOT(poistaLiite()));
 }
 
 KirjausWg::~KirjausWg()
@@ -332,5 +336,25 @@ void KirjausWg::tiliotePaivayksienPaivitys()
     paiva = paiva.addMonths(1).addDays(-1); // Siirrytään kuukauden loppuun
     ui->tilioteloppuenEdit->setDate(paiva);
 
+}
+
+void KirjausWg::naytaLiite()
+{
+    if( ui->liiteView->currentIndex().isValid())
+        QDesktopServices::openUrl( QUrl::fromLocalFile( ui->liiteView->currentIndex().data(LiiteModel::Polkurooli).toString() ) );
+
+}
+
+void KirjausWg::poistaLiite()
+{
+    if( ui->liiteView->currentIndex().isValid() && model_->muokkausSallittu() )
+    {
+        if( QMessageBox::question(this, tr("Poista liite"),
+                                  tr("Poistetaanko liite %1. Poistettua liitettä ei voi palauttaa!").arg( ui->liiteView->currentIndex().data(LiiteModel::OtsikkoRooli).toString()),
+                                  QMessageBox::Yes, QMessageBox::Cancel) == QMessageBox::Yes )
+        {
+            model_->liiteModel()->poistaLiite( ui->liiteView->currentIndex().row() );
+        }
+    }
 }
 

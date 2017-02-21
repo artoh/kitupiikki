@@ -87,20 +87,6 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="poistariviNappi">
-           <property name="text">
-            <string>Poista rivi</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../pic/pic.qrc">
-             <normaloff>:/pic/poistarivi.png</normaloff>:/pic/poistarivi.png</iconset>
-           </property>
-           <property name="shortcut">
-            <string>Ctrl+S</string>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QPushButton" name="lisaaRiviNappi">
            <property name="text">
             <string>Lisää rivi</string>
@@ -111,6 +97,20 @@
            </property>
            <property name="shortcut">
             <string>Ins</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="poistariviNappi">
+           <property name="text">
+            <string>Poista rivi</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../pic/pic.qrc">
+             <normaloff>:/pic/poistarivi.png</normaloff>:/pic/poistarivi.png</iconset>
+           </property>
+           <property name="shortcut">
+            <string>Ctrl+S</string>
            </property>
           </widget>
          </item>
@@ -177,12 +177,20 @@
            <property name="text">
             <string>Lisää</string>
            </property>
+           <property name="icon">
+            <iconset resource="../pic/pic.qrc">
+             <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
+           </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="poistaLiiteNappi">
            <property name="text">
             <string>Poista</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../pic/pic.qrc">
+             <normaloff>:/pic/roskis.png</normaloff>:/pic/roskis.png</iconset>
            </property>
           </widget>
          </item>
@@ -363,6 +371,17 @@
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/peru.png</normaloff>:/pic/peru.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="poistaNappi">
+       <property name="text">
+        <string>Poista</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/roskis.png</normaloff>:/pic/roskis.png</iconset>
        </property>
       </widget>
      </item>

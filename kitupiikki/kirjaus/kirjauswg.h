@@ -105,6 +105,9 @@ public slots:
 
     void tiliotePaivayksienPaivitys();
 
+    void naytaLiite();
+    void poistaLiite();
+
 signals:
     void liiteValittu(const QString& tiedostopolku);
     /**

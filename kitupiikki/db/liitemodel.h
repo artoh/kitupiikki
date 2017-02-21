@@ -73,7 +73,11 @@ public:
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
 
+    Qt::ItemFlags flags(const QModelIndex &index) const;
+    bool setData(const QModelIndex &index, const QVariant &value, int role);
+
     void lisaaTiedosto(const QString& polku, const QString& otsikko);
+    void poistaLiite(int indeksi);
 
     bool muokattu() const { return muokattu_; }
 public slots:
@@ -87,6 +91,7 @@ protected:
 
     TositeModel *tositeModel_;
     QList<Liite> liitteet_;
+    QList<int> poistetutIdt_;
     bool muokattu_;
 };
 

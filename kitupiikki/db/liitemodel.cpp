@@ -32,7 +32,7 @@
 QString Liite::tiedostopolku() const
 {
     if( uusitiedosto.isEmpty())
-        return kp()->hakemisto().absoluteFilePath(QString("tositteet/%1").arg(tiedostonnimi));
+        return kp()->hakemisto().absoluteFilePath(QString("liitteet/%1").arg(tiedostonnimi));
     else
         return uusitiedosto;
 }
@@ -83,7 +83,6 @@ QVariant LiiteModel::data(const QModelIndex &index, int role) const
 
     else if( role == Qt::DecorationRole)
     {
-        qDebug() << liite.tarkenne();
 
         if( liite.tarkenne() == "pdf")
             return QIcon(":/pic/pdf.png");
@@ -94,6 +93,26 @@ QVariant LiiteModel::data(const QModelIndex &index, int role) const
     }
 
     return QVariant();
+}
+
+Qt::ItemFlags LiiteModel::flags(const QModelIndex &index) const
+{
+    if( tositeModel_->muokkausSallittu())
+        return QAbstractListModel::flags(index) | Qt::ItemIsEditable;
+    else
+        return QAbstractListModel::flags(index);
+}
+
+bool LiiteModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if( index.isValid() && role == Qt::EditRole)
+    {
+        // Vaihdetaan näytettävä nimi
+        liitteet_[index.row()].otsikko = value.toString();
+        liitteet_[index.row()].muokattu = true;
+        return true;
+    }
+    return false;
 }
 
 void LiiteModel::lisaaTiedosto(const QString &polku, const QString &otsikko)
@@ -110,6 +129,19 @@ void LiiteModel::lisaaTiedosto(const QString &polku, const QString &otsikko)
 
     endInsertRows();
     muokattu_ = true;
+}
+
+void LiiteModel::poistaLiite(int indeksi)
+{
+    beginRemoveRows( QModelIndex(), indeksi, indeksi);
+    if( liitteet_[indeksi].id)
+        poistetutIdt_.append( liitteet_[indeksi].id);
+
+    // Poistetaan tiedosto
+    QFile( liitteet_[indeksi].tiedostopolku() ).remove();
+
+    liitteet_.removeAt(indeksi);
+    endRemoveRows();
 }
 
 void LiiteModel::lataa()
@@ -158,8 +190,8 @@ void LiiteModel::tallenna()
                     .arg( liitteet_[i].liiteno, 2, 10, QChar('0'))
                     .arg( info.suffix().toLower() );
 
-            // Kopioidaan tositteet/ -hakemistoon
-            QString kopiopolku = kp()->hakemisto().absoluteFilePath("tositteet/" + uusinimi);
+            // Kopioidaan liitteet/ -hakemistoon
+            QString kopiopolku = kp()->hakemisto().absoluteFilePath("liitteet/" + uusinimi);
 
             QFile tiedosto( liitteet_[i].uusitiedosto);
             tiedosto.open( QIODevice::ReadOnly);
