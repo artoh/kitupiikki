@@ -65,7 +65,8 @@ SOURCES += main.cpp \
     maaritys/tositelajidialogi.cpp \
     kirjaus/kirjausapuridialog.cpp \
     db/verotyyppimodel.cpp \
-    kirjaus/kohdennusdelegaatti.cpp
+    kirjaus/kohdennusdelegaatti.cpp \
+    raportti/raporittitesti.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -122,7 +123,8 @@ HEADERS += \
     maaritys/tositelajidialogi.h \
     kirjaus/kirjausapuridialog.h \
     db/verotyyppimodel.h \
-    kirjaus/kohdennusdelegaatti.h
+    kirjaus/kohdennusdelegaatti.h \
+    raportti/raporittitesti.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

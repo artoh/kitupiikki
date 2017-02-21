@@ -198,7 +198,7 @@ bool UusiKirjanpito::alustaKirjanpito()
         i.next();
         if( !i.key().isEmpty() && i.key().at(0).isUpper() )
         {
-            asetukset.aseta( i.key().mid(1), i.value());
+            asetukset.aseta( i.key() , i.value());
         }
     }
 

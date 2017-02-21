@@ -33,6 +33,8 @@
 #include "paivakirjaraportti.h"
 #include "db/kirjanpito.h"
 
+#include "raporittitesti.h"
+
 RaporttiSivu::RaporttiSivu(QWidget *parent) : KitupiikkiSivu(parent),
     nykyraportti(0), printer(QPrinter::HighResolution)
 {
@@ -40,6 +42,8 @@ RaporttiSivu::RaporttiSivu(QWidget *parent) : KitupiikkiSivu(parent),
     ui->setupUi(this);
 
     lisaaRaportti(new PaivakirjaRaportti);
+
+    lisaaRaportti(new RaporttiTesti("Tuloslaskelma"));
 
     ui->lista->setCurrentRow(0);
 
