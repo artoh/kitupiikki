@@ -61,6 +61,14 @@ TilinMuokkausDialog::TilinMuokkausDialog(TiliModel *model, QModelIndex index) :
     ui->varoitusKuva->setVisible(false);
     ui->varoitusLabel->setVisible(false);
 
+    // Ellei alv-toimintoja käytettävissä, ne piilotetaan
+    bool alvKaytossa = kp()->asetukset()->onko("AlvVelvollinen");
+    ui->verolajiLabel->setVisible( alvKaytossa );
+    ui->veroCombo->setVisible( alvKaytossa );
+    ui->veroprosenttiLabel->setVisible( alvKaytossa );
+    ui->veroSpin->setVisible( alvKaytossa);
+
+
     connect( ui->veroCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(veroEnablePaivita()));
     connect( ui->numeroEdit, SIGNAL(textChanged(QString)), this, SLOT(otsikkoTasoPaivita()));
 
@@ -70,6 +78,7 @@ TilinMuokkausDialog::TilinMuokkausDialog(TiliModel *model, QModelIndex index) :
 
     // Tallennusnappi ei käytössä ennen kuin tiedot kunnossa
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+
 
     if( index.isValid())
         lataa();
@@ -104,14 +113,6 @@ void TilinMuokkausDialog::lataa()
     int alvlaji = tili.json()->luku("AlvLaji");
 
     ui->veroCombo->setCurrentIndex( ui->veroCombo->findData( alvlaji ) );
-
-    // Ellei alv-toimintoja käytettävissä, ne piilotetaan
-    bool alvKaytossa = kp()->asetukset()->onko("AlvVelvollinen");
-    ui->verolajiLabel->setVisible( alvKaytossa );
-    ui->veroCombo->setVisible( alvKaytossa );
-    ui->veroprosenttiLabel->setVisible( alvKaytossa );
-    ui->veroSpin->setVisible( alvKaytossa);
-
 
     tarkasta();
 }

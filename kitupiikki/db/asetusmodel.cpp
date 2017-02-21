@@ -62,7 +62,7 @@ void AsetusModel::aseta(const QString& avain, const QDate &pvm)
 
 bool AsetusModel::onko(const QString &avain) const
 {
-    if( asetus(avain).isEmpty() || asetus(avain) == "0" || asetus(avain) == "EI")
+    if( !asetukset_.contains(avain)   ||  asetus(avain).isEmpty() || asetus(avain) == "0" || asetus(avain) == "EI")
         return false;
     else
         return true;
@@ -78,7 +78,11 @@ void AsetusModel::aseta(const QString &avain, bool totuusarvo)
 
 void AsetusModel::asetaVar(const QString &avain, const QVariant &arvo)
 {
-    if( arvo.type() == QVariant::Date)
+    if( arvo.isNull())
+    {
+        asetukset_.remove(avain);
+    }
+    else if( arvo.type() == QVariant::Date)
         aseta( avain, arvo.toDate().toString(Qt::ISODate));
     else if( arvo.type() == QVariant::Bool)
     {
@@ -112,7 +116,10 @@ int AsetusModel::luku(const QString &avain) const
 
 void AsetusModel::aseta(const QString& avain, int luku)
 {
-    aseta(avain, QString::number(luku));
+    if( !luku)
+        asetukset_.remove(avain);
+    else
+        aseta(avain, QString::number(luku));
 }
 
 void AsetusModel::lataa()

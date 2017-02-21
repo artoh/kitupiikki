@@ -120,6 +120,9 @@ int Tili::ysiluku(int luku, bool loppuu)
 
 int Tili::laskeysiluku(int luku)
 {
+    if( !luku )     // Nolla on nolla eikä voi muuta olla!
+        return 0;
+
     while( luku <= 99999999 )
         luku = luku * 10;
     return luku;

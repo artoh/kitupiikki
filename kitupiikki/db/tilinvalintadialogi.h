@@ -46,6 +46,7 @@ public slots:
 
 protected slots:
     void klikattu(const QModelIndex& index);
+    void valintaMuuttui(const QModelIndex& index);
 
 
 private:
@@ -62,7 +63,7 @@ public:
      * @param alku
      * @return
      */
-    static Tili valitseTili(const QString& alku, const QString& tyyppiSuodatin = QString("[ABCD]"), TiliModel *model = 0);
+    static Tili valitseTili(const QString& alku, const QString& tyyppiSuodatin = QString("[ABCDH]"), TiliModel *model = 0);
 
 };
 

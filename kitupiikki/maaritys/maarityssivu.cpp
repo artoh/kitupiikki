@@ -109,6 +109,15 @@ void MaaritysSivu::peru()
 {
     if( nykyinen )
     {
+        if( nykyinen->onkoMuokattu())
+        {
+            // Jos on muokattu, varmistetaan vielä poistuminen!
+            if( QMessageBox::question(this, tr("Kitupiikki"), tr("Asetuksia on muutettu. Poistutko sivulta tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
+            {
+                return;
+            }
+        }
+
         nykyinen->nollaa();
         tallennanappi->setEnabled( nykyinen->onkoMuokattu());
     }

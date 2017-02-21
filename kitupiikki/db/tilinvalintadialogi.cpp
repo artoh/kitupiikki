@@ -15,7 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-
+#include <QDebug>
 
 #include "tilinvalintadialogi.h"
 #include "ui_tilinvalintadialogi.h"
@@ -54,6 +54,8 @@ TilinValintaDialogi::TilinValintaDialogi(QWidget *parent) :
              this, SLOT(suodata(QString)));
     connect( ui->view, SIGNAL(clicked(QModelIndex)),
              this, SLOT(klikattu(QModelIndex)));
+    connect( ui->view->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
+             this, SLOT(valintaMuuttui(QModelIndex)));
 
 
 }
@@ -88,11 +90,6 @@ void TilinValintaDialogi::suodata(const QString &alku)
     if( ui->view->model()->rowCount(QModelIndex()) == 1)
     {
         ui->view->setCurrentIndex( ui->view->model()->index(0,0) );
-        ui->valitseNappi->setEnabled(true);
-    }
-    else
-    {
-        ui->valitseNappi->setEnabled(false);
     }
 
 }
@@ -126,6 +123,12 @@ void TilinValintaDialogi::klikattu(const QModelIndex &index)
         accept();
     }
 }
+
+void TilinValintaDialogi::valintaMuuttui(const QModelIndex &index)
+{
+    ui->valitseNappi->setEnabled( index.isValid() && index.data( TiliModel::OtsikkotasoRooli ).toInt() == 0 );
+}
+
 
 
 

@@ -28,6 +28,8 @@
  * Asetukset tallennetaan välittömästi tietokantaan
  * Yleisimmille tietotyypeille on valmiiksi muunnosfunktiot
  *
+ * Tyhjä arvo (tai nolla) tarkoittaa, että kyseinen asetus poistetaan
+ *
  */
 class AsetusModel : public QObject
 {

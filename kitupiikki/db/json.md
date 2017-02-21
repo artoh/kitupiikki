@@ -18,3 +18,9 @@ Avain   | Tyyppi  |  Selitys
 Vastatili | int (tilinumero) | Oletus kirjausten vastatilille
 Kirjaustyyppi | int (enum TositelajiModel::KirjausTyyppi) | Tositteen kirjausten tyyppi: KAIKKIKIRJAUKSET, OSTOLASKUT, MYYNTILASKUT, TILIOTE
 Oletustili  |  int(tilinumero)  | Oletus kirjaustiliksi
+
+Tosite
+------
+
+- tiliote alkaa
+- tiliote päättyy

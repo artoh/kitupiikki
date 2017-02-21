@@ -295,7 +295,7 @@ void TiliModel::tallenna()
     for( int i=0; i < tilit_.count() ; i++)
     {
         Tili tili = tilit_[i];
-        if( tili.onkoValidi() && tili.muokattu())
+        if( tili.onkoValidi() && tili.muokattu() )
         {
             if( tili.id())
             {
@@ -318,7 +318,7 @@ void TiliModel::tallenna()
             kysely.bindValue(":tila", tili.tila());
             kysely.bindValue(":otsikkotaso", tili.otsikkotaso());
             kysely.bindValue(":ysiluku", tili.ysivertailuluku());
-            kysely.bindValue(":json", tili.json()->toSqlJson());
+            kysely.bindValue(":json", tilit_[i].json()->toSqlJson());
 
             if( kysely.exec() )
                 tilit_[i].nollaaMuokattu();
@@ -337,6 +337,7 @@ void TiliModel::tallenna()
 
     tietokanta_->commit();
 }
+
 
 QMap<QString,QString> TiliModel::tilityypit__;
 QMap<int,QString> TiliModel::verotyypit__;
