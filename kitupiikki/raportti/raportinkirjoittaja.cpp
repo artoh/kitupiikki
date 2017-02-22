@@ -17,6 +17,8 @@
 
 #include <QRect>
 #include <QPainter>
+#include <QFile>
+#include <QPixmap>
 #include "raportinkirjoittaja.h"
 
 #include "db/kirjanpito.h"
@@ -258,17 +260,31 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu)
     QString nimi = Kirjanpito::db()->asetus("Nimi");
     QString paivays = QDate::currentDate().toString(Qt::SystemLocaleShortDate);
 
+    int vasenreunus = 0;
 
-    painter->drawText( QRect(0,0,sivunleveys/4, rivinkorkeus ), Qt::AlignLeft, nimi );
+    if( QFile::exists(kp()->hakemisto().absoluteFilePath("logo128.png")))
+    {
+        painter->drawPixmap( QRect(0,0,rivinkorkeus*2, rivinkorkeus*2), QPixmap( kp()->hakemisto().absoluteFilePath("logo128.png") ),
+                             QRect(0,0,128,128));
+        vasenreunus = rivinkorkeus * 2 + painter->fontMetrics().width("A");
+    }
+
+
+    painter->drawText( QRect(vasenreunus,0,sivunleveys/4, rivinkorkeus ), Qt::AlignLeft, nimi );
     painter->drawText( QRect(sivunleveys/4,0,sivunleveys/2, rivinkorkeus  ), Qt::AlignHCenter, otsikko_);
     painter->drawText( QRect(sivunleveys*3/4, 0, sivunleveys/4, rivinkorkeus), Qt::AlignRight, paivays);
 
     painter->translate(0, rivinkorkeus);
 
-    QString ytunnus = Kirjanpito::db()->asetus("Ytunnus") ;
+    QString ytunnus;
+    if( kp()->asetukset()->onko("Harjoitus"))
+        ytunnus = "HARJOITTELU";
+    else
+        ytunnus = Kirjanpito::db()->asetus("Ytunnus") ;
+
     QString sivustr = QString("Sivu %1").arg(sivu);
 
-    painter->drawText(QRect(0,0,sivunleveys/4, rivinkorkeus ), Qt::AlignLeft, ytunnus );
+    painter->drawText(QRect(vasenreunus,0,sivunleveys/4, rivinkorkeus ), Qt::AlignLeft, ytunnus );
     painter->drawText(QRect(sivunleveys/4,0,sivunleveys/2, rivinkorkeus  ), Qt::AlignHCenter, kausiteksti_);
     painter->drawText(QRect(sivunleveys*3/4, 0, sivunleveys/4, rivinkorkeus), Qt::AlignRight, sivustr);
 
