@@ -30,6 +30,7 @@
 #include "tositelajit.h"
 #include "tilikarttamuokkaus.h"
 #include "kohdennusmuokkaus.h"
+#include "raporttimuokkaus.h"
 
 #include <QDebug>
 
@@ -167,6 +168,8 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         nykyinen = new TilikarttaMuokkaus;
     else if( sivu == KOHDENNUS)
         nykyinen = new KohdennusMuokkaus;
+    else if( sivu == RAPORTIT)
+        nykyinen = new RaporttiMuokkaus;
     else
         nykyinen = new Perusvalinnat;   // Tilipäinen
 

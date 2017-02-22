@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>RaporttiMuokkain</class>
+ <widget class="QWidget" name="RaporttiMuokkain">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>532</width>
+    <height>411</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QComboBox" name="valintaCombo">
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="uusiNappi">
+       <property name="text">
+        <string>Uusi</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="kopioiNappi">
+       <property name="text">
+        <string>Tee kopio</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="tulosRadio">
+       <property name="text">
+        <string>Tuloslaskelma</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="taseRadio">
+       <property name="text">
+        <string>Tase</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QPlainTextEdit" name="editori">
+     <property name="lineWrapMode">
+      <enum>QPlainTextEdit::NoWrap</enum>
+     </property>
+     <property name="tabStopWidth">
+      <number>180</number>
+     </property>
+     <property name="backgroundVisible">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton">
+       <property name="text">
+        <string>Näytä pikaohje</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/ohje.png</normaloff>:/pic/ohje.png</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color:#4b4b4b;&quot;&gt;Otsikot vasemmalle Määreet tabulaattorin jälkeen&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; color:#005500;&quot;&gt;S&lt;/span&gt; / &lt;span style=&quot; color:#005500;&quot;&gt;SUM &lt;/span&gt;Tulostaa rivin ja summan (vaikka olisi 0 )&lt;br/&gt;&lt;span style=&quot; color:#005500;&quot;&gt;s&lt;/span&gt; / &lt;span style=&quot; color:#005500;&quot;&gt;sum&lt;/span&gt; Tulostaa rivin ja summan ( jos ei 0 )&lt;br/&gt;&lt;span style=&quot; color:#005500;&quot;&gt;d&lt;/span&gt; / &lt;span style=&quot; color:#005500;&quot;&gt;details&lt;/span&gt; Tulostaa tilikohtaisen erittelyn&lt;br/&gt;&lt;span style=&quot; color:#005500;&quot;&gt;h&lt;/span&gt; / &lt;span style=&quot; color:#005500;&quot;&gt;header&lt;/span&gt; Tulostaa pelkän otsikon ( jos summa ei 0 )&lt;br/&gt;Ilman määreitä tulostaa otsikon joka tapauksessa&lt;br/&gt;&lt;span style=&quot; color:#0000ff;&quot;&gt;1911&lt;/span&gt; Tulostaa tilit, jotka alkavat 1911 (1911xxxx)&lt;br/&gt;&lt;span style=&quot; color:#0000ff;&quot;&gt;32..38&lt;/span&gt; Tulostaa tilit väliltä (32000000 .. 38999999)&lt;br/&gt;&lt;span style=&quot; color:#00007f;&quot;&gt;=&lt;/span&gt; Tulostaa summaluvun kaikista tähän asti lasketuista&lt;br/&gt;&lt;span style=&quot; color:#aa00ff;&quot;&gt;bold&lt;/span&gt; Otsikko tulostetaan lihavoituna&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>label</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>274</x>
+     <y>240</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>437</x>
+     <y>297</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

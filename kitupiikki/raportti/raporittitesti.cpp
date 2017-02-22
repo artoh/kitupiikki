@@ -129,8 +129,6 @@ RaportinKirjoittaja RaporttiTesti::raportti()
                             summa += iter.value();      // Lisättiin summa summarumiin!
                     }
 
-                    qDebug() << param << "*     " << alkaen << " ... " << loppuen << "  = " << summa;
-
                 }
                 // Tähän tulee kaikkiin mahdollisiin muihin valintoihin ja fonttimääreisiin ja muihin liittyvät leikit
             }

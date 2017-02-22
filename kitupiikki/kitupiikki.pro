@@ -66,7 +66,9 @@ SOURCES += main.cpp \
     kirjaus/kirjausapuridialog.cpp \
     db/verotyyppimodel.cpp \
     kirjaus/kohdennusdelegaatti.cpp \
-    raportti/raporittitesti.cpp
+    raportti/raporittitesti.cpp \
+    maaritys/raporttimuokkaus.cpp \
+    maaritys/raportinkorostin.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -124,7 +126,9 @@ HEADERS += \
     kirjaus/kirjausapuridialog.h \
     db/verotyyppimodel.h \
     kirjaus/kohdennusdelegaatti.h \
-    raportti/raporittitesti.h
+    raportti/raporittitesti.h \
+    maaritys/raporttimuokkaus.h \
+    maaritys/raportinkorostin.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -153,7 +157,8 @@ FORMS += \
     maaritys/kohdennukset.ui \
     maaritys/kohdennusdialog.ui \
     maaritys/tositelajidialogi.ui \
-    kirjaus/kirjausapuridialog.ui
+    kirjaus/kirjausapuridialog.ui \
+    maaritys/raportinmuokkaus.ui
 
 DISTFILES += \
     uusikp/luo.sql \
