@@ -24,40 +24,36 @@
 #include <QIcon>
 #include <QPainter>
 
+
 #include "raportinkirjoittaja.h"
 
+class QCheckBox;
+
 /**
- * @brief The Raportin kantaluokka
+ * @brief Raportin kantaluokka
  *
+ * Raporttikehys, jossa raportin tulostus ja esikatselu.
+ * Tästä periytetty raporttiluokka luo oman käyttöliittymänsä
+ * raporttiWidget -widgetin sisään
+ *
+ * @code
+ * ui->setupUi( raporttiWidget );
+ * @endcode
+ *
+ * Lisäksi periytetyllä raportilla on Raportti-funktio, joka palauttaa
+ * RaportinKirjoittaja-olion, johon raportti on kirjoitettu.
  *
  */
 class Raportti : public QWidget
 {
     Q_OBJECT
 public:
-    Raportti(QWidget *parent = 0);
+    Raportti(QPrinter *printer, QWidget *parent = 0);
 
-    /**
-     * @brief Raporttilistassa näytettävä raportin nimi
-     * @return
-     */
-    virtual QString raporttinimi() const = 0;
-    virtual QIcon kuvake() const;
-
-    /**
-     * @brief Näytetäänkö raportin lomakkeella esikatselu- ja tulostuspainikkeet
-     * @return tosi, jos tulostettava
-     */
-    virtual bool onkoTulostettava() const { return true; }
-
-    /**
-     * @brief Kutsutaan, kun tämä lomake valitaan
-     */
-    virtual void alustaLomake();
 
     /**
      * @brief Palauttaa pyydetyn raportin
-     * @return
+     * @return RaportinKirjoittaja, jonne raportti on kirjoitettu
      */
     virtual RaportinKirjoittaja raportti() = 0;
 
@@ -65,6 +61,22 @@ public:
 signals:
 
 public slots:
+    /**
+     * @brief Tulostaa raportin
+     */
+    void tulosta();
+    /**
+     * @brief Pdf-raportin esikatselu
+     */
+    void esikatsele();
+
+
+protected:
+    QPrinter *tulostin;
+    QWidget *raporttiWidget;
+    QCheckBox *raitaCheck;
+
+
 };
 
 #endif // RAPORTTI_H

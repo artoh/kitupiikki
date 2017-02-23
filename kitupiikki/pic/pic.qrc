@@ -39,6 +39,7 @@
         <file>vasara.png</file>
         <file>karhu.png</file>
         <file>possukirjaa.png</file>
+        <file>tekstisivu.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

@@ -24,9 +24,7 @@ class RaporttiTesti  : public Raportti
 {
     Q_OBJECT
 public:
-    RaporttiTesti(const QString& nimike);
-
-    QString raporttinimi() const { return nimi; }
+    RaporttiTesti(const QString& nimike, QPrinter *printer);
 
     RaportinKirjoittaja raportti();
 

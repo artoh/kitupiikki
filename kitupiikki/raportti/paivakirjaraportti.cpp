@@ -26,10 +26,15 @@
 
 #include "raportinkirjoittaja.h"
 
-PaivakirjaRaportti::PaivakirjaRaportti()
+PaivakirjaRaportti::PaivakirjaRaportti(QPrinter *printer)
+    : Raportti(printer)
 {
     ui = new Ui::Paivakirja;
-    ui->setupUi(this);
+    ui->setupUi( raporttiWidget );
+
+    Tilikausi nykykausi = Kirjanpito::db()->tilikausiPaivalle( Kirjanpito::db()->paivamaara() );
+    ui->alkupvm->setDate(nykykausi.alkaa());
+    ui->loppupvm->setDate(nykykausi.paattyy());
 }
 
 PaivakirjaRaportti::~PaivakirjaRaportti()
@@ -37,12 +42,6 @@ PaivakirjaRaportti::~PaivakirjaRaportti()
     delete ui;
 }
 
-void PaivakirjaRaportti::alustaLomake()
-{
-    Tilikausi nykykausi = Kirjanpito::db()->tilikausiPaivalle( Kirjanpito::db()->paivamaara() );
-    ui->alkupvm->setDate(nykykausi.alkaa());
-    ui->loppupvm->setDate(nykykausi.paattyy());
-}
 
 RaportinKirjoittaja PaivakirjaRaportti::raportti()
 {

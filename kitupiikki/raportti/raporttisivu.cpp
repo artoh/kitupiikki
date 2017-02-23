@@ -16,17 +16,8 @@
 */
 
 #include <QListWidget>
-#include <QFrame>
-#include <QHBoxLayout>
-
-#include <QFile>
-#include <QTemporaryFile>
-#include <QUrl>
 
 #include <QDebug>
-
-#include <QPrintDialog>
-#include <QDesktopServices>
 
 #include <QHBoxLayout>
 #include <QListWidget>
@@ -54,22 +45,6 @@ RaporttiSivu::RaporttiSivu(QWidget *parent) : KitupiikkiSivu(parent),
 
     connect( lista, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), this, SLOT(raporttiValittu(QListWidgetItem*)));
 
-
-/*
-    ui = new Ui::RaporttiWg();
-    ui->setupUi(this);
-
-    lisaaRaportti(new PaivakirjaRaportti);
-
-    lisaaRaportti(new RaporttiTesti("Tuloslaskelma"));
-
-    ui->lista->setCurrentRow(0);
-
-    connect( ui->lista, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), this, SLOT(raporttiValittu(QListWidgetItem*)));
-    connect( ui->tulostaNappi, SIGNAL(clicked(bool)), this, SLOT(tulosta()));
-    connect( ui->esikatseleNappi, SIGNAL(clicked(bool)), this, SLOT(esikatsele()));
-*/
-
 }
 
 void RaporttiSivu::siirrySivulle()
@@ -82,7 +57,7 @@ void RaporttiSivu::siirrySivulle()
     // Lisätään muokattavat raportit
     foreach (QString rnimi, kp()->asetukset()->avaimet("Raportti/") )
     {
-        lisaaRaportti( rnimi.mid(9), rnimi);
+        lisaaRaportti( rnimi.mid(9), rnimi, ":/pic/tekstisivu.png");
     }
 }
 
@@ -100,6 +75,9 @@ bool RaporttiSivu::poistuSivulta()
 
 void RaporttiSivu::raporttiValittu(QListWidgetItem *item)
 {
+    if( !item)
+        return;
+
     if( nykyinen )
     {
         wleiska->removeWidget( nykyinen );
@@ -111,23 +89,13 @@ void RaporttiSivu::raporttiValittu(QListWidgetItem *item)
     QString raporttinimi = item->data(RAPORTTINIMI).toString();
 
     if( raporttinimi == "Päiväkirja")
-        nykyinen = new PaivakirjaRaportti();
+        nykyinen = new PaivakirjaRaportti( &printer );
     else if( raporttinimi.startsWith("Raportti/"))
-        nykyinen = new RaporttiTesti( raporttinimi.mid(9));
+        nykyinen = new RaporttiTesti( raporttinimi.mid(9), &printer);
 
 
     if( nykyinen )
         wleiska->addWidget(nykyinen);
-
-/*
-    nykyraportti = raportit[ item->data(RAPORTTIID).toInt()];
-
-    ui->pino->setCurrentWidget(nykyraportti);
-    nykyraportti->alustaLomake();
-
-    ui->esikatseleNappi->setVisible( nykyraportti->onkoTulostettava());
-    ui->tulostaNappi->setVisible( nykyraportti->onkoTulostettava());
-*/
 
 }
 
@@ -136,41 +104,3 @@ void RaporttiSivu::lisaaRaportti(const QString &otsikko, const QString &nimi, co
     QListWidgetItem *uusi = new QListWidgetItem( QIcon(kuvakenimi), otsikko, lista);
     uusi->setData( RAPORTTINIMI, nimi);
 }
-/*
-void RaporttiSivu::tulosta()
-{
-    if( !nykyraportti )
-        return;
-
-    QPrintDialog printDialog( &printer, this );
-    if( printDialog.exec())
-    {
-        nykyraportti->raportti().tulosta( &printer, ui->raitaCheck->isChecked());
-    }
-}
-
-void RaporttiSivu::esikatsele()
-{
-    // Luo tilapäisen pdf-tiedoston
-    QTemporaryFile *file = new QTemporaryFile(QDir::tempPath() + "/raportti-XXXXXX.pdf", this);
-    file->open();
-    file->close();
-
-    printer.setOutputFileName( file->fileName() );
-    nykyraportti->raportti().tulosta(&printer, ui->raitaCheck->isChecked());
-    QDesktopServices::openUrl( QUrl(file->fileName()) );
-
-}
-*/
-/*
-void RaporttiSivu::lisaaRaportti(Raportti *raportti)
-{
-    QListWidgetItem *item = new QListWidgetItem(raportti->raporttinimi(), ui->lista);
-    item->setData(RAPORTTIID, QVariant( raportit.count()));
-    item->setIcon(raportti->kuvake());
-    raportit.append(raportti);
-    ui->pino->addWidget(raportti);
-
-}
-
-*/

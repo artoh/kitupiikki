@@ -37,8 +37,8 @@ Varsinainen toiminta                H   B
 
 */
 
-RaporttiTesti::RaporttiTesti(const QString &nimike)
-    : nimi(nimike)
+RaporttiTesti::RaporttiTesti(const QString &nimike, QPrinter *printer)
+    :  Raportti(printer), nimi(nimike)
 {
 
 }

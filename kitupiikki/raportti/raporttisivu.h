@@ -36,6 +36,8 @@ class QHBoxLayout;
  * näytettävä raportti.
  *
  * Raporttilista luodaan vasta sivulle siirryttäessä.
+ * Raporttilistaan haetaan pysyvien raporttien lisäksi muokattavat raportit
+ * asetuksista Raportti/<Raportin nimi>
  *
  */
 class RaporttiSivu : public KitupiikkiSivu

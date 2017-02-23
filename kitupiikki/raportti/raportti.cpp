@@ -19,22 +19,68 @@
 #include <QFont>
 #include <QPen>
 
+#include <QFile>
+#include <QTemporaryFile>
+#include <QUrl>
+#include <QPrintDialog>
+#include <QDesktopServices>
+
+#include <QCheckBox>
+#include <QPushButton>
+
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+
 #include "raportti.h"
 #include "db/kirjanpito.h"
 
 
-Raportti::Raportti(QWidget *parent) : QWidget(parent)
+Raportti::Raportti(QPrinter *printer, QWidget *parent) : QWidget(parent),
+    tulostin(printer)
 {
+        raporttiWidget = new QWidget();
 
+        raitaCheck = new QCheckBox(tr("Tulosta taustaraidat"));
+        QPushButton *esikatseluBtn = new QPushButton(tr("&Esikatsele"));
+        QPushButton *tulostaBtn = new QPushButton( tr("&Tulosta"));
+
+        QHBoxLayout *nappiLeiska = new QHBoxLayout;
+        nappiLeiska->addWidget(raitaCheck);
+        nappiLeiska->addStretch();
+        nappiLeiska->addWidget(esikatseluBtn);
+        nappiLeiska->addWidget(tulostaBtn);
+
+        QVBoxLayout *paaLeiska = new QVBoxLayout;
+        paaLeiska->addWidget(raporttiWidget);
+        paaLeiska->addLayout(nappiLeiska);
+        paaLeiska->addStretch();
+
+        setLayout(paaLeiska);
+
+        connect( esikatseluBtn, SIGNAL(clicked(bool)), this, SLOT(esikatsele()) );
+        connect( tulostaBtn, SIGNAL(clicked(bool)), this, SLOT(tulosta()) );
 }
 
-QIcon Raportti::kuvake() const
+void Raportti::tulosta()
 {
-    return QIcon();
+    QPrintDialog printDialog( tulostin, this );
+    if( printDialog.exec())
+    {
+        raportti().tulosta( tulostin, raitaCheck->isChecked());
+    }
 }
 
-void Raportti::alustaLomake()
+void Raportti::esikatsele()
 {
+    // Luo tilapäisen pdf-tiedoston
+    QTemporaryFile *file = new QTemporaryFile(QDir::tempPath() + "/raportti-XXXXXX.pdf", this);
+    file->open();
+    file->close();
 
+    tulostin->setOutputFileName( file->fileName() );
+    raportti().tulosta( tulostin, raitaCheck->isChecked());
+    QDesktopServices::openUrl( QUrl(file->fileName()) );
 }
+
+
 

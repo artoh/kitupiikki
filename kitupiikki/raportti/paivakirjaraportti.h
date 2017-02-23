@@ -30,13 +30,8 @@ class PaivakirjaRaportti : public Raportti
 {
     Q_OBJECT
 public:
-    PaivakirjaRaportti();
+    PaivakirjaRaportti(QPrinter *printer);
     ~PaivakirjaRaportti();
-
-    QString raporttinimi() const { return "Päiväkirja"; }
-    QIcon kuvake() const { return QIcon(":/pic/Paivakirja64.png"); }
-
-    void alustaLomake();
 
     RaportinKirjoittaja raportti();
 
