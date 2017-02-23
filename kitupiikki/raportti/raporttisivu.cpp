@@ -28,7 +28,7 @@
 #include "paivakirjaraportti.h"
 #include "db/kirjanpito.h"
 
-#include "raporittitesti.h"
+#include "muokattavaraportti.h"
 
 RaporttiSivu::RaporttiSivu(QWidget *parent) : KitupiikkiSivu(parent),
     nykyinen(0), printer(QPrinter::HighResolution)
@@ -91,7 +91,7 @@ void RaporttiSivu::raporttiValittu(QListWidgetItem *item)
     if( raporttinimi == "Päiväkirja")
         nykyinen = new PaivakirjaRaportti( &printer );
     else if( raporttinimi.startsWith("Raportti/"))
-        nykyinen = new RaporttiTesti( raporttinimi.mid(9), &printer);
+        nykyinen = new MuokattavaRaportti( raporttinimi.mid(9), &printer);
 
 
     if( nykyinen )

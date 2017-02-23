@@ -85,8 +85,11 @@ void RaportinKorostin::highlightBlock(const QString &text)
                 if( nykysana == "bold" )
                     setFormat(sanaAlkoi, i, QColor(Qt::magenta));
                 else if( tilinroRe.match(nykysana).hasMatch() && !summakentta)
+                {
                     // Kelvollinen tilinumero tai tilinumeroväli
                     setFormat(sanaAlkoi, i, QColor(Qt::blue));
+                    summakentta = true;     // Ei voi laittaa = -summan kanssa
+                }
                 else if(( nykysana == "s" || nykysana == "S"
                          || nykysana == "sum" || nykysana == "SUM"
                          || nykysana =="h" || nykysana == "header"

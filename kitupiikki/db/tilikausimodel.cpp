@@ -74,6 +74,20 @@ Tilikausi TilikausiModel::tilikausiPaivalle(const QDate &paiva) const
 
 }
 
+int TilikausiModel::indeksiPaivalle(const QDate &paiva) const
+{
+    for(int i=0; i < kaudet_.count(); i++)
+        if( kaudet_[i].alkaa().daysTo(paiva) >= 0 and paiva.daysTo(kaudet_[i].paattyy()) >= 0)
+            return i;
+    return -1;
+
+}
+
+Tilikausi TilikausiModel::tilikausiIndeksilla(int indeksi) const
+{
+    return kaudet_.value(indeksi, Tilikausi());
+}
+
 QDate TilikausiModel::kirjanpitoAlkaa() const
 {
     if( kaudet_.count())

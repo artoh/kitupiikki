@@ -68,7 +68,8 @@ SOURCES += main.cpp \
     kirjaus/kohdennusdelegaatti.cpp \
     raportti/raporittitesti.cpp \
     maaritys/raporttimuokkaus.cpp \
-    maaritys/raportinkorostin.cpp
+    maaritys/raportinkorostin.cpp \
+    raportti/muokattavaraportti.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -128,7 +129,8 @@ HEADERS += \
     kirjaus/kohdennusdelegaatti.h \
     raportti/raporittitesti.h \
     maaritys/raporttimuokkaus.h \
-    maaritys/raportinkorostin.h
+    maaritys/raportinkorostin.h \
+    raportti/muokattavaraportti.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -158,7 +160,8 @@ FORMS += \
     maaritys/kohdennusdialog.ui \
     maaritys/tositelajidialogi.ui \
     kirjaus/kirjausapuridialog.ui \
-    maaritys/raportinmuokkaus.ui
+    maaritys/raportinmuokkaus.ui \
+    raportti/muokattavaraportti.ui
 
 DISTFILES += \
     uusikp/luo.sql \

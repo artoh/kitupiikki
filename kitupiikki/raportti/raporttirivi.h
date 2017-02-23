@@ -93,7 +93,10 @@ public:
      */
     bool tasattuOikealle(int sarake) { return sarakkeet_[sarake].tasaaOikealle; }
 
-
+    /**
+     * @brief Tyhjentää otsikkorivin
+     */
+    void tyhjenna() { sarakkeet_.clear(); }
 
 protected:
     QList<RaporttiRiviSarake> sarakkeet_;
