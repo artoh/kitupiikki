@@ -224,7 +224,7 @@ RaportinKirjoittaja MuokattavaRaportti::kirjoitaRaportti()
 
         }
 
-        if( !loppurivi.contains('S') && !loppurivi.contains('H') && !kirjauksia)
+        if( !loppurivi.contains('S') && !loppurivi.contains('H') && !loppurivi.contains('=') && !kirjauksia)
             continue;       // Ei tulosteta tyhjää riviä ollenkaan
 
         // header tulostaa vain otsikon
@@ -311,7 +311,11 @@ void MuokattavaRaportti::laskeTaseData()
             int debet = query.value(1).toInt();
             int kredit = query.value(2).toInt();
 
-            data[i].summat.insert( ysiluku, debet - kredit );
+            if( ysiluku < 200000000)
+                data[i].summat.insert( ysiluku, debet - kredit );
+            else
+                data[i].summat.insert( ysiluku, kredit - debet );
+
             tilisummat[ysiluku] = ( debet - kredit ) + tilisummat.value(ysiluku);
         }
 
@@ -340,9 +344,9 @@ void MuokattavaRaportti::laskeTaseData()
         query.exec(kysymys);
         if( query.next() )
         {
-            int debet = query.value(0).toInt();
-            int kredit = query.value(1).toInt();
-            data[i].summat.insert(0, kredit - debet);
+            int debet = query.value(1).toInt();
+            int kredit = query.value(0).toInt();
+            data[i].summat.insert(0, debet - kredit);
         }
 
     }
