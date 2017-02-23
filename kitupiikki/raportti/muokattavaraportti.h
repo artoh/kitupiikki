@@ -49,13 +49,28 @@ class MuokattavaRaportti : public Raportti
 {
 public:
     MuokattavaRaportti(const QString& raporttinimi, QPrinter *printer);
+    ~MuokattavaRaportti();
 
     RaportinKirjoittaja raportti();
 
+    /**
+     * @brief Palauttaa raportin annetulla datalla
+     * @param raporttiData Aikamäärittely datassa
+     * @param taseRaportti Onko taseraportti (vai tulosraportti)
+     * @return RaportinKirjoittaja, johon raportti kirjoitettu
+     *
+     * Tätä käytetään kirjoitettaessa esim. arkistoinnin yhteydessä
+     * raporttia ilman, että graafisia valintoja näytetään.
+     *
+     */
+    RaportinKirjoittaja raporttiDatalla( QVector<RaporttiData> raporttiData,
+                                         bool taseRaportti = false);
 protected:
     void alustaData();
+    RaportinKirjoittaja kirjoitaRaportti();
     void kirjoitaYlatunnisteet(RaportinKirjoittaja *rk);
     void laskeTulosData();
+    void laskeTaseData();
 
 protected:
     Ui::MuokattavaRaportti *ui;
@@ -66,6 +81,7 @@ protected:
     bool tulos;     // Koskeeko raportti tulosta
 
     QVector<RaporttiData> data;
+    QMap<int,int> tilisummat;
 };
 
 #endif // MUOKATTAVARAPORTTI_H

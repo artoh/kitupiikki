@@ -219,6 +219,16 @@ Tili TiliModel::tiliNumerolla(int numero) const
     return Tili();
 }
 
+Tili TiliModel::edellistenYlijaamaTili() const
+{
+    foreach (Tili tili, tilit_)
+    {
+        if( tili.onkoEdellistenYliAliJaama())
+            return tili;
+    }
+    return Tili();
+}
+
 JsonKentta *TiliModel::jsonIndeksilla(int i)
 {
     return tilit_[i].json();

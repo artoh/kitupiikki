@@ -70,6 +70,11 @@ public:
     Tili tiliIdlla(int id) const;
     Tili tiliIndeksilla(int i) const { return tilit_.value(i); }
     Tili tiliNumerolla(int numero) const;
+    /**
+     * @brief Palauttaa tilin, jolle kirjataan edellisiltä tilikausilta kertynyt yli/alijäämä
+     * @return
+     */
+    Tili edellistenYlijaamaTili() const;
     JsonKentta *jsonIndeksilla(int i);
 
     static QMap<QString,QString> tiliTyyppiTaulu() { return tilityypit__; }

@@ -81,7 +81,7 @@ void RaporttiSivu::raporttiValittu(QListWidgetItem *item)
     if( nykyinen )
     {
         wleiska->removeWidget( nykyinen );
-        delete( nykyinen );
+        nykyinen->deleteLater();
         nykyinen = 0;
     }
 

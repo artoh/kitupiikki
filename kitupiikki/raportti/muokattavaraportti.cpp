@@ -75,36 +75,69 @@ MuokattavaRaportti::MuokattavaRaportti(const QString &raporttinimi, QPrinter *pr
 
 }
 
+MuokattavaRaportti::~MuokattavaRaportti()
+{
+    delete ui;
+}
+
 RaportinKirjoittaja MuokattavaRaportti::raportti()
+{
+    alustaData();
+    return kirjoitaRaportti();
+}
+
+RaportinKirjoittaja MuokattavaRaportti::raporttiDatalla(QVector<RaporttiData> raporttiData, bool taseRaportti)
+{
+    tase = taseRaportti;
+    tulos = !taseRaportti;
+
+    data = raporttiData;
+    return kirjoitaRaportti();
+}
+
+void MuokattavaRaportti::alustaData()
+{
+    data.clear();
+    data.append( RaporttiData( ui->alkaa1Date->date(), ui->loppuu1Date->date()));
+    if( ui->sarake2Box->isChecked())
+        data.append( RaporttiData(ui->alkaa2Date->date(), ui->loppuu2Date->date()));
+    if( ui->sarake3Box->isChecked())
+        data.append( RaporttiData(ui->alkaa3Date->date(), ui->loppuu3Date->date()));
+}
+
+RaportinKirjoittaja MuokattavaRaportti::kirjoitaRaportti()
 {
     RaportinKirjoittaja rk;
 
-    alustaData();
     kirjoitaYlatunnisteet( &rk);
 
     if(tulos)
         laskeTulosData();
+    else
+        laskeTaseData();
 
-
-    QRegularExpression riviRe("(?<txt>.+)(\\s{3,}|\\t)(?<opt>.+)");
     QRegularExpression tiliRe("(?<alku>\\d+)(\\.\\.)?(?<loppu>\\d*)");
 
     QVector<int> kokosumma( data.count());
 
     foreach (QString rivi, kaava)
     {
-        QRegularExpressionMatch riviMatch = riviRe.match(rivi);
+        int tyhjanpaikka = rivi.indexOf('\t');
+
+        if( tyhjanpaikka < 0 )
+            tyhjanpaikka = rivi.indexOf("    ");
+
         RaporttiRivi rr;
 
-        if( !riviMatch.hasMatch() )
+        if( tyhjanpaikka < 0 )
         {
             // Jos ei osu, niin rivillä enintään otsikko
             rr.lisaa(rivi);
             rk.lisaaRivi(rr);
             continue;
         }
-        rr.lisaa( riviMatch.captured("txt"));   // Lisätään teksti
-        QString loppurivi = riviMatch.captured("opt");
+        rr.lisaa( rivi.left(tyhjanpaikka) );   // Lisätään teksti
+        QString loppurivi = rivi.mid(tyhjanpaikka+1);
 
         // Lasketaan summat
         QRegularExpressionMatchIterator ri = tiliRe.globalMatch(loppurivi );
@@ -122,21 +155,53 @@ RaportinKirjoittaja MuokattavaRaportti::raportti()
             else
                 loppu = Tili::ysiluku( tiliMats.captured("alku").toInt(), true);
 
-            // Lasketaan summa joka sarakkeelle
-            for( int sarake = 0; sarake < data.count(); sarake++)
+
+            if( loppurivi.contains("details"))
             {
-                QMapIterator<int,int> iter( data[sarake].summat);
+                // details-tuloste: kaikkien välille kuuluvien tilien nimet ja summat
+                QMapIterator<int,int> iter( tilisummat );
                 while( iter.hasNext())
                 {
                     iter.next();
                     if( iter.key() >= alku && iter.key() <= loppu )
                     {
-                        summat[sarake] += iter.value();
-                        kokosumma[sarake] += iter.value();  // Lisätään välisummaan
+                        RaporttiRivi rr;
+                        qDebug() << iter.key() << "  " << (float) iter.value() / 100.0;
+                        Tili tili = kp()->tilit()->tiliNumerolla( iter.key() / 10);
+
+                        rr.lisaa( QString("      %1 %2").arg(tili.numero()).arg(tili.nimi()));
+                        for( int sarake=0; sarake < data.count(); sarake++)
+                        {
+                            rr.lisaa( data.at(sarake).summat.value(iter.key(), 0) );
+                        }
+                        rk.lisaaRivi( rr );
+                    }
+
+                }
+
+            }
+            else
+            {
+                // Lasketaan summa joka sarakkeelle
+                for( int sarake = 0; sarake < data.count(); sarake++)
+                {
+                    QMapIterator<int,int> iter( data[sarake].summat);
+                    while( iter.hasNext())
+                    {
+                        iter.next();
+                        if( iter.key() >= alku && iter.key() <= loppu )
+                        {
+                            summat[sarake] += iter.value();
+                            kokosumma[sarake] += iter.value();  // Lisätään välisummaan
+                        }
                     }
                 }
+
             }
         }
+
+        if( loppurivi.contains("details"))
+
         // Laskenta tehty, muut valinnat
 
         if( loppurivi.contains("="))
@@ -146,36 +211,40 @@ RaportinKirjoittaja MuokattavaRaportti::raportti()
                 summat[sarake] += kokosumma[sarake];
         }
 
-        // Sitten kirjoitetaan summat riville
-        for( int sarake=0; sarake < data.count(); sarake++)
-            rr.lisaa( summat.at(sarake) );
+        bool kirjauksia = false;
 
-        // Toistaiseksi lisätään kaikki rivit
-        // tässä sopii tehdä onkoNolla-testaus
+        // Selvitetään, jääkö summa nollaan
+        for( int sarake = 0; sarake < data.count(); sarake++)
+        {
+            if( summat.at(sarake))
+            {
+                kirjauksia = true;
+                break;
+            }
+
+        }
+
+        if( !loppurivi.contains('S') && !loppurivi.contains('H') && !kirjauksia)
+            continue;       // Ei tulosteta tyhjää riviä ollenkaan
+
+        // header tulostaa vain otsikon
+        if( !loppurivi.contains('h') && !loppurivi.contains('H'))
+        {
+            // Sitten kirjoitetaan summat riville
+            for( int sarake=0; sarake < data.count(); sarake++)
+                rr.lisaa( summat.at(sarake) );
+        }
 
         rk.lisaaRivi(rr);
     }
-
-
     return rk;
-
-}
-
-void MuokattavaRaportti::alustaData()
-{
-    data.clear();
-    data.append( RaporttiData( ui->alkaa1Date->date(), ui->loppuu1Date->date()));
-    if( ui->sarake2Box->isChecked())
-        data.append( RaporttiData(ui->alkaa2Date->date(), ui->loppuu2Date->date()));
-    if( ui->sarake3Box->isChecked())
-        data.append( RaporttiData(ui->alkaa3Date->date(), ui->loppuu3Date->date()));
 }
 
 void MuokattavaRaportti::kirjoitaYlatunnisteet(RaportinKirjoittaja *rk)
 {
     rk->asetaOtsikko( otsikko );
 
-    rk->lisaaSarake(30);
+    rk->lisaaSarake(40);
     rk->lisaaEurosarake();
     rk->lisaaEurosarake();
     rk->lisaaEurosarake();
@@ -202,6 +271,8 @@ void MuokattavaRaportti::kirjoitaYlatunnisteet(RaportinKirjoittaja *rk)
 
 void MuokattavaRaportti::laskeTulosData()
 {
+    tilisummat.clear();
+
     for(int i=0; i < data.count(); i++)
     {
         QString kysymys = QString("SELECT ysiluku, sum(debetsnt), sum(kreditsnt) "
@@ -216,7 +287,64 @@ void MuokattavaRaportti::laskeTulosData()
             int kredit = query.value(2).toInt();
 
             data[i].summat.insert( ysiluku, kredit - debet );
+            tilisummat[ysiluku] = (kredit - debet) + tilisummat.value(ysiluku);
         }
+    }
+}
+
+void MuokattavaRaportti::laskeTaseData()
+{
+    tilisummat.clear();
+
+    for(int i=0; i < data.count(); i++)
+    {
+        // 1) Sijoitetaan tasetilien saldot kysytylle päivälle
+
+        QString kysymys = QString("SELECT ysiluku, sum(debetsnt), sum(kreditsnt) "
+                                  "from vienti,tili where vienti.tili = tili.id and ysiluku < 300000000 "
+                                  "and pvm <= \"%1\" "
+                                  "group by ysiluku").arg(data[i].paattyy.toString(Qt::ISODate));
+        QSqlQuery query(kysymys);
+        while (query.next())
+        {
+            int ysiluku = query.value(0).toInt();
+            int debet = query.value(1).toInt();
+            int kredit = query.value(2).toInt();
+
+            data[i].summat.insert( ysiluku, debet - kredit );
+            tilisummat[ysiluku] = ( debet - kredit ) + tilisummat.value(ysiluku);
+        }
+
+        // 2)  Sijoitetaan "edellisten tilikausien alijäämä/ylijäämä" ko.tilille
+        Tilikausi tilikausi = kp()->tilikaudet()->tilikausiPaivalle( data[i].paattyy );
+
+        kysymys = QString("SELECT sum(debetsnt), sum(kreditsnt) FROM vienti, tili WHERE vienti.tili=tili.id "
+                          " AND ysiluku > 300000000 AND pvm < \"%1\" ").arg( tilikausi.alkaa().toString(Qt::ISODate));
+        query.exec(kysymys);
+        if( query.next())
+        {
+            int edYlijaama = query.value(1).toInt() - query.value(0).toInt();
+
+            int kertymaTilinYsiluku = kp()->tilit()->edellistenYlijaamaTili().ysivertailuluku();
+            if( kertymaTilinYsiluku )
+                data[i].summat[ kertymaTilinYsiluku] = edYlijaama + data[i].summat.value( kertymaTilinYsiluku, 0);
+
+        }
+        qDebug() << query.lastQuery();
+
+        // 3) Sijoitetaan tämän tilikauden tulos "tulostilille" 0
+        kysymys = QString("SELECT sum(debetsnt), sum(kreditsnt) FROM vienti, tili WHERE vienti.tili=tili.id"
+                          " AND ysiluku > 300000000 AND pvm BETWEEN \"%1\" AND \"%2\"")
+                .arg( tilikausi.alkaa().toString(Qt::ISODate) ).arg( data[i].paattyy.toString(Qt::ISODate));
+
+        query.exec(kysymys);
+        if( query.next() )
+        {
+            int debet = query.value(0).toInt();
+            int kredit = query.value(1).toInt();
+            data[i].summat.insert(0, kredit - debet);
+        }
+
     }
 }
 

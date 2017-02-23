@@ -113,6 +113,12 @@ public:
     bool onkoRahaTili() const;
 
     /**
+     * @brief Kirjataanko tälle tilille edellisten tilikausien ali- ja ylijäämät?
+     * @return
+     */
+    bool onkoEdellistenYliAliJaama() const;
+
+    /**
      * @brief Laskee yhdeksännumeroisen vertailuluvun
      *
      * Näiden vertailulukujen avulla tilit saadaan järjestykseen ja voidaan vertailla, kuuluuko

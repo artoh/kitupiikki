@@ -156,7 +156,7 @@ bool TilinavausModel::tallenna()
 
     QSqlQuery kysely("delete from vienti where tosite=0");
 
-    QDate avauspaiva = Kirjanpito::db()->asetukset()->pvm("tilinavauspvm");
+    QDate avauspaiva = Kirjanpito::db()->asetukset()->pvm("TilinavausPvm");
 
 
     kysely.prepare("INSERT INTO vienti(tosite,pvm,tili,debetsnt,kreditsnt,selite, vientirivi) "
@@ -186,7 +186,7 @@ bool TilinavausModel::tallenna()
         kysely.exec();
         qDebug() << kysely.lastQuery() << " " << kysely.lastError().text();
     }
-    kp()->asetukset()->aseta("Tilinavaus","1");   // Tilit merkitään avatuiksi
+    kp()->asetukset()->aseta("Tilinavaus",1);   // Tilit merkitään avatuiksi
 
     muokattu_ = false;
     return true;

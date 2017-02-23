@@ -102,6 +102,11 @@ bool Tili::onkoRahaTili() const
     return tyyppi().startsWith("AR");
 }
 
+bool Tili::onkoEdellistenYliAliJaama() const
+{
+    return tyyppi() == "BE";
+}
+
 int Tili::ysiluku(int luku, int taso)
 {
     if( !taso )

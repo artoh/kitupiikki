@@ -51,6 +51,7 @@ void RaportinKorostin::highlightBlock(const QString &text)
     bool valissa = true;
     bool tyyppikerrottu = false;
     bool summakentta = false;
+    bool tilikentta = false;
     int valialkaa = tyhjanpaikka;
 
     int i = tyhjanpaikka;
@@ -67,7 +68,7 @@ void RaportinKorostin::highlightBlock(const QString &text)
         else if( valissa && !onkovali)
         {
             // Värjätään väli (jos siinä vaikka pilkkuja)
-            setFormat(valialkaa, i-1, QColor(Qt::gray));
+            setFormat(valialkaa, i-1, QColor(Qt::darkMagenta));
 
             sanaAlkoi = i;
             valissa = false;
@@ -88,7 +89,7 @@ void RaportinKorostin::highlightBlock(const QString &text)
                 {
                     // Kelvollinen tilinumero tai tilinumeroväli
                     setFormat(sanaAlkoi, i, QColor(Qt::blue));
-                    summakentta = true;     // Ei voi laittaa = -summan kanssa
+                    tilikentta = true;     // Ei voi laittaa = -summan kanssa
                 }
                 else if(( nykysana == "s" || nykysana == "S"
                          || nykysana == "sum" || nykysana == "SUM"
@@ -98,7 +99,7 @@ void RaportinKorostin::highlightBlock(const QString &text)
                     tyyppikerrottu = true;  // Vain yksi tyyppisana kelpaa
                     setFormat(sanaAlkoi, i, QColor(Qt::darkGreen));
                 }
-                else if( nykysana == "=" && !summakentta)
+                else if( (nykysana == "=" || nykysana == "==") && !tilikentta && !summakentta)
                 {
                     summakentta = true;
                     setFormat(sanaAlkoi, i, QColor(Qt::darkBlue));
