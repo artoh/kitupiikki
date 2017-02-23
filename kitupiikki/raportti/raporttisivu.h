@@ -26,39 +26,51 @@
 
 #include "kitupiikkisivu.h"
 
+class QListWidget;
+class QHBoxLayout;
+
 /**
  * @brief Raporttien tulostussivu
  *
  * Sivun vasemmassa laidassa on raporttiluettelo, josta valitaan
  * näytettävä raportti.
  *
+ * Raporttilista luodaan vasta sivulle siirryttäessä.
+ *
  */
 class RaporttiSivu : public KitupiikkiSivu
 {
     Q_OBJECT
 public:
-    enum { RAPORTTIID = Qt::UserRole } ;
+    enum { RAPORTTINIMI = Qt::UserRole } ;
 
     explicit RaporttiSivu(QWidget *parent = 0);
 
     void siirrySivulle();
+    bool poistuSivulta();
 
 signals:
 
 public slots:
     void raporttiValittu(QListWidgetItem *item);
-    void tulosta();
-    void esikatsele();
+//    void tulosta();
+//    void esikatsele();
 
 
 protected:
-    void lisaaRaportti(Raportti *raportti);
+//    void lisaaRaportti(Raportti *raportti);
+    void lisaaRaportti(const QString& otsikko, const QString& nimi, const QString& kuvakenimi = QString());
 
 protected:
-    Ui::RaporttiWg *ui;
-    QList<Raportti*> raportit;
-    Raportti *nykyraportti;
-    QPrinter printer;
+    QListWidget *lista;
+    QHBoxLayout *wleiska;
+    QWidget *nykyinen;
+
+
+//    Ui::RaporttiWg *ui;
+//    QList<Raportti*> raportit;
+//    Raportti *nykyraportti;
+      QPrinter printer;
 };
 
 #endif // RAPORTTISIVU_H

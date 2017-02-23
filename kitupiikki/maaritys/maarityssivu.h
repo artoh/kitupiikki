@@ -92,7 +92,6 @@ protected:
 
 protected:
     QListWidget *lista;
-    QStackedWidget *pino;
 
     MaaritysWidget *nykyinen;
     QListWidgetItem *nykyItem;
