@@ -21,6 +21,7 @@
 
 #include <QDebug>
 #include <QMessageBox>
+#include <QInputDialog>
 
 RaporttiMuokkaus::RaporttiMuokkaus(QWidget *parent) :
     MaaritysWidget(parent)
@@ -34,6 +35,15 @@ RaporttiMuokkaus::RaporttiMuokkaus(QWidget *parent) :
     connect( ui->editori, SIGNAL(textChanged()), this, SLOT(merkkaaMuokattu()));
     connect( ui->uusiNappi, SIGNAL(clicked(bool)), this, SLOT(uusi()));
     connect( ui->kopioiNappi, SIGNAL(clicked(bool)), this, SLOT(kopio()));
+    connect( ui->nimeaNappi, SIGNAL(clicked(bool)), this, SLOT(nimea()));
+    connect( ui->tyyppiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(merkkaaMuokattu()));
+    connect( ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poista()));
+
+    ui->tyyppiCombo->addItem( tr("Tuloslaskelma"), ":tulos");
+    ui->tyyppiCombo->addItem( tr("Tase"), ":tase");
+    ui->tyyppiCombo->addItem( tr("Kohdennuslaskelma"), ":kohdennus");
+    ui->tyyppiCombo->addItem( tr("Projektitase"), ":projekti");
+
 
     muokattu = false;
 }
@@ -57,33 +67,11 @@ bool RaporttiMuokkaus::nollaa()
 
 bool RaporttiMuokkaus::tallenna()
 {
-    QString uusinimi = ui->valintaCombo->currentText();
-    if( uusinimi.length() < 4)
-    {
-        if( uusinimi.isEmpty())
-            QMessageBox::critical(this, tr("Tallennettavalla raportilla ei nimeä"),
-                              tr("Kirjoita tallennettavalle raportille nimi Uusi-napin vasemmalla "
-                                 "puolella olevaan tilaan ja yritä tallentamista uudelleen"));
-        else
-            QMessageBox::critical(this, tr("Tallennettavan raportin nimi liian lyhyt"),
-                              tr("Raportin nimen oltava vähintään neljä kirjainta."
-                                 "Kirjoita tallennettavalle raportille nimi Uusi-napin vasemmalla "
-                                 "puolella olevaan tilaan ja yritä tallentamista uudelleen"));
-        return false;
-    }
 
-    QString tallennettava;
-
-    if( ui->taseRadio->isChecked())
-        tallennettava = ":tase\n";
-    else
-        tallennettava = ":tulos\n";
-
+    QString tallennettava = ui->tyyppiCombo->currentData().toString();
     tallennettava.append( ui->editori->toPlainText());
 
-    kp()->asetukset()->aseta( "Raportti/" + uusinimi, tallennettava);
-    if( uusinimi != vanhanimi)
-        kp()->asetukset()->poista("Raportti/" + vanhanimi);
+    kp()->asetukset()->aseta( "Raportti/" + nimi, tallennettava);
 
     muokattu = false;
     emit tallennaKaytossa(false);
@@ -98,27 +86,25 @@ bool RaporttiMuokkaus::onkoMuokattu()
 
 void RaporttiMuokkaus::avaaRaportti(const QString &raportti)
 {
-    if( onkoMuokattu() && raportti != vanhanimi && ui->editori->toPlainText().length() > 10)
+    if( onkoMuokattu() && raportti != nimi && ui->editori->toPlainText().length() > 10)
         if( !kysyTallennus())
         {
-            ui->valintaCombo->setCurrentIndex( ui->valintaCombo->findText( vanhanimi) );
+            ui->valintaCombo->setCurrentIndex( ui->valintaCombo->findText( nimi) );
             return;
         }
 
-    if( !raportti.isEmpty() && vanhanimi != raportti)
+    if( !raportti.isEmpty() && nimi != raportti)
     {
 
         QString teksti = kp()->asetukset()->asetus( "Raportti/" + raportti );
         int rivinvaihto = teksti.indexOf('\n');
 
         QString ekarivi = teksti.left( rivinvaihto );
-        ui->taseRadio->setChecked( ekarivi.startsWith(":tase"));
-        ui->tulosRadio->setChecked( ekarivi.startsWith(":tulos"));
-
+        ui->tyyppiCombo->setCurrentIndex( ui->tyyppiCombo->findData(ekarivi));
 
         ui->editori->setPlainText(teksti.mid(rivinvaihto + 1));
         muokattu = false;
-        vanhanimi = raportti;
+        nimi = raportti;
         emit tallennaKaytossa(false);
 
     }
@@ -132,31 +118,45 @@ void RaporttiMuokkaus::merkkaaMuokattu()
 
 void RaporttiMuokkaus::uusi()
 {
-    if( onkoMuokattu()  && ui->editori->toPlainText().length() > 10 )
-        if( !kysyTallennus())
-            return;
-
-    // Aloittaa muokkauksen tyhjästä
-    ui->editori->clear();
-    vanhanimi.clear();
-    ui->valintaCombo->addItem( QString() );
-    ui->valintaCombo->setCurrentIndex( ui->valintaCombo->count() - 1 );
-    muokattu = false;
-    emit tallennaKaytossa(false);
+    if( aloitaUusi() )
+        ui->editori->clear();
 }
 
 void RaporttiMuokkaus::kopio()
 {
-    if( onkoMuokattu()  && ui->editori->toPlainText().length() > 10 )
-        if( !kysyTallennus())
-            return;
+    aloitaUusi();
+}
 
-    // Aloittaa uuden muokkauksen tämän pohjalta
-    vanhanimi.clear();
-    ui->valintaCombo->addItem( QString() );
-    ui->valintaCombo->setCurrentIndex( ui->valintaCombo->count() - 1 );
-    muokattu = false;
-    emit tallennaKaytossa(false);
+void RaporttiMuokkaus::nimea()
+{
+    QString uusinimi  = QInputDialog::getText(this, tr("Nimeä raportti"), tr("Raportin uusi nimi"), QLineEdit::Normal, nimi);
+    if( !uusinimi.isEmpty())
+    {
+        if( !kp()->asetukset()->asetus("Raportti/" + uusinimi).isEmpty())
+            if( QMessageBox::question( this, tr("Raportti"), tr("Raportti %1 on jo olemassa. Korvataanko raportti?").arg(uusinimi),
+                                       QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) != QMessageBox::Yes)
+                return;
+
+        // Vaihdetaan uuteen nimeen
+        kp()->asetukset()->aseta("Raportti/" + uusinimi, kp()->asetukset()->asetus("Raportti/" + nimi));
+        kp()->asetukset()->poista("Raportti/" + nimi);
+
+        nimi = uusinimi;
+        // Vaihdetaan nimi valintaboksiin
+        ui->valintaCombo->setItemText( ui->valintaCombo->currentIndex(), nimi);
+    }
+}
+
+void RaporttiMuokkaus::poista()
+{
+    if( QMessageBox::question(this, tr("Raportin poistaminen"), tr("Poistetaanko tämä raportti?\nValintaa ei voi perua!"),
+                              QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) == QMessageBox::Yes)
+    {
+        muokattu = false;
+        kp()->asetukset()->poista("Raportti/" + nimi);
+        ui->editori->clear();
+        ui->valintaCombo->removeItem( ui->valintaCombo->currentIndex());
+    }
 }
 
 bool RaporttiMuokkaus::kysyTallennus()
@@ -169,3 +169,27 @@ bool RaporttiMuokkaus::kysyTallennus()
         tallenna();
     return tallennetaanko == QMessageBox::Save || tallennetaanko == QMessageBox::No;
 }
+
+bool RaporttiMuokkaus::aloitaUusi()
+{
+    if( onkoMuokattu()  && ui->editori->toPlainText().length() > 10 )
+        if( !kysyTallennus())
+            return false;
+
+    QString uusinimi  = QInputDialog::getText(this, tr("Uusi raportti"), tr("Uuden raportin nimi"), QLineEdit::Normal );
+    if( !uusinimi.isEmpty())
+    {
+        if( !kp()->asetukset()->asetus("Raportti/" + uusinimi).isEmpty())
+            if( QMessageBox::question( this, tr("Raportti"), tr("Raportti %1 on jo olemassa. Korvataanko raportti?").arg(uusinimi),
+                                       QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) != QMessageBox::Yes)
+                return false;
+
+        nimi = uusinimi;
+        ui->valintaCombo->addItem( nimi );
+        ui->valintaCombo->setCurrentIndex( ui->valintaCombo->count() - 1);  // Valitaan tämä viimeisin
+        muokattu = false;
+    }
+    return true;
+
+}
+

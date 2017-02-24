@@ -40,6 +40,8 @@
         <file>karhu.png</file>
         <file>possukirjaa.png</file>
         <file>tekstisivu.png</file>
+        <file>kopioi.png</file>
+        <file>uusikirja.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

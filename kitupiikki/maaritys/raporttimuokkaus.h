@@ -41,6 +41,8 @@ protected slots:
     void merkkaaMuokattu();
     void uusi();
     void kopio();
+    void nimea();
+    void poista();
 
 protected:
     /**
@@ -52,8 +54,10 @@ protected:
      */
     bool kysyTallennus();
 
+    bool aloitaUusi();
+
     Ui::RaporttiMuokkain *ui;
-    QString vanhanimi;
+    QString nimi;
     bool muokattu;
 };
 
