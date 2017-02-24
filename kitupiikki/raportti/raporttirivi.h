@@ -98,8 +98,21 @@ public:
      */
     void tyhjenna() { sarakkeet_.clear(); }
 
+    /**
+     * @brief Lihavoi tämän rivin
+     * @param lihavaksi
+     */
+    void lihavoi(bool lihavaksi) { lihava_ = lihavaksi; }
+
+    /**
+     * @brief Onko tämä rivi lihavoitu
+     * @return
+     */
+    bool onkoLihava() const { return lihava_; }
+
 protected:
     QList<RaporttiRiviSarake> sarakkeet_;
+    bool lihava_ = false;
 };
 
 #endif // RAPORTTIRIVI_H

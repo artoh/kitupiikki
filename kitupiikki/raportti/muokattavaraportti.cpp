@@ -116,7 +116,8 @@ RaportinKirjoittaja MuokattavaRaportti::kirjoitaRaportti()
     else
         laskeTaseData();
 
-    QRegularExpression tiliRe("(?<alku>\\d+)(\\.\\.)?(?<loppu>\\d*)");
+    QRegularExpression tiliRe("[\\s\\t](?<alku>\\d{1,8})(\\.\\.)?(?<loppu>\\d{0,8})");
+    QRegularExpression maareRe("(?<maare>[A-Za-z=]+)(?<sisennys>[0-9]?)");
 
     QVector<int> kokosumma( data.count());
 
@@ -131,19 +132,68 @@ RaportinKirjoittaja MuokattavaRaportti::kirjoitaRaportti()
 
         if( tyhjanpaikka < 0 )
         {
-            // Jos ei osu, niin rivillä enintään otsikko
+            // Jos pelkkää tekstiä, niin se on sitten otsikko
             rr.lisaa(rivi);
             rk.lisaaRivi(rr);
             continue;
         }
-        rr.lisaa( rivi.left(tyhjanpaikka) );   // Lisätään teksti
+
         QString loppurivi = rivi.mid(tyhjanpaikka+1);
 
         // Lasketaan summat
-        QRegularExpressionMatchIterator ri = tiliRe.globalMatch(loppurivi );
         QVector<int> summat( data.count() );
 
+
+        int sisennys = 0;
+
+        RivinTyyppi rivityyppi = SUMMA;
+        bool naytaTyhjarivi = false;
+        bool laskevalisummaan = true;
+        bool lisaavalisumma = false;
+
+        // Haetaan määreet
+        QRegularExpressionMatchIterator mri = maareRe.globalMatch( loppurivi );
+        while( mri.hasNext())
+        {
+            QRegularExpressionMatch maareMats = mri.next();
+            QString maare = maareMats.captured("maare");
+            int uusisisennys = maareMats.captured("sisennys").toInt();
+            if( uusisisennys)       // Määritellään rivin sisennys
+                sisennys = uusisisennys;
+
+            if( maare == "S" || maare == "SUM")
+            {
+                naytaTyhjarivi = true;
+            }
+            else if( maare == "H" || maare=="HEADING")
+            {
+                rivityyppi = OTSIKKO;
+                naytaTyhjarivi = true;
+            }
+            else if( maare == "d" || maare == "details")
+                rivityyppi = ERITTELY;
+            else if( maare == "h" || maare == "heading")
+                rivityyppi = OTSIKKO;
+            else if( maare == "=")
+                lisaavalisumma = true;
+            else if( maare == "==")
+                laskevalisummaan = false;
+            else if( maare == "bold")
+                rr.lihavoi(true);
+        }
+
+        // Sisennys paikoilleen!
+        QString sisennysStr;
+        for( int i=0; i < sisennys; i++)
+            sisennysStr.append(' ');
+
+        rr.lisaa( sisennysStr + rivi.left(tyhjanpaikka) );   // Lisätään teksti
+
+
+        QRegularExpressionMatchIterator ri = tiliRe.globalMatch(loppurivi );
         // ri hakee numerot 1..1
+        bool haettuTileja = ri.hasNext();   // Onko tiliväli määritelty (ellei, niin kyse on otsikosta)
+
         while( ri.hasNext())
         {
             QRegularExpressionMatch tiliMats = ri.next();
@@ -156,7 +206,7 @@ RaportinKirjoittaja MuokattavaRaportti::kirjoitaRaportti()
                 loppu = Tili::ysiluku( tiliMats.captured("alku").toInt(), true);
 
 
-            if( loppurivi.contains("details"))
+            if( rivityyppi == ERITTELY )
             {
                 // details-tuloste: kaikkien välille kuuluvien tilien nimet ja summat
                 QMapIterator<int,int> iter( tilisummat );
@@ -166,10 +216,10 @@ RaportinKirjoittaja MuokattavaRaportti::kirjoitaRaportti()
                     if( iter.key() >= alku && iter.key() <= loppu )
                     {
                         RaporttiRivi rr;
-                        qDebug() << iter.key() << "  " << (float) iter.value() / 100.0;
                         Tili tili = kp()->tilit()->tiliNumerolla( iter.key() / 10);
 
-                        rr.lisaa( QString("      %1 %2").arg(tili.numero()).arg(tili.nimi()));
+                        // Erittelyriville tilin numero ja nimi sekä summat
+                        rr.lisaa( QString("%1%2 %3").arg(sisennysStr).arg(tili.numero()).arg(tili.nimi()));
                         for( int sarake=0; sarake < data.count(); sarake++)
                         {
                             rr.lisaa( data.at(sarake).summat.value(iter.key(), 0) );
@@ -192,7 +242,9 @@ RaportinKirjoittaja MuokattavaRaportti::kirjoitaRaportti()
                         if( iter.key() >= alku && iter.key() <= loppu )
                         {
                             summat[sarake] += iter.value();
-                            kokosumma[sarake] += iter.value();  // Lisätään välisummaan
+
+                            if( laskevalisummaan)
+                                kokosumma[sarake] += iter.value();  // Lisätään välisummaan
                         }
                     }
                 }
@@ -200,11 +252,10 @@ RaportinKirjoittaja MuokattavaRaportti::kirjoitaRaportti()
             }
         }
 
-        if( loppurivi.contains("details"))
+        if( rivityyppi == ERITTELY )
+            continue;
 
-        // Laskenta tehty, muut valinnat
-
-        if( loppurivi.contains("="))
+        if( lisaavalisumma )
         {
             // Välisumman lisääminen
             for(int sarake=0; sarake < data.count(); sarake++)
@@ -212,7 +263,6 @@ RaportinKirjoittaja MuokattavaRaportti::kirjoitaRaportti()
         }
 
         bool kirjauksia = false;
-
         // Selvitetään, jääkö summa nollaan
         for( int sarake = 0; sarake < data.count(); sarake++)
         {
@@ -224,11 +274,11 @@ RaportinKirjoittaja MuokattavaRaportti::kirjoitaRaportti()
 
         }
 
-        if( !loppurivi.contains('S') && !loppurivi.contains('H') && !loppurivi.contains('=') && !kirjauksia)
+        if( !naytaTyhjarivi && !kirjauksia && haettuTileja && !lisaavalisumma)
             continue;       // Ei tulosteta tyhjää riviä ollenkaan
 
         // header tulostaa vain otsikon
-        if( !loppurivi.contains('h') && !loppurivi.contains('H'))
+        if( rivityyppi != OTSIKKO )
         {
             // Sitten kirjoitetaan summat riville
             for( int sarake=0; sarake < data.count(); sarake++)

@@ -18,6 +18,7 @@
 #include <QRect>
 #include <QPainter>
 #include <QFile>
+#include <QFont>
 #include <QPixmap>
 #include "raportinkirjoittaja.h"
 
@@ -87,7 +88,9 @@ void RaportinKirjoittaja::tulosta(QPrinter *printer, bool raidoita)
         return;     // Ei tulostettavaa !
 
     QPainter painter(printer);
-    painter.setFont(QFont("Sans",10));
+    QFont fontti("Sans", 10);
+
+    painter.setFont(fontti);
 
     int rivinkorkeus = painter.fontMetrics().height();
     int sivunleveys = painter.window().width();
@@ -133,6 +136,10 @@ void RaportinKirjoittaja::tulosta(QPrinter *printer, bool raidoita)
 
     foreach (RaporttiRivi rivi, rivit_)
     {
+        fontti.setBold( rivi.onkoLihava() );
+        painter.setFont(fontti);
+
+
         // Lasketaan ensin sarakkeiden rectit
         // ja samalla lasketaan taulukkoon liput
 

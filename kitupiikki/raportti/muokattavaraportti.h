@@ -66,6 +66,11 @@ public:
     RaportinKirjoittaja raporttiDatalla( QVector<RaporttiData> raporttiData,
                                          bool taseRaportti = false);
 protected:
+    enum RivinTyyppi
+    {
+        OLETUS, SUMMA, OTSIKKO, ERITTELY
+    };
+
     void alustaData();
     RaportinKirjoittaja kirjoitaRaportti();
     void kirjoitaYlatunnisteet(RaportinKirjoittaja *rk);

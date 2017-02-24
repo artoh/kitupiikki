@@ -91,22 +91,31 @@ void RaportinKorostin::highlightBlock(const QString &text)
                     setFormat(sanaAlkoi, i, QColor(Qt::blue));
                     tilikentta = true;     // Ei voi laittaa = -summan kanssa
                 }
-                else if(( nykysana == "s" || nykysana == "S"
-                         || nykysana == "sum" || nykysana == "SUM"
-                         || nykysana =="h" || nykysana == "header"
-                         || nykysana =="d" || nykysana == "details") && !tyyppikerrottu )
-                {
-                    tyyppikerrottu = true;  // Vain yksi tyyppisana kelpaa
-                    setFormat(sanaAlkoi, i, QColor(Qt::darkGreen));
-                }
-                else if( (nykysana == "=" || nykysana == "==") && !tilikentta && !summakentta)
+                else if( (nykysana == "=") && !tilikentta && !summakentta)
                 {
                     summakentta = true;
                     setFormat(sanaAlkoi, i, QColor(Qt::darkBlue));
                 }
-
+                else if( nykysana == "==")
+                    setFormat(sanaAlkoi, i, QColor(Qt::darkBlue));
                 else
-                    setFormat(sanaAlkoi, i, QColor(Qt::red));
+                {
+                    // Leikataan lopusta pois sisennysnumero
+                    if( nykysana.at( nykysana.count()-1 ).isDigit())
+                        nykysana = nykysana.left( nykysana.count()-1);
+
+                    if(( nykysana == "s" || nykysana == "S"
+                                             || nykysana == "sum" || nykysana == "SUM"
+                                             || nykysana =="h" || nykysana == "header"
+                                             || nykysana =="d" || nykysana == "details") && !tyyppikerrottu )
+                    {
+                        tyyppikerrottu = true;  // Vain yksi tyyppisana kelpaa
+                        setFormat(sanaAlkoi, i, QColor(Qt::darkGreen));
+
+                    }
+                    else
+                        setFormat(sanaAlkoi, i, QColor(Qt::red));
+                }
 
                 valialkaa = i;
 
