@@ -23,6 +23,7 @@ KtpIntro::KtpIntro()
 
     ui = new Ui::KtpIntro();
     ui->setupUi(this);
+
 }
 
 KtpIntro::~KtpIntro()

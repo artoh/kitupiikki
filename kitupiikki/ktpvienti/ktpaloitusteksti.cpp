@@ -23,7 +23,7 @@ KtpAloitusTeksti::KtpAloitusTeksti() :
 {
     ui->setupUi(this);
     setTitle("Tilikartan aloitusteksti");
-    registerField("introteksti", ui->introEdit);
+    registerField("introteksti", ui->introEdit,"plainText");
 }
 
 KtpAloitusTeksti::~KtpAloitusTeksti()

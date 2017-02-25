@@ -24,10 +24,11 @@ KtpKuvaus::KtpKuvaus() :
     ui->setupUi(this);
     setTitle("Tilikartan kuvaus");
 
-    registerField("kuvaus", ui->kuvausEdit);
+    registerField("kuvaus", ui->kuvausEdit,"plainText");
 }
 
 KtpKuvaus::~KtpKuvaus()
 {
     delete ui;
 }
+

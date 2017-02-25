@@ -25,7 +25,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QTextEdit" name="introEdit"/>
+    <widget class="QPlainTextEdit" name="introEdit"/>
    </item>
   </layout>
  </widget>

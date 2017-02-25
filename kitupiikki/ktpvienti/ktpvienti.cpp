@@ -21,6 +21,7 @@
 #include <QDir>
 #include <QTextStream>
 #include <QApplication>
+#include <QFileInfo>
 
 #include "ktpvienti.h"
 
@@ -35,6 +36,7 @@
 KtpVienti::KtpVienti()
 {
     setWindowTitle( tr("Tilikarttatiedoston luominen"));
+    setPixmap( WatermarkPixmap, QPixmap(":/pic/salkkupossu.png"));
 
     addPage(new KtpIntro);
     addPage(new KtpPerustiedot);
@@ -52,6 +54,10 @@ void KtpVienti::accept()
     {
         return;
     }
+
+    QFileInfo info(tiedostoPolku);
+    if( info.suffix().isEmpty())
+        tiedostoPolku.append(".kpk");
 
     // Tallennetaan tiedosto
 
@@ -84,7 +90,7 @@ void KtpVienti::accept()
     out << field("kuvaus").toString() << "\n";
 
     out << "[intro]\n";
-    out << field("intro").toString() << "\n";
+    out << field("introteksti").toString() << "\n";
 
     out << "[TilikarttaLuontiVersio]\n";
     out << qApp->applicationVersion() << "\n";

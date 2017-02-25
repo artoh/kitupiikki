@@ -26,6 +26,7 @@
  */
 class Tyokalut : public MaaritysWidget
 {
+    Q_OBJECT
 public:
     Tyokalut();
     ~Tyokalut();
