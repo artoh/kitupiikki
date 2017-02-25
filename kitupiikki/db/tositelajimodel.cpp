@@ -139,6 +139,12 @@ bool TositelajiModel::setData(const QModelIndex &index, const QVariant &value, i
     }
     else if( role == OletustiliRooli)
         lajit_[index.row()].json()->set("Oletustili", value.toInt());
+    else if( role == TunnusRooli )
+        lajit_[index.row()].asetaTunnus( value.toString());
+    else if( role == NimiRooli )
+        lajit_[index.row()].asetaNimi( value.toString());
+    else if( role == JsonRooli )
+        lajit_[index.row()].json()->fromJson( value.toByteArray());
 
     return false;
 }

@@ -46,6 +46,7 @@
 #include "db/tilimodel.h"
 #include "db/tili.h"
 #include "db/tilikausimodel.h"
+#include "db/tositelajimodel.h"
 
 #include <QDebug>
 
@@ -207,32 +208,64 @@ bool UusiKirjanpito::alustaKirjanpito()
     // Tilien ja otsikkojen kirjoittaminen
     TiliModel tilit(&db);
 
-    QStringList tililista = kartta.value("tilit");
-    foreach ( QString tili, tililista)
-    {
-        // Tilitietueet ovat muotoa tyyppi;numero;nimi
-        QStringList splitti = tili.split(";");
-        if( splitti.count() > 2)            
-        {
-            // Kolmannessa mahdollisessa sarakkeessa otsikkotaso, 0 jos kirjaustili
-            int otsikkotaso = 0;
-            if( splitti.count() > 3)
-                otsikkotaso = splitti[3].toInt();
+    QRegularExpression tiliRe("^(?<tyyppi>\\w{1,5})(?<taso>[1-9]?)(?<tila>[\\*\\-]?)\\s(?<nro>\\d{1,8})"
+                              "\\s(?<json>\\{.*\\})\\s(?<nimi>.+)$");
 
+    QStringList tililista = kartta.value("tilit");
+    foreach ( QString tilirivi, tililista)
+    {
+        // Tilitietueet ovat TYYPPI[*-] numero {json} Nimi
+        QRegularExpressionMatch mats = tiliRe.match(tilirivi);
+        if( mats.hasMatch())
+        {
             Tili tili;
-            tili.asetaTyyppi( splitti[0] );
-            tili.asetaNumero( splitti[1].toInt() );
-            tili.asetaNimi( splitti[2]);
-            tili.asetaOtsikkotaso( otsikkotaso );
-            tili.asetaTila(1);
+            if( mats.captured("taso").isEmpty())
+                tili.asetaTyyppi( mats.captured("tyyppi"));
+            else
+            {
+                tili.asetaOtsikkotaso( mats.captured("taso").toInt());
+                tili.asetaTyyppi( "H" + mats.captured("taso"));
+            }
+
+            if( mats.captured("tila") == "*")
+                tili.asetaTila(2);
+            else if( mats.captured("tila") == "-")
+                tili.asetaTila(0);
+            else
+                tili.asetaTila(1);
+
+            tili.asetaNumero( mats.captured("nro").toInt());
+            tili.asetaNimi( mats.captured("nimi"));
+            tili.json()->fromJson( mats.captured("json").toUtf8());
+
             tilit.lisaaTili(tili);
         }
-        progDlg.setValue( progDlg.value() + 1 );
+
     }
 
     qDebug() << tilit.rowCount( QModelIndex() ) << " tiliä talletettu ";
 
     tilit.tallenna();
+
+    // Tositelajien tallentaminen
+
+    TositelajiModel lajit(&db);
+
+    QStringList lajilista = kartta.value("tositelajit");
+    QRegularExpression lajiRe("^(?<tunnus>\\w{1,5})\\s(?<json>\\{.*\\})\\s(?<nimi>.+)$");
+
+    foreach (QString lajirivi, lajilista)
+    {
+        QRegularExpressionMatch mats = lajiRe.match(lajirivi);
+        if( mats.hasMatch())
+        {
+            QModelIndex lisatty = lajit.lisaaRivi();
+            lajit.setData(lisatty, mats.captured("tunnus"), TositelajiModel::TunnusRooli );
+            lajit.setData(lisatty, mats.captured("nimi"), TositelajiModel::NimiRooli);
+            lajit.setData(lisatty, mats.captured("json").toUtf8(), TositelajiModel::JsonRooli);
+        }
+    }
+    lajit.tallenna();
 
 
     // Tilikausien kirjoittaminen

@@ -18,6 +18,7 @@
 #include <QFileDialog>
 #include <QDirIterator>
 #include <QLineEdit>
+#include <QDate>
 
 #include "tilikarttasivu.h"
 
@@ -59,7 +60,7 @@ void TilikarttaSivu::lataaSisaisetKartat()
     {
         QString polku = it.next();
 
-        QString nimi = UusiKirjanpito::lueKtkTiedosto(polku).value("nimi").join(" ");
+        QString nimi = UusiKirjanpito::lueKtkTiedosto(polku).value("TilikarttaNimi").join(" ");
 
         QListWidgetItem *item = new QListWidgetItem(nimi, ui->tilikarttaList);
         item->setData(Qt::UserRole, polku);
@@ -92,7 +93,14 @@ void TilikarttaSivu::valitseTilikartta(const QString &polku)
     QMap<QString,QStringList> tiedot = UusiKirjanpito::lueKtkTiedosto(polku);
 
     QString kuvaus = tiedot.value("kuvaus").join("\n");
+    QDate karttapaiva = QDate::fromString( tiedot.value("TilikarttaPvm").join(""), Qt::ISODate);
 
+    QString info = tr("<b>%1</b><br>%2<br>%3<p>")
+            .arg( tiedot.value("TilikarttaNimi").join(" "))
+            .arg( tiedot.value("TilikarttaTekija").join(" "))
+            .arg( karttapaiva.toString(Qt::SystemLocaleShortDate));
+
+    ui->tiedotLabel->setText(info);
     ui->kuvausLabel->setText(kuvaus);
 
     setField("tilikartta", polku);
