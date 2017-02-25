@@ -107,14 +107,16 @@ $(document).ready(function(){initNavTree('class_raportti.html','');});
 
 <div class="header">
   <div class="summary">
+<a href="#pub-slots">Julkiset vastineet</a> &#124;
 <a href="#pub-methods">Julkiset jäsenfunktiot</a> &#124;
+<a href="#pro-attribs">Suojellut attribuutit</a> &#124;
 <a href="class_raportti-members.html">Lista kaikista jäsenistä</a>  </div>
   <div class="headertitle">
 <div class="title">Raportti luokkareferenssi<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>The Raportin kantaluokka.  
+<p>Raportin kantaluokka.  
  <a href="class_raportti.html#details">Lisää...</a></p>
 
 <p><code>#include &lt;<a class="el" href="raportti_8h_source.html">raportti.h</a>&gt;</code></p>
@@ -123,7 +125,9 @@ Luokan Raportti luokkakaavio</div>
 <div class="dyncontent">
 <div class="center"><img src="class_raportti__inherit__graph.png" border="0" usemap="#_raportti_inherit__map" alt="Inheritance graph"/></div>
 <map name="_raportti_inherit__map" id="_raportti_inherit__map">
-<area shape="rect" id="node3" href="class_paivakirja_raportti.html" title="Päiväkirjan tulostava raportti. " alt="" coords="5,155,131,181"/>
+<area shape="rect" id="node3" href="class_muokattava_raportti.html" title="Muokattavien Tase/Tulosraporttien tulostaminen. " alt="" coords="5,155,141,181"/>
+<area shape="rect" id="node4" href="class_paivakirja_raportti.html" title="Päiväkirjan tulostava raportti. " alt="" coords="165,155,291,181"/>
+<area shape="rect" id="node5" href="class_raportti_testi.html" title="RaporttiTesti" alt="" coords="315,155,413,181"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">selite</a>]</span></center></div>
 <div class="dynheader">
@@ -132,57 +136,43 @@ Yhteistyökaavio luokalle Raportti:</div>
 <div class="center"><img src="class_raportti__coll__graph.png" border="0" usemap="#_raportti_coll__map" alt="Collaboration graph"/></div>
 <center><span class="legend">[<a target="top" href="graph_legend.html">selite</a>]</span></center></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-slots"></a>
+Julkiset vastineet</h2></td></tr>
+<tr class="memitem:a5609823bbf75f073c009563bbd2b5580"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5609823bbf75f073c009563bbd2b5580"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_raportti.html#a5609823bbf75f073c009563bbd2b5580">tulosta</a> ()</td></tr>
+<tr class="memdesc:a5609823bbf75f073c009563bbd2b5580"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tulostaa raportin. <br /></td></tr>
+<tr class="separator:a5609823bbf75f073c009563bbd2b5580"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6194f71c93ff4e4b982e7b2c179cce5c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6194f71c93ff4e4b982e7b2c179cce5c"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_raportti.html#a6194f71c93ff4e4b982e7b2c179cce5c">esikatsele</a> ()</td></tr>
+<tr class="memdesc:a6194f71c93ff4e4b982e7b2c179cce5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pdf-raportin esikatselu. <br /></td></tr>
+<tr class="separator:a6194f71c93ff4e4b982e7b2c179cce5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Julkiset jäsenfunktiot</h2></td></tr>
-<tr class="memitem:a4967c1662fafd29c506e3f9775f21afe"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4967c1662fafd29c506e3f9775f21afe"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Raportti</b> (QWidget *parent=0)</td></tr>
-<tr class="separator:a4967c1662fafd29c506e3f9775f21afe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5f6d5fd7fcbef60c2451a6956582958"><td class="memItemLeft" align="right" valign="top">virtual QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_raportti.html#ab5f6d5fd7fcbef60c2451a6956582958">raporttinimi</a> () const =0</td></tr>
-<tr class="memdesc:ab5f6d5fd7fcbef60c2451a6956582958"><td class="mdescLeft">&#160;</td><td class="mdescRight">Raporttilistassa näytettävä raportin nimi.  <a href="#ab5f6d5fd7fcbef60c2451a6956582958">Lisää...</a><br /></td></tr>
-<tr class="separator:ab5f6d5fd7fcbef60c2451a6956582958"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a148ed7605151647f32c6f94a0df137d1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a148ed7605151647f32c6f94a0df137d1"></a>
-virtual QIcon&#160;</td><td class="memItemRight" valign="bottom"><b>kuvake</b> () const </td></tr>
-<tr class="separator:a148ed7605151647f32c6f94a0df137d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d63dbf8728a23e7e2edc1b2f7148189"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_raportti.html#a4d63dbf8728a23e7e2edc1b2f7148189">onkoTulostettava</a> () const </td></tr>
-<tr class="memdesc:a4d63dbf8728a23e7e2edc1b2f7148189"><td class="mdescLeft">&#160;</td><td class="mdescRight">Näytetäänkö raportin lomakkeella esikatselu- ja tulostuspainikkeet.  <a href="#a4d63dbf8728a23e7e2edc1b2f7148189">Lisää...</a><br /></td></tr>
-<tr class="separator:a4d63dbf8728a23e7e2edc1b2f7148189"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af122de2564c30b5d381a75dc80def0a1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af122de2564c30b5d381a75dc80def0a1"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_raportti.html#af122de2564c30b5d381a75dc80def0a1">alustaLomake</a> ()</td></tr>
-<tr class="memdesc:af122de2564c30b5d381a75dc80def0a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Kutsutaan, kun tämä lomake valitaan. <br /></td></tr>
-<tr class="separator:af122de2564c30b5d381a75dc80def0a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af61fa3ea2e1081955146cc7e48ed15ff"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af61fa3ea2e1081955146cc7e48ed15ff"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Raportti</b> (QPrinter *printer, QWidget *parent=0)</td></tr>
+<tr class="separator:af61fa3ea2e1081955146cc7e48ed15ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f92f798c9bfd7ebd148e3c31d58502d"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_raportin_kirjoittaja.html">RaportinKirjoittaja</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_raportti.html#a5f92f798c9bfd7ebd148e3c31d58502d">raportti</a> ()=0</td></tr>
 <tr class="memdesc:a5f92f798c9bfd7ebd148e3c31d58502d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Palauttaa pyydetyn raportin.  <a href="#a5f92f798c9bfd7ebd148e3c31d58502d">Lisää...</a><br /></td></tr>
 <tr class="separator:a5f92f798c9bfd7ebd148e3c31d58502d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Suojellut attribuutit</h2></td></tr>
+<tr class="memitem:a6d75e85b5b09ab5d6f4c93c47279a9f8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6d75e85b5b09ab5d6f4c93c47279a9f8"></a>
+QPrinter *&#160;</td><td class="memItemRight" valign="bottom"><b>tulostin</b></td></tr>
+<tr class="separator:a6d75e85b5b09ab5d6f4c93c47279a9f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25b651d033c6484d342682d0033d6d13"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a25b651d033c6484d342682d0033d6d13"></a>
+QWidget *&#160;</td><td class="memItemRight" valign="bottom"><b>raporttiWidget</b></td></tr>
+<tr class="separator:a25b651d033c6484d342682d0033d6d13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb1b3ba1e8d3222b184ec787e41b843b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abb1b3ba1e8d3222b184ec787e41b843b"></a>
+QCheckBox *&#160;</td><td class="memItemRight" valign="bottom"><b>raitaCheck</b></td></tr>
+<tr class="separator:abb1b3ba1e8d3222b184ec787e41b843b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Yksityiskohtainen selite</h2>
-<div class="textblock"><p>The Raportin kantaluokka. </p>
+<div class="textblock"><p>Raportin kantaluokka. </p>
+<p>Raporttikehys, jossa raportin tulostus ja esikatselu. Tästä periytetty raporttiluokka luo oman käyttöliittymänsä raporttiWidget -widgetin sisään</p>
+<div class="fragment"><div class="line">ui-&gt;setupUi( raporttiWidget );</div></div><!-- fragment --><p>Lisäksi periytetyllä raportilla on Raportti-funktio, joka palauttaa RaportinKirjoittaja-olion, johon raportti on kirjoitettu. </p>
 </div><h2 class="groupheader">Jäsenfunktioiden dokumentaatio</h2>
-<a class="anchor" id="a4d63dbf8728a23e7e2edc1b2f7148189"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual bool Raportti::onkoTulostettava </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Näytetäänkö raportin lomakkeella esikatselu- ja tulostuspainikkeet. </p>
-<dl class="section return"><dt>Palauttaa</dt><dd>tosi, jos tulostettava </dd></dl>
-
-</div>
-</div>
 <a class="anchor" id="a5f92f798c9bfd7ebd148e3c31d58502d"></a>
 <div class="memitem">
 <div class="memproto">
@@ -205,37 +195,9 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 </div><div class="memdoc">
 
 <p>Palauttaa pyydetyn raportin. </p>
-<dl class="section return"><dt>Palauttaa</dt><dd></dd></dl>
+<dl class="section return"><dt>Palauttaa</dt><dd><a class="el" href="class_raportin_kirjoittaja.html" title="Raporttien kirjoittaja. ">RaportinKirjoittaja</a>, jonne raportti on kirjoitettu </dd></dl>
 
-<p>Toteutettu luokassa <a class="el" href="class_paivakirja_raportti.html#a4649c5477b600ece7463402b8c8329d6">PaivakirjaRaportti</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ab5f6d5fd7fcbef60c2451a6956582958"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual QString Raportti::raporttinimi </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Raporttilistassa näytettävä raportin nimi. </p>
-<dl class="section return"><dt>Palauttaa</dt><dd></dd></dl>
-
-<p>Toteutettu luokassa <a class="el" href="class_paivakirja_raportti.html#a830d3a8e586e10d050f7a6f7a520d8eb">PaivakirjaRaportti</a>.</p>
+<p>Toteutettu luokassa <a class="el" href="class_muokattava_raportti.html#a8d4ab7a4256faa38e6a9fdcb2422e333">MuokattavaRaportti</a>, <a class="el" href="class_paivakirja_raportti.html#a4649c5477b600ece7463402b8c8329d6">PaivakirjaRaportti</a> ja <a class="el" href="class_raportti_testi.html#a3da0b01c8a3677c3a362d1eb3d5ce8cb">RaporttiTesti</a>.</p>
 
 </div>
 </div>

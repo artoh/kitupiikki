@@ -142,12 +142,15 @@ Julkiset jäsenfunktiot</h2></td></tr>
 <tr class="memitem:a9f1574cab268b3145e397b9dfd101763"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9f1574cab268b3145e397b9dfd101763"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>AsetusModel</b> (QSqlDatabase *tietokanta, QObject *parent=0)</td></tr>
 <tr class="separator:a9f1574cab268b3145e397b9dfd101763"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ce02ebb9693db67786ffa7235011a51"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4ce02ebb9693db67786ffa7235011a51"></a>
-QString&#160;</td><td class="memItemRight" valign="bottom"><b>asetus</b> (const QString &amp;avain) const </td></tr>
+<tr class="memitem:a4ce02ebb9693db67786ffa7235011a51"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_asetus_model.html#a4ce02ebb9693db67786ffa7235011a51">asetus</a> (const QString &amp;avain) const </td></tr>
+<tr class="memdesc:a4ce02ebb9693db67786ffa7235011a51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Palauttaa asetuksen annetulla avaimella.  <a href="#a4ce02ebb9693db67786ffa7235011a51">Lisää...</a><br /></td></tr>
 <tr class="separator:a4ce02ebb9693db67786ffa7235011a51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a536acdfd33f9b4557558537facabd0ad"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a536acdfd33f9b4557558537facabd0ad"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>aseta</b> (const QString &amp;avain, const QString &amp;arvo)</td></tr>
 <tr class="separator:a536acdfd33f9b4557558537facabd0ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e3c86e1ab5da504389566a3357688d4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_asetus_model.html#a4e3c86e1ab5da504389566a3357688d4">poista</a> (const QString &amp;avain)</td></tr>
+<tr class="memdesc:a4e3c86e1ab5da504389566a3357688d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Poistaa asetuksen annetulla avaimella.  <a href="#a4e3c86e1ab5da504389566a3357688d4">Lisää...</a><br /></td></tr>
+<tr class="separator:a4e3c86e1ab5da504389566a3357688d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a028d12922b760756b9e94c776a93cbc3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a028d12922b760756b9e94c776a93cbc3"></a>
 QDate&#160;</td><td class="memItemRight" valign="bottom"><b>pvm</b> (const QString &amp;avain) const </td></tr>
 <tr class="separator:a028d12922b760756b9e94c776a93cbc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -175,6 +178,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>luku</b> (const QStrin
 <tr class="memitem:a7484783a9c92757b447716be1d98a689"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7484783a9c92757b447716be1d98a689"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>aseta</b> (const QString &amp;avain, int luku)</td></tr>
 <tr class="separator:a7484783a9c92757b447716be1d98a689"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e492126fac26167122518408388b05e"><td class="memItemLeft" align="right" valign="top">QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_asetus_model.html#a5e492126fac26167122518408388b05e">avaimet</a> (const QString &amp;avaimenAlku=QString()) const </td></tr>
+<tr class="memdesc:a5e492126fac26167122518408388b05e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Palauttaa listan avaimista, jotka alkavat annetulla alulla.  <a href="#a5e492126fac26167122518408388b05e">Lisää...</a><br /></td></tr>
+<tr class="separator:a5e492126fac26167122518408388b05e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Suojellut attribuutit</h2></td></tr>
@@ -187,8 +193,92 @@ QSqlDatabase *&#160;</td><td class="memItemRight" valign="bottom"><b>tietokanta_
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Yksityiskohtainen selite</h2>
 <div class="textblock"><p>Asetusten käsittely. </p>
-<p>Asetukset tallennetaan välittömästi tietokantaan Yleisimmille tietotyypeille on valmiiksi muunnosfunktiot </p>
-</div><hr/>Dokumentaatio tälle luokalle luotiin seuraavista tiedostoista:<ul>
+<p>Asetukset tallennetaan välittömästi tietokantaan Yleisimmille tietotyypeille on valmiiksi muunnosfunktiot</p>
+<p>Tyhjä arvo (tai nolla) tarkoittaa, että kyseinen asetus poistetaan </p>
+</div><h2 class="groupheader">Jäsenfunktioiden dokumentaatio</h2>
+<a class="anchor" id="a4ce02ebb9693db67786ffa7235011a51"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString AsetusModel::asetus </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>avain</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Palauttaa asetuksen annetulla avaimella. </p>
+<dl class="params"><dt>Parametrit</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">avain</td><td>Haettava avain </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Palauttaa</dt><dd>asetus, tai String() jos asetusta ei ole </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a5e492126fac26167122518408388b05e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QStringList AsetusModel::avaimet </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>avaimenAlku</em> = <code>QString()</code></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Palauttaa listan avaimista, jotka alkavat annetulla alulla. </p>
+<dl class="params"><dt>Parametrit</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">avaimenAlku</td><td>Teksti, jolla haettavat avaimet alkavat, tyhjä hakee kaikki </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Palauttaa</dt><dd></dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a4e3c86e1ab5da504389566a3357688d4"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AsetusModel::poista </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>avain</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Poistaa asetuksen annetulla avaimella. </p>
+<dl class="params"><dt>Parametrit</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">avain</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>Dokumentaatio tälle luokalle luotiin seuraavista tiedostoista:<ul>
 <li>kitupiikki/db/<a class="el" href="asetusmodel_8h_source.html">asetusmodel.h</a></li>
 <li>kitupiikki/db/asetusmodel.cpp</li>
 </ul>

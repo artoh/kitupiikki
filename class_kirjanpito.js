@@ -2,6 +2,7 @@ var class_kirjanpito =
 [
     [ "Kirjanpito", "class_kirjanpito.html#a78ebfbe994b60de0e52badd56b135446", null ],
     [ "~Kirjanpito", "class_kirjanpito.html#ac15435ec87fc16f4151a0a84f2f54b7b", null ],
+    [ "alvTyypit", "class_kirjanpito.html#a9471b986e35dbe0f0478f66a1265d3a4", null ],
     [ "asetaHarjoitteluPvm", "class_kirjanpito.html#ab3a29ad110dfdf37b77968770f429f74", null ],
     [ "asetukset", "class_kirjanpito.html#ae4ca03d7258e89f9e095aef2e42d345b", null ],
     [ "asetus", "class_kirjanpito.html#a37d5501e9abf75d988cf3e48c024f98f", null ],
@@ -15,6 +16,7 @@ var class_kirjanpito =
     [ "tietokanta", "class_kirjanpito.html#a05641e07e7c5702df8188cd8196cc4b3", null ],
     [ "tietokantaVaihtui", "class_kirjanpito.html#aec449d31711be4c66ffa3025f85c8297", null ],
     [ "tilikaudet", "class_kirjanpito.html#aa290c9c4adde90625749740f205beae7", null ],
+    [ "tilikausiPaatetty", "class_kirjanpito.html#a90bf65a6904a3ae466b65c9482d18b57", null ],
     [ "tilikausiPaivalle", "class_kirjanpito.html#a4f328de73b1433a8cecde92d590a4c73", null ],
     [ "tilit", "class_kirjanpito.html#a860cf5711ca5e5fbdc234c6049741e98", null ],
     [ "tilitpaatetty", "class_kirjanpito.html#a9e52647506500a381c2cd1763aa8bcf7", null ],
@@ -29,5 +31,6 @@ var class_kirjanpito =
     [ "tilikaudetModel_", "class_kirjanpito.html#a0a30088593993a62a1954d96afa704b9", null ],
     [ "tiliModel_", "class_kirjanpito.html#a91c295e0f5d9084643b4ac51ad992399", null ],
     [ "tositelajiModel_", "class_kirjanpito.html#a41c7a5cdaad714d84a6caa553cb03991", null ],
+    [ "veroTyypit_", "class_kirjanpito.html#a6581ce7172835609dafa38a1e0624060", null ],
     [ "viimetiedostot", "class_kirjanpito.html#af382c4daa770f8c19413aeadc290d738", null ]
 ];

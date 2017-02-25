@@ -1,3 +1,5 @@
 <map id="Raportti" name="Raportti">
-<area shape="rect" id="node3" href="$class_paivakirja_raportti.html" title="Päiväkirjan tulostava raportti. " alt="" coords="5,155,131,181"/>
+<area shape="rect" id="node3" href="$class_muokattava_raportti.html" title="Muokattavien Tase/Tulosraporttien tulostaminen. " alt="" coords="5,155,141,181"/>
+<area shape="rect" id="node4" href="$class_paivakirja_raportti.html" title="Päiväkirjan tulostava raportti. " alt="" coords="165,155,291,181"/>
+<area shape="rect" id="node5" href="$class_raportti_testi.html" title="RaporttiTesti" alt="" coords="315,155,413,181"/>
 </map>

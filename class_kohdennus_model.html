@@ -141,11 +141,12 @@ Julkiset tyypit</h2></td></tr>
 <tr class="separator:ab1ba83581b9034621287d8fa9a69cadd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4cf5f878d1c5270ce188de1325b345e3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4cf5f878d1c5270ce188de1325b345e3"></a>enum &#160;</td><td class="memItemRight" valign="bottom">{ <br />
 &#160;&#160;<b>IdRooli</b> = Qt::UserRole + 1, 
-<b>TyyppiRoole</b> = Qt::UserRole + 2, 
+<b>TyyppiRooli</b> = Qt::UserRole + 2, 
 <b>NimiRooli</b> = Qt::UserRole + 3, 
 <b>AlkaaRooli</b> = Qt::UserRole + 4, 
 <br />
-&#160;&#160;<b>PaattyyRooli</b> = Qt::UserRole + 5
+&#160;&#160;<b>PaattyyRooli</b> = Qt::UserRole + 5, 
+<b>VientejaRooli</b> = Qt::UserRole + 6
 <br />
  }</td></tr>
 <tr class="separator:a4cf5f878d1c5270ce188de1325b345e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -155,9 +156,12 @@ Julkiset vastineet</h2></td></tr>
 <tr class="memitem:ad3d0436919671a7d871767498ae56a80"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad3d0436919671a7d871767498ae56a80"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>lataa</b> ()</td></tr>
 <tr class="separator:ad3d0436919671a7d871767498ae56a80"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52e82fccfc68eafb989ff329852470ac"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a52e82fccfc68eafb989ff329852470ac"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>lisaaUusi</b> (int tyyppi, const QString nimi=QString())</td></tr>
-<tr class="separator:a52e82fccfc68eafb989ff329852470ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e50013154864ca537064e154d91dbc3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9e50013154864ca537064e154d91dbc3"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>lisaaUusi</b> (<a class="el" href="class_kohdennus.html">Kohdennus</a> uusi)</td></tr>
+<tr class="separator:a9e50013154864ca537064e154d91dbc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc4b026f69db4fd6a9efd50c4fdaf248"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adc4b026f69db4fd6a9efd50c4fdaf248"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>tallenna</b> ()</td></tr>
+<tr class="separator:adc4b026f69db4fd6a9efd50c4fdaf248"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Julkiset jäsenfunktiot</h2></td></tr>
@@ -176,9 +180,6 @@ QVariant&#160;</td><td class="memItemRight" valign="bottom"><b>headerData</b> (i
 <tr class="memitem:aca0d2a5ab1895c0573491690de7e3d57"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aca0d2a5ab1895c0573491690de7e3d57"></a>
 QVariant&#160;</td><td class="memItemRight" valign="bottom"><b>data</b> (const QModelIndex &amp;index, int role) const </td></tr>
 <tr class="separator:aca0d2a5ab1895c0573491690de7e3d57"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7b377bb9bfe83a2e03527b39bc2bf59"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af7b377bb9bfe83a2e03527b39bc2bf59"></a>
-Qt::ItemFlags&#160;</td><td class="memItemRight" valign="bottom"><b>flags</b> (const QModelIndex &amp;index) const </td></tr>
-<tr class="separator:af7b377bb9bfe83a2e03527b39bc2bf59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b76a0cba1b41e49cbf4d258702f4c0f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7b76a0cba1b41e49cbf4d258702f4c0f"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>setData</b> (const QModelIndex &amp;index, const QVariant &amp;value, int role)</td></tr>
 <tr class="separator:a7b76a0cba1b41e49cbf4d258702f4c0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -191,19 +192,53 @@ QString&#160;</td><td class="memItemRight" valign="bottom"><b>nimi</b> (int id) 
 <tr class="memitem:a91805aefadfb2aabc1b4b047dbf85320"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a91805aefadfb2aabc1b4b047dbf85320"></a>
 QList&lt; <a class="el" href="class_kohdennus.html">Kohdennus</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>kohdennukset</b> () const </td></tr>
 <tr class="separator:a91805aefadfb2aabc1b4b047dbf85320"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a638d4f1adab3c60e906bf902374a9a42"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_kohdennus_model.html#a638d4f1adab3c60e906bf902374a9a42">poistaRivi</a> (int riviIndeksi)</td></tr>
+<tr class="memdesc:a638d4f1adab3c60e906bf902374a9a42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Poistaa kohdennuksen.  <a href="#a638d4f1adab3c60e906bf902374a9a42">Lisää...</a><br /></td></tr>
+<tr class="separator:a638d4f1adab3c60e906bf902374a9a42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5332bbfd1cbb0ee3b2e1d58989c973a3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5332bbfd1cbb0ee3b2e1d58989c973a3"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>onkoMuokattu</b> () const </td></tr>
+<tr class="separator:a5332bbfd1cbb0ee3b2e1d58989c973a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Suojellut attribuutit</h2></td></tr>
 <tr class="memitem:a67c13b0ec27e9ec3d190447b57349e28"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a67c13b0ec27e9ec3d190447b57349e28"></a>
 QSqlDatabase *&#160;</td><td class="memItemRight" valign="bottom"><b>tietokanta_</b></td></tr>
 <tr class="separator:a67c13b0ec27e9ec3d190447b57349e28"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3c44adb1cae66a1929f18bc8d0e2310"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad3c44adb1cae66a1929f18bc8d0e2310"></a>
-QList&lt; <a class="el" href="class_kohdennus.html">Kohdennus</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>projektit_</b></td></tr>
-<tr class="separator:ad3c44adb1cae66a1929f18bc8d0e2310"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd3b3ecbb788c69ac0dc0e541791792b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abd3b3ecbb788c69ac0dc0e541791792b"></a>
+QList&lt; <a class="el" href="class_kohdennus.html">Kohdennus</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>kohdennukset_</b></td></tr>
+<tr class="separator:abd3b3ecbb788c69ac0dc0e541791792b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf84b0e0998a9024fddfad9dbbe6ed7a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adf84b0e0998a9024fddfad9dbbe6ed7a"></a>
+QList&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>poistetutIdt_</b></td></tr>
+<tr class="separator:adf84b0e0998a9024fddfad9dbbe6ed7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Yksityiskohtainen selite</h2>
 <div class="textblock"><p>Kohdennusten luettelo. </p>
-</div><hr/>Dokumentaatio tälle luokalle luotiin seuraavista tiedostoista:<ul>
+</div><h2 class="groupheader">Jäsenfunktioiden dokumentaatio</h2>
+<a class="anchor" id="a638d4f1adab3c60e906bf902374a9a42"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void KohdennusModel::poistaRivi </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>riviIndeksi</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Poistaa kohdennuksen. </p>
+<dl class="params"><dt>Parametrit</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">riviIndeksi</td><td>Indeksi (index.row()) poistettavaan </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>Dokumentaatio tälle luokalle luotiin seuraavista tiedostoista:<ul>
 <li>kitupiikki/db/<a class="el" href="kohdennusmodel_8h_source.html">kohdennusmodel.h</a></li>
 <li>kitupiikki/db/kohdennusmodel.cpp</li>
 </ul>

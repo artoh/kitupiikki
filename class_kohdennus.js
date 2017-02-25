@@ -14,6 +14,7 @@ var class_kohdennus =
     [ "asetaPaattyy", "class_kohdennus.html#af366553c41c3a70e918ae08678d4a3e6", null ],
     [ "asetaTyyppi", "class_kohdennus.html#a32690e8d05c143b9ede7f07b28ea41c0", null ],
     [ "id", "class_kohdennus.html#a797665b765dfb2c967c1e761ac7eacbe", null ],
+    [ "montakoVientia", "class_kohdennus.html#a11cf703d59360288714c35b6a820083d", null ],
     [ "muokattu", "class_kohdennus.html#a6ab02a2acbd419cb7bbe3da677599622", null ],
     [ "nimi", "class_kohdennus.html#aebc8e04344254aa3da056401864c5074", null ],
     [ "nollaaMuokattu", "class_kohdennus.html#aa42cbde1eb72165436cd56b6fa279464", null ],

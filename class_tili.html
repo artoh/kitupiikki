@@ -207,6 +207,12 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>onkoVastaavaaTili</b>
 <tr class="memitem:abd9ccb65f9ebb7da8775d741b4364dd3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abd9ccb65f9ebb7da8775d741b4364dd3"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>onkoVastattavaaTili</b> () const </td></tr>
 <tr class="separator:abd9ccb65f9ebb7da8775d741b4364dd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af07af37a27470b33afe8f52a3e1eadf9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tili.html#af07af37a27470b33afe8f52a3e1eadf9">onkoRahaTili</a> () const </td></tr>
+<tr class="memdesc:af07af37a27470b33afe8f52a3e1eadf9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Onko tili rahatili (AR) eli pankkitili tai käteisvarat.  <a href="#af07af37a27470b33afe8f52a3e1eadf9">Lisää...</a><br /></td></tr>
+<tr class="separator:af07af37a27470b33afe8f52a3e1eadf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a5827167ef3669c8d14f50866063ae0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tili.html#a4a5827167ef3669c8d14f50866063ae0">onkoEdellistenYliAliJaama</a> () const </td></tr>
+<tr class="memdesc:a4a5827167ef3669c8d14f50866063ae0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Kirjataanko tälle tilille edellisten tilikausien ali- ja ylijäämät?  <a href="#a4a5827167ef3669c8d14f50866063ae0">Lisää...</a><br /></td></tr>
+<tr class="separator:a4a5827167ef3669c8d14f50866063ae0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Staattiset julkiset jäsenfunktiot</h2></td></tr>
@@ -219,9 +225,9 @@ Staattiset julkiset jäsenfunktiot</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-methods"></a>
 Staattiset suojatut jäsenfunktiot</h2></td></tr>
-<tr class="memitem:a28804dde6753d714c50693a36d85fde0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a28804dde6753d714c50693a36d85fde0"></a>
-static int&#160;</td><td class="memItemRight" valign="bottom"><b>laskeysiluku</b> (int luku)</td></tr>
-<tr class="separator:a28804dde6753d714c50693a36d85fde0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0f8267fe821c37b409af304ecc12453"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad0f8267fe821c37b409af304ecc12453"></a>
+static int&#160;</td><td class="memItemRight" valign="bottom"><b>laskeysiluku</b> (int luku, bool loppuu=false)</td></tr>
+<tr class="separator:ad0f8267fe821c37b409af304ecc12453"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Suojellut attribuutit</h2></td></tr>
@@ -252,8 +258,6 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>muokattu_</b></td></t
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Yksityiskohtainen selite</h2>
 <div class="textblock"><p>Tilin tai otsikon tiedot. </p>
-<h2>json-määreitä </h2>
-<p>Vastatili: Oletusvastatili kirjauksille AlvProsentti: Oletus arvonlisäveron prosentti </p>
 </div><h2 class="groupheader">Jäsenfunktioiden dokumentaatio</h2>
 <a class="anchor" id="a2cc0608757c3d360ed538f06a4a40b7d"></a>
 <div class="memitem">
@@ -324,6 +328,42 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>muokattu_</b></td></t
 <p>Montako kirjausta tälle tilille. </p>
 <p>Käytetään valvomaan sitä, ettei käytössä olevaa tiliä voi poistaa</p>
 <dl class="section return"><dt>Palauttaa</dt><dd>Kirjausten määrä </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a4a5827167ef3669c8d14f50866063ae0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Tili::onkoEdellistenYliAliJaama </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Kirjataanko tälle tilille edellisten tilikausien ali- ja ylijäämät? </p>
+<dl class="section return"><dt>Palauttaa</dt><dd></dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="af07af37a27470b33afe8f52a3e1eadf9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Tili::onkoRahaTili </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Onko tili rahatili (AR) eli pankkitili tai käteisvarat. </p>
+<dl class="section return"><dt>Palauttaa</dt><dd></dd></dl>
 
 </div>
 </div>

@@ -147,8 +147,8 @@ Julkiset tyypit</h2></td></tr>
 <b>DEBET</b>, 
 <b>KREDIT</b>, 
 <br />
-&#160;&#160;<b>ALV</b>, 
-<b>KOHDENNUS</b>, 
+&#160;&#160;<b>KOHDENNUS</b>, 
+<b>ALV</b>, 
 <b>SELITE</b>
 <br />
  }</td></tr>
@@ -222,9 +222,15 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>insertRows</b> (int r
 <tr class="memitem:a131567a7bb284bc74b57d3e7eb026c64"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a131567a7bb284bc74b57d3e7eb026c64"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>lisaaRivi</b> ()</td></tr>
 <tr class="separator:a131567a7bb284bc74b57d3e7eb026c64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f6cf821aea3ad00a63a3010b07e8f92"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_vienti_model.html#a5f6cf821aea3ad00a63a3010b07e8f92">poistaRivi</a> (int rivi)</td></tr>
+<tr class="memdesc:a5f6cf821aea3ad00a63a3010b07e8f92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Poistaa rivin.  <a href="#a5f6cf821aea3ad00a63a3010b07e8f92">Lisää...</a><br /></td></tr>
+<tr class="separator:a5f6cf821aea3ad00a63a3010b07e8f92"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aedaa6280f4b4d27a2c613e711dcab50f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aedaa6280f4b4d27a2c613e711dcab50f"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>lisaaVienti</b> (const QDate &amp;pvm, int tilinumero, const QString &amp;selite, int debetSnt, int kreditSnt, int rivinro=0)</td></tr>
 <tr class="separator:aedaa6280f4b4d27a2c613e711dcab50f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e4f5b8f2059aa806960b83608f79a01"><td class="memItemLeft" align="right" valign="top">QModelIndex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_vienti_model.html#a0e4f5b8f2059aa806960b83608f79a01">lisaaVienti</a> ()</td></tr>
+<tr class="memdesc:a0e4f5b8f2059aa806960b83608f79a01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lisää viennin.  <a href="#a0e4f5b8f2059aa806960b83608f79a01">Lisää...</a><br /></td></tr>
+<tr class="separator:a0e4f5b8f2059aa806960b83608f79a01"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a34770ed6898b69cf1df5af0c75e08f90"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a34770ed6898b69cf1df5af0c75e08f90"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>debetSumma</b> () const </td></tr>
 <tr class="separator:a34770ed6898b69cf1df5af0c75e08f90"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -255,12 +261,34 @@ QList&lt; <a class="el" href="struct_vienti_rivi.html">VientiRivi</a> &gt;&#160;
 <tr class="memitem:ae1703cdcf0e36d2c4274a98e297ec906"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae1703cdcf0e36d2c4274a98e297ec906"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>muokattu_</b></td></tr>
 <tr class="separator:ae1703cdcf0e36d2c4274a98e297ec906"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f26988ff8aad204ed0e8c86f6eb87ec"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8f26988ff8aad204ed0e8c86f6eb87ec"></a>
+QList&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>poistetutVientiIdt_</b></td></tr>
+<tr class="separator:a8f26988ff8aad204ed0e8c86f6eb87ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Yksityiskohtainen selite</h2>
 <div class="textblock"><p>Yhden tositteen vientien tiedot. </p>
 <p>Vientejä muokataan tämän modelin kautta, saadaan TositeModelin vientiModel()-funktiolla</p>
 <p>Mahdollistaa vientien näyttämisen suoraan taulukossa </p>
 </div><h2 class="groupheader">Jäsenfunktioiden dokumentaatio</h2>
+<a class="anchor" id="a0e4f5b8f2059aa806960b83608f79a01"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QModelIndex VientiModel::lisaaVienti </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Lisää viennin. </p>
+<p>Lisää tyhjän viennin. Tätä käytetään, kun vienti lisätään ohjelmallisesti ja sitä muokataan setData-rajapintaa käyttäen.</p>
+<dl class="section return"><dt>Palauttaa</dt><dd>indeksi uuteen vientiin </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a2f8d7a2ef0bf480d971e2e10c2a52f28"></a>
 <div class="memitem">
 <div class="memproto">
@@ -283,6 +311,31 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>muokattu_</b></td></t
 </div><div class="memdoc">
 
 <p>Onko vientejä muokattu tallennuksen jälkeen. </p>
+<dl class="section return"><dt>Palauttaa</dt><dd></dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a5f6cf821aea3ad00a63a3010b07e8f92"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void VientiModel::poistaRivi </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>rivi</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Poistaa rivin. </p>
+<dl class="params"><dt>Parametrit</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rivi</td><td>Rivin indeksi </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Palauttaa</dt><dd></dd></dl>
 
 </div>

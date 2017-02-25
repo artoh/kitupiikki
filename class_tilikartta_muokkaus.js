@@ -6,6 +6,7 @@ var class_tilikartta_muokkaus =
     [ "muutaTila", "class_tilikartta_muokkaus.html#aa5f9d59503c33beb06db01eb9225b602", null ],
     [ "nollaa", "class_tilikartta_muokkaus.html#aef46bdefa24378a22a97f31ad6d6d10e", null ],
     [ "onkoMuokattu", "class_tilikartta_muokkaus.html#a31684c9a63a1cebcbb441803664ef3e1", null ],
+    [ "poista", "class_tilikartta_muokkaus.html#a5b875337e5a32a9b2c4cdf3159ae8ecb", null ],
     [ "riviValittu", "class_tilikartta_muokkaus.html#a05499174e0316a39feb94781500af28b", null ],
     [ "tallenna", "class_tilikartta_muokkaus.html#a2d4923975b2b0b0b998a12033fff4c55", null ],
     [ "uusi", "class_tilikartta_muokkaus.html#a028730827b2186539230c130e018eaab", null ],

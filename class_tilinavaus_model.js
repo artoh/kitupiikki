@@ -12,10 +12,11 @@ var class_tilinavaus_model =
     [ "headerData", "class_tilinavaus_model.html#ab8808203b1d9173f52b73a4ffb957f1f", null ],
     [ "infoteksti", "class_tilinavaus_model.html#a88357e87c75c818a9f43570913a6c951", null ],
     [ "lataa", "class_tilinavaus_model.html#a9ee78cb0ef72ddf5c7f8a4350ce344e4", null ],
+    [ "onkoMuokattu", "class_tilinavaus_model.html#a49f39477216c4005f2a5e8b6f5390c4a", null ],
     [ "paivitaInfo", "class_tilinavaus_model.html#a8840e69364d2222e5b0e5d55ae1edb87", null ],
     [ "rowCount", "class_tilinavaus_model.html#a2d0cbc9648c9d6e12de2d778efbed139", null ],
     [ "setData", "class_tilinavaus_model.html#ab389a7f129e48bca7a7b3f7a5dddc2cd", null ],
     [ "tallenna", "class_tilinavaus_model.html#a5303768a5c3aa61bdddbcdea3756c183", null ],
-    [ "voikoMuokata", "class_tilinavaus_model.html#aa2b8d8158bccfa2af95a511e6aef3ca2", null ],
+    [ "muokattu_", "class_tilinavaus_model.html#a39aa36ce0f8f60de3a541417894d4702", null ],
     [ "saldot", "class_tilinavaus_model.html#a3e850787c22e98fa3fa8f67fcdec85ad", null ]
 ];

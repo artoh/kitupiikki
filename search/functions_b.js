@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['sallimuokkaus',['salliMuokkaus',['../class_kirjaus_wg.html#a1eaddd0a2c8ed85dcc8f0c4c17efdb98',1,'KirjausWg']]],
-  ['sarakkeita',['sarakkeita',['../class_raportti_rivi.html#aba0982ea9653dc00ce749abfe1e88e06',1,'RaporttiRivi']]],
-  ['selaatilia',['selaaTilia',['../class_aloitus_sivu.html#ac7811a9c532096d2724e3bea4b1937bb',1,'AloitusSivu']]],
-  ['seuraavatunnistenumero',['seuraavaTunnistenumero',['../class_tosite_model.html#ab00059b9577b26a71b4f95d2c35daaf6',1,'TositeModel']]],
-  ['siirrysivulle',['siirrySivulle',['../class_kirjaus_sivu.html#afc1397cd8a8129226b197169900485fa',1,'KirjausSivu::siirrySivulle()'],['../class_kitupiikki_sivu.html#a9c0566f022d62084fce42b95e0b399c3',1,'KitupiikkiSivu::siirrySivulle()'],['../class_maaritys_sivu.html#a3a921de4ecbed5e7bd9b27a155791bf9',1,'MaaritysSivu::siirrySivulle()'],['../class_raportti_sivu.html#a4d05d4e7638fd422624d84bd5fcee034',1,'RaporttiSivu::siirrySivulle()']]]
+  ['raportti',['raportti',['../class_muokattava_raportti.html#a8d4ab7a4256faa38e6a9fdcb2422e333',1,'MuokattavaRaportti::raportti()'],['../class_paivakirja_raportti.html#a4649c5477b600ece7463402b8c8329d6',1,'PaivakirjaRaportti::raportti()'],['../class_raportti_testi.html#a3da0b01c8a3677c3a362d1eb3d5ce8cb',1,'RaporttiTesti::raportti()'],['../class_raportti.html#a5f92f798c9bfd7ebd148e3c31d58502d',1,'Raportti::raportti()']]],
+  ['raporttidatalla',['raporttiDatalla',['../class_muokattava_raportti.html#a33b24726c625eed86d235ad2a198f109',1,'MuokattavaRaportti']]],
+  ['rivivalittu',['riviValittu',['../class_kohdennus_muokkaus.html#ad18fa61f34f6701356f820b23bb59596',1,'KohdennusMuokkaus']]]
 ];

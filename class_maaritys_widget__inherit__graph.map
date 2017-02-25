@@ -1,6 +1,9 @@
 <map id="MaaritysWidget" name="MaaritysWidget">
-<area shape="rect" id="node3" href="$class_perusvalinnat.html" title="Määrityswidget perusvalinnoille (nimi, y&#45;tunnus, logo) " alt="" coords="5,155,107,181"/>
-<area shape="rect" id="node4" href="$class_tilikartta_muokkaus.html" title="Tilikarta muokkaus. " alt="" coords="131,155,263,181"/>
-<area shape="rect" id="node5" href="$class_tilinavaus.html" title="Määritywidget kirjanpidon tilinavauksen kirjaamiseen. " alt="" coords="287,155,369,181"/>
-<area shape="rect" id="node6" href="$class_tositelajit.html" title="MääritysWidget tositelajien määrittämiseen. " alt="" coords="393,155,471,181"/>
+<area shape="rect" id="node3" href="$class_kohdennus_muokkaus.html" title="Kohdennusten muokkaussivu. " alt="" coords="288,5,435,32"/>
+<area shape="rect" id="node4" href="$class_perusvalinnat.html" title="Määrityswidget perusvalinnoille (nimi, y&#45;tunnus, logo) " alt="" coords="311,56,412,83"/>
+<area shape="rect" id="node5" href="$class_raportti_muokkaus.html" title="Sivu, jolla muokataan raportteja. " alt="" coords="297,107,425,133"/>
+<area shape="rect" id="node6" href="$class_tilikartta_muokkaus.html" title="Tilikartan muokkaussivu. " alt="" coords="295,157,427,184"/>
+<area shape="rect" id="node7" href="$class_tilinavaus.html" title="Määritywidget kirjanpidon tilinavauksen kirjaamiseen. " alt="" coords="321,208,402,235"/>
+<area shape="rect" id="node8" href="$class_tositelajit.html" title="MääritysWidget tositelajien määrittämiseen. " alt="" coords="322,259,401,285"/>
+<area shape="rect" id="node9" href="$class_tyokalut.html" title="Määrityssivu erilaisille työkaluille. " alt="" coords="325,309,397,336"/>
 </map>

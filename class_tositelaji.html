@@ -119,12 +119,20 @@ $(document).ready(function(){initNavTree('class_tositelaji.html','');});
  <a href="class_tositelaji.html#details">Lisää...</a></p>
 
 <p><code>#include &lt;<a class="el" href="tositelaji_8h_source.html">tositelaji.h</a>&gt;</code></p>
+<div class="dynheader">
+Yhteistyökaavio luokalle Tositelaji:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tositelaji__coll__graph.png" border="0" usemap="#_tositelaji_coll__map" alt="Collaboration graph"/></div>
+<map name="_tositelaji_coll__map" id="_tositelaji_coll__map">
+<area shape="rect" id="node2" href="class_json_kentta.html" title="json&#45;muotoisten kenttien käsittely " alt="" coords="5,5,93,32"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">selite</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Julkiset jäsenfunktiot</h2></td></tr>
-<tr class="memitem:a1f603975638cc4c97f7c149a92546287"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1f603975638cc4c97f7c149a92546287"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Tositelaji</b> (int id, QString tunnus, QString nimi)</td></tr>
-<tr class="separator:a1f603975638cc4c97f7c149a92546287"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2f302a6f09753f84fa5c9f00aed2a3c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae2f302a6f09753f84fa5c9f00aed2a3c"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Tositelaji</b> (int id, QString tunnus, QString nimi, QByteArray json=QByteArray())</td></tr>
+<tr class="separator:ae2f302a6f09753f84fa5c9f00aed2a3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6cde61aa14635a20676c050b89fdefa0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6cde61aa14635a20676c050b89fdefa0"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>id</b> () const </td></tr>
 <tr class="separator:a6cde61aa14635a20676c050b89fdefa0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -137,6 +145,9 @@ QString&#160;</td><td class="memItemRight" valign="bottom"><b>nimi</b> () const 
 <tr class="memitem:a61f18b14fcff96ee56f5353a9d60edc7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a61f18b14fcff96ee56f5353a9d60edc7"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>muokattu</b> () const </td></tr>
 <tr class="separator:a61f18b14fcff96ee56f5353a9d60edc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb4994391ff6ada6569de5a0337157df"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afb4994391ff6ada6569de5a0337157df"></a>
+<a class="el" href="class_json_kentta.html">JsonKentta</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>json</b> ()</td></tr>
+<tr class="separator:afb4994391ff6ada6569de5a0337157df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade88614ab3cf3187aecfd0da524c7f3c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ade88614ab3cf3187aecfd0da524c7f3c"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>asetaId</b> (int id)</td></tr>
 <tr class="separator:ade88614ab3cf3187aecfd0da524c7f3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -149,6 +160,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>asetaNimi</b> (const 
 <tr class="memitem:ae803d2498642d4468c5a7466a225768d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae803d2498642d4468c5a7466a225768d"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>nollaaMuokattu</b> ()</td></tr>
 <tr class="separator:ae803d2498642d4468c5a7466a225768d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e3992685beaf3f5fec0e93725d180d4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6e3992685beaf3f5fec0e93725d180d4"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>montakoTositetta</b> () const </td></tr>
+<tr class="separator:a6e3992685beaf3f5fec0e93725d180d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Suojellut attribuutit</h2></td></tr>
@@ -161,6 +175,9 @@ QString&#160;</td><td class="memItemRight" valign="bottom"><b>tunnus_</b></td></
 <tr class="memitem:a8548d0c38165ef5fbc4c38a42dccd579"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8548d0c38165ef5fbc4c38a42dccd579"></a>
 QString&#160;</td><td class="memItemRight" valign="bottom"><b>nimi_</b></td></tr>
 <tr class="separator:a8548d0c38165ef5fbc4c38a42dccd579"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2070fd9dc6ce16285d57e0d0fc4dd719"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2070fd9dc6ce16285d57e0d0fc4dd719"></a>
+<a class="el" href="class_json_kentta.html">JsonKentta</a>&#160;</td><td class="memItemRight" valign="bottom"><b>json_</b></td></tr>
+<tr class="separator:a2070fd9dc6ce16285d57e0d0fc4dd719"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef1459434ad0e1b8eb8e9267e274f5ca"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aef1459434ad0e1b8eb8e9267e274f5ca"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>muokattu_</b></td></tr>
 <tr class="separator:aef1459434ad0e1b8eb8e9267e274f5ca"><td class="memSeparator" colspan="2">&#160;</td></tr>

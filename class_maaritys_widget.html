@@ -107,10 +107,11 @@ $(document).ready(function(){initNavTree('class_maaritys_widget.html','');});
 
 <div class="header">
   <div class="summary">
+<a href="#signals">Signaalit</a> &#124;
 <a href="#pub-methods">Julkiset jäsenfunktiot</a> &#124;
 <a href="class_maaritys_widget-members.html">Lista kaikista jäsenistä</a>  </div>
   <div class="headertitle">
-<div class="title">MaaritysWidget luokkareferenssi<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
+<div class="title">MaaritysWidget luokkareferenssi</div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -123,10 +124,13 @@ Luokan MaaritysWidget luokkakaavio</div>
 <div class="dyncontent">
 <div class="center"><img src="class_maaritys_widget__inherit__graph.png" border="0" usemap="#_maaritys_widget_inherit__map" alt="Inheritance graph"/></div>
 <map name="_maaritys_widget_inherit__map" id="_maaritys_widget_inherit__map">
-<area shape="rect" id="node3" href="class_perusvalinnat.html" title="Määrityswidget perusvalinnoille (nimi, y&#45;tunnus, logo) " alt="" coords="5,155,107,181"/>
-<area shape="rect" id="node4" href="class_tilikartta_muokkaus.html" title="Tilikarta muokkaus. " alt="" coords="131,155,263,181"/>
-<area shape="rect" id="node5" href="class_tilinavaus.html" title="Määritywidget kirjanpidon tilinavauksen kirjaamiseen. " alt="" coords="287,155,369,181"/>
-<area shape="rect" id="node6" href="class_tositelajit.html" title="MääritysWidget tositelajien määrittämiseen. " alt="" coords="393,155,471,181"/>
+<area shape="rect" id="node3" href="class_kohdennus_muokkaus.html" title="Kohdennusten muokkaussivu. " alt="" coords="288,5,435,32"/>
+<area shape="rect" id="node4" href="class_perusvalinnat.html" title="Määrityswidget perusvalinnoille (nimi, y&#45;tunnus, logo) " alt="" coords="311,56,412,83"/>
+<area shape="rect" id="node5" href="class_raportti_muokkaus.html" title="Sivu, jolla muokataan raportteja. " alt="" coords="297,107,425,133"/>
+<area shape="rect" id="node6" href="class_tilikartta_muokkaus.html" title="Tilikartan muokkaussivu. " alt="" coords="295,157,427,184"/>
+<area shape="rect" id="node7" href="class_tilinavaus.html" title="Määritywidget kirjanpidon tilinavauksen kirjaamiseen. " alt="" coords="321,208,402,235"/>
+<area shape="rect" id="node8" href="class_tositelajit.html" title="MääritysWidget tositelajien määrittämiseen. " alt="" coords="322,259,401,285"/>
+<area shape="rect" id="node9" href="class_tyokalut.html" title="Määrityssivu erilaisille työkaluille. " alt="" coords="325,309,397,336"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">selite</a>]</span></center></div>
 <div class="dynheader">
@@ -135,27 +139,33 @@ Yhteistyökaavio luokalle MaaritysWidget:</div>
 <div class="center"><img src="class_maaritys_widget__coll__graph.png" border="0" usemap="#_maaritys_widget_coll__map" alt="Collaboration graph"/></div>
 <center><span class="legend">[<a target="top" href="graph_legend.html">selite</a>]</span></center></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="signals"></a>
+Signaalit</h2></td></tr>
+<tr class="memitem:a6a266e4f5d907b9aa29c15057c8c3125"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_maaritys_widget.html#a6a266e4f5d907b9aa29c15057c8c3125">tallennaKaytossa</a> (bool onko)</td></tr>
+<tr class="memdesc:a6a266e4f5d907b9aa29c15057c8c3125"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ilmoittaa, onko Tallennna-nappi käytössä  <a href="#a6a266e4f5d907b9aa29c15057c8c3125">Lisää...</a><br /></td></tr>
+<tr class="separator:a6a266e4f5d907b9aa29c15057c8c3125"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Julkiset jäsenfunktiot</h2></td></tr>
 <tr class="memitem:a81af641913a5ab9c29aced55633fad22"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a81af641913a5ab9c29aced55633fad22"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>MaaritysWidget</b> (QWidget *parent=0)</td></tr>
 <tr class="separator:a81af641913a5ab9c29aced55633fad22"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa262490980caa58e8dd9c0ce69a9e486"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_maaritys_widget.html#aa262490980caa58e8dd9c0ce69a9e486">nollaa</a> ()=0</td></tr>
-<tr class="memdesc:aa262490980caa58e8dd9c0ce69a9e486"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lataa näytettävälle sivulle tallennetut tiedot.  <a href="#aa262490980caa58e8dd9c0ce69a9e486">Lisää...</a><br /></td></tr>
-<tr class="separator:aa262490980caa58e8dd9c0ce69a9e486"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac68afcb4866b77c802cc209c4b3a27c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_maaritys_widget.html#aac68afcb4866b77c802cc209c4b3a27c">tallenna</a> ()=0</td></tr>
-<tr class="memdesc:aac68afcb4866b77c802cc209c4b3a27c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tallettaa tehdyt asetukset.  <a href="#aac68afcb4866b77c802cc209c4b3a27c">Lisää...</a><br /></td></tr>
-<tr class="separator:aac68afcb4866b77c802cc209c4b3a27c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab193f17ebdd6471c2425b8d992afda9b"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_maaritys_widget.html#ab193f17ebdd6471c2425b8d992afda9b">nollaa</a> ()</td></tr>
+<tr class="memdesc:ab193f17ebdd6471c2425b8d992afda9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lataa näytettävälle sivulle tallennetut tiedot.  <a href="#ab193f17ebdd6471c2425b8d992afda9b">Lisää...</a><br /></td></tr>
+<tr class="separator:ab193f17ebdd6471c2425b8d992afda9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10ad88cbb1c19c4c2fe3ddba0f8d9e52"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_maaritys_widget.html#a10ad88cbb1c19c4c2fe3ddba0f8d9e52">tallenna</a> ()</td></tr>
+<tr class="memdesc:a10ad88cbb1c19c4c2fe3ddba0f8d9e52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tallettaa tehdyt asetukset.  <a href="#a10ad88cbb1c19c4c2fe3ddba0f8d9e52">Lisää...</a><br /></td></tr>
+<tr class="separator:a10ad88cbb1c19c4c2fe3ddba0f8d9e52"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af4c62201756bc6a4e5adf055f8886f08"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_maaritys_widget.html#af4c62201756bc6a4e5adf055f8886f08">onkoMuokattu</a> ()</td></tr>
 <tr class="memdesc:af4c62201756bc6a4e5adf055f8886f08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Onko sivulla tallentamattomia muokkauksia.  <a href="#af4c62201756bc6a4e5adf055f8886f08">Lisää...</a><br /></td></tr>
 <tr class="separator:af4c62201756bc6a4e5adf055f8886f08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Yksityiskohtainen selite</h2>
 <div class="textblock"><p>Määrityssivujen widgetin kantaluokka. </p>
-<p>Määrityssivu luodaan vasta, kun se näytetään. Sivu alustetaan <a class="el" href="class_maaritys_widget.html#aa262490980caa58e8dd9c0ce69a9e486" title="Lataa näytettävälle sivulle tallennetut tiedot. ">nollaa()</a>-funktiota kutsuttaessa ja tallennetaan <a class="el" href="class_maaritys_widget.html#aac68afcb4866b77c802cc209c4b3a27c" title="Tallettaa tehdyt asetukset. ">tallenna()</a>-kutsusta</p>
+<p>Määrityssivu luodaan vasta, kun se näytetään. Sivu alustetaan <a class="el" href="class_maaritys_widget.html#ab193f17ebdd6471c2425b8d992afda9b" title="Lataa näytettävälle sivulle tallennetut tiedot. ">nollaa()</a>-funktiota kutsuttaessa ja tallennetaan <a class="el" href="class_maaritys_widget.html#a10ad88cbb1c19c4c2fe3ddba0f8d9e52" title="Tallettaa tehdyt asetukset. ">tallenna()</a>-kutsusta</p>
 <p>onkomuokattu() palauttaa, onko tässä widgetissa tallentamattomia muutoksia. Jos tallentamattomalta sivulta poistutaan, kysytään ensin varmennus </p>
 </div><h2 class="groupheader">Jäsenfunktioiden dokumentaatio</h2>
-<a class="anchor" id="aa262490980caa58e8dd9c0ce69a9e486"></a>
+<a class="anchor" id="ab193f17ebdd6471c2425b8d992afda9b"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -171,7 +181,7 @@ Julkiset jäsenfunktiot</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -179,7 +189,7 @@ Julkiset jäsenfunktiot</h2></td></tr>
 <p>Lataa näytettävälle sivulle tallennetut tiedot. </p>
 <dl class="section return"><dt>Palauttaa</dt><dd>onnistuiko </dd></dl>
 
-<p>Toteutettu luokassa <a class="el" href="class_tilinavaus.html#a69610eef0a043ea0f06a6fb8351d3246">Tilinavaus</a>, <a class="el" href="class_tositelajit.html#a9a30870f0415e1a8223d5c94824fc087">Tositelajit</a>, <a class="el" href="class_perusvalinnat.html#a2d8dbaea11622b6f980db31244d82df9">Perusvalinnat</a> ja <a class="el" href="class_tilikartta_muokkaus.html#aef46bdefa24378a22a97f31ad6d6d10e">TilikarttaMuokkaus</a>.</p>
+<p>Uudelleentoteutetaan luokissa <a class="el" href="class_tositelajit.html#a9a30870f0415e1a8223d5c94824fc087">Tositelajit</a>, <a class="el" href="class_tilinavaus.html#a69610eef0a043ea0f06a6fb8351d3246">Tilinavaus</a>, <a class="el" href="class_perusvalinnat.html#a2d8dbaea11622b6f980db31244d82df9">Perusvalinnat</a>, <a class="el" href="class_kohdennus_muokkaus.html#a3ae826c2ca0475ee2e5e851742f183a8">KohdennusMuokkaus</a>, <a class="el" href="class_tilikartta_muokkaus.html#aef46bdefa24378a22a97f31ad6d6d10e">TilikarttaMuokkaus</a> ja <a class="el" href="class_raportti_muokkaus.html#ad0b87c2159053a5310044668321df9d0">RaporttiMuokkaus</a>.</p>
 
 </div>
 </div>
@@ -207,11 +217,11 @@ Julkiset jäsenfunktiot</h2></td></tr>
 <p>Onko sivulla tallentamattomia muokkauksia. </p>
 <dl class="section return"><dt>Palauttaa</dt><dd>tosi jos tallentamttomia muutoksia </dd></dl>
 
-<p>Uudelleentoteutetaan luokissa <a class="el" href="class_perusvalinnat.html#a3104b470e7f9d6feeb78f2cffdd0f9c6">Perusvalinnat</a> ja <a class="el" href="class_tilikartta_muokkaus.html#a31684c9a63a1cebcbb441803664ef3e1">TilikarttaMuokkaus</a>.</p>
+<p>Uudelleentoteutetaan luokissa <a class="el" href="class_tositelajit.html#ae859d8e7131338a04c6ec3e064b1b141">Tositelajit</a>, <a class="el" href="class_tilinavaus.html#aebdfc8b3312ae755f261a2308eb41964">Tilinavaus</a>, <a class="el" href="class_perusvalinnat.html#a3104b470e7f9d6feeb78f2cffdd0f9c6">Perusvalinnat</a>, <a class="el" href="class_kohdennus_muokkaus.html#a91e6541fdeaf49ba61ecc00599afb7d8">KohdennusMuokkaus</a>, <a class="el" href="class_tilikartta_muokkaus.html#a31684c9a63a1cebcbb441803664ef3e1">TilikarttaMuokkaus</a> ja <a class="el" href="class_raportti_muokkaus.html#ae6efd13f8cb7706680acd3f4e4c430a1">RaporttiMuokkaus</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="aac68afcb4866b77c802cc209c4b3a27c"></a>
+<a class="anchor" id="a10ad88cbb1c19c4c2fe3ddba0f8d9e52"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -227,7 +237,7 @@ Julkiset jäsenfunktiot</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -235,7 +245,39 @@ Julkiset jäsenfunktiot</h2></td></tr>
 <p>Tallettaa tehdyt asetukset. </p>
 <dl class="section return"><dt>Palauttaa</dt><dd>onnistuiko </dd></dl>
 
-<p>Toteutettu luokassa <a class="el" href="class_tilinavaus.html#a9b42d3d7d5d850d976581fb993eb45f7">Tilinavaus</a>, <a class="el" href="class_tositelajit.html#a52279042e1d923c5efcfcaa899d2bbe6">Tositelajit</a>, <a class="el" href="class_perusvalinnat.html#adff46097d9dd9cfbcdf4bde15d046b13">Perusvalinnat</a> ja <a class="el" href="class_tilikartta_muokkaus.html#a2d4923975b2b0b0b998a12033fff4c55">TilikarttaMuokkaus</a>.</p>
+<p>Uudelleentoteutetaan luokissa <a class="el" href="class_tositelajit.html#a52279042e1d923c5efcfcaa899d2bbe6">Tositelajit</a>, <a class="el" href="class_tilinavaus.html#a9b42d3d7d5d850d976581fb993eb45f7">Tilinavaus</a>, <a class="el" href="class_perusvalinnat.html#adff46097d9dd9cfbcdf4bde15d046b13">Perusvalinnat</a>, <a class="el" href="class_kohdennus_muokkaus.html#a7f62a6ed0fbf7829bb8a317037117231">KohdennusMuokkaus</a>, <a class="el" href="class_tilikartta_muokkaus.html#a2d4923975b2b0b0b998a12033fff4c55">TilikarttaMuokkaus</a> ja <a class="el" href="class_raportti_muokkaus.html#aaf062288f73587b8a8056788d763148b">RaporttiMuokkaus</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6a266e4f5d907b9aa29c15057c8c3125"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MaaritysWidget::tallennaKaytossa </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>onko</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ilmoittaa, onko Tallennna-nappi käytössä </p>
+<dl class="params"><dt>Parametrit</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">onko</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

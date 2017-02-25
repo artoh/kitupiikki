@@ -15,5 +15,6 @@ var dir_3d5d560ea5539eb4b878818da2ab4b6f =
     [ "tositelaji.h", "tositelaji_8h_source.html", null ],
     [ "tositelajimodel.h", "tositelajimodel_8h_source.html", null ],
     [ "tositemodel.h", "tositemodel_8h_source.html", null ],
+    [ "verotyyppimodel.h", "verotyyppimodel_8h_source.html", null ],
     [ "vientimodel.h", "vientimodel_8h_source.html", null ]
 ];

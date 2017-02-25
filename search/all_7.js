@@ -2,6 +2,7 @@ var searchData=
 [
   ['lataauudelleen',['lataaUudelleen',['../class_kirjanpito.html#a4d2c25cc83dd47fedf9a897a690c9f89',1,'Kirjanpito']]],
   ['leveyssaraketta',['leveysSaraketta',['../class_raportti_rivi.html#a0548e9c8d445ac9ce167bab9f74ca3ad',1,'RaporttiRivi']]],
+  ['lihavoi',['lihavoi',['../class_raportti_rivi.html#a0026ab25a0c0d07bef88c37b825287bb',1,'RaporttiRivi']]],
   ['liite',['Liite',['../struct_liite.html',1,'']]],
   ['liitemodel',['LiiteModel',['../class_liite_model.html',1,'']]],
   ['liitevalinta',['liiteValinta',['../class_kirjaus_wg.html#a9ffb67f93c51980777361afa27b4f6c0',1,'KirjausWg']]],
@@ -11,8 +12,10 @@ var searchData=
   ['lisaaliite',['lisaaLiite',['../class_kirjaus_wg.html#a2df843feed0886c5bfafe317931cc028',1,'KirjausWg']]],
   ['lisaapvmsarake',['lisaaPvmSarake',['../class_raportin_kirjoittaja.html#accede044daddea28c5167d7dfd697d35',1,'RaportinKirjoittaja']]],
   ['lisaasarake',['lisaaSarake',['../class_raportin_kirjoittaja.html#a28ec3dc3e3412a04bad895035365e333',1,'RaportinKirjoittaja::lisaaSarake(const QString &amp;leveysteksti)'],['../class_raportin_kirjoittaja.html#ac253ee86a6b03a4e8acb79f32a4bd5ca',1,'RaportinKirjoittaja::lisaaSarake(int leveysprosentti)']]],
+  ['lisaasivu',['lisaaSivu',['../class_maaritys_sivu.html#a3277fca18afe760ea4dfcde9007eefdf',1,'MaaritysSivu']]],
   ['lisaatxt',['lisaaTxt',['../class_sisalto.html#a84db5201133025ec39b14a5766b9e7e6',1,'Sisalto']]],
   ['lisaavenyvasarake',['lisaaVenyvaSarake',['../class_raportin_kirjoittaja.html#ad6273a72bca5d3ca679d71d0d46a477d',1,'RaportinKirjoittaja']]],
+  ['lisaavienti',['lisaaVienti',['../class_vienti_model.html#a0e4f5b8f2059aa806960b83608f79a01',1,'VientiModel']]],
   ['listaltavalittu',['listaltaValittu',['../class_tilikartta_sivu.html#a3351808ed9e8e82c63e08814b8503b78',1,'TilikarttaSivu']]],
   ['loppusivu',['LoppuSivu',['../class_loppu_sivu.html',1,'']]],
   ['luektktiedosto',['lueKtkTiedosto',['../class_uusi_kirjanpito.html#abaa60dd2ef47a4dae79b2a3424ca74e7',1,'UusiKirjanpito']]]

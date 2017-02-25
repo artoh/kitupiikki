@@ -1,3 +1,22 @@
 <map id="Graafinen luokkahierarkia" name="Graafinen luokkahierarkia">
-<area shape="rect" id="node2" href="$class_kitupiikki_ikkuna.html" title="Ohjelmiston pääikkuna. " alt="" coords="160,5,275,32"/>
+<area shape="rect" id="node2" href="$class_kirjaus_wg.html" title="Kirjausten muokkaus. " alt="" coords="142,132,225,159"/>
+<area shape="rect" id="node3" href="$class_kitupiikki_sivu.html" title="Kantaluokka pääikkunassa näytettäville sivuille. " alt="" coords="133,183,234,209"/>
+<area shape="rect" id="node10" href="$class_maaritys_widget.html" title="Määrityssivujen widgetin kantaluokka. " alt="" coords="127,436,240,463"/>
+<area shape="rect" id="node18" href="$class_raportti.html" title="Raportin kantaluokka. " alt="" coords="149,689,217,716"/>
+<area shape="rect" id="node4" href="$class_aloitus_sivu.html" title="Webipohjaiset aloitus&#45; ja ohjesivut. " alt="" coords="317,5,405,32"/>
+<area shape="rect" id="node5" href="$class_kirjaus_sivu.html" title="Sivu, jolla kirjaukset tehdään. " alt="" coords="317,56,405,83"/>
+<area shape="rect" id="node6" href="$class_maaritys_sivu.html" title="Määrityssivun sisältävä QWidget. " alt="" coords="312,107,411,133"/>
+<area shape="rect" id="node7" href="$class_ohje_sivu.html" title="Ohjeet näyttävä sivu. " alt="" coords="324,157,399,184"/>
+<area shape="rect" id="node8" href="$class_raportti_sivu.html" title="Raporttien tulostussivu. " alt="" coords="314,208,409,235"/>
+<area shape="rect" id="node9" href="$class_selaus_wg.html" title="Sivu kirjausten selaamiseen. " alt="" coords="320,259,403,285"/>
+<area shape="rect" id="node11" href="$class_kohdennus_muokkaus.html" title="Kohdennusten muokkaussivu. " alt="" coords="288,309,435,336"/>
+<area shape="rect" id="node12" href="$class_perusvalinnat.html" title="Määrityswidget perusvalinnoille (nimi, y&#45;tunnus, logo) " alt="" coords="311,360,412,387"/>
+<area shape="rect" id="node13" href="$class_raportti_muokkaus.html" title="Sivu, jolla muokataan raportteja. " alt="" coords="297,411,425,437"/>
+<area shape="rect" id="node14" href="$class_tilikartta_muokkaus.html" title="Tilikartan muokkaussivu. " alt="" coords="295,461,427,488"/>
+<area shape="rect" id="node15" href="$class_tilinavaus.html" title="Määritywidget kirjanpidon tilinavauksen kirjaamiseen. " alt="" coords="321,512,402,539"/>
+<area shape="rect" id="node16" href="$class_tositelajit.html" title="MääritysWidget tositelajien määrittämiseen. " alt="" coords="322,563,401,589"/>
+<area shape="rect" id="node17" href="$class_tyokalut.html" title="Määrityssivu erilaisille työkaluille. " alt="" coords="325,613,397,640"/>
+<area shape="rect" id="node19" href="$class_muokattava_raportti.html" title="Muokattavien Tase/Tulosraporttien tulostaminen. " alt="" coords="293,664,429,691"/>
+<area shape="rect" id="node20" href="$class_paivakirja_raportti.html" title="Päiväkirjan tulostava raportti. " alt="" coords="299,715,424,741"/>
+<area shape="rect" id="node21" href="$class_raportti_testi.html" title="RaporttiTesti" alt="" coords="313,765,410,792"/>
 </map>

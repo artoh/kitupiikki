@@ -1,4 +1,3 @@
 <map id="Graafinen luokkahierarkia" name="Graafinen luokkahierarkia">
-<area shape="rect" id="node2" href="$class_tilin_muokkaus_dialog.html" title="TilinMuokkausDialog" alt="" coords="123,5,265,32"/>
-<area shape="rect" id="node3" href="$class_tilin_valinta_dialogi.html" title="TilinValintaDialogi" alt="" coords="131,56,257,83"/>
+<area shape="rect" id="node1" href="$struct_selaus_rivi.html" title="SelausModel:in yhden rivin (viennin) tiedot. " alt="" coords="5,5,91,32"/>
 </map>

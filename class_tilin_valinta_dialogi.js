@@ -7,5 +7,6 @@ var class_tilin_valinta_dialogi =
     [ "suodata", "class_tilin_valinta_dialogi.html#ad231a5fcb854e6f450720328ce928859", null ],
     [ "suodataSuosikit", "class_tilin_valinta_dialogi.html#abad3b8e531a9c3b8919a2c3281b96d6e", null ],
     [ "suodataTyyppi", "class_tilin_valinta_dialogi.html#acf5ef0e1ec5ec655072b3b8be9aa1ec2", null ],
+    [ "valintaMuuttui", "class_tilin_valinta_dialogi.html#afdd4712084d926bacf0462498df198b0", null ],
     [ "valittu", "class_tilin_valinta_dialogi.html#aeefba8f34dd8a0ae29aecca85c8dd7bd", null ]
 ];

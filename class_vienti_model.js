@@ -17,8 +17,8 @@ var class_vienti_model =
       [ "TILI", "class_vienti_model.html#a5399baba87922f4484685173b4cc5df6a0b7388a54268813f66656102b2840a6c", null ],
       [ "DEBET", "class_vienti_model.html#a5399baba87922f4484685173b4cc5df6a3619ff68c5881922c77d6754b8410c19", null ],
       [ "KREDIT", "class_vienti_model.html#a5399baba87922f4484685173b4cc5df6a2d1a939758f47345c27809522e2ca2e7", null ],
-      [ "ALV", "class_vienti_model.html#a5399baba87922f4484685173b4cc5df6a18f47690e4fb8dd049de14730a81e607", null ],
       [ "KOHDENNUS", "class_vienti_model.html#a5399baba87922f4484685173b4cc5df6af69b6ecb30748ee24839f88848475cf8", null ],
+      [ "ALV", "class_vienti_model.html#a5399baba87922f4484685173b4cc5df6a18f47690e4fb8dd049de14730a81e607", null ],
       [ "SELITE", "class_vienti_model.html#a5399baba87922f4484685173b4cc5df6a74d42a6a32c1605fab6a8e86caedbbd8", null ]
     ] ],
     [ "VientiModel", "class_vienti_model.html#abf040f4f19eed22e69118acec67cbd2e", null ],
@@ -32,8 +32,10 @@ var class_vienti_model =
     [ "lataa", "class_vienti_model.html#a17866a99c8a945299261e38307528135", null ],
     [ "lisaaRivi", "class_vienti_model.html#a131567a7bb284bc74b57d3e7eb026c64", null ],
     [ "lisaaVienti", "class_vienti_model.html#aedaa6280f4b4d27a2c613e711dcab50f", null ],
+    [ "lisaaVienti", "class_vienti_model.html#a0e4f5b8f2059aa806960b83608f79a01", null ],
     [ "muokattu", "class_vienti_model.html#a2f8d7a2ef0bf480d971e2e10c2a52f28", null ],
     [ "muuttunut", "class_vienti_model.html#aa8eede9710f2df946da485b92a2b06c2", null ],
+    [ "poistaRivi", "class_vienti_model.html#a5f6cf821aea3ad00a63a3010b07e8f92", null ],
     [ "rowCount", "class_vienti_model.html#ae7a4b207e133d20c2f2adc2473d3d26f", null ],
     [ "setData", "class_vienti_model.html#af84f99d47f969d052797e10406b13143", null ],
     [ "seuraavaRiviNumero", "class_vienti_model.html#ad7a48795eeb6c40b62b72541493d42bf", null ],
@@ -42,6 +44,7 @@ var class_vienti_model =
     [ "tyhjaa", "class_vienti_model.html#abef7e5417711d557dbd800600a8f4db0", null ],
     [ "uusiRivi", "class_vienti_model.html#a3340f740f15a6a22e9a35dbce1dee8e8", null ],
     [ "muokattu_", "class_vienti_model.html#ae1703cdcf0e36d2c4274a98e297ec906", null ],
+    [ "poistetutVientiIdt_", "class_vienti_model.html#a8f26988ff8aad204ed0e8c86f6eb87ec", null ],
     [ "tositeModel_", "class_vienti_model.html#a2f3b00115c99ecd1392fbdeeb69c54b2", null ],
     [ "viennit_", "class_vienti_model.html#a5b707a7be962c6b77b5e9a3f0099ac82", null ]
 ];

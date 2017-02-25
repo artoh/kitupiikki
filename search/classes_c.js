@@ -15,7 +15,9 @@ var searchData=
   ['tilinvalintaline',['TilinvalintaLine',['../class_tilinvalinta_line.html',1,'']]],
   ['tilinvalintalinedelegaatille',['TilinvalintaLineDelegaatille',['../class_tilinvalinta_line_delegaatille.html',1,'']]],
   ['tositelaji',['Tositelaji',['../class_tositelaji.html',1,'']]],
+  ['tositelajidialogi',['TositelajiDialogi',['../class_tositelaji_dialogi.html',1,'']]],
   ['tositelajimodel',['TositelajiModel',['../class_tositelaji_model.html',1,'']]],
   ['tositelajit',['Tositelajit',['../class_tositelajit.html',1,'']]],
-  ['tositemodel',['TositeModel',['../class_tosite_model.html',1,'']]]
+  ['tositemodel',['TositeModel',['../class_tosite_model.html',1,'']]],
+  ['tyokalut',['Tyokalut',['../class_tyokalut.html',1,'']]]
 ];

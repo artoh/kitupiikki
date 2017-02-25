@@ -133,11 +133,12 @@ Yhteistyökaavio luokalle Kirjanpito:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_kirjanpito__coll__graph.png" border="0" usemap="#_kirjanpito_coll__map" alt="Collaboration graph"/></div>
 <map name="_kirjanpito_coll__map" id="_kirjanpito_coll__map">
-<area shape="rect" id="node7" href="class_asetus_model.html" title="Asetusten käsittely. " alt="" coords="49,81,147,108"/>
-<area shape="rect" id="node3" href="class_tilikausi_model.html" title="Tilikaudet. " alt="" coords="172,81,277,108"/>
-<area shape="rect" id="node5" href="class_tositelaji_model.html" title="Tositelajien model. " alt="" coords="302,81,411,108"/>
-<area shape="rect" id="node6" href="class_kohdennus_model.html" title="Kohdennusten luettelo. " alt="" coords="435,81,558,108"/>
-<area shape="rect" id="node8" href="class_tili_model.html" title="Tilit. " alt="" coords="582,81,657,108"/>
+<area shape="rect" id="node9" href="class_asetus_model.html" title="Asetusten käsittely. " alt="" coords="215,48,313,75"/>
+<area shape="rect" id="node3" href="class_verotyyppi_model.html" title="Käytettävien verotyyppien model. " alt="" coords="205,99,323,126"/>
+<area shape="rect" id="node5" href="class_tilikausi_model.html" title="Tilikaudet. " alt="" coords="211,150,317,176"/>
+<area shape="rect" id="node7" href="class_tositelaji_model.html" title="Tositelajien model. " alt="" coords="209,200,319,227"/>
+<area shape="rect" id="node8" href="class_kohdennus_model.html" title="Kohdennusten luettelo. " alt="" coords="203,251,325,278"/>
+<area shape="rect" id="node10" href="class_tili_model.html" title="Tilit. " alt="" coords="227,302,301,328"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">selite</a>]</span></center></div>
 <table class="memberdecls">
@@ -155,14 +156,16 @@ Julkiset vastineet</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="signals"></a>
 Signaalit</h2></td></tr>
-<tr class="memitem:aec449d31711be4c66ffa3025f85c8297"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aec449d31711be4c66ffa3025f85c8297"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_kirjanpito.html#aec449d31711be4c66ffa3025f85c8297">tietokantaVaihtui</a> ()</td></tr>
-<tr class="memdesc:aec449d31711be4c66ffa3025f85c8297"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tietokanta on avattu. <br /></td></tr>
+<tr class="memitem:aec449d31711be4c66ffa3025f85c8297"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_kirjanpito.html#aec449d31711be4c66ffa3025f85c8297">tietokantaVaihtui</a> ()</td></tr>
+<tr class="memdesc:aec449d31711be4c66ffa3025f85c8297"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tietokanta on avattu.  <a href="#aec449d31711be4c66ffa3025f85c8297">Lisää...</a><br /></td></tr>
 <tr class="separator:aec449d31711be4c66ffa3025f85c8297"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af4c74e4ca0e5c3f6731d5518ed4fa05c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af4c74e4ca0e5c3f6731d5518ed4fa05c"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_kirjanpito.html#af4c74e4ca0e5c3f6731d5518ed4fa05c">kirjanpitoaMuokattu</a> ()</td></tr>
 <tr class="memdesc:af4c74e4ca0e5c3f6731d5518ed4fa05c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Kirjanpitoa on muokattu (tallennettu muokattu vienti) <br /></td></tr>
 <tr class="separator:af4c74e4ca0e5c3f6731d5518ed4fa05c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90bf65a6904a3ae466b65c9482d18b57"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_kirjanpito.html#a90bf65a6904a3ae466b65c9482d18b57">tilikausiPaatetty</a> ()</td></tr>
+<tr class="memdesc:a90bf65a6904a3ae466b65c9482d18b57"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_tilikausi.html" title="Yhden tilikauden tiedot. ">Tilikausi</a> on päätetty.  <a href="#a90bf65a6904a3ae466b65c9482d18b57">Lisää...</a><br /></td></tr>
+<tr class="separator:a90bf65a6904a3ae466b65c9482d18b57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Julkiset jäsenfunktiot</h2></td></tr>
@@ -205,6 +208,9 @@ Julkiset jäsenfunktiot</h2></td></tr>
 <tr class="memitem:a6fc878f0953e25787447d94675ab53a6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_kohdennus_model.html">KohdennusModel</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_kirjanpito.html#a6fc878f0953e25787447d94675ab53a6">kohdennukset</a> () const </td></tr>
 <tr class="memdesc:a6fc878f0953e25787447d94675ab53a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Kohdennusten eli kustannuspaikkojen ja projektien model.  <a href="#a6fc878f0953e25787447d94675ab53a6">Lisää...</a><br /></td></tr>
 <tr class="separator:a6fc878f0953e25787447d94675ab53a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9471b986e35dbe0f0478f66a1265d3a4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_verotyyppi_model.html">VerotyyppiModel</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_kirjanpito.html#a9471b986e35dbe0f0478f66a1265d3a4">alvTyypit</a> () const </td></tr>
+<tr class="memdesc:a9471b986e35dbe0f0478f66a1265d3a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Palauttaa alv-kirjauksen tyypit sisältävän modelin.  <a href="#a9471b986e35dbe0f0478f66a1265d3a4">Lisää...</a><br /></td></tr>
+<tr class="separator:a9471b986e35dbe0f0478f66a1265d3a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a05641e07e7c5702df8188cd8196cc4b3"><td class="memItemLeft" align="right" valign="top">QSqlDatabase *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_kirjanpito.html#a05641e07e7c5702df8188cd8196cc4b3">tietokanta</a> ()</td></tr>
 <tr class="memdesc:a05641e07e7c5702df8188cd8196cc4b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sql-tietokanta.  <a href="#a05641e07e7c5702df8188cd8196cc4b3">Lisää...</a><br /></td></tr>
 <tr class="separator:a05641e07e7c5702df8188cd8196cc4b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -250,11 +256,40 @@ QDate&#160;</td><td class="memItemRight" valign="bottom"><b>harjoitusPvm</b></td
 <tr class="memitem:a88aa48a67fef206b8f81e5721324cfbb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a88aa48a67fef206b8f81e5721324cfbb"></a>
 <a class="el" href="class_kohdennus_model.html">KohdennusModel</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>kohdennukset_</b></td></tr>
 <tr class="separator:a88aa48a67fef206b8f81e5721324cfbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6581ce7172835609dafa38a1e0624060"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6581ce7172835609dafa38a1e0624060"></a>
+<a class="el" href="class_verotyyppi_model.html">VerotyyppiModel</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>veroTyypit_</b></td></tr>
+<tr class="separator:a6581ce7172835609dafa38a1e0624060"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Yksityiskohtainen selite</h2>
 <div class="textblock"><p>Kirjanpidon käsittely. </p>
 <p>Ainokainen, jonka kautta käsitellään tietokantaa </p>
 </div><h2 class="groupheader">Jäsenfunktioiden dokumentaatio</h2>
+<a class="anchor" id="a9471b986e35dbe0f0478f66a1265d3a4"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_verotyyppi_model.html">VerotyyppiModel</a>* Kirjanpito::alvTyypit </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Palauttaa alv-kirjauksen tyypit sisältävän modelin. </p>
+<dl class="section return"><dt>Palauttaa</dt><dd></dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ab3a29ad110dfdf37b77968770f429f74"></a>
 <div class="memitem">
 <div class="memproto">
@@ -540,6 +575,32 @@ QDate&#160;</td><td class="memItemRight" valign="bottom"><b>harjoitusPvm</b></td
 
 </div>
 </div>
+<a class="anchor" id="aec449d31711be4c66ffa3025f85c8297"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Kirjanpito::tietokantaVaihtui </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Tietokanta on avattu. </p>
+<p><a class="el" href="class_kirjanpito.html" title="Kirjanpidon käsittely. ">Kirjanpito</a> vaihtui ja kaikki tiedot ladataan uudelleen </p>
+
+</div>
+</div>
 <a class="anchor" id="aa290c9c4adde90625749740f205beae7"></a>
 <div class="memitem">
 <div class="memproto">
@@ -563,6 +624,32 @@ QDate&#160;</td><td class="memItemRight" valign="bottom"><b>harjoitusPvm</b></td
 
 <p>Tilikausien model. </p>
 <dl class="section return"><dt>Palauttaa</dt><dd></dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a90bf65a6904a3ae466b65c9482d18b57"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Kirjanpito::tilikausiPaatetty </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="class_tilikausi.html" title="Yhden tilikauden tiedot. ">Tilikausi</a> on päätetty. </p>
+<p>Päätetylle tilikaudelle ei voi enää kirjata mitään. Siksi tilikauden päättäminen vaikuttaa eri valintoihin, ja siitä ilmoitetaan signaalilla. </p>
 
 </div>
 </div>

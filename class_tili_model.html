@@ -188,6 +188,9 @@ QVariant&#160;</td><td class="memItemRight" valign="bottom"><b>data</b> (const Q
 <tr class="memitem:aa6c225b21b0ecd774c956e1f4da3d7f0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa6c225b21b0ecd774c956e1f4da3d7f0"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>lisaaTili</b> (<a class="el" href="class_tili.html">Tili</a> uusi)</td></tr>
 <tr class="separator:aa6c225b21b0ecd774c956e1f4da3d7f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a841be7facf88346228dbf27476ab30ac"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a841be7facf88346228dbf27476ab30ac"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>poistaRivi</b> (int riviIndeksi)</td></tr>
+<tr class="separator:a841be7facf88346228dbf27476ab30ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a75d57f454cd27d0212a94f78233efe35"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a75d57f454cd27d0212a94f78233efe35"></a>
 <a class="el" href="class_tili.html">Tili</a>&#160;</td><td class="memItemRight" valign="bottom"><b>tiliIdlla</b> (int id) const </td></tr>
 <tr class="separator:a75d57f454cd27d0212a94f78233efe35"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -197,6 +200,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>lisaaTili</b> (<a cla
 <tr class="memitem:a0e601955dd7c6b05557ac440875956bd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0e601955dd7c6b05557ac440875956bd"></a>
 <a class="el" href="class_tili.html">Tili</a>&#160;</td><td class="memItemRight" valign="bottom"><b>tiliNumerolla</b> (int numero) const </td></tr>
 <tr class="separator:a0e601955dd7c6b05557ac440875956bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4d4eca1f7c295b67c8e0f1a1dca37f6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_tili.html">Tili</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tili_model.html#aa4d4eca1f7c295b67c8e0f1a1dca37f6">edellistenYlijaamaTili</a> () const </td></tr>
+<tr class="memdesc:aa4d4eca1f7c295b67c8e0f1a1dca37f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Palauttaa tilin, jolle kirjataan edellisiltä tilikausilta kertynyt yli/alijäämä  <a href="#aa4d4eca1f7c295b67c8e0f1a1dca37f6">Lisää...</a><br /></td></tr>
+<tr class="separator:aa4d4eca1f7c295b67c8e0f1a1dca37f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a41293c47b5ebc0a4da5e6088c83ccb2a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a41293c47b5ebc0a4da5e6088c83ccb2a"></a>
 <a class="el" href="class_json_kentta.html">JsonKentta</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>jsonIndeksilla</b> (int i)</td></tr>
 <tr class="separator:a41293c47b5ebc0a4da5e6088c83ccb2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -224,6 +230,9 @@ QSqlDatabase *&#160;</td><td class="memItemRight" valign="bottom"><b>tietokanta_
 <tr class="memitem:aefaf5b13b883875c34f32f0f85c4588d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aefaf5b13b883875c34f32f0f85c4588d"></a>
 QList&lt; <a class="el" href="class_tili.html">Tili</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>tilit_</b></td></tr>
 <tr class="separator:aefaf5b13b883875c34f32f0f85c4588d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8aa98768f3e1575d79d852a5875a3cad"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8aa98768f3e1575d79d852a5875a3cad"></a>
+QList&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>poistetutIdt_</b></td></tr>
+<tr class="separator:a8aa98768f3e1575d79d852a5875a3cad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-attribs"></a>
 Staattiset suojellut attribuutit</h2></td></tr>
@@ -237,7 +246,26 @@ static QMap&lt; int, QString &gt;&#160;</td><td class="memItemRight" valign="bot
 <a name="details" id="details"></a><h2 class="groupheader">Yksityiskohtainen selite</h2>
 <div class="textblock"><p>Tilit. </p>
 <p>Tilien tiedot </p>
-</div><hr/>Dokumentaatio tälle luokalle luotiin seuraavista tiedostoista:<ul>
+</div><h2 class="groupheader">Jäsenfunktioiden dokumentaatio</h2>
+<a class="anchor" id="aa4d4eca1f7c295b67c8e0f1a1dca37f6"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_tili.html">Tili</a> TiliModel::edellistenYlijaamaTili </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Palauttaa tilin, jolle kirjataan edellisiltä tilikausilta kertynyt yli/alijäämä </p>
+<dl class="section return"><dt>Palauttaa</dt><dd></dd></dl>
+
+</div>
+</div>
+<hr/>Dokumentaatio tälle luokalle luotiin seuraavista tiedostoista:<ul>
 <li>kitupiikki/db/<a class="el" href="tilimodel_8h_source.html">tilimodel.h</a></li>
 <li>kitupiikki/db/tilimodel.cpp</li>
 </ul>

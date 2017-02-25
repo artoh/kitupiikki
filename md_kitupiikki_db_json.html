@@ -113,6 +113,22 @@ $(document).ready(function(){initNavTree('md_kitupiikki_db_json.html','');});
 <tr>
 <td>AlvProsentti</td><td>int </td><td>Oletus viennin veroprosentille </td></tr>
 </table>
+<h2><a class="el" href="class_tositelaji.html" title="Tositelaji, joka muodostaa oman numerosarjan. ">Tositelaji</a> </h2>
+<table class="doxtable">
+<tr>
+<th>Avain </th><th>Tyyppi </th><th>Selitys  </th></tr>
+<tr>
+<td>Vastatili </td><td>int (tilinumero) </td><td>Oletus kirjausten vastatilille </td></tr>
+<tr>
+<td>Kirjaustyyppi </td><td>int (enum TositelajiModel::KirjausTyyppi) </td><td>Tositteen kirjausten tyyppi: KAIKKIKIRJAUKSET, OSTOLASKUT, MYYNTILASKUT, TILIOTE </td></tr>
+<tr>
+<td>Oletustili </td><td>int(tilinumero) </td><td>Oletus kirjaustiliksi </td></tr>
+</table>
+<h2>Tosite </h2>
+<ul>
+<li>tiliote alkaa</li>
+<li>tiliote päättyy </li>
+</ul>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
