@@ -53,7 +53,8 @@ public:
         VastatiliNroRooli = Qt::UserRole + 3,
         TositeMaaraRooli = Qt::UserRole +4,
         KirjausTyyppiRooli = Qt::UserRole + 5,
-        OletustiliRooli = Qt::UserRole + 6
+        OletustiliRooli = Qt::UserRole + 6,
+        JsonRooli = Qt::UserRole + 7
 
     };
 

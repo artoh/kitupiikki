@@ -31,6 +31,7 @@
 #include "tilikarttamuokkaus.h"
 #include "kohdennusmuokkaus.h"
 #include "raporttimuokkaus.h"
+#include "tyokalut.h"
 
 #include <QDebug>
 
@@ -49,6 +50,7 @@ MaaritysSivu::MaaritysSivu() :
     // Nämä vielä paikanpitäjiä...
     lisaaSivu("Tilikaudet", TILIKAUDET, QIcon(":/pic/kirjalaatikko.png"), false );
     lisaaSivu("Arvonlisävero", ALV, QIcon(":/pic/karhu.png"));
+
     lisaaSivu("Raportit", RAPORTIT, QIcon(":/pic/print.png"));
     lisaaSivu("Työkalut", TYOKALUT, QIcon(":/pic/vasara.png"), false);
 
@@ -170,6 +172,8 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         nykyinen = new KohdennusMuokkaus;
     else if( sivu == RAPORTIT)
         nykyinen = new RaporttiMuokkaus;
+    else if( sivu == TYOKALUT)
+        nykyinen = new Tyokalut;
     else
         nykyinen = new Perusvalinnat;   // Tilipäinen
 

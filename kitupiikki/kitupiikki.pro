@@ -69,7 +69,13 @@ SOURCES += main.cpp \
     raportti/raporittitesti.cpp \
     maaritys/raporttimuokkaus.cpp \
     maaritys/raportinkorostin.cpp \
-    raportti/muokattavaraportti.cpp
+    raportti/muokattavaraportti.cpp \
+    ktpvienti/ktpintro.cpp \
+    ktpvienti/ktpperustiedot.cpp \
+    ktpvienti/ktpkuvaus.cpp \
+    ktpvienti/ktpaloitusteksti.cpp \
+    ktpvienti/ktpvienti.cpp \
+    maaritys/tyokalut.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -130,7 +136,13 @@ HEADERS += \
     raportti/raporittitesti.h \
     maaritys/raporttimuokkaus.h \
     maaritys/raportinkorostin.h \
-    raportti/muokattavaraportti.h
+    raportti/muokattavaraportti.h \
+    ktpvienti/ktpintro.h \
+    ktpvienti/ktpperustiedot.h \
+    ktpvienti/ktpkuvaus.h \
+    ktpvienti/ktpaloitusteksti.h \
+    ktpvienti/ktpvienti.h \
+    maaritys/tyokalut.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -161,7 +173,12 @@ FORMS += \
     maaritys/tositelajidialogi.ui \
     kirjaus/kirjausapuridialog.ui \
     maaritys/raportinmuokkaus.ui \
-    raportti/muokattavaraportti.ui
+    raportti/muokattavaraportti.ui \
+    ktpvienti/ktpintro.ui \
+    ktpvienti/ktpperustiedot.ui \
+    ktpvienti/ktpkuvaus.ui \
+    ktpvienti/ktpaloitusteksti.ui \
+    maaritys/tyokalut.ui
 
 DISTFILES += \
     uusikp/luo.sql \

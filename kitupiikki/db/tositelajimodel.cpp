@@ -80,6 +80,8 @@ QVariant TositelajiModel::data(const QModelIndex &index, int role) const
         return QVariant( laji.json()->luku("Kirjaustyyppi"));
     else if( role == OletustiliRooli)
         return QVariant( laji.json()->luku("Oletustili"));
+    else if( role == JsonRooli)
+         return QVariant( laji.json()->toJson());
 
     else if( role == Qt::DisplayRole || role == Qt::EditRole)
     {
@@ -195,7 +197,7 @@ void TositelajiModel::lataa()
 
     lajit_.clear();
     QSqlQuery kysely(*tietokanta_);
-    kysely.exec("SELECT id,tunnus,nimi,json FROM tositelaji");
+    kysely.exec("SELECT id,tunnus,nimi,json FROM tositelaji ORDER BY id");
     while( kysely.next())
     {
         // Järjestelmätositetta ei laiteta näkyviin

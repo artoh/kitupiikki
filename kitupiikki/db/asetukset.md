@@ -10,3 +10,6 @@ Nimi	| QString		| Organisaation nimi
 Ytunnus	| QString		| Organisaation y-tunnus
 Harjoitus	| bool		| Onko kirjanpito harjoitustilassa
 AlvVelvollinen | bool | Onko organisaatio hakeutunut alv-velvolliseksi
+AlvVelkatili | int | Tili, jolle arvonlisäverovelka kirjataan
+AlvSaatavatili | int | Tili, jolle arvonlisäverosaatavat (palautettava alv) kirjataan
+Raportti/(raportin nimi) | QString | Raportin kaava
