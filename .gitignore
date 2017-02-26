@@ -9,6 +9,11 @@
 *.so
 *.dll
 *.dylib
+*.obj
+*.exe
+*.ilk
+*.pdb
+
 
 # Qt-es
 

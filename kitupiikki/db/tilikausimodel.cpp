@@ -67,7 +67,7 @@ Tilikausi TilikausiModel::tilikausiPaivalle(const QDate &paiva) const
     foreach (Tilikausi kausi, kaudet_)
     {
         // Osuuko pyydetty päivä kysyttyyn jaksoon
-        if( kausi.alkaa().daysTo(paiva) >= 0 and paiva.daysTo(kausi.paattyy()) >= 0)
+        if( kausi.alkaa().daysTo(paiva) >= 0 && paiva.daysTo(kausi.paattyy()) >= 0)
             return kausi;
     }
     return Tilikausi(QDate(), QDate()); // Kelvoton tilikausi
@@ -77,7 +77,7 @@ Tilikausi TilikausiModel::tilikausiPaivalle(const QDate &paiva) const
 int TilikausiModel::indeksiPaivalle(const QDate &paiva) const
 {
     for(int i=0; i < kaudet_.count(); i++)
-        if( kaudet_[i].alkaa().daysTo(paiva) >= 0 and paiva.daysTo(kaudet_[i].paattyy()) >= 0)
+        if( kaudet_[i].alkaa().daysTo(paiva) >= 0 && paiva.daysTo(kaudet_[i].paattyy()) >= 0)
             return i;
     return -1;
 
