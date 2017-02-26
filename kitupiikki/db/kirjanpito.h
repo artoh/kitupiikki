@@ -175,6 +175,12 @@ signals:
      */
     void tilikausiPaatetty();
 
+    /**
+     * @brief Näytetään vähän aikaa ilmoitus onnistumisesta
+     * @param teksti Näytettävä teksti
+     */
+    void onni(const QString& teksti);
+
 public slots:
     /**
      * @brief Avaa kirjanpitotietokannan

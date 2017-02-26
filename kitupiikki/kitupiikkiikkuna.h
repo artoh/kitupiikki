@@ -75,6 +75,12 @@ protected slots:
     void aktivoiSivu(QAction* aktio);
     void naytaTosite(int tositeid);
 
+    /**
+     * @brief Näyttää lyhyen ajan viestiä onnistumisesta
+     * @param teksti Näytettävä teksti
+     */
+    void naytaOnni(const QString& teksti);
+
 
 protected:
     void mousePressEvent(QMouseEvent *event);

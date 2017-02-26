@@ -169,6 +169,7 @@ void KirjausWg::tallenna()
     emit tositeKasitelty();;
 
     ui->tositePvmEdit->setFocus();
+    emit kp()->onni("Tosite tallennettu");
 }
 
 void KirjausWg::hylkaa()

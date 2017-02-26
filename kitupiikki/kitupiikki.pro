@@ -75,7 +75,8 @@ SOURCES += main.cpp \
     ktpvienti/ktpkuvaus.cpp \
     ktpvienti/ktpaloitusteksti.cpp \
     ktpvienti/ktpvienti.cpp \
-    maaritys/tyokalut.cpp
+    maaritys/tyokalut.cpp \
+    onniwidget.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -142,7 +143,8 @@ HEADERS += \
     ktpvienti/ktpkuvaus.h \
     ktpvienti/ktpaloitusteksti.h \
     ktpvienti/ktpvienti.h \
-    maaritys/tyokalut.h
+    maaritys/tyokalut.h \
+    onniwidget.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -178,7 +180,8 @@ FORMS += \
     ktpvienti/ktpperustiedot.ui \
     ktpvienti/ktpkuvaus.ui \
     ktpvienti/ktpaloitusteksti.ui \
-    maaritys/tyokalut.ui
+    maaritys/tyokalut.ui \
+    onniwidget.ui
 
 DISTFILES += \
     uusikp/luo.sql \

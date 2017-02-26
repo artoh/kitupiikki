@@ -109,5 +109,7 @@ bool Perusvalinnat::tallenna()
     }
     uusilogo = QImage();
 
+    emit kp()->onni("Asetukset tallennettu");
+
     return true;
 }

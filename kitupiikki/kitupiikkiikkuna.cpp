@@ -43,6 +43,8 @@
 
 #include "db/kirjanpito.h"
 
+#include "onniwidget.h"
+
 
 KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     nykysivu(0)
@@ -89,7 +91,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     connect( aloitussivu, SIGNAL(selaus(int,Tilikausi)), this, SLOT(selaaTilia(int,Tilikausi)));
     connect( kirjaussivu, SIGNAL(palaaEdelliselleSivulle()), this, SLOT(palaaSivulta()));
 
-
+    connect( kp(), SIGNAL(onni(QString)), this, SLOT(naytaOnni(QString)));
 }
 
 KitupiikkiIkkuna::~KitupiikkiIkkuna()
@@ -175,6 +177,14 @@ void KitupiikkiIkkuna::naytaTosite(int tositeid)
 {
     valitseSivu( KIRJAUSSIVU );
     kirjaussivu->naytaTosite(tositeid);
+}
+
+void KitupiikkiIkkuna::naytaOnni(const QString &teksti)
+{
+    OnniWidget *onni = new OnniWidget(this);
+    onni->nayta( teksti );
+    onni->move( ( width() - onni->width()) / 2 ,
+                height() - onni->height());
 }
 
 void KitupiikkiIkkuna::mousePressEvent(QMouseEvent *event)
