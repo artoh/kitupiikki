@@ -97,6 +97,8 @@ RaportinKirjoittaja MuokattavaRaportti::raportti()
 
     if( raportoija->tyyppi() == Raportoija::PROJEKTITASE)
         raportoija->valitseProjektit( ui->projektiAlkaa->date(), ui->projektiPaattyy->date());
+    else if( raportoija->tyyppi() == Raportoija::KOHDENNUSLASKELMA)
+        raportoija->etsiKohdennukset();
 
     return raportoija->raportti();
 }

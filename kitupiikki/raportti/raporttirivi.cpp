@@ -18,6 +18,7 @@
 #include "raporttirivi.h"
 
 RaporttiRivi::RaporttiRivi()
+    : lihava_(false), ylaviiva_(false), pistekoko_(10)
 {
 
 }

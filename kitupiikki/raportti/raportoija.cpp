@@ -16,6 +16,8 @@
 */
 
 #include <QSqlQuery>
+#include <QDebug>
+#include <QSqlError>
 
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
@@ -92,11 +94,6 @@ RaportinKirjoittaja Raportoija::raportti()
     }
     else if( tyyppi() == KOHDENNUSLASKELMA || tyyppi() == PROJEKTITASE)
     {
-        if( tyyppi() == KOHDENNUSLASKELMA)
-            etsiKohdennukset();
-
-        // Projektitaseessa projektit pitää olla jo rajattuina!
-
         QMapIterator<int,bool> iter(kohdennusKaytossa_);
 
         while( iter.hasNext())
@@ -105,11 +102,15 @@ RaportinKirjoittaja Raportoija::raportti()
 
             Kohdennus kohdennus = kp()->kohdennukset()->kohdennus( iter.key() );
             RaporttiRivi rr;
-            rr.lihavoi(true);
-            rr.lisaa( kohdennus.nimi().toUpper() );
+            rr.asetaKoko(12);
+            rr.lisaa( kohdennus.nimi() );
             rk.lisaaRivi(rr);
 
-            laskeKohdennusData( iter.key() );
+            if( tyyppi() == KOHDENNUSLASKELMA)
+                laskeKohdennusData( iter.key() );
+            else
+                laskeProjektiData( iter.key());
+
             kirjoitaDatasta(rk);
             rk.lisaaRivi( RaporttiRivi());
         }
@@ -146,7 +147,8 @@ void Raportoija::kirjoitaYlatunnisteet(RaportinKirjoittaja &rk)
 void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk)
 {
 
-    QRegularExpression tiliRe("[\\s\\t](?<alku>\\d{1,8})(\\.\\.)?(?<loppu>\\d{0,8})(?<menotulo>[\\+-])?");
+    QRegularExpression tiliRe("[\\s\\t](?<alku>\\d{1,8})(\\.\\.)?(?<loppu>\\d{0,8})(?<menotulo>[+-]?)");
+
     QRegularExpression maareRe("(?<maare>[A-Za-z=]+)(?<sisennys>[0-9]?)");
 
     // Välisummien käsittelyä = varten
@@ -169,7 +171,7 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk)
             continue;
         }
 
-        QString loppurivi = rivi.mid(tyhjanpaikka+1);
+        QString loppurivi = rivi.mid(tyhjanpaikka);     // Aloittava tyhjä mukaan!
 
         // Lasketaan summat
         QVector<int> summat( data_.count() );
@@ -191,25 +193,27 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk)
             if( uusisisennys)       // Määritellään rivin sisennys
                 sisennys = uusisisennys;
 
-            if( maare == "S" || maare == "SUM")
+            if( maare == "S" || maare == "SUM" || maare == "SUMMA")
             {
                 naytaTyhjarivi = true;
             }
-            else if( maare == "H" || maare=="HEADING")
+            else if( maare == "H" || maare=="HEADING" || maare == "OTSIKKO")
             {
                 rivityyppi = OTSIKKO;
                 naytaTyhjarivi = true;
             }
-            else if( maare == "d" || maare == "details")
+            else if( maare == "d" || maare == "details" || maare == "erittely")
                 rivityyppi = ERITTELY;
-            else if( maare == "h" || maare == "heading")
+            else if( maare == "h" || maare == "heading" || maare == "otsikko")
                 rivityyppi = OTSIKKO;
             else if( maare == "=")
                 lisaavalisumma = true;
             else if( maare == "==")
                 laskevalisummaan = false;
-            else if( maare == "bold")
+            else if( maare == "bold" || maare == "lihava")
                 rr.lihavoi(true);
+            else if( maare == "viiva" || maare == "line")
+                rr.viivaYlle(true);
         }
 
         // Sisennys paikoilleen!
@@ -235,7 +239,7 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk)
             else
                 loppu = Tili::ysiluku( tiliMats.captured("alku").toInt(), true);
             bool vainTulot = tiliMats.captured("menotulo") == "+";
-            bool vainMenot = tiliMats.captured("tulomeno") == "-";
+            bool vainMenot = tiliMats.captured("menotulo") == "-";
 
 
             if( rivityyppi == ERITTELY )
@@ -277,7 +281,7 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk)
                         iter.next();
                         if( iter.key() >= alku && iter.key() <= loppu )
                         {
-                            if( vainTulot && vainMenot)
+                            if( vainTulot || vainMenot)
                             {
                                 Tili tili = kp()->tilit()->tiliNumerolla( iter.key() / 10);
 
@@ -337,6 +341,9 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk)
 void Raportoija::sijoitaTulosKyselyData(const QString &kysymys, int i)
 {
     QSqlQuery query(kysymys);
+
+    qDebug() << query.lastQuery() << " " << query.lastError().text();
+
     while( query.next())
     {
         int ysiluku = query.value(0).toInt();
@@ -424,6 +431,8 @@ void Raportoija::laskeTaseDate()
 void Raportoija::laskeKohdennusData(int kohdennus)
 {
     data_.clear();
+    data_.resize( loppuPaivat_.count());
+
     tilitKaytossa_.clear();
 
     // Kohdennuksen summien laskemista
@@ -431,7 +440,7 @@ void Raportoija::laskeKohdennusData(int kohdennus)
     {
         QString kysymys = QString("SELECT ysiluku, sum(debetsnt), sum(kreditsnt) "
                                   "from vienti,tili where vienti.tili = tili.id and ysiluku > 300000000 "
-                                  "and pvm between \"%1\" and \"%2\" and kohdennus=%3"
+                                  "and pvm between \"%1\" and \"%2\" and kohdennus=%3 "
                                   "group by ysiluku")
                 .arg( alkuPaivat_.at(i).toString(Qt::ISODate))
                 .arg(loppuPaivat_.at(i).toString(Qt::ISODate))
@@ -444,13 +453,15 @@ void Raportoija::laskeKohdennusData(int kohdennus)
 void Raportoija::laskeProjektiData(int kohdennus)
 {
     data_.clear();
+    data_.resize( loppuPaivat_.count());
+
     tilitKaytossa_.clear();
     // Kohdennuksen summien laskemista
-    for( int i = 0; i < alkuPaivat_.count(); i++)
+    for( int i = 0; i < loppuPaivat_.count(); i++)
     {
         QString kysymys = QString("SELECT ysiluku, sum(debetsnt), sum(kreditsnt) "
                                   "from vienti,tili where vienti.tili = tili.id and ysiluku > 300000000 "
-                                  "and pvm <= \"%2\" and kohdennus=%2"
+                                  "and pvm <= \"%1\" and kohdennus=%2 "
                                   "group by ysiluku")
                 .arg(loppuPaivat_.at(i).toString(Qt::ISODate))
                 .arg(kohdennus);
@@ -471,4 +482,9 @@ void Raportoija::etsiKohdennukset()
         while( kysely.next())
             kohdennusKaytossa_.insert( kysely.value(0).toInt(), true);
     }
+}
+
+void Raportoija::lisaaKohdennus(int kohdennusId)
+{
+    kohdennusKaytossa_.insert( kohdennusId, true);
 }

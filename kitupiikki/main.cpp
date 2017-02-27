@@ -16,6 +16,7 @@
 */
 
 #include <QApplication>
+#include <QLocale>
 
 #include "uusikp/uusikirjanpito.h"
 #include "kitupiikkiikkuna.h"
@@ -26,15 +27,16 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     a.setApplicationName("Kitupiikki");
-    a.setApplicationVersion("0.00A00");
+    a.setApplicationVersion("0.00");
     a.setOrganizationDomain("artoh.github.io");
     a.setOrganizationName("Kitupiikki Kirjanpito");
 
+    QLocale::setDefault(QLocale(QLocale::Finnish, QLocale::Finland));
 
     KitupiikkiIkkuna ikkuna;
     ikkuna.show();
 
-    // UusiKirjanpito::aloitaUusiKirjanpito();
+
 
     return a.exec();
 }

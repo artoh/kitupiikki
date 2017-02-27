@@ -109,6 +109,20 @@ public:
      * @param paivaan Loppupäivä
      */
     void valitseProjektit(const QDate& paivasta, const QDate& paivaan);
+    /**
+     * @brief Etsii Kustannuslaskelmaan näissä kausissa käytetyt kohdennukset.
+     *
+     * Ennen kustannuslaskelmaa pitää joko hakea kohdennukset etsimällä
+     * tai lisätä ne itse
+     *
+     */
+    void etsiKohdennukset();
+
+    /**
+     * @brief Lisää kohdennuksen laskentaan
+     * @param kohdennusId Kohdennuksen id
+     */
+    void lisaaKohdennus(int kohdennusId);
 
 
     /**
@@ -138,11 +152,7 @@ protected:
     void laskeKohdennusData(int kohdennus);
     void laskeProjektiData(int kohdennus);
 
-    /**
-     * @brief Etsii Kusannuslaskelmaan näissä kausissa käytetyt kohdennukset.
-     *
-     */
-    void etsiKohdennukset();
+
 
 
 

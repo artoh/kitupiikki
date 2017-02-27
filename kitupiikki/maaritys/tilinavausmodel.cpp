@@ -118,7 +118,12 @@ Qt::ItemFlags TilinavausModel::flags(const QModelIndex &index) const
 bool TilinavausModel::setData(const QModelIndex &index, const QVariant &value, int /* role */)
 {
     int tiliid = kp()->tilit()->tiliIndeksilla( index.row()).id();
-    saldot[tiliid] = value.toInt(); // Delegaatti käsittelee senttejä
+
+    if( value.toInt())
+        saldot[tiliid] = value.toInt(); // Delegaatti käsittelee senttejä
+    else
+        saldot.remove(tiliid);          // Ei jätetä nollia kirjauksiin
+
     paivitaInfo();
     muokattu_ = true;
     return true;

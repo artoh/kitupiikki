@@ -102,7 +102,7 @@ public:
      * @brief Lihavoi tämän rivin
      * @param lihavaksi
      */
-    void lihavoi(bool lihavaksi) { lihava_ = lihavaksi; }
+    void lihavoi(bool lihavaksi=true) { lihava_ = lihavaksi; }
 
     /**
      * @brief Onko tämä rivi lihavoitu
@@ -110,9 +110,36 @@ public:
      */
     bool onkoLihava() const { return lihava_; }
 
+    /**
+     * @brief Piirretään rivin ylle viiva
+     * @param viivaksi
+     */
+    void viivaYlle(bool viivaksi=true) { ylaviiva_ = viivaksi; }
+
+    /**
+     * @brief Piirretäänkö tämän rivin yläpuolelle viiva
+     * @return
+     */
+    bool onkoViivaa() const { return ylaviiva_; }
+
+    /**
+     * @brief Asettaa käytettävän fonttikoon
+     * @param pistekoko
+     */
+    void asetaKoko(int pistekoko) { pistekoko_ = pistekoko; }
+
+    /**
+     * @brief Palauttaa käytettävän pistekoon
+     * @return
+     */
+    int pistekoko() const { return pistekoko_; }
+
+
 protected:
     QList<RaporttiRiviSarake> sarakkeet_;
-    bool lihava_ = false;
+    bool lihava_;
+    bool ylaviiva_;
+    int pistekoko_;
 };
 
 #endif // RAPORTTIRIVI_H

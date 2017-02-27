@@ -69,6 +69,7 @@ bool RaporttiMuokkaus::tallenna()
 {
 
     QString tallennettava = ui->tyyppiCombo->currentData().toString();
+    tallennettava.append("\n");
     tallennettava.append( ui->editori->toPlainText());
 
     kp()->asetukset()->aseta( "Raportti/" + nimi, tallennettava);

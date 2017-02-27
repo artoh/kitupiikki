@@ -83,7 +83,8 @@ void RaportinKorostin::highlightBlock(const QString &text)
             {
 
                 // Tässä käsitellään tämä välikkö
-                if( nykysana == "bold" )
+                if( nykysana == "bold" || nykysana == "lihava"
+                        || nykysana == "viiva" || nykysana == "line")
                     setFormat(sanaAlkoi, i, QColor(Qt::magenta));
                 else if( tilinroRe.match(nykysana).hasMatch() && !summakentta)
                 {
@@ -107,6 +108,8 @@ void RaportinKorostin::highlightBlock(const QString &text)
                     if(( nykysana == "s" || nykysana == "S"
                                              || nykysana == "sum" || nykysana == "SUM"
                                              || nykysana =="h" || nykysana == "header"
+                                             || nykysana == "SUMMA" || nykysana == "summa"
+                                             || nykysana == "otsikko" || nykysana == "OTSIKKO"
                                              || nykysana =="d" || nykysana == "details") && !tyyppikerrottu )
                     {
                         tyyppikerrottu = true;  // Vain yksi tyyppisana kelpaa

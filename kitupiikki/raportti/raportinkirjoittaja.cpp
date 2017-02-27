@@ -89,7 +89,6 @@ void RaportinKirjoittaja::tulosta(QPrinter *printer, bool raidoita)
 
     QPainter painter(printer);
     QFont fontti("Sans", 10);
-
     painter.setFont(fontti);
 
     int rivinkorkeus = painter.fontMetrics().height();
@@ -136,9 +135,9 @@ void RaportinKirjoittaja::tulosta(QPrinter *printer, bool raidoita)
 
     foreach (RaporttiRivi rivi, rivit_)
     {
+        fontti.setPointSize( rivi.pistekoko() );
         fontti.setBold( rivi.onkoLihava() );
         painter.setFont(fontti);
-
 
         // Lasketaan ensin sarakkeiden rectit
         // ja samalla lasketaan taulukkoon liput
@@ -242,11 +241,20 @@ void RaportinKirjoittaja::tulosta(QPrinter *printer, bool raidoita)
 
         }
 
+        fontti.setPointSize( rivi.pistekoko());
+        fontti.setBold( rivi.onkoLihava() );
+        painter.setFont(fontti);
+
         // Sitten tulostetaan tämä varsinainen rivi
         for( int i=0; i < rivi.sarakkeita(); i++)
         {
             painter.drawText( laatikot[i], liput[i] , rivi.teksti(i) );
         }
+        if( rivi.onkoViivaa())
+        {
+            painter.drawLine(0,0, laatikot.last().x() + laatikot.last().width(), 0);
+        }
+
         painter.translate(0, korkeinrivi);
         rivilla++;
     }
