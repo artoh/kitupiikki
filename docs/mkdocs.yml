@@ -12,6 +12,8 @@ extra:
   social:
     - type: 'github'
       link: 'https://github.com/artoh/kitupiikki'
+    - type: 'youtube'
+      link: 'https://youtube.com/kitupiikki'
 markdown_extensions:
   - admonition
   - footnotes
