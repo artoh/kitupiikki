@@ -2,33 +2,123 @@
     "docs": [
         {
             "location": "/",
-            "text": "Kitupiikki \nAvoimen l\u00e4hdekoodin kirjanpit\u00e4j\u00e4\n\n\n\n\nCommands\n\n\n\n\nmkdocs new [dir-name]\n - Create a new project.\n\n\nmkdocs serve\n - Start the live-reloading docs server.\n\n\nmkdocs build\n - Build the documentation site.\n\n\nmkdocs help\n - Print this help message.\n\n\n\n\nProject layout\n\n\nmkdocs.yml    # The configuration file.\ndocs/\n    index.md  # The documentation homepage.\n    ...       # Other markdown pages, images and other files.",
+            "text": "Kitupiikki \nAvoimen l\u00e4hdekoodin kirjanpit\u00e4j\u00e4\n\n\n\n\nKitupiikki on ilmainen suomalainen kirjanpito-ohjelma. Se k\u00e4sittelee ja arkistoi skannatut tositteet. Ohjelma on alunperin suunniteltu yhdistyksille, mutta Kitupiikin avulla hoidat vaivattomasti my\u00f6s pienehk\u00f6n yrityksen kirjanpidon.\n\n\n\n\nKitupiikin tukiblogi\n\n\nVinkkej\u00e4 ja uutisia tukiblogissa \nhttps://kitupiikki.wordpress.com\n\n\n\n\nEsittely\n\n\n\n\n\nOminaisuuksia\n\n\n\n\nKoska vanhemmat ilmaisohjelmat \nTappio\n ja \nTilitin\n eiv\u00e4t tue s\u00e4hk\u00f6isi\u00e4 toisitteita, ajattelin tehd\u00e4 oman ohjelman jonka kanssa ei tarvitse paperimappeja. Matkan my\u00f6t\u00e4 ideoita tuli jokunen lis\u00e4\u00e4, joten Kitupiikist\u00e4 tuli koko lailla omanlaisensa. Toivottavasti idea modernista ja selke\u00e4st\u00e4 ulkoasusta ei p\u00e4\u00e4ssyt hukkumaan kovasti lis\u00e4\u00e4ntyneiden toimintojen alle...\n\n\n\n\nKitupiikki taitaa tietenkin sellaiset perusasiat kuin p\u00e4iv\u00e4kirja, p\u00e4\u00e4kirja, tase ja tuloslaskelma, tositteiden kirjaaminen, selaaminen ja hakeminen. Mutta lis\u00e4ksi...\n\n\nKitupiikki neuvoo\n\n\nAloitusikkunassa Kitupiikki vinkkaa ajankohtaisista teht\u00e4vist\u00e4, kuten tilinp\u00e4\u00e4t\u00f6s tai alv-ilmoitus. Muutenkin ohjelma neuvoo aina matkan varrella.\n\n\nS\u00e4hk\u00f6inen kirjanpito\n\n\nTositteet voi tallettaa pdf- tai jpg-muodossa. Kirjanpidosta ja s\u00e4hk\u00f6isist\u00e4 tositteista muodostetaan s\u00e4hk\u00f6inen arkisto. Arkiston muuttumattomuus varmistetaan sha256-tiivisteill\u00e4.\n\n\nKustannusten kohdennus\n\n\nTulot ja menot voi kohdentaa kustannuspaikkaan tai projektiin.\n\n\nTilikartat ja raportit muokattavissa\n\n\nVoit muokatat tilikartat ja raportit mieleisiksesi. Muokatun tilikartan voit tallettaa ja ottaa k\u00e4ytt\u00f6\u00f6n toisessa kirjanpidossa. Raportit saa tallennettua my\u00f6s pdf- ja csv-muotoon.\n\n\nTositelajeihin liittyv\u00e4t valinnat\n\n\nKirjaamista voi nopeuttaa liitt\u00e4m\u00e4ll\u00e4 tositelajiin oletusvalinnat tilist\u00e4, vastatilist\u00e4 ja kirjaustyypist\u00e4.\n\n\nArvonlis\u00e4veron k\u00e4sittely ohjaustiedoilla\n\n\nTilej\u00e4 ei tarvitse eritell\u00e4 verokannoittain, koska arvonlis\u00e4vero m\u00e4\u00e4ritet\u00e4\u00e4n viennin tietoihin. Toki kirjausta voi nopeuttaa m\u00e4\u00e4rittelem\u00e4lle tilin oletusvalinnat alv-k\u00e4sittelyyn.\n\n\nAvoimen l\u00e4hdekoodin kirjanpit\u00e4j\u00e4\n\n\nKitupiikin l\u00e4hdekoodi on julkisesti saatavilla osoitteessa \nhttps://github.com/artoh/kitupiikki\n. Ohjelmaa saa k\u00e4ytt\u00e4\u00e4, kopioida, muokata ja levitt\u00e4\u00e4 ilman maksua, katso \nlisenssi\n.\n\n\n\n\nEi takuuta\n\n\nSaat ohjelmiston k\u00e4ytt\u00f6\u00f6si t\u00e4ysin ilman maksua.\nKitupikki-ohjelmaan ei sis\u00e4lly mink\u00e4\u00e4nlaista takuuta ohjelma toimivuudesta tai soveltuvuudesta. Ohjelma on testattu huolellisesti, mutta siin\u00e4 voi silti olla virheit\u00e4 ja ohjelman k\u00e4ytt\u00e4j\u00e4 ottaa vastuun ohjelman mahdollisesti aiheuttamista vahigoista.",
             "title": "Kitupiikki"
         },
         {
             "location": "/#kitupiikki-avoimen-lahdekoodin-kirjanpitaja",
-            "text": "",
+            "text": "Kitupiikki on ilmainen suomalainen kirjanpito-ohjelma. Se k\u00e4sittelee ja arkistoi skannatut tositteet. Ohjelma on alunperin suunniteltu yhdistyksille, mutta Kitupiikin avulla hoidat vaivattomasti my\u00f6s pienehk\u00f6n yrityksen kirjanpidon.   Kitupiikin tukiblogi  Vinkkej\u00e4 ja uutisia tukiblogissa  https://kitupiikki.wordpress.com",
             "title": "Kitupiikki Avoimen l\u00e4hdekoodin kirjanpit\u00e4j\u00e4"
         },
         {
-            "location": "/#commands",
-            "text": "mkdocs new [dir-name]  - Create a new project.  mkdocs serve  - Start the live-reloading docs server.  mkdocs build  - Build the documentation site.  mkdocs help  - Print this help message.",
-            "title": "Commands"
+            "location": "/#esittely",
+            "text": "",
+            "title": "Esittely"
         },
         {
-            "location": "/#project-layout",
-            "text": "mkdocs.yml    # The configuration file.\ndocs/\n    index.md  # The documentation homepage.\n    ...       # Other markdown pages, images and other files.",
-            "title": "Project layout"
+            "location": "/#ominaisuuksia",
+            "text": "Koska vanhemmat ilmaisohjelmat  Tappio  ja  Tilitin  eiv\u00e4t tue s\u00e4hk\u00f6isi\u00e4 toisitteita, ajattelin tehd\u00e4 oman ohjelman jonka kanssa ei tarvitse paperimappeja. Matkan my\u00f6t\u00e4 ideoita tuli jokunen lis\u00e4\u00e4, joten Kitupiikist\u00e4 tuli koko lailla omanlaisensa. Toivottavasti idea modernista ja selke\u00e4st\u00e4 ulkoasusta ei p\u00e4\u00e4ssyt hukkumaan kovasti lis\u00e4\u00e4ntyneiden toimintojen alle...   Kitupiikki taitaa tietenkin sellaiset perusasiat kuin p\u00e4iv\u00e4kirja, p\u00e4\u00e4kirja, tase ja tuloslaskelma, tositteiden kirjaaminen, selaaminen ja hakeminen. Mutta lis\u00e4ksi...",
+            "title": "Ominaisuuksia"
+        },
+        {
+            "location": "/#kitupiikki-neuvoo",
+            "text": "Aloitusikkunassa Kitupiikki vinkkaa ajankohtaisista teht\u00e4vist\u00e4, kuten tilinp\u00e4\u00e4t\u00f6s tai alv-ilmoitus. Muutenkin ohjelma neuvoo aina matkan varrella.",
+            "title": "Kitupiikki neuvoo"
+        },
+        {
+            "location": "/#sahkoinen-kirjanpito",
+            "text": "Tositteet voi tallettaa pdf- tai jpg-muodossa. Kirjanpidosta ja s\u00e4hk\u00f6isist\u00e4 tositteista muodostetaan s\u00e4hk\u00f6inen arkisto. Arkiston muuttumattomuus varmistetaan sha256-tiivisteill\u00e4.",
+            "title": "S\u00e4hk\u00f6inen kirjanpito"
+        },
+        {
+            "location": "/#kustannusten-kohdennus",
+            "text": "Tulot ja menot voi kohdentaa kustannuspaikkaan tai projektiin.",
+            "title": "Kustannusten kohdennus"
+        },
+        {
+            "location": "/#tilikartat-ja-raportit-muokattavissa",
+            "text": "Voit muokatat tilikartat ja raportit mieleisiksesi. Muokatun tilikartan voit tallettaa ja ottaa k\u00e4ytt\u00f6\u00f6n toisessa kirjanpidossa. Raportit saa tallennettua my\u00f6s pdf- ja csv-muotoon.",
+            "title": "Tilikartat ja raportit muokattavissa"
+        },
+        {
+            "location": "/#tositelajeihin-liittyvat-valinnat",
+            "text": "Kirjaamista voi nopeuttaa liitt\u00e4m\u00e4ll\u00e4 tositelajiin oletusvalinnat tilist\u00e4, vastatilist\u00e4 ja kirjaustyypist\u00e4.",
+            "title": "Tositelajeihin liittyv\u00e4t valinnat"
+        },
+        {
+            "location": "/#arvonlisaveron-kasittely-ohjaustiedoilla",
+            "text": "Tilej\u00e4 ei tarvitse eritell\u00e4 verokannoittain, koska arvonlis\u00e4vero m\u00e4\u00e4ritet\u00e4\u00e4n viennin tietoihin. Toki kirjausta voi nopeuttaa m\u00e4\u00e4rittelem\u00e4lle tilin oletusvalinnat alv-k\u00e4sittelyyn.",
+            "title": "Arvonlis\u00e4veron k\u00e4sittely ohjaustiedoilla"
+        },
+        {
+            "location": "/#avoimen-lahdekoodin-kirjanpitaja",
+            "text": "Kitupiikin l\u00e4hdekoodi on julkisesti saatavilla osoitteessa  https://github.com/artoh/kitupiikki . Ohjelmaa saa k\u00e4ytt\u00e4\u00e4, kopioida, muokata ja levitt\u00e4\u00e4 ilman maksua, katso  lisenssi .   Ei takuuta  Saat ohjelmiston k\u00e4ytt\u00f6\u00f6si t\u00e4ysin ilman maksua.\nKitupikki-ohjelmaan ei sis\u00e4lly mink\u00e4\u00e4nlaista takuuta ohjelma toimivuudesta tai soveltuvuudesta. Ohjelma on testattu huolellisesti, mutta siin\u00e4 voi silti olla virheit\u00e4 ja ohjelman k\u00e4ytt\u00e4j\u00e4 ottaa vastuun ohjelman mahdollisesti aiheuttamista vahigoista.",
+            "title": "Avoimen l\u00e4hdekoodin kirjanpit\u00e4j\u00e4"
         },
         {
             "location": "/asennus/",
-            "text": "",
+            "text": "Kitupiikin asentaminen\n\n\n\n\nEi takuuta\n\n\nSaat ohjelmiston k\u00e4ytt\u00f6\u00f6si t\u00e4ysin ilman maksua.\nKitupikki-ohjelmaan ei sis\u00e4lly mink\u00e4\u00e4nlaista takuuta ohjelma toimivuudesta tai soveltuvuudesta. Ohjelma on testattu huolellisesti, mutta siin\u00e4 voi silti olla virheit\u00e4 ja ohjelman k\u00e4ytt\u00e4j\u00e4 ottaa vastuun ohjelman mahdollisesti aiheuttamista vahigoista.\n\n\n\n\nWindows\n\n\nLinux\n\n\n\n\nHyv\u00e4 valinta!\n\n\nKitupiikki toimii nopeammin Linuxilla kuin Windowsilla.\n\n\n\n\nKehitysversio\n\n\nOhjelman viimeisimm\u00e4n kehitysversion saat GitHubista \nhttps://github.com/artoh/kitupiikki\n. Kehitysversio pit\u00e4\u00e4 tietenkin k\u00e4\u00e4nt\u00e4\u00e4 itse, joten tarvitset \nQt-kirjastoa\n.",
             "title": "Asennus"
         },
         {
+            "location": "/asennus/#kitupiikin-asentaminen",
+            "text": "Ei takuuta  Saat ohjelmiston k\u00e4ytt\u00f6\u00f6si t\u00e4ysin ilman maksua.\nKitupikki-ohjelmaan ei sis\u00e4lly mink\u00e4\u00e4nlaista takuuta ohjelma toimivuudesta tai soveltuvuudesta. Ohjelma on testattu huolellisesti, mutta siin\u00e4 voi silti olla virheit\u00e4 ja ohjelman k\u00e4ytt\u00e4j\u00e4 ottaa vastuun ohjelman mahdollisesti aiheuttamista vahigoista.",
+            "title": "Kitupiikin asentaminen"
+        },
+        {
+            "location": "/asennus/#windows",
+            "text": "",
+            "title": "Windows"
+        },
+        {
+            "location": "/asennus/#linux",
+            "text": "Hyv\u00e4 valinta!  Kitupiikki toimii nopeammin Linuxilla kuin Windowsilla.",
+            "title": "Linux"
+        },
+        {
+            "location": "/asennus/#kehitysversio",
+            "text": "Ohjelman viimeisimm\u00e4n kehitysversion saat GitHubista  https://github.com/artoh/kitupiikki . Kehitysversio pit\u00e4\u00e4 tietenkin k\u00e4\u00e4nt\u00e4\u00e4 itse, joten tarvitset  Qt-kirjastoa .",
+            "title": "Kehitysversio"
+        },
+        {
             "location": "/aloitus/",
+            "text": "Kirjanpidon aloittaminen\n\n\n\n\n\nEnnen kuin aloitat\n\n\n\n\nmieti tilikartta\n\n\ntoiminnot\n\n\ntositteet\n\n\nkannattaa ensin kokeilla\n\n\n\n\n\n\nKokeile ensin\n\n\nEnnen varsinaisen kirjanpidon aloittamista, kannattaa Kitupiikki\u00e4 kokeilla harjoittelutilassa. Harjoittelutilassa voit nopeuttaa ajan kulumista, joten voit harjoitella my\u00f6s tilinp\u00e4\u00e4t\u00f6ksen tekemist\u00e4 ja uuden tilikauden aloittamista.\n\n\n\n\nUuden kirjanpidon aloittaminen\n\n\nTilikartan muokkaaminen\n\n\nTositelajit\n\n\nTilien avaaminen (alkusaldot)\n\n\nKirjanpidon tuominen Tilittimest\u00e4",
+            "title": "Kirjanpidon aloittaminen"
+        },
+        {
+            "location": "/aloitus/#kirjanpidon-aloittaminen",
             "text": "",
             "title": "Kirjanpidon aloittaminen"
+        },
+        {
+            "location": "/aloitus/#ennen-kuin-aloitat",
+            "text": "mieti tilikartta  toiminnot  tositteet  kannattaa ensin kokeilla    Kokeile ensin  Ennen varsinaisen kirjanpidon aloittamista, kannattaa Kitupiikki\u00e4 kokeilla harjoittelutilassa. Harjoittelutilassa voit nopeuttaa ajan kulumista, joten voit harjoitella my\u00f6s tilinp\u00e4\u00e4t\u00f6ksen tekemist\u00e4 ja uuden tilikauden aloittamista.",
+            "title": "Ennen kuin aloitat"
+        },
+        {
+            "location": "/aloitus/#uuden-kirjanpidon-aloittaminen",
+            "text": "",
+            "title": "Uuden kirjanpidon aloittaminen"
+        },
+        {
+            "location": "/aloitus/#tilikartan-muokkaaminen",
+            "text": "",
+            "title": "Tilikartan muokkaaminen"
+        },
+        {
+            "location": "/aloitus/#tositelajit",
+            "text": "",
+            "title": "Tositelajit"
+        },
+        {
+            "location": "/aloitus/#tilien-avaaminen-alkusaldot",
+            "text": "",
+            "title": "Tilien avaaminen (alkusaldot)"
+        },
+        {
+            "location": "/aloitus/#kirjanpidon-tuominen-tilittimesta",
+            "text": "",
+            "title": "Kirjanpidon tuominen Tilittimest\u00e4"
         },
         {
             "location": "/kirjaus/",
@@ -49,6 +139,11 @@
             "location": "/alv/",
             "text": "",
             "title": "Arvonlis\u00e4vero"
+        },
+        {
+            "location": "/lisenssi/",
+            "text": "",
+            "title": "Lisenssi"
         }
     ]
 }
