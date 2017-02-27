@@ -22,3 +22,9 @@ markdown_extensions:
   - meta
 pages:
   - Kitupiikki: 'index.md'
+  - Asennus: 'asennus.md'
+  - Kirjanpidon aloittaminen: 'aloitus.md'
+  - Kirjaaminen: 'kirjaus.md'
+  - Raportit: 'raportti.md'
+  - Tilinpäätös: 'tilinpaatos.md'
+  - Arvonlisävero: 'alv.md'

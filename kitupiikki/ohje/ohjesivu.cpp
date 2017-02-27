@@ -27,5 +27,5 @@ OhjeSivu::OhjeSivu(QWidget *parent) : KitupiikkiSivu(parent)
     leiska->addWidget(view);
     setLayout(leiska);
 
-    view->load(QUrl("qrc:/ohje/index.html"));
+    view->load(QUrl("https://artoh.github.io/kitupiikki"));
 }
