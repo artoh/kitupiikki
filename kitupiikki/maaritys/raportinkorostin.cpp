@@ -23,7 +23,7 @@ RaportinKorostin::RaportinKorostin(QTextDocument *parent) :
     QSyntaxHighlighter( parent)
 {
     lihava.setBold(true);
-    tilinroRe.setPattern("^(\\d{1,8})(\\.\\.\\d{1,8})?$");
+    tilinroRe.setPattern("^(\\d{1,8})(\\.\\.\\d{1,8})?[\\+-]?$");
 }
 
 

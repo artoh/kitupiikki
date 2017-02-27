@@ -75,6 +75,8 @@ void Raportoija::valitseProjektit(const QDate &paivasta, const QDate &paivaan)
 
 RaportinKirjoittaja Raportoija::raportti()
 {
+    data_.resize( loppuPaivat_.count() );
+
     RaportinKirjoittaja rk;
     kirjoitaYlatunnisteet(rk);
 
@@ -95,16 +97,19 @@ RaportinKirjoittaja Raportoija::raportti()
 
         // Projektitaseessa projektit pitää olla jo rajattuina!
 
-        foreach (int kohdennusId, kohdennusKaytossa_)
-        {
-            Kohdennus kohdennus = kp()->kohdennukset()->kohdennus(kohdennusId);
-            RaporttiRivi rr;
-            rr.lisaa( kohdennus.nimi().toUpper() );
-            rr.lihavoi(true);
-            rk.lisaaRivi(rr);
-            rk.lisaaRivi( RaporttiRivi());
+        QMapIterator<int,bool> iter(kohdennusKaytossa_);
 
-            laskeKohdennusData( kohdennusId );
+        while( iter.hasNext())
+        {
+            iter.next();
+
+            Kohdennus kohdennus = kp()->kohdennukset()->kohdennus( iter.key() );
+            RaporttiRivi rr;
+            rr.lihavoi(true);
+            rr.lisaa( kohdennus.nimi().toUpper() );
+            rk.lisaaRivi(rr);
+
+            laskeKohdennusData( iter.key() );
             kirjoitaDatasta(rk);
             rk.lisaaRivi( RaporttiRivi());
         }

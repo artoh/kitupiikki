@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>469</width>
-    <height>147</height>
+    <height>257</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -107,6 +107,54 @@
      </layout>
     </widget>
    </item>
+   <item>
+    <widget class="QGroupBox" name="projektitaseRyhma">
+     <property name="title">
+      <string>Projektitase projekteista, jotka aktiiviset välillä    </string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QDateEdit" name="projektiAlkaa"/>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>-</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QDateEdit" name="projektiPaattyy"/>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>201</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
   </layout>
  </widget>
  <resources/>
@@ -118,12 +166,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>281</x>
-     <y>40</y>
+     <x>276</x>
+     <y>38</y>
     </hint>
     <hint type="destinationlabel">
-     <x>283</x>
-     <y>57</y>
+     <x>276</x>
+     <y>67</y>
     </hint>
    </hints>
   </connection>
@@ -134,12 +182,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>323</x>
-     <y>32</y>
+     <x>276</x>
+     <y>38</y>
     </hint>
     <hint type="destinationlabel">
-     <x>321</x>
-     <y>85</y>
+     <x>276</x>
+     <y>96</y>
     </hint>
    </hints>
   </connection>
@@ -150,12 +198,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>479</x>
-     <y>35</y>
+     <x>382</x>
+     <y>38</y>
     </hint>
     <hint type="destinationlabel">
-     <x>479</x>
-     <y>58</y>
+     <x>382</x>
+     <y>67</y>
     </hint>
    </hints>
   </connection>
@@ -166,12 +214,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>436</x>
-     <y>40</y>
+     <x>382</x>
+     <y>38</y>
     </hint>
     <hint type="destinationlabel">
-     <x>434</x>
-     <y>85</y>
+     <x>382</x>
+     <y>96</y>
     </hint>
    </hints>
   </connection>
@@ -182,12 +230,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>341</x>
-     <y>34</y>
+     <x>276</x>
+     <y>38</y>
     </hint>
     <hint type="destinationlabel">
-     <x>392</x>
-     <y>31</y>
+     <x>382</x>
+     <y>38</y>
     </hint>
    </hints>
   </connection>
@@ -198,12 +246,12 @@
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>290</x>
-     <y>25</y>
+     <x>276</x>
+     <y>38</y>
     </hint>
     <hint type="destinationlabel">
-     <x>403</x>
-     <y>29</y>
+     <x>382</x>
+     <y>38</y>
     </hint>
    </hints>
   </connection>

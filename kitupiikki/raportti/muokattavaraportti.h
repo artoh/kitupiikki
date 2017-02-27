@@ -18,28 +18,11 @@
 #ifndef MUOKATTAVARAPORTTI_H
 #define MUOKATTAVARAPORTTI_H
 
-#include <QDate>
-#include <QMap>
-#include <QVector>
 
 #include "raportti.h"
 #include "ui_muokattavaraportti.h"
 
-/**
- * @brief Muokattavan raportin summatiedot yhdestä kaudesta
- */
-struct RaporttiData
-{
-    RaporttiData()  {;}
-    RaporttiData(QDate alkaaPvm, QDate paattyyPvm);
-
-    QDate alkaa;        // Raporttikauden alkupäivä
-    QDate paattyy;      // Raporttikauden loppupäivä TAI tasepäivä
-
-    QMap<int,int> summat;   // summat <ysiluku,sentit>
-};
-
-
+#include "raportoija.h"
 
 /**
  * @brief Muokattavien Tase/Tulosraporttien tulostaminen
@@ -53,40 +36,9 @@ public:
 
     RaportinKirjoittaja raportti();
 
-    /**
-     * @brief Palauttaa raportin annetulla datalla
-     * @param raporttiData Aikamäärittely datassa
-     * @param taseRaportti Onko taseraportti (vai tulosraportti)
-     * @return RaportinKirjoittaja, johon raportti kirjoitettu
-     *
-     * Tätä käytetään kirjoitettaessa esim. arkistoinnin yhteydessä
-     * raporttia ilman, että graafisia valintoja näytetään.
-     *
-     */
-    RaportinKirjoittaja raporttiDatalla( QVector<RaporttiData> raporttiData,
-                                         bool taseRaportti = false);
 protected:
-    enum RivinTyyppi
-    {
-        OLETUS, SUMMA, OTSIKKO, ERITTELY
-    };
-
-    void alustaData();
-    RaportinKirjoittaja kirjoitaRaportti();
-    void kirjoitaYlatunnisteet(RaportinKirjoittaja *rk);
-    void laskeTulosData();
-    void laskeTaseData();
-
-protected:
-    Ui::MuokattavaRaportti *ui;
-    QString otsikko;
-    QStringList kaava;
-    QString optiorivi;
-    bool tase;      // Koskeeko raportti tasetta
-    bool tulos;     // Koskeeko raportti tulosta
-
-    QVector<RaporttiData> data;
-    QMap<int,int> tilisummat;
+    Ui::MuokattavaRaportti *ui;   
+    Raportoija *raportoija;
 };
 
 #endif // MUOKATTAVARAPORTTI_H
