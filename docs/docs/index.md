@@ -1,6 +1,6 @@
-# Welcome to MkDocs
+# Kitupiikki <small>Avoimen lähdekoodin kirjanpitäjä</small>
 
-For full documentation visit [mkdocs.org](http://mkdocs.org).
+![](images/kitupiikkikannettava.png  "Näyttö")
 
 ## Commands
 
