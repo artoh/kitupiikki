@@ -19,6 +19,36 @@
             "location": "/#project-layout",
             "text": "mkdocs.yml    # The configuration file.\ndocs/\n    index.md  # The documentation homepage.\n    ...       # Other markdown pages, images and other files.",
             "title": "Project layout"
+        },
+        {
+            "location": "/asennus/",
+            "text": "",
+            "title": "Asennus"
+        },
+        {
+            "location": "/aloitus/",
+            "text": "",
+            "title": "Kirjanpidon aloittaminen"
+        },
+        {
+            "location": "/kirjaus/",
+            "text": "",
+            "title": "Kirjaaminen"
+        },
+        {
+            "location": "/raportti/",
+            "text": "",
+            "title": "Raportit"
+        },
+        {
+            "location": "/tilinpaatos/",
+            "text": "",
+            "title": "Tilinp\u00e4\u00e4t\u00f6s"
+        },
+        {
+            "location": "/alv/",
+            "text": "",
+            "title": "Arvonlis\u00e4vero"
         }
     ]
 }

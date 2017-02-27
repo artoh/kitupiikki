@@ -9,4 +9,52 @@
     </url>
     
 
+    
+    <url>
+     <loc>https://artoh.github.io/kitupiikki/asennus/</loc>
+     <lastmod>2017-02-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>https://artoh.github.io/kitupiikki/aloitus/</loc>
+     <lastmod>2017-02-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>https://artoh.github.io/kitupiikki/kirjaus/</loc>
+     <lastmod>2017-02-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>https://artoh.github.io/kitupiikki/raportti/</loc>
+     <lastmod>2017-02-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>https://artoh.github.io/kitupiikki/tilinpaatos/</loc>
+     <lastmod>2017-02-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>https://artoh.github.io/kitupiikki/alv/</loc>
+     <lastmod>2017-02-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
 </urlset>
