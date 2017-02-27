@@ -8,8 +8,10 @@ extra:
   logo: 'images/Possu64.png'
   palette:
     primary: 'deep purple'
-    accent: 'purple'
+    accent: 'deep purple'
   social:
+    - type: 'wordpress'
+      link: 'https://kitupiikki.wordpress.com'
     - type: 'github'
       link: 'https://github.com/artoh/kitupiikki'
     - type: 'youtube'
