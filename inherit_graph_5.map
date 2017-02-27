@@ -1,7 +1,0 @@
-<map id="Graafinen luokkahierarkia" name="Graafinen luokkahierarkia">
-<area shape="rect" id="node2" href="$class_kirjaus_apuri_dialog.html" title="KirjausApuriDialog" alt="" coords="129,5,259,32"/>
-<area shape="rect" id="node3" href="$class_kohdennus_dialog.html" title="KohdennusDialog" alt="" coords="132,56,256,83"/>
-<area shape="rect" id="node4" href="$class_tilin_muokkaus_dialog.html" title="TilinMuokkausDialog" alt="" coords="123,107,265,133"/>
-<area shape="rect" id="node5" href="$class_tilin_valinta_dialogi.html" title="TilinValintaDialogi" alt="" coords="131,157,257,184"/>
-<area shape="rect" id="node6" href="$class_tositelaji_dialogi.html" title="TositelajiDialogi" alt="" coords="137,208,251,235"/>
-</map>

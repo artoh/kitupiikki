@@ -1,5 +1,0 @@
-<map id="Graafinen luokkahierarkia" name="Graafinen luokkahierarkia">
-<area shape="rect" id="node2" href="$class_kanta_tilinvalinta_line.html" title="Kantaluokka tilien valinnan lineEditille. " alt="" coords="132,31,275,57"/>
-<area shape="rect" id="node3" href="$class_tilinvalinta_line.html" title="Tilin valinta täydentyvällä editorilla, jossa pomppudialogi. " alt="" coords="357,5,465,32"/>
-<area shape="rect" id="node4" href="$class_tilinvalinta_line_delegaatille.html" title="QLineEditor, joka valitsee tilejä delegaatille. " alt="" coords="323,56,499,83"/>
-</map>

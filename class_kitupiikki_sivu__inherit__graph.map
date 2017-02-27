@@ -1,8 +1,0 @@
-<map id="KitupiikkiSivu" name="KitupiikkiSivu">
-<area shape="rect" id="node3" href="$class_aloitus_sivu.html" title="Webipohjaiset aloitus&#45; ja ohjesivut. " alt="" coords="5,155,93,181"/>
-<area shape="rect" id="node4" href="$class_kirjaus_sivu.html" title="Sivu, jolla kirjaukset tehdään. " alt="" coords="117,155,205,181"/>
-<area shape="rect" id="node5" href="$class_maaritys_sivu.html" title="Määrityssivun sisältävä QWidget. " alt="" coords="229,155,328,181"/>
-<area shape="rect" id="node6" href="$class_ohje_sivu.html" title="Ohjeet näyttävä sivu. " alt="" coords="352,155,427,181"/>
-<area shape="rect" id="node7" href="$class_raportti_sivu.html" title="Raporttien tulostussivu. " alt="" coords="451,155,546,181"/>
-<area shape="rect" id="node8" href="$class_selaus_wg.html" title="Sivu kirjausten selaamiseen. " alt="" coords="571,155,653,181"/>
-</map>

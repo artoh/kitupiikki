@@ -1,6 +1,0 @@
-<map id="TiliDelegaatti" name="TiliDelegaatti">
-<area shape="rect" id="node3" href="$class_vienti_model.html" title="Yhden tositteen vientien tiedot. " alt="" coords="141,81,231,108"/>
-<area shape="rect" id="node5" href="$class_tosite_model.html" title="Tositteen tiedot. " alt="" coords="331,171,425,197"/>
-<area shape="rect" id="node8" href="$class_liite_model.html" title="Tositteen litteet esittävä model. " alt="" coords="241,260,323,287"/>
-<area shape="rect" id="node7" href="$class_json_kentta.html" title="json&#45;muotoisten kenttien käsittely " alt="" coords="451,81,539,108"/>
-</map>
