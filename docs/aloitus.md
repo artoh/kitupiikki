@@ -14,10 +14,4 @@
 
 ## Uuden kirjanpidon aloittaminen
 
-## Tilikartan muokkaaminen
-
-## Tositelajit
-
-## Tilien avaaminen (alkusaldot)
-
 ## Kirjanpidon tuominen Tilittimestä
