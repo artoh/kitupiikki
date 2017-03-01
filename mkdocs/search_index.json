@@ -82,7 +82,7 @@
         },
         {
             "location": "/aloitus/",
-            "text": "Kirjanpidon aloittaminen\n\n\n\n\n\nEnnen kuin aloitat\n\n\n\n\nmieti tilikartta\n\n\ntoiminnot\n\n\ntositteet\n\n\nkannattaa ensin kokeilla\n\n\n\n\n\n\nKokeile ensin\n\n\nEnnen varsinaisen kirjanpidon aloittamista, kannattaa Kitupiikki\u00e4 kokeilla harjoittelutilassa. Harjoittelutilassa voit nopeuttaa ajan kulumista, joten voit harjoitella my\u00f6s tilinp\u00e4\u00e4t\u00f6ksen tekemist\u00e4 ja uuden tilikauden aloittamista.\n\n\n\n\nUuden kirjanpidon aloittaminen\n\n\nTilikartan muokkaaminen\n\n\nTositelajit\n\n\nTilien avaaminen (alkusaldot)\n\n\nKirjanpidon tuominen Tilittimest\u00e4",
+            "text": "Kirjanpidon aloittaminen\n\n\n\n\n\nEnnen kuin aloitat\n\n\n\n\nmieti tilikartta\n\n\ntoiminnot\n\n\ntositteet\n\n\nkannattaa ensin kokeilla\n\n\n\n\n\n\nKokeile ensin\n\n\nEnnen varsinaisen kirjanpidon aloittamista, kannattaa Kitupiikki\u00e4 kokeilla harjoittelutilassa. Harjoittelutilassa voit nopeuttaa ajan kulumista, joten voit harjoitella my\u00f6s tilinp\u00e4\u00e4t\u00f6ksen tekemist\u00e4 ja uuden tilikauden aloittamista.\n\n\n\n\nUuden kirjanpidon aloittaminen\n\n\nKirjanpidon tuominen Tilittimest\u00e4",
             "title": "Kirjanpidon aloittaminen"
         },
         {
@@ -101,24 +101,39 @@
             "title": "Uuden kirjanpidon aloittaminen"
         },
         {
-            "location": "/aloitus/#tilikartan-muokkaaminen",
+            "location": "/aloitus/#kirjanpidon-tuominen-tilittimesta",
             "text": "",
-            "title": "Tilikartan muokkaaminen"
+            "title": "Kirjanpidon tuominen Tilittimest\u00e4"
         },
         {
-            "location": "/aloitus/#tositelajit",
+            "location": "/maaritykset/",
+            "text": "Kirjanpidon m\u00e4\u00e4ritykset\n\n\nTilikartta\n\n\nTositelajit\n\n\nKohdennukset\n\n\nTilinavaus",
+            "title": "M\u00e4\u00e4ritykset"
+        },
+        {
+            "location": "/maaritykset/#kirjanpidon-maaritykset",
+            "text": "",
+            "title": "Kirjanpidon m\u00e4\u00e4ritykset"
+        },
+        {
+            "location": "/maaritykset/#tilikartta",
+            "text": "",
+            "title": "Tilikartta"
+        },
+        {
+            "location": "/maaritykset/#tositelajit",
             "text": "",
             "title": "Tositelajit"
         },
         {
-            "location": "/aloitus/#tilien-avaaminen-alkusaldot",
+            "location": "/maaritykset/#kohdennukset",
             "text": "",
-            "title": "Tilien avaaminen (alkusaldot)"
+            "title": "Kohdennukset"
         },
         {
-            "location": "/aloitus/#kirjanpidon-tuominen-tilittimesta",
+            "location": "/maaritykset/#tilinavaus",
             "text": "",
-            "title": "Kirjanpidon tuominen Tilittimest\u00e4"
+            "title": "Tilinavaus"
         },
         {
             "location": "/kirjaus/",
@@ -136,9 +151,24 @@
             "title": "Tilinp\u00e4\u00e4t\u00f6s"
         },
         {
+            "location": "/arkisto/",
+            "text": "S\u00e4hk\u00f6inen arkisto",
+            "title": "S\u00e4hk\u00f6inen arkisto"
+        },
+        {
+            "location": "/arkisto/#sahkoinen-arkisto",
+            "text": "",
+            "title": "S\u00e4hk\u00f6inen arkisto"
+        },
+        {
             "location": "/alv/",
             "text": "",
             "title": "Arvonlis\u00e4vero"
+        },
+        {
+            "location": "/muut/",
+            "text": "# Muita toimintoja\n\n\n## Tilikartan vieminen",
+            "title": "Muita toimintoja"
         },
         {
             "location": "/lisenssi/",

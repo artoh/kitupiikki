@@ -27,6 +27,14 @@
 
     
     <url>
+     <loc>https://artoh.github.io/kitupiikki/maaritykset/</loc>
+     <lastmod>2017-03-01</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
      <loc>https://artoh.github.io/kitupiikki/kirjaus/</loc>
      <lastmod>2017-03-01</lastmod>
      <changefreq>daily</changefreq>
@@ -51,7 +59,23 @@
 
     
     <url>
+     <loc>https://artoh.github.io/kitupiikki/arkisto/</loc>
+     <lastmod>2017-03-01</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
      <loc>https://artoh.github.io/kitupiikki/alv/</loc>
+     <lastmod>2017-03-01</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>https://artoh.github.io/kitupiikki/muut/</loc>
      <lastmod>2017-03-01</lastmod>
      <changefreq>daily</changefreq>
     </url>
