@@ -43,5 +43,6 @@ CMakeLists.txt.user
 
 
 Doxyfile
-docs/site/*
+site/*
 .directory
+*-debug/*

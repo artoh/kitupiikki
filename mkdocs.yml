@@ -33,7 +33,7 @@ pages:
   - Tilinpäätös: 'tilinpaatos.md'
   - Arvonlisävero: 'alv.md'
   - Lisenssi: 'lisenssi.md'
-google_analystic:
+google_analytics:  
   - 'UA-92837430-1'
   - 'auto'
 extra_css:
