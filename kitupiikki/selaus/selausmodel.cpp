@@ -34,7 +34,7 @@ int SelausModel::rowCount(const QModelIndex & /* parent */) const
 
 int SelausModel::columnCount(const QModelIndex & /* parent */) const
 {
-    return 5;
+    return 6;
 }
 
 QVariant SelausModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -55,6 +55,8 @@ QVariant SelausModel::headerData(int section, Qt::Orientation orientation, int r
             return QVariant("Debet");
         case KREDIT:
             return QVariant("Kredit");
+        case KOHDENNUS:
+            return QVariant("Kohdennus");
         case SELITE:
             return QVariant("Selite");
         }
@@ -67,9 +69,12 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
 {
     if( !index.isValid())
         return QVariant();
+
+    SelausRivi rivi = rivit[ index.row()];
+
     if( role == Qt::DisplayRole || role == Qt::EditRole)
     {
-        SelausRivi rivi = rivit[ index.row()];
+
         switch (index.column())
         {
             case PVM: return QVariant( rivi.pvm );
@@ -98,6 +103,12 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
 
             case SELITE: return QVariant( rivi.selite );
 
+            case KOHDENNUS :
+                if( rivi.kohdennus.tyyppi() == Kohdennus::EIKOHDENNETA )
+                    return QVariant();
+                else
+                    return QVariant( rivi.kohdennus.nimi());
+
         }
     }
     else if( role == Qt::TextAlignmentRole)
@@ -114,12 +125,15 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
         SelausRivi rivi = rivit[ index.row()];
         return QVariant( rivi.tositeId );
     }
+    else if( role == Qt::DecorationRole && index.column() == KOHDENNUS )
+        return rivi.kohdennus.tyyppiKuvake();
+
     return QVariant();
 }
 
 void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
 {
-    QString kysymys = QString("SELECT tosite, pvm, tili, debetsnt, kreditsnt, selite "
+    QString kysymys = QString("SELECT tosite, pvm, tili, debetsnt, kreditsnt, selite, kohdennus "
                               "FROM vienti WHERE pvm BETWEEN \"%1\" AND \"%2\" "
                               "ORDER BY pvm, id")
                               .arg( alkaa.toString(Qt::ISODate ) )
@@ -142,6 +156,7 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
         rivi.debetSnt = query.value(3).toInt();
         rivi.kreditSnt = query.value(4).toInt();
         rivi.selite = query.value(5).toString();
+        rivi.kohdennus = kp()->kohdennukset()->kohdennus( query.value(6).toInt());
         rivit.append(rivi);
 
         QString tilistr = QString("%1 %2")

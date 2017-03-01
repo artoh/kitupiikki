@@ -40,6 +40,12 @@ public:
      */
     virtual void siirrySivulle() {;}
 
+    /**
+     * @brief Sivu, jonne ohje ohjaa ;)
+     * @return
+     */
+    virtual QString ohjeSivunNimi() { return ""; }
+
 signals:
 
 

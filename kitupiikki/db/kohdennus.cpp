@@ -34,6 +34,16 @@ Kohdennus::Kohdennus(int id, int tyyppi, QString nimi, QDate alkaa, QDate paatty
 
 }
 
+QIcon Kohdennus::tyyppiKuvake() const
+{
+    if( tyyppi() == KUSTANNUSPAIKKA)
+        return QIcon(":/pic/kohdennus.png");
+    else if( tyyppi() == PROJEKTI )
+        return QIcon(":/pic/projekti.png");
+    else
+        return QIcon();
+}
+
 int Kohdennus::montakoVientia() const
 {
     QSqlQuery kysely( QString("SELECT sum(id) FROM vienti WHERE kohdennus=%1").arg(id()) );

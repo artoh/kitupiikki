@@ -47,7 +47,6 @@ AloitusSivu::AloitusSivu() :
     QPushButton *avaanappi = new QPushButton(QIcon(":/pic/avaatiedosto.png"),"Avaa kirjanpito");
     QPushButton *tuonappi = new QPushButton(QIcon(":/pic/tuotiedosto.png"),"Tuo kirjanpito");
     QPushButton *aboutnappi = new QPushButton(QIcon(":/pic/info.png"),"Tietoja");
-    QPushButton *webnappi = new QPushButton(QIcon(":/pic/kotisivu.png"),"Ohjelman kotisivu");
 
     viimelista = new QListWidget;
 
@@ -58,7 +57,6 @@ AloitusSivu::AloitusSivu() :
 
     sivuleiska->addWidget(viimelista);
     sivuleiska->addWidget(aboutnappi);
-    sivuleiska->addWidget(webnappi);
 
     QHBoxLayout *paaleiska = new QHBoxLayout;
     paaleiska->addWidget( view, 1);
@@ -71,7 +69,6 @@ AloitusSivu::AloitusSivu() :
     connect( uusinappi, SIGNAL(clicked(bool)), this, SLOT(uusiTietokanta()));
     connect( avaanappi, SIGNAL(clicked(bool)), this, SLOT(avaaTietokanta()));
     connect( viimelista, SIGNAL(itemActivated(QListWidgetItem*)), this, SLOT(viimeisinTietokanta(QListWidgetItem*)));
-    connect(webnappi, SIGNAL(clicked(bool)), this, SLOT(kotisivulle()));
 
     lisaaViimetiedostot();
 
@@ -133,10 +130,6 @@ void AloitusSivu::viimeisinTietokanta(QListWidgetItem *item)
     Kirjanpito::db()->avaaTietokanta( item->data(Qt::UserRole).toString());
 }
 
-void AloitusSivu::kotisivulle()
-{
-    sisalto->load(QUrl("http://kitupiikki.wordpress.com"));
-}
 
 
 void AloitusSivu::lisaaTxt(const QString &txt)

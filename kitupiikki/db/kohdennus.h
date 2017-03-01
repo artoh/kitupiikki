@@ -20,6 +20,7 @@
 
 #include <QString>
 #include <QDate>
+#include <QIcon>
 
 /**
  * @brief Kirjauksen kohdennus kustannuspaikalle tai projektiin
@@ -44,6 +45,7 @@ public:
     QDate alkaa() const { return alkaa_; }
     QDate paattyy() const { return paattyy_; }
     int tyyppi() const { return tyyppi_; }
+    QIcon tyyppiKuvake() const;
 
     bool muokattu() const { return muokattu_; }
 

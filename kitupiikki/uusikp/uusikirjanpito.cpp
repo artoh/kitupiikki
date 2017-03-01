@@ -33,6 +33,9 @@
 
 #include <QProgressDialog>
 
+#include <QDesktopServices>
+#include <QUrl>
+
 #include "uusikirjanpito.h"
 
 #include "introsivu.h"
@@ -62,6 +65,9 @@ UusiKirjanpito::UusiKirjanpito() :
     addPage( new TilikausiSivu );
     addPage( new SijaintiSivu );
     addPage( new LoppuSivu );
+
+    setOption( HaveHelpButton, true);
+    connect( this, SIGNAL(helpRequested()), this, SLOT(naytaOhje()));
 }
 
 
@@ -117,6 +123,11 @@ QMap<QString, QStringList> UusiKirjanpito::lueKtkTiedosto(const QString &polku)
     }
 
     return tiedot;
+}
+
+void UusiKirjanpito::naytaOhje()
+{
+    QDesktopServices::openUrl( QUrl("https://artoh.github.io/kitupiikki/aloitus"));
 }
 
 bool UusiKirjanpito::alustaKirjanpito()

@@ -161,11 +161,7 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
     }
     else if( role == Qt::DecorationRole && index.column() == KOHDENNUS)
     {
-        if( rivi.kohdennus.tyyppi() == Kohdennus::PROJEKTI)
-            return QIcon(":/pic/projekti.png");
-        else if( rivi.kohdennus.tyyppi() == Kohdennus::KUSTANNUSPAIKKA)
-            return QIcon(":/pic/kohdennus.png");
-
+        return rivi.kohdennus.tyyppiKuvake();
     }
     return QVariant();
 }

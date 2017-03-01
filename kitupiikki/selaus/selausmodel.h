@@ -23,7 +23,7 @@
 #include <QDate>
 
 #include "db/tili.h"
-
+#include "db/kohdennus.h"
 
 /**
  * @brief SelausModel:in yhden rivin (viennin) tiedot
@@ -33,6 +33,8 @@ struct SelausRivi
     int tositeId;
     QDate pvm;
     Tili tili;
+    Kohdennus kohdennus;
+
     QString selite;
     int debetSnt;
     int kreditSnt;
@@ -48,7 +50,7 @@ public:
 
     enum SelausSarake
     {
-        PVM, TILI, DEBET, KREDIT, SELITE
+        PVM, TILI, DEBET, KREDIT, KOHDENNUS, SELITE
     };
 
     SelausModel();

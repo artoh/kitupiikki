@@ -63,6 +63,13 @@ public:
      */
     static QMap<QString,QStringList> lueKtkTiedosto(const QString& polku);
 
+
+protected slots:
+    /**
+     * @brief Näyttää selaimessa ohjeen
+     */
+    void naytaOhje();
+
 protected:
     /**
      * @brief Luo hakemistorakenteen ja tietokannan

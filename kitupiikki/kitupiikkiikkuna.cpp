@@ -31,6 +31,9 @@
 #include <QDebug>
 #include <QDockWidget>
 
+#include <QDesktopServices>
+#include <QUrl>
+
 #include "kitupiikkiikkuna.h"
 
 #include "aloitussivu/aloitussivu.h"
@@ -39,7 +42,6 @@
 #include "selaus/selauswg.h"
 #include "raportti/raporttisivu.h"
 #include "uusikp/uusikirjanpito.h"
-#include "ohje/ohjesivu.h"
 
 #include "db/kirjanpito.h"
 
@@ -67,7 +69,6 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     selaussivu = new SelausWg();
     maarityssivu = new MaaritysSivu();
     raporttisivu = new RaporttiSivu();
-    ohjesivu = new OhjeSivu();
 
 
     pino = new QStackedWidget;
@@ -78,7 +79,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 
 
     // Himmennetään ne valinnat, jotka mahdollisia vain kirjanpidon ollessa auki
-    for(int i=KIRJAUSSIVU; i<OHJESIVU;i++)
+    for(int i=KIRJAUSSIVU; i<SIVUT_LOPPU;i++)
         sivuaktiot[i]->setEnabled(false);
 
     QSettings settings;
@@ -137,7 +138,7 @@ void KitupiikkiIkkuna::kirjanpitoLadattu()
 
         harjoitusDock->setVisible( Kirjanpito::db()->onkoHarjoitus());
 
-        for(int i=KIRJAUSSIVU; i<OHJESIVU;i++)
+        for(int i=KIRJAUSSIVU; i<SIVUT_LOPPU;i++)
             sivuaktiot[i]->setEnabled(true);
 
         selaussivu->alusta();
@@ -187,6 +188,15 @@ void KitupiikkiIkkuna::naytaOnni(const QString &teksti)
                 height() - onni->height());
 }
 
+void KitupiikkiIkkuna::ohje()
+{
+    QString osoite("https://artoh.github.io/kitupiikki/");
+    if( nykysivu )
+        osoite.append( nykysivu->ohjeSivunNimi());
+
+    QDesktopServices::openUrl( QUrl(osoite));
+}
+
 void KitupiikkiIkkuna::mousePressEvent(QMouseEvent *event)
 {
     // Vähän kokeellista: palataan edelliselle sivulle, jos menty Käy-valinnalla ;)
@@ -229,10 +239,16 @@ void KitupiikkiIkkuna::lisaaSivut()
     lisaaSivu("Selaa",":/pic/Paivakirja64.png","Selaa kirjauksia aikajärjestyksessä","F3", SELAUSSIVU, selaussivu);
     lisaaSivu("Tulosteet",":/pic/print.png","Tulosta erilaisia raportteja","Ctrl+P", TULOSTESIVU, raporttisivu);
     lisaaSivu("Määritykset",":/pic/ratas.png","Kirjanpitoon liittyvät määritykset","F6", MAARITYSSIVU, maarityssivu);
-    lisaaSivu("Ohje",":/pic/ohje.png","Kitupiikin ohjeet","F1", OHJESIVU, ohjesivu);
+
     aktioryhma->actions().first()->setChecked(true);
 
     connect(aktioryhma, SIGNAL(triggered(QAction*)), this, SLOT(aktivoiSivu(QAction*)));
+
+    QAction *ohjeAktio = new QAction(QIcon(":/pic/ohje.png"),"Ohje");
+    ohjeAktio->setShortcut( QKeySequence(Qt::Key_F1));
+    connect( ohjeAktio, SIGNAL(triggered(bool)), this, SLOT(ohje()));
+    toolbar->addAction(ohjeAktio);
+
 
     addToolBar(Qt::LeftToolBarArea, toolbar);
 }

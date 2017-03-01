@@ -32,7 +32,6 @@ class KirjausSivu;
 class SelausWg;
 class RaporttiSivu;
 class MaaritysSivu;
-class OhjeSivu;
 
 class QDateEdit;
 class QDockWidget;
@@ -53,7 +52,7 @@ public:
     KitupiikkiIkkuna(QWidget *parent = 0);
     ~KitupiikkiIkkuna();
 
-    enum Sivu { ALOITUSSIVU, KIRJAUSSIVU, SELAUSSIVU, TULOSTESIVU, MAARITYSSIVU, OHJESIVU    };
+    enum Sivu { ALOITUSSIVU, KIRJAUSSIVU, SELAUSSIVU, TULOSTESIVU, MAARITYSSIVU, SIVUT_LOPPU    };
 
 signals:
 
@@ -81,6 +80,11 @@ protected slots:
      */
     void naytaOnni(const QString& teksti);
 
+    /**
+     * @brief Avaa ohjeen selaimeen
+     */
+    void ohje();
+
 
 protected:
     void mousePressEvent(QMouseEvent *event);
@@ -91,8 +95,8 @@ protected:
     QToolBar *toolbar;
     QActionGroup *aktioryhma;
 
-    QAction* sivuaktiot[OHJESIVU + 2];
-    KitupiikkiSivu* sivut[OHJESIVU + 2];
+    QAction* sivuaktiot[SIVUT_LOPPU ];
+    KitupiikkiSivu* sivut[SIVUT_LOPPU ];
 
     QDockWidget *harjoitusDock;
 
@@ -101,7 +105,6 @@ protected:
     SelausWg *selaussivu;
     RaporttiSivu *raporttisivu;
     MaaritysSivu *maarityssivu;
-    OhjeSivu *ohjesivu;
 
     KitupiikkiSivu *nykysivu;
 

@@ -46,6 +46,8 @@ public:
     void siirrySivulle();
     bool poistuSivulta();
 
+    QString ohjeSivunNimi() { return "kirjaus"; }
+
 signals:
     /**
      * @brief Palataan sivulle, josta tänne on tultu

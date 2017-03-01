@@ -56,7 +56,6 @@ public slots:
     void uusiTietokanta();
     void avaaTietokanta();
     void viimeisinTietokanta(QListWidgetItem* item);
-    void kotisivulle();
 
 signals:
     void selaus(int tilinumero, Tilikausi tilikausi);
