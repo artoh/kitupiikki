@@ -1,6 +1,6 @@
 # Kirjanpidon aloittaminen
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/QqBKIy9BzLI" frameborder="0" allowfullscreen></iframe>
+
 
 ## Ennen kuin aloitat
 
@@ -13,5 +13,9 @@
     Ennen varsinaisen kirjanpidon aloittamista, kannattaa Kitupiikkiä kokeilla harjoittelutilassa. Harjoittelutilassa voit nopeuttaa ajan kulumista, joten voit harjoitella myös tilinpäätöksen tekemistä ja uuden tilikauden aloittamista.
 
 ## Uuden kirjanpidon aloittaminen
+
+![](ruutu/uusi1.png)
+
+![](ruutu/uusi2.png)
 
 ## Kirjanpidon tuominen Tilittimestä
