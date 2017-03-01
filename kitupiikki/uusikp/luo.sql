@@ -86,20 +86,18 @@ CREATE TABLE liite (
 );
 
 CREATE VIEW vientivw AS
-    SELECT vienti.pvm,
-           vienti.tili,
-           vienti.debetsnt,
-           vienti.kreditsnt,
-           vienti.selite,
-           vienti.kohdennus,
-           kohdennus.nimi,
-           vienti.json,
-           vienti.tosite,
+    SELECT vienti.id as vientiId,
+           vienti.pvm as pvm,
+           vienti.debetsnt as debetsnt,
+           vienti.kreditsnt as kreditsnt,
+           vienti.selite as selite,
+           vienti.kohdennus as kohdennusId,
+           kohdennus.nimi as kohdennus,
            tositelaji.tunnus as tositelaji,
-           tosite.tunniste,
-           tili.nro,
-           tili.nimi,
-           tili.tyyppi
+           tosite.tunniste as tunniste,
+           tili.nro as tilinro,
+           tili.nimi as tilinimi,
+           tili.tyyppi as tilityyppi
       FROM vienti,
            tosite,
            tili,
