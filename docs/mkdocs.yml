@@ -36,4 +36,7 @@ pages:
 google_analystic:
   - 'UA-92837430-1'
   - 'auto'
+extra_css:
+  - 'stylesheets/extra.css'
+
 

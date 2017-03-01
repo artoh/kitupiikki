@@ -1,0 +1,20 @@
+li.asennuslaatikko
+{
+    width: 90%;
+    margin-top: 10px;
+    margin-bottom: 4px;
+    padding: 10px 10px 10px 10px;
+    border: 1px solid #7e57c2;
+    box-shadow: 3px 3px 2px #d0d0d0;
+    text-align: center;
+    background: #7e57c2;
+    color: white;
+    
+    
+}
+
+a.asennuslaatikko:hover, a.asennuslaatikko:active
+{
+    color: white;
+    font-weight: bold;
+}
