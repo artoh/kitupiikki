@@ -2,6 +2,10 @@ site_name: 'Kitupiikin käsikirja'
 site_description: 'Avoimen lähdekoodin kirjanpitäjän ohjeet'
 site_author: 'Arto Hyvättinen'
 site_url: 'https://artoh.github.io/kitupiikki'
+
+repo_name: 'GitHub'
+repo_url: 'https://github.com/artoh/kitupiikki'
+
 copyright: 'Copyright &copy; 2017 Arto Hyvättinen GPL3 License'
 theme_dir: 'material'
 extra:
@@ -29,3 +33,7 @@ pages:
   - Tilinpäätös: 'tilinpaatos.md'
   - Arvonlisävero: 'alv.md'
   - Lisenssi: 'lisenssi.md'
+google_analystic:
+  - 'UA-92837430-1'
+  - 'auto'
+
