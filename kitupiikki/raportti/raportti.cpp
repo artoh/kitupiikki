@@ -23,6 +23,7 @@
 #include <QTemporaryFile>
 #include <QUrl>
 #include <QPrintDialog>
+#include <QPageSetupDialog>
 #include <QDesktopServices>
 
 #include <QCheckBox>
@@ -41,12 +42,14 @@ Raportti::Raportti(QPrinter *printer, QWidget *parent) : QWidget(parent),
         raporttiWidget = new QWidget();
 
         raitaCheck = new QCheckBox(tr("Tulosta taustaraidat"));
+        QPushButton *sivunasetusBtn = new QPushButton( tr("Sivun &asetukset"));
         QPushButton *esikatseluBtn = new QPushButton(tr("&Esikatsele"));
         QPushButton *tulostaBtn = new QPushButton( tr("&Tulosta"));
 
         QHBoxLayout *nappiLeiska = new QHBoxLayout;
         nappiLeiska->addWidget(raitaCheck);
         nappiLeiska->addStretch();
+        nappiLeiska->addWidget( sivunasetusBtn);
         nappiLeiska->addWidget(esikatseluBtn);
         nappiLeiska->addWidget(tulostaBtn);
 
@@ -57,6 +60,7 @@ Raportti::Raportti(QPrinter *printer, QWidget *parent) : QWidget(parent),
 
         setLayout(paaLeiska);
 
+        connect( sivunasetusBtn, SIGNAL(clicked(bool)), this, SLOT(sivunAsetukset()));
         connect( esikatseluBtn, SIGNAL(clicked(bool)), this, SLOT(esikatsele()) );
         connect( tulostaBtn, SIGNAL(clicked(bool)), this, SLOT(tulosta()) );
 }
@@ -80,6 +84,12 @@ void Raportti::esikatsele()
     tulostin->setOutputFileName( file->fileName() );
     raportti().tulosta( tulostin, raitaCheck->isChecked());
     QDesktopServices::openUrl( QUrl(file->fileName()) );
+}
+
+void Raportti::sivunAsetukset()
+{
+    QPageSetupDialog dlg(tulostin, this);
+    dlg.exec();
 }
 
 

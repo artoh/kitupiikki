@@ -70,6 +70,11 @@ public slots:
      */
     void esikatsele();
 
+    /**
+     * @brief Näyttää dialogin sivun asetuksista
+     */
+    void sivunAsetukset();
+
 
 protected:
     QPrinter *tulostin;
