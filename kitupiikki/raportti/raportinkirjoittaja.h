@@ -109,7 +109,7 @@ public:
     void lisaaPvmSarake();
 
     void lisaaOtsake( RaporttiRivi otsikkorivi);
-    void lisaaRivi( RaporttiRivi rivi);
+    void lisaaRivi( RaporttiRivi rivi = RaporttiRivi());
 
     /**
      * @brief Tulostaa kirjoitetun raportin

@@ -196,6 +196,10 @@ void KirjausApuriDialog::tarkasta()
 
 void KirjausApuriDialog::accept()
 {
+
+    Tili tili = kp()->tilit()->tiliNumerolla( ui->tiliEdit->valittuTilinumero() );
+    Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliEdit->valittuTilinumero());
+
     // Tehdään asiaankuuluvat kirjaukset
 
     // Ensivaiheessa veroton kirjaus
@@ -204,7 +208,7 @@ void KirjausApuriDialog::accept()
     QModelIndex index = model->vientiModel()->lisaaVienti();
     viennit->setData(index, ui->pvmDate->date(), VientiModel::PvmRooli);
     viennit->setData(index, ui->seliteEdit->text(), VientiModel::SeliteRooli);
-    viennit->setData(index, ui->tiliEdit->valittuTilinumero(), VientiModel::TiliNumeroRooli);
+    viennit->setData(index, tili.numero() , VientiModel::TiliNumeroRooli);
 
     // UserRole kertoo, onko ensimmäinen tili debet
     int ekaSentit = ui->euroSpin->value() * 100;
@@ -214,8 +218,9 @@ void KirjausApuriDialog::accept()
     else
         viennit->setData(index, ekaSentit, VientiModel::KreditRooli);
 
-    // Kohdennus
-    viennit->setData(index, ui->kohdennusCombo->currentData(KohdennusModel::IdRooli), VientiModel::KohdennusRooli);
+    // Kohdennus (meno- tai tulotiliin)
+    if( tili.onkoMenotili() || tili.onkoTulotili())
+        viennit->setData(index, ui->kohdennusCombo->currentData(KohdennusModel::IdRooli), VientiModel::KohdennusRooli);
 
     // TODO: Veroruudut
 
@@ -223,7 +228,7 @@ void KirjausApuriDialog::accept()
     index = model->vientiModel()->lisaaVienti();
     viennit->setData(index, ui->pvmDate->date(), VientiModel::PvmRooli);
     viennit->setData(index, ui->seliteEdit->text(), VientiModel::SeliteRooli);
-    viennit->setData(index, ui->vastatiliEdit->valittuTilinumero(), VientiModel::TiliNumeroRooli);
+    viennit->setData(index, vastatili.numero() , VientiModel::TiliNumeroRooli);
 
 
     if( !ui->kirjausList->currentIndex().data(Qt::UserRole).toBool())
@@ -231,8 +236,9 @@ void KirjausApuriDialog::accept()
     else
         viennit->setData(index, ekaSentit, VientiModel::KreditRooli);
 
-    // Kohdennus
-    viennit->setData(index, ui->kohdennusCombo->currentData(KohdennusModel::IdRooli), VientiModel::KohdennusRooli);
+    // Kohdennus vain tulo- tai menotiliin
+    if( vastatili.onkoMenotili() || vastatili.onkoTulotili())
+        viennit->setData(index, ui->kohdennusCombo->currentData(KohdennusModel::IdRooli), VientiModel::KohdennusRooli);
 
 
     QDialog::accept();

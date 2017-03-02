@@ -36,6 +36,8 @@ public:
     RaportinKirjoittaja raportti();
 
 protected:
+    void kirjoitaSummaRivi(RaportinKirjoittaja &rk, int debet, int kredit);
+
     Ui::Paivakirja *ui;
 };
 
