@@ -82,7 +82,7 @@ void RaportinKirjoittaja::lisaaRivi(RaporttiRivi rivi)
     rivit_.append(rivi);
 }
 
-void RaportinKirjoittaja::tulosta(QPrinter *printer, bool raidoita)
+int RaportinKirjoittaja::tulosta(QPrinter *printer, bool raidoita, int alkusivunumero)
 {
     if( rivit_.isEmpty())
         return;     // Ei tulostettavaa !
@@ -194,7 +194,7 @@ void RaportinKirjoittaja::tulosta(QPrinter *printer, bool raidoita)
 
             // Tulostetaan ylätunniste
             if( !otsikko_.isEmpty())
-                tulostaYlatunniste( &painter, sivu);
+                tulostaYlatunniste( &painter, sivu + alkusivunumero - 1);
 
             if( !otsakkeet_.isEmpty())
                 painter.translate(0, rivinkorkeus);
@@ -261,7 +261,7 @@ void RaportinKirjoittaja::tulosta(QPrinter *printer, bool raidoita)
 
     painter.restore();
 
-
+    return sivu;
 }
 
 void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu)
