@@ -4,6 +4,8 @@ QT += sql
 QT += webenginewidgets
 QT += printsupport
 
+LIBS += -lpoppler-qt5
+
 CONFIG += c++11
 
 TARGET = kitupiikki

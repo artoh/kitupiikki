@@ -85,7 +85,7 @@ void RaportinKirjoittaja::lisaaRivi(RaporttiRivi rivi)
 int RaportinKirjoittaja::tulosta(QPrinter *printer, bool raidoita, int alkusivunumero)
 {
     if( rivit_.isEmpty())
-        return;     // Ei tulostettavaa !
+        return 0;     // Ei tulostettavaa !
 
     QPainter painter(printer);
     QFont fontti("Sans", 10);

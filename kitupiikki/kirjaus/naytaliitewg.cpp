@@ -27,6 +27,8 @@
 
 #include <QDebug>
 
+#include <poppler/qt5/poppler-qt5.h>
+
 #include "naytaliitewg.h"
 #include "db/kirjanpito.h"
 
@@ -54,7 +56,7 @@ NaytaliiteWg::~NaytaliiteWg()
 
 void NaytaliiteWg::valitseTiedosto()
 {
-    QString polku = QFileDialog::getOpenFileName(this, tr("Valitse tosite"),QString(),tr("Kuvat (*.png *.jpg)"));
+    QString polku = QFileDialog::getOpenFileName(this, tr("Valitse tosite"),QString(),tr("Kuvat (*.png *.jpg), Pdf-tiedosto (*.pdf)"));
     if( !polku.isEmpty())
     {
         emit lisaaLiite( polku );
@@ -71,9 +73,37 @@ void NaytaliiteWg::naytaTiedosto(const QString &polku)
     {
         // Näytä tiedosto
         scene->clear();
-        QPixmap kuva( polku );
-        scene->addPixmap(kuva);
-        view->fitInView(0,0,kuva.width(), kuva.height(), Qt::KeepAspectRatio);
+
+        if( polku.toLower().endsWith(".pdf"))
+        {
+            // Näytä pdf
+            Poppler::Document *pdfDoc = Poppler::Document::load( polku );
+            if( !pdfDoc )
+                return;
+
+            Poppler::Page *pdfSivu = pdfDoc->page(0);
+            if( !pdfSivu )
+                return;
+
+            QImage image = pdfSivu->renderToImage(144.0, 144.0);
+            QPixmap kuva = QPixmap::fromImage( image);
+
+            scene->addPixmap(kuva);
+
+            delete pdfSivu;
+            delete pdfDoc;
+
+
+
+        }
+        else
+        {
+                QPixmap kuva( polku );
+                scene->addPixmap(kuva);
+                view->fitInView(0,0,kuva.width(), kuva.height(), Qt::KeepAspectRatio);
+        }
+
+
 
         setCurrentIndex(1);
     }

@@ -135,6 +135,8 @@ void KirjausWg::tyhjenna()
     salliMuokkaus( model_->muokkausSallittu());
     // Verosarake näytetään vain, jos alv-toiminnot käytössä
     ui->viennitView->setColumnHidden( VientiModel::ALV, !kp()->asetukset()->onko("AlvVelvollinen") );
+    // Tyhjennetään tositemodel
+    emit liiteValittu(QString());
 }
 
 void KirjausWg::tallenna()
@@ -238,7 +240,7 @@ void KirjausWg::lisaaLiite(const QString polku)
 
 void KirjausWg::lisaaLiite()
 {
-    lisaaLiite(QFileDialog::getOpenFileName(this, tr("Lisää liite"),QString(),tr("Kuvat (*.png *.jpg)")));
+    lisaaLiite(QFileDialog::getOpenFileName(this, tr("Lisää liite"),QString(),tr("Kuvat (*.png *.jpg), Pdf-tiedosto (*.pdf)")));
 }
 
 
