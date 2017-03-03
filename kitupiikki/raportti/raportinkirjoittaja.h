@@ -114,8 +114,10 @@ public:
     /**
      * @brief Tulostaa kirjoitetun raportin
      * @param printer
+     * @param alkusivunumero Ensimmäisen tulostettavan sivun numero
+     * @return sivuja tulostettu
      */
-    void tulosta(QPrinter *printer, bool raidoita = false);
+    int tulosta(QPrinter *printer, bool raidoita = false, int alkusivunumero = 1);
 
 
 signals:
