@@ -27,6 +27,11 @@
 
 #include <QDebug>
 
+#include <QMimeData>
+#include <QDragEnterEvent>
+#include <QDragMoveEvent>
+#include <QDropEvent>
+
 #include <poppler/qt5/poppler-qt5.h>
 
 #include "naytaliitewg.h"
@@ -47,6 +52,8 @@ NaytaliiteWg::NaytaliiteWg(QWidget *parent)
     addWidget(view);
 
     connect(ui->valitseTiedostoNappi, SIGNAL(clicked(bool)), this, SLOT(valitseTiedosto()));
+
+    setAcceptDrops(true);
 }
 
 NaytaliiteWg::~NaytaliiteWg()
@@ -106,6 +113,32 @@ void NaytaliiteWg::naytaTiedosto(const QString &polku)
 
 
         setCurrentIndex(1);
+    }
+}
+
+void NaytaliiteWg::dragEnterEvent(QDragEnterEvent *event)
+{
+    if( event->mimeData()->hasUrls())
+        event->accept();
+}
+
+void NaytaliiteWg::dragMoveEvent(QDragMoveEvent *event)
+{
+    event->accept();
+}
+
+void NaytaliiteWg::dropEvent(QDropEvent *event)
+{
+    // Liitetiedosto pudotettu
+    if( event->mimeData()->hasUrls())
+    {
+        QList<QUrl> urlit = event->mimeData()->urls();
+        foreach (QUrl url, urlit)
+        {
+            qDebug() << url;
+            if( url.isLocalFile())
+                emit lisaaLiite( url.path() );
+        }
     }
 }
 

@@ -51,6 +51,11 @@ signals:
     void lisaaLiite(const QString& polku);
 
 protected:
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dragMoveEvent(QDragMoveEvent *event);
+    void dropEvent(QDropEvent *event);
+
+protected:
     Ui::TositeWg *ui;
 
     QGraphicsScene* scene;
