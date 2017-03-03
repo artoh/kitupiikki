@@ -1,5 +1,8 @@
 # Kitupiikki <small>Avoimen lähdekoodin kirjanpitäjä</small>
 
+!!! note "Ei vielä valmis..."
+    Kitupiikin ensimmäinen julkaisuversion valmistunee vuoden 2017 alkupuoliskolla. Ohjelman kehitysversio on saatavilla GitHubissa, mutta siinä ei ole vielä kaikkia tässä kuvattuja ominaisuuksia.
+
 ![](images/kitupiikkikannettava.png)
 
 Kitupiikki on ilmainen suomalainen kirjanpito-ohjelma. Se käsittelee ja arkistoi skannatut tositteet. Ohjelma on alunperin suunniteltu yhdistyksille, mutta Kitupiikin avulla hoidat vaivattomasti myös pienehkön yrityksen kirjanpidon.
