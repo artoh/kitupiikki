@@ -35,8 +35,24 @@ public:
 
     RaportinKirjoittaja raportti();
 
+    /**
+     * @brief Päiväkirjaraportin kirjoittaminen
+     *
+     * Staattinen funktio, jotta raportti voidaan kirjoittaa myös ilman käyttöliittymää
+     *
+     * @param kohdennuksella Tulostaa vain yhden kohdennuksen osalta: kohdennuksen Id, -1 jos kaikki
+     * @param tositejarjestys Tulostaa tositejärjestyksessä, muuten päivämääräjärjestyksessä
+     * @param ryhmitalajeittain Ryhmittelee toisitelajeittain
+     * @param tulostakohdennukset Tulostaa kohdennussarakkeen
+     * @param tulostasummat Tulostaa summarivit
+     * @return Raportinkirjoittaja, jonne raportti kirjoitettu
+     */
+    static RaportinKirjoittaja kirjoitaRaportti( QDate mista, QDate mihin,
+                                 int kohdennuksella = -1, bool tositejarjestys = false,
+                                 bool ryhmitalajeittain = false, bool tulostakohdennukset = false,
+                                 bool tulostasummat = false);
 protected:
-    void kirjoitaSummaRivi(RaportinKirjoittaja &rk, int debet, int kredit);
+    static void kirjoitaSummaRivi(RaportinKirjoittaja &rk, int debet, int kredit, int sarakeleveys);
 
     Ui::Paivakirja *ui;
 };

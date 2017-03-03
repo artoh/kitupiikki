@@ -51,21 +51,35 @@ PaivakirjaRaportti::~PaivakirjaRaportti()
 
 RaportinKirjoittaja PaivakirjaRaportti::raportti()
 {
+    int kohdennuksella = -1;
+    if( ui->kohdennusCheck->isChecked())
+        kohdennuksella = ui->kohdennusCombo->currentData( KohdennusModel::IdRooli).toInt();
+
+    return kirjoitaRaportti( ui->alkupvm->date(), ui->loppupvm->date(),
+                             kohdennuksella, ui->tositejarjestysRadio->isChecked(),
+                             ui->ryhmittelelajeittainCheck->isChecked(), ui->tulostakohdennuksetCheck->isChecked(),
+                             ui->tulostasummat->isChecked());
+
+}
+
+RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin, int kohdennuksella, bool tositejarjestys, bool ryhmitalajeittain, bool tulostakohdennukset, bool tulostasummat)
+{
 
     RaportinKirjoittaja kirjoittaja;
-    if( ui->kohdennusCheck->isChecked() )
-        kirjoittaja.asetaOtsikko( QString("PÄIVÄKIRJA (%1)").arg(ui->kohdennusCombo->currentData(KohdennusModel::NimiRooli).toString()) );
+    if( kohdennuksella > -1 )
+        // Tulostetaan vain yhdestä kohdennuksesta
+        kirjoittaja.asetaOtsikko( QString("PÄIVÄKIRJA (%1)").arg( kp()->kohdennukset()->kohdennus(kohdennuksella).nimi() ) );
     else
         kirjoittaja.asetaOtsikko("PÄIVÄKIRJA");
 
 
-    kirjoittaja.asetaKausiteksti(QString("%1 - %2").arg( ui->alkupvm->date().toString(Qt::SystemLocaleShortDate) )
-                                             .arg( ui->loppupvm->date().toString(Qt::SystemLocaleShortDate) ) );
+    kirjoittaja.asetaKausiteksti(QString("%1 - %2").arg( mista.toString(Qt::SystemLocaleShortDate) )
+                                             .arg( mihin.toString(Qt::SystemLocaleShortDate) ) );
 
     kirjoittaja.lisaaPvmSarake();
     kirjoittaja.lisaaSarake("ABC1234 ");
     kirjoittaja.lisaaSarake("999999 Tilinimi tarkeinteilla");
-    if( ui->tulostakohdennuksetCheck->isChecked())
+    if(tulostakohdennukset )
         kirjoittaja.lisaaSarake("Kohdennusnimi");
     kirjoittaja.lisaaVenyvaSarake();
     kirjoittaja.lisaaEurosarake();
@@ -75,7 +89,7 @@ RaportinKirjoittaja PaivakirjaRaportti::raportti()
     otsikko.lisaa("Pvm");
     otsikko.lisaa("Tosite");
     otsikko.lisaa("Tili");
-    if( ui->tulostakohdennuksetCheck->isChecked())
+    if( tulostakohdennukset )
         otsikko.lisaa("Kohdennus");
     otsikko.lisaa("Selite");
     otsikko.lisaa("Debet €", 1, true);
@@ -84,20 +98,20 @@ RaportinKirjoittaja PaivakirjaRaportti::raportti()
 
     QSqlQuery kysely;
     QString jarjestys = "pvm, vientiId";
-    if( ui->tositejarjestysRadio->isChecked())
+    if(  tositejarjestys )
         jarjestys = " tositelaji, tunniste, vientiId";
-    else if( ui->ryhmittelelajeittainCheck->isChecked())
+    else if( ryhmitalajeittain )
         jarjestys = " tositelaji, pvm, vientiId";
 
     // Kohdennuksen mukaan rajaaminen
     QString lisaehto;
-    if( ui->kohdennusCheck->isChecked())
-        lisaehto = QString(" AND kohdennusId=%1").arg( ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
+    if( kohdennuksella > -1)
+        lisaehto = QString(" AND kohdennusId=%1").arg( kohdennuksella );
 
     QString kysymys = QString("SELECT pvm, tositelaji, tunniste, tilinro, tilinimi, selite, debetsnt, kreditsnt, kohdennus, kohdennusId, tositelajiId from vientivw "
                               "WHERE pvm BETWEEN \"%1\" AND \"%2\" %4 ORDER BY %3")
-                              .arg( ui->alkupvm->date().toString(Qt::ISODate) )
-                              .arg( ui->loppupvm->date().toString(Qt::ISODate))
+                              .arg(mista.toString(Qt::ISODate) )
+                              .arg( mihin.toString(Qt::ISODate))
                               .arg(jarjestys).arg(lisaehto);
 
     kysely.exec(kysymys);
@@ -110,13 +124,13 @@ RaportinKirjoittaja PaivakirjaRaportti::raportti()
 
     while( kysely.next())
     {
-        if( ui->ryhmittelelajeittainCheck->isChecked() && edellinenTositelajiId != kysely.value("tositelajiId").toInt())
+        if( ryhmitalajeittain && edellinenTositelajiId != kysely.value("tositelajiId").toInt())
         {
             if( edellinenTositelajiId > -1 )
             {
-                if( ui->tulostasummat->isChecked() )
+                if( tulostasummat )
                 {
-                    kirjoitaSummaRivi( kirjoittaja, debetYht, kreditYht);
+                    kirjoitaSummaRivi( kirjoittaja, debetYht, kreditYht, 4 + (int) tulostakohdennukset );
                     debetYht = 0;
                     kreditYht = 0;
                 }
@@ -138,8 +152,9 @@ RaportinKirjoittaja PaivakirjaRaportti::raportti()
         rivi.lisaa( kysely.value("tositelaji").toString() + kysely.value("tunniste").toString());
         rivi.lisaa( tr("%1 %2").arg(kysely.value("tilinro").toString()).arg(kysely.value("tilinimi").toString()));
 
-        if( ui->tulostakohdennuksetCheck->isChecked())
+        if( tulostakohdennukset )
         {
+            // Kohdennussarake
             if( kysely.value("kohdennusId").toInt() )
                 rivi.lisaa( kysely.value("kohdennus").toString());
             else
@@ -154,7 +169,7 @@ RaportinKirjoittaja PaivakirjaRaportti::raportti()
         rivi.lisaa( kreditSnt );
         kirjoittaja.lisaaRivi( rivi );
 
-        if( ui->tulostasummat->isChecked())
+        if(  tulostasummat )
         {
             debetYht += debetSnt;
             debetKaikki += debetSnt;
@@ -163,15 +178,15 @@ RaportinKirjoittaja PaivakirjaRaportti::raportti()
         }
     }
 
-    if( ui->ryhmittelelajeittainCheck->isChecked() && ui->tulostasummat->isChecked())
-        kirjoitaSummaRivi(kirjoittaja, debetYht, kreditYht);
+    if( ryhmitalajeittain && tulostasummat )
+        kirjoitaSummaRivi(kirjoittaja, debetYht, kreditYht, 4 + (int)  tulostakohdennukset );
 
-    if( ui->tulostasummat->isChecked())
+    if(  tulostasummat )
     {
         // Lopuksi vielä kaikki yhteensä -summarivi
         kirjoittaja.lisaaRivi();
         RaporttiRivi summarivi;
-        summarivi.lisaa("Yhteensä", 4 + (int) ui->tulostakohdennuksetCheck->isChecked() );
+        summarivi.lisaa("Yhteensä", 4 + (int) tulostakohdennukset);
         summarivi.lisaa(debetKaikki);
         summarivi.lisaa(kreditKaikki);
         summarivi.viivaYlle();
@@ -180,13 +195,12 @@ RaportinKirjoittaja PaivakirjaRaportti::raportti()
     }
 
     return kirjoittaja;
-
 }
 
-void PaivakirjaRaportti::kirjoitaSummaRivi(RaportinKirjoittaja &rk, int debet, int kredit)
+void PaivakirjaRaportti::kirjoitaSummaRivi(RaportinKirjoittaja &rk, int debet, int kredit, int sarakeleveys)
 {
     RaporttiRivi rivi;
-    rivi.lisaa("Yhteensä", 4 + (int) ui->tulostakohdennuksetCheck->isChecked() );
+    rivi.lisaa("Yhteensä", sarakeleveys );
     rivi.lisaa( debet );
     rivi.lisaa( kredit );
     rivi.viivaYlle(true);
