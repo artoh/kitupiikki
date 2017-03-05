@@ -21,10 +21,6 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 
-#include <QSqlQuery>
-#include <QByteArray>
-#include <QCryptographicHash>
-
 #include <QDebug>
 
 #include <QMimeData>
