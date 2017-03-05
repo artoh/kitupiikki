@@ -79,7 +79,8 @@ SOURCES += main.cpp \
     ktpvienti/ktpvienti.cpp \
     maaritys/tyokalut.cpp \
     onniwidget.cpp \
-    raportti/raportoija.cpp
+    raportti/raportoija.cpp \
+    raportti/paakirjaraportti.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -148,7 +149,8 @@ HEADERS += \
     ktpvienti/ktpvienti.h \
     maaritys/tyokalut.h \
     onniwidget.h \
-    raportti/raportoija.h
+    raportti/raportoija.h \
+    raportti/paakirjaraportti.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

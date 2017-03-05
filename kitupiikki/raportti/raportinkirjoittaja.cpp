@@ -127,6 +127,9 @@ int RaportinKirjoittaja::tulosta(QPrinter *printer, bool raidoita, int alkusivun
         }
     }
 
+    if( tekijayhteensa )
+        jaljella = 0;   // Koko tila käytetty venyvällä sarakkeella
+
     // Nyt taulukosta löytyy sarakkeiden leveydet, ja tulostaminen
     // voidaan aloittaa
 
@@ -250,9 +253,9 @@ int RaportinKirjoittaja::tulosta(QPrinter *printer, bool raidoita, int alkusivun
         {
             painter.drawText( laatikot[i], liput[i] , rivi.teksti(i) );
         }
-        if( rivi.onkoViivaa())
+        if( rivi.onkoViivaa())  // Viivan tulostaminen rivin ylle
         {
-            painter.drawLine(0,0, laatikot.last().x() + laatikot.last().width(), 0);
+            painter.drawLine(0,0, sivunleveys - jaljella , 0);
         }
 
         painter.translate(0, korkeinrivi);
