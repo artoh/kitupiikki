@@ -110,8 +110,7 @@ void NaytaliiteWg::naytaTiedosto(const QString &polku)
             }
             delete pdfDoc;
 
-
-
+            view->fitInView(0, 0, view->scene()->sceneRect().width(), 0, Qt::KeepAspectRatio);
         }
         else
         {
