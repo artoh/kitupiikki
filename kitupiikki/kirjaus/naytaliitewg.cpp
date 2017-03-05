@@ -34,6 +34,8 @@
 
 #include <poppler/qt5/poppler-qt5.h>
 
+#include <QGraphicsPixmapItem>
+
 #include "naytaliitewg.h"
 #include "db/kirjanpito.h"
 
@@ -63,7 +65,7 @@ NaytaliiteWg::~NaytaliiteWg()
 
 void NaytaliiteWg::valitseTiedosto()
 {
-    QString polku = QFileDialog::getOpenFileName(this, tr("Valitse tosite"),QString(),tr("Kuvat (*.png *.jpg), Pdf-tiedosto (*.pdf)"));
+    QString polku = QFileDialog::getOpenFileName(this, tr("Valitse tosite"),QString(),tr("Kuvat (*.png *.jpg);; Pdf-tiedostot (*.pdf)"));
     if( !polku.isEmpty())
     {
         emit lisaaLiite( polku );
@@ -88,16 +90,24 @@ void NaytaliiteWg::naytaTiedosto(const QString &polku)
             if( !pdfDoc )
                 return;
 
-            Poppler::Page *pdfSivu = pdfDoc->page(0);
-            if( !pdfSivu )
-                return;
+            double ypos = 0.0;
+            // Monisivuisen pdf:n sivut pinotaan päällekkäin
+            for( int sivu = 0; sivu < pdfDoc->numPages(); sivu++)
+            {
+                Poppler::Page *pdfSivu = pdfDoc->page(sivu);
 
-            QImage image = pdfSivu->renderToImage(144.0, 144.0);
-            QPixmap kuva = QPixmap::fromImage( image);
+                if( !pdfSivu )
+                    continue;
 
-            scene->addPixmap(kuva);
+                QImage image = pdfSivu->renderToImage(144.0, 144.0);
+                QPixmap kuva = QPixmap::fromImage( image);
 
-            delete pdfSivu;
+                QGraphicsPixmapItem *item = scene->addPixmap(kuva);
+                item->setY( ypos );
+                ypos += kuva.height();
+
+                delete pdfSivu;
+            }
             delete pdfDoc;
 
 
@@ -105,13 +115,14 @@ void NaytaliiteWg::naytaTiedosto(const QString &polku)
         }
         else
         {
+                // Ladataan kuvatiedosto
                 QPixmap kuva( polku );
                 scene->addPixmap(kuva);
-                view->fitInView(0,0,kuva.width(), kuva.height(), Qt::KeepAspectRatio);
+                // Skaalataan viewiä niin, että mahtuu sivusuunnassa
+                view->fitInView(0,0,kuva.width(), kuva.width(), Qt::KeepAspectRatio);
         }
 
-
-
+        // Tositteen näyttöwiget esiin
         setCurrentIndex(1);
     }
 }
