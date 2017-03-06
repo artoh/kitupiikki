@@ -191,6 +191,16 @@
             "title": "Tilikartan vieminen"
         },
         {
+            "location": "/osallistu/",
+            "text": "Osallistu \nTehd\u00e4\u00e4n yhdess\u00e4 Kitupiikki\n\n\nOlet tervetullut osallistumaan Kitupiikin kehitt\u00e4miseen. Ohjelma on avointa l\u00e4hdekoodia, eli kuka tahansa saa muokata ja jakaa ohjelmaa, mutta muokattu l\u00e4hdekoodi on annettava muidenkin k\u00e4ytett\u00e4v\u00e4ksi.\n\n\nOhjelmasta voi antaa palautetta \nKitupiikkiblogissa\n vastaamalla blogikirjoituksiin tai \npalautelomakkeella\n.\n\n\nKitupiikki on kehitetty C++-kielell\u00e4 ja \nQt-kirjastolla\n . Ohjelman l\u00e4hdekoodi l\u00f6ytyy ohjelman \nGitHub-sivuilta\n. Ohjelman kehitt\u00e4missuunnitelmia voi seurata \nKitupiikkiblogista\n.\n\n\nTilikarttoja ja raportteja voi muokata ilman ohjelmointiosaamista. Jos haluat liitt\u00e4\u00e4 tekem\u00e4si tilikarttatiedoston yleiseen k\u00e4ytt\u00f6\u00f6n, voit l\u00e4hett\u00e4\u00e4 sen Kitupiikkiblogin yhteydess\u00e4 olevalla \npalautelomakkeella\n.",
+            "title": "Osallistu"
+        },
+        {
+            "location": "/osallistu/#osallistu-tehdaan-yhdessa-kitupiikki",
+            "text": "Olet tervetullut osallistumaan Kitupiikin kehitt\u00e4miseen. Ohjelma on avointa l\u00e4hdekoodia, eli kuka tahansa saa muokata ja jakaa ohjelmaa, mutta muokattu l\u00e4hdekoodi on annettava muidenkin k\u00e4ytett\u00e4v\u00e4ksi.  Ohjelmasta voi antaa palautetta  Kitupiikkiblogissa  vastaamalla blogikirjoituksiin tai  palautelomakkeella .  Kitupiikki on kehitetty C++-kielell\u00e4 ja  Qt-kirjastolla  . Ohjelman l\u00e4hdekoodi l\u00f6ytyy ohjelman  GitHub-sivuilta . Ohjelman kehitt\u00e4missuunnitelmia voi seurata  Kitupiikkiblogista .  Tilikarttoja ja raportteja voi muokata ilman ohjelmointiosaamista. Jos haluat liitt\u00e4\u00e4 tekem\u00e4si tilikarttatiedoston yleiseen k\u00e4ytt\u00f6\u00f6n, voit l\u00e4hett\u00e4\u00e4 sen Kitupiikkiblogin yhteydess\u00e4 olevalla  palautelomakkeella .",
+            "title": "Osallistu Tehd\u00e4\u00e4n yhdess\u00e4 Kitupiikki"
+        },
+        {
             "location": "/lisenssi/",
             "text": "",
             "title": "Lisenssi"
