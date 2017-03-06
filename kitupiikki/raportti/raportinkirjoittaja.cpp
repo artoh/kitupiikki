@@ -235,7 +235,7 @@ int RaportinKirjoittaja::tulosta(QPrinter *printer, bool raidoita, int alkusivun
         if( raidoita && rivilla % 6 > 2)
         {
             painter.save();
-            painter.setBrush(QBrush(Qt::lightGray));
+            painter.setBrush(QBrush(QColor(222,222,222)));
             painter.setPen(Qt::NoPen);
 
             painter.drawRect(0,0,sivunleveys, korkeinrivi);

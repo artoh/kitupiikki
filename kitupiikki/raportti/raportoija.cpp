@@ -147,7 +147,7 @@ void Raportoija::kirjoitaYlatunnisteet(RaportinKirjoittaja &rk)
 void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk)
 {
 
-    QRegularExpression tiliRe("[\\s\\t](?<alku>\\d{1,8})(\\.\\.)?(?<loppu>\\d{0,8})(?<menotulo>[+-]?)");
+    QRegularExpression tiliRe("[\\s\\t,](?<alku>\\d{1,8})(\\.\\.)?(?<loppu>\\d{0,8})(?<menotulo>[+-]?)");
 
     QRegularExpression maareRe("(?<maare>[A-Za-z=]+)(?<sisennys>[0-9]?)");
 

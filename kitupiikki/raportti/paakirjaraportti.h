@@ -29,8 +29,9 @@ public:
 
     RaportinKirjoittaja raportti();
 
-    static RaportinKirjoittaja kirjoitaRaportti( QDate mista, QDate mihin,
-                                                 bool tulostakohdennus = false);
+    static RaportinKirjoittaja kirjoitaRaportti( QDate mista, QDate mihin, int kohdennuksella = -1,
+                                                 bool tulostakohdennus = false,
+                                                 bool tulostaSummarivi = true);
 protected:
     Ui::Paivakirja *ui;
 };
