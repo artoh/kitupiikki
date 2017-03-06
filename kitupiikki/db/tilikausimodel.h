@@ -35,8 +35,15 @@ class TilikausiModel : public QAbstractTableModel
 public:
     enum Sarake
     {
+        KAUSI,
         ALKAA,
         PAATTYY
+    };
+
+    enum
+    {
+        AlkaaRooli = Qt::UserRole + 1,
+        PaattyyRooli = Qt::UserRole + 2
     };
 
 

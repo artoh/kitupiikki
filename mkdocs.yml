@@ -36,6 +36,7 @@ pages:
   - Sähköinen arkisto: 'arkisto.md'
   - Arvonlisävero: 'alv.md'
   - Muita toimintoja: 'muut.md'
+  - Osallistu: 'osallistu.md'
   - Lisenssi: 'lisenssi.md'
 google_analytics:  
   - 'UA-92837430-1'

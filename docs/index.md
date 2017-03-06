@@ -35,8 +35,10 @@ Voit muokatat tilikartat ja raportit mieleisiksesi. Muokatun tilikartan voit tal
 Kirjaamista voi nopeuttaa liittämällä tositelajiin oletusvalinnat tilistä, vastatilistä ja kirjaustyypistä.
 
 ### Arvonlisäveron käsittely ohjaustiedoilla
-Tilejä ei tarvitse eritellä verokannoittain, koska arvonlisävero määritetään viennin tietoihin. Toki kirjausta voi nopeuttaa määrittelemälle tilin oletusvalinnat alv-käsittelyyn.
 
+!!! note "Esiversiossa ei arvonlisäveron käsittelyä"
+    Ohjelmasta julkaistaan ensin esiversion ilman arvonlisävertotoimintoja. Täysi versio alv-tuella ilmestynee vuoden 2017 aikana.
+Tilejä ei tarvitse eritellä verokannoittain, koska arvonlisävero määritetään viennin tietoihin. Toki kirjausta voi nopeuttaa määrittelemälle tilin oletusvalinnat alv-käsittelyyn.
 
 ## Avoimen lähdekoodin kirjanpitäjä
 

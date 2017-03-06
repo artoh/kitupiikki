@@ -80,7 +80,8 @@ SOURCES += main.cpp \
     maaritys/tyokalut.cpp \
     onniwidget.cpp \
     raportti/raportoija.cpp \
-    raportti/paakirjaraportti.cpp
+    raportti/paakirjaraportti.cpp \
+    raportti/tilikarttaraportti.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -150,7 +151,8 @@ HEADERS += \
     maaritys/tyokalut.h \
     onniwidget.h \
     raportti/raportoija.h \
-    raportti/paakirjaraportti.h
+    raportti/paakirjaraportti.h \
+    raportti/tilikarttaraportti.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -187,7 +189,8 @@ FORMS += \
     ktpvienti/ktpkuvaus.ui \
     ktpvienti/ktpaloitusteksti.ui \
     maaritys/tyokalut.ui \
-    onniwidget.ui
+    onniwidget.ui \
+    raportti/tilikarttaraportti.ui
 
 DISTFILES += \
     uusikp/luo.sql \

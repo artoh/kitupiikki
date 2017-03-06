@@ -44,12 +44,21 @@ QVariant TilikausiModel::data(const QModelIndex &index, int role) const
 
     if( role == Qt::DisplayRole)
     {
-        if( index.column() == ALKAA)
+        if( index.column() == KAUSI)
+            return QVariant( tr("%1 - %2")
+                             .arg(kausi.alkaa().toString(Qt::SystemLocaleShortDate))
+                             .arg(kausi.paattyy().toString(Qt::SystemLocaleShortDate)));
+        else if( index.column() == ALKAA)
             return QVariant( kausi.alkaa());
         else if( index.column() == PAATTYY)
             return QVariant( kausi.paattyy());
 
     }
+    else if( role == AlkaaRooli)
+        return QVariant( kausi.alkaa());
+    else if( role == PaattyyRooli )
+        return QVariant( kausi.paattyy());
+
     return QVariant();
 }
 

@@ -30,6 +30,7 @@
 #include "db/kirjanpito.h"
 
 #include "muokattavaraportti.h"
+#include "tilikarttaraportti.h"
 
 RaporttiSivu::RaporttiSivu(QWidget *parent) : KitupiikkiSivu(parent),
     nykyinen(0), printer(QPrinter::HighResolution)
@@ -61,6 +62,8 @@ void RaporttiSivu::siirrySivulle()
     {
         lisaaRaportti( rnimi.mid(9), rnimi, ":/pic/tekstisivu.png");
     }
+
+    lisaaRaportti("Tilikartta","Tilikartta",":/pic/valilehdet.png");
 }
 
 bool RaporttiSivu::poistuSivulta()
@@ -96,6 +99,8 @@ void RaporttiSivu::raporttiValittu(QListWidgetItem *item)
         nykyinen = new PaakirjaRaportti( &printer );
     else if( raporttinimi.startsWith("Raportti/"))
         nykyinen = new MuokattavaRaportti( raporttinimi.mid(9), &printer);
+    else if( raporttinimi == "Tilikartta")
+        nykyinen = new TilikarttaRaportti( &printer );
 
 
     if( nykyinen )
