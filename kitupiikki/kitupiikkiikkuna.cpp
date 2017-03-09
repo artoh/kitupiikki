@@ -56,20 +56,11 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 
     setWindowIcon(QIcon(":/pic/Possu64.png"));
 
-    // Nämä valikot ovat tässä lähinnä käyttöliittymätestin kannalta ;)
-    // menuBar()->addMenu("Kirjanpito");
-    // menuBar()->addMenu("Tosite");
-    // menuBar()->addMenu("Raportit");
-
-
-
     aloitussivu = new AloitusSivu();
-
     kirjaussivu =  new KirjausSivu();
     selaussivu = new SelausWg();
     maarityssivu = new MaaritysSivu();
     raporttisivu = new RaporttiSivu();
-
 
     pino = new QStackedWidget;
     setCentralWidget(pino);
@@ -242,7 +233,7 @@ void KitupiikkiIkkuna::lisaaSivut()
 
     connect(aktioryhma, SIGNAL(triggered(QAction*)), this, SLOT(aktivoiSivu(QAction*)));
 
-    QAction *ohjeAktio = new QAction(QIcon(":/pic/ohje.png"),"Ohje");
+    QAction *ohjeAktio = new QAction(QIcon(":/pic/ohje.png"),"Käsikirja");
     ohjeAktio->setShortcut( QKeySequence(Qt::Key_F1));
     connect( ohjeAktio, SIGNAL(triggered(bool)), this, SLOT(ohje()));
     toolbar->addAction(ohjeAktio);

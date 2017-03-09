@@ -50,7 +50,6 @@ SOURCES += main.cpp \
     db/tilikausimodel.cpp \
     maaritys/maarityswidget.cpp \
     kitupiikkisivu.cpp \
-    ohje/ohjesivu.cpp \
     raportti/raportinkirjoittaja.cpp \
     raportti/raporttirivi.cpp \
     db/tositemodel.cpp \
@@ -122,7 +121,6 @@ HEADERS += \
     db/tilikausimodel.h \
     maaritys/maarityswidget.h \
     kitupiikkisivu.h \
-    ohje/ohjesivu.h \
     raportti/raportinkirjoittaja.h \
     raportti/raporttirivi.h \
     db/tositemodel.h \
@@ -160,8 +158,7 @@ RESOURCES += \
     tilikartat/tilikartat.qrc \
     pic/pic.qrc \
     uusikp/sql.qrc \
-    aloitussivu/qrc/aloitus.qrc \
-    ohje/ohje.qrc
+    aloitussivu/qrc/aloitus.qrc
 
 FORMS += \
     uusikp/intro.ui \
