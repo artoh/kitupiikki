@@ -70,7 +70,7 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
     if( !index.isValid())
         return QVariant();
 
-    SelausRivi rivi = rivit[ index.row()];
+    SelausRivi rivi = rivit.at( index.row());
 
     if( role == Qt::DisplayRole || role == Qt::EditRole)
     {
@@ -122,7 +122,6 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
     else if( role == Qt::UserRole)
     {
         // UserRolena on tositeid, jotta selauksesta pääsee helposti tositteeseen
-        SelausRivi rivi = rivit[ index.row()];
         return QVariant( rivi.tositeId );
     }
     else if( role == Qt::DecorationRole && index.column() == KOHDENNUS )

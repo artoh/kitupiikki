@@ -81,7 +81,8 @@ SOURCES += main.cpp \
     onniwidget.cpp \
     raportti/raportoija.cpp \
     raportti/paakirjaraportti.cpp \
-    raportti/tilikarttaraportti.cpp
+    raportti/tilikarttaraportti.cpp \
+    selaus/tositeselausmodel.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -152,7 +153,8 @@ HEADERS += \
     onniwidget.h \
     raportti/raportoija.h \
     raportti/paakirjaraportti.h \
-    raportti/tilikarttaraportti.h
+    raportti/tilikarttaraportti.h \
+    selaus/tositeselausmodel.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

@@ -24,32 +24,44 @@
 
 #include <QDebug>
 
+#include "tositeselausmodel.h"
+
 SelausWg::SelausWg() :
     KitupiikkiSivu(),
     ui(new Ui::SelausWg)
 {
     ui->setupUi(this);
     model = new SelausModel();
+    tositeModel = new TositeSelausModel();
 
     proxyModel = new QSortFilterProxyModel(this);
     proxyModel->setSourceModel(model);
     proxyModel->setSortRole(Qt::EditRole);  // Jotta numerot lajitellaan oikein
     proxyModel->setFilterKeyColumn( SelausModel::TILI);
 
-    ui->selausView->setModel(proxyModel);
+    etsiProxy = new QSortFilterProxyModel(this);
+    etsiProxy->setSourceModel(proxyModel);
+    etsiProxy->setFilterKeyColumn( SelausModel::SELITE );
+    ui->selausView->setModel( etsiProxy );
 
     ui->selausView->horizontalHeader()->setStretchLastSection(true);
     ui->selausView->verticalHeader()->hide();
 
     ui->selausView->sortByColumn(SelausModel::PVM, Qt::AscendingOrder);
 
+    connect( ui->etsiEdit, SIGNAL(textChanged(QString)), etsiProxy, SLOT(setFilterFixedString(QString)));
+
     connect( ui->alkuEdit, SIGNAL(editingFinished()), this, SLOT(paivita()));
     connect( ui->loppuEdit, SIGNAL(editingFinished()), this, SLOT(paivita()));
     connect( ui->tiliCombo, SIGNAL(currentTextChanged(QString)), this, SLOT(suodata()));
-
     connect( ui->selausView, SIGNAL(activated(QModelIndex)), this, SLOT(naytaTositeRivilta(QModelIndex)));
 
-    connect( Kirjanpito::db(), SIGNAL(kirjanpitoaMuokattu()), this, SLOT(paivita()));
+    connect( ui->tosittetBtn, SIGNAL(clicked(bool)), this, SLOT(selaaTositteita()));
+    connect( ui->viennitBtn, SIGNAL(clicked(bool)), this, SLOT(selaaVienteja()));
+
+    connect( Kirjanpito::db(), SIGNAL(kirjanpitoaMuokattu()), this, SLOT(merkitsePaivitettavaksi()));
+    connect( kp(), SIGNAL(tietokantaVaihtui()), this, SLOT(alusta()));
+
 
 }
 
@@ -72,21 +84,38 @@ void SelausWg::alusta()
     ui->loppuEdit->setDateRange(alku, loppu);
     ui->alkuEdit->setDate(nytalkaa);
     ui->loppuEdit->setDate(nytloppuu);
-
-    paivita();
 }
 
 void SelausWg::paivita()
 {
-    model->lataa( ui->alkuEdit->date(), ui->loppuEdit->date());
-    ui->selausView->resizeColumnsToContents();
+    if( ui->viennitBtn->isChecked())
+    {
+        model->lataa( ui->alkuEdit->date(), ui->loppuEdit->date());
 
-    QString valittu = ui->tiliCombo->currentText();
-    ui->tiliCombo->clear();
-    ui->tiliCombo->insertItem(0, QIcon(":/pic/Possu64.png"),"Kaikki tilit", QVariant("*"));
-    ui->tiliCombo->insertItems(1, model->kaytetytTilit());
-    ui->tiliCombo->setCurrentText(valittu);
+        QString valittu = ui->tiliCombo->currentText();
+        ui->tiliCombo->clear();
+        ui->tiliCombo->insertItem(0, QIcon(":/pic/Possu64.png"),"Kaikki tilit", QVariant("*"));
+        ui->tiliCombo->insertItems(1, model->kaytetytTilit());
+        ui->tiliCombo->setCurrentText(valittu);
+
+    }
+    else
+    {
+        tositeModel->lataa( ui->alkuEdit->date(), ui->loppuEdit->date());
+
+        QString valittu = ui->tiliCombo->currentText();
+        ui->tiliCombo->clear();
+        ui->tiliCombo->insertItem(0, QIcon(":/pic/Possu64.png"),"Kaikki tositteet", QVariant("*"));
+        ui->tiliCombo->insertItems(1, tositeModel->lajiLista() );
+        ui->tiliCombo->setCurrentText(valittu);
+
+    }
+
+    ui->selausView->resizeColumnsToContents();
     paivitaSummat();
+    paivitettava = false;
+
+
 }
 
 void SelausWg::suodata()
@@ -100,6 +129,13 @@ void SelausWg::suodata()
 
 void SelausWg::paivitaSummat()
 {
+    if( ui->tosittetBtn->isChecked())
+    {
+        // Summia ei näytetä tositelistalle ;)
+        ui->summaLabel->clear();
+        return;
+    }
+
     int debetSumma = 0;
     int kreditSumma = 0;
 
@@ -137,7 +173,6 @@ void SelausWg::paivitaSummat()
 void SelausWg::naytaTositeRivilta(QModelIndex index)
 {
     int id = index.data( Qt::UserRole).toInt();
-    qDebug() << "Näyttöpyyntö " << id;
     emit tositeValittu( id );
 }
 
@@ -146,10 +181,54 @@ void SelausWg::selaa(int tilinumero, Tilikausi tilikausi)
     // Ohjelmallisesti selaa tiettynä tilikautena tiettyä tiliä
     ui->alkuEdit->setDate( tilikausi.alkaa());
     ui->loppuEdit->setDate( tilikausi.paattyy());
+
+    if( !ui->viennitBtn->isChecked())
+         ui->viennitBtn->click();    // Valitaan viennit-näkymä
+
     paivita();
 
     Tili selattava = Kirjanpito::db()->tilit()->tiliNumerolla(tilinumero);
 
     ui->tiliCombo->setCurrentText(QString("%1 %2").arg(selattava.numero() ).arg(selattava.nimi()));
 
+}
+
+void SelausWg::selaaVienteja()
+{
+    ui->tosittetBtn->setChecked(false);
+    ui->viennitBtn->setChecked(true);
+
+    proxyModel->setSourceModel(model);
+    proxyModel->setFilterKeyColumn( SelausModel::TILI);
+    proxyModel->setSortRole(Qt::EditRole);  // Jotta numerot lajitellaan oikein
+    etsiProxy->setSourceModel(proxyModel);
+    etsiProxy->setFilterKeyColumn( SelausModel::SELITE );
+
+    paivita();
+}
+
+void SelausWg::selaaTositteita()
+{
+    ui->viennitBtn->setChecked(false);
+    ui->tosittetBtn->setChecked(true);
+
+    proxyModel->setSourceModel(tositeModel);
+    proxyModel->setFilterKeyColumn( TositeSelausModel::TOSITELAJI);
+    proxyModel->setSortRole(Qt::EditRole);  // Jotta numerot lajitellaan oikein
+    etsiProxy->setSourceModel(proxyModel);
+    etsiProxy->setFilterKeyColumn( SelausModel::SELITE );
+
+    paivita();
+}
+
+void SelausWg::siirrySivulle()
+{
+    // Sivu päivitetään, jos jotain on muuttunut
+    if( paivitettava )
+        paivita();
+}
+
+void SelausWg::merkitsePaivitettavaksi()
+{
+    paivitettava = true;
 }

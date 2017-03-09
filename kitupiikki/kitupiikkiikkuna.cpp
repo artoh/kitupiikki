@@ -140,8 +140,6 @@ void KitupiikkiIkkuna::kirjanpitoLadattu()
 
         for(int i=KIRJAUSSIVU; i<SIVUT_LOPPU;i++)
             sivuaktiot[i]->setEnabled(true);
-
-        selaussivu->alusta();
     }
 
     valitseSivu(ALOITUSSIVU);

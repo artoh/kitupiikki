@@ -26,6 +26,7 @@
 #include "kitupiikkisivu.h"
 
 class SelausModel;
+class TositeSelausModel;
 class QSortFilterProxyModel;
 
 /**
@@ -52,13 +53,31 @@ public slots:
 
     void selaa(int tilinumero, Tilikausi tilikausi);
 
+    void selaaVienteja();
+    void selaaTositteita();
+
+
+    void merkitsePaivitettavaksi();
+
+public:
+    void siirrySivulle();
+
+
 signals:
     void tositeValittu(int id);
 
 private:
     Ui::SelausWg *ui;
     SelausModel *model;
+    TositeSelausModel *tositeModel;
+
     QSortFilterProxyModel *proxyModel;
+    QSortFilterProxyModel *etsiProxy;
+
+    /**
+     * @brief Pitääkö sivu päivittää ennen sen näyttämistä
+     */
+    bool paivitettava = true;
 };
 
 #endif // SELAUSWG_H
