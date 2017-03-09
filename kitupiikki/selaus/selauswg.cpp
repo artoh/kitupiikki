@@ -119,23 +119,16 @@ void SelausWg::paivitaSummat()
         int valittunro = valittuTekstina.left( valittuTekstina.indexOf(' ') ).toInt();
         Tili valittutili = Kirjanpito::db()->tilit()->tiliNumerolla(valittunro);
 
-        int kertyma = 0;
-        int muutos = 0;
-        if( valittutili.onkoTasetili())
+        int saldo = valittutili.saldoPaivalle( ui->loppuEdit->date());
+        int muutos = kreditSumma - debetSumma;
+
+        if( valittutili.onkoVastaavaaTili() )
         {
-            kertyma = valittutili.kertymaPaivalle( ui->loppuEdit->date());
             muutos = debetSumma - kreditSumma;
         }
-        else
-        {
-            // Tulostili
-            // Tämän tilikauden aloittavaa päivää edeltävä päivä, jonka kertymä vähennetään
-            QDate edloppuupvm = Kirjanpito::db()->tilikausiPaivalle(ui->loppuEdit->date()).alkaa().addDays(-1);
-            kertyma = valittutili.kertymaPaivalle( ui->loppuEdit->date()) - valittutili.kertymaPaivalle( edloppuupvm );
-            muutos = kreditSumma - debetSumma;
-        }
 
-        teksti += tr("\nMuutos %L2€ Loppusaldo %L1 €").arg( ((double) kertyma ) / 100.0, 0, 'f', 2)
+
+        teksti += tr("\nMuutos %L2€ Loppusaldo %L1 €").arg( ((double) saldo ) / 100.0, 0, 'f', 2)
                 .arg(((double)muutos) / 100.0, 0, 'f', 2  );
     }
     ui->summaLabel->setText(teksti);

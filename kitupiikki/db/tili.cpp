@@ -20,13 +20,16 @@
 #include <QDebug>
 #include <QSqlQuery>
 
+#include "kirjanpito.h"
+
 Tili::Tili() : id_(0), numero_(0), tila_(1), otsikkotaso_(0), muokattu_(false)
 {
 
 }
 
-Tili::Tili(int id, int numero, const QString &nimi, const QString &tyyppi, int tila, int otsikkotaso) :
-    id_(id), numero_(numero), nimi_(nimi), tyyppi_(tyyppi), tila_(tila), otsikkotaso_(otsikkotaso), muokattu_(false)
+Tili::Tili(int id, int numero, const QString &nimi, const QString &tyyppi, int tila, int otsikkotaso, int ylaotsikkoid) :
+    id_(id), numero_(numero), nimi_(nimi), tyyppi_(tyyppi), tila_(tila), otsikkotaso_(otsikkotaso),
+    ylaotsikkoId_(ylaotsikkoid), muokattu_(false)
 
 {
 
@@ -42,23 +45,39 @@ int Tili::ysivertailuluku() const
     return ysiluku( numero(), otsikkotaso() );
 }
 
-int Tili::kertymaPaivalle(const QDate &pvm)
+
+int Tili::saldoPaivalle(const QDate &pvm)
 {
-    QString kysymys = QString("select sum(debetsnt), sum(kreditsnt) from vienti "
-            " where tili = %1 and pvm <= \"%2\" ")
-            .arg(numero())
-            .arg(pvm.toString(Qt::ISODate));
+    QString kysymys = QString("SELECT SUM(debetsnt), SUM(kreditsnt) FROM vienti WHERE tili=%1 ").arg(id());
+    if( onkoTasetili() )
+        kysymys.append( QString(" AND pvm <= \"%1\" ").arg(pvm.toString(Qt::ISODate)));
+    else
+        kysymys.append( QString(" AND pvm BETWEEN \"%1\" AND \"%2\" ")
+                        .arg( kp()->tilikaudet()->tilikausiPaivalle(pvm).alkaa().toString(Qt::ISODate) )
+                        .arg( pvm.toString(Qt::ISODate )));
 
     QSqlQuery kysely(kysymys);
     if( kysely.next())
     {
-        int debetKertyma = kysely.value(0).toInt();
-        int kreditKertyma = kysely.value(1).toInt();
+        int debet = kysely.value(0).toInt();
+        int kredit = kysely.value(1).toInt();
 
-        if( onkoTasetili() )
-            return debetKertyma - kreditKertyma;
+        if( onkoEdellistenYliAliJaama() )
+        {
+            // Edellisten yli/alijaamaan pitää laskea vielä edellisten tulokset
+            QSqlQuery edelliskysely( QString("SELECT SUM(debetsnt), SUM(kreditsnt) FROM vienti, tili "
+                                             "WHERE vienti.tili = tili.id AND pvm < \"%1\" "
+                                             "AND ysiluku > 300000000 ")
+                                     .arg(kp()->tilikaudet()->tilikausiPaivalle(pvm).alkaa().toString(Qt::ISODate)));
+            if( edelliskysely.next())
+            {
+                return kredit + edelliskysely.value(1).toInt() - debet - edelliskysely.value(0).toInt();
+            }
+        }
+        else if( onkoVastaavaaTili())
+            return debet - kredit;
         else
-            return kreditKertyma - debetKertyma;
+            return kredit - debet;
     }
     return 0;
 }

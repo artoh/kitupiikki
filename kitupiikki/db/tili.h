@@ -31,7 +31,8 @@ class Tili
 {
 public:
     Tili();
-    Tili(int id,int numero, const QString& nimi, const QString& tyyppi, int tila, int otsikkotaso = 0);
+    Tili(int id,int numero, const QString& nimi, const QString& tyyppi, int tila, int otsikkotaso = 0,
+         int ylaotsikkoid = 0);
 
     int id() const { return id_; }
     int numero() const { return numero_; }
@@ -41,6 +42,11 @@ public:
     int otsikkotaso() const { return otsikkotaso_; }
     bool muokattu() const { return muokattu_ || json_.muokattu(); }
 
+    /**
+     * @brief Palauttaa tämän tilin tai otsikon yllä olevan otsikon id:n
+     * @return
+     */
+    int ylaotsikkoId() const { return ylaotsikkoId_; }
     /**
      * @brief Palauttaa json-tiedot
      *
@@ -80,17 +86,17 @@ public:
      */
     int ysivertailuluku() const;
 
+
     /**
-     * @brief Laskee alusta ko. paivan loppuun saakka kertyneen saldon
+     * @brief Laskee tilin saldon päivämäärälle
      *
-     * Tasetileillä tämä on saldo ko. päivän lopussa,
-     * tulostileillä tästä pitää vähentää kertymä edellisen tilikauden
-     * lopussa
+     * Tasetilin saldo lasketaan kirjanpidon alusta ja tulostilin saldo
+     * tilikauden alusta
      *
-     * @param pvm Päivä, jonka loppuun kertymä lasketaan
-     * @return Kertymä sentteinä
+     * @param pvm Päivämäärä, jolle saldo lasketaan
+     * @return Saldo sentteinä
      */
-    int kertymaPaivalle(const QDate &pvm);
+    int saldoPaivalle(const QDate &pvm);
 
     /**
      * @brief Montako kirjausta tälle tilille
@@ -153,7 +159,9 @@ protected:
     int tila_;
     int otsikkotaso_;
     JsonKentta json_;
+    int ylaotsikkoId_;
     bool muokattu_;
+
 };
 
 #endif // TILI_H

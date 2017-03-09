@@ -32,6 +32,8 @@ public:
     QDate alkaa() const { return alkaa_; }
     QDate paattyy() const { return paattyy_; }
 
+    QString kausivaliTekstina() const;
+
 protected:
     QDate alkaa_;
     QDate paattyy_;

@@ -285,14 +285,33 @@ void TiliModel::lataa()
     kysely.exec("SELECT id, nro, nimi, tyyppi, tila, otsikkotaso,json "
                 " FROM tili ORDER BY ysiluku");
 
+    QVector<int> otsikkoId(10);
+    int otsikkoIdTileille = 0;
+
     while(kysely.next())
     {
-        Tili uusi( kysely.value(0).toInt(),     // id
+        int otsikkotaso = kysely.value(5).toInt();
+        int id = kysely.value(0).toInt();
+        int otsikkoIdTalle = 0; // Nykytilille merkittävä otsikkotaso
+
+        // Jos tämä on otsikko, merkitän id oikeaan otsikkotasoon ja tileja varten
+        if( otsikkotaso )
+        {
+            otsikkoId[otsikkotaso] = id;    // Merkitään tämä otsikkotauluun
+            otsikkoIdTileille = id;         // .. ja tämän jälkeen tulevia tilejä varten
+            if( otsikkotaso > 1)            // Tälle otsikolle taulusta ylempi otsikko
+                otsikkoIdTalle = otsikkoId.at(otsikkotaso - 1);
+        }
+        else
+            otsikkoIdTalle = otsikkoIdTileille;
+
+        Tili uusi( id,     // id
                    kysely.value(1).toInt(),     // nro
                    kysely.value(2).toString(),  // nimi
                    kysely.value(3).toString(),  // tyyppi
                    kysely.value(4).toInt(),     // tila
-                   kysely.value(5).toInt()      // otsikkotaso
+                   otsikkotaso,      // otsikkotaso
+                   otsikkoIdTalle    // Tätä tiliä/otsikkoa ylemmän otsikon id
                    );
         uusi.json()->fromJson( kysely.value(6).toByteArray());  // Luetaan json-kentät
         tilit_.append(uusi);

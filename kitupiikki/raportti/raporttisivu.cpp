@@ -63,7 +63,7 @@ void RaporttiSivu::siirrySivulle()
         lisaaRaportti( rnimi.mid(9), rnimi, ":/pic/tekstisivu.png");
     }
 
-    lisaaRaportti("Tilikartta","Tilikartta",":/pic/valilehdet.png");
+    lisaaRaportti("Tililuettelo","Tilikartta",":/pic/valilehdet.png");
 }
 
 bool RaporttiSivu::poistuSivulta()

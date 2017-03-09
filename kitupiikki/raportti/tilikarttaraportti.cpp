@@ -15,7 +15,10 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QSqlQuery>
+
 #include "tilikarttaraportti.h"
+
 
 TilikarttaRaportti::TilikarttaRaportti(QPrinter *printer)
     : Raportti(printer)
@@ -57,9 +60,102 @@ RaportinKirjoittaja TilikarttaRaportti::raportti()
     return kirjoitaRaportti(valinta, kausi, ui->tilityypitCheck->isChecked(), saldopaiva);
 }
 
-RaportinKirjoittaja TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::KarttaValinta valinta, Tilikausi tilikaudelta, bool tulostatyypi, QDate saldopvm)
+RaportinKirjoittaja TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::KarttaValinta valinta, Tilikausi tilikaudelta, bool tulostatyyppi, QDate saldopvm)
 {
     RaportinKirjoittaja rk;
+    rk.asetaOtsikko("TILILUETTELO");
+    rk.asetaKausiteksti( tilikaudelta.kausivaliTekstina() );
+
+    RaporttiRivi otsikko;
+
+    rk.lisaaSarake("12345678"); // Ennnen tilinumeroa
+    rk.lisaaSarake("12345678"); // Tilinumero
+    rk.lisaaVenyvaSarake();
+
+    otsikko.lisaa(" ",3);
+
+    if( tulostatyyppi )
+    {
+        rk.lisaaSarake("Tyyppiteksti pidennyksellä");
+        otsikko.lisaa("Tilin tyyppi");
+    }
+    if( saldopvm.isValid())
+    {
+        rk.lisaaSarake("Saldo XX.XX.XXXX");
+        otsikko.lisaa( tr("Saldo %1").arg(saldopvm.toString(Qt::SystemLocaleShortDate)));
+    }
+    rk.lisaaOtsake( otsikko);
+
+    // Tässä vaiheessa ei vielä välitetä kirjauksia-rajoitteesta
+    QSet<int> tiliIdtKaytossa;
+    if( valinta == KIRJATUT_TILIT)
+    {
+        // tiliIdtKaytossa - settiin lisätään kaikki, joissa kirjauksia ko. tilikaudella
+        // Lisäksi käytössä ovat ne tasetilit, joilla on saldoa
+
+        QSqlQuery kysely( QString("SELECT tili FROM vienti WHERE PVM BETWEEN \"%1\" AND \"%2\" GROUP BY tili")
+                .arg(tilikaudelta.alkaa().toString(Qt::ISODate))
+                .arg(tilikaudelta.paattyy().toString(Qt::ISODate)) );
+        while( kysely.next())
+        {
+            // Kirjataan myös "ylätileille"
+            int tiliId = kysely.value(0).toInt();   // tilin id
+            while( tiliId)
+            {
+                tiliIdtKaytossa.insert( tiliId);    // Merkitään, että on käytössä
+                Tili tili = kp()->tilit()->tiliIdlla( tiliId );
+                tiliId = tili.ylaotsikkoId();       // Haetaan seuraavaksi tämän ylätili
+            }
+        }
+
+    }
+
+
+    for( int i=0; i < kp()->tilit()->rowCount(QModelIndex()); i++)
+    {
+        RaporttiRivi rr;
+        Tili tili = kp()->tilit()->tiliIndeksilla(i);
+
+        if( valinta == KAYTOSSA_TILIT && tili.tila() == 0 )
+            continue;   // Tili ei käytössä
+        else if( valinta == SUOSIKKI_TILIT && tili.tila() < 2)
+            continue;
+        else if( valinta == KIRJATUT_TILIT )
+        {
+            if( tili.onkoTasetili() )
+            {
+                // Tasetili luetellaan myös, jos sillä tilikauden alussa saldoa
+                if( !tiliIdtKaytossa.contains(tili.id()) && !tili.saldoPaivalle( tilikaudelta.alkaa() ))
+                    continue;
+            }
+            else
+            {
+                if( !tiliIdtKaytossa.contains( tili.id()))
+                    continue;
+            }
+        }
+
+
+        if( tili.otsikkotaso() )
+        {
+            QString nimistr;
+            for(int i=0; i < tili.otsikkotaso(); i++)
+                nimistr.append("  ");
+            nimistr.append(tili.nimi());
+            rr.lisaa(nimistr, 3);
+        }
+        else
+        {
+            rr.lisaa("");
+            rr.lisaa(QString::number(tili.numero()));
+            rr.lisaa(tili.nimi());
+            if( tulostatyyppi)
+                rr.lisaa( kp()->tilit()->index(i, TiliModel::TYYPPI).data().toString());
+            if( saldopvm.isValid())
+                rr.lisaa( tili.saldoPaivalle(saldopvm));
+        }
+        rk.lisaaRivi(rr);
+    }
 
 
     return rk;

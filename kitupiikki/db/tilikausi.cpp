@@ -28,3 +28,10 @@ Tilikausi::Tilikausi(QDate tkalkaa, QDate tkpaattyy) :
 {
 
 }
+
+QString Tilikausi::kausivaliTekstina() const
+{
+    return QString("%1 - %2")
+            .arg( alkaa().toString(Qt::SystemLocaleShortDate))
+            .arg( paattyy().toString(Qt::SystemLocaleShortDate));
+}
