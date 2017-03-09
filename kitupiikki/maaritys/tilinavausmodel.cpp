@@ -73,7 +73,7 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
                     return QVariant( tili.nimi());
 
             case SALDO:
-                int saldo = saldot.value( tili.id(), 0);
+                int saldo = saldot.value( tili.numero(), 0);
                 if( role == Qt::EditRole)
                     return QVariant(saldo);
 
@@ -173,7 +173,7 @@ bool TilinavausModel::tallenna()
     while( iter.hasNext())
     {
         iter.next();
-        Tili tili = Kirjanpito::db()->tilit()->tiliIdlla( iter.key() );
+        Tili tili = Kirjanpito::db()->tilit()->tiliNumerolla(iter.key() );
         kysely.bindValue(":pvm", avauspaiva);
         kysely.bindValue(":tili", tili.id());
         kysely.bindValue(":vientirivi", vientirivi);
@@ -207,7 +207,7 @@ void TilinavausModel::paivitaInfo()
     while( iter.hasNext() )
     {
         iter.next();
-        Tili tili = Kirjanpito::db()->tilit()->tiliIdlla( iter.key());
+        Tili tili = Kirjanpito::db()->tilit()->tiliNumerolla( iter.key());
         if( tili.onkoVastaavaaTili() )
             tasevastaavaa += iter.value();
         else if( tili.onkoVastattavaaTili())
