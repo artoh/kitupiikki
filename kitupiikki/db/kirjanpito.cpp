@@ -33,9 +33,9 @@ Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
     QStringList viimelista = settings.value("viimeiset").toStringList();
     foreach (QString rivi,viimelista)
     {
-        QStringList split = rivi.split(";");
-        if( QFile::exists( split[0] ))
-            viimetiedostot[split[0]]=split[1];
+        QString polku = rivi.left(rivi.indexOf(' '));
+        if( QFile::exists( polku ))
+            viimetiedostot[ polku ] = rivi.mid( rivi.indexOf(' ') + 1);
     }
 
     asetusModel_ = new AsetusModel(&tietokanta_, this);
@@ -116,9 +116,9 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
 
     // Lisätään viimeisten tiedostojen listaan
     if( onkoHarjoitus() )
-        viimetiedostot[ tiedosto ] = asetus("nimi") + " (harjoittelu)";
+        viimetiedostot[ tiedosto ] = asetus("Nimi") + " (harjoittelu)";
     else
-        viimetiedostot[ tiedosto ] = asetus("nimi");
+        viimetiedostot[ tiedosto ] = asetus("Nimi");
     // Tallennetaan lista
 
     QSettings settings;

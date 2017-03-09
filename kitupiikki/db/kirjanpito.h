@@ -76,7 +76,7 @@ public:
 
     /**
      * @brief Luettelo viimeksi avatuista tiedostoista
-     * @return Luettelo, rivit muotoa polku;otsikko
+     * @return Luettelo, rivit muotoa polku otsikko
      */
     QStringList viimeisetTiedostot() const;
 
