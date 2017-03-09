@@ -50,6 +50,9 @@ bool TositeModel::muokkausSallittu() const
 
 int TositeModel::seuraavaTunnistenumero() const
 {
+    if( !kp()->tietokanta()->isOpen() )
+        return 0;   // Model ei vielä käytössä
+
     Tilikausi kausi = kp()->tilikausiPaivalle( pvm() );
     QString kysymys = QString("SELECT max(tunniste) FROM tosite WHERE "
                     " pvm BETWEEN \"%1\" AND \"%2\" "
@@ -60,8 +63,6 @@ int TositeModel::seuraavaTunnistenumero() const
 
     QSqlQuery kysely( *tietokanta_ );
     kysely.exec(kysymys);
-
-    qDebug() << kysely.lastError().text() << "  " << kysely.lastQuery() << " p " << pvm().toString();
 
     if( kysely.next())
         return kysely.value(0).toInt() + 1;
@@ -227,7 +228,6 @@ void TositeModel::tallenna()
 
     kysely.exec();
 
-    qDebug() << kysely.lastQuery() << " " << kysely.lastError().text();
 
     if( !id())
         id_ = kysely.lastInsertId().toInt();

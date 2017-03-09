@@ -142,8 +142,6 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
     rivit.clear();
     tileilla.clear();
 
-    qDebug() << kysymys;
-
     QSqlQuery query;
     query.exec(kysymys);
     while( query.next())
