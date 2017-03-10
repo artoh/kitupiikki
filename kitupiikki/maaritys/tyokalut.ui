@@ -34,7 +34,7 @@
    <item row="0" column="1">
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Tallenna tilikarttatiedosto &lt;/span&gt;&lt;/p&gt;&lt;p&gt;Tekee nykyisen kirjanpidon pohjalta ktp-tiedoston, jossa on tilikartta, tositelajit ja raportit. Tätä tiedostoa voi käyttää uuden kirjanpidon tilikarttana.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Tallenna tilikarttatiedosto &lt;/span&gt;&lt;/p&gt;&lt;p&gt;Tekee nykyisen kirjanpidon pohjalta ktk-tiedoston, jossa on tilikartta, tositelajit ja raportit. Tätä tiedostoa voi käyttää uuden kirjanpidon tilikarttana.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>

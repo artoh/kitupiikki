@@ -79,25 +79,25 @@ bool TiliModel::setData(const QModelIndex &index, const QVariant &value, int rol
 
 QVariant TiliModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
+
+    if( role == Qt::TextAlignmentRole)
+        return QVariant( Qt::AlignCenter | Qt::AlignVCenter);
+    else if( orientation == Qt::Horizontal && role == Qt::DisplayRole )
     {
-        if( role == Qt::TextAlignmentRole)
-            return QVariant( Qt::AlignCenter | Qt::AlignVCenter);
-        else if( orientation == Qt::Horizontal && role == Qt::DisplayRole )
+        switch (section)
         {
-            switch (section)
-            {
-            case NRONIMI :
-                return QVariant("Numero ja nimi");
-            case NUMERO:
-                return QVariant("Numero");
-            case NIMI :
-                return QVariant("Nimi");
-            case TYYPPI:
-                return QVariant("Tilityyppi");
-            }
+        case NRONIMI :
+            return QVariant("Numero ja nimi");
+        case NUMERO:
+            return QVariant("Numero");
+        case NIMI :
+            return QVariant("Nimi");
+        case TYYPPI:
+            return QVariant("Tilityyppi");
         }
-        return QVariant();
     }
+    return QVariant();
+
 }
 
 QVariant TiliModel::data(const QModelIndex &index, int role) const

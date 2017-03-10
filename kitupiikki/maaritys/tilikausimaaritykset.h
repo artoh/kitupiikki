@@ -15,40 +15,23 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TILIKAUSI_H
-#define TILIKAUSI_H
+#ifndef TILIKAUSIMAARITYKSET_H
+#define TILIKAUSIMAARITYKSET_H
 
-#include <QDate>
+#include "maarityswidget.h"
+#include "ui_tilikausimaaritykset.h"
 
-#include "jsonkentta.h"
-
-/**
- * @brief Yhden tilikauden tiedot
- */
-class Tilikausi
+class TilikausiMaaritykset : public MaaritysWidget
 {
+    Q_OBJECT
 public:
-    Tilikausi();
-    Tilikausi(QDate tkalkaa, QDate tkpaattyy, QByteArray json = QByteArray());
+    TilikausiMaaritykset();
+    ~TilikausiMaaritykset();
 
-    QDate alkaa() const { return alkaa_; }
-    QDate paattyy() const { return paattyy_; }
+    bool nollaa();
 
-    QString kausivaliTekstina() const;
-
-    JsonKentta *json() { return &json_; }
-
-    /**
-     * @brief Tilikauden yli/alijäämä
-     * @return Tulos sentteinä
-     */
-    int tulos() const;
-
-protected:
-    QDate alkaa_;
-    QDate paattyy_;
-
-    JsonKentta json_;
+private:
+    Ui::TilikausiMaaritykset *ui;
 };
 
-#endif // TILIKAUSI_H
+#endif // TILIKAUSIMAARITYKSET_H

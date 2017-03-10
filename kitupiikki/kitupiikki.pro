@@ -81,7 +81,8 @@ SOURCES += main.cpp \
     raportti/raportoija.cpp \
     raportti/paakirjaraportti.cpp \
     raportti/tilikarttaraportti.cpp \
-    selaus/tositeselausmodel.cpp
+    selaus/tositeselausmodel.cpp \
+    maaritys/tilikausimaaritykset.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -152,7 +153,8 @@ HEADERS += \
     raportti/raportoija.h \
     raportti/paakirjaraportti.h \
     raportti/tilikarttaraportti.h \
-    selaus/tositeselausmodel.h
+    selaus/tositeselausmodel.h \
+    maaritys/tilikausimaaritykset.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -189,7 +191,8 @@ FORMS += \
     ktpvienti/ktpaloitusteksti.ui \
     maaritys/tyokalut.ui \
     onniwidget.ui \
-    raportti/tilikarttaraportti.ui
+    raportti/tilikarttaraportti.ui \
+    maaritys/tilikausimaaritykset.ui
 
 DISTFILES += \
     uusikp/luo.sql \

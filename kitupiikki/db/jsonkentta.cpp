@@ -28,6 +28,11 @@ JsonKentta::JsonKentta() : muokattu_(false)
 
 }
 
+JsonKentta::JsonKentta(QByteArray &json)
+{
+    fromJson(json);
+}
+
 void JsonKentta::set(const QString &avain, const QString &arvo)
 {
     if( arvo != map_.value(avain).toString())

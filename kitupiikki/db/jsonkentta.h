@@ -33,6 +33,7 @@ class JsonKentta
 {
 public:
     JsonKentta();
+    JsonKentta(QByteArray &json);
 
     void set(const QString& avain, const QString& arvo);
     void set(const QString& avain, const QDate& pvm);

@@ -15,6 +15,9 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QSqlQuery>
+#include <QVariant>
+
 #include "tilikausi.h"
 
 Tilikausi::Tilikausi()
@@ -22,9 +25,10 @@ Tilikausi::Tilikausi()
 
 }
 
-Tilikausi::Tilikausi(QDate tkalkaa, QDate tkpaattyy) :
+Tilikausi::Tilikausi(QDate tkalkaa, QDate tkpaattyy, QByteArray json) :
     alkaa_(tkalkaa),
-    paattyy_(tkpaattyy)
+    paattyy_(tkpaattyy),
+    json_(json)
 {
 
 }
@@ -34,4 +38,19 @@ QString Tilikausi::kausivaliTekstina() const
     return QString("%1 - %2")
             .arg( alkaa().toString(Qt::SystemLocaleShortDate))
             .arg( paattyy().toString(Qt::SystemLocaleShortDate));
+}
+
+int Tilikausi::tulos() const
+{
+    QSqlQuery kysely(  QString("SELECT SUM(kreditsnt), SUM(debetsnt) "
+                               "FROM vienti, tili WHERE "
+                               "pvm BETWEEN \"%1\" AND \"%2\" "
+                               "AND vienti.tili=tili.id AND "
+                               "tili.ysiluku > 300000000")
+                       .arg(alkaa().toString(Qt::ISODate))
+                       .arg(paattyy().toString(Qt::ISODate)));
+    if( kysely.next())
+        return kysely.value(0).toInt() - kysely.value(1).toInt();
+    else
+        return 0;
 }

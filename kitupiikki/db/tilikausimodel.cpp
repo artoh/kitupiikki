@@ -18,6 +18,7 @@
 #include <QSqlQuery>
 
 #include "tilikausimodel.h"
+#include "kirjanpito.h"
 
 TilikausiModel::TilikausiModel(QSqlDatabase *tietokanta, QObject *parent) :
     QAbstractTableModel(parent), tietokanta_(tietokanta)
@@ -35,6 +36,25 @@ int TilikausiModel::columnCount(const QModelIndex & /* parent */) const
     return 2;
 }
 
+QVariant TilikausiModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if( role == Qt::TextAlignmentRole)
+        return QVariant( Qt::AlignCenter | Qt::AlignVCenter);
+
+    else if( orientation == Qt::Horizontal && role == Qt::DisplayRole )
+    {
+        switch (section)
+        {
+        case KAUSI :
+            return QVariant("Tilikausi");
+        case TULOS:
+            return QVariant("Yli/alijäämä");
+        }
+    }
+    return QVariant();
+
+}
+
 QVariant TilikausiModel::data(const QModelIndex &index, int role) const
 {
     if( !index.isValid())
@@ -48,16 +68,28 @@ QVariant TilikausiModel::data(const QModelIndex &index, int role) const
             return QVariant( tr("%1 - %2")
                              .arg(kausi.alkaa().toString(Qt::SystemLocaleShortDate))
                              .arg(kausi.paattyy().toString(Qt::SystemLocaleShortDate)));
-        else if( index.column() == ALKAA)
-            return QVariant( kausi.alkaa());
-        else if( index.column() == PAATTYY)
-            return QVariant( kausi.paattyy());
-
+        else if( index.column() == TULOS)
+            return QString("%L1 €").arg( kausi.tulos()  / 100.0,0,'f',2);
     }
     else if( role == AlkaaRooli)
         return QVariant( kausi.alkaa());
     else if( role == PaattyyRooli )
         return QVariant( kausi.paattyy());
+    else if( role == Qt::TextAlignmentRole)
+    {
+        if( index.column()==TULOS )
+            return QVariant(Qt::AlignRight | Qt::AlignVCenter);
+        else
+            return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
+
+    }
+    else if( role == Qt::DecorationRole && index.column() == KAUSI)
+    {
+        if( kp()->tilitpaatetty() >= kausi.paattyy() )
+            return QIcon(":/pic/lukittu.png");
+        else
+            return QIcon();
+    }
 
     return QVariant();
 }
@@ -118,10 +150,10 @@ void TilikausiModel::lataa()
 
     QSqlQuery kysely(*tietokanta_);
 
-    kysely.exec("SELECT alkaa, loppuu FROM tilikausi ORDER BY alkaa");
+    kysely.exec("SELECT alkaa, loppuu, json FROM tilikausi ORDER BY alkaa");
     while( kysely.next())
     {
-        kaudet_.append( Tilikausi(kysely.value(0).toDate(), kysely.value(1).toDate()));
+        kaudet_.append( Tilikausi(kysely.value(0).toDate(), kysely.value(1).toDate(), kysely.value(2).toByteArray()));
     }
     endResetModel();
 }
@@ -134,11 +166,12 @@ void TilikausiModel::tallenna()
     QSqlQuery kysely(*tietokanta_);
     kysely.exec("DELETE FROM tilikausi");
 
-    kysely.prepare("INSERT INTO tilikausi(alkaa,loppuu) VALUES(:alku,:loppu)");
+    kysely.prepare("INSERT INTO tilikausi(alkaa,loppuu,json) VALUES(:alku,:loppu,:json)");
     foreach (Tilikausi kausi, kaudet_)
     {
         kysely.bindValue(":alku", kausi.alkaa());
         kysely.bindValue(":loppu", kausi.paattyy());
+        kysely.bindValue(":json", kausi.json()->toSqlJson());
         kysely.exec();
     }
 
