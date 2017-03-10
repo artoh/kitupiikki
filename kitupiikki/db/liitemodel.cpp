@@ -80,6 +80,8 @@ QVariant LiiteModel::data(const QModelIndex &index, int role) const
         return QVariant( liite.tarkenne() );
     else if( role == Sharooli)
         return QVariant( liite.sha);
+    else if( role == TiedostoNimiRooli )
+        return liite.tiedostonnimi;
 
     else if( role == Qt::DecorationRole)
     {

@@ -54,3 +54,13 @@ int Tilikausi::tulos() const
     else
         return 0;
 }
+
+QString Tilikausi::arkistoHakemistoNimi() const
+{
+    if( alkaa().month() == 1 && alkaa().day() == 1)
+        return alkaa().toString("yyyy");
+    else if( alkaa().day() == 1)
+        return alkaa().toString("yyyy-MM");
+    else
+        return alkaa().toString("yyyy-MM-dd");
+}

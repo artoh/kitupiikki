@@ -22,6 +22,9 @@
      <property name="pixmap">
       <pixmap resource="../pic/pic.qrc">:/pic/aboutpossu.png</pixmap>
      </property>
+     <property name="alignment">
+      <set>Qt::AlignJustify|Qt::AlignVCenter</set>
+     </property>
     </widget>
    </item>
    <item>

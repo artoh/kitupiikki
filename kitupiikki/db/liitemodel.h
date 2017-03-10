@@ -64,7 +64,8 @@ public:
         OtsikkoRooli = Qt::UserRole + 2,
         Polkurooli = Qt::UserRole + 3,
         Tarkennerooli = Qt::UserRole + 4,
-        Sharooli = Qt::UserRole + 5
+        Sharooli = Qt::UserRole + 5,
+        TiedostoNimiRooli = Qt::UserRole + 6
     };
 
 

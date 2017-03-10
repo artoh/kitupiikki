@@ -15,28 +15,32 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TILIKAUSIMAARITYKSET_H
-#define TILIKAUSIMAARITYKSET_H
+#ifndef ARKISTOIJA_H
+#define ARKISTOIJA_H
 
-#include "maarityswidget.h"
-#include "ui_tilikausimaaritykset.h"
+#include <QObject>
 
-class TilikausiMaaritykset : public MaaritysWidget
+#include <QDir>
+
+#include "db/kirjanpito.h"
+
+/**
+ * @brief Arkiston kirjoittaja
+ */
+class Arkistoija : public QObject
 {
     Q_OBJECT
-public:
-    TilikausiMaaritykset();
-    ~TilikausiMaaritykset();
-
-    bool nollaa();
-
-public slots:
-    static void uusiTilikausi();
-
-    void arkisto();
-
-private:
-    Ui::TilikausiMaaritykset *ui;
+protected:
+    Arkistoija(Tilikausi tilikausi);
+    
+    void luoHakemistot();
+    void arkistoiTositteet();
+    
+    QDir hakemisto_;
+    Tilikausi tilikausi_;    
+    
+public:    
+    static void arkistoi(Tilikausi &tilikausi);
 };
 
-#endif // TILIKAUSIMAARITYKSET_H
+#endif // ARKISTOIJA_H

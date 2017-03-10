@@ -15,11 +15,14 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QDialog>
+
 #include "tilikausimaaritykset.h"
 #include "db/kirjanpito.h"
-
 #include "ui_lisaatilikausidlg.h"
-#include <QDialog>
+
+#include "arkistoija/arkistoija.h"
+
 
 TilikausiMaaritykset::TilikausiMaaritykset()
 {
@@ -27,6 +30,7 @@ TilikausiMaaritykset::TilikausiMaaritykset()
     ui->setupUi(this);
 
     connect( ui->uusiNappi, SIGNAL(clicked(bool)), this, SLOT(uusiTilikausi()));
+    connect( ui->arkistoNappi, SIGNAL(clicked(bool)), this, SLOT(arkisto()));
 }
 
 TilikausiMaaritykset::~TilikausiMaaritykset()
@@ -38,6 +42,7 @@ bool TilikausiMaaritykset::nollaa()
 {
     ui->view->setModel( kp()->tilikaudet() );
     ui->view->resizeColumnsToContents();
+    ui->view->selectRow( ui->view->model()->rowCount(QModelIndex()) - 1);
     return true;
 }
 
@@ -61,4 +66,14 @@ void TilikausiMaaritykset::uusiTilikausi()
         kp()->tilikaudet()->tallenna();
     }
 
+}
+
+void TilikausiMaaritykset::arkisto()
+{
+    if( ui->view->currentIndex().isValid())
+    {
+        Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->view->currentIndex().row() );
+        Arkistoija::arkistoi(kausi);
+
+    }
 }

@@ -43,6 +43,16 @@ public:
      * @return Tulos sentteinä
      */
     int tulos() const;
+    
+    /**
+     * @brief Arkistohakemistossa käytettävä nimi
+     * 
+     * Nimi saadaan tilikauden alkupäivästä, niin että se on 
+     * 2017 (vuosi), 2017-06 (kuukausi, jos ei 1), 2017-06-15 (jos päivä ei 1)
+     * 
+     * @return 
+     */
+    QString arkistoHakemistoNimi() const;
 
 protected:
     QDate alkaa_;
