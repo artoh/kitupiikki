@@ -17,6 +17,7 @@
 
 #include <QApplication>
 #include <QLocale>
+#include <QSplashScreen>
 
 #include "uusikp/uusikirjanpito.h"
 #include "kitupiikkiikkuna.h"
@@ -25,6 +26,9 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    QSplashScreen *splash = new QSplashScreen;
+    splash->setPixmap( QPixmap(":/pic/splash.png"));
+    splash->show();
 
     a.setApplicationName("Kitupiikki");
     a.setApplicationVersion("0.00");
@@ -35,7 +39,8 @@ int main(int argc, char *argv[])
 
     KitupiikkiIkkuna ikkuna;
     ikkuna.show();
-
+    splash->finish( &ikkuna );
+    delete splash;
 
 
     return a.exec();
