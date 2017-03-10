@@ -18,10 +18,15 @@
 #include "tilikausimaaritykset.h"
 #include "db/kirjanpito.h"
 
+#include "ui_lisaatilikausidlg.h"
+#include <QDialog>
+
 TilikausiMaaritykset::TilikausiMaaritykset()
 {
     ui = new Ui::TilikausiMaaritykset;
     ui->setupUi(this);
+
+    connect( ui->uusiNappi, SIGNAL(clicked(bool)), this, SLOT(uusiTilikausi()));
 }
 
 TilikausiMaaritykset::~TilikausiMaaritykset()
@@ -34,4 +39,26 @@ bool TilikausiMaaritykset::nollaa()
     ui->view->setModel( kp()->tilikaudet() );
     ui->view->resizeColumnsToContents();
     return true;
+}
+
+void TilikausiMaaritykset::uusiTilikausi()
+{
+    Ui::UusiTilikausiDlg dlgUi;
+    QDialog dlg;
+    dlgUi.setupUi( &dlg );
+
+    QDate edellinen = kp()->tilikaudet()->kirjanpitoLoppuu();
+    dlgUi.alkaaEdit->setDate( edellinen.addDays(1) );
+
+    dlgUi.paattyyEdit->setMinimumDate( edellinen.addDays(2) );
+    dlgUi.paattyyEdit->setMaximumDate( edellinen.addMonths(18));
+    dlgUi.paattyyEdit->setDate( edellinen.addYears(1));
+
+    if( dlg.exec() )
+    {
+        Tilikausi uusitilikausi( dlgUi.alkaaEdit->date(), dlgUi.paattyyEdit->date() );
+        kp()->tilikaudet()->lisaaTilikausi( uusitilikausi );
+        kp()->tilikaudet()->tallenna();
+    }
+
 }

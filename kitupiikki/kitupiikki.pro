@@ -192,7 +192,9 @@ FORMS += \
     maaritys/tyokalut.ui \
     onniwidget.ui \
     raportti/tilikarttaraportti.ui \
-    maaritys/tilikausimaaritykset.ui
+    maaritys/tilikausimaaritykset.ui \
+    maaritys/lisaatilikausidlg.ui \
+    aloitussivu/aboutdialog.ui
 
 DISTFILES += \
     uusikp/luo.sql \

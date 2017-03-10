@@ -27,6 +27,9 @@
 
 #include <QListWidget>
 
+#include <QDialog>
+#include "ui_aboutdialog.h"
+
 #include "aloitussivu.h"
 
 #include "sisalto.h"
@@ -69,6 +72,8 @@ AloitusSivu::AloitusSivu() :
     connect( uusinappi, SIGNAL(clicked(bool)), this, SLOT(uusiTietokanta()));
     connect( avaanappi, SIGNAL(clicked(bool)), this, SLOT(avaaTietokanta()));
     connect( viimelista, SIGNAL(itemActivated(QListWidgetItem*)), this, SLOT(viimeisinTietokanta(QListWidgetItem*)));
+
+    connect( aboutnappi, SIGNAL(clicked(bool)), this, SLOT(abouttiarallaa()));
 
     lisaaViimetiedostot();
 
@@ -128,6 +133,20 @@ void AloitusSivu::avaaTietokanta()
 void AloitusSivu::viimeisinTietokanta(QListWidgetItem *item)
 {
     Kirjanpito::db()->avaaTietokanta( item->data(Qt::UserRole).toString());
+}
+
+void AloitusSivu::abouttiarallaa()
+{
+    Ui::AboutDlg aboutUi;
+    QDialog aboutDlg;
+    aboutUi.setupUi( &aboutDlg);
+    connect( aboutUi.aboutQtNappi, SIGNAL(clicked(bool)), qApp, SLOT(aboutQt()));
+
+    aboutUi.versioLabel->setText( tr("Versio %1 Kokoonpano %2")
+                                  .arg( qApp->applicationVersion())
+                                  .arg( __DATE__ ));
+
+    aboutDlg.exec();
 }
 
 

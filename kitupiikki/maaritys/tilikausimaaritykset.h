@@ -30,6 +30,9 @@ public:
 
     bool nollaa();
 
+public slots:
+    static void uusiTilikausi();
+
 private:
     Ui::TilikausiMaaritykset *ui;
 };

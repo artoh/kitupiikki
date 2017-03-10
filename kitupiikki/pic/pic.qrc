@@ -47,6 +47,7 @@
         <file>splash.png</file>
         <file>lukittu.png</file>
         <file>lukitsematta.png</file>
+        <file>aboutpossu.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
