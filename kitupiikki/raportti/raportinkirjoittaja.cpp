@@ -267,6 +267,108 @@ int RaportinKirjoittaja::tulosta(QPrinter *printer, bool raidoita, int alkusivun
     return sivu;
 }
 
+QString RaportinKirjoittaja::html(bool linkit)
+{
+    QString txt;
+
+    txt.append("<html><meta charset=\"utf-8\"><title>");
+    txt.append( otsikko() );
+    txt.append("</title>"
+               "<style>"
+               " body { font-family: Helvetica; }"
+               " h1 { font-weight: normal; }"
+               " .lihava { font-weight: bold; } "
+               " tr.viiva td { border-top: 1px solid black; }"
+               " td.oikealle { text-align: right; } "
+               " th { text-align: left; color: darkgray;}"
+               " a { text-decoration: none; color: black; }"
+               " td { padding-right: 2em; }"
+               " td:last-of-type { padding-right: 0; }"
+               " table { border-collapse: collapse }"
+               " p.tulostettu { margin-top:2em; color: darkgray; }"
+               "</style>"
+               "</head><body>");
+
+    txt.append("<h1>" + otsikko() + "</h1>");
+    txt.append("<p>" + kp()->asetukset()->asetus("Nimi") + "<br>" );
+    txt.append( kausiteksti() + "</p>");
+    txt.append("<table><thead>\n");
+
+    // Otsikkorivit
+    foreach (RaporttiRivi otsikkorivi, otsakkeet_ )
+    {
+        txt.append("<tr>");
+        for(int i=0; i < otsikkorivi.sarakkeita(); i++)
+        {
+            txt.append(QString("<th colspan=%1>").arg( otsikkorivi.leveysSaraketta(i)));
+            txt.append( otsikkorivi.teksti(i));
+            txt.append("</th>");
+        }
+        txt.append("</tr>\n");
+    }
+
+    txt.append("</thead>\n");
+    // Rivit
+    foreach (RaporttiRivi rivi, rivit_)
+    {
+        QStringList trluokat;
+        if( rivi.onkoLihava())
+            trluokat << "lihava";
+        if( rivi.onkoViivaa())
+            trluokat << "viiva";
+
+        if( trluokat.isEmpty())
+            txt.append("<tr>");
+        else
+            txt.append("<tr class=\"" + trluokat.join(' ') + "\">");
+
+        if( !rivi.sarakkeita())
+            txt.append("<td>&nbsp;</td>"); // Tyhjätkin rivit näkyviin!
+
+        for(int i=0; i < rivi.sarakkeita(); i++)
+        {
+            if( rivi.tasattuOikealle(i) )
+                txt.append(QString("<td colspan=%1 class=oikealle>").arg(rivi.leveysSaraketta(i)));
+            else
+                txt.append(QString("<td colspan=%1>").arg(rivi.leveysSaraketta(i)));
+
+            if(linkit)
+            {
+                if( rivi.sarake(i).linkkityyppi == RaporttiRiviSarake::TOSITE_ID)
+                {
+                    // Linkki tositteeseen
+                    txt.append( QString("<a href=\"%1.html\">").arg( rivi.sarake(i).linkkidata , 8, 10 , QChar('0') ) );
+                }
+                else if( rivi.sarake(i).linkkityyppi == RaporttiRiviSarake::TILI_NRO)
+                {
+                    // Linkki tiliin
+                    txt.append( QString("<a href=\"paakirja.html#%2\">").arg( rivi.sarake(i).linkkidata));
+                }
+                else if( rivi.sarake(i).linkkityyppi == RaporttiRiviSarake::TILI_LINKKI)
+                {
+                    // Nimiö dataan
+                    txt.append( QString("<a name=\"%1\">").arg( rivi.sarake(i).linkkidata));
+                }
+            }
+
+            txt.append( rivi.teksti(i).replace(' ',"&nbsp;"));
+
+            if( linkit && rivi.sarake(i).linkkityyppi )
+                txt.append("</a>");
+
+            txt.append("&nbsp;</td>");
+        }
+        txt.append("</tr>\n");
+
+    }
+    txt.append("</table>");
+    txt.append("<p class=tulostettu>Tulostettu " + QDate::currentDate().toString(Qt::SystemLocaleShortDate));
+
+    txt.append("</p></body></html>\n");
+
+    return txt;
+}
+
 void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu)
 {
 

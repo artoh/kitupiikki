@@ -29,7 +29,7 @@ Tositteet voi tallettaa pdf- tai jpg-muodossa. Kirjanpidosta ja sähköisistä t
 Tulot ja menot voi kohdentaa kustannuspaikkaan tai projektiin.
 
 ### Tilikartat ja raportit muokattavissa
-Voit muokatat tilikartat ja raportit mieleisiksesi. Muokatun tilikartan voit tallettaa ja ottaa käyttöön toisessa kirjanpidossa. Raportit saa tallennettua myös pdf- ja csv-muotoon.
+Voit muokatat tilikartat ja raportit mieleisiksesi. Muokatun tilikartan voit tallettaa ja ottaa käyttöön toisessa kirjanpidossa. Raportit saa tallennettua myös pdf- ja html-muotoon.
 
 ### Tositelajeihin liittyvät valinnat
 Kirjaamista voi nopeuttaa liittämällä tositelajiin oletusvalinnat tilistä, vastatilistä ja kirjaustyypistä.

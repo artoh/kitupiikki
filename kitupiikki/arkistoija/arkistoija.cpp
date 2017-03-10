@@ -24,6 +24,11 @@
 #include "arkistoija.h"
 #include "db/tositemodel.h"
 
+#include "raportti/raportoija.h"
+#include "raportti/paivakirjaraportti.h"
+#include "raportti/paakirjaraportti.h"
+#include "raportti/tilikarttaraportti.h"
+
 #include <QDebug>
 
 Arkistoija::Arkistoija(Tilikausi tilikausi)
@@ -128,9 +133,63 @@ void Arkistoija::arkistoiTositteet()
 
 }
 
+void Arkistoija::arkistoiRaportit()
+{
+    QStringList raportit;
+    raportit << "Tase" << "Tuloslaskelma" << "Tuloslaskelma eritelty";
+
+    foreach (QString raportti, raportit)
+    {
+        QString tiedostonnimi = raportti.toLower() + ".html";
+        tiedostonnimi.replace(" ","");
+
+        Raportoija raportoija(raportti);
+        if( raportoija.onkoKausiraportti())
+        {
+            raportoija.lisaaKausi(tilikausi_.alkaa(), tilikausi_.paattyy());
+        }
+        else
+        {
+            raportoija.lisaaTasepaiva(tilikausi_.paattyy());
+        }
+
+        arkistoiTiedosto( tiedostonnimi, raportoija.raportti().html(true) );
+    }
+
+
+
+}
+
+
+
+void Arkistoija::arkistoiTiedosto(const QString &tiedostonnimi, const QString &html)
+{
+    QFile tiedosto( hakemisto_.absoluteFilePath(tiedostonnimi));
+    tiedosto.open( QIODevice::WriteOnly);
+    QTextStream out( &tiedosto );
+    out.setCodec("UTF-8");
+
+    // Lisätään valikko tuohon kohtaan !
+    QString txt = html;
+    txt.insert( txt.indexOf("<body>") + 6, "<p>Tähän tulee valikko</p>");
+
+    out << txt;
+
+    tiedosto.close();
+}
+
 void Arkistoija::arkistoi(Tilikausi &tilikausi)
 {
     Arkistoija arkistoija(tilikausi);
     arkistoija.luoHakemistot();
     arkistoija.arkistoiTositteet();
+    arkistoija.arkistoiRaportit();
+
+    arkistoija.arkistoiTiedosto("paivakirja.html",
+                                PaivakirjaRaportti::kirjoitaRaportti( tilikausi.alkaa(), tilikausi.paattyy(), -1, false, true, true, true).html(true) );
+    arkistoija.arkistoiTiedosto("paakirja.html",
+                                PaakirjaRaportti::kirjoitaRaportti( tilikausi.alkaa(), tilikausi.paattyy(), -1, true, true).html(true));
+    arkistoija.arkistoiTiedosto("tililuettelo.html",
+                                TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::KAIKKI_TILIT, tilikausi, false, tilikausi.paattyy()).html(true));
+
 }

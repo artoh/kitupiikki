@@ -108,7 +108,7 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
     if( kohdennuksella > -1)
         lisaehto = QString(" AND kohdennusId=%1").arg( kohdennuksella );
 
-    QString kysymys = QString("SELECT pvm, tositelaji, tunniste, tilinro, tilinimi, selite, debetsnt, kreditsnt, kohdennus, kohdennusId, tositelajiId from vientivw "
+    QString kysymys = QString("SELECT pvm, tositelaji, tunniste, tilinro, tilinimi, selite, debetsnt, kreditsnt, kohdennus, kohdennusId, tositelajiId, tositeId from vientivw "
                               "WHERE pvm BETWEEN \"%1\" AND \"%2\" %4 ORDER BY %3")
                               .arg(mista.toString(Qt::ISODate) )
                               .arg( mihin.toString(Qt::ISODate))
@@ -149,8 +149,8 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
 
         RaporttiRivi rivi;
         rivi.lisaa( kysely.value("pvm").toDate());
-        rivi.lisaa( kysely.value("tositelaji").toString() + kysely.value("tunniste").toString());
-        rivi.lisaa( tr("%1 %2").arg(kysely.value("tilinro").toString()).arg(kysely.value("tilinimi").toString()));
+        rivi.lisaaLinkilla( RaporttiRiviSarake::TOSITE_ID, kysely.value("tositeId").toInt() , kysely.value("tositelaji").toString() + kysely.value("tunniste").toString());
+        rivi.lisaaLinkilla( RaporttiRiviSarake::TILI_NRO, kysely.value("tilinro").toInt() , tr("%1 %2").arg(kysely.value("tilinro").toString()).arg(kysely.value("tilinimi").toString()));
 
         if( tulostakohdennukset )
         {

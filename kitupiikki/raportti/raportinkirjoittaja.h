@@ -119,6 +119,15 @@ public:
      */
     int tulosta(QPrinter *printer, bool raidoita = false, int alkusivunumero = 1);
 
+    /**
+     * @brief Palauttaa raportin html-muodossa
+     * @return
+     */
+    QString html(bool linkit=false);
+
+    QString otsikko() const { return otsikko_; }
+    QString kausiteksti() const { return kausiteksti_; }
+
 
 signals:
 

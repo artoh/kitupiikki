@@ -25,6 +25,7 @@
 #include <QPrintDialog>
 #include <QPageSetupDialog>
 #include <QDesktopServices>
+#include <QTextStream>
 
 #include <QCheckBox>
 #include <QPushButton>
@@ -42,6 +43,7 @@ Raportti::Raportti(QPrinter *printer, QWidget *parent) : QWidget(parent),
         raporttiWidget = new QWidget();
 
         raitaCheck = new QCheckBox(tr("Tulosta taustaraidat"));
+        QPushButton *htmlBtn = new QPushButton( tr("Avaa &selaimessa"));
         QPushButton *sivunasetusBtn = new QPushButton( tr("Sivun &asetukset"));
         QPushButton *esikatseluBtn = new QPushButton(tr("&Esikatsele"));
         QPushButton *tulostaBtn = new QPushButton( tr("&Tulosta"));
@@ -49,6 +51,7 @@ Raportti::Raportti(QPrinter *printer, QWidget *parent) : QWidget(parent),
         QHBoxLayout *nappiLeiska = new QHBoxLayout;
         nappiLeiska->addWidget(raitaCheck);
         nappiLeiska->addStretch();
+        nappiLeiska->addWidget( htmlBtn);
         nappiLeiska->addWidget( sivunasetusBtn);
         nappiLeiska->addWidget(esikatseluBtn);
         nappiLeiska->addWidget(tulostaBtn);
@@ -60,6 +63,7 @@ Raportti::Raportti(QPrinter *printer, QWidget *parent) : QWidget(parent),
 
         setLayout(paaLeiska);
 
+        connect( htmlBtn, SIGNAL(clicked(bool)), this, SLOT(avaaHtml()));
         connect( sivunasetusBtn, SIGNAL(clicked(bool)), this, SLOT(sivunAsetukset()));
         connect( esikatseluBtn, SIGNAL(clicked(bool)), this, SLOT(esikatsele()) );
         connect( tulostaBtn, SIGNAL(clicked(bool)), this, SLOT(tulosta()) );
@@ -83,6 +87,25 @@ void Raportti::esikatsele()
 
     tulostin->setOutputFileName( file->fileName() );
     raportti().tulosta( tulostin, raitaCheck->isChecked());
+    QDesktopServices::openUrl( QUrl(file->fileName()) );
+}
+
+void Raportti::avaaHtml()
+{
+    // Luo tilapäisen pdf-tiedoston
+    QTemporaryFile *file = new QTemporaryFile(QDir::tempPath() + "/raportti-XXXXXX.html", this);
+    file->open();
+    file->close();
+
+    QFile tiedosto( file->fileName());
+    tiedosto.open( QIODevice::WriteOnly);
+
+    QTextStream out( &tiedosto);
+    out.setCodec("UTF-8");
+
+    out << raportti().html();
+    tiedosto.close();
+
     QDesktopServices::openUrl( QUrl(file->fileName()) );
 }
 

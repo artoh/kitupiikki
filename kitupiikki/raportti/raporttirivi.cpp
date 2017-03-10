@@ -32,6 +32,16 @@ void RaporttiRivi::lisaa(const QString &teksti, int sarakkeet, bool tasaaOikeall
     sarakkeet_.append(uusi);
 }
 
+void RaporttiRivi::lisaaLinkilla(RaporttiRiviSarake::Linkki linkkityyppi, int linkkitieto, const QString &teksti, int sarakkeet)
+{
+    RaporttiRiviSarake uusi;
+    uusi.teksti = teksti;
+    uusi.leveysSaraketta = sarakkeet;
+    uusi.linkkityyppi = linkkityyppi;
+    uusi.linkkidata = linkkitieto;
+    sarakkeet_.append(uusi);
+}
+
 void RaporttiRivi::lisaa(int sentit, bool tulostanollat)
 {
     if( !sentit && !tulostanollat)

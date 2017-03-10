@@ -259,7 +259,7 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk)
                                 continue;
 
                         // Erittelyriville tilin numero ja nimi sekä summat
-                        rr.lisaa( QString("%1%2 %3").arg(sisennysStr).arg(tili.numero()).arg(tili.nimi()));
+                        rr.lisaaLinkilla( RaporttiRiviSarake::TILI_NRO, tili.numero(), QString("%1%2 %3").arg(sisennysStr).arg(tili.numero()).arg(tili.nimi()));
                         for( int sarake=0; sarake < data_.count(); sarake++)
                         {
                             rr.lisaa( data_.at(sarake).value(iter.key(), 0) );

@@ -95,6 +95,7 @@ CREATE VIEW vientivw AS
            kohdennus.nimi as kohdennus,
            tositelaji.tunnus as tositelaji,
            tosite.tunniste as tunniste,
+           tosite.id as tositeId,
            tositelaji.id as tositelajiId,
            tili.nro as tilinro,
            tili.nimi as tilinimi,

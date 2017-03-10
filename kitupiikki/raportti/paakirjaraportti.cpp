@@ -192,14 +192,14 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
         Tili tili = kp()->tilit()->tiliNumerolla( iter.key() );
 
         RaporttiRivi tiliotsikko;
-        tiliotsikko.lisaa( QString("%1 %2").arg(tili.numero()).arg( tili.nimi()) , 5 + (int) tulostakohdennus );
+        tiliotsikko.lisaaLinkilla( RaporttiRiviSarake::TILI_LINKKI, tili.numero(),  QString("%1 %2").arg(tili.numero()).arg( tili.nimi()) , 5 + (int) tulostakohdennus );
         tiliotsikko.lisaa( iter.value());
         tiliotsikko.lihavoi();
         rk.lisaaRivi( tiliotsikko);
 
         int saldo = iter.value();
 
-        QString kysymys = QString("SELECT pvm, tositelaji, tunniste, kohdennusId, "
+        QString kysymys = QString("SELECT pvm, tositelaji, tunniste, kohdennusId, tositeId, "
                                   "kohdennus, selite, debetsnt, kreditsnt FROM vientivw "
                                   "WHERE tilinro=%1 AND pvm BETWEEN \"%2\" AND \"%3\" %4 "
                                   "ORDER BY pvm, vientiId ")
@@ -221,7 +221,8 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
 
             RaporttiRivi rr;
             rr.lisaa( kysely.value("pvm").toDate() );
-            rr.lisaa( QString("%1%2").arg(kysely.value("tositelaji").toString()).arg(kysely.value("tunniste").toInt())  );
+            rr.lisaaLinkilla( RaporttiRiviSarake::TOSITE_ID, kysely.value("tositeId").toInt() ,
+                              QString("%1%2").arg(kysely.value("tositelaji").toString()).arg(kysely.value("tunniste").toInt())  );
             rr.lisaa( kysely.value("selite").toString());
             if( tulostakohdennus)
             {

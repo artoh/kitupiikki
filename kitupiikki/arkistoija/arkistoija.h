@@ -35,6 +35,11 @@ protected:
     
     void luoHakemistot();
     void arkistoiTositteet();
+
+    void arkistoiRaportit();
+
+    void arkistoiTiedosto(const QString& tiedostonnimi,
+                          const QString& html);
     
     QDir hakemisto_;
     Tilikausi tilikausi_;    

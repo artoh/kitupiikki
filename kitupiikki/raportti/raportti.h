@@ -71,6 +71,11 @@ public slots:
     void esikatsele();
 
     /**
+     * @brief Avaa html-muotoisena selaimessa
+     */
+    void avaaHtml();
+
+    /**
      * @brief Näyttää dialogin sivun asetuksista
      */
     void sivunAsetukset();

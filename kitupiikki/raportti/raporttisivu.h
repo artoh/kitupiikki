@@ -55,12 +55,9 @@ signals:
 
 public slots:
     void raporttiValittu(QListWidgetItem *item);
-//    void tulosta();
-//    void esikatsele();
 
 
 protected:
-//    void lisaaRaportti(Raportti *raportti);
     void lisaaRaportti(const QString& otsikko, const QString& nimi, const QString& kuvakenimi = QString());
 
 protected:
@@ -68,10 +65,6 @@ protected:
     QHBoxLayout *wleiska;
     QWidget *nykyinen;
 
-
-//    Ui::RaporttiWg *ui;
-//    QList<Raportti*> raportit;
-//    Raportti *nykyraportti;
       QPrinter printer;
 };
 

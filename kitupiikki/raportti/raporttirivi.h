@@ -27,10 +27,21 @@
  */
 struct RaporttiRiviSarake
 {
+    enum Linkki
+    {
+        EI_LINKKIA = 0,
+        TILI_NRO = 1,
+        TOSITE_ID = 2,
+        TILI_LINKKI = 3
+    };
+
     bool tasaaOikealle = false;
 
     QString teksti;
     int leveysSaraketta = 1;
+
+    Linkki linkkityyppi = EI_LINKKIA;
+    int linkkidata = 0;
 };
 
 /**
@@ -53,6 +64,19 @@ public:
      * @param tasaaOikealle Tasataanko oikealle (oletuksena vasemmalle)
      */
     void lisaa(const QString& teksti, int sarakkeet = 1, bool tasaaOikealle = false);
+
+    /**
+     * @brief Lisää tekstisarakkeen, joka toimii linkkinä
+     *
+     * Linkillä sähköisessä arkistossa raportista päästään porautumaan tietoihin
+     *
+     * @param linkkityyppi Linkin tyyppi (TILI_NUMERO tai TOSITE_ID)
+     * @param linkkitieto Linkitettävä tieto
+     * @param teksti Tulostuva teksti
+     * @param sarakkeet Leveys saraketta
+     */
+    void lisaaLinkilla(RaporttiRiviSarake::Linkki linkkityyppi, int linkkitieto,
+                       const QString& teksti, int sarakkeet = 1);
     /**
      * @brief Lisää rahamäärän
      * @param sentit Rahamäärä sentteinä
@@ -78,6 +102,13 @@ public:
      * @return
      */
     QString teksti(int sarake) { return sarakkeet_[sarake].teksti; }
+
+    /**
+     * @brief Palauttaa sarakkeen
+     * @param indeksi Sarakkeen indeksi
+     * @return
+     */
+    RaporttiRiviSarake sarake(int indeksi) { return sarakkeet_[indeksi]; }
 
     /**
      * @brief Kuinka monta ruudukkosaraketta tämä sarake täyttää
