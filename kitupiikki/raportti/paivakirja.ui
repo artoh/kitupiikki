@@ -79,6 +79,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="tulostaviennitCheck">
+     <property name="text">
+      <string>Tulosta viennit</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QCheckBox" name="tulostakohdennuksetCheck">
      <property name="text">
       <string>Tulosta kohdennukset</string>

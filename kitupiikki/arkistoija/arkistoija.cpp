@@ -28,6 +28,7 @@
 #include "raportti/paivakirjaraportti.h"
 #include "raportti/paakirjaraportti.h"
 #include "raportti/tilikarttaraportti.h"
+#include "raportti/tositeluetteloraportti.h"
 
 #include <QDebug>
 
@@ -191,5 +192,9 @@ void Arkistoija::arkistoi(Tilikausi &tilikausi)
                                 PaakirjaRaportti::kirjoitaRaportti( tilikausi.alkaa(), tilikausi.paattyy(), -1, true, true).html(true));
     arkistoija.arkistoiTiedosto("tililuettelo.html",
                                 TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::KAIKKI_TILIT, tilikausi, false, tilikausi.paattyy()).html(true));
+    arkistoija.arkistoiTiedosto("tositeluettelo.html",
+                                TositeluetteloRaportti::kirjoitaRaportti( tilikausi.alkaa(), tilikausi.paattyy(), true, true, false, false, true).html(true) );
+    arkistoija.arkistoiTiedosto("tositepaivakirja.html",
+                                TositeluetteloRaportti::kirjoitaRaportti( tilikausi.alkaa(), tilikausi.paattyy(), true, true, true, true, true).html(true));
 
 }

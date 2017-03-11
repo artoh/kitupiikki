@@ -39,6 +39,7 @@ PaakirjaRaportti::PaakirjaRaportti(QPrinter *printer)
 
     ui->jarjestysRyhma->hide();
     ui->ryhmittelelajeittainCheck->hide();
+    ui->tulostaviennitCheck->hide();
 
 }
 

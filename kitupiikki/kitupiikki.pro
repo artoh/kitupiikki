@@ -83,7 +83,8 @@ SOURCES += main.cpp \
     raportti/tilikarttaraportti.cpp \
     selaus/tositeselausmodel.cpp \
     maaritys/tilikausimaaritykset.cpp \
-    arkistoija/arkistoija.cpp
+    arkistoija/arkistoija.cpp \
+    raportti/tositeluetteloraportti.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -156,7 +157,8 @@ HEADERS += \
     raportti/tilikarttaraportti.h \
     selaus/tositeselausmodel.h \
     maaritys/tilikausimaaritykset.h \
-    arkistoija/arkistoija.h
+    arkistoija/arkistoija.h \
+    raportti/tositeluetteloraportti.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

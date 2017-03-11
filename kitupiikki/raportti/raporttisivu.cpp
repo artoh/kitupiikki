@@ -27,6 +27,7 @@
 
 #include "paivakirjaraportti.h"
 #include "paakirjaraportti.h"
+#include "tositeluetteloraportti.h"
 #include "db/kirjanpito.h"
 
 #include "muokattavaraportti.h"
@@ -56,6 +57,7 @@ void RaporttiSivu::siirrySivulle()
 
     lisaaRaportti("Päiväkirja","Päiväkirja",":/pic/Paivakirja64.png");
     lisaaRaportti("Pääkirja","Pääkirja",":/pic/Diary64.png");
+    lisaaRaportti("Tositeluettelo","Tositeluettelo",":/pic/dokumentti.png");
 
     // Lisätään muokattavat raportit
     foreach (QString rnimi, kp()->asetukset()->avaimet("Raportti/") )
@@ -101,6 +103,8 @@ void RaporttiSivu::raporttiValittu(QListWidgetItem *item)
         nykyinen = new MuokattavaRaportti( raporttinimi.mid(9), &printer);
     else if( raporttinimi == "Tilikartta")
         nykyinen = new TilikarttaRaportti( &printer );
+    else if( raporttinimi == "Tositeluettelo")
+        nykyinen = new TositeluetteloRaportti( &printer);
 
 
     if( nykyinen )

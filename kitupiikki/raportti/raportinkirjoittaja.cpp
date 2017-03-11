@@ -159,7 +159,7 @@ int RaportinKirjoittaja::tulosta(QPrinter *printer, bool raidoita, int alkusivun
             // jotka tällä riville yhdistetty toisiinsa
             for( int ysind = 0; ysind < rivi.leveysSaraketta(i); ysind++ )
             {
-                sarakeleveys += leveydet[sarake];
+                sarakeleveys += leveydet.at(sarake);
                 sarake++;
             }
 
@@ -290,7 +290,7 @@ QString RaportinKirjoittaja::html(bool linkit)
                "</head><body>");
 
     txt.append("<h1>" + otsikko() + "</h1>");
-    txt.append("<p>" + kp()->asetukset()->asetus("Nimi") + "<br>" );
+    txt.append("<p>" + kp()->asetukset()->asetus("Nimi") + "<br>");
     txt.append( kausiteksti() + "</p>");
     txt.append("<table><thead>\n");
 
@@ -363,6 +363,8 @@ QString RaportinKirjoittaja::html(bool linkit)
     }
     txt.append("</table>");
     txt.append("<p class=tulostettu>Tulostettu " + QDate::currentDate().toString(Qt::SystemLocaleShortDate));
+    if( kp()->onkoHarjoitus())
+        txt.append("<br>Kirjanpito on laadittu Kitupiikki-ohjelman harjoittelutilassa");
 
     txt.append("</p></body></html>\n");
 

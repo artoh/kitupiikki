@@ -41,6 +41,8 @@ PaivakirjaRaportti::PaivakirjaRaportti(QPrinter *printer)
 
     ui->kohdennusCombo->setModel( kp()->kohdennukset());
     ui->kohdennusCombo->setModelColumn( KohdennusModel::NIMI);
+
+    ui->tulostaviennitCheck->hide();
 }
 
 PaivakirjaRaportti::~PaivakirjaRaportti()

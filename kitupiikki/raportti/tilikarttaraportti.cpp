@@ -147,8 +147,8 @@ RaportinKirjoittaja TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::Kar
         else
         {
             rr.lisaa("");
-            rr.lisaa(QString::number(tili.numero()));
-            rr.lisaa(tili.nimi());
+            rr.lisaaLinkilla(RaporttiRiviSarake::TILI_NRO, tili.numero(), QString::number(tili.numero()));
+            rr.lisaaLinkilla(RaporttiRiviSarake::TILI_NRO, tili.numero(), tili.nimi());
             if( tulostatyyppi)
                 rr.lisaa( kp()->tilit()->index(i, TiliModel::TYYPPI).data().toString());
             if( saldopvm.isValid())
