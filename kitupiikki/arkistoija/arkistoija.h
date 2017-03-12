@@ -21,6 +21,9 @@
 #include <QObject>
 
 #include <QDir>
+#include <QByteArray>
+#include <QTextStream>
+#include <QBuffer>
 
 #include "db/kirjanpito.h"
 
@@ -41,6 +44,7 @@ protected:
     void arkistoiTiedosto(const QString& tiedostonnimi,
                           const QString& html);
 
+    void kirjoitaHash();
 
     QString navipalkki(int edellinen=0, int seuraava=0);
     
@@ -48,9 +52,16 @@ protected:
     Tilikausi tilikausi_;    
 
     bool onkoLogoa = false;
+
+    QByteArray shaBytes;
     
 public:    
-    static void arkistoi(Tilikausi &tilikausi);
+    /**
+     * @brief Tallentaa kirjanpitoarkiston
+     * @param tilikausi
+     * @return Sha256-tiiviste heksamuodossa
+     */
+    static QString arkistoi(Tilikausi &tilikausi);
 };
 
 #endif // ARKISTOIJA_H

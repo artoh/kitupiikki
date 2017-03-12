@@ -164,7 +164,8 @@ RESOURCES += \
     tilikartat/tilikartat.qrc \
     pic/pic.qrc \
     uusikp/sql.qrc \
-    aloitussivu/qrc/aloitus.qrc
+    aloitussivu/qrc/aloitus.qrc \
+    arkistoija/arkisto.qrc
 
 FORMS += \
     uusikp/intro.ui \
