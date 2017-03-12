@@ -18,6 +18,7 @@
 #include <QApplication>
 #include <QLocale>
 #include <QSplashScreen>
+#include <QTextCodec>
 
 #include "uusikp/uusikirjanpito.h"
 #include "kitupiikkiikkuna.h"
@@ -34,6 +35,7 @@ int main(int argc, char *argv[])
     a.setApplicationVersion("0.00");
     a.setOrganizationDomain("artoh.github.io");
     a.setOrganizationName("Kitupiikki Kirjanpito");
+
 
     QLocale::setDefault(QLocale(QLocale::Finnish, QLocale::Finland));
 

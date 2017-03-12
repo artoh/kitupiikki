@@ -57,7 +57,13 @@ void Arkistoija::luoHakemistot()
 
     hakemisto_.mkdir( arkistonimi );
     hakemisto_.cd( arkistonimi );
-    hakemisto_.mkdir("liitteet");
+
+    if( QFile::exists( kp()->hakemisto().absoluteFilePath("logo128.png") ))
+    {
+        QFile::copy( kp()->hakemisto().absoluteFilePath("logo128.png"),
+                     hakemisto_.absoluteFilePath("logo.png"));
+        onkoLogoa = true;
+    }
 
 }
 
@@ -74,10 +80,6 @@ void Arkistoija::arkistoiTositteet()
     LiiteModel liiteet(tosite);
     VientiModel viennit(tosite);
 
-    QDir liiteHakemisto = hakemisto_;
-    liiteHakemisto.cd("liitteet");
-
-    qDebug() << liiteHakemisto.absolutePath();
 
     while( kysely.next() )
     {
@@ -106,9 +108,9 @@ void Arkistoija::arkistoiTositteet()
         {
             QModelIndex index = liiteet.index(i, 0);
             QFile::copy( index.data(LiiteModel::Polkurooli).toString(),
-                         liiteHakemisto.absoluteFilePath( index.data(LiiteModel::TiedostoNimiRooli).toString()));
+                         hakemisto_.absoluteFilePath( index.data(LiiteModel::TiedostoNimiRooli).toString()));
 
-            out << "<li><a href=\"liitteet/" << index.data(LiiteModel::TiedostoNimiRooli).toString();
+            out << "<li><a href=" << index.data(LiiteModel::TiedostoNimiRooli).toString();
             out << "\">" << index.data(LiiteModel::OtsikkoRooli).toString() << "</a></li>";
         }
 
@@ -134,31 +136,86 @@ void Arkistoija::arkistoiTositteet()
 
 }
 
-void Arkistoija::arkistoiRaportit()
+void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
 {
+
+    QFile tiedosto( hakemisto_.absoluteFilePath("index.html"));
+    tiedosto.open( QIODevice::WriteOnly);
+    QTextStream out( &tiedosto );
+    out.setCodec("UTF-8");
+
+    out << "<html><meta charset=\"UTF-8\"><head><title>";
+    out << kp()->asetus("Nimi") + " arkisto";
+    out << "</title><link rel='stylesheet' type='text/css' href='arkisto.css'></head><body>";
+
+    out << navipalkki();
+
+    if(onkoLogoa)
+        out << "<img src=logo.png class=logo>";
+
+    out << "<h1>" << kp()->asetus("Nimi") << "</h1>";
+    out << "<h2>Kirjanpitoarkisto<br>" ;
+    out << tilikausi_.kausivaliTekstina();
+    out << "</h2>";
+    out << "<h3>Kirjanpito</h3>";
+    out << "<ul><li><a href=paakirja.html>" << tr("Pääkirja") << "</a></li>";
+    out << "<li><a href=paivakirja.html>" << tr("Päiväkirja") << "</a></li>";
+    out << "<li><a href=tositeluettelo.html>Tositeluettelo</a></li>";
+    out << "<li><a href=tositepaivakirja.html>" << tr("Tositepäiväkirja") << "</a></li>";
+    out << "<li><a href=tililuettelo.html>Tililuettelo</a></li>";
+    out << "</ul><h3>Raportit</h3><ul>";
+
+
+
     QStringList raportit;
-    raportit << "Tase" << "Tuloslaskelma" << "Tuloslaskelma eritelty";
+    raportit = kp()->asetukset()->avaimet("Raportti/");
 
     foreach (QString raportti, raportit)
     {
-        QString tiedostonnimi = raportti.toLower() + ".html";
+        QString tiedostonnimi = raportti.mid(9).toLower() + ".html";
         tiedostonnimi.replace(" ","");
 
-        Raportoija raportoija(raportti);
+        Tilikausi edellinenkausi = kp()->tilikaudet()->tilikausiPaivalle( tilikausi_.alkaa().addDays(-1) );
+
+
+        Raportoija raportoija(raportti.mid(9));
         if( raportoija.onkoKausiraportti())
         {
+
+
             raportoija.lisaaKausi(tilikausi_.alkaa(), tilikausi_.paattyy());
+            if( edellinenkausi.alkaa().isValid())
+                raportoija.lisaaKausi( edellinenkausi.alkaa(), edellinenkausi.paattyy());
+
+            if( raportoija.tyyppi() == Raportoija::KOHDENNUSLASKELMA)
+                raportoija.etsiKohdennukset();
         }
         else
         {
+
             raportoija.lisaaTasepaiva(tilikausi_.paattyy());
+            if( edellinenkausi.paattyy().isValid())
+                raportoija.lisaaTasepaiva(edellinenkausi.paattyy());
+
+            if( raportoija.tyyppi() == Raportoija::PROJEKTITASE)
+            {
+                if( edellinenkausi.alkaa().isValid())
+                    raportoija.valitseProjektit(edellinenkausi.alkaa(), tilikausi_.paattyy());
+                else
+                    raportoija.valitseProjektit(tilikausi_.alkaa(), tilikausi_.paattyy());
+            }
         }
 
         arkistoiTiedosto( tiedostonnimi, raportoija.raportti().html(true) );
+
+        // Kirjoitetaan indeksiin
+        out << "<li><a href=\'" << tiedostonnimi << "\'>";
+        out << raportti.mid(9);
+        out << "</a></li>";
     }
-
-
-
+    out << "</ul>";
+    out << "<p>Tämä on sähköinen arkisto jne jne";
+    out << "</p></body></html>";
 }
 
 
@@ -172,19 +229,40 @@ void Arkistoija::arkistoiTiedosto(const QString &tiedostonnimi, const QString &h
 
     // Lisätään valikko tuohon kohtaan !
     QString txt = html;
-    txt.insert( txt.indexOf("<body>") + 6, "<p>Tähän tulee valikko</p>");
+    txt.insert( txt.indexOf("</head>"), "<link rel='stylesheet' type='text/css' href='arkisto.css'>");
+    txt.insert( txt.indexOf("<body>") + 6, navipalkki( ));
 
     out << txt;
 
     tiedosto.close();
 }
 
+QString Arkistoija::navipalkki(int edellinen, int seuraava)
+{
+    QString navi = "<nav><ul><li class=kotinappi><a href=index.html>";
+    if( onkoLogoa )
+        navi.append("<img src=logo.png>");
+    navi.append( kp()->asetus("Nimi") + " " + tilikausi_.kausivaliTekstina());
+    navi.append("</a></li>");
+
+    if(seuraava)
+        navi.append( tr("<li><a href=\'%1.html\'>Seuraava</a></li>").arg(seuraava,8,10,QChar('0')));
+    if( edellinen )
+        navi.append( tr("<li><a href=\'%1.html\'>Edellinen</a></li>").arg(edellinen,8,10,QChar('0')));
+    navi.append("<li><a href=ohje.html>Ohje</a></li>");
+    navi.append("</ul></nav></div>");
+
+    return navi;
+}
+
+
+
 void Arkistoija::arkistoi(Tilikausi &tilikausi)
 {
     Arkistoija arkistoija(tilikausi);
     arkistoija.luoHakemistot();
     arkistoija.arkistoiTositteet();
-    arkistoija.arkistoiRaportit();
+    arkistoija.kirjoitaIndeksiJaArkistoiRaportit();
 
     arkistoija.arkistoiTiedosto("paivakirja.html",
                                 PaivakirjaRaportti::kirjoitaRaportti( tilikausi.alkaa(), tilikausi.paattyy(), -1, false, true, true, true).html(true) );

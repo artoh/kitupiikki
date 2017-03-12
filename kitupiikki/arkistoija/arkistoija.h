@@ -36,13 +36,18 @@ protected:
     void luoHakemistot();
     void arkistoiTositteet();
 
-    void arkistoiRaportit();
+    void kirjoitaIndeksiJaArkistoiRaportit();
 
     void arkistoiTiedosto(const QString& tiedostonnimi,
                           const QString& html);
+
+
+    QString navipalkki(int edellinen=0, int seuraava=0);
     
     QDir hakemisto_;
     Tilikausi tilikausi_;    
+
+    bool onkoLogoa = false;
     
 public:    
     static void arkistoi(Tilikausi &tilikausi);

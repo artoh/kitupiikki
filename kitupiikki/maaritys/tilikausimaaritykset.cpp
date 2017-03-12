@@ -17,6 +17,9 @@
 
 #include <QDialog>
 
+#include <QDesktopServices>
+#include <QUrl>
+
 #include "tilikausimaaritykset.h"
 #include "db/kirjanpito.h"
 #include "ui_lisaatilikausidlg.h"
@@ -74,6 +77,8 @@ void TilikausiMaaritykset::arkisto()
     {
         Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->view->currentIndex().row() );
         Arkistoija::arkistoi(kausi);
+
+        QDesktopServices::openUrl( QUrl::fromLocalFile( kp()->hakemisto().absoluteFilePath("arkisto/" + kausi.arkistoHakemistoNimi()) + "/index.html" ));
 
     }
 }
