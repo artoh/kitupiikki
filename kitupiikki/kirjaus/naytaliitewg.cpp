@@ -61,7 +61,7 @@ NaytaliiteWg::~NaytaliiteWg()
 
 void NaytaliiteWg::valitseTiedosto()
 {
-    QString polku = QFileDialog::getOpenFileName(this, tr("Valitse tosite"),QString(),tr("Kuvat (*.png *.jpg);; Pdf-tiedostot (*.pdf)"));
+    QString polku = QFileDialog::getOpenFileName(this, tr("Valitse tosite"),QString(),tr("Pdf-tiedostot (*.pdf);;Kuvat (*.png *.jpg)"));
     if( !polku.isEmpty())
     {
         emit lisaaLiite( polku );
@@ -77,6 +77,7 @@ void NaytaliiteWg::naytaTiedosto(const QString &polku)
     else
     {
         // Näytä tiedosto
+        scene->setBackgroundBrush(QBrush(Qt::gray));
         scene->clear();
 
         if( polku.toLower().endsWith(".pdf"))

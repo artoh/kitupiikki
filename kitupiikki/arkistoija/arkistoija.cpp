@@ -112,7 +112,7 @@ void Arkistoija::arkistoiTositteet()
 
         if( tositeInd > 0)
             edellinen = idLista.at(tositeInd- 1);
-        if( tositeInd < idLista.count() - 2)
+        if( tositeInd < idLista.count() - 1)
             seuraava = idLista.at(tositeInd+1);
 
         out << navipalkki(edellinen, seuraava);

@@ -7,26 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>530</height>
+    <height>412</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Kirjausapuri</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <item>
-    <widget class="QLabel" name="label_10">
-     <property name="text">
-      <string/>
-     </property>
-     <property name="pixmap">
-      <pixmap resource="../pic/pic.qrc">:/pic/possukirjaa.png</pixmap>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-   </item>
    <item>
     <layout class="QFormLayout" name="formLayout">
      <item row="0" column="0">
@@ -213,9 +200,7 @@
   <tabstop>alvSpin</tabstop>
   <tabstop>kirjausList</tabstop>
  </tabstops>
- <resources>
-  <include location="../pic/pic.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>
