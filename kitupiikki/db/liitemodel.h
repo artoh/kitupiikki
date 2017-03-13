@@ -30,22 +30,11 @@ struct Liite
     int id = 0;
     int liiteno = 0;
     QString otsikko;
-    QString tiedostonnimi;
     QByteArray sha;
-    QString uusitiedosto;
+
+    QByteArray pdf;
+    QByteArray thumbnail;
     bool muokattu = false;
-
-    /**
-     * @brief Palauttaa täydellisen polun tiedostoon
-     * @return
-     */
-    QString tiedostopolku() const;
-
-    /**
-     * @brief Palauttaa tiedoston tarkenteen pienaakkosin
-     * @return
-     */
-    QString tarkenne() const;
 };
 
 class TositeModel;
@@ -62,10 +51,10 @@ public:
     {
         IdRooli = Qt::UserRole + 1,
         OtsikkoRooli = Qt::UserRole + 2,
-        Polkurooli = Qt::UserRole + 3,
-        Tarkennerooli = Qt::UserRole + 4,
+        PolkuRooli = Qt::UserRole + 3,
         Sharooli = Qt::UserRole + 5,
-        TiedostoNimiRooli = Qt::UserRole + 6
+        TiedostoNimiRooli = Qt::UserRole + 6,
+        PdfRooli = Qt::UserRole + 7
     };
 
 
@@ -81,6 +70,10 @@ public:
     void poistaLiite(int indeksi);
 
     bool muokattu() const { return muokattu_; }
+
+    QString liitePolku(int liitenro) const;
+    QString liiteNimi(int liitenro) const;
+
 public slots:
     void lataa();
     void tyhjaa();

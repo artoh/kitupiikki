@@ -81,8 +81,8 @@ CREATE TABLE liite (
     tosite   INTEGER      REFERENCES tosite (id) ON DELETE RESTRICT
                                                  ON UPDATE RESTRICT,
     otsikko  TEXT,
-    tiedosto VARCHAR (60) NOT NULL,
-    sha      TEXT         NOT NULL
+    sha      TEXT         NOT NULL,
+    peukku   BLOB
 );
 
 CREATE VIEW vientivw AS

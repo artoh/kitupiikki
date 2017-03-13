@@ -141,7 +141,7 @@ void Arkistoija::arkistoiTositteet()
                      << "</td><td><a href='" << liiteIndeksi.data(LiiteModel::TiedostoNimiRooli).toString()
                      << "'>Avaa</a></td></tr>\n";
 
-                QFile::copy( liiteIndeksi.data(LiiteModel::Polkurooli).toString(),
+                QFile::copy( liiteIndeksi.data(LiiteModel::PolkuRooli).toString(),
                              hakemisto_.absoluteFilePath( liiteIndeksi.data(LiiteModel::TiedostoNimiRooli).toString()));
 
                 shaBytes.append( liiteIndeksi.data(LiiteModel::Sharooli).toByteArray() );

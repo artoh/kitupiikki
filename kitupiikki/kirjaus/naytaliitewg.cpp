@@ -70,9 +70,9 @@ void NaytaliiteWg::valitseTiedosto()
     }
 }
 
-void NaytaliiteWg::naytaTiedosto(const QString &polku)
+void NaytaliiteWg::naytaPdf(const QByteArray &pdfdata)
 {
-    if( polku.isEmpty())
+    if( pdfdata.isEmpty())
     {
         setCurrentIndex(0);
     }
@@ -82,48 +82,37 @@ void NaytaliiteWg::naytaTiedosto(const QString &polku)
         scene->setBackgroundBrush(QBrush(Qt::gray));
         scene->clear();
 
-        if( polku.toLower().endsWith(".pdf"))
+        // Näytä pdf
+        Poppler::Document *pdfDoc = Poppler::Document::loadFromData( pdfdata );
+
+        if( !pdfDoc )
+            return;
+
+        pdfDoc->setRenderHint(Poppler::Document::TextAntialiasing);
+        pdfDoc->setRenderHint(Poppler::Document::Antialiasing);
+
+
+        double ypos = 0.0;
+
+        // Monisivuisen pdf:n sivut pinotaan päällekkäin
+        for( int sivu = 0; sivu < pdfDoc->numPages(); sivu++)
         {
-            // Näytä pdf
-            Poppler::Document *pdfDoc = Poppler::Document::load( polku );
-            pdfDoc->setRenderHint(Poppler::Document::TextAntialiasing);
-            pdfDoc->setRenderHint(Poppler::Document::Antialiasing);
+            Poppler::Page *pdfSivu = pdfDoc->page(sivu);
 
-            if( !pdfDoc )
-                return;
+            if( !pdfSivu )
+                continue;
 
-            double ypos = 0.0;
+            QImage image = pdfSivu->renderToImage(144,144);
+            QPixmap kuva = QPixmap::fromImage( image, Qt::DiffuseAlphaDither);
 
-            // Monisivuisen pdf:n sivut pinotaan päällekkäin
-            for( int sivu = 0; sivu < pdfDoc->numPages(); sivu++)
-            {
-                Poppler::Page *pdfSivu = pdfDoc->page(sivu);
-
-                if( !pdfSivu )
-                    continue;
-
-                QImage image = pdfSivu->renderToImage(144,144);
-                QPixmap kuva = QPixmap::fromImage( image, Qt::DiffuseAlphaDither);
-
-                QGraphicsPixmapItem *item = scene->addPixmap(kuva);
-                item->setY( ypos );
-                ypos += kuva.height();
+            QGraphicsPixmapItem *item = scene->addPixmap(kuva);
+            item->setY( ypos );
+            ypos += kuva.height();
 
 
-                delete pdfSivu;
-            }
-            delete pdfDoc;
-
-           view->fitInView(0,0, scene->sceneRect().width() , 200, Qt::KeepAspectRatio);
+            delete pdfSivu;
         }
-        else
-        {
-                // Ladataan kuvatiedosto
-                QPixmap kuva( polku );
-                scene->addPixmap(kuva);
-                // Skaalataan viewiä niin, että mahtuu sivusuunnassa
-                view->fitInView(0,0,kuva.width(), kuva.width(), Qt::KeepAspectRatio);
-        }
+        delete pdfDoc;
 
         // Tositteen näyttöwiget esiin
         setCurrentIndex(1);

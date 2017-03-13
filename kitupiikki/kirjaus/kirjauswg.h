@@ -109,7 +109,7 @@ public slots:
     void poistaLiite();
 
 signals:
-    void liiteValittu(const QString& tiedostopolku);
+    void liiteValittu(const QByteArray& pdf);
     /**
      * @brief Yksi tosite on saatu käsiteltyä.
      *

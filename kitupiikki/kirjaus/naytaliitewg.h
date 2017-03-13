@@ -45,7 +45,7 @@ public:
 
 public slots:
     void valitseTiedosto();
-    void naytaTiedosto(const QString& polku);
+    void naytaPdf(const QByteArray& pdfdata);
 
 signals:
     void lisaaLiite(const QString& polku);

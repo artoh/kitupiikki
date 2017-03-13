@@ -136,7 +136,7 @@ void KirjausWg::tyhjenna()
     // Verosarake näytetään vain, jos alv-toiminnot käytössä
     ui->viennitView->setColumnHidden( VientiModel::ALV, !kp()->asetukset()->onko("AlvVelvollinen") );
     // Tyhjennetään tositemodel
-    emit liiteValittu(QString());
+    emit liiteValittu(QByteArray());
 }
 
 void KirjausWg::tallenna()
@@ -334,12 +334,12 @@ void KirjausWg::liiteValinta(const QModelIndex &valittu)
     if( !valittu.isValid())
     {
         ui->poistaLiiteNappi->setDisabled(true);
-        emit liiteValittu( QString());
+        emit liiteValittu( QByteArray());
     }
     else
     {
         ui->poistaLiiteNappi->setEnabled(true);
-        emit liiteValittu( valittu.data(LiiteModel::Polkurooli).toString() );
+        emit liiteValittu( valittu.data(LiiteModel::PdfRooli).toByteArray() );
     }
 }
 
@@ -363,7 +363,7 @@ void KirjausWg::tiliotePaivayksienPaivitys()
 void KirjausWg::naytaLiite()
 {
     if( ui->liiteView->currentIndex().isValid())
-        QDesktopServices::openUrl( QUrl::fromLocalFile( ui->liiteView->currentIndex().data(LiiteModel::Polkurooli).toString() ) );
+        QDesktopServices::openUrl( QUrl::fromLocalFile( ui->liiteView->currentIndex().data(LiiteModel::PolkuRooli).toString() ) );
 
 }
 

@@ -46,7 +46,7 @@ KirjausSivu::KirjausSivu() : KitupiikkiSivu()
     setLayout(leiska);
 
     connect( liitewg, SIGNAL(lisaaLiite(QString)), kirjauswg, SLOT(lisaaLiite(QString)));
-    connect( kirjauswg, SIGNAL(liiteValittu(QString)), liitewg, SLOT(naytaTiedosto(QString)));
+    connect( kirjauswg, SIGNAL(liiteValittu(QByteArray)), liitewg, SLOT(naytaPdf(QByteArray)));
     connect( kirjauswg, SIGNAL(tositeKasitelty()), this, SLOT(tositeKasitelty()));
 }
 

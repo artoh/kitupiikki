@@ -22,6 +22,13 @@
 #include <QFileInfo>
 #include <QIcon>
 
+#include <QPrinter>
+#include <QTemporaryFile>
+#include <QPainter>
+#include <QImage>
+
+#include <QBuffer>
+
 #include "liitemodel.h"
 #include "tositemodel.h"
 #include "kirjanpito.h"
@@ -29,30 +36,7 @@
 #include <QDebug>
 #include <QSqlError>
 
-QString Liite::tiedostopolku() const
-{
-    if( uusitiedosto.isEmpty())
-        return kp()->hakemisto().absoluteFilePath(QString("liitteet/%1").arg(tiedostonnimi));
-    else
-        return uusitiedosto;
-}
-
-QString Liite::tarkenne() const
-{
-    QString apu;
-    if( uusitiedosto.isEmpty())
-        apu = tiedostonnimi;
-    else
-        apu = uusitiedosto;
-
-    int indeksi = apu.lastIndexOf('.');
-
-    if( indeksi > 0)
-    {
-        return apu.mid( indeksi + 1).toLower();
-    }
-    return QString();
-}
+#include <poppler/qt5/poppler-qt5.h>
 
 
 LiiteModel::LiiteModel(TositeModel *tositemodel, QObject *parent)
@@ -74,24 +58,20 @@ QVariant LiiteModel::data(const QModelIndex &index, int role) const
 
     if( role == Qt::DisplayRole || role == OtsikkoRooli)
         return QVariant( liite.otsikko );
-    else if( role == Polkurooli )
-        return QVariant( liite.tiedostopolku() );
-    else if( role == Tarkennerooli )
-        return QVariant( liite.tarkenne() );
     else if( role == Sharooli)
         return QVariant( liite.sha);
     else if( role == TiedostoNimiRooli )
-        return liite.tiedostonnimi;
+        return liiteNimi( liite.liiteno );
+    else if( role == PolkuRooli)
+        return liitePolku( liite.liiteno);
+    else if( role == PdfRooli )
+        return liite.pdf;
 
     else if( role == Qt::DecorationRole)
     {
-
-        if( liite.tarkenne() == "pdf")
-            return QIcon(":/pic/pdf.png");
-        else if( liite.tarkenne() == "jpg" || liite.tarkenne() == "jpeg" || liite.tarkenne() == "png")
-            return QIcon( liite.tiedostopolku() );
-        else
-            return QIcon(":/pic/Possu64.png");
+        QPixmap pixmap;
+        pixmap.loadFromData( liite.thumbnail, "PNG");
+        return QIcon( pixmap );
     }
 
     return QVariant();
@@ -123,9 +103,67 @@ void LiiteModel::lisaaTiedosto(const QString &polku, const QString &otsikko)
     Liite uusi;
 
     uusi.liiteno = seuraavaNumero();
-    uusi.uusitiedosto = polku;
+
+
+    if( polku.toLower().endsWith(".pdf"))
+    {
+        // On valmiiksi pdf
+        QFile tiedosto(polku);
+        tiedosto.open( QIODevice::ReadOnly);
+
+        uusi.pdf = tiedosto.readAll();
+
+        tiedosto.close();
+    }
+    else
+    {
+        QImage kuva(polku);
+
+        // Kuvatiedosto, muutetaan pdf-muotoon
+        QTemporaryFile tempFile(QDir::tempPath() + "/imgcnv-XXXXXX.pdf");
+        tempFile.open();
+        tempFile.close();
+
+        QPrinter printer(QPrinter::HighResolution);
+        printer.setOutputFileName( tempFile.fileName());
+        {
+            QPainter painter( &printer);
+
+            QRect rect = painter.viewport();
+            QSize size = kuva.size();
+            size.scale( rect.size(), Qt::KeepAspectRatio );
+            painter.setViewport( rect.x(), rect.y(),
+                                 size.width(), size.height());
+            painter.setWindow( kuva.rect() );
+            painter.drawImage(0,0,kuva);
+        }
+
+        QFile luku( tempFile.fileName());
+        luku.open( QIODevice::ReadOnly );
+        uusi.pdf = luku.readAll();
+        luku.close();
+    }
+
     uusi.otsikko = otsikko;
-    uusi.muokattu = true;
+    uusi.muokattu = true;   // Uusi, tallentamaton tiedosto
+
+    // Peukkukuvan tulostus, kun päästään sinne saakka
+    Poppler::Document *pdfDoc = Poppler::Document::loadFromData( uusi.pdf );
+    if( pdfDoc )
+    {
+        Poppler::Page *pdfsivu = pdfDoc->page(0);
+        if( pdfsivu )
+        {
+            QImage image = pdfsivu->renderToImage(24,24);
+            QPixmap kuva = QPixmap::fromImage( image.scaled(64,64,Qt::KeepAspectRatio) );
+            QBuffer buffer(&uusi.thumbnail);
+            buffer.open(QIODevice::WriteOnly);
+            kuva.save(&buffer, "PNG");
+
+            delete pdfsivu;
+        }
+        delete pdfDoc;
+    }
 
     liitteet_.append(uusi);
 
@@ -140,10 +178,23 @@ void LiiteModel::poistaLiite(int indeksi)
         poistetutIdt_.append( liitteet_[indeksi].id);
 
     // Poistetaan tiedosto
-    QFile( liitteet_[indeksi].tiedostopolku() ).remove();
+    QFile( liitePolku( liitteet_.at(indeksi).liiteno ) ).remove();
 
     liitteet_.removeAt(indeksi);
     endRemoveRows();
+}
+
+QString LiiteModel::liitePolku(int liitenro) const
+{
+    return kp()->hakemisto().absoluteFilePath( "liitteet/" + liiteNimi(liitenro ));
+}
+
+QString LiiteModel::liiteNimi(int liitenro) const
+{
+    return QString("%1-%2.pdf")
+            .arg( tositeModel_->id(), 8, 10, QChar('0') )
+            .arg( liitenro, 2, 10, QChar('0') );
+
 }
 
 void LiiteModel::lataa()
@@ -152,7 +203,7 @@ void LiiteModel::lataa()
     liitteet_.clear();
 
     QSqlQuery kysely( *tositeModel_->tietokanta());
-    kysely.exec( QString("SELECT id, liiteno, otsikko, tiedosto, sha "
+    kysely.exec( QString("SELECT id, liiteno, otsikko, peukku, sha "
                          "FROM liite WHERE tosite=%1 ORDER BY liiteno").arg( tositeModel_->id() ));
     while( kysely.next())
     {
@@ -160,8 +211,14 @@ void LiiteModel::lataa()
         uusi.id = kysely.value("id").toInt();
         uusi.liiteno = kysely.value("liiteno").toInt();
         uusi.otsikko = kysely.value("otsikko").toString();
-        uusi.tiedostonnimi = kysely.value("tiedosto").toString();
         uusi.sha = kysely.value("sha").toByteArray();
+        uusi.thumbnail = kysely.value("peukku").toByteArray();
+
+        QFile tiedosto( liitePolku( uusi.liiteno) );
+        tiedosto.open(QIODevice::ReadOnly);
+        uusi.pdf = tiedosto.readAll();
+        tiedosto.close();
+
         liitteet_.append(uusi);
     }
     endResetModel();
@@ -180,68 +237,35 @@ void LiiteModel::tallenna()
 {
     QSqlQuery kysely( *tositeModel_->tietokanta());
     for( int i=0; i<liitteet_.count(); i++)
-    {
-        // Ensin mahdollinen tiedoston kopiointi
-        if( !liitteet_[i].uusitiedosto.isEmpty())
+    {        
+        if( liitteet_.at(i).muokattu)
         {
-            // Tiedoston nimi 00000001-01.jpg
-            // Tositteen nro - Liitteen nro . tarkenne
-            QFileInfo info( liitteet_[i].uusitiedosto );
-            QString uusinimi = QString("%1-%2.%3")
-                    .arg( tositeModel_->id(), 8, 10, QChar('0') )
-                    .arg( liitteet_[i].liiteno, 2, 10, QChar('0'))
-                    .arg( info.suffix().toLower() );
-
-            // Kopioidaan liitteet/ -hakemistoon
-            QString kopiopolku = kp()->hakemisto().absoluteFilePath("liitteet/" + uusinimi);
-
-            QFile tiedosto( liitteet_[i].uusitiedosto);
-            tiedosto.open( QIODevice::ReadOnly);
-            QByteArray sisalto = tiedosto.readAll();
-            tiedosto.close();
-
-            // Lasketaan SHA256-tiiviste eheyden varmistamiseksi
-            QCryptographicHash hash(QCryptographicHash::Sha256);
-            hash.addData(sisalto);
-            liitteet_[i].sha = hash.result().toHex();
-
-            // Kirjoitetaan tiedosto uuteen hakemistoonsa
-            QFile uusitiedosto(kopiopolku);
-            uusitiedosto.open(QIODevice::WriteOnly);
-            uusitiedosto.write(sisalto);
-            uusitiedosto.close();
-            liitteet_[i].tiedostonnimi = uusinimi;
-            liitteet_[i].uusitiedosto = QString();
-        }
-
-
-        if( liitteet_[i].muokattu && !liitteet_[i].tiedostonnimi.isEmpty())
-        {
-            if( liitteet_[i].id)
+            if( liitteet_.at(i).id == 0)
             {
-                kysely.prepare("UPDATE liite SET otsikko=:otsikko, tiedosto=:tiedosto,"
-                               "sha=:sha WHERE id=:id");
-                kysely.bindValue(":id", liitteet_[i].id);
-            }
-            else
-            {
-                kysely.prepare("INSERT INTO liite(liiteno, tosite, otsikko, tiedosto, sha) "
-                               "VALUES(:liiteno, :tosite, :otsikko, :tiedosto, :sha)");
-                kysely.bindValue(":liiteno", liitteet_[i].liiteno);
+
+                // Tallennetaan tiedosto
+                QFile uusitiedosto( liitePolku( liitteet_.at(i).liiteno ) );
+                uusitiedosto.open(QIODevice::WriteOnly);
+                uusitiedosto.write( liitteet_.at(i).pdf );
+                uusitiedosto.close();
+
+                liitteet_[i].sha = QCryptographicHash::hash( liitteet_.at(i).pdf, QCryptographicHash::Sha256);
+
+                kysely.prepare("INSERT INTO liite(liiteno, tosite, otsikko, peukku, sha) "
+                               "VALUES(:liiteno, :tosite, :otsikko, :peukku, :sha)");
+
+                kysely.bindValue(":liiteno", liitteet_.at(i).liiteno);
                 kysely.bindValue(":tosite", tositeModel_->id());
+                kysely.bindValue(":sha", liitteet_.at(i).sha);
+                kysely.bindValue(":peukku", liitteet_.at(i).thumbnail);
             }
-
-            kysely.bindValue(":otsikko", liitteet_[i].otsikko);
-            kysely.bindValue(":tiedosto", liitteet_[i].tiedostonnimi);
-            kysely.bindValue(":sha", liitteet_[i].sha);
-
-            if( kysely.exec())
-                liitteet_[i].muokattu = false;
             else
-                qDebug() << kysely.lastQuery() << " " << kysely.lastError().text();
-
-            if( !liitteet_[i].id)
-                liitteet_[i].id = kysely.lastInsertId().toInt();
+            {
+                kysely.prepare("UPDATE liite SET otsikko=:otsikko WHERE id=:id");
+                kysely.bindValue(":id", liitteet_.at(i).id);
+            }
+            kysely.bindValue(":otsikko", liitteet_[i].otsikko);
+            kysely.exec();
         }
     }
     muokattu_ = false;
