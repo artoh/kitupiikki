@@ -47,6 +47,8 @@ NaytaliiteWg::NaytaliiteWg(QWidget *parent)
     scene = new QGraphicsScene(this);
     view = new QGraphicsView(scene);
 
+    view->setDragMode( QGraphicsView::ScrollHandDrag);
+
     addWidget(view);
 
     connect(ui->valitseTiedostoNappi, SIGNAL(clicked(bool)), this, SLOT(valitseTiedosto()));
@@ -84,10 +86,12 @@ void NaytaliiteWg::naytaTiedosto(const QString &polku)
         {
             // Näytä pdf
             Poppler::Document *pdfDoc = Poppler::Document::load( polku );
+            pdfDoc->setRenderHint(Poppler::Document::TextAntialiasing);
             if( !pdfDoc )
                 return;
 
             double ypos = 0.0;
+            double leveys = 0.0;
             // Monisivuisen pdf:n sivut pinotaan päällekkäin
             for( int sivu = 0; sivu < pdfDoc->numPages(); sivu++)
             {
@@ -96,18 +100,20 @@ void NaytaliiteWg::naytaTiedosto(const QString &polku)
                 if( !pdfSivu )
                     continue;
 
-                QImage image = pdfSivu->renderToImage(144.0, 144.0);
-                QPixmap kuva = QPixmap::fromImage( image);
+                QImage image = pdfSivu->renderToImage(144,144);
+                QPixmap kuva = QPixmap::fromImage( image, Qt::DiffuseAlphaDither);
 
                 QGraphicsPixmapItem *item = scene->addPixmap(kuva);
                 item->setY( ypos );
                 ypos += kuva.height();
 
+                if( kuva.width() > leveys)
+                    leveys = kuva.width();
+
                 delete pdfSivu;
             }
             delete pdfDoc;
 
-            view->fitInView(0, 0, view->scene()->sceneRect().width(), 0, Qt::KeepAspectRatio);
         }
         else
         {
