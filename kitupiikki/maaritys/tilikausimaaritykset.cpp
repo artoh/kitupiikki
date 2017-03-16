@@ -19,6 +19,7 @@
 
 #include <QDesktopServices>
 #include <QUrl>
+#include <QProgressDialog>
 
 #include "tilikausimaaritykset.h"
 #include "db/kirjanpito.h"
@@ -34,6 +35,7 @@ TilikausiMaaritykset::TilikausiMaaritykset()
 
     connect( ui->uusiNappi, SIGNAL(clicked(bool)), this, SLOT(uusiTilikausi()));
     connect( ui->arkistoNappi, SIGNAL(clicked(bool)), this, SLOT(arkisto()));
+
 }
 
 TilikausiMaaritykset::~TilikausiMaaritykset()
@@ -45,7 +47,12 @@ bool TilikausiMaaritykset::nollaa()
 {
     ui->view->setModel( kp()->tilikaudet() );
     ui->view->resizeColumnsToContents();
+
+    connect( ui->view->selectionModel() , SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(nykyinenVaihtuuPaivitaNapit()) );
+
     ui->view->selectRow( ui->view->model()->rowCount(QModelIndex()) - 1);
+
+
     return true;
 }
 
@@ -76,9 +83,39 @@ void TilikausiMaaritykset::arkisto()
     if( ui->view->currentIndex().isValid())
     {
         Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->view->currentIndex().row() );
-        Arkistoija::arkistoi(kausi);
+
+        // Tehdään arkisto, jos se on päivittämisen tarpeessa
+        if( !kausi.arkistoitu().isValid() || kausi.arkistoitu() < kausi.viimeinenPaivitys())
+        {
+            QProgressDialog odota(tr("Muodostetaan arkistoa"), QString(), 0, 100, this);
+            odota.setMinimumDuration(250);
+
+            QString sha = Arkistoija::arkistoi(kausi);
+            kp()->tilikaudet()->merkitseArkistoiduksi( ui->view->currentIndex().row(), sha);    // Merkitsee arkistoinnin tehdyksi
+            kp()->tilikaudet()->tallenna();
+
+            odota.setValue(100);
+        }
+        // Avataan arkistoi
 
         QDesktopServices::openUrl( QUrl::fromLocalFile( kp()->hakemisto().absoluteFilePath("arkisto/" + kausi.arkistoHakemistoNimi()) + "/index.html" ));
 
+    }
+}
+
+void TilikausiMaaritykset::nykyinenVaihtuuPaivitaNapit()
+{
+    if( ui->view->currentIndex().isValid())
+    {
+        Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->view->currentIndex().row() );
+        // Tilikaudelle voi tehdä tilinpäätöksen, jos aika on jo ajanut ohi
+        ui->tilinpaatosNappi->setEnabled( kausi.paattyy() <= kp()->paivamaara() );
+        // Tilikauden voi arkistoida, jos tilikautta ei ole lukittu - arkiston voi näyttää aina
+        ui->arkistoNappi->setEnabled( kausi.paattyy() < kp()->tilitpaatetty() || kausi.arkistoitu().isValid());
+    }
+    else
+    {
+        ui->tilinpaatosNappi->setEnabled(false);
+        ui->arkistoNappi->setEnabled(false);
     }
 }

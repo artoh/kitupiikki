@@ -142,9 +142,9 @@ void AloitusSivu::abouttiarallaa()
     aboutUi.setupUi( &aboutDlg);
     connect( aboutUi.aboutQtNappi, SIGNAL(clicked(bool)), qApp, SLOT(aboutQt()));
 
-    aboutUi.versioLabel->setText( tr("<b>Versio %1</b><br>Kokoonpano %2")
-                                  .arg( qApp->applicationVersion())
-                                  .arg(  __DATE__  ) );
+    aboutUi.versioLabel->setText( tr("<b>Versio %1</b>")
+                                  .arg( qApp->applicationVersion()) );
+
 
     aboutDlg.exec();
 }

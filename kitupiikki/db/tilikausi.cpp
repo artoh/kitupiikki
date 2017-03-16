@@ -19,6 +19,7 @@
 #include <QVariant>
 
 #include "tilikausi.h"
+#include "kirjanpito.h"
 
 Tilikausi::Tilikausi()
 {
@@ -31,6 +32,30 @@ Tilikausi::Tilikausi(QDate tkalkaa, QDate tkpaattyy, QByteArray json) :
     json_(json)
 {
 
+}
+
+QDateTime Tilikausi::arkistoitu()
+{
+    QString arkistoituna = json()->str("Arkistoitu");
+    if( arkistoituna.isEmpty())
+        return QDateTime();
+    else
+        return QDateTime::fromString( arkistoituna, Qt::ISODate);
+}
+
+void Tilikausi::merkitseNytArkistoiduksi(const QString &shatiiviste)
+{
+    QDateTime nyt = QDateTime( kp()->paivamaara(), QTime::currentTime());
+    json_.set("Arkistoitu", nyt.toString(Qt::ISODate));
+    json_.set("ArkistoSHA", shatiiviste);
+}
+
+QDateTime Tilikausi::viimeinenPaivitys() const
+{
+    QSqlQuery kysely( QString("SELECT max(muokattu) FROM vienti WHERE pvm BETWEEN \"%1\" AND \"%2\" ").arg(alkaa().toString(Qt::ISODate)).arg(paattyy().toString(Qt::ISODate)));
+    if( kysely.next() )
+        return kysely.value(0).toDateTime();
+    return QDateTime();
 }
 
 QString Tilikausi::kausivaliTekstina() const

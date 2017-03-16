@@ -34,6 +34,7 @@ public slots:
     static void uusiTilikausi();
 
     void arkisto();
+    void nykyinenVaihtuuPaivitaNapit();
 
 private:
     Ui::TilikausiMaaritykset *ui;

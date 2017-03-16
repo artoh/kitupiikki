@@ -36,7 +36,8 @@ public:
     enum Sarake
     {
         KAUSI,
-        TULOS
+        TULOS,
+        ARKISTOITU
     };
 
     enum
@@ -57,6 +58,8 @@ public:
 
     void lisaaTilikausi( Tilikausi tilikausi);
     Tilikausi tilikausiPaivalle(const QDate &paiva) const;
+
+    void merkitseArkistoiduksi(int indeksi, const QString& shatiiviste);
 
     int indeksiPaivalle(const QDate &paiva) const;
     Tilikausi tilikausiIndeksilla(int indeksi) const;

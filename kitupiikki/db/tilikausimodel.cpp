@@ -33,7 +33,7 @@ int TilikausiModel::rowCount(const QModelIndex & /* parent */) const
 
 int TilikausiModel::columnCount(const QModelIndex & /* parent */) const
 {
-    return 2;
+    return 3;
 }
 
 QVariant TilikausiModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -49,6 +49,8 @@ QVariant TilikausiModel::headerData(int section, Qt::Orientation orientation, in
             return QVariant("Tilikausi");
         case TULOS:
             return QVariant("Yli/alijäämä");
+        case ARKISTOITU:
+            return QVariant("Arkistoitu");
         }
     }
     return QVariant();
@@ -70,6 +72,8 @@ QVariant TilikausiModel::data(const QModelIndex &index, int role) const
                              .arg(kausi.paattyy().toString(Qt::SystemLocaleShortDate)));
         else if( index.column() == TULOS)
             return QString("%L1 €").arg( kausi.tulos()  / 100.0,0,'f',2);
+        else if( index.column() == ARKISTOITU )
+            return kausi.arkistoitu().date();
     }
     else if( role == AlkaaRooli)
         return QVariant( kausi.alkaa());
@@ -87,6 +91,13 @@ QVariant TilikausiModel::data(const QModelIndex &index, int role) const
     {
         if( kp()->tilitpaatetty() >= kausi.paattyy() )
             return QIcon(":/pic/lukittu.png");
+        else
+            return QIcon();
+    }
+    else if( role == Qt::DecorationRole && index.column() == ARKISTOITU)
+    {
+        if( kausi.arkistoitu() > kausi.viimeinenPaivitys() )
+            return QIcon(":/pic/ok.png");
         else
             return QIcon();
     }
@@ -114,6 +125,13 @@ Tilikausi TilikausiModel::tilikausiPaivalle(const QDate &paiva) const
     return Tilikausi(QDate(), QDate()); // Kelvoton tilikausi
 
 }
+
+void TilikausiModel::merkitseArkistoiduksi(int indeksi, const QString &shatiiviste)
+{
+    kaudet_[indeksi].merkitseNytArkistoiduksi(shatiiviste);
+    emit dataChanged( index(indeksi, ARKISTOITU),index(indeksi, ARKISTOITU));
+}
+
 
 int TilikausiModel::indeksiPaivalle(const QDate &paiva) const
 {

@@ -19,6 +19,7 @@
 #define TILIKAUSI_H
 
 #include <QDate>
+#include <QDateTime>
 
 #include "jsonkentta.h"
 
@@ -33,6 +34,22 @@ public:
 
     QDate alkaa() const { return alkaa_; }
     QDate paattyy() const { return paattyy_; }
+
+    /**
+     * @brief Milloin tämä tilikausi on viimeksi arkistoitu
+     * @return
+     */
+    QDateTime arkistoitu();
+    /**
+     * @brief Merkitsee tilikauden arkistoiduksi tälle hetkelle
+     */
+    void merkitseNytArkistoiduksi(const QString& shatiiviste);
+
+    /**
+     * @brief Milloin tämän tilikauden kirjauksia on viimeksi päivitetty
+     * @return
+     */
+    QDateTime viimeinenPaivitys() const;
 
     QString kausivaliTekstina() const;
 

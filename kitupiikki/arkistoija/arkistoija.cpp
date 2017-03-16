@@ -390,7 +390,7 @@ QString Arkistoija::arkistoi(Tilikausi &tilikausi)
     arkistoija.arkistoiTiedosto("paakirja.html",
                                 PaakirjaRaportti::kirjoitaRaportti( tilikausi.alkaa(), tilikausi.paattyy(), -1, true, true).html(true));
     arkistoija.arkistoiTiedosto("tililuettelo.html",
-                                TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::KAIKKI_TILIT, tilikausi, false, tilikausi.paattyy()).html(true));
+                                TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::KAYTOSSA_TILIT, tilikausi, false, tilikausi.paattyy()).html(true));
     arkistoija.arkistoiTiedosto("tositeluettelo.html",
                                 TositeluetteloRaportti::kirjoitaRaportti( tilikausi.alkaa(), tilikausi.paattyy(), true, true, false, false, true).html(true) );
     arkistoija.arkistoiTiedosto("tositepaivakirja.html",
