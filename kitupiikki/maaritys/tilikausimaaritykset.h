@@ -34,6 +34,7 @@ public slots:
     static void uusiTilikausi();
 
     void arkisto();
+    void tilinpaatos();
     void nykyinenVaihtuuPaivitaNapit();
 
 private:

@@ -29,6 +29,15 @@
 class Tilikausi
 {
 public:
+
+    enum TilinpaatosTila
+    {
+        ALOITTAMATTA,
+        KESKEN,
+        VAHVISTETTU,
+        EILAADITATILINAVAUKSELLE
+    };
+
     Tilikausi();
     Tilikausi(QDate tkalkaa, QDate tkpaattyy, QByteArray json = QByteArray());
 
@@ -54,6 +63,13 @@ public:
     QString kausivaliTekstina() const;
 
     JsonKentta *json() { return &json_; }
+
+    /**
+     * @brief Tilinpäätöksen laadinnan tila
+     * @return
+     */
+    TilinpaatosTila tilinpaatoksenTila();
+    void asetaTilinpaatostila( TilinpaatosTila tila);
 
     /**
      * @brief Tilikauden yli/alijäämä

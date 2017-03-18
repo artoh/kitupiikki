@@ -199,7 +199,8 @@ FORMS += \
     raportti/tilikarttaraportti.ui \
     maaritys/tilikausimaaritykset.ui \
     maaritys/lisaatilikausidlg.ui \
-    aloitussivu/aboutdialog.ui
+    aloitussivu/aboutdialog.ui \
+    maaritys/lukitsetilikausi.ui
 
 DISTFILES += \
     uusikp/luo.sql \

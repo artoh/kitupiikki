@@ -20,6 +20,7 @@
 
 #include "tilikausi.h"
 #include "kirjanpito.h"
+#include "asetusmodel.h"
 
 Tilikausi::Tilikausi()
 {
@@ -63,6 +64,30 @@ QString Tilikausi::kausivaliTekstina() const
     return QString("%1 - %2")
             .arg( alkaa().toString(Qt::SystemLocaleShortDate))
             .arg( paattyy().toString(Qt::SystemLocaleShortDate));
+}
+
+Tilikausi::TilinpaatosTila Tilikausi::tilinpaatoksenTila()
+{
+    if( paattyy() == kp()->asetukset()->pvm("TilinavausPvm") )
+        return EILAADITATILINAVAUKSELLE;
+
+    QString tilateksti = json()->str("Tilinpaatos");
+    if( tilateksti == "KESKEN ")
+        return KESKEN;
+    else if( tilateksti == "VAHVISTETTU")
+        return VAHVISTETTU;
+    else
+        return ALOITTAMATTA;
+}
+
+void Tilikausi::asetaTilinpaatostila(Tilikausi::TilinpaatosTila tila)
+{
+    if( tila == ALOITTAMATTA)
+        json_.unset("Tilinpaatos");
+    else if( tila == KESKEN)
+        json_.set("Tilinpaatos","KESKEN");
+    else if( tila == VAHVISTETTU )
+        json_.set("Tilinpaatos","VAHVISTETTU");
 }
 
 int Tilikausi::tulos() const
