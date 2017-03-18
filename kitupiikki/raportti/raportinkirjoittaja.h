@@ -69,7 +69,7 @@ struct RaporttiSarake
  * Ja lopuksi raportti tulostetaan
  *
  * @code
- *    raportti.tulosta( &printer );
+ *    raportti.tulosta( &printer, &painter );
  * @endcode
  *
  */
@@ -114,10 +114,11 @@ public:
     /**
      * @brief Tulostaa kirjoitetun raportin
      * @param printer
+     * @param painter
      * @param alkusivunumero Ensimmäisen tulostettavan sivun numero
      * @return sivuja tulostettu
      */
-    int tulosta(QPrinter *printer, bool raidoita = false, int alkusivunumero = 1);
+    int tulosta(QPrinter *printer, QPainter *painter, bool raidoita = false, int alkusivunumero = 1);
 
     /**
      * @brief Palauttaa raportin html-muodossa
@@ -128,13 +129,14 @@ public:
     QString otsikko() const { return otsikko_; }
     QString kausiteksti() const { return kausiteksti_; }
 
+    void tulostaYlatunniste(QPainter *painter, int sivu);
 
 signals:
 
 public slots:
 
 protected:
-    void tulostaYlatunniste(QPainter *painter, int sivu);
+
 
 
 protected:

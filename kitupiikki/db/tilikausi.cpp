@@ -72,7 +72,7 @@ Tilikausi::TilinpaatosTila Tilikausi::tilinpaatoksenTila()
         return EILAADITATILINAVAUKSELLE;
 
     QString tilateksti = json()->str("Tilinpaatos");
-    if( tilateksti == "KESKEN ")
+    if( tilateksti == "KESKEN")
         return KESKEN;
     else if( tilateksti == "VAHVISTETTU")
         return VAHVISTETTU;

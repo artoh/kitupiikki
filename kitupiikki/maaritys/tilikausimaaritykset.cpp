@@ -29,6 +29,7 @@
 #include "ui_lukitsetilikausi.h"
 
 #include "arkistoija/arkistoija.h"
+#include "tilinpaatoseditori/tilinpaatoseditori.h"
 
 
 TilikausiMaaritykset::TilikausiMaaritykset()
@@ -151,13 +152,17 @@ void TilikausiMaaritykset::tilinpaatos()
                 arkisto();
             }
             // Vaihdetaan arkiston tilaa
-            kp()->tilikaudet()->vaihdeTilinpaatostila(ui->view->currentIndex().row() ,  Tilikausi::KESKEN);
+            kp()->tilikaudet()->vaihdaTilinpaatostila(ui->view->currentIndex().row() ,  Tilikausi::KESKEN);
         }
 
         kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->view->currentIndex().row() );
         if( kausi.tilinpaatoksenTila() == Tilikausi::KESKEN)
         {
             // Muokataan tilinpäätöstä
+            TilinpaatosEditori *tpEditori = new TilinpaatosEditori( kausi );
+            tpEditori->move( window()->x()+50, window()->y()+50);
+            tpEditori->show();
+            tpEditori->resize( window()->width()-100, window()->height()-100 );
 
         }
         else if( kausi.tilinpaatoksenTila() == Tilikausi::VAHVISTETTU)

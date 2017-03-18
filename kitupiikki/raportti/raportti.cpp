@@ -74,7 +74,8 @@ void Raportti::tulosta()
     QPrintDialog printDialog( tulostin, this );
     if( printDialog.exec())
     {
-        raportti().tulosta( tulostin, raitaCheck->isChecked());
+        QPainter painter( tulostin );
+        raportti().tulosta( tulostin, &painter, raitaCheck->isChecked());
     }
 }
 
@@ -86,7 +87,8 @@ void Raportti::esikatsele()
     file->close();
 
     tulostin->setOutputFileName( file->fileName() );
-    raportti().tulosta( tulostin, raitaCheck->isChecked());
+    QPainter painter( tulostin );
+    raportti().tulosta( tulostin, &painter, raitaCheck->isChecked());
     QDesktopServices::openUrl( QUrl(file->fileName()) );
 }
 

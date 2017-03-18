@@ -158,7 +158,7 @@ void TilikausiModel::merkitseArkistoiduksi(int indeksi, const QString &shatiivis
     emit dataChanged( index(indeksi, ARKISTOITU),index(indeksi, ARKISTOITU));
 }
 
-void TilikausiModel::vaihdeTilinpaatostila(int indeksi, Tilikausi::TilinpaatosTila tila)
+void TilikausiModel::vaihdaTilinpaatostila(int indeksi, Tilikausi::TilinpaatosTila tila)
 {
     kaudet_[indeksi].asetaTilinpaatostila(tila);
     tallenna();

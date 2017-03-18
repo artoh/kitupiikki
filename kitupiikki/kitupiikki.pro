@@ -84,7 +84,9 @@ SOURCES += main.cpp \
     selaus/tositeselausmodel.cpp \
     maaritys/tilikausimaaritykset.cpp \
     arkistoija/arkistoija.cpp \
-    raportti/tositeluetteloraportti.cpp
+    raportti/tositeluetteloraportti.cpp \
+    tilinpaatoseditori/tilinpaatoseditori.cpp \
+    tilinpaatoseditori/tilinpaatostulostaja.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -158,7 +160,9 @@ HEADERS += \
     selaus/tositeselausmodel.h \
     maaritys/tilikausimaaritykset.h \
     arkistoija/arkistoija.h \
-    raportti/tositeluetteloraportti.h
+    raportti/tositeluetteloraportti.h \
+    tilinpaatoseditori/tilinpaatoseditori.h \
+    tilinpaatoseditori/tilinpaatostulostaja.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

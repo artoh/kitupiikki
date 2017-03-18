@@ -61,7 +61,7 @@ public:
     Tilikausi tilikausiPaivalle(const QDate &paiva) const;
 
     void merkitseArkistoiduksi(int indeksi, const QString& shatiiviste);
-    void vaihdeTilinpaatostila(int indeksi, Tilikausi::TilinpaatosTila tila);
+    void vaihdaTilinpaatostila(int indeksi, Tilikausi::TilinpaatosTila tila);
 
     int indeksiPaivalle(const QDate &paiva) const;
     Tilikausi tilikausiIndeksilla(int indeksi) const;
