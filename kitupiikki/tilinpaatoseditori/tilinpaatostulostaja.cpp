@@ -34,17 +34,22 @@ bool TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, QTextDocument
     if( QFile::exists(tiedosto))
             QFile(tiedosto).remove();
 
+    // Pdf-tiedoston nimi
     printer->setOutputFileName( tiedosto );
     QPainter painter( printer );
 
     tulostaKansilehti( tilikausi, &painter);
-    int sivulla = 2;
+    int sivulla = 1;
     printer->newPage();
 
+    // Vertailutietoja varten
+    Tilikausi edellinenKausi = kp()->tilikaudet()->tilikausiPaivalle( tilikausi.alkaa().addDays(-1) );
 
+    // Tase
     Raportoija tase("Tase");
     tase.lisaaTasepaiva( tilikausi.paattyy() );
-
+    if( edellinenKausi.paattyy().isValid())
+        tase.lisaaTasepaiva( edellinenKausi.paattyy());
 
     RaportinKirjoittaja tasekirjoittaja = tase.raportti();
     tasekirjoittaja.asetaOtsikko("TILINPÄÄTÖS (Tase)");
@@ -53,8 +58,12 @@ bool TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, QTextDocument
 
     printer->newPage();
 
+    // Tuloslaskelma
     Raportoija tuloslaskelma("Tuloslaskelma");
     tuloslaskelma.lisaaKausi( tilikausi.alkaa(), tilikausi.paattyy());
+    if( edellinenKausi.paattyy().isValid())
+        tuloslaskelma.lisaaKausi( edellinenKausi.alkaa(), edellinenKausi.paattyy());
+
 
     RaportinKirjoittaja tuloskirjoittaja = tuloslaskelma.raportti();
     tuloskirjoittaja.asetaOtsikko("TILINPÄÄTÖS (Tuloslaskelma)");
@@ -62,11 +71,13 @@ bool TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, QTextDocument
 
     sivulla += tuloskirjoittaja.tulosta(printer, &painter, false, sivulla);
 
+    // Liitetiedot, allekirjoitukset yms
     painter.setFont( QFont("Sans",10));
     int rivinkorkeus = painter.fontMetrics().height();
     tuloskirjoittaja.asetaOtsikko("TILINPÄÄTÖS");
 
     QTextDocument doc;
+    // Sivutetaan niin, että ylätunniste mahtuu
     QSize sivunkoko( printer->pageRect().width(), printer->pageRect().height() - rivinkorkeus * 4 );
 
     doc.documentLayout()->setPaintDevice( painter.device());
@@ -95,23 +106,17 @@ bool TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, QTextDocument
 
 void TilinpaatosTulostaja::tulostaKansilehti(Tilikausi tilikausi, QPainter *painter)
 {
+
     painter->save();
-    RaportinKirjoittaja rk;
-    rk.asetaOtsikko("TILINPÄÄTÖS");
-    rk.asetaKausiteksti(tilikausi.kausivaliTekstina());
-    rk.tulostaYlatunniste(painter, 1);
-
     painter->setFont(QFont("Sans",24,QFont::Bold));
-
 
     int sivunleveys = painter->window().width();
     int rivinkorkeus = painter->fontMetrics().height();
     int sivunkorkeus = painter->window().height();
 
-    if( QFile::exists(kp()->hakemisto().absoluteFilePath("logo128.png")))
+    if( QFile::exists(kp()->hakemisto().absoluteFilePath("logo.png")))
     {
-        painter->drawPixmap( QRect(sivunleveys/2 - rivinkorkeus*2, sivunkorkeus / 3 - rivinkorkeus * 4, rivinkorkeus*4, rivinkorkeus*4), QPixmap( kp()->hakemisto().absoluteFilePath("logo128.png") ),
-                             QRect(0,0,128,128));
+        painter->drawPixmap( sivunleveys/2 - rivinkorkeus*2, sivunkorkeus / 3 - rivinkorkeus * 4, rivinkorkeus*4, rivinkorkeus*4, QPixmap( kp()->hakemisto().absoluteFilePath("logo.png") ) );
     }
     painter->drawText( QRectF(0, sivunkorkeus/3, sivunleveys, rivinkorkeus * 2), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter, kp()->asetukset()->asetus("Nimi"));
 

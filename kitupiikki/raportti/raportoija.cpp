@@ -133,14 +133,14 @@ void Raportoija::kirjoitaYlatunnisteet(RaportinKirjoittaja &rk)
         RaporttiRivi orivi;
         orivi.lisaa("");
         for(int i=0; i < alkuPaivat_.count(); i++)
-            orivi.lisaa( QString("%1 -").arg( alkuPaivat_.at(i).toString(Qt::SystemLocaleShortDate) ) );
+            orivi.lisaa( QString("%1 -").arg( alkuPaivat_.at(i).toString(Qt::SystemLocaleShortDate) ), 1, true );
         rk.lisaaOtsake(orivi);
     }
     // Tasepäivät tai loppupäivät
     RaporttiRivi olrivi;
     olrivi.lisaa("");
     for(int i=0; i < loppuPaivat_.count(); i++)
-        olrivi.lisaa( loppuPaivat_.at(i) );
+        olrivi.lisaa( loppuPaivat_.at(i).toString(Qt::SystemLocaleShortDate), 1, true );
     rk.lisaaOtsake(olrivi);
 }
 

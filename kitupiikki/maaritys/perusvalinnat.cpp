@@ -104,6 +104,7 @@ bool Perusvalinnat::tallenna()
             tiedosto128.remove();
         // Sitten tallennetaan
 
+        uusilogo.save(Kirjanpito::db()->hakemisto().absoluteFilePath("logo.png")  );    // Skaalaamaton logo
         uusilogo.scaled(64, 64, Qt::KeepAspectRatio).save( Kirjanpito::db()->hakemisto().absoluteFilePath("logo64.png")  );
         uusilogo.scaled(128, 128, Qt::KeepAspectRatio).save( Kirjanpito::db()->hakemisto().absoluteFilePath("logo128.png")  );
     }

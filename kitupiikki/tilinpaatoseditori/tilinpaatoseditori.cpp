@@ -15,9 +15,11 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QDesktopServices>
 
 #include "tilinpaatoseditori.h"
 #include "tilinpaatostulostaja.h"
+#include "db/kirjanpito.h"
 
 TilinpaatosEditori::TilinpaatosEditori(Tilikausi tilikausi)
     : QMainWindow(),
@@ -42,6 +44,7 @@ TilinpaatosEditori::TilinpaatosEditori(Tilikausi tilikausi)
 void TilinpaatosEditori::esikatsele()
 {
     TilinpaatosTulostaja::tulostaTilinpaatos( tilikausi_, editori_->document(), &printer_);
+    QDesktopServices::openUrl( QUrl::fromLocalFile( kp()->hakemisto().absoluteFilePath("arkisto/" + tilikausi_.arkistoHakemistoNimi() + "/tilinpaatos.pdf") ));
 }
 
 void TilinpaatosEditori::luoAktiot()
