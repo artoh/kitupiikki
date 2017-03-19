@@ -86,7 +86,8 @@ SOURCES += main.cpp \
     arkistoija/arkistoija.cpp \
     raportti/tositeluetteloraportti.cpp \
     tilinpaatoseditori/tilinpaatoseditori.cpp \
-    tilinpaatoseditori/tilinpaatostulostaja.cpp
+    tilinpaatoseditori/tilinpaatostulostaja.cpp \
+    maaritys/liitetietokaavamuokkaus.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -162,7 +163,8 @@ HEADERS += \
     arkistoija/arkistoija.h \
     raportti/tositeluetteloraportti.h \
     tilinpaatoseditori/tilinpaatoseditori.h \
-    tilinpaatoseditori/tilinpaatostulostaja.h
+    tilinpaatoseditori/tilinpaatostulostaja.h \
+    maaritys/liitetietokaavamuokkaus.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

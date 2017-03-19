@@ -32,6 +32,7 @@
 #include "kohdennusmuokkaus.h"
 #include "raporttimuokkaus.h"
 #include "tilikausimaaritykset.h"
+#include "liitetietokaavamuokkaus.h"
 #include "tyokalut.h"
 
 #include <QDebug>
@@ -50,6 +51,7 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu("Tilikaudet", TILIKAUDET, QIcon(":/pic/kirjalaatikko.png"), false );
     lisaaSivu("Arvonlisävero", ALV, QIcon(":/pic/karhu.png"));
     lisaaSivu("Raportit", RAPORTIT, QIcon(":/pic/print.png"));
+    lisaaSivu("Liitetietojen kaava", LIITETIETOKAAVA, QIcon(":/pic/tekstisivu.png"));
     lisaaSivu("Työkalut", TYOKALUT, QIcon(":/pic/vasara.png"), false);
 
     connect( lista, SIGNAL(itemActivated(QListWidgetItem*)), this, SLOT(valitseSivu(QListWidgetItem*)));
@@ -174,6 +176,8 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         nykyinen = new Tyokalut;
     else if( sivu == TILIKAUDET)
         nykyinen = new TilikausiMaaritykset;
+    else if( sivu == LIITETIETOKAAVA)
+        nykyinen = new LiitetietokaavaMuokkaus;
     else
         nykyinen = new Perusvalinnat;   // Tilipäinen
 
@@ -210,6 +214,12 @@ void MaaritysSivu::paivitaNakyvat()
     // Jos tilit avattavissa eikä avaustilikautta ole vielä päätetty
     item = lista->item( TILINAVAUS );
     item->setHidden( kp()->asetukset()->luku("Tilinavaus") == 0 || kp()->tilitpaatetty() != kp()->asetukset()->pvm("TilinavausPvm") );
+
+    // Edistyneet toiminnot
+    bool naytaEdistyneet = kp()->asetukset()->onko("NaytaEdistyneet");
+    lista->item( RAPORTIT)->setHidden( !naytaEdistyneet );
+    lista->item( LIITETIETOKAAVA )->setHidden( !naytaEdistyneet );
+    lista->item( TYOKALUT )->setHidden( !naytaEdistyneet);
 
 }
 

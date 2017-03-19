@@ -49,6 +49,7 @@ public:
         TILIKAUDET,
         ALV,
         RAPORTIT,
+        LIITETIETOKAAVA,
         TYOKALUT
     };
 
