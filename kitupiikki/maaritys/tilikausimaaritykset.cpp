@@ -30,6 +30,7 @@
 
 #include "arkistoija/arkistoija.h"
 #include "tilinpaatoseditori/tilinpaatoseditori.h"
+#include "tilinpaatoseditori/tpaloitus.h"
 
 
 TilikausiMaaritykset::TilikausiMaaritykset()
@@ -151,6 +152,9 @@ void TilikausiMaaritykset::tilinpaatos()
                 // Laaditaan arkisto
                 arkisto();
             }
+
+
+
             // Vaihdetaan arkiston tilaa
             kp()->tilikaudet()->vaihdaTilinpaatostila(ui->view->currentIndex().row() ,  Tilikausi::KESKEN);
         }
@@ -158,6 +162,11 @@ void TilikausiMaaritykset::tilinpaatos()
         kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->view->currentIndex().row() );
         if( kausi.tilinpaatoksenTila() == Tilikausi::KESKEN)
         {
+            // Tilapäisesti laitettu tähän ;)
+            TpAloitus tpaloittaja;
+            if( tpaloittaja.exec() != QDialog::Accepted)
+                return;
+
             // Muokataan tilinpäätöstä
             TilinpaatosEditori *tpEditori = new TilinpaatosEditori( kausi );
             tpEditori->move( window()->x()+50, window()->y()+50);

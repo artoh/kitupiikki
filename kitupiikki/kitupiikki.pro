@@ -87,7 +87,8 @@ SOURCES += main.cpp \
     raportti/tositeluetteloraportti.cpp \
     tilinpaatoseditori/tilinpaatoseditori.cpp \
     tilinpaatoseditori/tilinpaatostulostaja.cpp \
-    maaritys/liitetietokaavamuokkaus.cpp
+    maaritys/liitetietokaavamuokkaus.cpp \
+    tilinpaatoseditori/tpaloitus.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -164,7 +165,8 @@ HEADERS += \
     raportti/tositeluetteloraportti.h \
     tilinpaatoseditori/tilinpaatoseditori.h \
     tilinpaatoseditori/tilinpaatostulostaja.h \
-    maaritys/liitetietokaavamuokkaus.h
+    maaritys/liitetietokaavamuokkaus.h \
+    tilinpaatoseditori/tpaloitus.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -206,7 +208,8 @@ FORMS += \
     maaritys/tilikausimaaritykset.ui \
     maaritys/lisaatilikausidlg.ui \
     aloitussivu/aboutdialog.ui \
-    maaritys/lukitsetilikausi.ui
+    maaritys/lukitsetilikausi.ui \
+    tilinpaatoseditori/tpaloitus.ui
 
 DISTFILES += \
     uusikp/luo.sql \
