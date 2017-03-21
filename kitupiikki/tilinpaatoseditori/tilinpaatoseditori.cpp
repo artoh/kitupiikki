@@ -45,34 +45,37 @@ TilinpaatosEditori::TilinpaatosEditori(Tilikausi tilikausi)
 
 void TilinpaatosEditori::esikatsele()
 {
-    TilinpaatosTulostaja::tulostaTilinpaatos( tilikausi_, editori_->document(), &printer_);
+    QString teksti = raportit_ + "\n" + editori_->toHtml();
+    TilinpaatosTulostaja::tulostaTilinpaatos( tilikausi_, teksti , &printer_);
+    kp()->tilikaudet()->tallennaTilinpaatosteksti( kp()->tilikaudet()->indeksiPaivalle(tilikausi_.paattyy()), teksti );
+
     QDesktopServices::openUrl( QUrl::fromLocalFile( kp()->hakemisto().absoluteFilePath("arkisto/" + tilikausi_.arkistoHakemistoNimi() + "/tilinpaatos.pdf") ));
 }
 
 void TilinpaatosEditori::luoAktiot()
 {
-    esikatseleAction_ = new QAction( QIcon(":/pic/print.png"), tr("Esikatsele"), this);
+    esikatseleAction_ = new QAction( QIcon(":/pic/print.png"), tr("Tallenna ja esikatsele"), this);
     connect( esikatseleAction_, SIGNAL(triggered(bool)), this, SLOT(esikatsele()));
     vahvistaAction_ = new QAction( QIcon(":/pic/ok.png"), tr("Valmis"), this);
-    liitaAction_ = new QAction( QIcon(":/pic/tuotiedosto.png"), tr("Tuo"), this);
+    aloitaUudelleenAktio = new QAction( QIcon(":/pic/tuotiedosto.png"), tr("Aloita uudelleen"), this);
 }
 
 void TilinpaatosEditori::luoPalkit()
 {
     tilinpaatosTb_ = addToolBar( tr("&Tilinpäätös"));
     tilinpaatosTb_->addAction( esikatseleAction_ );
-    tilinpaatosTb_->addAction( liitaAction_ );
+    tilinpaatosTb_->addAction( aloitaUudelleenAktio );
     tilinpaatosTb_->addAction( vahvistaAction_ );
     tilinpaatosTb_->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 }
 
-void TilinpaatosEditori::lataa()
+void TilinpaatosEditori::uusiTp()
 {
     QStringList pohja = kp()->asetukset()->lista("TilinpaatosPohja");
     QStringList valinnat = kp()->asetukset()->lista("TilinpaatosValinnat");
     QRegularExpression tunnisteRe("#(?<tunniste>\\w+).*");
     tunnisteRe.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);
-    QRegularExpression raporttiRe("@(?<raportti>.+)!(?<otsikko).+)@");
+    QRegularExpression raporttiRe("@(?<raportti>.+)!(?<otsikko>.+)@");
 
     QString teksti;
 
@@ -96,9 +99,29 @@ void TilinpaatosEditori::lataa()
             // Näillä tulostetaan erityisiä kenttiä
             if( rivi == "@sha@")
                 teksti.append( tilikausi_.json()->str("ArkistoSHA"));
+            else
+            {
+                QRegularExpressionMatch rmats = raporttiRe.match(rivi);
+                if( rmats.hasMatch())
+                {
+                    raportit_.append( rivi + " " );
+                }
+            }
         }
         else if( tulosta )
             teksti.append(rivi);
     }
     editori_->setHtml(teksti);
+}
+
+void TilinpaatosEditori::lataa()
+{
+    QString data = tilikausi_.json()->str("TilinpaatosTeksti");
+    if( data.isEmpty())
+        uusiTp();
+    else
+    {
+        raportit_ = data.left( data.indexOf("\n"));
+        editori_->setHtml( data.mid(data.indexOf("\n")));
+    }
 }

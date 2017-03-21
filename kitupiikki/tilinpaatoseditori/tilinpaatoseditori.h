@@ -42,6 +42,7 @@ protected:
     void luoAktiot();
     void luoPalkit();
 
+    void uusiTp();
     void lataa();
 
 protected:
@@ -50,11 +51,13 @@ protected:
 
     QAction *esikatseleAction_;
     QAction *vahvistaAction_;
-    QAction *liitaAction_;
+    QAction *aloitaUudelleenAktio;
 
     QToolBar *tilinpaatosTb_;
 
     QPrinter printer_;
+
+    QString raportit_;
 };
 
 #endif // TILINPAATOSEDITORI_H

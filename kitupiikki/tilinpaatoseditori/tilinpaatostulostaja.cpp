@@ -21,6 +21,10 @@
 #include <QTextDocument>
 #include <QAbstractTextDocumentLayout>
 
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
+#include <QRegularExpressionMatchIterator>
+
 #include <QDebug>
 
 #include "tilinpaatostulostaja.h"
@@ -28,7 +32,7 @@
 
 #include "raportti/raportoija.h"
 
-bool TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, QTextDocument *document, QPrinter *printer)
+bool TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, QString teksti, QPrinter *printer)
 {
     QString tiedosto =  kp()->hakemisto().absoluteFilePath("arkisto/" + tilikausi.arkistoHakemistoNimi() + "/tilinpaatos.pdf" );
     if( QFile::exists(tiedosto))
@@ -40,41 +44,62 @@ bool TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, QTextDocument
 
     tulostaKansilehti( tilikausi, &painter);
     int sivulla = 1;
-    printer->newPage();
 
     // Vertailutietoja varten
     Tilikausi edellinenKausi = kp()->tilikaudet()->tilikausiPaivalle( tilikausi.alkaa().addDays(-1) );
 
-    // Tase
-    Raportoija tase("Tase");
-    tase.lisaaTasepaiva( tilikausi.paattyy() );
-    if( edellinenKausi.paattyy().isValid())
-        tase.lisaaTasepaiva( edellinenKausi.paattyy());
+    // Raportit
+    // Haetaan luetteloon merkityt raportit
+    // Raportit on määritelty ensimmäisellä rivillä muodossa @Raportin nimi!Tulostettava otsikko@
+    QString ekarivi = teksti.left( teksti.indexOf('\n') );
+    QRegularExpression raporttiRe("@(?<raportti>.+?)!(?<otsikko>.+?)@");
+    QRegularExpressionMatchIterator iter = raporttiRe.globalMatch(ekarivi);
+    while( iter.hasNext() )
+    {
+        QRegularExpressionMatch mats = iter.next();
+        QString raporttiNimi = mats.captured(1);
+        QString otsikko = mats.captured(2);
 
-    RaportinKirjoittaja tasekirjoittaja = tase.raportti();
-    tasekirjoittaja.asetaOtsikko("TILINPÄÄTÖS (Tase)");
-    tasekirjoittaja.asetaKausiteksti( tilikausi.kausivaliTekstina());
-    sivulla += tasekirjoittaja.tulosta(printer, &painter, false, sivulla);
+        Raportoija raportoija(raporttiNimi);
+        if( raportoija.onkoKausiraportti() )
+        {
+            raportoija.lisaaKausi( tilikausi.alkaa(), tilikausi.paattyy());
+            if( edellinenKausi.paattyy().isValid())
+                raportoija.lisaaKausi( edellinenKausi.alkaa(), edellinenKausi.paattyy());
 
-    printer->newPage();
+            if( raportoija.tyyppi() == Raportoija::KOHDENNUSLASKELMA)
+                raportoija.etsiKohdennukset();
+        }
+        else
+        {
+            raportoija.lisaaTasepaiva( tilikausi.paattyy());
+            if( edellinenKausi.paattyy().isValid())
+                raportoija.lisaaTasepaiva(edellinenKausi.paattyy());
 
-    // Tuloslaskelma
-    Raportoija tuloslaskelma("Tuloslaskelma");
-    tuloslaskelma.lisaaKausi( tilikausi.alkaa(), tilikausi.paattyy());
-    if( edellinenKausi.paattyy().isValid())
-        tuloslaskelma.lisaaKausi( edellinenKausi.alkaa(), edellinenKausi.paattyy());
+            if( raportoija.tyyppi() == Raportoija::PROJEKTITASE)
+            {
+                if( edellinenKausi.alkaa().isValid())
+                    raportoija.valitseProjektit(edellinenKausi.alkaa(), tilikausi.paattyy());
+                else
+                    raportoija.valitseProjektit(tilikausi.alkaa(), tilikausi.paattyy());
+            }
 
+        }
 
-    RaportinKirjoittaja tuloskirjoittaja = tuloslaskelma.raportti();
-    tuloskirjoittaja.asetaOtsikko("TILINPÄÄTÖS (Tuloslaskelma)");
-    tuloskirjoittaja.asetaKausiteksti( tilikausi.kausivaliTekstina());
+        printer->newPage();
 
-    sivulla += tuloskirjoittaja.tulosta(printer, &painter, false, sivulla);
+        RaportinKirjoittaja kirjoittaja = raportoija.raportti();
+        kirjoittaja.asetaOtsikko( otsikko );
+        kirjoittaja.asetaKausiteksti( tilikausi.kausivaliTekstina() );
+        sivulla += kirjoittaja.tulosta(printer, &painter, false, sivulla);
+    }
 
     // Liitetiedot, allekirjoitukset yms
     painter.setFont( QFont("Sans",10));
     int rivinkorkeus = painter.fontMetrics().height();
-    tuloskirjoittaja.asetaOtsikko("TILINPÄÄTÖS");
+    RaportinKirjoittaja kirjoittaja;
+    kirjoittaja.asetaOtsikko("TILINPÄÄTÖS");
+    kirjoittaja.asetaKausiteksti( tilikausi.kausivaliTekstina());
 
     QTextDocument doc;
     // Sivutetaan niin, että ylätunniste mahtuu
@@ -82,7 +107,7 @@ bool TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, QTextDocument
 
     doc.documentLayout()->setPaintDevice( painter.device());
     doc.setPageSize( sivunkoko );
-    doc.setHtml( document->toHtml());
+    doc.setHtml( teksti.mid(teksti.indexOf('\n')+1) );
 
 
     int pages = doc.size().height() / sivunkoko.height() + 1;
@@ -90,7 +115,7 @@ bool TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, QTextDocument
     {
         printer->newPage();
         painter.save();
-        tuloskirjoittaja.tulostaYlatunniste( &painter, sivulla);
+        kirjoittaja.tulostaYlatunniste( &painter, sivulla);
         painter.drawLine(0,0,sivunkoko.width(),0);
         painter.translate(0, rivinkorkeus );
 

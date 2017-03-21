@@ -165,6 +165,12 @@ void TilikausiModel::vaihdaTilinpaatostila(int indeksi, Tilikausi::TilinpaatosTi
     emit dataChanged( index(indeksi, TILINPAATOS),index(indeksi, TILINPAATOS));
 }
 
+void TilikausiModel::tallennaTilinpaatosteksti(int indeksi, const QString &teksti)
+{
+    kaudet_[indeksi].json()->set("TilinpaatosTeksti", teksti);
+    tallenna();
+}
+
 
 int TilikausiModel::indeksiPaivalle(const QDate &paiva) const
 {
