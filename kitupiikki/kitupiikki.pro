@@ -88,7 +88,9 @@ SOURCES += main.cpp \
     tilinpaatoseditori/tilinpaatoseditori.cpp \
     tilinpaatoseditori/tilinpaatostulostaja.cpp \
     maaritys/liitetietokaavamuokkaus.cpp \
-    tilinpaatoseditori/tpaloitus.cpp
+    tilinpaatoseditori/tpaloitus.cpp \
+    tilinpaatoseditori/mrichtexteditor/mrichtextedit.cpp \
+    tilinpaatoseditori/mrichtexteditor/mtextedit.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -166,7 +168,9 @@ HEADERS += \
     tilinpaatoseditori/tilinpaatoseditori.h \
     tilinpaatoseditori/tilinpaatostulostaja.h \
     maaritys/liitetietokaavamuokkaus.h \
-    tilinpaatoseditori/tpaloitus.h
+    tilinpaatoseditori/tpaloitus.h \
+    tilinpaatoseditori/mrichtexteditor/mrichtextedit.h \
+    tilinpaatoseditori/mrichtexteditor/mtextedit.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -209,7 +213,8 @@ FORMS += \
     maaritys/lisaatilikausidlg.ui \
     aloitussivu/aboutdialog.ui \
     maaritys/lukitsetilikausi.ui \
-    tilinpaatoseditori/tpaloitus.ui
+    tilinpaatoseditori/tpaloitus.ui \
+    tilinpaatoseditori/mrichtexteditor/mrichtextedit.ui
 
 DISTFILES += \
     uusikp/luo.sql \

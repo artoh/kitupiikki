@@ -28,7 +28,7 @@ TilinpaatosEditori::TilinpaatosEditori(Tilikausi tilikausi)
       tilikausi_(tilikausi),
       printer_( QPrinter::HighResolution)
 {
-    editori_ = new QTextEdit;
+    editori_ = new MRichTextEdit;
     setCentralWidget( editori_);
     setWindowTitle( tr("Tilinpäätöksen liitetiedot %1").arg(tilikausi.kausivaliTekstina()));
 
@@ -111,7 +111,7 @@ void TilinpaatosEditori::uusiTp()
         else if( tulosta )
             teksti.append(rivi);
     }
-    editori_->setHtml(teksti);
+    editori_->setText(teksti);
 }
 
 void TilinpaatosEditori::lataa()
@@ -122,6 +122,6 @@ void TilinpaatosEditori::lataa()
     else
     {
         raportit_ = data.left( data.indexOf("\n"));
-        editori_->setHtml( data.mid(data.indexOf("\n")));
+        editori_->setText( data.mid(data.indexOf("\n")+1));
     }
 }

@@ -25,7 +25,7 @@
 #include <QPrinter>
 
 #include "db/tilikausi.h"
-
+#include "mrichtexteditor/mrichtextedit.h"
 
 class TilinpaatosEditori : public QMainWindow
 {
@@ -46,7 +46,7 @@ protected:
     void lataa();
 
 protected:
-    QTextEdit *editori_;
+    MRichTextEdit *editori_;
     Tilikausi tilikausi_;
 
     QAction *esikatseleAction_;
