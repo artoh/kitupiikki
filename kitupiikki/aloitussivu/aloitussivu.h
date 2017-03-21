@@ -21,6 +21,8 @@
 #include <QWebEngineView>
 #include <QListWidget>
 
+#include <QTextBrowser>
+
 #include "db/tilikausi.h"
 #include "kitupiikkisivu.h"
 
@@ -31,8 +33,6 @@ class Sisalto;
 /**
  * @brief Webipohjaiset aloitus- ja ohjesivut
  *
- * QWebEngineView-pohjainen web-sivun näyttäjä, jolla esitetään tilannesidonnaisia opasteita näyttävä aloitussivu
- * sekä ohjelman omat ohjeet.
  *
  */
 class AloitusSivu : public KitupiikkiSivu
@@ -74,6 +74,9 @@ protected:
     Tilikausi tilikausi;
 
     QListWidget *viimelista;
+
+    QTextBrowser *selain;
+    QString teksti;
 };
 
 #endif // ALOITUSSIVU_H

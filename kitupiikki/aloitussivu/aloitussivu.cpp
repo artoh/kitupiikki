@@ -44,6 +44,7 @@ AloitusSivu::AloitusSivu() :
     sisalto = new Sisalto();
     view->setPage(sisalto);
 
+    selain = new QTextBrowser;
 
     QVBoxLayout *sivuleiska = new QVBoxLayout;
     QPushButton *uusinappi = new QPushButton(QIcon(":/pic/uusitiedosto.png"),"Uusi kirjanpito");
@@ -62,7 +63,8 @@ AloitusSivu::AloitusSivu() :
     sivuleiska->addWidget(aboutnappi);
 
     QHBoxLayout *paaleiska = new QHBoxLayout;
-    paaleiska->addWidget( view, 1);
+//    paaleiska->addWidget( view, 1);
+    paaleiska->addWidget(selain, 1);
     paaleiska->addLayout(sivuleiska, 0);
     setLayout( paaleiska );
 
@@ -87,6 +89,11 @@ AloitusSivu::~AloitusSivu()
 
 void AloitusSivu::siirrySivulle()
 {
+    QStringList polku;
+    polku << kp()->hakemisto().path();
+    selain->setSearchPaths(polku);
+
+    teksti.clear();
     // Lataa aloitussivun
     lisaaTxt("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:/aloitus/aloitus.css\"></head><body>");
 
@@ -107,6 +114,7 @@ void AloitusSivu::siirrySivulle()
         kpAvattu();
         sisalto->valmis( Kirjanpito::db()->hakemisto().absoluteFilePath("index"));
     }
+    selain->setHtml(teksti);
 }
 
 void AloitusSivu::selaaTilia(int tilinumero)
@@ -153,22 +161,29 @@ void AloitusSivu::abouttiarallaa()
 
 void AloitusSivu::lisaaTxt(const QString &txt)
 {
+    teksti.append(txt);
     sisalto->lisaaTxt(txt);
 }
 
 
 void AloitusSivu::kpAvattu()
 {
-    if( QFile::exists( Kirjanpito::db()->hakemisto().absoluteFilePath("logo128.png")))
-    {
-        lisaaTxt("<img class=kpkuvake src=logo128.png>");
-    }
-    lisaaTxt(tr("<h1>%1</h1>").arg( Kirjanpito::db()->asetus("Nimi")));
+    lisaaTxt("<table width=100%><tr>");
+
+    lisaaTxt("</td><td valign=middle>");
+    lisaaTxt(tr("<h1>%1</h1></td>").arg( Kirjanpito::db()->asetus("Nimi")));
+
+    lisaaTxt("<td align=right><img class=kpkuvake src=logo128.png></td></tr></table>");
 
     if( Kirjanpito::db()->asetukset()->onko("Tilinavaus") )
     {
         sisalto->lisaaLaatikko("Tee tilinavaus","Syötä viimesimmältä tilinpäätökseltä tilien "
                  "avaavat saldot järjestelmään.");
+
+        teksti += "<table class=loota bgcolor=#99ff99 width=100%><tr><td colspan=2><h3>Tee tilinavaus</h3></td><tr>tr><td><img src=qrc:/pic/rahaa.png></td><td> ";
+        teksti += "Syötä viimesimmältä tilinpäätökseltä tilien "
+                  "avaavat saldot järjestelmään. </td></tr></table>\n";
+
     }
     saldot();
 
@@ -187,7 +202,7 @@ void AloitusSivu::saldot()
     kysely.exec(QString("select tilinro, tilinimi, sum(debetsnt), sum(kreditsnt) from vientivw where tilityyppi like \"AR%\" and pvm <= \"%1\" group by tilinro")
                 .arg(tilikausi.paattyy().toString(Qt::ISODate)));
 
-    lisaaTxt("<h3>Rahavarat</h3><table>");
+    lisaaTxt("<table width=100%><tr><td colspan=2><h3>Rahavarat</h3></td></tr>");
     int saldosumma = 0;
     while( kysely.next())
     {
@@ -198,14 +213,13 @@ void AloitusSivu::saldot()
                                                            .arg( ((double) saldosnt ) / 100,0,'f',2 ) );
     }
     lisaaTxt( tr("<tr class=summa><td>Rahavarat yhteensä</td><td class=euro>%L1 €</td></tr>").arg( ((double) saldosumma ) / 100,0,'f',2 ) );
-    lisaaTxt("</table>");
 
     // Sitten tulot
     kysely.exec(QString("select tilinro, tilinimi, sum(debetsnt), sum(kreditsnt) from vientivw where tilityyppi like \"C%\" AND pvm BETWEEN \"%1\" AND \"%2\" group by tilinro")
                 .arg(tilikausi.alkaa().toString(Qt::ISODate)  )
                 .arg(tilikausi.paattyy().toString(Qt::ISODate)));
 
-    lisaaTxt("<h3>Tulot</h3><table>");
+    lisaaTxt("<tr><td colspan=2><h3>Tulot</h3></td></tr>");
     int summatulot = 0;
 
     while( kysely.next())
@@ -217,7 +231,6 @@ void AloitusSivu::saldot()
                                                            .arg( ((double) saldosnt ) / 100,0,'f',2 ) );
     }
     lisaaTxt( tr("<tr class=summa><td>Tulot yhteensä</td><td class=euro>%L1 €</td></tr>").arg( ((double) summatulot ) / 100,0,'f',2 ) );
-    lisaaTxt("</table>");
 
 
     // Lopuksi menot
@@ -226,7 +239,7 @@ void AloitusSivu::saldot()
                 .arg(tilikausi.paattyy().toString(Qt::ISODate)));
 
 
-    lisaaTxt("<h3>Menot</h3><table>");
+    lisaaTxt("<tr><td colspan=2><h3>Menot</h3></td></tr>");
     int summamenot = 0;
 
     while( kysely.next())
@@ -238,9 +251,8 @@ void AloitusSivu::saldot()
                                                            .arg( ((double) saldosnt ) / 100,0,'f',2 ) );
     }
     lisaaTxt( tr("<tr class=summa><td>Menot yhteensä</td><td class=euro>%L1 €</td></tr>").arg( ((double) summamenot ) / 100,0,'f',2 ) );
-    lisaaTxt("</table>");
 
-    lisaaTxt( tr("<p><table><tr class=kokosumma><td>Yli/alijäämä</td><td class=euro> %L1 €</td></tr></table>").arg(( ((double) (summatulot - summamenot) ) / 100), 0,'f',2 )) ;
+    lisaaTxt( tr("<tr class=kokosumma><td>Yli/alijäämä</td><td class=euro> %L1 €</td></tr></table>").arg(( ((double) (summatulot - summamenot) ) / 100), 0,'f',2 )) ;
 
 
 }

@@ -1,6 +1,6 @@
 body
 {
-    background: lightgray;
+    background: #eff0f1;
     font-family: Sans;
     font-size: 12pt;
 }
@@ -11,60 +11,22 @@ p.nappi
     text-align: center;
 }
 
-div.loota
-{
-    width: 95%;
-    border: 1px solid black;
-    border-radius: 3px;
-    box-shadow: 4px 4px gray;
-    background: white;
-    margin-bottom: 12pt;
-}
-
-div.otsake
-{
-    background: green;
-    padding: 3px;
-    color: white;
-    font-size: 16pt;
-}
-
-div.vtiedosto
-{
-    min-height: 64px;
-    margin-bottom: 6pt;
-    clear: left;
-
-}
-
-div.vtiedosto > a
-{
-    text-decoration: none;
-    color: black;
-}
-
-div.vtiedosto > a > img
-{
-    float: left;
-}
-
-img.kpkuvake
-{
-    float: left;
-    margin-right: 2em;
-}
-
 h1
 {
     font-size: 20pt;
     font-family: Sans;
     font-weight: normal;
-    min-height: 128px;
+}
+
+h3
+{
+    font-size: 14pt;
+    font-weight: bold;
 }
 
 table
 {
-    width: 95%;
+    width: 90%;
 }
 
 td
@@ -75,6 +37,11 @@ td
 td > a
 {
     text-decoration: none;
+}
+
+img.kpkuvake
+{
+    float: right;
 }
 
 tr.summa > td
