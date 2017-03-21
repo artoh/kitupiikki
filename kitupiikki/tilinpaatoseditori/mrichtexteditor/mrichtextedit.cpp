@@ -59,12 +59,12 @@ MRichTextEdit::MRichTextEdit(QWidget *parent) : QWidget(parent) {
 
     // paragraph formatting
 
-    m_paragraphItems    << tr("Standard")
-                        << tr("Heading 1")
-                        << tr("Heading 2")
-                        << tr("Heading 3")
-                        << tr("Heading 4")
-                        << tr("Monospace");
+    m_paragraphItems    << tr("Leipäteksti")
+                        << tr("Otsikko 1")
+                        << tr("Otsikko 2")
+                        << tr("Otsikkko 3")
+                        << tr("Otsikko 4")
+                        << tr("Kirjoituskone");
     f_paragraph->addItems(m_paragraphItems);
 
     connect(f_paragraph, SIGNAL(activated(int)),

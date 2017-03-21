@@ -21,6 +21,7 @@
 #include <QDialog>
 
 #include <QStandardItemModel>
+#include "db/tilikausi.h"
 
 namespace Ui {
 class TpAloitus;
@@ -31,12 +32,14 @@ class TpAloitus : public QDialog
     Q_OBJECT
 
 public:
-    explicit TpAloitus(QWidget *parent = 0);
+    explicit TpAloitus(Tilikausi kausi, QWidget *parent = 0);
     ~TpAloitus();
 
 private slots:
     void valintaMuuttui(QStandardItem *item);
     void tallenna();
+    void lataa();
+    void ohje();
 
 private:
     enum {
@@ -46,6 +49,7 @@ private:
 
     Ui::TpAloitus *ui;
     QStandardItemModel *model;
+    Tilikausi tilikausi;
 };
 
 #endif // TPALOITUS_H

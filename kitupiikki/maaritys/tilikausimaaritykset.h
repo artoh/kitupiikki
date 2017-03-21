@@ -21,6 +21,8 @@
 #include "maarityswidget.h"
 #include "ui_tilikausimaaritykset.h"
 
+#include "db/tilikausi.h"
+
 class TilikausiMaaritykset : public MaaritysWidget
 {
     Q_OBJECT
@@ -38,6 +40,8 @@ public slots:
     void nykyinenVaihtuuPaivitaNapit();
 
 private:
+    void teeArkisto(Tilikausi kausi);
+
     Ui::TilikausiMaaritykset *ui;
 };
 

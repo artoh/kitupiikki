@@ -197,6 +197,9 @@
       </item>
       <item>
        <widget class="QToolButton" name="f_link">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="focusPolicy">
          <enum>Qt::ClickFocus</enum>
         </property>
@@ -309,7 +312,7 @@
       <item>
        <widget class="QToolButton" name="f_strikeout">
         <property name="text">
-         <string>Strike Out</string>
+         <string>Yliviivattu</string>
         </property>
         <property name="checkable">
          <bool>true</bool>
@@ -332,7 +335,7 @@
          <string>Bullet list (CTRL+-)</string>
         </property>
         <property name="text">
-         <string>Bullet list</string>
+         <string>Luettelo</string>
         </property>
         <property name="iconSize">
          <size>
@@ -354,7 +357,7 @@
          <string>Ordered list (CTRL+=)</string>
         </property>
         <property name="text">
-         <string>Ordered list</string>
+         <string>Num.luettelo</string>
         </property>
         <property name="iconSize">
          <size>
@@ -453,6 +456,9 @@
       </item>
       <item>
        <widget class="QToolButton" name="f_bgcolor">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="minimumSize">
          <size>
           <width>16</width>
@@ -504,6 +510,9 @@
       </item>
       <item>
        <widget class="QToolButton" name="f_image">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="text">
          <string notr="true">...</string>
         </property>

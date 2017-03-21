@@ -48,7 +48,7 @@ AloitusSivu::AloitusSivu() :
     QVBoxLayout *sivuleiska = new QVBoxLayout;
     QPushButton *uusinappi = new QPushButton(QIcon(":/pic/uusitiedosto.png"),"Uusi kirjanpito");
     QPushButton *avaanappi = new QPushButton(QIcon(":/pic/avaatiedosto.png"),"Avaa kirjanpito");
-    QPushButton *tuonappi = new QPushButton(QIcon(":/pic/tuotiedosto.png"),"Tuo kirjanpito");
+//    QPushButton *tuonappi = new QPushButton(QIcon(":/pic/tuotiedosto.png"),"Tuo kirjanpito");
     QPushButton *aboutnappi = new QPushButton(QIcon(":/pic/info.png"),"Tietoja");
 
     viimelista = new QListWidget;
@@ -56,7 +56,7 @@ AloitusSivu::AloitusSivu() :
 
     sivuleiska->addWidget(uusinappi);
     sivuleiska->addWidget(avaanappi);
-    sivuleiska->addWidget(tuonappi);
+//    sivuleiska->addWidget(tuonappi);
 
     sivuleiska->addWidget(viimelista);
     sivuleiska->addWidget(aboutnappi);

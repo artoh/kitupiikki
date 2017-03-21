@@ -37,6 +37,9 @@ signals:
 
 public slots:
     void esikatsele();
+    void aloitaAlusta();
+    void valmis();
+    void ohje();
 
 protected:
     void luoAktiot();
@@ -45,13 +48,15 @@ protected:
     void uusiTp();
     void lataa();
 
+
 protected:
     MRichTextEdit *editori_;
     Tilikausi tilikausi_;
 
     QAction *esikatseleAction_;
     QAction *vahvistaAction_;
-    QAction *aloitaUudelleenAktio;
+    QAction *aloitaUudelleenAktio_;
+    QAction *ohjeAktio_;
 
     QToolBar *tilinpaatosTb_;
 

@@ -18,10 +18,12 @@
 #include <QDesktopServices>
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
+#include <QMessageBox>
 
 #include "tilinpaatoseditori.h"
 #include "tilinpaatostulostaja.h"
 #include "db/kirjanpito.h"
+#include "tpaloitus.h"
 
 TilinpaatosEditori::TilinpaatosEditori(Tilikausi tilikausi)
     : QMainWindow(),
@@ -39,8 +41,9 @@ TilinpaatosEditori::TilinpaatosEditori(Tilikausi tilikausi)
     luoAktiot();
     luoPalkit();
 
-    lataa();
+    setAttribute(Qt::WA_DeleteOnClose);
 
+    lataa();
 }
 
 void TilinpaatosEditori::esikatsele()
@@ -57,14 +60,18 @@ void TilinpaatosEditori::luoAktiot()
     esikatseleAction_ = new QAction( QIcon(":/pic/print.png"), tr("Tallenna ja esikatsele"), this);
     connect( esikatseleAction_, SIGNAL(triggered(bool)), this, SLOT(esikatsele()));
     vahvistaAction_ = new QAction( QIcon(":/pic/ok.png"), tr("Valmis"), this);
-    aloitaUudelleenAktio = new QAction( QIcon(":/pic/tuotiedosto.png"), tr("Aloita uudelleen"), this);
+    connect( vahvistaAction_, SIGNAL(triggered(bool)), this, SLOT(valmis()));
+    aloitaUudelleenAktio_ = new QAction( QIcon(":/pic/uusitiedosto.png"), tr("Aloita uudelleen"), this);
+    connect( aloitaUudelleenAktio_, SIGNAL(triggered(bool)), this, SLOT(aloitaAlusta()));
+    ohjeAktio_ = new QAction( QIcon(":/pic/ohje.png"), tr("Ohje"), this);
+    connect( ohjeAktio_, SIGNAL(triggered(bool)), this, SLOT(ohje()));
 }
 
 void TilinpaatosEditori::luoPalkit()
 {
     tilinpaatosTb_ = addToolBar( tr("&Tilinpäätös"));
     tilinpaatosTb_->addAction( esikatseleAction_ );
-    tilinpaatosTb_->addAction( aloitaUudelleenAktio );
+    tilinpaatosTb_->addAction( aloitaUudelleenAktio_ );
     tilinpaatosTb_->addAction( vahvistaAction_ );
     tilinpaatosTb_->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 }
@@ -78,6 +85,7 @@ void TilinpaatosEditori::uusiTp()
     QRegularExpression raporttiRe("@(?<raportti>.+)!(?<otsikko>.+)@");
 
     QString teksti;
+    raportit_.clear();
 
     bool tulosta = true;
 
@@ -94,7 +102,7 @@ void TilinpaatosEditori::uusiTp()
             else
                 tulosta = true;
         }
-        else if( rivi.startsWith('@'))
+        else if( rivi.startsWith('@') && tulosta)
         {
             // Näillä tulostetaan erityisiä kenttiä
             if( rivi == "@sha@")
@@ -118,10 +126,41 @@ void TilinpaatosEditori::lataa()
 {
     QString data = tilikausi_.json()->str("TilinpaatosTeksti");
     if( data.isEmpty())
-        uusiTp();
+        aloitaAlusta();
     else
     {
         raportit_ = data.left( data.indexOf("\n"));
         editori_->setText( data.mid(data.indexOf("\n")+1));
     }
+}
+
+void TilinpaatosEditori::aloitaAlusta()
+{
+    TpAloitus tpaloitus(tilikausi_);
+    if( tpaloitus.exec() == QDialog::Accepted)
+    {
+        uusiTp();   // Aloitetaan alusta
+    }
+    else
+    {
+        hide();
+        close();
+    }
+}
+
+void TilinpaatosEditori::valmis()
+{
+    if( QMessageBox::question(this, tr("Vahvista tilinpäätös"),
+                              tr("Onko tilinpäätös vahvistettu lopulliseksi?\n"
+                                 "Vahvistettua tilinpäätöstä ei voi enää muokata.")) != QMessageBox::Yes)
+        return;
+
+    kp()->tilikaudet()->vaihdaTilinpaatostila( kp()->tilikaudet()->indeksiPaivalle(tilikausi_.paattyy()) ,  Tilikausi::VAHVISTETTU);
+    emit kp()->onni("Tilinpäätös merkitty valmiiksi");
+    close();
+}
+
+void TilinpaatosEditori::ohje()
+{
+    QDesktopServices::openUrl(QUrl("https://artoh.github.io/kitupiikki/tilinpaatos/"));
 }

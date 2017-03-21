@@ -97,13 +97,7 @@ void TilikausiMaaritykset::arkisto()
         // Tehdään arkisto, jos se on päivittämisen tarpeessa
         if( !kausi.arkistoitu().isValid() || kausi.arkistoitu() < kausi.viimeinenPaivitys())
         {
-            QProgressDialog odota(tr("Muodostetaan arkistoa"), QString(), 0, 100, this);
-            odota.setMinimumDuration(250);
-
-            QString sha = Arkistoija::arkistoi(kausi);
-            kp()->tilikaudet()->merkitseArkistoiduksi( ui->view->currentIndex().row(), sha);    // Merkitsee arkistoinnin tehdyksi
-
-            odota.setValue(100);
+            teeArkisto(kausi);
         }
         // Avataan arkistoi
 
@@ -150,10 +144,8 @@ void TilikausiMaaritykset::tilinpaatos()
                 // Lukitaan tilikausi!
                 kp()->asetukset()->aseta("TilitPaatetty", kausi.paattyy());
                 // Laaditaan arkisto
-                arkisto();
+                teeArkisto(kausi);
             }
-
-
 
             // Vaihdetaan arkiston tilaa
             kp()->tilikaudet()->vaihdaTilinpaatostila(ui->view->currentIndex().row() ,  Tilikausi::KESKEN);
@@ -162,10 +154,6 @@ void TilikausiMaaritykset::tilinpaatos()
         kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->view->currentIndex().row() );
         if( kausi.tilinpaatoksenTila() == Tilikausi::KESKEN)
         {
-            // Tilapäisesti laitettu tähän ;)
-            TpAloitus tpaloittaja;
-            if( tpaloittaja.exec() != QDialog::Accepted)
-                return;
 
             // Muokataan tilinpäätöstä
             TilinpaatosEditori *tpEditori = new TilinpaatosEditori( kausi );
@@ -200,4 +188,17 @@ void TilikausiMaaritykset::nykyinenVaihtuuPaivitaNapit()
         ui->tilinpaatosNappi->setEnabled(false);
         ui->arkistoNappi->setEnabled(false);
     }
+}
+
+void TilikausiMaaritykset::teeArkisto(Tilikausi kausi)
+{
+
+    QProgressDialog odota(tr("Muodostetaan arkistoa"), QString(), 0, 100, this);
+    odota.setMinimumDuration(250);
+
+    QString sha = Arkistoija::arkistoi(kausi);
+    kp()->tilikaudet()->merkitseArkistoiduksi( ui->view->currentIndex().row(), sha);    // Merkitsee arkistoinnin tehdyksi
+
+    odota.setValue(100);
+
 }

@@ -17,6 +17,9 @@
 
 #include <QStandardItem>
 
+#include <QFileDialog>
+#include <QFile>
+
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 #include <QRegularExpressionMatchIterator>
@@ -26,10 +29,12 @@
 #include "db/kirjanpito.h"
 
 #include <QDebug>
+#include <QDesktopServices>
 
-TpAloitus::TpAloitus(QWidget *parent) :
+TpAloitus::TpAloitus(Tilikausi kausi, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::TpAloitus)
+    ui(new Ui::TpAloitus),
+    tilikausi(kausi)
 {
     ui->setupUi(this);
 
@@ -93,6 +98,8 @@ TpAloitus::TpAloitus(QWidget *parent) :
 
     connect( model, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(valintaMuuttui(QStandardItem*)));
     connect( ui->jatkaNappi, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
+    connect( ui->lataaNappi, SIGNAL(clicked(bool)), this, SLOT(lataa()));
+    connect( ui->ohjeNappi, SIGNAL(clicked(bool)), this, SLOT(ohje()));
 }
 
 TpAloitus::~TpAloitus()
@@ -132,4 +139,26 @@ void TpAloitus::tallenna()
     }
     kp()->asetukset()->aseta("TilinpaatosValinnat",valitut);
     accept();
+}
+
+void TpAloitus::lataa()
+{
+    QString tiedosto = QFileDialog::getOpenFileName(this, tr("Valitse vahvistettu tilinpäätöstiedosto"),
+                                                    QDir::homePath(), tr("Pdf-tiedostot (*.pdf)"));
+    if( !tiedosto.isEmpty() )
+    {
+        QString tulosfile =  kp()->hakemisto().absoluteFilePath("arkisto/" + tilikausi.arkistoHakemistoNimi() + "/tilinpaatos.pdf" );
+        if( QFile::exists(tulosfile))
+            QFile(tulosfile).remove();
+        QFile::copy( tiedosto, tulosfile);
+
+        kp()->tilikaudet()->vaihdaTilinpaatostila( kp()->tilikaudet()->indeksiPaivalle(tilikausi.paattyy()) ,  Tilikausi::VAHVISTETTU);
+
+        reject();
+    }
+}
+
+void TpAloitus::ohje()
+{
+    QDesktopServices::openUrl( QUrl("https://artoh.github.io/kitupiikki/tilinpaatos/"));
 }
