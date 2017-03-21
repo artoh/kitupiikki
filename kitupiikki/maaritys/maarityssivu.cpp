@@ -51,7 +51,7 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu("Tilikaudet", TILIKAUDET, QIcon(":/pic/kirjalaatikko.png"), false );
     lisaaSivu("Arvonlisävero", ALV, QIcon(":/pic/karhu.png"));
     lisaaSivu("Raportit", RAPORTIT, QIcon(":/pic/print.png"));
-    lisaaSivu("Liitetietojen kaava", LIITETIETOKAAVA, QIcon(":/pic/tekstisivu.png"));
+    lisaaSivu("Tilinpäätöksen malli", LIITETIETOKAAVA, QIcon(":/pic/tekstisivu.png"));
     lisaaSivu("Työkalut", TYOKALUT, QIcon(":/pic/vasara.png"), false);
 
     connect( lista, SIGNAL(itemActivated(QListWidgetItem*)), this, SLOT(valitseSivu(QListWidgetItem*)));

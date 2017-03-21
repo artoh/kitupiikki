@@ -25,7 +25,9 @@ LiitetietokaavaMuokkaus::LiitetietokaavaMuokkaus()
 {
     editor = new QPlainTextEdit;
 
-    QLabel* otsikko = new QLabel( tr("<b>Liitetietojen kaavan muokkaus</b>"));
+    QLabel* otsikko = new QLabel( tr("<b>Tilinpäätöksen mallin muokkaaminen</b>"
+                                     "<p>Tässä määritellään tilinpäätökseen tulostettavat raportit ja liitetietojen kaava. "
+                                     "Katso ohjeet käsikirjasta.</p>"));
     QVBoxLayout *leiska = new QVBoxLayout;
     leiska->addWidget(otsikko);
     leiska->addWidget(editor);

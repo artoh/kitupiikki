@@ -36,6 +36,7 @@ public:
 
 private slots:
     void valintaMuuttui(QStandardItem *item);
+    void tallenna();
 
 private:
     enum {

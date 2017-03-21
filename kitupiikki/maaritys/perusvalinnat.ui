@@ -112,7 +112,7 @@
    <item>
     <widget class="QCheckBox" name="edistyneetCheck">
      <property name="text">
-      <string>Näytä edistyneet määritykset</string>
+      <string>Näytä tulosteiden muokkauksen työkalut</string>
      </property>
     </widget>
    </item>
