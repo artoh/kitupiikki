@@ -21,7 +21,12 @@
 #include "maarityswidget.h"
 #include <QPlainTextEdit>
 
-
+/**
+ * @brief The Tilinpäätöksen mallin muokkaaminen
+ *
+ * Historiallisista syistä luokan nimi viittaa pelkästään liitetietojen kaavaan
+ *
+ */
 class LiitetietokaavaMuokkaus : public MaaritysWidget
 {
     Q_OBJECT

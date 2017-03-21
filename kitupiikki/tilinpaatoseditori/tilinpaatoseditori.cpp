@@ -16,6 +16,8 @@
 */
 
 #include <QDesktopServices>
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
 
 #include "tilinpaatoseditori.h"
 #include "tilinpaatostulostaja.h"
@@ -28,7 +30,7 @@ TilinpaatosEditori::TilinpaatosEditori(Tilikausi tilikausi)
 {
     editori_ = new QTextEdit;
     setCentralWidget( editori_);
-    setWindowTitle( tr("Tilinpäätös %1").arg(tilikausi.kausivaliTekstina()));
+    setWindowTitle( tr("Tilinpäätöksen liitetiedot %1").arg(tilikausi.kausivaliTekstina()));
 
     setWindowIcon( QIcon(":/pic/Possu64.png"));
 
@@ -37,7 +39,7 @@ TilinpaatosEditori::TilinpaatosEditori(Tilikausi tilikausi)
     luoAktiot();
     luoPalkit();
 
-    aloita();
+    lataa();
 
 }
 
@@ -64,11 +66,39 @@ void TilinpaatosEditori::luoPalkit()
     tilinpaatosTb_->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 }
 
-void TilinpaatosEditori::aloita()
+void TilinpaatosEditori::lataa()
 {
-    editori_->insertHtml(tr("<h2>Liitetiedot</h2><p> </p>"
-                            "<h2>Kirjanpitokirjojen luettelo</h2><p> </p>"
-                            "<h2>Tositteiden säilytys</h2><p> </p>"
-                            "<h2>Allekirjoitukset</h2> <p> </p>"
-                            "<h2>Tilintarkastusmerkinnät</h2> "));
+    QStringList pohja = kp()->asetukset()->lista("TilinpaatosPohja");
+    QStringList valinnat = kp()->asetukset()->lista("TilinpaatosValinnat");
+    QRegularExpression tunnisteRe("#(?<tunniste>\\w+).*");
+    tunnisteRe.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);
+    QRegularExpression raporttiRe("@(?<raportti>.+)!(?<otsikko).+)@");
+
+    QString teksti;
+
+    bool tulosta = true;
+
+    foreach (QString rivi, pohja)
+    {
+        if( rivi.startsWith('#') )
+        {
+            QRegularExpressionMatch tmats = tunnisteRe.match(rivi);
+            if( tmats.hasMatch())
+            {
+                QString tunniste = tmats.captured(1);
+                tulosta = valinnat.contains(tunniste);
+            }
+            else
+                tulosta = true;
+        }
+        else if( rivi.startsWith('@'))
+        {
+            // Näillä tulostetaan erityisiä kenttiä
+            if( rivi == "@sha@")
+                teksti.append( tilikausi_.json()->str("ArkistoSHA"));
+        }
+        else if( tulosta )
+            teksti.append(rivi);
+    }
+    editori_->setHtml(teksti);
 }

@@ -42,7 +42,7 @@ protected:
     void luoAktiot();
     void luoPalkit();
 
-    void aloita();
+    void lataa();
 
 protected:
     QTextEdit *editori_;

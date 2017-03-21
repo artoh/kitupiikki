@@ -35,7 +35,7 @@ TpAloitus::TpAloitus(QWidget *parent) :
 
     model = new QStandardItemModel;
 
-    QStringList kaava = kp()->asetukset()->lista("LiitetietoKaava");
+    QStringList kaava = kp()->asetukset()->lista("TilinpaatosPohja");
 
     QRegularExpression valintaRe("#(?<tunnus>\\w+)(?<pois>(\\s-\\w+)*)\\s(?<naytto>.+)");
     valintaRe.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);

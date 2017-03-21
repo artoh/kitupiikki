@@ -38,13 +38,13 @@ LiitetietokaavaMuokkaus::LiitetietokaavaMuokkaus()
 
 bool LiitetietokaavaMuokkaus::nollaa()
 {
-    editor->setPlainText( kp()->asetukset()->asetus("LiitetietoKaava"));
+    editor->setPlainText( kp()->asetukset()->asetus("TilinpaatosPohja"));
     return true;
 }
 
 bool LiitetietokaavaMuokkaus::tallenna()
 {
-    kp()->asetukset()->aseta("LiitetietoKaava", editor->toPlainText() );
+    kp()->asetukset()->aseta("TilinpaatosPohja", editor->toPlainText() );
     editor->document()->setModified(false);
     ilmoitaOnkoMuokattu();
     return true;
