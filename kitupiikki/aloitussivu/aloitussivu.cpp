@@ -210,18 +210,57 @@ QString AloitusSivu::vinkit()
         vinkki.append("<li>Lisää tarvitsemasi <a href=ktp:/maaritys/Kohdennukset>kohdennukset</a> <a href='ohje:/maaritykset#kohdennukset'>(Ohje)</a></li>");
         if( kp()->asetukset()->luku("Tilinavaus")==1)
             vinkki.append("<li>Tee <a href=ktp:/maaritys/Tilinavaus>tilinavaus</a> <a href='ohje:/maaritykset#tilinavaus'>(Ohje)</a></li>");
-        vinkki.append("<li>Voit aloittaa kirjausten tekemisen <a href='ohje:/kirjaaminen'>(Ohje)</a></li>");
-        vinkki.append("</ol></td></tr></table>");
+        vinkki.append("<li>Voit aloittaa <a href=ktp:/kirjaa>kirjausten tekemisen</a> <a href='ohje:/kirjaaminen'>(Ohje)</a></li>");
+        vinkki.append("</ol></td></tr></table><p><img src=qrc:/pic/aboutpossu.png></p>");
     }
-    else if( kp()->asetukset()->luku("Tilinavaus")==1 )
-        vinkki.append(tr("<table class=vinkki width=100%><tr><td><h3><a href=ktp:/maaritys/Tilinavaus>Tee tilinavaus</a></h3>Syötä viimeisimmältä tilinpäätökseltä tilien "
-                      "avaavat saldot %1 järjestelmään <a href='ohje:/maaritykset#tilinavaus'>(Ohje)</a></td></tr></table>").arg( kp()->asetukset()->pvm("TilinavausPvm").toString(Qt::SystemLocaleShortDate) ) );
+    else if( kp()->asetukset()->luku("Tilinavaus")==1 && kp()->asetukset()->pvm("TilinavausPvm") <= kp()->tilitpaatetty() )
+        vinkki.append(tr("<table class=vinkki width=100%><tr><td><h3><a href=ktp:/maaritys/Tilinavaus>Tee tilinavaus</a></h3><p>Syötä viimeisimmältä tilinpäätökseltä tilien "
+                      "avaavat saldot %1 järjestelmään <a href='ohje:/maaritykset#tilinavaus'>(Ohje)</a></p></td></tr></table>").arg( kp()->asetukset()->pvm("TilinavausPvm").toString(Qt::SystemLocaleShortDate) ) );
 
     // Uuden tilikauden aloittaminen
+    if( kp()->paivamaara().daysTo(kp()->tilikaudet()->kirjanpitoLoppuu()) < 30 )
+    {
+        vinkki.append(tr("<table class=vinkki width=100%><tr><td>"
+                      "<h3><a href=ktp:/maaritys/Tilikaudet>Aloita uusi tilikausi</a></h3>"
+                      "<p>Tilikausi päättyy %1, jonka jälkeiselle ajalle ei voi tehdä kirjauksia ennen kuin uusi tilikausi aloitetaan.</p>"
+                      "<p>Voit tehdä kirjauksia myös aiempiin tilikausiin, kunnes ne on päätetty</p></td></tr></table>").arg( kp()->tilikaudet()->kirjanpitoLoppuu().toString(Qt::SystemLocaleShortDate) ));
 
-    // Tilinpäätöksen tekeminen
+    }
 
-    // Varmistusviesti varmuuskopioista ???
+    // Tilinpäätöksen laatiminen
+    for(int i=0; i<kp()->tilikaudet()->rowCount(QModelIndex()); i++)
+    {
+        Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla(i);
+        if( kausi.paattyy().daysTo(kp()->paivamaara()) > 1 &&
+                                   kausi.paattyy().daysTo( kp()->paivamaara()) < 4 * 30
+                && ( kausi.tilinpaatoksenTila() == Tilikausi::ALOITTAMATTA || kausi.tilinpaatoksenTila() == Tilikausi::KESKEN) )
+        {
+            vinkki.append(QString("<table class=vinkki width=100%><tr><td>"
+                          "<h3>Aika laatia tilinpäätös tilikaudelle %1</h3><ul>").arg(kausi.kausivaliTekstina()));
+            if( kausi.tilinpaatoksenTila() == Tilikausi::ALOITTAMATTA)
+            {
+                vinkki.append("<li>Tee kaikki tilikaudelle kuuluvat kirjaukset</li>");
+                vinkki.append("<li>Tee tarvittaessa tilinpäätöskirjaukset, kuten poistot.<ul>");
+
+                QSqlQuery poistokysely( QString("select tilinro,tilinimi,sum(debetsnt), sum(kreditsnt) from vientivw where pvm <= '%1' and tilityyppi='AP' group by tilinro order by tilinro").arg(kausi.paattyy().toString(Qt::ISODate)));
+                while( poistokysely.next())
+                {
+                    vinkki.append(QString("<li>%1 %2 (Saldo %L3€)</li>").arg(poistokysely.value(0).toString())
+                                                       .arg(poistokysely.value(1).toString())
+                                                       .arg((double) (poistokysely.value(2).toInt() - poistokysely.value(3).toInt()   ) / 100,0,'f',2 ));
+
+                }
+
+                vinkki.append("</ul></li><li>Varmista <a href=ktp:/raportit>tuloslaskelmaa ja tasetta</a> tutkimalla, että kaikki kirjaukset on tehty</li>");
+                vinkki.append("<li><a href=ktp:/maaritys/Tilikaudet>Lukitse tilikausi</a> valinnalla Tilinpäätös</li>");
+            }
+            vinkki.append("<li>Laadi <a href=ktp:/maaritys/Tilikaudet>tilinpäätös</a> tai tallenna muulla ohjelmalla laadittu tilinpäätös Kitupiikin arkistoon</a></li>");
+            vinkki.append("<li>Kun <a href=ktp:/maaritys/Tilikaudet>tilinpäätös</a> on vahvistettu, merkitse se vahvistetuksi</li>");
+            vinkki.append("</ol><p>Katso <a href=ohje:/tilinpaatos>ohjeet</a> tilinpäätösen laatimisesta</p></td></tr></table>");
+        }
+
+    }
+
 
     return vinkki;
 }

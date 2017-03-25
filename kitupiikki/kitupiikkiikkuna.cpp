@@ -176,8 +176,11 @@ void KitupiikkiIkkuna::ktpKasky(QString kasky)
     {
         valitseSivu( MAARITYSSIVU, true );
         maarityssivu->valitseSivu(kasky.mid(9));
-
     }
+    else if( kasky == "raportit")
+        valitseSivu( TULOSTESIVU, true);
+    else if( kasky == "kirjaa")
+        valitseSivu( KIRJAUSSIVU, true);
 }
 
 void KitupiikkiIkkuna::naytaOnni(const QString &teksti)
@@ -278,5 +281,6 @@ void KitupiikkiIkkuna::luoHarjoitusDock()
 
     addDockWidget(Qt::TopDockWidgetArea, harjoitusDock);
     connect( pvmedit, SIGNAL(dateChanged(QDate)), Kirjanpito::db(), SLOT(asetaHarjoitteluPvm(QDate)));
+    connect( pvmedit, SIGNAL(dateChanged(QDate)), aloitussivu, SLOT(siirrySivulle()));  // Jotta päivittyy ;)
     harjoitusDock->setVisible(false);
 }
