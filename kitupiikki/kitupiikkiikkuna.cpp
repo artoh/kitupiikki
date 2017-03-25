@@ -84,6 +84,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     connect( kirjaussivu, SIGNAL(palaaEdelliselleSivulle()), this, SLOT(palaaSivulta()));
 
     connect( kp(), SIGNAL(onni(QString)), this, SLOT(naytaOnni(QString)));
+    connect( aloitussivu, SIGNAL(ktpkasky(QString)), this, SLOT(ktpKasky(QString)));
 }
 
 KitupiikkiIkkuna::~KitupiikkiIkkuna()
@@ -174,8 +175,7 @@ void KitupiikkiIkkuna::ktpKasky(QString kasky)
     if( kasky.startsWith("maaritys/"))
     {
         valitseSivu( MAARITYSSIVU, true );
-        int sivukoodi = kasky.mid(9).toInt();
-        maarityssivu->valitseSivu(sivukoodi);
+        maarityssivu->valitseSivu(kasky.mid(9));
 
     }
 }

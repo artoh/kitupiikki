@@ -41,16 +41,16 @@ public:
 
     enum Sivut
     {
-        PERUSVALINNAT,
-        TILIKARTTA,
-        TOSITELAJIT,
-        KOHDENNUS,
-        TILINAVAUS,
-        TILIKAUDET,
-        ALV,
-        RAPORTIT,
-        LIITETIETOKAAVA,
-        TYOKALUT
+        PERUSVALINNAT = 0,
+        TILIKARTTA = 1,
+        TOSITELAJIT = 2,
+        KOHDENNUS = 3,
+        TILINAVAUS = 4,
+        TILIKAUDET = 5,
+        ALV = 6,
+        RAPORTIT = 7,
+        LIITETIETOKAAVA = 8,
+        TYOKALUT = 9
     };
 
 
@@ -78,7 +78,7 @@ public slots:
      * @brief Valitaan näytettävä sivu
      * @param sivu
      */
-    void valitseSivu(int sivu);
+    void valitseSivu(QString otsikko);
 
     /**
      * @brief Päivittää määritysten mukaan sen, mitkä sivut näkyvät

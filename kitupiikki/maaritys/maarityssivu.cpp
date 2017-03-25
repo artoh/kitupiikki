@@ -140,11 +140,6 @@ void MaaritysSivu::tallenna()
 
 void MaaritysSivu::valitseSivu(QListWidgetItem *item)
 {
-    valitseSivu( item->data(Qt::UserRole).toInt() );
-}
-
-void MaaritysSivu::valitseSivu(int sivu)
-{
     if( nykyinen)
     {
         if( nykyinen->onkoMuokattu() )
@@ -161,6 +156,9 @@ void MaaritysSivu::valitseSivu(int sivu)
         delete nykyinen;
         nykyinen = 0;
     }
+
+    int sivu = item->data(Qt::UserRole).toInt();
+
 
     if( sivu == PERUSVALINNAT)
         nykyinen = new Perusvalinnat;
@@ -203,7 +201,19 @@ void MaaritysSivu::valitseSivu(int sivu)
         connect( nykyinen, SIGNAL(tallennaKaytossa(bool)), tallennanappi, SLOT(setEnabled(bool)));
     }
 
+}
 
+void MaaritysSivu::valitseSivu(QString otsikko)
+{
+    for(int i=0; i < lista->count(); i++)
+    {
+        QListWidgetItem *item = lista->item(i);
+        if( item->text() == otsikko )
+        {
+            valitseSivu( item );
+            return;
+        }
+    }
 }
 
 void MaaritysSivu::paivitaNakyvat()
