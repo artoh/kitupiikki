@@ -73,6 +73,7 @@ public slots:
 protected slots:
     void aktivoiSivu(QAction* aktio);
     void naytaTosite(int tositeid);
+    void ktpKasky(QString kasky);
 
     /**
      * @brief Näyttää lyhyen ajan viestiä onnistumisesta

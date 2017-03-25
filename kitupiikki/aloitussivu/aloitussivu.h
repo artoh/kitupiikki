@@ -18,16 +18,10 @@
 #ifndef ALOITUSSIVU_H
 #define ALOITUSSIVU_H
 
-#include <QWebEngineView>
-#include <QListWidget>
-
-#include <QTextBrowser>
-
 #include "db/tilikausi.h"
 #include "kitupiikkisivu.h"
 
-class Sisalto;
-
+#include "ui_aloitus.h"
 
 
 /**
@@ -46,12 +40,9 @@ public:
 public slots:
 
     void siirrySivulle();
+    void kirjanpitoVaihtui();
 
-    /**
-     * @brief Sisältö kutsuu tätä, kun pyydetään selausta selaa:-protokollalla
-     * @param tilinumero
-     */
-    void selaaTilia(int tilinumero);
+    void linkki(const QUrl& linkki);
 
     void uusiTietokanta();
     void avaaTietokanta();
@@ -61,22 +52,21 @@ public slots:
 
 signals:
     void selaus(int tilinumero, Tilikausi tilikausi);
+    void ktpkasky(QString kasky);
 
 protected:
+    QString vinkit();
+
+
     void lisaaTxt(const QString& txt);
     void kpAvattu();
     void saldot();
 
     void lisaaViimetiedostot();
 
-    QWebEngineView *view;
-    Sisalto *sisalto;
-    Tilikausi tilikausi;
-
-    QListWidget *viimelista;
-
-    QTextBrowser *selain;
+protected:
     QString teksti;
+    Ui::Aloitus *ui;
 };
 
 #endif // ALOITUSSIVU_H

@@ -169,6 +169,17 @@ void KitupiikkiIkkuna::naytaTosite(int tositeid)
     kirjaussivu->naytaTosite(tositeid);
 }
 
+void KitupiikkiIkkuna::ktpKasky(QString kasky)
+{
+    if( kasky.startsWith("maaritys/"))
+    {
+        valitseSivu( MAARITYSSIVU, true );
+        int sivukoodi = kasky.mid(9).toInt();
+        maarityssivu->valitseSivu(sivukoodi);
+
+    }
+}
+
 void KitupiikkiIkkuna::naytaOnni(const QString &teksti)
 {
     OnniWidget *onni = new OnniWidget(this);

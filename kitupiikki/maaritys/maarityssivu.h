@@ -74,6 +74,11 @@ public slots:
      * @param item Sivut-enum
      */
     void valitseSivu( QListWidgetItem *item);
+    /**
+     * @brief Valitaan näytettävä sivu
+     * @param sivu
+     */
+    void valitseSivu(int sivu);
 
     /**
      * @brief Päivittää määritysten mukaan sen, mitkä sivut näkyvät

@@ -172,6 +172,9 @@ void KirjausWg::tallenna()
 
     ui->tositePvmEdit->setFocus();
     emit kp()->onni("Tosite tallennettu");
+
+    if( !kp()->asetukset()->onko("EkaTositeKirjattu"))
+        kp()->asetukset()->aseta("EkaTositeKirjattu", true);
 }
 
 void KirjausWg::hylkaa()

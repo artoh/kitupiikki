@@ -1,7 +1,6 @@
 QT += gui
 QT += widgets
 QT += sql
-QT += webenginewidgets
 QT += printsupport
 
 LIBS += -lpoppler-qt5
@@ -22,7 +21,6 @@ SOURCES += main.cpp \
     uusikp/tilikausisivu.cpp \
     kitupiikkiikkuna.cpp \
     aloitussivu/aloitussivu.cpp \
-    aloitussivu/sisalto.cpp \
     db/kirjanpito.cpp \
     maaritys/perusvalinnat.cpp \
     maaritys/maarityssivu.cpp \
@@ -102,7 +100,6 @@ HEADERS += \
     uusikp/tilikausisivu.h \
     kitupiikkiikkuna.h \
     aloitussivu/aloitussivu.h \
-    aloitussivu/sisalto.h \
     db/kirjanpito.h \
     maaritys/perusvalinnat.h \
     maaritys/maarityssivu.h \
@@ -214,7 +211,8 @@ FORMS += \
     aloitussivu/aboutdialog.ui \
     maaritys/lukitsetilikausi.ui \
     tilinpaatoseditori/tpaloitus.ui \
-    tilinpaatoseditori/mrichtexteditor/mrichtextedit.ui
+    tilinpaatoseditori/mrichtexteditor/mrichtextedit.ui \
+    aloitussivu/aloitus.ui
 
 DISTFILES += \
     uusikp/luo.sql \

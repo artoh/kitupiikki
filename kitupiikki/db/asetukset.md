@@ -13,3 +13,4 @@ AlvVelvollinen | bool | Onko organisaatio hakeutunut alv-velvolliseksi
 AlvVelkatili | int | Tili, jolle arvonlisäverovelka kirjataan
 AlvSaatavatili | int | Tili, jolle arvonlisäverosaatavat (palautettava alv) kirjataan
 Raportti/(raportin nimi) | QString | Raportin kaava
+EkaTositeKirjattu | bool | Käyttäjä on kirjannut tositteen, jonka jälkeen alkuvinkkiä ei enää näytetä

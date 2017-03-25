@@ -24,58 +24,36 @@
 #include <QPushButton>
 #include <QSettings>
 #include <QFileDialog>
-
+#include <QDesktopServices>
 #include <QListWidget>
 
 #include <QDialog>
+#include <QDebug>
+
 #include "ui_aboutdialog.h"
 
 #include "aloitussivu.h"
-
-#include "sisalto.h"
-
 #include "db/kirjanpito.h"
 #include "uusikp/uusikirjanpito.h"
 
 AloitusSivu::AloitusSivu() :
     KitupiikkiSivu(0)
 {
-    view = new QWebEngineView();
-    sisalto = new Sisalto();
-    view->setPage(sisalto);
 
-    selain = new QTextBrowser;
+    ui = new Ui::Aloitus;
+    ui->setupUi(this);
 
-    QVBoxLayout *sivuleiska = new QVBoxLayout;
-    QPushButton *uusinappi = new QPushButton(QIcon(":/pic/uusitiedosto.png"),"Uusi kirjanpito");
-    QPushButton *avaanappi = new QPushButton(QIcon(":/pic/avaatiedosto.png"),"Avaa kirjanpito");
-//    QPushButton *tuonappi = new QPushButton(QIcon(":/pic/tuotiedosto.png"),"Tuo kirjanpito");
-    QPushButton *aboutnappi = new QPushButton(QIcon(":/pic/info.png"),"Tietoja");
+    ui->selain->setOpenLinks(false);
 
-    viimelista = new QListWidget;
+    connect( ui->uusiNappi, SIGNAL(clicked(bool)), this, SLOT(uusiTietokanta()));
+    connect( ui->avaaNappi, SIGNAL(clicked(bool)), this, SLOT(avaaTietokanta()));
+    connect( ui->tietojaNappi, SIGNAL(clicked(bool)), this, SLOT(abouttiarallaa()));
+    connect( ui->viimeiset, SIGNAL(itemActivated(QListWidgetItem*)), this, SLOT(viimeisinTietokanta(QListWidgetItem*)));
+    connect( ui->tilikausiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(siirrySivulle()));
 
+    connect( ui->selain, SIGNAL(anchorClicked(QUrl)), this, SLOT(linkki(QUrl)));
 
-    sivuleiska->addWidget(uusinappi);
-    sivuleiska->addWidget(avaanappi);
-//    sivuleiska->addWidget(tuonappi);
-
-    sivuleiska->addWidget(viimelista);
-    sivuleiska->addWidget(aboutnappi);
-
-    QHBoxLayout *paaleiska = new QHBoxLayout;
-//    paaleiska->addWidget( view, 1);
-    paaleiska->addWidget(selain, 1);
-    paaleiska->addLayout(sivuleiska, 0);
-    setLayout( paaleiska );
-
-
-    connect(sisalto, SIGNAL(selaa(int)), this, SLOT(selaaTilia(int)));
-
-    connect( uusinappi, SIGNAL(clicked(bool)), this, SLOT(uusiTietokanta()));
-    connect( avaanappi, SIGNAL(clicked(bool)), this, SLOT(avaaTietokanta()));
-    connect( viimelista, SIGNAL(itemActivated(QListWidgetItem*)), this, SLOT(viimeisinTietokanta(QListWidgetItem*)));
-
-    connect( aboutnappi, SIGNAL(clicked(bool)), this, SLOT(abouttiarallaa()));
+    connect( kp(), SIGNAL(tietokantaVaihtui()), this, SLOT(kirjanpitoVaihtui()));
 
     lisaaViimetiedostot();
 
@@ -83,44 +61,105 @@ AloitusSivu::AloitusSivu() :
 
 AloitusSivu::~AloitusSivu()
 {
-
+    delete ui;
 }
 
 
 void AloitusSivu::siirrySivulle()
 {
-    QStringList polku;
-    polku << kp()->hakemisto().path();
-    selain->setSearchPaths(polku);
-
-    teksti.clear();
-    // Lataa aloitussivun
-    lisaaTxt("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:/aloitus/aloitus.css\"></head><body>");
-
-    if( !kp()->asetukset()->onko("Nimi"))
+    if( !kp()->asetukset()->asetus("Nimi").isEmpty())
     {
+        teksti.clear();
+        // Lataa aloitussivun
+        lisaaTxt("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:/aloitus/aloitus.css\"></head><body>");
 
-        lisaaTxt("<h1>Tervetuloa!</h1>"
-                 "<p>Kitupiikki on suomalainen avoimen lähdekoodin kirjanpito-ohjelmisto. Ohjelmistoa saa käyttää, kopioida ja muokata "
-                 "maksutta.</p>"
-                 "<p>Tutustu lukemalla ohjeita, tai aloita heti kokeilemalla <a href=ktp:uusi>uuden kirjanpidon luomista</a>. Ohjelmisto neuvoo sekä "
-                 "uuden kirjanpidon aloittamisessa että myöhemmin matkan varrella.<p>"
-                 "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/QqBKIy9BzLI\" frameborder=\"0\"></iframe>");
-        sisalto->valmis("qrc:/aloitus/");
+        lisaaTxt( vinkit() );
+
+        saldot();
+
+        ui->selain->setHtml(teksti);
+    }
+
+}
+
+void AloitusSivu::kirjanpitoVaihtui()
+{
+    if( kp()->asetukset()->asetus("Nimi").isEmpty())
+    {
+        ui->selain->setSource(QUrl("qrc:/aloitus/tervetuloa.html"));
+
+        ui->tilikausiCombo->hide();
+        ui->logoLabel->hide();
+        ui->nimiLabel->hide();
 
     }
     else
     {
-        kpAvattu();
-        sisalto->valmis( Kirjanpito::db()->hakemisto().absoluteFilePath("index"));
+
+        // Kirjanpito avattu
+        ui->nimiLabel->show();
+        ui->nimiLabel->setText( kp()->asetukset()->asetus("Nimi"));
+
+        if( QFile::exists( kp()->hakemisto().absoluteFilePath("logo64.png") ) )
+        {
+            ui->logoLabel->show();
+            ui->logoLabel->setPixmap( QPixmap( kp()->hakemisto().absoluteFilePath("logo64.png") ) );
+        }
+        else
+            ui->logoLabel->hide();
+
+        ui->tilikausiCombo->show();
+        ui->tilikausiCombo->setModel( kp()->tilikaudet() );
+        ui->tilikausiCombo->setModelColumn( 0 );
+
+
+        // Valitaan nykyinen tilikausi
+        // Pohjalle kuitenkin viimeinen tilikausi, jotta joku on aina valittuna
+        ui->tilikausiCombo->setCurrentIndex( kp()->tilikaudet()->rowCount(QModelIndex()) - 1 );
+
+        for(int i=0; i < kp()->tilikaudet()->rowCount(QModelIndex());i++)
+        {
+            Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla(i);
+            if( kausi.alkaa() <= kp()->paivamaara() && kausi.paattyy() >= kp()->paivamaara())
+            {
+                ui->tilikausiCombo->setCurrentIndex(i);
+                break;
+            }
+        }
     }
-    selain->setHtml(teksti);
+
+    siirrySivulle();
 }
 
-void AloitusSivu::selaaTilia(int tilinumero)
+void AloitusSivu::linkki(const QUrl &linkki)
 {
-    emit selaus(tilinumero, tilikausi);
+    qDebug() << linkki;
+
+    if( linkki.scheme() == "ohje")
+    {
+        QDesktopServices::openUrl( QUrl(QString("https://artoh.github.io/kitupiikki/") + linkki.fileName()
+                                   + "#" + linkki.fragment() ));
+    }
+    else if( linkki.scheme() == "selaa")
+    {
+        Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->tilikausiCombo->currentIndex() );
+        QString tiliteksti = linkki.fileName();
+        emit selaus( tiliteksti.toInt(), kausi );
+    }
+    else if( linkki.scheme() == "ktp")
+    {
+        QString toiminto = linkki.path();
+        qDebug() << toiminto;
+
+        if( toiminto == "/uusi")
+            uusiTietokanta();
+        else
+            emit ktpkasky(toiminto);
+    }
 }
+
+
+
 
 void AloitusSivu::uusiTietokanta()
 {
@@ -157,29 +196,50 @@ void AloitusSivu::abouttiarallaa()
     aboutDlg.exec();
 }
 
+QString AloitusSivu::vinkit()
+{
+    QString vinkki;
+    // Ensin tietokannan alkutoimiin
+    if( !kp()->asetukset()->onko("EkaTositeKirjattu") )
+    {
+        vinkki.append("<table class=vinkki width=100%><tr><td>");
+        vinkki.append("<h3>Kirjanpidon aloittaminen</h3><ol>");
+        vinkki.append("<li>Tarkista <a href=ktp:/maaritys/perus>perusasetukset, logo ja arvonlisävelvollisuus</a> <a href='ohje:/maaritykset#perusvalinnat'>(Ohje)</a></li>");
+        vinkki.append("<li>Tutustu tilikarttaan ja tee tarpeelliset muutokset <a href='ohje:/maaritykset#tilikartta'>(Ohje)</a></li>");
+        vinkki.append("<li>Tutustu tositelajeihin ja lisää tarvitsemasi tositelajit <a href='ohje:/maaritykset#tositelajit'>(Ohje)</a></li>");
+        vinkki.append("<li>Lisää tarvitsemasi kohdennukset <a href='ohje:/maaritykset#kohdennukset'>(Ohje)</a></li>");
+        if( kp()->asetukset()->luku("Tilinavaus")==1)
+            vinkki.append("<li>Tee tilinavaus <a href='ohje:/maaritykset#tilinavaus'>(Ohje)</a></li>");
+        vinkki.append("<li>Voit aloittaa kirjausten tekemisen <a href='ohje:/kirjaaminen'>(Ohje)</a></li>");
+        vinkki.append("</ol></td></tr></table>");
+    }
+    else if( kp()->asetukset()->luku("Tilinavaus")==1 )
+        vinkki.append(tr("<table class=vinkki width=100%><tr><td><h3>Tee tilinavaus</h3>Syötä viimeisimmältä tilinpäätökseltä tilien "
+                      "avaavat saldot %1 järjestelmään <a href='ohje:/maaritykset#tilinavaus'>(Ohje)</a></td></tr></table>").arg( kp()->asetukset()->pvm("TilinavausPvm").toString(Qt::SystemLocaleShortDate) ) );
+
+    // Uuden tilikauden aloittaminen
+
+    // Tilinpäätöksen tekeminen
+
+    // Varmistusviesti varmuuskopioista ???
+
+    return vinkki;
+}
+
 
 
 void AloitusSivu::lisaaTxt(const QString &txt)
 {
     teksti.append(txt);
-    sisalto->lisaaTxt(txt);
+
 }
 
 
 void AloitusSivu::kpAvattu()
 {
-    lisaaTxt("<table width=100%><tr>");
-
-    lisaaTxt("</td><td valign=middle>");
-    lisaaTxt(tr("<h1>%1</h1></td>").arg( Kirjanpito::db()->asetus("Nimi")));
-
-    lisaaTxt("<td align=right><img class=kpkuvake src=logo128.png></td></tr></table>");
 
     if( Kirjanpito::db()->asetukset()->onko("Tilinavaus") )
     {
-        sisalto->lisaaLaatikko("Tee tilinavaus","Syötä viimesimmältä tilinpäätökseltä tilien "
-                 "avaavat saldot järjestelmään.");
-
         teksti += "<table class=loota bgcolor=#99ff99 width=100%><tr><td colspan=2><h3>Tee tilinavaus</h3></td><tr>tr><td><img src=qrc:/pic/rahaa.png></td><td> ";
         teksti += "Syötä viimesimmältä tilinpäätökseltä tilien "
                   "avaavat saldot järjestelmään. </td></tr></table>\n";
@@ -192,9 +252,11 @@ void AloitusSivu::kpAvattu()
 void AloitusSivu::saldot()
 {
     // TODO: Miten tämä vaihdetaan
-    tilikausi = Kirjanpito::db()->tilikausiPaivalle( Kirjanpito::db()->paivamaara());
 
-    lisaaTxt(tr("<h2><img src=qrc:/aloitus/previous.png>Tilikausi %1 - %2<img src=qrc:/aloitus/next.png></h2>").arg(tilikausi.alkaa().toString(Qt::SystemLocaleShortDate))
+
+    Tilikausi tilikausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->tilikausiCombo->currentIndex() );
+
+    lisaaTxt(tr("<h2>Tilikausi %1 - %2</h2>").arg(tilikausi.alkaa().toString(Qt::SystemLocaleShortDate))
              .arg(tilikausi.paattyy().toString(Qt::SystemLocaleShortDate)));
 
     QSqlQuery kysely;
@@ -263,7 +325,7 @@ void AloitusSivu::lisaaViimetiedostot()
     QSettings settings;
     QStringList lista = settings.value("viimeiset").toStringList();
 
-    viimelista->clear();
+    ui->viimeiset->clear();
 
     foreach (QString rivi, lista)
     {
@@ -280,7 +342,7 @@ void AloitusSivu::lisaaViimetiedostot()
             if( QFile::exists(kuvake))
                 item->setIcon( QIcon(kuvake));
             item->setData(Qt::UserRole, polku);
-            viimelista->addItem(item);
+            ui->viimeiset->addItem(item);
         }
     }
 
