@@ -240,18 +240,22 @@ QString AloitusSivu::vinkit()
             if( kausi.tilinpaatoksenTila() == Tilikausi::ALOITTAMATTA)
             {
                 vinkki.append("<li>Tee kaikki tilikaudelle kuuluvat kirjaukset</li>");
-                vinkki.append("<li>Tee tarvittaessa tilinpäätöskirjaukset, kuten poistot.<ul>");
+                vinkki.append("<li>Tee tarvittaessa tilinpäätöskirjaukset, kuten poistot.");
 
                 QSqlQuery poistokysely( QString("select tilinro,tilinimi,sum(debetsnt), sum(kreditsnt) from vientivw where pvm <= '%1' and tilityyppi='AP' group by tilinro order by tilinro").arg(kausi.paattyy().toString(Qt::ISODate)));
-                while( poistokysely.next())
+                if( poistokysely.size())
                 {
-                    vinkki.append(QString("<li>%1 %2 (Saldo %L3€)</li>").arg(poistokysely.value(0).toString())
-                                                       .arg(poistokysely.value(1).toString())
-                                                       .arg((double) (poistokysely.value(2).toInt() - poistokysely.value(3).toInt()   ) / 100,0,'f',2 ));
+                    vinkki.append("<br>Seuraavilla tileillä poistokelpoista omaisuutta:<ul>");
+                    while( poistokysely.next())
+                    {
+                        vinkki.append(QString("<li>%1 %2 %L3€</li>").arg(poistokysely.value(0).toString())
+                                                           .arg(poistokysely.value(1).toString())
+                                                           .arg((double) (poistokysely.value(2).toInt() - poistokysely.value(3).toInt()   ) / 100,0,'f',2 ));
 
+                    }
+                    vinkki.append("</ol>");
                 }
-
-                vinkki.append("</ul></li><li>Varmista <a href=ktp:/raportit>tuloslaskelmaa ja tasetta</a> tutkimalla, että kaikki kirjaukset on tehty</li>");
+                vinkki.append("</li><li>Varmista <a href=ktp:/raportit>tuloslaskelmaa ja tasetta</a> tutkimalla, että kaikki kirjaukset on tehty</li>");
                 vinkki.append("<li><a href=ktp:/maaritys/Tilikaudet>Lukitse tilikausi</a> valinnalla Tilinpäätös</li>");
             }
             vinkki.append("<li>Laadi <a href=ktp:/maaritys/Tilikaudet>tilinpäätös</a> tai tallenna muulla ohjelmalla laadittu tilinpäätös Kitupiikin arkistoon</a></li>");
