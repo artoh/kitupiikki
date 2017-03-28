@@ -67,17 +67,20 @@ AloitusSivu::~AloitusSivu()
 
 void AloitusSivu::siirrySivulle()
 {
+    // Päivitetään aloitussivua
     if( !kp()->asetukset()->asetus("Nimi").isEmpty())
     {
-        teksti.clear();
-        // Lataa aloitussivun
-        lisaaTxt("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:/aloitus/aloitus.css\"></head><body>");
+        QString txt("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:/aloitus/aloitus.css\"></head><body>");
 
-        lisaaTxt( vinkit() );
+        txt.append( vinkit() );
 
-        saldot();
+        // Ei tulosteta tyhjiä otsikoita vaan possu jos ei kirjauksia
+        if( kp()->asetukset()->onko("EkaTositeKirjattu") )
+            txt.append(summat());
+        else
+            txt.append("<p><img src=qrc:/pic/aboutpossu.png></p>");
 
-        ui->selain->setHtml(teksti);
+        ui->selain->setHtml(txt);
     }
 
 }
@@ -211,7 +214,8 @@ QString AloitusSivu::vinkit()
         if( kp()->asetukset()->luku("Tilinavaus")==1)
             vinkki.append("<li>Tee <a href=ktp:/maaritys/Tilinavaus>tilinavaus</a> <a href='ohje:/maaritykset#tilinavaus'>(Ohje)</a></li>");
         vinkki.append("<li>Voit aloittaa <a href=ktp:/kirjaa>kirjausten tekemisen</a> <a href='ohje:/kirjaaminen'>(Ohje)</a></li>");
-        vinkki.append("</ol></td></tr></table><p><img src=qrc:/pic/aboutpossu.png></p>");
+        vinkki.append("</ol></td></tr></table>");
+
     }
     else if( kp()->asetukset()->luku("Tilinavaus")==1 && kp()->asetukset()->pvm("TilinavausPvm") <= kp()->tilitpaatetty() )
         vinkki.append(tr("<table class=vinkki width=100%><tr><td><h3><a href=ktp:/maaritys/Tilinavaus>Tee tilinavaus</a></h3><p>Syötä viimeisimmältä tilinpäätökseltä tilien "
@@ -269,98 +273,108 @@ QString AloitusSivu::vinkit()
     return vinkki;
 }
 
-
-
-void AloitusSivu::lisaaTxt(const QString &txt)
+QString AloitusSivu::summat()
 {
-    teksti.append(txt);
-
-}
-
-
-void AloitusSivu::kpAvattu()
-{
-
-    if( Kirjanpito::db()->asetukset()->onko("Tilinavaus") )
-    {
-        teksti += "<table class=loota bgcolor=#99ff99 width=100%><tr><td colspan=2><h3>Tee tilinavaus</h3></td><tr>tr><td><img src=qrc:/pic/rahaa.png></td><td> ";
-        teksti += "Syötä viimesimmältä tilinpäätökseltä tilien "
-                  "avaavat saldot järjestelmään. </td></tr></table>\n";
-
-    }
-    saldot();
-
-}
-
-void AloitusSivu::saldot()
-{
-    // TODO: Miten tämä vaihdetaan
-
+    QString txt;
 
     Tilikausi tilikausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->tilikausiCombo->currentIndex() );
 
-    lisaaTxt(tr("<h2>Tilikausi %1 - %2</h2>").arg(tilikausi.alkaa().toString(Qt::SystemLocaleShortDate))
+    txt.append(tr("<h2>Tilikausi %1 - %2</h2>").arg(tilikausi.alkaa().toString(Qt::SystemLocaleShortDate))
              .arg(tilikausi.paattyy().toString(Qt::SystemLocaleShortDate)));
+
+    txt.append("<table width=100%>");
 
     QSqlQuery kysely;
 
     kysely.exec(QString("select tilinro, tilinimi, sum(debetsnt), sum(kreditsnt) from vientivw where tilityyppi like \"AR%\" and pvm <= \"%1\" group by tilinro")
                 .arg(tilikausi.paattyy().toString(Qt::ISODate)));
 
-    lisaaTxt("<table width=100%><tr><td colspan=2><h3>Rahavarat</h3></td></tr>");
+
+    // Rahavara-tilien saldot
+
+    txt.append("<tr><td colspan=2 class=otsikko>Rahavarat</td></tr>");
+
+    kysely.exec(QString("select tilinro, tilinimi, sum(debetsnt), sum(kreditsnt) from vientivw where tilityyppi like \"AR%\" and pvm <= \"%1\" group by tilinro")
+                .arg(tilikausi.paattyy().toString(Qt::ISODate)));
     int saldosumma = 0;
     while( kysely.next())
     {
         int saldosnt = kysely.value(2).toInt() - kysely.value(3).toInt();
         saldosumma += saldosnt;
-        lisaaTxt( tr("<tr><td><a href=\"selaa:%1\">%1 %2</a></td><td class=euro>%L3 €</td></tr>").arg(kysely.value(0).toInt())
+        txt.append( tr("<tr><td><a href=\"selaa:%1\">%1 %2</a></td><td class=euro>%L3 €</td></tr>").arg(kysely.value(0).toInt())
                                                            .arg(kysely.value(1).toString())
                                                            .arg( ((double) saldosnt ) / 100,0,'f',2 ) );
     }
-    lisaaTxt( tr("<tr class=summa><td>Rahavarat yhteensä</td><td class=euro>%L1 €</td></tr>").arg( ((double) saldosumma ) / 100,0,'f',2 ) );
+    txt.append( tr("<tr class=summa><td>Rahavarat yhteensä</td><td class=euro>%L1 €</td></tr>").arg( ((double) saldosumma ) / 100,0,'f',2 ) );
+    txt.append("<tr><td colspan=2>&nbsp;</td></tr>");
 
     // Sitten tulot
     kysely.exec(QString("select tilinro, tilinimi, sum(debetsnt), sum(kreditsnt) from vientivw where tilityyppi like \"C%\" AND pvm BETWEEN \"%1\" AND \"%2\" group by tilinro")
                 .arg(tilikausi.alkaa().toString(Qt::ISODate)  )
                 .arg(tilikausi.paattyy().toString(Qt::ISODate)));
 
-    lisaaTxt("<tr><td colspan=2><h3>Tulot</h3></td></tr>");
+    txt.append("<tr><td colspan=2 class=otsikko>Tulot</td></tr>");
     int summatulot = 0;
 
     while( kysely.next())
     {
         int saldosnt = kysely.value(3).toInt() - kysely.value(2).toInt();
         summatulot += saldosnt;
-        lisaaTxt( tr("<tr><td><a href=\"selaa:%1\">%1 %2</a></td><td class=euro>%L3 €</td></tr>").arg(kysely.value(0).toInt())
+        txt.append( tr("<tr><td><a href=\"selaa:%1\">%1 %2</a></td><td class=euro>%L3 €</td></tr>").arg(kysely.value(0).toInt())
                                                            .arg(kysely.value(1).toString())
                                                            .arg( ((double) saldosnt ) / 100,0,'f',2 ) );
     }
-    lisaaTxt( tr("<tr class=summa><td>Tulot yhteensä</td><td class=euro>%L1 €</td></tr>").arg( ((double) summatulot ) / 100,0,'f',2 ) );
+    txt.append( tr("<tr class=summa><td>Tulot yhteensä</td><td class=euro>%L1 €</td></tr>").arg( ((double) summatulot ) / 100,0,'f',2 ) );
+    txt.append("<tr><td colspan=2>&nbsp;</td></tr>");
 
-
-    // Lopuksi menot
+    // ja menot
     kysely.exec(QString("select tilinro, tilinimi, sum(debetsnt), sum(kreditsnt) from vientivw where tilityyppi like \"D%\" AND pvm BETWEEN \"%1\" AND \"%2\" group by tilinro")
                 .arg(tilikausi.alkaa().toString(Qt::ISODate)  )
                 .arg(tilikausi.paattyy().toString(Qt::ISODate)));
 
 
-    lisaaTxt("<tr><td colspan=2><h3>Menot</h3></td></tr>");
+    txt.append("<tr><td colspan=2 class=otsikko>Menot</td></tr>");
     int summamenot = 0;
 
     while( kysely.next())
     {
         int saldosnt = kysely.value(2).toInt() - kysely.value(3).toInt();
         summamenot += saldosnt;
-        lisaaTxt( tr("<tr><td><a href=\"selaa:%1\">%1 %2</a></td><td class=euro>%L3 €</td></tr>").arg(kysely.value(0).toInt())
+        txt.append( tr("<tr><td><a href=\"selaa:%1\">%1 %2</a></td><td class=euro>%L3 €</td></tr>").arg(kysely.value(0).toInt())
                                                            .arg(kysely.value(1).toString())
                                                            .arg( ((double) saldosnt ) / 100,0,'f',2 ) );
     }
-    lisaaTxt( tr("<tr class=summa><td>Menot yhteensä</td><td class=euro>%L1 €</td></tr>").arg( ((double) summamenot ) / 100,0,'f',2 ) );
+    txt.append( tr("<tr class=summa><td>Menot yhteensä</td><td class=euro>%L1 €</td></tr>").arg( ((double) summamenot ) / 100,0,'f',2 ) );
+    txt.append("<tr><td colspan=2>&nbsp;</td></tr>");
 
-    lisaaTxt( tr("<tr class=kokosumma><td>Yli/alijäämä</td><td class=euro> %L1 €</td></tr></table>").arg(( ((double) (summatulot - summamenot) ) / 100), 0,'f',2 )) ;
 
+
+    // Yli/alijäämä
+    txt.append( tr("<tr class=kokosumma><td>Yli/alijäämä</td><td class=euro> %L1 €</td></tr></table>").arg(( ((double) (summatulot - summamenot) ) / 100), 0,'f',2 )) ;
+
+    txt.append("</table><p>&nbsp;</p><table width=100%>");
+
+    // Kohdennukset
+    txt.append("<tr><td class=otsikko>Kohdennukset</td><th>Tuloa</th><th>Menoa</th><th>Yli/alijäämä</th></tr>");
+
+    kysely.exec( QString("select kohdennus, sum(debetsnt), sum(kreditsnt) from vientivw where pvm between '%1' and '%2' group by kohdennusid order by kohdennusid")
+                 .arg(tilikausi.alkaa().toString(Qt::ISODate)  )
+                 .arg(tilikausi.paattyy().toString(Qt::ISODate)));
+    while(kysely.next())
+    {
+        txt.append(QString("<tr><td>%1</td><td class=euro>%L2 €</td><td class=euro>%L3 €</td><td class=euro>%L4 €</td></tr>")
+                   .arg( kysely.value(0).toString())
+                   .arg( ((double) kysely.value(1).toInt() ) / 100,0,'f',2 )
+                   .arg( ((double) kysely.value(2).toInt() ) / 100,0,'f',2 )
+                   .arg( ((double) (kysely.value(1).toInt() - kysely.value(2).toInt())) / 100,0,'f',2 ));
+    }
+    txt.append("</table>");
+
+
+    return txt;
 
 }
+
 
 
 void AloitusSivu::lisaaViimetiedostot()

@@ -56,16 +56,12 @@ signals:
 
 protected:
     QString vinkit();
+    QString summat();
 
-
-    void lisaaTxt(const QString& txt);
-    void kpAvattu();
     void saldot();
-
     void lisaaViimetiedostot();
 
 protected:
-    QString teksti;
     Ui::Aloitus *ui;
 };
 

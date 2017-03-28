@@ -6,22 +6,15 @@ body
 }
 
 
-p.nappi
+h2
 {
-    text-align: center;
-}
-
-
-
-h1
-{
-    font-size: 20pt;
-    font-weight: normal;
+    font-size: 18pt;
+    margin-bottom: 10pt;
 }
 
 h3
 {
-    font-size: 14pt;
+    font-size: 16pt;
     font-weight: bold;
 }
 
@@ -41,15 +34,29 @@ a
 tr.summa > td
 {
     font-weight: bold;
+    font-size: 12pt;
 }
 
 
 tr.kokosumma > td
 {
     font-weight: bold;
+    font-size: 12pt;
+}
+
+td.otsikko
+{
+    font-size: 12pt;
+    font-weight: bold;
 }
 
 td.euro
 {
     text-align: right;
+}
+
+th
+{
+    text-align: right;
+    font-size: 12pt;
 }
