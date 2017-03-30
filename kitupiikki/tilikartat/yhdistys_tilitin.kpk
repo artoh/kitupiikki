@@ -1,5 +1,5 @@
 [TilikarttaNimi]
-Yhdistys - Kesken
+Yhdistys
 [TilikarttaTekija]
 kitupiikki.wordpress.com
 [TilikarttaPvm]
@@ -7,26 +7,34 @@ kitupiikki.wordpress.com
 [kuvaus]
 Yhdistyksen tilikartta
 
-Perustuu tilit.info ja Raportointikoodisto
+Perustuu Tilitin-ohjelmistoon
 [intro]
 Pidä yhdistyksesi lippu korkealla!
 [TilikarttaLuontiVersio]
 0.00A00
 [tilit]
 H1 1000 {} Vastaavaa
-H2 1002 {} Pysyvät vastaavat
-H3 1006 {} Aineettomat hyödykkeet
+H2 1000 {} Pysyvät vastaavat
+H3 1000 {} Aineettomat hyödykkeet
+A 1011 {} Perustamismenot
+A 1021 {} Tutkimusmenot
+A 1031 {} Kehittämismenot
 A 1041 {} Aineettomat oikeudet
+A 1081 {} Muut pitkävaikutteiset menot
+A 1091 {} Ennakkomaksut
 H3 1100 {} Aineelliset hyödykkeet
 A 1111 {} Maa- ja vesialueet
+A 1121 {} Maanvuokraoikeudet
 AP 1151 {} Rakennukset ja rakennelmat
+AP 1171 {} Rakennusten vuokraoikeudet
 AP 1211 {} Koneet ja kalusto
 AP 1311 {} Muut aineelliset hyödykkeet (poistokelpoiset)
+A 1351 {} Ennakkomaksut ja keskeneräiset hankinnat
 H3 1400 {} Sijoitukset
-A 1451 {} Osakkeet ja osuudet; sijoitukset
-A 1471 {} Muut saamiset ja sijoitukset
+A 1411 {} Osuudet ja osakkeet
+A 1451 {} Muut sijoitukset
 H2 1500 {} Vaihtuvat vastaavat
-H3 1505 {} Vaihto-omaisuus
+H3 1501 {} Vaihto-omaisuus
 A 1511 {} Aineet ja tarvikkeet
 A 1521 {} Keskeneräiset tuotteet
 A 1531 {} Valmiit tuotteet
@@ -37,19 +45,25 @@ H3 1610 {} Pitkäaikaiset saamiset
 A 1611 {} Myyntisaamiset (pitkäaikaiset)
 A 1641 {} Lainasaamiset (pitkäaikaiset)
 A 1651 {} Muut saamiset (pitkäaikaiset)
+A 1661 {} Maksamattomat osakkeet/osuudet (pitkäaikaiset)
+A 1671 {} Siirtosaamiset (pitkäaikaiset)
+A 1681 {} Laskennalliset verosaamiset (pitkäaikaiset)
 H3 1700 {} Lyhytaikaiset saamiset
 A 1711 {} Myyntisaamiset
-A 1762 {} Alv-saamiset
+A 1761 {} Lainasaamiset
 A 1771 {} Muut saamiset
+A 1791 {} Maksamattomat osakkeet/osuudet
 A 1811 {} Siirtosaamiset
+A 1841 {} Laskennalliset verosaamiset
 H3 1850 {} Rahoitusarvopaperit
-A 1881 {} Osakkeet ja osuudet
-A 1891 {} Muut arvopaperit
+A 1851 {} Osakkeet ja osuudet
+A 1881 {} Muut arvopaperit
 H3 1900 {} Rahat ja pankkisaamiset
 AR 1901 {} Käteisvarat
-AR 1910 {} Pankkitili
+AR 1911 {} Pankkitili
 H1 2000 {} Vastattavaa
 H2 2001 {} Oma pääoma
+B 2011 {} Peruspääoma
 BE 2251 {} Edellisten tilikausien ylijäämät
 H2 2400 {} Tilinpäätössiirtojen kertymä
 B 2411 {} Poistoero
@@ -79,42 +93,29 @@ B 2959 {} Muut velat
 B 2961 {} Siirtovelat
 H1 3 {} Varsinainen toiminta
 H2 3000 {} Varsinaisen toiminnan tulot
-C 3011 {} Osallistumismaksut
-C 3111 {} Lahjoitukset
+C 3001 {"Vastatili":1911} Osallistumismaksut
+C 3101 {} Lahjoitukset
 C 3901 {} Muut varsinaisen toiminnan tuotot
 H2 4 {} Varsinaisen toiminnan kulut
-C 4011 {} Tavaraostot
-C 4211 {} Palveluostot
-C 4701 {} Tilojen vuokrakulut
-C 4703 {} Tilojen vastikkeet
-C 4709 {} Muut toimitilakulut
-C 4740 {} Kone- ja kalustohankinnat
-C 4749 {} Leasing-kulut
-C 4751 {} Matkakulut
-C 4771 {} Markkinointikulut
-C 4791 {} Hallintokulut
-
-H3 5 {} Henkilöstökulut
-H4- 5001 {} Palkat ja palkkiot
-D- 5011 {} Palkat
-D- 5012 {} Lisät ja korvaukset
+H3- 4000 {} Henkilöstökulut
+H4- 4000 {} Palkat ja palkkiot
+D- 4001 {} Palkat
+D- 4011 {} Lisät ja korvaukset
 D- 4021 {} Loma-ajan palkat
-D- 5024 {} Palkkiot
-D- 5025 {} Luontoisedut
-D- 5029 {} Luontoisetujen vastatili
-D- 5051 {} Saadut sairausvakuutuskorvaukset
-D- 5061 {} Saadut tapaturmavakuutuskorvaukset
-H4- 5100 {} Henkilöstösivukulut
-D- 5111 {} Pakolliset eläkevakuutusmaksut
-D- 5115 {} Vapaaehtoiset eläkevakuutusmaksut
-D- 5121 {} Sosiaaliturvamaksut
-D- 5131 {} Tapaturmavakuutusmaksut
-D- 5135 {} Ryhmähenkivakuutusmaksut
-D- 5141 {} Työttömyysvakuutusmaksut
-D- 5151 {} Muut henkilöstön vakuutusmaksut
-
-
-
+D- 4031 {} Palkkiot
+D- 4041 {} Luontoisedut
+D- 4049 {} Luontoisetujen vastatili
+D- 4051 {} Saadut sairausvakuutuskorvaukset
+D- 4061 {} Saadut tapaturmavakuutuskorvaukset
+H4- 4100 {} Henkilöstösivukulut
+D- 4101 {} Maksetut eläkkeet
+D- 4111 {} Pakolliset eläkevakuutusmaksut
+D- 4115 {} Vapaaehtoiset eläkevakuutusmaksut
+D- 4121 {} Sosiaaliturvamaksut
+D- 4131 {} Tapaturmavakuutusmaksut
+D- 4135 {} Ryhmähenkivakuutusmaksut
+D- 4141 {} Työttömyysvakuutusmaksut
+D- 4151 {} Muut henkilöstön vakuutusmaksut
 H3 4200 {} Muut kulut
 H4 4200 {} Toiminnan kulut
 D* 4201 {} Toiminnan kulut
