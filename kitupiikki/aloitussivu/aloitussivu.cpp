@@ -207,17 +207,17 @@ QString AloitusSivu::vinkit()
     {
         vinkki.append("<table class=vinkki width=100%><tr><td>");
         vinkki.append("<h3>Kirjanpidon aloittaminen</h3><ol>");
-        vinkki.append("<li>Tarkista <a href=ktp:/maaritys/Perusvalinnat>perusasetukset, logo ja arvonlisävelvollisuus</a> <a href='ohje:/maaritykset#perusvalinnat'>(Ohje)</a></li>");
+        vinkki.append("<li>Tarkista <a href=ktp:/maaritys/Perusvalinnat>perusvalinnat, logo ja arvonlisävelvollisuus</a> <a href='ohje:/maaritykset#perusvalinnat'>(Ohje)</a></li>");
         vinkki.append("<li>Tutustu <a href=ktp:/maaritys/Tilikartta>tilikarttaan</a> ja tee tarpeelliset muutokset <a href='ohje:/maaritykset#tilikartta'>(Ohje)</a></li>");
         vinkki.append("<li>Tutustu <a href=ktp:/maaritys/Tositelajit>tositelajeihin</a> ja lisää tarvitsemasi tositelajit <a href='ohje:/maaritykset#tositelajit'>(Ohje)</a></li>");
         vinkki.append("<li>Lisää tarvitsemasi <a href=ktp:/maaritys/Kohdennukset>kohdennukset</a> <a href='ohje:/maaritykset#kohdennukset'>(Ohje)</a></li>");
-        if( kp()->asetukset()->luku("Tilinavaus")==1)
+        if( kp()->asetukset()->luku("Tilinavaus")==2)
             vinkki.append("<li>Tee <a href=ktp:/maaritys/Tilinavaus>tilinavaus</a> <a href='ohje:/maaritykset#tilinavaus'>(Ohje)</a></li>");
         vinkki.append("<li>Voit aloittaa <a href=ktp:/kirjaa>kirjausten tekemisen</a> <a href='ohje:/kirjaaminen'>(Ohje)</a></li>");
         vinkki.append("</ol></td></tr></table>");
 
     }
-    else if( kp()->asetukset()->luku("Tilinavaus")==1 && kp()->asetukset()->pvm("TilinavausPvm") <= kp()->tilitpaatetty() )
+    else if( kp()->asetukset()->luku("Tilinavaus")==2 && kp()->asetukset()->pvm("TilinavausPvm") <= kp()->tilitpaatetty() )
         vinkki.append(tr("<table class=vinkki width=100%><tr><td><h3><a href=ktp:/maaritys/Tilinavaus>Tee tilinavaus</a></h3><p>Syötä viimeisimmältä tilinpäätökseltä tilien "
                       "avaavat saldot %1 järjestelmään <a href='ohje:/maaritykset#tilinavaus'>(Ohje)</a></p></td></tr></table>").arg( kp()->asetukset()->pvm("TilinavausPvm").toString(Qt::SystemLocaleShortDate) ) );
 
