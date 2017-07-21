@@ -247,7 +247,7 @@ void KitupiikkiIkkuna::lisaaSivut()
 
     connect(aktioryhma, SIGNAL(triggered(QAction*)), this, SLOT(aktivoiSivu(QAction*)));
 
-    QAction *ohjeAktio = new QAction(QIcon(":/pic/ohje.png"),"Käsikirja");
+    QAction *ohjeAktio = new QAction(QIcon(":/pic/ohje.png"),tr("Käsikirja"), this);
     ohjeAktio->setShortcut( QKeySequence(Qt::Key_F1));
     connect( ohjeAktio, SIGNAL(triggered(bool)), this, SLOT(ohje()));
     toolbar->addAction(ohjeAktio);

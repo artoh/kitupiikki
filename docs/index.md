@@ -1,7 +1,7 @@
 # Kitupiikki <small>Avoimen lähdekoodin kirjanpitäjä</small>
 
 !!! note "Ei vielä valmis..."
-    Kitupiikin ensimmäinen julkaisuversion valmistunee vuoden 2017 alkupuoliskolla. Ohjelman kehitysversio on saatavilla GitHubissa, mutta siinä ei ole vielä kaikkia tässä kuvattuja ominaisuuksia.
+    Ohjelman kehitysversio on saatavilla GitHubissa, mutta siinä ei ole vielä kaikkia tässä kuvattuja ominaisuuksia.
 
 ![](images/kitupiikkikannettava.png)
 
@@ -37,7 +37,7 @@ Kirjaamista voi nopeuttaa liittämällä tositelajiin oletusvalinnat tilistä, v
 ### Arvonlisäveron käsittely ohjaustiedoilla
 
 !!! note "Esiversiossa ei arvonlisäveron käsittelyä"
-    Ohjelmasta julkaistaan ensin esiversion ilman arvonlisävertotoimintoja. Täysi versio alv-tuella ilmestynee vuoden 2017 aikana.
+    Ohjelmasta julkaistaan ensin esiversion ilman arvonlisävertotoimintoja.
 Tilejä ei tarvitse eritellä verokannoittain, koska arvonlisävero määritetään viennin tietoihin. Toki kirjausta voi nopeuttaa määrittelemälle tilin oletusvalinnat alv-käsittelyyn.
 
 ## Avoimen lähdekoodin kirjanpitäjä

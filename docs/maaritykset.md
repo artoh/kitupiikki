@@ -54,7 +54,7 @@ Omia tositelajeja voi tehdä esimerkiksi ostolaskuille, myyntilaskuille, pankkit
 Tositelajille voi määritellä **oletustilin** eli tilin, mihin kirjauksen pääosin kohdistuvat (esimerkiksi myyntilaskuille 3001 Myynnit). **Oletusvastatili** määrittää oletuksena olevat tasetilin (yleensä pankkitili, käteistili, myyntisaamistili tai ostovelkatili).
 
 !!! tip "Tilin valitseminen"
-    Voit valita tilin joko aloittamalla kirjoittamaan tilin numeroa, jolloin pääset selaamaan tililuetteloa, tai aloittamalla kirjoittamaan tilin nimeä tai osaa siitä. Painamalla tilinvalinnassa välilyöntiä pääset kaikkien tilien luetteloon. 
+    Voit valita tilin joko aloittamalla kirjoittamaan tilin numeroa, jolloin pääset selaamaan tililuetteloa, tai aloittamalla kirjoittamaan tilin nimeä tai osaa siitä. Painamalla tilinvalinnassa välilyöntiä pääset kaikkien tilien luetteloon.
 
 Määrittämällä, että tosittella kirjataan **vain ostolaskuja** tai **vain myyntilaskuja** näytetään tilille kirjattaessa vain menotilit tai tulotilit. Valinnalla **Tiliotteita tilille** määritellään, että tällä tositelajilla tehdään kirjauksia vain tietyn tilin tiliotteen perusteella.
 
@@ -97,4 +97,4 @@ Jos tilikarttaa on Kitupiikkiin siirryttäessä muutettu, pitäisi tilinavaukset
 
 Nyt Kitupiikki on valmis kirjausten tekemiseen!
 
-Arvonlisäveroon liittyvät valinnat on selostettu (arvonlisävero-luvussa)[alv], raporttien muokkaaminen [raportit-luvussa](raportti) ja tilinpäätösten pohjat [tilinpäätös-luvussa](tilinpaatos). Työkalut on esitelty luvussa [muita toimintoja](muut).
+Arvonlisäveroon liittyvät valinnat on selostettu [arvonlisävero-luvussa](alv), raporttien muokkaaminen [raportit-luvussa](raportti) ja tilinpäätösten pohjat [tilinpäätös-luvussa](tilinpaatos). Työkalut on esitelty luvussa [muita toimintoja](muut).
