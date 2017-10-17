@@ -295,7 +295,9 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
     ui->kommentitEdit->setEnabled(sallitaanko);
     ui->tunnisteEdit->setEnabled(sallitaanko);
     ui->tallennaButton->setEnabled(sallitaanko);
+    ui->poistaNappi->setEnabled(sallitaanko);
     ui->otsikkoEdit->setEnabled(sallitaanko);
+    ui->lukkoLabel->setVisible(!sallitaanko);
 
     if(sallitaanko)
         ui->tositePvmEdit->setDateRange(Kirjanpito::db()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );

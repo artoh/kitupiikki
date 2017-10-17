@@ -85,6 +85,7 @@ bool Perusvalinnat::onkoMuokattu()
     return  ui->organisaatioEdit->text() != kp()->asetus("Nimi")  ||
             ui->ytunnusEdit->text() != kp()->asetus("Ytunnus") ||
             ui->alvCheck->isChecked() != kp()->asetukset()->onko("AlvVelvollinen") ||
+            ui->edistyneetCheck->isChecked() != kp()->asetukset()->onko("NaytaEdistyneet") ||
             !uusilogo.isNull();
 }
 

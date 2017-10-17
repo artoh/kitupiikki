@@ -307,6 +307,16 @@
       </widget>
      </item>
      <item>
+      <widget class="QLabel" name="lukkoLabel">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../pic/pic.qrc">:/pic/lukittu.png</pixmap>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer_5">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>

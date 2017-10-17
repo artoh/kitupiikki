@@ -241,7 +241,9 @@ void KitupiikkiIkkuna::lisaaSivut()
     lisaaSivu("Uusi\ntosite",":/pic/uusitosite.png","Kirjaa uusi tosite","Ctrl+N", KIRJAUSSIVU, kirjaussivu);
     lisaaSivu("Selaa",":/pic/Paivakirja64.png","Selaa kirjauksia aikajärjestyksessä","F3", SELAUSSIVU, selaussivu);
     lisaaSivu("Tulosteet",":/pic/print.png","Tulosta erilaisia raportteja","Ctrl+P", TULOSTESIVU, raporttisivu);
-    lisaaSivu("Määritykset",":/pic/ratas.png","Kirjanpitoon liittyvät määritykset","F6", MAARITYSSIVU, maarityssivu);
+    lisaaSivu("Arkisto",":/pic/kirja64.png","Tilinpäätös ja arkistot","F5", MAARITYSSIVU, maarityssivu);
+    lisaaSivu("Määritykset",":/pic/ratas.png","Kirjanpitoon liittyvät määritykset","F7", MAARITYSSIVU, maarityssivu);
+
 
     aktioryhma->actions().first()->setChecked(true);
 
