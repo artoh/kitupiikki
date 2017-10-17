@@ -225,7 +225,7 @@ QString AloitusSivu::vinkit()
     if( kp()->paivamaara().daysTo(kp()->tilikaudet()->kirjanpitoLoppuu()) < 30 )
     {
         vinkki.append(tr("<table class=vinkki width=100%><tr><td>"
-                      "<h3><a href=ktp:/maaritys/Tilikaudet>Aloita uusi tilikausi</a></h3>"
+                      "<h3><a href=ktp:/uusitilikausi>Aloita uusi tilikausi</a></h3>"
                       "<p>Tilikausi päättyy %1, jonka jälkeiselle ajalle ei voi tehdä kirjauksia ennen kuin uusi tilikausi aloitetaan.</p>"
                       "<p>Voit tehdä kirjauksia myös aiempiin tilikausiin, kunnes ne on päätetty</p></td></tr></table>").arg( kp()->tilikaudet()->kirjanpitoLoppuu().toString(Qt::SystemLocaleShortDate) ));
 
@@ -260,10 +260,10 @@ QString AloitusSivu::vinkit()
                     vinkki.append("</ol>");
                 }
                 vinkki.append("</li><li>Varmista <a href=ktp:/raportit>tuloslaskelmaa ja tasetta</a> tutkimalla, että kaikki kirjaukset on tehty</li>");
-                vinkki.append("<li><a href=ktp:/maaritys/Tilikaudet>Lukitse tilikausi</a> valinnalla Tilinpäätös</li>");
+                vinkki.append("<li><a href=ktp:/arkisto>Lukitse tilikausi</a> valinnalla Tilinpäätös</li>");
             }
-            vinkki.append("<li>Laadi <a href=ktp:/maaritys/Tilikaudet>tilinpäätös</a> tai tallenna muulla ohjelmalla laadittu tilinpäätös Kitupiikin arkistoon</a></li>");
-            vinkki.append("<li>Kun <a href=ktp:/maaritys/Tilikaudet>tilinpäätös</a> on vahvistettu, merkitse se vahvistetuksi</li>");
+            vinkki.append("<li>Laadi <a href=ktp:/arkisto>tilinpäätös</a> tai tallenna muulla ohjelmalla laadittu tilinpäätös Kitupiikin arkistoon</a></li>");
+            vinkki.append("<li>Kun <a href=ktp:/arkisto>tilinpäätös</a> on vahvistettu, merkitse se vahvistetuksi</li>");
             vinkki.append("</ol><p>Katso <a href=ohje:/tilinpaatos>ohjeet</a> tilinpäätösen laatimisesta</p></td></tr></table>");
         }
 

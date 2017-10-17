@@ -23,7 +23,7 @@
 
 #include <QMessageBox>
 
-#include "tilikausimaaritykset.h"
+#include "arkistosivu.h"
 #include "db/kirjanpito.h"
 #include "ui_lisaatilikausidlg.h"
 #include "ui_lukitsetilikausi.h"
@@ -33,7 +33,7 @@
 #include "tilinpaatoseditori/tpaloitus.h"
 
 
-TilikausiMaaritykset::TilikausiMaaritykset()
+ArkistoSivu::ArkistoSivu()
 {
     ui = new Ui::TilikausiMaaritykset;
     ui->setupUi(this);
@@ -44,12 +44,12 @@ TilikausiMaaritykset::TilikausiMaaritykset()
 
 }
 
-TilikausiMaaritykset::~TilikausiMaaritykset()
+ArkistoSivu::~ArkistoSivu()
 {
     delete ui;
 }
 
-bool TilikausiMaaritykset::nollaa()
+void ArkistoSivu::siirrySivulle()
 {
     ui->view->setModel( kp()->tilikaudet() );
     ui->view->resizeColumnsToContents();
@@ -61,12 +61,14 @@ bool TilikausiMaaritykset::nollaa()
     connect( ui->view->selectionModel() , SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(nykyinenVaihtuuPaivitaNapit()) );
 
     ui->view->selectRow( ui->view->model()->rowCount(QModelIndex()) - 1);
+}
 
-
+bool ArkistoSivu::poistuSivulta()
+{
     return true;
 }
 
-void TilikausiMaaritykset::uusiTilikausi()
+void ArkistoSivu::uusiTilikausi()
 {
     Ui::UusiTilikausiDlg dlgUi;
     QDialog dlg;
@@ -88,7 +90,7 @@ void TilikausiMaaritykset::uusiTilikausi()
 
 }
 
-void TilikausiMaaritykset::arkisto()
+void ArkistoSivu::arkisto()
 {
     if( ui->view->currentIndex().isValid())
     {
@@ -106,7 +108,7 @@ void TilikausiMaaritykset::arkisto()
     }
 }
 
-void TilikausiMaaritykset::tilinpaatos()
+void ArkistoSivu::tilinpaatos()
 {
     // Tilinpäätöstoimet
     // - tilinpäätöksen näyttäminen (jos laadittu ja vahvistettu)
@@ -173,7 +175,7 @@ void TilikausiMaaritykset::tilinpaatos()
     }
 }
 
-void TilikausiMaaritykset::nykyinenVaihtuuPaivitaNapit()
+void ArkistoSivu::nykyinenVaihtuuPaivitaNapit()
 {
     if( ui->view->currentIndex().isValid())
     {
@@ -181,7 +183,7 @@ void TilikausiMaaritykset::nykyinenVaihtuuPaivitaNapit()
         // Tilikaudelle voi tehdä tilinpäätöksen, jos se ei ole tilinavaus
         ui->tilinpaatosNappi->setEnabled( kausi.tilinpaatoksenTila() != Tilikausi::EILAADITATILINAVAUKSELLE );
         // Tilikauden voi arkistoida, jos tilikautta ei ole lukittu - arkiston voi näyttää aina
-        ui->arkistoNappi->setEnabled( kausi.paattyy() < kp()->tilitpaatetty() || kausi.arkistoitu().isValid());
+        ui->arkistoNappi->setEnabled( kausi.paattyy() > kp()->tilitpaatetty() || kausi.arkistoitu().isValid());
     }
     else
     {
@@ -190,7 +192,7 @@ void TilikausiMaaritykset::nykyinenVaihtuuPaivitaNapit()
     }
 }
 
-void TilikausiMaaritykset::teeArkisto(Tilikausi kausi)
+void ArkistoSivu::teeArkisto(Tilikausi kausi)
 {
 
     QProgressDialog odota(tr("Muodostetaan arkistoa"), QString(), 0, 100, this);

@@ -46,7 +46,6 @@ SOURCES += main.cpp \
     db/kohdennus.cpp \
     db/tositelaji.cpp \
     db/tilikausimodel.cpp \
-    maaritys/maarityswidget.cpp \
     kitupiikkisivu.cpp \
     raportti/raportinkirjoittaja.cpp \
     raportti/raporttirivi.cpp \
@@ -80,7 +79,6 @@ SOURCES += main.cpp \
     raportti/paakirjaraportti.cpp \
     raportti/tilikarttaraportti.cpp \
     selaus/tositeselausmodel.cpp \
-    maaritys/tilikausimaaritykset.cpp \
     arkistoija/arkistoija.cpp \
     raportti/tositeluetteloraportti.cpp \
     tilinpaatoseditori/tilinpaatoseditori.cpp \
@@ -88,7 +86,9 @@ SOURCES += main.cpp \
     maaritys/liitetietokaavamuokkaus.cpp \
     tilinpaatoseditori/tpaloitus.cpp \
     tilinpaatoseditori/mrichtexteditor/mrichtextedit.cpp \
-    tilinpaatoseditori/mrichtexteditor/mtextedit.cpp
+    tilinpaatoseditori/mrichtexteditor/mtextedit.cpp \
+    arkisto/arkistosivu.cpp \
+    maaritys/maarityswidget.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -159,7 +159,6 @@ HEADERS += \
     raportti/paakirjaraportti.h \
     raportti/tilikarttaraportti.h \
     selaus/tositeselausmodel.h \
-    maaritys/tilikausimaaritykset.h \
     arkistoija/arkistoija.h \
     raportti/tositeluetteloraportti.h \
     tilinpaatoseditori/tilinpaatoseditori.h \
@@ -167,7 +166,8 @@ HEADERS += \
     maaritys/liitetietokaavamuokkaus.h \
     tilinpaatoseditori/tpaloitus.h \
     tilinpaatoseditori/mrichtexteditor/mrichtextedit.h \
-    tilinpaatoseditori/mrichtexteditor/mtextedit.h
+    tilinpaatoseditori/mrichtexteditor/mtextedit.h \
+    arkisto/arkistosivu.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -206,13 +206,13 @@ FORMS += \
     maaritys/tyokalut.ui \
     onniwidget.ui \
     raportti/tilikarttaraportti.ui \
-    maaritys/tilikausimaaritykset.ui \
-    maaritys/lisaatilikausidlg.ui \
     aloitussivu/aboutdialog.ui \
-    maaritys/lukitsetilikausi.ui \
     tilinpaatoseditori/tpaloitus.ui \
     tilinpaatoseditori/mrichtexteditor/mrichtextedit.ui \
-    aloitussivu/aloitus.ui
+    aloitussivu/aloitus.ui \
+    arkisto/arkisto.ui \
+    arkisto/lisaatilikausidlg.ui \
+    arkisto/lukitsetilikausi.ui
 
 DISTFILES += \
     uusikp/luo.sql \

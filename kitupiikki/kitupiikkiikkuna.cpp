@@ -41,6 +41,7 @@
 #include "maaritys/maarityssivu.h"
 #include "selaus/selauswg.h"
 #include "raportti/raporttisivu.h"
+#include "arkisto/arkistosivu.h"
 #include "uusikp/uusikirjanpito.h"
 
 #include "db/kirjanpito.h"
@@ -61,6 +62,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     selaussivu = new SelausWg();
     maarityssivu = new MaaritysSivu();
     raporttisivu = new RaporttiSivu();
+    arkistosivu = new ArkistoSivu();
 
     pino = new QStackedWidget;
     setCentralWidget(pino);
@@ -110,11 +112,11 @@ void KitupiikkiIkkuna::valitseSivu(int mikasivu, bool paluu)
     nykysivu = sivut[mikasivu];
     sivuaktiot[mikasivu]->setChecked(true);
 
-    // Laittaa sivun valmiiksi
-    nykysivu->siirrySivulle();
-
     // Sivu esille
     pino->setCurrentWidget( nykysivu);
+
+    // Laittaa sivun valmiiksi
+    nykysivu->siirrySivulle();
 
 }
 
@@ -181,6 +183,12 @@ void KitupiikkiIkkuna::ktpKasky(QString kasky)
         valitseSivu( TULOSTESIVU, true);
     else if( kasky == "kirjaa")
         valitseSivu( KIRJAUSSIVU, true);
+    else if( kasky == "uusitilikausi" || kasky=="arkisto")
+    {
+        valitseSivu( ARKISTOSIVU, true);
+        if( kasky == "uusitilikausi")
+            arkistosivu->uusiTilikausi();
+    }
 }
 
 void KitupiikkiIkkuna::naytaOnni(const QString &teksti)
@@ -241,7 +249,7 @@ void KitupiikkiIkkuna::lisaaSivut()
     lisaaSivu("Uusi\ntosite",":/pic/uusitosite.png","Kirjaa uusi tosite","Ctrl+N", KIRJAUSSIVU, kirjaussivu);
     lisaaSivu("Selaa",":/pic/Paivakirja64.png","Selaa kirjauksia aikajärjestyksessä","F3", SELAUSSIVU, selaussivu);
     lisaaSivu("Tulosteet",":/pic/print.png","Tulosta erilaisia raportteja","Ctrl+P", TULOSTESIVU, raporttisivu);
-    lisaaSivu("Arkisto",":/pic/kirja64.png","Tilinpäätös ja arkistot","F5", MAARITYSSIVU, maarityssivu);
+    lisaaSivu("Arkisto",":/pic/kirja64.png","Tilinpäätös ja arkistot","F5", ARKISTOSIVU, arkistosivu);
     lisaaSivu("Määritykset",":/pic/ratas.png","Kirjanpitoon liittyvät määritykset","F7", MAARITYSSIVU, maarityssivu);
 
 
