@@ -5,7 +5,7 @@
     Kitupikki-ohjelmaan ei sisälly minkäänlaista takuuta ohjelma toimivuudesta tai soveltuvuudesta. Ohjelma on testattu huolellisesti, mutta siinä voi silti olla virheitä ja ohjelman käyttäjä ottaa vastuun ohjelman mahdollisesti aiheuttamista vahigoista.
 
 !!! note "Ei vielä valmis"
-    Ohjelman esiversio ilman arvonlisätoimintoja valmistuu ladattavaksi vuoden 2017 alkupuoliskolla - ehkä jo ennen kesää - ja täysi versio kaikilla suunnitelluilla mausteilla sitten vähän myöhemmin
+    Ohjelman esiversio ilman arvonlisätoimintoja valmistuu ehkä jo vuoden 2017 aikana - ja täysi versio kaikilla suunnitelluilla mausteilla sitten vähän myöhemmin
 
 ## Windows
 
