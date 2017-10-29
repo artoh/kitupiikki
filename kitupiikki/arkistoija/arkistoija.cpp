@@ -71,23 +71,54 @@ void Arkistoija::luoHakemistot()
 
 }
 
+struct TilioteTieto
+{
+    int tilinumero;
+    QDate alkaa;
+    QDate paattyy;
+    int tositeId;
+};
+
 void Arkistoija::arkistoiTositteet()
 {
     // TODO: Kommentit ja tyylit jne.
+    TositeModel *tosite = kp()->tositemodel();
+    LiiteModel liitteet(tosite);
+    VientiModel viennit(tosite);
 
-    QSqlQuery kysely( QString("SELECT id FROM tosite WHERE pvm BETWEEN \"%1\" AND \"%2\" ORDER BY laji, tunniste ")
+    QSqlQuery kysely( QString("SELECT id,tiliote FROM tosite WHERE pvm BETWEEN \"%1\" AND \"%2\" ORDER BY laji, tunniste ")
                       .arg(tilikausi_.alkaa().toString(Qt::ISODate))
                       .arg(tilikausi_.paattyy().toString(Qt::ISODate)));
 
     // Haetaan id:t listaan. Näin ollen aina tieto edellisestä ja seuraavasta
     QList<int> idLista;
+    QList<TilioteTieto> tilioteLista;
+
     while(kysely.next())
+    {
         idLista.append( kysely.value(0).toInt());
 
+        // Jos tämä tosite on tiliote, lisätään se tilioteluetteloon, jotta tällä välillä tiliin tehtäviin
+        // kirjauksiin voidaan lisätä myös viittaus tiliotteeseen
+
+        if( kysely.value(1).toInt())
+        {
+            TilioteTieto otetieto;
+            otetieto.tilinumero = kp()->tilit()->tiliIdlla( kysely.value(1).toInt() ).numero();
+            if( otetieto.tilinumero )
+            {
+                tosite->lataa( kysely.value(0).toInt());
+                otetieto.alkaa = tosite->json()->date("TilioteAlkaa");
+                otetieto.paattyy = tosite->json()->date("TilioteLoppuu");
+                otetieto.tositeId = kysely.value(0).toInt();
+                tilioteLista.append(otetieto);
+            }
+        }
+
+    }
+
     // Sitten tositteet
-    TositeModel *tosite = kp()->tositemodel();
-    LiiteModel liitteet(tosite);
-    VientiModel viennit(tosite);
+
 
     for( int tositeInd = 0; tositeInd < idLista.count(); tositeInd++)
     {
@@ -173,6 +204,19 @@ void Arkistoija::arkistoiTositteet()
                 out << "<tr><td class=pvm>" << index.data(VientiModel::PvmRooli).toDate().toString(Qt::SystemLocaleShortDate) ;
                 out << "</td><td><a href='paakirja.html#" << index.data(VientiModel::TiliNumeroRooli).toInt() << "'>"
                     << index.sibling(vientiInd, VientiModel::TILI).data().toString() << "</a>";
+                // Mahdollinen tiliotelinkki
+                foreach (TilioteTieto ote, tilioteLista) {
+                    if( ote.tilinumero == index.data(VientiModel::TiliNumeroRooli) &&
+                        ote.alkaa <= index.data(VientiModel::PvmRooli).toDate() &&
+                        ote.paattyy >= index.data(VientiModel::PvmRooli).toDate())
+                    {
+                        // Tämä vienti oikealla tilillä ja päivämäärävälillä
+                        if( ote.tositeId != tositeId)
+                            out << "&nbsp;<a href=" << QString("%1.html").arg( ote.tositeId, 8, 10, QChar('0')) << ">(Tiliote)</a>";
+                        break;
+                    }
+                }
+
                 out << "</td><td>" << index.sibling(vientiInd, VientiModel::KOHDENNUS).data().toString();
                 out << "</td><td>" << index.sibling(vientiInd, VientiModel::SELITE).data().toString();
                 out << "</td><td class=euro>" << index.sibling(vientiInd, VientiModel::DEBET).data().toString();
@@ -196,8 +240,8 @@ void Arkistoija::arkistoiTositteet()
 
         out << "<p class=info>Kirjanpito arkistoitu " << QDate::currentDate().toString(Qt::SystemLocaleDate);
 
-        if( tilikausi_.paattyy() <= kp()->tilitpaatetty() )
-            out << " (Tilinpäätös)";
+        if( tilikausi_.paattyy() > kp()->tilitpaatetty() )
+            out << " (Keskener&auml;inen kirjanpito)";
         if( kp()->onkoHarjoitus())
             out << "<br>Kirjanpito on laadittu Kitupiikki-ohjelmiston harjoittelutilassa";
         out << "</p>";
@@ -318,6 +362,9 @@ void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
 
     out << tr("<p class=info>Tämä kirjanpidon sähköinen arkisto on luotu Kitupiikki-ohjelmalla %1 <br>").arg(QDate::currentDate().toString(Qt::SystemLocaleDate));
     out << tr("Arkiston muuttumattomuus voidaan valvoa sha256-tiivisteellä <code>%1</code> </p>").arg( QString(QCryptographicHash::hash( shaBytes, QCryptographicHash::Sha256).toHex()) );
+    if( tilikausi_.paattyy() > kp()->tilitpaatetty() )
+        out << "Kirjanpito on viel&auml; keskener&auml;inen.";
+
 
     out << "</body></html>";
 }
@@ -371,7 +418,7 @@ QString Arkistoija::navipalkki(int edellinen, int seuraava)
         navi.append( tr("<li><a href=\'%1.html\'>Seuraava</a></li>").arg(seuraava,8,10,QChar('0')));
     if( edellinen )
         navi.append( tr("<li><a href=\'%1.html\'>Edellinen</a></li>").arg(edellinen,8,10,QChar('0')));
-    navi.append("<li><a href=ohje.html>Ohje</a></li>");
+    navi.append("<li><a href=ohje.html target=_blank>Ohje</a></li>");
     navi.append("</ul></nav></div>");
 
     return navi;

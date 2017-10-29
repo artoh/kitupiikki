@@ -88,27 +88,26 @@ RaportinKirjoittaja TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::Kar
 
     // Tässä vaiheessa ei vielä välitetä kirjauksia-rajoitteesta
     QSet<int> tiliIdtKaytossa;
-    if( valinta == KIRJATUT_TILIT)
+
+    // tiliIdtKaytossa - settiin lisätään kaikki, joissa kirjauksia ko. tilikaudella
+    // Lisäksi käytössä ovat ne tasetilit, joilla on saldoa
+
+    QSqlQuery kysely( QString("SELECT tili FROM vienti WHERE PVM BETWEEN \"%1\" AND \"%2\" GROUP BY tili")
+            .arg(tilikaudelta.alkaa().toString(Qt::ISODate))
+            .arg(tilikaudelta.paattyy().toString(Qt::ISODate)) );
+    while( kysely.next())
     {
-        // tiliIdtKaytossa - settiin lisätään kaikki, joissa kirjauksia ko. tilikaudella
-        // Lisäksi käytössä ovat ne tasetilit, joilla on saldoa
-
-        QSqlQuery kysely( QString("SELECT tili FROM vienti WHERE PVM BETWEEN \"%1\" AND \"%2\" GROUP BY tili")
-                .arg(tilikaudelta.alkaa().toString(Qt::ISODate))
-                .arg(tilikaudelta.paattyy().toString(Qt::ISODate)) );
-        while( kysely.next())
+        // Kirjataan myös "ylätileille"
+        int tiliId = kysely.value(0).toInt();   // tilin id
+        while( tiliId)
         {
-            // Kirjataan myös "ylätileille"
-            int tiliId = kysely.value(0).toInt();   // tilin id
-            while( tiliId)
-            {
-                tiliIdtKaytossa.insert( tiliId);    // Merkitään, että on käytössä
-                Tili tili = kp()->tilit()->tiliIdlla( tiliId );
-                tiliId = tili.ylaotsikkoId();       // Haetaan seuraavaksi tämän ylätili
-            }
+            tiliIdtKaytossa.insert( tiliId);    // Merkitään, että on käytössä
+            Tili tili = kp()->tilit()->tiliIdlla( tiliId );
+            tiliId = tili.ylaotsikkoId();       // Haetaan seuraavaksi tämän ylätili
         }
-
     }
+
+
 
 
     for( int i=0; i < kp()->tilit()->rowCount(QModelIndex()); i++)
@@ -116,9 +115,9 @@ RaportinKirjoittaja TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::Kar
         RaporttiRivi rr;
         Tili tili = kp()->tilit()->tiliIndeksilla(i);
 
-        if( valinta == KAYTOSSA_TILIT && tili.tila() == 0 )
+        if( valinta == KAYTOSSA_TILIT && tili.tila() == 0 && !tiliIdtKaytossa.contains( tili.id()))
             continue;   // Tili ei käytössä
-        else if( valinta == SUOSIKKI_TILIT && tili.tila() < 2)
+        else if( valinta == SUOSIKKI_TILIT && tili.tila() < 2 )
             continue;
         else if( valinta == KIRJATUT_TILIT )
         {
