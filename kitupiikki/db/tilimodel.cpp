@@ -252,8 +252,6 @@ void TiliModel::luoTyyppiTaulut()
     verotyypit__.insert(AlvKoodi::EIALV,"Veroton");
     verotyypit__.insert(AlvKoodi::MYYNNIT_NETTO,"Verollinen myynti, nettokirjaus");
     verotyypit__.insert(AlvKoodi::OSTOT_NETTO,"Verollinen osto, nettokirjaus");
-    verotyypit__.insert(AlvKoodi::MYYNNIT_BRUTTO,"Verollinen myynti, bruttokirjaus");
-    verotyypit__.insert(AlvKoodi::OSTOT_BRUTTO,"Verollinen osto, bruttokirjaus");
     verotyypit__.insert(AlvKoodi::YHTEISOMYYNTI_TAVARAT,"Tavaroiden yhteisömyynti");
     verotyypit__.insert(AlvKoodi::YHTEISOMYYNTI_PALVELUT,"Palveluiden yhteisömyynti");
     verotyypit__.insert(AlvKoodi::YHTEISOHANKINNAT_TAVARAT,"Tavaroiden yhteisöhankinnat");

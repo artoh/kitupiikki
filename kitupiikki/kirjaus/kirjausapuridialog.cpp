@@ -127,8 +127,8 @@ void KirjausApuriDialog::alvLajiMuuttui()
 {
     int alvlaji = ui->alvCombo->currentData().toInt();
 
-    if(  alvlaji == AlvKoodi::MYYNNIT_BRUTTO || alvlaji == AlvKoodi::MYYNNIT_NETTO
-         || alvlaji == AlvKoodi::OSTOT_BRUTTO || alvlaji==AlvKoodi::OSTOT_NETTO
+    if(  alvlaji == AlvKoodi::MYYNNIT_NETTO
+         || alvlaji==AlvKoodi::OSTOT_NETTO
          || alvlaji == AlvKoodi::RAKENNUSPALVELU_OSTO )
     {
         ui->alvSpin->setVisible(true);

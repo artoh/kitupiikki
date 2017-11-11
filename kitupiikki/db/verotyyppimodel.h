@@ -31,8 +31,6 @@ namespace AlvKoodi {
         EIALV = 0,
         MYYNNIT_NETTO = 11,
         OSTOT_NETTO = 12,
-        MYYNNIT_BRUTTO = 21,
-        OSTOT_BRUTTO = 22,
         YHTEISOMYYNTI_TAVARAT = 31,
         YHTEISOHANKINNAT_TAVARAT = 32,
         YHTEISOMYYNTI_PALVELUT = 41,

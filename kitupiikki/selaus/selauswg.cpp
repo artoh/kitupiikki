@@ -216,7 +216,7 @@ void SelausWg::selaaTositteita()
     proxyModel->setFilterKeyColumn( TositeSelausModel::TOSITELAJI);
     proxyModel->setSortRole(Qt::EditRole);  // Jotta numerot lajitellaan oikein
     etsiProxy->setSourceModel(proxyModel);
-    etsiProxy->setFilterKeyColumn( SelausModel::SELITE );
+    etsiProxy->setFilterKeyColumn( TositeSelausModel::OTSIKKO );
 
     paivita();
 }

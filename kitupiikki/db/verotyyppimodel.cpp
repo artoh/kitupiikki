@@ -28,10 +28,8 @@ VerotyyppiModel::VerotyyppiModel(QObject *parent)
     : QAbstractListModel( parent)
 {
     tyypit.append( VeroTyyppi(AlvKoodi::EIALV,"Veroton"));
-    tyypit.append( VeroTyyppi(AlvKoodi::MYYNNIT_NETTO,"Verollinen myynti, nettokirjaus"));
-    tyypit.append( VeroTyyppi(AlvKoodi::OSTOT_NETTO,"Verollinen osto, nettokirjaus"));
-    tyypit.append( VeroTyyppi(AlvKoodi::MYYNNIT_BRUTTO,"Verollinen myynti, bruttokirjaus"));
-    tyypit.append( VeroTyyppi(AlvKoodi::OSTOT_BRUTTO,"Verollinen osto, bruttokirjaus"));
+    tyypit.append( VeroTyyppi(AlvKoodi::MYYNNIT_NETTO,"Verollinen myynti"));
+    tyypit.append( VeroTyyppi(AlvKoodi::OSTOT_NETTO,"Verollinen osto"));
     tyypit.append( VeroTyyppi(AlvKoodi::YHTEISOMYYNTI_TAVARAT,"Tavaroiden yhteisömyynti"));
     tyypit.append( VeroTyyppi(AlvKoodi::YHTEISOMYYNTI_PALVELUT,"Palveluiden yhteisömyynti"));
     tyypit.append( VeroTyyppi(AlvKoodi::YHTEISOHANKINNAT_TAVARAT,"Tavaroiden yhteisöhankinnat"));

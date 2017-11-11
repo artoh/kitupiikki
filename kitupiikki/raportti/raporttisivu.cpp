@@ -66,6 +66,7 @@ void RaporttiSivu::siirrySivulle()
     }
 
     lisaaRaportti("Tililuettelo","Tilikartta",":/pic/valilehdet.png");
+    lista->setCurrentItem(lista->item(0));
 }
 
 bool RaporttiSivu::poistuSivulta()

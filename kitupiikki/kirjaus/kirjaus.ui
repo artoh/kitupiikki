@@ -110,7 +110,7 @@
              <normaloff>:/pic/poistarivi.png</normaloff>:/pic/poistarivi.png</iconset>
            </property>
            <property name="shortcut">
-            <string>Ctrl+S</string>
+            <string>Del</string>
            </property>
           </widget>
          </item>
