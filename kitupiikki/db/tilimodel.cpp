@@ -229,6 +229,15 @@ Tili TiliModel::edellistenYlijaamaTili() const
     return Tili();
 }
 
+Tili TiliModel::tiliTyyppikoodilla(QString tyyppikoodi) const
+{
+    foreach (Tili tili, tilit_) {
+        if( tili.tyyppi() == tyyppikoodi)
+            return tili;
+    }
+    return Tili();
+}
+
 JsonKentta *TiliModel::jsonIndeksilla(int i)
 {
     return tilit_[i].json();

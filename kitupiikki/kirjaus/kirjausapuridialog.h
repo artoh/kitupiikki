@@ -57,6 +57,7 @@ public slots:
     void ehdota();
 
     void valilehtiVaihtui(int indeksi);
+    void korjaaSarakeLeveydet();
 
     void accept();
 

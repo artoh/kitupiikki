@@ -75,6 +75,15 @@ public:
      * @return
      */
     Tili edellistenYlijaamaTili() const;
+    /**
+     * @brief Palauttaa ensimmäisen halutun tyyppisen tilin
+     *
+     * Käytetään esim. alv-velkaa BV varten
+     *
+     * @param tyyppikoodi
+     * @return
+     */
+    Tili tiliTyyppikoodilla(QString tyyppikoodi) const;
     JsonKentta *jsonIndeksilla(int i);
 
     static QMap<QString,QString> tiliTyyppiTaulu() { return tilityypit__; }

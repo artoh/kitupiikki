@@ -16,7 +16,7 @@
 */
 
 #include <QDebug>
-
+#include <QTimer>
 #include "kirjausapuridialog.h"
 #include "ui_kirjausapuridialog.h"
 
@@ -63,6 +63,8 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     connect( ui->alvSpin, SIGNAL(editingFinished()), this, SLOT(laskeVerolla()));
     connect( ui->vaihdaNappi, SIGNAL(clicked(bool)), this, SLOT(vaihdaTilit()));
 
+
+
     connect(ui->seliteEdit, SIGNAL(editingFinished()), this, SLOT(ehdota()));
     connect(ui->pvmDate, SIGNAL(editingFinished()), this, SLOT(ehdota()));
 
@@ -94,7 +96,7 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
         {
             ui->tiliEdit->suodataTyypilla("C.*");
             ui->valintaTab->setCurrentIndex(TULO);
-            ui->valintaTab->setTabEnabled(TULO, false);
+            ui->valintaTab->setTabEnabled(MENO, false);
             ui->valintaTab->setTabEnabled(SIIRTO, false);
             ui->valintaTab->setTabEnabled(INVESTOINTI, false);
         }
@@ -102,7 +104,7 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
         // Jos tositelajille on määritelty oletusvastatili, esitäytetään sekin
         ui->vastatiliEdit->valitseTiliNumerolla( model->tositelaji().json()->luku("Vastatili") );
     }
-
+    QTimer::singleShot(0, this, SLOT(korjaaSarakeLeveydet()));
 
 }
 
@@ -220,6 +222,13 @@ void KirjausApuriDialog::ehdota()
             tulorivi.alvprosentti = alvprosentti;
             tulorivi.alvkoodi = alvkoodi;
             ehdotus.lisaaVienti(tulorivi);
+
+            if( alvkoodi == AlvKoodi::MYYNNIT_NETTO && kp()->tilit()->tiliTyyppikoodilla("BL").onkoValidi())
+            {
+                VientiRivi verorivi = uusiEhdotusRivi( kp()->tilit()->tiliTyyppikoodilla("BL"));
+                verorivi.kreditSnt = bruttoSnt - nettoSnt;
+                ehdotus.lisaaVienti(verorivi);
+            }
         }
         if( vastatili.onkoTasetili() )
         {
@@ -264,7 +273,6 @@ void KirjausApuriDialog::ehdota()
         break;
     }
 
-    ui->ehdotusView->resizeColumnsToContents();
     ui->buttonBox->button( QDialogButtonBox::Ok )->setEnabled( ehdotus.onkoKelpo() );
 
 
@@ -289,6 +297,12 @@ void KirjausApuriDialog::valilehtiVaihtui(int indeksi)
 
 
     ehdota();
+}
+
+void KirjausApuriDialog::korjaaSarakeLeveydet()
+{
+    ui->ehdotusView->setColumnWidth( EhdotusModel::TILI, ui->ehdotusView->width() - ui->ehdotusView->columnWidth(EhdotusModel::KREDIT)
+                                     - ui->ehdotusView->columnWidth(EhdotusModel::DEBET) - 10);
 }
 
 void KirjausApuriDialog::accept()
