@@ -207,18 +207,28 @@
         },
         {
             "location": "/selaus/",
-            "text": "Selaaminen ja etsiminen",
+            "text": "Selaaminen ja etsiminen\n\n\nSelaa\n-v\u00e4lilehdell\u00e4 p\u00e4\u00e4set selaamaan ja hakemaan jo tehtyj\u00e4 kirjauksia.\n\n\n\n\nPorautuminen\n\n\nAloita\n-sivun tili\u00e4 napsauttamalla p\u00e4\u00e4set suoraan selaamaan kyseisen tilin\nkirjauksia valitulla tilikaudella.\nMy\u00f6s \ns\u00e4hk\u00f6isess\u00e4 arkistossa\n voit porautua kirjauksiin napsauttamalla\nensin tilin numeroa ja sitten tositteen tunnusta.\n\n\n\n\nTositteiden selaaminen\n\n\nkuva\n\n\nTositteet\n-napilla valitset tositteiden selaamisen. Rajaa selattavien tositteiden\naikav\u00e4li ja halutessasi tositetyyppi.\n\n\nEtsi\n-valinta suodattaa n\u00e4yt\u00f6ll\u00e4 olevista tositteista ne, joiden otsikossa on etsitt\u00e4v\u00e4 teksti.\n\n\nNapsauttamalla rivi\u00e4 p\u00e4\u00e4set katsomaan tai muokkaamaan valittua tositetta.\n\n\nVientien selaaminen\n\n\nkuva\n\n\nViennit\n-napilla valitset vientien eli tositteella olevien rivien selaamisen.\nRajaa selattavien vientien aikav\u00e4li. Voit selata yksitt\u00e4isen tilin tapahtumia\nvalitsemalla \nKaikki tilit\n-valinnat tilalle haluamasi tilin.\n\n\nEtsi\n-valinta suodattaa n\u00e4yt\u00f6ll\u00e4 olevista vienneist\u00e4 ne, joiden selitteess\u00e4 on\netsitt\u00e4v\u00e4 teksti.\n\n\nNapsauttamalla rivi\u00e4 p\u00e4\u00e4set katsomaan tai muokkaamaan tositetta, johon vienti on\nkirjattu.",
             "title": "Selaaminen ja etsiminen"
         },
         {
             "location": "/selaus/#selaaminen-ja-etsiminen",
-            "text": "",
+            "text": "Selaa -v\u00e4lilehdell\u00e4 p\u00e4\u00e4set selaamaan ja hakemaan jo tehtyj\u00e4 kirjauksia.   Porautuminen  Aloita -sivun tili\u00e4 napsauttamalla p\u00e4\u00e4set suoraan selaamaan kyseisen tilin\nkirjauksia valitulla tilikaudella.\nMy\u00f6s  s\u00e4hk\u00f6isess\u00e4 arkistossa  voit porautua kirjauksiin napsauttamalla\nensin tilin numeroa ja sitten tositteen tunnusta.",
             "title": "Selaaminen ja etsiminen"
+        },
+        {
+            "location": "/selaus/#tositteiden-selaaminen",
+            "text": "kuva  Tositteet -napilla valitset tositteiden selaamisen. Rajaa selattavien tositteiden\naikav\u00e4li ja halutessasi tositetyyppi.  Etsi -valinta suodattaa n\u00e4yt\u00f6ll\u00e4 olevista tositteista ne, joiden otsikossa on etsitt\u00e4v\u00e4 teksti.  Napsauttamalla rivi\u00e4 p\u00e4\u00e4set katsomaan tai muokkaamaan valittua tositetta.",
+            "title": "Tositteiden selaaminen"
+        },
+        {
+            "location": "/selaus/#vientien-selaaminen",
+            "text": "kuva  Viennit -napilla valitset vientien eli tositteella olevien rivien selaamisen.\nRajaa selattavien vientien aikav\u00e4li. Voit selata yksitt\u00e4isen tilin tapahtumia\nvalitsemalla  Kaikki tilit -valinnat tilalle haluamasi tilin.  Etsi -valinta suodattaa n\u00e4yt\u00f6ll\u00e4 olevista vienneist\u00e4 ne, joiden selitteess\u00e4 on\netsitt\u00e4v\u00e4 teksti.  Napsauttamalla rivi\u00e4 p\u00e4\u00e4set katsomaan tai muokkaamaan tositetta, johon vienti on\nkirjattu.",
+            "title": "Vientien selaaminen"
         },
         {
             "location": "/raportti/",
             "text": "",
-            "title": "Raportit"
+            "title": "Tulosteet"
         },
         {
             "location": "/tilinpaatos/",
