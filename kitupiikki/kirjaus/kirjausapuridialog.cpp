@@ -325,6 +325,19 @@ void KirjausApuriDialog::teeEhdotus(const QString &teksti, bool tiliOnDebet, con
     txt.append("</table>");
     ui->esikatseluBrowser->append( txt );
 
+    ui->taulukko->clear();
+    ui->taulukko->setRowCount(ehdotus.count());
+    int i=0;
+    foreach (VientiRivi rivi, ehdotus) {
+        ui->taulukko->setItem(i,0, new QTableWidgetItem( rivi.tili.nimi() ));
+        if( rivi.debetSnt )
+            ui->taulukko->setItem( i,1, new QTableWidgetItem(  QString("%1").arg((double) rivi.debetSnt / 100.0,0, 'f', 2 ) ));
+        if( rivi.kreditSnt )
+            ui->taulukko->setItem( i, 2, new QTableWidgetItem( QString("%1").arg((double) rivi.kreditSnt / 100.0,0, 'f', 2 ) ));
+        i++;
+
+    }
+
 }
 
 void KirjausApuriDialog::laskeNetto()

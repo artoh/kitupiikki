@@ -200,6 +200,31 @@
     </layout>
    </item>
    <item>
+    <widget class="QTableWidget" name="taulukko">
+     <attribute name="horizontalHeaderCascadingSectionResizes">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="verticalHeaderStretchLastSection">
+      <bool>false</bool>
+     </attribute>
+     <column>
+      <property name="text">
+       <string>Tili</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Debet</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Kredit</string>
+      </property>
+     </column>
+    </widget>
+   </item>
+   <item>
     <widget class="QTextBrowser" name="esikatseluBrowser"/>
    </item>
    <item>
