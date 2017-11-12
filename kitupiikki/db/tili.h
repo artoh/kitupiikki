@@ -124,6 +124,7 @@ public:
      */
     bool onkoEdellistenYliAliJaama() const;
 
+
     /**
      * @brief Laskee yhdeksännumeroisen vertailuluvun
      *

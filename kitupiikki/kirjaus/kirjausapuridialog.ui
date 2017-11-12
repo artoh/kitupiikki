@@ -6,14 +6,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>412</height>
+    <width>625</width>
+    <height>554</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Kirjausapuri</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QTabBar" name="valintaTab" native="true"/>
+   </item>
    <item>
     <layout class="QFormLayout" name="formLayout">
      <item row="0" column="0">
@@ -70,6 +73,9 @@
        <property name="minimum">
         <double>-9999999.000000000000000</double>
        </property>
+       <property name="maximum">
+        <double>9999999.000000000000000</double>
+       </property>
        <property name="value">
         <double>0.000000000000000</double>
        </property>
@@ -101,7 +107,7 @@
      <item row="4" column="1">
       <widget class="QComboBox" name="kohdennusCombo"/>
      </item>
-     <item row="5" column="0">
+     <item row="7" column="0">
       <widget class="QLabel" name="label_6">
        <property name="text">
         <string>Vientipvm</string>
@@ -111,10 +117,10 @@
        </property>
       </widget>
      </item>
-     <item row="5" column="1">
+     <item row="7" column="1">
       <widget class="QDateEdit" name="pvmDate"/>
      </item>
-     <item row="6" column="0">
+     <item row="8" column="0">
       <widget class="QLabel" name="label_7">
        <property name="text">
         <string>Selite</string>
@@ -124,10 +130,10 @@
        </property>
       </widget>
      </item>
-     <item row="6" column="1">
+     <item row="8" column="1">
       <widget class="QLineEdit" name="seliteEdit"/>
      </item>
-     <item row="7" column="0">
+     <item row="9" column="0">
       <widget class="QLabel" name="alvlajiLabel">
        <property name="text">
         <string>Alv-laji</string>
@@ -137,10 +143,10 @@
        </property>
       </widget>
      </item>
-     <item row="7" column="1">
+     <item row="9" column="1">
       <widget class="QComboBox" name="alvCombo"/>
      </item>
-     <item row="8" column="0">
+     <item row="10" column="0">
       <widget class="QLabel" name="alvprossaLabel">
        <property name="text">
         <string>Alv-prosentti</string>
@@ -150,7 +156,7 @@
        </property>
       </widget>
      </item>
-     <item row="8" column="1">
+     <item row="10" column="1">
       <widget class="QSpinBox" name="alvSpin">
        <property name="suffix">
         <string>%</string>
@@ -160,24 +166,75 @@
        </property>
       </widget>
      </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="nimikeLabel">
+       <property name="text">
+        <string>Nimike</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0">
+       <item>
+        <widget class="QComboBox" name="nimikeCombo"/>
+       </item>
+       <item>
+        <widget class="QPushButton" name="uusiNimikeButton">
+         <property name="text">
+          <string>Uusi nimike...</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="myyntitiliLabel">
+       <property name="text">
+        <string>Myyntitili</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <widget class="TilinvalintaLine" name="myyntitiliEdit"/>
+     </item>
     </layout>
    </item>
    <item>
-    <widget class="QListWidget" name="kirjausList">
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
+    <widget class="QTextBrowser" name="esikatseluBrowser"/>
    </item>
    <item>
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QPushButton" name="vaihdaNappi">
+       <property name="text">
+        <string>Vaihda tilit</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QDialogButtonBox" name="buttonBox">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
@@ -186,6 +243,12 @@
    <class>TilinvalintaLine</class>
    <extends>QLineEdit</extends>
    <header>db/tilinvalintaline.h</header>
+  </customwidget>
+  <customwidget>
+   <class>QTabBar</class>
+   <extends>QWidget</extends>
+   <header>QTabBar</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <tabstops>
@@ -198,7 +261,6 @@
   <tabstop>seliteEdit</tabstop>
   <tabstop>alvCombo</tabstop>
   <tabstop>alvSpin</tabstop>
-  <tabstop>kirjausList</tabstop>
  </tabstops>
  <resources/>
  <connections>

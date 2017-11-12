@@ -21,6 +21,7 @@
 #include "db/tositemodel.h"
 
 #include <QDialog>
+#include <QList>
 
 namespace Ui {
 class KirjausApuriDialog;
@@ -34,6 +35,8 @@ public:
     KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent = 0);
     ~KirjausApuriDialog();
 
+    enum Valilehti { TULO, MENO, SIIRTO, INVESTOINTI, POISMYYNTI };
+
 
 public slots:
     void tiliTaytetty();
@@ -41,6 +44,7 @@ public slots:
     void laskeBrutto();
     void laskeVerolla();
     void alvLajiMuuttui();
+    void vaihdaTilit();
 
     void tarkasta();
 
@@ -56,6 +60,7 @@ private:
     double bruttoEur = 0.0;
     double nettoEur = 0.0;
 
+    QList<VientiRivi> ehdotus;
 };
 
 #endif // KIRJAUSAPURIDIALOG_H
