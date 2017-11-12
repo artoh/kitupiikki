@@ -115,6 +115,15 @@ public:
      */
     QModelIndex lisaaVienti();
 
+    /**
+     * @brief Lisää valmiin vientirivin
+     * @param rivi Lisättävä vienti
+     *
+     * Lisää valmiin viennin. Tätä käytetään, kun KirjausApuriDialogi tallentaa
+     * kirjauksen
+     */
+    QModelIndex lisaaVienti(VientiRivi rivi);
+
 
     int debetSumma() const;
     int kreditSumma() const;

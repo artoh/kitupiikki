@@ -338,9 +338,14 @@ bool VientiModel::lisaaVienti(const QDate &pvm, int tilinumero, const QString &s
 
 QModelIndex VientiModel::lisaaVienti()
 {
+    return lisaaVienti( VientiRivi() );
+}
+
+QModelIndex VientiModel::lisaaVienti(VientiRivi rivi)
+{
     beginInsertRows( QModelIndex(), viennit_.count(), viennit_.count());
 
-    viennit_.append( VientiRivi());
+    viennit_.append( rivi );
 
     endInsertRows();
     return index( viennit_.count() - 1, 0);

@@ -88,7 +88,8 @@ SOURCES += main.cpp \
     tilinpaatoseditori/mrichtexteditor/mrichtextedit.cpp \
     tilinpaatoseditori/mrichtexteditor/mtextedit.cpp \
     arkisto/arkistosivu.cpp \
-    maaritys/maarityswidget.cpp
+    maaritys/maarityswidget.cpp \
+    kirjaus/ehdotusmodel.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -167,7 +168,8 @@ HEADERS += \
     tilinpaatoseditori/tpaloitus.h \
     tilinpaatoseditori/mrichtexteditor/mrichtextedit.h \
     tilinpaatoseditori/mrichtexteditor/mtextedit.h \
-    arkisto/arkistosivu.h
+    arkisto/arkistosivu.h \
+    kirjaus/ehdotusmodel.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

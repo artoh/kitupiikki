@@ -27,18 +27,14 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
 {
     ui->setupUi(this);
 
+    // Alussa suurin valinnoista jää piiloon
     ui->nettoSpin->setVisible(false);
     ui->nettoLabel->setVisible(false);
     ui->alvCombo->setVisible(false);
     ui->alvlajiLabel->setVisible(false);
     ui->alvSpin->setVisible(false);
     ui->alvprossaLabel->setVisible(false);
-    ui->kohdennusLabel->setVisible(false);
-    ui->kohdennusCombo->setVisible(false);
 
-    ui->nimikeLabel->setVisible(false);
-    ui->nimikeCombo->setVisible(false);
-    ui->uusiNimikeButton->setVisible(false);
 
     // ValintaTab ylälaidassa kirjauksen tyypin valintaan
     ui->valintaTab->addTab(QIcon(":/pic/lisaa.png"),"Tulo");
@@ -53,15 +49,22 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
 
     ui->alvCombo->setModel( kp()->alvTyypit() );
 
+    ui->ehdotusView->setModel( &ehdotus );
+
     ui->buttonBox->button( QDialogButtonBox::Ok )->setEnabled( false );
 
+    connect( ui->valintaTab, SIGNAL(currentChanged(int)), this, SLOT(valilehtiVaihtui(int)));
+
     connect( ui->tiliEdit, SIGNAL(textChanged(QString)), this, SLOT(tiliTaytetty()));
-    connect( ui->vastatiliEdit, SIGNAL(textChanged(QString)), this, SLOT(tarkasta()));
+    connect( ui->vastatiliEdit, SIGNAL(textChanged(QString)), this, SLOT(ehdota()));
     connect( ui->alvCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(alvLajiMuuttui()));
     connect( ui->euroSpin, SIGNAL(editingFinished()), this, SLOT(laskeNetto()));
     connect( ui->nettoSpin, SIGNAL(editingFinished()), this, SLOT(laskeBrutto()));
     connect( ui->alvSpin, SIGNAL(editingFinished()), this, SLOT(laskeVerolla()));
     connect( ui->vaihdaNappi, SIGNAL(clicked(bool)), this, SLOT(vaihdaTilit()));
+
+    connect(ui->seliteEdit, SIGNAL(editingFinished()), this, SLOT(ehdota()));
+    connect(ui->pvmDate, SIGNAL(editingFinished()), this, SLOT(ehdota()));
 
     // Hakee tositteen tiedoista esitäytöt
     ui->pvmDate->setDate( model->pvm() );
@@ -82,18 +85,18 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
         if( kirjauslaji == TositelajiModel::OSTOLASKUT)
         {
             ui->tiliEdit->suodataTyypilla("D.*");
-            ui->valintaTab->setCurrentIndex(TULO);
-            ui->valintaTab->setTabEnabled(MENO, false);
+            ui->valintaTab->setCurrentIndex(MENO);
+            ui->valintaTab->setTabEnabled(TULO, false);
             ui->valintaTab->setTabEnabled(SIIRTO,false);
-            ui->valintaTab->setTabEnabled(INVESTOINTI, false);
+            ui->valintaTab->setTabEnabled(POISMYYNTI, false);
         }
         else if(kirjauslaji == TositelajiModel::MYYNTILASKUT)
         {
             ui->tiliEdit->suodataTyypilla("C.*");
-            ui->valintaTab->setCurrentIndex(MENO);
-            ui->valintaTab->setTabEnabled(MENO, false);
+            ui->valintaTab->setCurrentIndex(TULO);
+            ui->valintaTab->setTabEnabled(TULO, false);
             ui->valintaTab->setTabEnabled(SIIRTO, false);
-            ui->valintaTab->setTabEnabled(POISMYYNTI, false);
+            ui->valintaTab->setTabEnabled(INVESTOINTI, false);
         }
 
         // Jos tositelajille on määritelty oletusvastatili, esitäytetään sekin
@@ -137,11 +140,8 @@ void KirjausApuriDialog::tiliTaytetty()
         ui->valintaTab->setTabEnabled(INVESTOINTI, tili.onkoMenotili() || (tili.onkoTasetili() && !tili.onkoRahaTili()));
         ui->valintaTab->setTabEnabled(POISMYYNTI, tili.onkoTulotili() || (tili.onkoTasetili() && !tili.onkoRahaTili()));
 
-        // Näytetään kohdennus jos tulostili
-        ui->kohdennusCombo->setVisible( !tili.onkoTasetili());
-        ui->kohdennusLabel->setVisible( !tili.onkoTasetili());
     }
-    tarkasta();
+    ehdota();
 }
 
 void KirjausApuriDialog::laskeBrutto()
@@ -154,7 +154,7 @@ void KirjausApuriDialog::laskeBrutto()
 
         ui->euroSpin->setValue( (100.0 + ui->alvSpin->value()) * netto / 100.0 );
     }
-    tarkasta();
+    ehdota();
 }
 
 void KirjausApuriDialog::laskeVerolla()
@@ -163,6 +163,7 @@ void KirjausApuriDialog::laskeVerolla()
         ui->euroSpin->setValue( (100.0 + ui->alvSpin->value() )* nettoEur / 100.0 );
     else if(bruttoEur)
         ui->nettoSpin->setValue( (100.0 * bruttoEur ) /  (100.0 + ui->alvSpin->value())  );
+    ehdota();
 }
 
 void KirjausApuriDialog::alvLajiMuuttui()
@@ -185,7 +186,7 @@ void KirjausApuriDialog::alvLajiMuuttui()
         ui->nettoSpin->setVisible(false);
         ui->nettoLabel->setVisible(false);
     }
-
+    ehdota();
 }
 
 void KirjausApuriDialog::vaihdaTilit()
@@ -193,151 +194,118 @@ void KirjausApuriDialog::vaihdaTilit()
     int aputili = ui->tiliEdit->valittuTilinumero();
     ui->tiliEdit->valitseTiliNumerolla( ui->vastatiliEdit->valittuTilinumero());
     ui->vastatiliEdit->valitseTiliNumerolla( aputili );
+    ehdota();
 }
 
-void KirjausApuriDialog::tarkasta()
+void KirjausApuriDialog::ehdota()
 {
-    // ui->kirjausList->clear();
+    ehdotus.tyhjaa();
 
     Tili tili = kp()->tilit()->tiliNumerolla( ui->tiliEdit->valittuTilinumero() );
     Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliEdit->valittuTilinumero());
-
-    // Näytetään verot jos ollaan tulotilillä ja verovelvollisuus
-    bool naytaVeroruudut = kp()->asetukset()->onko("AlvVelvollinen") && !tili.onkoTasetili() && vastatili.onkoTasetili();
-
-    ui->alvlajiLabel->setVisible(naytaVeroruudut);
-    ui->alvCombo->setVisible(naytaVeroruudut);
+    int nettoSnt = (int) (ui->nettoSpin->value() * 100.0);
+    int bruttoSnt = (int) (ui->euroSpin->value() * 100.0);
+    int alvprosentti = ui->alvSpin->value();
+    int alvkoodi = ui->alvCombo->currentData(VerotyyppiModel::KoodiRooli).toInt();
 
 
-    // Vaaditaan molemmat tilit, silloin tehdään kirjausehdotukset
-    if( ui->tiliEdit->valittuTilinumero() && ui->vastatiliEdit->valittuTilinumero() )
-    {
-
-        // 1) Tavanomainen myynti: Tulotili -> Tasetili
-        if( tili.onkoTulotili() && vastatili.onkoTasetili())
+    switch ( ui->valintaTab->currentIndex()) {
+    case TULO:
+        // Tulojen (myynti) kirjaus  per myyntitili an tasetili
+        if( tili.onkoTulotili() )
         {
-
-            ehdotus.clear();
-
-            VientiRivi rivi;
-            rivi.pvm = ui->pvmDate->date();
-            rivi.tili=tili;
-            rivi.selite = ui->seliteEdit->text();
-            rivi.kreditSnt = (int) (ui->nettoSpin->value() * 100.0);
-            ehdotus.append(rivi);
-
-            rivi.tili = vastatili;
-            rivi.debetSnt = rivi.kreditSnt;
-            rivi.kreditSnt = 0.0;
-            ehdotus.append(rivi);
-            teeEhdotus(  QString("Tuloa (myynti) \ntulotili \t%1 %2 \tkredit, \ntasetili \t%3 %4 \tdebet")
-                         .arg(tili.numero()).arg(tili.nimi()).arg(vastatili.numero()).arg(vastatili.nimi()) , false );
-
-
-
+            VientiRivi tulorivi = uusiEhdotusRivi(tili);
+            tulorivi.kreditSnt = nettoSnt;
+            tulorivi.kohdennus = kp()->kohdennukset()->kohdennus(ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
+            tulorivi.alvprosentti = alvprosentti;
+            tulorivi.alvkoodi = alvkoodi;
+            ehdotus.lisaaVienti(tulorivi);
         }
-        else if( tili.onkoMenotili() && vastatili.onkoTasetili() )
+        if( vastatili.onkoTasetili() )
         {
-            teeEhdotus(  QString("Menoa (osto) \nmenotili  \t%1 %2 \tdebet, \ntasetili \t%3 %4 \tkredit")
-                         .arg(tili.numero()).arg(tili.nimi()).arg(vastatili.numero()).arg(vastatili.nimi()) , true );
+            VientiRivi taserivi = uusiEhdotusRivi();
+            taserivi.tili = vastatili;
+            taserivi.debetSnt = bruttoSnt;
+            ehdotus.lisaaVienti(taserivi);
         }
-        else
+        break;
+
+    case MENO:
+        // Menojen (osto) kirjaus per tasetili an ostotili
+        if( tili.onkoMenotili() )
         {
-            teeEhdotus(  QString("Siirto TILILTÄ %1 %2 kredit, TILILLE %3 %4 debet")
-                         .arg(tili.numero()).arg(tili.nimi()).arg(vastatili.numero()).arg(vastatili.nimi()) , false );
-            teeEhdotus(  QString("Siirto TILILTÄ %3 %4 kredit, TILILLE %1 %2 debet")
-                         .arg(tili.numero()).arg(tili.nimi()).arg(vastatili.numero()).arg(vastatili.nimi()) , true );
+            VientiRivi menorivi = uusiEhdotusRivi(tili);
+            menorivi.debetSnt = nettoSnt;
+            menorivi.kohdennus = kp()->kohdennukset()->kohdennus(ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
+            ehdotus.lisaaVienti( menorivi );
+        }
+        if( vastatili.onkoTasetili())
+        {
+            VientiRivi taserivi = uusiEhdotusRivi(vastatili);
+            taserivi.kreditSnt = bruttoSnt;
+            ehdotus.lisaaVienti(taserivi);
+        }
+        break;
+
+    case SIIRTO:
+        if( tili.onkoValidi() )
+        {
+            VientiRivi rivi = uusiEhdotusRivi(tili);
+            rivi.debetSnt = bruttoSnt;
+            ehdotus.lisaaVienti(rivi);
+        }
+        if( vastatili.onkoValidi())
+        {
+            VientiRivi rivi = uusiEhdotusRivi(tili);
+            rivi.kreditSnt = bruttoSnt;
+            ehdotus.lisaaVienti(rivi);
         }
 
-        ui->buttonBox->button( QDialogButtonBox::Ok )->setEnabled( ui->euroSpin->value() != 0 );
-       //  ui->kirjausList->setCurrentRow(0);
-
+        break;
     }
-    else
-    {
-        ui->buttonBox->button( QDialogButtonBox::Ok )->setEnabled( false );
-    }
 
+    ui->ehdotusView->resizeColumnsToContents();
+    ui->buttonBox->button( QDialogButtonBox::Ok )->setEnabled( ehdotus.onkoKelpo() );
+
+
+}
+
+void KirjausApuriDialog::valilehtiVaihtui(int indeksi)
+{
+    ui->kohdennusLabel->setVisible( indeksi != SIIRTO );
+    ui->kohdennusCombo->setVisible( indeksi != SIIRTO);
+
+    ui->nimikeLabel->setVisible( indeksi==INVESTOINTI || indeksi == POISMYYNTI);
+    ui->nimikeCombo->setVisible(indeksi==INVESTOINTI || indeksi == POISMYYNTI);
+    ui->uusiNimikeButton->setVisible(indeksi==INVESTOINTI );
+
+    ui->myyntitiliLabel->setVisible( indeksi == POISMYYNTI);
+    ui->myyntitiliEdit->setVisible( indeksi == POISMYYNTI );
+
+    ui->alvlajiLabel->setVisible(kp()->asetukset()->onko("AlvVelvollinen") || indeksi != SIIRTO);
+    ui->alvCombo->setVisible(kp()->asetukset()->onko("AlvVelvollinen") || indeksi != SIIRTO);
+
+    ui->vaihdaNappi->setEnabled( indeksi == SIIRTO);
+
+
+    ehdota();
 }
 
 void KirjausApuriDialog::accept()
 {
-
-    Tili tili = kp()->tilit()->tiliNumerolla( ui->tiliEdit->valittuTilinumero() );
-    Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliEdit->valittuTilinumero());
-
-    // Tehdään asiaankuuluvat kirjaukset
-
-    // Ensivaiheessa veroton kirjaus
-    VientiModel *viennit = model->vientiModel();
-
-    QModelIndex index = model->vientiModel()->lisaaVienti();
-    viennit->setData(index, ui->pvmDate->date(), VientiModel::PvmRooli);
-    viennit->setData(index, ui->seliteEdit->text(), VientiModel::SeliteRooli);
-    viennit->setData(index, tili.numero() , VientiModel::TiliNumeroRooli);
-
-    // UserRole kertoo, onko ensimmäinen tili debet
-    int ekaSentit = ui->euroSpin->value() * 100;
-
-    if( /* ui->kirjausList->currentItem()->data( Qt::UserRole).toBool() */ true)
-        viennit->setData(index, ekaSentit, VientiModel::DebetRooli);
-    else
-        viennit->setData(index, ekaSentit, VientiModel::KreditRooli);
-
-    // Kohdennus (meno- tai tulotiliin)
-    if( tili.onkoMenotili() || tili.onkoTulotili())
-        viennit->setData(index, ui->kohdennusCombo->currentData(KohdennusModel::IdRooli), VientiModel::KohdennusRooli);
-
-    // TODO: Veroruudut
-
-
-    index = model->vientiModel()->lisaaVienti();
-    viennit->setData(index, ui->pvmDate->date(), VientiModel::PvmRooli);
-    viennit->setData(index, ui->seliteEdit->text(), VientiModel::SeliteRooli);
-    viennit->setData(index, vastatili.numero() , VientiModel::TiliNumeroRooli);
-
-
-    if( /* !ui->kirjausList->currentIndex().data(Qt::UserRole).toBool() */ true )
-        viennit->setData(index, ekaSentit, VientiModel::DebetRooli);
-    else
-        viennit->setData(index, ekaSentit, VientiModel::KreditRooli);
-
-    // Kohdennus vain tulo- tai menotiliin
-    if( vastatili.onkoMenotili() || vastatili.onkoTulotili())
-        viennit->setData(index, ui->kohdennusCombo->currentData(KohdennusModel::IdRooli), VientiModel::KohdennusRooli);
-
-
+    ehdotus.tallenna(model->vientiModel());
     QDialog::accept();
-
 }
 
-void KirjausApuriDialog::teeEhdotus(const QString &teksti, bool tiliOnDebet, const QIcon &kuvake)
+VientiRivi KirjausApuriDialog::uusiEhdotusRivi(Tili tili, int debetSnt, int kreditSnt)
 {
-    // Lisää kirjausehdotuslistaan ehdotuksen
-    // QListWidgetItem *item = new QListWidgetItem(kuvake, teksti, ui->kirjausList);
-    // item->setData(Qt::UserRole, tiliOnDebet);
-    ui->esikatseluBrowser->setHtml(teksti);
-
-    QString txt = "<table><tr><th>Tili</th><th>Debet</th><th>Kredit</th></tr>";
-    foreach (VientiRivi rivi, ehdotus) {
-        txt.append( QString("<tr><td>%1</td><td>%2</td><td>%3</td></tr>").arg(rivi.tili.nimi()).arg((double)rivi.debetSnt / 100.0,0,'f',2).arg((double)rivi.kreditSnt / 100.0,0,'f',2) );
-    }
-    txt.append("</table>");
-    ui->esikatseluBrowser->append( txt );
-
-    ui->taulukko->clear();
-    ui->taulukko->setRowCount(ehdotus.count());
-    int i=0;
-    foreach (VientiRivi rivi, ehdotus) {
-        ui->taulukko->setItem(i,0, new QTableWidgetItem( rivi.tili.nimi() ));
-        if( rivi.debetSnt )
-            ui->taulukko->setItem( i,1, new QTableWidgetItem(  QString("%1").arg((double) rivi.debetSnt / 100.0,0, 'f', 2 ) ));
-        if( rivi.kreditSnt )
-            ui->taulukko->setItem( i, 2, new QTableWidgetItem( QString("%1").arg((double) rivi.kreditSnt / 100.0,0, 'f', 2 ) ));
-        i++;
-
-    }
-
+    VientiRivi rivi;
+    rivi.pvm = ui->pvmDate->date();
+    rivi.selite = ui->seliteEdit->text();
+    rivi.tili = tili;
+    rivi.debetSnt = debetSnt;
+    rivi.kreditSnt = kreditSnt;
+    return rivi;
 }
 
 void KirjausApuriDialog::laskeNetto()
@@ -350,5 +318,5 @@ void KirjausApuriDialog::laskeNetto()
 
          ui->nettoSpin->setValue( (100.0 * brutto) /  (100.0 + ui->alvSpin->value())  );
     }
-    tarkasta();
+    ehdota();
 }
