@@ -67,7 +67,8 @@ public:
     enum
     {
         KoodiRooli = Qt::UserRole,
-        SeliteRooli = Qt::UserRole + 1
+        SeliteRooli = Qt::UserRole + 1,
+        KoodiTekstiRooli = Qt::UserRole + 2
     };
 
     VerotyyppiModel(QObject *parent = 0);

@@ -116,6 +116,11 @@ bool Tili::onkoVastattavaaTili() const
     return tyyppi().startsWith('B');
 }
 
+bool Tili::onkoPoistettavaTaseTili() const
+{
+    return tyyppi().startsWith("AP");
+}
+
 bool Tili::onkoRahaTili() const
 {
     return tyyppi().startsWith("AR");
@@ -124,6 +129,12 @@ bool Tili::onkoRahaTili() const
 bool Tili::onkoEdellistenYliAliJaama() const
 {
     return tyyppi() == "BE";
+}
+
+bool Tili::onkoTaseEraSeurattava() const
+{
+    return ( tyyppi().startsWith('A') && !tyyppi().startsWith("AR") && tyyppi() != "AL" ) ||
+           ( tyyppi().startsWith('B') && tyyppi()!="BE" && tyyppi()!="BL");
 }
 
 int Tili::ysiluku(int luku, int taso)

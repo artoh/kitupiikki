@@ -35,6 +35,12 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     ui->alvSpin->setVisible(false);
     ui->alvprossaLabel->setVisible(false);
 
+    ui->eraLabel->setVisible(false);
+    ui->taseEraCombo->setVisible(false);
+
+    ui->vastaTaseEraLabel->setVisible(false);
+    ui->vastaTaseEraCombo->setVisible(false);
+
 
     // ValintaTab ylälaidassa kirjauksen tyypin valintaan
     ui->valintaTab->addTab(QIcon(":/pic/lisaa.png"),"Tulo");
@@ -48,7 +54,9 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     ui->taseEraCombo->setModel( &eraModelTilille);
     ui->vastaTaseEraCombo->setModel(&eraModelVastaTilille);
 
-    ui->alvCombo->setModel( kp()->alvTyypit() );
+    verofiltteri.setSourceModel( kp()->alvTyypit() );
+    verofiltteri.setFilterRole( VerotyyppiModel::KoodiTekstiRooli);
+    ui->alvCombo->setModel( &verofiltteri );
 
     ui->ehdotusView->setModel( &ehdotus );
 
@@ -56,7 +64,8 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
 
     connect( ui->valintaTab, SIGNAL(currentChanged(int)), this, SLOT(valilehtiVaihtui(int)));
 
-    connect( ui->tiliEdit, SIGNAL(textChanged(QString)), this, SLOT(tiliTaytetty()));
+    connect( ui->tiliEdit, SIGNAL(editingFinished()), this, SLOT(tiliTaytetty()));
+
     connect( ui->vastatiliEdit, SIGNAL(textChanged(QString)), this, SLOT(ehdota()));
     connect( ui->alvCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(alvLajiMuuttui()));
     connect( ui->euroSpin, SIGNAL(editingFinished()), this, SLOT(laskeNetto()));
@@ -117,7 +126,7 @@ void KirjausApuriDialog::tiliTaytetty()
     // Jos tilillä on vastatili, niin täytetään se
     Tili tili = kp()->tilit()->tiliNumerolla(  ui->tiliEdit->valittuTilinumero() );
 
-    if( tili.id())
+    if( tili.onkoValidi() && tili.numero() )
     {
         ui->vastatiliEdit->valitseTiliNumerolla( tili.json()->luku("Vastatili") );
         ui->alvSpin->setValue( tili.json()->luku("AlvProsentti"));
@@ -131,17 +140,23 @@ void KirjausApuriDialog::tiliTaytetty()
         {
             ui->valintaTab->setCurrentIndex(TULO);
         }
-        else if( tili.onkoTasetili())
+        else if( tili.onkoTasetili() && !tili.onkoPoistettavaTaseTili())
         {
             ui->valintaTab->setCurrentIndex(SIIRTO);
-            eraModelTilille.lataa( tili );
-            ui->taseEraCombo->setCurrentIndex(0);
         }
 
+        ui->eraLabel->setVisible( tili.onkoTaseEraSeurattava());
+        ui->taseEraCombo->setVisible(tili.onkoTaseEraSeurattava());
+
         // Tilityyppi määrää, mitkä välilehdet mahdollisia!
-        ui->valintaTab->setTabEnabled(MENO, tili.onkoMenotili());
-        ui->valintaTab->setTabEnabled(TULO, tili.onkoTulotili());
+        ui->valintaTab->setTabEnabled(MENO, tili.onkoMenotili() || tili.onkoPoistettavaTaseTili());
+        ui->valintaTab->setTabEnabled(TULO, tili.onkoTulotili() || tili.onkoPoistettavaTaseTili());
         ui->valintaTab->setTabEnabled(SIIRTO, tili.onkoTasetili());
+
+        // Verotuksen oletuskäsittely
+        ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( tili.json()->luku("AlvLaji") ) );
+        ui->alvSpin->setValue( tili.json()->luku("AlvProsentti"));
+        valilehtiVaihtui( ui->valintaTab->currentIndex());  // Jotta veroruudut näytetään!
 
     }
     ehdota();
@@ -172,32 +187,25 @@ void KirjausApuriDialog::laskeVerolla()
 void KirjausApuriDialog::alvLajiMuuttui()
 {
     int alvlaji = ui->alvCombo->currentData().toInt();
+    ui->alvSpin->setVisible( alvlaji );
+    ui->alvprossaLabel->setVisible(alvlaji);
 
-    if(  alvlaji == AlvKoodi::MYYNNIT_NETTO
-         || alvlaji==AlvKoodi::OSTOT_NETTO
-         || alvlaji == AlvKoodi::RAKENNUSPALVELU_OSTO )
-    {
-        ui->alvSpin->setVisible(true);
-        ui->alvprossaLabel->setVisible(true);
-        ui->nettoSpin->setVisible(true);
-        ui->nettoLabel->setVisible(true);
-    }
-    else
-    {
-        ui->alvSpin->setVisible(false);
-        ui->alvlajiLabel->setVisible(false);
-        ui->nettoSpin->setVisible(false);
-        ui->nettoLabel->setVisible(false);
-    }
     ehdota();
 }
 
 void KirjausApuriDialog::vaihdaTilit()
 {
     int aputili = ui->tiliEdit->valittuTilinumero();
-    ui->tiliEdit->valitseTiliNumerolla( ui->vastatiliEdit->valittuTilinumero());
+    int tiliera = ui->taseEraCombo->currentData().toInt();
+    int vastaera = ui->vastaTaseEraCombo->currentData().toInt();
+
+    ui->tiliEdit->valitseTiliNumerolla( ui->vastatiliEdit->valittuTilinumero());    
     ui->vastatiliEdit->valitseTiliNumerolla( aputili );
-    ehdota();
+
+    tiliTaytetty();
+
+    ui->vastaTaseEraCombo->setCurrentIndex( ui->vastaTaseEraCombo->findData(tiliera) );
+    ui->taseEraCombo->setCurrentIndex( ui->taseEraCombo->findData(vastaera));
 }
 
 void KirjausApuriDialog::ehdota()
@@ -215,44 +223,56 @@ void KirjausApuriDialog::ehdota()
     switch ( ui->valintaTab->currentIndex()) {
     case TULO:
         // Tulojen (myynti) kirjaus  per myyntitili an tasetili
-        if( tili.onkoTulotili() )
+        if( tili.onkoTulotili() || tili.onkoPoistettavaTaseTili())
         {
             VientiRivi tulorivi = uusiEhdotusRivi(tili);
             tulorivi.kreditSnt = nettoSnt;
             tulorivi.kohdennus = kp()->kohdennukset()->kohdennus(ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
             tulorivi.alvprosentti = alvprosentti;
             tulorivi.alvkoodi = alvkoodi;
+            tulorivi.eraId = ui->taseEraCombo->currentData().toInt();
             ehdotus.lisaaVienti(tulorivi);
-
-            if( alvkoodi == AlvKoodi::MYYNNIT_NETTO && kp()->tilit()->tiliTyyppikoodilla("BL").onkoValidi())
-            {
-                VientiRivi verorivi = uusiEhdotusRivi( kp()->tilit()->tiliTyyppikoodilla("BL"));
-                verorivi.kreditSnt = bruttoSnt - nettoSnt;
-                ehdotus.lisaaVienti(verorivi);
-            }
+        }
+        if( alvkoodi == AlvKoodi::MYYNNIT_NETTO && kp()->tilit()->tiliTyyppikoodilla("BL").onkoValidi())
+        {
+            VientiRivi verorivi = uusiEhdotusRivi( kp()->tilit()->tiliTyyppikoodilla("BL"));
+            verorivi.kreditSnt = bruttoSnt - nettoSnt;
+            ehdotus.lisaaVienti(verorivi);
         }
         if( vastatili.onkoTasetili() )
         {
             VientiRivi taserivi = uusiEhdotusRivi();
             taserivi.tili = vastatili;
             taserivi.debetSnt = bruttoSnt;
+            taserivi.eraId = ui->taseEraCombo->currentData().toInt();
             ehdotus.lisaaVienti(taserivi);
         }
         break;
 
     case MENO:
         // Menojen (osto) kirjaus per tasetili an ostotili
-        if( tili.onkoMenotili() )
+        if( tili.onkoMenotili() || tili.onkoPoistettavaTaseTili() )
         {
             VientiRivi menorivi = uusiEhdotusRivi(tili);
             menorivi.debetSnt = nettoSnt;
             menorivi.kohdennus = kp()->kohdennukset()->kohdennus(ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
+            menorivi.alvprosentti = alvprosentti;
+            menorivi.alvkoodi = alvkoodi;
+            menorivi.eraId = ui->taseEraCombo->currentData().toInt();
             ehdotus.lisaaVienti( menorivi );
+
+        }
+        if( alvkoodi == AlvKoodi::OSTOT_NETTO && kp()->tilit()->tiliTyyppikoodilla("AL").onkoValidi())
+        {
+            VientiRivi verorivi = uusiEhdotusRivi( kp()->tilit()->tiliTyyppikoodilla("AL"));
+            verorivi.debetSnt = bruttoSnt - nettoSnt;
+            ehdotus.lisaaVienti(verorivi);
         }
         if( vastatili.onkoTasetili())
         {
             VientiRivi taserivi = uusiEhdotusRivi(vastatili);
             taserivi.kreditSnt = bruttoSnt;
+            taserivi.eraId = ui->taseEraCombo->currentData().toInt();
             ehdotus.lisaaVienti(taserivi);
         }
         break;
@@ -266,13 +286,16 @@ void KirjausApuriDialog::ehdota()
         }
         if( vastatili.onkoValidi())
         {
-            VientiRivi rivi = uusiEhdotusRivi(tili);
+            VientiRivi rivi = uusiEhdotusRivi(vastatili);
             rivi.kreditSnt = bruttoSnt;
             ehdotus.lisaaVienti(rivi);
         }
 
         break;
     }
+
+    ui->vastaTaseEraLabel->setVisible( vastatili.onkoTaseEraSeurattava());
+    ui->vastaTaseEraCombo->setVisible( vastatili.onkoTaseEraSeurattava());
 
     ui->buttonBox->button( QDialogButtonBox::Ok )->setEnabled( ehdotus.onkoKelpo() );
 
@@ -284,10 +307,21 @@ void KirjausApuriDialog::valilehtiVaihtui(int indeksi)
     ui->kohdennusLabel->setVisible( indeksi != SIIRTO );
     ui->kohdennusCombo->setVisible( indeksi != SIIRTO);
 
-    ui->alvlajiLabel->setVisible(kp()->asetukset()->onko("AlvVelvollinen") || indeksi != SIIRTO);
-    ui->alvCombo->setVisible(kp()->asetukset()->onko("AlvVelvollinen") || indeksi != SIIRTO);
+    bool verot = kp()->asetukset()->onko("AlvVelvollinen") && indeksi != SIIRTO;
 
-    ui->vaihdaNappi->setEnabled( indeksi == SIIRTO);
+    ui->alvlajiLabel->setVisible(verot);
+    ui->alvCombo->setVisible(verot);
+    // Ensimmäisenä combossa verottomuus
+    ui->alvprossaLabel->setVisible(verot && ui->alvCombo->currentIndex() > 0);
+    ui->alvSpin->setVisible(verot && ui->alvCombo->currentIndex() > 0 );
+
+
+    if( indeksi == MENO )
+        verofiltteri.setFilterRegExp("(0|.2)");
+    else if( indeksi == TULO)
+        verofiltteri.setFilterRegExp("(0|.1)");
+
+    ui->vaihdaNappi->setEnabled( indeksi == SIIRTO );
 
 
     ehdota();

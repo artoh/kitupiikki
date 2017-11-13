@@ -49,10 +49,10 @@ public:
 
     enum
     {
-        EraIdRooli = Qt::UserRole + 1,
-        PvmRooli = Qt::UserRole +2,
-        SeliteRooli = Qt::UserRole +3,
-        SaldoRooli = Qt::UserRole + 4,
+        EraIdRooli = Qt::UserRole,
+        PvmRooli = Qt::UserRole +1,
+        SeliteRooli = Qt::UserRole +2,
+        SaldoRooli = Qt::UserRole + 3,
     };
 
 

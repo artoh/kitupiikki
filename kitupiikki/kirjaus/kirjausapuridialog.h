@@ -24,6 +24,7 @@
 
 #include <QDialog>
 #include <QList>
+#include <QSortFilterProxyModel>
 
 namespace Ui {
 class KirjausApuriDialog;
@@ -80,6 +81,7 @@ private:
     EhdotusModel ehdotus;
     EranValintaModel eraModelTilille;
     EranValintaModel eraModelVastaTilille;
+    QSortFilterProxyModel verofiltteri;
 };
 
 #endif // KIRJAUSAPURIDIALOG_H

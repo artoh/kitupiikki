@@ -249,25 +249,19 @@ void TiliModel::luoTyyppiTaulut()
     tilityypit__.insert("A","Vastaavaa");
     tilityypit__.insert("AL","Arvonlisäverosaatavat");
     tilityypit__.insert("AR","Rahavarat");
-    tilityypit__.insert("AP","Poistokelpoinen omaisuus");
+    tilityypit__.insert("APM","Poistokelpoinen omaisuus menojäännöspoisto");
+    tilityypit__.insert("APT","Poistokelpoinen omaisuus tasapoisto");
+    tilityypit__.insert("AS","Saatavat");
+    tilityypit__.insert("ASM","Myyntisaatavat");
     tilityypit__.insert("B","Vastattavaa");
     tilityypit__.insert("BE","Edellisten tilikausien voitto/tappio");
+    tilityypit__.insert("BS","Velat");
+    tilityypit__.insert("BSM","Myyntivelat");
     tilityypit__.insert("BL","Arvonlisäverovelka");
     tilityypit__.insert("BV","Verovelka");
     tilityypit__.insert("C","Tulot");
     tilityypit__.insert("D","Menot");
     tilityypit__.insert("DP","Poistot");
-
-    verotyypit__.insert(AlvKoodi::EIALV,"Veroton");
-    verotyypit__.insert(AlvKoodi::MYYNNIT_NETTO,"Verollinen myynti, nettokirjaus");
-    verotyypit__.insert(AlvKoodi::OSTOT_NETTO,"Verollinen osto, nettokirjaus");
-    verotyypit__.insert(AlvKoodi::YHTEISOMYYNTI_TAVARAT,"Tavaroiden yhteisömyynti");
-    verotyypit__.insert(AlvKoodi::YHTEISOMYYNTI_PALVELUT,"Palveluiden yhteisömyynti");
-    verotyypit__.insert(AlvKoodi::YHTEISOHANKINNAT_TAVARAT,"Tavaroiden yhteisöhankinnat");
-    verotyypit__.insert(AlvKoodi::YHTEISOHANKINNAT_PALVELUT,"Palveluiden yhteisöhankinnat");
-    verotyypit__.insert(AlvKoodi::RAKENNUSPALVELU_MYYNTI,"Rakennuspalveluiden myynti");
-    verotyypit__.insert(AlvKoodi::RAKENNUSPALVELU_OSTO,"Rakennuspalveluiden osto");
-
 }
 
 bool TiliModel::onkoMuokattu() const
@@ -378,4 +372,3 @@ void TiliModel::tallenna()
 
 
 QMap<QString,QString> TiliModel::tilityypit__;
-QMap<int,QString> TiliModel::verotyypit__;

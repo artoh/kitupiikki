@@ -54,6 +54,8 @@ QVariant VerotyyppiModel::data(const QModelIndex &index, int role) const
         return tyyppi.selite;
     else if( role == KoodiRooli)
         return tyyppi.koodi;
+    else if( role == KoodiTekstiRooli )
+        return QString::number(tyyppi.koodi);
     else if( role == Qt::DecorationRole)
         return tyyppi.kuvake;
 

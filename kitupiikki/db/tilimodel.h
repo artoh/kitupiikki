@@ -87,7 +87,6 @@ public:
     JsonKentta *jsonIndeksilla(int i);
 
     static QMap<QString,QString> tiliTyyppiTaulu() { return tilityypit__; }
-    static QMap<int,QString> veroTyyppiTaulu() { return verotyypit__; }
     static void luoTyyppiTaulut();
 
     bool onkoMuokattu() const;
@@ -101,7 +100,6 @@ protected:
 
     QList<Tili> tilit_;
     static QMap<QString,QString> tilityypit__;
-    static QMap<int,QString> verotyypit__;
     QList<int> poistetutIdt_;
 
 };

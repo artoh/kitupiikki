@@ -112,6 +112,7 @@ public:
     bool onkoMenotili() const;
     bool onkoVastaavaaTili() const;
     bool onkoVastattavaaTili() const;
+    bool onkoPoistettavaTaseTili() const;
     /**
      * @brief Onko tili rahatili (AR) eli pankkitili tai käteisvarat
      * @return
@@ -123,6 +124,12 @@ public:
      * @return
      */
     bool onkoEdellistenYliAliJaama() const;
+
+    /**
+     * @brief Seurataankö tämän tilin tase-eriä
+     * @return
+     */
+    bool onkoTaseEraSeurattava() const;
 
 
     /**
