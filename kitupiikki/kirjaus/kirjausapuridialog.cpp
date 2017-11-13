@@ -45,8 +45,8 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
 
     // ValintaTab ylälaidassa kirjauksen tyypin valintaan
     ui->valintaTab->addTab(QIcon(":/pic/lisaa.png"),"Tulo");
-    ui->valintaTab->addTab("Meno");
-    ui->valintaTab->addTab("Siirto");
+    ui->valintaTab->addTab(QIcon(":/pic/poista.png"),"Meno");
+    ui->valintaTab->addTab(QIcon(":/pic/siirra.png"),"Siirto");
     ui->valintaTab->setCurrentIndex(SIIRTO);
 
     ui->kohdennusCombo->setModel( kp()->kohdennukset() );

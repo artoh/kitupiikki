@@ -50,6 +50,7 @@
         <file>aboutpossu.png</file>
         <file>arkisto64.png</file>
         <file>kirja64.png</file>
+        <file>siirra.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

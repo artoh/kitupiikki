@@ -188,14 +188,10 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
 
     item->setSelected(true);
 
-    perunappi->setVisible( item->data(Qt::UserRole+1).toBool() );
-    tallennanappi->setVisible( item->data(Qt::UserRole+1).toBool());
+    perunappi->setEnabled( item->data(Qt::UserRole+1).toBool() );
+    tallennanappi->setEnabled( nykyinen->onkoMuokattu() );
+    connect( nykyinen, SIGNAL(tallennaKaytossa(bool)), tallennanappi, SLOT(setEnabled(bool)));
 
-    if( tallennanappi->isVisible())
-    {
-        tallennanappi->setEnabled( nykyinen->onkoMuokattu() );
-        connect( nykyinen, SIGNAL(tallennaKaytossa(bool)), tallennanappi, SLOT(setEnabled(bool)));
-    }
 
 }
 
