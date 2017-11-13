@@ -70,6 +70,8 @@ CREATE TABLE vienti (
     alvprosentti    INTEGER DEFAULT(0),
     kohdennus        INTEGER REFERENCES kohdennus (id) ON DELETE RESTRICT
                                                       ON UPDATE CASCADE,
+    eraid           INTEGER REFERENCES vienti(id) ON DELETE RESTRICT
+                                                  ON UPDATE CASCADE,
     json            TEXT,
     luotu           DATETIME,
     muokattu        DATETIME

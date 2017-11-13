@@ -43,6 +43,7 @@ struct VientiRivi
     int alvkoodi = 0;
     int alvprosentti = 0;
     Kohdennus kohdennus;
+    int eraId = 0;
     QDateTime luotu;
     QDateTime muokattu;
     JsonKentta json;
@@ -80,7 +81,8 @@ public:
         SeliteRooli = Qt::UserRole + 9,
         LuotuRooli = Qt::UserRole +10,
         MuokattuRooli = Qt::UserRole + 11,
-        RiviRooli = Qt::UserRole + 12
+        RiviRooli = Qt::UserRole + 12,
+        EraIdRooli = Qt::UserRole + 13
     };
 
 
@@ -93,7 +95,6 @@ public:
     bool setData(const QModelIndex &index, const QVariant &value, int role);
     Qt::ItemFlags flags(const QModelIndex &index) const;
     bool insertRows(int row, int count, const QModelIndex &);
-    bool lisaaRivi();
 
     /**
      * @brief Poistaa rivin
@@ -101,9 +102,6 @@ public:
      * @return
      */
     void poistaRivi(int rivi);
-
-    bool lisaaVienti(const QDate& pvm, int tilinumero, const QString& selite,
-                     int debetSnt, int kreditSnt, int rivinro = 0);
 
     /**
      * @brief Lisää viennin

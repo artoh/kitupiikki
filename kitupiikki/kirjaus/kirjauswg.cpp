@@ -107,7 +107,7 @@ QDate KirjausWg::tositePvm() const
 
 void KirjausWg::lisaaRivi()
 {
-    model_->vientiModel()->lisaaRivi();
+    model_->vientiModel()->lisaaVienti();
     ui->viennitView->setFocus();
 
     QModelIndex indeksi = model_->vientiModel()->index( model_->vientiModel()->rowCount(QModelIndex()) - 1, VientiModel::TILI );
