@@ -33,6 +33,16 @@
       <widget class="TilinvalintaLine" name="tiliEdit"/>
      </item>
      <item row="1" column="0">
+      <widget class="QLabel" name="eraLabel">
+       <property name="text">
+        <string>Tase-erä</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QComboBox" name="taseEraCombo"/>
+     </item>
+     <item row="2" column="0">
       <widget class="QLabel" name="label_3">
        <property name="text">
         <string>Määrä</string>
@@ -42,7 +52,7 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
+     <item row="2" column="1">
       <widget class="QDoubleSpinBox" name="euroSpin">
        <property name="suffix">
         <string>€</string>
@@ -55,7 +65,7 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="0">
+     <item row="3" column="0">
       <widget class="QLabel" name="nettoLabel">
        <property name="text">
         <string>Veroton</string>
@@ -65,7 +75,7 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
+     <item row="3" column="1">
       <widget class="QDoubleSpinBox" name="nettoSpin">
        <property name="suffix">
         <string>€</string>
@@ -81,7 +91,7 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="0">
+     <item row="4" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
         <string>Vastatili</string>
@@ -91,10 +101,10 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
+     <item row="4" column="1">
       <widget class="TilinvalintaLine" name="vastatiliEdit"/>
      </item>
-     <item row="4" column="0">
+     <item row="6" column="0">
       <widget class="QLabel" name="kohdennusLabel">
        <property name="text">
         <string>Kohdennus</string>
@@ -104,7 +114,7 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
+     <item row="6" column="1">
       <widget class="QComboBox" name="kohdennusCombo"/>
      </item>
      <item row="7" column="0">
@@ -167,35 +177,14 @@
       </widget>
      </item>
      <item row="5" column="0">
-      <widget class="QLabel" name="nimikeLabel">
+      <widget class="QLabel" name="vastaTaseEraLabel">
        <property name="text">
-        <string>Nimike</string>
+        <string>Tase-erä</string>
        </property>
       </widget>
      </item>
      <item row="5" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0">
-       <item>
-        <widget class="QComboBox" name="nimikeCombo"/>
-       </item>
-       <item>
-        <widget class="QPushButton" name="uusiNimikeButton">
-         <property name="text">
-          <string>Uusi nimike...</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item row="6" column="0">
-      <widget class="QLabel" name="myyntitiliLabel">
-       <property name="text">
-        <string>Myyntitili</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="1">
-      <widget class="TilinvalintaLine" name="myyntitiliEdit"/>
+      <widget class="QComboBox" name="vastaTaseEraCombo"/>
      </item>
     </layout>
    </item>

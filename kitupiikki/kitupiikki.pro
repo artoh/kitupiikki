@@ -89,7 +89,8 @@ SOURCES += main.cpp \
     tilinpaatoseditori/mrichtexteditor/mtextedit.cpp \
     arkisto/arkistosivu.cpp \
     maaritys/maarityswidget.cpp \
-    kirjaus/ehdotusmodel.cpp
+    kirjaus/ehdotusmodel.cpp \
+    db/eranvalintamodel.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -169,7 +170,8 @@ HEADERS += \
     tilinpaatoseditori/mrichtexteditor/mrichtextedit.h \
     tilinpaatoseditori/mrichtexteditor/mtextedit.h \
     arkisto/arkistosivu.h \
-    kirjaus/ehdotusmodel.h
+    kirjaus/ehdotusmodel.h \
+    db/eranvalintamodel.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

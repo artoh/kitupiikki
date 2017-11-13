@@ -40,12 +40,13 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     ui->valintaTab->addTab(QIcon(":/pic/lisaa.png"),"Tulo");
     ui->valintaTab->addTab("Meno");
     ui->valintaTab->addTab("Siirto");
-    ui->valintaTab->addTab("Investointi");
-    ui->valintaTab->addTab("Poismyynti");
     ui->valintaTab->setCurrentIndex(SIIRTO);
 
     ui->kohdennusCombo->setModel( kp()->kohdennukset() );
     ui->kohdennusCombo->setModelColumn( KohdennusModel::NIMI );
+
+    ui->taseEraCombo->setModel( &eraModelTilille);
+    ui->vastaTaseEraCombo->setModel(&eraModelVastaTilille);
 
     ui->alvCombo->setModel( kp()->alvTyypit() );
 
@@ -86,19 +87,17 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
         int kirjauslaji = model->tositelaji().json()->luku("Kirjaustyyppi");
         if( kirjauslaji == TositelajiModel::OSTOLASKUT)
         {
-            ui->tiliEdit->suodataTyypilla("D.*");
+            ui->tiliEdit->suodataTyypilla("(AP|D).*");
             ui->valintaTab->setCurrentIndex(MENO);
             ui->valintaTab->setTabEnabled(TULO, false);
             ui->valintaTab->setTabEnabled(SIIRTO,false);
-            ui->valintaTab->setTabEnabled(POISMYYNTI, false);
         }
         else if(kirjauslaji == TositelajiModel::MYYNTILASKUT)
         {
-            ui->tiliEdit->suodataTyypilla("C.*");
+            ui->tiliEdit->suodataTyypilla("(AP|C).*");
             ui->valintaTab->setCurrentIndex(TULO);
             ui->valintaTab->setTabEnabled(MENO, false);
             ui->valintaTab->setTabEnabled(SIIRTO, false);
-            ui->valintaTab->setTabEnabled(INVESTOINTI, false);
         }
 
         // Jos tositelajille on määritelty oletusvastatili, esitäytetään sekin
@@ -133,14 +132,16 @@ void KirjausApuriDialog::tiliTaytetty()
             ui->valintaTab->setCurrentIndex(TULO);
         }
         else if( tili.onkoTasetili())
+        {
             ui->valintaTab->setCurrentIndex(SIIRTO);
+            eraModelTilille.lataa( tili );
+            ui->taseEraCombo->setCurrentIndex(0);
+        }
 
         // Tilityyppi määrää, mitkä välilehdet mahdollisia!
         ui->valintaTab->setTabEnabled(MENO, tili.onkoMenotili());
         ui->valintaTab->setTabEnabled(TULO, tili.onkoTulotili());
         ui->valintaTab->setTabEnabled(SIIRTO, tili.onkoTasetili());
-        ui->valintaTab->setTabEnabled(INVESTOINTI, tili.onkoMenotili() || (tili.onkoTasetili() && !tili.onkoRahaTili()));
-        ui->valintaTab->setTabEnabled(POISMYYNTI, tili.onkoTulotili() || (tili.onkoTasetili() && !tili.onkoRahaTili()));
 
     }
     ehdota();
@@ -282,13 +283,6 @@ void KirjausApuriDialog::valilehtiVaihtui(int indeksi)
 {
     ui->kohdennusLabel->setVisible( indeksi != SIIRTO );
     ui->kohdennusCombo->setVisible( indeksi != SIIRTO);
-
-    ui->nimikeLabel->setVisible( indeksi==INVESTOINTI || indeksi == POISMYYNTI);
-    ui->nimikeCombo->setVisible(indeksi==INVESTOINTI || indeksi == POISMYYNTI);
-    ui->uusiNimikeButton->setVisible(indeksi==INVESTOINTI );
-
-    ui->myyntitiliLabel->setVisible( indeksi == POISMYYNTI);
-    ui->myyntitiliEdit->setVisible( indeksi == POISMYYNTI );
 
     ui->alvlajiLabel->setVisible(kp()->asetukset()->onko("AlvVelvollinen") || indeksi != SIIRTO);
     ui->alvCombo->setVisible(kp()->asetukset()->onko("AlvVelvollinen") || indeksi != SIIRTO);

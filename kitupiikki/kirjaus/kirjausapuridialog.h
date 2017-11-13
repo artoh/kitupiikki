@@ -20,6 +20,7 @@
 
 #include "db/tositemodel.h"
 #include "ehdotusmodel.h"
+#include "db/eranvalintamodel.h"
 
 #include <QDialog>
 #include <QList>
@@ -43,7 +44,7 @@ public:
     KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent = 0);
     ~KirjausApuriDialog();
 
-    enum Valilehti { TULO, MENO, SIIRTO, INVESTOINTI, POISMYYNTI };
+    enum Valilehti { TULO, MENO, SIIRTO};
 
 
 public slots:
@@ -77,6 +78,8 @@ private:
     double nettoEur = 0.0;
 
     EhdotusModel ehdotus;
+    EranValintaModel eraModelTilille;
+    EranValintaModel eraModelVastaTilille;
 };
 
 #endif // KIRJAUSAPURIDIALOG_H
