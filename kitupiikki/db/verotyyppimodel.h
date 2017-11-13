@@ -37,7 +37,8 @@ namespace AlvKoodi {
         YHTEISOHANKINNAT_PALVELUT = 42,
         RAKENNUSPALVELU_MYYNTI = 51,
         RAKENNUSPALVELU_OSTO = 52,
-        ALVKIRJAUS = 99
+        ALVKIRJAUS = 800,
+        ALVVAHENNYS = 900
     };
 
 };

@@ -103,7 +103,7 @@ public slots:
      */
     void kirjausApuri();
 
-    void tiliotePaivayksienPaivitys();
+    void pvmVaihtuu();
 
     void naytaLiite();
     void poistaLiite();

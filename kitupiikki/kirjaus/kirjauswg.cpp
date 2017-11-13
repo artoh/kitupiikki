@@ -69,9 +69,8 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
 
     // Kun tositteen päivää vaihdetaan, vaihtuu myös tiliotepäivät.
     // Siksi tosipäivä ladattava aina ennen tiliotepäiviä!
-    connect( ui->tositePvmEdit, SIGNAL(dateChanged(QDate)), this, SLOT(tiliotePaivayksienPaivitys()));
+    connect( ui->tositePvmEdit, SIGNAL(dateChanged(QDate)), this, SLOT(pvmVaihtuu()));
 
-    connect( ui->tositePvmEdit, SIGNAL(dateChanged(QDate)), model_, SLOT(asetaPvm(QDate)));
     connect( ui->tositetyyppiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(vaihdaTositeTyyppi()));
     connect( ui->tunnisteEdit, SIGNAL(textEdited(QString)), this, SLOT(paivitaTunnisteVari()));
     connect( ui->otsikkoEdit, SIGNAL(textEdited(QString)), model_, SLOT(asetaOtsikko(QString)));
@@ -354,7 +353,7 @@ void KirjausWg::kirjausApuri()
     dlg.exec();
 }
 
-void KirjausWg::tiliotePaivayksienPaivitys()
+void KirjausWg::pvmVaihtuu()
 {
     // Tiliotepäiväyksen kirjauksen kuukauden alkuun ja loppuun
     QDate paiva = ui->tositePvmEdit->date();
@@ -363,6 +362,16 @@ void KirjausWg::tiliotePaivayksienPaivitys()
     paiva = paiva.addMonths(1).addDays(-1); // Siirrytään kuukauden loppuun
     ui->tilioteloppuenEdit->setDate(paiva);
 
+    QDate vanhaPaiva = model_->pvm();
+
+    model_->asetaPvm(paiva);
+
+    if( kp()->tilikaudet()->tilikausiPaivalle(paiva).alkaa() != kp()->tilikaudet()->tilikausiPaivalle(vanhaPaiva).alkaa())
+    {
+        // Siirrytty toiselle tilikaudelle, vaihdetaan numerointia
+        model_->asetaTunniste( model_->seuraavaTunnistenumero());
+        ui->tunnisteEdit->setText( QString::number(model_->tunniste() ));
+    }
 }
 
 void KirjausWg::naytaLiite()
