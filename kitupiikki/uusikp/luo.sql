@@ -43,6 +43,11 @@ CREATE TABLE tosite (
     json      TEXT
 );
 
+CREATE INDEX tosite_pvm_index ON tosite(pvm);
+CREATE INDEX tosite_tiliote_index on tosite(tiliote);
+CREATE INDEX tosite_laji_index on tosite(laji);
+CREATE INDEX tosite_tunniste_index on tosite(tunniste);
+
 
 CREATE TABLE kohdennus (
     id     INTEGER      PRIMARY KEY AUTOINCREMENT,
@@ -77,6 +82,12 @@ CREATE TABLE vienti (
     muokattu        DATETIME
 );
 
+CREATE INDEX vienti_tosite_index ON vienti(tosite);
+CREATE INDEX vienti_pvm_index ON vienti(pvm);
+CREATE INDEX vienti_tili_index ON vienti(tili);
+CREATE INDEX vienti_kodennus_index ON vienti(kohdennus);
+CREATE INDEX vienti_taseera_index ON vienti(eraid);
+
 CREATE TABLE liite (
     id       INTEGER      PRIMARY KEY AUTOINCREMENT,
     liiteno  INTEGER      NOT NULL,
@@ -86,6 +97,14 @@ CREATE TABLE liite (
     sha      TEXT         NOT NULL,
     peukku   BLOB
 );
+
+CREATE TABLE budjetti (
+    id          INTEGER     PRIMARY KEY AUTOINCREMENT,
+    tili        INTEGER     NOT NULL    REFERENCES tili(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    tilikausi   DATE        NOT NULL    REFERENCES tilikausi(alkaa) ON DELETE CASCADE ON UPDATE CASCADE,
+    budjettisnt INTEGER
+);
+
 
 CREATE VIEW vientivw AS
     SELECT vienti.id as vientiId,
@@ -110,4 +129,4 @@ CREATE VIEW vientivw AS
      WHERE vienti.tosite = tosite.id AND
            vienti.tili = tili.id AND
            tosite.laji = tositelaji.id AND
-           vienti.kohdennus = kohdennus.id
+           vienti.kohdennus = kohdennus.id ;

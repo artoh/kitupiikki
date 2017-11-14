@@ -24,6 +24,7 @@
 #include "db/kohdennus.h"
 #include "db/jsonkentta.h"
 #include "verotyyppimodel.h"
+#include "db/eranvalintamodel.h"
 
 class TositeModel;
 
@@ -43,7 +44,7 @@ struct VientiRivi
     int alvkoodi = 0;
     int alvprosentti = 0;
     Kohdennus kohdennus;
-    int eraId = 0;
+    int eraId;
     QDateTime luotu;
     QDateTime muokattu;
     JsonKentta json;

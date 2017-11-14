@@ -54,6 +54,7 @@ public slots:
     void laskeBrutto();
     void laskeVerolla();
     void alvLajiMuuttui();
+    void vastaTiliMuuttui();
     void vaihdaTilit();
 
     void ehdota();

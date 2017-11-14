@@ -144,11 +144,22 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
             case SELITE: return QVariant( rivi.selite );
             case KOHDENNUS:
                 if( role == Qt::DisplayRole)
-                    if( rivi.kohdennus.tyyppi() == Kohdennus::EIKOHDENNETA)
-                        // Ei kohdennusta näyttää tyhjää
-                        return QVariant();
+                {
+                    // Tase-erät näytetään samalla sarakkeella
+                    if( rivi.eraId )
+                    {
+                        TaseEra era(rivi.eraId);
+                        return QVariant( era.pvm );
+                    }
                     else
-                        return QVariant(rivi.kohdennus.nimi()  );
+                    {
+                        if( rivi.kohdennus.tyyppi() == Kohdennus::EIKOHDENNETA)
+                            // Ei kohdennusta näyttää tyhjää
+                            return QVariant();
+                        else
+                            return QVariant(rivi.kohdennus.nimi()  );
+                    }
+                }
                 else if(role == Qt::EditRole)
                     return QVariant( rivi.kohdennus.id());
         }
@@ -163,6 +174,8 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
     }
     else if( role == Qt::DecorationRole && index.column() == KOHDENNUS)
     {
+        if( rivi.eraId )
+            return QIcon(":/pic/folder.png");
         return rivi.kohdennus.tyyppiKuvake();
     }
     return QVariant();

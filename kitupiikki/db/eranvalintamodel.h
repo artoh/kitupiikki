@@ -24,9 +24,16 @@
 
 /**
  * @brief Yhden tase-erän tiedot EranValintaModel:issa
+ *
  */
-struct TaseEraValittavaksi
+struct TaseEra
 {
+    /**
+     * @brief TaseEra
+     * @param id Haettavan erän id
+     */
+    TaseEra(int id = 0);
+
     int eraId;
     QDate pvm;
     QString selite;
@@ -65,7 +72,7 @@ public:
     void lataa(Tili tili);
 
 private:
-    QList<TaseEraValittavaksi> erat_;
+    QList<TaseEra> erat_;
 };
 
 #endif // ERANVALINTAMODEL_H

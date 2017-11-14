@@ -45,6 +45,4 @@ void KohdennusDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *mode
 {
     QComboBox *cbox = qobject_cast<QComboBox*>(editor);
     model->setData( index, cbox->currentData(KohdennusModel::IdRooli).toInt(), Qt::EditRole);
-
-    qDebug() << "K id " << cbox->currentIndex() << " d " << cbox->currentData(KohdennusModel::IdRooli);
 }

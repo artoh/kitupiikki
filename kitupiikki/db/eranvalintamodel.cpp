@@ -46,9 +46,9 @@ QVariant EranValintaModel::data(const QModelIndex &index, int role) const
     }
     else if( index.isValid() )
     {
-        TaseEraValittavaksi era = erat_.value(index.row()-1);
+        TaseEra era = erat_.value(index.row()-1);
 
-        if( role == EraIdRooli )
+        if( role == EraIdRooli || role == Qt::UserRole)
             return QVariant( era.eraId);
         else if( role == PvmRooli)
             return QVariant( era.pvm);
@@ -85,25 +85,52 @@ void EranValintaModel::lataa(Tili tili)
         saldot.insert( query.value("eraid").toInt(), query.value("saldo").toInt() );
     }
 
-    query.exec(QString("SELECT id, pvm, selite, debetsnt-kreditsnt as saldo from vienti "
+    query.exec(QString("SELECT id, pvm, selite, debetsnt, kreditsnt from vienti "
                "where tili=%1 and eraid is NULL order by pvm").arg(tili.id()));
     qDebug() << query.lastQuery();
 
     while( query.next())
     {
         int id = query.value("id").toInt();
-        int saldo = saldot.value(id, 0) + query.value("saldo").toInt();
+        int saldo = saldot.value(id, 0) + query.value("debetsnt").toInt() - query.value("kreditsnt").toInt();
         if( saldo  )
         {
             // Tämä tase-erä ei ole mennyt tasan, joten se on valittavissa
-            TaseEraValittavaksi era;
+            TaseEra era;
             era.eraId = id;
             era.pvm = query.value("pvm").toDate();
             era.selite = query.value("selite").toString();
             era.saldoSnt = saldo;
             erat_.append(era);
+
+            qDebug() << era.eraId << era.selite << era.saldoSnt;
         }
 
     }
     endResetModel();
+}
+
+TaseEra::TaseEra(int id)
+{
+    eraId = id;
+
+    // Jos id annetaan rakentajaan, hakee halutun erän tiedot
+    if(id)
+    {
+        QSqlQuery query( *( kp()->tietokanta() ));
+        query.exec(QString("SELECT sum(debetsnt)-sum(kreditsnt) as saldo from vienti "
+                           "where eraid=%1").arg(id ));
+        if( query.next() )
+            saldoSnt = query.value("saldo").toInt();
+
+        query.exec(QString("SELECT pvm, selite, debetsnt, kreditsnt from vienti "
+                   "where id=%1").arg( id ));
+        if( query.next())
+        {
+            pvm = query.value("pvm").toDate();
+            selite = query.value("selite").toInt();
+            saldoSnt = query.value("debetsnt").toInt() - query.value("kreditsnt").toInt();
+        }
+
+    }
 }
