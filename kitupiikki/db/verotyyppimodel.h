@@ -49,7 +49,7 @@ namespace AlvKoodi {
 struct VeroTyyppi
 {
     VeroTyyppi() {;}
-    VeroTyyppi( AlvKoodi::Koodi uKoodi, const QString& uSelite, const QString& uKuvake = ":/pic/possu.png");
+    VeroTyyppi( AlvKoodi::Koodi uKoodi, const QString& uSelite, const QString& uKuvake = "");
 
 
     AlvKoodi::Koodi koodi;
@@ -78,6 +78,7 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
 
     QString seliteKoodilla(int koodi) const;
+    QIcon kuvakeKoodilla(int koodi) const;
 
 
 protected:

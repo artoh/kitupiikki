@@ -52,6 +52,8 @@
         <file>kirja64.png</file>
         <file>siirra.png</file>
         <file>folder.png</file>
+        <file>suomi.png</file>
+        <file>eu.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

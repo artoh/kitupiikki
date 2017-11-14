@@ -166,18 +166,35 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
     }
     else if( role == Qt::TextAlignmentRole)
     {
-        if( index.column()==KREDIT || index.column() == DEBET)
+        if( index.column()==KREDIT || index.column() == DEBET || index.column() == ALV)
             return QVariant(Qt::AlignRight | Qt::AlignVCenter);
         else
             return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
 
     }
-    else if( role == Qt::DecorationRole && index.column() == KOHDENNUS)
+    else if( role == Qt::DecorationRole)
     {
+        if( index.column() == KOHDENNUS)
+        {
         if( rivi.eraId )
             return QIcon(":/pic/folder.png");
         return rivi.kohdennus.tyyppiKuvake();
+        }
+        else if( index.column() == ALV )
+        {
+            return kp()->alvTyypit()->kuvakeKoodilla( rivi.alvkoodi % 100 );
+        }
     }
+    else if( role == Qt::TextColorRole)
+    {
+        if( index.column() == ALV)
+        {
+            // Alv-kirjaukset harmajalla
+            if( rivi.alvkoodi > 800)
+                return QColor(Qt::darkGray);
+        }
+    }
+
     return QVariant();
 }
 
@@ -382,9 +399,9 @@ void VientiModel::tallenna()
         else
         {
             query.prepare("INSERT INTO vienti(tosite,pvm,tili,debetsnt,kreditsnt,selite,"
-                           "alvkoodi, luotu, muokattu, json, kohdennus, eraid, vientirivi) "
+                           "alvkoodi, alvprosentti, luotu, muokattu, json, kohdennus, eraid, vientirivi) "
                             "VALUES(:tosite,:pvm,:tili,:debetsnt,:kreditsnt,:selite,"
-                            ":alvkoodi, :luotu, :muokattu, :json, :kohdennus, :eraid, :rivinro)");
+                            ":alvkoodi, :alvprosentti, :luotu, :muokattu, :json, :kohdennus, :eraid, :rivinro)");
             query.bindValue(":luotu",  QDateTime(kp()->paivamaara(), QTime::currentTime() ) );
             query.bindValue(":rivinro", rivi.riviNro);
         }

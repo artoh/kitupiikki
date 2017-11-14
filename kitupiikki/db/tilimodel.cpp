@@ -43,7 +43,7 @@ int TiliModel::rowCount(const QModelIndex & /* parent */) const
 
 int TiliModel::columnCount(const QModelIndex & /* parent */) const
 {
-    return 4;
+    return 5;
 }
 
 bool TiliModel::setData(const QModelIndex &index, const QVariant &value, int role)
@@ -94,6 +94,8 @@ QVariant TiliModel::headerData(int section, Qt::Orientation orientation, int rol
             return QVariant("Nimi");
         case TYYPPI:
             return QVariant("Tilityyppi");
+        case ALV:
+            return QVariant("Alv");
         }
     }
     return QVariant();
@@ -145,6 +147,11 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
                 return QVariant( otsikkotxt );
             }
             return QVariant( tilityypit__.value( tili.tyyppi()));
+        case ALV:
+            int vero = tili.json()->luku("AlvProsentti");
+            if(vero)
+                return QVariant( QString("%1 %").arg(vero));
+            return QVariant();
         }
     }
 
@@ -256,7 +263,7 @@ void TiliModel::luoTyyppiTaulut()
     tilityypit__.insert("B","Vastattavaa");
     tilityypit__.insert("BE","Edellisten tilikausien voitto/tappio");
     tilityypit__.insert("BS","Velat");
-    tilityypit__.insert("BSM","Myyntivelat");
+    tilityypit__.insert("BSM","Ostovelat");
     tilityypit__.insert("BL","Arvonlisäverovelka");
     tilityypit__.insert("BV","Verovelka");
     tilityypit__.insert("C","Tulot");

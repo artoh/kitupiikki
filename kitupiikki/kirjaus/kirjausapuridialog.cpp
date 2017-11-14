@@ -384,7 +384,7 @@ void KirjausApuriDialog::valilehtiVaihtui(int indeksi)
     else if( indeksi == TULO)
     {
         verofiltteri.setFilterRegExp("(0|.1)");
-        ui->tiliEdit->suodataTyypilla("(AP|D).*");
+        ui->tiliEdit->suodataTyypilla("(AP|C).*");
         ui->vastatiliEdit->suodataTyypilla("[AB].*");
     }
     else

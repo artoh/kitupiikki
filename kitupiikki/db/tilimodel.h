@@ -38,7 +38,7 @@ public:
 
     enum Sarake
     {
-        NRONIMI, NUMERO, NIMI, TYYPPI
+        NRONIMI, NUMERO, NIMI, TYYPPI, ALV
     };
 
     enum

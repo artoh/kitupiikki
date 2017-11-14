@@ -30,12 +30,12 @@ VerotyyppiModel::VerotyyppiModel(QObject *parent)
     tyypit.append( VeroTyyppi(AlvKoodi::EIALV,"Veroton"));
     tyypit.append( VeroTyyppi(AlvKoodi::MYYNNIT_NETTO,"Verollinen myynti"));
     tyypit.append( VeroTyyppi(AlvKoodi::OSTOT_NETTO,"Verollinen osto"));
-    tyypit.append( VeroTyyppi(AlvKoodi::YHTEISOMYYNTI_TAVARAT,"Tavaroiden yhteisömyynti"));
-    tyypit.append( VeroTyyppi(AlvKoodi::YHTEISOMYYNTI_PALVELUT,"Palveluiden yhteisömyynti"));
-    tyypit.append( VeroTyyppi(AlvKoodi::YHTEISOHANKINNAT_TAVARAT,"Tavaroiden yhteisöhankinnat"));
-    tyypit.append( VeroTyyppi(AlvKoodi::YHTEISOHANKINNAT_PALVELUT,"Palveluiden yhteisöhankinnat"));
-    tyypit.append( VeroTyyppi(AlvKoodi::RAKENNUSPALVELU_MYYNTI,"Rakennuspalveluiden myynti"));
-    tyypit.append( VeroTyyppi(AlvKoodi::RAKENNUSPALVELU_OSTO,"Rakennuspalveluiden osto"));
+    tyypit.append( VeroTyyppi(AlvKoodi::YHTEISOMYYNTI_TAVARAT,"Tavaroiden yhteisömyynti",":/pic/eu.png"));
+    tyypit.append( VeroTyyppi(AlvKoodi::YHTEISOMYYNTI_PALVELUT,"Palveluiden yhteisömyynti",":/pic/eu.png"));
+    tyypit.append( VeroTyyppi(AlvKoodi::YHTEISOHANKINNAT_TAVARAT,"Tavaroiden yhteisöhankinnat",":/pic/eu.png"));
+    tyypit.append( VeroTyyppi(AlvKoodi::YHTEISOHANKINNAT_PALVELUT,"Palveluiden yhteisöhankinnat",":/pic/eu.png"));
+    tyypit.append( VeroTyyppi(AlvKoodi::RAKENNUSPALVELU_MYYNTI,"Rakennuspalveluiden myynti",":/pic/vasara.png"));
+    tyypit.append( VeroTyyppi(AlvKoodi::RAKENNUSPALVELU_OSTO,"Rakennuspalveluiden osto",":/pic/vasara.png"));
 }
 
 int VerotyyppiModel::rowCount(const QModelIndex & /*parent */) const
@@ -70,5 +70,15 @@ QString VerotyyppiModel::seliteKoodilla(int koodi) const
             return tyyppi.selite;
     }
     return QString();
+}
+
+QIcon VerotyyppiModel::kuvakeKoodilla(int koodi) const
+{
+    foreach (VeroTyyppi tyyppi, tyypit)
+    {
+        if( tyyppi.koodi == koodi)
+            return tyyppi.kuvake;
+    }
+    return QIcon();
 }
 
