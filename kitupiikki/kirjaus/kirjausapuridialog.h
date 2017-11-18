@@ -55,10 +55,13 @@ public slots:
     void laskeVerolla();
     void alvLajiMuuttui();
     void vastaTiliMuuttui();
-    void vaihdaTilit();
 
     void ehdota();
 
+    /**
+     * @brief Päivitetään dialogi välilehden vaihtumisen mukaan
+     * @param indeksi
+     */
     void valilehtiVaihtui(int indeksi);
     void korjaaSarakeLeveydet();
 

@@ -38,6 +38,8 @@ Perusvalinnat::Perusvalinnat() :
     connect( ui->ytunnusEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
     connect( ui->alvCheck, SIGNAL(clicked(bool)), this, SLOT(ilmoitaMuokattu()));
     connect( ui->edistyneetCheck, SIGNAL(clicked(bool)), this, SLOT(ilmoitaMuokattu()));
+    connect( ui->osoiteEdit, SIGNAL(textChanged()), this, SLOT(ilmoitaMuokattu()));
+    connect( ui->kotipaikkaEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
 
 }
 
@@ -52,6 +54,8 @@ bool Perusvalinnat::nollaa()
     ui->ytunnusEdit->setText( Kirjanpito::db()->asetus("Ytunnus"));
     ui->alvCheck->setChecked( kp()->asetukset()->onko("AlvVelvollinen"));
     ui->edistyneetCheck->setChecked( kp()->asetukset()->onko("NaytaEdistyneet"));
+    ui->osoiteEdit->setText( kp()->asetukset()->asetus("Osoite"));
+    ui->kotipaikkaEdit->setText( kp()->asetukset()->asetus("Kotipaikka"));
 
     uusilogo = QImage();
 
@@ -86,7 +90,9 @@ bool Perusvalinnat::onkoMuokattu()
             ui->ytunnusEdit->text() != kp()->asetus("Ytunnus") ||
             ui->alvCheck->isChecked() != kp()->asetukset()->onko("AlvVelvollinen") ||
             ui->edistyneetCheck->isChecked() != kp()->asetukset()->onko("NaytaEdistyneet") ||
-            !uusilogo.isNull();
+            !uusilogo.isNull() ||
+            ui->osoiteEdit->toPlainText() != kp()->asetukset()->asetus("Osoite") ||
+            ui->kotipaikkaEdit->text() != kp()->asetukset()->asetus("Kotipaikka");
 }
 
 bool Perusvalinnat::tallenna()
@@ -95,6 +101,8 @@ bool Perusvalinnat::tallenna()
     kp()->asetukset()->aseta("Ytunnus", ui->ytunnusEdit->text());
     kp()->asetukset()->aseta("AlvVelvollinen", ui->alvCheck->isChecked());
     kp()->asetukset()->aseta("NaytaEdistyneet", ui->edistyneetCheck->isChecked());
+    kp()->asetukset()->aseta("Osoite", ui->osoiteEdit->toPlainText());
+    kp()->asetukset()->aseta("Kotipaikka", ui->kotipaikkaEdit->text());
 
     // Logosta tallennetaan logo64.png ja logo128.png -versiot
     if( !uusilogo.isNull())

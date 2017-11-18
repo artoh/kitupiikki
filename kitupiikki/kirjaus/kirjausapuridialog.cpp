@@ -72,10 +72,7 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     connect( ui->euroSpin, SIGNAL(editingFinished()), this, SLOT(laskeNetto()));
     connect( ui->nettoSpin, SIGNAL(editingFinished()), this, SLOT(laskeBrutto()));
     connect( ui->alvSpin, SIGNAL(editingFinished()), this, SLOT(laskeVerolla()));
-    connect( ui->vaihdaNappi, SIGNAL(clicked(bool)), this, SLOT(vaihdaTilit()));
-
-
-
+    connect( ui->vaihdaNappi, SIGNAL(clicked(bool)), this, SLOT(ehdota()));
     connect(ui->seliteEdit, SIGNAL(editingFinished()), this, SLOT(ehdota()));
     connect(ui->pvmDate, SIGNAL(editingFinished()), this, SLOT(ehdota()));
 
@@ -225,21 +222,6 @@ void KirjausApuriDialog::vastaTiliMuuttui()
     ehdota();
 }
 
-void KirjausApuriDialog::vaihdaTilit()
-{
-    int aputili = ui->tiliEdit->valittuTilinumero();
-    int tiliera = ui->taseEraCombo->currentData().toInt();
-    int vastaera = ui->vastaTaseEraCombo->currentData().toInt();
-
-    ui->tiliEdit->valitseTiliNumerolla( ui->vastatiliEdit->valittuTilinumero());    
-    ui->vastatiliEdit->valitseTiliNumerolla( aputili );
-
-    tiliTaytetty();
-
-    ui->vastaTaseEraCombo->setCurrentIndex( ui->vastaTaseEraCombo->findData(tiliera) );
-    ui->taseEraCombo->setCurrentIndex( ui->taseEraCombo->findData(vastaera));
-}
-
 void KirjausApuriDialog::ehdota()
 {
     ehdotus.tyhjaa();
@@ -334,14 +316,22 @@ void KirjausApuriDialog::ehdota()
         if( tili.onkoValidi() )
         {
             VientiRivi rivi = uusiEhdotusRivi(tili);
-            rivi.debetSnt = bruttoSnt;
+
+            if( ui->vaihdaNappi->isChecked())
+                rivi.kreditSnt = bruttoSnt;
+            else
+                rivi.debetSnt = bruttoSnt;
+
             rivi.eraId = ui->taseEraCombo->currentData(KohdennusModel::IdRooli).toInt();
             ehdotus.lisaaVienti(rivi);
         }
         if( vastatili.onkoValidi())
         {
             VientiRivi rivi = uusiEhdotusRivi(vastatili);
-            rivi.kreditSnt = bruttoSnt;
+            if( ui->vaihdaNappi->isChecked())
+                rivi.debetSnt = bruttoSnt;
+            else
+                rivi.kreditSnt = bruttoSnt;
             rivi.eraId = ui->vastaTaseEraCombo->currentData(KohdennusModel::IdRooli).toInt();
             ehdotus.lisaaVienti(rivi);
         }
@@ -358,10 +348,13 @@ void KirjausApuriDialog::ehdota()
 
 }
 
+
 void KirjausApuriDialog::valilehtiVaihtui(int indeksi)
 {
     ui->kohdennusLabel->setVisible( indeksi != SIIRTO );
     ui->kohdennusCombo->setVisible( indeksi != SIIRTO);
+    ui->vaihdaNappi->setVisible(indeksi == SIIRTO );
+
 
     bool verot = kp()->asetukset()->onko("AlvVelvollinen") && indeksi != SIIRTO;
 
@@ -393,8 +386,17 @@ void KirjausApuriDialog::valilehtiVaihtui(int indeksi)
         ui->vastatiliEdit->suodataTyypilla("");
     }
 
-    ui->vaihdaNappi->setEnabled( indeksi == SIIRTO );
+    if( indeksi == MENO)
+        ui->tiliLabel->setText("Menotili");
+    else if(indeksi == TULO)
+        ui->tiliLabel->setText("Tulotili");
+    else if(indeksi == SIIRTO)
+        ui->tiliLabel->setText("Debet-tili");
 
+    if( indeksi == SIIRTO)
+        ui->vastatiliLabel->setText("Kredit-tili");
+    else
+        ui->vastatiliLabel->setText("Vastatili");
 
     ehdota();
 }
@@ -403,6 +405,7 @@ void KirjausApuriDialog::korjaaSarakeLeveydet()
 {
     ui->ehdotusView->setColumnWidth( EhdotusModel::TILI, ui->ehdotusView->width() - ui->ehdotusView->columnWidth(EhdotusModel::KREDIT)
                                      - ui->ehdotusView->columnWidth(EhdotusModel::DEBET) - 10);
+    ui->tiliEdit->setFocus();
 }
 
 void KirjausApuriDialog::accept()

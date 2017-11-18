@@ -48,6 +48,7 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu("Kohdennukset", KOHDENNUS, QIcon(":/pic/kohdennus.png"));
     lisaaSivu("Tilinavaus", TILINAVAUS, QIcon(":/pic/rahaa.png"));
     lisaaSivu("Arvonlisävero", ALV, QIcon(":/pic/karhu.png"));
+    lisaaSivu("Laskutus", LASKUTUS, QIcon(":/pic/kansiossa.png"));
     lisaaSivu("Raportit", RAPORTIT, QIcon(":/pic/print.png"));
     lisaaSivu("Tilinpäätöksen malli", LIITETIETOKAAVA, QIcon(":/pic/tekstisivu.png"));
     lisaaSivu("Työkalut", TYOKALUT, QIcon(":/pic/vasara.png"), false);

@@ -54,6 +54,8 @@
         <file>folder.png</file>
         <file>suomi.png</file>
         <file>eu.png</file>
+        <file>kansiossa.png</file>
+        <file>asiakkaat.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

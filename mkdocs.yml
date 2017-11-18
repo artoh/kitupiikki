@@ -14,8 +14,6 @@ extra:
     primary: 'deep purple'
     accent: 'deep purple'
   social:
-    - type: 'wordpress'
-      link: 'https://kitupiikki.wordpress.com'
     - type: 'github'
       link: 'https://github.com/artoh/kitupiikki'
     - type: 'youtube'
@@ -26,6 +24,7 @@ markdown_extensions:
   - meta
 pages:
   - Kitupiikki: 'index.md'
+  - Kirjanpidosta lyhyesti: 'kirjanpito.md'
   - Asennus: 'asennus.md'
   - Kirjanpidon aloittaminen: 'aloitus.md'
   - Määritykset: 'maaritykset.md'
@@ -34,14 +33,12 @@ pages:
   - Tulosteet: 'raportti.md'
   - Tilinpäätös: 'tilinpaatos.md'
   - Sähköinen arkisto: 'arkisto.md'
+  - Laskutus: 'laskutus.md'
   - Arvonlisävero: 'alv.md'
   - Muita toimintoja: 'muut.md'
-  - Osallistu: 'osallistu.md'
   - Lisenssi: 'lisenssi.md'
-google_analytics:  
+google_analytics:
   - 'UA-92837430-1'
   - 'auto'
 extra_css:
   - 'stylesheets/extra.css'
-
-

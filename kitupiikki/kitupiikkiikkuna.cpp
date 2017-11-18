@@ -43,6 +43,7 @@
 #include "raportti/raporttisivu.h"
 #include "arkisto/arkistosivu.h"
 #include "uusikp/uusikirjanpito.h"
+#include "laskutus/laskutussivu.h"
 
 #include "db/kirjanpito.h"
 
@@ -59,6 +60,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 
     aloitussivu = new AloitusSivu();
     kirjaussivu =  new KirjausSivu();
+    laskutussivu = new LaskutusSivu();
     selaussivu = new SelausWg();
     maarityssivu = new MaaritysSivu();
     raporttisivu = new RaporttiSivu();
@@ -248,6 +250,7 @@ void KitupiikkiIkkuna::lisaaSivut()
     lisaaSivu("Aloita",":/pic/Possu64.png","Erilaisia ohjattuja toimia","Home", ALOITUSSIVU, aloitussivu);
     lisaaSivu("Uusi\ntosite",":/pic/uusitosite.png","Kirjaa uusi tosite","Ctrl+N", KIRJAUSSIVU, kirjaussivu);
     lisaaSivu("Selaa",":/pic/Paivakirja64.png","Selaa kirjauksia aikajärjestyksessä","F3", SELAUSSIVU, selaussivu);
+    lisaaSivu("Laskut",":/pic/kansiossa.png","Laskuta ja selaa laskuja","F9",LASKUTUSSIVU, laskutussivu);
     lisaaSivu("Tulosteet",":/pic/print.png","Tulosta erilaisia raportteja","Ctrl+P", TULOSTESIVU, raporttisivu);
     lisaaSivu("Tilikaudet",":/pic/kirja64.png","Tilinpäätös ja arkistot","F5", ARKISTOSIVU, arkistosivu);
     lisaaSivu("Määritykset",":/pic/ratas.png","Kirjanpitoon liittyvät määritykset","F7", MAARITYSSIVU, maarityssivu);

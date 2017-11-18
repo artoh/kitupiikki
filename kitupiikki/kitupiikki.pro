@@ -90,7 +90,8 @@ SOURCES += main.cpp \
     arkisto/arkistosivu.cpp \
     maaritys/maarityswidget.cpp \
     kirjaus/ehdotusmodel.cpp \
-    db/eranvalintamodel.cpp
+    db/eranvalintamodel.cpp \
+    laskutus/laskutussivu.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -171,7 +172,8 @@ HEADERS += \
     tilinpaatoseditori/mrichtexteditor/mtextedit.h \
     arkisto/arkistosivu.h \
     kirjaus/ehdotusmodel.h \
-    db/eranvalintamodel.h
+    db/eranvalintamodel.h \
+    laskutus/laskutussivu.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="27cm" height="7cm" viewBox="-2 -7 530 129" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect style="fill: #ffffff" x="-0.1" y="14" width="86.2" height="38"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #0000ff" x="-0.1" y="14" width="86.2" height="38"/>
+    <text font-size="12.7998" style="fill: #0000ff;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="43" y="36.9">
+      <tspan x="43" y="36.9">Tilinavaus</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="119.15" y="16" width="137.7" height="38"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #0000ff" x="119.15" y="16" width="137.7" height="38"/>
+    <text font-size="12.7998" style="fill: #0000ff;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="188" y="38.9">
+      <tspan x="188" y="38.9">Tositteiden kirjaus</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="299.25" y="16" width="91.5" height="38"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #0000ff" x="299.25" y="16" width="91.5" height="38"/>
+    <text font-size="12.7998" style="fill: #0000ff;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="345" y="38.9">
+      <tspan x="345" y="38.9">Tilinpäätös</tspan>
+    </text>
+  </g>
+  <g>
+    <path style="fill: #ffffff" d="M 119.825 73.625 C 147.095,79.25 160.73,79.25 188,73.625 C 215.27,68 228.905,68 256.175,73.625 L 256.175,107.375 C 228.905,101.75 215.27,101.75 188,107.375 C 160.73,113 147.095,113 119.825,107.375 L 119.825,73.625z"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #0000ff" d="M 119.825 73.625 C 147.095,79.25 160.73,79.25 188,73.625 C 215.27,68 228.905,68 256.175,73.625 L 256.175,107.375 C 228.905,101.75 215.27,101.75 188,107.375 C 160.73,113 147.095,113 119.825,107.375 L 119.825,73.625"/>
+    <text font-size="12.7998" style="fill: #0000ff;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="188" y="94.5">
+      <tspan x="188" y="94.5">Raporttien tulostus</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #0000ff" x1="86.1" y1="33" x2="114.686" y2="34.7299"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #0000ff" points="106.634,39.2518 116.918,34.8649 107.238,29.27 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #0000ff" x1="261" y1="34" x2="293.528" y2="34"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #0000ff" points="285.764,39 295.764,34 285.764,29 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #0000ff" x1="188" y1="55.0044" x2="188" y2="68.1938"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #0000ff" points="183,60.4298 188,70.4298 193,60.4298 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #0000ff" points="345,54.9871 345,122 43,122 43,56.4721 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #0000ff" points="48,64.2361 43,54.2361 38,64.2361 "/>
+  </g>
+  <g>
+    <path style="fill: #ffffff" d="M 434.425 7.66667 C 453.055,-1.83333 462.37,-5 481,-5 C 499.63,-5 508.945,-1.83333 527.575,7.66667 L 527.575,58.3333 C 508.945,67.8333 499.63,71 481,71 C 462.37,71 453.055,67.8333 434.425,58.3333 L 434.425,7.66667z"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #0000ff" d="M 434.425 7.66667 C 453.055,-1.83333 462.37,-5 481,-5 C 499.63,-5 508.945,-1.83333 527.575,7.66667 L 527.575,58.3333 C 508.945,67.8333 499.63,71 481,71 C 462.37,71 453.055,67.8333 434.425,58.3333 L 434.425,7.66667"/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #0000ff" d="M 434.425 7.66667 C 453.055,17.1667 462.37,20.3333 481,20.3333 C 499.63,20.3333 508.945,17.1667 527.575,7.66667"/>
+    <text font-size="12.7998" style="fill: #0000ff;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="481" y="35.3333">
+      <tspan x="481" y="35.3333">Kirjanpidon</tspan>
+      <tspan x="481" y="51.3333">säilyttäminen</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #0000ff" x1="390.75" y1="35" x2="428.529" y2="35.8942"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #0000ff" points="420.649,40.7091 430.765,35.9471 420.886,30.7119 "/>
+  </g>
+</svg>

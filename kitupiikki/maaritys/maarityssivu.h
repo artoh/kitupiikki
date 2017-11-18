@@ -47,9 +47,11 @@ public:
         KOHDENNUS = 3,
         TILINAVAUS = 4,
         ALV = 5,
-        RAPORTIT = 6,
-        LIITETIETOKAAVA = 7,
-        TYOKALUT = 8
+        LASKUTUS = 6,
+        RAPORTIT = 7,
+        LIITETIETOKAAVA = 8,
+        TYOKALUT = 9
+
     };
 
 

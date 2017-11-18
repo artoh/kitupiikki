@@ -33,6 +33,7 @@ class SelausWg;
 class RaporttiSivu;
 class MaaritysSivu;
 class ArkistoSivu;
+class LaskutusSivu;
 
 class QDateEdit;
 class QDockWidget;
@@ -53,7 +54,7 @@ public:
     KitupiikkiIkkuna(QWidget *parent = 0);
     ~KitupiikkiIkkuna();
 
-    enum Sivu { ALOITUSSIVU, KIRJAUSSIVU, SELAUSSIVU, TULOSTESIVU, ARKISTOSIVU, MAARITYSSIVU, SIVUT_LOPPU    };
+    enum Sivu { ALOITUSSIVU, KIRJAUSSIVU, LASKUTUSSIVU, SELAUSSIVU, TULOSTESIVU, ARKISTOSIVU, MAARITYSSIVU, SIVUT_LOPPU    };
 
 signals:
 
@@ -104,6 +105,7 @@ protected:
 
     AloitusSivu *aloitussivu;
     KirjausSivu *kirjaussivu;
+    LaskutusSivu *laskutussivu;
     SelausWg *selaussivu;
     RaporttiSivu *raporttisivu;
     MaaritysSivu *maarityssivu;
