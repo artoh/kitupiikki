@@ -117,7 +117,7 @@ void KirjausWg::lisaaRivi()
     QModelIndex indeksi = model_->vientiModel()->index( model_->vientiModel()->rowCount(QModelIndex()) - 1, VientiModel::TILI );
 
     ui->viennitView->setCurrentIndex( indeksi  );
-    ui->viennitView->edit( indeksi );
+
 }
 
 void KirjausWg::poistaRivi()

@@ -66,7 +66,7 @@ QVariant EranValintaModel::data(const QModelIndex &index, int role) const
 
 
 
-void EranValintaModel::lataa(Tili tili)
+void EranValintaModel::lataa(Tili tili, bool kaikki)
 {
     beginResetModel();
     erat_.clear();
@@ -93,7 +93,7 @@ void EranValintaModel::lataa(Tili tili)
     {
         int id = query.value("id").toInt();
         int saldo = saldot.value(id, 0) + query.value("debetsnt").toInt() - query.value("kreditsnt").toInt();
-        if( saldo  )
+        if( saldo || kaikki )
         {
             // Tämä tase-erä ei ole mennyt tasan, joten se on valittavissa
             TaseEra era;
@@ -133,4 +133,20 @@ TaseEra::TaseEra(int id)
         }
 
     }
+}
+
+TositeTunniste TaseEra::tositteenTunniste()
+{
+    TositeTunniste tunniste;
+
+    if(eraId)
+    {
+        QSqlQuery query(QString("select tositeId,tositelaji,tunniste from vientivw where vientiId=%1").arg(eraId));
+        if( query.next())
+        {
+            tunniste.id = query.value("tositeId").toInt();
+            tunniste.tunnus = query.value("tositelaji").toString() + query.value("tunniste").toString();
+        }
+    }
+    return tunniste;
 }

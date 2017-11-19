@@ -22,6 +22,14 @@
 #include <QList>
 #include "tili.h"
 
+
+struct TositeTunniste
+{
+    int id = 0;
+    QString tunnus;
+};
+
+
 /**
  * @brief Yhden tase-erän tiedot EranValintaModel:issa
  *
@@ -33,6 +41,11 @@ struct TaseEra
      * @param id Haettavan erän id
      */
     TaseEra(int id = 0);
+    /**
+     * @brief Hakee tase-erän avaavaan tositteen tunnisteet
+     * @return
+     */
+    TositeTunniste tositteenTunniste();
 
     int eraId;
     QDate pvm;
@@ -68,8 +81,12 @@ public:
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
 
-
-    void lataa(Tili tili);
+    /**
+     * @brief Lataa erät
+     * @param tili Tili, jonka erät ladataan
+     * @param kaikki tosi jos ladataan myös tasan menneet erät
+     */
+    void lataa(Tili tili, bool kaikki);
 
 private:
     QList<TaseEra> erat_;

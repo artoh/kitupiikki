@@ -35,12 +35,12 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     ui->alvlajiLabel->setVisible(false);
     ui->alvSpin->setVisible(false);
     ui->alvprossaLabel->setVisible(false);
-
     ui->eraLabel->setVisible(false);
     ui->taseEraCombo->setVisible(false);
-
     ui->vastaTaseEraLabel->setVisible(false);
     ui->vastaTaseEraCombo->setVisible(false);
+    ui->poistoLabel->setVisible(false);
+    ui->poistoSpin->setVisible(false);
 
 
     // ValintaTab ylälaidassa kirjauksen tyypin valintaan
@@ -75,9 +75,13 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     connect( ui->vaihdaNappi, SIGNAL(clicked(bool)), this, SLOT(ehdota()));
     connect(ui->seliteEdit, SIGNAL(editingFinished()), this, SLOT(ehdota()));
     connect(ui->pvmDate, SIGNAL(editingFinished()), this, SLOT(ehdota()));
+    connect(ui->taseEraCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(eraValittu()));
+    connect(ui->vastaTaseEraCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(eraValittu()));
 
     // Hakee tositteen tiedoista esitäytöt
-    ui->pvmDate->setDate( model->pvm() );
+    QDate pvm = model->pvm();
+    ui->pvmDate->setDate( pvm );
+    ui->pvmDate->setDateRange(kp()->tilikausiPaivalle(pvm).alkaa() , kp()->tilikausiPaivalle(pvm).paattyy() );
     ui->seliteEdit->setText( model->otsikko());
 
     ui->tiliEdit->valitseTiliNumerolla( model->tositelaji().json()->luku("Oletustili"));
@@ -221,6 +225,23 @@ void KirjausApuriDialog::vastaTiliMuuttui()
     ehdota();
 }
 
+void KirjausApuriDialog::eraValittu()
+{
+    // Kun tase-erä valitaan, merkitään summaksi oletuksena kyseisen tase-erän saldo
+    if( !ui->euroSpin->value())
+        ui->euroSpin->setValue( qAbs( ui->taseEraCombo->currentData( EranValintaModel::SaldoRooli).toDouble() / 100.0  ) );
+    laskeNetto();
+    ehdota();
+}
+
+void KirjausApuriDialog::vastaEraValittu()
+{
+    if( !ui->euroSpin->value())
+        ui->euroSpin->setValue( qAbs( ui->vastaTaseEraCombo->currentData( EranValintaModel::SaldoRooli).toDouble() / 100.0  ) );
+    laskeNetto();
+    ehdota();
+}
+
 void KirjausApuriDialog::ehdota()
 {
     ehdotus.tyhjaa();
@@ -277,7 +298,12 @@ void KirjausApuriDialog::ehdota()
             menorivi.kohdennus = kp()->kohdennukset()->kohdennus(ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
             menorivi.alvprosentti = alvprosentti;
             menorivi.alvkoodi = alvkoodi;
-            menorivi.eraId = ui->taseEraCombo->currentData().toInt();
+            menorivi.eraId = ui->taseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
+            if(tili.tyyppi() == "APT")
+            {
+                menorivi.json.set("Tasapoisto", ui->poistoSpin->value());
+            }
+
             ehdotus.lisaaVienti( menorivi );
 
         }
@@ -306,7 +332,7 @@ void KirjausApuriDialog::ehdota()
                 taserivi.kreditSnt = bruttoSnt;
             else
                 taserivi.kreditSnt = nettoSnt;
-            taserivi.eraId = ui->vastaTaseEraCombo->currentData().toInt();
+            taserivi.eraId = ui->vastaTaseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
             ehdotus.lisaaVienti(taserivi);
         }
         break;
@@ -321,7 +347,7 @@ void KirjausApuriDialog::ehdota()
             else
                 rivi.debetSnt = bruttoSnt;
 
-            rivi.eraId = ui->taseEraCombo->currentData(KohdennusModel::IdRooli).toInt();
+            rivi.eraId = ui->taseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
             ehdotus.lisaaVienti(rivi);
         }
         if( vastatili.onkoValidi())
@@ -331,7 +357,7 @@ void KirjausApuriDialog::ehdota()
                 rivi.debetSnt = bruttoSnt;
             else
                 rivi.kreditSnt = bruttoSnt;
-            rivi.eraId = ui->vastaTaseEraCombo->currentData(KohdennusModel::IdRooli).toInt();
+            rivi.eraId = ui->vastaTaseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
             ehdotus.lisaaVienti(rivi);
         }
 
@@ -345,8 +371,8 @@ void KirjausApuriDialog::ehdota()
     ui->buttonBox->button( QDialogButtonBox::Ok )->setEnabled( ehdotus.onkoKelpo() );
 
     // Poisto näytetään jos kirjataan tasaeräpoistotilille
-    ui->poistoLabel->setVisible( tili.tyyppi() == "APT");
-    ui->poistoSpin->setVisible(tili.tyyppi() == "APT");
+    ui->poistoLabel->setVisible( tili.tyyppi() == "APT" && !ui->taseEraCombo->currentIndex());
+    ui->poistoSpin->setVisible(tili.tyyppi() == "APT" && !ui->taseEraCombo->currentIndex());
 
 }
 

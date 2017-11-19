@@ -146,7 +146,11 @@ void TilinvalintaLine::keyPressEvent(QKeyEvent *event)
         else
             valittu = TilinValintaDialogi::valitseTili( event->text(), proxyTyyppi_->filterRegExp().pattern(), model_ );
         if( valittu.id())
+        {
             valitseTili( valittu);
+            emit editingFinished();
+        }
+
     }
     else
         KantaTilinvalintaLine::keyPressEvent(event);

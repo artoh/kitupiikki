@@ -149,7 +149,17 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
                     if( rivi.eraId )
                     {
                         TaseEra era(rivi.eraId);
-                        return QVariant( era.pvm );
+                        TositeTunniste tunniste = era.tositteenTunniste();
+                        return QVariant( tr("%1/%2").arg(tunniste.tunnus).arg(era.pvm.toString(Qt::SystemLocaleShortDate)) );
+                    }
+                    else if( rivi.json.luku("Tasapoisto") )
+                    {
+                        // Samaan paikkaan tulee myös tieto tasapoistosta
+                        int kk = rivi.json.luku("Tasapoisto");
+                        if( kk % 12)
+                            return QVariant( tr("Tasapoisto %1 v %2 kk").arg(kk / 12).arg(kk % 12) );
+                        else
+                            return QVariant( tr("Tasapoisto %1 v").arg(kk / 12) );
                     }
                     else
                     {
