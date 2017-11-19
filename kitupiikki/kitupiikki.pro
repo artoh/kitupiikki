@@ -91,7 +91,8 @@ SOURCES += main.cpp \
     maaritys/maarityswidget.cpp \
     kirjaus/ehdotusmodel.cpp \
     db/eranvalintamodel.cpp \
-    laskutus/laskutussivu.cpp
+    laskutus/laskutussivu.cpp \
+    kirjaus/verodialogi.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -173,7 +174,8 @@ HEADERS += \
     arkisto/arkistosivu.h \
     kirjaus/ehdotusmodel.h \
     db/eranvalintamodel.h \
-    laskutus/laskutussivu.h
+    laskutus/laskutussivu.h \
+    kirjaus/verodialogi.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -218,7 +220,8 @@ FORMS += \
     aloitussivu/aloitus.ui \
     arkisto/arkisto.ui \
     arkisto/lisaatilikausidlg.ui \
-    arkisto/lukitsetilikausi.ui
+    arkisto/lukitsetilikausi.ui \
+    kirjaus/verodialogi.ui
 
 DISTFILES += \
     uusikp/luo.sql \

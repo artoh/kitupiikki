@@ -283,6 +283,10 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
     }
     else if( role == KohdennusRooli)
         viennit_[rivi].kohdennus=kp()->kohdennukset()->kohdennus( value.toInt());
+    else if( role == AlvKoodiRooli)
+        viennit_[rivi].alvkoodi = value.toInt();
+    else if( role == AlvProsenttiRooli)
+        viennit_[rivi].alvprosentti = value.toInt();
     else
         return false;
 
@@ -303,7 +307,7 @@ Qt::ItemFlags VientiModel::flags(const QModelIndex &index) const
         // Samoin kohdennusta voi muokata vain, jos tili ei ole tasetili
         if( index.column() == ALV )
         {
-            return QAbstractTableModel::flags(index);
+            return QAbstractTableModel::flags(index) | Qt::ItemIsEnabled;
         }
         else if( index.column() == KOHDENNUS)
         {

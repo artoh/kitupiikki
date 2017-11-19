@@ -55,6 +55,8 @@ public slots:
     void tallenna();
     void hylkaa();
 
+
+
     void naytaSummat();
     void lataaTosite(int id);
 
@@ -107,6 +109,12 @@ public slots:
 
     void naytaLiite();
     void poistaLiite();
+
+    /**
+     * @brief Verojen muokkaus
+     * @param indeksi
+     */
+    void vientivwAktivoitu(QModelIndex indeksi);
 
 signals:
     void liiteValittu(const QByteArray& pdf);

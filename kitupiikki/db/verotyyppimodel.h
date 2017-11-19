@@ -49,12 +49,13 @@ namespace AlvKoodi {
 struct VeroTyyppi
 {
     VeroTyyppi() {;}
-    VeroTyyppi( AlvKoodi::Koodi uKoodi, const QString& uSelite, const QString& uKuvake = "");
+    VeroTyyppi( AlvKoodi::Koodi uKoodi, const QString& uSelite, const QString& uKuvake = "", bool uNollalaji = false);
 
 
     AlvKoodi::Koodi koodi;
     QString selite;
     QIcon kuvake;
+    bool nollalaji;
 };
 
 
@@ -69,7 +70,8 @@ public:
     {
         KoodiRooli = Qt::UserRole,
         SeliteRooli = Qt::UserRole + 1,
-        KoodiTekstiRooli = Qt::UserRole + 2
+        KoodiTekstiRooli = Qt::UserRole + 2,
+        NollaLajiRooli = Qt::UserRole + 3
     };
 
     VerotyyppiModel(QObject *parent = 0);

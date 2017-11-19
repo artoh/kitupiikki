@@ -22,6 +22,8 @@
 #include "kirjausapuridialog.h"
 #include "kohdennusdelegaatti.h"
 
+#include "verodialogi.h"
+
 #include "db/kirjanpito.h"
 
 
@@ -74,6 +76,9 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( ui->tositetyyppiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(vaihdaTositeTyyppi()));
     connect( ui->tunnisteEdit, SIGNAL(textEdited(QString)), this, SLOT(paivitaTunnisteVari()));
     connect( ui->otsikkoEdit, SIGNAL(textEdited(QString)), model_, SLOT(asetaOtsikko(QString)));
+
+    connect( ui->viennitView, SIGNAL(activated(QModelIndex)), this, SLOT( vientivwAktivoitu(QModelIndex)));
+
 
     // Tiliotteen tilivalintaan hyväksytään vain rahoitustilit
     QSortFilterProxyModel *proxy = new QSortFilterProxyModel(this);
@@ -181,6 +186,17 @@ void KirjausWg::hylkaa()
     tyhjenna();
     ui->tositetyyppiCombo->setCurrentIndex(0);
     emit tositeKasitelty();
+}
+
+void KirjausWg::vientivwAktivoitu(QModelIndex indeksi)
+{
+    // Tehdään alv-kirjaus
+    if(indeksi.column() == VientiModel::ALV )
+    {
+        VeroDialogiValinta uusivero = VeroDialogi::veroDlg( indeksi.data(VientiModel::AlvKoodiRooli).toInt(), indeksi.data(VientiModel::AlvProsenttiRooli).toInt() );
+        model_->vientiModel()->setData(indeksi, uusivero.verokoodi, VientiModel::AlvKoodiRooli);
+        model_->vientiModel()->setData(indeksi, uusivero.veroprosentti, VientiModel::AlvProsenttiRooli);
+    }
 }
 
 void KirjausWg::naytaSummat()

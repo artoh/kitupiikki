@@ -17,8 +17,8 @@
 
 #include "verotyyppimodel.h"
 
-VeroTyyppi::VeroTyyppi(AlvKoodi::Koodi uKoodi, const QString &uSelite, const QString &uKuvake)
-    : koodi(uKoodi), selite(uSelite), kuvake( QIcon(uKuvake))
+VeroTyyppi::VeroTyyppi(AlvKoodi::Koodi uKoodi, const QString &uSelite, const QString &uKuvake, bool uNollalaji)
+    : koodi(uKoodi), selite(uSelite), kuvake( QIcon(uKuvake)), nollalaji(uNollalaji)
 {
 
 }
@@ -27,14 +27,14 @@ VeroTyyppi::VeroTyyppi(AlvKoodi::Koodi uKoodi, const QString &uSelite, const QSt
 VerotyyppiModel::VerotyyppiModel(QObject *parent)
     : QAbstractListModel( parent)
 {
-    tyypit.append( VeroTyyppi(AlvKoodi::EIALV,"Veroton"));
+    tyypit.append( VeroTyyppi(AlvKoodi::EIALV,"Veroton","",true));
     tyypit.append( VeroTyyppi(AlvKoodi::MYYNNIT_NETTO,"Verollinen myynti"));
     tyypit.append( VeroTyyppi(AlvKoodi::OSTOT_NETTO,"Verollinen osto"));
-    tyypit.append( VeroTyyppi(AlvKoodi::YHTEISOMYYNTI_TAVARAT,"Tavaroiden yhteisömyynti",":/pic/eu.png"));
-    tyypit.append( VeroTyyppi(AlvKoodi::YHTEISOMYYNTI_PALVELUT,"Palveluiden yhteisömyynti",":/pic/eu.png"));
+    tyypit.append( VeroTyyppi(AlvKoodi::YHTEISOMYYNTI_TAVARAT,"Tavaroiden yhteisömyynti",":/pic/eu.png", true));
+    tyypit.append( VeroTyyppi(AlvKoodi::YHTEISOMYYNTI_PALVELUT,"Palveluiden yhteisömyynti",":/pic/eu.png", true));
     tyypit.append( VeroTyyppi(AlvKoodi::YHTEISOHANKINNAT_TAVARAT,"Tavaroiden yhteisöhankinnat",":/pic/eu.png"));
     tyypit.append( VeroTyyppi(AlvKoodi::YHTEISOHANKINNAT_PALVELUT,"Palveluiden yhteisöhankinnat",":/pic/eu.png"));
-    tyypit.append( VeroTyyppi(AlvKoodi::RAKENNUSPALVELU_MYYNTI,"Rakennuspalveluiden myynti",":/pic/vasara.png"));
+    tyypit.append( VeroTyyppi(AlvKoodi::RAKENNUSPALVELU_MYYNTI,"Rakennuspalveluiden myynti",":/pic/vasara.png", true));
     tyypit.append( VeroTyyppi(AlvKoodi::RAKENNUSPALVELU_OSTO,"Rakennuspalveluiden osto",":/pic/vasara.png"));
 }
 
@@ -58,6 +58,8 @@ QVariant VerotyyppiModel::data(const QModelIndex &index, int role) const
         return QString::number(tyyppi.koodi);
     else if( role == Qt::DecorationRole)
         return tyyppi.kuvake;
+    else if( role == NollaLajiRooli)
+        return tyyppi.nollalaji;
 
     return QVariant();
 }

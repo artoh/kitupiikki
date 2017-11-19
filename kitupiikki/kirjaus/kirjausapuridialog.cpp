@@ -65,7 +65,7 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
 
     connect( ui->valintaTab, SIGNAL(currentChanged(int)), this, SLOT(valilehtiVaihtui(int)));
 
-    connect( ui->tiliEdit, SIGNAL(textChanged(QString)), this, SLOT(tiliTaytetty()));
+    connect( ui->tiliEdit, SIGNAL(editingFinished()), this, SLOT(tiliTaytetty()));
 
     connect( ui->vastatiliEdit, SIGNAL(textChanged(QString)), this, SLOT(vastaTiliMuuttui()));
     connect( ui->alvCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(alvLajiMuuttui()));
@@ -193,8 +193,7 @@ void KirjausApuriDialog::alvLajiMuuttui()
 {
     int alvlaji = ui->alvCombo->currentData().toInt();
 
-    if( alvlaji == AlvKoodi::YHTEISOMYYNTI_PALVELUT || alvlaji == AlvKoodi::YHTEISOMYYNTI_TAVARAT ||
-            alvlaji == AlvKoodi::RAKENNUSPALVELU_MYYNTI)
+    if( ui->alvCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool())
     {
         ui->alvSpin->setValue(0);
         ui->alvSpin->setEnabled(false);
@@ -295,8 +294,8 @@ void KirjausApuriDialog::ehdota()
             {
                 VientiRivi lisarivi = uusiEhdotusRivi( kp()->tilit()->tiliTyyppikoodilla("BL"));
                 lisarivi.kreditSnt = bruttoSnt - nettoSnt;
-                verorivi.alvprosentti = alvprosentti;
-                verorivi.alvkoodi = AlvKoodi::ALVKIRJAUS + alvkoodi;
+                lisarivi.alvprosentti = alvprosentti;
+                lisarivi.alvkoodi = AlvKoodi::ALVKIRJAUS + alvkoodi;
                 ehdotus.lisaaVienti(lisarivi);
             }
         }
@@ -354,8 +353,8 @@ void KirjausApuriDialog::ehdota()
 
 void KirjausApuriDialog::valilehtiVaihtui(int indeksi)
 {
-    ui->kohdennusLabel->setVisible( indeksi != SIIRTO );
-    ui->kohdennusCombo->setVisible( indeksi != SIIRTO);
+    ui->kohdennusLabel->setVisible( indeksi != SIIRTO && kp()->kohdennukset()->rowCount(QModelIndex()) > 1);
+    ui->kohdennusCombo->setVisible( indeksi != SIIRTO && kp()->kohdennukset()->rowCount(QModelIndex()) > 1);
     ui->vaihdaNappi->setVisible(indeksi == SIIRTO );
 
 
