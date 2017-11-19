@@ -32,7 +32,7 @@
 #include "kohdennusmuokkaus.h"
 #include "raporttimuokkaus.h"
 #include "liitetietokaavamuokkaus.h"
-#include "tyokalut.h"
+#include "ktpvienti/ktpvienti.h"
 
 #include <QDebug>
 
@@ -51,7 +51,6 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu("Laskutus", LASKUTUS, QIcon(":/pic/kansiossa.png"));
     lisaaSivu("Raportit", RAPORTIT, QIcon(":/pic/print.png"));
     lisaaSivu("Tilinpäätöksen malli", LIITETIETOKAAVA, QIcon(":/pic/tekstisivu.png"));
-    lisaaSivu("Työkalut", TYOKALUT, QIcon(":/pic/vasara.png"), false);
 
     connect( lista, SIGNAL(itemActivated(QListWidgetItem*)), this, SLOT(valitseSivu(QListWidgetItem*)));
 
@@ -61,12 +60,15 @@ MaaritysSivu::MaaritysSivu() :
     sivuleiska = new QVBoxLayout;
     leiska->addLayout(sivuleiska, 1);
 
-    QHBoxLayout *nappiLeiska = new QHBoxLayout;
-    nappiLeiska->addStretch();
+
+    vienappi = new QPushButton(QIcon(":/pic/salkkupossu.png"), tr("Vie tilikartta..."));
     perunappi = new QPushButton(tr("Peru"));
     tallennanappi = new QPushButton( tr("Tallenna"));
     tallennanappi->setShortcut(QKeySequence(QKeySequence::Save));
 
+    QHBoxLayout *nappiLeiska = new QHBoxLayout;
+    nappiLeiska->addWidget(vienappi);
+    nappiLeiska->addStretch();
     nappiLeiska->addWidget(tallennanappi);
     nappiLeiska->addWidget(perunappi);
 
@@ -74,6 +76,7 @@ MaaritysSivu::MaaritysSivu() :
 
     setLayout(leiska);
 
+    connect( vienappi, SIGNAL(clicked(bool)), this, SLOT(vieTilikartta()));
     connect( perunappi, SIGNAL(clicked(bool)), this, SLOT(peru()));
     connect( tallennanappi, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
     connect( kp(), SIGNAL(tilikausiPaatetty()), this, SLOT(paivitaNakyvat()));
@@ -171,8 +174,6 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         nykyinen = new KohdennusMuokkaus;
     else if( sivu == RAPORTIT)
         nykyinen = new RaporttiMuokkaus;
-    else if( sivu == TYOKALUT)
-        nykyinen = new Tyokalut;
     else if( sivu == LIITETIETOKAAVA)
         nykyinen = new LiitetietokaavaMuokkaus;
     else
@@ -180,16 +181,13 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
 
     nykyItem = item;
 
-    if( nykyinen )
-    {
-        sivuleiska->insertWidget(0, nykyinen );
-        qApp->processEvents();  // Jotta tulee näkyväksi ja voidaan säätää kokoa
-        nykyinen->nollaa();
-    }
+    sivuleiska->insertWidget(0, nykyinen );
+    qApp->processEvents();  // Jotta tulee näkyväksi ja voidaan säätää kokoa
+    nykyinen->nollaa();
 
     item->setSelected(true);
 
-    perunappi->setEnabled( item->data(Qt::UserRole+1).toBool() );
+    vienappi->setVisible( nykyinen->naytetaankoVienti());
     tallennanappi->setEnabled( nykyinen->onkoMuokattu() );
     connect( nykyinen, SIGNAL(tallennaKaytossa(bool)), tallennanappi, SLOT(setEnabled(bool)));
 
@@ -225,16 +223,20 @@ void MaaritysSivu::paivitaNakyvat()
     bool naytaEdistyneet = kp()->asetukset()->onko("NaytaEdistyneet");
     lista->item( RAPORTIT)->setHidden( !naytaEdistyneet );
     lista->item( LIITETIETOKAAVA )->setHidden( !naytaEdistyneet );
-    lista->item( TYOKALUT )->setHidden( !naytaEdistyneet);
 
 }
 
-void MaaritysSivu::lisaaSivu(const QString &otsikko, MaaritysSivu::Sivut sivu, const QIcon &kuvake, bool tallennaPeruNapit)
+void MaaritysSivu::vieTilikartta()
+{
+    KtpVienti vientiVelho;
+    vientiVelho.exec();
+}
+
+void MaaritysSivu::lisaaSivu(const QString &otsikko, MaaritysSivu::Sivut sivu, const QIcon &kuvake)
 {
     QListWidgetItem *item = new QListWidgetItem();
     item->setText( otsikko );
     item->setIcon(kuvake);
     item->setData( Qt::UserRole, QVariant(sivu));
-    item->setData( Qt::UserRole+1, QVariant( tallennaPeruNapit ));  // Näytetäänkö alarivin napit
     lista->addItem( item);
 }

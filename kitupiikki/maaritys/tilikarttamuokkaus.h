@@ -38,6 +38,8 @@ public:
     bool tallenna();
     bool onkoMuokattu();
 
+    bool naytetaankoVienti() { return true; }
+
 public slots:
     void muutaTila(int tila);
 

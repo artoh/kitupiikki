@@ -147,6 +147,7 @@ QStringList AsetusModel::avaimet(const QString &avaimenAlku) const
 
 void AsetusModel::lataa()
 {
+    asetukset_.clear();
     QSqlQuery query(*tietokanta_);
     query.exec("SELECT avain,arvo FROM asetus");
     while( query.next())

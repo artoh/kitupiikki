@@ -65,17 +65,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="budjettiNappi">
-       <property name="text">
-        <string>Budjetti</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../pic/pic.qrc">
-         <normaloff>:/pic/rahaa.png</normaloff>:/pic/rahaa.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="tilinpaatosNappi">
        <property name="text">
         <string>Tilinpäätös</string>

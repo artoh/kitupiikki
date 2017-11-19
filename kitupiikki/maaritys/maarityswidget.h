@@ -61,6 +61,12 @@ public:
      * @return tosi jos tallentamttomia muutoksia
      */
     virtual bool onkoMuokattu() { return false; }
+
+    /**
+     * @brief Näytetäänkö tällä sivulla Vie tilikartta -nappi
+     * @return
+     */
+    virtual bool naytetaankoVienti() { return false;}
 };
 
 #endif // MAARITYSWIDGET_H

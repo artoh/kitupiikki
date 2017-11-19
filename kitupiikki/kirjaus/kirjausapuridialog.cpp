@@ -65,9 +65,9 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
 
     connect( ui->valintaTab, SIGNAL(currentChanged(int)), this, SLOT(valilehtiVaihtui(int)));
 
-    connect( ui->tiliEdit, SIGNAL(editingFinished()), this, SLOT(tiliTaytetty()));
+    connect( ui->tiliEdit, SIGNAL(textChanged(QString)), this, SLOT(tiliTaytetty()));
 
-    connect( ui->vastatiliEdit, SIGNAL(editingFinished()), this, SLOT(vastaTiliMuuttui()));
+    connect( ui->vastatiliEdit, SIGNAL(textChanged(QString)), this, SLOT(vastaTiliMuuttui()));
     connect( ui->alvCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(alvLajiMuuttui()));
     connect( ui->euroSpin, SIGNAL(editingFinished()), this, SLOT(laskeNetto()));
     connect( ui->nettoSpin, SIGNAL(editingFinished()), this, SLOT(laskeBrutto()));
@@ -122,7 +122,7 @@ void KirjausApuriDialog::tiliTaytetty()
     // Jos tilillä on vastatili, niin täytetään se
     Tili tili = kp()->tilit()->tiliNumerolla(  ui->tiliEdit->valittuTilinumero() );
 
-    if( tili.onkoValidi() && tili.numero() )
+    if( tili.onkoValidi() && tili.numero() && ui->tiliEdit->text().length() > 5)
     {
         if( tili.json()->luku("Vastatili")  )
         {
@@ -345,6 +345,9 @@ void KirjausApuriDialog::ehdota()
 
     ui->buttonBox->button( QDialogButtonBox::Ok )->setEnabled( ehdotus.onkoKelpo() );
 
+    // Poisto näytetään jos kirjataan tasaeräpoistotilille
+    ui->poistoLabel->setVisible( tili.tyyppi() == "APT");
+    ui->poistoSpin->setVisible(tili.tyyppi() == "APT");
 
 }
 

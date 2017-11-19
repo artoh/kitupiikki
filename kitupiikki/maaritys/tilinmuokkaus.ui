@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>428</width>
-    <height>328</height>
+    <height>609</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -93,7 +93,7 @@
      <item row="1" column="1">
       <widget class="QLineEdit" name="nimiEdit"/>
      </item>
-     <item row="2" column="0">
+     <item row="3" column="0">
       <widget class="QLabel" name="tasoLabel">
        <property name="text">
         <string>Otsikkotaso</string>
@@ -103,7 +103,7 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
+     <item row="3" column="1">
       <widget class="QSpinBox" name="tasoSpin">
        <property name="minimum">
         <number>1</number>
@@ -113,7 +113,7 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="0">
+     <item row="4" column="0">
       <widget class="QLabel" name="label_4">
        <property name="text">
         <string>Tilityyppi</string>
@@ -123,10 +123,10 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
+     <item row="4" column="1">
       <widget class="QComboBox" name="tyyppiCombo"/>
      </item>
-     <item row="4" column="0">
+     <item row="5" column="0">
       <widget class="QLabel" name="label_5">
        <property name="text">
         <string>Vastatili</string>
@@ -136,13 +136,13 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
+     <item row="5" column="1">
       <widget class="TilinvalintaLine" name="vastatiliEdit"/>
      </item>
-     <item row="5" column="1">
+     <item row="6" column="1">
       <widget class="QComboBox" name="veroCombo"/>
      </item>
-     <item row="5" column="0">
+     <item row="6" column="0">
       <widget class="QLabel" name="verolajiLabel">
        <property name="text">
         <string>Verolaji</string>
@@ -152,7 +152,7 @@
        </property>
       </widget>
      </item>
-     <item row="6" column="0">
+     <item row="7" column="0">
       <widget class="QLabel" name="veroprosenttiLabel">
        <property name="text">
         <string>Veroprosentti</string>
@@ -162,7 +162,7 @@
        </property>
       </widget>
      </item>
-     <item row="6" column="1">
+     <item row="7" column="1">
       <widget class="QSpinBox" name="veroSpin">
        <property name="suffix">
         <string>%</string>
@@ -172,7 +172,98 @@
        </property>
       </widget>
      </item>
+     <item row="8" column="0">
+      <widget class="QLabel" name="poistoaikaLabel">
+       <property name="text">
+        <string>Poistoaika</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="1">
+      <widget class="QSpinBox" name="poistoaikaSpin">
+       <property name="suffix">
+        <string> kuukautta</string>
+       </property>
+       <property name="maximum">
+        <number>1200</number>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="0">
+      <widget class="QLabel" name="poistoprossaLabel">
+       <property name="text">
+        <string>Menojäännöspoisto</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="1">
+      <widget class="QSpinBox" name="poistoprossaSpin">
+       <property name="suffix">
+        <string> %</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Täydentävä teksti</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="taydentavaEdit"/>
+     </item>
     </layout>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="teGroup">
+     <property name="title">
+      <string>Tase-erittely</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QRadioButton" name="taseEratRadio">
+        <property name="text">
+         <string>Täysi erittely tase-erillä</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="teLiVaRadio">
+        <property name="text">
+         <string>Lisäykset ja vähennykset</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="teSaldoRadio">
+        <property name="text">
+         <string>Saldo</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="teEiRadio">
+        <property name="text">
+         <string>Ei näy tase-erittelyssä</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_6">
+     <property name="text">
+      <string>Kirjausohje</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPlainTextEdit" name="kirjausohjeText"/>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">

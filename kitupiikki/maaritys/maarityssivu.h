@@ -49,8 +49,7 @@ public:
         ALV = 5,
         LASKUTUS = 6,
         RAPORTIT = 7,
-        LIITETIETOKAAVA = 8,
-        TYOKALUT = 9
+        LIITETIETOKAAVA = 8
 
     };
 
@@ -86,6 +85,11 @@ public slots:
      */
     void paivitaNakyvat();
 
+    /**
+     * @brief Käynnistää tilikartan vientivelhon
+     */
+    void vieTilikartta();
+
 protected:
     /**
      * @brief Lisää sivun luetteloon
@@ -95,7 +99,7 @@ protected:
      * @param tallennaPeruNapit Näytetäänkö sivulla Tallenna- ja peru-napit
      */
     void lisaaSivu(const QString& otsikko, Sivut sivu,
-                   const QIcon& kuvake = QIcon(), bool tallennaPeruNapit = true);
+                   const QIcon& kuvake = QIcon());
 
 protected:
     QListWidget *lista;
@@ -104,6 +108,7 @@ protected:
     QListWidgetItem *nykyItem;
     QVBoxLayout *sivuleiska;
 
+    QPushButton *vienappi;
     QPushButton *tallennanappi;
     QPushButton *perunappi;
 

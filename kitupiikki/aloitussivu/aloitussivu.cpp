@@ -68,7 +68,7 @@ AloitusSivu::~AloitusSivu()
 void AloitusSivu::siirrySivulle()
 {
     // Päivitetään aloitussivua
-    if( !kp()->asetukset()->asetus("Nimi").isEmpty())
+    if( kp()->asetukset()->onko("Nimi"))
     {
         QString txt("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:/aloitus/aloitus.css\"></head><body>");
 
