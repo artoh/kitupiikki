@@ -86,7 +86,7 @@ public:
      * @param tili Tili, jonka erät ladataan
      * @param kaikki tosi jos ladataan myös tasan menneet erät
      */
-    void lataa(Tili tili, bool kaikki);
+    void lataa(Tili tili, bool kaikki = false);
 
 private:
     QList<TaseEra> erat_;

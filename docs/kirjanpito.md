@@ -6,13 +6,18 @@ Kirjanpidolla seurataan tulojen ja kulujen muodostamaa taloudellista tuottoa (*t
 
 Kirjanpidossa on noudatettava "hyvää kirjanpitotapaa" eli noudatettava lainsäädäntöä, ohjeita ja vakiintuneita käytäntöjä.[^1] Kirjanpidon laiminlyömisestä tai virheellisten tietojen merkitsemisestä kirjanpitoon voidaan rangaista sakolla tai vankeudella.[^2]
 
-Pienet yritykset ja yhteisöt saavat noudattaa joissain asioissa hieman yksinkertaisempia sääntöjä.[^3]
+Pienet yritykset ja yhteisöt saavat noudattaa joissain asioissa hieman yksinkertaisempia sääntöjä etenkin tilinpäätöksen osalta.[^3]
+
+!!! note "Pienten puolella"
+    Kitupiikki ohjeineen on suunniteltu erityisesti pienehköille yrityksille ja yhteisöille (alle 50 työntekijää, liikevaihto alle 12 milj. euroa). Kitupiikin laatima tilinpäätös on pien- ja mikroyritysasetuksen mukainen[^4].
 
 [^1]: Kirjanpitolaki 3§. Kirjanpitolain ja [-asetuksen](http://www.finlex.fi/fi/laki/ajantasa/1997/19971339) lisäksi
     [kirjanpitolautakunta](http://tem.fi/kirjanpitolautakunta) antaa kirjanpitoa koskevia
     ratkaisuja ja ohjeita.
 [^2]: Rikoslaki 30 luku 9§, kirjanpitolaki 8. luku 4§
-[^3]: Kevyimmät säännöt ovat mikroyrityksellä. Se tarkoittaa kirjanpitovelvollista, jolla sekä päättyneellä että sitä välittömästi edeltäneellä tilikaudella ylittyy enintään yksi seuraavista kolmesta raja-arvosta tilinpäätöspäivänä: taseen loppusumma 350 000 euroa; liikevaihto 700 000 euroa; tilikauden aikana palveluksessa keskimäärin 10 henkilöä. (Kirjanpitolaki 4b§)
+[^3]: Kevyimmät säännöt ovat mikroyrityksellä. Se tarkoittaa kirjanpitovelvollista, jolla sekä päättyneellä että sitä välittömästi edeltäneellä tilikaudella ylittyy enintään yksi seuraavista kolmesta raja-arvosta tilinpäätöspäivänä: taseen loppusumma 350 000 euroa; liikevaihto 700 000 euroa; tilikauden aikana palveluksessa keskimäärin 10 henkilöä. Pienyrityksellä saa puolestaan ylittyä enintään yksi seuraavista: taseen loppusumma 6 milj. euroa, liikevaihto 12 milj. euroa, henkilökunta keskimäärin 50. (Kirjanpitolaki 4b§)
+[^4]: [Valtioneuvoston asetus
+pien- ja mikroyrityksen tilinpäätöksessä esitettävistä tiedoista](http://www.finlex.fi/fi/laki/alkup/2015/20151753)
 
 
 ## Tilikausi
@@ -100,9 +105,9 @@ Investoitaessa eli hankittaessa rakennuksia, koneita, kalusteita tms. joita käy
 
 Aineellisesta omaisuudesta poistot tehdään yleensä menojäännöspoistoina, eli vuosittain poistetaan tietty prosenttiosuus poistamatta jääneestä osuudesta (esim. kalustossa 25%). Tällöin lisähankinnat merkitään lisäyksenä kalustotilille ja aina vuoden lopussa poistetaan 25% kalustotilin saldosta.
 
-Jos tällaista omaisuutta myytäisiin, kirjattaisiin myynnistä saatava raha kalustotilille.[^4] Tasapoistoja käytettäessä kalustotilille kirjataan suunnitelman mukaiset poistot myyntipäivään saakka ja mahdollinen ylijäämä kirjataan myyntivoitoksi.
+Jos tällaista omaisuutta myytäisiin, kirjattaisiin myynnistä saatava raha kalustotilille.[^5] Tasapoistoja käytettäessä kalustotilille kirjataan suunnitelman mukaiset poistot myyntipäivään saakka ja mahdollinen ylijäämä kirjataan myyntivoitoksi.
 
-[^4]: Jos myyntitulo ylittää koko kalustotilin saldon, kirjataan ylijäämä myyntivoitoksi.
+[^5]: Jos myyntitulo ylittää koko kalustotilin saldon, kirjataan ylijäämä myyntivoitoksi.
 
 
 !!! tip "Kitupiikki poistaa"
@@ -115,18 +120,17 @@ Kun tilikauden kaikki tositteet on saatu kirjattua, tilit *täsmäytetään* eli
 !!! note "Yhdistyksen maksuperusteinen tilinpäätös"
     Pieni yhdistys saa laatia myös tilinpäätöksen maksuperusteisesti, kunhan liitetiedoissa on selvitetty menettelyn olennainen vaikutus taloudelliseen tilanteeseen.
 
-Lopuksi valmistellaan tilinpäätösasiakirjat, tarvittaessa suoritetaan tilin- tai toiminnantarkastus ja tilinpäätös vahvistetaan. Tilinpäätösasiakirjoihin kuuluu *tase*, *tuloslaskelma* ja *tilinpäätöksen liitetiedot*. Tilinpäätöstä varmentamaan on lisäksi laadittava *tase-erittelyt*. Suuret yritykset laativat lisäksi *rahoituslaskelman*,
+Lopuksi valmistellaan tilinpäätösasiakirjat, tarvittaessa suoritetaan tilin- tai toiminnantarkastus ja tilinpäätös vahvistetaan. Tilinpäätösasiakirjoihin kuuluu *tase*, *tuloslaskelma* ja *tilinpäätöksen liitetiedot*. Tilinpäätöstä varmentamaan on lisäksi laadittava *tase-erittelyt*. Suuret yritykset laativat lisäksi *rahoituslaskelman* ja määrämuotoisen *toimintakertomuksen*.
 
 **Tuloslaskema** selvittää tilikauden tuloksen eli voiton tai tappion, joka löytyy tuloslaskelman viimeiseltä riviltä. Laskelman kaavat on määritelty tilinpäätösasetuksessa, ja ne poikkeavat hieman erityyppisillä yhtiöillä ja yhteisöillä.
 
 **Taseesta** näkyy taloudellinen tilanne. *Vastaavaa*-puolelle merkityään omaisuus ja saamiset. *Vastattavaa*-puolella on *oma pääoma* (kuten osakepääoma sekä edellisten tilikausien voiton kertymä) sekä *vieras pääoma* eli velat. Tuloslaskeman osoittama tilikauden tulos siirretään taseeseen omaan pääomaan.
 
-Tase laaditaan kirjanpitoasetuksen kaavan mukaisesti. Pienet yhtiöt saavat laatia taseen lyhyemmän kaavan mukaisesti.[^5]
+Tase laaditaan kirjanpitoasetuksen kaavan mukaisesti. Pienet yhtiöt saavat laatia taseen muita lyhyemmän kaavan mukaisesti.
 
-[^5]: [Valtioneuvoston asetus
-pien- ja mikroyrityksen tilinpäätöksessä esitettävistä tiedoista](http://www.finlex.fi/fi/laki/alkup/2015/20151753)
+**Liitetiedoissa** annetaan lukuisia tilinpäätöstä ja tasetta täydentäviä ja täsmentäviä tietoja. Liitetiedoista on tarkemmat määräyksen kirjanpitoasetuksessa.[^6]
 
-**Liitetiedoissa** annetaan lukuisia tilinpäätöstä ja tasetta täydentäviä ja täsmentäviä tietoja. Liitetiedoista on tarkemmat määräyksen kirjanpitoasetuksessa. Pienten saavat antaa liitetietonsa muita suppeammin.
+[^6]: Liitetiedoissa tulee antaa erikseen lueteltujen kohtien lisäksi myös tiedot sellaisista muista seikoista, jotka tarvitaan oikean ja riittävän kuvan saamiseksi. Poikkeuksena tästä mikroyritykselle riittää aina, että liitetietoina annetaan erillisessä pien- ja mikroyritysasetuksessa erityisesti luetellut seikat.
 
 !!! tip "Kitupiikin tilinpäätöstyökalut"
     Kitupiikki laatii kirjanpidon mukaan taseen ja tuloslaskelman sekä ainakin suurimmalta osalta myös taseen erittelyt. Ohjelmassa on työkalu myös liitetietojen laatimiseen, ja yksinkertaisimmissa tapauksissa liitetiedot voi laatia ohjelman fraasikokoelman avulla. Lopuksi ohjelma muodostaa html-muotoisen sähköisen arkiston, jossa kirjausketjun mukaisesti pääsee tuloslaskelman ja taseen erittelyistä porautumaan aina tositteisiin saakka.

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>428</width>
-    <height>609</height>
+    <height>625</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -295,8 +295,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>227</x>
-     <y>311</y>
+     <x>236</x>
+     <y>615</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -311,8 +311,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>295</x>
-     <y>317</y>
+     <x>304</x>
+     <y>615</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -327,12 +327,12 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>56</x>
-     <y>39</y>
+     <x>67</x>
+     <y>70</y>
     </hint>
     <hint type="destinationlabel">
-     <x>55</x>
-     <y>122</y>
+     <x>65</x>
+     <y>185</y>
     </hint>
    </hints>
   </connection>
@@ -343,12 +343,12 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>200</x>
-     <y>49</y>
+     <x>190</x>
+     <y>70</y>
     </hint>
     <hint type="destinationlabel">
-     <x>201</x>
-     <y>124</y>
+     <x>333</x>
+     <y>185</y>
     </hint>
    </hints>
   </connection>
@@ -363,56 +363,8 @@
      <y>22</y>
     </hint>
     <hint type="destinationlabel">
-     <x>243</x>
-     <y>157</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>tiliRadio</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>vastatiliEdit</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>157</x>
-     <y>26</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>151</x>
-     <y>185</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>tiliRadio</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>veroSpin</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>175</x>
-     <y>28</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>175</x>
-     <y>223</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>tiliRadio</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>veroCombo</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>231</x>
-     <y>23</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>232</x>
-     <y>237</y>
+     <x>375</x>
+     <y>212</y>
     </hint>
    </hints>
   </connection>
@@ -427,8 +379,8 @@
      <y>28</y>
     </hint>
     <hint type="destinationlabel">
-     <x>28</x>
-     <y>154</y>
+     <x>38</x>
+     <y>212</y>
     </hint>
    </hints>
   </connection>
@@ -443,40 +395,24 @@
      <y>23</y>
     </hint>
     <hint type="destinationlabel">
-     <x>55</x>
-     <y>186</y>
+     <x>58</x>
+     <y>238</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>tiliRadio</sender>
    <signal>toggled(bool)</signal>
-   <receiver>veroprosenttiLabel</receiver>
+   <receiver>vastatiliEdit</receiver>
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>94</x>
-     <y>27</y>
+     <x>157</x>
+     <y>26</y>
     </hint>
     <hint type="destinationlabel">
-     <x>77</x>
-     <y>212</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>tiliRadio</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>verolajiLabel</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>83</x>
-     <y>27</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>49</x>
-     <y>241</y>
+     <x>283</x>
+     <y>238</y>
     </hint>
    </hints>
   </connection>

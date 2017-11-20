@@ -86,9 +86,6 @@ public:
     Tili tiliTyyppikoodilla(QString tyyppikoodi) const;
     JsonKentta *jsonIndeksilla(int i);
 
-    static QMap<QString,QString> tiliTyyppiTaulu() { return tilityypit__; }
-    static void luoTyyppiTaulut();
-
     bool onkoMuokattu() const;
 
 public slots:
@@ -99,7 +96,6 @@ protected:
     QSqlDatabase *tietokanta_;
 
     QList<Tili> tilit_;
-    static QMap<QString,QString> tilityypit__;
     QList<int> poistetutIdt_;
 
 };

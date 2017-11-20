@@ -219,7 +219,7 @@ bool UusiKirjanpito::alustaKirjanpito()
     // Tilien ja otsikkojen kirjoittaminen
     TiliModel tilit(&db);
 
-    QRegularExpression tiliRe("^(?<tyyppi>\\w{1,5})(?<taso>[1-9]?)(?<tila>[\\*\\-]?)\\s(?<nro>\\d{1,8})"
+    QRegularExpression tiliRe("^(?<tyyppi>[A-Z]{1,5})(?<taso>[1-9]?)(?<tila>[\\*\\-]?)\\s(?<nro>\\d{1,8})"
                               "\\s(?<json>\\{.*\\})\\s(?<nimi>.+)$");
 
     QStringList tililista = kartta.value("tilit");
@@ -235,7 +235,6 @@ bool UusiKirjanpito::alustaKirjanpito()
             else
             {
                 tili.asetaOtsikkotaso( mats.captured("taso").toInt());
-                tili.asetaTyyppi( "H" + mats.captured("taso"));
             }
 
             if( mats.captured("tila") == "*")

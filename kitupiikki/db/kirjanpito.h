@@ -41,6 +41,7 @@
 #include "tositemodel.h"
 #include "kohdennusmodel.h"
 #include "verotyyppimodel.h"
+#include "tilityyppimodel.h"
 
 /**
  * @brief Kirjanpidon käsittely
@@ -146,6 +147,12 @@ public:
     VerotyyppiModel *alvTyypit() const { return veroTyypit_; }
 
     /**
+     * @brief Palauttaa tilityypit sisältävän modelin
+     * @return
+     */
+    TilityyppiModel *tiliTyypit() const { return tiliTyypit_;}
+
+    /**
      * @brief Sql-tietokanta
      *
      * Tätä käytetään, kun modelin arvot luetaan suoraan tietokannasta, siis
@@ -214,6 +221,7 @@ protected:
     TilikausiModel *tilikaudetModel_;
     KohdennusModel *kohdennukset_;
     VerotyyppiModel *veroTyypit_;
+    TilityyppiModel *tiliTyypit_;
 
 public:
     /**

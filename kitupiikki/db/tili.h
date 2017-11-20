@@ -22,6 +22,7 @@
 #include <QDate>
 
 #include "jsonkentta.h"
+#include "tilityyppimodel.h"
 
 /**
  * @brief Tilin tai otsikon tiedot
@@ -31,13 +32,14 @@ class Tili
 {
 public:
     Tili();
-    Tili(int id,int numero, const QString& nimi, const QString& tyyppi, int tila, int otsikkotaso = 0,
+    Tili(int id,int numero, const QString& nimi, const QString& tyyppiKoodi, int tila, int otsikkotaso = 0,
          int ylaotsikkoid = 0);
 
     int id() const { return id_; }
     int numero() const { return numero_; }
     QString nimi() const { return nimi_; }
-    QString tyyppi() const { return tyyppi_; }
+    TiliTyyppi tyyppi() const { return tyyppi_;}
+    QString tyyppiKoodi() const ;
     int tila() const { return tila_; }
     int otsikkotaso() const { return otsikkotaso_; }
     bool muokattu() const { return muokattu_ || json_.muokattu(); }
@@ -60,9 +62,9 @@ public:
     void asetaId(int id) { id_ = id; }
     void asetaNumero(int numero) { numero_ = numero; muokattu_ = true; }
     void asetaNimi(const QString& nimi) { nimi_ = nimi; muokattu_ = true; }
-    void asetaTyyppi(const QString& tyyppi) { tyyppi_ = tyyppi, muokattu_ = true; }
+    void asetaTyyppi(const QString& tyyppikoodi);
     void asetaTila(int tila) { tila_ = tila; muokattu_ = true; }
-    void asetaOtsikkotaso(int taso) { otsikkotaso_ = taso; muokattu_ = true; }
+    void asetaOtsikkotaso(int taso) { otsikkotaso_ = taso; tyyppi_=TiliTyyppi(); muokattu_ = true; }
 
     void nollaaMuokattu() { muokattu_ = false; }
 
@@ -163,7 +165,7 @@ protected:
     int id_;
     int numero_;
     QString nimi_;
-    QString tyyppi_;
+    TiliTyyppi tyyppi_;
     int tila_;
     int otsikkotaso_;
     JsonKentta json_;

@@ -19,6 +19,7 @@
 #define TILINMUOKKAUSDIALOG_H
 
 #include <QDialog>
+#include <QSortFilterProxyModel>
 
 #include "ui_tilinmuokkaus.h"
 #include "db/tilimodel.h"
@@ -36,6 +37,10 @@ protected:
 protected slots:
     void veroEnablePaivita();
     void otsikkoTasoPaivita();
+    /**
+     * @brief Näyttää tälle tilityypille oikeat valinnat
+     */
+    void naytettavienPaivitys();
 
     /**
      * @brief Muuttaa tyyppiä numeron mukaiseksi
@@ -43,8 +48,7 @@ protected slots:
      * Kun tilin numeroa on muokattu, muutetaan tilityyppi:
      * 1 -> Vastaavaa
      * 2 -> Vastattavaa
-     * 3 -> Tulotili
-     * 4..-> Menotili
+     * 3 -> Tulostili
      *
      * @param nroteksti
      */
@@ -61,6 +65,7 @@ protected:
     Ui::tilinmuokkausDialog *ui;
     TiliModel *model_;
     QModelIndex index_;
+    QSortFilterProxyModel *proxy_;
 
 
 };

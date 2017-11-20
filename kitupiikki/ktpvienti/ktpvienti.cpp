@@ -105,7 +105,7 @@ void KtpVienti::accept()
         Tili tili = kp()->tilit()->tiliIndeksilla(i);
         int tilinro = tili.numero();
         QString nimi = tili.nimi();
-        QString tyyppi = tili.tyyppi();
+        QString tyyppi = tili.tyyppiKoodi();
 
         if( tili.otsikkotaso() )
             tyyppi = QString("H%1").arg(tili.otsikkotaso());

@@ -92,7 +92,8 @@ SOURCES += main.cpp \
     kirjaus/ehdotusmodel.cpp \
     db/eranvalintamodel.cpp \
     laskutus/laskutussivu.cpp \
-    kirjaus/verodialogi.cpp
+    kirjaus/verodialogi.cpp \
+    db/tilityyppimodel.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -175,7 +176,8 @@ HEADERS += \
     kirjaus/ehdotusmodel.h \
     db/eranvalintamodel.h \
     laskutus/laskutussivu.h \
-    kirjaus/verodialogi.h
+    kirjaus/verodialogi.h \
+    db/tilityyppimodel.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

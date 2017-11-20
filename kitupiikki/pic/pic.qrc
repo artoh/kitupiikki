@@ -57,5 +57,7 @@
         <file>kansiossa.png</file>
         <file>asiakkaat.png</file>
     </qresource>
-    <qresource prefix="/"/>
+    <qresource prefix="/">
+        <file>lihavoi.png</file>
+    </qresource>
 </RCC>

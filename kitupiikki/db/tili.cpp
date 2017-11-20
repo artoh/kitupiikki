@@ -35,6 +35,20 @@ Tili::Tili(int id, int numero, const QString &nimi, const QString &tyyppi, int t
 
 }
 
+QString Tili::tyyppiKoodi() const
+{
+    if( otsikkotaso())
+        return( QString("H%1").arg(otsikkotaso()));
+    else
+        return tyyppi().koodi();
+}
+
+void Tili::asetaTyyppi(const QString &tyyppikoodi)
+{
+    tyyppi_ = kp()->tiliTyypit()->tyyppiKoodilla(tyyppikoodi);
+    muokattu_ = true;
+}
+
 bool Tili::onkoValidi() const
 {
     return numero() > 0 && !nimi().isEmpty();
@@ -92,49 +106,49 @@ int Tili::montakoVientia() const
 
 bool Tili::onkoTasetili() const
 {
-    return( tyyppi().startsWith('A') || tyyppi().startsWith('B'));
+    return( tyyppiKoodi().startsWith('A') || tyyppiKoodi().startsWith('B'));
 }
 
 
 bool Tili::onkoTulotili() const
 {
-    return tyyppi().startsWith('C');
+    return tyyppiKoodi().startsWith('C');
 }
 
 bool Tili::onkoMenotili() const
 {
-    return tyyppi().startsWith('D');
+    return tyyppiKoodi().startsWith('D');
 }
 
 bool Tili::onkoVastaavaaTili() const
 {
-    return tyyppi().startsWith('A');
+    return tyyppiKoodi().startsWith('A');
 }
 
 bool Tili::onkoVastattavaaTili() const
 {
-    return tyyppi().startsWith('B');
+    return tyyppiKoodi().startsWith('B');
 }
 
 bool Tili::onkoPoistettavaTaseTili() const
 {
-    return tyyppi().startsWith("AP");
+    return tyyppiKoodi().startsWith("AP");
 }
 
 bool Tili::onkoRahaTili() const
 {
-    return tyyppi().startsWith("AR");
+    return tyyppiKoodi().startsWith("AR");
 }
 
 bool Tili::onkoEdellistenYliAliJaama() const
 {
-    return tyyppi() == "BE";
+    return tyyppiKoodi() == "BE";
 }
 
 bool Tili::onkoTaseEraSeurattava() const
 {
-    return ( tyyppi().startsWith('A') && !tyyppi().startsWith("AR") && tyyppi() != "AL" ) ||
-           ( tyyppi().startsWith('B') && tyyppi()!="BE" && tyyppi()!="BL");
+    return ( tyyppiKoodi().startsWith('A') && !tyyppiKoodi().startsWith("AR") && tyyppiKoodi() != "AL" ) ||
+           ( tyyppiKoodi().startsWith('B') && tyyppiKoodi()!="BE" && tyyppiKoodi()!="BL");
 }
 
 int Tili::ysiluku(int luku, int taso)

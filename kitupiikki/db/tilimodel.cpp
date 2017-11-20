@@ -26,14 +26,13 @@
 #include "tilimodel.h"
 #include "tili.h"
 #include "vientimodel.h"
-
+#include "tilityyppimodel.h"
+#include "kirjanpito.h"
 
 TiliModel::TiliModel(QSqlDatabase *tietokanta, QObject *parent) :
     QAbstractTableModel(parent), tietokanta_(tietokanta)
 {
-    // Ellei vielä ole luotu, niin luodaan tilityyppitaulu
-    if( !tilityypit__.count())
-        luoTyyppiTaulut();
+
 }
 
 int TiliModel::rowCount(const QModelIndex & /* parent */) const
@@ -120,7 +119,7 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
     else if( role == OtsikkotasoRooli)
         return QVariant( tili.otsikkotaso());
     else if( role == TyyppiRooli )
-        return QVariant( tili.tyyppi());
+        return QVariant( tili.tyyppiKoodi());
     else if( role == YsiRooli)
         return QVariant( tili.ysivertailuluku());
     else if( role == TilaRooli)
@@ -146,7 +145,9 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
                 otsikkotxt += tr("Otsikko %1").arg(tili.otsikkotaso());
                 return QVariant( otsikkotxt );
             }
-            return QVariant( tilityypit__.value( tili.tyyppi()));
+
+            // TODO: tilityyppi muutetaan luokkaan
+            return QVariant( kp()->tiliTyypit()->tyyppiKoodilla( tili.tyyppiKoodi() ).kuvaus() );
         case ALV:
             int vero = tili.json()->luku("AlvProsentti");
             if(vero)
@@ -239,7 +240,7 @@ Tili TiliModel::edellistenYlijaamaTili() const
 Tili TiliModel::tiliTyyppikoodilla(QString tyyppikoodi) const
 {
     foreach (Tili tili, tilit_) {
-        if( tili.tyyppi() == tyyppikoodi)
+        if( tili.tyyppiKoodi() == tyyppikoodi)
             return tili;
     }
     return Tili();
@@ -248,27 +249,6 @@ Tili TiliModel::tiliTyyppikoodilla(QString tyyppikoodi) const
 JsonKentta *TiliModel::jsonIndeksilla(int i)
 {
     return tilit_[i].json();
-}
-
-
-void TiliModel::luoTyyppiTaulut()
-{
-    tilityypit__.insert("A","Vastaavaa");
-    tilityypit__.insert("AL","Arvonlisäverosaatavat");
-    tilityypit__.insert("AR","Rahavarat");
-    tilityypit__.insert("APM","Poistokelpoinen omaisuus menojäännöspoisto");
-    tilityypit__.insert("APT","Poistokelpoinen omaisuus tasapoisto");
-    tilityypit__.insert("AS","Saatavat");
-    tilityypit__.insert("ASM","Myyntisaatavat");
-    tilityypit__.insert("B","Vastattavaa");
-    tilityypit__.insert("BE","Edellisten tilikausien voitto/tappio");
-    tilityypit__.insert("BS","Velat");
-    tilityypit__.insert("BSM","Ostovelat");
-    tilityypit__.insert("BL","Arvonlisäverovelka");
-    tilityypit__.insert("BV","Verovelka");
-    tilityypit__.insert("C","Tulot");
-    tilityypit__.insert("D","Menot");
-    tilityypit__.insert("DP","Poistot");
 }
 
 bool TiliModel::onkoMuokattu() const
@@ -353,7 +333,7 @@ void TiliModel::tallenna()
             }
             kysely.bindValue(":nro", tili.numero());
             kysely.bindValue(":nimi", tili.nimi());
-            kysely.bindValue(":tyyppi", tili.tyyppi());
+            kysely.bindValue(":tyyppi", tili.tyyppiKoodi());
             kysely.bindValue(":tila", tili.tila());
             kysely.bindValue(":otsikkotaso", tili.otsikkotaso());
             kysely.bindValue(":ysiluku", tili.ysivertailuluku());
@@ -377,5 +357,3 @@ void TiliModel::tallenna()
     tietokanta_->commit();
 }
 
-
-QMap<QString,QString> TiliModel::tilityypit__;

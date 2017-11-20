@@ -44,6 +44,7 @@ Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
     tilikaudetModel_ = new TilikausiModel(&tietokanta_, this);
     kohdennukset_ = new KohdennusModel(&tietokanta_, this);
     veroTyypit_ = new VerotyyppiModel(this);
+    tiliTyypit_ = new TilityyppiModel(this);
 }
 
 Kirjanpito::~Kirjanpito()

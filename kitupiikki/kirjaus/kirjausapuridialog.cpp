@@ -158,15 +158,24 @@ void KirjausApuriDialog::tiliTaytetty()
         }
 
         // Tilityyppi määrää, mitkä välilehdet mahdollisia!
-        ui->valintaTab->setTabEnabled(MENO, tili.onkoMenotili() || tili.onkoPoistettavaTaseTili());
-        ui->valintaTab->setTabEnabled(TULO, tili.onkoTulotili() || tili.onkoPoistettavaTaseTili());
-        ui->valintaTab->setTabEnabled(SIIRTO, tili.onkoTasetili());
+        ui->valintaTab->setTabEnabled(MENO, tili.onkoMenotili() || tili.tyyppi().onko(TiliLaji::POISTETTAVA));
+        ui->valintaTab->setTabEnabled(TULO, tili.onkoTulotili() || tili.tyyppi().onko(TiliLaji::POISTETTAVA));
+        ui->valintaTab->setTabEnabled(SIIRTO, tili.tyyppi().onko(TiliLaji::TASE) );
 
         // Verotuksen oletuskäsittely
         ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( tili.json()->luku("AlvLaji") ) );
         ui->alvSpin->setValue( tili.json()->luku("AlvProsentti"));
         valilehtiVaihtui( ui->valintaTab->currentIndex());  // Jotta veroruudut näytetään!
 
+        // Tasaeräpoiston oletusprossa
+        ui->poistoSpin->setValue( tili.json()->luku("Tasaerapoisto"));
+
+    }
+    else
+    {
+        ui->valintaTab->setTabEnabled(MENO, true);
+        ui->valintaTab->setTabEnabled(TULO, true);
+        ui->valintaTab->setTabEnabled(SIIRTO, true );
     }
     ehdota();
 }
@@ -260,7 +269,10 @@ void KirjausApuriDialog::ehdota()
         if( tili.onkoTulotili() || tili.onkoPoistettavaTaseTili())
         {
             VientiRivi tulorivi = uusiEhdotusRivi(tili);
-            tulorivi.kreditSnt = nettoSnt;
+            if( alvkoodi == AlvKoodi::MYYNNIT_BRUTTO)
+                tulorivi.kreditSnt = bruttoSnt;
+            else
+                tulorivi.kreditSnt = nettoSnt;
             tulorivi.kohdennus = kp()->kohdennukset()->kohdennus(ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
             tulorivi.alvprosentti = alvprosentti;
             tulorivi.alvkoodi = alvkoodi;
@@ -294,12 +306,16 @@ void KirjausApuriDialog::ehdota()
         if( tili.onkoMenotili() || tili.onkoPoistettavaTaseTili() )
         {
             VientiRivi menorivi = uusiEhdotusRivi(tili);
-            menorivi.debetSnt = nettoSnt;
+            if( alvkoodi == AlvKoodi::OSTOT_BRUTTO)
+                menorivi.debetSnt = bruttoSnt;
+            else
+                menorivi.debetSnt = nettoSnt;
+
             menorivi.kohdennus = kp()->kohdennukset()->kohdennus(ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
             menorivi.alvprosentti = alvprosentti;
             menorivi.alvkoodi = alvkoodi;
             menorivi.eraId = ui->taseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
-            if(tili.tyyppi() == "APT")
+            if(tili.tyyppi().onko(TiliLaji::TASAERAPOISTO))
             {
                 menorivi.json.set("Tasapoisto", ui->poistoSpin->value());
             }
@@ -307,7 +323,7 @@ void KirjausApuriDialog::ehdota()
             ehdotus.lisaaVienti( menorivi );
 
         }
-        if( alvkoodi && kp()->tilit()->tiliTyyppikoodilla("AL").onkoValidi())
+        if( alvkoodi != AlvKoodi::EIALV && alvkoodi != AlvKoodi::OSTOT_BRUTTO && kp()->tilit()->tiliTyyppikoodilla("AL").onkoValidi())
         {
             VientiRivi verorivi = uusiEhdotusRivi( kp()->tilit()->tiliTyyppikoodilla("AL"));
             verorivi.debetSnt = bruttoSnt - nettoSnt;
@@ -371,8 +387,8 @@ void KirjausApuriDialog::ehdota()
     ui->buttonBox->button( QDialogButtonBox::Ok )->setEnabled( ehdotus.onkoKelpo() );
 
     // Poisto näytetään jos kirjataan tasaeräpoistotilille
-    ui->poistoLabel->setVisible( tili.tyyppi() == "APT" && !ui->taseEraCombo->currentIndex());
-    ui->poistoSpin->setVisible(tili.tyyppi() == "APT" && !ui->taseEraCombo->currentIndex());
+    ui->poistoLabel->setVisible( tili.tyyppiKoodi() == "APT" && !ui->taseEraCombo->currentIndex());
+    ui->poistoSpin->setVisible(tili.tyyppiKoodi() == "APT" && !ui->taseEraCombo->currentIndex());
 
 }
 
@@ -410,8 +426,8 @@ void KirjausApuriDialog::valilehtiVaihtui(int indeksi)
     }
     else
     {
-        ui->tiliEdit->suodataTyypilla("");
-        ui->vastatiliEdit->suodataTyypilla("");
+        ui->tiliEdit->suodataTyypilla("[ABCD].*");
+        ui->vastatiliEdit->suodataTyypilla("[ABCD].*");
     }
 
     if( indeksi == MENO)

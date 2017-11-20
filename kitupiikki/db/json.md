@@ -9,6 +9,10 @@ Avain	| Tyyppi 	|  Selitys
 Vastatili	| int		| Oletusvastatilin tilinumero
 AlvLaji	| int		| Oletus viennin verokohtelulle
 AlvProsentti| int	| Oletus viennin veroprosentille
+Taydentava | str | Tilin täydentävä nimike
+Kirjausohje | str | Tilin kirjausohje
+Tasaerapoisto | int | Oletus tasaeräpoiston aika kuukautta
+Menojaannospoisto | int | Tilin menojäännöspoisto %
 
 Tositelaji
 -----
