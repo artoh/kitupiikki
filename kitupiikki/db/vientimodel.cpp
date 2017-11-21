@@ -103,6 +103,14 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
         return QVariant( rivi.riviNro );
     else if( role == EraIdRooli)
         return QVariant( rivi.eraId );
+    else if( role == PoistoKkRooli)
+    {
+        if( !rivi.tili.onko(TiliLaji::TASAERAPOISTO))
+            return -1;
+        return QVariant( rivi.json.luku("Tasaerapoisto") );
+    }
+    else if( role == TaseErittelyssaRooli)
+        return QVariant( rivi.tili.taseErittelyTapa() == Tili::TASEERITTELY_TAYSI);
 
 
     else if( role==Qt::DisplayRole || role == Qt::EditRole)
@@ -297,6 +305,15 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
         viennit_[rivi].alvkoodi = value.toInt();
     else if( role == AlvProsenttiRooli)
         viennit_[rivi].alvprosentti = value.toInt();
+    else if( role == EraIdRooli )
+        viennit_[rivi].eraId = value.toInt();
+    else if( role == PoistoKkRooli)
+    {
+        if( !value.toInt())
+            viennit_[rivi].json.unset("Tasaerapoisto");
+        else
+            viennit_[rivi].json.set("Tasaerapoisto", value.toInt());
+    }
     else
         return false;
 

@@ -93,7 +93,8 @@ SOURCES += main.cpp \
     db/eranvalintamodel.cpp \
     laskutus/laskutussivu.cpp \
     kirjaus/verodialogi.cpp \
-    db/tilityyppimodel.cpp
+    db/tilityyppimodel.cpp \
+    kirjaus/taseeravalintadialogi.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -177,7 +178,8 @@ HEADERS += \
     db/eranvalintamodel.h \
     laskutus/laskutussivu.h \
     kirjaus/verodialogi.h \
-    db/tilityyppimodel.h
+    db/tilityyppimodel.h \
+    kirjaus/taseeravalintadialogi.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -223,7 +225,8 @@ FORMS += \
     arkisto/arkisto.ui \
     arkisto/lisaatilikausidlg.ui \
     arkisto/lukitsetilikausi.ui \
-    kirjaus/verodialogi.ui
+    kirjaus/verodialogi.ui \
+    kirjaus/taseeravalintadialogi.ui
 
 DISTFILES += \
     uusikp/luo.sql \

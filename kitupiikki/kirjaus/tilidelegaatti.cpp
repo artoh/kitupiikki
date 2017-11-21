@@ -43,10 +43,11 @@ void TiliDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *model, co
 {
     TilinvalintaLineDelegaatille *tilieditor = qobject_cast<TilinvalintaLineDelegaatille*>(editor);
 
-    if( tilieditor->valittuTilinumero())
-        model->setData(index, tilieditor->valittuTilinumero());
-    else
+    if( !tilieditor->tilinimiAlkaa().isEmpty())
         model->setData(index, tilieditor->tilinimiAlkaa() );
+    else
+        model->setData(index, tilieditor->valittuTilinumero());
+
 }
 
 

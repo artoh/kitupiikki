@@ -21,6 +21,7 @@
 #include "pvmdelegaatti.h"
 #include "kirjausapuridialog.h"
 #include "kohdennusdelegaatti.h"
+#include "taseeravalintadialogi.h"
 
 #include "verodialogi.h"
 
@@ -196,6 +197,14 @@ void KirjausWg::vientivwAktivoitu(QModelIndex indeksi)
         VeroDialogiValinta uusivero = VeroDialogi::veroDlg( indeksi.data(VientiModel::AlvKoodiRooli).toInt(), indeksi.data(VientiModel::AlvProsenttiRooli).toInt() );
         model_->vientiModel()->setData(indeksi, uusivero.verokoodi, VientiModel::AlvKoodiRooli);
         model_->vientiModel()->setData(indeksi, uusivero.veroprosentti, VientiModel::AlvProsenttiRooli);
+    }
+    else if(indeksi.column() == VientiModel::KOHDENNUS && indeksi.data(VientiModel::TaseErittelyssaRooli).toBool())
+    {
+        TaseEraValintaDialogi dlg(this);
+        Tili tili = kp()->tilit()->tiliNumerolla( indeksi.data(VientiModel::TiliNumeroRooli).toInt() );
+        dlg.nayta( tili, indeksi.data(VientiModel::TiliNumeroRooli).toInt(), indeksi.data(VientiModel::PoistoKkRooli).toInt());
+        model_->vientiModel()->setData(indeksi, dlg.eraId(), VientiModel::EraIdRooli);
+        model_->vientiModel()->setData(indeksi, dlg.poistoKk(), VientiModel::PoistoKkRooli);
     }
 }
 

@@ -83,7 +83,9 @@ public:
         LuotuRooli = Qt::UserRole +10,
         MuokattuRooli = Qt::UserRole + 11,
         RiviRooli = Qt::UserRole + 12,
-        EraIdRooli = Qt::UserRole + 13
+        EraIdRooli = Qt::UserRole + 13,
+        PoistoKkRooli = Qt::UserRole + 14,
+        TaseErittelyssaRooli = Qt::UserRole + 15
     };
 
 

@@ -111,7 +111,7 @@ public slots:
     void poistaLiite();
 
     /**
-     * @brief Verojen muokkaus
+     * @brief Verojen ja tase-erien muokkaus
      * @param indeksi
      */
     void vientivwAktivoitu(QModelIndex indeksi);
