@@ -8,11 +8,12 @@ CREATE TABLE tili (
     nimi   VARCHAR (60) NOT NULL,
     tyyppi VARCHAR (10) NOT NULL,
     tila   INTEGER      DEFAULT (1),
-    otsikkotaso INTEGER DEFAULT (0),
     ysiluku INTEGER    NOT NULL,
     json   TEXT
 ) ;
 
+CREATE INDEX tili_nro ON tili(nro);
+CREATE INDEX tili_ysiluku ON tili(ysiluku);
 
 CREATE TABLE tilikausi (
     alkaa  DATE PRIMARY KEY  UNIQUE  NOT NULL,

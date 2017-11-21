@@ -301,7 +301,7 @@ void TiliModel::lataa()
                    kysely.value(4).toInt(),     // tila
                    otsikkoIdTalle    // Tätä tiliä/otsikkoa ylemmän otsikon id
                    );
-        uusi.json()->fromJson( kysely.value(6).toByteArray());  // Luetaan json-kentät
+        uusi.json()->fromJson( kysely.value(5).toByteArray());  // Luetaan json-kentät
         tilit_.append(uusi);
     }
     endResetModel();

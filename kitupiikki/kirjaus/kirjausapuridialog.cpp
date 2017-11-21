@@ -292,7 +292,7 @@ void KirjausApuriDialog::ehdota()
         {
             VientiRivi taserivi = uusiEhdotusRivi();
             taserivi.tili = vastatili;
-            if( alvkoodi == AlvKoodi::MYYNNIT_NETTO )
+            if( alvkoodi == AlvKoodi::MYYNNIT_NETTO || alvkoodi == AlvKoodi::MYYNNIT_BRUTTO )
                 taserivi.debetSnt = bruttoSnt;
             else
                 taserivi.debetSnt = nettoSnt;
@@ -344,7 +344,7 @@ void KirjausApuriDialog::ehdota()
         if( vastatili.onko(TiliLaji::TASE))
         {
             VientiRivi taserivi = uusiEhdotusRivi(vastatili);
-            if( alvkoodi == AlvKoodi::OSTOT_NETTO)
+            if( alvkoodi == AlvKoodi::OSTOT_NETTO || alvkoodi == AlvKoodi::OSTOT_BRUTTO)
                 taserivi.kreditSnt = bruttoSnt;
             else
                 taserivi.kreditSnt = nettoSnt;

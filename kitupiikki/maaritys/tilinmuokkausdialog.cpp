@@ -266,27 +266,6 @@ void TilinMuokkausDialog::accept()
 {
     ui->buttonBox->setFocus();
 
-    if( ui->tiliRadio->isChecked() && ui->tyyppiCombo->currentIndex() > -1)
-    {
-
-        int ekanumero = ui->numeroEdit->text().left(1).toInt();
-        QChar tyyppikirjain = ui->tyyppiCombo->currentData().toString().at(0);
-
-        // Tarkistetaan ensin, että tilinumero osuu oikeaan väliin
-        if(  (tyyppikirjain == 'A' && ekanumero != 1) ||
-              (tyyppikirjain == 'B' && ekanumero != 2) ||
-              (tyyppikirjain == 'C' && ekanumero < 3 ) ||
-              (tyyppikirjain == 'D' && ekanumero < 3)   )
-        {
-            QMessageBox::critical(this, tr("Tilinumero on virheellinen"),
-                                  tr("<b>Tilinumero ei sovi tilin tyyppiin</b><br>"
-                                     "Vastaavaa-tilit alkavat 1<br>"
-                                     "Vastattavaa-tilit alkavat 2<br>"
-                                     "Muut tilit alkavat 3..9"));
-            return;
-        }
-
-    }
     // Kaikki kunnossa eli voidaan tallentaa modeliin
     QString tyyppikoodi = ui->tyyppiCombo->currentData().toString();
     int taso = ui->tasoSpin->value();
@@ -295,6 +274,8 @@ void TilinMuokkausDialog::accept()
         tyyppikoodi = QString("H%1").arg(ui->tasoSpin->value());
     else
         taso = 0;
+
+    TiliTyyppi tilityyppi = kp()->tiliTyypit()->tyyppiKoodilla(tyyppikoodi);
 
     JsonKentta *json;
     Tili uusitili;
@@ -324,7 +305,6 @@ void TilinMuokkausDialog::accept()
     {
 
         // Tilistä kirjoitetaan json-kentät
-        TiliTyyppi tilityyppi = kp()->tiliTyypit()->tyyppiKoodilla(tyyppikoodi);
 
         if( ui->vastatiliEdit->valittuTilinumero() )
             json->set("Vastatili", ui->vastatiliEdit->valittuTilinumero());
@@ -352,9 +332,11 @@ void TilinMuokkausDialog::accept()
                 json->set("Taseerittely",2);
             else if( ui->teSaldoRadio->isChecked())
                 json->set("Taseerittely",1);
-            json->unset("Taseerittely");
+            else
+                json->unset("Taseerittely");
         }
-        json->unset("Taseerittely");
+        else
+            json->unset("Taseerittely");
 
 
     }
