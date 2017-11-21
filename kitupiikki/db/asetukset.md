@@ -14,3 +14,8 @@ AlvVelkatili | int | Tili, jolle arvonlisäverovelka kirjataan
 AlvSaatavatili | int | Tili, jolle arvonlisäverosaatavat (palautettava alv) kirjataan
 Raportti/(raportin nimi) | QString | Raportin kaava
 EkaTositeKirjattu | bool | Käyttäjä on kirjannut tositteen, jonka jälkeen alkuvinkkiä ei enää näytetä
+NaytaEdistyneet | bool | Näytetäänkö muokkaimet
+Osoite | QString |
+Kotipaikka | QString |
+AlvIlmoitus | QDate |   Viimeisin alv-ilmoituksen pvm
+AlvKausi  | int | Kausi kuukautta

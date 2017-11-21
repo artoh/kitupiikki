@@ -279,6 +279,10 @@ bool UusiKirjanpito::alustaKirjanpito()
     TilikausiModel tilikaudet(&db);
     tilikaudet.lisaaTilikausi( Tilikausi( field("alkaa").toDate(), field("paattyy").toDate() ));
 
+    // Alv-tietojen oletukset
+    asetukset.aseta("AlvIlmoitus", field("alkaa").toDate().addDays(-1));
+    asetukset.aseta("AlvKausi","1");
+
     if( field("onekakausi").toBool())
     {
         // Ensimmäinen tilikausi, tilinavausta ei tarvita

@@ -242,6 +242,15 @@ Tili TiliModel::tiliTyyppikoodilla(QString tyyppikoodi) const
     return Tili();
 }
 
+Tili TiliModel::tiliTyypilla(TiliLaji::TiliLuonne luonne) const
+{
+    foreach (Tili tili, tilit_) {
+        if( tili.onko(luonne))
+            return tili;
+    }
+    return Tili();
+}
+
 JsonKentta *TiliModel::jsonIndeksilla(int i)
 {
     return tilit_[i].json();
