@@ -56,6 +56,7 @@ TilityyppiModel::TilityyppiModel(QObject *parent)
     lisaa(TiliTyyppi("BV","Verovelka",TiliLaji::VEROVELKA));
 
     lisaa(TiliTyyppi("C","Tulot",TiliLaji::TULO));
+    lisaa(TiliTyyppi("CL","Liikevaihtotulo (myynti)", TiliLaji::LVTULO));
     lisaa(TiliTyyppi("D","Menot",TiliLaji::MENO));
     lisaa(TiliTyyppi("DP","Poistot",TiliLaji::POISTO));
 

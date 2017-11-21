@@ -84,6 +84,14 @@ public:
      * @return
      */
     Tili tiliTyyppikoodilla(QString tyyppikoodi) const;
+
+    /**
+     * @brief Palauttaa ensimmäisen halutun tyyppisen tilin
+     * @param luonne
+     * @return
+     */
+    Tili tiliTyypilla( TiliLaji::TiliLuonne luonne) const;
+
     JsonKentta *jsonIndeksilla(int i);
 
     bool onkoMuokattu() const;

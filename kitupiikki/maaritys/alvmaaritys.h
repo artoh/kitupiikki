@@ -40,6 +40,8 @@ public slots:
 
 private:
     Ui::AlvMaaritys *ui;
+    QDate seuraavaAlkaa;
+    QDate seuraavaLoppuu;
 };
 
 #endif // ALVMAARITYS_H

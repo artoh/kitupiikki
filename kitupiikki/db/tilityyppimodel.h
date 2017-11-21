@@ -43,8 +43,9 @@ namespace TiliLaji {
 
         TULOS           =   0b0000000000100,
         TULO            =   0b0000000010100,
+        LVTULO          =   0b0000001010100,
         MENO            =   0b0000000100100,
-        POISTO          =   0b000001010010
+        POISTO          =   0b0000010100100
     };
 
 }
