@@ -121,7 +121,7 @@ RaportinKirjoittaja TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::Kar
             continue;
         else if( valinta == KIRJATUT_TILIT )
         {
-            if( tili.onkoTasetili() )
+            if( tili.onko(TiliLaji::TASE)  )
             {
                 // Tasetili luetellaan myös, jos sillä tilikauden alussa saldoa
                 if( !tiliIdtKaytossa.contains(tili.id()) && !tili.saldoPaivalle( tilikaudelta.alkaa() ))

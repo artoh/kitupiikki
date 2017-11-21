@@ -32,16 +32,16 @@ class Tili
 {
 public:
     Tili();
-    Tili(int id,int numero, const QString& nimi, const QString& tyyppiKoodi, int tila, int otsikkotaso = 0,
+    Tili(int id, int numero, const QString& nimi, const QString& tyyppiKoodi, int tila,
          int ylaotsikkoid = 0);
 
     int id() const { return id_; }
     int numero() const { return numero_; }
     QString nimi() const { return nimi_; }
     TiliTyyppi tyyppi() const { return tyyppi_;}
-    QString tyyppiKoodi() const ;
+    QString tyyppiKoodi() const { return tyyppi().koodi(); };
     int tila() const { return tila_; }
-    int otsikkotaso() const { return otsikkotaso_; }
+    int otsikkotaso() const { return tyyppi().otsikkotaso(); }
     bool muokattu() const { return muokattu_ || json_.muokattu(); }
 
     /**
@@ -64,7 +64,6 @@ public:
     void asetaNimi(const QString& nimi) { nimi_ = nimi; muokattu_ = true; }
     void asetaTyyppi(const QString& tyyppikoodi);
     void asetaTila(int tila) { tila_ = tila; muokattu_ = true; }
-    void asetaOtsikkotaso(int taso) { otsikkotaso_ = taso; tyyppi_=TiliTyyppi(); muokattu_ = true; }
 
     void nollaaMuokattu() { muokattu_ = false; }
 
@@ -109,30 +108,31 @@ public:
      */
     int montakoVientia() const;
 
-    bool onkoTasetili() const;
-    bool onkoTulotili() const;
-    bool onkoMenotili() const;
-    bool onkoVastaavaaTili() const;
-    bool onkoVastattavaaTili() const;
-    bool onkoPoistettavaTaseTili() const;
     /**
-     * @brief Onko tili rahatili (AR) eli pankkitili tai käteisvarat
+     * @brief Onko tili kysyttyä tyyppiä
+     * @param luonne Tilin luonne
      * @return
+     *
+     * Luonne voi olla varsinainen tilityyppi tai sen yleistys, esimerkiksi
+     * TiliLaji::Tulos kuvaa kaikkia tulo- ja menotilejä.
+     *
      */
-    bool onkoRahaTili() const;
+    bool onko(TiliLaji::TiliLuonne luonne) const;
+
+
+    enum TaseErittelyTapa
+    {
+        TASEERITTELY_EI  = 0,
+        TASEERITTELY_SALDOT = 1,
+        TASEERITTELY_MUUTOKSET = 2,
+        TASEERITTELY_TAYSI = 3
+    };
 
     /**
-     * @brief Kirjataanko tälle tilille edellisten tilikausien ali- ja ylijäämät?
-     * @return
+     * @brief Millä tasolla tase-erittely laaditaan
+     * @return TaseErittelyTapa
      */
-    bool onkoEdellistenYliAliJaama() const;
-
-    /**
-     * @brief Seurataankö tämän tilin tase-eriä
-     * @return
-     */
-    bool onkoTaseEraSeurattava() const;
-
+    int taseErittelyTapa() { return json()->luku("Taseerittely"); }
 
     /**
      * @brief Laskee yhdeksännumeroisen vertailuluvun
@@ -167,7 +167,6 @@ protected:
     QString nimi_;
     TiliTyyppi tyyppi_;
     int tila_;
-    int otsikkotaso_;
     JsonKentta json_;
     int ylaotsikkoId_;
     bool muokattu_;

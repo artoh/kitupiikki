@@ -136,31 +136,31 @@ void KirjausApuriDialog::tiliTaytetty()
         ui->alvSpin->setValue( tili.json()->luku("AlvProsentti"));
         ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( tili.json()->luku("AlvLaji") ) );
 
-        if( tili.onkoMenotili() )
+        if( tili.onko(TiliLaji::MENO) )
         {
             ui->valintaTab->setCurrentIndex(MENO);
         }
-        else if( tili.onkoTulotili() )
+        else if( tili.onko(TiliLaji::TULO) )
         {
             ui->valintaTab->setCurrentIndex(TULO);
         }
-        else if( tili.onkoTasetili() && !tili.onkoPoistettavaTaseTili())
+        else if( tili.onko(TiliLaji::TASE) && !tili.onko(TiliLaji::POISTETTAVA))
         {
             ui->valintaTab->setCurrentIndex(SIIRTO);
         }
 
-        ui->eraLabel->setVisible( tili.onkoTaseEraSeurattava());
-        ui->taseEraCombo->setVisible(tili.onkoTaseEraSeurattava());
-        if( tili.onkoTaseEraSeurattava() )
+        ui->eraLabel->setVisible( tili.taseErittelyTapa() == Tili::TASEERITTELY_TAYSI );
+        ui->taseEraCombo->setVisible( tili.taseErittelyTapa() == Tili::TASEERITTELY_TAYSI  );
+        if( tili.taseErittelyTapa() == Tili::TASEERITTELY_TAYSI  )
         {
             eraModelTilille.lataa( tili );
             ui->taseEraCombo->setCurrentIndex(0);
         }
 
         // Tilityyppi määrää, mitkä välilehdet mahdollisia!
-        ui->valintaTab->setTabEnabled(MENO, tili.onkoMenotili() || tili.tyyppi().onko(TiliLaji::POISTETTAVA));
-        ui->valintaTab->setTabEnabled(TULO, tili.onkoTulotili() || tili.tyyppi().onko(TiliLaji::POISTETTAVA));
-        ui->valintaTab->setTabEnabled(SIIRTO, tili.tyyppi().onko(TiliLaji::TASE) );
+        ui->valintaTab->setTabEnabled(MENO, tili.onko(TiliLaji::MENO) || tili.onko(TiliLaji::POISTETTAVA));
+        ui->valintaTab->setTabEnabled(TULO, tili.onko(TiliLaji::TULO) || tili.onko(TiliLaji::POISTETTAVA));
+        ui->valintaTab->setTabEnabled(SIIRTO, tili.onko(TiliLaji::TASE) );
 
         // Verotuksen oletuskäsittely
         ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( tili.json()->luku("AlvLaji") ) );
@@ -168,7 +168,7 @@ void KirjausApuriDialog::tiliTaytetty()
         valilehtiVaihtui( ui->valintaTab->currentIndex());  // Jotta veroruudut näytetään!
 
         // Tasaeräpoiston oletusprossa
-        ui->poistoSpin->setValue( tili.json()->luku("Tasaerapoisto"));
+        ui->poistoSpin->setValue( tili.json()->luku("Tasaerapoisto") / 12);  // kuukaudet -> vuodet
 
     }
     else
@@ -224,9 +224,9 @@ void KirjausApuriDialog::alvLajiMuuttui()
 void KirjausApuriDialog::vastaTiliMuuttui()
 {
     Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliEdit->valittuTilinumero());
-    ui->vastaTaseEraLabel->setVisible( vastatili.onkoTaseEraSeurattava());
-    ui->vastaTaseEraCombo->setVisible( vastatili.onkoTaseEraSeurattava());
-    if( vastatili.onkoTaseEraSeurattava() )
+    ui->vastaTaseEraLabel->setVisible( vastatili.taseErittelyTapa() == Tili::TASEERITTELY_TAYSI );
+    ui->vastaTaseEraCombo->setVisible( vastatili.taseErittelyTapa() == Tili::TASEERITTELY_TAYSI);
+    if( vastatili.taseErittelyTapa() == Tili::TASEERITTELY_TAYSI )
     {
         eraModelVastaTilille.lataa( vastatili );
         ui->vastaTaseEraCombo->setCurrentIndex(0);
@@ -266,7 +266,7 @@ void KirjausApuriDialog::ehdota()
     switch ( ui->valintaTab->currentIndex()) {
     case TULO:
         // Tulojen (myynti) kirjaus  per myyntitili an tasetili
-        if( tili.onkoTulotili() || tili.onkoPoistettavaTaseTili())
+        if( tili.onko(TiliLaji::TULO)  || tili.onko( TiliLaji::POISTETTAVA))
         {
             VientiRivi tulorivi = uusiEhdotusRivi(tili);
             if( alvkoodi == AlvKoodi::MYYNNIT_BRUTTO)
@@ -288,7 +288,7 @@ void KirjausApuriDialog::ehdota()
             verorivi.alvkoodi = AlvKoodi::ALVKIRJAUS + alvkoodi;
             ehdotus.lisaaVienti(verorivi);
         }
-        if( vastatili.onkoTasetili() )
+        if( vastatili.onko(TiliLaji::TASE) )
         {
             VientiRivi taserivi = uusiEhdotusRivi();
             taserivi.tili = vastatili;
@@ -303,7 +303,7 @@ void KirjausApuriDialog::ehdota()
 
     case MENO:
         // Menojen (osto) kirjaus per tasetili an ostotili
-        if( tili.onkoMenotili() || tili.onkoPoistettavaTaseTili() )
+        if( tili.onko(TiliLaji::MENO) || tili.onko(TiliLaji::POISTETTAVA)  )
         {
             VientiRivi menorivi = uusiEhdotusRivi(tili);
             if( alvkoodi == AlvKoodi::OSTOT_BRUTTO)
@@ -317,7 +317,7 @@ void KirjausApuriDialog::ehdota()
             menorivi.eraId = ui->taseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
             if(tili.tyyppi().onko(TiliLaji::TASAERAPOISTO))
             {
-                menorivi.json.set("Tasapoisto", ui->poistoSpin->value());
+                menorivi.json.set("Tasapoisto", ui->poistoSpin->value() * 12);  // vuodet -> kk
             }
 
             ehdotus.lisaaVienti( menorivi );
@@ -341,7 +341,7 @@ void KirjausApuriDialog::ehdota()
                 ehdotus.lisaaVienti(lisarivi);
             }
         }
-        if( vastatili.onkoTasetili())
+        if( vastatili.onko(TiliLaji::TASE))
         {
             VientiRivi taserivi = uusiEhdotusRivi(vastatili);
             if( alvkoodi == AlvKoodi::OSTOT_NETTO)
@@ -387,8 +387,8 @@ void KirjausApuriDialog::ehdota()
     ui->buttonBox->button( QDialogButtonBox::Ok )->setEnabled( ehdotus.onkoKelpo() );
 
     // Poisto näytetään jos kirjataan tasaeräpoistotilille
-    ui->poistoLabel->setVisible( tili.tyyppiKoodi() == "APT" && !ui->taseEraCombo->currentIndex());
-    ui->poistoSpin->setVisible(tili.tyyppiKoodi() == "APT" && !ui->taseEraCombo->currentIndex());
+    ui->poistoLabel->setVisible( tili.onko(TiliLaji::TASAERAPOISTO) && !ui->taseEraCombo->currentIndex());
+    ui->poistoSpin->setVisible(tili.onko(TiliLaji::TASAERAPOISTO) && !ui->taseEraCombo->currentIndex());
 
 }
 

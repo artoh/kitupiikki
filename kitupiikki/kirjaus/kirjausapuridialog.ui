@@ -196,7 +196,7 @@
      <item row="2" column="1">
       <widget class="QSpinBox" name="poistoSpin">
        <property name="suffix">
-        <string> kuukautta</string>
+        <string> vuotta</string>
        </property>
        <property name="maximum">
         <number>1200</number>

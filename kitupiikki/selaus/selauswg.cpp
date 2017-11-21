@@ -158,7 +158,7 @@ void SelausWg::paivitaSummat()
         int saldo = valittutili.saldoPaivalle( ui->loppuEdit->date());
         int muutos = kreditSumma - debetSumma;
 
-        if( valittutili.onkoVastaavaaTili() )
+        if( valittutili.onko(TiliLaji::VASTAAVAA)  )
         {
             muutos = debetSumma - kreditSumma;
         }

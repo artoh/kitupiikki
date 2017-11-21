@@ -62,10 +62,6 @@ bool TiliModel::setData(const QModelIndex &index, const QVariant &value, int rol
     {
         tilit_[index.row()].asetaNimi( value.toString());
     }
-    else if( role == TiliModel::OtsikkotasoRooli)
-    {
-        tilit_[index.row()].asetaOtsikkotaso( value.toInt());
-    }
     else if( role == TiliModel::TyyppiRooli)
     {
         tilit_[index.row()].asetaTyyppi( value.toString());
@@ -231,7 +227,7 @@ Tili TiliModel::edellistenYlijaamaTili() const
 {
     foreach (Tili tili, tilit_)
     {
-        if( tili.onkoEdellistenYliAliJaama())
+        if( tili.onko(TiliLaji::EDELLISTENTULOS) )
             return tili;
     }
     return Tili();
@@ -270,7 +266,7 @@ void TiliModel::lataa()
     tilit_.clear();
 
     QSqlQuery kysely( *tietokanta_ );
-    kysely.exec("SELECT id, nro, nimi, tyyppi, tila, otsikkotaso,json "
+    kysely.exec("SELECT id, nro, nimi, tyyppi, tila, json "
                 " FROM tili ORDER BY ysiluku");
 
     QVector<int> otsikkoId(10);
@@ -278,7 +274,12 @@ void TiliModel::lataa()
 
     while(kysely.next())
     {
-        int otsikkotaso = kysely.value(5).toInt();
+        int otsikkotaso = 0;
+        QString tyyppikoodi = kysely.value(3).toString();
+        if( tyyppikoodi.startsWith('H'))    // Tyyppikoodi H1 tarkoittaa 1-tason otsikkoa jne.
+            otsikkotaso = tyyppikoodi.mid(1).toInt();
+
+        kysely.value(5).toInt();
         int id = kysely.value(0).toInt();
         int otsikkoIdTalle = 0; // Nykytilille merkittävä otsikkotaso
 
@@ -296,9 +297,8 @@ void TiliModel::lataa()
         Tili uusi( id,     // id
                    kysely.value(1).toInt(),     // nro
                    kysely.value(2).toString(),  // nimi
-                   kysely.value(3).toString(),  // tyyppi
+                   tyyppikoodi,  // tyyppi
                    kysely.value(4).toInt(),     // tila
-                   otsikkotaso,      // otsikkotaso
                    otsikkoIdTalle    // Tätä tiliä/otsikkoa ylemmän otsikon id
                    );
         uusi.json()->fromJson( kysely.value(6).toByteArray());  // Luetaan json-kentät
@@ -320,7 +320,7 @@ void TiliModel::tallenna()
             {
                 // Muokkaus
                 kysely.prepare("UPDATE tili SET nro=:nro, nimi=:nimi, tyyppi=:tyyppi, "
-                               "tila=:tila, otsikkotaso=:otsikkotaso, ysiluku=:ysiluku, json=:json "
+                               "tila=:tila, ysiluku=:ysiluku, json=:json "
                                "WHERE id=:id");
                 kysely.bindValue(":id", tili.id());
             }
@@ -328,14 +328,13 @@ void TiliModel::tallenna()
             {
                 // Tallennus
                 kysely.prepare("INSERT INTO tili(nro, nimi, tyyppi, tila, otsikkotaso, ysiluku, json) "
-                               "VALUES(:nro, :nimi, :tyyppi, :tila, :otsikkotaso, :ysiluku, :json) ");
+                               "VALUES(:nro, :nimi, :tyyppi, :tila, :ysiluku, :json) ");
 
             }
             kysely.bindValue(":nro", tili.numero());
             kysely.bindValue(":nimi", tili.nimi());
             kysely.bindValue(":tyyppi", tili.tyyppiKoodi());
             kysely.bindValue(":tila", tili.tila());
-            kysely.bindValue(":otsikkotaso", tili.otsikkotaso());
             kysely.bindValue(":ysiluku", tili.ysivertailuluku());
             kysely.bindValue(":json", tilit_[i].json()->toSqlJson());
 

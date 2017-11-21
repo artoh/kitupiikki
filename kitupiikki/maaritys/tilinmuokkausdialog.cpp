@@ -105,7 +105,7 @@ void TilinMuokkausDialog::lataa()
     int alvlaji = tili.json()->luku("AlvLaji");
     ui->veroCombo->setCurrentIndex( ui->veroCombo->findData( alvlaji , VerotyyppiModel::KoodiRooli) );
 
-    ui->poistoaikaSpin->setValue( tili.json()->luku("Tasaerapoisto"));
+    ui->poistoaikaSpin->setValue( tili.json()->luku("Tasaerapoisto") / 12);  // kk -> vuosi
     ui->poistoprossaSpin->setValue( tili.json()->luku("Menojaannospoisto"));
     ui->kirjausohjeText->setPlainText( tili.json()->str("Kirjausohje"));
 
@@ -188,13 +188,13 @@ void TilinMuokkausDialog::nroMuuttaaTyyppia(const QString &nroteksti)
         if( ekanro == 1 )
         {
             proxy_->setFilterRegExp("A.*");
-            if(( ui->tyyppiCombo->currentData(TilityyppiModel::LuonneRooli).toInt() & TiliLaji::VASTAAVA ) != TiliLaji::VASTAAVA )
+            if(( ui->tyyppiCombo->currentData(TilityyppiModel::LuonneRooli).toInt() & TiliLaji::VASTAAVAA ) != TiliLaji::VASTAAVAA )
                 ui->tyyppiCombo->setCurrentIndex(0);
         }
         else if( ekanro == 2)
         {
             proxy_->setFilterRegExp("B.*");
-            if(( ui->tyyppiCombo->currentData(TilityyppiModel::LuonneRooli).toInt() & TiliLaji::VASTATTAVA) != TiliLaji::VASTATTAVA )
+            if(( ui->tyyppiCombo->currentData(TilityyppiModel::LuonneRooli).toInt() & TiliLaji::VASTATTAVAA) != TiliLaji::VASTATTAVAA )
                 ui->tyyppiCombo->setCurrentIndex(0);
         }
         else if( ekanro == 3 )
@@ -304,7 +304,6 @@ void TilinMuokkausDialog::accept()
         uusitili.asetaNumero(ui->numeroEdit->text().toInt());
         uusitili.asetaNimi( ui->nimiEdit->text());
         uusitili.asetaTyyppi( tyyppikoodi );
-        uusitili.asetaOtsikkotaso( taso );
 
         json = uusitili.json();
 
@@ -314,7 +313,6 @@ void TilinMuokkausDialog::accept()
         // Päivitetään tili modeliin
         model_->setData(index_, ui->numeroEdit->text().toInt(), TiliModel::NroRooli);
         model_->setData(index_, ui->nimiEdit->text(), TiliModel::NimiRooli);
-        model_->setData(index_, taso, TiliModel::OtsikkotasoRooli);
         model_->setData(index_, tyyppikoodi, TiliModel::TyyppiRooli);
         json = model_->jsonIndeksilla( index_.row());
     }
@@ -337,7 +335,7 @@ void TilinMuokkausDialog::accept()
         json->set("AlvProsentti", ui->veroSpin->value());
 
         if( tilityyppi.onko( TiliLaji::TASAERAPOISTO))
-            json->set("Tasaerapoisto", ui->poistoaikaSpin->value());
+            json->set("Tasaerapoisto", ui->poistoaikaSpin->value() * 12); // vuosi -> kk
         else
             json->unset("Tasaerapoisto");
 

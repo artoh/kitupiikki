@@ -18,8 +18,15 @@
 #include "tilityyppimodel.h"
 
 
+TiliTyyppi::TiliTyyppi(int otsikkotaso)
+    : luonne_( TiliLaji::OTSIKKO), otsikkotaso_(otsikkotaso)
+{
+    tyyppikoodi_ = QString("H%1").arg(otsikkotaso);
+    kuvaus_ = QString("Otsikko %1").arg(otsikkotaso);
+}
+
 TiliTyyppi::TiliTyyppi(QString tyyppikoodi, QString kuvaus, TiliLaji::TiliLuonne luonne)
-    : tyyppikoodi_(tyyppikoodi), kuvaus_(kuvaus), luonne_(luonne)
+    : tyyppikoodi_(tyyppikoodi), kuvaus_(kuvaus), luonne_(luonne), otsikkotaso_(0)
 {
 
 }
@@ -35,14 +42,14 @@ TilityyppiModel::TilityyppiModel(QObject *parent)
     : QAbstractListModel(parent)
 
 {
-    lisaa(TiliTyyppi("A","Vastaavaa",TiliLaji::VASTAAVA));
+    lisaa(TiliTyyppi("A","Vastaavaa",TiliLaji::VASTAAVAA));
     lisaa(TiliTyyppi("APM","Poistokelpoinen omaisuus menojäännöspoisto",TiliLaji::MENOJAANNOSPOISTO));
     lisaa(TiliTyyppi("APT","Poistokelpoinen omaisuus tasapoistolla",TiliLaji::TASAERAPOISTO));
     lisaa(TiliTyyppi("AS","Saatavaa",TiliLaji::SAATAVA));
     lisaa(TiliTyyppi("AL","Arvonlisäverosaatava", TiliLaji::ALVSAATAVA));
     lisaa(TiliTyyppi("AR","Rahavarat", TiliLaji::RAHAVARAT));
 
-    lisaa(TiliTyyppi("B","Vastattavaa", TiliLaji::VASTATTAVA));
+    lisaa(TiliTyyppi("B","Vastattavaa", TiliLaji::VASTATTAVAA));
     lisaa(TiliTyyppi("BE","Edellisten tilikausien voitto/tappio",TiliLaji::EDELLISTENTULOS));
     lisaa(TiliTyyppi("BS","Velat",TiliLaji::VELKA));
     lisaa(TiliTyyppi("BL","Arvonlisäverovelka",TiliLaji::ALVVELKA));
@@ -79,11 +86,17 @@ QVariant TilityyppiModel::data(const QModelIndex &index, int role) const
 
 TiliTyyppi TilityyppiModel::tyyppiKoodilla(QString koodi)
 {
+    if( koodi.startsWith('H'))
+    {
+        // Otsikko
+        return TiliTyyppi( koodi.mid(1).toInt());
+    }
+
     foreach (TiliTyyppi tyyppi, tyypit) {
         if( tyyppi.koodi() == koodi )
             return tyyppi;
     }
-    return TiliTyyppi();
+    return TiliTyyppi(koodi);
 }
 
 void TilityyppiModel::lisaa(TiliTyyppi tyyppi)

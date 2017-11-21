@@ -215,7 +215,7 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
             debetYht += debet;
             kreditYht += kredit;
 
-            if( tili.onkoVastaavaaTili())
+            if( tili.onko(TiliLaji::VASTAAVAA) )
                 saldo += debet - kredit;
             else
                 saldo += kredit - debet;

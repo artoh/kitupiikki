@@ -22,25 +22,17 @@
 
 #include "kirjanpito.h"
 
-Tili::Tili() : id_(0), numero_(0), tila_(1), otsikkotaso_(0), muokattu_(false)
+Tili::Tili() : id_(0), numero_(0), tila_(1), muokattu_(false)
 {
 
 }
 
-Tili::Tili(int id, int numero, const QString &nimi, const QString &tyyppi, int tila, int otsikkotaso, int ylaotsikkoid) :
-    id_(id), numero_(numero), nimi_(nimi), tyyppi_(tyyppi), tila_(tila), otsikkotaso_(otsikkotaso),
-    ylaotsikkoId_(ylaotsikkoid), muokattu_(false)
+Tili::Tili(int id, int numero, const QString &nimi, const QString &tyyppi, int tila, int ylaotsikkoid) :
+    id_(id), numero_(numero), nimi_(nimi), ylaotsikkoId_(ylaotsikkoid), muokattu_(false)
 
 {
-
-}
-
-QString Tili::tyyppiKoodi() const
-{
-    if( otsikkotaso())
-        return( QString("H%1").arg(otsikkotaso()));
-    else
-        return tyyppi().koodi();
+    asetaTila(tila);
+    tyyppi_ = kp()->tiliTyypit()->tyyppiKoodilla(tyyppi);
 }
 
 void Tili::asetaTyyppi(const QString &tyyppikoodi)
@@ -63,7 +55,7 @@ int Tili::ysivertailuluku() const
 int Tili::saldoPaivalle(const QDate &pvm)
 {
     QString kysymys = QString("SELECT SUM(debetsnt), SUM(kreditsnt) FROM vienti WHERE tili=%1 ").arg(id());
-    if( onkoTasetili() )
+    if( onko(TiliLaji::TASE) )
         kysymys.append( QString(" AND pvm <= \"%1\" ").arg(pvm.toString(Qt::ISODate)));
     else
         kysymys.append( QString(" AND pvm BETWEEN \"%1\" AND \"%2\" ")
@@ -76,7 +68,7 @@ int Tili::saldoPaivalle(const QDate &pvm)
         int debet = kysely.value(0).toInt();
         int kredit = kysely.value(1).toInt();
 
-        if( onkoEdellistenYliAliJaama() )
+        if( onko(TiliLaji::EDELLISTENTULOS) )
         {
             // Edellisten yli/alijaamaan pitää laskea vielä edellisten tulokset
             QSqlQuery edelliskysely( QString("SELECT SUM(debetsnt), SUM(kreditsnt) FROM vienti, tili "
@@ -88,7 +80,7 @@ int Tili::saldoPaivalle(const QDate &pvm)
                 return kredit + edelliskysely.value(1).toInt() - debet - edelliskysely.value(0).toInt();
             }
         }
-        else if( onkoVastaavaaTili())
+        else if( onko(TiliLaji::VASTAAVAA) )
             return debet - kredit;
         else
             return kredit - debet;
@@ -104,51 +96,9 @@ int Tili::montakoVientia() const
     return 0;
 }
 
-bool Tili::onkoTasetili() const
+bool Tili::onko(TiliLaji::TiliLuonne luonne) const
 {
-    return( tyyppiKoodi().startsWith('A') || tyyppiKoodi().startsWith('B'));
-}
-
-
-bool Tili::onkoTulotili() const
-{
-    return tyyppiKoodi().startsWith('C');
-}
-
-bool Tili::onkoMenotili() const
-{
-    return tyyppiKoodi().startsWith('D');
-}
-
-bool Tili::onkoVastaavaaTili() const
-{
-    return tyyppiKoodi().startsWith('A');
-}
-
-bool Tili::onkoVastattavaaTili() const
-{
-    return tyyppiKoodi().startsWith('B');
-}
-
-bool Tili::onkoPoistettavaTaseTili() const
-{
-    return tyyppiKoodi().startsWith("AP");
-}
-
-bool Tili::onkoRahaTili() const
-{
-    return tyyppiKoodi().startsWith("AR");
-}
-
-bool Tili::onkoEdellistenYliAliJaama() const
-{
-    return tyyppiKoodi() == "BE";
-}
-
-bool Tili::onkoTaseEraSeurattava() const
-{
-    return ( tyyppiKoodi().startsWith('A') && !tyyppiKoodi().startsWith("AR") && tyyppiKoodi() != "AL" ) ||
-           ( tyyppiKoodi().startsWith('B') && tyyppiKoodi()!="BE" && tyyppiKoodi()!="BL");
+    return tyyppi().onko(luonne);
 }
 
 int Tili::ysiluku(int luku, int taso)

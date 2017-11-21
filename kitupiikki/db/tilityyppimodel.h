@@ -23,26 +23,27 @@
 namespace TiliLaji {
     enum TiliLuonne
     {
-        EITILIA         =   0,
-        TASE            =   0b000000000001,
-        VASTAAVA        =   0b000000000101,
-        POISTETTAVA     =   0b000001010101,
-        TASAERAPOISTO    =  0b000011010101,
-        MENOJAANNOSPOISTO=  0b000101010101,
-        SAATAVA        =   0b000001100101,
-        ALVSAATAVA     =   0b001011100101,
-        RAHAVARAT       =   0b010011100101,
-        VASTATTAVA      =   0b000000001001,
-        OMAPAAOMA       =   0b000000011001,
-        EDELLISTENTULOS =   0b000100011001,
-        VIERASPAAOMA    =   0b000000101001,
-        VELKA           =   0b000001101001,
-        ALVVELKA        =   0b001001101001,
-        VEROVELKA       =   0b010001101001,
+        TUNTEMATON         =   0,
+        OTSIKKO         =   0b0000000000001,
+        TASE            =   0b0000000000010,
+        VASTAAVAA        =   0b0000000001010,
+        POISTETTAVA     =   0b0000010101010,
+        TASAERAPOISTO    =  0b0000110101010,
+        MENOJAANNOSPOISTO=  0b0001010101010,
+        SAATAVA        =   0b0000011001010,
+        ALVSAATAVA     =   0b0010111001010,
+        RAHAVARAT       =   0b0100111001010,
+        VASTATTAVAA      =   0b0000000010010,
+        OMAPAAOMA       =   0b0000000110010,
+        EDELLISTENTULOS =   0b0001000110010,
+        VIERASPAAOMA    =   0b0000001010010,
+        VELKA           =   0b0000011010010,
+        ALVVELKA        =   0b0010011010010,
+        VEROVELKA       =   0b0100011010010,
 
-        TULOS           =   0b000000000010,
-        TULO            =   0b000000001010,
-        MENO            =   0b000000010010,
+        TULOS           =   0b0000000000100,
+        TULO            =   0b0000000010100,
+        MENO            =   0b0000000100100,
         POISTO          =   0b000001010010
     };
 
@@ -54,11 +55,13 @@ namespace TiliLaji {
 class TiliTyyppi
 {
 public:
-    TiliTyyppi(QString tyyppikoodi=QString(), QString kuvaus=QString(), TiliLaji::TiliLuonne luonne=TiliLaji::EITILIA);
+    TiliTyyppi(int otsikkotaso);
+    TiliTyyppi(QString tyyppikoodi=QString(), QString kuvaus=QString(), TiliLaji::TiliLuonne luonne=TiliLaji::TUNTEMATON);
 
     QString koodi() const { return tyyppikoodi_; }
     QString kuvaus() const { return kuvaus_; }
     TiliLaji::TiliLuonne luonne() const { return luonne_; }
+    int otsikkotaso() const { return otsikkotaso_; }
     /**
      * @brief Edustaako tämä tili kysyttyä "luonnetta"
      * @param luonnetta Luonne
@@ -74,6 +77,7 @@ protected:
     QString tyyppikoodi_;
     QString kuvaus_;
     TiliLaji::TiliLuonne     luonne_;
+    int otsikkotaso_ = 0;
 };
 
 /**

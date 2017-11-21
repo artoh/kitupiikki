@@ -255,7 +255,7 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk)
                         Tili tili = kp()->tilit()->tiliNumerolla( iter.key() / 10);
 
                         // Ohitetaan, jos haluttu vain tulot ja menot eikä ole niitä
-                        if( (vainTulot && !tili.onkoTulotili()) || (vainMenot && !tili.onkoMenotili()))
+                        if( (vainTulot && !tili.onko(TiliLaji::TULO) ) || (vainMenot && !tili.onko(TiliLaji::MENO)))
                                 continue;
 
                         // Erittelyriville tilin numero ja nimi sekä summat
@@ -286,7 +286,7 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk)
                                 Tili tili = kp()->tilit()->tiliNumerolla( iter.key() / 10);
 
                                 // Ohitetaan, jos haluttu vain tulot ja menot eikä ole niitä
-                                if( (vainTulot && !tili.onkoTulotili()) || (vainMenot && !tili.onkoMenotili()))
+                                if( (vainTulot && !tili.onko(TiliLaji::TULO) ) || (vainMenot && !tili.onko(TiliLaji::MENO) ))
                                         continue;
                             }
 

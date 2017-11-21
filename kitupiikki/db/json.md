@@ -13,6 +13,7 @@ Taydentava | str | Tilin täydentävä nimike
 Kirjausohje | str | Tilin kirjausohje
 Tasaerapoisto | int | Oletus tasaeräpoiston aika kuukautta
 Menojaannospoisto | int | Tilin menojäännöspoisto %
+Taseerittely | int | Miten tase-erittely laaditaan: **0** ei erittelyä, **1** saldot, **2** muutokset, **3** seurataan eriä
 
 Tositelaji
 -----

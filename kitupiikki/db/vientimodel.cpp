@@ -238,7 +238,7 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
 
             viennit_[index.row()].tili = uusitili;
             // Jos kirjataan tulotilille, niin siirrytään syöttämään kredit-summaa
-            if( uusitili.onkoTulotili())
+            if( uusitili.onko(TiliLaji::TULO) )
                 emit siirryRuutuun(index.sibling(index.row(), KREDIT));
             else
                 emit siirryRuutuun(index.sibling(index.row(), DEBET));
@@ -321,7 +321,7 @@ Qt::ItemFlags VientiModel::flags(const QModelIndex &index) const
         }
         else if( index.column() == KOHDENNUS)
         {
-            if( !rivi.tili.numero() || rivi.tili.onkoTasetili())
+            if( !rivi.tili.numero() || rivi.tili.onko(TiliLaji::TASE))
                 return QAbstractTableModel::flags(index);
         }
 

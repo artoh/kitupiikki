@@ -145,7 +145,7 @@ void TilinavausModel::lataa()
         int debet = kysely.value("debetsnt").toInt();
         int kredit = kysely.value("kreditsnt").toInt();
 
-        if( tili.onkoVastaavaaTili() || tili.onkoMenotili())
+        if( tili.onko(TiliLaji::VASTAAVAA)  || tili.onko(TiliLaji::MENO))
             saldot[ tili.numero()] = debet - kredit;
         else
             saldot[ tili.numero()] = kredit - debet;
@@ -178,7 +178,7 @@ bool TilinavausModel::tallenna()
         kysely.bindValue(":tili", tili.id());
         kysely.bindValue(":vientirivi", vientirivi);
 
-        if( tili.onkoVastaavaaTili() || tili.onkoMenotili() )
+        if( tili.onko(TiliLaji::VASTAAVAA) || tili.onko(TiliLaji::MENO) )
         {
             kysely.bindValue(":debet", iter.value());
             kysely.bindValue(":kredit", QVariant());
@@ -208,13 +208,13 @@ void TilinavausModel::paivitaInfo()
     {
         iter.next();
         Tili tili = Kirjanpito::db()->tilit()->tiliNumerolla( iter.key());
-        if( tili.onkoVastaavaaTili() )
+        if( tili.onko(TiliLaji::VASTAAVAA)  )
             tasevastaavaa += iter.value();
-        else if( tili.onkoVastattavaaTili())
+        else if( tili.onko(TiliLaji::VASTATTAVAA) )
             tasevastattavaa += iter.value();
-        else if( tili.onkoTulotili())
+        else if( tili.onko(TiliLaji::TULO) )
             tulos += iter.value();
-        else if( tili.onkoMenotili())
+        else if( tili.onko(TiliLaji::MENO) )
             tulos -= iter.value();
     }
 

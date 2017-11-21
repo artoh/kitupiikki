@@ -102,9 +102,9 @@ void TositelajiDialogi::vastatilivalittu()
 {
     Tili tili = kp()->tilit()->tiliNumerolla( ui->vastatiliEdit->valittuTilinumero() );
 
-    ui->tilioteRadio->setEnabled( tili.onkoRahaTili() );
+    ui->tilioteRadio->setEnabled( tili.onko(TiliLaji::RAHAVARAT) );
 
-    if( tili.onkoRahaTili())
+    if( tili.onko(TiliLaji::RAHAVARAT) )
         ui->tilioteRadio->setText( tr("Tiliotteita tilille %1 %2").arg(tili.numero()).arg(tili.nimi()));
 }
 
