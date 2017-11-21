@@ -24,6 +24,7 @@
 
 #include "db/tili.h"
 #include "db/kohdennus.h"
+#include "db/eranvalintamodel.h"
 
 /**
  * @brief SelausModel:in yhden rivin (viennin) tiedot
@@ -38,6 +39,8 @@ struct SelausRivi
     QString selite;
     int debetSnt;
     int kreditSnt;
+    TaseEra taseEra;
+    QString tositetunniste;
 };
 
 /**
@@ -50,7 +53,7 @@ public:
 
     enum SelausSarake
     {
-        PVM, TILI, DEBET, KREDIT, KOHDENNUS, SELITE
+        TOSITE, PVM, TILI, DEBET, KREDIT, KOHDENNUS, SELITE
     };
 
     SelausModel();

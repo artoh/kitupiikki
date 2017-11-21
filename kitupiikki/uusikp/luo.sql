@@ -125,6 +125,7 @@ CREATE VIEW vientivw AS
            vienti.kreditsnt as kreditsnt,
            vienti.selite as selite,
            vienti.kohdennus as kohdennusId,
+           vienti.eraid as eraid,
            kohdennus.nimi as kohdennus,
            tositelaji.tunnus as tositelaji,
            tosite.tunniste as tunniste,

@@ -34,7 +34,7 @@ int SelausModel::rowCount(const QModelIndex & /* parent */) const
 
 int SelausModel::columnCount(const QModelIndex & /* parent */) const
 {
-    return 6;
+    return 7;
 }
 
 QVariant SelausModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -47,6 +47,8 @@ QVariant SelausModel::headerData(int section, Qt::Orientation orientation, int r
     {
         switch (section)
         {
+        case TOSITE:
+            return QVariant("Tosite");
         case PVM :
             return QVariant("Pvm");
         case TILI:
@@ -77,6 +79,9 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
 
         switch (index.column())
         {
+            case TOSITE:
+                return QVariant( rivi.tositetunniste);
+
             case PVM: return QVariant( rivi.pvm );
 
             case TILI:
@@ -104,7 +109,11 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
             case SELITE: return QVariant( rivi.selite );
 
             case KOHDENNUS :
-                if( rivi.kohdennus.tyyppi() == Kohdennus::EIKOHDENNETA )
+                if( rivi.taseEra.eraId )
+                {
+                    return QVariant( tr("%1/%2").arg(rivi.taseEra.tositteenTunniste().tunnus ).arg( rivi.taseEra.pvm.toString(Qt::SystemLocaleShortDate)) );
+                }
+                else if( rivi.kohdennus.tyyppi() == Kohdennus::EIKOHDENNETA )
                     return QVariant();
                 else
                     return QVariant( rivi.kohdennus.nimi());
@@ -132,9 +141,10 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
 
 void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
 {
-    QString kysymys = QString("SELECT tosite, pvm, tili, debetsnt, kreditsnt, selite, kohdennus "
-                              "FROM vienti WHERE pvm BETWEEN \"%1\" AND \"%2\" "
-                              "ORDER BY pvm, id")
+    QString kysymys = QString("SELECT vienti.tosite, vienti.pvm, tili, debetsnt, kreditsnt, selite, kohdennus, eraid, "
+                              "tosite.laji, tosite.tunniste "
+                              "FROM vienti, tosite WHERE vienti.pvm BETWEEN \"%1\" AND \"%2\" "
+                              "AND vienti.tosite=tosite.id ORDER BY vienti.pvm, vienti.id")
                               .arg( alkaa.toString(Qt::ISODate ) )
                               .arg( loppuu.toString(Qt::ISODate)) ;
 
@@ -154,6 +164,11 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
         rivi.kreditSnt = query.value(4).toInt();
         rivi.selite = query.value(5).toString();
         rivi.kohdennus = kp()->kohdennukset()->kohdennus( query.value(6).toInt());
+        rivi.taseEra = TaseEra( query.value(7).toInt());
+        rivi.tositetunniste = QString("%1%2")
+                                       .arg( kp()->tositelajit()->tositelaji( query.value(8).toInt()  ).tunnus() )
+                                       .arg( query.value(9).toInt()  );
+
         rivit.append(rivi);
 
         QString tilistr = QString("%1 %2")

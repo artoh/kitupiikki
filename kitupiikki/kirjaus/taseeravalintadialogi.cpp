@@ -27,6 +27,7 @@ TaseEraValintaDialogi::TaseEraValintaDialogi(QWidget *parent) :
     ui->setupUi(this);
 
     proxy_ = new QSortFilterProxyModel(this);
+    proxy_->setSortRole(EranValintaModel::PvmRooli);
     proxy_->setSourceModel(&model_);
 
     ui->view->setModel( proxy_);
@@ -45,10 +46,12 @@ int TaseEraValintaDialogi::nayta(Tili tili, int taseEra, int poistoKk)
 {
     model_.lataa(tili, true);
 
+    qDebug() << "valittu " << taseEra;
     ui->view->setCurrentIndex( proxy_->index(0,0));
     for(int i=0; i < proxy_->rowCount(); i++)
     {
-        if( proxy_->data( proxy_->index(i,0), EranValintaModel::EraIdRooli ) == taseEra)
+        qDebug() << i << "   " << proxy_->data( proxy_->index(i,0), EranValintaModel::EraIdRooli).toInt();
+        if( proxy_->data( proxy_->index(i,0), EranValintaModel::EraIdRooli ).toInt() == taseEra)
         {
             ui->view->setCurrentIndex( proxy_->index(i,0) );
             break;

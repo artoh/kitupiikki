@@ -76,13 +76,13 @@ void EranValintaModel::lataa(Tili tili, bool kaikki)
     // avaimena eraid, arvona saldo (debet - kredit)
     QHash<int, int > saldot;
 
-    query.exec(QString("SELECT eraid, sum(debetsnt)-sum(kreditsnt) as saldo from vienti "
+    query.exec(QString("SELECT eraid, sum(debetsnt) as debetit, sum(kreditsnt) as kreditit from vienti "
                        "where tili=%1 and eraid is not null group by eraid").arg(tili.id()));
 
     // Tallennetaan saldotaulukkoon tilien eräsaldot
     while( query.next() )
     {
-        saldot.insert( query.value("eraid").toInt(), query.value("saldo").toInt() );
+        saldot.insert( query.value("eraid").toInt(), query.value("debetit").toInt() - query.value("kreditit").toInt() );
     }
 
     query.exec(QString("SELECT id, pvm, selite, debetsnt, kreditsnt from vienti "
