@@ -18,6 +18,8 @@
 #ifndef ALVMAARITYS_H
 #define ALVMAARITYS_H
 
+#include <QDate>
+
 #include "maarityswidget.h"
 
 namespace Ui {
