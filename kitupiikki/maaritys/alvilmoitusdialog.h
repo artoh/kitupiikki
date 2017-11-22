@@ -15,36 +15,27 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef ALVMAARITYS_H
-#define ALVMAARITYS_H
+#ifndef ALVILMOITUSDIALOG_H
+#define ALVILMOITUSDIALOG_H
 
-#include <QDate>
-
-#include "maarityswidget.h"
+#include <QDialog>
 
 namespace Ui {
-class AlvMaaritys;
+class AlvIlmoitusDialog;
 }
 
-
-class AlvMaaritys : public MaaritysWidget
+class AlvIlmoitusDialog : public QDialog
 {
     Q_OBJECT
+
 public:
-    AlvMaaritys();
+    explicit AlvIlmoitusDialog(QWidget *parent = 0);
+    ~AlvIlmoitusDialog();
 
-    bool nollaa();
-    bool onkoMuokattu();
-    bool tallenna();
-
-public slots:
-    void paivitaSeuraavat();
-    void ilmoita();
+    static QDate teeAlvIlmoitus(QDate alkupvm, QDate loppupvm);
 
 private:
-    Ui::AlvMaaritys *ui;
-    QDate seuraavaAlkaa;
-    QDate seuraavaLoppuu;
+    Ui::AlvIlmoitusDialog *ui;
 };
 
-#endif // ALVMAARITYS_H
+#endif // ALVILMOITUSDIALOG_H

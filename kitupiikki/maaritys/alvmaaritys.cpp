@@ -19,6 +19,8 @@
 #include "ui_arvonlisavero.h"
 #include "db/kirjanpito.h"
 
+#include "alvilmoitusdialog.h"
+
 AlvMaaritys::AlvMaaritys() :
     ui(new Ui::AlvMaaritys)
 {
@@ -30,6 +32,7 @@ AlvMaaritys::AlvMaaritys() :
 
     connect( ui->viimeisinEdit, SIGNAL(dateChanged(QDate)), this, SLOT(paivitaSeuraavat()));
     connect(ui->kausiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(paivitaSeuraavat()));
+    connect( ui->tilitaNappi, SIGNAL(clicked(bool)), this, SLOT(ilmoita()));
 }
 
 bool AlvMaaritys::nollaa()
@@ -67,5 +70,13 @@ void AlvMaaritys::paivitaSeuraavat()
     emit tallennaKaytossa(onkoMuokattu());
 }
 
-// bruton alv-tilitykseen
-// select alvprosentti,sum(debetsnt), sum(kreditsnt), tili from vienti where alvkoodi=22 group by tili,alvprosentti
+void AlvMaaritys::ilmoita()
+{
+    QDate ilmoitettu = AlvIlmoitusDialog::teeAlvIlmoitus(seuraavaAlkaa, seuraavaLoppuu);
+    if( ilmoitettu.isValid())
+    {
+        kp()->asetukset()->aseta("AlvIlmoitettu", ilmoitettu);
+        ui->viimeisinEdit->setDate(ilmoitettu);
+    }
+}
+
