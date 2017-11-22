@@ -29,16 +29,17 @@ namespace AlvKoodi {
     enum Koodi
     {
         EIALV = 0,
-        MYYNNIT_NETTO = 11,
-        OSTOT_NETTO = 12,
-        MYYNNIT_BRUTTO = 21,
-        OSTOT_BRUTTO = 22,
-        YHTEISOMYYNTI_TAVARAT = 31,
-        YHTEISOHANKINNAT_TAVARAT = 32,
-        YHTEISOMYYNTI_PALVELUT = 41,
-        YHTEISOHANKINNAT_PALVELUT = 42,
-        RAKENNUSPALVELU_MYYNTI = 51,
-        RAKENNUSPALVELU_OSTO = 52,
+        ALV0 = 11,
+        MYYNNIT_NETTO = 21,
+        OSTOT_NETTO = 22,
+        MYYNNIT_BRUTTO = 31,
+        OSTOT_BRUTTO = 32,
+        YHTEISOMYYNTI_TAVARAT = 51,
+        YHTEISOHANKINNAT_TAVARAT = 52,
+        YHTEISOMYYNTI_PALVELUT = 61,
+        YHTEISOHANKINNAT_PALVELUT = 62,
+        RAKENNUSPALVELU_MYYNTI = 81,
+        RAKENNUSPALVELU_OSTO = 82,
         ALVKIRJAUS = 800,
         ALVVAHENNYS = 900
     };
@@ -84,6 +85,7 @@ public:
     QString seliteKoodilla(int koodi) const;
     QIcon kuvakeKoodilla(int koodi) const;
 
+    static int oletusAlvProsentti() { return 24; }
 
 protected:
     QList<VeroTyyppi> tyypit;

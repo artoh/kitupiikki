@@ -213,7 +213,15 @@ void KirjausApuriDialog::alvLajiMuuttui()
         laskeNetto();
     }
     else
+    {
         ui->alvSpin->setEnabled(true);
+        Tili tili = kp()->tilit()->tiliNumerolla(  ui->tiliEdit->valittuTilinumero() );
+        if( tili.json()->luku("AlvProsentti"))
+            ui->alvSpin->setValue( tili.json()->luku("AlvProsentti"));
+        else
+            ui->alvSpin->setValue( VerotyyppiModel::oletusAlvProsentti());
+
+    }
 
     ui->alvSpin->setVisible( alvlaji );
     ui->alvprossaLabel->setVisible(alvlaji);
@@ -279,10 +287,10 @@ void KirjausApuriDialog::ehdota()
             tulorivi.eraId = ui->taseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
             ehdotus.lisaaVienti(tulorivi);
         }
-        if(alvkoodi == AlvKoodi::MYYNNIT_NETTO && kp()->tilit()->tiliTyyppikoodilla("BL").onkoValidi() )
+        if(alvkoodi == AlvKoodi::MYYNNIT_NETTO && kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).onkoValidi() )
         {
 
-            VientiRivi verorivi = uusiEhdotusRivi( kp()->tilit()->tiliTyyppikoodilla("BL"));
+            VientiRivi verorivi = uusiEhdotusRivi( kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA));
             verorivi.kreditSnt = bruttoSnt - nettoSnt;
             verorivi.alvprosentti = alvprosentti;
             verorivi.alvkoodi = AlvKoodi::ALVKIRJAUS + alvkoodi;
@@ -323,18 +331,18 @@ void KirjausApuriDialog::ehdota()
             ehdotus.lisaaVienti( menorivi );
 
         }
-        if( alvkoodi != AlvKoodi::EIALV && alvkoodi != AlvKoodi::OSTOT_BRUTTO && kp()->tilit()->tiliTyyppikoodilla("AL").onkoValidi())
+        if( alvprosentti && kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).onkoValidi() )
         {
-            VientiRivi verorivi = uusiEhdotusRivi( kp()->tilit()->tiliTyyppikoodilla("AL"));
+            VientiRivi verorivi = uusiEhdotusRivi( kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA) );
             verorivi.debetSnt = bruttoSnt - nettoSnt;
             verorivi.alvprosentti = alvprosentti;
             verorivi.alvkoodi = AlvKoodi::ALVVAHENNYS + alvkoodi;
             ehdotus.lisaaVienti(verorivi);
 
             if( (alvkoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT || alvkoodi==AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
-                alvkoodi == AlvKoodi::RAKENNUSPALVELU_OSTO) && kp()->tilit()->tiliTyyppikoodilla("BL").onkoValidi() )
+                alvkoodi == AlvKoodi::RAKENNUSPALVELU_OSTO) && kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).onkoValidi() )
             {
-                VientiRivi lisarivi = uusiEhdotusRivi( kp()->tilit()->tiliTyyppikoodilla("BL"));
+                VientiRivi lisarivi = uusiEhdotusRivi( kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA));
                 lisarivi.kreditSnt = bruttoSnt - nettoSnt;
                 lisarivi.alvprosentti = alvprosentti;
                 lisarivi.alvkoodi = AlvKoodi::ALVKIRJAUS + alvkoodi;

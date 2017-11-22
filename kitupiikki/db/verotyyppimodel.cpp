@@ -28,6 +28,7 @@ VerotyyppiModel::VerotyyppiModel(QObject *parent)
     : QAbstractListModel( parent)
 {
     tyypit.append( VeroTyyppi(AlvKoodi::EIALV,"Veroton","",true));
+    tyypit.append( VeroTyyppi(AlvKoodi::ALV0,"Alv 0%","",true));
     tyypit.append( VeroTyyppi(AlvKoodi::MYYNNIT_NETTO,"Verollinen myynti (netto)"));
     tyypit.append( VeroTyyppi(AlvKoodi::OSTOT_NETTO,"Verollinen osto (netto)"));
     tyypit.append( VeroTyyppi(AlvKoodi::MYYNNIT_BRUTTO,"Verollinen myynti (brutto)",":/pic/lihavoi.png"));

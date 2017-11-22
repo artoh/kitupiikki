@@ -122,7 +122,17 @@ void TilinMuokkausDialog::lataa()
 void TilinMuokkausDialog::veroEnablePaivita()
 {
     // Jos veroton, niin eipä silloin laiteta alv-prosenttia
-    ui->veroSpin->setEnabled( ui->veroCombo->currentData(VerotyyppiModel::KoodiRooli).toInt() != 0 );
+    if( ui->veroCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool() )
+    {
+        ui->veroSpin->setEnabled(false);
+    }
+    else
+    {
+        ui->veroSpin->setEnabled(true);
+        // Lisäksi laitetaan oletusvero jo nolla
+        if( ui->veroSpin->value() == 0)
+            ui->veroSpin->setValue( VerotyyppiModel::oletusAlvProsentti());
+    }
 
 }
 
@@ -312,7 +322,11 @@ void TilinMuokkausDialog::accept()
             json->unset("Vastatili");
 
         json->set("AlvLaji", ui->veroCombo->currentData(VerotyyppiModel::KoodiRooli).toInt());
-        json->set("AlvProsentti", ui->veroSpin->value());
+
+        if( ui->veroCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool())
+            json->unset("AlvProsentti");
+        else
+            json->set("AlvProsentti", ui->veroSpin->value());
 
         if( tilityyppi.onko( TiliLaji::TASAERAPOISTO))
             json->set("Tasaerapoisto", ui->poistoaikaSpin->value() * 12); // vuosi -> kk
