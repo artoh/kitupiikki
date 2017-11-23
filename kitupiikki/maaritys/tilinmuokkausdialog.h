@@ -66,6 +66,7 @@ protected:
     TiliModel *model_;
     QModelIndex index_;
     QSortFilterProxyModel *proxy_;
+    QSortFilterProxyModel *veroproxy_;
 
 
 };

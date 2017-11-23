@@ -336,7 +336,7 @@ void TiliModel::tallenna()
             else
             {
                 // Tallennus
-                kysely.prepare("INSERT INTO tili(nro, nimi, tyyppi, tila, otsikkotaso, ysiluku, json) "
+                kysely.prepare("INSERT INTO tili(nro, nimi, tyyppi, tila, ysiluku, json) "
                                "VALUES(:nro, :nimi, :tyyppi, :tila, :ysiluku, :json) ");
 
             }

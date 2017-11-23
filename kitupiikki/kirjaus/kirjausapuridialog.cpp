@@ -422,13 +422,13 @@ void KirjausApuriDialog::valilehtiVaihtui(int indeksi)
 
     if( indeksi == MENO )
     {
-        verofiltteri.setFilterRegExp("(0|.2)");
+        verofiltteri.setFilterRegExp("(0|2.)");
         ui->tiliEdit->suodataTyypilla("(AP|D).*");
         ui->vastatiliEdit->suodataTyypilla("[AB].*");
     }
     else if( indeksi == TULO)
     {
-        verofiltteri.setFilterRegExp("(0|.1)");
+        verofiltteri.setFilterRegExp("(0|1.)");
         ui->tiliEdit->suodataTyypilla("(AP|C).*");
         ui->vastatiliEdit->suodataTyypilla("[AB].*");
     }

@@ -16,6 +16,7 @@
 */
 
 #include <QSqlQuery>
+#include <QDebug>
 
 #include "alvilmoitusdialog.h"
 #include "ui_alvilmoitusdialog.h"
@@ -39,8 +40,8 @@ AlvIlmoitusDialog::~AlvIlmoitusDialog()
 QDate AlvIlmoitusDialog::teeAlvIlmoitus(QDate alkupvm, QDate loppupvm)
 {
     QMap<int,int> verotKannoittainSnt;  // verokanta - maksettava vero
-    int brutostaveroayhtSnt = 0;
-    int vahennettavaaSnt = 0;
+    int bruttoveroayhtSnt = 0;
+    int bruttovahennettavaaSnt = 0;
 
     EhdotusModel ehdotus;
     QSqlQuery query( *kp()->tietokanta() );
@@ -48,27 +49,31 @@ QDate AlvIlmoitusDialog::teeAlvIlmoitus(QDate alkupvm, QDate loppupvm)
 
     // 1) Bruttojen oikaisut
 
-    query.exec(  QString("select alvkoodi,alvprosentti,sum(debetsnt) as debetit, sum(kreditsnt) as kreditit, tili from vienti where pvm between \"%3\" and \"%4\" and (alvkoodi=%1 or alvkoodi=%2) group by verokoodi,tili,alvprosentti").arg(AlvKoodi::MYYNNIT_BRUTTO).arg(AlvKoodi::OSTOT_BRUTTO)
+    query.exec(  QString("select alvkoodi,alvprosentti,sum(debetsnt) as debetit, sum(kreditsnt) as kreditit, tili from vienti where pvm between \"%3\" and \"%4\" and (alvkoodi=%1 or alvkoodi=%2) group by alvkoodi,tili,alvprosentti")
+                 .arg(AlvKoodi::MYYNNIT_BRUTTO).arg(AlvKoodi::OSTOT_BRUTTO)
                  .arg(alkupvm.toString(Qt::ISODate)).arg(loppupvm.toString(Qt::ISODate)));
+
+    qDebug() << query.lastQuery();
+
     while( query.next() && query.value("alvprosentti").toInt())
     {
 
         Tili tili = kp()->tilit()->tiliIndeksilla( query.value("tili").toInt() );
         int alvprosentti = query.value("alvprosentti").toInt();
-        int saldoSnt = query.value("kreditit").toInt() - query.value("debitit").toInt();
+        int saldoSnt = query.value("kreditit").toInt() - query.value("debetit").toInt();
 
         VientiRivi rivi;
         rivi.pvm = loppupvm;
         rivi.tili = tili;
         // Brutosta erotetaan verot
-        int veroSnt = ( alvprosentti / ( 100 + alvprosentti )) * saldoSnt;
+        int veroSnt = ( alvprosentti * saldoSnt ) / ( 100 + alvprosentti) ;
         int nettoSnt = saldoSnt - veroSnt;
 
 
         if( query.value("alvkoodi").toInt() == AlvKoodi::MYYNNIT_BRUTTO )
         {
             verotKannoittainSnt[ alvprosentti ] = verotKannoittainSnt.value(alvprosentti, 0) + veroSnt;
-            brutostaveroayhtSnt += veroSnt;
+            bruttoveroayhtSnt += veroSnt;
 
             rivi.selite = tr("Alv-kirjaus %1 - %2 %3 % vero (NETTO %L4 €, BRUTTO %L5€) ").arg(alkupvm.toString(Qt::SystemLocaleShortDate))
                     .arg(loppupvm.toString(Qt::SystemLocaleShortDate))
@@ -80,7 +85,7 @@ QDate AlvIlmoitusDialog::teeAlvIlmoitus(QDate alkupvm, QDate loppupvm)
         }
         else
         {
-            vahennettavaaSnt += qAbs(veroSnt);
+            bruttovahennettavaaSnt += qAbs(veroSnt);
 
             rivi.selite = tr("Alv-kirjaus %1 - %2 %3 % vähennys (NETTO %L4 €, BRUTTO %L5€) ").arg(alkupvm.toString(Qt::SystemLocaleShortDate))
                     .arg(loppupvm.toString(Qt::SystemLocaleShortDate))
@@ -89,32 +94,74 @@ QDate AlvIlmoitusDialog::teeAlvIlmoitus(QDate alkupvm, QDate loppupvm)
                     .arg(qAbs(saldoSnt) / 100.0,0, 'f', 2);
             rivi.kreditSnt = veroSnt;
         }
+    qDebug() << rivi.selite;
         ehdotus.lisaaVienti(rivi);
     }
 
     // 2) Nettokirjausten koonti
-    query.exec( QString("select alvprosentti, sum(debet) as debetit, sum(kredit) as kreditit from vienti where pvm between \"%1\" and \"%2\" and alvkoodi=%3")
+    query.exec( QString("select alvprosentti, sum(debetsnt) as debetit, sum(kreditsnt) as kreditit from vienti where pvm between \"%1\" and \"%2\" and alvkoodi=%3 group by alvprosentti")
                 .arg(alkupvm.toString(Qt::ISODate)).arg(loppupvm.toString(Qt::ISODate)).arg(AlvKoodi::ALVKIRJAUS + AlvKoodi::MYYNNIT_NETTO) );
+
+    qDebug() << query.lastQuery();
     while( query.next())
     {
         int alvprosentti = query.value("alvprosentti").toInt();
         int saldo = query.value("kreditit").toInt() - query.value("debetit").toInt();
         verotKannoittainSnt[ alvprosentti ] = verotKannoittainSnt.value(alvprosentti) + saldo;
     }
-    query.exec( QString("select sum(debet) as debetit, sum(kredit) as kreditit from vienti where pvm between \"%1\" and \"%2\" and alvkoodi=%3")
-                .arg(alkupvm.toString(Qt::ISODate)).arg(loppupvm.toString(Qt::ISODate)).arg(AlvKoodi::ALVVAHENNYS + AlvKoodi::OSTOT_NETTO) );
+
+
+    // Muut kirjaukset tauluihin
+    query.exec( QString("select alvkoodi, sum(debetsnt) as debetit, sum(kreditsnt) as kreditit from vienti where pvm between \"%1\" and \"%2\" group by alvkoodi")
+                .arg(alkupvm.toString(Qt::ISODate)).arg(loppupvm.toString(Qt::ISODate)) );
+
+    qDebug() << query.lastQuery();
+    QMap<int,int> kooditaulu;
+
+    int nettoverosnt = 0;
+    int nettovahennyssnt = 0;
+
     while( query.next())
     {
-        int saldo = query.value("debetit").toInt() - query.value("kreditit").toInt();
-        vahennettavaaSnt -= saldo;
+        int saldo = query.value("kreditit").toInt() - query.value("debetit").toInt();
+        int koodi = query.value("alvkoodi").toInt();
+
+        if( koodi  > AlvKoodi::ALVVAHENNYS)
+        {
+            nettovahennyssnt += 0 - saldo;
+            kooditaulu.insert(koodi, 0-saldo);
+        }
+        else if( koodi > AlvKoodi::ALVKIRJAUS)
+        {
+            nettoverosnt += saldo;
+            kooditaulu.insert(koodi, saldo);
+        }
+        else
+        {
+            if( koodi > 20)
+                kooditaulu.insert(koodi, 0-saldo);
+            else
+                kooditaulu.insert(koodi, saldo);
+        }
     }
 
     QMapIterator<int,int> iter(verotKannoittainSnt);
     while( iter.hasNext())
     {
-        txt.append( tr(" %1 %  -  %L1 € \n").arg(iter.key()).arg(iter.value() / 100.0 ,0,'f',2));
+        iter.next();
+        txt.append( tr(" %1 %  -  %L2 € \n").arg(iter.key()).arg(iter.value() / 100.0 ,0,'f',2));
     }
-    txt.append( tr("Vähennettävää %1").arg(vahennettavaaSnt / 100.0, 0, 'f', 2 ));
+
+    txt.append("\n\n");
+    QMapIterator<int,int> kIter(kooditaulu);
+    while( kIter.hasNext() )
+    {
+        kIter.next();
+        txt.append( tr(" %1  -  %L2 € \n").arg(kIter.key()).arg(kIter.value() / 100.0 ,0,'f',2));
+    }
+
+    txt.append( tr("Veroa %1 \n").arg( ( bruttoveroayhtSnt + nettoverosnt ) / 100.0, 0, 'f', 2 ));
+    txt.append( tr("Vähennettävää %1 \n").arg( (bruttovahennettavaaSnt + nettovahennyssnt) / 100.0, 0, 'f', 2 ));
 
 
     AlvIlmoitusDialog dlg;

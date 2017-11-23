@@ -40,12 +40,14 @@ TilinMuokkausDialog::TilinMuokkausDialog(TiliModel *model, QModelIndex index) :
     proxy_ = new QSortFilterProxyModel(this);
     proxy_->setSourceModel( kp()->tiliTyypit() );
     proxy_->setFilterRole(TilityyppiModel::KoodiRooli);
-
     ui->tyyppiCombo->setModel( proxy_ );
 
     // Laitetaa verotyypit paikalleen
 
-    ui->veroCombo->setModel( kp()->alvTyypit());
+    veroproxy_ = new QSortFilterProxyModel(this);
+    veroproxy_->setSourceModel( kp()->alvTyypit());
+    veroproxy_->setFilterRole( VerotyyppiModel::KoodiRooli);
+    ui->veroCombo->setModel( veroproxy_ );
 
     // Vain otsikkoon liittyvät piilotetaan
     ui->tasoSpin->setVisible(false);
@@ -172,6 +174,13 @@ void TilinMuokkausDialog::naytettavienPaivitys()
     ui->veroCombo->setVisible( alvKaytossa );
     ui->veroprosenttiLabel->setVisible( alvKaytossa );
     ui->veroSpin->setVisible( alvKaytossa);
+
+    if( tyyppi.onko(TiliLaji::TULO))
+        veroproxy_->setFilterRegExp("(0|1.)");
+    else if( tyyppi.onko(TiliLaji::MENO))
+        veroproxy_->setFilterRegExp("(0|2.)");
+    else
+        veroproxy_->setFilterRegExp("");
 
     ui->poistoaikaLabel->setVisible( tyyppi.onko( TiliLaji::TASAERAPOISTO));
     ui->poistoaikaSpin->setVisible( tyyppi.onko(TiliLaji::TASAERAPOISTO) );
