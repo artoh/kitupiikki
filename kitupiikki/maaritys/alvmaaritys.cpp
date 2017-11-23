@@ -75,7 +75,7 @@ void AlvMaaritys::ilmoita()
     QDate ilmoitettu = AlvIlmoitusDialog::teeAlvIlmoitus(seuraavaAlkaa, seuraavaLoppuu);
     if( ilmoitettu.isValid())
     {
-        kp()->asetukset()->aseta("AlvIlmoitettu", ilmoitettu);
+        kp()->asetukset()->aseta("AlvIlmoitus", ilmoitettu);
         ui->viimeisinEdit->setDate(ilmoitettu);
     }
 }

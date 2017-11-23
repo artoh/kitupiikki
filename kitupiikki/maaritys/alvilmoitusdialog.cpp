@@ -17,6 +17,10 @@
 
 #include <QSqlQuery>
 #include <QDebug>
+#include <QPrinter>
+
+#include <QTemporaryFile>
+#include <QTextDocument>
 
 #include "alvilmoitusdialog.h"
 #include "ui_alvilmoitusdialog.h"
@@ -45,7 +49,6 @@ QDate AlvIlmoitusDialog::teeAlvIlmoitus(QDate alkupvm, QDate loppupvm)
 
     EhdotusModel ehdotus;
     QSqlQuery query( *kp()->tietokanta() );
-    QString txt = tr("Verokausi %1 - %2 \n").arg(alkupvm.toString(Qt::SystemLocaleShortDate)).arg(loppupvm.toString(Qt::SystemLocaleShortDate));
 
     // 1) Bruttojen oikaisut
 
@@ -138,35 +141,116 @@ QDate AlvIlmoitusDialog::teeAlvIlmoitus(QDate alkupvm, QDate loppupvm)
         }
         else
         {
-            if( koodi > 20)
-                kooditaulu.insert(koodi, 0-saldo);
-            else
+            if( koodi / 10 % 2 )  // 10 myynti, 20 osto jne.
                 kooditaulu.insert(koodi, saldo);
+            else
+                kooditaulu.insert(koodi, 0 - saldo);
         }
     }
+    // Kirjaus alv-saamistililtä ja alv-velkatililtä verovelkatilille
+    if( nettoverosnt )
+    {
+        VientiRivi rivi;
+        rivi.pvm = loppupvm;
+        rivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA);
+        rivi.selite = tr("Alv-kirjaus %1 - %2 ").arg(alkupvm.toString(Qt::SystemLocaleShortDate)).arg(loppupvm.toString(Qt::SystemLocaleShortDate));
+        rivi.debetSnt = nettoverosnt;
+        ehdotus.lisaaVienti(rivi);
+    }
+    if( nettovahennyssnt )
+    {
+        VientiRivi rivi;
+        rivi.pvm = loppupvm;
+        rivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA);
+        rivi.selite = tr("Alv-kirjaus %1 - %2 ").arg(alkupvm.toString(Qt::SystemLocaleShortDate)).arg(loppupvm.toString(Qt::SystemLocaleShortDate));
+        rivi.kreditSnt = nettovahennyssnt;
+        ehdotus.lisaaVienti(rivi);
+    }
+    // Ja lopuksi kirjataan verot verotilille
+    int maksettavavero = bruttoveroayhtSnt + nettoverosnt - bruttovahennettavaaSnt - nettovahennyssnt;
+    if( maksettavavero )
+    {
+        VientiRivi rivi;
+        rivi.pvm = loppupvm;
+        rivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA);
+        rivi.selite = tr("Alv-ilmoituksella tilitettävä vero kaudelta %1 - %2").arg(alkupvm.toString(Qt::SystemLocaleShortDate)).arg(loppupvm.toString(Qt::SystemLocaleShortDate));
+        if( maksettavavero > 0 )
+            rivi.kreditSnt = maksettavavero;
+        else
+            rivi.debetSnt = 0 - maksettavavero;
+        ehdotus.lisaaVienti(rivi);
+    }
 
+
+    // Laskelman tulostus
     QMapIterator<int,int> iter(verotKannoittainSnt);
-    while( iter.hasNext())
+    iter.toBack();
+
+    QString txt = tr("<h1>Arvonlisäverolaskelma %1 - %2 </h1>").arg(alkupvm.toString(Qt::SystemLocaleShortDate)).arg(loppupvm.toString(Qt::SystemLocaleShortDate));
+    txt.append(tr("<h2>Vero kotimaan myynnistä verokannoittain</h2><table>"));
+    while( iter.hasPrevious())
     {
-        iter.next();
-        txt.append( tr(" %1 %  -  %L2 € \n").arg(iter.key()).arg(iter.value() / 100.0 ,0,'f',2));
+        iter.previous();
+        txt.append( tr("<tr><td>%1 %:n vero </td><td>%L2 € </td></tr>").arg(iter.key()).arg(iter.value() / 100.0 ,0,'f',2));
     }
 
-    txt.append("\n\n");
-    QMapIterator<int,int> kIter(kooditaulu);
-    while( kIter.hasNext() )
-    {
-        kIter.next();
-        txt.append( tr(" %1  -  %L2 € \n").arg(kIter.key()).arg(kIter.value() / 100.0 ,0,'f',2));
-    }
 
-    txt.append( tr("Veroa %1 \n").arg( ( bruttoveroayhtSnt + nettoverosnt ) / 100.0, 0, 'f', 2 ));
-    txt.append( tr("Vähennettävää %1 \n").arg( (bruttovahennettavaaSnt + nettovahennyssnt) / 100.0, 0, 'f', 2 ));
+    txt.append("</table><h2>Vero ostoista ja maahantuonneista</h2><table>");
+    txt.append(tr("<tr><td>Vero tavaraostoista muista EU-maista</td><td>%L2 €</td></tr>").arg( kooditaulu.value(AlvKoodi::ALVKIRJAUS + AlvKoodi::YHTEISOHANKINNAT_TAVARAT) / 100.0, 0,'f',2 ) );
+    txt.append(tr("<tr><td>Vero palveluostoista muista EU-maista</td><td>%L2 €</td></tr>").arg( kooditaulu.value(AlvKoodi::ALVKIRJAUS + AlvKoodi::YHTEISOHANKINNAT_PALVELUT) / 100.0, 0,'f',2 ) );
+    txt.append(tr("<tr><td>Vero tavaroiden maahantuonnista EU:n ulkopuolelta</td><td>%L2 €</td></tr>").arg( kooditaulu.value(AlvKoodi::ALVKIRJAUS + AlvKoodi::RAKENNUSPALVELU_OSTO) / 100.0, 0,'f',2 ) );
+    txt.append(tr("<tr><td>Vero rakentamispalvelun ja metalliromun ostoista</td><td>%L2 €</td></tr>").arg( kooditaulu.value(AlvKoodi::ALVKIRJAUS + AlvKoodi::RAKENNUSPALVELU_OSTO) / 100.0, 0,'f',2 ) );
+    txt.append("</table>");
+
+    txt.append("<h2>Vähennettävä vero</h2><table>");
+    txt.append(tr("<tr><td>Verokauden vähennettävä vero</td><td>%L2 €</td></tr>").arg( (nettovahennyssnt + bruttovahennettavaaSnt) / 100.0, 0,'f',2  ) );
+    txt.append("</table>");
+
+    txt.append("<h2>Myynnit ja ostot</h2><table>");
+    txt.append(tr("<tr><td>0-verokannan alainen liikevaihto</td><td>%L2 €</td></tr>").arg( kooditaulu.value(AlvKoodi::ALV0) / 100.0, 0,'f',2 ) );
+    txt.append(tr("<tr><td>Tavaroiden myynti muihin EU-maihin</td><td>%L2 €</td></tr>").arg( kooditaulu.value(AlvKoodi::YHTEISOMYYNTI_TAVARAT) / 100.0, 0,'f',2 ) );
+    txt.append(tr("<tr><td>Palveluiden myynti muihin EU-maihin</td><td>%L2 €</td></tr>").arg( kooditaulu.value(AlvKoodi::YHTEISOMYYNTI_PALVELUT) / 100.0, 0,'f',2 ) );
+    txt.append(tr("<tr><td>Tavaraostot muista EU-maista</td><td>%L2 €</td></tr>").arg( kooditaulu.value(AlvKoodi::YHTEISOHANKINNAT_TAVARAT) / 100.0, 0,'f',2 ) );
+    txt.append(tr("<tr><td>Palveluostot muista EU-maista</td><td>%L2 €</td></tr>").arg( kooditaulu.value(AlvKoodi::YHTEISOHANKINNAT_PALVELUT) / 100.0, 0,'f',2 ) );
+    txt.append(tr("<tr><td>Tavaroiden maahantuonnit EU:n ulkopuolelta</td><td>%L2 €</td></tr>").arg( kooditaulu.value(AlvKoodi::MAAHANTUONTI) / 100.0, 0,'f',2 ) );
+    txt.append(tr("<tr><td>Rakentamispalveluiden ja metalliromun myynnit</td><td>%L2 €</td></tr>").arg( kooditaulu.value(AlvKoodi::RAKENNUSPALVELU_OSTO) / 100.0, 0,'f',2 ) );
+    txt.append(tr("<tr><td>Rakentamispalveluiden ja metalliromun ostot</td><td>%L2 €</td></tr>").arg( kooditaulu.value(AlvKoodi::RAKENNUSPALVELU_OSTO) / 100.0, 0,'f',2 ) );
+
+
+    txt.append(tr("</table><h2>Maksettava vero</h2><table>"));
+    txt.append(tr("<tr><td>Vero yhteensä</td><td>%L2 €</td></tr>").arg( (bruttoveroayhtSnt + nettoverosnt) / 100.0, 0,'f',2 ) );
+    txt.append(tr("<tr><td>Vähenettävä vero yhteensä</td><td>%L2 €</td></tr>").arg( (bruttovahennettavaaSnt + nettovahennyssnt ) / 100.0, 0,'f',2 ) );
+    txt.append(tr("<tr><td>Maksettava vero</td><td>%L2 €</td></tr>").arg( maksettavavero / 100.0, 0,'f',2 ) );
+    txt.append("</table>");
 
 
     AlvIlmoitusDialog dlg;
-    dlg.ui->ilmoitusBrowser->setPlainText(txt);
-    dlg.exec();
+    dlg.ui->ilmoitusBrowser->setHtml(txt);
+    if( dlg.exec() )
+    {
+        // Laskelma vahvistettu, tallennetaan tositteeksi
+        TositeModel model( kp()->tietokanta());
+        model.asetaPvm( loppupvm );
+        model.asetaTositelaji(0);
+        model.asetaOtsikko( tr("Arvonlisävero %1 - %2").arg(alkupvm.toString(Qt::SystemLocaleShortDate)).arg(loppupvm.toString(Qt::SystemLocaleShortDate)) );
+        ehdotus.tallenna( model.vientiModel() );
+
+        // Liitetään laskelma
+        QTemporaryFile file( QDir::tempPath() + "/alv-XXXXXX.pdf");
+        file.open();
+        file.close();
+        QTextDocument dokumentti;
+        dokumentti.setHtml(txt);
+        QPrinter printer;
+        printer.setPageSize(QPrinter::A4);
+        printer.setOutputFileName( file.fileName() );
+        dokumentti.print( &printer );
+        qDebug() << file.fileName();
+        model.liiteModel()->lisaaTiedosto( file.fileName(), tr("Alv-laskelma"));
+
+        model.tallenna();
+        return loppupvm;
+    }
 
     return QDate();
 }
