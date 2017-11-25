@@ -15,9 +15,13 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QDesktopServices>
+#include <QUrl>
+
 #include "alvmaaritys.h"
 #include "ui_arvonlisavero.h"
 #include "db/kirjanpito.h"
+#include "db/tositemodel.h"
 
 #include "alvilmoitusdialog.h"
 
@@ -25,14 +29,22 @@ AlvMaaritys::AlvMaaritys() :
     ui(new Ui::AlvMaaritys)
 {
     ui->setupUi(this);
+    model = new AlvIlmoitustenModel(this);
 
     ui->kausiCombo->addItem("Kuukausi",QVariant(1));
     ui->kausiCombo->addItem("Neljännesvuosi",QVariant(3));
     ui->kausiCombo->addItem("Vuosi", QVariant(12));
+    ui->ilmoituksetView->setModel( model );
+    ui->ilmoituksetView->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->ilmoituksetView->setSelectionBehavior(QAbstractItemView::SelectRows);
+
 
     connect( ui->viimeisinEdit, SIGNAL(dateChanged(QDate)), this, SLOT(paivitaSeuraavat()));
     connect(ui->kausiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(paivitaSeuraavat()));
     connect( ui->tilitaNappi, SIGNAL(clicked(bool)), this, SLOT(ilmoita()));
+    connect( ui->tilitysNappi, SIGNAL(clicked(bool)), this, SLOT(naytaIlmoitus()));
+    connect(ui->ilmoituksetView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(riviValittu()));
+
 }
 
 bool AlvMaaritys::nollaa()
@@ -77,6 +89,25 @@ void AlvMaaritys::ilmoita()
     {
         kp()->asetukset()->aseta("AlvIlmoitus", ilmoitettu);
         ui->viimeisinEdit->setDate(ilmoitettu);
+        model->lataa();
+        ui->ilmoituksetView->resizeColumnsToContents();
     }
+}
+
+void AlvMaaritys::naytaIlmoitus()
+{
+    int tositeId = model->data( ui->ilmoituksetView->selectionModel()->currentIndex() , AlvIlmoitustenModel::TositeIdRooli ).toInt();
+
+    TositeModel tosite( kp()->tietokanta());
+    tosite.lataa(tositeId);
+    QString polku = tosite.liiteModel()->liitePolku(1);
+    QDesktopServices::openUrl( QUrl( polku ) );
+
+
+}
+
+void AlvMaaritys::riviValittu()
+{
+    ui->tilitysNappi->setEnabled( ui->ilmoituksetView->selectionModel()->currentIndex().isValid() );
 }
 

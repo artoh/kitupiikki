@@ -68,6 +68,7 @@ QDate AlvIlmoitusDialog::teeAlvIlmoitus(QDate alkupvm, QDate loppupvm)
         VientiRivi rivi;
         rivi.pvm = loppupvm;
         rivi.tili = tili;
+        rivi.alvprosentti = alvprosentti;
         // Brutosta erotetaan verot
         int veroSnt = ( alvprosentti * saldoSnt ) / ( 100 + alvprosentti) ;
         int nettoSnt = saldoSnt - veroSnt;
@@ -178,6 +179,7 @@ QDate AlvIlmoitusDialog::teeAlvIlmoitus(QDate alkupvm, QDate loppupvm)
             rivi.kreditSnt = maksettavavero;
         else
             rivi.debetSnt = 0 - maksettavavero;
+        rivi.alvkoodi = AlvKoodi::ALVKIRJAUS;
         ehdotus.lisaaVienti(rivi);
     }
 
@@ -233,6 +235,10 @@ QDate AlvIlmoitusDialog::teeAlvIlmoitus(QDate alkupvm, QDate loppupvm)
         model.asetaPvm( loppupvm );
         model.asetaTositelaji(0);
         model.asetaOtsikko( tr("Arvonlisävero %1 - %2").arg(alkupvm.toString(Qt::SystemLocaleShortDate)).arg(loppupvm.toString(Qt::SystemLocaleShortDate)) );
+
+        model.json()->set("AlvTilitysAlkaa", alkupvm);
+        model.json()->set("AlvTilitysPaattyy", loppupvm);
+        model.json()->set("MaksettavaAlv", maksettavavero);
         ehdotus.tallenna( model.vientiModel() );
 
         // Liitetään laskelma

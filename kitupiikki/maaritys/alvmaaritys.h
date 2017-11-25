@@ -21,6 +21,7 @@
 #include <QDate>
 
 #include "maarityswidget.h"
+#include "alvilmoitustenmodel.h"
 
 namespace Ui {
 class AlvMaaritys;
@@ -40,11 +41,14 @@ public:
 public slots:
     void paivitaSeuraavat();
     void ilmoita();
+    void naytaIlmoitus();
+    void riviValittu();
 
 private:
     Ui::AlvMaaritys *ui;
     QDate seuraavaAlkaa;
     QDate seuraavaLoppuu;
+    AlvIlmoitustenModel *model = new AlvIlmoitustenModel;
 };
 
 #endif // ALVMAARITYS_H

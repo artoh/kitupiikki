@@ -80,6 +80,9 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QPushButton" name="tilitysNappi">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Näytä tilitys</string>
        </property>
@@ -87,6 +90,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="erittelyNappi">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Näytä erittely</string>
        </property>
