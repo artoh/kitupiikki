@@ -27,8 +27,9 @@ class UusiLaskuDialogi;
 class UusiLaskuDialogi : public QDialog
 {
     Q_OBJECT
-
 public:
+    enum Kirjausperuste {SUORITEPERUSTE, LASKUTUSPERUSTE, MAKSUPERUSTE, KATEISLASKU};
+
     explicit UusiLaskuDialogi(QWidget *parent = 0);
     ~UusiLaskuDialogi();
 

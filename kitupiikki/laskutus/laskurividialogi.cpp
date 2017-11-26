@@ -15,32 +15,17 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "laskutussivu.h"
-#include "uusilaskudialogi.h"
+#include "laskurividialogi.h"
+#include "ui_laskurividialogi.h"
 
-LaskutusSivu::LaskutusSivu() :
-    ui(new Ui::Laskutus)
+LaskuRiviDialogi::LaskuRiviDialogi(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::LaskuRiviDialogi)
 {
     ui->setupUi(this);
-    ui->suodatusTab->addTab("Kaikki");
-    ui->suodatusTab->addTab("Avoimet");
-    ui->suodatusTab->addTab("Erääntyneet");
-
-    connect(ui->uusiNappi, SIGNAL(clicked(bool)), this, SLOT(uusiLasku()) );
 }
 
-void LaskutusSivu::siirrySivulle()
+LaskuRiviDialogi::~LaskuRiviDialogi()
 {
-
-}
-
-bool LaskutusSivu::poistuSivulta()
-{
-    return true;
-}
-
-void LaskutusSivu::uusiLasku()
-{
-    UusiLaskuDialogi dlg;
-    dlg.exec();
+    delete ui;
 }

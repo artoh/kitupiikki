@@ -33,7 +33,7 @@ class QGraphicsView;
  * naytaTiedosto-funktiolla (slot) näytetään haluttu tiedosto
  * Jos käyttäjä valitsee tai tiputtaa tiedoston, lähetetään lisaaLiite-signal
  *
- * Tällä hetkellä tukee kuvatiedostoja (jpg, png)
+ * Tällä hetkellä tukee pdf-tietostoja
  *
  */
 class NaytaliiteWg : public QStackedWidget

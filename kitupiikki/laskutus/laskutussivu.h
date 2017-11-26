@@ -20,6 +20,8 @@
 
 #include "kitupiikkisivu.h"
 
+#include "ui_laskutus.h"
+
 class LaskutusSivu : public KitupiikkiSivu
 {
     Q_OBJECT
@@ -29,6 +31,12 @@ public:
     void siirrySivulle();
     bool poistuSivulta();
     QString ohjeSivunNimi() { return "laskutus";}
+
+public slots:
+    void uusiLasku();
+
+private:
+    Ui::Laskutus *ui;
 };
 
 #endif // LASKUTUSSIVU_H

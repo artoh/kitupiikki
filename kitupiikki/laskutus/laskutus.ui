@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>Laskutus</class>
+ <widget class="QWidget" name="Laskutus">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -30,17 +30,6 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="uusiNappi">
-       <property name="text">
-        <string>Uusi lasku...</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../pic/pic.qrc">
-         <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -52,6 +41,17 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="uusiNappi">
+       <property name="text">
+        <string>Uusi lasku...</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
