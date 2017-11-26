@@ -26,6 +26,13 @@ table.vinkki
   margin-bottom: 1em;
 }
 
+table.varoitus
+{
+    background-color: #ff4d4d;
+    padding: 6px 6px 6px 6px;
+    margin-bottom: 1em;
+}
+
 a
 {
     text-decoration: none;

@@ -45,6 +45,9 @@ struct RaporttiSarake
  * @code
  *    Raportinkirjoittaja kirjoittaja;
  *    kirjoittaja.asetaOtsikko("RAPORTTI");
+ *    kirjoittaja.lisaaPvmSarake();
+ *    kirjoittaja.lisaaVenyvaSarake();
+ *    kirjoittaja.lisaaEuroSarake();
  * @endcode
  *
  * Raportille voi lisätä yhden tai useamman otsakerivin, jotka toistuvat joka sivulla
@@ -64,6 +67,7 @@ struct RaporttiSarake
  *    rivi.lisaa( QDate(2017,12,31) );
  *    rivi.lisaa( "Oma selite" );
  *    rivi.lisaa( 1240 );  // 12.40 €
+ *    kirjoittaja.lisaaRivi(rivi);
  * @endcode
  *
  * Ja lopuksi raportti tulostetaan

@@ -25,6 +25,8 @@
 
 #include "alvilmoitusdialog.h"
 
+
+
 AlvMaaritys::AlvMaaritys() :
     ui(new Ui::AlvMaaritys)
 {
@@ -77,7 +79,12 @@ void AlvMaaritys::paivitaSeuraavat()
 
     ui->seuraavaLabel->setText( QString("%1 - %2").arg( seuraavaAlkaa.toString(Qt::SystemLocaleShortDate))
                                                         .arg(seuraavaLoppuu.toString(Qt::SystemLocaleShortDate)) );
-    ui->erapaivaLabel->setText( seuraavaLoppuu.addDays(12).toString(Qt::SystemLocaleShortDate) );
+    ui->erapaivaLabel->setText( seuraavaLoppuu.addMonths(1).addDays(12).toString(Qt::SystemLocaleShortDate) );
+
+    if( kp()->paivamaara().daysTo( seuraavaLoppuu.addMonths(1).addDays(12) ) < 3)
+        ui->erapaivaLabel->setStyleSheet("color: red;");
+    else
+        ui->erapaivaLabel->setStyleSheet("color: black;");
 
     emit tallennaKaytossa(onkoMuokattu());
 }

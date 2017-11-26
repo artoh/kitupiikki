@@ -35,6 +35,7 @@
 #include "aloitussivu.h"
 #include "db/kirjanpito.h"
 #include "uusikp/uusikirjanpito.h"
+#include "maaritys/alvmaaritys.h"
 
 AloitusSivu::AloitusSivu() :
     KitupiikkiSivu(0)
@@ -82,23 +83,20 @@ void AloitusSivu::siirrySivulle()
 
         ui->selain->setHtml(txt);
     }
+    else
+    {
+        ui->selain->setSource(QUrl("qrc:/aloitus/tervetuloa.html"));
+        ui->tilikausiCombo->hide();
+        ui->logoLabel->hide();
+        ui->nimiLabel->hide();
+    }
 
 }
 
 void AloitusSivu::kirjanpitoVaihtui()
 {
-    if( kp()->asetukset()->asetus("Nimi").isEmpty())
+    if( kp()->asetukset()->onko("Nimi"))
     {
-        ui->selain->setSource(QUrl("qrc:/aloitus/tervetuloa.html"));
-
-        ui->tilikausiCombo->hide();
-        ui->logoLabel->hide();
-        ui->nimiLabel->hide();
-
-    }
-    else
-    {
-
         // Kirjanpito avattu
         ui->nimiLabel->show();
         ui->nimiLabel->setText( kp()->asetukset()->asetus("Nimi"));
@@ -221,13 +219,41 @@ QString AloitusSivu::vinkit()
         vinkki.append(tr("<table class=vinkki width=100%><tr><td><h3><a href=ktp:/maaritys/Tilinavaus>Tee tilinavaus</a></h3><p>Syötä viimeisimmältä tilinpäätökseltä tilien "
                       "avaavat saldot %1 järjestelmään <a href='ohje:/maaritykset#tilinavaus'>(Ohje)</a></p></td></tr></table>").arg( kp()->asetukset()->pvm("TilinavausPvm").toString(Qt::SystemLocaleShortDate) ) );
 
+    // Muistutus arvonlisäverolaskelmasta
+    if(  kp()->asetukset()->onko("AlvVelvollinen") )
+    {
+        QDate kausialkaa = kp()->asetukset()->pvm("AlvIlmoitus").addDays(1);
+        QDate kausipaattyy = kp()->asetukset()->pvm("AlvIlmoitus").addMonths( kp()->asetukset()->luku("AlvKausi")).addDays(-1);
+        QDate erapaiva = AlvMaaritys::erapaiva(kausipaattyy);
+
+        int paivaaIlmoitukseen = kp()->paivamaara().daysTo( erapaiva );
+        if( paivaaIlmoitukseen < 0)
+        {
+            vinkki.append( tr("<table class=varoitus width=100%><tr><td>"
+                              "<h3><a href=ktp:/maaritys/Arvonlisävero>Arvonlisäveroilmoitus myöhässä</h3>"
+                              "Arvonlisäveroilmoitus kaudelta %1 - %2 olisi pitänyt antaa %3 mennessä.</td></tr></table>")
+                           .arg(kausialkaa.toString(Qt::SystemLocaleShortDate)).arg(kausipaattyy.toString(Qt::SystemLocaleShortDate))
+                           .arg(erapaiva.toString(Qt::SystemLocaleShortDate)));
+
+        }
+        else if( paivaaIlmoitukseen < 30)
+        {
+            vinkki.append( tr("<table class=vinkki width=100%><tr><td>"
+                              "<h3><a href=ktp:/maaritys/Arvonlisävero>Tee arvonlisäverotilitys</h3>"
+                              "Arvonlisäveroilmoitus kaudelta %1 - %2 on annettava %3 mennessä.</td></tr></table>")
+                           .arg(kausialkaa.toString(Qt::SystemLocaleShortDate)).arg(kausipaattyy.toString(Qt::SystemLocaleShortDate))
+                           .arg(erapaiva.toString(Qt::SystemLocaleShortDate)));
+        }
+    }
+
+
     // Uuden tilikauden aloittaminen
     if( kp()->paivamaara().daysTo(kp()->tilikaudet()->kirjanpitoLoppuu()) < 30 )
     {
         vinkki.append(tr("<table class=vinkki width=100%><tr><td>"
                       "<h3><a href=ktp:/uusitilikausi>Aloita uusi tilikausi</a></h3>"
                       "<p>Tilikausi päättyy %1, jonka jälkeiselle ajalle ei voi tehdä kirjauksia ennen kuin uusi tilikausi aloitetaan.</p>"
-                      "<p>Voit tehdä kirjauksia myös aiempiin tilikausiin, kunnes ne on päätetty</p></td></tr></table>").arg( kp()->tilikaudet()->kirjanpitoLoppuu().toString(Qt::SystemLocaleShortDate) ));
+                      "<p>Voit tehdä kirjauksia myös aiempaan tilikauteen, kunnes se on päätetty</p></td></tr></table>").arg( kp()->tilikaudet()->kirjanpitoLoppuu().toString(Qt::SystemLocaleShortDate) ));
 
     }
 
@@ -236,7 +262,7 @@ QString AloitusSivu::vinkit()
     {
         Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla(i);
         if( kausi.paattyy().daysTo(kp()->paivamaara()) > 1 &&
-                                   kausi.paattyy().daysTo( kp()->paivamaara()) < 4 * 30
+                                   kausi.paattyy().daysTo( kp()->paivamaara()) < 5 * 30
                 && ( kausi.tilinpaatoksenTila() == Tilikausi::ALOITTAMATTA || kausi.tilinpaatoksenTila() == Tilikausi::KESKEN) )
         {
             vinkki.append(QString("<table class=vinkki width=100%><tr><td>"

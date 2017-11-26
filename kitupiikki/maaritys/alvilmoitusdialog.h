@@ -19,6 +19,7 @@
 #define ALVILMOITUSDIALOG_H
 
 #include <QDialog>
+#include "raportti/raportinkirjoittaja.h"
 
 namespace Ui {
 class AlvIlmoitusDialog;
@@ -35,7 +36,29 @@ public:
     static QDate teeAlvIlmoitus(QDate alkupvm, QDate loppupvm);
 
 private:
+    /**
+     * @brief Varsinainen alv-ilmoituksen teko
+     * @param alkupvm
+     * @param loppupvm
+     * @return
+     */
+    bool alvIlmoitus(QDate alkupvm, QDate loppupvm);
+
     Ui::AlvIlmoitusDialog *ui;
+    RaportinKirjoittaja *kirjoittaja;
+
+    /**
+     * @brief Kirjoittaa raporttiin väliotsikon
+     * @param teksti
+     */
+    void otsikko(const QString& teksti);
+    /**
+     * @brief Kirjoittaa raporttiin tietorivin
+     * @param nimike
+     * @param senttia
+     */
+    void luku(const QString& nimike, int senttia, bool viiva = false);
+
 };
 
 #endif // ALVILMOITUSDIALOG_H
