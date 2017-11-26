@@ -27,7 +27,9 @@ namespace Ui {
 class AlvMaaritys;
 }
 
-
+/**
+ * @brief Arvonlisäveromääritysten sivu, jolla tehdään alv-tilitys
+ */
 class AlvMaaritys : public MaaritysWidget
 {
     Q_OBJECT
@@ -43,6 +45,14 @@ public slots:
     void ilmoita();
     void naytaIlmoitus();
     void riviValittu();
+
+public:
+    /**
+     * @brief Alv-ilmoituksen eräpäivä
+     * @param loppupaiva Verokauden viimeinen päivä
+     * @return
+     */
+    static QDate erapaiva(const QDate& loppupaiva);
 
 private:
     Ui::AlvMaaritys *ui;

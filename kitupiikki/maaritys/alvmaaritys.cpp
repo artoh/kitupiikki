@@ -79,9 +79,9 @@ void AlvMaaritys::paivitaSeuraavat()
 
     ui->seuraavaLabel->setText( QString("%1 - %2").arg( seuraavaAlkaa.toString(Qt::SystemLocaleShortDate))
                                                         .arg(seuraavaLoppuu.toString(Qt::SystemLocaleShortDate)) );
-    ui->erapaivaLabel->setText( seuraavaLoppuu.addMonths(1).addDays(12).toString(Qt::SystemLocaleShortDate) );
+    ui->erapaivaLabel->setText( erapaiva(seuraavaLoppuu).toString(Qt::SystemLocaleShortDate) );
 
-    if( kp()->paivamaara().daysTo( seuraavaLoppuu.addMonths(1).addDays(12) ) < 3)
+    if( kp()->paivamaara().daysTo( erapaiva(seuraavaLoppuu) ) < 3)
         ui->erapaivaLabel->setStyleSheet("color: red;");
     else
         ui->erapaivaLabel->setStyleSheet("color: black;");
@@ -116,5 +116,10 @@ void AlvMaaritys::naytaIlmoitus()
 void AlvMaaritys::riviValittu()
 {
     ui->tilitysNappi->setEnabled( ui->ilmoituksetView->selectionModel()->currentIndex().isValid() );
+}
+
+QDate AlvMaaritys::erapaiva(const QDate &loppupaiva)
+{
+    return loppupaiva.addMonths(1).addDays(12);
 }
 

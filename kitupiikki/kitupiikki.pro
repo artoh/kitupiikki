@@ -97,7 +97,8 @@ SOURCES += main.cpp \
     kirjaus/taseeravalintadialogi.cpp \
     maaritys/alvmaaritys.cpp \
     maaritys/alvilmoitusdialog.cpp \
-    maaritys/alvilmoitustenmodel.cpp
+    maaritys/alvilmoitustenmodel.cpp \
+    laskutus/uusilaskudialogi.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -185,7 +186,8 @@ HEADERS += \
     kirjaus/taseeravalintadialogi.h \
     maaritys/alvmaaritys.h \
     maaritys/alvilmoitusdialog.h \
-    maaritys/alvilmoitustenmodel.h
+    maaritys/alvilmoitustenmodel.h \
+    laskutus/uusilaskudialogi.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -234,7 +236,9 @@ FORMS += \
     kirjaus/verodialogi.ui \
     kirjaus/taseeravalintadialogi.ui \
     maaritys/arvonlisavero.ui \
-    maaritys/alvilmoitusdialog.ui
+    maaritys/alvilmoitusdialog.ui \
+    laskutus/laskutus.ui \
+    laskutus/uusilaskudialogi.ui
 
 DISTFILES += \
     uusikp/luo.sql \
