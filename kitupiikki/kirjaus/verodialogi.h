@@ -46,7 +46,7 @@ private:
     Ui::VeroDialogi *ui;
 
 public:
-    static VeroDialogiValinta veroDlg(int koodi, int prosentti);
+    static VeroDialogiValinta veroDlg(int koodi, int prosentti, bool tyyppilukko = false);
 };
 
 #endif // VERODIALOGI_H

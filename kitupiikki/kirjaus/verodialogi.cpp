@@ -42,9 +42,11 @@ void VeroDialogi::lajimuuttuu()
     ui->tyyppiGroup->setEnabled(  !ui->verolajiCombo->currentData( VerotyyppiModel::NollaLajiRooli).toBool());
     ui->prossaSpin->setEnabled(  !ui->verolajiCombo->currentData( VerotyyppiModel::NollaLajiRooli).toBool());
 
+    if( !ui->verolajiCombo->currentData( VerotyyppiModel::NollaLajiRooli).toBool() && !ui->prossaSpin->value())
+        ui->prossaSpin->setValue( VerotyyppiModel::oletusAlvProsentti() );
 }
 
-VeroDialogiValinta VeroDialogi::veroDlg(int koodi, int prosentti)
+VeroDialogiValinta VeroDialogi::veroDlg(int koodi, int prosentti, bool tyyppilukko)
 {
     VeroDialogi dlg;
 
@@ -55,6 +57,7 @@ VeroDialogiValinta VeroDialogi::veroDlg(int koodi, int prosentti)
 
     dlg.ui->verolajiCombo->setCurrentIndex( dlg.ui->verolajiCombo->findData( koodi % 100));
     dlg.ui->prossaSpin->setValue(prosentti);
+    dlg.ui->tyyppiGroup->setEnabled(!tyyppilukko);
     dlg.lajimuuttuu();
 
     VeroDialogiValinta palautettava;

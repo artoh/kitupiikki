@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>LaskuRiviDialogi</class>
- <widget class="QDialog" name="LaskuRiviDialogi">
+ <class>TuoteDialogi</class>
+ <widget class="QDialog" name="TuoteDialogi">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -56,19 +56,6 @@
       <widget class="QDoubleSpinBox" name="doubleSpinBox_2"/>
      </item>
      <item row="3" column="0">
-      <widget class="QLabel" name="kplLabel">
-       <property name="text">
-        <string>Kappaletta</string>
-       </property>
-       <property name="buddy">
-        <cstring>doubleSpinBox_3</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QDoubleSpinBox" name="doubleSpinBox_3"/>
-     </item>
-     <item row="4" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
         <string>Yksikkö</string>
@@ -78,10 +65,10 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
+     <item row="3" column="1">
       <widget class="QLineEdit" name="lineEdit_2"/>
      </item>
-     <item row="5" column="0">
+     <item row="4" column="0">
       <widget class="QLabel" name="label_5">
        <property name="text">
         <string>Myyntitili</string>
@@ -91,10 +78,10 @@
        </property>
       </widget>
      </item>
-     <item row="5" column="1">
+     <item row="4" column="1">
       <widget class="TilinvalintaLine" name="lineEdit_3"/>
      </item>
-     <item row="6" column="0">
+     <item row="5" column="0">
       <widget class="QLabel" name="label_6">
        <property name="text">
         <string>Kohdennus</string>
@@ -104,10 +91,10 @@
        </property>
       </widget>
      </item>
-     <item row="6" column="1">
+     <item row="5" column="1">
       <widget class="QComboBox" name="comboBox"/>
      </item>
-     <item row="7" column="0">
+     <item row="6" column="0">
       <widget class="QLabel" name="alvLajiLabel">
        <property name="text">
         <string>Alv-laji</string>
@@ -117,10 +104,10 @@
        </property>
       </widget>
      </item>
-     <item row="7" column="1">
+     <item row="6" column="1">
       <widget class="QComboBox" name="comboBox_2"/>
      </item>
-     <item row="8" column="0">
+     <item row="7" column="0">
       <widget class="QLabel" name="alvProssaLabel">
        <property name="text">
         <string>Alv-prosentti</string>
@@ -130,7 +117,7 @@
        </property>
       </widget>
      </item>
-     <item row="8" column="1">
+     <item row="7" column="1">
       <widget class="QSpinBox" name="spinBox"/>
      </item>
     </layout>
@@ -159,7 +146,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>LaskuRiviDialogi</receiver>
+   <receiver>TuoteDialogi</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -175,7 +162,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>LaskuRiviDialogi</receiver>
+   <receiver>TuoteDialogi</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

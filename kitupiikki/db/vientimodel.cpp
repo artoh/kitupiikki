@@ -273,7 +273,6 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
             return true;
         case KOHDENNUS:
             viennit_[rivi].kohdennus = kp()->kohdennukset()->kohdennus(value.toInt());
-            qDebug() << kp()->kohdennukset()->kohdennus( value.toInt()).nimi()  << " ****" << value;
             return true;
         default:
             return false;
@@ -325,10 +324,9 @@ Qt::ItemFlags VientiModel::flags(const QModelIndex &index) const
 
     VientiRivi rivi = viennit_.value(index.row());
 
-    // Vientien muokkaus: Jos model sallii (ei ole järjestelmätosite eikä
-    // päätetyllä tilikaudella) eikä ole automaattinen alv-nettokirjaus
+    // Vientien muokkaus: Jos model sallii
 
-    if( tositeModel_->muokkausSallittu() && rivi.riviNro < 10000 )
+    if( tositeModel_->muokkausSallittu() )
     {
         // Alv-saraketta ei voi suoraan muokata, vaan siihen tarvitaan oma dialogi
         // Samoin kohdennusta voi muokata vain, jos tili ei ole tasetili

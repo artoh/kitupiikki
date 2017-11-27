@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>UusiLaskuDialogi</class>
- <widget class="QDialog" name="UusiLaskuDialogi">
+ <class>LaskuDialogi</class>
+ <widget class="QDialog" name="LaskuDialogi">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>721</width>
-    <height>519</height>
+    <width>1164</width>
+    <height>632</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -36,7 +36,7 @@
          <property name="maximumSize">
           <size>
            <width>16777215</width>
-           <height>80</height>
+           <height>100</height>
           </size>
          </property>
          <property name="baseSize">
@@ -84,7 +84,24 @@
        <item row="2" column="1">
         <widget class="QComboBox" name="perusteCombo"/>
        </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Rahatili</string>
+         </property>
+        </widget>
+       </item>
        <item row="3" column="1">
+        <widget class="TilinvalintaLine" name="lineEdit"/>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Summa</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
         <widget class="QLabel" name="summaLabel">
          <property name="font">
           <font>
@@ -94,13 +111,6 @@
          </property>
          <property name="text">
           <string>0,00 €</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>Summa</string>
          </property>
         </widget>
        </item>
@@ -117,23 +127,76 @@
       <attribute name="title">
        <string>Rivit</string>
       </attribute>
-      <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,3">
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <item>
-          <widget class="QLineEdit" name="tuotehakuEdit"/>
-         </item>
-         <item>
-          <widget class="QListView" name="tuoteView"/>
-         </item>
-         <item>
-          <widget class="QPushButton" name="tuotteetButton">
-           <property name="text">
-            <string>Tuotteet</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        <widget class="QFrame" name="tuoteFrame">
+         <property name="maximumSize">
+          <size>
+           <width>180</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QLineEdit" name="tuotehakuEdit"/>
+          </item>
+          <item>
+           <widget class="QListView" name="tuoteView"/>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <item>
+             <widget class="QPushButton" name="lisaaTuoteNappi">
+              <property name="toolTip">
+               <string>Lisää tuote tuoteluetteloon</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="../pic/pic.qrc">
+                <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="muokkaaTuoteNappi">
+              <property name="toolTip">
+               <string>Muokkaa tuotteen tietoa</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="../pic/pic.qrc">
+                <normaloff>:/pic/muokkaa.png</normaloff>:/pic/muokkaa.png</iconset>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="poistaTuoteNappi">
+              <property name="toolTip">
+               <string>Poista tuote tuoteluettelosta</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="../pic/pic.qrc">
+                <normaloff>:/pic/poista.png</normaloff>:/pic/poista.png</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
        </item>
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -142,6 +205,19 @@
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <widget class="QPushButton" name="naytaNappi">
+             <property name="text">
+              <string>Tuotteet</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
            <item>
             <spacer name="horizontalSpacer">
              <property name="orientation">
@@ -160,12 +236,9 @@
              <property name="text">
               <string>Lisää</string>
              </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="muokkaaButton">
-             <property name="text">
-              <string>Muokkaa</string>
+             <property name="icon">
+              <iconset resource="../pic/pic.qrc">
+               <normaloff>:/pic/lisaarivi.png</normaloff>:/pic/lisaarivi.png</iconset>
              </property>
             </widget>
            </item>
@@ -173,6 +246,10 @@
             <widget class="QPushButton" name="poistaNappi">
              <property name="text">
               <string>Poista</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../pic/pic.qrc">
+               <normaloff>:/pic/poistarivi.png</normaloff>:/pic/poistarivi.png</iconset>
              </property>
             </widget>
            </item>
@@ -191,11 +268,6 @@
         <widget class="QPlainTextEdit" name="lisatietoEdit"/>
        </item>
       </layout>
-     </widget>
-     <widget class="QWidget" name="esikatseluTab">
-      <attribute name="title">
-       <string>Esikatselu</string>
-      </attribute>
      </widget>
     </widget>
    </item>
@@ -239,6 +311,10 @@
        <property name="text">
         <string>Näytä</string>
        </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/print.png</normaloff>:/pic/print.png</iconset>
+       </property>
       </widget>
      </item>
      <item>
@@ -262,12 +338,24 @@
       </spacer>
      </item>
      <item>
-      <widget class="QDialogButtonBox" name="buttonBox">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+      <widget class="QPushButton" name="tallennaNappi">
+       <property name="text">
+        <string>Tallenna</string>
        </property>
-       <property name="standardButtons">
-        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/ok.png</normaloff>:/pic/ok.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="peruNappi">
+       <property name="text">
+        <string>Peru</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/peru.png</normaloff>:/pic/peru.png</iconset>
        </property>
       </widget>
      </item>
@@ -275,37 +363,30 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <customwidgets>
+  <customwidget>
+   <class>TilinvalintaLine</class>
+   <extends>QLineEdit</extends>
+   <header>db/tilinvalintaline.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
  <connections>
   <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>UusiLaskuDialogi</receiver>
-   <slot>reject()</slot>
+   <sender>naytaNappi</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>tuoteFrame</receiver>
+   <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>295</x>
-     <y>506</y>
+     <x>341</x>
+     <y>450</y>
     </hint>
     <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>UusiLaskuDialogi</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>227</x>
-     <y>500</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
+     <x>26</x>
+     <y>424</y>
     </hint>
    </hints>
   </connection>

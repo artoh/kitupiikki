@@ -15,7 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "laskurividialogi.h"
+#include "tuotedialogi.h"
 #include "ui_laskurividialogi.h"
 
 LaskuRiviDialogi::LaskuRiviDialogi(QWidget *parent) :

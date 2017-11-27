@@ -16,7 +16,7 @@
 */
 
 #include "laskutussivu.h"
-#include "uusilaskudialogi.h"
+#include "laskudialogi.h"
 
 LaskutusSivu::LaskutusSivu() :
     ui(new Ui::Laskutus)
@@ -41,6 +41,6 @@ bool LaskutusSivu::poistuSivulta()
 
 void LaskutusSivu::uusiLasku()
 {
-    UusiLaskuDialogi dlg;
+    LaskuDialogi dlg;
     dlg.exec();
 }

@@ -19,22 +19,28 @@
 #define UUSILASKUDIALOGI_H
 
 #include <QDialog>
+#include "laskumodel.h"
 
 namespace Ui {
-class UusiLaskuDialogi;
+class LaskuDialogi;
 }
 
-class UusiLaskuDialogi : public QDialog
+class LaskuDialogi : public QDialog
 {
     Q_OBJECT
 public:
     enum Kirjausperuste {SUORITEPERUSTE, LASKUTUSPERUSTE, MAKSUPERUSTE, KATEISLASKU};
 
-    explicit UusiLaskuDialogi(QWidget *parent = 0);
-    ~UusiLaskuDialogi();
+    explicit LaskuDialogi(QWidget *parent = 0);
+    ~LaskuDialogi();
+
+private slots:
+    void viewAktivoitu(QModelIndex indeksi);
+    void paivitaSumma(int paivitaSumma);
 
 private:
-    Ui::UusiLaskuDialogi *ui;
+    Ui::LaskuDialogi *ui;
+    LaskuModel *model;
 };
 
 #endif // UUSILASKUDIALOGI_H

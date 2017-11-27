@@ -98,8 +98,9 @@ SOURCES += main.cpp \
     maaritys/alvmaaritys.cpp \
     maaritys/alvilmoitusdialog.cpp \
     maaritys/alvilmoitustenmodel.cpp \
-    laskutus/uusilaskudialogi.cpp \
-    laskutus/laskurividialogi.cpp
+    laskutus/laskumodel.cpp \
+    laskutus/laskudialogi.cpp \
+    laskutus/tuotedialogi.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -188,8 +189,9 @@ HEADERS += \
     maaritys/alvmaaritys.h \
     maaritys/alvilmoitusdialog.h \
     maaritys/alvilmoitustenmodel.h \
-    laskutus/uusilaskudialogi.h \
-    laskutus/laskurividialogi.h
+    laskutus/laskumodel.h \
+    laskutus/laskudialogi.h \
+    laskutus/tuotedialogi.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -240,8 +242,8 @@ FORMS += \
     maaritys/arvonlisavero.ui \
     maaritys/alvilmoitusdialog.ui \
     laskutus/laskutus.ui \
-    laskutus/uusilaskudialogi.ui \
-    laskutus/laskurividialogi.ui
+    laskutus/laskudialogi.ui \
+    laskutus/tuotedialogi.ui
 
 DISTFILES += \
     uusikp/luo.sql \
