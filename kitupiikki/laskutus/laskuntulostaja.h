@@ -15,35 +15,33 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef UUSILASKUDIALOGI_H
-#define UUSILASKUDIALOGI_H
+#ifndef LASKUNTULOSTAJA_H
+#define LASKUNTULOSTAJA_H
 
-#include <QDialog>
+#include <QObject>
+#include <QPainter>
+#include <QPrinter>
+
 #include "laskumodel.h"
-#include "laskuntulostaja.h"
 
-namespace Ui {
-class LaskuDialogi;
-}
-
-class LaskuDialogi : public QDialog
+class LaskunTulostaja : public QObject
 {
     Q_OBJECT
 public:
-    enum Kirjausperuste {SUORITEPERUSTE, LASKUTUSPERUSTE, MAKSUPERUSTE, KATEISLASKU};
+    explicit LaskunTulostaja(LaskuModel *model);
 
-    explicit LaskuDialogi(QWidget *parent = 0);
-    ~LaskuDialogi();
+signals:
 
-private slots:
-    void viewAktivoitu(QModelIndex indeksi);
-    void paivitaSumma(int paivitaSumma);
-    void esikatsele();
+public slots:
+    bool tulosta(QPrinter *printer);
+
+
+protected:
+    void tilisiirto(QPrinter *printer, QPainter *painter);
 
 private:
-    Ui::LaskuDialogi *ui;
-    LaskuModel *model;
-    LaskunTulostaja *tulostaja;
+    LaskuModel *model_;
+
 };
 
-#endif // UUSILASKUDIALOGI_H
+#endif // LASKUNTULOSTAJA_H

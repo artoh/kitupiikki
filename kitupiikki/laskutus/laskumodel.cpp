@@ -122,6 +122,18 @@ QVariant LaskuModel::data(const QModelIndex &index, int role) const
         return rivi.alvKoodi;
     else if( role == AlvProsenttiRooli)
         return rivi.alvProsentti;
+    else if( role == Qt::TextAlignmentRole)
+    {
+        if( index.column()==BRUTTOSUMMA || index.column() == MAARA || index.column() == ALV || index.column() == AHINTA)
+            return QVariant(Qt::AlignRight | Qt::AlignVCenter);
+        else
+            return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
+
+    }
+    else if( role == Qt::DecorationRole && index.column() == ALV)
+    {
+        return kp()->alvTyypit()->kuvakeKoodilla( rivi.alvKoodi % 100 );
+    }
 
     return QVariant();
 }
@@ -203,18 +215,6 @@ bool LaskuModel::setData(const QModelIndex &index, const QVariant &value, int ro
         paivitaSumma(rivi);
         return true;
     }
-    else if( role == Qt::TextAlignmentRole)
-    {
-        if( index.column()==BRUTTOSUMMA || index.column() == MAARA || index.column() == ALV || index.column() == AHINTA)
-            return QVariant(Qt::AlignRight | Qt::AlignVCenter);
-        else
-            return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
-
-    }
-    else if( role == Qt::DecorationRole && index.column() == ALV)
-    {
-        return kp()->alvTyypit()->kuvakeKoodilla( rivi.alvkoodi % 100 );
-    }
 
     return false;
 }
@@ -225,6 +225,16 @@ Qt::ItemFlags LaskuModel::flags(const QModelIndex &index) const
         return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
     else
         return QAbstractTableModel::flags(index);
+}
+
+int LaskuModel::laskunSumma() const
+{
+    int summa = 0;
+    foreach (LaskuRivi rivi, rivit_)
+    {
+        summa += rivi.yhteensaSnt();
+    }
+    return summa;
 }
 
 QModelIndex LaskuModel::lisaaRivi(LaskuRivi rivi)
@@ -238,13 +248,7 @@ QModelIndex LaskuModel::lisaaRivi(LaskuRivi rivi)
 void LaskuModel::paivitaSumma(int rivi)
 {
     emit dataChanged( createIndex(rivi, BRUTTOSUMMA, rivi), createIndex(rivi, BRUTTOSUMMA, rivi) );
-    int summa = 0;
-
-    foreach (LaskuRivi rivi, rivit_)
-    {
-        summa += rivi.yhteensaSnt();
-    }
-    emit summaMuuttunut(summa);
+    emit summaMuuttunut(laskunSumma());
 
 }
 

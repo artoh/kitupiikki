@@ -15,10 +15,16 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QPrinter>
+#include <QDesktopServices>
+#include <QTemporaryFile>
+
+
 #include "db/kirjanpito.h"
 
 #include "laskudialogi.h"
 #include "ui_laskudialogi.h"
+#include "laskuntulostaja.h"
 
 #include "kirjaus/eurodelegaatti.h"
 #include "kirjaus/kohdennusdelegaatti.h"
@@ -54,9 +60,13 @@ LaskuDialogi::LaskuDialogi(QWidget *parent) :
 
     connect( ui->lisaaNappi, SIGNAL(clicked(bool)), model, SLOT(lisaaRivi()));
     connect( ui->rivitView, SIGNAL(activated(QModelIndex)), this, SLOT(viewAktivoitu(QModelIndex)));
+    connect( ui->esikatseluNappi, SIGNAL(clicked(bool)), this, SLOT(esikatsele()));
+
     connect( model, SIGNAL(summaMuuttunut(int)), this, SLOT(paivitaSumma(int)));
 
     ui->rivitView->horizontalHeader()->setSectionResizeMode(LaskuModel::NIMIKE, QHeaderView::Stretch);
+
+    tulostaja = new LaskunTulostaja(model);
 }
 
 LaskuDialogi::~LaskuDialogi()
@@ -77,4 +87,21 @@ void LaskuDialogi::viewAktivoitu(QModelIndex indeksi)
 void LaskuDialogi::paivitaSumma(int summa)
 {
     ui->summaLabel->setText( QString("%L1 €").arg(summa / 100.0,0,'f',2) );
+}
+
+void LaskuDialogi::esikatsele()
+{
+    // Luo tilapäisen pdf-tiedoston
+    QTemporaryFile *file = new QTemporaryFile(QDir::tempPath() + "/lasku-XXXXXX.pdf", this);
+    file->open();
+    file->close();
+
+    QPrinter printer;
+    printer.setPaperSize(QPrinter::A4);
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setOutputFileName( file->fileName() );
+
+    tulostaja->tulosta(&printer);
+
+    QDesktopServices::openUrl( QUrl(file->fileName()) );
 }

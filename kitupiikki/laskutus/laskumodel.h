@@ -67,6 +67,8 @@ public:
     bool setData(const QModelIndex &index, const QVariant &value, int role);
     Qt::ItemFlags flags(const QModelIndex &index) const;
 
+    int laskunSumma() const;
+
 public slots:
     QModelIndex lisaaRivi(LaskuRivi rivi = LaskuRivi());
 
