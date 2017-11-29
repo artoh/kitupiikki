@@ -15,40 +15,25 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef UUSILASKUDIALOGI_H
-#define UUSILASKUDIALOGI_H
+#ifndef LASKUTUSVERODELEGAATTI_H
+#define LASKUTUSVERODELEGAATTI_H
 
-#include <QDialog>
-#include "laskumodel.h"
-#include "laskuntulostaja.h"
+#include <QItemDelegate>
 
-namespace Ui {
-class LaskuDialogi;
-}
-
-class LaskuDialogi : public QDialog
+/**
+ * @brief The Laskutuslomakkeen verovalinta
+ */
+class LaskutusVeroDelegaatti : public QItemDelegate
 {
-    Q_OBJECT
 public:
-    enum Kirjausperuste {SUORITEPERUSTE, LASKUTUSPERUSTE, MAKSUPERUSTE, KATEISLASKU};
+    LaskutusVeroDelegaatti();
 
-    explicit LaskuDialogi(QWidget *parent = 0);
-    ~LaskuDialogi();
+    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    void setEditorData(QWidget *editor, const QModelIndex &index) const;
+    void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
 
-private slots:
-    void viewAktivoitu(QModelIndex indeksi);
-    void paivitaSumma(int paivitaSumma);
-    void esikatsele();
+    enum { MUUVEROVALINTA = 99 };
 
-    /**
-     * @brief Tallentaa lomaketiedot malliin
-     */
-    void vieMalliin();
-
-private:
-    Ui::LaskuDialogi *ui;
-    LaskuModel *model;
-    LaskunTulostaja *tulostaja;
 };
 
-#endif // UUSILASKUDIALOGI_H
+#endif // LASKUTUSVERODELEGAATTI_H

@@ -56,7 +56,9 @@ public:
     enum
     {
         AlvKoodiRooli = Qt::UserRole + 5,
-        AlvProsenttiRooli = Qt::UserRole + 6
+        AlvProsenttiRooli = Qt::UserRole + 6,
+        NettoRooli = Qt::UserRole + 7,
+        VeroRooli = Qt::UserRole + 8
     };
 
 
@@ -69,6 +71,15 @@ public:
 
     int laskunSumma() const;
 
+
+    QDate erapaiva() const { return erapaiva_; }
+    QString lisatieto() const { return lisatieto_;}
+    QString osoite() const { return osoite_; }
+
+    void asetaErapaiva(const QDate & paiva) { erapaiva_ = paiva; }
+    void asetaLisatieto(const QString& tieto) { lisatieto_ = tieto; }
+    void asetaOsoite(const QString& osoite) { osoite_ = osoite; }
+
 public slots:
     QModelIndex lisaaRivi(LaskuRivi rivi = LaskuRivi());
 
@@ -77,6 +88,9 @@ signals:
 
 private:
     QList<LaskuRivi> rivit_;
+    QDate erapaiva_;
+    QString lisatieto_;
+    QString osoite_;
 
     void paivitaSumma(int rivi);
 };

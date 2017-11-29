@@ -24,6 +24,22 @@
 
 #include "laskumodel.h"
 
+/**
+ * @brief Laskuntulostajan alv-erittelyä varten
+ */
+struct AlvErittelyEra
+{
+    AlvErittelyEra() {}
+
+    double netto = 0;
+    double vero = 0;
+    double brutto() const { return netto + vero; }
+};
+
+
+/**
+ * @brief Laskun tulostuksen luokka
+ */
 class LaskunTulostaja : public QObject
 {
     Q_OBJECT
@@ -37,6 +53,12 @@ public slots:
 
 
 protected:
+    void ylaruudukko(QPrinter *printer, QPainter *painter);
+    void lisatieto(QPainter *painter);
+    qreal alatunniste(QPrinter *printer, QPainter *painter);
+    void erittely(QPrinter *printer, QPainter *painter, qreal marginaali);
+    void erittelyOtsikko(QPrinter *printer, QPainter *painter, bool alv);
+
     void tilisiirto(QPrinter *printer, QPainter *painter);
 
 private:

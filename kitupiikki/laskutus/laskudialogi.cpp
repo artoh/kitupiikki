@@ -25,6 +25,7 @@
 #include "laskudialogi.h"
 #include "ui_laskudialogi.h"
 #include "laskuntulostaja.h"
+#include "laskutusverodelegaatti.h"
 
 #include "kirjaus/eurodelegaatti.h"
 #include "kirjaus/kohdennusdelegaatti.h"
@@ -54,12 +55,12 @@ LaskuDialogi::LaskuDialogi(QWidget *parent) :
     ui->rivitView->setItemDelegateForColumn(LaskuModel::TILI, new TiliDelegaatti());
     ui->rivitView->setItemDelegateForColumn(LaskuModel::KOHDENNUS, new KohdennusDelegaatti());
     ui->rivitView->setItemDelegateForColumn(LaskuModel::BRUTTOSUMMA, new EuroDelegaatti());
+    ui->rivitView->setItemDelegateForColumn(LaskuModel::ALV, new LaskutusVeroDelegaatti());
 
     ui->rivitView->setColumnHidden( LaskuModel::ALV, !kp()->asetukset()->onko("AlvVelvollinen") );
     ui->rivitView->setColumnHidden( LaskuModel::KOHDENNUS, kp()->kohdennukset()->rowCount(QModelIndex()) < 2);
 
     connect( ui->lisaaNappi, SIGNAL(clicked(bool)), model, SLOT(lisaaRivi()));
-    connect( ui->rivitView, SIGNAL(activated(QModelIndex)), this, SLOT(viewAktivoitu(QModelIndex)));
     connect( ui->esikatseluNappi, SIGNAL(clicked(bool)), this, SLOT(esikatsele()));
 
     connect( model, SIGNAL(summaMuuttunut(int)), this, SLOT(paivitaSumma(int)));
@@ -91,6 +92,8 @@ void LaskuDialogi::paivitaSumma(int summa)
 
 void LaskuDialogi::esikatsele()
 {
+    vieMalliin();
+
     // Luo tilapäisen pdf-tiedoston
     QTemporaryFile *file = new QTemporaryFile(QDir::tempPath() + "/lasku-XXXXXX.pdf", this);
     file->open();
@@ -104,4 +107,11 @@ void LaskuDialogi::esikatsele()
     tulostaja->tulosta(&printer);
 
     QDesktopServices::openUrl( QUrl(file->fileName()) );
+}
+
+void LaskuDialogi::vieMalliin()
+{
+    model->asetaErapaiva( ui->eraDate->date());
+    model->asetaLisatieto( ui->lisatietoEdit->toPlainText());
+    model->asetaOsoite(ui->osoiteEdit->toPlainText());
 }

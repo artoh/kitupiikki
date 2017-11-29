@@ -57,7 +57,12 @@ VeroDialogiValinta VeroDialogi::veroDlg(int koodi, int prosentti, bool tyyppiluk
 
     dlg.ui->verolajiCombo->setCurrentIndex( dlg.ui->verolajiCombo->findData( koodi % 100));
     dlg.ui->prossaSpin->setValue(prosentti);
-    dlg.ui->tyyppiGroup->setEnabled(!tyyppilukko);
+
+    // Jos tyyppi lukittu, ei voi muuttaa kirjausta veroksi jne...
+    dlg.ui->vahennysRadio->setEnabled(!tyyppilukko);
+    dlg.ui->veroRadio->setEnabled(!tyyppilukko);
+    dlg.ui->veronalainenRadio->setEnabled(!tyyppilukko);
+
     dlg.lajimuuttuu();
 
     VeroDialogiValinta palautettava;

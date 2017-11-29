@@ -18,8 +18,10 @@
 #include <cmath>
 
 #include "laskumodel.h"
+#include "laskutusverodelegaatti.h"
 #include "db/kirjanpito.h"
 #include "db/tilinvalintadialogi.h"
+#include "kirjaus/verodialogi.h"
 
 LaskuModel::LaskuModel(QObject *parent) :
     QAbstractTableModel( parent )
@@ -94,10 +96,19 @@ QVariant LaskuModel::data(const QModelIndex &index, int role) const
             else
                 return rivi.ahintaSnt;
         case ALV:
-            if( rivi.alvKoodi == AlvKoodi::EIALV)
+            switch (rivi.alvKoodi) {
+            case AlvKoodi::EIALV :
                 return QVariant();
-            else
+            case AlvKoodi::ALV0:
+                return tr("Veroton myynti");
+            case AlvKoodi::RAKENNUSPALVELU_MYYNTI:
+                return tr("AVL 8 c §");
+            case AlvKoodi::YHTEISOMYYNTI_PALVELUT:
+            case AlvKoodi::YHTEISOMYYNTI_TAVARAT:
+                return tr("AVL 72 a §");
+            default:
                 return QVariant( QString("%1 %").arg(rivi.alvProsentti));
+            }
         case KOHDENNUS:
             if( role == Qt::DisplayRole)
             {
@@ -122,6 +133,14 @@ QVariant LaskuModel::data(const QModelIndex &index, int role) const
         return rivi.alvKoodi;
     else if( role == AlvProsenttiRooli)
         return rivi.alvProsentti;
+    else if( role == NettoRooli)
+    {
+        return rivi.maara * rivi.ahintaSnt;
+    }
+    else if( role == VeroRooli)
+    {
+        return rivi.yhteensaSnt() - rivi.maara * rivi.ahintaSnt;
+    }
     else if( role == Qt::TextAlignmentRole)
     {
         if( index.column()==BRUTTOSUMMA || index.column() == MAARA || index.column() == ALV || index.column() == AHINTA)
@@ -206,7 +225,15 @@ bool LaskuModel::setData(const QModelIndex &index, const QVariant &value, int ro
     }
     else if( role == AlvKoodiRooli)
     {
-        rivit_[rivi].alvKoodi = value.toInt();
+        if( value.toInt() == LaskutusVeroDelegaatti::MUUVEROVALINTA)
+        {
+            // Jos delegaatista valitaan muu, näytetään dialogi
+            VeroDialogiValinta uusivero = VeroDialogi::veroDlg(rivit_[rivi].alvKoodi, rivit_[rivi].alvProsentti, true);
+            rivit_[rivi].alvKoodi = uusivero.verokoodi;
+            rivit_[rivi].alvProsentti = uusivero.veroprosentti;
+        }
+        else
+            rivit_[rivi].alvKoodi = value.toInt();
         return true;
     }
     else if( role == AlvProsenttiRooli)
@@ -221,10 +248,8 @@ bool LaskuModel::setData(const QModelIndex &index, const QVariant &value, int ro
 
 Qt::ItemFlags LaskuModel::flags(const QModelIndex &index) const
 {
-    if( index.column() !=ALV )
-        return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
-    else
-        return QAbstractTableModel::flags(index);
+    return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
+
 }
 
 int LaskuModel::laskunSumma() const
