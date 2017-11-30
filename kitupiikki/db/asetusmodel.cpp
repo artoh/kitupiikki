@@ -119,9 +119,12 @@ void AsetusModel::aseta(const QString &avain, const QStringList &arvo)
     aseta( avain, arvo.join('\n'));
 }
 
-int AsetusModel::luku(const QString &avain) const
+int AsetusModel::luku(const QString &avain, int oletusarvo) const
 {
-    return asetus(avain).toInt();
+    if( asetukset_.contains(avain))
+        return asetukset_.value(avain).toInt();
+    else
+        return oletusarvo;
 }
 
 void AsetusModel::aseta(const QString& avain, int luku)

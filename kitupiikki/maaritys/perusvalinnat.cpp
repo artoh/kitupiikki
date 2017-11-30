@@ -40,6 +40,7 @@ Perusvalinnat::Perusvalinnat() :
     connect( ui->edistyneetCheck, SIGNAL(clicked(bool)), this, SLOT(ilmoitaMuokattu()));
     connect( ui->osoiteEdit, SIGNAL(textChanged()), this, SLOT(ilmoitaMuokattu()));
     connect( ui->kotipaikkaEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
+    connect( ui->puhelinEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
 
 }
 
@@ -56,6 +57,7 @@ bool Perusvalinnat::nollaa()
     ui->edistyneetCheck->setChecked( kp()->asetukset()->onko("NaytaEdistyneet"));
     ui->osoiteEdit->setText( kp()->asetukset()->asetus("Osoite"));
     ui->kotipaikkaEdit->setText( kp()->asetukset()->asetus("Kotipaikka"));
+    ui->puhelinEdit->setText( kp()->asetus("Puhelin"));
 
     uusilogo = QImage();
 
@@ -92,7 +94,8 @@ bool Perusvalinnat::onkoMuokattu()
             ui->edistyneetCheck->isChecked() != kp()->asetukset()->onko("NaytaEdistyneet") ||
             !uusilogo.isNull() ||
             ui->osoiteEdit->toPlainText() != kp()->asetukset()->asetus("Osoite") ||
-            ui->kotipaikkaEdit->text() != kp()->asetukset()->asetus("Kotipaikka");
+            ui->kotipaikkaEdit->text() != kp()->asetukset()->asetus("Kotipaikka") ||
+            ui->puhelinEdit->text() != kp()->asetukset()->asetus("Puhelin");
 }
 
 bool Perusvalinnat::tallenna()
@@ -103,6 +106,7 @@ bool Perusvalinnat::tallenna()
     kp()->asetukset()->aseta("NaytaEdistyneet", ui->edistyneetCheck->isChecked());
     kp()->asetukset()->aseta("Osoite", ui->osoiteEdit->toPlainText());
     kp()->asetukset()->aseta("Kotipaikka", ui->kotipaikkaEdit->text());
+    kp()->asetukset()->aseta("Puhelin", ui->puhelinEdit->text());
 
     // Logosta tallennetaan logo64.png ja logo128.png -versiot
     if( !uusilogo.isNull())

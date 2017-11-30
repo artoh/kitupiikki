@@ -16,6 +16,7 @@
 */
 
 #include <cmath>
+#include <QSqlQuery>
 
 #include "laskumodel.h"
 #include "laskutusverodelegaatti.h"
@@ -262,6 +263,52 @@ int LaskuModel::laskunSumma() const
     return summa;
 }
 
+long LaskuModel::laskunro() const
+{
+    int nro = kp()->asetukset()->luku("LaskuSeuraavaId");
+    while(true)
+    {
+        // Varmistetaan, että tämä numero ei vielä ole käytössä!
+        QSqlQuery kysely(QString("SELECT id FROM lasku WHERE id=%1").arg(nro));
+        if( !kysely.next())
+            return nro;
+        nro++;
+    }
+}
+
+QString LaskuModel::viitenumero() const
+{
+    int laskuNr = laskunro();
+    QString str = QString::number(laskuNr) + QString::number( laskeViiteTarkiste(laskuNr) );
+
+    // Viiden numeron jälkeen väli
+    if( str.count() > 5)
+        str.insert(5,' ');
+
+    return str;
+}
+
+int LaskuModel::laskeViiteTarkiste(long luvusta)
+{
+    int indeksi = 0;
+    int summa = 0;
+
+    while( luvusta > 0)
+    {
+        int tarkasteltava = luvusta % 10;
+        luvusta = luvusta / 10;
+        if( indeksi % 3 == 0)
+            summa += 7 * tarkasteltava;
+        else if( indeksi % 3 == 1)
+            summa += 3 * tarkasteltava;
+        else
+            summa += tarkasteltava;
+        indeksi++;
+    }
+    return ( 10 - summa % 10) % 10;
+
+}
+
 QModelIndex LaskuModel::lisaaRivi(LaskuRivi rivi)
 {
     beginInsertRows( QModelIndex(), rivit_.count(), rivit_.count());
@@ -286,6 +333,9 @@ LaskuRivi::LaskuRivi()
     }
     else
         alvKoodi = AlvKoodi::EIALV;
+
+    Tositelaji laji = kp()->tositelajit()->tositelaji( kp()->asetukset()->luku("LaskuTositelaji") );
+    myyntiTili = kp()->tilit()->tiliNumerolla( laji.json()->luku("Oletustili") );
 }
 
 double LaskuRivi::yhteensaSnt() const

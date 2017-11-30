@@ -15,40 +15,31 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef UUSILASKUDIALOGI_H
-#define UUSILASKUDIALOGI_H
+#ifndef LASKUVALINTAWIDGET_H
+#define LASKUVALINTAWIDGET_H
 
-#include <QDialog>
-#include "laskumodel.h"
-#include "laskuntulostaja.h"
+#include "maarityswidget.h"
+#include "ui_laskumaaritys.h"
 
-namespace Ui {
-class LaskuDialogi;
-}
-
-class LaskuDialogi : public QDialog
+/**
+ * @brief Laskutukseen liittyvien valintojen sivu
+ */
+class LaskuValintaWidget : public MaaritysWidget
 {
     Q_OBJECT
 public:
+    LaskuValintaWidget();
+    ~LaskuValintaWidget();
 
-    explicit LaskuDialogi(QWidget *parent = 0);
-    ~LaskuDialogi();
+    bool nollaa();
+    bool tallenna();
+    bool onkoMuokattu();
 
-private slots:
-    void viewAktivoitu(QModelIndex indeksi);
-    void paivitaSumma(int paivitaSumma);
-    void esikatsele();
-    void perusteVaihtuu();
-
-    /**
-     * @brief Tallentaa lomaketiedot malliin
-     */
-    void vieMalliin();
+public slots:
+    void ilmoitaMuokattu();
 
 private:
-    Ui::LaskuDialogi *ui;
-    LaskuModel *model;
-    LaskunTulostaja *tulostaja;
+    Ui::LaskuValinnat *ui;
 };
 
-#endif // UUSILASKUDIALOGI_H
+#endif // LASKUVALINTAWIDGET_H

@@ -86,6 +86,16 @@ p, li { white-space: pre-wrap; }
      <item row="3" column="1">
       <widget class="QLineEdit" name="kotipaikkaEdit"/>
      </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>Puhelin</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="puhelinEdit"/>
+     </item>
     </layout>
    </item>
    <item>

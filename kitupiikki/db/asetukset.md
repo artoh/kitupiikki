@@ -10,8 +10,6 @@ Nimi	| QString		| Organisaation nimi
 Ytunnus	| QString		| Organisaation y-tunnus
 Harjoitus	| bool		| Onko kirjanpito harjoitustilassa
 AlvVelvollinen | bool | Onko organisaatio hakeutunut alv-velvolliseksi
-AlvVelkatili | int | Tili, jolle arvonlisäverovelka kirjataan
-AlvSaatavatili | int | Tili, jolle arvonlisäverosaatavat (palautettava alv) kirjataan
 Raportti/(raportin nimi) | QString | Raportin kaava
 EkaTositeKirjattu | bool | Käyttäjä on kirjannut tositteen, jonka jälkeen alkuvinkkiä ei enää näytetä
 NaytaEdistyneet | bool | Näytetäänkö muokkaimet
@@ -19,3 +17,13 @@ Osoite | QString |
 Kotipaikka | QString |
 AlvIlmoitus | QDate |   Viimeisin alv-ilmoituksen pvm
 AlvKausi  | int | Kausi kuukautta
+LaskuTositelaji | int | Tositelaji, jolle laskut kirjataan
+LaskuKirjausperuste | int | Oletus laskun kirjausperusteelle (LaskuModel)
+LaskuSaatavatili | int | Tilinumero, jolle laskun saatava kirjataan
+LaskuKateistili | int | Tilinumero, jolle käteislasku kirjataan
+LaskuMaksuaika | int | Oletusmaksuaika vrk
+LaskuHuomautusaika | QString | tulostettava huomautusaika
+LaskuViivastyskorko | QString | tulostettava viivästyskorkoteksti
+LaskuSeuraavaId | int | seuraavan laskun laskunro
+IBAN | QString | laskulle tulostettava IBAN
+Puhelin | QString | laskulle tulostettava puhelinnumero

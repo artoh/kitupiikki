@@ -33,7 +33,7 @@ bool LaskunTulostaja::tulosta(QPrinter *printer)
     double mm = printer->width() * 1.00 / printer->widthMM();
     qreal marginaali = 0.0;
 
-    if( model_->laskunSumma() > 0)
+    if( model_->laskunSumma() > 0 && model_->kirjausperuste() != LaskuModel::KATEISLASKU)
     {
         painter.translate( 0, painter.window().height() - mm * 95 );
         marginaali += alatunniste(printer, &painter) + mm * 95;
@@ -111,13 +111,30 @@ void LaskunTulostaja::ylaruudukko(QPrinter *printer, QPainter *painter)
 
     painter->drawText(QRectF( mm*2, pv + mm * 2, leveys / 2 - mm * 4, rk * 4 - mm * 2), Qt::TextWordWrap, model_->osoite());
 
+    painter->drawText(QRectF( leveys / 2 + mm, pv - rk, leveys / 4, rk-mm ), Qt::AlignBottom, QString::number( model_->laskunro() )  );
     painter->drawText(QRectF( 3 * leveys / 4 + mm, pv - rk, leveys / 4, rk-mm ), Qt::AlignBottom, kp()->paivamaara().toString(Qt::SystemLocaleShortDate) );
-    painter->drawText(QRectF( leveys / 2 + mm, pv - rk * 2, leveys / 4, rk-mm ), Qt::AlignBottom,  tr("Lasku") );
+    painter->drawText(QRectF( leveys / 2 + mm, pv + mm, leveys / 4, rk-mm ), Qt::AlignBottom,  model_->toimituspaiva().toString(Qt::SystemLocaleShortDate) );
+    painter->drawText(QRectF( leveys / 2 + mm, pv+rk+mm, leveys / 2, rk-mm ), Qt::AlignBottom, model_->viitenumero() );
 
-    if( model_->laskunSumma() > 0)  // Näytetään eräpäivä vain jos on maksettavaa
-        painter->drawText(QRectF( leveys / 2 + mm, pv + rk * 2, leveys / 4, rk-mm ), Qt::AlignBottom,  model_->erapaiva().toString(Qt::SystemLocaleShortDate) );
+
+
+    if( model_->kirjausperuste() == LaskuModel::KATEISLASKU)
+    {
+        painter->drawText(QRectF( leveys / 2 + mm, pv - rk * 2, leveys / 4, rk-mm ), Qt::AlignBottom,  tr("Käteislasku / Kuitti") );
+        painter->drawText(QRectF( leveys / 2 + mm, pv + rk * 2, leveys / 4, rk-mm ), Qt::AlignBottom,  tr("Maksettu") );
+    }
+    else
+    {
+        painter->drawText(QRectF( leveys / 2 + mm, pv - rk * 2, leveys / 4, rk-mm ), Qt::AlignBottom,  tr("Lasku") );
+        if( model_->laskunSumma() > 0.0 )  // Näytetään eräpäivä vain jos on maksettavaa
+            painter->drawText(QRectF( leveys / 2 + mm, pv + rk * 2, leveys / 4, rk-mm ), Qt::AlignBottom,  model_->erapaiva().toString(Qt::SystemLocaleShortDate) );
+    }
 
     painter->drawText(QRectF( 3 * leveys / 4 + mm, pv + rk * 2, leveys / 4, rk-mm ), Qt::AlignBottom,  QString("%L1").arg( (model_->laskunSumma() / 100.0) ,0,'f',2));
+
+    painter->drawText(QRectF( leveys / 2 + mm, pv + rk * 3, leveys / 4, rk-mm ), Qt::AlignBottom,  kp()->asetus("LaskuHuomautusaika") );
+    painter->drawText(QRectF( 3 * leveys / 4 + mm, pv + rk * 3, leveys / 4, rk-mm ), Qt::AlignBottom,  kp()->asetus("LaskuViivastyskorko") );
+
 
     painter->translate(0, pv + 4*rk + 5 * mm);
 }
@@ -158,7 +175,7 @@ qreal LaskunTulostaja::alatunniste(QPrinter *printer,QPainter *painter)
         int verokoodi = model_->data( model_->index(i,0), LaskuModel::AlvKoodiRooli ).toInt();
         if( verokoodi == AlvKoodi::RAKENNUSPALVELU_MYYNTI)
             rakennuspalvelut = true;
-        else if( verokoodi == AlvKoodi::YHTEISOHANKINNAT_TAVARAT || AlvKoodi::YHTEISOMYYNTI_PALVELUT)
+        else if( verokoodi == AlvKoodi::YHTEISOHANKINNAT_TAVARAT || verokoodi == AlvKoodi::YHTEISOMYYNTI_PALVELUT)
             yhteisomyynti = true;
     }
     painter->translate(0, -2 * rk);
@@ -348,7 +365,6 @@ void LaskunTulostaja::tilisiirto(QPrinter *printer, QPainter *painter)
                                                                                                           "Betalning förmedlas till mottagaren enligt villkoren för "
                                                                                                           "betalningsförmedling och endast till det kontonummer som "
                                                                                                           "betalaren angivit.") );
-
     painter->setPen( QPen( QBrush(Qt::black), mm * 0.5));
     painter->drawLine(QLineF(mm*111.4,0,mm*111.4,mm*69.8));
     painter->drawLine(QLineF(0, mm*16.9, mm*111.4, mm*16.9));
@@ -371,11 +387,14 @@ void LaskunTulostaja::tilisiirto(QPrinter *printer, QPainter *painter)
 
     painter->drawText(QRectF( mm*22, mm * 33, mm * 90, mm * 25), Qt::TextWordWrap, model_->osoite());
 
+    painter->drawText( QRectF(mm*133.4, mm*53.8, mm*60, mm*7.5), Qt::AlignLeft | Qt::AlignBottom, model_->viitenumero() );
 
     painter->drawText( QRectF(mm*133.4, mm*62.3, mm*30, mm*7.5), Qt::AlignLeft | Qt::AlignBottom, model_->erapaiva().toString(Qt::SystemLocaleShortDate) );
     painter->drawText( QRectF(mm*165, mm*62.3, mm*30, mm*7.5), Qt::AlignRight | Qt::AlignBottom, QString("%L1").arg( (model_->laskunSumma() / 100.0) ,0,'f',2) );
 
     painter->drawText( QRectF(mm*22, mm*17, mm*90, mm*13), Qt::AlignTop | Qt::TextWordWrap, kp()->asetus("Nimi") + "\n" + kp()->asetus("Osoite")  );
+    painter->drawText( QRectF(mm*22, 0, mm*90, mm*17), Qt::AlignVCenter , kp()->asetus("IBAN")  );
+
 
     painter->save();
     painter->setFont(QFont("Sans", 7.5));

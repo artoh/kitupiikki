@@ -144,8 +144,9 @@ void KtpVienti::accept()
 
     // Raportit ja joitakin muita asetuksia
     QStringList avaimet = kp()->asetukset()->avaimet("Raportti/");
-    avaimet << "AlvVelvollinen" << "AlvVelkatili" << "AlvSaatavatili"
-            << "TilinpaatosPohja" << "TilinpaatosValinnat";
+    avaimet << "AlvVelvollinen"
+            << "TilinpaatosPohja" << "TilinpaatosValinnat"
+            << "LaskuTositelaji" << "LaskuKirjausperuste";
 
 
     foreach (QString avain, avaimet)

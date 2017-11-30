@@ -102,7 +102,8 @@ SOURCES += main.cpp \
     laskutus/laskudialogi.cpp \
     laskutus/tuotedialogi.cpp \
     laskutus/laskuntulostaja.cpp \
-    laskutus/laskutusverodelegaatti.cpp
+    laskutus/laskutusverodelegaatti.cpp \
+    maaritys/laskuvalintawidget.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -195,7 +196,8 @@ HEADERS += \
     laskutus/laskudialogi.h \
     laskutus/tuotedialogi.h \
     laskutus/laskuntulostaja.h \
-    laskutus/laskutusverodelegaatti.h
+    laskutus/laskutusverodelegaatti.h \
+    maaritys/laskuvalintawidget.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -247,7 +249,8 @@ FORMS += \
     maaritys/alvilmoitusdialog.ui \
     laskutus/laskutus.ui \
     laskutus/laskudialogi.ui \
-    laskutus/tuotedialogi.ui
+    laskutus/tuotedialogi.ui \
+    maaritys/laskumaaritys.ui
 
 DISTFILES += \
     uusikp/luo.sql \

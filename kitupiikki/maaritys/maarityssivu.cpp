@@ -33,6 +33,8 @@
 #include "raporttimuokkaus.h"
 #include "liitetietokaavamuokkaus.h"
 #include "alvmaaritys.h"
+#include "laskuvalintawidget.h"
+
 #include "ktpvienti/ktpvienti.h"
 
 #include <QDebug>
@@ -177,6 +179,8 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         nykyinen = new RaporttiMuokkaus;
     else if( sivu == LIITETIETOKAAVA)
         nykyinen = new LiitetietokaavaMuokkaus;
+    else if( sivu == LASKUTUS)
+        nykyinen = new LaskuValintaWidget;
     else if( sivu == ALV)
         nykyinen = new AlvMaaritys;
     else

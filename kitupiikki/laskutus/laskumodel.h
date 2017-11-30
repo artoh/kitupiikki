@@ -53,6 +53,9 @@ public:
         NIMIKE, MAARA, YKSIKKO, AHINTA, ALV, TILI, KOHDENNUS, BRUTTOSUMMA
     };
 
+    enum Kirjausperuste {SUORITEPERUSTE, LASKUTUSPERUSTE, MAKSUPERUSTE, KATEISLASKU};
+
+
     enum
     {
         AlvKoodiRooli = Qt::UserRole + 5,
@@ -73,12 +76,28 @@ public:
 
 
     QDate erapaiva() const { return erapaiva_; }
+    QDate toimituspaiva() const { return toimituspaiva_; }
     QString lisatieto() const { return lisatieto_;}
     QString osoite() const { return osoite_; }
+    QString laskunsaajanNimi() const { return laskunsaajanNimi_; }
+    int kirjausperuste() const { return kirjausperuste_;}
+
+    long laskunro() const;
+    QString viitenumero() const;
 
     void asetaErapaiva(const QDate & paiva) { erapaiva_ = paiva; }
     void asetaLisatieto(const QString& tieto) { lisatieto_ = tieto; }
     void asetaOsoite(const QString& osoite) { osoite_ = osoite; }
+    void asetaToimituspaiva(const QDate& pvm) { toimituspaiva_ = pvm; }
+    void asetaLaskunsaajannimi(const QString& nimi) { laskunsaajanNimi_ = nimi; }
+    void asetaKirjausperuste(int kirjausperuste) { kirjausperuste_ = kirjausperuste; }
+
+    /**
+     * @brief Laskee viitenumeron tarkasteluvun
+     * @param luvusta Viitenumero ilman tarkastetta
+     * @return
+     */
+    static int laskeViiteTarkiste(long luvusta);
 
 public slots:
     QModelIndex lisaaRivi(LaskuRivi rivi = LaskuRivi());
@@ -89,8 +108,11 @@ signals:
 private:
     QList<LaskuRivi> rivit_;
     QDate erapaiva_;
+    QDate toimituspaiva_;
+    QString laskunsaajanNimi_;
     QString lisatieto_;
     QString osoite_;
+    int kirjausperuste_;
 
     void paivitaSumma(int rivi);
 };

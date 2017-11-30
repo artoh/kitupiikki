@@ -39,16 +39,23 @@ LaskuDialogi::LaskuDialogi(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->perusteCombo->addItem("Suoriteperusteinen", SUORITEPERUSTE);
-    ui->perusteCombo->addItem("Laskutusperusteinen", LASKUTUSPERUSTE);
-    ui->perusteCombo->addItem("Maksuperusteinen", MAKSUPERUSTE);
-    ui->perusteCombo->addItem("Käteiskuitti", KATEISLASKU);
+    ui->perusteCombo->addItem("Suoriteperusteinen", LaskuModel::SUORITEPERUSTE);
+    ui->perusteCombo->addItem("Laskutusperusteinen", LaskuModel::LASKUTUSPERUSTE);
+    ui->perusteCombo->addItem("Maksuperusteinen", LaskuModel::MAKSUPERUSTE);
+    ui->perusteCombo->addItem("Käteiskuitti", LaskuModel::KATEISLASKU);
+
+    ui->toimitusDate->setMinimumDate( kp()->tilitpaatetty().addDays(1));
+    ui->eraDate->setMinimumDate( kp()->paivamaara() );
+    ui->perusteCombo->setCurrentIndex( ui->perusteCombo->findData( kp()->asetukset()->luku("LaskuKirjausperuste") ));
+    perusteVaihtuu();
 
     ui->toimitusDate->setDate( kp()->paivamaara() );
-    ui->eraDate->setDate( kp()->paivamaara().addDays(14));
+    ui->eraDate->setDate( kp()->paivamaara().addDays( kp()->asetukset()->luku("LaskuMaksuaika")));
 
     model = new LaskuModel(this);
     model->lisaaRivi();
+
+    ui->nroLabel->setText( QString::number(model->laskunro()));
 
     ui->rivitView->setModel(model);
     ui->rivitView->setItemDelegateForColumn(LaskuModel::AHINTA, new EuroDelegaatti());
@@ -62,8 +69,8 @@ LaskuDialogi::LaskuDialogi(QWidget *parent) :
 
     connect( ui->lisaaNappi, SIGNAL(clicked(bool)), model, SLOT(lisaaRivi()));
     connect( ui->esikatseluNappi, SIGNAL(clicked(bool)), this, SLOT(esikatsele()));
-
     connect( model, SIGNAL(summaMuuttunut(int)), this, SLOT(paivitaSumma(int)));
+    connect( ui->perusteCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(perusteVaihtuu()));
 
     ui->rivitView->horizontalHeader()->setSectionResizeMode(LaskuModel::NIMIKE, QHeaderView::Stretch);
 
@@ -109,9 +116,35 @@ void LaskuDialogi::esikatsele()
     QDesktopServices::openUrl( QUrl(file->fileName()) );
 }
 
+void LaskuDialogi::perusteVaihtuu()
+{
+    int peruste = ui->perusteCombo->currentData().toInt();
+
+    ui->rahaTiliEdit->setVisible( peruste != LaskuModel::MAKSUPERUSTE );
+    ui->rahatiliLabel->setVisible( peruste != LaskuModel::MAKSUPERUSTE );
+
+    if( peruste == LaskuModel::SUORITEPERUSTE || peruste == LaskuModel::LASKUTUSPERUSTE )
+    {
+        ui->rahaTiliEdit->suodataTyypilla("AS");
+        ui->rahaTiliEdit->valitseTiliNumerolla( kp()->asetus("LaskuSaatavatili").toInt());
+    }
+    else if( peruste == LaskuModel::KATEISLASKU)
+    {
+        ui->rahaTiliEdit->suodataTyypilla("AR");
+        ui->rahaTiliEdit->valitseTiliNumerolla( kp()->asetus("LaskuKateistili").toInt());
+    }
+
+
+
+
+}
+
 void LaskuDialogi::vieMalliin()
 {
     model->asetaErapaiva( ui->eraDate->date());
     model->asetaLisatieto( ui->lisatietoEdit->toPlainText());
     model->asetaOsoite(ui->osoiteEdit->toPlainText());
+    model->asetaToimituspaiva(ui->toimitusDate->date());
+    model->asetaLaskunsaajannimi(ui->saajaEdit->text());
+    model->asetaKirjausperuste(ui->perusteCombo->currentData().toInt());
 }

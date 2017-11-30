@@ -61,7 +61,7 @@ public:
     QStringList lista(const QString& avain) const;
     void aseta(const QString& avain, const QStringList& arvo);
 
-    int luku(const QString& avain) const;
+    int luku(const QString& avain, int oletusarvo = 0) const;
     void aseta(const QString &avain, int luku);
 
     /**

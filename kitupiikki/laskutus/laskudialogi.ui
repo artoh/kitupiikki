@@ -85,14 +85,14 @@
         <widget class="QComboBox" name="perusteCombo"/>
        </item>
        <item row="3" column="0">
-        <widget class="QLabel" name="label_5">
+        <widget class="QLabel" name="rahatiliLabel">
          <property name="text">
           <string>Rahatili</string>
          </property>
         </widget>
        </item>
        <item row="3" column="1">
-        <widget class="TilinvalintaLine" name="lineEdit"/>
+        <widget class="TilinvalintaLine" name="rahaTiliEdit"/>
        </item>
        <item row="4" column="0">
         <widget class="QLabel" name="label_4">
