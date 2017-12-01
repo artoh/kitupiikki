@@ -24,6 +24,7 @@
 
 #include "db/tili.h"
 #include "db/kohdennus.h"
+#include "db/tositelaji.h"
 
 
 struct LaskuRivi
@@ -82,7 +83,7 @@ public:
     QString laskunsaajanNimi() const { return laskunsaajanNimi_; }
     int kirjausperuste() const { return kirjausperuste_;}
 
-    long laskunro() const;
+    qulonglong laskunro() const;
     QString viitenumero() const;
 
     void asetaErapaiva(const QDate & paiva) { erapaiva_ = paiva; }
@@ -93,11 +94,17 @@ public:
     void asetaKirjausperuste(int kirjausperuste) { kirjausperuste_ = kirjausperuste; }
 
     /**
+     * @brief Tallentaa tämän laskun, jonka jälkeen model pitäisi unohtaa
+     * @return
+     */
+    bool tallenna(Tili rahatili);
+
+    /**
      * @brief Laskee viitenumeron tarkasteluvun
      * @param luvusta Viitenumero ilman tarkastetta
      * @return
      */
-    static int laskeViiteTarkiste(long luvusta);
+    static int laskeViiteTarkiste(qulonglong luvusta);
 
 public slots:
     QModelIndex lisaaRivi(LaskuRivi rivi = LaskuRivi());

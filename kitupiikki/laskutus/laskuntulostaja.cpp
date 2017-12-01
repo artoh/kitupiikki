@@ -127,13 +127,15 @@ void LaskunTulostaja::ylaruudukko(QPrinter *printer, QPainter *painter)
     {
         painter->drawText(QRectF( leveys / 2 + mm, pv - rk * 2, leveys / 4, rk-mm ), Qt::AlignBottom,  tr("Lasku") );
         if( model_->laskunSumma() > 0.0 )  // Näytetään eräpäivä vain jos on maksettavaa
+        {
             painter->drawText(QRectF( leveys / 2 + mm, pv + rk * 2, leveys / 4, rk-mm ), Qt::AlignBottom,  model_->erapaiva().toString(Qt::SystemLocaleShortDate) );
+            painter->drawText(QRectF( 3 * leveys / 4 + mm, pv + rk * 3, leveys / 4, rk-mm ), Qt::AlignBottom,  kp()->asetus("LaskuViivastyskorko") );
+        }
+
     }
 
     painter->drawText(QRectF( 3 * leveys / 4 + mm, pv + rk * 2, leveys / 4, rk-mm ), Qt::AlignBottom,  QString("%L1").arg( (model_->laskunSumma() / 100.0) ,0,'f',2));
-
     painter->drawText(QRectF( leveys / 2 + mm, pv + rk * 3, leveys / 4, rk-mm ), Qt::AlignBottom,  kp()->asetus("LaskuHuomautusaika") );
-    painter->drawText(QRectF( 3 * leveys / 4 + mm, pv + rk * 3, leveys / 4, rk-mm ), Qt::AlignBottom,  kp()->asetus("LaskuViivastyskorko") );
 
 
     painter->translate(0, pv + 4*rk + 5 * mm);

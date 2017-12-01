@@ -44,7 +44,6 @@ LaskuDialogi::LaskuDialogi(QWidget *parent) :
     ui->perusteCombo->addItem("Maksuperusteinen", LaskuModel::MAKSUPERUSTE);
     ui->perusteCombo->addItem("Käteiskuitti", LaskuModel::KATEISLASKU);
 
-    ui->toimitusDate->setMinimumDate( kp()->tilitpaatetty().addDays(1));
     ui->eraDate->setMinimumDate( kp()->paivamaara() );
     ui->perusteCombo->setCurrentIndex( ui->perusteCombo->findData( kp()->asetukset()->luku("LaskuKirjausperuste") ));
     perusteVaihtuu();
@@ -67,10 +66,13 @@ LaskuDialogi::LaskuDialogi(QWidget *parent) :
     ui->rivitView->setColumnHidden( LaskuModel::ALV, !kp()->asetukset()->onko("AlvVelvollinen") );
     ui->rivitView->setColumnHidden( LaskuModel::KOHDENNUS, kp()->kohdennukset()->rowCount(QModelIndex()) < 2);
 
+    ui->naytaNappi->setChecked( kp()->asetukset()->onko("LaskuNaytaTuotteet") );
+
     connect( ui->lisaaNappi, SIGNAL(clicked(bool)), model, SLOT(lisaaRivi()));
     connect( ui->esikatseluNappi, SIGNAL(clicked(bool)), this, SLOT(esikatsele()));
     connect( model, SIGNAL(summaMuuttunut(int)), this, SLOT(paivitaSumma(int)));
     connect( ui->perusteCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(perusteVaihtuu()));
+    connect( ui->tallennaNappi, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
 
     ui->rivitView->horizontalHeader()->setSectionResizeMode(LaskuModel::NIMIKE, QHeaderView::Stretch);
 
@@ -79,6 +81,7 @@ LaskuDialogi::LaskuDialogi(QWidget *parent) :
 
 LaskuDialogi::~LaskuDialogi()
 {
+    kp()->asetukset()->aseta("LaskuNaytaTuotteet", ui->naytaNappi->isChecked());
     delete ui;
 }
 
@@ -123,6 +126,13 @@ void LaskuDialogi::perusteVaihtuu()
     ui->rahaTiliEdit->setVisible( peruste != LaskuModel::MAKSUPERUSTE );
     ui->rahatiliLabel->setVisible( peruste != LaskuModel::MAKSUPERUSTE );
 
+    if( peruste == LaskuModel::MAKSUPERUSTE || peruste == LaskuModel::LASKUTUSPERUSTE)
+        ui->toimitusDate->setMinimumDate( kp()->tilitpaatetty().addYears(-1));
+    else
+        // Jos kirjataan toimituspäivälle, pitää toimituspäivän olla tilikaudella
+        ui->toimitusDate->setMinimumDate( kp()->tilitpaatetty().addDays(1));
+
+
     if( peruste == LaskuModel::SUORITEPERUSTE || peruste == LaskuModel::LASKUTUSPERUSTE )
     {
         ui->rahaTiliEdit->suodataTyypilla("AS");
@@ -147,4 +157,11 @@ void LaskuDialogi::vieMalliin()
     model->asetaToimituspaiva(ui->toimitusDate->date());
     model->asetaLaskunsaajannimi(ui->saajaEdit->text());
     model->asetaKirjausperuste(ui->perusteCombo->currentData().toInt());
+}
+
+void LaskuDialogi::tallenna()
+{
+    vieMalliin();
+    model->tallenna(kp()->tilit()->tiliNumerolla( ui->rahaTiliEdit->valittuTilinumero() ));
+
 }

@@ -17,12 +17,15 @@
 
 #include <cmath>
 #include <QSqlQuery>
+#include <QTemporaryFile>
+#include <QPrinter>
 
 #include "laskumodel.h"
 #include "laskutusverodelegaatti.h"
 #include "db/kirjanpito.h"
 #include "db/tilinvalintadialogi.h"
 #include "kirjaus/verodialogi.h"
+#include "laskuntulostaja.h"
 
 LaskuModel::LaskuModel(QObject *parent) :
     QAbstractTableModel( parent )
@@ -263,9 +266,9 @@ int LaskuModel::laskunSumma() const
     return summa;
 }
 
-long LaskuModel::laskunro() const
+qulonglong LaskuModel::laskunro() const
 {
-    int nro = kp()->asetukset()->luku("LaskuSeuraavaId");
+    int nro = kp()->asetukset()->isoluku("LaskuSeuraavaId");
     while(true)
     {
         // Varmistetaan, että tämä numero ei vielä ole käytössä!
@@ -288,7 +291,140 @@ QString LaskuModel::viitenumero() const
     return str;
 }
 
-int LaskuModel::laskeViiteTarkiste(long luvusta)
+bool LaskuModel::tallenna(Tili rahatili)
+{
+    // Ensin tehdään tosite
+    TositeModel tosite( kp()->tietokanta() );    
+    tosite.asetaOtsikko( tr("%1 [%2]").arg(laskunsaajanNimi()).arg(laskunro()) );
+    tosite.asetaKommentti( lisatieto() );
+    tosite.asetaTositelaji( kp()->asetukset()->luku("LaskuTositelaji", 1) );
+    tosite.json()->set("Lasku", laskunro());
+
+    QDate pvm;
+    if( kirjausperuste() == SUORITEPERUSTE)
+        pvm = toimituspaiva();
+    else if(kirjausperuste() == LASKUTUSPERUSTE || kirjausperuste() == KATEISLASKU)
+        pvm = kp()->paivamaara();
+
+    tosite.asetaPvm(pvm);
+
+    VientiModel *viennit = tosite.vientiModel();
+    foreach (LaskuRivi rivi, rivit_)
+    {
+        VientiRivi vienti;
+        vienti.selite = rivi.nimike;
+        vienti.pvm = pvm;
+        vienti.tili = rivi.myyntiTili;
+        vienti.kohdennus = rivi.kohdennus;
+        vienti.alvkoodi = rivi.alvKoodi;
+        vienti.alvprosentti = rivi.alvProsentti;
+
+        int nettoSnt = std::round( rivi.ahintaSnt * rivi.maara );
+        int bruttoSnt = std::round( rivi.yhteensaSnt() );
+        int veroSnt = bruttoSnt - nettoSnt;
+
+        vienti.json.set("Maara", QString("%L1").arg(rivi.maara,0,'f',2));
+        vienti.json.set("Yksikko", rivi.yksikko);
+
+
+        VientiRivi verorivi;
+        // Nettokirjauksessa kirjataan alv erikseen
+        if( rivi.alvKoodi == AlvKoodi::MYYNNIT_NETTO)
+        {
+            verorivi.pvm = pvm;
+            verorivi.selite = rivi.nimike;
+            verorivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA);
+            verorivi.alvkoodi = AlvKoodi::ALVKIRJAUS + rivi.alvKoodi;
+            verorivi.alvprosentti = rivi.alvProsentti;
+
+            if( nettoSnt > 0)
+            {
+                vienti.kreditSnt = nettoSnt;
+                verorivi.kreditSnt = veroSnt;
+            }
+            else
+            {
+                vienti.debetSnt = nettoSnt;
+                verorivi.debetSnt = veroSnt;
+            }
+        }
+        else
+        {
+            if( nettoSnt > 0)
+                vienti.kreditSnt = bruttoSnt;
+            else
+                vienti.debetSnt = bruttoSnt;
+        }
+        viennit->lisaaVienti(vienti);
+        if( verorivi.tili.onkoValidi())
+            viennit->lisaaVienti(verorivi);
+    }
+    // Vielä rahasummarivi !!!
+    VientiRivi raharivi;
+    raharivi.tili = rahatili;
+    raharivi.pvm = pvm;
+    raharivi.selite = tr("%1 [%2]").arg(laskunsaajanNimi()).arg(laskunro());
+
+    if( laskunSumma() > 0 )
+        raharivi.debetSnt = laskunSumma();
+    else
+        raharivi.kreditSnt = laskunSumma();
+    viennit->lisaaVienti(raharivi);
+
+
+
+    // Tallennetaan liiteeksi
+
+    // Luo tilapäisen pdf-tiedoston
+    QTemporaryFile *file = new QTemporaryFile(QDir::tempPath() + "/lasku-XXXXXX.pdf", this);
+    file->open();
+    file->close();
+
+    QPrinter printer;
+    printer.setPaperSize(QPrinter::A4);
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setOutputFileName( file->fileName() );
+
+    LaskunTulostaja tulostaja(this);
+    tulostaja.tulosta(&printer);
+
+    tosite.liiteModel()->lisaaTiedosto( file->fileName(), tr("Lasku nr %1").arg(laskunro()));
+    tosite.tallenna();
+            
+    
+    QSqlQuery query;
+    query.prepare("INSERT INTO lasku(id,tosite,laskupvm,erapvm,summaSnt,avoinSnt,asiakas,json) "
+                  "VALUES(:id,:tosite,:pvm,:erapvm,:summa,:avoin,:asiakas,:json)");
+    query.bindValue(":id", laskunro());
+    query.bindValue(":tosite", tosite.id());
+    query.bindValue(":pvm", kp()->paivamaara());
+    query.bindValue(":erapvm", erapaiva());
+    query.bindValue(":summa", laskunSumma());
+
+    if( kirjausperuste() == KATEISLASKU )
+        query.bindValue(":avoin", 0);
+    else
+        query.bindValue(":avoin", laskunSumma());
+
+    query.bindValue(":asiakas", laskunsaajanNimi());
+
+    JsonKentta json;
+    json.set("Osoite", osoite());
+    json.set("Kirjausperuste", kirjausperuste());
+    json.set("Viite", viitenumero());
+    json.set("Toimituspvm", toimituspaiva());
+    json.set("Lisatieto", lisatieto());
+
+    query.bindValue(":json", json.toSqlJson() );
+    query.exec();
+
+    // Kelataan laskuria eteenpäin
+    kp()->asetukset()->aseta("LaskuSeuraavaId", laskunro() );
+
+    return true;
+}
+
+int LaskuModel::laskeViiteTarkiste(qulonglong luvusta)
 {
     int indeksi = 0;
     int summa = 0;

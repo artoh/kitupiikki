@@ -25,5 +25,6 @@ LaskuMaksuaika | int | Oletusmaksuaika vrk
 LaskuHuomautusaika | QString | tulostettava huomautusaika
 LaskuViivastyskorko | QString | tulostettava viivästyskorkoteksti
 LaskuSeuraavaId | int | seuraavan laskun laskunro
+LaskuNaytaTuotteet | bool | näytetäänkö tuotteet
 IBAN | QString | laskulle tulostettava IBAN
 Puhelin | QString | laskulle tulostettava puhelinnumero

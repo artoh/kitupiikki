@@ -44,6 +44,7 @@ private slots:
      * @brief Tallentaa lomaketiedot malliin
      */
     void vieMalliin();
+    void tallenna();
 
 private:
     Ui::LaskuDialogi *ui;

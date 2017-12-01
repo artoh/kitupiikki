@@ -38,11 +38,13 @@ public:
     void set(const QString& avain, const QString& arvo);
     void set(const QString& avain, const QDate& pvm);
     void set(const QString& avain, int arvo);
+    void set(const QString& avain, qulonglong arvo );
     void unset(const QString &avain);
 
     QString str(const QString& avain);
     QDate date(const QString& avain);
     int luku(const QString& avain);
+    qulonglong isoluku(const QString& avain);
 
     QByteArray toJson();
     QVariant toSqlJson();

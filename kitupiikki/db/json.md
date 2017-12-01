@@ -27,5 +27,9 @@ Oletustili  |  int(tilinumero)  | Oletus kirjaustiliksi
 Tosite
 ------
 
-- tiliote alkaa
-- tiliote päättyy
+Avain   | Tyyppi  |  Selitys
+--------|---------|-----------------
+TilioteAlkaa | QDate | mistä tiliote alkaa
+TilioteLoppuu | QDate | mihin tiliote TilioteLoppuu
+Lasku | int | Tosite on lasku, laskun nro
+

@@ -127,7 +127,24 @@ int AsetusModel::luku(const QString &avain, int oletusarvo) const
         return oletusarvo;
 }
 
+qulonglong AsetusModel::isoluku(const QString &avain, qulonglong oletusarvo) const
+{
+    if( asetukset_.contains(avain))
+        return asetukset_.value(avain).toInt();
+    else
+        return oletusarvo;
+
+}
+
 void AsetusModel::aseta(const QString& avain, int luku)
+{
+    if( !luku)
+        poista(avain);  // Nolla-arvolla asetus poistetaan (on joka tapauksessa tallella)
+    else
+        aseta(avain, QString::number(luku));
+}
+
+void AsetusModel::aseta(const QString &avain, qulonglong luku)
 {
     if( !luku)
         poista(avain);  // Nolla-arvolla asetus poistetaan (on joka tapauksessa tallella)

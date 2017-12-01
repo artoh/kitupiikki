@@ -34,12 +34,11 @@ INSERT INTO tositelaji ( id, tunnus,nimi) VALUES
 
 CREATE TABLE tosite (
     id        INTEGER      PRIMARY KEY AUTOINCREMENT,
-    pvm       DATE         NOT NULL,
+    pvm       DATE,
     otsikko   TEXT,
     kommentti TEXT,
     tunniste  INTEGER,
     tiliote   INTEGER      REFERENCES tili (id) ON UPDATE CASCADE,
-    lasku     INTEGER      REFERENCES lasku (id) ON UPDATE CASCADE,
     laji      INTEGER         REFERENCES tositelaji (id)
                                  DEFAULT (1),
     json      TEXT
@@ -59,7 +58,7 @@ CREATE TABLE kohdennus (
     tyyppi INTEGER  NOT NULL
 );
 
-INSERT INTO kohdennus(id, nimi, tyyppi) VALUES(0,"(Ei kohdennusta)",0);
+INSERT INTO kohdennus(id, nimi, tyyppi) VALUES(0,"(Yleinen)",0);
 
 
 CREATE TABLE vienti (
@@ -101,13 +100,14 @@ CREATE TABLE liite (
 );
 
 CREATE TABLE lasku (
-    id          INTEGER        PRIMARY KEY AUTOINCREMENT,
-    viite       VARCHAR(20),
+    id          INTEGER        PRIMARY KEY,
+    tosite      INTEGER REFERENCES tosite(id) ON DELETE RESTRICT
+                                              ON UPDATE CASCADE,
     laskupvm    DATE,
     erapvm      DATE,
     summaSnt    BIGINT,
     avoinSnt    BIGINT,
-    asiakas     TEXT,
+    asiakas     VARCHAR(128),
     json        TEXT
 
 );
@@ -116,6 +116,7 @@ CREATE INDEX lasku_viite ON lasku(viite);
 CREATE INDEX lasku_pvm ON lasku(laskupvm);
 CREATE INDEX lasku_erapvm ON lasku(erapvm);
 CREATE INDEX lasku_asiakas ON lasku(asiakas);
+CREATE INDEX lasku_tosite ON lasku(tosite);
 
 
 CREATE VIEW vientivw AS
