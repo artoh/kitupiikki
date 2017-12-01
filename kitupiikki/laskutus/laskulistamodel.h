@@ -15,36 +15,31 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef LASKUTUSSIVU_H
-#define LASKUTUSSIVU_H
+#ifndef LASKULISTAMODEL_H
+#define LASKULISTAMODEL_H
 
-#include <QSortFilterProxyModel>
+#include <QSqlQueryModel>
+#include <QDate>
 
-#include "kitupiikkisivu.h"
-#include "ui_laskutus.h"
-#include "laskulistamodel.h"
-
-class LaskutusSivu : public KitupiikkiSivu
+/**
+ * @brief Laskujen listaus
+ *
+ * Toteutettu sql-kyselyllä. Aktioitava paivita-funktiolla.
+ */
+class LaskulistaModel : public QSqlQueryModel
 {
-    Q_OBJECT
+Q_OBJECT
+
 public:
-    LaskutusSivu();
+    LaskulistaModel(QObject *parent = 0);
 
-    enum Valilehdet { KAIKKI, AVOIMET, ERAANTYNEET };
+    enum Laskuvalinta { KAIKKI, AVOIMET, ERAANTYNEET };
+    enum LaskuSarake { NUMERO, PVM, ERAPVM, SUMMA, MAKSAMATTA, TOSITE, ASIAKAS};
 
-    void siirrySivulle();
-    bool poistuSivulta();
-    QString ohjeSivunNimi() { return "laskutus";}
+    QVariant data(const QModelIndex &item, int role) const;
 
 public slots:
-    void uusiLasku();
-
-    void paivita();
-
-private:
-    Ui::Laskutus *ui;
-    LaskulistaModel *model;
-    QSortFilterProxyModel *proxy;
+    void paivita(int valinta = KAIKKI, QDate mista=QDate(), QDate mihin=QDate());
 };
 
-#endif // LASKUTUSSIVU_H
+#endif // LASKULISTAMODEL_H

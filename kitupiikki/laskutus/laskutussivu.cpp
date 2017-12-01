@@ -15,8 +15,12 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QSqlQueryModel>
+
 #include "laskutussivu.h"
 #include "laskudialogi.h"
+
+#include "kirjaus/eurodelegaatti.h"
 
 LaskutusSivu::LaskutusSivu() :
     ui(new Ui::Laskutus)
@@ -27,11 +31,27 @@ LaskutusSivu::LaskutusSivu() :
     ui->suodatusTab->addTab("Erääntyneet");
 
     connect(ui->uusiNappi, SIGNAL(clicked(bool)), this, SLOT(uusiLasku()) );
+    connect(ui->suodatusTab, SIGNAL(currentChanged(int)), this, SLOT(paivita()));
+
+    model = new LaskulistaModel(this);
+    proxy = new QSortFilterProxyModel(this);
+    proxy->setSourceModel(model);
+    proxy->setDynamicSortFilter(true);
+    proxy->setSortRole(Qt::EditRole);
+
+    ui->laskutView->setSelectionBehavior(QTableView::SelectRows);
+    ui->laskutView->setSelectionMode(QTableView::SingleSelection);
+
+    ui->laskutView->setModel(proxy);
+    ui->laskutView->setSortingEnabled(true);
+    ui->laskutView->horizontalHeader()->setStretchLastSection(true);
+    ui->laskutView->verticalHeader()->hide();
+
 }
 
 void LaskutusSivu::siirrySivulle()
 {
-
+    paivita();
 }
 
 bool LaskutusSivu::poistuSivulta()
@@ -43,4 +63,12 @@ void LaskutusSivu::uusiLasku()
 {
     LaskuDialogi dlg;
     dlg.exec();
+    paivita();
+}
+
+void LaskutusSivu::paivita()
+{
+    model->paivita( ui->suodatusTab->currentIndex() );
+    ui->laskutView->hideColumn(LaskulistaModel::TOSITE);
+    return;
 }

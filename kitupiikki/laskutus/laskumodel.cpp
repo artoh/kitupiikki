@@ -200,14 +200,15 @@ bool LaskuModel::setData(const QModelIndex &index, const QVariant &value, int ro
         {
             // Tili asetetaan numerolla!
             Tili uusitili;
-            if( value.toInt())
+            if( value.toInt() )
                 uusitili = kp()->tilit()->tiliNumerolla( value.toInt());
-            else if(!value.toString().isEmpty() && value.toString() != " ")
+            else if(!value.toString().isEmpty() && value.toString() != " " && value.toString() != "0")
                 uusitili = TilinValintaDialogi::valitseTili(value.toString());
-            else
+            else if( value.toString()==" " || !rivit_[rivi].myyntiTili.onkoValidi())
                 uusitili = TilinValintaDialogi::valitseTili( QString());
 
-            rivit_[rivi].myyntiTili = uusitili;
+            if( uusitili.onkoValidi())
+                rivit_[rivi].myyntiTili = uusitili;
             return true;
         }
         case BRUTTOSUMMA:
