@@ -16,9 +16,12 @@
 */
 
 #include <QSqlQueryModel>
+#include <QDesktopServices>
+#include <QUrl>
 
 #include "laskutussivu.h"
 #include "laskudialogi.h"
+#include "db/liitemodel.h"
 
 #include "kirjaus/eurodelegaatti.h"
 
@@ -32,6 +35,7 @@ LaskutusSivu::LaskutusSivu() :
 
     connect(ui->uusiNappi, SIGNAL(clicked(bool)), this, SLOT(uusiLasku()) );
     connect(ui->suodatusTab, SIGNAL(currentChanged(int)), this, SLOT(paivita()));
+    connect(ui->naytaNappi, SIGNAL(clicked(bool)), this, SLOT(nayta()));
 
     model = new LaskulistaModel(this);
     proxy = new QSortFilterProxyModel(this);
@@ -46,6 +50,9 @@ LaskutusSivu::LaskutusSivu() :
     ui->laskutView->setSortingEnabled(true);
     ui->laskutView->horizontalHeader()->setStretchLastSection(true);
     ui->laskutView->verticalHeader()->hide();
+
+    connect(ui->laskutView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(valintaMuuttuu()));
+
 
 }
 
@@ -70,5 +77,23 @@ void LaskutusSivu::paivita()
 {
     model->paivita( ui->suodatusTab->currentIndex() );
     ui->laskutView->hideColumn(LaskulistaModel::TOSITE);
+
+    valintaMuuttuu();
     return;
+}
+
+void LaskutusSivu::nayta()
+{
+    QModelIndex index = ui->laskutView->currentIndex();
+    QModelIndex tositeIndeksi = ui->laskutView->model()->index(index.row(), LaskulistaModel::TOSITE );
+    int tositeId = tositeIndeksi.data().toInt();
+    if(tositeId)
+    {
+        QDesktopServices::openUrl( QUrl( LiiteModel::liitePolulla(tositeId, 1) ) );
+    }
+}
+
+void LaskutusSivu::valintaMuuttuu()
+{
+    ui->naytaNappi->setEnabled( ui->laskutView->currentIndex().isValid());
 }

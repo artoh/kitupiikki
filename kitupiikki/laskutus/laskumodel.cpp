@@ -279,9 +279,10 @@ QDate LaskuModel::pvm() const
 
 qulonglong LaskuModel::laskunro() const
 {
-    qlonglong pohjanro = kp()->asetukset()->isoluku("LaskuSeuraavaId");
+    qlonglong pohjanro = kp()->asetukset()->isoluku("LaskuSeuraavaId") / 10;
     while(true)
     {
+        // Lasketaan aina tunnistenumero uudelleen!!!
         qlonglong numero = pohjanro * 10 + laskeViiteTarkiste(pohjanro);
         // Varmistetaan, että tämä numero ei vielä ole käytössä!
         QSqlQuery kysely(QString("SELECT id FROM lasku WHERE id=%1").arg(numero));
@@ -423,7 +424,7 @@ bool LaskuModel::tallenna(Tili rahatili)
     query.bindValue(":json", json.toSqlJson() );
     query.exec();
 
-    // Kelataan laskuria eteenpäin
+    // Kelataan laskuria eteenpäin - tallennettava laskunnumero
     kp()->asetukset()->aseta("LaskuSeuraavaId", laskunro() );
 
     return true;

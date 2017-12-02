@@ -40,6 +40,8 @@ public slots:
     void uusiLasku();
 
     void paivita();
+    void nayta();
+    void valintaMuuttuu();
 
 private:
     Ui::Laskutus *ui;

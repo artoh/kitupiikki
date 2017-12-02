@@ -74,6 +74,8 @@ public:
     QString liitePolku(int liitenro) const;
     QString liiteNimi(int liitenro) const;
 
+    static QString liitePolulla(int tositeId, int liiteId);
+
 public slots:
     void lataa();
     void tyhjaa();

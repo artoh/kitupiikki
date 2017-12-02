@@ -186,7 +186,7 @@ void LiiteModel::poistaLiite(int indeksi)
 
 QString LiiteModel::liitePolku(int liitenro) const
 {
-    return kp()->hakemisto().absoluteFilePath( "liitteet/" + liiteNimi(liitenro ));
+    return liitePolulla( tositeModel_->id(), liitenro );
 }
 
 QString LiiteModel::liiteNimi(int liitenro) const
@@ -194,7 +194,14 @@ QString LiiteModel::liiteNimi(int liitenro) const
     return QString("%1-%2.pdf")
             .arg( tositeModel_->id(), 8, 10, QChar('0') )
             .arg( liitenro, 2, 10, QChar('0') );
+}
 
+QString LiiteModel::liitePolulla(int tositeId, int liiteId)
+{
+    QString tiedostonnimi = QString("%1-%2.pdf")
+            .arg( tositeId, 8, 10, QChar('0') )
+            .arg( liiteId, 2, 10, QChar('0') );
+    return kp()->hakemisto().absoluteFilePath( "liitteet/" + tiedostonnimi);
 }
 
 void LiiteModel::lataa()

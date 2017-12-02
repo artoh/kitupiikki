@@ -44,6 +44,7 @@ LaskuValintaWidget::LaskuValintaWidget()
     connect(ui->maksuaikaSpin, SIGNAL(valueChanged(int)), this, SLOT(ilmoitaMuokattu()));
     connect(ui->huomautusaikaEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
     connect(ui->viivastyskorkoEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
+    connect(ui->seuraavaLasku, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
     connect(ui->ibanEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
 }
 
@@ -62,7 +63,7 @@ bool LaskuValintaWidget::nollaa()
     ui->maksuaikaSpin->setValue( kp()->asetukset()->luku("LaskuMaksuaika", 14) );
     ui->huomautusaikaEdit->setText( kp()->asetus("LaskuHuomautusaika"));
     ui->viivastyskorkoEdit->setText( kp()->asetus("LaskuViivastyskorko"));
-    ui->seuraavaLasku->setValue( kp()->asetukset()->luku("LaskuSeuraavaId", 100));
+    ui->seuraavaLasku->setValue( kp()->asetukset()->luku("LaskuSeuraavaId", 1000));
     ui->ibanEdit->setText( kp()->asetus("IBAN"));
     return true;
 }

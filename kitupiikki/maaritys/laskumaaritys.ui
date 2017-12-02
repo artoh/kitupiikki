@@ -97,17 +97,17 @@
       <item row="7" column="0">
        <widget class="QLabel" name="label_9">
         <property name="text">
-         <string>Seuraava laskunumero</string>
+         <string>Seuraava viitenumero</string>
         </property>
        </widget>
       </item>
       <item row="7" column="1">
        <widget class="QSpinBox" name="seuraavaLasku">
         <property name="minimum">
-         <number>100</number>
+         <number>1000</number>
         </property>
         <property name="maximum">
-         <number>9999999</number>
+         <number>999999999</number>
         </property>
        </widget>
       </item>
