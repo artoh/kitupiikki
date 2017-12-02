@@ -16,6 +16,7 @@
 */
 
 #include "tositelaji.h"
+#include "kirjanpito.h"
 
 #include <QSqlQuery>
 
@@ -64,5 +65,27 @@ int Tositelaji::montakoTositetta() const
         return kysely.value(0).toInt();
 
     return 0;
+}
+
+int Tositelaji::seuraavanTunnistenumero(const QDate pvm) const
+{
+    if( !kp()->tietokanta()->isOpen() )
+        return 0;   // Model ei vielä käytössä
+
+    Tilikausi kausi = kp()->tilikausiPaivalle( pvm );
+    QString kysymys = QString("SELECT max(tunniste) FROM tosite WHERE "
+                    " pvm BETWEEN \"%1\" AND \"%2\" "
+                    " AND laji=\"%3\" ")
+                                .arg(kausi.alkaa().toString(Qt::ISODate))
+                                .arg(kausi.paattyy().toString(Qt::ISODate))
+                                .arg( id() );
+
+    QSqlQuery kysely;
+    kysely.exec(kysymys);
+
+    if( kysely.next())
+        return kysely.value(0).toInt() + 1;
+    else
+        return 1;
 }
 

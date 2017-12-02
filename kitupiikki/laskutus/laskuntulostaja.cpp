@@ -90,15 +90,19 @@ void LaskunTulostaja::ylaruudukko(QPrinter *printer, QPainter *painter)
     painter->drawLine( QLineF(leveys/2, pv-rk, leveys, pv-rk ));
     painter->drawLine( QLineF(leveys/2, pv-rk, leveys/2, pv+rk*4));
 
-    painter->drawLine( QLineF(0, pv+ rk*4, leveys, pv + rk*4));
-    painter->drawLine(QLineF(3*leveys/4, pv-rk, 3*leveys/4, pv));
+    painter->drawLine( QLineF(0, pv+ rk*4, leveys, pv + rk*4));   
     painter->drawLine(QLineF(3*leveys/4, pv+rk*2, 3*leveys/4, pv+rk*4));
     for(int i=1; i<4; i++)
         painter->drawLine(QLineF(leveys/2, pv + i * rk, leveys, pv + i * rk));
 
     painter->setFont( QFont("Sans",OTSAKEPT) );
-    painter->drawText(QRectF( leveys / 2 + mm, pv - rk + mm, leveys / 4, rk ), Qt::AlignTop, tr("Laskun numero"));
-    painter->drawText(QRectF( 3 * leveys / 4 + mm, pv - rk + mm, leveys / 4, rk ), Qt::AlignTop, tr("Päivämäärä"));
+    if( model_->kirjausperuste() != LaskuModel::MAKSUPERUSTE)
+    {
+        painter->drawLine(QLineF(3*leveys/4, pv-rk, 3*leveys/4, pv));
+        painter->drawText(QRectF( 3 * leveys / 4 + mm, pv - rk + mm, leveys / 4, rk ), Qt::AlignTop, tr("Kirjanpidon tositenro"));
+    }
+
+    painter->drawText(QRectF( leveys / 2 + mm, pv - rk + mm, leveys / 4, rk ), Qt::AlignTop, tr("Päivämäärä"));
     painter->drawText(QRectF( leveys / 2 + mm, pv + mm, leveys / 4, rk ), Qt::AlignTop, tr("Toimituspäivä"));
     painter->drawText(QRectF( leveys / 2 + mm, pv + rk + mm, leveys / 4, rk ), Qt::AlignTop, tr("Viitenumero"));
     painter->drawText(QRectF( leveys / 2 + mm, pv + rk * 2 + mm, leveys / 4, rk ), Qt::AlignTop, tr("Eräpäivä"));
@@ -111,8 +115,14 @@ void LaskunTulostaja::ylaruudukko(QPrinter *printer, QPainter *painter)
 
     painter->drawText(QRectF( mm*2, pv + mm * 2, leveys / 2 - mm * 4, rk * 4 - mm * 2), Qt::TextWordWrap, model_->osoite());
 
-    painter->drawText(QRectF( leveys / 2 + mm, pv - rk, leveys / 4, rk-mm ), Qt::AlignBottom, QString::number( model_->laskunro() )  );
-    painter->drawText(QRectF( 3 * leveys / 4 + mm, pv - rk, leveys / 4, rk-mm ), Qt::AlignBottom, kp()->paivamaara().toString(Qt::SystemLocaleShortDate) );
+    // Haetaan tositetunniste
+    if( model_->kirjausperuste() != LaskuModel::MAKSUPERUSTE)
+    {
+        Tositelaji laji = kp()->tositelajit()->tositelaji( kp()->asetukset()->luku("LaskuTositelaji") );
+        painter->drawText(QRectF( 3 * leveys / 4 + mm, pv - rk, leveys / 4, rk-mm ), Qt::AlignBottom, QString("%1%2").arg(laji.tunnus()).arg(laji.seuraavanTunnistenumero( model_->pvm() ))  );
+    }
+
+    painter->drawText(QRectF( leveys / 2 + mm, pv - rk, leveys / 4, rk-mm ), Qt::AlignBottom, kp()->paivamaara().toString(Qt::SystemLocaleShortDate) );
     painter->drawText(QRectF( leveys / 2 + mm, pv + mm, leveys / 4, rk-mm ), Qt::AlignBottom,  model_->toimituspaiva().toString(Qt::SystemLocaleShortDate) );
     painter->drawText(QRectF( leveys / 2 + mm, pv+rk+mm, leveys / 2, rk-mm ), Qt::AlignBottom, model_->viitenumero() );
 
@@ -134,7 +144,7 @@ void LaskunTulostaja::ylaruudukko(QPrinter *printer, QPainter *painter)
 
     }
 
-    painter->drawText(QRectF( 3 * leveys / 4 + mm, pv + rk * 2, leveys / 4, rk-mm ), Qt::AlignBottom,  QString("%L1").arg( (model_->laskunSumma() / 100.0) ,0,'f',2));
+    painter->drawText(QRectF( 3 * leveys / 4 + mm, pv + rk * 2, leveys / 4, rk-mm ), Qt::AlignBottom,  QString("%L1 €").arg( (model_->laskunSumma() / 100.0) ,0,'f',2));
     painter->drawText(QRectF( leveys / 2 + mm, pv + rk * 3, leveys / 4, rk-mm ), Qt::AlignBottom,  kp()->asetus("LaskuHuomautusaika") );
 
 

@@ -267,28 +267,38 @@ int LaskuModel::laskunSumma() const
     return summa;
 }
 
+QDate LaskuModel::pvm() const
+{
+    if( kirjausperuste()==SUORITEPERUSTE)
+        return toimituspaiva();
+    else if(kirjausperuste()==LASKUTUSPERUSTE || kirjausperuste()==KATEISLASKU)
+        return kp()->paivamaara();
+    else
+        return QDate(); // Ei saada päivämäärää
+}
+
 qulonglong LaskuModel::laskunro() const
 {
-    int nro = kp()->asetukset()->isoluku("LaskuSeuraavaId");
+    qlonglong pohjanro = kp()->asetukset()->isoluku("LaskuSeuraavaId");
     while(true)
     {
+        qlonglong numero = pohjanro * 10 + laskeViiteTarkiste(pohjanro);
         // Varmistetaan, että tämä numero ei vielä ole käytössä!
-        QSqlQuery kysely(QString("SELECT id FROM lasku WHERE id=%1").arg(nro));
+        QSqlQuery kysely(QString("SELECT id FROM lasku WHERE id=%1").arg(numero));
         if( !kysely.next())
-            return nro;
-        nro++;
+            return numero;
+        pohjanro++;
     }
 }
 
 QString LaskuModel::viitenumero() const
 {
-    int laskuNr = laskunro();
-    QString str = QString::number(laskuNr) + QString::number( laskeViiteTarkiste(laskuNr) );
-
-    // Viiden numeron jälkeen väli
-    if( str.count() > 5)
-        str.insert(5,' ');
-
+    // Muotoilee viitenumeron tulosteasun
+    QString str = QString::number( laskunro() );
+    for(int i=0; i< str.count() / 5; i++)
+    {
+        str.insert(i * 5 + i,' ');
+    }
     return str;
 }
 
@@ -301,20 +311,14 @@ bool LaskuModel::tallenna(Tili rahatili)
     tosite.asetaTositelaji( kp()->asetukset()->luku("LaskuTositelaji", 1) );
     tosite.json()->set("Lasku", laskunro());
 
-    QDate pvm;
-    if( kirjausperuste() == SUORITEPERUSTE)
-        pvm = toimituspaiva();
-    else if(kirjausperuste() == LASKUTUSPERUSTE || kirjausperuste() == KATEISLASKU)
-        pvm = kp()->paivamaara();
-
-    tosite.asetaPvm(pvm);
+    tosite.asetaPvm(pvm() );
 
     VientiModel *viennit = tosite.vientiModel();
     foreach (LaskuRivi rivi, rivit_)
     {
         VientiRivi vienti;
         vienti.selite = rivi.nimike;
-        vienti.pvm = pvm;
+        vienti.pvm = pvm();
         vienti.tili = rivi.myyntiTili;
         vienti.kohdennus = rivi.kohdennus;
         vienti.alvkoodi = rivi.alvKoodi;
@@ -332,7 +336,7 @@ bool LaskuModel::tallenna(Tili rahatili)
         // Nettokirjauksessa kirjataan alv erikseen
         if( rivi.alvKoodi == AlvKoodi::MYYNNIT_NETTO)
         {
-            verorivi.pvm = pvm;
+            verorivi.pvm = pvm();
             verorivi.selite = rivi.nimike;
             verorivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA);
             verorivi.alvkoodi = AlvKoodi::ALVKIRJAUS + rivi.alvKoodi;
@@ -361,18 +365,19 @@ bool LaskuModel::tallenna(Tili rahatili)
             viennit->lisaaVienti(verorivi);
     }
     // Vielä rahasummarivi !!!
-    VientiRivi raharivi;
-    raharivi.tili = rahatili;
-    raharivi.pvm = pvm;
-    raharivi.selite = tr("%1 [%2]").arg(laskunsaajanNimi()).arg(laskunro());
+    if( kirjausperuste() != MAKSUPERUSTE)
+    {
+        VientiRivi raharivi;
+        raharivi.tili = rahatili;
+        raharivi.pvm = pvm();
+        raharivi.selite = tr("%1 [%2]").arg(laskunsaajanNimi()).arg(laskunro());
 
-    if( laskunSumma() > 0 )
-        raharivi.debetSnt = laskunSumma();
-    else
-        raharivi.kreditSnt = laskunSumma();
-    viennit->lisaaVienti(raharivi);
-
-
+        if( laskunSumma() > 0 )
+            raharivi.debetSnt = laskunSumma();
+        else
+            raharivi.kreditSnt = laskunSumma();
+        viennit->lisaaVienti(raharivi);
+    }
 
     // Tallennetaan liiteeksi
 
@@ -412,7 +417,6 @@ bool LaskuModel::tallenna(Tili rahatili)
     JsonKentta json;
     json.set("Osoite", osoite());
     json.set("Kirjausperuste", kirjausperuste());
-    json.set("Viite", viitenumero());
     json.set("Toimituspvm", toimituspaiva());
     json.set("Lisatieto", lisatieto());
 

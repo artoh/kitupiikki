@@ -46,6 +46,13 @@ public:
 
     int montakoTositetta() const;
 
+    /**
+     * @brief Palauttaa tämän tositelajin seuraavan tunnistenumeron
+     * @param pvm Päivämäärä, jonka perusteella tilikausi määräytyy
+     * @return
+     */
+    int seuraavanTunnistenumero(const QDate pvm) const;
+
 protected:
     int id_;
     QString tunnus_;

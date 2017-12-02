@@ -18,7 +18,10 @@
 #include <QPrinter>
 #include <QDesktopServices>
 #include <QTemporaryFile>
-
+#include <QCompleter>
+#include <QSqlQueryModel>
+#include <QSqlQuery>
+#include <QRegExp>
 
 #include "db/kirjanpito.h"
 
@@ -68,11 +71,21 @@ LaskuDialogi::LaskuDialogi(QWidget *parent) :
 
     ui->naytaNappi->setChecked( kp()->asetukset()->onko("LaskuNaytaTuotteet") );
 
+    // Laitetaan täydentäjä nimen syöttöön
+    QCompleter *nimiTaydentaja = new QCompleter(this);
+    QSqlQueryModel *sqlmalli = new QSqlQueryModel(this);
+    sqlmalli->setQuery("select distinct asiakas from lasku order by asiakas");
+    nimiTaydentaja->setModel(sqlmalli);
+    nimiTaydentaja->setModelSorting(QCompleter::CaseSensitivelySortedModel);
+    ui->saajaEdit->setCompleter(nimiTaydentaja);
+
     connect( ui->lisaaNappi, SIGNAL(clicked(bool)), model, SLOT(lisaaRivi()));
     connect( ui->esikatseluNappi, SIGNAL(clicked(bool)), this, SLOT(esikatsele()));
     connect( model, SIGNAL(summaMuuttunut(int)), this, SLOT(paivitaSumma(int)));
     connect( ui->perusteCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(perusteVaihtuu()));
     connect( ui->tallennaNappi, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
+
+    connect( ui->saajaEdit, SIGNAL(editingFinished()), this, SLOT(haeOsoite()));
 
     ui->rivitView->horizontalHeader()->setSectionResizeMode(LaskuModel::NIMIKE, QHeaderView::Stretch);
 
@@ -146,6 +159,29 @@ void LaskuDialogi::perusteVaihtuu()
 
 
 
+
+}
+
+void LaskuDialogi::haeOsoite()
+{
+    QSqlQuery kysely;
+    QString nimistr = ui->saajaEdit->text();
+    nimistr.remove(QRegExp("['\"]"));
+
+    kysely.exec( QString("SELECT json FROM lasku WHERE asiakas='%1'").arg( nimistr)) ;
+    if( kysely.next() )
+    {
+        JsonKentta json;
+        json.fromJson( kysely.value(0).toByteArray() );
+        if( !json.str("Osoite").isEmpty())
+        {
+            // Haetaan aiempi osoite
+            ui->osoiteEdit->setPlainText( json.str("Osoite"));
+            return;
+        }
+    }
+    // Osoitetta ei tiedossa, kirjoitetaan nimi
+    ui->osoiteEdit->setPlainText( nimistr + "\n" );
 
 }
 

@@ -75,7 +75,7 @@ public:
 
     int laskunSumma() const;
 
-
+    QDate pvm() const;
     QDate erapaiva() const { return erapaiva_; }
     QDate toimituspaiva() const { return toimituspaiva_; }
     QString lisatieto() const { return lisatieto_;}

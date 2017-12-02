@@ -39,6 +39,7 @@ private slots:
     void paivitaSumma(int paivitaSumma);
     void esikatsele();
     void perusteVaihtuu();
+    void haeOsoite();
 
     /**
      * @brief Tallentaa lomaketiedot malliin
