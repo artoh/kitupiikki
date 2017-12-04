@@ -47,10 +47,15 @@ private slots:
     void vieMalliin();
     void tallenna();
 
+    void rivienKontekstiValikko(QPoint pos);
+    void lisaaTuoteluetteloon();
+
 private:
     Ui::LaskuDialogi *ui;
     LaskuModel *model;
     LaskunTulostaja *tulostaja;
+
+    QModelIndex riviKontekstiIndeksi;
 };
 
 #endif // UUSILASKUDIALOGI_H

@@ -59,6 +59,7 @@ public:
 
     enum
     {
+        NimikeRooli = Qt::UserRole,
         AlvKoodiRooli = Qt::UserRole + 5,
         AlvProsenttiRooli = Qt::UserRole + 6,
         NettoRooli = Qt::UserRole + 7,

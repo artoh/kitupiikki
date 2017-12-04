@@ -133,6 +133,8 @@ QVariant LaskuModel::data(const QModelIndex &index, int role) const
                 return rivi.yhteensaSnt();
         }
     }
+    else if( role == NimikeRooli)
+        return rivi.nimike;
     else if( role == AlvKoodiRooli)
         return rivi.alvKoodi;
     else if( role == AlvProsenttiRooli)

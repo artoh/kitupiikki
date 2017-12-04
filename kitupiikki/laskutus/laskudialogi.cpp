@@ -15,6 +15,8 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QDebug>
+
 #include <QPrinter>
 #include <QDesktopServices>
 #include <QTemporaryFile>
@@ -22,6 +24,9 @@
 #include <QSqlQueryModel>
 #include <QSqlQuery>
 #include <QRegExp>
+
+#include <QMenu>
+#include <QAction>
 
 #include "db/kirjanpito.h"
 
@@ -84,8 +89,8 @@ LaskuDialogi::LaskuDialogi(QWidget *parent) :
     connect( model, SIGNAL(summaMuuttunut(int)), this, SLOT(paivitaSumma(int)));
     connect( ui->perusteCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(perusteVaihtuu()));
     connect( ui->tallennaNappi, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
-
     connect( ui->saajaEdit, SIGNAL(editingFinished()), this, SLOT(haeOsoite()));
+    connect( ui->rivitView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(rivienKontekstiValikko(QPoint)));
 
     ui->rivitView->horizontalHeader()->setSectionResizeMode(LaskuModel::NIMIKE, QHeaderView::Stretch);
 
@@ -200,4 +205,18 @@ void LaskuDialogi::tallenna()
     vieMalliin();
     model->tallenna(kp()->tilit()->tiliNumerolla( ui->rahaTiliEdit->valittuTilinumero() ));
 
+}
+
+void LaskuDialogi::rivienKontekstiValikko(QPoint pos)
+{
+    riviKontekstiIndeksi=ui->rivitView->indexAt(pos);
+
+    QMenu *menu=new QMenu(this);
+    menu->addAction(QIcon(":/pic/lisaa.png"), tr("Lisää tuoteluetteloon"), this, SLOT(lisaaTuoteluetteloon()));
+    menu->popup(ui->rivitView->viewport()->mapToGlobal(pos));
+}
+
+void LaskuDialogi::lisaaTuoteluetteloon()
+{
+    qDebug() << "Lisätään tuote " << riviKontekstiIndeksi.data(LaskuModel::NimikeRooli);
 }

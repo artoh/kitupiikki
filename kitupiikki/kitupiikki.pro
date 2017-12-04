@@ -104,7 +104,8 @@ SOURCES += main.cpp \
     laskutus/laskuntulostaja.cpp \
     laskutus/laskutusverodelegaatti.cpp \
     maaritys/laskuvalintawidget.cpp \
-    laskutus/laskulistamodel.cpp
+    laskutus/laskulistamodel.cpp \
+    laskutus/tuotemodel.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -199,7 +200,8 @@ HEADERS += \
     laskutus/laskuntulostaja.h \
     laskutus/laskutusverodelegaatti.h \
     maaritys/laskuvalintawidget.h \
-    laskutus/laskulistamodel.h
+    laskutus/laskulistamodel.h \
+    laskutus/tuotemodel.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
