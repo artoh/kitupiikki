@@ -269,6 +269,11 @@ int LaskuModel::laskunSumma() const
     return summa;
 }
 
+LaskuRivi LaskuModel::rivi(int indeksi) const
+{
+    return rivit_.value(indeksi);
+}
+
 QDate LaskuModel::pvm() const
 {
     if( kirjausperuste()==SUORITEPERUSTE)
@@ -333,6 +338,7 @@ bool LaskuModel::tallenna(Tili rahatili)
 
         vienti.json.set("Maara", QString("%L1").arg(rivi.maara,0,'f',2));
         vienti.json.set("Yksikko", rivi.yksikko);
+        vienti.json.set("Tuote", rivi.tuoteKoodi);
 
 
         VientiRivi verorivi;
@@ -455,10 +461,27 @@ int LaskuModel::laskeViiteTarkiste(qulonglong luvusta)
 
 QModelIndex LaskuModel::lisaaRivi(LaskuRivi rivi)
 {
+    int rivia = rivit_.count();
+    if( rivia > 1 && rivit_.value(rivia-1).ahintaSnt == 0)
+    {
+        // Jos viimeisenä on tyhjä rivi, korvataan se tällä ja lisätään sen jälkeen uusi
+        rivit_[rivia-1] = rivi;
+        emit dataChanged( index(rivia-1, 0), index(rivia-1, columnCount(QModelIndex())) );
+        lisaaRivi();
+        return index(rivia-1, 0);
+    }
+
     beginInsertRows( QModelIndex(), rivit_.count(), rivit_.count());
     rivit_.append(rivi);
     endInsertRows();
     return index( rivit_.count() - 1, 0);
+}
+
+void LaskuModel::poistaRivi(int indeksi)
+{
+    beginRemoveRows(QModelIndex(), indeksi, indeksi);
+    rivit_.removeAt(indeksi);
+    endRemoveRows();
 }
 
 void LaskuModel::paivitaSumma(int rivi)

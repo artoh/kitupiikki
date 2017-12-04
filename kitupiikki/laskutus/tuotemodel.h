@@ -20,14 +20,40 @@
 
 #include "laskumodel.h"
 
+/**
+ * @brief Laskutuksessa käytettävät tuotteet
+ * 
+ * Laskutusdialogissa on mahdollisuus valita valmiita rivejä tallennettavaksi "tuotteiksi",
+ * joita on helppo uudelleenkäyttää myöhemmin
+ * 
+ */
 class TuoteModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
     TuoteModel(QObject *parent = 0);
 
+    enum TuoteSarake { NIMIKE, HINTA };
+    
+    int rowCount(const QModelIndex &parent) const;
+    int columnCount(const QModelIndex &parent) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+    QVariant data(const QModelIndex &index, int role) const;    
+    
+    void lisaaTuote(LaskuRivi tuote);
+    void poistaTuote(int indeksi);
+    /**
+     * @brief Palauttaa tuotteen
+     * @param indeksi Rivin indeksi
+     * @return
+     *
+     * Tällä saadaan tuotteen sisältävä LaskuRivi, joka voidaan lisätä laskuun
+     */
+    LaskuRivi tuote(int indeksi) const;
+    
 private:
-
+    QList<LaskuRivi> tuotteet_;
+    
 };
 
 #endif // TUOTEMODEL_H

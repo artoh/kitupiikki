@@ -19,7 +19,10 @@
 #define UUSILASKUDIALOGI_H
 
 #include <QDialog>
+#include <QSortFilterProxyModel>
+
 #include "laskumodel.h"
+#include "tuotemodel.h"
 #include "laskuntulostaja.h"
 
 namespace Ui {
@@ -50,12 +53,29 @@ private slots:
     void rivienKontekstiValikko(QPoint pos);
     void lisaaTuoteluetteloon();
 
+    void lisaaTuote(const QModelIndex& index);
+    void poistaLaskuRivi();
+
+    void tuotteidenKonteksiValikko(QPoint pos);
+    void poistaTuote();
+
+private:
+    /**
+     * @brief Näyttäää tuoteluettelon jos tuotteita, muuten ohjeen
+     */
+    void paivitaTuoteluettelonNaytto();
+
 private:
     Ui::LaskuDialogi *ui;
     LaskuModel *model;
+    TuoteModel *tuotteet;
+    
     LaskunTulostaja *tulostaja;
+    
+    QSortFilterProxyModel *tuoteProxy;
 
-    QModelIndex riviKontekstiIndeksi;
+    QModelIndex kontekstiIndeksi;
+    
 };
 
 #endif // UUSILASKUDIALOGI_H

@@ -132,7 +132,7 @@
         <widget class="QFrame" name="tuoteFrame">
          <property name="maximumSize">
           <size>
-           <width>180</width>
+           <width>300</width>
            <height>16777215</height>
           </size>
          </property>
@@ -151,7 +151,23 @@
            </widget>
           </item>
           <item>
-           <widget class="QTableView" name="tuotelistaView"/>
+           <widget class="QTableView" name="tuotelistaView">
+            <property name="contextMenuPolicy">
+             <enum>Qt::CustomContextMenu</enum>
+            </property>
+            <property name="selectionMode">
+             <enum>QAbstractItemView::SingleSelection</enum>
+            </property>
+            <property name="selectionBehavior">
+             <enum>QAbstractItemView::SelectRows</enum>
+            </property>
+            <property name="showGrid">
+             <bool>true</bool>
+            </property>
+            <property name="sortingEnabled">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QTextBrowser" name="tuotelistaOhje">

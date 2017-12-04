@@ -26,7 +26,11 @@
 #include "db/kohdennus.h"
 #include "db/tositelaji.h"
 
-
+/**
+ * @brief Laskun yksi rivi
+ * 
+ * Käytetään myös tuoteluettelon tuotteesta
+ */
 struct LaskuRivi
 {
     LaskuRivi();
@@ -40,8 +44,12 @@ struct LaskuRivi
     int alvProsentti = 0.00;
     Tili myyntiTili;
     Kohdennus kohdennus;
+    int tuoteKoodi = 0;
 };
 
+/**
+ * @brief Laskun tiedot
+ */
 class LaskuModel : public QAbstractTableModel
 {
     Q_OBJECT
@@ -76,6 +84,13 @@ public:
 
     int laskunSumma() const;
 
+    /**
+     * @brief Palauttaa kopion laskurivistä
+     * @param indeksi Rivin indeksi (alkane nollasta)
+     * @return 
+     */
+    LaskuRivi rivi(int indeksi) const;
+    
     QDate pvm() const;
     QDate erapaiva() const { return erapaiva_; }
     QDate toimituspaiva() const { return toimituspaiva_; }
@@ -109,6 +124,7 @@ public:
 
 public slots:
     QModelIndex lisaaRivi(LaskuRivi rivi = LaskuRivi());
+    void poistaRivi(int indeksi);
 
 signals:
     void summaMuuttunut(int summaSnt);

@@ -61,6 +61,15 @@ LaskuDialogi::LaskuDialogi(QWidget *parent) :
 
     model = new LaskuModel(this);
     model->lisaaRivi();
+    
+    tuotteet = new TuoteModel(this);
+    tuoteProxy = new QSortFilterProxyModel(this);
+    tuoteProxy->setSourceModel(tuotteet);
+    ui->tuotelistaView->setModel(tuoteProxy);
+    ui->tuotelistaView->sortByColumn(TuoteModel::NIMIKE, Qt::AscendingOrder);
+    tuoteProxy->setSortLocaleAware(true);
+    connect( ui->tuotehakuEdit, SIGNAL(textChanged(QString)), tuoteProxy, SLOT(setFilterFixedString(QString)) );
+
 
     ui->nroLabel->setText( QString::number(model->laskunro()));
 
@@ -85,6 +94,7 @@ LaskuDialogi::LaskuDialogi(QWidget *parent) :
     ui->saajaEdit->setCompleter(nimiTaydentaja);
 
     connect( ui->lisaaNappi, SIGNAL(clicked(bool)), model, SLOT(lisaaRivi()));
+    connect( ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poistaLaskuRivi()));
     connect( ui->esikatseluNappi, SIGNAL(clicked(bool)), this, SLOT(esikatsele()));
     connect( model, SIGNAL(summaMuuttunut(int)), this, SLOT(paivitaSumma(int)));
     connect( ui->perusteCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(perusteVaihtuu()));
@@ -92,9 +102,15 @@ LaskuDialogi::LaskuDialogi(QWidget *parent) :
     connect( ui->saajaEdit, SIGNAL(editingFinished()), this, SLOT(haeOsoite()));
     connect( ui->rivitView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(rivienKontekstiValikko(QPoint)));
 
+    connect( ui->tuotelistaView, SIGNAL(clicked(QModelIndex)), this, SLOT(lisaaTuote(QModelIndex)));
+    connect( ui->tuotelistaView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(tuotteidenKonteksiValikko(QPoint)));
+
     ui->rivitView->horizontalHeader()->setSectionResizeMode(LaskuModel::NIMIKE, QHeaderView::Stretch);
+    ui->tuotelistaView->horizontalHeader()->setSectionResizeMode(TuoteModel::NIMIKE, QHeaderView::Stretch);
 
     tulostaja = new LaskunTulostaja(model);
+
+    paivitaTuoteluettelonNaytto();
 }
 
 LaskuDialogi::~LaskuDialogi()
@@ -209,7 +225,7 @@ void LaskuDialogi::tallenna()
 
 void LaskuDialogi::rivienKontekstiValikko(QPoint pos)
 {
-    riviKontekstiIndeksi=ui->rivitView->indexAt(pos);
+    kontekstiIndeksi=ui->rivitView->indexAt(pos);
 
     QMenu *menu=new QMenu(this);
     menu->addAction(QIcon(":/pic/lisaa.png"), tr("Lisää tuoteluetteloon"), this, SLOT(lisaaTuoteluetteloon()));
@@ -218,5 +234,40 @@ void LaskuDialogi::rivienKontekstiValikko(QPoint pos)
 
 void LaskuDialogi::lisaaTuoteluetteloon()
 {
-    qDebug() << "Lisätään tuote " << riviKontekstiIndeksi.data(LaskuModel::NimikeRooli);
+    tuotteet->lisaaTuote( model->rivi( kontekstiIndeksi.row() ) );
+    paivitaTuoteluettelonNaytto();
+}
+
+void LaskuDialogi::lisaaTuote(const QModelIndex &index)
+{
+    LaskuRivi rivi = tuotteet->tuote( tuoteProxy->mapToSource(index).row() );
+    model->lisaaRivi( rivi);
+}
+
+void LaskuDialogi::poistaLaskuRivi()
+{
+    int indeksi = ui->rivitView->currentIndex().row();
+    if( indeksi > -1)
+        model->poistaRivi(indeksi);
+}
+
+void LaskuDialogi::tuotteidenKonteksiValikko(QPoint pos)
+{
+    kontekstiIndeksi = tuoteProxy->mapToSource( ui->tuotelistaView->indexAt(pos) );
+
+    QMenu *menu = new QMenu(this);
+    menu->addAction(QIcon(":/pic/poistarivi.png"), tr("Poista tuoteluettelosta"), this, SLOT(poistaTuote()));
+    menu->popup( ui->tuotelistaView->viewport()->mapToGlobal(pos));
+}
+
+void LaskuDialogi::poistaTuote()
+{
+    tuotteet->poistaTuote( kontekstiIndeksi.row() );
+}
+
+void LaskuDialogi::paivitaTuoteluettelonNaytto()
+{
+    int tuotteita = tuotteet->rowCount( QModelIndex());
+    ui->tuotelistaView->setVisible( tuotteita );
+    ui->tuotelistaOhje->setVisible( !tuotteita );
 }
