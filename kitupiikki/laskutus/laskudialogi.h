@@ -58,6 +58,7 @@ private slots:
 
     void tuotteidenKonteksiValikko(QPoint pos);
     void poistaTuote();
+    void paivitaTuoteluetteloon();
 
 private:
     /**

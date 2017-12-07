@@ -13,8 +13,8 @@ AlvVelvollinen | bool | Onko organisaatio hakeutunut alv-velvolliseksi
 Raportti/(raportin nimi) | QString | Raportin kaava
 EkaTositeKirjattu | bool | Käyttäjä on kirjannut tositteen, jonka jälkeen alkuvinkkiä ei enää näytetä
 NaytaEdistyneet | bool | Näytetäänkö muokkaimet
-Osoite | QString |
-Kotipaikka | QString |
+Osoite | QString | Tulostettava osoite
+Kotipaikka | QString | Organisaation kotipaikka
 AlvIlmoitus | QDate |   Viimeisin alv-ilmoituksen pvm
 AlvKausi  | int | Kausi kuukautta
 LaskuTositelaji | int | Tositelaji, jolle laskut kirjataan

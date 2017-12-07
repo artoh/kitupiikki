@@ -147,6 +147,8 @@ QVariant LaskuModel::data(const QModelIndex &index, int role) const
     {
         return rivi.yhteensaSnt() - rivi.maara * rivi.ahintaSnt;
     }
+    else if( role == TuoteKoodiRooli)
+        return rivi.tuoteKoodi;
     else if( role == Qt::TextAlignmentRole)
     {
         if( index.column()==BRUTTOSUMMA || index.column() == MAARA || index.column() == ALV || index.column() == AHINTA)
@@ -248,6 +250,10 @@ bool LaskuModel::setData(const QModelIndex &index, const QVariant &value, int ro
         rivit_[rivi].alvProsentti = value.toInt();
         paivitaSumma(rivi);
         return true;
+    }
+    else if( role == TuoteKoodiRooli)
+    {
+        rivit_[rivi].tuoteKoodi = value.toInt();
     }
 
     return false;
@@ -462,7 +468,7 @@ int LaskuModel::laskeViiteTarkiste(qulonglong luvusta)
 QModelIndex LaskuModel::lisaaRivi(LaskuRivi rivi)
 {
     int rivia = rivit_.count();
-    if( rivia > 1 && rivit_.value(rivia-1).ahintaSnt == 0)
+    if( rivia  && rivit_.value(rivia-1).ahintaSnt == 0)
     {
         // Jos viimeisenä on tyhjä rivi, korvataan se tällä ja lisätään sen jälkeen uusi
         rivit_[rivia-1] = rivi;
@@ -474,6 +480,7 @@ QModelIndex LaskuModel::lisaaRivi(LaskuRivi rivi)
     beginInsertRows( QModelIndex(), rivit_.count(), rivit_.count());
     rivit_.append(rivi);
     endInsertRows();
+    emit summaMuuttunut(laskunSumma());
     return index( rivit_.count() - 1, 0);
 }
 
@@ -482,6 +489,7 @@ void LaskuModel::poistaRivi(int indeksi)
     beginRemoveRows(QModelIndex(), indeksi, indeksi);
     rivit_.removeAt(indeksi);
     endRemoveRows();
+    emit summaMuuttunut(laskunSumma());
 }
 
 void LaskuModel::paivitaSumma(int rivi)

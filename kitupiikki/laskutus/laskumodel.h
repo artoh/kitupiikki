@@ -71,7 +71,8 @@ public:
         AlvKoodiRooli = Qt::UserRole + 5,
         AlvProsenttiRooli = Qt::UserRole + 6,
         NettoRooli = Qt::UserRole + 7,
-        VeroRooli = Qt::UserRole + 8
+        VeroRooli = Qt::UserRole + 8,
+        TuoteKoodiRooli = Qt::UserRole + 9
     };
 
 

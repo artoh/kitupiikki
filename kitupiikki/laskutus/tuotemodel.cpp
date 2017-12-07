@@ -16,6 +16,11 @@
 */
 
 #include "tuotemodel.h"
+#include "db/kirjanpito.h"
+
+#include <QSqlQuery>
+#include <QDebug>
+#include <QSqlError>
 
 TuoteModel::TuoteModel(QObject *parent) :
     QAbstractTableModel(parent)
@@ -59,26 +64,105 @@ QVariant TuoteModel::data(const QModelIndex &index, int role) const
         if( index.column() == NIMIKE )
             return rivi.nimike;
         else if(index.column() == HINTA)
-            return QString("%L1 €").arg(rivi.ahintaSnt / 100.0,0,'f',2);
+        {
+            double bruttohinta = (100.0 + rivi.alvProsentti) * rivi.ahintaSnt / 100.0;
+            return QString("%L1 €").arg(bruttohinta / 100.0,0,'f',2);
+        }
     }
     return QVariant();
 }
 
-void TuoteModel::lisaaTuote(LaskuRivi tuote)
+int TuoteModel::lisaaTuote(LaskuRivi tuote)
 {
+
+    QSqlQuery kysely;
+    kysely.prepare("INSERT INTO tuote(nimike, yksikko, hintaSnt, alvkoodi, alvprosentti, tili, kohdennus) "
+                   "VALUES(:nimike, :yksikko, :hinta, :alvkoodi, :alvprosentti, :tili, :kohdennus) ");
+    kysely.bindValue(":nimike", tuote.nimike);
+    kysely.bindValue(":yksikko", tuote.yksikko);
+    kysely.bindValue(":hinta", tuote.ahintaSnt);
+    kysely.bindValue(":alvkoodi", tuote.alvKoodi);
+    kysely.bindValue(":alvprosentti", tuote.alvProsentti);
+    kysely.bindValue(":tili", tuote.myyntiTili.id());
+    kysely.bindValue(":kohdennus", tuote.kohdennus.id());
+    kysely.exec();
+
+    tuote.tuoteKoodi = kysely.lastInsertId().toInt();
+    tuote.maara = 1.00;     // Tuoteluettelossa ei määrätietoa
+
+
     beginInsertRows(QModelIndex(), tuotteet_.count(), tuotteet_.count() );
     tuotteet_.append( tuote );
     endInsertRows();
+
+    qDebug() << kysely.lastQuery();
+    qDebug() << kysely.lastError().text();
+
+    return tuote.tuoteKoodi;
 }
 
 void TuoteModel::poistaTuote(int indeksi)
 {
+    QSqlQuery kysely( QString("delete from tuote where id=%1 ").arg(tuotteet_.value(indeksi).tuoteKoodi) );
+    kysely.exec();
+
     beginRemoveRows(QModelIndex(), indeksi, indeksi);
     tuotteet_.removeAt(indeksi);
     endRemoveRows();
 }
 
+void TuoteModel::paivitaTuote(LaskuRivi tuote)
+{
+    int indeksi = 0;
+    // Etsitään tuote koodilla
+    for(; indeksi < tuotteet_.count(); indeksi++)
+        if( tuotteet_.value(indeksi).tuoteKoodi == tuote.tuoteKoodi)
+            break;
+
+    tuote.maara = 1.00;
+    tuotteet_[indeksi] = tuote;
+
+    QSqlQuery kysely;
+    kysely.prepare("UPDATE tuote SET nimike=:nimike, yksikko=:yksikko, hintaSnt=:hinta, "
+                   "alvkoodi=:alvkoodi, alvprosentti=:alvprosentti, tili=:tili, kohdennus=:kohdennus "
+                   "WHERE id=:id");
+    kysely.bindValue(":id", tuote.tuoteKoodi);
+    kysely.bindValue(":nimike", tuote.nimike);
+    kysely.bindValue(":yksikko", tuote.yksikko);
+    kysely.bindValue(":hinta", tuote.ahintaSnt);
+    kysely.bindValue(":alvkoodi", tuote.alvKoodi);
+    kysely.bindValue(":alvprosentti", tuote.alvProsentti);
+    kysely.bindValue(":tili", tuote.myyntiTili.id());
+    kysely.bindValue(":kohdennus", tuote.kohdennus.id());
+    kysely.exec();
+
+    emit dataChanged(index(indeksi, 0), index(indeksi,1));
+}
+
 LaskuRivi TuoteModel::tuote(int indeksi) const
 {
     return tuotteet_.value(indeksi);
+}
+
+void TuoteModel::lataa()
+{
+    beginResetModel();
+    tuotteet_.clear();
+    QSqlQuery kysely;
+    kysely.exec("SELECT id,nimike,yksikko,hintaSnt,alvkoodi,alvprosentti,tili,kohdennus FROM tuote ORDER BY nimike");
+    while(kysely.next())
+    {
+        LaskuRivi tuote;
+        tuote.tuoteKoodi = kysely.value("id").toInt();
+        tuote.nimike = kysely.value("nimike").toString();
+        tuote.yksikko = kysely.value("yksikko").toString();
+        tuote.ahintaSnt = kysely.value("hintaSnt").toDouble();
+        tuote.alvKoodi = kysely.value("alvkoodi").toInt();
+        tuote.alvProsentti = kysely.value("alvprosentti").toInt();
+        tuote.myyntiTili = kp()->tilit()->tiliIdlla( kysely.value("tili").toInt() );
+        tuote.kohdennus = kp()->kohdennukset()->kohdennus( kysely.value("kohdennus").toInt() );
+        tuotteet_.append(tuote);
+    }
+    endResetModel();
+
 }

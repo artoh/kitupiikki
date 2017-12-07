@@ -25,6 +25,8 @@
  * 
  * Laskutusdialogissa on mahdollisuus valita valmiita rivejä tallennettavaksi "tuotteiksi",
  * joita on helppo uudelleenkäyttää myöhemmin
+ *
+ * TuoteModel tallettaa muutokset välittömästi myös tietokantaan
  * 
  */
 class TuoteModel : public QAbstractTableModel
@@ -40,8 +42,9 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     QVariant data(const QModelIndex &index, int role) const;    
     
-    void lisaaTuote(LaskuRivi tuote);
+    int lisaaTuote(LaskuRivi tuote);
     void poistaTuote(int indeksi);
+    void paivitaTuote(LaskuRivi tuote);
     /**
      * @brief Palauttaa tuotteen
      * @param indeksi Rivin indeksi
@@ -50,6 +53,12 @@ public:
      * Tällä saadaan tuotteen sisältävä LaskuRivi, joka voidaan lisätä laskuun
      */
     LaskuRivi tuote(int indeksi) const;
+
+public slots:
+    /**
+     * @brief Lataa tuoteluettelon tietokannasta
+     */
+    void lataa();
     
 private:
     QList<LaskuRivi> tuotteet_;

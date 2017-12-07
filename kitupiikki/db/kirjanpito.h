@@ -43,6 +43,8 @@
 #include "verotyyppimodel.h"
 #include "tilityyppimodel.h"
 
+#include "laskutus/tuotemodel.h"
+
 /**
  * @brief Kirjanpidon käsittely
  *
@@ -153,6 +155,14 @@ public:
     TilityyppiModel *tiliTyypit() const { return tiliTyypit_;}
 
     /**
+     * @brief Palauttaa tuoteluettelon sisältävän modelin
+     *
+     * Tuoteluettelosta voidaan laskutuksessa valita valmiita tuotteita
+     * @return
+     */
+    TuoteModel *tuotteet() const { return tuotteet_; }
+
+    /**
      * @brief Sql-tietokanta
      *
      * Tätä käytetään, kun modelin arvot luetaan suoraan tietokannasta, siis
@@ -222,6 +232,7 @@ protected:
     KohdennusModel *kohdennukset_;
     VerotyyppiModel *veroTyypit_;
     TilityyppiModel *tiliTyypit_;
+    TuoteModel *tuotteet_;
 
 public:
     /**

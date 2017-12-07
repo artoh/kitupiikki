@@ -118,6 +118,19 @@ CREATE INDEX lasku_erapvm ON lasku(erapvm);
 CREATE INDEX lasku_asiakas ON lasku(asiakas);
 CREATE INDEX lasku_tosite ON lasku(tosite);
 
+CREATE TABLE tuote (
+    id              INTEGER     PRIMARY KEY AUTOINCREMENT,
+    nimike          TEXT,
+    yksikko         VARCHAR(16),
+    hintaSnt        REAL,
+    alvkoodi        INTEGER DEFAULT(0),
+    alvprosentti    INTEGER DEFAULT(0),
+    tili            INTEGER REFERENCES tili(id) ON DELETE RESTRICT
+                                                ON UPDATE CASCADE,
+    kohdennus       INTEGER REFERENCES kohdennus(id) ON DELETE RESTRICT
+                                                ON UPDATE CASCADE
+);
+
 
 CREATE VIEW vientivw AS
     SELECT vienti.id as vientiId,
