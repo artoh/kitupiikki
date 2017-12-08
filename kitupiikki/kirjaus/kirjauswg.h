@@ -116,6 +116,11 @@ public slots:
      */
     void vientivwAktivoitu(QModelIndex indeksi);
 
+    /**
+     * @brief Näyttää laskun maksun valintadialogin ja kirjaa maksun
+     */
+    void kirjaaLaskunmaksu();
+
 signals:
     void liiteValittu(const QByteArray& pdf);
     /**

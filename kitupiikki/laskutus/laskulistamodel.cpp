@@ -19,9 +19,19 @@
 #include "db/kirjanpito.h"
 
 LaskulistaModel::LaskulistaModel(QObject *parent)
-    : QSqlQueryModel(parent)
+    : QAbstractTableModel(parent)
 {
+    model = new QSqlQueryModel(this);
+}
 
+int LaskulistaModel::rowCount(const QModelIndex & /* parent */) const
+{
+    return model->rowCount(QModelIndex());
+}
+
+int LaskulistaModel::columnCount(const QModelIndex & /* parent */) const
+{
+    return 6;
 }
 
 QVariant LaskulistaModel::data(const QModelIndex &item, int role) const
@@ -29,9 +39,10 @@ QVariant LaskulistaModel::data(const QModelIndex &item, int role) const
     if( !item.isValid())
         return QVariant();
 
+
     if( role == Qt::DisplayRole)
     {
-        QVariant data = QSqlQueryModel::data(item, role);
+        QVariant data = model->data(item, role);
         if( item.column() == PVM || item.column() == ERAPVM)
             return QDate::fromString( data.toString(), Qt::ISODate).toString(Qt::SystemLocaleShortDate);
         else if( item.column() == SUMMA || item.column() == MAKSAMATTA)
@@ -43,18 +54,58 @@ QVariant LaskulistaModel::data(const QModelIndex &item, int role) const
                 return QVariant();
         }
     }
+    else if( role == TositeRooli)
+    {
+        return model->data( model->index(item.row(), TOSITE) );
+    }
+    else if( role == JsonRooli )
+    {
+        return model->data( model->index(item.row(), JSON) );
+    }
+    else if( role == AvoinnaRooli)
+    {
+        return model->data( model->index(item.row(), MAKSAMATTA) );
+    }
+    else if( role == IdRooli)
+    {
+        return model->data( model->index(item.row(), NUMERO) );
+    }
+    else if( role == AsiakasRooli)
+    {
+        return model->data( model->index(item.row(), ASIAKAS) );
+    }
+
+
     else if( role == Qt::TextAlignmentRole)
     {
         if( item.column() == SUMMA || item.column() == MAKSAMATTA )
             return QVariant( Qt::AlignRight | Qt::AlignVCenter);
     }
 
-    return QSqlQueryModel::data(item, role);
+    return model->data(item, role);
+}
+
+QVariant LaskulistaModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if( role == Qt::TextAlignmentRole)
+        return QVariant( Qt::AlignCenter);
+    else if( role == Qt::DisplayRole && orientation == Qt::Horizontal)
+    {
+        switch (section) {
+        case NUMERO: return tr("Viitenumero");
+        case PVM: return tr("Laskun pvm");
+        case ERAPVM: return tr("Eräpvm");
+        case SUMMA: return tr("Summa");
+        case MAKSAMATTA: return tr("Maksamatta");
+        case ASIAKAS: return tr("Asiakas");
+        }
+    }
+    return QVariant();
 }
 
 void LaskulistaModel::paivita(int valinta, QDate mista, QDate mihin)
 {
-    QString kysely = "SELECT id, laskupvm, erapvm, summaSnt, avoinSnt, tosite, asiakas from lasku";
+    QString kysely = "SELECT id, laskupvm, erapvm, summaSnt, avoinSnt, asiakas, tosite, json from lasku";
 
     QStringList ehdot;
     if(valinta == AVOIMET)
@@ -68,13 +119,7 @@ void LaskulistaModel::paivita(int valinta, QDate mista, QDate mihin)
     if(!ehdot.isEmpty())
         kysely.append(" WHERE " +  ehdot.join(" AND ") );
 
-    setQuery(kysely);
-
-    setHeaderData(NUMERO, Qt::Horizontal, tr("Numero"));
-    setHeaderData(PVM, Qt::Horizontal, tr("Laskun pvm"));
-    setHeaderData(ERAPVM, Qt::Horizontal, tr("Eräpvm"));
-    setHeaderData(SUMMA, Qt::Horizontal, tr("Summa"));
-    setHeaderData(MAKSAMATTA, Qt::Horizontal, tr("Maksamatta"));
-    setHeaderData(ASIAKAS, Qt::Horizontal, tr("Asiakas"));
-
+    beginResetModel();
+    model->setQuery(kysely);
+    endResetModel();
 }

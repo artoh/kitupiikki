@@ -26,7 +26,7 @@
 #include "verodialogi.h"
 
 #include "db/kirjanpito.h"
-
+#include "laskutus/laskunmaksudialogi.h"
 
 #include <QDebug>
 #include <QSqlQuery>
@@ -66,6 +66,7 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( ui->hylkaaNappi, SIGNAL(clicked(bool)), this, SLOT(hylkaa()));
     connect( ui->kommentitEdit, SIGNAL(textChanged()), this, SLOT(paivitaKommenttiMerkki()));
     connect( ui->apuriNappi, SIGNAL(clicked(bool)), this, SLOT(kirjausApuri()));
+    connect( ui->laskuNappi, SIGNAL(clicked(bool)), this, SLOT(kirjaaLaskunmaksu()));
 
     ui->tositetyyppiCombo->setModel( Kirjanpito::db()->tositelajit());
     ui->tositetyyppiCombo->setModelColumn( TositelajiModel::NIMI);
@@ -79,6 +80,7 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( ui->otsikkoEdit, SIGNAL(textEdited(QString)), model_, SLOT(asetaOtsikko(QString)));
 
     connect( ui->viennitView, SIGNAL(activated(QModelIndex)), this, SLOT( vientivwAktivoitu(QModelIndex)));
+
 
 
     // Tiliotteen tilivalintaan hyväksytään vain rahoitustilit
@@ -206,6 +208,13 @@ void KirjausWg::vientivwAktivoitu(QModelIndex indeksi)
         model_->vientiModel()->setData(indeksi, dlg.eraId(), VientiModel::EraIdRooli);
         model_->vientiModel()->setData(indeksi, dlg.poistoKk(), VientiModel::PoistoKkRooli);
     }
+}
+
+void KirjausWg::kirjaaLaskunmaksu()
+{
+    LaskunMaksuDialogi *dlg = new LaskunMaksuDialogi(this, model_->vientiModel() );
+    dlg->exec();
+    dlg->deleteLater();
 }
 
 void KirjausWg::naytaSummat()

@@ -49,7 +49,6 @@ LaskutusSivu::LaskutusSivu() :
     ui->laskutView->setModel(proxy);
     ui->laskutView->setSortingEnabled(true);
     ui->laskutView->horizontalHeader()->setStretchLastSection(true);
-    ui->laskutView->verticalHeader()->hide();
 
     connect(ui->laskutView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(valintaMuuttuu()));
 
@@ -76,8 +75,6 @@ void LaskutusSivu::uusiLasku()
 void LaskutusSivu::paivita()
 {
     model->paivita( ui->suodatusTab->currentIndex() );
-    ui->laskutView->hideColumn(LaskulistaModel::TOSITE);
-
     valintaMuuttuu();
     return;
 }
@@ -85,8 +82,7 @@ void LaskutusSivu::paivita()
 void LaskutusSivu::nayta()
 {
     QModelIndex index = ui->laskutView->currentIndex();
-    QModelIndex tositeIndeksi = ui->laskutView->model()->index(index.row(), LaskulistaModel::TOSITE );
-    int tositeId = tositeIndeksi.data().toInt();
+    int tositeId = index.data(LaskulistaModel::TositeRooli).toInt();
     if(tositeId)
     {
         QDesktopServices::openUrl( QUrl( LiiteModel::liitePolulla(tositeId, 1) ) );

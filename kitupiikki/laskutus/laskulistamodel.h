@@ -19,14 +19,15 @@
 #define LASKULISTAMODEL_H
 
 #include <QSqlQueryModel>
+#include <QAbstractTableModel>
 #include <QDate>
 
 /**
  * @brief Laskujen listaus
  *
- * Toteutettu sql-kyselyllä. Aktioitava paivita-funktiolla.
+ * Toteutettu sql-kyselyllä. Aktivoitava paivita-funktiolla.
  */
-class LaskulistaModel : public QSqlQueryModel
+class LaskulistaModel : public QAbstractTableModel
 {
 Q_OBJECT
 
@@ -34,12 +35,27 @@ public:
     LaskulistaModel(QObject *parent = 0);
 
     enum Laskuvalinta { KAIKKI, AVOIMET, ERAANTYNEET };
-    enum LaskuSarake { NUMERO, PVM, ERAPVM, SUMMA, MAKSAMATTA, TOSITE, ASIAKAS};
+    enum LaskuSarake { NUMERO, PVM, ERAPVM, SUMMA, MAKSAMATTA, ASIAKAS, TOSITE, JSON};
 
+    enum
+    {
+        TositeRooli = Qt::UserRole + 1 ,
+        JsonRooli = Qt::UserRole + 2,
+        AvoinnaRooli = Qt::UserRole + 3,
+        IdRooli = Qt::UserRole + 4,
+        AsiakasRooli = Qt::UserRole + 5
+     };
+
+    int rowCount(const QModelIndex &parent) const;
+    int columnCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &item, int role) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
 public slots:
     void paivita(int valinta = KAIKKI, QDate mista=QDate(), QDate mihin=QDate());
+
+private:
+    QSqlQueryModel *model;
 };
 
 #endif // LASKULISTAMODEL_H

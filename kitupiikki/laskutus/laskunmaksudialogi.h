@@ -19,21 +19,39 @@
 #define LASKUNMAKSUDIALOGI_H
 
 #include <QDialog>
+#include <QSortFilterProxyModel>
+
+#include "laskulistamodel.h"
+#include "db/vientimodel.h"
+
 
 namespace Ui {
 class LaskunMaksuDialogi;
 }
 
+/**
+ * @brief Laskunmaksun kirjaamisen dialogi
+ *
+ * Näyttää listan avoimista laskuista, joista voipi sitten valita
+ * haluamansa
+ */
 class LaskunMaksuDialogi : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit LaskunMaksuDialogi(QWidget *parent = 0);
+    LaskunMaksuDialogi(QWidget *parent = 0, VientiModel *vientiModel = 0);
     ~LaskunMaksuDialogi();
 
+private slots:
+    void valintaMuuttuu();
+    void kirjaa();
+
 private:
+    LaskulistaModel *laskut;
+    VientiModel *viennit;
     Ui::LaskunMaksuDialogi *ui;
+    QSortFilterProxyModel *proxy;
 };
 
 #endif // LASKUNMAKSUDIALOGI_H
