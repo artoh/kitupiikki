@@ -41,15 +41,16 @@ public:
 
     enum Sivut
     {
-        PERUSVALINNAT = 0,
-        TILIKARTTA = 1,
-        TOSITELAJIT = 2,
-        KOHDENNUS = 3,
-        TILINAVAUS = 4,
-        ALV = 5,
-        LASKUTUS = 6,
-        RAPORTIT = 7,
-        LIITETIETOKAAVA = 8
+        PERUSVALINNAT,
+        TILIKARTTA,
+        TOSITELAJIT,
+        KOHDENNUS,
+        TILINAVAUS,
+        ALV,
+        LASKUTUS,
+        SAHKOPOSTI,
+        RAPORTIT,
+        LIITETIETOKAAVA
 
     };
 

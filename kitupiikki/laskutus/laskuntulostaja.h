@@ -21,6 +21,7 @@
 #include <QObject>
 #include <QPainter>
 #include <QPrinter>
+#include <QFile>
 
 #include "laskumodel.h"
 
@@ -50,7 +51,10 @@ signals:
 
 public slots:
     bool tulosta(QPrinter *printer);
+    bool kirjoitaPdf(QFile* file);
 
+public:
+    QString html();
 
 protected:
     void ylaruudukko(QPrinter *printer, QPainter *painter);

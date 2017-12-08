@@ -25,6 +25,8 @@
 #include "tuotemodel.h"
 #include "laskuntulostaja.h"
 
+#include "smtp.h"
+
 namespace Ui {
 class LaskuDialogi;
 }
@@ -59,6 +61,10 @@ private slots:
     void tuotteidenKonteksiValikko(QPoint pos);
     void poistaTuote();
     void paivitaTuoteluetteloon();
+
+    void onkoPostiKaytossa();
+    void lahetaSahkopostilla();
+    void smtpViesti(const QString &viesti);
 
 private:
     /**

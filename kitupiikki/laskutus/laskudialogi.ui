@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Uusi lasku</string>
+   <string>Lasku</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../pic/pic.qrc">
+    <normaloff>:/pic/Possu64.png</normaloff>:/pic/Possu64.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
    <item>
@@ -47,6 +51,13 @@
          </property>
          <property name="placeholderText">
           <string>Osoite</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="emailEdit">
+         <property name="placeholderText">
+          <string>Sähköposti</string>
          </property>
         </widget>
        </item>
@@ -315,20 +326,30 @@ p, li { white-space: pre-wrap; }
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="vieNappi">
+      <widget class="QPushButton" name="spostiNappi">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
-        <string>Vie</string>
+        <string>Sähköposti</string>
        </property>
       </widget>
      </item>
      <item>
-      <spacer name="horizontalSpacer_3">
+      <widget class="QLabel" name="onniLabel">
+       <property name="text">
+        <string> </string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_4">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>40</width>
+         <width>20</width>
          <height>20</height>
         </size>
        </property>
@@ -378,12 +399,28 @@ p, li { white-space: pre-wrap; }
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>341</x>
-     <y>450</y>
+     <x>407</x>
+     <y>576</y>
     </hint>
     <hint type="destinationlabel">
      <x>26</x>
      <y>424</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>peruNappi</sender>
+   <signal>clicked()</signal>
+   <receiver>LaskuDialogi</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1131</x>
+     <y>613</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>903</x>
+     <y>621</y>
     </hint>
    </hints>
   </connection>

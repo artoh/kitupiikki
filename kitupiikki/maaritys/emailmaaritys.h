@@ -15,25 +15,35 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef LASKURIVIDIALOGI_H
-#define LASKURIVIDIALOGI_H
+#ifndef EMAILMAARITYS_H
+#define EMAILMAARITYS_H
 
-#include <QDialog>
+#include "maarityswidget.h"
 
-namespace Ui {
-class LaskuRiviDialogi;
-}
+#include "ui_emailmaaritys.h"
 
-class LaskuRiviDialogi : public QDialog
+/**
+ * @brief Sähköpostin lähettämiseen liittyvät määritykset
+ */
+class EmailMaaritys : public MaaritysWidget
 {
     Q_OBJECT
+public:
+    EmailMaaritys();
+    ~EmailMaaritys();
 
 public:
-    explicit LaskuRiviDialogi(QWidget *parent = 0);
-    ~LaskuRiviDialogi();
+    bool nollaa();
+    bool tallenna();
+    bool onkoMuokattu();
+
+public slots:
+    void ilmoitaMuokattu();
+    void kokeile();
 
 private:
-    Ui::LaskuRiviDialogi *ui;
+    Ui::EMailMaaritys *ui;
+
 };
 
-#endif // LASKURIVIDIALOGI_H
+#endif // EMAILMAARITYS_H

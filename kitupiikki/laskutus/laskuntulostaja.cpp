@@ -55,6 +55,77 @@ bool LaskunTulostaja::tulosta(QPrinter *printer)
     return true;
 }
 
+bool LaskunTulostaja::kirjoitaPdf(QFile *file)
+{
+    QPrinter printer;
+    printer.setPaperSize(QPrinter::A4);
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setOutputFileName( file->fileName() );
+    tulosta(&printer);
+    return true;
+}
+
+QString LaskunTulostaja::html()
+{
+    QString txt = "<html><body><table width=100%>";
+
+
+    QString osoite = model_->osoite();
+    osoite.replace("\n","<br/>");
+
+    QString omaosoite = kp()->asetukset()->asetus("Osoite");
+    omaosoite.replace("\n","<br>");
+
+    txt.append(tr("<tr><td rowspan=2 width=50%>%1<br>%2</td><td colspan=2>LASKU</td></tr>").arg(kp()->asetukset()->asetus("Nimi")).arg(omaosoite) );
+    txt.append(tr("<tr><td width=25%>Laskun päivämäärä</td><td width=25%>%1</td></tr>").arg( kp()->paivamaara().toString(Qt::SystemLocaleShortDate) ));
+    txt.append(tr("<tr><td rowspan=4>%1</td><td>Viitenumero</td><td>%2</td></td>").arg( osoite ).arg(model_->viitenumero() ));
+    txt.append(tr("<tr><td>Eräpäivä</td><td>%1</td></tr>").arg(model_->erapaiva().toString(Qt::SystemLocaleShortDate)));
+    txt.append(tr("<tr><td>Summa</td><td>%L1 €</td>").arg( (model_->laskunSumma() / 100.0) ,0,'f',2));
+    txt.append(tr("<tr><td>IBAN</td><td>%1</td></tr></table>").arg( kp()->asetukset()->asetus("IBAN")));
+
+
+    txt.append("<p>" + model_->lisatieto() + "</p><table width=100%>");
+
+    bool alv = kp()->asetukset()->onko("AlvVelvollinen");
+
+    if(alv)
+        txt.append(tr("<tr><th>Nimike</th><th>Määrä</th><th>á netto</th><th>Alv %</th><th>Alv</th><th>Yhteensä</th></tr>"));
+    else
+        txt.append(tr("<tr><th>Nimike</th><th>Määrä</th><th>á netto</th><th>Yhteensä</th></tr>"));
+
+
+    for(int i=0; i < model_->rowCount(QModelIndex());i++)
+    {
+        int yhtsnt = model_->data( model_->index(i, LaskuModel::BRUTTOSUMMA), Qt::EditRole ).toInt();
+        if( !yhtsnt)
+            continue;   // Ohitetaan tyhjät rivit
+
+        QString nimike = model_->data( model_->index(i, LaskuModel::NIMIKE), Qt::DisplayRole ).toString();
+        QString maara = model_->data( model_->index(i, LaskuModel::MAARA), Qt::DisplayRole ).toString();
+        QString yksikko = model_->data( model_->index(i, LaskuModel::YKSIKKO), Qt::DisplayRole ).toString();
+        QString ahinta = model_->data( model_->index(i, LaskuModel::AHINTA), Qt::DisplayRole ).toString();
+        QString vero = model_->data( model_->index(i, LaskuModel::ALV), Qt::DisplayRole ).toString();
+        QString yht = model_->data( model_->index(i, LaskuModel::BRUTTOSUMMA), Qt::DisplayRole ).toString();
+
+        double verosnt = model_->data( model_->index(i, LaskuModel::NIMIKE), LaskuModel::VeroRooli ).toDouble();
+
+
+        if( alv )
+        {
+            txt.append(QString("<tr><td>%1</td><td>%2 %3</td><td>%4 €</td><td>%5</td><td>%L6 €</td><td>%7</td><tr>")
+                       .arg(nimike).arg(maara).arg(yksikko).arg(ahinta).arg(vero).arg(verosnt / 100.0,0,'f',2).arg(yht) );
+        }
+        else
+        {
+            txt.append(QString("<tr><td>%1</td><td>%2 %3</td><td>%4 €</td><td>%L5 €</td><tr>")
+                       .arg(nimike).arg(maara).arg(yksikko).arg(ahinta).arg(yht) );
+        }
+    }
+    txt.append("</table></body></html>");
+
+    return txt;
+}
+
 void LaskunTulostaja::ylaruudukko(QPrinter *printer, QPainter *painter)
 {
     const int TEKSTIPT = 10;

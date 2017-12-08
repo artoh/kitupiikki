@@ -2,6 +2,7 @@ QT += gui
 QT += widgets
 QT += sql
 QT += printsupport
+QT += network
 
 LIBS += -lpoppler-qt5
 
@@ -100,12 +101,13 @@ SOURCES += main.cpp \
     maaritys/alvilmoitustenmodel.cpp \
     laskutus/laskumodel.cpp \
     laskutus/laskudialogi.cpp \
-    laskutus/tuotedialogi.cpp \
     laskutus/laskuntulostaja.cpp \
     laskutus/laskutusverodelegaatti.cpp \
     maaritys/laskuvalintawidget.cpp \
     laskutus/laskulistamodel.cpp \
-    laskutus/tuotemodel.cpp
+    laskutus/tuotemodel.cpp \
+    laskutus/smtp.cpp \
+    maaritys/emailmaaritys.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -196,12 +198,13 @@ HEADERS += \
     maaritys/alvilmoitustenmodel.h \
     laskutus/laskumodel.h \
     laskutus/laskudialogi.h \
-    laskutus/tuotedialogi.h \
     laskutus/laskuntulostaja.h \
     laskutus/laskutusverodelegaatti.h \
     maaritys/laskuvalintawidget.h \
     laskutus/laskulistamodel.h \
-    laskutus/tuotemodel.h
+    laskutus/tuotemodel.h \
+    laskutus/smtp.h \
+    maaritys/emailmaaritys.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -253,8 +256,8 @@ FORMS += \
     maaritys/alvilmoitusdialog.ui \
     laskutus/laskutus.ui \
     laskutus/laskudialogi.ui \
-    laskutus/tuotedialogi.ui \
-    maaritys/laskumaaritys.ui
+    maaritys/laskumaaritys.ui \
+    maaritys/emailmaaritys.ui
 
 DISTFILES += \
     uusikp/luo.sql \

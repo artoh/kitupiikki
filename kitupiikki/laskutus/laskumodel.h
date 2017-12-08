@@ -99,6 +99,8 @@ public:
     QString osoite() const { return osoite_; }
     QString laskunsaajanNimi() const { return laskunsaajanNimi_; }
     int kirjausperuste() const { return kirjausperuste_;}
+    QString email() const { return email_;}
+
 
     qulonglong laskunro() const;
     QString viitenumero() const;
@@ -109,6 +111,7 @@ public:
     void asetaToimituspaiva(const QDate& pvm) { toimituspaiva_ = pvm; }
     void asetaLaskunsaajannimi(const QString& nimi) { laskunsaajanNimi_ = nimi; }
     void asetaKirjausperuste(int kirjausperuste) { kirjausperuste_ = kirjausperuste; }
+    void asetaEmail(const QString& osoite) { email_ = osoite; }
 
     /**
      * @brief Tallentaa tämän laskun, jonka jälkeen model pitäisi unohtaa
@@ -138,6 +141,7 @@ private:
     QString lisatieto_;
     QString osoite_;
     int kirjausperuste_;
+    QString email_;
 
     void paivitaSumma(int rivi);
 };

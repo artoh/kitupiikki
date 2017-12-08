@@ -28,3 +28,5 @@ LaskuSeuraavaId | int | seuraavan laskun laskunro
 LaskuNaytaTuotteet | bool | näytetäänkö tuotteet
 IBAN | QString | laskulle tulostettava IBAN
 Puhelin | QString | laskulle tulostettava puhelinnumero
+EmailNimi | QString | sähköpostien lähettäjänimi
+EmailOsoite | QString | sähköpostien lähettäjäosoite

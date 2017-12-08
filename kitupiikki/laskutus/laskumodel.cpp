@@ -434,6 +434,7 @@ bool LaskuModel::tallenna(Tili rahatili)
     json.set("Kirjausperuste", kirjausperuste());
     json.set("Toimituspvm", toimituspaiva());
     json.set("Lisatieto", lisatieto());
+    json.set("Email", email());
 
     query.bindValue(":json", json.toSqlJson() );
     query.exec();

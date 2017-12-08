@@ -28,6 +28,11 @@
 #include <QMenu>
 #include <QAction>
 
+#include <QSettings>
+#include <QRegularExpression>
+
+#include <QMessageBox>
+
 #include "db/kirjanpito.h"
 
 #include "laskudialogi.h"
@@ -96,6 +101,7 @@ LaskuDialogi::LaskuDialogi(QWidget *parent) :
     connect( ui->lisaaNappi, SIGNAL(clicked(bool)), model, SLOT(lisaaRivi()));
     connect( ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poistaLaskuRivi()));
     connect( ui->esikatseluNappi, SIGNAL(clicked(bool)), this, SLOT(esikatsele()));
+    connect( ui->spostiNappi, SIGNAL(clicked(bool)), this, SLOT(lahetaSahkopostilla()));
     connect( model, SIGNAL(summaMuuttunut(int)), this, SLOT(paivitaSumma(int)));
     connect( ui->perusteCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(perusteVaihtuu()));
     connect( ui->tallennaNappi, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
@@ -104,6 +110,7 @@ LaskuDialogi::LaskuDialogi(QWidget *parent) :
 
     connect( ui->tuotelistaView, SIGNAL(clicked(QModelIndex)), this, SLOT(lisaaTuote(QModelIndex)));
     connect( ui->tuotelistaView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(tuotteidenKonteksiValikko(QPoint)));
+    connect( ui->emailEdit, SIGNAL(textChanged(QString)), this, SLOT(onkoPostiKaytossa()));
 
     ui->rivitView->horizontalHeader()->setSectionResizeMode(LaskuModel::NIMIKE, QHeaderView::Stretch);
     ui->tuotelistaView->horizontalHeader()->setSectionResizeMode(TuoteModel::NIMIKE, QHeaderView::Stretch);
@@ -143,12 +150,7 @@ void LaskuDialogi::esikatsele()
     file->open();
     file->close();
 
-    QPrinter printer;
-    printer.setPaperSize(QPrinter::A4);
-    printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setOutputFileName( file->fileName() );
-
-    tulostaja->tulosta(&printer);
+    tulostaja->kirjoitaPdf(file);
 
     QDesktopServices::openUrl( QUrl(file->fileName()) );
 }
@@ -189,11 +191,13 @@ void LaskuDialogi::haeOsoite()
     QString nimistr = ui->saajaEdit->text();
     nimistr.remove(QRegExp("['\"]"));
 
-    kysely.exec( QString("SELECT json FROM lasku WHERE asiakas='%1'").arg( nimistr)) ;
+    kysely.exec( QString("SELECT json FROM lasku WHERE asiakas='%1' ORDER BY laskupvm DESC").arg( nimistr)) ;
     if( kysely.next() )
     {
         JsonKentta json;
         json.fromJson( kysely.value(0).toByteArray() );
+        ui->emailEdit->setText( json.str("Email"));
+
         if( !json.str("Osoite").isEmpty())
         {
             // Haetaan aiempi osoite
@@ -211,6 +215,7 @@ void LaskuDialogi::vieMalliin()
     model->asetaErapaiva( ui->eraDate->date());
     model->asetaLisatieto( ui->lisatietoEdit->toPlainText());
     model->asetaOsoite(ui->osoiteEdit->toPlainText());
+    model->asetaEmail( ui->emailEdit->text());
     model->asetaToimituspaiva(ui->toimitusDate->date());
     model->asetaLaskunsaajannimi(ui->saajaEdit->text());
     model->asetaKirjausperuste(ui->perusteCombo->currentData().toInt());
@@ -220,6 +225,7 @@ void LaskuDialogi::tallenna()
 {
     vieMalliin();
     model->tallenna(kp()->tilit()->tiliNumerolla( ui->rahaTiliEdit->valittuTilinumero() ));
+    accept();
 
 }
 
@@ -273,6 +279,53 @@ void LaskuDialogi::poistaTuote()
 void LaskuDialogi::paivitaTuoteluetteloon()
 {
     tuotteet->paivitaTuote( model->rivi( kontekstiIndeksi.row() ) );
+}
+
+void LaskuDialogi::onkoPostiKaytossa()
+{
+    // Sähköpostin lähettäminen edellyttää smtp-asetusten laittamista
+    QSettings settings;
+    ui->spostiNappi->setEnabled( !settings.value("SmtpServer").toString().isEmpty() && ui->emailEdit->text().contains(QRegularExpression(".+@.+\\.\\w+")));
+}
+
+void LaskuDialogi::lahetaSahkopostilla()
+{
+    vieMalliin();
+    QSettings settings;
+
+    Smtp *smtp = new Smtp( settings.value("SmtpUser").toString(), settings.value("SmtpPassword").toString(),
+                     settings.value("SmtpServer").toString(), settings.value("SmtpPort", 465).toInt() );
+    connect( smtp, SIGNAL(status(QString)), this, SLOT(smtpViesti(QString)));
+
+    // Luo tilapäisen pdf-tiedoston
+    QTemporaryFile *file = new QTemporaryFile(QDir::tempPath() + "/lasku-XXXXXX.pdf", this);
+    file->open();
+    file->close();
+    tulostaja->kirjoitaPdf(file);
+
+    QString kenelta = QString("\"%1\" <%2>").arg(kp()->asetukset()->asetus("EmailNimi"))
+                                                .arg(kp()->asetukset()->asetus("EmailOsoite"));
+    QString kenelle = QString("\"%1\" <%2>").arg( ui->saajaEdit->text() )
+                                            .arg(ui->emailEdit->text() );
+
+    QStringList lista;
+    lista << file->fileName();
+    smtpViesti("Lähetetään sähköpostilla...");
+    smtp->sendMail(kenelta, kenelle, tr("Lasku"), tulostaja->html(), lista);
+
+}
+
+void LaskuDialogi::smtpViesti(const QString &viesti)
+{
+    ui->onniLabel->setText( viesti );
+
+    if( viesti == tr( "Sähköposti lähetetty" ) )
+        ui->onniLabel->setStyleSheet("color: green;");
+    else if(viesti == tr( "Sähköpostin lähetys epäonnistui" )  )
+        ui->onniLabel->setStyleSheet("color: red;");
+    else
+        ui->onniLabel->setStyleSheet("color: black;");
+
 }
 
 void LaskuDialogi::paivitaTuoteluettelonNaytto()

@@ -34,6 +34,7 @@
 #include "liitetietokaavamuokkaus.h"
 #include "alvmaaritys.h"
 #include "laskuvalintawidget.h"
+#include "emailmaaritys.h"
 
 #include "ktpvienti/ktpvienti.h"
 
@@ -52,6 +53,7 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu("Tilinavaus", TILINAVAUS, QIcon(":/pic/rahaa.png"));
     lisaaSivu("Arvonlisävero", ALV, QIcon(":/pic/karhu.png"));
     lisaaSivu("Laskutus", LASKUTUS, QIcon(":/pic/kansiossa.png"));
+    lisaaSivu("Sähköpostin lähetys", SAHKOPOSTI, QIcon(":/pic/email.png"));
     lisaaSivu("Raportit", RAPORTIT, QIcon(":/pic/print.png"));
     lisaaSivu("Tilinpäätöksen malli", LIITETIETOKAAVA, QIcon(":/pic/tekstisivu.png"));
 
@@ -183,6 +185,8 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         nykyinen = new LaskuValintaWidget;
     else if( sivu == ALV)
         nykyinen = new AlvMaaritys;
+    else if(sivu == SAHKOPOSTI)
+        nykyinen = new EmailMaaritys;
     else
         nykyinen = new Perusvalinnat;   // Tilipäinen
 
