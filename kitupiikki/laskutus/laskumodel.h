@@ -127,7 +127,7 @@ public:
     static int laskeViiteTarkiste(qulonglong luvusta);
 
 public slots:
-    QModelIndex lisaaRivi(LaskuRivi rivi = LaskuRivi());
+    void lisaaRivi(LaskuRivi rivi = LaskuRivi());
     void poistaRivi(int indeksi);
 
 signals:

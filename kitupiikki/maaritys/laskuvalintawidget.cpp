@@ -44,7 +44,7 @@ LaskuValintaWidget::LaskuValintaWidget()
     connect(ui->maksuaikaSpin, SIGNAL(valueChanged(int)), this, SLOT(ilmoitaMuokattu()));
     connect(ui->huomautusaikaEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
     connect(ui->viivastyskorkoEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
-    connect(ui->seuraavaLasku, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
+    connect(ui->seuraavaLasku, SIGNAL(valueChanged(int)), this, SLOT(ilmoitaMuokattu()));
     connect(ui->ibanEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
 }
 

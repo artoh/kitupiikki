@@ -40,9 +40,9 @@ Tositelaji TositeModel::tositelaji() const
 
 bool TositeModel::muokkausSallittu() const
 {
-    // Jos järjestelmätosite tai päätetyllä tilikaudella, niin
+    // Jos päätetyllä tilikaudella, niin
     // ei saa muokata
-    if( tositelaji().id() == 0 || kp()->tilitpaatetty().daysTo( pvm () ) < 0)
+    if( kp()->tilitpaatetty().daysTo( pvm () ) < 0)
         return false;
 
     return true;
@@ -77,11 +77,16 @@ bool TositeModel::muokattu()
 
 void TositeModel::asetaPvm(const QDate &pvm)
 {
-    if( pvm != pvm_)
-    {
+   if( pvm != pvm_)
+   {
         pvm_ = pvm;
         muokattu_ = true;
-    }
+   }
+   if( !pvm.isValid() )
+   {
+       tunniste_ = 0;
+   }
+
 }
 
 void TositeModel::asetaOtsikko(const QString &otsikko)
@@ -198,7 +203,12 @@ void TositeModel::tallenna()
         kysely.bindValue(":kommentti", QVariant() );
     else
         kysely.bindValue(":kommentti", kommentti());
-    kysely.bindValue(":tunniste", tunniste());
+
+    if( tunniste() )
+        kysely.bindValue(":tunniste", tunniste());
+    else
+        kysely.bindValue(":tunniste", QVariant());
+
     kysely.bindValue(":laji", tositelaji().id());
 
     if( tiliotetili())

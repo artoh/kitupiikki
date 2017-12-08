@@ -411,7 +411,7 @@ bool LaskuModel::tallenna(Tili rahatili)
 
     tosite.liiteModel()->lisaaTiedosto( file->fileName(), tr("Lasku nr %1").arg(laskunro()));
     tosite.tallenna();
-            
+
     
     QSqlQuery query;
     query.prepare("INSERT INTO lasku(id,tosite,laskupvm,erapvm,summaSnt,avoinSnt,asiakas,json) "
@@ -435,6 +435,21 @@ bool LaskuModel::tallenna(Tili rahatili)
     json.set("Toimituspvm", toimituspaiva());
     json.set("Lisatieto", lisatieto());
     json.set("Email", email());
+
+    // Etsitään tase-erä. Tämän tallentaminen laskun json-kenttään helpottaa maksun suorittamista ;)
+    if( kirjausperuste() == SUORITEPERUSTE || kirjausperuste() == LASKUTUSPERUSTE )
+    {
+        for( int i=0; i < viennit->rowCount(QModelIndex()); i++)
+        {
+            if( viennit->index(i, 0).data(VientiModel::TiliNumeroRooli).toInt() == rahatili.numero())
+            {
+                json.set("TaseEra", viennit->index(i,0).data(VientiModel::IdRooli).toInt());
+                break;
+            }
+        }
+        json.set("Saatavatili", rahatili.numero());
+    }
+
 
     query.bindValue(":json", json.toSqlJson() );
     query.exec();
@@ -466,7 +481,7 @@ int LaskuModel::laskeViiteTarkiste(qulonglong luvusta)
 
 }
 
-QModelIndex LaskuModel::lisaaRivi(LaskuRivi rivi)
+void LaskuModel::lisaaRivi(LaskuRivi rivi)
 {
     int rivia = rivit_.count();
     if( rivia  && rivit_.value(rivia-1).ahintaSnt == 0)
@@ -474,15 +489,12 @@ QModelIndex LaskuModel::lisaaRivi(LaskuRivi rivi)
         // Jos viimeisenä on tyhjä rivi, korvataan se tällä ja lisätään sen jälkeen uusi
         rivit_[rivia-1] = rivi;
         emit dataChanged( index(rivia-1, 0), index(rivia-1, columnCount(QModelIndex())) );
-        lisaaRivi();
-        return index(rivia-1, 0);
     }
 
     beginInsertRows( QModelIndex(), rivit_.count(), rivit_.count());
     rivit_.append(rivi);
     endInsertRows();
     emit summaMuuttunut(laskunSumma());
-    return index( rivit_.count() - 1, 0);
 }
 
 void LaskuModel::poistaRivi(int indeksi)

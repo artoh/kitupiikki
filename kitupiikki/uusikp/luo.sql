@@ -40,7 +40,7 @@ CREATE TABLE tosite (
     tunniste  INTEGER,
     tiliote   INTEGER      REFERENCES tili (id) ON UPDATE CASCADE,
     laji      INTEGER         REFERENCES tositelaji (id)
-                                 DEFAULT (1),
+                              DEFAULT (1),
     json      TEXT
 );
 
@@ -66,7 +66,7 @@ CREATE TABLE vienti (
     tosite          INTEGER NOT NULL
                             REFERENCES tosite (id),
     vientirivi      INTEGER NOT NULL,
-    pvm             DATE    NOT NULL,
+    pvm             DATE,
     tili            INTEGER REFERENCES tili (id) ON DELETE RESTRICT
                                                  ON UPDATE RESTRICT,
     debetsnt        BIGINT,

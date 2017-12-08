@@ -107,7 +107,8 @@ SOURCES += main.cpp \
     laskutus/laskulistamodel.cpp \
     laskutus/tuotemodel.cpp \
     laskutus/smtp.cpp \
-    maaritys/emailmaaritys.cpp
+    maaritys/emailmaaritys.cpp \
+    laskutus/laskunmaksudialogi.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -204,7 +205,8 @@ HEADERS += \
     laskutus/laskulistamodel.h \
     laskutus/tuotemodel.h \
     laskutus/smtp.h \
-    maaritys/emailmaaritys.h
+    maaritys/emailmaaritys.h \
+    laskutus/laskunmaksudialogi.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -257,7 +259,8 @@ FORMS += \
     laskutus/laskutus.ui \
     laskutus/laskudialogi.ui \
     maaritys/laskumaaritys.ui \
-    maaritys/emailmaaritys.ui
+    maaritys/emailmaaritys.ui \
+    laskutus/laskunmaksudialogi.ui
 
 DISTFILES += \
     uusikp/luo.sql \

@@ -44,7 +44,7 @@ struct VientiRivi
     int alvkoodi = 0;
     int alvprosentti = 0;
     Kohdennus kohdennus;
-    int eraId;
+    int eraId = 0;
     QDateTime luotu;
     QDateTime muokattu;
     JsonKentta json;
