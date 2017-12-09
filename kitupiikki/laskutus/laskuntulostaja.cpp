@@ -93,10 +93,10 @@ QString LaskunTulostaja::html()
     txt.append(tr("<tr><td>Summa</td><td>%L1 €</td>").arg( (model_->laskunSumma() / 100.0) ,0,'f',2));
 
     if( model_->kirjausperuste() != LaskuModel::KATEISLASKU && !model_->hyvityslasku().viitenro)
-        txt.append(tr("<tr><td>IBAN</td><td>%1</td></tr></table>").arg( kp()->asetukset()->asetus("IBAN")));
+        txt.append(tr("<tr><td>IBAN</td><td>%1</td></tr>").arg( kp()->asetukset()->asetus("IBAN")));
 
 
-    txt.append("<p>" + model_->lisatieto() + "</p><table width=100%>");
+    txt.append("</table><p>" + model_->lisatieto() + "</p><table width=100%>");
 
     bool alv = kp()->asetukset()->onko("AlvVelvollinen");
 
@@ -171,11 +171,9 @@ QString LaskunTulostaja::html()
 
     }
 
-    txt.append("/body>");
+    txt.append( tr("<hr>Y-tunnus %1<br>Puhelin %2").arg(kp()->asetukset()->asetus("Ytunnus")).arg(kp()->asetukset()->asetus("Puhelin")) );
 
-    txt.append( tr("<hr>Y-tunnus %1<br>Puhelin %2").arg(kp()->asetukset()->asetus("Ytunnus").arg(kp()->asetukset()->asetus("Puhelin"))) );
-
-    txt.append("</html>");
+    txt.append("</body></html>");
 
     return txt;
 }

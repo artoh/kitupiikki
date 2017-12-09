@@ -65,7 +65,6 @@ SOURCES += main.cpp \
     kirjaus/kirjausapuridialog.cpp \
     db/verotyyppimodel.cpp \
     kirjaus/kohdennusdelegaatti.cpp \
-    raportti/raporittitesti.cpp \
     maaritys/raporttimuokkaus.cpp \
     maaritys/raportinkorostin.cpp \
     raportti/muokattavaraportti.cpp \
@@ -164,7 +163,6 @@ HEADERS += \
     kirjaus/kirjausapuridialog.h \
     db/verotyyppimodel.h \
     kirjaus/kohdennusdelegaatti.h \
-    raportti/raporittitesti.h \
     maaritys/raporttimuokkaus.h \
     maaritys/raportinkorostin.h \
     raportti/muokattavaraportti.h \
