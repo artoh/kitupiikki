@@ -65,7 +65,6 @@ protected:
     QHBoxLayout *wleiska;
     QWidget *nykyinen;
 
-      QPrinter printer;
 };
 
 #endif // RAPORTTISIVU_H

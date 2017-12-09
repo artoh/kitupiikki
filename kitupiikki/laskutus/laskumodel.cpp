@@ -27,8 +27,9 @@
 #include "kirjaus/verodialogi.h"
 #include "laskuntulostaja.h"
 
-LaskuModel::LaskuModel(QObject *parent) :
-    QAbstractTableModel( parent )
+LaskuModel::LaskuModel(QObject *parent, AvoinLasku hyvitettava) :
+    QAbstractTableModel( parent ),
+    hyvitettavaLasku_(hyvitettava)
 {
 
 }
@@ -320,12 +321,23 @@ bool LaskuModel::tallenna(Tili rahatili)
 {
     // Ensin tehdään tosite
     TositeModel tosite( kp()->tietokanta() );    
-    tosite.asetaOtsikko( tr("%1 [%2]").arg(laskunsaajanNimi()).arg(laskunro()) );
+    if( hyvityslasku().viitenro)
+        tosite.asetaOtsikko( tr("%1 [Hyvityslasku %2]").arg(laskunsaajanNimi()).arg(laskunro()) );
+    else
+        tosite.asetaOtsikko( tr("%1 [%2]").arg(laskunsaajanNimi()).arg(laskunro()) );
     tosite.asetaKommentti( lisatieto() );
     tosite.asetaTositelaji( kp()->asetukset()->luku("LaskuTositelaji", 1) );
     tosite.json()->set("Lasku", laskunro());
 
     tosite.asetaPvm(pvm() );
+
+    if(  hyvityslasku().tosite && kirjausperuste() == MAKSUPERUSTE )
+    {
+        // Maksuperusteinen kirjataan samaan tositteeseen alkuperäisen laskun kanssa
+        tosite.lataa( hyvityslasku().tosite );
+        // Lisätään hyvityslaskun kommentit
+        tosite.asetaKommentti( tosite.kommentti() + "\n\n[Hyvityslasku]\n" + lisatieto() );
+    }
 
     VientiModel *viennit = tosite.vientiModel();
     foreach (LaskuRivi rivi, rivit_)
@@ -391,6 +403,10 @@ bool LaskuModel::tallenna(Tili rahatili)
             raharivi.debetSnt = laskunSumma();
         else
             raharivi.kreditSnt = laskunSumma();
+
+        if( hyvityslasku().viitenro )
+            raharivi.eraId = hyvityslasku().json.luku("TaseEra");
+
         viennit->lisaaVienti(raharivi);
     }
 
@@ -422,7 +438,7 @@ bool LaskuModel::tallenna(Tili rahatili)
     query.bindValue(":erapvm", erapaiva());
     query.bindValue(":summa", laskunSumma());
 
-    if( kirjausperuste() == KATEISLASKU )
+    if( kirjausperuste() == KATEISLASKU || hyvityslasku().viitenro)
         query.bindValue(":avoin", 0);
     else
         query.bindValue(":avoin", laskunSumma());
@@ -436,8 +452,11 @@ bool LaskuModel::tallenna(Tili rahatili)
     json.set("Lisatieto", lisatieto());
     json.set("Email", email());
 
+    if( hyvityslasku().viitenro )
+        json.set("Hyvityslasku", hyvityslasku().viitenro);
+
     // Etsitään tase-erä. Tämän tallentaminen laskun json-kenttään helpottaa maksun suorittamista ;)
-    if( kirjausperuste() == SUORITEPERUSTE || kirjausperuste() == LASKUTUSPERUSTE )
+    if( (kirjausperuste() == SUORITEPERUSTE || kirjausperuste() == LASKUTUSPERUSTE) && !hyvityslasku().viitenro )
     {
         for( int i=0; i < viennit->rowCount(QModelIndex()); i++)
         {
@@ -450,9 +469,25 @@ bool LaskuModel::tallenna(Tili rahatili)
         json.set("Saatavatili", rahatili.numero());
     }
 
+    // Etsitään liitetiedoston nimi. Näin liitetiedosto helpommin viitattavissa myös hyvityslaskuille
+    for(int i=0; i < tosite.liiteModel()->rowCount(QModelIndex()); i++)
+    {
+        if( tosite.liiteModel()->index(i,0).data(LiiteModel::OtsikkoRooli) == tr("Lasku nr %1").arg(laskunro()) )
+        {
+            json.set("Liite", tosite.liiteModel()->index(i,0).data(LiiteModel::TiedostoNimiRooli).toString());
+        }
+    }
+
 
     query.bindValue(":json", json.toSqlJson() );
     query.exec();
+
+    if( hyvityslasku().viitenro)
+    {
+        // Vähennetään hyvityslasku alkuperäisen laskun avoimista
+        query.exec( QString("UPDATE lasku SET avoinSnt = avoinSnt - %1 where id = %2")
+                    .arg( 0 - laskunSumma()).arg( hyvityslasku().viitenro) );
+    }
 
     // Kelataan laskuria eteenpäin - tallennettava laskunnumero
     kp()->asetukset()->aseta("LaskuSeuraavaId", laskunro() );

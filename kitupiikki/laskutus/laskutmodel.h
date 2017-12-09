@@ -22,6 +22,8 @@
 #include <QList>
 #include <QDate>
 
+#include "db/jsonkentta.h"
+
 /**
  * @brief Laskunmaksudialogissa näytettävä avoin lasku
  */
@@ -29,14 +31,14 @@ struct AvoinLasku
 {
     AvoinLasku() {}
 
-    int viitenro;
+    int viitenro = 0;
     QDate pvm;
     QDate erapvm;
-    int summaSnt;
-    int avoinSnt;
+    int summaSnt = 0;
+    int avoinSnt = 0;
     QString asiakas;
     int tosite;
-    QByteArray json;
+    JsonKentta json;
 };
 
 /**
@@ -58,12 +60,16 @@ public:
            JsonRooli = Qt::UserRole + 2,
            AvoinnaRooli = Qt::UserRole + 3,
            ViiteRooli = Qt::UserRole + 4,
-           AsiakasRooli = Qt::UserRole + 5};
+           AsiakasRooli = Qt::UserRole + 5,
+           LiiteRooli = Qt::UserRole + 6,
+           HyvitysLaskuModel = Qt::UserRole + 7};
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &item, int role) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+
+    AvoinLasku laskunTiedot(int indeksi) const;
 
 public slots:
     void lataaAvoimet();

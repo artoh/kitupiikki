@@ -30,7 +30,7 @@ class PaivakirjaRaportti : public Raportti
 {
     Q_OBJECT
 public:
-    PaivakirjaRaportti(QPrinter *printer);
+    PaivakirjaRaportti();
     ~PaivakirjaRaportti();
 
     RaportinKirjoittaja raportti();

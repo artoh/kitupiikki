@@ -24,6 +24,7 @@
 #include "laskumodel.h"
 #include "tuotemodel.h"
 #include "laskuntulostaja.h"
+#include "laskutmodel.h"
 
 #include "smtp.h"
 
@@ -36,7 +37,7 @@ class LaskuDialogi : public QDialog
     Q_OBJECT
 public:
 
-    explicit LaskuDialogi(QWidget *parent = 0);
+    explicit LaskuDialogi(QWidget *parent = 0, AvoinLasku hyvitettavaLasku = AvoinLasku());
     ~LaskuDialogi();
 
 private slots:
@@ -50,7 +51,6 @@ private slots:
      * @brief Tallentaa lomaketiedot malliin
      */
     void vieMalliin();
-    void tallenna();
 
     void rivienKontekstiValikko(QPoint pos);
     void lisaaTuoteluetteloon();
@@ -65,12 +65,17 @@ private slots:
     void onkoPostiKaytossa();
     void lahetaSahkopostilla();
     void smtpViesti(const QString &viesti);
+    void tulostaLasku();
 
 private:
     /**
      * @brief Näyttäää tuoteluettelon jos tuotteita, muuten ohjeen
      */
     void paivitaTuoteluettelonNaytto();
+
+public slots:
+    void accept();
+    void reject();
 
 private:
     Ui::LaskuDialogi *ui;

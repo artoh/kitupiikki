@@ -37,8 +37,7 @@
 #include "db/kirjanpito.h"
 
 
-Raportti::Raportti(QPrinter *printer, QWidget *parent) : QWidget(parent),
-    tulostin(printer)
+Raportti::Raportti( QWidget *parent) : QWidget(parent)
 {
         raporttiWidget = new QWidget();
 
@@ -71,11 +70,11 @@ Raportti::Raportti(QPrinter *printer, QWidget *parent) : QWidget(parent),
 
 void Raportti::tulosta()
 {
-    QPrintDialog printDialog( tulostin, this );
+    QPrintDialog printDialog( kp()->printer(), this );
     if( printDialog.exec())
     {
-        QPainter painter( tulostin );
-        raportti().tulosta( tulostin, &painter, raitaCheck->isChecked());
+        QPainter painter( kp()->printer() );
+        raportti().tulosta( kp()->printer(), &painter, raitaCheck->isChecked());
     }
 }
 
@@ -86,9 +85,12 @@ void Raportti::esikatsele()
     file->open();
     file->close();
 
-    tulostin->setOutputFileName( file->fileName() );
-    QPainter painter( tulostin );
-    raportti().tulosta( tulostin, &painter, raitaCheck->isChecked());
+    QPrinter tulostin(QPrinter::HighResolution);
+    tulostin.setPageSize(QPrinter::A4);
+
+    tulostin.setOutputFileName( file->fileName() );
+    QPainter painter( &tulostin );
+    raportti().tulosta( &tulostin, &painter, raitaCheck->isChecked());
     QDesktopServices::openUrl( QUrl(file->fileName()) );
 }
 
@@ -113,7 +115,7 @@ void Raportti::avaaHtml()
 
 void Raportti::sivunAsetukset()
 {
-    QPageSetupDialog dlg(tulostin, this);
+    QPageSetupDialog dlg(kp()->printer(), this);
     dlg.exec();
 }
 

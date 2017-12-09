@@ -36,6 +36,7 @@ LaskutusSivu::LaskutusSivu() :
     connect(ui->uusiNappi, SIGNAL(clicked(bool)), this, SLOT(uusiLasku()) );
     connect(ui->suodatusTab, SIGNAL(currentChanged(int)), this, SLOT(paivita()));
     connect(ui->naytaNappi, SIGNAL(clicked(bool)), this, SLOT(nayta()));
+    connect(ui->hyvitysNappi, SIGNAL(clicked(bool)), this, SLOT(hyvitysLasku()));
 
     model = new LaskutModel(this);
     proxy = new QSortFilterProxyModel(this);
@@ -67,9 +68,23 @@ bool LaskutusSivu::poistuSivulta()
 
 void LaskutusSivu::uusiLasku()
 {
-    LaskuDialogi dlg;
-    dlg.exec();
+    LaskuDialogi *dlg = new LaskuDialogi(this);
+    dlg->exec();
     paivita();
+    dlg->deleteLater();
+}
+
+void LaskutusSivu::hyvitysLasku()
+{
+    QModelIndex index = proxy->mapToSource( ui->laskutView->currentIndex() );
+    if( index.isValid() )
+    {
+        LaskuDialogi *dlg = new LaskuDialogi(this, model->laskunTiedot( index.row() ) );
+        dlg->exec();
+        paivita();
+        dlg->deleteLater();
+    }
+
 }
 
 void LaskutusSivu::paivita()
@@ -81,15 +96,17 @@ void LaskutusSivu::paivita()
 
 void LaskutusSivu::nayta()
 {
-    QModelIndex index = ui->laskutView->currentIndex();
-    int tositeId = index.data(LaskutModel::TositeRooli).toInt();
-    if(tositeId)
+    QModelIndex index =  ui->laskutView->currentIndex();
+    QString liite = index.data(LaskutModel::LiiteRooli).toString();
+    if(!liite.isEmpty())
     {
-        QDesktopServices::openUrl( QUrl( LiiteModel::liitePolulla(tositeId, 1) ) );
+        QDesktopServices::openUrl( QUrl( LiiteModel::liiteNimella(liite) ) );
     }
 }
 
 void LaskutusSivu::valintaMuuttuu()
 {
     ui->naytaNappi->setEnabled( ui->laskutView->currentIndex().isValid());
+    ui->hyvitysNappi->setEnabled( ui->laskutView->currentIndex().isValid() &&
+                                  !ui->laskutView->currentIndex().data(LaskutModel::HyvitysLaskuModel).toInt());
 }

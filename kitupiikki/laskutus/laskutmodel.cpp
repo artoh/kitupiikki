@@ -87,11 +87,15 @@ QVariant LaskutModel::data(const QModelIndex &item, int role) const
     else if( role == AvoinnaRooli)
         return lasku.avoinSnt;
     else if( role == JsonRooli )
-        return lasku.json;
+        return lasku.json.toJson();
     else if( role == ViiteRooli)
         return lasku.viitenro;
     else if( role == AsiakasRooli)
         return lasku.asiakas;
+    else if( role == LiiteRooli)
+        return lasku.json.str("Liite");
+    else if( role == HyvitysLaskuModel)
+        return lasku.json.luku("Hyvityslasku");
 
     return QVariant();
 }
@@ -112,6 +116,11 @@ QVariant LaskutModel::headerData(int section, Qt::Orientation orientation, int r
         }
     }
     return QVariant();
+}
+
+AvoinLasku LaskutModel::laskunTiedot(int indeksi) const
+{
+    return laskut.value(indeksi);
 }
 
 void LaskutModel::lataaAvoimet()
@@ -149,7 +158,7 @@ void LaskutModel::paivita(int valinta, QDate mista, QDate mihin)
         lasku.avoinSnt = query.value("avoinSnt").toInt();
         lasku.asiakas = query.value("asiakas").toString();
         lasku.tosite = query.value("tosite").toInt();
-        lasku.json = query.value("json").toByteArray();
+        lasku.json.fromJson( query.value("json").toByteArray() );
         laskut.append(lasku);
     }
     endResetModel();

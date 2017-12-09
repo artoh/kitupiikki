@@ -201,7 +201,12 @@ QString LiiteModel::liitePolulla(int tositeId, int liiteId)
     QString tiedostonnimi = QString("%1-%2.pdf")
             .arg( tositeId, 8, 10, QChar('0') )
             .arg( liiteId, 2, 10, QChar('0') );
-    return kp()->hakemisto().absoluteFilePath( "liitteet/" + tiedostonnimi);
+    return liiteNimella( tiedostonnimi);
+}
+
+QString LiiteModel::liiteNimella(const QString &tiedosto)
+{
+    return kp()->hakemisto().absoluteFilePath( "liitteet/" + tiedosto);
 }
 
 void LiiteModel::lataa()

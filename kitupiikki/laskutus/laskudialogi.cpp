@@ -18,12 +18,14 @@
 #include <QDebug>
 
 #include <QPrinter>
+#include <QPrintDialog>
 #include <QDesktopServices>
 #include <QTemporaryFile>
 #include <QCompleter>
 #include <QSqlQueryModel>
 #include <QSqlQuery>
 #include <QRegExp>
+#include <QMessageBox>
 
 #include <QMenu>
 #include <QAction>
@@ -46,7 +48,7 @@
 
 #include "kirjaus/verodialogi.h"
 
-LaskuDialogi::LaskuDialogi(QWidget *parent) :
+LaskuDialogi::LaskuDialogi(QWidget *parent, AvoinLasku hyvitettavaLasku) :
     QDialog(parent),
     ui(new Ui::LaskuDialogi)
 {
@@ -57,14 +59,8 @@ LaskuDialogi::LaskuDialogi(QWidget *parent) :
     ui->perusteCombo->addItem("Maksuperusteinen", LaskuModel::MAKSUPERUSTE);
     ui->perusteCombo->addItem("Käteiskuitti", LaskuModel::KATEISLASKU);
 
-    ui->eraDate->setMinimumDate( kp()->paivamaara() );
-    ui->perusteCombo->setCurrentIndex( ui->perusteCombo->findData( kp()->asetukset()->luku("LaskuKirjausperuste") ));
-    perusteVaihtuu();
+    model = new LaskuModel(this, hyvitettavaLasku);
 
-    ui->toimitusDate->setDate( kp()->paivamaara() );
-    ui->eraDate->setDate( kp()->paivamaara().addDays( kp()->asetukset()->luku("LaskuMaksuaika")));
-
-    model = new LaskuModel(this);
     model->lisaaRivi();
     
     tuotteet = kp()->tuotteet();
@@ -89,6 +85,35 @@ LaskuDialogi::LaskuDialogi(QWidget *parent) :
     ui->rivitView->setColumnHidden( LaskuModel::KOHDENNUS, kp()->kohdennukset()->rowCount(QModelIndex()) < 2);
 
     ui->naytaNappi->setChecked( kp()->asetukset()->onko("LaskuNaytaTuotteet") );
+    // Hyvityslaskun asetukset
+    if( hyvitettavaLasku.viitenro)
+    {
+        setWindowTitle( tr("Hyvityslasku"));
+        ui->perusteCombo->setCurrentIndex( hyvitettavaLasku.json.luku("Kirjausperuste") );
+        ui->perusteCombo->setEnabled(false);
+        ui->saajaEdit->setText( hyvitettavaLasku.asiakas );
+        ui->osoiteEdit->setPlainText( hyvitettavaLasku.json.str("Osoite"));
+        ui->emailEdit->setText( hyvitettavaLasku.json.str("Email"));
+        ui->eraDate->setDate( hyvitettavaLasku.erapvm );
+        ui->eraDate->setEnabled(false);
+        ui->toimitusDate->setDate( hyvitettavaLasku.json.date("Toimituspvm"));
+        ui->toimitusDate->setEnabled(false);
+        ui->rahaTiliEdit->valitseTiliNumerolla( hyvitettavaLasku.json.luku("Saatavatili") );
+        ui->rahaTiliEdit->setEnabled(false);
+
+        ui->lisatietoEdit->setPlainText( tr("Hyvityslasku laskulle %1, päiväys %2")
+                                         .arg(hyvitettavaLasku.viitenro)
+                                         .arg(hyvitettavaLasku.pvm.toString(Qt::SystemLocaleShortDate)));
+    }
+    else
+    {
+        ui->eraDate->setMinimumDate( kp()->paivamaara() );
+        ui->perusteCombo->setCurrentIndex( ui->perusteCombo->findData( kp()->asetukset()->luku("LaskuKirjausperuste") ));
+        perusteVaihtuu();
+
+        ui->toimitusDate->setDate( kp()->paivamaara() );
+        ui->eraDate->setDate( kp()->paivamaara().addDays( kp()->asetukset()->luku("LaskuMaksuaika")));
+    }
 
     // Laitetaan täydentäjä nimen syöttöön
     QCompleter *nimiTaydentaja = new QCompleter(this);
@@ -100,11 +125,11 @@ LaskuDialogi::LaskuDialogi(QWidget *parent) :
 
     connect( ui->lisaaNappi, SIGNAL(clicked(bool)), model, SLOT(lisaaRivi()));
     connect( ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poistaLaskuRivi()));
+    connect( ui->tulostaNappi, SIGNAL(clicked(bool)), this, SLOT(tulostaLasku()));
     connect( ui->esikatseluNappi, SIGNAL(clicked(bool)), this, SLOT(esikatsele()));
     connect( ui->spostiNappi, SIGNAL(clicked(bool)), this, SLOT(lahetaSahkopostilla()));
     connect( model, SIGNAL(summaMuuttunut(int)), this, SLOT(paivitaSumma(int)));
     connect( ui->perusteCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(perusteVaihtuu()));
-    connect( ui->tallennaNappi, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
     connect( ui->saajaEdit, SIGNAL(editingFinished()), this, SLOT(haeOsoite()));
     connect( ui->rivitView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(rivienKontekstiValikko(QPoint)));
 
@@ -221,11 +246,11 @@ void LaskuDialogi::vieMalliin()
     model->asetaKirjausperuste(ui->perusteCombo->currentData().toInt());
 }
 
-void LaskuDialogi::tallenna()
+void LaskuDialogi::accept()
 {
     vieMalliin();
     model->tallenna(kp()->tilit()->tiliNumerolla( ui->rahaTiliEdit->valittuTilinumero() ));
-    accept();
+    QDialog::accept();
 
 }
 
@@ -328,9 +353,25 @@ void LaskuDialogi::smtpViesti(const QString &viesti)
 
 }
 
+void LaskuDialogi::tulostaLasku()
+{
+    QPrintDialog printDialog( kp()->printer(), this );
+    if( printDialog.exec())
+    {
+        tulostaja->tulosta( kp()->printer() );
+    }
+}
+
 void LaskuDialogi::paivitaTuoteluettelonNaytto()
 {
     int tuotteita = tuotteet->rowCount( QModelIndex());
     ui->tuotelistaView->setVisible( tuotteita );
     ui->tuotelistaOhje->setVisible( !tuotteita );
+}
+
+void LaskuDialogi::reject()
+{
+    if( QMessageBox::question(this, tr("Hylkää lasku"),
+                              tr("Hylkäätkö laskun tallentamatta sitä kirjanpitoon?"))==QMessageBox::Yes)
+        QDialog::reject();
 }

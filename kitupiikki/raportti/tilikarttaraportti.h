@@ -38,7 +38,7 @@ public:
     };
 
 
-    TilikarttaRaportti(QPrinter *printer);
+    TilikarttaRaportti();
     ~TilikarttaRaportti();
 
     RaportinKirjoittaja raportti();

@@ -34,7 +34,7 @@
 #include "tilikarttaraportti.h"
 
 RaporttiSivu::RaporttiSivu(QWidget *parent) : KitupiikkiSivu(parent),
-    nykyinen(0), printer(QPrinter::HighResolution)
+    nykyinen(0)
 {
     lista = new QListWidget;
 
@@ -97,15 +97,15 @@ void RaporttiSivu::raporttiValittu(QListWidgetItem *item)
     QString raporttinimi = item->data(RAPORTTINIMI).toString();
 
     if( raporttinimi == "Päiväkirja")
-        nykyinen = new PaivakirjaRaportti( &printer );
+        nykyinen = new PaivakirjaRaportti();
     else if( raporttinimi == "Pääkirja")
-        nykyinen = new PaakirjaRaportti( &printer );
+        nykyinen = new PaakirjaRaportti();
     else if( raporttinimi.startsWith("Raportti/"))
-        nykyinen = new MuokattavaRaportti( raporttinimi.mid(9), &printer);
+        nykyinen = new MuokattavaRaportti( raporttinimi.mid(9));
     else if( raporttinimi == "Tilikartta")
-        nykyinen = new TilikarttaRaportti( &printer );
+        nykyinen = new TilikarttaRaportti();
     else if( raporttinimi == "Tositeluettelo")
-        nykyinen = new TositeluetteloRaportti( &printer);
+        nykyinen = new TositeluetteloRaportti();
 
 
     if( nykyinen )

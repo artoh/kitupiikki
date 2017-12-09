@@ -20,6 +20,7 @@
 #include <QVariant>
 #include <QFileInfo>
 #include <QSettings>
+#include <QPrinter>
 #include "kirjanpito.h"
 
 
@@ -46,6 +47,7 @@ Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
     veroTyypit_ = new VerotyyppiModel(this);
     tiliTyypit_ = new TilityyppiModel(this);
     tuotteet_ = new TuoteModel(this);
+    printer_ = new QPrinter(QPrinter::HighResolution);
 }
 
 Kirjanpito::~Kirjanpito()

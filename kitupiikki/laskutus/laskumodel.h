@@ -26,6 +26,8 @@
 #include "db/kohdennus.h"
 #include "db/tositelaji.h"
 
+#include "laskutmodel.h"
+
 /**
  * @brief Laskun yksi rivi
  * 
@@ -55,7 +57,7 @@ class LaskuModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
-    LaskuModel(QObject *parent = 0);
+    LaskuModel(QObject *parent = 0, AvoinLasku hyvitettava = AvoinLasku());
 
     enum LaskuSarake
     {
@@ -100,6 +102,7 @@ public:
     QString laskunsaajanNimi() const { return laskunsaajanNimi_; }
     int kirjausperuste() const { return kirjausperuste_;}
     QString email() const { return email_;}
+    AvoinLasku hyvityslasku() const { return hyvitettavaLasku_; }
 
 
     qulonglong laskunro() const;
@@ -142,6 +145,7 @@ private:
     QString osoite_;
     int kirjausperuste_;
     QString email_;
+    AvoinLasku hyvitettavaLasku_;
 
     void paivitaSumma(int rivi);
 };

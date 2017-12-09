@@ -20,8 +20,8 @@
 
 #include "tositeluetteloraportti.h"
 
-TositeluetteloRaportti::TositeluetteloRaportti(QPrinter *printer)
-    : Raportti(printer)
+TositeluetteloRaportti::TositeluetteloRaportti()
+    : Raportti()
 {
     ui = new Ui::Paivakirja;
     ui->setupUi(raporttiWidget);

@@ -31,7 +31,7 @@
 class MuokattavaRaportti : public Raportti
 {
 public:
-    MuokattavaRaportti(const QString& raporttinimi, QPrinter *printer);
+    MuokattavaRaportti(const QString& raporttinimi);
     ~MuokattavaRaportti();
 
     RaportinKirjoittaja raportti();

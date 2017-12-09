@@ -45,6 +45,9 @@
 
 #include "laskutus/tuotemodel.h"
 
+class QPrinter;
+
+
 /**
  * @brief Kirjanpidon käsittely
  *
@@ -172,6 +175,12 @@ public:
      */
     QSqlDatabase *tietokanta()  { return &tietokanta_; }
 
+    /**
+     * @brief QPrinter kaikenlaiseen tulosteluun
+     * @return
+     */
+    QPrinter *printer() { return printer_;}
+
 signals:
     /**
      * @brief Tietokanta on avattu
@@ -233,6 +242,7 @@ protected:
     VerotyyppiModel *veroTyypit_;
     TilityyppiModel *tiliTyypit_;
     TuoteModel *tuotteet_;
+    QPrinter *printer_;
 
 public:
     /**

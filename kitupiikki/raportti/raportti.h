@@ -48,7 +48,7 @@ class Raportti : public QWidget
 {
     Q_OBJECT
 public:
-    Raportti(QPrinter *printer, QWidget *parent = 0);
+    Raportti(QWidget *parent = 0);
 
 
     /**
@@ -82,7 +82,6 @@ public slots:
 
 
 protected:
-    QPrinter *tulostin;
     QWidget *raporttiWidget;
     QCheckBox *raitaCheck;
 

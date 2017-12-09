@@ -24,8 +24,8 @@
 
 #include "raportinkirjoittaja.h"
 
-PaakirjaRaportti::PaakirjaRaportti(QPrinter *printer)
-    : Raportti(printer)
+PaakirjaRaportti::PaakirjaRaportti()
+    : Raportti()
 {
     ui = new Ui::Paivakirja;
     ui->setupUi( raporttiWidget );

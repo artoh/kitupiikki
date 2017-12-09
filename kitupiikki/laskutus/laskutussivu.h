@@ -38,6 +38,7 @@ public:
 
 public slots:
     void uusiLasku();
+    void hyvitysLasku();
 
     void paivita();
     void nayta();

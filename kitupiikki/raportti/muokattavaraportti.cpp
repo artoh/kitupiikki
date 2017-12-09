@@ -24,8 +24,8 @@
 #include <QDebug>
 
 
-MuokattavaRaportti::MuokattavaRaportti(const QString &raporttinimi, QPrinter *printer)
-    : Raportti(printer)
+MuokattavaRaportti::MuokattavaRaportti(const QString &raporttinimi)
+    : Raportti()
 {
     ui = new Ui::MuokattavaRaportti;
     ui->setupUi( raporttiWidget );

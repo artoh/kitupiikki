@@ -29,8 +29,8 @@
 #include <QDebug>
 #include <QSqlError>
 
-PaivakirjaRaportti::PaivakirjaRaportti(QPrinter *printer)
-    : Raportti(printer)
+PaivakirjaRaportti::PaivakirjaRaportti()
+    : Raportti()
 {
     ui = new Ui::Paivakirja;
     ui->setupUi( raporttiWidget );

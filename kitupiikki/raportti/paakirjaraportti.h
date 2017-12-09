@@ -25,7 +25,7 @@ class PaakirjaRaportti : public Raportti
 {
     Q_OBJECT
 public:
-    PaakirjaRaportti(QPrinter *printer);
+    PaakirjaRaportti();
 
     RaportinKirjoittaja raportti();
 

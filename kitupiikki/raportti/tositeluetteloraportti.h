@@ -28,7 +28,7 @@ class TositeluetteloRaportti : public Raportti
 {
     Q_OBJECT
 public:
-    TositeluetteloRaportti(QPrinter *printer);
+    TositeluetteloRaportti();
 
     RaportinKirjoittaja raportti();
 

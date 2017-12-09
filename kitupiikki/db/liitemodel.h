@@ -75,6 +75,7 @@ public:
     QString liiteNimi(int liitenro) const;
 
     static QString liitePolulla(int tositeId, int liiteId);
+    static QString liiteNimella(const QString& tiedosto);
 
 public slots:
     void lataa();

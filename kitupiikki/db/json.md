@@ -45,3 +45,5 @@ Lisatieto | str | Laskulle tulostuva lisätieto
 Email | str | Laskutettavan sähköposti
 TaseEra | int | Laskusaatavan tase-erä
 SaatavaTili | int | Tilinumero jolle saatava kirjattu
+Hyvityslasku | int | Lasku on hyvityslasku, hyvitettävän laskun viite
+Liite | str | Liitetiedoston nimi

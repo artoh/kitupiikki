@@ -20,8 +20,8 @@
 #include "tilikarttaraportti.h"
 
 
-TilikarttaRaportti::TilikarttaRaportti(QPrinter *printer)
-    : Raportti(printer)
+TilikarttaRaportti::TilikarttaRaportti()
+    : Raportti()
 {
     ui = new Ui::TilikarttaRaportti;
     ui->setupUi( raporttiWidget);
