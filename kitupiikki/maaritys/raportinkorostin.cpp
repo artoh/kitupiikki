@@ -50,6 +50,7 @@ void RaportinKorostin::highlightBlock(const QString &text)
     int sanaAlkoi = -1;
     bool valissa = true;
     bool tyyppikerrottu = false;
+    bool erittelyt = false;
     bool summakentta = false;
     bool tilikentta = false;
     int valialkaa = tyhjanpaikka;
@@ -115,6 +116,11 @@ void RaportinKorostin::highlightBlock(const QString &text)
                         tyyppikerrottu = true;  // Vain yksi tyyppisana kelpaa
                         setFormat(sanaAlkoi, i, QColor(Qt::darkGreen));
 
+                    }
+                    else if( nykysana == "*" && !erittelyt)
+                    {
+                        erittelyt = true;
+                        setFormat(sanaAlkoi, i, QColor(Qt::green));
                     }
                     else
                         setFormat(sanaAlkoi, i, QColor(Qt::red));

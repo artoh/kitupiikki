@@ -60,8 +60,9 @@ public:
     /**
      * @brief Alustaa raportoijan muokattavalle raportille
      * @param raportinNimi Asetuksissa oleva raportin nimi
+     * @param tulostaErittelyt Tulostetaanko *-rivien jälkeen tilikohtaiset erittelyt
      */
-    Raportoija(const QString& raportinNimi);
+    Raportoija(const QString& raportinNimi, bool tulostaErittelyt=true);
 
     /**
      * @brief Lisää raporttikauden (sarakkeen)
@@ -163,6 +164,8 @@ protected:
     QString optiorivi_;
 
     RaportinTyyppi tyyppi_;
+
+    bool tulostaerittelyt_; /** Tulostetaanko *-merkillä erittelyrivit **/
 
     QVector<QDate> alkuPaivat_;
     QVector<QDate> loppuPaivat_;

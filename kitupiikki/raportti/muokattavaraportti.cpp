@@ -30,7 +30,7 @@ MuokattavaRaportti::MuokattavaRaportti(const QString &raporttinimi)
     ui = new Ui::MuokattavaRaportti;
     ui->setupUi( raporttiWidget );
 
-    raportoija = new Raportoija(raporttinimi);
+    raportoija = new Raportoija(raporttinimi, ui->erittelyCheck->isChecked());
 
     // Jos tehdään taselaskelmaa, piilotetaan turhat tiedot!
     ui->alkaa1Date->setVisible( raportoija->onkoKausiraportti() );
