@@ -57,6 +57,15 @@
         <file>kansiossa.png</file>
         <file>asiakkaat.png</file>
         <file>lihavoi.png</file>
+        <file>lasku.png</file>
+        <file>talleta.png</file>
+        <file>sulje.png</file>
+        <file>mail.png</file>
+        <file>vie.png</file>
+        <file>tulosta.png</file>
+        <file>web.png</file>
+        <file>email.png</file>
+        <file>sivunasetukset.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

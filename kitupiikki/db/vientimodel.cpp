@@ -194,8 +194,8 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
     {
         if( index.column() == KOHDENNUS)
         {
-        if( rivi.eraId )
-            return QIcon(":/pic/folder.png");
+        if( rivi.maksaaLaskua )
+            return QIcon(":/pic/lasku.png");
         return rivi.kohdennus.tyyppiKuvake();
         }
         else if( index.column() == ALV )

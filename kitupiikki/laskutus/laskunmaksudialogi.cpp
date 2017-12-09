@@ -51,6 +51,7 @@ LaskunMaksuDialogi::LaskunMaksuDialogi(KirjausWg *kirjauswg) :
     connect( ui->euroSpin, SIGNAL(valueChanged(double)), this, SLOT(tarkistaKelpo()));
     connect( ui->tiliEdit, SIGNAL(textChanged(QString)), this, SLOT(tarkistaKelpo()));
     connect( ui->naytaNappi, SIGNAL(clicked()), this, SLOT(naytaLasku()));
+    connect( ui->suodatusEdit, SIGNAL(textChanged(QString)), this, SLOT(suodata()));
 
     ui->pvmEdit->setDateRange( kp()->tilikausiPaivalle( kp()->paivamaara()).alkaa(),
                                kp()->tilikausiPaivalle( kp()->paivamaara()).paattyy());
@@ -84,7 +85,7 @@ void LaskunMaksuDialogi::valintaMuuttuu()
 
 void LaskunMaksuDialogi::kirjaa()
 {
-    QModelIndex index = ui->laskutView->currentIndex();
+    QModelIndex index = proxy->mapToSource( ui->laskutView->currentIndex() );
     if( !index.isValid())
         return;
 
@@ -121,6 +122,7 @@ void LaskunMaksuDialogi::kirjaa()
             kirjaaja->model()->vientiModel()->setData( kirjaaja->model()->vientiModel()->index(i, VientiModel::PVM), ui->pvmEdit->date(), VientiModel::PvmRooli );
         }
         kirjaaja->model()->vientiModel()->lisaaVienti(rahaRivi);
+        laskut->maksa(index.row(), ui->euroSpin->value() * 100);
         reject();
 
     }
@@ -137,8 +139,9 @@ void LaskunMaksuDialogi::kirjaa()
         kirjaaja->model()->vientiModel()->lisaaVienti(saatavaRivi);
         kirjaaja->model()->vientiModel()->lisaaVienti(rahaRivi);
 
+        laskut->maksa(index.row(), ui->euroSpin->value() * 100);
     }
-    laskut->maksa(index.row(), ui->euroSpin->value() * 100);
+
 
 }
 
@@ -149,10 +152,20 @@ void LaskunMaksuDialogi::tarkistaKelpo()
 
 void LaskunMaksuDialogi::naytaLasku()
 {
-    QModelIndex index = ui->laskutView->currentIndex();
-    int tositeId = index.data(LaskutModel::TositeRooli).toInt();
-    if(tositeId)
+    QModelIndex index =  ui->laskutView->currentIndex();
+    QString liite = index.data(LaskutModel::LiiteRooli).toString();
+    if(!liite.isEmpty())
     {
-        QDesktopServices::openUrl( QUrl( LiiteModel::liitePolulla(tositeId, 1) ) );
+        QDesktopServices::openUrl( QUrl( LiiteModel::liiteNimella(liite) ) );
     }
+}
+
+void LaskunMaksuDialogi::suodata()
+{
+    QString suodatin = ui->suodatusEdit->text();
+    if( suodatin.toInt())
+        proxy->setFilterKeyColumn( LaskutModel::NUMERO);
+    else
+        proxy->setFilterKeyColumn( LaskutModel::ASIAKAS);
+    proxy->setFilterFixedString( suodatin );
 }

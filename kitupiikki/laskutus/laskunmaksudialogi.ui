@@ -11,13 +11,20 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Laskun maksamisen kirjaaminen</string>
+   <string>Lasku maksettu</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../pic/pic.qrc">
-    <normaloff>:/pic/Possu64.png</normaloff>:/pic/Possu64.png</iconset>
+    <normaloff>:/pic/lasku.png</normaloff>:/pic/lasku.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLineEdit" name="suodatusEdit">
+     <property name="placeholderText">
+      <string>Etsi viitenumerolla tai asiakkaan nimellä</string>
+     </property>
+    </widget>
+   </item>
    <item>
     <widget class="QTableView" name="laskutView"/>
    </item>
@@ -75,6 +82,10 @@
        <property name="text">
         <string>Näytä</string>
        </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/print.png</normaloff>:/pic/print.png</iconset>
+       </property>
       </widget>
      </item>
      <item>
@@ -98,12 +109,20 @@
        <property name="text">
         <string>Kirjaa</string>
        </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/ok.png</normaloff>:/pic/ok.png</iconset>
+       </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="suljeNappi">
        <property name="text">
         <string>Sulje</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/peru.png</normaloff>:/pic/peru.png</iconset>
        </property>
       </widget>
      </item>

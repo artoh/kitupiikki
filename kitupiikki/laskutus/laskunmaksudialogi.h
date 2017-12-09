@@ -48,6 +48,7 @@ private slots:
     void kirjaa();
     void tarkistaKelpo();
     void naytaLasku();
+    void suodata();
 
 private:
     KirjausWg *kirjaaja;

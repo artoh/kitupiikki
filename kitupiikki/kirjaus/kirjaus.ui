@@ -350,7 +350,7 @@
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
-         <normaloff>:/pic/kansiossa.png</normaloff>:/pic/kansiossa.png</iconset>
+         <normaloff>:/pic/lasku.png</normaloff>:/pic/lasku.png</iconset>
        </property>
       </widget>
      </item>

@@ -42,10 +42,10 @@ Raportti::Raportti( QWidget *parent) : QWidget(parent)
         raporttiWidget = new QWidget();
 
         raitaCheck = new QCheckBox(tr("Tulosta taustaraidat"));
-        QPushButton *htmlBtn = new QPushButton( tr("Avaa &selaimessa"));
-        QPushButton *sivunasetusBtn = new QPushButton( tr("Sivun &asetukset"));
-        QPushButton *esikatseluBtn = new QPushButton(tr("&Esikatsele"));
-        QPushButton *tulostaBtn = new QPushButton( tr("&Tulosta"));
+        QPushButton *htmlBtn = new QPushButton( QIcon(":/pic/web.png"), tr("Avaa &selaimessa"));
+        QPushButton *sivunasetusBtn = new QPushButton(QIcon(":/pic/sivunasetukset.png"),  tr("Sivun &asetukset"));
+        QPushButton *esikatseluBtn = new QPushButton(QIcon(":/pic/print.png"), tr("&Esikatsele"));
+        QPushButton *tulostaBtn = new QPushButton( QIcon(":/pic/tulosta.png"), tr("&Tulosta"));
 
         QHBoxLayout *nappiLeiska = new QHBoxLayout;
         nappiLeiska->addWidget(raitaCheck);

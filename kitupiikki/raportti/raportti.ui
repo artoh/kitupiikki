@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>503</width>
     <height>300</height>
    </rect>
   </property>
@@ -28,6 +28,9 @@
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QStackedWidget" name="pino">
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
        <widget class="QWidget" name="page"/>
        <widget class="QWidget" name="page_2"/>
       </widget>
@@ -59,12 +62,20 @@
          <property name="text">
           <string>Esikatsele</string>
          </property>
+         <property name="icon">
+          <iconset resource="../pic/pic.qrc">
+           <normaloff>:/pic/print.png</normaloff>:/pic/print.png</iconset>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="tulostaNappi">
          <property name="text">
           <string>Tulosta</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../pic/pic.qrc">
+           <normaloff>:/pic/tulosta.png</normaloff>:/pic/tulosta.png</iconset>
          </property>
         </widget>
        </item>
@@ -87,6 +98,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
  <connections/>
 </ui>

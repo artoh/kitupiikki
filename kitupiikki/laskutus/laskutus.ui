@@ -20,6 +20,19 @@
       <widget class="QTabBar" name="suodatusTab" native="true"/>
      </item>
      <item>
+      <widget class="QDateEdit" name="mistaDate"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>-</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDateEdit" name="mihinDate"/>
+     </item>
+     <item>
       <widget class="QLineEdit" name="suodatusEdit"/>
      </item>
     </layout>
@@ -44,6 +57,10 @@
       <widget class="QPushButton" name="hyvitysNappi">
        <property name="text">
         <string>Hyvityslasku</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/poista.png</normaloff>:/pic/poista.png</iconset>
        </property>
       </widget>
      </item>

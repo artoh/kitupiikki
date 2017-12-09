@@ -24,6 +24,7 @@
 #include "db/liitemodel.h"
 
 #include "kirjaus/eurodelegaatti.h"
+#include "db/kirjanpito.h"
 
 LaskutusSivu::LaskutusSivu() :
     ui(new Ui::Laskutus)
@@ -32,6 +33,10 @@ LaskutusSivu::LaskutusSivu() :
     ui->suodatusTab->addTab("Kaikki");
     ui->suodatusTab->addTab("Avoimet");
     ui->suodatusTab->addTab("Erääntyneet");
+
+    connect( ui->mistaDate, SIGNAL(dateChanged(QDate)), this, SLOT(paivita()));
+    connect( ui->mihinDate, SIGNAL(dateChanged(QDate)), this, SLOT(paivita()));
+    connect( ui->suodatusEdit, SIGNAL(textChanged(QString)), this, SLOT(suodata()));
 
     connect(ui->uusiNappi, SIGNAL(clicked(bool)), this, SLOT(uusiLasku()) );
     connect(ui->suodatusTab, SIGNAL(currentChanged(int)), this, SLOT(paivita()));
@@ -58,6 +63,15 @@ LaskutusSivu::LaskutusSivu() :
 
 void LaskutusSivu::siirrySivulle()
 {
+    if( ui->mistaDate->date().daysTo( kp()->tilikaudet()->kirjanpitoAlkaa() ) > 0)
+    {
+        ui->mistaDate->setDateRange( kp()->tilikaudet()->kirjanpitoAlkaa(), kp()->tilikaudet()->kirjanpitoLoppuu());
+        ui->mistaDate->setDate( kp()->tilikaudet()->kirjanpitoAlkaa());
+
+        ui->mihinDate->setDateRange( kp()->tilikaudet()->kirjanpitoAlkaa(), kp()->tilikaudet()->kirjanpitoLoppuu());
+        ui->mihinDate->setDate(kp()->tilikaudet()->kirjanpitoLoppuu());
+    }
+
     paivita();
 }
 
@@ -89,9 +103,19 @@ void LaskutusSivu::hyvitysLasku()
 
 void LaskutusSivu::paivita()
 {
-    model->paivita( ui->suodatusTab->currentIndex() );
+    model->paivita( ui->suodatusTab->currentIndex(), ui->mistaDate->date(), ui->mihinDate->date() );
     valintaMuuttuu();
     return;
+}
+
+void LaskutusSivu::suodata()
+{
+    QString suodatin = ui->suodatusEdit->text();
+    if( suodatin.toInt())
+        proxy->setFilterKeyColumn(LaskutModel::NUMERO);
+    else
+        proxy->setFilterKeyColumn(LaskutModel::ASIAKAS);
+    proxy->setFilterFixedString( suodatin );
 }
 
 void LaskutusSivu::nayta()

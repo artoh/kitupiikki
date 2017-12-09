@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../pic/pic.qrc">
-    <normaloff>:/pic/Possu64.png</normaloff>:/pic/Possu64.png</iconset>
+    <normaloff>:/pic/lasku.png</normaloff>:/pic/lasku.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
    <item>
@@ -312,6 +312,10 @@ p, li { white-space: pre-wrap; }
        <property name="text">
         <string>Tulosta</string>
        </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/tulosta.png</normaloff>:/pic/tulosta.png</iconset>
+       </property>
       </widget>
      </item>
      <item>
@@ -332,6 +336,10 @@ p, li { white-space: pre-wrap; }
        </property>
        <property name="text">
         <string>Sähköposti</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/email.png</normaloff>:/pic/email.png</iconset>
        </property>
       </widget>
      </item>

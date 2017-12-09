@@ -41,6 +41,8 @@ public slots:
     void hyvitysLasku();
 
     void paivita();
+    void suodata();
+
     void nayta();
     void valintaMuuttuu();
 
