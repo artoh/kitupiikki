@@ -37,7 +37,7 @@
       <item row="0" column="1">
        <widget class="QLabel" name="label_4">
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Kustannuspaikka&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Tuloja ja menoja seurataan tilikausittain. Kustannuspaikat ovat yleensä pysyviä, kuten osastot, jaostot tai eri toiminnot&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Kustannuspaikka&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Kustannuspaikat ovat yleensä pysyviä, kuten osastot, jaostot tai eri toiminnot&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
@@ -58,7 +58,7 @@
       <item row="1" column="1">
        <widget class="QLabel" name="label_5">
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Projekti&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Projektin tulojen ja menojen määrää seurataan koko ajalta, joka voi ulottua tilikaudesta toiseen. Projektit ovat yleensä määräaikaisia.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Projekti&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Projektit ovat yleensä määräaikaisia hankkeita, jotka eivät kuulu yksittäiseen kustannuspaikkaan.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
