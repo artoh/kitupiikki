@@ -28,6 +28,7 @@
 
 
 class Kirjanpito;
+class LaskunMaksuDialogi;
 
 /**
  * @brief Kirjausten muokkaus
@@ -47,6 +48,7 @@ public:
 
     enum Valilehdet { VIENNIT, KOMMENTIT, LIITTEET, TILIOTE, AVUSTAJA } ;
 
+    TositeModel *model() { return model_;}
 
 public slots:
     void lisaaRivi();
@@ -133,6 +135,7 @@ signals:
 protected:
     Ui::KirjausWg *ui;
     TositeModel *model_;
+    LaskunMaksuDialogi *laskuDlg_;
 
 
 

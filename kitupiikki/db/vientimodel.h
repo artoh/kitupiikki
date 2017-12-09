@@ -48,6 +48,7 @@ struct VientiRivi
     QDateTime luotu;
     QDateTime muokattu;
     JsonKentta json;
+    int maksaaLaskua = 0;   /** Kirjattaessa vähentää laskun avointa summaa **/
 };
 
 /**

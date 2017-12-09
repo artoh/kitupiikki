@@ -22,7 +22,7 @@
 
 #include "kitupiikkisivu.h"
 #include "ui_laskutus.h"
-#include "laskulistamodel.h"
+#include "laskutmodel.h"
 
 class LaskutusSivu : public KitupiikkiSivu
 {
@@ -45,7 +45,7 @@ public slots:
 
 private:
     Ui::Laskutus *ui;
-    LaskulistaModel *model;
+    LaskutModel *model;
     QSortFilterProxyModel *proxy;
 };
 

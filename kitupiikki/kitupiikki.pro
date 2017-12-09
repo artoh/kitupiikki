@@ -104,11 +104,11 @@ SOURCES += main.cpp \
     laskutus/laskuntulostaja.cpp \
     laskutus/laskutusverodelegaatti.cpp \
     maaritys/laskuvalintawidget.cpp \
-    laskutus/laskulistamodel.cpp \
     laskutus/tuotemodel.cpp \
     laskutus/smtp.cpp \
     maaritys/emailmaaritys.cpp \
-    laskutus/laskunmaksudialogi.cpp
+    laskutus/laskunmaksudialogi.cpp \
+    laskutus/laskutmodel.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -202,11 +202,11 @@ HEADERS += \
     laskutus/laskuntulostaja.h \
     laskutus/laskutusverodelegaatti.h \
     maaritys/laskuvalintawidget.h \
-    laskutus/laskulistamodel.h \
     laskutus/tuotemodel.h \
     laskutus/smtp.h \
     maaritys/emailmaaritys.h \
-    laskutus/laskunmaksudialogi.h
+    laskutus/laskunmaksudialogi.h \
+    laskutus/laskutmodel.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

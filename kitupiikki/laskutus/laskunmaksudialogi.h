@@ -21,8 +21,8 @@
 #include <QDialog>
 #include <QSortFilterProxyModel>
 
-#include "laskulistamodel.h"
-#include "db/vientimodel.h"
+#include "laskutmodel.h"
+#include "kirjaus/kirjauswg.h"
 
 
 namespace Ui {
@@ -40,17 +40,19 @@ class LaskunMaksuDialogi : public QDialog
     Q_OBJECT
 
 public:
-    LaskunMaksuDialogi(QWidget *parent = 0, VientiModel *vientiModel = 0);
+    LaskunMaksuDialogi(KirjausWg *kirjauswg);
     ~LaskunMaksuDialogi();
 
 private slots:
     void valintaMuuttuu();
     void kirjaa();
+    void tarkistaKelpo();
 
 private:
-    LaskulistaModel *laskut;
-    VientiModel *viennit;
+    KirjausWg *kirjaaja;
     Ui::LaskunMaksuDialogi *ui;
+
+    LaskutModel *laskut;
     QSortFilterProxyModel *proxy;
 };
 

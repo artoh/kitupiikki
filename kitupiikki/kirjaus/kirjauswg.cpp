@@ -39,7 +39,7 @@
 #include <QSortFilterProxyModel>
 
 KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
-    : QWidget(parent), model_(tositeModel)
+    : QWidget(parent), model_(tositeModel), laskuDlg_(0)
 {
     ui = new Ui::KirjausWg();
     ui->setupUi(this);
@@ -144,6 +144,12 @@ void KirjausWg::tyhjenna()
     ui->viennitView->setColumnHidden( VientiModel::ALV, !kp()->asetukset()->onko("AlvVelvollinen") );
     // Tyhjennetään tositemodel
     emit liiteValittu(QByteArray());
+    // Tyhjennetään laskudialogi
+    if( laskuDlg_)
+    {
+        laskuDlg_->deleteLater();
+        laskuDlg_ = 0;
+    }
 }
 
 void KirjausWg::tallenna()
@@ -212,9 +218,11 @@ void KirjausWg::vientivwAktivoitu(QModelIndex indeksi)
 
 void KirjausWg::kirjaaLaskunmaksu()
 {
-    LaskunMaksuDialogi *dlg = new LaskunMaksuDialogi(this, model_->vientiModel() );
-    dlg->exec();
-    dlg->deleteLater();
+    if( !laskuDlg_ )
+        laskuDlg_ = new LaskunMaksuDialogi(this);
+
+    laskuDlg_->exec();
+
 }
 
 void KirjausWg::naytaSummat()

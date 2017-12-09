@@ -384,6 +384,7 @@ QModelIndex VientiModel::lisaaVienti(VientiRivi rivi)
     viennit_.append( rivi );
 
     endInsertRows();
+    emit muuttunut();   // Debet / kredit täsmäytykseen
     return index( viennit_.count() - 1, 0);
 }
 
@@ -465,6 +466,14 @@ void VientiModel::tallenna()
 
         if( !rivi.vientiId )
             viennit_[i].vientiId = query.lastInsertId().toInt();
+
+        if( rivi.maksaaLaskua)
+        {
+            // Tämä kirjaus maksaa laskua eli vähentää sen avointa summaa
+            QSqlQuery laskunMaksuKysely;
+            laskunMaksuKysely.exec( QString("UPDATE lasku SET avoinSnt = avoinSnt - %1 WHERE id=%2")
+                                    .arg(rivi.debetSnt).arg(rivi.maksaaLaskua) );
+        }
     }
     // Lopuksi pitäisi vielä poistaa ne rivit, jotka on poistettu...
     foreach (int id, poistetutVientiIdt_)

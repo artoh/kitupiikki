@@ -21,17 +21,19 @@
 #include "db/kirjanpito.h"
 
 #include <QSqlQuery>
+#include <QMessageBox>
+#include <QDesktopServices>
+#include <QUrl>
 
-LaskunMaksuDialogi::LaskunMaksuDialogi(QWidget *parent, VientiModel *vientiModel) :
-    QDialog(parent),
-    viennit(vientiModel),
+LaskunMaksuDialogi::LaskunMaksuDialogi(KirjausWg *kirjauswg) :
+    QDialog(kirjauswg),
+    kirjaaja(kirjauswg),
     ui(new Ui::LaskunMaksuDialogi)
 {
     ui->setupUi(this);
 
-    laskut = new LaskulistaModel(this);
-    laskut->paivita( LaskulistaModel::AVOIMET);
-    ui->laskutView->hideColumn(LaskulistaModel::TOSITE);
+    laskut = new LaskutModel(this);
+    laskut->lataaAvoimet();
 
     proxy = new QSortFilterProxyModel(this);
     proxy->setSourceModel( laskut );
@@ -46,7 +48,24 @@ LaskunMaksuDialogi::LaskunMaksuDialogi(QWidget *parent, VientiModel *vientiModel
     ui->laskutView->setSortingEnabled(true);
     ui->laskutView->horizontalHeader()->setStretchLastSection(true);
 
+    connect( ui->euroSpin, SIGNAL(valueChanged(double)), this, SLOT(tarkistaKelpo()));
+    connect( ui->tiliEdit, SIGNAL(textChanged(QString)), this, SLOT(tarkistaKelpo()));
+    connect( ui->naytaNappi, SIGNAL(clicked()), this, SLOT(naytaLasku()));
+
+    ui->pvmEdit->setDateRange( kp()->tilikausiPaivalle( kp()->paivamaara()).alkaa(),
+                               kp()->tilikausiPaivalle( kp()->paivamaara()).paattyy());
     ui->pvmEdit->setDate( kp()->paivamaara() );
+
+    ui->tiliEdit->suodataTyypilla("AR");
+
+    // Valitsee oletuksena tositetyypin oletusvastatilin
+    if( kirjaaja->model()->tositelaji().json()->luku("Vastatili") )
+    {
+        Tili vastatili = kp()->tilit()->tiliNumerolla(  kirjaaja->model()->tositelaji().json()->luku("Vastatili") );
+        if( vastatili.onko( TiliLaji::RAHAVARAT))
+            ui->tiliEdit->valitseTiliIdlla(vastatili.id());
+    }
+
 
     connect( ui->laskutView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(valintaMuuttuu()));
     connect(ui->kirjaaNappi, SIGNAL(clicked(bool)), this, SLOT(kirjaa()));
@@ -60,19 +79,49 @@ LaskunMaksuDialogi::~LaskunMaksuDialogi()
 void LaskunMaksuDialogi::valintaMuuttuu()
 {
     QModelIndex index = ui->laskutView->currentIndex();
-    ui->euroSpin->setValue( index.data(LaskulistaModel::AvoinnaRooli).toDouble() / 100.0 );
+    ui->euroSpin->setValue( index.data(LaskutModel::AvoinnaRooli).toDouble() / 100.0 );
 }
 
 void LaskunMaksuDialogi::kirjaa()
 {
     QModelIndex index = ui->laskutView->currentIndex();
-    JsonKentta json( index.data(LaskulistaModel::JsonRooli).toByteArray() );
+    if( !index.isValid())
+        return;
 
-    QString selite = QString("%1 [%2]").arg(index.data(LaskulistaModel::AsiakasRooli).toString())
-            .arg(index.data(LaskulistaModel::IdRooli).toInt());
+    JsonKentta json( index.data(LaskutModel::JsonRooli).toByteArray() );
+
+    QString selite = QString("%1 [%2]").arg(index.data(LaskutModel::AsiakasRooli).toString())
+            .arg(index.data(LaskutModel::ViiteRooli).toInt());
+
+
+    // Rahakirjaus
+    VientiRivi rahaRivi;
+    rahaRivi.pvm = ui->pvmEdit->date();
+    rahaRivi.debetSnt = int( ui->euroSpin->value() * 100 );
+    rahaRivi.selite = selite;
+    rahaRivi.tili = kp()->tilit()->tiliNumerolla( ui->tiliEdit->valittuTilinumero() );
+    rahaRivi.maksaaLaskua = index.data(LaskutModel::ViiteRooli).toInt();
 
     if( json.luku("Kirjausperuste") == LaskuModel::MAKSUPERUSTE )
     {
+        if( kirjaaja->model()->muokattu())
+        {
+            if( QMessageBox::question(this, tr("Hylkää nykyinen kirjaus"),
+                                      tr("Maksuperusteisen laskun kirjaus tehdään uuteen tositteeseen. "
+                                         "Hylkäätkö nykyisen tositteen tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
+                return;
+        }
+        // Ladataan laskun tosite
+        kirjaaja->lataaTosite( index.data(LaskutModel::TositeRooli).toInt() );
+        kirjaaja->model()->asetaPvm( ui->pvmEdit->date() );
+        kirjaaja->model()->asetaTositelaji( kp()->asetukset()->luku("LaskuTositelaji") );
+
+        for(int i=0; i < kirjaaja->model()->vientiModel()->rowCount(QModelIndex()); i++ )
+        {
+            kirjaaja->model()->vientiModel()->setData( kirjaaja->model()->vientiModel()->index(i, VientiModel::PVM), ui->pvmEdit->date(), VientiModel::PvmRooli );
+        }
+        kirjaaja->model()->vientiModel()->lisaaVienti(rahaRivi);
+        reject();
 
     }
     else
@@ -85,23 +134,25 @@ void LaskunMaksuDialogi::kirjaa()
         saatavaRivi.pvm = ui->pvmEdit->date();
         saatavaRivi.selite = selite;
 
-        // Sekä rahakirjaus
-        VientiRivi rahaRivi;
-        rahaRivi.pvm = saatavaRivi.pvm;
-        rahaRivi.debetSnt = saatavaRivi.kreditSnt;
-        rahaRivi.selite = selite;
-        rahaRivi.tili = kp()->tilit()->tiliNumerolla( ui->tiliEdit->valittuTilinumero() );
-
-        if( viennit )
-        {
-            viennit->lisaaVienti(saatavaRivi);
-            viennit->lisaaVienti(rahaRivi);
-        }
+        kirjaaja->model()->vientiModel()->lisaaVienti(saatavaRivi);
+        kirjaaja->model()->vientiModel()->lisaaVienti(rahaRivi);
 
     }
-    QSqlQuery kysely;
-    kysely.exec(QString("UPDATE lasku SET avoinSnt = avoinSnt - %1 WHERE id=%2")
-                .arg(int(ui->euroSpin->value() * 100)).arg( index.data(LaskulistaModel::IdRooli).toInt() ) );
+    laskut->maksa(index.row(), ui->euroSpin->value() * 100);
 
-    laskut->paivita(LaskulistaModel::AVOIMET);
+}
+
+void LaskunMaksuDialogi::tarkistaKelpo()
+{
+    ui->kirjaaNappi->setEnabled( ui->euroSpin->value() && ui->tiliEdit->valittuTilinumero()  );
+}
+
+void LaskunMaksuDialogi::naytaLasku()
+{
+    QModelIndex index = ui->laskutView->currentIndex();
+    int tositeId = index.data(LaskutModel::TositeRooli).toInt();
+    if(tositeId)
+    {
+        QDesktopServices::openUrl( QUrl( LiiteModel::liitePolulla(tositeId, 1) ) );
+    }
 }

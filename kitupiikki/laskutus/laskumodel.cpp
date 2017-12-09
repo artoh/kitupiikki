@@ -270,7 +270,7 @@ int LaskuModel::laskunSumma() const
     int summa = 0;
     foreach (LaskuRivi rivi, rivit_)
     {
-        summa += rivi.yhteensaSnt();
+        summa += std::round(rivi.yhteensaSnt());
     }
     return summa;
 }
@@ -489,6 +489,7 @@ void LaskuModel::lisaaRivi(LaskuRivi rivi)
         // Jos viimeisenä on tyhjä rivi, korvataan se tällä ja lisätään sen jälkeen uusi
         rivit_[rivia-1] = rivi;
         emit dataChanged( index(rivia-1, 0), index(rivia-1, columnCount(QModelIndex())) );
+        rivi = LaskuRivi();     // Tyhjennetään uusi rivi
     }
 
     beginInsertRows( QModelIndex(), rivit_.count(), rivit_.count());

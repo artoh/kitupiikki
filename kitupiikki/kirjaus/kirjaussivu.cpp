@@ -65,8 +65,6 @@ bool KirjausSivu::poistuSivulta()
 {
     if( model->muokattu())
     {
-        qDebug() << model->muokattu() << " viennit " << model->vientiModel()->muokattu() << " json " << model->json()->muokattu() << " liite " << model->liiteModel()->muokattu();
-
         if( QMessageBox::question(this, tr("Kitupiikki"), tr("Nykyistä kirjausta on muokattu. Poistutko sivulta tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
         {
             return false;

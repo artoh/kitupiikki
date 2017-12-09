@@ -37,7 +37,7 @@ LaskutusSivu::LaskutusSivu() :
     connect(ui->suodatusTab, SIGNAL(currentChanged(int)), this, SLOT(paivita()));
     connect(ui->naytaNappi, SIGNAL(clicked(bool)), this, SLOT(nayta()));
 
-    model = new LaskulistaModel(this);
+    model = new LaskutModel(this);
     proxy = new QSortFilterProxyModel(this);
     proxy->setSourceModel(model);
     proxy->setDynamicSortFilter(true);
@@ -82,7 +82,7 @@ void LaskutusSivu::paivita()
 void LaskutusSivu::nayta()
 {
     QModelIndex index = ui->laskutView->currentIndex();
-    int tositeId = index.data(LaskulistaModel::TositeRooli).toInt();
+    int tositeId = index.data(LaskutModel::TositeRooli).toInt();
     if(tositeId)
     {
         QDesktopServices::openUrl( QUrl( LiiteModel::liitePolulla(tositeId, 1) ) );
