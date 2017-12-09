@@ -339,14 +339,6 @@ void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
             raportoija.lisaaTasepaiva(tilikausi_.paattyy());
             if( edellinenkausi.paattyy().isValid())
                 raportoija.lisaaTasepaiva(edellinenkausi.paattyy());
-
-            if( raportoija.tyyppi() == Raportoija::PROJEKTITASE)
-            {
-                if( edellinenkausi.alkaa().isValid())
-                    raportoija.valitseProjektit(edellinenkausi.alkaa(), tilikausi_.paattyy());
-                else
-                    raportoija.valitseProjektit(tilikausi_.alkaa(), tilikausi_.paattyy());
-            }
         }
 
         arkistoiTiedosto( tiedostonnimi, raportoija.raportti().html(true) );

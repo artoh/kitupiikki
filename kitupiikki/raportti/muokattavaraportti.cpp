@@ -30,7 +30,7 @@ MuokattavaRaportti::MuokattavaRaportti(const QString &raporttinimi)
     ui = new Ui::MuokattavaRaportti;
     ui->setupUi( raporttiWidget );
 
-    raportoija = new Raportoija(raporttinimi, ui->erittelyCheck->isChecked());
+    raportoija = new Raportoija(raporttinimi);
 
     // Jos tehdään taselaskelmaa, piilotetaan turhat tiedot!
     ui->alkaa1Date->setVisible( raportoija->onkoKausiraportti() );
@@ -60,14 +60,6 @@ MuokattavaRaportti::MuokattavaRaportti(const QString &raporttinimi)
     }
     ui->sarake3Box->setChecked(tilikausiIndeksi > 1);
 
-    if( raportoija->tyyppi() == Raportoija::PROJEKTITASE )
-    {
-        ui->projektiAlkaa->setDate( kp()->tilikaudet()->kirjanpitoAlkaa() );
-        ui->projektiPaattyy->setDate( kp()->tilikaudet()->kirjanpitoLoppuu() );
-    }
-    else
-        ui->projektitaseRyhma->setVisible(false);
-
 }
 
 MuokattavaRaportti::~MuokattavaRaportti()
@@ -95,11 +87,9 @@ RaportinKirjoittaja MuokattavaRaportti::raportti()
             raportoija->lisaaTasepaiva( ui->loppuu3Date->date());
     }
 
-    if( raportoija->tyyppi() == Raportoija::PROJEKTITASE)
-        raportoija->valitseProjektit( ui->projektiAlkaa->date(), ui->projektiPaattyy->date());
-    else if( raportoija->tyyppi() == Raportoija::KOHDENNUSLASKELMA)
+    if( raportoija->tyyppi() == Raportoija::KOHDENNUSLASKELMA)
         raportoija->etsiKohdennukset();
 
-    return raportoija->raportti();
+    return raportoija->raportti( ui->erittelyCheck->isChecked());
 }
 

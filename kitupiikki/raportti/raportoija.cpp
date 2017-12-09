@@ -29,10 +29,9 @@
 #include "db/tilikausi.h"
 
 
-Raportoija::Raportoija(const QString &raportinNimi, bool tulostaErittelyt) :
+Raportoija::Raportoija(const QString &raportinNimi) :
     otsikko_(raportinNimi),
-    tyyppi_ ( VIRHEELLINEN ),
-    tulostaerittelyt_(tulostaErittelyt)
+    tyyppi_ ( VIRHEELLINEN )
 {
     kaava_ = kp()->asetukset()->lista("Raportti/" + raportinNimi);
     optiorivi_ = kaava_.takeFirst();
@@ -43,8 +42,6 @@ Raportoija::Raportoija(const QString &raportinNimi, bool tulostaErittelyt) :
         tyyppi_ = TASE;
     else if( optiorivi_.startsWith(":kohdennus"))
         tyyppi_ = KOHDENNUSLASKELMA;
-    else if( optiorivi_.startsWith(":projekti"))
-        tyyppi_ = PROJEKTITASE;
 }
 
 void Raportoija::lisaaKausi(const QDate &alkaa, const QDate &paattyy)
@@ -58,25 +55,7 @@ void Raportoija::lisaaTasepaiva(const QDate &pvm)
     loppuPaivat_.append(pvm);
 }
 
-void Raportoija::valitseProjektit(const QDate &paivasta, const QDate &paivaan)
-{
-    // Haetaan projektit, jotka ulottuvat pyydetylle päivämäärävälille
-    // Tarvitaan laskettaessa projektitasetta, kustannuslaskelmassa haetaan ne
-    // kohdennukset, joille kirjauksia haluttuina kausina
-
-    QString kysymys = QString("SELECT id FROM kohdennus WHERE (alkaa IS NULL OR ( alkaa < \"%1\" AND loppuu > \"%2\" )) AND tyyppi = 2")
-            .arg(paivaan.toString(Qt::ISODate))
-            .arg(paivasta.toString(Qt::ISODate));
-    QSqlQuery kysely(kysymys);
-
-    while( kysely.next())
-    {
-        kohdennusKaytossa_.insert( kysely.value(0).toInt(), true);
-    }
-
-}
-
-RaportinKirjoittaja Raportoija::raportti()
+RaportinKirjoittaja Raportoija::raportti(bool tulostaErittelyt)
 {
     data_.resize( loppuPaivat_.count() );
 
@@ -86,14 +65,14 @@ RaportinKirjoittaja Raportoija::raportti()
     if( tyyppi() == TULOSLASKELMA)
     {
         laskeTulosData();
-        kirjoitaDatasta(rk);
+        kirjoitaDatasta(rk, tulostaErittelyt);
     }
     else if( tyyppi() == TASE )
     {
         laskeTaseDate();
-        kirjoitaDatasta(rk);
+        kirjoitaDatasta(rk, tulostaErittelyt);
     }
-    else if( tyyppi() == KOHDENNUSLASKELMA || tyyppi() == PROJEKTITASE)
+    else if( tyyppi() == KOHDENNUSLASKELMA )
     {
         QMapIterator<int,bool> iter(kohdennusKaytossa_);
 
@@ -107,12 +86,10 @@ RaportinKirjoittaja Raportoija::raportti()
             rr.lisaa( kohdennus.nimi() );
             rk.lisaaRivi(rr);
 
-            if( tyyppi() == KOHDENNUSLASKELMA)
-                laskeKohdennusData( iter.key() );
-            else
-                laskeProjektiData( iter.key());
+            laskeKohdennusData( iter.key() );
 
-            kirjoitaDatasta(rk);
+
+            kirjoitaDatasta(rk, tulostaErittelyt);
             rk.lisaaRivi( RaporttiRivi());
         }
     }
@@ -145,7 +122,7 @@ void Raportoija::kirjoitaYlatunnisteet(RaportinKirjoittaja &rk)
     rk.lisaaOtsake(olrivi);
 }
 
-void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk)
+void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt)
 {
 
     QRegularExpression tiliRe("[\\s\\t,](?<alku>\\d{1,8})(\\.\\.)?(?<loppu>\\d{0,8})(?<menotulo>[+-]?)");
@@ -317,7 +294,7 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk)
         if( rivityyppi != ERITTELY)
             rk.lisaaRivi(rr);
 
-        if( rivityyppi == ERITTELY || (naytaErittely && tulostaerittelyt_ ))
+        if( rivityyppi == ERITTELY || (naytaErittely && tulostaErittelyt ))
         {
             // eriSisennysStr on erittelyrivin aloitussisennys, joka *-rivillä kasvaa edellisen rivin sisennyksestä
             QString eriSisennysStr = sisennysStr;
@@ -488,25 +465,6 @@ void Raportoija::laskeKohdennusData(int kohdennus)
     }
 }
 
-void Raportoija::laskeProjektiData(int kohdennus)
-{
-    data_.clear();
-    data_.resize( loppuPaivat_.count());
-
-    tilitKaytossa_.clear();
-    // Kohdennuksen summien laskemista
-    for( int i = 0; i < loppuPaivat_.count(); i++)
-    {
-        QString kysymys = QString("SELECT ysiluku, sum(debetsnt), sum(kreditsnt) "
-                                  "from vienti,tili where vienti.tili = tili.id and ysiluku > 300000000 "
-                                  "and pvm <= \"%1\" and kohdennus=%2 "
-                                  "group by ysiluku")
-                .arg(loppuPaivat_.at(i).toString(Qt::ISODate))
-                .arg(kohdennus);
-
-        sijoitaTulosKyselyData(kysymys, i);
-    }
-}
 
 void Raportoija::etsiKohdennukset()
 {

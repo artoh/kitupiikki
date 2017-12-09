@@ -76,14 +76,6 @@ bool TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, QString tekst
             if( edellinenKausi.paattyy().isValid())
                 raportoija.lisaaTasepaiva(edellinenKausi.paattyy());
 
-            if( raportoija.tyyppi() == Raportoija::PROJEKTITASE)
-            {
-                if( edellinenKausi.alkaa().isValid())
-                    raportoija.valitseProjektit(edellinenKausi.alkaa(), tilikausi.paattyy());
-                else
-                    raportoija.valitseProjektit(tilikausi.alkaa(), tilikausi.paattyy());
-            }
-
         }
 
         printer->newPage();

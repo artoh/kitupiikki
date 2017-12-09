@@ -53,16 +53,14 @@ public:
         VIRHEELLINEN = 0,
         TULOSLASKELMA = 1,
         TASE = 2,
-        KOHDENNUSLASKELMA = 3,
-        PROJEKTITASE = 4
+        KOHDENNUSLASKELMA = 3
     };
 
     /**
      * @brief Alustaa raportoijan muokattavalle raportille
      * @param raportinNimi Asetuksissa oleva raportin nimi
-     * @param tulostaErittelyt Tulostetaanko *-rivien jälkeen tilikohtaiset erittelyt
      */
-    Raportoija(const QString& raportinNimi, bool tulostaErittelyt=true);
+    Raportoija(const QString& raportinNimi);
 
     /**
      * @brief Lisää raporttikauden (sarakkeen)
@@ -92,24 +90,14 @@ public:
     bool onkoKausiraportti() const  { return tyyppi_ == TULOSLASKELMA || tyyppi_ == KOHDENNUSLASKELMA ; }
 
     /**
-     * @brief Tulostetaanko raportti tasepäiviltä (Tase tai Projektitase)
+     * @brief Tulostetaanko raportti taseesta
      *
      * Tällaisen raportin kaudet ovat yksittäisiä päiviä, joille kertynyt tase lasketaan
      *
      * @return
      */
-    bool onkoPaivaraportti() const { return tyyppi_ == TASE || tyyppi_ == PROJEKTITASE; }
+    bool onkoTaseraportti() const { return tyyppi_ == TASE;  }
 
-    /**
-     * @brief Valitsee projektitaseeseen näytettäväksi projektit tietyltä aikaväliltä
-     *
-     * Ellei tätä funktiota ole kutsuttu ennen raporttia, ei projektitaseessa
-     * näytetä ainottakaan projektia!
-     *
-     * @param paivasta Alkupäivä
-     * @param paivaan Loppupäivä
-     */
-    void valitseProjektit(const QDate& paivasta, const QDate& paivaan);
     /**
      * @brief Etsii Kustannuslaskelmaan näissä kausissa käytetyt kohdennukset.
      *
@@ -128,9 +116,10 @@ public:
 
     /**
      * @brief Kirjoittaa raportin tehdyillä valinnoilla
+     * @param tulostaErittelyt Tulostetaanko *-rivien jälkeen tilikohtaiset erittelyt
      * @return
      */
-    RaportinKirjoittaja raportti();
+    RaportinKirjoittaja raportti(bool tulostaErittelyt = true);
 
 protected:
     enum RivinTyyppi
@@ -139,7 +128,7 @@ protected:
     };
 
     void kirjoitaYlatunnisteet( RaportinKirjoittaja &rk);
-    void kirjoitaDatasta(RaportinKirjoittaja &rk);
+    void kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt);
 
     /**
      * @brief Sijoittaa tulostilien kyselyn dataan
@@ -151,10 +140,6 @@ protected:
     void laskeTaseDate();
 
     void laskeKohdennusData(int kohdennus);
-    void laskeProjektiData(int kohdennus);
-
-
-
 
 
 
@@ -164,8 +149,6 @@ protected:
     QString optiorivi_;
 
     RaportinTyyppi tyyppi_;
-
-    bool tulostaerittelyt_; /** Tulostetaanko *-merkillä erittelyrivit **/
 
     QVector<QDate> alkuPaivat_;
     QVector<QDate> loppuPaivat_;

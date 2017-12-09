@@ -42,7 +42,6 @@ RaporttiMuokkaus::RaporttiMuokkaus(QWidget *parent) :
     ui->tyyppiCombo->addItem( tr("Tuloslaskelma"), ":tulos");
     ui->tyyppiCombo->addItem( tr("Tase"), ":tase");
     ui->tyyppiCombo->addItem( tr("Kohdennuslaskelma"), ":kohdennus");
-    ui->tyyppiCombo->addItem( tr("Projektitase"), ":projekti");
 
 
     muokattu = false;
