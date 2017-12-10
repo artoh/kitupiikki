@@ -39,7 +39,7 @@ public:
     int numero() const { return numero_; }
     QString nimi() const { return nimi_; }
     TiliTyyppi tyyppi() const { return tyyppi_;}
-    QString tyyppiKoodi() const { return tyyppi().koodi(); };
+    QString tyyppiKoodi() const { return tyyppi().koodi(); }
     int tila() const { return tila_; }
     int otsikkotaso() const { return tyyppi().otsikkotaso(); }
     bool muokattu() const { return muokattu_ || json_.muokattu(); }

@@ -43,6 +43,7 @@ signals:
 
 public slots:
     void naytaInfo(QString info);
+    void hlostoMuutos();
 
 public:
     bool nollaa();

@@ -33,7 +33,7 @@ int TilikausiModel::rowCount(const QModelIndex & /* parent */) const
 
 int TilikausiModel::columnCount(const QModelIndex & /* parent */) const
 {
-    return 4;
+    return 6;
 }
 
 QVariant TilikausiModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -47,6 +47,10 @@ QVariant TilikausiModel::headerData(int section, Qt::Orientation orientation, in
         {
         case KAUSI :
             return QVariant("Tilikausi");
+        case LIIKEVAIHTO:
+            return tr("Liikevaihto");
+        case TASE:
+            return tr("Tase");
         case TULOS:
             return QVariant("Yli/alijäämä");
         case ARKISTOITU:
@@ -92,6 +96,8 @@ QVariant TilikausiModel::data(const QModelIndex &index, int role) const
         return QVariant( kausi.alkaa());
     else if( role == PaattyyRooli )
         return QVariant( kausi.paattyy());
+    else if( role == HenkilostoRooli )
+        return kausi.json()->luku("Henkilosto");
     else if( role == Qt::TextAlignmentRole)
     {
         if( index.column()==TULOS )
@@ -149,6 +155,11 @@ Tilikausi TilikausiModel::tilikausiPaivalle(const QDate &paiva) const
     }
     return Tilikausi(QDate(), QDate()); // Kelvoton tilikausi
 
+}
+
+void TilikausiModel::asetaHenkilosto(int indeksi, int henkilosto)
+{
+    kaudet_[indeksi].json()->set("Henkilosto", henkilosto);
 }
 
 void TilikausiModel::merkitseArkistoiduksi(int indeksi, const QString &shatiiviste)

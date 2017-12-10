@@ -76,7 +76,19 @@ public:
      * @return Tulos sentteinä
      */
     int tulos() const;
-    
+
+    /**
+     * @brief Tilikauden liikevaihto (CL-kirjaukset)
+     * @return Liikevaihto sentteinä
+     */
+    int liikevaihto() const;
+
+    /**
+     * @brief Tilikauden päättävä tase
+     * @return Tase sentteinä
+     */
+    int tase() const;
+
     /**
      * @brief Arkistohakemistossa käytettävä nimi
      * 

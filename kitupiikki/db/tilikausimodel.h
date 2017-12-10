@@ -36,6 +36,8 @@ public:
     enum Sarake
     {
         KAUSI,
+        LIIKEVAIHTO,
+        TASE,
         TULOS,
         ARKISTOITU,
         TILINPAATOS
@@ -44,7 +46,8 @@ public:
     enum
     {
         AlkaaRooli = Qt::UserRole + 1,
-        PaattyyRooli = Qt::UserRole + 2
+        PaattyyRooli = Qt::UserRole + 2,
+        HenkilostoRooli = Qt::UserRole + 3
     };
 
 
@@ -60,6 +63,7 @@ public:
     void lisaaTilikausi( Tilikausi tilikausi);
     Tilikausi tilikausiPaivalle(const QDate &paiva) const;
 
+    void asetaHenkilosto(int indeksi, int henkilosto);
     void merkitseArkistoiduksi(int indeksi, const QString& shatiiviste);
     void vaihdaTilinpaatostila(int indeksi, Tilikausi::TilinpaatosTila tila);
     void tallennaTilinpaatosteksti(int indeksi, const QString& teksti);

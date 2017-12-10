@@ -105,6 +105,35 @@ int Tilikausi::tulos() const
         return 0;
 }
 
+int Tilikausi::liikevaihto() const
+{
+    QSqlQuery kysely(  QString("SELECT SUM(kreditsnt), SUM(debetsnt) "
+                               "FROM vienti, tili WHERE "
+                               "pvm BETWEEN \"%1\" AND \"%2\" "
+                               "AND vienti.tili=tili.id AND "
+                               "tili.laji = \"CL\"")
+                       .arg(alkaa().toString(Qt::ISODate))
+                       .arg(paattyy().toString(Qt::ISODate)));
+    if( kysely.next())
+        return kysely.value(0).toInt() - kysely.value(1).toInt();
+    else
+        return 0;
+}
+
+int Tilikausi::tase() const
+{
+    QSqlQuery kysely(  QString("SELECT SUM(kreditsnt), SUM(debetsnt) "
+                               "FROM vienti, tili WHERE "
+                               "pvm <= \"%1\" "
+                               "AND vienti.tili=tili.id AND "
+                               "tili.ysiluku < 200000000")
+                       .arg(paattyy().toString(Qt::ISODate)));
+    if( kysely.next())
+        return kysely.value(0).toInt() - kysely.value(1).toInt();
+    else
+        return 0;
+}
+
 QString Tilikausi::arkistoHakemistoNimi() const
 {
     if( alkaa().month() == 1 && alkaa().day() == 1)

@@ -32,6 +32,8 @@ Tilinavaus::Tilinavaus(QWidget *parent) : MaaritysWidget(parent)
     ui->tiliView->resizeColumnsToContents();
 
     connect(model, SIGNAL(infoteksti(QString)), this, SLOT(naytaInfo(QString)));
+    connect( ui->henkilostoSpin, SIGNAL(valueChanged(int)), this, SLOT(hlostoMuutos()));
+
 }
 
 Tilinavaus::~Tilinavaus()
@@ -45,9 +47,15 @@ void Tilinavaus::naytaInfo(QString info)
     emit tallennaKaytossa( onkoMuokattu());
 }
 
+void Tilinavaus::hlostoMuutos()
+{
+    emit tallennaKaytossa( onkoMuokattu());
+}
+
 bool Tilinavaus::nollaa()
 {
     model->lataa();
+    ui->henkilostoSpin->setValue(kp()->tilikaudet()->tilikausiIndeksilla(0).json()->luku("Henkilosto"));
     emit tallennaKaytossa(onkoMuokattu());
     return true;
 }
@@ -55,11 +63,12 @@ bool Tilinavaus::nollaa()
 bool Tilinavaus::tallenna()
 {
     model->tallenna();
+    kp()->tilikaudet()->asetaHenkilosto(0, ui->henkilostoSpin->value());
     emit tallennaKaytossa(onkoMuokattu());
     return true;
 }
 
 bool Tilinavaus::onkoMuokattu()
 {
-    return model->onkoMuokattu();
+    return model->onkoMuokattu() || kp()->tilikaudet()->tilikausiIndeksilla(0).json()->luku("Henkilosto") != ui->henkilostoSpin->value();
 }
