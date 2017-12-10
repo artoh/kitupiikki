@@ -129,7 +129,7 @@ int Tilikausi::tase() const
                                "tili.ysiluku < 200000000")
                        .arg(paattyy().toString(Qt::ISODate)));
     if( kysely.next())
-        return kysely.value(0).toInt() - kysely.value(1).toInt();
+        return kysely.value(1).toInt() - kysely.value(0).toInt();
     else
         return 0;
 }

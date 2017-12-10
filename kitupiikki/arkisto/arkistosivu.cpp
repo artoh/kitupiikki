@@ -54,8 +54,8 @@ void ArkistoSivu::siirrySivulle()
     ui->view->setModel( kp()->tilikaudet() );
     ui->view->resizeColumnsToContents();
 
-    for(int i=0; i < 4; i++)
-        ui->view->setColumnWidth( i, (ui->view->width()-10) / 4);
+    for(int i=0; i < 6; i++)
+        ui->view->setColumnWidth( i, (ui->view->width()-10) / 6);
     ui->view->horizontalHeader()->setStretchLastSection(true);
 
     connect( ui->view->selectionModel() , SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(nykyinenVaihtuuPaivitaNapit()) );

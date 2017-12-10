@@ -78,6 +78,11 @@ QVariant TilikausiModel::data(const QModelIndex &index, int role) const
                              .arg(kausi.paattyy().toString(Qt::SystemLocaleShortDate)));
         else if( index.column() == TULOS)
             return QString("%L1 €").arg( kausi.tulos()  / 100.0,0,'f',2);
+        else if(index.column() == LIIKEVAIHTO)
+            return QString("%L1 €").arg( kausi.liikevaihto()  / 100.0,0,'f',2);
+        else if(index.column() == TASE)
+            return QString("%L1 €").arg( kausi.tase()  / 100.0,0,'f',2);
+
         else if( index.column() == ARKISTOITU )
             return kausi.arkistoitu().date();
         else if( index.column() == TILINPAATOS )
