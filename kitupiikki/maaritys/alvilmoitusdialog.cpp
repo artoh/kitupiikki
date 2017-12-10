@@ -247,6 +247,78 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
     luku(tr("Vähenettävä vero yhteensä"), bruttovahennettavaaSnt + nettovahennyssnt);
     luku(tr("Maksettava vero"), maksettavavero  , true);
 
+    // Alarajahuojennus
+    int alvKaudenPituus = kp()->asetukset()->luku("AlvKausi");
+    if( ( alvKaudenPituus > 1 && loppupvm.month() == 12) ||
+         ( alvKaudenPituus == 1 && loppupvm == kp()->tilikaudet()->tilikausiPaivalle(loppupvm).paattyy() )   )
+    {
+        long liikevaihto = 0;
+        long vero = maksettavavero;
+        QDate laskelmaMista;
+
+        if( alvKaudenPituus == 1)
+        {
+            // Lasketaan tältä tilikaudelta
+            Tilikausi kausi = kp()->tilikaudet()->tilikausiPaivalle( loppupvm);
+            laskelmaMista = kausi.alkaa();
+        }
+        else
+        {
+            laskelmaMista = loppupvm.addYears(-1);
+            if( kp()->tilikaudet()->kirjanpitoAlkaa().daysTo( laskelmaMista ) < 0 )
+                laskelmaMista = kp()->tilikaudet()->kirjanpitoAlkaa();
+        }
+        int kuukausiaLaskelmassa = laskelmaMista.daysTo(loppupvm) / 30;
+
+        QSqlQuery kysely;
+        kysely.exec(  QString("SELECT SUM(kreditsnt), SUM(debetsnt) "
+                                   "FROM vienti, tili WHERE "
+                                   "pvm BETWEEN \"%1\" AND \"%2\" "
+                                   "AND vienti.tili=tili.id AND "
+                                   "tili.tyyppi = \"CL\"")
+                           .arg(laskelmaMista.toString(Qt::ISODate))
+                           .arg(loppupvm.toString(Qt::ISODate)));
+        if( kysely.next())
+            liikevaihto = kysely.value(0).toInt() - kysely.value(1).toInt();
+
+        kysely.exec(  QString("SELECT SUM(kreditsnt), SUM(debetsnt) "
+                                   "FROM vienti WHERE "
+                                   "pvm BETWEEN \"%1\" AND \"%2\" "
+                                   "AND alvkoodi = %3 ")
+                           .arg(laskelmaMista.toString(Qt::ISODate))
+                           .arg(loppupvm.toString(Qt::ISODate))
+                           .arg( AlvKoodi::ALVKIRJAUS ));
+        if( kysely.next())
+            vero += kysely.value(1).toInt() - kysely.value(0).toInt();
+
+        int suhteutettu = liikevaihto;
+
+        if( kuukausiaLaskelmassa )
+            suhteutettu = liikevaihto *  12 / kuukausiaLaskelmassa;
+
+
+        long huojennus = 0;
+        if( suhteutettu <= 1000000)
+            huojennus = vero;
+        else if( suhteutettu <= 3000000)
+        {
+            huojennus = vero - ((( suhteutettu - 1000000) * vero  ) / 2000000 );
+        }
+        otsikko(tr("Arvonlisäveron alarajahuojennus"));
+        luku(tr("Liikevaihto"), liikevaihto );
+        luku(tr("Maksettu vero"), vero );
+        luku(tr("Arvio alarajahuojennuksesta"), huojennus);
+
+        RaporttiRivi rivi;
+        rivi.lisaa(tr("Yllä oleva laskelma on tehty koko liikevaihdolla ja "
+                      "maksetulla arvonlisäverolla. Alarajahuojennusta laskettaessa "
+                      "on otettava huomioon useita poikkeuksia ja huojennus "
+                      "on laskettava erikseen verohallinnon ohjeiden mukaisesti."),2);
+        kirjoittaja->lisaaRivi(rivi);
+
+
+    }
+
 
     ui->ilmoitusBrowser->setHtml( kirjoittaja->html());
     if( exec() )

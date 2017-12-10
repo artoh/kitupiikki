@@ -17,6 +17,7 @@
 
 #include <QSqlQuery>
 #include <QVariant>
+#include <QDebug>
 
 #include "tilikausi.h"
 #include "kirjanpito.h"
@@ -111,7 +112,7 @@ int Tilikausi::liikevaihto() const
                                "FROM vienti, tili WHERE "
                                "pvm BETWEEN \"%1\" AND \"%2\" "
                                "AND vienti.tili=tili.id AND "
-                               "tili.laji = \"CL\"")
+                               "tili.tyyppi = \"CL\"")
                        .arg(alkaa().toString(Qt::ISODate))
                        .arg(paattyy().toString(Qt::ISODate)));
     if( kysely.next())
