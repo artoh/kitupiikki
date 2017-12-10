@@ -46,7 +46,7 @@ int TaseEraValintaDialogi::nayta(Tili tili, int taseEra, int poistoKk)
 {
     model_.lataa(tili, true);
 
-    qDebug() << "valittu " << taseEra;
+
     ui->view->setCurrentIndex( proxy_->index(0,0));
     for(int i=0; i < proxy_->rowCount(); i++)
     {
@@ -79,7 +79,6 @@ int TaseEraValintaDialogi::poistoKk()
 
 void TaseEraValintaDialogi::eraValintaVaihtuu()
 {
-    qDebug() << ui->view->currentIndex().row() << " " <<  eraId() << " " << ui->view->currentIndex().data(EranValintaModel::SeliteRooli).toString();
 
     ui->poistoLabel->setVisible( eraId() == 0 && poistotililla_);
     ui->poistoSpin->setVisible( eraId() == 0 && poistotililla_);

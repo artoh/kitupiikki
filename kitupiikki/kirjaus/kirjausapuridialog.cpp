@@ -149,9 +149,9 @@ void KirjausApuriDialog::tiliTaytetty()
             ui->valintaTab->setCurrentIndex(SIIRTO);
         }
 
-        ui->eraLabel->setVisible( tili.taseErittelyTapa() == Tili::TASEERITTELY_TAYSI );
-        ui->taseEraCombo->setVisible( tili.taseErittelyTapa() == Tili::TASEERITTELY_TAYSI  );
-        if( tili.taseErittelyTapa() == Tili::TASEERITTELY_TAYSI  )
+        ui->eraLabel->setVisible( tili.eritellaankoTase() );
+        ui->taseEraCombo->setVisible( tili.eritellaankoTase() );
+        if( tili.eritellaankoTase() )
         {
             eraModelTilille.lataa( tili );
             ui->taseEraCombo->setCurrentIndex(0);
@@ -232,9 +232,9 @@ void KirjausApuriDialog::alvLajiMuuttui()
 void KirjausApuriDialog::vastaTiliMuuttui()
 {
     Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliEdit->valittuTilinumero());
-    ui->vastaTaseEraLabel->setVisible( vastatili.taseErittelyTapa() == Tili::TASEERITTELY_TAYSI );
-    ui->vastaTaseEraCombo->setVisible( vastatili.taseErittelyTapa() == Tili::TASEERITTELY_TAYSI);
-    if( vastatili.taseErittelyTapa() == Tili::TASEERITTELY_TAYSI )
+    ui->vastaTaseEraLabel->setVisible( vastatili.eritellaankoTase() );
+    ui->vastaTaseEraCombo->setVisible( vastatili.eritellaankoTase() );
+    if( vastatili.eritellaankoTase() )
     {
         eraModelVastaTilille.lataa( vastatili );
         ui->vastaTaseEraCombo->setCurrentIndex(0);

@@ -112,10 +112,10 @@ void TilinMuokkausDialog::lataa()
     ui->kirjausohjeText->setPlainText( tili.json()->str("Kirjausohje"));
 
     int taseEraValinta = tili.json()->luku("Taseerittely");
-    ui->taseEratRadio->setChecked( taseEraValinta == 3);
-    ui->teLiVaRadio->setChecked( taseEraValinta == 2);
-    ui->teSaldoRadio->setChecked( taseEraValinta == 1);
-    ui->teEiRadio->setChecked( taseEraValinta == 0);
+    ui->taseEratRadio->setChecked( taseEraValinta == Tili::TASEERITTELY_TAYSI);
+    ui->taseEraLuettelo->setChecked( taseEraValinta == Tili::TASEERITTELY_LISTA);
+    ui->teLiVaRadio->setChecked( taseEraValinta == Tili::TASEERITTELY_MUUTOKSET);
+    ui->teSaldoRadio->setChecked( taseEraValinta == Tili::TASEERITTELY_SALDOT);
 
     nroMuuttaaTyyppia(QString::number( tili.numero() ));
 
@@ -350,11 +350,11 @@ void TilinMuokkausDialog::accept()
         if( tilityyppi.onko( TiliLaji::TASE))
         {
             if( ui->taseEratRadio->isChecked() || tilityyppi.onko(TiliLaji::TASAERAPOISTO))
-                json->set("Taseerittely",3);
+                json->set("Taseerittely", Tili::TASEERITTELY_TAYSI);
+            else if( ui->taseEraLuettelo->isChecked())
+                json->set("Taseerittely", Tili::TASEERITTELY_LISTA);
             else if( ui->teLiVaRadio->isChecked())
-                json->set("Taseerittely",2);
-            else if( ui->teSaldoRadio->isChecked())
-                json->set("Taseerittely",1);
+                json->set("Taseerittely", Tili::TASEERITTELY_MUUTOKSET);
             else
                 json->unset("Taseerittely");
         }

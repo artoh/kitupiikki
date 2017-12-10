@@ -376,8 +376,8 @@ bool LaskuModel::tallenna(Tili rahatili)
             }
             else
             {
-                vienti.debetSnt = nettoSnt;
-                verorivi.debetSnt = veroSnt;
+                vienti.debetSnt = 0 - nettoSnt;
+                verorivi.debetSnt = 0 - veroSnt;
             }
         }
         else
@@ -385,7 +385,7 @@ bool LaskuModel::tallenna(Tili rahatili)
             if( nettoSnt > 0)
                 vienti.kreditSnt = bruttoSnt;
             else
-                vienti.debetSnt = bruttoSnt;
+                vienti.debetSnt = 0 - bruttoSnt;
         }
         viennit->lisaaVienti(vienti);
         if( verorivi.tili.onkoValidi())
@@ -402,7 +402,7 @@ bool LaskuModel::tallenna(Tili rahatili)
         if( laskunSumma() > 0 )
             raharivi.debetSnt = laskunSumma();
         else
-            raharivi.kreditSnt = laskunSumma();
+            raharivi.kreditSnt = 0 - laskunSumma();
 
         if( hyvityslasku().viitenro )
             raharivi.eraId = hyvityslasku().json.luku("TaseEra");

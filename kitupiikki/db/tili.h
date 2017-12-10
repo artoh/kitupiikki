@@ -122,9 +122,9 @@ public:
 
     enum TaseErittelyTapa
     {
-        TASEERITTELY_EI  = 0,
-        TASEERITTELY_SALDOT = 1,
-        TASEERITTELY_MUUTOKSET = 2,
+        TASEERITTELY_SALDOT = 0,
+        TASEERITTELY_MUUTOKSET = 1,
+        TASEERITTELY_LISTA = 2,
         TASEERITTELY_TAYSI = 3
     };
 
@@ -133,6 +133,16 @@ public:
      * @return TaseErittelyTapa
      */
     int taseErittelyTapa() { return json()->luku("Taseerittely"); }
+
+    /**
+     * @brief Pidetäänkö tase-eristä kirjaa
+     *
+     * Jos tase-erittely laaditaan täydellisenä tai listana, tarvitaan tase-erien kirjaus
+     *
+     * @return
+     */
+    bool eritellaankoTase()  { return taseErittelyTapa() == TASEERITTELY_TAYSI ||
+                                  taseErittelyTapa() == TASEERITTELY_LISTA;  }
 
     /**
      * @brief Laskee yhdeksännumeroisen vertailuluvun

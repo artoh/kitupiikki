@@ -38,7 +38,7 @@ TilikarttaRaportti::TilikarttaRaportti()
 
 TilikarttaRaportti::~TilikarttaRaportti()
 {
-
+    delete ui;
 }
 
 RaportinKirjoittaja TilikarttaRaportti::raportti()

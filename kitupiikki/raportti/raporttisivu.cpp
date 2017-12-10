@@ -28,6 +28,8 @@
 #include "paivakirjaraportti.h"
 #include "paakirjaraportti.h"
 #include "tositeluetteloraportti.h"
+#include "taseerittely.h"
+
 #include "db/kirjanpito.h"
 
 #include "muokattavaraportti.h"
@@ -65,6 +67,7 @@ void RaporttiSivu::siirrySivulle()
         lisaaRaportti( rnimi.mid(9), rnimi, ":/pic/tekstisivu.png");
     }
 
+    lisaaRaportti("Tase-erittely","TaseErittely",":/pic/valilehdet.png");
     lisaaRaportti("Tililuettelo","Tilikartta",":/pic/valilehdet.png");
     lista->setCurrentItem(lista->item(0));
 }
@@ -106,6 +109,8 @@ void RaporttiSivu::raporttiValittu(QListWidgetItem *item)
         nykyinen = new TilikarttaRaportti();
     else if( raporttinimi == "Tositeluettelo")
         nykyinen = new TositeluetteloRaportti();
+    else if( raporttinimi == "TaseErittely")
+        nykyinen = new TaseErittely();
 
 
     if( nykyinen )

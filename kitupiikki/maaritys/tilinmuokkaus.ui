@@ -229,6 +229,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QRadioButton" name="taseEraLuettelo">
+        <property name="text">
+         <string>Tase-erien luettelo</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QRadioButton" name="teLiVaRadio">
         <property name="text">
          <string>Lisäykset ja vähennykset</string>
@@ -239,13 +246,6 @@
        <widget class="QRadioButton" name="teSaldoRadio">
         <property name="text">
          <string>Saldo</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="teEiRadio">
-        <property name="text">
-         <string>Ei näy tase-erittelyssä</string>
         </property>
         <property name="checked">
          <bool>true</bool>

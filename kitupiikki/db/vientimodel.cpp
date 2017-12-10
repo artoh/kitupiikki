@@ -110,7 +110,7 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
         return QVariant( rivi.json.luku("Tasaerapoisto") );
     }
     else if( role == TaseErittelyssaRooli)
-        return QVariant( rivi.tili.taseErittelyTapa() == Tili::TASEERITTELY_TAYSI);
+        return QVariant( rivi.tili.eritellaankoTase());
 
 
     else if( role==Qt::DisplayRole || role == Qt::EditRole)
