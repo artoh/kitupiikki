@@ -66,6 +66,7 @@
         <file>web.png</file>
         <file>email.png</file>
         <file>sivunasetukset.png</file>
+        <file>allekirjoitus.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

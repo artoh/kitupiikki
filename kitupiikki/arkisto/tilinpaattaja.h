@@ -15,34 +15,38 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef ARKISTO_H
-#define ARKISTO_H
+#ifndef TILINPAATTAJA_H
+#define TILINPAATTAJA_H
 
-#include "kitupiikkisivu.h"
-#include "ui_arkisto.h"
+#include <QDialog>
 
 #include "db/tilikausi.h"
 
-class ArkistoSivu : public KitupiikkiSivu
+namespace Ui {
+class TilinPaattaja;
+}
+
+class TilinPaattaja : public QDialog
 {
     Q_OBJECT
-public:
-    ArkistoSivu();
-    ~ArkistoSivu();
 
-    void siirrySivulle();
-    bool poistuSivulta();
+public:
+    explicit TilinPaattaja(Tilikausi kausi, QWidget *parent = 0);
+    ~TilinPaattaja();
 
 public slots:
-    static void uusiTilikausi();
+    void paivitaDialogi();
 
-    void arkisto();
-    void tilinpaatos();
-    void nykyinenVaihtuuPaivitaNapit();
-    void teeArkisto(Tilikausi kausi);
+private slots:
+    void lukitse();
+
+signals:
+    void lukittu(Tilikausi kausi);
 
 private:
-    Ui::TilikausiMaaritykset *ui;
+
+    Tilikausi tilikausi;
+    Ui::TilinPaattaja *ui;
 };
 
-#endif // ARKISTO_H
+#endif // TILINPAATTAJA_H

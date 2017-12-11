@@ -32,6 +32,8 @@
 #include "tilinpaatoseditori/tilinpaatoseditori.h"
 #include "tilinpaatoseditori/tpaloitus.h"
 
+#include "tilinpaattaja.h"
+
 
 ArkistoSivu::ArkistoSivu()
 {
@@ -110,6 +112,29 @@ void ArkistoSivu::arkisto()
 
 void ArkistoSivu::tilinpaatos()
 {
+    // Uusi tilinpäättäjään perustuva
+    if( ui->view->currentIndex().isValid())
+    {
+        Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->view->currentIndex().row() );
+
+        if( kausi.tilinpaatoksenTila() == Tilikausi::VAHVISTETTU )
+        {
+            // Avataan tilinpäätös
+            QDesktopServices::openUrl( QUrl::fromLocalFile( kp()->hakemisto().absoluteFilePath("arkisto/" + kausi.arkistoHakemistoNimi()) + "/tilinpaatos.pdf" ));
+        }
+        else
+        {
+            TilinPaattaja paattaja(kausi);
+            connect( &paattaja, SIGNAL(lukittu(Tilikausi)), this, SLOT(teeArkisto(Tilikausi)));
+            paattaja.exec();
+        }
+
+
+    }
+    return;
+
+
+
     // Tilinpäätöstoimet
     // - tilinpäätöksen näyttäminen (jos laadittu ja vahvistettu)
     // - tilinpäätöksen muokkaaminen tai vahvistaminen (jos laatiminen aloitettu)

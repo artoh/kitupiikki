@@ -165,6 +165,7 @@ Tilikausi TilikausiModel::tilikausiPaivalle(const QDate &paiva) const
 void TilikausiModel::asetaHenkilosto(int indeksi, int henkilosto)
 {
     kaudet_[indeksi].json()->set("Henkilosto", henkilosto);
+    tallenna();
 }
 
 void TilikausiModel::merkitseArkistoiduksi(int indeksi, const QString &shatiiviste)
