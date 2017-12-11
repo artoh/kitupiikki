@@ -56,7 +56,6 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(Tilikausi tilikaudelta)
     {
         RaporttiRivi yotsikko;
         yotsikko.lisaa("Tili",3);
-        yotsikko.lisaa("Saldo €", 1, true);
         rk.lisaaOtsake(yotsikko);
 
         RaporttiRivi otsikko;
@@ -78,10 +77,25 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(Tilikausi tilikaudelta)
         tiliIdt.append( kysely.value(0).toInt());
 
     int otsikkoId = 0;
+    long edYsiluku = 0;
 
     foreach (int tiliId, tiliIdt)
     {
         Tili tili = kp()->tilit()->tiliIdlla(tiliId);
+
+        if( edYsiluku / 100000000 < tili.ysivertailuluku()  / 100000000 )
+        {
+            RaporttiRivi otsikkoRivi;
+            if( tili.ysivertailuluku() / 100000000 == 1)
+                otsikkoRivi.lisaa("VASTAAVAA",3);
+            else
+                otsikkoRivi.lisaa("VASTATTAVAA",3);
+            otsikkoRivi.asetaKoko(14);
+            rk.lisaaRivi(otsikkoRivi);
+            rk.lisaaRivi();
+        }
+        edYsiluku = tili.ysivertailuluku();
+
         if( otsikkoId != tili.ylaotsikkoId())
         {
             // Tulostetaan yläotsikko
@@ -101,6 +115,14 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(Tilikausi tilikaudelta)
             rr.lisaa( tili.saldoPaivalle( tilikaudelta.paattyy() ), true);
             rr.lihavoi();
             rk.lisaaRivi(rr);
+
+            // Täydentävä rivi
+            if( !tili.json()->str("Taydentava").isEmpty())
+            {
+                RaporttiRivi lr;
+                lr.lisaa( tili.json()->str("Taydentava"), 3);
+                rk.lisaaRivi(lr);
+            }
         }
         else
         {
@@ -109,6 +131,14 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(Tilikausi tilikaudelta)
             tilinnimi.lisaa( QString("%1 %2").arg(tili.numero()).arg(tili.nimi()), 3 );
             tilinnimi.lihavoi();
             rk.lisaaRivi(tilinnimi);
+            // Täydentävä rivi
+            if( !tili.json()->str("Taydentava").isEmpty())
+            {
+                RaporttiRivi lr;
+                lr.lisaa( tili.json()->str("Taydentava"), 3);
+                rk.lisaaRivi(lr);
+            }
+
 
 
             if( tili.taseErittelyTapa() == Tili::TASEERITTELY_MUUTOKSET)
@@ -120,7 +150,6 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(Tilikausi tilikaudelta)
                 ekaRivi.lisaa( tilikaudelta.alkaa());
                 ekaRivi.lisaa("Alkutase");
                 ekaRivi.lisaa( tili.saldoPaivalle( tilikaudelta.alkaa().addDays(-1) ), true);
-                ekaRivi.lihavoi();
                 rk.lisaaRivi( ekaRivi);
 
                 // Muutokset
@@ -132,7 +161,7 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(Tilikausi tilikaudelta)
                     RaporttiRivi rr;
                     rr.lisaa( QString("%1%2").arg( kysely.value("tositelaji").toString()).arg(kysely.value("tunniste").toInt()));
                     rr.lisaa( kysely.value("pvm").toDate());
-                    rr.lisaa(kysely.value("selite").toString(), 2);
+                    rr.lisaa(kysely.value("selite").toString());
                     if( tili.onko(TiliLaji::VASTAAVAA))
                         rr.lisaa( kysely.value("debetsnt").toInt() - kysely.value("kreditsnt").toInt());
                     else
@@ -160,13 +189,82 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(Tilikausi tilikaudelta)
             }
             else if( tili.taseErittelyTapa() == Tili::TASEERITTELY_TAYSI)
             {
+                // Tulostetaan tase-erät, joilla saldoa alkupäivällä tai tapahtumia tilikauden aikana
+
+                // EraId,SaldoSnt
+                QHash<int,int> alkusaldot;
+
+                // Sijoitetaan ensin kaikki tämän tilikauden tase-erät
+                kysely.exec( QString("SELECT DISTINCT id, eraid FROM viennit WHERE tili=%1 "
+                                     "AND pvm BETWEEN \"%2\" AND \"%3\" ")
+                             .arg(tili.id()).arg(tilikaudelta.alkaa().toString(Qt::ISODate))
+                             .arg(tilikaudelta.paattyy().toString(Qt::ISODate)));
+                while( kysely.next() )
+                {
+                    if( kysely.value("eraid").toInt())
+                        alkusaldot.insert( kysely.value("eraid").toInt(), 0);
+                    else
+                        alkusaldot.insert( kysely.value("id").toInt(),0);
+                }
+
+                // Sitten alkusaldot
+                kysely.exec(QString("SELECT eraid, sum(debetsnt) as debetit, sum(kreditsnt) as kreditit from vienti "
+                                   "where tili=%1 and eraid is not null and pvm < \"%2\" group by eraid")
+                           .arg(tili.id()).arg(tilikaudelta.paattyy().toString(Qt::ISODate)));
+
+                // Tallennetaan saldotaulukkoon tilien eräsaldot
+                while( kysely.next() )
+                {
+                    alkusaldot.insert( kysely.value("eraid").toInt(), kysely.value("debetit").toInt() - kysely.value("kreditit").toInt() );
+                }
+
+                // ja lisätään vielä aloittava vienti
+                kysely.exec(QString("SELECT id, pvm, selite, debetsnt, kreditsnt from vienti "
+                           "where tili=%1 and eraid is NULL and pvm < \"%2\" order by pvm")
+                           .arg(tili.id()).arg( tilikaudelta.alkaa().toString(Qt::ISODate) ));
+
+
+                while( kysely.next())
+                {
+
+                    int id = kysely.value("id").toInt();
+                    alkusaldot[id] = alkusaldot.value(id, 0) + kysely.value("debetsnt").toInt() - kysely.value("kreditsnt").toInt();
+                }
+
+                // Sitten haetaan tase-erän tiedot
+                QList<TaseEra> erat;
+                kysely.exec(QString("SELECT id, pvm, selite "
+                           "where tili=%1 and eraid is NULL order by pvm")
+                           .arg(tili.id()));
+
+                while( kysely.next())
+                {
+                    if( alkusaldot.contains(kysely.value("id").toInt()))
+                    {
+                        TaseEra era;
+                        era.eraId = kysely.value("id").toInt();
+                        era.pvm = kysely.value("pvm").toDate();
+                        era.selite = kysely.value("selite").toString();
+                        era.saldoSnt = alkusaldot.value(era.eraId);
+                        erat.append(era);
+                    }
+                }
+
+                // Nyt voidaan käydä tase-erät läpi
+                foreach (TaseEra era, erat)
+                {
+                    RaporttiRivi nimirivi;
+                    nimirivi.lisaa("TOSITE");
+                    nimirivi.lisaa(era.pvm);
+                    rk.lisaaRivi(nimirivi);
+                }
+
 
             }
 
             // Loppusaldo
             RaporttiRivi vikaRivi;
-            vikaRivi.lisaa("", 1);
-            vikaRivi.lisaa( tilikaudelta.paattyy());
+            vikaRivi.lisaa("", 2);
             vikaRivi.lisaa(tr("Tilin %1 lopputase").arg(tili.numero()));
             vikaRivi.lisaa( tili.saldoPaivalle(tilikaudelta.paattyy()), true);
             vikaRivi.lihavoi();

@@ -57,7 +57,7 @@ QVariant EranValintaModel::data(const QModelIndex &index, int role) const
         else if( role == SaldoRooli)
             return QVariant( era.saldoSnt);
         else if( role == TositteenTunnisteRooli)
-            return QVariant( QString("%1%2").arg(era.tositteenTunniste().tunnus).arg(era.tositteenTunniste().id) );
+            return QVariant( era.tositteenTunniste().tunnus );
         else if(role == Qt::DisplayRole)
         {
             return QVariant( QString("%1 \t%2 (%L3 €)").arg(era.pvm.toString(Qt::SystemLocaleShortDate)).arg(era.selite).arg(era.saldoSnt / 100.0,0,'f',2));
@@ -92,8 +92,7 @@ void EranValintaModel::lataa(Tili tili, bool kaikki, QDate paivalle)
     }
 
     query.exec(QString("SELECT id, pvm, selite, debetsnt, kreditsnt from vienti "
-               "where tili=%1 and eraid is NULL order by pvm").arg(tili.id()));
-    qDebug() << query.lastQuery();
+               "where tili=%1 and eraid is NULL %2 order by pvm").arg(tili.id()).arg(pvmehto));
 
     while( query.next())
     {
@@ -108,8 +107,6 @@ void EranValintaModel::lataa(Tili tili, bool kaikki, QDate paivalle)
             era.selite = query.value("selite").toString();
             era.saldoSnt = saldo;
             erat_.append(era);
-
-            qDebug() << era.eraId << era.selite << era.saldoSnt;
         }
 
     }

@@ -189,8 +189,7 @@ void TilinMuokkausDialog::naytettavienPaivitys()
     ui->poistoprossaSpin->setVisible( tyyppi.onko(TiliLaji::MENOJAANNOSPOISTO ));
 
 
-    ui->teGroup->setVisible( tyyppi.onko(TiliLaji::TASE) && !tyyppi.onko(TiliLaji::MENOJAANNOSPOISTO));
-    ui->taseEratRadio->setEnabled( !tyyppi.onko(TiliLaji::MENOJAANNOSPOISTO));
+    ui->teGroup->setVisible( tyyppi.onko(TiliLaji::TASE) );
 
 }
 
@@ -349,10 +348,10 @@ void TilinMuokkausDialog::accept()
 
         if( tilityyppi.onko( TiliLaji::TASE))
         {
-            if( ui->taseEratRadio->isChecked() || tilityyppi.onko(TiliLaji::TASAERAPOISTO))
-                json->set("Taseerittely", Tili::TASEERITTELY_TAYSI);
-            else if( ui->taseEraLuettelo->isChecked())
+            if( ui->taseEraLuettelo->isChecked() )
                 json->set("Taseerittely", Tili::TASEERITTELY_LISTA);
+            else if( ui->taseEratRadio->isChecked() )
+                json->set("Taseerittely", Tili::TASEERITTELY_TAYSI);
             else if( ui->teLiVaRadio->isChecked())
                 json->set("Taseerittely", Tili::TASEERITTELY_MUUTOKSET);
             else
