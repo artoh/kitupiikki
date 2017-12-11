@@ -32,7 +32,7 @@ public:
 
     RaportinKirjoittaja raportti();
 
-    static RaportinKirjoittaja kirjoitaRaportti(Tilikausi tilikaudelta);
+    static RaportinKirjoittaja kirjoitaRaportti(QDate mista, QDate mihin);
 
 protected:
     Ui::TaseErittely *ui;
