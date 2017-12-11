@@ -73,6 +73,7 @@ public:
         PvmRooli = Qt::UserRole +1,
         SeliteRooli = Qt::UserRole +2,
         SaldoRooli = Qt::UserRole + 3,
+        TositteenTunnisteRooli = Qt::UserRole + 4
     };
 
 
@@ -85,8 +86,9 @@ public:
      * @brief Lataa erät
      * @param tili Tili, jonka erät ladataan
      * @param kaikki tosi jos ladataan myös tasan menneet erät
+     * @param paivalle Päivämäärä, jolta erät lasketaan
      */
-    void lataa(Tili tili, bool kaikki = false);
+    void lataa(Tili tili, bool kaikki = false, QDate paivalle = QDate());
 
 private:
     QList<TaseEra> erat_;

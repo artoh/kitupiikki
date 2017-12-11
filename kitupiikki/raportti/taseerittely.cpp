@@ -16,6 +16,7 @@
 */
 
 #include "taseerittely.h"
+#include "db/eranvalintamodel.h"
 #include <QSqlQuery>
 
 TaseErittely::TaseErittely() :
@@ -54,14 +55,14 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(Tilikausi tilikaudelta)
     // Lisätään otsikot
     {
         RaporttiRivi yotsikko;
-        yotsikko.lisaa("Tili",4);
+        yotsikko.lisaa("Tili",3);
         yotsikko.lisaa("Saldo €", 1, true);
         rk.lisaaOtsake(yotsikko);
 
         RaporttiRivi otsikko;
         otsikko.lisaa("Tosite");
         otsikko.lisaa("Päivämäärä");
-        otsikko.lisaa("Selite",2);
+        otsikko.lisaa("Selite");
         otsikko.lisaa("€",1,true);
         rk.lisaaOtsake(otsikko);
         rk.lisaaRivi();
@@ -96,42 +97,77 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(Tilikausi tilikaudelta)
         if( tili.taseErittelyTapa() == Tili::TASEERITTELY_SALDOT)
         {
             RaporttiRivi rr;
-            rr.lisaa( QString("%1 %2").arg(tili.numero()).arg(tili.nimi()), 4 );
+            rr.lisaa( QString("%1 %2").arg(tili.numero()).arg(tili.nimi()), 3 );
             rr.lisaa( tili.saldoPaivalle( tilikaudelta.paattyy() ), true);
             rr.lihavoi();
             rk.lisaaRivi(rr);
         }
         else
         {
-            // Alkusaldo
-            RaporttiRivi ekaRivi;
-            ekaRivi.lisaa( QString("%1 %2").arg(tili.numero()).arg(tili.nimi()), 3);
-            ekaRivi.lisaa("Alkusaldo");
-            ekaRivi.lisaa( tili.saldoPaivalle( tilikaudelta.alkaa().addDays(-1) ), true);
-            ekaRivi.lihavoi();
-            rk.lisaaRivi( ekaRivi);
+            // Nimike
+            RaporttiRivi tilinnimi;
+            tilinnimi.lisaa( QString("%1 %2").arg(tili.numero()).arg(tili.nimi()), 3 );
+            tilinnimi.lihavoi();
+            rk.lisaaRivi(tilinnimi);
 
-            // Muutokset
-            kysely.exec(QString("SELECT tositelaji,tunniste,pvm,selite,debetsnt,kreditsnt from vientivw where tilinro=%1 and "
-                        "pvm between \"%2\" and \"%3\" order by pvm")
-                        .arg(tili.numero()).arg(tilikaudelta.alkaa().toString(Qt::ISODate)).arg(tilikaudelta.paattyy().toString(Qt::ISODate)) );
-            while( kysely.next() )
+
+            if( tili.taseErittelyTapa() == Tili::TASEERITTELY_MUUTOKSET)
             {
-                RaporttiRivi rr;
-                rr.lisaa( QString("%1%2").arg( kysely.value("tositelaji").toString()).arg(kysely.value("tunniste").toInt()));
-                rr.lisaa( kysely.value("pvm").toDate());
-                rr.lisaa(kysely.value("selite").toString(), 2);
-                if( tili.onko(TiliLaji::VASTAAVAA))
-                    rr.lisaa( kysely.value("debetsnt").toInt() - kysely.value("kreditsnt").toInt());
-                else
-                    rr.lisaa( kysely.value("kreditsnt").toInt() - kysely.value("debetsnt").toInt());
-                rk.lisaaRivi(rr);
+
+                // Alkusaldo
+                RaporttiRivi ekaRivi;
+                ekaRivi.lisaa( "", 1);
+                ekaRivi.lisaa( tilikaudelta.alkaa());
+                ekaRivi.lisaa("Alkutase");
+                ekaRivi.lisaa( tili.saldoPaivalle( tilikaudelta.alkaa().addDays(-1) ), true);
+                ekaRivi.lihavoi();
+                rk.lisaaRivi( ekaRivi);
+
+                // Muutokset
+                kysely.exec(QString("SELECT tositelaji,tunniste,pvm,selite,debetsnt,kreditsnt from vientivw where tilinro=%1 and "
+                            "pvm between \"%2\" and \"%3\" order by pvm")
+                            .arg(tili.numero()).arg(tilikaudelta.alkaa().toString(Qt::ISODate)).arg(tilikaudelta.paattyy().toString(Qt::ISODate)) );
+                while( kysely.next() )
+                {
+                    RaporttiRivi rr;
+                    rr.lisaa( QString("%1%2").arg( kysely.value("tositelaji").toString()).arg(kysely.value("tunniste").toInt()));
+                    rr.lisaa( kysely.value("pvm").toDate());
+                    rr.lisaa(kysely.value("selite").toString(), 2);
+                    if( tili.onko(TiliLaji::VASTAAVAA))
+                        rr.lisaa( kysely.value("debetsnt").toInt() - kysely.value("kreditsnt").toInt());
+                    else
+                        rr.lisaa( kysely.value("kreditsnt").toInt() - kysely.value("debetsnt").toInt());
+                    rk.lisaaRivi(rr);
+                }
+
+            }
+            else if( tili.taseErittelyTapa() == Tili::TASEERITTELY_LISTA)
+            {
+                // Tase-erät saldoineen löytyvät kätevästi EranValintaModel:ista
+                EranValintaModel erat;
+                erat.lataa(tili, false, tilikaudelta.paattyy());
+                // HUOM! Tase-erät alkavat riviltä 1, rivillä 0 "Muodosta uusi tase-erä"
+                for(int i=1; i < erat.rowCount(QModelIndex()); i++)
+                {
+                    RaporttiRivi rr;
+                    QModelIndex ind = erat.index(i, 0);
+                    rr.lisaa( ind.data(EranValintaModel::TositteenTunnisteRooli).toString()  );
+                    rr.lisaa( ind.data(EranValintaModel::PvmRooli).toDate());
+                    rr.lisaa( ind.data(EranValintaModel::SeliteRooli).toString());
+                    rr.lisaa( ind.data(EranValintaModel::SaldoRooli).toInt());
+                    rk.lisaaRivi(rr);
+                }
+            }
+            else if( tili.taseErittelyTapa() == Tili::TASEERITTELY_TAYSI)
+            {
+
             }
 
             // Loppusaldo
             RaporttiRivi vikaRivi;
-            vikaRivi.lisaa("", 3);
-            vikaRivi.lisaa("Loppusaldo");
+            vikaRivi.lisaa("", 1);
+            vikaRivi.lisaa( tilikaudelta.paattyy());
+            vikaRivi.lisaa(tr("Tilin %1 lopputase").arg(tili.numero()));
             vikaRivi.lisaa( tili.saldoPaivalle(tilikaudelta.paattyy()), true);
             vikaRivi.lihavoi();
             vikaRivi.viivaYlle();

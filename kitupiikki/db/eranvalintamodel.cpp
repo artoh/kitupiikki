@@ -56,6 +56,8 @@ QVariant EranValintaModel::data(const QModelIndex &index, int role) const
             return QVariant( era.selite);
         else if( role == SaldoRooli)
             return QVariant( era.saldoSnt);
+        else if( role == TositteenTunnisteRooli)
+            return QVariant( QString("%1%2").arg(era.tositteenTunniste().tunnus).arg(era.tositteenTunniste().id) );
         else if(role == Qt::DisplayRole)
         {
             return QVariant( QString("%1 \t%2 (%L3 €)").arg(era.pvm.toString(Qt::SystemLocaleShortDate)).arg(era.selite).arg(era.saldoSnt / 100.0,0,'f',2));
@@ -66,7 +68,7 @@ QVariant EranValintaModel::data(const QModelIndex &index, int role) const
 
 
 
-void EranValintaModel::lataa(Tili tili, bool kaikki)
+void EranValintaModel::lataa(Tili tili, bool kaikki, QDate paivalle)
 {
     beginResetModel();
     erat_.clear();
@@ -76,8 +78,12 @@ void EranValintaModel::lataa(Tili tili, bool kaikki)
     // avaimena eraid, arvona saldo (debet - kredit)
     QHash<int, int > saldot;
 
+    QString pvmehto;
+    if( paivalle.isValid())
+        pvmehto = QString("and pvm <= \"%1\" ").arg(paivalle.toString(Qt::ISODate));
+
     query.exec(QString("SELECT eraid, sum(debetsnt) as debetit, sum(kreditsnt) as kreditit from vienti "
-                       "where tili=%1 and eraid is not null group by eraid").arg(tili.id()));
+                       "where tili=%1 and eraid is not null %2 group by eraid").arg(tili.id()).arg(pvmehto));
 
     // Tallennetaan saldotaulukkoon tilien eräsaldot
     while( query.next() )
