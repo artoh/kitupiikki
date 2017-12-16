@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
     splash->show();
 
     a.setApplicationName("Kitupiikki");
-    a.setApplicationVersion("0.00");
+    a.setApplicationVersion("0.1.0-devel");
     a.setOrganizationDomain("artoh.github.io");
     a.setOrganizationName("Kitupiikki Kirjanpito");
     a.setWindowIcon( QIcon(":/pic/Possu64.png"));

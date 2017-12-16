@@ -160,14 +160,14 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
                         TositeTunniste tunniste = era.tositteenTunniste();
                         return QVariant( tr("%1/%2").arg(tunniste.tunnus).arg(era.pvm.toString(Qt::SystemLocaleShortDate)) );
                     }
-                    else if( rivi.json.luku("Tasapoisto") )
+                    else if( rivi.json.luku("Tasaerapoisto") )
                     {
                         // Samaan paikkaan tulee myös tieto tasapoistosta
-                        int kk = rivi.json.luku("Tasapoisto");
+                        int kk = rivi.json.luku("Tasaerapoisto");
                         if( kk % 12)
-                            return QVariant( tr("Tasapoisto %1 v %2 kk").arg(kk / 12).arg(kk % 12) );
+                            return QVariant( tr("Tasaerapoisto %1 v %2 kk").arg(kk / 12).arg(kk % 12) );
                         else
-                            return QVariant( tr("Tasapoisto %1 v").arg(kk / 12) );
+                            return QVariant( tr("Tasaerapoisto %1 v").arg(kk / 12) );
                     }
                     else
                     {

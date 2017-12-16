@@ -203,6 +203,21 @@ Tilikausi TilikausiModel::tilikausiIndeksilla(int indeksi) const
     return kaudet_.value(indeksi, Tilikausi());
 }
 
+JsonKentta *TilikausiModel::json(int indeksi)
+{
+    return kaudet_[indeksi].json();
+}
+
+JsonKentta *TilikausiModel::json(Tilikausi tilikausi)
+{
+    return json( tilikausi.paattyy() );
+}
+
+JsonKentta *TilikausiModel::json(const QDate &paiva)
+{
+    return json( indeksiPaivalle( paiva) );
+}
+
 
 QDate TilikausiModel::kirjanpitoAlkaa() const
 {

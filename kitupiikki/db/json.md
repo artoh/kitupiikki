@@ -13,6 +13,7 @@ Taydentava | str | Tilin täydentävä nimike
 Kirjausohje | str | Tilin kirjausohje
 Tasaerapoisto | int | Oletus tasaeräpoiston aika kuukautta
 Menojaannospoisto | int | Tilin menojäännöspoisto %
+Poistotili | int | Poistokirjausten tilinumero
 Taseerittely | int | Miten tase-erittely laaditaan: **0** ei erittelyä, **1** saldot, **2** muutokset, **3** seurataan eriä
 
 Tositelaji
@@ -47,3 +48,12 @@ TaseEra | int | Laskusaatavan tase-erä
 SaatavaTili | int | Tilinumero jolle saatava kirjattu
 Hyvityslasku | int | Lasku on hyvityslasku, hyvitettävän laskun viite
 Liite | str | Liitetiedoston nimi
+
+Vienti
+-----
+Avain   | Tyyppi  |  Selitys
+--------|---------|-----------------
+Tasaerapoisto | int | Poistoaika kuukautta
+Maara | int | Kappalemäärä (laskulla)
+Yksikko | str | Yksikkö (laskulla)
+Tuote | int | Tuotekoodi (laskulla)

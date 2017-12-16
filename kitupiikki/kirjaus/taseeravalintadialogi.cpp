@@ -72,7 +72,7 @@ int TaseEraValintaDialogi::eraId()
 int TaseEraValintaDialogi::poistoKk()
 {
     if( poistotililla_ && eraId() == 0)
-        return ui->poistoSpin->value();
+        return ui->poistoSpin->value() * 12;
     else
         return 0;
 }

@@ -24,6 +24,7 @@
 #include "ui_lukitsetilikausi.h"
 
 #include "arkistosivu.h"
+#include "poistaja.h"
 
 TilinPaattaja::TilinPaattaja(Tilikausi kausi, QWidget *parent) :
     QDialog(parent),
@@ -34,6 +35,7 @@ TilinPaattaja::TilinPaattaja(Tilikausi kausi, QWidget *parent) :
     paivitaDialogi();
 
     connect( ui->lukitseNappi, SIGNAL(clicked(bool)), this, SLOT(lukitse()));
+    connect( ui->poistoNappi, SIGNAL(clicked(bool)), this, SLOT(teePoistot()));
 }
 
 TilinPaattaja::~TilinPaattaja()
@@ -57,6 +59,8 @@ void TilinPaattaja::paivitaDialogi()
     ui->tilinpaatosNappi->setEnabled(lukittu);
     ui->tulostaNappi->setEnabled( tilikausi.tilinpaatoksenTila() == Tilikausi::KESKEN);
     ui->vahvistaNappi->setEnabled( tilikausi.tilinpaatoksenTila() == Tilikausi::KESKEN);
+
+    ui->poistoNappi->setEnabled( Poistaja::onkoPoistoja(tilikausi));
 
 
     if( kp()->paivamaara() < tilikausi.paattyy() )
@@ -102,4 +106,9 @@ void TilinPaattaja::lukitse()
     emit lukittu(tilikausi);
 
     paivitaDialogi();
+}
+
+void TilinPaattaja::teePoistot()
+{
+    Poistaja::teeSumuPoistot(tilikausi);
 }

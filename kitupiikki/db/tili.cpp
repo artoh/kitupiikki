@@ -80,6 +80,19 @@ int Tili::saldoPaivalle(const QDate &pvm)
                 return kredit + edelliskysely.value(1).toInt() - debet - edelliskysely.value(0).toInt();
             }
         }
+        else if( onko(TiliLaji::KAUDENTULOS))
+        {
+            // Tämän tilikauden yli/alijaamaan
+            QSqlQuery edelliskysely( QString("SELECT SUM(debetsnt), SUM(kreditsnt) FROM vienti, tili "
+                                             "WHERE vienti.tili = tili.id AND pvm BETWEEN \"%1\" and \"%2\" "
+                                             "AND ysiluku > 300000000 ")
+                                     .arg(kp()->tilikaudet()->tilikausiPaivalle(pvm).alkaa().toString(Qt::ISODate))
+                                     .arg(kp()->tilikaudet()->tilikausiPaivalle(pvm).paattyy().toString(Qt::ISODate)));
+            if( edelliskysely.next())
+            {
+                return kredit + edelliskysely.value(1).toInt() - debet - edelliskysely.value(0).toInt();
+            }
+        }
         else if( onko(TiliLaji::VASTAAVAA) )
             return debet - kredit;
         else

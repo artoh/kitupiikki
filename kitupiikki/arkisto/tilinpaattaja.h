@@ -39,6 +39,7 @@ public slots:
 
 private slots:
     void lukitse();
+    void teePoistot();
 
 signals:
     void lukittu(Tilikausi kausi);

@@ -427,7 +427,7 @@ void Raportoija::laskeTaseDate()
 
         }
 
-        // 3) Sijoitetaan tämän tilikauden tulos "tulostilille" 0
+        // 3) Sijoitetaan tämän tilikauden tulos "tulostilille" 0 ja määritellylle tulostilille
         kysymys = QString("SELECT sum(debetsnt), sum(kreditsnt) FROM vienti, tili WHERE vienti.tili=tili.id"
                           " AND ysiluku > 300000000 AND pvm BETWEEN \"%1\" AND \"%2\"")
                 .arg( tilikausi.alkaa().toString(Qt::ISODate) ).arg( loppuPaivat_.at(i).toString(Qt::ISODate));
@@ -435,9 +435,11 @@ void Raportoija::laskeTaseDate()
         query.exec(kysymys);
         if( query.next() )
         {
-            int debet = query.value(1).toInt();
-            int kredit = query.value(0).toInt();
-            data_[i].insert(0, debet - kredit);
+            int debet = query.value(0).toInt();
+            int kredit = query.value(1).toInt();
+            data_[i].insert(0, kredit - debet);
+            if( kp()->tilit()->tiliTyypilla(TiliLaji::KAUDENTULOS).onkoValidi())
+                data_[i].insert(kp()->tilit()->tiliTyypilla(TiliLaji::KAUDENTULOS).ysivertailuluku(), kredit - debet);
         }
 
     }

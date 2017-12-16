@@ -56,6 +56,8 @@ TilinMuokkausDialog::TilinMuokkausDialog(TiliModel *model, QModelIndex index) :
     // Tilinumeron muutosvaroitus piiloon
     ui->varoitusKuva->setVisible(false);
     ui->varoitusLabel->setVisible(false);
+    ui->poistotiliEdit->asetaModel( model );
+    ui->poistotiliEdit->suodataTyypilla("DP");
 
     connect( ui->veroCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(veroEnablePaivita()));
     connect( ui->numeroEdit, SIGNAL(textChanged(QString)), this, SLOT(otsikkoTasoPaivita()));
@@ -110,6 +112,7 @@ void TilinMuokkausDialog::lataa()
     ui->poistoaikaSpin->setValue( tili.json()->luku("Tasaerapoisto") / 12);  // kk -> vuosi
     ui->poistoprossaSpin->setValue( tili.json()->luku("Menojaannospoisto"));
     ui->kirjausohjeText->setPlainText( tili.json()->str("Kirjausohje"));
+    ui->poistotiliEdit->valitseTiliNumerolla( tili.json()->luku("Poistotili"));
 
     int taseEraValinta = tili.json()->luku("Taseerittely");
     ui->taseEratRadio->setChecked( taseEraValinta == Tili::TASEERITTELY_TAYSI);
@@ -188,6 +191,8 @@ void TilinMuokkausDialog::naytettavienPaivitys()
     ui->poistoprossaLabel->setVisible( tyyppi.onko(TiliLaji::MENOJAANNOSPOISTO));
     ui->poistoprossaSpin->setVisible( tyyppi.onko(TiliLaji::MENOJAANNOSPOISTO ));
 
+    ui->poistotiliLabel->setVisible( tyyppi.onko(TiliLaji::POISTETTAVA));
+    ui->poistotiliEdit->setVisible( tyyppi.onko(TiliLaji::POISTETTAVA));
 
     ui->teGroup->setVisible( tyyppi.onko(TiliLaji::TASE) );
 
@@ -345,6 +350,11 @@ void TilinMuokkausDialog::accept()
             json->set("Menojaannospoisto", ui->poistoprossaSpin->value());
         else
             json->unset("Menojaannospoisto");
+
+        if( tilityyppi.onko( TiliLaji::POISTETTAVA))
+            json->set("Poistotili", ui->poistotiliEdit->valittuTilinumero());
+        else
+            json->unset("Poistotili");
 
         if( tilityyppi.onko( TiliLaji::TASE))
         {

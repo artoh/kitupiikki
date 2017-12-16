@@ -33,7 +33,7 @@ class TositeModel;
  * @brief Yhden viennin tiedot. VientiModel käyttää.
  */
 struct VientiRivi
-{
+{   
     int vientiId = 0;
     int riviNro = 0;
     QDate pvm;

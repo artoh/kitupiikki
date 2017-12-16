@@ -50,7 +50,7 @@ struct TaseEra
     int eraId;
     QDate pvm;
     QString selite;
-    int saldoSnt;
+    int saldoSnt = 0;
 };
 
 /**

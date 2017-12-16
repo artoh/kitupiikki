@@ -325,7 +325,7 @@ void KirjausApuriDialog::ehdota()
             menorivi.eraId = ui->taseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
             if(tili.tyyppi().onko(TiliLaji::TASAERAPOISTO))
             {
-                menorivi.json.set("Tasapoisto", ui->poistoSpin->value() * 12);  // vuodet -> kk
+                menorivi.json.set("Tasaerapoisto", ui->poistoSpin->value() * 12);  // vuodet -> kk
             }
 
             ehdotus.lisaaVienti( menorivi );

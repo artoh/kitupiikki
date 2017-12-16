@@ -71,6 +71,15 @@ public:
     int indeksiPaivalle(const QDate &paiva) const;
     Tilikausi tilikausiIndeksilla(int indeksi) const;
 
+    /**
+     * @brief Tilikauden json-kentät
+     * @param indeksi
+     * @return Osoitin Json-kenttiin
+     */
+    JsonKentta* json(int indeksi);
+    JsonKentta *json(Tilikausi tilikausi);
+    JsonKentta* json(const QDate &paiva);
+
     QDate kirjanpitoAlkaa() const;
     QDate kirjanpitoLoppuu() const;
 
