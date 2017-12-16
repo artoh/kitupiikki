@@ -133,17 +133,18 @@ bool Poistaja::sumupoistaja(Tilikausi kausi)
                     poistoKk = json.luku("Tasaerapoisto");
                 }
 
+                // Montako kuukautta on kulunut hankinnasta
                 int kuukauttaKulunut = kausi.paattyy().year() * 12 + kausi.paattyy().month() -
                                        eranPvm.year() * 12 - eranPvm.month() + 1;
 
-                // Montako kuukautta on kulunut hankinnasta
 
-                int laskennallinenPoisto = alkuSnt;
 
-                if( kuukauttaKulunut < poistoKk )
-                    laskennallinenPoisto = alkuSnt * kuukauttaKulunut / poistoKk ;
+                // Laskennallinen poisto: Paljonko tähän asti voitaisiin poistaa
+                int laskennallinenPoisto = alkuSnt * kuukauttaKulunut / poistoKk ;
+                if( laskennallinenPoisto > alkuSnt)
+                    laskennallinenPoisto = alkuSnt; // Poistetaan vain se, mitä on jäljellä ...
 
-                // Laskennallinen poisto: Paljonko tähän asti laskennallisesti poistettu
+
                 int eraPoisto = laskennallinenPoisto - alkuSnt + eraSaldo;
 
                 qDebug() << kuukauttaKulunut << " kk " << laskennallinenPoisto << " lapo " << poistoKk << " kk poistoaikaa " << alkuSnt << " alkuSnt" ;

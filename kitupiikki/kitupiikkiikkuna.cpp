@@ -57,6 +57,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     connect( Kirjanpito::db(), SIGNAL(tietokantaVaihtui()), this, SLOT(kirjanpitoLadattu()));
 
     setWindowIcon(QIcon(":/pic/Possu64.png"));
+    setWindowTitle( tr("Kitupiikki %1").arg(qApp->applicationVersion()));
 
     aloitussivu = new AloitusSivu();
     kirjaussivu =  new KirjausSivu();
@@ -128,9 +129,9 @@ void KitupiikkiIkkuna::kirjanpitoLadattu()
     if( !Kirjanpito::db()->asetus("Nimi").isEmpty())
     {
         if( Kirjanpito::db()->onkoHarjoitus())
-            setWindowTitle( tr("%1 - Kitupiikki [Harjoittelu]").arg(Kirjanpito::db()->asetus("Nimi")));
+            setWindowTitle( tr("%1 - Kitupiikki %2 [Harjoittelu]").arg(Kirjanpito::db()->asetus("Nimi")).arg( qApp->applicationVersion() ));
         else
-            setWindowTitle( tr("%1 - Kitupiikki").arg(Kirjanpito::db()->asetus("Nimi")));
+            setWindowTitle( tr("%1 - Kitupiikki %2").arg(Kirjanpito::db()->asetus("Nimi")).arg(qApp->applicationVersion()));
 
         harjoitusDock->setVisible( Kirjanpito::db()->onkoHarjoitus());
 
