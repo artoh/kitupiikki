@@ -40,6 +40,7 @@ public slots:
 private slots:
     void lukitse();
     void teePoistot();
+    void muokkaa();
 
 signals:
     void lukittu(Tilikausi kausi);

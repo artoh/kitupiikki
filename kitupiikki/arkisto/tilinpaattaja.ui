@@ -98,11 +98,31 @@
         </item>
         <item>
          <widget class="QLabel" name="poistoTehty">
+          <property name="maximumSize">
+           <size>
+            <width>32</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="text">
            <string/>
           </property>
           <property name="pixmap">
            <pixmap resource="../pic/pic.qrc">:/pic/ok.png</pixmap>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="eiPoistettavaaLabel">
+          <property name="text">
+           <string>Ei poistettavaa</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="poistotKirjattuLabel">
+          <property name="text">
+           <string>Poistot kirjattu</string>
           </property>
          </widget>
         </item>
@@ -156,11 +176,24 @@
         </item>
         <item>
          <widget class="QLabel" name="lukitseTehty">
+          <property name="maximumSize">
+           <size>
+            <width>32</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="text">
            <string/>
           </property>
           <property name="pixmap">
            <pixmap resource="../pic/pic.qrc">:/pic/ok.png</pixmap>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lukittuLabel">
+          <property name="text">
+           <string>Kirjanpito lukittu</string>
           </property>
          </widget>
         </item>

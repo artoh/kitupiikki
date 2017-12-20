@@ -19,10 +19,11 @@
 #include <QDebug>
 #include <QPrinter>
 #include <QPainter>
+#include <QSqlError>
 
 #include <QTemporaryFile>
 #include <QTextDocument>
-
+#include <QMessageBox>
 #include "alvilmoitusdialog.h"
 #include "ui_alvilmoitusdialog.h"
 
@@ -350,8 +351,14 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
 
         model.liiteModel()->lisaaTiedosto( file.fileName(), tr("Alv-laskelma"));
 
-        model.tallenna();
-        return true;
+        if( model.tallenna() )
+            return true;
+        else
+            QMessageBox::critical(this, tr("Virhe alv-tilityksen tallentamisessa"),
+                                  tr("Alv-tilityksen tallentuminen epäonnistui seuraavan "
+                                     "tietokantavirheen takia: %1").arg( kp()->tietokanta()->lastError().text() ));
+
+
     }
 
     return false;

@@ -231,9 +231,12 @@ bool TositeModel::tallenna()
 
     if( !vientiModel_->tallenna() || !liiteModel_->tallenna() )
     {
+        // Tallennuksessa virheitä, perutaan ja palautetaan virhe
         tietokanta()->rollback();
         return false;
     }
+
+    tietokanta()->commit();
 
     emit kp()->kirjanpitoaMuokattu();
     muokattu_ = false;

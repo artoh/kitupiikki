@@ -19,6 +19,7 @@
 
 #include "tilinpaattaja.h"
 #include "db/kirjanpito.h"
+#include "tilinpaatoseditori/tilinpaatoseditori.h"
 
 #include "ui_tilinpaattaja.h"
 #include "ui_lukitsetilikausi.h"
@@ -36,6 +37,7 @@ TilinPaattaja::TilinPaattaja(Tilikausi kausi, QWidget *parent) :
 
     connect( ui->lukitseNappi, SIGNAL(clicked(bool)), this, SLOT(lukitse()));
     connect( ui->poistoNappi, SIGNAL(clicked(bool)), this, SLOT(teePoistot()));
+    connect( ui->tilinpaatosNappi, SIGNAL(clicked(bool)), this, SLOT(muokkaa()));
 }
 
 TilinPaattaja::~TilinPaattaja()
@@ -45,6 +47,11 @@ TilinPaattaja::~TilinPaattaja()
 
 void TilinPaattaja::paivitaDialogi()
 {
+    // Haetaan tilikausi uudelleen tietokannasta siltä varalta, että vaikkapa
+    // poistotieto olisi päivittynyt ...
+
+    tilikausi = kp()->tilikaudet()->tilikausiPaivalle( tilikausi.paattyy() );
+
     QString varoitukset;
 
     bool lukittu = kp()->tilitpaatetty() >= tilikausi.paattyy();
@@ -56,11 +63,21 @@ void TilinPaattaja::paivitaDialogi()
     ui->valmisteluRyhma->setEnabled( !lukittu);
     ui->lukitseNappi->setVisible(!lukittu);
     ui->lukitseTehty->setVisible(lukittu);
+    ui->lukittuLabel->setVisible(lukittu);
     ui->tilinpaatosNappi->setEnabled(lukittu);
     ui->tulostaNappi->setEnabled( tilikausi.tilinpaatoksenTila() == Tilikausi::KESKEN);
     ui->vahvistaNappi->setEnabled( tilikausi.tilinpaatoksenTila() == Tilikausi::KESKEN);
 
-    ui->poistoNappi->setEnabled( Poistaja::onkoPoistoja(tilikausi));
+
+    // Poistorivin nappien käytössä oleminen
+    bool poistotkirjattu = tilikausi.json()->luku("Poistokirjaus");
+    bool poistettavaa = Poistaja::onkoPoistoja(tilikausi);
+
+    ui->poistoTehty->setVisible(poistotkirjattu);
+    ui->poistotKirjattuLabel->setVisible(poistotkirjattu);
+
+    ui->poistoNappi->setVisible( !poistotkirjattu && poistettavaa );
+    ui->eiPoistettavaaLabel->setVisible( !poistotkirjattu && !poistettavaa);
 
 
     if( kp()->paivamaara() < tilikausi.paattyy() )
@@ -111,4 +128,11 @@ void TilinPaattaja::lukitse()
 void TilinPaattaja::teePoistot()
 {
     Poistaja::teeSumuPoistot(tilikausi);
+    paivitaDialogi();
+}
+
+void TilinPaattaja::muokkaa()
+{
+    TilinpaatosEditori editori(tilikausi);
+    editori.show();
 }

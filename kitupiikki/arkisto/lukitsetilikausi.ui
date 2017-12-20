@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>537</width>
-    <height>373</height>
+    <width>511</width>
+    <height>278</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,7 +29,7 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Varmista ensin, että kaikki tälle tilikaudelle kuuluvat kirjaukset on tehty.&lt;/p&gt;&lt;p&gt;Tee sen jälkeen mahdolliset tilinpäätöskirjaukset, kuten poistot.&lt;/p&gt;&lt;p&gt;Esikatsele tilikauden raportit, etenkin tuloslaskelma ja tase varmistaaksesi, että kaikki kirjanpitoaineisto on valmiina.&lt;/p&gt;&lt;p&gt;Kun kaikki tämä on tehty, jatka tilinpäätöksen laatimista &lt;span style=&quot; font-weight:600;&quot;&gt;lukitsemalla tilikausi&lt;/span&gt;. Kun tilikausi on lukittu, ei tilikauden tapahtumia voi enää muokata.&lt;/p&gt;&lt;p&gt;Samalla tilikauden kirjanpidosta muodostetaan sähköinen arkisto.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Esikatsele tilikauden raportit, etenkin tuloslaskelma ja tase varmistaaksesi, että kaikki kirjanpitoaineisto on valmiina.&lt;/p&gt;&lt;p&gt;Kun olet varma, että kirjanpitoaineisto on valmis, jatka tilinpäätöksen laatimista &lt;span style=&quot; font-weight:600;&quot;&gt;lukitsemalla tilikausi&lt;/span&gt;. Kun tilikausi on lukittu, ei tilikauden tapahtumia voi enää muokata.&lt;/p&gt;&lt;p&gt;Samalla tilikauden kirjanpidosta muodostetaan sähköinen arkisto.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>

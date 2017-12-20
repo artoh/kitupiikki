@@ -267,4 +267,5 @@ private:
  */
 Kirjanpito* kp();
 
+
 #endif // KIRJANPITO_H
