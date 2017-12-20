@@ -30,6 +30,7 @@
 
 #include <QDebug>
 #include <QSqlQuery>
+#include <QSqlError>
 #include <QMessageBox>
 #include <QIntValidator>
 #include <QFileDialog>
@@ -179,9 +180,18 @@ void KirjausWg::tallenna()
     }
 
     tiedotModeliin();
-    model_->tallenna();
+
+    if( !model_->tallenna() )
+    {
+        // Kirjauksessa virhe
+        QSqlError virhe = kp()->tietokanta()->lastError();
+        QMessageBox::critical( this, tr("Virhe tallennuksessa"),
+                               tr("Tallentaminen ei onnistunut seuraavan tietokantavirheen takia: %1")
+                               .arg(virhe.text()));
+        return;
+    }
     tyhjenna();
-    emit tositeKasitelty();;
+    emit tositeKasitelty();
 
     ui->tositePvmEdit->setFocus();
     emit kp()->onni("Tosite tallennettu");

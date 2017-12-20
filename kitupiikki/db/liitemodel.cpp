@@ -245,7 +245,7 @@ void LiiteModel::tyhjaa()
     muokattu_ = false;
 }
 
-void LiiteModel::tallenna()
+bool LiiteModel::tallenna()
 {
     QSqlQuery kysely( *tositeModel_->tietokanta());
     for( int i=0; i<liitteet_.count(); i++)
@@ -277,10 +277,12 @@ void LiiteModel::tallenna()
                 kysely.bindValue(":id", liitteet_.at(i).id);
             }
             kysely.bindValue(":otsikko", liitteet_[i].otsikko);
-            kysely.exec();
+            if( !kysely.exec() )
+                return false;
         }
     }
     muokattu_ = false;
+    return true;
 }
 
 int LiiteModel::seuraavaNumero() const

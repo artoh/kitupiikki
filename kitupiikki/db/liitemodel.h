@@ -80,7 +80,11 @@ public:
 public slots:
     void lataa();
     void tyhjaa();
-    void tallenna();
+    /**
+     * @brief Tallentaa liitteet
+     * @return tosi, jos onnistui
+     */
+    bool tallenna();
 
 
 protected:

@@ -408,7 +408,7 @@ int VientiModel::kreditSumma() const
     return summa;
 }
 
-void VientiModel::tallenna()
+bool VientiModel::tallenna()
 {
     QSqlQuery query(*tositeModel_->tietokanta());
     for(int i=0; i < viennit_.count() ; i++)
@@ -462,7 +462,9 @@ void VientiModel::tallenna()
         query.bindValue(":muokattu", QVariant( QDateTime(kp()->paivamaara(), QTime::currentTime() ) ) );
         query.bindValue(":kohdennus", rivi.kohdennus.id());
         query.bindValue(":json", rivi.json.toSqlJson());
-        query.exec();
+
+        if( !query.exec() )
+            return false;
 
         if( !rivi.vientiId )
             viennit_[i].vientiId = query.lastInsertId().toInt();
@@ -471,17 +473,21 @@ void VientiModel::tallenna()
         {
             // Tämä kirjaus maksaa laskua eli vähentää sen avointa summaa
             QSqlQuery laskunMaksuKysely;
-            laskunMaksuKysely.exec( QString("UPDATE lasku SET avoinSnt = avoinSnt - %1 WHERE id=%2")
-                                    .arg(rivi.debetSnt).arg(rivi.maksaaLaskua) );
+            if( !laskunMaksuKysely.exec( QString("UPDATE lasku SET avoinSnt = avoinSnt - %1 WHERE id=%2")
+                                    .arg(rivi.debetSnt).arg(rivi.maksaaLaskua) ) )
+                return false;
         }
     }
     // Lopuksi pitäisi vielä poistaa ne rivit, jotka on poistettu...
     foreach (int id, poistetutVientiIdt_)
     {
-        query.exec( QString("DELETE FROM vienti WHERE id=%1").arg(id));
+        if( !query.exec( QString("DELETE FROM vienti WHERE id=%1").arg(id)) )
+            return false;
     }
 
     muokattu_ = false;
+
+    return true;
 }
 
 void VientiModel::tyhjaa()

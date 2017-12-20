@@ -137,7 +137,11 @@ public:
     bool muokattu() const { return muokattu_; }
 
 public slots:
-    void tallenna();
+    /**
+     * @brief Tallentaa viennit
+     * @return tosi, jos onnistui
+     */
+    bool tallenna();
     void tyhjaa();
     void lataa();
 

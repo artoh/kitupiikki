@@ -24,6 +24,7 @@
 
 #include <QDebug>
 #include <QSqlError>
+#include <QMessageBox>
 
 TositeModel::TositeModel(QSqlDatabase *tietokanta, QObject *parent)
     : QObject(parent), tietokanta_(tietokanta), muokattu_(false)
@@ -180,10 +181,10 @@ void TositeModel::tyhjaa()
 
 }
 
-void TositeModel::tallenna()
+bool TositeModel::tallenna()
 {
     // Tallentaa tositteen
-
+    tietokanta()->transaction();
 
     QSqlQuery kysely(*tietokanta_);
     if( id() )
@@ -218,16 +219,24 @@ void TositeModel::tallenna()
 
     kysely.bindValue(":json", json_.toSqlJson());
 
-
-    kysely.exec();
+    if( !kysely.exec() )
+    {
+        tietokanta()->rollback();
+        return false;
+    }
 
 
     if( !id())
         id_ = kysely.lastInsertId().toInt();
 
-    vientiModel_->tallenna();
-    liiteModel_->tallenna();
+    if( !vientiModel_->tallenna() || !liiteModel_->tallenna() )
+    {
+        tietokanta()->rollback();
+        return false;
+    }
 
     emit kp()->kirjanpitoaMuokattu();
     muokattu_ = false;
+
+    return true;
 }

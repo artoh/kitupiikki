@@ -98,7 +98,7 @@ public slots:
 
     void lataa(int id);
     void tyhjaa();
-    void tallenna();
+    bool tallenna();
 
 
 protected:
