@@ -25,8 +25,8 @@
 #include "db/kirjanpito.h"
 #include "tpaloitus.h"
 
-TilinpaatosEditori::TilinpaatosEditori(Tilikausi tilikausi)
-    : QMainWindow(),
+TilinpaatosEditori::TilinpaatosEditori(Tilikausi tilikausi, QWidget *parent)
+    : QMainWindow(parent),
       tilikausi_(tilikausi),
       printer_( QPrinter::HighResolution)
 {

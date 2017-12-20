@@ -124,9 +124,9 @@ void ArkistoSivu::tilinpaatos()
         }
         else
         {
-            TilinPaattaja paattaja(kausi);
-            connect( &paattaja, SIGNAL(lukittu(Tilikausi)), this, SLOT(teeArkisto(Tilikausi)));
-            paattaja.exec();
+            TilinPaattaja *paattaja = new TilinPaattaja(kausi, parentWidget() );
+            connect( paattaja, SIGNAL(lukittu(Tilikausi)), this, SLOT(teeArkisto(Tilikausi)));
+            paattaja->show();
         }
 
 

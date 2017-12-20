@@ -133,6 +133,8 @@ void TilinPaattaja::teePoistot()
 
 void TilinPaattaja::muokkaa()
 {
-    TilinpaatosEditori editori(tilikausi);
-    editori.show();
+    TilinpaatosEditori *editori = new TilinpaatosEditori(tilikausi, parentWidget() );
+    editori->show();
+    editori->move( parentWidget()->mapToGlobal( QPoint(25,25) ) );
+    editori->resize( parentWidget()->size() );
 }
