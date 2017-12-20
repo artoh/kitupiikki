@@ -175,19 +175,6 @@ void TilikausiModel::merkitseArkistoiduksi(int indeksi, const QString &shatiivis
     emit dataChanged( index(indeksi, ARKISTOITU),index(indeksi, ARKISTOITU));
 }
 
-void TilikausiModel::vaihdaTilinpaatostila(int indeksi, Tilikausi::TilinpaatosTila tila)
-{
-    kaudet_[indeksi].asetaTilinpaatostila(tila);
-    tallenna();
-    emit dataChanged( index(indeksi, TILINPAATOS),index(indeksi, TILINPAATOS));
-}
-
-void TilikausiModel::tallennaTilinpaatosteksti(int indeksi, const QString &teksti)
-{
-    kaudet_[indeksi].json()->set("TilinpaatosTeksti", teksti);
-    tallenna();
-}
-
 
 int TilikausiModel::indeksiPaivalle(const QDate &paiva) const
 {

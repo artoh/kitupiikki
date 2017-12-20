@@ -37,8 +37,8 @@ signals:
 
 public slots:
     void esikatsele();
-    void aloitaAlusta();
-    void valmis();
+    bool aloitaAlusta();
+    void tallenna();
     void ohje();
 
 protected:
@@ -48,13 +48,18 @@ protected:
     void uusiTp();
     void lataa();
 
+signals:
+    void tallennettu();
+
+protected:
+    void closeEvent(QCloseEvent *event);
 
 protected:
     MRichTextEdit *editori_;
     Tilikausi tilikausi_;
 
     QAction *esikatseleAction_;
-    QAction *vahvistaAction_;
+    QAction *tallennaAktio_;
     QAction *aloitaUudelleenAktio_;
     QAction *ohjeAktio_;
 

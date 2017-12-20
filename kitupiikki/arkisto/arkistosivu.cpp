@@ -128,76 +128,9 @@ void ArkistoSivu::tilinpaatos()
             connect( paattaja, SIGNAL(lukittu(Tilikausi)), this, SLOT(teeArkisto(Tilikausi)));
             paattaja->show();
         }
-
-
     }
     return;
 
-
-
-    // Tilinpäätöstoimet
-    // - tilinpäätöksen näyttäminen (jos laadittu ja vahvistettu)
-    // - tilinpäätöksen muokkaaminen tai vahvistaminen (jos laatiminen aloitettu)
-    // - tilinpäätöksen aloittaminen
-
-
-    if( ui->view->currentIndex().isValid())
-    {
-        Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->view->currentIndex().row() );
-
-        if( kausi.tilinpaatoksenTila() == Tilikausi::ALOITTAMATTA)
-        {
-            if( kp()->paivamaara().daysTo( kausi.paattyy()) >= 0 )
-            {
-                // Varmistus sille, ettei kirjanpitoa aloiteta jos se on kesken
-                if( QMessageBox::question(this, tr("Tilinpäätöksen laatiminen"),
-                                          tr("Tilikausi on vielä kesken\n"
-                                             "Tilinpäätöksen laatiminen päättää kirjanpidon niin,"
-                                             "ettei kirjauksia voi enää lisätä tai muokata.\n"
-                                             "Oletko varma, että kaikki tälle tilikaudelle kuuluvat "
-                                             "kirjaukset on jo tehty?")) != QMessageBox::Yes)
-                    return;
-            }
-
-            if( kp()->tilitpaatetty().daysTo( kausi.paattyy() ) > 0)
-            {
-                // Sitten kirjanpidon lukitseminen ja siihen liittyvä varoitus
-                QDialog dlg;
-                Ui::LukitseTilikausi ui;
-                ui.setupUi( &dlg );
-                if( dlg.exec() != QDialog::Accepted)
-                    return;
-
-                // Lukitaan tilikausi!
-                kp()->asetukset()->aseta("TilitPaatetty", kausi.paattyy());
-                // Laaditaan arkisto
-                teeArkisto(kausi);
-            }
-
-            // Vaihdetaan arkiston tilaa
-            kp()->tilikaudet()->vaihdaTilinpaatostila(ui->view->currentIndex().row() ,  Tilikausi::KESKEN);
-        }
-
-        kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->view->currentIndex().row() );
-        if( kausi.tilinpaatoksenTila() == Tilikausi::KESKEN)
-        {
-
-            // Muokataan tilinpäätöstä
-            TilinpaatosEditori *tpEditori = new TilinpaatosEditori( kausi );
-            tpEditori->move( window()->x()+50, window()->y()+50);
-            tpEditori->show();
-            tpEditori->resize( window()->width()-100, window()->height()-100 );
-
-        }
-        else if( kausi.tilinpaatoksenTila() == Tilikausi::VAHVISTETTU)
-        {
-            // Avataan tilinpäätös
-            QDesktopServices::openUrl( QUrl::fromLocalFile( kp()->hakemisto().absoluteFilePath("arkisto/" + kausi.arkistoHakemistoNimi()) + "/tilinpaatos.pdf" ));
-
-        }
-
-
-    }
 }
 
 void ArkistoSivu::nykyinenVaihtuuPaivitaNapit()

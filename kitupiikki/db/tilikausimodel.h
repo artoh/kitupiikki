@@ -65,8 +65,7 @@ public:
 
     void asetaHenkilosto(int indeksi, int henkilosto);
     void merkitseArkistoiduksi(int indeksi, const QString& shatiiviste);
-    void vaihdaTilinpaatostila(int indeksi, Tilikausi::TilinpaatosTila tila);
-    void tallennaTilinpaatosteksti(int indeksi, const QString& teksti);
+
 
     int indeksiPaivalle(const QDate &paiva) const;
     Tilikausi tilikausiIndeksilla(int indeksi) const;

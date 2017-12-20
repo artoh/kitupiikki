@@ -16,6 +16,8 @@
 */
 
 #include <QMessageBox>
+#include <QDesktopServices>
+#include <QUrl>
 
 #include "tilinpaattaja.h"
 #include "db/kirjanpito.h"
@@ -38,6 +40,8 @@ TilinPaattaja::TilinPaattaja(Tilikausi kausi, QWidget *parent) :
     connect( ui->lukitseNappi, SIGNAL(clicked(bool)), this, SLOT(lukitse()));
     connect( ui->poistoNappi, SIGNAL(clicked(bool)), this, SLOT(teePoistot()));
     connect( ui->tilinpaatosNappi, SIGNAL(clicked(bool)), this, SLOT(muokkaa()));
+    connect( ui->tulostaNappi, SIGNAL(clicked(bool)), this, SLOT(esikatsele()));
+    connect( ui->vahvistaNappi, SIGNAL(clicked(bool)), this, SLOT(vahvista()));
 }
 
 TilinPaattaja::~TilinPaattaja()
@@ -137,4 +141,26 @@ void TilinPaattaja::muokkaa()
     editori->show();
     editori->move( parentWidget()->mapToGlobal( QPoint(25,25) ) );
     editori->resize( parentWidget()->size() );
+
+    connect( editori, SIGNAL(tallennettu()), this, SLOT(paivitaDialogi()));
+    connect( this, SIGNAL(vahvistettu()), editori, SLOT(close()));
+}
+
+void TilinPaattaja::esikatsele()
+{
+    QDesktopServices::openUrl( QUrl::fromLocalFile( kp()->hakemisto().absoluteFilePath("arkisto/" + tilikausi.arkistoHakemistoNimi() + "/tilinpaatos.pdf") ));
+}
+
+void TilinPaattaja::vahvista()
+{
+    if( QMessageBox::question(this, tr("Vahvista tilinpäätös"),
+                              tr("Onko tilinpäätös vahvistettu lopulliseksi?\n"
+                                 "Vahvistettua tilinpäätöstä ei voi enää muokata.")) != QMessageBox::Yes)
+        return;
+
+    kp()->tilikaudet()->json(tilikausi)->set("Vahvistettu", kp()->paivamaara());
+    kp()->tilikaudet()->tallenna();
+    emit kp()->onni("Tilinpäätös merkitty valmiiksi");
+    emit vahvistettu();
+    close();
 }

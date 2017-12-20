@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>511</width>
-    <height>435</height>
+    <width>523</width>
+    <height>551</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Tilinpäätösasiakirjan muodostaminen</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <widget class="QLabel" name="label">
      <property name="text">
@@ -22,6 +22,54 @@
      <property name="wordWrap">
       <bool>true</bool>
      </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Henkilökuntaa keskimäärin</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="henkilostoSpin">
+       <property name="maximum">
+        <number>99999</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Tilinpäätöksessä sovellettava säännöstö</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QRadioButton" name="mikroRadio">
+        <property name="text">
+         <string>Mikroyritys</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="pienRadio">
+        <property name="text">
+         <string>Pienyritys</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="taysRadio">
+        <property name="text">
+         <string>Ei pien- eikä mikroyritys</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
    <item>
@@ -96,5 +144,38 @@
  <resources>
   <include location="../pic/pic.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>jatkaNappi</sender>
+   <signal>clicked()</signal>
+   <receiver>TpAloitus</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>271</x>
+     <y>410</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>133</x>
+     <y>408</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>keskeytaNappi</sender>
+   <signal>clicked()</signal>
+   <receiver>TpAloitus</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>466</x>
+     <y>411</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>177</x>
+     <y>404</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

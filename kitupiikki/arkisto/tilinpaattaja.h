@@ -26,6 +26,13 @@ namespace Ui {
 class TilinPaattaja;
 }
 
+/**
+ * @brief Tilinpäätösdialogi
+ *
+ * Poistojen tekeminen, tilikauden lukitseminen, tilinpäätöksen muokkaaminen,
+ * esikatselu/tulostaminen ja lopulta vahvistaminen
+ *
+ */
 class TilinPaattaja : public QDialog
 {
     Q_OBJECT
@@ -41,12 +48,14 @@ private slots:
     void lukitse();
     void teePoistot();
     void muokkaa();
+    void esikatsele();
+    void vahvista();
 
 signals:
     void lukittu(Tilikausi kausi);
+    void vahvistettu();
 
 private:
-
     Tilikausi tilikausi;
     Ui::TilinPaattaja *ui;
 };

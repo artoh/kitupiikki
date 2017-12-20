@@ -19,6 +19,7 @@
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 #include <QMessageBox>
+#include <QCloseEvent>
 
 #include "tilinpaatoseditori.h"
 #include "tilinpaatostulostaja.h"
@@ -48,21 +49,21 @@ TilinpaatosEditori::TilinpaatosEditori(Tilikausi tilikausi, QWidget *parent)
 
 void TilinpaatosEditori::esikatsele()
 {
-    QString teksti = raportit_ + "\n" + editori_->toHtml();
-    TilinpaatosTulostaja::tulostaTilinpaatos( tilikausi_, teksti , &printer_);
-    kp()->tilikaudet()->tallennaTilinpaatosteksti( kp()->tilikaudet()->indeksiPaivalle(tilikausi_.paattyy()), teksti );
-
+    tallenna();
     QDesktopServices::openUrl( QUrl::fromLocalFile( kp()->hakemisto().absoluteFilePath("arkisto/" + tilikausi_.arkistoHakemistoNimi() + "/tilinpaatos.pdf") ));
 }
 
 void TilinpaatosEditori::luoAktiot()
 {
-    esikatseleAction_ = new QAction( QIcon(":/pic/print.png"), tr("Tallenna ja esikatsele"), this);
+    tallennaAktio_ = new QAction( QIcon(":/pic/tiedostoon.png"), tr("Tallenna"), this);
+    connect( tallennaAktio_, SIGNAL(triggered(bool)), this, SLOT(tallenna()));
+
+    esikatseleAction_ = new QAction( QIcon(":/pic/print.png"), tr("Esikatsele"), this);
     connect( esikatseleAction_, SIGNAL(triggered(bool)), this, SLOT(esikatsele()));
-    vahvistaAction_ = new QAction( QIcon(":/pic/ok.png"), tr("Valmis"), this);
-    connect( vahvistaAction_, SIGNAL(triggered(bool)), this, SLOT(valmis()));
+
     aloitaUudelleenAktio_ = new QAction( QIcon(":/pic/uusitiedosto.png"), tr("Aloita uudelleen"), this);
     connect( aloitaUudelleenAktio_, SIGNAL(triggered(bool)), this, SLOT(aloitaAlusta()));
+
     ohjeAktio_ = new QAction( QIcon(":/pic/ohje.png"), tr("Ohje"), this);
     connect( ohjeAktio_, SIGNAL(triggered(bool)), this, SLOT(ohje()));
 }
@@ -70,9 +71,12 @@ void TilinpaatosEditori::luoAktiot()
 void TilinpaatosEditori::luoPalkit()
 {
     tilinpaatosTb_ = addToolBar( tr("&Tilinpäätös"));
-    tilinpaatosTb_->addAction( esikatseleAction_ );
     tilinpaatosTb_->addAction( aloitaUudelleenAktio_ );
-    tilinpaatosTb_->addAction( vahvistaAction_ );
+    tilinpaatosTb_->addSeparator();
+    tilinpaatosTb_->addAction( esikatseleAction_ );
+    tilinpaatosTb_->addAction( tallennaAktio_ );
+    tilinpaatosTb_->addSeparator();
+    tilinpaatosTb_->addAction( ohjeAktio_ );
     tilinpaatosTb_->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 }
 
@@ -126,7 +130,13 @@ void TilinpaatosEditori::lataa()
 {
     QString data = tilikausi_.json()->str("TilinpaatosTeksti");
     if( data.isEmpty())
-        aloitaAlusta();
+    {
+        if(!aloitaAlusta())
+        {
+            // Ei päästy edes alkuun!
+            close();
+        }
+    }
     else
     {
         raportit_ = data.left( data.indexOf("\n"));
@@ -134,7 +144,32 @@ void TilinpaatosEditori::lataa()
     }
 }
 
-void TilinpaatosEditori::aloitaAlusta()
+void TilinpaatosEditori::closeEvent(QCloseEvent *event)
+{
+    QString teksti = raportit_ + "\n" + editori_->toHtml();
+    if( teksti != kp()->tilikaudet()->json(tilikausi_)->str("TilinpaatosTeksti"))
+    {
+        QMessageBox::StandardButton vastaus =
+                QMessageBox::question(this, tr("Tilinpäätöstä muokattu"),
+                                      tr("Tallennetaanko muokattu tilinpäätös?"),
+                                      QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel,
+                                      QMessageBox::Cancel);
+        if( vastaus == QMessageBox::Yes)
+        {
+            tallenna();
+            event->accept();
+        }
+        else if( vastaus == QMessageBox::Cancel)
+            event->ignore();
+        else    // Jos halutaan kuitenkin sulkea...
+            event->accept();
+    }
+    else
+        event->accept();
+
+}
+
+bool TilinpaatosEditori::aloitaAlusta()
 {
     TpAloitus tpaloitus(tilikausi_);
     if( tpaloitus.exec() == QDialog::Accepted)
@@ -143,22 +178,22 @@ void TilinpaatosEditori::aloitaAlusta()
     }
     else
     {
-        hide();
-        close();
+        return false;
     }
+    return true;
 }
 
-void TilinpaatosEditori::valmis()
+void TilinpaatosEditori::tallenna()
 {
-    if( QMessageBox::question(this, tr("Vahvista tilinpäätös"),
-                              tr("Onko tilinpäätös vahvistettu lopulliseksi?\n"
-                                 "Vahvistettua tilinpäätöstä ei voi enää muokata.")) != QMessageBox::Yes)
-        return;
+    QString teksti = raportit_ + "\n" + editori_->toHtml();
+    kp()->tilikaudet()->json(tilikausi_)->set("TilinpaatosTeksti", teksti);
+    kp()->tilikaudet()->tallenna();
 
-    kp()->tilikaudet()->vaihdaTilinpaatostila( kp()->tilikaudet()->indeksiPaivalle(tilikausi_.paattyy()) ,  Tilikausi::VAHVISTETTU);
-    emit kp()->onni("Tilinpäätös merkitty valmiiksi");
-    close();
+    TilinpaatosTulostaja::tulostaTilinpaatos( tilikausi_, teksti , &printer_);
+
+    emit tallennettu();
 }
+
 
 void TilinpaatosEditori::ohje()
 {

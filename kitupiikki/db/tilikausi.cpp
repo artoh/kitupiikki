@@ -72,24 +72,14 @@ Tilikausi::TilinpaatosTila Tilikausi::tilinpaatoksenTila()
     if( paattyy() == kp()->asetukset()->pvm("TilinavausPvm") )
         return EILAADITATILINAVAUKSELLE;
 
-    QString tilateksti = json()->str("Tilinpaatos");
-    if( tilateksti == "KESKEN")
-        return KESKEN;
-    else if( tilateksti == "VAHVISTETTU")
+    if( json()->date("Vahvistettu").isValid())
         return VAHVISTETTU;
+    else if( !json()->str("TilinpaatosTeksti").isEmpty())
+        return KESKEN;
     else
         return ALOITTAMATTA;
 }
 
-void Tilikausi::asetaTilinpaatostila(Tilikausi::TilinpaatosTila tila)
-{
-    if( tila == ALOITTAMATTA)
-        json_.unset("Tilinpaatos");
-    else if( tila == KESKEN)
-        json_.set("Tilinpaatos","KESKEN");
-    else if( tila == VAHVISTETTU )
-        json_.set("Tilinpaatos","VAHVISTETTU");
-}
 
 int Tilikausi::tulos() const
 {
@@ -135,6 +125,11 @@ int Tilikausi::tase() const
         return 0;
 }
 
+int Tilikausi::henkilosto() const
+{
+    return json()->luku("Henkilosto");
+}
+
 QString Tilikausi::arkistoHakemistoNimi() const
 {
     if( alkaa().month() == 1 && alkaa().day() == 1)
@@ -143,4 +138,31 @@ QString Tilikausi::arkistoHakemistoNimi() const
         return alkaa().toString("yyyy-MM");
     else
         return alkaa().toString("yyyy-MM-dd");
+}
+
+Tilikausi::Saannosto Tilikausi::pienuus() const
+{
+    int mikroehdot = 0;
+    int pienehdot = 0;
+
+    if( tase() > 350000)
+        mikroehdot++;
+    if( liikevaihto() > 700000)
+        mikroehdot++;
+    if( henkilosto() > 10)
+        mikroehdot++;
+
+    if( tase() > 6000000)
+        pienehdot++;
+    if( liikevaihto() > 12000000)
+        pienehdot++;
+    if( henkilosto() > 50)
+        pienehdot++;
+
+    if( mikroehdot <= 1)
+        return MIKROYRITYS;
+    else if(pienehdot <= 1)
+        return PIENYRITYS;
+    else
+        return YRITYS;
 }

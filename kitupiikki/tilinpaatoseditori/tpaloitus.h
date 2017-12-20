@@ -37,7 +37,7 @@ public:
 
 private slots:
     void valintaMuuttui(QStandardItem *item);
-    void tallenna();
+    void accept();
     void lataa();
     void ohje();
 

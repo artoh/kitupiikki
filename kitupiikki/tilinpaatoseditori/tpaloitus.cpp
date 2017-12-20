@@ -97,7 +97,6 @@ TpAloitus::TpAloitus(Tilikausi kausi, QWidget *parent) :
 
 
     connect( model, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(valintaMuuttui(QStandardItem*)));
-    connect( ui->jatkaNappi, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
     connect( ui->lataaNappi, SIGNAL(clicked(bool)), this, SLOT(lataa()));
     connect( ui->ohjeNappi, SIGNAL(clicked(bool)), this, SLOT(ohje()));
 }
@@ -128,7 +127,7 @@ void TpAloitus::valintaMuuttui(QStandardItem *item)
     }
 }
 
-void TpAloitus::tallenna()
+void TpAloitus::accept()
 {
     QStringList valitut;
     for(int i=0; i < model->rowCount(QModelIndex()); i++)
@@ -138,12 +137,12 @@ void TpAloitus::tallenna()
             valitut.append( item->data(TunnusRooli).toString());
     }
     kp()->asetukset()->aseta("TilinpaatosValinnat",valitut);
-    accept();
+    QDialog::accept();
 }
 
 void TpAloitus::lataa()
 {
-    QString tiedosto = QFileDialog::getOpenFileName(this, tr("Valitse vahvistettu tilinpäätöstiedosto"),
+    QString tiedosto = QFileDialog::getOpenFileName(this, tr("Valitse tilinpäätöstiedosto"),
                                                     QDir::homePath(), tr("Pdf-tiedostot (*.pdf)"));
     if( !tiedosto.isEmpty() )
     {
@@ -151,9 +150,6 @@ void TpAloitus::lataa()
         if( QFile::exists(tulosfile))
             QFile(tulosfile).remove();
         QFile::copy( tiedosto, tulosfile);
-
-        kp()->tilikaudet()->vaihdaTilinpaatostila( kp()->tilikaudet()->indeksiPaivalle(tilikausi.paattyy()) ,  Tilikausi::VAHVISTETTU);
-
         reject();
     }
 }
