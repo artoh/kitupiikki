@@ -40,6 +40,9 @@ private slots:
     void accept();
     void lataa();
     void ohje();
+    void tallennaHenkilosto(int maara);
+
+    void tarkistaPMA();
 
 private:
     enum {

@@ -95,6 +95,8 @@ TpAloitus::TpAloitus(Tilikausi kausi, QWidget *parent) :
             model->item(i)->setCheckState(Qt::Checked);
     }
 
+    ui->henkilostoSpin->setValue( tilikausi.henkilosto() );
+    tarkistaPMA();
 
     connect( model, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(valintaMuuttui(QStandardItem*)));
     connect( ui->lataaNappi, SIGNAL(clicked(bool)), this, SLOT(lataa()));
@@ -157,4 +159,26 @@ void TpAloitus::lataa()
 void TpAloitus::ohje()
 {
     QDesktopServices::openUrl( QUrl("https://artoh.github.io/kitupiikki/tilinpaatos/"));
+}
+
+void TpAloitus::tallennaHenkilosto(int maara)
+{
+    kp()->tilikaudet()->json(tilikausi)->set("Henkilosto", maara);
+    kp()->tilikaudet()->tallenna();
+    tarkistaPMA();
+}
+
+void TpAloitus::tarkistaPMA()
+{
+    int pienuus = tilikausi.pienuus();
+    if( kp()->tilikaudet()->indeksiPaivalle(tilikausi.paattyy()) &&
+            kp()->tilikaudet()->tilikausiIndeksilla( kp()->tilikaudet()->indeksiPaivalle(tilikausi.paattyy()) -1).pienuus() < pienuus )
+        pienuus = kp()->tilikaudet()->tilikausiIndeksilla( kp()->tilikaudet()->indeksiPaivalle(tilikausi.paattyy()) -1).pienuus() ;
+
+    ui->mikroRadio->setEnabled( pienuus == Tilikausi::MIKROYRITYS );
+    ui->pienRadio->setEnabled( pienuus == Tilikausi::PIENYRITYS || pienuus == Tilikausi::MIKROYRITYS);
+
+    ui->mikroRadio->setChecked( pienuus == Tilikausi::MIKROYRITYS);
+    ui->pienRadio->setChecked( pienuus == Tilikausi::PIENYRITYS);
+    ui->taysRadio->setChecked( pienuus == Tilikausi::YRITYS);
 }

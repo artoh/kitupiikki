@@ -125,7 +125,7 @@ int Tilikausi::tase() const
         return 0;
 }
 
-int Tilikausi::henkilosto() const
+int Tilikausi::henkilosto()
 {
     return json()->luku("Henkilosto");
 }
@@ -140,7 +140,7 @@ QString Tilikausi::arkistoHakemistoNimi() const
         return alkaa().toString("yyyy-MM-dd");
 }
 
-Tilikausi::Saannosto Tilikausi::pienuus() const
+Tilikausi::Saannosto Tilikausi::pienuus()
 {
     int mikroehdot = 0;
     int pienehdot = 0;

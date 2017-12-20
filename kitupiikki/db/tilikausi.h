@@ -38,6 +38,13 @@ public:
         EILAADITATILINAVAUKSELLE
     };
 
+    enum Saannosto
+    {
+        YRITYS = 0,
+        PIENYRITYS = 1,
+        MIKROYRITYS = 2
+    };
+
     Tilikausi();
     Tilikausi(QDate tkalkaa, QDate tkpaattyy, QByteArray json = QByteArray());
 
@@ -69,7 +76,7 @@ public:
      * @return
      */
     TilinpaatosTila tilinpaatoksenTila();
-    void asetaTilinpaatostila( TilinpaatosTila tila);
+
 
     /**
      * @brief Tilikauden yli/alijäämä
@@ -90,6 +97,12 @@ public:
     int tase() const;
 
     /**
+     * @brief Tilikauden keskimääräinen henkilöstö
+     * @return
+     */
+    int henkilosto();
+
+    /**
      * @brief Arkistohakemistossa käytettävä nimi
      * 
      * Nimi saadaan tilikauden alkupäivästä, niin että se on 
@@ -98,6 +111,12 @@ public:
      * @return 
      */
     QString arkistoHakemistoNimi() const;
+
+    /**
+     * @brief Millä PMA-säännöstöllä tämän tilikauden puolesta saa toimia
+     * @return
+     */
+    Saannosto pienuus();
 
 protected:
     QDate alkaa_;
