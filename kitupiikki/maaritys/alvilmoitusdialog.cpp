@@ -84,10 +84,16 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         int alvprosentti = query.value("alvprosentti").toInt();
         int saldoSnt = query.value("kreditit").toInt() - query.value("debetit").toInt();
 
-        VientiRivi rivi;
+        VientiRivi rivi;        // Rivi, jolla tiliä oikaistaan
+        VientiRivi verorivi;    // Rivi, jolla kirjataan alv-tilille
+
         rivi.pvm = loppupvm;
         rivi.tili = tili;
         rivi.alvprosentti = alvprosentti;
+
+        verorivi.pvm = loppupvm;
+        verorivi.alvprosentti = alvprosentti;
+
         // Brutosta erotetaan verot
         int veroSnt = ( alvprosentti * saldoSnt ) / ( 100 + alvprosentti) ;
         int nettoSnt = saldoSnt - veroSnt;
@@ -105,6 +111,11 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
                     .arg(saldoSnt / 100.0,0, 'f', 2);
             rivi.debetSnt = veroSnt;
 
+            verorivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA);
+            verorivi.kreditSnt = veroSnt;
+            verorivi.selite = rivi.selite;
+            verorivi.alvkoodi = query.value("alvkoodi").toInt() | AlvKoodi::ALVKIRJAUS;
+
         }
         else
         {
@@ -116,6 +127,11 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
                     .arg(qAbs(nettoSnt) / 100.0,0, 'f',2)
                     .arg(qAbs(saldoSnt) / 100.0,0, 'f', 2);
             rivi.kreditSnt = veroSnt;
+
+            verorivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA);
+            verorivi.debetSnt = veroSnt;
+            verorivi.selite = rivi.selite;
+            verorivi.alvkoodi = query.value("alvkoodi").toInt() | AlvKoodi::ALVVAHENNYS;
         }
     qDebug() << rivi.selite;
         ehdotus.lisaaVienti(rivi);
@@ -168,22 +184,22 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         }
     }
     // Kirjaus alv-saamistililtä ja alv-velkatililtä verovelkatilille
-    if( nettoverosnt )
+    if( nettoverosnt + bruttoveroayhtSnt)
     {
         VientiRivi rivi;
         rivi.pvm = loppupvm;
         rivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA);
         rivi.selite = tr("Alv-kirjaus %1 - %2 ").arg(alkupvm.toString(Qt::SystemLocaleShortDate)).arg(loppupvm.toString(Qt::SystemLocaleShortDate));
-        rivi.debetSnt = nettoverosnt;
+        rivi.debetSnt = nettoverosnt + bruttoveroayhtSnt;
         ehdotus.lisaaVienti(rivi);
     }
-    if( nettovahennyssnt )
+    if( nettovahennyssnt + bruttovahennettavaaSnt)
     {
         VientiRivi rivi;
         rivi.pvm = loppupvm;
         rivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA);
         rivi.selite = tr("Alv-kirjaus %1 - %2 ").arg(alkupvm.toString(Qt::SystemLocaleShortDate)).arg(loppupvm.toString(Qt::SystemLocaleShortDate));
-        rivi.kreditSnt = nettovahennyssnt;
+        rivi.kreditSnt = nettovahennyssnt + bruttovahennettavaaSnt;
         ehdotus.lisaaVienti(rivi);
     }
     // Ja lopuksi kirjataan verot verotilille
@@ -276,7 +292,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
                                    "FROM vienti, tili WHERE "
                                    "pvm BETWEEN \"%1\" AND \"%2\" "
                                    "AND vienti.tili=tili.id AND "
-                                   "tili.tyyppi = \"CL\"")
+                                   "tili.tyyppi = \"CL\" AND vienti.alvkoodi > 0")
                            .arg(laskelmaMista.toString(Qt::ISODate))
                            .arg(loppupvm.toString(Qt::ISODate)));
         if( kysely.next())
@@ -311,7 +327,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         luku(tr("Arvio alarajahuojennuksesta"), huojennus);
 
         RaporttiRivi rivi;
-        rivi.lisaa(tr("Yllä oleva laskelma on tehty koko liikevaihdolla ja "
+        rivi.lisaa(tr("Yllä oleva laskelma on tehty koko verollisella liikevaihdolla ja "
                       "maksetulla arvonlisäverolla. Alarajahuojennusta laskettaessa "
                       "on otettava huomioon useita poikkeuksia ja huojennus "
                       "on laskettava erikseen verohallinnon ohjeiden mukaisesti."),2);
