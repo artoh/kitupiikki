@@ -72,6 +72,7 @@
         <file>kateinen.png</file>
         <file>suorite.png</file>
         <file>kirje.png</file>
+        <file>vientilista.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

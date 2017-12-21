@@ -31,6 +31,10 @@ SelausWg::SelausWg() :
     ui(new Ui::SelausWg)
 {
     ui->setupUi(this);
+
+    ui->valintaTab->addTab(QIcon(":/pic/tekstisivu.png"),tr("Tositteet"));
+    ui->valintaTab->addTab(QIcon(":/pic/vientilista.png"),tr("Viennit"));
+
     model = new SelausModel();
     tositeModel = new TositeSelausModel();
 
@@ -56,13 +60,13 @@ SelausWg::SelausWg() :
     connect( ui->tiliCombo, SIGNAL(currentTextChanged(QString)), this, SLOT(suodata()));
     connect( ui->selausView, SIGNAL(activated(QModelIndex)), this, SLOT(naytaTositeRivilta(QModelIndex)));
 
-    connect( ui->tosittetBtn, SIGNAL(clicked(bool)), this, SLOT(selaaTositteita()));
-    connect( ui->viennitBtn, SIGNAL(clicked(bool)), this, SLOT(selaaVienteja()));
+    ui->valintaTab->setCurrentIndex(1);
+    connect( ui->valintaTab, SIGNAL(currentChanged(int)), this, SLOT(selaa(int)));
 
     connect( Kirjanpito::db(), SIGNAL(kirjanpitoaMuokattu()), this, SLOT(merkitsePaivitettavaksi()));
     connect( kp(), SIGNAL(tietokantaVaihtui()), this, SLOT(alusta()));
 
-
+    paivitettava = true;
 }
 
 SelausWg::~SelausWg()
@@ -88,7 +92,7 @@ void SelausWg::alusta()
 
 void SelausWg::paivita()
 {
-    if( ui->viennitBtn->isChecked())
+    if( ui->valintaTab->currentIndex() == 1 )
     {
         model->lataa( ui->alkuEdit->date(), ui->loppuEdit->date());
 
@@ -129,7 +133,7 @@ void SelausWg::suodata()
 
 void SelausWg::paivitaSummat()
 {
-    if( ui->tosittetBtn->isChecked())
+    if( !ui->valintaTab->currentIndex() )
     {
         // Summia ei näytetä tositelistalle ;)
         ui->summaLabel->clear();
@@ -182,8 +186,8 @@ void SelausWg::selaa(int tilinumero, Tilikausi tilikausi)
     ui->alkuEdit->setDate( tilikausi.alkaa());
     ui->loppuEdit->setDate( tilikausi.paattyy());
 
-    if( !ui->viennitBtn->isChecked())
-         ui->viennitBtn->click();    // Valitaan viennit-näkymä
+    ui->valintaTab->setCurrentIndex(1);
+
 
     paivita();
 
@@ -195,8 +199,6 @@ void SelausWg::selaa(int tilinumero, Tilikausi tilikausi)
 
 void SelausWg::selaaVienteja()
 {
-    ui->tosittetBtn->setChecked(false);
-    ui->viennitBtn->setChecked(true);
 
     proxyModel->setSourceModel(model);
     proxyModel->setFilterKeyColumn( SelausModel::TILI);
@@ -209,8 +211,6 @@ void SelausWg::selaaVienteja()
 
 void SelausWg::selaaTositteita()
 {
-    ui->viennitBtn->setChecked(false);
-    ui->tosittetBtn->setChecked(true);
 
     proxyModel->setSourceModel(tositeModel);
     proxyModel->setFilterKeyColumn( TositeSelausModel::TOSITELAJI);
@@ -219,6 +219,14 @@ void SelausWg::selaaTositteita()
     etsiProxy->setFilterKeyColumn( TositeSelausModel::OTSIKKO );
 
     paivita();
+}
+
+void SelausWg::selaa(int kumpi)
+{
+    if( kumpi == 0)
+        selaaTositteita();
+    else
+        selaaVienteja();
 }
 
 void SelausWg::siirrySivulle()

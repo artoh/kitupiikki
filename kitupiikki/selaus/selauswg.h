@@ -56,6 +56,12 @@ public slots:
     void selaaVienteja();
     void selaaTositteita();
 
+    /**
+     * @brief Selaa tositteita tai vientejä
+     * @param kumpi 0-tositteet, 1 viennit
+     */
+    void selaa(int kumpi);
+
 
     void merkitsePaivitettavaksi();
 
