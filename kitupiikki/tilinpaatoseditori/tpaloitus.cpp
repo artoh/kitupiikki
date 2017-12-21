@@ -34,9 +34,104 @@
 TpAloitus::TpAloitus(Tilikausi kausi, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::TpAloitus),
-    tilikausi(kausi)
+    tilikausi(kausi),
+    model(0)
 {
     ui->setupUi(this);
+    ui->henkilostoSpin->setValue( tilikausi.henkilosto() );
+    tarkistaPMA();
+
+    connect( model, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(valintaMuuttui(QStandardItem*)));
+    connect( ui->lataaNappi, SIGNAL(clicked(bool)), this, SLOT(lataaTiedosto()));
+    connect( ui->ohjeNappi, SIGNAL(clicked(bool)), this, SLOT(ohje()));
+    connect( ui->henkilostoSpin, SIGNAL(valueChanged(int)), this, SLOT(tallennaHenkilosto(int)));
+
+    connect( ui->mikroRadio, SIGNAL(clicked(bool)), this, SLOT(lataa()));
+    connect( ui->pienRadio, SIGNAL(clicked(bool)), this, SLOT(lataa()));
+    connect(ui->taysRadio, SIGNAL(clicked(bool)), this, SLOT(lataa()));
+}
+
+TpAloitus::~TpAloitus()
+{
+    delete ui;
+}
+
+void TpAloitus::valintaMuuttui(QStandardItem *item)
+{
+    // Valinta muuttuu, jolloin varmistetaan, ettei uuden valitun kanssa
+    // poissulkevia ole valittu
+    if( item->checkState() == Qt::Unchecked )
+        return;
+
+    QStringList poislista = item->data(PoisRooli).toStringList();
+    foreach (QString poistettava, poislista) {
+        for( int i=0; i < model->rowCount(QModelIndex()); i++)
+        {
+            if( model->item(i)->data(TunnusRooli) == poistettava)
+            {
+                if( model->item(i)->checkState() != Qt::Unchecked)
+                    model->item(i)->setCheckState(Qt::Unchecked);
+                continue;
+            }
+        }
+    }
+}
+
+void TpAloitus::accept()
+{
+    talleta();
+    QDialog::accept();
+}
+
+void TpAloitus::lataaTiedosto()
+{
+    QString tiedosto = QFileDialog::getOpenFileName(this, tr("Valitse tilinpäätöstiedosto"),
+                                                    QDir::homePath(), tr("Pdf-tiedostot (*.pdf)"));
+    if( !tiedosto.isEmpty() )
+    {
+        QString tulosfile =  kp()->hakemisto().absoluteFilePath("arkisto/" + tilikausi.arkistoHakemistoNimi() + "/tilinpaatos.pdf" );
+        if( QFile::exists(tulosfile))
+            QFile(tulosfile).remove();
+        QFile::copy( tiedosto, tulosfile);
+        reject();
+    }
+}
+
+void TpAloitus::ohje()
+{
+    QDesktopServices::openUrl( QUrl("https://artoh.github.io/kitupiikki/tilinpaatos/"));
+}
+
+void TpAloitus::tallennaHenkilosto(int maara)
+{
+    kp()->tilikaudet()->json(tilikausi)->set("Henkilosto", maara);
+    tilikausi.json()->set("Henkilosto",maara);
+
+    kp()->tilikaudet()->tallenna();
+    tarkistaPMA();
+}
+
+void TpAloitus::tarkistaPMA()
+{
+    int pienuus = tilikausi.pienuus();
+    if( kp()->tilikaudet()->indeksiPaivalle(tilikausi.paattyy()) &&
+            kp()->tilikaudet()->tilikausiIndeksilla( kp()->tilikaudet()->indeksiPaivalle(tilikausi.paattyy()) -1).pienuus() < pienuus )
+        pienuus = kp()->tilikaudet()->tilikausiIndeksilla( kp()->tilikaudet()->indeksiPaivalle(tilikausi.paattyy()) -1).pienuus() ;
+
+    ui->mikroRadio->setEnabled( pienuus == Tilikausi::MIKROYRITYS );
+    ui->pienRadio->setEnabled( pienuus == Tilikausi::PIENYRITYS || pienuus == Tilikausi::MIKROYRITYS);
+
+    ui->mikroRadio->setChecked( pienuus == Tilikausi::MIKROYRITYS);
+    ui->pienRadio->setChecked( pienuus == Tilikausi::PIENYRITYS);
+    ui->taysRadio->setChecked( pienuus == Tilikausi::YRITYS);
+
+    lataa();    // Lataa valinnat uudelleen
+}
+
+void TpAloitus::lataa()
+{
+    if(model)
+        delete model;
 
     model = new QStandardItemModel;
 
@@ -77,8 +172,16 @@ TpAloitus::TpAloitus(Tilikausi kausi, QWidget *parent) :
                     QRegularExpressionMatchIterator iter = poisRe.globalMatch(pois);
                     while( iter.hasNext())
                         poisTunnukset.append( iter.next().captured(1) );
-                    item->setData( poisTunnukset, PoisRooli);
 
+                    // Jos tämä ehto koskee toisen kokoluokan yritystä,
+                    // ei valintaa tallenneta eikä siten myöskään näytetä
+
+                    if(( poisTunnukset.contains("M") && ui->mikroRadio->isChecked()) ||
+                       ( poisTunnukset.contains("P") && ui->pienRadio->isChecked()) ||
+                       ( poisTunnukset.contains("I") && ui->taysRadio->isChecked()) )
+                        continue;
+
+                    item->setData( poisTunnukset, PoisRooli);
                 }
                 model->appendRow(item);
             }
@@ -87,7 +190,7 @@ TpAloitus::TpAloitus(Tilikausi kausi, QWidget *parent) :
     }
     ui->view->setModel( model );
 
-    // Ladataan
+    // Ladataan viimeiset tallennetut valinnat
     QStringList valitut = kp()->asetukset()->lista("TilinpaatosValinnat");
     for(int i=0; i < model->rowCount(QModelIndex());i++)
     {
@@ -95,41 +198,9 @@ TpAloitus::TpAloitus(Tilikausi kausi, QWidget *parent) :
             model->item(i)->setCheckState(Qt::Checked);
     }
 
-    ui->henkilostoSpin->setValue( tilikausi.henkilosto() );
-    tarkistaPMA();
-
-    connect( model, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(valintaMuuttui(QStandardItem*)));
-    connect( ui->lataaNappi, SIGNAL(clicked(bool)), this, SLOT(lataa()));
-    connect( ui->ohjeNappi, SIGNAL(clicked(bool)), this, SLOT(ohje()));
 }
 
-TpAloitus::~TpAloitus()
-{
-    delete ui;
-}
-
-void TpAloitus::valintaMuuttui(QStandardItem *item)
-{
-    // Valinta muuttuu, jolloin varmistetaan, ettei uuden valitun kanssa
-    // poissulkevia ole valittu
-    if( item->checkState() == Qt::Unchecked )
-        return;
-
-    QStringList poislista = item->data(PoisRooli).toStringList();
-    foreach (QString poistettava, poislista) {
-        for( int i=0; i < model->rowCount(QModelIndex()); i++)
-        {
-            if( model->item(i)->data(TunnusRooli) == poistettava)
-            {
-                if( model->item(i)->checkState() != Qt::Unchecked)
-                    model->item(i)->setCheckState(Qt::Unchecked);
-                continue;
-            }
-        }
-    }
-}
-
-void TpAloitus::accept()
+void TpAloitus::talleta()
 {
     QStringList valitut;
     for(int i=0; i < model->rowCount(QModelIndex()); i++)
@@ -138,47 +209,12 @@ void TpAloitus::accept()
         if( item->checkState() == Qt::Checked)
             valitut.append( item->data(TunnusRooli).toString());
     }
+    if( ui->mikroRadio->isChecked())
+        valitut.append("MIKRO");
+    else if( ui->pienRadio->isChecked())
+        valitut.append("PIEN");
+    else if( ui->taysRadio->isChecked())
+        valitut.append("ISO");
+
     kp()->asetukset()->aseta("TilinpaatosValinnat",valitut);
-    QDialog::accept();
-}
-
-void TpAloitus::lataa()
-{
-    QString tiedosto = QFileDialog::getOpenFileName(this, tr("Valitse tilinpäätöstiedosto"),
-                                                    QDir::homePath(), tr("Pdf-tiedostot (*.pdf)"));
-    if( !tiedosto.isEmpty() )
-    {
-        QString tulosfile =  kp()->hakemisto().absoluteFilePath("arkisto/" + tilikausi.arkistoHakemistoNimi() + "/tilinpaatos.pdf" );
-        if( QFile::exists(tulosfile))
-            QFile(tulosfile).remove();
-        QFile::copy( tiedosto, tulosfile);
-        reject();
-    }
-}
-
-void TpAloitus::ohje()
-{
-    QDesktopServices::openUrl( QUrl("https://artoh.github.io/kitupiikki/tilinpaatos/"));
-}
-
-void TpAloitus::tallennaHenkilosto(int maara)
-{
-    kp()->tilikaudet()->json(tilikausi)->set("Henkilosto", maara);
-    kp()->tilikaudet()->tallenna();
-    tarkistaPMA();
-}
-
-void TpAloitus::tarkistaPMA()
-{
-    int pienuus = tilikausi.pienuus();
-    if( kp()->tilikaudet()->indeksiPaivalle(tilikausi.paattyy()) &&
-            kp()->tilikaudet()->tilikausiIndeksilla( kp()->tilikaudet()->indeksiPaivalle(tilikausi.paattyy()) -1).pienuus() < pienuus )
-        pienuus = kp()->tilikaudet()->tilikausiIndeksilla( kp()->tilikaudet()->indeksiPaivalle(tilikausi.paattyy()) -1).pienuus() ;
-
-    ui->mikroRadio->setEnabled( pienuus == Tilikausi::MIKROYRITYS );
-    ui->pienRadio->setEnabled( pienuus == Tilikausi::PIENYRITYS || pienuus == Tilikausi::MIKROYRITYS);
-
-    ui->mikroRadio->setChecked( pienuus == Tilikausi::MIKROYRITYS);
-    ui->pienRadio->setChecked( pienuus == Tilikausi::PIENYRITYS);
-    ui->taysRadio->setChecked( pienuus == Tilikausi::YRITYS);
 }

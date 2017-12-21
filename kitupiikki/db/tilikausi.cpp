@@ -142,19 +142,21 @@ QString Tilikausi::arkistoHakemistoNimi() const
 
 Tilikausi::Saannosto Tilikausi::pienuus()
 {
+    // HUOM! Ehdot ovat sentteinä!
+
     int mikroehdot = 0;
     int pienehdot = 0;
 
-    if( tase() > 350000)
+    if( tase() > 35000000)
         mikroehdot++;
-    if( liikevaihto() > 700000)
+    if( liikevaihto() > 70000000)
         mikroehdot++;
     if( henkilosto() > 10)
         mikroehdot++;
 
-    if( tase() > 6000000)
+    if( tase() > 600000000)
         pienehdot++;
-    if( liikevaihto() > 12000000)
+    if( liikevaihto() > 1200000000)
         pienehdot++;
     if( henkilosto() > 50)
         pienehdot++;

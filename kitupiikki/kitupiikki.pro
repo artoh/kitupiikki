@@ -110,7 +110,8 @@ SOURCES += main.cpp \
     laskutus/laskutmodel.cpp \
     raportti/taseerittely.cpp \
     arkisto/tilinpaattaja.cpp \
-    arkisto/poistaja.cpp
+    arkisto/poistaja.cpp \
+    maaritys/kaavankorostin.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -210,7 +211,8 @@ HEADERS += \
     laskutus/laskutmodel.h \
     raportti/taseerittely.h \
     arkisto/tilinpaattaja.h \
-    arkisto/poistaja.h
+    arkisto/poistaja.h \
+    maaritys/kaavankorostin.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

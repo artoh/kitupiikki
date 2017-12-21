@@ -40,9 +40,9 @@ public:
 
     enum Saannosto
     {
-        YRITYS = 0,
-        PIENYRITYS = 1,
-        MIKROYRITYS = 2
+        YRITYS = 1,
+        PIENYRITYS = 2,
+        MIKROYRITYS = 4
     };
 
     Tilikausi();

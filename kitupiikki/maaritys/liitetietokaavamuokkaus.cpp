@@ -21,9 +21,12 @@
 #include <QVBoxLayout>
 #include <QLabel>
 
+#include "kaavankorostin.h"
+
 LiitetietokaavaMuokkaus::LiitetietokaavaMuokkaus()
 {
     editor = new QPlainTextEdit;
+    new KaavanKorostin( editor->document());
 
     QLabel* otsikko = new QLabel( tr("<b>Tilinpäätöksen mallin muokkaaminen</b>"
                                      "<p>Tässä määritellään tilinpäätökseen tulostettavat raportit ja liitetietojen kaava. "

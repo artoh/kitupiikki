@@ -51,14 +51,16 @@ bool TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, QString tekst
     // Raportit
     // Haetaan luetteloon merkityt raportit
     // Raportit on määritelty ensimmäisellä rivillä muodossa @Raportin nimi!Tulostettava otsikko@
+    // Erittelyraportti puolestaan @Raportin nimi*Tulostettava otsikko@
     QString ekarivi = teksti.left( teksti.indexOf('\n') );
-    QRegularExpression raporttiRe("@(?<raportti>.+?)!(?<otsikko>.+?)@");
+    QRegularExpression raporttiRe("@(?<raportti>.+?)(?<erotin>[\\*!])(?<otsikko>.+?)@");
+    raporttiRe.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);
     QRegularExpressionMatchIterator iter = raporttiRe.globalMatch(ekarivi);
     while( iter.hasNext() )
     {
         QRegularExpressionMatch mats = iter.next();
-        QString raporttiNimi = mats.captured(1);
-        QString otsikko = mats.captured(2);
+        QString raporttiNimi = mats.captured("raportti");
+        QString otsikko = mats.captured("otsikko");
 
         Raportoija raportoija(raporttiNimi);
         if( raportoija.onkoKausiraportti() )
@@ -80,7 +82,7 @@ bool TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, QString tekst
 
         printer->newPage();
 
-        RaportinKirjoittaja kirjoittaja = raportoija.raportti();
+        RaportinKirjoittaja kirjoittaja = raportoija.raportti( mats.captured("erotin") == "*" );
         kirjoittaja.asetaOtsikko( otsikko );
         kirjoittaja.asetaKausiteksti( tilikausi.kausivaliTekstina() );
         sivulla += kirjoittaja.tulosta(printer, &painter, false, sivulla);

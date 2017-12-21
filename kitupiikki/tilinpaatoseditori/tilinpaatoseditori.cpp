@@ -84,9 +84,9 @@ void TilinpaatosEditori::uusiTp()
 {
     QStringList pohja = kp()->asetukset()->lista("TilinpaatosPohja");
     QStringList valinnat = kp()->asetukset()->lista("TilinpaatosValinnat");
-    QRegularExpression tunnisteRe("#(?<tunniste>\\w+).*");
+    QRegularExpression tunnisteRe("#(?<tunniste>-?\\w+).*");
     tunnisteRe.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);
-    QRegularExpression raporttiRe("@(?<raportti>.+)!(?<otsikko>.+)@");
+    QRegularExpression raporttiRe("@(?<raportti>.+)[\\*!](?<otsikko>.+)@");
 
     QString teksti;
     raportit_.clear();
@@ -101,7 +101,10 @@ void TilinpaatosEditori::uusiTp()
             if( tmats.hasMatch())
             {
                 QString tunniste = tmats.captured(1);
-                tulosta = valinnat.contains(tunniste);
+                if( tunniste.startsWith('-'))
+                    tulosta = !valinnat.contains( tunniste.mid(1));
+                else
+                    tulosta = valinnat.contains(tunniste);
             }
             else
                 tulosta = true;
@@ -111,6 +114,10 @@ void TilinpaatosEditori::uusiTp()
             // Näillä tulostetaan erityisiä kenttiä
             if( rivi == "@sha@")
                 teksti.append( tilikausi_.json()->str("ArkistoSHA"));
+            else if( rivi == "@henkilosto@")
+            {
+                teksti.append( henkilostotaulukko());
+            }
             else
             {
                 QRegularExpressionMatch rmats = raporttiRe.match(rivi);
@@ -167,6 +174,23 @@ void TilinpaatosEditori::closeEvent(QCloseEvent *event)
     else
         event->accept();
 
+}
+
+QString TilinpaatosEditori::henkilostotaulukko()
+{
+    Tilikausi verrokki;
+    if( kp()->tilikaudet()->indeksiPaivalle( tilikausi_.paattyy()))
+        verrokki = kp()->tilikaudet()->tilikausiIndeksilla(  kp()->tilikaudet()->indeksiPaivalle(tilikausi_.paattyy()) - 1 );
+
+    QString txt = tr("<table><tr><th></th><th>%1</th>").arg(tilikausi_.kausivaliTekstina());
+    if( verrokki.alkaa().isValid() )
+        txt.append( QString("<th>%1</th>").arg(verrokki.kausivaliTekstina()) );
+
+    txt.append(tr("</tr><tr><td>Henkilöstöä keskimäärin</td><td>%1</td>").arg(tilikausi_.henkilosto()));
+    if( verrokki.alkaa().isValid())
+        txt.append( QString("<td>%1</td>").arg(verrokki.henkilosto()));
+    txt.append("</tr></table>");
+    return txt;
 }
 
 bool TilinpaatosEditori::aloitaAlusta()

@@ -43,7 +43,7 @@
     </layout>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="QGroupBox" name="saantoGroup">
      <property name="title">
       <string>Tilinpäätöksessä sovellettava säännöstö</string>
      </property>

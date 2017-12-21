@@ -54,6 +54,12 @@ signals:
 protected:
     void closeEvent(QCloseEvent *event);
 
+    /**
+     * @brief Taulukko, jossa tämän ja edellisen tilikauden henkilöstömäärä
+     * @return
+     */
+    QString henkilostotaulukko();
+
 protected:
     MRichTextEdit *editori_;
     Tilikausi tilikausi_;

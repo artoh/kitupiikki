@@ -27,6 +27,19 @@ namespace Ui {
 class TpAloitus;
 }
 
+/**
+ * @brief Tilinpäätöksen valintojen dialogi
+ *
+ * Näyttää dialogin, jossa valitaan yrityksen koko (PMA-säännöstö ja henkilöstö) ja tilinpäätöksen valinnat
+ * Vaihtoehtoisesti tilinpäätöksen voi ladata tiedostosta
+ *
+ * Tilinpäätöskaavassa '##Otsikko' on näytettävä väliotsikko ja ehdot muotoa
+ * '#tunnus -sulkeva Näytettävä teksti'
+ *
+ * Ehto koskee vain mikroyritystä sulkumääreillä '-P' '-I' ja pienyritystä
+ * sulkumääreillä '-M' '-I'
+ *
+ */
 class TpAloitus : public QDialog
 {
     Q_OBJECT
@@ -38,9 +51,10 @@ public:
 private slots:
     void valintaMuuttui(QStandardItem *item);
     void accept();
-    void lataa();
+    void lataaTiedosto();
     void ohje();
     void tallennaHenkilosto(int maara);
+    void lataa();
 
     void tarkistaPMA();
 
@@ -50,9 +64,12 @@ private:
         PoisRooli = Qt::UserRole + 2
     };
 
+    void talleta();
+
     Ui::TpAloitus *ui;
-    QStandardItemModel *model;
     Tilikausi tilikausi;
+    QStandardItemModel *model;
+
 };
 
 #endif // TPALOITUS_H
