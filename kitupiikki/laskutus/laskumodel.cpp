@@ -430,8 +430,8 @@ bool LaskuModel::tallenna(Tili rahatili)
 
     
     QSqlQuery query;
-    query.prepare("INSERT INTO lasku(id,tosite,laskupvm,erapvm,summaSnt,avoinSnt,asiakas,json) "
-                  "VALUES(:id,:tosite,:pvm,:erapvm,:summa,:avoin,:asiakas,:json)");
+    query.prepare("INSERT INTO lasku(id,tosite,laskupvm,erapvm,summaSnt,avoinSnt,asiakas,kirjausperuste,json) "
+                  "VALUES(:id,:tosite,:pvm,:erapvm,:summa,:avoin,:asiakas,;kirjausperuste,:json)");
     query.bindValue(":id", laskunro());
     query.bindValue(":tosite", tosite.id());
     query.bindValue(":pvm", kp()->paivamaara());
@@ -442,12 +442,11 @@ bool LaskuModel::tallenna(Tili rahatili)
         query.bindValue(":avoin", 0);
     else
         query.bindValue(":avoin", laskunSumma());
-
     query.bindValue(":asiakas", laskunsaajanNimi());
+    query.bindValue(":kirjausperuste", kirjausperuste());
 
     JsonKentta json;
     json.set("Osoite", osoite());
-    json.set("Kirjausperuste", kirjausperuste());
     json.set("Toimituspvm", toimituspaiva());
     json.set("Lisatieto", lisatieto());
     json.set("Email", email());

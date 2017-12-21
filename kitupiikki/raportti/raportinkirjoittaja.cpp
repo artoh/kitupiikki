@@ -379,7 +379,7 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu)
     int rivinkorkeus = painter->fontMetrics().height();
 
     QString nimi = Kirjanpito::db()->asetus("Nimi");
-    QString paivays = QDate::currentDate().toString(Qt::SystemLocaleShortDate);
+    QString paivays = kp()->paivamaara().toString(Qt::SystemLocaleShortDate);
 
     int vasenreunus = 0;
 
@@ -395,24 +395,26 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu)
     painter->drawText( QRect(sivunleveys/4,0,sivunleveys/2, rivinkorkeus  ), Qt::AlignHCenter, otsikko_);
     painter->drawText( QRect(sivunleveys*3/4, 0, sivunleveys/4, rivinkorkeus), Qt::AlignRight, paivays);
 
+    if( kp()->asetukset()->onko("Harjoitus"))
+    {
+        painter->save();
+        painter->setPen( QPen(Qt::red));
+        painter->setFont( QFont("Sans",16));
+        painter->drawText(QRect(vasenreunus + sivunleveys / 8 ,0,sivunleveys/4, rivinkorkeus*2 ), Qt::AlignHCenter | Qt::AlignTop, QString("HARJOITUS") );
+        painter->restore();
+    }
+
     painter->translate(0, rivinkorkeus);
 
     QString ytunnus = Kirjanpito::db()->asetus("Ytunnus") ;
     QString sivustr = QString("Sivu %1").arg(sivu);
 
-    if( kp()->asetukset()->onko("Harjoitus"))
-    {
-        painter->save();
-        painter->setPen( QPen(Qt::red));
-        painter->drawText(QRect(vasenreunus,0,sivunleveys/4, rivinkorkeus ), Qt::AlignLeft, QString("HARJOITUS %1").arg(ytunnus) );
-        painter->restore();
-    }
-    else
-        painter->drawText(QRect(vasenreunus,0,sivunleveys/4, rivinkorkeus ), Qt::AlignLeft, ytunnus );
-
+    painter->drawText(QRect(vasenreunus,0,sivunleveys/4, rivinkorkeus ), Qt::AlignLeft, ytunnus );
 
     painter->drawText(QRect(sivunleveys/4,0,sivunleveys/2, rivinkorkeus  ), Qt::AlignHCenter, kausiteksti_);
     painter->drawText(QRect(sivunleveys*3/4, 0, sivunleveys/4, rivinkorkeus), Qt::AlignRight, sivustr);
+
+
 
     painter->translate(0, rivinkorkeus );
 

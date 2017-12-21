@@ -44,6 +44,7 @@ public slots:
     void paivitaSeuraavat();
     void ilmoita();
     void naytaIlmoitus();
+    void naytaErittely();
     void riviValittu();
 
 public:

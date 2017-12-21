@@ -59,6 +59,8 @@ private:
      */
     void luku(const QString& nimike, int senttia, bool viiva = false);
 
+    RaportinKirjoittaja erittely(QDate alkupvm, QDate loppupvm);
+
 };
 
 #endif // ALVILMOITUSDIALOG_H

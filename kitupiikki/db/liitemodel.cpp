@@ -270,15 +270,21 @@ bool LiiteModel::tallenna()
                 kysely.bindValue(":tosite", tositeModel_->id());
                 kysely.bindValue(":sha", liitteet_.at(i).sha);
                 kysely.bindValue(":peukku", liitteet_.at(i).thumbnail);
+                kysely.bindValue(":otsikko", liitteet_[i].otsikko);
+                if( !kysely.exec() )
+                    return false;
+                liitteet_[i].id = kysely.lastInsertId().toInt();
+
             }
             else
             {
                 kysely.prepare("UPDATE liite SET otsikko=:otsikko WHERE id=:id");
                 kysely.bindValue(":id", liitteet_.at(i).id);
+                kysely.bindValue(":otsikko", liitteet_[i].otsikko);
+                if( !kysely.exec() )
+                    return false;
             }
-            kysely.bindValue(":otsikko", liitteet_[i].otsikko);
-            if( !kysely.exec() )
-                return false;
+            liitteet_[i].muokattu = false;
         }
     }
     muokattu_ = false;

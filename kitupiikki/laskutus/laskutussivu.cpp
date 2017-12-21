@@ -132,5 +132,5 @@ void LaskutusSivu::valintaMuuttuu()
 {
     ui->naytaNappi->setEnabled( ui->laskutView->currentIndex().isValid());
     ui->hyvitysNappi->setEnabled( ui->laskutView->currentIndex().isValid() &&
-                                  !ui->laskutView->currentIndex().data(LaskutModel::HyvitysLaskuModel).toInt());
+                                  !ui->laskutView->currentIndex().data(LaskutModel::HyvitysLaskuRooli).toInt());
 }

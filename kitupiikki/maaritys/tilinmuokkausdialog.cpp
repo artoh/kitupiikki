@@ -300,6 +300,13 @@ void TilinMuokkausDialog::accept()
 
     TiliTyyppi tilityyppi = kp()->tiliTyypit()->tyyppiKoodilla(tyyppikoodi);
 
+    if( tilityyppi.onko(TiliLaji::POISTETTAVA) && !ui->poistotiliEdit->valittuTilinumero())
+    {
+        QMessageBox::critical(this, tr("Tiedot puutteelliset"), tr("Tilille on määriteltävä poistojen kirjaustili."));
+        QDialog::reject();
+        return;
+    }
+
     JsonKentta *json;
     Tili uusitili;
     if( !index_.isValid())

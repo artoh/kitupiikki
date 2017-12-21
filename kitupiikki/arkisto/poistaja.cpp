@@ -77,6 +77,15 @@ bool Poistaja::sumupoistaja(Tilikausi kausi)
     for( int i=0; i < kp()->tilit()->rowCount(QModelIndex()); i++)
     {
         Tili tili = kp()->tilit()->tiliIndeksilla(i);
+
+        if( !kp()->tilit()->tiliNumerolla( tili.json()->luku("Poistotili") ).onkoValidi() )
+        {
+            QMessageBox::critical(0, tr("Kitupiikin virhe"),
+                                  tr("Poistoja ei voi kirjata, koska tilille %1 ei ole määritelty "
+                                     "kelvollista poistojen kirjaustiliä.").arg(tili.numero()));
+            return false;
+        }
+
         if( tili.onko(TiliLaji::MENOJAANNOSPOISTO))
         {
             int saldo = tili.saldoPaivalle( kausi.paattyy());

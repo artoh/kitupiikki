@@ -41,8 +41,9 @@ namespace AlvKoodi {
         RAKENNUSPALVELU_MYYNTI = 16,
         RAKENNUSPALVELU_OSTO = 26,
         MAAHANTUONTI = 44,
-        ALVKIRJAUS = 800,
-        ALVVAHENNYS = 900
+        ALVKIRJAUS = 100,
+        ALVVAHENNYS = 200,
+        MAKSETTAVAALV = 900
     };
 
 };

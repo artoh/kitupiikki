@@ -103,6 +103,7 @@ void AlvMaaritys::ilmoita()
 
 void AlvMaaritys::naytaIlmoitus()
 {
+    // Ilmoitus on tositteen ensimmäinen liite
     int tositeId = model->data( ui->ilmoituksetView->selectionModel()->currentIndex() , AlvIlmoitustenModel::TositeIdRooli ).toInt();
 
     TositeModel tosite( kp()->tietokanta());
@@ -113,9 +114,21 @@ void AlvMaaritys::naytaIlmoitus()
 
 }
 
+void AlvMaaritys::naytaErittely()
+{
+    // Erittely on tositteen toinen liite
+    int tositeId = model->data( ui->ilmoituksetView->selectionModel()->currentIndex() , AlvIlmoitustenModel::TositeIdRooli ).toInt();
+
+    TositeModel tosite( kp()->tietokanta());
+    tosite.lataa(tositeId);
+    QString polku = tosite.liiteModel()->liitePolku(2);
+    QDesktopServices::openUrl( QUrl( polku ) );
+}
+
 void AlvMaaritys::riviValittu()
 {
     ui->tilitysNappi->setEnabled( ui->ilmoituksetView->selectionModel()->currentIndex().isValid() );
+    ui->erittelyNappi->setEnabled( ui->ilmoituksetView->selectionModel()->currentIndex().isValid() );
 }
 
 QDate AlvMaaritys::erapaiva(const QDate &loppupaiva)

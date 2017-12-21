@@ -158,6 +158,7 @@ void KirjausWg::tallenna()
     // TODO: Onko virheitä
     // 1) Debet ja kredit eivät täsmää
     // 2) Ei yhtään vientiä (debet ja kredit nollia)
+    // 3) Verollisia vientejä vaikka alv ilmoitettu
 
     if( model_->vientiModel()->debetSumma() == 0 && model_->vientiModel()->kreditSumma() == 0)
     {
@@ -179,6 +180,24 @@ void KirjausWg::tallenna()
             return;
     }
 
+    bool alvvaro = false;
+    for(int i=0; i < model()->vientiModel()->rowCount(QModelIndex()); i++)
+    {
+        QModelIndex indeksi = model()->vientiModel()->index(i,0);
+        if(  indeksi.data(VientiModel::AlvKoodiRooli).toInt() > 0 &&
+             indeksi.data(VientiModel::PvmRooli).toDate().daysTo( kp()->asetukset()->pvm("AlvIlmoitus")) >= 0  )
+            alvvaro = true;
+    }
+    if( alvvaro )
+    {
+        if( QMessageBox::critical(this, tr("Arvonlisäveroilmoitus annettu"),
+           tr("Arvonlisäveroilmoitus on annettu %1 saakka.\n\n"
+              "Kirjauksen muokkaamisen jälkeen alv-ilmoitus ei enää täsmää, "
+              "ja muutoksista on tehtävä ilmoitus myös verottajalle.\n\n"
+              "Tallennetaanko tosite silti?").arg( kp()->asetukset()->pvm("AlvIlmoitus").toString(Qt::SystemLocaleShortDate) ),
+            QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) != QMessageBox::Yes)
+            return;
+    }
     tiedotModeliin();
 
     if( !model_->tallenna() )
@@ -210,19 +229,23 @@ void KirjausWg::hylkaa()
 void KirjausWg::vientivwAktivoitu(QModelIndex indeksi)
 {
     // Tehdään alv-kirjaus
-    if(indeksi.column() == VientiModel::ALV )
+    if( model()->muokkausSallittu() )
     {
-        VeroDialogiValinta uusivero = VeroDialogi::veroDlg( indeksi.data(VientiModel::AlvKoodiRooli).toInt(), indeksi.data(VientiModel::AlvProsenttiRooli).toInt() );
-        model_->vientiModel()->setData(indeksi, uusivero.verokoodi, VientiModel::AlvKoodiRooli);
-        model_->vientiModel()->setData(indeksi, uusivero.veroprosentti, VientiModel::AlvProsenttiRooli);
-    }
-    else if(indeksi.column() == VientiModel::KOHDENNUS && indeksi.data(VientiModel::TaseErittelyssaRooli).toBool())
-    {
-        TaseEraValintaDialogi dlg(this);
-        Tili tili = kp()->tilit()->tiliNumerolla( indeksi.data(VientiModel::TiliNumeroRooli).toInt() );
-        dlg.nayta( tili, indeksi.data(VientiModel::EraIdRooli).toInt(), indeksi.data(VientiModel::PoistoKkRooli).toInt());
-        model_->vientiModel()->setData(indeksi, dlg.eraId(), VientiModel::EraIdRooli);
-        model_->vientiModel()->setData(indeksi, dlg.poistoKk(), VientiModel::PoistoKkRooli);
+
+        if(indeksi.column() == VientiModel::ALV )
+        {
+            VeroDialogiValinta uusivero = VeroDialogi::veroDlg( indeksi.data(VientiModel::AlvKoodiRooli).toInt(), indeksi.data(VientiModel::AlvProsenttiRooli).toInt() );
+            model_->vientiModel()->setData(indeksi, uusivero.verokoodi, VientiModel::AlvKoodiRooli);
+            model_->vientiModel()->setData(indeksi, uusivero.veroprosentti, VientiModel::AlvProsenttiRooli);
+        }
+        else if(indeksi.column() == VientiModel::KOHDENNUS && indeksi.data(VientiModel::TaseErittelyssaRooli).toBool())
+        {
+            TaseEraValintaDialogi dlg(this);
+            Tili tili = kp()->tilit()->tiliNumerolla( indeksi.data(VientiModel::TiliNumeroRooli).toInt() );
+            dlg.nayta( tili, indeksi.data(VientiModel::EraIdRooli).toInt(), indeksi.data(VientiModel::PoistoKkRooli).toInt());
+            model_->vientiModel()->setData(indeksi, dlg.eraId(), VientiModel::EraIdRooli);
+            model_->vientiModel()->setData(indeksi, dlg.poistoKk(), VientiModel::PoistoKkRooli);
+        }
     }
 }
 
@@ -246,9 +269,6 @@ void KirjausWg::lataaTosite(int id)
     model_->lataa(id);
 
     tiedotModelista();
-
-    // Estää muokkauksen, jos on lukittu
-    salliMuokkaus( model_->muokkausSallittu());
 
     ui->tabWidget->setCurrentIndex(0);
     ui->tositePvmEdit->setFocus();
@@ -323,6 +343,8 @@ void KirjausWg::tiedotModeliin()
 
 void KirjausWg::tiedotModelista()
 {
+    salliMuokkaus( model_->muokkausSallittu() );
+
     ui->tositePvmEdit->setDate( model_->pvm() );
     ui->otsikkoEdit->setText( model_->otsikko() );
     ui->kommentitEdit->setPlainText( model_->kommentti());
@@ -349,6 +371,9 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
     ui->poistaNappi->setEnabled(sallitaanko);
     ui->otsikkoEdit->setEnabled(sallitaanko);
     ui->lukkoLabel->setVisible(!sallitaanko);
+
+    ui->lisaaliiteNappi->setEnabled(sallitaanko);
+    ui->poistaLiiteNappi->setEnabled(sallitaanko);
 
     if(sallitaanko)
         ui->tositePvmEdit->setDateRange(Kirjanpito::db()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );
@@ -424,6 +449,9 @@ void KirjausWg::pvmVaihtuu()
         model_->asetaTunniste( model_->seuraavaTunnistenumero());
         ui->tunnisteEdit->setText( QString::number(model_->tunniste() ));
     }
+
+    // Varomerkki jos alv-ilmoitus on annettu
+    ui->varoMerkki->setVisible(kp()->asetukset()->pvm("AlvIlmoitus").daysTo( model()->pvm() ) < 1);
 }
 
 void KirjausWg::naytaLiite()

@@ -46,6 +46,17 @@ AlvIlmoitusDialog::~AlvIlmoitusDialog()
 
 QDate AlvIlmoitusDialog::teeAlvIlmoitus(QDate alkupvm, QDate loppupvm)
 {
+    // Tarkistetaan, että tarvittavat tilit löytyy
+
+    if( !kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).onkoValidi() ||
+        !kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).onkoValidi() ||
+            !kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).onkoValidi() )
+    {
+        QMessageBox::critical(0, tr("Kitupiikin virhe"),
+                              tr("Alv-tilitystä ei voi laatia, koska tilikartta on puutteellinen."));
+        return QDate();
+    }
+
     AlvIlmoitusDialog dlg;
     if( dlg.alvIlmoitus(alkupvm, loppupvm))
         return loppupvm;
@@ -133,8 +144,9 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
             verorivi.selite = rivi.selite;
             verorivi.alvkoodi = query.value("alvkoodi").toInt() | AlvKoodi::ALVVAHENNYS;
         }
-    qDebug() << rivi.selite;
+
         ehdotus.lisaaVienti(rivi);
+        ehdotus.lisaaVienti(verorivi);
     }
 
     // 2) Nettokirjausten koonti
@@ -214,7 +226,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
             rivi.kreditSnt = maksettavavero;
         else
             rivi.debetSnt = 0 - maksettavavero;
-        rivi.alvkoodi = AlvKoodi::ALVKIRJAUS;
+        rivi.alvkoodi = AlvKoodi::MAKSETTAVAALV;
         ehdotus.lisaaVienti(rivi);
     }
 
@@ -304,7 +316,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
                                    "AND alvkoodi = %3 ")
                            .arg(laskelmaMista.toString(Qt::ISODate))
                            .arg(loppupvm.toString(Qt::ISODate))
-                           .arg( AlvKoodi::ALVKIRJAUS ));
+                           .arg( AlvKoodi::MAKSETTAVAALV ));
         if( kysely.next())
             vero += kysely.value(1).toInt() - kysely.value(0).toInt();
 
@@ -367,14 +379,28 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
 
         model.liiteModel()->lisaaTiedosto( file.fileName(), tr("Alv-laskelma"));
 
-        if( model.tallenna() )
-            return true;
-        else
+        if( !model.tallenna() )
+        {
             QMessageBox::critical(this, tr("Virhe alv-tilityksen tallentamisessa"),
                                   tr("Alv-tilityksen tallentuminen epäonnistui seuraavan "
                                      "tietokantavirheen takia: %1").arg( kp()->tietokanta()->lastError().text() ));
+            return false;
+        }
 
+        // Laskelman erittely liitetään myös ...
+        QTemporaryFile eriFile(QDir::tempPath() + "/alv-XXXXXX.pdf" );
+        eriFile.open();
+        eriFile.close();
 
+        printer.setOutputFileName(eriFile.fileName());
+        painter.begin(&printer);
+        erittely(alkupvm,loppupvm).tulosta(&printer, &painter);
+        painter.end();
+
+        model.liiteModel()->lisaaTiedosto( eriFile.fileName(), tr("Alv-erittely"));
+        model.tallenna();
+
+        return true;
     }
 
     return false;
@@ -397,4 +423,133 @@ void AlvIlmoitusDialog::luku(const QString &nimike, int senttia, bool viiva)
     if( viiva )
         rivi.viivaYlle(true);
     kirjoittaja->lisaaRivi(rivi);
+}
+
+RaportinKirjoittaja AlvIlmoitusDialog::erittely(QDate alkupvm, QDate loppupvm)
+{
+    RaportinKirjoittaja kirjoittaja;
+    kirjoittaja.asetaOtsikko("ARVONLISÄVEROLASKELMAN ERITTELY");
+    kirjoittaja.asetaKausiteksti( QString("%1 - %2").arg(alkupvm.toString(Qt::SystemLocaleShortDate)).arg(loppupvm.toString(Qt::SystemLocaleShortDate) ) );
+
+    kirjoittaja.lisaaPvmSarake();
+    kirjoittaja.lisaaSarake("TOSITE12345");
+    kirjoittaja.lisaaVenyvaSarake();
+    kirjoittaja.lisaaSarake("24");
+    kirjoittaja.lisaaEurosarake();
+
+    RaporttiRivi otsikko;
+    otsikko.lisaa("Pvm");
+    otsikko.lisaa("Tosite");
+    otsikko.lisaa("Selite");
+    otsikko.lisaa("%",1,true);
+    otsikko.lisaa("€",1,true);
+    kirjoittaja.lisaaOtsake(otsikko);
+
+    QSqlQuery kysely;
+    QString kysymys = QString("select vienti.pvm as paiva, debetsnt, kreditsnt, selite, alvkoodi, alvprosentti, nro, tunniste, laji "
+                              "from vienti,tili,tosite where vienti.tosite=tosite.id and vienti.tili=tili.id "
+                              "and vienti.pvm between \"%1\" and \"%2\" "
+                              "and alvkoodi > 0 order by alvkoodi, alvprosentti desc, tili, vienti.pvm")
+            .arg(alkupvm.toString(Qt::ISODate))
+            .arg(loppupvm.toString(Qt::ISODate));
+
+    int nAlvkoodi = -1; // edellisten alv-prosentti jne...
+    int nTili = -1;
+    int nProsentti = -1;
+    int tilisumma = 0;
+    int yhtsumma = 0;
+
+    kysely.exec(kysymys);
+    while(kysely.next())
+    {
+        int alvkoodi = kysely.value("alvkoodi").toInt();
+        int alvprosentti = kysely.value("alvprosentti").toInt();
+        int tilinro = kysely.value("nro").toInt();
+
+        if( tilinro != nTili || alvkoodi != nAlvkoodi || alvprosentti != nProsentti)
+        {
+            if( tilisumma)
+            {
+                RaporttiRivi tiliSummaRivi;
+                tiliSummaRivi.lisaa(" ", 3);
+                tiliSummaRivi.lisaa( QString::number(nProsentti));
+                tiliSummaRivi.lisaa( tilisumma);
+                tiliSummaRivi.viivaYlle();
+                kirjoittaja.lisaaRivi(tiliSummaRivi);
+
+                if( (alvkoodi != nAlvkoodi || alvprosentti != nProsentti) && yhtsumma != tilisumma )
+                {
+                    // Lopuksi vielä lihavoituna kokonaissumma
+                    RaporttiRivi summaRivi;
+                    summaRivi.lisaa(" ", 3);
+                    summaRivi.lisaa( QString::number(nProsentti));
+                    summaRivi.lisaa( yhtsumma );
+                    summaRivi.lihavoi();
+                    kirjoittaja.lisaaRivi(summaRivi);
+                }
+
+
+                kirjoittaja.lisaaRivi();
+                tilisumma = 0;
+            }
+        }
+
+
+        if( alvkoodi != nAlvkoodi || alvprosentti != nProsentti)
+        {
+
+            RaporttiRivi koodiOtsikko;
+            if( alvkoodi > AlvKoodi::ALVVAHENNYS)
+                koodiOtsikko.lisaa( tr("VÄHENNYS: %1").arg( kp()->alvTyypit()->seliteKoodilla(alvkoodi - AlvKoodi::ALVVAHENNYS) ), 3 );
+            else if( alvkoodi > AlvKoodi::ALVKIRJAUS)
+                koodiOtsikko.lisaa( tr("VERO: %1").arg( kp()->alvTyypit()->seliteKoodilla(alvkoodi - AlvKoodi::ALVKIRJAUS) ), 3 );
+            else if( alvkoodi == AlvKoodi::MAKSETTAVAALV)
+                koodiOtsikko.lisaa(tr("MAKSETTAVA VERO"), 3);
+            else
+                koodiOtsikko.lisaa( kp()->alvTyypit()->seliteKoodilla(alvkoodi), 3 );
+
+            if( alvprosentti)
+                koodiOtsikko.lisaa( QString::number(alvprosentti));
+            else
+                koodiOtsikko.lisaa("");
+
+            koodiOtsikko.lihavoi();
+            kirjoittaja.lisaaRivi(koodiOtsikko);
+
+            nAlvkoodi = alvkoodi;
+            nProsentti = alvprosentti;
+            nTili = -1;
+            yhtsumma = 0;
+        }
+
+        if( tilinro != nTili )
+        {
+            RaporttiRivi tiliOtsikko;
+            tiliOtsikko.lisaa( tr("%1 %2").arg(tilinro).arg(kp()->tilit()->tiliNumerolla(tilinro).nimi() ), 3);
+            tiliOtsikko.lisaa( QString::number(alvprosentti));
+            kirjoittaja.lisaaRivi(tiliOtsikko);
+            nTili = tilinro;
+        }
+
+        RaporttiRivi rivi;
+        rivi.lisaa( kysely.value("paiva").toDate() );
+        rivi.lisaa( QString("%1%2").arg( kp()->tositelajit()->tositelaji( kysely.value("laji").toInt() ).tunnus() )
+                    .arg( kysely.value("tunniste").toInt() ));
+        rivi.lisaa( kysely.value("selite").toString());
+        rivi.lisaa( QString::number(alvprosentti));
+
+        int debetsnt = kysely.value("debetsnt").toInt();
+        int kreditsnt = kysely.value("kreditsnt").toInt();
+        int summa = kreditsnt - debetsnt;
+        if( alvkoodi % 100 / 10 == 2)
+            summa = debetsnt - kreditsnt;
+        rivi.lisaa( summa );
+        kirjoittaja.lisaaRivi( rivi );
+
+        tilisumma += summa;
+        yhtsumma += summa;
+
+    }
+    return kirjoittaja;
+
 }

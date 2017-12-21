@@ -237,7 +237,9 @@ void LaskuDialogi::haeOsoite()
 
 void LaskuDialogi::vieMalliin()
 {
-    model->asetaErapaiva( ui->eraDate->date());
+    if( model->laskunSumma() > 0 && ui->perusteCombo->currentData().toInt() != LaskuModel::KATEISLASKU)
+        model->asetaErapaiva( ui->eraDate->date());
+
     model->asetaLisatieto( ui->lisatietoEdit->toPlainText());
     model->asetaOsoite(ui->osoiteEdit->toPlainText());
     model->asetaEmail( ui->emailEdit->text());

@@ -6,14 +6,41 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>625</width>
-    <height>554</height>
+    <width>628</width>
+    <height>636</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Kirjausapuri</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="alvVaaraKuva">
+       <property name="maximumSize">
+        <size>
+         <width>32</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../pic/pic.qrc">:/pic/varoitus.png</pixmap>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="alvVaaraTeksti">
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Arvonlisäveroilmoitus on jo annettu&lt;br/&gt;&lt;/span&gt;Tälle päivämäärälle ei voi enää tehdä verollista kirjausta!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
    <item>
     <widget class="QTabBar" name="valintaTab" native="true"/>
    </item>
@@ -279,7 +306,9 @@
   <tabstop>vaihdaNappi</tabstop>
   <tabstop>ehdotusView</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

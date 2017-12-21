@@ -41,6 +41,8 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     ui->vastaTaseEraCombo->setVisible(false);
     ui->poistoLabel->setVisible(false);
     ui->poistoSpin->setVisible(false);
+    ui->alvVaaraKuva->setVisible(false);
+    ui->alvVaaraTeksti->setVisible(false);
 
 
     // ValintaTab ylälaidassa kirjauksen tyypin valintaan
@@ -77,6 +79,7 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     connect(ui->pvmDate, SIGNAL(editingFinished()), this, SLOT(ehdota()));
     connect(ui->taseEraCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(eraValittu()));
     connect(ui->vastaTaseEraCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(eraValittu()));
+    connect(ui->pvmDate, SIGNAL(dateChanged(QDate)), this, SLOT(pvmMuuttuu()));
 
     // Hakee tositteen tiedoista esitäytöt
     QDate pvm = model->pvm();
@@ -259,6 +262,21 @@ void KirjausApuriDialog::vastaEraValittu()
     ehdota();
 }
 
+void KirjausApuriDialog::pvmMuuttuu()
+{
+    // Jos alvit jo ilmoitettu, ei voi ilmoittaa alvillista
+    if(  kp()->asetukset()->onko("AlvVelvollinen") )
+    {
+        bool alvlukko =  kp()->asetukset()->pvm("AlvIlmoitus").daysTo( ui->pvmDate->date() ) < 1 ;
+
+        ui->alvVaaraKuva->setVisible(alvlukko);
+        ui->alvVaaraTeksti->setVisible(alvlukko);
+        ui->alvCombo->setEnabled(!alvlukko);
+        if( alvlukko )
+            ui->alvCombo->setCurrentIndex(0);
+    }
+}
+
 void KirjausApuriDialog::ehdota()
 {
     ehdotus.tyhjaa();
@@ -331,7 +349,8 @@ void KirjausApuriDialog::ehdota()
             ehdotus.lisaaVienti( menorivi );
 
         }
-        if( alvprosentti && kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).onkoValidi() )
+        if( alvprosentti && kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).onkoValidi() &&
+                alvkoodi != AlvKoodi::OSTOT_BRUTTO)
         {
             VientiRivi verorivi = uusiEhdotusRivi( kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA) );
             verorivi.debetSnt = bruttoSnt - nettoSnt;

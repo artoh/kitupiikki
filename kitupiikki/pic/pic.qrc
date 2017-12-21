@@ -68,6 +68,10 @@
         <file>sivunasetukset.png</file>
         <file>allekirjoitus.png</file>
         <file>tiedostoon.png</file>
+        <file>euro.png</file>
+        <file>kateinen.png</file>
+        <file>suorite.png</file>
+        <file>kirje.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

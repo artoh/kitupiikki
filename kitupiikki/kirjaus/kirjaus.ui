@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>816</width>
-    <height>404</height>
+    <width>957</width>
+    <height>420</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -313,6 +313,16 @@
        </property>
        <property name="pixmap">
         <pixmap resource="../pic/pic.qrc">:/pic/lukittu.png</pixmap>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="varoMerkki">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../pic/pic.qrc">:/pic/varoitus.png</pixmap>
        </property>
       </widget>
      </item>

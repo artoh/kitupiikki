@@ -57,6 +57,7 @@ public slots:
     void vastaTiliMuuttui();
     void eraValittu();
     void vastaEraValittu();
+    void pvmMuuttuu();
 
     void ehdota();
 

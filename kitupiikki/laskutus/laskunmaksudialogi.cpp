@@ -103,7 +103,7 @@ void LaskunMaksuDialogi::kirjaa()
     rahaRivi.tili = kp()->tilit()->tiliNumerolla( ui->tiliEdit->valittuTilinumero() );
     rahaRivi.maksaaLaskua = index.data(LaskutModel::ViiteRooli).toInt();
 
-    if( json.luku("Kirjausperuste") == LaskuModel::MAKSUPERUSTE )
+    if( index.data(LaskutModel::KirjausPerusteRooli).toInt() == LaskuModel::MAKSUPERUSTE )
     {
         if( kirjaaja->model()->muokattu())
         {

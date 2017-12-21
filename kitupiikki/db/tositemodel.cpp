@@ -43,7 +43,7 @@ bool TositeModel::muokkausSallittu() const
 {
     // Jos päätetyllä tilikaudella, niin
     // ei saa muokata
-    if( kp()->tilitpaatetty().daysTo( pvm () ) < 0)
+    if( kp()->tilitpaatetty().daysTo( pvm() ) < 0)
         return false;
 
     return true;
@@ -169,6 +169,14 @@ void TositeModel::tyhjaa()
     // Tyhjentää tositteen
     id_ = 0;
     pvm_ = kp()->paivamaara();
+
+    // Siltä varalta että kuluva tilikausi on jo lukittu, siirtyy seuraavaan sallittuun päivään
+    if( pvm_.daysTo( kp()->tilitpaatetty() ) >= 0)
+    {
+        if( kp()->tilikaudet()->kirjanpitoLoppuu() > kp()->tilitpaatetty() )
+            pvm_ = kp()->tilitpaatetty().addDays(1);
+    }
+
     otsikko_ = QString();
     kommentti_ = QString();
     tositelaji_ = 1;

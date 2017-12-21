@@ -108,6 +108,7 @@ CREATE TABLE lasku (
     summaSnt    BIGINT,
     avoinSnt    BIGINT,
     asiakas     VARCHAR(128),
+    kirjausperuste INTEGER DEFAULT(0),
     json        TEXT
 
 );

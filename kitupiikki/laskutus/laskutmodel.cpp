@@ -19,6 +19,7 @@
 #include "db/kirjanpito.h"
 #include <QSqlQuery>
 
+
 LaskutModel::LaskutModel(QObject *parent) :
     QAbstractTableModel(parent)
 {
@@ -52,6 +53,8 @@ QVariant LaskutModel::data(const QModelIndex &item, int role) const
         case PVM:
             return lasku.pvm;
         case ERAPVM:
+            if( lasku.kirjausperuste == LaskuModel::KATEISLASKU ||  lasku.json.luku("Hyvityslasku"))
+                return QString();
             return lasku.erapvm;
         case SUMMA:
             if( role == Qt::DisplayRole)
@@ -79,9 +82,27 @@ QVariant LaskutModel::data(const QModelIndex &item, int role) const
     }
     else if( role == Qt::TextColorRole && item.column() == ERAPVM)
     {
-        if( kp()->paivamaara().daysTo( lasku.erapvm) < 0)
+        if( kp()->paivamaara().daysTo( lasku.erapvm) < 0 && lasku.avoinSnt )
             return QColor(Qt::red);
     }
+    else if( role == Qt::DecorationRole && item.column() == PVM)
+    {
+        if( lasku.json.luku("Hyvityslasku") )
+            return QIcon(":/pic/poista.png");
+
+        switch (lasku.kirjausperuste) {
+        case LaskuModel::SUORITEPERUSTE:
+            return QIcon(":/pic/suorite.png");
+        case LaskuModel::LASKUTUSPERUSTE:
+            return QIcon(":/pic/kirje.png");
+        case LaskuModel::MAKSUPERUSTE :
+            return QIcon(":/pic/euro.png");
+        case LaskuModel::KATEISLASKU :
+            return QIcon(":/pic/kateinen.png");
+
+        }
+    }
+
     else if( role == TositeRooli)
         return lasku.tosite;
     else if( role == AvoinnaRooli)
@@ -94,8 +115,10 @@ QVariant LaskutModel::data(const QModelIndex &item, int role) const
         return lasku.asiakas;
     else if( role == LiiteRooli)
         return lasku.json.str("Liite");
-    else if( role == HyvitysLaskuModel)
+    else if( role == HyvitysLaskuRooli)
         return lasku.json.luku("Hyvityslasku");
+    else if( role == KirjausPerusteRooli)
+        return lasku.kirjausperuste;
 
     return QVariant();
 }
@@ -130,13 +153,13 @@ void LaskutModel::lataaAvoimet()
 
 void LaskutModel::paivita(int valinta, QDate mista, QDate mihin)
 {
-    QString kysely = "SELECT id, laskupvm, erapvm, summaSnt, avoinSnt, asiakas, tosite, json from lasku";
+    QString kysely = "SELECT id, laskupvm, erapvm, summaSnt, avoinSnt, asiakas, tosite, kirjausperuste, json from lasku";
 
     QStringList ehdot;
     if(valinta == AVOIMET)
         ehdot.append("avoinsnt > 0");
     if(valinta == ERAANTYNEET)
-        ehdot.append(QString("avoinsnt > 0 AND erapvm < '%1'").arg( kp()->paivamaara().toString(Qt::ISODate) ) );
+        ehdot.append(QString("avoinsnt > 0 AND erapvm < '%1' ").arg( kp()->paivamaara().toString(Qt::ISODate) ) );
     if(mista.isValid())
         ehdot.append(QString("laskupvm >= '%1'").arg(mista.toString(Qt::ISODate)));
     if(mihin.isValid())
@@ -148,6 +171,7 @@ void LaskutModel::paivita(int valinta, QDate mista, QDate mihin)
     laskut.clear();
     QSqlQuery query;
     query.exec( kysely );
+
     while( query.next())
     {
         AvoinLasku lasku;
@@ -158,6 +182,7 @@ void LaskutModel::paivita(int valinta, QDate mista, QDate mihin)
         lasku.avoinSnt = query.value("avoinSnt").toInt();
         lasku.asiakas = query.value("asiakas").toString();
         lasku.tosite = query.value("tosite").toInt();
+        lasku.kirjausperuste = query.value("kirjausperuste").toInt();
         lasku.json.fromJson( query.value("json").toByteArray() );
         laskut.append(lasku);
     }

@@ -38,6 +38,7 @@ struct AvoinLasku
     int avoinSnt = 0;
     QString asiakas;
     int tosite;
+    int kirjausperuste = 0;
     JsonKentta json;
 };
 
@@ -62,7 +63,8 @@ public:
            ViiteRooli = Qt::UserRole + 4,
            AsiakasRooli = Qt::UserRole + 5,
            LiiteRooli = Qt::UserRole + 6,
-           HyvitysLaskuModel = Qt::UserRole + 7};
+           HyvitysLaskuRooli = Qt::UserRole + 7,
+           KirjausPerusteRooli = Qt::UserRole + 8};
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
