@@ -154,6 +154,7 @@ void KirjausWg::tyhjenna()
         laskuDlg_->deleteLater();
         laskuDlg_ = 0;
     }
+    ui->tositePvmEdit->setFocus();
 }
 
 void KirjausWg::tallenna()
@@ -281,8 +282,14 @@ void KirjausWg::oikotiet()
     QShortcut *kb_lisaarivi = new QShortcut( QKeySequence(Qt::Key_Insert) , this);
     connect( kb_lisaarivi, SIGNAL(activated()), this, SLOT(lisaaRivi()));
 
+    QShortcut *kb_poistarivi = new QShortcut( QKeySequence(Qt::Key_Delete) , this);
+    connect( kb_poistarivi, SIGNAL(activated()), this, SLOT( poistaRivi()) );
+
     QShortcut *kb_apuri = new QShortcut( QKeySequence(Qt::Key_Return), this);
     connect( kb_apuri, SIGNAL(activated()), this, SLOT(kirjausApuri()));
+
+    QShortcut *kb_lasku = new QShortcut( QKeySequence("F9"), this);
+    connect( kb_lasku, SIGNAL(activated()), this, SLOT( kirjaaLaskunmaksu() ));
 
     QShortcut *kb_talleta = new QShortcut( QKeySequence("Ctrl+Return"), this);
     connect( kb_talleta, SIGNAL(activated()), this, SLOT(tallenna()));

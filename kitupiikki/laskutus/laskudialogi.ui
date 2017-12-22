@@ -218,6 +218,9 @@ p, li { white-space: pre-wrap; }
              <property name="text">
               <string>Tuotteet</string>
              </property>
+             <property name="shortcut">
+              <string>Ctrl+S</string>
+             </property>
              <property name="checkable">
               <bool>true</bool>
              </property>
@@ -251,6 +254,9 @@ p, li { white-space: pre-wrap; }
               <iconset resource="../pic/pic.qrc">
                <normaloff>:/pic/lisaarivi.png</normaloff>:/pic/lisaarivi.png</iconset>
              </property>
+             <property name="shortcut">
+              <string>Ins</string>
+             </property>
             </widget>
            </item>
            <item>
@@ -261,6 +267,9 @@ p, li { white-space: pre-wrap; }
              <property name="icon">
               <iconset resource="../pic/pic.qrc">
                <normaloff>:/pic/poistarivi.png</normaloff>:/pic/poistarivi.png</iconset>
+             </property>
+             <property name="shortcut">
+              <string>Del</string>
              </property>
             </widget>
            </item>
@@ -319,6 +328,9 @@ p, li { white-space: pre-wrap; }
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/tulosta.png</normaloff>:/pic/tulosta.png</iconset>
        </property>
+       <property name="shortcut">
+        <string>Ctrl+P</string>
+       </property>
       </widget>
      </item>
      <item>
@@ -329,6 +341,9 @@ p, li { white-space: pre-wrap; }
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/print.png</normaloff>:/pic/print.png</iconset>
+       </property>
+       <property name="shortcut">
+        <string>F12</string>
        </property>
       </widget>
      </item>
@@ -343,6 +358,9 @@ p, li { white-space: pre-wrap; }
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/email.png</normaloff>:/pic/email.png</iconset>
+       </property>
+       <property name="shortcut">
+        <string>Ctrl+E</string>
        </property>
       </widget>
      </item>
@@ -374,6 +392,9 @@ p, li { white-space: pre-wrap; }
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/ok.png</normaloff>:/pic/ok.png</iconset>
+       </property>
+       <property name="shortcut">
+        <string>Ctrl+Return</string>
        </property>
        <property name="default">
         <bool>false</bool>

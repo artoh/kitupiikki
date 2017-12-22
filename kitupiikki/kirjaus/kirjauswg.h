@@ -133,6 +133,9 @@ signals:
     void tositeKasitelty();
 
 protected:
+    /**
+     * @brief Asettaa näppäinoikotiet
+     */
     void oikotiet();
 
 protected:

@@ -243,7 +243,13 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
             else
                 uusitili = TilinValintaDialogi::valitseTili( QString());
 
+
             viennit_[index.row()].tili = uusitili;
+            // Tällä tilivalinnalla tulee myös oletukset veroille
+            viennit_[index.row()].alvkoodi = uusitili.json()->luku("AlvLaji");
+            viennit_[index.row()].alvprosentti = uusitili.json()->luku("AlvProsentti");
+            emit dataChanged(index, index.sibling(index.row(), ALV));
+
             // Jos kirjataan tulotilille, niin siirrytään syöttämään kredit-summaa
             if( uusitili.onko(TiliLaji::TULO) )
                 emit siirryRuutuun(index.sibling(index.row(), KREDIT));
@@ -372,7 +378,36 @@ void VientiModel::poistaRivi(int rivi)
 
 QModelIndex VientiModel::lisaaVienti()
 {
-    return lisaaVienti( VientiRivi() );
+    // Kun lisätään uusi insertillä, yritetään arvata oikeat täytöt
+
+    VientiRivi uusirivi;
+    uusirivi.pvm = tositeModel_->pvm();
+    uusirivi.selite = tositeModel_->otsikko();
+
+    if( debetSumma() == kreditSumma() )
+    {
+        // Tositelajin oletustili
+        int oletustili = tositeModel_->tositelaji().json()->luku("Oletustili");
+        uusirivi.tili = kp()->tilit()->tiliNumerolla(oletustili);
+        uusirivi.alvkoodi = uusirivi.tili.json()->luku("AlvLaji");
+        uusirivi.alvprosentti = uusirivi.tili.json()->luku("AlvProsentti");
+    }
+    else
+    {
+        if( debetSumma() > kreditSumma() )
+            uusirivi.kreditSnt = debetSumma() - kreditSumma();
+        else
+            uusirivi.debetSnt = kreditSumma() - debetSumma();
+
+        int vastatili = tositeModel_->tositelaji().json()->luku("Vastatili");
+        if( !vastatili && viennit_.count())
+        {
+            vastatili = viennit_.last().tili.json()->luku("Vastatili");
+        }
+        uusirivi.tili = kp()->tilit()->tiliNumerolla( vastatili);
+    }
+
+    return lisaaVienti( uusirivi );
 }
 
 QModelIndex VientiModel::lisaaVienti(VientiRivi rivi)

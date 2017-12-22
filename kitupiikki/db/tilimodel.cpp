@@ -141,8 +141,6 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
                 otsikkotxt += tr("Otsikko %1").arg(tili.otsikkotaso());
                 return QVariant( otsikkotxt );
             }
-
-            // TODO: tilityyppi muutetaan luokkaan
             return QVariant( kp()->tiliTyypit()->tyyppiKoodilla( tili.tyyppiKoodi() ).kuvaus() );
         case ALV:
             int vero = tili.json()->luku("AlvProsentti");
@@ -165,6 +163,10 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
             return QIcon(":/pic/eikaytossa.png");
         else if( tili.tila() == 2)
             return QIcon(":/pic/tahti.png");
+    }
+    else if( role == Qt::DecorationRole && index.column() == ALV)
+    {
+        return kp()->alvTyypit()->kuvakeKoodilla( tili.json()->luku("AlvLaji") );
     }
 
     else if( role == Qt::FontRole)

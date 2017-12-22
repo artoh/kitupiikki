@@ -18,6 +18,7 @@
 #include <QSqlQueryModel>
 #include <QDesktopServices>
 #include <QUrl>
+#include <QShortcut>
 
 #include "laskutussivu.h"
 #include "laskudialogi.h"
@@ -58,6 +59,11 @@ LaskutusSivu::LaskutusSivu() :
 
     connect(ui->laskutView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(valintaMuuttuu()));
 
+    QShortcut *kb_lisaa = new QShortcut( QKeySequence( Qt::Key_Insert) , this);
+    connect( kb_lisaa, SIGNAL(activated()), this, SLOT(uusiLasku()));
+
+    QShortcut *kb_return = new QShortcut( QKeySequence(Qt::Key_Return), this);
+    connect( kb_return, SIGNAL(activated()), this, SLOT(nayta()));
 
 }
 
