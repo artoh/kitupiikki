@@ -133,6 +133,9 @@ signals:
     void tositeKasitelty();
 
 protected:
+    void oikotiet();
+
+protected:
     Ui::KirjausWg *ui;
     TositeModel *model_;
     LaskunMaksuDialogi *laskuDlg_;

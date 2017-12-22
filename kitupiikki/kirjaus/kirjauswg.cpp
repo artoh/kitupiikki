@@ -37,6 +37,8 @@
 #include <QDesktopServices>
 #include <QUrl>
 
+#include <QShortcut>
+
 #include <QSortFilterProxyModel>
 
 KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
@@ -80,9 +82,7 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( ui->tositetyyppiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(vaihdaTositeTyyppi()));
     connect( ui->tunnisteEdit, SIGNAL(textEdited(QString)), this, SLOT(paivitaTunnisteVari()));
     connect( ui->otsikkoEdit, SIGNAL(textEdited(QString)), model_, SLOT(asetaOtsikko(QString)));
-
     connect( ui->viennitView, SIGNAL(activated(QModelIndex)), this, SLOT( vientivwAktivoitu(QModelIndex)));
-
 
 
     // Tiliotteen tilivalintaan hyväksytään vain rahoitustilit
@@ -101,6 +101,8 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( ui->lisaaliiteNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaLiite()));
     connect( ui->avaaNappi, SIGNAL(clicked(bool)), this, SLOT(naytaLiite()));
     connect( ui->poistaLiiteNappi, SIGNAL(clicked(bool)), this, SLOT(poistaLiite()));
+
+    oikotiet();
 }
 
 KirjausWg::~KirjausWg()
@@ -272,6 +274,18 @@ void KirjausWg::kirjaaLaskunmaksu()
 
     laskuDlg_->exec();
 
+}
+
+void KirjausWg::oikotiet()
+{
+    QShortcut *kb_lisaarivi = new QShortcut( QKeySequence(Qt::Key_Insert) , this);
+    connect( kb_lisaarivi, SIGNAL(activated()), this, SLOT(lisaaRivi()));
+
+    QShortcut *kb_apuri = new QShortcut( QKeySequence(Qt::Key_Return), this);
+    connect( kb_apuri, SIGNAL(activated()), this, SLOT(kirjausApuri()));
+
+    QShortcut *kb_talleta = new QShortcut( QKeySequence("Ctrl+Return"), this);
+    connect( kb_talleta, SIGNAL(activated()), this, SLOT(tallenna()));
 }
 
 void KirjausWg::naytaSummat()
