@@ -269,7 +269,9 @@ FORMS += \
     laskutus/laskunmaksudialogi.ui \
     raportti/taseerittely.ui \
     arkisto/tilinpaattaja.ui \
-    arkisto/poistaja.ui
+    arkisto/poistaja.ui \
+    maaritys/lisaaraporttidialogi.ui \
+    maaritys/kaavaeditori.ui
 
 DISTFILES += \
     uusikp/luo.sql \

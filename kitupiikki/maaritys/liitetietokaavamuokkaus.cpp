@@ -16,49 +16,74 @@
 */
 
 #include "liitetietokaavamuokkaus.h"
-
 #include "db/kirjanpito.h"
-#include <QVBoxLayout>
-#include <QLabel>
-
 #include "kaavankorostin.h"
 
-LiitetietokaavaMuokkaus::LiitetietokaavaMuokkaus()
+#include "ui_lisaaraporttidialogi.h"
+
+#include <QDialog>
+
+LiitetietokaavaMuokkaus::LiitetietokaavaMuokkaus() :
+    ui( new Ui::Kaavaeditori)
 {
-    editor = new QPlainTextEdit;
-    new KaavanKorostin( editor->document());
+    ui->setupUi(this);
+    new KaavanKorostin(  ui->editori->document());
+    connect( ui->editori, SIGNAL(textChanged()), this, SLOT(ilmoitaOnkoMuokattu()));
+    connect( ui->raporttiNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaRaportti()));
+}
 
-    QLabel* otsikko = new QLabel( tr("<b>Tilinpäätöksen mallin muokkaaminen</b>"
-                                     "<p>Tässä määritellään tilinpäätökseen tulostettavat raportit ja liitetietojen kaava. "
-                                     "Katso ohjeet käsikirjasta.</p>"));
-    QVBoxLayout *leiska = new QVBoxLayout;
-    leiska->addWidget(otsikko);
-    leiska->addWidget(editor);
-    setLayout(leiska);
-
-    connect( editor, SIGNAL(textChanged()), this, SLOT(ilmoitaOnkoMuokattu()));
+LiitetietokaavaMuokkaus::~LiitetietokaavaMuokkaus()
+{
+    delete ui;
 }
 
 bool LiitetietokaavaMuokkaus::nollaa()
 {
-    editor->setPlainText( kp()->asetukset()->asetus("TilinpaatosPohja"));
+    ui->editori->setPlainText( kp()->asetukset()->asetus("TilinpaatosPohja"));
     return true;
 }
 
 bool LiitetietokaavaMuokkaus::tallenna()
 {
-    kp()->asetukset()->aseta("TilinpaatosPohja", editor->toPlainText() );
-    editor->document()->setModified(false);
+    kp()->asetukset()->aseta("TilinpaatosPohja", ui->editori->toPlainText() );
+    ui->editori->document()->setModified(false);
     ilmoitaOnkoMuokattu();
     return true;
 }
 
 bool LiitetietokaavaMuokkaus::onkoMuokattu()
 {
-    return editor->document()->isModified();
+    return ui->editori->document()->isModified();
 }
 
 void LiitetietokaavaMuokkaus::ilmoitaOnkoMuokattu()
 {
     emit tallennaKaytossa(onkoMuokattu());
+}
+
+void LiitetietokaavaMuokkaus::lisaaRaportti()
+{
+    QDialog dlg;
+    Ui::LisaaRaportti dlgUi;
+    dlgUi.setupUi(&dlg);
+
+    // Lisätään raportit dialogiin
+    foreach (QString nimi, kp()->asetukset()->avaimet("Raportti/") )
+    {
+        dlgUi.rapottiCombo->addItem( nimi.mid(9) );
+    }
+
+    if( dlg.exec() )
+    {
+        if( dlgUi.erittelyCheck->isChecked() )
+            ui->editori->insertPlainText( QString("@%1*%2@")
+                                          .arg( dlgUi.rapottiCombo->currentText() )
+                                          .arg( dlgUi.otsikkoLine->text()));
+        else
+            ui->editori->insertPlainText( QString("@%1!%2@")
+                                          .arg( dlgUi.rapottiCombo->currentText() )
+                                          .arg( dlgUi.otsikkoLine->text()));
+
+    }
+
 }

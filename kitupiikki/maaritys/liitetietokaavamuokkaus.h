@@ -19,7 +19,7 @@
 #define LIITETIETOKAAVAMUOKKAUS_H
 
 #include "maarityswidget.h"
-#include <QPlainTextEdit>
+#include "ui_kaavaeditori.h"
 
 /**
  * @brief The Tilinpäätöksen mallin muokkaaminen
@@ -32,6 +32,7 @@ class LiitetietokaavaMuokkaus : public MaaritysWidget
     Q_OBJECT
 public:
     LiitetietokaavaMuokkaus();
+    ~LiitetietokaavaMuokkaus();
 
     bool nollaa();
     bool tallenna();
@@ -39,9 +40,10 @@ public:
 
 protected slots:
     void ilmoitaOnkoMuokattu();
+    void lisaaRaportti();
 
 protected:
-    QPlainTextEdit* editor;
+    Ui::Kaavaeditori* ui;
 };
 
 #endif // LIITETIETOKAAVAMUOKKAUS_H
