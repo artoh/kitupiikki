@@ -23,11 +23,6 @@
 #include "tili.h"
 
 
-struct TositeTunniste
-{
-    int id = 0;
-    QString tunnus;
-};
 
 
 /**
@@ -41,11 +36,12 @@ struct TaseEra
      * @param id Haettavan erän id
      */
     TaseEra(int id = 0);
+
     /**
-     * @brief Hakee tase-erän avaavaan tositteen tunnisteet
+     * @brief Hakee tase-erän avaavaan tositteen tunnisteen
      * @return
      */
-    TositeTunniste tositteenTunniste();
+    QString tositteenTunniste();
 
     int eraId;
     QDate pvm;

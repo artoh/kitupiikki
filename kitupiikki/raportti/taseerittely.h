@@ -23,6 +23,9 @@
 #include "raportti.h"
 #include "db/kirjanpito.h"
 
+/**
+ * @brief Tase-erittelyn tulostaminen
+ */
 class TaseErittely : public Raportti
 {
     Q_OBJECT

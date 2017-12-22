@@ -15,6 +15,11 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+  * @dir maaritys
+  * @brief Kirjanpidon määritykset
+  */
+
 #ifndef MAARITYSSIVU_H
 #define MAARITYSSIVU_H
 

@@ -238,9 +238,12 @@ bool LaskuModel::setData(const QModelIndex &index, const QVariant &value, int ro
         if( value.toInt() == LaskutusVeroDelegaatti::MUUVEROVALINTA)
         {
             // Jos delegaatista valitaan muu, näytetään dialogi
-            VeroDialogiValinta uusivero = VeroDialogi::veroDlg(rivit_[rivi].alvKoodi, rivit_[rivi].alvProsentti, true);
-            rivit_[rivi].alvKoodi = uusivero.verokoodi;
-            rivit_[rivi].alvProsentti = uusivero.veroprosentti;
+            VeroDialogi veroDlg;
+            if( veroDlg.exec(rivit_[rivi].alvKoodi, rivit_[rivi].alvProsentti, true) )
+            {
+                rivit_[rivi].alvKoodi = veroDlg.alvKoodi();
+                rivit_[rivi].alvProsentti = veroDlg.alvProsentti();
+            }
         }
         else
             rivit_[rivi].alvKoodi = value.toInt();

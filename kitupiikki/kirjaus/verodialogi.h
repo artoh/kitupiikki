@@ -20,17 +20,18 @@
 
 #include <QDialog>
 
-struct VeroDialogiValinta
-{
-    int verokoodi;
-    int veroprosentti;
-};
-
-
 namespace Ui {
 class VeroDialogi;
 }
 
+/**
+ * @brief Verokirjauksen valintaan
+ *
+ * Tällä voidaan valita kaikki mahdolliset verokirjaukset
+ * - Alv-koodi
+ * - Alv-prosentti
+ * - Kirjauksen tyyppi (peruste, vero, vähennys)
+ */
 class VeroDialogi : public QDialog
 {
     Q_OBJECT
@@ -39,14 +40,24 @@ public:
     explicit VeroDialogi(QWidget *parent = 0);
     ~VeroDialogi();
 
+    int alvProsentti() const;
+    int alvKoodi() const;
+
+    /**
+     * @brief Näyttää dialogin annetuilla alkutiedoilla
+     * @param koodi Alv-koodi
+     * @param prosentti Alv-prosentti
+     * @param tyyppilukko Jos kirjaustyyppiä ei saa muuttaa
+     * @return QDialog::exec() paluuarvo
+     */
+    int exec(int koodi, int prosentti, bool tyyppilukko = false);
+
 public slots:
     void lajimuuttuu();
 
 private:
     Ui::VeroDialogi *ui;
 
-public:
-    static VeroDialogiValinta veroDlg(int koodi, int prosentti, bool tyyppilukko = false);
 };
 
 #endif // VERODIALOGI_H

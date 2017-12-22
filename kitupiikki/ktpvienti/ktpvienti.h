@@ -15,11 +15,19 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+  * @dir ktpvienti
+  * @brief Tilikarttatiedoston vieminen ja sen velho
+  */
+
 #ifndef KTPVIENTI_H
 #define KTPVIENTI_H
 
 #include <QWizard>
 
+/**
+ * @brief Tilikartan viemisen velho
+ */
 class KtpVienti : public QWizard
 {
 

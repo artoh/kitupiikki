@@ -24,6 +24,9 @@
 #include "ui_tilinmuokkaus.h"
 #include "db/tilimodel.h"
 
+/**
+ * @brief Yhtä tiliä muokkaava dialogi
+ */
 class TilinMuokkausDialog : public QDialog
 {
     Q_OBJECT

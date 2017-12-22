@@ -155,9 +155,12 @@ void LaskuDialogi::viewAktivoitu(QModelIndex indeksi)
 {
     if( indeksi.column() == LaskuModel::ALV)
     {
-        VeroDialogiValinta uusivero = VeroDialogi::veroDlg( indeksi.data(LaskuModel::AlvKoodiRooli).toInt(), indeksi.data(LaskuModel::AlvProsenttiRooli).toInt(), true );
-        model->setData(indeksi, uusivero.verokoodi, LaskuModel::AlvKoodiRooli);
-        model->setData(indeksi, uusivero.veroprosentti, LaskuModel::AlvProsenttiRooli);
+        VeroDialogi veroDlg;
+        if( veroDlg.exec( indeksi.data(LaskuModel::AlvKoodiRooli).toInt(), indeksi.data(LaskuModel::AlvProsenttiRooli).toInt(), true  ))
+        {
+            model->setData(indeksi, veroDlg.alvKoodi(), LaskuModel::AlvKoodiRooli);
+            model->setData(indeksi, veroDlg.alvProsentti(), LaskuModel::AlvProsenttiRooli);
+        }
     }
 }
 

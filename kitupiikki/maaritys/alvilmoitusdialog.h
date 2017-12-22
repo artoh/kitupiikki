@@ -25,14 +25,28 @@ namespace Ui {
 class AlvIlmoitusDialog;
 }
 
+/**
+ * @brief Arvonlisäilmoituksen tekemisen dialogi
+ *
+ * Näyttäää esikatselun valitun kauden alv-ilmoituksesta ja tekee alv-kirjaukset jos dialogi hyväksytään.
+ *
+ * Käytetään AlvIlmoitusDialogi::teeAlvIlmoitus() -funktiolla
+ */
 class AlvIlmoitusDialog : public QDialog
 {
     Q_OBJECT
 
-public:
+protected:
     explicit AlvIlmoitusDialog(QWidget *parent = 0);
     ~AlvIlmoitusDialog();
 
+public:
+    /**
+     * @brief Näyttää ilmoitusdialogin ja jos se hyväksytään, tekee kirjaukset
+     * @param alkupvm Ilmoituskauden alkupäivä
+     * @param loppupvm Ilmoituskauden loppupäivä
+     * @return pvm johon asti alv ilmoitettu, tai Null jos ilmoitus perutaan
+     */
     static QDate teeAlvIlmoitus(QDate alkupvm, QDate loppupvm);
 
 private:

@@ -27,6 +27,10 @@ namespace Ui {
 class KohdennusDialog;
 }
 
+/**
+ * @brief Yhden kohdennuksen muokkaaminen
+ *
+ */
 class KohdennusDialog : public QDialog
 {
     Q_OBJECT
@@ -38,6 +42,9 @@ public:
     ~KohdennusDialog();
 
 protected slots:
+    /**
+     * @brief Huolehtii, ettei päättymispäivä ole alkupäivää aikaisempi
+     */
     void tarkennaLoppuMinimi();
 
     void accept();

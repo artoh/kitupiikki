@@ -71,6 +71,9 @@ void Arkistoija::luoHakemistot()
 
 }
 
+/**
+ * @brief Tiliotteen tiedot arkistoijan sisäiseen käyttöön
+ */
 struct TilioteTieto
 {
     int tilinumero;

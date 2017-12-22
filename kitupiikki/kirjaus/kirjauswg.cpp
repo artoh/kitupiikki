@@ -68,6 +68,7 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( ui->kommentitEdit, SIGNAL(textChanged()), this, SLOT(paivitaKommenttiMerkki()));
     connect( ui->apuriNappi, SIGNAL(clicked(bool)), this, SLOT(kirjausApuri()));
     connect( ui->laskuNappi, SIGNAL(clicked(bool)), this, SLOT(kirjaaLaskunmaksu()));
+    connect( ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poistaTosite()));
 
     ui->tositetyyppiCombo->setModel( Kirjanpito::db()->tositelajit());
     ui->tositetyyppiCombo->setModelColumn( TositelajiModel::NIMI);
@@ -226,6 +227,18 @@ void KirjausWg::hylkaa()
     emit tositeKasitelty();
 }
 
+void KirjausWg::poistaTosite()
+{
+    if( QMessageBox::question(this, tr("Tositteen poistaminen"),
+                              tr("Haluatko todella poistaa tämän tositteen?"),
+                              QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) == QMessageBox::Yes)
+    {
+        model()->poista();
+        tyhjenna();
+        emit tositeKasitelty();
+    }
+}
+
 void KirjausWg::vientivwAktivoitu(QModelIndex indeksi)
 {
     // Tehdään alv-kirjaus
@@ -234,9 +247,12 @@ void KirjausWg::vientivwAktivoitu(QModelIndex indeksi)
 
         if(indeksi.column() == VientiModel::ALV )
         {
-            VeroDialogiValinta uusivero = VeroDialogi::veroDlg( indeksi.data(VientiModel::AlvKoodiRooli).toInt(), indeksi.data(VientiModel::AlvProsenttiRooli).toInt() );
-            model_->vientiModel()->setData(indeksi, uusivero.verokoodi, VientiModel::AlvKoodiRooli);
-            model_->vientiModel()->setData(indeksi, uusivero.veroprosentti, VientiModel::AlvProsenttiRooli);
+            VeroDialogi verodlg(this);
+            if( verodlg.exec( indeksi.data(VientiModel::AlvKoodiRooli).toInt(), indeksi.data(VientiModel::AlvProsenttiRooli).toInt() ))
+            {
+                model_->vientiModel()->setData(indeksi, verodlg.alvKoodi() , VientiModel::AlvKoodiRooli);
+                model_->vientiModel()->setData(indeksi, verodlg.alvProsentti() , VientiModel::AlvProsenttiRooli);
+            }
         }
         else if(indeksi.column() == VientiModel::KOHDENNUS && indeksi.data(VientiModel::TaseErittelyssaRooli).toBool())
         {

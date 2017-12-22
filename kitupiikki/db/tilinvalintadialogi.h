@@ -28,6 +28,13 @@ namespace Ui {
 class TilinValintaDialogi;
 }
 
+/**
+ * @brief Dialogi tilin valitsemiseen
+ *
+ * Kun TilinvalintaLine:ssä painetaan kirjainta, pomppaa tämä dialogi,
+ * jossa tiliä pääsee etsimään ja selaamaan
+ *
+ */
 class TilinValintaDialogi : public QDialog
 {
     Q_OBJECT

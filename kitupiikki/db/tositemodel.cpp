@@ -251,3 +251,14 @@ bool TositeModel::tallenna()
 
     return true;
 }
+
+void TositeModel::poista()
+{
+    // Poistettaessa ei oikeasti poisteta, vaan merkitään päivämääräksi NULL
+
+    for(int i=0; i < vientiModel()->rowCount(QModelIndex()); i++)
+        vientiModel()->setData( vientiModel()->index(i, VientiModel::PVM), QDate(), VientiModel::PvmRooli );
+
+    pvm_ = QDate();
+    tallenna();
+}

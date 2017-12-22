@@ -27,6 +27,9 @@ namespace Ui {
 class TositelajiDialogi;
 }
 
+/**
+ * @brief Tositelajin muokkaamisen dialogi
+ */
 class TositelajiDialogi : public QDialog
 {
     Q_OBJECT

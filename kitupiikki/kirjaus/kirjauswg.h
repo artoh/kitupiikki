@@ -56,7 +56,7 @@ public slots:
     void tyhjenna();
     void tallenna();
     void hylkaa();
-
+    void poistaTosite();
 
 
     void naytaSummat();

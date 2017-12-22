@@ -15,6 +15,11 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+  * @dir aloitussivu
+  * @brief Aloitussivu
+  */
+
 #ifndef ALOITUSSIVU_H
 #define ALOITUSSIVU_H
 
@@ -22,6 +27,7 @@
 #include "kitupiikkisivu.h"
 
 #include "ui_aloitus.h"
+
 
 
 /**

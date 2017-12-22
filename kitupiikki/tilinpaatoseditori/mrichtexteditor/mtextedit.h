@@ -5,6 +5,10 @@
 #include <QMimeData>
 #include <QImage>
 
+/**
+ * @brief A part of simple rich-text editor
+ * @author 2013 Jiří Procházka (Hobrasoft)
+ */
 class MTextEdit : public QTextEdit {
     Q_OBJECT
   public:

@@ -36,6 +36,53 @@ VeroDialogi::~VeroDialogi()
     delete ui;
 }
 
+int VeroDialogi::alvProsentti() const
+{
+    if( ui->verolajiCombo->currentData( VerotyyppiModel::NollaLajiRooli).toBool() )
+    {
+        return 0;
+    }
+    else
+    {
+        return ui->prossaSpin->value();
+    }
+}
+
+int VeroDialogi::alvKoodi() const
+{
+    int koodi = ui->verolajiCombo->currentData(VerotyyppiModel::KoodiRooli).toInt();
+
+    if( !ui->verolajiCombo->currentData( VerotyyppiModel::NollaLajiRooli).toBool() )
+    {
+        if( ui->veroRadio->isChecked())
+            return koodi + AlvKoodi::ALVKIRJAUS;
+        else if( ui->vahennysRadio->isChecked())
+            return koodi + AlvKoodi::ALVVAHENNYS;
+    }
+    return koodi;
+}
+
+int VeroDialogi::exec(int koodi, int prosentti, bool tyyppilukko)
+{
+    if( koodi > AlvKoodi::ALVVAHENNYS)
+        ui->vahennysRadio->setChecked(true);
+    else if( koodi > AlvKoodi::ALVKIRJAUS)
+        ui->veroRadio->setChecked(true);
+
+    ui->verolajiCombo->setCurrentIndex( ui->verolajiCombo->findData( koodi % 100));
+    ui->prossaSpin->setValue(prosentti);
+
+    // Jos tyyppi lukittu, ei voi muuttaa kirjausta veroksi jne...
+    ui->vahennysRadio->setEnabled(!tyyppilukko);
+    ui->veroRadio->setEnabled(!tyyppilukko);
+    ui->veronalainenRadio->setEnabled(!tyyppilukko);
+
+    lajimuuttuu();
+
+    return QDialog::exec();
+
+}
+
 void VeroDialogi::lajimuuttuu()
 {
     // Nollaverolajeilla ei voi tehdä verokirjauksia
@@ -46,50 +93,3 @@ void VeroDialogi::lajimuuttuu()
         ui->prossaSpin->setValue( VerotyyppiModel::oletusAlvProsentti() );
 }
 
-VeroDialogiValinta VeroDialogi::veroDlg(int koodi, int prosentti, bool tyyppilukko)
-{
-    VeroDialogi dlg;
-
-    if( koodi > AlvKoodi::ALVVAHENNYS)
-        dlg.ui->vahennysRadio->setChecked(true);
-    else if( koodi > AlvKoodi::ALVKIRJAUS)
-        dlg.ui->veroRadio->setChecked(true);
-
-    dlg.ui->verolajiCombo->setCurrentIndex( dlg.ui->verolajiCombo->findData( koodi % 100));
-    dlg.ui->prossaSpin->setValue(prosentti);
-
-    // Jos tyyppi lukittu, ei voi muuttaa kirjausta veroksi jne...
-    dlg.ui->vahennysRadio->setEnabled(!tyyppilukko);
-    dlg.ui->veroRadio->setEnabled(!tyyppilukko);
-    dlg.ui->veronalainenRadio->setEnabled(!tyyppilukko);
-
-    dlg.lajimuuttuu();
-
-    VeroDialogiValinta palautettava;
-
-    if( dlg.exec())
-    {
-        palautettava.verokoodi = dlg.ui->verolajiCombo->currentData(VerotyyppiModel::KoodiRooli).toInt();
-        if( dlg.ui->verolajiCombo->currentData( VerotyyppiModel::NollaLajiRooli).toBool() )
-        {
-            palautettava.veroprosentti = 0;
-            return palautettava;
-        }
-        else
-        {
-            if( dlg.ui->veroRadio->isChecked())
-                palautettava.verokoodi += AlvKoodi::ALVKIRJAUS;
-            else if( dlg.ui->vahennysRadio->isChecked())
-                palautettava.verokoodi += AlvKoodi::ALVVAHENNYS;
-            palautettava.veroprosentti = dlg.ui->prossaSpin->value();
-        }
-
-    }
-    else
-    {
-        palautettava.verokoodi = koodi;
-        palautettava.veroprosentti = prosentti;
-    }
-
-    return palautettava;
-}

@@ -15,6 +15,11 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+  * @dir laskutus
+  * @brief Laskujen laatiminen, selaaminen, maksaminen ja modelit
+  */
+
 #ifndef LASKUTUSSIVU_H
 #define LASKUTUSSIVU_H
 
@@ -24,6 +29,12 @@
 #include "ui_laskutus.h"
 #include "laskutmodel.h"
 
+/**
+ * @brief Laskusivu
+ *
+ * Laskujen luettelo, näyttäminen, hyvityslaskun tekeminen, uuden laskun tekeminen
+ *
+ */
 class LaskutusSivu : public KitupiikkiSivu
 {
     Q_OBJECT

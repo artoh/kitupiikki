@@ -22,6 +22,9 @@
 #include <QPrinter>
 #include "db/tilikausi.h"
 
+/**
+ * @brief Tilinpäätöksen tulostus
+*/
 class TilinpaatosTulostaja
 {
 public:

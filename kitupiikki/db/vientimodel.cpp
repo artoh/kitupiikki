@@ -156,9 +156,8 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
                     // Tase-erät näytetään samalla sarakkeella
                     if( rivi.eraId )
                     {
-                        TaseEra era(rivi.eraId);
-                        TositeTunniste tunniste = era.tositteenTunniste();
-                        return QVariant( tr("%1/%2").arg(tunniste.tunnus).arg(era.pvm.toString(Qt::SystemLocaleShortDate)) );
+                        TaseEra era(rivi.eraId);                      
+                        return QVariant( tr("%1/%2").arg( era.tositteenTunniste() ).arg(era.pvm.toString(Qt::SystemLocaleShortDate)) );
                     }
                     else if( rivi.json.luku("Tasaerapoisto") )
                     {

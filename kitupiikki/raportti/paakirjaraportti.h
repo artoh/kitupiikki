@@ -21,6 +21,9 @@
 #include "raportti.h"
 #include "ui_paivakirja.h"
 
+/**
+ * @brief Pääkirjan tulostava raportti
+ */
 class PaakirjaRaportti : public Raportti
 {
     Q_OBJECT

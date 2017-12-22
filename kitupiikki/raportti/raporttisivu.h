@@ -15,6 +15,11 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+  * @dir raportti
+  * @brief Erilaisten raporttien tulostaminen
+  */
+
 #ifndef RAPORTTISIVU_H
 #define RAPORTTISIVU_H
 

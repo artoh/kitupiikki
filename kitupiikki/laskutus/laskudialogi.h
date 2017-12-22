@@ -32,6 +32,9 @@ namespace Ui {
 class LaskuDialogi;
 }
 
+/**
+ * @brief Laskun laatimisen dialogi
+ */
 class LaskuDialogi : public QDialog
 {
     Q_OBJECT

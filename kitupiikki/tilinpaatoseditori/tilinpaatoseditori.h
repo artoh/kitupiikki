@@ -15,6 +15,11 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+  * @dir tilinpaatoseditori
+  * @brief Tilinpäätöksen laatiminen
+  */
+
 #ifndef TILINPAATOSEDITORI_H
 #define TILINPAATOSEDITORI_H
 
@@ -27,6 +32,13 @@
 #include "db/tilikausi.h"
 #include "mrichtexteditor/mrichtextedit.h"
 
+/**
+ * @brief Tilinpäätöksen editori
+ *
+ * Tilinpäätöstä laadittaessa TpAloitus-dialogilla ensin tehdään valinnat ja
+ * sitten TilinpaatosEditori:lla muokataan tekstiosa
+ *
+ */
 class TilinpaatosEditori : public QMainWindow
 {
     Q_OBJECT

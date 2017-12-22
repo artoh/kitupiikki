@@ -57,7 +57,7 @@ QVariant EranValintaModel::data(const QModelIndex &index, int role) const
         else if( role == SaldoRooli)
             return QVariant( era.saldoSnt);
         else if( role == TositteenTunnisteRooli)
-            return QVariant( era.tositteenTunniste().tunnus );
+            return QVariant( era.tositteenTunniste() );
         else if(role == Qt::DisplayRole)
         {
             return QVariant( QString("%1 \t%2 (%L3 €)").arg(era.pvm.toString(Qt::SystemLocaleShortDate)).arg(era.selite).arg(era.saldoSnt / 100.0,0,'f',2));
@@ -138,18 +138,15 @@ TaseEra::TaseEra(int id)
     }
 }
 
-TositeTunniste TaseEra::tositteenTunniste()
+QString TaseEra::tositteenTunniste()
 {
-    TositeTunniste tunniste;
-
     if(eraId)
     {
-        QSqlQuery query(QString("select tositeId,tositelaji,tunniste from vientivw where vientiId=%1").arg(eraId));
+        QSqlQuery query(QString("select tositelaji,tunniste from vientivw where vientiId=%1").arg(eraId));
         if( query.next())
         {
-            tunniste.id = query.value("tositeId").toInt();
-            tunniste.tunnus = query.value("tositelaji").toString() + query.value("tunniste").toString();
+            return  query.value("tositelaji").toString() + query.value("tunniste").toString();
         }
     }
-    return tunniste;
+    return QString();
 }

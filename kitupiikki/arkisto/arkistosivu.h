@@ -15,6 +15,11 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+  * @dir arkisto
+  * @brief Tilikaudet, tilinpäätös ja arkistointi
+  */
+
 #ifndef ARKISTO_H
 #define ARKISTO_H
 

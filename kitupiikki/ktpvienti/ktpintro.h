@@ -21,6 +21,9 @@
 #include <QWizardPage>
 #include "ui_ktpintro.h"
 
+/**
+ * @brief Tilikartan vientivelhon introsivu
+ */
 class KtpIntro : public QWizardPage
 {
     Q_OBJECT

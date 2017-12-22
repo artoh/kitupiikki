@@ -15,6 +15,11 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+  * @dir kirjaus
+  * @brief Uuden tositteen luominen tai tositteen muokkaaminen
+  */
+
 #ifndef KIRJAUSSIVU_H
 #define KIRJAUSSIVU_H
 

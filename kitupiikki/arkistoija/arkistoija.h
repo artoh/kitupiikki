@@ -15,6 +15,11 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+  * @dir arkistoija
+  * @brief Arkiston muodostaminen
+  */
+
 #ifndef ARKISTOIJA_H
 #define ARKISTOIJA_H
 

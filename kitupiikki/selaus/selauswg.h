@@ -15,6 +15,11 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+  * @dir selaus
+  * @brief Tositteiden ja vientien selaaminen
+  */
+
 #ifndef SELAUSWG_H
 #define SELAUSWG_H
 

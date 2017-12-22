@@ -24,6 +24,9 @@ namespace Ui {
 class KtpKuvaus;
 }
 
+/**
+ * @brief Tilikartan vientivelhon sivu kuvauksen kirjoittamiseen
+ */
 class KtpKuvaus : public QWizardPage
 {
     Q_OBJECT

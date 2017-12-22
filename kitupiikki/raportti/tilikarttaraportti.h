@@ -25,6 +25,9 @@
 
 #include "db/kirjanpito.h"
 
+/**
+ * @brief Tilikartan tulostava raportti
+ */
 class TilikarttaRaportti : public Raportti
 {
     Q_OBJECT

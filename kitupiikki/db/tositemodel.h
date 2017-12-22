@@ -99,6 +99,7 @@ public slots:
     void lataa(int id);
     void tyhjaa();
     bool tallenna();
+    void poista();
 
 
 protected:
