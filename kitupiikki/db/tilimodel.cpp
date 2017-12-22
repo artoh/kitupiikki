@@ -233,14 +233,6 @@ Tili TiliModel::edellistenYlijaamaTili() const
     return Tili();
 }
 
-Tili TiliModel::tiliTyyppikoodilla(QString tyyppikoodi) const
-{
-    foreach (Tili tili, tilit_) {
-        if( tili.tyyppiKoodi() == tyyppikoodi)
-            return tili;
-    }
-    return Tili();
-}
 
 Tili TiliModel::tiliTyypilla(TiliLaji::TiliLuonne luonne) const
 {

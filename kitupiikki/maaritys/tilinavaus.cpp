@@ -63,7 +63,10 @@ bool Tilinavaus::nollaa()
 bool Tilinavaus::tallenna()
 {
     model->tallenna();
-    kp()->tilikaudet()->asetaHenkilosto(0, ui->henkilostoSpin->value());
+
+    kp()->tilikaudet()->json(0)->set("Henkilosto", ui->henkilostoSpin->value());
+    kp()->tilikaudet()->tallenna();
+
     emit tallennaKaytossa(onkoMuokattu());
     return true;
 }

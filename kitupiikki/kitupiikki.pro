@@ -271,7 +271,8 @@ FORMS += \
     arkisto/tilinpaattaja.ui \
     arkisto/poistaja.ui \
     maaritys/lisaaraporttidialogi.ui \
-    maaritys/kaavaeditori.ui
+    maaritys/kaavaeditori.ui \
+    arkisto/muokkaatilikausi.ui
 
 DISTFILES += \
     uusikp/luo.sql \

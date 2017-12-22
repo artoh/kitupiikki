@@ -146,8 +146,28 @@ void TilikausiModel::lisaaTilikausi(Tilikausi tilikausi)
     beginInsertRows( QModelIndex(), kaudet_.count(), kaudet_.count());
 
     kaudet_.append( tilikausi );
-
+    kp()->tietokanta()->exec( QString("INSERT INTO tilikausi(alkaa,loppuu) VALUES('%1','%2') ")
+                              .arg(tilikausi.alkaa().toString(Qt::ISODate))
+                              .arg(tilikausi.paattyy().toString(Qt::ISODate)));
     endInsertRows();
+}
+
+void TilikausiModel::muokkaaViimeinenTilikausi(const QDate &paattyy)
+{
+    if( paattyy.isNull())
+    {
+        beginRemoveRows( QModelIndex(), kaudet_.count()-1, kaudet_.count()-1);
+        kp()->tietokanta()->exec(QString("DELETE FROM tilikausi WHERE alkaa='%1' ").arg( kaudet_.last().alkaa().toString(Qt::ISODate) ) );
+        kaudet_.removeLast();
+        endRemoveRows();
+    }
+    else
+    {
+        kaudet_[ kaudet_.count()-1 ].paattyy() = paattyy;
+        kp()->tietokanta()->exec(QString("UPDATE tilikausi SET loppuu='%1' WHERE alkaa='%2' ")
+                          .arg( paattyy.toString(Qt::ISODate) ).arg( kaudet_.last().alkaa().toString(Qt::ISODate)) );
+        emit dataChanged( index(kaudet_.count()-1, KAUSI), index(kaudet_.count()-1, KAUSI) );
+    }
 }
 
 Tilikausi TilikausiModel::tilikausiPaivalle(const QDate &paiva) const
@@ -160,19 +180,6 @@ Tilikausi TilikausiModel::tilikausiPaivalle(const QDate &paiva) const
     }
     return Tilikausi(QDate(), QDate()); // Kelvoton tilikausi
 
-}
-
-void TilikausiModel::asetaHenkilosto(int indeksi, int henkilosto)
-{
-    kaudet_[indeksi].json()->set("Henkilosto", henkilosto);
-    tallenna();
-}
-
-void TilikausiModel::merkitseArkistoiduksi(int indeksi, const QString &shatiiviste)
-{
-    kaudet_[indeksi].merkitseNytArkistoiduksi(shatiiviste);
-    tallenna();
-    emit dataChanged( index(indeksi, ARKISTOITU),index(indeksi, ARKISTOITU));
 }
 
 
@@ -237,19 +244,18 @@ void TilikausiModel::lataa()
 
 void TilikausiModel::tallenna()
 {
-    // Tilikausi tallennetaan aina kirjoittamalla se kokonaan uudelleen
     tietokanta_->transaction();
 
     QSqlQuery kysely(*tietokanta_);
-    kysely.exec("DELETE FROM tilikausi");
-
-    kysely.prepare("INSERT INTO tilikausi(alkaa,loppuu,json) VALUES(:alku,:loppu,:json)");
-    foreach (Tilikausi kausi, kaudet_)
+    kysely.prepare("UPDATE tilikausi SET json=:json WHERE alkaa=:alku");
+    for(int i=0; i<kaudet_.count(); i++)
     {
-        kysely.bindValue(":alku", kausi.alkaa());
-        kysely.bindValue(":loppu", kausi.paattyy());
-        kysely.bindValue(":json", kausi.json()->toSqlJson());
-        kysely.exec();
+        if( kaudet_[i].json()->muokattu())
+        {
+            kysely.bindValue(":json", kaudet_[i].json()->toSqlJson());
+            kysely.bindValue(":alku", kaudet_[i].alkaa());
+            kysely.exec();
+        }
     }
 
     tietokanta_->commit();

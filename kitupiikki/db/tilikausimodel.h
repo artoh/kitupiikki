@@ -26,7 +26,9 @@
 /**
  * @brief Tilikaudet
  *
- * Model tilikausien selaamiseen ja muokkaamiseen
+ * Model tilikausien selaamiseen ja muokkaamiseen.
+ * Tilikausien lisäykset ja poistot tallentuvat suoraan tietokantaan,
+ * json-kenttien muokkaamisen jälkeen on vielä erikseen valittava tallenna()
  *
  */
 class TilikausiModel : public QAbstractTableModel
@@ -61,12 +63,14 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
 
     void lisaaTilikausi( Tilikausi tilikausi);
+
+    /**
+     * @brief Muuttaa viimeisen tilikauden päätöspäivän tai poistaa sen
+     * @param paattyy Uusi päättymispäivä tai QDate() jos poistetaan
+     */
+    void muokkaaViimeinenTilikausi(const QDate& paattyy);
+
     Tilikausi tilikausiPaivalle(const QDate &paiva) const;
-
-    void asetaHenkilosto(int indeksi, int henkilosto);
-    void merkitseArkistoiduksi(int indeksi, const QString& shatiiviste);
-
-
     int indeksiPaivalle(const QDate &paiva) const;
     Tilikausi tilikausiIndeksilla(int indeksi) const;
 
@@ -84,6 +88,10 @@ public:
 
 public slots:
     void lataa();
+
+    /**
+     * @brief tallenna Tallentaa muutetut json-kentät
+     */
     void tallenna();
 
 protected:

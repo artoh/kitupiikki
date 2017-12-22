@@ -20,13 +20,15 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QProgressDialog>
-
+#include <QSqlQuery>
 #include <QMessageBox>
+
 
 #include "arkistosivu.h"
 #include "db/kirjanpito.h"
 #include "ui_lisaatilikausidlg.h"
 #include "ui_lukitsetilikausi.h"
+#include "ui_muokkaatilikausi.h"
 
 #include "arkistoija/arkistoija.h"
 #include "tilinpaatoseditori/tilinpaatoseditori.h"
@@ -43,6 +45,7 @@ ArkistoSivu::ArkistoSivu()
     connect( ui->uusiNappi, SIGNAL(clicked(bool)), this, SLOT(uusiTilikausi()));
     connect( ui->arkistoNappi, SIGNAL(clicked(bool)), this, SLOT(arkisto()));
     connect( ui->tilinpaatosNappi, SIGNAL(clicked(bool)), this, SLOT(tilinpaatos()));
+    connect( ui->muokkaaNappi, SIGNAL(clicked(bool)), this, SLOT(muokkaa()));
 
 }
 
@@ -142,11 +145,16 @@ void ArkistoSivu::nykyinenVaihtuuPaivitaNapit()
         ui->tilinpaatosNappi->setEnabled( kausi.tilinpaatoksenTila() != Tilikausi::EILAADITATILINAVAUKSELLE );
         // Tilikauden voi arkistoida, jos tilikautta ei ole lukittu - arkiston voi näyttää aina
         ui->arkistoNappi->setEnabled( kausi.paattyy() > kp()->tilitpaatetty() || kausi.arkistoitu().isValid());
+
+        // Muokata voidaan vain viimeistä tilikautta, jos tilinpäätös ei ole valmis
+        ui->muokkaaNappi->setEnabled( kausi.paattyy() == kp()->tilikaudet()->kirjanpitoLoppuu()  &&
+                                      kausi.tilinpaatoksenTila() != Tilikausi::VAHVISTETTU );
     }
     else
     {
         ui->tilinpaatosNappi->setEnabled(false);
         ui->arkistoNappi->setEnabled(false);
+        ui->muokkaaNappi->setEnabled(false);
     }
 }
 
@@ -157,8 +165,61 @@ void ArkistoSivu::teeArkisto(Tilikausi kausi)
     odota.setMinimumDuration(250);
 
     QString sha = Arkistoija::arkistoi(kausi);
-    kp()->tilikaudet()->merkitseArkistoiduksi( ui->view->currentIndex().row(), sha);    // Merkitsee arkistoinnin tehdyksi
+
+    // Merkitsee arkistoiduksi
+    QDateTime nyt = QDateTime( kp()->paivamaara(), QTime::currentTime());
+    kp()->tilikaudet()->json(kausi)->set("Arkistoitu", nyt.toString(Qt::ISODate) );
+    kp()->tilikaudet()->json(kausi)->set("ArkistoSHA", sha);
+    kp()->tilikaudet()->tallenna();
+
+    QModelIndex indeksi = kp()->tilikaudet()->index( kp()->tilikaudet()->indeksiPaivalle(kausi.paattyy()) , TilikausiModel::ARKISTOITU );
+    emit kp()->tilikaudet()->dataChanged( indeksi, indeksi );
 
     odota.setValue(100);
+
+}
+
+void ArkistoSivu::muokkaa()
+{
+    QDialog dlg;
+    Ui::MuokkaaTilikausi dlgUi;
+    dlgUi.setupUi(&dlg);
+
+    Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( kp()->tilikaudet()->rowCount(QModelIndex()) - 1 );
+
+    // Selvitetään, mikä on viimeisin kirjaus
+    QDate viimepaiva = kp()->tilitpaatetty();
+    QSqlQuery kysely("SELECT MAX(pvm) from vienti");
+    if( kysely.next())
+    {
+        QDate viimevienti = kysely.value(0).toDate();
+        if( viimevienti > viimepaiva)
+            viimepaiva = viimevienti;
+    }
+
+    kysely.exec("SELECT MAX(pvm) from tosite");
+    if( kysely.next())
+    {
+        QDate viimevienti = kysely.value(0).toDate();
+        if( viimevienti > viimepaiva)
+            viimepaiva = viimevienti;
+    }
+
+    // Saa poistaa vain, ellei yhtään kirjausta
+    dlgUi.poistaRadio->setEnabled( viimepaiva < kausi.alkaa() );
+
+    if( viimepaiva < kausi.alkaa() )
+        viimepaiva = kausi.alkaa().addDays(1);
+
+    dlgUi.paattyyDate->setDateRange( viimepaiva, kausi.alkaa().addMonths(19).addDays(-1) );
+    dlgUi.paattyyDate->setDate( kausi.paattyy() );
+
+    if( dlg.exec())
+    {
+        if( dlgUi.poistaRadio->isChecked())
+            kp()->tilikaudet()->muokkaaViimeinenTilikausi( QDate());
+        else
+            kp()->tilikaudet()->muokkaaViimeinenTilikausi( dlgUi.paattyyDate->date() );
+    }
 
 }

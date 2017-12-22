@@ -56,10 +56,6 @@ public:
      * @return
      */
     QDateTime arkistoitu();
-    /**
-     * @brief Merkitsee tilikauden arkistoiduksi tälle hetkelle
-     */
-    void merkitseNytArkistoiduksi(const QString& shatiiviste);
 
     /**
      * @brief Milloin tämän tilikauden kirjauksia on viimeksi päivitetty
@@ -117,6 +113,7 @@ public:
      * @return
      */
     Saannosto pienuus();
+
 
 protected:
     QDate alkaa_;

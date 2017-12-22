@@ -297,7 +297,6 @@ bool UusiKirjanpito::alustaKirjanpito()
         asetukset.aseta("TilinavausPvm", field("edpaattyi").toDate());
         asetukset.aseta("TilitPaatetty", field("edpaattyi").toDate());
     }
-    tilikaudet.tallenna();
 
     progDlg.setValue( progDlg.value() + 1 );
 

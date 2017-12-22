@@ -45,13 +45,6 @@ QDateTime Tilikausi::arkistoitu()
         return QDateTime::fromString( arkistoituna, Qt::ISODate);
 }
 
-void Tilikausi::merkitseNytArkistoiduksi(const QString &shatiiviste)
-{
-    QDateTime nyt = QDateTime( kp()->paivamaara(), QTime::currentTime());
-    json_.set("Arkistoitu", nyt.toString(Qt::ISODate));
-    json_.set("ArkistoSHA", shatiiviste);
-}
-
 QDateTime Tilikausi::viimeinenPaivitys() const
 {
     QSqlQuery kysely( QString("SELECT max(muokattu) FROM vienti WHERE pvm BETWEEN \"%1\" AND \"%2\" ").arg(alkaa().toString(Qt::ISODate)).arg(paattyy().toString(Qt::ISODate)));
@@ -168,3 +161,4 @@ Tilikausi::Saannosto Tilikausi::pienuus()
     else
         return YRITYS;
 }
+

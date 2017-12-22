@@ -23,6 +23,14 @@
 
 #include "db/tilikausi.h"
 
+/**
+ * @brief Tilikausisivu
+ *
+ * Tällä sivulla aloitetaan uusi tilikausi, muokataan viimeisintä,
+ * tehdään tilinpäätös tai arkisto tai katsellaan arkistoa taikka
+ * tilinpäätöstä
+ *
+ */
 class ArkistoSivu : public KitupiikkiSivu
 {
     Q_OBJECT
@@ -40,6 +48,7 @@ public slots:
     void tilinpaatos();
     void nykyinenVaihtuuPaivitaNapit();
     void teeArkisto(Tilikausi kausi);
+    void muokkaa();
 
 private:
     Ui::TilikausiMaaritykset *ui;

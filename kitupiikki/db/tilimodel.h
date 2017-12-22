@@ -75,15 +75,6 @@ public:
      * @return
      */
     Tili edellistenYlijaamaTili() const;
-    /**
-     * @brief Palauttaa ensimmäisen halutun tyyppisen tilin
-     *
-     * Käytetään esim. alv-velkaa BV varten
-     *
-     * @param tyyppikoodi
-     * @return
-     */
-    Tili tiliTyyppikoodilla(QString tyyppikoodi) const;
 
     /**
      * @brief Palauttaa ensimmäisen halutun tyyppisen tilin

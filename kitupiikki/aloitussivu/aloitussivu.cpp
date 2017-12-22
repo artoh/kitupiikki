@@ -230,7 +230,7 @@ QString AloitusSivu::vinkit()
         if( paivaaIlmoitukseen < 0)
         {
             vinkki.append( tr("<table class=varoitus width=100%><tr><td>"
-                              "<h3><a href=ktp:/maaritys/Arvonlisävero>Arvonlisäveroilmoitus myöhässä</h3>"
+                              "<h3><a href=ktp:/maaritys/Arvonlisävero>Arvonlisäveroilmoitus myöhässä</a></h3>"
                               "Arvonlisäveroilmoitus kaudelta %1 - %2 olisi pitänyt antaa %3 mennessä.</td></tr></table>")
                            .arg(kausialkaa.toString(Qt::SystemLocaleShortDate)).arg(kausipaattyy.toString(Qt::SystemLocaleShortDate))
                            .arg(erapaiva.toString(Qt::SystemLocaleShortDate)));
@@ -239,7 +239,7 @@ QString AloitusSivu::vinkit()
         else if( paivaaIlmoitukseen < 30)
         {
             vinkki.append( tr("<table class=vinkki width=100%><tr><td>"
-                              "<h3><a href=ktp:/maaritys/Arvonlisävero>Tee arvonlisäverotilitys</h3>"
+                              "<h3><a href=ktp:/maaritys/Arvonlisävero>Tee arvonlisäverotilitys</a></h3>"
                               "Arvonlisäveroilmoitus kaudelta %1 - %2 on annettava %3 mennessä.</td></tr></table>")
                            .arg(kausialkaa.toString(Qt::SystemLocaleShortDate)).arg(kausipaattyy.toString(Qt::SystemLocaleShortDate))
                            .arg(erapaiva.toString(Qt::SystemLocaleShortDate)));
@@ -266,35 +266,31 @@ QString AloitusSivu::vinkit()
                 && ( kausi.tilinpaatoksenTila() == Tilikausi::ALOITTAMATTA || kausi.tilinpaatoksenTila() == Tilikausi::KESKEN) )
         {
             vinkki.append(QString("<table class=vinkki width=100%><tr><td>"
-                          "<h3>Aika laatia tilinpäätös tilikaudelle %1</h3><ul>").arg(kausi.kausivaliTekstina()));
+                          "<h3><a href=ktp:/arkisto>Aika laatia tilinpäätös tilikaudelle %1</a></h3>").arg(kausi.kausivaliTekstina()));
+
             if( kausi.tilinpaatoksenTila() == Tilikausi::ALOITTAMATTA)
             {
-                vinkki.append("<li>Tee kaikki tilikaudelle kuuluvat kirjaukset</li>");
-                vinkki.append("<li>Tee tarvittaessa tilinpäätöskirjaukset, kuten poistot.");
-
-                QSqlQuery poistokysely( QString("select tilinro,tilinimi,sum(debetsnt), sum(kreditsnt) from vientivw where pvm <= '%1' and tilityyppi='AP' group by tilinro order by tilinro").arg(kausi.paattyy().toString(Qt::ISODate)));
-                if( poistokysely.size())
-                {
-                    vinkki.append("<br>Seuraavilla tileillä poistokelpoista omaisuutta:<ul>");
-                    while( poistokysely.next())
-                    {
-                        vinkki.append(QString("<li>%1 %2 %L3€</li>").arg(poistokysely.value(0).toString())
-                                                           .arg(poistokysely.value(1).toString())
-                                                           .arg((double) (poistokysely.value(2).toInt() - poistokysely.value(3).toInt()   ) / 100,0,'f',2 ));
-
-                    }
-                    vinkki.append("</ol>");
-                }
-                vinkki.append("</li><li>Varmista <a href=ktp:/raportit>tuloslaskelmaa ja tasetta</a> tutkimalla, että kaikki kirjaukset on tehty</li>");
-                vinkki.append("<li><a href=ktp:/arkisto>Lukitse tilikausi</a> valinnalla Tilinpäätös</li>");
+                vinkki.append("<p>Tee loppuun kaikki tilikaudelle kuuluvat kirjaukset ja laadi sen jälkeen <a href=ktp:/arkisto>tilinpäätös</a>.</p>");
             }
-            vinkki.append("<li>Laadi <a href=ktp:/arkisto>tilinpäätös</a> tai tallenna muulla ohjelmalla laadittu tilinpäätös Kitupiikin arkistoon</a></li>");
-            vinkki.append("<li>Kun <a href=ktp:/arkisto>tilinpäätös</a> on vahvistettu, merkitse se vahvistetuksi</li>");
-            vinkki.append("</ol><p>Katso <a href=ohje:/tilinpaatos>ohjeet</a> tilinpäätösen laatimisesta</p></td></tr></table>");
+            else
+            {
+                vinkki.append("<p>Viimeiste ja vahvista <a href=ktp:/arkisto>tilinpäätös</a>.</p>");
+            }
+            vinkki.append("<p>Katso <a href=ohje:/tilinpaatos>ohjeet</a> tilinpäätösen laatimisesta</p></td></tr></table>");
         }
-
     }
 
+    // Tarkistetaan, että alv-tilit paikallaan
+    if( kp()->asetukset()->onko("AlvVelvollinen") &&
+        ( !kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).onkoValidi() ||
+          !kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).onkoValidi() ||
+          !kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA).onkoValidi()))
+    {
+        vinkki.append( tr("<table class=varoitus width=100%><tr><td>"
+                          "<h3><a href=ktp:/maaritys/Tilikartta>Tilikartta puutteellinen</a></h3>"
+                          "<p>Tilikartassa pitää olla tilit alv-kirjauksille, alv-vähennyksille ja verovelalle.</td></tr></table>") );
+
+    }
 
     return vinkki;
 }
@@ -383,9 +379,14 @@ QString AloitusSivu::summat()
     // Kohdennukset
     txt.append("<tr><td class=otsikko>Kohdennukset</td><th>Tuloa</th><th>Menoa</th><th>Yli/alijäämä</th></tr>");
 
-    kysely.exec( QString("select kohdennus, sum(debetsnt), sum(kreditsnt) from vientivw where pvm between '%1' and '%2' group by kohdennusid order by kohdennusid")
+    kysely.exec( QString("select kohdennus.nimi, sum(kreditsnt), sum(debetsnt) from vienti, kohdennus, tili "
+                         " where pvm between '%1' and '%2' and vienti.tili=tili.id and vienti.kohdennus=kohdennus.id and tili.ysiluku >= 300000000 "
+                         " group by kohdennus.id order by kohdennus.id")
                  .arg(tilikausi.alkaa().toString(Qt::ISODate)  )
                  .arg(tilikausi.paattyy().toString(Qt::ISODate)));
+
+    qDebug() << kysely.lastQuery();
+
     while(kysely.next())
     {
         txt.append(QString("<tr><td>%1</td><td class=euro>%L2 €</td><td class=euro>%L3 €</td><td class=euro>%L4 €</td></tr>")
