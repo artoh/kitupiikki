@@ -73,6 +73,9 @@
         <file>suorite.png</file>
         <file>kirje.png</file>
         <file>vientilista.png</file>
+        <file>vero.png</file>
+        <file>netto.png</file>
+        <file>0pros.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
