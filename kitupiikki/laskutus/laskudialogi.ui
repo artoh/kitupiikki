@@ -19,7 +19,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,1">
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
@@ -217,9 +217,6 @@ p, li { white-space: pre-wrap; }
             <widget class="QPushButton" name="naytaNappi">
              <property name="text">
               <string>Tuotteet</string>
-             </property>
-             <property name="shortcut">
-              <string>Ctrl+S</string>
              </property>
              <property name="checkable">
               <bool>true</bool>

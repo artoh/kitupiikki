@@ -251,7 +251,7 @@ void KitupiikkiIkkuna::lisaaSivut()
 
     aktioryhma = new QActionGroup(this);
     lisaaSivu("Aloita",":/pic/Possu64.png","Erilaisia ohjattuja toimia","Home", ALOITUSSIVU, aloitussivu);
-    lisaaSivu("Uusi\ntosite",":/pic/uusitosite.png","Kirjaa uusi tosite","Ctrl+N", KIRJAUSSIVU, kirjaussivu);
+    lisaaSivu("Uusi\ntosite",":/pic/uusitosite.png","Kirjaa uusi tosite","F2", KIRJAUSSIVU, kirjaussivu);
     lisaaSivu("Selaa",":/pic/Paivakirja64.png","Selaa kirjauksia aikajärjestyksessä","F3", SELAUSSIVU, selaussivu);
     lisaaSivu("Laskut",":/pic/lasku.png","Laskuta ja selaa laskuja","F4",LASKUTUSSIVU, laskutussivu);
     lisaaSivu("Tulosteet",":/pic/print.png","Tulosta erilaisia raportteja","F5", TULOSTESIVU, raporttisivu);

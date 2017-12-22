@@ -66,6 +66,8 @@ SelausWg::SelausWg() :
     connect( Kirjanpito::db(), SIGNAL(kirjanpitoaMuokattu()), this, SLOT(merkitsePaivitettavaksi()));
     connect( kp(), SIGNAL(tietokantaVaihtui()), this, SLOT(alusta()));
 
+    connect( ui->alkuEdit, SIGNAL(dateChanged(QDate)), this, SLOT(alkuPvmMuuttui()));
+
     paivitettava = true;
 }
 
@@ -219,6 +221,15 @@ void SelausWg::selaaTositteita()
     etsiProxy->setFilterKeyColumn( TositeSelausModel::OTSIKKO );
 
     paivita();
+}
+
+void SelausWg::alkuPvmMuuttui()
+{
+    // Jos siirrytään toiseen tilikauteen...
+    if( kp()->tilikaudet()->tilikausiPaivalle(  ui->alkuEdit->date()).alkaa() != kp()->tilikaudet()->tilikausiPaivalle(ui->loppuEdit->date()).alkaa() )
+        ui->loppuEdit->setDate( kp()->tilikaudet()->tilikausiPaivalle( ui->alkuEdit->date() ).paattyy() );
+    else if( ui->alkuEdit->date() > ui->loppuEdit->date())
+        ui->loppuEdit->setDate( ui->alkuEdit->date().addMonths(1).addDays(-1) );
 }
 
 void SelausWg::selaa(int kumpi)

@@ -61,6 +61,8 @@ public slots:
     void selaaVienteja();
     void selaaTositteita();
 
+    void alkuPvmMuuttui();
+
     /**
      * @brief Selaa tositteita tai vientejä
      * @param kumpi 0-tositteet, 1 viennit
@@ -89,6 +91,7 @@ private:
      * @brief Pitääkö sivu päivittää ennen sen näyttämistä
      */
     bool paivitettava = true;
+
 };
 
 #endif // SELAUSWG_H

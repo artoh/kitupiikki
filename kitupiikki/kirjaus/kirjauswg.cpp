@@ -288,7 +288,7 @@ void KirjausWg::oikotiet()
     QShortcut *kb_apuri = new QShortcut( QKeySequence(Qt::Key_Return), this);
     connect( kb_apuri, SIGNAL(activated()), this, SLOT(kirjausApuri()));
 
-    QShortcut *kb_lasku = new QShortcut( QKeySequence("F9"), this);
+    QShortcut *kb_lasku = new QShortcut( QKeySequence(Qt::Key_F9), this);
     connect( kb_lasku, SIGNAL(activated()), this, SLOT( kirjaaLaskunmaksu() ));
 
     QShortcut *kb_talleta = new QShortcut( QKeySequence("Ctrl+Return"), this);

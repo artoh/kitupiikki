@@ -34,6 +34,7 @@ LaskutusSivu::LaskutusSivu() :
     ui->suodatusTab->addTab("Kaikki");
     ui->suodatusTab->addTab("Avoimet");
     ui->suodatusTab->addTab("Erääntyneet");
+    ui->suodatusTab->setCurrentIndex(1);
 
     connect( ui->mistaDate, SIGNAL(dateChanged(QDate)), this, SLOT(paivita()));
     connect( ui->mihinDate, SIGNAL(dateChanged(QDate)), this, SLOT(paivita()));
@@ -140,3 +141,4 @@ void LaskutusSivu::valintaMuuttuu()
     ui->hyvitysNappi->setEnabled( ui->laskutView->currentIndex().isValid() &&
                                   !ui->laskutView->currentIndex().data(LaskutModel::HyvitysLaskuRooli).toInt());
 }
+
