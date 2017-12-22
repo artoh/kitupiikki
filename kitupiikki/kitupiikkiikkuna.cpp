@@ -216,6 +216,8 @@ void KitupiikkiIkkuna::mousePressEvent(QMouseEvent *event)
     // Vähän kokeellista: palataan edelliselle sivulle, jos menty Käy-valinnalla ;)
     if( event->button() == Qt::BackButton )
         palaaSivulta();
+
+    QMainWindow::mousePressEvent(event);
 }
 
 QAction *KitupiikkiIkkuna::lisaaSivu(const QString &nimi, const QString &kuva, const QString &vihje, const QString &pikanappain, Sivu sivutunnus,

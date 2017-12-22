@@ -385,8 +385,6 @@ QString AloitusSivu::summat()
                  .arg(tilikausi.alkaa().toString(Qt::ISODate)  )
                  .arg(tilikausi.paattyy().toString(Qt::ISODate)));
 
-    qDebug() << kysely.lastQuery();
-
     while(kysely.next())
     {
         txt.append(QString("<tr><td>%1</td><td class=euro>%L2 €</td><td class=euro>%L3 €</td><td class=euro>%L4 €</td></tr>")

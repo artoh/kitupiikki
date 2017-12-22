@@ -51,6 +51,9 @@
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/print.png</normaloff>:/pic/print.png</iconset>
        </property>
+       <property name="shortcut">
+        <string>Return</string>
+       </property>
       </widget>
      </item>
      <item>
@@ -85,6 +88,9 @@
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
+       </property>
+       <property name="shortcut">
+        <string>Ins</string>
        </property>
       </widget>
      </item>
