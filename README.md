@@ -47,6 +47,6 @@ Arto Hyvättinen
 
 ## Lisenssi
 
-GNU General Public License 3 - katso [LICENSE]
+GNU General Public License 3 - katso [LICENSE](https://raw.githubusercontent.com/artoh/kitupiikki/master/LICENSE)
 
 
