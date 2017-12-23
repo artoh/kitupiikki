@@ -2,7 +2,7 @@
 
 **Finnish bookkeeping software for small organisations**
 
-Comments, variable names, documentations and the software, of course, are in Finnish only!
+Comments, variable names, documentations and the software itself are, of course, in Finnish only!
 
 
 **Suomalainen avoimen lähdekoodin kirjanpito-ohjelma**
@@ -11,7 +11,7 @@ Kotisivu ja käyttöohjeet [https:/artoh.github.io/kitupiikki](https://artoh.git
 
 ![Kitupiikki](https://raw.githubusercontent.com/artoh/kitupiikki/master/kitupiikki/pic/aboutpossu.png)
 
-# Tavoitteet
+## Tavoitteet
 
 - helppokäyttöisyys
 - tositteiden sähköinen käsittely pdf-muodossa
@@ -19,7 +19,7 @@ Kotisivu ja käyttöohjeet [https:/artoh.github.io/kitupiikki](https://artoh.git
 - sisäänrakennettu laskutus
 - muodostaan tuloslaskelman, taseen, tase-erittelyn
 
-# Vaatimukset
+## Vaatimukset
 Kitupiikki käyttää [https://qt.io](Qt-kirjastoa) versio vähintään 5.7 sekä [https://poppler.freedesktop.org/](Poppler-kirjastoa) pdf-tiedostojen näyttämiseen.
 
 Lataa ja asenna Qt-kirjastot osoitteesta [https://qt.io/download].
@@ -30,22 +30,22 @@ Linuxissa poppler on helppo asentaa järjestelmään:
 
 Windowsissa Kitupiikki käyttää valmiiksi käännettyä Poppler-kirjastoa [https://sourceforge.net/projects/poppler-win32/].
 
-# Kääntäminen
+## Kääntäminen
 
 Kitupiikki käyttää QMakea. Kääntäminen on helpointa tehdä [QtCreatorin](http://doc.qt.io/qtcreator/) ympäristössä. Komentorivillä kääntyy komennoilla
 
     qmake -o Makefile kitupiikki.pro
     make all
     
-# Kehittäminen
+## Kehittäminen
 
 Kehittämisen suuntaviivat löytyvät projektin GitHubin Issues- ja Wiki-osastoista. Koodi kommentoidaan doxygenin merkkauksella niin, että API-dokumentaatio on laadittavissa Doxygenillä. Kirjanpito talletetaan SQLite-tietokantaan ja liitteet säilytetään pdf-muodossa.
 
-# Tekijä
+## Tekijä
 
 Arto Hyvättinen
 
-# Lisenssi
+## Lisenssi
 
 GNU General Public License 3 - katso [LICENSE]
 
