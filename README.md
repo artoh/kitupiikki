@@ -7,7 +7,7 @@ Comments, variable names, documentations and the software itself are, of course,
 
 **Suomalainen avoimen lähdekoodin kirjanpito-ohjelma**
 
-Kotisivu ja käyttöohjeet [https:/artoh.github.io/kitupiikki](https://artoh.github.io/kitupiikki)
+Kotisivu ja käyttöohjeet https:/artoh.github.io/kitupiikki
 
 ![Kitupiikki](https://raw.githubusercontent.com/artoh/kitupiikki/master/kitupiikki/pic/aboutpossu.png)
 
@@ -22,13 +22,13 @@ Kotisivu ja käyttöohjeet [https:/artoh.github.io/kitupiikki](https://artoh.git
 ## Vaatimukset
 Kitupiikki käyttää [https://qt.io](Qt-kirjastoa) versio vähintään 5.7 sekä [https://poppler.freedesktop.org/](Poppler-kirjastoa) pdf-tiedostojen näyttämiseen.
 
-Lataa ja asenna Qt-kirjastot osoitteesta [https://qt.io/download].
+Lataa ja asenna Qt-kirjastot osoitteesta https://qt.io/download.
 
 Linuxissa poppler on helppo asentaa järjestelmään:
     
     sudo apt-get install libpoppler-qt5-1 libpoppler-qt5-dev
 
-Windowsissa Kitupiikki käyttää valmiiksi käännettyä Poppler-kirjastoa [https://sourceforge.net/projects/poppler-win32/].
+Windowsissa Kitupiikki käyttää valmiiksi käännettyä Poppler-kirjastoa https://sourceforge.net/projects/poppler-win32/.
 
 ## Kääntäminen
 
