@@ -32,6 +32,8 @@
 #include <QDialog>
 #include <QDebug>
 
+#include <QSettings>
+
 #include "ui_aboutdialog.h"
 
 #include "aloitussivu.h"
@@ -59,12 +61,7 @@ AloitusSivu::AloitusSivu() :
     connect( kp(), SIGNAL(tietokantaVaihtui()), this, SLOT(kirjanpitoVaihtui()));
 
     lisaaViimetiedostot();
-
-    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
-    connect( manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(infoSaapui(QNetworkReply*)));
-    QNetworkRequest req( QUrl("https://raw.githubusercontent.com/artoh/kitupiikki/master/updateinfo"));
-    manager->get(req);
-
+    pyydaInfo();
 }
 
 AloitusSivu::~AloitusSivu()
@@ -145,6 +142,7 @@ void AloitusSivu::kirjanpitoVaihtui()
         }
     }
 
+    pyydaInfo();
     siirrySivulle();
 }
 
@@ -237,6 +235,21 @@ void AloitusSivu::infoSaapui(QNetworkReply *reply)
     }
     siirrySivulle();
     reply->deleteLater();
+}
+
+void AloitusSivu::pyydaInfo()
+{
+    // Päivitysten näyttäminen
+    QSettings asetukset;
+    if( asetukset.value("NaytaPaivitykset", true).toBool())
+    {
+        QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+        connect( manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(infoSaapui(QNetworkReply*)));
+        QNetworkRequest req( QUrl("https://raw.githubusercontent.com/artoh/kitupiikki/master/updateinfo"));
+        manager->get(req);
+    }
+    else
+        paivitysInfo.clear();
 }
 
 QString AloitusSivu::vinkit()

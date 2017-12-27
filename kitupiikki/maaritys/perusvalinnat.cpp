@@ -19,6 +19,7 @@
 #include <QFile>
 #include <QImage>
 #include <QPixmap>
+#include <QSettings>
 
 #include "perusvalinnat.h"
 #include "ui_perusvalinnat.h"
@@ -41,6 +42,7 @@ Perusvalinnat::Perusvalinnat() :
     connect( ui->osoiteEdit, SIGNAL(textChanged()), this, SLOT(ilmoitaMuokattu()));
     connect( ui->kotipaikkaEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
     connect( ui->puhelinEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
+    connect( ui->paivitysCheck, SIGNAL(clicked(bool)), this, SLOT(ilmoitaMuokattu()));
 
 }
 
@@ -58,6 +60,10 @@ bool Perusvalinnat::nollaa()
     ui->osoiteEdit->setText( kp()->asetukset()->asetus("Osoite"));
     ui->kotipaikkaEdit->setText( kp()->asetukset()->asetus("Kotipaikka"));
     ui->puhelinEdit->setText( kp()->asetus("Puhelin"));
+
+
+    QSettings asetukset;
+    ui->paivitysCheck->setChecked( asetukset.value("NaytaPaivitykset", true).toBool() );
 
     uusilogo = QImage();
 
@@ -88,6 +94,8 @@ void Perusvalinnat::ilmoitaMuokattu()
 
 bool Perusvalinnat::onkoMuokattu()
 {
+    QSettings asetukset;
+
     return  ui->organisaatioEdit->text() != kp()->asetus("Nimi")  ||
             ui->ytunnusEdit->text() != kp()->asetus("Ytunnus") ||
             ui->alvCheck->isChecked() != kp()->asetukset()->onko("AlvVelvollinen") ||
@@ -95,11 +103,15 @@ bool Perusvalinnat::onkoMuokattu()
             !uusilogo.isNull() ||
             ui->osoiteEdit->toPlainText() != kp()->asetukset()->asetus("Osoite") ||
             ui->kotipaikkaEdit->text() != kp()->asetukset()->asetus("Kotipaikka") ||
-            ui->puhelinEdit->text() != kp()->asetukset()->asetus("Puhelin");
+            ui->puhelinEdit->text() != kp()->asetukset()->asetus("Puhelin") ||
+            ui->paivitysCheck->isChecked() != asetukset.value("NaytaPaivitykset",true).toBool();
 }
 
 bool Perusvalinnat::tallenna()
 {
+    QSettings asetukset;
+    asetukset.setValue("NaytaPaivitykset", ui->paivitysCheck->isChecked());
+
     kp()->asetukset()->aseta("Nimi", ui->organisaatioEdit->text());
     kp()->asetukset()->aseta("Ytunnus", ui->ytunnusEdit->text());
     kp()->asetukset()->aseta("AlvVelvollinen", ui->alvCheck->isChecked());

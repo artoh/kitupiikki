@@ -61,6 +61,11 @@ public slots:
 
     void infoSaapui(QNetworkReply* reply);
 
+    /**
+     * @brief Pyytää infon päivityksistä
+     */
+    void pyydaInfo();
+
 signals:
     void selaus(int tilinumero, Tilikausi tilikausi);
     void ktpkasky(QString kasky);

@@ -136,12 +136,10 @@ void MaaritysSivu::peru()
 void MaaritysSivu::tallenna()
 {
     if( nykyinen )
-    {
         nykyinen->tallenna();
+    if(nykyinen)
         tallennanappi->setEnabled( nykyinen->onkoMuokattu());
-        paivitaNakyvat();
-    }
-
+    paivitaNakyvat();
 }
 
 
