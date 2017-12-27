@@ -1,10 +1,10 @@
 # Kitupiikki
 
 
-![versio](https://img.shields.io/github/release/artoh/kitupiikki.svg?label=Julkaistu%20versio)(https://github.com/artoh/kitupiikki/releases)
-![versio](https://img.shields.io/github/release/artoh/kitupiikki/all.svg?label=Esiversio)(https://github.com/artoh/kitupiikki/releases)
+[![versio](https://img.shields.io/github/release/artoh/kitupiikki.svg?label=Julkaistu%20versio)](https://github.com/artoh/kitupiikki/releases)
+[![versio](https://img.shields.io/github/release/artoh/kitupiikki/all.svg?label=Esiversio)](https://github.com/artoh/kitupiikki/releases)
 ![lisenssi](https://img.shields.io/github/license/artoh/kitupiikki.svg?Label=Lisenssi)
-![mathdown HuBoard](https://img.shields.io/github/issues/artoh/kitupiikki.svg?label=Tehtävät%20%28HuBoard%29)(https://huboard.com/artoh/kitupiikki)
+[![mathdown HuBoard](https://img.shields.io/github/issues/artoh/kitupiikki.svg?label=Tehtävät%20%28HuBoard%29)](https://huboard.com/artoh/kitupiikki)
 
 **Finnish bookkeeping software for small organisations**
 
@@ -26,7 +26,8 @@ Kotisivu ja käyttöohjeet https:/artoh.github.io/kitupiikki
 - muodostaan tuloslaskelman, taseen, tase-erittelyn
 
 ## Vaatimukset
-Kitupiikki käyttää [https://qt.io](Qt-kirjastoa) versio vähintään 5.7 sekä [https://poppler.freedesktop.org/](Poppler-kirjastoa) pdf-tiedostojen näyttämiseen.
+Kitupiikki käyttää (Qt-kirjastoa)[https://qt.io] versio vähintään 5.7.
+Linuxissa Kitupiikki käyttää (Poppler-kirjastoa)[https://poppler.freedesktop.org/] pdf-tiedostojen näyttämiseen.
 
 Lataa ja asenna Qt-kirjastot osoitteesta https://qt.io/download.
 
@@ -34,11 +35,11 @@ Linuxissa poppler on helppo asentaa järjestelmään:
 
     sudo apt-get install libpoppler-qt5-1 libpoppler-qt5-dev
 
-Windowsissa Kitupiikki käyttää valmiiksi käännettyä Poppler-kirjastoa https://sourceforge.net/projects/poppler-win32/.
+
 
 ## Kääntäminen
 
-Kitupiikki käyttää QMakea. Kääntäminen on helpointa tehdä [QtCreatorin](http://doc.qt.io/qtcreator/) ympäristössä. Komentorivillä kääntyy komennoilla
+Kitupiikki käyttää QMakea. Kääntäminen on helpointa tehdä (QtCreatorin)[http://doc.qt.io/qtcreator/] ympäristössä. Komentorivillä kääntyy komennoilla
 
     qmake -o Makefile kitupiikki.pro
     make all
