@@ -1,10 +1,10 @@
 # Kitupiikki
 
 
-[![versio](https://img.shields.io/github/release/artoh/kitupiikki.svg?label=Julkaistu%20versio)]
-[![versio](https://img.shields.io/github/release/artoh/kitupiikki/all.svg?label=Esiversio)]
-[![lisenssi](https://img.shields.io/github/license/artoh/kitupiikki.svg)]
-[![mathdown HuBoard](https://img.shields.io/github/issues/artoh/kitupiikki.svg?label=Tehtävät%20%28HuBoard%29)](https://huboard.com/artoh/kitupiikki)
+![versio](https://img.shields.io/github/release/artoh/kitupiikki.svg?label=Julkaistu%20versio)](releases)
+![versio](https://img.shields.io/github/release/artoh/kitupiikki/all.svg?label=Esiversio)](releases)
+![lisenssi](https://img.shields.io/github/license/artoh/kitupiikki.svg?Label=Lisenssi)]
+![mathdown HuBoard](https://img.shields.io/github/issues/artoh/kitupiikki.svg?label=Tehtävät%20%28HuBoard%29)](https://huboard.com/artoh/kitupiikki)
 
 **Finnish bookkeeping software for small organisations**
 
