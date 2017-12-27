@@ -27,6 +27,8 @@
 #include <QDesktopServices>
 #include <QListWidget>
 
+#include <QRegularExpression>
+
 #include <QDialog>
 #include <QDebug>
 
@@ -58,6 +60,11 @@ AloitusSivu::AloitusSivu() :
 
     lisaaViimetiedostot();
 
+    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+    connect( manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(infoSaapui(QNetworkReply*)));
+    QNetworkRequest req( QUrl("https://raw.githubusercontent.com/artoh/kitupiikki/master/updateinfo"));
+    manager->get(req);
+
 }
 
 AloitusSivu::~AloitusSivu()
@@ -72,6 +79,7 @@ void AloitusSivu::siirrySivulle()
     if( kp()->asetukset()->onko("Nimi"))
     {
         QString txt("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:/aloitus/aloitus.css\"></head><body>");
+        txt.append( paivitysInfo );
 
         txt.append( vinkit() );
 
@@ -86,6 +94,7 @@ void AloitusSivu::siirrySivulle()
     else
     {
         ui->selain->setSource(QUrl("qrc:/aloitus/tervetuloa.html"));
+        ui->selain->setHtml(  ui->selain->toHtml().insert( ui->selain->toHtml().indexOf("<body>")+6, paivitysInfo)  );
         ui->tilikausiCombo->hide();
         ui->logoLabel->hide();
         ui->nimiLabel->hide();
@@ -195,6 +204,28 @@ void AloitusSivu::abouttiarallaa()
 
 
     aboutDlg.exec();
+}
+
+void AloitusSivu::infoSaapui(QNetworkReply *reply)
+{
+    bool tulosta = false;
+    while( reply->canReadLine())
+    {
+        QString rivi = QString::fromUtf8( reply->readLine() );
+        if( rivi.startsWith("#"))
+        {
+            QRegularExpression ehto( rivi.mid(1), QRegularExpression::UseUnicodePropertiesOption );
+            tulosta = ehto.match( qApp->applicationVersion() ).hasMatch();
+        }
+        else
+        {
+            if( tulosta )
+                paivitysInfo.append( rivi );
+        }
+
+    }
+    ui->selain->setHtml(  ui->selain->toHtml().insert( ui->selain->toHtml().indexOf("<body>")+6, paivitysInfo)  );
+    reply->deleteLater();
 }
 
 QString AloitusSivu::vinkit()

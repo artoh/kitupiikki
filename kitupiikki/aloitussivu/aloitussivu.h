@@ -23,6 +23,9 @@
 #ifndef ALOITUSSIVU_H
 #define ALOITUSSIVU_H
 
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+
 #include "db/tilikausi.h"
 #include "kitupiikkisivu.h"
 
@@ -56,6 +59,8 @@ public slots:
 
     void abouttiarallaa();
 
+    void infoSaapui(QNetworkReply* reply);
+
 signals:
     void selaus(int tilinumero, Tilikausi tilikausi);
     void ktpkasky(QString kasky);
@@ -66,6 +71,13 @@ protected:
 
     void saldot();
     void lisaaViimetiedostot();
+
+    /**
+     * @brief githubista haettu tiedote uusista päivityksista tms.
+     *
+     * @since 0.2
+     */
+    QString paivitysInfo;
 
 protected:
     Ui::Aloitus *ui;
