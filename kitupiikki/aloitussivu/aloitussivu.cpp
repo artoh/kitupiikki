@@ -93,8 +93,15 @@ void AloitusSivu::siirrySivulle()
     }
     else
     {
-        ui->selain->setSource(QUrl("qrc:/aloitus/tervetuloa.html"));
-        ui->selain->insertHtml(  paivitysInfo );
+        QFile tttiedosto(":/aloitus/tervetuloa.html");
+        tttiedosto.open(QIODevice::ReadOnly);
+        QTextStream in(&tttiedosto);
+        in.setCodec("Utf8");
+        QString teksti = in.readAll();
+        teksti.replace("<INFO>", paivitysInfo);
+
+        ui->selain->setHtml( teksti );
+
         ui->tilikausiCombo->hide();
         ui->logoLabel->hide();
         ui->nimiLabel->hide();
@@ -220,8 +227,6 @@ void AloitusSivu::infoSaapui(QNetworkReply *reply)
         {
             QRegularExpression ehto( rivi.mid(1).trimmed(), QRegularExpression::UseUnicodePropertiesOption );
             tulosta = ehto.match( qApp->applicationVersion() ).hasMatch();
-
-            qDebug() << ehto.pattern() << qApp->applicationVersion();
         }
         else
         {

@@ -45,6 +45,7 @@
 #include "sijaintisivu.h"
 #include "loppusivu.h"
 
+#include "db/kirjanpito.h"
 #include "db/asetusmodel.h"
 #include "db/tilimodel.h"
 #include "db/tili.h"
@@ -198,7 +199,8 @@ bool UusiKirjanpito::alustaKirjanpito()
     asetukset.aseta("Harjoitus", field("harjoitus").toBool());
 
     asetukset.aseta("Luotu", QDate::currentDate());
-    asetukset.aseta("Versio", qApp->applicationVersion());
+    asetukset.aseta("LuotuVersiolla", qApp->applicationVersion());
+    asetukset.aseta("KpVersio",  Kirjanpito::tietokantaVersio );
 
     progDlg.setValue( progDlg.value() + 1 );
 

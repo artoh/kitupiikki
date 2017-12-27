@@ -21,6 +21,8 @@
 #include <QFileInfo>
 #include <QSettings>
 #include <QPrinter>
+#include <QMessageBox>
+#include <QApplication>
 #include "kirjanpito.h"
 
 
@@ -110,6 +112,28 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
 
     // Ladataankin asetukset yms modelista
     asetusModel_->lataa();
+
+
+    // Tarkistaa, ettei kirjanpitoa ole tehty uudemmalla versiolla.
+    // Myöhemmin valvottava myös aikaisempi tietokantaversio ja tehtävä
+    // tarvittavat muutokset
+
+    if( asetusModel_->luku("KpVersio") > tietokantaVersio )
+    {
+        // Luotu uudemmalla tietokannalla, sellainen ei kelpaa!
+        QMessageBox::critical(0, tr("Kirjanpitoa %1 ei voi avata").arg(asetusModel_->asetus("Nimi")),
+                              tr("Kirjanpito on luotu Kitupiikin versiolla %1, eikä käytössäsi oleva versio %2 pysty avaamaan sitä.\n\n"
+                                 "Voidaksesi avata tiedoston, sinun on asennettava uudempi versio Kitupiikistä. Lataa ohjelma "
+                                 "osoitteesta https://artoh.github.io/kitupiikki").arg( asetusModel_->asetus("LuotuVersiolla"))
+                              .arg( qApp->applicationVersion() ));
+
+        tietokanta()->close();
+        asetusModel_->lataa();  // Tyhjentää asetukset
+        emit tietokantaVaihtui();
+
+        return false;
+    }
+
     tositelajiModel_->lataa();
     tiliModel_->lataa();
     tilikaudetModel_->lataa();

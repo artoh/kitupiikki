@@ -254,6 +254,13 @@ public:
      */
     static Kirjanpito *db();
 
+    /**
+     * @brief Käytössä oleva tietokantaversio
+     *
+     * Jos yritetään avata uudempaa, tulee virhe
+     */
+    static const int tietokantaVersio = 1;
+
 private:
     static Kirjanpito *instanssi__;
 };

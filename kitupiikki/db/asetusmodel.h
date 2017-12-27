@@ -73,10 +73,10 @@ public:
      */
     QStringList avaimet(const QString& avaimenAlku = QString()) const;
 
+    void lataa();
+
 signals:
 
-public slots:
-    void lataa();
 
 
 protected:

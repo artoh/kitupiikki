@@ -5,6 +5,12 @@ body
     font-size: 12pt;
 }
 
+h1
+{
+    font-family: sans-serif;
+    font-weight: normal;
+    font-size: 16pt;
+}
 
 h2
 {
@@ -22,22 +28,25 @@ h3
 table.vinkki
 {
   background-color: #66ff99;
-  padding: 6px 6px 6px 6px;
   margin-bottom: 1em;
 }
 
 table.varoitus
 {
     background-color: #ff4d4d;
-    padding: 6px 6px 6px 6px;
     margin-bottom: 1em;
 }
 
 table.info
 {
     background-color: #ffff99;
-    padding: 12px 12px 12px 12px;
     margin-bottom: 1em;
+    border: 1px solid black;
+}
+
+td
+{
+    padding: 6px 6px 6px 6px;
 }
 
 a
