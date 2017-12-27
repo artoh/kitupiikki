@@ -3,7 +3,7 @@
 
 [![versio](https://img.shields.io/github/release/artoh/kitupiikki.svg?label=Julkaistu%20versio)](https://github.com/artoh/kitupiikki/releases)
 [![versio](https://img.shields.io/github/release/artoh/kitupiikki/all.svg?label=Esiversio)](https://github.com/artoh/kitupiikki/releases)
-![lisenssi](https://img.shields.io/github/license/artoh/kitupiikki.svg?Label=Lisenssi)
+![lisenssi](https://img.shields.io/github/license/artoh/kitupiikki.svg?label=Lisenssi)
 [![mathdown HuBoard](https://img.shields.io/github/issues/artoh/kitupiikki.svg?label=Tehtävät%20%28HuBoard%29)](https://huboard.com/artoh/kitupiikki)
 
 **Finnish bookkeeping software for small organisations**
@@ -13,7 +13,7 @@ Comments, variable names, documentations and the software itself are, of course,
 
 **Suomalainen avoimen lähdekoodin kirjanpito-ohjelma**
 
-Kotisivu ja käyttöohjeet https:/artoh.github.io/kitupiikki
+Kotisivu ja käyttöohjeet [https:/artoh.github.io/kitupiikki](https:/artoh.github.io/kitupiikki)
 
 ![Kitupiikki](https://raw.githubusercontent.com/artoh/kitupiikki/master/kitupiikki/pic/aboutpossu.png)
 
@@ -26,8 +26,8 @@ Kotisivu ja käyttöohjeet https:/artoh.github.io/kitupiikki
 - muodostaan tuloslaskelman, taseen, tase-erittelyn
 
 ## Vaatimukset
-Kitupiikki käyttää (Qt-kirjastoa)[https://qt.io] versio vähintään 5.7.
-Linuxissa Kitupiikki käyttää (Poppler-kirjastoa)[https://poppler.freedesktop.org/] pdf-tiedostojen näyttämiseen.
+Kitupiikki käyttää [Qt-kirjastoa](https://qt.io) versio vähintään 5.7.
+Linuxissa Kitupiikki käyttää [Poppler-kirjastoa](https://poppler.freedesktop.org/) pdf-tiedostojen näyttämiseen.
 
 Lataa ja asenna Qt-kirjastot osoitteesta https://qt.io/download.
 
@@ -39,7 +39,7 @@ Linuxissa poppler on helppo asentaa järjestelmään:
 
 ## Kääntäminen
 
-Kitupiikki käyttää QMakea. Kääntäminen on helpointa tehdä (QtCreatorin)[http://doc.qt.io/qtcreator/] ympäristössä. Komentorivillä kääntyy komennoilla
+Kitupiikki käyttää QMakea. Kääntäminen on helpointa tehdä [QtCreatorin](http://doc.qt.io/qtcreator/) ympäristössä. Komentorivillä kääntyy komennoilla
 
     qmake -o Makefile kitupiikki.pro
     make all
