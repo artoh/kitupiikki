@@ -94,7 +94,7 @@ void AloitusSivu::siirrySivulle()
     else
     {
         ui->selain->setSource(QUrl("qrc:/aloitus/tervetuloa.html"));
-        ui->selain->setHtml(  ui->selain->toHtml().insert( ui->selain->toHtml().indexOf("<body>")+6, paivitysInfo)  );
+        ui->selain->insertHtml(  paivitysInfo );
         ui->tilikausiCombo->hide();
         ui->logoLabel->hide();
         ui->nimiLabel->hide();
@@ -214,8 +214,10 @@ void AloitusSivu::infoSaapui(QNetworkReply *reply)
         QString rivi = QString::fromUtf8( reply->readLine() );
         if( rivi.startsWith("#"))
         {
-            QRegularExpression ehto( rivi.mid(1), QRegularExpression::UseUnicodePropertiesOption );
+            QRegularExpression ehto( rivi.mid(1).trimmed(), QRegularExpression::UseUnicodePropertiesOption );
             tulosta = ehto.match( qApp->applicationVersion() ).hasMatch();
+
+            qDebug() << ehto.pattern() << qApp->applicationVersion();
         }
         else
         {
@@ -224,7 +226,7 @@ void AloitusSivu::infoSaapui(QNetworkReply *reply)
         }
 
     }
-    ui->selain->setHtml(  ui->selain->toHtml().insert( ui->selain->toHtml().indexOf("<body>")+6, paivitysInfo)  );
+    siirrySivulle();
     reply->deleteLater();
 }
 

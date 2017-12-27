@@ -33,6 +33,13 @@ table.varoitus
     margin-bottom: 1em;
 }
 
+table.info
+{
+    background-color: ffff66;
+    padding: 6px 6px 6px 6px;
+    margin-bottom: 1em;
+}
+
 a
 {
     text-decoration: none;
