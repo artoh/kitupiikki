@@ -222,7 +222,7 @@ bool UusiKirjanpito::alustaKirjanpito()
     TiliModel tilit(&db);
 
     QRegularExpression tiliRe("^(?<tyyppi>\\w{1,5})(?<tila>[\\*\\-]?)\\s(?<nro>\\d{1,8})"
-                              "\\s(?<json>\\{.*\\})\\s(?<nimi>.+)$");
+                              "\\s(?<json>\\{.*\\})?\\s(?<nimi>.+)$");
 
     QStringList tililista = kartta.value("tilit");
     foreach ( QString tilirivi, tililista)
@@ -259,7 +259,7 @@ bool UusiKirjanpito::alustaKirjanpito()
     TositelajiModel lajit(&db);
 
     QStringList lajilista = kartta.value("tositelajit");
-    QRegularExpression lajiRe("^(?<tunnus>\\w{1,5})\\s(?<json>\\{.*\\})\\s(?<nimi>.+)$");
+    QRegularExpression lajiRe("^(?<tunnus>\\w{1,5})\\s(?<json>\\{.*\\})?\\s(?<nimi>.+)$");
 
     foreach (QString lajirivi, lajilista)
     {
