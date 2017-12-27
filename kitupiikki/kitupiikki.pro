@@ -4,7 +4,14 @@ QT += sql
 QT += printsupport
 QT += network
 
-LIBS += -lpoppler-qt5
+windows {
+    LIBS += $$PWD/../poppler/lib/libpoppler-qt5.dll.a
+    INCLUDEPATH += $$PWD/../poppler/
+}
+
+linux {
+    LIBS += -lpoppler-qt5
+}
 
 CONFIG += c++11
 

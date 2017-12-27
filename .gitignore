@@ -46,3 +46,5 @@ Doxyfile
 site/*
 .directory
 *-debug/*
+
+poppler/

@@ -36,7 +36,11 @@
 #include <QDebug>
 #include <QSqlError>
 
-#include <poppler/qt5/poppler-qt5.h>
+#ifdef Q_OS_LINUX
+    #include <poppler/qt5/poppler-qt5.h>
+#elif defined(Q_OS_WIN)
+    #include "poppler-qt5.h"
+#endif
 
 
 LiiteModel::LiiteModel(TositeModel *tositemodel, QObject *parent)
