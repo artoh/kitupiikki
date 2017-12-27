@@ -21,7 +21,7 @@ h3
 
 table.vinkki
 {
-  background-color: #e3eeff;
+  background-color: #66ff99;
   padding: 6px 6px 6px 6px;
   margin-bottom: 1em;
 }
@@ -35,8 +35,8 @@ table.varoitus
 
 table.info
 {
-    background-color: ffff66;
-    padding: 6px 6px 6px 6px;
+    background-color: #fff99;
+    padding: 12px 12px 12px 12px;
     margin-bottom: 1em;
 }
 

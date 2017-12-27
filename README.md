@@ -1,5 +1,11 @@
 # Kitupiikki
 
+
+[![versio](https://img.shields.io/github/release/artoh/kitupiikki.svg?label=Julkaistu%20versio)]
+[![versio](https://img.shields.io/github/release/artoh/kitupiikki/all.svg?label=Esiversio)]
+[![lisenssi](https://img.shields.io/github/license/artoh/kitupiikki.svg)]
+[![mathdown HuBoard](https://img.shields.io/github/issues/artoh/kitupiikki.svg?label=Tehtävät%20%28HuBoard%29)](https://huboard.com/artoh/kitupiikki)
+
 **Finnish bookkeeping software for small organisations**
 
 Comments, variable names, documentations and the software itself are, of course, in Finnish only!
@@ -25,7 +31,7 @@ Kitupiikki käyttää [https://qt.io](Qt-kirjastoa) versio vähintään 5.7 sek�
 Lataa ja asenna Qt-kirjastot osoitteesta https://qt.io/download.
 
 Linuxissa poppler on helppo asentaa järjestelmään:
-    
+
     sudo apt-get install libpoppler-qt5-1 libpoppler-qt5-dev
 
 Windowsissa Kitupiikki käyttää valmiiksi käännettyä Poppler-kirjastoa https://sourceforge.net/projects/poppler-win32/.
@@ -36,7 +42,7 @@ Kitupiikki käyttää QMakea. Kääntäminen on helpointa tehdä [QtCreatorin](h
 
     qmake -o Makefile kitupiikki.pro
     make all
-    
+
 ## Kehittäminen
 
 Kehittämisen suuntaviivat löytyvät projektin GitHubin Issues- ja Wiki-osastoista. Koodi kommentoidaan doxygenin merkkauksella niin, että API-dokumentaatio on laadittavissa Doxygenillä. Kirjanpito talletetaan SQLite-tietokantaan ja liitteet säilytetään pdf-muodossa.
@@ -48,5 +54,3 @@ Arto Hyvättinen
 ## Lisenssi
 
 GNU General Public License 3 - katso [LICENSE](https://raw.githubusercontent.com/artoh/kitupiikki/master/LICENSE)
-
-
