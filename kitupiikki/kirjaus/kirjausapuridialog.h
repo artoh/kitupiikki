@@ -21,6 +21,7 @@
 #include "db/tositemodel.h"
 #include "ehdotusmodel.h"
 #include "db/eranvalintamodel.h"
+#include "kohdennusproxymodel.h"
 
 #include <QDialog>
 #include <QList>
@@ -89,6 +90,7 @@ private:
     EranValintaModel eraModelTilille;
     EranValintaModel eraModelVastaTilille;
     QSortFilterProxyModel verofiltteri;
+    KohdennusProxyModel kohdennusfiltteri;
 };
 
 #endif // KIRJAUSAPURIDIALOG_H

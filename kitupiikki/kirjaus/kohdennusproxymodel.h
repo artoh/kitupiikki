@@ -15,29 +15,29 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef KOHDENNUSDELEGAATTI_H
-#define KOHDENNUSDELEGAATTI_H
+#ifndef KOHDENNUSPROXYMODEL_H
+#define KOHDENNUSPROXYMODEL_H
 
-#include <QItemDelegate>
-#include "kohdennusproxymodel.h"
+#include <QSortFilterProxyModel>
+#include <QDate>
 
 /**
- * @brief Delegaatti kohdennusten valitsemiseen taulukossa
- *
- * @todo Vain aktiivisten projektien suodattaminen ja lajittelut
- *
+ * @brief Model, joka suodattaa vain aktiiviset kohdennukset
  */
-class KohdennusDelegaatti : public QItemDelegate
+class KohdennusProxyModel : public QSortFilterProxyModel
 {
 public:
-    KohdennusDelegaatti();
+    KohdennusProxyModel(QObject *parent = nullptr, QDate paiva = QDate(), int kohdennus = -1);
 
-    QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
-    void setEditorData(QWidget *editor, const QModelIndex &index) const;
-    void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
+    void asetaPaiva(const QDate& paiva) { nykyinenPaiva = paiva; invalidate(); }
+    void asetaKohdennus(int kohdennus) { nykyinenKohdennus = kohdennus; invalidate(); }
+
+protected:
+    virtual bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
 
 private:
-    KohdennusProxyModel *model;
+    QDate nykyinenPaiva;
+    int nykyinenKohdennus;  // Nykykohdennus kelpaa aina
 };
 
-#endif // KOHDENNUSDELEGAATTI_H
+#endif // KOHDENNUSPROXYMODEL_H

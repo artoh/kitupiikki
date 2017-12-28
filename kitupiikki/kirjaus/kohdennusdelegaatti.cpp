@@ -21,8 +21,10 @@
 #include <QDebug>
 
 #include "kohdennusdelegaatti.h"
+#include "kohdennusproxymodel.h"
 
-KohdennusDelegaatti::KohdennusDelegaatti()
+KohdennusDelegaatti::KohdennusDelegaatti() :
+    model( new KohdennusProxyModel(this))
 {
 
 }
@@ -30,7 +32,7 @@ KohdennusDelegaatti::KohdennusDelegaatti()
 QWidget *KohdennusDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem & /* option */, const QModelIndex &/*index*/) const
 {
     QComboBox *cbox = new QComboBox(parent);
-    cbox->setModel( kp()->kohdennukset());
+    cbox->setModel( model );
     cbox->setModelColumn( KohdennusModel::NIMI);
     return cbox;
 }
@@ -38,6 +40,9 @@ QWidget *KohdennusDelegaatti::createEditor(QWidget *parent, const QStyleOptionVi
 void KohdennusDelegaatti::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
     QComboBox *cbox = qobject_cast<QComboBox*>(editor);
+    model->asetaKohdennus( index.data( Qt::EditRole).toInt() );
+    model->asetaPaiva( index.data( VientiModel::PvmRooli ).toDate() );
+
     cbox->setCurrentIndex( cbox->findData( index.data( Qt::EditRole).toInt(), KohdennusModel::IdRooli ));
 }
 

@@ -51,7 +51,7 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     ui->valintaTab->addTab(QIcon(":/pic/siirra.png"),"Siirto");
     ui->valintaTab->setCurrentIndex(SIIRTO);
 
-    ui->kohdennusCombo->setModel( kp()->kohdennukset() );
+    ui->kohdennusCombo->setModel( &kohdennusfiltteri);
     ui->kohdennusCombo->setModelColumn( KohdennusModel::NIMI );
 
     ui->taseEraCombo->setModel( &eraModelTilille);
@@ -275,6 +275,7 @@ void KirjausApuriDialog::pvmMuuttuu()
         if( alvlukko )
             ui->alvCombo->setCurrentIndex(0);
     }
+    kohdennusfiltteri.asetaPaiva(ui->pvmDate->date());
 }
 
 void KirjausApuriDialog::ehdota()
