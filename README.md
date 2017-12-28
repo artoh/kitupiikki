@@ -27,7 +27,7 @@ Kotisivu ja käyttöohjeet [https:/artoh.github.io/kitupiikki](https:/artoh.gith
 
 ## Vaatimukset
 Kitupiikki käyttää [Qt-kirjastoa](https://qt.io) versio vähintään 5.7.
-Linuxissa Kitupiikki käyttää [Poppler-kirjastoa](https://poppler.freedesktop.org/) pdf-tiedostojen näyttämiseen.
+Pdf-tiedostojen näyttämiseen käytetään [Poppler-kirjastoa](https://poppler.freedesktop.org/).
 
 Lataa ja asenna Qt-kirjastot osoitteesta https://qt.io/download.
 
@@ -35,6 +35,7 @@ Linuxissa poppler on helppo asentaa järjestelmään:
 
     sudo apt-get install libpoppler-qt5-1 libpoppler-qt5-dev
 
+Windowsissa voi käyttää [valmiiksi käännettyä Poppler Win32](https://sourceforge.net/projects/poppler-win32/) -kirjastoa, joka puretaan kitupiikin hakemistoon. Päivitysten tarkistaminen ja SMTP/SSL-sähköpostin lähettäminen vaativat OpenSSL-kirjastoa.
 
 
 ## Kääntäminen
