@@ -27,9 +27,11 @@ TaseErittely::TaseErittely() :
     ui = new Ui::TaseErittely;
     ui->setupUi( raporttiWidget);
 
-    ui->tilikausiCombo->setModel( kp()->tilikaudet());
-    ui->tilikausiCombo->setModelColumn( TilikausiModel::KAUSI);
-    ui->tilikausiCombo->setCurrentIndex( ui->tilikausiCombo->count() -1  );
+    int tilikausia = kp()->tilikaudet()->rowCount(QModelIndex()) ;
+    Tilikausi kausi = tilikausia > 2 ? kp()->tilikaudet()->tilikausiIndeksilla(tilikausia - 2) : kp()->tilikaudet()->tilikausiIndeksilla(tilikausia - 1);
+
+    ui->alkaa->setDate( kausi.alkaa());
+    ui->paattyy->setDate( kausi.paattyy());
 }
 
 TaseErittely::~TaseErittely()
@@ -39,8 +41,7 @@ TaseErittely::~TaseErittely()
 
 RaportinKirjoittaja TaseErittely::raportti()
 {
-    Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->tilikausiCombo->currentIndex()) ;
-    return kirjoitaRaportti( kausi.alkaa(), kausi.paattyy());
+    return kirjoitaRaportti( ui->alkaa->date(), ui->paattyy->date() );
 }
 
 RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
