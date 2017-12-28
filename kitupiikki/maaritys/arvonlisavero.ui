@@ -28,7 +28,10 @@
         <item row="0" column="0">
          <widget class="QLabel" name="label">
           <property name="text">
-           <string>Verokausi</string>
+           <string>Vero&amp;kausi</string>
+          </property>
+          <property name="buddy">
+           <cstring>kausiCombo</cstring>
           </property>
          </widget>
         </item>
@@ -38,7 +41,10 @@
         <item row="1" column="0">
          <widget class="QLabel" name="label_2">
           <property name="text">
-           <string>Viimeisin ilmoitus</string>
+           <string>Viimeisin &amp;ilmoitus</string>
+          </property>
+          <property name="buddy">
+           <cstring>viimeisinEdit</cstring>
           </property>
          </widget>
         </item>
@@ -92,7 +98,10 @@
         <item>
          <widget class="QPushButton" name="tilitaNappi">
           <property name="text">
-           <string>Tee alv-tilitys</string>
+           <string>&amp;Tee alv-tilitys</string>
+          </property>
+          <property name="shortcut">
+           <string>F11</string>
           </property>
          </widget>
         </item>
@@ -112,7 +121,10 @@
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>Näytä tilitys</string>
+        <string>&amp;Näytä tilitys</string>
+       </property>
+       <property name="shortcut">
+        <string>F9</string>
        </property>
       </widget>
      </item>
@@ -122,7 +134,10 @@
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>Näytä erittely</string>
+        <string>Näytä &amp;erittely</string>
+       </property>
+       <property name="shortcut">
+        <string>F10</string>
        </property>
       </widget>
      </item>

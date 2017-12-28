@@ -39,14 +39,14 @@
      <item>
       <widget class="QPushButton" name="uusiNappi">
        <property name="text">
-        <string>Uusi...</string>
+        <string>&amp;Uusi...</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
        </property>
        <property name="shortcut">
-        <string>Ins</string>
+        <string>F11</string>
        </property>
       </widget>
      </item>
@@ -56,7 +56,7 @@
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>Muokkaa</string>
+        <string>&amp;Muokkaa</string>
        </property>
        <property name="icon">
         <iconset>
@@ -70,7 +70,7 @@
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>Poista</string>
+        <string>P&amp;oista</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
@@ -94,7 +94,7 @@
      <item>
       <widget class="QPushButton" name="piilotaNappi">
        <property name="text">
-        <string>Piilota</string>
+        <string>P&amp;iilota</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
@@ -111,7 +111,7 @@
      <item>
       <widget class="QPushButton" name="normaaliNappi">
        <property name="text">
-        <string>Normaali</string>
+        <string>&amp;Normaali</string>
        </property>
        <property name="checkable">
         <bool>true</bool>
@@ -124,7 +124,7 @@
      <item>
       <widget class="QPushButton" name="suosikkiNappi">
        <property name="text">
-        <string>Suosikki</string>
+        <string>&amp;Suosikki</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">

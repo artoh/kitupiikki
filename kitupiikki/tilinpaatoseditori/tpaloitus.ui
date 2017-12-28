@@ -86,6 +86,9 @@
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/ohje.png</normaloff>:/pic/ohje.png</iconset>
        </property>
+       <property name="shortcut">
+        <string>F1</string>
+       </property>
       </widget>
      </item>
      <item>
@@ -104,7 +107,7 @@
      <item>
       <widget class="QPushButton" name="jatkaNappi">
        <property name="text">
-        <string>Jatka</string>
+        <string>&amp;Jatka</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
@@ -118,7 +121,7 @@
      <item>
       <widget class="QPushButton" name="lataaNappi">
        <property name="text">
-        <string>Lataa tiedosto</string>
+        <string>&amp;Lataa tiedosto</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">

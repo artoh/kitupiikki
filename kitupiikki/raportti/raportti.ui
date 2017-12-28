@@ -38,7 +38,7 @@
      <item>
       <widget class="QCheckBox" name="raitaCheck">
        <property name="text">
-        <string>Raidoita tausta</string>
+        <string>&amp;Raidoita tausta</string>
        </property>
       </widget>
      </item>
@@ -60,22 +60,28 @@
        <item>
         <widget class="QPushButton" name="esikatseleNappi">
          <property name="text">
-          <string>Esikatsele</string>
+          <string>&amp;Esikatsele</string>
          </property>
          <property name="icon">
           <iconset resource="../pic/pic.qrc">
            <normaloff>:/pic/print.png</normaloff>:/pic/print.png</iconset>
+         </property>
+         <property name="shortcut">
+          <string>F9</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="tulostaNappi">
          <property name="text">
-          <string>Tulosta</string>
+          <string>&amp;Tulosta</string>
          </property>
          <property name="icon">
           <iconset resource="../pic/pic.qrc">
            <normaloff>:/pic/tulosta.png</normaloff>:/pic/tulosta.png</iconset>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+P</string>
          </property>
         </widget>
        </item>

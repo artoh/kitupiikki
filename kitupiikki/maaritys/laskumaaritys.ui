@@ -25,6 +25,9 @@
         <property name="text">
          <string>Tositelaji</string>
         </property>
+        <property name="buddy">
+         <cstring>tositelajiCombo</cstring>
+        </property>
        </widget>
       </item>
       <item row="0" column="1">
@@ -34,6 +37,9 @@
        <widget class="QLabel" name="label_2">
         <property name="text">
          <string>Kirjausperuste</string>
+        </property>
+        <property name="buddy">
+         <cstring>perusteCombo</cstring>
         </property>
        </widget>
       </item>
@@ -45,6 +51,9 @@
         <property name="text">
          <string>Saatavatili</string>
         </property>
+        <property name="buddy">
+         <cstring>saatavatiliEdit</cstring>
+        </property>
        </widget>
       </item>
       <item row="2" column="1">
@@ -55,6 +64,9 @@
         <property name="text">
          <string>Käteistili</string>
         </property>
+        <property name="buddy">
+         <cstring>kateistiliEdit</cstring>
+        </property>
        </widget>
       </item>
       <item row="3" column="1">
@@ -64,6 +76,9 @@
        <widget class="QLabel" name="label_6">
         <property name="text">
          <string>Maksuaika</string>
+        </property>
+        <property name="buddy">
+         <cstring>maksuaikaSpin</cstring>
         </property>
        </widget>
       </item>
@@ -79,6 +94,9 @@
         <property name="text">
          <string>Huomautusaika</string>
         </property>
+        <property name="buddy">
+         <cstring>huomautusaikaEdit</cstring>
+        </property>
        </widget>
       </item>
       <item row="5" column="1">
@@ -89,6 +107,9 @@
         <property name="text">
          <string>Viivästyskorko</string>
         </property>
+        <property name="buddy">
+         <cstring>viivastyskorkoEdit</cstring>
+        </property>
        </widget>
       </item>
       <item row="6" column="1">
@@ -98,6 +119,9 @@
        <widget class="QLabel" name="label_9">
         <property name="text">
          <string>Seuraava viitenumero</string>
+        </property>
+        <property name="buddy">
+         <cstring>seuraavaLasku</cstring>
         </property>
        </widget>
       </item>
@@ -131,6 +155,9 @@
        <widget class="QLabel" name="label_10">
         <property name="text">
          <string>IBAN</string>
+        </property>
+        <property name="buddy">
+         <cstring>ibanEdit</cstring>
         </property>
        </widget>
       </item>

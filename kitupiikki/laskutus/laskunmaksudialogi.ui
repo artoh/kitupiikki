@@ -36,7 +36,10 @@
      <item row="1" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Euroa</string>
+        <string>&amp;Euroa</string>
+       </property>
+       <property name="buddy">
+        <cstring>euroSpin</cstring>
        </property>
       </widget>
      </item>
@@ -59,7 +62,10 @@
      <item row="2" column="0">
       <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>Rahatili</string>
+        <string>Raha&amp;tili</string>
+       </property>
+       <property name="buddy">
+        <cstring>tiliEdit</cstring>
        </property>
       </widget>
      </item>
@@ -69,7 +75,10 @@
      <item row="0" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Maksupäivä</string>
+        <string>Maksu&amp;päivä</string>
+       </property>
+       <property name="buddy">
+        <cstring>pvmEdit</cstring>
        </property>
       </widget>
      </item>
@@ -80,11 +89,14 @@
      <item>
       <widget class="QPushButton" name="naytaNappi">
        <property name="text">
-        <string>Näytä</string>
+        <string>&amp;Näytä</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/print.png</normaloff>:/pic/print.png</iconset>
+       </property>
+       <property name="shortcut">
+        <string>F9</string>
        </property>
       </widget>
      </item>
@@ -107,7 +119,7 @@
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>Kirjaa</string>
+        <string>&amp;Kirjaa</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
@@ -148,8 +160,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>447</x>
-     <y>436</y>
+     <x>797</x>
+     <y>450</y>
     </hint>
     <hint type="destinationlabel">
      <x>226</x>

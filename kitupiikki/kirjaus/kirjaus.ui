@@ -19,7 +19,7 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Tositteen pvm</string>
+        <string>Tositteen &amp;pvm</string>
        </property>
        <property name="buddy">
         <cstring>tositePvmEdit</cstring>
@@ -32,7 +32,7 @@
      <item>
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>Otsikko</string>
+        <string>&amp;Otsikko</string>
        </property>
        <property name="buddy">
         <cstring>otsikkoEdit</cstring>
@@ -89,21 +89,21 @@
          <item>
           <widget class="QPushButton" name="lisaaRiviNappi">
            <property name="text">
-            <string>Lisää rivi</string>
+            <string>Li&amp;sää rivi</string>
            </property>
            <property name="icon">
             <iconset resource="../pic/pic.qrc">
              <normaloff>:/pic/lisaarivi.png</normaloff>:/pic/lisaarivi.png</iconset>
            </property>
            <property name="shortcut">
-            <string>Ins</string>
+            <string>F11</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="poistariviNappi">
            <property name="text">
-            <string>Poista rivi</string>
+            <string>Poista &amp;rivi</string>
            </property>
            <property name="icon">
             <iconset resource="../pic/pic.qrc">
@@ -134,7 +134,7 @@
      </widget>
      <widget class="QWidget" name="liitteet">
       <attribute name="title">
-       <string>&amp;Liitteet</string>
+       <string>L&amp;iitteet</string>
       </attribute>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
@@ -175,11 +175,14 @@
          <item>
           <widget class="QPushButton" name="lisaaliiteNappi">
            <property name="text">
-            <string>Lisää</string>
+            <string>Li&amp;sää</string>
            </property>
            <property name="icon">
             <iconset resource="../pic/pic.qrc">
              <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
+           </property>
+           <property name="shortcut">
+            <string>F11</string>
            </property>
           </widget>
          </item>
@@ -200,7 +203,7 @@
      </widget>
      <widget class="QWidget" name="tiliote">
       <attribute name="title">
-       <string>Tiliote</string>
+       <string>&amp;Tiliote</string>
       </attribute>
       <layout class="QFormLayout" name="formLayout">
        <item row="0" column="0" colspan="2">
@@ -215,6 +218,9 @@
          <property name="text">
           <string>Tili</string>
          </property>
+         <property name="buddy">
+          <cstring>tiliotetiliCombo</cstring>
+         </property>
         </widget>
        </item>
        <item row="1" column="1">
@@ -224,6 +230,9 @@
         <widget class="QLabel" name="label_4">
          <property name="text">
           <string>Ajalta</string>
+         </property>
+         <property name="buddy">
+          <cstring>tiliotealkaenEdit</cstring>
          </property>
         </widget>
        </item>
@@ -236,6 +245,9 @@
           <widget class="QLabel" name="label_5">
            <property name="text">
             <string>-</string>
+           </property>
+           <property name="buddy">
+            <cstring>tilioteloppuenEdit</cstring>
            </property>
           </widget>
          </item>
@@ -279,7 +291,7 @@
      <item>
       <widget class="QLabel" name="label_10">
        <property name="text">
-        <string>Tositenumero</string>
+        <string>Tosite&amp;numero</string>
        </property>
        <property name="buddy">
         <cstring>tunnisteEdit</cstring>
@@ -342,25 +354,28 @@
      <item>
       <widget class="QPushButton" name="apuriNappi">
        <property name="text">
-        <string>Avustaja </string>
+        <string>A&amp;vustaja </string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/taikuri.png</normaloff>:/pic/taikuri.png</iconset>
        </property>
        <property name="shortcut">
-        <string>Return</string>
+        <string>F9</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="laskuNappi">
        <property name="text">
-        <string>Lasku</string>
+        <string>&amp;Lasku</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/lasku.png</normaloff>:/pic/lasku.png</iconset>
+       </property>
+       <property name="shortcut">
+        <string>F10</string>
        </property>
       </widget>
      </item>
@@ -380,14 +395,14 @@
      <item>
       <widget class="QPushButton" name="tallennaButton">
        <property name="text">
-        <string>Tallenna</string>
+        <string>T&amp;allenna</string>
        </property>
        <property name="icon">
         <iconset>
          <normaloff>../pic/ok.png</normaloff>../pic/ok.png</iconset>
        </property>
        <property name="shortcut">
-        <string>Ctrl+Return</string>
+        <string>F12</string>
        </property>
        <property name="default">
         <bool>true</bool>
@@ -397,7 +412,7 @@
      <item>
       <widget class="QPushButton" name="hylkaaNappi">
        <property name="text">
-        <string>Hylkää</string>
+        <string>H&amp;ylkää</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">

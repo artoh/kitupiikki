@@ -17,7 +17,10 @@
    <item>
     <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>Verolaji</string>
+      <string>Vero&amp;laji</string>
+     </property>
+     <property name="buddy">
+      <cstring>verolajiCombo</cstring>
      </property>
     </widget>
    </item>
@@ -37,7 +40,7 @@
        <item>
         <widget class="QRadioButton" name="veronalainenRadio">
          <property name="text">
-          <string>Veronalainen määrä (netto)</string>
+          <string>Veronalainen määrä (&amp;netto)</string>
          </property>
          <property name="checked">
           <bool>true</bool>
@@ -47,14 +50,14 @@
        <item>
         <widget class="QRadioButton" name="veroRadio">
          <property name="text">
-          <string>Veron määrä</string>
+          <string>&amp;Veron määrä</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QRadioButton" name="vahennysRadio">
          <property name="text">
-          <string>Vähennettävä määrä</string>
+          <string>V&amp;ähennettävä määrä</string>
          </property>
         </widget>
        </item>
@@ -62,7 +65,7 @@
      </widget>
      <widget class="QLabel" name="label">
       <property name="text">
-       <string>Verokanta</string>
+       <string>Vero&amp;kanta</string>
       </property>
       <property name="buddy">
        <cstring>prossaSpin</cstring>

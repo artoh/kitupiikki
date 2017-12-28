@@ -54,6 +54,9 @@
        <property name="text">
         <string>Osoite</string>
        </property>
+       <property name="buddy">
+        <cstring>osoiteEdit</cstring>
+       </property>
       </widget>
      </item>
      <item row="2" column="1">
@@ -81,6 +84,9 @@ p, li { white-space: pre-wrap; }
        <property name="text">
         <string>Kotipaikka</string>
        </property>
+       <property name="buddy">
+        <cstring>kotipaikkaEdit</cstring>
+       </property>
       </widget>
      </item>
      <item row="3" column="1">
@@ -90,6 +96,9 @@ p, li { white-space: pre-wrap; }
       <widget class="QLabel" name="label_6">
        <property name="text">
         <string>Puhelin</string>
+       </property>
+       <property name="buddy">
+        <cstring>puhelinEdit</cstring>
        </property>
       </widget>
      </item>

@@ -132,11 +132,6 @@ signals:
      */
     void tositeKasitelty();
 
-protected:
-    /**
-     * @brief Asettaa näppäinoikotiet
-     */
-    void oikotiet();
 
 protected:
     Ui::KirjausWg *ui;

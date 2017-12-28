@@ -45,25 +45,28 @@
      <item>
       <widget class="QPushButton" name="naytaNappi">
        <property name="text">
-        <string>Näytä</string>
+        <string>&amp;Näytä</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/print.png</normaloff>:/pic/print.png</iconset>
        </property>
        <property name="shortcut">
-        <string>Return</string>
+        <string>F9</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="hyvitysNappi">
        <property name="text">
-        <string>Hyvityslasku</string>
+        <string>H&amp;yvityslasku</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/poista.png</normaloff>:/pic/poista.png</iconset>
+       </property>
+       <property name="shortcut">
+        <string>F10</string>
        </property>
       </widget>
      </item>
@@ -83,14 +86,14 @@
      <item>
       <widget class="QPushButton" name="uusiNappi">
        <property name="text">
-        <string>Uusi lasku...</string>
+        <string>&amp;Uusi lasku...</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
        </property>
        <property name="shortcut">
-        <string>Ins</string>
+        <string>F11</string>
        </property>
       </widget>
      </item>

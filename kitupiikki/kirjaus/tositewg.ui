@@ -44,7 +44,10 @@
        <widget class="QPushButton" name="valitseTiedostoNappi">
         <property name="text">
          <string>Valitse
- tiedosto</string>
+ tie&amp;dosto</string>
+        </property>
+        <property name="shortcut">
+         <string>Ctrl+O</string>
         </property>
        </widget>
       </item>

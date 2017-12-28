@@ -43,7 +43,7 @@
          <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
        </property>
        <property name="shortcut">
-        <string>Ins</string>
+        <string>F11</string>
        </property>
       </widget>
      </item>

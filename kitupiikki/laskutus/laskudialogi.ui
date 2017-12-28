@@ -68,7 +68,10 @@
        <item row="0" column="0">
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>Toimituspäivä</string>
+          <string>Toi&amp;mituspäivä</string>
+         </property>
+         <property name="buddy">
+          <cstring>toimitusDate</cstring>
          </property>
         </widget>
        </item>
@@ -78,7 +81,10 @@
        <item row="1" column="0">
         <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>Eräpäivä</string>
+          <string>Eräpäi&amp;vä</string>
+         </property>
+         <property name="buddy">
+          <cstring>eraDate</cstring>
          </property>
         </widget>
        </item>
@@ -88,7 +94,10 @@
        <item row="2" column="0">
         <widget class="QLabel" name="label_3">
          <property name="text">
-          <string>Kirjausperuste</string>
+          <string>Kirjausp&amp;eruste</string>
+         </property>
+         <property name="buddy">
+          <cstring>perusteCombo</cstring>
          </property>
         </widget>
        </item>
@@ -98,7 +107,10 @@
        <item row="3" column="0">
         <widget class="QLabel" name="rahatiliLabel">
          <property name="text">
-          <string>Rahatili</string>
+          <string>Ra&amp;hatili</string>
+         </property>
+         <property name="buddy">
+          <cstring>rahaTiliEdit</cstring>
          </property>
         </widget>
        </item>
@@ -136,7 +148,7 @@
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
-       <string>Rivit</string>
+       <string>&amp;Rivit</string>
       </attribute>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
@@ -216,7 +228,10 @@ p, li { white-space: pre-wrap; }
            <item>
             <widget class="QPushButton" name="naytaNappi">
              <property name="text">
-              <string>Tuotteet</string>
+              <string>&amp;Tuotteet</string>
+             </property>
+             <property name="shortcut">
+              <string>F9</string>
              </property>
              <property name="checkable">
               <bool>true</bool>
@@ -245,14 +260,14 @@ p, li { white-space: pre-wrap; }
            <item>
             <widget class="QPushButton" name="lisaaNappi">
              <property name="text">
-              <string>Lisää</string>
+              <string>L&amp;isää</string>
              </property>
              <property name="icon">
               <iconset resource="../pic/pic.qrc">
                <normaloff>:/pic/lisaarivi.png</normaloff>:/pic/lisaarivi.png</iconset>
              </property>
              <property name="shortcut">
-              <string>Ins</string>
+              <string>F11</string>
              </property>
             </widget>
            </item>
@@ -278,7 +293,7 @@ p, li { white-space: pre-wrap; }
      </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">
-       <string>Lisätiedot</string>
+       <string>Lis&amp;ätiedot</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
@@ -319,7 +334,7 @@ p, li { white-space: pre-wrap; }
      <item>
       <widget class="QPushButton" name="tulostaNappi">
        <property name="text">
-        <string>Tulosta</string>
+        <string>T&amp;ulosta</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
@@ -333,14 +348,14 @@ p, li { white-space: pre-wrap; }
      <item>
       <widget class="QPushButton" name="esikatseluNappi">
        <property name="text">
-        <string>Näytä</string>
+        <string>&amp;Näytä</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/print.png</normaloff>:/pic/print.png</iconset>
        </property>
        <property name="shortcut">
-        <string>F12</string>
+        <string>F10</string>
        </property>
       </widget>
      </item>
@@ -350,7 +365,7 @@ p, li { white-space: pre-wrap; }
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>Sähköposti</string>
+        <string>&amp;Sähköposti</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
@@ -384,14 +399,14 @@ p, li { white-space: pre-wrap; }
      <item>
       <widget class="QPushButton" name="tallennaNappi">
        <property name="text">
-        <string>Tallenna</string>
+        <string>T&amp;allenna</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/ok.png</normaloff>:/pic/ok.png</iconset>
        </property>
        <property name="shortcut">
-        <string>Ctrl+Return</string>
+        <string>F12</string>
        </property>
        <property name="default">
         <bool>false</bool>

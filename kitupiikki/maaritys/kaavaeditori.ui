@@ -41,11 +41,14 @@
         </size>
        </property>
        <property name="text">
-        <string>Lisää raportti</string>
+        <string>&amp;Lisää raportti</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/tekstisivu.png</normaloff>:/pic/tekstisivu.png</iconset>
+       </property>
+       <property name="shortcut">
+        <string>F11</string>
        </property>
       </widget>
      </item>

@@ -80,7 +80,6 @@ SOURCES += main.cpp \
     ktpvienti/ktpkuvaus.cpp \
     ktpvienti/ktpaloitusteksti.cpp \
     ktpvienti/ktpvienti.cpp \
-    maaritys/tyokalut.cpp \
     onniwidget.cpp \
     raportti/raportoija.cpp \
     raportti/paakirjaraportti.cpp \
@@ -183,7 +182,6 @@ HEADERS += \
     ktpvienti/ktpkuvaus.h \
     ktpvienti/ktpaloitusteksti.h \
     ktpvienti/ktpvienti.h \
-    maaritys/tyokalut.h \
     onniwidget.h \
     raportti/raportoija.h \
     raportti/paakirjaraportti.h \
@@ -257,7 +255,6 @@ FORMS += \
     ktpvienti/ktpperustiedot.ui \
     ktpvienti/ktpkuvaus.ui \
     ktpvienti/ktpaloitusteksti.ui \
-    maaritys/tyokalut.ui \
     onniwidget.ui \
     raportti/tilikarttaraportti.ui \
     aloitussivu/aboutdialog.ui \

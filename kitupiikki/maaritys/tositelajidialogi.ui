@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>299</height>
+    <height>301</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,6 +20,9 @@
       <widget class="QLabel" name="label">
        <property name="text">
         <string>Tunnus (lyhenne)</string>
+       </property>
+       <property name="buddy">
+        <cstring>tunnusEdit</cstring>
        </property>
       </widget>
      </item>
@@ -35,6 +38,9 @@
        <property name="text">
         <string>Nimi</string>
        </property>
+       <property name="buddy">
+        <cstring>nimiEdit</cstring>
+       </property>
       </widget>
      </item>
      <item row="1" column="1">
@@ -44,6 +50,9 @@
       <widget class="QLabel" name="label_3">
        <property name="text">
         <string>Oletusvastatili</string>
+       </property>
+       <property name="buddy">
+        <cstring>vastatiliEdit</cstring>
        </property>
       </widget>
      </item>
@@ -58,6 +67,9 @@
       <widget class="QLabel" name="label_4">
        <property name="text">
         <string>Oletustili</string>
+       </property>
+       <property name="buddy">
+        <cstring>oletusTiliEdit</cstring>
        </property>
       </widget>
      </item>
@@ -151,8 +163,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>257</x>
+     <y>291</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -167,8 +179,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>325</x>
+     <y>291</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

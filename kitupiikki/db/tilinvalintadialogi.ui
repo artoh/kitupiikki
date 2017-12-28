@@ -32,7 +32,7 @@
      <item>
       <widget class="QPushButton" name="suosikitNappi">
        <property name="text">
-        <string>Suosikit</string>
+        <string>&amp;Suosikit</string>
        </property>
        <property name="checkable">
         <bool>true</bool>
@@ -89,8 +89,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>273</x>
-     <y>277</y>
+     <x>527</x>
+     <y>376</y>
     </hint>
     <hint type="destinationlabel">
      <x>144</x>
@@ -105,8 +105,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>343</x>
-     <y>282</y>
+     <x>613</x>
+     <y>376</y>
     </hint>
     <hint type="destinationlabel">
      <x>189</x>
