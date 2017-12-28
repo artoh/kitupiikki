@@ -118,7 +118,8 @@ SOURCES += main.cpp \
     raportti/taseerittely.cpp \
     arkisto/tilinpaattaja.cpp \
     arkisto/poistaja.cpp \
-    maaritys/kaavankorostin.cpp
+    maaritys/kaavankorostin.cpp \
+    kirjaus/kohdennusproxymodel.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -219,7 +220,8 @@ HEADERS += \
     raportti/taseerittely.h \
     arkisto/tilinpaattaja.h \
     arkisto/poistaja.h \
-    maaritys/kaavankorostin.h
+    maaritys/kaavankorostin.h \
+    kirjaus/kohdennusproxymodel.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
