@@ -35,7 +35,7 @@ public:
     int id() const { return id_; }
     QString tunnus() const { return tunnus_; }
     QString nimi() const { return nimi_; }
-    bool muokattu() const { return muokattu_ | json_.muokattu(); }
+    bool muokattu() const { return muokattu_ | json_.onkoMuokattu(); }
 
     JsonKentta *json() { return &json_; }
 

@@ -146,7 +146,7 @@ void TilikausiModel::lisaaTilikausi(Tilikausi tilikausi)
     beginInsertRows( QModelIndex(), kaudet_.count(), kaudet_.count());
 
     kaudet_.append( tilikausi );
-    kp()->tietokanta()->exec( QString("INSERT INTO tilikausi(alkaa,loppuu) VALUES('%1','%2') ")
+    tietokanta_->exec( QString("INSERT INTO tilikausi(alkaa,loppuu) VALUES('%1','%2') ")
                               .arg(tilikausi.alkaa().toString(Qt::ISODate))
                               .arg(tilikausi.paattyy().toString(Qt::ISODate)));
     endInsertRows();
@@ -157,14 +157,14 @@ void TilikausiModel::muokkaaViimeinenTilikausi(const QDate &paattyy)
     if( paattyy.isNull())
     {
         beginRemoveRows( QModelIndex(), kaudet_.count()-1, kaudet_.count()-1);
-        kp()->tietokanta()->exec(QString("DELETE FROM tilikausi WHERE alkaa='%1' ").arg( kaudet_.last().alkaa().toString(Qt::ISODate) ) );
+        tietokanta_->exec(QString("DELETE FROM tilikausi WHERE alkaa='%1' ").arg( kaudet_.last().alkaa().toString(Qt::ISODate) ) );
         kaudet_.removeLast();
         endRemoveRows();
     }
     else
     {
         kaudet_[ kaudet_.count()-1 ].paattyy() = paattyy;
-        kp()->tietokanta()->exec(QString("UPDATE tilikausi SET loppuu='%1' WHERE alkaa='%2' ")
+        tietokanta_->exec(QString("UPDATE tilikausi SET loppuu='%1' WHERE alkaa='%2' ")
                           .arg( paattyy.toString(Qt::ISODate) ).arg( kaudet_.last().alkaa().toString(Qt::ISODate)) );
         emit dataChanged( index(kaudet_.count()-1, KAUSI), index(kaudet_.count()-1, KAUSI) );
     }
@@ -198,7 +198,7 @@ Tilikausi TilikausiModel::tilikausiIndeksilla(int indeksi) const
 }
 
 JsonKentta *TilikausiModel::json(int indeksi)
-{
+{    
     return kaudet_[indeksi].json();
 }
 
@@ -242,7 +242,7 @@ void TilikausiModel::lataa()
     endResetModel();
 }
 
-void TilikausiModel::tallenna()
+void TilikausiModel::tallennaJSON()
 {
     tietokanta_->transaction();
 
@@ -250,7 +250,7 @@ void TilikausiModel::tallenna()
     kysely.prepare("UPDATE tilikausi SET json=:json WHERE alkaa=:alku");
     for(int i=0; i<kaudet_.count(); i++)
     {
-        if( kaudet_[i].json()->muokattu())
+        if( kaudet_[i].json()->onkoMuokattu())
         {
             kysely.bindValue(":json", kaudet_[i].json()->toSqlJson());
             kysely.bindValue(":alku", kaudet_[i].alkaa());

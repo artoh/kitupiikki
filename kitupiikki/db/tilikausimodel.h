@@ -92,7 +92,7 @@ public slots:
     /**
      * @brief tallenna Tallentaa muutetut json-kentät
      */
-    void tallenna();
+    void tallennaJSON();
 
 protected:
     QSqlDatabase *tietokanta_;

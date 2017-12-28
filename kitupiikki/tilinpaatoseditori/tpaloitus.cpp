@@ -107,7 +107,7 @@ void TpAloitus::tallennaHenkilosto(int maara)
     kp()->tilikaudet()->json(tilikausi)->set("Henkilosto", maara);
     tilikausi.json()->set("Henkilosto",maara);
 
-    kp()->tilikaudet()->tallenna();
+    kp()->tilikaudet()->tallennaJSON();
     tarkistaPMA();
 }
 

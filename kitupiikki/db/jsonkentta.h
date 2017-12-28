@@ -58,8 +58,7 @@ public:
      *
      * @return tosi, jos muokattu
      */
-    bool muokattu() const { return muokattu_; }
-
+    bool onkoMuokattu() const { return muokattu_; }
 
 protected:
     QVariantMap map_;

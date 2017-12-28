@@ -90,7 +90,7 @@ void ArkistoSivu::uusiTilikausi()
     {
         Tilikausi uusitilikausi( dlgUi.alkaaEdit->date(), dlgUi.paattyyEdit->date() );
         kp()->tilikaudet()->lisaaTilikausi( uusitilikausi );
-        kp()->tilikaudet()->tallenna();
+        kp()->tilikaudet()->tallennaJSON();
     }
 
 }
@@ -170,7 +170,7 @@ void ArkistoSivu::teeArkisto(Tilikausi kausi)
     QDateTime nyt = QDateTime( kp()->paivamaara(), QTime::currentTime());
     kp()->tilikaudet()->json(kausi)->set("Arkistoitu", nyt.toString(Qt::ISODate) );
     kp()->tilikaudet()->json(kausi)->set("ArkistoSHA", sha);
-    kp()->tilikaudet()->tallenna();
+    kp()->tilikaudet()->tallennaJSON();
 
     QModelIndex indeksi = kp()->tilikaudet()->index( kp()->tilikaudet()->indeksiPaivalle(kausi.paattyy()) , TilikausiModel::ARKISTOITU );
     emit kp()->tilikaudet()->dataChanged( indeksi, indeksi );

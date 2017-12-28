@@ -73,7 +73,7 @@ bool TositeModel::kelpaakoTunniste(int tunnistenumero) const
 
 bool TositeModel::muokattu()
 {
-    return muokattu_ || vientiModel()->muokattu() || json()->muokattu() || liiteModel()->muokattu();
+    return muokattu_ || vientiModel()->muokattu() || json()->onkoMuokattu() || liiteModel()->muokattu();
 }
 
 void TositeModel::asetaPvm(const QDate &pvm)

@@ -211,7 +211,7 @@ void TilinpaatosEditori::tallenna()
 {
     QString teksti = raportit_ + "\n" + editori_->toHtml();
     kp()->tilikaudet()->json(tilikausi_)->set("TilinpaatosTeksti", teksti);
-    kp()->tilikaudet()->tallenna();
+    kp()->tilikaudet()->tallennaJSON();
 
     TilinpaatosTulostaja::tulostaTilinpaatos( tilikausi_, teksti , &printer_);
 

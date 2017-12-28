@@ -24,13 +24,19 @@
 #include "uusikp/uusikirjanpito.h"
 #include "kitupiikkiikkuna.h"
 
+#include <QDebug>
+#include <QStyleFactory>
 
 int main(int argc, char *argv[])
-{
+{   
     QApplication a(argc, argv);
     QSplashScreen *splash = new QSplashScreen;
     splash->setPixmap( QPixmap(":/pic/splash.png"));
     splash->show();
+
+#ifdef Q_OS_WIN
+    QApplication::setStyle(QStyleFactory::create("Fusion"));
+#endif
 
     a.setApplicationName("Kitupiikki");
     a.setApplicationVersion("0.2.0-devel");

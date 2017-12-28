@@ -65,7 +65,7 @@ bool Tilinavaus::tallenna()
     model->tallenna();
 
     kp()->tilikaudet()->json(0)->set("Henkilosto", ui->henkilostoSpin->value());
-    kp()->tilikaudet()->tallenna();
+    kp()->tilikaudet()->tallennaJSON();
 
     emit tallennaKaytossa(onkoMuokattu());
     return true;

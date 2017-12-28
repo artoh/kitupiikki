@@ -259,7 +259,7 @@ bool Poistaja::sumupoistaja(Tilikausi kausi)
         if( tosite.tallenna() )
         {
             kp()->tilikaudet()->json( kausi.paattyy() )->set("Poistokirjaus", tosite.id());
-            kp()->tilikaudet()->tallenna();
+            kp()->tilikaudet()->tallennaJSON();
 
             return true;
         }

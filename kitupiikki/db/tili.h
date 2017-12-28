@@ -42,7 +42,7 @@ public:
     QString tyyppiKoodi() const { return tyyppi().koodi(); }
     int tila() const { return tila_; }
     int otsikkotaso() const { return tyyppi().otsikkotaso(); }
-    bool muokattu() const { return muokattu_ || json_.muokattu(); }
+    bool muokattu() const { return muokattu_ || json_.onkoMuokattu(); }
 
     /**
      * @brief Palauttaa tämän tilin tai otsikon yllä olevan otsikon id:n

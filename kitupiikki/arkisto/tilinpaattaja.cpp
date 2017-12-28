@@ -159,7 +159,7 @@ void TilinPaattaja::vahvista()
         return;
 
     kp()->tilikaudet()->json(tilikausi)->set("Vahvistettu", kp()->paivamaara());
-    kp()->tilikaudet()->tallenna();
+    kp()->tilikaudet()->tallennaJSON();
     emit kp()->onni("Tilinpäätös merkitty valmiiksi");
     emit vahvistettu();
     close();

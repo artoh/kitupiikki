@@ -218,6 +218,7 @@ void AloitusSivu::abouttiarallaa()
 void AloitusSivu::infoSaapui(QNetworkReply *reply)
 {
     bool tulosta = false;
+    paivitysInfo.clear();
     while( reply->canReadLine())
     {
         QString rivi = QString::fromUtf8( reply->readLine() );
