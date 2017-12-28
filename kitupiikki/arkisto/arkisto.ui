@@ -32,11 +32,14 @@
      <item>
       <widget class="QPushButton" name="uusiNappi">
        <property name="text">
-        <string>Uusi tilikausi</string>
+        <string>&amp;Uusi tilikausi</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
+       </property>
+       <property name="shortcut">
+        <string>F11</string>
        </property>
       </widget>
      </item>
@@ -46,7 +49,7 @@
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>Muokkaa</string>
+        <string>&amp;Muokkaa</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
@@ -70,22 +73,28 @@
      <item>
       <widget class="QPushButton" name="arkistoNappi">
        <property name="text">
-        <string>Arkisto</string>
+        <string>&amp;Arkisto</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/kansiot.png</normaloff>:/pic/kansiot.png</iconset>
+       </property>
+       <property name="shortcut">
+        <string>F9</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="tilinpaatosNappi">
        <property name="text">
-        <string>Tilinpäätös</string>
+        <string>&amp;Tilinpäätös</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/dokumentti.png</normaloff>:/pic/dokumentti.png</iconset>
+       </property>
+       <property name="shortcut">
+        <string>F10</string>
        </property>
       </widget>
      </item>

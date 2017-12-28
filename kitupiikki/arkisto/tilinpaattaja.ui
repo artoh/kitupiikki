@@ -85,7 +85,7 @@
         <item>
          <widget class="QPushButton" name="poistoNappi">
           <property name="text">
-           <string>Kirjaa poistot...</string>
+           <string>Kirjaa &amp;poistot...</string>
           </property>
           <property name="icon">
            <iconset resource="../pic/pic.qrc">
@@ -163,7 +163,7 @@
         <item>
          <widget class="QPushButton" name="lukitseNappi">
           <property name="text">
-           <string>Lukitse kirjanpito ...</string>
+           <string>&amp;Lukitse kirjanpito ...</string>
           </property>
           <property name="icon">
            <iconset resource="../pic/pic.qrc">
@@ -209,7 +209,7 @@
       <item row="1" column="1">
        <widget class="QPushButton" name="tilinpaatosNappi">
         <property name="text">
-         <string>Tilinpäätös ...</string>
+         <string>&amp;Tilinpäätös ...</string>
         </property>
         <property name="icon">
          <iconset resource="../pic/pic.qrc">
@@ -230,7 +230,7 @@
       <item row="2" column="1">
        <widget class="QPushButton" name="tulostaNappi">
         <property name="text">
-         <string>Esikatsele ja tulosta ...</string>
+         <string>&amp;Esikatsele ja tulosta ...</string>
         </property>
         <property name="icon">
          <iconset resource="../pic/pic.qrc">
@@ -251,7 +251,7 @@
       <item row="3" column="1">
        <widget class="QPushButton" name="vahvistaNappi">
         <property name="text">
-         <string>Vahvista ...</string>
+         <string>&amp;Vahvista ...</string>
         </property>
         <property name="icon">
          <iconset resource="../pic/pic.qrc">
