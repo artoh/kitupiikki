@@ -259,7 +259,7 @@ public:
      *
      * Jos yritetään avata uudempaa, tulee virhe
      */
-    static const int tietokantaVersio = 1;
+    static const int TIETOKANTAVERSIO = 1;
 
 private:
     static Kirjanpito *instanssi__;

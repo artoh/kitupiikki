@@ -200,7 +200,7 @@ bool UusiKirjanpito::alustaKirjanpito()
 
     asetukset.aseta("Luotu", QDate::currentDate());
     asetukset.aseta("LuotuVersiolla", qApp->applicationVersion());
-    asetukset.aseta("KpVersio",  Kirjanpito::tietokantaVersio );
+    asetukset.aseta("KpVersio",  Kirjanpito::TIETOKANTAVERSIO );
 
     progDlg.setValue( progDlg.value() + 1 );
 
@@ -221,8 +221,8 @@ bool UusiKirjanpito::alustaKirjanpito()
     // Tilien ja otsikkojen kirjoittaminen
     TiliModel tilit(&db);
 
-    QRegularExpression tiliRe("^(?<tyyppi>\\w{1,5})(?<tila>[\\*\\-]?)\\s(?<nro>\\d{1,8})"
-                              "\\s(?<json>\\{.*\\})?\\s(?<nimi>.+)$");
+    QRegularExpression tiliRe("^(?<tyyppi>\\w{1,5})(?<tila>[\\*\\-]?)\\s+(?<nro>\\d{1,8})(\\.\\.(?<asti>\\d{1,8}))?"
+                              "\\s*(?<json>\\{.*\\})?\\s(?<nimi>.+)$");
 
     QStringList tililista = kartta.value("tilit");
     foreach ( QString tilirivi, tililista)
@@ -244,6 +244,11 @@ bool UusiKirjanpito::alustaKirjanpito()
             tili.asetaNumero( mats.captured("nro").toInt());
             tili.asetaNimi( mats.captured("nimi"));
             tili.json()->fromJson( mats.captured("json").toUtf8());
+
+            if( !mats.captured("asti").isEmpty() )
+                tili.json()->set("Asti", mats.captured("asti").toInt());
+            else if( tili.onko(TiliLaji::OTSIKKO))
+                tili.json()->set("Asti", mats.captured("nro").toInt());
 
             tilit.lisaaTili(tili);
         }

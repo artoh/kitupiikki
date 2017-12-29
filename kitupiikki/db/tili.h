@@ -60,7 +60,7 @@ public:
     JsonKentta *json()  { return &json_; }
 
     void asetaId(int id) { id_ = id; }
-    void asetaNumero(int numero) { numero_ = numero; muokattu_ = true; }
+    void asetaNumero(int numero);
     void asetaNimi(const QString& nimi) { nimi_ = nimi; muokattu_ = true; }
     void asetaTyyppi(const QString& tyyppikoodi);
     void asetaTila(int tila) { tila_ = tila; muokattu_ = true; }

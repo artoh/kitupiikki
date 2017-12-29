@@ -34,6 +34,7 @@ TilinMuokkausDialog::TilinMuokkausDialog(TiliModel *model, QModelIndex index) :
     ui->setupUi(this);
 
     ui->numeroEdit->setValidator( new QIntValidator(0,999999999,this));
+    ui->valiastiEdit->setValidator( new QIntValidator(0,999999999,this));
 
     ui->vastatiliEdit->asetaModel( model );
 
@@ -52,6 +53,8 @@ TilinMuokkausDialog::TilinMuokkausDialog(TiliModel *model, QModelIndex index) :
     // Vain otsikkoon liittyvät piilotetaan
     ui->tasoSpin->setVisible(false);
     ui->tasoLabel->setVisible(false);
+    ui->valiastiEdit->setVisible(false);
+    ui->valiastiEdit->setVisible(false);
 
     // Tilinumeron muutosvaroitus piiloon
     ui->varoitusKuva->setVisible(false);
@@ -68,6 +71,8 @@ TilinMuokkausDialog::TilinMuokkausDialog(TiliModel *model, QModelIndex index) :
 
     connect( ui->otsikkoRadio, SIGNAL(clicked(bool)), this, SLOT(naytettavienPaivitys()));
     connect( ui->tiliRadio, SIGNAL(clicked(bool)), this, SLOT(naytettavienPaivitys()));
+
+    connect( ui->valiastiEdit, SIGNAL(textChanged(QString)), this, SLOT(tarkasta()));
 
     // Tallennusnappi ei käytössä ennen kuin tiedot kunnossa
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
@@ -99,6 +104,7 @@ void TilinMuokkausDialog::lataa()
     ui->taydentavaEdit->setText( tili.json()->str("Taydentava"));
     ui->numeroEdit->setText( QString::number( tili.numero()));
     ui->tasoSpin->setValue( tili.otsikkotaso());
+    ui->valiastiEdit->setText( QString::number(tili.json()->luku("Asti")) );
 
     proxy_->setFilterRegExp("");
     ui->tyyppiCombo->setCurrentIndex( ui->tyyppiCombo->findData( tili.tyyppiKoodi()) );
@@ -119,6 +125,7 @@ void TilinMuokkausDialog::lataa()
     ui->taseEraLuettelo->setChecked( taseEraValinta == Tili::TASEERITTELY_LISTA);
     ui->teLiVaRadio->setChecked( taseEraValinta == Tili::TASEERITTELY_MUUTOKSET);
     ui->teSaldoRadio->setChecked( taseEraValinta == Tili::TASEERITTELY_SALDOT);
+
 
     nroMuuttaaTyyppia(QString::number( tili.numero() ));
 
@@ -227,7 +234,27 @@ void TilinMuokkausDialog::nroMuuttaaTyyppia(const QString &nroteksti)
                 ui->tyyppiCombo->setCurrentIndex(0);
         }
 
+        int ysinro = Tili::ysiluku( nroteksti.toInt(), 0 );
+        // Haetaan ylempi otsikkoteksti
+
+        Tili ylatili;
+        for( int i=0; i < model_->rowCount(QModelIndex()) ; i++)
+        {
+           Tili tili = model_->tiliIndeksilla(i);
+           int asti = tili.json()->luku("Asti") ? tili.json()->luku("Asti") : tili.numero();
+           if( ysinro >= tili.ysivertailuluku() && ysinro <= Tili::ysiluku( asti, true )  )
+           {
+               if( tili.otsikkotaso() > ylatili.otsikkotaso() )
+                   ylatili = tili;
+           }
+        }
+        ui->kuuluuLabel->setText( ylatili.nimi() );
+
+
     }
+    else
+        ui->kuuluuLabel->clear();
+
     tarkasta(); // Lopuksi tarkastetaan kelpaako numero
 
 }
@@ -237,17 +264,17 @@ void TilinMuokkausDialog::tarkasta()
 
    int luku = ui->numeroEdit->text().toInt();
 
-   // Nimen ja numeron pitää olla täytetty
-   if(  !luku || ui->nimiEdit->text().isEmpty() )
-   {
-        ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-        return;
-   }
    int taso = ui->tasoSpin->value();
    if( ui->tiliRadio->isChecked())
        taso = 0;
 
    int ysina = Tili::ysiluku(luku, taso);   // Ysivertailunumero
+
+   if( ui->otsikkoRadio->isChecked() )
+   {
+       if( Tili::ysiluku( ui->valiastiEdit->text().toInt()) < ysina )
+           ui->valiastiEdit->setText( ui->numeroEdit->text() );
+   }
 
    // Jos numero vaihtuu, näytetään siitä varoitus
    // Tämä siksi, että monet määritykset liittyvät tilin numeroon
@@ -280,6 +307,13 @@ void TilinMuokkausDialog::tarkasta()
    // Ei löytynyt samaa
    ui->numeroEdit->setStyleSheet("color: black;");
    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
+
+   // Nimen ja numeron pitää olla täytetty
+   if(  !luku || ui->nimiEdit->text().isEmpty() )
+   {
+        ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+        return;
+   }
 
    naytettavienPaivitys();
 
@@ -315,7 +349,6 @@ void TilinMuokkausDialog::accept()
         uusitili.asetaNumero(ui->numeroEdit->text().toInt());
         uusitili.asetaNimi( ui->nimiEdit->text());
         uusitili.asetaTyyppi( tyyppikoodi );
-
         json = uusitili.json();
 
     }
@@ -379,6 +412,11 @@ void TilinMuokkausDialog::accept()
 
 
     }
+
+    if( taso && ui->valiastiEdit->text().toInt() != ui->numeroEdit->text().toInt() )
+        json->set("Asti",  ui->valiastiEdit->text().toInt() );
+    else
+        json->unset("Asti");
 
     if( uusitili.numero() )     // Lisätään uusi tili
         model_->lisaaTili( uusitili );

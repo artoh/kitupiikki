@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>428</width>
-    <height>625</height>
+    <height>653</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -80,7 +80,7 @@
      <item row="0" column="1">
       <widget class="QLineEdit" name="numeroEdit"/>
      </item>
-     <item row="1" column="0">
+     <item row="2" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
         <string>Nimi</string>
@@ -90,20 +90,20 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
+     <item row="2" column="1">
       <widget class="QLineEdit" name="nimiEdit"/>
      </item>
-     <item row="2" column="0">
+     <item row="3" column="0">
       <widget class="QLabel" name="label_3">
        <property name="text">
         <string>Täydentävä teksti</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
+     <item row="3" column="1">
       <widget class="QLineEdit" name="taydentavaEdit"/>
      </item>
-     <item row="3" column="0">
+     <item row="4" column="0">
       <widget class="QLabel" name="tasoLabel">
        <property name="text">
         <string>Otsikkotaso</string>
@@ -113,7 +113,7 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
+     <item row="4" column="1">
       <widget class="QSpinBox" name="tasoSpin">
        <property name="minimum">
         <number>1</number>
@@ -123,7 +123,7 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="0">
+     <item row="6" column="0">
       <widget class="QLabel" name="label_4">
        <property name="text">
         <string>Tilityyppi</string>
@@ -133,10 +133,10 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
+     <item row="6" column="1">
       <widget class="QComboBox" name="tyyppiCombo"/>
      </item>
-     <item row="5" column="0">
+     <item row="7" column="0">
       <widget class="QLabel" name="label_5">
        <property name="text">
         <string>Vastatili</string>
@@ -146,10 +146,10 @@
        </property>
       </widget>
      </item>
-     <item row="5" column="1">
+     <item row="7" column="1">
       <widget class="TilinvalintaLine" name="vastatiliEdit"/>
      </item>
-     <item row="6" column="0">
+     <item row="8" column="0">
       <widget class="QLabel" name="verolajiLabel">
        <property name="text">
         <string>Verolaji</string>
@@ -159,10 +159,10 @@
        </property>
       </widget>
      </item>
-     <item row="6" column="1">
+     <item row="8" column="1">
       <widget class="QComboBox" name="veroCombo"/>
      </item>
-     <item row="7" column="0">
+     <item row="9" column="0">
       <widget class="QLabel" name="veroprosenttiLabel">
        <property name="text">
         <string>Veroprosentti</string>
@@ -172,7 +172,7 @@
        </property>
       </widget>
      </item>
-     <item row="7" column="1">
+     <item row="9" column="1">
       <widget class="QSpinBox" name="veroSpin">
        <property name="suffix">
         <string>%</string>
@@ -182,14 +182,14 @@
        </property>
       </widget>
      </item>
-     <item row="8" column="0">
+     <item row="10" column="0">
       <widget class="QLabel" name="poistoaikaLabel">
        <property name="text">
         <string>Poistoaika</string>
        </property>
       </widget>
      </item>
-     <item row="8" column="1">
+     <item row="10" column="1">
       <widget class="QSpinBox" name="poistoaikaSpin">
        <property name="suffix">
         <string> vuotta</string>
@@ -199,29 +199,53 @@
        </property>
       </widget>
      </item>
-     <item row="9" column="0">
+     <item row="11" column="0">
       <widget class="QLabel" name="poistoprossaLabel">
        <property name="text">
         <string>Menojäännöspoisto</string>
        </property>
       </widget>
      </item>
-     <item row="9" column="1">
+     <item row="11" column="1">
       <widget class="QSpinBox" name="poistoprossaSpin">
        <property name="suffix">
         <string> %</string>
        </property>
       </widget>
      </item>
-     <item row="10" column="0">
+     <item row="12" column="0">
       <widget class="QLabel" name="poistotiliLabel">
        <property name="text">
         <string>Poistotili</string>
        </property>
       </widget>
      </item>
-     <item row="10" column="1">
+     <item row="12" column="1">
       <widget class="TilinvalintaLine" name="poistotiliEdit"/>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="valiastiLabel">
+       <property name="text">
+        <string>Otsikkoväli päättyy</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QLineEdit" name="valiastiEdit"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>Kuuluu otsikolle</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLabel" name="kuuluuLabel">
+       <property name="text">
+        <string> </string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -305,8 +329,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>236</x>
-     <y>615</y>
+     <x>245</x>
+     <y>643</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -321,8 +345,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>304</x>
-     <y>615</y>
+     <x>313</x>
+     <y>643</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -373,8 +397,8 @@
      <y>22</y>
     </hint>
     <hint type="destinationlabel">
-     <x>375</x>
-     <y>212</y>
+     <x>417</x>
+     <y>235</y>
     </hint>
    </hints>
   </connection>
@@ -389,8 +413,8 @@
      <y>28</y>
     </hint>
     <hint type="destinationlabel">
-     <x>38</x>
-     <y>212</y>
+     <x>48</x>
+     <y>235</y>
     </hint>
    </hints>
   </connection>
@@ -406,7 +430,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>58</x>
-     <y>238</y>
+     <y>258</y>
     </hint>
    </hints>
   </connection>
@@ -421,8 +445,40 @@
      <y>26</y>
     </hint>
     <hint type="destinationlabel">
-     <x>283</x>
-     <y>238</y>
+     <x>415</x>
+     <y>258</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>otsikkoRadio</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>valiastiEdit</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>92</x>
+     <y>64</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>223</x>
+     <y>202</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>otsikkoRadio</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>valiastiLabel</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>30</x>
+     <y>62</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>25</x>
+     <y>202</y>
     </hint>
    </hints>
   </connection>

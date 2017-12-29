@@ -35,6 +35,12 @@ Tili::Tili(int id, int numero, const QString &nimi, const QString &tyyppi, int t
     tyyppi_ = kp()->tiliTyypit()->tyyppiKoodilla(tyyppi);
 }
 
+void Tili::asetaNumero(int numero)
+{
+    numero_ = numero;
+    muokattu_ = true;
+}
+
 void Tili::asetaTyyppi(const QString &tyyppikoodi)
 {
     tyyppi_ = kp()->tiliTyypit()->tyyppiKoodilla(tyyppikoodi);

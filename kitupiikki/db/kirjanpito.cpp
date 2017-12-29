@@ -118,7 +118,7 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
     // Myöhemmin valvottava myös aikaisempi tietokantaversio ja tehtävä
     // tarvittavat muutokset
 
-    if( asetusModel_->luku("KpVersio") > tietokantaVersio )
+    if( asetusModel_->luku("KpVersio") > TIETOKANTAVERSIO )
     {
         // Luotu uudemmalla tietokannalla, sellainen ei kelpaa!
         QMessageBox::critical(0, tr("Kirjanpitoa %1 ei voi avata").arg(asetusModel_->asetus("Nimi")),

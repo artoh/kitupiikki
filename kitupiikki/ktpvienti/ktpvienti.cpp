@@ -95,6 +95,9 @@ void KtpVienti::accept()
     out << "[TilikarttaLuontiVersio]\n";
     out << qApp->applicationVersion() << "\n";
 
+    out << "[KpVersio]\n";
+    out << Kirjanpito::TIETOKANTAVERSIO;
+
     // TILIT
     // AP* 1911 {json} Suosikkitili
     // C- 3001 {json} Piilotettu tili
@@ -143,10 +146,14 @@ void KtpVienti::accept()
     }
 
     // Raportit ja joitakin muita asetuksia
-    QStringList avaimet = kp()->asetukset()->avaimet("Raportti/");
+    QStringList avaimet;
     avaimet << "AlvVelvollinen"
             << "TilinpaatosPohja" << "TilinpaatosValinnat"
-            << "LaskuTositelaji" << "LaskuKirjausperuste";
+            << "LaskuTositelaji" << "LaskuKirjausperuste"
+            << "LaskuSaatavatili" << "LaskuKateistili"
+            << "LaskuMaksuaika" << "LaskuHuomautusaika";
+
+    avaimet << kp()->asetukset()->avaimet("Raportti/");
 
 
     foreach (QString avain, avaimet)
