@@ -242,9 +242,9 @@ C       3940    Saadut avustukset ja tuet
 C       3950    Saadut vakuutuskorvaukset
 C       3990    Muut tuotot
 
-H3      4       Materiaalit ja palvelut
+H2      4       Materiaalit ja palvelut
 D       4000    Ostot
-H4      407     Ostojen oikaisuerät
+H3      407     Ostojen oikaisuerät
 D       4070    Ostojen alennukset
 D       4071    Saadut vahingonkorvaukset ja avustukset
 D       4072    Ostojen valuuttakurssierot
@@ -583,6 +583,7 @@ Vastaavaa yhteensä		1 bold
 
 VASTATTAVAA		H bold
 
+VASTATTAVAA		H bold
 OMA PÄÄOMA		20 
 Osake-, osuus- tai muu vastaava pääoma	200 s4 *
 Sidotut rahastot		201,202 s4
@@ -596,22 +597,16 @@ Vastuunalaiset yhtiömiehet		211 s4 *
 Yksityistilit tilikaudella		22 s4 *
 Edellisten tilikausien voitto/tappio	2450 s4 *
 Tilikauden voitto/tappio		2460 s4 *
-
-OMA PÄÄOMA		20 
-Osake-, osuus- tai muu vastaava pääoma	2011 s4 *
-Sidotut rahastot		2000,2001 s4
-Omakatteiset rahastot		2000 s8 *
-Muut sidotut rahastot		2001 s8 *
-Vapaat rahastot		2009 s4 *
-Ylikurssirahasto		2012 s4 *
-Arvonkorotusrahasto		2013 s4 *
-Muut rahastot yhteensä		2014..2016 s4 *
-Edellisten tilikausien voitto/tappio	2250 s4 *
-Tilikauden voitto/tappio		2260 s4 *
-TILINPÄÄTÖSSIIRTOJEN KERTYMÄ	25 *
-PAKOLLISET VARAUKSET		26 *
+TILINPÄÄTÖSSIIRTOJEN KERTYMÄ	25 
+Poistoero		250 s4 *
+Verotusperäiset varaukset		251 s4 *
+PAKOLLISET VARAUKSET		26	
+Eläkevaraukset		260 s4 *
+Verovaraukset		261 s4 *
+Muut pakolliset varaukset		269 s4 *
 VIERAS PÄÄOMA		26..28
-Pitkäaikainen vieras pääoma		28 s4 *
-Lyhytaikainen vieras pääoma		29 s4 *
+Pitkäaikainen vieras pääoma		28 s4
+Lyhytaikainen vieras pääoma		29 s4
+
 
 Vastattavaa yhteensä		2 bold

@@ -82,8 +82,8 @@ RaportinKirjoittaja Raportoija::raportti(bool tulostaErittelyt)
 
             Kohdennus kohdennus = kp()->kohdennukset()->kohdennus( iter.key() );
             RaporttiRivi rr;
-            rr.asetaKoko(12);
-            rr.lisaa( kohdennus.nimi() );
+            rr.lihavoi();
+            rr.lisaa( kohdennus.nimi().toUpper() );
             rk.lisaaRivi(rr);
 
             laskeKohdennusData( iter.key() );
@@ -281,14 +281,16 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt)
 
             if( !naytaTyhjarivi && !kirjauksia && haettuTileja && !lisaavalisumma)
                 continue;       // Ei tulosteta tyhjää riviä ollenkaan
+            else if( !haettuTileja && !lisaavalisumma)
+                rivityyppi = OTSIKKO;
         }
 
         // header tulostaa vain otsikon
-        if( rivityyppi != OTSIKKO )
+        if( rivityyppi != OTSIKKO  )
         {
             // Sitten kirjoitetaan summat riville
             for( int sarake=0; sarake < data_.count(); sarake++)
-                rr.lisaa( summat.at(sarake) );
+                rr.lisaa( summat.at(sarake) , true );
         }
 
         if( rivityyppi != ERITTELY)
