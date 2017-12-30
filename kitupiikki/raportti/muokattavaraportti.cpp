@@ -25,19 +25,19 @@
 
 
 MuokattavaRaportti::MuokattavaRaportti(const QString &raporttinimi)
-    : Raportti()
+    : Raportti(), raporttiNimi(raporttinimi)
 {
     ui = new Ui::MuokattavaRaportti;
     ui->setupUi( raporttiWidget );
 
-    raportoija = new Raportoija(raporttinimi);
+    Raportoija raportoija(raporttinimi);
 
     // Jos tehdään taselaskelmaa, piilotetaan turhat tiedot!
-    ui->alkaa1Date->setVisible( raportoija->onkoKausiraportti() );
-    ui->alkaa2Date->setVisible( raportoija->onkoKausiraportti() );
-    ui->alkaa3Date->setVisible( raportoija->onkoKausiraportti() );
-    ui->alkaaLabel->setVisible( raportoija->onkoKausiraportti() );
-    ui->paattyyLabel->setVisible( raportoija->onkoKausiraportti() );
+    ui->alkaa1Date->setVisible( raportoija.onkoKausiraportti() );
+    ui->alkaa2Date->setVisible( raportoija.onkoKausiraportti() );
+    ui->alkaa3Date->setVisible( raportoija.onkoKausiraportti() );
+    ui->alkaaLabel->setVisible( raportoija.onkoKausiraportti() );
+    ui->paattyyLabel->setVisible( raportoija.onkoKausiraportti() );
 
     // Sitten laitetaan valmiiksi tilikausia nykyisestä taaksepäin
     int tilikausiIndeksi = kp()->tilikaudet()->indeksiPaivalle( kp()->paivamaara() );
@@ -65,32 +65,33 @@ MuokattavaRaportti::MuokattavaRaportti(const QString &raporttinimi)
 MuokattavaRaportti::~MuokattavaRaportti()
 {
     delete ui;
-    delete raportoija;
+
 }
 
 RaportinKirjoittaja MuokattavaRaportti::raportti()
 {    
+    Raportoija raportoija( raporttiNimi );
 
-    if( raportoija->onkoKausiraportti())
+    if( raportoija.onkoKausiraportti())
     {
-        raportoija->lisaaKausi( ui->alkaa1Date->date(), ui->loppuu1Date->date());
+        raportoija.lisaaKausi( ui->alkaa1Date->date(), ui->loppuu1Date->date());
         if( ui->sarake2Box->isChecked())
-            raportoija->lisaaKausi( ui->alkaa2Date->date(), ui->loppuu2Date->date());
+            raportoija.lisaaKausi( ui->alkaa2Date->date(), ui->loppuu2Date->date());
         if( ui->sarake3Box->isChecked())
-            raportoija->lisaaKausi( ui->alkaa3Date->date(), ui->loppuu3Date->date());
+            raportoija.lisaaKausi( ui->alkaa3Date->date(), ui->loppuu3Date->date());
     }
     else
     {
-        raportoija->lisaaTasepaiva( ui->loppuu1Date->date());
+        raportoija.lisaaTasepaiva( ui->loppuu1Date->date());
         if( ui->sarake2Box->isChecked())
-            raportoija->lisaaTasepaiva( ui->loppuu2Date->date());
+            raportoija.lisaaTasepaiva( ui->loppuu2Date->date());
         if( ui->sarake3Box->isChecked())
-            raportoija->lisaaTasepaiva( ui->loppuu3Date->date());
+            raportoija.lisaaTasepaiva( ui->loppuu3Date->date());
     }
 
-    if( raportoija->tyyppi() == Raportoija::KOHDENNUSLASKELMA)
-        raportoija->etsiKohdennukset();
+    if( raportoija.tyyppi() == Raportoija::KOHDENNUSLASKELMA)
+        raportoija.etsiKohdennukset();
 
-    return raportoija->raportti( ui->erittelyCheck->isChecked());
+    return raportoija.raportti( ui->erittelyCheck->isChecked());
 }
 

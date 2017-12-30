@@ -38,7 +38,7 @@ public:
 
 protected:
     Ui::MuokattavaRaportti *ui;   
-    Raportoija *raportoija;
+    QString raporttiNimi;
 };
 
 #endif // MUOKATTAVARAPORTTI_H
