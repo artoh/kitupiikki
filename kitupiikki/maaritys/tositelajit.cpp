@@ -38,6 +38,8 @@ Tositelajit::Tositelajit(QWidget *parent) : MaaritysWidget(parent)
     connect( ui->muokkaaNappi, SIGNAL(clicked(bool)), this, SLOT(muokkaa()));
     connect( ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poista()));
 
+    connect( ui->view, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(muokkaa()));
+
 }
 
 Tositelajit::~Tositelajit()

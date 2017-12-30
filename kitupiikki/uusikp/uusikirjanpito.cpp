@@ -247,8 +247,6 @@ bool UusiKirjanpito::alustaKirjanpito()
 
             if( !mats.captured("asti").isEmpty() )
                 tili.json()->set("Asti", mats.captured("asti").toInt());
-            else if( tili.onko(TiliLaji::OTSIKKO))
-                tili.json()->set("Asti", mats.captured("nro").toInt());
 
             tilit.lisaaTili(tili);
         }
