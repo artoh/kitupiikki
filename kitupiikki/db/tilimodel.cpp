@@ -269,11 +269,12 @@ void TiliModel::lataa()
     tilit_.clear();
 
     QSqlQuery kysely( *tietokanta_ );
-    kysely.exec("SELECT id, nro, nimi, tyyppi, tila, json "
+    kysely.exec("SELECT id, nro, nimi, tyyppi, tila, json, ysiluku "
                 " FROM tili ORDER BY ysiluku");
 
     QVector<int> otsikkoId(10);
-    int otsikkoIdTileille = 0;
+
+    QVector<Tili> otsikot(10);
 
     while(kysely.next())
     {
@@ -282,20 +283,19 @@ void TiliModel::lataa()
         if( tyyppikoodi.startsWith('H'))    // Tyyppikoodi H1 tarkoittaa 1-tason otsikkoa jne.
             otsikkotaso = tyyppikoodi.mid(1).toInt();
 
-        kysely.value(5).toInt();
         int id = kysely.value(0).toInt();
         int otsikkoIdTalle = 0; // Nykytilille merkittävä otsikkotaso
+        int ysiluku = kysely.value(6).toInt();
 
-        // Jos tämä on otsikko, merkitän id oikeaan otsikkotasoon ja tileja varten
-        if( otsikkotaso )
+        // Etsitään otsikkotasoa tasojen lopusta alkaen
+        for(int i=9; i >= 0; i--)
         {
-            otsikkoId[otsikkotaso] = id;    // Merkitään tämä otsikkotauluun
-            otsikkoIdTileille = id;         // .. ja tämän jälkeen tulevia tilejä varten
-            if( otsikkotaso > 1)            // Tälle otsikolle taulusta ylempi otsikko
-                otsikkoIdTalle = otsikkoId.at(otsikkotaso - 1);
+            if( otsikot.at(i).onkoValidi() && otsikot.at(i).ysivertailuluku() <= ysiluku && otsikot[i].json()->luku("Asti") >= ysiluku )
+            {
+                otsikkoIdTalle = otsikot.at(i).id();
+                break;
+            }
         }
-        else
-            otsikkoIdTalle = otsikkoIdTileille;
 
         Tili uusi( id,     // id
                    kysely.value(1).toInt(),     // nro
@@ -307,6 +307,9 @@ void TiliModel::lataa()
         uusi.json()->fromJson( kysely.value(5).toByteArray());  // Luetaan json-kentät
         uusi.nollaaMuokattu();
         tilit_.append(uusi);
+
+        if( otsikkotaso )
+            otsikot[otsikkotaso] = uusi;
 
     }
     endResetModel();

@@ -66,7 +66,7 @@ TilinMuokkausDialog::TilinMuokkausDialog(TiliModel *model, QModelIndex index) :
     connect( ui->numeroEdit, SIGNAL(textChanged(QString)), this, SLOT(otsikkoTasoPaivita()));
 
     connect( ui->nimiEdit, SIGNAL(textEdited(QString)), this, SLOT(tarkasta()));
-    connect( ui->numeroEdit, SIGNAL(textEdited(QString)), this, SLOT(nroMuuttaaTyyppia(QString)));
+    connect( ui->numeroEdit, SIGNAL(textChanged(QString)), this, SLOT(nroMuuttaaTyyppia(QString)));
     connect( ui->tyyppiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(tarkasta()));
 
     connect( ui->otsikkoRadio, SIGNAL(clicked(bool)), this, SLOT(naytettavienPaivitys()));

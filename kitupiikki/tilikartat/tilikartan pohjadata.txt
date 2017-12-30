@@ -136,7 +136,7 @@ B       2231    Yksityisnnostot rahana 1
 B       2241    Muut yksityisnostot 1
 B       2251    Muut yksityissijoitukset 1
 
-
+H3      24      Tulos
 BE      2450    Edellisten tilikausien voitto/tappio
 T       2460    Tilikauden tulos
 H2      25      Tilinpäätössiirtojen kertymä
@@ -295,14 +295,14 @@ D       4570    Jäsenmaksut
 D       4580    Annetut avustukset
 
 
-H3      47      Ulkopuoliset palvelut
+H2      47      Ulkopuoliset palvelut
 D       4700    Ulkopuoliset palvelut
 D       4701    Alihankintatyö
 D       4702    Vuokrattu työvoima
 D       4703    Teetetyt korjaus-, kunnossapito- ja asennustyöt
 
-H3      5       Henkilöstökulut
-H4      50      Palkat ja palkkiot
+H2      5       Henkilöstökulut
+H3      50      Palkat ja palkkiot
 D       5000    Palkat
 D       5001    Lähdeveron alaiset palkat
 D       5002    Lisät ja korvaukset
@@ -315,7 +315,7 @@ D       5020    Osakkaiden ja omaisten palkat ja palkkiot
 D       5025    Osakkaiden ja omaisten luontoisedut
 D       5030    Omistajien palkat
 D       5040    Luontoisetujen vastatili
-H4      51      Henkilöstösivukulut
+H3      51      Henkilöstösivukulut
 D       5100    Eläkevakuutusmaksut
 D       5111    Työntekijöiltä perityt eläkevakuutusmaksut
 D       5113    Vapaaehtoiset eläkevakuutusmaksut
