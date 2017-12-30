@@ -69,7 +69,8 @@ MuokattavaRaportti::~MuokattavaRaportti()
 }
 
 RaportinKirjoittaja MuokattavaRaportti::raportti()
-{
+{    
+
     if( raportoija->onkoKausiraportti())
     {
         raportoija->lisaaKausi( ui->alkaa1Date->date(), ui->loppuu1Date->date());

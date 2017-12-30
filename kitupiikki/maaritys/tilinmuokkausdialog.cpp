@@ -223,7 +223,7 @@ void TilinMuokkausDialog::nroMuuttaaTyyppia(const QString &nroteksti)
         }
         else if( ekanro == 2)
         {
-            proxy_->setFilterRegExp("B.*");
+            proxy_->setFilterRegExp("(B.*|T)");
             if(( ui->tyyppiCombo->currentData(TilityyppiModel::LuonneRooli).toInt() & TiliLaji::VASTATTAVAA) != TiliLaji::VASTATTAVAA )
                 ui->tyyppiCombo->setCurrentIndex(0);
         }
