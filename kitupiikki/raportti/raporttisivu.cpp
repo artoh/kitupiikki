@@ -22,6 +22,7 @@
 #include <QHBoxLayout>
 #include <QListWidget>
 #include <QListWidgetItem>
+#include <QStringList>
 
 #include "raporttisivu.h"
 
@@ -62,10 +63,18 @@ void RaporttiSivu::siirrySivulle()
     lisaaRaportti("Tositeluettelo","Tositeluettelo",":/pic/dokumentti.png");
 
     // Lisätään muokattavat raportit
+    QStringList raporttilista;
+
     foreach (QString rnimi, kp()->asetukset()->avaimet("Raportti/") )
     {
-        lisaaRaportti( rnimi.mid(9), rnimi, ":/pic/tekstisivu.png");
+        raporttilista << rnimi;
     }
+    raporttilista.sort(Qt::CaseInsensitive);
+    for( QString nimi : raporttilista)
+    {
+        lisaaRaportti( nimi.mid(9), nimi, ":/pic/tekstisivu.png");
+    }
+
 
     lisaaRaportti("Tase-erittely","TaseErittely",":/pic/valilehdet.png");
     lisaaRaportti("Tililuettelo","Tilikartta",":/pic/valilehdet.png");

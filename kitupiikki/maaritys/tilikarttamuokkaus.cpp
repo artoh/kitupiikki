@@ -92,7 +92,7 @@ void TilikarttaMuokkaus::muutaTila(int tila)
     QModelIndex index = ui->view->currentIndex();
     if( index.isValid())
     {
-        model->setData(index, tila, TiliModel::TilaRooli);
+        proxy->setData(index, tila, TiliModel::TilaRooli);
         if( index.data(TiliModel::OtsikkotasoRooli).toInt())
         {
             // Otsikkotaso - tila muutetaan kaikkialle alle
@@ -104,7 +104,7 @@ void TilikarttaMuokkaus::muutaTila(int tila)
                 // Eli jos muutetaan H2 niin myös H3,H4... muuttuu
                 if( (otsikkotaso > 0) && (otsikkotaso <= tamanotsikkotaso ))
                     break;      // Löydetty seuraava samantasoinen otsikko
-                model->setData( model->index(r, 0) , tila, TiliModel::TilaRooli );
+                proxy->setData( proxy->index(r, 0) , tila, TiliModel::TilaRooli );
             }
         }
     }

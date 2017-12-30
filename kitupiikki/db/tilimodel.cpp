@@ -69,6 +69,8 @@ bool TiliModel::setData(const QModelIndex &index, const QVariant &value, int rol
     else
         return false;
 
+    emit dataChanged( index.sibling(index.row(), 0), index.sibling(index.row(), 4)) ;
+
     return false;
 }
 

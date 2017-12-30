@@ -30,8 +30,8 @@ A       1180    Ennakkomaksut, rakennukset
 A       1181    Ennakkomaksut, kalusto
 A       1182    Ennakkomaksut, muut
 H3      14      Sijoitukset
-H4      141     Osuuden saman konsernin yrityksissä
-A       1410    Osuuden saman konsernin yrityksissä
+H4      141     Osuudet saman konsernin yrityksissä
+A       1410    Osuudet saman konsernin yrityksissä
 H4      142     Saamiset saman konsernin yrityksiltä
 A       1420    Saamiset saman konsernin yrityksiltä
 H4      143     Osuuden omistusyhteysyrityksissä
@@ -111,7 +111,7 @@ B       2000    Osakepääoma
 
 H3      201..202    Sidotut rahastot
 H4      201     Omakatteiset rahastot
-B       2021    Omakatteinen rahasto 
+B       2011    Omakatteinen rahasto 
 H4      202     Muut sidotut rahastot     
 B       2021    Muu sidottu rahasto
 
