@@ -216,5 +216,8 @@ void TpAloitus::talleta()
     else if( ui->taysRadio->isChecked())
         valitut.append("ISO");
 
+    if( ui->henkilostoSpin->value() )
+        valitut.append("HENKILOSTO");
+
     kp()->asetukset()->aseta("TilinpaatosValinnat",valitut);
 }
