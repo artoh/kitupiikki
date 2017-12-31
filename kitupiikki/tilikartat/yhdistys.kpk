@@ -16,7 +16,8 @@ https://artoh.github.io/kitupiikki
 [TilikarttaLuontiVersio]
 0.2.0-devel
 [KpVersio]
-1[tilit]
+1
+[tilit]
 H1 1 {} VASTAAVAA
 H2 10 {"Asti":147} Pysyvät vastaavat
 H3 10 {} Aineettomat hyödykkeet
@@ -373,11 +374,6 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 <p>____________________  ___. päivänä _________kuuta  _________ </p>
 <p>
 <p>
-
-
-
-
-
 [LaskuTositelaji]
 3
 [LaskuSaatavatili]

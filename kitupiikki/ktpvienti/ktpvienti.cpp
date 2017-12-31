@@ -96,7 +96,7 @@ void KtpVienti::accept()
     out << qApp->applicationVersion() << "\n";
 
     out << "[KpVersio]\n";
-    out << Kirjanpito::TIETOKANTAVERSIO;
+    out << Kirjanpito::TIETOKANTAVERSIO << "\n";
 
     // TILIT
     // AP* 1911 {json} Suosikkitili
