@@ -41,17 +41,17 @@
         <item>
          <widget class="QLabel" name="tiedotLabel">
           <property name="text">
-           <string/>
+           <string>  </string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QLabel" name="kuvausLabel">
           <property name="text">
-           <string/>
+           <string>  </string>
           </property>
           <property name="textFormat">
-           <enum>Qt::PlainText</enum>
+           <enum>Qt::AutoText</enum>
           </property>
           <property name="alignment">
            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -60,6 +60,19 @@
            <bool>true</bool>
           </property>
          </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </widget>

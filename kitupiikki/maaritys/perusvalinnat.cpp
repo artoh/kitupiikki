@@ -139,7 +139,7 @@ bool Perusvalinnat::tallenna()
     uusilogo = QImage();
 
     emit kp()->onni("Asetukset tallennettu");
-    emit kp()->tietokantaVaihtui();     // Uusi lataus, koska nimi tai kuva saattoi vaihtua!
+    emit kp()->perusAsetusMuuttui();     // Uusi lataus, koska nimi tai kuva saattoi vaihtua!
 
     return true;
 }

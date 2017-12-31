@@ -194,6 +194,11 @@ signals:
     void kirjanpitoaMuokattu();
 
     /**
+     * @brief Perusasetuksia muutetaan, joten aloitussivu päivitetään
+     */
+    void perusAsetusMuuttui();
+
+    /**
      * @brief Tilikausi on päätetty
      *
      * Päätetylle tilikaudelle ei voi enää kirjata mitään. Siksi tilikauden päättäminen vaikuttaa
