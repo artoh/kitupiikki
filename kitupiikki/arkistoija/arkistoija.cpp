@@ -313,18 +313,19 @@ void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
 
 
     QStringList raportit;
-    raportit = kp()->asetukset()->avaimet("Raportti/");
+    raportit = kp()->asetukset()->lista("ArkistoRaportit");
+    raportit.sort(Qt::CaseInsensitive);
 
     // Kirjoitetaan kaikki kirjanpitoon liittyvät raportit arkistoon
     foreach (QString raportti, raportit)
     {
-        QString tiedostonnimi = raportti.mid(9).toLower() + ".html";
+        QString tiedostonnimi = raportti.toLower() + ".html";
         tiedostonnimi.replace(" ","");
 
         Tilikausi edellinenkausi = kp()->tilikaudet()->tilikausiPaivalle( tilikausi_.alkaa().addDays(-1) );
 
 
-        Raportoija raportoija(raportti.mid(9));
+        Raportoija raportoija(raportti);
         if( raportoija.onkoKausiraportti())
         {
 
@@ -348,7 +349,7 @@ void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
 
         // Kirjoitetaan indeksiin
         out << "<li><a href=\'" << tiedostonnimi << "\'>";
-        out << raportti.mid(9);
+        out << raportti;
         out << "</a></li>";
     }
     out << "</ul>";
