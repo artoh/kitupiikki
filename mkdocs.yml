@@ -1,12 +1,12 @@
 site_name: 'Kitupiikin käsikirja'
-site_description: 'Avoimen lähdekoodin kirjanpitäjän ohjeet'
+site_description: 'Avoimen lähdekoodin kirjanpitäjä'
 site_author: 'Arto Hyvättinen'
 site_url: 'https://artoh.github.io/kitupiikki'
 
 # repo_name: 'GitHub'
 # repo_url: 'https://github.com/artoh/kitupiikki'
 
-copyright: 'Copyright &copy; 2017 Arto Hyvättinen GPL3 License'
+copyright: 'Copyright &copy; 2017-2018 Arto Hyvättinen GPL3 License'
 theme_dir: 'material'
 extra:
   logo: 'images/Possu64.png'

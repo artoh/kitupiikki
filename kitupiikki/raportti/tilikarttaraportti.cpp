@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2017 Arto Hyvättinen
+   Copyright (C) 2017,2018 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -57,10 +57,11 @@ RaportinKirjoittaja TilikarttaRaportti::raportti()
     if( ui->saldotCheck->isChecked())
         saldopaiva = ui->saldotDate->date();
 
-    return kirjoitaRaportti(valinta, kausi, ui->tilityypitCheck->isChecked(), saldopaiva);
+    return kirjoitaRaportti(valinta, kausi, ui->tilityypitCheck->isChecked(), saldopaiva, ui->kirjausohjeet->isChecked());
 }
 
-RaportinKirjoittaja TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::KarttaValinta valinta, Tilikausi tilikaudelta, bool tulostatyyppi, QDate saldopvm)
+RaportinKirjoittaja TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::KarttaValinta valinta, Tilikausi tilikaudelta, bool tulostatyyppi, QDate saldopvm,
+                                                         bool kirjausohjeet)
 {
     RaportinKirjoittaja rk;
     rk.asetaOtsikko("TILILUETTELO");
@@ -147,7 +148,16 @@ RaportinKirjoittaja TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::Kar
         {
             rr.lisaa("");
             rr.lisaaLinkilla(RaporttiRiviSarake::TILI_NRO, tili.numero(), QString::number(tili.numero()));
-            rr.lisaaLinkilla(RaporttiRiviSarake::TILI_NRO, tili.numero(), tili.nimi());
+            QString teksti = tili.nimi();
+            if( kirjausohjeet )
+            {
+                if( !tili.json()->str("Taydentava").isEmpty())
+                    teksti.append("\n" + tili.json()->str("Taydentava"));
+                if( !tili.json()->str("Kirjausohje").isEmpty())
+                    teksti.append("\n" + tili.json()->str("Kirjausohje"));
+            }
+
+            rr.lisaaLinkilla(RaporttiRiviSarake::TILI_NRO, tili.numero(), teksti );
             if( tulostatyyppi)
                 rr.lisaa( kp()->tilit()->index(i, TiliModel::TYYPPI).data().toString());
             if( saldopvm.isValid())

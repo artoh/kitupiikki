@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>541</width>
-    <height>411</height>
+    <width>697</width>
+    <height>580</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -96,6 +96,13 @@
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QCheckBox" name="arkistoBox">
+       <property name="text">
+        <string>Liitä erittely arkistoon</string>
+       </property>
+      </widget>
+     </item>
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">

@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2017 Arto Hyvättinen
+   Copyright (C) 2017,2018 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -151,7 +151,8 @@ void KtpVienti::accept()
             << "TilinpaatosPohja" << "TilinpaatosValinnat"
             << "LaskuTositelaji" << "LaskuKirjausperuste"
             << "LaskuSaatavatili" << "LaskuKateistili"
-            << "LaskuMaksuaika" << "LaskuHuomautusaika";
+            << "LaskuMaksuaika" << "LaskuHuomautusaika"
+            << "ArkistoRaportit";
 
     avaimet << kp()->asetukset()->avaimet("Raportti/");
 

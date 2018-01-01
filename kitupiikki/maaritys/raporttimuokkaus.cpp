@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2017 Arto Hyvättinen
+   Copyright (C) 2017,2018 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -38,6 +38,7 @@ RaporttiMuokkaus::RaporttiMuokkaus(QWidget *parent) :
     connect( ui->nimeaNappi, SIGNAL(clicked(bool)), this, SLOT(nimea()));
     connect( ui->tyyppiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(merkkaaMuokattu()));
     connect( ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poista()));
+    connect( ui->arkistoBox, SIGNAL(clicked(bool)), this, SLOT(raporttiArkistoon(bool)));
 
     ui->tyyppiCombo->addItem( tr("Tuloslaskelma"), ":tulos");
     ui->tyyppiCombo->addItem( tr("Tase"), ":tase");
@@ -107,6 +108,8 @@ void RaporttiMuokkaus::avaaRaportti(const QString &raportti)
         nimi = raportti;
         emit tallennaKaytossa(false);
 
+         ui->arkistoBox->setChecked(kp()->asetukset()->lista("ArkistoRaportit").contains(raportti) );
+
     }
 }
 
@@ -157,6 +160,20 @@ void RaporttiMuokkaus::poista()
         ui->editori->clear();
         ui->valintaCombo->removeItem( ui->valintaCombo->currentIndex());
     }
+}
+
+void RaporttiMuokkaus::raporttiArkistoon(bool laitetaanko)
+{
+    QStringList raporttilista = kp()->asetukset()->lista("ArkistoRaportit");
+
+    if( laitetaanko )
+        raporttilista.append(nimi);
+    else
+        raporttilista.removeAll(nimi);
+
+    raporttilista.sort(Qt::CaseInsensitive);
+    kp()->asetukset()->aseta("ArkistoRaportit", raporttilista);
+    merkkaaMuokattu();
 }
 
 bool RaporttiMuokkaus::kysyTallennus()

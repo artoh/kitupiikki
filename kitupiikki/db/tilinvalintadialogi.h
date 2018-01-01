@@ -54,6 +54,11 @@ public slots:
 protected slots:
     void klikattu(const QModelIndex& index);
     void valintaMuuttui(const QModelIndex& index);
+    /**
+     * @brief Näyttää tilin kirjausohjeen
+     * @param tiliId
+     */
+    void naytaOhje(int tiliId);
 
 
 private:
@@ -63,6 +68,7 @@ private:
     QSortFilterProxyModel* proxyTila;
 
     QString tyyppiSuodatin;
+    TiliModel* tiliModel;
 
 public:
     /**

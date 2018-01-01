@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>624</width>
-    <height>387</height>
+    <width>642</width>
+    <height>457</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QTableView" name="view">
+    <widget class="TilinValintaView" name="view">
      <property name="selectionMode">
       <enum>QAbstractItemView::SingleSelection</enum>
      </property>
@@ -23,6 +23,27 @@
       <enum>QAbstractItemView::SelectRows</enum>
      </property>
     </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,1">
+     <item>
+      <widget class="QLabel" name="infoMerkki">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../pic/pic.qrc">:/pic/info.png</pixmap>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="ohjeLabel">
+       <property name="text">
+        <string>  </string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QLineEdit" name="suodatusEdit"/>
@@ -73,6 +94,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>TilinValintaView</class>
+   <extends>QTableView</extends>
+   <header>db/tilinvalintaview.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>suodatusEdit</tabstop>
   <tabstop>valitseNappi</tabstop>
@@ -80,7 +108,9 @@
   <tabstop>suosikitNappi</tabstop>
   <tabstop>view</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>valitseNappi</sender>

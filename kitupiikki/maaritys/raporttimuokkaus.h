@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2017 Arto Hyvättinen
+   Copyright (C) 2017,2018 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -43,6 +43,11 @@ protected slots:
     void kopio();
     void nimea();
     void poista();
+    /**
+     * @brief Liitetäänkö tämän raportin erittely arkistoon
+     * @param laitetaanko
+     */
+    void raporttiArkistoon(bool laitetaanko);
 
 protected:
     /**

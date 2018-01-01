@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2017 Arto Hyvättinen
+   Copyright (C) 2017,2018 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -169,6 +169,11 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
     else if( role == Qt::DecorationRole && index.column() == ALV)
     {
         return kp()->alvTyypit()->kuvakeKoodilla( tili.json()->luku("AlvLaji") );
+    }
+    else if( role == Qt::DecorationRole && index.column() == NUMERO )
+    {
+        if( !tili.json()->str("Kirjausohje").isEmpty())
+            return QIcon(":/pic/info.png");     // Tiliin on olemassa kirjausohje
     }
 
     else if( role == Qt::FontRole)

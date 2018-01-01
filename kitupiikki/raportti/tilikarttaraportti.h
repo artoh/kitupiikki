@@ -46,8 +46,8 @@ public:
 
     RaportinKirjoittaja raportti();
 
-    static RaportinKirjoittaja kirjoitaRaportti( KarttaValinta valinta, Tilikausi tilikaudelta,
-                             bool tulostatyypi, QDate saldopvm);
+    static RaportinKirjoittaja kirjoitaRaportti(KarttaValinta valinta, Tilikausi tilikaudelta,
+                             bool tulostatyypi, QDate saldopvm, bool kirjausohjeet);
 
 protected slots:
     /**

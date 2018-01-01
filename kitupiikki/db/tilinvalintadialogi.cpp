@@ -1,6 +1,6 @@
 
 /*
-   Copyright (C) 2017 Arto Hyvättinen
+   Copyright (C) 2017,2018 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ TilinValintaDialogi::TilinValintaDialogi(QWidget *parent) :
     ui->setupUi(this);
 
     proxyNimi = new QSortFilterProxyModel(this);
-    proxyNimi->setSourceModel( kp()->tilit());
+    asetaModel( kp()->tilit());
     proxyNimi->setFilterRole( TiliModel::NimiRooli);
     proxyNimi->setFilterCaseSensitivity(Qt::CaseInsensitive);
     proxyNimi->setSortRole(TiliModel::YsiRooli);
@@ -49,6 +49,9 @@ TilinValintaDialogi::TilinValintaDialogi(QWidget *parent) :
 
     ui->view->resizeColumnsToContents();
 
+    ui->infoMerkki->setVisible(false);
+    ui->ohjeLabel->setVisible(false);
+
     connect( ui->suosikitNappi, SIGNAL(toggled(bool)),
              this, SLOT(suodataSuosikit(bool)));
     connect( ui->suodatusEdit, SIGNAL(textChanged(QString)),
@@ -57,6 +60,8 @@ TilinValintaDialogi::TilinValintaDialogi(QWidget *parent) :
              this, SLOT(klikattu(QModelIndex)));
     connect( ui->view->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
              this, SLOT(valintaMuuttui(QModelIndex)));
+
+    connect( ui->view, SIGNAL(tiliHiirenAlla(int)), this, SLOT(naytaOhje(int)));
 
 
 }
@@ -86,6 +91,8 @@ void TilinValintaDialogi::suodata(const QString &alku)
     else
         proxyTyyppi->setFilterRegExp( tyyppiSuodatin );
 
+    ui->view->paivitaInfo();
+
     // Jos enää vain yksi tili osuu suodattimeen,
     // valitaan se automaattisesti
     if( ui->view->model()->rowCount(QModelIndex()) == 1)
@@ -107,12 +114,14 @@ void TilinValintaDialogi::suodataSuosikit(bool suodatetaanko)
         proxyTila->setFilterFixedString("2");
     else
         proxyTila->setFilterRegExp("[12]");
+    ui->view->paivitaInfo();
 
 
 }
 
 void TilinValintaDialogi::asetaModel(TiliModel *model)
 {
+    tiliModel = model;
     proxyNimi->setSourceModel( model );
 }
 
@@ -128,6 +137,24 @@ void TilinValintaDialogi::klikattu(const QModelIndex &index)
 void TilinValintaDialogi::valintaMuuttui(const QModelIndex &index)
 {
     ui->valitseNappi->setEnabled( index.isValid() && index.data( TiliModel::OtsikkotasoRooli ).toInt() == 0 );
+}
+
+void TilinValintaDialogi::naytaOhje(int tiliId)
+{
+    Tili tili = tiliModel->tiliIdlla(tiliId);
+    QString txt = tili.json()->str("Taydentava");
+
+    if( !tili.json()->str("Kirjausohje").isEmpty() )
+    {
+        if( !txt.isEmpty())
+            txt.append("\n");
+        txt.append( tili.json()->str("Kirjausohje"));
+    }
+
+    ui->infoMerkki->setVisible( !txt.isEmpty() );
+    ui->ohjeLabel->setVisible( !txt.isEmpty() );
+
+    ui->ohjeLabel->setText( txt );
 }
 
 
