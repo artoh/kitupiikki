@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2017 Arto Hyvättinen
+   Copyright (C) 2017,2018 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -349,8 +349,11 @@ QString RaportinKirjoittaja::html(bool linkit)
                     txt.append( QString("<a name=\"%1\">").arg( rivi.sarake(i).linkkidata));
                 }
             }
+            QString tekstia = rivi.teksti(i);
+            tekstia.replace(' ', "&nbsp;");
+            tekstia.replace('\n', "<br>");
 
-            txt.append( rivi.teksti(i).replace(' ',"&nbsp;"));
+            txt.append(  tekstia );
 
             if( linkit && rivi.sarake(i).linkkityyppi )
                 txt.append("</a>");
