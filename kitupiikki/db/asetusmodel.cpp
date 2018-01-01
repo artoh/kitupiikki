@@ -111,6 +111,9 @@ void AsetusModel::asetaVar(const QString &avain, const QVariant &arvo)
 
 QStringList AsetusModel::lista(const QString &avain) const
 {
+    if( asetus(avain).isEmpty())
+        return QStringList();
+
     return asetus(avain).split('\n');
 }
 
