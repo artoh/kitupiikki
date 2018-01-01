@@ -34,8 +34,10 @@ TilinValintaView::TilinValintaView(QWidget *parent) :
 
 void TilinValintaView::paivitaInfo()
 {
-    QPoint pos = QCursor::pos();
-    QModelIndex index = indexAt(  mapFromGlobal(pos) );
+    QPoint pos = viewport()->mapFromGlobal( QCursor::pos());
+
+    QModelIndex index = indexAt(  pos  );
+
 
     if( model()->rowCount(QModelIndex()) == 1)
         index = model()->index(0,0);

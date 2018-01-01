@@ -57,7 +57,11 @@ bool RaporttiMuokkaus::nollaa()
 {
     // Haetaan comboon käytettävissä olevat raportit
     ui->valintaCombo->clear();
-    foreach (QString nimi, kp()->asetukset()->avaimet("Raportti/") )
+
+    QStringList raportit = kp()->asetukset()->avaimet("Raportti/");
+    raportit.sort(Qt::CaseInsensitive);
+
+    foreach (QString nimi, raportit )
     {
         ui->valintaCombo->addItem( nimi.mid(9) );
     }
