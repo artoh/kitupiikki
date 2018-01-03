@@ -227,7 +227,7 @@ void TilinMuokkausDialog::nroMuuttaaTyyppia(const QString &nroteksti)
             if(( ui->tyyppiCombo->currentData(TilityyppiModel::LuonneRooli).toInt() & TiliLaji::VASTATTAVAA) != TiliLaji::VASTATTAVAA )
                 ui->tyyppiCombo->setCurrentIndex(0);
         }
-        else if( ekanro == 3 )
+        else if( ekanro > 2 )
         {
             proxy_->setFilterRegExp("[CD].*");
             if(( ui->tyyppiCombo->currentData(TilityyppiModel::LuonneRooli).toInt() & TiliLaji::TULOS) != TiliLaji::TULOS )
