@@ -1,13 +1,7 @@
 Tämän tiedoston avulla ilmoitetaan uusista versioista
-#0\..*
-<table width=100% class=info><tr><td><h3>Hyvää joulua ja onnellista uutta vuotta!</h3></td></tr></table>
 #1\..*
 <table width=100%><h3>Onnea ykkösversion omistajalle!</h3></table>
 # .*-devel
 <table width=100% class=info><tr><td><h3><a href=ohje:/asennus>Päivitä Kitupiikki</a></h3>
 <p>Päivitä vakaaseen versioon</p>
-</td></tr></table>
-# .*
-<table width=100% class=info><tr><td><h3>HuBoard</h3>
-<p><a href=https://huboard.com/artoh/kitupiikki>Katsele Kitupiikkiä HuBoardissa</a></p>
 </td></tr></table>
