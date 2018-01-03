@@ -77,6 +77,13 @@ bool Poistaja::sumupoistaja(Tilikausi kausi)
     for( int i=0; i < kp()->tilit()->rowCount(QModelIndex()); i++)
     {
         Tili tili = kp()->tilit()->tiliIndeksilla(i);
+        if( !tili.onko(TiliLaji::POISTETTAVA))
+            continue;
+
+        int saldo = tili.saldoPaivalle( kausi.paattyy());
+
+        if( !saldo)
+            continue;
 
         if( !kp()->tilit()->tiliNumerolla( tili.json()->luku("Poistotili") ).onkoValidi() )
         {
@@ -88,10 +95,6 @@ bool Poistaja::sumupoistaja(Tilikausi kausi)
 
         if( tili.onko(TiliLaji::MENOJAANNOSPOISTO))
         {
-            int saldo = tili.saldoPaivalle( kausi.paattyy());
-
-            if( !saldo)
-                continue;
 
             int poistoprosentti = tili.json()->luku("Menojaannospoisto");
             int poisto = std::round( saldo * poistoprosentti / 100.0 );
@@ -135,11 +138,6 @@ bool Poistaja::sumupoistaja(Tilikausi kausi)
         else if( tili.onko( TiliLaji::TASAERAPOISTO))
         {
             // Nyt sitten haetaan tilin tase-erät ;)
-
-            int saldo = tili.saldoPaivalle( kausi.paattyy());
-
-            if( !saldo)
-                continue;
 
             RaporttiRivi tiliRivi;
             tiliRivi.lisaaLinkilla(RaporttiRiviSarake::TILI_LINKKI, tili.id(), QString::number(tili.numero()) );

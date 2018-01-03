@@ -365,15 +365,12 @@ QString AloitusSivu::summat()
 
     QSqlQuery kysely;
 
-    kysely.exec(QString("select tilinro, tilinimi, sum(debetsnt), sum(kreditsnt) from vientivw where tilityyppi like \"AR%\" and pvm <= \"%1\" group by tilinro")
-                .arg(tilikausi.paattyy().toString(Qt::ISODate)));
-
-
     // Rahavara-tilien saldot
 
     txt.append("<tr><td colspan=2 class=otsikko>Rahavarat</td></tr>");
 
-    kysely.exec(QString("select tilinro, tilinimi, sum(debetsnt), sum(kreditsnt) from vientivw where tilityyppi like \"AR%\" and pvm <= \"%1\" group by tilinro")
+    kysely.exec(QString("select nro, nimi, sum(debetsnt), sum(kreditsnt) from vienti,tili where vienti.tili=tili.id and tili.tyyppi=\"AR\" and vienti.pvm"
+                        "<\"%1\" group by nro")
                 .arg(tilikausi.paattyy().toString(Qt::ISODate)));
     int saldosumma = 0;
     while( kysely.next())
