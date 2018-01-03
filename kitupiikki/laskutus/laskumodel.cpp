@@ -20,6 +20,9 @@
 #include <QTemporaryFile>
 #include <QPrinter>
 
+#include <QDebug>
+#include <QSqlError>
+
 #include "laskumodel.h"
 #include "laskutusverodelegaatti.h"
 #include "db/kirjanpito.h"
@@ -434,7 +437,7 @@ bool LaskuModel::tallenna(Tili rahatili)
     
     QSqlQuery query;
     query.prepare("INSERT INTO lasku(id,tosite,laskupvm,erapvm,summaSnt,avoinSnt,asiakas,kirjausperuste,json) "
-                  "VALUES(:id,:tosite,:pvm,:erapvm,:summa,:avoin,:asiakas,;kirjausperuste,:json)");
+                  "VALUES(:id,:tosite,:pvm,:erapvm,:summa,:avoin,:asiakas,:kirjausperuste,:json)");
     query.bindValue(":id", laskunro());
     query.bindValue(":tosite", tosite.id());
     query.bindValue(":pvm", kp()->paivamaara());
@@ -482,7 +485,10 @@ bool LaskuModel::tallenna(Tili rahatili)
 
 
     query.bindValue(":json", json.toSqlJson() );
-    query.exec();
+    qDebug()  << query.exec();
+
+    qDebug() << query.lastError().text();
+    qDebug() << query.lastQuery();
 
     if( hyvityslasku().viitenro)
     {

@@ -28,6 +28,7 @@ LoppuSivu::LoppuSivu()
     QLabel *teksti = new QLabel("Kitupiikki on valmis luomaan uuden kirjanpidon.");
 
     karttaLabel = new QLabel();
+    karttaLabel->setWordWrap(true);
 
     QVBoxLayout *leiska = new QVBoxLayout();
     leiska->addWidget(teksti);
