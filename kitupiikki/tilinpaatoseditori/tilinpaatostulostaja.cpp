@@ -120,6 +120,7 @@ bool TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, QString tekst
         painter.restore();
         sivulla++;
     }
+    painter.end();
     return true;
 }
 

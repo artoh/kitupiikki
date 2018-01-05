@@ -18,6 +18,7 @@
 #include <QMessageBox>
 #include <QDesktopServices>
 #include <QUrl>
+#include <QFile>
 
 #include "tilinpaattaja.h"
 #include "db/kirjanpito.h"
@@ -69,8 +70,11 @@ void TilinPaattaja::paivitaDialogi()
     ui->lukitseTehty->setVisible(lukittu);
     ui->lukittuLabel->setVisible(lukittu);
     ui->tilinpaatosNappi->setEnabled(lukittu);
-    ui->tulostaNappi->setEnabled( tilikausi.tilinpaatoksenTila() == Tilikausi::KESKEN);
-    ui->vahvistaNappi->setEnabled( tilikausi.tilinpaatoksenTila() == Tilikausi::KESKEN);
+
+    bool tilinpaatosolemassa = QFile::exists( kp()->hakemisto().absoluteFilePath("arkisto/" + tilikausi.arkistoHakemistoNimi() + "/tilinpaatos.pdf"  ));
+
+    ui->tulostaNappi->setEnabled( tilinpaatosolemassa );
+    ui->vahvistaNappi->setEnabled( tilinpaatosolemassa );
 
 
     // Poistorivin nappien käytössä oleminen

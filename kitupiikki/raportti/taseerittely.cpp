@@ -114,7 +114,8 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
         if( tili.taseErittelyTapa() == Tili::TASEERITTELY_SALDOT)
         {
             RaporttiRivi rr;
-            rr.lisaa( QString("%1 %2").arg(tili.numero()).arg(tili.nimi()), 3 );
+            rr.lisaaLinkilla( RaporttiRiviSarake::TILI_NRO, tili.numero(), QString("%1 %2").arg(tili.numero()).arg(tili.nimi()), 3 );
+
             rr.lisaa( tili.saldoPaivalle( mihin ), true);
             rr.lihavoi();
             rk.lisaaRivi(rr);
@@ -131,7 +132,7 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
         {
             // Nimike
             RaporttiRivi tilinnimi;
-            tilinnimi.lisaa( QString("%1 %2").arg(tili.numero()).arg(tili.nimi()), 3 );
+            tilinnimi.lisaaLinkilla( RaporttiRiviSarake::TILI_NRO, tili.numero(), QString("%1 %2").arg(tili.numero()).arg(tili.nimi()), 3 );
             tilinnimi.lihavoi();
             rk.lisaaRivi(tilinnimi);
             // Täydentävä rivi
@@ -159,13 +160,13 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                 }
 
                 // Muutokset
-                kysely.exec(QString("SELECT tositelaji,tunniste,pvm,selite,debetsnt,kreditsnt from vientivw where tilinro=%1 and "
+                kysely.exec(QString("SELECT tositelaji,tunniste,pvm,selite,debetsnt,kreditsnt,tositeId from vientivw where tilinro=%1 and "
                             "pvm between \"%2\" and \"%3\" order by pvm")
                             .arg(tili.numero()).arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate)) );
                 while( kysely.next() )
                 {
                     RaporttiRivi rr;
-                    rr.lisaa( QString("%1%2").arg( kysely.value("tositelaji").toString()).arg(kysely.value("tunniste").toInt()));
+                    rr.lisaaLinkilla(RaporttiRiviSarake::TOSITE_ID, kysely.value("tositeId").toInt(), QString("%1%2").arg( kysely.value("tositelaji").toString()).arg(kysely.value("tunniste").toInt()));
                     rr.lisaa( kysely.value("pvm").toDate());
                     rr.lisaa(kysely.value("selite").toString());
                     if( tili.onko(TiliLaji::VASTAAVAA))
@@ -186,7 +187,9 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                 {
                     RaporttiRivi rr;
                     QModelIndex ind = erat.index(i, 0);
-                    rr.lisaa( ind.data(EranValintaModel::TositteenTunnisteRooli).toString()  );
+
+                    rr.lisaaLinkilla( RaporttiRiviSarake::TOSITE_ID, ind.data(EranValintaModel::EraIdRooli).toInt(),
+                                      ind.data(EranValintaModel::TositteenTunnisteRooli).toString()  );
                     rr.lisaa( ind.data(EranValintaModel::PvmRooli).toDate());
                     rr.lisaa( ind.data(EranValintaModel::SeliteRooli).toString());
                     rr.lisaa( ind.data(EranValintaModel::SaldoRooli).toInt());
@@ -283,7 +286,7 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
 
                         RaporttiRivi poistettuRivi;
                         poistettuRivi.lisaa(" ",2);
-                        poistettuRivi.lisaa( tr("Poistot %1 saakka").arg( mista.addDays(-1).toString(Qt::SystemLocaleShortDate)));
+                        poistettuRivi.lisaa( tr("Vähennykset %1 saakka").arg( mista.addDays(-1).toString(Qt::SystemLocaleShortDate)));
                         poistettuRivi.lisaa( saldo - alkusnt);
                         rk.lisaaRivi(poistettuRivi);
 
@@ -299,7 +302,7 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
 
                     // Muutokset
                     QSqlQuery muKysely;
-                    muKysely.exec(QString("SELECT tositelaji,tunniste,pvm,selite,debetsnt,kreditsnt from vientivw where eraid=%1 and "
+                    muKysely.exec(QString("SELECT tositelaji,tunniste,pvm,selite,debetsnt,kreditsnt,tositeId from vientivw where eraid=%1 and "
                                 "pvm between \"%2\" and \"%3\" order by pvm")
                                 .arg( eraId ).arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate)) );
 
@@ -313,7 +316,8 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                             muutos =  muKysely.value("kreditsnt").toInt() - muKysely.value("debetsnt").toInt();
                         saldo += muutos;
 
-                        rr.lisaa( QString("%1%2").arg( muKysely.value("tositelaji").toString()).arg(muKysely.value("tunniste").toInt()));
+                        rr.lisaaLinkilla(RaporttiRiviSarake::TOSITE_ID, muKysely.value("tositeId").toInt(), QString("%1%2").arg( muKysely.value("tositelaji").toString()).arg(muKysely.value("tunniste").toInt()));
+
                         rr.lisaa( muKysely.value("pvm").toDate());
                         rr.lisaa( muKysely.value("selite").toString());
                         rr.lisaa( muutos);

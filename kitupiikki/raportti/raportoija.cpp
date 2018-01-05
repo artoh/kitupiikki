@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2017 Arto Hyvättinen
+   Copyright (C) 2017,2018 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -34,14 +34,18 @@ Raportoija::Raportoija(const QString &raportinNimi) :
     tyyppi_ ( VIRHEELLINEN )
 {
     kaava_ = kp()->asetukset()->lista("Raportti/" + raportinNimi);
-    optiorivi_ = kaava_.takeFirst();
+    // Jos raporttia ei ole, jää VIRHEELLINEN-raportti
+    if( kaava_.length() > 2)
+    {
+        optiorivi_ = kaava_.takeFirst();
 
-    if( optiorivi_.startsWith(":tulos"))
-        tyyppi_ = TULOSLASKELMA;
-    else if( optiorivi_.startsWith(":tase"))
-        tyyppi_ = TASE;
-    else if( optiorivi_.startsWith(":kohdennus"))
-        tyyppi_ = KOHDENNUSLASKELMA;
+        if( optiorivi_.startsWith(":tulos"))
+            tyyppi_ = TULOSLASKELMA;
+        else if( optiorivi_.startsWith(":tase"))
+            tyyppi_ = TASE;
+        else if( optiorivi_.startsWith(":kohdennus"))
+            tyyppi_ = KOHDENNUSLASKELMA;
+    }
 }
 
 void Raportoija::lisaaKausi(const QDate &alkaa, const QDate &paattyy)

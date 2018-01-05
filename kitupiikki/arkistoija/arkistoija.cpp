@@ -30,6 +30,7 @@
 #include "raportti/paakirjaraportti.h"
 #include "raportti/tilikarttaraportti.h"
 #include "raportti/tositeluetteloraportti.h"
+#include "raportti/taseerittely.h"
 
 #include <QDebug>
 
@@ -296,10 +297,11 @@ void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
     out << tilikausi_.kausivaliTekstina();
     out << "</h2>";
 
-    // Jos tilit on päätetty (tilikausi lukittu), tulee liite myös tilinpäätökseen (pdf)
+    // Jos tilit on päätetty (tilikausi lukittu), tulee linkki myös tilinpäätökseen (pdf)
     if( tilikausi_.paattyy() <= kp()->tilitpaatetty() )
         out << "<h3>" << tr("Tilinpäätös") << "</h3>"
-            << "<ul><li><a href=tilinpaatos.pdf>" << tr("Tilinpäätös") << "</a></li></ul>";
+            << "<ul><li><a href=tilinpaatos.pdf>" << tr("Tilinpäätös") << "</a></li>"
+            << "<li><a href=taseerittely.html>" << tr("Tase-erittely") << "</a></li></ul>";
 
 
     out << "<h3>Kirjanpito</h3>";
@@ -319,38 +321,42 @@ void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
     // Kirjoitetaan kaikki kirjanpitoon liittyvät raportit arkistoon
     foreach (QString raportti, raportit)
     {
-        QString tiedostonnimi = raportti.toLower() + ".html";
-        tiedostonnimi.replace(" ","");
-
-        Tilikausi edellinenkausi = kp()->tilikaudet()->tilikausiPaivalle( tilikausi_.alkaa().addDays(-1) );
-
-
-        Raportoija raportoija(raportti);
-        if( raportoija.onkoKausiraportti())
+        if( raportti.length() > 1 )
         {
 
+            QString tiedostonnimi = raportti.toLower() + ".html";
+            tiedostonnimi.replace(" ","");
 
-            raportoija.lisaaKausi(tilikausi_.alkaa(), tilikausi_.paattyy());
-            if( edellinenkausi.alkaa().isValid())
-                raportoija.lisaaKausi( edellinenkausi.alkaa(), edellinenkausi.paattyy());
+            Tilikausi edellinenkausi = kp()->tilikaudet()->tilikausiPaivalle( tilikausi_.alkaa().addDays(-1) );
 
-            if( raportoija.tyyppi() == Raportoija::KOHDENNUSLASKELMA)
-                raportoija.etsiKohdennukset();
+
+            Raportoija raportoija(raportti);
+            if( raportoija.onkoKausiraportti())
+            {
+
+
+                raportoija.lisaaKausi(tilikausi_.alkaa(), tilikausi_.paattyy());
+                if( edellinenkausi.alkaa().isValid())
+                    raportoija.lisaaKausi( edellinenkausi.alkaa(), edellinenkausi.paattyy());
+
+                if( raportoija.tyyppi() == Raportoija::KOHDENNUSLASKELMA)
+                    raportoija.etsiKohdennukset();
+            }
+            else
+            {
+
+                raportoija.lisaaTasepaiva(tilikausi_.paattyy());
+                if( edellinenkausi.paattyy().isValid())
+                    raportoija.lisaaTasepaiva(edellinenkausi.paattyy());
+            }
+
+            arkistoiTiedosto( tiedostonnimi, raportoija.raportti().html(true) );
+
+            // Kirjoitetaan indeksiin
+            out << "<li><a href=\'" << tiedostonnimi << "\'>";
+            out << raportti;
+            out << "</a></li>";
         }
-        else
-        {
-
-            raportoija.lisaaTasepaiva(tilikausi_.paattyy());
-            if( edellinenkausi.paattyy().isValid())
-                raportoija.lisaaTasepaiva(edellinenkausi.paattyy());
-        }
-
-        arkistoiTiedosto( tiedostonnimi, raportoija.raportti().html(true) );
-
-        // Kirjoitetaan indeksiin
-        out << "<li><a href=\'" << tiedostonnimi << "\'>";
-        out << raportti;
-        out << "</a></li>";
     }
     out << "</ul>";
 
@@ -428,6 +434,8 @@ QString Arkistoija::arkistoi(Tilikausi &tilikausi)
     arkistoija.luoHakemistot();
     arkistoija.arkistoiTositteet();
 
+    arkistoija.arkistoiTiedosto("taseerittely.html",
+                                 TaseErittely::kirjoitaRaportti( tilikausi.alkaa(), tilikausi.paattyy()).html(true) );
     arkistoija.arkistoiTiedosto("paivakirja.html",
                                 PaivakirjaRaportti::kirjoitaRaportti( tilikausi.alkaa(), tilikausi.paattyy(), -1, false, true, true, true).html(true) );
     arkistoija.arkistoiTiedosto("paakirja.html",
@@ -438,6 +446,8 @@ QString Arkistoija::arkistoi(Tilikausi &tilikausi)
                                 TositeluetteloRaportti::kirjoitaRaportti( tilikausi.alkaa(), tilikausi.paattyy(), true, true, false, false, true).html(true) );
     arkistoija.arkistoiTiedosto("tositepaivakirja.html",
                                 TositeluetteloRaportti::kirjoitaRaportti( tilikausi.alkaa(), tilikausi.paattyy(), true, true, true, true, true).html(true));
+
+
 
     // Tämän pitää tulla lopuksi jotta hash toimii !!!
     arkistoija.kirjoitaIndeksiJaArkistoiRaportit();

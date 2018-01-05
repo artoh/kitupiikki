@@ -24,7 +24,7 @@ pien- ja mikroyrityksen tilinpäätöksessä esitettävistä tiedoista](http://w
 
 Kirjanpito laaditaan tilikausittain. Normaali tilikausi on 12 kuukautta, yleisimmin kalenterivuosi.
 
-![Tilikauden vaiheet](kaavio/tilikausi.svg)
+![Tilikauden vaiheet](tilikausi.svg)
 
 **Tilinavauksessa** edellisen tilikauden päättävä tase siirretään uuden tilikauden pohjaksi.
 
@@ -54,7 +54,7 @@ Juokseva kirjanpito tarkoittaa näiden tositteiden tallentamista ja merkitsemist
 Yksinkertaiseen kirjanpitoon merkitään tulot ja menot aikajärjestyksessä. Yksityinen ammatinharjoittaja voi yleensä pitää kirjanpitonsa yksinkertaisena.
 
 
-![Yksinkertaista kirjanpitoa](kaavio/yksinkertainen.png)
+![Yksinkertaista kirjanpitoa](yksinkertainen.png)
 > Yksinkertaisessa kirjanpidossa vasemmalle kirjataan tulot ja oikealle menot
 
 Kaksinkertaisessa kirjanpidossa jokainen tapahtuma kirjataan aina vähintään kahdelle tilille. *Rahatilejä* ovat pankkitilit ja käteiskassa: niillä seurataan rahan todellista liikennettä. *Tulotilit* ja *menotilit* osoittavat, mistä raha on tullut ja mihin sitä on käytetty. *Pääomatilit* seuraavat omaisuutta ja velkoja.
@@ -63,14 +63,14 @@ Kaikessa yhtiömuotoisessa liiketoiminnassa ja yhdistyksissä pitää käyttää
 
 Perinteisessä tilikirjassa jokaista tiliä kohti on kaksi saraketta: vasemmalla *debet*-puolelle kirjataan mihin raha menee ja oikelle puolelle *kredit*-sarakkeelle mistä raha tulee. Jokaisen kirjauksen pitää täsmätä, eli tilien debet- ja kredit-sarakkeille kirjataan yhtä suuri määrä.
 
-![Kaksinkertaista kirjanpitoa](kaavio/kaksinkertainen.png)
+![Kaksinkertaista kirjanpitoa](kaksinkertainen.png)
 > Ostot vähentävät pankkitiliä (kredit) ja merkitään menotilit debet-puolelle.
 > Myyntitulot puolestaan kasvattavat pankkitiliä (debet) ja merkitään tulotilin kredit-puolelle.
 >
 > Lainanlyhennyksessä pankkitilin saldo vähenee, mutta myös saatavatilin (Pankkilaina) saldo vähenee. Pankkilainan korot ovat menotili.
 
 Kaksinkertaisessa kirjanpidossa seurataan myös rahatilien välistä liikennettä
-![Tililtä nosto ja pano](kaavio/nostopano.png)
+![Tililtä nosto ja pano](nostopano.png)
 
 Käytettävistä tileistä ja niiden sisällöstä pitää olla *tililuettelo* (*tilikartta*). Eri yritysmuodoille ja yhdistyksille on valmiita mallitilikarttoja, joihin tarvittaessa lisätään omaa kirjanpitoa varten joitain tarkempia tilejä.
 
@@ -81,16 +81,16 @@ Käytettävistä tileistä ja niiden sisällöstä pitää olla *tililuettelo* (
 
 **Suoriteperusteisessa** kirjanpidossa tapahtumat kirjataan sille päivälle, jolloin tavara tai palvelu luovutetaan tai vastaanotetaan.
 
-![Myyntivelan kirjaus](kaavio/myyntivelka.png)
+![Myyntivelan kirjaus](myyntivelka.png)
 > Kun lipputanko on myydään 22.6. jää ostaja velkaa myyjälle, joten tulo kirjataan myyntituloihin (tulotili, kredit) ja myyntisaataviin (saatavatili, debet). Kun lasku maksetaan 14.7. kirjataan hinta myyntisaatavista (kredit) pankkitilille (debet).
 
 **Laskuperusteisessa** kirjanpidossa tapahtumat kirjoitetaan vastaavalla tavalla laskun päivämäärän mukaisesti.
 
-![Laskuperusteinen kirjaus](kaavio/laskuperuste.png)
+![Laskuperusteinen kirjaus](laskuperuste.png)
 > Kalastuskerho ostaa ongen juhannusaattona, mutta lasku kirjoitetaan vasta 28.6. Onki kirjataan ensin kuluksi (debet) ja ostovelaksi (kredit), ja kun lasku aikanaan maksetaan kirjataan se pankkitililtä (kredit) ostovelkoihin (debit).
 
 **Maksuperusteisessa** kirjanpidossa tapahtumat kirjataan vasta sitten, kun lasku on maksettu.
-![Maksuperusteinen kirjaus](kaavio/maksuperuste.png)
+![Maksuperusteinen kirjaus](maksuperuste.png)
 > Vaikka onki on ostettu jo juhannuksena, merkitään se kirjanpitoon yhdellä kirjauksella vasta kun lasku on maksettu.
 
 Jos menot ja tulot kirjataan maksuperusteisesti, on ostovelat ja myyntisaamiset voitava jatkuvasti selvittää muulla tavoin (esimerkiksi säilyttämällä maksamattomia laskuja mapissa, josta ne voi tarkistaa). Pientä yhdistystä lukuun ottamatta on lasku- tai maksuperusteinen kirjanpito oikaistava ja täydennettävä suoriteperusteiseksi ennen tilinpäätöksen laatimista, mikäli maksuperusteen vaikutus on olennainen.
@@ -99,7 +99,7 @@ Jos menot ja tulot kirjataan maksuperusteisesti, on ostovelat ja myyntisaamiset 
 
 Investoitaessa eli hankittaessa rakennuksia, koneita, kalusteita tms. joita käytetään pidemmällä aikavälillä, ei niitä kirjata välittömästä menoiksi vaan hankinta kirjataan taseeseen, josta sitä poistetaan suunnitelman mukaisesti (*sumu-poistot*). Merkitykseltään vähäisiä hankintoja voidaan kuitenkin käsitellä menokirjauksina, vaikka niitä käytettäisiinkin pidemmän aikaa.
 
-![Poistettava ohjelmisto](kaavio/atkpoisto.png)
+![Poistettava ohjelmisto](atkpoisto.png)
 
 > Hankitaan tietokoneohjelmisto, joka aineettomana oikeutena pitää poistaa tasapoistoina. Arvioidaan käyttöajaksi viisi vuotta, jolloin poisto on 200 euroa vuodessa. Ensimmäisenä vuonna poistetaan puolen vuoden käyttöajasta 100 euroa, jolloin poistamatta jää 900 euroa. Toisen vuoden jälkeen poistamatta on vielä 700 euroa.
 

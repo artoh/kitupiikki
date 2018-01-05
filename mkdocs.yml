@@ -24,9 +24,9 @@ markdown_extensions:
   - meta
 pages:
   - Kitupiikki: 'index.md'
-  - Kirjanpidosta lyhyesti: 'kirjanpito.md'
+  - Kirjanpidosta lyhyesti: 'kirjanpito/kirjanpito.md'
   - Asennus: 'asennus.md'
-  - Kirjanpidon aloittaminen: 'aloitus.md'
+  - Kirjanpidon aloittaminen: 'aloitus/aloitus.md'
   - Määritykset: 'maaritykset.md'
   - Kirjaaminen: 'kirjaus.md'
   - Selaaminen ja etsiminen: 'selaus.md'

@@ -119,6 +119,7 @@ QStringList AsetusModel::lista(const QString &avain) const
 
 void AsetusModel::aseta(const QString &avain, const QStringList &arvo)
 {
+
     aseta( avain, arvo.join('\n'));
 }
 

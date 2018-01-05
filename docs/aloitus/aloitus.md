@@ -3,13 +3,13 @@
 
 ## Aloittaminen
 
-![](ruutu/aloitus.png)
+![](aloita1.png)
 
 Uusi kirjanpito aloitetaan **Aloita**-välilehden **Uusi kirjanpito**-napista.
 
 ## Harjoitus vai todellinen?
 
-![](ruutu/uusi1.png)
+![](harjoittelu2.png)
 
 Ensimmäisellä näytöllä valitset, oletko aloittamassa harjoittelukirjanpitoa vai
 todellista kirjanpitoa.
@@ -26,14 +26,14 @@ todellista kirjanpitoa.
 
 ## Perustiedot
 
-![](ruutu/uusi2.png)
+![](nimi3.png)
 
 Toisessa ruudussa syötetään organisaation nimi ja Y-tunnus. Näitä voi muokata
 myöhemmin [perusmäärityksissä](maaritykset#Perusmääritykset).
 
 ## Tilikartta
 
-![](ruutu/tilikarttavalinta.png)
+![](tilikartta4.png)
 
 Seuraavaksi valitaan tilikartta. Tilikartta määrittää käytettävien tilien lisäksi
 myös käytössä olevat raportit eli esimerkiksi tuloslaskelman rakenteen sekä
@@ -48,7 +48,7 @@ kirjanpitoa kokonaan toiseen tilikarttaan.
 
 ##Tilikausi
 
-![](ruutu/aloita_tilikaudet.png)
+![](tilikausi5.png)
 
 Anna tiedot ensimmäisestä Kitupiikillä pidettävästä tilikaudesta. Koska tilinpäätökseen tulostetaan vertailutiedot myös edellisestä tilikaudesta, anna myös edellisen tilikauden
 päivämäärät.
@@ -59,7 +59,7 @@ uusia kirjauksia, vaikka tilinavausta ei olisikaan tehty.
 
 ##Tiedostojen sijainti
 
-![](ruutu/tiedostonsijainti.png)
+![](sijainti6.png)
 
 Kirjanpidon tiedostoja varten luodaan hakemisto, jossa on kirjanpito ja siihen
 kuuluvat sähköiset tositteet.
@@ -74,11 +74,20 @@ kuuluvat sähköiset tositteet.
     turvassa tietokoneesi rikkoutumiselta. Varminta on kuitenkin, jos tiedot
     varmuuskopioidaan säännöllisesti myös muulle tietovälineelle.
 
+## Valmista tuli!
+
+![](valmis6.png)
+
+Kaikki valinnat on tehty, ja sinulle näytetään valitsemaasi tililuetteloon liittyvä ohje. Kun olet vielä vahvistanut valintasi, luodaan uusi kirjanpito.
+
+
 ##Viimeistele vielä määritykset
 
-Kun olet vielä vahvistanut valintasi, luodaan uusi kirjanpito.
-
-![](ruutu/uusialoitettu.png)
+![](vinkit7.png)
 
 Ennen kuin aloitat kirjausten tekemisen, kannattaa vielä tarkistaa joukko
 määrityksiä. Ne kaikki on selostettu Käsikirjan seuraavassa luvussa.
+
+Jos käytät **harjoittelutilaa**, on ikkunan ylälaidassa vihreä **Harjoittelutila käytössä**-palkki,
+ja vaihtamalla oikeassa yläkulmassa olevaa päivämäärää voit "matkustaa ajassa" eli määrätä, mikä päivä
+on menossa, ja siten kokeilla vaikkapa tilinpäätöksen tekemistä, alv-tilitystä tai uuden tilikauden aloittamista.

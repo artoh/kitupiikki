@@ -223,16 +223,17 @@ bool LaskuModel::setData(const QModelIndex &index, const QVariant &value, int ro
             // Lasketaan bruton avulla nettoyksikköhinta ja laitetaan se paikalleen
             if( !rivit_[rivi].maara)
                 return false;
-            // Lisätään loppuun aina automaattisesti uusi rivi
-            // kun tähän on syötetty kelpo summa
-            if( rivi == rivit_.count() - 1)
-                lisaaRivi();
 
             int alvprosentti = rivit_[rivi].alvProsentti;
             double netto =  100.0 * value.toInt() / rivit_[rivi].maara / ( 100.0 + alvprosentti) ;
             rivit_[rivi].ahintaSnt = netto;
             emit dataChanged( createIndex(rivi, AHINTA , rivi), createIndex(rivi, AHINTA, rivi) );
             paivitaSumma(rivi);
+
+            // Lisätään loppuun aina automaattisesti uusi rivi
+            // kun tähän on syötetty kelpo summa
+            if( rivi == rivit_.count() - 1)
+                lisaaRivi();
             return true;
         }
     }
