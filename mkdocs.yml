@@ -27,7 +27,9 @@ pages:
   - Kirjanpidosta lyhyesti: 'kirjanpito/kirjanpito.md'
   - Asennus: 'asennus.md'
   - Kirjanpidon aloittaminen: 'aloitus/aloitus.md'
-  - Määritykset: 'maaritykset.md'
+  - Määritykset (vanha): 'maaritykset.md'
+  - Määritykset:
+    - Perusvalinnat: 'maaritykset/perusvalinnat/perusvalinnat.md'
   - Kirjaaminen: 'kirjaus.md'
   - Selaaminen ja etsiminen: 'selaus.md'
   - Tulosteet: 'raportti.md'
