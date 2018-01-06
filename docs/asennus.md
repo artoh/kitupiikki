@@ -2,16 +2,20 @@
 
 !!! warning "Ei takuuta"
     Saat ohjelmiston käyttöösi täysin ilman maksua.
-    Kitupikki-ohjelmaan ei sisälly minkäänlaista takuuta ohjelma toimivuudesta tai soveltuvuudesta. Ohjelma on testattu huolellisesti, mutta siinä voi silti olla virheitä ja ohjelman käyttäjä ottaa vastuun ohjelman mahdollisesti aiheuttamista vahigoista.
+    Kitupikki-ohjelmaan ei sisälly minkäänlaista takuuta ohjelman toimivuudesta tai soveltuvuudesta. Ohjelma on testattu huolellisesti, mutta siinä voi silti olla virheitä ja ohjelman käyttäjä ottaa vastuun ohjelman mahdollisesti aiheuttamista vahigoista.
 
-!!! note "Ei vielä valmis"
-    Ohjelman esiversio ilman arvonlisätoimintoja valmistuu ehkä jo vuoden 2017 aikana - ja täysi versio kaikilla suunnitelluilla mausteilla sitten vähän myöhemmin
+
 
 ## Windows
+
+!!! note ""
+    <span class="fa fa-windows"></span> [Kitupiikki-0.10.exe](https://github.com/artoh/kitupiikki)
 
 
 ## Linux
 
+!!! note ""
+    <span class="fa fa-linux"></span> [Kitupiikki-x86_64-0.10.AppImage](https://github.com/artoh/kitupiikki)
 
 
 ## Kehitysversio

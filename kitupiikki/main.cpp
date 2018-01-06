@@ -27,6 +27,10 @@
 
 #include <QDebug>
 #include <QStyleFactory>
+#include <QSettings>
+#include <QDialog>
+
+#include "ui_tervetuloa.h"
 
 int main(int argc, char *argv[])
 {   
@@ -40,13 +44,29 @@ int main(int argc, char *argv[])
 #endif
 
     a.setApplicationName("Kitupiikki");
-    a.setApplicationVersion("0.2.0");
+    a.setApplicationVersion("0.2.0-develx");
     a.setOrganizationDomain("artoh.github.io");
     a.setOrganizationName("Kitupiikki Kirjanpito");
     a.setWindowIcon( QIcon(":/pic/Possu64.png"));
 
 
     QLocale::setDefault(QLocale(QLocale::Finnish, QLocale::Finland));
+
+    QSettings settings;
+    if( settings.value("ViimeksiVersiolla").toString() != a.applicationVersion())
+    {
+        QDialog tervetuloDlg;
+        Ui::TervetuloDlg tervetuloUi;
+        tervetuloUi.setupUi(&tervetuloDlg);
+        tervetuloUi.versioLabel->setText("Versio " + a.applicationVersion());
+        tervetuloUi.esiKuva->setVisible( a.applicationVersion().contains('-'));
+        tervetuloUi.esiVaro->setVisible( a.applicationVersion().contains('-'));
+        tervetuloUi.paivitysCheck->setChecked( settings.value("NaytaPaivitykset",true).toBool());
+        tervetuloDlg.exec();
+        settings.setValue("NaytaPaivitykset", tervetuloUi.paivitysCheck->isChecked());
+        settings.setValue("ViimeksiVersiolla", a.applicationVersion());
+    }
+
 
     KitupiikkiIkkuna ikkuna;
     ikkuna.show();

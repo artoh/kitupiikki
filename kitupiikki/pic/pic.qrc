@@ -76,6 +76,7 @@
         <file>vero.png</file>
         <file>netto.png</file>
         <file>0pros.png</file>
+        <file>tervetuloa.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

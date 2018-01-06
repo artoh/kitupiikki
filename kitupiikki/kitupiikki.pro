@@ -283,7 +283,8 @@ FORMS += \
     maaritys/lisaaraporttidialogi.ui \
     maaritys/kaavaeditori.ui \
     arkisto/muokkaatilikausi.ui \
-    maaritys/tilikarttaohje.ui
+    maaritys/tilikarttaohje.ui \
+    aloitussivu/tervetuloa.ui
 
 DISTFILES += \
     uusikp/luo.sql \
