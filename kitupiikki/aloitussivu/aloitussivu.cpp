@@ -18,6 +18,7 @@
 #include <QFile>
 #include <QStringList>
 #include <QSqlQuery>
+#include <QSslSocket>
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -241,6 +242,15 @@ void AloitusSivu::infoSaapui(QNetworkReply *reply)
 
 void AloitusSivu::pyydaInfo()
 {
+    if( !QSslSocket::supportsSsl())
+    {
+        paivitysInfo = tr("<table class=info width=100%><tr><td><b>SSL-suojattu verkkoliikenne ei käytössä</b><br>"
+                          "Päivitysten tarkastaminen tai laskujen lähettäminen suojatulla sähköpostilla edellyttää "
+                          "OpenSSL-kirjaston versiota %1</td></tr></table>").arg(QSslSocket::sslLibraryBuildVersionString());
+        return;
+    }
+
+
     // Päivitysten näyttäminen
     QSettings asetukset;
     if( asetukset.value("NaytaPaivitykset", true).toBool())

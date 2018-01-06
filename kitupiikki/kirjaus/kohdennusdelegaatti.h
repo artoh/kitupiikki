@@ -20,6 +20,7 @@
 
 #include <QItemDelegate>
 #include "kohdennusproxymodel.h"
+#include <QDate>
 
 /**
  * @brief Delegaatti kohdennusten valitsemiseen taulukossa
@@ -29,15 +30,21 @@
  */
 class KohdennusDelegaatti : public QItemDelegate
 {
+    Q_OBJECT
+
 public:
-    KohdennusDelegaatti();
+    KohdennusDelegaatti(QObject* parent = nullptr);
 
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
     void setEditorData(QWidget *editor, const QModelIndex &index) const;
     void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
 
+public slots:
+    void asetaKohdennusPaiva(const QDate& paiva);
+
 private:
     KohdennusProxyModel *model;
+    QDate kohdennusPaiva;   /** Minä päivänä aktiiviset projektit näytetään */
 };
 
 #endif // KOHDENNUSDELEGAATTI_H

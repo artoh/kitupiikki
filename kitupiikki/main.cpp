@@ -16,6 +16,7 @@
 */
 
 #include <QApplication>
+#include <QGuiApplication>
 #include <QLocale>
 #include <QSplashScreen>
 #include <QTextCodec>

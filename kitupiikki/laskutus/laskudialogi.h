@@ -32,6 +32,8 @@ namespace Ui {
 class LaskuDialogi;
 }
 
+class KohdennusDelegaatti;
+
 /**
  * @brief Laskun laatimisen dialogi
  */
@@ -90,6 +92,7 @@ private:
     QSortFilterProxyModel *tuoteProxy;
 
     QModelIndex kontekstiIndeksi;
+    KohdennusDelegaatti *kohdennusDelegaatti;
     
 };
 

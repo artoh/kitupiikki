@@ -23,7 +23,8 @@
 #include "kohdennusdelegaatti.h"
 #include "kohdennusproxymodel.h"
 
-KohdennusDelegaatti::KohdennusDelegaatti() :
+KohdennusDelegaatti::KohdennusDelegaatti(QObject *parent) :
+    QItemDelegate(parent),
     model( new KohdennusProxyModel(this))
 {
 
@@ -41,7 +42,11 @@ void KohdennusDelegaatti::setEditorData(QWidget *editor, const QModelIndex &inde
 {
     QComboBox *cbox = qobject_cast<QComboBox*>(editor);
     model->asetaKohdennus( index.data( Qt::EditRole).toInt() );
-    model->asetaPaiva( index.data( VientiModel::PvmRooli ).toDate() );
+
+    if( kohdennusPaiva.isValid())
+        model->asetaPaiva( kohdennusPaiva);
+    else
+        model->asetaPaiva( index.data( VientiModel::PvmRooli ).toDate() );
 
     cbox->setCurrentIndex( cbox->findData( index.data( Qt::EditRole).toInt(), KohdennusModel::IdRooli ));
 }
@@ -50,4 +55,9 @@ void KohdennusDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *mode
 {
     QComboBox *cbox = qobject_cast<QComboBox*>(editor);
     model->setData( index, cbox->currentData(KohdennusModel::IdRooli).toInt(), Qt::EditRole);
+}
+
+void KohdennusDelegaatti::asetaKohdennusPaiva(const QDate &paiva)
+{
+    kohdennusPaiva = paiva;
 }
