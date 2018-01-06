@@ -14,7 +14,18 @@ li.asennuslaatikko
     
 }
 
-a.asennuslaatikko:hover, a.asennuslaatikko:active
+li.asennuslaatikko:hover, li.asennuslaatikko:active
+{
+    color: white;
+    text-decoration: none;
+}
+
+li.asennuslaatikko > a
+{
+    color: white;
+}
+
+li.asennuslaatikko > a:hover
 {
     color: white;
     font-weight: bold;

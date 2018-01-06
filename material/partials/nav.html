@@ -1,10 +1,12 @@
-<nav class="md-nav md-nav--primary">
+<nav class="md-nav md-nav--primary" data-md-level="0">
   <label class="md-nav__title md-nav__title--site" for="drawer">
-    <i class="{% if config.extra.logo %} md-logo {% else %} md-icon md-icon--home {% endif %} md-nav__button">
-      {% if config.extra.logo %}
-        <img src="{{ base_url }}/{{ config.extra.logo }}">
+    <span class="md-nav__button md-logo">
+      {% if config.theme.logo.icon %}
+        <i class="md-icon">{{ config.theme.logo.icon }}</i>
+      {% else %}
+        <img src="{{ base_url }}/{{ config.theme.logo }}" width="24" height="24">
       {% endif %}
-    </i>
+    </span>
     {{ config.site_name }}
   </label>
   {% if config.repo_url %}
@@ -15,8 +17,9 @@
   <ul class="md-nav__list" data-md-scrollfix>
     {% for nav_item in nav %}
       {% set path = "nav-" + loop.index | string %}
+      {% set level = 1 %}
       {% include "partials/nav-item.html" %}
     {% endfor %}
-    <li class="md-nav__item asennuslaatikko"><a href="/kitupiikki/asennus" title="Lataa Kitupiikki" class="md-nav__link asennuslaatikko"><span class="fa fa-download"></span> Lataa</a></li>    
+    <li class="md-nav__item asennuslaatikko"><a href="/kitupiikki/asennus" title="Lataa Kitupiikki" class="asennuslaatikko"><span class="fa fa-download"></span> Lataa Kitupiikki</a></li>       
   </ul>
 </nav>

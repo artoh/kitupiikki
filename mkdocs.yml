@@ -7,17 +7,28 @@ site_url: 'https://artoh.github.io/kitupiikki'
 # repo_url: 'https://github.com/artoh/kitupiikki'
 
 copyright: 'Copyright &copy; 2017-2018 Arto Hyvättinen GPL3 License'
-theme_dir: 'material'
-extra:
-  logo: 'images/Possu64.png'
+theme:
+  name: null
+  custom_dir: material
   palette:
     primary: 'deep purple'
     accent: 'deep purple'
+  logo: 'images/Possu64.png'
+  language: 'fi'
+  favicon: 'images/Possu64.png'
+  font: 'Sans'
+  code: 'Mono'
+  feature:
+    tabs: false
+extra:
+  disqus: 'Kitupiikki'
   social:
     - type: 'github'
       link: 'https://github.com/artoh/kitupiikki'
     - type: 'youtube'
       link: 'https://www.youtube.com/channel/UCVNHCMQoNb66OgzuTSfdKqQ'
+  search:
+    language: 'fi'
 markdown_extensions:
   - admonition
   - footnotes
