@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2017 Arto Hyvättinen
+   Copyright (C) 2018 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,25 +15,22 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef LOPPUSIVU_H
-#define LOPPUSIVU_H
+#include "tilikarttaohje.h"
+#include "db/kirjanpito.h"
+#include "ui_tilikarttaohje.h"
 
-#include <QWizardPage>
-#include <QLabel>
-
-/**
- * @brief Uuden kirjanpidon velhon loppusivu
- */
-class LoppuSivu : public QWizardPage
+TilikarttaOhje::TilikarttaOhje() :
+    ui(new Ui::TilikarttaOhje)
 {
-protected:
-    QTextBrowser *ohjeBrowser;
+    ui->setupUi(this);
+}
 
-public:
-    LoppuSivu();
+bool TilikarttaOhje::nollaa()
+{
+    ui->nimiLabel->setText( kp()->asetukset()->asetus("TilikarttaNimi") );
+    ui->tekijaLabel->setText( kp()->asetukset()->asetus("TilikarttaTekija"));
+    ui->pvmLabel->setText( kp()->asetukset()->pvm("TilikarttaPvm").toString(Qt::SystemLocaleShortDate) );
+    ui->ohjeBrowser->setHtml( kp()->asetukset()->asetus("TilikarttaOhje"));
 
-protected:
-    void initializePage();
-};
-
-#endif // LOPPUSIVU_H
+    return true;
+}

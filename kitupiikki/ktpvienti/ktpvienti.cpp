@@ -89,7 +89,7 @@ void KtpVienti::accept()
     out << "[kuvaus]\n";
     out << field("kuvaus").toString() << "\n";
 
-    out << "[intro]\n";
+    out << "[TilikarttaOhje]\n";
     out << field("introteksti").toString() << "\n";
 
     out << "[TilikarttaLuontiVersio]\n";

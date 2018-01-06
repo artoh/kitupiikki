@@ -29,7 +29,7 @@ CREATE TABLE tositelaji (
 );
 
 INSERT INTO tositelaji ( id, tunnus,nimi) VALUES
-  (0,'***','Järjestelmän tosite'),
+  (0,'*','Järjestelmän tosite'),
   (1,'','Muu tosite' );
 
 CREATE TABLE tosite (
@@ -67,14 +67,16 @@ CREATE TABLE vienti (
                             REFERENCES tosite (id),
     vientirivi      INTEGER NOT NULL,
     pvm             DATE,
-    tili            INTEGER REFERENCES tili (id) ON DELETE RESTRICT
+    tili            INTEGER NOT NULL
+                            REFERENCES tili (id) ON DELETE RESTRICT
                                                  ON UPDATE RESTRICT,
     debetsnt        BIGINT,
     kreditsnt       BIGINT,
     selite          TEXT,
     alvkoodi        INTEGER DEFAULT(0),
     alvprosentti    INTEGER DEFAULT(0),
-    kohdennus        INTEGER REFERENCES kohdennus (id) ON DELETE RESTRICT
+    kohdennus        INTEGER DEFAULT(0)
+                             REFERENCES kohdennus (id) ON DELETE RESTRICT
                                                       ON UPDATE CASCADE,
     eraid           INTEGER REFERENCES vienti(id) ON DELETE RESTRICT
                                                   ON UPDATE CASCADE,
@@ -128,7 +130,8 @@ CREATE TABLE tuote (
     alvprosentti    INTEGER DEFAULT(0),
     tili            INTEGER REFERENCES tili(id) ON DELETE RESTRICT
                                                 ON UPDATE CASCADE,
-    kohdennus       INTEGER REFERENCES kohdennus(id) ON DELETE RESTRICT
+    kohdennus       INTEGER DEFAULT(0)
+                            REFERENCES kohdennus(id) ON DELETE RESTRICT
                                                 ON UPDATE CASCADE
 );
 

@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2017 Arto Hyvättinen
+   Copyright (C) 2018 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,25 +15,26 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef LOPPUSIVU_H
-#define LOPPUSIVU_H
+#ifndef TILIKARTTAOHJE_H
+#define TILIKARTTAOHJE_H
 
-#include <QWizardPage>
-#include <QLabel>
+#include "maarityswidget.h"
+
+namespace Ui {
+class TilikarttaOhje;
+}
 
 /**
- * @brief Uuden kirjanpidon velhon loppusivu
+ * @brief Näyttää tilikartan ohjeet
  */
-class LoppuSivu : public QWizardPage
+class TilikarttaOhje : public MaaritysWidget
 {
-protected:
-    QTextBrowser *ohjeBrowser;
-
 public:
-    LoppuSivu();
+    TilikarttaOhje();    
+    bool nollaa() override;
 
-protected:
-    void initializePage();
+private:
+    Ui::TilikarttaOhje *ui;
 };
 
-#endif // LOPPUSIVU_H
+#endif // TILIKARTTAOHJE_H

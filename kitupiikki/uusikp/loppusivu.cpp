@@ -17,6 +17,7 @@
 
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QTextBrowser>
 
 #include "loppusivu.h"
 #include "uusikirjanpito.h"
@@ -27,12 +28,11 @@ LoppuSivu::LoppuSivu()
 
     QLabel *teksti = new QLabel("Kitupiikki on valmis luomaan uuden kirjanpidon.");
 
-    karttaLabel = new QLabel();
-    karttaLabel->setWordWrap(true);
+    ohjeBrowser = new QTextBrowser;
 
     QVBoxLayout *leiska = new QVBoxLayout();
     leiska->addWidget(teksti);
-    leiska->addWidget(karttaLabel);
+    leiska->addWidget(ohjeBrowser);
 
     setLayout(leiska);
 
@@ -41,7 +41,8 @@ LoppuSivu::LoppuSivu()
 void LoppuSivu::initializePage()
 {
     QString polku = field("tilikartta").toString();
-    QString introteksti = UusiKirjanpito::lueKtkTiedosto(polku).value("intro").join("\n");
+    QString introteksti = UusiKirjanpito::lueKtkTiedosto(polku).value("TilikarttaOhje").join("\n");
 
-    karttaLabel->setText(introteksti);
+    ohjeBrowser->setHtml(introteksti);
+
 }

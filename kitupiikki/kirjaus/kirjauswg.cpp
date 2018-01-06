@@ -388,6 +388,7 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
     ui->tallennaButton->setEnabled(sallitaanko);
     ui->poistaNappi->setEnabled(sallitaanko);
     ui->otsikkoEdit->setEnabled(sallitaanko);
+
     ui->lukkoLabel->setVisible(!sallitaanko);
 
     ui->lisaaliiteNappi->setEnabled(sallitaanko);

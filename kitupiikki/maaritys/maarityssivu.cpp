@@ -35,6 +35,7 @@
 #include "alvmaaritys.h"
 #include "laskuvalintawidget.h"
 #include "emailmaaritys.h"
+#include "tilikarttaohje.h"
 
 #include "ktpvienti/ktpvienti.h"
 
@@ -56,6 +57,7 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu("Sähköpostin lähetys", SAHKOPOSTI, QIcon(":/pic/email.png"));
     lisaaSivu("Raportit", RAPORTIT, QIcon(":/pic/print.png"));
     lisaaSivu("Tilinpäätöksen malli", LIITETIETOKAAVA, QIcon(":/pic/tekstisivu.png"));
+    lisaaSivu("Tilikartan ohje", TILIKARTTAOHJE, QIcon(":/pic/ohje.png"));
 
     connect( lista, SIGNAL(itemActivated(QListWidgetItem*)), this, SLOT(valitseSivu(QListWidgetItem*)));
 
@@ -185,6 +187,8 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         nykyinen = new AlvMaaritys;
     else if(sivu == SAHKOPOSTI)
         nykyinen = new EmailMaaritys;
+    else if(sivu == TILIKARTTAOHJE)
+        nykyinen = new TilikarttaOhje;
     else
         nykyinen = new Perusvalinnat;   // Tilipäinen
 

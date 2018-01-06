@@ -119,7 +119,8 @@ SOURCES += main.cpp \
     arkisto/poistaja.cpp \
     maaritys/kaavankorostin.cpp \
     kirjaus/kohdennusproxymodel.cpp \
-    db/tilinvalintaview.cpp
+    db/tilinvalintaview.cpp \
+    maaritys/tilikarttaohje.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -221,7 +222,8 @@ HEADERS += \
     arkisto/poistaja.h \
     maaritys/kaavankorostin.h \
     kirjaus/kohdennusproxymodel.h \
-    db/tilinvalintaview.h
+    db/tilinvalintaview.h \
+    maaritys/tilikarttaohje.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -280,7 +282,8 @@ FORMS += \
     arkisto/poistaja.ui \
     maaritys/lisaaraporttidialogi.ui \
     maaritys/kaavaeditori.ui \
-    arkisto/muokkaatilikausi.ui
+    arkisto/muokkaatilikausi.ui \
+    maaritys/tilikarttaohje.ui
 
 DISTFILES += \
     uusikp/luo.sql \

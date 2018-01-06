@@ -72,7 +72,7 @@ void TilikarttaSivu::initializePage()
 {
     ui->tilikarttaList->selectionModel()->clearSelection();
     ui->tilikarttaList->setCurrentRow(-1);
-    ui->kuvausLabel->clear();
+    ui->kuvausBrowser->clear();
 }
 
 void TilikarttaSivu::lataaTiedostosta()
@@ -100,8 +100,7 @@ void TilikarttaSivu::valitseTilikartta(const QString &polku)
             .arg( tiedot.value("TilikarttaTekija").join(" "))
             .arg( karttapaiva.toString(Qt::SystemLocaleShortDate));
 
-    ui->tiedotLabel->setText(info);
-    ui->kuvausLabel->setText(kuvaus);
+    ui->kuvausBrowser->setHtml( info + "</p>" + kuvaus );
 
     setField("tilikartta", polku);
 }

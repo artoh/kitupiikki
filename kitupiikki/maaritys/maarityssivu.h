@@ -55,7 +55,8 @@ public:
         LASKUTUS,
         SAHKOPOSTI,
         RAPORTIT,
-        LIITETIETOKAAVA
+        LIITETIETOKAAVA,
+        TILIKARTTAOHJE
 
     };
 
