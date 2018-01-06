@@ -63,7 +63,7 @@ void KirjausSivu::siirrySivulle()
 
 bool KirjausSivu::poistuSivulta()
 {
-    if( model->muokattu() && model->vientiModel()->debetSumma() )
+    if( model->muokattu() && model->vientiModel()->debetSumma() && model->muokkausSallittu())
     {
         if( QMessageBox::question(this, tr("Kitupiikki"), tr("Nykyistä kirjausta on muokattu. Poistutko sivulta tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
         {

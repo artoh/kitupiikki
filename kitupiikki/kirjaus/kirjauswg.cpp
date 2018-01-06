@@ -451,16 +451,16 @@ void KirjausWg::kirjausApuri()
 
 void KirjausWg::pvmVaihtuu()
 {
-    // Tiliotepäiväyksen kirjauksen kuukauden alkuun ja loppuun
     QDate paiva = ui->tositePvmEdit->date();
-    paiva = paiva.addDays( 1 - paiva.day() );   // Siirretään kuukauden alkuun
-    ui->tiliotealkaenEdit->setDate( paiva );
-    paiva = paiva.addMonths(1).addDays(-1); // Siirrytään kuukauden loppuun
-    ui->tilioteloppuenEdit->setDate(paiva);
+    model_->asetaPvm(paiva);
+
+    // Tiliotepäiväyksen kirjauksen kuukauden alkuun ja loppuun
+    QDate alkupaiva = paiva.addDays( 1 - paiva.day() );   // Siirretään kuukauden alkuun
+    ui->tiliotealkaenEdit->setDate( alkupaiva );
+    QDate loppupaiva = paiva.addMonths(1).addDays(-1); // Siirrytään kuukauden loppuun
+    ui->tilioteloppuenEdit->setDate(loppupaiva);
 
     QDate vanhaPaiva = model_->pvm();
-
-    model_->asetaPvm(paiva);
 
     if( kp()->tilikaudet()->tilikausiPaivalle(paiva).alkaa() != kp()->tilikaudet()->tilikausiPaivalle(vanhaPaiva).alkaa())
     {

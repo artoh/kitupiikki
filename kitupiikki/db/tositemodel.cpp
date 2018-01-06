@@ -43,7 +43,7 @@ bool TositeModel::muokkausSallittu() const
 {
     // Jos päätetyllä tilikaudella, niin
     // ei saa muokata
-    return kp()->tilitpaatetty() >= pvm();
+    return pvm() > kp()->tilitpaatetty();
 }
 
 int TositeModel::seuraavaTunnistenumero() const
@@ -75,7 +75,7 @@ bool TositeModel::muokattu()
 
 void TositeModel::asetaPvm(const QDate &pvm)
 {
-   if( pvm != pvm_)
+   if( pvm.daysTo(pvm_))
    {
         pvm_ = pvm;
         muokattu_ = true;
@@ -148,6 +148,7 @@ void TositeModel::lataa(int id)
     if( kysely.next())
     {
         id_ = id;
+        pvm_ = kysely.value("pvm").toDate();
         otsikko_ = kysely.value("otsikko").toString();
         kommentti_ = kysely.value("kommentti").toString();
         tunniste_ = kysely.value("tunniste").toInt();
