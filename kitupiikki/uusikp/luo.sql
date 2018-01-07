@@ -58,7 +58,7 @@ CREATE TABLE kohdennus (
     tyyppi INTEGER  NOT NULL
 );
 
-INSERT INTO kohdennus(id, nimi, tyyppi) VALUES(0,"(Yleinen)",0);
+INSERT INTO kohdennus(id, nimi, tyyppi) VALUES(0,"Yleinen",0);
 
 
 CREATE TABLE vienti (

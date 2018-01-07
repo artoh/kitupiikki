@@ -389,7 +389,7 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 <h2>Eläkevastuut</h2>
 <p>Eläkevastuu, jota ei ole siirretty eläkelaitoksen hoidettavaksi</p>
 #emoyritys Tiedot emoyrityksestä
-<h2>Tiedot emoyrityksestä</h">
+<h2>Tiedot emoyrityksestä</h2>
 <p>Emoyrityksen nimi ja kotipaikka sekä tiedot siitä konsernitilinpäätöksen laativasta kosernista, johon yritys välittömimmin kuuluu</p>
 #lahilainat Lainat ja sitoumukset hallintoelimiin kuuluvien puolesta
 <h2>Lainat hallintoelimiin kuuluville sekä heidän puolestaan annetut sitoumukset</h2>
@@ -413,7 +413,7 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 @henkilosto@
 #muut -MIKRO Olennaiset ja riitävän kuvan kannalta tarpeellinen toimintakertomustieto
 <h2>Muut tiedot</h2>
-<p>Tiedot, jotka ovat tarpeen oikean ja riittävän kuvan antamiseksi. Mikrokoon yrityksillä ei ole velvollisuutta näiden tietojen antamiseen </p>
+<p>Tiedot, jotka ovat tarpeen oikean ja riittävän kuvan antamiseksi. </p>
 ##Kirjanpito
 #sahko Sähköinen kirjanpito ja arkistointi
 <h2>Kirjanpitoaineisto</h2>
