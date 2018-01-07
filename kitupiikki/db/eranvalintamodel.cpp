@@ -60,7 +60,7 @@ QVariant EranValintaModel::data(const QModelIndex &index, int role) const
             return QVariant( era.tositteenTunniste() );
         else if(role == Qt::DisplayRole)
         {
-            return QVariant( QString("%1 \t%2 (%L3 €)").arg(era.pvm.toString(Qt::SystemLocaleShortDate)).arg(era.selite).arg(era.saldoSnt / 100.0,0,'f',2));
+            return QVariant( QString("%1 %2 (%L3 €)").arg(era.pvm.toString("dd.MM.yyyy")).arg(era.selite).arg(era.saldoSnt / 100.0,0,'f',2));
         }
     }
     return QVariant();

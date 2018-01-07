@@ -63,7 +63,7 @@ TilinMuokkausDialog::TilinMuokkausDialog(TiliModel *model, QModelIndex index) :
     ui->poistotiliEdit->suodataTyypilla("DP");
 
     connect( ui->veroCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(veroEnablePaivita()));
-    connect( ui->numeroEdit, SIGNAL(textChanged(QString)), this, SLOT(otsikkoTasoPaivita()));
+//    connect( ui->numeroEdit, SIGNAL(textChanged(QString)), this, SLOT(otsikkoTasoPaivita()));
 
     connect( ui->nimiEdit, SIGNAL(textEdited(QString)), this, SLOT(tarkasta()));
     connect( ui->numeroEdit, SIGNAL(textChanged(QString)), this, SLOT(nroMuuttaaTyyppia(QString)));
@@ -231,7 +231,12 @@ void TilinMuokkausDialog::nroMuuttaaTyyppia(const QString &nroteksti)
         {
             proxy_->setFilterRegExp("[CD].*");
             if(( ui->tyyppiCombo->currentData(TilityyppiModel::LuonneRooli).toInt() & TiliLaji::TULOS) != TiliLaji::TULOS )
-                ui->tyyppiCombo->setCurrentIndex(0);
+            {
+                if( ekanro == 3)
+                    ui->tyyppiCombo->setCurrentIndex( ui->tyyppiCombo->findData( TiliLaji::LVTULO, TilityyppiModel::LuonneRooli ));
+                else
+                    ui->tyyppiCombo->setCurrentIndex( ui->tyyppiCombo->findData( TiliLaji::MENO, TilityyppiModel::LuonneRooli ));
+            }
         }
 
         int ysinro = Tili::ysiluku( nroteksti.toInt(), 0 );
@@ -249,6 +254,9 @@ void TilinMuokkausDialog::nroMuuttaaTyyppia(const QString &nroteksti)
            }
         }
         ui->kuuluuLabel->setText( ylatili.nimi() );
+
+        // Vaikuttaa otsikon otsikkotasoon
+        ui->tasoSpin->setValue( ylatili.otsikkotaso() == 9 ? 9 : ylatili.otsikkotaso() + 1  );
 
 
     }
