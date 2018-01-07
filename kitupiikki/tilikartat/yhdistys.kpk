@@ -1,34 +1,21 @@
 [TilikarttaNimi]
 Yhdistys
 [TilikarttaTekija]
-artoh.github.io
+https://artoh.github.io/kitupiikki
 [TilikarttaPvm]
-2018-01-07
+2018-01-01
 [kuvaus]
 <b>Aatteellinen yhdistys tai säätiö</b>
 <p>Aatteellisen toiminnan ensisijaisena tarkoituksena ei ole taloudellinen toiminta.</p>
 <p>Toiminta jaetaan varsinaiseen toimintaan, varainhankintaan ja rahoitustoimintaan.</p>
+<p>Tilinpäätös on Kirjanpitoasetuksen 3§ mukainen.</p>
 [TilikarttaOhje]
-<h2>Yhdistyksen tilikartta</h2>
-
-<h3>Tilit</h3>
-
-<p>Tilikartasta on piilotettu suuri osa rahoitukseen ja konserneihin liittyviä tileistä, jotka saa näkyviin <b>Määritykset > Tilikartta</b>-valinnoilla.</p>
-
+<p>Tilikartasta on piilotettu suuri osa rahoitukseen ja konserneihin liittyviä tilejä, jotka saa näkyviin <b>Määritykset/Tilikartta</b>-valinnoilla.</p>
 <p>Tilikarttaan on yleensä tarpeellista lisätä oman yhdistyksen toimintaan liittyviä tilejä. Lisää varainkeruuseen liittyvät tilit otsikoiden <b>Varainhankinnat tulot</b> ja <b> Varainhankinnan kulut</b> alle ja varsinaseen toimintaan liittyvät kohtiin <b>Varsinaisen toiminnan tulot</b> ja <b>Varsinaisen toiminnan kulut</b> (jaettu palveluihin, vuokriin, ostoihin ja muihin kuluihin).</p>
-
-<h3>Kohdennukset</h3>
-
-<p>Jos kuluja seurataan toiminnanaloittain tai projekteittain, lisää tarvittavat kohdennukset kohdassa <b>Määritykset > Kohdennukset</b>.</p>
-
-<p>Toiminnanaloittainen erittely on lisättävissä osaksi tilinpäätöstä.</p>
-
-<h3>Arvonlisävero</h3>
-
-<p>Yhdistyksen aatteellinen toiminta on yleensä arvonlisäverotonta. Jos yhdistys on hakeutunut alv-velvolliseksi, tee tämä valinta kohdassa <b>Määritykset > Perusvalinnat</b>. Tilikartta ei sisällä liiketoiminnan vaatimia tilejä.</p>
-
+<p>Jos kuluja seurataan toiminnanaloittain, lisää tarvittavat kohdennukset.</p>
+<p>Yhdistyksen aatteellinen toimnta on yleensä arvonlisäverotonta. Jos yhdistys on hakeutunut alv-velvolliseksi, tee tämä valinta Perusvalinnoissa.</p>
 [TilikarttaLuontiVersio]
-0.2.0-develx
+0.2.0-devel
 [KpVersio]
 1
 [tilit]
@@ -142,7 +129,7 @@ B 2011 {"Taseerittely":3} Omakatteinen rahasto
 H4 202 {} Muut sidotut rahastot     
 B 2021 {"Taseerittely":3} Muu sidottu rahasto
 H3 204 {} Vapaat rahastot
-B 2041 {"Taseerittely":3} Vapaa rahasto
+B 2045 {"Taseerittely":3} Vapaa rahastot
 H3 24 {} Tulos
 BE 2450 {} Edellisten tilikausien voitto/tappio
 T 2460 {} Tilikauden tulos
@@ -151,13 +138,13 @@ H3 250 {} Poistoero
 B 2501 {} Poistoero
 H3- 251 {} Verotusperusteiset varaukset
 B- 2510 {} Verotusperusteiset varaukset
-H2- 26 {} Pakolliset varaukset
-H3- 260 {} Eläkevaraukset
-B- 2600 {"Taseerittely":1} Eläkevaraukset
-H3- 261 {} Verovaraukset
-B- 2610 {"Taseerittely":1} Verovaraukset
-H3- 269 {} Muut pakolliset varaukset
-B- 2690 {"Taseerittely":1} Muut pakolliset varaukset
+H2 26 {} Pakolliset varaukset
+H3 260 {} Eläkevaraukset
+B 2600 {"Taseerittely":1} Eläkevaraukset
+H3 261 {} Verovaraukset
+B 2610 {"Taseerittely":1} Verovaraukset
+H3 269 {} Muut pakolliset varaukset
+B 2690 {"Taseerittely":1} Muut pakolliset varaukset
 H2 28 {"Asti":29} Vieras pääoma
 H3 28 {} Pitkäaikainen vieras pääoma
 H4- 281 {} Joukkovelkakirjalainat
@@ -195,8 +182,8 @@ H4 296 {} Ostovelat
 BS 2960 {"Taseerittely":2} Ostovelat
 H4- 2970 {"Asti":2974} Velat saman konsernin yrityksille
 BS- 2970 {"Taseerittely":2} Velat saman konsernin yrityksille; lyhytaikaiset
-H4- 2975 {"Asti":2979} Velat omistusyhteysyrityksille
-BS- 2975 {"Taseerittely":2} Velat omistusyhteysyrityksille; lyhytaikaiset
+H4 2975 {"Asti":2979} Velat omistusyhteysyrityksille
+BS 2975 {"Taseerittely":2} Velat omistusyhteysyrityksille; lyhytaikaiset
 H4 298 {} Muut velat
 BL 2984 {"Taseerittely":2} Alv-velka
 BV 2986 {"Kirjausohje":"Tälle tilille siirretään maksettavat arvonlisäverot siinä vaiheessa, kun tehdään arvonlisäveroilmoitus.","Taseerittely":2} Verovelka (Omavero-tili)
@@ -210,8 +197,7 @@ CL 3130 {} Myyntitulot; varainhankinta
 CL 3190 {} Muut varainhankintatulot
 H2 32 {} Varsinaisen toiminnan tulot
 CL 3210 {} Osallistumismaksut
-CL 3270 {} Saadut lahjoitukset
-CL 3280 {"Kirjausohje":"Tähän kirjataan tiettyä toiminnanalaa tai tapahtumaa varten annetut \"korvamerkityt\" avustukset. Koko yhdistyksen toimintaa varten saadut yleisavustukset kirjataan 8810 Yleisavustukset."} Saadut avustukset
+CL 3280 {} Saadut lahjoitukset
 CL 3290 {} Muut toiminnan tulot
 H2 41 {} Varainhankinnan kulut
 D 4110 {} Jäsenmaksukulut
@@ -278,7 +264,7 @@ D 6020 {} Arvonalentumat pysyvien vastaavien hyödykkeistä
 D 6030 {} Vaihtuvien vastaavien poikkeukselliset arvonalentumiset
 D 6034 {} Varaston arvonalennus
 H2 88 {} Yleisavustukset
-CL 8810 {"Kirjausohje":"Tähän kirjataan yhdistyksen toiminnalle annetut yleisavustukset. Avustukset yksittäiseen toiminta-alaan tai tapahtumaan kirjataan varsinaisen toiminnan tuloksi kyseiselle toiminnanalalle."} Saadut yleisavustukset 
+CL 8810 {} Saadut yleisavustukset 
 H2 90 {"Asti":91} Rahoitustuotot ja -kulut
 H3 90 {} Rahoitustuotot
 C 9040 {} Sijoitustuotot pysyvien vastaavien sijoituksista
@@ -295,13 +281,17 @@ D- 9501 {} Poistoeron muutos rakennukset
 D- 9502 {} Poistoeron muutos koneet
 D- 9503 {} Poistoeron muutos pitkävaikutteisista menoista
 D- 9509 {} Poistoeron muutos vähennyskelvottomista hyödykkeistä ja sijoituksista
-D- 9510 {} Verotusperusteisten varausten muutos
+D 9510 {} Verotusperusteisten varausten muutos
 C- 9585 {} Saadut konserniavustukset
 D- 9586 {} Annetut konserniavustukset
 D 9590 {} Muut tilinpäätössiirrot
+H2- 96 {} Välittömät verot
+D- 9600 {} Tilikauden tuloverot
+D- 9601 {} Aikaisempien tilikausien tuloverot
+D- 9610 {} Laskennalliset verot
+D- 9670 {} Muut välittömät verot
 [tositelajit]
-OL {"Kirjaustyyppi":1,"Oletustili":4500,"Vastatili":1910} Ostolaskut
-ML {"Kirjaustyyppi":2,"Oletustili":3130,"Vastatili":1910} Myyntilaskut
+ML {"Kirjaustyyppi":2,"Oletustili":0,"Vastatili":1910} Myyntilaskut
 TILI {"Kirjaustyyppi":3,"Vastatili":1910} Tiliotteet
 [TilinpaatosPohja]
 ## Raportit
@@ -314,7 +304,7 @@ TILI {"Kirjaustyyppi":3,"Vastatili":1910} Tiliotteet
 #
 @Tuloslaskelma!TULOSLASKELMA (TILINPÄÄTÖS)@
 #toiminnanalat Toiminnanalojen erittely
-@Toiminnanalat!TOIMINNANALAT (TILINPÄÄTÖS)@
+@Toiminnanalat!VARSINAINEN TOIMINTA TOIMINNANALOITTAIN (TILINPÄÄTÖS)@
 <h2>Tilinpäätöksen laatimisperusteet</h2>
 #MIKRO
 <p>Tilinpäätöksen laatimisessa on noudatettu pien- ja mikroyrityksen tilinpäätöksessä esitettävistä tiedoista
@@ -368,6 +358,9 @@ annetun asetuksen (PMA) pienyrityssäänöstöä.</p>
 #sidotut Sidotut rahastot
 <h2>Sidotut rahastot</h2>
 <p>Sidotut rahastot, pääoman katteena olevien varojen käyttö, rahaston tuotot, kulut, varat ja velat; rahaston pääoma ja sen muutokset.</p>
+#arvonkorotus Arvonkorotusrahastoa muutettu
+<h2>Arvonkorostusrahasto</h2>
+<p>Arvonkorotusrahaston muutokset tilikauden aikana, muutoksiin liittyvät verovaikutukset sekä kohteiden yhteenlaskettu kirjanpitoarvo ennen arvonkorotusta</p>
 #kaypa -MIKRO Käypään arvoon merkitseminen
 <h2>Käypään arvoon merkitseminen</h2>
 <ol>
@@ -424,9 +417,9 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 ##Kirjanpito
 #sahko Sähköinen kirjanpito ja arkistointi
 <h2>Kirjanpitoaineisto</h2>
-<p>Kirjanpito on järjestetty Kitupiikki-ohjelmistolla. Tilinpäätös, tase-erittelyt, tilikartta, pää- ja päiväkirjat sekä pdf-muodossa olevat tositteet on arkistoitu html-muotoiseksi sähköiseksi arkistoksi, jonka muuttumattomuus on varmistettu sha256-tiivisteellä <tt>
+<p>Kirjanpito on järjestetty Kitupiikki-ohjelmistolla. Tilinpäätös, tase-erittelyt, tilikartta, pää- ja päiväkirjat sekä pdf-muodossa olevat tositteet on arkistoitu html-muotoiseksi sähköiseksi arkistoksi, jonka muuttumattomuus on varmistettu sha256-tiivisteellä
 @sha@
-</tt></p>
+</p>
 #-sahko
 <h2>Kirjanpitoaineisto</h2>
 <p>Selvitys kirjanpitoaineistosta ja sen säilyttämisestä</p>
@@ -457,12 +450,6 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 
 
 
-[TilinpaatosValinnat]
-toiminnanalat
-maksuperuste
-sahko
-tilintarkastus
-MIKRO
 [LaskuTositelaji]
 3
 [LaskuSaatavatili]
@@ -471,50 +458,56 @@ MIKRO
 1900
 [LaskuMaksuaika]
 14
-[LaskuHuomautusaika]
-8 vrk
 [ArkistoRaportit]
+
 Tase
 Toiminnanalat
 Tuloslaskelma
-[Raportti/Tuloslaskelma]
-:tulos
+[Raportti/Tase PMA]
+:tase
 
-Varsinainen toiminta	bold
-Tuotot	32..36 S *
-Kulut
-Henkilöstökulut	5 s4 *
-Poistot	6 s4 *
-Muut kulut	42..46 s4 *
-Kulut yhteensä	5,6,42..46 == S4 
+VASTAAVAA		H bold
 
-Tuotto/Kulujäämä	=
+PYSYVÄT VASTAAVAT		10..146 
+Aineettomat hyödykkeet		10 s4 *
+Aineelliset hyödykkeet		11 s4 *		
+Sijoitukset		14 s4 *
+OMAKATTEISTEN RAHASTOJEN VARAT	148 s4 *
+VAIHTUVAT VASTAAVAT		15..19 
+Vaihto-omaisuus		15 s4 *		
+Pitkäaikaiset saamiset		16 s4 *
+Lyhytaikaiset saamiset		17 s4 *
+Rahoitusarvopaperit		18 s4 *
+Rahat ja pankkisaamiset		19 s8 *
 
-Varainhankinta	bold
-Tuotot	31 S4 *
-Kulut	41 S4 *
-Varainhankinta yhteensä	31,41 == S4 
+Vastaavaa yhteensä		1 bold
 
-Tuotto/Kulujäämä	= 
 
-Sijoitus- ja rahoitustoiminta	bold
-Tuotot	90 S4 *
-Kulut	91 S4 *
-Sijoitus- ja rahoitustoiminta yhteensä	90,91 == S4 
+VASTATTAVAA		H bold
 
-Tuotto/Kulujäämä	=
+VASTATTAVAA		H bold
+OMA PÄÄOMA		20 
+Osake-, osuus- tai muu vastaava pääoma	200 s4 *
+Sidotut rahastot		201,202 s4
+Omakatteiset rahastot		201 s8 *
+Muut sidotut rahastot		202 s8 *
+Ylikurssirahasto		2032 s4 *
+Arvonkorotusrahasto		2033 s4 *
+Muut rahastot		204 s4
+Äänettömät yhtiömiehet		210 s4 *
+Vastuunalaiset yhtiömiehet		211 s4 *
+Yksityistilit tilikaudella		22 s4 *
+Edellisten tilikausien voitto/tappio	2450 s4 *
+Tilikauden voitto/tappio		2460 s4 *
+TILINPÄÄTÖSSIIRTOJEN KERTYMÄ	25 
+PAKOLLISET VARAUKSET		26	
+VIERAS PÄÄOMA		26..28
+Pitkäaikainen vieras pääoma		28 s4
+Lyhytaikainen vieras pääoma		29 s4
 
-Yleisavustukset	88  * bold
 
-Tilikauden tulos	=
+Vastattavaa yhteensä		2 bold
 
-Tilinpäätössiirrot	bold
-Poistoeron muutos	950 * s4
-Verotusperusteisten varausten muutos	951 * s4
-Konserniavustus	958 * s4
-Tilinpäätössiirrot yhteensä	s4 95 == 
-
-Tilikauden ylijäämä (alijäämä)	= bold
 [Raportti/Tase]
 :tase
 VASTAAVAA		H bold
@@ -631,48 +624,41 @@ Muut kulut	42..46 * s4
 Toiminnanala yhteensä	= viiva
 
 
-[Raportti/Tase PMA]
-:tase
+[Raportti/Tuloslaskelma]
+:tulos
 
-VASTAAVAA		H bold
+Varsinainen toiminta	bold
+Tuotot	32..36 S *
+Kulut
+Henkilöstökulut	5 s4 *
+Poistot	6 s4 *
+Muut kulut	42..46 s4 *
+Kulut yhteensä	5,6,42..46 == S4 
 
-PYSYVÄT VASTAAVAT		10..146 
-Aineettomat hyödykkeet		10 s4 *
-Aineelliset hyödykkeet		11 s4 *		
-Sijoitukset		14 s4 *
-OMAKATTEISTEN RAHASTOJEN VARAT	148 s4 *
-VAIHTUVAT VASTAAVAT		15..19 
-Vaihto-omaisuus		15 s4 *		
-Pitkäaikaiset saamiset		16 s4 *
-Lyhytaikaiset saamiset		17 s4 *
-Rahoitusarvopaperit		18 s4 *
-Rahat ja pankkisaamiset		19 s8 *
+Tuotto/Kulujäämä	=
 
-Vastaavaa yhteensä		1 bold
+Varainhankinta	bold
+Tuotot	31 S4 *
+Kulut	41 S4 *
+Varainhankinta yhteensä	31,41 == S4 
 
+Tuotto/Kulujäämä	= 
 
-VASTATTAVAA		H bold
+Sijoitus- ja rahoitustoiminta	bold
+Tuotot	90 S4 *
+Kulut	91 S4 *
+Sijoitus- ja rahoitustoiminta yhteensä	90,91 == S4 
 
-VASTATTAVAA		H bold
-OMA PÄÄOMA		20 
-Osake-, osuus- tai muu vastaava pääoma	200 s4 *
-Sidotut rahastot		201,202 s4
-Omakatteiset rahastot		201 s8 *
-Muut sidotut rahastot		202 s8 *
-Ylikurssirahasto		2032 s4 *
-Arvonkorotusrahasto		2033 s4 *
-Muut rahastot		204 s4
-Äänettömät yhtiömiehet		210 s4 *
-Vastuunalaiset yhtiömiehet		211 s4 *
-Yksityistilit tilikaudella		22 s4 *
-Edellisten tilikausien voitto/tappio	2450 s4 *
-Tilikauden voitto/tappio		2460 s4 *
-TILINPÄÄTÖSSIIRTOJEN KERTYMÄ	25 
-PAKOLLISET VARAUKSET		26	
-VIERAS PÄÄOMA		26..28
-Pitkäaikainen vieras pääoma		28 s4
-Lyhytaikainen vieras pääoma		29 s4
+Tuotto/Kulujäämä	=
 
+Yleisavustukset	86  * bold
 
-Vastattavaa yhteensä		2 bold
+Tilikauden tulos	=
 
+Tilinpäätössiirrot	bold
+Poistoeron muutos	950 * s4
+Verotusperusteisten varausten muutos	951 * s4
+Konserniavustus	958 * s4
+Tilinpäätössiirrot yhteensä	s4 95 == 
+
+Tilikauden ylijäämä (alijäämä)	= bold

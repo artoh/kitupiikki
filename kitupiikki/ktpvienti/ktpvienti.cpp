@@ -131,20 +131,17 @@ void KtpVienti::accept()
     }
 
     // Tositelajit
-    // Viedään tositelajista kaksi eteenpäin: Ei järjestelmää (*) eikä Muu tosite -oletustositetta
+    // Viedään tositelajista kaksi eteenpäin: Ei järjestelmää eikä Muu tosite -oletustositetta
     out << "[tositelajit]\n";
-    for( int i=0; i < kp()->tositelajit()->rowCount(QModelIndex()); i++)
+    for( int i=2; i < kp()->tositelajit()->rowCount(QModelIndex()); i++)
     {
         QModelIndex indeksi = kp()->tositelajit()->index(i, 0);
 
         // OL {json} Ostolaskut
-        QString tunnus = indeksi.data(TositelajiModel::TunnusRooli).toString();
-
-        if( tunnus != "" && tunnus != "*")
-            out << QString("%1 %2 %3\n")
-                   .arg( tunnus )
-                   .arg( QString(indeksi.data(TositelajiModel::JsonRooli).toByteArray()))
-                   .arg( indeksi.data(TositelajiModel::NimiRooli).toString() );
+        out << QString("%1 %2 %3\n")
+               .arg( indeksi.data(TositelajiModel::TunnusRooli).toString() )
+               .arg( QString(indeksi.data(TositelajiModel::JsonRooli).toByteArray()))
+               .arg( indeksi.data(TositelajiModel::NimiRooli).toString() );
 
     }
 
