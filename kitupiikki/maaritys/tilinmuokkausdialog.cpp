@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2017 Arto Hyvättinen
+   Copyright (C) 2017,2018 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -63,7 +63,6 @@ TilinMuokkausDialog::TilinMuokkausDialog(TiliModel *model, QModelIndex index) :
     ui->poistotiliEdit->suodataTyypilla("DP");
 
     connect( ui->veroCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(veroEnablePaivita()));
-//    connect( ui->numeroEdit, SIGNAL(textChanged(QString)), this, SLOT(otsikkoTasoPaivita()));
 
     connect( ui->nimiEdit, SIGNAL(textEdited(QString)), this, SLOT(tarkasta()));
     connect( ui->numeroEdit, SIGNAL(textChanged(QString)), this, SLOT(nroMuuttaaTyyppia(QString)));
@@ -148,26 +147,6 @@ void TilinMuokkausDialog::veroEnablePaivita()
 
 }
 
-void TilinMuokkausDialog::otsikkoTasoPaivita()
-{
-    if( ui->numeroEdit->text().toInt())
-    {
-        // Mahdollinen otsikkotaso on vain yksi enemmän kuin edellinen otsikkotaso
-        int isoinluku = 1;
-        int ysilukuna = Tili::ysiluku( ui->numeroEdit->text().toInt());
-
-        for( int i = 0; i < model_->rowCount(QModelIndex()); i++)
-        {
-            Tili tili = model_->tiliIndeksilla(i);
-            if( tili.ysivertailuluku() >= ysilukuna)
-                // Tämän tilin paikka löydetty, eli tässä ollaan!
-                break;
-            if( tili.otsikkotaso() )
-                isoinluku = tili.otsikkotaso() + 1;
-        }
-        ui->tasoSpin->setMaximum( isoinluku );
-    }
-}
 
 void TilinMuokkausDialog::naytettavienPaivitys()
 {
