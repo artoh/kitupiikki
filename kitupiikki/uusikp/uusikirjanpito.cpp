@@ -90,7 +90,7 @@ QMap<QString, QStringList> UusiKirjanpito::lueKtkTiedosto(const QString &polku)
 {
     // ktk-tiedosto koostuu osista, jotka merkitään [otsikko] ja
     // niiden väleissä olevista tiedoista. Rivi voidaan
-    // kommentoida #-merkillä
+    // kommentoida //-merkillä
 
 
     QMap<QString, QStringList> tiedot;
@@ -115,7 +115,7 @@ QMap<QString, QStringList> UusiKirjanpito::lueKtkTiedosto(const QString &polku)
                 nykyavain = rivi.mid(1, rivi.length() - 2);
                 nykytieto.clear();
             }
-            else if( !rivi.startsWith('#') && !nykyavain.isEmpty())
+            else if( !rivi.startsWith("//") && !nykyavain.isEmpty())
                 nykytieto.append(rivi);
         }
         // Tiedoston lopussa päätetään viimeinen tieto

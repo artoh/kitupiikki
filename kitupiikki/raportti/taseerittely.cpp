@@ -329,7 +329,7 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                     RaporttiRivi loppuRivi;
                     loppuRivi.lisaa(" ", 2);
                     loppuRivi.lisaa( tr("Loppusaldo %2").arg(mihin.toString(Qt::SystemLocaleShortDate)));
-                    loppuRivi.lisaa(saldo);
+                    loppuRivi.lisaa(saldo,true);
                     loppuRivi.viivaYlle();
                     rk.lisaaRivi(loppuRivi);
                 }
