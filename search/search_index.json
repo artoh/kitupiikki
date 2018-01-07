@@ -112,22 +112,22 @@
         },
         {
             "location": "/asennus/",
-            "text": "Kitupiikin asentaminen\n\n\n\n\nEi takuuta\n\n\nSaat ohjelmiston k\u00e4ytt\u00f6\u00f6si t\u00e4ysin ilman maksua.\nKitupikki-ohjelmaan ei sis\u00e4lly mink\u00e4\u00e4nlaista takuuta ohjelma toimivuudesta tai soveltuvuudesta. Ohjelma on testattu huolellisesti, mutta siin\u00e4 voi silti olla virheit\u00e4 ja ohjelman k\u00e4ytt\u00e4j\u00e4 ottaa vastuun ohjelman mahdollisesti aiheuttamista vahigoista.\n\n\n\n\n\n\nEi viel\u00e4 valmis\n\n\nOhjelman esiversio ilman arvonlis\u00e4toimintoja valmistuu ehk\u00e4 jo vuoden 2017 aikana - ja t\u00e4ysi versio kaikilla suunnitelluilla mausteilla sitten v\u00e4h\u00e4n my\u00f6hemmin\n\n\n\n\nWindows\n\n\nLinux\n\n\nKehitysversio\n\n\nOhjelman viimeisimm\u00e4n kehitysversion saat GitHubista \nhttps://github.com/artoh/kitupiikki\n. Kehitysversio pit\u00e4\u00e4 tietenkin k\u00e4\u00e4nt\u00e4\u00e4 itse, joten tarvitset \nQt-kirjastoa\n.\n\n\nVersiohistoria",
+            "text": "Kitupiikin asentaminen\n\n\n\n\nEi takuuta\n\n\nSaat ohjelmiston k\u00e4ytt\u00f6\u00f6si t\u00e4ysin ilman maksua.\nKitupikki-ohjelmaan ei sis\u00e4lly mink\u00e4\u00e4nlaista takuuta ohjelman toimivuudesta tai soveltuvuudesta. Ohjelma on testattu huolellisesti, mutta siin\u00e4 voi silti olla virheit\u00e4 ja ohjelman k\u00e4ytt\u00e4j\u00e4 ottaa vastuun ohjelman mahdollisesti aiheuttamista vahigoista.\n\n\n\n\nWindows\n\n\n\n\n \nKitupiikki-0.10.exe\n\n\n\n\nLinux\n\n\n\n\n \nKitupiikki-x86_64-0.10.AppImage\n\n\n\n\nKehitysversio\n\n\nOhjelman viimeisimm\u00e4n kehitysversion saat GitHubista \nhttps://github.com/artoh/kitupiikki\n. Kehitysversio pit\u00e4\u00e4 tietenkin k\u00e4\u00e4nt\u00e4\u00e4 itse, joten tarvitset \nQt-kirjastoa\n.\n\n\nVersiohistoria",
             "title": "Asennus"
         },
         {
             "location": "/asennus/#kitupiikin-asentaminen",
-            "text": "Ei takuuta  Saat ohjelmiston k\u00e4ytt\u00f6\u00f6si t\u00e4ysin ilman maksua.\nKitupikki-ohjelmaan ei sis\u00e4lly mink\u00e4\u00e4nlaista takuuta ohjelma toimivuudesta tai soveltuvuudesta. Ohjelma on testattu huolellisesti, mutta siin\u00e4 voi silti olla virheit\u00e4 ja ohjelman k\u00e4ytt\u00e4j\u00e4 ottaa vastuun ohjelman mahdollisesti aiheuttamista vahigoista.    Ei viel\u00e4 valmis  Ohjelman esiversio ilman arvonlis\u00e4toimintoja valmistuu ehk\u00e4 jo vuoden 2017 aikana - ja t\u00e4ysi versio kaikilla suunnitelluilla mausteilla sitten v\u00e4h\u00e4n my\u00f6hemmin",
+            "text": "Ei takuuta  Saat ohjelmiston k\u00e4ytt\u00f6\u00f6si t\u00e4ysin ilman maksua.\nKitupikki-ohjelmaan ei sis\u00e4lly mink\u00e4\u00e4nlaista takuuta ohjelman toimivuudesta tai soveltuvuudesta. Ohjelma on testattu huolellisesti, mutta siin\u00e4 voi silti olla virheit\u00e4 ja ohjelman k\u00e4ytt\u00e4j\u00e4 ottaa vastuun ohjelman mahdollisesti aiheuttamista vahigoista.",
             "title": "Kitupiikin asentaminen"
         },
         {
             "location": "/asennus/#windows",
-            "text": "",
+            "text": "Kitupiikki-0.10.exe",
             "title": "Windows"
         },
         {
             "location": "/asennus/#linux",
-            "text": "",
+            "text": "Kitupiikki-x86_64-0.10.AppImage",
             "title": "Linux"
         },
         {
