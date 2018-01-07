@@ -24,6 +24,9 @@ Tositteet voi tallettaa pdf- tai jpg-muodossa. Kirjanpidosta ja sähköisistä t
 ### Laskutus
 Kitupiikillä voit laatia laskuja ja lähettää laskuja suoraan sähköpostilla. Laskujen tiedot siirtyvät suoraan kirjanpitoon.
 
+### Tilinpäätöksen muodostaminen
+Kitupiikillä voit laatia koko tilinpäätöksen. Ohjelmassa on valmiit pohjat pien- ja mikroyritysasetuksen (PMA) mukaisille liitetiedoille.
+
 ### Kustannusten kohdennus
 Tulot ja menot voi kohdentaa kustannuspaikkaan tai projektiin.
 
