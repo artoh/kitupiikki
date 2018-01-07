@@ -56,6 +56,7 @@ void TositelajiDialogi::lataa()
     ui->tunnusEdit->setText( indeksi_.data( TositelajiModel::TunnusRooli).toString());
     ui->nimiEdit->setText( indeksi_.data(TositelajiModel::NimiRooli).toString());
     ui->vastatiliEdit->valitseTiliNumerolla( indeksi_.data(TositelajiModel::VastatiliNroRooli).toInt() );
+    ui->oletusTiliEdit->valitseTiliNumerolla( indeksi_.data(TositelajiModel::OletustiliRooli).toInt());
 
     int kirjaustyyppi = indeksi_.data( TositelajiModel::KirjausTyyppiRooli).toInt();
     ui->kaikkiRadio->setChecked( kirjaustyyppi == TositelajiModel::KAIKKIKIRJAUKSET);

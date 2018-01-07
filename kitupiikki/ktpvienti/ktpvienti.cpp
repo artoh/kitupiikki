@@ -140,7 +140,7 @@ void KtpVienti::accept()
         // OL {json} Ostolaskut
         QString tunnus = indeksi.data(TositelajiModel::TunnusRooli).toString();
 
-        if( tunnus != "" && tunnus != "*")
+        if( !tunnus.isEmpty() && tunnus != "*")
             out << QString("%1 %2 %3\n")
                    .arg( tunnus )
                    .arg( QString(indeksi.data(TositelajiModel::JsonRooli).toByteArray()))

@@ -95,6 +95,7 @@ bool Poistaja::sumupoistaja(Tilikausi kausi)
 
         if( tili.onko(TiliLaji::MENOJAANNOSPOISTO))
         {
+            //  Menojäännöspoistossa poistetaan määrätty prosenttimäärä siihen asti olevasta saldosta
 
             int poistoprosentti = tili.json()->luku("Menojaannospoisto");
             int poisto = std::round( saldo * poistoprosentti / 100.0 );
@@ -137,6 +138,7 @@ bool Poistaja::sumupoistaja(Tilikausi kausi)
         }
         else if( tili.onko( TiliLaji::TASAERAPOISTO))
         {
+            // Tasaeräpoistossa poistetaan tietty kuukausierä
             // Nyt sitten haetaan tilin tase-erät ;)
 
             RaporttiRivi tiliRivi;
