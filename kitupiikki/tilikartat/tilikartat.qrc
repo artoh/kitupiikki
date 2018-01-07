@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/tilikartat">
-        <file>yhdistys.kpk</file>        
+        <file>yhdistys.kpk</file>
+        <file>osakeyhtio.kpk</file>
     </qresource>
 </RCC>
