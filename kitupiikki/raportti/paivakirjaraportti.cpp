@@ -119,10 +119,10 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
     kysely.exec(kysymys);
 
     int edellinenTositelajiId = -1;
-    int debetYht = 0;
-    int kreditYht = 0;
-    int debetKaikki = 0;
-    int kreditKaikki = 0;
+    qlonglong debetYht = 0;
+    qlonglong kreditYht = 0;
+    qlonglong debetKaikki = 0;
+    qlonglong kreditKaikki = 0;
 
     while( kysely.next())
     {
@@ -163,8 +163,8 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
                 rivi.lisaa("");
         }
 
-        int debetSnt = kysely.value("debetsnt").toInt();
-        int kreditSnt = kysely.value("kreditsnt").toInt();
+        qlonglong debetSnt = kysely.value("debetsnt").toLongLong();
+        qlonglong kreditSnt = kysely.value("kreditsnt").toLongLong();
 
         rivi.lisaa( kysely.value("selite").toString());
         rivi.lisaa(  debetSnt );

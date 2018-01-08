@@ -38,7 +38,7 @@ public:
                                                  bool tulostasummat=false);
 
 protected:
-    static void kirjoitaSummaRivi(RaportinKirjoittaja &rk, int debet, int kredit, int sarakeleveys);
+    static void kirjoitaSummaRivi(RaportinKirjoittaja &rk, qlonglong debet, qlonglong kredit, int sarakeleveys);
 
 
     Ui::Paivakirja *ui;

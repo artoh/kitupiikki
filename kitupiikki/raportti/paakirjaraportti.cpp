@@ -88,7 +88,7 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
     rk.lisaaOtsake(otsikko);
 
     // Haetaan ensin alkusaldot
-    QMap<int,int> alkusaldot;   // tilino, sentit
+    QMap<int,qlonglong> alkusaldot;   // tilino, sentit
 
     Tilikausi tilikausi = kp()->tilikaudet()->tilikausiPaivalle( mista );
 
@@ -108,8 +108,8 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
         {
             int tilinro = kysely.value(0).toInt();
             QString tyyppi = kysely.value(1).toString();
-            int debet = kysely.value(2).toInt();
-            int kredit = kysely.value(3).toInt();
+            qlonglong debet = kysely.value(2).toLongLong();
+            qlonglong kredit = kysely.value(3).toLongLong();
 
             if( tyyppi.startsWith('A') )
                 alkusaldot.insert(tilinro, debet - kredit);
@@ -124,7 +124,7 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
         kysely.exec( kysymys );
         if( kysely.next())
         {
-            int edYlijaama = kysely.value(1).toInt() - kysely.value(0).toInt();
+            qlonglong edYlijaama = kysely.value(1).toLongLong() - kysely.value(0).toLongLong();
             int kertymaTiliNro = kp()->tilit()->edellistenYlijaamaTili().numero();
             alkusaldot[kertymaTiliNro] = alkusaldot.value(kertymaTiliNro, 0) + edYlijaama;
         }
@@ -157,8 +157,8 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
         while( kysely.next())
         {
             int tilinro = kysely.value(0).toInt();
-            int debet = kysely.value(1).toInt();
-            int kredit = kysely.value(2).toInt();
+            qlonglong debet = kysely.value(1).toLongLong();
+            qlonglong kredit = kysely.value(2).toLongLong();
             alkusaldot.insert(tilinro, kredit - debet);
         }
     }
@@ -180,9 +180,9 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
     }
 
     // Sitten päästäänkin tulostamaan pääkirjaa
-    QMapIterator<int,int> iter( alkusaldot );
-    int debetYht = 0;
-    int kreditYht = 0;
+    QMapIterator<int,qlonglong> iter( alkusaldot );
+    qlonglong debetYht = 0;
+    qlonglong kreditYht = 0;
 
     if( kohdennuksella > -1)
         kohdennusehto = QString(" AND kohdennusId=%1 ").arg(kohdennuksella);
@@ -198,7 +198,7 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
         tiliotsikko.lihavoi();
         rk.lisaaRivi( tiliotsikko);
 
-        int saldo = iter.value();
+        qlonglong saldo = iter.value();
 
         QString kysymys = QString("SELECT pvm, tositelaji, tunniste, kohdennusId, tositeId, "
                                   "kohdennus, selite, debetsnt, kreditsnt FROM vientivw "
@@ -209,8 +209,8 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
 
         while(kysely.next())
         {
-            int debet = kysely.value("debetsnt").toInt();
-            int kredit = kysely.value("kreditsnt").toInt();
+            qlonglong debet = kysely.value("debetsnt").toLongLong();
+            qlonglong kredit = kysely.value("kreditsnt").toLongLong();
 
             debetYht += debet;
             kreditYht += kredit;

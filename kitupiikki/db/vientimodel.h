@@ -39,8 +39,8 @@ struct VientiRivi
     QDate pvm;
     Tili tili;
     QString selite;
-    int debetSnt = 0;
-    int kreditSnt = 0;
+    qlonglong debetSnt = 0;
+    qlonglong kreditSnt = 0;
     int alvkoodi = 0;
     int alvprosentti = 0;
     Kohdennus kohdennus;
@@ -127,8 +127,8 @@ public:
     QModelIndex lisaaVienti(VientiRivi rivi);
 
 
-    int debetSumma() const;
-    int kreditSumma() const;
+    qlonglong debetSumma() const;
+    qlonglong kreditSumma() const;
 
     /**
      * @brief Onko vientejä muokattu tallennuksen jälkeen

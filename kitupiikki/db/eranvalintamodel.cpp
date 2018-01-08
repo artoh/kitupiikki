@@ -76,7 +76,7 @@ void EranValintaModel::lataa(Tili tili, bool kaikki, QDate paivalle)
     QSqlQuery query( *(kp()->tietokanta()) ) ;
 
     // avaimena eraid, arvona saldo (debet - kredit)
-    QHash<int, int > saldot;
+    QHash<int, quint64 > saldot;
 
     QString pvmehto;
     if( paivalle.isValid())
@@ -97,7 +97,7 @@ void EranValintaModel::lataa(Tili tili, bool kaikki, QDate paivalle)
     while( query.next())
     {
         int id = query.value("id").toInt();
-        int saldo = saldot.value(id, 0) + query.value("debetsnt").toInt() - query.value("kreditsnt").toInt();
+        quint64 saldo = saldot.value(id, 0) + query.value("debetsnt").toLongLong() - query.value("kreditsnt").toLongLong();
         if( saldo || kaikki )
         {
             // Tämä tase-erä ei ole mennyt tasan, joten se on valittavissa
@@ -124,15 +124,15 @@ TaseEra::TaseEra(int id)
         query.exec(QString("SELECT sum(debetsnt)-sum(kreditsnt) as saldo from vienti "
                            "where eraid=%1").arg(id ));
         if( query.next() )
-            saldoSnt = query.value("saldo").toInt();
+            saldoSnt = query.value("saldo").toLongLong();
 
         query.exec(QString("SELECT pvm, selite, debetsnt, kreditsnt from vienti "
                    "where id=%1").arg( id ));
         if( query.next())
         {
             pvm = query.value("pvm").toDate();
-            selite = query.value("selite").toInt();
-            saldoSnt += query.value("debetsnt").toInt() - query.value("kreditsnt").toInt();
+            selite = query.value("selite").toLongLong();
+            saldoSnt += query.value("debetsnt").toLongLong() - query.value("kreditsnt").toLongLong();
         }
 
     }

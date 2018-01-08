@@ -37,8 +37,8 @@ struct SelausRivi
     Kohdennus kohdennus;
 
     QString selite;
-    int debetSnt;
-    int kreditSnt;
+    qlonglong debetSnt;
+    qlonglong kreditSnt;
     TaseEra taseEra;
     QString tositetunniste;
 };

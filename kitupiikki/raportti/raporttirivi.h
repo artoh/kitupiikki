@@ -82,7 +82,7 @@ public:
      * @param sentit Rahamäärä sentteinä
      * @param tulostanollat Tulostetaanko nollat (oletuksena ei)
      */
-    void lisaa(int sentit,bool tulostanollat = false);
+    void lisaa(qlonglong sentit,bool tulostanollat = false);
 
     /**
      * @brief Lisää päivämäärän

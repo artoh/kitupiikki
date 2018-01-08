@@ -42,7 +42,7 @@ void RaporttiRivi::lisaaLinkilla(RaporttiRiviSarake::Linkki linkkityyppi, int li
     sarakkeet_.append(uusi);
 }
 
-void RaporttiRivi::lisaa(int sentit, bool tulostanollat)
+void RaporttiRivi::lisaa(qlonglong sentit, bool tulostanollat)
 {
     if( !sentit && !tulostanollat)
         // Ei tulosta nollalukuja
