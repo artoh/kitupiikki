@@ -84,9 +84,12 @@ void TilinpaatosEditori::uusiTp()
 {
     QStringList pohja = kp()->asetukset()->lista("TilinpaatosPohja");
     QStringList valinnat = kp()->asetukset()->lista("TilinpaatosValinnat");
-    QRegularExpression tunnisteRe("#(?<tunniste>-?\\w+).*");
+    QRegularExpression tunnisteRe("#(?<tunniste>-?\\w+)(?<pois>(\\s-\\w+)*).*");
     tunnisteRe.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);
     QRegularExpression raporttiRe("@(?<raportti>.+)[\\*!](?<otsikko>.+)@");
+    
+    QRegularExpression poisRe("-(?<pois>\\w+)");
+    poisRe.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);    
 
     QString teksti;
     raportit_.clear();
@@ -100,13 +103,33 @@ void TilinpaatosEditori::uusiTp()
             QRegularExpressionMatch tmats = tunnisteRe.match(rivi);
             if( tmats.hasMatch())
             {
+                // Tulostetaan, jos haluttu tunniste valittu ei ei-ehdolla ei valittu ;)
                 QString tunniste = tmats.captured(1);
                 if( tunniste.startsWith('-'))
                     tulosta = !valinnat.contains( tunniste.mid(1));
                 else
                     tulosta = valinnat.contains(tunniste);
+
+                // Kuitenkin jos rivillä myös -eiehto, niin ei kuitenkaan tulosteta
+                QString pois = tmats.captured("pois");
+                if( !pois.isEmpty())
+                {
+                    QStringList poisTunnukset;
+                    QRegularExpressionMatchIterator iter = poisRe.globalMatch(pois);
+                    while( iter.hasNext())
+                    {
+                        QString poistunnus = iter.next().captured(1);
+                        if( valinnat.contains(poistunnus))
+                        {
+                            tulosta = false;
+                            break;
+                        }
+                    }
+                }
+                
             }
             else
+                // Pelkkä # tai kelvoton ehto niin tulostetaan joka tapauksessa
                 tulosta = true;
         }
         else if( rivi.startsWith('@') && tulosta)
