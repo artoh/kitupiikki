@@ -1,17 +1,20 @@
 [TilikarttaNimi]
-Osakeyhtiö
+Yksityinen elinkeinonharjoittaja
 [TilikarttaTekija]
 artoh.github.io
 [TilikarttaPvm]
 2018-01-08
 [TilikarttaKuvaus]
-<p>Osakeyhtiö kululajikohtaisella tilinpäätöksessä. Sisältää myös PMA-asetuksen mukaisen lyhyen taseen ja bruttotulos-tilinpäätöksen sekä liitetietojen pohjan</p>
+<b>Liikeen- tai ammatinharjoittaja</b>
+<p>Yksityinen ns. toiminimiyrittäjä, joka vastaa kaikesta yritystoiminnasta.</p>
 [TilikarttaOhje]
-<h1>Osakeyhtiö</h1>
-<h2>Tilikartta</h2>
-<p>Suuri osa konserniin liittyvistä tileistä on piilotettu, ja ne saa näkyviin <b>Määritykset > Tilikartta</b> -valinnoista.</p>
-<h2>Tilinpäätös</h2>
-<p>Tilikartta sisältää neljä vaihtoehtoista kululajikohtaista tilinpäätösrunkoa. Tilinpäätöksen yhteydessä voi valita tilinpäätökseen liitettävän vaihtoehdon.</p>
+<h1>Yksityinen elinkeinonharjoittaja</h1>
+<p>Yksityisellä elinkeinonharjoittajalla on velvollisuus laatia tilinpäätös vain, mikäli sekä päättyneellä että edellisellä tilikaudella ylittyy kaksi seuraavista ehdoista:
+<ol><li>Taseen loppusumma ylittää 100 000 euroa</li>
+<li>Liikevaihto ylittää 200 000 euroa</li>
+<li>Palveluksessa on keskimäärin yli kolme henkilöä</li>
+<h2>Yksityisotot ja -panot</h2>
+<p>Yrittäjä voi ottaa nostaa varoja yritykseltä kirjaamalla <b>yksityisnoston</p> ja vastaavasti sijoittaa omaisuuttaan elinkeinokäyttöön tekemällä <b>yksityispanon</b></p>
 [TilikarttaLuontiVersio]
 0.2.1-alpha
 [KpVersio]
@@ -117,17 +120,13 @@ AR 1900 {} Käteisvarat
 AR 1910 {} Pankkitili
 H1 2 {} VASTATTAVAA
 H2 20 {"Asti":24} Oma pääoma
-B 2000 {"Taseerittely":1} Osakepääoma
-B 2032 {"Taseerittely":1} Ylikurssirahasto
-B 2033 {"Taseerittely":1} Arvonkorotusrahasto
-H3 204 {} Muut rahastot
-B 2041 {"Taseerittely":1} Sijoitetun vapaan oman pääoman rahasto
-B 2042 {"Taseerittely":1} Vararahasto
-B 2043 {"Taseerittely":1} Yhtiöjärjestyksen tai sääntöjen mukaiset rahastot
-B 2044 {"Taseerittely":1} Käyvän arvon rahasto
-B 2045 {"Taseerittely":1} Muut rahastot
+BE 2050 {} Pääoma aiemmilta kausilta
+H4 22 {} Yksityistili
+B 2210 {"Taseerittely":1} Yksityissijoitukset rahana
+B 2220 {"Taseerittely":1} Muut yksityissijoitukset
+B 2250 {"Taseerittely":1} Yksityisnostot rahana
+B 2260 {"Taseerittely":1} Muut yksityisnostot
 H3 24 {} Tulos
-BE 2450 {} Edellisten tilikausien voitto/tappio
 T 2460 {} Tilikauden tulos
 H2 25 {} Tilinpäätössiirtojen kertymä
 H3 250 {} Poistoero
@@ -354,47 +353,19 @@ OL {"Kirjaustyyppi":1,"Oletustili":4000,"Vastatili":1910} Ostolaskut
 [AlvVelvollinen]
 ON
 [TilinpaatosPohja]
-#MIKRO
 @Tase PMA!TASE (TILINPÄÄTÖS)@
-#PIEN
-@Tase PMA!TASE (TILINPÄÄTÖS)@
-#ISO
-@Tase!TASE (TILINPÄÄTÖS)@
 ##Tuloslaskelma
-#brutto -I -mikrolv -mikrobrutto Bruttotuloslaskelma (PMA-asetuksen mukainen)
+#brutto -I -mikrolv -mikrobrutto Bruttotuloslaskelma 
 @Tuloslaskelma PMA bruttotulos!TULOSLASKELMA (TILINPÄÄTÖS)@
-#mikrolv -I -P -brutto -mikrobrutto Mikroyrityksen lyhyt tuloslaskelma (PMA-asetuksen mukainen)
+#mikrolv -brutto -mikrobrutto Mikroyrityksen Lyhyt tuloslaskelma 
 @Tuloslaskelma mikroyritys!TULOSLASKELMA (TILINPÄÄTÖS)@
-#mikrobrutto -I -P -brutto -mikrolv Mikroyrityksen lyhyt bruttotuloslaskelma (PMA-asetuksen mukainen)
+#mikrobrutto -brutto -mikrolv Lyhyt bruttotuloslaskelma
 @Tuloslaskelma mikro bruttotulos!TULOSLASKELMA (TILINPÄÄTÖS)@
 #-brutto -mikrobrutto -mikrolv
 @Tuloslaskelma!TULOSLASKELMA (TILINPÄÄTÖS)@
-#ISO
-<b>Yrityksestä on annettava täydet liitetiedot ja laadittava toimintakertomus</b>
-<p>Liitetiedot sisältävät ainakin
-<ol><li>tilinpäätöksen esittämistapaa koskevat tiedot</li>
-<li>tilinpäätöksen laatimisperusteet</li>
-<li>tuloslaskelmaa koskevat liitetiedot</li>
-<li>tasetta koskevat liitetiedot</li>
-<li>liitetiedot käypään arvoon merkitsemisestä</li>
-<li>tuloveroja koskevat tiedot</li>
-<li>vakuudet, vastuusitoumukset ja taseen ulkopuoliset järjestelyt</li>
-<li>tiedot tilintarkaastajien palkkioista</li>
-<li>lähipiiriliiketoimet</li>
-<li>tiedot henkilöstöstä ja toimielinten jäsenistä</li>
-<li>omistukset muissa yrityksissä</li>
-<li>konserniin kuuluvaa kirjanpitovelvollista koskevat tiedot</li></ol>
-<p>Lisäksi liitetietona on annettava tiedot sidotuista rahastoista</p>
-#
-<h2>Tilinpäätöksen laatimisperusteet</h2>
-#MIKRO
-<p>Tilinpäätöksen laatimisessa on noudatettu pien- ja mikroyrityksen tilinpäätöksessä esitettävistä tiedoista
-annetun asetuksen (PMA) mikroyrityssäänöstöä.</p>
-#PIEN
-<p>Tilinpäätöksen laatimisessa on noudatettu pien- ja mikroyrityksen tilinpäätöksessä esitettävistä tiedoista
-annetun asetuksen (PMA) pienyrityssäänöstöä.</p>
 ##Liitetiedot
 #laatimisperuste Tilinpäätöksessä käytetään valinnaisia laatimisperusteita
+<h2>Tilinpäätöksen laatimisperusteet</h2>
 <p>Vaihto-omaisuus (käyttöjärjestys poikkeaa hankkimisjärjestyksestä)</p>
 <p>Taseeseen aktivoidut aineettomat oikeudet (hankintamenoa ei poisteta 10 vuodessa)</p>
 <p>Kehitysmeno, liikearvo tai muu pitkävaikutteinen meno (ei kirjattu kuluksi tai poisteta 10 vuodessa)</p>
@@ -475,13 +446,6 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 #muut -M Olennaiset ja riitävän kuvan kannalta tarpeellinen toimintakertomustieto
 <h2>Muut tiedot</h2>
 <p>Tiedot, jotka ovat tarpeen oikean ja riittävän kuvan antamiseksi. Mikrokoon yrityksillä ei ole velvollisuutta näiden tietojen antamiseen </p>
-##Osakeyhtiön pääoma ja vapaan oman pääoman käyttö
-#oypaaoma
-<h2>Oman pääoman muutokset</h2>
-<p> ... </p>
-#oykaytto Hallituksen ehdotus vapaan oman pääoman käytöstä
-<h2>Hallituksen ehdotus jakokelpoisen vapaan oman pääoman käytöstä</h2>
-<p>Hallitus ehdottaa, että ... </p>
 ##Kirjanpito
 #sahko Sähköinen kirjanpito ja arkistointi
 <h2>Kirjanpitoaineisto</h2>
@@ -495,17 +459,8 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 <h2>Allekirjoitukset</h2>
 <p> __________________ssa XX.XX.20XX</p>
 <p>
-<table widht=100%><tr><td>N.N.</td><td>N.N.</td><td>N.N.</td></tr>
+<table width=100%><tr><td>N.N.</td><td>N.N.</td><td>N.N.</td></tr>
 <tr><td>N.N.</td><td>N.N.</td><td>N.N.</td></tr></table>
-<p>
-<p>
-<p>
-##Tilintarkastus
-#tilintarkastus -toiminnantarkastus Tilintarkastusmerkintä
-<h2>Tilintarkastusmerkintä</h2>
-<p>Suoritetusta tilintarkastuksesta on tänään annettu kertomus</p>
-<p>____________________  ___. päivänä _________kuuta  _________ </p>
-<p>
 <p>
 
 [TilinpaatosValinnat]
