@@ -17,6 +17,8 @@ artoh.github.io
 <p>Yrittäjä voi ottaa nostaa varoja yritykseltä kirjaamalla <b>yksityisnoston</p> ja vastaavasti sijoittaa omaisuuttaan elinkeinokäyttöön tekemällä <b>yksityispanon</b></p>
 [TilikarttaLuontiVersio]
 0.2.1-alpha
+[Elinkeinonharjoittaja]
+ON
 [KpVersio]
 1
 [tilit]
@@ -464,12 +466,7 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 <p>
 
 [TilinpaatosValinnat]
-poik
-vastuut
-oykaytto
 sahko
-tilintarkastus
-MIKRO
 [LaskuTositelaji]
 2
 [LaskuSaatavatili]

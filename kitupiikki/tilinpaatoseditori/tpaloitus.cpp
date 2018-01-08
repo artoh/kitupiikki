@@ -113,17 +113,28 @@ void TpAloitus::tallennaHenkilosto(int maara)
 
 void TpAloitus::tarkistaPMA()
 {
-    int pienuus = tilikausi.pienuus();
-    if( kp()->tilikaudet()->indeksiPaivalle(tilikausi.paattyy()) &&
-            kp()->tilikaudet()->tilikausiIndeksilla( kp()->tilikaudet()->indeksiPaivalle(tilikausi.paattyy()) -1).pienuus() < pienuus )
-        pienuus = kp()->tilikaudet()->tilikausiIndeksilla( kp()->tilikaudet()->indeksiPaivalle(tilikausi.paattyy()) -1).pienuus() ;
+    if( kp()->asetukset()->onko("Elinkeinonharjoittaja"))
+    {
+        // Elinkeinonharjoittajalla vähän toisenlainen
+        ui->saantoGroup->setVisible(false);
+        ui->vapaaehtoisLabel->setVisible( tilikausi.pieniElinkeinonharjoittaja() < 2  );
+    }
+    else
+    {
+        ui->vapaaehtoisLabel->setVisible(false);
 
-    ui->mikroRadio->setEnabled( pienuus == Tilikausi::MIKROYRITYS );
-    ui->pienRadio->setEnabled( pienuus == Tilikausi::PIENYRITYS || pienuus == Tilikausi::MIKROYRITYS);
+        int pienuus = tilikausi.pienuus();
+        if( kp()->tilikaudet()->indeksiPaivalle(tilikausi.paattyy()) &&
+                kp()->tilikaudet()->tilikausiIndeksilla( kp()->tilikaudet()->indeksiPaivalle(tilikausi.paattyy()) -1).pienuus() < pienuus )
+            pienuus = kp()->tilikaudet()->tilikausiIndeksilla( kp()->tilikaudet()->indeksiPaivalle(tilikausi.paattyy()) -1).pienuus() ;
 
-    ui->mikroRadio->setChecked( pienuus == Tilikausi::MIKROYRITYS);
-    ui->pienRadio->setChecked( pienuus == Tilikausi::PIENYRITYS);
-    ui->taysRadio->setChecked( pienuus == Tilikausi::YRITYS);
+        ui->mikroRadio->setEnabled( pienuus == Tilikausi::MIKROYRITYS );
+        ui->pienRadio->setEnabled( pienuus == Tilikausi::PIENYRITYS || pienuus == Tilikausi::MIKROYRITYS);
+
+        ui->mikroRadio->setChecked( pienuus == Tilikausi::MIKROYRITYS);
+        ui->pienRadio->setChecked( pienuus == Tilikausi::PIENYRITYS);
+        ui->taysRadio->setChecked( pienuus == Tilikausi::YRITYS);
+    }
 
     lataa();    // Lataa valinnat uudelleen
 }

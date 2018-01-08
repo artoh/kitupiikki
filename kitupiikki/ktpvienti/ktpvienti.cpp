@@ -98,6 +98,11 @@ void KtpVienti::accept()
     out << "[KpVersio]\n";
     out << Kirjanpito::TIETOKANTAVERSIO << "\n";
 
+    if( field("elinkeinonharjoittaja").toBool())
+    {
+        out << "[Elinkeinonharjoittaja]\nON\n";
+    }
+
     // TILIT
     // AP* 1911 {json} Suosikkitili
     // C- 3001 {json} Piilotettu tili

@@ -73,6 +73,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QLabel" name="vapaaehtoisLabel">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pienelle elinkeinonharjoittajalle tilinpäätöksen laatiminen on vapaaehtoista.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QListView" name="view"/>
    </item>
    <item>

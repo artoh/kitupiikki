@@ -16,6 +16,7 @@
 */
 
 #include "ktpperustiedot.h"
+#include "db/kirjanpito.h"
 
 KtpPerustiedot::KtpPerustiedot()
 {
@@ -29,6 +30,9 @@ KtpPerustiedot::KtpPerustiedot()
     registerField("nimi*", ui->nimiEdit);
     registerField("tekija", ui->tekijaEdit);
     registerField("pvm", ui->versioDate);
+    registerField("elinkeinonharjoittaja", ui->elinkeinoCheck);
+
+    ui->elinkeinoCheck->setChecked(kp()->asetukset()->onko("Elinkeinonharjoittaja"));
 }
 
 KtpPerustiedot::~KtpPerustiedot()

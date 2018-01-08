@@ -162,3 +162,16 @@ Tilikausi::Saannosto Tilikausi::pienuus()
         return YRITYS;
 }
 
+int Tilikausi::pieniElinkeinonharjoittaja()
+{
+    int ehdot = 0;
+    if( tase() > 10000000)
+        ehdot++;
+    if( liikevaihto() > 200000)
+        ehdot++;
+    if( henkilosto() > 3)
+        ehdot++;
+
+    return ehdot;
+}
+

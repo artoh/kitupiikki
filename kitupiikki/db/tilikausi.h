@@ -114,6 +114,12 @@ public:
      */
     Saannosto pienuus();
 
+    /**
+     * @brief Kuinka moni pienen elinkeinonharjoittajan ehto ylittyy
+     * @return
+     */
+    int pieniElinkeinonharjoittaja();
+
 
 protected:
     QDate alkaa_;

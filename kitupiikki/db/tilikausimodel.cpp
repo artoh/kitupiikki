@@ -94,7 +94,12 @@ QVariant TilikausiModel::data(const QModelIndex &index, int role) const
             else if( kausi.paattyy().daysTo( kp()->paivamaara()) > 1 &&
                      kausi.paattyy().daysTo( kp()->paivamaara()) < 4 * 30 &&
                      kausi.tilinpaatoksenTila() != Tilikausi::EILAADITATILINAVAUKSELLE)
-                return tr("Aika laatia!");
+            {
+                if(  kp()->asetukset()->onko("Elinkeinonharjoittaja") && kausi.pieniElinkeinonharjoittaja() < 1 )
+                    return tr("Ei pakollinen");
+                else
+                    return tr("Aika laatia!");
+            }
         }
     }
     else if( role == AlkaaRooli)
