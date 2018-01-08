@@ -17,6 +17,7 @@
 
 #include "ktpaloitusteksti.h"
 #include "ui_ktpaloitusteksti.h"
+#include "db/kirjanpito.h"
 
 KtpAloitusTeksti::KtpAloitusTeksti() :
     ui(new Ui::KtpAloitusTeksti)
@@ -24,6 +25,7 @@ KtpAloitusTeksti::KtpAloitusTeksti() :
     ui->setupUi(this);
     setTitle("Tilikartan aloitusteksti");
     registerField("introteksti", ui->introEdit,"plainText");
+    ui->introEdit->setPlainText(kp()->asetukset()->asetus("TilikarttaKuvaus"));
 }
 
 KtpAloitusTeksti::~KtpAloitusTeksti()

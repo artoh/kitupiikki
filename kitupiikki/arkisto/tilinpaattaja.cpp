@@ -86,6 +86,7 @@ void TilinPaattaja::paivitaDialogi()
 
     ui->poistoNappi->setVisible( !poistotkirjattu && poistettavaa );
     ui->eiPoistettavaaLabel->setVisible( !poistotkirjattu && !poistettavaa);
+    ui->poistoLabel->setEnabled(poistettavaa);
 
 
     if( kp()->paivamaara() < tilikausi.paattyy() )

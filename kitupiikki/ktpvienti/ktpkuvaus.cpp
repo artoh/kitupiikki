@@ -18,6 +18,8 @@
 #include "ktpkuvaus.h"
 #include "ui_ktpkuvaus.h"
 
+#include "db/kirjanpito.h"
+
 KtpKuvaus::KtpKuvaus() :
     ui(new Ui::KtpKuvaus)
 {
@@ -25,6 +27,7 @@ KtpKuvaus::KtpKuvaus() :
     setTitle("Tilikartan kuvaus");
 
     registerField("kuvaus", ui->kuvausEdit,"plainText");
+    ui->kuvausEdit->setPlainText( kp()->asetukset()->asetus("TilikarttaOhje"));
 }
 
 KtpKuvaus::~KtpKuvaus()

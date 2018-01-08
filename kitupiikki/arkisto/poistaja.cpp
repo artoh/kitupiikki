@@ -280,5 +280,5 @@ bool Poistaja::onkoPoistoja(Tilikausi kausi)
     if( kysely.next())
         return kysely.value("db").toInt() != kysely.value("kr").toInt();
 
-    return true;
+    return false;
 }

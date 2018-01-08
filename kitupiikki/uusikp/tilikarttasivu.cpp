@@ -92,7 +92,7 @@ void TilikarttaSivu::valitseTilikartta(const QString &polku)
 {
     QMap<QString,QStringList> tiedot = UusiKirjanpito::lueKtkTiedosto(polku);
 
-    QString kuvaus = tiedot.value("kuvaus").join("\n");
+    QString kuvaus = tiedot.value("TilikarttaKuvaus").join("\n");
     QDate karttapaiva = QDate::fromString( tiedot.value("TilikarttaPvm").join(""), Qt::ISODate);
 
     QString info = tr("<b>%1</b><br>%2<br>%3<p>")

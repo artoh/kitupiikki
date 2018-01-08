@@ -86,7 +86,7 @@ void KtpVienti::accept()
     out << "[TilikarttaPvm]\n";
     out << field("pvm").toDate().toString(Qt::ISODate) << "\n";
 
-    out << "[kuvaus]\n";
+    out << "[TilikarttaKuvaus]\n";
     out << field("kuvaus").toString() << "\n";
 
     out << "[TilikarttaOhje]\n";
