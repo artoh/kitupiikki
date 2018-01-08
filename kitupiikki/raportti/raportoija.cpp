@@ -133,7 +133,7 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt)
     QRegularExpression maareRe("(?<maare>([A-Za-z=]+|\\*))(?<sisennys>[0-9]?)");
 
     // Välisummien käsittelyä = varten
-    QVector<int> kokosumma( data_.count());
+    QVector<qlonglong> kokosumma( data_.count());
 
     foreach (QString rivi, kaava_)
     {
@@ -155,7 +155,7 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt)
         QString loppurivi = rivi.mid(tyhjanpaikka);     // Aloittava tyhjä mukaan!
 
         // Lasketaan summat
-        QVector<int> summat( data_.count() );
+        QVector<qlonglong> summat( data_.count() );
 
         int sisennys = 0;
 
@@ -368,8 +368,8 @@ void Raportoija::sijoitaTulosKyselyData(const QString &kysymys, int i)
     while( query.next())
     {
         int ysiluku = query.value(0).toInt();
-        int debet = query.value(1).toInt();
-        int kredit = query.value(2).toInt();
+        qlonglong debet = query.value(1).toLongLong();
+        qlonglong kredit = query.value(2).toLongLong();
 
         data_[i].insert( ysiluku, kredit - debet  );
         tilitKaytossa_.insert( ysiluku, true);
