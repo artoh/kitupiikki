@@ -479,9 +479,13 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 #oypaaoma Oman pääoman muutokset
 <h2>Oman pääoman muutokset</h2>
 <p> ... </p>
-#oykaytto Hallituksen ehdotus vapaan oman pääoman käytöstä
+#oyeiosinko -oykaytto Ei osinkoa
 <h2>Hallituksen ehdotus jakokelpoisen vapaan oman pääoman käytöstä</h2>
-<p>Hallitus ehdottaa, että ... </p>
+<p>Hallitus ehdottaa, että osinkoa ei jaeta.</p>
+#oykaytto -oyeiosinko Hallituksen ehdotus vapaan oman pääoman käytöstä
+<h2>Hallituksen ehdotus jakokelpoisen vapaan oman pääoman käytöstä</h2>
+<p>Jakokelpoinen vapaa oma pääoma on ...</p>
+<p>Hallitus ehdottaa, että osinkoa jaetaan XX euroa per osake, eli yhteensä XXX euroa. Osinko on nostettavissa yhtiökokousta seuraavana päivänä.</p>
 ##Kirjanpito
 #sahko Sähköinen kirjanpito ja arkistointi
 <h2>Kirjanpitoaineisto</h2>
@@ -495,7 +499,7 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 <h2>Allekirjoitukset</h2>
 <p> __________________ssa XX.XX.20XX</p>
 <p>
-<table widht=100%><tr><td>N.N.</td><td>N.N.</td><td>N.N.</td></tr>
+<table width=100%><tr><td>N.N.</td><td>N.N.</td><td>N.N.</td></tr>
 <tr><td>N.N.</td><td>N.N.</td><td>N.N.</td></tr></table>
 <p>
 <p>

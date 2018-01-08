@@ -74,6 +74,9 @@
    </item>
    <item>
     <widget class="QLabel" name="vapaaehtoisLabel">
+     <property name="styleSheet">
+      <string notr="true">color: rgb(0, 85, 0);</string>
+     </property>
      <property name="text">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pienelle elinkeinonharjoittajalle tilinpäätöksen laatiminen on vapaaehtoista.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>

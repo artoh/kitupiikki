@@ -31,6 +31,7 @@ bool TilikarttaOhje::nollaa()
     ui->tekijaLabel->setText( kp()->asetukset()->asetus("TilikarttaTekija"));
     ui->pvmLabel->setText( kp()->asetukset()->pvm("TilikarttaPvm").toString(Qt::SystemLocaleShortDate) );
     ui->ohjeBrowser->setHtml( kp()->asetukset()->asetus("TilikarttaOhje"));
+    ui->elinkeinoLabel->setVisible( kp()->asetukset()->onko("Elinkeinonharjoittaja"));
 
     return true;
 }

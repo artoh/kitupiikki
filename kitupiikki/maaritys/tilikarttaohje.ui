@@ -61,6 +61,13 @@
     </layout>
    </item>
    <item>
+    <widget class="QLabel" name="elinkeinoLabel">
+     <property name="text">
+      <string>Tilikartta on tarkoitettu yksityistä elinkeinonharjoittajaa varten.</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QTextBrowser" name="ohjeBrowser"/>
    </item>
   </layout>
