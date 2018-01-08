@@ -2,5 +2,7 @@
     <qresource prefix="/tilikartat">
         <file>yhdistys.kpk</file>
         <file>osakeyhtio.kpk</file>
+        <file>elinkeinonharjoittaja.kpk</file>
+        <file>henkiloyhtio.kpk</file>
     </qresource>
 </RCC>
