@@ -144,8 +144,8 @@ void TositeSelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
         rivi.tositeLaji = kysely.value(3).toInt();
         rivi.tositeTunniste = kysely.value(4).toInt();
 
-        int debet = kysely.value(5).toInt();
-        int kredit = kysely.value(6).toInt();
+        qlonglong debet = kysely.value(5).toLongLong();
+        qlonglong kredit = kysely.value(6).toLongLong();
 
         // Yleensä kreditin ja debetin pitäisi täsmätä ;)
         if( debet > kredit)

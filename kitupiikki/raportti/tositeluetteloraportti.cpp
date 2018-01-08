@@ -112,10 +112,10 @@ RaportinKirjoittaja TositeluetteloRaportti::kirjoitaRaportti(QDate mista, QDate 
     QSqlQuery kysely(kysymys);
 
     int edellinenTositelajiId = -1;
-    int debetYht = 0;
-    int kreditYht = 0;
-    int debetKaikki = 0;
-    int kreditKaikki = 0;
+    qlonglong debetYht = 0;
+    qlonglong kreditYht = 0;
+    qlonglong debetKaikki = 0;
+    qlonglong kreditKaikki = 0;
 
     while( kysely.next() )
     {
@@ -146,9 +146,9 @@ RaportinKirjoittaja TositeluetteloRaportti::kirjoitaRaportti(QDate mista, QDate 
         }
 
 
-        int debetSumma = 0;
-        int kreditSumma = 0;
-        int summa = 0;
+        qlonglong debetSumma = 0;
+        qlonglong kreditSumma = 0;
+        qlonglong summa = 0;
         int liitteita = 0;
 
         // Tässä välissä tositelajikohtaisia toimia...
@@ -157,8 +157,8 @@ RaportinKirjoittaja TositeluetteloRaportti::kirjoitaRaportti(QDate mista, QDate 
         if( lisakysely.next())
         {
             // Tositteen summa: debet ja kredit yleensä yhtä suuret :)
-            debetSumma = lisakysely.value(0).toInt();
-            kreditSumma = lisakysely.value(1).toInt();
+            debetSumma = lisakysely.value(0).toLongLong();
+            kreditSumma = lisakysely.value(1).toLongLong();
             if( kreditSumma > debetSumma)
                 summa = kreditSumma;
             else
@@ -225,8 +225,8 @@ RaportinKirjoittaja TositeluetteloRaportti::kirjoitaRaportti(QDate mista, QDate 
                 }
 
                 vientirivi.lisaa( lisakysely.value("selite").toString());
-                vientirivi.lisaa( lisakysely.value("debetsnt").toInt());
-                vientirivi.lisaa( lisakysely.value("kreditsnt").toInt());
+                vientirivi.lisaa( lisakysely.value("debetsnt").toLongLong());
+                vientirivi.lisaa( lisakysely.value("kreditsnt").toLongLong());
                 kirjoittaja.lisaaRivi( vientirivi );
             }
         }
@@ -254,7 +254,7 @@ RaportinKirjoittaja TositeluetteloRaportti::kirjoitaRaportti(QDate mista, QDate 
 
 }
 
-void TositeluetteloRaportti::kirjoitaSummaRivi(RaportinKirjoittaja &rk, int debet, int kredit, int sarakeleveys)
+void TositeluetteloRaportti::kirjoitaSummaRivi(RaportinKirjoittaja &rk, qlonglong debet, qlonglong kredit, int sarakeleveys)
 {
     RaporttiRivi rivi;
     rivi.lisaa("Yhteensä", sarakeleveys );

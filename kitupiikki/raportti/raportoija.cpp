@@ -240,7 +240,7 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt)
                 // Lasketaan summa joka sarakkeelle
                 for( int sarake = 0; sarake < data_.count(); sarake++)
                 {
-                    QMapIterator<int,int> iter( data_.at(sarake));
+                    QMapIterator<int,qlonglong> iter( data_.at(sarake));
                     while( iter.hasNext())
                     {
                         iter.next();
@@ -406,8 +406,8 @@ void Raportoija::laskeTaseDate()
         while (query.next())
         {
             int ysiluku = query.value(0).toInt();
-            int debet = query.value(1).toInt();
-            int kredit = query.value(2).toInt();
+            qlonglong debet = query.value(1).toLongLong();
+            qlonglong kredit = query.value(2).toLongLong();
 
             if( ysiluku < 200000000)    // Vastaavaa
                 data_[i].insert( ysiluku, debet - kredit );
@@ -425,7 +425,7 @@ void Raportoija::laskeTaseDate()
         query.exec(kysymys);
         if( query.next())
         {
-            int edYlijaama = query.value(1).toInt() - query.value(0).toInt();
+            qlonglong edYlijaama = query.value(1).toLongLong() - query.value(0).toLongLong();
 
             int kertymaTilinYsiluku = kp()->tilit()->edellistenYlijaamaTili().ysivertailuluku();
             if( kertymaTilinYsiluku )
@@ -441,8 +441,8 @@ void Raportoija::laskeTaseDate()
         query.exec(kysymys);
         if( query.next() )
         {
-            int debet = query.value(0).toInt();
-            int kredit = query.value(1).toInt();
+            qlonglong debet = query.value(0).toLongLong();
+            qlonglong kredit = query.value(1).toLongLong();
             data_[i].insert(0, kredit - debet);
             if( kp()->tilit()->tiliTyypilla(TiliLaji::KAUDENTULOS).onkoValidi())
                 data_[i].insert(kp()->tilit()->tiliTyypilla(TiliLaji::KAUDENTULOS).ysivertailuluku(), kredit - debet);

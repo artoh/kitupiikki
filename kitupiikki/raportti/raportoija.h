@@ -153,7 +153,7 @@ protected:
     QVector<QDate> alkuPaivat_;
     QVector<QDate> loppuPaivat_;
 
-    QVector< QMap< int, int> > data_;    // ysiluku, sentit
+    QVector< QMap< int, qlonglong> > data_;    // ysiluku, sentit
     QMap<int,bool> tilitKaytossa_;           // ysiluku
     QMap<int,bool> kohdennusKaytossa_;       // kohdennusId
 

@@ -33,7 +33,7 @@ struct TositeSelausRivi
     int tositeTunniste;
 
     QString otsikko;
-    int summa;
+    qlonglong summa;
 
 };
 

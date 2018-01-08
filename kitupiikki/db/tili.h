@@ -97,7 +97,7 @@ public:
      * @param pvm Päivämäärä, jolle saldo lasketaan
      * @return Saldo sentteinä
      */
-    int saldoPaivalle(const QDate &pvm);
+    quint64 saldoPaivalle(const QDate &pvm);
 
     /**
      * @brief Montako kirjausta tälle tilille

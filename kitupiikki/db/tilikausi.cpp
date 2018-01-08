@@ -74,7 +74,7 @@ Tilikausi::TilinpaatosTila Tilikausi::tilinpaatoksenTila()
 }
 
 
-int Tilikausi::tulos() const
+quint64 Tilikausi::tulos() const
 {
     QSqlQuery kysely(  QString("SELECT SUM(kreditsnt), SUM(debetsnt) "
                                "FROM vienti, tili WHERE "
@@ -84,12 +84,12 @@ int Tilikausi::tulos() const
                        .arg(alkaa().toString(Qt::ISODate))
                        .arg(paattyy().toString(Qt::ISODate)));
     if( kysely.next())
-        return kysely.value(0).toInt() - kysely.value(1).toInt();
+        return kysely.value(0).toLongLong() - kysely.value(1).toLongLong();
     else
         return 0;
 }
 
-int Tilikausi::liikevaihto() const
+quint64 Tilikausi::liikevaihto() const
 {
     QSqlQuery kysely(  QString("SELECT SUM(kreditsnt), SUM(debetsnt) "
                                "FROM vienti, tili WHERE "
@@ -99,12 +99,12 @@ int Tilikausi::liikevaihto() const
                        .arg(alkaa().toString(Qt::ISODate))
                        .arg(paattyy().toString(Qt::ISODate)));
     if( kysely.next())
-        return kysely.value(0).toInt() - kysely.value(1).toInt();
+        return kysely.value(0).toLongLong() - kysely.value(1).toLongLong();
     else
         return 0;
 }
 
-int Tilikausi::tase() const
+qlonglong Tilikausi::tase() const
 {
     QSqlQuery kysely(  QString("SELECT SUM(kreditsnt), SUM(debetsnt) "
                                "FROM vienti, tili WHERE "
@@ -113,7 +113,7 @@ int Tilikausi::tase() const
                                "tili.ysiluku < 200000000")
                        .arg(paattyy().toString(Qt::ISODate)));
     if( kysely.next())
-        return kysely.value(1).toInt() - kysely.value(0).toInt();
+        return kysely.value(1).toLongLong() - kysely.value(0).toLongLong();
     else
         return 0;
 }

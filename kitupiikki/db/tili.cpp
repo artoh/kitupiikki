@@ -58,7 +58,7 @@ int Tili::ysivertailuluku() const
 }
 
 
-int Tili::saldoPaivalle(const QDate &pvm)
+quint64 Tili::saldoPaivalle(const QDate &pvm)
 {
     QString kysymys = QString("SELECT SUM(debetsnt), SUM(kreditsnt) FROM vienti WHERE tili=%1 ").arg(id());
     if( onko(TiliLaji::TASE) )
@@ -71,8 +71,8 @@ int Tili::saldoPaivalle(const QDate &pvm)
     QSqlQuery kysely(kysymys);
     if( kysely.next())
     {
-        int debet = kysely.value(0).toInt();
-        int kredit = kysely.value(1).toInt();
+        quint64 debet = kysely.value(0).toLongLong();
+        quint64 kredit = kysely.value(1).toLongLong();
 
         if( onko(TiliLaji::EDELLISTENTULOS) )
         {
@@ -83,7 +83,7 @@ int Tili::saldoPaivalle(const QDate &pvm)
                                      .arg(kp()->tilikaudet()->tilikausiPaivalle(pvm).alkaa().toString(Qt::ISODate)));
             if( edelliskysely.next())
             {
-                return kredit + edelliskysely.value(1).toInt() - debet - edelliskysely.value(0).toInt();
+                return kredit + edelliskysely.value(1).toLongLong() - debet - edelliskysely.value(0).toLongLong();
             }
         }
         else if( onko(TiliLaji::KAUDENTULOS))
@@ -96,7 +96,7 @@ int Tili::saldoPaivalle(const QDate &pvm)
                                      .arg(kp()->tilikaudet()->tilikausiPaivalle(pvm).paattyy().toString(Qt::ISODate)));
             if( edelliskysely.next())
             {
-                return kredit + edelliskysely.value(1).toInt() - debet - edelliskysely.value(0).toInt();
+                return kredit + edelliskysely.value(1).toLongLong() - debet - edelliskysely.value(0).toLongLong();
             }
         }
         else if( onko(TiliLaji::VASTAAVAA) )

@@ -160,8 +160,8 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
         rivi.tositeId = query.value(0).toInt();
         rivi.pvm = query.value(1).toDate();
         rivi.tili = kp()->tilit()->tiliIdlla( query.value(2).toInt());
-        rivi.debetSnt = query.value(3).toInt();
-        rivi.kreditSnt = query.value(4).toInt();
+        rivi.debetSnt = query.value(3).toLongLong();
+        rivi.kreditSnt = query.value(4).toLongLong();
         rivi.selite = query.value(5).toString();
         rivi.kohdennus = kp()->kohdennukset()->kohdennus( query.value(6).toInt());
         rivi.taseEra = TaseEra( query.value(7).toInt());

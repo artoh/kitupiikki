@@ -261,18 +261,20 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
             viennit_[index.row()].selite = value.toString();
             return true;
         case DEBET:
-            viennit_[index.row()].debetSnt = value.toInt();
-            if(value.toInt())
+            viennit_[index.row()].debetSnt = value.toLongLong();
+            if(value.toLongLong())
             {
                 viennit_[index.row()].kreditSnt = 0;
-                emit siirryRuutuun(index.sibling(index.row(), KOHDENNUS));
             }
+            emit siirryRuutuun(index.sibling(index.row(), KOHDENNUS));
             emit muuttunut();
             return true;
         case KREDIT:
-            viennit_[index.row()].kreditSnt = value.toInt();
-            if( value.toInt())
-            viennit_[index.row()].debetSnt = 0;
+            viennit_[index.row()].kreditSnt = value.toLongLong();
+            if( value.toLongLong())
+            {
+                viennit_[index.row()].debetSnt = 0;
+            }
             emit siirryRuutuun(index.sibling(index.row(), KOHDENNUS));
             emit muuttunut();
             return true;
@@ -295,12 +297,12 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
         viennit_[rivi].selite = value.toString();
     else if( role == DebetRooli)
     {
-        viennit_[rivi].debetSnt = value.toInt();
+        viennit_[rivi].debetSnt = value.toLongLong();
         emit muuttunut();
     }
     else if( role == KreditRooli)
     {
-        viennit_[rivi].kreditSnt = value.toInt();
+        viennit_[rivi].kreditSnt = value.toLongLong();
         emit muuttunut();
     }
     else if( role == KohdennusRooli)
@@ -422,9 +424,9 @@ QModelIndex VientiModel::lisaaVienti(VientiRivi rivi)
     return index( viennit_.count() - 1, 0);
 }
 
-int VientiModel::debetSumma() const
+qlonglong VientiModel::debetSumma() const
 {
-    int summa = 0;
+    qlonglong summa = 0;
     foreach (VientiRivi rivi, viennit_)
     {
         summa += rivi.debetSnt;
@@ -432,9 +434,9 @@ int VientiModel::debetSumma() const
     return summa;
 }
 
-int VientiModel::kreditSumma() const
+qlonglong VientiModel::kreditSumma() const
 {
-    int summa = 0;
+    qlonglong summa = 0;
     foreach (VientiRivi rivi, viennit_)
     {
         summa += rivi.kreditSnt;
@@ -550,8 +552,8 @@ void VientiModel::lataa()
         rivi.vientiId = query.value("id").toInt();
         rivi.pvm = query.value("pvm").toDate();
         rivi.tili = Kirjanpito::db()->tilit()->tiliIdlla( query.value("tili").toInt());
-        rivi.debetSnt = query.value("debetsnt").toInt();
-        rivi.kreditSnt = query.value("kreditsnt").toInt();
+        rivi.debetSnt = query.value("debetsnt").toLongLong();
+        rivi.kreditSnt = query.value("kreditsnt").toLongLong();
         rivi.selite = query.value("selite").toString();
         rivi.alvkoodi = query.value("alvkoodi").toInt();
         rivi.alvprosentti = query.value("alvprosentti").toInt();

@@ -201,7 +201,7 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                 // Tulostetaan tase-erät, joilla saldoa alkupäivällä tai tapahtumia tilikauden aikana
 
                 // EraId,SaldoSnt
-                QHash<int,int> alkusaldot;
+                QHash<int,qlonglong> alkusaldot;
 
                 // Sijoitetaan ensin kaikki tämän tilikauden tase-erät
                 kysely.exec( QString("SELECT DISTINCT id, eraid FROM vienti WHERE tili=%1 "
@@ -209,14 +209,12 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                              .arg(tili.id()).arg(mista.toString(Qt::ISODate))
                              .arg(mihin.toString(Qt::ISODate)));
 
-                qDebug() << kysely.lastQuery();
-
                 while( kysely.next() )
                 {
-                    if( kysely.value("eraid").toInt())
-                        alkusaldot.insert( kysely.value("eraid").toInt(), 0);
+                    if( kysely.value("eraid").toLongLong())
+                        alkusaldot.insert( kysely.value("eraid").toLongLong(), 0);
                     else
-                        alkusaldot.insert( kysely.value("id").toInt(),0);
+                        alkusaldot.insert( kysely.value("id").toLongLong(),0);
                 }
 
                 // Sitten alkusaldot
@@ -224,12 +222,11 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                                    "where tili=%1 and eraid is not null and pvm < \"%2\" group by eraid")
                            .arg(tili.id()).arg(mihin.toString(Qt::ISODate)));
 
-                qDebug() << kysely.lastQuery();
 
                 // Tallennetaan saldotaulukkoon tilien eräsaldot
                 while( kysely.next() )
                 {
-                    alkusaldot.insert( kysely.value("eraid").toInt(), kysely.value("debetit").toInt() - kysely.value("kreditit").toInt() );
+                    alkusaldot.insert( kysely.value("eraid").toInt(), kysely.value("debetit").toLongLong() - kysely.value("kreditit").toLongLong() );
                 }
 
                 // ja lisätään vielä aloittava vienti
@@ -248,19 +245,17 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                 }
 
                 // Sitten haetaan tase-erän tiedot
-                QList<TaseEra> erat;
                 kysely.exec(QString("SELECT vienti.id, debetsnt, kreditsnt, vienti.pvm, selite, laji, tunniste from vienti, tosite "
                            "where tili=%1 and vienti.tosite=tosite.id and eraid is NULL order by vienti.pvm")
                            .arg(tili.id()));
 
-                qDebug() << kysely.lastQuery();
 
                 while( kysely.next())
                 {
                     rk.lisaaRivi();
 
                     int eraId = kysely.value("id").toInt();
-                    int alkusnt = kysely.value("debetsnt").toInt() - kysely.value("kreditsnt").toInt();
+                    qlonglong alkusnt = kysely.value("debetsnt").toLongLong() - kysely.value("kreditsnt").toLongLong();
                     if( tili.onko(TiliLaji::VASTATTAVAA))
                         alkusnt = 0 - alkusnt;
 
@@ -277,7 +272,7 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                     nimirivi.lisaa( alkusnt);
                     rk.lisaaRivi(nimirivi);
 
-                    int saldo;
+                    qlonglong saldo;
 
                     if( alkusaldot.value(eraId))
                     {
@@ -309,11 +304,11 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                     while( muKysely.next() )
                     {
                         RaporttiRivi rr;
-                        int muutos = 0;
+                        qlonglong muutos = 0;
                         if( tili.onko(TiliLaji::VASTAAVAA))
-                            muutos =  muKysely.value("debetsnt").toInt() - muKysely.value("kreditsnt").toInt();
+                            muutos =  muKysely.value("debetsnt").toLongLong() - muKysely.value("kreditsnt").toLongLong();
                         else
-                            muutos =  muKysely.value("kreditsnt").toInt() - muKysely.value("debetsnt").toInt();
+                            muutos =  muKysely.value("kreditsnt").toLongLong() - muKysely.value("debetsnt").toLongLong();
                         saldo += muutos;
 
                         rr.lisaaLinkilla(RaporttiRiviSarake::TOSITE_ID, muKysely.value("tositeId").toInt(), QString("%1%2").arg( muKysely.value("tositelaji").toString()).arg(muKysely.value("tunniste").toInt()));
