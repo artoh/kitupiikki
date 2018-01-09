@@ -22,13 +22,13 @@
 
 #include "kirjanpito.h"
 
-Tili::Tili() : id_(0), numero_(0), tila_(1), muokattu_(false)
+Tili::Tili() : id_(0), numero_(0), tila_(1), muokattu_(false), tilamuokattu_(false)
 {
 
 }
 
 Tili::Tili(int id, int numero, const QString &nimi, const QString &tyyppi, int tila, int ylaotsikkoid, const QDateTime muokkausaika) :
-    id_(id), numero_(numero), nimi_(nimi), ylaotsikkoId_(ylaotsikkoid), muokattu_(false), muokkausAika_(muokkausaika)
+    id_(id), numero_(numero), nimi_(nimi), ylaotsikkoId_(ylaotsikkoid), muokattu_(false), tilamuokattu_(false), muokkausAika_(muokkausaika)
 
 {
     asetaTila(tila);
