@@ -33,7 +33,7 @@ class Tili
 public:
     Tili();
     Tili(int id, int numero, const QString& nimi, const QString& tyyppiKoodi, int tila,
-         int ylaotsikkoid = 0);
+         int ylaotsikkoid = 0, const QDateTime muokkausaika = QDateTime());
 
     int id() const { return id_; }
     int numero() const { return numero_; }
@@ -42,7 +42,9 @@ public:
     QString tyyppiKoodi() const { return tyyppi().koodi(); }
     int tila() const { return tila_; }
     int otsikkotaso() const { return tyyppi().otsikkotaso(); }
-    bool muokattu() const { return muokattu_ || json_.onkoMuokattu(); }
+    bool muokattu() const { return muokattu_ || json_.onkoMuokattu(); || return tilamuokattu_; }
+    bool muokattuMuutakinKuinTilaa() const { return muokattu_ || json_.onkoMuokattu(); }
+    QDateTime muokkausaika() const { return muokkausAika_; }
 
     /**
      * @brief Palauttaa tämän tilin tai otsikon yllä olevan otsikon id:n
@@ -63,9 +65,9 @@ public:
     void asetaNumero(int numero);
     void asetaNimi(const QString& nimi) { nimi_ = nimi; muokattu_ = true; }
     void asetaTyyppi(const QString& tyyppikoodi);
-    void asetaTila(int tila) { tila_ = tila; muokattu_ = true; }
+    void asetaTila(int tila) { tila_ = tila; tilamuokattu_ = true; }
 
-    void nollaaMuokattu() { muokattu_ = false; }
+    void nollaaMuokattu() { muokattu_ = false; tilamuokattu_=false;}
 
     /**
      * @brief Onko tilillä tarvittavat tiedot, että voi tallettaa
@@ -180,6 +182,8 @@ protected:
     JsonKentta json_;
     int ylaotsikkoId_;
     bool muokattu_;
+    bool tilamuokattu_;
+    QDateTime muokkausAika_;
 
 };
 

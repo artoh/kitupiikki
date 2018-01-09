@@ -270,13 +270,14 @@ bool TiliModel::onkoMuokattu() const
     return false;
 }
 
+
 void TiliModel::lataa()
 {
     beginResetModel();
     tilit_.clear();
 
     QSqlQuery kysely( *tietokanta_ );
-    kysely.exec("SELECT id, nro, nimi, tyyppi, tila, json, ysiluku "
+    kysely.exec("SELECT id, nro, nimi, tyyppi, tila, json, ysiluku, muokattu "
                 " FROM tili ORDER BY ysiluku");
 
     QVector<int> otsikkoId(10);
@@ -309,7 +310,8 @@ void TiliModel::lataa()
                    kysely.value(2).toString(),  // nimi
                    tyyppikoodi,  // tyyppi
                    kysely.value(4).toInt(),     // tila
-                   otsikkoIdTalle    // Tätä tiliä/otsikkoa ylemmän otsikon id
+                   otsikkoIdTalle,    // Tätä tiliä/otsikkoa ylemmän otsikon id
+                   kysely.value(7).toDateTime()     // Muokattu viimeksi
                    );
         uusi.json()->fromJson( kysely.value(5).toByteArray());  // Luetaan json-kentät
         uusi.nollaaMuokattu();
@@ -322,9 +324,11 @@ void TiliModel::lataa()
     endResetModel();
 }
 
-void TiliModel::tallenna()
+void TiliModel::tallenna(bool tietokantaaLuodaan)
 {
     tietokanta_->transaction();
+    QDateTime nykyaika = QDateTime::currentDateTime();
+
     QSqlQuery kysely(*tietokanta_);
     for( int i=0; i < tilit_.count() ; i++)
     {
@@ -335,15 +339,15 @@ void TiliModel::tallenna()
             {
                 // Muokkaus
                 kysely.prepare("UPDATE tili SET nro=:nro, nimi=:nimi, tyyppi=:tyyppi, "
-                               "tila=:tila, ysiluku=:ysiluku, json=:json "
+                               "tila=:tila, ysiluku=:ysiluku, json=:json, muokattu=:aika "
                                "WHERE id=:id");
                 kysely.bindValue(":id", tili.id());
             }
             else
             {
                 // Tallennus
-                kysely.prepare("INSERT INTO tili(nro, nimi, tyyppi, tila, ysiluku, json) "
-                               "VALUES(:nro, :nimi, :tyyppi, :tila, :ysiluku, :json) ");
+                kysely.prepare("INSERT INTO tili(nro, nimi, tyyppi, tila, ysiluku, json, muokattu) "
+                               "VALUES(:nro, :nimi, :tyyppi, :tila, :ysiluku, :json, :aika) ");
 
             }
             kysely.bindValue(":nro", tili.numero());
@@ -353,6 +357,11 @@ void TiliModel::tallenna()
             kysely.bindValue(":ysiluku", tili.ysivertailuluku());
             kysely.bindValue(":json", tilit_[i].json()->toSqlJson());
 
+            if( !tietokantaaLuodaan && tili.muokattuMuutakinKuinTilaa() )
+                // Pelkkä tilan vaihtaminen ei merkitse tietokantaan muokatuksi.
+                kysely.bindValue(":aika", nykyaika );
+            else
+                kysely.bindValue(":aika", tili.muokkausaika() );
             if( kysely.exec() )
                 tilit_[i].nollaaMuokattu();
 

@@ -137,13 +137,12 @@ bool UusiKirjanpito::alustaKirjanpito()
     QMap<QString,QStringList> kartta = lueKtkTiedosto( field("tilikartta").toString() );
 
     // Näyttää QProgressDialogin jotta käyttäjä ei hermostu
-    // Koska hitain osuus on tilien kirjoittaminen, päivätetään dialogia aina tilejä kirjoitettaessa
-    // ja sitä varten lasketaan "prosessilukuun" tilien ja otsikkojen lukumäärä.
 
-    int prosessiluku = 9 + kartta.value("otsikot").count() + kartta.value("tilit").count();
+    int prosessiluku = 10;
     QProgressDialog progDlg(tr("Luodaan uutta kirjanpitoa"), QString(), 1, prosessiluku);
+
     progDlg.setMinimumDuration(0);
-    progDlg.setValue(1);
+    progDlg.setValue(0);
     progDlg.setWindowModality(Qt::WindowModal);
     qApp->processEvents();
 
@@ -190,7 +189,7 @@ bool UusiKirjanpito::alustaKirjanpito()
     progDlg.setValue( progDlg.value() + 1 );
 
 
-    AsetusModel asetukset(&db);
+    AsetusModel asetukset(&db, 0, true);
 
     // Kirjataan tietokannan perustietoja
 
@@ -253,9 +252,9 @@ bool UusiKirjanpito::alustaKirjanpito()
 
     }
 
-    qDebug() << tilit.rowCount( QModelIndex() ) << " tiliä talletettu ";
-
-    tilit.tallenna();
+    progDlg.setValue( progDlg.value() + 1 );
+    tilit.tallenna(true);
+    progDlg.setValue( progDlg.value() + 1 );
 
     // Tositelajien tallentaminen
 
@@ -276,7 +275,7 @@ bool UusiKirjanpito::alustaKirjanpito()
         }
     }
     lajit.tallenna();
-
+    progDlg.setValue( progDlg.value() + 1 );
 
     // Tilikausien kirjoittaminen
     // Nykyinen tilikausi

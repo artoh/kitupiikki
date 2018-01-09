@@ -89,7 +89,7 @@ public:
 
 public slots:
     void lataa();
-    void tallenna();
+    void tallenna(bool tietokantaaLuodaan = false);
 
 protected:
     QSqlDatabase *tietokanta_;

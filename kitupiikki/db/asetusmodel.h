@@ -21,6 +21,7 @@
 #include <QObject>
 #include <QHash>
 #include <QSqlDatabase>
+#include <QDateTime>
 
 /**
  * @brief Asetusten käsittely
@@ -35,7 +36,7 @@ class AsetusModel : public QObject
 {
     Q_OBJECT
 public:
-    explicit AsetusModel(QSqlDatabase *tietokanta, QObject *parent = 0);
+    explicit AsetusModel(QSqlDatabase *tietokanta, QObject *parent = 0, bool uusikirjanpito=false);
 
     /**
      * @brief Palauttaa asetuksen annetulla avaimella
@@ -73,6 +74,14 @@ public:
      */
     QStringList avaimet(const QString& avaimenAlku = QString()) const;
 
+    /**
+     * @brief Koska tätä asetusta on muokattu
+     * @param avain
+     * @return null, jos peräisin ktp-tiedostosta
+     */
+    QDateTime muokattu(const QString& avain) const;
+
+
     void lataa();
 
 signals:
@@ -81,7 +90,11 @@ signals:
 
 protected:
     QHash<QString,QString> asetukset_;
+    QHash<QString,QDateTime> muokatut_;
+
     QSqlDatabase *tietokanta_;
+
+    bool alustetaanTietokantaa_;    /** tosi, jos tietokantaa vasta luodaan */
 
 };
 

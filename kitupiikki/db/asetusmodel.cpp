@@ -25,8 +25,8 @@
 
 
 
-AsetusModel::AsetusModel(QSqlDatabase *tietokanta, QObject *parent)
-    :   QObject(parent), tietokanta_(tietokanta)
+AsetusModel::AsetusModel(QSqlDatabase *tietokanta, QObject *parent, bool uusikirjanpito)
+    :   QObject(parent), tietokanta_(tietokanta), alustetaanTietokantaa_(uusikirjanpito)
 {
 
 }
@@ -34,20 +34,28 @@ AsetusModel::AsetusModel(QSqlDatabase *tietokanta, QObject *parent)
 void AsetusModel::aseta(const QString &avain, const QString &arvo)
 {
     QSqlQuery query(*tietokanta_);
+    QDateTime nykyinen;
+
+    if( !alustetaanTietokantaa_)
+        nykyinen = QDateTime::currentDateTime();
+    // Jos tietokantaa vasta alustetaan, tulee muokkausajaksi NULL
+
     if( asetukset_.contains(avain))
     {
         // Asetus on jo, se vain päivitetään
-        query.prepare("UPDATE asetus SET arvo=:arvo where avain=:avain");
+        query.prepare("UPDATE asetus SET arvo=:arvo, muokattu=:aika where avain=:avain");
     }
     else
     {
         // Luodaan uusi asetus
-        query.prepare("INSERT INTO asetus(avain,arvo) VALUES(:avain,:arvo)");
+        query.prepare("INSERT INTO asetus(avain,arvo,muokattu) VALUES(:avain,:arvo,:aika)");
     }
     query.bindValue(":avain", avain);
     query.bindValue(":arvo",arvo);
+    query.bindValue(":aika",nykyinen);
     query.exec();
     asetukset_[avain] = arvo;
+    muokatut_[avain] = nykyinen;
 }
 
 void AsetusModel::poista(const QString &avain)
@@ -169,14 +177,22 @@ QStringList AsetusModel::avaimet(const QString &avaimenAlku) const
     return vastaus;
 }
 
+QDateTime AsetusModel::muokattu(const QString &avain) const
+{
+    return muokatut_.value(avain, QDateTime());
+}
+
 void AsetusModel::lataa()
 {
     asetukset_.clear();
+    muokatut_.clear();
     QSqlQuery query(*tietokanta_);
-    query.exec("SELECT avain,arvo FROM asetus");
+    query.exec("SELECT avain,arvo,muokattu FROM asetus");
     while( query.next())
     {
         asetukset_[query.value(0).toString()] = query.value(1).toString();
+        if( query.value(2).toDateTime().isValid())
+            muokatut_[ query.value(0).toString()] = query.value(2).toDateTime();
     }
 
 }

@@ -1,6 +1,8 @@
 CREATE TABLE asetus (
- avain VARCHAR(40) NOT NULL,
- arvo TEXT) ;
+    avain   VARCHAR(40) NOT NULL,
+    arvo    TEXT,
+    muokattu DATETIME
+) ;
 
 CREATE TABLE tili (
     id     INTEGER      PRIMARY KEY AUTOINCREMENT,
@@ -9,7 +11,8 @@ CREATE TABLE tili (
     tyyppi VARCHAR (10) NOT NULL,
     tila   INTEGER      DEFAULT (1),
     ysiluku INTEGER    NOT NULL,
-    json   TEXT
+    json   TEXT,
+    muokattu    DATETIME
 ) ;
 
 CREATE INDEX tili_nro ON tili(nro);
