@@ -97,6 +97,11 @@ public slots:
      */
     void vieTilikartta();
 
+    /**
+     * @brief Tilikartan päivitystoiminto
+     */
+    void paivitaTilikartta();
+
 protected:
     /**
      * @brief Lisää sivun luetteloon
@@ -116,6 +121,7 @@ protected:
     QVBoxLayout *sivuleiska;
 
     QPushButton *vienappi;
+    QPushButton *paivitaNappi;
     QPushButton *tallennanappi;
     QPushButton *perunappi;
 

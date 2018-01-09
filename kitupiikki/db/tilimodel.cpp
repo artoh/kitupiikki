@@ -23,6 +23,8 @@
 #include <QFont>
 #include <QIcon>
 
+#include <QMessageBox>
+
 #include "tilimodel.h"
 #include "tili.h"
 #include "vientimodel.h"
@@ -324,7 +326,7 @@ void TiliModel::lataa()
     endResetModel();
 }
 
-void TiliModel::tallenna(bool tietokantaaLuodaan)
+bool TiliModel::tallenna(bool tietokantaaLuodaan)
 {
     tietokanta_->transaction();
     QDateTime nykyaika = QDateTime::currentDateTime();
@@ -377,6 +379,12 @@ void TiliModel::tallenna(bool tietokantaaLuodaan)
     }
     poistetutIdt_.clear();
 
-    tietokanta_->commit();
+    if(tietokanta_->commit())
+        return true;
+
+    QMessageBox::critical(0, tr("Tietokantavirhe"),
+                          tr("Tallentaminen epäonnistui seuraavan virheen takia: %1")
+                          .arg( tietokanta_->lastError().text() ));
+    return false;
 }
 

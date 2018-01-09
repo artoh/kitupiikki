@@ -42,7 +42,7 @@ public:
     QString tyyppiKoodi() const { return tyyppi().koodi(); }
     int tila() const { return tila_; }
     int otsikkotaso() const { return tyyppi().otsikkotaso(); }
-    bool muokattu() const { return muokattu_ || json_.onkoMuokattu(); || return tilamuokattu_; }
+    bool muokattu() const { return muokattu_ || json_.onkoMuokattu() || tilamuokattu_; }
     bool muokattuMuutakinKuinTilaa() const { return muokattu_ || json_.onkoMuokattu(); }
     QDateTime muokkausaika() const { return muokkausAika_; }
 

@@ -39,6 +39,8 @@
 
 #include "ktpvienti/ktpvienti.h"
 
+#include "uusikp/paivitakirjanpito.h"
+
 #include <QDebug>
 
 MaaritysSivu::MaaritysSivu() :
@@ -69,12 +71,14 @@ MaaritysSivu::MaaritysSivu() :
 
 
     vienappi = new QPushButton(QIcon(":/pic/salkkupossu.png"), tr("Vie tilikartta..."));
+    paivitaNappi = new QPushButton( QIcon(":/pic/paivita.png"), tr("Päivitä tilikartta..."));
     perunappi = new QPushButton(tr("Peru"));
-    tallennanappi = new QPushButton( tr("Tallenna"));
+    tallennanappi = new QPushButton(QIcon(":/pic/ok.png"),  tr("Tallenna"));
     tallennanappi->setShortcut(QKeySequence(QKeySequence::Save));
 
     QHBoxLayout *nappiLeiska = new QHBoxLayout;
     nappiLeiska->addWidget(vienappi);
+    nappiLeiska->addWidget(paivitaNappi);
     nappiLeiska->addStretch();
     nappiLeiska->addWidget(tallennanappi);
     nappiLeiska->addWidget(perunappi);
@@ -84,6 +88,7 @@ MaaritysSivu::MaaritysSivu() :
     setLayout(leiska);
 
     connect( vienappi, SIGNAL(clicked(bool)), this, SLOT(vieTilikartta()));
+    connect( paivitaNappi, SIGNAL(clicked(bool)), this, SLOT(paivitaTilikartta()));
     connect( perunappi, SIGNAL(clicked(bool)), this, SLOT(peru()));
     connect( tallennanappi, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
     connect( kp(), SIGNAL(tilikausiPaatetty()), this, SLOT(paivitaNakyvat()));
@@ -201,6 +206,7 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
     item->setSelected(true);
 
     vienappi->setVisible( nykyinen->naytetaankoVienti());
+    paivitaNappi->setVisible( nykyinen->naytetaankoVienti());
     tallennanappi->setEnabled( nykyinen->onkoMuokattu() );
     connect( nykyinen, SIGNAL(tallennaKaytossa(bool)), tallennanappi, SLOT(setEnabled(bool)));
 
@@ -243,6 +249,11 @@ void MaaritysSivu::vieTilikartta()
 {
     KtpVienti vientiVelho;
     vientiVelho.exec();
+}
+
+void MaaritysSivu::paivitaTilikartta()
+{
+    PaivitaKirjanpito::paivitaTilikartta();
 }
 
 void MaaritysSivu::lisaaSivu(const QString &otsikko, MaaritysSivu::Sivut sivu, const QIcon &kuvake)

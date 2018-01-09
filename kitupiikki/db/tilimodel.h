@@ -87,9 +87,8 @@ public:
 
     bool onkoMuokattu() const;
 
-public slots:
     void lataa();
-    void tallenna(bool tietokantaaLuodaan = false);
+    bool tallenna(bool tietokantaaLuodaan = false);
 
 protected:
     QSqlDatabase *tietokanta_;

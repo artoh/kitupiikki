@@ -25,7 +25,7 @@
 
 /**
   * @dir uusikp
-  * @brief Uuden kirjanpidon luomiseen ja luontiasetusvelhoon liittyvät luokat
+  * @brief Uuden kirjanpidon luomiseen ja tilikartan päivitykseen liittyvät luokat
   *
   * Uusi kirjanpito luodaan UusiKirjanpito::aloitaUusiKirjanpito()-funktiolla
   *

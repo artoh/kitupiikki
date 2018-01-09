@@ -120,7 +120,8 @@ SOURCES += main.cpp \
     maaritys/kaavankorostin.cpp \
     kirjaus/kohdennusproxymodel.cpp \
     db/tilinvalintaview.cpp \
-    maaritys/tilikarttaohje.cpp
+    maaritys/tilikarttaohje.cpp \
+    uusikp/paivitakirjanpito.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -223,7 +224,8 @@ HEADERS += \
     maaritys/kaavankorostin.h \
     kirjaus/kohdennusproxymodel.h \
     db/tilinvalintaview.h \
-    maaritys/tilikarttaohje.h
+    maaritys/tilikarttaohje.h \
+    uusikp/paivitakirjanpito.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -284,7 +286,9 @@ FORMS += \
     maaritys/kaavaeditori.ui \
     arkisto/muokkaatilikausi.ui \
     maaritys/tilikarttaohje.ui \
-    aloitussivu/tervetuloa.ui
+    aloitussivu/tervetuloa.ui \
+    uusikp/tkpaivitys.ui \
+    uusikp/paivityskorvaa.ui
 
 DISTFILES += \
     uusikp/luo.sql \

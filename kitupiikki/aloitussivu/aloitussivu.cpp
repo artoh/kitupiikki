@@ -42,6 +42,8 @@
 #include "uusikp/uusikirjanpito.h"
 #include "maaritys/alvmaaritys.h"
 
+#include "uusikp/paivitakirjanpito.h"
+
 AloitusSivu::AloitusSivu() :
     KitupiikkiSivu(0)
 {
@@ -267,6 +269,17 @@ void AloitusSivu::pyydaInfo()
 QString AloitusSivu::vinkit()
 {
     QString vinkki;
+
+    QString tkpaivitys = PaivitaKirjanpito::sisainenPaivitys();
+    if( !tkpaivitys.isEmpty())
+    {
+        vinkki.append(tr("<table class=info width=100%><tr><td><b>Tilikartasta saatavilla uudempi versio %1</b><br>"
+                         "Voit päivittää <a href=ktp:/maaritys/Tilikartta>tilikarttamääritysten</a> "
+                         "painikkeesta <i>Päivitä tilikartta</i></td></tr></table>").arg(tkpaivitys) );
+
+    }
+
+
     // Ensin tietokannan alkutoimiin
     if( !kp()->asetukset()->onko("EkaTositeKirjattu") )
     {

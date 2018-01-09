@@ -21,6 +21,9 @@
 #include <QString>
 #include <QVariant>
 
+#include <QMessageBox>
+#include <QSqlError>
+
 #include "asetusmodel.h"
 
 
@@ -53,9 +56,17 @@ void AsetusModel::aseta(const QString &avain, const QString &arvo)
     query.bindValue(":avain", avain);
     query.bindValue(":arvo",arvo);
     query.bindValue(":aika",nykyinen);
-    query.exec();
-    asetukset_[avain] = arvo;
-    muokatut_[avain] = nykyinen;
+    if( query.exec() )
+    {
+        asetukset_[avain] = arvo;
+        muokatut_[avain] = nykyinen;
+    }
+    else
+    {
+        QMessageBox::critical(0, tr("Tietokantavirhe"),
+                              tr("Asetuksen tallentaminen epäonnistui seuraavan virheen takia:%1")
+                              .arg(tietokanta_->lastError().text()));
+    }
 }
 
 void AsetusModel::poista(const QString &avain)
@@ -180,6 +191,11 @@ QStringList AsetusModel::avaimet(const QString &avaimenAlku) const
 QDateTime AsetusModel::muokattu(const QString &avain) const
 {
     return muokatut_.value(avain, QDateTime());
+}
+
+void AsetusModel::tilikarttaMoodiin(bool onko)
+{
+    alustetaanTietokantaa_ = onko;
 }
 
 void AsetusModel::lataa()

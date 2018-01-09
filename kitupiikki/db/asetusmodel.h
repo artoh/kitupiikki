@@ -81,6 +81,11 @@ public:
      */
     QDateTime muokattu(const QString& avain) const;
 
+    /**
+     * @brief Siirtää modelin moodiin, jossa muutospäiväykseksi merkitään null
+     * @param onko
+     */
+    void tilikarttaMoodiin(bool onko);
 
     void lataa();
 
