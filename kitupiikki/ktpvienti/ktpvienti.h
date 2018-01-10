@@ -34,7 +34,7 @@ class KtpVienti : public QWizard
 public:
     KtpVienti();
 
-    void accept();
+    static void vieKtp();
 };
 
 #endif // KTPVIENTI_H

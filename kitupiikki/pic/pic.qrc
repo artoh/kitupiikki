@@ -78,6 +78,7 @@
         <file>0pros.png</file>
         <file>tervetuloa.png</file>
         <file>paivita.png</file>
+        <file>yrittaja.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

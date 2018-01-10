@@ -31,6 +31,7 @@ public:
     KtpIntro();
     ~KtpIntro();
 
+
 protected:
     Ui::KtpIntro *ui;
 };

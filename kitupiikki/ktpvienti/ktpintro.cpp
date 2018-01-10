@@ -30,3 +30,4 @@ KtpIntro::~KtpIntro()
 {
     delete ui;
 }
+

@@ -56,10 +56,15 @@ void TilikarttaSivu::lataaSisaisetKartat()
     // Lataa listanäytölle resursseihin tallennetut tilikartat
 
     QDirIterator it(":/tilikartat");
+    QStringList karttalista;
     while( it.hasNext())
     {
-        QString polku = it.next();
+        karttalista << it.next();
+    }
+    karttalista.sort();
 
+    for(QString polku : karttalista)
+    {
         QString nimi = UusiKirjanpito::lueKtkTiedosto(polku).value("TilikarttaNimi").join(" ");
 
         QListWidgetItem *item = new QListWidgetItem(nimi, ui->tilikarttaList);

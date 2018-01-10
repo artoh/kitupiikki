@@ -45,134 +45,139 @@ KtpVienti::KtpVienti()
 
 }
 
-void KtpVienti::accept()
+void KtpVienti::vieKtp()
 {
-    // Koko velho on näytetty. Nyt kysytään vielä tiedosto.
-    QString tiedostoPolku = QFileDialog::getSaveFileName(this, tr("Tallenna uusi tilikarttatiedosto"),
-                                                    QDir::homePath(), tr("Kitupiikin tilikartta (*.kpk)"));
-    if( tiedostoPolku.isEmpty())
+
+    KtpVienti vienti;
+    if( vienti.exec())
     {
-        return;
+
+        // Koko velho on näytetty. Nyt kysytään vielä tiedosto.
+        QString tiedostoPolku = QFileDialog::getSaveFileName(0, tr("Tallenna uusi tilikarttatiedosto"),
+                                                        QDir::homePath(), tr("Kitupiikin tilikartta (*.kpk)"));
+        if( tiedostoPolku.isEmpty())
+        {
+            return;
+        }
+
+        QFileInfo info(tiedostoPolku);
+        if( info.suffix().isEmpty())
+            tiedostoPolku.append(".kpk");
+
+        // Tallennetaan tiedosto
+
+        QFile tiedosto(tiedostoPolku);
+        if( !tiedosto.open( QIODevice::WriteOnly))
+        {
+            QMessageBox::critical(0, tr("Virhe tilikarttatiedoston luomisessa"),
+                                  tr("Ei voi kirjoittaa tiedostoon %1\n%2")
+                                  .arg(tiedostoPolku).arg( qPrintable(tiedosto.errorString()) ));
+            return;
+        }
+        QTextStream out(&tiedosto);
+        out.setCodec("UTF-8");
+
+        // TIETOKENTÄT
+
+        out << "[TilikarttaNimi]\n";
+        out << vienti.field("nimi").toString() << "\n";
+
+        if( !vienti.field("nimi").toString().isEmpty())
+        {
+            out << "[TilikarttaTekija]\n";
+            out << vienti.field("tekija").toString() << "\n";
+        }
+
+        out << "[TilikarttaPvm]\n";
+        out << vienti.field("pvm").toDate().toString(Qt::ISODate) << "\n";
+
+        out << "[TilikarttaKuvaus]\n";
+        out << vienti.field("kuvaus").toString() << "\n";
+
+        out << "[TilikarttaOhje]\n";
+        out << vienti.field("ohje").toString() << "\n";
+
+        out << "[TilikarttaLuontiVersio]\n";
+        out << qApp->applicationVersion() << "\n";
+
+        out << "[KpVersio]\n";
+        out << Kirjanpito::TIETOKANTAVERSIO << "\n";
+
+        if( vienti.field("elinkeinonharjoittaja").toBool())
+        {
+            out << "[Elinkeinonharjoittaja]\nON\n";
+        }
+
+        // TILIT
+        // AP* 1911 {json} Suosikkitili
+        // C- 3001 {json} Piilotettu tili
+
+        out << "[tilit]\n";
+        for( int i=0; i < kp()->tilit()->rowCount(QModelIndex()); i++ )
+        {
+            Tili tili = kp()->tilit()->tiliIndeksilla(i);
+            int tilinro = tili.numero();
+            QString nimi = tili.nimi();
+            QString tyyppi = tili.tyyppiKoodi();
+
+            if( tili.otsikkotaso() )
+                tyyppi = QString("H%1").arg(tili.otsikkotaso());
+
+            int tila = tili.tila();
+
+            QString tilamerkki;
+            if( tila == 2)
+                tilamerkki ="*";
+            else if( tila == 0)
+                tilamerkki = "-";
+
+            out << QString("%1%2 %3 %4 %5\n")
+                   .arg(tyyppi)
+                   .arg(tilamerkki)
+                   .arg(tilinro)
+                   .arg( QString(tili.json()->toJson()))
+                   .arg( nimi );
+
+        }
+
+        // Tositelajit
+        // Viedään tositelajista kaksi eteenpäin: Ei järjestelmää (*) eikä Muu tosite -oletustositetta
+        out << "[tositelajit]\n";
+        for( int i=0; i < kp()->tositelajit()->rowCount(QModelIndex()); i++)
+        {
+            QModelIndex indeksi = kp()->tositelajit()->index(i, 0);
+
+            // OL {json} Ostolaskut
+            QString tunnus = indeksi.data(TositelajiModel::TunnusRooli).toString();
+
+            if( !tunnus.isEmpty() && tunnus != "*")
+                out << QString("%1 %2 %3\n")
+                       .arg( tunnus )
+                       .arg( QString(indeksi.data(TositelajiModel::JsonRooli).toByteArray()))
+                       .arg( indeksi.data(TositelajiModel::NimiRooli).toString() );
+
+        }
+
+        // Raportit ja joitakin muita asetuksia
+        QStringList avaimet;
+        avaimet << "AlvVelvollinen"
+                << "TilinpaatosPohja" << "TilinpaatosValinnat"
+                << "LaskuTositelaji" << "LaskuKirjausperuste"
+                << "LaskuSaatavatili" << "LaskuKateistili"
+                << "LaskuMaksuaika" << "LaskuHuomautusaika"
+                << "ArkistoRaportit" << "VakioTilikartta";
+
+        avaimet << kp()->asetukset()->avaimet("Raportti/");
+
+
+        foreach (QString avain, avaimet)
+        {
+            if( kp()->asetukset()->onko(avain))
+                out << QString("[%1]\n%2\n").arg(avain).arg( kp()->asetukset()->asetus(avain) );
+        }
+
+
+        tiedosto.close();
+
     }
-
-    QFileInfo info(tiedostoPolku);
-    if( info.suffix().isEmpty())
-        tiedostoPolku.append(".kpk");
-
-    // Tallennetaan tiedosto
-
-    QFile tiedosto(tiedostoPolku);
-    if( !tiedosto.open( QIODevice::WriteOnly))
-    {
-        QMessageBox::critical(this, tr("Virhe tilikarttatiedoston luomisessa"),
-                              tr("Ei voi kirjoittaa tiedostoon %1\n%2")
-                              .arg(tiedostoPolku).arg( qPrintable(tiedosto.errorString()) ));
-        return;
-    }
-    QTextStream out(&tiedosto);
-    out.setCodec("UTF-8");
-
-    // TIETOKENTÄT
-
-    out << "[TilikarttaNimi]\n";
-    out << field("nimi").toString() << "\n";
-
-    if( !field("nimi").toString().isEmpty())
-    {
-        out << "[TilikarttaTekija]\n";
-        out << field("tekija").toString() << "\n";
-    }
-
-    out << "[TilikarttaPvm]\n";
-    out << field("pvm").toDate().toString(Qt::ISODate) << "\n";
-
-    out << "[TilikarttaKuvaus]\n";
-    out << field("kuvaus").toString() << "\n";
-
-    out << "[TilikarttaOhje]\n";
-    out << field("introteksti").toString() << "\n";
-
-    out << "[TilikarttaLuontiVersio]\n";
-    out << qApp->applicationVersion() << "\n";
-
-    out << "[KpVersio]\n";
-    out << Kirjanpito::TIETOKANTAVERSIO << "\n";
-
-    if( field("elinkeinonharjoittaja").toBool())
-    {
-        out << "[Elinkeinonharjoittaja]\nON\n";
-    }
-
-    // TILIT
-    // AP* 1911 {json} Suosikkitili
-    // C- 3001 {json} Piilotettu tili
-
-    out << "[tilit]\n";
-    for( int i=0; i < kp()->tilit()->rowCount(QModelIndex()); i++ )
-    {
-        Tili tili = kp()->tilit()->tiliIndeksilla(i);
-        int tilinro = tili.numero();
-        QString nimi = tili.nimi();
-        QString tyyppi = tili.tyyppiKoodi();
-
-        if( tili.otsikkotaso() )
-            tyyppi = QString("H%1").arg(tili.otsikkotaso());
-
-        int tila = tili.tila();
-
-        QString tilamerkki;
-        if( tila == 2)
-            tilamerkki ="*";
-        else if( tila == 0)
-            tilamerkki = "-";
-
-        out << QString("%1%2 %3 %4 %5\n")
-               .arg(tyyppi)
-               .arg(tilamerkki)
-               .arg(tilinro)
-               .arg( QString(tili.json()->toJson()))
-               .arg( nimi );
-
-    }
-
-    // Tositelajit
-    // Viedään tositelajista kaksi eteenpäin: Ei järjestelmää (*) eikä Muu tosite -oletustositetta
-    out << "[tositelajit]\n";
-    for( int i=0; i < kp()->tositelajit()->rowCount(QModelIndex()); i++)
-    {
-        QModelIndex indeksi = kp()->tositelajit()->index(i, 0);
-
-        // OL {json} Ostolaskut
-        QString tunnus = indeksi.data(TositelajiModel::TunnusRooli).toString();
-
-        if( !tunnus.isEmpty() && tunnus != "*")
-            out << QString("%1 %2 %3\n")
-                   .arg( tunnus )
-                   .arg( QString(indeksi.data(TositelajiModel::JsonRooli).toByteArray()))
-                   .arg( indeksi.data(TositelajiModel::NimiRooli).toString() );
-
-    }
-
-    // Raportit ja joitakin muita asetuksia
-    QStringList avaimet;
-    avaimet << "AlvVelvollinen"
-            << "TilinpaatosPohja" << "TilinpaatosValinnat"
-            << "LaskuTositelaji" << "LaskuKirjausperuste"
-            << "LaskuSaatavatili" << "LaskuKateistili"
-            << "LaskuMaksuaika" << "LaskuHuomautusaika"
-            << "ArkistoRaportit";
-
-    avaimet << kp()->asetukset()->avaimet("Raportti/");
-
-
-    foreach (QString avain, avaimet)
-    {
-        if( kp()->asetukset()->onko(avain))
-            out << QString("[%1]\n%2\n").arg(avain).arg( kp()->asetukset()->asetus(avain) );
-    }
-
-
-    tiedosto.close();
-
-    QDialog::accept();
 }

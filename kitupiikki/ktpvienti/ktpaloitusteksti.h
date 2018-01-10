@@ -35,6 +35,8 @@ public:
     explicit KtpAloitusTeksti();
     ~KtpAloitusTeksti();
 
+    virtual bool validatePage();
+
 private:
     Ui::KtpAloitusTeksti *ui;
 };

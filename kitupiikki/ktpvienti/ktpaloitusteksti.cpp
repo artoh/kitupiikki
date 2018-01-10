@@ -23,12 +23,20 @@ KtpAloitusTeksti::KtpAloitusTeksti() :
     ui(new Ui::KtpAloitusTeksti)
 {
     ui->setupUi(this);
-    setTitle("Tilikartan aloitusteksti");
-    registerField("introteksti", ui->introEdit,"plainText");
-    ui->introEdit->setPlainText(kp()->asetukset()->asetus("TilikarttaKuvaus"));
+    setTitle("Tilikartan ohje");
+
+    registerField("ohje", ui->introEdit);
+    ui->introEdit->setText(kp()->asetukset()->asetus("TilikarttaOhje"));
 }
 
 KtpAloitusTeksti::~KtpAloitusTeksti()
 {
     delete ui;
+}
+
+bool KtpAloitusTeksti::validatePage()
+{
+    QString ohje = ui->introEdit->toHtml();
+    setField("ohje", ohje );
+    return true;
 }

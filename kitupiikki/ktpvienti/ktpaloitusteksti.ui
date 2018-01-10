@@ -17,7 +17,7 @@
    <item>
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kirjoita tilikartan ohjeteksti (html), joka näytetään käyttäjälle ennen uuden kirjanpidon luomista.&lt;/p&gt;&lt;p&gt;Anna vihjeitä siitä, mitä käyttäjän kannattaa tehdä ensiksi. Onko tätä tilikarttaa käytettäessä jotain erityisesti huomattavaa?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kirjoita tilikartan ohjeteksti.&lt;/p&gt;&lt;p&gt;Anna vihjeitä siitä, mitä käyttäjän kannattaa tehdä ensiksi. Onko tätä tilikarttaa käytettäessä jotain erityisesti huomattavaa?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -25,10 +25,18 @@
     </widget>
    </item>
    <item>
-    <widget class="QPlainTextEdit" name="introEdit"/>
+    <widget class="MRichTextEdit" name="introEdit" native="true"/>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MRichTextEdit</class>
+   <extends>QWidget</extends>
+   <header>tilinpaatoseditori/mrichtexteditor/mrichtextedit.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

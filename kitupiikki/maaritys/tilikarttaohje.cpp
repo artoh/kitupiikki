@@ -23,6 +23,11 @@ TilikarttaOhje::TilikarttaOhje() :
     ui(new Ui::TilikarttaOhje)
 {
     ui->setupUi(this);
+    ui->ohjeEditori->setVisible(false);
+
+    connect( ui->muokkausNappi, SIGNAL(clicked(bool)),
+             this, SIGNAL(tallennaKaytossa(bool)));
+
 }
 
 bool TilikarttaOhje::nollaa()
@@ -31,7 +36,23 @@ bool TilikarttaOhje::nollaa()
     ui->tekijaLabel->setText( kp()->asetukset()->asetus("TilikarttaTekija"));
     ui->pvmLabel->setText( kp()->asetukset()->pvm("TilikarttaPvm").toString(Qt::SystemLocaleShortDate) );
     ui->ohjeBrowser->setHtml( kp()->asetukset()->asetus("TilikarttaOhje"));
+    ui->ohjeEditori->setText(kp()->asetukset()->asetus("TilikarttaOhje"));
     ui->elinkeinoLabel->setVisible( kp()->asetukset()->onko("Elinkeinonharjoittaja"));
 
     return true;
+}
+
+bool TilikarttaOhje::tallenna()
+{
+    kp()->asetukset()->aseta("TilikarttaOhje", ui->ohjeEditori->toHtml());
+    ui->ohjeBrowser->setHtml( kp()->asetukset()->asetus("TilikarttaOhje"));
+    ui->muokkausNappi->setChecked(false);
+    ui->ohjeEditori->setVisible(false);
+
+    return true;
+}
+
+bool TilikarttaOhje::onkoMuokattu()
+{
+    return ui->ohjeEditori->toHtml() != kp()->asetukset()->asetus("TilikarttaOhje");
 }

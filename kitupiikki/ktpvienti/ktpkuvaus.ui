@@ -25,10 +25,18 @@
     </widget>
    </item>
    <item>
-    <widget class="QPlainTextEdit" name="kuvausEdit"/>
+    <widget class="MRichTextEdit" name="kuvausEdit" native="true"/>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MRichTextEdit</class>
+   <extends>QWidget</extends>
+   <header>tilinpaatoseditori/mrichtexteditor/mrichtextedit.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

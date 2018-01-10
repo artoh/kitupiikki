@@ -1,5 +1,5 @@
 [TilikarttaNimi]
-Yksityinen elinkeinonharjoittaja
+Elinkeinonharjoittaja
 [TilikarttaTekija]
 artoh.github.io
 [TilikarttaPvm]
@@ -17,6 +17,8 @@ artoh.github.io
 <p>Yrittäjä voi ottaa nostaa varoja yritykseltä kirjaamalla <b>yksityisnoston</p> ja vastaavasti sijoittaa omaisuuttaan elinkeinokäyttöön tekemällä <b>yksityispanon</b></p>
 [TilikarttaLuontiVersio]
 0.2.1-alpha
+[VakioTilikartta]
+elinkeinonharjoittaja.kpk
 [Elinkeinonharjoittaja]
 ON
 [KpVersio]

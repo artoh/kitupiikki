@@ -26,12 +26,18 @@ KtpKuvaus::KtpKuvaus() :
     ui->setupUi(this);
     setTitle("Tilikartan kuvaus");
 
-    registerField("kuvaus", ui->kuvausEdit,"plainText");
-    ui->kuvausEdit->setPlainText( kp()->asetukset()->asetus("TilikarttaOhje"));
+    registerField("kuvaus", ui->kuvausEdit);
+    ui->kuvausEdit->setText(kp()->asetukset()->asetus("TilikarttaKuvaus"));
 }
 
 KtpKuvaus::~KtpKuvaus()
 {
     delete ui;
+}
+
+bool KtpKuvaus::validatePage()
+{
+    setField("kuvaus", ui->kuvausEdit->toHtml());
+    return true;
 }
 

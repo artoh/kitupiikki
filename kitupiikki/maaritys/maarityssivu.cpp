@@ -247,8 +247,7 @@ void MaaritysSivu::paivitaNakyvat()
 
 void MaaritysSivu::vieTilikartta()
 {
-    KtpVienti vientiVelho;
-    vientiVelho.exec();
+    KtpVienti::vieKtp();
 }
 
 void MaaritysSivu::paivitaTilikartta()

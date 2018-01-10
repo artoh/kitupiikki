@@ -34,6 +34,7 @@ class KtpKuvaus : public QWizardPage
 public:
     KtpKuvaus();
     ~KtpKuvaus();
+    virtual bool validatePage();
 
 private:
     Ui::KtpKuvaus *ui;

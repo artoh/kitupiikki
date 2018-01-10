@@ -89,6 +89,20 @@ void PaivitaKirjanpito::lataaPaivitys(const QString &tiedosto)
 {
     QMap<QString,QStringList> ktk = UusiKirjanpito::lueKtkTiedosto(tiedosto);
 
+    QString vakiokartta = ktk.value("VakioTilikartta").join("");
+    if( vakiokartta != kp()->asetukset()->asetus("VakioTilikartta"))
+    {
+        // Vielä varmuudeksi viimeinen tyyppitarkastus !
+
+        if( QMessageBox::warning(0, tr("Tilikartan päivitys"),
+                                 tr("Päivitettävän tilikartan tyyppitieto %1 poikkeaa "
+                                    "nykyisen tilikartan tyyppitiedosta %2.\n\n"
+                                    "Oletko varma, että haluat päivittää tilikartan?"),
+                                 QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) != QMessageBox::Yes)
+            return;
+    }
+
+
     // Tarkistetaan, onko raportteja ja tilinpäätöstä muokattu
     QStringList raportit = kp()->asetukset()->avaimet("Raportti/");
     bool rapoYlikirjoita = false;

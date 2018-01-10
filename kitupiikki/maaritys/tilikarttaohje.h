@@ -32,9 +32,13 @@ class TilikarttaOhje : public MaaritysWidget
 public:
     TilikarttaOhje();    
     bool nollaa() override;
+    bool tallenna() override;
+    bool onkoMuokattu() override;
+    bool naytetaankoVienti() { return true; }
 
 private:
     Ui::TilikarttaOhje *ui;
+    bool muokattu;
 };
 
 #endif // TILIKARTTAOHJE_H
