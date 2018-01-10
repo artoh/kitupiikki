@@ -3,19 +3,33 @@ Osakeyhtiö
 [TilikarttaTekija]
 artoh.github.io
 [TilikarttaPvm]
-2018-01-08
-[VakioTilikartta]
-osakeyhtio.kpk
+2018-01-11
 [TilikarttaKuvaus]
-<p>Osakeyhtiö kululajikohtaisella tilinpäätöksessä. Sisältää myös PMA-asetuksen mukaisen lyhyen taseen ja bruttotulos-tilinpäätöksen sekä liitetietojen pohjan</p>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+<html><head><meta name="qrichtext" content="1" /><style type="text/css">
+p, li { white-space: pre-wrap; }
+</style></head><body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;">
+<p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Osakeyhtiö kululajikohtaisella tilinpäätöksellä.</p>
+<p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Sisältää PMA-asetuksen mukaisten liitetietojen pohjan.</p></body></html>
 [TilikarttaOhje]
-<h1>Osakeyhtiö</h1>
-<h2>Tilikartta</h2>
-<p>Suuri osa konserniin liittyvistä tileistä on piilotettu, ja ne saa näkyviin <b>Määritykset > Tilikartta</b> -valinnoista.</p>
-<h2>Tilinpäätös</h2>
-<p>Tilikartta sisältää neljä vaihtoehtoista kululajikohtaista tilinpäätösrunkoa. Tilinpäätöksen yhteydessä voi valita tilinpäätökseen liitettävän vaihtoehdon.</p>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+<html><head><meta name="qrichtext" content="1" /><style type="text/css">
+p, li { white-space: pre-wrap; }
+</style></head><body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;">
+<p style=" margin-top:18px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:16pt; font-weight:600;">Osakeyhtiö</span></p>
+<p style=" margin-top:18px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:14pt; font-weight:600;">Tilikartta</span></p>
+<p style=" margin-top:18px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Konserniin liittyvät tilit on oletuksena piilottu, mutta ne saa näkyviin Tilikarttamäärityksistä.</p>
+<p style=" margin-top:18px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Koska arvonlisäveron voi määritellä jokaiselle viennille erikseen, on tilikartassa vain yksi myyntitili <span style=" font-weight:600;">3000 </span>Myynti (lisäksi tilit <span style=" font-weight:600;">3010 </span>Oheispalvelut, <span style=" font-weight:600;">3020 Toimitusveloitukset ja osamaksulisät</span> sekä <span style=" font-weight:600;">3071 Myynnin alennukset</span>). Samoin tavaraostoille on vain yksi tili <span style=" font-weight:600;">4000 </span>ostot. Eri tyypin ostoille ja myynneille voi toki lisätä omat tilinsä.</p>
+<p style=" margin-top:18px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Kartassa on valmiina yksi käteiskassa <span style=" font-weight:600;">1900 </span>ja yksi pankkitili <span style=" font-weight:600;">1910</span>. Lisää tarvittavia pankkitilejä, esim. 1911, 1912 jne.</p>
+<p style=" margin-top:18px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:14pt; font-weight:600;">Arvonlisävero</span></p>
+<p style=" margin-top:18px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Yritys on oletusarvoisesti arvonlisävelvollinen ja tekee ilmoituksen joka kuukausi. Asetuksia voi muuttaa Arvonlisäveron määrityksistä.</p>
+<p style=" margin-top:18px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Huomaa, että eräillä tileillä tulee tapauskohtaisesti määritellä, mikä on käytettävä alv-prosentti ja -tyyppi. Esimerkiksi matkakuluissa joukkoliikenteen alv on 10%, mutta tilitettävistä km-korvauksista ei voi vähentää arvonlisäveroa. </p>
+<p style=" margin-top:16px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:x-large; font-weight:600;">Tilinpäätös</span></p>
+<p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Tilikartta sisältää neljä vaihtoehtoista kululajikohtaista tilinpäätösrunkoa: yleinen, PMA-asetuksen mukainen laskelma bruttotuloksella sekä mikroyritysten lyhyet tuloslaskemat bruttotuloksella sekä ilman. Tilinpäätöksen yhteydessä voit valita, mikä tuloslaskelma liitetään tilinpäätökseen.</p>
+<p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Ohjelma sisältää opastavat tekstit PMA-asetuksen mukaisiin tilinpäätöksen liitetietoihin.</p>
+<p style="-qt-paragraph-type:empty; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><br /></p></body></html>
 [TilikarttaLuontiVersio]
-0.2.1-alpha
+0.3
 [KpVersio]
 1
 [tilit]
@@ -534,66 +548,8 @@ Tase
 Toiminnanalat
 Tuloslaskelma
 Tuloslaskelma
-[Raportti/Tuloslaskelma]
-:tulos
-Liikevaihto		30 * bold
-
-Valmiiden ja keskeneräisten tuotteiden varastojen muutos	37 *
-Valmistus omaan käyttöön		38 *
-Liiketoiminnan muut tuotot		39 *
-
-Materiaalit ja palvelut		4
-Aineet, tarvikkeet tavarat		40 s4
-Ostot tilikauden aikana		400..407 s8 *
-Varastojen lisäys tai vähennys	408 s8 *
-Ulkopuoliset palvelut		47 s4 *
-
-Henkilöstökulut		5
-Palkat ja palkkiot		50 s4 *
-Henkilösivukulut		51 s4
-Eläkekulut		510..511 s8 *
-Muut henkilösivukulut		512 s8 *
-
-Poistot ja arvonalentumat		6
-Suunnitelman mukaiset poistot	600 s4 *
-Arvonalentumat pysyvien vastaavien hyödykkeistä	602 s4 *
-Vaihtuvien vastaavien poikkeukselliset arvonalentumiset	603 s4 *
-
-Liiketoiminnan muut kulut		7 *
-
-Liikevoitto/tappio		3..7 bold
-
-Rahoitustuotot ja -kulut		90..91
-Tuotot osuuksista saman konsernin yrityksissä	902 s4 *
-Tuotot osuuksista omistusyhteysyrityksissä	903 s4 *
-Tuotot muista pysyvien vastaavien sijoituksista	904..905 s4 *
-Saman konsernin yrityksiltä		904
-Muilta		905
-
-Muut korko- ja rahoitustuotot		906..907 s4
-Saman konsernin yrityksiltä		906 s8 *
-Muilta		907 s8 *
-
-Arvonalentumiset pysyvien vastaavien sijoituksista	911 s4 *
-Arvonalentumiset vaihtuvien vastaavien rahoitusarvopapereista	912 s4 *
-Korkokulut ja muut rahoituskulut	916..917 s4
-Saman konsernin yrityksille		916 s8 *
-Muille		917 s8 *
-
-Voitto/tappio ennen tilinpäätössiirtoja ja veroja	3..91 bold
-
-Tilinpäätössiirrot		95
-Poistoeron lisäys (-) tai vähennys (+)	950 s4 *
-Verotusperusteisten varausten lisäys (-) tai vähennys (+)	951 s4 *
-Saadut (+) tai annetut (-) konserniavustukset	958 s4 *
-Muut tilinpäätössiirrot		959 s4 *
-
-Tuloverot		96
-Tilikauden verot		960 s4 *
-Laskennalliset verot		961 s4 *
-Muut välittömät verot		967 s4 *
-
-Tilikauden voitto / tappio		0 bold
+[VakioTilikartta]
+osakeyhtio.kpk
 [Raportti/Tuloslaskelma mikroyritys]
 :tulos
 Liikevaihto		30 * bold
@@ -615,26 +571,64 @@ Tuloverot		96 *
 Muut välittömät verot		967 s4 *
 
 Tilikauden voitto / tappio		0 bold
-[Raportti/Tuloslaskelma mikro bruttotulos]
+[Raportti/Tase PMA]
+:tase
+
+VASTAAVAA		H bold
+
+PYSYVÄT VASTAAVAT		10..146 
+Aineettomat hyödykkeet		10 s4 *
+Aineelliset hyödykkeet		11 s4 *		
+Sijoitukset		14 s4 *
+OMAKATTEISTEN RAHASTOJEN VARAT	148 s4 *
+VAIHTUVAT VASTAAVAT		15..19 
+Vaihto-omaisuus		15 s4 *		
+Pitkäaikaiset saamiset		16 s4 *
+Lyhytaikaiset saamiset		17 s4 *
+Rahoitusarvopaperit		18 s4 *
+Rahat ja pankkisaamiset		19 s8 *
+
+Vastaavaa yhteensä		1 bold
+
+
+VASTATTAVAA		H bold
+
+VASTATTAVAA		H bold
+OMA PÄÄOMA		20 
+Osake-, osuus- tai muu vastaava pääoma	200 s4 *
+Sidotut rahastot		201,202 s4
+Omakatteiset rahastot		201 s8 *
+Muut sidotut rahastot		202 s8 *
+Ylikurssirahasto		2032 s4 *
+Arvonkorotusrahasto		2033 s4 *
+Muut rahastot		204 s4
+Äänettömät yhtiömiehet		210 s4 *
+Vastuunalaiset yhtiömiehet		211 s4 *
+Yksityistilit tilikaudella		22 s4 *
+Edellisten tilikausien voitto/tappio	2450 s4 *
+Tilikauden voitto/tappio		2460 s4 *
+TILINPÄÄTÖSSIIRTOJEN KERTYMÄ	25 
+PAKOLLISET VARAUKSET		26	
+VIERAS PÄÄOMA		26..28
+Pitkäaikainen vieras pääoma		28 s4
+Lyhytaikainen vieras pääoma		29 s4
+
+
+Vastattavaa yhteensä		2 bold
+
+[Raportti/Tuloslaskelma]
 :tulos
-Bruttotulos		3,4 bold *
+Liikevaihto		30 * bold
 
-Henkilöstökulut		5 *
-Poistot ja arvonalentumat		6 *
-Liiketoiminnan muut kulut		7 *
+Valmiiden ja keskeneräisten tuotteiden varastojen muutos	37 *
+Valmistus omaan käyttöön		38 *
+Liiketoiminnan muut tuotot		39 *
 
-Liikevoitto/tappio		3..7 bold
-Rahoitustuotot ja -kulut		90..91 *
-
-Voitto/tappio ennen tilinpäätössiirtoja ja veroja	3..91 bold
-Tilinpäätössiirrot		95 *
-Tuloverot		96 *
-Muut välittömät verot		967 s4 *
-
-Tilikauden voitto / tappio		0 bold
-[Raportti/Tuloslaskelma PMA bruttotulos]
-:tulos
-Bruttotulos		3,4 bold
+Materiaalit ja palvelut		4
+Aineet, tarvikkeet tavarat		40 s4
+Ostot tilikauden aikana		400..407 s8 *
+Varastojen lisäys tai vähennys	408 s8 *
+Ulkopuoliset palvelut		47 s4 *
 
 Henkilöstökulut		5
 Palkat ja palkkiot		50 s4 *
@@ -790,48 +784,70 @@ Siirtovelat  		299 s8 *
 Vastattavaa yhteensä		2 bold
 
 
-[Raportti/Tase PMA]
-:tase
+[Raportti/Tuloslaskelma PMA bruttotulos]
+:tulos
+Bruttotulos		3,4 bold
 
-VASTAAVAA		H bold
+Henkilöstökulut		5
+Palkat ja palkkiot		50 s4 *
+Henkilösivukulut		51 s4
+Eläkekulut		510..511 s8 *
+Muut henkilösivukulut		512 s8 *
 
-PYSYVÄT VASTAAVAT		10..146 
-Aineettomat hyödykkeet		10 s4 *
-Aineelliset hyödykkeet		11 s4 *		
-Sijoitukset		14 s4 *
-OMAKATTEISTEN RAHASTOJEN VARAT	148 s4 *
-VAIHTUVAT VASTAAVAT		15..19 
-Vaihto-omaisuus		15 s4 *		
-Pitkäaikaiset saamiset		16 s4 *
-Lyhytaikaiset saamiset		17 s4 *
-Rahoitusarvopaperit		18 s4 *
-Rahat ja pankkisaamiset		19 s8 *
+Poistot ja arvonalentumat		6
+Suunnitelman mukaiset poistot	600 s4 *
+Arvonalentumat pysyvien vastaavien hyödykkeistä	602 s4 *
+Vaihtuvien vastaavien poikkeukselliset arvonalentumiset	603 s4 *
 
-Vastaavaa yhteensä		1 bold
+Liiketoiminnan muut kulut		7 *
 
+Liikevoitto/tappio		3..7 bold
 
-VASTATTAVAA		H bold
+Rahoitustuotot ja -kulut		90..91
+Tuotot osuuksista saman konsernin yrityksissä	902 s4 *
+Tuotot osuuksista omistusyhteysyrityksissä	903 s4 *
+Tuotot muista pysyvien vastaavien sijoituksista	904..905 s4 *
+Saman konsernin yrityksiltä		904
+Muilta		905
 
-VASTATTAVAA		H bold
-OMA PÄÄOMA		20 
-Osake-, osuus- tai muu vastaava pääoma	200 s4 *
-Sidotut rahastot		201,202 s4
-Omakatteiset rahastot		201 s8 *
-Muut sidotut rahastot		202 s8 *
-Ylikurssirahasto		2032 s4 *
-Arvonkorotusrahasto		2033 s4 *
-Muut rahastot		204 s4
-Äänettömät yhtiömiehet		210 s4 *
-Vastuunalaiset yhtiömiehet		211 s4 *
-Yksityistilit tilikaudella		22 s4 *
-Edellisten tilikausien voitto/tappio	2450 s4 *
-Tilikauden voitto/tappio		2460 s4 *
-TILINPÄÄTÖSSIIRTOJEN KERTYMÄ	25 
-PAKOLLISET VARAUKSET		26	
-VIERAS PÄÄOMA		26..28
-Pitkäaikainen vieras pääoma		28 s4
-Lyhytaikainen vieras pääoma		29 s4
+Muut korko- ja rahoitustuotot		906..907 s4
+Saman konsernin yrityksiltä		906 s8 *
+Muilta		907 s8 *
 
+Arvonalentumiset pysyvien vastaavien sijoituksista	911 s4 *
+Arvonalentumiset vaihtuvien vastaavien rahoitusarvopapereista	912 s4 *
+Korkokulut ja muut rahoituskulut	916..917 s4
+Saman konsernin yrityksille		916 s8 *
+Muille		917 s8 *
 
-Vastattavaa yhteensä		2 bold
+Voitto/tappio ennen tilinpäätössiirtoja ja veroja	3..91 bold
 
+Tilinpäätössiirrot		95
+Poistoeron lisäys (-) tai vähennys (+)	950 s4 *
+Verotusperusteisten varausten lisäys (-) tai vähennys (+)	951 s4 *
+Saadut (+) tai annetut (-) konserniavustukset	958 s4 *
+Muut tilinpäätössiirrot		959 s4 *
+
+Tuloverot		96
+Tilikauden verot		960 s4 *
+Laskennalliset verot		961 s4 *
+Muut välittömät verot		967 s4 *
+
+Tilikauden voitto / tappio		0 bold
+[Raportti/Tuloslaskelma mikro bruttotulos]
+:tulos
+Bruttotulos		3,4 bold *
+
+Henkilöstökulut		5 *
+Poistot ja arvonalentumat		6 *
+Liiketoiminnan muut kulut		7 *
+
+Liikevoitto/tappio		3..7 bold
+Rahoitustuotot ja -kulut		90..91 *
+
+Voitto/tappio ennen tilinpäätössiirtoja ja veroja	3..91 bold
+Tilinpäätössiirrot		95 *
+Tuloverot		96 *
+Muut välittömät verot		967 s4 *
+
+Tilikauden voitto / tappio		0 bold
