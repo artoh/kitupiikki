@@ -69,6 +69,7 @@ void Arkistoija::luoHakemistot()
     // Kopioidaan vakitiedostot
     QFile::copy( ":/arkisto/arkisto.css", hakemisto_.absoluteFilePath("arkisto.css"));
     QFile::copy( ":/arkisto/jquery.js", hakemisto_.absoluteFilePath("jquery.js"));
+    QFile::copy( ":/arkisto/ohje.html", hakemisto_.absoluteFilePath("ohje.html"));
 
 }
 
@@ -312,8 +313,6 @@ void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
     out << "<li><a href=tililuettelo.html>Tililuettelo</a></li>";
     out << "</ul><h3>Raportit</h3><ul>";
 
-
-
     QStringList raportit;
     raportit = kp()->asetukset()->lista("ArkistoRaportit");
     raportit.sort(Qt::CaseInsensitive);
@@ -358,6 +357,10 @@ void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
             out << "</a></li>";
         }
     }
+
+    // Tase-erittely myös keskeneräiseen kirjanpitoon
+    if( tilikausi_.paattyy() > kp()->tilitpaatetty() )
+        out << "<li><a href=taseerittely.html>" << tr("Tase-erittely") << "</a></li>";
     out << "</ul>";
 
     kirjoitaHash();
