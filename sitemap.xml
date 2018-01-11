@@ -27,7 +27,7 @@
 
     
     <url>
-     <loc>https://artoh.github.io/kitupiikki/aloitus/aloitus/</loc>
+     <loc>https://artoh.github.io/kitupiikki/aloitus/</loc>
      <lastmod>2018-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url>
@@ -37,6 +37,12 @@
         
     <url>
      <loc>https://artoh.github.io/kitupiikki/maaritykset/perusvalinnat/</loc>
+     <lastmod>2018-01-11</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>https://artoh.github.io/kitupiikki/maaritykset/tilikartta/</loc>
      <lastmod>2018-01-11</lastmod>
      <changefreq>daily</changefreq>
     </url>
