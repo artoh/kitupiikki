@@ -42,6 +42,8 @@ SelausWg::SelausWg() :
     proxyModel->setSourceModel(model);
     proxyModel->setSortRole(Qt::EditRole);  // Jotta numerot lajitellaan oikein
     proxyModel->setFilterKeyColumn( SelausModel::TILI);
+    proxyModel->setSortLocaleAware(true);
+    proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
     etsiProxy = new QSortFilterProxyModel(this);
     etsiProxy->setSourceModel(proxyModel);

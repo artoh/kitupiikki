@@ -301,6 +301,9 @@ QDate LaskuModel::pvm() const
 qulonglong LaskuModel::laskunro() const
 {
     qlonglong pohjanro = kp()->asetukset()->isoluku("LaskuSeuraavaId") / 10;
+    if( pohjanro < 100)
+        pohjanro = 100;
+
     while(true)
     {
         // Lasketaan aina tunnistenumero uudelleen!!!

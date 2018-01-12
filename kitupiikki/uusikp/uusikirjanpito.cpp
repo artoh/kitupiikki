@@ -286,6 +286,8 @@ bool UusiKirjanpito::alustaKirjanpito()
     // Alv-tietojen oletukset
     asetukset.aseta("AlvIlmoitus", field("alkaa").toDate().addDays(-1));
     asetukset.aseta("AlvKausi",1);
+    // Laskunumero
+    asetukset.aseta("LaskuSeuraavaId",1009);
 
     if( field("onekakausi").toBool())
     {
