@@ -74,7 +74,7 @@ Tilikausi::TilinpaatosTila Tilikausi::tilinpaatoksenTila()
 }
 
 
-quint64 Tilikausi::tulos() const
+qlonglong Tilikausi::tulos() const
 {
     QSqlQuery kysely(  QString("SELECT SUM(kreditsnt), SUM(debetsnt) "
                                "FROM vienti, tili WHERE "
@@ -89,7 +89,7 @@ quint64 Tilikausi::tulos() const
         return 0;
 }
 
-quint64 Tilikausi::liikevaihto() const
+qlonglong Tilikausi::liikevaihto() const
 {
     QSqlQuery kysely(  QString("SELECT SUM(kreditsnt), SUM(debetsnt) "
                                "FROM vienti, tili WHERE "

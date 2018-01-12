@@ -265,7 +265,7 @@ bool LiiteModel::tallenna()
                 uusitiedosto.write( liitteet_.at(i).pdf );
                 uusitiedosto.close();
 
-                liitteet_[i].sha = QCryptographicHash::hash( liitteet_.at(i).pdf, QCryptographicHash::Sha256);
+                liitteet_[i].sha = QCryptographicHash::hash( liitteet_.at(i).pdf, QCryptographicHash::Sha256).toHex();
 
                 kysely.prepare("INSERT INTO liite(liiteno, tosite, otsikko, peukku, sha) "
                                "VALUES(:liiteno, :tosite, :otsikko, :peukku, :sha)");

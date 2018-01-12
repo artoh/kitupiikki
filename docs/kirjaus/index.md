@@ -88,3 +88,9 @@ Kun lasku maksetaan eräpäivänä, kohdennetaan kirjaus laskun tase-erälle. N�
 ![](laskunmaksu.png)
 
 ### Investoinnit
+
+![](ohjelma.png)
+
+Pitkäaikainen investointi (koneet, kalusto, rakennukset, it-ohjelmistot) kirjataan taseeseen, ja kulut [poistetaan](kirjanpito/kirjanpito/#poistot) usean tilikauden aikana.
+
+Kirjattaessa hankintaa tasaerin poistettavalle tilille, muodostetaan uusi tase-erä ja määritetään tämän hankinnan poistoaika.

@@ -78,13 +78,13 @@ public:
      * @brief Tilikauden yli/alijäämä
      * @return Tulos sentteinä
      */
-    quint64 tulos() const;
+    qlonglong tulos() const;
 
     /**
      * @brief Tilikauden liikevaihto (CL-kirjaukset)
      * @return Liikevaihto sentteinä
      */
-    quint64 liikevaihto() const;
+    qlonglong liikevaihto() const;
 
     /**
      * @brief Tilikauden päättävä tase
