@@ -163,6 +163,8 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                 kysely.exec(QString("SELECT tositelaji,tunniste,pvm,selite,debetsnt,kreditsnt,tositeId from vientivw where tilinro=%1 and "
                             "pvm between \"%2\" and \"%3\" order by pvm")
                             .arg(tili.numero()).arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate)) );
+
+                qDebug() << kysely.lastQuery();
                 while( kysely.next() )
                 {
                     RaporttiRivi rr;

@@ -49,3 +49,5 @@ Kitupiikin lähdekoodi on julkisesti saatavilla osoitteessa <https://github.com/
     Kitupikki-ohjelmaan ei sisälly minkäänlaista takuuta ohjelma toimivuudesta tai soveltuvuudesta. Ohjelma on testattu huolellisesti, mutta siinä voi silti olla virheitä ja ohjelman käyttäjä ottaa vastuun ohjelman mahdollisesti aiheuttamista vahigoista.
 
 ## Palaute
+
+Voit lähettää Kitupiikistä palautetta [palautelomakkeella](https://form.jotformeu.com/73283959099374).

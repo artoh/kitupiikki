@@ -275,8 +275,11 @@ bool Poistaja::onkoPoistoja(Tilikausi kausi)
 {
 
     QSqlQuery kysely;
-    kysely.exec( QString("SELECT sum(debetsnt) as db, sum(kreditsnt) as kr from viennit,tili where viennit.tili = tili.id and"
+    kysely.exec( QString("SELECT sum(debetsnt) as db, sum(kreditsnt) as kr from vienti,tili where vienti.tili = tili.id and "
                          "(tili.tyyppi=\"APM\" or tili.tyyppi=\"APT\") and pvm <= \"%1\" ").arg(kausi.paattyy().toString(Qt::ISODate)) );
+
+    qDebug() << kysely.lastQuery();
+
     if( kysely.next())
         return kysely.value("db").toInt() != kysely.value("kr").toInt();
 

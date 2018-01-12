@@ -398,7 +398,7 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu)
     painter->drawText( QRect(sivunleveys/4,0,sivunleveys/2, rivinkorkeus  ), Qt::AlignHCenter, otsikko_);
     painter->drawText( QRect(sivunleveys*3/4, 0, sivunleveys/4, rivinkorkeus), Qt::AlignRight, paivays);
 
-    if( kp()->asetukset()->onko("Harjoitus"))
+    if( kp()->asetukset()->onko("Harjoitus") )
     {
         painter->save();
         painter->setPen( QPen(Qt::red));
