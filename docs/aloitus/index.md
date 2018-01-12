@@ -43,8 +43,7 @@ Voit valita ohjelman mukana tulevan tilikartan tai **Lataa tilikartta tiedostost
 erilliseen tiedostoon tallennetun tilikartan.
 
 Voit myöhemmin lisätä, muokata ja poistaa käytössä olevia tilejä samoin kuin
-raporttien ja tilinpäätöksen malleja. Et voi kuitenkaan vaihtaa aloitettua
-kirjanpitoa kokonaan toiseen tilikarttaan.
+raporttien ja tilinpäätöksen malleja.
 
 ##Tilikausi
 
@@ -87,6 +86,8 @@ Kaikki valinnat on tehty, ja sinulle näytetään valitsemaasi tililuetteloon li
 
 Ennen kuin aloitat kirjausten tekemisen, kannattaa vielä tarkistaa joukko
 määrityksiä. Ne kaikki on selostettu Käsikirjan seuraavassa luvussa.
+
+![](harjoittelu.png)
 
 Jos käytät **harjoittelutilaa**, on ikkunan ylälaidassa vihreä **Harjoittelutila käytössä**-palkki,
 ja vaihtamalla oikeassa yläkulmassa olevaa päivämäärää voit "matkustaa ajassa" eli määrätä, mikä päivä

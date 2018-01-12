@@ -2,7 +2,7 @@
 
 !!! warning "Ei takuuta"
     Saat ohjelmiston käyttöösi täysin ilman maksua.
-    Kitupikki-ohjelmaan ei sisälly minkäänlaista takuuta ohjelman toimivuudesta tai soveltuvuudesta. Ohjelma on testattu huolellisesti, mutta siinä voi silti olla virheitä ja ohjelman käyttäjä ottaa vastuun ohjelman mahdollisesti aiheuttamista vahigoista.
+    Kitupiikki-ohjelmaan ei sisälly minkäänlaista takuuta ohjelman toimivuudesta tai soveltuvuudesta. Ohjelma on testattu huolellisesti, mutta siinä voi silti olla virheitä ja ohjelman käyttäjä ottaa vastuun ohjelman mahdollisesti aiheuttamista vahigoista.
 
 !!! note "Ei vielä valmis"
     Kitupiikin lataustiedostot julkaistaan tällä sivulla ennen pitkää...
@@ -18,7 +18,7 @@ Lataa Kitupiikin asennustiedosto yllä olevasta linkistä ja suorita se. Asennus
 
 (linkki asennusvideoon)
 
-!!! bug "Yhteensopivuusongelmia Egden kanssa"
+!!! bug "Yhteensopivuusongelmia Edgen kanssa"
     Erilaisten raporttien avautuminen Microsoft Edgeen Windows 10 -järjestelmässä ei aina toimi. Saadaksesi raportit näkyviin vaihda pdf-tiedostojen näyttäjäksi esimerkiksi Chrome-selain.
 
 ## Linux

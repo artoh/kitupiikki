@@ -170,9 +170,9 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                     rr.lisaa( kysely.value("pvm").toDate());
                     rr.lisaa(kysely.value("selite").toString());
                     if( tili.onko(TiliLaji::VASTAAVAA))
-                        rr.lisaa( kysely.value("debetsnt").toInt() - kysely.value("kreditsnt").toInt());
+                        rr.lisaa( kysely.value("debetsnt").toLongLong() - kysely.value("kreditsnt").toLongLong());
                     else
-                        rr.lisaa( kysely.value("kreditsnt").toInt() - kysely.value("debetsnt").toInt());
+                        rr.lisaa( kysely.value("kreditsnt").toLongLong() - kysely.value("debetsnt").toLongLong());
                     rk.lisaaRivi(rr);
                 }
 
@@ -192,7 +192,11 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                                       ind.data(EranValintaModel::TositteenTunnisteRooli).toString()  );
                     rr.lisaa( ind.data(EranValintaModel::PvmRooli).toDate());
                     rr.lisaa( ind.data(EranValintaModel::SeliteRooli).toString());
-                    rr.lisaa( ind.data(EranValintaModel::SaldoRooli).toInt());
+
+                    if( tili.onko(TiliLaji::VASTAAVAA))
+                        rr.lisaa( ind.data(EranValintaModel::SaldoRooli).toLongLong());
+                    else
+                        rr.lisaa( 0 - ind.data(EranValintaModel::SaldoRooli).toLongLong());
                     rk.lisaaRivi(rr);
                 }
             }

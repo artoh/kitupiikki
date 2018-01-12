@@ -33,16 +33,21 @@ markdown_extensions:
   - admonition
   - footnotes
   - meta
+  - toc:
+        permalink: true
 pages:
   - Kitupiikki: 'index.md'
   - Kirjanpidosta lyhyesti: 'kirjanpito/kirjanpito.md'
   - Asennus: 'asennus.md'
-  - Kirjanpidon aloittaminen: 'aloitus/aloitus.md'
-  - Määritykset (vanha): 'maaritykset.md'
+  - Kirjanpidon aloittaminen: 'aloitus/index.md'
   - Määritykset:
     - Perusvalinnat: 'maaritykset/perusvalinnat/index.md'
-    - Kirjaus : 'kirjaus.md'
-  - Kirjaaminen: 'kirjaus.md'
+    - Tilikartta: 'maaritykset/tilikartta/index.md'
+    - Tositelajit: 'maaritykset/tositelajit/index.md'
+    - Kohdennukset: 'maaritykset/kohdennukset/index.md'
+    - Tilinavaus : 'maaritykset/tilinavaus/index.md'
+    - Sähköpostin lähettäminen: 'maaritykset/sahkoposti/index.md'
+  - Kirjaaminen: 'kirjaus/index.md'
   - Selaaminen ja etsiminen: 'selaus.md'
   - Tulosteet: 'raportti.md'
   - Tilinpäätös: 'tilinpaatos.md'

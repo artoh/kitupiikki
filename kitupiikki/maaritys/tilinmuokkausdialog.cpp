@@ -53,7 +53,7 @@ TilinMuokkausDialog::TilinMuokkausDialog(TiliModel *model, QModelIndex index) :
     // Vain otsikkoon liittyvät piilotetaan
     ui->tasoSpin->setVisible(false);
     ui->tasoLabel->setVisible(false);
-    ui->valiastiEdit->setVisible(false);
+    ui->valiastiLabel->setVisible(false);
     ui->valiastiEdit->setVisible(false);
 
     // Tilinumeron muutosvaroitus piiloon
@@ -226,7 +226,7 @@ void TilinMuokkausDialog::nroMuuttaaTyyppia(const QString &nroteksti)
         {
            Tili tili = model_->tiliIndeksilla(i);
            int asti = tili.json()->luku("Asti") ? tili.json()->luku("Asti") : tili.numero();
-           if( ysinro >= tili.ysivertailuluku() && ysinro <= Tili::ysiluku( asti, true )  )
+           if( ysinro > tili.ysivertailuluku() && ysinro < Tili::ysiluku( asti, true )  )
            {
                if( tili.otsikkotaso() > ylatili.otsikkotaso() )
                    ylatili = tili;

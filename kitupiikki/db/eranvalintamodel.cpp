@@ -76,7 +76,7 @@ void EranValintaModel::lataa(Tili tili, bool kaikki, QDate paivalle)
     QSqlQuery query( *(kp()->tietokanta()) ) ;
 
     // avaimena eraid, arvona saldo (debet - kredit)
-    QHash<int, quint64 > saldot;
+    QHash<int, qlonglong > saldot;
 
     QString pvmehto;
     if( paivalle.isValid())
@@ -88,7 +88,7 @@ void EranValintaModel::lataa(Tili tili, bool kaikki, QDate paivalle)
     // Tallennetaan saldotaulukkoon tilien eräsaldot
     while( query.next() )
     {
-        saldot.insert( query.value("eraid").toInt(), query.value("debetit").toInt() - query.value("kreditit").toInt() );
+        saldot.insert( query.value("eraid").toInt(), query.value("debetit").toLongLong() - query.value("kreditit").toLongLong() );
     }
 
     query.exec(QString("SELECT id, pvm, selite, debetsnt, kreditsnt from vienti "
