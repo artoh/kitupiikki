@@ -64,7 +64,7 @@ AloitusSivu::AloitusSivu() :
     connect( kp(), SIGNAL(tietokantaVaihtui()), this, SLOT(kirjanpitoVaihtui()));
     connect( kp(), SIGNAL( perusAsetusMuuttui()), this, SLOT(kirjanpitoVaihtui()));
 
-    lisaaViimetiedostot();
+    paivitaTiedostoLista();
     pyydaInfo();
 }
 
@@ -146,6 +146,7 @@ void AloitusSivu::kirjanpitoVaihtui()
         }
     }
 
+    paivitaTiedostoLista();
     pyydaInfo();
     siirrySivulle();
 }
@@ -479,31 +480,52 @@ QString AloitusSivu::summat()
 
 
 
-void AloitusSivu::lisaaViimetiedostot()
+void AloitusSivu::paivitaTiedostoLista()
 {
     QSettings settings;
-    QStringList lista = settings.value("viimeiset").toStringList();
+    QStringList viimeiset = settings.value("ViimeisetTiedostot").toStringList();
 
-    ui->viimeiset->clear();
+    QStringList polut;
+    QStringList uusilista;
 
-    foreach (QString rivi, lista)
+    // Nykyinen
+    if( kp()->asetukset()->onko("Nimi"))
     {
-        QStringList palat = rivi.split(';');
-        QString polku = palat.at(0);
-        QString nimi = palat.at(1);
-        QString kuvake = QFileInfo(polku).absoluteDir().absoluteFilePath("logo64.png");
+        QString polku = kp()->hakemisto().absolutePath();
+        polut.append(polku);
+        if( kp()->onkoHarjoitus() )
+            uusilista.append(tr("%1 %2 (harjoitus)").arg(polku).arg(kp()->asetukset()->asetus("Nimi")));
+        else
+            uusilista.append(tr("%1 %2").arg(polku).arg(kp()->asetukset()->asetus("Nimi")));
+    }
 
-        if( polku.contains(".sqlite") && QFile::exists(polku))
+    // Vanhat, jos olemassa eikä vielä listalla
+    for( QString rivi : viimeiset )
+    {
+        QString polku = rivi.left(  rivi.indexOf(' '));
+        if( !polut.contains(polku) && QFile::exists( QDir(polku).absoluteFilePath("kitupiikki.sqlite")) )
         {
-
-            QListWidgetItem *item = new QListWidgetItem;
-            item->setText( nimi );
-            if( QFile::exists(kuvake))
-                item->setIcon( QIcon(kuvake));
-            item->setData(Qt::UserRole, polku);
-            ui->viimeiset->addItem(item);
+            uusilista.append(rivi);
         }
     }
 
+    // Näytölle
 
+    ui->viimeiset->clear();
+
+    for( QString rivi : uusilista)
+    {
+        int tyhja = rivi.indexOf(' ');
+        QString polku = rivi.left(tyhja);
+        QString nimi = rivi.mid(tyhja);
+
+        QListWidgetItem *item = new QListWidgetItem(nimi, ui->viimeiset);
+        item->setData(Qt::UserRole, QDir(polku).absoluteFilePath("kitupiikki.sqlite"));
+
+        QString kuvake = QDir(polku).absoluteFilePath("logo64.png");
+        if( QFile::exists( kuvake ))
+            item->setIcon( QIcon(kuvake));
+    }
+
+    settings.setValue("ViimeisetTiedostot", uusilista);
 }

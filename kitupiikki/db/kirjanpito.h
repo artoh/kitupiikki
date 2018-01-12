@@ -81,12 +81,6 @@ public:
     QDir hakemisto();
 
     /**
-     * @brief Luettelo viimeksi avatuista tiedostoista
-     * @return Luettelo, rivit muotoa polku otsikko
-     */
-    QStringList viimeisetTiedostot() const;
-
-    /**
      * @brief Käytetäänkö harjoittelutilassa
      * @return tosi, jos harjoitellaan
      */

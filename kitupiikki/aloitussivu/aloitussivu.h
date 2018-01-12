@@ -75,7 +75,7 @@ protected:
     QString summat();
 
     void saldot();
-    void lisaaViimetiedostot();
+    void paivitaTiedostoLista();
 
     /**
      * @brief githubista haettu tiedote uusista päivityksista tms.

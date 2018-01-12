@@ -31,16 +31,6 @@ Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
 {
     tietokanta_ = QSqlDatabase::addDatabase("QSQLITE");
     QSettings settings;
-
-    // Ladataan viimeisten tiedostojen lista.
-    QStringList viimelista = settings.value("viimeiset").toStringList();
-    foreach (QString rivi,viimelista)
-    {
-        QString polku = rivi.left(rivi.indexOf(' '));
-        if( QFile::exists( polku ))
-            viimetiedostot[ polku ] = rivi.mid( rivi.indexOf(' ') + 1);
-    }
-
     asetusModel_ = new AsetusModel(&tietokanta_, this);
     tositelajiModel_ = new TositelajiModel(&tietokanta_, this);
     tiliModel_ = new TiliModel( &tietokanta_, this);
@@ -69,18 +59,6 @@ QDir Kirjanpito::hakemisto()
     return finfo.absoluteDir();
 }
 
-QStringList Kirjanpito::viimeisetTiedostot() const
-{
-    QStringList tallelista;
-    QMapIterator<QString,QString> iter(viimetiedostot);
-
-    while( iter.hasNext())
-    {
-        iter.next();
-        tallelista.append(iter.key() + ";" + iter.value());
-    }
-    return tallelista;
-}
 
 QDate Kirjanpito::paivamaara() const
 {
@@ -142,16 +120,6 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
 
 
     polkuTiedostoon_ = tiedosto;
-
-    // Lisätään viimeisten tiedostojen listaan
-    if( onkoHarjoitus() )
-        viimetiedostot[ tiedosto ] = asetus("Nimi") + " (harjoittelu)";
-    else
-        viimetiedostot[ tiedosto ] = asetus("Nimi");
-    // Tallennetaan lista
-
-    QSettings settings;
-    settings.setValue("viimeiset",viimeisetTiedostot());
 
     // Ilmoitetaan, että tietokanta on vaihtunut
     emit tietokantaVaihtui();
