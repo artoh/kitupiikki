@@ -13,7 +13,7 @@
         <meta name="description" content="Avoimen lähdekoodin kirjanpitäjä">
       
       
-        <link rel="canonical" href="https://artoh.github.io/kitupiikki/maaritykset/tilikartta/">
+        <link rel="canonical" href="https://artoh.github.io/kitupiikki/maaritykset/raportit/">
       
       
         <meta name="author" content="Arto Hyvättinen">
@@ -38,7 +38,7 @@
     
     
       
-        <title>Tilikartta - Kitupiikin käsikirja</title>
+        <title>Raporttien muokkaus - Kitupiikin käsikirja</title>
       
     
     
@@ -100,7 +100,7 @@
                 Kitupiikin käsikirja
               </span>
               <span class="md-header-nav__topic">
-                Tilikartta
+                Raporttien muokkaus
               </span>
             
           
@@ -215,12 +215,10 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
     
     <label class="md-nav__link" for="nav-5">
       Määritykset
@@ -248,88 +246,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="toc">
-        Tilikartta
-      </label>
-    
-    <a href="./" title="Tilikartta" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../tilikartta/" title="Tilikartta" class="md-nav__link">
       Tilikartta
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="toc">Sisältö</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#tilikartan-muokkaaminen" title="Tilikartan muokkaaminen" class="md-nav__link">
-    Tilikartan muokkaaminen
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#tase-erittely-ja-tase-erat" title="Tase-erittely ja tase-erät" class="md-nav__link">
-    Tase-erittely ja tase-erät
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#poistettava-omaisuus" title="Poistettava omaisuus" class="md-nav__link">
-    Poistettava omaisuus
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#tilityypit" title="Tilityypit" class="md-nav__link">
-    Tilityypit
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#tilikartan-vieminen" title="Tilikartan vieminen" class="md-nav__link">
-    Tilikartan vieminen
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#tilikartan-paivittaminen" title="Tilikartan päivittäminen" class="md-nav__link">
-    Tilikartan päivittäminen
-  </a>
-  
-</li>
-      
-      
-      
-        <li class="md-nav__item">
-          <a href="#__comments" title="Kommentit" class="md-nav__link md-nav__link--active">
-            Kommentit
-          </a>
-        </li>
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -534,10 +455,12 @@
       
       
 
+  
 
-  <li class="md-nav__item md-nav__item--nested">
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-12" type="checkbox" id="nav-12">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-12" type="checkbox" id="nav-12" checked>
     
     <label class="md-nav__link" for="nav-12">
       Muita toimintoja
@@ -553,11 +476,76 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../raportit/" title="Raporttien muokkaus" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        Raporttien muokkaus
+      </label>
+    
+    <a href="./" title="Raporttien muokkaus" class="md-nav__link md-nav__link--active">
       Raporttien muokkaus
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="toc">Sisältö</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#kaytettavat-maareet" title="Käytettävät määreet" class="md-nav__link">
+    Käytettävät määreet
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#riviin-liittyvat-tilit" title="Riviin liittyvät tilit" class="md-nav__link">
+    Riviin liittyvät tilit
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#riville-tulostettavat-luvut" title="Riville tulostettavat luvut" class="md-nav__link">
+    Riville tulostettavat luvut
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rivin-muotoilu" title="Rivin muotoilu" class="md-nav__link">
+    Rivin muotoilu
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+        <li class="md-nav__item">
+          <a href="#__comments" title="Kommentit" class="md-nav__link md-nav__link--active">
+            Kommentit
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -605,51 +593,41 @@
 <nav class="md-nav md-nav--secondary">
   
   
-    
-  
   
     <label class="md-nav__title" for="toc">Sisältö</label>
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#tilikartan-muokkaaminen" title="Tilikartan muokkaaminen" class="md-nav__link">
-    Tilikartan muokkaaminen
+  <a href="#kaytettavat-maareet" title="Käytettävät määreet" class="md-nav__link">
+    Käytettävät määreet
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#riviin-liittyvat-tilit" title="Riviin liittyvät tilit" class="md-nav__link">
+    Riviin liittyvät tilit
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#tase-erittely-ja-tase-erat" title="Tase-erittely ja tase-erät" class="md-nav__link">
-    Tase-erittely ja tase-erät
+        
+          <li class="md-nav__item">
+  <a href="#riville-tulostettavat-luvut" title="Riville tulostettavat luvut" class="md-nav__link">
+    Riville tulostettavat luvut
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#poistettava-omaisuus" title="Poistettava omaisuus" class="md-nav__link">
-    Poistettava omaisuus
+        
+          <li class="md-nav__item">
+  <a href="#rivin-muotoilu" title="Rivin muotoilu" class="md-nav__link">
+    Rivin muotoilu
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#tilityypit" title="Tilityypit" class="md-nav__link">
-    Tilityypit
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#tilikartan-vieminen" title="Tilikartan vieminen" class="md-nav__link">
-    Tilikartan vieminen
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#tilikartan-paivittaminen" title="Tilikartan päivittäminen" class="md-nav__link">
-    Tilikartan päivittäminen
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -674,95 +652,51 @@
               
                 
                 
-                <h1 id="tilikartta">Tilikartta<a class="headerlink" href="#tilikartta" title="Permanent link">&para;</a></h1>
-<h2 id="tilikartan-muokkaaminen">Tilikartan muokkaaminen<a class="headerlink" href="#tilikartan-muokkaaminen" title="Permanent link">&para;</a></h2>
-<p><img alt="" src="./tilikartta1.png" /></p>
-<p>Tilikarttaan voi lisätä uusia tilejä sekä muokata ja poistaa vanhoja.</p>
-<div class="admonition note">
-<p class="admonition-title">Valmiit tilikartat</p>
-<p>Lähes kaikki tarvitsemasi tilit löytyvät valmiista tilikartoista, joissa tilien määritykset ovat valmiiksi kohdallaan. Jos lisäät itse tilejä, ole huolellinen numeroinnin ja määritysten kanssa, jotta kirjaukset tulevat käsitellyiksi oikein!</p>
+                  <h1>Raporttien muokkaus</h1>
+                
+                <div class="admonition note">
+<p class="admonition-title">Edistynyt toiminto</p>
+<p>Sinun ei yleensä tarvitse muokata raportteja. Raporttien muokkaus on otettava erikseen käyttöön <a href="./../perusvalinnat">perusvalintojen</a> kohdasta <strong>Näytä tulosteiden muokkauksen työkalut</strong></p>
 </div>
-<p>Jos tilikartassa oleva tili on tarpeeton <strong>piilota</strong> se. Piilotettu tili ei näy luetteloissa tiliä valittaessa. Tilin voi myös kokonaan poistaa, mutta yleensä piilottaminen on parempi vaihtoehto.</p>
-<p>Voit merkitä paljon käytetyt tilit <strong>suosikkitileiksi</strong>. Tiliä valittaessa voit näyttää pelkät suosikkitilit.</p>
-<p>Sininen info-kuvake luettelossa merkitsee, että tilille on annettu kirjausohje.</p>
-<p><img alt="" src="./otsikko.png" /></p>
-<p>Tilit ja otsikot pitää <strong>numeroida</strong>. Taseen vastaavaa-tilit alkavat numerolla 1 ja vastattavaa-tilit numerolla 2. Numerosarjat 3..9 kuuluvat tuloslaskelmaan päätettäville tulo- ja menotileille.</p>
-<p>Kitupiikissä tilinumeron pituus on enintään kahdeksan numeroa. Tilinumeron lopussa olevat nollat eivät ole merkityksellisiä, eli tilit 4910 ja 49100 tarkoittavat samaa tiliä. Otsikolla saa olla sama numero, kuin sen alle tulevalla tilillä.</p>
-<p>Tilejä lisättäessä on tärkeää, että tili tulee oikealle numeroalueelle, jotta se näkyy raporteissa oikealla tavalla. Tilinmuokkauksen <strong>kuuluu otsikolle</strong>-kenttä kertoo, minkä otsikon alle tili kuuluu. Otsikon alle kuuluvat tilit, joiden numerot alkavat otsikon numerosta ja päättyvät viimeiseen <strong>otsikkoväli päättyy</strong>-alkuiseen tiliin eli esimerkissä Konserniavustuksiin kuuluvat kaikki 958-alkuiset tilit.</p>
-<p><strong>Täydentävä teksti</strong> tulostuu tase-erittelylle ja <strong>kirjausohje</strong> on luettavissa tiliä valittaessa.</p>
-<p><img alt="" src="./myynti.png" /></p>
-<p><strong>Tilityyppi</strong> määrittelee, miten tiliä käsitellään kirjanpidossa ja missä luetteloissa tili näytetään, katso alempaa <a href="#tilityypit">Tilityypit</a>.</p>
-<p><strong>Vastatili</strong> määrittää sen, mikä tili valitaan oletuksena tehtäessä tälle tilille kirjaus. Meno- ja tulotileille kannattaa usein valita vastatiliksi pankki- tai käteistili.</p>
-<p><strong>Verolaji</strong> ja <strong>veroprosentti</strong> ovat tilin kirjauksen oletusvalintoja, verolajin ja -prosentin voi aina valita joka viennille erikseen, katso <a href="../../Arvonlisävero">arvonlisävero</a>. Valinnat eivät ole näkyvissä, jos yritystä ei ole merkitty <a href="./../perusvalinnat">perusvalinnoissa</a> arvonlisävelvolliseksi.</p>
-<h2 id="tase-erittely-ja-tase-erat">Tase-erittely ja tase-erät<a class="headerlink" href="#tase-erittely-ja-tase-erat" title="Permanent link">&para;</a></h2>
-<p><img alt="" src="./myyntisaamiset.png" /></p>
-<p>Tasetilien (vastaavaa ja vastattavaa) kohdalla valitaan, miten tili esitetään <strong>tase-erittelyssä</strong>.</p>
+<p><img alt="" src="./muokkaus.png" /></p>
+<p><strong>Määritykset &gt; Raportit</strong> pääset muokkaamaan raportteja.</p>
 <ul>
-<li><strong>Täysi erittely tase-erillä</strong>: Tilin kirjaukset jaetaan eri tase-eriin, joiden kaikkia muutoksia seurataan. Käytetään esimerkiksi tasaeräpoistettavan omaisuuden kirjanpitoarvon seurantaan.</li>
-<li><strong>Tase-erien luettelo</strong>: Kirjaukset jaetaan tase-eriksi, ja erittelyssä seurataan eri erien saldoja. Käytetään esimerkiksi myyntisaamisissa ja ostoveloissa, jolloin erittelyistä selviää, mitkä saatavat ovat vielä maksamatta.</li>
-<li><strong>Lisäykset ja vähennykset</strong>: Kirjauksia ei eritellä, mutta tase-erittelyyn tulostuvat tilikauden aikaiset tapahtumat. Käytetään esimerkiksi menojäännöspoistettavissa tileissä.</li>
-<li><strong>Saldo</strong>: Tase-erittelyyn tulostetaan vain tilien saldot.</li>
+<li>Valitse ylhäällä vasemmalla olevasta luettelosta muokattava raportti tai aloita <strong>uusi</strong>-painikkeella uusi raportti</li>
+<li>Oikealla yläkulmassa valitaan raportin tyyppi</li>
+<li><strong>Tuloslaskelma</strong> kuvaa tilikauden tulosta (tulostilit)</li>
+<li><strong>Tase</strong> kuvaa taloudellista tilannetta tilinpäätöspäivänä (tasetilit)</li>
+<li><strong>Kohdennuslaskelma</strong> lasketaan erikseen jokaiselle käytössä olevalle kohdennukselle</li>
+<li><strong>Liitä erittely arkistoon</strong> määrittelee, liitetäänkö tämä raportti erittelynä sähköiseen arkistoon.</li>
 </ul>
-<h2 id="poistettava-omaisuus">Poistettava omaisuus<a class="headerlink" href="#poistettava-omaisuus" title="Permanent link">&para;</a></h2>
-<p><img alt="" src="./kalusto.png" /></p>
-<p>Kitupiikki tukee suunnitelman mukaisten poistojen tekemistä tasaeräpoistoina tai menojäännöspoistoina.</p>
-<p><strong>Tasaeräpoistoissa</strong> jokaista tase-erää (hankintaa) seurataan erikseen, ja hankintahinta jaetaan poistoajalle (euromäärä kuukautta kohti). Tilin asetuksissa määritellän poistoajan oletus, mutta poistoaika on määriteltävissä erikseen jokaiselle erälle (hankinnalle).</p>
-<p><strong>Menojäännöspoistossa</strong> aina tilikauden lopussa poistetaan määritelty prosenttiosuus tilin senhetkisestä saldosta. Prosentti on tilikohtainen ja määritellään kohdassa <strong>menojäännöspoisto</strong>.</p>
-<p><strong>Poistotili</strong> määrittää, mille menotilille vuotuiset poistot kirjataan.</p>
-<h2 id="tilityypit">Tilityypit<a class="headerlink" href="#tilityypit" title="Permanent link">&para;</a></h2>
-<p><strong>Vastaavaa-tilityypit</strong></p>
-<p>Nämä tilit alkavat aina numerolla 1.</p>
-<ul>
-<li>Vastaavaa (ei tarkempaa erittelyä)</li>
-<li>Poistokelpoinen omaisuus, menojäännöspoisto</li>
-<li>Poistokelpoinen omaisuus, tasapoisto</li>
-<li>Saatavaa</li>
-<li>Arvonlisäverosaatava (yksi tili)</li>
-<li>Rahavarat</li>
-</ul>
-<p><strong>Vastattavaa-tilityypit</strong></p>
-<p>Nämä tilit alkavat aina numerolla 2.</p>
-<ul>
-<li>Vastattavaa (ei tarkempaa erittelyä)</li>
-<li>Edellisen tilikausien voitto/tappio (yksi tili)</li>
-<li>Tämän tilikauden tulos (yksi tili)</li>
-<li>Velat</li>
-<li>Arvonlisäverovelka (yksi tili)</li>
-<li>Verovelka (OmaVero-ilmoitetut) (yksi tili)</li>
-</ul>
-<p><strong>Tuloslaskelman tilityypit</strong></p>
-<p>Nämä tilit alkavat numeroilla 3..9</p>
-<ul>
-<li>Tulot (ei lasketa mukaan liikevaihtoon)</li>
-<li>Liikevaihtotulo (liikevaihtoon laskettava myynti)</li>
-<li>Menot</li>
-<li>Poistot</li>
-</ul>
-<h2 id="tilikartan-vieminen">Tilikartan vieminen<a class="headerlink" href="#tilikartan-vieminen" title="Permanent link">&para;</a></h2>
-<p><img alt="" src="./vienti.png" /></p>
-<p><strong>Vie tilikartta</strong>-painikkeellä pääset viemään tilikartan tilit, tositelajit, raportit, tilinpäätöspohjan ja joukon muita valintoja ktk-tiedostoksi, jonka pohjalta voi aloittaa uuden kirjanpidon.</p>
-<p>Näin siirtää kirjanpitosi valinnat toiseen kirjanpitoon tai jakaa tilikarttasi muiden Kitupiikin käyttäjien kanssa.</p>
-<p>Painike käynnistää sarjan valintaikkunoita, joissa valitset tilikartalle nimen ja kirjoitat tilikartan ohjeet. Valinta <strong>yksityinen elinkeinonharjoittaja</strong> vaikuttaa tilinpäätökseen: pienten elinkeinonharjoittajien ei tarvitse laatia ollenkaan tilinpäätöstä, ja isommat laativat sen mikroyrityssäännösten mukaisesti.</p>
-<h2 id="tilikartan-paivittaminen">Tilikartan päivittäminen<a class="headerlink" href="#tilikartan-paivittaminen" title="Permanent link">&para;</a></h2>
-<p>Kun ohjelman päivityksen myötä myös käytössäsi oleva tilikartta on päivittynyt, saat siitä aloitusnäyttöön ilmoituksen</p>
-<p><img alt="" src="./paivitettavissa.png" /></p>
-<p>Tilikarttamääritysten <strong>Päivitä tilikartta</strong>-valinnasta pääset päivittämään tilikartan uudempaan.</p>
-<p>Päivitystoiminto
-<em> Lisää tilikarttaan uudet tilit
-</em> Päivittää niiden tilien tiedot (nimi, kirjausohje yms.), joita käyttäjä ei ole itse muokannut. Käyttäjän muokkaamien tilien tietoja ei päivitetä
-* Päivittää raportit ja tilinpäätöksen pohjan</p>
-<p><img alt="" src="./paivitys.png" /></p>
-<p>Ylempi valinta päivittää ohjelman mukana tulleeseen tilikarttaan. <strong>Päivitys tiedostossa olevaan tilikarttaan</strong> mahdollistaa tilikartan lataamisen ktk-tiedostosta.</p>
+<p>Raportin kaava muodostuu siten, että vasemmassa reunassa on tulostettavat tekstit ja tabulaattorin jälkeen tulostetta ohjaavat määritteet.</p>
 <div class="admonition warning">
-<p class="admonition-title">Varmista tiedoston sopivuus</p>
-<p>Ohjelman sisäisissä päivityksissä on varmistettu, että päivitys sopii käytössä olevaan tilikarttaan. Jos päivität erilliseen tiedostoon, varmista tiedostot sopivuus (ettet esimerkiksi päivitä osakeyhtiölle yhdistyksen tilikarttaa.)</p>
+<p class="admonition-title">Tiedä, mitä teet</p>
+<p>Ole huolellinen muokatessasi tulosteita. Taseen ja tuloslaskelmat muodot on määrätty kirjanpitoa koskevassa lainsäädännössä.</p>
 </div>
-<p><img alt="" src="./korvaukset.png" /></p>
-<p>Jos olet muokannut itse raportteja tai tilinpäätöksen pohjaa, joudut valitsemaan, korvataanko muokatut raportit/pohjat päivitetyillä vai säästetäänkö muokkaamasi versiot.</p>
-<div class="admonition tip">
-<p class="admonition-title">Muokattujen raporttien säilyttäminen</p>
-<p>Voit säilyttää muokkatut raporttisi nimeämällä ne uudelleen ennen päivitystä</p>
-</div>
+<h2 id="kaytettavat-maareet">Käytettävät määreet<a class="headerlink" href="#kaytettavat-maareet" title="Permanent link">&para;</a></h2>
+<p>Määreitä voi laittaa vapaassa järjestyksessä, välilyönnillä erotettuna.</p>
+<h3 id="riviin-liittyvat-tilit">Riviin liittyvät tilit<a class="headerlink" href="#riviin-liittyvat-tilit" title="Permanent link">&para;</a></h3>
+<p>Numerot määrittelevät tilivälejä niin, että pelkkä numero tarkoittaa kaikkia sillä alkavia tilejä (<strong>4</strong> tarkoittaa tilejä 4101, 4289, 498898 jne., <strong>41</strong> tilejä 4100, 4175, 4198 jne).</p>
+<p>Numerovälit merkitään <strong>3..7</strong> (tarkoittaa kaikkia numeroilla 3, 4, 5, 6, 7 alkavia tilejä). Merkintä <strong>410..412</strong> tarkoittaa tilejä, jotka alkavat 410, 411 tai 412.</p>
+<p>Numerot tai numerovälit voi erottaa välilyönnillä <code>4 5 61..66</code> tai pilkulla <code>4,5,61..66</code>.</p>
+<p>Numeroon tai numeroväliin voi liittää <strong>+</strong> merkitsemään tuloja tai <strong>-</strong> merkitsemään menoja. <code>4+ 5-</code> tulostaa kaikki neljällä alkavat tulot ja viidellä alkavat menot.</p>
+<h3 id="riville-tulostettavat-luvut">Riville tulostettavat luvut<a class="headerlink" href="#riville-tulostettavat-luvut" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>S</strong> tai <strong>SUMMA</strong> tulostaa riville summan, vaikka se olisi 0.</li>
+<li><strong>s</strong> tai <strong>summa</strong> tulostaa rivin ja summan, jos se ei ole nolla. Tämä on myös oletusvalinta, ellei mitään määrettä ole kirjoitettu</li>
+<li><strong>h</strong> tai <strong>otsikko</strong> ei tulosta summaa, vaan pelkän otsikon, ellei summa ole nolla</li>
+<li><strong>d</strong> tai <strong>erittely</strong> tulostaa tilikohtaisen erittelyn</li>
+<li><strong>=</strong> tulostaa summaluvun kaikesta tähän asti lasketusta</li>
+<li><strong>==</strong> määrittää, ettei tätä riviä oteta mukaan summaa laskettaessa</li>
+<li>Jos mitään tilejä ei ole merkitty, tulostetaan pelkkä otsikko</li>
+</ul>
+<p>Yllä oleviin tunnuksiin voi liittää numeron tyyliin <strong>S4</strong> joka määrittää rivin sisennyksen (tulostaa riville summan ja sisentää riviä neljä merkkiä).</p>
+<p><strong>*</strong> tulostaa summarivin jälkeen tilikohtaisen erittelyn, jos raportista on valittuna erittely. Tähteen voi liittää numeron määrittelemään, kuinka monta merkkiä erittelyrivejä sisennetään (esim. <code>*4</code>).</p>
+<h3 id="rivin-muotoilu">Rivin muotoilu<a class="headerlink" href="#rivin-muotoilu" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>lihava</strong> tai <strong>bold</strong> tulostaa rivin lihavoituna</li>
+<li><strong>viiva</strong> tulostaa rivin yläpuolelle viivan</li>
+</ul>
                 
                   
                 
@@ -773,9 +707,9 @@
                   <div id="disqus_thread"></div>
 <script>
   var disqus_config = function () {
-    this.page.url = "https://artoh.github.io/kitupiikki/maaritykset/tilikartta/";
+    this.page.url = "https://artoh.github.io/kitupiikki/maaritykset/raportit/";
     this.page.identifier =
-      "/maaritykset/tilikartta/";
+      "/maaritykset/raportit/";
   };
   (function() {
     var d = document, s = d.createElement("script");
@@ -797,7 +731,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../perusvalinnat/" title="Perusvalinnat" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../../tilinpaatos/" title="Tilikaudet ja tilinpäätös" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -806,19 +740,19 @@
                 <span class="md-footer-nav__direction">
                   Edellinen
                 </span>
-                Perusvalinnat
+                Tilikaudet ja tilinpäätös
               </span>
             </div>
           </a>
         
         
-          <a href="../tositelajit/" title="Tositelajit" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../tilinpaatos/" title="Tilinpäätöksen malli" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Seuraava
                 </span>
-                Tositelajit
+                Tilinpäätöksen malli
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
