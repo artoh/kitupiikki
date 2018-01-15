@@ -1,6 +1,6 @@
 # Lisenssi
 
-<strong>Kitupiikki Copyright &copy; Arto Hyvättinen 2017
+<strong>Kitupiikki Copyright &copy; Arto Hyvättinen 2017,2018
 
 Ohjelmalla ei ole mitään takuuta. Tätä ohjelmaa saa käyttää, levittää ja muokata maksuttomasti alempana olevien ehtojen (GNU General Public License version 3) mukaisesti.</strong>
 
@@ -10,11 +10,17 @@ Ohjelmalla ei ole mitään takuuta. Tätä ohjelmaa saa käyttää, levittää j
 
 [Poppler PDF rendering library](https://poppler.freedesktop.org) lisenssillä [GNU General Public License version 2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
 
-## Hyödynnettyjä tilikarttoja
+[MRichTextEditor](https://github.com/Anchakor/MRichTextEditor) lisenssillä [GNU Lesser General Public License version 2.1](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html)
 
-[Tilit.info](http://tilit.info) tilijärjestelmä Copyright &copy; tilit.info 2003 lisenssillä [GNU Lesser General License](https://www.gnu.org/licenses/lgpl-2.1.html). Perustuu liikekirjuri.fi Perustililuetteloon, kiitokset Tapio Tikkaselle.
+## Tilikarttojen pohja
 
-[Tilitin](http://helineva.net/tilitin/)-ohjelmiston tilikartat Copyright &copy; Tommi Helineva 2009-2013 lisenssillä Gnu General Public License version 3.
+Tilikartat pohjautuvat Tili-instituuttisäätiön [Raportointikoodistoon](https://www.raportointikoodisto.fi).
+
+## Asennusohjelmat
+
+Linux [AppImage](https://appimage.org) MIT License
+
+Windows [Inno Setup](http://www.jrsoftware.org/isinfo.php) Inno Setup License
 
 ## GNU General Public License 3
 [Epävirallinen suomenkielinen käännös](https://www.turre.com/licenses/gpl_fi.php)
