@@ -49,15 +49,14 @@ pages:
     - Laskutus: 'maaritykset/laskutus/index.md'
     - Sähköpostin lähettäminen: 'maaritykset/sahkoposti/index.md'
   - Kirjaaminen: 'kirjaus/index.md'
-  - Laskutus:
-    - Laskuttaminen
-    - Laskujen selaaminen
-    - Hyvityslaskut
-    - Laskun maksaminen
+  - Laskutus: 'laskutus/index.md'
   - Selaaminen ja etsiminen: 'selaus/index.md'
   - Tulosteet: 'tulosteet/index.md'
-  - Arvonlisävero: 'alv.md'
-  - Tilikaudet ja tilinpäätös: 'tilinpaatos.md'
+  - Arvonlisävero: 'alv/index.md'
+  - Tilikaudet ja tilinpäätös: 
+    - Tilikaudet : 'tilikaudet/tilikaudet/index.md'
+    - Tilinpäätös: 'tilikaudet/tilinpaatos/index.md'
+    - Sähköinen arkisto: 'tilikaudet/arkisto/index.md'
   - Muita toimintoja: 
     - Raporttien muokkaus: 'maaritykset/raportit/index.md'
     - Tilinpäätöksen malli: 'maaritykset/tilinpaatos/index.md'

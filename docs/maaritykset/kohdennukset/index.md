@@ -10,6 +10,9 @@ Kitupiikin kohdennukset koskevat vain tuloja ja menoja, eivät taseessa olevaa v
 
 Kohdennukset ovat organisaation sisäistä laskentaa. Yhdistystoiminnassa kohdennuksia käytettäessä liitetään tilinpäätökseen yleensä eri toiminnanalojen erittelyt.
 
+!!! note ""
+    Kirjaus- ja laskuikkunoissa näytetään kohdennusluettelo vain, jos tällä määrityssivulla on ensin luotu kohdennuksia.
+
 ![](muokkaa.png)
 
 !!! tip "Leiri projektina"

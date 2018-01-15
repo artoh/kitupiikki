@@ -40,7 +40,7 @@
        <item>
         <widget class="QRadioButton" name="veronalainenRadio">
          <property name="text">
-          <string>Veronalainen määrä (&amp;netto)</string>
+          <string>Veron&amp;alainen määrä</string>
          </property>
          <property name="checked">
           <bool>true</bool>

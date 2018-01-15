@@ -33,7 +33,11 @@
       <widget class="QDateEdit" name="mihinDate"/>
      </item>
      <item>
-      <widget class="QLineEdit" name="suodatusEdit"/>
+      <widget class="QLineEdit" name="suodatusEdit">
+       <property name="placeholderText">
+        <string>Etsi asiakkaan nimellä tai viitenumerolla</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

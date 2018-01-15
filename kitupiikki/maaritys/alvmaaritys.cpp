@@ -45,6 +45,7 @@ AlvMaaritys::AlvMaaritys() :
     connect(ui->kausiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(paivitaSeuraavat()));
     connect( ui->tilitaNappi, SIGNAL(clicked(bool)), this, SLOT(ilmoita()));
     connect( ui->tilitysNappi, SIGNAL(clicked(bool)), this, SLOT(naytaIlmoitus()));
+    connect( ui->erittelyNappi, SIGNAL(clicked(bool)), this, SLOT(naytaErittely()));
     connect(ui->ilmoituksetView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(riviValittu()));
 
 }

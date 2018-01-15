@@ -34,7 +34,7 @@ Sarakkeeseen **Tili** voit syöttää tilinumeron tai kirjoittaa tilin nimen alk
 
 Arvonlisäveron tietoja pääset muokkaamaan napsauttamalla Alv-saraketta, josta avautuu valintaikkuna
 
-![](alvikkuna.png)
+![](../alv/alvvalinta.png)
 
 Katso tarkemmin lukua [Arvonlisävero](/alv).
 
