@@ -477,8 +477,18 @@
         },
         {
             "location": "/tilikaudet/tilikaudet/",
-            "text": "",
+            "text": "Tilikauden aloittaminen\n\u00b6\n\n\n\n\nKitupiikki ilmoittaa aloitusn\u00e4yt\u00f6ss\u00e4, kun tilikausi alkaa olla lopussa. Voidaksesi tehd\u00e4 kirjauksia seuraavalle tilikaudelle, aloita \nUusi tilikausi\n.\n\n\nEdellist\u00e4 tilikautta ei tarvitse p\u00e4\u00e4tt\u00e4\u00e4 ennen uuden tilikauden aloittamista. Tilien saldot ja tase eiv\u00e4t ole kuitenkaan oikein, ennen kuin kaikki edellisen tilikauden kirjaukset on tehty.\n\n\n\n\nTilikauden pituus on yleens\u00e4 12 kuukautta - poikkeuksellinen, enint\u00e4\u00e4n 18 kuukauden tilikausi on mahdollinen toimintaa aloitettaessa, lopetettaessa tai tilikautta muutettaessa.\n\n\nTilikauden muokkaaminen\n\u00b6\n\n\n\n\nMuokkaa\n-painikkeella voit muuttaa \nviimeisen\n tilikauden p\u00e4\u00e4ttymisp\u00e4iv\u00e4\u00e4 tai poistaa viimeisen tilikauden, jos sill\u00e4 ei ole yht\u00e4\u00e4n kirjausta. Tilikauden p\u00e4\u00e4ttymist\u00e4 ei saa muuttaa aikaisemmaksi kuin tilikauden viimeinen kirjaus.",
             "title": "Tilikaudet"
+        },
+        {
+            "location": "/tilikaudet/tilikaudet/#tilikauden-aloittaminen",
+            "text": "Kitupiikki ilmoittaa aloitusn\u00e4yt\u00f6ss\u00e4, kun tilikausi alkaa olla lopussa. Voidaksesi tehd\u00e4 kirjauksia seuraavalle tilikaudelle, aloita  Uusi tilikausi .  Edellist\u00e4 tilikautta ei tarvitse p\u00e4\u00e4tt\u00e4\u00e4 ennen uuden tilikauden aloittamista. Tilien saldot ja tase eiv\u00e4t ole kuitenkaan oikein, ennen kuin kaikki edellisen tilikauden kirjaukset on tehty.   Tilikauden pituus on yleens\u00e4 12 kuukautta - poikkeuksellinen, enint\u00e4\u00e4n 18 kuukauden tilikausi on mahdollinen toimintaa aloitettaessa, lopetettaessa tai tilikautta muutettaessa.",
+            "title": "Tilikauden aloittaminen"
+        },
+        {
+            "location": "/tilikaudet/tilikaudet/#tilikauden-muokkaaminen",
+            "text": "Muokkaa -painikkeella voit muuttaa  viimeisen  tilikauden p\u00e4\u00e4ttymisp\u00e4iv\u00e4\u00e4 tai poistaa viimeisen tilikauden, jos sill\u00e4 ei ole yht\u00e4\u00e4n kirjausta. Tilikauden p\u00e4\u00e4ttymist\u00e4 ei saa muuttaa aikaisemmaksi kuin tilikauden viimeinen kirjaus.",
+            "title": "Tilikauden muokkaaminen"
         },
         {
             "location": "/tilikaudet/tilinpaatos/",
