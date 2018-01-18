@@ -436,9 +436,47 @@
     <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
     
     
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        Sähköinen arkisto
+      </label>
+    
     <a href="./" title="Sähköinen arkisto" class="md-nav__link md-nav__link--active">
       Sähköinen arkisto
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="toc">Sisältö</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#arkiston-kopioiminen" title="Arkiston kopioiminen" class="md-nav__link">
+    Arkiston kopioiminen
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arkiston-muuttumattomuuden-varmistaminen" title="Arkiston muuttumattomuuden varmistaminen" class="md-nav__link">
+    Arkiston muuttumattomuuden varmistaminen
+  </a>
+  
+</li>
+      
+      
+      
+        <li class="md-nav__item">
+          <a href="#__comments" title="Kommentit" class="md-nav__link md-nav__link--active">
+            Kommentit
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
     
   </li>
 
@@ -516,6 +554,46 @@
               </div>
             
             
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="toc">Sisältö</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#arkiston-kopioiminen" title="Arkiston kopioiminen" class="md-nav__link">
+    Arkiston kopioiminen
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arkiston-muuttumattomuuden-varmistaminen" title="Arkiston muuttumattomuuden varmistaminen" class="md-nav__link">
+    Arkiston muuttumattomuuden varmistaminen
+  </a>
+  
+</li>
+      
+      
+      
+        <li class="md-nav__item">
+          <a href="#__comments" title="Kommentit" class="md-nav__link md-nav__link--active">
+            Kommentit
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
@@ -525,8 +603,48 @@
                   <h1>Sähköinen arkisto</h1>
                 
                 <p><img alt="" src="./arkisto.png" /></p>
+<p>Kitupiikki muodostaa kirjanpidosta html-muotoisen sähköisen arkiston. Arkisto muodostetaan ja siihen pääsee Kitupiikistä <strong>Tilikaudet</strong>-välilehden <strong>Arkisto</strong>-painikkeella.</p>
+<p>Arkisto sisältää kirjanpidon (<a href="../../tulosteet/paakirja">pääkirja</a>, <a href="../../tulosteet/paivakirja">päiväkirja</a>, <a href="../../tulosteet/tositeluettelo">tositeluettelo</a> ja -päiväkirja sekä <a href="../../tililuettelo">tililuettelo</a> tositteineen), <a href="../../tulosteet/tase">taseen</a> ja <a href="../../tulosteet/tuloslaskelma">tuloslaskelman</a>, <a href="../../tulosteet/tase-erittely">tase-erittelyn</a> sekä mahdollisesti myös muita tilikarttakohtaisia raportteja. Raportti sisällytetään sähköiseen arkistoon <a href="../../maaritykset/raportit">raportin muokkaamisen</a> <strong>Liitä erittely arkistoon</strong>-valinnalla.</p>
 <p><img alt="" src="./tuloslaskelma.png" /></p>
+<p>Tilinumerot ovat linkkejä, joista pääsee tilin pääkirjanäkymään. Tositteiden numerot ovat puolestaan linkkejä tositteisiin.</p>
 <p><img alt="" src="./tosite.png" /></p>
+<h2 id="arkiston-kopioiminen">Arkiston kopioiminen<a class="headerlink" href="#arkiston-kopioiminen" title="Permanent link">&para;</a></h2>
+<p>Tilikausikohtaiset arkistot löytyvät kirjanpidon hakemiston <em>arkisto</em>-hakemistosta tilikausikohtaisina alahakemistoina.</p>
+<p><img alt="" src="./kopioi.png" /></p>
+<p>Kopioi koko hakemisto tiedostonhallinnassa pitämällä näppäimistön <strong>Ctrl</strong>-näppäintä pohjassa samalla kuin raahaat hakemiston haluamaasi sijaintiin, esimerkiksi USB-tikulle.</p>
+<p>Arkistoon pääset valitsemalla hakemistosta <strong>index.html</strong>-tiedoston. Arkisto avautuu selaimeen.</p>
+<h2 id="arkiston-muuttumattomuuden-varmistaminen">Arkiston muuttumattomuuden varmistaminen<a class="headerlink" href="#arkiston-muuttumattomuuden-varmistaminen" title="Permanent link">&para;</a></h2>
+<p>Voit varmistaa Kitupiikin luomalla <a href="https://fi.wikipedia.org/wiki/SHA">sha256-tiivisteellä</a>, ettei arkistossa olevia tiedostoja (esimerkiksi tositteita) ole muokattu arkiston muodostamisen jälkeen. Tämä edellyttää kuitenkin, että valvonnassa käytetty tiiviste  on säilytetty turvassa muutoksilta esimerkiksi niin, että tiiviste on tulostettu paperiseen ja allekirjoitettuun tilinpäätösasiakirjaan.</p>
+<div class="admonition danger">
+<p class="admonition-title">Muuttumattomuus varmistetaan tiivistettä vastaan</p>
+<p>Muuttumattomuuden varmistus perustuu siihen, että tiiviste on turvassa muutokselta, eikä tiivistettä voi väärentää esimerkiksi muuttamalla jälkikäteen tiivisteen sisältävää tilinpäätöksen sivua.</p>
+</div>
+<p>Muuttumattomuuden voi tarkistaa <strong>sha256sum</strong>-ohjelmalla (löytyy sekä Windowsille että Linuxille). Arkistossa olevan valvontatiedoston tiiviste tulostetaan komennolla <strong>sha256sum arkisto.sha256</strong>.</p>
+<pre><code>~/LatakonUimakerho/arkisto/2018 $ sha256sum arkisto.sha256
+b3fb35a6e113b98e4eb68a133b575463b05d6a39a9c78fb584ade9e9ef6a7b78  arkisto.sha256
+</code></pre>
+
+<p>Ohjelma tulostaa valvontatiedoston tiivisteen, jota pitää verrata tiedossa olevaan, esimerkiksi tilinpäätökseen tulostettuun tiivisteeseen (katso sivun ensimmäinen kuva).</p>
+<p>Valvontatiedosto sisältää kaikkien arkistoon kuuluvien tositteiden ja raporttien - ei kuitenkaan tilinpäätöksen - tiivisteet. Tiivisteet pitää vielä takastaa komennolla <strong>sha256sum -c arkisto.sha256</strong>.</p>
+<pre><code>arto@pantteri ~/LatakonUimakerho/arkisto/2018 $ sha256sum -c arkisto.sha256
+00000097-01.pdf: OK
+00000097.html: OK
+00000018-01.pdf: OK
+00000018.html: OK
+00000020.html: OK
+00000022.html: OK
+00000042.html: OK
+...
+</code></pre>
+
+<p>Jos jotain tiedostoa olisi muutettu, antaisi sha256sum seuraavan kaltaisen ilmoituksen</p>
+<pre><code>...
+00000011.html: OK
+00000012-01.pdf: EI TÄSMÄÄ
+00000012.html: OK
+...
+sha256sum: WARNING: 1 computed checksum did NOT match
+</code></pre>
                 
                   
                 
