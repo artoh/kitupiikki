@@ -21,6 +21,7 @@
 #include <QSqlQuery>
 #include <QTextStream>
 #include <QCryptographicHash>
+#include <QApplication>
 
 #include "arkistoija.h"
 #include "db/tositemodel.h"
@@ -70,6 +71,7 @@ void Arkistoija::luoHakemistot()
     QFile::copy( ":/arkisto/arkisto.css", hakemisto_.absoluteFilePath("arkisto.css"));
     QFile::copy( ":/arkisto/jquery.js", hakemisto_.absoluteFilePath("jquery.js"));
     QFile::copy( ":/arkisto/ohje.html", hakemisto_.absoluteFilePath("ohje.html"));
+    QFile::copy( ":/pic/aboutpossu.png", hakemisto_.absoluteFilePath("kitupiikki.png"));
 
 }
 
@@ -365,7 +367,9 @@ void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
 
     kirjoitaHash();
 
-    out << tr("<p class=info>Tämä kirjanpidon sähköinen arkisto on luotu Kitupiikki-ohjelmalla %1 <br>").arg(QDate::currentDate().toString(Qt::SystemLocaleDate));
+    out << tr("<p class=info>Tämä kirjanpidon sähköinen arkisto on luotu %1 <a href=https://artoh.github.io/kitupiikki>Kitupiikki-ohjelman</a> versiolla %2 <br>")
+           .arg(QDate::currentDate().toString(Qt::SystemLocaleDate))
+           .arg(qApp->applicationVersion());
     out << tr("Arkiston muuttumattomuus voidaan valvoa sha256-tiivisteellä <code>%1</code> </p>").arg( QString(QCryptographicHash::hash( shaBytes, QCryptographicHash::Sha256).toHex()) );
     if( tilikausi_.paattyy() > kp()->tilitpaatetty() )
         out << "Kirjanpito on viel&auml; keskener&auml;inen.";

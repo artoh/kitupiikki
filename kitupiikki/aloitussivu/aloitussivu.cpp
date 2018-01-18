@@ -260,7 +260,7 @@ void AloitusSivu::pyydaInfo()
     {
         QNetworkAccessManager *manager = new QNetworkAccessManager(this);
         connect( manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(infoSaapui(QNetworkReply*)));
-        QNetworkRequest req( QUrl("https://raw.githubusercontent.com/artoh/kitupiikki/master/updateinfo"));
+        QNetworkRequest req( QUrl("https://artoh.github.io/kitupiikki.info"));
         manager->get(req);
     }
     else
