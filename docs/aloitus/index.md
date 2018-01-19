@@ -29,7 +29,7 @@ todellista kirjanpitoa.
 ![](nimi3.png)
 
 Toisessa ruudussa syötetään organisaation nimi ja Y-tunnus. Näitä voi muokata
-myöhemmin [perusmäärityksissä](maaritykset#Perusmääritykset).
+myöhemmin [perusmäärityksissä](/maaritykset/perusvalinnat/).
 
 ## Tilikartta
 

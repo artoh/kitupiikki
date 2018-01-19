@@ -37,7 +37,7 @@ markdown_extensions:
         permalink: true
 pages:
   - Kitupiikki: 'index.md'
-  - Kirjanpidosta lyhyesti: 'kirjanpito/kirjanpito.md'
+  - Kirjanpidosta lyhyesti: 'kirjanpito/index.md'
   - Asennus: 'asennus.md'
   - Kirjanpidon aloittaminen: 'aloitus/index.md'
   - Määritykset:

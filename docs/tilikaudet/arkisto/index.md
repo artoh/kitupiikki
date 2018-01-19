@@ -2,7 +2,7 @@
 
 Kitupiikki muodostaa kirjanpidosta html-muotoisen sähköisen arkiston. Arkisto muodostetaan ja siihen pääsee Kitupiikistä **Tilikaudet**-välilehden **Arkisto**-painikkeella.
 
-Arkisto sisältää kirjanpidon ([pääkirja](/tulosteet/paakirja), [päiväkirja](/tulosteet/paivakirja), [tositeluettelo](/tulosteet/tositeluettelo) ja -päiväkirja sekä [tililuettelo](/tililuettelo) tositteineen), [taseen](/tulosteet/tase) ja [tuloslaskelman](/tulosteet/tuloslaskelma), [tase-erittelyn](/tulosteet/tase-erittely) sekä mahdollisesti myös muita tilikarttakohtaisia raportteja. Raportti sisällytetään sähköiseen arkistoon [raportin muokkaamisen](/maaritykset/raportit) **Liitä erittely arkistoon**-valinnalla.
+Arkisto sisältää kirjanpidon ([pääkirja](/tulosteet#paakirja), [päiväkirja](/tulosteet#paivakirja), [tositeluettelo](/tulosteet#tositeluettelo) ja -päiväkirja sekä [tililuettelo](/tulosteet#tililuettelo) tositteineen), [taseen](/tulosteet#tase) ja [tuloslaskelman](/tulosteet#tuloslaskelma), [tase-erittelyn](/tulosteet#tase-erittely) sekä mahdollisesti myös muita tilikarttakohtaisia raportteja. Raportti sisällytetään sähköiseen arkistoon [raportin muokkaamisen](/maaritykset/raportit) **Liitä erittely arkistoon**-valinnalla.
 
 ![](tuloslaskelma.png)
 
