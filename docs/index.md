@@ -16,27 +16,33 @@ Kitupiikki taitaa tietenkin sellaiset perusasiat kuin päiväkirja, pääkirja, 
 
 ### Kitupiikki neuvoo
 ![](aloitus/vinkit7.png)
+
 Aloitusikkunassa Kitupiikki vinkkaa ajankohtaisista tehtävistä, kuten tilinpäätös tai alv-ilmoitus. Muutenkin ohjelma neuvoo aina matkan varrella.
 
 ### Sähköinen kirjanpito
 ![](kirjaus/myllykirjaus.png)
+
 Tositteet voi tallettaa pdf- tai jpg-muodossa. Kirjanpidosta ja sähköisistä tositteista muodostetaan sähköinen arkisto. Arkiston muuttumattomuus varmistetaan sha256-tiivisteillä.
 
 ### Laskutus
-![](laskutus/lasku.png)
+![](laskutus/uusilasku.png)
+
 Kitupiikillä voit laatia laskuja ja lähettää laskuja suoraan sähköpostilla. Laskujen tiedot siirtyvät suoraan kirjanpitoon.
 
 ### Tilinpäätöksen muodostaminen
 ![](tilikaudet/tilinpaatos/muodostaminen.png)
+
 Kitupiikillä voit laatia koko tilinpäätöksen. Ohjelmassa on valmiit pohjat pien- ja mikroyritysasetuksen (PMA) mukaisille liitetiedoille.
 
 ### Tilikartat ja raportit muokattavissa
 ![](maaritykset/tilikartta/tilikartta1.png)
+
 Voit muokatat tilikartat ja raportit mieleisiksesi. Muokatun tilikartan voit tallettaa ja ottaa käyttöön toisessa kirjanpidossa. Raportit saa tallennettua myös pdf- ja html-muotoon.
 
 
 ### Arvonlisäveron käsittely ohjaustiedoilla
 ![](alv/alvvalinta.png)
+
 Tilejä ei tarvitse eritellä verokannoittain, koska arvonlisävero määritetään viennin tietoihin. Toki kirjausta voi nopeuttaa määrittelemälle tilin oletusvalinnat alv-käsittelyyn.
 
 ## Avoimen lähdekoodin kirjanpitäjä
