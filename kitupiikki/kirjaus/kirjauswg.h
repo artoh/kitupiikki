@@ -59,6 +59,9 @@ public slots:
     void poistaTosite();
 
 
+    /**
+     * @brief Päivittää debet- ja kredit summat ja jos ei täsmää ei tallennusnappi käytössä
+     */
     void naytaSummat();
     void lataaTosite(int id);
 

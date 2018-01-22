@@ -158,31 +158,19 @@ void KirjausWg::tyhjenna()
 
 void KirjausWg::tallenna()
 {
-    // TODO: Onko virheitä
-    // 1) Debet ja kredit eivät täsmää
-    // 2) Ei yhtään vientiä (debet ja kredit nollia)
-    // 3) Verollisia vientejä vaikka alv ilmoitettu
 
+    // Ellei yhtään vientiä, näytetään varoitus
     if( model_->vientiModel()->debetSumma() == 0 && model_->vientiModel()->kreditSumma() == 0)
     {
         if( QMessageBox::question(this, tr("Tosite puutteellinen"),
            tr("Tositteeseen ei ole kirjattu yhtään vientiä.\n"
               "Näin voi menetellä esim. liitetietotositteiden kanssa.\n\n"
               "Tallennetaanko tosite ilman vientejä?"),
-            QMessageBox::Yes, QMessageBox::Cancel) != QMessageBox::Yes)
-            return;
-    }
-    else if( model_->vientiModel()->debetSumma() != model_->vientiModel()->kreditSumma() )
-    {
-        if( QMessageBox::question(this, tr("Tosite ei täsmää"),
-           tr("Tositteen debet-kirjausten summa ei täsmää kredit-kirjausten kanssa.\n"
-              "Yleensä tämä tarkoittaa virheellistä kirjausta, ellei kyse ole erityisestä "
-              "kirjanpitoteknisestä kirjauksesta, kuten tilien avaaaminen.\n\n"
-              "Tallennetaanko tosite, joka ei täsmää?"),
-            QMessageBox::Yes, QMessageBox::Cancel) != QMessageBox::Yes)
+            QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) != QMessageBox::Yes)
             return;
     }
 
+    // Varoitus, jos kirjataan verollisia alv-ilmoituksen antamisen jälkeen
     bool alvvaro = false;
     for(int i=0; i < model()->vientiModel()->rowCount(QModelIndex()); i++)
     {
@@ -201,6 +189,9 @@ void KirjausWg::tallenna()
             QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) != QMessageBox::Yes)
             return;
     }
+
+    // Tallennus
+
     tiedotModeliin();
 
     if( !model_->tallenna() )
@@ -278,8 +269,23 @@ void KirjausWg::kirjaaLaskunmaksu()
 
 void KirjausWg::naytaSummat()
 {
-    ui->summaLabel->setText( tr("Debet %L1 €    Kredit %L2 €").arg(((double) model_->vientiModel()->debetSumma())/100.0 ,0,'f',2)
-                             .arg(((double) model_->vientiModel()->kreditSumma()) / 100.0 ,0,'f',2));
+    qlonglong debet = model_->vientiModel()->debetSumma();
+    qlonglong kredit = model_->vientiModel()->kreditSumma();
+
+    qlonglong erotus = qAbs( debet - kredit );
+
+    if( erotus )
+        ui->summaLabel->setText( tr("Debet %L1 €    Kredit %L2 €    <b>Erotus %L3 €</b>")
+                                 .arg(((double) debet )/100.0 ,0,'f',2)
+                                 .arg(((double) kredit ) / 100.0 ,0,'f',2)
+                                 .arg(((double) erotus ) / 100.0 ,0,'f',2) );
+    else
+        ui->summaLabel->setText( tr("Debet %L1 €    Kredit %L2 €")
+                                 .arg(((double) debet )/100.0 ,0,'f',2)
+                                 .arg(((double) kredit ) / 100.0 ,0,'f',2));
+
+    // #39: Debet- ja kredit-kirjausten on täsmättävä
+    ui->tallennaButton->setEnabled( !erotus );
 }
 
 void KirjausWg::lataaTosite(int id)
