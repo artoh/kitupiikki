@@ -246,15 +246,24 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
 
             viennit_[index.row()].tili = uusitili;
             // Tällä tilivalinnalla tulee myös oletukset veroille
-            viennit_[index.row()].alvkoodi = uusitili.json()->luku("AlvLaji");
+            int alvlaji = uusitili.json()->luku("AlvLaji");
+            // #37 Käsinkirjauksessa oletuksena netto
+            if( alvlaji % 10 == 1)
+                alvlaji++;
+
+            viennit_[index.row()].alvkoodi = alvlaji;
+
             viennit_[index.row()].alvprosentti = uusitili.json()->luku("AlvProsentti");
             emit dataChanged(index, index.sibling(index.row(), ALV));
 
-            // Jos kirjataan tulotilille, niin siirrytään syöttämään kredit-summaa
-            if( uusitili.onko(TiliLaji::TULO) )
-                emit siirryRuutuun(index.sibling(index.row(), KREDIT));
-            else
-                emit siirryRuutuun(index.sibling(index.row(), DEBET));
+            if( uusitili.onkoValidi())
+            {
+                // Jos kirjataan tulotilille, niin siirrytään syöttämään kredit-summaa
+                if( uusitili.onko(TiliLaji::TULO) )
+                    emit siirryRuutuun(index.sibling(index.row(), KREDIT));
+                else
+                    emit siirryRuutuun(index.sibling(index.row(), DEBET));
+            }
             return true;
         }
         case SELITE:
@@ -392,6 +401,11 @@ QModelIndex VientiModel::lisaaVienti()
         int oletustili = tositeModel_->tositelaji().json()->luku("Oletustili");
         uusirivi.tili = kp()->tilit()->tiliNumerolla(oletustili);
         uusirivi.alvkoodi = uusirivi.tili.json()->luku("AlvLaji");
+
+        // Kuitenkin käsin kirjattaessa käytetään bruttokirjauksia (#37)
+        if( uusirivi.alvkoodi % 10 == 1)
+            uusirivi.alvkoodi++;
+
         uusirivi.alvprosentti = uusirivi.tili.json()->luku("AlvProsentti");
     }
     else
