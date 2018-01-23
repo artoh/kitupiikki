@@ -75,14 +75,14 @@ bool TositeModel::muokattu()
 
 void TositeModel::asetaPvm(const QDate &pvm)
 {
-   if( pvm.daysTo(pvm_))
-   {
-        pvm_ = pvm;
-        muokattu_ = true;
-   }
    if( !pvm.isValid() )
    {
        tunniste_ = 0;
+   }
+   else
+   {
+       pvm_ = pvm;
+       muokattu_ = true;
    }
 
 }

@@ -77,13 +77,12 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
 
     // Kun tositteen päivää vaihdetaan, vaihtuu myös tiliotepäivät.
     // Siksi tosipäivä ladattava aina ennen tiliotepäiviä!
-    connect( ui->tositePvmEdit, SIGNAL(dateChanged(QDate)), this, SLOT(pvmVaihtuu()));
+    connect( ui->tositePvmEdit, SIGNAL(editingFinished()), this, SLOT(pvmVaihtuu()));
 
     connect( ui->tositetyyppiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(vaihdaTositeTyyppi()));
     connect( ui->tunnisteEdit, SIGNAL(textEdited(QString)), this, SLOT(paivitaTunnisteVari()));
     connect( ui->otsikkoEdit, SIGNAL(textEdited(QString)), model_, SLOT(asetaOtsikko(QString)));
     connect( ui->viennitView, SIGNAL(activated(QModelIndex)), this, SLOT( vientivwAktivoitu(QModelIndex)));
-    connect( ui->tositePvmEdit, SIGNAL(dateChanged(QDate)), model_, SLOT(asetaPvm(QDate)));
 
 
     // Tiliotteen tilivalintaan hyväksytään vain rahoitustilit
@@ -411,10 +410,12 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
     ui->lisaaliiteNappi->setEnabled(sallitaanko);
     ui->poistaLiiteNappi->setEnabled(sallitaanko);
 
+
     if(sallitaanko)
         ui->tositePvmEdit->setDateRange(Kirjanpito::db()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );
     else
         ui->tositePvmEdit->setDateRange( Kirjanpito::db()->tilikaudet()->kirjanpitoAlkaa() , Kirjanpito::db()->tilikaudet()->kirjanpitoLoppuu() );
+
 
 }
 
