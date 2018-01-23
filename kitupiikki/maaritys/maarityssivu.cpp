@@ -236,7 +236,7 @@ void MaaritysSivu::paivitaNakyvat()
     // Tilinavaus
     // Jos tilit avattavissa eikä avaustilikautta ole vielä päätetty
     item = lista->item( TILINAVAUS );
-    item->setHidden( kp()->asetukset()->luku("Tilinavaus") == 0 || kp()->tilitpaatetty() != kp()->asetukset()->pvm("TilinavausPvm") );
+    item->setHidden( kp()->asetukset()->luku("Tilinavaus") == 0 || kp()->tilitpaatetty() > kp()->asetukset()->pvm("TilinavausPvm") );
 
     // Edistyneet toiminnot
     bool naytaEdistyneet = kp()->asetukset()->onko("NaytaEdistyneet");

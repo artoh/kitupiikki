@@ -62,7 +62,9 @@ bool Tilinavaus::nollaa()
 
 bool Tilinavaus::tallenna()
 {
-    model->tallenna();
+    // #40 Model tallennetaan vain, jos sitä on muokattu
+    if( model->onkoMuokattu())
+        model->tallenna();
 
     kp()->tilikaudet()->json(0)->set("Henkilosto", ui->henkilostoSpin->value());
     kp()->tilikaudet()->tallennaJSON();

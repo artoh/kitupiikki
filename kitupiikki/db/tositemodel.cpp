@@ -165,7 +165,7 @@ void TositeModel::lataa(int id)
 void TositeModel::tyhjaa()
 {
     // Tyhjentää tositteen
-    id_ = 0;
+    id_ = -1;
     pvm_ = kp()->paivamaara();
 
     // Siltä varalta että kuluva tilikausi on jo lukittu, siirtyy seuraavaan sallittuun päivään
@@ -193,7 +193,7 @@ bool TositeModel::tallenna()
     tietokanta()->transaction();
 
     QSqlQuery kysely(*tietokanta_);
-    if( id() )
+    if( id() > -1)
     {
         kysely.prepare("UPDATE tosite SET pvm=:pvm, otsikko=:otsikko, kommentti=:kommentti, "
                        "tunniste=:tunniste, laji=:laji, tiliote=:tiliote, json=:json WHERE id=:id");
@@ -232,7 +232,7 @@ bool TositeModel::tallenna()
     }
 
 
-    if( !id())
+    if( id() < 0)
         id_ = kysely.lastInsertId().toInt();
 
     if( !vientiModel_->tallenna() || !liiteModel_->tallenna() )

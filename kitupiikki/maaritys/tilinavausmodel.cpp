@@ -146,9 +146,9 @@ void TilinavausModel::lataa()
         int kredit = kysely.value("kreditsnt").toInt();
 
         if( tili.onko(TiliLaji::VASTAAVAA)  || tili.onko(TiliLaji::MENO))
-            saldot[ tili.numero()] = debet - kredit;
+            saldot[ tili.numero()] = saldot.value(tili.numero()) + debet - kredit;
         else
-            saldot[ tili.numero()] = kredit - debet;
+            saldot[ tili.numero()] = saldot.value(tili.numero()) + kredit - debet;
 
     }
     paivitaInfo();

@@ -37,6 +37,10 @@ class TositeModel : public QObject
 public:
     TositeModel(QSqlDatabase *tietokanta, QObject *parent = 0);
 
+    /**
+     * @brief Tositteen id
+     * @return -1 tarkoittaa, ettei tositetta vielä tallennettu
+     */
     int id() const { return id_; }
     QDate pvm() const { return pvm_; }
     QString otsikko() const { return otsikko_; }

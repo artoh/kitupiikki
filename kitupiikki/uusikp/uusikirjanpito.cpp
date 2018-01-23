@@ -301,7 +301,9 @@ bool UusiKirjanpito::alustaKirjanpito()
 
         asetukset.aseta("Tilinavaus", 2);
         asetukset.aseta("TilinavausPvm", field("edpaattyi").toDate());
-        asetukset.aseta("TilitPaatetty", field("edpaattyi").toDate());
+
+        // #40 Mahdollisuus muokata myös tilinavauskirjausta
+        asetukset.aseta("TilitPaatetty", field("edpaattyi").toDate().addDays(-1));
     }
 
     progDlg.setValue( progDlg.value() + 1 );

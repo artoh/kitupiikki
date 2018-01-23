@@ -229,8 +229,11 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
         switch (index.column())
         {
         case PVM:
-            viennit_[index.row()].pvm = value.toDate();
-            emit siirryRuutuun( index.sibling(index.row(), TILI) );
+            if( value.toDate().isValid())
+            {
+                viennit_[index.row()].pvm = value.toDate();
+                emit siirryRuutuun( index.sibling(index.row(), TILI) );
+            }
             return true;
         case TILI:
         {
@@ -250,10 +253,15 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
             // #37 Käsinkirjauksessa oletuksena netto
             if( alvlaji % 10 == 1)
                 alvlaji++;
+            // #40 Jos muokataan tilinavausta, ei siinä ole alveja
+            if( tositeModel_ && tositeModel_->tunniste() == 0)
+                alvlaji = 0;
 
             viennit_[index.row()].alvkoodi = alvlaji;
 
-            viennit_[index.row()].alvprosentti = uusitili.json()->luku("AlvProsentti");
+            if( alvlaji)
+                viennit_[index.row()].alvprosentti = uusitili.json()->luku("AlvProsentti");
+
             emit dataChanged(index, index.sibling(index.row(), ALV));
 
             if( uusitili.onkoValidi())
@@ -264,6 +272,7 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
                 else
                     emit siirryRuutuun(index.sibling(index.row(), DEBET));
             }
+            emit muuttunut();
             return true;
         }
         case SELITE:
@@ -274,8 +283,8 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
             if(value.toLongLong())
             {
                 viennit_[index.row()].kreditSnt = 0;
+                emit siirryRuutuun(index.sibling(index.row(), KOHDENNUS));
             }
-            emit siirryRuutuun(index.sibling(index.row(), KOHDENNUS));
             emit muuttunut();
             return true;
         case KREDIT:
@@ -283,8 +292,8 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
             if( value.toLongLong())
             {
                 viennit_[index.row()].debetSnt = 0;
+                emit siirryRuutuun(index.sibling(index.row(), KOHDENNUS));
             }
-            emit siirryRuutuun(index.sibling(index.row(), KOHDENNUS));
             emit muuttunut();
             return true;
         case KOHDENNUS:

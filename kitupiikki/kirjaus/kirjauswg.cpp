@@ -286,6 +286,17 @@ void KirjausWg::naytaSummat()
 
     // #39: Debet- ja kredit-kirjausten on täsmättävä
     ui->tallennaButton->setEnabled( !erotus );
+
+    // Tilien joilla kirjauksia oltava valideja
+    for(int i=0; i < model_->vientiModel()->rowCount(QModelIndex()); i++)
+    {
+        QModelIndex index = model_->vientiModel()->index(i,0);
+        if( index.data(VientiModel::TiliNumeroRooli).toInt() == 0 &&
+                ( index.data(VientiModel::DebetRooli).toLongLong() != 0 ||
+                  index.data(VientiModel::KreditRooli).toLongLong() != 0))
+            ui->tallennaButton->setEnabled(false);
+    }
+
 }
 
 void KirjausWg::lataaTosite(int id)
