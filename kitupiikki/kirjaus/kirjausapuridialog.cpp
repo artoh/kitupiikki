@@ -80,6 +80,7 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
 
     // #44 pvm:n muutos aiheuttaa vastatilin tarkastamisen, koska vaikuttaa erien yhdistämiseen
     connect(ui->pvmDate, SIGNAL(editingFinished()), this, SLOT(vastaTiliMuuttui()));
+    connect( ui->yhdistaCheck, SIGNAL(clicked(bool)), this, SLOT(yhdistaminenMuuttui(bool)));
 
     connect(ui->taseEraCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(eraValittu()));
     connect(ui->vastaTaseEraCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(eraValittu()));
@@ -266,8 +267,16 @@ void KirjausApuriDialog::vastaTiliMuuttui()
 
     ui->yhdistaCheck->setVisible(yhdistettavissa);
     ui->yhdistaCheck->setChecked(yhdistettavissa && !model->tiliotetili() );
+    yhdistaminenMuuttui( ui->yhdistaCheck->isChecked());
 
     ehdota();
+}
+
+void KirjausApuriDialog::yhdistaminenMuuttui(bool yhdistetaanko)
+{
+    Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliEdit->valittuTilinumero());
+    ui->vastaTaseEraLabel->setVisible( vastatili.eritellaankoTase() && !yhdistetaanko );
+    ui->vastaTaseEraCombo->setVisible( vastatili.eritellaankoTase() && !yhdistetaanko );
 }
 
 void KirjausApuriDialog::eraValittu()
@@ -495,6 +504,7 @@ void KirjausApuriDialog::valilehtiVaihtui(int indeksi)
     else
         ui->vastatiliLabel->setText("Vastatili");
 
+    vastaTiliMuuttui();
     ehdota();
 }
 

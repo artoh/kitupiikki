@@ -358,37 +358,5 @@
     </hint>
    </hints>
   </connection>
-  <connection>
-   <sender>yhdistaCheck</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>vastaTaseEraCombo</receiver>
-   <slot>setHidden(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>205</x>
-     <y>245</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>428</x>
-     <y>272</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>yhdistaCheck</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>vastaTaseEraLabel</receiver>
-   <slot>setHidden(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>173</x>
-     <y>241</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>45</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
  </connections>
 </ui>

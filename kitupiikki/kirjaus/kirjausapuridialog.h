@@ -56,6 +56,7 @@ public slots:
     void laskeVerolla();
     void alvLajiMuuttui();
     void vastaTiliMuuttui();
+    void yhdistaminenMuuttui(bool yhdistetaanko);
     void eraValittu();
     void vastaEraValittu();
     void pvmMuuttuu();
