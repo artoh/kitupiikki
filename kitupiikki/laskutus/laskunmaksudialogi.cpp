@@ -66,6 +66,8 @@ LaskunMaksuDialogi::LaskunMaksuDialogi(KirjausWg *kirjauswg) :
         if( vastatili.onko( TiliLaji::RAHAVARAT))
             ui->tiliEdit->valitseTiliIdlla(vastatili.id());
     }
+    if( !ui->tiliEdit->valittuTilinumero() )
+        ui->tiliEdit->valitseTiliIdlla( kirjauswg->tiliotetiliId() );
 
 
     connect( ui->laskutView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(valintaMuuttuu()));

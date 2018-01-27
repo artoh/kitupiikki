@@ -126,6 +126,15 @@ public slots:
      */
     void kirjaaLaskunmaksu();
 
+    /**
+     * @brief Jos kirjataan tiliotetta, tiliotetilin id
+     *
+     * Tätä käytetään laskunmaksussa, jotta lasku tulisi kohdistetuksi tiliotteen tilille
+     *
+     * @return tiliotetilin id tai 0
+     */
+    int tiliotetiliId();
+
 signals:
     void liiteValittu(const QByteArray& pdf);
     /**

@@ -142,6 +142,7 @@ void KirjausWg::tyhjenna()
     tiedotModelista();
     // Sallitaan muokkaus
     salliMuokkaus( model_->muokkausSallittu());
+    pvmVaihtuu();
     // Verosarake näytetään vain, jos alv-toiminnot käytössä
     ui->viennitView->setColumnHidden( VientiModel::ALV, !kp()->asetukset()->onko("AlvVelvollinen") );
     // Tyhjennetään tositemodel
@@ -264,6 +265,13 @@ void KirjausWg::kirjaaLaskunmaksu()
 
     laskuDlg_->exec();
 
+}
+
+int KirjausWg::tiliotetiliId()
+{
+    if( !ui->tilioteBox->isChecked())
+        return 0;
+    return ui->tiliotetiliCombo->currentData(TiliModel::IdRooli).toInt();
 }
 
 void KirjausWg::naytaSummat()
