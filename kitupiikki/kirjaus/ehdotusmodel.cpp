@@ -115,11 +115,42 @@ void EhdotusModel::lisaaVienti(VientiRivi rivi)
     endInsertRows();
 }
 
-void EhdotusModel::tallenna(VientiModel *model)
+void EhdotusModel::tallenna(VientiModel *model, int yhdistettavaVastatiliNumero, QDate yhdistettavaPvm)
 {
+    qlonglong yhdistettavaDebet = 0;
+    qlonglong yhdistettavaKredit = 0;
+
     foreach (VientiRivi vienti, viennit_) {
-        model->lisaaVienti(vienti);
+        if( yhdistettavaVastatiliNumero &&
+            yhdistettavaVastatiliNumero == vienti.tili.numero() &&
+            yhdistettavaPvm == vienti.pvm )
+        {
+            yhdistettavaDebet += vienti.debetSnt;
+            yhdistettavaKredit += vienti.kreditSnt;
+        }
+        else
+        {
+            model->lisaaVienti(vienti);
+        }
     }
+
+    // #44 Erien yhdistäminen
+    if( yhdistettavaDebet || yhdistettavaKredit )
+    {
+        for( int i=0; i < model->rowCount(QModelIndex()); i++)
+        {
+            QModelIndex indeksi = model->index(i, 0);
+            if( indeksi.data(VientiModel::TiliNumeroRooli).toInt() == yhdistettavaVastatiliNumero &&
+                indeksi.data(VientiModel::PvmRooli).toDate() == yhdistettavaPvm )
+            {
+                // Lisätään tämä alkuperäiseen erään
+                model->setData(indeksi, indeksi.data(VientiModel::DebetRooli).toLongLong() + yhdistettavaDebet , VientiModel::DebetRooli );
+                model->setData(indeksi, indeksi.data(VientiModel::KreditRooli).toLongLong() + yhdistettavaKredit, VientiModel::KreditRooli );
+                break;
+            }
+        }
+    }
+
 }
 
 bool EhdotusModel::onkoKelpo() const

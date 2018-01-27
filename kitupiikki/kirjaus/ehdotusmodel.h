@@ -53,7 +53,7 @@ public:
      * @brief Tallentaa ehdotetun viennin
      * @param model VientiModel, minne tallennetaan
      */
-    void tallenna(VientiModel *model);
+     void tallenna(VientiModel *model, int yhdistettavaVastatiliNumero = 0, QDate yhdistettavaPvm = QDate());
 
     /**
      * @brief Onko kirjausehdotus valmis

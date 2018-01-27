@@ -43,6 +43,7 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     ui->poistoSpin->setVisible(false);
     ui->alvVaaraKuva->setVisible(false);
     ui->alvVaaraTeksti->setVisible(false);
+    ui->yhdistaCheck->setVisible(false);
 
 
     // ValintaTab ylälaidassa kirjauksen tyypin valintaan
@@ -76,7 +77,10 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     connect( ui->alvSpin, SIGNAL(editingFinished()), this, SLOT(laskeVerolla()));
     connect( ui->vaihdaNappi, SIGNAL(clicked(bool)), this, SLOT(ehdota()));
     connect(ui->seliteEdit, SIGNAL(editingFinished()), this, SLOT(ehdota()));
-    connect(ui->pvmDate, SIGNAL(editingFinished()), this, SLOT(ehdota()));
+
+    // #44 pvm:n muutos aiheuttaa vastatilin tarkastamisen, koska vaikuttaa erien yhdistämiseen
+    connect(ui->pvmDate, SIGNAL(editingFinished()), this, SLOT(vastaTiliMuuttui()));
+
     connect(ui->taseEraCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(eraValittu()));
     connect(ui->vastaTaseEraCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(eraValittu()));
     connect(ui->pvmDate, SIGNAL(dateChanged(QDate)), this, SLOT(pvmMuuttuu()));
@@ -242,6 +246,27 @@ void KirjausApuriDialog::vastaTiliMuuttui()
         eraModelVastaTilille.lataa( vastatili );
         ui->vastaTaseEraCombo->setCurrentIndex(0);
     }
+
+    // #44 Yhdistäminen aiempaan kirjaukseen, joka samalla vastatilillä
+    // Mahdollista, jos aiemmin kirjattu samalle tilille samana päivänä
+    bool yhdistettavissa = false;
+
+    if( ui->valintaTab->currentIndex() != SIIRTO )
+    {
+        for(int i = 0; i < model->vientiModel()->rowCount(QModelIndex()); i++)
+        {
+            QModelIndex index = model->vientiModel()->index(i, 0);
+            if( index.data(VientiModel::TiliNumeroRooli).toInt() == vastatili.numero() &&
+                index.data(VientiModel::PvmRooli).toDate() == ui->pvmDate->date() )
+            {
+                yhdistettavissa = vastatili.onko(TiliLaji::TASE);
+            }
+        }
+    }
+
+    ui->yhdistaCheck->setVisible(yhdistettavissa);
+    ui->yhdistaCheck->setChecked(yhdistettavissa && !model->tiliotetili() );
+
     ehdota();
 }
 
@@ -483,7 +508,11 @@ void KirjausApuriDialog::korjaaSarakeLeveydet()
 void KirjausApuriDialog::accept()
 {
     ehdota();
-    ehdotus.tallenna(model->vientiModel());
+
+    if( ui->yhdistaCheck->isChecked())
+        ehdotus.tallenna( model->vientiModel(), ui->vastatiliEdit->valittuTilinumero(), ui->pvmDate->date());
+    else
+        ehdotus.tallenna(model->vientiModel());
     QDialog::accept();
 }
 
