@@ -121,6 +121,13 @@ bool MaaritysSivu::poistuSivulta()
     return true;
 }
 
+QString MaaritysSivu::ohjeSivunNimi()
+{
+    if( nykyinen )
+        return nykyinen->ohjesivu();
+    return QString();
+}
+
 
 void MaaritysSivu::peru()
 {

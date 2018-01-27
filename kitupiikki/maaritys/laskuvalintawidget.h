@@ -35,6 +35,8 @@ public:
     bool tallenna();
     bool onkoMuokattu();
 
+    QString ohjesivu() override { return "maaritykset/laskutus";}
+
 public slots:
     void ilmoitaMuokattu();
 

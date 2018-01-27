@@ -43,6 +43,8 @@ TilinPaattaja::TilinPaattaja(Tilikausi kausi, QWidget *parent) :
     connect( ui->tilinpaatosNappi, SIGNAL(clicked(bool)), this, SLOT(muokkaa()));
     connect( ui->tulostaNappi, SIGNAL(clicked(bool)), this, SLOT(esikatsele()));
     connect( ui->vahvistaNappi, SIGNAL(clicked(bool)), this, SLOT(vahvista()));
+
+    connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("tilikaudet/tilinpaatos"); });
 }
 
 TilinPaattaja::~TilinPaattaja()

@@ -66,6 +66,8 @@ public:
     void siirrySivulle();
     bool poistuSivulta();
 
+    QString ohjeSivunNimi() override;
+
 public slots:
     /**
      * @brief Peru-napilla nollataan lomake

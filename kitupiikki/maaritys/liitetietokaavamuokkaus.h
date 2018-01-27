@@ -38,6 +38,8 @@ public:
     bool tallenna();
     bool onkoMuokattu();
 
+    QString ohjesivu() override { return "maaritykset/tilinpaatos";}
+
 protected slots:
     void ilmoitaOnkoMuokattu();
     void lisaaRaportti();

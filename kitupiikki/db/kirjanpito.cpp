@@ -23,6 +23,9 @@
 #include <QPrinter>
 #include <QMessageBox>
 #include <QApplication>
+#include <QDesktopServices>
+#include <QUrl>
+
 #include "kirjanpito.h"
 
 
@@ -77,6 +80,13 @@ Tilikausi Kirjanpito::tilikausiPaivalle(const QDate &paiva) const
 TositeModel *Kirjanpito::tositemodel(QObject *parent)
 {
     return new TositeModel( &tietokanta_ , parent);
+}
+
+void Kirjanpito::ohje(const QString &ohjesivu)
+{
+    QString osoite("https://artoh.github.io/kitupiikki/");
+    osoite.append(ohjesivu);
+    QDesktopServices::openUrl( QUrl(osoite));
 }
 
 

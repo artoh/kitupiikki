@@ -36,6 +36,8 @@ public:
     bool tallenna();
     bool onkoMuokattu();
 
+    QString ohjesivu() override { return "maaritykset/raportit";}
+
 protected slots:
     void avaaRaportti(const QString& raportti);
     void merkkaaMuokattu();

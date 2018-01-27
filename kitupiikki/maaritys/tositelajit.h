@@ -53,6 +53,8 @@ public:
     bool nollaa();
     bool onkoMuokattu();
 
+    QString ohjesivu() override { return "maaritykset/tositelajit"; }
+
 protected:
     Ui::Tositelajit *ui;
     TositelajiModel *model;

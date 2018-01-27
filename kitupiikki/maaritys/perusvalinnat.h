@@ -43,6 +43,8 @@ public:
     bool tallenna();
     bool onkoMuokattu();
 
+    QString ohjesivu() override { return "maaritykset/perusvalinnat";}
+
 public slots:
     void vaihdaLogo();
     void ilmoitaMuokattu();

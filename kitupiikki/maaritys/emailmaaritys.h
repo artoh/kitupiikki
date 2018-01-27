@@ -37,6 +37,8 @@ public:
     bool tallenna();
     bool onkoMuokattu();
 
+    QString ohjesivu() override { return "maaritykset/sahkoposti";}
+
 public slots:
     void ilmoitaMuokattu();
     void kokeile();

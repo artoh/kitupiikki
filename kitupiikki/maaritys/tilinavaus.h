@@ -50,6 +50,8 @@ public:
     bool tallenna();
     bool onkoMuokattu();
 
+    QString ohjesivu() override { return "maaritykset/tilinavaus";}
+
 private:
     Ui::Tilinavaus *ui;
     TilinavausModel *model;

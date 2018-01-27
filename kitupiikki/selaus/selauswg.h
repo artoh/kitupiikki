@@ -75,6 +75,8 @@ public slots:
 public:
     void siirrySivulle();
 
+    QString ohjeSivunNimi() override { return "selaus"; }
+
 
 signals:
     void tositeValittu(int id);

@@ -204,11 +204,10 @@ void KitupiikkiIkkuna::naytaOnni(const QString &teksti)
 
 void KitupiikkiIkkuna::ohje()
 {
-    QString osoite("https://artoh.github.io/kitupiikki/");
     if( nykysivu )
-        osoite.append( nykysivu->ohjeSivunNimi());
-
-    QDesktopServices::openUrl( QUrl(osoite));
+        kp()->ohje( nykysivu->ohjeSivunNimi() );
+    else
+        kp()->ohje();
 }
 
 void KitupiikkiIkkuna::mousePressEvent(QMouseEvent *event)

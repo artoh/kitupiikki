@@ -54,5 +54,5 @@ bool TilikarttaOhje::tallenna()
 
 bool TilikarttaOhje::onkoMuokattu()
 {
-    return ui->ohjeEditori->toHtml() != kp()->asetukset()->asetus("TilikarttaOhje");
+    return ui->muokkausNappi->isChecked() &&  ui->ohjeEditori->toHtml() != kp()->asetukset()->asetus("TilikarttaOhje");
 }

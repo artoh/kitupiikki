@@ -56,6 +56,8 @@ public:
     void siirrySivulle();
     bool poistuSivulta();
 
+    QString ohjeSivunNimi() override { return "tulosteet";}
+
 signals:
 
 public slots:

@@ -67,6 +67,12 @@ public:
      * @return
      */
     virtual bool naytetaankoVienti() { return false;}
+
+    /**
+     * @brief Näytettävän ohjesivun nimi
+     * @return
+     */
+    virtual QString ohjesivu() { return ""; }
 };
 
 #endif // MAARITYSWIDGET_H

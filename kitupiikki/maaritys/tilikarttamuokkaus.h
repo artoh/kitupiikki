@@ -40,6 +40,8 @@ public:
 
     bool naytetaankoVienti() { return true; }
 
+    QString ohjesivu() override { return "maaritykset/tilikartta"; }
+
 public slots:
     void muutaTila(int tila);
 

@@ -175,6 +175,12 @@ public:
      */
     QPrinter *printer() { return printer_;}
 
+    /**
+     * @brief Näyttää halutun ohjesivun selaimessa
+     * @param ohjesivu
+     */
+    void ohje(const QString& ohjesivu = QString());
+
 signals:
     /**
      * @brief Tietokanta on avattu
