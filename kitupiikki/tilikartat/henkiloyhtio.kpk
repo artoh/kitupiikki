@@ -9,11 +9,11 @@ henkiloyhtio.kpk
 [TilikarttaKuvaus]
 <p><b>Avoin yhtiö</b> tai <b>kommandiittiyhtiö</b>
 [TilikarttaOhje]
-<h1>Henkilöyhtiön tilikartta</h2>
+<h1>Henkilöyhtiön tilikartta</h1>
 <p><b>Avoimenssa yhtiössä</b> on ainoastaan vastuunalaisia yhtiömiehiä, <b>kommandiittiyhtiössä</b> myös äänettömiä yhtiömiehiä.</p>
 <h2>Tilikartta</h2>
 <p>Suuri osa konserniin kuuluvista tileistä on piilotettu, ne voi ottaa käyttöön tilikartan muokkaamisesta <b>Määritykset > Tilit</b></p>
-<h3>Tilinpäätös</h2>
+<h2>Tilinpäätös</h2>
 <p>Tilinpäätöksestä on neljä eri versiota, josta tilinpäätöksen yhteydessä voi valita tilinpäätökseen tulostuvan kaavan.</p>
 [TilikarttaLuontiVersio]
 0.2.1-alpha
@@ -103,7 +103,7 @@ H4 174 {} Lainasaamiset
 A 1740 {"Taseerittely":2} Lainasaamiset
 H4 176 {} Muut saamiset
 AS 1760 {"Taseerittely":2} Muut saamiset
-AL 1762 {"Taseerittely":2} Alv-saamiset
+AL 1762 {} Alv-saamiset
 H4 177 {} Siirtosaamiset
 AS 1770 {"Taseerittely":2} Siirtosaamiset
 H3 18 {} Rahoitusarvopaperit
@@ -193,7 +193,7 @@ BS- 2970 {"Taseerittely":2} Velat saman konsernin yrityksille; lyhytaikaiset
 H4 2975 {"Asti":2979} Velat omistusyhteysyrityksille
 BS 2975 {"Taseerittely":2} Velat omistusyhteysyrityksille; lyhytaikaiset
 H4 298 {} Muut saamiset
-BL 2984 {"Taseerittely":2} Alv-velka
+BL 2984 {} Alv-velka
 BV 2986 {"Taseerittely":2} Verovelka (Omavero-tili)
 BS 2989 {"Taseerittely":2} Muut velat
 BS 2990 {"Taseerittely":2} Siirtovelat

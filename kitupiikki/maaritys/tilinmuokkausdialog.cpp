@@ -180,7 +180,10 @@ void TilinMuokkausDialog::naytettavienPaivitys()
     ui->poistotiliLabel->setVisible( tyyppi.onko(TiliLaji::POISTETTAVA));
     ui->poistotiliEdit->setVisible( tyyppi.onko(TiliLaji::POISTETTAVA));
 
-    ui->teGroup->setVisible( tyyppi.onko(TiliLaji::TASE) );
+    // #46 Alv-velka ja alv-saatava -tileille ei voi tehdä tase-erittelyä, koska tilit tyhjennetään aina
+    // kuukauden lopussa alv-kirjauksella, joka ei huomioi tase-eriä
+
+    ui->teGroup->setVisible( tyyppi.onko(TiliLaji::TASE) && !tyyppi.onko(TiliLaji::ALVSAATAVA) && !tyyppi.onko(TiliLaji::ALVVELKA));
 
 }
 
