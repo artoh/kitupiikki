@@ -78,7 +78,7 @@ protected:
     void paivitaTiedostoLista();
 
     /**
-     * @brief githubista haettu tiedote uusista päivityksista tms.
+     * @brief palvelimelta (kitupiikki.arkku.net) haettu tiedote uusista päivityksista tms.
      *
      * @since 0.2
      */

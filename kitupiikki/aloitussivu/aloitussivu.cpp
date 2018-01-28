@@ -66,7 +66,6 @@ AloitusSivu::AloitusSivu() :
     connect( kp(), SIGNAL( perusAsetusMuuttui()), this, SLOT(kirjanpitoVaihtui()));
 
     paivitaTiedostoLista();
-    pyydaInfo();
 }
 
 AloitusSivu::~AloitusSivu()
@@ -148,7 +147,10 @@ void AloitusSivu::kirjanpitoVaihtui()
     }
 
     paivitaTiedostoLista();
-    pyydaInfo();
+
+    if( paivitysInfo.isEmpty())
+        pyydaInfo();
+
     siirrySivulle();
 }
 
@@ -231,8 +233,6 @@ void AloitusSivu::infoSaapui(QNetworkReply *reply)
 void AloitusSivu::pyydaInfo()
 {
 
-
-
     // Päivitysten näyttäminen
     QSettings asetukset;
     if( asetukset.value("NaytaPaivitykset", true).toBool())
@@ -244,6 +244,10 @@ void AloitusSivu::pyydaInfo()
         {
             // Tilastoinnissa käytettävä infokeksi
             // https://stackoverflow.com/questions/18862963/qt-c-random-string-generation
+
+            // Tarkistettaessa päivityksiä Kitupiikin palvelin tilastoi
+            // ohjelman version, käyttöjärjestelmän ja "infokeksin" eli satunnaisen merkkijonon,
+            // jonka avulla voidaan laskea ohjelman aktiivinen käyttäjämäärä
 
             const QString merkit("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
 
