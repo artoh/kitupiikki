@@ -160,8 +160,7 @@ void AloitusSivu::linkki(const QUrl &linkki)
 
     if( linkki.scheme() == "ohje")
     {
-        QDesktopServices::openUrl( QUrl(QString("https://artoh.github.io/kitupiikki/") + linkki.fileName()
-                                   + "#" + linkki.fragment() ));
+        kp()->ohje( linkki.fileName() + "#" + linkki.fragment() );
     }
     else if( linkki.scheme() == "selaa")
     {

@@ -244,5 +244,5 @@ void TilinpaatosEditori::tallenna()
 
 void TilinpaatosEditori::ohje()
 {
-    QDesktopServices::openUrl(QUrl("https://artoh.github.io/kitupiikki/tilinpaatos/"));
+    kp()->ohje("tilikaudet/tilinpaatos");
 }

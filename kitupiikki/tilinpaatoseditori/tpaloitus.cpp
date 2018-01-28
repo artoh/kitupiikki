@@ -99,7 +99,7 @@ void TpAloitus::lataaTiedosto()
 
 void TpAloitus::ohje()
 {
-    QDesktopServices::openUrl( QUrl("https://artoh.github.io/kitupiikki/tilinpaatos/"));
+    kp()->ohje("tilikaudet/tilinpaatos");
 }
 
 void TpAloitus::tallennaHenkilosto(int maara)

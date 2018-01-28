@@ -64,7 +64,7 @@ void PaivitaKirjanpito::paivitaTilikartta()
     ui.sisainen->setEnabled( !sispaivitys.isEmpty());
     ui.sisainen->setChecked( !sispaivitys.isEmpty());
     ui.tiedosto->setChecked( sispaivitys.isEmpty());
-    connect( ui.ohjeNappi, &QPushButton::clicked ,  [] {QDesktopServices::openUrl( QUrl("https://artoh.github.io/kitupiikki/aloitus"));} );
+    connect( ui.ohjeNappi, &QPushButton::clicked ,  [] { kp()->ohje("aloitus");  ;} );
 
     if( dlg.exec() == QDialog::Accepted)
     {
@@ -128,7 +128,7 @@ void PaivitaKirjanpito::lataaPaivitys(const QString &tiedosto)
         ui.muokatutRaportit->setText( muokatutRaportit.join("\n") );
         ui.kaavaGroup->setVisible(tpYlikirjoita);
 
-        connect( ui.ohjeNappi, &QPushButton::clicked ,  [] {QDesktopServices::openUrl( QUrl("https://artoh.github.io/kitupiikki/aloitus"));} );
+        connect( ui.ohjeNappi, &QPushButton::clicked ,  [] { kp()->ohje("aloitus"); ;} );
 
 
         if( dlg.exec() != QDialog::Accepted)

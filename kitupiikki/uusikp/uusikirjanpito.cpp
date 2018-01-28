@@ -128,7 +128,7 @@ QMap<QString, QStringList> UusiKirjanpito::lueKtkTiedosto(const QString &polku)
 
 void UusiKirjanpito::naytaOhje()
 {
-    QDesktopServices::openUrl( QUrl("https://artoh.github.io/kitupiikki/aloitus"));
+    kp()->ohje("aloitus");
 }
 
 bool UusiKirjanpito::alustaKirjanpito()
