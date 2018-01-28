@@ -16,3 +16,7 @@ Valitse **Arvonlisäverovelvollinen** jos olet rekisteröitynyt arvonlisäverove
 
 **Näytä ilmoitus saatavilla olevista päivityksistä** näyttää ohjelman aloitussivulla ilmoituslaatikon, kun Kitupiikistä on saatavilla uudempi ohjelmaversio.
 Tätä varten Kitupiikki ottaa internet-yhteyden ohjelman verkkosivulle.
+
+!!! note ""
+    Päivitystä tarkastettaessa Kitupiikin verkkosivu tilastoi anonyymin tiedon ohjelman versiosta sekä
+    tietokoneen käyttöjärjestelmästä.
