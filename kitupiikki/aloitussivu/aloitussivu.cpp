@@ -34,6 +34,7 @@
 #include <QDebug>
 
 #include <QSettings>
+#include <QSysInfo>
 
 #include "ui_aboutdialog.h"
 
@@ -222,36 +223,14 @@ void AloitusSivu::abouttiarallaa()
 
 void AloitusSivu::infoSaapui(QNetworkReply *reply)
 {
-    bool tulosta = false;
-    paivitysInfo.clear();
-    while( reply->canReadLine())
-    {
-        QString rivi = QString::fromUtf8( reply->readLine() );
-        if( rivi.startsWith("#"))
-        {
-            QRegularExpression ehto( rivi.mid(1).trimmed(), QRegularExpression::UseUnicodePropertiesOption );
-            tulosta = ehto.match( qApp->applicationVersion() ).hasMatch();
-        }
-        else
-        {
-            if( tulosta )
-                paivitysInfo.append( rivi );
-        }
-
-    }
+    paivitysInfo = QString::fromUtf8( reply->readAll() );
     siirrySivulle();
     reply->deleteLater();
 }
 
 void AloitusSivu::pyydaInfo()
 {
-    if( !QSslSocket::supportsSsl())
-    {
-        paivitysInfo = tr("<table class=info width=100%><tr><td><b>SSL-suojattu verkkoliikenne ei käytössä</b><br>"
-                          "Päivitysten tarkastaminen tai laskujen lähettäminen suojatulla sähköpostilla edellyttää "
-                          "OpenSSL-kirjaston versiota %1</td></tr></table>").arg(QSslSocket::sslLibraryBuildVersionString());
-        return;
-    }
+
 
 
     // Päivitysten näyttäminen
@@ -260,8 +239,31 @@ void AloitusSivu::pyydaInfo()
     {
         QNetworkAccessManager *manager = new QNetworkAccessManager(this);
         connect( manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(infoSaapui(QNetworkReply*)));
-        QNetworkRequest req( QUrl("https://artoh.github.io/kitupiikki.info"));
-        manager->get(req);
+
+        if( !asetukset.contains("Infokeksi"))
+        {
+            // Tilastoinnissa käytettävä infokeksi
+            // https://stackoverflow.com/questions/18862963/qt-c-random-string-generation
+
+            const QString merkit("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
+
+            QString randomString;
+            for(int i=0; i<10; ++i)
+            {
+               int index = qrand() % merkit.length();
+               QChar nextChar = merkit.at(index);
+               randomString.append(nextChar);
+            }
+            asetukset.setValue("Infokeksi", randomString);
+        }
+
+
+        QString kysely = QString("http://kitupiikki.arkku.net/info/?v=%1&os=%2&u=%3")
+                .arg( qApp->applicationVersion() )
+                .arg( QSysInfo::prettyProductName())
+                .arg( asetukset.value("Infokeksi").toString() );
+
+        manager->get( QNetworkRequest( QUrl( kysely )) );
     }
     else
         paivitysInfo.clear();

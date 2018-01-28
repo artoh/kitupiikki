@@ -16,6 +16,7 @@
 */
 
 #include <QSettings>
+#include <QSslSocket>
 
 #include "laskutus/smtp.h"
 
@@ -57,6 +58,18 @@ bool EmailMaaritys::nollaa()
 
     ui->nimiEdit->setText( kp()->asetukset()->asetus("EmailNimi"));
     ui->emailEdit->setText( kp()->asetukset()->asetus("EmailOsoite"));
+
+    // SSL-varoitus siirretty sähköpostin asetuksiin, koska
+    // päivitykset tarkastetaan ilman suojaa
+
+    if( !QSslSocket::supportsSsl())
+    {
+        ui->sslTeksti->setText(tr("<b>SSL-suojattu verkkoliikenne ei käytössä</b><p>"
+                          "Laskujen lähettäminen suojatulla sähköpostilla edellyttää "
+                          "OpenSSL-kirjaston versiota %1").arg(QSslSocket::sslLibraryBuildVersionString()));
+    }
+    ui->sslTeksti->setVisible( !QSslSocket::supportsSsl() );
+    ui->sslVaro->setVisible( !QSslSocket::supportsSsl() );
 
     return true;
 }
