@@ -1,10 +1,7 @@
-site_name: 'Kitupiikin käsikirja'
-site_description: 'Avoimen lähdekoodin kirjanpitäjä'
+site_name: 'Kitupiikki'
+site_description: 'Ilmainen kirjanpito-ohjelma'
 site_author: 'Arto Hyvättinen'
 site_url: 'https://artoh.github.io/kitupiikki'
-
-# repo_name: 'GitHub'
-# repo_url: 'https://github.com/artoh/kitupiikki'
 
 copyright: 'Copyright &copy; 2017-2018 Arto Hyvättinen GPL3 License'
 theme:
@@ -36,7 +33,7 @@ markdown_extensions:
   - toc:
         permalink: true
 pages:
-  - Kitupiikki: 'index.md'
+  - Esittely: 'index.md'
   - Kirjanpidosta lyhyesti: 'kirjanpito/index.md'
   - Asennus: 'asennus.md'
   - Kirjanpidon aloittaminen: 'aloitus/index.md'
