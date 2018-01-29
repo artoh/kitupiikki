@@ -12,8 +12,8 @@
 ; Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{5E7A6CBC-23BB-4ECA-A736-D57A2A159974}
-AppName={#MyAppName}
-AppVersion={#MyAppVersion}
+AppName=Kitupiikki
+AppVersion=0.4 beta
 ;AppVerName={#MyAppName} {#MyAppVersion}
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
@@ -23,11 +23,12 @@ DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
 InfoBeforeFile=D:\kitupiikki-paketointi\readme.rtf
-OutputDir=D:\kitupiikki
-OutputBaseFilename=kitupiikki0.3-beta-asennus
+OutputDir=D:\Arto\Dropbox\ohjelmointi
+OutputBaseFilename=kitupiikki0.4-beta-asennus
 SetupIconFile=D:\kitupiikki\kitupiikki.ico
 Compression=lzma
 SolidCompression=yes
+PrivilegesRequired=none
 
 [Languages]
 Name: "finnish"; MessagesFile: "compiler:Languages\Finnish.isl"
@@ -44,7 +45,7 @@ Source: "..\kitupiikki-paketointi\kitupiikki.ico"; DestDir: "{app}"; Flags: igno
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\kitupiikki.ico"; IconIndex: 0
-Name: "{group}\{cm:ProgramOnTheWeb,{#MyAppName}}"; Filename: "{#MyAppURL}"
+Name: "{group}\{cm:ProgramOnTheWeb,{#MyAppName}}"; Filename: "{#MyAppURL}"; IconFilename: "{app}\kitupiikki.ico"; IconIndex: 0
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\kitupiikki.ico"; IconIndex: 0; Tasks: desktopicon
 Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: quicklaunchicon
