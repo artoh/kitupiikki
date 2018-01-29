@@ -75,6 +75,7 @@ void Raportti::tulosta()
     {
         QPainter painter( kp()->printer() );
         raportti().tulosta( kp()->printer(), &painter, raitaCheck->isChecked());
+        painter.end();
     }
 }
 
@@ -85,12 +86,16 @@ void Raportti::esikatsele()
     file->open();
     file->close();
 
-    QPrinter tulostin(QPrinter::HighResolution);
-    tulostin.setPageSize(QPrinter::A4);
+    {
+        QPrinter tulostin(QPrinter::HighResolution);
+        tulostin.setPageSize(QPrinter::A4);
 
-    tulostin.setOutputFileName( file->fileName() );
-    QPainter painter( &tulostin );
-    raportti().tulosta( &tulostin, &painter, raitaCheck->isChecked());
+        tulostin.setOutputFileName( file->fileName() );
+        QPainter painter( &tulostin );
+        raportti().tulosta( &tulostin, &painter, raitaCheck->isChecked());
+        painter.end();
+    }
+
     QDesktopServices::openUrl( QUrl(file->fileName()) );
 }
 

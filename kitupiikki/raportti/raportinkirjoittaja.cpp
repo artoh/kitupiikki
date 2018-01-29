@@ -398,12 +398,12 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu)
     painter->drawText( QRect(sivunleveys/4,0,sivunleveys/2, rivinkorkeus  ), Qt::AlignHCenter, otsikko_);
     painter->drawText( QRect(sivunleveys*3/4, 0, sivunleveys/4, rivinkorkeus), Qt::AlignRight, paivays);
 
-    if( kp()->asetukset()->onko("Harjoitus") && false )
+    if( kp()->asetukset()->onko("Harjoitus")  )
     {
         painter->save();
         painter->setPen( QPen(Qt::red));
-        painter->setFont( QFont("Sans",16));
-        painter->drawText(QRect(vasenreunus + sivunleveys / 8 ,0,sivunleveys/4, rivinkorkeus*2 ), Qt::AlignHCenter | Qt::AlignTop, QString("HARJOITUS") );
+        painter->setFont( QFont("Sans",14));
+        painter->drawText(QRect(vasenreunus + sivunleveys / 8 * 5,0,sivunleveys/4, rivinkorkeus*2 ), Qt::AlignHCenter | Qt::AlignVCenter, QString("HARJOITUS") );
         painter->restore();
     }
 

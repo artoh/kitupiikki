@@ -25,6 +25,7 @@
 #include <QApplication>
 #include <QDesktopServices>
 #include <QUrl>
+#include <QSqlError>
 
 #include "kirjanpito.h"
 
@@ -96,10 +97,26 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
     tietokanta_.setDatabaseName(tiedosto);
 
     if( !tietokanta_.open() )
+    {
+        QMessageBox::critical(0, tr("Tiedostoa %1 ei voi avata").arg(tiedosto),
+                              tr("Tiedoston avaamisessa tapahtui virhe\n %1").arg( tietokanta_.lastError().text() ));
         return false;
+    }
 
     // Ladataankin asetukset yms modelista
     asetusModel_->lataa();
+
+
+    if( asetusModel_->asetus("Nimi").isEmpty() || !asetusModel_->luku("KpVersio"))
+    {
+        // Tämä ei ole lainkaan kelvollinen tietokanta
+        QMessageBox::critical(0, tr("Tiedostoa %1 ei voi avata").arg(tiedosto),
+                              tr("Valitsemasi tiedosto ei ole Kitupiikin tietokanta, tai tiedosto on vahingoittunut."));
+        tietokanta()->close();
+        asetusModel_->lataa();
+        emit tietokantaVaihtui();
+        return false;
+    }
 
 
     // Tarkistaa, ettei kirjanpitoa ole tehty uudemmalla versiolla.
