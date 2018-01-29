@@ -27,4 +27,4 @@ Etsi tosite **Selaa**-välilehdeltä ja napsauta sitä muokataksesi.
 ![](avaustosite.png)
 
 !!! note "Tilinavaussivu nollaa tilinavaustositteen"
-    Älä käytä Määritysten Tilinavaus-sivua enää sen jälkeen kun olet muokannut suoraan tilinavaustositetta
+    Älä muokkaa Määritysten Tilinavaus-sivua enää sen jälkeen kun olet muokannut suoraan tilinavaustositetta

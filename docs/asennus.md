@@ -8,17 +8,15 @@
 
 !!! note ""
 
-    <span class="fa fa-windows"></span> [Kitupiikki 0.3 beta Windows asennusohjelma](https://github.com/artoh/kitupiikki/releases/download/v0.3.0-beta/kitupiikki0.3-beta-asennus.exe) Testausvaiheessa oleva ohjelma, virheet ja puutteet vielä todennäköisiä
+    <span class="fa fa-windows"></span> [Kitupiikki 0.4 beta Windows asennusohjelma (21 MB)](https://github.com/artoh/kitupiikki/releases/download/v0.4.0-beta/kitupiikki0.4-beta-asennus.exe) Testausvaiheessa oleva ohjelma, virheet ja puutteet vielä todennäköisiä
 
 Lataa Kitupiikin asennusohjelma yllä olevasta linkistä ja suorita se. Asennus ei tarvitse ylläpitäjän oikeuksia.
 
-!!! bug "Yhteensopivuusongelmia Edgen kanssa"
-    Erilaisten raporttien avautuminen Microsoft Edgeen Windows 10 -järjestelmässä ei aina toimi. Saadaksesi raportit näkyviin vaihda pdf-tiedostojen näyttäjäksi esimerkiksi Chrome-selain.
 
 ## Linux
 
 !!! note ""
-    <span class="fa fa-linux"></span> [Kitupiikki 0.3 beta Linux AppImage](https://github.com/artoh/kitupiikki/releases/download/v0.3.0-beta/Kitupiikki-0.3-beta-x86_64.AppImage) Testausvaiheessa oleva ohjelma, virheet ja puutteet vielä todennäköisiä
+    <span class="fa fa-linux"></span> [Kitupiikki 0.4 beta Linux AppImage (34 MB)](https://github.com/artoh/kitupiikki/releases/download/v0.4.0-beta/Kitupiikki-0.4-beta-x86_64.AppImage) Testausvaiheessa oleva ohjelma, virheet ja puutteet vielä todennäköisiä
 
 Kitupiikin Linux-version toimitetaan AppImage-tiedostona, jota ei varsinaisesti edes tarvitse asentaa. Et tarvitse ylläpitäjän oikeuksia. Vaatii 64-bittisen Linuxin graafisella käyttöliittymällä, testattu toimivaksi Ubuntu 16.04 ja Linux Mint -jakeluissa.
 
@@ -30,3 +28,7 @@ Kitupiikin Linux-version toimitetaan AppImage-tiedostona, jota ei varsinaisesti 
 ## Kehitysversio
 
 Ohjelman viimeisimmän kehitysversion saat GitHubista <https://github.com/artoh/kitupiikki>. Kehitysversio pitää tietenkin kääntää itse, joten tarvitset [Qt-kirjastoa](http://qt.io).
+
+## Versiohistoria
+
+Ohjelman versiohistoria sekä aiemmat julkaistut versiot löytyvät GitHub-palvelusta <https://github.com/artoh/kitupiikki/releases>.

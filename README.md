@@ -26,7 +26,7 @@ Kotisivu ja käyttöohjeet [https:/artoh.github.io/kitupiikki](https:/artoh.gith
 - muodostaan tuloslaskelman, taseen, tase-erittelyn
 
 ## Vaatimukset
-Kitupiikki käyttää [Qt-kirjastoa](https://qt.io) versio vähintään 5.7.
+Kitupiikki käyttää [Qt-kirjastoa](https://qt.io) versio vähintään 5.9.
 Pdf-tiedostojen näyttämiseen käytetään [Poppler-kirjastoa](https://poppler.freedesktop.org/).
 
 Lataa ja asenna Qt-kirjastot osoitteesta https://qt.io/download.

@@ -77,6 +77,8 @@ Voit myös tehdä tositteen, jossa on liite ja mahdollisesti kommentteja ilman y
 
 Tase-erien avulla voidaan tasetileille laatia kirjanpitolain vaatima tase-erittely. Eriteltävät tilit valitaan [tilikartan määrityksistä](/maaritykset/tilikartta/#tase-erittely-ja-tase-erat).
 
+Jos olet kirjaamassa tositteelle useampaa riviä samalle vastatilille (joudut esimerkiksi jakamaan saman ostolaskun eri veroprosenteille), tarjoaa Kitupiikki valintaa **Yhdistä aiempaan vientiin**, jolloin vastatilille kirjataan vain yksi vienti.
+
 ### Velat ja saatavat
 
 Aiemmassa esimerkissä jauho-ostokset on kirjattu ostovelat-tilille, ja laskusta on muodostettu uusi tase-erä. Laskun kirjaamisen jälkeen tämän tase-erän saldo on 71,43€ ja lasku näkyy tase-erittelyssä
