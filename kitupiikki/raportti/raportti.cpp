@@ -81,32 +81,25 @@ void Raportti::tulosta()
 
 void Raportti::esikatsele()
 {
-    // Luo tilapäisen pdf-tiedoston
-    QTemporaryFile *file = new QTemporaryFile(QDir::tempPath() + "/raportti-XXXXXX.pdf", this);
-    file->open();
-    file->close();
+    QString tiedosto =  kp()->tilapainen( QString("raportti-%1.pdf").arg(Kirjanpito::satujono(8)) );
 
-    {
-        QPrinter tulostin(QPrinter::HighResolution);
-        tulostin.setPageSize(QPrinter::A4);
+    QPrinter tulostin(QPrinter::HighResolution);
+    tulostin.setPageSize(QPrinter::A4);
 
-        tulostin.setOutputFileName( file->fileName() );
-        QPainter painter( &tulostin );
-        raportti().tulosta( &tulostin, &painter, raitaCheck->isChecked());
-        painter.end();
-    }
+    tulostin.setOutputFileName( tiedosto );
+    QPainter painter( &tulostin );
+    raportti().tulosta( &tulostin, &painter, raitaCheck->isChecked());
+    painter.end();
 
-    QDesktopServices::openUrl( QUrl(file->fileName()) );
+    QDesktopServices::openUrl( QUrl(tiedosto) );
 }
 
 void Raportti::avaaHtml()
 {
     // Luo tilapäisen pdf-tiedoston
-    QTemporaryFile *file = new QTemporaryFile(QDir::tempPath() + "/raportti-XXXXXX.html", this);
-    file->open();
-    file->close();
+    QString tiedostonnimi = kp()->tilapainen( QString("raportti-%1.html").arg(Kirjanpito::satujono(8)) );
 
-    QFile tiedosto( file->fileName());
+    QFile tiedosto( tiedostonnimi);
     tiedosto.open( QIODevice::WriteOnly);
 
     QTextStream out( &tiedosto);
@@ -115,7 +108,7 @@ void Raportti::avaaHtml()
     out << raportti().html();
     tiedosto.close();
 
-    QDesktopServices::openUrl( QUrl(file->fileName()) );
+    QDesktopServices::openUrl( QUrl(tiedostonnimi) );
 }
 
 void Raportti::sivunAsetukset()

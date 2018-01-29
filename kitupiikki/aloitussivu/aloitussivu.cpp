@@ -224,8 +224,13 @@ void AloitusSivu::abouttiarallaa()
 
 void AloitusSivu::infoSaapui(QNetworkReply *reply)
 {
-    paivitysInfo = QString::fromUtf8( reply->readAll() );
-    siirrySivulle();
+    QString info = QString::fromUtf8( reply->readAll() );
+    if( info.startsWith("KITUPIIKKI"))
+    {
+        // Tarkistetaan tunniste, jotta palvelinvirhe ei tuota sontaa näytölle
+        paivitysInfo = info.mid(11);
+        siirrySivulle();
+    }
     reply->deleteLater();
 }
 
@@ -241,23 +246,7 @@ void AloitusSivu::pyydaInfo()
 
         if( !asetukset.contains("Infokeksi"))
         {
-            // Tilastoinnissa käytettävä infokeksi
-            // https://stackoverflow.com/questions/18862963/qt-c-random-string-generation
-
-            // Tarkistettaessa päivityksiä Kitupiikin palvelin tilastoi
-            // ohjelman version, käyttöjärjestelmän ja "infokeksin" eli satunnaisen merkkijonon,
-            // jonka avulla voidaan laskea ohjelman aktiivinen käyttäjämäärä
-
-            const QString merkit("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
-
-            QString randomString;
-            for(int i=0; i<10; ++i)
-            {
-               int index = qrand() % merkit.length();
-               QChar nextChar = merkit.at(index);
-               randomString.append(nextChar);
-            }
-            asetukset.setValue("Infokeksi", randomString);
+            asetukset.setValue("Infokeksi", Kirjanpito::satujono(10) );
         }
 
 

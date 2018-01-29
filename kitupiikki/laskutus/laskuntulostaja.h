@@ -51,7 +51,7 @@ signals:
 
 public slots:
     bool tulosta(QPrinter *printer);
-    bool kirjoitaPdf(QFile* file);
+    bool kirjoitaPdf(QString tiedostonnimi);
 
 public:
     QString html();

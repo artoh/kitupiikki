@@ -30,6 +30,7 @@
 #include <QDir>
 #include <QSqlDatabase>
 #include <QDate>
+#include <QTemporaryDir>
 
 #include "tili.h"
 #include "tilikausi.h"
@@ -181,6 +182,13 @@ public:
      */
     void ohje(const QString& ohjesivu = QString());
 
+    /**
+     * @brief Tilapäistiedoston polku
+     * @param Tilapäistiedoston nimi
+     * @return
+     */
+    QString tilapainen(const QString& nimi) const { return tempDir_.filePath(nimi); }
+
 signals:
     /**
      * @brief Tietokanta on avattu
@@ -249,6 +257,8 @@ protected:
     TuoteModel *tuotteet_;
     QPrinter *printer_;
 
+    QTemporaryDir tempDir_;
+
 public:
     /**
      * @brief Staattinen funktio, jonka kautta Kirjanpitoon päästään käsiksi
@@ -265,6 +275,13 @@ public:
      * Jos yritetään avata uudempaa, tulee virhe
      */
     static const int TIETOKANTAVERSIO = 1;
+
+    /**
+     * @brief Palauttaa satunnaismerkkijonon
+     * @param pituus
+     * @return
+     */
+    static QString satujono(int pituus = 10);
 
 private:
     static Kirjanpito *instanssi__;

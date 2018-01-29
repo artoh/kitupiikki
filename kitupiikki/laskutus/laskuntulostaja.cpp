@@ -55,12 +55,12 @@ bool LaskunTulostaja::tulosta(QPrinter *printer)
     return true;
 }
 
-bool LaskunTulostaja::kirjoitaPdf(QFile *file)
+bool LaskunTulostaja::kirjoitaPdf(QString tiedostonnimi)
 {
     QPrinter printer;
     printer.setPaperSize(QPrinter::A4);
     printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setOutputFileName( file->fileName() );
+    printer.setOutputFileName( tiedostonnimi );
     tulosta(&printer);
     return true;
 }

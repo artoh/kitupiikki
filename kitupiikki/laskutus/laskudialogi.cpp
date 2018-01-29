@@ -180,13 +180,11 @@ void LaskuDialogi::esikatsele()
     vieMalliin();
 
     // Luo tilapäisen pdf-tiedoston
-    QTemporaryFile *file = new QTemporaryFile(QDir::tempPath() + "/lasku-XXXXXX.pdf", this);
-    file->open();
-    file->close();
+    QString tiedosto = kp()->tilapainen( QString("lasku-%1.pdf").arg(Kirjanpito::satujono(6)) );
 
-    tulostaja->kirjoitaPdf(file);
+    tulostaja->kirjoitaPdf(tiedosto);
 
-    QDesktopServices::openUrl( QUrl(file->fileName()) );
+    QDesktopServices::openUrl( QUrl(tiedosto) );
 }
 
 void LaskuDialogi::perusteVaihtuu()
@@ -337,7 +335,7 @@ void LaskuDialogi::lahetaSahkopostilla()
     QTemporaryFile *file = new QTemporaryFile(QDir::tempPath() + "/lasku-XXXXXX.pdf", this);
     file->open();
     file->close();
-    tulostaja->kirjoitaPdf(file);
+    tulostaja->kirjoitaPdf(file->fileName());
 
     QString kenelta = QString("\"%1\" <%2>").arg(kp()->asetukset()->asetus("EmailNimi"))
                                                 .arg(kp()->asetukset()->asetus("EmailOsoite"));

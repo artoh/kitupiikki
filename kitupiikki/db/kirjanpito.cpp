@@ -173,6 +173,21 @@ Kirjanpito *Kirjanpito::db()
 
 }
 
+QString Kirjanpito::satujono(int pituus)
+{
+    // https://stackoverflow.com/questions/18862963/qt-c-random-string-generation
+    const QString merkit("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
+
+    QString randomString;
+    for(int i=0; i<pituus; ++i)
+    {
+       int index = qrand() % merkit.length();
+       QChar nextChar = merkit.at(index);
+       randomString.append(nextChar);
+    }
+    return randomString;
+}
+
 Kirjanpito* Kirjanpito::instanssi__ = 0;
 
 Kirjanpito *kp()  { return Kirjanpito::db(); }
