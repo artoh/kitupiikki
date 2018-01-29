@@ -22,7 +22,7 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="../pic/pic.qrc">:/pic/varoitus.png</pixmap>
+        <pixmap resource="../pic/pic.qrc">:/pic/lukitsematta.png</pixmap>
        </property>
       </widget>
      </item>
