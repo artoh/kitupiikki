@@ -73,6 +73,10 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
                     return QVariant( tili.nimi());
 
             case SALDO:
+                if( tili.onko(TiliLaji::KAUDENTULOS))
+                    return QVariant("*****");   // Kauden tulos lasketaan
+
+
                 int saldo = saldot.value( tili.numero(), 0);
                 if( role == Qt::EditRole)
                     return QVariant(saldo);
@@ -109,7 +113,7 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
 Qt::ItemFlags TilinavausModel::flags(const QModelIndex &index) const
 {
     Tili tili = kp()->tilit()->tiliIndeksilla( index.row());
-    if( index.column() == SALDO && !tili.otsikkotaso())
+    if( index.column() == SALDO && !tili.otsikkotaso() && !tili.onko(TiliLaji::KAUDENTULOS))
         return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
     else
         return QAbstractTableModel::flags(index);
