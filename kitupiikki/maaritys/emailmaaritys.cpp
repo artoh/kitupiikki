@@ -52,7 +52,6 @@ bool EmailMaaritys::nollaa()
     QSettings settings;
 
     ui->palvelinEdit->setText( settings.value("SmtpServer").toString() );
-    ui->porttiSpin->setValue( settings.value("SmtpPort", 465).toInt());
     ui->kayttajaEdit->setText( settings.value("SmtpUser").toString());
     ui->salasanaEdit->setText( settings.value("SmtpPassword").toString());
 
@@ -62,14 +61,20 @@ bool EmailMaaritys::nollaa()
     // SSL-varoitus siirretty sähköpostin asetuksiin, koska
     // päivitykset tarkastetaan ilman suojaa
 
-    if( !QSslSocket::supportsSsl())
+    bool ssltuki = QSslSocket::supportsSsl();
+
+    if( !ssltuki)
     {
         ui->sslTeksti->setText(tr("<b>SSL-suojattu verkkoliikenne ei käytössä</b><p>"
                           "Laskujen lähettäminen suojatulla sähköpostilla edellyttää "
                           "OpenSSL-kirjaston versiota %1").arg(QSslSocket::sslLibraryBuildVersionString()));
     }
-    ui->sslTeksti->setVisible( !QSslSocket::supportsSsl() );
-    ui->sslVaro->setVisible( !QSslSocket::supportsSsl() );
+    ui->sslTeksti->setVisible( !ssltuki );
+    ui->sslVaro->setVisible( !ssltuki );
+    ui->kayttajaEdit->setEnabled( ssltuki);
+    ui->salasanaEdit->setEnabled( ssltuki );
+
+    ui->porttiSpin->setValue( settings.value("SmtpPort", QSslSocket::supportsSsl() ? 465 : 25 ).toInt());
 
     return true;
 }
@@ -112,8 +117,12 @@ void EmailMaaritys::kokeile()
 
     Smtp *smtp = new Smtp( ui->kayttajaEdit->text(), ui->salasanaEdit->text(), ui->palvelinEdit->text(), ui->porttiSpin->value());
     connect( smtp, SIGNAL(status(QString)), ui->tulosLabel, SLOT(setText(QString)));
+
+    QStringList lista;
+    lista << ":/pic/aboutpossu.png";
+
     smtp->sendMail( osoite, osoite, tr("Kitupiikin kokeilu"),
                     tr("<html><body><h1>Kitupiikki Kirjanpito</h1><p>Sähköpostin lähetys onnistui</p>"
-                       "<hr>%1</body></html>").arg(QDateTime::currentDateTime().toString(Qt::SystemLocaleShortDate)));
+                       "<hr>%1</body></html>").arg(QDateTime::currentDateTime().toString(Qt::SystemLocaleShortDate)), lista);
 }
 

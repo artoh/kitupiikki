@@ -82,7 +82,7 @@ QString LaskunTulostaja::html()
     else if(model_->kirjausperuste() == LaskuModel::KATEISLASKU)
         otsikko = tr("Kuitti");
 
-    txt.append(tr("<tr><td rowspan=2 width=50%>%1<br>%2</td><td colspan=3>%2</td></tr>").arg(kp()->asetukset()->asetus("Nimi")).arg(omaosoite).arg(otsikko) );
+    txt.append(tr("<tr><td rowspan=2 width=50%>%1<br>%2</td><td colspan=3>%3</td></tr>").arg(kp()->asetukset()->asetus("Nimi")).arg(omaosoite).arg(otsikko) );
     txt.append(tr("<tr><td width=25%>Laskun päivämäärä</td><td width=25%>%1</td></tr>").arg( kp()->paivamaara().toString(Qt::SystemLocaleShortDate) ));
     txt.append(tr("<tr><td rowspan=4>%1</td><td>Viitenumero</td><td>%2</td></td>").arg( osoite ).arg(model_->viitenumero() ));
 
