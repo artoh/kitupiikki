@@ -167,11 +167,14 @@ void Kirjanpito::asetaHarjoitteluPvm(const QDate &pvm)
 
 Kirjanpito *Kirjanpito::db()
 {
-    if( !instanssi__ )
-        instanssi__ = new Kirjanpito;
     return instanssi__;
-
 }
+
+void Kirjanpito::asetaInstanssi(Kirjanpito *kp)
+{
+    instanssi__ = kp;
+}
+
 
 QString Kirjanpito::satujono(int pituus)
 {

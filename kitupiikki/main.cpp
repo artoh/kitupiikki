@@ -22,7 +22,7 @@
 #include <QTextCodec>
 #include <QIcon>
 
-#include "uusikp/uusikirjanpito.h"
+#include "db/kirjanpito.h"
 #include "kitupiikkiikkuna.h"
 
 #include <QDebug>
@@ -67,6 +67,8 @@ int main(int argc, char *argv[])
         settings.setValue("ViimeksiVersiolla", a.applicationVersion());
     }
 
+    Kirjanpito kirjanpito;
+    Kirjanpito::asetaInstanssi(&kirjanpito);
 
     KitupiikkiIkkuna ikkuna;
     ikkuna.show();

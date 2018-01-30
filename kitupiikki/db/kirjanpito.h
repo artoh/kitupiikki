@@ -60,9 +60,10 @@ class Kirjanpito : public QObject
 {
     Q_OBJECT
 
-protected:
-    Kirjanpito(QObject *parent = 0);
 public:
+    Kirjanpito(QObject *parent = 0);
+
+
     ~Kirjanpito();
 
     /**
@@ -268,6 +269,16 @@ public:
      * @return
      */
     static Kirjanpito *db();
+
+    /**
+     * @brief Asetetaan pääohjelmassa ainokaisen instanssi
+     *
+     * Tähän siirryttiin, jotta tulee varmasti tuhotuksi
+     *
+     * @param kp
+     * @since 0.5
+     */
+    static void asetaInstanssi(Kirjanpito* kp);
 
     /**
      * @brief Käytössä oleva tietokantaversio
