@@ -121,7 +121,8 @@ SOURCES += main.cpp \
     kirjaus/kohdennusproxymodel.cpp \
     db/tilinvalintaview.cpp \
     maaritys/tilikarttaohje.cpp \
-    uusikp/paivitakirjanpito.cpp
+    uusikp/paivitakirjanpito.cpp \
+    arkisto/lib/tarball.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -225,7 +226,8 @@ HEADERS += \
     kirjaus/kohdennusproxymodel.h \
     db/tilinvalintaview.h \
     maaritys/tilikarttaohje.h \
-    uusikp/paivitakirjanpito.h
+    uusikp/paivitakirjanpito.h \
+    arkisto/lib/tarball.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
