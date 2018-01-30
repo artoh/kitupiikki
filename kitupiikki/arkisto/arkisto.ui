@@ -85,6 +85,17 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="vieNappi">
+       <property name="text">
+        <string>&amp;Vie arkisto</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/vie.png</normaloff>:/pic/vie.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="tilinpaatosNappi">
        <property name="text">
         <string>&amp;Tilinpäätös</string>

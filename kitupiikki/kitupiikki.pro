@@ -290,7 +290,8 @@ FORMS += \
     maaritys/tilikarttaohje.ui \
     aloitussivu/tervetuloa.ui \
     uusikp/tkpaivitys.ui \
-    uusikp/paivityskorvaa.ui
+    uusikp/paivityskorvaa.ui \
+    arkisto/arkistonvienti.ui
 
 DISTFILES += \
     uusikp/luo.sql \

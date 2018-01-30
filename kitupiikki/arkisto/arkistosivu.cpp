@@ -30,6 +30,8 @@
 #include "ui_lukitsetilikausi.h"
 #include "ui_muokkaatilikausi.h"
 
+#include "ui_arkistonvienti.h"
+
 #include "arkistoija/arkistoija.h"
 #include "tilinpaatoseditori/tilinpaatoseditori.h"
 #include "tilinpaatoseditori/tpaloitus.h"
@@ -44,6 +46,7 @@ ArkistoSivu::ArkistoSivu()
 
     connect( ui->uusiNappi, SIGNAL(clicked(bool)), this, SLOT(uusiTilikausi()));
     connect( ui->arkistoNappi, SIGNAL(clicked(bool)), this, SLOT(arkisto()));
+    connect( ui->vieNappi, SIGNAL(clicked(bool)), this, SLOT(vieArkisto()));
     connect( ui->tilinpaatosNappi, SIGNAL(clicked(bool)), this, SLOT(tilinpaatos()));
     connect( ui->muokkaaNappi, SIGNAL(clicked(bool)), this, SLOT(muokkaa()));
 
@@ -113,6 +116,19 @@ void ArkistoSivu::arkisto()
     }
 }
 
+void ArkistoSivu::vieArkisto()
+{
+    if( !ui->view->currentIndex().isValid())
+        return;
+
+    QDialog dlg;
+    Ui::ArkistonVienti ui;
+    ui.setupUi(&dlg);
+
+    dlg.exec();
+
+}
+
 void ArkistoSivu::tilinpaatos()
 {
     // Uusi tilinpäättäjään perustuva
@@ -144,7 +160,13 @@ void ArkistoSivu::nykyinenVaihtuuPaivitaNapit()
         // Tilikaudelle voi tehdä tilinpäätöksen, jos se ei ole tilinavaus
         ui->tilinpaatosNappi->setEnabled( kausi.tilinpaatoksenTila() != Tilikausi::EILAADITATILINAVAUKSELLE );
         // Tilikauden voi arkistoida, jos tilikautta ei ole lukittu - arkiston voi näyttää aina
-        ui->arkistoNappi->setEnabled( kausi.paattyy() > kp()->tilitpaatetty() || kausi.arkistoitu().isValid());
+        bool arkistoitavissa = ( kausi.paattyy() > kp()->tilitpaatetty() || kausi.arkistoitu().isValid() )
+                && kausi.tilinpaatoksenTila() != Tilikausi::EILAADITATILINAVAUKSELLE;
+
+
+        ui->arkistoNappi->setEnabled( arkistoitavissa );
+        ui->vieNappi->setEnabled( arkistoitavissa );
+
 
         // Muokata voidaan vain viimeistä tilikautta, jos tilinpäätös ei ole valmis
         ui->muokkaaNappi->setEnabled( kausi.paattyy() == kp()->tilikaudet()->kirjanpitoLoppuu()  &&
