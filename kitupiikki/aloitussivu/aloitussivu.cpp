@@ -102,20 +102,20 @@ void AloitusSivu::siirrySivulle()
         teksti.replace("<INFO>", paivitysInfo);
 
         ui->selain->setHtml( teksti );
-
-        ui->tilikausiCombo->hide();
-        ui->logoLabel->hide();
-        ui->nimiLabel->hide();
     }
 
 }
 
 void AloitusSivu::kirjanpitoVaihtui()
 {
-    if( kp()->asetukset()->onko("Nimi"))
+    bool avoinna = kp()->asetukset()->onko("Nimi");
+
+    ui->nimiLabel->setVisible(avoinna);
+    ui->tilikausiCombo->setVisible(avoinna);
+
+    if( avoinna )
     {
         // Kirjanpito avattu
-        ui->nimiLabel->show();
         ui->nimiLabel->setText( kp()->asetukset()->asetus("Nimi"));
 
         if( QFile::exists( kp()->hakemisto().absoluteFilePath("logo64.png") ) )
@@ -126,7 +126,6 @@ void AloitusSivu::kirjanpitoVaihtui()
         else
             ui->logoLabel->hide();
 
-        ui->tilikausiCombo->show();
         ui->tilikausiCombo->setModel( kp()->tilikaudet() );
         ui->tilikausiCombo->setModelColumn( 0 );
 
@@ -144,6 +143,10 @@ void AloitusSivu::kirjanpitoVaihtui()
                 break;
             }
         }
+    }
+    else
+    {
+        ui->logoLabel->hide();
     }
 
     paivitaTiedostoLista();
