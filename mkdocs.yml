@@ -17,6 +17,8 @@ theme:
   code: 'Mono'
   feature:
     tabs: false
+  extra_templates:
+    '404.html'
 extra:
   disqus: 'Kitupiikki'
   social:
