@@ -1,6 +1,8 @@
-![](arkisto.png)
+## Arkisto
 
 Kitupiikki muodostaa kirjanpidosta html-muotoisen sähköisen arkiston. Arkisto muodostetaan ja siihen pääsee Kitupiikistä **Tilikaudet**-välilehden **Arkisto**-painikkeella.
+
+![](arkisto.png)
 
 Arkisto sisältää kirjanpidon ([pääkirja](/tulosteet#paakirja), [päiväkirja](/tulosteet#paivakirja), [tositeluettelo](/tulosteet#tositeluettelo) ja -päiväkirja sekä [tililuettelo](/tulosteet#tililuettelo) tositteineen), [taseen](/tulosteet#tase) ja [tuloslaskelman](/tulosteet#tuloslaskelma), [tase-erittelyn](/tulosteet#tase-erittely) sekä mahdollisesti myös muita tilikarttakohtaisia raportteja. Raportti sisällytetään sähköiseen arkistoon [raportin muokkaamisen](/maaritykset/raportit) **Liitä erittely arkistoon**-valinnalla.
 
@@ -10,15 +12,23 @@ Tilinumerot ovat linkkejä, joista pääsee tilin pääkirjanäkymään. Tositte
 
 ![](tosite.png)
 
-## Arkiston kopioiminen
+## Arkiston vieminen
 
-Tilikausikohtaiset arkistot löytyvät kirjanpidon hakemiston *arkisto*-hakemistosta tilikausikohtaisina alahakemistoina.
+Tilikausittaiset arkistot voit viedä *Tilikaudet*-välilehden **Vie arkisto**-painikkeella.
 
-![](kopioi.png)
+![](vie.png)
 
-Kopioi koko hakemisto tiedostonhallinnassa pitämällä näppäimistön **Ctrl**-näppäintä pohjassa samalla kuin raahaat hakemiston haluamaasi sijaintiin, esimerkiksi USB-tikulle.
+**Vie hakemistoon** kopioi koko arkiston valitsemaasi hakemistoon. Arkistoon pääset avaamalla hakemistoon kopioidun **index.html**-tiedoston selaimellasi. Huomaa, että arkistohakemistossa voi olla todella paljon tiedostoja, joten sitä varten kannattaa ehkä luoda uusi hakemistonsa.
 
-Arkistoon pääset valitsemalla hakemistosta **index.html**-tiedoston. Arkisto avautuu selaimeen.
+Tällä toiminnolla voit siirtää yhden vuoden arkiston esim. suoraan USB-muistitikulle.
+
+**Vie tar-tiedostona** muodostaa vuoden arkistosta yhden [tar-tiedoston](https://fi.wikipedia.org/wiki/Tar_(Unix)). Tällainen tiedosto on helppo arkistoida tai lähettää edelleen.
+
+Tar-tiedoston avaamiseen tarvitaan Windowsissa erillinen ohjelma, esimerkiksi [7-zip](http://www.7-zip.org/).
+
+!!! info "Tar-tiedostot"
+    Tar-tiedostomuoto on tehty alunperin nauha-asemalle tallentamista varten: se ei tiivistä eikä salaa tiedostoja. Kitupiikin arkistoinnissa käytetään laajasti vakiintuneita ja yleisiä tiedostomuotoja, joiden voi olettaa olevan luettavissa vielä kaukana tulevaisuudessa: html, pdf ja yli 30 vuotta käytössä säilynyt tar.
+
 
 ## Arkiston muuttumattomuuden varmistaminen
 

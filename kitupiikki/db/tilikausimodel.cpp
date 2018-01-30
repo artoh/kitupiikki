@@ -91,9 +91,11 @@ QVariant TilikausiModel::data(const QModelIndex &index, int role) const
                 return tr("Vahvistettu");
             else if( kausi.tilinpaatoksenTila() == Tilikausi::KESKEN)
                 return tr("Keskeneräinen");
+            else if( kausi.tilinpaatoksenTila() == Tilikausi::EILAADITATILINAVAUKSELLE)
+                return tr("Tilinavaus");
             else if( kausi.paattyy().daysTo( kp()->paivamaara()) > 1 &&
-                     kausi.paattyy().daysTo( kp()->paivamaara()) < 4 * 30 &&
-                     kausi.tilinpaatoksenTila() != Tilikausi::EILAADITATILINAVAUKSELLE)
+                     kausi.paattyy().daysTo( kp()->paivamaara()) < 4 * 30 )
+
             {
                 if(  kp()->asetukset()->onko("Elinkeinonharjoittaja") && kausi.pieniElinkeinonharjoittaja() < 1 )
                     return tr("Ei pakollinen");
