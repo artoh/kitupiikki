@@ -22,7 +22,10 @@
 #include <QProgressDialog>
 #include <QSqlQuery>
 #include <QMessageBox>
+#include <QFileDialog>
 
+#include <fstream>
+#include <iostream>
 
 #include "arkistosivu.h"
 #include "db/kirjanpito.h"
@@ -37,6 +40,8 @@
 #include "tilinpaatoseditori/tpaloitus.h"
 
 #include "tilinpaattaja.h"
+
+#include "lib/tarball.h"
 
 
 ArkistoSivu::ArkistoSivu()
@@ -122,10 +127,92 @@ void ArkistoSivu::vieArkisto()
         return;
 
     QDialog dlg;
-    Ui::ArkistonVienti ui;
-    ui.setupUi(&dlg);
+    Ui::ArkistonVienti dlgUi;
+    dlgUi.setupUi(&dlg);
 
-    dlg.exec();
+    if(dlg.exec() == QDialog::Rejected)
+        return;
+
+    Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->view->currentIndex().row() );
+
+    // Tehdään arkisto, jos se on päivittämisen tarpeessa
+    if( !kausi.arkistoitu().isValid() || kausi.arkistoitu() < kausi.viimeinenPaivitys())
+    {
+        teeArkisto(kausi);
+    }
+
+    QDir mista( kp()->hakemisto().absoluteFilePath("arkisto/" + kausi.arkistoHakemistoNimi() ) );
+    QStringList tiedostot = mista.entryList(QDir::Files);
+
+
+
+    if( dlgUi.hakemistoRadio->isChecked())
+    {
+        QString hakemistoon = QFileDialog::getExistingDirectory(this, tr("Valitse hakemisto, jonne arkisto kopioidaan"),
+                                                                QDir::rootPath());
+        if( !hakemistoon.isEmpty())
+        {
+            QDir minne(hakemistoon);
+
+            QProgressDialog odota(tr("Kopioidaan arkistoa"), tr("Peruuta"),0, tiedostot.count(),this);
+            int kopioitu = 0;
+            for( QString tiedosto : tiedostot)
+            {
+                if( odota.wasCanceled())
+                    break;
+                if( !QFile::copy( mista.absoluteFilePath(tiedosto), minne.absoluteFilePath(tiedosto) ) )
+                {
+                    QMessageBox::critical(this, tr("Kopiointi ei onnistu"), tr("Tiedoston %1 kopiointi ei onnistunut.\n Kopiointi on keskeytetty.").arg(tiedosto));
+                    return;
+                }
+                odota.setValue(++kopioitu);
+            }
+        }
+        QMessageBox::information(this, tr("Arkiston kopiointi valmis"), tr("Arkisto on kopioitu hakemistoon %1.\n"
+                                                                           "Avaa selaimella hakemistossa oleva index.html-tiedosto.").arg(hakemistoon));
+
+    }
+    else
+    {
+        // Muodostetaan tar-arkisto
+        // Tässä käytetään Pierre Lindenbaumin Tar-luokkaa http://plindenbaum.blogspot.fi/2010/08/creating-tar-file-in-c.html
+
+        QString arkistotiedosto = QDir::root().absoluteFilePath( QString("%1-%2.tar").arg( kp()->hakemisto().dirName() ).arg(kausi.arkistoHakemistoNimi()) );
+        QString arkisto = QFileDialog::getSaveFileName(this, tr("Vie arkisto"), arkistotiedosto, tr("Tar-arkisto (*.tar)") );
+
+        if( !arkisto.isEmpty() )
+        {
+            std::fstream out( arkisto.toStdString() , std::ios::out );
+            if( !out.is_open())
+            {
+                QMessageBox::critical(this, tr("Arkiston vienti epäonnistui"),
+                                      tr("Tiedostoon %1 kirjoittaminen epäonnistui").arg(arkisto));
+                return;
+            }
+            Tar tarball(out);
+
+            QDir::setCurrent( mista.absolutePath() );
+
+            QProgressDialog odota(tr("Kopioidaan arkistoa"), tr("Peruuta"),0, tiedostot.count(),this);
+            int kopioitu = 0;
+            for( QString tiedosto : tiedostot)
+            {
+                if( odota.wasCanceled())
+                    break;
+
+                tarball.putFile( tiedosto.toLocal8Bit().constData() , tiedosto.toLocal8Bit().constData() );
+
+                odota.setValue(++kopioitu);
+            }
+            tarball.finish();
+            out.close();
+        }
+        QMessageBox::information(this, tr("Arkisto vienti valmis"),
+                                 tr("Arkisto viety tiedostoon %1").arg(arkisto));
+
+    }
+
+
 
 }
 

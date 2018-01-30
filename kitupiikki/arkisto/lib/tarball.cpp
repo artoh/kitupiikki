@@ -21,7 +21,7 @@
 
 #define TARHEADER static_cast<PosixTarHeader*>(header)
 
-#define THROW(msg)  { qDebug() << __LINE__ << msg;  }
+#define THROW(msg)  { qDebug() << __LINE__ << msg; return; }
 
 
 struct PosixTarHeader

@@ -27,7 +27,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Vie hakemistona</string>
+      <string>Vie hakemistoon</string>
      </property>
      <property name="checked">
       <bool>true</bool>
@@ -37,7 +37,9 @@
    <item>
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>Arkisto tallennetaan käyttövalmiiksi hakemistoksi. Helppo siirtää esimerkiksi USB-muistilla
+      <string>Arkisto tallennetaan käyttövalmiina haluamaasi hakemistoon. Helppo siirtää esimerkiksi USB-muistilla.
+
+Hakemistoon kopioidaan lukuisia tiedostoja, joten arkistoa varten on suositeltavaa tehdä uusi hakemisto.
 </string>
      </property>
      <property name="wordWrap">
