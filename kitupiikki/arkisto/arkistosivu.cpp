@@ -255,9 +255,9 @@ void ArkistoSivu::nykyinenVaihtuuPaivitaNapit()
         ui->vieNappi->setEnabled( arkistoitavissa );
 
 
-        // Muokata voidaan vain viimeistä tilikautta, jos tilinpäätös ei ole valmis
-        ui->muokkaaNappi->setEnabled( kausi.paattyy() == kp()->tilikaudet()->kirjanpitoLoppuu()  &&
-                                      kausi.tilinpaatoksenTila() != Tilikausi::VAHVISTETTU );
+        // Muokata voidaan vain viimeistä tilikautta tai poistaa lukitus
+        ui->muokkaaNappi->setEnabled( kausi.paattyy() == kp()->tilikaudet()->kirjanpitoLoppuu()  ||
+                                     kp()->tilitpaatetty() >= kausi.alkaa() );
     }
     else
     {
@@ -294,7 +294,7 @@ void ArkistoSivu::muokkaa()
     Ui::MuokkaaTilikausi dlgUi;
     dlgUi.setupUi(&dlg);
 
-    Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( kp()->tilikaudet()->rowCount(QModelIndex()) - 1 );
+    Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla(ui->view->currentIndex().row() );
 
     // Selvitetään, mikä on viimeisin kirjaus
     QDate viimepaiva = kp()->tilitpaatetty();
@@ -315,7 +315,10 @@ void ArkistoSivu::muokkaa()
     }
 
     // Saa poistaa vain, ellei yhtään kirjausta
-    dlgUi.poistaRadio->setEnabled( viimepaiva < kausi.alkaa() );
+    dlgUi.poistaRadio->setEnabled( viimepaiva < kausi.alkaa() && kausi.paattyy() == kp()->tilikaudet()->kirjanpitoLoppuu() );
+    dlgUi.paattyyRadio->setEnabled( kausi.paattyy() == kp()->tilikaudet()->kirjanpitoLoppuu() );
+    dlgUi.peruLukko->setEnabled( kp()->tilitpaatetty() >= kausi.alkaa() );
+    dlgUi.peruLukko->setChecked( kausi.paattyy() != kp()->tilikaudet()->kirjanpitoLoppuu() );
 
     if( viimepaiva < kausi.alkaa() )
         viimepaiva = kausi.alkaa().addDays(1);
@@ -327,8 +330,25 @@ void ArkistoSivu::muokkaa()
     {
         if( dlgUi.poistaRadio->isChecked())
             kp()->tilikaudet()->muokkaaViimeinenTilikausi( QDate());
-        else
+        else if( dlgUi.paattyyRadio->isChecked())
             kp()->tilikaudet()->muokkaaViimeinenTilikausi( dlgUi.paattyyDate->date() );
+        else if( dlgUi.peruLukko->isChecked())
+        {
+            if( QMessageBox::warning(this, tr("Tilikauden lukitsemisen peruminen"),
+                                     tr("Oletko varma, että haluat perua tilikauden lukitsemisen?\n\n"
+                                        "Kaikki tilinpäätökseen liittyvät toimet on tehtävä uudelleen ja tilinpäätös on mahdollisesti "
+                                        "myös vahvistettava uudelleen.\n\n"
+                                        "Kirjanpitolaki 2. luku 7§ 2 mom:\n"
+                                        "Tositteen, kirjanpidon tai muun kirjanpitoaineiston sisältöä ei saa muuttaa tai poistaa "
+                                        "tilinpäätöksen laatimisen jälkeen."), QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel ) != QMessageBox::Yes)
+                return;
+
+            JsonKentta *json = kp()->tilikaudet()->json( kausi );
+            json->unset("Vahvistettu");
+            kp()->tilikaudet()->tallennaJSON();
+            kp()->asetukset()->aseta("TilitPaatetty", kausi.alkaa().addDays(-1));
+
+        }
     }
 
 }

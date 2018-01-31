@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>160</height>
+    <height>164</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -58,6 +58,13 @@
      </property>
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QRadioButton" name="peruLukko">
+     <property name="text">
+      <string>Peru tilikauden lukitseminen</string>
      </property>
     </widget>
    </item>

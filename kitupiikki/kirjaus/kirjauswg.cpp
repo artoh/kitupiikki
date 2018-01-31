@@ -183,8 +183,10 @@ void KirjausWg::tallenna()
     {
         if( QMessageBox::critical(this, tr("Arvonlisäveroilmoitus annettu"),
            tr("Arvonlisäveroilmoitus on annettu %1 saakka.\n\n"
-              "Kirjauksen muokkaamisen jälkeen alv-ilmoitus ei enää täsmää, "
-              "ja muutoksista on tehtävä ilmoitus myös verottajalle.\n\n"
+              "Kirjanpitolaki 2. luku 7§ 2. mom:\n"
+              "Tositteen, kirjanpidon tai muun kirjanpitoaineiston sisältöä ei saa muuttaa eikä "
+              "poistaa sen jälkeen kuin 6§ tarkoitettu (kirjanpidosta viranomaisille verotusta "
+              "tai muuta tarkoitusta varten määräajassa tehtävä) ilmoitus on tehty.\n\n"
               "Tallennetaanko tosite silti?").arg( kp()->asetukset()->pvm("AlvIlmoitus").toString(Qt::SystemLocaleShortDate) ),
             QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) != QMessageBox::Yes)
             return;
