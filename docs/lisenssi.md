@@ -12,6 +12,8 @@ Ohjelmalla ei ole mitään takuuta. Tätä ohjelmaa saa käyttää, levittää j
 
 [MRichTextEditor](https://github.com/Anchakor/MRichTextEditor) lisenssillä [GNU Lesser General Public License version 2.1](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html)
 
+[cclindenb](http://plindenbaum.blogspot.fi/2010/08/creating-tar-file-in-c.html) tar-tiedostojen kirjoittamiseen Copyright &copy; Pierre Lindenbaum lisenssillä [MIT License](https://mit-license.org/)
+
 ## Tilikarttojen pohja
 
 Tilikartat pohjautuvat Tili-instituuttisäätiön [Raportointikoodistoon](https://www.raportointikoodisto.fi).
