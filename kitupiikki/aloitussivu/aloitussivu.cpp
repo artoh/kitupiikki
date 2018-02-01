@@ -247,16 +247,16 @@ void AloitusSivu::pyydaInfo()
         QNetworkAccessManager *manager = new QNetworkAccessManager(this);
         connect( manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(infoSaapui(QNetworkReply*)));
 
-        if( !asetukset.contains("Infokeksi"))
+        if( !asetukset.contains("Keksi"))
         {
-            asetukset.setValue("Infokeksi", Kirjanpito::satujono(10) );
+            asetukset.setValue("Keksi", Kirjanpito::satujono(10) );
         }
 
 
         QString kysely = QString("http://kitupiikki.arkku.net/info/?v=%1&os=%2&u=%3")
                 .arg( qApp->applicationVersion() )
                 .arg( QSysInfo::prettyProductName())
-                .arg( asetukset.value("Infokeksi").toString() );
+                .arg( asetukset.value("Keksi").toString() );
 
         manager->get( QNetworkRequest( QUrl( kysely )) );
     }

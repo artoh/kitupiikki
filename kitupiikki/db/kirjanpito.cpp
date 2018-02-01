@@ -27,6 +27,8 @@
 #include <QUrl>
 #include <QSqlError>
 
+#include <ctime>
+
 #include "kirjanpito.h"
 
 
@@ -178,6 +180,8 @@ void Kirjanpito::asetaInstanssi(Kirjanpito *kp)
 
 QString Kirjanpito::satujono(int pituus)
 {
+    qsrand( std::time(NULL) );
+
     // https://stackoverflow.com/questions/18862963/qt-c-random-string-generation
     const QString merkit("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
 
