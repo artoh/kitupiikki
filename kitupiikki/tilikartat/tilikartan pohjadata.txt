@@ -108,6 +108,7 @@ H1      2       VASTATTAVAA
 H2      20..24  Oma pääoma
 
 B       2000    Osakepääoma
+B       2005    Osuuspääoma
 
 H3      201..202    Sidotut rahastot
 H4      201     Omakatteiset rahastot
@@ -115,6 +116,7 @@ B       2011    Omakatteinen rahasto
 H4      202     Muut sidotut rahastot     
 B       2021    Muu sidottu rahasto
 
+B       2031    Rakennusrahasta (kiinteistö)
 B       2032    Ylikurssirahasto
 B       2033    Arvonkorotusrahasto
 H3      204     Muut rahastot

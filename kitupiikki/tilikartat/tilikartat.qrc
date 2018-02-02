@@ -4,5 +4,7 @@
         <file>osakeyhtio.kpk</file>
         <file>elinkeinonharjoittaja.kpk</file>
         <file>henkiloyhtio.kpk</file>
+        <file>kiinteisto.kpk</file>
+        <file>osuuskunta.kpk</file>
     </qresource>
 </RCC>
