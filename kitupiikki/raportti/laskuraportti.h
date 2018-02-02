@@ -28,10 +28,28 @@ class LaskuRaportti : public Raportti
 {
     Q_OBJECT
 public:
+    enum PvmRajaus { KaikkiLaskut, RajaaLaskupaiva, RajaaErapaiva};
+    enum Lajittelu { Viitenumero, Laskupaiva, Erapaiva, Summa, Asiakas };
+
     LaskuRaportti();
     ~LaskuRaportti();
 
     RaportinKirjoittaja raportti() override;
+
+    /**
+     * @brief Laskuraportin kirjoittaminen
+     *
+     * @param saldopvm Mille päivälle avoin saldo lasketaan
+     * @param avoimet Tulostetaanko vain ne, joilla saldopäivänä avointa saldoa
+     * @param lajittelu Lajitteluperuste
+     * @param rajaus Rajausperuste
+     * @param mista Rajauksen alkupäivä
+     * @param mihin Rajauksen päättymispäivä
+     * @return
+     */
+    static RaportinKirjoittaja kirjoitaRaportti(QDate saldopvm, bool avoimet = true,
+                                                Lajittelu lajittelu = Laskupaiva,
+                                                PvmRajaus rajaus = KaikkiLaskut, QDate mista = QDate(), QDate mihin = QDate());
 
 protected:
 

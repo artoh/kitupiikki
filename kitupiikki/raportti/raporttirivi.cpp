@@ -53,7 +53,7 @@ void RaporttiRivi::lisaa(qlonglong sentit, bool tulostanollat)
 
 void RaporttiRivi::lisaa(const QDate &pvm)
 {
-    lisaa( pvm.toString(Qt::SystemLocaleShortDate));
+    lisaa( pvm.toString("dd.MM.yyyy"));
 }
 
 
