@@ -117,6 +117,7 @@ void EmailMaaritys::kokeile()
 
     Smtp *smtp = new Smtp( ui->kayttajaEdit->text(), ui->salasanaEdit->text(), ui->palvelinEdit->text(), ui->porttiSpin->value());
     connect( smtp, SIGNAL(status(QString)), ui->tulosLabel, SLOT(setText(QString)));
+    ui->tulosLabel->setText("Lähetetään testisähköpostia...");
 
     QStringList lista;
     lista << ":/pic/aboutpossu.png";
