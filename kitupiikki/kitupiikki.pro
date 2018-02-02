@@ -246,7 +246,6 @@ FORMS += \
     kirjaus/kirjaus.ui \
     kirjaus/tositewg.ui \
     selaus/selauswg.ui \
-    raportti/raportti.ui \
     raportti/paivakirja.ui \
     maaritys/tilinavaus.ui \
     maaritys/tositelajit.ui \

@@ -4,10 +4,14 @@
 
 Tulosteet-välilehdellä voit katsella ja tulostaa erilaisia raportteja kirjanpidostasi. Tulosteet ovat erilaisia eri tilikartoilla.
 
-Tuloste on helppo tallentaa pdf-muotoon valitsemalla **Esikatsele** ja sitten tallentamalla pdf-näyttäjällä tai selaimella. Html-muotoon voit vastaavasti tulostaa valitsemalla **Avaa selaimella** ja sitten tallentamalla sivu selaimellasi.
+* **Avaa selaimessa** avaa raportin selaimeen. Voit tallentaa raportin html-muodossa selaimen tallennustoiminnolla.
+* **Vie leikepöydälle** kopioi raportin html-muodossa leikepöydälle, josta sen voi liittää esim. taulukkolaskentaan tai tekstinkäsittelyyn
+* **Sivun asetuksista** löytyy esim. tulostettavan raportin paperinkoko
+* **Esikatsele** avaa raportin pdf-muodossa käyttöjärjestelmän asetuksista riippuen selaimeen tai pdf-katseluohjelmaan, jolla voit tallentaa tai tulostaa raportin.
+* **Tulosta** tulostaa raportin suoraan tulostimelle.
 
-!!! tip "Vienti taulukkolaskentaan ja CSV"
-    Tulosteet on helppo viedä taulukkolaskentaan tai tekstinkäsittelyyn avaamalla ne ensin selaimella ja kopioimalla sieltä leikepöydän kautta toiseen ohjelmaa. Tällä tavalla voit taulukkolaskentaohjelman avulla tehdä myös CSV-tiedostoja (siirrettävä tekstitiedosto, jossa kentät erotettu pilkulla toisistaan). *Päiväkirja*-näkymä soveltuu erityisen hyvin tietojen viemiseen.
+!!! tip "Vienti CSV-muotoon"
+    Tulosteet voi viedä esim. CSV-muodossa viemällä ne ensin leikepöydälle, liittämällä sitten taulukkolaskentaohjelmaan ja tallentamalla siellä haluttuun muotoon. *Päiväkirja*-näkymä soveltuu erityisen hyvin tietojen viemiseen.
 
 ## Päiväkirja
 

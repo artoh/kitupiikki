@@ -26,13 +26,13 @@
 #include <QWidget>
 #include <QPrinter>
 
-#include "ui_raportti.h"
 #include "raportti.h"
 
 #include "kitupiikkisivu.h"
 
 class QListWidget;
 class QHBoxLayout;
+class QListWidgetItem;
 
 /**
  * @brief Raporttien tulostussivu

@@ -33,6 +33,10 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 
+#include <QMimeData>
+#include <QApplication>
+#include <QClipboard>
+
 #include "raportti.h"
 #include "db/kirjanpito.h"
 
@@ -43,6 +47,7 @@ Raportti::Raportti( QWidget *parent) : QWidget(parent)
 
         raitaCheck = new QCheckBox(tr("Tulosta taustaraidat"));
         QPushButton *htmlBtn = new QPushButton( QIcon(":/pic/web.png"), tr("Avaa &selaimessa"));
+        QPushButton *vieBtn = new QPushButton( QIcon(":/pic/vie.png"), tr("&Vie leikepöydälle"));
         QPushButton *sivunasetusBtn = new QPushButton(QIcon(":/pic/sivunasetukset.png"),  tr("Sivun &asetukset"));
         QPushButton *esikatseluBtn = new QPushButton(QIcon(":/pic/print.png"), tr("&Esikatsele"));
         QPushButton *tulostaBtn = new QPushButton( QIcon(":/pic/tulosta.png"), tr("&Tulosta"));
@@ -51,6 +56,7 @@ Raportti::Raportti( QWidget *parent) : QWidget(parent)
         nappiLeiska->addWidget(raitaCheck);
         nappiLeiska->addStretch();
         nappiLeiska->addWidget( htmlBtn);
+        nappiLeiska->addWidget( vieBtn );
         nappiLeiska->addWidget( sivunasetusBtn);
         nappiLeiska->addWidget(esikatseluBtn);
         nappiLeiska->addWidget(tulostaBtn);
@@ -63,6 +69,7 @@ Raportti::Raportti( QWidget *parent) : QWidget(parent)
         setLayout(paaLeiska);
 
         connect( htmlBtn, SIGNAL(clicked(bool)), this, SLOT(avaaHtml()));
+        connect( vieBtn, SIGNAL(clicked(bool)), this, SLOT(leikepoydalle()));
         connect( sivunasetusBtn, SIGNAL(clicked(bool)), this, SLOT(sivunAsetukset()));
         connect( esikatseluBtn, SIGNAL(clicked(bool)), this, SLOT(esikatsele()) );
         connect( tulostaBtn, SIGNAL(clicked(bool)), this, SLOT(tulosta()) );
@@ -115,6 +122,16 @@ void Raportti::sivunAsetukset()
 {
     QPageSetupDialog dlg(kp()->printer(), this);
     dlg.exec();
+}
+
+void Raportti::leikepoydalle()
+{
+    QMimeData *mimeData = new QMimeData;
+    mimeData->setHtml( raportti().html() );
+
+    qApp->clipboard()->setMimeData(mimeData);
+
+    kp()->onni("Raportti viety leikepöydälle");
 }
 
 

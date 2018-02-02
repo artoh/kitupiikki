@@ -80,6 +80,10 @@ public slots:
      */
     void sivunAsetukset();
 
+    /**
+     * @brief Kopioi raportin leikepöydälle
+     */
+    void leikepoydalle();
 
 protected:
     QWidget *raporttiWidget;
