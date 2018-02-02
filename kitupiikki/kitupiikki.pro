@@ -122,7 +122,8 @@ SOURCES += main.cpp \
     db/tilinvalintaview.cpp \
     maaritys/tilikarttaohje.cpp \
     uusikp/paivitakirjanpito.cpp \
-    arkisto/lib/tarball.cpp
+    arkisto/lib/tarball.cpp \
+    raportti/laskuraportti.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -227,7 +228,8 @@ HEADERS += \
     db/tilinvalintaview.h \
     maaritys/tilikarttaohje.h \
     uusikp/paivitakirjanpito.h \
-    arkisto/lib/tarball.h
+    arkisto/lib/tarball.h \
+    raportti/laskuraportti.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -290,7 +292,8 @@ FORMS += \
     aloitussivu/tervetuloa.ui \
     uusikp/tkpaivitys.ui \
     uusikp/paivityskorvaa.ui \
-    arkisto/arkistonvienti.ui
+    arkisto/arkistonvienti.ui \
+    raportti/laskuraportti.ui
 
 DISTFILES += \
     uusikp/luo.sql \
