@@ -60,4 +60,4 @@ Tililuettelossa on numerojärjestyksessä ja otsikoittain lueteltu kirjanpidon t
 
 Tilikarttaan voi kuulua muitakin raportteja, kuten tulojen ja menojen kohdennusraportit.
 
-Voit myös tehdä itse uusia raportteja ja muokata olemassa olevia, katso [Raporttien muokkaaminen](maaritykset/raportit)
+Voit myös tehdä itse uusia raportteja ja muokata olemassa olevia, katso [Raporttien muokkaaminen](/maaritykset/raportit)
