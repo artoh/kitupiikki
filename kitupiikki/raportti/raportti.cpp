@@ -51,7 +51,7 @@ Raportti::Raportti( QWidget *parent) : QWidget(parent)
         raitaCheck = new QCheckBox(tr("Tulosta taustaraidat"));
         QPushButton *htmlBtn = new QPushButton( QIcon(":/pic/web.png"), tr("Avaa &selaimessa"));
         QPushButton *vieBtn = new QPushButton( QIcon(":/pic/vie.png"), tr("&Vie leikepöydälle"));
-        QPushButton *csvBtn = new QPushButton( QIcon(":/pic/vie.png"), tr("Vie &csv"));
+        QPushButton *csvBtn = new QPushButton( QIcon(":/pic/csv.png"), tr("Vie &csv"));
         QPushButton *sivunasetusBtn = new QPushButton(QIcon(":/pic/sivunasetukset.png"),  tr("Sivun &asetukset"));
         QPushButton *esikatseluBtn = new QPushButton(QIcon(":/pic/print.png"), tr("&Esikatsele"));
         QPushButton *tulostaBtn = new QPushButton( QIcon(":/pic/tulosta.png"), tr("&Tulosta"));

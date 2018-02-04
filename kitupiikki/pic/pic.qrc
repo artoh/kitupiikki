@@ -79,6 +79,7 @@
         <file>tervetuloa.png</file>
         <file>paivita.png</file>
         <file>yrittaja.png</file>
+        <file>csv.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
