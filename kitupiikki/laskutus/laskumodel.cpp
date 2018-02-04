@@ -295,7 +295,7 @@ QDate LaskuModel::pvm() const
     else if(kirjausperuste()==LASKUTUSPERUSTE || kirjausperuste()==KATEISLASKU)
         return kp()->paivamaara();
     else
-        return QDate(); // Ei saada päivämäärää
+        return QDate(); // Ei saada päivämäärää (Maksuperuste)
 }
 
 qulonglong LaskuModel::laskunro() const
@@ -341,7 +341,7 @@ bool LaskuModel::tallenna(Tili rahatili)
 
     tosite.asetaPvm(pvm() );
 
-    if(  hyvityslasku().tosite && kirjausperuste() == MAKSUPERUSTE )
+    if(  hyvityslasku().tosite > 0 && kirjausperuste() == MAKSUPERUSTE )
     {
         // Maksuperusteinen kirjataan samaan tositteeseen alkuperäisen laskun kanssa
         tosite.lataa( hyvityslasku().tosite );

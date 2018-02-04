@@ -79,11 +79,9 @@ void TositeModel::asetaPvm(const QDate &pvm)
    {
        tunniste_ = 0;
    }
-   else
-   {
-       pvm_ = pvm;
-       muokattu_ = true;
-   }
+
+   pvm_ = pvm;
+   muokattu_ = true;
 
 }
 

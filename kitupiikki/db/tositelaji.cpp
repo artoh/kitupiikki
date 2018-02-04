@@ -72,6 +72,9 @@ int Tositelaji::seuraavanTunnistenumero(const QDate pvm) const
     if( !kp()->tietokanta()->isOpen() )
         return 0;   // Model ei vielä käytössä
 
+    if( !pvm.isValid() )    // Ei tunnistenumeroa jos ei päivää (maksuperusteinen lasku)
+        return 0;
+
     Tilikausi kausi = kp()->tilikausiPaivalle( pvm );
     QString kysymys = QString("SELECT max(tunniste) FROM tosite WHERE "
                     " pvm BETWEEN \"%1\" AND \"%2\" "
