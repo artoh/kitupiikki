@@ -33,7 +33,8 @@ public:
     PaivakirjaRaportti();
     ~PaivakirjaRaportti();
 
-    RaportinKirjoittaja raportti();
+    RaportinKirjoittaja raportti(bool csvmuoto);
+
 
     /**
      * @brief Päiväkirjaraportin kirjoittaminen

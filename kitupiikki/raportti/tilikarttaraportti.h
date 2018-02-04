@@ -44,7 +44,8 @@ public:
     TilikarttaRaportti();
     ~TilikarttaRaportti();
 
-    RaportinKirjoittaja raportti();
+
+    RaportinKirjoittaja raportti( bool csvmuoto );
 
     static RaportinKirjoittaja kirjoitaRaportti(KarttaValinta valinta, Tilikausi tilikaudelta,
                              bool tulostatyypi, QDate saldopvm, bool kirjausohjeet);

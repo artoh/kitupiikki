@@ -25,13 +25,16 @@
 #include <QPrintDialog>
 #include <QPageSetupDialog>
 #include <QDesktopServices>
+#include <QFileDialog>
 #include <QTextStream>
+#include <QMessageBox>
 
 #include <QCheckBox>
 #include <QPushButton>
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QGridLayout>
 
 #include <QMimeData>
 #include <QApplication>
@@ -48,18 +51,20 @@ Raportti::Raportti( QWidget *parent) : QWidget(parent)
         raitaCheck = new QCheckBox(tr("Tulosta taustaraidat"));
         QPushButton *htmlBtn = new QPushButton( QIcon(":/pic/web.png"), tr("Avaa &selaimessa"));
         QPushButton *vieBtn = new QPushButton( QIcon(":/pic/vie.png"), tr("&Vie leikepöydälle"));
+        QPushButton *csvBtn = new QPushButton( QIcon(":/pic/vie.png"), tr("Vie &csv"));
         QPushButton *sivunasetusBtn = new QPushButton(QIcon(":/pic/sivunasetukset.png"),  tr("Sivun &asetukset"));
         QPushButton *esikatseluBtn = new QPushButton(QIcon(":/pic/print.png"), tr("&Esikatsele"));
         QPushButton *tulostaBtn = new QPushButton( QIcon(":/pic/tulosta.png"), tr("&Tulosta"));
 
-        QHBoxLayout *nappiLeiska = new QHBoxLayout;
-        nappiLeiska->addWidget(raitaCheck);
-        nappiLeiska->addStretch();
-        nappiLeiska->addWidget( htmlBtn);
-        nappiLeiska->addWidget( vieBtn );
-        nappiLeiska->addWidget( sivunasetusBtn);
-        nappiLeiska->addWidget(esikatseluBtn);
-        nappiLeiska->addWidget(tulostaBtn);
+        QGridLayout *nappiLeiska = new QGridLayout;
+        nappiLeiska->addWidget(raitaCheck,0,0);
+
+        nappiLeiska->addWidget( htmlBtn,0,1);
+        nappiLeiska->addWidget( vieBtn ,0,2);
+        nappiLeiska->addWidget( csvBtn ,0,3);
+        nappiLeiska->addWidget( sivunasetusBtn,1,1);
+        nappiLeiska->addWidget(esikatseluBtn,1,2);
+        nappiLeiska->addWidget(tulostaBtn,1,3);
 
         QVBoxLayout *paaLeiska = new QVBoxLayout;
         paaLeiska->addWidget(raporttiWidget);
@@ -70,6 +75,7 @@ Raportti::Raportti( QWidget *parent) : QWidget(parent)
 
         connect( htmlBtn, SIGNAL(clicked(bool)), this, SLOT(avaaHtml()));
         connect( vieBtn, SIGNAL(clicked(bool)), this, SLOT(leikepoydalle()));
+        connect( csvBtn, SIGNAL( clicked(bool)), this, SLOT(vieCsv()));
         connect( sivunasetusBtn, SIGNAL(clicked(bool)), this, SLOT(sivunAsetukset()));
         connect( esikatseluBtn, SIGNAL(clicked(bool)), this, SLOT(esikatsele()) );
         connect( tulostaBtn, SIGNAL(clicked(bool)), this, SLOT(tulosta()) );
@@ -116,6 +122,24 @@ void Raportti::avaaHtml()
     tiedosto.close();
 
     QDesktopServices::openUrl( QUrl(tiedostonnimi) );
+}
+
+void Raportti::vieCsv()
+{
+    QString polku = QFileDialog::getSaveFileName(this, tr("Vie csv-tiedostoon"),
+                                                 QDir::homePath(), "csv-tiedosto (csv.*)");
+    if( !polku.isEmpty())
+    {
+        QFile tiedosto( polku );
+        if( !tiedosto.open( QIODevice::WriteOnly))
+        {
+            QMessageBox::critical(this, tr("Tiedoston vieminen"),
+                                  tr("Tiedostoon %1 kirjoittaminen epäonnistui.").arg(polku));
+            return;
+        }
+        QTextStream out( &tiedosto);
+        out << raportti(true).csv();
+    }
 }
 
 void Raportti::sivunAsetukset()

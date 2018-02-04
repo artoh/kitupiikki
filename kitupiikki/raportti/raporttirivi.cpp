@@ -26,7 +26,8 @@ RaporttiRivi::RaporttiRivi()
 void RaporttiRivi::lisaa(const QString &teksti, int sarakkeet, bool tasaaOikealle)
 {
     RaporttiRiviSarake uusi;
-    uusi.teksti = teksti;
+    uusi.arvo = QVariant(teksti);
+
     uusi.leveysSaraketta = sarakkeet;
     uusi.tasaaOikealle = tasaaOikealle;
     sarakkeet_.append(uusi);
@@ -35,7 +36,8 @@ void RaporttiRivi::lisaa(const QString &teksti, int sarakkeet, bool tasaaOikeall
 void RaporttiRivi::lisaaLinkilla(RaporttiRiviSarake::Linkki linkkityyppi, int linkkitieto, const QString &teksti, int sarakkeet)
 {
     RaporttiRiviSarake uusi;
-    uusi.teksti = teksti;
+    uusi.arvo = QVariant( teksti );
+
     uusi.leveysSaraketta = sarakkeet;
     uusi.linkkityyppi = linkkityyppi;
     uusi.linkkidata = linkkitieto;
@@ -44,16 +46,66 @@ void RaporttiRivi::lisaaLinkilla(RaporttiRiviSarake::Linkki linkkityyppi, int li
 
 void RaporttiRivi::lisaa(qlonglong sentit, bool tulostanollat)
 {
-    if( !sentit && !tulostanollat)
-        // Ei tulosta nollalukuja
-        lisaa(QString());
-    else
-        lisaa( QString("%L1").arg( ((double) sentit) / 100.0 ,0,'f',2 ), 1, true);
+    RaporttiRiviSarake uusi;
+    if( sentit || tulostanollat)
+        uusi.arvo = QVariant(sentit);
+
+    uusi.tasaaOikealle = true;
+    sarakkeet_.append( uusi );
 }
 
 void RaporttiRivi::lisaa(const QDate &pvm)
 {
-    lisaa( pvm.toString(Qt::SystemLocaleShortDate));
+    RaporttiRiviSarake uusi;
+    uusi.arvo = QVariant( pvm );
+    sarakkeet_.append( uusi );
+}
+
+QString RaporttiRivi::teksti(int sarake)
+{
+    QVariant arvo = sarakkeet_.at(sarake).arvo;
+
+    if( arvo.type() == QVariant::LongLong )
+    {
+        return QString("%L1").arg( ((double) arvo.toLongLong() ) / 100.0 ,0,'f',2 );
+    }
+    else if( arvo.type() == QVariant::Date )
+    {
+        return arvo.toDate().toString("dd.MM.yyyy");
+    }
+    else if( arvo.type() == QVariant::String)
+    {
+        return arvo.toString();
+    }
+    else
+        return QString();
+
+}
+
+QString RaporttiRivi::csv(int sarake)
+{
+    QVariant arvo = sarakkeet_.at(sarake).arvo;
+
+    if( arvo.type() == QVariant::LongLong )
+    {
+        return QString("\"%L1\"").arg( ((double) arvo.toLongLong() ) / 100.0 ,0,'f',2 );
+    }
+    else if( arvo.type() == QVariant::Date )
+    {
+        return arvo.toDate().toString("dd.MM.yyyy");
+    }
+    else if( arvo.type() == QVariant::String)
+    {
+        QString str = arvo.toString();
+        if( str.contains(',') || str.contains('\"') || str.contains('\n') || str.contains(';') || str.contains(' ') || str.contains('\t'))
+        {
+            str.replace("\"", "\"\"");
+            return QString("\"%1\"").arg(str);
+        }
+        return arvo.toString();
+    }
+    else
+        return QString();
 }
 
 

@@ -373,6 +373,28 @@ QString RaportinKirjoittaja::html(bool linkit)
     return txt;
 }
 
+QString RaportinKirjoittaja::csv()
+{
+    QString txt;
+    if( otsakkeet_.count())
+    {
+        QStringList otsakkeet;
+        RaporttiRivi otsikko = otsakkeet_.first();
+        for(int i=0; i < otsikko.sarakkeita(); i++)
+            otsakkeet.append( otsikko.csv(i));
+        txt.append( otsakkeet.join(','));
+    }
+    for( RaporttiRivi rivi : rivit_ )
+    {
+        txt.append("\r\n");
+        QStringList sarakkeet;
+        for( int i=0; i < rivi.sarakkeita(); i++)
+            sarakkeet.append( rivi.csv(i));
+        txt.append( sarakkeet.join(','));
+    }
+    return txt;
+}
+
 void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu)
 {
 

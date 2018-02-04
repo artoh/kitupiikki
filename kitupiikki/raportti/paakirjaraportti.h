@@ -30,7 +30,7 @@ class PaakirjaRaportti : public Raportti
 public:
     PaakirjaRaportti();
 
-    RaportinKirjoittaja raportti();
+    RaportinKirjoittaja raportti(bool csvmuoto = false);
 
     static RaportinKirjoittaja kirjoitaRaportti( QDate mista, QDate mihin, int kohdennuksella = -1,
                                                  bool tulostakohdennus = false,

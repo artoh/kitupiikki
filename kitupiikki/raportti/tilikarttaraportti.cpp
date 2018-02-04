@@ -41,7 +41,7 @@ TilikarttaRaportti::~TilikarttaRaportti()
     delete ui;
 }
 
-RaportinKirjoittaja TilikarttaRaportti::raportti()
+RaportinKirjoittaja TilikarttaRaportti::raportti(bool /* csvmuoto */)
 {
     Tilikausi kausi = kp()->tilikaudet()->tilikausiPaivalle( ui->tilikaudeltaCombo->currentData( TilikausiModel::PaattyyRooli ).toDate() );
 

@@ -30,7 +30,8 @@ class TositeluetteloRaportti : public Raportti
 public:
     TositeluetteloRaportti();
 
-    RaportinKirjoittaja raportti();
+    RaportinKirjoittaja raportti(bool csvmuoto);
+
 
     static RaportinKirjoittaja kirjoitaRaportti( QDate mista, QDate mihin,
                                                  bool tositejarjestys = true, bool ryhmittelelajeittain=true,

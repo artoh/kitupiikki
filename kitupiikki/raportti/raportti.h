@@ -53,9 +53,10 @@ public:
 
     /**
      * @brief Palauttaa pyydetyn raportin
+     * @arg csvmuoto Kirjoitetaan csv, eli ilman mitään väliotsikoita sun muita
      * @return RaportinKirjoittaja, jonne raportti on kirjoitettu
      */
-    virtual RaportinKirjoittaja raportti() = 0;
+    virtual RaportinKirjoittaja raportti(bool csvmuoto = false) = 0;
 
 
 signals:
@@ -74,6 +75,11 @@ public slots:
      * @brief Avaa html-muotoisena selaimessa
      */
     void avaaHtml();
+
+    /**
+     * @brief Vie csv-muodossa
+     */
+    void vieCsv();
 
     /**
      * @brief Näyttää dialogin sivun asetuksista

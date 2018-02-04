@@ -39,7 +39,7 @@ TaseErittely::~TaseErittely()
     delete ui;
 }
 
-RaportinKirjoittaja TaseErittely::raportti()
+RaportinKirjoittaja TaseErittely::raportti(bool /* csvmuoto */)
 {
     return kirjoitaRaportti( ui->alkaa->date(), ui->paattyy->date() );
 }

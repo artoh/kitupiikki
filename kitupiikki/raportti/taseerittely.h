@@ -33,7 +33,7 @@ public:
     TaseErittely();
     ~TaseErittely();
 
-    RaportinKirjoittaja raportti();
+    RaportinKirjoittaja raportti(bool csvmuoto = false);
 
     static RaportinKirjoittaja kirjoitaRaportti(QDate mista, QDate mihin);
 

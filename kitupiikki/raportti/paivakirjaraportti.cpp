@@ -51,7 +51,7 @@ PaivakirjaRaportti::~PaivakirjaRaportti()
 }
 
 
-RaportinKirjoittaja PaivakirjaRaportti::raportti()
+RaportinKirjoittaja PaivakirjaRaportti::raportti(bool csvmuoto)
 {
     int kohdennuksella = -1;
     if( ui->kohdennusCheck->isChecked())
@@ -59,8 +59,8 @@ RaportinKirjoittaja PaivakirjaRaportti::raportti()
 
     return kirjoitaRaportti( ui->alkupvm->date(), ui->loppupvm->date(),
                              kohdennuksella, ui->tositejarjestysRadio->isChecked(),
-                             ui->ryhmittelelajeittainCheck->isChecked(), ui->tulostakohdennuksetCheck->isChecked(),
-                             ui->tulostasummat->isChecked());
+                             ui->ryhmittelelajeittainCheck->isChecked(), ui->tulostakohdennuksetCheck->isChecked() && !csvmuoto,
+                             ui->tulostasummat->isChecked() && !csvmuoto);
 
 }
 

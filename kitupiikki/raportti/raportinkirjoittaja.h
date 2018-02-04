@@ -130,6 +130,16 @@ public:
      */
     QString html(bool linkit=false);
 
+    /**
+     * @brief Palauttaa raportin csv-muodossa
+     *
+     * Otsikosta huomioidaan vain ensimmäinen rivi. Tätä pitäisi käyttää vain sellaisiin raportteihin,
+     * joissa joka rivillä on sama määrä sarakkeita.
+     *
+     * @return
+     */
+    QString csv();
+
     QString otsikko() const { return otsikko_; }
     QString kausiteksti() const { return kausiteksti_; }
 

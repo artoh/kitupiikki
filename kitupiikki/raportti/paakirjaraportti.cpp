@@ -43,7 +43,7 @@ PaakirjaRaportti::PaakirjaRaportti()
 
 }
 
-RaportinKirjoittaja PaakirjaRaportti::raportti()
+RaportinKirjoittaja PaakirjaRaportti::raportti(bool /* csvmuoto */)
 {
     int kohdennuksella = -1;
     if( ui->kohdennusCheck->isChecked())

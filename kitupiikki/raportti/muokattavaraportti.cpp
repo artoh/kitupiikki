@@ -68,7 +68,7 @@ MuokattavaRaportti::~MuokattavaRaportti()
 
 }
 
-RaportinKirjoittaja MuokattavaRaportti::raportti()
+RaportinKirjoittaja MuokattavaRaportti::raportti(bool /* csvmuoto */ )
 {    
     Raportoija raportoija( raporttiNimi );
 

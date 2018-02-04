@@ -34,7 +34,8 @@ public:
     MuokattavaRaportti(const QString& raporttinimi);
     ~MuokattavaRaportti();
 
-    RaportinKirjoittaja raportti();
+    RaportinKirjoittaja raportti( bool csvmuoto = false);
+
 
 protected:
     Ui::MuokattavaRaportti *ui;   

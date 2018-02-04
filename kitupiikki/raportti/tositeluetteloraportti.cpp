@@ -41,14 +41,14 @@ TositeluetteloRaportti::TositeluetteloRaportti()
 
 }
 
-RaportinKirjoittaja TositeluetteloRaportti::raportti()
+RaportinKirjoittaja TositeluetteloRaportti::raportti(bool csvmuoto)
 {
     return kirjoitaRaportti( ui->alkupvm->date(), ui->loppupvm->date(),
                              ui->tositejarjestysRadio->isChecked(),
-                             ui->ryhmittelelajeittainCheck->isChecked(),
+                             ui->ryhmittelelajeittainCheck->isChecked() && !csvmuoto,
                              ui->tulostakohdennuksetCheck->isChecked() && ui->tulostaviennitCheck->isChecked(),
-                             ui->tulostaviennitCheck->isChecked(),
-                             ui->tulostasummat->isChecked());
+                             ui->tulostaviennitCheck->isChecked() && !csvmuoto,
+                             ui->tulostasummat->isChecked() && !csvmuoto);
 }
 
 RaportinKirjoittaja TositeluetteloRaportti::kirjoitaRaportti(QDate mista, QDate mihin, bool tositejarjestys, bool ryhmittelelajeittain, bool tulostakohdennukset, bool tulostaviennit, bool tulostasummat)

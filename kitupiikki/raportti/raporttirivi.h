@@ -37,6 +37,8 @@ struct RaporttiRiviSarake
 
     bool tasaaOikealle = false;
 
+    QVariant arvo;
+
     QString teksti;
     int leveysSaraketta = 1;
 
@@ -101,7 +103,14 @@ public:
      * @param sarake Sarakkeen indeksi
      * @return
      */
-    QString teksti(int sarake) { return sarakkeet_[sarake].teksti; }
+    QString teksti(int sarake);
+
+    /**
+     * @brief Csv-muotoon tulostettava sarake
+     * @param sarake Sarakkeen indeksi
+     * @return
+     */
+    QString csv(int sarake);
 
     /**
      * @brief Palauttaa sarakkeen
