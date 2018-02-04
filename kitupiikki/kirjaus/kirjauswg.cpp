@@ -159,6 +159,7 @@ void KirjausWg::tyhjenna()
 void KirjausWg::tallenna()
 {
 
+
     // Ellei yhtään vientiä, näytetään varoitus
     if( model_->vientiModel()->debetSumma() == 0 && model_->vientiModel()->kreditSumma() == 0)
     {
@@ -178,6 +179,17 @@ void KirjausWg::tallenna()
         if(  indeksi.data(VientiModel::AlvKoodiRooli).toInt() > 0 &&
              indeksi.data(VientiModel::PvmRooli).toDate().daysTo( kp()->asetukset()->pvm("AlvIlmoitus")) >= 0  )
             alvvaro = true;
+
+        // #62: Estetään kirjaukset lukitulle tilikaudelle
+        if( indeksi.data(VientiModel::PvmRooli).toDate() >= kp()->tilitpaatetty() )
+        {
+            QMessageBox::critical(this, tr("Ei voi kirjata lukitulle tilikaudelle"),
+                                  tr("Kirjaus %1 kohdistuu lukitulle tilikaudelle "
+                                     "(kirjanpito lukittu %2 saakka)." )
+                                  .arg( indeksi.data(VientiModel::PvmRooli).toDate().toString(Qt::SystemLocaleShortDate))
+                                  .arg( kp()->tilitpaatetty().toString(Qt::SystemLocaleShortDate)), QMessageBox::Cancel);
+            return;
+        }
     }
     if( alvvaro )
     {
