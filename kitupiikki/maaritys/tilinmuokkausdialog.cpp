@@ -192,6 +192,7 @@ void TilinMuokkausDialog::nroMuuttaaTyyppia(const QString &nroteksti)
     if( !nroteksti.isEmpty())
     {
         int ekanro = nroteksti.left(1).toInt();
+        int nykyluonne = ui->tyyppiCombo->currentData(TilityyppiModel::LuonneRooli).toInt();
 
         // Jos numero alkaa 1, pitää olla vastaavaa-tili
         // 2 pitää olla vastattavaa
@@ -200,24 +201,24 @@ void TilinMuokkausDialog::nroMuuttaaTyyppia(const QString &nroteksti)
         if( ekanro == 1 )
         {
             proxy_->setFilterRegExp("A.*");
-            if(( ui->tyyppiCombo->currentData(TilityyppiModel::LuonneRooli).toInt() & TiliLaji::VASTAAVAA ) != TiliLaji::VASTAAVAA )
-                ui->tyyppiCombo->setCurrentIndex(0);
+            if(( nykyluonne & TiliLaji::VASTAAVAA ) != TiliLaji::VASTAAVAA )
+                ui->tyyppiCombo->setCurrentIndex( ui->tyyppiCombo->findText("Vastaavaa"));
         }
         else if( ekanro == 2)
         {
             proxy_->setFilterRegExp("(B.*|T)");
-            if(( ui->tyyppiCombo->currentData(TilityyppiModel::LuonneRooli).toInt() & TiliLaji::VASTATTAVAA) != TiliLaji::VASTATTAVAA )
-                ui->tyyppiCombo->setCurrentIndex(0);
+            if(( nykyluonne & TiliLaji::VASTATTAVAA) != TiliLaji::VASTATTAVAA )
+                ui->tyyppiCombo->setCurrentIndex(ui->tyyppiCombo->findText("Vastattavaa"));
         }
         else if( ekanro > 2 )
         {
             proxy_->setFilterRegExp("[CD].*");
-            if(( ui->tyyppiCombo->currentData(TilityyppiModel::LuonneRooli).toInt() & TiliLaji::TULOS) != TiliLaji::TULOS )
+            if(( nykyluonne & TiliLaji::TULOS) != TiliLaji::TULOS )
             {
                 if( ekanro == 3)
-                    ui->tyyppiCombo->setCurrentIndex( ui->tyyppiCombo->findData( TiliLaji::LVTULO, TilityyppiModel::LuonneRooli ));
+                    ui->tyyppiCombo->setCurrentIndex( ui->tyyppiCombo->findText("Liikevaihtotulo (myynti)"));
                 else
-                    ui->tyyppiCombo->setCurrentIndex( ui->tyyppiCombo->findData( TiliLaji::MENO, TilityyppiModel::LuonneRooli ));
+                    ui->tyyppiCombo->setCurrentIndex( ui->tyyppiCombo->findText("Menot"));
             }
         }
 
