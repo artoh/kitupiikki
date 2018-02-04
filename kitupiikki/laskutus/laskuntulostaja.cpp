@@ -301,7 +301,7 @@ qreal LaskunTulostaja::alatunniste(QPrinter *printer,QPainter *painter)
     double mm = printer->width() * 1.00 / printer->widthMM();
 
     painter->drawText(QRectF(0,0,leveys/3,rk), Qt::AlignLeft, tr("Puh. %1").arg(kp()->asetus("Puhelin")));
-    painter->drawText(QRectF(leveys / 3,0,leveys/3,rk), Qt::AlignCenter, tr("IBAǸ %1").arg(kp()->asetus("IBAN")));
+    painter->drawText(QRectF(leveys / 3,0,leveys/3,rk), Qt::AlignCenter, tr("IBAN %1").arg(kp()->asetus("IBAN")));
     painter->drawText(QRectF(2 *leveys / 3,0,leveys/3,rk), Qt::AlignRight, tr("Y-tunnus %1").arg(kp()->asetus("Ytunnus")));
     painter->setPen( QPen(QBrush(Qt::black), mm * 0.13));
     painter->drawLine( QLineF( 0, 0, leveys, 0));
