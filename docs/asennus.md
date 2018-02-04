@@ -4,6 +4,10 @@
     Saat ohjelmiston käyttöösi täysin ilman maksua.
     Kitupiikki-ohjelmaan ei sisälly minkäänlaista takuuta ohjelman toimivuudesta tai soveltuvuudesta. Ohjelma on testattu huolellisesti, mutta siinä voi silti olla virheitä ja ohjelman käyttäjä ottaa vastuun ohjelman mahdollisesti aiheuttamista vahigoista.
 
+!!! danger "Vain testikäyttöön"
+    Ohjelman tiedostomuoto tulee muuttumaan ennen varsinaisen tuotantoversion julkaisua, eikä nykyisellä beta-versiolla tehtyä
+    kirjanpitoa saa enää avattua ohjelman myöhemmillä versioilla.
+
 ## Windows
 
 !!! note ""
