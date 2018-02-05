@@ -79,8 +79,12 @@ void Tar::_init(void* header)
     std::strcpy(TARHEADER->version, " ");
     std::sprintf(TARHEADER->mtime,"%011lo",time(NULL));
     std::sprintf(TARHEADER->mode,"%07o",0644);
+
+#ifdef Q_OS_LINUX
     char * s = ::getlogin();
     if(s!=NULL)  std::snprintf((char*) header,32,"%s",s);
+#endif
+
     std::sprintf(TARHEADER->gname,"%s","users");
     }
 
