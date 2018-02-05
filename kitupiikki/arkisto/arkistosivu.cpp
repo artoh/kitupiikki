@@ -43,6 +43,8 @@
 
 #include "lib/tarball.h"
 
+#include "tararkisto.h"
+
 
 ArkistoSivu::ArkistoSivu()
 {
@@ -180,35 +182,47 @@ void ArkistoSivu::vieArkisto()
         QString arkistotiedosto = QDir::root().absoluteFilePath( QString("%1-%2.tar").arg( kp()->hakemisto().dirName() ).arg(kausi.arkistoHakemistoNimi()) );
         QString arkisto = QFileDialog::getSaveFileName(this, tr("Vie arkisto"), arkistotiedosto, tr("Tar-arkisto (*.tar)") );
 
+
         if( !arkisto.isEmpty() )
         {
-            std::fstream out( arkisto.toStdString() , std::ios::out );
-            if( !out.is_open())
+            TarArkisto tar( arkisto );
+            if( !tar.aloita())
             {
                 QMessageBox::critical(this, tr("Arkiston vienti epäonnistui"),
                                       tr("Tiedostoon %1 kirjoittaminen epäonnistui").arg(arkisto));
                 return;
             }
-            Tar tarball(out);
-
-            QDir::setCurrent( mista.absolutePath() );
 
             QProgressDialog odota(tr("Kopioidaan arkistoa"), tr("Peruuta"),0, tiedostot.count(),this);
             int kopioitu = 0;
+
             for( QString tiedosto : tiedostot)
             {
                 if( odota.wasCanceled())
                     break;
 
-                tarball.putFile( tiedosto.toLocal8Bit().constData() , tiedosto.toLocal8Bit().constData() );
+                if( !tar.lisaaTiedosto( mista.absoluteFilePath(tiedosto) ) )
+                {
+                    tar.lopeta();
+
+                    QFile::remove( arkisto );
+
+                    QMessageBox::critical(this, tr("Arkiston viennissä virhe"),
+                                          tr("Arkiston vienti epäonnistui kopioitaessa tiedostoa %1")
+                                          .arg(tiedosto));
+                    return;
+                }
 
                 odota.setValue(++kopioitu);
             }
-            tarball.finish();
-            out.close();
-        }
-        QMessageBox::information(this, tr("Arkisto vienti valmis"),
+
+            QMessageBox::information(this, tr("Arkisto vienti valmis"),
                                  tr("Arkisto viety tiedostoon %1").arg(arkisto));
+
+        }
+
+
+
 
     }
 
