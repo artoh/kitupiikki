@@ -34,7 +34,7 @@ Tällä toiminnolla voit siirtää yhden vuoden arkiston esim. suoraan USB-muist
 Tar-tiedoston avaamiseen tarvitaan Windowsissa erillinen ohjelma, esimerkiksi [7-zip](http://www.7-zip.org/).
 
 !!! info "Tar-tiedostot"
-    Tar-tiedostomuoto on tehty alunperin nauha-asemalle tallentamista varten: se ei tiivistä eikä salaa tiedostoja. Nykyinen tar-tiedostomuoto on vuodelta 1988.
+    Tar-tiedostomuoto on tehty alunperin nauha-asemalle tallentamista varten: se ei tiivistä eikä salaa tiedostoja.
 
 
 ## Arkiston muuttumattomuuden varmistaminen
