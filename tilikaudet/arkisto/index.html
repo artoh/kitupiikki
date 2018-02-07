@@ -453,8 +453,15 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#arkiston-kopioiminen" title="Arkiston kopioiminen" class="md-nav__link">
-    Arkiston kopioiminen
+  <a href="#arkisto" title="Arkisto" class="md-nav__link">
+    Arkisto
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arkiston-vieminen" title="Arkiston vieminen" class="md-nav__link">
+    Arkiston vieminen
   </a>
   
 </li>
@@ -566,8 +573,15 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#arkiston-kopioiminen" title="Arkiston kopioiminen" class="md-nav__link">
-    Arkiston kopioiminen
+  <a href="#arkisto" title="Arkisto" class="md-nav__link">
+    Arkisto
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arkiston-vieminen" title="Arkiston vieminen" class="md-nav__link">
+    Arkiston vieminen
   </a>
   
 </li>
@@ -602,19 +616,33 @@
                 
                   <h1>Sähköinen arkisto</h1>
                 
-                <p><img alt="" src="./arkisto.png" /></p>
+                <h2 id="arkisto">Arkisto<a class="headerlink" href="#arkisto" title="Permanent link">&para;</a></h2>
 <p>Kitupiikki muodostaa kirjanpidosta html-muotoisen sähköisen arkiston. Arkisto muodostetaan ja siihen pääsee Kitupiikistä <strong>Tilikaudet</strong>-välilehden <strong>Arkisto</strong>-painikkeella.</p>
+<p>Arkisto on hakemisto, johon kirjanpitoainesto on tallennettu html-muodossa ja tositteet pdf-muodossa. Arkistoa voi lukea millä tahansa selaimella avaamalla hakemistosta <strong>index.html</strong>-tiedoston. Arkisto on suunniteltu niin, että kirjanpidon aineisto on tarkasteltavissa kirjausketju säilyttäen sellaisessa muodossa, joka oletetaan olevan yleisesti käytettävillä ohjelmilla avattavissa vielä vuosikymmenten kuluttua, myös ilman Kitupiikki-ohjelmaa.</p>
+<div class="admonition note">
+<p class="admonition-title">Huolehdi säilyttämisestä</p>
+<p>Huolehdi siitä, että kirjanpitoarkistosi on varmistettu tallentamalle se useammalle fyysiselle medialle, jotka säilyvät käyttökelpoisina koko 10 vuoden säilytysajan.</p>
+</div>
+<p>Sähköistä arkistoa voit käyttää myös kirjanpitoaineiston siirtämiseen esimerkiksi tilintarkastajille.</p>
+<p><img alt="" src="./arkisto.png" /></p>
 <p>Arkisto sisältää kirjanpidon (<a href="../../tulosteet#paakirja">pääkirja</a>, <a href="../../tulosteet#paivakirja">päiväkirja</a>, <a href="../../tulosteet#tositeluettelo">tositeluettelo</a> ja -päiväkirja sekä <a href="../../tulosteet#tililuettelo">tililuettelo</a> tositteineen), <a href="../../tulosteet#tase">taseen</a> ja <a href="../../tulosteet#tuloslaskelma">tuloslaskelman</a>, <a href="../../tulosteet#tase-erittely">tase-erittelyn</a> sekä mahdollisesti myös muita tilikarttakohtaisia raportteja. Raportti sisällytetään sähköiseen arkistoon <a href="../../maaritykset/raportit">raportin muokkaamisen</a> <strong>Liitä erittely arkistoon</strong>-valinnalla.</p>
 <p><img alt="" src="./tuloslaskelma.png" /></p>
 <p>Tilinumerot ovat linkkejä, joista pääsee tilin pääkirjanäkymään. Tositteiden numerot ovat puolestaan linkkejä tositteisiin.</p>
 <p><img alt="" src="./tosite.png" /></p>
-<h2 id="arkiston-kopioiminen">Arkiston kopioiminen<a class="headerlink" href="#arkiston-kopioiminen" title="Permanent link">&para;</a></h2>
-<p>Tilikausikohtaiset arkistot löytyvät kirjanpidon hakemiston <em>arkisto</em>-hakemistosta tilikausikohtaisina alahakemistoina.</p>
-<p><img alt="" src="./kopioi.png" /></p>
-<p>Kopioi koko hakemisto tiedostonhallinnassa pitämällä näppäimistön <strong>Ctrl</strong>-näppäintä pohjassa samalla kuin raahaat hakemiston haluamaasi sijaintiin, esimerkiksi USB-tikulle.</p>
-<p>Arkistoon pääset valitsemalla hakemistosta <strong>index.html</strong>-tiedoston. Arkisto avautuu selaimeen.</p>
+<h2 id="arkiston-vieminen">Arkiston vieminen<a class="headerlink" href="#arkiston-vieminen" title="Permanent link">&para;</a></h2>
+<p>Tilikausittaiset arkistot voit viedä <em>Tilikaudet</em>-välilehden <strong>Vie arkisto</strong>-painikkeella.</p>
+<p><img alt="" src="./vie.png" /></p>
+<p><strong>Vie hakemistoon</strong> kopioi koko arkiston valitsemaasi hakemistoon. Arkistoon pääset avaamalla hakemistoon kopioidun <strong>index.html</strong>-tiedoston selaimellasi. Huomaa, että arkistohakemistossa voi olla todella paljon tiedostoja, joten sitä varten kannattaa ehkä luoda uusi hakemistonsa.</p>
+<p>Tällä toiminnolla voit siirtää yhden vuoden arkiston esim. suoraan USB-muistitikulle.</p>
+<p><strong>Vie tar-tiedostona</strong> muodostaa vuoden arkistosta yhden <a href="https://fi.wikipedia.org/wiki/Tar_(Unix)">tar-tiedoston</a>. Tällainen tiedosto on helppo arkistoida tai lähettää edelleen.</p>
+<p>Tar-tiedoston avaamiseen tarvitaan Windowsissa erillinen ohjelma, esimerkiksi <a href="http://www.7-zip.org/">7-zip</a>.</p>
+<div class="admonition info">
+<p class="admonition-title">Tar-tiedostot</p>
+<p>Tar-tiedostomuoto on tehty alunperin nauha-asemalle tallentamista varten: se ei tiivistä eikä salaa tiedostoja.</p>
+</div>
 <h2 id="arkiston-muuttumattomuuden-varmistaminen">Arkiston muuttumattomuuden varmistaminen<a class="headerlink" href="#arkiston-muuttumattomuuden-varmistaminen" title="Permanent link">&para;</a></h2>
 <p>Voit varmistaa Kitupiikin luomalla <a href="https://fi.wikipedia.org/wiki/SHA">sha256-tiivisteellä</a>, ettei arkistossa olevia tiedostoja (esimerkiksi tositteita) ole muokattu arkiston muodostamisen jälkeen. Tämä edellyttää kuitenkin, että valvonnassa käytetty tiiviste  on säilytetty turvassa muutoksilta esimerkiksi niin, että tiiviste on tulostettu paperiseen ja allekirjoitettuun tilinpäätösasiakirjaan.</p>
+<p>Tässä kuvattua muuttumattomuuden varmistamista tarvittaneen lähinnä vain, mikäli on syytä epäillä, että kirjanpitoa on muutettu jälkikäteen. Kirjanpitolaki kieltää kirjanpitoaineiston muuttamisen tilinpäätöksen laatimisen jälkeen (2. luku 7§). Väärien tai harhaanjohtavien tietojen merkitsemisestä kirjanpitoon rangaistaan sakolla tai vankeudella (Rikoslaki 30. luku 9§ ja 9a§).</p>
 <div class="admonition danger">
 <p class="admonition-title">Muuttumattomuus varmistetaan tiivistettä vastaan</p>
 <p>Muuttumattomuuden varmistus perustuu siihen, että tiiviste on turvassa muutokselta, eikä tiivistettä voi väärentää esimerkiksi muuttamalla jälkikäteen tiivisteen sisältävää tilinpäätöksen sivua.</p>
@@ -625,7 +653,7 @@ b3fb35a6e113b98e4eb68a133b575463b05d6a39a9c78fb584ade9e9ef6a7b78  arkisto.sha256
 </code></pre>
 
 <p>Ohjelma tulostaa valvontatiedoston tiivisteen, jota pitää verrata tiedossa olevaan, esimerkiksi tilinpäätökseen tulostettuun tiivisteeseen (katso sivun ensimmäinen kuva).</p>
-<p>Valvontatiedosto sisältää kaikkien arkistoon kuuluvien tositteiden ja raporttien - ei kuitenkaan tilinpäätöksen - tiivisteet. Tiivisteet pitää vielä takastaa komennolla <strong>sha256sum -c arkisto.sha256</strong>.</p>
+<p>Valvontatiedosto sisältää kaikkien arkistoon kuuluvien tositteiden ja raporttien - ei kuitenkaan tilinpäätöksen - tiivisteet. Tiivisteet pitää vielä tarkastaa komennolla <strong>sha256sum -c arkisto.sha256</strong>.</p>
 <pre><code>arto@pantteri ~/LatakonUimakerho/arkisto/2018 $ sha256sum -c arkisto.sha256
 00000097-01.pdf: OK
 00000097.html: OK
