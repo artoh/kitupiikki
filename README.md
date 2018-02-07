@@ -13,7 +13,7 @@ Comments, variable names, documentations and the software itself are, of course,
 
 **Suomalainen avoimen lähdekoodin kirjanpito-ohjelma**
 
-Kotisivu ja käyttöohjeet [https:/artoh.github.io/kitupiikki](https:/artoh.github.io/kitupiikki)
+Kotisivu ja käyttöohjeet [https://artoh.github.io/kitupiikki](https://artoh.github.io/kitupiikki)
 
 ![Kitupiikki](https://raw.githubusercontent.com/artoh/kitupiikki/master/kitupiikki/pic/aboutpossu.png)
 

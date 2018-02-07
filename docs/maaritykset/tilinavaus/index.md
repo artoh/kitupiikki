@@ -28,3 +28,10 @@ Etsi tosite **Selaa**-välilehdeltä ja napsauta sitä muokataksesi.
 
 !!! note "Tilinavaussivu nollaa tilinavaustositteen"
     Älä muokkaa Määritysten Tilinavaus-sivua enää sen jälkeen kun olet muokannut suoraan tilinavaustositetta
+
+## Kirjanpidon aloittaminen kesken tilikauden
+
+Jos aloitat kirjanpidon Kitupiikissä kesken tilikauden, syötä Tilinavaus-toiminnolla edellisen tilikauden loppusummat ja muodosta tavallinen tosite (**Uusi tosite**), jolla kirjaat jokaiselle käytössä olevalle tilille ennen Kitupiikin käyttöönottoa kirjatut kokonaissummat (debet-summa ja kredit-summa)
+
+!!! example "Esimerkki"
+    Tilikautena on vuosi, ja yritys siirtyy 1.6.2018 toisesta kirjanpito-ohjelmasta käyttämään Kitupiikkiä. Tilinavaukseen kirjataan tilien päättävät saldot 31.12.2017. Lisäksi luodaan tosite päivämäärälle 31.5.2018, johon kirjataan jokaiselle tilille erikseen debet- ja kredit-summa niistä kirjauksista, jotka on tehty aiemmalla kirjanpito-ohjelmalla 1.1. - 31.5.2018.
