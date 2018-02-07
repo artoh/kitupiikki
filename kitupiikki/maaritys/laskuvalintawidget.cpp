@@ -46,7 +46,10 @@ LaskuValintaWidget::LaskuValintaWidget()
     connect(ui->huomautusaikaEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
     connect(ui->viivastyskorkoEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
     connect(ui->seuraavaLasku, SIGNAL(valueChanged(int)), this, SLOT(ilmoitaMuokattu()));
-    connect(ui->ibanEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
+    connect(ui->tiliCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(ilmoitaMuokattu()));
+    connect(ui->tiliCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(tiliIlmoitus()));
+
+
 }
 
 LaskuValintaWidget::~LaskuValintaWidget()
@@ -65,7 +68,23 @@ bool LaskuValintaWidget::nollaa()
     ui->huomautusaikaEdit->setText( kp()->asetus("LaskuHuomautusaika"));
     ui->viivastyskorkoEdit->setText( kp()->asetus("LaskuViivastyskorko"));
     ui->seuraavaLasku->setValue( kp()->asetukset()->luku("LaskuSeuraavaId", 1000));
-    ui->ibanEdit->setText( kp()->asetus("IBAN"));
+
+    for(int i=0; i < kp()->tilit()->rowCount(QModelIndex()); i++)
+    {
+        Tili tili = kp()->tilit()->tiliIndeksilla(i);
+        if( tili.onko(TiliLaji::PANKKITILI) && !tili.json()->str("IBAN").isEmpty())
+        {
+            ui->tiliCombo->addItem( tr("%1 %2 (IBAN %3)")
+                                       .arg(tili.numero())
+                                       .arg(tili.nimi())
+                                       .arg(tili.json()->str("IBAN")),
+                                       QVariant( tili.numero()));
+        }
+    }
+    if( kp()->asetukset()->luku("LaskuTili"))
+        ui->tiliCombo->setCurrentIndex( ui->tiliCombo->findData( kp()->asetukset()->luku("LaskuTili") ) );
+    tiliIlmoitus();
+
     return true;
 }
 
@@ -79,7 +98,8 @@ bool LaskuValintaWidget::tallenna()
     kp()->asetukset()->aseta("LaskuHuomautusaika", ui->huomautusaikaEdit->text());
     kp()->asetukset()->aseta("LaskuViivastyskorko", ui->viivastyskorkoEdit->text());
     kp()->asetukset()->aseta("LaskuSeuraavaId", ui->seuraavaLasku->value());
-    kp()->asetukset()->aseta("IBAN", ui->ibanEdit->text());
+    kp()->asetukset()->aseta("LaskuTili", ui->tiliCombo->currentData().toInt() );
+
 
     return true;
 }
@@ -94,7 +114,7 @@ bool LaskuValintaWidget::onkoMuokattu()
             ui->huomautusaikaEdit->text() != kp()->asetukset()->asetus("LaskuHuomautusaika") ||
             ui->viivastyskorkoEdit->text() != kp()->asetukset()->asetus("LaskuViivastyskorko") ||
             ui->seuraavaLasku->value() != kp()->asetukset()->luku("LaskuSeuraavaId") ||
-            ui->ibanEdit->text() != kp()->asetus("IBAN") ;
+            ui->tiliCombo->currentData().toInt() != kp()->asetukset()->luku("LaskuTili");
 
 }
 
@@ -103,4 +123,9 @@ bool LaskuValintaWidget::onkoMuokattu()
 void LaskuValintaWidget::ilmoitaMuokattu()
 {
     emit tallennaKaytossa( onkoMuokattu() );
+}
+
+void LaskuValintaWidget::tiliIlmoitus()
+{
+    ui->syotaIbanLabel->setVisible( kp()->tilit()->tiliNumerolla( ui->tiliCombo->currentData().toInt() ).json()->str("IBAN").isEmpty() );
 }

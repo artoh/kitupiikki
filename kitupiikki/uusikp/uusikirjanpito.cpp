@@ -289,6 +289,9 @@ bool UusiKirjanpito::alustaKirjanpito()
     // Laskunumero
     asetukset.aseta("LaskuSeuraavaId",1009);
 
+    if( tilit.tiliTyypilla(TiliLaji::PANKKITILI).onkoValidi())
+        asetukset.aseta("LaskuTili", tilit.tiliTyypilla(TiliLaji::PANKKITILI).numero());
+
     if( field("onekakausi").toBool())
     {
         // Ensimmäinen tilikausi, tilinavausta ei tarvita

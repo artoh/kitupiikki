@@ -39,6 +39,7 @@ public:
 
 public slots:
     void ilmoitaMuokattu();
+    void tiliIlmoitus();
 
 private:
     Ui::LaskuValinnat *ui;

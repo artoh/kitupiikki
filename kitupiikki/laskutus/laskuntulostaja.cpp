@@ -23,7 +23,8 @@
 
 LaskunTulostaja::LaskunTulostaja(LaskuModel *model) : QObject(model), model_(model)
 {
-
+    // Hakee laskulle tulostuvan IBAN-numeron
+    iban = kp()->tilit()->tiliNumerolla( kp()->asetukset()->luku("LaskuTili")).json()->str("IBAN");
 }
 
 bool LaskunTulostaja::tulosta(QPrinter *printer)
@@ -93,7 +94,7 @@ QString LaskunTulostaja::html()
     txt.append(tr("<tr><td>Summa</td><td>%L1 €</td>").arg( (model_->laskunSumma() / 100.0) ,0,'f',2));
 
     if( model_->kirjausperuste() != LaskuModel::KATEISLASKU && !model_->hyvityslasku().viitenro)
-        txt.append(tr("<tr><td>IBAN</td><td>%1</td></tr>").arg( kp()->asetukset()->asetus("IBAN")));
+        txt.append(tr("<tr><td>IBAN</td><td>%1</td></tr>").arg( iban) );
 
 
     txt.append("</table><p>" + model_->lisatieto() + "</p><table width=100%>");
@@ -301,7 +302,7 @@ qreal LaskunTulostaja::alatunniste(QPrinter *printer,QPainter *painter)
     double mm = printer->width() * 1.00 / printer->widthMM();
 
     painter->drawText(QRectF(0,0,leveys/3,rk), Qt::AlignLeft, tr("Puh. %1").arg(kp()->asetus("Puhelin")));
-    painter->drawText(QRectF(leveys / 3,0,leveys/3,rk), Qt::AlignCenter, tr("IBAN %1").arg(kp()->asetus("IBAN")));
+    painter->drawText(QRectF(leveys / 3,0,leveys/3,rk), Qt::AlignCenter, tr("IBAN %1").arg( iban ));
     painter->drawText(QRectF(2 *leveys / 3,0,leveys/3,rk), Qt::AlignRight, tr("Y-tunnus %1").arg(kp()->asetus("Ytunnus")));
     painter->setPen( QPen(QBrush(Qt::black), mm * 0.13));
     painter->drawLine( QLineF( 0, 0, leveys, 0));
@@ -533,7 +534,7 @@ void LaskunTulostaja::tilisiirto(QPrinter *printer, QPainter *painter)
     painter->drawText( QRectF(mm*165, mm*62.3, mm*30, mm*7.5), Qt::AlignRight | Qt::AlignBottom, QString("%L1").arg( (model_->laskunSumma() / 100.0) ,0,'f',2) );
 
     painter->drawText( QRectF(mm*22, mm*17, mm*90, mm*13), Qt::AlignTop | Qt::TextWordWrap, kp()->asetus("Nimi") + "\n" + kp()->asetus("Osoite")  );
-    painter->drawText( QRectF(mm*22, 0, mm*90, mm*17), Qt::AlignVCenter , kp()->asetus("IBAN")  );
+    painter->drawText( QRectF(mm*22, 0, mm*90, mm*17), Qt::AlignVCenter , iban  );
 
 
     painter->save();

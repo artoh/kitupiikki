@@ -7,14 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>428</width>
-    <height>653</height>
+    <height>701</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Tilin muokkaus</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
-   <item>
+  <layout class="QFormLayout" name="formLayout">
+   <item row="0" column="0" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
@@ -65,191 +65,201 @@
      </item>
     </layout>
    </item>
-   <item>
-    <layout class="QFormLayout" name="formLayout">
-     <item row="0" column="0">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Numero</string>
-       </property>
-       <property name="buddy">
-        <cstring>numeroEdit</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="numeroEdit"/>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Nimi</string>
-       </property>
-       <property name="buddy">
-        <cstring>nimiEdit</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLineEdit" name="nimiEdit"/>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Täydentävä teksti</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QLineEdit" name="taydentavaEdit"/>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="tasoLabel">
-       <property name="text">
-        <string>Otsikkotaso</string>
-       </property>
-       <property name="buddy">
-        <cstring>tasoSpin</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="QSpinBox" name="tasoSpin">
-       <property name="minimum">
-        <number>1</number>
-       </property>
-       <property name="maximum">
-        <number>9</number>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="0">
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string>Tilityyppi</string>
-       </property>
-       <property name="buddy">
-        <cstring>tyyppiCombo</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="1">
-      <widget class="QComboBox" name="tyyppiCombo"/>
-     </item>
-     <item row="7" column="0">
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>Vastatili</string>
-       </property>
-       <property name="buddy">
-        <cstring>vastatiliEdit</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="1">
-      <widget class="TilinvalintaLine" name="vastatiliEdit"/>
-     </item>
-     <item row="8" column="0">
-      <widget class="QLabel" name="verolajiLabel">
-       <property name="text">
-        <string>Verolaji</string>
-       </property>
-       <property name="buddy">
-        <cstring>veroCombo</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="8" column="1">
-      <widget class="QComboBox" name="veroCombo"/>
-     </item>
-     <item row="9" column="0">
-      <widget class="QLabel" name="veroprosenttiLabel">
-       <property name="text">
-        <string>Veroprosentti</string>
-       </property>
-       <property name="buddy">
-        <cstring>veroSpin</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="9" column="1">
-      <widget class="QSpinBox" name="veroSpin">
-       <property name="suffix">
-        <string>%</string>
-       </property>
-       <property name="prefix">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="10" column="0">
-      <widget class="QLabel" name="poistoaikaLabel">
-       <property name="text">
-        <string>Poistoaika</string>
-       </property>
-      </widget>
-     </item>
-     <item row="10" column="1">
-      <widget class="QSpinBox" name="poistoaikaSpin">
-       <property name="suffix">
-        <string> vuotta</string>
-       </property>
-       <property name="maximum">
-        <number>1200</number>
-       </property>
-      </widget>
-     </item>
-     <item row="11" column="0">
-      <widget class="QLabel" name="poistoprossaLabel">
-       <property name="text">
-        <string>Menojäännöspoisto</string>
-       </property>
-      </widget>
-     </item>
-     <item row="11" column="1">
-      <widget class="QSpinBox" name="poistoprossaSpin">
-       <property name="suffix">
-        <string> %</string>
-       </property>
-      </widget>
-     </item>
-     <item row="12" column="0">
-      <widget class="QLabel" name="poistotiliLabel">
-       <property name="text">
-        <string>Poistotili</string>
-       </property>
-      </widget>
-     </item>
-     <item row="12" column="1">
-      <widget class="TilinvalintaLine" name="poistotiliEdit"/>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="valiastiLabel">
-       <property name="text">
-        <string>Otsikkoväli päättyy</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="1">
-      <widget class="QLineEdit" name="valiastiEdit"/>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_7">
-       <property name="text">
-        <string>Kuuluu otsikolle</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLabel" name="kuuluuLabel">
-       <property name="text">
-        <string> </string>
-       </property>
-      </widget>
-     </item>
-    </layout>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Numero</string>
+     </property>
+     <property name="buddy">
+      <cstring>numeroEdit</cstring>
+     </property>
+    </widget>
    </item>
-   <item>
+   <item row="1" column="1">
+    <widget class="QLineEdit" name="numeroEdit"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_7">
+     <property name="text">
+      <string>Kuuluu otsikolle</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLabel" name="kuuluuLabel">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Nimi</string>
+     </property>
+     <property name="buddy">
+      <cstring>nimiEdit</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QLineEdit" name="nimiEdit"/>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Täydentävä teksti</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QLineEdit" name="taydentavaEdit"/>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="ibanLabel">
+     <property name="text">
+      <string>IBAN-tilinumero</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QLineEdit" name="ibanLine">
+     <property name="placeholderText">
+      <string>FI00000000000000</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="tasoLabel">
+     <property name="text">
+      <string>Otsikkotaso</string>
+     </property>
+     <property name="buddy">
+      <cstring>tasoSpin</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QSpinBox" name="tasoSpin">
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>9</number>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="QLabel" name="valiastiLabel">
+     <property name="text">
+      <string>Otsikkoväli päättyy</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1">
+    <widget class="QLineEdit" name="valiastiEdit"/>
+   </item>
+   <item row="8" column="0">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>Tilityyppi</string>
+     </property>
+     <property name="buddy">
+      <cstring>tyyppiCombo</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="1">
+    <widget class="QComboBox" name="tyyppiCombo"/>
+   </item>
+   <item row="9" column="0">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string>Vastatili</string>
+     </property>
+     <property name="buddy">
+      <cstring>vastatiliEdit</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="1">
+    <widget class="TilinvalintaLine" name="vastatiliEdit"/>
+   </item>
+   <item row="10" column="0">
+    <widget class="QLabel" name="verolajiLabel">
+     <property name="text">
+      <string>Verolaji</string>
+     </property>
+     <property name="buddy">
+      <cstring>veroCombo</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="1">
+    <widget class="QComboBox" name="veroCombo"/>
+   </item>
+   <item row="11" column="0">
+    <widget class="QLabel" name="veroprosenttiLabel">
+     <property name="text">
+      <string>Veroprosentti</string>
+     </property>
+     <property name="buddy">
+      <cstring>veroSpin</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="1">
+    <widget class="QSpinBox" name="veroSpin">
+     <property name="suffix">
+      <string>%</string>
+     </property>
+     <property name="prefix">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="0">
+    <widget class="QLabel" name="poistoaikaLabel">
+     <property name="text">
+      <string>Poistoaika</string>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="1">
+    <widget class="QSpinBox" name="poistoaikaSpin">
+     <property name="suffix">
+      <string> vuotta</string>
+     </property>
+     <property name="maximum">
+      <number>1200</number>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="0">
+    <widget class="QLabel" name="poistoprossaLabel">
+     <property name="text">
+      <string>Menojäännöspoisto</string>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="1">
+    <widget class="QSpinBox" name="poistoprossaSpin">
+     <property name="suffix">
+      <string> %</string>
+     </property>
+    </widget>
+   </item>
+   <item row="14" column="0">
+    <widget class="QLabel" name="poistotiliLabel">
+     <property name="text">
+      <string>Poistotili</string>
+     </property>
+    </widget>
+   </item>
+   <item row="14" column="1">
+    <widget class="TilinvalintaLine" name="poistotiliEdit"/>
+   </item>
+   <item row="15" column="0" colspan="2">
     <widget class="QGroupBox" name="teGroup">
      <property name="title">
       <string>Tase-erittely</string>
@@ -289,17 +299,17 @@
      </layout>
     </widget>
    </item>
-   <item>
+   <item row="16" column="0">
     <widget class="QLabel" name="label_6">
      <property name="text">
       <string>Kirjausohje</string>
      </property>
     </widget>
    </item>
-   <item>
+   <item row="17" column="0" colspan="2">
     <widget class="QPlainTextEdit" name="kirjausohjeText"/>
    </item>
-   <item>
+   <item row="18" column="0" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>

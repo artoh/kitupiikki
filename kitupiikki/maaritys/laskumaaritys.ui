@@ -148,23 +148,27 @@
    <item>
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
-      <string>Pankkiyhteys</string>
+      <string>Laskuille tulostuva pankkitili</string>
      </property>
      <layout class="QFormLayout" name="formLayout_2">
-      <item row="0" column="0">
+      <item row="1" column="0">
        <widget class="QLabel" name="label_10">
         <property name="text">
-         <string>IBAN</string>
-        </property>
-        <property name="buddy">
-         <cstring>ibanEdit</cstring>
+         <string/>
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="ibanEdit"/>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="tiliCombo"/>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="syotaIbanLabel">
+     <property name="text">
+      <string>Tilin IBAN-numero on syötettävä Tilikartan määrityksissä.</string>
+     </property>
     </widget>
    </item>
    <item>

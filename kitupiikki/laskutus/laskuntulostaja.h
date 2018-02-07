@@ -64,6 +64,7 @@ protected:
     void erittelyOtsikko(QPrinter *printer, QPainter *painter, bool alv);
 
     void tilisiirto(QPrinter *printer, QPainter *painter);
+    QString iban;
 
 private:
     LaskuModel *model_;

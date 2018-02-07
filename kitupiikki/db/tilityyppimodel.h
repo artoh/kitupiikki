@@ -33,6 +33,9 @@ namespace TiliLaji {
         SAATAVA        =    0b0000011001010,
         ALVSAATAVA     =    0b0010111001010,
         RAHAVARAT       =   0b0100111001010,
+        PANKKITILI      =   0b1100111001010,
+        KATEINEN        =  0b10100111001010,
+
         VASTATTAVAA      =  0b0000000010010,
         OMAPAAOMA       =   0b0000000110010,
         EDELLISTENTULOS =   0b0001000110010,

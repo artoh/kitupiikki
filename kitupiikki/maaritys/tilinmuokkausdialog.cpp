@@ -62,6 +62,9 @@ TilinMuokkausDialog::TilinMuokkausDialog(TiliModel *model, QModelIndex index) :
     ui->poistotiliEdit->asetaModel( model );
     ui->poistotiliEdit->suodataTyypilla("DP");
 
+    ui->ibanLabel->hide();
+    ui->ibanLine->hide();
+
     connect( ui->veroCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(veroEnablePaivita()));
 
     connect( ui->nimiEdit, SIGNAL(textEdited(QString)), this, SLOT(tarkasta()));
@@ -104,6 +107,10 @@ void TilinMuokkausDialog::lataa()
     ui->numeroEdit->setText( QString::number( tili.numero()));
     ui->tasoSpin->setValue( tili.otsikkotaso());
     ui->valiastiEdit->setText( QString::number(tili.json()->luku("Asti")) );
+
+    ui->ibanLabel->setVisible( tili.onko(TiliLaji::PANKKITILI));
+    ui->ibanLine->setVisible( tili.onko(TiliLaji::PANKKITILI));
+    ui->ibanLine->setText(tili.json()->str("IBAN"));
 
     proxy_->setFilterRegExp("");
     ui->tyyppiCombo->setCurrentIndex( ui->tyyppiCombo->findData( tili.tyyppiKoodi()) );
@@ -170,6 +177,9 @@ void TilinMuokkausDialog::naytettavienPaivitys()
         veroproxy_->setFilterRegExp("(0|2.)");
     else
         veroproxy_->setFilterRegExp("");
+
+    ui->ibanLabel->setVisible( tyyppi.onko(TiliLaji::PANKKITILI));
+    ui->ibanLine->setVisible( tyyppi.onko(TiliLaji::PANKKITILI));
 
     ui->poistoaikaLabel->setVisible( tyyppi.onko( TiliLaji::TASAERAPOISTO));
     ui->poistoaikaSpin->setVisible( tyyppi.onko(TiliLaji::TASAERAPOISTO) );
@@ -353,6 +363,11 @@ void TilinMuokkausDialog::accept()
 
     json->set("Taydentava", ui->taydentavaEdit->text());
     json->set("Kirjausohje", ui->kirjausohjeText->toPlainText());
+
+    if( tilityyppi.onko(TiliLaji::PANKKITILI) && !ui->ibanLine->text().isEmpty() )
+        json->set("IBAN", ui->ibanLine->text());
+    else
+        json->unset("IBAN");
 
     if( !taso )
     {

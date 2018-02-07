@@ -59,16 +59,8 @@ LaskunMaksuDialogi::LaskunMaksuDialogi(KirjausWg *kirjauswg) :
 
     ui->tiliEdit->suodataTyypilla("AR");
 
-    // Valitsee oletuksena tositetyypin oletusvastatilin
-    if( kirjaaja->model()->tositelaji().json()->luku("Vastatili") )
-    {
-        Tili vastatili = kp()->tilit()->tiliNumerolla(  kirjaaja->model()->tositelaji().json()->luku("Vastatili") );
-        if( vastatili.onko( TiliLaji::RAHAVARAT))
-            ui->tiliEdit->valitseTiliIdlla(vastatili.id());
-    }
-    if( !ui->tiliEdit->valittuTilinumero() )
-        ui->tiliEdit->valitseTiliIdlla( kirjauswg->tiliotetiliId() );
-
+    // Valitsee oletuksena laskulle tulostuneen tilinumeron (@since 0.6)
+    ui->tiliEdit->valitseTiliNumerolla( kp()->asetukset()->luku("LaskuTili") );
 
     connect( ui->laskutView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(valintaMuuttuu()));
     connect(ui->kirjaaNappi, SIGNAL(clicked(bool)), this, SLOT(kirjaa()));
