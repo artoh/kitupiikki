@@ -68,7 +68,8 @@ Nämä tilit alkavat aina numerolla 1.
 * Poistokelpoinen omaisuus, tasapoisto
 * Saatavaa
 * Arvonlisäverosaatava (yksi tili)
-* Rahavarat
+* Käteisvarat
+* Pankkitili
 
 **Vastattavaa-tilityypit**
 
