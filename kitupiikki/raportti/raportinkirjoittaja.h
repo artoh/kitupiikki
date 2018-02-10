@@ -138,7 +138,7 @@ public:
      *
      * @return
      */
-    QString csv();
+    QByteArray csv();
 
     QString otsikko() const { return otsikko_; }
     QString kausiteksti() const { return kausiteksti_; }

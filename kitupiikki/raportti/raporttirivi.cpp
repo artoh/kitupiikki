@@ -15,7 +15,9 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QSettings>
 #include "raporttirivi.h"
+
 
 RaporttiRivi::RaporttiRivi()
     : lihava_(false), ylaviiva_(false), pistekoko_(10)
@@ -85,14 +87,20 @@ QString RaporttiRivi::teksti(int sarake)
 QString RaporttiRivi::csv(int sarake)
 {
     QVariant arvo = sarakkeet_.at(sarake).arvo;
+    QSettings settings;
 
     if( arvo.type() == QVariant::LongLong )
     {
-        return QString("\"%L1\"").arg( ((double) arvo.toLongLong() ) / 100.0 ,0,'f',2 );
+        QChar despilkku = settings.value("CsvDesimaali", QChar(',')).toChar();
+        if( despilkku == ',')
+            return QString("\"%1\"").arg( ((double) arvo.toLongLong() ) / 100.0 ,0,'f',2 ).replace('.',',');
+        else
+            return QString("\"%1\"").arg( ((double) arvo.toLongLong() ) / 100.0 ,0,'f',2 );
     }
     else if( arvo.type() == QVariant::Date )
     {
-        return arvo.toDate().toString("dd.MM.yyyy");
+        QString pvmmuoto = settings.value("CsvPaivays", "dd.MM.yyyy").toString();
+        return arvo.toDate().toString(pvmmuoto);
     }
     else if( arvo.type() == QVariant::String)
     {

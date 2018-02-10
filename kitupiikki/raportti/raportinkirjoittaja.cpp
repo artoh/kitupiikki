@@ -20,6 +20,7 @@
 #include <QFile>
 #include <QFont>
 #include <QPixmap>
+#include <QSettings>
 #include "raportinkirjoittaja.h"
 
 #include "db/kirjanpito.h"
@@ -373,16 +374,19 @@ QString RaportinKirjoittaja::html(bool linkit)
     return txt;
 }
 
-QString RaportinKirjoittaja::csv()
+QByteArray RaportinKirjoittaja::csv()
 {
+    QSettings settings;
+    QChar erotin = settings.value("CsvErotin", QChar(',')).toChar();
+
     QString txt;
-    if( otsakkeet_.count())
+
+    for( RaporttiRivi otsikko : otsakkeet_)
     {
         QStringList otsakkeet;
-        RaporttiRivi otsikko = otsakkeet_.first();
         for(int i=0; i < otsikko.sarakkeita(); i++)
             otsakkeet.append( otsikko.csv(i));
-        txt.append( otsakkeet.join(','));
+        txt.append( otsakkeet.join(erotin));
     }
     for( RaporttiRivi rivi : rivit_ )
     {
@@ -390,9 +394,16 @@ QString RaportinKirjoittaja::csv()
         QStringList sarakkeet;
         for( int i=0; i < rivi.sarakkeita(); i++)
             sarakkeet.append( rivi.csv(i));
-        txt.append( sarakkeet.join(','));
+        txt.append( sarakkeet.join(erotin));
     }
-    return txt;
+
+    if( settings.value("CsvKoodaus").toString() == "latin1")
+    {
+        txt.replace("€","EUR");
+        return txt.toLatin1();
+    }
+    else
+        return txt.toUtf8();
 }
 
 void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu)

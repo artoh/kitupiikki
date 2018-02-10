@@ -91,6 +91,11 @@ public slots:
      */
     void leikepoydalle();
 
+    void csvleike();
+
+
+    void csvAsetukset();
+
 protected:
     QWidget *raporttiWidget;
     QCheckBox *raitaCheck;

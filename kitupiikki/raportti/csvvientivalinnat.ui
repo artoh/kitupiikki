@@ -7,14 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>546</width>
-    <height>366</height>
+    <height>373</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>CSV-viennin valinnat</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_4">
-   <item>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string>Kenttien erotin</string>
@@ -44,7 +44,30 @@
      </layout>
     </widget>
    </item>
-   <item>
+   <item row="0" column="1">
+    <widget class="QGroupBox" name="groupBox_4">
+     <property name="title">
+      <string>Merkistö</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_4">
+      <item>
+       <widget class="QRadioButton" name="utf8">
+        <property name="text">
+         <string>UTF-8</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="latin1">
+        <property name="text">
+         <string>Latin 1</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0">
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
       <string>Päivämäärän muoto</string>
@@ -74,7 +97,7 @@
      </layout>
     </widget>
    </item>
-   <item>
+   <item row="1" column="1">
     <widget class="QGroupBox" name="groupBox_3">
      <property name="title">
       <string>Desimaalierotin</string>
@@ -97,7 +120,7 @@
      </layout>
     </widget>
    </item>
-   <item>
+   <item row="2" column="0" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
