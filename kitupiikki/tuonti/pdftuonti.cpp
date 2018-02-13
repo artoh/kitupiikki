@@ -56,6 +56,13 @@ bool PdfTuonti::tuoTiedosto(const QString &tiedostonnimi, KirjausWg *wg)
             else if( ylateksti.contains("lasku", Qt::CaseInsensitive))
                 qDebug() << "Lasku";
 
+            QList<Poppler::TextBox*> boxit = pdfsivu->textList();
+
+            for(auto box : boxit)
+            {
+                qDebug() << box->boundingBox().x() << "," << box->boundingBox().y() << "  " << box->text() << ( box->nextWord() != 0 );
+            }
+
         }
         delete pdfsivu;
     }

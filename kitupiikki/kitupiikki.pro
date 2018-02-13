@@ -124,7 +124,9 @@ SOURCES += main.cpp \
     uusikp/paivitakirjanpito.cpp \
     arkisto/tararkisto.cpp \
     tuonti/tuonti.cpp \
-    tuonti/pdftuonti.cpp
+    tuonti/pdftuonti.cpp \
+    validator/viitevalidator.cpp \
+    validator/ibanvalidator.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -231,7 +233,9 @@ HEADERS += \
     uusikp/paivitakirjanpito.h \
     arkisto/tararkisto.h \
     tuonti/tuonti.h \
-    tuonti/pdftuonti.h
+    tuonti/pdftuonti.h \
+    validator/viitevalidator.h \
+    validator/ibanvalidator.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

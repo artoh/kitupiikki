@@ -26,6 +26,7 @@
 #include "tilinmuokkausdialog.h"
 #include "db/tilimodel.h"
 #include "db/tilinvalintaline.h"
+#include "validator/ibanvalidator.h"
 
 TilinMuokkausDialog::TilinMuokkausDialog(TiliModel *model, QModelIndex index) :
     QDialog(), model_(model), index_(index)
@@ -64,6 +65,7 @@ TilinMuokkausDialog::TilinMuokkausDialog(TiliModel *model, QModelIndex index) :
 
     ui->ibanLabel->hide();
     ui->ibanLine->hide();
+    ui->ibanLine->setValidator(new IbanValidator());
 
     connect( ui->veroCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(veroEnablePaivita()));
 

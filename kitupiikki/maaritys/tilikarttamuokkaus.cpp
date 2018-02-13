@@ -24,6 +24,7 @@
 #include "db/tili.h"
 #include "tilinmuokkausdialog.h"
 
+
 TilikarttaMuokkaus::TilikarttaMuokkaus(QWidget *parent)
     : MaaritysWidget(parent)
 {
@@ -57,6 +58,7 @@ TilikarttaMuokkaus::TilikarttaMuokkaus(QWidget *parent)
     connect( ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poista()));
 
     connect( ui->view, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(muokkaa()));
+
 
 }
 
