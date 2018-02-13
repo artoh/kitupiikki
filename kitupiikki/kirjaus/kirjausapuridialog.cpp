@@ -45,6 +45,8 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     ui->alvVaaraTeksti->setVisible(false);
     ui->yhdistaCheck->setVisible(false);
 
+    // Jos kredit ja debet poikkeaa, voidaan tehdä toispuoleinen kirjaus
+    ui->vastaCheck->setVisible( false );
 
     // ValintaTab ylälaidassa kirjauksen tyypin valintaan
     ui->valintaTab->addTab(QIcon(":/pic/lisaa.png"),"Tulo");
@@ -86,6 +88,8 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     connect(ui->vastaTaseEraCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(eraValittu()));
     connect(ui->pvmDate, SIGNAL(dateChanged(QDate)), this, SLOT(pvmMuuttuu()));
 
+    connect( ui->vastaCheck, SIGNAL(toggled(bool)), this, SLOT(vastakirjausOlemassa(bool)));
+
     // Hakee tositteen tiedoista esitäytöt
     QDate pvm = model->pvm();
     ui->pvmDate->setDate( pvm );
@@ -109,6 +113,8 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
             ui->valintaTab->setCurrentIndex(MENO);
             ui->valintaTab->setTabEnabled(TULO, false);
             ui->valintaTab->setTabEnabled(SIIRTO,false);
+            ui->vastaCheck->setVisible( model->vientiModel()->debetSumma() != model->vientiModel()->kreditSumma() );
+            ui->vastaCheck->setChecked( model->vientiModel()->debetSumma() != model->vientiModel()->kreditSumma() );
         }
         else if(kirjauslaji == TositelajiModel::MYYNTILASKUT)
         {
@@ -312,6 +318,19 @@ void KirjausApuriDialog::pvmMuuttuu()
     kohdennusfiltteri.asetaPaiva(ui->pvmDate->date());
 }
 
+void KirjausApuriDialog::vastakirjausOlemassa(bool onko)
+{
+    ui->vastatiliEdit->setVisible( !onko);
+    ui->vastatiliLabel->setVisible( !onko);
+
+    yhdistaminenMuuttui( onko || ui->yhdistaCheck->isChecked() );
+
+    if( onko )
+        ui->vastaCheck->setVisible(false);
+    else
+        vastaTiliMuuttui();
+}
+
 void KirjausApuriDialog::ehdota()
 {
     ehdotus.tyhjaa();
@@ -349,7 +368,7 @@ void KirjausApuriDialog::ehdota()
             verorivi.alvkoodi = AlvKoodi::ALVKIRJAUS + alvkoodi;
             ehdotus.lisaaVienti(verorivi);
         }
-        if( vastatili.onko(TiliLaji::TASE) )
+        if( vastatili.onko(TiliLaji::TASE) && !ui->vastaCheck->isChecked() )
         {
             VientiRivi taserivi = uusiEhdotusRivi();
             taserivi.tili = vastatili;
@@ -403,7 +422,7 @@ void KirjausApuriDialog::ehdota()
                 ehdotus.lisaaVienti(lisarivi);
             }
         }
-        if( vastatili.onko(TiliLaji::TASE))
+        if( vastatili.onko(TiliLaji::TASE) && !ui->vastaCheck->isChecked())
         {
             VientiRivi taserivi = uusiEhdotusRivi(vastatili);
             if( alvkoodi == AlvKoodi::OSTOT_NETTO || alvkoodi == AlvKoodi::OSTOT_BRUTTO)
@@ -446,7 +465,7 @@ void KirjausApuriDialog::ehdota()
     ui->nettoLabel->setVisible(ui->alvSpin->value());
     ui->nettoSpin->setVisible( ui->alvSpin->value());
 
-    ui->buttonBox->button( QDialogButtonBox::Ok )->setEnabled( ehdotus.onkoKelpo() );
+    ui->buttonBox->button( QDialogButtonBox::Ok )->setEnabled( ehdotus.onkoKelpo(ui->vastaCheck->isChecked()) );
 
     // Poisto näytetään jos kirjataan tasaeräpoistotilille
     ui->poistoLabel->setVisible( tili.onko(TiliLaji::TASAERAPOISTO) && !ui->taseEraCombo->currentIndex());
@@ -473,6 +492,8 @@ void KirjausApuriDialog::valilehtiVaihtui(int indeksi)
     if(!verot)
         ui->alvSpin->setValue(0);
 
+    ui->vastaCheck->setVisible( indeksi != SIIRTO && model->vientiModel()->debetSumma() != model->vientiModel()->kreditSumma() );
+    ui->vastaCheck->setChecked( indeksi != SIIRTO && model->vientiModel()->debetSumma() != model->vientiModel()->kreditSumma() );
 
     if( indeksi == MENO )
     {

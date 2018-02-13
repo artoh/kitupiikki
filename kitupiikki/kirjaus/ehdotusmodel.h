@@ -59,10 +59,11 @@ public:
      * @brief Onko kirjausehdotus valmis
      *
      * Kirjauksen voi tehdä, jos debet ja kredit täsmää ja summa > 0
+     * Toispuolinen kelpaa, vaikkei täsmää
      *
      * @return tosi, jos ehdotus on valmis
      */
-    bool onkoKelpo() const;
+    bool onkoKelpo(bool toispuolinen = false) const;
 
 private:
     QList<VientiRivi> viennit_;

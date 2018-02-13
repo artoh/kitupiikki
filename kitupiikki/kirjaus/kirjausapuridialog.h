@@ -60,6 +60,7 @@ public slots:
     void eraValittu();
     void vastaEraValittu();
     void pvmMuuttuu();
+    void vastakirjausOlemassa(bool onko);
 
     void ehdota();
 

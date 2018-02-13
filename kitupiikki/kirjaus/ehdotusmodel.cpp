@@ -153,7 +153,7 @@ void EhdotusModel::tallenna(VientiModel *model, int yhdistettavaVastatiliNumero,
 
 }
 
-bool EhdotusModel::onkoKelpo() const
+bool EhdotusModel::onkoKelpo(bool toispuolinen) const
 {
     int debetSumma = 0;
     int kreditSumma = 0;
@@ -164,5 +164,5 @@ bool EhdotusModel::onkoKelpo() const
         kreditSumma += rivi.kreditSnt;
     }
 
-    return ( debetSumma > 0 && debetSumma == kreditSumma);
+    return ( debetSumma > 0 && ( debetSumma == kreditSumma || toispuolinen ));
 }
