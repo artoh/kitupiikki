@@ -134,7 +134,7 @@
      <item row="5" column="1">
       <widget class="TilinvalintaLine" name="vastatiliEdit"/>
      </item>
-     <item row="8" column="0">
+     <item row="9" column="0">
       <widget class="QLabel" name="kohdennusLabel">
        <property name="text">
         <string>K&amp;ohdennus</string>
@@ -144,10 +144,10 @@
        </property>
       </widget>
      </item>
-     <item row="8" column="1">
+     <item row="9" column="1">
       <widget class="QComboBox" name="kohdennusCombo"/>
      </item>
-     <item row="9" column="0">
+     <item row="10" column="0">
       <widget class="QLabel" name="label_6">
        <property name="text">
         <string>Vienti&amp;pvm</string>
@@ -157,10 +157,10 @@
        </property>
       </widget>
      </item>
-     <item row="9" column="1">
+     <item row="10" column="1">
       <widget class="QDateEdit" name="pvmDate"/>
      </item>
-     <item row="10" column="0">
+     <item row="11" column="0">
       <widget class="QLabel" name="label_7">
        <property name="text">
         <string>&amp;Selite</string>
@@ -170,10 +170,10 @@
        </property>
       </widget>
      </item>
-     <item row="10" column="1">
+     <item row="11" column="1">
       <widget class="QLineEdit" name="seliteEdit"/>
      </item>
-     <item row="11" column="0">
+     <item row="12" column="0">
       <widget class="QLabel" name="alvlajiLabel">
        <property name="text">
         <string>Alv-&amp;laji</string>
@@ -183,10 +183,10 @@
        </property>
       </widget>
      </item>
-     <item row="11" column="1">
+     <item row="12" column="1">
       <widget class="QComboBox" name="alvCombo"/>
      </item>
-     <item row="12" column="0">
+     <item row="13" column="0">
       <widget class="QLabel" name="alvprossaLabel">
        <property name="text">
         <string>Alv-&amp;prosentti</string>
@@ -196,7 +196,7 @@
        </property>
       </widget>
      </item>
-     <item row="12" column="1">
+     <item row="13" column="1">
       <widget class="QSpinBox" name="alvSpin">
        <property name="suffix">
         <string>%</string>
@@ -206,7 +206,7 @@
        </property>
       </widget>
      </item>
-     <item row="7" column="0">
+     <item row="8" column="0">
       <widget class="QLabel" name="vastaTaseEraLabel">
        <property name="text">
         <string>Tase-erä</string>
@@ -216,7 +216,7 @@
        </property>
       </widget>
      </item>
-     <item row="7" column="1">
+     <item row="8" column="1">
       <widget class="QComboBox" name="vastaTaseEraCombo"/>
      </item>
      <item row="2" column="0">
@@ -243,6 +243,13 @@
       <widget class="QCheckBox" name="yhdistaCheck">
        <property name="text">
         <string>&amp;Yhdistä aiempaan vientiin</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="QCheckBox" name="vastaCheck">
+       <property name="text">
+        <string>K&amp;äytä aiempaa vastakirjausta</string>
        </property>
       </widget>
      </item>
