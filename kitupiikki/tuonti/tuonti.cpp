@@ -16,8 +16,21 @@
 */
 
 #include "tuonti.h"
+#include "pdftuonti.h"
 
 Tuonti::Tuonti()
 {
 
+}
+
+bool Tuonti::tuo(const QString &tiedostonnimi, KirjausWg *wg)
+{
+
+    if( tiedostonnimi.endsWith(".pdf", Qt::CaseInsensitive) )
+    {
+        PdfTuonti pdftuonti;
+        return pdftuonti.tuoTiedosto(tiedostonnimi, wg);
+    }
+
+    return true;
 }

@@ -122,7 +122,9 @@ SOURCES += main.cpp \
     db/tilinvalintaview.cpp \
     maaritys/tilikarttaohje.cpp \
     uusikp/paivitakirjanpito.cpp \
-    arkisto/tararkisto.cpp
+    arkisto/tararkisto.cpp \
+    tuonti/tuonti.cpp \
+    tuonti/pdftuonti.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -227,7 +229,9 @@ HEADERS += \
     db/tilinvalintaview.h \
     maaritys/tilikarttaohje.h \
     uusikp/paivitakirjanpito.h \
-    arkisto/tararkisto.h
+    arkisto/tararkisto.h \
+    tuonti/tuonti.h \
+    tuonti/pdftuonti.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

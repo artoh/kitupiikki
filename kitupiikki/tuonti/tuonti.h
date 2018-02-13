@@ -15,14 +15,40 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+
+/**
+  * @dir tuonti
+  * @brief Tiedostojen tuonti kirjanpitoon
+  *
+  */
+
+
+
 #ifndef TUONTI_H
 #define TUONTI_H
 
+#include <QString>
 
+class KirjausWg;
+
+/**
+ * @brief Tiedostojen tuonti
+ */
 class Tuonti
 {
-public:
+protected:
     Tuonti();
+
+public:
+    virtual bool tuoTiedosto(const QString& tiedostonnimi, KirjausWg *wg) = 0;
+
+    /**
+     * @brief Yrittää tuoda halutun tiedoston
+     * @param tiedostonnimi Polku tiedostoon
+     * @param wg KirjausWg, johon tuodaan
+     * @return tosi, jos tiedosto lisätään
+     */
+    static bool tuo(const QString& tiedostonnimi, KirjausWg *wg);
 };
 
 #endif // TUONTI_H

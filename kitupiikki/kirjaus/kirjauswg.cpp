@@ -28,6 +28,8 @@
 #include "db/kirjanpito.h"
 #include "laskutus/laskunmaksudialogi.h"
 
+#include "tuonti/tuonti.h"
+
 #include <QDebug>
 #include <QSqlQuery>
 #include <QSqlError>
@@ -357,10 +359,14 @@ void KirjausWg::lisaaLiite(const QString polku)
 {
     if( !polku.isEmpty())
     {
-        QFileInfo info(polku);
-        model_->liiteModel()->lisaaTiedosto(polku, info.fileName());
-        // Valitsee lisätyn liitteen
-        ui->liiteView->setCurrentIndex( model_->liiteModel()->index( model_->liiteModel()->rowCount(QModelIndex()) - 1 ) );
+        // Tiedosto pyritään ensin tuomaan ja jos sopii, niin lisätään
+        if( Tuonti::tuo(polku, this) )
+        {
+            QFileInfo info(polku);
+            model_->liiteModel()->lisaaTiedosto(polku, info.fileName());
+            // Valitsee lisätyn liitteen
+            ui->liiteView->setCurrentIndex( model_->liiteModel()->index( model_->liiteModel()->rowCount(QModelIndex()) - 1 ) );
+        }
     }
 
 }

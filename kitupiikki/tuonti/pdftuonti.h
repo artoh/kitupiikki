@@ -18,11 +18,14 @@
 #ifndef PDFTUONTI_H
 #define PDFTUONTI_H
 
+#include "tuonti.h"
 
 class PdfTuonti : public Tuonti
 {
 public:
     PdfTuonti();
+
+    bool tuoTiedosto(const QString &tiedostonnimi, KirjausWg *wg) override;
 };
 
 #endif // PDFTUONTI_H
