@@ -24,6 +24,8 @@
 #include "db/tili.h"
 #include "db/eranvalintamodel.h"
 
+#include "db/vientimodel.h"
+
 namespace Ui {
 class TaseEraValintaDialogi;
 }
@@ -35,11 +37,17 @@ class TaseEraValintaDialogi : public QDialog
 {
     Q_OBJECT
 
+    enum Tabs
+    {
+        ERA_TAB = 0,
+        OSTO_TAB = 1
+    };
+
 public:
     explicit TaseEraValintaDialogi(QWidget *parent = 0);
     ~TaseEraValintaDialogi();
 
-    int nayta(Tili tili, int taseEra, int poistoKk = 0);
+    bool nayta(VientiModel *model, QModelIndex &index);
 
     int eraId();
     int poistoKk();
@@ -53,7 +61,8 @@ private:
     QSortFilterProxyModel *proxy_;
     EranValintaModel model_;
 
-    bool poistotililla_;
+    Tili tili_;
+
 };
 
 #endif // TASEERAVALINTADIALOGI_H

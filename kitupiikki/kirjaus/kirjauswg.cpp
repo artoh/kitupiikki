@@ -264,10 +264,7 @@ void KirjausWg::vientivwAktivoitu(QModelIndex indeksi)
         else if(indeksi.column() == VientiModel::KOHDENNUS && indeksi.data(VientiModel::TaseErittelyssaRooli).toBool())
         {
             TaseEraValintaDialogi dlg(this);
-            Tili tili = kp()->tilit()->tiliNumerolla( indeksi.data(VientiModel::TiliNumeroRooli).toInt() );
-            dlg.nayta( tili, indeksi.data(VientiModel::EraIdRooli).toInt(), indeksi.data(VientiModel::PoistoKkRooli).toInt());
-            model_->vientiModel()->setData(indeksi, dlg.eraId(), VientiModel::EraIdRooli);
-            model_->vientiModel()->setData(indeksi, dlg.poistoKk(), VientiModel::PoistoKkRooli);
+            dlg.nayta( model_->vientiModel(), indeksi );
         }
     }
 }

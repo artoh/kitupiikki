@@ -18,6 +18,9 @@
 #include "taseeravalintadialogi.h"
 #include "ui_taseeravalintadialogi.h"
 
+#include "db/kirjanpito.h"
+#include "db/tili.h"
+
 #include <QDebug>
 
 TaseEraValintaDialogi::TaseEraValintaDialogi(QWidget *parent) :
@@ -42,10 +45,15 @@ TaseEraValintaDialogi::~TaseEraValintaDialogi()
     delete ui;
 }
 
-int TaseEraValintaDialogi::nayta(Tili tili, int taseEra, int poistoKk)
-{
-    model_.lataa(tili, true);
 
+
+
+bool TaseEraValintaDialogi::nayta(VientiModel *model, QModelIndex &index)
+{
+    tili_ = kp()->tilit()->tiliNumerolla( index.data(VientiModel::TiliNumeroRooli).toInt() );
+    int taseEra = index.data( VientiModel::EraIdRooli).toInt();
+
+    model_.lataa( tili_, true );
 
     ui->view->setCurrentIndex( proxy_->index(0,0));
     for(int i=0; i < proxy_->rowCount(); i++)
@@ -58,10 +66,45 @@ int TaseEraValintaDialogi::nayta(Tili tili, int taseEra, int poistoKk)
         }
     }
 
-    poistotililla_ = poistoKk > -1;
-    eraValintaVaihtuu();    // Jotta tarpeettomat poistot poistetaan ;)
+    ui->tiliEdit->setText( index.data(VientiModel::SaajanTiliRooli).toString());
+    ui->viiteEdit->setText( index.data(VientiModel::ViiteRooli).toString());
+    ui->nimiEdit->setText( index.data(VientiModel::SaajanNimiRooli).toString());
+    QDate erapvm = index.data( VientiModel::EraPvmRooli ).toDate();
+    if( !erapvm.isValid() || erapvm < kp()->tilitpaatetty() )
+        erapvm = kp()->paivamaara();
+    ui->eraDate->setDate( erapvm );
 
-    return exec();
+    if( tili_.onko(TiliLaji::TASAERAPOISTO))
+    {
+        int poistokk = index.data( VientiModel::PoistoKkRooli).toInt();
+        if( !poistokk )
+            poistokk = tili_.json()->luku("Tasaerapoisto");
+        ui->poistoSpin->setValue( poistokk / 12 );
+    }
+
+    eraValintaVaihtuu();
+
+    // Jos tehdään ostovelkaa, näytetään oletuksena ostotiedot
+    if( eraId()==0 && tili_.onko(TiliLaji::OSTOVELKA) )
+        ui->tabWidget->setCurrentIndex( OSTO_TAB );
+
+    if( exec())
+    {
+        model->setData( index, eraId(), VientiModel::EraIdRooli);
+        model->setData( index, poistoKk(), VientiModel::PoistoKkRooli);
+
+        if( eraId()==0 && tili_.onko(TiliLaji::OSTOVELKA) )
+        {
+            model->setData( index, ui->tiliEdit->text(), VientiModel::SaajanTiliRooli);
+            model->setData( index, ui->viiteEdit->text(), VientiModel::ViiteRooli);
+            model->setData( index, ui->eraDate->date(), VientiModel::EraPvmRooli);
+            model->setData( index, ui->nimiEdit->text(), VientiModel::SaajanNimiRooli);
+        }
+
+        return true;
+    }
+    return false;
+
 }
 
 int TaseEraValintaDialogi::eraId()
@@ -71,7 +114,7 @@ int TaseEraValintaDialogi::eraId()
 
 int TaseEraValintaDialogi::poistoKk()
 {
-    if( poistotililla_ && eraId() == 0)
+    if( tili_.onko(TiliLaji::TASAERAPOISTO)   && eraId() == 0)
         return ui->poistoSpin->value() * 12;
     else
         return 0;
@@ -80,6 +123,9 @@ int TaseEraValintaDialogi::poistoKk()
 void TaseEraValintaDialogi::eraValintaVaihtuu()
 {
 
-    ui->poistoLabel->setVisible( eraId() == 0 && poistotililla_);
-    ui->poistoSpin->setVisible( eraId() == 0 && poistotililla_);
+    ui->poistoLabel->setVisible( eraId() == 0 && tili_.onko(TiliLaji::TASAERAPOISTO) );
+    ui->poistoSpin->setVisible( eraId() == 0 && tili_.onko(TiliLaji::TASAERAPOISTO) );
+
+    ui->tabWidget->setTabEnabled( OSTO_TAB ,eraId()==0 && tili_.onko(TiliLaji::OSTOVELKA));
+
 }

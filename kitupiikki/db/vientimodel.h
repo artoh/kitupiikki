@@ -49,6 +49,9 @@ struct VientiRivi
     QDateTime muokattu;
     JsonKentta json;
     int maksaaLaskua = 0;   /** Kirjattaessa vähentää laskun avointa summaa **/
+    QString viite;
+    QString saajanTili;
+    QDate erapvm;
 };
 
 /**
@@ -86,7 +89,11 @@ public:
         RiviRooli = Qt::UserRole + 12,
         EraIdRooli = Qt::UserRole + 13,
         PoistoKkRooli = Qt::UserRole + 14,
-        TaseErittelyssaRooli = Qt::UserRole + 15
+        TaseErittelyssaRooli = Qt::UserRole + 15,
+        ViiteRooli = Qt::UserRole + 16,
+        SaajanTiliRooli = Qt::UserRole + 17,
+        SaajanNimiRooli = Qt::UserRole + 18,
+        EraPvmRooli = Qt::UserRole + 19
     };
 
 

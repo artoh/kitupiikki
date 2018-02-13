@@ -44,6 +44,7 @@ namespace TiliLaji {
         VELKA           =   0b0000011010010,
         ALVVELKA        =   0b0010011010010,
         VEROVELKA       =   0b0100011010010,
+        OSTOVELKA       =   0b0000111010010,
 
         TULOS           =   0b0000000000100,
         TULO            =   0b0000000010100,

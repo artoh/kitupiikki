@@ -111,6 +111,14 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
     }
     else if( role == TaseErittelyssaRooli)
         return QVariant( rivi.tili.eritellaankoTase());
+    else if( role == ViiteRooli )
+        return QVariant( rivi.viite );
+    else if( role == SaajanTiliRooli )
+        return QVariant( rivi.saajanTili );
+    else if( role == SaajanNimiRooli)
+        return rivi.json.str("SaajanNimi");
+    else if( role == EraPvmRooli )
+        return rivi.erapvm;
 
 
     else if( role==Qt::DisplayRole || role == Qt::EditRole)
@@ -167,6 +175,10 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
                             return QVariant( tr("Tasaerapoisto %1 v %2 kk").arg(kk / 12).arg(kk % 12) );
                         else
                             return QVariant( tr("Tasaerapoisto %1 v").arg(kk / 12) );
+                    }
+                    else if( !rivi.viite.isEmpty())
+                    {
+                        return tr("VIITE");
                     }
                     else
                     {
@@ -337,6 +349,22 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
             viennit_[rivi].json.unset("Tasaerapoisto");
         else
             viennit_[rivi].json.set("Tasaerapoisto", value.toInt());
+    }
+    else if( role == ViiteRooli )
+    {
+        viennit_[rivi].viite = value.toString();
+    }
+    else if( role == SaajanTiliRooli )
+    {
+        viennit_[rivi].saajanTili = value.toString();
+    }
+    else if( role == SaajanNimiRooli)
+    {
+        viennit_[rivi].json.set("SaajanNimi", value.toString());
+    }
+    else if( role == EraPvmRooli )
+    {
+        viennit_[rivi].erapvm = value.toDate();
     }
     else
         return false;

@@ -54,6 +54,7 @@ TilityyppiModel::TilityyppiModel(QObject *parent)
     lisaa(TiliTyyppi("BE","Edellisten tilikausien voitto/tappio",TiliLaji::EDELLISTENTULOS));
     lisaa(TiliTyyppi("T","Tilikauden tulos", TiliLaji::KAUDENTULOS));
     lisaa(TiliTyyppi("BS","Velat",TiliLaji::VELKA));
+    lisaa(TiliTyyppi("BO","Ostovelat", TiliLaji::OSTOVELKA));
     lisaa(TiliTyyppi("BL","Arvonlisäverovelka",TiliLaji::ALVVELKA));
     lisaa(TiliTyyppi("BV","Verovelka",TiliLaji::VEROVELKA));
 
