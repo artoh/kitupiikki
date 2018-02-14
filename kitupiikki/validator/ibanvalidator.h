@@ -30,6 +30,13 @@ public:
     IbanValidator();
 
     State validate(QString &input, int &pos) const override;
+
+    /**
+     * @brief Laskee IBAN-muotoisen numeron tarkasteen (mod 97)
+     * @param iban
+     * @return Tarkastenumero, tai -1 jos virheellinen
+     */
+    static int ibanModulo(const QString& iban);
 };
 
 #endif // IBANVALIDATOR_H

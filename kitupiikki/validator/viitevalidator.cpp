@@ -18,6 +18,7 @@
 #include "viitevalidator.h"
 #include "laskutus/laskumodel.h"
 
+#include "ibanvalidator.h"
 
 ViiteValidator::ViiteValidator()
 {
@@ -26,52 +27,57 @@ ViiteValidator::ViiteValidator()
 
 QValidator::State ViiteValidator::validate(QString &input, int & /* pos */) const
 {
+    QString str = input.simplified();
+    str.remove(' ');
 
-    if( input == "R" || input == "RF")
+
+    if( str == "R" || str == "RF")
         return Intermediate;
 
-    if( input.startsWith("RF"))
+    if( str.startsWith("RF"))
     {
-        for(int i=2; i < input.length(); i++)
-            if( !input.at(i).isDigit())
-                return Invalid;
-
-        if( input.length() < 8)
-            return Intermediate;
-
-        QString apu = input.mid(4);
-        apu.append("2715");     // RF
-        apu.append(input.mid(2,2));
-
-        qlonglong lasku = apu.toLongLong();
-        if( lasku % 97 == 1)
+        if( IbanValidator::ibanModulo(str) == 1)
             return Acceptable;
-        if( input.length() >= 24 )
-            return Invalid;
-        return Intermediate;
-    }
-
-
-
-    // Perinteinen pankkiviite
-
-    for( QChar ch : input)
-        if( !ch.isDigit())
-            return Invalid;
-
-    if( input.length() > 3)
-    {
-        qlonglong lukuna = input.toLongLong();
-
-        qlonglong laskettava = lukuna / 10;
-        int tarkaste = lukuna % 10;
-        if( LaskuModel::laskeViiteTarkiste(laskettava) == tarkaste )
-            return Acceptable;
-        else if( input.length() >= 20)
-            return Invalid;
         else
             return Intermediate;
     }
+
+    // Perinteinen pankkiviite
+
+    for( QChar ch : str)
+        if( !ch.isDigit())
+            return Invalid;
+
+    if( str.length() < 4 )
+        return Intermediate;
+
+
+    int tarkaste = str.right(1).toInt();
+    str.chop(1);
+
+    int indeksi = 0;
+    int summa = 0;
+
+    for( QChar ch : str)
+    {
+        int numero = ch.digitValue();
+
+        if( indeksi % 3 == 0)
+            summa += 7 * numero;
+        else if( indeksi % 3 == 1)
+            summa += 3 * numero;
+        else
+            summa += numero;
+
+        indeksi++;
+    }
+
+    if (( 10 - summa % 10) % 10 == tarkaste )
+        return Acceptable;
+    else if( str.length() < 19)
+        return Intermediate;
+    else
+        return Invalid; // Viitenumeron enimmäispituus 20 numeroa
 
 
 }

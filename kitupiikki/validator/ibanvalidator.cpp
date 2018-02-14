@@ -26,42 +26,73 @@ IbanValidator::IbanValidator()
 
 QValidator::State IbanValidator::validate(QString &input, int & /* pos */) const
 {
-    for(int i=0; i < input.length(); i++)
+    QString str = input.simplified();
+    str.remove(' ');
+
+    for(int i=0; i < str.length(); i++)
     {
-        QChar ch = input.at(i);
+        QChar ch = str.at(i);
         if( i < 2 && !ch.isUpper())
             return Invalid;
         if( i > 1 && !ch.isDigit())
             return Invalid;
     }
-    if( input.length() < 10)
+    if( str.length() < 10)
         return Intermediate;
 
-    if( input.startsWith("FI") && input.length() > 18)
+    if( str.startsWith("FI") && str.length() > 18)
         return Invalid;
-    if( input.startsWith("FI") && input.length() < 18)
+    if( str.startsWith("FI") && str.length() < 18)
         return Intermediate;
 
-    QString apu = input.mid(4);
+    if( ibanModulo( str ) == 1)
+        return Acceptable;
+    else if( input.startsWith("FI"))
+        return Invalid;         // Suomalainen IBAN täsmälleen 18 merkkiä
+    else
+        return Intermediate;
 
-    apu.append( QString("%1").arg( ((int) input.at(0).toLatin1()) - 55 , 2, 10, QChar('0')  ) );
-    apu.append( QString("%1").arg( ((int) input.at(1).toLatin1()) - 55 , 2, 10, QChar('0')  ) );
-    apu.append( input.mid(2,2));
+}
 
-    // https://en.wikipedia.org/wiki/International_Bank_Account_Number
+int IbanValidator::ibanModulo(const QString &iban)
+{
+    // Siirretään neljä ensimmäistä merkkiä loppuun
+    QString siirto = iban.mid(4) + iban.left(4);
 
-    unsigned __int128 lasku = 0;
-    for(QChar merkki : apu)
+    // Muunnetaan kirjaimet numeropareiksi
+    QString apu;
+    for( QChar merkki : siirto)
     {
-        lasku = lasku * 10 + (int) merkki.toLatin1() - 48;
+        if( merkki.isDigit() )
+            apu.append(merkki);
+        else if( merkki.isUpper())
+            apu.append( QString("%1").arg( (int) merkki.toLatin1() - 55 , 2, 10, QChar('0')  ) );
+        else
+            return -1;
     }
 
+    QString eka = apu.left(9);
+    qlonglong luku = eka.toLongLong();
+    int jaannos = luku % 97;
 
-    // qulonglong lasku = apu.toULongLong();
-    if( lasku % 97 == 1)
-        return Acceptable;
-    if( input.startsWith("FI"))     // Suomalainen iban aina 18 merkkiä
-        return Invalid;
+    if( apu.length() < 10 )
+        return jaannos;
 
-    return Intermediate;
+   apu.remove(0,9);
+
+   while( apu.length() )
+   {
+       QString tama = QString("%1").arg( (int) jaannos , 2, 10, QChar('0')  );
+       tama.append( apu.left(7));
+       luku = tama.toLongLong();
+       jaannos = luku % 97;
+
+       if( apu.length() > 6)
+           apu.remove(0,7);
+       else
+           apu.clear();
+   }
+
+    return jaannos;
+
 }
