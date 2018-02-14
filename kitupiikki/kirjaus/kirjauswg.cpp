@@ -181,7 +181,7 @@ void KirjausWg::tallenna()
             alvvaro = true;
 
         // #62: Estetään kirjaukset lukitulle tilikaudelle
-        if( indeksi.data(VientiModel::PvmRooli).toDate() >= kp()->tilitpaatetty() )
+        if( indeksi.data(VientiModel::PvmRooli).toDate() <= kp()->tilitpaatetty() )
         {
             QMessageBox::critical(this, tr("Ei voi kirjata lukitulle tilikaudelle"),
                                   tr("Kirjaus %1 kohdistuu lukitulle tilikaudelle "
