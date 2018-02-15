@@ -9,7 +9,7 @@ Kitupiikki on ilmainen suomalainen kirjanpito-ohjelma. Se käsittelee ja arkisto
     kirjanpitoa saa enää avattua ohjelman myöhemmillä versioilla.
 
 <div class="asennusinfo">
-<h3>Kitupiikki 0.5 julkaistu 7.2.2018</h3>
+<h3>Kitupiikki 0.5.1 julkaistu 15.2.2018</h3>
 Arkiston ja csv-raporttien vienti.
 
 <div class="asennuslaatikko">
