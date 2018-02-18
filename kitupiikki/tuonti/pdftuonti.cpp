@@ -19,6 +19,8 @@
 #include <QDebug>
 #include <QFile>
 #include <QByteArray>
+#include <QMap>
+#include <QSet>
 
 #include "pdftuonti.h"
 
@@ -46,6 +48,8 @@ bool PdfTuonti::tuoTiedosto(const QString &tiedostonnimi, KirjausWg *wg)
 
     if( pdfDoc )
     {
+        haeTekstit(pdfDoc);
+
         Poppler::Page *pdfsivu = pdfDoc->page(0);
         if( pdfsivu)
         {
@@ -56,15 +60,17 @@ bool PdfTuonti::tuoTiedosto(const QString &tiedostonnimi, KirjausWg *wg)
             else if( ylateksti.contains("lasku", Qt::CaseInsensitive))
                 qDebug() << "Lasku";
 
-            QList<Poppler::TextBox*> boxit = pdfsivu->textList();
-
-            for(auto box : boxit)
-            {
-                qDebug() << box->boundingBox().x() << "," << box->boundingBox().y() << "  " << box->text() << ( box->nextWord() != 0 );
-            }
-
         }
         delete pdfsivu;
+
+        QMapIterator<int,QString> iter(tekstit_);
+        while( iter.hasNext())
+        {
+            iter.next();
+            int s = iter.key();
+            qDebug() << s / 100 << " | " << s % 100 << "  " << iter.value();
+        }
+
     }
 
 
@@ -72,3 +78,72 @@ bool PdfTuonti::tuoTiedosto(const QString &tiedostonnimi, KirjausWg *wg)
 
     return true;
 }
+
+void PdfTuonti::haeTekstit(Poppler::Document *pdfDoc)
+{
+    // Tuottaa taulukon, jossa pdf-tiedoston tekstit suhteellisessa koordinaatistossa
+
+    for(int sivu = 0; sivu < pdfDoc->numPages(); sivu++)
+    {
+        Poppler::Page *pdfSivu = pdfDoc->page(sivu);
+
+        qreal leveysKerroin = 100.0 / pdfSivu->pageSizeF().width();
+        qreal korkeusKerroin = 200.0 / pdfSivu->pageSizeF().height();
+
+        QSet<Poppler::TextBox*> kasitellyt;
+
+        for( Poppler::TextBox* box : pdfSivu->textList())
+        {
+            if( kasitellyt.contains(box))
+                continue;
+
+            QString teksti = box->text();
+
+            // Sivu jaetaan vaakasuunnassa 100 ja pystysuunnassa 200 loogiseen yksikköön
+
+            int sijainti = sivu * 20000 +
+                           int( box->boundingBox().y() * korkeusKerroin) * 100  +
+                           int( box->boundingBox().x() * leveysKerroin );
+
+
+            Poppler::TextBox *seuraava = box->nextWord();
+            while( seuraava )
+            {
+                teksti.append(' ');
+                kasitellyt.insert(seuraava);    // Jotta ei lisättäisi myös itsenäisesti
+                teksti.append( seuraava->text());
+                seuraava = seuraava->nextWord();
+            }
+
+            // Käsitellään vielä vähän tekstiä
+            QString raaka = teksti.simplified();
+            QString tulos;
+            for(int i = 0; i < raaka.length(); i++)
+            {
+                // Poistetaan numeroiden välissä olevat välit
+                // sekä numeron ja +/- merkin välissä oleva väli
+                // Näin saadaan tilinumerot ja valuutasummat tiiviiksi
+
+                QChar merkki = raaka.at(i);
+
+                if( i > 0 && i < raaka.length() - 1 && merkki.isSpace())
+                {
+                    QChar ennen = raaka.at(i-1);
+                    QChar jalkeen = raaka.at(i+1);
+
+                    if( (ennen.isDigit() || jalkeen.isDigit()) &&
+                        (ennen.isDigit() || ennen == '-' || ennen == '+') &&
+                        (jalkeen.isDigit() || jalkeen == '-' || jalkeen == '+') )
+                        continue;
+                }
+                tulos.append(merkki);
+            }
+
+            tekstit_.insert(sijainti, tulos );
+
+        }
+        delete pdfSivu;
+    }
+}
+
+

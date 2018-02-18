@@ -18,7 +18,13 @@
 #ifndef PDFTUONTI_H
 #define PDFTUONTI_H
 
+#include <QMap>
+
 #include "tuonti.h"
+
+namespace Poppler {
+  class Document;
+}
 
 class PdfTuonti : public Tuonti
 {
@@ -26,6 +32,23 @@ public:
     PdfTuonti();
 
     bool tuoTiedosto(const QString &tiedostonnimi, KirjausWg *wg) override;
+
+protected:
+    /**
+     * @brief Tiedostossa olevat tekstit
+     *
+     * Suhteellisella koordinaatistolla, jossa sivun leveys on 100 ja
+     * korkeus 200 -> sivu koko on 20 000
+     * sijainti = x + y * 100
+     */
+    QMap<int,QString> tekstit_;
+
+
+    /**
+     * @brief Hakee pdf-dokumentit tekstit taulukkoon
+     * @param pdfDoc
+     */
+    void haeTekstit(Poppler::Document *pdfDoc);
 };
 
 #endif // PDFTUONTI_H
