@@ -135,6 +135,8 @@ public slots:
      */
     int tiliotetiliId();
 
+    Ui::KirjausWg* gui() { return ui;}
+
 signals:
     void liiteValittu(const QByteArray& pdf);
     /**
@@ -146,7 +148,7 @@ signals:
 
 
 protected:
-    Ui::KirjausWg *ui;
+    Ui::KirjausWg *ui;    
     TositeModel *model_;
     LaskunMaksuDialogi *laskuDlg_;
 

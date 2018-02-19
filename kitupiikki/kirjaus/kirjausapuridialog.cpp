@@ -115,6 +115,11 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
             ui->valintaTab->setTabEnabled(SIIRTO,false);
             ui->vastaCheck->setVisible( model->vientiModel()->debetSumma() != model->vientiModel()->kreditSumma() );
             ui->vastaCheck->setChecked( model->vientiModel()->debetSumma() != model->vientiModel()->kreditSumma() );
+            if( model->vientiModel()->debetSumma() != model->vientiModel()->kreditSumma() )
+            {
+                ui->euroSpin->setValue( qAbs( model->vientiModel()->debetSumma() - model->vientiModel()->kreditSumma()  ) / 100.0);
+                laskeNetto();
+            }
         }
         else if(kirjauslaji == TositelajiModel::MYYNTILASKUT)
         {

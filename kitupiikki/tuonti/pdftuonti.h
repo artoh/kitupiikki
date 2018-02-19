@@ -44,7 +44,7 @@ protected:
     QMap<int,QString> tekstit_;
 
 
-    void tuoLasku(Poppler::Document *pdfDoc, KirjausWg *wg);
+    void tuoLasku(KirjausWg *wg);
 
 
     /**
@@ -84,7 +84,7 @@ protected:
      * @param loppusarake Sarake, johon loppuu
      * @return
      */
-    int etsi(QString teksti, int alkukorkeus=0, int loppukorkeus=30, int alkusarake = 0, int loppusarake = 100);
+    int etsi(QString teksti, int alkukorkeus=0, int loppukorkeus=0, int alkusarake = 0, int loppusarake = 100);
 };
 
 #endif // PDFTUONTI_H

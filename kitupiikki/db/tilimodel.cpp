@@ -234,6 +234,16 @@ Tili TiliModel::tiliNumerolla(int numero) const
     return Tili();
 }
 
+Tili TiliModel::tiliIbanilla(const QString &iban) const
+{
+    for(Tili tili: tilit_)
+    {
+        if( tili.json()->str("IBAN") == iban)
+            return tili;
+    }
+    return Tili();
+}
+
 Tili TiliModel::edellistenYlijaamaTili() const
 {
     foreach (Tili tili, tilit_)
