@@ -52,14 +52,14 @@ QValidator::State ViiteValidator::validate(QString &input, int & /* pos */) cons
         return Intermediate;
 
 
-    int tarkaste = str.right(1).toInt();
-    str.chop(1);
+    int tarkaste = str.right(1).toInt();    
 
     int indeksi = 0;
     int summa = 0;
 
-    for( QChar ch : str)
+    for( int i = str.length() - 2; i > -1; i--)
     {
+        QChar ch = str.at(i);
         int numero = ch.digitValue();
 
         if( indeksi % 3 == 0)

@@ -22,7 +22,8 @@
 #include <QMap>
 #include <QSet>
 
-#include "pdftuonti.h"
+#include <QRegularExpression>
+#include <QRegularExpressionMatch>
 
 #ifdef Q_OS_LINUX
     #include <poppler/qt5/poppler-qt5.h>
@@ -30,6 +31,12 @@
     #include "poppler-qt5.h"
 #endif
 
+
+#include "pdftuonti.h"
+#include "validator/ibanvalidator.h"
+#include "validator/viitevalidator.h"
+
+#include "kirjaus/kirjauswg.h"
 
 PdfTuonti::PdfTuonti()
 {
@@ -50,18 +57,8 @@ bool PdfTuonti::tuoTiedosto(const QString &tiedostonnimi, KirjausWg *wg)
     {
         haeTekstit(pdfDoc);
 
-        Poppler::Page *pdfsivu = pdfDoc->page(0);
-        if( pdfsivu)
-        {
-
-            QString ylateksti = pdfsivu->text(QRectF(0, 0, pdfsivu->pageSize().width(), 72 * 5 ));
-            if( ylateksti.contains("tiliote", Qt::CaseInsensitive))
-                qDebug() << "Tiliote";
-            else if( ylateksti.contains("lasku", Qt::CaseInsensitive))
-                qDebug() << "Lasku";
-
-        }
-        delete pdfsivu;
+        if( etsi("lasku",0,30))
+            tuoLasku( pdfDoc, wg);
 
         QMapIterator<int,QString> iter(tekstit_);
         while( iter.hasNext())
@@ -73,10 +70,69 @@ bool PdfTuonti::tuoTiedosto(const QString &tiedostonnimi, KirjausWg *wg)
 
     }
 
-
     delete pdfDoc;
 
     return true;
+}
+
+void PdfTuonti::tuoLasku(Poppler::Document *pdfDoc, KirjausWg *wg)
+{
+
+    QString tilinro;
+    QString saaja;
+    QString viite;
+    QDate erapvm;
+    qlonglong sentit = 0;
+    QDate laskupvm;
+
+    // Tutkitaan, onko tässä tilisiirtolomaketta
+    if( etsi("Saajan", 125, 150, 0, 15) &&
+        etsi("IBAN", 125, 140, 8, 16) &&
+        etsi("Saaja", 135, 155, 0, 15) &&
+        etsi("Viitenumero", 150, 185, 40, 70) &&
+        etsi("Eräpäivä", 155, 190, 40, 70) &&
+        etsi("Euro", 155, 190, 67, 90) )
+    {
+        // Löytyy koko lailla sopivia kenttiä
+        int ibansijainti = etsi("IBAN", 125, 140, 8, 16);
+
+
+        IbanValidator ibanValidoija;
+        int pos = 0;
+
+        QRegularExpression ibanRe("[A-Z]{2}\\d{2}\\w{6,30}");
+
+        for( QString t : haeLahelta( ibansijainti / 100 + 1, ibansijainti % 100 - 2, 20, 10))
+        {
+            if( ibanRe.match(t).hasMatch())
+            {
+                QString tilinro = ibanRe.match(t).captured(0);
+                if( tilinro.isEmpty() && ibanValidoija.validate(tilinro,pos) == IbanValidator::Acceptable)
+                    tilinro = t;
+            }
+            else if( saaja.isEmpty() )
+                saaja = t;
+        }
+
+
+        int viitesijainti = etsi("Viitenumero", 150, 185, 40, 70);
+
+        ViiteValidator viiteValidoija;
+        for( QString t : haeLahelta( viitesijainti / 100, viitesijainti % 100, 20, 50) )
+        {
+            if( viite.isEmpty() && viiteValidoija.validate(t,pos) == ViiteValidator::Acceptable)
+                viite = t;
+        }
+
+        // Eräpvm
+
+        // Summa
+
+        // Laskupvm - pudotetaan alas haettavaksi ;)
+
+    }
+
+
 }
 
 void PdfTuonti::haeTekstit(Poppler::Document *pdfDoc)
@@ -144,6 +200,71 @@ void PdfTuonti::haeTekstit(Poppler::Document *pdfDoc)
         }
         delete pdfSivu;
     }
+}
+
+QStringList PdfTuonti::haeLahelta(int y, int x, int dy, int dx)
+{
+    // Lähellä on: -3 < Y < 15, -3 < X < 30
+    QMap<int, QString> loydetyt;
+
+    QMapIterator<int, QString> iter(tekstit_);
+
+    while( iter.hasNext())
+    {
+        iter.next();
+        int sijainti = iter.key();
+        int sy = sijainti / 100;
+        int sx = sijainti % 100;
+
+        if( sy >= y && sy < y + dy &&
+            sx >= x && sx < x + dx )
+        {
+            int ero = qAbs(x - sx) + qAbs( y - sy);
+            loydetyt.insert( ero, iter.value());
+        }
+    }
+
+    return loydetyt.values();
+}
+
+QList<int> PdfTuonti::sijainnit(QString teksti, int alkukorkeus, int loppukorkeus, int alkusarake, int loppusarake)
+{
+    QList<int> loydetyt;
+
+
+    QMapIterator<int, QString> iter(tekstit_);
+
+    while( iter.hasNext())
+    {
+        iter.next();
+        if( iter.key() < alkukorkeus * 100)
+            continue;
+        if( loppukorkeus && iter.key() > loppukorkeus * 100)
+            break;
+        if( iter.value().contains(teksti, Qt::CaseInsensitive) &&
+            iter.key() % 100 >= alkusarake && iter.key() % 100 <= loppusarake)
+            loydetyt.append( iter.key());
+
+    }
+    return loydetyt;
+}
+
+int PdfTuonti::etsi(QString teksti, int alkukorkeus, int loppukorkeus, int alkusarake, int loppusarake)
+{
+    QMapIterator<int, QString> iter(tekstit_);
+
+    while( iter.hasNext())
+    {
+        iter.next();
+        if( iter.key() >= loppukorkeus * 100)
+             return 0;
+        else if( iter.key() < alkukorkeus * 100)
+            continue;
+        else if( iter.value().contains(teksti, Qt::CaseInsensitive) &&
+                 iter.key() % 100 >= alkusarake && iter.key() % 100 <= loppusarake)
+            return iter.key();
+    }
+    return 0;
 }
 
 

@@ -44,11 +44,47 @@ protected:
     QMap<int,QString> tekstit_;
 
 
+    void tuoLasku(Poppler::Document *pdfDoc, KirjausWg *wg);
+
+
     /**
      * @brief Hakee pdf-dokumentit tekstit taulukkoon
      * @param pdfDoc
      */
     void haeTekstit(Poppler::Document *pdfDoc);
+
+    /**
+     * @brief Hakee lähimpiä merkkijonoja
+     * @param y Looginen y-koordinaatti (rivi)
+     * @param x Looginen x-koordinaatti (sarake)
+     * @param dy Enimmäisetäisyys y
+     * @param dx Enimmäisetäisyys x
+     * @return
+     */
+    QStringList haeLahelta(int y, int x, int dy=15, int dx=30);
+
+    /**
+     * @brief Hakee regexpin sijainteja
+     * @param teksti Haettava teksti
+     * @param alkukorkeus Korkeus, josta haku aloitetaan
+     * @param loppukorkeus Korkeus, johon haku lopetetaan
+     * @param alkusarake Sarake, josta alkaa
+     * @param loppusarake Sarake, johon loppuu
+     * @return Lista sijainneista
+     */
+    QList<int> sijainnit(QString teksti, int alkukorkeus = 0, int loppukorkeus = 0,
+                         int alkusarake = 0, int loppusarake = 100);
+
+    /**
+     * @brief Hakee ensimmäisen sijainnin
+     * @param teksti
+     * @param alkukorkeus Haun alku
+     * @param loppukorkeus Haun loppu
+     * @param alkusarake Sarake, josta alkaa
+     * @param loppusarake Sarake, johon loppuu
+     * @return
+     */
+    int etsi(QString teksti, int alkukorkeus=0, int loppukorkeus=30, int alkusarake = 0, int loppusarake = 100);
 };
 
 #endif // PDFTUONTI_H
