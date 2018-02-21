@@ -127,6 +127,7 @@ SOURCES += main.cpp \
     tuonti/pdftuonti.cpp \
     validator/viitevalidator.cpp \
     validator/ibanvalidator.cpp
+    raportti/laskuraportti.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -232,10 +233,11 @@ HEADERS += \
     maaritys/tilikarttaohje.h \
     uusikp/paivitakirjanpito.h \
     arkisto/tararkisto.h \
-    tuonti/tuonti.h \
     tuonti/pdftuonti.h \
+    tuonti/tuonti.h \
     validator/viitevalidator.h \
     validator/ibanvalidator.h
+    raportti/laskuraportti.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -300,6 +302,7 @@ FORMS += \
     uusikp/paivityskorvaa.ui \
     arkisto/arkistonvienti.ui \
     raportti/csvvientivalinnat.ui
+    raportti/laskuraportti.ui
 
 DISTFILES += \
     uusikp/luo.sql \

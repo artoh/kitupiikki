@@ -65,12 +65,12 @@ void RaportinKirjoittaja::lisaaVenyvaSarake(int tekija)
 
 void RaportinKirjoittaja::lisaaEurosarake()
 {
-    lisaaSarake("-9 999 999,99€ ");
+    lisaaSarake("-9 999 999,99€XX");
 }
 
 void RaportinKirjoittaja::lisaaPvmSarake()
 {
-    lisaaSarake("99.99.9999 ");
+    lisaaSarake("99.99.9999XX");
 }
 
 void RaportinKirjoittaja::lisaaOtsake(RaporttiRivi otsikkorivi)
@@ -147,6 +147,7 @@ int RaportinKirjoittaja::tulosta(QPrinter *printer, QPainter *painter, bool raid
 
         QVector<QRect> laatikot( rivi.sarakkeita() );
         QVector<int> liput( rivi.sarakkeita() );
+        QVector<QString> tekstit( rivi.sarakkeita() );
 
         int korkeinrivi = rivinkorkeus;
         int x = 0;  // Missä kohtaa ollaan leveyssuunnassa
@@ -166,14 +167,20 @@ int RaportinKirjoittaja::tulosta(QPrinter *printer, QPainter *painter, bool raid
             // Nyt saatu tämän sarakkeen leveys
 
             int lippu = Qt::TextWordWrap;
+            QString teksti = rivi.teksti(i);
             if( rivi.tasattuOikealle(i))
+            {
                 lippu |= Qt::AlignRight;
+                teksti.append("  ");
+                // Ei tasata ihan oikealle vaan välilyönnin päähän
+            }
+            tekstit[i] = teksti;
 
             liput[i] = lippu;
             // Laatikoita ei asemoida korkeussuunnassa, vaan translatella liikutaan
             laatikot[i] = painter->boundingRect( x, 0,
                                                 sarakeleveys, sivunkorkeus,
-                                                lippu, rivi.teksti(i) );
+                                                lippu, teksti );
 
             x += sarakeleveys;
             if( laatikot[i].height() > korkeinrivi )
@@ -211,8 +218,13 @@ int RaportinKirjoittaja::tulosta(QPrinter *printer, QPainter *painter, bool raid
                 for( int i = 0; i < otsikkorivi.sarakkeita(); i++)
                 {                     
                     int lippu = 0;
+                    QString teksti = otsikkorivi.teksti(i);
+
                     if( otsikkorivi.tasattuOikealle(i))
+                    {
                         lippu = Qt::AlignRight;
+                        teksti.append("  ");
+                    }
                     int sarakeleveys = 0;
 
                     for( int ysind = 0; ysind < otsikkorivi.leveysSaraketta(i); ysind++ )
@@ -221,7 +233,7 @@ int RaportinKirjoittaja::tulosta(QPrinter *printer, QPainter *painter, bool raid
                         sarake++;
                     }
                     painter->drawText( QRect(x,0,sarakeleveys,rivinkorkeus),
-                                      lippu, otsikkorivi.teksti(i));
+                                      lippu, teksti );
 
                     x += sarakeleveys;
                 }
@@ -251,7 +263,7 @@ int RaportinKirjoittaja::tulosta(QPrinter *printer, QPainter *painter, bool raid
         // Sitten tulostetaan tämä varsinainen rivi
         for( int i=0; i < rivi.sarakkeita(); i++)
         {
-            painter->drawText( laatikot[i], liput[i] , rivi.teksti(i) );
+            painter->drawText( laatikot[i], liput[i] , tekstit[i] );
         }
         if( rivi.onkoViivaa())  // Viivan tulostaminen rivin ylle
         {

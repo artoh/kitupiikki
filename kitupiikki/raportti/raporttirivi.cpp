@@ -58,9 +58,7 @@ void RaporttiRivi::lisaa(qlonglong sentit, bool tulostanollat)
 
 void RaporttiRivi::lisaa(const QDate &pvm)
 {
-    RaporttiRiviSarake uusi;
-    uusi.arvo = QVariant( pvm );
-    sarakkeet_.append( uusi );
+    lisaa( pvm.toString("dd.MM.yyyy"));
 }
 
 QString RaporttiRivi::teksti(int sarake)
