@@ -126,7 +126,7 @@ SOURCES += main.cpp \
     tuonti/tuonti.cpp \
     tuonti/pdftuonti.cpp \
     validator/viitevalidator.cpp \
-    validator/ibanvalidator.cpp
+    validator/ibanvalidator.cpp \
     raportti/laskuraportti.cpp
 
 HEADERS += \
@@ -236,7 +236,7 @@ HEADERS += \
     tuonti/pdftuonti.h \
     tuonti/tuonti.h \
     validator/viitevalidator.h \
-    validator/ibanvalidator.h
+    validator/ibanvalidator.h \
     raportti/laskuraportti.h
 
 RESOURCES += \
@@ -301,7 +301,7 @@ FORMS += \
     uusikp/tkpaivitys.ui \
     uusikp/paivityskorvaa.ui \
     arkisto/arkistonvienti.ui \
-    raportti/csvvientivalinnat.ui
+    raportti/csvvientivalinnat.ui \
     raportti/laskuraportti.ui
 
 DISTFILES += \

@@ -37,7 +37,7 @@ LaskuRaportti::~LaskuRaportti()
     delete ui;
 }
 
-RaportinKirjoittaja LaskuRaportti::raportti()
+RaportinKirjoittaja LaskuRaportti::raportti(bool /* csvmuoto */)
 {
     PvmRajaus rajaus = KaikkiLaskut;
     if( ui->rajaaEra->isChecked())

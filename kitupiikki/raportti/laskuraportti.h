@@ -34,7 +34,7 @@ public:
     LaskuRaportti();
     ~LaskuRaportti();
 
-    RaportinKirjoittaja raportti() override;
+    RaportinKirjoittaja raportti(bool csvmuoto = false) override;
 
     /**
      * @brief Laskuraportin kirjoittaminen
