@@ -307,5 +307,6 @@ FORMS += \
 DISTFILES += \
     uusikp/luo.sql \
     aloitussivu/qrc/avaanappi.png \
-    aloitussivu/qrc/aloitus.css
+    aloitussivu/qrc/aloitus.css \
+    uusikp/update2.sql
 

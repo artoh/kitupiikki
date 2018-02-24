@@ -83,6 +83,10 @@ CREATE TABLE vienti (
                                                       ON UPDATE CASCADE,
     eraid           INTEGER REFERENCES vienti(id) ON DELETE RESTRICT
                                                   ON UPDATE CASCADE,
+    viite           VARCHAR(60),
+    iban            VARCHAR(60),
+    erapvm          DATE,
+    arkistotunnus   VARCHAR(60),
     json            TEXT,
     luotu           DATETIME,
     muokattu        DATETIME
@@ -93,6 +97,8 @@ CREATE INDEX vienti_pvm_index ON vienti(pvm);
 CREATE INDEX vienti_tili_index ON vienti(tili);
 CREATE INDEX vienti_kodennus_index ON vienti(kohdennus);
 CREATE INDEX vienti_taseera_index ON vienti(eraid);
+CREATE INDEX vienti_ibanviite_index ON vienti(iban,viite);
+CREATE INDEX vienti_arkisto_index ON vienti(arkistotunnus);
 
 CREATE TABLE liite (
     id       INTEGER      PRIMARY KEY AUTOINCREMENT,

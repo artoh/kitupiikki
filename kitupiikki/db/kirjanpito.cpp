@@ -26,6 +26,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QSqlError>
+#include <QTextStream>
 
 #include <ctime>
 
@@ -122,8 +123,6 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
 
 
     // Tarkistaa, ettei kirjanpitoa ole tehty uudemmalla versiolla.
-    // Myöhemmin valvottava myös aikaisempi tietokantaversio ja tehtävä
-    // tarvittavat muutokset
 
     if( asetusModel_->luku("KpVersio") > TIETOKANTAVERSIO )
     {
@@ -140,6 +139,39 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
 
         return false;
     }
+
+    //
+    // Tiedostoversion muuttuessa tähän muutettava yhteensopivuusversio !!
+    //
+    if( asetusModel_->luku("KpVersio") < TIETOKANTAVERSIO )
+    {
+        if( QMessageBox::question(0, tr("Kirjanpidon %1 päivittäminen").arg(asetusModel_->asetus("Nimi")),
+                                  tr("Kirjanpito on luotu Kitupiikin versiolla %1 ja se täytyy päivittää, ennen kuin sitä "
+                                     "voi käyttää nykyisellä versiolla %2.\n\n"
+                                     "Päivittämisen jälkeen kirjanpitoa ei voi enää avata vanhemmilla versioilla kuin 0.6.\n\n"
+                                     "On erittäin suositeltavaa varmuuskopioida kirjanpito ennen päivittämistä!\n\n"
+                                     "Päivitetäänkö tietokanta Kitupiikin nykyiselle versiolle?").arg(asetusModel_->asetus("LuotuVersiolla"))
+                                     .arg(qApp->applicationVersion()),
+                                  QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes )
+        {
+            tietokanta()->close();
+            asetusModel_->lataa();
+            emit tietokantaVaihtui();
+            return false;
+        }
+        // Tietokanta päivitetään suorittamalla update-komennot
+        // nykyiseen tietokantaversioon saakka
+        for(int i = asetusModel_->luku("KpVersio") + 1; i <= TIETOKANTAVERSIO; i++)
+            paivita( i );
+
+        asetusModel_->aseta("KpVersio", TIETOKANTAVERSIO);
+        asetusModel_->aseta("LuotuVersiolla", qApp->applicationVersion());
+        QMessageBox::information(0, tr("Kirjanpito päivitetty"),
+                                 tr("Kirjanpito päivitetty käytössä olevaan versioon."));
+
+    }
+
+
 
     tositelajiModel_->lataa();
     tiliModel_->lataa();
@@ -193,6 +225,23 @@ QString Kirjanpito::satujono(int pituus)
        randomString.append(nextChar);
     }
     return randomString;
+}
+
+void Kirjanpito::paivita(int versioon)
+{
+    QFile sqltiedosto( QString(":/sql/update%1.sql").arg(versioon));
+    sqltiedosto.open(QIODevice::ReadOnly);
+    QTextStream in(&sqltiedosto);
+    QString sqluonti = in.readAll();
+    sqluonti.replace("\n","");
+    QStringList sqlista = sqluonti.split(";");
+    QSqlQuery query;
+
+    foreach (QString kysely,sqlista)
+    {
+        query.exec(kysely);
+        qApp->processEvents();
+    }
 }
 
 Kirjanpito* Kirjanpito::instanssi__ = 0;

@@ -285,7 +285,7 @@ public:
      *
      * Jos yritetään avata uudempaa, tulee virhe
      */
-    static const int TIETOKANTAVERSIO = 1;
+    static const int TIETOKANTAVERSIO = 2;
 
     /**
      * @brief Palauttaa satunnaismerkkijonon
@@ -296,6 +296,12 @@ public:
 
 private:
     static Kirjanpito *instanssi__;
+
+    /**
+     * @brief Suorittaa päivitykset
+     * @param versioon Tietokantaversion (ei ohjelmaversio!)
+     */
+    void paivita(int versioon);
 };
 
 /**
