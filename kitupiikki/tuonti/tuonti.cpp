@@ -18,9 +18,10 @@
 #include "tuonti.h"
 #include "pdftuonti.h"
 #include "kirjaus/kirjauswg.h"
+#include "db/tili.h"
 
 Tuonti::Tuonti(KirjausWg *wg)
-    : kirjausWg_(wg)
+    :  QObject(), kirjausWg_(wg)
 {
 
 }
@@ -37,14 +38,18 @@ bool Tuonti::tuo(const QString &tiedostonnimi, KirjausWg *wg)
     return true;
 }
 
-void Tuonti::lisaaLasku( qlonglong sentit, QDate laskupvm, QDate erapvm, QString viite, QString tilinumero, QString saajanNimi)
+void Tuonti::tuoLasku(qlonglong sentit, QDate laskupvm, QDate toimituspvm, QDate erapvm, QString viite, QString tilinumero, QString saajanNimi)
 {
+    QDate pvm = toimituspvm;
+    if( !toimituspvm.isValid())
+        pvm = laskupvm;
+
     kirjausWg()->gui()->otsikkoEdit->setText(saajanNimi);
-    kirjausWg()->gui()->tositePvmEdit->setDate(laskupvm);
+    kirjausWg()->gui()->tositePvmEdit->setDate(pvm);
 
 
     VientiRivi rivi;
-    rivi.pvm = laskupvm;
+    rivi.pvm = pvm;
     rivi.selite = saajanNimi;
 
     if( !tilinumero.isEmpty() &&  kp()->tilit()->tiliIbanilla(tilinumero).onkoValidi() )
@@ -71,4 +76,43 @@ void Tuonti::lisaaLasku( qlonglong sentit, QDate laskupvm, QDate erapvm, QString
     kirjausWg()->model()->vientiModel()->lisaaVienti(rivi);
     kirjausWg()->tiedotModeliin();
 
+}
+
+bool Tuonti::tiliote(QString iban, QDate mista, QDate mihin)
+{
+    tiliotetili_ = kp()->tilit()->tiliIbanilla(iban);
+    if( !tiliotetili_.onko(TiliLaji::PANKKITILI))
+        return false;
+
+    for(int i=0; i < kp()->tositelajit()->rowCount(QModelIndex()); i++)
+    {
+        QModelIndex index = kp()->tositelajit()->index(i,0);
+        if( index.data(TositelajiModel::KirjausTyyppiRooli).toInt() == TositelajiModel::TILIOTE &&
+            index.data(TositelajiModel::VastatiliNroRooli).toInt() == tiliotetili().numero())
+        {
+            // Tämä on kyseisen tiliotteen tositelaji
+            kirjausWg()->gui()->tositetyyppiCombo->setCurrentIndex(
+                        kirjausWg()->gui()->tositetyyppiCombo->findData( index.data(TositelajiModel::IdRooli), TositelajiModel::IdRooli ));
+            break;
+        }
+    }
+
+
+    kirjausWg()->gui()->tiliotetiliCombo->setCurrentIndex(
+                kirjausWg()->gui()->tiliotetiliCombo->findData( tiliotetili().id(), TiliModel::IdRooli ));
+    kirjausWg()->gui()->tilioteBox->setChecked(true);
+
+    if( mista.isValid() && mihin.isValid())
+    {
+        kirjausWg()->gui()->tiliotealkaenEdit->setDate(mista);
+        kirjausWg()->gui()->tilioteloppuenEdit->setDate(mihin);
+        kirjausWg()->gui()->otsikkoEdit->setText( tr("Tiliote %1 - %2")
+                                              .arg(mista.toString(Qt::SystemLocaleShortDate)).arg(mihin.toString(Qt::SystemLocaleShortDate)));
+    }
+    else
+        kirjausWg()->gui()->otsikkoEdit->setText( tr("Tiliote"));
+
+    kirjausWg()->gui()->tositePvmEdit->setDate(mihin);
+
+    return true;
 }

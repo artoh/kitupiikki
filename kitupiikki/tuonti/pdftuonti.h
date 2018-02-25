@@ -44,7 +44,15 @@ protected:
     QMap<int,QString> tekstit_;
 
 
-    void tuoLasku();
+    /**
+     * @brief Tuo pdf-muodossa olevan laskun
+     */
+    void tuoPdfLasku();
+
+    /**
+     * @brief Tuo pdf-muodossa olevan tiliotteen
+     */
+    void tuoPdfTiliote();
 
 
     /**

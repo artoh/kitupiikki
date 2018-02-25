@@ -28,20 +28,28 @@
 #define TUONTI_H
 
 #include <QString>
+#include <QObject>
 
 #include "db/tositelajimodel.h"
+#include "db/tili.h"
 
 class KirjausWg;
 
 /**
  * @brief Tiedostojen tuonti
  */
-class Tuonti
+class Tuonti : public QObject
 {
+    Q_OBJECT
 protected:
     Tuonti(KirjausWg *wg);
 
 public:
+    /**
+     * @brief Tuo tiedoston
+     * @param tiedostonnimi Tiedoston nimi
+     * @return tosi, jos tiedosto lisätään myös liitteeksi
+     */
     virtual bool tuoTiedosto(const QString& tiedostonnimi) = 0;
 
     /**
@@ -55,11 +63,33 @@ public:
 protected:
     KirjausWg* kirjausWg() { return kirjausWg_; }
 
-    void lisaaLasku(qlonglong sentit,
-                    QDate laskupvm, QDate erapvm, QString viite,
+    /**
+     * @brief Tuo laskun
+     * @param sentit Laskun summa sentteinä
+     * @param laskupvm Laskun päivämäärä
+     * @param toimituspvm Laskulla oleva toimituspäivä
+     * @param erapvm Laskun eräpäivä
+     * @param viite Laskun viite
+     * @param tilinumero Saajan/Maksajan IBAN-tilinumero
+     * @param saajanNimi Saajan/Maksajan nimi
+     */
+    void tuoLasku(qlonglong sentit,
+                    QDate laskupvm, QDate toimituspvm, QDate erapvm, QString viite,
                     QString tilinumero, QString saajanNimi);
 
+    /**
+     * @brief Aloittaa tiliotteen tuomisen
+     * @param iban Tilin IBAN-numero
+     * @param mista Tiliote alkaa
+     * @param mihin Tiliote päättyy
+     * @return tosi, jos onnistuu (tili olemassa)
+     */
+    bool tiliote(QString iban, QDate mista, QDate mihin);
+
+    Tili tiliotetili() const { return tiliotetili_; }
+
     KirjausWg* kirjausWg_;
+    Tili tiliotetili_;
 };
 
 #endif // TUONTI_H

@@ -60,7 +60,9 @@ bool PdfTuonti::tuoTiedosto(const QString &tiedostonnimi)
         if( etsi("hyvityslasku",0,30))
             {;}    // Hyvityslaskulle ei automaattista käsittelyä
         else if( etsi("lasku",0,30))
-            tuoLasku();
+            tuoPdfLasku();
+        else if( etsi("tiliote",0,30))
+            tuoPdfTiliote();
 
         QMapIterator<int,QString> iter(tekstit_);
         while( iter.hasNext())
@@ -77,7 +79,7 @@ bool PdfTuonti::tuoTiedosto(const QString &tiedostonnimi)
     return true;
 }
 
-void PdfTuonti::tuoLasku()
+void PdfTuonti::tuoPdfLasku()
 {
 
     QString tilinro;
@@ -86,6 +88,7 @@ void PdfTuonti::tuoLasku()
     QDate erapvm;
     qlonglong sentit = 0;
     QDate laskupvm;
+    QDate toimituspvm;
     QRegularExpression rahaRe("\\d{1,10}[,]\\d{2}");
 
     int pos = 0;    // Validaattoreita varten
@@ -152,9 +155,22 @@ void PdfTuonti::tuoLasku()
     }
 
     // Laskun päiväys: Etsitään erilaisilla otsikoilla
+    // Ensin yritetään etsiä erillinen toimituspäivämäär
     int pvmsijainti;
-    if(  (pvmsijainti = etsi("Toimituspäivä")) || (pvmsijainti = etsi("Toimituspvm")) || (pvmsijainti = etsi("Päivämäärä"))
-         || (pvmsijainti == etsi("pvm")) || (pvmsijainti = etsi("päiväys")))
+    if(  (pvmsijainti = etsi("Toimituspäivä")) || (pvmsijainti = etsi("Toimituspvm")) )
+    {
+        for( QString t : haeLahelta( pvmsijainti / 100, pvmsijainti % 100, 10, 60) )
+        {
+            QDate pvm = QDate::fromString(t,"dd.M.yyyy");
+            if( pvm.isValid())
+            {
+                toimituspvm = pvm;
+                break;
+            }
+        }
+    }
+    // Sitten yritetään hakea laskun päivämäärää
+    if(  (pvmsijainti = etsi("Päivämäärä")) || (pvmsijainti == etsi("pvm")) || (pvmsijainti = etsi("päiväys")))
     {
         for( QString t : haeLahelta( pvmsijainti / 100, pvmsijainti % 100, 10, 60) )
         {
@@ -166,6 +182,7 @@ void PdfTuonti::tuoLasku()
             }
         }
     }
+
     if( !erapvm.isValid() && etsi("Eräp"))
     {
         int erapvmsijainti = etsi("Eräp");
@@ -232,9 +249,62 @@ void PdfTuonti::tuoLasku()
         }
     }
 
-    lisaaLasku( sentit, laskupvm, erapvm, viite, tilinro, saaja);
+    tuoLasku( sentit, laskupvm, toimituspvm, erapvm, viite, tilinro, saaja);
 
 }
+
+void PdfTuonti::tuoPdfTiliote()
+{
+    // Ensin etsitään tilinumero ja tilikausi
+    QString tilinumero;
+    QDate mista;
+    QDate mihin;
+    int position = 0;
+
+    QString kokoteksti = tekstit_.values().join(" ");
+
+    IbanValidator ibanValidoija;
+    QRegularExpression ibanRe("[A-Z]{2}\\d{2}\\w{6,30}");
+
+    // Ensimmäinen tilinumero poimitaan
+
+    QRegularExpressionMatchIterator ibanIter = ibanRe.globalMatch(kokoteksti);
+    while( ibanIter.hasNext())
+    {
+        QRegularExpressionMatch mats = ibanIter.next();
+        QString ehdokas = mats.captured();
+        if( !ehdokas.startsWith("RF") && ibanValidoija.validate(ehdokas, position) == IbanValidator::Acceptable)
+        {
+            tilinumero = ehdokas;
+            break;
+        }
+    }
+
+    if( tilinumero.isEmpty())
+        return;     // Ei löydy tilinumeroa!
+
+    QRegularExpression valiRe("(?<p1>\\d{1,2})\\.(?<k1>\\d{1,2})\\.(?<v1>\\d{4})?\\W{1,3}(?<p2>\\d{1,2})\\.(?<k2>\\d{1,2})\\.(?<v2>\\d{4})");
+    QRegularExpressionMatch valiMats = valiRe.match(kokoteksti);
+
+    if( valiMats.hasMatch())
+    {
+        qDebug()  << valiMats.captured();
+
+        int vuosi = valiMats.captured("v1").toInt();
+        if( !vuosi )
+            vuosi = valiMats.captured("v2").toInt();
+        mista = QDate( vuosi, valiMats.captured("k1").toInt(), valiMats.captured("p1").toInt() );
+        mihin = QDate( valiMats.captured("v2").toInt(), valiMats.captured("k2").toInt(), valiMats.captured("p2").toInt());
+    }
+
+    // Alustetaan tiliote tilillä ja kauden tiedoilla
+
+    if( !tiliote(tilinumero, mista, mihin))
+        return;
+
+
+}
+
 
 void PdfTuonti::haeTekstit(Poppler::Document *pdfDoc)
 {

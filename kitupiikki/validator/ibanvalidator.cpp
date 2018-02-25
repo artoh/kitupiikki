@@ -44,6 +44,8 @@ QValidator::State IbanValidator::validate(QString &input, int & /* pos */) const
         return Invalid;
     if( str.startsWith("FI") && str.length() < 18)
         return Intermediate;
+    if( str.length() > 32)
+        return Invalid;
 
     if( ibanModulo( str ) == 1)
         return Acceptable;
