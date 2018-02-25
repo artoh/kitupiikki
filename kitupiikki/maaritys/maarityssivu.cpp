@@ -61,7 +61,7 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu("Tilinpäätöksen malli", LIITETIETOKAAVA, QIcon(":/pic/tekstisivu.png"));
     lisaaSivu("Tilikartan ohje", TILIKARTTAOHJE, QIcon(":/pic/ohje.png"));
 
-    connect( lista, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), this, SLOT(valitseSivu(QListWidgetItem*)));
+    connect( lista, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(valitseSivu(QListWidgetItem*)));
 
     QHBoxLayout *leiska = new QHBoxLayout;
     leiska->addWidget(lista,0);
@@ -159,6 +159,7 @@ void MaaritysSivu::tallenna()
 
 void MaaritysSivu::valitseSivu(QListWidgetItem *item)
 {
+
     if( nykyinen)
     {
         if( nykyinen->onkoMuokattu() )
@@ -166,7 +167,7 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
             // Nykyistä on muokattu eikä tallennettu
             if( QMessageBox::question(this, tr("Kitupiikki"), tr("Asetuksia on muutettu. Poistutko sivulta tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
             {
-                lista->setCurrentItem( nykyItem );
+                nykyItem->setSelected(true);
                 return;
             }
         }
@@ -204,13 +205,12 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
     else
         nykyinen = new Perusvalinnat;   // Tilipäinen
 
-    nykyItem = item;
-
     sivuleiska->insertWidget(0, nykyinen );
     qApp->processEvents();  // Jotta tulee näkyväksi ja voidaan säätää kokoa
     nykyinen->nollaa();
 
     item->setSelected(true);
+    nykyItem = item;
 
     vienappi->setVisible( nykyinen->naytetaankoVienti());
     paivitaNappi->setVisible( nykyinen->naytetaankoVienti());
