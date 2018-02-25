@@ -247,6 +247,15 @@ bool UusiKirjanpito::alustaKirjanpito()
             if( !mats.captured("asti").isEmpty() )
                 tili.json()->set("Asti", mats.captured("asti").toInt());
 
+            if( tili.onko(TiliLaji::PANKKITILI) && !field("iban").toString().isEmpty())
+            {
+                // #70 Pankkitili jo luontivelhossa
+                // Annettu IBAN-numero yhdistetään ensimmäiseen pankkitiliin
+                tili.json()->set("IBAN", field("iban").toString());
+                setField("IBAN",QVariant(""));
+            }
+
+
             tilit.lisaaTili(tili);
         }
 
@@ -288,9 +297,6 @@ bool UusiKirjanpito::alustaKirjanpito()
     asetukset.aseta("AlvKausi",1);
     // Laskunumero
     asetukset.aseta("LaskuSeuraavaId",1009);
-
-    if( tilit.tiliTyypilla(TiliLaji::PANKKITILI).onkoValidi())
-        asetukset.aseta("LaskuTili", tilit.tiliTyypilla(TiliLaji::PANKKITILI).numero());
 
     if( field("onekakausi").toBool())
     {

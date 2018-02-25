@@ -16,15 +16,18 @@
 */
 
 #include "nimisivu.h"
+#include "validator/ibanvalidator.h"
 
 NimiSivu::NimiSivu()
 {
     setTitle("Organisaation tiedot");
     ui = new Ui::NimiSivu();
     ui->setupUi(this);
+    ui->tiliLine->setValidator(new IbanValidator());
 
     registerField("nimi*",ui->nimiEdit);
     registerField("ytunnus",ui->ytunnusEdit);
+    registerField("iban", ui->tiliLine);
 
 }
 

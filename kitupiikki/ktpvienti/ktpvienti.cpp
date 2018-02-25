@@ -100,9 +100,6 @@ void KtpVienti::vieKtp()
         out << "[TilikarttaLuontiVersio]\n";
         out << qApp->applicationVersion() << "\n";
 
-        out << "[KpVersio]\n";
-        out << Kirjanpito::TIETOKANTAVERSIO << "\n";
-
         if( vienti.field("elinkeinonharjoittaja").toBool())
         {
             out << "[Elinkeinonharjoittaja]\nON\n";
@@ -165,7 +162,7 @@ void KtpVienti::vieKtp()
                 << "LaskuTositelaji" << "LaskuKirjausperuste"
                 << "LaskuSaatavatili" << "LaskuKateistili"
                 << "LaskuMaksuaika" << "LaskuHuomautusaika"
-                << "ArkistoRaportit" << "VakioTilikartta";
+                << "ArkistoRaportit" << "VakioTilikartta" << "LaskuTili";
 
         avaimet << kp()->asetukset()->avaimet("Raportti/");
 

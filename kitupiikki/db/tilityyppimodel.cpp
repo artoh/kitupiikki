@@ -46,6 +46,7 @@ TilityyppiModel::TilityyppiModel(QObject *parent)
     lisaa(TiliTyyppi("APM","Poistokelpoinen omaisuus menojäännöspoisto",TiliLaji::MENOJAANNOSPOISTO));
     lisaa(TiliTyyppi("APT","Poistokelpoinen omaisuus tasapoistolla",TiliLaji::TASAERAPOISTO));
     lisaa(TiliTyyppi("AS","Saatavaa",TiliLaji::SAATAVA));
+    lisaa(TiliTyyppi("AO","Myyntisaatavat",TiliLaji::MYYNTISAATAVA));
     lisaa(TiliTyyppi("AL","Arvonlisäverosaatava", TiliLaji::ALVSAATAVA));
     lisaa(TiliTyyppi("ARK","Käteisvarat", TiliLaji::KATEINEN));
     lisaa(TiliTyyppi("ARP","Pankkitili",TiliLaji::PANKKITILI));
