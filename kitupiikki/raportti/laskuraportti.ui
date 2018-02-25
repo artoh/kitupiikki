@@ -7,13 +7,39 @@
     <x>0</x>
     <y>0</y>
     <width>642</width>
-    <height>468</height>
+    <height>738</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout_3">
+   <item>
+    <widget class="QGroupBox" name="tyyppiRadio">
+     <property name="title">
+      <string>Laskutyyppi</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QRadioButton" name="myyntiRadio">
+        <property name="text">
+         <string>Myyntilaskut</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="ostoRadio">
+        <property name="text">
+         <string>Ostolaskut</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
