@@ -52,6 +52,7 @@ struct VientiRivi
     QString viite;
     QString saajanTili;
     QDate erapvm;
+    QString arkistotunnus;
 };
 
 /**
@@ -93,7 +94,8 @@ public:
         ViiteRooli = Qt::UserRole + 16,
         SaajanTiliRooli = Qt::UserRole + 17,
         SaajanNimiRooli = Qt::UserRole + 18,
-        EraPvmRooli = Qt::UserRole + 19
+        EraPvmRooli = Qt::UserRole + 19,
+        ArkistoTunnusRooli = Qt::UserRole + 20
     };
 
 

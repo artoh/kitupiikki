@@ -119,6 +119,8 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
         return rivi.json.str("SaajanNimi");
     else if( role == EraPvmRooli )
         return rivi.erapvm;
+    else if( role == ArkistoTunnusRooli )
+        return rivi.arkistotunnus;
 
 
     else if( role==Qt::DisplayRole || role == Qt::EditRole)
@@ -366,6 +368,10 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
     {
         viennit_[rivi].erapvm = value.toDate();
     }
+    else if(role == ArkistoTunnusRooli)
+    {
+        viennit_[rivi].arkistotunnus = value.toString();
+    }
     else
         return false;
 
@@ -509,16 +515,20 @@ bool VientiModel::tallenna()
         {
             query.prepare("UPDATE vienti SET pvm=:pvm, tili=:tili, debetsnt=:debetsnt, "
                           "kreditsnt=:kreditsnt, selite=:selite, alvkoodi=:alvkoodi,"
-                          "kohdennus=:kohdennus, eraid=:eraid, alvprosentti=:alvprosentti, muokattu=:muokattu, json=:json"
+                          "kohdennus=:kohdennus, eraid=:eraid, alvprosentti=:alvprosentti, "
+                          "viite=:viite, iban=:iban, erapvm:=erapvm, arkistotunnus=:arkistotunnus, "
+                          "muokattu=:muokattu, json=:json"
                           " WHERE id=:id");
             query.bindValue(":id", rivi.vientiId);
         }
         else
         {
             query.prepare("INSERT INTO vienti(tosite,pvm,tili,debetsnt,kreditsnt,selite,"
-                           "alvkoodi, alvprosentti, luotu, muokattu, json, kohdennus, eraid, vientirivi) "
+                           "alvkoodi, alvprosentti, luotu, muokattu, json, kohdennus, eraid, vientirivi,"
+                           "viite, iban, erapvm, arkistotunnus) "
                             "VALUES(:tosite,:pvm,:tili,:debetsnt,:kreditsnt,:selite,"
-                            ":alvkoodi, :alvprosentti, :luotu, :muokattu, :json, :kohdennus, :eraid, :rivinro)");
+                            ":alvkoodi, :alvprosentti, :luotu, :muokattu, :json, :kohdennus, :eraid, :rivinro,"
+                            ":viite, :iban, :erapvm, :arkistotunnus)");
             query.bindValue(":luotu",  QDateTime(kp()->paivamaara(), QTime::currentTime() ) );
             query.bindValue(":rivinro", rivi.riviNro);
         }
@@ -548,6 +558,10 @@ bool VientiModel::tallenna()
         query.bindValue(":alvprosentti", rivi.alvprosentti);
         query.bindValue(":muokattu", QVariant( QDateTime(kp()->paivamaara(), QTime::currentTime() ) ) );
         query.bindValue(":kohdennus", rivi.kohdennus.id());
+        query.bindValue(":viite", rivi.viite);
+        query.bindValue(":iban", rivi.saajanTili);
+        query.bindValue(":erapvm", rivi.erapvm);
+        query.bindValue(":arkistotunnus", rivi.arkistotunnus);
         query.bindValue(":json", rivi.json.toSqlJson());
 
         if( !query.exec() )
@@ -594,7 +608,7 @@ void VientiModel::lataa()
     QSqlQuery query( *tositeModel_->tietokanta() );
     query.exec(QString("SELECT id, pvm, tili, debetsnt, kreditsnt, selite, "
                        "alvkoodi, alvprosentti, luotu, muokattu, json, "
-                       "kohdennus, eraid, vientirivi "
+                       "kohdennus, eraid, vientirivi, viite, iban, erapvm, arkistotunnus "
                        "FROM vienti WHERE tosite=%1 "
                        "ORDER BY id").arg( tositeModel_->id() ));
     while( query.next())
@@ -614,6 +628,10 @@ void VientiModel::lataa()
         rivi.eraId = query.value("eraid").toInt();
         rivi.riviNro = query.value("vientirivi").toInt();
         rivi.json.fromJson( query.value("json").toByteArray() );
+        rivi.viite = query.value("viite").toString();
+        rivi.saajanTili = query.value("iban").toString();
+        rivi.erapvm = query.value("erapvm").toDate();
+        rivi.arkistotunnus = query.value("arkistotunnus").toString();
         viennit_.append(rivi);
     }
 
