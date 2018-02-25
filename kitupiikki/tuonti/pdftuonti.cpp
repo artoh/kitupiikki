@@ -36,14 +36,14 @@
 #include "validator/ibanvalidator.h"
 #include "validator/viitevalidator.h"
 
-#include "kirjaus/kirjauswg.h"
 
-PdfTuonti::PdfTuonti()
+PdfTuonti::PdfTuonti(KirjausWg *wg) :
+    Tuonti( wg )
 {
 
 }
 
-bool PdfTuonti::tuoTiedosto(const QString &tiedostonnimi, KirjausWg *wg)
+bool PdfTuonti::tuoTiedosto(const QString &tiedostonnimi)
 {
     QFile tiedosto(tiedostonnimi);
     tiedosto.open( QIODevice::ReadOnly );
@@ -60,7 +60,7 @@ bool PdfTuonti::tuoTiedosto(const QString &tiedostonnimi, KirjausWg *wg)
         if( etsi("hyvityslasku",0,30))
             {;}    // Hyvityslaskulle ei automaattista käsittelyä
         else if( etsi("lasku",0,30))
-            tuoLasku( wg);
+            tuoLasku();
 
         QMapIterator<int,QString> iter(tekstit_);
         while( iter.hasNext())
@@ -77,7 +77,7 @@ bool PdfTuonti::tuoTiedosto(const QString &tiedostonnimi, KirjausWg *wg)
     return true;
 }
 
-void PdfTuonti::tuoLasku( KirjausWg *wg)
+void PdfTuonti::tuoLasku()
 {
 
     QString tilinro;
@@ -232,38 +232,7 @@ void PdfTuonti::tuoLasku( KirjausWg *wg)
         }
     }
 
-
-    wg->gui()->otsikkoEdit->setText(saaja);
-    wg->gui()->tositePvmEdit->setDate(laskupvm);
-
-
-    VientiRivi rivi;
-    rivi.pvm = laskupvm;
-    rivi.selite = saaja;
-
-    if( !tilinro.isEmpty() &&  kp()->tilit()->tiliIbanilla(tilinro).onkoValidi() )
-    {
-        // Oma tili eli onkin myyntilasku
-        wg->gui()->tositetyyppiCombo->setCurrentIndex(
-                    wg->gui()->tositetyyppiCombo->findData(TositelajiModel::MYYNTILASKUT, TositelajiModel::KirjausTyyppiRooli) );
-        // Tähän pitäisi saada myyntisaatavien tili
-        rivi.debetSnt = sentit;
-    }
-    else
-    {
-        wg->gui()->tositetyyppiCombo->setCurrentIndex(
-                    wg->gui()->tositetyyppiCombo->findData(TositelajiModel::OSTOLASKUT, TositelajiModel::KirjausTyyppiRooli) );
-        rivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::OSTOVELKA);
-        rivi.kreditSnt = sentit;
-    }
-
-    rivi.viite = viite;
-    rivi.saajanTili = tilinro;
-    rivi.erapvm = erapvm;
-    rivi.json.set("SaajanNimi", saaja);
-
-    wg->model()->vientiModel()->lisaaVienti(rivi);
-    wg->tiedotModeliin();
+    lisaaLasku( sentit, laskupvm, erapvm, viite, tilinro, saaja);
 
 }
 

@@ -17,8 +17,10 @@
 
 #include "tuonti.h"
 #include "pdftuonti.h"
+#include "kirjaus/kirjauswg.h"
 
-Tuonti::Tuonti()
+Tuonti::Tuonti(KirjausWg *wg)
+    : kirjausWg_(wg)
 {
 
 }
@@ -28,9 +30,45 @@ bool Tuonti::tuo(const QString &tiedostonnimi, KirjausWg *wg)
 
     if( tiedostonnimi.endsWith(".pdf", Qt::CaseInsensitive) )
     {
-        PdfTuonti pdftuonti;
-        return pdftuonti.tuoTiedosto(tiedostonnimi, wg);
+        PdfTuonti pdftuonti(wg);
+        return pdftuonti.tuoTiedosto(tiedostonnimi);
     }
 
     return true;
+}
+
+void Tuonti::lisaaLasku( qlonglong sentit, QDate laskupvm, QDate erapvm, QString viite, QString tilinumero, QString saajanNimi)
+{
+    kirjausWg()->gui()->otsikkoEdit->setText(saajanNimi);
+    kirjausWg()->gui()->tositePvmEdit->setDate(laskupvm);
+
+
+    VientiRivi rivi;
+    rivi.pvm = laskupvm;
+    rivi.selite = saajanNimi;
+
+    if( !tilinumero.isEmpty() &&  kp()->tilit()->tiliIbanilla(tilinumero).onkoValidi() )
+    {
+        // Oma tili eli onkin myyntilasku
+        kirjausWg()->gui()->tositetyyppiCombo->setCurrentIndex(
+                    kirjausWg()->gui()->tositetyyppiCombo->findData(TositelajiModel::MYYNTILASKUT, TositelajiModel::KirjausTyyppiRooli) );
+        // Tähän pitäisi saada myyntisaatavien tili
+        rivi.debetSnt = sentit;
+    }
+    else
+    {
+        kirjausWg()->gui()->tositetyyppiCombo->setCurrentIndex(
+                    kirjausWg()->gui()->tositetyyppiCombo->findData(TositelajiModel::OSTOLASKUT, TositelajiModel::KirjausTyyppiRooli) );
+        rivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::OSTOVELKA);
+        rivi.kreditSnt = sentit;
+    }
+
+    rivi.viite = viite;
+    rivi.saajanTili = tilinumero;
+    rivi.erapvm = erapvm;
+    rivi.json.set("SaajanNimi", saajanNimi);
+
+    kirjausWg()->model()->vientiModel()->lisaaVienti(rivi);
+    kirjausWg()->tiedotModeliin();
+
 }

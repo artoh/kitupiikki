@@ -29,6 +29,8 @@
 
 #include <QString>
 
+#include "db/tositelajimodel.h"
+
 class KirjausWg;
 
 /**
@@ -37,10 +39,10 @@ class KirjausWg;
 class Tuonti
 {
 protected:
-    Tuonti();
+    Tuonti(KirjausWg *wg);
 
 public:
-    virtual bool tuoTiedosto(const QString& tiedostonnimi, KirjausWg *wg) = 0;
+    virtual bool tuoTiedosto(const QString& tiedostonnimi) = 0;
 
     /**
      * @brief Yrittää tuoda halutun tiedoston
@@ -49,6 +51,15 @@ public:
      * @return tosi, jos tiedosto lisätään
      */
     static bool tuo(const QString& tiedostonnimi, KirjausWg *wg);
+
+protected:
+    KirjausWg* kirjausWg() { return kirjausWg_; }
+
+    void lisaaLasku(qlonglong sentit,
+                    QDate laskupvm, QDate erapvm, QString viite,
+                    QString tilinumero, QString saajanNimi);
+
+    KirjausWg* kirjausWg_;
 };
 
 #endif // TUONTI_H

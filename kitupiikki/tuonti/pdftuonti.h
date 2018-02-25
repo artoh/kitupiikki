@@ -29,9 +29,9 @@ namespace Poppler {
 class PdfTuonti : public Tuonti
 {
 public:
-    PdfTuonti();
+    PdfTuonti(KirjausWg *wg);
 
-    bool tuoTiedosto(const QString &tiedostonnimi, KirjausWg *wg) override;
+    bool tuoTiedosto(const QString &tiedostonnimi) override;
 
 protected:
     /**
@@ -44,7 +44,7 @@ protected:
     QMap<int,QString> tekstit_;
 
 
-    void tuoLasku(KirjausWg *wg);
+    void tuoLasku();
 
 
     /**
