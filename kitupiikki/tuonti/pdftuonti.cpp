@@ -33,6 +33,8 @@
 
 
 #include "pdftuonti.h"
+#include "riviapuanalysaattori.h"
+
 #include "validator/ibanvalidator.h"
 #include "validator/viitevalidator.h"
 
@@ -63,14 +65,6 @@ bool PdfTuonti::tuoTiedosto(const QString &tiedostonnimi)
             tuoPdfLasku();
         else if( etsi("tiliote",0,30))
             tuoPdfTiliote();
-
-        QMapIterator<int,QString> iter(tekstit_);
-        while( iter.hasNext())
-        {
-            iter.next();
-            int s = iter.key();
-            qDebug() << s / 100 << " | " << s % 100 << "  " << iter.value();
-        }
 
     }
 
@@ -264,7 +258,7 @@ void PdfTuonti::tuoPdfTiliote()
     QString kokoteksti = tekstit_.values().join(" ");
 
     IbanValidator ibanValidoija;
-    QRegularExpression ibanRe("[A-Z]{2}\\d{2}\\w{6,30}");
+    QRegularExpression ibanRe("\\b[A-Z]{2}\\d{2}\\w{6,30}\\b");
 
     // Ensimmäinen tilinumero poimitaan
 
@@ -301,6 +295,136 @@ void PdfTuonti::tuoPdfTiliote()
 
     if( !tiliote(tilinumero, mista, mihin))
         return;
+
+    // Sitten aloitetaan tiliotteen tietojen tuominen
+
+    QRegularExpression kirjausPvmRe("\\bKirjauspäivä\\W+(?<p>\\d{1,2})\\.(?<k>\\d{1,2})\\.(?<v>\\d{2,4})\\b");
+    kirjausPvmRe.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
+
+
+    // Kerää datan listaan
+    QList<QStringList> lista;
+
+    QStringList tamarivi;
+    int nykyrivi = 0;
+    int nykysivu = 0;
+    bool taulussa;
+
+    QMapIterator<int,QString> iter(tekstit_);
+
+    while( iter.hasNext())
+    {
+        iter.next();
+        int rivi = iter.key() / 100;
+        int sivu = rivi / 200;
+
+        if( nykysivu != sivu)
+        {
+            taulussa = false;
+            nykysivu = sivu;
+        }
+
+        if( taulussa )
+        {
+            if( rivi != nykyrivi )
+            {
+                lista.append(tamarivi);
+                tamarivi.clear();
+                nykyrivi = rivi;
+            }
+            tamarivi.append( iter.value()); // Lisätään listaan
+        }
+        else
+        {
+            if( iter.value().contains("arkistointitunnus", Qt::CaseInsensitive))
+                taulussa = true;
+        }
+    }
+
+    int kirjauspaivia = kokoteksti.count( kirjausPvmRe );
+
+    QDate kirjauspvm;
+    QString iban;
+    QString viite;
+    QString arkistotunnus;
+    QString selite;
+    qlonglong maara = 0;
+
+    RiviApuAnalysaattori analysaattori;
+
+    for( QStringList rivi : lista)
+    {
+        QString kokorivi = rivi.join(' ');
+
+        if( kirjauspaivia && kokorivi.contains(kirjausPvmRe) )
+        {
+            // Ensin kesken jäänyt kirjaus
+            if( maara && (!arkistotunnus.isEmpty() || !viite.isEmpty()))
+            {
+                if( arkistotunnus.isEmpty() )
+                {
+                    arkistotunnus = viite;
+                    if( iban.isEmpty())
+                        viite.clear();
+                }
+                oterivi(kirjauspvm, maara, iban, viite, arkistotunnus, selite);
+                maara = 0;
+                iban.clear();
+                viite.clear();
+                arkistotunnus.clear();
+                selite.clear();
+            }
+
+            QRegularExpressionMatch mats = kirjausPvmRe.match(kokorivi);
+            int vuosi = mats.captured("v").toInt();
+            if( vuosi < 100)
+                vuosi += QDate::currentDate().year() / 100 * 100;
+            kirjauspvm = QDate( vuosi, mats.captured("k").toInt(), mats.captured("p").toInt());
+
+        }
+        else
+        {
+            analysaattori.analysoi(rivi);
+            if( analysaattori.maara())
+            {
+                // Nyt kirjataan edellinen rivi jos se on kelvollinen
+                if( maara && (!arkistotunnus.isEmpty() || !viite.isEmpty() ))
+                {
+                    if( arkistotunnus.isEmpty() )
+                    {
+                        arkistotunnus = viite;
+                        if( iban.isEmpty())
+                            viite.clear();
+                    }
+
+                    oterivi(kirjauspvm, maara, iban, viite, arkistotunnus, selite);
+                    maara = 0;
+                    iban.clear();
+                    viite.clear();
+                    arkistotunnus.clear();
+                    selite.clear();
+                }
+                if( !analysaattori.arkistotunnus().isEmpty() || !analysaattori.viite().isEmpty())
+                {
+                    maara = analysaattori.maara();
+                    arkistotunnus = analysaattori.arkistotunnus();
+                }
+                if( !kirjauspaivia && analysaattori.kirjauspvm().isValid())
+                    kirjauspvm = analysaattori.kirjauspvm();
+            }
+            if( maara )
+            {
+                if( !analysaattori.iban().isEmpty())
+                    iban = analysaattori.iban();
+                if( !analysaattori.viite().isEmpty())
+                    viite = analysaattori.viite();
+                if( selite.isEmpty() && !analysaattori.selite().isEmpty())
+                    selite = analysaattori.selite();
+            }
+        }
+    }
+
+
 
 
 }

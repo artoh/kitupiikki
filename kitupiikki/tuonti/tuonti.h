@@ -86,6 +86,17 @@ protected:
      */
     bool tiliote(QString iban, QDate mista, QDate mihin);
 
+    /**
+     * @brief Tuo rivin tiliotteelta
+     * @param pvm Päiväys
+     * @param sentit Määrä sentteinä
+     * @param iban Tilinumero (iban)
+     * @param viite Viitenumero
+     * @param arkistotunnus Pankin arkistotunnus
+     * @param selite Selite
+     */
+    void oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, QString arkistotunnus, QString selite);
+
     Tili tiliotetili() const { return tiliotetili_; }
 
     KirjausWg* kirjausWg_;

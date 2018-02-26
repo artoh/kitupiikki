@@ -15,6 +15,8 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QDebug>
+
 #include "tuonti.h"
 #include "pdftuonti.h"
 #include "kirjaus/kirjauswg.h"
@@ -115,4 +117,23 @@ bool Tuonti::tiliote(QString iban, QDate mista, QDate mihin)
     kirjausWg()->gui()->tositePvmEdit->setDate(mihin);
 
     return true;
+}
+
+void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, QString arkistotunnus, QString selite)
+{
+    VientiRivi rivi;
+    rivi.pvm = pvm;
+    rivi.tili = tiliotetili();
+    rivi.selite = selite;
+    rivi.riviNro = kirjausWg()->model()->vientiModel()->seuraavaRiviNumero();
+
+    if( sentit > 0)
+        rivi.debetSnt = sentit;
+    else
+        rivi.kreditSnt = 0 - sentit;
+
+    rivi.arkistotunnus = arkistotunnus;
+    kirjausWg()->model()->vientiModel()->lisaaVienti(rivi);
+
+    qDebug() << pvm.toString(Qt::SystemLocaleShortDate) << sentit << iban << viite << arkistotunnus << selite;
 }

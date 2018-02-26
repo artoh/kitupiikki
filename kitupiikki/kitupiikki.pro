@@ -127,7 +127,8 @@ SOURCES += main.cpp \
     tuonti/pdftuonti.cpp \
     validator/viitevalidator.cpp \
     validator/ibanvalidator.cpp \
-    raportti/laskuraportti.cpp
+    raportti/laskuraportti.cpp \
+    tuonti/riviapuanalysaattori.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -237,7 +238,8 @@ HEADERS += \
     tuonti/tuonti.h \
     validator/viitevalidator.h \
     validator/ibanvalidator.h \
-    raportti/laskuraportti.h
+    raportti/laskuraportti.h \
+    tuonti/riviapuanalysaattori.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

@@ -252,7 +252,7 @@ bool UusiKirjanpito::alustaKirjanpito()
                 // #70 Pankkitili jo luontivelhossa
                 // Annettu IBAN-numero yhdistetään ensimmäiseen pankkitiliin
                 tili.json()->set("IBAN", field("iban").toString().simplified().remove(' '));
-                setField("IBAN",QVariant(""));
+                setField("iban",QVariant(""));
             }
 
 

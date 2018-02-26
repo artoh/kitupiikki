@@ -144,6 +144,7 @@ public:
      * @return
      */
     bool muokattu() const { return muokattu_; }
+    int seuraavaRiviNumero();
 
 public slots:
     /**
@@ -164,7 +165,6 @@ protected:
     QList<VientiRivi> viennit_;
 
     VientiRivi uusiRivi();
-    int seuraavaRiviNumero();
     bool muokattu_;
 
     QList<int> poistetutVientiIdt_;
