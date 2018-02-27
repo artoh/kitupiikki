@@ -17,10 +17,14 @@
 
 #include <QDebug>
 
+#include <QSqlQuery>
+
 #include "tuonti.h"
 #include "pdftuonti.h"
 #include "kirjaus/kirjauswg.h"
 #include "db/tili.h"
+#include "db/eranvalintamodel.h"
+#include "laskutus/laskumodel.h"
 
 Tuonti::Tuonti(KirjausWg *wg)
     :  QObject(), kirjausWg_(wg)
@@ -121,19 +125,81 @@ bool Tuonti::tiliote(QString iban, QDate mista, QDate mihin)
 
 void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, QString arkistotunnus, QString selite)
 {
+    // Etunollien poisto viiterivistä
+    viite.replace( QRegularExpression("^0*"),"");
+
+
+    VientiRivi vastarivi;
+    vastarivi.pvm = pvm;
+
+    // Etsitään mahdolliset erät
+    if( sentit > 0 && !viite.isEmpty())
+    {
+        QSqlQuery kysely( QString("SELECT avoinSnt, json, asiakas, kirjausperuste FROM lasku WHERE id=%1").arg(viite) );
+        if( kysely.next())
+        {
+            if( kysely.value("avoinSnt").toInt() >= sentit )
+            {
+                // Kyseisellä viitteellä on avoin lasku, jota voidaan siis maksaa
+                JsonKentta json( kysely.value("json").toByteArray() );
+                selite = tr("%1 [%2]").arg( kysely.value("asiakas").toString(), viite );
+
+                vastarivi.tili = kp()->tilit()->tiliNumerolla( json.luku("Saatavatili") );
+                vastarivi.eraId = json.luku("TaseEra");
+                vastarivi.maksaaLaskua = viite.toInt();
+            }
+            else if( kysely.value("kirjausperuste").toInt() == LaskuModel::MAKSUPERUSTE)
+            {
+                // Maksuperusteinen lasku, joka on jo kirjattu maksetuksi (avoin summa 0)
+                // Tälle ei tehdä enää mitään muuta kirjausta eli ei edes lisätä tositteelle
+                return;
+            }
+        }
+    }
+    else if( sentit < 0 && !iban.isEmpty() && !viite.isEmpty())
+    {
+        // Ostolasku
+        QSqlQuery kysely( QString("SELECT id, tili, selite FROM vienti WHERE iban='%1' AND viite='%2'")
+                          .arg(iban).arg(viite) );
+        while( kysely.next())
+        {
+            int eraId = kysely.value("id").toInt();
+            TaseEra era( eraId );
+
+            if( era.saldoSnt <= sentit )
+            {
+                vastarivi.tili = kp()->tilit()->tiliIdlla( kysely.value("tili").toInt() );
+                vastarivi.eraId = kysely.value("id").toInt();
+                selite = kysely.value("selite").toString();
+
+                break;
+            }
+        }
+    }
+
+
     VientiRivi rivi;
     rivi.pvm = pvm;
     rivi.tili = tiliotetili();
     rivi.selite = selite;
+    vastarivi.selite = selite;
     rivi.riviNro = kirjausWg()->model()->vientiModel()->seuraavaRiviNumero();
 
     if( sentit > 0)
+    {
         rivi.debetSnt = sentit;
+        vastarivi.kreditSnt = sentit;
+    }
     else
+    {
         rivi.kreditSnt = 0 - sentit;
+        vastarivi.debetSnt = 0 - sentit;
+    }
 
     rivi.arkistotunnus = arkistotunnus;
     kirjausWg()->model()->vientiModel()->lisaaVienti(rivi);
+    kirjausWg()->model()->vientiModel()->lisaaVienti(vastarivi);
 
     qDebug() << pvm.toString(Qt::SystemLocaleShortDate) << sentit << iban << viite << arkistotunnus << selite;
+
 }
