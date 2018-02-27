@@ -198,6 +198,26 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="viiteBox">
+     <property name="text">
+      <string>Näytä viitenumerot</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="summaBox">
+     <property name="text">
+      <string>Tulosta summat</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>

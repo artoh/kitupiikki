@@ -75,6 +75,9 @@ void Tuonti::tuoLasku(qlonglong sentit, QDate laskupvm, QDate toimituspvm, QDate
         rivi.kreditSnt = sentit;
     }
 
+    // Poistetaan viitenumeron etunollat
+    viite.replace( QRegularExpression("^0*"),"");
+
     rivi.viite = viite;
     rivi.saajanTili = tilinumero;
     rivi.erapvm = erapvm;
@@ -133,6 +136,9 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, Q
     VientiRivi vastarivi;
     vastarivi.pvm = pvm;
 
+    QStringList omaEhtoistenVerojenTilit;
+    omaEhtoistenVerojenTilit << "FI6416603000117625" << "FI5689199710000724" << "FI3550000120253504";
+
     // Etsitään mahdolliset erät
     if( sentit > 0 && !viite.isEmpty())
     {
@@ -157,17 +163,25 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, Q
             }
         }
     }
+    else if(  sentit < 0 && omaEhtoistenVerojenTilit.contains(iban) )
+    {
+        // Verojen maksua, kohdistuu Verovelka-tilille
+        vastarivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA);
+
+    }
     else if( sentit < 0 && !iban.isEmpty() && !viite.isEmpty())
     {
         // Ostolasku
-        QSqlQuery kysely( QString("SELECT id, tili, selite FROM vienti WHERE iban='%1' AND viite='%2'")
+        // Kirjataan vanhin lasku, joka täsmää senttimäärään ja joka vielä maksamatta
+
+        QSqlQuery kysely( QString("SELECT id, tili, selite FROM vienti WHERE iban='%1' AND viite='%2' ORDER BY pvm")
                           .arg(iban).arg(viite) );
         while( kysely.next())
         {
             int eraId = kysely.value("id").toInt();
             TaseEra era( eraId );
 
-            if( era.saldoSnt <= sentit )
+            if( era.saldoSnt == sentit )
             {
                 vastarivi.tili = kp()->tilit()->tiliIdlla( kysely.value("tili").toInt() );
                 vastarivi.eraId = kysely.value("id").toInt();

@@ -47,11 +47,22 @@ public:
      * @param mihin Rajauksen päättymispäivä
      * @return
      */
-    static RaportinKirjoittaja kirjoitaRaportti(QDate saldopvm, bool avoimet = true,
-                                                Lajittelu lajittelu = Laskupaiva,
+    static RaportinKirjoittaja kirjoitaRaportti(QDate saldopvm, bool myyntilaskuja = true, bool avoimet = true,
+                                                Lajittelu lajittelu = Laskupaiva, bool summat = true, bool viitteet = true,
                                                 PvmRajaus rajaus = KaikkiLaskut, QDate mista = QDate(), QDate mihin = QDate());
 
+protected slots:
+    /**
+     * @brief Vaihdetaan ui:ssa osto- ja myyntilaskujen välillä
+     */
+    void tyyppivaihtuu();
+
 protected:
+    static RaportinKirjoittaja myyntilaskut(QDate saldopvm, bool avoimet = true, Lajittelu lajittelu = Laskupaiva, bool summat=true, bool viitteet=true,
+                                            PvmRajaus rajaus = KaikkiLaskut, QDate mista = QDate(), QDate mihin = QDate());
+    static RaportinKirjoittaja ostolaskut(QDate saldopvm, bool avoimet = true, Lajittelu lajittelu = Laskupaiva, bool summat=true, bool viitteet=true,
+                                            PvmRajaus rajaus = KaikkiLaskut, QDate mista = QDate(), QDate mihin = QDate());
+
 
     Ui::Laskuraportti *ui;
 };
