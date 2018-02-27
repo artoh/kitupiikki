@@ -133,6 +133,11 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, Q
     viite.replace( QRegularExpression("^0*"),"");
 
 
+    // Tuplatuonnin esto
+    QSqlQuery tupla( QString("SELECT id FROM vienti WHERE arkistotunnus='%1'").arg(arkistotunnus));
+    if( tupla.next() )
+        return;
+
     VientiRivi vastarivi;
     vastarivi.pvm = pvm;
 
