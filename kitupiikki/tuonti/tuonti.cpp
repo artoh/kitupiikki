@@ -47,7 +47,7 @@ bool Tuonti::tuo(const QString &tiedostonnimi, KirjausWg *wg)
 void Tuonti::tuoLasku(qlonglong sentit, QDate laskupvm, QDate toimituspvm, QDate erapvm, QString viite, QString tilinumero, QString saajanNimi)
 {
     QDate pvm = toimituspvm;
-    if( !toimituspvm.isValid())
+    if( !toimituspvm.isValid() || kp()->asetukset()->luku("TuontiOstolaskuPeruste") == LASKUPERUSTEINEN)
         pvm = laskupvm;
 
     kirjausWg()->gui()->otsikkoEdit->setText(saajanNimi);
@@ -61,16 +61,17 @@ void Tuonti::tuoLasku(qlonglong sentit, QDate laskupvm, QDate toimituspvm, QDate
     if( !tilinumero.isEmpty() &&  kp()->tilit()->tiliIbanilla(tilinumero).onkoValidi() )
     {
         // Oma tili eli onkin myyntilasku
+        // Tositelajiksi myyntilaskut, mutta toistaiseksi ei muuten kirjaudu
         kirjausWg()->gui()->tositetyyppiCombo->setCurrentIndex(
                     kirjausWg()->gui()->tositetyyppiCombo->findData(TositelajiModel::MYYNTILASKUT, TositelajiModel::KirjausTyyppiRooli) );
-        // Tähän pitäisi saada myyntisaatavien tili
+
         rivi.debetSnt = sentit;
     }
     else
     {
         kirjausWg()->gui()->tositetyyppiCombo->setCurrentIndex(
-                    kirjausWg()->gui()->tositetyyppiCombo->findData(TositelajiModel::OSTOLASKUT, TositelajiModel::KirjausTyyppiRooli) );
-        rivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::OSTOVELKA);
+                    kirjausWg()->gui()->tositetyyppiCombo->findData( kp()->asetukset()->luku("TuontiOstolaskuTositelaji"), TositelajiModel::IdRooli ) );
+        rivi.tili = kp()->tilit()->tiliNumerolla( kp()->asetukset()->luku("TuontiOstolaskuTili") );
         rivi.kreditSnt = sentit;
     }
 

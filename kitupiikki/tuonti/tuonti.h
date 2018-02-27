@@ -45,6 +45,11 @@ protected:
     Tuonti(KirjausWg *wg);
 
 public:
+    enum KirjausPeruste
+    {
+        EITUODA = 0, SUORITEPERUSTEINEN = 1, LASKUPERUSTEINEN = 2
+    };
+
     /**
      * @brief Tuo tiedoston
      * @param tiedostonnimi Tiedoston nimi

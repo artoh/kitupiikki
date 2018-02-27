@@ -29,8 +29,8 @@ LaskuValintaWidget::LaskuValintaWidget()
     ui->setupUi(this);
 
     ui->tositelajiCombo->setModel( kp()->tositelajit() );
-    ui->saatavatiliEdit->suodataTyypilla("AS");
-    ui->kateistiliEdit->suodataTyypilla("AR");
+    ui->saatavatiliEdit->suodataTyypilla("AO");
+    ui->kateistiliEdit->suodataTyypilla("ARK");
 
     ui->perusteCombo->addItem(QIcon(":/pic/suorite.png"), tr("Suoriteperusteinen"), LaskuModel::SUORITEPERUSTE);
     ui->perusteCombo->addItem(QIcon(":/pic/kirje.png"), tr("Laskutusperusteinen"), LaskuModel::LASKUTUSPERUSTE);

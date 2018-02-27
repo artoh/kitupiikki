@@ -162,7 +162,9 @@ void KtpVienti::vieKtp()
                 << "LaskuTositelaji" << "LaskuKirjausperuste"
                 << "LaskuSaatavatili" << "LaskuKateistili"
                 << "LaskuMaksuaika" << "LaskuHuomautusaika"
-                << "ArkistoRaportit" << "VakioTilikartta" << "LaskuTili";
+                << "ArkistoRaportit" << "VakioTilikartta" << "LaskuTili"
+                << "TuontiOstolaskuTili" << "TuontiOstolaskuTositelaji"
+                << "TuontiOstolaskuPeruste" << "TuontiTiliote";
 
         avaimet << kp()->asetukset()->avaimet("Raportti/");
 

@@ -111,7 +111,11 @@
     </layout>
    </item>
    <item>
-    <widget class="QTableView" name="ilmoituksetView"/>
+    <widget class="QTableView" name="ilmoituksetView">
+     <attribute name="horizontalHeaderStretchLastSection">
+      <bool>true</bool>
+     </attribute>
+    </widget>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">

@@ -54,6 +54,7 @@ public:
         ALV,
         LASKUTUS,
         SAHKOPOSTI,
+        TUONTI,
         RAPORTIT,
         LIITETIETOKAAVA,
         TILIKARTTAOHJE
