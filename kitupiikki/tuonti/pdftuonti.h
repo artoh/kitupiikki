@@ -54,6 +54,8 @@ protected:
      */
     void tuoPdfTiliote();
 
+    void tuoTiliTapahtumat(bool kirjausPvmRivit);
+
 
     /**
      * @brief Hakee pdf-dokumentit tekstit taulukkoon
