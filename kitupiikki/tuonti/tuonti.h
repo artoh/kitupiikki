@@ -28,7 +28,6 @@
 #define TUONTI_H
 
 #include <QString>
-#include <QObject>
 
 #include "db/tositelajimodel.h"
 #include "db/tili.h"
@@ -38,9 +37,8 @@ class KirjausWg;
 /**
  * @brief Tiedostojen tuonti
  */
-class Tuonti : public QObject
+class Tuonti
 {
-    Q_OBJECT
 protected:
     Tuonti(KirjausWg *wg);
 
@@ -89,7 +87,9 @@ protected:
      * @param mihin Tiliote päättyy
      * @return tosi, jos onnistuu (tili olemassa)
      */
-    bool tiliote(QString iban, QDate mista, QDate mihin);
+    bool tiliote(QString iban, QDate mista=QDate(), QDate mihin=QDate());
+
+    bool tiliote(Tili tili, QDate mista=QDate(), QDate mihin=QDate());
 
     /**
      * @brief Tuo rivin tiliotteelta

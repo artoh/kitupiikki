@@ -47,6 +47,11 @@ KantaTilinvalintaLine::KantaTilinvalintaLine(QWidget *parent)
 
 }
 
+int KantaTilinvalintaLine::valittuTilinumero() const
+{
+    return valittuTili().numero();
+}
+
 void KantaTilinvalintaLine::valitseTiliNumerolla(int tilinumero)
 {
     if( tilinumero )
@@ -78,11 +83,11 @@ void KantaTilinvalintaLine::suodataTyypilla(const QString &regexp)
 }
 
 
-int KantaTilinvalintaLine::valittuTilinumero() const
+Tili KantaTilinvalintaLine::valittuTili() const
 {
     QString sana = text().left( text().indexOf(' '));
     if( sana.isEmpty() || !sana.at(0).isDigit() )
-        return 0;
+        return Tili();
 
     for( int i=0; i < kp()->tilit()->rowCount( QModelIndex()); i++)
     {
@@ -92,11 +97,11 @@ int KantaTilinvalintaLine::valittuTilinumero() const
             QString nroTxt = QString::number( tili.numero() );
             if( nroTxt.startsWith(sana))
             {
-                return tili.numero();
+                return tili;
             }
         }
     }
-    return 0;
+    return Tili();
 }
 
 

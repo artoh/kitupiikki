@@ -33,7 +33,7 @@
       <item>
        <widget class="QLabel" name="label_2">
         <property name="text">
-         <string>Tallenna tosite pdf- tai jpg- muodossa raahaamalla tiedosto tähän tai ...</string>
+         <string>Raahaa tähän pdf-, jpg- tai csv-tiedosto tai..</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>

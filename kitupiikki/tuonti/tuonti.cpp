@@ -21,13 +21,15 @@
 
 #include "tuonti.h"
 #include "pdftuonti.h"
+#include "csvtuonti.h"
+
 #include "kirjaus/kirjauswg.h"
 #include "db/tili.h"
 #include "db/eranvalintamodel.h"
 #include "laskutus/laskumodel.h"
 
 Tuonti::Tuonti(KirjausWg *wg)
-    :  QObject(), kirjausWg_(wg)
+    :  kirjausWg_(wg)
 {
 
 }
@@ -39,6 +41,11 @@ bool Tuonti::tuo(const QString &tiedostonnimi, KirjausWg *wg)
     {
         PdfTuonti pdftuonti(wg);
         return pdftuonti.tuoTiedosto(tiedostonnimi);
+    }
+    else if( tiedostonnimi.endsWith(".csv", Qt::CaseInsensitive))
+    {
+        CsvTuonti csvtuonti(wg);
+        return csvtuonti.tuoTiedosto(tiedostonnimi);
     }
 
     return true;
@@ -90,7 +97,13 @@ void Tuonti::tuoLasku(qlonglong sentit, QDate laskupvm, QDate toimituspvm, QDate
 
 bool Tuonti::tiliote(QString iban, QDate mista, QDate mihin)
 {
-    tiliotetili_ = kp()->tilit()->tiliIbanilla(iban);
+    return tiliote( kp()->tilit()->tiliIbanilla(iban),
+                    mista, mihin);
+}
+
+bool Tuonti::tiliote(Tili tili, QDate mista, QDate mihin)
+{
+    tiliotetili_ = tili;
     if( !tiliotetili_.onko(TiliLaji::PANKKITILI))
         return false;
 
@@ -116,11 +129,11 @@ bool Tuonti::tiliote(QString iban, QDate mista, QDate mihin)
     {
         kirjausWg()->gui()->tiliotealkaenEdit->setDate(mista);
         kirjausWg()->gui()->tilioteloppuenEdit->setDate(mihin);
-        kirjausWg()->gui()->otsikkoEdit->setText( tr("Tiliote %1 - %2")
+        kirjausWg()->gui()->otsikkoEdit->setText( kp()->tr("Tiliote %1 - %2")
                                               .arg(mista.toString(Qt::SystemLocaleShortDate)).arg(mihin.toString(Qt::SystemLocaleShortDate)));
     }
     else
-        kirjausWg()->gui()->otsikkoEdit->setText( tr("Tiliote"));
+        kirjausWg()->gui()->otsikkoEdit->setText( kp()->tr("Tiliote"));
 
     kirjausWg()->gui()->tositePvmEdit->setDate(mihin);
 
@@ -154,7 +167,7 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, Q
             {
                 // Kyseisellä viitteellä on avoin lasku, jota voidaan siis maksaa
                 JsonKentta json( kysely.value("json").toByteArray() );
-                selite = tr("%1 [%2]").arg( kysely.value("asiakas").toString(), viite );
+                selite = QString("%1 [%2]").arg( kysely.value("asiakas").toString(), viite );
 
                 vastarivi.tili = kp()->tilit()->tiliNumerolla( json.luku("Saatavatili") );
                 vastarivi.eraId = json.luku("TaseEra");

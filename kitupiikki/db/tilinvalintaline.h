@@ -37,6 +37,8 @@ public:
     KantaTilinvalintaLine( QWidget *parent=0);
 
     int valittuTilinumero() const;
+    Tili valittuTili() const;
+
 
 public slots:
     void valitseTiliNumerolla(int tilinumero);
