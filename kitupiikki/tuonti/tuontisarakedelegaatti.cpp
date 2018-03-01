@@ -70,7 +70,11 @@ QWidget *TuontiSarakeDelegaatti::createEditor(QWidget *parent, const QStyleOptio
         else
         {
             combo->addItem("Tositteen tunnus", CsvTuonti::TOSITETUNNUS);
-            combo->addItem("Kohdennus", CsvTuonti::KOHDENNUS);
+            if( tyyppi == CsvTuonti::TEKSTI)
+            {
+                combo->addItem("Kohdennus", CsvTuonti::KOHDENNUS);
+                combo->addItem("Tilin nimi", CsvTuonti::TILINIMI);
+            }
         }
     }
     return combo;

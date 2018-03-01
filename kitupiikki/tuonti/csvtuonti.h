@@ -56,7 +56,8 @@ public:
         IBAN,
         VIITENRO,
         ARKISTOTUNNUS,
-        KOHDENNUS
+        KOHDENNUS,
+        TILINIMI
     };
 
     enum { TyyppiRooli = Qt::UserRole + 1};

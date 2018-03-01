@@ -17,6 +17,7 @@
 
 #include "csvtuonti.h"
 #include "tuontisarakedelegaatti.h"
+#include "muuntosarakedelegaatti.h"
 
 #include <QTextCodec>
 #include <QRegularExpression>
@@ -26,6 +27,7 @@
 #include "validator/viitevalidator.h"
 
 #include "kirjaus/kirjauswg.h"
+#include "ui_tilimuuntodlg.h"
 
 CsvTuonti::CsvTuonti(KirjausWg *wg)
     : Tuonti( wg ), ui( new Ui::CsvTuonti)
@@ -100,6 +102,77 @@ bool CsvTuonti::tuoCsv(const QByteArray &data)
         if( ui->kirjausRadio->isChecked())
         {
             // Tuodaan kirjauksia
+            // Ensiksi muuntotaulukko
+            QMap<int,int> muuntotaulukko;
+            QMap<int,QString> tilinimet;
+            QRegularExpression tiliRe("(\\d+)\\s?(.*)");
+
+            for(int r=1; r < csv_.count(); r++)
+            {
+                if( csv_.at(r).count() < muodot_.count())
+                    continue;   // Rivimäärä ei täsmää
+                int tilinro = 0;
+                QString tilinimi;
+                for( int c=0; c < muodot_.count(); c++)
+                {
+                    int tuonti = ui->tuontiTable->item(c,2)->data(Qt::EditRole).toInt();
+                    QString tieto = csv_.at(r).at(c);
+                    if( tuonti == TILINUMERO)
+                    {
+                        QRegularExpressionMatch mats = tiliRe.match(tieto);
+                        tilinro = mats.captured(1).toInt();
+                        if( mats.captured(2).length() > 2)
+                            tilinimi = mats.captured(2);
+                    }
+                    else if( tuonti == TILINIMI)
+                        tilinimi = tieto;
+                }
+                muuntotaulukko.insert(tilinro,tilinro);
+                tilinimet.insert(tilinro, tilinimi);
+            }
+
+            if( ui->muuntoRadio->isChecked())
+            {
+
+                // TODO TODO : Tähän tarvittaneen model jotta saadaan editointi oikein !!!
+
+                QDialog muuntoDlg;
+                Ui::TiliMuunto mUi;
+                mUi.setupUi(&muuntoDlg);
+
+                mUi.muuntoTable->setRowCount(tilinimet.count());
+
+                QMapIterator<int, QString> iter(tilinimet);
+                int rivi = 0;
+                while( iter.hasNext())
+                {
+                    iter.next();
+                    QTableWidgetItem *nroItem = new QTableWidgetItem( QString::number( iter.key() ));
+                    nroItem->setFlags(Qt::ItemIsEnabled);
+                    mUi.muuntoTable->setItem( rivi, 0, nroItem );
+
+                    QTableWidgetItem *nimiItem = new QTableWidgetItem( iter.value() );
+                    nimiItem->setFlags(Qt::ItemIsEnabled);
+                    mUi.muuntoTable->setItem( rivi, 1, nimiItem );
+
+                    QTableWidgetItem *toItem = new QTableWidgetItem( "X");
+                    toItem->setData(Qt::EditRole, iter.key() );
+                    mUi.muuntoTable->setItem( rivi++, 2, toItem );
+                }
+
+                mUi.muuntoTable->setItemDelegateForColumn(2, new MuuntoSarakeDelegaatti());
+
+                if( muuntoDlg.exec() != QDialog::Accepted )
+                    return false;
+
+
+                // Muuntotaulun haku
+
+            }
+
+
+
+
             QRegularExpression numRe("\\d+");
 
             for(int r=1; r < csv_.count(); r++)
@@ -338,6 +411,8 @@ void CsvTuonti::paivitaOletukset()
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, TILINUMERO);
             else if( otsikko == "Kohdennus" )
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, KOHDENNUS);
+            else if( otsikko == "Tili" && muoto == TEKSTI)
+                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, TILINIMI);
             else
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, EITUODA);
         }

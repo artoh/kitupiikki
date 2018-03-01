@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>CSV-tuonti</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1,0">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1,0,0">
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
@@ -72,6 +72,13 @@
        <string>Esimerkki</string>
       </property>
      </column>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="muuntoRadio">
+     <property name="text">
+      <string>Tilinumeroiden muunto</string>
+     </property>
     </widget>
    </item>
    <item>
@@ -135,8 +142,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>328</x>
-     <y>384</y>
+     <x>517</x>
+     <y>411</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -167,12 +174,28 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>76</x>
-     <y>61</y>
+     <x>97</x>
+     <y>83</y>
     </hint>
     <hint type="destinationlabel">
      <x>180</x>
      <y>65</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>kirjausRadio</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>muuntoRadio</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>26</x>
+     <y>43</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>17</x>
+     <y>375</y>
     </hint>
    </hints>
   </connection>
