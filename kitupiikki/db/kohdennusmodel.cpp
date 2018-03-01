@@ -151,6 +151,16 @@ Kohdennus KohdennusModel::kohdennus(int id) const
     return Kohdennus();
 }
 
+Kohdennus KohdennusModel::kohdennus(const QString &nimi) const
+{
+    foreach (Kohdennus projekti, kohdennukset_)
+    {
+        if( projekti.nimi() == nimi)
+            return projekti;
+    }
+    return Kohdennus();
+}
+
 QList<Kohdennus> KohdennusModel::kohdennukset() const
 {
     return kohdennukset_;

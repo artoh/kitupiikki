@@ -68,7 +68,10 @@ QWidget *TuontiSarakeDelegaatti::createEditor(QWidget *parent, const QStyleOptio
         if( !tuokirjauksia_)
             combo->addItem("Arkistotunnus", CsvTuonti::ARKISTOTUNNUS);
         else
+        {
             combo->addItem("Tositteen tunnus", CsvTuonti::TOSITETUNNUS);
+            combo->addItem("Kohdennus", CsvTuonti::KOHDENNUS);
+        }
     }
     return combo;
 }

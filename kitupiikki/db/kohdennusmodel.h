@@ -62,6 +62,7 @@ public:
 
     QString nimi(int id) const;
     Kohdennus kohdennus(int id) const;
+    Kohdennus kohdennus(const QString& nimi) const;
     QList<Kohdennus> kohdennukset() const;
 
     /**

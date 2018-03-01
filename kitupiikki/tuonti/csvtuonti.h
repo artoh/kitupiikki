@@ -55,7 +55,8 @@ public:
         SELITE,
         IBAN,
         VIITENRO,
-        ARKISTOTUNNUS
+        ARKISTOTUNNUS,
+        KOHDENNUS
     };
 
     enum { TyyppiRooli = Qt::UserRole + 1};
