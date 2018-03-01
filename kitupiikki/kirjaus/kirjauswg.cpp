@@ -409,6 +409,7 @@ void KirjausWg::tiedotModelista()
     ui->kommentitEdit->setPlainText( model_->kommentti());
     ui->tunnisteEdit->setText( QString::number(model_->tunniste()));
     ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( model_->tositelaji().id(), TositelajiModel::IdRooli ) );
+    ui->kausiLabel->setText(QString("/%1").arg( kp()->tilikaudet()->tilikausiPaivalle(model_->pvm()).kausitunnus() ));
 
     ui->tilioteBox->setChecked( model_->tiliotetili() != 0 );
     // Tiliotetilin yhdistämiset!
@@ -510,6 +511,7 @@ void KirjausWg::pvmVaihtuu()
         // Siirrytty toiselle tilikaudelle, vaihdetaan numerointia
         model_->asetaTunniste( model_->seuraavaTunnistenumero());
         ui->tunnisteEdit->setText( QString::number(model_->tunniste() ));
+        ui->kausiLabel->setText( kp()->tilikaudet()->tilikausiPaivalle(paiva).kausitunnus() );
     }
 
     // Varomerkki jos alv-ilmoitus on annettu

@@ -68,7 +68,7 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
                                              .arg( mihin.toString(Qt::SystemLocaleShortDate) ) );
 
     rk.lisaaPvmSarake();        // Pvm
-    rk.lisaaSarake("ABC1234 "); // Tosite
+    rk.lisaaSarake("ABC1234/99 "); // Tosite
     rk.lisaaVenyvaSarake();     // Selite
     if( tulostakohdennus)
         rk.lisaaSarake("Kohdennusnimi"); // Kohdennus
@@ -221,9 +221,11 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
                 saldo += kredit - debet;
 
             RaporttiRivi rr;
-            rr.lisaa( kysely.value("pvm").toDate() );
+            QDate pvm = kysely.value("pvm").toDate();
+            rr.lisaa( pvm );
             rr.lisaaLinkilla( RaporttiRiviSarake::TOSITE_ID, kysely.value("tositeId").toInt() ,
-                              QString("%1%2").arg(kysely.value("tositelaji").toString()).arg(kysely.value("tunniste").toInt())  );
+                              QString("%1%2/%3").arg(kysely.value("tositelaji").toString()).arg(kysely.value("tunniste").toInt())
+                              .arg( kp()->tilikaudet()->tilikausiPaivalle(pvm).kausitunnus() ));
             rr.lisaa( kysely.value("selite").toString());
             if( tulostakohdennus)
             {

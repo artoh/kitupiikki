@@ -75,9 +75,10 @@ QVariant TositeSelausModel::data(const QModelIndex &index, int role) const
         {
 
         case TUNNISTE:
-            return QVariant(QString("%1%2")
+            return QVariant(QString("%1%2/%3")
                     .arg( kp()->tositelajit()->tositelaji( rivi.tositeLaji ).tunnus() )
-                    .arg( rivi.tositeTunniste) );
+                    .arg( rivi.tositeTunniste)
+                    .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() ));
         case PVM:
             return QVariant( rivi.pvm );
 

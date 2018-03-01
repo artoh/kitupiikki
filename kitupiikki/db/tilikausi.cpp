@@ -175,3 +175,8 @@ int Tilikausi::pieniElinkeinonharjoittaja()
     return ehdot;
 }
 
+void Tilikausi::asetaKausitunnus(const QString &kausitunnus)
+{
+    kausitunnus_ = kausitunnus;
+}
+

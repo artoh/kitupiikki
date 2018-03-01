@@ -28,9 +28,7 @@ PvmDelegaatti::PvmDelegaatti(QDateEdit *kantapaivaeditori) :
 QWidget *PvmDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem & /* option */, const QModelIndex & /* index */ ) const
 {
     QDateEdit *edit = new QDateEdit(parent);
-
-    Tilikausi tositekausi = Kirjanpito::db()->tilikausiPaivalle(kantaeditori->date());
-    edit->setDateRange( tositekausi.alkaa(), tositekausi.paattyy());
+    edit->setDateRange( kp()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );
 
     return edit;
 }

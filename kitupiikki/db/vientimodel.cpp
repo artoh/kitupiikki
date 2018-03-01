@@ -215,6 +215,14 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
         {
             return kp()->alvTyypit()->kuvakeKoodilla( rivi.alvkoodi % 100 );
         }
+        else if( index.column() == PVM)
+        {
+            // Väärät päivät punaisella
+            if( rivi.pvm <= kp()->tilitpaatetty() || rivi.pvm > kp()->tilikaudet()->kirjanpitoLoppuu() )
+                return QIcon(":/pic/lukittu.png");
+            else if( kp()->asetukset()->pvm("AlvIlmoitus") >= rivi.pvm && rivi.alvkoodi )
+                return QIcon(":/pic/vero.png");
+        }
     }
     else if( role == Qt::TextColorRole)
     {
@@ -224,6 +232,7 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
             if( rivi.alvkoodi > 800)
                 return QColor(Qt::darkGray);
         }
+
     }
 
     return QVariant();

@@ -121,11 +121,21 @@ public:
     int pieniElinkeinonharjoittaja();
 
 
+    /**
+     * @brief Tilikauden lyhyt tunnus esim. 17, 17B
+     * @return
+     */
+    QString kausitunnus() const { return kausitunnus_;}
+
+    void asetaKausitunnus(const QString& kausitunnus);
+
 protected:
     QDate alkaa_;
     QDate paattyy_;
 
     JsonKentta json_;
+
+    QString kausitunnus_;
 };
 
 #endif // TILIKAUSI_H

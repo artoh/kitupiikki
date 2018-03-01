@@ -243,7 +243,9 @@ void LaskunTulostaja::ylaruudukko(QPrinter *printer, QPainter *painter)
     if( model_->kirjausperuste() != LaskuModel::MAKSUPERUSTE)
     {
         Tositelaji laji = kp()->tositelajit()->tositelaji( kp()->asetukset()->luku("LaskuTositelaji") );
-        painter->drawText(QRectF( 3 * leveys / 4 + mm, pv - rk, leveys / 4, rk-mm ), Qt::AlignBottom, QString("%1%2").arg(laji.tunnus()).arg(laji.seuraavanTunnistenumero( model_->pvm() ))  );
+        painter->drawText(QRectF( 3 * leveys / 4 + mm, pv - rk, leveys / 4, rk-mm ), Qt::AlignBottom, QString("%1%2/%3")
+                          .arg(laji.tunnus()).arg(laji.seuraavanTunnistenumero( model_->pvm() ))
+                          .arg( kp()->tilikausiPaivalle(kp()->paivamaara()).kausitunnus())  );
     }
 
     painter->drawText(QRectF( leveys / 2 + mm, pv - rk, leveys / 4, rk-mm ), Qt::AlignBottom, kp()->paivamaara().toString(Qt::SystemLocaleShortDate) );

@@ -333,6 +333,7 @@ void TiliModel::lataa()
             otsikot[otsikkotaso] = uusi;
 
     }
+
     endResetModel();
 }
 

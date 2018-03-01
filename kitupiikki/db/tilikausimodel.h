@@ -94,6 +94,8 @@ public slots:
      */
     void tallennaJSON();
 
+    void paivitaKausitunnukset();
+
 protected:
     QSqlDatabase *tietokanta_;
     QList<Tilikausi> kaudet_;

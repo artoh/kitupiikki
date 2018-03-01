@@ -156,6 +156,7 @@ void TilikausiModel::lisaaTilikausi(Tilikausi tilikausi)
     tietokanta_->exec( QString("INSERT INTO tilikausi(alkaa,loppuu) VALUES('%1','%2') ")
                               .arg(tilikausi.alkaa().toString(Qt::ISODate))
                               .arg(tilikausi.paattyy().toString(Qt::ISODate)));
+    paivitaKausitunnukset();
     endInsertRows();
 }
 
@@ -175,6 +176,7 @@ void TilikausiModel::muokkaaViimeinenTilikausi(const QDate &paattyy)
                           .arg( paattyy.toString(Qt::ISODate) ).arg( kaudet_.last().alkaa().toString(Qt::ISODate)) );
         emit dataChanged( index(kaudet_.count()-1, KAUSI), index(kaudet_.count()-1, KAUSI) );
     }
+    paivitaKausitunnukset();
 }
 
 Tilikausi TilikausiModel::tilikausiPaivalle(const QDate &paiva) const
@@ -246,6 +248,7 @@ void TilikausiModel::lataa()
     {
         kaudet_.append( Tilikausi(kysely.value(0).toDate(), kysely.value(1).toDate(), kysely.value(2).toByteArray()));
     }
+    paivitaKausitunnukset();
     endResetModel();
 }
 
@@ -266,4 +269,29 @@ void TilikausiModel::tallennaJSON()
     }
 
     tietokanta_->commit();
+}
+
+void TilikausiModel::paivitaKausitunnukset()
+{
+    // Päivittää kausitunnukset. Kausitunnus on päättyvän tilikauden vuosiluku 17
+    // paitsi jos kausia ko. vuodella on useita, niin 17B jne.
+    QString edellinenvuosi;
+    int samoja = 0;
+
+    for(int i=0; i < kaudet_.count(); i++)
+    {
+        QString vuositxt = kaudet_.at(i).paattyy().toString("yy");
+        if( vuositxt != edellinenvuosi)
+        {
+            samoja = 0;
+            edellinenvuosi = vuositxt;
+            kaudet_[i].asetaKausitunnus(vuositxt);
+        }
+        else
+        {
+            samoja++;
+            kaudet_[i].asetaKausitunnus( vuositxt + QChar(65 + samoja) );
+        }
+
+    }
 }

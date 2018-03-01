@@ -194,7 +194,8 @@ void Arkistoija::arkistoiTositteet()
         out << "<table class=tositeotsikot><tr>";
         out << "<td class=paiva>" << tosite->pvm().toString(Qt::SystemLocaleShortDate) << "</td>";
         out << "<td class=tositeotsikko>" << tosite->otsikko() << "</td>";
-        out << "<td class=tositetunnus>" << tosite->tositelaji().tunnus() << tosite->tunniste() << "</td>";
+        out << QString("<td class=tositetunnus>%1%2/%3</td>")
+               .arg(tosite->tositelaji().tunnus()).arg(tosite->tunniste()).arg( kp()->tilikaudet()->tilikausiPaivalle( tosite->pvm() ).kausitunnus() );
         out << "</tr></table>";
 
         // Sitten viennit

@@ -79,7 +79,7 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
                                              .arg( mihin.toString(Qt::SystemLocaleShortDate) ) );
 
     kirjoittaja.lisaaPvmSarake();
-    kirjoittaja.lisaaSarake("ABC1234 ");
+    kirjoittaja.lisaaSarake("ABC1234/99 ");
     kirjoittaja.lisaaSarake("999999 Tilinimi tarkeinteilla");
     if(tulostakohdennukset )
         kirjoittaja.lisaaSarake("Kohdennusnimi");
@@ -150,8 +150,13 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
         }
 
         RaporttiRivi rivi;
-        rivi.lisaa( kysely.value("pvm").toDate());
-        rivi.lisaaLinkilla( RaporttiRiviSarake::TOSITE_ID, kysely.value("tositeId").toInt() , kysely.value("tositelaji").toString() + kysely.value("tunniste").toString());
+
+        QDate pvm = kysely.value("pvm").toDate();
+        rivi.lisaa( pvm );
+
+        rivi.lisaaLinkilla( RaporttiRiviSarake::TOSITE_ID, kysely.value("tositeId").toInt() ,
+                          QString("%1%2/%3").arg(kysely.value("tositelaji").toString()).arg(kysely.value("tunniste").toInt())
+                          .arg( kp()->tilikaudet()->tilikausiPaivalle(pvm).kausitunnus() ));
         rivi.lisaaLinkilla( RaporttiRiviSarake::TILI_NRO, kysely.value("tilinro").toInt() , tr("%1 %2").arg(kysely.value("tilinro").toString()).arg(kysely.value("tilinimi").toString()));
 
         if( tulostakohdennukset )

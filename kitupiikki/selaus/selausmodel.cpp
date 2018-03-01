@@ -165,9 +165,10 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
         rivi.selite = query.value(5).toString();
         rivi.kohdennus = kp()->kohdennukset()->kohdennus( query.value(6).toInt());
         rivi.taseEra = TaseEra( query.value(7).toInt());
-        rivi.tositetunniste = QString("%1%2")
+        rivi.tositetunniste = QString("%1%2/%3")
                                        .arg( kp()->tositelajit()->tositelaji( query.value(8).toInt()  ).tunnus() )
-                                       .arg( query.value(9).toInt()  );
+                                       .arg( query.value(9).toInt()  )
+                                       .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() );
 
         rivit.append(rivi);
 

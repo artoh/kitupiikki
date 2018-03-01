@@ -63,7 +63,7 @@ RaportinKirjoittaja TositeluetteloRaportti::kirjoitaRaportti(QDate mista, QDate 
     kirjoittaja.asetaKausiteksti(QString("%1 - %2").arg( mista.toString(Qt::SystemLocaleShortDate) )
                                              .arg( mihin.toString(Qt::SystemLocaleShortDate) ) );
 
-    kirjoittaja.lisaaSarake("ABC1234 ");    // Tositetunniste
+    kirjoittaja.lisaaSarake("ABC1234/99 ");    // Tositetunniste
     kirjoittaja.lisaaPvmSarake();           // Pvm
     kirjoittaja.lisaaSarake("999999 Tilinimi tarkenteilla");
     if( tulostakohdennukset )
@@ -187,7 +187,9 @@ RaportinKirjoittaja TositeluetteloRaportti::kirjoitaRaportti(QDate mista, QDate 
         }
 
         RaporttiRivi tositerivi;
-        tositerivi.lisaaLinkilla( RaporttiRiviSarake::TOSITE_ID, tositeId, laji.tunnus() +  QString::number(tunniste));
+        tositerivi.lisaaLinkilla( RaporttiRiviSarake::TOSITE_ID, tositeId,
+                                  QString("%1%2/%3").arg(laji.tunnus())
+                                  .arg(tunniste).arg( kp()->tilikaudet()->tilikausiPaivalle(tositePvm).kausitunnus() ) );
         tositerivi.lisaa(tositePvm);
         tositerivi.lisaa(otsikko, 2 + (int) tulostakohdennukset );
 
