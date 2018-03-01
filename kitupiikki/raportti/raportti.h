@@ -48,7 +48,7 @@ class Raportti : public QWidget
 {
     Q_OBJECT
 public:
-    Raportti(QWidget *parent = 0);
+    Raportti(bool csv = true, QWidget *parent = 0);
 
 
     /**

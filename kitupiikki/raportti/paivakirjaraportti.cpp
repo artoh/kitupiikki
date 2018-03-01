@@ -59,7 +59,7 @@ RaportinKirjoittaja PaivakirjaRaportti::raportti(bool csvmuoto)
 
     return kirjoitaRaportti( ui->alkupvm->date(), ui->loppupvm->date(),
                              kohdennuksella, ui->tositejarjestysRadio->isChecked(),
-                             ui->ryhmittelelajeittainCheck->isChecked(), ui->tulostakohdennuksetCheck->isChecked() && !csvmuoto,
+                             ui->ryhmittelelajeittainCheck->isChecked(), ui->tulostakohdennuksetCheck->isChecked(),
                              ui->tulostasummat->isChecked() && !csvmuoto);
 
 }

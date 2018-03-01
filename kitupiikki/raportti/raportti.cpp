@@ -48,7 +48,7 @@
 #include "ui_csvvientivalinnat.h"
 
 
-Raportti::Raportti( QWidget *parent) : QWidget(parent)
+Raportti::Raportti(bool csv, QWidget *parent) : QWidget(parent)
 {
         raporttiWidget = new QWidget();
 
@@ -89,6 +89,10 @@ Raportti::Raportti( QWidget *parent) : QWidget(parent)
         connect( sivunasetusBtn, SIGNAL(clicked(bool)), this, SLOT(sivunAsetukset()));
         connect( esikatseluBtn, SIGNAL(clicked(bool)), this, SLOT(esikatsele()) );
         connect( tulostaBtn, SIGNAL(clicked(bool)), this, SLOT(tulosta()) );
+
+        csvBtn->setEnabled(csv);
+        csvleikeBtn->setEnabled(csv);
+        csvasetusBtn->setEnabled(csv);
 }
 
 void Raportti::tulosta()
