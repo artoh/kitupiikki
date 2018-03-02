@@ -1,0 +1,792 @@
+[TilikarttaNimi]
+Elinkeinotoiminta (Tilitin-yhteensopiva)
+[TilikarttaTekija]
+artoh.github.io
+[TilikarttaPvm]
+2018-01-11
+[TilikarttaKuvaus]
+
+[TilikarttaLuontiVersio]
+0.3
+[LaskuTili]
+
+[tilit]
+H1 1001 {} Vastaavaa
+H5 1001 {} Perustamismenot
+A 1001 {} Perustamismenot
+H5 1011 {} Tutkimusmenot
+A 1011 {} Tutkimusmenot
+H5 1021 {} Kehittämismenot
+A 1021 {} Kehittämismenot
+A 1031 {} Patentit
+A 1033 {} Tekijänoikeudet
+A 1035 {} Tavaramerkkioikeudet
+A 1037 {} Lisenssimaksut
+A 1039 {} Toimilupaoikeudet
+A 1043 {} Puhelinliittymät
+A 1045 {} Hälytysliittymät
+H5 1051 {} Liikearvo
+A 1051 {} Liikearvo
+A 1055 {} Fuusiotili
+A 1057 {} Fuusioaktiiva
+H5 1061 {} Konserniliikearvo
+A 1061 {} Konserniliikearvo
+H5 1091 {} Ennakkomaksut
+H6 1101 {} Omistuskiinteistöt
+A 1105 {} Liittymismaksut
+A 1111 {} Maanvuokraoikeudet
+A 1173 {} Henkilöautot
+A 1175 {} Ammattiautot
+A 1335 {} Keräilyhyödykkeet
+H4 1401 {} Sijoitukset
+A 1423 {} Osakkuusyritysosuudet
+A 1447 {} Pörssiosakkeet
+A 1457 {} Pankkiosuudet
+A 1465 {} Puhelinosuudet
+A 1483 {} Liittymismaksusaamiset
+H5 1531 {} Tavarat
+A 1531 {} Tavarat
+A 1541 {} Kiinteistöt
+A 1543 {} Arvopaperit
+H5 1551 {} Ennakkomaksut
+H6 1601 {} Myyntisaamiset
+H6 1651 {} Lainasaamiset
+H6 1681 {} Siirtosaamiset
+H6 1701 {} Myyntisaamiset
+A 1705 {} Myymäläsaamiset
+A 1707 {} Provisiosaamiset
+A 1711 {} Luottokorttisaamiset
+A 1713 {} Pankkikorttisaamiset
+A 1723 {} Osamaksusaamiset
+A 1731 {} Konsernimyyntisaamiset
+A 1733 {} Konsernisiirtosaamiset
+A 1735 {} Konsernilainasaamiset
+A 1741 {} Omistusyhteysyritysmyyntisaamiset
+A 1743 {} Omistusyhteysyrityssiirtosaamiset
+A 1745 {} Omistusyhteysyrityslainasaamiset
+H6 1751 {} Lainasaamiset
+A 1761 {} Verosaamiset
+A 1763 {} Arvonlisäverosaamiset
+A 1765 {} Vakuustalletukset
+A 1771 {} Vahingonkorvaussaamiset
+A 1777 {} Selvittelytili
+A 1781 {} Osakemerkintäsaamiset
+H6 1801 {} Siirtosaamiset
+H4 1861 {} Rahoitusarvopaperit
+H5 1900 {} Rahat
+A 1900 {} Käteisvarat
+A 1905 {} Valuuttakassat
+H5 1910 {} Pankkisaamiset
+A 1970 {} Sijoitustili
+A 1984 {} Valuuttatili
+A 1986 {} Valuuttatalletukset
+A 1991 {} Täsmäytykset
+A 1996 {} Virhemaksut
+H1 2001 {} Vastattavaa
+H4 2001 {} Osakepääoma
+X 2001 {} Osakepääoma
+X 2011 {} Osakeanti
+X 2021 {} Ylikurssirahasto
+X 2031 {} Arvonkorotusrahasto
+X 2051 {} Vararahasto
+H4 2101 {} Osuuspääoma
+X 2101 {} Osuuspääoma
+X 2103 {} Lisäosuuspääoma
+H4 2151 {} Pääomapanokset
+X 2261 {} Osingonjako
+X 2271 {} Osuuskorot
+H4 2331 {} Pääomavajaus
+X 2331 {} Pääomavajaus
+H4 2381 {} Pääomalainat
+B 2381 {} Pääomalaina
+H4 2401 {} Poistoero
+B 2461 {} Luottotappiovaraus
+B 2471 {} Takuuvaraus
+B 2481 {} Toimintavaraus
+B 2493 {} Asuintalovaraus
+H4 2501 {} Eläkevaraukset
+B 2501 {} Eläkevaraukset
+H4 2531 {} Verovaraukset
+B 2531 {} Verovaraukset
+B 2551 {} Oikeudenkäyntivaraus
+B 2561 {} Hinnanlaskuvaraus
+H3 2591 {} Konsernireservi
+B 2591 {} Konsernireservi
+H5 2601 {} Joukkovelkakirjalainat
+H5 2611 {} Vaihtovelkakirjalainat
+H5 2651 {} Eläkelainat
+H5 2671 {} Ostovelat
+H5 2691 {} Rahoitusvekselit
+H5 2751 {} Siirtovelat
+H5 2801 {} Joukkovelkakirjalainat
+B 2801 {} Joukkovelkakirjalainat
+B 2803 {} Obligaatiolainat
+B 2805 {} Debentuurilainat
+H5 2811 {} Vaihtovelkakirjalainat
+B 2811 {} Vaihtovelkakirjalainat
+H5 2851 {} Eläkelainat
+H5 2871 {} Ostovelat
+B 2881 {} Osamaksuvelat
+B 2888 {} Maksuliikennetili
+H5 2891 {} Rahoitusvekselit
+B 2891 {} Rahoitusvekselit
+B 2921 {} Ennakonpidätysvelka
+B 2923 {} Sosiaaliturvamaksuvelka
+B 2933 {} Ulosottotilitysvelka
+B 2935 {} Tilitysvelat
+B 2939 {} Arvonlisäverovelka
+B 2943 {} Voitonjakovelat
+B 2944 {} Optiolainat
+B 2947 {} Selvittelytili
+H5 2951 {} Siirtovelat
+H1 3000 {} Tuloslaskelma
+H2 3000 {} Myyntituotot
+C 3000 {} Myynti
+H3 3200 {} Oheispalvelut
+C 3200 {} Puhelintuotot
+C 3210 {} Veikkaustuotot
+C 3220 {} Automaattituotot
+C 3250 {} Laskutuslisät
+C 3260 {} Kuljetusvakuutukset
+C 3270 {} Kuljetusveloitukset
+C 3290 {} Osamaksulisät
+C 3300 {} Komissiomyynti
+C 3320 {} Välityspalvelutuotot
+H3 3330 {} Tavaravienti
+C 3370 {} Kolmikantamyynti
+C 3450 {} Vuokratuotot
+C 3470 {} Osinkotuotot
+C 3480 {} Korkotuotot
+D 3550 {} Apteekkimaksu
+C 3700 {} Leasinghyvitykset
+C 3710 {} Keskeytysvakuutuskorvaukset
+C 3860 {} Kuljetuspalvelutuotot
+C 3870 {} Toimistopalvelutuotot
+C 3880 {} Tietoliikennepalvelutuotot
+C 3900 {} Rojaltit
+C 3910 {} Provisiot
+C 3920 {} Lisenssimaksut
+C 3930 {} Asiamiespalkkiot
+C 3980 {} Fuusiovoitto
+D 4000 {} Ostot
+H5 4090 {} Tavaratuonti
+D 4110 {} Yhteisöhankinnat
+D 4200 {} Kiinteistöostot
+D 4290 {} Ostorahdit
+D 4300 {} Yhteisökuljetus
+D 4320 {} Tuontihuolinta
+C 4340 {} Yksityiskäyttö
+H2 5000 {} Henkilöstökulut
+D 5000 {} Työntekijäpalkat
+D 5010 {} Kuukausipalkat
+D 5020 {} Tuntipalkat
+D 5100 {} Ylityönlisät
+D 5170 {} Osapalkkiot
+D 5180 {} Kannustuspalkkiot
+H5 5200 {} Palkkiot
+D 5200 {} Palkkiot
+D 5300 {} Vuosilomapalkat
+D 5310 {} Vuosilomakorvaukset
+D 5320 {} Lomaltapaluurahat
+H5 5400 {} Luontoisedut
+D 5400 {} Asuntoedut
+D 5410 {} Ravintoedut
+D 5420 {} Autoedut
+D 5430 {} Puhelinedut
+H3 6000 {} Henkilösivukulut
+H4 6000 {} Eläkekulut
+H5 6100 {} Eläkevakuutusmaksut
+H5 6300 {} Sosiaaliturvamaksut
+D 6300 {} Sosiaaliturvamaksut
+D 6400 {} Tapaturmavakuutusmaksut
+D 6410 {} Työttömyysvakuutusmaksut
+D 6430 {} Ryhmähenkivakuutusmaksut
+D 7050 {} Työterveyshuolto
+D 7110 {} Kahvitarvikkeet
+D 7120 {} Työvaatteet
+D 7130 {} Suojavälineet
+D 7150 {} Työpaikkailmoitukset
+H3 7200 {} Toimitilakulut
+D 7220 {} Toimitilavastikkeet
+D 7230 {} Toimitilavuokrat
+D 7240 {} Varastovastikkeet
+D 7250 {} Varastovuokrat
+D 7260 {} Autotallivastikkeet
+D 7330 {} Hallinto
+D 7370 {} Lämmitys
+D 7400 {} Jätehuolto
+D 7410 {} Vahinkovakuutukset
+D 7420 {} Kiinteistövero
+D 7430 {} Korjaukset
+H3 7500 {} Ajoneuvokulut
+D 7500 {} Ajoneuvoleasing
+C 7510 {} Leasinghyvitykset
+D 7520 {} Ajoneuvovuokrat
+D 7570 {} Ajoneuvovakuutukset
+D 7580 {} Kolarivahingot
+H3 7800 {} Matkakulut
+D 7800 {} Matkaliput
+D 7810 {} Taksikulut
+D 7840 {} Matkavakuutukset
+D 7850 {} Paikoituskulut
+D 7870 {} Kilometrikorvaukset
+D 7880 {} Päivärahat
+D 7900 {} Yömatkarahat
+D 7910 {} Ateriakorvaukset
+H3 7950 {} Edustuskulut
+D 7950 {} Edustustilaisuudet
+D 7960 {} Edustuslahjat
+D 7970 {} Edustusmatkat
+D 7980 {} Edustustilat
+H3 8000 {} Myyntikulut
+D 8010 {} Luottokorttiprovisiot
+D 8020 {} Myyntirahdit
+D 8030 {} Myyntihuolinta
+H3 8050 {} Markkinointikulut
+D 8050 {} Mainostoimistopalvelut
+D 8060 {} Suoramainonta
+D 8070 {} Ilmoitusmainonta
+D 8090 {} Internetmainonta
+D 8100 {} Mainosteippaukset
+D 8110 {} Ulkomainonta
+D 8150 {} Markkinointitilaisuudet
+D 8160 {} Markkinatutkimukset
+D 8180 {} Asiakaslehdet
+D 8190 {} Asiakasviihde
+D 8210 {} Tavaranäytteet
+D 8250 {} Suhdetoimintakulut
+D 8270 {} Huomionosoitukset
+D 8280 {} Lahjoitukset
+D 8300 {} Tuotekehityspalvelut
+D 8320 {} Laaduntarkkailu
+D 8340 {} Koulutus
+H3 8370 {} Hallintopalvelut
+D 8370 {} Vuokratyövoima
+D 8380 {} Taloushallintopalvelut
+D 8390 {} Tilintarkastuspalvelut
+D 8440 {} Viranomaismaksut
+D 8450 {} Kirjat
+D 8460 {} Lehdet
+D 8470 {} Tietopalvelut
+D 8480 {} Jäsenmaksut
+D 8500 {} Puhelinkulut
+D 8510 {} Matkapuhelinkulut
+D 8520 {} Telefaxkulut
+D 8530 {} Datasiirtokulut
+D 8570 {} Pyöristyserot
+D 8580 {} Vastuuvakuutukset
+D 8590 {} Esinevakuutukset
+D 8620 {} Toimistotarvikkeet
+D 8640 {} Valokopiot
+D 8790 {} Fuusiotappio
+H3 8890 {} Täsmäytyserot
+D 8890 {} Täsmäytyserot
+H5 9090 {} Muilta
+C 9090 {} Osinkotuotot
+C 9100 {} Osuuskorot
+C 9110 {} Yhtiöveronhyvitystuotot
+H5 9160 {} Muilta
+C 9260 {} Valuuttakurssivoitot
+H5 9440 {} Muille
+D 9570 {} Limiittipalkkiot
+D 9580 {} Takausprovisiot
+D 9590 {} Luottovakuutukset
+D 9600 {} Kiinnityskulut
+D 9610 {} Perimiskulut
+D 9620 {} Kurssitappiot
+D 9650 {} Terminointikulut
+H2 9800 {} Tilinpäätössiirrot
+H2 9900 {} Tuloverot
+D 9900 {} Ennakkoverot
+D 9930 {} Lähdeverot
+D 9980 {} Varallisuusvero
+H2 9990 {} Vähemmistöosuudet
+D 9990 {} Vähemmistöosuudet
+[tositelajit]
+ML {"Kirjaustyyppi":2,"Oletustili":3000,"Vastatili":1910} Myyntilaskut
+TILI {"Kirjaustyyppi":3,"Vastatili":1910} Tiliotteet
+OL {"Kirjaustyyppi":1,"Oletustili":4000,"Vastatili":1910} Ostolaskut
+[AlvVelvollinen]
+ON
+[TilinpaatosPohja]
+#MIKRO
+@Tase PMA!TASE (TILINPÄÄTÖS)@
+#PIEN
+@Tase PMA!TASE (TILINPÄÄTÖS)@
+#ISO
+@Tase!TASE (TILINPÄÄTÖS)@
+##Tuloslaskelma
+#brutto -I -mikrolv -mikrobrutto Bruttotuloslaskelma (PMA-asetuksen mukainen)
+@Tuloslaskelma PMA bruttotulos!TULOSLASKELMA (TILINPÄÄTÖS)@
+#mikrolv -I -P -brutto -mikrobrutto Mikroyrityksen lyhyt tuloslaskelma (PMA-asetuksen mukainen)
+@Tuloslaskelma mikroyritys!TULOSLASKELMA (TILINPÄÄTÖS)@
+#mikrobrutto -I -P -brutto -mikrolv Mikroyrityksen lyhyt bruttotuloslaskelma (PMA-asetuksen mukainen)
+@Tuloslaskelma mikro bruttotulos!TULOSLASKELMA (TILINPÄÄTÖS)@
+#-brutto -mikrobrutto -mikrolv
+@Tuloslaskelma!TULOSLASKELMA (TILINPÄÄTÖS)@
+#ISO
+<b>Yrityksestä on annettava täydet liitetiedot ja laadittava toimintakertomus</b>
+<p>Liitetiedot sisältävät ainakin
+<ol><li>tilinpäätöksen esittämistapaa koskevat tiedot</li>
+<li>tilinpäätöksen laatimisperusteet</li>
+<li>tuloslaskelmaa koskevat liitetiedot</li>
+<li>tasetta koskevat liitetiedot</li>
+<li>liitetiedot käypään arvoon merkitsemisestä</li>
+<li>tuloveroja koskevat tiedot</li>
+<li>vakuudet, vastuusitoumukset ja taseen ulkopuoliset järjestelyt</li>
+<li>tiedot tilintarkaastajien palkkioista</li>
+<li>lähipiiriliiketoimet</li>
+<li>tiedot henkilöstöstä ja toimielinten jäsenistä</li>
+<li>omistukset muissa yrityksissä</li>
+<li>konserniin kuuluvaa kirjanpitovelvollista koskevat tiedot</li></ol>
+<p>Lisäksi liitetietona on annettava tiedot sidotuista rahastoista</p>
+#
+<h2>Tilinpäätöksen laatimisperusteet</h2>
+#MIKRO
+<p>Tilinpäätöksen laatimisessa on noudatettu pien- ja mikroyrityksen tilinpäätöksessä esitettävistä tiedoista
+annetun asetuksen (PMA) mikroyrityssäänöstöä.</p>
+#PIEN
+<p>Tilinpäätöksen laatimisessa on noudatettu pien- ja mikroyrityksen tilinpäätöksessä esitettävistä tiedoista
+annetun asetuksen (PMA) pienyrityssäänöstöä.</p>
+##Liitetiedot
+#laatimisperuste Tilinpäätöksessä käytetään valinnaisia laatimisperusteita
+<p>Vaihto-omaisuus (käyttöjärjestys poikkeaa hankkimisjärjestyksestä)</p>
+<p>Taseeseen aktivoidut aineettomat oikeudet (hankintamenoa ei poisteta 10 vuodessa)</p>
+<p>Kehitysmeno, liikearvo tai muu pitkävaikutteinen meno (ei kirjattu kuluksi tai poisteta 10 vuodessa)</p>
+<p>Pitkän valmistusajan vaativa suorite (jos tulo kirjataan valmistusasteen mukaisesti)</p>
+<p>Rahoitusväline ja sijoituskiinteistö (jos arvostetaan käypään arvoon)</p>
+<p>Valuuttakurssi (jos ei käytetty tilinpäätöspäivän kurssia)</p>
+<p>Pysyviin vastaaviin kuuluvat hyödykkeet (hankitamenoon luettu muutakin kuin hankinnasta ja valmistuksesta johtuvat muuttuvat menot)</p>
+<p>Koneiden ja kaluston sekä rakennusten suunnitelmapoistot (poikkeavat verotuksessa hyväksytyistä enimmäispoistoista)</p>
+<p>Taseeseen merkitys rahoitusleasing-hankinnat</p>
+#kvstand Laadinnassa käytetty kansainvälisiä tilinpäätösstandadeja
+<p>Laadinnassa on noudatettu .... (kansainväliset tilinpäätösstandardit)</p>
+#poik Poikkeukselliset erät
+<h2>Poikkeukselliset erät</h2>
+<p>Tähän tieto poikkeuksellisista tuottojen ja kulujen määrästä, jos erät ovat olennaisia.</p>
+#jalkeen Olennaiset tapahtumat tilikauden jälkeen
+<h2>Olennaiset tapahtumat tilikauden jälkeen </h2>
+<p> Tähän tieto olennaisista tapahtumista ja niiden taloudellisesta merkityksestä </p>
+#arvonkorotus Arvonkorotusrahastoa muutettu
+<h2>Arvonkorostusrahasto</h2>
+<p>Arvonkorotusrahaston muutokset tilikauden aikana, muutoksiin liittyvät verovaikutukset sekä kohteiden yhteenlaskettu kirjanpitoarvo ennen arvonkorotusta</p>
+#kaypa -M Käypään arvoon merkitseminen
+<h2>Käypään arvoon merkitseminen</h2>
+<ol>
+<li>Arvonmääritysmallien ja -menettelyjen keskeiset olettamukset</li>
+<li>Kustakin rahoitusväline- ja muusta omaisuuslajista yhteenlaskettu käypä arvo</li>
+<li>Arvonmuutoksesta tuloslaskelmaan ja käyvän arvon rahastoon merkitty määrä</li>
+<li>Kustakin johdannainnaissopimuslajista tieto niiden käytön laajuudesta</li>
+<li>Jokaisen lajin luonne sekä olennaiset ehdot, jotka voivat vaikuttaa rahavirtojen määrään, ajoitukseen ja varmuuteen</li>
+<li>Käyvän rahan muutokset tilikauden aikana</li>
+</ol>
+#johdannaiset Rahoitusjohdannaiset
+<h2>Rahoitusjohdannaiset</h2>
+<p>Jokaisen johdannaislajin osalta johdannaisten käypä arvo, sekä tiedot käytön laajuudesta  ja luonteesta</p>
+#pitkalaina Yli viiden vuoden kuluttua erääntyvät lainat
+<h2>Pitkäaikaiset lainat</h2>
+<p>Yhteenlaskettu määrä pitkäaikaiseen vieraaseen pääomaan kuuluvista veloista, jotka erääntyvät yli viiden vuoden kuluttua</p>
+#vastuut Esineoikeudelliset vakuudet
+<h2>Annetut esineoikeudelliset vakuudet</h2>
+<p>Esineoikeudelliset vakuudet, eriteltyinä käteispanttien, ajoneuvokiinnitysten, yrityskiinnitysten, kiinteistökiinnitysten ja muun 
+mahdollisen esinevakuuslakin mukaisiin määriin</p>
+#sitoumukset Taseen ulkopuoliset sitoumukset
+<h2>Taseen ulkopuoliset sitoumukset</h2>
+<p>Taseen ulkopuolisten sitoumusten yhteismäärä on XXX euroa.</p>
+<p>Edellä esitettyyn yhteismäärään sisältyy ...... Lisäksi .... </p>
+#elake Eläkevastuu, jota ei siirretty vakuutuslaitoksen kannettavaksi
+<h2>Eläkevastuut</h2>
+<p>Eläkevastuu, jota ei ole siirretty eläkelaitoksen hoidettavaksi</p>
+#emoyritys Tiedot emoyrityksestä
+<h2>Tiedot emoyrityksestä</h2>
+<p>Emoyrityksen nimi ja kotipaikka sekä tiedot siitä konsernitilinpäätöksen laativasta kosernista, johon yritys välittömimmin kuuluu</p>
+#lahilainat Lainat ja sitoumukset hallintoelimiin kuuluvien puolesta
+<h2>Lainat hallintoelimiin kuuluville sekä heidän puolestaan annetut sitoumukset</h2>
+<p>Toimitusjohtajasta, hallituksen jäsenistä ja varajäsenistä, sekä vastaaviin toimielimiin kuuluvista, toimielinkohtaisena liitetietona</p>
+<ol>
+<li>rahalainojen yhteenlaskettu määrä, määrän vähennys ja lisäys, pääasialliset korko- ja muut ehdot</li>
+<li>vakuuksien ja vastuusitoumusten yhteenlaskettu määrä ja pääasiallinen sisältö</li>
+<li>eläkesitoumukset näistä tehtävistä</li>
+</ol>
+#intressi -M Liiketoimet intressitahojen kanssa
+<h2>Liiketoimet intressitahojen kanssa</h2>
+<p>Oikeushenkilöt, jotka yrityksen kanssa määräysvalta- tai osakkuussuhteessa; sekä toimitusjohtaja, hallituksen jäsen ja varajäsen sekä vastaavien toimielinten jäsenet</p>
+<ol>
+<li>kuvaus liiketoimesta</li>
+<li>liiketoimen arvo</li>
+<li>intressisuhteen luonne</li>
+<li>muut taloudellisen aseman arvioimisen kannalta välttämättömät tiedot liiketoimesta</li>
+</ol>
+#HENKILOSTO
+<h2>Henkilöstön määrä</h2>
+@henkilosto@
+#omatosakkeet Omien osakkeiden ja osuuksien hankinnat ja luovutukset
+<h2>Omien osakkeiden ja osuuksien hankinnat ja luovutukset</h2>
+<ol>
+<li>hankintojen perusteet</li>
+<li>osuuksien lukumäärä ja nimellisarvo tai kirjanpidollinen arvo sekä suhteellinen osuus pääomasta</li>
+<li>suoritettu vastike</li>
+<li>kaikkien omien osuuksien lukumäärä tai kirjanpidollinen arvo sekä suhteellinen osuus pääomasta</li>
+#muut -M Olennaiset ja riitävän kuvan kannalta tarpeellinen toimintakertomustieto
+<h2>Muut tiedot</h2>
+<p>Tiedot, jotka ovat tarpeen oikean ja riittävän kuvan antamiseksi. Mikrokoon yrityksillä ei ole velvollisuutta näiden tietojen antamiseen </p>
+##Osakeyhtiön pääoma ja vapaan oman pääoman käyttö
+#oypaaoma Oman pääoman muutokset
+<h2>Oman pääoman muutokset</h2>
+<p> ... </p>
+#oyeiosinko -oykaytto Ei osinkoa
+<h2>Hallituksen ehdotus jakokelpoisen vapaan oman pääoman käytöstä</h2>
+<p>Hallitus ehdottaa, että osinkoa ei jaeta.</p>
+#oykaytto -oyeiosinko Hallituksen ehdotus vapaan oman pääoman käytöstä
+<h2>Hallituksen ehdotus jakokelpoisen vapaan oman pääoman käytöstä</h2>
+<p>Jakokelpoinen vapaa oma pääoma on ...</p>
+<p>Hallitus ehdottaa, että osinkoa jaetaan XX euroa per osake, eli yhteensä XXX euroa. Osinko on nostettavissa yhtiökokousta seuraavana päivänä.</p>
+##Kirjanpito
+#sahko Sähköinen kirjanpito ja arkistointi
+<h2>Kirjanpitoaineisto</h2>
+<p>Kirjanpito on järjestetty Kitupiikki-ohjelmistolla. Tilinpäätös, tase-erittelyt, tilikartta, pää- ja päiväkirjat sekä pdf-muodossa olevat tositteet on arkistoitu html-muotoiseksi sähköiseksi arkistoksi, jonka muuttumattomuus on varmistettu sha256-tiivisteellä
+@sha@
+</p>
+#-sahko
+<h2>Kirjanpitoaineisto</h2>
+<p>Selvitys kirjanpitoaineistosta ja sen säilyttämisestä</p>
+#
+<h2>Allekirjoitukset</h2>
+<p> __________________ssa XX.XX.20XX</p>
+<p>
+<table width=100%><tr><td>N.N.</td><td>N.N.</td><td>N.N.</td></tr>
+<tr><td>N.N.</td><td>N.N.</td><td>N.N.</td></tr></table>
+<p>
+<p>
+<p>
+##Tilintarkastus
+#tilintarkastus -toiminnantarkastus Tilintarkastusmerkintä
+<h2>Tilintarkastusmerkintä</h2>
+<p>Suoritetusta tilintarkastuksesta on tänään annettu kertomus</p>
+<p>____________________  ___. päivänä _________kuuta  _________ </p>
+<p>
+<p>
+
+[TilinpaatosValinnat]
+oykaytto
+sahko
+tilintarkastus
+[LaskuTositelaji]
+2
+[LaskuSaatavatili]
+1700
+[LaskuKateistili]
+1900
+[LaskuMaksuaika]
+14
+[LaskuHuomautusaika]
+8 vrk
+[ArkistoRaportit]
+Tase
+Toiminnanalat
+Tuloslaskelma
+Tuloslaskelma
+[VakioTilikartta]
+tilitin.kpk
+[Raportti/Tuloslaskelma mikroyritys]
+:tulos
+Liikevaihto		30 * bold
+
+Valmiiden ja keskeneräisten tuotteiden varastojen muutos	37 *
+Valmistus omaan käyttöön		38 *
+Liiketoiminnan muut tuotot		39 *
+Materiaalit ja palvelut		4 *
+Henkilöstökulut		5 *
+Poistot ja arvonalentumat		6 *
+Liiketoiminnan muut kulut		7 *
+
+Liikevoitto/tappio		3..7 bold
+Rahoitustuotot ja -kulut		90..91
+
+Voitto/tappio ennen tilinpäätössiirtoja ja veroja	3..91 bold
+Tilinpäätössiirrot		95 *
+Tuloverot		96 *
+Muut välittömät verot		967 s4 *
+
+Tilikauden voitto / tappio		0 bold
+[Raportti/Tase PMA]
+:tase
+
+VASTAAVAA		H bold
+
+PYSYVÄT VASTAAVAT		10..146 
+Aineettomat hyödykkeet		10 s4 *
+Aineelliset hyödykkeet		11 s4 *		
+Sijoitukset		14 s4 *
+OMAKATTEISTEN RAHASTOJEN VARAT	148 s4 *
+VAIHTUVAT VASTAAVAT		15..19 
+Vaihto-omaisuus		15 s4 *		
+Pitkäaikaiset saamiset		16 s4 *
+Lyhytaikaiset saamiset		17 s4 *
+Rahoitusarvopaperit		18 s4 *
+Rahat ja pankkisaamiset		19 s8 *
+
+Vastaavaa yhteensä		1 bold
+
+
+VASTATTAVAA		H bold
+
+VASTATTAVAA		H bold
+OMA PÄÄOMA		20 
+Osake-, osuus- tai muu vastaava pääoma	200 s4 *
+Sidotut rahastot		201,202 s4
+Omakatteiset rahastot		201 s8 *
+Muut sidotut rahastot		202 s8 *
+Ylikurssirahasto		2032 s4 *
+Arvonkorotusrahasto		2033 s4 *
+Muut rahastot		204 s4
+Äänettömät yhtiömiehet		210 s4 *
+Vastuunalaiset yhtiömiehet		211 s4 *
+Yksityistilit tilikaudella		22 s4 *
+Edellisten tilikausien voitto/tappio	2450 s4 *
+Tilikauden voitto/tappio		2460 s4 *
+TILINPÄÄTÖSSIIRTOJEN KERTYMÄ	25 
+PAKOLLISET VARAUKSET		26	
+VIERAS PÄÄOMA		26..28
+Pitkäaikainen vieras pääoma		28 s4
+Lyhytaikainen vieras pääoma		29 s4
+
+
+Vastattavaa yhteensä		2 bold
+
+[Raportti/Tuloslaskelma]
+:tulos
+Liikevaihto		30 * bold
+
+Valmiiden ja keskeneräisten tuotteiden varastojen muutos	37 *
+Valmistus omaan käyttöön		38 *
+Liiketoiminnan muut tuotot		39 *
+
+Materiaalit ja palvelut		4
+Aineet, tarvikkeet tavarat		40 s4
+Ostot tilikauden aikana		400..407 s8 *
+Varastojen lisäys tai vähennys	408 s8 *
+Ulkopuoliset palvelut		47 s4 *
+
+Henkilöstökulut		5
+Palkat ja palkkiot		50 s4 *
+Henkilösivukulut		51 s4
+Eläkekulut		510..511 s8 *
+Muut henkilösivukulut		512 s8 *
+
+Poistot ja arvonalentumat		6
+Suunnitelman mukaiset poistot	600 s4 *
+Arvonalentumat pysyvien vastaavien hyödykkeistä	602 s4 *
+Vaihtuvien vastaavien poikkeukselliset arvonalentumiset	603 s4 *
+
+Liiketoiminnan muut kulut		7 *
+
+Liikevoitto/tappio		3..7 bold
+
+Rahoitustuotot ja -kulut		90..91
+Tuotot osuuksista saman konsernin yrityksissä	902 s4 *
+Tuotot osuuksista omistusyhteysyrityksissä	903 s4 *
+Tuotot muista pysyvien vastaavien sijoituksista	904..905 s4 *
+Saman konsernin yrityksiltä		904
+Muilta		905
+
+Muut korko- ja rahoitustuotot		906..907 s4
+Saman konsernin yrityksiltä		906 s8 *
+Muilta		907 s8 *
+
+Arvonalentumiset pysyvien vastaavien sijoituksista	911 s4 *
+Arvonalentumiset vaihtuvien vastaavien rahoitusarvopapereista	912 s4 *
+Korkokulut ja muut rahoituskulut	916..917 s4
+Saman konsernin yrityksille		916 s8 *
+Muille		917 s8 *
+
+Voitto/tappio ennen tilinpäätössiirtoja ja veroja	3..91 bold
+
+Tilinpäätössiirrot		95
+Poistoeron lisäys (-) tai vähennys (+)	950 s4 *
+Verotusperusteisten varausten lisäys (-) tai vähennys (+)	951 s4 *
+Saadut (+) tai annetut (-) konserniavustukset	958 s4 *
+Muut tilinpäätössiirrot		959 s4 *
+
+Tuloverot		96
+Tilikauden verot		960 s4 *
+Laskennalliset verot		961 s4 *
+Muut välittömät verot		967 s4 *
+
+Tilikauden voitto / tappio		0 bold
+[Raportti/Tase]
+:tase
+VASTAAVAA		H bold
+
+PYSYVÄT VASTAAVAT		10..146 
+Aineettomat hyödykkeet		10 s4
+Kehittämismenot		102 s8 *
+Aineettomat oikeudet		103 s8 *
+Liikearvo		104 s8 *
+Muut aineettomat oikeudet		106 s8 *
+Ennakkomaksut		107 s8 *
+Aineelliset hyödykkeet		11 s4		
+Maa- ja vesialueet		110 s8 *
+Rakennukset ja rakennelmat		111,114 s8 *
+Koneet ja kalusto		116 s8 *
+Muut aineelliset hyödykkeet		117 s8 *
+Ennakkomaksut ja keskeneräiset hankinnat	118 s8 *
+Sijoitukset		14 s4
+Osuudet saman konsernin yrityksistä	141 s8 *
+Osuudet omistusyhteysyrityksistä	143 s8 *
+Saamiset omistusyhteysyrityksiltä	144 s8 *
+Muut osakkeet ja osuudet		145 s8 *
+Muut saamiset		146 s8 *
+Sijoituskiinteistöt		147 s8 *		
+OMAKATTEISTEN RAHASTOJEN VARAT	148 s4
+Osakkeet ja osuudet		1485 s8 *
+Muut saamiset		1486 s8 *
+Rahavarat		1489 s8 *
+VAIHTUVAT VASTAAVAT		15..19 
+Vaihto-omaisuus		15 s4		
+Aineet ja tarvikkeet		151 s8 *
+Keskeneräiset tuotteet		152 s8 *
+Valmiit tuotteet/tavarat		153 s8 *
+Muu vaihto-omaisuus		154 s8 *
+Ennakkomaksut		155 s8 *
+Pitkäaikaiset saamiset		16 s4
+Myyntisaamiset		160 s8 *
+Lainasaamiset		164 s8 *
+Maksamattomat osakkeet/osuudet	166 s8 *
+Siirtosaamiset		167 s8 *
+Lyhytaikaiset saamiset		17 s4
+Myyntisaamiset		170 s8 *
+Saamiset saman konsernin yrityksilta	171 s8 *
+Saamiset omistusyhteysyrityksiltä	173 s8 *
+Lainasaamiset		174 s8 *
+Maksamattomat osakkeet/osuudet	176 s8 *
+Siirtosaamiset		177 s8 *
+Rahoitusarvopaperit		18 s4
+Muut osakkeet ja osuudet		182 s8 *
+Muut arvopaperit		183 s8 *
+Rahat ja pankkisaamiset		19 s8 *
+
+Vastaavaa yhteensä		1 bold
+
+
+VASTATTAVAA		H bold
+OMA PÄÄOMA		20 
+Osake-, osuus- tai muu vastaava pääoma	200 s4 *
+Sidotut rahastot		201,202 s4
+Omakatteiset rahastot		201 s8 *
+Muut sidotut rahastot		202 s8 *
+Ylikurssirahasto		2032 s4 *
+Arvonkorotusrahasto		2033 s4 *
+Muut rahastot		204 s4
+Sijoitetun vapaan pääoman rahasto	2041 s8 *
+Vararahasto		2042 s8 *
+Yhtiöjärjestyksen tai sääntöjen mukaiset rahastot	2043 s8 *
+Käyvän arvon rahasto		2044 s8 *
+Muut rahastot		2045 s8 *
+Äänettömät yhtiömiehet		210 s4 *
+Vastuunalaiset yhtiömiehet		211 s4 *
+Yksityistilit tilikaudella		22 s4 *
+Edellisten tilikausien voitto/tappio	2450 s4 *
+Tilikauden voitto/tappio		2460 s4 *
+TILINPÄÄTÖSSIIRTOJEN KERTYMÄ	25 
+Poistoero		250 s4 *
+Verotusperäiset varaukset		251 s4 *
+PAKOLLISET VARAUKSET		26	
+Eläkevaraukset		260 s4 *
+Verovaraukset		261 s4 *
+Muut pakolliset varaukset		269 s4 *
+VIERAS PÄÄOMA		26..28
+Pitkäaikainen vieras pääoma		28 s4
+Joukkovelkakirjalainat		281 s8 *
+Vaihtovelkakirjalainat		282 s8 *
+Lainat rahoituslaitoksilta		283 s8 *
+Takaisinlainat työeläkevakuutuslaitoksilta	284 s8 *
+Saadut ennakot		285 s8 *
+Ostovelat		286 s8 *
+Velat saman konsernin yrityksille	2870..2874 s8 *
+Velat omistusyhteysyrityksille	2875..2879 s8 *
+Muut velat		288 s8 *
+Siirtovelat  		289 s8 *
+Lyhytaikainen vieras pääoma		29 s4
+Joukkovelkakirjalainat		291 s8 *
+Vaihtovelkakirjalainat		292 s8 *
+Lainat rahoituslaitoksilta		293 s8 *
+Takaisinlainat työeläkevakuutuslaitoksilta	294 s8 *
+Saadut ennakot		295 s8 *
+Ostovelat		296 s8 *
+Velat saman konsernin yrityksille	2970..2974 s8 *
+Velat omistusyhteysyrityksille	2975..2979 s8 *
+Muut velat		298 s8 *
+Siirtovelat  		299 s8 *
+
+Vastattavaa yhteensä		2 bold
+
+
+[Raportti/Tuloslaskelma PMA bruttotulos]
+:tulos
+Bruttotulos		3,4 bold
+
+Henkilöstökulut		5
+Palkat ja palkkiot		50 s4 *
+Henkilösivukulut		51 s4
+Eläkekulut		510..511 s8 *
+Muut henkilösivukulut		512 s8 *
+
+Poistot ja arvonalentumat		6
+Suunnitelman mukaiset poistot	600 s4 *
+Arvonalentumat pysyvien vastaavien hyödykkeistä	602 s4 *
+Vaihtuvien vastaavien poikkeukselliset arvonalentumiset	603 s4 *
+
+Liiketoiminnan muut kulut		7 *
+
+Liikevoitto/tappio		3..7 bold
+
+Rahoitustuotot ja -kulut		90..91
+Tuotot osuuksista saman konsernin yrityksissä	902 s4 *
+Tuotot osuuksista omistusyhteysyrityksissä	903 s4 *
+Tuotot muista pysyvien vastaavien sijoituksista	904..905 s4 *
+Saman konsernin yrityksiltä		904
+Muilta		905
+
+Muut korko- ja rahoitustuotot		906..907 s4
+Saman konsernin yrityksiltä		906 s8 *
+Muilta		907 s8 *
+
+Arvonalentumiset pysyvien vastaavien sijoituksista	911 s4 *
+Arvonalentumiset vaihtuvien vastaavien rahoitusarvopapereista	912 s4 *
+Korkokulut ja muut rahoituskulut	916..917 s4
+Saman konsernin yrityksille		916 s8 *
+Muille		917 s8 *
+
+Voitto/tappio ennen tilinpäätössiirtoja ja veroja	3..91 bold
+
+Tilinpäätössiirrot		95
+Poistoeron lisäys (-) tai vähennys (+)	950 s4 *
+Verotusperusteisten varausten lisäys (-) tai vähennys (+)	951 s4 *
+Saadut (+) tai annetut (-) konserniavustukset	958 s4 *
+Muut tilinpäätössiirrot		959 s4 *
+
+Tuloverot		96
+Tilikauden verot		960 s4 *
+Laskennalliset verot		961 s4 *
+Muut välittömät verot		967 s4 *
+
+Tilikauden voitto / tappio		0 bold
+[Raportti/Tuloslaskelma mikro bruttotulos]
+:tulos
+Bruttotulos		3,4 bold *
+
+Henkilöstökulut		5 *
+Poistot ja arvonalentumat		6 *
+Liiketoiminnan muut kulut		7 *
+
+Liikevoitto/tappio		3..7 bold
+Rahoitustuotot ja -kulut		90..91 *
+
+Voitto/tappio ennen tilinpäätössiirtoja ja veroja	3..91 bold
+Tilinpäätössiirrot		95 *
+Tuloverot		96 *
+Muut välittömät verot		967 s4 *
+
+Tilikauden voitto / tappio		0 bold
+
