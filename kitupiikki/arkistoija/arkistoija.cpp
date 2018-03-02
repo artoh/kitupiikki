@@ -88,14 +88,23 @@ struct TilioteTieto
 
 void Arkistoija::arkistoiTositteet()
 {
-    // TODO: Kommentit ja tyylit jne.
+
     TositeModel *tosite = kp()->tositemodel();
     LiiteModel liitteet(tosite);
     VientiModel viennit(tosite);
 
-    QSqlQuery kysely( QString("SELECT id,tiliote FROM tosite WHERE pvm BETWEEN \"%1\" AND \"%2\" ORDER BY laji, tunniste ")
+
+    // Tositelistassa tositteen tunnus ja id
+    // Tositelistaan tulevat myös kaikki ne tositteet, joihin vientikirjauksia sekä
+    // ne tositteet, joihin tase-erät viittaavat
+
+    QMap<QString,int> tositeLista;
+
+    QSqlQuery kysely( QString("SELECT id,tiliote, tunniste, laji FROM tosite WHERE pvm BETWEEN \"%1\" AND \"%2\" ")
                       .arg(tilikausi_.alkaa().toString(Qt::ISODate))
                       .arg(tilikausi_.paattyy().toString(Qt::ISODate)));
+
+
 
     // Haetaan id:t listaan. Näin ollen aina tieto edellisestä ja seuraavasta
     QList<int> idLista;
@@ -103,6 +112,13 @@ void Arkistoija::arkistoiTositteet()
 
     while(kysely.next())
     {
+        // Lisätään tositteet tositetunnuksen mukaan
+        QString tunnus = QString("%1%2/%3").arg( kp()->tositelajit()->tositelaji( kysely.value("laji").toInt() ).tunnus() )
+                .arg( kysely.value("tunniste").toInt() )
+                .arg( tilikausi_.kausitunnus());
+
+        tositeLista.insert( tunnus, kysely.value("id").toInt() );
+
         idLista.append( kysely.value(0).toInt());
 
         // Jos tämä tosite on tiliote, lisätään se tilioteluetteloon, jotta tällä välillä tiliin tehtäviin
@@ -123,13 +139,47 @@ void Arkistoija::arkistoiTositteet()
         }
 
     }
+    // Sitten lisätään vielä vientien mukaan, jotta kaikki varmasti mukana
+
+    kysely.exec(QString("SELECT tosite.id, tosite.tunniste, tosite.laji, tosite.pvm, eraid FROM vienti,tosite WHERE vienti.tosite=tosite.id "
+                "AND vienti.pvm BETWEEN '%1' AND '%2'")
+                .arg(tilikausi_.alkaa().toString(Qt::ISODate))
+                .arg(tilikausi_.paattyy().toString(Qt::ISODate)));
+
+    while( kysely.next())
+    {
+        QString tunnus = QString("%1%2/%3").arg( kp()->tositelajit()->tositelaji( kysely.value("tosite.laji").toInt() ).tunnus() )
+                .arg( kysely.value("tosite.tunniste").toInt() )
+                .arg( kp()->tilikaudet()->tilikausiPaivalle( kysely.value("tosite.pvm").toDate() ).kausitunnus() );
+
+        tositeLista.insert( tunnus, kysely.value("id").toInt() );
+
+        // Ja sitten vielä tase-erät
+        int taseEra = kysely.value("eraid").toInt();
+        if( taseEra)
+        {
+            QSqlQuery eraKysely(QString("SELECT tosite.id, tosite.tunniste, tosite.laji, tosite.pvm FROM vienti,tosite WHERE vienti.tosite=tosite.id "
+                        "AND vienti.id=%1").arg(taseEra)  );
+            while( eraKysely.next())
+            {
+                QString eratunnus = QString("%1%2/%3").arg( kp()->tositelajit()->tositelaji( eraKysely.value("tosite.laji").toInt() ).tunnus() )
+                        .arg( eraKysely.value("tosite.tunniste").toInt() )
+                        .arg( kp()->tilikaudet()->tilikausiPaivalle( eraKysely.value("tosite.pvm").toDate() ).kausitunnus()  );
+                tositeLista.insert(eratunnus, eraKysely.value("tosite.id").toInt());
+            }
+        }
+
+    }
+
 
     // Sitten tositteet
 
+    QMapIterator<QString, int> tositeIter(tositeLista);
 
-    for( int tositeInd = 0; tositeInd < idLista.count(); tositeInd++)
+    while( tositeIter.hasNext() )
     {
-        int tositeId = idLista.at(tositeInd);
+        tositeIter.next();
+        int tositeId = tositeIter.value();
 
         tosite->lataa( tositeId ); // Lataa kyseisen tositteen
         liitteet.lataa();
@@ -148,10 +198,24 @@ void Arkistoija::arkistoiTositteet()
         int edellinen = 0;
         int seuraava = 0;
 
-        if( tositeInd > 0)
-            edellinen = idLista.at(tositeInd- 1);
-        if( tositeInd < idLista.count() - 1)
-            seuraava = idLista.at(tositeInd+1);
+        if( tositeIter.hasPrevious())
+        {
+            tositeIter.previous();
+            if( tositeIter.hasPrevious())
+            {
+                tositeIter.previous();
+                edellinen = tositeIter.value();
+                tositeIter.next();
+            }
+            tositeIter.next();
+        }
+        if( tositeIter.hasNext())
+        {
+            tositeIter.next();
+            seuraava = tositeIter.value();
+            tositeIter.previous();
+        }
+
 
         out << navipalkki(edellinen, seuraava);
 
@@ -206,12 +270,12 @@ void Arkistoija::arkistoiTositteet()
             out << "<table class=viennit>";
             out <<  "<tr><th>Pvm</th><th>Tili</th><th>Kohdennus</th><th>Selite</th><th>Debet</th><th>Kredit</th></tr>";
 
-            for(int vientiInd = 0; vientiInd < vienteja; vientiInd++)
+            for(int vientiRivi = 0; vientiRivi < vienteja; vientiRivi++)
             {
-                QModelIndex index = viennit.index(vientiInd,0);
+                QModelIndex index = viennit.index(vientiRivi,0);
                 out << "<tr><td class=pvm>" << index.data(VientiModel::PvmRooli).toDate().toString(Qt::SystemLocaleShortDate) ;
                 out << "</td><td><a href='paakirja.html#" << index.data(VientiModel::TiliNumeroRooli).toInt() << "'>"
-                    << index.sibling(vientiInd, VientiModel::TILI).data().toString() << "</a>";
+                    << index.sibling(vientiRivi, VientiModel::TILI).data().toString() << "</a>";
                 // Mahdollinen tiliotelinkki
                 foreach (TilioteTieto ote, tilioteLista) {
                     if( ote.tilinumero == index.data(VientiModel::TiliNumeroRooli) &&
@@ -224,11 +288,20 @@ void Arkistoija::arkistoiTositteet()
                         break;
                     }
                 }
+                out << "</td><td>";
 
-                out << "</td><td>" << index.sibling(vientiInd, VientiModel::KOHDENNUS).data().toString();
-                out << "</td><td>" << index.sibling(vientiInd, VientiModel::SELITE).data().toString();
-                out << "</td><td class=euro>" << index.sibling(vientiInd, VientiModel::DEBET).data().toString();
-                out << "</td><td class=euro>" << index.sibling(vientiInd, VientiModel::KREDIT).data().toString();
+                // Kohdennukset: Jos kohdennetaan tase-erään, on tase-erän tunnus linkkinä
+                int kohdennusid = index.data(VientiModel::KohdennusRooli).toInt();
+                QString kohdennusTxt = index.sibling(vientiRivi, VientiModel::KOHDENNUS).data().toString();
+
+                if( kohdennusid)
+                    out << QString("<a href=%1.html>%2</a>").arg( kohdennusid, 8, 10, QChar('0')).arg(kohdennusTxt);
+                else
+                    out << kohdennusTxt;
+
+                out << "</td><td>" << index.sibling(vientiRivi, VientiModel::SELITE).data().toString();
+                out << "</td><td class=euro>" << index.sibling(vientiRivi, VientiModel::DEBET).data().toString();
+                out << "</td><td class=euro>" << index.sibling(vientiRivi, VientiModel::KREDIT).data().toString();
                 out << "</td></tr>\n";
             }
             out << "</table>";
@@ -242,6 +315,8 @@ void Arkistoija::arkistoiTositteet()
             out << tosite->kommentti();
             out << "</p>";
         }
+
+        // Tähän voisi laittaa tase-erien seurannat ?
 
 
         // Ja lopuksi sekalaiset tiedot
