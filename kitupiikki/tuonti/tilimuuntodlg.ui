@@ -15,26 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QTableWidget" name="muuntoTable">
-     <attribute name="horizontalHeaderStretchLastSection">
-      <bool>true</bool>
-     </attribute>
-     <column>
-      <property name="text">
-       <string>Alkup. numero</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Nimi</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Kirjataan tilille</string>
-      </property>
-     </column>
-    </widget>
+    <widget class="QTableView" name="muuntoView"/>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
