@@ -525,7 +525,7 @@ bool VientiModel::tallenna()
             query.prepare("UPDATE vienti SET pvm=:pvm, tili=:tili, debetsnt=:debetsnt, "
                           "kreditsnt=:kreditsnt, selite=:selite, alvkoodi=:alvkoodi,"
                           "kohdennus=:kohdennus, eraid=:eraid, alvprosentti=:alvprosentti, "
-                          "viite=:viite, iban=:iban, erapvm:=erapvm, arkistotunnus=:arkistotunnus, "
+                          "viite=:viite, iban=:iban, erapvm=:erapvm, arkistotunnus=:arkistotunnus, "
                           "muokattu=:muokattu, json=:json"
                           " WHERE id=:id");
             query.bindValue(":id", rivi.vientiId);
@@ -574,7 +574,10 @@ bool VientiModel::tallenna()
         query.bindValue(":json", rivi.json.toSqlJson());
 
         if( !query.exec() )
+        {
+            qDebug() << query.lastQuery() << query.lastError().text();
             return false;
+        }
 
         if( !rivi.vientiId )
             viennit_[i].vientiId = query.lastInsertId().toInt();
