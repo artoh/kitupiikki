@@ -19,6 +19,7 @@
 #include <QDir>
 #include <QFile>
 #include <QSqlQuery>
+#include <QSqlError>
 #include <QTextStream>
 #include <QCryptographicHash>
 #include <QApplication>
@@ -282,45 +283,57 @@ void Arkistoija::arkistoiTositteet()
 
                 // Mahdollisen tase-erän seuranta
                 QSqlQuery eraKysely(QString("SELECT tosite.id, tosite.tunniste, tosite.laji, tosite.pvm, vienti.pvm, vienti.selite, vienti.debetsnt, vienti.kreditsnt FROM vienti,tosite WHERE vienti.tosite=tosite.id "
-                            "AND vienti.id=%1 AND pvm <= '%2'")
+                            "AND vienti.eraid=%1 AND vienti.pvm <= '%2' ORDER BY vienti.pvm")
                                     .arg( index.data(VientiModel::IdRooli).toInt() )
                                     .arg( tilikausi_.paattyy().toString(Qt::ISODate))  );
-                bool taseEraSeurannassa = eraKysely.size() > 0;
-                if( taseEraSeurannassa )
+
+                qlonglong eraSaldo = index.data(VientiModel::DebetRooli).toInt() - index.data(VientiModel::KreditRooli).toInt();
+
+                bool taseEraSeurannassa = false;
+                while( eraKysely.next())
                 {
-                    eraLaatikko.append(tr("<p>%3) Tase-erä tilillä %1 %2")
-                                       .arg( index.data(VientiModel::TiliNumeroRooli).toInt( ))
+                    if( !taseEraSeurannassa)
+                    {
+                        eraLaatikko.append(tr("<p><sup>%2)</sup> Tase-erä tilillä %1")
                                        .arg( index.sibling(vientiRivi, VientiModel::TILI).data().toString() )
                                        .arg( ++seuratutTaseErat));
-                    eraLaatikko.append("<table class=viennit><th>Tosite</th><th>Päivämäärä</th><th>Selite</th><th>Kredit</th><th>Debit</th></tr>");
-
-                    qlonglong eraSaldo = index.data(VientiModel::DebetRooli).toInt() - index.data(VientiModel::KreditRooli).toInt();
-
-                    while( eraKysely.next())
-                    {
-                        eraLaatikko.append( QString("<tr><td>%1%2/%3</td><td class=pvm>%4</td><td>%5</td><td class=euro>%L6</td><td class=euro>%L7</td></tr>")
-                                            .arg( kp()->tositelajit()->tositelaji(eraKysely.value("tosite.laji").toInt()).tunnus() )
-                                            .arg( eraKysely.value("tosite.tunniste").toInt())
-                                            .arg( kp()->tilikausiPaivalle( eraKysely.value("tosite.pvm").toDate()  ).kausitunnus())
-                                            .arg( eraKysely.value("vienti.pvm").toDate().toString(Qt::SystemLocaleShortDate))
-                                            .arg( eraKysely.value("vienti.selite").toString())
-                                            .arg( eraKysely.value("vienti.debetsnt").toDouble() /  100.0 ,0,'f',2)
-                                            .arg( eraKysely.value("vienti.kreditsnt").toDouble() /  100.0 ,0,'f',2)    );
-                        eraSaldo += eraKysely.value("vienti.debetsnt").toLongLong() - eraKysely.value("vienti.kreditsnt").toLongLong();
+                        eraLaatikko.append("<table class=viennit><th>Tosite</th><th>Pvm</th><th>Selite</th><th>Kredit</th><th>Debit</th></tr>");
+                        taseEraSeurannassa = true;
                     }
-                    eraLaatikko.append( tr("<tr><td colspan=3>Saldo %1</td>").arg(tilikausi_.paattyy().toString(Qt::SystemLocaleShortDate)));
+                    QString eradebet;
+                    if( eraKysely.value("debetsnt").toInt())
+                        eradebet = QString("%L1").arg( eraKysely.value("vienti.debetsnt").toDouble() /  100.0 ,0,'f',2);
+                    QString erakredit;
+                    if( eraKysely.value("kreditsnt").toInt())
+                        erakredit = QString("%L1").arg( eraKysely.value("vienti.kreditsnt").toDouble() /  100.0 ,0,'f',2);
+
+
+                    eraLaatikko.append( QString("<tr><td class=tili><a href=%8.html>%1%2/%3</a></td><td class=pvm>%4</td><td class=selite>%5</td><td class=euro>%6</td><td class=euro>%7</td></tr>")
+                                        .arg( kp()->tositelajit()->tositelaji(eraKysely.value("tosite.laji").toInt()).tunnus() )
+                                        .arg( eraKysely.value("tosite.tunniste").toInt())
+                                        .arg( kp()->tilikausiPaivalle( eraKysely.value("tosite.pvm").toDate()  ).kausitunnus())
+                                        .arg( eraKysely.value("vienti.pvm").toDate().toString(Qt::SystemLocaleShortDate))
+                                        .arg( eraKysely.value("vienti.selite").toString())
+                                        .arg( eradebet )
+                                        .arg( erakredit )
+                                        .arg( eraKysely.value("tosite.id").toInt(), 8,10,QChar('0')));
+                    eraSaldo += eraKysely.value("vienti.debetsnt").toLongLong() - eraKysely.value("vienti.kreditsnt").toLongLong();
+                }
+                if( taseEraSeurannassa)
+                {
+                    eraLaatikko.append( tr("<tr><td colspan=3 class=erasaldo>Saldo %1</td>").arg(tilikausi_.paattyy().toString(Qt::SystemLocaleShortDate)));
                     if( eraSaldo > 0)
-                        eraLaatikko.append(QString("<td>%L1</td><td></td>")).arg( (double) eraSaldo /  100.0 ,0,'f',2 );
+                        eraLaatikko.append(QString("<td class=euro>%L1</td><td class=euro></td>").arg( (double) eraSaldo /  100.0 ,0,'f',2 ));
                     else if( eraSaldo < 0)
-                        eraLaatikko.append(QString("<td></td><td>%L1</td>")).arg( (double) 0 - eraSaldo /  100.0 ,0,'f',2 );
+                        eraLaatikko.append(QString("<td class=euro></td><td class=euro>%L1</td>").arg( (double) 0 - eraSaldo /  100.0 ,0,'f',2 ));
                     else
-                        eraLaatikko.append("<td></td><td></td>");
+                        eraLaatikko.append("<td class=euro></td><td class=euro></td>");
                     eraLaatikko.append("</tr></table>");
                 }   // Tase-erän seuranta
 
 
                 out << "<tr><td class=pvm>" << index.data(VientiModel::PvmRooli).toDate().toString(Qt::SystemLocaleShortDate) ;
-                out << "</td><td><a href='paakirja.html#" << index.data(VientiModel::TiliNumeroRooli).toInt() << "'>"
+                out << "</td><td class=tili><a href='paakirja.html#" << index.data(VientiModel::TiliNumeroRooli).toInt() << "'>"
                     << index.sibling(vientiRivi, VientiModel::TILI).data().toString() << "</a>";
                 // Mahdollinen tiliotelinkki
                 foreach (TilioteTieto ote, tilioteLista) {
@@ -334,20 +347,27 @@ void Arkistoija::arkistoiTositteet()
                         break;
                     }
                 }
-                out << "</td><td>";
+                out << "</td><td class=kohdennus>";
 
                 // Kohdennukset: Jos kohdennetaan tase-erään, on tase-erän tunnus linkkinä
-                int kohdennusid = index.data(VientiModel::KohdennusRooli).toInt();
+                int eranid = index.data(VientiModel::EraIdRooli).toInt();
+                if( eranid )
+                {
+                    QSqlQuery kohdennusKysely(QString("SELECT tosite FROM vienti WHERE id=%1").arg(eranid));
+                    if( kohdennusKysely.next())
+                        eranid = kohdennusKysely.value("tosite").toInt();
+                }
+
                 QString kohdennusTxt = index.sibling(vientiRivi, VientiModel::KOHDENNUS).data().toString();
 
-                if(taseEraSeurannassa)      // Jos muodostaa tase-erän, tulee viittaus sen erittelyyn
-                    out << QString("%1)").arg(seuratutTaseErat);
-                else if( kohdennusid)
-                    out << QString("<a href=%1.html>%2</a>").arg( kohdennusid, 8, 10, QChar('0')).arg(kohdennusTxt);
-                else
+                if( eranid)
+                    out << QString("<a href=%1.html>%2</a>").arg( eranid, 8, 10, QChar('0')).arg(kohdennusTxt);
+                else if(kohdennusTxt != "VIITE")        // VIITE-tekstiä ei tulosteta
                     out << kohdennusTxt;
+                if(taseEraSeurannassa)      // Jos muodostaa tase-erän, tulee viittaus sen erittelyyn
+                    out << QString("<sup>%1)</sup>").arg(seuratutTaseErat);
 
-                out << "</td><td>" << index.sibling(vientiRivi, VientiModel::SELITE).data().toString();
+                out << "</td><td class=selite>" << index.sibling(vientiRivi, VientiModel::SELITE).data().toString();
                 out << "</td><td class=euro>" << index.sibling(vientiRivi, VientiModel::DEBET).data().toString();
                 out << "</td><td class=euro>" << index.sibling(vientiRivi, VientiModel::KREDIT).data().toString();
                 out << "</td></tr>\n";
@@ -549,18 +569,18 @@ QString Arkistoija::navipalkki(int edellinen, int seuraava)
     navi.append( kp()->asetus("Nimi") + " " + tilikausi_.kausivaliTekstina());
     navi.append("</a></li>");
 
-    navi.append("<li><a href=ohje.html target=_blank>Ohje</a></li>");
+    navi.append("<li class=nappi><a href=ohje.html target=_blank>Ohje</a></li>");
 
 
     if(seuraava)
-        navi.append( tr("<li><a href=\'%1.html\'>Seuraava</a></li>").arg(seuraava,8,10,QChar('0')));
+        navi.append( tr("<li class=nappi><a href=\'%1.html\'>Seuraava &rarr;</a></li>").arg(seuraava,8,10,QChar('0')));
     else
-        navi.append( "<li> </li>");
+        navi.append( "<li class=nappi> </li>");
 
     if( edellinen )
-        navi.append( tr("<li><a href=\'%1.html\'>Edellinen</a></li>").arg(edellinen,8,10,QChar('0')));
+        navi.append( tr("<li class=nappi><a href=\'%1.html\'>&larr; Edellinen</a></li>").arg(edellinen,8,10,QChar('0')));
     else
-        navi.append("<li> </li>");
+        navi.append("<li class=nappi> </li>");
 
 
     navi.append("</ul></nav></div>");

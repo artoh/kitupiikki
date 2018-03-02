@@ -2,6 +2,7 @@ body {  font-family: sans-serif;}
 
 nav ul { margin: 0; padding: 0; overflow: hidden; background-color: #f3f3f3; list-style: none; border: 1px solid #e7e7e7;}
 nav ul li { display: block; color: black; text-align: center; padding: 14px 16px; float: right;}
+nav ul li.nappi { width: 6em; text-align: center;}
 nav ul li.kotinappi { float: left; vertical-align: middle;}
 nav ul li.kotinappi img { width: 16px; height: 16px; margin-right: 1em;}
 nav ul li a {  text-decoration: none; color: black;}
@@ -15,13 +16,17 @@ table.liiteluettelo tr:hover { background-color: #ccc;}
 table.tositeotsikot { margin-top: 2em;}
 td.paiva { font-size: 16pt; width: 10em; }
 td.tositeotsikko { font-size: 16pt; }
-td.tositetunnus { font-size: 16pt;}
+td.tositetunnus { font-size: 16pt; text-align: right;}
 
 table.viennit { border: 1px solid #505050; }
 table.viennit th, table.viennit td { border-right: 1px solid #505050;}
 table.viennit th { text-align: left; background-color: #e7e7e7; font-weight: normal;}
-table.viennit td.pvm { width: 10em;}
-table.viennit td.euro { text-align: right; }
+table.viennit td.pvm { min-width: 6em;}
+table.viennit td.tili { min-width: 10em;}
+table.viennit td.kohdennus { min-width: 8em;}
+table.viennit td.selite { width: 100%; }
+table.viennit td.euro { text-align: right; min-width: 8em;}
+table.viennit td.erasaldo { border-top: 1px solid #505050;  text-align: right;}
 table.viennit tr:hover { background-color: #ccc;}
 
 p.info { font-size: 10pt; margin-top: 2em;}

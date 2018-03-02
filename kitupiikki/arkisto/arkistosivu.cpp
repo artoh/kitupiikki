@@ -288,8 +288,8 @@ void ArkistoSivu::teeArkisto(Tilikausi kausi)
     QString sha = Arkistoija::arkistoi(kausi);
 
     // Merkitsee arkistoiduksi
-    QDateTime nyt = QDateTime( kp()->paivamaara(), QTime::currentTime());
-    kp()->tilikaudet()->json(kausi)->set("Arkistoitu", nyt.toString(Qt::ISODate) );
+
+    kp()->tilikaudet()->json(kausi)->set("Arkistoitu", QDateTime::currentDateTime().toString(Qt::ISODate) );
     kp()->tilikaudet()->json(kausi)->set("ArkistoSHA", sha);
     kp()->tilikaudet()->tallennaJSON();
 

@@ -538,7 +538,7 @@ bool VientiModel::tallenna()
                             "VALUES(:tosite,:pvm,:tili,:debetsnt,:kreditsnt,:selite,"
                             ":alvkoodi, :alvprosentti, :luotu, :muokattu, :json, :kohdennus, :eraid, :rivinro,"
                             ":viite, :iban, :erapvm, :arkistotunnus)");
-            query.bindValue(":luotu",  QDateTime(kp()->paivamaara(), QTime::currentTime() ) );
+            query.bindValue(":luotu",  QDateTime::currentDateTime() );
             query.bindValue(":rivinro", rivi.riviNro);
         }
 
@@ -565,7 +565,7 @@ bool VientiModel::tallenna()
         query.bindValue(":selite", rivi.selite);
         query.bindValue(":alvkoodi", rivi.alvkoodi);
         query.bindValue(":alvprosentti", rivi.alvprosentti);
-        query.bindValue(":muokattu", QVariant( QDateTime(kp()->paivamaara(), QTime::currentTime() ) ) );
+        query.bindValue(":muokattu", QDateTime::currentDateTime() );
         query.bindValue(":kohdennus", rivi.kohdennus.id());
         query.bindValue(":viite", rivi.viite);
         query.bindValue(":iban", rivi.saajanTili);
