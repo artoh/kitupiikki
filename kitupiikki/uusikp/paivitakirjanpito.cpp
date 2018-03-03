@@ -185,8 +185,12 @@ void PaivitaKirjanpito::lataaPaivitys(const QString &tiedosto)
         if( mats.hasMatch())
         {
             int numero = mats.captured("nro").toInt();
+            QString tyyppi = mats.captured("tyyppi");
+            int otsikkotaso = 0;
+            if( tyyppi.startsWith('H') && tyyppi.length()==2)
+                otsikkotaso = tyyppi.mid(1).toInt();
 
-            if( !kp()->tilit()->tiliNumerolla(numero).onkoValidi())
+            if( !kp()->tilit()->tiliNumerolla(numero, otsikkotaso).onkoValidi())
             {
                 Tili tili;
                 tili.asetaTyyppi( mats.captured("tyyppi"));
@@ -210,14 +214,16 @@ void PaivitaKirjanpito::lataaPaivitys(const QString &tiedosto)
             else
             {
                 // Ei muuteta käyttäjän muokkaamia tilejä
-                if( kp()->tilit()->tiliNumerolla(numero).muokkausaika().isValid() )
+                if( kp()->tilit()->tiliNumerolla(numero, otsikkotaso).muokkausaika().isValid() )
                     continue;
+
+                int ysiluku = Tili::ysiluku(numero, otsikkotaso);
 
 
                 // Etsitään oikea tili modelista ja muutetaan sitä
                 for(int i=0; i < kp()->tilit()->rowCount(QModelIndex()); i++)
                 {
-                    if( numero == kp()->tilit()->tiliIndeksilla(i).numero())
+                    if( ysiluku == kp()->tilit()->tiliIndeksilla(i).ysivertailuluku() )
                     {
                         kp()->tilit()->setData( kp()->tilit()->index(i, TiliModel::NIMI), mats.captured("nimi"), TiliModel::NimiRooli );
                         JsonKentta *json = kp()->tilit()->jsonIndeksilla(i);

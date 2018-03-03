@@ -69,7 +69,7 @@ public:
 
     Tili tiliIdlla(int id) const;
     Tili tiliIndeksilla(int i) const { return tilit_.value(i); }
-    Tili tiliNumerolla(int numero) const;
+    Tili tiliNumerolla(int numero, int otsikkotaso = 0) const;
     Tili tiliIbanilla(const QString& iban) const;
     /**
      * @brief Palauttaa tilin, jolle kirjataan edellisiltä tilikausilta kertynyt yli/alijäämä
