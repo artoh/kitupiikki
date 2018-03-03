@@ -3,7 +3,7 @@ Elinkeinonharjoittaja
 [TilikarttaTekija]
 artoh.github.io
 [TilikarttaPvm]
-2018-01-08
+2018-03-01
 [TilikarttaKuvaus]
 <b>Liikeen- tai ammatinharjoittaja</b>
 <p>Yksityinen ns. toiminimiyrittäjä, joka vastaa kaikesta yritystoiminnasta.</p>
@@ -85,7 +85,7 @@ H4 155 {} Ennakkomaksut
 A 1550 {"Taseerittely":2} Ennakkomaksut
 H3 16 {} Pitkäaikaiset saamiset
 H4 160 {} Myyntisaamiset
-AS 1600 {"Taseerittely":2} Myyntisaamiset; pitkäaikaiset
+AO 1600 {"Taseerittely":2} Myyntisaamiset; pitkäaikaiset
 H4- 161 {} Saamiset saman konsernin yrityksiltä
 A- 1610 {"Taseerittely":2} Saamiset saman konsernin yrityksiltä; pitkäaikaiset
 H4- 163 {} Saamiset omistusyhteysyrityksiltä
@@ -98,7 +98,7 @@ H4 167 {} Siirtosaamiset
 A 1670 {"Taseerittely":2} Siirtosaamiset; pitkäaikaiset
 H3 17 {} Lyhytaikaiset saamiset
 H4 170 {} Myyntisaamiset
-AS 1700 {"Taseerittely":2} Myyntisaamiset
+AO 1700 {"Taseerittely":2} Myyntisaamiset
 H4- 171 {} Saamiset saman konsernin yrityksilta
 A- 1710 {"Taseerittely":2} Saamiset saman konsernin yrityksiltä
 H4- 173 {} Saamiset omistusyhteysyrityksiltä
@@ -120,8 +120,8 @@ A 1830 {"Taseerittely":2} Joukkovelkakirjat
 A 1831 {"Taseerittely":2} Rahamarkkinainstrumentit
 A 1839 {"Taseerittely":2} Muut rahoitusarvopaperit
 H3 19 {} Rahat ja pankkisaamiset
-AR 1900 {} Käteisvarat
-AR 1910 {} Pankkitili
+ARK 1900 {} Käteisvarat
+ARP 1910 {} Pankkitili
 H1 2 {} VASTATTAVAA
 H2 20 {"Asti":24} Oma pääoma
 BE 2050 {} Pääoma aiemmilta kausilta
@@ -157,7 +157,7 @@ B 2840 {"Taseerittely":3} Eläkelainat; pitkäaikaiset
 H4 285 {} Saadut ennakot
 B 2850 {"Taseerittely":3} Saadut ennakot; pitkäaikaiset
 H4 286 {} Ostovelat
-BS 2860 {"Taseerittely":2} Ostovelat; pitkäaikaiset
+BO 2860 {"Taseerittely":2} Ostovelat; pitkäaikaiset
 H4- 2870 {"Asti":2874} Velat saman konsernin yrityksille
 BS- 2870 {"Taseerittely":2} Velat saman konsernin yrityksille; pitkäaikaiset
 H4- 2875 {"Asti":2879} Velat omistusyhteysyrityksille
@@ -178,14 +178,14 @@ B 2940 {"Taseerittely":2} Eläkelainat; Lyhytaikaiset
 H4 295 {} Saadut ennakot
 B 2950 {"Taseerittely":2} Saadut ennakot
 H4 296 {} Ostovelat
-BS 2960 {"Taseerittely":2} Ostovelat
+BO 2960 {"Taseerittely":2} Ostovelat
 H4- 2970 {"Asti":2974} Velat saman konsernin yrityksille
 BS- 2970 {"Taseerittely":2} Velat saman konsernin yrityksille; lyhytaikaiset
 H4 2975 {"Asti":2979} Velat omistusyhteysyrityksille
 BS 2975 {"Taseerittely":2} Velat omistusyhteysyrityksille; lyhytaikaiset
 H4 298 {} Muut saamiset
 BL 2984 {} Alv-velka
-BV 2986 {"Taseerittely":2} Verovelka (Omavero-tili)
+BV 2986 {} Verovelka (Omavero-tili)
 BS 2989 {"Taseerittely":2} Muut velat
 BS 2990 {"Taseerittely":2} Siirtovelat
 H1 3 {"Asti":9} TULOSLASKELMA
@@ -479,8 +479,17 @@ sahko
 14
 [LaskuHuomautusaika]
 8 vrk
+[LaskuTili]
+1910
+[TuontiOstolaskuTili]
+2960
+[TuontiOstolaskuTositelaji]
+4
+[TuontiOstolaskuPeruste]
+1
+[TuontiTiliote]
+ON
 [ArkistoRaportit]
-
 Tase
 Toiminnanalat
 Tuloslaskelma

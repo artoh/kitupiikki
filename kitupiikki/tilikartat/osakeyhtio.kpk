@@ -3,7 +3,7 @@ Osakeyhtiö
 [TilikarttaTekija]
 artoh.github.io
 [TilikarttaPvm]
-2018-01-11
+2018-03-01
 [TilikarttaKuvaus]
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 <html><head><meta name="qrichtext" content="1" /><style type="text/css">
@@ -198,7 +198,7 @@ H4 2975 {"Asti":2979} Velat omistusyhteysyrityksille
 BS 2975 {"Taseerittely":2} Velat omistusyhteysyrityksille; lyhytaikaiset
 H4 298 {} Muut saamiset
 BL 2984 {} Alv-velka
-BV 2986 {"Taseerittely":2} Verovelka (Omavero-tili)
+BV 2986 {} Verovelka (Omavero-tili)
 BS 2989 {"Taseerittely":2} Muut velat
 BS 2990 {"Taseerittely":2} Siirtovelat
 H1 3 {"Asti":9} TULOSLASKELMA
@@ -542,8 +542,17 @@ tilintarkastus
 14
 [LaskuHuomautusaika]
 8 vrk
+[LaskuTili]
+1910
+[TuontiOstolaskuTili]
+2960
+[TuontiOstolaskuTositelaji]
+4
+[TuontiOstolaskuPeruste]
+1
+[TuontiTiliote]
+ON
 [ArkistoRaportit]
-
 Tase
 Toiminnanalat
 Tuloslaskelma

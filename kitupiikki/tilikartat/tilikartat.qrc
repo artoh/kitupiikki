@@ -6,5 +6,6 @@
         <file>henkiloyhtio.kpk</file>
         <file>kiinteisto.kpk</file>
         <file>osuuskunta.kpk</file>
+        <file>tilitin.kpk</file>
     </qresource>
 </RCC>

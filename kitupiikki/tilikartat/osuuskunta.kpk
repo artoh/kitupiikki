@@ -3,7 +3,7 @@ Osuuskunta
 [TilikarttaTekija]
 artoh.github,io
 [TilikarttaPvm]
-2018-02-02
+2018-03-01
 [TilikarttaKuvaus]
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 <html><head><meta name="qrichtext" content="1" /><style type="text/css">
@@ -107,7 +107,7 @@ H4 167 {} Siirtosaamiset
 A 1670 {"Taseerittely":2} Siirtosaamiset; pitkäaikaiset
 H3 17 {} Lyhytaikaiset saamiset
 H4 170 {} Myyntisaamiset
-AS 1700 {"Taseerittely":2} Myyntisaamiset
+AO 1700 {"Taseerittely":2} Myyntisaamiset
 H4- 171 {} Saamiset saman konsernin yrityksilta
 A- 1710 {"Taseerittely":2} Saamiset saman konsernin yrityksiltä
 H4- 173 {} Saamiset omistusyhteysyrityksiltä
@@ -129,8 +129,8 @@ A 1830 {"Taseerittely":2} Joukkovelkakirjat
 A 1831 {"Taseerittely":2} Rahamarkkinainstrumentit
 A 1839 {"Taseerittely":2} Muut rahoitusarvopaperit
 H3 19 {} Rahat ja pankkisaamiset
-AR 1900 {} Käteisvarat
-AR 1910 {} Pankkitili
+ARK 1900 {} Käteisvarat
+ARP 1910 {} Pankkitili
 H1 2 {} VASTATTAVAA
 H2 20 {"Asti":24} Oma pääoma
 B 2000 {"Taseerittely":1} Osakepääoma
@@ -192,7 +192,7 @@ B 2940 {"Taseerittely":2} Eläkelainat; Lyhytaikaiset
 H4 295 {} Saadut ennakot
 B 2950 {"Taseerittely":2} Saadut ennakot
 H4 296 {} Ostovelat
-BS 2960 {"Taseerittely":2} Ostovelat
+BO 2960 {"Taseerittely":2} Ostovelat
 H4- 2970 {"Asti":2974} Velat saman konsernin yrityksille
 BS- 2970 {"Taseerittely":2} Velat saman konsernin yrityksille; lyhytaikaiset
 H4 2975 {"Asti":2979} Velat omistusyhteysyrityksille
@@ -543,8 +543,17 @@ tilintarkastus
 14
 [LaskuHuomautusaika]
 8 vrk
+[LaskuTili]
+1910
+[TuontiOstolaskuTili]
+2960
+[TuontiOstolaskuTositelaji]
+4
+[TuontiOstolaskuPeruste]
+1
+[TuontiTiliote]
+ON
 [ArkistoRaportit]
-
 Tase
 Toiminnanalat
 Tuloslaskelma

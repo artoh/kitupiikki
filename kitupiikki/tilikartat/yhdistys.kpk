@@ -3,7 +3,7 @@ Yhdistys
 [TilikarttaTekija]
 artoh.github.io
 [TilikarttaPvm]
-2018-01-07
+2018-03-01
 [VakioTilikartta]
 yhdistys.kpk
 [TilikarttaKuvaus]
@@ -112,7 +112,7 @@ H4 167 {} Siirtosaamiset
 A 1670 {"Taseerittely":2} Siirtosaamiset; pitkäaikaiset
 H3 17 {} Lyhytaikaiset saamiset
 H4 170 {} Myyntisaamiset
-AS 1700 {"Taseerittely":2} Myyntisaamiset
+AO 1700 {"Taseerittely":2} Myyntisaamiset
 H4- 171 {} Saamiset saman konsernin yrityksilta
 A- 1710 {"Taseerittely":2} Saamiset saman konsernin yrityksiltä
 H4- 173 {} Saamiset omistusyhteysyrityksiltä
@@ -134,8 +134,8 @@ A 1830 {"Taseerittely":3} Joukkovelkakirjat
 A 1831 {"Taseerittely":3} Rahamarkkinainstrumentit
 A 1839 {"Taseerittely":3} Muut rahoitusarvopaperit
 H3 19 {} Rahat ja pankkisaamiset
-AR* 1900 {} Käteisvarat
-AR* 1910 {} Pankkitili
+ARK 1900 {} Käteisvarat
+ARP 1910 {} Pankkitili
 H1 2 {} VASTATTAVAA
 H2 20 {"Asti":24} Oma pääoma
 H3 201 {"Asti":202} Sidotut rahastot
@@ -194,14 +194,14 @@ B- 2940 {"Taseerittely":2} Eläkelainat; Lyhytaikaiset
 H4 295 {} Saadut ennakot
 B 2950 {"Taseerittely":2} Saadut ennakot
 H4 296 {} Ostovelat
-BS 2960 {"Taseerittely":2} Ostovelat
+BO 2960 {"Taseerittely":2} Ostovelat
 H4- 2970 {"Asti":2974} Velat saman konsernin yrityksille
 BS- 2970 {"Taseerittely":2} Velat saman konsernin yrityksille; lyhytaikaiset
 H4- 2975 {"Asti":2979} Velat omistusyhteysyrityksille
 BS- 2975 {"Taseerittely":2} Velat omistusyhteysyrityksille; lyhytaikaiset
 H4 298 {} Muut velat
 BL 2984 {} Alv-velka
-BV 2986 {"Kirjausohje":"Tälle tilille siirretään maksettavat arvonlisäverot siinä vaiheessa, kun tehdään arvonlisäveroilmoitus.","Taseerittely":2} Verovelka (Omavero-tili)
+BV 2986 {"Kirjausohje":"Tälle tilille siirretään maksettavat arvonlisäverot siinä vaiheessa, kun tehdään arvonlisäveroilmoitus."} Verovelka (Omavero-tili)
 BS 2989 {"Taseerittely":2} Muut velat
 H4 299 {} Siirtovelat
 BS 2990 {"Taseerittely":2} Siirtovelat
@@ -473,6 +473,16 @@ MIKRO
 1900
 [LaskuMaksuaika]
 14
+[LaskuTili]
+1910
+[TuontiOstolaskuTili]
+2960
+[TuontiOstolaskuTositelaji]
+4
+[TuontiOstolaskuPeruste]
+1
+[TuontiTiliote]
+ON
 [LaskuHuomautusaika]
 8 vrk
 [ArkistoRaportit]
