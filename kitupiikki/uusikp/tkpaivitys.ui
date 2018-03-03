@@ -33,7 +33,7 @@
      <item>
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Toiminto päivittää käytössä olevan tililuettelon, raporttimallit sekä tilinpäätöksen mallin.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Toiminto päivittää käytössä olevan tililuettelon, raporttimallit sekä tilinpäätöksen mallin.&lt;/p&gt;&lt;p&gt;On suositeltavaa varmuuskopioida kirjanpito ennen tilikartan päivittämistä!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>

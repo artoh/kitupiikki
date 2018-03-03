@@ -36,10 +36,10 @@ public:
      * @return
      */
     static QString sisainenPaivitys();
-    static void paivitaTilikartta();
+    static bool paivitaTilikartta();
 
 protected:
-    static void lataaPaivitys(const QString& tiedosto);
+    static bool lataaPaivitys(const QString& tiedosto);
 
 
 };

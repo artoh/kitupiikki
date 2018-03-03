@@ -263,7 +263,8 @@ void MaaritysSivu::vieTilikartta()
 
 void MaaritysSivu::paivitaTilikartta()
 {
-    PaivitaKirjanpito::paivitaTilikartta();
+    if( PaivitaKirjanpito::paivitaTilikartta() )
+        valitseSivu("Tilikartan ohje");
 }
 
 void MaaritysSivu::lisaaSivu(const QString &otsikko, MaaritysSivu::Sivut sivu, const QIcon &kuvake)

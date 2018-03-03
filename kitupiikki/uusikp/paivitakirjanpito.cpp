@@ -50,7 +50,7 @@ QString PaivitaKirjanpito::sisainenPaivitys()
             paivays.toString(Qt::SystemLocaleShortDate);
 }
 
-void PaivitaKirjanpito::paivitaTilikartta()
+bool PaivitaKirjanpito::paivitaTilikartta()
 {
 
     QDialog dlg;
@@ -79,13 +79,14 @@ void PaivitaKirjanpito::paivitaTilikartta()
                                                               QDir::homePath(), "Tilikartta (*.kpk)");
         }
         if( !tilikarttaTiedosto.isEmpty())
-            lataaPaivitys( tilikarttaTiedosto);
+            return lataaPaivitys( tilikarttaTiedosto);
     }
 
+    return false;
 }
 
 
-void PaivitaKirjanpito::lataaPaivitys(const QString &tiedosto)
+bool PaivitaKirjanpito::lataaPaivitys(const QString &tiedosto)
 {
     QMap<QString,QStringList> ktk = UusiKirjanpito::lueKtkTiedosto(tiedosto);
 
@@ -99,7 +100,7 @@ void PaivitaKirjanpito::lataaPaivitys(const QString &tiedosto)
                                     "nykyisen tilikartan tyyppitiedosta %2.\n\n"
                                     "Oletko varma, että haluat päivittää tilikartan?"),
                                  QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) != QMessageBox::Yes)
-            return;
+            return false;
     }
 
 
@@ -132,7 +133,7 @@ void PaivitaKirjanpito::lataaPaivitys(const QString &tiedosto)
 
 
         if( dlg.exec() != QDialog::Accepted)
-            return;
+            return false;
 
         // Korvataan raportit tai kaavat
         // Jos ei korvata, niin sitten säilytetään!
@@ -225,7 +226,10 @@ void PaivitaKirjanpito::lataaPaivitys(const QString &tiedosto)
                 {
                     if( ysiluku == kp()->tilit()->tiliIndeksilla(i).ysivertailuluku() )
                     {
-                        kp()->tilit()->setData( kp()->tilit()->index(i, TiliModel::NIMI), mats.captured("nimi"), TiliModel::NimiRooli );
+                        QModelIndex index = kp()->tilit()->index(i, TiliModel::NIMI);
+
+                        kp()->tilit()->setData( index, mats.captured("nimi"), TiliModel::NimiRooli );
+                        kp()->tilit()->setData( index, tyyppi, TiliModel::TyyppiRooli);
                         JsonKentta *json = kp()->tilit()->jsonIndeksilla(i);
                         json->fromJson( mats.captured("json").toUtf8() );
                         if( !mats.captured("asti").isEmpty() )
@@ -238,5 +242,9 @@ void PaivitaKirjanpito::lataaPaivitys(const QString &tiedosto)
         }
     }   // Tilirivien lukeminen
     if( kp()->tilit()->tallenna(true))
+    {
         QMessageBox::information(0, tr("Kitupiikki"),tr("Tilikartta päivitetty") );
+        return true;
+    }
+    return false;
 }
