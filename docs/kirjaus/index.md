@@ -6,6 +6,8 @@
 
 Useimmat tavanomaiset kirjaukset kuten ostot, myynnit, nostot pankkitililtä jne. kirjaat helpoiten käyttämällä Avustajaa.
 
+!!! tip "Tiliotteen tai ostolaskun tuominen"
+    Kitupiikki yrittää tehdä kirjausehdotuksen pdf-tiedoston pohjalta. Katso tarkemmin [Tuonti](tuonti).
 
 
 1. Jos tosite on tietokoneella (pdf- tai jpg-tiedostona) tuo se joko raahaamalla se **Sähköinen tosite**-kohtaan tai **Valitse tiedosto**-napilla.
@@ -66,6 +68,14 @@ Voit lisätä enemmän tiedostoja **Liitteet**-välilehdeltä **Lisää**-napist
 Lisäliite voi olla esimerkiksi hankintapäätös, tarjouspyyntö, lähetyslista tai muu tarpeellinen asiakirja.
 
 Voit myös tehdä tositteen, jossa on liite ja mahdollisesti kommentteja ilman yhtään vientiä, jos jokin asiakirja on tarpeen liittää sähköiseen arkistoon. Tällainen voi olla tarpeen esimerkiksi todennettaessa tilinpäätöksen liitetietoja liitetietotositteella.
+
+## Ostolaskun kohdennus
+
+![](olkohdennus.png)
+
+Kirjattaessa **Ostovelat**-tilille on kohdennusikkunassa käytettävissä myös ostolaskun lisätiedot. Näitä tietoja käytetään kohdennettaessa tiliotteelta tuotava suoritus oikealle laskulle. Kitupiikki pyrkii lisäämään nämä tiedot automaattisesti pdf-muotoiselta laskulta.
+
+Kun ostolaskulla on kohdennustietoja, näkyy Kohdennus-sarakkeessa sana **VIITE**.
 
 ## Tiliotteen kirjaaminen
 

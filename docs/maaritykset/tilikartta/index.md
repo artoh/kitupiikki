@@ -33,6 +33,9 @@ Tilejä lisättäessä on tärkeää, että tili tulee oikealle numeroalueelle, 
 
 **Verolaji** ja **veroprosentti** ovat tilin kirjauksen oletusvalintoja, verolajin ja -prosentin voi aina valita joka viennille erikseen, katso [arvonlisävero](/alv). Valinnat eivät ole näkyvissä, jos yritystä ei ole merkitty [perusvalinnoissa](../perusvalinnat) arvonlisävelvolliseksi.
 
+Pankkitileille syötetään lisäksi **IBAN-tilinumero**. Tilinumero tarvitaan maksujen kohdentamiseen maksuja
+ja tiliotteita tuotaessa.
+
 ## Tase-erittely ja tase-erät
 
 ![](myyntisaamiset.png)
@@ -68,6 +71,7 @@ Nämä tilit alkavat aina numerolla 1.
 * Poistokelpoinen omaisuus, tasapoisto
 * Saatavaa
 * Arvonlisäverosaatava (yksi tili)
+* Myyntisaatavat
 * Käteisvarat
 * Pankkitili
 
@@ -80,6 +84,7 @@ Nämä tilit alkavat aina numerolla 2.
 * Tämän tilikauden tulos (yksi tili)
 * Velat
 * Arvonlisäverovelka (yksi tili)
+* Ostovelat
 * Verovelka (OmaVero-ilmoitetut) (yksi tili)
 
 **Tuloslaskelman tilityypit**

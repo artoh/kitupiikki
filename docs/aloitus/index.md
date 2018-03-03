@@ -31,6 +31,10 @@ todellista kirjanpitoa.
 Toisessa ruudussa syötetään organisaation nimi ja Y-tunnus. Näitä voi muokata
 myöhemmin [perusmäärityksissä](/maaritykset/perusvalinnat/).
 
+Lisäksi voit syöttää pankkitilin (ensisijainen käyttötili) tilinumeron. Tilinumero tulostuu laskuille ja
+sitä käytetään myös maksujen ja tiliotteiden kohdistamiseen. Tilinumeron voi syöttää myöhemmin
+tilin tietoihin [tilikartassa](/maaritykset/tilikartta).
+
 ## Tilikartta
 
 ![](tilikartta4.png)
