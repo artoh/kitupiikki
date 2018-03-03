@@ -99,6 +99,8 @@ bool CsvTuonti::tuoCsv(const QByteArray &data)
     }
     paivitaOletukset();
     connect( ui->kirjausRadio, SIGNAL(toggled(bool)), this, SLOT(paivitaOletukset()));
+    connect( ui->ohjeNappi, &QPushButton::clicked, []{ kp()->ohje("kirjaus/tuonti");});
+
 
 
     if( exec() == QDialog::Accepted )
@@ -146,6 +148,8 @@ bool CsvTuonti::tuoCsv(const QByteArray &data)
                 mUi.muuntoView->setModel( &muuntomodel);
                 mUi.muuntoView->setItemDelegateForColumn( TiliMuuntoModel::UUSI , new TiliDelegaatti());
                 mUi.muuntoView->horizontalHeader()->setStretchLastSection(true);
+                connect( mUi.ohjeNappi, &QPushButton::clicked, []{ kp()->ohje("kirjaus/tuonti");});
+
 
                 if( muuntoDlg.exec() != QDialog::Accepted )
                     return false;

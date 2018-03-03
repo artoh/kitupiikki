@@ -33,7 +33,7 @@ public:
     bool tallenna();
     bool onkoMuokattu();
 
-    QString ohjesivu() override { return "maaritykset/tuonti"; }
+    QString ohjesivu() override { return "kirjaus/tuonti"; }
 
 public slots:
     void ilmoitaMuokattu();
