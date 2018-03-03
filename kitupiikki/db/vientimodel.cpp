@@ -224,9 +224,11 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
         }
         else if( index.column() == PVM)
         {
-            // Väärät päivät punaisella
-            if( rivi.pvm <= kp()->tilitpaatetty() || rivi.pvm > kp()->tilikaudet()->kirjanpitoLoppuu() )
+            // Väärät päivät
+            if( rivi.vientiId && rivi.pvm <= kp()->tilitpaatetty())
                 return QIcon(":/pic/lukittu.png");
+            else if( rivi.pvm <= kp()->tilitpaatetty() || rivi.pvm > kp()->tilikaudet()->kirjanpitoLoppuu() )
+                return QIcon(":/pic/varoitus.png");
             else if( kp()->asetukset()->pvm("AlvIlmoitus") >= rivi.pvm && rivi.alvkoodi )
                 return QIcon(":/pic/vero.png");
         }
@@ -399,9 +401,11 @@ Qt::ItemFlags VientiModel::flags(const QModelIndex &index) const
 
     VientiRivi rivi = viennit_.value(index.row());
 
-    // Vientien muokkaus: Jos model sallii
+    // Vientien muokkaus: Jos model sallii eikä ole lukittu
+    // Huom! Rivien lukitus
 
-    if( tositeModel_->muokkausSallittu() )
+    if( tositeModel_->muokkausSallittu() &&
+            ( !rivi.vientiId || rivi.pvm > kp()->tilitpaatetty() ))
     {
         // Alv-saraketta ei voi suoraan muokata, vaan siihen tarvitaan oma dialogi
         // Samoin kohdennusta voi muokata vain, jos tili ei ole tasetili

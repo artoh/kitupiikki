@@ -138,11 +138,14 @@ void KirjausWg::poistaRivi()
 
 void KirjausWg::tyhjenna()
 {
+    // Tunnisteen väri mustaksi
+    ui->tunnisteEdit->setStyleSheet("color: black;");
     // Tyhjennetään ensin model
     model_->tyhjaa();
     // ja sitten päivitetään lomakkeen tiedot modelista
     tiedotModelista();
     // Sallitaan muokkaus
+    ui->poistaNappi->setEnabled(true);
     salliMuokkaus( model_->muokkausSallittu());
     pvmVaihtuu();
     // Verosarake näytetään vain, jos alv-toiminnot käytössä
@@ -183,7 +186,8 @@ void KirjausWg::tallenna()
             alvvaro = true;
 
         // #62: Estetään kirjaukset lukitulle tilikaudelle
-        if( indeksi.data(VientiModel::PvmRooli).toDate() <= kp()->tilitpaatetty() )
+        if( indeksi.data(VientiModel::PvmRooli).toDate() <= kp()->tilitpaatetty() &&
+                indeksi.data(VientiModel::IdRooli).toInt() == 0)
         {
             QMessageBox::critical(this, tr("Ei voi kirjata lukitulle tilikaudelle"),
                                   tr("Kirjaus %1 kohdistuu lukitulle tilikaudelle "
@@ -330,6 +334,16 @@ void KirjausWg::lataaTosite(int id)
 
     if( model_->liiteModel()->rowCount(QModelIndex()))
         ui->liiteView->setCurrentIndex( model_->liiteModel()->index(0) );
+
+    // Jos tositteella yksikin lukittu vienti, ei voi poistaa
+    ui->poistaNappi->setEnabled(true);
+
+    for(int i = 0; i < model_->vientiModel()->rowCount(QModelIndex()); i++)
+    {
+        QModelIndex index = model_->vientiModel()->index(i,0);
+        if( index.data(VientiModel::PvmRooli).toDate() <= kp()->tilitpaatetty())
+            ui->poistaNappi->setEnabled(false);
+    }
 
 }
 
@@ -495,6 +509,9 @@ void KirjausWg::kirjausApuri()
 
 void KirjausWg::pvmVaihtuu()
 {
+    if( !model_->muokkausSallittu() )
+        return;
+
     QDate paiva = ui->tositePvmEdit->date();
     model_->asetaPvm(paiva);
 
@@ -513,9 +530,6 @@ void KirjausWg::pvmVaihtuu()
         ui->tunnisteEdit->setText( QString::number(model_->tunniste() ));
         ui->kausiLabel->setText( kp()->tilikaudet()->tilikausiPaivalle(paiva).kausitunnus() );
     }
-
-    // Varomerkki jos alv-ilmoitus on annettu
-    ui->varoMerkki->setVisible(kp()->asetukset()->pvm("AlvIlmoitus").daysTo( model()->pvm() ) < 1);
 }
 
 void KirjausWg::naytaLiite()

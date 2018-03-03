@@ -12,225 +12,863 @@ artoh.github.io
 
 [tilit]
 H1 1001 {} Vastaavaa
+H3 1001 {} Pysyvät vastaavat
+H4 1001 {} Aineettomat hyödykkeet
 H5 1001 {} Perustamismenot
 A 1001 {} Perustamismenot
 H5 1011 {} Tutkimusmenot
 A 1011 {} Tutkimusmenot
 H5 1021 {} Kehittämismenot
 A 1021 {} Kehittämismenot
+H5 1031 {} Aineettomat oikeudet
 A 1031 {} Patentit
 A 1033 {} Tekijänoikeudet
 A 1035 {} Tavaramerkkioikeudet
 A 1037 {} Lisenssimaksut
 A 1039 {} Toimilupaoikeudet
+A 1041 {} Atk-ohjelmien lisenssimaksut
 A 1043 {} Puhelinliittymät
 A 1045 {} Hälytysliittymät
+A 1049 {} Muut aineettomat oikeudet
 H5 1051 {} Liikearvo
 A 1051 {} Liikearvo
 A 1055 {} Fuusiotili
 A 1057 {} Fuusioaktiiva
 H5 1061 {} Konserniliikearvo
 A 1061 {} Konserniliikearvo
+H5 1071 {} Muut pitkävaikutteiset menot
+A 1071 {} Mainos- ja markkinatutkimusmenot
+A 1073 {} Osakehuoneiston perusparannusmenot
+A 1075 {} Vuokrahuoneiston perusparannusmenot
+A 1081 {} Atk-ohjelmat
+A 1089 {} Muut pitkävaikutteiset menot
 H5 1091 {} Ennakkomaksut
+A 1091 {} Ennakkomaksut aineettomista hyödykkeistä
+H4 1101 {} Aineelliset hyödykkeet
+H5 1101 {} Maa- ja vesialueet
 H6 1101 {} Omistuskiinteistöt
+A 1101 {} Maa- ja vesialueet
 A 1105 {} Liittymismaksut
+A 1109 {} Arvonkorotukset maa- ja vesialueista
+H6 1111 {} Kiinteistöjen vuokraoikeudet
 A 1111 {} Maanvuokraoikeudet
+A 1113 {} Liittymismaksut vuokrakiinteistöistä
+H5 1121 {} Rakennukset ja rakennelmat
+H6 1121 {} Omistusrakennukset ja -rakennelmat
+A 1121 {} Rakennukset 7% menojäännöspoisto
+A 1125 {} Rakennukset 4% menojäännöspoisto
+A 1131 {} Rakennusten tekniset laitteet  25% menojäännöspoisto
+A 1135 {} Väestönsuojat ym. max. 25% tasapoisto
+A 1141 {} Rakennelmat 20% menojäännöspoisto
+A 1143 {} Muut rakennukset ja rakennelmat
+A 1145 {} Arvonkorotukset (vanhat rakennuksista tehdyt)
+H6 1151 {} Rakennusten ja rakennelmien vuokraoikeudet
+A 1151 {} Rakennusten vuokraoikeudet
+H5 1161 {} Koneet ja kalusto
+A 1161 {} Koneet ja laitteet
+A 1165 {} Tuotannon koneet ja laitteet
+A 1171 {} Kuorma- ja pakettiautot
 A 1173 {} Henkilöautot
 A 1175 {} Ammattiautot
+A 1179 {} Muut ajoneuvot ja alukset
+A 1201 {} Kalusto ja muu irtain
+A 1209 {} Vuokrattava kalusto
+A 1211 {} Vapaa-ajan asuntojen kalusto ja muu irtaimisto
+A 1213 {} Työsuhdeasuntojen kalusto ja muu irtaimisto
+A 1241 {} Käyttöönottamattomat koneet ja kalusto
+A 1249 {} Muut koneet ja kalusto
+H5 1301 {} Muut aineelliset hyödykkeet
+A 1301 {} Maa-ainesten ottopaikat
+A 1303 {} Maa- ja vesirakennukset
+A 1305 {} Piha-asfaltit
+A 1315 {} Elävä käyttöomaisuus
+A 1329 {} Muut poistokelpoiset aineelliset hyödykkeet
+A 1331 {} Taide-esineet
 A 1335 {} Keräilyhyödykkeet
+A 1339 {} Muut aineelliset hyödykkeet (ei poistokelpoiset)
+H5 1381 {} Ennakkomaksut ja keskeneräiset hankinnat
+A 1381 {} Ennakkomaksut aineellisista hyödykkeistä
+A 1391 {} Keskeneräiset käyttöomaisuushankinnat
 H4 1401 {} Sijoitukset
+H5 1401 {} Osuudet saman konsernin yrityksissä
+A 1401 {} Tytäryritysten osakkeet
+A 1403 {} Emoyrityksen osakkeet
+A 1405 {} Sisaryritysten osakkeet
+A 1407 {} Muut konserniosuudet
+A 1409 {} Arvonkorotus konserniosuuksista
+H5 1411 {} Saamiset saman konsernin yrityksiltä
+A 1411 {} Pitkäaikaiset saamiset saman konsernin yrityksiltä
+A 1413 {} Konserniyrityksille annetut pääomalainat
+H5 1421 {} Osuudet omistusyhteysyrityksissä
+A 1421 {} Osakkuusyritysten osakkeet
 A 1423 {} Osakkuusyritysosuudet
+A 1425 {} Muut omistusyhteysyritysosakkeet
+A 1427 {} Muut omistusyhteysyritysosuudet
+A 1429 {} Arvonkorotus omistusyhteysyritysosuuksista
+H5 1431 {} Saamiset omistusyhteysyrityksiltä
+A 1431 {} Pitkäaikaiset saamiset omistusyhteysyrityksiltä
+H5 1441 {} Muut osakkeet ja osuudet
+A 1441 {} Huoneisto-osakkeet
 A 1447 {} Pörssiosakkeet
+A 1453 {} Muut osakkeet
 A 1457 {} Pankkiosuudet
+A 1461 {} Sijoitusrahasto-osuudet
 A 1465 {} Puhelinosuudet
+A 1467 {} Muut osuudet
+A 1469 {} Arvonkorotus muista  osakkeista ja osuuksista
+H5 1471 {} Muut saamiset
+A 1471 {} Pitkäaikaiset lainasaamiset
+A 1473 {} Pitkäaikaiset joukkovelkakirjalainat
+A 1475 {} Pitkäaikaiset saamistodistukset
+A 1477 {} Pitkäaikaiset optiolainat
+A 1479 {} Pitkäaikaiset vaihtovelkakirjalainat
+A 1481 {} Pitkäaikaiset nollakorkolainat
 A 1483 {} Liittymismaksusaamiset
+A 1489 {} Muut pitkäaikaiset saamiset
+H5 1491 {} Omat osakkeet / osuudet
+A 1491 {} OYJ:n (pörssinoteerattu) omat osakkeet
+H3 1501 {} Vaihtuvat vastaavat
+H4 1501 {} Vaihto-omaisuus
+H5 1501 {} Aineet ja tarvikkeet
+A 1501 {} Aineet ja tarvikkeet
+H5 1511 {} Keskeneräiset tuotteet
+A 1511 {} Keskeneräiset tuotteet
+H5 1521 {} Valmiit tuotteet
+A 1521 {} Valmiit tuotteet
 H5 1531 {} Tavarat
 A 1531 {} Tavarat
+A 1533 {} Matkalla olevat tavarat
+H5 1541 {} Muu vaihto-omaisuus
 A 1541 {} Kiinteistöt
 A 1543 {} Arvopaperit
+A 1549 {} Muu vaihto-omaisuus
 H5 1551 {} Ennakkomaksut
+A 1551 {} Ennakkomaksut vaihto-omaisuudesta
+H4 1601 {} Pitkäaikaiset saamiset
 H6 1601 {} Myyntisaamiset
+A 1601 {} Pitkäaikaiset myyntisaamiset
+A 1621 {} Pitkäaikaiset valuuttamääräiset myyntisaamiset
+A 1623 {} Pitkäaikaiset osamaksusaamiset
+H6 1631 {} Saamiset saman konsernin yrityksiltä
+A 1631 {} Pitkäaikaiset konsernimyyntisaamiset
+A 1633 {} Pitkäaikaiset konsernisiirtosaamiset
+A 1635 {} Pitkäaikaiset konsernilainasaamiset
+A 1639 {} Pitkäaikaiset muut konsernisaamiset
+H6 1641 {} Saamiset omistusyhteysyrityksiltä
+A 1641 {} Pitkäaikaiset omistusyhteysyritysmyyntisaamiset
+A 1643 {} Pitkäaikaiset omistusyhteysyrityssiirtosaamiset
+A 1645 {} Pitkäaikaiset omistusyhteysyrityslainasaamiset
+A 1649 {} Pitkäaikaiset muut omistusyhteysyrityssaamiset
 H6 1651 {} Lainasaamiset
+A 1651 {} Pitkäaikaiset saamiset työntekijöiltä
+A 1653 {} Pitkäaikaiset saamiset johdolta
+A 1655 {} Pitkäaikaiset saamiset osakkailta ja omaisilta
+A 1656 {} Pitkäaikaiset saamiset osakkailta ja omaisilta (veronalaiset)
+A 1657 {} Pitkäaikaiset muut lähipiirilainat
+A 1659 {} Pitkäaikaiset muut lainasaamiset
+H6 1665 {} Muut saamiset
+A 1665 {} Pitkäaikaiset vakuustalletukset
+A 1667 {} Pitkäaikaiset maksetut vuokravakuudet
+A 1669 {} Pitkäaikaiset muut saamiset
+H6 1671 {} Maksamattomat osakkeet/osuudet
+A 1671 {} Pitkäaikaiset maksamattomat osakkeet / osuudet
 H6 1681 {} Siirtosaamiset
+A 1681 {} Pitkäaikaiset siirtosaamiset
+H6 1691 {} Laskennalliset verosaamiset
+A 1691 {} Pitkäaikaiset laskennalliset verosaamiset
+H4 1701 {} Lyhytaikaiset saamiset
 H6 1701 {} Myyntisaamiset
+A 1701 {} Myyntisaamiset 1
+A 1702 {} Myyntisaamiset 2
+A 1703 {} Myyntisaamiset 3
 A 1705 {} Myymäläsaamiset
 A 1707 {} Provisiosaamiset
 A 1711 {} Luottokorttisaamiset
 A 1713 {} Pankkikorttisaamiset
+A 1715 {} Myyntisaamiset ennakkolaskuista
+A 1717 {} Factoring-myyntisaamiset matkalla
+A 1718 {} Factoring-myyntisaamiset laskutili
+A 1719 {} Factoring-osamaksusaamiset
+A 1721 {} Myyntisaamiset, valuuttamääräiset
 A 1723 {} Osamaksusaamiset
+A 1727 {} Siirtyvät myyntisaamiset/selvittelytili
+A 1729 {} Muut myyntisaamiset
+H6 1731 {} Saamiset saman konsernin yrityksiltä
 A 1731 {} Konsernimyyntisaamiset
 A 1733 {} Konsernisiirtosaamiset
 A 1735 {} Konsernilainasaamiset
+A 1739 {} Muut konsernisaamiset
+H6 1741 {} Saamiset omistusyhteysyrityksiltä
 A 1741 {} Omistusyhteysyritysmyyntisaamiset
 A 1743 {} Omistusyhteysyrityssiirtosaamiset
 A 1745 {} Omistusyhteysyrityslainasaamiset
+A 1749 {} Muut omistusyhteysyrityssaamiset
 H6 1751 {} Lainasaamiset
+A 1751 {} Saamiset työntekijöiltä
+A 1753 {} Saamiset johdolta
+A 1755 {} Saamiset osakkailta ja omaisilta
+A 1756 {} Saamiset osakkailta ja omaisilta (veronalaiset)
+A 1757 {} Muut lähipiirilainat
+A 1759 {} Muut lainasaamiset
+H6 1761 {} Muut saamiset
 A 1761 {} Verosaamiset
 A 1763 {} Arvonlisäverosaamiset
+A 1764 {} Anotut arvonlisäveropalautukset
 A 1765 {} Vakuustalletukset
+A 1767 {} Maksetut vuokravakuudet
+A 1769 {} Kuluennakot työntekijöille
 A 1771 {} Vahingonkorvaussaamiset
 A 1777 {} Selvittelytili
+A 1779 {} Muut saamiset
+H6 1781 {} Maksamattomat osakkeet/osuudet
 A 1781 {} Osakemerkintäsaamiset
+A 1783 {} Maksamattomat osuudet
 H6 1801 {} Siirtosaamiset
+A 1801 {} Palkkamenot (siirtosaamiset)
+A 1803 {} Eläkevakuutusmaksut (siirtosaamiset)
+A 1804 {} Sosiaaliturvamaksut (siirtosaamiset)
+A 1805 {} Työnantajan pakolliset vakuutusmaksut (siirtosaamiset)
+A 1809 {} Vuokramenot (siirtosaamiset)
+A 1811 {} Korkomenot (siirtosaamiset)
+A 1813 {} Tuloverot (siirtosaamiset)
+A 1819 {} Muut menoennakot (siirtosaamiset)
+A 1831 {} Vuokratulot (siirtosaamiset)
+A 1833 {} Korkotulot (siirtosaamiset)
+A 1837 {} Valmistusasteen mukaiset tulot (siirtosaamiset)
+A 1839 {} Muut tulojäämät (siirtosaamiset)
+A 1841 {} Ostojen alennukset (siirtosaamiset)
+A 1843 {} Laskennalliset kurssitappiot (siirtosaamiset)
+A 1845 {} Arvonlisäverosaamiset ennakkomaksuista (siirtosaamiset)
+A 1847 {} Veronhyvityssaamiset (siirtosaamiset)
+A 1849 {} Muut siirtosaamiset
+H6 1851 {} Laskennalliset verosaamiset
+A 1851 {} Laskennalliset verosaamiset
 H4 1861 {} Rahoitusarvopaperit
+H5 1861 {} Osuudet saman konsernin yrityksissä
+A 1861 {} Tytäryritysten osakkeet (rahoitusomaisuus)
+A 1863 {} Emoyrityksen osakkeet (rahoitusomaisuus)
+A 1865 {} Sisaryritysten osakkeet (rahoitusomaisuus)
+A 1867 {} Muut konserniosuudet (rahoitusomaisuus)
+H5 1871 {} Omat osakkeet
+A 1871 {} OYJ:n (pörssinoteerattu) omat osakkeet (rahoitusomaisuus)
+H5 1881 {} Muut osakkeet ja osuudet
+A 1881 {} Muut osakkeet ja osuudet (rahoitusomaisuus)
+H5 1891 {} Muut arvopaperit
+A 1891 {} Muut rahoitusarvopaperit
+H4 1900 {} Rahat ja pankkisaamiset
 H5 1900 {} Rahat
 A 1900 {} Käteisvarat
 A 1905 {} Valuuttakassat
 H5 1910 {} Pankkisaamiset
+A 1910 {} Pankkitili 1
+A 1919 {} Pankkitili 1 shekkitililimiitti
+A 1920 {} Pankkitili 2
+A 1929 {} Pankkitili 2 shekkitililimiitti
+A 1930 {} Pankkitili 3
+A 1940 {} Pankkitili 4
+A 1950 {} Pankkitili 5
+A 1960 {} Lyhytaikaiset talletukset
+A 1961 {} Lyhytaikaiset lähdeveronalaiset talletukset
 A 1970 {} Sijoitustili
 A 1984 {} Valuuttatili
 A 1986 {} Valuuttatalletukset
+H5 1991 {} Rahansiirrot ja täsmäytykset
 A 1991 {} Täsmäytykset
+A 1995 {} Rahansiirrot matkalla
 A 1996 {} Virhemaksut
 H1 2001 {} Vastattavaa
+H3 2001 {} Oma pääoma
 H4 2001 {} Osakepääoma
 X 2001 {} Osakepääoma
 X 2011 {} Osakeanti
 X 2021 {} Ylikurssirahasto
 X 2031 {} Arvonkorotusrahasto
+H4 2051 {} Muut rahastot
 X 2051 {} Vararahasto
+X 2061 {} Yhtiöjärjestyksen mukainen rahasto
+X 2071 {} Muut rahastot
 H4 2101 {} Osuuspääoma
 X 2101 {} Osuuspääoma
 X 2103 {} Lisäosuuspääoma
 H4 2151 {} Pääomapanokset
+X 2151 {} Pääomapanos, yhtiömies A
+X 2153 {} Pääomapanos, yhtiömies B
+X 2181 {} Äänettömän yhtiömiehen C panos
+X 2183 {} Äänettömän yhtiömiehen D panos
+H4 2201 {} Peruspääoma (tmi)
+X 2201 {} Peruspääoma (tmi)
+H4 2251 {} Edellisten tilikausien voitto (tappio)
+X 2251 {} Edellisten tilikausien voitto/tappio
 X 2261 {} Osingonjako
+X 2265 {} Omista osakkeista maksettu määrä
 X 2271 {} Osuuskorot
+X 2291 {} Voitto-osuus yhtiömies A
+X 2293 {} Voitto-osuus yhtiömies B
+X 2311 {} Voitto-osuus vastuunalainen yhtiömies A
+X 2313 {} Voitto-osuus vastuunalainen yhtiömies B
+X 2321 {} Voitto-osuus äänetön yhtiömies C
+X 2323 {} Voitto-osuus äänetön yhtiömies D
 H4 2331 {} Pääomavajaus
 X 2331 {} Pääomavajaus
+H4 2341 {} Yksityistilit tilikaudella
+X 2341 {} Yksityissijoitukset rahana yhtiömies A
+X 2343 {} Muut yksityissijoitukset yhtiömies A
+X 2345 {} Yksityissijoitukset rahana yhtiömies B
+X 2347 {} Muut yksityissijoitukset  yhtiömies B
+X 2351 {} Yksityisnostot rahana yhtiömies A
+X 2353 {} Muut yksityisnostot yhtiömies A
+X 2355 {} Yksityisnostot rahana yhtiömies B
+X 2357 {} Muut yksityisnostot  yhtiömies B
+X 2361 {} Yksityissijoitukset rahana
+X 2363 {} Muut yksityissijoitukset
+X 2365 {} Yksityisnostot rahana
+X 2367 {} Muut yksityisnostot
 H4 2381 {} Pääomalainat
 B 2381 {} Pääomalaina
+H3 2401 {} Tilinpäätössiirtojen kertymä
 H4 2401 {} Poistoero
+B 2401 {} Perustamismenojen poistoero
+B 2403 {} Tutkimusmenojen poistoero
+B 2405 {} Kehittämismenojen poistoero
+B 2407 {} Aineettomien oikeuksien poistoero
+B 2411 {} Liikearvon poistoero
+B 2421 {} Muiden pitkävaikutteisten menojen poistoero
+B 2431 {} Rakennusten poistoero
+B 2441 {} Koneiden ja kaluston poistoero
+B 2449 {} Muiden aineellisten hyödykkeiden poistoero
+H4 2451 {} Vapaaehtoiset varaukset
+B 2451 {} Käyttöomaisuuden jälleenhankintavaraus
+B 2453 {} Toimitilan jälleenhankintavaraus
 B 2461 {} Luottotappiovaraus
 B 2471 {} Takuuvaraus
 B 2481 {} Toimintavaraus
+B 2491 {} Hankintamenon muutosvaraus
 B 2493 {} Asuintalovaraus
+B 2499 {} Muut vapaaehtoiset varaukset
+H3 2501 {} Pakolliset varaukset
 H4 2501 {} Eläkevaraukset
 B 2501 {} Eläkevaraukset
 H4 2531 {} Verovaraukset
 B 2531 {} Verovaraukset
+H4 2551 {} Muut pakolliset varaukset
 B 2551 {} Oikeudenkäyntivaraus
 B 2561 {} Hinnanlaskuvaraus
+B 2571 {} Pitkäaikaishankkeiden pakolliset varaukset
+B 2581 {} Muut pakolliset varaukset
 H3 2591 {} Konsernireservi
 B 2591 {} Konsernireservi
+H3 2601 {} Vieras pääoma
+H4 2601 {} Pitkäaikainen vieras pääoma
 H5 2601 {} Joukkovelkakirjalainat
+B 2601 {} Pitkäaikaiset joukkovelkakirjalainat
+B 2603 {} Pitkäaikaiset obligaatiolainat
+B 2605 {} Pitkäaikaiset debentuurilainat
+B 2609 {} Muut joukkovelkakirjalainat
 H5 2611 {} Vaihtovelkakirjalainat
+B 2611 {} Pitkäaikaiset vaihtovelkakirjalainat
+H5 2621 {} Lainat  rahoituslaitoksilta
+B 2621 {} Pitkäaikainen rahoituslaitoslaina 1
+B 2622 {} Pitkäaikainen rahoituslaitoslaina 2
+B 2623 {} Pitkäaikainen rahoituslaitoslaina 3
+B 2631 {} Pitkäaikainen rahoitusyhtiölaina 1
+B 2632 {} Pitkäaikainen rahoitusyhtiölaina 2
+B 2633 {} Pitkäaikainen rahoitusyhtiölaina 3
+B 2639 {} Pitkäaikainen factoringluottotili
+B 2641 {} Pankki 1 shekkitililimiitti
+B 2642 {} Pankki 2 shekkitililimiitti
+B 2649 {} Muut pitkäaikaiset lainat rahoituslaitoksilta
 H5 2651 {} Eläkelainat
+B 2651 {} Pitkäaikaiset eläkelainat
+H5 2661 {} Saadut ennakot
+B 2661 {} Pitkäaikaiset saadut ennakot
 H5 2671 {} Ostovelat
+B 2671 {} Pitkäaikaiset ostovelat
+B 2681 {} Pitkäaikaiset osamaksuvelat
 H5 2691 {} Rahoitusvekselit
+B 2691 {} Pitkäaikaiset rahoitusvekselit
+H5 2701 {} Velat saman konsernin yrityksille
+B 2701 {} Pitkäaikaiset saadut ennakot konserniyrityksiltä
+B 2703 {} Pitkäaikaiset ostovelat konserniyrityksille
+B 2705 {} Pitkäaikaiset rahoitusvekselit konserniyrityksiltä
+B 2707 {} Pitkäaikaiset muut velat konserniyrityksille
+B 2709 {} Pitkäaikaiset siirtovelat konserniyrityksille
+H5 2711 {} Velat omistusyhteysyrityksille
+B 2711 {} Pitkäaikaiset saadut ennakot omistusyhteysyrityksiltä
+B 2713 {} Pitkäaikaiset ostovelat omistusyhteysyrityksiltä
+B 2715 {} Pitkäaikaiset rahoitusvekselit omistusyhteysyrityksiltä
+B 2717 {} Pitkäaikaiset muut velat omistusyhteysyrityksiltä
+B 2719 {} Pitkäaikaiset siirtovelat omistusyhteysyrityksiltä
+H5 2721 {} Muut velat
+B 2721 {} Pitkäaikaiset velat työntekijöille
+B 2723 {} Pitkäaikaiset velat johdolle
+B 2725 {} Pitkäaikaiset velat osakkaille
+B 2731 {} Pitkäaikaiset optiolainat
+B 2741 {} Pitkäaikaiset saadut vuokravakuudet
+B 2749 {} Pitkäaikaiset muut velat
 H5 2751 {} Siirtovelat
+B 2751 {} Pitkäaikaiset siirtovelat
+H5 2771 {} Laskennalliset verovelat
+B 2771 {} Pitkäaikaiset laskennalliset verovelat
+H4 2801 {} Lyhytaikainen vieras pääoma
 H5 2801 {} Joukkovelkakirjalainat
 B 2801 {} Joukkovelkakirjalainat
 B 2803 {} Obligaatiolainat
 B 2805 {} Debentuurilainat
+B 2809 {} Muut joukkovelkakirjalainat
 H5 2811 {} Vaihtovelkakirjalainat
 B 2811 {} Vaihtovelkakirjalainat
+H5 2821 {} Lainat rahoituslaitoksilta
+B 2821 {} Pitkäaikaisen rahoituslaitoslainan 1 lyhennyserät
+B 2822 {} Pitkäaikaisen rahoituslaitoslainan 2 lyhennyserät
+B 2823 {} Pitkäaikaisen rahoituslaitoslainan 3 lyhennyserät
+B 2825 {} Lyhytaikainen rahoituslaitoslaina 1
+B 2826 {} Lyhytaikainen rahoituslaitoslaina 2
+B 2827 {} Lyhytaikainen rahoituslaitoslaina 3
+B 2831 {} Pitkäaikaisen rahoitusyhtiölainan 1 lyhennyserät
+B 2832 {} Pitkäaikaisen rahoitusyhtiölainan 2 lyhennyserät
+B 2833 {} Pitkäaikaisen rahoitusyhtiölainan 3 lyhennyserät
+B 2835 {} Lyhytaikainen rahoitusyhtiölaina 1
+B 2836 {} Lyhytaikainen rahoitusyhtiölaina 2
+B 2837 {} Lyhytaikainen rahoitusyhtiölaina 3
+B 2841 {} Factoring-luottotili
+B 2849 {} Muut lyhytaikaiset lainat rahoituslaitoksilta
 H5 2851 {} Eläkelainat
+B 2851 {} Lyhytaikaiset eläkelainat
+H5 2861 {} Saadut ennakot
+B 2861 {} Saadut ennakot
 H5 2871 {} Ostovelat
+B 2871 {} Ostovelat 1
+B 2872 {} Ostovelat 2
+B 2873 {} Ostovelat 3
+B 2877 {} Ostovelat investoinneista
+B 2879 {} Ostovelat ennakkolaskuista
 B 2881 {} Osamaksuvelat
 B 2888 {} Maksuliikennetili
+B 2889 {} Muut ostovelat
 H5 2891 {} Rahoitusvekselit
 B 2891 {} Rahoitusvekselit
+H5 2901 {} Velat saman konsernin yrityksille
+B 2901 {} Saadut ennakot konserniyrityksiltä
+B 2903 {} Ostovelat konserniyrityksille
+B 2905 {} Rahoitusvekselit konserniyrityksiltä
+B 2907 {} Muut velat konserniyrityksille
+B 2909 {} Siirtovelat konserniyrityksille
+H5 2911 {} Velat omistusyhteysyrityksille
+B 2911 {} Saadut ennakot omistusyhteysyrityksiltä
+B 2913 {} Ostovelat omistusyhteysyrityksille
+B 2915 {} Rahoitusvekselit omistusyhteysyrityksiltä
+B 2917 {} Muut velat omistusyhteysyrityksille
+B 2919 {} Siirtovelat omistusyhteysyrityksille
+H5 2921 {} Muut velat
 B 2921 {} Ennakonpidätysvelka
 B 2923 {} Sosiaaliturvamaksuvelka
+B 2925 {} Jäsenmaksutilitysvelka 1
+B 2926 {} Jäsenmaksutilitysvelka 2
+B 2927 {} Jäsenmaksutilitysvelka 3
+B 2931 {} TyEL-velka
 B 2933 {} Ulosottotilitysvelka
 B 2935 {} Tilitysvelat
+B 2937 {} Maksuunpantu verovelka
+B 2938 {} Maksuunpantu ennakkoverovelka
 B 2939 {} Arvonlisäverovelka
+B 2940 {} Velat työntekijöille
+B 2941 {} Velat osakkaille
+B 2942 {} Velat johdolle
 B 2943 {} Voitonjakovelat
 B 2944 {} Optiolainat
+B 2945 {} Saadut vuokravakuudet
 B 2947 {} Selvittelytili
+B 2949 {} Muut lyhytaikaiset velat
 H5 2951 {} Siirtovelat
+B 2951 {} Vuokratulot (siirtovelat)
+B 2953 {} Korkotulot (siirtovelat)
+B 2955 {} Jaksotetut investointiavustukset (siirtovelat)
+B 2959 {} Muut tuloennakot (siirtovelat)
+B 2961 {} Palkkamenot (siirtovelat)
+B 2962 {} Lomapalkkamenot (siirtovelat)
+B 2963 {} Eläkevakuutusmaksut (siirtovelat)
+B 2964 {} Sosiaaliturvamaksut (siirtovelat)
+B 2965 {} Työnantajan pakolliset vakuutusmaksut (siirtovelat)
+B 2966 {} Vuokramenot (siirtovelat)
+B 2967 {} Korkomenot (siirtovelat)
+B 2968 {} Tuloverot (siirtovelat)
+B 2969 {} Muut menojäämät (siirtovelat)
+B 2971 {} Myynnin alennukset (siirtovelat)
+B 2973 {} Vastaiset menot ja menetykset (siirtovelat)
+B 2975 {} Laskennalliset kurssivoitot (siirtovelat)
+B 2977 {} Arvonlisäverovelat ennakkomaksuista (siirtovelat)
+B 2979 {} Muut siirtovelat
+H5 2981 {} Laskennalliset verovelat
+B 2981 {} Laskennalliset verovelat
 H1 3000 {} Tuloslaskelma
 H2 3000 {} Myyntituotot
+H3 3000 {} Yleiset myyntitilit
 C 3000 {} Myynti
+C 3010 {} Myynti 2
+C 3020 {} Myynti 3
+C 3030 {} Myynti 4
+C 3040 {} Myynti 5
+C 3050 {} Myynti 6
+C 3060 {} Myynti 7
+C 3070 {} Myynti 8
+C 3080 {} Myynti 9
+C 3090 {} Myynti 10
+C 3110 {} Rakentamispalveluiden myynti (käänn. verovelv.)
 H3 3200 {} Oheispalvelut
 C 3200 {} Puhelintuotot
 C 3210 {} Veikkaustuotot
 C 3220 {} Automaattituotot
+C 3230 {} Muut oheispalvelutuotot
+H3 3250 {} Toimitusveloitukset ja osamaksulisät
 C 3250 {} Laskutuslisät
 C 3260 {} Kuljetusvakuutukset
 C 3270 {} Kuljetusveloitukset
+C 3280 {} Muut toimitusveloitukset
 C 3290 {} Osamaksulisät
+H3 3300 {} Komissiokauppa ja agentuuri
 C 3300 {} Komissiomyynti
+C 3310 {} Komissio-ostot
 C 3320 {} Välityspalvelutuotot
 H3 3330 {} Tavaravienti
+C 3330 {} Tavaramyynti Ahvenanmaalle
+C 3350 {} Yhteisömyynti EMU-maat
+C 3360 {} Yhteisömyynti muut EU-maat
 C 3370 {} Kolmikantamyynti
+C 3380 {} Myynti yhteisön ulkopuolelle
+C 3390 {} Palveluiden myynti EU-maihin
+H3 3400 {} Myynti, käytetyt tavarat ja taide-, keräily- ja antiikkiesineet
+C 3400 {} Myynti käytetyt tavarat
+C 3410 {} Myynti käytetyt tavarat marginaalimenettely
+C 3420 {} Myynti taide-, keräily- ja antiikkiesineet
+C 3430 {} Myynti taide-, keräily-ja antiikkiesineet marginaalimenettely
+H3 3440 {} Myynti, arvopaperit ja kiinteistöt
+C 3440 {} Kiinteistöjen myynti
 C 3450 {} Vuokratuotot
+C 3460 {} Arvopapereiden myynti
 C 3470 {} Osinkotuotot
 C 3480 {} Korkotuotot
+C 3490 {} Muut kiinteistö-  ja arvopaperituotot
+H3 3500 {} Myynnin oikaisuerät
+D 3500 {} Myynnin alennukset
+D 3510 {} Yhteisömyynnin alennukset EMU-maat
+D 3520 {} Yhteisömyynnin alennukset muut EU-maat
 D 3550 {} Apteekkimaksu
+D 3560 {} Muut välilliset verot
+D 3570 {} Maksut asiakkaan puolesta
+D 3580 {} Myynnin valuuttakurssierot
+D 3590 {} Muut myynnin oikaisuerät
+H2 3600 {} Valmiiden ja keskeneräisten tuotteiden varastojen lisäys tai vähennys
+C 3600 {} Valmiiden tuotteiden varaston muutos
+C 3610 {} Keskeneräisten tuotteiden varaston muutos
+C 3620 {} Valmiiden ja keskeneräisten tuotteiden varastojen arvonalennus
+H2 3630 {} Valmistus omaan käyttöön
+C 3630 {} Valmistus omaan käyttöön, aineettomat hyödykkeet
+C 3640 {} Valmistus omaan käyttöön, aineelliset hyödykkeet
+H2 3650 {} Liiketoiminnan muut tuotot
+C 3650 {} Käyttöomaisuuden myyntivoitot
+C 3660 {} Myyntivoitto liiketoimintakaupoista
 C 3700 {} Leasinghyvitykset
 C 3710 {} Keskeytysvakuutuskorvaukset
+C 3720 {} Vakuutusten takaisinostoarvot
+C 3730 {} Saadut vahingonkorvaukset
+C 3750 {} Vuokratuotot kiinteistöistä
+C 3760 {} Vuokratuotot huoneistoista
+C 3770 {} Vuokratuotot henkilöstön virkistystiloista
+C 3780 {} Vuokratuotot koneista ja kalustosta
+C 3790 {} Muut vuokratuotot
+C 3800 {} Saadut avustukset
+C 3810 {} Saadut työllistämiskorvaukset
+C 3820 {} Saadut oppisopimuskorvaukset
+C 3840 {} Saadut tuet
+C 3850 {} Työvoiman vuokraustuotot
 C 3860 {} Kuljetuspalvelutuotot
 C 3870 {} Toimistopalvelutuotot
 C 3880 {} Tietoliikennepalvelutuotot
+C 3890 {} Muut palvelutuotot
 C 3900 {} Rojaltit
 C 3910 {} Provisiot
 C 3920 {} Lisenssimaksut
 C 3930 {} Asiamiespalkkiot
+C 3950 {} Muut palkkiot ja korvaukset
 C 3980 {} Fuusiovoitto
+C 3990 {} Muut liiketoiminnan muut tuotot
+H2 4000 {} Materiaalit ja palvelut
+H3 4000 {} Aineet, tarvikkeet ja tavarat
+H4 4000 {} Ostot tilikauden aikana
+H5 4000 {} Aine-, tarvike- ja tavaraostot
 D 4000 {} Ostot
+D 4010 {} Ostot 2
+D 4020 {} Ostot 3
+D 4030 {} Ostot 4
+D 4040 {} Ostot 5
+D 4050 {} Ostot 6
+D 4060 {} Ostot 7
+D 4070 {} Ostot välitysmyynti
+D 4080 {} Ostot, ostaja verovelvollinen
 H5 4090 {} Tavaratuonti
+D 4090 {} Tavaraostot Ahvenanmaalta
+D 4100 {} Verot ja muut maksut Ahvenanmaan maahantuonnissa
 D 4110 {} Yhteisöhankinnat
+D 4120 {} Välittäjän kolmikantaosto
+D 4130 {} Ostot tuonti
+D 4140 {} Tullit, verot ja muut maksut tullattaessa
+H5 4150 {} Ostot, käytetyt tavarat ja taide- keräily- ja antiikkiesineet
+D 4150 {} Ostot käytetyt tavarat
+D 4160 {} Ostot käytetyt tavarat marginaalimenettely
+D 4170 {} Ostot taide, keräily- ja antiikkiesineet
+D 4180 {} Ostot taide, keräily- ja antiikkiesineet marginaalimenettely
+H5 4200 {} Ostot, arvopaperit ja kiinteistöt
 D 4200 {} Kiinteistöostot
+D 4210 {} Arvopapereiden ostot
+D 4220 {} Muut vaihto-omaisuusosakkeiden kulut
+H5 4230 {} Ostojen oikaisuerät
+C 4230 {} Ostojen alennukset
+C 4240 {} Yhteisöhankintojen alennukset
+C 4260 {} Palautetut tavarat ja päällykset
+C 4270 {} Saadut vahingonkorvaukset
+C 4280 {} Saadut avustukset materiaalihankintoihin
 D 4290 {} Ostorahdit
 D 4300 {} Yhteisökuljetus
+D 4310 {} Ostojen kuljetusvakuutusmaksut
 D 4320 {} Tuontihuolinta
+D 4330 {} Muut hankintakulut
 C 4340 {} Yksityiskäyttö
+C 4350 {} Liikkeen käyttö
+C 4360 {} Myynti henkilökunnalle
+D 4370 {} Ostojen valuuttakurssierot
+D 4380 {} Rakentamispalvelun oman käytön arvonlisävero
+D 4390 {} Muut ostojen oikaisuerät
+H4 4400 {} Varastojen lisäys tai vähennys
+D 4400 {} Aine- ja tarvikevaraston muutos
+D 4410 {} Tavaravaraston muutos
+D 4420 {} Muun vaihto-omaisuusvaraston muutos
+D 4440 {} Aine-, tarvike-, tavara- ja muiden vaihto-omaisuusvarast. arvonalennus
+H3 4450 {} Ulkopuoliset palvelut
+D 4450 {} Alihankinta 1
+D 4460 {} Alihankinta 2
+D 4470 {} Rakentamispalveluiden osto (käänn. verovelv.)
+D 4475 {} Palveluiden osto EU-maista
+D 4480 {} Vuokrattu työvoima
+D 4490 {} Muut ulkopuoliset palvelut
 H2 5000 {} Henkilöstökulut
+H3 5000 {} Palkat ja palkkiot
+H4 5000 {} Työntekijöiden palkat ja palkkiot
+H5 5000 {} Työssäoloajan normaalipalkat
 D 5000 {} Työntekijäpalkat
 D 5010 {} Kuukausipalkat
 D 5020 {} Tuntipalkat
+D 5050 {} Ulkomaan työskentelyn palkat
+D 5060 {} Palkat, lähdeveronalaiset
+D 5090 {} Palkkojen jaksotus
+H5 5100 {} Lisät ja korvaukset
 D 5100 {} Ylityönlisät
+D 5110 {} Muut palkanlisät
+D 5120 {} Ennakonpidätyksen alaiset päivärahat
+D 5130 {} Muut ennakonpidätyksen alaiset korvaukset
 D 5170 {} Osapalkkiot
 D 5180 {} Kannustuspalkkiot
+D 5190 {} Lisien, korvausten ja palkkioiden jaksotus
 H5 5200 {} Palkkiot
 D 5200 {} Palkkiot
+D 5290 {} Palkkioiden jaksotus
+H5 5300 {} Loma-ajan ja sosiaalipalkat
 D 5300 {} Vuosilomapalkat
 D 5310 {} Vuosilomakorvaukset
 D 5320 {} Lomaltapaluurahat
+D 5330 {} Lomapalkkojen jaksotus
+D 5340 {} Sairausajan ja vanhempainvapaan palkat
+D 5350 {} Muut sosiaalipalkat
+D 5390 {} Sosiaalipalkkojen jaksotus
 H5 5400 {} Luontoisedut
 D 5400 {} Asuntoedut
 D 5410 {} Ravintoedut
 D 5420 {} Autoedut
 D 5430 {} Puhelinedut
+D 5440 {} Muut luontoisedut
+H5 5470 {} Saadut korvaukset palkoista
+C 5470 {} Saadut sairausvakuutuskorvaukset
+C 5480 {} Saadut tapaturmavakuutuskorvaukset
+D 5490 {} Korvausten jaksotus
+H4 5600 {} Johdon palkat
+H5 5600 {} Johdon palkat ja palkkiot
+D 5600 {} Johdon palkat
+D 5610 {} Johdon osapalkkiot
+D 5620 {} Johdon vuosilomapalkat
+D 5630 {} Johdon vuosilomakorvaukset
+D 5640 {} Johdon lomaltapaluurahat
+D 5690 {} Johdon palkkojen jaksotus
+H5 5700 {} Johdon luontoisedut
+D 5700 {} Johdon asuntoedut
+D 5710 {} Johdon ravintoedut
+D 5720 {} Johdon autoedut
+D 5730 {} Johdon puhelinedut
+D 5740 {} Johdon muut luontoisedut
+H5 5770 {} Saadut korvaukset johdon palkoista
+C 5770 {} Saadut sairausvakuutuskorvaukset
+C 5780 {} Saadut tapaturmavakuutuskorvaukset
+D 5790 {} Korvausten jaksotus
+H4 5800 {} Osakkaiden ja omaisten palkat
+H5 5800 {} Osakkaiden ja omaisten palkat ja palkkiot
+D 5800 {} Osakkaiden/omaisten palkat
+D 5810 {} Osakkaiden/omaisten osapalkkiot
+D 5820 {} Osakkaiden/omaisten vuosilomapalkat
+D 5830 {} Osakkaiden/omaisten vuosilomakorvaukset
+D 5840 {} Osakkaiden/omaisten lomaltapaluurahat
+D 5890 {} Osakkaiden/omaisten palkkojen jaksotus
+H5 5900 {} Osakkaiden ja omaisten luontoisedut
+D 5900 {} Osakkaiden/omaisten asuntoedut
+D 5910 {} Osakkaiden/omaisten ravintoedut
+D 5920 {} Osakkaiden/omaisten autoedut
+D 5930 {} Osakkaiden/omaisten puhelinedut
+D 5940 {} Osakkaiden/omaisten muut luontoisedut
+H5 5960 {} Saadut korvaukset osakkaiden ja omaisten palkoista
+C 5960 {} Saadut sairausvakuutuskorvaukset
+C 5970 {} Saadut tapaturmavakuutuskorvaukset
+D 5980 {} Korvausten jaksotus
+H4 5990 {} Luontoisetujen vastatili
+C 5990 {} Luontoisetujen vastatili
 H3 6000 {} Henkilösivukulut
 H4 6000 {} Eläkekulut
+H5 6000 {} Maksetut eläkkeet
+D 6000 {} Maksetut eläkkeet
+D 6090 {} Eläkkeiden jaksotus
 H5 6100 {} Eläkevakuutusmaksut
+D 6100 {} YEL-maksut
+D 6110 {} YEL-maksujen jaksotus
+D 6130 {} TyEL-maksut
+D 6140 {} Työntekijäin TyEL-maksut
+D 6150 {} TyEL-maksujen jaksotus
+D 6240 {} Vapaaehtoiset eläkevakuutusmaksut
+D 6250 {} Vapaaehtoisten eläkevakuutusmaksujen jaksotus
+D 6270 {} Muut pakolliset eläkevakuutusmaksut
+D 6280 {} Muiden pakollisten eläkevakuutusmaksujen jaksotus
+H5 6290 {} Tilikauden aikainen jaksotus
+D 6290 {} Tilikauden aikainen jaksotus
+H4 6300 {} Muut henkilösivukulut
 H5 6300 {} Sosiaaliturvamaksut
 D 6300 {} Sosiaaliturvamaksut
+D 6390 {} Sosiaaliturvamaksujen jaksotus
+H5 6400 {} Pakolliset vakuutusmaksut
 D 6400 {} Tapaturmavakuutusmaksut
 D 6410 {} Työttömyysvakuutusmaksut
+D 6420 {} Työntekijöiden työttömyysvakuutusmaksut
 D 6430 {} Ryhmähenkivakuutusmaksut
+D 6480 {} Muut pakolliset vakuutusmaksut
+D 6490 {} Pakollisten vakuutusmaksujen jaksotus
+H5 6500 {} Muut henkilöstön vakuutusmaksut
+D 6500 {} Henkilövakuutusmaksut (vapaaehtoiset)
+D 6590 {} Henkilövakuutusmaksujen jaksotus
+H5 6690 {} Tilikauden aikainen jaksotus
+D 6690 {} Tilikauden aikainen jaksotus
+H2 6800 {} Poistot ja arvonalentumiset
+H3 6800 {} Suunnitelman mukaiset poistot
+D 6800 {} Poisto perustamismenoista
+D 6810 {} Poisto tutkimusmenoista
+D 6820 {} Poisto kehittämismenoista
+D 6830 {} Poisto aineettomista oikeuksista
+D 6840 {} Poisto liikearvosta
+D 6850 {} Poisto muista pitkävaikutteisista menoista
+D 6860 {} Poisto rakennuksista ja rakennelmista
+D 6870 {} Poisto koneista ja kalustosta
+D 6890 {} Poisto muista aineellisista hyödykkeistä
+H3 6930 {} Konserniliikearvon poisto ja konsernireservin vähennys
+D 6930 {} Poisto konserniaktiivasta
+D 6940 {} Konsernireservin vähennys
+H3 6950 {} Arvonalentumiset pysyvien vastaavien hyödykkeistä
+D 6950 {} Arvonalentumiset maa- ja vesialueista
+D 6960 {} Arvonalentumiset sumu-poistettavista pysyvistä vastaavista
+D 6970 {} Arvonalentumiset ennakkomaksuista
+D 6980 {} Arvonalennusten palautukset
+H3 6990 {} Vaihtuvien vastaavien poikkeukselliset arvonalentumiset
+D 6990 {} Vaihtuvien vastaavien poikkeukselliset arvonalentumiset
+H2 7000 {} Liiketoiminnan muut kulut
+H3 7000 {} Vapaaehtoiset henkilösivukulut
+D 7000 {} Henkilökunnan koulutus
+D 7010 {} Sisäiset palaverit ja henkilökuntajuhlat
+D 7020 {} Virkistys- ja harrastustoiminta
+D 7040 {} Loma-asuntojen hoitokulut
 D 7050 {} Työterveyshuolto
+C 7060 {} Saadut Kela-korvaukset
+D 7070 {} Henkilökunnan ruokailu / lounassetelit
+D 7080 {} Henkilökunnan ruokalan kulut
+D 7090 {} Ruokatarjoilun omaan käyttöön ottamisen arvonlisävero
+C 7100 {} Saadut ruokakorvaukset
 D 7110 {} Kahvitarvikkeet
 D 7120 {} Työvaatteet
 D 7130 {} Suojavälineet
+D 7140 {} Henkilöstön hankintakulut
 D 7150 {} Työpaikkailmoitukset
+D 7160 {} Lahjat henkilökunnalle
+D 7170 {} Muut henkilösivukulut
 H3 7200 {} Toimitilakulut
+D 7200 {} Maa-aluevuokrat
+D 7210 {} Kiinteistöjen vuokrat
 D 7220 {} Toimitilavastikkeet
 D 7230 {} Toimitilavuokrat
 D 7240 {} Varastovastikkeet
 D 7250 {} Varastovuokrat
 D 7260 {} Autotallivastikkeet
+D 7270 {} Autotalli- ja autopaikkavuokrat
+D 7280 {} Henkilöstöasuntojen vastikkeet
+D 7290 {} Henkilöstöasuntojen vuokrat
+D 7300 {} Asuinhuoneistojen vastikkeet
+D 7310 {} Muut vuokrat ja vastikkeet
+D 7320 {} Energian erityisvähennys
 D 7330 {} Hallinto
+D 7340 {} Käyttö ja huolto
+D 7350 {} Ulkoalueiden hoito
+D 7360 {} Siivous ja puhtaanapito
 D 7370 {} Lämmitys
+D 7380 {} Vesi ja jätevesi
+D 7390 {} Sähkö ja kaasu
 D 7400 {} Jätehuolto
 D 7410 {} Vahinkovakuutukset
 D 7420 {} Kiinteistövero
 D 7430 {} Korjaukset
+C 7440 {} Saadut vakuutuskorvaukset
+D 7450 {} Muut toimitilojen hoitokulut
+D 7460 {} Vartiointi- ja turvallisuuskulut
+D 7470 {} Muut toimitilakulut
 H3 7500 {} Ajoneuvokulut
 D 7500 {} Ajoneuvoleasing
 C 7510 {} Leasinghyvitykset
 D 7520 {} Ajoneuvovuokrat
+D 7530 {} Ajoneuvojen polttoaine
+D 7540 {} Ajoneuvojen huolto ja korjaus
+D 7550 {} Renkaat ja autotarvikkeet
+D 7560 {} Ajoneuvojen julkiset maksut
 D 7570 {} Ajoneuvovakuutukset
 D 7580 {} Kolarivahingot
+D 7590 {} Maksetut vahingonkorvaukset
+D 7600 {} Maksetut ajoneuvokorvaukset
+D 7610 {} Muut ajoneuvokulut
+H3 7640 {} Atk-laite ja -ohjelmistokulut
+D 7640 {} Atk-laite- ja ohjelmistoleasing
+D 7650 {} Atk-laite- ja ohjelmistovuokrat
+D 7660 {} Atk-ohjelmistot, päivitykset ja ylläpito
+D 7670 {} Atk-laitehuollot, korjaukset ja asennukset
+D 7680 {} Atk-laitehankinnat (< 3v. kalusto)
+D 7690 {} Atk-laitteiden pienhankinnat
+D 7700 {} Muut atk-laite- ja -ohjelmistokulut
+H3 7710 {} Muut kone- ja kalustokulut
+D 7710 {} Kone- ja kalustoleasing
+D 7720 {} Kone- ja kalustovuokrat
+D 7730 {} Kone- ja kalustohuolto ja korjaus
+D 7740 {} Kone- ja kalustohankinnat (< 3v. kalusto)
+D 7750 {} Koneiden ja kaluston pienhankinnat
+D 7760 {} Maksetut työkalukorvaukset
+D 7770 {} Muut kone- ja kalustokulut
 H3 7800 {} Matkakulut
 D 7800 {} Matkaliput
 D 7810 {} Taksikulut
+D 7820 {} Hotelli- ym. majoitus
+D 7830 {} Ruokailut matkalla
 D 7840 {} Matkavakuutukset
 D 7850 {} Paikoituskulut
+D 7860 {} Muut matkakulut
 D 7870 {} Kilometrikorvaukset
 D 7880 {} Päivärahat
+D 7890 {} Ulkomaan päivärahat
 D 7900 {} Yömatkarahat
 D 7910 {} Ateriakorvaukset
 H3 7950 {} Edustuskulut
@@ -238,67 +876,215 @@ D 7950 {} Edustustilaisuudet
 D 7960 {} Edustuslahjat
 D 7970 {} Edustusmatkat
 D 7980 {} Edustustilat
+D 7990 {} Muut edustuskulut
 H3 8000 {} Myyntikulut
+D 8000 {} Maksetut myyntiprovisiot
 D 8010 {} Luottokorttiprovisiot
 D 8020 {} Myyntirahdit
 D 8030 {} Myyntihuolinta
+D 8040 {} Muut myyntikulut
 H3 8050 {} Markkinointikulut
 D 8050 {} Mainostoimistopalvelut
 D 8060 {} Suoramainonta
 D 8070 {} Ilmoitusmainonta
+D 8080 {} TV- ja radiomainonta
 D 8090 {} Internetmainonta
 D 8100 {} Mainosteippaukset
 D 8110 {} Ulkomainonta
+D 8120 {} Mainosmateriaali ja tarvikkeet
+D 8130 {} Mainoslahjat ja palkinnot
+D 8140 {} Muut mainoskulut
 D 8150 {} Markkinointitilaisuudet
 D 8160 {} Markkinatutkimukset
+D 8170 {} Messut ja näyttelyt
 D 8180 {} Asiakaslehdet
 D 8190 {} Asiakasviihde
+D 8200 {} Somisteet, kukat
 D 8210 {} Tavaranäytteet
+D 8220 {} Maksettu markkinointituki
+D 8230 {} Muut myynnin edistämiskulut
 D 8250 {} Suhdetoimintakulut
+D 8260 {} Kannatusilmoitukset ja -maksut
 D 8270 {} Huomionosoitukset
 D 8280 {} Lahjoitukset
+H3 8300 {} Tutkimus- ja kehityskulut
 D 8300 {} Tuotekehityspalvelut
+D 8310 {} Patentit, mallisuoja ja tavaramerkit
 D 8320 {} Laaduntarkkailu
+D 8330 {} Sertifiointi ja laatutodistukset
 D 8340 {} Koulutus
+D 8350 {} Muut tutkimus- ja kehityskulut
 H3 8370 {} Hallintopalvelut
 D 8370 {} Vuokratyövoima
 D 8380 {} Taloushallintopalvelut
 D 8390 {} Tilintarkastuspalvelut
+D 8410 {} Laki ja konsultointipalvelut
+D 8420 {} Perintä- ja luottotietopalvelut
+D 8430 {} Muut hallintopalvelut
 D 8440 {} Viranomaismaksut
+H3 8450 {} Muut hallintokulut
 D 8450 {} Kirjat
 D 8460 {} Lehdet
 D 8470 {} Tietopalvelut
 D 8480 {} Jäsenmaksut
+D 8490 {} Muu tiedonhankinta
 D 8500 {} Puhelinkulut
 D 8510 {} Matkapuhelinkulut
 D 8520 {} Telefaxkulut
 D 8530 {} Datasiirtokulut
+D 8540 {} Posti- ja lähettikulut
+D 8550 {} Arvo-osuuksien hoitokulut
+D 8560 {} Rahaliikenteen kulut
 D 8570 {} Pyöristyserot
 D 8580 {} Vastuuvakuutukset
 D 8590 {} Esinevakuutukset
+D 8600 {} Muut vakuutukset
+C 8610 {} Maksetut vahingonkorvaukset
 D 8620 {} Toimistotarvikkeet
+D 8630 {} Lomakkeet ja painatuskulut
 D 8640 {} Valokopiot
+D 8650 {} Kokous- ja neuvottelukulut
+D 8680 {} Muut hallintokulut
+H3 8700 {} Muut liikekulut
+D 8700 {} Myynnin luottotappiot
+D 8710 {} Yhteisömyynnin luottotappiot
+D 8720 {} Marginaaliverotusmyynnin luottotappiot
+D 8730 {} Palautuneet luottotappiot
+D 8750 {} Veronkorotukset, vähennyskelpoiset
+D 8760 {} Muut vähennyskelpoiset liikekulut
+D 8770 {} Veronkorotukset, vähennyskelvottomat
+D 8780 {} Sakot, pysäköintivirhemaksut ja muut rangaistusmaksut
 D 8790 {} Fuusiotappio
+D 8800 {} Muut vähennyskelvottomat liikekulut
+D 8850 {} Käyttöomaisuuden luovutustappiot
 H3 8890 {} Täsmäytyserot
 D 8890 {} Täsmäytyserot
+H2 8990 {} Osuus osakkuusyritysten voitosta (tappiosta)
+C 8990 {} Osuus osakkuusyritysten tuloksesta
+H2 9000 {} Rahoitustuotot ja -kulut
+H4 9000 {} Tuotot osuuksista saman konsernin yrityksissä
+C 9000 {} Osinkotuotot konserniyrityksiltä
+C 9010 {} Osuuskorot konserniyrityksiltä
+C 9020 {} Muut tuotot konserniyrityksiltä
+H4 9030 {} Osuus osakkuusyritysten voitosta (tappiosta)
+C 9030 {} Osuus osakkuusyritysten tuloksesta
+H4 9040 {} Tuotot osuuksista omistusyhteysyrityksissä
+C 9040 {} Osinkotuotot omistusyhteysyrityksiltä
+C 9050 {} Osuuskorot omistusyhteysyrityksiltä
+C 9060 {} Muut tuotot omistysyhteysyrityksiltä
+H4 9070 {} Tuotot osuuksista muissa omistusyhteysyrityksissä
+C 9070 {} Tuotot osuuksista muissa omistusyhteysyrityksissä
+H4 9080 {} Tuotot muista pysyvien vastaavien sijoituksista
+H5 9080 {} Saman konsernin yrityksiltä
+C 9080 {} Sijoitustuotot muista pysyvien vastaavien sijoituksista konserniin
 H5 9090 {} Muilta
 C 9090 {} Osinkotuotot
 C 9100 {} Osuuskorot
 C 9110 {} Yhtiöveronhyvitystuotot
+C 9120 {} Voitto-osuus yhtymistä
+C 9130 {} Luovutusvoitot osuuksista
+C 9140 {} Muut tuotot pysyvien vastaavien sijoituksista
+H4 9150 {} Muut korko- ja rahoitustuotot
+H5 9150 {} Saman konsernin yrityksiltä
+C 9150 {} Korko- ja rahoitustuotot konsernisaamisista
 H5 9160 {} Muilta
+C 9160 {} Korkotuotot omistusyhteysyrityssaamisista
+C 9170 {} Korkotuotot myyntisaamisista
+C 9180 {} Korkotuotot osamaksusaamisista
+C 9190 {} Korkotuotot lainasaamisista
+C 9200 {} Korkotuotot henkilökuntasaamisista
+C 9210 {} Korkotuotot osakaslainasaamisista
+C 9220 {} Korkotuotot pankkisaamisista
+C 9230 {} Korkotuotot talletuksista
+C 9240 {} Palautettava yhteisökorko/palautuskorko
+C 9250 {} Muut korkotuotot
 C 9260 {} Valuuttakurssivoitot
+C 9270 {} Osinkotuotot rahoitusarvopapereista
+C 9280 {} Muut tuotot rahoitusarvopapereista
+C 9290 {} Muut rahoitustuotot
+H4 9300 {} Arvonalentumiset pysyvien vastaavien sijoituksista
+D 9300 {} Konserniosuuksien arvonalentumiset
+D 9310 {} Konsernisaamisten  arvonalentumiset
+D 9320 {} Omistusyhteysyritysosuuksien arvonalentumiset
+D 9330 {} Omistusyhteysyrityssaamisten arvonalentumiset
+D 9340 {} Osakkeiden ja osuuksien arvonalentumiset
+D 9350 {} Saamisten arvonalentumiset
+C 9360 {} Arvonalentumisten palautukset
+H4 9370 {} Arvonalentumiset vaihtuvien vastaavien rahoitusarvopapereista
+D 9370 {} Konserniosuuksien arvonalentumiset
+D 9380 {} Omistusyhteysyritysosuuksien arvonalentumiset
+D 9390 {} Osakkeiden ja osuuksien arvonalentumiset
+D 9400 {} Muiden rahoitusarvopapereiden arvonalentumiset
+C 9410 {} Arvonalentumisten palautukset
+H4 9420 {} Korkokulut ja muut rahoituskulut
+H5 9420 {} Saman konsernin yrityksille
+D 9420 {} Korkokulut veloista konserniyrityksille
+D 9430 {} Muut rahoituskulut konserniyrityksille
 H5 9440 {} Muille
+D 9440 {} Korkokulut joukkovelkakirjalainoista
+D 9450 {} Korkokulut vaihtovelkakirjalainoista
+D 9460 {} Korkokulut rahoituslaitoslainoista
+D 9470 {} Korkokulut rahoitusyhtiölainoista
+D 9480 {} Korkokulut eläkelainoista
+D 9490 {} Korkokulut ostoveloista
+D 9500 {} Korkokulut rahoitusvekseleistä
+D 9510 {} Korkokulut omistusyhteysyrityslainoista
+D 9520 {} Korkokulut osakaslainoista
+D 9530 {} Maksettava yhteisökorko / jäännösveron korko
+D 9540 {} Verojen viivästysseuraamukset
+D 9550 {} Muut korkokulut
+D 9560 {} Lainojen hoitokulut
 D 9570 {} Limiittipalkkiot
 D 9580 {} Takausprovisiot
 D 9590 {} Luottovakuutukset
 D 9600 {} Kiinnityskulut
 D 9610 {} Perimiskulut
 D 9620 {} Kurssitappiot
+D 9640 {} Factoring-kulut
 D 9650 {} Terminointikulut
+D 9660 {} Saamisten luottotappiot
+D 9670 {} Muut kulut rahoitusarvopapereista
+D 9690 {} Muut rahoituskulut
+H2 9700 {} Satunnaiset erät
+H3 9700 {} Satunnaiset tuotot
+C 9700 {} Satunnaiset tuotot
+C 9710 {} Satunnaiset käyttöomaisuuden myyntivoitot
+C 9720 {} Saadut konserniavustukset
+C 9730 {} Satunnainen fuusiovoitto
+H3 9740 {} Satunnaiset kulut
+D 9740 {} Satunnaiset kulut
+D 9750 {} Satunnaiset käyttöomaisuuden myyntitappiot
+D 9760 {} Annetut konserniavustukset
+D 9770 {} Satunnainen fuusiotappio
+H3 9780 {} Osuus osakkuusyritysten voitosta (tappiosta)
+D 9780 {} Osuus osakkuusyritysten tuloksesta
+H3 9790 {} Satunnaisten erien tuloverot
+D 9790 {} Satunnaisten erien tuloverot
 H2 9800 {} Tilinpäätössiirrot
+H3 9800 {} Poistoeron lisäys (-) tai vähennys (+)
+D 9800 {} Aineettomien hyödykkeiden poistoeron muutos
+D 9810 {} Rakennusten poistoeron muutos
+D 9820 {} Koneiden ja kaluston poistoeron muutos
+D 9830 {} Muiden aineellisten hyödykkeiden poistoeron muutos
+H3 9840 {} Vapaaehtoisten varausten lisäys (-) tai vähennys (+)
+D 9840 {} Käyttöomaisuuden jälleenhankintavarauksen muutos
+D 9850 {} Toimitilan jälleenhankintavarauksen muutos
+D 9860 {} Takuuvarauksen muutos
+D 9870 {} Toimintavarauksen muutos
+D 9880 {} Hankintamenon muutosvarauksen muutos
+D 9890 {} Muiden vapaaehtoisten varausten muutos
 H2 9900 {} Tuloverot
+H3 9900 {} Tilikauden ja aikaisempien tilikausien verot
 D 9900 {} Ennakkoverot
+D 9910 {} Ennakonpidätys työkorvauksista
+D 9920 {} Veronhyvitys osingoista
 D 9930 {} Lähdeverot
+D 9940 {} Tilikauden verojaksotus
+D 9950 {} Veronpalautukset / jäännösverot
+D 9960 {} Muut tuloverot
+H3 9970 {} Laskennalliset verot
+D 9970 {} Laskennalliset verot
+H2 9980 {} Muut välittömät verot
 D 9980 {} Varallisuusvero
 H2 9990 {} Vähemmistöosuudet
 D 9990 {} Vähemmistöosuudet
