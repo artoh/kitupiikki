@@ -209,7 +209,14 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
         {
         if( rivi.maksaaLaskua )
             return QIcon(":/pic/lasku.png");
-        return rivi.kohdennus.tyyppiKuvake();
+        else if( rivi.kohdennus.id() )
+            return rivi.kohdennus.tyyppiKuvake();
+        else if( !rivi.eraId && rivi.vientiId)
+        {
+            TaseEra era(rivi.vientiId);
+            if( !era.saldoSnt )
+                return QIcon(":/pic/ok.png");
+        }
         }
         else if( index.column() == ALV )
         {

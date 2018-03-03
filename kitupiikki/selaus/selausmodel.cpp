@@ -134,7 +134,11 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
         return QVariant( rivi.tositeId );
     }
     else if( role == Qt::DecorationRole && index.column() == KOHDENNUS )
+    {
+        if( rivi.eraMaksettu)
+            return QIcon(":/pic/ok.png");
         return rivi.kohdennus.tyyppiKuvake();
+    }
 
     return QVariant();
 }
@@ -142,7 +146,7 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
 void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
 {
     QString kysymys = QString("SELECT vienti.tosite, vienti.pvm, tili, debetsnt, kreditsnt, selite, kohdennus, eraid, "
-                              "tosite.laji, tosite.tunniste "
+                              "tosite.laji, tosite.tunniste, vienti.id "
                               "FROM vienti, tosite WHERE vienti.pvm BETWEEN \"%1\" AND \"%2\" "
                               "AND vienti.tosite=tosite.id ORDER BY vienti.pvm, vienti.id")
                               .arg( alkaa.toString(Qt::ISODate ) )
@@ -169,6 +173,12 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
                                        .arg( kp()->tositelajit()->tositelaji( query.value(8).toInt()  ).tunnus() )
                                        .arg( query.value(9).toInt()  )
                                        .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() );
+
+        if( query.value("eraid").toInt() == 0 )
+        {
+            TaseEra era( query.value("vienti.id").toInt() );
+            rivi.eraMaksettu = era.saldoSnt == 0;
+        }
 
         rivit.append(rivi);
 

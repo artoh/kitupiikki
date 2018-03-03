@@ -41,6 +41,7 @@ struct SelausRivi
     qlonglong kreditSnt;
     TaseEra taseEra;
     QString tositetunniste;
+    bool eraMaksettu = false;
 };
 
 /**

@@ -121,10 +121,13 @@ TaseEra::TaseEra(int id)
     if(id)
     {
         QSqlQuery query( *( kp()->tietokanta() ));
-        query.exec(QString("SELECT sum(debetsnt)-sum(kreditsnt) as saldo from vienti "
+        query.exec(QString("SELECT sum(debetsnt),sum(kreditsnt) as saldo from vienti "
                            "where eraid=%1").arg(id ));
         if( query.next() )
-            saldoSnt = query.value("saldo").toLongLong();
+        {
+            saldoSnt = query.value(0).toLongLong();
+            saldoSnt -= query.value(1).toLongLong();
+        }
 
         query.exec(QString("SELECT pvm, selite, debetsnt, kreditsnt from vienti "
                    "where id=%1").arg( id ));
@@ -132,7 +135,8 @@ TaseEra::TaseEra(int id)
         {
             pvm = query.value("pvm").toDate();
             selite = query.value("selite").toLongLong();
-            saldoSnt += query.value("debetsnt").toLongLong() - query.value("kreditsnt").toLongLong();
+            saldoSnt += query.value("debetsnt").toLongLong();
+            saldoSnt -= query.value("kreditsnt").toLongLong();
         }
 
     }
