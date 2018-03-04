@@ -84,7 +84,6 @@ void PdfTuonti::tuoPdfLasku()
     QDate toimituspvm;
     QRegularExpression rahaRe("\\d{1,10}[,]\\d{2}");
 
-    int pos = 0;    // Validaattoreita varten
 
     // Tutkitaan, onko tässä tilisiirtolomaketta
     if( etsi("Saajan", 125, 150, 0, 15) &&
@@ -95,26 +94,26 @@ void PdfTuonti::tuoPdfLasku()
         etsi("Euro", 155, 190, 67, 90) )
     {
         // Löytyy koko lailla sopivia kenttiä
-        int ibansijainti = etsi("IBAN", 125, 140, 8, 50);
+        int ibansijainti = etsi("IBAN", 125, 140, 8, 30);
 
 
-        IbanValidator ibanValidoija;
 
-        QRegularExpression ibanRe("[A-Z]{2}\\d{2}\\w{6,30}");
+        QRegularExpression ibanRe("\\b[A-Z]{2}\\d{2}[\\w\\s]{6,30}\\b");
+
 
         for( QString t : haeLahelta( ibansijainti / 100 + 1, ibansijainti % 100 - 2, 10, 50))
         {
             if( ibanRe.match(t).hasMatch())
             {
                 QString poimittu = ibanRe.match(t).captured(0);
-                if( tilinro.isEmpty() && ibanValidoija.validate(poimittu,pos) == IbanValidator::Acceptable)
-                    tilinro = poimittu;
+                if( tilinro.isEmpty() &&  IbanValidator::kelpaako(poimittu) )
+                    tilinro = poimittu.remove(QRegularExpression("\\s"));
             }
         }
 
         for( QString t : haeLahelta( ibansijainti / 100 + 11, ibansijainti % 100 - 2, 10, 10))
         {
-            if( t.length() > 5)
+            if( t.length() > 5 && !t.contains(ibanRe))
             {
                 saaja = t;
                 break;
@@ -124,12 +123,10 @@ void PdfTuonti::tuoPdfLasku()
 
         int viitesijainti = etsi("Viitenumero", 150, 185, 40, 70);
 
-
-        ViiteValidator viiteValidoija;
         for( QString t : haeLahelta( viitesijainti / 100, viitesijainti % 100, 20, 60) )
         {
-            if( viite.isEmpty() && viiteValidoija.validate(t,pos) == ViiteValidator::Acceptable)
-                viite = t;
+            if( viite.isEmpty() && ViiteValidator::kelpaako(t) )
+                viite = t.remove(QRegularExpression("\\s"));
             else
             {
                 QDate pvm = QDate::fromString(t,"dd.M.yyyy");
@@ -191,13 +188,12 @@ void PdfTuonti::tuoPdfLasku()
     }
     if( viite.isEmpty() && etsi("viite"))
     {
-        int viitesijainti = etsi("viite");
-        ViiteValidator viiteValidoija;
+        int viitesijainti = etsi("viite");        
         for( QString t : haeLahelta( viitesijainti / 100, viitesijainti % 100, 10, 60) )
         {
-            if( viiteValidoija.validate(t,pos) == ViiteValidator::Acceptable)
+            if( ViiteValidator::kelpaako(t) )
             {
-                viite = t;
+                viite = t.remove(QRegularExpression("\\s"));
                 break;
             }
         }
@@ -206,17 +202,16 @@ void PdfTuonti::tuoPdfLasku()
     {
         int ibansijainti = etsi("IBAN");
 
-        IbanValidator ibanValidoija;
-        QRegularExpression ibanRe("[A-Z]{2}\\d{2}\\w{6,30}");
+        QRegularExpression ibanRe("[A-Z]{2}\\d{2}[\\w\\s]{6,34}");
 
         for( QString t : haeLahelta( ibansijainti / 100, ibansijainti % 100, 20, 10))
         {
             if( ibanRe.match(t).hasMatch())
             {
                 QString tilinro = ibanRe.match(t).captured(0);
-                if( ibanValidoija.validate(tilinro,pos) == IbanValidator::Acceptable)
+                if( IbanValidator::kelpaako(t))
                 {
-                    tilinro = t;
+                    tilinro = t.remove("\\s");
                     break;
                 }
             }
@@ -252,11 +247,9 @@ void PdfTuonti::tuoPdfTiliote()
     QString tilinumero;
     QDate mista;
     QDate mihin;
-    int position = 0;
 
     QString kokoteksti = tekstit_.values().join(" ");
 
-    IbanValidator ibanValidoija;
     QRegularExpression ibanRe("\\b[A-Z]{2}\\d{2}\\w{6,30}\\b");
 
     // Ensimmäinen tilinumero poimitaan
@@ -266,7 +259,7 @@ void PdfTuonti::tuoPdfTiliote()
     {
         QRegularExpressionMatch mats = ibanIter.next();
         QString ehdokas = mats.captured();
-        if( !ehdokas.startsWith("RF") && ibanValidoija.validate(ehdokas, position) == IbanValidator::Acceptable)
+        if( !ehdokas.startsWith("RF") &&  IbanValidator::kelpaako(ehdokas) )
         {
             tilinumero = ehdokas;
             break;
@@ -321,7 +314,7 @@ void PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false)
 
     IbanValidator ibanValidoija;
     ViiteValidator viiteValidoija;
-    QRegularExpression ibanRe("\\b[A-Z]{2}\\d{2}\\w{6,30}\\b");
+    QRegularExpression ibanRe("\\b[A-Z]{2}[\\d{2}\\w\\s]{6,30}\\b");
 
     QDate kirjauspvm;
     QString iban;

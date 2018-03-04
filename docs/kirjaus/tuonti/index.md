@@ -12,6 +12,8 @@ Toiminto edellyttää, että pdf-tiedostossa teksti on upotettuna. Näin on ylee
 
 ### Ostolaskut
 
+!(Ostolasku)[ostolasku.png]
+
 Pdf-ostolaskun pohjalta Kitupiikki tekee valmiiksi **Ostovelat**-tilin kirjauksen. Valitsemalla **Apuri** tai **F9** pääset kirjaamaan Apurilla laskun oikealle menotilille.
 
 Lisäksi ostolaskulle tallennetaan lisätiedot (Saajan pankkitili ja viite), joiden avulla maksu on kohdennettavissa tiliotteelta.
@@ -30,6 +32,8 @@ Tiliotteen kirjaaminen edellyttää, että tilin IBAN-numero on määritelty kys
 
 ### Määritykset
 
+![Tuontimääritykset](tuontimaaritys.png)
+
 Määrityksien **Tuonti** välilehdellä pdf-tiedostojen tuonti otetaan käyttöön (erikseen ostolaskujen ja tiliotteiden osalta). Ostolaskuista määritellään myös tuotavien laskujen **tositetyyppi** ja **ostolaskutili** sekä se, tehdäänkö kirjaukset **suoriteperusteisina** (toimituspäivämäärän mukaan, jos mainittu laskulla) vai **laskuperusteisesti** (laskun päivämäärän mukaan).
 
 ## CSV-tiedostojen tuonti
@@ -38,13 +42,13 @@ CSV-tiedosto on tekstitiedosto, jossa eri tietokentät on eroteltu toisistaan pi
 
 Voit tuoda kirjanpitoon csv-tiedoston lisäämällä **.csv**-päätteisen tiedoston kirjaukseen (raahaamalla **Sähköinen tosite**-laatikkoon tai **Lisää tiedosto**-painikkeella). Saat ikkunan, jossa valitaan, mitä tietoja csv-tiedoston eri sarakkeista tuodaan.
 
-kuva
+![Tilitapahtumien tuonti](tapahtumat.png)
 
 Jos tuot **tilitietoja**, valitse lisäksi tili, jolle tiedot kirjataan. Tilitiedot käsitellään ja kohdennetaan samalla tavalla kuin pdf-tiliotteelta.
 
 **Kirjauksia** tuotaessa saat **Muunna tilinumerot**-valinnalla vielä erillisen valintaikkunan, jossa määrittelet tilinumeroiden muuttamisen tuotaessa käytössäsi olevan tilikartan tileiksi. Vasemmanpuoleisessa sarakkeessa ovat csv-tiedoston tilinumerot ja oikeanpuolimmaisesta voit valita, mille Kitupiikin tilille kirjaus tuodaan.
 
-kuvaa
+![Tilinumeroiden muunto](muunto.png)
 
 ### CSV-tiedoston muoto
 
