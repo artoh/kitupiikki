@@ -33,7 +33,7 @@
       <item row="1" column="0">
        <widget class="QRadioButton" name="oteRadio">
         <property name="text">
-         <string>Tiliote tilille</string>
+         <string>Tilitapahtumia tilille</string>
         </property>
        </widget>
       </item>
