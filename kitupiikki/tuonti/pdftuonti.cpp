@@ -314,7 +314,7 @@ void PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false)
 
     QRegularExpression rahaRe("(?<etu>[+-])?(?<eur>(\\d+[ .])*\\d+),(?<snt>\\d{2})(?<taka>[+-])?");
     QRegularExpression viiteRe("\\b(RF\\d{2}\\d{4,20}|\\d{4,20})\\b");
-    QRegularExpression arkistoRe("\\b\\d{4}[0-9A-Z]{6,}\\b");
+    QRegularExpression arkistoRe("\\b([A-Za-z0-9]+\\s?)*\\b");
     QRegularExpression seliteRe("\\b[A-ö ]{8,}\\b");
     QRegularExpression pvmRe("(?<p>\\d{1,2})\\.(?<k>\\d{1,2})\\.(?<v>\\d{2}\\d{2}?)");
 

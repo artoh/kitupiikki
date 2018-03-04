@@ -61,6 +61,8 @@ protected slots:
      */
     void tarkasta();
 
+    void ibanCheck();
+
     void accept();
 
 protected:

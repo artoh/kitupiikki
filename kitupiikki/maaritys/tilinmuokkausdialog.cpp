@@ -72,6 +72,7 @@ TilinMuokkausDialog::TilinMuokkausDialog(TiliModel *model, QModelIndex index) :
     connect( ui->nimiEdit, SIGNAL(textEdited(QString)), this, SLOT(tarkasta()));
     connect( ui->numeroEdit, SIGNAL(textChanged(QString)), this, SLOT(nroMuuttaaTyyppia(QString)));
     connect( ui->tyyppiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(tarkasta()));
+    connect( ui->ibanLine, SIGNAL(textEdited(QString) ), this, SLOT( ibanCheck()) );
 
     connect( ui->otsikkoRadio, SIGNAL(clicked(bool)), this, SLOT(naytettavienPaivitys()));
     connect( ui->tiliRadio, SIGNAL(clicked(bool)), this, SLOT(naytettavienPaivitys()));
@@ -322,6 +323,21 @@ void TilinMuokkausDialog::tarkasta()
 
 }
 
+void TilinMuokkausDialog::ibanCheck()
+{
+    switch ( IbanValidator::kelpo( ui->ibanLine->text())) {
+    case IbanValidator::Acceptable:
+        ui->ibanLine->setStyleSheet("color: darkGreen;");
+        break;
+    case IbanValidator::Invalid :
+        ui->ibanLine->setStyleSheet("color: red;");
+        break;
+    default:
+        ui->ibanLine->setStyleSheet("color: black;");
+        break;
+    }
+}
+
 void TilinMuokkausDialog::accept()
 {
     ui->buttonBox->setFocus();
@@ -366,8 +382,8 @@ void TilinMuokkausDialog::accept()
     json->set("Taydentava", ui->taydentavaEdit->text());
     json->set("Kirjausohje", ui->kirjausohjeText->toPlainText());
 
-    if( tilityyppi.onko(TiliLaji::PANKKITILI) && !ui->ibanLine->text().isEmpty() )
-        json->set("IBAN", ui->ibanLine->text());
+    if( tilityyppi.onko(TiliLaji::PANKKITILI) && IbanValidator::kelpaako( ui->ibanLine->text() ) )
+        json->set("IBAN", ui->ibanLine->text().simplified().remove(' '));
     else
         json->unset("IBAN");
 

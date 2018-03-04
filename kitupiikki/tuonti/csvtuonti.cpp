@@ -464,7 +464,8 @@ void CsvTuonti::paivitaOletukset()
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, VIITENRO);
             else if( otsikko.contains("arkisto", Qt::CaseInsensitive))
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, ARKISTOTUNNUS);
-            else if( otsikko.contains("selite", Qt::CaseInsensitive))
+            else if( otsikko.contains("selite", Qt::CaseInsensitive) ||
+                     otsikko.contains("selitys", Qt::CaseInsensitive))
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, SELITE);
             else
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, EITUODA);

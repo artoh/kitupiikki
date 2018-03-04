@@ -32,6 +32,7 @@ protected:
 public:
     NimiSivu();
     ~NimiSivu();
+
 };
 
 #endif // NIMISIVU_H
