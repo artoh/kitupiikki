@@ -31,6 +31,15 @@ public:
 
     State validate(QString &input, int &pos) const override;
 
+    static State kelpo(const QString &input);
+
+    /**
+     * @brief Onko kelvollinen IBAN-tilinumero
+     * @param input
+     * @return
+     */
+    static bool kelpaako(const QString& input);
+
     /**
      * @brief Laskee IBAN-muotoisen numeron tarkasteen (mod 97)
      * @param iban

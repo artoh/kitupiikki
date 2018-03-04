@@ -26,6 +26,11 @@ IbanValidator::IbanValidator()
 
 QValidator::State IbanValidator::validate(QString &input, int & /* pos */) const
 {
+    return kelpo(input);
+}
+
+QValidator::State IbanValidator::kelpo(const QString &input)
+{
     QString str = input.simplified();
     str.remove(' ');
 
@@ -53,7 +58,11 @@ QValidator::State IbanValidator::validate(QString &input, int & /* pos */) const
         return Invalid;         // Suomalainen IBAN täsmälleen 18 merkkiä
     else
         return Intermediate;
+}
 
+bool IbanValidator::kelpaako(const QString &input)
+{
+    return kelpo(input) == Acceptable;
 }
 
 int IbanValidator::ibanModulo(const QString &iban)

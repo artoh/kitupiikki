@@ -27,6 +27,11 @@ ViiteValidator::ViiteValidator()
 
 QValidator::State ViiteValidator::validate(QString &input, int & /* pos */) const
 {
+    return kelpo( input );
+}
+
+QValidator::State ViiteValidator::kelpo(const QString &input)
+{
     QString str = input.simplified();
     str.remove(' ');
 
@@ -52,7 +57,7 @@ QValidator::State ViiteValidator::validate(QString &input, int & /* pos */) cons
         return Intermediate;
 
 
-    int tarkaste = str.right(1).toInt();    
+    int tarkaste = str.right(1).toInt();
 
     int indeksi = 0;
     int summa = 0;
@@ -79,5 +84,9 @@ QValidator::State ViiteValidator::validate(QString &input, int & /* pos */) cons
     else
         return Invalid; // Viitenumeron enimmäispituus 20 numeroa
 
+}
 
+bool ViiteValidator::kelpaako(const QString input)
+{
+    return kelpo(input) == Acceptable;
 }

@@ -30,6 +30,9 @@ public:
     ViiteValidator();
 
     State validate(QString &input, int &pos) const override;
+
+    static State kelpo(const QString& input);
+    static bool kelpaako( const QString input);
 };
 
 #endif // VIITEVALIDATOR_H

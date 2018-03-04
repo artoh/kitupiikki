@@ -93,9 +93,12 @@ bool CsvTuonti::tuoCsv(const QByteArray &data)
         tuontiItem->setData(TyyppiRooli, muodot_.at(i));
         ui->tuontiTable->setItem(i,2,tuontiItem);
 
-        QTableWidgetItem *esimItem = new QTableWidgetItem( csv_.at(1).at(i));
-        esimItem->setFlags(Qt::ItemIsEnabled);
-        ui->tuontiTable->setItem(i,3,esimItem);
+        if( i < csv_.at(1).count() )
+        {
+            QTableWidgetItem *esimItem = new QTableWidgetItem( csv_.at(1).at(i));
+            esimItem->setFlags(Qt::ItemIsEnabled);
+            ui->tuontiTable->setItem(i,3,esimItem);
+        }
     }
     paivitaOletukset();
     connect( ui->kirjausRadio, SIGNAL(toggled(bool)), this, SLOT(paivitaOletukset()));
@@ -163,8 +166,6 @@ bool CsvTuonti::tuoCsv(const QByteArray &data)
 
             for(int r=1; r < csv_.count(); r++)
             {
-                if( csv_.at(r).count() < muodot_.count())
-                    continue;   // Rivimäärä ei täsmää
 
                 VientiRivi rivi;
                 QString tositetunnus;
@@ -172,7 +173,8 @@ bool CsvTuonti::tuoCsv(const QByteArray &data)
 
 
                 for( int c=0; c < muodot_.count(); c++)
-                {
+                {                
+
                     int tuonti = ui->tuontiTable->item(c,2)->data(Qt::EditRole).toInt();
                     QString tieto = csv_.at(r).at(c);
 
@@ -225,8 +227,6 @@ bool CsvTuonti::tuoCsv(const QByteArray &data)
 
             for(int r=1; r < csv_.count(); r++)
             {
-                if( csv_.at(r).count() < muodot_.count())
-                    continue;   // Rivimäärä ei täsmää
 
                 QDate pvm;
                 qlonglong sentit;
@@ -239,6 +239,9 @@ bool CsvTuonti::tuoCsv(const QByteArray &data)
                 for( int c=0; c < muodot_.count(); c++)
                 {
                     int tuonti = ui->tuontiTable->item(c,2)->data(Qt::EditRole).toInt();
+                    if( c >= csv_.at(r).count())
+                        continue;
+
                     QString tieto = csv_.at(r).at(c);
 
                     if( tuonti == PAIVAMAARA )
@@ -254,7 +257,7 @@ bool CsvTuonti::tuoCsv(const QByteArray &data)
                         // Jos suomalainen IBAN, poimitaan vain se. Tämä siksi, että
                         // samalla kentällä voi olla myös BIC-kenttä
                         if( tieto.startsWith("FI"))
-                          tieto = tieto.left(18)
+                          tieto = tieto.left(18);
                         iban = tieto;
                     }
                     else if( tuonti == VIITE)
@@ -422,7 +425,8 @@ void CsvTuonti::paivitaOletukset()
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, KREDITEURO);
             else if( otsikko.contains("tosite", Qt::CaseInsensitive))
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, TOSITETUNNUS);
-            else if( otsikko.contains("selite", Qt::CaseInsensitive))
+            else if( otsikko.contains("selite", Qt::CaseInsensitive) ||
+                     otsikko.contains("selitys", Qt::CaseInsensitive))
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, SELITE);
             else if( (otsikko=="Nro" && muoto == LUKU) ||
                      (otsikko.contains("tili", Qt::CaseInsensitive) && muoto == LUKUTEKSTI) )
@@ -494,9 +498,11 @@ int CsvTuonti::tuoListaan(const QByteArray &data)
             QChar merkki = rivi.at(i);
             if( merkki == QChar('"'))
             {
-                // Tuplattu lainausmerkki "" tarkoittaa lainausmerkkiä tekstissä
-                if( i > 0 && rivi.at(i-1)==QChar('"'))
+                if( lainattuna && rivi.length() > i+1 && rivi.at(i+1) == QChar('"'))
+                {
                     nykyinenSana.append('"');
+                    i++;
+                }
                 else
                     lainattuna = !lainattuna;
             }
@@ -513,10 +519,12 @@ int CsvTuonti::tuoListaan(const QByteArray &data)
             }
         }
         // Lopuksi viimeinen sana riville ja rivi tauluun
-        nykyinenRivi.append(nykyinenSana);
-
-        if( rivi.length() )     // Ei tyhjiä rivejä
+        if( nykyinenRivi.length())
+        {
+            if( nykyinenSana.length())
+                nykyinenRivi.append(nykyinenSana);
             csv_.append(nykyinenRivi);
+        }
     }
     // Tämän jälkeen sitten analysoidaan listaa eli mitä sisältää
     QRegularExpression suomipvmRe("^[0123]?\\d\\.[01]?\\d\\.\\d{4}$");
@@ -525,9 +533,6 @@ int CsvTuonti::tuoListaan(const QByteArray &data)
     QRegularExpression lukuTekstiRe("^\\d+\\s.*");
     QRegularExpression lukuRe("^[+-]?\\d+$");
 
-    int position = 0;
-    IbanValidator ibanValidator;
-    ViiteValidator viiteValidator;
 
     // Muototauluun luetaan datasarakkeiden muoto
     // Jos yhdelläkin rivillä ei ole samassa muodossa, tulee muodoksi TEKSTI
@@ -548,13 +553,13 @@ int CsvTuonti::tuoListaan(const QByteArray &data)
                 muoto = SUOMIPVM;
             else if( teksti.count(isopvmRe))
                 muoto = ISOPVM;
-            else if( ibanValidator.validate(teksti, position) ==  IbanValidator::Acceptable )
-                muoto = TILI;
             // Tilinumeron kanssa samaan kenttään on voitu tunkea IBAN-joten kokeillaan
             // myös vähän muokatuilla versioilla
-            else if( viiteValidator.validate(teksti,position) == ViiteValidator::Acceptable ||
-                     viiteValidator.validate(teksti.left(18),position) == ViiteValidator::Acceptable ||
-                     viiteValidator.validate(teksti.left(teksti.indexOf(' ')),position) == ViiteValidator::Acceptable )
+            else if( IbanValidator::kelpaako(teksti) ||
+                     IbanValidator::kelpaako(teksti.left(18)) ||
+                     IbanValidator::kelpaako(teksti.left(teksti.indexOf(QChar(' '))) )  )
+                muoto = TILI;
+            else if( ViiteValidator::kelpaako(teksti ) )
                 muoto = VIITE;
             else if( teksti.contains(rahaRe))
                 muoto = RAHA;

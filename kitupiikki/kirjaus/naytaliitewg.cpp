@@ -67,7 +67,7 @@ NaytaliiteWg::~NaytaliiteWg()
 
 void NaytaliiteWg::valitseTiedosto()
 {
-    QString polku = QFileDialog::getOpenFileName(this, tr("Valitse tosite"),QString(),tr("Pdf-tiedostot (*.pdf);;Kuvat (*.png *.jpg)"));
+    QString polku = QFileDialog::getOpenFileName(this, tr("Valitse tosite"),QString(),tr("Pdf-tiedostot (*.pdf);;Kuvat (*.png *.jpg);;Csv-tiedosto (*.csv)"));
     if( !polku.isEmpty())
     {
         emit lisaaLiite( polku );
