@@ -117,16 +117,17 @@ bool CsvTuonti::tuoCsv(const QByteArray &data)
                 // Tuodaan kirjauksia
                 // Ensiksi muuntotaulukko
                 QMap<int,QString> tilinimet;
-                QRegularExpression tiliRe("(\\d+)\\s?(.*)");
+                QRegularExpression tiliRe("(\\d+)\\s?(.*)");                
 
                 for(int r=1; r < csv_.count(); r++)
                 {
-                    if( csv_.at(r).count() < muodot_.count())
-                        continue;   // Rivimäärä ei täsmää
                     int tilinro = 0;
                     QString tilinimi;
                     for( int c=0; c < muodot_.count(); c++)
                     {
+                        if( c  >= csv_.at(r).count() )
+                            continue;   // Rivimäärä ei täsmää
+
                         int tuonti = ui->tuontiTable->item(c,2)->data(Qt::EditRole).toInt();
                         QString tieto = csv_.at(r).at(c);
                         if( tuonti == TILINUMERO)
@@ -173,7 +174,9 @@ bool CsvTuonti::tuoCsv(const QByteArray &data)
 
 
                 for( int c=0; c < muodot_.count(); c++)
-                {                
+                {
+                    if( c >= csv_.at(r).count() )
+                        continue;
 
                     int tuonti = ui->tuontiTable->item(c,2)->data(Qt::EditRole).toInt();
                     QString tieto = csv_.at(r).at(c);
@@ -200,9 +203,9 @@ bool CsvTuonti::tuoCsv(const QByteArray &data)
                             rivi.tili = kp()->tilit()->tiliNumerolla( muuntotaulukko.value( nro) );
                     }
                     else if( tuonti == DEBETEURO)
-                        rivi.debetSnt = (int) tieto.replace(',','.').toDouble()*100.0;
+                        rivi.debetSnt = tieto.remove('.').remove(',').toLongLong();
                     else if( tuonti == KREDITEURO)
-                        rivi.kreditSnt = (int) tieto.replace(',','.').toDouble()*100.0;
+                        rivi.kreditSnt = tieto.remove('.').remove(',').toLongLong();
                     else if( tuonti == KOHDENNUS)
                         rivi.kohdennus = kp()->kohdennukset()->kohdennus(tieto);
                 }
@@ -263,7 +266,7 @@ bool CsvTuonti::tuoCsv(const QByteArray &data)
                     else if( tuonti == VIITE)
                         viite = tieto;
                     else if( tuonti == RAHAMAARA)
-                        sentit = (int) tieto.replace(',','.').toDouble()*100.0;
+                        sentit = tieto.remove('.').remove(',').toLongLong();
                     else if( tuonti == SELITE && !tieto.isEmpty())
                     {
                         if( selite.isEmpty())
@@ -522,8 +525,7 @@ int CsvTuonti::tuoListaan(const QByteArray &data)
         // Lopuksi viimeinen sana riville ja rivi tauluun
         if( nykyinenRivi.length())
         {
-            if( nykyinenSana.length())
-                nykyinenRivi.append(nykyinenSana);
+            nykyinenRivi.append(nykyinenSana);
             csv_.append(nykyinenRivi);
         }
     }
@@ -581,3 +583,4 @@ int CsvTuonti::tuoListaan(const QByteArray &data)
 
     return csv_.count();
 }
+
