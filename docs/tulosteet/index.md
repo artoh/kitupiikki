@@ -7,7 +7,7 @@ Tulosteet-välilehdellä voit katsella ja tulostaa erilaisia raportteja kirjanpi
 * **Avaa selaimessa** avaa raportin selaimeen. Voit tallentaa raportin html-muodossa selaimen tallennustoiminnolla.
 * **Vie leikepöydälle** kopioi raportin html-muodossa leikepöydälle, josta sen voi liittää esim.  tekstinkäsittelyyn
 * **CSV määritykset** antaa valita CSV-tiedoston muodon, mm. käytettävä erotin, koodaus, päivämäärän ja lukujen muoto
-* **Vie CSV** vie raportin csv-tiedostona
+* **Vie CSV** vie raportin csv-tiedostona.
 * **CSV leikepöydälle** kopioi raportin csv-muodossa leikepöydälle, josta sen voi liittää esim. taulukkolaskentaan.
 * **Sivun asetuksista** löytyy esim. tulostettavan raportin paperinkoko
 * **Esikatsele** avaa raportin pdf-muodossa käyttöjärjestelmän asetuksista riippuen selaimeen tai pdf-katseluohjelmaan, jolla voit tallentaa tai tulostaa raportin.
@@ -15,6 +15,7 @@ Tulosteet-välilehdellä voit katsella ja tulostaa erilaisia raportteja kirjanpi
 
 !!! tip "Kirjausten vienti CSV-muotoon"
     *Päiväkirja*-näkymä soveltuu erityisen hyvin kirjausten siirtämiseen csv-muodossa toisiin ohjelmiin.
+    CSV-tiedosto on tekstitiedosto, jossa sarakkeet on erotettu toisistaan pilkulla, on soveltuu tiedon siirtämiseen ohjelmasta toiseen.
 
 ## Päiväkirja
 
@@ -58,6 +59,13 @@ Tase-erittely laaditaan varmentaan taseen summat. Yllä olevan erittelyn ensimm�
 ![](tililuettelo.png)
 
 Tililuettelossa on numerojärjestyksessä ja otsikoittain lueteltu kirjanpidon tilit. Voit valita tulostettaviksi vain ne tilit, joilla on kirjauksia. Voit tulostaa tililuetteloon myös tilien kirjausohjeet.
+
+## Laskuluettelo
+
+kuva
+
+Voit tulostaa laskuluettelon myyntilaskuista (Kitupiikillä laaditut laskut) tai ostolaskuista (Ostovelat-tileille kirjatut laskut). Laskuluettelon saa myös haluttuna päivänä avoinna olleista laskuista saldoineen.
+
 
 ## Muut raportit
 

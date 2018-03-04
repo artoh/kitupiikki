@@ -249,7 +249,14 @@ bool CsvTuonti::tuoCsv(const QByteArray &data)
                             pvm = QDate::fromString(tieto, Qt::ISODate);
                     }
                     else if( tuonti == IBAN)
+                    {
+                        tieto.remove(' ');
+                        // Jos suomalainen IBAN, poimitaan vain se. Tämä siksi, että
+                        // samalla kentällä voi olla myös BIC-kenttä
+                        if( tieto.startsWith("FI"))
+                          tieto = tieto.left(18)
                         iban = tieto;
+                    }
                     else if( tuonti == VIITE)
                         viite = tieto;
                     else if( tuonti == RAHAMAARA)
@@ -543,7 +550,11 @@ int CsvTuonti::tuoListaan(const QByteArray &data)
                 muoto = ISOPVM;
             else if( ibanValidator.validate(teksti, position) ==  IbanValidator::Acceptable )
                 muoto = TILI;
-            else if( viiteValidator.validate(teksti,position) == ViiteValidator::Acceptable)
+            // Tilinumeron kanssa samaan kenttään on voitu tunkea IBAN-joten kokeillaan
+            // myös vähän muokatuilla versioilla
+            else if( viiteValidator.validate(teksti,position) == ViiteValidator::Acceptable ||
+                     viiteValidator.validate(teksti.left(18),position) == ViiteValidator::Acceptable ||
+                     viiteValidator.validate(teksti.left(teksti.indexOf(' ')),position) == ViiteValidator::Acceptable )
                 muoto = VIITE;
             else if( teksti.contains(rahaRe))
                 muoto = RAHA;

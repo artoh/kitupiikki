@@ -36,7 +36,7 @@ Aloitusikkunassa Kitupiikki vinkkaa ajankohtaisista tehtävistä, kuten tilinpä
 ### Sähköinen kirjanpito
 ![](kirjaus/myllykirjaus.png)
 
-Tositteet voi tallettaa pdf- tai jpg-muodossa. Kirjanpidosta ja sähköisistä tositteista muodostetaan sähköinen arkisto. Arkiston muuttumattomuus varmistetaan sha256-tiivisteillä.
+Tositteet voi tuoda pdf- tai jpg-muodossa. Tietoja voi tuoda pdf-muotoisista tositteista ja csv-tiedostoista. Kirjanpidosta ja sähköisistä tositteista muodostetaan sähköinen arkisto. Arkiston muuttumattomuus varmistetaan sha256-tiivisteillä.
 
 ### Laskutus
 ![](laskutus/uusilasku.png)
