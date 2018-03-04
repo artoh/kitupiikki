@@ -119,10 +119,10 @@ RaportinKirjoittaja LaskuRaportti::myyntilaskut(QDate saldopvm, bool avoimet, La
 
     QString ehto;
     if( rajaus == RajaaErapaiva )
-            ehto = QString(" erapvm BETWEEN %1 and %2 AND")
+            ehto = QString(" erapvm BETWEEN '%1' and '%2' AND")
                     .arg( mista.toString(Qt::ISODate) ).arg( mihin.toString(Qt::ISODate));
     else if( rajaus == RajaaLaskupaiva )
-            ehto = QString(" laskupvm BETWEEN %1 and %2 AND")
+            ehto = QString(" laskupvm BETWEEN '%1' and '%2' AND")
                     .arg( mista.toString(Qt::ISODate) ).arg( mihin.toString(Qt::ISODate));
 
     QString kysymys = QString("SELECT id, tosite, laskupvm, erapvm, summaSnt, avoinSnt, asiakas, kirjausperuste, json from lasku "

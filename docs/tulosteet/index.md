@@ -62,7 +62,7 @@ Tililuettelossa on numerojärjestyksessä ja otsikoittain lueteltu kirjanpidon t
 
 ## Laskuluettelo
 
-kuva
+![Laskuraportti](laskut.png)
 
 Voit tulostaa laskuluettelon myyntilaskuista (Kitupiikillä laaditut laskut) tai ostolaskuista (Ostovelat-tileille kirjatut laskut). Laskuluettelon saa myös haluttuna päivänä avoinna olleista laskuista saldoineen.
 

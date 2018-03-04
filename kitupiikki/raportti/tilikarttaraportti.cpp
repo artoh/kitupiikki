@@ -21,7 +21,7 @@
 
 
 TilikarttaRaportti::TilikarttaRaportti()
-    : Raportti()
+    : Raportti(false)
 {
     ui = new Ui::TilikarttaRaportti;
     ui->setupUi( raporttiWidget);
