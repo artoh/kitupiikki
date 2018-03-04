@@ -1,5 +1,9 @@
 # Tuonti
 
+!!! info "Uusi toiminto"
+    Tuontitoiminto on vasta lisätty Kitupiikkiin, eikä sitä ole ollut mahdollista kokeilla kovin monipuolisella aineistolla. Lähetä mieluusti [palautetta](https://form.jotformeu.com/73283959099374) tuonnin toimivuudesta.
+    CSV-tuonnin virheiden osalta liitä mukaan pätkä CSV:tä: otsikot ja jokin rivi (voit muuttaa yksityisen tiedon XXXXXXXXX)
+
 ## Pdf-tiedostojen tuonti
 
 Kun kirjausikkunassa lisätään pdf-muotoinen tosite, pyrkii Kitupiikki poimimaan siitä tietoja kirjauksien pohjaksi.
@@ -22,7 +26,7 @@ Tiliotteen perusteella Kitupiikki tekee valmiit pankkitilin kirjaukset. Jos tili
 Tiliotteen kirjaaminen edellyttää, että tilin IBAN-numero on määritelty kyseisen tilin [määrityksissä](/maaritykset/tilikartta).
 
 !!! info "Tiliotteiden muoto"
-    Tiliotteiden tuonti perustuu tiettyihin tiliotteella oleviin sanoihin ja niiden asemointiin. Kitupiikki on onnistunut tunnistamaan ainakin seuraavien pankkien tiliotteita: XXXXXX.
+    Tiliotteiden tuonti perustuu tiettyihin tiliotteella oleviin sanoihin ja niiden asemointiin. Kitupiikki on onnistunut tunnistamaan ainakin seuraavien pankkien tiliotteita: S-Pankki, XXXXXX.
 
 ### Määritykset
 
@@ -30,7 +34,7 @@ Määrityksien **Tuonti** välilehdellä pdf-tiedostojen tuonti otetaan käyttö
 
 ## CSV-tiedostojen tuonti
 
-CSV-tiedosto on tekstitiedosto, jossa eri tietokentät on eroteltu toisistaan pilkulla. Voit tuoda Kitupiikkiin tällä toiminnolla esimerkiksi [Tilitin-kirjanpito-ohjelman](http://helineva.net/tilitin) kirjauksia tai Osuuspankin tilitapahtumia. Kitupiikin kirjauksia voit tuoda csv-muotoisesta [Päiväkirja-raportista](/tulosteet/paivakirja).
+CSV-tiedosto on tekstitiedosto, jossa eri tietokentät on eroteltu toisistaan pilkulla. Voit tuoda Kitupiikkiin tällä toiminnolla esimerkiksi [Tilitin-kirjanpito-ohjelman](http://helineva.net/tilitin) kirjauksia tai verkkopankin tilitapahtumia. Kitupiikin kirjauksia voit tuoda csv-muotoisesta [Päiväkirja-raportista](/tulosteet/paivakirja).
 
 Voit tuoda kirjanpitoon csv-tiedoston lisäämällä **.csv**-päätteisen tiedoston kirjaukseen (raahaamalla **Sähköinen tosite**-laatikkoon tai **Lisää tiedosto**-painikkeella). Saat ikkunan, jossa valitaan, mitä tietoja csv-tiedoston eri sarakkeista tuodaan.
 
