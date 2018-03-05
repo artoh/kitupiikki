@@ -29,6 +29,7 @@ LoppuSivu::LoppuSivu()
     QLabel *teksti = new QLabel("Kitupiikki on valmis luomaan uuden kirjanpidon.");
 
     ohjeBrowser = new QTextBrowser;
+    ohjeBrowser->setOpenExternalLinks(true);
 
     QVBoxLayout *leiska = new QVBoxLayout();
     leiska->addWidget(teksti);

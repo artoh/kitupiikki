@@ -85,7 +85,14 @@
     </layout>
    </item>
    <item>
-    <widget class="QTextBrowser" name="ohjeBrowser"/>
+    <widget class="QTextBrowser" name="ohjeBrowser">
+     <property name="openExternalLinks">
+      <bool>true</bool>
+     </property>
+     <property name="openLinks">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item>
     <widget class="MRichTextEdit" name="ohjeEditori" native="true"/>

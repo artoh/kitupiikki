@@ -365,6 +365,8 @@ void Raportoija::sijoitaTulosKyselyData(const QString &kysymys, int i)
 
     qDebug() << query.lastQuery() << " " << query.lastError().text();
 
+    qlonglong tulossumma = 0;
+
     while( query.next())
     {
         int ysiluku = query.value(0).toInt();
@@ -373,7 +375,12 @@ void Raportoija::sijoitaTulosKyselyData(const QString &kysymys, int i)
 
         data_[i].insert( ysiluku, kredit - debet  );
         tilitKaytossa_.insert( ysiluku, true);
+
+        tulossumma += kredit - debet;
     }
+
+    // Sijoitetaan vielä summa "tilille" 0
+    data_[i].insert( 0, tulossumma );
 }
 
 void Raportoija::laskeTulosData()
