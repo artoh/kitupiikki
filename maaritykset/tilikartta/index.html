@@ -543,6 +543,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../../kirjaus/tuonti/" title="Tuonti" class="md-nav__link">
+      Tuonti
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../raportit/" title="Raporttien muokkaus" class="md-nav__link">
       Raporttien muokkaus
     </a>
@@ -682,6 +694,8 @@
 <p><strong>Tilityyppi</strong> määrittelee, miten tiliä käsitellään kirjanpidossa ja missä luetteloissa tili näytetään, katso alempaa <a href="#tilityypit">Tilityypit</a>.</p>
 <p><strong>Vastatili</strong> määrittää sen, mikä tili valitaan oletuksena tehtäessä tälle tilille kirjaus. Meno- ja tulotileille kannattaa usein valita vastatiliksi pankki- tai käteistili.</p>
 <p><strong>Verolaji</strong> ja <strong>veroprosentti</strong> ovat tilin kirjauksen oletusvalintoja, verolajin ja -prosentin voi aina valita joka viennille erikseen, katso <a href="../../alv">arvonlisävero</a>. Valinnat eivät ole näkyvissä, jos yritystä ei ole merkitty <a href="./../perusvalinnat">perusvalinnoissa</a> arvonlisävelvolliseksi.</p>
+<p>Pankkitileille syötetään lisäksi <strong>IBAN-tilinumero</strong>. Tilinumero tarvitaan maksujen kohdentamiseen maksuja
+ja tiliotteita tuotaessa.</p>
 <h2 id="tase-erittely-ja-tase-erat">Tase-erittely ja tase-erät<a class="headerlink" href="#tase-erittely-ja-tase-erat" title="Permanent link">&para;</a></h2>
 <p><img alt="" src="./myyntisaamiset.png" /></p>
 <p>Tasetilien (vastaavaa ja vastattavaa) kohdalla valitaan, miten tili esitetään <strong>tase-erittelyssä</strong>.</p>
@@ -706,7 +720,9 @@
 <li>Poistokelpoinen omaisuus, tasapoisto</li>
 <li>Saatavaa</li>
 <li>Arvonlisäverosaatava (yksi tili)</li>
-<li>Rahavarat</li>
+<li>Myyntisaatavat</li>
+<li>Käteisvarat</li>
+<li>Pankkitili</li>
 </ul>
 <p><strong>Vastattavaa-tilityypit</strong></p>
 <p>Nämä tilit alkavat aina numerolla 2.</p>
@@ -716,6 +732,7 @@
 <li>Tämän tilikauden tulos (yksi tili)</li>
 <li>Velat</li>
 <li>Arvonlisäverovelka (yksi tili)</li>
+<li>Ostovelat</li>
 <li>Verovelka (OmaVero-ilmoitetut) (yksi tili)</li>
 </ul>
 <p><strong>Tuloslaskelman tilityypit</strong></p>
