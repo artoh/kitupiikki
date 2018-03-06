@@ -5,8 +5,8 @@
 Kitupiikki on ilmainen suomalainen kirjanpito-ohjelma. Se käsittelee ja arkistoi skannatut tositteet. Ohjelma on alunperin suunniteltu yhdistyksille, mutta Kitupiikin avulla hoidat vaivattomasti myös pienehkön yrityksen kirjanpidon.
 
 <div class="asennusinfo">
-<h3>Kitupiikki 0.5.1 julkaistu 15.2.2018</h3>
-Arkiston ja csv-raporttien vienti.
+<h3>Kitupiikki 0.6 (beta) julkaistu 6.3.2018</h3>
+CSV-tiedostojen tuonti, avointen laskujen raportti, Tilitin-yhteensopiva uusi tilikartta.
 
 <div class="asennuslaatikko">
 <a href="asennus" style="color:white;"><span class="fa fa-download"></span> Lataa Kitupiikki <span class="fa fa-windows"></span> <span class="fa fa-linux"></span></a>
