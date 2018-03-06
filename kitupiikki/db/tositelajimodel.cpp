@@ -178,7 +178,7 @@ void TositelajiModel::poistaRivi(int riviIndeksi)
 Tositelaji TositelajiModel::tositelaji(int id) const
 {
     if( id == 0)
-        return Tositelaji(0,"***","Järjestelmän tosite");
+        return Tositelaji(0,"*","Järjestelmän tosite");
 
     foreach (Tositelaji laji, lajit_)
     {
