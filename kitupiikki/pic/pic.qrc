@@ -80,6 +80,7 @@
         <file>paivita.png</file>
         <file>yrittaja.png</file>
         <file>csv.png</file>
+        <file>tietyo.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

@@ -50,7 +50,10 @@
         <string/>
        </property>
        <property name="pixmap">
-        <pixmap resource="../pic/pic.qrc">:/pic/varoitus.png</pixmap>
+        <pixmap resource="../pic/pic.qrc">:/pic/tietyo.png</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
@@ -58,7 +61,7 @@
       <widget class="QLabel" name="esiVaro">
        <property name="font">
         <font>
-         <pointsize>10</pointsize>
+         <pointsize>12</pointsize>
          <weight>75</weight>
          <bold>true</bold>
         </font>
@@ -67,7 +70,7 @@
         <string notr="true">color: rgb(255, 0, 0);</string>
        </property>
        <property name="text">
-        <string>Käytössäsi on ohjelman esiversio, jonka kaikkia toimintoja ei ole testattu perusteellisesti!</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Käytössäsi on ohjelman kehitysversio, jonka kaikkia toimintoja ei ole testattu perusteellisesti!&lt;/p&gt;&lt;p&gt;Ohjelman toiminnot voivat vielä muuttua ennen vakaan version julkaisemista. Tiedostosi eivät välttämättä ole yhteensopivia myöhempien versioiden kanssa.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>
