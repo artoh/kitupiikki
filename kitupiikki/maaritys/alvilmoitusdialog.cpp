@@ -81,6 +81,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
     QSqlQuery query( *kp()->tietokanta() );
 
     // 1) Bruttojen oikaisut
+    // Korjattu 6.3.2018 #81 since 0.6
 
     query.exec(  QString("select alvkoodi,alvprosentti,sum(debetsnt) as debetit, sum(kreditsnt) as kreditit, tili from vienti where pvm between \"%3\" and \"%4\" and (alvkoodi=%1 or alvkoodi=%2) group by alvkoodi,tili,alvprosentti")
                  .arg(AlvKoodi::MYYNNIT_BRUTTO).arg(AlvKoodi::OSTOT_BRUTTO)
@@ -91,9 +92,10 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
     while( query.next() && query.value("alvprosentti").toInt())
     {
 
-        Tili tili = kp()->tilit()->tiliIndeksilla( query.value("tili").toInt() );
+        Tili tili = kp()->tilit()->tiliIdlla( query.value("tili").toInt() );
         int alvprosentti = query.value("alvprosentti").toInt();
-        int saldoSnt = query.value("kreditit").toInt() - query.value("debetit").toInt();
+        qlonglong saldoSnt =  query.value("kreditit").toInt() - query.value("debetit").toLongLong();
+
 
         VientiRivi rivi;        // Rivi, jolla tiliä oikaistaan
         VientiRivi verorivi;    // Rivi, jolla kirjataan alv-tilille
@@ -109,22 +111,28 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         int veroSnt = ( alvprosentti * saldoSnt ) / ( 100 + alvprosentti) ;
         int nettoSnt = saldoSnt - veroSnt;
 
+        if( nettoSnt > 0)
+        {
+            rivi.debetSnt = veroSnt;
+            verorivi.kreditSnt = veroSnt;
+        } else {
+            rivi.kreditSnt = 0 - veroSnt;
+            verorivi.debetSnt = 0 - veroSnt;
+        }
 
         if( query.value("alvkoodi").toInt() == AlvKoodi::MYYNNIT_BRUTTO )
         {
             verotKannoittainSnt[ alvprosentti ] = verotKannoittainSnt.value(alvprosentti, 0) + veroSnt;
             bruttoveroayhtSnt += veroSnt;
 
-            rivi.selite = tr("Alv-kirjaus %1 - %2 %3 % vero (NETTO %L4 €, BRUTTO %L5€) ").arg(alkupvm.toString(Qt::SystemLocaleShortDate))
+            rivi.selite = tr("Alv-kirjaus %1 - %2 %3 % vero (NETTO %L4 €, BRUTTO %L5€)").arg(alkupvm.toString(Qt::SystemLocaleShortDate))
                     .arg(loppupvm.toString(Qt::SystemLocaleShortDate))
                     .arg(alvprosentti)
                     .arg(nettoSnt / 100.0,0, 'f',2)
-                    .arg(saldoSnt / 100.0,0, 'f', 2);
+                    .arg(saldoSnt / 100.0,0, 'f', 2);            
             rivi.debetSnt = veroSnt;
 
             verorivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA);
-            verorivi.kreditSnt = veroSnt;
-            verorivi.selite = rivi.selite;
             verorivi.alvkoodi = query.value("alvkoodi").toInt() | AlvKoodi::ALVKIRJAUS;
 
         }
@@ -137,13 +145,15 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
                     .arg(alvprosentti)
                     .arg(qAbs(nettoSnt) / 100.0,0, 'f',2)
                     .arg(qAbs(saldoSnt) / 100.0,0, 'f', 2);
-            rivi.kreditSnt = veroSnt;
 
             verorivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA);
-            verorivi.debetSnt = veroSnt;
-            verorivi.selite = rivi.selite;
             verorivi.alvkoodi = query.value("alvkoodi").toInt() | AlvKoodi::ALVVAHENNYS;
         }
+
+        verorivi.selite = tr("%1 tilillä %2 %3")
+                .arg(rivi.selite)
+                .arg( tili.numero() )
+                .arg( tili.nimi() );
 
         ehdotus.lisaaVienti(rivi);
         ehdotus.lisaaVienti(verorivi);
@@ -499,12 +509,12 @@ RaportinKirjoittaja AlvIlmoitusDialog::erittely(QDate alkupvm, QDate loppupvm)
         {
 
             RaporttiRivi koodiOtsikko;
-            if( alvkoodi > AlvKoodi::ALVVAHENNYS)
+            if( alvkoodi == AlvKoodi::MAKSETTAVAALV)
+                koodiOtsikko.lisaa(tr("MAKSETTAVA VERO"), 3);
+            else if( alvkoodi > AlvKoodi::ALVVAHENNYS)
                 koodiOtsikko.lisaa( tr("VÄHENNYS: %1").arg( kp()->alvTyypit()->seliteKoodilla(alvkoodi - AlvKoodi::ALVVAHENNYS) ), 3 );
             else if( alvkoodi > AlvKoodi::ALVKIRJAUS)
                 koodiOtsikko.lisaa( tr("VERO: %1").arg( kp()->alvTyypit()->seliteKoodilla(alvkoodi - AlvKoodi::ALVKIRJAUS) ), 3 );
-            else if( alvkoodi == AlvKoodi::MAKSETTAVAALV)
-                koodiOtsikko.lisaa(tr("MAKSETTAVA VERO"), 3);
             else
                 koodiOtsikko.lisaa( kp()->alvTyypit()->seliteKoodilla(alvkoodi), 3 );
 
