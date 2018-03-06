@@ -23,6 +23,9 @@ Lisäksi ostolaskulle tallennetaan lisätiedot (Saajan pankkitili ja viite), joi
 
 ### Tiliotteet
 
+!!! tip "Eikö toimi?"
+    Pdf-tiliotteen tuonti on kokeellinen toiminto. Jos se toimii väärin oman pankkisi tiliotteiden kanssa tai muuten ottaa päähän tai häiritsee, ota se pois käytöstä [määrityksistä](#maaritykset).
+
 Tiliotteen perusteella Kitupiikki tekee valmiit pankkitilin kirjaukset. Jos tiliotteella olevan tapahtuman IBAN- ja viitenumerot täsmäävät avoinna olevaan myynti- tai ostolaskuun, osaa Kitupiikki kohdentaa suorituksen ja tekee koko kirjauksen valmiiksi. Verohallinnon oma-aloitteisten verojen maksutilille tehdyt suoritukset kohdistetaan verovelkatilille.
 
 Tiliotteen kirjaaminen edellyttää, että tilin IBAN-numero on määritelty kyseisen tilin [määrityksissä](/maaritykset/tilikartta).
