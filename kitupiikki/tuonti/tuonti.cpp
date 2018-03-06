@@ -163,7 +163,7 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, Q
         QSqlQuery kysely( QString("SELECT avoinSnt, json, asiakas, kirjausperuste FROM lasku WHERE id=%1").arg(viite) );
         if( kysely.next())
         {
-            if( kysely.value("avoinSnt").toInt() >= sentit )
+            if( kysely.value("avoinSnt").toLongLong() >= sentit )
             {
                 // Kyseisellä viitteellä on avoin lasku, jota voidaan siis maksaa
                 JsonKentta json( kysely.value("json").toByteArray() );
@@ -194,6 +194,7 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, Q
 
         QSqlQuery kysely( QString("SELECT id, tili, selite FROM vienti WHERE iban='%1' AND viite='%2' ORDER BY pvm")
                           .arg(iban).arg(viite) );
+        qDebug() << kysely.lastQuery();
         while( kysely.next())
         {
             int eraId = kysely.value("id").toInt();

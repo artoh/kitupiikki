@@ -34,7 +34,7 @@ int AlvIlmoitustenModel::rowCount(const QModelIndex &/*parent*/) const
 
 int AlvIlmoitustenModel::columnCount(const QModelIndex &/*parent*/) const
 {
-    return 3;
+    return 4;
 }
 
 QVariant AlvIlmoitustenModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -50,6 +50,8 @@ QVariant AlvIlmoitustenModel::headerData(int section, Qt::Orientation orientatio
             return tr("Alkaa");
         case PAATTYY:
             return tr("Päättyy");
+        case ERAPVM:
+            return tr("Eräpäivä");
         case VEROSNT:
             return tr("Maksettava vero");
         }
@@ -73,6 +75,8 @@ QVariant AlvIlmoitustenModel::data(const QModelIndex &index, int role) const
             return tieto.alkuPvm;
         case PAATTYY:
             return tieto.loppuPvm;
+        case ERAPVM:
+            return tieto.loppuPvm.addDays(1).addMonths(1).addDays(11);
         case VEROSNT:
             return QString("%L1 €").arg( tieto.maksettavaVeroSnt / 100.0 , 0,'f',2);
         }

@@ -43,7 +43,7 @@ class AlvIlmoitustenModel : public QAbstractTableModel
 public:
     enum Sarake
     {
-        ALKAA, PAATTYY, VEROSNT
+        ALKAA, PAATTYY, ERAPVM, VEROSNT
     };
     enum
     {

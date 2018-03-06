@@ -134,6 +134,6 @@ void AlvMaaritys::riviValittu()
 
 QDate AlvMaaritys::erapaiva(const QDate &loppupaiva)
 {
-    return loppupaiva.addMonths(1).addDays(12);
+    return loppupaiva.addDays(1).addMonths(1).addDays(11);
 }
 

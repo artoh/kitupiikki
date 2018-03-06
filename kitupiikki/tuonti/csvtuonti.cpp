@@ -263,13 +263,13 @@ bool CsvTuonti::tuoCsv(const QByteArray &data)
                           tieto = tieto.left(18);
                         iban = tieto;
                     }
-                    else if( tuonti == VIITE)
+                    else if( tuonti == VIITENRO )
                         viite = tieto;
                     else if( tuonti == RAHAMAARA)
                         sentit = tieto.remove('.').remove(',').toLongLong();
                     else if( tuonti == SELITE && !tieto.isEmpty())
                     {
-                        if( selite.isEmpty())
+                        if( !selite.isEmpty())
                             selite.append(" ");
                         selite.append(tieto);
                     }
@@ -429,7 +429,9 @@ void CsvTuonti::paivitaOletukset()
             else if( otsikko.contains("tosite", Qt::CaseInsensitive))
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, TOSITETUNNUS);
             else if( otsikko.contains("selite", Qt::CaseInsensitive) ||
-                     otsikko.contains("selitys", Qt::CaseInsensitive))
+                     otsikko.contains("selitys", Qt::CaseInsensitive) ||
+                     otsikko.contains("saaja/maksaja", Qt::CaseInsensitive) ||
+                     otsikko.contains("viesti"), Qt::CaseInsensitive)
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, SELITE);
             else if( (otsikko=="Nro" && muoto == LUKU) ||
                      (otsikko.contains("tili", Qt::CaseInsensitive) && muoto == LUKUTEKSTI) )
