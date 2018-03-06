@@ -390,7 +390,7 @@ QString AloitusSivu::summat()
 
     txt.append("<tr><td colspan=2 class=otsikko>Rahavarat</td></tr>");
 
-    kysely.exec(QString("select nro, nimi, sum(debetsnt), sum(kreditsnt) from vienti,tili where vienti.tili=tili.id and tili.tyyppi=\"AR\" and vienti.pvm"
+    kysely.exec(QString("select nro, nimi, sum(debetsnt), sum(kreditsnt) from vienti,tili where vienti.tili=tili.id and tili.tyyppi LIKE \"AR%\" and vienti.pvm"
                         "<\"%1\" group by nro")
                 .arg(tilikausi.paattyy().toString(Qt::ISODate)));
     int saldosumma = 0;
