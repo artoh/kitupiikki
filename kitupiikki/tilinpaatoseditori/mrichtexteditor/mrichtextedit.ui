@@ -82,8 +82,8 @@
          <string>Undo</string>
         </property>
         <property name="icon">
-         <iconset theme="edit-undo">
-          <normaloff>.</normaloff>.</iconset>
+         <iconset resource="../../pic/pic.qrc">
+          <normaloff>:/pic/edit-undo.png</normaloff>:/pic/edit-undo.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -108,8 +108,8 @@
          <string>Redo</string>
         </property>
         <property name="icon">
-         <iconset theme="edit-redo">
-          <normaloff>.</normaloff>.</iconset>
+         <iconset resource="../../pic/pic.qrc">
+          <normaloff>:/pic/edit-redo.png</normaloff>:/pic/edit-redo.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -131,8 +131,8 @@
          <string>Cut</string>
         </property>
         <property name="icon">
-         <iconset theme="edit-cut">
-          <normaloff>.</normaloff>.</iconset>
+         <iconset resource="../../pic/pic.qrc">
+          <normaloff>:/pic/edit-cut.png</normaloff>:/pic/edit-cut.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -154,8 +154,8 @@
          <string>Copy</string>
         </property>
         <property name="icon">
-         <iconset theme="edit-copy">
-          <normaloff>.</normaloff>.</iconset>
+         <iconset resource="../../pic/pic.qrc">
+          <normaloff>:/pic/edit-copy.png</normaloff>:/pic/edit-copy.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -177,8 +177,8 @@
          <string>Paste</string>
         </property>
         <property name="icon">
-         <iconset theme="edit-paste">
-          <normaloff>.</normaloff>.</iconset>
+         <iconset resource="../../pic/pic.qrc">
+          <normaloff>:/pic/edit-paste.png</normaloff>:/pic/edit-paste.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -210,8 +210,8 @@
          <string>Link</string>
         </property>
         <property name="icon">
-         <iconset theme="applications-internet">
-          <normaloff>.</normaloff>.</iconset>
+         <iconset resource="../../pic/pic.qrc">
+          <normaloff>:/pic/edit-link.png</normaloff>:/pic/edit-link.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -243,8 +243,8 @@
          <string>Bold</string>
         </property>
         <property name="icon">
-         <iconset theme="format-text-bold">
-          <normaloff>.</normaloff>.</iconset>
+         <iconset resource="../../pic/pic.qrc">
+          <normaloff>:/pic/lihavoi.png</normaloff>:/pic/lihavoi.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -269,8 +269,8 @@
          <string>Italic</string>
         </property>
         <property name="icon">
-         <iconset theme="format-text-italic">
-          <normaloff>.</normaloff>.</iconset>
+         <iconset resource="../../pic/pic.qrc">
+          <normaloff>:/pic/format-italic.png</normaloff>:/pic/format-italic.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -295,8 +295,8 @@
          <string>Underline</string>
         </property>
         <property name="icon">
-         <iconset theme="format-text-underline">
-          <normaloff>.</normaloff>.</iconset>
+         <iconset resource="../../pic/pic.qrc">
+          <normaloff>:/pic/format-underline.png</normaloff>:/pic/format-underline.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -311,8 +311,9 @@
       </item>
       <item>
        <widget class="QToolButton" name="f_strikeout">
-        <property name="text">
-         <string>Yliviivattu</string>
+        <property name="icon">
+         <iconset resource="../../pic/pic.qrc">
+          <normaloff>:/pic/format-text-strikethrough.png</normaloff>:/pic/format-text-strikethrough.png</iconset>
         </property>
         <property name="checkable">
          <bool>true</bool>
@@ -334,8 +335,9 @@
         <property name="toolTip">
          <string>Bullet list (CTRL+-)</string>
         </property>
-        <property name="text">
-         <string>Luettelo</string>
+        <property name="icon">
+         <iconset resource="../../pic/pic.qrc">
+          <normaloff>:/pic/format-list-unordered.png</normaloff>:/pic/format-list-unordered.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -356,8 +358,9 @@
         <property name="toolTip">
          <string>Ordered list (CTRL+=)</string>
         </property>
-        <property name="text">
-         <string>Num.luettelo</string>
+        <property name="icon">
+         <iconset resource="../../pic/pic.qrc">
+          <normaloff>:/pic/format-list-ordered.png</normaloff>:/pic/format-list-ordered.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -382,8 +385,8 @@
          <string>Decrease indentation</string>
         </property>
         <property name="icon">
-         <iconset theme="format-indent-less">
-          <normaloff>.</normaloff>.</iconset>
+         <iconset resource="../../pic/pic.qrc">
+          <normaloff>:/pic/format-indent-less.png</normaloff>:/pic/format-indent-less.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -405,8 +408,8 @@
          <string>Increase indentation</string>
         </property>
         <property name="icon">
-         <iconset theme="format-indent-more">
-          <normaloff>.</normaloff>.</iconset>
+         <iconset resource="../../pic/pic.qrc">
+          <normaloff>:/pic/format-indent-more.png</normaloff>:/pic/format-indent-more.png</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -516,6 +519,10 @@
         <property name="text">
          <string notr="true">...</string>
         </property>
+        <property name="icon">
+         <iconset resource="../../pic/pic.qrc">
+          <normaloff>:/pic/insert-image.png</normaloff>:/pic/insert-image.png</iconset>
+        </property>
        </widget>
       </item>
       <item>
@@ -592,6 +599,8 @@
   <tabstop>f_image</tabstop>
   <tabstop>f_menu</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../../pic/pic.qrc"/>
+ </resources>
  <connections/>
 </ui>

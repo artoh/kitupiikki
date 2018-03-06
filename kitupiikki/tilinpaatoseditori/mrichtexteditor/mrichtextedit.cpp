@@ -123,16 +123,16 @@ MRichTextEdit::MRichTextEdit(QWidget *parent) : QWidget(parent) {
     connect(f_underline, SIGNAL(clicked()), this, SLOT(textUnderline()));
     connect(f_strikeout, SIGNAL(clicked()), this, SLOT(textStrikeout()));
 
-    QAction *removeFormat = new QAction(tr("Remove character formatting"), this);
+    QAction *removeFormat = new QAction(tr("Poista merkkien muotoilut"), this);
     removeFormat->setShortcut(QKeySequence("CTRL+M"));
     connect(removeFormat, SIGNAL(triggered()), this, SLOT(textRemoveFormat()));
     f_textedit->addAction(removeFormat);
 
-    QAction *removeAllFormat = new QAction(tr("Remove all formatting"), this);
+    QAction *removeAllFormat = new QAction(tr("Poista kaikki muotoilut"), this);
     connect(removeAllFormat, SIGNAL(triggered()), this, SLOT(textRemoveAllFormat()));
     f_textedit->addAction(removeAllFormat);
 
-    QAction *textsource = new QAction(tr("Edit document source"), this);
+    QAction *textsource = new QAction(tr("Muokkaa lähdekoodia"), this);
     textsource->setShortcut(QKeySequence("CTRL+O"));
     connect(textsource, SIGNAL(triggered()), this, SLOT(textSource()));
     f_textedit->addAction(textsource);
@@ -197,7 +197,7 @@ void MRichTextEdit::textSource() {
     pte->setPlainText( f_textedit->toHtml() );
     QGridLayout *gl = new QGridLayout(dialog);
     gl->addWidget(pte,0,0,1,1);
-    dialog->setWindowTitle(tr("Document source"));
+    dialog->setWindowTitle(tr("Alkuperäinen muoto"));
     dialog->setMinimumWidth (400);
     dialog->setMinimumHeight(600);
     dialog->exec();
@@ -290,8 +290,8 @@ void MRichTextEdit::textLink(bool checked) {
     if (checked) {
         QString url = f_textedit->currentCharFormat().anchorHref();
         bool ok;
-        QString newUrl = QInputDialog::getText(this, tr("Create a link"),
-                                        tr("Link URL:"), QLineEdit::Normal,
+        QString newUrl = QInputDialog::getText(this, tr("Lisää linkki"),
+                                        tr("Linkin osoite:"), QLineEdit::Normal,
                                         url,
                                         &ok);
         if (ok) {
@@ -580,7 +580,7 @@ void MRichTextEdit::insertImage() {
     QSettings s;
     QString attdir = s.value("general/filedialog-path").toString();
     QString file = QFileDialog::getOpenFileName(this,
-                                    tr("Select an image"),
+                                    tr("Valitse kuva"),
                                     attdir,
                                     tr("JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"));
     QImage image = QImageReader(file).read();
