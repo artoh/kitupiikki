@@ -343,6 +343,23 @@
       </widget>
      </item>
      <item>
+      <widget class="QLabel" name="veroVaro">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../pic/pic.qrc">:/pic/vero.png</pixmap>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="varoLabel">
+       <property name="text">
+        <string> </string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer_5">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
