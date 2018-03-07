@@ -137,6 +137,12 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt)
 
     foreach (QString rivi, kaava_)
     {
+        if( !rivi.length() )
+        {
+            rk.lisaaTyhjaRivi();
+            continue;
+        }
+
         int tyhjanpaikka = rivi.indexOf('\t');
 
         if( tyhjanpaikka < 0 )

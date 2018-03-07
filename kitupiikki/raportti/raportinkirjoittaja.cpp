@@ -83,6 +83,13 @@ void RaportinKirjoittaja::lisaaRivi(RaporttiRivi rivi)
     rivit_.append(rivi);
 }
 
+void RaportinKirjoittaja::lisaaTyhjaRivi()
+{
+    if( rivit_.count())
+        if( rivit_.last().sarakkeita() )
+            rivit_.append( RaporttiRivi());
+}
+
 int RaportinKirjoittaja::tulosta(QPrinter *printer, QPainter *painter, bool raidoita, int alkusivunumero)
 {
     if( rivit_.isEmpty())
@@ -402,11 +409,15 @@ QByteArray RaportinKirjoittaja::csv()
     }
     for( RaporttiRivi rivi : rivit_ )
     {
-        txt.append("\r\n");
-        QStringList sarakkeet;
-        for( int i=0; i < rivi.sarakkeita(); i++)
-            sarakkeet.append( rivi.csv(i));
-        txt.append( sarakkeet.join(erotin));
+        if( rivi.sarakkeita() )
+        {
+
+            txt.append("\r\n");
+            QStringList sarakkeet;
+            for( int i=0; i < rivi.sarakkeita(); i++)
+                sarakkeet.append( rivi.csv(i));
+            txt.append( sarakkeet.join(erotin));
+        }
     }
 
     if( settings.value("CsvKoodaus").toString() == "latin1")

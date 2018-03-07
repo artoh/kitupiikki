@@ -116,6 +116,11 @@ public:
     void lisaaRivi( RaporttiRivi rivi = RaporttiRivi());
 
     /**
+     * @brief Lisää tyhjän rivin jo edellinen ei ollut jo tyhjä
+     */
+    void lisaaTyhjaRivi();
+
+    /**
      * @brief Tulostaa kirjoitetun raportin
      * @param printer
      * @param painter
