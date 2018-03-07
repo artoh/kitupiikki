@@ -55,6 +55,16 @@
      <item row="2" column="1">
       <widget class="QLineEdit" name="tiliLine"/>
      </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="muotoLabel">
+       <property name="text">
+        <string>Yritysmuoto</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QListWidget" name="muotoList"/>
+     </item>
     </layout>
    </item>
    <item>

@@ -27,11 +27,18 @@
  */
 class NimiSivu : public QWizardPage
 {
+    Q_OBJECT
 protected:
     Ui::NimiSivu *ui;
 public:
     NimiSivu();
     ~NimiSivu();
+
+protected:
+    void initializePage();
+
+protected slots:
+    void valittu();
 
 };
 

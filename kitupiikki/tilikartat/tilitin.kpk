@@ -1256,6 +1256,7 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 #muut -M Olennaiset ja riitävän kuvan kannalta tarpeellinen toimintakertomustieto
 <h2>Muut tiedot</h2>
 <p>Tiedot, jotka ovat tarpeen oikean ja riittävän kuvan antamiseksi. Mikrokoon yrityksillä ei ole velvollisuutta näiden tietojen antamiseen </p>
+?Muoto=Osakeyhtiö
 ##Osakeyhtiön pääoma ja vapaan oman pääoman käyttö
 #oypaaoma Oman pääoman muutokset
 <h2>Oman pääoman muutokset</h2>
@@ -1267,6 +1268,7 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 <h2>Hallituksen ehdotus jakokelpoisen vapaan oman pääoman käytöstä</h2>
 <p>Jakokelpoinen vapaa oma pääoma on ...</p>
 <p>Hallitus ehdottaa, että osinkoa jaetaan XX euroa per osake, eli yhteensä XXX euroa. Osinko on nostettavissa yhtiökokousta seuraavana päivänä.</p>
+?
 ##Kirjanpito
 #sahko Sähköinen kirjanpito ja arkistointi
 <h2>Kirjanpitoaineisto</h2>
@@ -1600,3 +1602,23 @@ Tuloverot		99..996 *
 Muut välittömät verot		998..999 s4 *
 
 Tilikauden voitto / tappio		0 bold
+[MuotoTeksti]
+Yritysmuoto
+[MuotoOn/Osakeyhtiö]
++2001..2031
+[MuotoPois/Osakeyhtiö]
+-2001..2031
+[MuotoOn/Osuuskunta]
++2101..2103
+[MuotoPois/Osuuskunta]
+-2101..2103
+[MuotoOn/Kommandiittiyhtiö]
++215..218
+[MuotoPois/Kommandiittiyhtiö]
+-215..218
+[MuotoOn/Toiminimi]
++2201
+Elinkeinonharjoittaja=ON
+[MuotoPois/Toiminimi]
+-2201
+Elinkeinonharjoittaja=EI

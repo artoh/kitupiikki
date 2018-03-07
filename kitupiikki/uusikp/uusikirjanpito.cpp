@@ -61,8 +61,8 @@ UusiKirjanpito::UusiKirjanpito() :
     setWindowTitle("Uuden kirjanpidon luominen");
     setPixmap( WatermarkPixmap, QPixmap(":/pic/Possu64.png") );
     addPage( new IntroSivu());
-    addPage( new NimiSivu());
     addPage( new TilikarttaSivu);
+    addPage( new NimiSivu());
     addPage( new TilikausiSivu );
     addPage( new SijaintiSivu );
     addPage( new LoppuSivu );

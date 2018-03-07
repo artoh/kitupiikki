@@ -17,6 +17,7 @@
 
 #include "nimisivu.h"
 #include "validator/ibanvalidator.h"
+#include "uusikirjanpito.h"
 
 NimiSivu::NimiSivu()
 {
@@ -30,11 +31,51 @@ NimiSivu::NimiSivu()
     registerField("ytunnus",ui->ytunnusEdit);
     registerField("iban", ui->tiliLine);
 
+    // Piilotettu kenttä muodolle
+    QLineEdit *piilo = new  QLineEdit(this);
+    piilo->hide();
+    registerField("muoto*", piilo);
+
+    connect( ui->muotoList, SIGNAL(itemSelectionChanged()),
+             this, SLOT(valittu()));
 }
 
 NimiSivu::~NimiSivu()
 {
     delete ui;
 
+}
+
+void NimiSivu::initializePage()
+{
+    // Haetaan valitusta tilikartasta sen sisältämät muodot
+    QString polku = field("tilikartta").toString();
+    QMap<QString,QStringList> ktk = UusiKirjanpito::lueKtkTiedosto(polku);
+
+    QMapIterator<QString, QStringList> iter(ktk);
+
+    while( iter.hasNext() )
+    {
+        iter.next();
+        if( iter.key() == "MuotoTeksti")
+            ui->muotoLabel->setText( iter.value().join(" "));
+        else if( iter.key().startsWith("MuotoOn/"))
+            ui->muotoList->addItem( iter.key().mid(8) );
+    }
+
+    if( !ui->muotoList->count() )
+    {
+        // Ei muotoja
+        ui->muotoLabel->hide();
+        ui->muotoList->hide();
+        setField("muoto", "-");
+    }
+}
+
+void NimiSivu::valittu()
+{
+    QList<QListWidgetItem*> valitut = ui->muotoList->selectedItems();
+    if( valitut.count())
+        setField("muoto", valitut.first()->text());
 }
 
