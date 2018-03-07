@@ -61,7 +61,8 @@ TilinValintaDialogi::TilinValintaDialogi(QWidget *parent) :
     connect( ui->view->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
              this, SLOT(valintaMuuttui(QModelIndex)));
 
-    connect( ui->view, SIGNAL(tiliHiirenAlla(int)), this, SLOT(naytaOhje(int)));
+    ui->suodatusEdit->installEventFilter(this);
+
 
 
 }
@@ -91,15 +92,9 @@ void TilinValintaDialogi::suodata(const QString &alku)
     else
         proxyTyyppi->setFilterRegExp( tyyppiSuodatin );
 
-    ui->view->paivitaInfo();
 
-    // Jos enää vain yksi tili osuu suodattimeen,
-    // valitaan se automaattisesti
-    if( ui->view->model()->rowCount(QModelIndex()) == 1)
-    {
+    if( ui->view->selectionModel()->selectedIndexes().isEmpty())
         ui->view->setCurrentIndex( ui->view->model()->index(0,0) );
-    }
-
 }
 
 void TilinValintaDialogi::suodataTyyppi(const QString &regexp)
@@ -114,9 +109,6 @@ void TilinValintaDialogi::suodataSuosikit(bool suodatetaanko)
         proxyTila->setFilterFixedString("2");
     else
         proxyTila->setFilterRegExp("[12]");
-    ui->view->paivitaInfo();
-
-
 }
 
 void TilinValintaDialogi::asetaModel(TiliModel *model)
@@ -137,6 +129,7 @@ void TilinValintaDialogi::klikattu(const QModelIndex &index)
 void TilinValintaDialogi::valintaMuuttui(const QModelIndex &index)
 {
     ui->valitseNappi->setEnabled( index.isValid() && index.data( TiliModel::OtsikkotasoRooli ).toInt() == 0 );
+    naytaOhje( index.data(TiliModel::IdRooli).toInt());
 }
 
 void TilinValintaDialogi::naytaOhje(int tiliId)
@@ -155,6 +148,27 @@ void TilinValintaDialogi::naytaOhje(int tiliId)
     ui->ohjeLabel->setVisible( !txt.isEmpty() );
 
     ui->ohjeLabel->setText( txt );
+}
+
+bool TilinValintaDialogi::eventFilter(QObject *object, QEvent *event)
+{
+    if( object == ui->suodatusEdit &&            event->type() == QEvent::KeyPress )
+    {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        if( keyEvent->key() == Qt::Key_Down )
+        {
+            ui->view->selectRow( ui->view->currentIndex().row()+1 );
+            return true;
+        }
+        else if( keyEvent->key() == Qt::Key_Up )
+        {
+            ui->view->selectRow( ui->view->currentIndex().row()-1 );
+            return true;
+        }
+
+
+    }
+    return QDialog::eventFilter(object, event);
 }
 
 

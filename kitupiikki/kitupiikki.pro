@@ -119,7 +119,6 @@ SOURCES += main.cpp \
     arkisto/poistaja.cpp \
     maaritys/kaavankorostin.cpp \
     kirjaus/kohdennusproxymodel.cpp \
-    db/tilinvalintaview.cpp \
     maaritys/tilikarttaohje.cpp \
     uusikp/paivitakirjanpito.cpp \
     arkisto/tararkisto.cpp \
@@ -234,7 +233,6 @@ HEADERS += \
     arkisto/poistaja.h \
     maaritys/kaavankorostin.h \
     kirjaus/kohdennusproxymodel.h \
-    db/tilinvalintaview.h \
     maaritys/tilikarttaohje.h \
     uusikp/paivitakirjanpito.h \
     arkisto/tararkisto.h \

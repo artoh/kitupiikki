@@ -60,6 +60,8 @@ protected slots:
      */
     void naytaOhje(int tiliId);
 
+protected:
+    bool eventFilter(QObject *object, QEvent *event);
 
 private:
     Ui::TilinValintaDialogi *ui;

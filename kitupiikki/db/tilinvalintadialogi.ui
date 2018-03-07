@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="TilinValintaView" name="view">
+    <widget class="QTableView" name="view">
      <property name="selectionMode">
       <enum>QAbstractItemView::SingleSelection</enum>
      </property>
@@ -97,13 +97,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>TilinValintaView</class>
-   <extends>QTableView</extends>
-   <header>db/tilinvalintaview.h</header>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>suodatusEdit</tabstop>
   <tabstop>valitseNappi</tabstop>
