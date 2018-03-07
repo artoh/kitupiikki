@@ -34,6 +34,8 @@
 #include "ui_tkpaivitys.h"
 #include "ui_paivityskorvaa.h"
 
+#include "skripti.h"
+
 
 QString PaivitaKirjanpito::sisainenPaivitys()
 {
@@ -243,6 +245,12 @@ bool PaivitaKirjanpito::lataaPaivitys(const QString &tiedosto)
     }   // Tilirivien lukeminen
     if( kp()->tilit()->tallenna(true))
     {
+        // Suoritetaan skriptit
+        Skripti::suorita( ktk.value("PaivitysSkripti") );
+        if( kp()->asetukset()->onko("Muoto"))
+            Skripti::suorita( ktk.value("MuotoPaivitys/" + kp()->asetukset()->asetus("Muoto")));
+
+
         QMessageBox::information(0, tr("Kitupiikki"),tr("Tilikartta päivitetty") );
         return true;
     }

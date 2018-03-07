@@ -152,11 +152,34 @@ void TpAloitus::lataa()
     valintaRe.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);
     QRegularExpression poisRe("-(?<pois>\\w+)");
     poisRe.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);
+    QRegularExpression ehtoRe("^\\?(?<avain>\\w+)=(?<arvo>.*)");
+    ehtoRe.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);
+
+
     QFont lihava;
     lihava.setBold(true);
+    bool ehtotulosta = true;    // Onko ?-ehto voimassa
 
     foreach (QString rivi, kaava)
     {
+        // ?Avain=Arvo tulostumisen ehto asetuksissa
+        if( rivi.startsWith('?'))
+        {
+            QRegularExpressionMatch emats = ehtoRe.match(rivi);
+            if( emats.hasMatch())
+            {
+                QString avain = emats.captured("avain");
+                QString ehtolause = emats.captured("arvo");
+
+                ehtotulosta =  kp()->asetukset()->asetus(avain).contains(QRegularExpression(ehtolause));
+            }
+            else
+                // Jos ?-alkava rivi ei kelpo, niin tulostaa joka tapauksessa
+                ehtotulosta = true;
+        }
+        if( !ehtotulosta)
+            continue;
+
         // Otsikkorivi
         if( rivi.startsWith("##"))
         {

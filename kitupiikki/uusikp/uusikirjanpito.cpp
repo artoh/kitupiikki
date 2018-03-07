@@ -52,6 +52,8 @@
 #include "db/tilikausimodel.h"
 #include "db/tositelajimodel.h"
 
+#include "skripti.h"
+
 #include <QDebug>
 
 UusiKirjanpito::UusiKirjanpito() :
@@ -330,6 +332,14 @@ bool UusiKirjanpito::alustaKirjanpito()
         query.exec();
     }
     // Prosessi valmis
+
+    // Yleisskripti
+    Skripti::suorita("LuontiSkripti");
+
+    // Muodon aktivoiva skripti
+    if( asetukset.onko("Muoto"))
+        Skripti::suorita("MuotoOn/" + asetukset.asetus("Muoto"));
+
     progDlg.setValue( prosessiluku );
 
     db.close();

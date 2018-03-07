@@ -131,7 +131,8 @@ SOURCES += main.cpp \
     maaritys/tuontimaarityswidget.cpp \
     tuonti/csvtuonti.cpp \
     tuonti/tuontisarakedelegaatti.cpp \
-    tuonti/tilimuuntomodel.cpp
+    tuonti/tilimuuntomodel.cpp \
+    uusikp/skripti.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -245,7 +246,8 @@ HEADERS += \
     maaritys/tuontimaarityswidget.h \
     tuonti/csvtuonti.h \
     tuonti/tuontisarakedelegaatti.h \
-    tuonti/tilimuuntomodel.h
+    tuonti/tilimuuntomodel.h \
+    uusikp/skripti.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

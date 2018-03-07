@@ -89,7 +89,7 @@ void TilinpaatosEditori::uusiTp()
     QRegularExpression raporttiRe("@(?<raportti>.+)[\\*!](?<otsikko>.+)@");
     
     QRegularExpression poisRe("-(?<pois>\\w+)");
-    poisRe.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);    
+    poisRe.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);
 
     QString teksti;
     raportit_.clear();

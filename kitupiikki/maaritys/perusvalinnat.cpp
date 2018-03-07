@@ -26,6 +26,7 @@
 #include "ui_perusvalinnat.h"
 
 #include "db/kirjanpito.h"
+#include "uusikp/skripti.h"
 
 
 Perusvalinnat::Perusvalinnat() :
@@ -44,6 +45,7 @@ Perusvalinnat::Perusvalinnat() :
     connect( ui->kotipaikkaEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
     connect( ui->puhelinEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
     connect( ui->paivitysCheck, SIGNAL(clicked(bool)), this, SLOT(ilmoitaMuokattu()));
+    connect( ui->muotoCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(ilmoitaMuokattu()));
 
 }
 
@@ -123,7 +125,7 @@ bool Perusvalinnat::onkoMuokattu()
             ui->kotipaikkaEdit->text() != kp()->asetukset()->asetus("Kotipaikka") ||
             ui->puhelinEdit->text() != kp()->asetukset()->asetus("Puhelin") ||
             ui->paivitysCheck->isChecked() != asetukset.value("NaytaPaivitykset",true).toBool() ||
-            ui->muotoCombo->currentText() != asetukset.value("Muoto");
+            ( ui->muotoCombo->currentText() != kp()->asetukset()->asetus("Muoto"));
 }
 
 bool Perusvalinnat::tallenna()
@@ -166,7 +168,11 @@ bool Perusvalinnat::tallenna()
                                               .arg( ui->muotoCombo->currentText()),
                                   QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) == QMessageBox::Yes)
         {
-            ;
+            // Suorittaa muodon vaihtoon liittyvät skriptit
+            Skripti::suorita("MuotoPois/" + kp()->asetukset()->asetus("Muoto") );
+            kp()->asetukset()->aseta("Muoto", ui->muotoCombo->currentText());
+            Skripti::suorita("MuotoOn/" + ui->muotoCombo->currentText());
+
         }
 
     }
