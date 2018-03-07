@@ -20,6 +20,7 @@
 #include <QImage>
 #include <QPixmap>
 #include <QSettings>
+#include <QMessageBox>
 
 #include "perusvalinnat.h"
 #include "ui_perusvalinnat.h"
@@ -61,6 +62,23 @@ bool Perusvalinnat::nollaa()
     ui->kotipaikkaEdit->setText( kp()->asetukset()->asetus("Kotipaikka"));
     ui->puhelinEdit->setText( kp()->asetus("Puhelin"));
 
+    // Haetaan muodot
+
+    QStringList muodot = kp()->asetukset()->avaimet("MuotoOn/");
+    if( muodot.count())
+    {
+        for(QString muoto : muodot)
+        {
+            ui->muotoCombo->addItem( muoto.mid(8));
+        }
+        ui->muotoCombo->setCurrentIndex( ui->muotoCombo->findText( kp()->asetukset()->asetus("Muoto") ));
+        ui->muotoLabel->setText( kp()->asetukset()->asetus("MuotoTeksti"));
+    }
+    else
+    {
+        ui->muotoLabel->hide();
+        ui->muotoCombo->hide();
+    }
 
     QSettings asetukset;
     ui->paivitysCheck->setChecked( asetukset.value("NaytaPaivitykset", true).toBool() );
@@ -104,7 +122,8 @@ bool Perusvalinnat::onkoMuokattu()
             ui->osoiteEdit->toPlainText() != kp()->asetukset()->asetus("Osoite") ||
             ui->kotipaikkaEdit->text() != kp()->asetukset()->asetus("Kotipaikka") ||
             ui->puhelinEdit->text() != kp()->asetukset()->asetus("Puhelin") ||
-            ui->paivitysCheck->isChecked() != asetukset.value("NaytaPaivitykset",true).toBool();
+            ui->paivitysCheck->isChecked() != asetukset.value("NaytaPaivitykset",true).toBool() ||
+            ui->muotoCombo->currentText() != asetukset.value("Muoto");
 }
 
 bool Perusvalinnat::tallenna()
@@ -138,7 +157,22 @@ bool Perusvalinnat::tallenna()
     }
     uusilogo = QImage();
 
-    emit kp()->onni("Asetukset tallennettu");
+    if( ui->muotoCombo->currentText() != kp()->asetukset()->asetus("Muoto"))
+    {
+        // Muodon vaihto pitää vielä varmistaa
+        if( QMessageBox::question(0, tr("Vahvista muutos"),
+                                  tr("Haluatko todella tehdä muutoksen\n"
+                                     "%1: %2").arg( kp()->asetukset()->asetus("MuotoTeksti") )
+                                              .arg( ui->muotoCombo->currentText()),
+                                  QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) == QMessageBox::Yes)
+        {
+            ;
+        }
+
+    }
+    else
+        emit kp()->onni("Asetukset tallennettu");
+
     emit kp()->perusAsetusMuuttui();     // Uusi lataus, koska nimi tai kuva saattoi vaihtua!
 
     return true;
