@@ -74,9 +74,9 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
 
     connect( ui->vastatiliEdit, SIGNAL(textChanged(QString)), this, SLOT(vastaTiliMuuttui()));
     connect( ui->alvCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(alvLajiMuuttui()));
-    connect( ui->euroSpin, SIGNAL(editingFinished()), this, SLOT(laskeNetto()));
-    connect( ui->nettoSpin, SIGNAL(editingFinished()), this, SLOT(laskeBrutto()));
-    connect( ui->alvSpin, SIGNAL(editingFinished()), this, SLOT(laskeVerolla()));
+    connect( ui->euroSpin, SIGNAL(valueChanged(double)), this, SLOT(laskeNetto(double)));
+    connect( ui->nettoSpin, SIGNAL(valueChanged(double)), this, SLOT(laskeBrutto(double)));
+    connect( ui->alvSpin, SIGNAL(valueChanged(int)), this, SLOT(laskeVerolla(int)));
     connect( ui->vaihdaNappi, SIGNAL(clicked(bool)), this, SLOT(ehdota()));
     connect(ui->seliteEdit, SIGNAL(editingFinished()), this, SLOT(ehdota()));
 
@@ -97,6 +97,7 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     ui->seliteEdit->setText( model->otsikko());
 
     ui->tiliEdit->valitseTiliNumerolla( model->tositelaji().json()->luku("Oletustili"));
+    tiliTaytetty();
 
     // Jos kirjataan tiliotteelle, niin tiliotetili lukitaan vastatiliksi
     if( model->tiliotetili())
@@ -199,25 +200,27 @@ void KirjausApuriDialog::tiliTaytetty()
     ehdota();
 }
 
-void KirjausApuriDialog::laskeBrutto()
+
+
+void KirjausApuriDialog::laskeBrutto(double netto)
 {
-    double netto = ui->nettoSpin->value();
-    if( netto )
+    if( netto && ui->nettoSpin->hasFocus())
     {
         nettoEur = ui->nettoSpin->value();
         bruttoEur = 0;
 
         ui->euroSpin->setValue( (100.0 + ui->alvSpin->value()) * netto / 100.0 );
+        ehdota();
     }
-    ehdota();
+
 }
 
-void KirjausApuriDialog::laskeVerolla()
+void KirjausApuriDialog::laskeVerolla(int vero )
 {
     if( nettoEur )
-        ui->euroSpin->setValue( (100.0 + ui->alvSpin->value() )* nettoEur / 100.0 );
+        ui->euroSpin->setValue( (100.0 + vero )* nettoEur / 100.0 );
     else if(bruttoEur)
-        ui->nettoSpin->setValue( (100.0 * bruttoEur ) /  (100.0 + ui->alvSpin->value())  );
+        ui->nettoSpin->setValue( (100.0 * vero ) /  (100.0 + ui->alvSpin->value())  );
     ehdota();
 }
 
@@ -574,4 +577,17 @@ void KirjausApuriDialog::laskeNetto()
          ui->nettoSpin->setValue( (100.0 * brutto) /  (100.0 + ui->alvSpin->value())  );
     }
     ehdota();
+}
+
+void KirjausApuriDialog::laskeNetto(double brutto)
+{
+    if( brutto && ui->euroSpin->hasFocus())
+    {
+        bruttoEur = ui->euroSpin->value();
+        nettoEur = 0;
+
+        ui->nettoSpin->setValue( (100.0 * brutto) /  (100.0 + ui->alvSpin->value())  );
+        ehdota();
+    }
+
 }

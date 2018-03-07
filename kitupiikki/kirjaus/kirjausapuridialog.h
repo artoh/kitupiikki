@@ -52,8 +52,9 @@ public:
 public slots:
     void tiliTaytetty();
     void laskeNetto();
-    void laskeBrutto();
-    void laskeVerolla();
+    void laskeNetto(double brutto);
+    void laskeBrutto(double netto);
+    void laskeVerolla(int vero);
     void alvLajiMuuttui();
     void vastaTiliMuuttui();
     void yhdistaminenMuuttui(bool yhdistetaanko);
