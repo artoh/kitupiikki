@@ -33,6 +33,7 @@
 
 #include <QDesktopServices>
 #include <QUrl>
+#include <QFile>
 
 #include "kitupiikkiikkuna.h"
 
@@ -82,7 +83,11 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     restoreGeometry( settings.value("geometry").toByteArray());
     // Ladataan viimeksi avoinna ollut kirjanpito
     if( settings.contains("viimeisin"))
-        Kirjanpito::db()->avaaTietokanta(settings.value("viimeisin").toString());
+    {
+        // #78 Varmistetaan, että kirjanpito edelleen olemassa (0.7 8.3.2018)
+        if( QFile::exists( settings.value("viimeisin").toString() ))
+            Kirjanpito::db()->avaaTietokanta(settings.value("viimeisin").toString());
+    }
 
     connect( selaussivu, SIGNAL(tositeValittu(int)), this, SLOT(naytaTosite(int)) );
     connect( aloitussivu, SIGNAL(selaus(int,Tilikausi)), this, SLOT(selaaTilia(int,Tilikausi)));
