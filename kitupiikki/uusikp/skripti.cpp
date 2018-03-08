@@ -28,8 +28,8 @@ Skripti::Skripti()
 
 void Skripti::suorita()
 {
-    QRegularExpression tiliRe("^(?<lipo>[+-])(?<mista>\\d+)(..(?<mihin>\\d+))?");
-    QRegularExpression asetusRe("^(?<avain>\\w+)(?<lipo>[+-]?)=(?<arvo>.*)");
+    QRegularExpression tiliRe("^(?<lipo>[-+*])?(?<mista>\\d+)(..(?<mihin>\\d+))?(\\s(?<avain>\\w+)=(?<arvo>.+))?");
+    QRegularExpression asetusRe("^(?<avain>\\w+)(?<lipo>[-+]?)=(?<arvo>.*)");
     asetusRe.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);
 
     for( QString rivi : skripti_)
@@ -62,10 +62,30 @@ void Skripti::suorita()
                        if( index.data(TiliModel::TilaRooli) == Tili::TILI_PIILOSSA )
                            kp()->tilit()->setData(index, Tili::TILI_KAYTOSSA, TiliModel::TilaRooli);
                    }
-                   else
+                   else if(tiliMats.captured("lipo") == "-")
                    {
                        if( index.data(TiliModel::TilaRooli) != Tili::TILI_PIILOSSA)
                            kp()->tilit()->setData(index, Tili::TILI_PIILOSSA, TiliModel::TilaRooli);
+                   }
+                   else if(tiliMats.captured("lipo") == "*")
+                   {
+                       if( index.data(TiliModel::TilaRooli) != Tili::TILI_SUOSIKKI)
+                           kp()->tilit()->setData(index, Tili::TILI_SUOSIKKI, TiliModel::TilaRooli);
+                   }
+
+                   QString avain = tiliMats.captured("avain");
+                   if( !avain.isEmpty() && index.data(TiliModel::OtsikkotasoRooli).toInt() == 0)
+                   {
+                       QString arvo = tiliMats.captured("arvo");
+                       if( avain == "T")
+                           kp()->tilit()->setData(index, arvo, TiliModel::TyyppiRooli );
+                       else
+                       {
+                            if( arvo.toInt())
+                                kp()->tilit()->jsonIndeksilla(i)->set(avain, arvo.toInt());
+                            else
+                                kp()->tilit()->jsonIndeksilla(i)->set(avain, arvo);
+                       }
                    }
 
                }

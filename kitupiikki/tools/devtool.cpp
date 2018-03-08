@@ -35,6 +35,8 @@ DevTool::DevTool(QWidget *parent) :
     connect( ui->suoritaNappi, &QPushButton::clicked,
              [this] { Skripti::suorita( ui->skriptiEdit->toPlainText().split('\n') ); });
 
+    connect( ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(tabMuuttui(int)));
+
     ui->avainLista->setCurrentRow(0);
 }
 
@@ -73,7 +75,6 @@ void DevTool::tallennaAsetus()
         ui->avainLista->addItem(avain);
         ui->avainLista->setCurrentRow( ui->avainLista->count() );
     }
-    connect( ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(tabMuuttui(int)));
 
 }
 
@@ -93,9 +94,9 @@ void DevTool::poistaAsetus()
 
 void DevTool::tabMuuttui(int tab)
 {
-    if( tab == 2)
+    if( tab == 1)
     {
-        ui->avainEdit->clear();
+        ui->avainLista->clear();
         ui->avainLista->addItems( kp()->asetukset()->avaimet() );
     }
 }
