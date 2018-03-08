@@ -13,9 +13,9 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0,0">
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0">
      <item>
       <layout class="QFormLayout" name="formLayout">
        <item row="0" column="0">
@@ -63,24 +63,33 @@
       </layout>
      </item>
      <item>
-      <widget class="QLabel" name="elinkeinoLabel">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="pixmap">
-        <pixmap resource="../pic/pic.qrc">:/pic/yrittaja.png</pixmap>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="muokkausNappi">
-       <property name="text">
-        <string>Muokkaa</string>
-       </property>
-       <property name="checkable">
-        <bool>true</bool>
-       </property>
-      </widget>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QPushButton" name="muokkausNappi">
+         <property name="text">
+          <string>Muokkaa</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../pic/pic.qrc">
+           <normaloff>:/pic/muokkaa.png</normaloff>:/pic/muokkaa.png</iconset>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="devtoolButton">
+         <property name="text">
+          <string>DevTool</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../pic/pic.qrc">
+           <normaloff>:/pic/dev.png</normaloff>:/pic/dev.png</iconset>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>

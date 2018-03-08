@@ -18,6 +18,7 @@
 #include "tilikarttaohje.h"
 #include "db/kirjanpito.h"
 #include "ui_tilikarttaohje.h"
+#include "tools/devtool.h"
 
 TilikarttaOhje::TilikarttaOhje() :
     ui(new Ui::TilikarttaOhje)
@@ -27,6 +28,8 @@ TilikarttaOhje::TilikarttaOhje() :
 
     connect( ui->muokkausNappi, SIGNAL(clicked(bool)),
              this, SIGNAL(tallennaKaytossa(bool)));
+    connect( ui->devtoolButton, SIGNAL(clicked(bool)),
+             this, SLOT(devtool()));
 
 }
 
@@ -37,7 +40,9 @@ bool TilikarttaOhje::nollaa()
     ui->pvmLabel->setText( kp()->asetukset()->pvm("TilikarttaPvm").toString(Qt::SystemLocaleShortDate) );
     ui->ohjeBrowser->setHtml( kp()->asetukset()->asetus("TilikarttaOhje"));
     ui->ohjeEditori->setText(kp()->asetukset()->asetus("TilikarttaOhje"));
-    ui->elinkeinoLabel->setVisible( kp()->asetukset()->onko("Elinkeinonharjoittaja"));
+
+    ui->muokkausNappi->setVisible( kp()->asetukset()->onko("NaytaEdistyneet") );
+    ui->devtoolButton->setVisible( kp()->asetukset()->onko("NaytaEdistyneet") && kp()->asetukset()->onko("Harjoitus"));
 
     return true;
 }
@@ -55,4 +60,12 @@ bool TilikarttaOhje::tallenna()
 bool TilikarttaOhje::onkoMuokattu()
 {
     return ui->muokkausNappi->isChecked() &&  ui->ohjeEditori->toHtml() != kp()->asetukset()->asetus("TilikarttaOhje");
+}
+
+void TilikarttaOhje::devtool()
+{
+    DevTool *tool = new DevTool();
+    tool->setAttribute(Qt::WA_DeleteOnClose);
+    tool->show();
+
 }

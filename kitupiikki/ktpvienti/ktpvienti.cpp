@@ -102,11 +102,6 @@ void KtpVienti::vieKtp()
         out << "[TilikarttaLuontiVersio]\n";
         out << qApp->applicationVersion() << "\n";
 
-        if( vienti.field("elinkeinonharjoittaja").toBool())
-        {
-            out << "[Elinkeinonharjoittaja]\nON\n";
-        }
-
         // TILIT
         // AP* 1911 {json} Suosikkitili
         // C- 3001 {json} Piilotettu tili

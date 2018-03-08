@@ -131,7 +131,8 @@ SOURCES += main.cpp \
     tuonti/csvtuonti.cpp \
     tuonti/tuontisarakedelegaatti.cpp \
     tuonti/tilimuuntomodel.cpp \
-    uusikp/skripti.cpp
+    uusikp/skripti.cpp \
+    tools/devtool.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -245,7 +246,8 @@ HEADERS += \
     tuonti/csvtuonti.h \
     tuonti/tuontisarakedelegaatti.h \
     tuonti/tilimuuntomodel.h \
-    uusikp/skripti.h
+    uusikp/skripti.h \
+    tools/devtool.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -313,7 +315,8 @@ FORMS += \
     raportti/laskuraportti.ui \
     maaritys/tuontimaaritys.ui \
     tuonti/csvtuontidlg.ui \
-    tuonti/tilimuuntodlg.ui
+    tuonti/tilimuuntodlg.ui \
+    tools/devtool.ui
 
 DISTFILES += \
     uusikp/luo.sql \

@@ -15,34 +15,35 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TILIKARTTAOHJE_H
-#define TILIKARTTAOHJE_H
+#ifndef DEVTOOL_H
+#define DEVTOOL_H
 
-#include "maarityswidget.h"
+
+#include <QDialog>
 
 namespace Ui {
-class TilikarttaOhje;
+class DevTool;
 }
 
 /**
- * @brief Näyttää tilikartan ohjeet
+ * @brief Kehittäjän työkaluja
  */
-class TilikarttaOhje : public MaaritysWidget
+class DevTool : public QDialog
 {
     Q_OBJECT
-public:
-    TilikarttaOhje();    
-    bool nollaa() override;
-    bool tallenna() override;
-    bool onkoMuokattu() override;
-    bool naytetaankoVienti() { return true; }
 
-public slots:
-    void devtool();
+public:
+    explicit DevTool(QWidget *parent = 0);
+    ~DevTool();
+
+protected slots:
+    void haeAsetus(const QString& asetus);
+    void tallennaAsetus();
+    void poistaAsetus();
+    void haeAvaimet();
 
 private:
-    Ui::TilikarttaOhje *ui;
-    bool muokattu;
+    Ui::DevTool *ui;
 };
 
-#endif // TILIKARTTAOHJE_H
+#endif // DEVTOOL_H

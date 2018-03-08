@@ -82,6 +82,7 @@
         <file>csv.png</file>
         <file>tietyo.png</file>
         <file>stop.png</file>
+        <file>dev.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
