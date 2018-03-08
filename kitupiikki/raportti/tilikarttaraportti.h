@@ -48,7 +48,7 @@ public:
     RaportinKirjoittaja raportti( bool csvmuoto );
 
     static RaportinKirjoittaja kirjoitaRaportti(KarttaValinta valinta, Tilikausi tilikaudelta,
-                             bool tulostatyypi, QDate saldopvm, bool kirjausohjeet);
+                             bool tulostatyypi, QDate saldopvm, bool kirjausohjeet, bool csv = false);
 
 protected slots:
     /**

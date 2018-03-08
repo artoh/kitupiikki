@@ -21,7 +21,7 @@
 
 
 TilikarttaRaportti::TilikarttaRaportti()
-    : Raportti(false)
+    : Raportti()
 {
     ui = new Ui::TilikarttaRaportti;
     ui->setupUi( raporttiWidget);
@@ -41,7 +41,7 @@ TilikarttaRaportti::~TilikarttaRaportti()
     delete ui;
 }
 
-RaportinKirjoittaja TilikarttaRaportti::raportti(bool /* csvmuoto */)
+RaportinKirjoittaja TilikarttaRaportti::raportti(bool csvmuoto)
 {
     Tilikausi kausi = kp()->tilikaudet()->tilikausiPaivalle( ui->tilikaudeltaCombo->currentData( TilikausiModel::PaattyyRooli ).toDate() );
 
@@ -57,11 +57,11 @@ RaportinKirjoittaja TilikarttaRaportti::raportti(bool /* csvmuoto */)
     if( ui->saldotCheck->isChecked())
         saldopaiva = ui->saldotDate->date();
 
-    return kirjoitaRaportti(valinta, kausi, ui->tilityypitCheck->isChecked(), saldopaiva, ui->kirjausohjeet->isChecked());
+    return kirjoitaRaportti(valinta, kausi, ui->tilityypitCheck->isChecked(), saldopaiva, ui->kirjausohjeet->isChecked(), csvmuoto);
 }
 
 RaportinKirjoittaja TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::KarttaValinta valinta, Tilikausi tilikaudelta, bool tulostatyyppi, QDate saldopvm,
-                                                         bool kirjausohjeet)
+                                                         bool kirjausohjeet, bool csv)
 {
     RaportinKirjoittaja rk;
     rk.asetaOtsikko("TILILUETTELO");
@@ -69,11 +69,19 @@ RaportinKirjoittaja TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::Kar
 
     RaporttiRivi otsikko;
 
-    rk.lisaaSarake("12345678"); // Ennnen tilinumeroa
+    if( !csv )
+        rk.lisaaSarake("12345678"); // Ennnen tilinumeroa
+
     rk.lisaaSarake("12345678"); // Tilinumero
     rk.lisaaVenyvaSarake();
 
-    otsikko.lisaa(" ",3);
+    if( csv )
+    {
+        otsikko.lisaa("Numero");
+        otsikko.lisaa("Nimi");
+    }
+    else
+        otsikko.lisaa(" ",3);
 
     if( tulostatyyppi )
     {
@@ -85,6 +93,12 @@ RaportinKirjoittaja TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::Kar
         rk.lisaaSarake("Saldo XX.XX.XXXX");
         otsikko.lisaa( tr("Saldo %1").arg(saldopvm.toString(Qt::SystemLocaleShortDate)));
     }
+    if( csv && kirjausohjeet)
+    {
+        rk.lisaaSarake(" ");
+        otsikko.lisaa("Kirjausohjeet");
+    }
+
     rk.lisaaOtsake( otsikko);
 
     // Tässä vaiheessa ei vielä välitetä kirjauksia-rajoitteesta
@@ -138,31 +152,59 @@ RaportinKirjoittaja TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::Kar
 
         if( tili.otsikkotaso() )
         {
-            QString nimistr;
-            for(int i=0; i < tili.otsikkotaso(); i++)
-                nimistr.append("  ");
-            nimistr.append(tili.nimi());
-            rr.lisaa(nimistr, 3);
+            if( csv )
+            {
+                rr.lisaa( QString::number(tili.numero()));
+                rr.lisaa( tili.nimi() );
+                if( tulostatyyppi )
+                    rr.lisaa( tr("Otsikko %1").arg(tili.otsikkotaso()));
+                if( saldopvm.isValid())
+                    rr.lisaa(" ");
+            }
+            else
+            {
+                QString nimistr;
+                for(int i=0; i < tili.otsikkotaso(); i++)
+                    nimistr.append("  ");
+                nimistr.append(tili.nimi());
+                rr.lisaa(nimistr, 3);
+            }
         }
         else
         {
-            rr.lisaa("");
+            if( !csv )
+                rr.lisaa("");
+
             rr.lisaaLinkilla(RaporttiRiviSarake::TILI_NRO, tili.numero(), QString::number(tili.numero()));
-            QString teksti = tili.nimi();
-            if( kirjausohjeet )
+
+            if( csv )
             {
-                if( !tili.json()->str("Taydentava").isEmpty())
-                    teksti.append("\n" + tili.json()->str("Taydentava"));
-                if( !tili.json()->str("Kirjausohje").isEmpty())
-                    teksti.append("\n" + tili.json()->str("Kirjausohje"));
+                rr.lisaa( tili.nimi());
+            }
+            else
+            {
+                QString teksti = tili.nimi();
+                if( kirjausohjeet )
+                {
+                    if( !tili.json()->str("Taydentava").isEmpty())
+                        teksti.append("\n" + tili.json()->str("Taydentava"));
+                    if( !tili.json()->str("Kirjausohje").isEmpty())
+                        teksti.append("\n" + tili.json()->str("Kirjausohje"));
+                }
+
+                rr.lisaaLinkilla(RaporttiRiviSarake::TILI_NRO, tili.numero(), teksti );
             }
 
-            rr.lisaaLinkilla(RaporttiRiviSarake::TILI_NRO, tili.numero(), teksti );
             if( tulostatyyppi)
                 rr.lisaa( kp()->tilit()->index(i, TiliModel::TYYPPI).data().toString());
             if( saldopvm.isValid())
                 rr.lisaa( tili.saldoPaivalle(saldopvm));
         }
+        if( csv && kirjausohjeet )
+        {
+            rr.lisaa( tili.json()->str("Kirjausohje"));
+        }
+
         rk.lisaaRivi(rr);
     }
 
