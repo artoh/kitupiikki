@@ -246,10 +246,12 @@ bool PaivitaKirjanpito::lataaPaivitys(const QString &tiedosto)
     if( kp()->tilit()->tallenna(true))
     {
         // Suoritetaan skriptit
-        Skripti::suorita( ktk.value("PaivitysSkripti") );
-        if( kp()->asetukset()->onko("Muoto"))
-            Skripti::suorita( ktk.value("MuotoPaivitys/" + kp()->asetukset()->asetus("Muoto")));
-
+        QString muoto = kp()->asetukset()->asetus("Muoto");
+        if( !muoto.isEmpty())
+          Skripti::suorita( ktk.value("MuotoPois/") + muoto );
+        Skripti::suorita( ktk.value("PaivitysSkripti"));
+        if( !muoto.isEmpty())
+          Skripti::suorita( ktk.value("MuotoOn/") + muoto);
 
         QMessageBox::information(0, tr("Kitupiikki"),tr("Tilikartta päivitetty") );
         return true;

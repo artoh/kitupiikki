@@ -79,6 +79,8 @@ void KtpVienti::vieKtp()
 
         // TIETOKENTÄT
 
+        out << "// Kitupiikin tilikartta \n";
+
         out << "[TilikarttaNimi]\n";
         out << vienti.field("nimi").toString() << "\n";
 
@@ -164,9 +166,13 @@ void KtpVienti::vieKtp()
                 << "LaskuMaksuaika" << "LaskuHuomautusaika"
                 << "ArkistoRaportit" << "VakioTilikartta" << "LaskuTili"
                 << "TuontiOstolaskuTili" << "TuontiOstolaskuTositelaji"
-                << "TuontiOstolaskuPeruste" << "TuontiTiliote";
+                << "TuontiOstolaskuPeruste" << "TuontiTiliote"
+                << "MuotoTeksti"
+                << "LuontiSkripti" << "PaivitysSkripti";
 
         avaimet << kp()->asetukset()->avaimet("Raportti/");
+        avaimet << kp()->asetukset()->avaimet("MuotoOn/");
+        avaimet << kp()->asetukset()->avaimet("MuotoPois/");
 
 
         foreach (QString avain, avaimet)
