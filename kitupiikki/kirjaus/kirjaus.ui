@@ -333,29 +333,16 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="lukkoLabel">
+      <widget class="QLabel" name="varoKuva">
        <property name="text">
         <string/>
-       </property>
-       <property name="pixmap">
-        <pixmap resource="../pic/pic.qrc">:/pic/lukittu.png</pixmap>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="veroVaro">
+      <widget class="QLabel" name="varoTeksti">
        <property name="text">
         <string/>
-       </property>
-       <property name="pixmap">
-        <pixmap resource="../pic/pic.qrc">:/pic/vero.png</pixmap>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="varoLabel">
-       <property name="text">
-        <string> </string>
        </property>
       </widget>
      </item>

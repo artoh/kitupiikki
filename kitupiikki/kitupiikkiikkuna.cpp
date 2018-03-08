@@ -84,10 +84,17 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     // Ladataan viimeksi avoinna ollut kirjanpito
     if( settings.contains("viimeisin"))
     {
+        QString viimeisin = settings.value("viimeisin").toString();
         // #78 Varmistetaan, että kirjanpito edelleen olemassa (0.7 8.3.2018)
-        if( QFile::exists( settings.value("viimeisin").toString() ))
-            Kirjanpito::db()->avaaTietokanta(settings.value("viimeisin").toString());
+        if( QFile::exists( viimeisin ) )
+            Kirjanpito::db()->avaaTietokanta(viimeisin);
+        else
+            aloitussivu->kirjanpitoVaihtui();
     }
+    else
+        aloitussivu->kirjanpitoVaihtui();
+
+
 
     connect( selaussivu, SIGNAL(tositeValittu(int)), this, SLOT(naytaTosite(int)) );
     connect( aloitussivu, SIGNAL(selaus(int,Tilikausi)), this, SLOT(selaaTilia(int,Tilikausi)));
@@ -95,6 +102,8 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 
     connect( kp(), SIGNAL(onni(QString)), this, SLOT(naytaOnni(QString)));
     connect( aloitussivu, SIGNAL(ktpkasky(QString)), this, SLOT(ktpKasky(QString)));
+
+
 }
 
 KitupiikkiIkkuna::~KitupiikkiIkkuna()

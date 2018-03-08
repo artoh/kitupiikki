@@ -416,19 +416,6 @@ void KirjausWg::tiedotModeliin()
 
 void KirjausWg::tiedotModelista()
 {
-    if( kp()->asetukset()->onko("AlvVelvollinen") && model_->pvm() <= kp()->asetukset()->pvm("AlvIlmoitettu") )
-    {
-        ui->veroVaro->show();
-        ui->varoLabel->show();
-        ui->varoLabel->setText( tr("Alv-ilmoitus annettu\n%1 saakka").arg(kp()->asetukset()->pvm("AlvIlmoitettu").toString(Qt::SystemLocaleShortDate)));
-    }
-    else
-    {
-        ui->veroVaro->hide();
-        ui->varoLabel->show();
-    }
-
-
     salliMuokkaus( model_->muokkausSallittu() );
 
     ui->tositePvmEdit->setDate( model_->pvm() );
@@ -446,6 +433,27 @@ void KirjausWg::tiedotModelista()
         ui->tiliotealkaenEdit->setDate( model_->json()->date("TilioteAlkaa") );
         ui->tilioteloppuenEdit->setDate( model_->json()->date("TilioteLoppuu"));
     }
+
+    // Yhdistetty varoitusten näyttäjä
+    ui->varoKuva->setPixmap(QPixmap());
+    ui->varoTeksti->clear();
+
+    if( kp()->tilitpaatetty() >= kp()->tilikaudet()->kirjanpitoLoppuu() )
+    {
+        ui->varoKuva->setPixmap(QPixmap(":/pic/stop.png"));
+        ui->varoTeksti->setText( tr("Kirjanpidossa ei ole\navointa tilikautta."));
+    }
+    else if( kp()->tilitpaatetty() >= model_->pvm() )
+    {
+        ui->varoKuva->setPixmap( QPixmap(":/pic/lukittu.png"));
+        ui->varoTeksti->setText( tr("Kirjanpito lukittu\n%1 saakka").arg(kp()->tilitpaatetty().toString(Qt::SystemLocaleShortDate)));
+    }
+    else if( kp()->asetukset()->onko("AlvVelvollinen") && model_->pvm() <= kp()->asetukset()->pvm("AlvIlmoitettu") )
+    {
+        ui->varoTeksti->setText( tr("Alv-ilmoitus annettu\n%1 saakka").arg(kp()->asetukset()->pvm("AlvIlmoitettu").toString(Qt::SystemLocaleShortDate)));
+        ui->varoKuva->setPixmap( QPixmap(":/pic/vero.png"));
+    }
+
 }
 
 void KirjausWg::salliMuokkaus(bool sallitaanko)
@@ -457,14 +465,6 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
     ui->tallennaButton->setEnabled(sallitaanko);
     ui->poistaNappi->setEnabled(sallitaanko);
     ui->otsikkoEdit->setEnabled(sallitaanko);
-
-    ui->lukkoLabel->setVisible(!sallitaanko);
-    if( !sallitaanko )
-    {
-        ui->varoLabel->show();
-        ui->varoLabel->setText( tr("Kirjanpito lukittu\n%1 saakka").arg(kp()->tilitpaatetty().toString(Qt::SystemLocaleShortDate)));
-    }
-
     ui->lisaaliiteNappi->setEnabled(sallitaanko);
     ui->poistaLiiteNappi->setEnabled(sallitaanko);
 
@@ -472,7 +472,7 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
     if(sallitaanko)
         ui->tositePvmEdit->setDateRange(Kirjanpito::db()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );
     else
-        ui->tositePvmEdit->setDateRange( Kirjanpito::db()->tilikaudet()->kirjanpitoAlkaa() , Kirjanpito::db()->tilikaudet()->kirjanpitoLoppuu() );
+        ui->tositePvmEdit->setDateRange( Kirjanpito::db()->tilikaudet()->kirjanpitoAlkaa(), Kirjanpito::db()->tilikaudet()->kirjanpitoLoppuu() );
 
 
 }

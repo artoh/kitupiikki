@@ -81,6 +81,7 @@
         <file>yrittaja.png</file>
         <file>csv.png</file>
         <file>tietyo.png</file>
+        <file>stop.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
