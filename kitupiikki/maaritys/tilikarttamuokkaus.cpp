@@ -58,7 +58,7 @@ TilikarttaMuokkaus::TilikarttaMuokkaus(QWidget *parent)
     connect( ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poista()));
 
     connect( ui->view, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(muokkaa()));
-
+    connect( ui->suodataEdit, SIGNAL(textChanged(QString)), this, SLOT(suodata(QString)));
 
 }
 
@@ -151,5 +151,14 @@ void TilikarttaMuokkaus::poista()
     if( ui->view->currentIndex().isValid())
         model->poistaRivi(  proxy->mapToSource(ui->view->currentIndex()).row());
     emit tallennaKaytossa( onkoMuokattu() );
+}
+
+void TilikarttaMuokkaus::suodata(const QString &teksti)
+{
+    if( teksti.toInt())
+        proxy->setFilterKeyColumn(TiliModel::NUMERO);
+    else
+        proxy->setFilterKeyColumn(TiliModel::NIMI);
+    proxy->setFilterFixedString(teksti);
 }
 

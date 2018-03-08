@@ -50,6 +50,8 @@ public slots:
     void uusi();
     void poista();
 
+    void suodata(const QString& teksti);
+
 protected:
     Ui::Tilikartta *ui;
     TiliModel *model;

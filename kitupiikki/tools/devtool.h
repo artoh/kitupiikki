@@ -40,7 +40,7 @@ protected slots:
     void haeAsetus(const QString& asetus);
     void tallennaAsetus();
     void poistaAsetus();
-    void haeAvaimet();
+    void tabMuuttui(int tab);
 
 private:
     Ui::DevTool *ui;
