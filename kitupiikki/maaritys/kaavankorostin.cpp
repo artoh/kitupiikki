@@ -42,6 +42,10 @@ void KaavanKorostin::highlightBlock(const QString &text)
     {
         setFormat(0, text.length(), QColor(Qt::magenta));
     }
+    else if( text.startsWith("?"))
+    {
+        setFormat(0, text.length(), QColor(Qt::darkCyan));
+    }
     else if( text.startsWith("@"))
     {
         if( text == "@sha@" || text == "@henkilosto@")
