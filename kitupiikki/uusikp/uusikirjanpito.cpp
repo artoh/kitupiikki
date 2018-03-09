@@ -190,8 +190,22 @@ bool UusiKirjanpito::alustaKirjanpito()
 
     progDlg.setValue( progDlg.value() + 1 );
 
-
     AsetusModel asetukset(&db, 0, true);
+
+    // Siirretään asetustauluun tilikartan tiedot
+    // jotka alkavat [Isolla kirjaimella]
+    QMapIterator<QString,QStringList> i(kartta);
+    while( i.hasNext())
+    {
+        i.next();
+        if( !i.key().isEmpty() && i.key().at(0).isUpper() )
+        {
+            asetukset.aseta( i.key() , i.value());
+        }
+    }
+
+    progDlg.setValue( progDlg.value() + 1 );
+
 
     // Kirjataan tietokannan perustietoja
 
@@ -209,19 +223,7 @@ bool UusiKirjanpito::alustaKirjanpito()
 
     progDlg.setValue( progDlg.value() + 1 );
 
-    // Siirretään asetustauluun tilikartan tiedot
-    // jotka alkavat [Isolla kirjaimella]
-    QMapIterator<QString,QStringList> i(kartta);
-    while( i.hasNext())
-    {
-        i.next();
-        if( !i.key().isEmpty() && i.key().at(0).isUpper() )
-        {
-            asetukset.aseta( i.key() , i.value());
-        }
-    }
 
-    progDlg.setValue( progDlg.value() + 1 );
 
     // Tilien ja otsikkojen kirjoittaminen
     TiliModel tilit(&db);
