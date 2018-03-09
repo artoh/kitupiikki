@@ -63,7 +63,7 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu("Tilinpäätöksen malli", LIITETIETOKAAVA, QIcon(":/pic/tekstisivu.png"));
     lisaaSivu("Tilikartan ohje", TILIKARTTAOHJE, QIcon(":/pic/ohje.png"));
 
-    connect( lista, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(valitseSivu(QListWidgetItem*)));
+    connect( lista, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), this, SLOT(valitseSivu(QListWidgetItem*)));
 
     QHBoxLayout *leiska = new QHBoxLayout;
     leiska->addWidget(lista,0);

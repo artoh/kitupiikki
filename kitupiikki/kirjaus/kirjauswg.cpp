@@ -482,9 +482,9 @@ void KirjausWg::tiedotModelista()
         ui->varoKuva->setPixmap( QPixmap(":/pic/lukittu.png"));
         ui->varoTeksti->setText( tr("Kirjanpito lukittu\n%1 saakka").arg(kp()->tilitpaatetty().toString(Qt::SystemLocaleShortDate)));
     }
-    else if( kp()->asetukset()->onko("AlvVelvollinen") && model_->pvm() <= kp()->asetukset()->pvm("AlvIlmoitettu") )
+    else if( kp()->asetukset()->onko("AlvVelvollinen") && model_->pvm() <= kp()->asetukset()->pvm("AlvIlmoitus") )
     {
-        ui->varoTeksti->setText( tr("Alv-ilmoitus annettu\n%1 saakka").arg(kp()->asetukset()->pvm("AlvIlmoitettu").toString(Qt::SystemLocaleShortDate)));
+        ui->varoTeksti->setText( tr("Alv-ilmoitus annettu\n%1 saakka").arg(kp()->asetukset()->pvm("AlvIlmoitus").toString(Qt::SystemLocaleShortDate)));
         ui->varoKuva->setPixmap( QPixmap(":/pic/vero.png"));
     }
 
