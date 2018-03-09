@@ -51,6 +51,11 @@ public slots:
     void poista();
 
     void suodata(const QString& teksti);
+    /**
+     * @brief Siirtyy tiliin nimellä tai numerolla
+     * @param minne
+     */
+    void siirry(const QString& minne);
 
 protected:
     Ui::Tilikartta *ui;

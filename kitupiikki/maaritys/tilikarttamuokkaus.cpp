@@ -18,6 +18,7 @@
 #include <QSignalMapper>
 
 #include <QDebug>
+#include <QScrollBar>
 
 #include "tilikarttamuokkaus.h"
 #include "db/kirjanpito.h"
@@ -59,6 +60,7 @@ TilikarttaMuokkaus::TilikarttaMuokkaus(QWidget *parent)
 
     connect( ui->view, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(muokkaa()));
     connect( ui->suodataEdit, SIGNAL(textChanged(QString)), this, SLOT(suodata(QString)));
+    connect(ui->siirryEdit, SIGNAL(textChanged(QString)),this, SLOT(siirry(QString)));
 
 }
 
@@ -160,5 +162,26 @@ void TilikarttaMuokkaus::suodata(const QString &teksti)
     else
         proxy->setFilterKeyColumn(TiliModel::NIMI);
     proxy->setFilterFixedString(teksti);
+}
+
+void TilikarttaMuokkaus::siirry(const QString &minne)
+{
+    if( !minne.isEmpty())
+    {
+        for(int i=0; i < ui->view->model()->rowCount(QModelIndex()); i++)
+        {
+            QModelIndex index = ui->view->model()->index(i,0);
+
+            if( QString::number(index.data(TiliModel::NroRooli).toInt()).startsWith(minne) ||
+                index.data(TiliModel::NimiRooli).toString().startsWith(minne))
+            {
+                // Valitsee tämän rivin
+                ui->view->setCurrentIndex(index);
+                // Ja scrollaa rivin näkyviin
+                ui->view->verticalScrollBar()->setSliderPosition(i);
+                return;
+            }
+        }
+    }
 }
 
