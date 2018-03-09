@@ -172,7 +172,7 @@ bool Perusvalinnat::tallenna()
             Skripti::suorita("MuotoPois/" + kp()->asetukset()->asetus("Muoto") );
             kp()->asetukset()->aseta("Muoto", ui->muotoCombo->currentText());
             Skripti::suorita("MuotoOn/" + ui->muotoCombo->currentText());
-
+            nollaa();
         }
 
     }
