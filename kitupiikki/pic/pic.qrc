@@ -81,6 +81,20 @@
         <file>yrittaja.png</file>
         <file>csv.png</file>
         <file>tietyo.png</file>
+        <file>edit-copy.png</file>
+        <file>edit-cut.png</file>
+        <file>edit-link.png</file>
+        <file>edit-paste.png</file>
+        <file>edit-redo.png</file>
+        <file>edit-undo.png</file>
+        <file>format-indent-less.png</file>
+        <file>format-indent-more.png</file>
+        <file>format-underline.png</file>
+        <file>format-italic.png</file>
+        <file>format-list-ordered.png</file>
+        <file>format-list-unordered.png</file>
+        <file>format-text-strikethrough.png</file>
+        <file>insert-image.png</file>
         <file>stop.png</file>
         <file>dev.png</file>
     </qresource>

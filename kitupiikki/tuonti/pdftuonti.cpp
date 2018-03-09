@@ -414,6 +414,7 @@ void PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false)
                 if( vuosi < 100)
                     vuosi += QDate::currentDate().year() / 100 * 100;
                 kirjauspvm = QDate( vuosi, mats.captured("k").toInt(), mats.captured("p").toInt());
+                continue;
             }
 
             // Saraketietona oleva kirjauspäivä
@@ -428,9 +429,13 @@ void PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false)
 
             // Arkistointitunnuksen oltava oikeassa sarakkeessa
             if( sarake > arkistosarake - 3 && sarake < arkistosarake + 5 && riviArkistotunnus.isEmpty() &&
-                teksti.contains(arkistoRe))
+                teksti.contains(arkistoRe) && teksti.count(QRegularExpression("\\d")) > 4)
             {
                 QRegularExpressionMatch mats = arkistoRe.match(teksti);
+                QString tunnari = mats.captured();
+                if( !tunnari.contains("KIRJAUSPÄIVÄ", Qt::CaseInsensitive) &&
+                    !tunnari.contains("yhteen", Qt::CaseInsensitive))
+
                 riviArkistotunnus = mats.captured();
             }
             else if( teksti.contains(viiteRe) && riviViite.isEmpty())
