@@ -22,7 +22,7 @@ elinkeinonharjoittaja.kpk
 [Elinkeinonharjoittaja]
 ON
 [KpVersio]
-1
+2
 [tilit]
 H1 1 {} VASTAAVAA
 H2 10 {"Asti":147} Pysyvät vastaavat

@@ -67,7 +67,7 @@ void Skripti::suorita()
                    if( tiliMats.captured("lipo") == "+")
                    {
                        if( index.data(TiliModel::TilaRooli) == Tili::TILI_PIILOSSA )
-                           kp()->tilit()->setData(index, Tili::TILI_KAYTOSSA, TiliModel::TilaRooli);
+                           kp()->tilit()->setData(index, Tili::TILI_KAYTOSSA, TiliModel::TilaRooli);                       
                    }
                    else if(tiliMats.captured("lipo") == "-")
                    {
