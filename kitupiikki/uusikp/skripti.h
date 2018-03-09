@@ -20,6 +20,9 @@
 
 #include <QStringList>
 
+class AsetusModel;
+class TiliModel;
+
 /**
  * @brief Suorittaa monimuotoisuuteen liittyvän Kitupiikin skriptin
  *
@@ -45,12 +48,16 @@ class Skripti
 {
 protected:
     Skripti();
+    Skripti(AsetusModel* asetusModel, TiliModel* tiliModel);
     void suorita();
 
     QStringList skripti_;
+    AsetusModel *asetusModel_;
+    TiliModel* tiliModel_;
 
 public:
     static void suorita(const QString& skriptinnimi);
+    static void suorita(const QStringList &skripti, AsetusModel* asetusModel, TiliModel* tiliModel);
     static void suorita(const QStringList& skripti);
 };
 

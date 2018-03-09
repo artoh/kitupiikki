@@ -21,7 +21,14 @@
 #include "skripti.h"
 
 
-Skripti::Skripti()
+Skripti::Skripti() :
+    asetusModel_( kp()->asetukset() ), tiliModel_( kp()->tilit() )
+{
+
+}
+
+Skripti::Skripti(AsetusModel *asetusModel, TiliModel *tiliModel) :
+    asetusModel_(asetusModel), tiliModel_(tiliModel)
 {
 
 }
@@ -129,6 +136,13 @@ void Skripti::suorita(const QString &skriptinnimi)
     Skripti skripti;
     skripti.skripti_ = kp()->asetukset()->lista( skriptinnimi );
     skripti.suorita();
+}
+
+void Skripti::suorita(const QStringList &skripti, AsetusModel *asetusModel, TiliModel *tiliModel)
+{
+    Skripti omaSkripti(asetusModel, tiliModel);
+    omaSkripti.skripti_ = skripti;
+    omaSkripti.suorita();
 }
 
 void Skripti::suorita(const QStringList &skripti)

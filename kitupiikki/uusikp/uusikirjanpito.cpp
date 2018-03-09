@@ -334,11 +334,11 @@ bool UusiKirjanpito::alustaKirjanpito()
     // Prosessi valmis
 
     // Yleisskripti
-    Skripti::suorita("LuontiSkripti");
+    Skripti::suorita( asetukset.lista("LuontiSkripti"), &asetukset, &tilit);
 
     // Muodon aktivoiva skripti
     if( asetukset.onko("Muoto"))
-        Skripti::suorita("MuotoOn/" + asetukset.asetus("Muoto"));
+        Skripti::suorita( asetukset.lista("MuotoOn/" + asetukset.asetus("Muoto")), &asetukset, &tilit);
 
     progDlg.setValue( prosessiluku );
 
