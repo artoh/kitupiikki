@@ -486,7 +486,7 @@ ON
 [ArkistoRaportit]
 Tase
 Tuloslaskelma
-Tuloslaskelma
+Kohdennukset
 [VakioTilikartta]
 osakeyhtio.kpk
 [Raportti/Tase PMA]
@@ -687,5 +687,8 @@ Muut velat		298 s8 *
 Siirtovelat  		299 s8 *
 
 Vastattavaa yhteensä		2 bold
-
+[Raportti/Kohdennukset]
+Tulot 	3..9+ *4
+Menot	3..9- *4
+Tulos	3..9 viiva
 

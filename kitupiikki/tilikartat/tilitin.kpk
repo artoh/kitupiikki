@@ -1306,8 +1306,8 @@ tilintarkastus
 8 vrk
 [ArkistoRaportit]
 Tase
-Toiminnanalat
 Tuloslaskelma
+Kohdennukset
 [VakioTilikartta]
 tilitin.kpk
 [TuontiOstolaskuTili]
@@ -1595,6 +1595,10 @@ Tuloverot		99..996 *
 Muut välittömät verot		998..999 s4 *
 
 Tilikauden voitto / tappio		0 bold
+[Raportti/Kohdennukset]
+Tulot 	3..9+ *4
+Menot	3..9- *4
+Tulos	3..9 viiva
 [MuotoTeksti]
 Yritysmuoto
 [MuotoOn/Julkinen osakeyhtiö]
