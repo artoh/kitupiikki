@@ -318,7 +318,7 @@ D 6030 {} Vaihtuvien vastaavien poikkeukselliset arvonalentumiset
 D 6034 {} Varaston arvonalennus
 H2- 7 {} Varainhankinta
 H3- 70 {} Liiketoiminta
-H3- 703 {} Liiketoiminnan tulot
+H4- 703 {} Liiketoiminnan tulot
 C- 7030 {"AlvLaji":11,"AlvProsentti":24} Liiketoiminnan tulot
 H4- 704 {} Liiketoiminnan kulut
 D- 7040 {"AlvLaji":21,"AlvProsentti":24} Liiketoiminnan ostot
@@ -751,10 +751,10 @@ Siirtovelat  		299 s8 *
 
 Vastattavaa yhteensä		2 bold
 [MuotoOn/On liiketoimintaa]
-+70
++70/3
 +1167
 AlvVelvollinen=ON
 [MuotoPois/On liiketoimintaa]
 -1167
--70
+-70/3
 AlvVelvollinen=EI

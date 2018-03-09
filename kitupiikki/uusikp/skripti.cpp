@@ -35,7 +35,7 @@ Skripti::Skripti(AsetusModel *asetusModel, TiliModel *tiliModel) :
 
 void Skripti::suorita()
 {
-    QRegularExpression tiliRe("^(?<lipo>[-+*])?(?<mista>\\d+)(..(?<mihin>\\d+))?(\\s(?<avain>\\w+)=(?<arvo>.+))?");
+    QRegularExpression tiliRe("^(?<lipo>[-+*])?(?<mista>\\d+)(/(?<taso>\\d+))?(..(?<mihin>\\d+))?(\\s(?<avain>\\w+)=(?<arvo>.+))?");
     QRegularExpression asetusRe("^(?<avain>\\w+)(?<lipo>[-+]?)=(?<arvo>.*)");
     asetusRe.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);
 
@@ -49,6 +49,8 @@ void Skripti::suorita()
            int mihin = tiliMats.captured("mihin").toInt();
 
            int mistaYsi = Tili::ysiluku(mista, false);
+           if( tiliMats.captured("taso").toInt())
+               mistaYsi += tiliMats.captured("taso").toInt()-1;
            int mihinYsi = 0;
 
            if( mihin)
