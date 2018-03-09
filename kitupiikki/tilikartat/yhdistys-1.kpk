@@ -233,7 +233,7 @@ D 4200 {} Vuokrat ja käyttömaksut, varsinainen toiminta
 H4 43 {} Jäsenmaksut
 D 4310 {} Maksetut jäsenmaksut
 H4 44 {} Toimitilakulut
-D 4401 {} Toimitilavuokrat;4
+D 4401 {} Toimitilavuokrat
 D 4411 {} Sähkö
 D 4413 {} Lämmitys
 D 4415 {} Vesi ja jätevesi

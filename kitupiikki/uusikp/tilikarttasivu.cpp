@@ -61,7 +61,6 @@ void TilikarttaSivu::lataaSisaisetKartat()
     {
         karttalista << it.next();
     }
-    karttalista.sort();
 
     for(QString polku : karttalista)
     {
@@ -70,6 +69,8 @@ void TilikarttaSivu::lataaSisaisetKartat()
         QListWidgetItem *item = new QListWidgetItem(nimi, ui->tilikarttaList);
         item->setData(Qt::UserRole, polku);
     }
+
+    ui->tilikarttaList->sortItems();
 
 }
 

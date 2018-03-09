@@ -1,11 +1,8 @@
 <RCC>
     <qresource prefix="/tilikartat">
-        <file>yhdistys.kpk</file>
-        <file>osakeyhtio.kpk</file>
-        <file>elinkeinonharjoittaja.kpk</file>
-        <file>henkiloyhtio.kpk</file>
         <file>kiinteisto.kpk</file>
-        <file>osuuskunta.kpk</file>
         <file>tilitin.kpk</file>
+        <file>yritys.kpk</file>
+        <file>yhdistys-1.kpk</file>
     </qresource>
 </RCC>
