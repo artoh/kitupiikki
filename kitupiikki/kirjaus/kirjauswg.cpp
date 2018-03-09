@@ -85,6 +85,7 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( ui->tunnisteEdit, SIGNAL(textEdited(QString)), this, SLOT(paivitaTunnisteVari()));
     connect( ui->otsikkoEdit, SIGNAL(textEdited(QString)), model_, SLOT(asetaOtsikko(QString)));
     connect( ui->viennitView, SIGNAL(activated(QModelIndex)), this, SLOT( vientivwAktivoitu(QModelIndex)));
+    connect( ui->viennitView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(vientiValittu()));
 
 
     // Tiliotteen tilivalintaan hyväksytään vain rahoitustilit
@@ -103,6 +104,11 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( ui->lisaaliiteNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaLiite()));
     connect( ui->avaaNappi, SIGNAL(clicked(bool)), this, SLOT(naytaLiite()));
     connect( ui->poistaLiiteNappi, SIGNAL(clicked(bool)), this, SLOT(poistaLiite()));
+
+    // Enterillä päiväyksestä eteenpäin
+    ui->tositePvmEdit->installEventFilter(this);
+    ui->otsikkoEdit->installEventFilter(this);
+    ui->tositetyyppiCombo->installEventFilter(this);
 }
 
 KirjausWg::~KirjausWg()
@@ -252,6 +258,13 @@ void KirjausWg::poistaTosite()
     }
 }
 
+void KirjausWg::vientiValittu()
+{
+    QModelIndex index = ui->viennitView->selectionModel()->currentIndex();
+    QDate vientiPvm = index.data(VientiModel::PvmRooli).toDate();
+    ui->poistariviNappi->setEnabled( index.isValid() && vientiPvm > kp()->tilitpaatetty());
+}
+
 void KirjausWg::vientivwAktivoitu(QModelIndex indeksi)
 {
     // Tehdään alv-kirjaus
@@ -289,6 +302,27 @@ int KirjausWg::tiliotetiliId()
     if( !ui->tilioteBox->isChecked())
         return 0;
     return ui->tiliotetiliCombo->currentData(TiliModel::IdRooli).toInt();
+}
+
+bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
+{
+    if( watched == ui->tositePvmEdit || watched == ui->otsikkoEdit || watched == ui->tositetyyppiCombo)
+    {
+        if( event->type() == QEvent::KeyPress)
+        {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+            if( keyEvent->key() == Qt::Key_Enter ||
+                keyEvent->key() == Qt::Key_Return)
+            {
+                if( watched == ui->tositetyyppiCombo)
+                    kirjausApuri();
+                else
+                    focusNextChild();
+                return true;
+            }
+        }
+    }
+    return QWidget::eventFilter(watched, event);
 }
 
 void KirjausWg::naytaSummat()

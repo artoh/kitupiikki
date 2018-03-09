@@ -112,6 +112,9 @@
          </item>
          <item>
           <widget class="QPushButton" name="poistariviNappi">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string>Poista &amp;rivi</string>
            </property>

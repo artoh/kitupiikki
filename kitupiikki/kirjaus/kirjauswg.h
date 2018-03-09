@@ -57,6 +57,7 @@ public slots:
     void tallenna();
     void hylkaa();
     void poistaTosite();
+    void vientiValittu();
 
 
     /**
@@ -125,7 +126,7 @@ public slots:
      * @brief Näyttää laskun maksun valintadialogin ja kirjaa maksun
      */
     void kirjaaLaskunmaksu();
-
+public:
     /**
      * @brief Jos kirjataan tiliotetta, tiliotetilin id
      *
@@ -145,6 +146,15 @@ signals:
      * Jos ollaan tultu selauksesta, palataan selaukseen
      */
     void tositeKasitelty();
+
+protected:
+    /**
+     * @brief Pvm-kentästä eteenpäin enterillä
+     * @param watched
+     * @param event
+     * @return
+     */
+    bool eventFilter(QObject *watched, QEvent *event);
 
 
 protected:
