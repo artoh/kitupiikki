@@ -541,19 +541,19 @@ Tuloslaskelma
 :tulos
 
 Varsinainen toiminta	bold
-Tuotot	32..36 S *
+Tuotot	3 S *
 Kulut
 Henkilöstökulut	5 s4 *
 Poistot	6 s4 *
-Muut kulut	42..46 s4 *
-Kulut yhteensä	5,6,42..46 == S4 
+Muut kulut	4 s4 *
+Kulut yhteensä	3..6 == S4 
 
 Tuotto/Kulujäämä	=
 
 Varainhankinta	bold
-Tuotot	31 S4 *
-Kulut	41 S4 *
-Varainhankinta yhteensä	31,41 == S4 
+Tuotot	703,73 S4 *
+Kulut	704..709,74..79 S4 *
+Varainhankinta yhteensä	7 == S4 
 
 Tuotto/Kulujäämä	= 
 
@@ -736,3 +736,13 @@ Lyhytaikainen vieras pääoma		29 s4
 
 Vastattavaa yhteensä		2 bold
 
+[MuotoTeksti]
+Onko yhdistyksellä liiketoimintaa
+[MuotoOn/Ei liiketoimintaa]
+[MuotoPois/Ei liiketoimintaa]
+[MuotoOn/On liiketoimintaa]
++70
+AlvVelvollinen=ON
+[MuotoPois/On liiketoimintaa]
+-70
+AlvVelvollinen=EI
