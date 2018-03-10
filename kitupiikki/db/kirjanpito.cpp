@@ -47,6 +47,7 @@ Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
     tiliTyypit_ = new TilityyppiModel(this);
     tuotteet_ = new TuoteModel(this);
     printer_ = new QPrinter(QPrinter::HighResolution);
+    printer_->setPaperSize(QPrinter::A4);
 }
 
 Kirjanpito::~Kirjanpito()

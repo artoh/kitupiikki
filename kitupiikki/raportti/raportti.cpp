@@ -40,6 +40,8 @@
 #include <QApplication>
 #include <QClipboard>
 
+#include <QPrinterInfo>
+
 #include "raportti.h"
 #include "db/kirjanpito.h"
 
@@ -110,8 +112,10 @@ void Raportti::esikatsele()
 {
     QString tiedosto =  kp()->tilapainen( QString("raportti-%1.pdf").arg(Kirjanpito::satujono(8)) );
 
-    QPrinter tulostin(QPrinter::HighResolution);
-    tulostin.setPageSize(QPrinter::A4);
+    // #88: Käytetään pdf:n luomisessakin tulostusasetuksia, jotta saadaan vaakaan taikka isompaan
+    // paperikokoon
+    QPrinterInfo info( *kp()->printer());
+    QPrinter tulostin(info, QPrinter::HighResolution);
 
     tulostin.setOutputFileName( tiedosto );
     QPainter painter( &tulostin );
