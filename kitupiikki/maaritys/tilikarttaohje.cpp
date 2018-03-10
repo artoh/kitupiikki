@@ -42,7 +42,7 @@ bool TilikarttaOhje::nollaa()
     ui->ohjeEditori->setText(kp()->asetukset()->asetus("TilikarttaOhje"));
 
     ui->muokkausNappi->setVisible( kp()->asetukset()->onko("NaytaEdistyneet") );
-    ui->devtoolButton->setVisible( kp()->asetukset()->onko("NaytaEdistyneet") && kp()->asetukset()->onko("Harjoitus"));
+    ui->devtoolButton->setVisible( kp()->asetukset()->onko("NaytaEdistyneet") );
 
     return true;
 }

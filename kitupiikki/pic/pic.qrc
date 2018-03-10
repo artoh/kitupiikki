@@ -97,6 +97,8 @@
         <file>insert-image.png</file>
         <file>stop.png</file>
         <file>dev.png</file>
+        <file>tyhja.png</file>
+        <file>ristinolla.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

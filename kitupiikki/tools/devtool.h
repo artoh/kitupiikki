@@ -20,6 +20,7 @@
 
 
 #include <QDialog>
+#include <QMap>
 
 namespace Ui {
 class DevTool;
@@ -41,6 +42,29 @@ protected slots:
     void tallennaAsetus();
     void poistaAsetus();
     void tabMuuttui(int tab);
+
+    void uusiPeli();
+    void peliNapautus(int ruutu);
+
+protected:
+    /**
+     * @brief Tarkastaa voiton ja ilmoittaa tuloksen
+     * @return Voittaja
+     */
+    int tarkastaVoitto();
+    /**
+     * @brief Tekee voiton tarkastuksen
+     * @return Voittaja
+     */
+    int voitonTarkastaja(QVector<int> taulu);
+    int voittajaRivilla(QVector<int> taulu, int a, int b, int c) const;
+
+protected:
+    void alustaRistinolla();
+    QMap<int,QPushButton*> pelinapit_;
+    QVector<int> peliRuudut_;
+    bool pelissa_ = true;
+
 
 private:
     Ui::DevTool *ui;

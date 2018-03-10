@@ -47,7 +47,7 @@
          <item>
           <widget class="QLabel" name="label_2">
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Nämä työkalut on tarkoitettu ohjelmiston ja tilikarttojen kehittäjille.&lt;/p&gt;&lt;p&gt;Tiedäthän, mitä teet!&lt;/p&gt;&lt;p&gt;Katso &lt;a href=&quot;https://github.com/artoh/kitupiikki/wiki&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;https://github.com/artoh/kitupiikki/wiki&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Nämä tehokkaat - mutta niin kovin huonosti dokumentoidut - työkalut on tarkoitettu ohjelmiston ja tilikarttojen kehittäjille.&lt;/p&gt;&lt;p&gt;Tiedäthän, mitä teet!&lt;/p&gt;&lt;p&gt;Katso &lt;a href=&quot;https://github.com/artoh/kitupiikki/wiki&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;https://github.com/artoh/kitupiikki/wiki&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="wordWrap">
             <bool>true</bool>
@@ -71,6 +71,16 @@
           </size>
          </property>
         </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="keksiLabel">
+         <property name="text">
+          <string>XXXXXXXXX</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -222,6 +232,98 @@
           </widget>
          </item>
         </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/ristinolla.png</normaloff>:/pic/ristinolla.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Ristinolla</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="2" column="1">
+        <layout class="QGridLayout" name="peliLeiska"/>
+       </item>
+       <item row="0" column="1">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>144</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="3" column="1">
+        <widget class="QPushButton" name="uusipeliNappi">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="text">
+          <string notr="true">Uudestaan!</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../pic/pic.qrc">
+           <normaloff>:/pic/ristinolla.png</normaloff>:/pic/ristinolla.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>223</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="2" column="2">
+        <spacer name="horizontalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>222</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="4" column="1">
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>144</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLabel" name="tulosLabel">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>  </string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

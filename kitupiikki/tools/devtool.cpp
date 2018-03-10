@@ -15,6 +15,8 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QSettings>
+
 #include "devtool.h"
 #include "ui_devtool.h"
 
@@ -38,6 +40,13 @@ DevTool::DevTool(QWidget *parent) :
     connect( ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(tabMuuttui(int)));
 
     ui->avainLista->setCurrentRow(0);
+
+    QSettings settings;
+
+    ui->keksiLabel->setText( settings.value("Keksi").toString());
+
+    alustaRistinolla();
+
 }
 
 DevTool::~DevTool()
@@ -99,5 +108,125 @@ void DevTool::tabMuuttui(int tab)
         ui->avainLista->clear();
         ui->avainLista->addItems( kp()->asetukset()->avaimet() );
     }
+}
+
+void DevTool::uusiPeli()
+{
+    ui->tulosLabel->clear();
+    pelissa_ = true;
+    peliRuudut_.fill(0);
+    for( int i : pelinapit_.keys())
+        pelinapit_[i]->setIcon(QIcon(":/pic/tyhja.png"));
+}
+
+void DevTool::peliNapautus(int ruutu)
+{
+    if(!pelissa_)
+        return;
+
+    pelinapit_[ruutu]->setIcon(QIcon(":/pic/Possu64.png"));
+    peliRuudut_[ruutu] = 1;
+    if( tarkastaVoitto() )
+        return;
+
+    if( !peliRuudut_.contains(0))
+    {
+        ui->tulosLabel->setText("Tasapeli");
+        return;
+    }
+
+    int siirto = peliRuudut_.indexOf(0);
+    if( peliRuudut_.at(4) == 0)
+        siirto = 4;     // Valtaa mielellään keskiruudun
+
+    // Etsii voittoa
+    // Yksinkertaisella tekoälyllä yrittää ensin voittaa itse,
+    // toissijaisesti estää toisen voiton
+
+    for(int i=0; i < 9; i++)
+    {
+        if(peliRuudut_.at(i))
+            continue;
+
+        // Kokeillaan
+        QVector<int> koe(peliRuudut_);
+        koe[i]=2;
+        if( voitonTarkastaja(koe) == 2)
+        {
+            siirto = i;
+            break;
+        }
+        // Vielä kokeillaan mitä toinen voi vastata
+        for(int j=0; j<9; j++)
+        {
+            if( koe.at(j))
+                continue;
+            QVector<int> vasta(koe);
+            vasta[j]=1;
+            if( voitonTarkastaja(vasta) == 1)
+                siirto = j;
+        }
+    }
+
+    // Laittaa siirron
+    pelinapit_[siirto]->setIcon(QIcon(":/pic/vero.png"));
+    peliRuudut_[siirto] = 2;
+    tarkastaVoitto();
+
+}
+
+int DevTool::voitonTarkastaja(QVector<int> taulu)
+{
+    QStringList rivit;
+    rivit << "012" << "345" << "678" << "036" << "147" << "258" << "048" << "246";
+    for(QString r : rivit)
+    {
+        int tulos = voittajaRivilla(taulu, r.at(0).digitValue(), r.at(1).digitValue(), r.at(2).digitValue());
+        if( tulos )
+            return tulos;
+    }
+    return 0;
+}
+
+int DevTool::tarkastaVoitto()
+{
+    int tulos = voitonTarkastaja(peliRuudut_);
+    if( tulos )
+    {
+        if( tulos == 1 )
+            ui->tulosLabel->setText("Saat veronpalautusta!");
+        else
+            ui->tulosLabel->setText("Maksat lisäveroa!");
+        pelissa_ = false;
+    }
+    return tulos;
+}
+
+int DevTool::voittajaRivilla(QVector<int> taulu, int a, int b, int c) const
+{
+    if( taulu.at(a) == taulu.at(b) && taulu.at(b) == taulu.at(c))
+        return taulu.at(a);
+    else
+        return 0;
+}
+
+void DevTool::alustaRistinolla()
+{
+    peliRuudut_.fill(0,9);
+
+    for(int x=0;x<3;x++)
+    {
+        for(int y=0;y<3;y++)
+        {
+            QPushButton *peliNappi = new QPushButton();
+            pelinapit_.insert(y*3+x, peliNappi);
+            peliNappi->setIcon(QIcon(":/pic/tyhja.png"));
+            peliNappi->setIconSize(QSize(64,64));
+            ui->peliLeiska->addWidget(peliNappi,x,y);
+
+            connect( peliNappi, &QPushButton::clicked, [this, x,y] { peliNapautus(y*3+x); });
+        }
+    }
+    connect( ui->uusipeliNappi, SIGNAL(clicked(bool)), this, SLOT(uusiPeli()));
 }
 
