@@ -15,8 +15,7 @@ p, li { white-space: pre-wrap; }
 <li style=" margin-top:1px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Avoin yhtiö</li>
 <li style=" margin-top:1px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Kommandiittiyhtiö</li>
 <li style=" margin-top:1px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Osuuskunta</li>
-<li style=" margin-top:1px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Osakeyhtiö</li>
-<li style=" margin-top:1px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Julkinen osakeyhtiö</li></ul>
+<li style=" margin-top:1px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Osakeyhtiö</li></ul>
 <p style=" margin-top:18px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Tilikartta on suppea, ja perustuu Raportointikoodistoon.</p></body></html>
 [TilikarttaOhje]
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
@@ -29,8 +28,7 @@ p, li { white-space: pre-wrap; }
 <li style=" margin-top:18px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Avoin yhtiö</li>
 <li style=" margin-top:18px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Kommandiittiyhtiö</li>
 <li style=" margin-top:18px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Osuuskunta</li>
-<li style=" margin-top:18px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Osakeyhtiö</li>
-<li style=" margin-top:18px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Julkinen osakeyhtiö</li></ul>
+<li style=" margin-top:18px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Osakeyhtiö</li></ul>
 <p style=" margin-top:18px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Yhtiömuoto valitaan Perusvalinnoista.</p>
 <p style=" margin-top:18px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:14pt; font-weight:600;">Tilikartta</span></p>
 <p style=" margin-top:18px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Konserniin liittyvät tilit on oletuksena piilottu, mutta ne saa näkyviin Tilikarttamäärityksistä.</p>
@@ -529,7 +527,7 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 ##Kirjanpito
 #sahko Sähköinen kirjanpito ja arkistointi
 <h2>Kirjanpitoaineisto</h2>
-<p>Kirjanpito on järjestetty Kitupiikki-ohjelmistolla. Tilinpäätös, tase-erittelyt, tilikartta, pää- ja päiväkirjat sekä pdf-muodossa olevat tositteet on arkistoitu html-muotoiseksi sähköiseksi arkistoksi, jonka muuttumattomuus on varmistettu sha256-tiivisteellä
+<p>Kirjanpito on järjestetty Kitupiikki-ohjelmistolla. Tilinpäätös, tase-erittelyt, tilikartta, pää- ja päiväkirjat sekä pdf-muodossa olevat tositteet on arkistoitu html-muotoiseksi sähköiseksi arkistoksi, jonka muuttumattomuus on varmistettu sha256-tiivisteellä &nbsp;
 @sha@
 </p>
 #-sahko
@@ -902,17 +900,9 @@ Tulos	3..9 viiva
 [MuotoOn/Elinkeinonharjoittaja]
 +22
 Elinkeinonharjoittaja=ON
-[MuotoOn/Julkinen osakeyhtiö]
-+149
-+2000
-+203..204
 [MuotoOn/Avoin yhtiö]
 +210
 +212
-[MuotoPois/Julkinen osakeyhtiö]
--149
--2000
--203..204
 [MuotoPois/Osakeyhtiö]
 -2000
 -203..204

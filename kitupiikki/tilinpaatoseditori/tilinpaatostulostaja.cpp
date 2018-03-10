@@ -143,5 +143,12 @@ void TilinpaatosTulostaja::tulostaKansilehti(Tilikausi tilikausi, QPainter *pain
     painter->setFont(QFont("Sans",24));
     painter->drawText( QRectF(0, sivunkorkeus/3 + rivinkorkeus * 4, sivunleveys, rivinkorkeus ), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter, kp()->tr("Tilinpäätös") );
     painter->drawText( QRectF(0, sivunkorkeus/3 + rivinkorkeus * 5, sivunleveys, rivinkorkeus ), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter , tilikausi.kausivaliTekstina());
+
+    painter->setFont(QFont("Sans",12));
+    painter->drawText( QRectF(0,sivunkorkeus / 8 * 7, sivunleveys / 3, sivunkorkeus / 8), Qt::TextWordWrap, kp()->asetukset()->asetus("Osoite"));
+    painter->drawText( QRectF( sivunleveys/3*2, sivunkorkeus / 8 * 7, sivunleveys / 3, rivinkorkeus), Qt::AlignLeft, kp()->tr("Y-tunnus: %1").arg(kp()->asetukset()->asetus("Ytunnus")));
+    painter->drawText( QRectF( sivunleveys/3*2, sivunkorkeus / 8 * 7 + painter->fontMetrics().height(), sivunleveys / 3, rivinkorkeus), Qt::AlignLeft, kp()->tr("Kotipaikka: %1").arg(kp()->asetukset()->asetus("Kotipaikka")));
+
+
     painter->restore();
 }

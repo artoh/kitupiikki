@@ -205,9 +205,9 @@ QString TilinpaatosEditori::henkilostotaulukko()
     if( kp()->tilikaudet()->indeksiPaivalle( tilikausi_.paattyy()))
         verrokki = kp()->tilikaudet()->tilikausiIndeksilla(  kp()->tilikaudet()->indeksiPaivalle(tilikausi_.paattyy()) - 1 );
 
-    QString txt = tr("<table><tr><th></th><th>%1</th>").arg(tilikausi_.kausivaliTekstina());
+    QString txt = tr("<table><tr><td></td><td>%1</td>").arg(tilikausi_.kausivaliTekstina());
     if( verrokki.alkaa().isValid() )
-        txt.append( QString("<th>%1</th>").arg(verrokki.kausivaliTekstina()) );
+        txt.append( QString("<td>%1</td>").arg(verrokki.kausivaliTekstina()) );
 
     txt.append(tr("</tr><tr><td>Henkilöstöä keskimäärin</td><td>%1</td>").arg(tilikausi_.henkilosto()));
     if( verrokki.alkaa().isValid())
