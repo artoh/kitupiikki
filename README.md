@@ -1,5 +1,7 @@
 # Kitupiikki
 
+[![Join the chat at https://gitter.im/kitupiikki/Lobby](https://badges.gitter.im/kitupiikki/Lobby.svg)](https://gitter.im/kitupiikki/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 
 [![versio](https://img.shields.io/github/release/artoh/kitupiikki.svg?label=Julkaistu%20versio)](https://github.com/artoh/kitupiikki/releases)
 [![versio](https://img.shields.io/github/release/artoh/kitupiikki/all.svg?label=Esiversio)](https://github.com/artoh/kitupiikki/releases)
