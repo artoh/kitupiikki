@@ -48,6 +48,7 @@ TilityyppiModel::TilityyppiModel(QObject *parent)
     lisaa(TiliTyyppi("AS","Saatavaa",TiliLaji::SAATAVA));
     lisaa(TiliTyyppi("AO","Myyntisaatavat",TiliLaji::MYYNTISAATAVA));
     lisaa(TiliTyyppi("AL","Arvonlisäverosaatava", TiliLaji::ALVSAATAVA));
+    lisaa(TiliTyyppi("ALM","Maksuperusteisen alv:n kohdentamaton saatava", TiliLaji::KOHDENTAMATONALVSAATAVA);
     lisaa(TiliTyyppi("ARK","Käteisvarat", TiliLaji::KATEINEN));
     lisaa(TiliTyyppi("ARP","Pankkitili",TiliLaji::PANKKITILI));
 
@@ -57,6 +58,7 @@ TilityyppiModel::TilityyppiModel(QObject *parent)
     lisaa(TiliTyyppi("BS","Velat",TiliLaji::VELKA));
     lisaa(TiliTyyppi("BO","Ostovelat", TiliLaji::OSTOVELKA));
     lisaa(TiliTyyppi("BL","Arvonlisäverovelka",TiliLaji::ALVVELKA));
+    lisaa(TiliTyyppi("BLM","Maksuperusteisen alv:n kohdentamaton velka", TiliLaji::KOHDENTAMATONALVVELKA));
     lisaa(TiliTyyppi("BV","Verovelka",TiliLaji::VEROVELKA));
 
     lisaa(TiliTyyppi("C","Tulot",TiliLaji::TULO));
