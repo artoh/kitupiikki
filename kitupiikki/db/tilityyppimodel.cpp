@@ -48,7 +48,7 @@ TilityyppiModel::TilityyppiModel(QObject *parent)
     lisaa(TiliTyyppi("AS","Saatavaa",TiliLaji::SAATAVA));
     lisaa(TiliTyyppi("AO","Myyntisaatavat",TiliLaji::MYYNTISAATAVA));
     lisaa(TiliTyyppi("AL","Arvonlisäverosaatava", TiliLaji::ALVSAATAVA));
-    lisaa(TiliTyyppi("ALM","Maksuperusteisen alv:n kohdentamaton saatava", TiliLaji::KOHDENTAMATONALVSAATAVA);
+    lisaa(TiliTyyppi("ALM","Maksuperusteisen alv:n kohdentamaton saatava", TiliLaji::KOHDENTAMATONALVSAATAVA));
     lisaa(TiliTyyppi("ARK","Käteisvarat", TiliLaji::KATEINEN));
     lisaa(TiliTyyppi("ARP","Pankkitili",TiliLaji::PANKKITILI));
 
