@@ -151,6 +151,8 @@ void DevTool::peliNapautus(int ruutu)
     // Yksinkertaisella tekoälyllä yrittää ensin voittaa itse,
     // toissijaisesti estää toisen voiton
 
+    bool voittosiirtoloytyi = false;
+
     for(int i=0; i < 9; i++)
     {
         if(peliRuudut_.at(i))
@@ -162,14 +164,18 @@ void DevTool::peliNapautus(int ruutu)
         if( voitonTarkastaja(koe) == 2)
         {
             siirto = i;
+            voittosiirtoloytyi = true;
             break;
         }
-        // Vielä kokeillaan mitä toinen voi vastata
+    }
+    // Vielä kokeillaan mitä toinen voi vastata
+    if( !voittosiirtoloytyi)
+    {
         for(int j=0; j<9; j++)
         {
-            if( koe.at(j))
+            if( peliRuudut_.at(j))
                 continue;
-            QVector<int> vasta(koe);
+            QVector<int> vasta(peliRuudut_);
             vasta[j]=1;
             if( voitonTarkastaja(vasta) == 1)
                 siirto = j;
