@@ -121,7 +121,7 @@ void DevTool::uusiPeli()
 
 void DevTool::peliNapautus(int ruutu)
 {
-    if(!pelissa_)
+    if(!pelissa_ || peliRuudut_.at(ruutu))
         return;
 
     pelinapit_[ruutu]->setIcon(QIcon(":/pic/Possu64.png"));
@@ -135,9 +135,17 @@ void DevTool::peliNapautus(int ruutu)
         return;
     }
 
-    int siirto = peliRuudut_.indexOf(0);
+    int siirto = 0;
     if( peliRuudut_.at(4) == 0)
         siirto = 4;     // Valtaa mielellään keskiruudun
+
+    qsrand( QTime::currentTime().msecsSinceStartOfDay());
+    while( !siirto )
+    {
+        int ehdokas = qrand() % 9;
+        if( !peliRuudut_.at(ehdokas))
+            siirto = ehdokas;
+    }
 
     // Etsii voittoa
     // Yksinkertaisella tekoälyllä yrittää ensin voittaa itse,
