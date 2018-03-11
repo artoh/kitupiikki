@@ -78,6 +78,15 @@ void JsonKentta::unset(const QString &avain)
     }
 }
 
+void JsonKentta::setVar(const QString &avain, const QVariant &arvo)
+{
+    if( map_.value(avain) != arvo)
+    {
+        map_[avain] = arvo;
+        muokattu_ = true;
+    }
+}
+
 QString JsonKentta::str(const QString &avain)
 {
     return map_.value(avain).toString();
@@ -96,6 +105,11 @@ int JsonKentta::luku(const QString &avain)
 qulonglong JsonKentta::isoluku(const QString &avain)
 {
     return map_.value(avain).toULongLong();
+}
+
+QVariant JsonKentta::variant(const QString &avain)
+{
+    return map_.value(avain);
 }
 
 QByteArray JsonKentta::toJson()
