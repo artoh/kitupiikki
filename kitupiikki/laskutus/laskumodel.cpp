@@ -349,57 +349,124 @@ bool LaskuModel::tallenna(Tili rahatili)
         tosite.asetaKommentti( tosite.kommentti() + "\n\n[Hyvityslasku]\n" + lisatieto() );
     }
 
+    // #96 Laskun kirjaaminen yhdistelmäriveillä
+    // 11.3.2017 v0.8 Muutettu niin, että kirjanpitoon ei enää kirjata yksittäisiä
+    // tuoterivejä, vaan yhdistelmäviennit jokaiselta erilaiselta veroryhmältä
+    QList<VientiRivi> vientiRivit;
+    QVariantList rivitTalteen;
+    // key: AlvKoodi * 1000 + alvProsentti - value: alv sentteinä
+    QMap<int,qlonglong> veroSentit;
+
     VientiModel *viennit = tosite.vientiModel();
     foreach (LaskuRivi rivi, rivit_)
     {
-        VientiRivi vienti;
-        vienti.selite = rivi.nimike;
-        vienti.pvm = pvm();
-        vienti.tili = rivi.myyntiTili;
-        vienti.kohdennus = rivi.kohdennus;
-        vienti.alvkoodi = rivi.alvKoodi;
-        vienti.alvprosentti = rivi.alvProsentti;
+        // Tallennetaan laskun json-kenttään myös rivitiedot
+        // mahdollisen myöhemmän käytön varalle (näistä voisi koota vaikkapa myyntitilastot)
+        QVariantMap riviTalteen;
+        riviTalteen["Selite"] = rivi.nimike;
+        riviTalteen["Pvm"] = pvm();
+        riviTalteen["Tili"] = rivi.myyntiTili.numero();
+        riviTalteen["Alvkoodi"] = rivi.alvKoodi;
+        riviTalteen["Alvprosentti"] = rivi.alvProsentti;
+        riviTalteen["Maara"] = QString("%L1").arg(rivi.maara,0,'f',2);
+        riviTalteen["Yksikko"] = rivi.yksikko;
+        if( rivi.tuoteKoodi)
+            riviTalteen["Tuotekoodi"] = rivi.tuoteKoodi;
+        riviTalteen["YksikkohintaSnt"] = rivi.ahintaSnt;
 
-        int nettoSnt = std::round( rivi.ahintaSnt * rivi.maara );
-        int bruttoSnt = std::round( rivi.yhteensaSnt() );
-        int veroSnt = bruttoSnt - nettoSnt;
+        qlonglong nettoSnt = std::round( rivi.ahintaSnt * rivi.maara );
+        qlonglong bruttoSnt = std::round( rivi.yhteensaSnt() );
+        qlonglong veroSnt = bruttoSnt - nettoSnt;
 
-        vienti.json.set("Maara", QString("%L1").arg(rivi.maara,0,'f',2));
-        vienti.json.set("Yksikko", rivi.yksikko);
-        vienti.json.set("Tuote", rivi.tuoteKoodi);
+        riviTalteen["Nettoyht"] = nettoSnt;
+        riviTalteen["Alv"] = veroSnt;
+        riviTalteen["Yhteensa"] = bruttoSnt;
 
+        rivitTalteen.append(riviTalteen);
 
-        VientiRivi verorivi;
-        // Nettokirjauksessa kirjataan alv erikseen
-        if( rivi.alvKoodi == AlvKoodi::MYYNNIT_NETTO)
+        // Etsitään, löytyykö jo sellainen vienti, johon tämän rivin voipi yhdistää
+        int vientiin = -1;
+        for( int vI=0; vI < vientiRivit.count(); vI++)
         {
-            verorivi.pvm = pvm();
-            verorivi.selite = rivi.nimike;
-            verorivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA);
-            verorivi.alvkoodi = AlvKoodi::ALVKIRJAUS + rivi.alvKoodi;
-            verorivi.alvprosentti = rivi.alvProsentti;
+            VientiRivi vientiRivi = vientiRivit.at(vI);
 
-            if( nettoSnt > 0)
+            if( vientiRivi.tili.id() == rivi.myyntiTili.id() &&
+                vientiRivi.kohdennus.id() == rivi.kohdennus.id() &&
+                vientiRivi.alvkoodi == rivi.alvKoodi &&
+                vientiRivi.alvprosentti == rivi.alvProsentti)
             {
-                vienti.kreditSnt = nettoSnt;
-                verorivi.kreditSnt = veroSnt;
+                vientiin = vI;
+                break;
             }
-            else
-            {
-                vienti.debetSnt = 0 - nettoSnt;
-                verorivi.debetSnt = 0 - veroSnt;
-            }
+        }
+
+        if( vientiin == -1)
+        {
+            VientiRivi uusi;
+            uusi.selite = tr("%1 [%2]").arg(laskunsaajanNimi()).arg(laskunro());
+            uusi.pvm = pvm();
+            uusi.tili = rivi.myyntiTili;
+            uusi.kohdennus = rivi.kohdennus;
+            uusi.alvkoodi = rivi.alvKoodi;
+            uusi.alvprosentti = rivi.alvProsentti;
+
+            // Lisätään tämä rivi ja merkitään sen indeksi aktiiviseksi
+            vientiRivit.append(uusi);
+            vientiin = vientiRivit.count() - 1;
+        }
+
+        qlonglong summaSnt = vientiRivit.at(vientiin).kreditSnt - vientiRivit.at(vientiin).debetSnt;
+        summaSnt += nettoSnt;
+
+        if( summaSnt > 0)
+        {
+            vientiRivit[vientiin].kreditSnt = summaSnt;
+            vientiRivit[vientiin].debetSnt = 0;
         }
         else
         {
-            if( nettoSnt > 0)
-                vienti.kreditSnt = bruttoSnt;
-            else
-                vienti.debetSnt = 0 - bruttoSnt;
+            vientiRivit[vientiin].debetSnt =  0 - summaSnt;
+            vientiRivit[vientiin].kreditSnt = 0;
         }
+
+        // Tallennetaan myös asiaankuuluvaan verotauluun
+        veroSentit[ rivi.alvKoodi * 1000 + rivi.alvProsentti] = veroSentit.value( rivi.alvKoodi * 1000 + rivi.alvProsentti, 0) + veroSnt;
+
+    }
+    // Kirjataan maksurivit vienteihin
+    for( VientiRivi vienti : vientiRivit)
         viennit->lisaaVienti(vienti);
-        if( verorivi.tili.onkoValidi())
-            viennit->lisaaVienti(verorivi);
+
+    // Kirjataan nettokirjausten alv-kirjaukset
+    QMapIterator<int,qlonglong> veroIter(veroSentit);
+
+    while( veroIter.hasNext())
+    {
+        veroIter.next();
+
+        VientiRivi verorivi;
+        // Nettokirjauksessa kirjataan alv erikseen
+        if( veroIter.key() / 1000 == AlvKoodi::MYYNNIT_NETTO)
+        {
+            int alvprosentti = veroIter.key() % 1000;
+            verorivi.pvm = pvm();
+            verorivi.selite = tr("%1 [%2] ALV %3 %").arg(laskunsaajanNimi()).arg(laskunro()).arg(alvprosentti);
+            verorivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA);
+            verorivi.alvkoodi = AlvKoodi::ALVKIRJAUS + AlvKoodi::MYYNNIT_NETTO;
+            verorivi.alvprosentti = alvprosentti;
+
+
+            if( veroIter.value() > 0)
+            {
+                verorivi.kreditSnt = veroIter.value();
+            }
+            else
+            {
+                verorivi.debetSnt = 0 - veroIter.value();
+            }
+            if( verorivi.tili.onkoValidi())
+                viennit->lisaaVienti(verorivi);
+        }
     }
     // Vielä rahasummarivi !!!
     if( kirjausperuste() != MAKSUPERUSTE)
@@ -460,6 +527,7 @@ bool LaskuModel::tallenna(Tili rahatili)
     json.set("Toimituspvm", toimituspaiva());
     json.set("Lisatieto", lisatieto());
     json.set("Email", email());
+    json.setVar("Erittely", rivitTalteen);
 
     if( hyvityslasku().viitenro )
         json.set("Hyvityslasku", hyvityslasku().viitenro);

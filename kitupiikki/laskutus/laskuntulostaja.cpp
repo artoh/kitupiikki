@@ -318,7 +318,7 @@ qreal LaskunTulostaja::alatunniste(QPrinter *printer,QPainter *painter)
         int verokoodi = model_->data( model_->index(i,0), LaskuModel::AlvKoodiRooli ).toInt();
         if( verokoodi == AlvKoodi::RAKENNUSPALVELU_MYYNTI)
             rakennuspalvelut = true;
-        else if( verokoodi == AlvKoodi::YHTEISOHANKINNAT_TAVARAT || verokoodi == AlvKoodi::YHTEISOMYYNTI_PALVELUT)
+        else if( verokoodi == AlvKoodi::YHTEISOMYYNTI_TAVARAT || verokoodi == AlvKoodi::YHTEISOMYYNTI_PALVELUT)
             yhteisomyynti = true;
     }
     painter->translate(0, -2 * rk);

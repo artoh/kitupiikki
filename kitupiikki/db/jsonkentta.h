@@ -40,11 +40,13 @@ public:
     void set(const QString& avain, int arvo);
     void set(const QString& avain, qulonglong arvo );
     void unset(const QString &avain);
+    void setVar(const QString& avain, const QVariant& arvo);
 
     QString str(const QString& avain);
     QDate date(const QString& avain);
     int luku(const QString& avain);
     qulonglong isoluku(const QString& avain);
+    QVariant variant(const QString& avain);
 
     QByteArray toJson();
     QVariant toSqlJson();
