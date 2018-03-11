@@ -48,6 +48,7 @@ SelausWg::SelausWg() :
     etsiProxy = new QSortFilterProxyModel(this);
     etsiProxy->setSourceModel(proxyModel);
     etsiProxy->setFilterKeyColumn( SelausModel::SELITE );
+    etsiProxy->setFilterCaseSensitivity(Qt::CaseInsensitive);
     ui->selausView->setModel( etsiProxy );
 
     ui->selausView->horizontalHeader()->setStretchLastSection(true);
