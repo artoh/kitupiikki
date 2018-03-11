@@ -114,8 +114,8 @@ void Raportti::esikatsele()
 
     // #88: Käytetään pdf:n luomisessakin tulostusasetuksia, jotta saadaan vaakaan taikka isompaan
     // paperikokoon
-    QPrinterInfo info( *kp()->printer());
-    QPrinter tulostin(info, QPrinter::HighResolution);
+    QPrinter tulostin( QPrinter::HighResolution);
+    tulostin.setPageLayout( kp()->printer()->pageLayout() );
 
     tulostin.setOutputFileName( tiedosto );
     QPainter painter( &tulostin );
