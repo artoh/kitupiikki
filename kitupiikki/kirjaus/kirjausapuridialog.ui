@@ -253,6 +253,13 @@
        </property>
       </widget>
      </item>
+     <item row="14" column="1">
+      <widget class="QCheckBox" name="eiVahennaCheck">
+       <property name="text">
+        <string>&amp;Ei oikeuta alv-vähennykseen</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>

@@ -99,6 +99,7 @@
         <file>dev.png</file>
         <file>tyhja.png</file>
         <file>ristinolla.png</file>
+        <file>laiva.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

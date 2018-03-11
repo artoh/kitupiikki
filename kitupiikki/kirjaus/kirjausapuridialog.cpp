@@ -79,6 +79,7 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     connect( ui->alvSpin, SIGNAL(valueChanged(int)), this, SLOT(laskeVerolla(int)));
     connect( ui->vaihdaNappi, SIGNAL(clicked(bool)), this, SLOT(ehdota()));
     connect(ui->seliteEdit, SIGNAL(editingFinished()), this, SLOT(ehdota()));
+    connect( ui->eiVahennaCheck, SIGNAL(toggled(bool)), this, SLOT(ehdota()));
 
     // #44 pvm:n muutos aiheuttaa vastatilin tarkastamisen, koska vaikuttaa erien yhdistämiseen
     connect(ui->pvmDate, SIGNAL(editingFinished()), this, SLOT(vastaTiliMuuttui()));
@@ -248,6 +249,8 @@ void KirjausApuriDialog::alvLajiMuuttui()
     ui->alvSpin->setVisible( alvlaji );
     ui->alvprossaLabel->setVisible(alvlaji);
 
+    ui->eiVahennaCheck->setVisible( alvlaji==AlvKoodi::MAAHANTUONTI || alvlaji==AlvKoodi::YHTEISOHANKINNAT_PALVELUT || alvlaji==AlvKoodi::YHTEISOHANKINNAT_TAVARAT );
+
     ehdota();
 }
 
@@ -394,7 +397,7 @@ void KirjausApuriDialog::ehdota()
         if( tili.onko(TiliLaji::MENO) || tili.onko(TiliLaji::POISTETTAVA)  )
         {
             VientiRivi menorivi = uusiEhdotusRivi(tili);
-            if( alvkoodi == AlvKoodi::OSTOT_BRUTTO)
+            if( alvkoodi == AlvKoodi::OSTOT_BRUTTO )
                 menorivi.debetSnt = bruttoSnt;
             else
                 menorivi.debetSnt = nettoSnt;
@@ -412,7 +415,7 @@ void KirjausApuriDialog::ehdota()
 
         }
         if( alvprosentti && kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).onkoValidi() &&
-                alvkoodi != AlvKoodi::OSTOT_BRUTTO)
+                ( alvkoodi != AlvKoodi::OSTOT_BRUTTO || ( ui->eiVahennaCheck->isVisible() && ui->eiVahennaCheck->isChecked())) )
         {
             VientiRivi verorivi = uusiEhdotusRivi( kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA) );
             verorivi.debetSnt = bruttoSnt - nettoSnt;
@@ -421,7 +424,8 @@ void KirjausApuriDialog::ehdota()
             ehdotus.lisaaVienti(verorivi);
 
             if( (alvkoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT || alvkoodi==AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
-                alvkoodi == AlvKoodi::RAKENNUSPALVELU_OSTO) && kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).onkoValidi() )
+                alvkoodi == AlvKoodi::RAKENNUSPALVELU_OSTO || alvkoodi== AlvKoodi::MAAHANTUONTI) && kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).onkoValidi()
+                    && !ui->eiVahennaCheck->isChecked())
             {
                 VientiRivi lisarivi = uusiEhdotusRivi( kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA));
                 lisarivi.kreditSnt = bruttoSnt - nettoSnt;
@@ -430,10 +434,12 @@ void KirjausApuriDialog::ehdota()
                 ehdotus.lisaaVienti(lisarivi);
             }
         }
+
         if( vastatili.onko(TiliLaji::TASE) && !ui->vastaCheck->isChecked())
         {
             VientiRivi taserivi = uusiEhdotusRivi(vastatili);
-            if( alvkoodi == AlvKoodi::OSTOT_NETTO || alvkoodi == AlvKoodi::OSTOT_BRUTTO)
+            if( alvkoodi == AlvKoodi::OSTOT_NETTO || alvkoodi == AlvKoodi::OSTOT_BRUTTO ||
+                    ( ui->eiVahennaCheck->isVisible() && ui->eiVahennaCheck->isChecked()) )
                 taserivi.kreditSnt = bruttoSnt;
             else
                 taserivi.kreditSnt = nettoSnt;
