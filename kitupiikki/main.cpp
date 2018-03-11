@@ -21,11 +21,13 @@
 #include <QSplashScreen>
 #include <QTextCodec>
 #include <QIcon>
+#include <QTranslator>
 
 #include "db/kirjanpito.h"
 #include "kitupiikkiikkuna.h"
 
 #include <QDebug>
+#include <QDir>
 #include <QStyleFactory>
 #include <QSettings>
 #include <QDialog>
@@ -53,6 +55,11 @@ int main(int argc, char *argv[])
 
 
     QLocale::setDefault(QLocale(QLocale::Finnish, QLocale::Finland));
+
+    // Qt:n vakioiden kääntämiseksi
+    QTranslator translator;
+    translator.load("qt_fi.qm",a.applicationDirPath().append("/translations"));
+    a.installTranslator(&translator);
 
     QSettings settings;
     if( settings.value("ViimeksiVersiolla").toString() != a.applicationVersion())

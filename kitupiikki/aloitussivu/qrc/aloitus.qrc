@@ -3,4 +3,5 @@
         <file>aloitus.css</file>
         <file>tervetuloa.html</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>
