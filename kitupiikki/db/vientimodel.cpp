@@ -628,7 +628,6 @@ void VientiModel::tyhjaa()
     viennit_.clear();
     endResetModel();
     muokattu_ = false;
-    emit muuttunut();
 }
 
 void VientiModel::lataa()

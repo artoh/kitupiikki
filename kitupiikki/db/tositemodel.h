@@ -88,6 +88,7 @@ public:
     bool muokattu();
 
 signals:
+    void tositettaMuokattu(bool onko);
 
 
 public slots:
@@ -101,6 +102,12 @@ public slots:
 
 
     void lataa(int id);
+
+    /**
+     * @brief Tyhjentää tositteen
+     *
+     * Päivämäärä ja tositelaji jäävät kuitenkin edellisestä
+     */
     void tyhjaa();
     bool tallenna();
     void poista();

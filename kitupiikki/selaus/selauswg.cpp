@@ -38,17 +38,18 @@ SelausWg::SelausWg() :
     model = new SelausModel();
     tositeModel = new TositeSelausModel();
 
+    // Proxyä käytetään tilien tai tositelajien suodattamiseen
     proxyModel = new QSortFilterProxyModel(this);
     proxyModel->setSourceModel(model);
-    proxyModel->setSortRole(Qt::EditRole);  // Jotta numerot lajitellaan oikein
-    proxyModel->setFilterKeyColumn( SelausModel::TILI);
-    proxyModel->setSortLocaleAware(true);
-    proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
     etsiProxy = new QSortFilterProxyModel(this);
+    etsiProxy->setSortRole(Qt::EditRole);  // Jotta numerot lajitellaan oikein
+    etsiProxy->setFilterKeyColumn( SelausModel::TILI);
+    etsiProxy->setSortLocaleAware(true);
     etsiProxy->setSourceModel(proxyModel);
     etsiProxy->setFilterKeyColumn( SelausModel::SELITE );
     etsiProxy->setFilterCaseSensitivity(Qt::CaseInsensitive);
+
     ui->selausView->setModel( etsiProxy );
 
     ui->selausView->horizontalHeader()->setStretchLastSection(true);

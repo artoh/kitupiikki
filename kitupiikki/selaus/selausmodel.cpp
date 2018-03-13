@@ -80,12 +80,16 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
         switch (index.column())
         {
             case TOSITE:
+                if( role == Qt::EditRole)
+                    return rivi.lajiteltavaTositetunniste;
                 return QVariant( rivi.tositetunniste);
 
             case PVM: return QVariant( rivi.pvm );
 
             case TILI:
-                if( rivi.tili.numero())
+                if( role == Qt::EditRole)
+                    return rivi.tili.numero();
+                else if( rivi.tili.numero())
                     return QVariant( QString("%1 %2").arg(rivi.tili.numero()).arg(rivi.tili.nimi()) );
                 else
                     return QVariant();
@@ -169,10 +173,15 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
         rivi.selite = query.value(5).toString();
         rivi.kohdennus = kp()->kohdennukset()->kohdennus( query.value(6).toInt());
         rivi.taseEra = TaseEra( query.value(7).toInt());
-        rivi.tositetunniste = QString("%1%2/%3")
+        rivi.tositetunniste = QString("%1 %2/%3")
                                        .arg( kp()->tositelajit()->tositelaji( query.value(8).toInt()  ).tunnus() )
                                        .arg( query.value(9).toInt()  )
                                        .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() );
+        rivi.lajiteltavaTositetunniste = QString("%1%2/%3")
+                                       .arg( kp()->tositelajit()->tositelaji( query.value(8).toInt()  ).tunnus() )
+                                       .arg( query.value(9).toInt(),8,10,QChar('0'))
+                                       .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() );
+
 
         if( query.value("eraid").toInt() == 0 )
         {

@@ -96,6 +96,7 @@ bool LiiteModel::setData(const QModelIndex &index, const QVariant &value, int ro
         // Vaihdetaan näytettävä nimi
         liitteet_[index.row()].otsikko = value.toString();
         liitteet_[index.row()].muokattu = true;
+        emit liiteMuutettu();
         return true;
     }
     return false;
@@ -173,6 +174,7 @@ void LiiteModel::lisaaTiedosto(const QString &polku, const QString &otsikko)
 
     endInsertRows();
     muokattu_ = true;
+    emit liiteMuutettu();
 }
 
 void LiiteModel::poistaLiite(int indeksi)
@@ -186,6 +188,9 @@ void LiiteModel::poistaLiite(int indeksi)
 
     liitteet_.removeAt(indeksi);
     endRemoveRows();
+
+    muokattu_ = true;
+    emit liiteMuutettu();
 }
 
 QString LiiteModel::liitePolku(int liitenro) const

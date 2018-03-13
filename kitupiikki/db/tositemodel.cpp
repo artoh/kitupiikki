@@ -27,11 +27,17 @@
 #include <QMessageBox>
 
 TositeModel::TositeModel(QSqlDatabase *tietokanta, QObject *parent)
-    : QObject(parent), tietokanta_(tietokanta), muokattu_(false)
+    : QObject(parent),
+      id_(-1), pvm_(kp()->paivamaara()), tositelaji_(1), tiliotetili_(0),
+      tietokanta_(tietokanta),
+      muokattu_(false)
 {
     vientiModel_ = new VientiModel(this);
     liiteModel_ = new LiiteModel(this);
-    tyhjaa();
+    tunniste_ = seuraavaTunnistenumero();
+
+    connect( vientiModel(), &VientiModel::muuttunut, [this] { emit tositettaMuokattu(true); } );
+    connect( liiteModel(), &LiiteModel::liiteMuutettu, [this] { emit tositettaMuokattu(true);} );
 }
 
 Tositelaji TositeModel::tositelaji() const
@@ -43,7 +49,8 @@ bool TositeModel::muokkausSallittu() const
 {
     // Jos päätetyllä tilikaudella, niin
     // ei saa muokata
-    return pvm() >= kp()->tilitpaatetty();
+    return pvm() >= kp()->tilitpaatetty() &&
+           kp()->tilitpaatetty() < kp()->tilikaudet()->kirjanpitoLoppuu();
 }
 
 int TositeModel::seuraavaTunnistenumero() const
@@ -70,18 +77,24 @@ bool TositeModel::kelpaakoTunniste(int tunnistenumero) const
 
 bool TositeModel::muokattu()
 {
+
     return muokattu_ || vientiModel()->muokattu() || json()->onkoMuokattu() || liiteModel()->muokattu();
 }
 
 void TositeModel::asetaPvm(const QDate &pvm)
 {
-   if( !pvm.isValid() )
-   {
-       tunniste_ = 0;
-   }
+    if( pvm == pvm_ || !pvm.isValid())
+        return;
 
    pvm_ = pvm;
-   muokattu_ = true;
+
+   if( id_ > -1)
+   {
+        // Pelkkä uuden tositteen päivämäärän muuttaminen
+        // ei tarkoita tositteen muokkaamista
+        muokattu_ = true;
+        emit tositettaMuokattu(true);
+   }
 
 }
 
@@ -91,6 +104,7 @@ void TositeModel::asetaOtsikko(const QString &otsikko)
     {
         otsikko_ = otsikko;
         muokattu_ = true;
+        emit tositettaMuokattu(true);
     }
 }
 
@@ -100,6 +114,7 @@ void TositeModel::asetaKommentti(const QString &kommentti)
     {
         kommentti_ = kommentti;
         muokattu_ = true;
+        emit tositettaMuokattu(true);
     }
 }
 
@@ -109,9 +124,9 @@ void TositeModel::asetaTunniste(int tunniste)
     {
         tunniste_ = tunniste;
         muokattu_ = true;
+        emit tositettaMuokattu(true);
     }
 }
-
 
 void TositeModel::asetaTositelaji(int tositelajiId)
 {
@@ -121,7 +136,13 @@ void TositeModel::asetaTositelaji(int tositelajiId)
         // Vaihdetaan sopiva tunniste
         tunniste_ = seuraavaTunnistenumero();
 
-        muokattu_ = true;
+        // Pelkkä tositelajin muutos ei merkitse uutta
+        // tositetta muokatuksi
+        if( id_ > -1)
+        {
+            muokattu_ = true;
+            emit tositettaMuokattu(true);
+        }
     }
 
 }
@@ -132,6 +153,7 @@ void TositeModel::asetaTiliotetili(int tiliId)
     {
         tiliotetili_ = tiliId;
         muokattu_ = true;
+        emit tositettaMuokattu(true);
     }
 }
 
@@ -164,7 +186,6 @@ void TositeModel::tyhjaa()
 {
     // Tyhjentää tositteen
     id_ = -1;
-    pvm_ = kp()->paivamaara();
 
     // Siltä varalta että kuluva tilikausi on jo lukittu, siirtyy seuraavaan sallittuun päivään
     if( pvm_ <= kp()->tilitpaatetty() )
@@ -175,13 +196,13 @@ void TositeModel::tyhjaa()
 
     otsikko_ = QString();
     kommentti_ = QString();
-    tositelaji_ = 1;
     tunniste_ = seuraavaTunnistenumero();
     tiliotetili_ = 0;
 
     vientiModel_->tyhjaa();
     liiteModel_->tyhjaa();
     muokattu_ = false;
+    emit tositettaMuokattu(false);
 
 }
 
@@ -244,6 +265,8 @@ bool TositeModel::tallenna()
 
     emit kp()->kirjanpitoaMuokattu();
     muokattu_ = false;
+
+    emit tositettaMuokattu(false);
 
     return true;
 }

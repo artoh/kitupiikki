@@ -105,6 +105,9 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( ui->avaaNappi, SIGNAL(clicked(bool)), this, SLOT(naytaLiite()));
     connect( ui->poistaLiiteNappi, SIGNAL(clicked(bool)), this, SLOT(poistaLiite()));
 
+    connect( model(), SIGNAL(tositettaMuokattu(bool)), this, SLOT(paivitaTallennaPoistaNapit()));
+
+
     // Enterillä päiväyksestä eteenpäin
     ui->tositePvmEdit->installEventFilter(this);
     ui->otsikkoEdit->installEventFilter(this);
@@ -150,9 +153,9 @@ void KirjausWg::tyhjenna()
     model_->tyhjaa();
     // ja sitten päivitetään lomakkeen tiedot modelista
     tiedotModelista();
-    // Sallitaan muokkaus
-    ui->poistaNappi->setEnabled(true);
-    salliMuokkaus( model_->muokkausSallittu());
+    // Ei voi tallentaa eikä poistaa kun ei ole mitään...
+    ui->tallennaButton->setEnabled(false);
+    ui->poistaNappi->setEnabled(false);
     pvmVaihtuu();
     // Verosarake näytetään vain, jos alv-toiminnot käytössä
     ui->viennitView->setColumnHidden( VientiModel::ALV, !kp()->asetukset()->onko("AlvVelvollinen") );
@@ -297,6 +300,12 @@ void KirjausWg::kirjaaLaskunmaksu()
 
 }
 
+void KirjausWg::paivitaTallennaPoistaNapit()
+{
+    ui->tallennaButton->setEnabled( model()->muokattu() && model()->muokkausSallittu() );
+    ui->poistaNappi->setEnabled( model()->muokattu() && model_->id() > -1 && model()->muokkausSallittu());
+}
+
 int KirjausWg::tiliotetiliId()
 {
     if( !ui->tilioteBox->isChecked())
@@ -343,7 +352,7 @@ void KirjausWg::naytaSummat()
                                  .arg(((double) kredit ) / 100.0 ,0,'f',2));
 
     // #39: Debet- ja kredit-kirjausten on täsmättävä
-    ui->tallennaButton->setEnabled( !erotus );
+    ui->tallennaButton->setEnabled( !erotus && model()->muokattu() && model()->muokkausSallittu() );
 
     // Tilien joilla kirjauksia oltava valideja
     for(int i=0; i < model_->vientiModel()->rowCount(QModelIndex()); i++)
@@ -370,7 +379,8 @@ void KirjausWg::lataaTosite(int id)
         ui->liiteView->setCurrentIndex( model_->liiteModel()->index(0) );
 
     // Jos tositteella yksikin lukittu vienti, ei voi poistaa
-    ui->poistaNappi->setEnabled(true);
+    ui->poistaNappi->setEnabled(model()->muokkausSallittu() &&
+                                model()->id() > -1);
 
     for(int i = 0; i < model_->vientiModel()->rowCount(QModelIndex()); i++)
     {
@@ -457,7 +467,7 @@ void KirjausWg::tiedotModelista()
     ui->kommentitEdit->setPlainText( model_->kommentti());
     ui->tunnisteEdit->setText( QString::number(model_->tunniste()));
     ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( model_->tositelaji().id(), TositelajiModel::IdRooli ) );
-    ui->kausiLabel->setText(QString("/%1").arg( kp()->tilikaudet()->tilikausiPaivalle(model_->pvm()).kausitunnus() ));
+    ui->kausiLabel->setText(QString("/ %1").arg( kp()->tilikaudet()->tilikausiPaivalle(model_->pvm()).kausitunnus() ));
 
     ui->tilioteBox->setChecked( model_->tiliotetili() != 0 );
     // Tiliotetilin yhdistämiset!
@@ -496,17 +506,14 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
     ui->tositetyyppiCombo->setEnabled(sallitaanko);
     ui->kommentitEdit->setEnabled(sallitaanko);
     ui->tunnisteEdit->setEnabled(sallitaanko);
-    ui->tallennaButton->setEnabled(sallitaanko);
-    ui->poistaNappi->setEnabled(sallitaanko);
     ui->otsikkoEdit->setEnabled(sallitaanko);
     ui->lisaaliiteNappi->setEnabled(sallitaanko);
     ui->poistaLiiteNappi->setEnabled(sallitaanko);
 
-
     if(sallitaanko)
-        ui->tositePvmEdit->setDateRange(Kirjanpito::db()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );
+        ui->tositePvmEdit->setDateRange( kp()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );
     else
-        ui->tositePvmEdit->setDateRange( Kirjanpito::db()->tilikaudet()->kirjanpitoAlkaa(), Kirjanpito::db()->tilikaudet()->kirjanpitoLoppuu() );
+        ui->tositePvmEdit->setDateRange( kp()->tilikaudet()->kirjanpitoAlkaa(), kp()->tilikaudet()->kirjanpitoLoppuu() );
 
 
 }
@@ -565,6 +572,8 @@ void KirjausWg::pvmVaihtuu()
         return;
 
     QDate paiva = ui->tositePvmEdit->date();
+    QDate vanhaPaiva = model_->pvm();
+
     model_->asetaPvm(paiva);
 
     // Tiliotepäiväyksen kirjauksen kuukauden alkuun ja loppuun
@@ -573,14 +582,12 @@ void KirjausWg::pvmVaihtuu()
     QDate loppupaiva = alkupaiva.addMonths(1).addDays(-1); // Siirrytään kuukauden loppuun
     ui->tilioteloppuenEdit->setDate(loppupaiva);
 
-    QDate vanhaPaiva = model_->pvm();
-
     if( kp()->tilikaudet()->tilikausiPaivalle(paiva).alkaa() != kp()->tilikaudet()->tilikausiPaivalle(vanhaPaiva).alkaa())
     {
         // Siirrytty toiselle tilikaudelle, vaihdetaan numerointia
         model_->asetaTunniste( model_->seuraavaTunnistenumero());
         ui->tunnisteEdit->setText( QString::number(model_->tunniste() ));
-        ui->kausiLabel->setText( kp()->tilikaudet()->tilikausiPaivalle(paiva).kausitunnus() );
+        ui->kausiLabel->setText( QString("/ %1").arg(kp()->tilikaudet()->tilikausiPaivalle(paiva).kausitunnus() ));
     }
 }
 

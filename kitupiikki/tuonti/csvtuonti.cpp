@@ -232,7 +232,7 @@ bool CsvTuonti::tuoCsv(const QByteArray &data)
             {
 
                 QDate pvm;
-                qlonglong sentit;
+                qlonglong sentit = 0;
                 QString iban;
                 QString viite;
                 QString arkistotunnus;
@@ -497,7 +497,7 @@ int CsvTuonti::tuoListaan(const QByteArray &data)
     {
         QStringList nykyinenRivi;
         QString nykyinenSana;
-        bool lainattuna;
+        bool lainattuna = false;
 
         for(int i = 0; i < rivi.length(); i++)
         {
