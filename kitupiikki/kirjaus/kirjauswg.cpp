@@ -426,7 +426,10 @@ void KirjausWg::lisaaLiite(const QString polku)
     if( !polku.isEmpty())
     {
         // Pyritään ensin tuomaan
-        if( !Tuonti::tuo(polku, this))
+        // PDF-tiedosto tuodaan kuitenkin vain tyhjälle tositteelle
+        // Tämä siksi, että pdf-tiliote voidaan tuoda csv-tilitietojen tositteeksi
+        if( !(polku.endsWith(".pdf",Qt::CaseInsensitive)
+             && model()->vientiModel()->rowCount(QModelIndex()) ) &&  !Tuonti::tuo(polku, this))
             return;
 
         QFileInfo info(polku);
