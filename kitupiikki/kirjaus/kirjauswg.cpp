@@ -105,6 +105,11 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( ui->avaaNappi, SIGNAL(clicked(bool)), this, SLOT(naytaLiite()));
     connect( ui->poistaLiiteNappi, SIGNAL(clicked(bool)), this, SLOT(poistaLiite()));
 
+    connect( ui->tiliotealkaenEdit, SIGNAL(editingFinished()), this, SLOT(tiedotModeliin()));
+    connect( ui->tilioteloppuenEdit, SIGNAL(editingFinished()), this, SLOT(tiedotModeliin()));
+    connect( ui->tilioteBox, SIGNAL(clicked(bool)), this, SLOT(tiedotModeliin()));
+    connect( ui->tiliotetiliCombo, SIGNAL(activated(int)), this, SLOT(tiedotModeliin()));
+
     connect( model(), SIGNAL(tositettaMuokattu(bool)), this, SLOT(paivitaTallennaPoistaNapit()));
 
 
@@ -156,6 +161,7 @@ void KirjausWg::tyhjenna()
     // Ei voi tallentaa eikä poistaa kun ei ole mitään...
     ui->tallennaButton->setEnabled(false);
     ui->poistaNappi->setEnabled(false);
+    ui->poistaLiiteNappi->setEnabled(false);
     pvmVaihtuu();
     // Verosarake näytetään vain, jos alv-toiminnot käytössä
     ui->viennitView->setColumnHidden( VientiModel::ALV, !kp()->asetukset()->onko("AlvVelvollinen") );
@@ -389,6 +395,8 @@ void KirjausWg::lataaTosite(int id)
             ui->poistaNappi->setEnabled(false);
     }
 
+    ui->poistaLiiteNappi->setEnabled( model()->liiteModel()->rowCount(QModelIndex()) );
+
 }
 
 void KirjausWg::paivitaKommenttiMerkki()
@@ -417,14 +425,16 @@ void KirjausWg::lisaaLiite(const QString polku)
 {
     if( !polku.isEmpty())
     {
-        // Tiedosto pyritään ensin tuomaan ja jos sopii, niin lisätään
-        if( Tuonti::tuo(polku, this) )
-        {
-            QFileInfo info(polku);
-            model_->liiteModel()->lisaaTiedosto(polku, info.fileName());
-            // Valitsee lisätyn liitteen
-            ui->liiteView->setCurrentIndex( model_->liiteModel()->index( model_->liiteModel()->rowCount(QModelIndex()) - 1 ) );
-        }
+        // Pyritään ensin tuomaan
+        if( !Tuonti::tuo(polku, this))
+            return;
+
+        QFileInfo info(polku);
+        model_->liiteModel()->lisaaTiedosto(polku, info.fileName());
+        // Valitsee lisätyn liitteen
+        ui->liiteView->setCurrentIndex( model_->liiteModel()->index( model_->liiteModel()->rowCount(QModelIndex()) - 1 ) );
+        ui->poistaLiiteNappi->setEnabled(true);
+
     }
 
 }
@@ -456,6 +466,7 @@ void KirjausWg::tiedotModeliin()
         model_->json()->unset("TilioteAlkaa");
         model_->json()->unset("TilioteLoppuu");
     }
+    paivitaTallennaPoistaNapit();
 }
 
 void KirjausWg::tiedotModelista()
@@ -609,5 +620,6 @@ void KirjausWg::poistaLiite()
             model_->liiteModel()->poistaLiite( ui->liiteView->currentIndex().row() );
         }
     }
+    ui->poistaLiiteNappi->setEnabled( model()->liiteModel()->rowCount(QModelIndex()) );
 }
 
