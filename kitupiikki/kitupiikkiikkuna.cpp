@@ -50,6 +50,8 @@
 
 #include "onniwidget.h"
 
+#include "lisaikkuna.h"
+
 
 KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     nykysivu(0)
@@ -102,6 +104,10 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 
     connect( kp(), SIGNAL(onni(QString)), this, SLOT(naytaOnni(QString)));
     connect( aloitussivu, SIGNAL(ktpkasky(QString)), this, SLOT(ktpKasky(QString)));
+
+    toolbar->installEventFilter(this);
+    toolbar->setContextMenuPolicy(Qt::PreventContextMenu);
+
 
 
 }
@@ -231,6 +237,55 @@ void KitupiikkiIkkuna::mousePressEvent(QMouseEvent *event)
         palaaSivulta();
 
     QMainWindow::mousePressEvent(event);
+}
+
+bool KitupiikkiIkkuna::eventFilter(QObject *watched, QEvent *event)
+{
+    // Jos painetaan vasemmalla napilla Kirjausta tai Selausta,
+    // tarjotaan mahdollisuus avata toiminto uudessa ikkunassa
+
+    if( watched == toolbar &&( event->type() == QEvent::MouseButtonPress ||
+                               event->type() == QEvent::MouseButtonRelease) )
+    {
+        QMouseEvent* mouse = static_cast<QMouseEvent*>(event);
+        if( mouse->button() == Qt::RightButton )
+        {
+            if( event->type() == QEvent::MouseButtonPress &&
+                toolbar->actionAt( mouse->pos() ) == sivuaktiot[KIRJAUSSIVU ] )
+            {
+                QMenu valikko;
+                valikko.addAction(tr("Kirjaa uudessa ikkunassa") );
+
+                if( valikko.exec(QCursor::pos()))
+                {
+                    LisaIkkuna *lisa = new LisaIkkuna;
+                    lisa->kirjaa();
+                }
+                return false;
+            }
+            else if( event->type() == QEvent::MouseButtonPress &&
+                    toolbar->actionAt( mouse->pos() ) == sivuaktiot[SELAUSSIVU ] )
+            {
+                QMenu valikko;
+                valikko.addAction(tr("Selaa uudessa ikkunassa") );
+
+                if( valikko.exec(QCursor::pos()))
+                {
+                    LisaIkkuna *lisa = new LisaIkkuna;
+                    lisa->selaa();
+                }
+                return false;
+            }
+        }
+
+    }
+    return QMainWindow::eventFilter(watched, event);
+}
+
+void KitupiikkiIkkuna::closeEvent(QCloseEvent *event)
+{
+    qApp->quit();
+    event->accept();
 }
 
 QAction *KitupiikkiIkkuna::lisaaSivu(const QString &nimi, const QString &kuva, const QString &vihje, const QString &pikanappain, Sivu sivutunnus,

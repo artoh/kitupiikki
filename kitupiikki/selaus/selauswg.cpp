@@ -67,7 +67,7 @@ SelausWg::SelausWg() :
     ui->valintaTab->setCurrentIndex(1);
     connect( ui->valintaTab, SIGNAL(currentChanged(int)), this, SLOT(selaa(int)));
 
-    connect( Kirjanpito::db(), SIGNAL(kirjanpitoaMuokattu()), this, SLOT(merkitsePaivitettavaksi()));
+    connect( Kirjanpito::db(), SIGNAL(kirjanpitoaMuokattu()), this, SLOT(paivita()));
     connect( kp(), SIGNAL(tietokantaVaihtui()), this, SLOT(alusta()));
 
     connect( ui->alkuEdit, SIGNAL(dateChanged(QDate)), this, SLOT(alkuPvmMuuttui()));
@@ -246,12 +246,6 @@ void SelausWg::selaa(int kumpi)
 
 void SelausWg::siirrySivulle()
 {
-    // Sivu päivitetään, jos jotain on muuttunut
-    if( paivitettava )
         paivita();
 }
 
-void SelausWg::merkitsePaivitettavaksi()
-{
-    paivitettava = true;
-}

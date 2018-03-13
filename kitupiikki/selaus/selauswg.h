@@ -70,8 +70,6 @@ public slots:
     void selaa(int kumpi);
 
 
-    void merkitsePaivitettavaksi();
-
 public:
     void siirrySivulle();
 

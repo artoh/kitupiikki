@@ -91,6 +91,8 @@ protected slots:
 
 protected:
     void mousePressEvent(QMouseEvent *event);
+    bool eventFilter(QObject *watched, QEvent *event);
+    void closeEvent(QCloseEvent* event);
 
 protected:
 

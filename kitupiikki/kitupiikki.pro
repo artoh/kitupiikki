@@ -132,7 +132,8 @@ SOURCES += main.cpp \
     tuonti/tuontisarakedelegaatti.cpp \
     tuonti/tilimuuntomodel.cpp \
     uusikp/skripti.cpp \
-    tools/devtool.cpp
+    tools/devtool.cpp \
+    lisaikkuna.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -247,7 +248,8 @@ HEADERS += \
     tuonti/tuontisarakedelegaatti.h \
     tuonti/tilimuuntomodel.h \
     uusikp/skripti.h \
-    tools/devtool.h
+    tools/devtool.h \
+    lisaikkuna.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
