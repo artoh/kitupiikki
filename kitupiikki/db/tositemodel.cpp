@@ -75,6 +75,9 @@ bool TositeModel::muokattu()
 
 void TositeModel::asetaPvm(const QDate &pvm)
 {
+    if( pvm == pvm_)
+        return;
+
    if( !pvm.isValid() )
    {
        tunniste_ = 0;
