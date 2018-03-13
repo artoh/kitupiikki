@@ -88,6 +88,7 @@ public:
     bool muokattu();
 
 signals:
+    void tositettaMuokattu(bool onko);
 
 
 public slots:

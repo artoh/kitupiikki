@@ -408,6 +408,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="tallennaButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>T&amp;allenna</string>
        </property>
@@ -436,6 +439,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="poistaNappi">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Poista</string>
        </property>

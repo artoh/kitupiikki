@@ -105,6 +105,9 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( ui->avaaNappi, SIGNAL(clicked(bool)), this, SLOT(naytaLiite()));
     connect( ui->poistaLiiteNappi, SIGNAL(clicked(bool)), this, SLOT(poistaLiite()));
 
+    connect( model(), SIGNAL(tositettaMuokattu(bool)), this, SLOT(paivitaTallennaPoistaNapit()));
+
+
     // Enterillä päiväyksestä eteenpäin
     ui->tositePvmEdit->installEventFilter(this);
     ui->otsikkoEdit->installEventFilter(this);
@@ -150,8 +153,9 @@ void KirjausWg::tyhjenna()
     model_->tyhjaa();
     // ja sitten päivitetään lomakkeen tiedot modelista
     tiedotModelista();
-    // Sallitaan muokkaus
-    ui->poistaNappi->setEnabled(true);
+    // Ei voi tallentaa eikä poistaa kun ei ole mitään...
+    ui->tallennaButton->setEnabled(false);
+    ui->poistaNappi->setEnabled(false);
     pvmVaihtuu();
     // Verosarake näytetään vain, jos alv-toiminnot käytössä
     ui->viennitView->setColumnHidden( VientiModel::ALV, !kp()->asetukset()->onko("AlvVelvollinen") );
@@ -296,6 +300,12 @@ void KirjausWg::kirjaaLaskunmaksu()
 
 }
 
+void KirjausWg::paivitaTallennaPoistaNapit()
+{
+    ui->tallennaButton->setEnabled( model()->muokattu() && model()->muokkausSallittu() );
+    ui->poistaNappi->setEnabled( model()->muokattu() && model_->id() > -1 && model()->muokkausSallittu());
+}
+
 int KirjausWg::tiliotetiliId()
 {
     if( !ui->tilioteBox->isChecked())
@@ -342,7 +352,7 @@ void KirjausWg::naytaSummat()
                                  .arg(((double) kredit ) / 100.0 ,0,'f',2));
 
     // #39: Debet- ja kredit-kirjausten on täsmättävä
-    ui->tallennaButton->setEnabled( !erotus );
+    ui->tallennaButton->setEnabled( !erotus && model()->muokattu() && model()->muokkausSallittu() );
 
     // Tilien joilla kirjauksia oltava valideja
     for(int i=0; i < model_->vientiModel()->rowCount(QModelIndex()); i++)
@@ -369,7 +379,8 @@ void KirjausWg::lataaTosite(int id)
         ui->liiteView->setCurrentIndex( model_->liiteModel()->index(0) );
 
     // Jos tositteella yksikin lukittu vienti, ei voi poistaa
-    ui->poistaNappi->setEnabled(true);
+    ui->poistaNappi->setEnabled(model()->muokkausSallittu() &&
+                                model()->id() > -1);
 
     for(int i = 0; i < model_->vientiModel()->rowCount(QModelIndex()); i++)
     {
@@ -495,8 +506,6 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
     ui->tositetyyppiCombo->setEnabled(sallitaanko);
     ui->kommentitEdit->setEnabled(sallitaanko);
     ui->tunnisteEdit->setEnabled(sallitaanko);
-    ui->tallennaButton->setEnabled(sallitaanko);
-    ui->poistaNappi->setEnabled(sallitaanko);
     ui->otsikkoEdit->setEnabled(sallitaanko);
     ui->lisaaliiteNappi->setEnabled(sallitaanko);
     ui->poistaLiiteNappi->setEnabled(sallitaanko);

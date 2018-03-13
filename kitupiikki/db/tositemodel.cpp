@@ -35,6 +35,9 @@ TositeModel::TositeModel(QSqlDatabase *tietokanta, QObject *parent)
     vientiModel_ = new VientiModel(this);
     liiteModel_ = new LiiteModel(this);
     tunniste_ = seuraavaTunnistenumero();
+
+    connect( vientiModel(), &VientiModel::muuttunut, [this] { emit tositettaMuokattu(true); } );
+    connect( liiteModel(), &LiiteModel::liiteMuutettu, [this] { emit tositettaMuokattu(true);} );
 }
 
 Tositelaji TositeModel::tositelaji() const
@@ -74,6 +77,7 @@ bool TositeModel::kelpaakoTunniste(int tunnistenumero) const
 
 bool TositeModel::muokattu()
 {
+
     return muokattu_ || vientiModel()->muokattu() || json()->onkoMuokattu() || liiteModel()->muokattu();
 }
 
@@ -85,9 +89,12 @@ void TositeModel::asetaPvm(const QDate &pvm)
    pvm_ = pvm;
 
    if( id_ > -1)
+   {
         // Pelkkä uuden tositteen päivämäärän muuttaminen
         // ei tarkoita tositteen muokkaamista
         muokattu_ = true;
+        emit tositettaMuokattu(true);
+   }
 
 }
 
@@ -97,6 +104,7 @@ void TositeModel::asetaOtsikko(const QString &otsikko)
     {
         otsikko_ = otsikko;
         muokattu_ = true;
+        emit tositettaMuokattu(true);
     }
 }
 
@@ -106,6 +114,7 @@ void TositeModel::asetaKommentti(const QString &kommentti)
     {
         kommentti_ = kommentti;
         muokattu_ = true;
+        emit tositettaMuokattu(true);
     }
 }
 
@@ -115,6 +124,7 @@ void TositeModel::asetaTunniste(int tunniste)
     {
         tunniste_ = tunniste;
         muokattu_ = true;
+        emit tositettaMuokattu(true);
     }
 }
 
@@ -129,7 +139,10 @@ void TositeModel::asetaTositelaji(int tositelajiId)
         // Pelkkä tositelajin muutos ei merkitse uutta
         // tositetta muokatuksi
         if( id_ > -1)
+        {
             muokattu_ = true;
+            emit tositettaMuokattu(true);
+        }
     }
 
 }
@@ -140,6 +153,7 @@ void TositeModel::asetaTiliotetili(int tiliId)
     {
         tiliotetili_ = tiliId;
         muokattu_ = true;
+        emit tositettaMuokattu(true);
     }
 }
 
@@ -188,6 +202,7 @@ void TositeModel::tyhjaa()
     vientiModel_->tyhjaa();
     liiteModel_->tyhjaa();
     muokattu_ = false;
+    emit tositettaMuokattu(false);
 
 }
 
@@ -250,6 +265,8 @@ bool TositeModel::tallenna()
 
     emit kp()->kirjanpitoaMuokattu();
     muokattu_ = false;
+
+    emit tositettaMuokattu(false);
 
     return true;
 }

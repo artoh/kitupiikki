@@ -86,6 +86,9 @@ public slots:
      */
     bool tallenna();
 
+signals:
+    void liiteMuutettu();
+
 
 protected:
     int seuraavaNumero() const;

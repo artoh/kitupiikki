@@ -126,6 +126,8 @@ public slots:
      * @brief Näyttää laskun maksun valintadialogin ja kirjaa maksun
      */
     void kirjaaLaskunmaksu();
+
+    void paivitaTallennaPoistaNapit();
 public:
     /**
      * @brief Jos kirjataan tiliotetta, tiliotetilin id
