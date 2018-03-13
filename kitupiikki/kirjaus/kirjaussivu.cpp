@@ -20,6 +20,7 @@
 #include <QHBoxLayout>
 #include <QMessageBox>
 #include <QDebug>
+#include <QSettings>
 
 #include "kirjaussivu.h"
 
@@ -36,9 +37,12 @@ KirjausSivu::KirjausSivu() : KitupiikkiSivu()
     liitewg = new NaytaliiteWg();
     kirjauswg = new KirjausWg(model);
 
-    QSplitter *splitter = new QSplitter(Qt::Vertical);
+    splitter = new QSplitter(Qt::Vertical);
     splitter->addWidget(liitewg);
     splitter->addWidget(kirjauswg);
+
+    QSettings settings;
+    splitter->restoreState(settings.value("KirjausSplitter").toByteArray());
 
     QHBoxLayout *leiska = new QHBoxLayout;
     leiska->addWidget(splitter);
@@ -48,6 +52,7 @@ KirjausSivu::KirjausSivu() : KitupiikkiSivu()
     connect( liitewg, SIGNAL(lisaaLiite(QString)), kirjauswg, SLOT(lisaaLiite(QString)));
     connect( kirjauswg, SIGNAL(liiteValittu(QByteArray)), liitewg, SLOT(naytaPdf(QByteArray)));
     connect( kirjauswg, SIGNAL(tositeKasitelty()), this, SLOT(tositeKasitelty()));
+    connect( splitter, SIGNAL(splitterMoved(int,int)), this, SLOT(talletaSplitter()));
 }
 
 KirjausSivu::~KirjausSivu()
@@ -83,5 +88,11 @@ void KirjausSivu::tositeKasitelty()
 {
     if( palataanTakaisin_)
         emit palaaEdelliselleSivulle();
+}
+
+void KirjausSivu::talletaSplitter()
+{
+    QSettings settings;
+    settings.setValue("KirjausSplitter", splitter->saveState());
 }
 

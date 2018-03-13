@@ -30,6 +30,7 @@
 
 class KirjausWg;
 class NaytaliiteWg;
+class QSplitter;
 
 /**
  * @brief Sivu, jolla kirjaukset tehdään
@@ -62,10 +63,15 @@ signals:
 public slots:
     void naytaTosite(int tositeId);
     void tositeKasitelty();
+    /**
+     * @brief Kun splitteriä säädetään, talletaan asetus
+     */
+    void talletaSplitter();
 
 protected:
     KirjausWg *kirjauswg;
     NaytaliiteWg *liitewg;
+    QSplitter *splitter;
 
     TositeModel *model;
 
