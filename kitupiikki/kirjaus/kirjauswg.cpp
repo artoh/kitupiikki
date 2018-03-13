@@ -565,6 +565,8 @@ void KirjausWg::pvmVaihtuu()
         return;
 
     QDate paiva = ui->tositePvmEdit->date();
+    QDate vanhaPaiva = model_->pvm();
+
     model_->asetaPvm(paiva);
 
     // Tiliotepäiväyksen kirjauksen kuukauden alkuun ja loppuun
@@ -572,8 +574,6 @@ void KirjausWg::pvmVaihtuu()
     ui->tiliotealkaenEdit->setDate( alkupaiva );
     QDate loppupaiva = alkupaiva.addMonths(1).addDays(-1); // Siirrytään kuukauden loppuun
     ui->tilioteloppuenEdit->setDate(loppupaiva);
-
-    QDate vanhaPaiva = model_->pvm();
 
     if( kp()->tilikaudet()->tilikausiPaivalle(paiva).alkaa() != kp()->tilikaudet()->tilikausiPaivalle(vanhaPaiva).alkaa())
     {
