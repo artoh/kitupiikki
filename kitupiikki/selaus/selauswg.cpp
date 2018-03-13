@@ -21,6 +21,7 @@
 #include <QDate>
 #include <QSortFilterProxyModel>
 #include <QSqlQuery>
+#include <QScrollBar>
 
 #include <QDebug>
 
@@ -98,6 +99,9 @@ void SelausWg::alusta()
 
 void SelausWg::paivita()
 {
+    bool lopussa = ui->selausView->verticalScrollBar()->value() >=
+            ui->selausView->verticalScrollBar()->maximum() - ui->selausView->verticalScrollBar()->pageStep();
+
     if( ui->valintaTab->currentIndex() == 1 )
     {
         model->lataa( ui->alkuEdit->date(), ui->loppuEdit->date());
@@ -125,6 +129,8 @@ void SelausWg::paivita()
     paivitaSummat();
     paivitettava = false;
 
+    if( lopussa )
+        ui->selausView->verticalScrollBar()->setValue( ui->selausView->verticalScrollBar()->maximum() );
 
 }
 
@@ -208,7 +214,7 @@ void SelausWg::selaaVienteja()
 
     proxyModel->setSourceModel(model);
     proxyModel->setFilterKeyColumn( SelausModel::TILI);
-    proxyModel->setSortRole(Qt::EditRole);  // Jotta numerot lajitellaan oikein
+    etsiProxy->setSortRole(Qt::EditRole);  // Jotta numerot lajitellaan oikein
     etsiProxy->setSourceModel(proxyModel);
     etsiProxy->setFilterKeyColumn( SelausModel::SELITE );
 
@@ -220,7 +226,7 @@ void SelausWg::selaaTositteita()
 
     proxyModel->setSourceModel(tositeModel);
     proxyModel->setFilterKeyColumn( TositeSelausModel::TOSITELAJI);
-    proxyModel->setSortRole(Qt::EditRole);  // Jotta numerot lajitellaan oikein
+    etsiProxy->setSortRole(Qt::EditRole);  // Jotta numerot lajitellaan oikein
     etsiProxy->setSourceModel(proxyModel);
     etsiProxy->setFilterKeyColumn( TositeSelausModel::OTSIKKO );
 
@@ -246,6 +252,7 @@ void SelausWg::selaa(int kumpi)
 
 void SelausWg::siirrySivulle()
 {
-        paivita();
+
+        selaa( ui->valintaTab->currentIndex() );
 }
 

@@ -284,6 +284,7 @@ bool KitupiikkiIkkuna::eventFilter(QObject *watched, QEvent *event)
 
 void KitupiikkiIkkuna::closeEvent(QCloseEvent *event)
 {
+    // Pääikkunan sulkeutuessa sivuikkunatkin suljetaan
     qApp->quit();
     event->accept();
 }

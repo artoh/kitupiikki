@@ -43,6 +43,8 @@ void LisaIkkuna::kirjaa(int tositeId)
     show();
 
     connect( sivu, SIGNAL(palaaEdelliselleSivulle()), this, SLOT(close()));
+
+    setWindowTitle(tr("%1 - Kirjaus").arg(kp()->asetus("Nimi")));
 }
 
 void LisaIkkuna::selaa()
@@ -54,6 +56,7 @@ void LisaIkkuna::selaa()
     show();
 
     connect( sivu, SIGNAL(tositeValittu(int)), this, SLOT(naytaTosite(int)));
+    setWindowTitle(tr("%1 - Selaus").arg(kp()->asetus("Nimi")));
 }
 
 void LisaIkkuna::naytaTosite(int tositeId)
