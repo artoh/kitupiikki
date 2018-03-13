@@ -310,6 +310,7 @@ bool UusiKirjanpito::alustaKirjanpito()
     {
         // Ensimmäinen tilikausi, tilinavausta ei tarvita
         asetukset.aseta("Tilinavaus",0);
+        asetukset.aseta("TilitPaatetty", field("alkaa").toDate().addDays(-1));
     }
     else
     {

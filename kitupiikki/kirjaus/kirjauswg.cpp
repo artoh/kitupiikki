@@ -152,7 +152,6 @@ void KirjausWg::tyhjenna()
     tiedotModelista();
     // Sallitaan muokkaus
     ui->poistaNappi->setEnabled(true);
-    salliMuokkaus( model_->muokkausSallittu());
     pvmVaihtuu();
     // Verosarake näytetään vain, jos alv-toiminnot käytössä
     ui->viennitView->setColumnHidden( VientiModel::ALV, !kp()->asetukset()->onko("AlvVelvollinen") );
@@ -457,7 +456,7 @@ void KirjausWg::tiedotModelista()
     ui->kommentitEdit->setPlainText( model_->kommentti());
     ui->tunnisteEdit->setText( QString::number(model_->tunniste()));
     ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( model_->tositelaji().id(), TositelajiModel::IdRooli ) );
-    ui->kausiLabel->setText(QString("/%1").arg( kp()->tilikaudet()->tilikausiPaivalle(model_->pvm()).kausitunnus() ));
+    ui->kausiLabel->setText(QString("/ %1").arg( kp()->tilikaudet()->tilikausiPaivalle(model_->pvm()).kausitunnus() ));
 
     ui->tilioteBox->setChecked( model_->tiliotetili() != 0 );
     // Tiliotetilin yhdistämiset!
@@ -502,11 +501,10 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
     ui->lisaaliiteNappi->setEnabled(sallitaanko);
     ui->poistaLiiteNappi->setEnabled(sallitaanko);
 
-
     if(sallitaanko)
-        ui->tositePvmEdit->setDateRange(Kirjanpito::db()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );
+        ui->tositePvmEdit->setDateRange( kp()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );
     else
-        ui->tositePvmEdit->setDateRange( Kirjanpito::db()->tilikaudet()->kirjanpitoAlkaa(), Kirjanpito::db()->tilikaudet()->kirjanpitoLoppuu() );
+        ui->tositePvmEdit->setDateRange( kp()->tilikaudet()->kirjanpitoAlkaa(), kp()->tilikaudet()->kirjanpitoLoppuu() );
 
 
 }
@@ -580,7 +578,7 @@ void KirjausWg::pvmVaihtuu()
         // Siirrytty toiselle tilikaudelle, vaihdetaan numerointia
         model_->asetaTunniste( model_->seuraavaTunnistenumero());
         ui->tunnisteEdit->setText( QString::number(model_->tunniste() ));
-        ui->kausiLabel->setText( kp()->tilikaudet()->tilikausiPaivalle(paiva).kausitunnus() );
+        ui->kausiLabel->setText( QString("/ %1").arg(kp()->tilikaudet()->tilikausiPaivalle(paiva).kausitunnus() ));
     }
 }
 

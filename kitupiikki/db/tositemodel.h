@@ -101,6 +101,12 @@ public slots:
 
 
     void lataa(int id);
+
+    /**
+     * @brief Tyhjentää tositteen
+     *
+     * Päivämäärä ja tositelaji jäävät kuitenkin edellisestä
+     */
     void tyhjaa();
     bool tallenna();
     void poista();

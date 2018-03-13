@@ -27,11 +27,14 @@
 #include <QMessageBox>
 
 TositeModel::TositeModel(QSqlDatabase *tietokanta, QObject *parent)
-    : QObject(parent), tietokanta_(tietokanta), muokattu_(false)
+    : QObject(parent),
+      id_(-1), pvm_(kp()->paivamaara()), tositelaji_(1), tiliotetili_(0),
+      tietokanta_(tietokanta),
+      muokattu_(false)
 {
     vientiModel_ = new VientiModel(this);
     liiteModel_ = new LiiteModel(this);
-    tyhjaa();
+    tunniste_ = seuraavaTunnistenumero();
 }
 
 Tositelaji TositeModel::tositelaji() const
@@ -43,7 +46,8 @@ bool TositeModel::muokkausSallittu() const
 {
     // Jos päätetyllä tilikaudella, niin
     // ei saa muokata
-    return pvm() >= kp()->tilitpaatetty();
+    return pvm() >= kp()->tilitpaatetty() &&
+           kp()->tilitpaatetty() < kp()->tilikaudet()->kirjanpitoLoppuu();
 }
 
 int TositeModel::seuraavaTunnistenumero() const
@@ -75,16 +79,15 @@ bool TositeModel::muokattu()
 
 void TositeModel::asetaPvm(const QDate &pvm)
 {
-    if( pvm == pvm_)
+    if( pvm == pvm_ || !pvm.isValid())
         return;
 
-   if( !pvm.isValid() )
-   {
-       tunniste_ = 0;
-   }
-
    pvm_ = pvm;
-   muokattu_ = true;
+
+   if( id_ > -1)
+        // Pelkkä uuden tositteen päivämäärän muuttaminen
+        // ei tarkoita tositteen muokkaamista
+        muokattu_ = true;
 
 }
 
@@ -115,7 +118,6 @@ void TositeModel::asetaTunniste(int tunniste)
     }
 }
 
-
 void TositeModel::asetaTositelaji(int tositelajiId)
 {
     if( tositelajiId != tositelaji_)
@@ -124,7 +126,10 @@ void TositeModel::asetaTositelaji(int tositelajiId)
         // Vaihdetaan sopiva tunniste
         tunniste_ = seuraavaTunnistenumero();
 
-        muokattu_ = true;
+        // Pelkkä tositelajin muutos ei merkitse uutta
+        // tositetta muokatuksi
+        if( id_ > -1)
+            muokattu_ = true;
     }
 
 }
@@ -167,7 +172,6 @@ void TositeModel::tyhjaa()
 {
     // Tyhjentää tositteen
     id_ = -1;
-    pvm_ = kp()->paivamaara();
 
     // Siltä varalta että kuluva tilikausi on jo lukittu, siirtyy seuraavaan sallittuun päivään
     if( pvm_ <= kp()->tilitpaatetty() )
@@ -178,7 +182,6 @@ void TositeModel::tyhjaa()
 
     otsikko_ = QString();
     kommentti_ = QString();
-    tositelaji_ = 1;
     tunniste_ = seuraavaTunnistenumero();
     tiliotetili_ = 0;
 
