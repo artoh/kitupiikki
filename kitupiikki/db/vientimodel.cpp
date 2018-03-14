@@ -458,7 +458,7 @@ void VientiModel::poistaRivi(int rivi)
 }
 
 
-QModelIndex VientiModel::lisaaVienti()
+QModelIndex VientiModel::lisaaVienti(int indeksi)
 {
     // Kun lisätään uusi insertillä, yritetään arvata oikeat täytöt
 
@@ -494,19 +494,22 @@ QModelIndex VientiModel::lisaaVienti()
         uusirivi.tili = kp()->tilit()->tiliNumerolla( vastatili);
     }
 
-    return lisaaVienti( uusirivi );
+    return lisaaVienti( uusirivi , indeksi);
 }
 
-QModelIndex VientiModel::lisaaVienti(VientiRivi rivi)
+QModelIndex VientiModel::lisaaVienti(VientiRivi rivi, int indeksi)
 {
-    beginInsertRows( QModelIndex(), viennit_.count(), viennit_.count());
+    if( indeksi == -1)
+        indeksi = viennit_.count();
+
+    beginInsertRows( QModelIndex(), indeksi, indeksi);
 
     rivi.riviNro = seuraavaRiviNumero();
-    viennit_.append( rivi );
+    viennit_.insert(indeksi, rivi);
 
     endInsertRows();
     emit muuttunut();   // Debet / kredit täsmäytykseen
-    return index( viennit_.count() - 1, 0);
+    return index( indeksi, 0);
 }
 
 qlonglong VientiModel::debetSumma() const

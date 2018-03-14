@@ -124,7 +124,7 @@ public:
      *
      * @return indeksi uuteen vientiin
      */
-    QModelIndex lisaaVienti();
+    QModelIndex lisaaVienti(int indeksi = -1);
 
     /**
      * @brief Lisää valmiin vientirivin
@@ -133,7 +133,7 @@ public:
      * Lisää valmiin viennin. Tätä käytetään, kun KirjausApuriDialogi tallentaa
      * kirjauksen
      */
-    QModelIndex lisaaVienti(VientiRivi rivi);
+    QModelIndex lisaaVienti(VientiRivi rivi, int indeksi = -1);
 
 
     qlonglong debetSumma() const;

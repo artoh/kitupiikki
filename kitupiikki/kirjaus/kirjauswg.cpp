@@ -131,13 +131,13 @@ QDate KirjausWg::tositePvm() const
 }
 
 void KirjausWg::lisaaRivi()
-{
-    model_->vientiModel()->lisaaVienti();
+{   
+    // Lisätään valinnan jälkeen
+    QModelIndex indeksi = model_->vientiModel()->lisaaVienti(ui->viennitView->currentIndex().isValid() ? ui->viennitView->currentIndex().row() + 1 : -1);
+
     ui->viennitView->setFocus();
 
-    QModelIndex indeksi = model_->vientiModel()->index( model_->vientiModel()->rowCount(QModelIndex()) - 1, VientiModel::TILI );
-
-    ui->viennitView->setCurrentIndex( indeksi  );
+    ui->viennitView->setCurrentIndex( indeksi.sibling( indeksi.row(), VientiModel::TILI )  );
 
 }
 

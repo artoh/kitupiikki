@@ -382,7 +382,7 @@
      <item>
       <widget class="QPushButton" name="laskuNappi">
        <property name="text">
-        <string>&amp;Lasku</string>
+        <string>Lasku</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
