@@ -72,6 +72,9 @@ public slots:
     void valilehtiVaihtui(int indeksi);
     void korjaaSarakeLeveydet();
 
+    void tiliTarkastus(const QString txt);
+    void viiteTarkastus(const QString txt);
+
     void accept();
 
 protected:

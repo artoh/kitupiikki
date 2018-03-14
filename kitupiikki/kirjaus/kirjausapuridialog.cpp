@@ -20,6 +20,8 @@
 #include <cmath>
 #include "kirjausapuridialog.h"
 #include "ui_kirjausapuridialog.h"
+#include "validator/ibanvalidator.h"
+#include "validator/viitevalidator.h"
 
 KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent) :
     QDialog(parent),
@@ -44,6 +46,7 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     ui->alvVaaraKuva->setVisible(false);
     ui->alvVaaraTeksti->setVisible(false);
     ui->yhdistaCheck->setVisible(false);
+    ui->ostoBox->setVisible(false);
 
     // Jos kredit ja debet poikkeaa, voidaan tehdä toispuoleinen kirjaus
     ui->vastaCheck->setVisible( false );
@@ -65,6 +68,9 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     ui->alvCombo->setModel( &verofiltteri );
 
     ui->ehdotusView->setModel( &ehdotus );
+
+    ui->ibanEdit->setValidator( new IbanValidator());
+    ui->viiteEdit->setValidator( new ViiteValidator());
 
     ui->buttonBox->button( QDialogButtonBox::Ok )->setEnabled( false );
 
@@ -94,8 +100,12 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     // Hakee tositteen tiedoista esitäytöt
     QDate pvm = model->pvm();
     ui->pvmDate->setDate( pvm );
-    ui->pvmDate->setDateRange(kp()->tilikausiPaivalle(pvm).alkaa() , kp()->tilikausiPaivalle(pvm).paattyy() );
+    ui->pvmDate->setDateRange( kp()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );
     ui->seliteEdit->setText( model->otsikko());
+    ui->erapvmEdit->setDate( pvm.addDays(14));
+
+    connect( ui->ibanEdit, SIGNAL(textChanged(QString)), this, SLOT(tiliTarkastus(QString)));
+    connect( ui->viiteEdit, SIGNAL(textChanged(QString)), this, SLOT(viiteTarkastus(QString)));
 
     ui->tiliEdit->valitseTiliNumerolla( model->tositelaji().json()->luku("Oletustili"));
     tiliTaytetty();
@@ -286,6 +296,8 @@ void KirjausApuriDialog::vastaTiliMuuttui()
     ui->yhdistaCheck->setChecked(yhdistettavissa && !model->tiliotetili() );
     yhdistaminenMuuttui( ui->yhdistaCheck->isChecked());
 
+    ui->ostoBox->setVisible( vastatili.onko(TiliLaji::OSTOVELKA));
+
     ehdota();
 }
 
@@ -444,6 +456,17 @@ void KirjausApuriDialog::ehdota()
             else
                 taserivi.kreditSnt = nettoSnt;
             taserivi.eraId = ui->vastaTaseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
+
+            if(vastatili.onko(TiliLaji::OSTOVELKA))
+            {
+                if( ui->ibanEdit->hasAcceptableInput())
+                    taserivi.saajanTili = ui->ibanEdit->text().remove(' ');
+                if( ui->viiteEdit->hasAcceptableInput())
+                    taserivi.viite = ui->viiteEdit->text().remove(' ');
+                if( ui->eraCheck->isChecked())
+                    taserivi.erapvm = ui->erapvmEdit->date();
+            }
+
             ehdotus.lisaaVienti(taserivi);
         }
         break;
@@ -548,6 +571,22 @@ void KirjausApuriDialog::korjaaSarakeLeveydet()
     ui->ehdotusView->setColumnWidth( EhdotusModel::TILI, ui->ehdotusView->width() - ui->ehdotusView->columnWidth(EhdotusModel::KREDIT)
                                      - ui->ehdotusView->columnWidth(EhdotusModel::DEBET) - 10);
     ui->tiliEdit->setFocus();
+}
+
+void KirjausApuriDialog::tiliTarkastus(const QString txt)
+{
+    if( IbanValidator::kelpo(txt) == IbanValidator::Acceptable )
+        ui->ibanEdit->setStyleSheet("color: darkGreen;");
+    else
+        ui->ibanEdit->setStyleSheet("color: darkRed;");
+}
+
+void KirjausApuriDialog::viiteTarkastus(const QString txt)
+{
+    if( ViiteValidator::kelpaako(txt))
+        ui->viiteEdit->setStyleSheet("color: darkGreen;");
+    else
+        ui->viiteEdit->setStyleSheet("color: darkRed;");
 }
 
 void KirjausApuriDialog::accept()
