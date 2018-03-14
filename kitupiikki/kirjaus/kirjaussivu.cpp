@@ -22,6 +22,8 @@
 #include <QDebug>
 #include <QSettings>
 
+#include "kitupiikkiikkuna.h"
+
 #include "kirjaussivu.h"
 
 #include "kirjauswg.h"
@@ -30,7 +32,8 @@
 #include "db/kirjanpito.h"
 #include "db/tositemodel.h"
 
-KirjausSivu::KirjausSivu() : KitupiikkiSivu()
+KirjausSivu::KirjausSivu(KitupiikkiIkkuna *ikkuna) :
+    KitupiikkiSivu(), ikkuna_(ikkuna)
 {
     model = kp()->tositemodel();
 
@@ -66,10 +69,17 @@ void KirjausSivu::siirrySivulle()
     kirjauswg->tyhjenna();
 }
 
-bool KirjausSivu::poistuSivulta()
+bool KirjausSivu::poistuSivulta(int minne)
 {
     if( model->muokattu() && model->vientiModel()->debetSumma() && model->muokkausSallittu())
     {
+        if( minne == KitupiikkiIkkuna::SELAUSSIVU && ikkuna_ )
+        {
+            // Jos muokatusta tositteesta halutaan poistua selaukseen, avataankin uusi selaus
+            ikkuna_->uusiSelausIkkuna();
+            return false;
+        }
+
         if( QMessageBox::question(this, tr("Kitupiikki"), tr("Nykyistä kirjausta on muokattu. Poistutko sivulta tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
         {
             return false;
@@ -81,7 +91,13 @@ bool KirjausSivu::poistuSivulta()
 void KirjausSivu::naytaTosite(int tositeId)
 {
     palataanTakaisin_ = true;
-    kirjauswg->lataaTosite(tositeId);
+
+    // Tositteeseen -1 siirtyminen tarkoittaa, että ollaan
+    // kirjaamassa lisäikkunalla, jolloin hylkää-nappi sulkee
+    // ikkunan
+
+    if( tositeId > -1)
+        kirjauswg->lataaTosite(tositeId);
 }
 
 void KirjausSivu::tositeKasitelty()

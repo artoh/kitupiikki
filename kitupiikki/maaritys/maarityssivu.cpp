@@ -103,7 +103,7 @@ void MaaritysSivu::siirrySivulle()
     valitseSivu( lista->item(0) );
 }
 
-bool MaaritysSivu::poistuSivulta()
+bool MaaritysSivu::poistuSivulta(int /* minne */)
 {
     if( nykyinen && nykyinen->onkoMuokattu())
     {

@@ -44,7 +44,7 @@ public:
     enum Valilehdet { KAIKKI, AVOIMET, ERAANTYNEET };
 
     void siirrySivulle();
-    bool poistuSivulta();
+    bool poistuSivulta(int minne);
     QString ohjeSivunNimi() { return "laskutus";}
 
 public slots:

@@ -76,7 +76,7 @@ void LaskutusSivu::siirrySivulle()
     paivita();
 }
 
-bool LaskutusSivu::poistuSivulta()
+bool LaskutusSivu::poistuSivulta(int /* minne */)
 {
     return true;
 }

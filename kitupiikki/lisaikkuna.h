@@ -44,8 +44,14 @@ public slots:
      */
     void naytaTosite(int tositeId);
 
+    /**
+     * @brief Näyttää ohjeen
+     */
+    void ohje();
+
 
 private:
+    QString ohjesivu;
 };
 
 #endif // LISAIKKUNA_H

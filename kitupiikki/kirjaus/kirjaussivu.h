@@ -31,6 +31,7 @@
 class KirjausWg;
 class NaytaliiteWg;
 class QSplitter;
+class KitupiikkiIkkuna;
 
 /**
  * @brief Sivu, jolla kirjaukset tehdään
@@ -46,11 +47,11 @@ class KirjausSivu : public KitupiikkiSivu
 {
     Q_OBJECT
 public:
-    KirjausSivu();
+    KirjausSivu(KitupiikkiIkkuna *ikkuna);
     ~KirjausSivu();
 
     void siirrySivulle();
-    bool poistuSivulta();
+    bool poistuSivulta(int minne);
 
     QString ohjeSivunNimi() { return "kirjaus"; }
 
@@ -69,6 +70,7 @@ public slots:
     void talletaSplitter();
 
 protected:
+    KitupiikkiIkkuna *ikkuna_;
     KirjausWg *kirjauswg;
     NaytaliiteWg *liitewg;
     QSplitter *splitter;

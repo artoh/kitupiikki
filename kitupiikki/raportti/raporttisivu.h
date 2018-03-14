@@ -54,7 +54,7 @@ public:
     explicit RaporttiSivu(QWidget *parent = 0);
 
     void siirrySivulle();
-    bool poistuSivulta();
+    bool poistuSivulta(int minne);
 
     QString ohjeSivunNimi() override { return "tulosteet";}
 

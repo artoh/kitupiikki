@@ -76,11 +76,6 @@ void ArkistoSivu::siirrySivulle()
     ui->view->selectRow( ui->view->model()->rowCount(QModelIndex()) - 1);
 }
 
-bool ArkistoSivu::poistuSivulta()
-{
-    return true;
-}
-
 void ArkistoSivu::uusiTilikausi()
 {
     Ui::UusiTilikausiDlg dlgUi;

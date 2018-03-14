@@ -44,7 +44,6 @@ public:
     ~ArkistoSivu();
 
     void siirrySivulle();
-    bool poistuSivulta();
 
     QString ohjeSivunNimi() override { return "tilikaudet/tilikaudet"; }
 

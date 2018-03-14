@@ -83,7 +83,7 @@ void RaporttiSivu::siirrySivulle()
     lista->setCurrentItem(lista->item(0));
 }
 
-bool RaporttiSivu::poistuSivulta()
+bool RaporttiSivu::poistuSivulta(int /* minne */)
 {
     if( nykyinen )
     {

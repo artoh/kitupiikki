@@ -65,7 +65,7 @@ public:
     MaaritysSivu();
 
     void siirrySivulle();
-    bool poistuSivulta();
+    bool poistuSivulta(int minne);
 
     QString ohjeSivunNimi() override;
 

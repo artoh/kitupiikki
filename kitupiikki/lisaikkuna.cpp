@@ -22,10 +22,14 @@
 
 #include "db/kirjanpito.h"
 
+#include <QShortcut>
+
 LisaIkkuna::LisaIkkuna(QWidget *parent) : QMainWindow(parent)
 {
     setAttribute(Qt::WA_DeleteOnClose);
     connect( kp(), SIGNAL(tietokantaVaihtui()), this, SLOT(close()));
+
+    new QShortcut( QKeySequence(Qt::Key_F1), this, SLOT(ohje()));
 }
 
 LisaIkkuna::~LisaIkkuna()
@@ -35,14 +39,14 @@ LisaIkkuna::~LisaIkkuna()
 
 void LisaIkkuna::kirjaa(int tositeId)
 {
-    KirjausSivu *sivu = new KirjausSivu();
+    KirjausSivu *sivu = new KirjausSivu(0);
     setCentralWidget( sivu );
     sivu->siirrySivulle();
-    if( tositeId > -1)
-        sivu->naytaTosite(tositeId);
+    sivu->naytaTosite(tositeId);
     show();
 
-    connect( sivu, SIGNAL(palaaEdelliselleSivulle()), this, SLOT(close()));
+    connect( sivu, SIGNAL(palaaEdelliselleSivulle()), this, SLOT(close()));    
+    ohjesivu = sivu->ohjeSivunNimi();
 
     setWindowTitle(tr("%1 - Kirjaus").arg(kp()->asetus("Nimi")));
 }
@@ -55,12 +59,19 @@ void LisaIkkuna::selaa()
     sivu->siirrySivulle();
     show();
 
+    ohjesivu = sivu->ohjeSivunNimi();
     connect( sivu, SIGNAL(tositeValittu(int)), this, SLOT(naytaTosite(int)));
     setWindowTitle(tr("%1 - Selaus").arg(kp()->asetus("Nimi")));
+    new QShortcut( QKeySequence(Qt::Key_Escape), this, SLOT(close()));
 }
 
 void LisaIkkuna::naytaTosite(int tositeId)
 {
     LisaIkkuna *uusi = new LisaIkkuna;
     uusi->kirjaa(tositeId);
+}
+
+void LisaIkkuna::ohje()
+{
+    kp()->ohje( ohjesivu );
 }

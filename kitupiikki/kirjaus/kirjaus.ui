@@ -99,7 +99,7 @@
          <item>
           <widget class="QPushButton" name="lisaaRiviNappi">
            <property name="text">
-            <string>Li&amp;sää rivi</string>
+            <string>Lisää rivi</string>
            </property>
            <property name="icon">
             <iconset resource="../pic/pic.qrc">
@@ -116,7 +116,7 @@
             <bool>false</bool>
            </property>
            <property name="text">
-            <string>Poista &amp;rivi</string>
+            <string>Poista rivi</string>
            </property>
            <property name="icon">
             <iconset resource="../pic/pic.qrc">
@@ -368,7 +368,7 @@
      <item>
       <widget class="QPushButton" name="apuriNappi">
        <property name="text">
-        <string>A&amp;vustaja </string>
+        <string>Avustaja </string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
@@ -412,7 +412,7 @@
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>T&amp;allenna</string>
+        <string>Tallenna</string>
        </property>
        <property name="icon">
         <iconset>
@@ -429,11 +429,14 @@
      <item>
       <widget class="QPushButton" name="hylkaaNappi">
        <property name="text">
-        <string>H&amp;ylkää</string>
+        <string>Hylkää</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/peru.png</normaloff>:/pic/peru.png</iconset>
+       </property>
+       <property name="shortcut">
+        <string>Esc</string>
        </property>
       </widget>
      </item>

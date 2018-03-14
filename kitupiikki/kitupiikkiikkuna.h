@@ -71,6 +71,9 @@ public slots:
 
     void selaaTilia(int tilinumero, Tilikausi tilikausi);
 
+    void uusiKirjausIkkuna();
+    void uusiSelausIkkuna();
+
 
 protected slots:
     void aktivoiSivu(QAction* aktio);
@@ -115,6 +118,10 @@ protected:
     KitupiikkiSivu *nykysivu;
 
     QStack<int> edellisetIndeksit;
+
+    QAction* uusiKirjausAktio;
+    QAction* uusiSelausAktio;
+
 
 
 

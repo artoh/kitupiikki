@@ -25,6 +25,7 @@
 #include <QFileDialog>
 #include <QDateEdit>
 #include <QMouseEvent>
+#include <QShortcut>
 
 #include <QMenuBar>
 
@@ -63,7 +64,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     setWindowTitle( tr("Kitupiikki %1").arg(qApp->applicationVersion()));
 
     aloitussivu = new AloitusSivu();
-    kirjaussivu =  new KirjausSivu();
+    kirjaussivu =  new KirjausSivu(this);
     laskutussivu = new LaskutusSivu();
     selaussivu = new SelausWg();
     maarityssivu = new MaaritysSivu();
@@ -105,6 +106,16 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     connect( kp(), SIGNAL(onni(QString)), this, SLOT(naytaOnni(QString)));
     connect( aloitussivu, SIGNAL(ktpkasky(QString)), this, SLOT(ktpKasky(QString)));
 
+    // Aktiot kirjaamisella ja selaamisella uudessa ikkunassa
+
+    uusiKirjausAktio = new QAction(QIcon(":/pic/uusitosite.png"), tr("Kirjaa uudessa ikkunassa"), this);
+    connect( uusiKirjausAktio, SIGNAL(triggered(bool)), this, SLOT(uusiKirjausIkkuna()));
+    new QShortcut(QKeySequence(Qt::SHIFT + Qt::Key_F2), this, SLOT(uusiKirjausIkkuna()),0,Qt::ApplicationShortcut);
+
+    uusiSelausAktio = new QAction(QIcon(":/pic/Paivakirja64.png"), tr("Selaa uudessa ikkunassa"), this );
+    connect( uusiSelausAktio, SIGNAL(triggered(bool)), this, SLOT(uusiSelausIkkuna()));
+    new QShortcut(QKeySequence(Qt::SHIFT + Qt::Key_F3), this, SLOT(uusiSelausIkkuna()), 0, Qt::ApplicationShortcut);
+
     toolbar->installEventFilter(this);
     toolbar->setContextMenuPolicy(Qt::PreventContextMenu);
 
@@ -124,7 +135,7 @@ void KitupiikkiIkkuna::valitseSivu(int mikasivu, bool paluu)
     if( !paluu )
         edellisetIndeksit.push( pino->currentIndex() );
 
-    if( nykysivu && !nykysivu->poistuSivulta())
+    if( nykysivu && !nykysivu->poistuSivulta(mikasivu))
     {
         // Sivulta ei saa poistua!
         // Palautetaan valinta nykyiselle sivulle
@@ -173,6 +184,18 @@ void KitupiikkiIkkuna::selaaTilia(int tilinumero, Tilikausi tilikausi)
 {
     valitseSivu( SELAUSSIVU );
     selaussivu->selaa(tilinumero, tilikausi);
+}
+
+void KitupiikkiIkkuna::uusiKirjausIkkuna()
+{
+    LisaIkkuna *ikkuna = new LisaIkkuna;
+    ikkuna->kirjaa();
+}
+
+void KitupiikkiIkkuna::uusiSelausIkkuna()
+{
+    LisaIkkuna *ikkuna = new LisaIkkuna;
+    ikkuna->selaa();
 }
 
 void KitupiikkiIkkuna::aktivoiSivu(QAction *aktio)
@@ -244,38 +267,21 @@ bool KitupiikkiIkkuna::eventFilter(QObject *watched, QEvent *event)
     // Jos painetaan vasemmalla napilla Kirjausta tai Selausta,
     // tarjotaan mahdollisuus avata toiminto uudessa ikkunassa
 
-    if( watched == toolbar &&( event->type() == QEvent::MouseButtonPress ||
-                               event->type() == QEvent::MouseButtonRelease) )
+    if( watched == toolbar && event->type() == QEvent::MouseButtonPress )
     {
         QMouseEvent* mouse = static_cast<QMouseEvent*>(event);
-        if( mouse->button() == Qt::RightButton )
+        if( mouse->button() == Qt::RightButton
+            && ( toolbar->actionAt( mouse->pos() ) == sivuaktiot[KIRJAUSSIVU ] || toolbar->actionAt( mouse->pos() ) == sivuaktiot[SELAUSSIVU ]))
         {
-            if( event->type() == QEvent::MouseButtonPress &&
-                toolbar->actionAt( mouse->pos() ) == sivuaktiot[KIRJAUSSIVU ] )
-            {
-                QMenu valikko;
-                valikko.addAction(tr("Kirjaa uudessa ikkunassa") );
+            QMenu valikko;
+            if( toolbar->actionAt( mouse->pos() ) == sivuaktiot[KIRJAUSSIVU ] )
+                valikko.addAction( uusiKirjausAktio );
+            else if( toolbar->actionAt( mouse->pos() ) == sivuaktiot[SELAUSSIVU ] )
+                valikko.addAction( uusiSelausAktio);
 
-                if( valikko.exec(QCursor::pos()))
-                {
-                    LisaIkkuna *lisa = new LisaIkkuna;
-                    lisa->kirjaa();
-                }
-                return false;
-            }
-            else if( event->type() == QEvent::MouseButtonPress &&
-                    toolbar->actionAt( mouse->pos() ) == sivuaktiot[SELAUSSIVU ] )
-            {
-                QMenu valikko;
-                valikko.addAction(tr("Selaa uudessa ikkunassa") );
+            valikko.exec(QCursor::pos() );
 
-                if( valikko.exec(QCursor::pos()))
-                {
-                    LisaIkkuna *lisa = new LisaIkkuna;
-                    lisa->selaa();
-                }
-                return false;
-            }
+            return false;
         }
 
     }

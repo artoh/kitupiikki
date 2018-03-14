@@ -21,3 +21,8 @@ KitupiikkiSivu::KitupiikkiSivu(QWidget *parent) : QWidget(parent)
 {
 
 }
+
+bool KitupiikkiSivu::poistuSivulta(int /* minne */)
+{
+    return true;
+}

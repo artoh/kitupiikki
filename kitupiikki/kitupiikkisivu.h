@@ -33,7 +33,7 @@ public:
      * @brief Kutsutaan, kun ollaan siirtymässä toiselle sivulle
      * @return true, jos sivulta saa poistus
      */
-    virtual bool poistuSivulta() { return true; }
+    virtual bool poistuSivulta(int minne);
 
     /**
      * @brief Kutsutaan, kun tälle sivulle ollaan siirtymässä

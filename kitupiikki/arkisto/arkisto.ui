@@ -32,7 +32,7 @@
      <item>
       <widget class="QPushButton" name="uusiNappi">
        <property name="text">
-        <string>&amp;Uusi tilikausi</string>
+        <string>Uusi tilikausi</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
@@ -49,7 +49,7 @@
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>&amp;Muokkaa</string>
+        <string>Muokkaa</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
@@ -73,7 +73,7 @@
      <item>
       <widget class="QPushButton" name="arkistoNappi">
        <property name="text">
-        <string>&amp;Arkisto</string>
+        <string>Arkisto</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
@@ -87,7 +87,7 @@
      <item>
       <widget class="QPushButton" name="vieNappi">
        <property name="text">
-        <string>&amp;Vie arkisto</string>
+        <string>Vie arkisto</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
@@ -98,7 +98,7 @@
      <item>
       <widget class="QPushButton" name="tilinpaatosNappi">
        <property name="text">
-        <string>&amp;Tilinpäätös</string>
+        <string>Tilinpäätös</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
