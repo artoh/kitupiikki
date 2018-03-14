@@ -368,7 +368,7 @@
      <item>
       <widget class="QPushButton" name="apuriNappi">
        <property name="text">
-        <string>Avustaja </string>
+        <string>Kirjausapuri</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
@@ -382,7 +382,7 @@
      <item>
       <widget class="QPushButton" name="laskuNappi">
        <property name="text">
-        <string>Lasku</string>
+        <string>Laskun maksu</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
