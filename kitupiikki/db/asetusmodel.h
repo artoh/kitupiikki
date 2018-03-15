@@ -43,7 +43,7 @@ public:
      * @param avain Haettava avain
      * @return asetus, tai String() jos asetusta ei ole
      */
-    QString asetus(const QString& avain) const { return asetukset_.value(avain, QString()); }
+    QString asetus(const QString& avain, const QString oletus = QString()) const { return asetukset_.value(avain, oletus); }
     void aseta(const QString& avain, const QString& arvo);
     /**
      * @brief Poistaa asetuksen annetulla avaimella
@@ -51,7 +51,7 @@ public:
      */
     void poista(const QString& avain);
 
-    QDate pvm(const QString& avain) const;
+    QDate pvm(const QString& avain, const QDate oletus = QDate()) const;
     void aseta(const QString &avain, const QDate& pvm);
 
     bool onko(const QString& avain) const;

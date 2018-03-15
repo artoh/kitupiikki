@@ -79,8 +79,10 @@ void AsetusModel::poista(const QString &avain)
     }
 }
 
-QDate AsetusModel::pvm(const QString &avain) const
+QDate AsetusModel::pvm(const QString &avain, const QDate oletus) const
 {
+    if( !asetukset_.contains(avain) )
+        return oletus;
     return QDate::fromString( asetus(avain), Qt::ISODate );
 }
 

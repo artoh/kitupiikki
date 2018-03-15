@@ -13,9 +13,9 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <layout class="QHBoxLayout" name="horizontalLayout_7">
      <item>
       <widget class="QFrame" name="frame">
        <property name="frameShape">
@@ -24,32 +24,65 @@
        <property name="frameShadow">
         <enum>QFrame::Raised</enum>
        </property>
-       <layout class="QFormLayout" name="formLayout_2">
-        <item row="0" column="0">
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>Vero&amp;kausi</string>
-          </property>
-          <property name="buddy">
-           <cstring>kausiCombo</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QComboBox" name="kausiCombo"/>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>Viimeisin &amp;ilmoitus</string>
-          </property>
-          <property name="buddy">
-           <cstring>viimeisinEdit</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QDateEdit" name="viimeisinEdit"/>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <layout class="QFormLayout" name="formLayout_2">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Vero&amp;kausi</string>
+            </property>
+            <property name="buddy">
+             <cstring>kausiCombo</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="kausiCombo"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Viimeisin &amp;ilmoitus</string>
+            </property>
+            <property name="buddy">
+             <cstring>viimeisinEdit</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QDateEdit" name="viimeisinEdit"/>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Maksuperusteinen alv</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0">
+            <item>
+             <widget class="QLabel" name="maksuAlv">
+              <property name="text">
+               <string>Ei käytössä</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton">
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset resource="../pic/pic.qrc">
+                <normaloff>:/pic/ratas.png</normaloff>:/pic/ratas.png</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>
@@ -62,48 +95,52 @@
        <property name="frameShadow">
         <enum>QFrame::Raised</enum>
        </property>
-       <layout class="QHBoxLayout" name="horizontalLayout">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <layout class="QFormLayout" name="formLayout">
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_3">
-            <property name="text">
-             <string>Seuraava ilmoitus</string>
-            </property>
-           </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item>
+           <layout class="QFormLayout" name="formLayout">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_3">
+              <property name="text">
+               <string>Seuraava ilmoitus</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLabel" name="seuraavaLabel">
+              <property name="text">
+               <string>xxx</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLabel" name="erapaivaLabel">
+              <property name="text">
+               <string>xxx</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="label_5">
+              <property name="text">
+               <string>Eräpäivä</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
-          <item row="0" column="1">
-           <widget class="QLabel" name="seuraavaLabel">
+          <item>
+           <widget class="QPushButton" name="tilitaNappi">
             <property name="text">
-             <string>xxx</string>
+             <string>&amp;Tee alv-tilitys</string>
             </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_5">
-            <property name="text">
-             <string>Eräpäivä</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLabel" name="erapaivaLabel">
-            <property name="text">
-             <string>xxx</string>
+            <property name="shortcut">
+             <string>F11</string>
             </property>
            </widget>
           </item>
          </layout>
-        </item>
-        <item>
-         <widget class="QPushButton" name="tilitaNappi">
-          <property name="text">
-           <string>&amp;Tee alv-tilitys</string>
-          </property>
-          <property name="shortcut">
-           <string>F11</string>
-          </property>
-         </widget>
         </item>
        </layout>
       </widget>
@@ -165,6 +202,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
  <connections/>
 </ui>

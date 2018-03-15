@@ -318,7 +318,8 @@ FORMS += \
     maaritys/tuontimaaritys.ui \
     tuonti/csvtuontidlg.ui \
     tuonti/tilimuuntodlg.ui \
-    tools/devtool.ui
+    tools/devtool.ui \
+    maaritys/maksuperusteinen.ui
 
 DISTFILES += \
     uusikp/luo.sql \
