@@ -255,10 +255,10 @@ Tili TiliModel::edellistenYlijaamaTili() const
 }
 
 
-Tili TiliModel::tiliTyypilla(TiliLaji::TiliLuonne luonne) const
+Tili TiliModel::tiliTyypilla(TiliLaji::TiliLuonne tyyppi) const
 {
     foreach (Tili tili, tilit_) {
-        if( tili.onko(luonne))
+        if( tili.tyyppi().luonne() == tyyppi)
             return tili;
     }
     return Tili();

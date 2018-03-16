@@ -82,7 +82,7 @@ public:
      * @param luonne
      * @return
      */
-    Tili tiliTyypilla( TiliLaji::TiliLuonne luonne) const;
+    Tili tiliTyypilla(TiliLaji::TiliLuonne tyyppi) const;
 
     JsonKentta *jsonIndeksilla(int i);
 

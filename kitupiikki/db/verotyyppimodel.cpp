@@ -83,9 +83,6 @@ QString VerotyyppiModel::seliteKoodilla(int koodi) const
 
 QIcon VerotyyppiModel::kuvakeKoodilla(int koodi) const
 {
-    // Maksuperusteisen alv:n tunnuseuro
-    if( koodi > 400 && koodi < 500)
-        return QIcon(":/pic/euro.png");
 
     foreach (VeroTyyppi tyyppi, tyypit)
     {

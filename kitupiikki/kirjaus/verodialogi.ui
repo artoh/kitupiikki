@@ -62,16 +62,16 @@
         </widget>
        </item>
        <item>
-        <widget class="QRadioButton" name="maksuMyyntisaatava">
+        <widget class="QRadioButton" name="kohdentamaton">
          <property name="text">
-          <string>Maksuperusteinen alv: Myyntisaatavat</string>
+          <string>Kohdentamaton maksuperusteinen alv</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QRadioButton" name="maksuOstovelka">
+        <widget class="QRadioButton" name="sisMaksuAlv">
          <property name="text">
-          <string>Maksuperustainen alv: Ostovelat</string>
+          <string>Maksuperusteisen alv:n sisältämä saatava/velka</string>
          </property>
         </widget>
        </item>
@@ -130,70 +130,6 @@
     <hint type="destinationlabel">
      <x>298</x>
      <y>0</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>maksuMyyntisaatava</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>verolajiCombo</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>238</x>
-     <y>171</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>232</x>
-     <y>31</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>maksuOstovelka</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>verolajiCombo</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>201</x>
-     <y>203</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>206</x>
-     <y>40</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>maksuMyyntisaatava</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>prossaSpin</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>93</x>
-     <y>178</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>94</x>
-     <y>255</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>maksuOstovelka</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>prossaSpin</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>162</x>
-     <y>201</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>163</x>
-     <y>246</y>
     </hint>
    </hints>
   </connection>

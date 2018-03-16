@@ -158,9 +158,9 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
                 {
                     if( rivi.alvkoodi == AlvKoodi::MAKSETTAVAALV)
                         return tr("VERO");
-                    else if( rivi.alvkoodi == AlvKoodi::OSTOT_NETTO ||
-                             rivi.alvkoodi == AlvKoodi::OSTOT_BRUTTO )
-                        return QString("- %1 %").arg(rivi.alvprosentti);
+                    else if( rivi.alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_SAATAVA ||
+                             rivi.alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_VELKA)
+                        return tr("sis. ALV");
                     else
                         return QVariant( QString("%1 %").arg(rivi.alvprosentti));
                 }
@@ -453,6 +453,7 @@ void VientiModel::poistaRivi(int rivi)
     beginRemoveColumns( QModelIndex(), rivi, rivi);
     viennit_.removeAt(rivi);
     endRemoveRows();
+    muokattu_ = true;
     emit muuttunut();       // Rivin poisto muuttaa debet/kredit täsmäystä
 
 }
@@ -508,6 +509,7 @@ QModelIndex VientiModel::lisaaVienti(VientiRivi rivi, int indeksi)
     viennit_.insert(indeksi, rivi);
 
     endInsertRows();
+    muokattu_ = true;
     emit muuttunut();   // Debet / kredit täsmäytykseen
     return index( indeksi, 0);
 }

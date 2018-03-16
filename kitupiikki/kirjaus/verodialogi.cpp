@@ -28,6 +28,7 @@ VeroDialogi::VeroDialogi(QWidget *parent) :
     ui->verolajiCombo->setModel( kp()->alvTyypit());
 
     connect( ui->verolajiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(lajimuuttuu()));
+    connect( ui->sisMaksuAlv, SIGNAL(clicked(bool)), this, SLOT(lajimuuttuu()));
 
 }
 
@@ -39,7 +40,7 @@ VeroDialogi::~VeroDialogi()
 int VeroDialogi::alvProsentti() const
 {
     if( ui->verolajiCombo->currentData( VerotyyppiModel::NollaLajiRooli).toBool() ||
-        ui->maksuMyyntisaatava->isChecked() || ui->maksuOstovelka->isChecked())
+        ui->sisMaksuAlv->isChecked())
     {
         return 0;
     }
@@ -53,27 +54,47 @@ int VeroDialogi::alvKoodi() const
 {
     int koodi = ui->verolajiCombo->currentData(VerotyyppiModel::KoodiRooli).toInt();
 
-    if( ui->maksuMyyntisaatava->isChecked())
-        return AlvKoodi::MAKSUPERUSTEINEN_SAATAVA;
-    else if( ui->maksuOstovelka->isChecked())
-        return AlvKoodi::MAKSUPERUSTEINEN_VELKA;
-
     if( !ui->verolajiCombo->currentData( VerotyyppiModel::NollaLajiRooli).toBool() )
     {
         if( ui->veroRadio->isChecked())
             return koodi + AlvKoodi::ALVKIRJAUS;
         else if( ui->vahennysRadio->isChecked())
             return koodi + AlvKoodi::ALVVAHENNYS;
+        else if( koodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI || koodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO )
+        {
+            if( ui->kohdentamaton->isChecked())
+                return koodi + AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON;
+            else if( ui->sisMaksuAlv->isChecked())
+            {
+                if( koodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI)
+                    return AlvKoodi::MAKSUPERUSTEINEN_VELKA;
+                else if( koodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO)
+                    return AlvKoodi::MAKSUPERUSTEINEN_SAATAVA;
+            }
+        }
     }
     return koodi;
 }
 
 int VeroDialogi::exec(int koodi, int prosentti, bool tyyppilukko)
 {
-    if( koodi > AlvKoodi::ALVVAHENNYS)
+    if( koodi == AlvKoodi::MAKSUPERUSTEINEN_SAATAVA)
+    {
+        koodi = AlvKoodi::MAKSUPERUSTEINEN_MYYNTI;
+        ui->sisMaksuAlv->setChecked(true);
+    }
+    else if( koodi == AlvKoodi::MAKSUPERUSTEINEN_VELKA)
+    {
+        koodi = AlvKoodi::MAKSUPERUSTEINEN_OSTO;
+        ui->sisMaksuAlv->setChecked(true);
+    }
+    else if( koodi > AlvKoodi::MAKSUPERUSTEINEN_VELKA )
+        ui->kohdentamaton->setChecked(true);
+    else if( koodi > AlvKoodi::ALVVAHENNYS)
         ui->vahennysRadio->setChecked(true);
     else if( koodi > AlvKoodi::ALVKIRJAUS)
         ui->veroRadio->setChecked(true);
+
 
     ui->verolajiCombo->setCurrentIndex( ui->verolajiCombo->findData( koodi % 100));
     ui->prossaSpin->setValue(prosentti);
@@ -93,9 +114,14 @@ void VeroDialogi::lajimuuttuu()
 {
     // Nollaverolajeilla ei voi tehdä verokirjauksia
     ui->tyyppiGroup->setEnabled(  !ui->verolajiCombo->currentData( VerotyyppiModel::NollaLajiRooli).toBool());
-    ui->prossaSpin->setEnabled(  !ui->verolajiCombo->currentData( VerotyyppiModel::NollaLajiRooli).toBool());
+    ui->prossaSpin->setEnabled(  !ui->verolajiCombo->currentData( VerotyyppiModel::NollaLajiRooli).toBool() &&
+                                 !ui->sisMaksuAlv->isChecked());
 
     if( !ui->verolajiCombo->currentData( VerotyyppiModel::NollaLajiRooli).toBool() && !ui->prossaSpin->value())
         ui->prossaSpin->setValue( VerotyyppiModel::oletusAlvProsentti() );
+
+    int alvkoodi = ui->verolajiCombo->currentData( VerotyyppiModel::KoodiRooli).toInt();
+    ui->kohdentamaton->setEnabled( alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI || alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO);
+    ui->sisMaksuAlv->setEnabled( alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI || alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO);
 }
 
