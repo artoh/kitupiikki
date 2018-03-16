@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>Maksuperusteinen</class>
+ <widget class="QDialog" name="Maksuperusteinen">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>415</width>
-    <height>250</height>
+    <width>429</width>
+    <height>234</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -70,7 +70,7 @@
      <item row="1" column="0">
       <widget class="QCheckBox" name="paattyyCheck">
        <property name="text">
-        <string>Maksuperusteinen arvonlisäverotus päättyy</string>
+        <string>Suoriteperusteiseen arvonlisäveroon palataan</string>
        </property>
       </widget>
      </item>
@@ -99,7 +99,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="ohjeNappi">
        <property name="text">
         <string>Ohje</string>
        </property>
@@ -146,7 +146,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>Dialog</receiver>
+   <receiver>Maksuperusteinen</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -162,7 +162,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>Dialog</receiver>
+   <receiver>Maksuperusteinen</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

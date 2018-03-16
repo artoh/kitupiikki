@@ -70,7 +70,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton">
+             <widget class="QPushButton" name="maksuperusteNappi">
               <property name="text">
                <string/>
               </property>

@@ -24,7 +24,7 @@
 #include "db/tositemodel.h"
 
 #include "alvilmoitusdialog.h"
-
+#include "ui_maksuperusteinen.h"
 
 
 AlvMaaritys::AlvMaaritys() :
@@ -39,6 +39,7 @@ AlvMaaritys::AlvMaaritys() :
     ui->ilmoituksetView->setModel( model );
     ui->ilmoituksetView->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->ilmoituksetView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    paivitaMaksuAlvTieto();
 
 
     connect( ui->viimeisinEdit, SIGNAL(dateChanged(QDate)), this, SLOT(paivitaSeuraavat()));
@@ -47,6 +48,7 @@ AlvMaaritys::AlvMaaritys() :
     connect( ui->tilitysNappi, SIGNAL(clicked(bool)), this, SLOT(naytaIlmoitus()));
     connect( ui->erittelyNappi, SIGNAL(clicked(bool)), this, SLOT(naytaErittely()));
     connect(ui->ilmoituksetView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(riviValittu()));
+    connect( ui->maksuperusteNappi, SIGNAL(clicked(bool)), this, SLOT(maksuAlv()));
 
 }
 
@@ -130,6 +132,65 @@ void AlvMaaritys::riviValittu()
 {
     ui->tilitysNappi->setEnabled( ui->ilmoituksetView->selectionModel()->currentIndex().isValid() );
     ui->erittelyNappi->setEnabled( ui->ilmoituksetView->selectionModel()->currentIndex().isValid() );
+}
+
+void AlvMaaritys::maksuAlv()
+{
+    QDialog dlg;
+    Ui::Maksuperusteinen ui;
+    ui.setupUi(&dlg);
+
+    QDate alkaa = kp()->asetukset()->pvm("MaksuAlvAlkaa");
+    QDate loppuu = kp()->asetukset()->pvm("MaksuAlvLoppuu");
+
+    // Oletuksena uudelle aloitukselle on seuraavan kuukauden alku
+    if( !alkaa.isValid())
+    {
+        alkaa = kp()->paivamaara();
+        alkaa = alkaa.addMonths(1);
+        alkaa.setDate( alkaa.year(), alkaa.month(), 1 );
+    }
+    if( !loppuu.isValid())
+    {
+        loppuu.setDate( kp()->tilikaudet()->kirjanpitoLoppuu().year() + 1, 1, 1 );
+    }
+
+    ui.alkaaDate->setMinimumDate( kp()->tilikaudet()->kirjanpitoAlkaa());
+    ui.paattyyDate->setMinimumDate( kp()->tilikaudet()->kirjanpitoAlkaa());
+
+    ui.alkaaCheck->setChecked( kp()->asetukset()->onko("MaksuAlvAlkaa") );
+    ui.alkaaDate->setDate( alkaa );
+    ui.paattyyCheck->setChecked( kp()->asetukset()->onko("MaksuAlvLoppuu"));
+    ui.paattyyDate->setDate( loppuu );
+
+    connect( ui.ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("alv");} );
+
+    if( dlg.exec() == QDialog::Accepted)
+    {
+        if( ui.alkaaCheck->isChecked())
+            kp()->asetukset()->aseta("MaksuAlvAlkaa", ui.alkaaDate->date());
+        else
+            kp()->asetukset()->poista("MaksuAlvAlkaa");
+
+        if( ui.paattyyCheck->isChecked())
+            kp()->asetukset()->aseta("MaksuAlvLoppuu", ui.paattyyDate->date());
+        else
+            kp()->asetukset()->poista("MaksuAlvLoppuu");
+        paivitaMaksuAlvTieto();
+    }
+}
+
+void AlvMaaritys::paivitaMaksuAlvTieto()
+{
+    QDate alkaa = kp()->asetukset()->pvm("MaksuAlvAlkaa");
+    QDate loppuu = kp()->asetukset()->pvm("MaksuAlvLoppuu");
+
+    if( !alkaa.isValid())
+        ui->maksuAlv->setText(tr("Ei käytössä"));
+    else if( !loppuu.isValid())
+        ui->maksuAlv->setText(tr("Käytössä %1 alkaen").arg(alkaa.toString(Qt::SystemLocaleShortDate)));
+    else
+        ui->maksuAlv->setText( tr("%1 - %2").arg(alkaa.toString(Qt::SystemLocaleShortDate)).arg(loppuu.toString(Qt::SystemLocaleShortDate)));
 }
 
 QDate AlvMaaritys::erapaiva(const QDate &loppupaiva)
