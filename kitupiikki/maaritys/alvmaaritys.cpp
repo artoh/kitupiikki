@@ -17,6 +17,7 @@
 
 #include <QDesktopServices>
 #include <QUrl>
+#include <QMessageBox>
 
 #include "alvmaaritys.h"
 #include "ui_arvonlisavero.h"
@@ -136,6 +137,16 @@ void AlvMaaritys::riviValittu()
 
 void AlvMaaritys::maksuAlv()
 {
+    if( !kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVSAATAVA).onkoValidi() || !kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVVELKA).onkoValidi() )
+    {
+        QMessageBox::critical(0, tr("Tilikartta puutteellinen"), tr("Maksuperusteiseen arvonlisäveroon tarvittavat kohdentamattoman arvonlisäverovelan ja/tai "
+                                                                    "arvonlisäverosaatavien tilit puuttuvat.\n"
+                                                                    "Ottaaksesi maksuperusteisen arvonlisäveron käyttöön lisää tarvittavat tilit "
+                                                                    "tilikarttaasi"));
+        return;
+    }
+
+
     QDialog dlg;
     Ui::Maksuperusteinen ui;
     ui.setupUi(&dlg);

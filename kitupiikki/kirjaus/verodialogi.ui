@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>430</width>
-    <height>252</height>
+    <width>299</width>
+    <height>304</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -61,6 +61,20 @@
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QRadioButton" name="maksuMyyntisaatava">
+         <property name="text">
+          <string>Maksuperusteinen alv: Myyntisaatavat</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="maksuOstovelka">
+         <property name="text">
+          <string>Maksuperustainen alv: Ostovelat</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
      <widget class="QLabel" name="label">
@@ -94,11 +108,11 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>311</x>
-     <y>231</y>
+     <x>289</x>
+     <y>294</y>
     </hint>
     <hint type="destinationlabel">
-     <x>421</x>
+     <x>298</x>
      <y>3</y>
     </hint>
    </hints>
@@ -110,12 +124,76 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>380</x>
-     <y>232</y>
+     <x>289</x>
+     <y>294</y>
     </hint>
     <hint type="destinationlabel">
-     <x>377</x>
-     <y>-3</y>
+     <x>298</x>
+     <y>0</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>maksuMyyntisaatava</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>verolajiCombo</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>238</x>
+     <y>171</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>232</x>
+     <y>31</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>maksuOstovelka</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>verolajiCombo</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>201</x>
+     <y>203</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>206</x>
+     <y>40</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>maksuMyyntisaatava</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>prossaSpin</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>93</x>
+     <y>178</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>94</x>
+     <y>255</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>maksuOstovelka</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>prossaSpin</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>162</x>
+     <y>201</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>163</x>
+     <y>246</y>
     </hint>
    </hints>
   </connection>

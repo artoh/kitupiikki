@@ -38,7 +38,8 @@ VeroDialogi::~VeroDialogi()
 
 int VeroDialogi::alvProsentti() const
 {
-    if( ui->verolajiCombo->currentData( VerotyyppiModel::NollaLajiRooli).toBool() )
+    if( ui->verolajiCombo->currentData( VerotyyppiModel::NollaLajiRooli).toBool() ||
+        ui->maksuMyyntisaatava->isChecked() || ui->maksuOstovelka->isChecked())
     {
         return 0;
     }
@@ -51,6 +52,11 @@ int VeroDialogi::alvProsentti() const
 int VeroDialogi::alvKoodi() const
 {
     int koodi = ui->verolajiCombo->currentData(VerotyyppiModel::KoodiRooli).toInt();
+
+    if( ui->maksuMyyntisaatava->isChecked())
+        return AlvKoodi::MAKSUPERUSTEINEN_SAATAVA;
+    else if( ui->maksuOstovelka->isChecked())
+        return AlvKoodi::MAKSUPERUSTEINEN_VELKA;
 
     if( !ui->verolajiCombo->currentData( VerotyyppiModel::NollaLajiRooli).toBool() )
     {

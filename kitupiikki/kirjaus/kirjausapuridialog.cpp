@@ -297,6 +297,7 @@ void KirjausApuriDialog::vastaTiliMuuttui()
     yhdistaminenMuuttui( ui->yhdistaCheck->isChecked());
 
     ui->ostoBox->setVisible( vastatili.onko(TiliLaji::OSTOVELKA));
+    veroSuodattimetKuntoon();
 
     ehdota();
 }
@@ -354,6 +355,51 @@ void KirjausApuriDialog::vastakirjausOlemassa(bool onko)
         vastaTiliMuuttui();
 }
 
+void KirjausApuriDialog::veroSuodattimetKuntoon()
+{
+    // Jos maksuperusteinen alv, voidaan ostovelka/myyntisaatava kirjata kotimaassa
+    // vain maksuperusteisesti
+
+    int alvkoodi = ui->alvCombo->currentData(VerotyyppiModel::KoodiRooli).toInt();
+
+    if( ui->valintaTab->currentIndex() == TULO )
+    {
+        if( kp()->onkoMaksuperusteinenAlv( ui->pvmDate->date() ) &&
+                ui->vastatiliEdit->valittuTili().onko(TiliLaji::MYYNTISAATAVA))
+        {
+            verofiltteri.setFilterRegExp("(0|1[345679])");
+            // Jos valittuna ollut kotimaan myynti, valitaan maksuperusteinen myynti
+            if( alvkoodi < 13)
+                ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::MAKSUPERUSTEINEN_MYYNTI, VerotyyppiModel::KoodiRooli) );
+
+        }
+        else
+        {
+            verofiltteri.setFilterRegExp("(0|1[1-8])");
+            if( alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI)
+                ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::MYYNNIT_NETTO, VerotyyppiModel::KoodiRooli) );
+
+        }
+
+    }
+    else
+    {
+        if( kp()->onkoMaksuperusteinenAlv( ui->pvmDate->date() ) &&
+                ui->vastatiliEdit->valittuTili().onko(TiliLaji::OSTOVELKA))
+        {
+            verofiltteri.setFilterRegExp("(0|2[345679])");
+            if( alvkoodi < 23)
+                ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::MAKSUPERUSTEINEN_OSTO, VerotyyppiModel::KoodiRooli) );
+        }
+        else
+        {
+            verofiltteri.setFilterRegExp("(0|2[1-8])");
+            if( alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO)
+                ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::OSTOT_NETTO, VerotyyppiModel::KoodiRooli) );
+        }
+    }
+}
+
 void KirjausApuriDialog::ehdota()
 {
     ehdotus.tyhjaa();
@@ -382,10 +428,16 @@ void KirjausApuriDialog::ehdota()
             tulorivi.eraId = ui->taseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
             ehdotus.lisaaVienti(tulorivi);
         }
-        if(alvkoodi == AlvKoodi::MYYNNIT_NETTO && kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).onkoValidi() )
+        if( (alvkoodi == AlvKoodi::MYYNNIT_NETTO || alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI )
+                && kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).onkoValidi() )
         {
 
             VientiRivi verorivi = uusiEhdotusRivi( kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA));
+
+            // Maksuperusteisessa alvissa vero jäävät kohdentamatta
+            if( alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI && kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVVELKA).onkoValidi())
+                verorivi.tili = kp()->tilit()->tiliTyypilla( TiliLaji::KOHDENTAMATONALVVELKA );
+
             verorivi.kreditSnt = bruttoSnt - nettoSnt;
             verorivi.alvprosentti = alvprosentti;
             verorivi.alvkoodi = AlvKoodi::ALVKIRJAUS + alvkoodi;
@@ -395,10 +447,14 @@ void KirjausApuriDialog::ehdota()
         {
             VientiRivi taserivi = uusiEhdotusRivi();
             taserivi.tili = vastatili;
-            if( alvkoodi == AlvKoodi::MYYNNIT_NETTO || alvkoodi == AlvKoodi::MYYNNIT_BRUTTO )
+            if( alvkoodi == AlvKoodi::MYYNNIT_NETTO || alvkoodi == AlvKoodi::MYYNNIT_BRUTTO || alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI)
                 taserivi.debetSnt = bruttoSnt;
             else
                 taserivi.debetSnt = nettoSnt;
+
+            if( alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI)
+                taserivi.alvkoodi = AlvKoodi::MAKSUPERUSTEINEN_SAATAVA;
+
             taserivi.eraId = ui->vastaTaseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
             ehdotus.lisaaVienti(taserivi);
         }
@@ -430,6 +486,11 @@ void KirjausApuriDialog::ehdota()
                 ( alvkoodi != AlvKoodi::OSTOT_BRUTTO || ( ui->eiVahennaCheck->isVisible() && ui->eiVahennaCheck->isChecked())) )
         {
             VientiRivi verorivi = uusiEhdotusRivi( kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA) );
+
+            // Maksuperusteisessa alvissa jää kohdentamattomaksi kunnes maksu suoritetaan
+            if( alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO && kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVSAATAVA).onkoValidi())
+                verorivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVSAATAVA);
+
             verorivi.debetSnt = bruttoSnt - nettoSnt;
             verorivi.alvprosentti = alvprosentti;
             verorivi.alvkoodi = AlvKoodi::ALVVAHENNYS + alvkoodi;
@@ -451,6 +512,7 @@ void KirjausApuriDialog::ehdota()
         {
             VientiRivi taserivi = uusiEhdotusRivi(vastatili);
             if( alvkoodi == AlvKoodi::OSTOT_NETTO || alvkoodi == AlvKoodi::OSTOT_BRUTTO ||
+                    alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO ||
                     ( ui->eiVahennaCheck->isVisible() && ui->eiVahennaCheck->isChecked()) )
                 taserivi.kreditSnt = bruttoSnt;
             else
@@ -465,6 +527,8 @@ void KirjausApuriDialog::ehdota()
                     taserivi.viite = ui->viiteEdit->text().remove(' ');
                 if( ui->eraCheck->isChecked())
                     taserivi.erapvm = ui->erapvmEdit->date();
+                if( alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO)
+                    taserivi.alvkoodi = AlvKoodi::MAKSUPERUSTEINEN_OSTO;
             }
 
             ehdotus.lisaaVienti(taserivi);
@@ -534,13 +598,13 @@ void KirjausApuriDialog::valilehtiVaihtui(int indeksi)
 
     if( indeksi == MENO )
     {
-        verofiltteri.setFilterRegExp("(0|2.)");
+        veroSuodattimetKuntoon();
         ui->tiliEdit->suodataTyypilla("(AP|D).*");
         ui->vastatiliEdit->suodataTyypilla("[AB].*");
     }
     else if( indeksi == TULO)
     {
-        verofiltteri.setFilterRegExp("(0|1.)");
+        veroSuodattimetKuntoon();
         ui->tiliEdit->suodataTyypilla("(AP|C).*");
         ui->vastatiliEdit->suodataTyypilla("[AB].*");
     }

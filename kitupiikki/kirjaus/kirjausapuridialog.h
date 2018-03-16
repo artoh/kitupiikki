@@ -63,6 +63,8 @@ public slots:
     void pvmMuuttuu();
     void vastakirjausOlemassa(bool onko);
 
+    void veroSuodattimetKuntoon();
+
     void ehdota();
 
     /**

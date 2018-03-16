@@ -94,6 +94,18 @@ void Kirjanpito::ohje(const QString &ohjesivu)
     QDesktopServices::openUrl( QUrl(osoite));
 }
 
+bool Kirjanpito::onkoMaksuperusteinenAlv(const QDate &paiva) const
+{
+    // Onko annettuna päivänä maksuperusteinen alv käytössä
+    if( !asetukset()->onko("AlvVelvollinen") || !asetukset()->onko("MaksuAlvAlkaa"))
+        return false;
+    if( asetukset()->pvm("MaksuAlvAlkaa") > paiva )
+        return false;
+    if( asetukset()->onko("MaksuAlvLoppuu") && asetukset()->pvm("MaksuAlvLoppuu") <= paiva )
+        return false;
+    return true;
+}
+
 
 
 bool Kirjanpito::avaaTietokanta(const QString &tiedosto)

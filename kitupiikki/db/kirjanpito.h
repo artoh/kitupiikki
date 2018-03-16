@@ -190,6 +190,13 @@ public:
      */
     QString tilapainen(const QString& nimi) const { return tempDir_.filePath(nimi); }
 
+    /**
+     * @brief Onko kyseisenä päivänä käytössä maksuperusteinen arvonlisävero
+     * @param paiva
+     * @return
+     */
+    bool onkoMaksuperusteinenAlv(const QDate& paiva) const;
+
 signals:
     /**
      * @brief Tietokanta on avattu
