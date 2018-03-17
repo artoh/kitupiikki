@@ -134,7 +134,7 @@ TaseEra::TaseEra(int id)
         if( query.next())
         {
             pvm = query.value("pvm").toDate();
-            selite = query.value("selite").toLongLong();
+            selite = query.value("selite").toString();
             saldoSnt += query.value("debetsnt").toLongLong();
             saldoSnt -= query.value("kreditsnt").toLongLong();
         }

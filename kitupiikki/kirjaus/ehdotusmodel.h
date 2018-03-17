@@ -55,6 +55,16 @@ public:
      */
      void tallenna(VientiModel *model, int yhdistettavaVastatiliNumero = 0, QDate yhdistettavaPvm = QDate());
 
+
+     /**
+      * @brief Viimeistelee ehdotukseen maksuperusteisen arvonlisäveron
+      *
+      * Jos ehdotuksessa on maksuperusteisen alv:n sisältäväen ostovelka tai myyntisaatavien suorituksia,
+      * niin kirjaa vastaavat arvonlisäverot
+      *
+      */
+     void viimeisteleMaksuperusteinen();
+
     /**
      * @brief Onko kirjausehdotus valmis
      *

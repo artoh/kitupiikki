@@ -15,7 +15,10 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QSqlQuery>
+
 #include "ehdotusmodel.h"
+#include "db/kirjanpito.h"
 
 EhdotusModel::EhdotusModel()
 {
@@ -151,6 +154,94 @@ void EhdotusModel::tallenna(VientiModel *model, int yhdistettavaVastatiliNumero,
         }
     }
 
+}
+
+struct maksuAlvEra
+{
+    maksuAlvEra() {}
+
+    int alvprosentti = 0;
+    qlonglong sentit = 0;
+    int id = 0;
+};
+
+void EhdotusModel::viimeisteleMaksuperusteinen()
+{
+    for( VientiRivi rivi : viennit_)
+    {
+        if( kp()->onkoMaksuperusteinenAlv(rivi.pvm) &&
+                (rivi.tili.onko(TiliLaji::MYYNTISAATAVA) || rivi.tili.onko(TiliLaji::OSTOVELKA)))
+        {
+            bool myynti = rivi.tili.onko(TiliLaji::MYYNTISAATAVA);
+            Tili haeTili = myynti ? kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVVELKA) :
+                                                              kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVSAATAVA);
+
+            // parissa veroprosentti,debet-kredit
+            QList<maksuAlvEra> verot;
+            qlonglong verosumma = 0;
+
+            TaseEra era(rivi.eraId);
+            QSqlQuery tositeKysely( QString("SELECT tosite FROM vienti WHERE id=%1").arg(rivi.eraId));
+            int tosite = tositeKysely.next() ? tositeKysely.value("tosite").toInt() : -1;
+
+
+            // Haetaan tositteella olevat kohdentamattomat verokirjaukset
+
+            QSqlQuery kysely( QString("SELECT alvprosentti, debetsnt, kreditsnt, id FROM vienti "
+                                      "WHERE tili=%1 AND tosite=%2").arg(haeTili.id()).arg(tosite));
+            while( kysely.next())
+            {
+                maksuAlvEra maksuEra;
+                maksuEra.alvprosentti = kysely.value("alvprosentti").toInt();
+                maksuEra.sentit = kysely.value("debetsnt").toLongLong() - kysely.value("kreditsnt").toLongLong();
+                maksuEra.id = kysely.value("id").toInt();
+                verot.append(maksuEra);
+                verosumma += maksuEra.sentit;
+            }
+
+
+            double kerroin = 1.00;
+            if( era.saldoSnt != rivi.debetSnt - rivi.kreditSnt )
+                kerroin = ((double) (rivi.debetSnt - rivi.kreditSnt)) / (double) era.saldoSnt;
+
+            // Nyt sitten tehdään suhteelliset kirjaukset
+            for( auto vero : verot)
+            {
+                qlonglong sentit = kerroin == 1.00 ?  vero.sentit :
+                                                      qRound( kerroin * (double) vero.sentit );
+
+                // Kirjataan alv-velkaan taikka alv-saataviin
+                VientiRivi verorivi;
+                verorivi.pvm = rivi.pvm;
+                verorivi.tili = myynti ? kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA) :
+                                         kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA);
+
+                verorivi.debetSnt = sentit < 0 ? 0 - sentit : 0;
+                verorivi.kreditSnt = sentit > 0 ? sentit : 0;
+                verorivi.alvprosentti = vero.alvprosentti;
+                verorivi.selite = tr("Maksuperusteinen %1 % alv %2 / %3 [%4]").arg(verorivi.alvprosentti)
+                        .arg(era.tositteenTunniste()).arg(era.pvm.toString(Qt::SystemLocaleShortDate))
+                        .arg(era.selite);
+
+                verorivi.alvkoodi = myynti ? AlvKoodi::ALVKIRJAUS + AlvKoodi::MAKSUPERUSTEINEN_MYYNTI :
+                                             AlvKoodi::ALVVAHENNYS + AlvKoodi::MAKSUPERUSTEINEN_OSTO ;
+
+                lisaaVienti(verorivi);
+
+                // Rivi, jolla kirjataan pois kohdentamattoman veron tililtä
+                VientiRivi poisrivi;
+                poisrivi.tili = haeTili;
+                poisrivi.pvm = rivi.pvm;
+                poisrivi.debetSnt = sentit > 0 ? sentit : 0;
+                poisrivi.kreditSnt = sentit < 0 ? 0 - sentit : 0;
+                poisrivi.selite = verorivi.selite;
+                poisrivi.eraId = vero.id;
+                lisaaVienti(poisrivi);
+
+            }
+
+        }
+    }
 }
 
 bool EhdotusModel::onkoKelpo(bool toispuolinen) const

@@ -573,6 +573,9 @@ void KirjausApuriDialog::ehdota()
         break;
     }
 
+    // Vielä viimeistellään maksuperusteisen alvin maksut
+    ehdotus.viimeisteleMaksuperusteinen();
+
     // Netto näytetään jos vero
     ui->nettoLabel->setVisible(ui->alvSpin->value());
     ui->nettoSpin->setVisible( ui->alvSpin->value());
@@ -582,7 +585,6 @@ void KirjausApuriDialog::ehdota()
     // Poisto näytetään jos kirjataan tasaeräpoistotilille
     ui->poistoLabel->setVisible( tili.onko(TiliLaji::TASAERAPOISTO) && !ui->taseEraCombo->currentIndex());
     ui->poistoSpin->setVisible(tili.onko(TiliLaji::TASAERAPOISTO) && !ui->taseEraCombo->currentIndex());
-
 }
 
 
