@@ -27,6 +27,7 @@
 #include "db/tili.h"
 #include "db/eranvalintamodel.h"
 #include "laskutus/laskumodel.h"
+#include "kirjaus/ehdotusmodel.h"
 
 Tuonti::Tuonti(KirjausWg *wg)
     :  kirjausWg_(wg)
@@ -231,9 +232,11 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, Q
     }
 
     rivi.arkistotunnus = arkistotunnus;
-    kirjausWg()->model()->vientiModel()->lisaaVienti(rivi);
-    kirjausWg()->model()->vientiModel()->lisaaVienti(vastarivi);
 
-    qDebug() << pvm.toString(Qt::SystemLocaleShortDate) << sentit << iban << viite << arkistotunnus << selite;
+    EhdotusModel ehdotus;
+    ehdotus.lisaaVienti(rivi);
+    ehdotus.lisaaVienti(vastarivi);
+    ehdotus.viimeisteleMaksuperusteinen();
+    ehdotus.tallenna( kirjausWg()->model()->vientiModel() );
 
 }

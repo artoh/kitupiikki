@@ -157,19 +157,6 @@ LaskuDialogi::~LaskuDialogi()
     delete ui;
 }
 
-void LaskuDialogi::viewAktivoitu(QModelIndex indeksi)
-{
-    if( indeksi.column() == LaskuModel::ALV)
-    {
-        VeroDialogi veroDlg;
-        if( veroDlg.exec( indeksi.data(LaskuModel::AlvKoodiRooli).toInt(), indeksi.data(LaskuModel::AlvProsenttiRooli).toInt(), true  ))
-        {
-            model->setData(indeksi, veroDlg.alvKoodi(), LaskuModel::AlvKoodiRooli);
-            model->setData(indeksi, veroDlg.alvProsentti(), LaskuModel::AlvProsenttiRooli);
-        }
-    }
-}
-
 void LaskuDialogi::paivitaSumma(int summa)
 {
     ui->summaLabel->setText( QString("%L1 €").arg(summa / 100.0,0,'f',2) );

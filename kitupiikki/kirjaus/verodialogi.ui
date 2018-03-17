@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>299</width>
-    <height>304</height>
+    <width>300</width>
+    <height>278</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -65,13 +65,6 @@
         <widget class="QRadioButton" name="kohdentamaton">
          <property name="text">
           <string>Kohdentamaton maksuperusteinen alv</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="sisMaksuAlv">
-         <property name="text">
-          <string>Maksuperusteisen alv:n sisältämä saatava/velka</string>
          </property>
         </widget>
        </item>

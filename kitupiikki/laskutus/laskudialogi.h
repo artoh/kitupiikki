@@ -46,7 +46,6 @@ public:
     ~LaskuDialogi();
 
 private slots:
-    void viewAktivoitu(QModelIndex indeksi);
     void paivitaSumma(int paivitaSumma);
     void esikatsele();
     void perusteVaihtuu();

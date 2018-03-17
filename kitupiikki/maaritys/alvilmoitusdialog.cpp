@@ -511,6 +511,8 @@ RaportinKirjoittaja AlvIlmoitusDialog::erittely(QDate alkupvm, QDate loppupvm)
             RaporttiRivi koodiOtsikko;
             if( alvkoodi == AlvKoodi::MAKSETTAVAALV)
                 koodiOtsikko.lisaa(tr("MAKSETTAVA VERO"), 3);
+            else if( alvkoodi > AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON)
+                koodiOtsikko.lisaa(tr("KOHDENTAMATON MAKSUPERUSTEINEN ARVONLISÄVERO"));
             else if( alvkoodi > AlvKoodi::ALVVAHENNYS)
                 koodiOtsikko.lisaa( tr("VÄHENNYS: %1").arg( kp()->alvTyypit()->seliteKoodilla(alvkoodi - AlvKoodi::ALVVAHENNYS) ), 3 );
             else if( alvkoodi > AlvKoodi::ALVKIRJAUS)

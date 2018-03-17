@@ -37,7 +37,6 @@ QWidget *LaskutusVeroDelegaatti::createEditor(QWidget *parent, const QStyleOptio
     cbox->addItem(QIcon(":/pic/vasara.png"), tr("Rakennuspalvelut"), QVariant( AlvKoodi::RAKENNUSPALVELU_MYYNTI ));
     cbox->addItem(QIcon(":/pic/eu.png"), tr("Tavaramyynti"), QVariant( AlvKoodi::YHTEISOMYYNTI_TAVARAT ));
     cbox->addItem(QIcon(":/pic/eu.png"), tr("Palvelumyynti"), QVariant( AlvKoodi::YHTEISOMYYNTI_PALVELUT ));
-    cbox->addItem(tr("Muu alv"), MUUVEROVALINTA );
 
     return cbox;
 }
@@ -54,9 +53,8 @@ void LaskutusVeroDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *m
 {
     QComboBox *cbox = qobject_cast<QComboBox*>(editor);
     int koodi = cbox->currentData().toInt();
-    if( koodi != MUUVEROVALINTA)
-        model->setData(index, koodi / 100, LaskuModel::AlvProsenttiRooli);
 
+    model->setData(index, koodi / 100, LaskuModel::AlvProsenttiRooli);
     model->setData(index, koodi % 100, LaskuModel::AlvKoodiRooli);
 
 }

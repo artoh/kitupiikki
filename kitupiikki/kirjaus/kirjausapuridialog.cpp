@@ -441,7 +441,7 @@ void KirjausApuriDialog::ehdota()
             if( alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI && kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVVELKA).onkoValidi())
             {
                 verorivi.tili = kp()->tilit()->tiliTyypilla( TiliLaji::KOHDENTAMATONALVVELKA );
-                verorivi.alvkoodi = AlvKoodi::KOHDENTAMATON_MYYNTI;
+                verorivi.alvkoodi = AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_MYYNTI;
             }
             else
                 verorivi.alvkoodi = AlvKoodi::ALVKIRJAUS + alvkoodi;
@@ -457,9 +457,6 @@ void KirjausApuriDialog::ehdota()
                 taserivi.debetSnt = bruttoSnt;
             else
                 taserivi.debetSnt = nettoSnt;
-
-            if( alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI)
-                taserivi.alvkoodi = AlvKoodi::MAKSUPERUSTEINEN_VELKA;
 
             taserivi.eraId = ui->vastaTaseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
             ehdotus.lisaaVienti(taserivi);
@@ -500,7 +497,7 @@ void KirjausApuriDialog::ehdota()
             if( alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO && kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVSAATAVA).onkoValidi())
             {
                 verorivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVSAATAVA);
-                verorivi.alvkoodi = AlvKoodi::KOHDENTAMATON_OSTO;
+                verorivi.alvkoodi = AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_OSTO;
             }
             else
                 verorivi.alvkoodi = AlvKoodi::ALVVAHENNYS + alvkoodi;
@@ -538,8 +535,7 @@ void KirjausApuriDialog::ehdota()
                     taserivi.viite = ui->viiteEdit->text().remove(' ');
                 if( ui->eraCheck->isChecked())
                     taserivi.erapvm = ui->erapvmEdit->date();
-                if( alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO)
-                    taserivi.alvkoodi = AlvKoodi::MAKSUPERUSTEINEN_SAATAVA;
+
             }
 
             ehdotus.lisaaVienti(taserivi);

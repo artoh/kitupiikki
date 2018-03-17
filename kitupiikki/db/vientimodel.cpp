@@ -158,9 +158,6 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
                 {
                     if( rivi.alvkoodi == AlvKoodi::MAKSETTAVAALV)
                         return tr("VERO");
-                    else if( rivi.alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_SAATAVA ||
-                             rivi.alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_VELKA)
-                        return tr("sis. ALV");
                     else
                         return QVariant( QString("%1 %").arg(rivi.alvprosentti));
                 }

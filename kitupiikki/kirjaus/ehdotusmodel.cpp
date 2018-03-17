@@ -174,7 +174,7 @@ void EhdotusModel::viimeisteleMaksuperusteinen()
         {
             bool myynti = rivi.tili.onko(TiliLaji::MYYNTISAATAVA);
             Tili haeTili = myynti ? kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVVELKA) :
-                                                              kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVSAATAVA);
+                                    kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVSAATAVA);
 
             // parissa veroprosentti,debet-kredit
             QList<maksuAlvEra> verot;

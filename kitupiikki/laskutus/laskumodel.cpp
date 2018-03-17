@@ -239,18 +239,8 @@ bool LaskuModel::setData(const QModelIndex &index, const QVariant &value, int ro
     }
     else if( role == AlvKoodiRooli)
     {
-        if( value.toInt() == LaskutusVeroDelegaatti::MUUVEROVALINTA)
-        {
-            // Jos delegaatista valitaan muu, näytetään dialogi
-            VeroDialogi veroDlg;
-            if( veroDlg.exec(rivit_[rivi].alvKoodi, rivit_[rivi].alvProsentti, true) )
-            {
-                rivit_[rivi].alvKoodi = veroDlg.alvKoodi();
-                rivit_[rivi].alvProsentti = veroDlg.alvProsentti();
-            }
-        }
-        else
-            rivit_[rivi].alvKoodi = value.toInt();
+        rivit_[rivi].alvKoodi = value.toInt();
+        paivitaSumma(rivi);
         return true;
     }
     else if( role == AlvProsenttiRooli)
@@ -360,6 +350,13 @@ bool LaskuModel::tallenna(Tili rahatili)
     VientiModel *viennit = tosite.vientiModel();
     foreach (LaskuRivi rivi, rivit_)
     {
+        // Maksuperusteisen koodaus, jos käytössä maksuperusteinen
+        if( kp()->onkoMaksuperusteinenAlv(pvm()) && rivi.alvKoodi == AlvKoodi::MYYNNIT_NETTO &&
+                ( kirjausperuste() == SUORITEPERUSTE || kirjausperuste() == LASKUTUSPERUSTE  ))
+        {
+                rivi.alvKoodi = AlvKoodi::MAKSUPERUSTEINEN_MYYNTI;
+        }
+
         // Tallennetaan laskun json-kenttään myös rivitiedot
         // mahdollisen myöhemmän käytön varalle (näistä voisi koota vaikkapa myyntitilastot)
         QVariantMap riviTalteen;
@@ -446,13 +443,23 @@ bool LaskuModel::tallenna(Tili rahatili)
 
         VientiRivi verorivi;
         // Nettokirjauksessa kirjataan alv erikseen
-        if( veroIter.key() / 1000 == AlvKoodi::MYYNNIT_NETTO)
+        if( veroIter.key() / 1000 == AlvKoodi::MYYNNIT_NETTO || veroIter.key() / 1000 == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI)
         {
             int alvprosentti = veroIter.key() % 1000;
             verorivi.pvm = pvm();
             verorivi.selite = tr("%1 [%2] ALV %3 %").arg(laskunsaajanNimi()).arg(laskunro()).arg(alvprosentti);
-            verorivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA);
-            verorivi.alvkoodi = AlvKoodi::ALVKIRJAUS + AlvKoodi::MYYNNIT_NETTO;
+
+            if( veroIter.key() / 1000 == AlvKoodi::MYYNNIT_NETTO)
+            {
+                verorivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA);
+                verorivi.alvkoodi = AlvKoodi::ALVKIRJAUS + AlvKoodi::MYYNNIT_NETTO;
+            }
+            else    // Maksuperusteinen ALV
+            {
+                verorivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVVELKA);
+                verorivi.alvkoodi = AlvKoodi::ALVKIRJAUS + AlvKoodi::MAKSUPERUSTEINEN_MYYNTI;
+            }
+
             verorivi.alvprosentti = alvprosentti;
 
 

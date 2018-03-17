@@ -19,6 +19,7 @@
 #include "ui_laskunmaksudialogi.h"
 #include "db/jsonkentta.h"
 #include "db/kirjanpito.h"
+#include "kirjaus/ehdotusmodel.h"
 
 #include <QSqlQuery>
 #include <QMessageBox>
@@ -88,8 +89,6 @@ void LaskunMaksuDialogi::kirjaa()
     QString selite = QString("%1 [%2]").arg(index.data(LaskutModel::AsiakasRooli).toString())
             .arg(index.data(LaskutModel::ViiteRooli).toInt());
 
-
-    // Rahakirjaus
     VientiRivi rahaRivi;
     rahaRivi.pvm = ui->pvmEdit->date();
     rahaRivi.debetSnt = int( ui->euroSpin->value() * 100 );
@@ -123,15 +122,20 @@ void LaskunMaksuDialogi::kirjaa()
     else
     {
         // Tehdään saatavan vähennys
+        EhdotusModel ehdotus;
+
         VientiRivi saatavaRivi;
         saatavaRivi.tili = kp()->tilit()->tiliNumerolla( json.luku("Saatavatili") );
-        saatavaRivi.kreditSnt = int( ui->euroSpin->value() * 100 );
+        saatavaRivi.kreditSnt = qlonglong( ui->euroSpin->value() * 100 );
         saatavaRivi.eraId = json.luku("TaseEra");
         saatavaRivi.pvm = ui->pvmEdit->date();
         saatavaRivi.selite = selite;
 
-        kirjaaja->model()->vientiModel()->lisaaVienti(saatavaRivi);
-        kirjaaja->model()->vientiModel()->lisaaVienti(rahaRivi);
+        ehdotus.lisaaVienti(saatavaRivi);
+        ehdotus.lisaaVienti(rahaRivi);
+        ehdotus.viimeisteleMaksuperusteinen();  // Tämä siksi, että maksuperusteisen lisärivit tulevat
+
+        ehdotus.tallenna( kirjaaja->model()->vientiModel() );
 
         laskut->maksa(index.row(), ui->euroSpin->value() * 100);
     }
