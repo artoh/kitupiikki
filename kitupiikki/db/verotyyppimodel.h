@@ -46,7 +46,8 @@ namespace AlvKoodi {
         ALVKIRJAUS = 100,
         ALVVAHENNYS = 200,
         MAKSUPERUSTEINEN_KOHDENTAMATON = 400,
-        MAKSETTAVAALV = 900
+        MAKSETTAVAALV = 900,
+        TILITYS = 901
     };
 
 };

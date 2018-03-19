@@ -42,6 +42,8 @@ VerotyyppiModel::VerotyyppiModel(QObject *parent)
     tyypit.append( VeroTyyppi(AlvKoodi::MAAHANTUONTI,"Tavaroiden maahantuonti EU:n ulkopuolelta",":/pic/laiva.png"));
     tyypit.append( VeroTyyppi(AlvKoodi::RAKENNUSPALVELU_MYYNTI,"Rakennuspalveluiden myynti",":/pic/vasara.png", true));
     tyypit.append( VeroTyyppi(AlvKoodi::RAKENNUSPALVELU_OSTO,"Rakennuspalveluiden osto",":/pic/vasara.png"));
+    tyypit.append( VeroTyyppi(AlvKoodi::MAKSETTAVAALV,"Maksettavan arvonlisäveron tilitys",":/pic/vero.png", true));
+    tyypit.append(VeroTyyppi(AlvKoodi::TILITYS,"Tekninen kirjaus",":/pic/vero.png", true));
 
 }
 
@@ -83,6 +85,8 @@ QString VerotyyppiModel::seliteKoodilla(int koodi) const
 
 QIcon VerotyyppiModel::kuvakeKoodilla(int koodi) const
 {
+    if( koodi < AlvKoodi::MAKSETTAVAALV)
+        koodi = koodi % 100;
 
     foreach (VeroTyyppi tyyppi, tyypit)
     {

@@ -158,6 +158,8 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
                 {
                     if( rivi.alvkoodi == AlvKoodi::MAKSETTAVAALV)
                         return tr("VERO");
+                    else if(rivi.alvkoodi == AlvKoodi::TILITYS)
+                        return QString();
                     else
                         return QVariant( QString("%1 %").arg(rivi.alvprosentti));
                 }
@@ -225,7 +227,7 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
         }
         else if( index.column() == ALV )
         {
-            return kp()->alvTyypit()->kuvakeKoodilla( rivi.alvkoodi % 100 );
+            return kp()->alvTyypit()->kuvakeKoodilla( rivi.alvkoodi );
         }
         else if( index.column() == PVM)
         {

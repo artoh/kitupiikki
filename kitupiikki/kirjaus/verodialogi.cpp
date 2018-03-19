@@ -78,7 +78,11 @@ int VeroDialogi::exec(int koodi, int prosentti, bool tyyppilukko)
         ui->veroRadio->setChecked(true);
 
 
-    ui->verolajiCombo->setCurrentIndex( ui->verolajiCombo->findData( koodi % 100));
+    if( koodi < AlvKoodi::MAKSETTAVAALV)
+        ui->verolajiCombo->setCurrentIndex( ui->verolajiCombo->findData( koodi % 100));
+    else
+        ui->verolajiCombo->setCurrentIndex( ui->verolajiCombo->findData( koodi));
+
     ui->prossaSpin->setValue(prosentti);
 
     // Jos tyyppi lukittu, ei voi muuttaa kirjausta veroksi jne...
@@ -94,14 +98,15 @@ int VeroDialogi::exec(int koodi, int prosentti, bool tyyppilukko)
 
 void VeroDialogi::lajimuuttuu()
 {
+    int alvkoodi = ui->verolajiCombo->currentData( VerotyyppiModel::KoodiRooli).toInt();
     // Nollaverolajeilla ei voi tehdä verokirjauksia
-    ui->tyyppiGroup->setEnabled(  !ui->verolajiCombo->currentData( VerotyyppiModel::NollaLajiRooli).toBool());
+    ui->tyyppiGroup->setEnabled(  !ui->verolajiCombo->currentData( VerotyyppiModel::NollaLajiRooli).toBool() &&
+                                  alvkoodi != AlvKoodi::TILITYS);
     ui->prossaSpin->setEnabled(  !ui->verolajiCombo->currentData( VerotyyppiModel::NollaLajiRooli).toBool() );
 
     if( !ui->verolajiCombo->currentData( VerotyyppiModel::NollaLajiRooli).toBool() && !ui->prossaSpin->value())
         ui->prossaSpin->setValue( VerotyyppiModel::oletusAlvProsentti() );
 
-    int alvkoodi = ui->verolajiCombo->currentData( VerotyyppiModel::KoodiRooli).toInt();
     ui->kohdentamaton->setEnabled( alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI || alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO);
 }
 

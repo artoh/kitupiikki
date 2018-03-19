@@ -73,6 +73,13 @@ private:
      */
     void luku(const QString& nimike, int senttia, bool viiva = false);
 
+    /**
+     * @brief Tekee erääntyneen maksuperusteisen alvin tilitykset
+     * @param paivayksesta Päiväys, jota vanhemmat erääntyneitä
+     * @return false, jos peruttiin
+     */
+    bool maksuperusteisenTilitys(const QDate& paivayksesta, const QDate &tilityspvm);
+
     RaportinKirjoittaja erittely(QDate alkupvm, QDate loppupvm);
 
 };

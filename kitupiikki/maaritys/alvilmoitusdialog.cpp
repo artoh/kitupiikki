@@ -57,11 +57,24 @@ QDate AlvIlmoitusDialog::teeAlvIlmoitus(QDate alkupvm, QDate loppupvm)
         return QDate();
     }
 
-    // TODO: Maksuperusteisessa alvissa:
-    // Maksuperusteisen alv:n lopettaminen
-    // Erääntynyt (12kk) maksuperusteinen alv
-
     AlvIlmoitusDialog dlg;
+
+    // Maksuperusteisen alv:n lopettaminen
+
+    if( alkupvm == kp()->asetukset()->pvm("MaksuAlvLoppuu"))
+    {
+        if( !dlg.maksuperusteisenTilitys(kp()->asetukset()->pvm("MaksuAlvLoppuu"), alkupvm ) )
+            return QDate();
+    }
+
+    // Erääntynyt (12kk) maksuperusteinen alv
+    else if( kp()->onkoMaksuperusteinenAlv( loppupvm ) )
+    {
+        if( !dlg.maksuperusteisenTilitys( alkupvm.addYears(-1), alkupvm ) )
+            return QDate();
+    }
+
+
     if( dlg.alvIlmoitus(alkupvm, loppupvm))
         return loppupvm;
     else
@@ -217,6 +230,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         rivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA);
         rivi.selite = tr("Alv-kirjaus %1 - %2 ").arg(alkupvm.toString(Qt::SystemLocaleShortDate)).arg(loppupvm.toString(Qt::SystemLocaleShortDate));
         rivi.debetSnt = nettoverosnt + bruttoveroayhtSnt;
+        rivi.alvkoodi = AlvKoodi::TILITYS;
         ehdotus.lisaaVienti(rivi);
     }
     if( nettovahennyssnt + bruttovahennettavaaSnt)
@@ -226,6 +240,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         rivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA);
         rivi.selite = tr("Alv-kirjaus %1 - %2 ").arg(alkupvm.toString(Qt::SystemLocaleShortDate)).arg(loppupvm.toString(Qt::SystemLocaleShortDate));
         rivi.kreditSnt = nettovahennyssnt + bruttovahennettavaaSnt;
+        rivi.alvkoodi = AlvKoodi::TILITYS;
         ehdotus.lisaaVienti(rivi);
     }
     // Ja lopuksi kirjataan verot verotilille
@@ -444,6 +459,87 @@ void AlvIlmoitusDialog::luku(const QString &nimike, int senttia, bool viiva)
     kirjoittaja->lisaaRivi(rivi);
 }
 
+bool AlvIlmoitusDialog::maksuperusteisenTilitys(const QDate &paivayksesta, const QDate &tilityspvm)
+{
+    // Hakee kaikki sanottua vanhemmat erät ja jos niillä saldoa, niin lävähtävät maksuun
+    QSqlQuery kysely( QString("SELECT id, alvkoodi, alvprosentti FROMM vienti WHERE tili=%1 OR tili=%2 "
+                              "AND pvm <='%3'")
+                      .arg( kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVVELKA).id() )
+                      .arg( kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVSAATAVA).id())
+                      .arg( paivayksesta.toString(Qt::ISODate)));
+
+    EhdotusModel ehdotus;
+
+    while( kysely.next())
+    {
+        int alvkoodi = kysely.value("alvkoodi").toInt();
+        if( alvkoodi != AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_MYYNTI &&
+            alvkoodi != AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_OSTO )
+            continue;
+
+        TaseEra veroEra( kysely.value("id").toInt() );
+        qlonglong saldo = veroEra.saldoSnt;
+
+        if( !saldo )
+            continue;
+
+        // Kirjataan kohdentamattomasta alv-velasta (saatavasta) alv-velkaan (saatavaan)
+
+        VientiRivi kohdentamaton;
+        kohdentamaton.pvm = tilityspvm;
+        kohdentamaton.tili = alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_OSTO ?
+                    kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVSAATAVA) :
+                    kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVVELKA);
+        kohdentamaton.kreditSnt = saldo > 0 ? saldo : 0;
+        kohdentamaton.debetSnt = saldo < 0 ? 0 - saldo : 0;
+        kohdentamaton.alvkoodi = AlvKoodi::TILITYS;
+        kohdentamaton.eraId = kysely.value("id").toInt();
+        kohdentamaton.selite = tr("Maksuperusteinen %1 % alv %2 / %3 [%4]").arg( kysely.value("alvprosentti").toInt() )
+                .arg(veroEra.tositteenTunniste()).arg(veroEra.pvm.toString(Qt::SystemLocaleShortDate))
+                .arg(veroEra.selite);
+
+        VientiRivi verorivi;
+        verorivi.pvm = tilityspvm;
+        verorivi.tili = AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_OSTO ?
+                    kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA) :
+                    kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA);
+        verorivi.debetSnt = kohdentamaton.kreditSnt;
+        verorivi.kreditSnt = kohdentamaton.debetSnt;
+        verorivi.selite = kohdentamaton.selite;
+        verorivi.alvkoodi = AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_OSTO ?
+                    AlvKoodi::ALVVAHENNYS + AlvKoodi::MAKSUPERUSTEINEN_OSTO :
+                    AlvKoodi::ALVKIRJAUS + AlvKoodi::MAKSUPERUSTEINEN_MYYNTI;
+        verorivi.alvprosentti = kysely.value("alvprosentti").toInt();
+
+        ehdotus.lisaaVienti(kohdentamaton);
+        ehdotus.lisaaVienti(verorivi);
+    }
+
+    // Jos erääntyneitä on, niin pyydetään lupa niiden kirjaamiseen
+    if( ehdotus.rowCount(QModelIndex()))
+    {
+        if( QMessageBox::question(0, tr("Arvonlisäveron kausi-ilmoitus"),
+                                 tr("Tähän verotusjaksoon on kohdistettava %1 kpl erääntynyttä maksuperusteisena kirjattua "
+                                    "arvonlisäveron suoritusta.\n"
+                                    "Tehdäänkö kohdistuskirjaukset ja jatketaan arvonlisäverotukseen?")
+                                        .arg( ehdotus.rowCount(QModelIndex()) / 2),
+                              QMessageBox::Yes | QMessageBox::Cancel ) != QMessageBox::Yes )
+            return false;
+
+        // Tehdään kirjaaja
+        TositeModel tosite( kp()->tietokanta() );
+        tosite.asetaPvm(tilityspvm);
+        tosite.asetaOtsikko(tr("Erääntynyt maksuperusteinen arvonlisävero"));
+        tosite.asetaTositelaji(0);
+
+        ehdotus.tallenna( tosite.vientiModel() );
+        return tosite.tallenna();
+    }
+
+    return true;
+
+}
+
 RaportinKirjoittaja AlvIlmoitusDialog::erittely(QDate alkupvm, QDate loppupvm)
 {
     RaportinKirjoittaja kirjoittaja;
@@ -484,6 +580,11 @@ RaportinKirjoittaja AlvIlmoitusDialog::erittely(QDate alkupvm, QDate loppupvm)
         int alvkoodi = kysely.value("alvkoodi").toInt();
         int alvprosentti = kysely.value("alvprosentti").toInt();
         int tilinro = kysely.value("nro").toInt();
+
+        // Teknisiä kirjauksia ei tulosteta erittelyyn
+        if( alvkoodi == AlvKoodi::TILITYS)
+            continue;
+
 
         if( tilinro != nTili || alvkoodi != nAlvkoodi || alvprosentti != nProsentti)
         {

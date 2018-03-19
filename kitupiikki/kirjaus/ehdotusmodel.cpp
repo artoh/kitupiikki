@@ -245,6 +245,7 @@ void EhdotusModel::viimeisteleMaksuperusteinen()
                 poisrivi.kreditSnt = sentit < 0 ? 0 - sentit : 0;
                 poisrivi.selite = verorivi.selite;
                 poisrivi.eraId = vero.id;
+                poisrivi.alvkoodi = AlvKoodi::TILITYS;
                 lisaaVienti(poisrivi);
 
             }
