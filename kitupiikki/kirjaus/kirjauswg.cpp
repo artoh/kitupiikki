@@ -193,12 +193,30 @@ void KirjausWg::tallenna()
 
     // Varoitus, jos kirjataan verollisia alv-ilmoituksen antamisen jälkeen
     bool alvvaro = false;
+
     for(int i=0; i < model()->vientiModel()->rowCount(QModelIndex()); i++)
     {
         QModelIndex indeksi = model()->vientiModel()->index(i,0);
         if(  indeksi.data(VientiModel::AlvKoodiRooli).toInt() > 0 &&
              indeksi.data(VientiModel::PvmRooli).toDate().daysTo( kp()->asetukset()->pvm("AlvIlmoitus")) >= 0  )
             alvvaro = true;
+
+        // Estetään alv-tileille kirjaaminen ilman alv-koodia
+        if( indeksi.data(VientiModel::AlvKoodiRooli).toInt() == 0)
+        {
+            Tili tili = kp()->tilit()->tiliNumerolla( indeksi.data(VientiModel::TiliNumeroRooli).toInt() );
+            if( tili.onko(TiliLaji::ALVSAATAVA) || tili.onko(TiliLaji::ALVVELKA))
+            {
+                QMessageBox::critical(this, tr("Arvonlisäverokoodi puuttuu"),
+                                      tr("Tilille %1 %2 on tehty kirjaus, jossa ei ole määritelty arvonlisäveron ohjaustietoja.\n\n"
+                                         "Arvonlisäveroon liittyvät kirjaukset on aina määriteltävä oikeilla verokoodeilla, "
+                                         "jotta kausiveroilmoitukseen saadaan oikeat tiedot.\n\n"
+                                         "Käyttämällä Kirjausapuria saat automaattisesti oikeat arvonlisäveron ohjaustiedot." )
+                                      .arg(tili.numero()).arg(tili.nimi()));
+                return;
+            }
+        }
+
 
         // #62: Estetään kirjaukset lukitulle tilikaudelle
         if( indeksi.data(VientiModel::PvmRooli).toDate() <= kp()->tilitpaatetty() &&
