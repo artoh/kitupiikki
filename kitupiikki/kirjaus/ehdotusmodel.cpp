@@ -176,7 +176,7 @@ void EhdotusModel::viimeisteleMaksuperusteinen()
             Tili haeTili = myynti ? kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVVELKA) :
                                     kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVSAATAVA);
 
-            // parissa veroprosentti,debet-kredit
+
             QList<maksuAlvEra> verot;
             qlonglong verosumma = 0;
 
@@ -193,9 +193,18 @@ void EhdotusModel::viimeisteleMaksuperusteinen()
             {
                 maksuAlvEra maksuEra;
                 maksuEra.alvprosentti = kysely.value("alvprosentti").toInt();
-                maksuEra.sentit = kysely.value("debetsnt").toLongLong() - kysely.value("kreditsnt").toLongLong();
                 maksuEra.id = kysely.value("id").toInt();
-                verot.append(maksuEra);
+
+                // Haetaan tämän veroerän saldo
+                // Lähinnä siltä varalta, jos erääntymisen takia verot onkin jo maksettu
+                // niin turha niitä on maksaa enää toista kertaa
+
+                TaseEra veroEra(maksuEra.id);
+                maksuEra.sentit = veroEra.saldoSnt;
+
+                if( maksuEra.sentit)
+                    verot.append(maksuEra);
+
                 verosumma += maksuEra.sentit;
             }
 

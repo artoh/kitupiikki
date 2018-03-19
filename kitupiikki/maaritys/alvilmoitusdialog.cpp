@@ -57,6 +57,10 @@ QDate AlvIlmoitusDialog::teeAlvIlmoitus(QDate alkupvm, QDate loppupvm)
         return QDate();
     }
 
+    // TODO: Maksuperusteisessa alvissa:
+    // Maksuperusteisen alv:n lopettaminen
+    // Erääntynyt (12kk) maksuperusteinen alv
+
     AlvIlmoitusDialog dlg;
     if( dlg.alvIlmoitus(alkupvm, loppupvm))
         return loppupvm;
@@ -251,7 +255,12 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
     kirjoittaja->lisaaVenyvaSarake();
     kirjoittaja->lisaaEurosarake();
 
+    if( kp()->onkoMaksuperusteinenAlv(loppupvm) )
+        otsikko("Kotimaan arvonlisävero laskettu maksuperusteisesti.");
+
     otsikko("Vero kotimaan myynnistä verokannoittain");
+
+
 
     while( iter.hasPrevious())
     {
