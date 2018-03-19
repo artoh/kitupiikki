@@ -84,12 +84,12 @@ QString LaskunTulostaja::html()
         otsikko = tr("Kuitti");
 
     txt.append(tr("<tr><td rowspan=2 width=50%>%1<br>%2</td><td colspan=3>%3</td></tr>").arg(kp()->asetukset()->asetus("Nimi")).arg(omaosoite).arg(otsikko) );
-    txt.append(tr("<tr><td width=25%>Laskun päivämäärä</td><td width=25%>%1</td></tr>").arg( kp()->paivamaara().toString(Qt::SystemLocaleShortDate) ));
+    txt.append(tr("<tr><td width=25%>Laskun päivämäärä</td><td width=25%>%1</td></tr>").arg( kp()->paivamaara().toString("dd.MM.yyyy") ));
     txt.append(tr("<tr><td rowspan=4>%1</td><td>Viitenumero</td><td>%2</td></td>").arg( osoite ).arg(model_->viitenumero() ));
 
     // Käteislaskulla tai hyvityslaskulla ei eräpäivää
     if( model_->kirjausperuste() != LaskuModel::KATEISLASKU && !model_->hyvityslasku().viitenro)
-        txt.append(tr("<tr><td>Eräpäivä</td><td>%1</td></tr>").arg(model_->erapaiva().toString(Qt::SystemLocaleShortDate)));
+        txt.append(tr("<tr><td>Eräpäivä</td><td>%1</td></tr>").arg(model_->erapaiva().toString("dd.MM.yyyy")));
 
     txt.append(tr("<tr><td>Summa</td><td>%L1 €</td>").arg( (model_->laskunSumma() / 100.0) ,0,'f',2));
 
@@ -248,8 +248,8 @@ void LaskunTulostaja::ylaruudukko(QPrinter *printer, QPainter *painter)
                           .arg( kp()->tilikausiPaivalle(kp()->paivamaara()).kausitunnus())  );
     }
 
-    painter->drawText(QRectF( leveys / 2 + mm, pv - rk, leveys / 4, rk-mm ), Qt::AlignBottom, kp()->paivamaara().toString(Qt::SystemLocaleShortDate) );
-    painter->drawText(QRectF( leveys / 2 + mm, pv + mm, leveys / 4, rk-mm ), Qt::AlignBottom,  model_->toimituspaiva().toString(Qt::SystemLocaleShortDate) );
+    painter->drawText(QRectF( leveys / 2 + mm, pv - rk, leveys / 4, rk-mm ), Qt::AlignBottom, kp()->paivamaara().toString("dd.MM.yyyy") );
+    painter->drawText(QRectF( leveys / 2 + mm, pv + mm, leveys / 4, rk-mm ), Qt::AlignBottom,  model_->toimituspaiva().toString("dd.MM.yyyy") );
     painter->drawText(QRectF( leveys / 2 + mm, pv+rk+mm, leveys / 2, rk-mm ), Qt::AlignBottom, model_->viitenumero() );
 
 
@@ -269,7 +269,7 @@ void LaskunTulostaja::ylaruudukko(QPrinter *printer, QPainter *painter)
         painter->drawText(QRectF( leveys / 2 + mm, pv - rk * 2, leveys / 4, rk-mm ), Qt::AlignBottom,  tr("Lasku") );
         if( model_->laskunSumma() > 0.0 )  // Näytetään eräpäivä vain jos on maksettavaa
         {
-            painter->drawText(QRectF( leveys / 2 + mm, pv + rk * 2, leveys / 4, rk-mm ), Qt::AlignBottom,  model_->erapaiva().toString(Qt::SystemLocaleShortDate) );
+            painter->drawText(QRectF( leveys / 2 + mm, pv + rk * 2, leveys / 4, rk-mm ), Qt::AlignBottom,  model_->erapaiva().toString("dd.MM.yyyy") );
             painter->drawText(QRectF( 3 * leveys / 4 + mm, pv + rk * 3, leveys / 4, rk-mm ), Qt::AlignBottom,  kp()->asetus("LaskuViivastyskorko") );
         }
 
@@ -532,7 +532,7 @@ void LaskunTulostaja::tilisiirto(QPrinter *printer, QPainter *painter)
 
     painter->drawText( QRectF(mm*133.4, mm*53.8, mm*60, mm*7.5), Qt::AlignLeft | Qt::AlignBottom, model_->viitenumero() );
 
-    painter->drawText( QRectF(mm*133.4, mm*62.3, mm*30, mm*7.5), Qt::AlignLeft | Qt::AlignBottom, model_->erapaiva().toString(Qt::SystemLocaleShortDate) );
+    painter->drawText( QRectF(mm*133.4, mm*62.3, mm*30, mm*7.5), Qt::AlignLeft | Qt::AlignBottom, model_->erapaiva().toString("dd.MM.yyyy") );
     painter->drawText( QRectF(mm*165, mm*62.3, mm*30, mm*7.5), Qt::AlignRight | Qt::AlignBottom, QString("%L1").arg( (model_->laskunSumma() / 100.0) ,0,'f',2) );
 
     painter->drawText( QRectF(mm*22, mm*17, mm*90, mm*13), Qt::AlignTop | Qt::TextWordWrap, kp()->asetus("Nimi") + "\n" + kp()->asetus("Osoite")  );

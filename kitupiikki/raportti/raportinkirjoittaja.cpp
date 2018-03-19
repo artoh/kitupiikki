@@ -384,7 +384,7 @@ QString RaportinKirjoittaja::html(bool linkit)
 
     }
     txt.append("</table>");
-    txt.append("<p class=tulostettu>Tulostettu " + QDate::currentDate().toString(Qt::SystemLocaleShortDate));
+    txt.append("<p class=tulostettu>Tulostettu " + QDate::currentDate().toString("dd.MM.yyyy"));
     if( kp()->onkoHarjoitus())
         txt.append("<br>Kirjanpito on laadittu Kitupiikki-ohjelman harjoittelutilassa");
 
@@ -438,7 +438,7 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu)
     int rivinkorkeus = painter->fontMetrics().height();
 
     QString nimi = Kirjanpito::db()->asetus("Nimi");
-    QString paivays = kp()->paivamaara().toString(Qt::SystemLocaleShortDate);
+    QString paivays = kp()->paivamaara().toString("dd.MM.yyyy");
 
     int vasenreunus = 0;
 

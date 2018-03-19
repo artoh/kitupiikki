@@ -60,8 +60,8 @@ RaportinKirjoittaja TositeluetteloRaportti::kirjoitaRaportti(QDate mista, QDate 
     else
         kirjoittaja.asetaOtsikko("TOSITELUETTELO");
 
-    kirjoittaja.asetaKausiteksti(QString("%1 - %2").arg( mista.toString(Qt::SystemLocaleShortDate) )
-                                             .arg( mihin.toString(Qt::SystemLocaleShortDate) ) );
+    kirjoittaja.asetaKausiteksti(QString("%1 - %2").arg( mista.toString("dd.MM.yyyy") )
+                                             .arg( mihin.toString("dd.MM.yyyy") ) );
 
     kirjoittaja.lisaaSarake("ABC1234/99 ");    // Tositetunniste
     kirjoittaja.lisaaPvmSarake();           // Pvm

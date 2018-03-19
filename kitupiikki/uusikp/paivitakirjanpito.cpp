@@ -49,7 +49,7 @@ QString PaivitaKirjanpito::sisainenPaivitys()
         return QString();
 
     return ktk.value("TilikarttaNimi").join("") + " " +
-            paivays.toString(Qt::SystemLocaleShortDate);
+            paivays.toString("dd.MM.yyyy");
 }
 
 bool PaivitaKirjanpito::paivitaTilikartta()

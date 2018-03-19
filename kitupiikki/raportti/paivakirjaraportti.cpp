@@ -75,8 +75,8 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
         kirjoittaja.asetaOtsikko("PÄIVÄKIRJA");
 
 
-    kirjoittaja.asetaKausiteksti(QString("%1 - %2").arg( mista.toString(Qt::SystemLocaleShortDate) )
-                                             .arg( mihin.toString(Qt::SystemLocaleShortDate) ) );
+    kirjoittaja.asetaKausiteksti(QString("%1 - %2").arg( mista.toString("dd.MM.yyyy") )
+                                             .arg( mihin.toString("dd.MM.yyyy") ) );
 
     kirjoittaja.lisaaPvmSarake();
     kirjoittaja.lisaaSarake("ABC1234/99 ");

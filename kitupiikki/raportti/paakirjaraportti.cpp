@@ -64,8 +64,8 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
     else
         rk.asetaOtsikko( "PÄÄKIRJA");
 
-    rk.asetaKausiteksti(QString("%1 - %2").arg( mista.toString(Qt::SystemLocaleShortDate) )
-                                             .arg( mihin.toString(Qt::SystemLocaleShortDate) ) );
+    rk.asetaKausiteksti(QString("%1 - %2").arg( mista.toString("dd.MM.yyyy") )
+                                             .arg( mihin.toString("dd.MM.yyyy") ) );
 
     rk.lisaaPvmSarake();        // Pvm
     rk.lisaaSarake("ABC1234/99 "); // Tosite

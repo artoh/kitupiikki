@@ -91,7 +91,7 @@ RaportinKirjoittaja TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::Kar
     if( saldopvm.isValid())
     {
         rk.lisaaSarake("Saldo XX.XX.XXXX");
-        otsikko.lisaa( tr("Saldo %1").arg(saldopvm.toString(Qt::SystemLocaleShortDate)));
+        otsikko.lisaa( tr("Saldo %1").arg(saldopvm.toString("dd.MM.yyyy")));
     }
     if( csv && kirjausohjeet)
     {

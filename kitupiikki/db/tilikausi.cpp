@@ -56,8 +56,8 @@ QDateTime Tilikausi::viimeinenPaivitys() const
 QString Tilikausi::kausivaliTekstina() const
 {
     return QString("%1 - %2")
-            .arg( alkaa().toString(Qt::SystemLocaleShortDate))
-            .arg( paattyy().toString(Qt::SystemLocaleShortDate));
+            .arg( alkaa().toString("dd.MM.yyyy"))
+            .arg( paattyy().toString("dd.MM.yyyy"));
 }
 
 Tilikausi::TilinpaatosTila Tilikausi::tilinpaatoksenTila()

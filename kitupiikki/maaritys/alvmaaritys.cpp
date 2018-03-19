@@ -81,9 +81,9 @@ void AlvMaaritys::paivitaSeuraavat()
     seuraavaAlkaa = viimeisin.addDays(1);
     seuraavaLoppuu = seuraavaAlkaa.addMonths( kausikk ).addDays(-1);
 
-    ui->seuraavaLabel->setText( QString("%1 - %2").arg( seuraavaAlkaa.toString(Qt::SystemLocaleShortDate))
-                                                        .arg(seuraavaLoppuu.toString(Qt::SystemLocaleShortDate)) );
-    ui->erapaivaLabel->setText( erapaiva(seuraavaLoppuu).toString(Qt::SystemLocaleShortDate) );
+    ui->seuraavaLabel->setText( QString("%1 - %2").arg( seuraavaAlkaa.toString("dd.MM.yyyy"))
+                                                        .arg(seuraavaLoppuu.toString("dd.MM.yyyy")) );
+    ui->erapaivaLabel->setText( erapaiva(seuraavaLoppuu).toString("dd.MM.yyyy") );
 
     if( kp()->paivamaara().daysTo( erapaiva(seuraavaLoppuu) ) < 3)
         ui->erapaivaLabel->setStyleSheet("color: red;");
@@ -199,9 +199,9 @@ void AlvMaaritys::paivitaMaksuAlvTieto()
     if( !alkaa.isValid())
         ui->maksuAlv->setText(tr("Ei käytössä"));
     else if( !loppuu.isValid())
-        ui->maksuAlv->setText(tr("Käytössä %1 alkaen").arg(alkaa.toString(Qt::SystemLocaleShortDate)));
+        ui->maksuAlv->setText(tr("Käytössä %1 alkaen").arg(alkaa.toString("dd.MM.yyyy")));
     else
-        ui->maksuAlv->setText( tr("%1 - %2").arg(alkaa.toString(Qt::SystemLocaleShortDate)).arg(loppuu.toString(Qt::SystemLocaleShortDate)));
+        ui->maksuAlv->setText( tr("%1 - %2").arg(alkaa.toString("dd.MM.yyyy")).arg(loppuu.toString("dd.MM.yyyy")));
 }
 
 QDate AlvMaaritys::erapaiva(const QDate &loppupaiva)

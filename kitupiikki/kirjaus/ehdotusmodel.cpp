@@ -229,7 +229,7 @@ void EhdotusModel::viimeisteleMaksuperusteinen()
                 verorivi.kreditSnt = sentit > 0 ? sentit : 0;
                 verorivi.alvprosentti = vero.alvprosentti;
                 verorivi.selite = tr("Maksuperusteinen %1 % alv %2 / %3 [%4]").arg(verorivi.alvprosentti)
-                        .arg(era.tositteenTunniste()).arg(era.pvm.toString(Qt::SystemLocaleShortDate))
+                        .arg(era.tositteenTunniste()).arg(era.pvm.toString("dd.MM.yyyy"))
                         .arg(era.selite);
 
                 verorivi.alvkoodi = myynti ? AlvKoodi::ALVKIRJAUS + AlvKoodi::MAKSUPERUSTEINEN_MYYNTI :

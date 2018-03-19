@@ -295,7 +295,7 @@ QString AloitusSivu::vinkit()
     }
     else if( kp()->asetukset()->luku("Tilinavaus")==2 && kp()->asetukset()->pvm("TilinavausPvm") <= kp()->tilitpaatetty() )
         vinkki.append(tr("<table class=vinkki width=100%><tr><td><h3><a href=ktp:/maaritys/Tilinavaus>Tee tilinavaus</a></h3><p>Syötä viimeisimmältä tilinpäätökseltä tilien "
-                      "avaavat saldot %1 järjestelmään <a href='ohje:/maaritykset/tilinavaus'>(Ohje)</a></p></td></tr></table>").arg( kp()->asetukset()->pvm("TilinavausPvm").toString(Qt::SystemLocaleShortDate) ) );
+                      "avaavat saldot %1 järjestelmään <a href='ohje:/maaritykset/tilinavaus'>(Ohje)</a></p></td></tr></table>").arg( kp()->asetukset()->pvm("TilinavausPvm").toString("dd.MM.yyyy") ) );
 
     // Muistutus arvonlisäverolaskelmasta
     if(  kp()->asetukset()->onko("AlvVelvollinen") )
@@ -310,8 +310,8 @@ QString AloitusSivu::vinkit()
             vinkki.append( tr("<table class=varoitus width=100%><tr><td>"
                               "<h3><a href=ktp:/maaritys/Arvonlisävero>Arvonlisäveroilmoitus myöhässä</a></h3>"
                               "Arvonlisäveroilmoitus kaudelta %1 - %2 olisi pitänyt antaa %3 mennessä.</td></tr></table>")
-                           .arg(kausialkaa.toString(Qt::SystemLocaleShortDate)).arg(kausipaattyy.toString(Qt::SystemLocaleShortDate))
-                           .arg(erapaiva.toString(Qt::SystemLocaleShortDate)));
+                           .arg(kausialkaa.toString("dd.MM.yyyy")).arg(kausipaattyy.toString("dd.MM.yyyy"))
+                           .arg(erapaiva.toString("dd.MM.yyyy")));
 
         }
         else if( paivaaIlmoitukseen < 30)
@@ -319,8 +319,8 @@ QString AloitusSivu::vinkit()
             vinkki.append( tr("<table class=vinkki width=100%><tr><td>"
                               "<h3><a href=ktp:/maaritys/Arvonlisävero>Tee arvonlisäverotilitys</a></h3>"
                               "Arvonlisäveroilmoitus kaudelta %1 - %2 on annettava %3 mennessä.</td></tr></table>")
-                           .arg(kausialkaa.toString(Qt::SystemLocaleShortDate)).arg(kausipaattyy.toString(Qt::SystemLocaleShortDate))
-                           .arg(erapaiva.toString(Qt::SystemLocaleShortDate)));
+                           .arg(kausialkaa.toString("dd.MM.yyyy")).arg(kausipaattyy.toString("dd.MM.yyyy"))
+                           .arg(erapaiva.toString("dd.MM.yyyy")));
         }
     }
 
@@ -331,7 +331,7 @@ QString AloitusSivu::vinkit()
         vinkki.append(tr("<table class=vinkki width=100%><tr><td>"
                       "<h3><a href=ktp:/uusitilikausi>Aloita uusi tilikausi</a></h3>"
                       "<p>Tilikausi päättyy %1, jonka jälkeiselle ajalle ei voi tehdä kirjauksia ennen kuin uusi tilikausi aloitetaan.</p>"
-                      "<p>Voit tehdä kirjauksia myös aiempaan tilikauteen, kunnes se on päätetty</p></td></tr></table>").arg( kp()->tilikaudet()->kirjanpitoLoppuu().toString(Qt::SystemLocaleShortDate) ));
+                      "<p>Voit tehdä kirjauksia myös aiempaan tilikauteen, kunnes se on päätetty</p></td></tr></table>").arg( kp()->tilikaudet()->kirjanpitoLoppuu().toString("dd.MM.yyyy") ));
 
     }
 
@@ -379,8 +379,8 @@ QString AloitusSivu::summat()
 
     Tilikausi tilikausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->tilikausiCombo->currentIndex() );
 
-    txt.append(tr("<h2>Tilikausi %1 - %2</h2>").arg(tilikausi.alkaa().toString(Qt::SystemLocaleShortDate))
-             .arg(tilikausi.paattyy().toString(Qt::SystemLocaleShortDate)));
+    txt.append(tr("<h2>Tilikausi %1 - %2</h2>").arg(tilikausi.alkaa().toString("dd.MM.yyyy"))
+             .arg(tilikausi.paattyy().toString("dd.MM.yyyy")));
 
     txt.append("<table width=100%>");
 

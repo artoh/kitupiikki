@@ -225,8 +225,8 @@ void KirjausWg::tallenna()
             QMessageBox::critical(this, tr("Ei voi kirjata lukitulle tilikaudelle"),
                                   tr("Kirjaus %1 kohdistuu lukitulle tilikaudelle "
                                      "(kirjanpito lukittu %2 saakka)." )
-                                  .arg( indeksi.data(VientiModel::PvmRooli).toDate().toString(Qt::SystemLocaleShortDate))
-                                  .arg( kp()->tilitpaatetty().toString(Qt::SystemLocaleShortDate)), QMessageBox::Cancel);
+                                  .arg( indeksi.data(VientiModel::PvmRooli).toDate().toString("dd.MM.yyyy"))
+                                  .arg( kp()->tilitpaatetty().toString("dd.MM.yyyy")), QMessageBox::Cancel);
             return;
         }
     }
@@ -238,7 +238,7 @@ void KirjausWg::tallenna()
               "Tositteen, kirjanpidon tai muun kirjanpitoaineiston sisältöä ei saa muuttaa eikä "
               "poistaa sen jälkeen kuin 6§ tarkoitettu (kirjanpidosta viranomaisille verotusta "
               "tai muuta tarkoitusta varten määräajassa tehtävä) ilmoitus on tehty.\n\n"
-              "Tallennetaanko tosite silti?").arg( kp()->asetukset()->pvm("AlvIlmoitus").toString(Qt::SystemLocaleShortDate) ),
+              "Tallennetaanko tosite silti?").arg( kp()->asetukset()->pvm("AlvIlmoitus").toString("dd.MM.yyyy") ),
             QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) != QMessageBox::Yes)
             return;
     }
@@ -522,11 +522,11 @@ void KirjausWg::tiedotModelista()
     else if( kp()->tilitpaatetty() >= model_->pvm() )
     {
         ui->varoKuva->setPixmap( QPixmap(":/pic/lukittu.png"));
-        ui->varoTeksti->setText( tr("Kirjanpito lukittu\n%1 saakka").arg(kp()->tilitpaatetty().toString(Qt::SystemLocaleShortDate)));
+        ui->varoTeksti->setText( tr("Kirjanpito lukittu\n%1 saakka").arg(kp()->tilitpaatetty().toString("dd.MM.yyyy")));
     }
     else if( kp()->asetukset()->onko("AlvVelvollinen") && model_->pvm() <= kp()->asetukset()->pvm("AlvIlmoitus") )
     {
-        ui->varoTeksti->setText( tr("Alv-ilmoitus annettu\n%1 saakka").arg(kp()->asetukset()->pvm("AlvIlmoitus").toString(Qt::SystemLocaleShortDate)));
+        ui->varoTeksti->setText( tr("Alv-ilmoitus annettu\n%1 saakka").arg(kp()->asetukset()->pvm("AlvIlmoitus").toString("dd.MM.yyyy")));
         ui->varoKuva->setPixmap( QPixmap(":/pic/vero.png"));
     }
 
@@ -567,8 +567,8 @@ void KirjausWg::vaihdaTositeTyyppi()
         ui->tilioteBox->setChecked(true);
         if( ui->otsikkoEdit->text().isEmpty())
             ui->otsikkoEdit->setText( QString("Tiliote %1 ajalta %2 - %3")
-                    .arg(otetili.nimi()).arg(ui->tiliotealkaenEdit->date().toString(Qt::SystemLocaleShortDate))
-                    .arg( ui->tilioteloppuenEdit->date().toString(Qt::SystemLocaleShortDate)));
+                    .arg(otetili.nimi()).arg(ui->tiliotealkaenEdit->date().toString("dd.MM.yyyy"))
+                    .arg( ui->tilioteloppuenEdit->date().toString("dd.MM.yyyy")));
     }
     else
     {

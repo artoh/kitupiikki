@@ -124,6 +124,6 @@ void EmailMaaritys::kokeile()
 
     smtp->sendMail( osoite, osoite, tr("Kitupiikin kokeilu"),
                     tr("<html><body><h1>Kitupiikki Kirjanpito</h1><p>Sähköpostin lähetys onnistui</p>"
-                       "<hr>%1</body></html>").arg(QDateTime::currentDateTime().toString(Qt::SystemLocaleShortDate)), lista);
+                       "<hr>%1</body></html>").arg(QDateTime::currentDateTime().toString("dd.MM.yyyy")), lista);
 }
 

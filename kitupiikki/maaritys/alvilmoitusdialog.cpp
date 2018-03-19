@@ -142,8 +142,8 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
             verotKannoittainSnt[ alvprosentti ] = verotKannoittainSnt.value(alvprosentti, 0) + veroSnt;
             bruttoveroayhtSnt += veroSnt;
 
-            rivi.selite = tr("Alv-kirjaus %1 - %2 %3 % vero (NETTO %L4 €, BRUTTO %L5€)").arg(alkupvm.toString(Qt::SystemLocaleShortDate))
-                    .arg(loppupvm.toString(Qt::SystemLocaleShortDate))
+            rivi.selite = tr("Alv-kirjaus %1 - %2 %3 % vero (NETTO %L4 €, BRUTTO %L5€)").arg(alkupvm.toString("dd.MM.yyyy"))
+                    .arg(loppupvm.toString("dd.MM.yyyy"))
                     .arg(alvprosentti)
                     .arg(nettoSnt / 100.0,0, 'f',2)
                     .arg(saldoSnt / 100.0,0, 'f', 2);            
@@ -157,8 +157,8 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         {
             bruttovahennettavaaSnt += qAbs(veroSnt);
 
-            rivi.selite = tr("Alv-kirjaus %1 - %2 %3 % vähennys (NETTO %L4 €, BRUTTO %L5€) ").arg(alkupvm.toString(Qt::SystemLocaleShortDate))
-                    .arg(loppupvm.toString(Qt::SystemLocaleShortDate))
+            rivi.selite = tr("Alv-kirjaus %1 - %2 %3 % vähennys (NETTO %L4 €, BRUTTO %L5€) ").arg(alkupvm.toString("dd.MM.yyyy"))
+                    .arg(loppupvm.toString("dd.MM.yyyy"))
                     .arg(alvprosentti)
                     .arg(qAbs(nettoSnt) / 100.0,0, 'f',2)
                     .arg(qAbs(saldoSnt) / 100.0,0, 'f', 2);
@@ -228,7 +228,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         VientiRivi rivi;
         rivi.pvm = loppupvm;
         rivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA);
-        rivi.selite = tr("Alv-kirjaus %1 - %2 ").arg(alkupvm.toString(Qt::SystemLocaleShortDate)).arg(loppupvm.toString(Qt::SystemLocaleShortDate));
+        rivi.selite = tr("Alv-kirjaus %1 - %2 ").arg(alkupvm.toString("dd.MM.yyyy")).arg(loppupvm.toString("dd.MM.yyyy"));
         rivi.debetSnt = nettoverosnt + bruttoveroayhtSnt;
         rivi.alvkoodi = AlvKoodi::TILITYS;
         ehdotus.lisaaVienti(rivi);
@@ -238,7 +238,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         VientiRivi rivi;
         rivi.pvm = loppupvm;
         rivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA);
-        rivi.selite = tr("Alv-kirjaus %1 - %2 ").arg(alkupvm.toString(Qt::SystemLocaleShortDate)).arg(loppupvm.toString(Qt::SystemLocaleShortDate));
+        rivi.selite = tr("Alv-kirjaus %1 - %2 ").arg(alkupvm.toString("dd.MM.yyyy")).arg(loppupvm.toString("dd.MM.yyyy"));
         rivi.kreditSnt = nettovahennyssnt + bruttovahennettavaaSnt;
         rivi.alvkoodi = AlvKoodi::TILITYS;
         ehdotus.lisaaVienti(rivi);
@@ -250,7 +250,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         VientiRivi rivi;
         rivi.pvm = loppupvm;
         rivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA);
-        rivi.selite = tr("Alv-ilmoituksella tilitettävä vero kaudelta %1 - %2").arg(alkupvm.toString(Qt::SystemLocaleShortDate)).arg(loppupvm.toString(Qt::SystemLocaleShortDate));
+        rivi.selite = tr("Alv-ilmoituksella tilitettävä vero kaudelta %1 - %2").arg(alkupvm.toString("dd.MM.yyyy")).arg(loppupvm.toString("dd.MM.yyyy"));
         if( maksettavavero > 0 )
             rivi.kreditSnt = maksettavavero;
         else
@@ -266,7 +266,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
 
     kirjoittaja = new RaportinKirjoittaja();
     kirjoittaja->asetaOtsikko("ARVONLISÄVEROLASKELMA");
-    kirjoittaja->asetaKausiteksti( QString("%1 - %2").arg(alkupvm.toString(Qt::SystemLocaleShortDate)).arg(loppupvm.toString(Qt::SystemLocaleShortDate) ) );
+    kirjoittaja->asetaKausiteksti( QString("%1 - %2").arg(alkupvm.toString("dd.MM.yyyy")).arg(loppupvm.toString("dd.MM.yyyy") ) );
     kirjoittaja->lisaaVenyvaSarake();
     kirjoittaja->lisaaEurosarake();
 
@@ -390,7 +390,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         TositeModel model( kp()->tietokanta());
         model.asetaPvm( loppupvm );
         model.asetaTositelaji(0);
-        model.asetaOtsikko( tr("Arvonlisävero %1 - %2").arg(alkupvm.toString(Qt::SystemLocaleShortDate)).arg(loppupvm.toString(Qt::SystemLocaleShortDate)) );
+        model.asetaOtsikko( tr("Arvonlisävero %1 - %2").arg(alkupvm.toString("dd.MM.yyyy")).arg(loppupvm.toString("dd.MM.yyyy")) );
 
         model.json()->set("AlvTilitysAlkaa", alkupvm);
         model.json()->set("AlvTilitysPaattyy", loppupvm);
@@ -495,7 +495,7 @@ bool AlvIlmoitusDialog::maksuperusteisenTilitys(const QDate &paivayksesta, const
         kohdentamaton.alvkoodi = AlvKoodi::TILITYS;
         kohdentamaton.eraId = kysely.value("id").toInt();
         kohdentamaton.selite = tr("Maksuperusteinen %1 % alv %2 / %3 [%4]").arg( kysely.value("alvprosentti").toInt() )
-                .arg(veroEra.tositteenTunniste()).arg(veroEra.pvm.toString(Qt::SystemLocaleShortDate))
+                .arg(veroEra.tositteenTunniste()).arg(veroEra.pvm.toString("dd.MM.yyyy"))
                 .arg(veroEra.selite);
 
         VientiRivi verorivi;
@@ -544,7 +544,7 @@ RaportinKirjoittaja AlvIlmoitusDialog::erittely(QDate alkupvm, QDate loppupvm)
 {
     RaportinKirjoittaja kirjoittaja;
     kirjoittaja.asetaOtsikko("ARVONLISÄVEROLASKELMAN ERITTELY");
-    kirjoittaja.asetaKausiteksti( QString("%1 - %2").arg(alkupvm.toString(Qt::SystemLocaleShortDate)).arg(loppupvm.toString(Qt::SystemLocaleShortDate) ) );
+    kirjoittaja.asetaKausiteksti( QString("%1 - %2").arg(alkupvm.toString("dd.MM.yyyy")).arg(loppupvm.toString("dd.MM.yyyy") ) );
 
     kirjoittaja.lisaaPvmSarake();
     kirjoittaja.lisaaSarake("TOSITE12345");

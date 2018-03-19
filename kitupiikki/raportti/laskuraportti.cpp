@@ -80,7 +80,7 @@ RaportinKirjoittaja LaskuRaportti::myyntilaskut(QDate saldopvm, bool avoimet, La
 
     rk.asetaOtsikko("MYYNTILASKUT");
 
-    rk.asetaKausiteksti( saldopvm.toString(Qt::SystemLocaleShortDate) );
+    rk.asetaKausiteksti( saldopvm.toString("dd.MM.yyyy") );
 
     if( viitteet)
         rk.lisaaSarake("XXXXXXXXXX");  // Viite
@@ -203,7 +203,7 @@ RaportinKirjoittaja LaskuRaportti::ostolaskut(QDate saldopvm, bool avoimet, Lask
 
     rk.asetaOtsikko("OSTOLASKUT");
 
-    rk.asetaKausiteksti( saldopvm.toString(Qt::SystemLocaleShortDate) );
+    rk.asetaKausiteksti( saldopvm.toString("dd.MM.yyyy") );
 
     if( viitteet )
     {

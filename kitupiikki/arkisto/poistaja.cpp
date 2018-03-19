@@ -55,7 +55,7 @@ bool Poistaja::sumupoistaja(Tilikausi kausi)
     RaportinKirjoittaja kirjoittaja;
 
     kirjoittaja.asetaOtsikko("POISTOLASKELMA");
-    kirjoittaja.asetaKausiteksti( kausi.paattyy().toString(Qt::SystemLocaleShortDate));
+    kirjoittaja.asetaKausiteksti( kausi.paattyy().toString("dd.MM.yyyy"));
 
     kirjoittaja.lisaaSarake("TUN123456/31.12.9999");
     kirjoittaja.lisaaVenyvaSarake();
@@ -235,8 +235,8 @@ bool Poistaja::sumupoistaja(Tilikausi kausi)
         tosite.asetaPvm( kausi.paattyy() );
         tosite.asetaTositelaji( 0 );
         tosite.asetaOtsikko( tr("Suunnitelman mukaiset poistot %1 - %2")
-                             .arg(kausi.alkaa().toString(Qt::SystemLocaleShortDate))
-                             .arg(kausi.paattyy().toString(Qt::SystemLocaleShortDate)));
+                             .arg(kausi.alkaa().toString("dd.MM.yyyy"))
+                             .arg(kausi.paattyy().toString("dd.MM.yyyy")));
         tosite.json()->set("Sumupoistot", kausi.paattyy());
         ehdotus.tallenna(tosite.vientiModel());
 

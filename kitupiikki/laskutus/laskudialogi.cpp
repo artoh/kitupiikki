@@ -108,7 +108,7 @@ LaskuDialogi::LaskuDialogi(QWidget *parent, AvoinLasku hyvitettavaLasku) :
 
         ui->lisatietoEdit->setPlainText( tr("Hyvityslasku laskulle %1, päiväys %2")
                                          .arg(hyvitettavaLasku.viitenro)
-                                         .arg(hyvitettavaLasku.pvm.toString(Qt::SystemLocaleShortDate)));
+                                         .arg(hyvitettavaLasku.pvm.toString("dd.MM.yyyy")));
     }
     else
     {

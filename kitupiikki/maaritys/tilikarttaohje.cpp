@@ -37,7 +37,7 @@ bool TilikarttaOhje::nollaa()
 {
     ui->nimiLabel->setText( kp()->asetukset()->asetus("TilikarttaNimi") );
     ui->tekijaLabel->setText( kp()->asetukset()->asetus("TilikarttaTekija"));
-    ui->pvmLabel->setText( kp()->asetukset()->pvm("TilikarttaPvm").toString(Qt::SystemLocaleShortDate) );
+    ui->pvmLabel->setText( kp()->asetukset()->pvm("TilikarttaPvm").toString("dd.MM.yyyy") );
     ui->ohjeBrowser->setHtml( kp()->asetukset()->asetus("TilikarttaOhje"));
     ui->ohjeEditori->setText(kp()->asetukset()->asetus("TilikarttaOhje"));
 

@@ -48,7 +48,7 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
 {
     RaportinKirjoittaja rk;
     rk.asetaOtsikko("TASE-ERITTELY");
-    rk.asetaKausiteksti(QString("%1 - %2").arg(mista.toString(Qt::SystemLocaleShortDate)).arg(mihin.toString(Qt::SystemLocaleShortDate)));
+    rk.asetaKausiteksti(QString("%1 - %2").arg(mista.toString("dd.MM.yyyy")).arg(mihin.toString("dd.MM.yyyy")));
 
     rk.lisaaSarake("12345678"); // Tosite
     rk.lisaaPvmSarake();        // Päivämäärä
@@ -287,13 +287,13 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
 
                         RaporttiRivi poistettuRivi;
                         poistettuRivi.lisaa(" ",2);
-                        poistettuRivi.lisaa( tr("Vähennykset %1 saakka").arg( mista.addDays(-1).toString(Qt::SystemLocaleShortDate)));
+                        poistettuRivi.lisaa( tr("Vähennykset %1 saakka").arg( mista.addDays(-1).toString("dd.MM.yyyy")));
                         poistettuRivi.lisaa( saldo - alkusnt);
                         rk.lisaaRivi(poistettuRivi);
 
                         RaporttiRivi saldorivi;
                         saldorivi.lisaa(" ", 2);
-                        saldorivi.lisaa( tr("Jäljellä %1").arg( mista.toString(Qt::SystemLocaleShortDate)));
+                        saldorivi.lisaa( tr("Jäljellä %1").arg( mista.toString("dd.MM.yyyy")));
                         saldorivi.lisaa( saldo );
                         saldorivi.viivaYlle();
                         rk.lisaaRivi( saldorivi);
@@ -329,7 +329,7 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
 
                     RaporttiRivi loppuRivi;
                     loppuRivi.lisaa(" ", 2);
-                    loppuRivi.lisaa( tr("Loppusaldo %2").arg(mihin.toString(Qt::SystemLocaleShortDate)));
+                    loppuRivi.lisaa( tr("Loppusaldo %2").arg(mihin.toString("dd.MM.yyyy")));
                     loppuRivi.lisaa(saldo,true);
                     loppuRivi.viivaYlle();
                     rk.lisaaRivi(loppuRivi);

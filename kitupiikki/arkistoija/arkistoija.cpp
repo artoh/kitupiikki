@@ -259,7 +259,7 @@ void Arkistoija::arkistoiTositteet()
 
         // Seuraavaksi otsikot
         out << "<table class=tositeotsikot><tr>";
-        out << "<td class=paiva>" << tosite->pvm().toString(Qt::SystemLocaleShortDate) << "</td>";
+        out << "<td class=paiva>" << tosite->pvm().toString("dd.MM.yyyy") << "</td>";
         out << "<td class=tositeotsikko>" << tosite->otsikko() << "</td>";
         out << QString("<td class=tositetunnus>%1%2/%3</td>")
                .arg(tosite->tositelaji().tunnus()).arg(tosite->tunniste()).arg( kp()->tilikaudet()->tilikausiPaivalle( tosite->pvm() ).kausitunnus() );
@@ -312,7 +312,7 @@ void Arkistoija::arkistoiTositteet()
                                         .arg( kp()->tositelajit()->tositelaji(eraKysely.value("tosite.laji").toInt()).tunnus() )
                                         .arg( eraKysely.value("tosite.tunniste").toInt())
                                         .arg( kp()->tilikausiPaivalle( eraKysely.value("tosite.pvm").toDate()  ).kausitunnus())
-                                        .arg( eraKysely.value("vienti.pvm").toDate().toString(Qt::SystemLocaleShortDate))
+                                        .arg( eraKysely.value("vienti.pvm").toDate().toString("dd.MM.yyyy"))
                                         .arg( eraKysely.value("vienti.selite").toString())
                                         .arg( eradebet )
                                         .arg( erakredit )
@@ -321,7 +321,7 @@ void Arkistoija::arkistoiTositteet()
                 }
                 if( taseEraSeurannassa)
                 {
-                    eraLaatikko.append( tr("<tr><td colspan=3 class=erasaldo>Saldo %1</td>").arg(tilikausi_.paattyy().toString(Qt::SystemLocaleShortDate)));
+                    eraLaatikko.append( tr("<tr><td colspan=3 class=erasaldo>Saldo %1</td>").arg(tilikausi_.paattyy().toString("dd.MM.yyyy")));
                     if( eraSaldo > 0)
                         eraLaatikko.append(QString("<td class=euro>%L1</td><td class=euro></td>").arg( (double) eraSaldo /  100.0 ,0,'f',2 ));
                     else if( eraSaldo < 0)
@@ -332,7 +332,7 @@ void Arkistoija::arkistoiTositteet()
                 }   // Tase-erän seuranta
 
 
-                out << "<tr><td class=pvm>" << index.data(VientiModel::PvmRooli).toDate().toString(Qt::SystemLocaleShortDate) ;
+                out << "<tr><td class=pvm>" << index.data(VientiModel::PvmRooli).toDate().toString("dd.MM.yyyy") ;
                 out << "</td><td class=tili><a href='paakirja.html#" << index.data(VientiModel::TiliNumeroRooli).toInt() << "'>"
                     << index.sibling(vientiRivi, VientiModel::TILI).data().toString() << "</a>";
                 // Mahdollinen tiliotelinkki

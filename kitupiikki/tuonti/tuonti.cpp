@@ -131,7 +131,7 @@ bool Tuonti::tiliote(Tili tili, QDate mista, QDate mihin)
         kirjausWg()->gui()->tiliotealkaenEdit->setDate(mista);
         kirjausWg()->gui()->tilioteloppuenEdit->setDate(mihin);
         kirjausWg()->gui()->otsikkoEdit->setText( kp()->tr("Tiliote %1 - %2")
-                                              .arg(mista.toString(Qt::SystemLocaleShortDate)).arg(mihin.toString(Qt::SystemLocaleShortDate)));
+                                              .arg(mista.toString("dd.MM.yyyy")).arg(mihin.toString("dd.MM.yyyy")));
     }
     else
         kirjausWg()->gui()->otsikkoEdit->setText( kp()->tr("Tiliote"));

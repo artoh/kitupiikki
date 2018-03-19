@@ -64,8 +64,8 @@ void TilinPaattaja::paivitaDialogi()
     bool lukittu = kp()->tilitpaatetty() >= tilikausi.paattyy();
 
     ui->otsikkoLabel->setText(tr("Tilinpäätös tilikaudelle %1 - %2")
-                              .arg(tilikausi.alkaa().toString(Qt::SystemLocaleShortDate))
-                              .arg(tilikausi.paattyy().toString(Qt::SystemLocaleShortDate)));
+                              .arg(tilikausi.alkaa().toString("dd.MM.yyyy"))
+                              .arg(tilikausi.paattyy().toString("dd.MM.yyyy")));
 
     ui->valmisteluRyhma->setEnabled( !lukittu);
     ui->lukitseNappi->setVisible(!lukittu);
@@ -102,7 +102,7 @@ void TilinPaattaja::paivitaDialogi()
     {
         // Alv-ilmoitusta ei ole tehty koko tilikaudelle!
         varoitukset.append( tr("<p><b>Arvonlisäveroilmoitus on tehty vasta %1 asti.</b></p>")
-                            .arg( kp()->asetukset()->pvm("AlvIlmoitus").toString(Qt::SystemLocaleShortDate)));
+                            .arg( kp()->asetukset()->pvm("AlvIlmoitus").toString("dd.MM.yyyy")));
     }
 
     ui->varoKuvake->setVisible( !varoitukset.isEmpty() );

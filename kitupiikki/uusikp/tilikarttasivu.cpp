@@ -104,7 +104,7 @@ void TilikarttaSivu::valitseTilikartta(const QString &polku)
     QString info = tr("<b>%1</b><br>%2<br>%3<p>")
             .arg( tiedot.value("TilikarttaNimi").join(" "))
             .arg( tiedot.value("TilikarttaTekija").join(" "))
-            .arg( karttapaiva.toString(Qt::SystemLocaleShortDate));
+            .arg( karttapaiva.toString("dd.MM.yyyy"));
 
     ui->kuvausBrowser->setHtml( info + "</p>" + kuvaus );
 

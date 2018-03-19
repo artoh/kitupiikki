@@ -115,7 +115,7 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
             case KOHDENNUS :
                 if( rivi.taseEra.eraId )
                 {
-                    return QVariant( tr("%1/%2").arg(rivi.taseEra.tositteenTunniste() ).arg( rivi.taseEra.pvm.toString(Qt::SystemLocaleShortDate)) );
+                    return QVariant( tr("%1/%2").arg(rivi.taseEra.tositteenTunniste() ).arg( rivi.taseEra.pvm.toString("dd.MM.yyyy")) );
                 }
                 else if( rivi.kohdennus.tyyppi() == Kohdennus::EIKOHDENNETA )
                     return QVariant();

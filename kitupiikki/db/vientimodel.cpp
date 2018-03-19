@@ -174,7 +174,7 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
                     if( rivi.eraId )
                     {
                         TaseEra era(rivi.eraId);                      
-                        return QVariant( tr("%1/%2").arg( era.tositteenTunniste() ).arg(era.pvm.toString(Qt::SystemLocaleShortDate)) );
+                        return QVariant( tr("%1/%2").arg( era.tositteenTunniste() ).arg(era.pvm.toString("dd.MM.yyyy")) );
                     }
                     else if( rivi.json.luku("Tasaerapoisto") )
                     {
