@@ -100,7 +100,11 @@ MaaritysSivu::MaaritysSivu() :
 void MaaritysSivu::siirrySivulle()
 {
     paivitaNakyvat();   // Piilottaa luettelosta ne valinnat, jotka eivät ole käytössä
-    valitseSivu( lista->item(0) );
+
+    if( lista->currentItem())
+        valitseSivu( lista->currentItem());
+    else
+        valitseSivu( lista->item(0));
 }
 
 bool MaaritysSivu::poistuSivulta(int /* minne */)
