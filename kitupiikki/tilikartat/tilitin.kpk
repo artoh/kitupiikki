@@ -245,6 +245,7 @@ A 1759 {"Taseerittely":3} Muut lainasaamiset
 H4 176..177 {} Muut saamiset
 A 1761 {"Taseerittely":2} Verosaamiset
 AL 1763 {} Arvonlisäverosaamiset
+ALM 17631 {} Kohdentamaton maksuperusteinen arvonlisäverosaaminen
 A 1764 {"Taseerittely":2} Anotut arvonlisäveropalautukset
 A 1765 {"Taseerittely":3} Vakuustalletukset
 A 1767 {"Taseerittely":3} Maksetut vuokravakuudet
@@ -506,6 +507,7 @@ BS 2935 {} Tilitysvelat
 BS 2937 {"Taseerittely":1} Maksuunpantu verovelka
 BS 2938 {"Taseerittely":1} Maksuunpantu ennakkoverovelka
 BL 2939 {} Arvonlisäverovelka
+BLM 29391 {} Kohdentamaton maksuperusteinen arvonlisäverovelka
 BS 2940 {"Taseerittely":1} Velat työntekijöille
 BS 2941 {"Taseerittely":1} Velat osakkaille
 BS 2942 {"Taseerittely":1} Velat johdolle
