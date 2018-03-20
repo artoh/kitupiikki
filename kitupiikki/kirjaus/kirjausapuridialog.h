@@ -63,6 +63,9 @@ public slots:
     void pvmMuuttuu();
     void vastakirjausOlemassa(bool onko);
 
+    /**
+     * @brief Asettaa käytettävien verovalintojen suodattimet
+     */
     void veroSuodattimetKuntoon();
 
     void ehdota();

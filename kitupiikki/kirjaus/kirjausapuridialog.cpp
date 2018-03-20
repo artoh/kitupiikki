@@ -367,7 +367,7 @@ void KirjausApuriDialog::veroSuodattimetKuntoon()
         if( kp()->onkoMaksuperusteinenAlv( ui->pvmDate->date() ) &&
                 ui->vastatiliEdit->valittuTili().onko(TiliLaji::MYYNTISAATAVA))
         {
-            verofiltteri.setFilterRegExp("(0|1[345679])");
+            verofiltteri.setFilterRegExp("^(0|1[345679])");
             // Jos valittuna ollut kotimaan myynti, valitaan maksuperusteinen myynti
             if( alvkoodi < 13)
                 ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::MAKSUPERUSTEINEN_MYYNTI, VerotyyppiModel::KoodiRooli) );
@@ -375,7 +375,7 @@ void KirjausApuriDialog::veroSuodattimetKuntoon()
         }
         else
         {
-            verofiltteri.setFilterRegExp("(0|1[1-8])");
+            verofiltteri.setFilterRegExp("^(0|1[1-8])");
             if( alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI)
                 ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::MYYNNIT_NETTO, VerotyyppiModel::KoodiRooli) );
 
@@ -387,13 +387,13 @@ void KirjausApuriDialog::veroSuodattimetKuntoon()
         if( kp()->onkoMaksuperusteinenAlv( ui->pvmDate->date() ) &&
                 ui->vastatiliEdit->valittuTili().onko(TiliLaji::OSTOVELKA))
         {
-            verofiltteri.setFilterRegExp("(0|2[345679])");
+            verofiltteri.setFilterRegExp("^(0|2[345679])");
             if( alvkoodi < 23)
                 ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::MAKSUPERUSTEINEN_OSTO, VerotyyppiModel::KoodiRooli) );
         }
         else
         {
-            verofiltteri.setFilterRegExp("(0|2[1-8])");
+            verofiltteri.setFilterRegExp("^(0|2[1-8])");
             if( alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO)
                 ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::OSTOT_NETTO, VerotyyppiModel::KoodiRooli) );
         }
