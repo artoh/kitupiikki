@@ -29,6 +29,7 @@
 #include "laskutus/laskunmaksudialogi.h"
 
 #include "tuonti/tuonti.h"
+#include "apurivinkki.h"
 
 #include <QDebug>
 #include <QSqlQuery>
@@ -40,11 +41,12 @@
 #include <QUrl>
 
 #include <QShortcut>
+#include <QSettings>
 
 #include <QSortFilterProxyModel>
 
 KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
-    : QWidget(parent), model_(tositeModel), laskuDlg_(0)
+    : QWidget(parent), model_(tositeModel), laskuDlg_(0), apurivinkki_(0)
 {
     ui = new Ui::KirjausWg();
     ui->setupUi(this);
@@ -117,6 +119,7 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     ui->tositePvmEdit->installEventFilter(this);
     ui->otsikkoEdit->installEventFilter(this);
     ui->tositetyyppiCombo->installEventFilter(this);
+
 }
 
 KirjausWg::~KirjausWg()
@@ -132,6 +135,9 @@ QDate KirjausWg::tositePvm() const
 
 void KirjausWg::lisaaRivi()
 {   
+    if( apurivinkki_ )
+        apurivinkki_->hide();
+
     // Lisätään valinnan jälkeen
     QModelIndex indeksi = model_->vientiModel()->lisaaVienti(ui->viennitView->currentIndex().isValid() ? ui->viennitView->currentIndex().row() + 1 : -1);
 
@@ -174,6 +180,19 @@ void KirjausWg::tyhjenna()
         laskuDlg_ = 0;
     }
     ui->tositePvmEdit->setFocus();
+
+    // Apurivinkit alkuun
+    // Ensimmäisillä kerroilla näytetään erityinen vinkki Apurin käytöstä
+    QSettings settings;
+    if( settings.value("ApuriVinkki", 1).toInt())
+    {
+        if( !apurivinkki_)
+            apurivinkki_ = new ApuriVinkki(this);
+
+        apurivinkki_->show();
+        apurivinkki_->move( (width() - apurivinkki_->width()) / 2 ,
+                            ui->apuriNappi->y() - apurivinkki_->height() - ui->apuriNappi->height() / 2 );
+    }
 }
 
 void KirjausWg::tallenna()
@@ -594,6 +613,14 @@ void KirjausWg::liiteValinta(const QModelIndex &valittu)
 
 void KirjausWg::kirjausApuri()
 {
+    // Apurivinkki näytetään, kunnes Apuria on käytetty kolme kertaa
+    if( apurivinkki_ )
+    {
+        QSettings settings;
+        settings.setValue("ApuriVinkki", settings.value("ApuriVinkki",3).toInt() - 1 );
+        apurivinkki_->hide();
+    }
+
     KirjausApuriDialog dlg( model_, this);
     dlg.exec();
 }

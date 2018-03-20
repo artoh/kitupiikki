@@ -133,7 +133,8 @@ SOURCES += main.cpp \
     tuonti/tilimuuntomodel.cpp \
     uusikp/skripti.cpp \
     tools/devtool.cpp \
-    lisaikkuna.cpp
+    lisaikkuna.cpp \
+    kirjaus/apurivinkki.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -249,7 +250,8 @@ HEADERS += \
     tuonti/tilimuuntomodel.h \
     uusikp/skripti.h \
     tools/devtool.h \
-    lisaikkuna.h
+    lisaikkuna.h \
+    kirjaus/apurivinkki.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -319,7 +321,8 @@ FORMS += \
     tuonti/csvtuontidlg.ui \
     tuonti/tilimuuntodlg.ui \
     tools/devtool.ui \
-    maaritys/maksuperusteinen.ui
+    maaritys/maksuperusteinen.ui \
+    kirjaus/apurivinkki.ui
 
 DISTFILES += \
     uusikp/luo.sql \

@@ -29,6 +29,7 @@
 
 class Kirjanpito;
 class LaskunMaksuDialogi;
+class ApuriVinkki;
 
 /**
  * @brief Kirjausten muokkaus
@@ -163,6 +164,7 @@ protected:
     Ui::KirjausWg *ui;    
     TositeModel *model_;
     LaskunMaksuDialogi *laskuDlg_;
+    ApuriVinkki *apurivinkki_;
 
 
 
