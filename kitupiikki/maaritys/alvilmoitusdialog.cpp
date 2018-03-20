@@ -177,8 +177,9 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
     }
 
     // 2) Nettokirjausten koonti
-    query.exec( QString("select alvprosentti, sum(debetsnt) as debetit, sum(kreditsnt) as kreditit from vienti where pvm between \"%1\" and \"%2\" and alvkoodi=%3 group by alvprosentti")
-                .arg(alkupvm.toString(Qt::ISODate)).arg(loppupvm.toString(Qt::ISODate)).arg(AlvKoodi::ALVKIRJAUS + AlvKoodi::MYYNNIT_NETTO) );
+    query.exec( QString("select alvprosentti, sum(debetsnt) as debetit, sum(kreditsnt) as kreditit from vienti where pvm between \"%1\" and \"%2\" and alvkoodi=%3 or alvkoodi=%4 group by alvprosentti")
+                .arg(alkupvm.toString(Qt::ISODate)).arg(loppupvm.toString(Qt::ISODate))
+                .arg(AlvKoodi::ALVKIRJAUS + AlvKoodi::MYYNNIT_NETTO).arg(AlvKoodi::ALVKIRJAUS + AlvKoodi::MAKSUPERUSTEINEN_MYYNTI) );
 
     qDebug() << query.lastQuery();
     while( query.next())
@@ -204,6 +205,8 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         int saldo = query.value("kreditit").toInt() - query.value("debetit").toInt();
         int koodi = query.value("alvkoodi").toInt();
 
+        if( koodi > AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON)
+            continue;   // Ei kirjaus eikä vähennys
         if( koodi  > AlvKoodi::ALVVAHENNYS)
         {
             nettovahennyssnt += 0 - saldo;
@@ -462,7 +465,7 @@ void AlvIlmoitusDialog::luku(const QString &nimike, int senttia, bool viiva)
 bool AlvIlmoitusDialog::maksuperusteisenTilitys(const QDate &paivayksesta, const QDate &tilityspvm)
 {
     // Hakee kaikki sanottua vanhemmat erät ja jos niillä saldoa, niin lävähtävät maksuun
-    QSqlQuery kysely( QString("SELECT id, alvkoodi, alvprosentti FROMM vienti WHERE tili=%1 OR tili=%2 "
+    QSqlQuery kysely( QString("SELECT id, alvkoodi, alvprosentti FROM vienti WHERE tili=%1 OR tili=%2 "
                               "AND pvm <='%3'")
                       .arg( kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVVELKA).id() )
                       .arg( kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVSAATAVA).id())
@@ -622,7 +625,7 @@ RaportinKirjoittaja AlvIlmoitusDialog::erittely(QDate alkupvm, QDate loppupvm)
             if( alvkoodi == AlvKoodi::MAKSETTAVAALV)
                 koodiOtsikko.lisaa(tr("MAKSETTAVA VERO"), 3);
             else if( alvkoodi > AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON)
-                koodiOtsikko.lisaa(tr("KOHDENTAMATON MAKSUPERUSTEINEN ARVONLISÄVERO"));
+                koodiOtsikko.lisaa(tr("KOHDENTAMATON MAKSUPERUSTEINEN"),3);
             else if( alvkoodi > AlvKoodi::ALVVAHENNYS)
                 koodiOtsikko.lisaa( tr("VÄHENNYS: %1").arg( kp()->alvTyypit()->seliteKoodilla(alvkoodi - AlvKoodi::ALVVAHENNYS) ), 3 );
             else if( alvkoodi > AlvKoodi::ALVKIRJAUS)
