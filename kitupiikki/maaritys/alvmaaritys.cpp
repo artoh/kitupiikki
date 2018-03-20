@@ -170,8 +170,10 @@ void AlvMaaritys::maksuAlv()
     ui.paattyyDate->setMinimumDate( kp()->tilikaudet()->kirjanpitoAlkaa());
 
     ui.alkaaCheck->setChecked( kp()->asetukset()->onko("MaksuAlvAlkaa") );
+    ui.alkaaDate->setEnabled( kp()->asetukset()->onko("MaksuAlvAlkaa") );
     ui.alkaaDate->setDate( alkaa );
     ui.paattyyCheck->setChecked( kp()->asetukset()->onko("MaksuAlvLoppuu"));
+    ui.paattyyDate->setEnabled( kp()->asetukset()->onko("MaksuAlvLoppuu"));
     ui.paattyyDate->setDate( loppuu );
 
     connect( ui.ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("alv");} );
