@@ -342,12 +342,12 @@ bool TiliModel::tallenna(bool tietokantaaLuodaan)
     tietokanta_->transaction();
     QDateTime nykyaika = QDateTime::currentDateTime();
 
-    QSqlQuery kysely(*tietokanta_);
     for( int i=0; i < tilit_.count() ; i++)
     {
         Tili tili = tilit_[i];
         if( tili.onkoValidi() && tili.muokattu() )
         {
+            QSqlQuery kysely(*tietokanta_);
             if( tili.id())
             {
                 // Muokkaus
@@ -377,6 +377,8 @@ bool TiliModel::tallenna(bool tietokantaaLuodaan)
                 kysely.bindValue(":aika", tili.muokkausaika() );
             if( kysely.exec() )
                 tilit_[i].nollaaMuokattu();
+            else
+                qDebug() << "Tietokantavirhe " << kysely.lastError().text();
 
             if( !tili.id())
                 tilit_[i].asetaId( kysely.lastInsertId().toInt() );
@@ -386,16 +388,20 @@ bool TiliModel::tallenna(bool tietokantaaLuodaan)
 
     foreach (int id, poistetutIdt_)
     {
+        QSqlQuery kysely(*tietokanta_);
         kysely.exec( QString("DELETE FROM tili WHERE id=%1").arg(id) );
     }
-    poistetutIdt_.clear();
 
-    if(tietokanta_->commit())
-        return true;
+    tietokanta_->commit();
 
-    QMessageBox::critical(0, tr("Tietokantavirhe"),
+    if( tietokanta_->lastError().isValid() )
+    {
+        QMessageBox::critical(0, tr("Tietokantavirhe"),
                           tr("Tallentaminen epäonnistui seuraavan virheen takia: %1")
                           .arg( tietokanta_->lastError().text() ));
+        return false;
+    }
+
     return false;
 }
 

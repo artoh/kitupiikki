@@ -189,6 +189,10 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
                     {
                         return tr("VIITE");
                     }
+                    else if( rivi.maksaaLaskua)
+                    {
+                        return QString::number(rivi.maksaaLaskua);
+                    }
                     else
                     {
                         if( rivi.kohdennus.tyyppi() == Kohdennus::EIKOHDENNETA)

@@ -163,189 +163,193 @@ bool UusiKirjanpito::alustaKirjanpito()
     progDlg.setValue( progDlg.value() + 1 );
 
     // Luodaan tietokanta
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE","luonti");
-    db.setDatabaseName(hakemistopolku + "/kitupiikki.sqlite");
-    if( !db.open())
     {
-        return false;
-    }
-    QSqlQuery query(db);
-
-    progDlg.setValue( progDlg.value() + 1 );
-
-    // Luodaan tietokanta
-    // Tietokannan luontikäskyt ovat resurssitiedostossa luo.sql
-    QFile sqltiedosto(":/sql/luo.sql");
-    sqltiedosto.open(QIODevice::ReadOnly);
-    QTextStream in(&sqltiedosto);
-    QString sqluonti = in.readAll();
-    sqluonti.replace("\n","");
-    QStringList sqlista = sqluonti.split(";");
-
-    foreach (QString kysely,sqlista)
-    {
-        query.exec(kysely);
-        qApp->processEvents();
-    }
-
-    progDlg.setValue( progDlg.value() + 1 );
-
-    AsetusModel asetukset(&db, 0, true);
-
-    // Siirretään asetustauluun tilikartan tiedot
-    // jotka alkavat [Isolla kirjaimella]
-    QMapIterator<QString,QStringList> i(kartta);
-    while( i.hasNext())
-    {
-        i.next();
-        if( !i.key().isEmpty() && i.key().at(0).isUpper() )
+        QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE","luonti");
+        db.setDatabaseName(hakemistopolku + "/kitupiikki.sqlite");
+        if( !db.open())
         {
-            asetukset.aseta( i.key() , i.value());
+            return false;
         }
-    }
+        QSqlQuery query(db);
 
-    progDlg.setValue( progDlg.value() + 1 );
+        progDlg.setValue( progDlg.value() + 1 );
 
+        // Luodaan tietokanta
+        // Tietokannan luontikäskyt ovat resurssitiedostossa luo.sql
+        QFile sqltiedosto(":/sql/luo.sql");
+        sqltiedosto.open(QIODevice::ReadOnly);
+        QTextStream in(&sqltiedosto);
+        QString sqluonti = in.readAll();
+        sqluonti.replace("\n","");
+        QStringList sqlista = sqluonti.split(";");
 
-    // Kirjataan tietokannan perustietoja
-
-    asetukset.aseta("Nimi", field("nimi").toString());
-    asetukset.aseta("Ytunnus", field("ytunnus").toString());
-    asetukset.aseta("Harjoitus", field("harjoitus").toBool());
-
-    // Valittu muoto
-    if( field("muoto").toString() != "-")
-        asetukset.aseta("Muoto", field("muoto").toString());
-
-    asetukset.aseta("Luotu", QDate::currentDate());
-    asetukset.aseta("LuotuVersiolla", qApp->applicationVersion());
-    asetukset.aseta("KpVersio",  Kirjanpito::TIETOKANTAVERSIO );
-
-    progDlg.setValue( progDlg.value() + 1 );
-
-
-
-    // Tilien ja otsikkojen kirjoittaminen
-    TiliModel tilit(&db);
-
-    QRegularExpression tiliRe("^(?<tyyppi>\\w{1,5})(?<tila>[\\*\\-]?)\\s+(?<nro>\\d{1,8})(\\.\\.(?<asti>\\d{1,8}))?"
-                              "\\s*(?<json>\\{.*\\})?\\s(?<nimi>.+)$");
-
-    QStringList tililista = kartta.value("tilit");
-    foreach ( QString tilirivi, tililista)
-    {
-        // Tilitietueet ovat TYYPPI[*-] numero {json} Nimi
-        QRegularExpressionMatch mats = tiliRe.match(tilirivi);
-        if( mats.hasMatch())
+        foreach (QString kysely,sqlista)
         {
-            Tili tili;
-            tili.asetaTyyppi( mats.captured("tyyppi"));
+            query.exec(kysely);
+            qApp->processEvents();
+        }
 
-            if( mats.captured("tila") == "*")
-                tili.asetaTila(2);
-            else if( mats.captured("tila") == "-")
-                tili.asetaTila(0);
-            else
-                tili.asetaTila(1);
+        progDlg.setValue( progDlg.value() + 1 );
 
-            tili.asetaNumero( mats.captured("nro").toInt());
-            tili.asetaNimi( mats.captured("nimi"));
-            tili.json()->fromJson( mats.captured("json").toUtf8());
+        AsetusModel asetukset(&db, 0, true);
 
-            if( !mats.captured("asti").isEmpty() )
-                tili.json()->set("Asti", mats.captured("asti").toInt());
-
-            if( tili.onko(TiliLaji::PANKKITILI) && !field("iban").toString().isEmpty())
+        // Siirretään asetustauluun tilikartan tiedot
+        // jotka alkavat [Isolla kirjaimella]
+        QMapIterator<QString,QStringList> i(kartta);
+        while( i.hasNext())
+        {
+            i.next();
+            if( !i.key().isEmpty() && i.key().at(0).isUpper() )
             {
-                // #70 Pankkitili jo luontivelhossa
-                // Annettu IBAN-numero yhdistetään ensimmäiseen pankkitiliin
-                tili.json()->set("IBAN", field("iban").toString().simplified().remove(' '));
-                setField("iban",QVariant(""));
+                asetukset.aseta( i.key() , i.value());
+            }
+        }
+
+        progDlg.setValue( progDlg.value() + 1 );
+
+
+        // Kirjataan tietokannan perustietoja
+
+        asetukset.aseta("Nimi", field("nimi").toString());
+        asetukset.aseta("Ytunnus", field("ytunnus").toString());
+        asetukset.aseta("Harjoitus", field("harjoitus").toBool());
+
+        // Valittu muoto
+        if( field("muoto").toString() != "-")
+            asetukset.aseta("Muoto", field("muoto").toString());
+
+        asetukset.aseta("Luotu", QDate::currentDate());
+        asetukset.aseta("LuotuVersiolla", qApp->applicationVersion());
+        asetukset.aseta("KpVersio",  Kirjanpito::TIETOKANTAVERSIO );
+
+        progDlg.setValue( progDlg.value() + 1 );
+
+
+
+        // Tilien ja otsikkojen kirjoittaminen
+        TiliModel tilit(&db);
+
+        QRegularExpression tiliRe("^(?<tyyppi>\\w{1,5})(?<tila>[\\*\\-]?)\\s+(?<nro>\\d{1,8})(\\.\\.(?<asti>\\d{1,8}))?"
+                                  "\\s*(?<json>\\{.*\\})?\\s(?<nimi>.+)$");
+
+        QStringList tililista = kartta.value("tilit");
+        foreach ( QString tilirivi, tililista)
+        {
+            // Tilitietueet ovat TYYPPI[*-] numero {json} Nimi
+            QRegularExpressionMatch mats = tiliRe.match(tilirivi);
+            if( mats.hasMatch())
+            {
+                Tili tili;
+                tili.asetaTyyppi( mats.captured("tyyppi"));
+
+                if( mats.captured("tila") == "*")
+                    tili.asetaTila(2);
+                else if( mats.captured("tila") == "-")
+                    tili.asetaTila(0);
+                else
+                    tili.asetaTila(1);
+
+                tili.asetaNumero( mats.captured("nro").toInt());
+                tili.asetaNimi( mats.captured("nimi"));
+                tili.json()->fromJson( mats.captured("json").toUtf8());
+
+                if( !mats.captured("asti").isEmpty() )
+                    tili.json()->set("Asti", mats.captured("asti").toInt());
+
+                if( tili.onko(TiliLaji::PANKKITILI) && !field("iban").toString().isEmpty())
+                {
+                    // #70 Pankkitili jo luontivelhossa
+                    // Annettu IBAN-numero yhdistetään ensimmäiseen pankkitiliin
+                    tili.json()->set("IBAN", field("iban").toString().simplified().remove(' '));
+                    setField("iban",QVariant(""));
+                }
+
+
+                tilit.lisaaTili(tili);
             }
 
-
-            tilit.lisaaTili(tili);
         }
 
-    }
+        progDlg.setValue( progDlg.value() + 1 );
+        tilit.tallenna(true);
+        progDlg.setValue( progDlg.value() + 1 );
 
-    progDlg.setValue( progDlg.value() + 1 );
-    tilit.tallenna(true);
-    progDlg.setValue( progDlg.value() + 1 );
+        // Tositelajien tallentaminen
 
-    // Tositelajien tallentaminen
+        TositelajiModel lajit(&db);
 
-    TositelajiModel lajit(&db);
+        QStringList lajilista = kartta.value("tositelajit");
+        QRegularExpression lajiRe("^(?<tunnus>\\w{1,5})\\s(?<json>\\{.*\\})?\\s(?<nimi>.+)$");
 
-    QStringList lajilista = kartta.value("tositelajit");
-    QRegularExpression lajiRe("^(?<tunnus>\\w{1,5})\\s(?<json>\\{.*\\})?\\s(?<nimi>.+)$");
-
-    foreach (QString lajirivi, lajilista)
-    {
-        QRegularExpressionMatch mats = lajiRe.match(lajirivi);
-        if( mats.hasMatch())
+        foreach (QString lajirivi, lajilista)
         {
-            QModelIndex lisatty = lajit.lisaaRivi();
-            lajit.setData(lisatty, mats.captured("tunnus"), TositelajiModel::TunnusRooli );
-            lajit.setData(lisatty, mats.captured("nimi"), TositelajiModel::NimiRooli);
-            lajit.setData(lisatty, mats.captured("json").toUtf8(), TositelajiModel::JsonRooli);
+            QRegularExpressionMatch mats = lajiRe.match(lajirivi);
+            if( mats.hasMatch())
+            {
+                QModelIndex lisatty = lajit.lisaaRivi();
+                lajit.setData(lisatty, mats.captured("tunnus"), TositelajiModel::TunnusRooli );
+                lajit.setData(lisatty, mats.captured("nimi"), TositelajiModel::NimiRooli);
+                lajit.setData(lisatty, mats.captured("json").toUtf8(), TositelajiModel::JsonRooli);
+            }
         }
+        lajit.tallenna();
+        progDlg.setValue( progDlg.value() + 1 );
+
+        // Tilikausien kirjoittaminen
+        // Nykyinen tilikausi
+
+        TilikausiModel tilikaudet(&db);
+        tilikaudet.lisaaTilikausi( Tilikausi( field("alkaa").toDate(), field("paattyy").toDate() ));
+
+        // Alv-tietojen oletukset
+        asetukset.aseta("AlvIlmoitus", field("alkaa").toDate().addDays(-1));
+        asetukset.aseta("AlvKausi",1);
+        // Laskunumero
+        asetukset.aseta("LaskuSeuraavaId",1009);
+
+        if( field("onekakausi").toBool())
+        {
+            // Ensimmäinen tilikausi, tilinavausta ei tarvita
+            asetukset.aseta("Tilinavaus",0);
+            asetukset.aseta("TilitPaatetty", field("alkaa").toDate().addDays(-1));
+        }
+        else
+        {
+            // Edellinen tilikausi.
+            tilikaudet.lisaaTilikausi( Tilikausi(field("edalkoi").toDate(), field("edpaattyi").toDate()  ) );
+
+            asetukset.aseta("Tilinavaus", 2);
+            asetukset.aseta("TilinavausPvm", field("edpaattyi").toDate());
+
+            // #40 Mahdollisuus muokata myös tilinavauskirjausta
+            asetukset.aseta("TilitPaatetty", field("edpaattyi").toDate().addDays(-1));
+        }
+
+        progDlg.setValue( progDlg.value() + 1 );
+
+        // Kirjoitetaan nollatosite tilien avaamiseen
+        if( !field("onekakausi").toBool())
+        {
+            query.prepare("INSERT INTO TOSITE(id,pvm,otsikko,laji) "
+                          "VALUES (0,?,\"Tilinavaus\",0)");
+            query.addBindValue( field("edpaattyi").toDate());
+            query.exec();
+        }
+        // Prosessi valmis
+
+        // Yleisskripti
+        Skripti::suorita( asetukset.lista("LuontiSkripti"), &asetukset, &tilit);
+
+        // Muodon aktivoiva skripti
+        if( asetukset.onko("Muoto"))
+            Skripti::suorita( asetukset.lista("MuotoOn/" + asetukset.asetus("Muoto")), &asetukset, &tilit);
+
+        progDlg.setValue( prosessiluku );
+
+        db.close();
+
     }
-    lajit.tallenna();
-    progDlg.setValue( progDlg.value() + 1 );
-
-    // Tilikausien kirjoittaminen
-    // Nykyinen tilikausi
-
-    TilikausiModel tilikaudet(&db);
-    tilikaudet.lisaaTilikausi( Tilikausi( field("alkaa").toDate(), field("paattyy").toDate() ));
-
-    // Alv-tietojen oletukset
-    asetukset.aseta("AlvIlmoitus", field("alkaa").toDate().addDays(-1));
-    asetukset.aseta("AlvKausi",1);
-    // Laskunumero
-    asetukset.aseta("LaskuSeuraavaId",1009);
-
-    if( field("onekakausi").toBool())
-    {
-        // Ensimmäinen tilikausi, tilinavausta ei tarvita
-        asetukset.aseta("Tilinavaus",0);
-        asetukset.aseta("TilitPaatetty", field("alkaa").toDate().addDays(-1));
-    }
-    else
-    {
-        // Edellinen tilikausi.
-        tilikaudet.lisaaTilikausi( Tilikausi(field("edalkoi").toDate(), field("edpaattyi").toDate()  ) );
-
-        asetukset.aseta("Tilinavaus", 2);
-        asetukset.aseta("TilinavausPvm", field("edpaattyi").toDate());
-
-        // #40 Mahdollisuus muokata myös tilinavauskirjausta
-        asetukset.aseta("TilitPaatetty", field("edpaattyi").toDate().addDays(-1));
-    }
-
-    progDlg.setValue( progDlg.value() + 1 );
-
-    // Kirjoitetaan nollatosite tilien avaamiseen
-    if( !field("onekakausi").toBool())
-    {
-        query.prepare("INSERT INTO TOSITE(id,pvm,otsikko,laji) "
-                      "VALUES (0,?,\"Tilinavaus\",0)");
-        query.addBindValue( field("edpaattyi").toDate());
-        query.exec();
-    }
-    // Prosessi valmis
-
-    // Yleisskripti
-    Skripti::suorita( asetukset.lista("LuontiSkripti"), &asetukset, &tilit);
-
-    // Muodon aktivoiva skripti
-    if( asetukset.onko("Muoto"))
-        Skripti::suorita( asetukset.lista("MuotoOn/" + asetukset.asetus("Muoto")), &asetukset, &tilit);
-
-    progDlg.setValue( prosessiluku );
-
-    db.close();
+    QSqlDatabase::removeDatabase("luonti");
 
     return true;
 

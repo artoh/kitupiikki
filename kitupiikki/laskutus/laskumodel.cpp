@@ -163,6 +163,11 @@ QVariant LaskuModel::data(const QModelIndex &index, int role) const
     }
     else if( role == Qt::DecorationRole && index.column() == ALV)
     {
+        // Jos käytössä maksuperusteinen alv, niin nettokirjaukset muunnetaan tallennusvaiheessa
+        // maksuperusteisiksi kirjauksiksi
+        if( rivi.alvKoodi % 100 == AlvKoodi::MYYNNIT_NETTO && kp()->onkoMaksuperusteinenAlv( pvm() ) )
+            return kp()->alvTyypit()->kuvakeKoodilla( AlvKoodi::MAKSUPERUSTEINEN_MYYNTI );
+
         return kp()->alvTyypit()->kuvakeKoodilla( rivi.alvKoodi % 100 );
     }
 

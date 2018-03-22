@@ -108,6 +108,8 @@ public:
     qulonglong laskunro() const;
     QString viitenumero() const;
 
+public slots:
+
     void asetaErapaiva(const QDate & paiva) { erapaiva_ = paiva; }
     void asetaLisatieto(const QString& tieto) { lisatieto_ = tieto; }
     void asetaOsoite(const QString& osoite) { osoite_ = osoite; }
@@ -115,6 +117,8 @@ public:
     void asetaLaskunsaajannimi(const QString& nimi) { laskunsaajanNimi_ = nimi; }
     void asetaKirjausperuste(int kirjausperuste) { kirjausperuste_ = kirjausperuste; }
     void asetaEmail(const QString& osoite) { email_ = osoite; }
+
+public:
 
     /**
      * @brief Tallentaa tämän laskun, jonka jälkeen model pitäisi unohtaa

@@ -169,4 +169,4 @@ CREATE VIEW vientivw AS
      WHERE vienti.tosite = tosite.id AND
            vienti.tili = tili.id AND
            tosite.laji = tositelaji.id AND
-           vienti.kohdennus = kohdennus.id ;
+           vienti.kohdennus = kohdennus.id
