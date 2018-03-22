@@ -88,7 +88,7 @@
         base: "https://form.jotformeu.com/",
         background: "#9013fe",
         fontColor: "#FFFFFF",
-        buttonSide: "left",
+        buttonSide: "right",
         buttonAlign: "center",
         type: 1,
         width: 800,
@@ -464,6 +464,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#maksuperusteinen-arvonlisavero" title="Maksuperusteinen arvonlisävero" class="md-nav__link">
+    Maksuperusteinen arvonlisävero
+  </a>
+  
+</li>
+      
       
       
         <li class="md-nav__item">
@@ -680,6 +687,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#maksuperusteinen-arvonlisavero" title="Maksuperusteinen arvonlisävero" class="md-nav__link">
+    Maksuperusteinen arvonlisävero
+  </a>
+  
+</li>
+      
       
       
         <li class="md-nav__item">
@@ -702,7 +716,7 @@
                 
                 
                 <h1 id="arvonlisavero">Arvonlisävero<a class="headerlink" href="#arvonlisavero" title="Permanent link">&para;</a></h1>
-<div class="admonition note">
+<div class="admonition info">
 <p><a href="https://www.vero.fi/yritykset-ja-yhteisot/tietoa-yritysverotuksesta/arvonlisaverotus/">Verohallinnon ohje arvonlisäverotuksesta</a></p>
 </div>
 <div class="admonition tip">
@@ -719,25 +733,72 @@
 <h2 id="arvonlisavero-kirjaamisessa">Arvonlisävero kirjaamisessa<a class="headerlink" href="#arvonlisavero-kirjaamisessa" title="Permanent link">&para;</a></h2>
 <p>Kitupiikki käsittelee arvonlisäveroa ohjaustietojen avulla, eli samalla kirjanpitotilille voi kirjata erilaisen alv-kohtelun kirjauksia. Kirjaamisen helpottamiseksi voit toki luoda eri kirjanpitotilit esimerkiksi elintarvikkeiden myynnille (alv 14%) ja muulle myynnille.</p>
 <p>Kitupiikissä on seuraavat alv-kirjaustyypit</p>
-<ul>
-<li><strong>Veroton</strong>: Myynnistä ei makseta veroa / menosta ei tehdä alv-vähennystä. Tämä merkitään myös kaikille niille menotileille, jotka eivät ole alv-vähennyskelpoisia.</li>
-<li><strong>Verollinen myynti/osto (netto)</strong>: Verollinen kotimaan myynti/osto. Heti kirjauksen yhteydessä myynti- tai ostotilille kirjataan veroton määrä, ja alv-veron tai vähennyksen osuus kirjataan alv-velkojen tai -saatavien tilille.</li>
-<li><strong>Verollinen myynti/osto (brutto)</strong>: Verollinen kotimaan myynti/osto. Verollinen bruttosumma kirjataan tilille, ja vero erotetaan tililtä arvonlisäveroilmoitusta laadittaessa.</li>
-<li><strong>Nollaverokannan alainen myynti</strong>: <a href="https://www.edilex.fi/verohallinnon_ohjeet/2014_0627.html#4.2 Nollaverokannan alaiset myynnit ja yritysj%C3%A4rjestelyt">Erikseen määritellyt tilanteet</a>, joissa myynnistä ei suorita veroa, mutta hankinnoista saa vähentää arvonlisäveron.</li>
-<li><strong>Tavaroiden ja palveluiden yhteisömyynti</strong>: <a href="https://www.vero.fi/yritykset-ja-yhteisot/tietoa-yritysverotuksesta/arvonlisaverotus/ulkomaankaupan_arvonlisaverotus/">Verohallinnon ohje</a>.  Kirjauksen voi tehdä Avustajalla.</li>
-<li><strong>Tavaroiden maahantuonti EU:n ulkopuolelta</strong>: <a href="https://www.vero.fi/yritykset-ja-yhteisot/tietoa-yritysverotuksesta/arvonlisaverotus/ulkomaankaupan_arvonlisaverotus/maahantuonnin-arvonlisavero/">Maahantuonnin arvonlisävero</a> ilmoitetaan kausiveroilmoituksessa. Tällaista kirjausta ei voi tehdä Avustajalla, vaan veron määrä on kirjattava käsin tälle alv-kirjaustyypille.</li>
-<li><strong>Rakennuspalveluiden myynti tai osto</strong>: <a href="https://www.vero.fi/yritykset-ja-yhteisot/tietoa-yritysverotuksesta/arvonlisaverotus/rakennusalan_kaannetty_arvonlisaverovelvollisuus/">Rakennuspalveluiden arvonlisäveron suorittaa ostaja</a> käänteisen verovelvollisuuden mukaisesti. Kirjauksen voi tehdä Avustajalla ja Kitupiikillä voi myös laatia laskun (mainittava ostajan Y-tunnus tai VAT-tunnus).</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th>Tunnus</th>
+<th>Nimi</th>
+<th>Selitys</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>Veroton</td>
+<td>Myynnistä ei makseta veroa / menosta ei tehdä alv-vähennystä. Tämä merkitään myös kaikille niille menotileille, jotka eivät ole alv-vähennyskelpoisia.</td>
+</tr>
+<tr>
+<td><img alt="" src="./netto.png" /></td>
+<td>Verollinen myynti/osto (netto)</td>
+<td>Verollinen kotimaan myynti/osto. Heti kirjauksen yhteydessä myynti- tai ostotilille kirjataan veroton määrä, ja alv-veron tai vähennyksen osuus kirjataan alv-velkojen tai -saatavien tilille.</td>
+</tr>
+<tr>
+<td><img alt="" src="./lihavoi.png" /></td>
+<td>Verollinen myynti/osto (brutto)</td>
+<td>Verollinen bruttosumma kirjataan tilille, ja vero erotetaan tililtä arvonlisäveroilmoitusta laadittaessa.</td>
+</tr>
+<tr>
+<td><img alt="" src="./euro.png" /></td>
+<td>Verollinen myynti/osto (maksuperusteinen alv)</td>
+<td>Arvonlisävero tilitetään vasta, kun maksu on suoritettu.</td>
+</tr>
+<tr>
+<td><img alt="" src="./0pros.png" /></td>
+<td>Nollaverokannan alainen myynti</td>
+<td><a href="https://www.edilex.fi/verohallinnon_ohjeet/2014_0627.html#4.2 Nollaverokannan alaiset myynnit ja yritysj%C3%A4rjestelyt">Erikseen määritellyt tilanteet</a>, joissa myynnistä ei suorita veroa, mutta hankinnoista saa vähentää arvonlisäveron.</td>
+</tr>
+<tr>
+<td><img alt="" src="./eu.png" /></td>
+<td>Tavaroiden ja palveluiden yhteisömyynti**</td>
+<td><a href="https://www.vero.fi/yritykset-ja-yhteisot/tietoa-yritysverotuksesta/arvonlisaverotus/ulkomaankaupan_arvonlisaverotus/">Verohallinnon ohje</a>.  Kirjauksen voi tehdä Avustajalla.</td>
+</tr>
+<tr>
+<td><img alt="" src="./laiva.png" /></td>
+<td>Tavaroiden maahantuonti EU:n ulkopuolelta</td>
+<td><a href="https://www.vero.fi/yritykset-ja-yhteisot/tietoa-yritysverotuksesta/arvonlisaverotus/ulkomaankaupan_arvonlisaverotus/maahantuonnin-arvonlisavero/">Maahantuonnin arvonlisävero</a> ilmoitetaan kausiveroilmoituksessa. Myyntilaskun yhteydessä kirjauksen voi tehdä Avustajalla.</td>
+</tr>
+<tr>
+<td><img alt="" src="./vasara.png" /></td>
+<td><strong>Rakennuspalveluiden myynti tai osto</strong></td>
+<td><a href="https://www.vero.fi/yritykset-ja-yhteisot/tietoa-yritysverotuksesta/arvonlisaverotus/rakennusalan_kaannetty_arvonlisaverovelvollisuus/">Rakennuspalveluiden arvonlisäveron suorittaa ostaja</a> käänteisen verovelvollisuuden mukaisesti. Kirjauksen voi tehdä Avustajalla ja Kitupiikillä voi myös laatia laskun (mainittava ostajan Y-tunnus tai VAT-tunnus).</td>
+</tr>
+</tbody>
+</table>
 <h3 id="kirjaaminen-avustajalla">Kirjaaminen Avustajalla<a class="headerlink" href="#kirjaaminen-avustajalla" title="Permanent link">&para;</a></h3>
 <p>Arvonlisäverolliset kirjaukset on helpointa tehdä Avustajalla, joka jakaa myös nettokirjaukset tulos- ja alv-tileille. Myös laskutuksessa alv-kirjautuu automaattisesti valinnan mukaan.</p>
 <h3 id="kirjaaminen-ilman-avustajaa">Kirjaaminen ilman avustajaa<a class="headerlink" href="#kirjaaminen-ilman-avustajaa" title="Permanent link">&para;</a></h3>
-<p>Ilman avustajaa kirjattaessa verolaji -prosentti on valittava erikseen.</p>
+<p>Ilman avustajaa kirjattaessa verolaji ja -prosentti on valittava erikseen.</p>
 <p><img alt="" src="./alvvalinta.png" /></p>
 <ul>
 <li><strong>Veronalainen määrä</strong> tarkoittaa arvonlisäveron perustetta. Bruttokirjauksessa summa kirjataan alv-tiedolla <em>Verollinen myynti(brutto)</em> ja <em>veronalainen määrä</em>. Nettokirjauksessa tähän kirjataan veroton (netto)summa.</li>
 <li><strong>Veron määrä</strong> tarkoittaa maksettavaa arvonlisäveroa: Nettokirjauksessa tähän kirjataan maksettava vero eli brutto- ja nettosummien erotus.</li>
 <li><strong>Vähennettävä määrä</strong> tarkoittaa ostojen kirjauksessa arvonlisäverosta vähennettävää määrää.</li>
+<li><strong>Kohdentamaton maksuperusteinen alv</strong> tarkoittaa maksua odottavaa veroa</li>
 </ul>
+<div class="admonition warning">
+<p class="admonition-title">Koodit kohdalleen</p>
+<p>Arvonlisäveron käsittely perustuu kirjauksiin liittyviin ohjaustietoihin. Väärät alv-koodit johtavat virheelliseen alv-ilmoitukseen. Jotta ohjaustiedot tulevat oikein, on verolliset kirjaukset suositeltavaa tehdä Kirjausapurilla aina kuin se vain on mahdollista!</p>
+</div>
 <h2 id="arvonlisaverolaskelma">Arvonlisäverolaskelma<a class="headerlink" href="#arvonlisaverolaskelma" title="Permanent link">&para;</a></h2>
 <p><img alt="" src="./teealv.png" /></p>
 <p>Kitupiikki muistuttaa alotusikkunassa, kun arvonlisäveroilmoituksen eräpäivä lähestyy</p>
@@ -745,12 +806,30 @@
 <p>Kun kaikki tälle ilmoituskaudelle tehdyt verolliset kirjaukset on tehty, paina <em>Määritysten</em> <em>Arvonlisävero</em>-sivulla <strong>Tee alv-tilitys</strong>-nappia.</p>
 <p><img alt="" src="./laskelma.png" /></p>
 <p>Kitupiikki esittää Alv-laskelman, jossa on kausiveroilmoituksessa arvolisäveron osalta tarvittavat tiedot. Vahvista laskelma painamalla <strong>Ok</strong>.</p>
-<p>Laskelman pohjalta tehdään kirjaus, jossa alv-velka ja alv-saatava yhdistetään ja kirjataan <strong>Verovelat</strong>-tilille. Kun arvonlisävero maksetaan, tulee maksu kohdistaa tälle tase-erälle.</p>
+<p>Laskelman pohjalta tehdään kirjaus, jossa alv-velka ja alv-saatava yhdistetään ja kirjataan <strong>Verovelat</strong>-tilille. Samalle tilille tulee kirjata myös muut oma-aloitteisesti maksettavat verot, kuten ennakonpidätys ja työnantajamaksut.</p>
 <p>Erittely, jossa kirjauksia voi seurata aina tositteisiin saakka, avautuu alv-sivun <strong>Näytä erittely</strong>-napista. Se tallentuu myös liitteeksi alv-tilitysvientiin ja siten myös sähköiseen arkistoon.</p>
 <p><img alt="" src="./erittely.png" /></p>
 <h2 id="varoitus-myohassa-kirjaamisesta">Varoitus myöhässä kirjaamisesta<a class="headerlink" href="#varoitus-myohassa-kirjaamisesta" title="Permanent link">&para;</a></h2>
 <p><img alt="" src="./myohassa.png" /></p>
-<p>Kun alv-ilmoitus on annettu, ei alv:n alaisia kirjauksia enää pitäisi tehdä. Merkkinä tästä on varoituskolmio kirjausikkunan alalaidassa. Avustaja ei suostu kirjaamaan enää alv-ilmoituksen jälkeen verollisia kirjauksia, ja käsin kirjaamisesta annetaan varoitus.</p>
+<p>Kun alv-ilmoitus on annettu, ei alv:n alaisia kirjauksia enää pitäisi tehdä.  Avustaja ei suostu kirjaamaan enää alv-ilmoituksen jälkeen verollisia kirjauksia, ja käsin kirjaamisesta annetaan varoitus.</p>
+<h2 id="maksuperusteinen-arvonlisavero">Maksuperusteinen arvonlisävero<a class="headerlink" href="#maksuperusteinen-arvonlisavero" title="Permanent link">&para;</a></h2>
+<div class="admonition info">
+<p><a href="https://www.vero.fi/yritykset-ja-yhteisot/tietoa-yritysverotuksesta/arvonlisaverotus/pienyritykset_voivat_tilittaa_arvonlisa/">Verohallinnon ohje maksuperusteisesta arvonlisäverosta</a></p>
+</div>
+<p>Pienyritykset (liikevaihto alle 500 000 euroa vuodessa) voivat tilittää ostojen ja myyntien arvonlisäverot maksuperusteisesti. Kitupiikillä tämä on mahdollista myös niin, että kirjanpito pidetään suoriteperusteisena.</p>
+<p><img alt="" src="./maksuperusteinen.png" /></p>
+<p>Kun yritys saa ostolaskun, kirjataan arvonlisäveron osuus tilille <strong>Maksuperusteinen alv-velka</strong>. Kun arvonlisäverosta saadaan maksu, siirretään veron osuus tilille <strong>Arvonlisäverovelka</strong> ja vasta nyt vero tulee näkyviin alv-tilitykseen.</p>
+<p>Vastaavalla tavalla ostolaskun veron osuus kirjataan ensin tilille <strong>Maksuperusteinen alv-saaminen</strong> ja vasta kun lasku on maksettu, se siirtyy tilille <strong>Arvonlisäverosaatavat</strong>.</p>
+<p>Arvonlisävero on kuitenkin maksettava viimeistään vuoden kuluttua suoritepäivästä.</p>
+<p>Kun verolajina on maksuperusteinen arvonlisävero, käsittelee Kitupiikki sen automaattisesti laskutuksessa, Kirjausapurissa sekä tuoduissa myyntilaskuissa ja tilitapahtumiin perustuvissa maksukirjauksissa. Käsittely perustuu ohjaustietoihin ja alv-koodeihin.</p>
+<p>Maksuperusteinen arvonlisävero otetaan käyttöön Arvonlisäveron määrityksistä <strong>Maksuperusteinen alv</strong>-rivillä olevasta rataspainikkeesta, josta aukeaa valintaikkuna:</p>
+<p><img alt="" src="./malvikkuna.png" /></p>
+<p><strong>Maksuperusteinen arvonlisäverotus alkaa</strong>-ruutuun kirjataan sen verokauden ensimmäinen päivä, jonka arvonlisävero tilitetään maksuperusteisena.</p>
+<p>Jos maksuperusteisesta arvonlisäverotuksesta siirrytään takaisin suoriteperusteiseen, merkitään <strong>Suoriteperusteiseen arvonlisäveroon palataan</strong>-ruutuun sen verokauden ensimmäinen päivä, jolloin arvonlisävero tilitetään normaalilla tavalla. Tässä alv-tilityksessä maksetaan myös kaikki vielä maksamatta oleva maksuperusteinen arvonlisävero.</p>
+<div class="admonition note">
+<p class="admonition-title">Tutustu huolella verohallinnon ohjeisiin</p>
+<p>Ennen maksuperusteiseen arvonlisäverotukseen siirtymistä tutustu huolella verohallinnon ohjeisiin. Huomaa, että myös alv-vähennykset tilitetään maksuperusteisesti (myös osamaksua käytettäessä).</p>
+</div>
                 
                   
                 
