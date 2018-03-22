@@ -3,7 +3,7 @@
 ![](myllykirjaus.png)
 
 !!! tip "Oikotie"
-    Painamalla <kbd>F2<kbd> avautuu uuden tositteen kirjaaminen nykyiseen ja <kbd>SHIFT</kbd>+<kbd>F2</kbd> uuteen ikkunaan.
+    Painamalla <kbd>F2</kbd> avautuu uuden tositteen kirjaaminen nykyiseen ja <kbd>SHIFT</kbd>+<kbd>F2</kbd> uuteen ikkunaan.
 
 ## Kirjaaminen Kirjausapurilla
 

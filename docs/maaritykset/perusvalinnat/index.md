@@ -18,5 +18,5 @@ Valitse **Arvonlisäverovelvollinen** jos olet rekisteröitynyt arvonlisäverove
 Tätä varten Kitupiikki ottaa internet-yhteyden ohjelman verkkosivulle.
 
 !!! note ""
-    Päivitystä tarkastettaessa Kitupiikin verkkosivu tilastoi anonyymin tiedon ohjelman versiosta sekä
+    Päivitystä tarkastettaessa Kitupiikin verkkosivu [tilastoi](http://kitupiikki.arkku.net//tilasto) anonyymin tiedon ohjelman versiosta sekä
     tietokoneen käyttöjärjestelmästä.
