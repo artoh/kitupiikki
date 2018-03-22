@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 #endif
 
     a.setApplicationName("Kitupiikki");
-    a.setApplicationVersion("0.8-devel");
+    a.setApplicationVersion("0.8-beta");
     a.setOrganizationDomain("artoh.github.io");
     a.setOrganizationName("Kitupiikki Kirjanpito");
     a.setWindowIcon( QIcon(":/pic/Possu64.png"));
