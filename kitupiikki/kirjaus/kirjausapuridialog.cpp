@@ -471,7 +471,7 @@ void KirjausApuriDialog::ehdota()
         if( tili.onko(TiliLaji::MENO) || tili.onko(TiliLaji::POISTETTAVA)  )
         {
             VientiRivi menorivi = uusiEhdotusRivi(tili);
-            if( alvkoodi == AlvKoodi::OSTOT_BRUTTO )
+            if( alvkoodi == AlvKoodi::OSTOT_BRUTTO || (ui->eiVahennaCheck->isChecked() && ui->eiVahennaCheck->isVisible()))
                 menorivi.debetSnt = bruttoSnt;
             else
                 menorivi.debetSnt = nettoSnt;
@@ -489,33 +489,35 @@ void KirjausApuriDialog::ehdota()
 
         }
         if( alvprosentti && kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).onkoValidi() &&
-                ( alvkoodi != AlvKoodi::OSTOT_BRUTTO || ( ui->eiVahennaCheck->isVisible() && ui->eiVahennaCheck->isChecked())) )
+                ( alvkoodi != AlvKoodi::OSTOT_BRUTTO  ) )
         {
-            VientiRivi verorivi = uusiEhdotusRivi( kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA) );
-
-            verorivi.debetSnt = bruttoSnt - nettoSnt;
-            verorivi.alvprosentti = alvprosentti;
-
-            // Maksuperusteisessa alvissa jää kohdentamattomaksi kunnes maksu suoritetaan
-            if( alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO && kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVSAATAVA).onkoValidi())
+            if( !(ui->eiVahennaCheck->isChecked() && ui->eiVahennaCheck->isVisible()))
             {
-                verorivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVSAATAVA);
-                verorivi.alvkoodi = AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_OSTO;
-            }
-            else
-                verorivi.alvkoodi = AlvKoodi::ALVVAHENNYS + alvkoodi;
+                VientiRivi vahennysrivi = uusiEhdotusRivi( kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA) );
 
-            ehdotus.lisaaVienti(verorivi);
+                vahennysrivi.debetSnt = bruttoSnt - nettoSnt;
+                vahennysrivi.alvprosentti = alvprosentti;
+
+                // Maksuperusteisessa alvissa jää kohdentamattomaksi kunnes maksu suoritetaan
+                if( alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO && kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVSAATAVA).onkoValidi())
+                {
+                    vahennysrivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVSAATAVA);
+                    vahennysrivi.alvkoodi = AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_OSTO;
+                }
+                else
+                    vahennysrivi.alvkoodi = AlvKoodi::ALVVAHENNYS + alvkoodi;
+
+                ehdotus.lisaaVienti(vahennysrivi);
+            }
 
             if( (alvkoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT || alvkoodi==AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
-                alvkoodi == AlvKoodi::RAKENNUSPALVELU_OSTO || alvkoodi== AlvKoodi::MAAHANTUONTI) && kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).onkoValidi()
-                    && !ui->eiVahennaCheck->isChecked())
+                alvkoodi == AlvKoodi::RAKENNUSPALVELU_OSTO || alvkoodi== AlvKoodi::MAAHANTUONTI) && kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).onkoValidi() )
             {
-                VientiRivi lisarivi = uusiEhdotusRivi( kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA));
-                lisarivi.kreditSnt = bruttoSnt - nettoSnt;
-                lisarivi.alvprosentti = alvprosentti;
-                lisarivi.alvkoodi = AlvKoodi::ALVKIRJAUS + alvkoodi;
-                ehdotus.lisaaVienti(lisarivi);
+                VientiRivi verorivi = uusiEhdotusRivi( kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA));
+                verorivi.kreditSnt = bruttoSnt - nettoSnt;
+                verorivi.alvprosentti = alvprosentti;
+                verorivi.alvkoodi = AlvKoodi::ALVKIRJAUS + alvkoodi;
+                ehdotus.lisaaVienti(verorivi);
             }
         }
 
@@ -523,8 +525,7 @@ void KirjausApuriDialog::ehdota()
         {
             VientiRivi taserivi = uusiEhdotusRivi(vastatili);
             if( alvkoodi == AlvKoodi::OSTOT_NETTO || alvkoodi == AlvKoodi::OSTOT_BRUTTO ||
-                    alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO ||
-                    ( ui->eiVahennaCheck->isVisible() && ui->eiVahennaCheck->isChecked()) )
+                    alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO )
                 taserivi.kreditSnt = bruttoSnt;
             else
                 taserivi.kreditSnt = nettoSnt;
