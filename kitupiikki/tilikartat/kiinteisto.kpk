@@ -109,7 +109,7 @@ A 1740 {"Taseerittely":2} Lainasaamiset
 H4 176 {} Muut saamiset
 AS 1760 {"Taseerittely":2} Muut saamiset
 AL 1762 {} Arvonlisäverosaamiset
-ALM 1763 {} Kohdentamaton maksuperusteinen arvonlisäverosaaminen
+ALM 1763 {} Maksuperusteinen arvonlisäverosaaminen
 H4 177 {} Siirtosaamiset
 AS 1770 {"Taseerittely":2} Siirtosaamiset
 H3 18 {} Rahoitusarvopaperit
@@ -191,7 +191,7 @@ H4- 2975 {"Asti":2979} Velat omistusyhteysyrityksille
 BS- 2975 {"Taseerittely":2} Velat omistusyhteysyrityksille; lyhytaikaiset
 H4 298 {} Muut saamiset
 BL 2984 {} Arvonlisäverovelka
-BLM 2985 {} Kohdentamaton maksuperusteinen arvonlisäverovelka
+BLM 2985 {} Maksuperusteinen arvonlisäverovelka
 BV 2986 {} Verovelka (Omavero-tili)
 BS 2989 {"Taseerittely":2} Muut velat
 BS 2990 {"Taseerittely":2} Siirtovelat

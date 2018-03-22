@@ -132,8 +132,8 @@ A 1740 {"Taseerittely":2} Lainasaamiset
 H4 176 {} Muut saamiset
 AS 1760 {"Taseerittely":2} Muut saamiset
 AL 1762 {} Arvonlisäverosaamiset
-ALM 1763 {} Kohdentamaton maksuperusteinen arvonlisäverosaaminen
-H4 177 {} Siirtosaamiset
+ALM- 1763 {} Maksuperusteinen arvonlisäverosaaminen
+H4- 177 {} Siirtosaamiset
 AS 1770 {"Taseerittely":2} Siirtosaamiset
 H3 18 {} Rahoitusarvopaperit
 H4- 181 {} Osuudet saman konsernin yrityksissä
@@ -211,8 +211,8 @@ BS- 2970 {"Taseerittely":2} Velat saman konsernin yrityksille; lyhytaikaiset
 H4- 2975 {"Asti":2979} Velat omistusyhteysyrityksille
 BS- 2975 {"Taseerittely":2} Velat omistusyhteysyrityksille; lyhytaikaiset
 H4 298 {} Muut velat
-BL 2984 {} Arvonlisäverovelka
-BLM 2985 {} Kohdentamaton maksuperusteinen arvonlisäverovelka
+BL- 2984 {} Arvonlisäverovelka
+BLM- 2985 {} Maksuperusteinen arvonlisäverovelka
 BV 2986 {"Kirjausohje":"Tälle tilille siirretään maksettavat arvonlisäverot siinä vaiheessa, kun tehdään arvonlisäveroilmoitus."} Verovelka (Omavero-tili)
 BS 2989 {"Taseerittely":2} Muut velat
 H4 299 {} Siirtovelat
@@ -326,7 +326,16 @@ H4- 704 {} Liiketoiminnan kulut
 D- 7040 {"AlvLaji":21,"AlvProsentti":24} Liiketoiminnan ostot
 D- 7045 {"AlvLaji":21,"AlvProsentti":24} Liiketoiminnan muut kulut
 H4- 705 {} Liiketoiminnan henkilökulut
+D- 70500 {} Liiketoiminnan palkat
+D- 70502 {} Liiketoiminnan lisät ja korvaukset
 D- 70503 {} Liiketoiminnan palkkiot
+D- 70504 {} Liiketoiminnan loma-ajan ja sosiaalipalkat
+D- 70510 {} Liiketoiminnan eläkevakuutusmaksut
+D- 70511 {} Liiketoiminnan työntekijöiltä perityt eläkevakuutusmaksut
+D- 70513 {} Liiketoiminnan vapaaehtoiset eläkevakuutusmaksut
+D- 70520 {} Liiketoiminnan sosiaaliturvamaksut
+D- 70521 {} Liiketoiminnan pakolliset vakuutusmaksut
+D- 70522 {} Liiketoiminnan muut henkilöstön vakuutusmaksut
 H4- 706 {} Liiketoiminnan poistot
 DP- 70602 {} Poistot liiketoiminnan koneista ja kalustosta
 H3 73 {"Asti":79} Muu varainhankinta
@@ -339,6 +348,16 @@ C 7400 {} Ostot, myytävät tuotteet
 C 7410 {} Jäsenmaksukulut
 C 7490 {} Muut varainhankinnan kulut
 H4 75 {} Varainhankinnan henkilöstökulut
+D 7500 {} Varainhankinnan palkat
+D 7502 {} Varainhankinnan lisät ja korvaukset
+D 7503 {} Varainhankinnan palkkiot
+D 7504 {} Varainhankinnan loma-ajan ja sosiaalipalkat
+D 7510 {} Varainhankinnan eläkevakuutusmaksut
+D 7511 {} Varainhankinnan työntekijöiltä perityt eläkevakuutusmaksut
+D 7513 {} Varainhankinnan vapaaehtoiset eläkevakuutusmaksut
+D 7520 {} Varainhankinnan sosiaaliturvamaksut
+D 7521 {} Varainhankinnan pakolliset vakuutusmaksut
+D 7522 {} Varainhankinnan muut henkilöstön vakuutusmaksut
 H2 88 {} Yleisavustukset
 CL 8800 {"Kirjausohje":"Tähän kirjataan yhdistyksen toiminnalle annetut yleisavustukset. Avustukset yksittäiseen toiminta-alaan tai tapahtumaan kirjataan varsinaisen toiminnan tuloksi kyseiselle toiminnanalalle."} Saadut yleisavustukset 
 H2 90 {"Asti":91} Rahoitustuotot ja -kulut
@@ -362,8 +381,8 @@ C- 9585 {} Saadut konserniavustukset
 D- 9586 {} Annetut konserniavustukset
 D 9590 {} Muut tilinpäätössiirrot
 [tositelajit]
-OL {"Kirjaustyyppi":1,"Oletustili":4500,"Vastatili":1910} Ostolaskut
-ML {"Kirjaustyyppi":2,"Oletustili":3130,"Vastatili":1910} Myyntilaskut
+OL {"Kirjaustyyppi":1,"Oletustili":4500,"Vastatili":2960} Ostolaskut
+ML {"Kirjaustyyppi":2,"Oletustili":3130,"Vastatili":1700} Myyntilaskut
 TILI {"Kirjaustyyppi":3,"Vastatili":1910} Tiliotteet
 [TilinpaatosPohja]
 ## Raportit
@@ -755,8 +774,16 @@ Vastattavaa yhteensä		2 bold
 [MuotoOn/On liiketoimintaa]
 +70/3
 +1167
++1762
++1763
++2984
++2985
 AlvVelvollinen=ON
 [MuotoPois/On liiketoimintaa]
 -1167
 -70/3
+-1762
+-1763
+-2984
+-2985
 AlvVelvollinen=EI
