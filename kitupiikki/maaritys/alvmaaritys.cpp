@@ -90,6 +90,8 @@ void AlvMaaritys::paivitaSeuraavat()
     else
         ui->erapaivaLabel->setStyleSheet("color: black;");
 
+    ui->tilitaNappi->setEnabled( seuraavaLoppuu < kp()->tilikaudet()->kirjanpitoLoppuu() );
+
     emit tallennaKaytossa(onkoMuokattu());
 }
 

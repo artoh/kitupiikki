@@ -462,7 +462,7 @@ bool LaskuModel::tallenna(Tili rahatili)
             else    // Maksuperusteinen ALV
             {
                 verorivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVVELKA);
-                verorivi.alvkoodi = AlvKoodi::ALVKIRJAUS + AlvKoodi::MAKSUPERUSTEINEN_MYYNTI;
+                verorivi.alvkoodi = AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_MYYNTI;
             }
 
             verorivi.alvprosentti = alvprosentti;
