@@ -94,7 +94,7 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     connect( ui->yhdistaCheck, SIGNAL(clicked(bool)), this, SLOT(yhdistaminenMuuttui(bool)));
 
     connect(ui->taseEraCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(eraValittu()));
-    connect(ui->vastaTaseEraCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(eraValittu()));
+    connect(ui->vastaTaseEraCombo, SIGNAL(currentIndexChanged(int)), this, SLOT( vastaEraValittu()) );
     connect(ui->pvmDate, SIGNAL(dateChanged(QDate)), this, SLOT(pvmMuuttuu()));
 
     connect( ui->vastaCheck, SIGNAL(toggled(bool)), this, SLOT(vastakirjausOlemassa(bool)));
