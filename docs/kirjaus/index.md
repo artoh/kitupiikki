@@ -2,35 +2,38 @@
 
 ![](myllykirjaus.png)
 
-## Kirjaaminen Avustajalla
+!!! tip "Oikotie"
+    Painamalla <kdb>F2<kdb> avautuu uuden tositteen kirjaaminen nykyiseen ja <kbd>SHIFT</kbd>+<kbd>F2</kbd> uuteen ikkunaan.
 
-Useimmat tavanomaiset kirjaukset kuten ostot, myynnit, nostot pankkitililtä jne. kirjaat helpoiten käyttämällä Avustajaa.
+## Kirjaaminen Kirjausapurilla
+
+Useimmat tavanomaiset kirjaukset kuten ostot, myynnit, nostot pankkitililtä jne. kirjaat helpoiten käyttämällä Kirjausapuria.
 
 !!! tip "Tiliotteen tai ostolaskun tuominen"
     Kitupiikki yrittää tehdä kirjausehdotuksen pdf-tiedoston pohjalta. Katso tarkemmin [Tuonti](tuonti).
 
 
-1. Jos tosite on tietokoneella (pdf- tai jpg-tiedostona) tuo se joko raahaamalla se **Sähköinen tosite**-kohtaan tai **Valitse tiedosto**-napilla.
+1. Jos tosite on tietokoneella (pdf- tai jpg-tiedostona) tuo se joko raahaamalla se **Sähköinen tosite**-kohtaan tai **Valitse tiedosto**-napilla (tai <kbd>CTRL</kbd>+<kbd>O</kbd>).
     ![](tyhjakirjaus.png)
-2. Täytä tositteen **päivämäärä** ja **otsikko**.
+2. Täytä tositteen **päivämäärä** <kbd>Enter</kbd> ja **otsikko** <kbd>Enter</kbd>.
 3. Valitse **tositelaji**.
-4. Käynnistä Avustaja joko **Avustaja**-napista tai painamalla **F9**.
+4. Käynnistä Kirjausapuri joko **Kirjausapuri**-napista tai painamalla <kbd>F9</kbd>. Tositelajin valittua voit käynnistää Apurin myös painamalla <kbd>Enter</kbd>
    ![](apuri1.png)
 5. Valitse välilehdeltä, mitä kirjaat: **Tulo**, **meno** vai **siirto**.
 6. Valitse tili. Voit joko kirjoittaa suoraan tilinumeron tai aloittaa kirjoittamalla tilin nimeä, jolloin pääset valitsemaan tilin luettelosta. Painamalla välilyöntiä pääset kaikkien tilien luetteloon.
 6. Syötä määrä ja varmista, että **vastatili**, **vientipäivä**, **selite**, **alv-laji** ja **alv-prosentti** on oikein. Valitse tarvittaessa **kohdennus**. Kirjattaessa siirto tasetililtä toiselle valittavina on **debet-tili** (minne siirretään) ja **kredit-tili** (mistä siirretään).
-7. Varmista Apurin ikkunassa alinpana olevasta ruudusta, että kirjaus menee oikein, ja paina **Ok** (tai Enter)
+7. Varmista Apurin ikkunassa alinpana olevasta ruudusta, että kirjaus menee oikein, ja paina **Ok** (tai <kbd>Enter</kbd>)
 8. Kirjauksen tiedot tulevat **Viennit**-välilehdelle. Jos tositteella on useampia vientejä, käynnistä Avustaja uudelleen.
 9. Lisää tarvittaessa vielä **Kommentit**-välilehdelle tarkemmat selvitykset.
 10. Jos kirjaus perustuu paperitositteeseen, merkitse **Tositenumero** paperiseen tositteeseen.
-11. Tallenna kirjaus painamalla **Tallenna** tai **F12**.
+11. Tallenna kirjaus painamalla **Tallenna** tai <kbd>F12</kbd>.
 
 !!! note "Mikä päivämäärä?"
     Kirjanpito voidaan tehdä suorite-, maksu- tai laskuperusteisesti, katso [Lyhyesti kirjanpidosta](/kirjanpito)
 
 ## Kirjaaminen ilman Avustajaa
 
-Voit tehdä kirjauksen myös ilman Avustajaa valitsemalla **Viennit**-välilehdellä **Lisää rivi** (tai painamalla **F11**).
+Voit tehdä kirjauksen myös ilman Avustajaa valitsemalla **Viennit**-välilehdellä **Lisää rivi** (tai painamalla <kbd>F11</kbd>).
 
 Sarakkeeseen **Tili** voit syöttää tilinumeron tai kirjoittaa tilin nimen alkua. Meno ja tulotileillä voit valita **kohdennuksen**. Jos kirjaat tasetilille, jossa on käytettävissä tase-erittely, pääset kohdennus-saraketta napsauttamalla valitsemaan kirjaukselle tase-erän.
 

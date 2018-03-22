@@ -2,6 +2,9 @@
 
 **Selaa**-välilehdellä pääset selaamaan ja hakemaan jo tehtyjä kirjauksia.
 
+!!! tip "Oikotie"
+    Selausnäkymään pääsee myös painamalla <kbd>F3</kbd>. Selausnäkymän saat avattua uuteen ikkunaan painamalla <kbd>SHIFT</kbd>+<kbd>F3</kbd>.
+
 ## Tositteiden selaaminen
 
 ![](tositteet.png)
@@ -26,6 +29,8 @@ etsittävä teksti.
 
 Napsauttamalla riviä pääset katsomaan tai muokkaamaan tositetta, johon vienti on
 kirjattu.
+
+![](ok.png)-kuvake kohdennussarakkeessa tarkoittaa, että kyseinen tase-erä on "tasan" eli myynti- tai ostolasku maksettu kokonaan tai poistettava hankinta poistettu kokonaisuudessaan.
 
 ## Porautuminen aloitusnäytöltä
 
