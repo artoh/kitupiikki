@@ -28,6 +28,8 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     ui(new Ui::KirjausApuriDialog),
     model(tositeModel)
 {
+    setAttribute(Qt::WA_DeleteOnClose);
+
     ui->setupUi(this);
 
     // Alussa suurin valinnoista jää piiloon
@@ -145,6 +147,7 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     }
     QTimer::singleShot(0, this, SLOT(korjaaSarakeLeveydet()));
 
+    connect( model, SIGNAL(tyhjennetty()), this, SLOT(close()) );
 }
 
 KirjausApuriDialog::~KirjausApuriDialog()
@@ -367,7 +370,7 @@ void KirjausApuriDialog::veroSuodattimetKuntoon()
         if( kp()->onkoMaksuperusteinenAlv( ui->pvmDate->date() ) &&
                 ui->vastatiliEdit->valittuTili().onko(TiliLaji::MYYNTISAATAVA))
         {
-            verofiltteri.setFilterRegExp("^(0|1[345679])");
+            verofiltteri.setFilterRegExp("^(0|1[3-9])");
             // Jos valittuna ollut kotimaan myynti, valitaan maksuperusteinen myynti
             if( alvkoodi < 13)
                 ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::MAKSUPERUSTEINEN_MYYNTI, VerotyyppiModel::KoodiRooli) );
@@ -375,7 +378,7 @@ void KirjausApuriDialog::veroSuodattimetKuntoon()
         }
         else
         {
-            verofiltteri.setFilterRegExp("^(0|1[1-8])");
+            verofiltteri.setFilterRegExp("^(0|1[1-79])");
             if( alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI)
                 ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::MYYNNIT_NETTO, VerotyyppiModel::KoodiRooli) );
 
@@ -387,13 +390,13 @@ void KirjausApuriDialog::veroSuodattimetKuntoon()
         if( kp()->onkoMaksuperusteinenAlv( ui->pvmDate->date() ) &&
                 ui->vastatiliEdit->valittuTili().onko(TiliLaji::OSTOVELKA))
         {
-            verofiltteri.setFilterRegExp("^(0|2[345679])");
+            verofiltteri.setFilterRegExp("^(0|2[3-9])");
             if( alvkoodi < 23)
                 ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::MAKSUPERUSTEINEN_OSTO, VerotyyppiModel::KoodiRooli) );
         }
         else
         {
-            verofiltteri.setFilterRegExp("^(0|2[1-8])");
+            verofiltteri.setFilterRegExp("^(0|2[1-79])");
             if( alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO)
                 ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::OSTOT_NETTO, VerotyyppiModel::KoodiRooli) );
         }
@@ -671,6 +674,7 @@ void KirjausApuriDialog::accept()
     else
         ehdotus.tallenna(model->vientiModel());
     QDialog::accept();
+    deleteLater();
 }
 
 VientiRivi KirjausApuriDialog::uusiEhdotusRivi(Tili tili, int debetSnt, int kreditSnt)

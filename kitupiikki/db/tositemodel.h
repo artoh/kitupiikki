@@ -89,6 +89,7 @@ public:
 
 signals:
     void tositettaMuokattu(bool onko);
+    void tyhjennetty();
 
 
 public slots:
@@ -110,7 +111,7 @@ public slots:
      */
     void tyhjaa();
     bool tallenna();
-    void poista();
+    bool poista();
 
 
 protected:

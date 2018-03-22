@@ -298,9 +298,14 @@ void KirjausWg::poistaTosite()
                               tr("Haluatko todella poistaa tämän tositteen?"),
                               QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) == QMessageBox::Yes)
     {
-        model()->poista();
-        tyhjenna();
-        emit tositeKasitelty();
+        if( model()->poista())
+        {
+            tyhjenna();
+            emit tositeKasitelty();
+        }
+        else
+            QMessageBox::critical(this, tr("Tietokantavirhe"),
+                                  tr("Tietokantavirhe tositetta poistettaessa\n\n%1").arg( kp()->tietokanta()->lastError().text() ));
     }
 }
 
@@ -621,8 +626,9 @@ void KirjausWg::kirjausApuri()
         apurivinkki_->hide();
     }
 
-    KirjausApuriDialog dlg( model_, this);
-    dlg.exec();
+    KirjausApuriDialog *dlg = new KirjausApuriDialog( model_, this);
+    dlg->show();
+
 }
 
 void KirjausWg::pvmVaihtuu()

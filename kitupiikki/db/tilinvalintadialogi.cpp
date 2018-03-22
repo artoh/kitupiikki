@@ -95,12 +95,14 @@ void TilinValintaDialogi::suodata(const QString &alku)
 
     if( ui->view->selectionModel()->selectedIndexes().isEmpty())
         ui->view->setCurrentIndex( ui->view->model()->index(0,0) );
+    alaValitseOtsikoita(1);
 }
 
 void TilinValintaDialogi::suodataTyyppi(const QString &regexp)
 {
     tyyppiSuodatin = regexp;
     suodata(ui->suodatusEdit->text());
+    alaValitseOtsikoita(1);
 }
 
 void TilinValintaDialogi::suodataSuosikit(bool suodatetaanko)
@@ -150,6 +152,22 @@ void TilinValintaDialogi::naytaOhje(int tiliId)
     ui->ohjeLabel->setText( txt );
 }
 
+void TilinValintaDialogi::alaValitseOtsikoita(int suunta)
+{
+    if( suunta > 0 )
+    {
+        while( ui->view->currentIndex().row() < ui->view->model()->rowCount(QModelIndex()) - 1 &&
+               ui->view->currentIndex().data( TiliModel::OtsikkotasoRooli).toInt() > 0)
+            ui->view->selectRow( ui->view->currentIndex().row() + 1 );
+    }
+    else
+    {
+        while( ui->view->currentIndex().row() > 1 &&
+               ui->view->currentIndex().data( TiliModel::OtsikkotasoRooli).toInt() > 0)
+            ui->view->selectRow( ui->view->currentIndex().row() - 1 );
+    }
+}
+
 bool TilinValintaDialogi::eventFilter(QObject *object, QEvent *event)
 {
     if( object == ui->suodatusEdit &&            event->type() == QEvent::KeyPress )
@@ -158,11 +176,13 @@ bool TilinValintaDialogi::eventFilter(QObject *object, QEvent *event)
         if( keyEvent->key() == Qt::Key_Down )
         {
             ui->view->selectRow( ui->view->currentIndex().row()+1 );
+            alaValitseOtsikoita(1);
             return true;
         }
         else if( keyEvent->key() == Qt::Key_Up )
         {
             ui->view->selectRow( ui->view->currentIndex().row()-1 );
+            alaValitseOtsikoita(-1);
             return true;
         }
 

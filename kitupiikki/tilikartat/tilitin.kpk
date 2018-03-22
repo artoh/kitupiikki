@@ -3,7 +3,7 @@ Elinkeinotoiminta (Tilitin-yhteensopiva)
 [TilikarttaTekija]
 artoh.github.io
 [TilikarttaPvm]
-2018-03-01
+2018-03-20
 [TilikarttaKuvaus]
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 <html><head><meta name="qrichtext" content="1" /><style type="text/css">
@@ -208,8 +208,8 @@ H4 168 {} Siirtosaamiset
 A 1681 {"Taseerittely":3} Pitkäaikaiset siirtosaamiset
 H4 169 {} Laskennalliset verosaamiset
 A 1691 {"Taseerittely":3} Pitkäaikaiset laskennalliset verosaamiset
-H3 170..172 {} Lyhytaikaiset saamiset
-H4 1701 {} Myyntisaamiset
+H3 170..185 {} Lyhytaikaiset saamiset
+H4 170..172 {} Myyntisaamiset
 AO 1701 {"Taseerittely":2} Myyntisaamiset 1
 AO 1702 {"Taseerittely":2} Myyntisaamiset 2
 AO 1703 {"Taseerittely":2} Myyntisaamiset 3

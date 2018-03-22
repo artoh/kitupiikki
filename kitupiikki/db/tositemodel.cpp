@@ -180,6 +180,9 @@ void TositeModel::lataa(int id)
         liiteModel_->lataa();
     }
     muokattu_ = false;
+
+    emit tositettaMuokattu(false);
+    emit tyhjennetty();
 }
 
 void TositeModel::tyhjaa()
@@ -202,7 +205,9 @@ void TositeModel::tyhjaa()
     vientiModel_->tyhjaa();
     liiteModel_->tyhjaa();
     muokattu_ = false;
+
     emit tositettaMuokattu(false);
+    emit tyhjennetty();
 
 }
 
@@ -271,13 +276,20 @@ bool TositeModel::tallenna()
     return true;
 }
 
-void TositeModel::poista()
+bool TositeModel::poista()
 {
-    // Poistettaessa ei oikeasti poisteta, vaan merkitään päivämääräksi NULL
+    // Tosite on poistettava ihan oikeasti, koska muuten sotkee tase-erät
+    // Liitteiden tiedostoja ei kuitenkaan poisteta
 
-    for(int i=0; i < vientiModel()->rowCount(QModelIndex()); i++)
-        vientiModel()->setData( vientiModel()->index(i, VientiModel::PVM), QDate(), VientiModel::PvmRooli );
+    if( !id())
+        return true;
 
-    pvm_ = QDate();
-    tallenna();
+    tietokanta()->transaction();
+    QSqlQuery kysely(*tietokanta());
+
+    kysely.exec(QString("DELETE FROM vienti WHERE tosite=%1").arg( id() ));
+    kysely.exec(QString("DELETE FROM liite WHERE tosite=%1").arg( id() ));
+    kysely.exec(QString("DELETE FROM tosite WHERE id=%1").arg( id()) );
+
+    return tietokanta()->commit();
 }

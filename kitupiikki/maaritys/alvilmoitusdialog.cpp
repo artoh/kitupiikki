@@ -465,7 +465,7 @@ void AlvIlmoitusDialog::luku(const QString &nimike, int senttia, bool viiva)
 bool AlvIlmoitusDialog::maksuperusteisenTilitys(const QDate &paivayksesta, const QDate &tilityspvm)
 {
     // Hakee kaikki sanottua vanhemmat erät ja jos niillä saldoa, niin lävähtävät maksuun
-    QSqlQuery kysely( QString("SELECT id, alvkoodi, alvprosentti FROM vienti WHERE tili=%1 OR tili=%2 "
+    QSqlQuery kysely( QString("SELECT id, alvkoodi, alvprosentti FROM vienti WHERE (tili=%1 OR tili=%2) "
                               "AND pvm <='%3'")
                       .arg( kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVVELKA).id() )
                       .arg( kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVSAATAVA).id())
@@ -503,13 +503,13 @@ bool AlvIlmoitusDialog::maksuperusteisenTilitys(const QDate &paivayksesta, const
 
         VientiRivi verorivi;
         verorivi.pvm = tilityspvm;
-        verorivi.tili = AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_OSTO ?
+        verorivi.tili = alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_OSTO ?
                     kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA) :
                     kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA);
         verorivi.debetSnt = kohdentamaton.kreditSnt;
         verorivi.kreditSnt = kohdentamaton.debetSnt;
         verorivi.selite = kohdentamaton.selite;
-        verorivi.alvkoodi = AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_OSTO ?
+        verorivi.alvkoodi = alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_OSTO ?
                     AlvKoodi::ALVVAHENNYS + AlvKoodi::MAKSUPERUSTEINEN_OSTO :
                     AlvKoodi::ALVKIRJAUS + AlvKoodi::MAKSUPERUSTEINEN_MYYNTI;
         verorivi.alvprosentti = kysely.value("alvprosentti").toInt();

@@ -60,6 +60,11 @@ protected slots:
      */
     void naytaOhje(int tiliId);
 
+    /**
+     * @brief Korjaa valinnan niin, ettei otsikko tulisi valituksi
+     */
+    void alaValitseOtsikoita(int suunta = 1);
+
 protected:
     bool eventFilter(QObject *object, QEvent *event);
 

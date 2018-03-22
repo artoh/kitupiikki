@@ -114,7 +114,8 @@ bool LaskuValintaWidget::onkoMuokattu()
             ui->huomautusaikaEdit->text() != kp()->asetukset()->asetus("LaskuHuomautusaika") ||
             ui->viivastyskorkoEdit->text() != kp()->asetukset()->asetus("LaskuViivastyskorko") ||
             ui->seuraavaLasku->value() != kp()->asetukset()->luku("LaskuSeuraavaId") ||
-            ui->tiliCombo->currentData().toInt() != kp()->asetukset()->luku("LaskuTili");
+            ( ui->tiliCombo->currentData().toInt() != kp()->asetukset()->luku("LaskuTili")
+            && !ui->tiliCombo->currentText().isEmpty() );
 
 }
 

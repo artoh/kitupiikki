@@ -97,7 +97,7 @@ void EranValintaModel::lataa(Tili tili, bool kaikki, QDate paivalle)
     while( query.next())
     {
         int id = query.value("id").toInt();
-        quint64 saldo = saldot.value(id, 0) + query.value("debetsnt").toLongLong() - query.value("kreditsnt").toLongLong();
+        qlonglong saldo = saldot.value(id, 0) + query.value("debetsnt").toLongLong() - query.value("kreditsnt").toLongLong();
         if( saldo || kaikki )
         {
             // Tämä tase-erä ei ole mennyt tasan, joten se on valittavissa
