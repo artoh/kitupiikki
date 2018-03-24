@@ -33,12 +33,17 @@ KohdennusMuokkaus::KohdennusMuokkaus(QWidget *parent) :
     proxy->setSortRole(KohdennusModel::NimiRooli);
     proxy->sort(0);
 
+    proxy->setFilterRole(KohdennusModel::IdRooli);
+    proxy->setFilterRegExp("^[^0].*");
+    // Ei näytetä tässä luettelossa Yleistä ei id 0
+
     ui->view->setModel(proxy);
 
     connect( ui->view->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
              this, SLOT(riviValittu(QModelIndex)));
     connect( ui->lisaaNappi, SIGNAL(clicked(bool)), this, SLOT(uusi()));
     connect( ui->muokkaaNappi, SIGNAL(clicked(bool)), this, SLOT(muokkaa()));
+    connect(ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poista()));
 
 }
 
@@ -109,7 +114,7 @@ void KohdennusMuokkaus::riviValittu(const QModelIndex &index)
 {
     ui->muokkaaNappi->setEnabled( index.isValid());
     ui->poistaNappi->setEnabled( index.isValid() &&
-            ( index.data(KohdennusModel::IdRooli) == 0 ||  index.data(KohdennusModel::VientejaRooli).toInt() == 0));
-    // Saa poistaa, jos ei ole vientejä tai id=0 eli ei vielä tallennettu
-    // Kohdentamattomiinhan käytetään id:tä 0
+                                 index.data(KohdennusModel::VientejaRooli).toInt() == 0);
+    // Saa poistaa, jos ei ole vientejä tai id=-1 eli ei vielä tallennettu
+    // Kohdentamattomiin käytetään id:tä 0
 }

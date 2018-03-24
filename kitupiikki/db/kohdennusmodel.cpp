@@ -227,7 +227,7 @@ void KohdennusModel::tallenna()
         Kohdennus kohdennus = kohdennukset_[i];
         if( kohdennus.muokattu())
         {
-            if( kohdennus.id())
+            if( kohdennus.id() > 0)
             {
                 // Muokkaus
                 kysely.prepare("UPDATE kohdennus SET nimi=:nimi, tyyppi=:tyyppi,"

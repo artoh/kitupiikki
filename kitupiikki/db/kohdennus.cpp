@@ -22,7 +22,7 @@
 
 
 Kohdennus::Kohdennus(int tyyppi, const QString &nimi) :
-    id_(0), tyyppi_(tyyppi), nimi_(nimi), muokattu_(true)
+    id_(-1), tyyppi_(tyyppi), nimi_(nimi), muokattu_(true)
 {
 
 }
@@ -46,6 +46,9 @@ QIcon Kohdennus::tyyppiKuvake() const
 
 int Kohdennus::montakoVientia() const
 {
+    if( id() < 0)
+        return 0;   // Uudella kohdennuksella ei vielä vientejä
+
     QSqlQuery kysely( QString("SELECT sum(id) FROM vienti WHERE kohdennus=%1").arg(id()) );
     if( kysely.next())
         return kysely.value(0).toInt();
