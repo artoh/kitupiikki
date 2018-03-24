@@ -275,6 +275,7 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
             if( value.toDate().isValid())
             {
                 viennit_[index.row()].pvm = value.toDate();
+                emit muuttunut();
                 emit siirryRuutuun( index.sibling(index.row(), TILI) );
             }
             return true;
@@ -341,6 +342,7 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
             return true;
         case KOHDENNUS:
             viennit_[rivi].kohdennus = kp()->kohdennukset()->kohdennus(value.toInt());
+            emit muuttunut();
             return true;
         default:
             return false;
