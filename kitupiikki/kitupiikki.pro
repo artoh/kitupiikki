@@ -258,7 +258,8 @@ RESOURCES += \
     pic/pic.qrc \
     uusikp/sql.qrc \
     aloitussivu/qrc/aloitus.qrc \
-    arkistoija/arkisto.qrc
+    arkistoija/arkisto.qrc \
+    laskutus/lasku.qrc
 
 FORMS += \
     uusikp/intro.ui \

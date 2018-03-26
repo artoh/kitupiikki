@@ -20,6 +20,8 @@
 #include <QUrl>
 #include <QShortcut>
 
+#include <QFontDatabase>
+
 #include "laskutussivu.h"
 #include "laskudialogi.h"
 #include "db/liitemodel.h"
@@ -59,6 +61,8 @@ LaskutusSivu::LaskutusSivu() :
     ui->laskutView->horizontalHeader()->setStretchLastSection(true);
 
     connect(ui->laskutView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(valintaMuuttuu()));
+
+    QFontDatabase::addApplicationFont(":/code128.ttf");
 
 }
 

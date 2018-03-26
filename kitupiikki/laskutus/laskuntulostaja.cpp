@@ -179,6 +179,19 @@ QString LaskunTulostaja::html()
     return txt;
 }
 
+QString LaskunTulostaja::virtuaaliviivakoodi() const
+{
+    if( model_->laskunSumma() > 99999999 )  // Ylisuuri laskunsumma
+        return QString();
+
+    return QString("4 %1 %2 000 %3 %4")
+            .arg( iban.mid(2,16) )  // Tilinumeron numeerinen osuus
+            .arg( model_->laskunSumma(), 8, 10, QChar('0') )  // Rahamäärä
+            .arg( model_->viitenumero(), 20, QChar('0'))
+            .arg( model_->erapaiva().toString("yyMMdd"))
+            .remove(QChar(' '));
+}
+
 void LaskunTulostaja::ylaruudukko(QPrinter *printer, QPainter *painter)
 {
     const int TEKSTIPT = 10;
@@ -545,5 +558,50 @@ void LaskunTulostaja::tilisiirto(QPrinter *printer, QPainter *painter)
     painter->rotate(-90.0);
     painter->drawText(0,0,tr("TILISIIRTO. GIRERING"));
     painter->restore();
+
+    // Viivakoodi
+    painter->save();
+
+    painter->setFont(QFont("Code 128",30));
+
+    QString koodi( code128() );
+    painter->drawText( QRectF( mm*20, mm*72, mm*100, mm*20), Qt::AlignCenter | Qt::AlignHCenter, koodi );
+
+
+    painter->restore();
+}
+
+QString LaskunTulostaja::code128() const
+{
+    QString koodi;
+    koodi.append( code128c(105) );   // Code C aloitusmerkki
+
+    int summa = 105;
+    int paino = 1;
+
+    QString koodattava = virtuaaliviivakoodi();
+    if( koodattava.length() != 54)  // Pitää olla kelpo virtuaalikoodi
+        return QString();
+
+    for(int i = 0; i < koodattava.length(); i = i + 2)
+    {
+        int luku = koodattava.at(i).digitValue()*10 + koodattava.at(i+1).digitValue();
+        koodi.append( code128c(luku) );
+        summa += paino * luku;
+        paino++;
+    }
+
+    koodi.append( code128c( summa % 103 ) );
+    koodi.append( QChar(211) );
+
+    return koodi;
+}
+
+QChar LaskunTulostaja::code128c(int koodattava) const
+{
+    if( koodattava < 95)
+        return QChar( 32 + koodattava);
+    else
+        return QChar( 105 + koodattava);
 }
 

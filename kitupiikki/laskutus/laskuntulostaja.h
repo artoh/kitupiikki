@@ -56,6 +56,8 @@ public slots:
 public:
     QString html();
 
+    QString virtuaaliviivakoodi() const;
+
 protected:
     void ylaruudukko(QPrinter *printer, QPainter *painter);
     void lisatieto(QPainter *painter);
@@ -65,6 +67,18 @@ protected:
 
     void tilisiirto(QPrinter *printer, QPainter *painter);
     QString iban;
+
+    /**
+     * @brief Pankkiviivakoodi valmiiksi code128-koodattuna
+     * @return
+     */
+    QString code128() const;
+    /**
+     * @brief Code 128C viivakoodin merkki joka vastaa annettua numeroparia
+     * @param koodattava
+     * @return
+     */
+    QChar code128c(int koodattava) const;
 
 private:
     LaskuModel *model_;
