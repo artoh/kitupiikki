@@ -562,10 +562,12 @@ void LaskunTulostaja::tilisiirto(QPrinter *printer, QPainter *painter)
     // Viivakoodi
     painter->save();
 
-    painter->setFont(QFont("Code 128",30));
+    QFont viivakoodifontti("Code 128",36);
+    viivakoodifontti.setLetterSpacing(QFont::AbsoluteSpacing,0.0);
+    painter->setFont(viivakoodifontti);
 
     QString koodi( code128() );
-    painter->drawText( QRectF( mm*20, mm*72, mm*100, mm*20), Qt::AlignCenter | Qt::AlignHCenter, koodi );
+    painter->drawText( QRectF( mm*20, mm*72, mm*100, mm*20), Qt::AlignCenter, koodi );
 
 
     painter->restore();
