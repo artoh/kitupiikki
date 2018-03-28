@@ -99,7 +99,10 @@ QString LaskunTulostaja::html()
     txt.append(tr("<tr><td>Summa</td><td>%L1 €</td>").arg( (model_->laskunSumma() / 100.0) ,0,'f',2));
 
     if( model_->kirjausperuste() != LaskuModel::KATEISLASKU && !model_->hyvityslasku().viitenro)
+    {
         txt.append(tr("<tr><td>IBAN</td><td>%1</td></tr>").arg( iban) );
+        txt.append(tr("<tr><td>Virtuaaliviivakoodi</td><td>%1</td></tr>").arg( virtuaaliviivakoodi()) );
+    }
 
 
     txt.append("</table><p>" + model_->lisatieto() + "</p><table width=100%>");
@@ -195,6 +198,18 @@ QString LaskunTulostaja::virtuaaliviivakoodi() const
             .arg( model_->viitenumero(), 20, QChar('0'))
             .arg( model_->erapaiva().toString("yyMMdd"))
             .remove(QChar(' '));
+}
+
+QString LaskunTulostaja::valeilla(const QString &teksti)
+{
+    QString palautettava;
+    for(int i=0; i < teksti.length(); i++)
+    {
+        palautettava.append(teksti.at(i));
+        if( i % 4 == 3)
+            palautettava.append(QChar(' '));
+    }
+    return palautettava;
 }
 
 void LaskunTulostaja::ylaruudukko(QPrinter *printer, QPainter *painter)
@@ -322,7 +337,7 @@ qreal LaskunTulostaja::alatunniste(QPrinter *printer,QPainter *painter)
     double mm = printer->width() * 1.00 / printer->widthMM();
 
     painter->drawText(QRectF(0,0,leveys/3,rk), Qt::AlignLeft, tr("Puh. %1").arg(kp()->asetus("Puhelin")));
-    painter->drawText(QRectF(leveys / 3,0,leveys/3,rk), Qt::AlignCenter, tr("IBAN %1").arg( iban ));
+    painter->drawText(QRectF(leveys / 3,0,leveys/3,rk), Qt::AlignCenter, tr("IBAN %1").arg( valeilla( iban ) ));
     painter->drawText(QRectF(2 *leveys / 3,0,leveys/3,rk), Qt::AlignRight, tr("Y-tunnus %1").arg(kp()->asetus("Ytunnus")));
     painter->setPen( QPen(QBrush(Qt::black), mm * 0.13));
     painter->drawLine( QLineF( 0, 0, leveys, 0));
@@ -562,7 +577,7 @@ void LaskunTulostaja::tilisiirto(QPrinter *printer, QPainter *painter)
     painter->drawText( QRectF(mm*165, mm*62.3, mm*30, mm*7.5), Qt::AlignRight | Qt::AlignBottom, QString("%L1").arg( (model_->laskunSumma() / 100.0) ,0,'f',2) );
 
     painter->drawText( QRectF(mm*22, mm*17, mm*90, mm*13), Qt::AlignTop | Qt::TextWordWrap, kp()->asetus("Nimi") + "\n" + kp()->asetus("Osoite")  );
-    painter->drawText( QRectF(mm*22, 0, mm*90, mm*17), Qt::AlignVCenter , iban  );
+    painter->drawText( QRectF(mm*22, 0, mm*90, mm*17), Qt::AlignVCenter ,  valeilla( iban )  );
 
 
     painter->save();
@@ -575,12 +590,11 @@ void LaskunTulostaja::tilisiirto(QPrinter *printer, QPainter *painter)
     // Viivakoodi
     painter->save();
 
-    QFont viivakoodifontti("Code 128",36);
-    viivakoodifontti.setLetterSpacing(QFont::AbsoluteSpacing,0.0);
-    painter->setFont(viivakoodifontti);
-
+    QFont koodifontti( "code128_XL", 36);
+    koodifontti.setLetterSpacing(QFont::AbsoluteSpacing, 0.0);
+    painter->setFont( koodifontti);
     QString koodi( code128() );
-    painter->drawText( QRectF( mm*20, mm*72, mm*100, mm*20), Qt::AlignCenter, koodi );
+    painter->drawText( QRectF( mm*20, mm*72, mm*100, mm*20), Qt::AlignCenter, koodi  );
 
     painter->restore();
 }
@@ -588,7 +602,7 @@ void LaskunTulostaja::tilisiirto(QPrinter *printer, QPainter *painter)
 QString LaskunTulostaja::code128() const
 {
     QString koodi;
-    koodi.append( code128c(105) );   // Code C aloitusmerkki
+    koodi.append( QChar(210) );   // Code C aloitusmerkki
 
     int summa = 105;
     int paino = 1;

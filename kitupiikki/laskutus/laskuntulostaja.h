@@ -58,6 +58,13 @@ public:
 
     QString virtuaaliviivakoodi() const;
 
+    /**
+     * @brief Lisää välin aina neljän merkin jälkeen
+     * @param teksti
+     * @return
+     */
+    static QString valeilla(const QString& teksti);
+
 protected:
     void ylaruudukko(QPrinter *printer, QPainter *painter);
     void lisatieto(QPainter *painter);
