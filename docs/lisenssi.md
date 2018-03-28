@@ -1,6 +1,6 @@
 # Lisenssi
 
-<strong>Kitupiikki Copyright &copy; Arto Hyvättinen 2017,2018
+<strong>Kitupiikki Copyright &copy; Arto Hyvättinen 2017 - 2018
 
 Ohjelmalla ei ole mitään takuuta. Tätä ohjelmaa saa käyttää, levittää ja muokata maksuttomasti alempana olevien ehtojen (GNU General Public License version 3) mukaisesti.</strong>
 
@@ -12,9 +12,13 @@ Ohjelmalla ei ole mitään takuuta. Tätä ohjelmaa saa käyttää, levittää j
 
 [MRichTextEditor](https://github.com/Anchakor/MRichTextEditor) lisenssillä [GNU Lesser General Public License version 2.1](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html)
 
+[Nayuki QR Code generator library](https://github.com/nayuki/QR-Code-generator) lisenssillä MIT License
+
+[Code-128-font](https://github.com/Holger-Will/code-128-font) lisenssillä [GNU General Public License version 3](https://www.gnu.org/licenses/old-licenses/gpl-3.0.html)
+
 ## Tilikarttojen pohja
 
-Tilikartat pohjautuvat Tili-instituuttisäätiön [Raportointikoodistoon](https://www.raportointikoodisto.fi).
+Tilikartat pohjautuvat Tili-instituuttisäätiön [Raportointikoodistoon](https://www.raportointikoodisto.fi). Tilitin-yhteensopiva elinkeinoelämän tilikartta perustuu [Tilitin-kirjanpito-ohjelmaan](http://helineva.net/tilitin/) &copy; Tommi Helineva lisenssillä [GNU General Public License version 3](https://www.gnu.org/licenses/old-licenses/gpl-3.0.html)
 
 ## Asennusohjelmat
 
