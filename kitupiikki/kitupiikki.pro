@@ -3,6 +3,7 @@ QT += widgets
 QT += sql
 QT += printsupport
 QT += network
+QT += svg
 
 windows {
     LIBS += $$PWD/../poppler/lib/libpoppler-qt5.dll.a

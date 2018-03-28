@@ -15,13 +15,16 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QDebug>
+#include <cmath>
+#include <QSvgRenderer>
+
 #include "laskuntulostaja.h"
 #include "db/kirjanpito.h"
 #include "laskumodel.h"
 #include "nayukiQR/QrCode.hpp"
 
-#include <QDebug>
-#include <cmath>
+
 
 LaskunTulostaja::LaskunTulostaja(LaskuModel *model) : QObject(model), model_(model)
 {
@@ -505,6 +508,14 @@ void LaskunTulostaja::tilisiirto(QPrinter *printer, QPainter *painter)
     painter->setFont(QFont("Sans", 7));
     double mm = printer->width() * 1.00 / printer->widthMM();
 
+    // QR-koodi
+    QByteArray qrTieto = qrSvg();
+    if( !qrTieto.isEmpty())
+    {
+        QSvgRenderer qrr( qrTieto );
+        qrr.render( painter, QRectF( ( printer->widthMM() - 35 ) *mm, 5 * mm, 30 * mm, 30 * mm  ) );
+    }
+
     painter->drawText( QRectF(0,0,mm*19,mm*16.9), Qt::AlignRight | Qt::AlignHCenter, tr("Saajan\n tilinumero\n Mottagarens\n kontonummer"));
     painter->drawText( QRectF(0, mm*18, mm*19, mm*14.8), Qt::AlignRight | Qt::AlignHCenter, tr("Saaja\n Mottagare"));
     painter->drawText( QRectF(0, mm*32.7, mm*19, mm*20), Qt::AlignRight | Qt::AlignTop, tr("Maksajan\n nimi ja\n osoite\n Betalarens\n namn och\n address"));
@@ -571,7 +582,6 @@ void LaskunTulostaja::tilisiirto(QPrinter *printer, QPainter *painter)
     QString koodi( code128() );
     painter->drawText( QRectF( mm*20, mm*72, mm*100, mm*20), Qt::AlignCenter, koodi );
 
-
     painter->restore();
 }
 
@@ -624,7 +634,7 @@ QByteArray LaskunTulostaja::qrSvg() const
     data.append(model_->viitenumero() + "\n\n");
     data.append( QString("ReqdExctnDt/%1").arg( model_->erapaiva().toString(Qt::ISODate) ));
 
-    qrcodegen::QrCode qr = qrcodegen::QrCode::encodeText( data.toUtf8().data() , qrcodegen::QrCode::Ecc::MEDIUM);
-    return QByteArray::fromStdString( qr.toSvgString() );
+    qrcodegen::QrCode qr = qrcodegen::QrCode::encodeText( data.toUtf8().data() , qrcodegen::QrCode::Ecc::QUARTILE);
+    return QByteArray::fromStdString( qr.toSvgString(1) );
 }
 
