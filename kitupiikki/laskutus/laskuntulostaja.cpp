@@ -594,7 +594,7 @@ void LaskunTulostaja::tilisiirto(QPrinter *printer, QPainter *painter)
     koodifontti.setLetterSpacing(QFont::AbsoluteSpacing, 0.0);
     painter->setFont( koodifontti);
     QString koodi( code128() );
-    painter->drawText( QRectF( mm*20, mm*72, mm*100, mm*20), Qt::AlignCenter, koodi  );
+    painter->drawText( QRectF( mm*20, mm*72, mm*100, mm*13), Qt::AlignCenter, koodi  );
 
     painter->restore();
 }

@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>code128.ttf</file>
+        <file>code128_XL.ttf</file>
     </qresource>
 </RCC>

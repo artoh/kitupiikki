@@ -62,7 +62,7 @@ LaskutusSivu::LaskutusSivu() :
 
     connect(ui->laskutView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(valintaMuuttuu()));
 
-    QFontDatabase::addApplicationFont(":/code128.ttf");
+    QFontDatabase::addApplicationFont(":/code128_XL.ttf");
 
 }
 
