@@ -59,9 +59,9 @@ void Skripti::suorita()
                mihinYsi = Tili::ysiluku(mista, true);
 
 
-           for(int i = 0; i < kp()->tilit()->rowCount(QModelIndex()); i++)
+           for(int i = 0; i < tiliModel_->rowCount(QModelIndex()); i++)
            {
-               QModelIndex index = kp()->tilit()->index(i, 0);
+               QModelIndex index = tiliModel_->index(i, 0);
                int ysiluku = index.data(TiliModel::YsiRooli).toInt();
                if( ysiluku >= mistaYsi && ysiluku <= mihinYsi)
                {
@@ -69,17 +69,17 @@ void Skripti::suorita()
                    if( tiliMats.captured("lipo") == "+")
                    {
                        if( index.data(TiliModel::TilaRooli) == Tili::TILI_PIILOSSA )
-                           kp()->tilit()->setData(index, Tili::TILI_KAYTOSSA, TiliModel::TilaRooli);                       
+                           tiliModel_->setData(index, Tili::TILI_KAYTOSSA, TiliModel::TilaRooli);
                    }
                    else if(tiliMats.captured("lipo") == "-")
                    {
                        if( index.data(TiliModel::TilaRooli) != Tili::TILI_PIILOSSA)
-                           kp()->tilit()->setData(index, Tili::TILI_PIILOSSA, TiliModel::TilaRooli);
+                           tiliModel_->setData(index, Tili::TILI_PIILOSSA, TiliModel::TilaRooli);
                    }
                    else if(tiliMats.captured("lipo") == "*")
                    {
                        if( index.data(TiliModel::TilaRooli) != Tili::TILI_SUOSIKKI)
-                           kp()->tilit()->setData(index, Tili::TILI_SUOSIKKI, TiliModel::TilaRooli);
+                           tiliModel_->setData(index, Tili::TILI_SUOSIKKI, TiliModel::TilaRooli);
                    }
 
                    QString avain = tiliMats.captured("avain");
@@ -87,13 +87,13 @@ void Skripti::suorita()
                    {
                        QString arvo = tiliMats.captured("arvo");
                        if( avain == "T")
-                           kp()->tilit()->setData(index, arvo, TiliModel::TyyppiRooli );
+                           tiliModel_->setData(index, arvo, TiliModel::TyyppiRooli );
                        else
                        {
                             if( arvo.toInt())
-                                kp()->tilit()->jsonIndeksilla(i)->set(avain, arvo.toInt());
+                                tiliModel_->jsonIndeksilla(i)->set(avain, arvo.toInt());
                             else
-                                kp()->tilit()->jsonIndeksilla(i)->set(avain, arvo);
+                                tiliModel_->jsonIndeksilla(i)->set(avain, arvo);
                        }
                    }
 
@@ -112,24 +112,24 @@ void Skripti::suorita()
 
            if( oper == "+")
            {
-               QStringList lista = kp()->asetukset()->lista(avain);
+               QStringList lista = asetusModel_->lista(avain);
                lista.append(arvo);
-               kp()->asetukset()->aseta(avain,lista);
+               asetusModel_->aseta(avain,lista);
            }
            else if( oper == "-")
            {
-               QStringList lista = kp()->asetukset()->lista(avain);
+               QStringList lista = asetusModel_->lista(avain);
                lista.removeAll(arvo);
-               kp()->asetukset()->aseta(avain, lista);
+               asetusModel_->aseta(avain, lista);
            }
            else
            {
-               kp()->asetukset()->aseta(avain, arvo);
+               asetusModel_->aseta(avain, arvo);
            }
        }
 
     }
-    kp()->tilit()->tallenna(true);
+    tiliModel_->tallenna(true);
 
 }
 
