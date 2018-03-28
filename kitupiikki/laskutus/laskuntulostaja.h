@@ -80,6 +80,12 @@ protected:
      */
     QChar code128c(int koodattava) const;
 
+    /**
+     * @brief QR-koodi SVG-muodossa
+     * @return
+     */
+    QByteArray qrSvg() const;
+
 private:
     LaskuModel *model_;
 

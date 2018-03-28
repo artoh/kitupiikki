@@ -17,6 +17,8 @@
 
 #include "laskuntulostaja.h"
 #include "db/kirjanpito.h"
+#include "laskumodel.h"
+#include "nayukiQR/QrCode.hpp"
 
 #include <QDebug>
 #include <cmath>
@@ -605,5 +607,24 @@ QChar LaskunTulostaja::code128c(int koodattava) const
         return QChar( 32 + koodattava);
     else
         return QChar( 105 + koodattava);
+}
+
+QByteArray LaskunTulostaja::qrSvg() const
+{
+    // Esitettävä tieto
+    QString data("BCD\n001\n1\nSCT\n");
+
+    QString bic = LaskutModel::bicIbanilla(iban);
+    if( bic.isEmpty())
+        return QByteArray();
+    data.append(bic + "\n");
+    data.append(kp()->asetukset()->asetus("Nimi") + "\n");
+    data.append(iban + "\n");
+    data.append( QString("EUR%1.%2\n\n").arg( model_->laskunSumma() / 100 ).arg( model_->laskunSumma() % 100, 2, 10, QChar('0') ));
+    data.append(model_->viitenumero() + "\n\n");
+    data.append( QString("ReqdExctnDt/%1").arg( model_->erapaiva().toString(Qt::ISODate) ));
+
+    qrcodegen::QrCode qr = qrcodegen::QrCode::encodeText( data.toUtf8().data() , qrcodegen::QrCode::Ecc::MEDIUM);
+    return QByteArray::fromStdString( qr.toSvgString() );
 }
 
