@@ -129,6 +129,11 @@ public slots:
     void kirjaaLaskunmaksu();
 
     void paivitaTallennaPoistaNapit();
+
+    /**
+     * @brief Päivittää lukituksen ja alvin varoitukset
+     */
+    void paivitaVaroitukset() const;
 public:
     /**
      * @brief Jos kirjataan tiliotetta, tiliotetilin id

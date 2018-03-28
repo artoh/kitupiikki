@@ -84,7 +84,7 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( ui->tositePvmEdit, SIGNAL(editingFinished()), this, SLOT(pvmVaihtuu()));
 
     connect( ui->tositetyyppiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(vaihdaTositeTyyppi()));
-    connect( ui->tunnisteEdit, SIGNAL(textEdited(QString)), this, SLOT(paivitaTunnisteVari()));
+    connect( ui->tunnisteEdit, SIGNAL(textChanged(QString)), this, SLOT(paivitaTunnisteVari()));
     connect( ui->otsikkoEdit, SIGNAL(textEdited(QString)), model_, SLOT(asetaOtsikko(QString)));
     connect( ui->viennitView, SIGNAL(activated(QModelIndex)), this, SLOT( vientivwAktivoitu(QModelIndex)));
     connect( ui->viennitView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(vientiValittu()));
@@ -350,8 +350,32 @@ void KirjausWg::kirjaaLaskunmaksu()
 
 void KirjausWg::paivitaTallennaPoistaNapit()
 {
-    ui->tallennaButton->setEnabled( model()->muokattu() && model()->muokkausSallittu() );
+    ui->tallennaButton->setEnabled( model()->muokattu() && model()->muokkausSallittu() &&
+                                    model()->kelpaakoTunniste( ui->tunnisteEdit->text().toInt() ) );
     ui->poistaNappi->setEnabled( model()->muokattu() && model_->id() > -1 && model()->muokkausSallittu());
+}
+
+void KirjausWg::paivitaVaroitukset() const
+{
+    // Yhdistetty varoitusten näyttäjä
+    ui->varoKuva->setPixmap(QPixmap());
+    ui->varoTeksti->clear();
+
+    if( kp()->tilitpaatetty() >= kp()->tilikaudet()->kirjanpitoLoppuu() )
+    {
+        ui->varoKuva->setPixmap(QPixmap(":/pic/stop.png"));
+        ui->varoTeksti->setText( tr("Kirjanpidossa ei ole\navointa tilikautta."));
+    }
+    else if( kp()->tilitpaatetty() >= ui->tositePvmEdit->date() )
+    {
+        ui->varoKuva->setPixmap( QPixmap(":/pic/lukittu.png"));
+        ui->varoTeksti->setText( tr("Kirjanpito lukittu\n%1 saakka").arg(kp()->tilitpaatetty().toString("dd.MM.yyyy")));
+    }
+    else if( kp()->asetukset()->onko("AlvVelvollinen") && ui->tositePvmEdit->date() <= kp()->asetukset()->pvm("AlvIlmoitus") )
+    {
+        ui->varoTeksti->setText( tr("Alv-ilmoitus annettu\n%1 saakka").arg(kp()->asetukset()->pvm("AlvIlmoitus").toString("dd.MM.yyyy")));
+        ui->varoKuva->setPixmap( QPixmap(":/pic/vero.png"));
+    }
 }
 
 int KirjausWg::tiliotetiliId()
@@ -460,7 +484,7 @@ void KirjausWg::paivitaTunnisteVari()
         ui->tunnisteEdit->setStyleSheet("color: black;");
     else
         ui->tunnisteEdit->setStyleSheet("color: red;");
-
+    paivitaTallennaPoistaNapit();
 }
 
 void KirjausWg::lisaaLiite(const QString polku)
@@ -533,27 +557,7 @@ void KirjausWg::tiedotModelista()
         ui->tiliotealkaenEdit->setDate( model_->json()->date("TilioteAlkaa") );
         ui->tilioteloppuenEdit->setDate( model_->json()->date("TilioteLoppuu"));
     }
-
-    // Yhdistetty varoitusten näyttäjä
-    ui->varoKuva->setPixmap(QPixmap());
-    ui->varoTeksti->clear();
-
-    if( kp()->tilitpaatetty() >= kp()->tilikaudet()->kirjanpitoLoppuu() )
-    {
-        ui->varoKuva->setPixmap(QPixmap(":/pic/stop.png"));
-        ui->varoTeksti->setText( tr("Kirjanpidossa ei ole\navointa tilikautta."));
-    }
-    else if( kp()->tilitpaatetty() >= model_->pvm() )
-    {
-        ui->varoKuva->setPixmap( QPixmap(":/pic/lukittu.png"));
-        ui->varoTeksti->setText( tr("Kirjanpito lukittu\n%1 saakka").arg(kp()->tilitpaatetty().toString("dd.MM.yyyy")));
-    }
-    else if( kp()->asetukset()->onko("AlvVelvollinen") && model_->pvm() <= kp()->asetukset()->pvm("AlvIlmoitus") )
-    {
-        ui->varoTeksti->setText( tr("Alv-ilmoitus annettu\n%1 saakka").arg(kp()->asetukset()->pvm("AlvIlmoitus").toString("dd.MM.yyyy")));
-        ui->varoKuva->setPixmap( QPixmap(":/pic/vero.png"));
-    }
-
+    paivitaVaroitukset();
 }
 
 void KirjausWg::salliMuokkaus(bool sallitaanko)
@@ -654,6 +658,7 @@ void KirjausWg::pvmVaihtuu()
         ui->tunnisteEdit->setText( QString::number(model_->tunniste() ));
         ui->kausiLabel->setText( QString("/ %1").arg(kp()->tilikaudet()->tilikausiPaivalle(paiva).kausitunnus() ));
     }
+    paivitaVaroitukset();
 }
 
 void KirjausWg::naytaLiite()
