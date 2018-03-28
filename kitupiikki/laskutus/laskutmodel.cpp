@@ -199,3 +199,50 @@ void LaskutModel::maksa(int indeksi, int senttia)
         endRemoveRows();
     }
 }
+
+QString LaskutModel::bicIbanilla(const QString &iban)
+{
+
+    // Pitää olla suomalainen IBAN
+    if( !iban.startsWith("FI"))
+        return QString();
+
+    // Elokuun 2017 tilanteen mukaan
+    QString tunnus = iban.mid(4);
+
+    if( tunnus.startsWith("405") || tunnus.startsWith("497"))
+        return "HELSFIHH";  // Aktia Pankki
+    else if( tunnus.startsWith('8') )
+        return "DABAFIHH";  // Danske Bank
+    else if( tunnus.startsWith("34"))
+        return "DABAFIHX";
+    else if( tunnus.startsWith("31"))
+        return "HANDFIHH";  // Handelsbanken
+    else if( tunnus.startsWith('1') || tunnus.startsWith('2'))
+        return "NDEAFIHH";  // Nordea
+    else if( tunnus.startsWith('5'))
+        return "OKOYFIHH";  // Osuuspankit
+    else if( tunnus.startsWith("39") || tunnus.startsWith("36"))
+        return "SBANFIHH";  // S-Pankki
+    else if( tunnus.startsWith('6'))
+        return "AABAFI22";  // Ålandsbanken
+    else if( tunnus.startsWith("47") )
+        return "POPFFI22"; // POP Pankit
+    else if( tunnus.startsWith("715") || tunnus.startsWith('4'))
+        return "ITELFIHH"; // Säästöpankkiryhmä
+    else if( tunnus.startsWith("717"))
+        return "BIGKFIH1";
+    else if( tunnus.startsWith("713"))
+        return "CITIFIHX";
+    else if( tunnus.startsWith("37"))
+        return "DNBAFIHX";
+    else if( tunnus.startsWith("799"))
+        return "HOLVFIHH";
+    else if( tunnus.startsWith("33"))
+        return "ESSEFIHX";
+    else if( tunnus.startsWith("38"))
+        return "SWEDFIHH";
+
+    // Tuntematon pankkikoodi
+    return QString();
+}

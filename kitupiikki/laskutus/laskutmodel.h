@@ -84,6 +84,14 @@ public slots:
      */
     void maksa(int indeksi, int senttia);
 
+public:
+    /**
+     * @brief Palauttaa BIC-koodin suomalaisella IBAN-tilinumerolla
+     * @param iban IBAN-tilinumero
+     * @return
+     */
+    static QString bicIbanilla(const QString& iban);
+
 private:
     QList<AvoinLasku> laskut;
 
