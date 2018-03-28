@@ -134,7 +134,10 @@ SOURCES += main.cpp \
     uusikp/skripti.cpp \
     tools/devtool.cpp \
     lisaikkuna.cpp \
-    kirjaus/apurivinkki.cpp
+    kirjaus/apurivinkki.cpp \
+    laskutus/nayukiQR/BitBuffer.cpp \
+    laskutus/nayukiQR/QrCode.cpp \
+    laskutus/nayukiQR/QrSegment.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -251,7 +254,10 @@ HEADERS += \
     uusikp/skripti.h \
     tools/devtool.h \
     lisaikkuna.h \
-    kirjaus/apurivinkki.h
+    kirjaus/apurivinkki.h \
+    laskutus/nayukiQR/BitBuffer.hpp \
+    laskutus/nayukiQR/QrCode.hpp \
+    laskutus/nayukiQR/QrSegment.hpp
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
