@@ -107,6 +107,7 @@ void KohdennusDialog::tallenna()
     {
         // Tallennetaan uusi
         Kohdennus uusi(tyyppi, ui->nimiEdit->text());
+        uusi.asetaId(-1);   // Merkitään uusi kohdennus
         if( ui->maaraaikainenCheck->isChecked())
         {
             uusi.asetaAlkaa( ui->alkaaDate->date());

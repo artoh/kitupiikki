@@ -155,7 +155,7 @@ protected:
 
     QVector< QMap< int, qlonglong> > data_;    // ysiluku, sentit
     QMap<int,bool> tilitKaytossa_;           // ysiluku
-    QMap<int,bool> kohdennusKaytossa_;       // kohdennusId
+    std::list<int> kohdennusKaytossa_;       // kohdennusId
 
 
 };
