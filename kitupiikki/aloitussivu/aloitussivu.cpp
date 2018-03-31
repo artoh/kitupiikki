@@ -182,8 +182,8 @@ void AloitusSivu::linkki(const QUrl &linkki)
             emit ktpkasky(toiminto);
     }
     else if( linkki.scheme().startsWith("http"))
-    {
-        QDesktopServices::openUrl( linkki );
+    {        
+        Kirjanpito::avaaUrl( linkki );
     }
 }
 

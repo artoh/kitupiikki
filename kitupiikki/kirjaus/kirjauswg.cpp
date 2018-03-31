@@ -664,7 +664,7 @@ void KirjausWg::pvmVaihtuu()
 void KirjausWg::naytaLiite()
 {
     if( ui->liiteView->currentIndex().isValid())
-        QDesktopServices::openUrl( QUrl::fromLocalFile( ui->liiteView->currentIndex().data(LiiteModel::PolkuRooli).toString() ) );
+        Kirjanpito::avaaUrl( QUrl::fromLocalFile( ui->liiteView->currentIndex().data(LiiteModel::PolkuRooli).toString() ) );
 
 }
 

@@ -154,7 +154,7 @@ void LaskunMaksuDialogi::naytaLasku()
     QString liite = index.data(LaskutModel::LiiteRooli).toString();
     if(!liite.isEmpty())
     {
-        QDesktopServices::openUrl( QUrl( LiiteModel::liiteNimella(liite) ) );
+        Kirjanpito::avaaUrl( QUrl( LiiteModel::liiteNimella(liite) ) );
     }
 }
 

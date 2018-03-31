@@ -122,7 +122,7 @@ void Raportti::esikatsele()
     raportti().tulosta( &tulostin, &painter, raitaCheck->isChecked());
     painter.end();
 
-    QDesktopServices::openUrl( QUrl(tiedosto) );
+    Kirjanpito::avaaUrl( QUrl(tiedosto) );
 }
 
 void Raportti::avaaHtml()
@@ -139,7 +139,7 @@ void Raportti::avaaHtml()
     out << raportti().html();
     tiedosto.close();
 
-    QDesktopServices::openUrl( QUrl(tiedostonnimi) );
+    Kirjanpito::avaaUrl( QUrl(tiedostonnimi) );
 }
 
 void Raportti::vieCsv()

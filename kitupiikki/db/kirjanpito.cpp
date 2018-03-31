@@ -91,7 +91,29 @@ void Kirjanpito::ohje(const QString &ohjesivu)
 {
     QString osoite("https://artoh.github.io/kitupiikki/");
     osoite.append(ohjesivu);
-    QDesktopServices::openUrl( QUrl(osoite));
+    if(!QDesktopServices::openUrl( QUrl(osoite)))
+        QMessageBox::critical(0, tr("Ohjeen näyttäminen epäonnistui"),
+                              tr("Kitupiikki ei saanut käynnistettyä selainta ohjeen näyttämiseksi. Onhan järjestelmässäsi "
+                                 "määritelty oletusselain avaamaan internet-sivuja?\n\n"
+                                 "Ohjelman ohjeet löytyvät sivulta https://artoh.github.io/kitupiikki"));
+}
+
+void Kirjanpito::avaaUrl(const QUrl &url)
+{
+    if( !QDesktopServices::openUrl(url) )
+    {
+        if( url.fileName().endsWith("pdf"))
+            QMessageBox::critical(0, tr("Pdf-lukijan käynnistäminen epäonnistui"),
+                                  tr("Kitupiikki ei saanut käynnistettyä pdf-lukuohjelmaa ohjeen näyttämiseksi. Onhan järjestelmässäsi "
+                                     "määritelty ohjelma avaamaan pdf-tiedostoja?\n\n"));
+        else if( url.fileName().endsWith("html"))
+            QMessageBox::critical(0, tr("Selaimen käynnistäminen epäonnistui"),
+                                  tr("Kitupiikki ei saanut käynnistettyä selainta tiedoston näyttämiseksi. Onhan järjestelmässäsi "
+                                     "määritelty oletusselain avaamaan internet-sivuja?\n\n"));
+        else
+            QMessageBox::critical(0, tr("Tiedoston näyttäminen epäonnistui"),
+                                  tr("Kitupiikki ei saanut käynnistettyä ulkoista ohjelmaa tiedoston %1 näyttämiseksi.").arg(url.fileName()));
+    }
 }
 
 bool Kirjanpito::onkoMaksuperusteinenAlv(const QDate &paiva) const

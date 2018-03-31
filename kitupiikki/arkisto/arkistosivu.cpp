@@ -111,7 +111,7 @@ void ArkistoSivu::arkisto()
         }
         // Avataan arkistoi
 
-        QDesktopServices::openUrl( QUrl::fromLocalFile( kp()->hakemisto().absoluteFilePath("arkisto/" + kausi.arkistoHakemistoNimi()) + "/index.html" ));
+        Kirjanpito::avaaUrl( QUrl::fromLocalFile( kp()->hakemisto().absoluteFilePath("arkisto/" + kausi.arkistoHakemistoNimi()) + "/index.html" ));
 
     }
 }
@@ -233,7 +233,7 @@ void ArkistoSivu::tilinpaatos()
         if( kausi.tilinpaatoksenTila() == Tilikausi::VAHVISTETTU )
         {
             // Avataan tilinpäätös
-            QDesktopServices::openUrl( QUrl::fromLocalFile( kp()->hakemisto().absoluteFilePath("arkisto/" + kausi.arkistoHakemistoNimi()) + "/tilinpaatos.pdf" ));
+            Kirjanpito::avaaUrl( QUrl::fromLocalFile( kp()->hakemisto().absoluteFilePath("arkisto/" + kausi.arkistoHakemistoNimi()) + "/tilinpaatos.pdf" ));
         }
         else
         {
