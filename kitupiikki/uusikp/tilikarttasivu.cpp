@@ -86,7 +86,8 @@ void TilikarttaSivu::lataaTiedostosta()
     QString tnimi = QFileDialog::getOpenFileName(this,
                                                  "Valitse tilikartta",
                                                  QDir::homePath(),
-                                                 "Tilikartta (*.kpk)");
+                                                 "Tilikartta (*.kpk)",
+                                                 0, QFileDialog::DontUseNativeDialog);
     if( !tnimi.isEmpty() )
     {
         valitseTilikartta(tnimi);

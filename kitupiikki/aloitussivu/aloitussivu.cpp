@@ -200,7 +200,8 @@ void AloitusSivu::uusiTietokanta()
 void AloitusSivu::avaaTietokanta()
 {
     QString polku = QFileDialog::getOpenFileName(this, "Avaa kirjanpito",
-                                                 QDir::homePath(),"Kirjanpito (kitupiikki.sqlite)");
+                                                 QDir::homePath(),"Kirjanpito (kitupiikki.sqlite)",0,
+                                                 QFileDialog::DontUseNativeDialog );
     if( !polku.isEmpty())
         Kirjanpito::db()->avaaTietokanta(polku);
 

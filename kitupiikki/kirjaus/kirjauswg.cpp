@@ -510,7 +510,7 @@ void KirjausWg::lisaaLiite(const QString polku)
 
 void KirjausWg::lisaaLiite()
 {
-    lisaaLiite(QFileDialog::getOpenFileName(this, tr("Lisää liite"),QString(),tr("Pdf-tiedosto (*.pdf);;Kuvat (*.png *.jpg);;CSV-tiedosto (*.csv)")));
+    lisaaLiite(QFileDialog::getOpenFileName(this, tr("Lisää liite"),QString(),tr("Pdf-tiedosto (*.pdf);;Kuvat (*.png *.jpg);;CSV-tiedosto (*.csv)"),0,QFileDialog::DontUseNativeDialog));
 }
 
 
