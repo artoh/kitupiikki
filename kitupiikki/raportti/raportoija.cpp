@@ -78,20 +78,32 @@ RaportinKirjoittaja Raportoija::raportti(bool tulostaErittelyt)
     }
     else if( tyyppi() == KOHDENNUSLASKELMA )
     {
-        QMapIterator<int,bool> iter(kohdennusKaytossa_);
+        // Lajitellaan kohdennukset aakkosiin
+        // kohdennuksen nimen mukaan mutta kuintekin niin, että Yleinen on alussa
 
-        while( iter.hasNext())
+        kohdennusKaytossa_.sort( [](int &a, int &b)     {
+                                                Kohdennus ka = kp()->kohdennukset()->kohdennus(a);
+                                                Kohdennus kb = kp()->kohdennukset()->kohdennus(b);
+                                                if( ka.tyyppi() == Kohdennus::EIKOHDENNETA)
+                                                    return true;
+                                                else if(kb.tyyppi() == Kohdennus::EIKOHDENNETA)
+                                                    return false;
+                                                else
+                                                    return ka.nimi().localeAwareCompare( kb.nimi() ) < 0;
+                                            });
+        kohdennusKaytossa_.unique();    // Poistetaan tuplat
+
+
+        for( int kohdennusId : kohdennusKaytossa_)
         {
-            iter.next();
+            Kohdennus kohdennus = kp()->kohdennukset()->kohdennus( kohdennusId );
 
-            Kohdennus kohdennus = kp()->kohdennukset()->kohdennus( iter.key() );
             RaporttiRivi rr;
             rr.lihavoi();
             rr.lisaa( kohdennus.nimi().toUpper() );
             rk.lisaaRivi(rr);
 
-            laskeKohdennusData( iter.key() );
-
+            laskeKohdennusData( kohdennus.id() );
 
             kirjoitaDatasta(rk, tulostaErittelyt);
             rk.lisaaRivi( RaporttiRivi());
@@ -497,11 +509,11 @@ void Raportoija::etsiKohdennukset()
         QSqlQuery kysely(kysymys);
 
         while( kysely.next())
-            kohdennusKaytossa_.insert( kysely.value(0).toInt(), true);
+            kohdennusKaytossa_.push_back( kysely.value(0).toInt());
     }
 }
 
 void Raportoija::lisaaKohdennus(int kohdennusId)
 {
-    kohdennusKaytossa_.insert( kohdennusId, true);
+    kohdennusKaytossa_.push_back( kohdennusId);
 }

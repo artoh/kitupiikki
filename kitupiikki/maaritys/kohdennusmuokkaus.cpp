@@ -63,13 +63,6 @@ bool KohdennusMuokkaus::nollaa()
     ui->view->setColumnWidth(2, (ui->view->width()-10)/4 );
     ui->view->horizontalHeader()->setStretchLastSection(true);
 
-    // Piilotetaan systeemirivi
-    for(int i=0; i < model->rowCount( QModelIndex() ); i++)
-    {
-        if( model->data( model->index(i,0), KohdennusModel::TyyppiRooli ) == Kohdennus::EIKOHDENNETA)
-            ui->view->setRowHidden(i, true);
-    }
-
     return true;
 }
 

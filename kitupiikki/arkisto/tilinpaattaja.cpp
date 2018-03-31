@@ -155,7 +155,7 @@ void TilinPaattaja::muokkaa()
 
 void TilinPaattaja::esikatsele()
 {
-    QDesktopServices::openUrl( QUrl::fromLocalFile( kp()->hakemisto().absoluteFilePath("arkisto/" + tilikausi.arkistoHakemistoNimi() + "/tilinpaatos.pdf") ));
+    Kirjanpito::avaaUrl( QUrl::fromLocalFile( kp()->hakemisto().absoluteFilePath("arkisto/" + tilikausi.arkistoHakemistoNimi() + "/tilinpaatos.pdf") ));
 }
 
 void TilinPaattaja::vahvista()

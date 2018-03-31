@@ -177,7 +177,7 @@ void LaskuDialogi::esikatsele()
 
     tulostaja->kirjoitaPdf(tiedosto);
 
-    QDesktopServices::openUrl( QUrl(tiedosto) );
+    Kirjanpito::avaaUrl( QUrl(tiedosto) );
 }
 
 void LaskuDialogi::perusteVaihtuu()

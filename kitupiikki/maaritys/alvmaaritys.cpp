@@ -115,7 +115,7 @@ void AlvMaaritys::naytaIlmoitus()
     TositeModel tosite( kp()->tietokanta());
     tosite.lataa(tositeId);
     QString polku = tosite.liiteModel()->liitePolku(1);
-    QDesktopServices::openUrl( QUrl( polku ) );
+    Kirjanpito::avaaUrl(  QUrl( polku ) );
 
 
 }
@@ -128,7 +128,7 @@ void AlvMaaritys::naytaErittely()
     TositeModel tosite( kp()->tietokanta());
     tosite.lataa(tositeId);
     QString polku = tosite.liiteModel()->liitePolku(2);
-    QDesktopServices::openUrl( QUrl( polku ) );
+    Kirjanpito::avaaUrl( QUrl( polku ) );
 }
 
 void AlvMaaritys::riviValittu()

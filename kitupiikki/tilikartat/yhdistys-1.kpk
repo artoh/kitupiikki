@@ -344,9 +344,9 @@ C 7300 {} Myyntitulot, varainhankinta
 C 7310 {} Jäsenmaksutulot
 C 7390 {} Muut varainhankinnan tulot
 H4 74 {"Asti":79} Varainhankinnan menot
-C 7400 {} Ostot, myytävät tuotteet
-C 7410 {} Jäsenmaksukulut
-C 7490 {} Muut varainhankinnan kulut
+D 7400 {} Ostot, myytävät tuotteet
+D 7410 {} Jäsenmaksukulut
+D 7490 {} Muut varainhankinnan kulut
 H4 75 {} Varainhankinnan henkilöstökulut
 D 7500 {} Varainhankinnan palkat
 D 7502 {} Varainhankinnan lisät ja korvaukset
@@ -575,10 +575,17 @@ Onko yhdistyksellä liiketoimintaa
 [Raportti/Toiminnanalat]
 :kohdennus
 Toimintatulot	S 3 *
-Kulut	S 5..51,6,42..46 ==
-Henkilöstökulut	5..51 * s4
-Poistot	6 * s4
-Muut kulut	42..46 * s4
+Toimintakulut	S 4..6 * ==
+Henkilöstökulut	5 * s4
+Poistot 6 * s4
+Muut kulut	4 * s4
+
+Varainhankinta 7
+Liiketoiminnan tulot 703 *
+Liiketoiminnan kulut 704..709 *
+Varainhankinnan tulot 73 *
+Varainhankinnan kulut 74..79 *
+
 Toiminnanala yhteensä	= viiva
 
 

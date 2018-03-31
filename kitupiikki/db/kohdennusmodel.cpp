@@ -141,7 +141,7 @@ QString KohdennusModel::nimi(int id) const
     return kohdennus(id).nimi();
 }
 
-Kohdennus KohdennusModel::kohdennus(int id) const
+Kohdennus KohdennusModel::kohdennus(const int id) const
 {
     foreach (Kohdennus projekti, kohdennukset_)
     {

@@ -98,7 +98,8 @@ bool Perusvalinnat::nollaa()
 
 void Perusvalinnat::vaihdaLogo()
 {
-    QString tiedostopolku = QFileDialog::getOpenFileName(this,"Valitse logo", QDir::homePath(),"Kuvatiedostot (*.png *.jpg)" );
+    QString tiedostopolku = QFileDialog::getOpenFileName(this,"Valitse logo", QDir::homePath(),"Kuvatiedostot (*.png *.jpg)",
+                                                         0, QFileDialog::DontUseNativeDialog  );
     if( !tiedostopolku.isEmpty())
     {
         uusilogo.load( tiedostopolku );

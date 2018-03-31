@@ -61,7 +61,7 @@ public:
     bool setData(const QModelIndex &index, const QVariant &value, int role);
 
     QString nimi(int id) const;
-    Kohdennus kohdennus(int id) const;
+    Kohdennus kohdennus(const int id) const;
     Kohdennus kohdennus(const QString& nimi) const;
     QList<Kohdennus> kohdennukset() const;
 

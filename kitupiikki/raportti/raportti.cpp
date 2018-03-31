@@ -122,7 +122,7 @@ void Raportti::esikatsele()
     raportti().tulosta( &tulostin, &painter, raitaCheck->isChecked());
     painter.end();
 
-    QDesktopServices::openUrl( QUrl(tiedosto) );
+    Kirjanpito::avaaUrl( QUrl(tiedosto) );
 }
 
 void Raportti::avaaHtml()
@@ -139,13 +139,14 @@ void Raportti::avaaHtml()
     out << raportti().html();
     tiedosto.close();
 
-    QDesktopServices::openUrl( QUrl(tiedostonnimi) );
+    Kirjanpito::avaaUrl( QUrl(tiedostonnimi) );
 }
 
 void Raportti::vieCsv()
 {
     QString polku = QFileDialog::getSaveFileName(this, tr("Vie csv-tiedostoon"),
-                                                 QDir::homePath(), "csv-tiedosto (csv.*)");
+                                                 QDir::homePath(), "csv-tiedosto (csv.*)",
+                                                 0, QFileDialog::DontUseNativeDialog);
     if( !polku.isEmpty())
     {
         QFile tiedosto( polku );

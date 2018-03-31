@@ -184,6 +184,16 @@ public:
     void ohje(const QString& ohjesivu = QString());
 
     /**
+     * @brief Avaa url:n QDesktopServicellä
+     *
+     * Mahdollisten virhetilanteiden takia tehty käärefunktio, joka pyrkii QDesktopServices::openUrl()-funktiolla avaamaan
+     * annetun urlin ja ellei se onnistu, näyttää virheilmoituksen
+     *
+     * @param url QUrl sijaintiin
+     */
+    static void avaaUrl(const QUrl &url);
+
+    /**
      * @brief Tilapäistiedoston polku
      * @param Tilapäistiedoston nimi
      * @return

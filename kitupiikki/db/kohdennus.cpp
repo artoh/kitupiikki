@@ -22,7 +22,7 @@
 
 
 Kohdennus::Kohdennus(int tyyppi, const QString &nimi) :
-    id_(-1), tyyppi_(tyyppi), nimi_(nimi), muokattu_(true)
+    id_(0), tyyppi_(tyyppi), nimi_(nimi), muokattu_(true)
 {
 
 }
