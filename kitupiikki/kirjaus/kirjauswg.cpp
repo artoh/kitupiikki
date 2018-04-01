@@ -15,6 +15,20 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QDebug>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QMessageBox>
+#include <QIntValidator>
+#include <QFileDialog>
+#include <QDesktopServices>
+#include <QUrl>
+
+#include <QShortcut>
+#include <QSettings>
+
+#include <QSortFilterProxyModel>
+
 #include "kirjauswg.h"
 #include "tilidelegaatti.h"
 #include "eurodelegaatti.h"
@@ -30,20 +44,8 @@
 
 #include "tuonti/tuonti.h"
 #include "apurivinkki.h"
+#include "ui_numerosiirto.h"
 
-#include <QDebug>
-#include <QSqlQuery>
-#include <QSqlError>
-#include <QMessageBox>
-#include <QIntValidator>
-#include <QFileDialog>
-#include <QDesktopServices>
-#include <QUrl>
-
-#include <QShortcut>
-#include <QSettings>
-
-#include <QSortFilterProxyModel>
 
 KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     : QWidget(parent), model_(tositeModel), laskuDlg_(0), apurivinkki_(0)
@@ -378,6 +380,37 @@ void KirjausWg::paivitaVaroitukset() const
     }
 }
 
+void KirjausWg::numeroSiirto()
+{
+    QDialog dlg;
+    Ui::NumeroSiirtoDialog dui;
+    dui.setupUi(&dlg);
+
+    Tilikausi kausi = kp()->tilikaudet()->tilikausiPaivalle( ui->tositePvmEdit->date());
+
+    dui.tilikausiLabel->setText( kausi.kausivaliTekstina() );
+    dui.lajiLabel->setText( ui->tositetyyppiCombo->currentText() );
+    dui.alkuSpin->setMaximum( model_->seuraavaTunnistenumero() );
+    dui.alkuSpin->setValue( ui->tunnisteEdit->text().toInt() );
+
+    if( dlg.exec() == QDialog::Accepted )
+    {
+        // Siirretään tunnistenumeroita eteenpäin
+
+        QString kasky = QString("UPDATE tosite SET tosite = tosite + %1 WHERE laji = %2 AND tosite >= %3 AND pvm BETWEEN '%4' AND '%5")
+                .arg( dui.lisaaSpin->value() )
+                .arg( ui->tositetyyppiCombo->currentData(TositelajiModel::IdRooli) )
+                .arg( dui.alkuSpin->value())
+                .arg( kausi.alkaa().toString(Qt::ISODate) )
+                .arg( kausi.paattyy().toString(Qt::ISODate));
+
+        QSqlQuery(kasky);
+
+        paivitaTunnisteVari();
+    }
+
+}
+
 int KirjausWg::tiliotetiliId()
 {
     if( !ui->tilioteBox->isChecked())
@@ -480,10 +513,15 @@ void KirjausWg::paivitaKommenttiMerkki()
 
 void KirjausWg::paivitaTunnisteVari()
 {
-    if( model_->kelpaakoTunniste( ui->tunnisteEdit->text().toInt() ))
+    bool kelpaako = model_->kelpaakoTunniste( ui->tunnisteEdit->text().toInt()) ;
+
+    if( kelpaako)
         ui->tunnisteEdit->setStyleSheet("color: black;");
     else
         ui->tunnisteEdit->setStyleSheet("color: red;");
+
+    ui->siiraNumerotBtn->setVisible( !kelpaako );
+
     paivitaTallennaPoistaNapit();
 }
 

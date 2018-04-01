@@ -330,7 +330,8 @@ FORMS += \
     tuonti/tilimuuntodlg.ui \
     tools/devtool.ui \
     maaritys/maksuperusteinen.ui \
-    kirjaus/apurivinkki.ui
+    kirjaus/apurivinkki.ui \
+    kirjaus/numerosiirto.ui
 
 DISTFILES += \
     uusikp/luo.sql \

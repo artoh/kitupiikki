@@ -101,6 +101,7 @@
         <file>ristinolla.png</file>
         <file>laiva.png</file>
         <file>apuri64.png</file>
+        <file>siirto.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

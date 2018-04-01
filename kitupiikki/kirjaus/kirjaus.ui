@@ -353,6 +353,17 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="siiraNumerotBtn">
+       <property name="text">
+        <string>Siirrä numeroita</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/siirto.png</normaloff>:/pic/siirto.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer_5">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -415,8 +426,8 @@
         <string>Tallenna</string>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>../pic/ok.png</normaloff>../pic/ok.png</iconset>
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/tiedostoon.png</normaloff>:/pic/tiedostoon.png</iconset>
        </property>
        <property name="shortcut">
         <string>F12</string>

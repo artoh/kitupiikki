@@ -134,6 +134,14 @@ public slots:
      * @brief Päivittää lukituksen ja alvin varoitukset
      */
     void paivitaVaroitukset() const;
+
+    /**
+     * @brief Siirtää tositteiden numeroita eteenpäin
+     *
+     * #117
+     */
+    void numeroSiirto();
+
 public:
     /**
      * @brief Jos kirjataan tiliotetta, tiliotetilin id
