@@ -48,6 +48,8 @@ LaskuValintaWidget::LaskuValintaWidget()
     connect(ui->seuraavaLasku, SIGNAL(valueChanged(int)), this, SLOT(ilmoitaMuokattu()));
     connect(ui->tiliCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(ilmoitaMuokattu()));
     connect(ui->tiliCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(tiliIlmoitus()));
+    connect(ui->viivakoodiCheck, SIGNAL(clicked(bool)), this, SLOT(ilmoitaMuokattu()));
+    connect(ui->qrCheck, SIGNAL(clicked(bool)), this, SLOT(ilmoitaMuokattu()));
 
 
 }
@@ -68,6 +70,9 @@ bool LaskuValintaWidget::nollaa()
     ui->huomautusaikaEdit->setText( kp()->asetus("LaskuHuomautusaika"));
     ui->viivastyskorkoEdit->setText( kp()->asetus("LaskuViivastyskorko"));
     ui->seuraavaLasku->setValue( kp()->asetukset()->luku("LaskuSeuraavaId", 1000));
+
+    ui->viivakoodiCheck->setChecked( !kp()->asetukset()->onko("LaskuEiViivakoodi") );
+    ui->qrCheck->setChecked( !kp()->asetukset()->onko("LaskuEiQR"));
 
     for(int i=0; i < kp()->tilit()->rowCount(QModelIndex()); i++)
     {
@@ -99,6 +104,8 @@ bool LaskuValintaWidget::tallenna()
     kp()->asetukset()->aseta("LaskuViivastyskorko", ui->viivastyskorkoEdit->text());
     kp()->asetukset()->aseta("LaskuSeuraavaId", ui->seuraavaLasku->value());
     kp()->asetukset()->aseta("LaskuTili", ui->tiliCombo->currentData().toInt() );
+    kp()->asetukset()->aseta("LaskuEiViivakoodi", !ui->viivakoodiCheck->isChecked());
+    kp()->asetukset()->aseta("LaskuEiQR", !ui->qrCheck->isChecked());
 
 
     return true;
@@ -114,6 +121,8 @@ bool LaskuValintaWidget::onkoMuokattu()
             ui->huomautusaikaEdit->text() != kp()->asetukset()->asetus("LaskuHuomautusaika") ||
             ui->viivastyskorkoEdit->text() != kp()->asetukset()->asetus("LaskuViivastyskorko") ||
             ui->seuraavaLasku->value() != kp()->asetukset()->luku("LaskuSeuraavaId") ||
+            ui->viivakoodiCheck->isChecked() == kp()->asetukset()->onko("LaskuEiViivakoodi") ||
+            ui->qrCheck->isChecked() == kp()->asetukset()->onko("LaskuEiQR") ||
             ( ui->tiliCombo->currentData().toInt() != kp()->asetukset()->luku("LaskuTili")
             && !ui->tiliCombo->currentText().isEmpty() );
 

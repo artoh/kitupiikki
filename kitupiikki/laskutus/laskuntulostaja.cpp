@@ -100,8 +100,7 @@ QString LaskunTulostaja::html()
 
     if( model_->kirjausperuste() != LaskuModel::KATEISLASKU && !model_->hyvityslasku().viitenro)
     {
-        txt.append(tr("<tr><td>IBAN</td><td>%1</td></tr>").arg( iban) );
-        txt.append(tr("<tr><td>Virtuaaliviivakoodi</td><td>%1</td></tr>").arg( virtuaaliviivakoodi()) );
+        txt.append(tr("<tr><td>IBAN</td><td>%1</td></tr>").arg( iban) );        
     }
 
 
@@ -180,7 +179,13 @@ QString LaskunTulostaja::html()
 
     }
 
-    txt.append( tr("<hr>Y-tunnus %1<br>Puhelin %2").arg(kp()->asetukset()->asetus("Ytunnus")).arg(kp()->asetukset()->asetus("Puhelin")) );
+    if( virtuaaliviivakoodi().length() > 50)
+        txt.append(tr("<hr>Virtuaaliviivakoodi <b>%1</b>").arg( virtuaaliviivakoodi()) );
+
+    if( kp()->asetukset()->asetus("Ytunnus").length())
+        txt.append(tr("<hr>Y-tunnus %1<b>").arg(kp()->asetukset()->asetus("Ytunnus")));
+    if( kp()->asetukset()->asetus("Puhelin").length())
+        txt.append(tr("Puhelin %2").arg(kp()->asetukset()->asetus("Puhelin")));
 
     txt.append("</body></html>");
 
@@ -524,11 +529,14 @@ void LaskunTulostaja::tilisiirto(QPrinter *printer, QPainter *painter)
     double mm = printer->width() * 1.00 / printer->widthMM();
 
     // QR-koodi
-    QByteArray qrTieto = qrSvg();
-    if( !qrTieto.isEmpty())
+    if( !kp()->asetukset()->onko("LaskuEiQR"))
     {
-        QSvgRenderer qrr( qrTieto );
-        qrr.render( painter, QRectF( ( printer->widthMM() - 35 ) *mm, 5 * mm, 30 * mm, 30 * mm  ) );
+        QByteArray qrTieto = qrSvg();
+        if( !qrTieto.isEmpty())
+        {
+            QSvgRenderer qrr( qrTieto );
+            qrr.render( painter, QRectF( ( printer->widthMM() - 35 ) *mm, 5 * mm, 30 * mm, 30 * mm  ) );
+        }
     }
 
     painter->drawText( QRectF(0,0,mm*19,mm*16.9), Qt::AlignRight | Qt::AlignHCenter, tr("Saajan\n tilinumero\n Mottagarens\n kontonummer"));
@@ -588,15 +596,18 @@ void LaskunTulostaja::tilisiirto(QPrinter *printer, QPainter *painter)
     painter->restore();
 
     // Viivakoodi
-    painter->save();
+    if( !kp()->asetukset()->onko("LaskuEiViivakoodi"))
+    {
+        painter->save();
 
-    QFont koodifontti( "code128_XL", 36);
-    koodifontti.setLetterSpacing(QFont::AbsoluteSpacing, 0.0);
-    painter->setFont( koodifontti);
-    QString koodi( code128() );
-    painter->drawText( QRectF( mm*20, mm*72, mm*100, mm*13), Qt::AlignCenter, koodi  );
+        QFont koodifontti( "code128_XL", 36);
+        koodifontti.setLetterSpacing(QFont::AbsoluteSpacing, 0.0);
+        painter->setFont( koodifontti);
+        QString koodi( code128() );
+        painter->drawText( QRectF( mm*20, mm*72, mm*100, mm*13), Qt::AlignCenter, koodi  );
 
-    painter->restore();
+        painter->restore();
+    }
 }
 
 QString LaskunTulostaja::code128() const

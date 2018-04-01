@@ -139,13 +139,6 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item>
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
       <string>Laskuille tulostuva pankkitili</string>
@@ -161,13 +154,27 @@
       <item row="1" column="1">
        <widget class="QComboBox" name="tiliCombo"/>
       </item>
+      <item row="2" column="1">
+       <widget class="QLabel" name="syotaIbanLabel">
+        <property name="text">
+         <string>Tilin IBAN-numero on syötettävä Tilikartan määrityksissä.</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="syotaIbanLabel">
+    <widget class="QCheckBox" name="viivakoodiCheck">
      <property name="text">
-      <string>Tilin IBAN-numero on syötettävä Tilikartan määrityksissä.</string>
+      <string>Tulosta pankkiviivakoodi</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="qrCheck">
+     <property name="text">
+      <string>Tulosta QR-koodi</string>
      </property>
     </widget>
    </item>
