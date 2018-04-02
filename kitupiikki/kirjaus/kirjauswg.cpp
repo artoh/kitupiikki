@@ -77,6 +77,7 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( ui->apuriNappi, SIGNAL(clicked(bool)), this, SLOT(kirjausApuri()));
     connect( ui->laskuNappi, SIGNAL(clicked(bool)), this, SLOT(kirjaaLaskunmaksu()));
     connect( ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poistaTosite()));
+    connect( ui->siiraNumerotBtn, SIGNAL(clicked(bool)), this, SLOT(numeroSiirto()));
 
     ui->tositetyyppiCombo->setModel( Kirjanpito::db()->tositelajit());
     ui->tositetyyppiCombo->setModelColumn( TositelajiModel::NIMI);
@@ -397,14 +398,14 @@ void KirjausWg::numeroSiirto()
     {
         // Siirretään tunnistenumeroita eteenpäin
 
-        QString kasky = QString("UPDATE tosite SET tosite = tosite + %1 WHERE laji = %2 AND tosite >= %3 AND pvm BETWEEN '%4' AND '%5")
+        QString kasky = QString("UPDATE tosite SET tunniste = tunniste + %1 WHERE laji = %2 AND tunniste >= %3 AND pvm BETWEEN '%4' AND '%5'")
                 .arg( dui.lisaaSpin->value() )
-                .arg( ui->tositetyyppiCombo->currentData(TositelajiModel::IdRooli) )
+                .arg( ui->tositetyyppiCombo->currentData(TositelajiModel::IdRooli).toInt() )
                 .arg( dui.alkuSpin->value())
                 .arg( kausi.alkaa().toString(Qt::ISODate) )
                 .arg( kausi.paattyy().toString(Qt::ISODate));
 
-        QSqlQuery(kasky);
+        QSqlQuery kysely(kasky);
 
         paivitaTunnisteVari();
     }
