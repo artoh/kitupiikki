@@ -170,37 +170,41 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
             case KOHDENNUS:
                 if( role == Qt::DisplayRole)
                 {
+                    QString txt;    // Näytettävä kohdennusteksti
+                                    // Jos sekä tase-erä että kohdennus, näkyy kohdennus alemmalla rivillä
                     // Tase-erät näytetään samalla sarakkeella
                     if( rivi.eraId )
                     {
                         TaseEra era(rivi.eraId);                      
-                        return QVariant( tr("%1/%2").arg( era.tositteenTunniste() ).arg(era.pvm.toString("dd.MM.yyyy")) );
+                        txt =  tr("%1/%2").arg( era.tositteenTunniste() ).arg(era.pvm.toString("dd.MM.yyyy")) ;
                     }
                     else if( rivi.json.luku("Tasaerapoisto") )
                     {
                         // Samaan paikkaan tulee myös tieto tasapoistosta
                         int kk = rivi.json.luku("Tasaerapoisto");
                         if( kk % 12)
-                            return QVariant( tr("Tasaerapoisto %1 v %2 kk").arg(kk / 12).arg(kk % 12) );
+                            txt = tr("Tasaerapoisto %1 v %2 kk").arg(kk / 12).arg(kk % 12) ;
                         else
-                            return QVariant( tr("Tasaerapoisto %1 v").arg(kk / 12) );
+                            txt = tr("Tasaerapoisto %1 v").arg(kk / 12) ;
                     }
                     else if( !rivi.viite.isEmpty())
                     {
-                        return tr("VIITE");
+                        txt = tr("VIITE");
                     }
                     else if( rivi.maksaaLaskua)
                     {
-                        return QString::number(rivi.maksaaLaskua);
+                        txt = QString::number(rivi.maksaaLaskua);
                     }
-                    else
+
+                    if( rivi.kohdennus.tyyppi() != Kohdennus::EIKOHDENNETA)
                     {
-                        if( rivi.kohdennus.tyyppi() == Kohdennus::EIKOHDENNETA)
-                            // Ei kohdennusta näyttää tyhjää
-                            return QVariant();
-                        else
-                            return QVariant(rivi.kohdennus.nimi()  );
+                        if( !txt.isEmpty())
+                            txt.append("\n");
+                        txt.append( rivi.kohdennus.nimi());
                     }
+
+                    return txt;
+
                 }
                 else if(role == Qt::EditRole)
                     return QVariant( rivi.kohdennus.id());
@@ -429,7 +433,7 @@ Qt::ItemFlags VientiModel::flags(const QModelIndex &index) const
         else if( index.column() == KOHDENNUS)
         {
             if( !rivi.tili.numero() || ( rivi.tili.onko(TiliLaji::TASE) &&
-                                        ( !rivi.tili.json()->luku("Kohdennukset") || rivi.tili.json()->luku("Taseerittely") )  ))
+                                        ( !rivi.tili.json()->luku("Kohdennukset") || rivi.tili.json()->luku("Taseerittely") > Tili::TASEERITTELY_MUUTOKSET )  ))
                 return QAbstractTableModel::flags(index);
         }
 

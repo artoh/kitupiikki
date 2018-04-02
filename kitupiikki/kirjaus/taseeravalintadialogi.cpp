@@ -18,6 +18,8 @@
 #include "taseeravalintadialogi.h"
 #include "ui_taseeravalintadialogi.h"
 
+#include "kohdennusproxymodel.h"
+
 #include "db/kirjanpito.h"
 #include "db/tili.h"
 
@@ -88,6 +90,18 @@ bool TaseEraValintaDialogi::nayta(VientiModel *model, QModelIndex &index)
     if( eraId()==0 && tili_.onko(TiliLaji::OSTOVELKA) )
         ui->tabWidget->setCurrentIndex( OSTO_TAB );
 
+    bool kohdennuskaytossa = tili_.json()->luku("Kohdennukset");
+    ui->kohdennusLabel->setVisible(kohdennuskaytossa);
+    ui->kohdennusCombo->setVisible(kohdennuskaytossa);
+
+    if( kohdennuskaytossa )
+    {
+        KohdennusProxyModel *kohdennusProxy = new KohdennusProxyModel(this, index.data(VientiModel::PvmRooli).toDate(), index.data(VientiModel::KohdennusRooli).toInt());
+        ui->kohdennusCombo->setModel(kohdennusProxy);
+        ui->kohdennusCombo->setCurrentIndex( ui->kohdennusCombo->findData( index.data(VientiModel::KohdennusRooli), KohdennusModel::IdRooli ) );
+    }
+
+
     if( exec())
     {
         model->setData( index, eraId(), VientiModel::EraIdRooli);
@@ -100,6 +114,9 @@ bool TaseEraValintaDialogi::nayta(VientiModel *model, QModelIndex &index)
             model->setData( index, ui->eraDate->date(), VientiModel::EraPvmRooli);
             model->setData( index, ui->nimiEdit->text(), VientiModel::SaajanNimiRooli);
         }
+        if( kohdennuskaytossa)
+            model->setData( index, ui->kohdennusCombo->currentData(KohdennusModel::IdRooli), VientiModel::KohdennusRooli);
+
 
         return true;
     }
