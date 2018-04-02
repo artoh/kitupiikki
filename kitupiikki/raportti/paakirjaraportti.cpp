@@ -95,29 +95,33 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
     QString kysymys;
     QSqlQuery kysely;
 
-    // Kohdennusotteessa ei tasetilejä lainkaan
+    QString kohdennusehto;
+    if( kohdennuksella > -1)
+    {
+        kohdennusehto = QString(" AND vienti.kohdennus=%1 ").arg(kohdennuksella);
+    }
+
+    // 1) Tasetilit
+    kysymys = QString("SELECT nro, tyyppi, SUM(debetsnt), SUM(kreditsnt) "
+                             "FROM vienti, tili WHERE vienti.tili=tili.id AND tili.ysiluku < 300000000 AND "
+                             "pvm < \"%1\" %2 GROUP BY nro").arg(mista.toString(Qt::ISODate)).arg(kohdennusehto);
+    kysely.exec(kysymys);
+    while( kysely.next())
+    {
+        int tilinro = kysely.value(0).toInt();
+        QString tyyppi = kysely.value(1).toString();
+        qlonglong debet = kysely.value(2).toLongLong();
+        qlonglong kredit = kysely.value(3).toLongLong();
+
+        if( tyyppi.startsWith('A') )
+            alkusaldot.insert(tilinro, debet - kredit);
+        else
+            alkusaldot.insert(tilinro, kredit - debet);
+    }
+
+    // Lisätään aiempien tilikausien tulos (ei kuitenkaan kohdennusotteelle)
     if( kohdennuksella < 0)
     {
-
-        // 1) Tasetilit
-        kysymys = QString("SELECT nro, tyyppi, SUM(debetsnt), SUM(kreditsnt) "
-                                 "FROM vienti, tili WHERE vienti.tili=tili.id AND tili.ysiluku < 300000000 AND "
-                                 "pvm < \"%1\" GROUP BY nro").arg(mista.toString(Qt::ISODate));
-        kysely.exec(kysymys);
-        while( kysely.next())
-        {
-            int tilinro = kysely.value(0).toInt();
-            QString tyyppi = kysely.value(1).toString();
-            qlonglong debet = kysely.value(2).toLongLong();
-            qlonglong kredit = kysely.value(3).toLongLong();
-
-            if( tyyppi.startsWith('A') )
-                alkusaldot.insert(tilinro, debet - kredit);
-            else
-                alkusaldot.insert(tilinro, kredit - debet);
-        }
-
-        // Lisätään aiempien tilikausien tulos
         kysymys = QString("SELECT sum(debetsnt), sum(kreditsnt) FROM vienti, tili "
                           "WHERE vienti.tili=tili.id AND ysiluku > 300000000 AND "
                           "pvm < \"%1\" ").arg(tilikausi.alkaa().toString(Qt::ISODate));
@@ -130,18 +134,9 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
         }
     }
 
+
     // 2) Tulostilit - jos ei haeta tilikauden alusta saakka
     QDate alkupaiva = tilikausi.alkaa();
-
-    QString kohdennusehto;
-
-    if( kohdennuksella > -1)
-    {
-        kohdennusehto = QString(" AND vienti.kohdennus=%1 ").arg(kohdennuksella);
-        // Projektiotteessa projektin alusta saakka
-        if( kp()->kohdennukset()->kohdennus(kohdennuksella).tyyppi() == Kohdennus::PROJEKTI )
-            alkupaiva = kp()->tilikaudet()->kirjanpitoAlkaa();
-    }
 
 
     if( alkupaiva != mista )
@@ -172,9 +167,6 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
     kysely.exec(kysymys);
     while( kysely.next() )
     {
-        if( kohdennuksella > -1 && Tili::ysiluku(kysely.value(0).toInt()) < 300000000)
-            continue;       // Kohdennusraporttiin ei tule tasetilejä
-
         if( !alkusaldot.contains( kysely.value(0).toInt()))
             alkusaldot.insert(kysely.value(0).toInt(), 0);
     }
