@@ -241,20 +241,18 @@ bool Poistaja::sumupoistaja(Tilikausi kausi)
         ehdotus.tallenna(tosite.vientiModel());
 
         // Liitetään laskelma
-        QTemporaryFile file( QDir::tempPath() + "/sumu-XXXXXX.pdf");
-        file.open();
-        file.close();
         QPrinter printer;
 
         printer.setPageSize(QPrinter::A4);
-        printer.setOutputFileName( file.fileName() );
+        QString tpnimi = kp()->tilapainen("sumu-XXXX.pdf");
+        printer.setOutputFileName( tpnimi );
 
         QPainter painter(&printer);
 
         kirjoittaja.tulosta(&printer, &painter);
         painter.end();
 
-        tosite.liiteModel()->lisaaTiedosto( file.fileName(), tr("Poistolaskelma"));
+        tosite.liiteModel()->lisaaTiedosto( tpnimi, tr("Poistolaskelma"));
 
         if( tosite.tallenna() )
         {

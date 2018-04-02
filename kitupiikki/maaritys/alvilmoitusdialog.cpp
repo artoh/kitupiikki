@@ -21,7 +21,6 @@
 #include <QPainter>
 #include <QSqlError>
 
-#include <QTemporaryFile>
 #include <QTextDocument>
 #include <QMessageBox>
 #include "alvilmoitusdialog.h"
@@ -401,20 +400,18 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         ehdotus.tallenna( model.vientiModel() );
 
         // Liitetään laskelma
-        QTemporaryFile file( QDir::tempPath() + "/alv-XXXXXX.pdf");
-        file.open();
-        file.close();
         QPrinter printer;
+        QString tpnimi = kp()->tilapainen("alv-XXXX.pdf");
 
         printer.setPageSize(QPrinter::A4);
-        printer.setOutputFileName( file.fileName() );
+        printer.setOutputFileName( tpnimi );
 
         QPainter painter(&printer);
 
         kirjoittaja->tulosta(&printer, &painter);
         painter.end();
 
-        model.liiteModel()->lisaaTiedosto( file.fileName(), tr("Alv-laskelma"));
+        model.liiteModel()->lisaaTiedosto( tpnimi , tr("Alv-laskelma"));
 
         if( !model.tallenna() )
         {
@@ -425,16 +422,14 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         }
 
         // Laskelman erittely liitetään myös ...
-        QTemporaryFile eriFile(QDir::tempPath() + "/alv-XXXXXX.pdf" );
-        eriFile.open();
-        eriFile.close();
+        QString erinimi = kp()->tilapainen("alv-XXXX.pdf");
 
-        printer.setOutputFileName(eriFile.fileName());
+        printer.setOutputFileName(erinimi);
         painter.begin(&printer);
         erittely(alkupvm,loppupvm).tulosta(&printer, &painter);
         painter.end();
 
-        model.liiteModel()->lisaaTiedosto( eriFile.fileName(), tr("Alv-erittely"));
+        model.liiteModel()->lisaaTiedosto( erinimi, tr("Alv-erittely"));
         model.tallenna();
 
         return true;

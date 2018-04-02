@@ -17,7 +17,6 @@
 
 #include <cmath>
 #include <QSqlQuery>
-#include <QTemporaryFile>
 #include <QPrinter>
 
 #include <QDebug>
@@ -502,19 +501,17 @@ bool LaskuModel::tallenna(Tili rahatili)
     // Tallennetaan liiteeksi
 
     // Luo tilapäisen pdf-tiedoston
-    QTemporaryFile *file = new QTemporaryFile(QDir::tempPath() + "/lasku-XXXXXX.pdf", this);
-    file->open();
-    file->close();
 
     QPrinter printer;
     printer.setPaperSize(QPrinter::A4);
     printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setOutputFileName( file->fileName() );
+    QString tpnimi = kp()->tilapainen("lasku-XXXX.pdf");
+    printer.setOutputFileName( tpnimi );
 
     LaskunTulostaja tulostaja(this);
     tulostaja.tulosta(&printer);
 
-    tosite.liiteModel()->lisaaTiedosto( file->fileName(), tr("Lasku nr %1").arg(laskunro()));
+    tosite.liiteModel()->lisaaTiedosto( tpnimi , tr("Lasku nr %1").arg(laskunro()));
     tosite.tallenna();
 
     

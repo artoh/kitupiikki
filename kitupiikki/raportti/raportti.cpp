@@ -20,7 +20,6 @@
 #include <QPen>
 
 #include <QFile>
-#include <QTemporaryFile>
 #include <QUrl>
 #include <QPrintDialog>
 #include <QPageSetupDialog>
@@ -110,7 +109,7 @@ void Raportti::tulosta()
 
 void Raportti::esikatsele()
 {
-    QString tiedosto =  kp()->tilapainen( QString("raportti-%1.pdf").arg(Kirjanpito::satujono(8)) );
+    QString tiedosto =  kp()->tilapainen( "raportti-%1.pdf" );
 
     // #88: Käytetään pdf:n luomisessakin tulostusasetuksia, jotta saadaan vaakaan taikka isompaan
     // paperikokoon
@@ -128,7 +127,7 @@ void Raportti::esikatsele()
 void Raportti::avaaHtml()
 {
     // Luo tilapäisen pdf-tiedoston
-    QString tiedostonnimi = kp()->tilapainen( QString("raportti-%1.html").arg(Kirjanpito::satujono(8)) );
+    QString tiedostonnimi = kp()->tilapainen( "raportti-%1.html" );
 
     QFile tiedosto( tiedostonnimi);
     tiedosto.open( QIODevice::WriteOnly);

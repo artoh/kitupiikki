@@ -23,7 +23,6 @@
 #include <QIcon>
 
 #include <QPrinter>
-#include <QTemporaryFile>
 #include <QPainter>
 #include <QImage>
 
@@ -125,12 +124,10 @@ void LiiteModel::lisaaTiedosto(const QString &polku, const QString &otsikko)
         QImage kuva(polku);
 
         // Kuvatiedosto, muutetaan pdf-muotoon
-        QTemporaryFile tempFile(QDir::tempPath() + "/imgcnv-XXXXXX.pdf");
-        tempFile.open();
-        tempFile.close();
 
         QPrinter printer(QPrinter::HighResolution);
-        printer.setOutputFileName( tempFile.fileName());
+        QString tpnimi =  kp()->tilapainen("imgcnv-XXXX.pdf");
+        printer.setOutputFileName( tpnimi );
         {
             QPainter painter( &printer);
 
@@ -143,7 +140,7 @@ void LiiteModel::lisaaTiedosto(const QString &polku, const QString &otsikko)
             painter.drawImage(0,0,kuva);
         }
 
-        QFile luku( tempFile.fileName());
+        QFile luku( tpnimi );
         luku.open( QIODevice::ReadOnly );
         uusi.pdf = luku.readAll();
         luku.close();
