@@ -45,8 +45,7 @@ SijaintiSivu::~SijaintiSivu()
 void SijaintiSivu::vaihdaSijainti()
 {
     QString sijainti = QFileDialog::getExistingDirectory(this,"Valitse sijainti",
-                                                         ui->sijaintiEdit->text(),
-                                                         QFileDialog::DontUseNativeDialog);
+                                                         ui->sijaintiEdit->text());
     if( !sijainti.isEmpty())
         ui->sijaintiEdit->setText(sijainti);
     estaTuplaHakemistot();

@@ -144,8 +144,7 @@ void Raportti::avaaHtml()
 void Raportti::vieCsv()
 {
     QString polku = QFileDialog::getSaveFileName(this, tr("Vie csv-tiedostoon"),
-                                                 QDir::homePath(), "csv-tiedosto (csv.*)",
-                                                 0, QFileDialog::DontUseNativeDialog);
+                                                 QDir::homePath(), "csv-tiedosto (csv.*)");
     if( !polku.isEmpty())
     {
         QFile tiedosto( polku );

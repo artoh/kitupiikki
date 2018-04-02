@@ -144,7 +144,7 @@ void ArkistoSivu::vieArkisto()
     if( dlgUi.hakemistoRadio->isChecked())
     {
         QString hakemistoon = QFileDialog::getExistingDirectory(this, tr("Valitse hakemisto, jonne arkisto kopioidaan"),
-                                                                QDir::rootPath(), QFileDialog::DontUseNativeDialog);
+                                                                QDir::rootPath());
         if( !hakemistoon.isEmpty())
         {
             QDir minne(hakemistoon);
@@ -173,7 +173,7 @@ void ArkistoSivu::vieArkisto()
         // Tässä käytetään Pierre Lindenbaumin Tar-luokkaa http://plindenbaum.blogspot.fi/2010/08/creating-tar-file-in-c.html
 
         QString arkistotiedosto = QDir::root().absoluteFilePath( QString("%1-%2.tar").arg( kp()->hakemisto().dirName() ).arg(kausi.arkistoHakemistoNimi()) );
-        QString arkisto = QFileDialog::getSaveFileName(this, tr("Vie arkisto"), arkistotiedosto, tr("Tar-arkisto (*.tar)"),0,QFileDialog::DontUseNativeDialog );
+        QString arkisto = QFileDialog::getSaveFileName(this, tr("Vie arkisto"), arkistotiedosto, tr("Tar-arkisto (*.tar)") );
 
 
         if( !arkisto.isEmpty() )

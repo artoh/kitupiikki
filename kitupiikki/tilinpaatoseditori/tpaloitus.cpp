@@ -86,8 +86,7 @@ void TpAloitus::accept()
 void TpAloitus::lataaTiedosto()
 {
     QString tiedosto = QFileDialog::getOpenFileName(this, tr("Valitse tilinpäätöstiedosto"),
-                                                    QDir::homePath(), tr("Pdf-tiedostot (*.pdf)"),
-                                                    0, QFileDialog::DontUseNativeDialog);
+                                                    QDir::homePath(), tr("Pdf-tiedostot (*.pdf)"));
     if( !tiedosto.isEmpty() )
     {
         QString tulosfile =  kp()->hakemisto().absoluteFilePath("arkisto/" + tilikausi.arkistoHakemistoNimi() + "/tilinpaatos.pdf" );

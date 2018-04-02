@@ -44,7 +44,10 @@ int main(int argc, char *argv[])
     splash->show();
 
 #ifdef Q_OS_WIN
-    QApplication::setStyle(QStyleFactory::create("Fusion"));
+    a.setStyle(QStyleFactory::create("Fusion"));
+#else
+    // #120 GNOME-ongelmien takia ei käytetä Linuxissa natiiveja dialogeja
+    a.setAttribute(Qt::AA_DontUseNativeDialogs);
 #endif
 
     a.setApplicationName("Kitupiikki");

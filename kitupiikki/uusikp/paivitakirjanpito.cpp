@@ -78,8 +78,7 @@ bool PaivitaKirjanpito::paivitaTilikartta()
         else
         {
             tilikarttaTiedosto = QFileDialog::getOpenFileName(0, tr("Valitse tilikarttatiedosto, johon päivitetään"),
-                                                              QDir::homePath(), "Tilikartta (*.kpk)",
-                                                              0, QFileDialog::DontUseNativeDialog);
+                                                              QDir::homePath(), "Tilikartta (*.kpk)");
         }
         if( !tilikarttaTiedosto.isEmpty())
             return lataaPaivitys( tilikarttaTiedosto);

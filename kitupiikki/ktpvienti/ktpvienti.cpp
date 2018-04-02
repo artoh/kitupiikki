@@ -54,8 +54,7 @@ void KtpVienti::vieKtp()
 
         // Koko velho on näytetty. Nyt kysytään vielä tiedosto.
         QString tiedostoPolku = QFileDialog::getSaveFileName(0, tr("Tallenna uusi tilikarttatiedosto"),
-                                                        QDir::homePath(), tr("Kitupiikin tilikartta (*.kpk)"),
-                                                        0, QFileDialog::DontUseNativeDialog);
+                                                        QDir::homePath(), tr("Kitupiikin tilikartta (*.kpk)"));
         if( tiedostoPolku.isEmpty())
         {
             return;

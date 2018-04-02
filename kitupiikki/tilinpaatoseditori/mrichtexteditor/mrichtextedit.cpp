@@ -582,8 +582,7 @@ void MRichTextEdit::insertImage() {
     QString file = QFileDialog::getOpenFileName(this,
                                     tr("Valitse kuva"),
                                     attdir,
-                                    tr("JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"),
-                                    0, QFileDialog::DontUseNativeDialog);
+                                    tr("JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"));
     QImage image = QImageReader(file).read();
 
     f_textedit->dropImage(image, QFileInfo(file).suffix().toUpper().toLocal8Bit().data() );
