@@ -20,7 +20,6 @@
 #include <QPrinter>
 #include <QPrintDialog>
 #include <QDesktopServices>
-#include <QTemporaryFile>
 #include <QCompleter>
 #include <QSqlQueryModel>
 #include <QSqlQuery>
@@ -173,7 +172,7 @@ void LaskuDialogi::esikatsele()
     vieMalliin();
 
     // Luo tilapäisen pdf-tiedoston
-    QString tiedosto = kp()->tilapainen( QString("lasku-%1.pdf").arg(Kirjanpito::satujono(6)) );
+    QString tiedosto = kp()->tilapainen( "lasku-XXXX.pdf" );
 
     tulostaja->kirjoitaPdf(tiedosto);
 
@@ -325,10 +324,8 @@ void LaskuDialogi::lahetaSahkopostilla()
     connect( smtp, SIGNAL(status(QString)), this, SLOT(smtpViesti(QString)));
 
     // Luo tilapäisen pdf-tiedoston
-    QTemporaryFile *file = new QTemporaryFile(QDir::tempPath() + "/lasku-XXXXXX.pdf", this);
-    file->open();
-    file->close();
-    tulostaja->kirjoitaPdf(file->fileName());
+    QString tpnimi = kp()->tilapainen("lasku-XXXX.pdf");
+    tulostaja->kirjoitaPdf(tpnimi);
 
     QString kenelta = QString("\"%1\" <%2>").arg(kp()->asetukset()->asetus("EmailNimi"))
                                                 .arg(kp()->asetukset()->asetus("EmailOsoite"));
@@ -336,7 +333,7 @@ void LaskuDialogi::lahetaSahkopostilla()
                                             .arg(ui->emailEdit->text() );
 
     QStringList lista;
-    lista << file->fileName();
+    lista << tpnimi;
     smtpViesti("Lähetetään sähköpostilla...");
     smtp->sendMail(kenelta, kenelle, tr("Lasku"), tulostaja->html(), lista);
 

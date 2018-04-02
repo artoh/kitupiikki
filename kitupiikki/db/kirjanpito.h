@@ -195,10 +195,10 @@ public:
 
     /**
      * @brief Tilapäistiedoston polku
-     * @param Tilapäistiedoston nimi
+     * @param Tilapäistiedoston nimi, XXXX korvataan satunnaisella jonolla
      * @return
      */
-    QString tilapainen(const QString& nimi) const { return tempDir_.filePath(nimi); }
+    QString tilapainen(QString nimi) const;
 
     /**
      * @brief Onko kyseisenä päivänä käytössä maksuperusteinen arvonlisävero
@@ -275,7 +275,7 @@ protected:
     TuoteModel *tuotteet_;
     QPrinter *printer_;
 
-    QTemporaryDir tempDir_;
+    QTemporaryDir *tempDir_;
 
 public:
     /**

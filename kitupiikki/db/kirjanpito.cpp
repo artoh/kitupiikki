@@ -34,7 +34,7 @@
 
 
 Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
-    harjoitusPvm( QDate::currentDate())
+    harjoitusPvm( QDate::currentDate()), tempDir_(0)
 {
     tietokanta_ = QSqlDatabase::addDatabase("QSQLITE");
     QSettings settings;
@@ -53,6 +53,7 @@ Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
 Kirjanpito::~Kirjanpito()
 {
     tietokanta_.close();
+    delete tempDir_;
 }
 
 QString Kirjanpito::asetus(const QString &avain) const
@@ -114,6 +115,11 @@ void Kirjanpito::avaaUrl(const QUrl &url)
             QMessageBox::critical(0, tr("Tiedoston näyttäminen epäonnistui"),
                                   tr("Kitupiikki ei saanut käynnistettyä ulkoista ohjelmaa tiedoston %1 näyttämiseksi.").arg(url.fileName()));
     }
+}
+
+QString Kirjanpito::tilapainen(QString nimi) const
+{
+    return tempDir_->filePath(nimi.replace("XXXX", satujono(8)));
 }
 
 bool Kirjanpito::onkoMaksuperusteinenAlv(const QDate &paiva) const
@@ -216,6 +222,21 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
 
 
     polkuTiedostoon_ = tiedosto;
+
+    // #124 Jos väliaikaistiedosto ei toimi...
+    if( tempDir_ )
+        delete tempDir_;
+
+    tempDir_ = new QTemporaryDir();
+
+    if( !tempDir_->isValid())
+    {
+        delete tempDir_;
+        tempDir_ = new QTemporaryDir( hakemisto().absoluteFilePath("Temp")  );
+        if( !tempDir_->isValid())
+            QMessageBox::critical(0, tr("Tilapäishakemiston luominen epäonnistui"),
+                                  tr("Kitupiikki ei onnistunut luomaan tilapäishakemistoa. Raporttien ja laskujen esikatselu ei toimi."));
+    }
 
     // Ilmoitetaan, että tietokanta on vaihtunut
     emit tietokantaVaihtui();
