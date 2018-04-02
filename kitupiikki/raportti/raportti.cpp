@@ -109,7 +109,7 @@ void Raportti::tulosta()
 
 void Raportti::esikatsele()
 {
-    QString tiedosto =  kp()->tilapainen( "raportti-%1.pdf" );
+    QString tiedosto =  kp()->tilapainen( "raportti-XXXX.pdf" );
 
     // #88: Käytetään pdf:n luomisessakin tulostusasetuksia, jotta saadaan vaakaan taikka isompaan
     // paperikokoon
@@ -127,7 +127,7 @@ void Raportti::esikatsele()
 void Raportti::avaaHtml()
 {
     // Luo tilapäisen pdf-tiedoston
-    QString tiedostonnimi = kp()->tilapainen( "raportti-%1.html" );
+    QString tiedostonnimi = kp()->tilapainen( "raportti-XXXX.html" );
 
     QFile tiedosto( tiedostonnimi);
     tiedosto.open( QIODevice::WriteOnly);
