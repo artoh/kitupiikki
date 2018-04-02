@@ -138,7 +138,8 @@ SOURCES += main.cpp \
     kirjaus/apurivinkki.cpp \
     laskutus/nayukiQR/BitBuffer.cpp \
     laskutus/nayukiQR/QrCode.cpp \
-    laskutus/nayukiQR/QrSegment.cpp
+    laskutus/nayukiQR/QrSegment.cpp \
+    tuonti/titotuonti.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -258,7 +259,8 @@ HEADERS += \
     kirjaus/apurivinkki.h \
     laskutus/nayukiQR/BitBuffer.hpp \
     laskutus/nayukiQR/QrCode.hpp \
-    laskutus/nayukiQR/QrSegment.hpp
+    laskutus/nayukiQR/QrSegment.hpp \
+    tuonti/titotuonti.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

@@ -44,15 +44,9 @@ PdfTuonti::PdfTuonti(KirjausWg *wg) :
 
 }
 
-bool PdfTuonti::tuoTiedosto(const QString &tiedostonnimi)
+bool PdfTuonti::tuo(const QByteArray &data)
 {
-    QFile tiedosto(tiedostonnimi);
-    tiedosto.open( QIODevice::ReadOnly );
-
-    QByteArray bytes = tiedosto.readAll();
-    tiedosto.close();
-
-    Poppler::Document *pdfDoc = Poppler::Document::loadFromData( bytes );
+    Poppler::Document *pdfDoc = Poppler::Document::loadFromData( data );
 
     if( pdfDoc )
     {

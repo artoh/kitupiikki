@@ -22,6 +22,7 @@
 #include "tuonti.h"
 #include "pdftuonti.h"
 #include "csvtuonti.h"
+#include "titotuonti.h"
 
 #include "kirjaus/kirjauswg.h"
 #include "db/tili.h"
@@ -38,15 +39,26 @@ Tuonti::Tuonti(KirjausWg *wg)
 bool Tuonti::tuo(const QString &tiedostonnimi, KirjausWg *wg)
 {
 
-    if( tiedostonnimi.endsWith(".pdf", Qt::CaseInsensitive) )
+    QFile tiedosto( tiedostonnimi );
+    tiedosto.open( QFile::ReadOnly );
+
+    QByteArray data = tiedosto.readAll();
+    tiedosto.close();
+
+    if( data.startsWith("%PDF"))
     {
         PdfTuonti pdftuonti(wg);
-        return pdftuonti.tuoTiedosto(tiedostonnimi);
+        return pdftuonti.tuo(data);
     }
     else if( tiedostonnimi.endsWith(".csv", Qt::CaseInsensitive))
     {
         CsvTuonti csvtuonti(wg);
-        return csvtuonti.tuoTiedosto(tiedostonnimi);
+        return csvtuonti.tuo(data);
+    }
+    else if( data.startsWith("T00322100"))  // Konekielisen tiliotteen TITO-tiedoston alkutunniste
+    {
+        TitoTuonti titotuonti(wg);
+        return titotuonti.tuo(data);
     }
 
     return true;
@@ -148,9 +160,12 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, Q
 
 
     // Tuplatuonnin esto
+    if(!arkistotunnus.isEmpty())
+    {
     QSqlQuery tupla( QString("SELECT id FROM vienti WHERE arkistotunnus='%1'").arg(arkistotunnus));
     if( tupla.next() )
         return;
+    }
 
     VientiRivi vastarivi;
     vastarivi.pvm = pvm;

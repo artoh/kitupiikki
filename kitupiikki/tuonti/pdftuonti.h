@@ -31,7 +31,7 @@ class PdfTuonti : public Tuonti
 public:
     PdfTuonti(KirjausWg *wg);
 
-    bool tuoTiedosto(const QString &tiedostonnimi) override;
+    bool tuo(const QByteArray &data) override;
 
 protected:
     /**

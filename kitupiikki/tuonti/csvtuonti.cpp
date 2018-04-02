@@ -44,15 +44,7 @@ CsvTuonti::~CsvTuonti()
     delete ui;
 }
 
-bool CsvTuonti::tuoTiedosto(const QString &tiedostonnimi)
-{
-    QFile tiedosto(tiedostonnimi);
-    tiedosto.open(QIODevice::ReadOnly | QIODevice::Text);
-
-    return tuoCsv( tiedosto.readAll() );
-}
-
-bool CsvTuonti::tuoCsv(const QByteArray &data)
+bool CsvTuonti::tuo(const QByteArray &data)
 {
     tuoListaan( data );
     if( csv_.count() < 2)
