@@ -49,11 +49,11 @@ public:
     };
 
     /**
-     * @brief Tuo tiedoston
-     * @param tiedostonnimi Tiedoston nimi
+     * @brief Tuo tietoa
+     * @param data Tiedoston sisältö
      * @return tosi, jos tiedosto lisätään myös liitteeksi
      */
-    virtual bool tuoTiedosto(const QString& tiedostonnimi) = 0;
+    virtual bool tuo(const QByteArray& data) = 0;
 
     /**
      * @brief Yrittää tuoda halutun tiedoston

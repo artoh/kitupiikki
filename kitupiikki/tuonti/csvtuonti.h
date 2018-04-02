@@ -66,9 +66,7 @@ public:
     CsvTuonti(KirjausWg *wg);
     ~CsvTuonti();
 
-    bool tuoTiedosto(const QString &tiedostonnimi) override;
-
-    bool tuoCsv(const QByteArray& data);
+    bool tuo(const QByteArray& data);
 
     /**
      * @brief Haistelee koodauksen ja palauttaa unicodea
