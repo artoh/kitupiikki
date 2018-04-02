@@ -428,7 +428,8 @@ Qt::ItemFlags VientiModel::flags(const QModelIndex &index) const
         }
         else if( index.column() == KOHDENNUS)
         {
-            if( !rivi.tili.numero() || rivi.tili.onko(TiliLaji::TASE))
+            if( !rivi.tili.numero() || ( rivi.tili.onko(TiliLaji::TASE) &&
+                                        ( !rivi.tili.json()->luku("Kohdennukset") || rivi.tili.json()->luku("Taseerittely") )  ))
                 return QAbstractTableModel::flags(index);
         }
 

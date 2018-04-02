@@ -37,7 +37,7 @@ public:
 
     void set(const QString& avain, const QString& arvo);
     void set(const QString& avain, const QDate& pvm);
-    void set(const QString& avain, int arvo);
+    void set(const QString& avain, int arvo=1);
     void set(const QString& avain, qulonglong arvo );
     void unset(const QString &avain);
     void setVar(const QString& avain, const QVariant& arvo);

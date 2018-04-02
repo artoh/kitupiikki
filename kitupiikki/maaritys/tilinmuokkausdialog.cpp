@@ -135,6 +135,8 @@ void TilinMuokkausDialog::lataa()
     ui->teLiVaRadio->setChecked( taseEraValinta == Tili::TASEERITTELY_MUUTOKSET);
     ui->teSaldoRadio->setChecked( taseEraValinta == Tili::TASEERITTELY_SALDOT);
 
+    ui->kohdennusCheck->setChecked( tili.json()->luku("Kohdennukset") );
+
 
     nroMuuttaaTyyppia(QString::number( tili.numero() ));
 
@@ -192,6 +194,8 @@ void TilinMuokkausDialog::naytettavienPaivitys()
 
     ui->poistotiliLabel->setVisible( tyyppi.onko(TiliLaji::POISTETTAVA));
     ui->poistotiliEdit->setVisible( tyyppi.onko(TiliLaji::POISTETTAVA));
+
+    ui->kohdennusCheck->setVisible( tyyppi.onko(TiliLaji::TASE));
 
     // #46 Alv-velka ja alv-saatava -tileille ei voi tehdä tase-erittelyä, koska tilit tyhjennetään aina
     // kuukauden lopussa alv-kirjauksella, joka ei huomioi tase-eriä
@@ -387,6 +391,7 @@ void TilinMuokkausDialog::accept()
     else
         json->unset("IBAN");
 
+
     if( !taso )
     {
 
@@ -432,6 +437,11 @@ void TilinMuokkausDialog::accept()
         }
         else
             json->unset("Taseerittely");
+
+        if( ui->kohdennusCheck->isChecked() && tilityyppi.onko(TiliLaji::TASE))
+            json->set("Kohdennukset");
+        else
+            json->unset("Kohdennukset");
 
 
     }
