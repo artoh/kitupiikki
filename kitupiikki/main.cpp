@@ -31,6 +31,8 @@
 #include <QStyleFactory>
 #include <QSettings>
 #include <QDialog>
+#include <QFile>
+#include <QTextStream>
 
 #include "ui_tervetuloa.h"
 
@@ -51,7 +53,7 @@ int main(int argc, char *argv[])
 #endif
 
     a.setApplicationName("Kitupiikki");
-    a.setApplicationVersion("0.9-beta");
+    a.setApplicationVersion("0.10-devel");
     a.setOrganizationDomain("artoh.github.io");
     a.setOrganizationName("Kitupiikki Kirjanpito");
     a.setWindowIcon( QIcon(":/pic/Possu64.png"));
@@ -65,7 +67,7 @@ int main(int argc, char *argv[])
     a.installTranslator(&translator);
 
     QSettings settings;
-    if( settings.value("ViimeksiVersiolla").toString() != a.applicationVersion())
+    if( settings.value("ViimeksiVersiolla").toString() != a.applicationVersion()  )
     {
         QDialog tervetuloDlg;
         Ui::TervetuloDlg tervetuloUi;
@@ -74,7 +76,35 @@ int main(int argc, char *argv[])
         tervetuloUi.esiKuva->setVisible( a.applicationVersion().contains('-'));
         tervetuloUi.esiVaro->setVisible( a.applicationVersion().contains('-'));
         tervetuloUi.paivitysCheck->setChecked( settings.value("NaytaPaivitykset",true).toBool());
+
+#ifdef Q_OS_WIN
+    tervetuloUi.valikkoonCheck->setVisible(false);
+#endif
         tervetuloDlg.exec();
+
+#ifdef Q_OS_LINUX
+        if( tervetuloUi.valikkoonCheck->isChecked())
+        {
+            // Poistetaan vanha, jotta päivittyisi
+            QFile::remove( QDir::home().absoluteFilePath(".local/share/applications/Kitupiikki.desktop") );
+            // Kopioidaan kuvake
+            QDir::home().mkpath( ".local/share/icons" );
+            QFile::copy(":/pic/Possu64.png", QDir::home().absoluteFilePath(".local/share/icons/Kitupiikki.png"));
+            // Lisätään työpöytätiedosto
+            QFile desktop( QDir::home().absoluteFilePath(".local/share/applications/Kitupiikki.desktop") );
+            desktop.open(QIODevice::WriteOnly | QIODevice::Truncate);
+            QTextStream out(&desktop);
+            out.setCodec("UTF-8");
+            out << "[Desktop Entry]\nVersion=1.0\nType=Application\nName=Kitupiikki " << a.applicationVersion() << "\n";
+            out << "Icon=" << QDir::home().absoluteFilePath(".local/share/icons/Kitupiikki.png") << "\n";
+            out << "Exec=" << a.applicationFilePath() << "\n";
+            out << "TryExec=" << a.applicationFilePath() << "\n";
+            out << "GenericName=Kirjanpito\n";
+            out << a.tr("Comment=Avoimen lähdekoodin kirjanpitäjä\n");
+            out << "Categories=Office;Finance;Qt\nTerminal=false";
+        }
+#endif
+
         settings.setValue("NaytaPaivitykset", tervetuloUi.paivitysCheck->isChecked());
         settings.setValue("ViimeksiVersiolla", a.applicationVersion());
     }
