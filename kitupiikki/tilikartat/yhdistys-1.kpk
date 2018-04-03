@@ -574,19 +574,19 @@ ON
 Onko yhdistyksellä liiketoimintaa
 [Raportti/Toiminnanalat]
 :kohdennus
-Toimintatulot	S 3 *
+Toimintatulot   S 3 *
 Toimintakulut	S 4..6 * ==
 Henkilöstökulut	5 * s4
 Poistot 6 * s4
-Muut kulut	4 * s4
+Muut kulut  4 * s4
 
-Varainhankinta 7
-Liiketoiminnan tulot 703 *
-Liiketoiminnan kulut 704..709 *
-Varainhankinnan tulot 73 *
-Varainhankinnan kulut 74..79 *
+Varainhankinta  7
+Liiketoiminnan tulot    703 *
+Liiketoiminnan kulut    704..709 *
+Varainhankinnan tulot   73 *
+Varainhankinnan kulut   74..79 *
 
-Toiminnanala yhteensä	= viiva
+Toiminnanala yhteensä   = viiva
 
 
 [Raportti/Tase PMA]
@@ -794,3 +794,6 @@ AlvVelvollinen=ON
 -2984
 -2985
 AlvVelvollinen=EI
+[MuotoOn/Ei liiketoimintaa]
+
+[MuotoPois/Ei liiketoimintaa]
