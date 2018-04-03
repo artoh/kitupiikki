@@ -64,6 +64,11 @@ public slots:
     void vastakirjausOlemassa(bool onko);
 
     /**
+     * @brief Jos tilillä kohdennukset käytössä, näytetään
+     */
+    void kohdennusNakyviin();
+
+    /**
      * @brief Asettaa käytettävien verovalintojen suodattimet
      */
     void veroSuodattimetKuntoon();

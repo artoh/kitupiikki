@@ -61,6 +61,7 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
 
     ui->kohdennusCombo->setModel( &kohdennusfiltteri);
     ui->kohdennusCombo->setModelColumn( KohdennusModel::NIMI );
+    ui->kohdennusCombo->setCurrentIndex( ui->kohdennusCombo->findData(QVariant(0), KohdennusModel::IdRooli));
 
     ui->taseEraCombo->setModel( &eraModelTilille);
     ui->vastaTaseEraCombo->setModel(&eraModelVastaTilille);
@@ -211,6 +212,8 @@ void KirjausApuriDialog::tiliTaytetty()
         ui->valintaTab->setTabEnabled(TULO, true);
         ui->valintaTab->setTabEnabled(SIIRTO, true );
     }
+    kohdennusNakyviin();
+
     ehdota();
 }
 
@@ -301,6 +304,7 @@ void KirjausApuriDialog::vastaTiliMuuttui()
 
     ui->ostoBox->setVisible( vastatili.onko(TiliLaji::OSTOVELKA));
     veroSuodattimetKuntoon();
+    kohdennusNakyviin();
 
     ehdota();
 }
@@ -356,6 +360,19 @@ void KirjausApuriDialog::vastakirjausOlemassa(bool onko)
         ui->vastaCheck->setVisible(false);
     else
         vastaTiliMuuttui();
+}
+
+void KirjausApuriDialog::kohdennusNakyviin()
+{
+    Tili tili = ui->tiliEdit->valittuTili();
+    Tili vastatili = ui->vastatiliEdit->valittuTili();
+
+    bool naytetaan =  ui->valintaTab->currentIndex() != SIIRTO ||
+            tili.onko(TiliLaji::TULOS) || tili.json()->luku("Kohdennukset") ||
+        vastatili.onko(TiliLaji::TULOS) || vastatili.json()->luku("Kohdennukset") ;
+
+    ui->kohdennusLabel->setVisible(naytetaan);
+    ui->kohdennusCombo->setVisible(naytetaan);
 }
 
 void KirjausApuriDialog::veroSuodattimetKuntoon()
@@ -461,6 +478,8 @@ void KirjausApuriDialog::ehdota()
             else
                 taserivi.debetSnt = nettoSnt;
 
+            if( taserivi.tili.json()->luku("Kohdennukset"))
+                taserivi.kohdennus = kp()->kohdennukset()->kohdennus(ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
             taserivi.eraId = ui->vastaTaseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
             ehdotus.lisaaVienti(taserivi);
         }
@@ -531,6 +550,9 @@ void KirjausApuriDialog::ehdota()
                 taserivi.kreditSnt = nettoSnt;
             taserivi.eraId = ui->vastaTaseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
 
+            if( taserivi.tili.json()->luku("Kohdennukset"))
+                taserivi.kohdennus = kp()->kohdennukset()->kohdennus(ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
+
             if(vastatili.onko(TiliLaji::OSTOVELKA))
             {
                 if( ui->ibanEdit->hasAcceptableInput())
@@ -590,8 +612,7 @@ void KirjausApuriDialog::ehdota()
 
 void KirjausApuriDialog::valilehtiVaihtui(int indeksi)
 {
-    ui->kohdennusLabel->setVisible( indeksi != SIIRTO && kp()->kohdennukset()->rowCount(QModelIndex()) > 1);
-    ui->kohdennusCombo->setVisible( indeksi != SIIRTO && kp()->kohdennukset()->rowCount(QModelIndex()) > 1);
+    kohdennusNakyviin();
     ui->vaihdaNappi->setVisible(indeksi == SIIRTO );
 
 
