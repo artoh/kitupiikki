@@ -95,6 +95,7 @@ void LaskunMaksuDialogi::kirjaa()
     rahaRivi.selite = selite;
     rahaRivi.tili = kp()->tilit()->tiliNumerolla( ui->tiliEdit->valittuTilinumero() );
     rahaRivi.maksaaLaskua = index.data(LaskutModel::ViiteRooli).toInt();
+    rahaRivi.kohdennus = kp()->kohdennukset()->kohdennus( json.luku("Kohdennus") );
 
     if( index.data(LaskutModel::KirjausPerusteRooli).toInt() == LaskuModel::MAKSUPERUSTE )
     {
@@ -130,6 +131,7 @@ void LaskunMaksuDialogi::kirjaa()
         saatavaRivi.eraId = json.luku("TaseEra");
         saatavaRivi.pvm = ui->pvmEdit->date();
         saatavaRivi.selite = selite;
+        saatavaRivi.kohdennus = kp()->kohdennukset()->kohdennus(json.luku("Kohdennus"));
 
         ehdotus.lisaaVienti(saatavaRivi);
         ehdotus.lisaaVienti(rahaRivi);

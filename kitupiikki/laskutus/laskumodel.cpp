@@ -352,6 +352,12 @@ bool LaskuModel::tallenna(Tili rahatili)
     QMap<int,qlonglong> veroSentit;
 
     VientiModel *viennit = tosite.vientiModel();
+
+    // #123: Jos rahatilillä käytössä kohdennukset, tehdään kohdennus jos koko maksu samaa kohdennusta
+    Kohdennus tasekohdennus;
+    if( rivit_.count() && rahatili.json()->luku("Kohdennukset"))
+        tasekohdennus = rivit_.first().kohdennus;
+
     foreach (LaskuRivi rivi, rivit_)
     {
         // Maksuperusteisen koodaus, jos käytössä maksuperusteinen
@@ -433,6 +439,10 @@ bool LaskuModel::tallenna(Tili rahatili)
         // Tallennetaan myös asiaankuuluvaan verotauluun
         veroSentit[ rivi.alvKoodi * 1000 + rivi.alvProsentti] = veroSentit.value( rivi.alvKoodi * 1000 + rivi.alvProsentti, 0) + veroSnt;
 
+        // Kohdennustarkastus
+        if( rivi.kohdennus.id() != tasekohdennus.id() )
+            tasekohdennus = Kohdennus();
+
     }
     // Kirjataan maksurivit vienteihin
     for( VientiRivi vienti : vientiRivit)
@@ -486,6 +496,7 @@ bool LaskuModel::tallenna(Tili rahatili)
         raharivi.tili = rahatili;
         raharivi.pvm = pvm();
         raharivi.selite = tr("%1 [%2]").arg(laskunsaajanNimi()).arg(laskunro());
+        raharivi.kohdennus = tasekohdennus;
 
         if( laskunSumma() > 0 )
             raharivi.debetSnt = laskunSumma();
@@ -537,6 +548,8 @@ bool LaskuModel::tallenna(Tili rahatili)
     json.set("Lisatieto", lisatieto());
     json.set("Email", email());
     json.setVar("Erittely", rivitTalteen);
+    if( tasekohdennus.id())
+        json.set("Kohdennus", tasekohdennus.id());
 
     if( hyvityslasku().viitenro )
         json.set("Hyvityslasku", hyvityslasku().viitenro);

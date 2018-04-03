@@ -187,6 +187,9 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, Q
 
                 vastarivi.tili = kp()->tilit()->tiliNumerolla( json.luku("Saatavatili") );
                 vastarivi.eraId = json.luku("TaseEra");
+                // Jos määritelty kohdennettavaksi
+                if( vastarivi.tili.json()->luku("Kohdennuksella"))
+                    vastarivi.kohdennus = kp()->kohdennukset()->kohdennus(json.luku("Kohdennus"));
                 vastarivi.maksaaLaskua = viite.toInt();
             }
             else if( kysely.value("kirjausperuste").toInt() == LaskuModel::MAKSUPERUSTE)
@@ -208,7 +211,7 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, Q
         // Ostolasku
         // Kirjataan vanhin lasku, joka täsmää senttimäärään ja joka vielä maksamatta
 
-        QSqlQuery kysely( QString("SELECT id, tili, selite FROM vienti WHERE iban='%1' AND viite='%2' ORDER BY pvm")
+        QSqlQuery kysely( QString("SELECT id, tili, selite, kohdennus FROM vienti WHERE iban='%1' AND viite='%2' ORDER BY pvm")
                           .arg(iban).arg(viite) );
         qDebug() << kysely.lastQuery();
         while( kysely.next())
@@ -219,8 +222,12 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, Q
             if( era.saldoSnt == sentit )
             {
                 vastarivi.tili = kp()->tilit()->tiliIdlla( kysely.value("tili").toInt() );
-                vastarivi.eraId = kysely.value("id").toInt();
+                vastarivi.eraId = kysely.value("id").toInt();                
                 selite = kysely.value("selite").toString();
+
+                // #123: Kohdennusten sijoittaminen
+                if( vastarivi.tili.json()->luku("Kohdennukset"))
+                    vastarivi.kohdennus = kp()->kohdennukset()->kohdennus( kysely.value("kohdennus").toInt());
 
                 break;
             }
@@ -234,6 +241,9 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, Q
     rivi.selite = selite;
     vastarivi.selite = selite;
     rivi.riviNro = kirjausWg()->model()->vientiModel()->seuraavaRiviNumero();
+
+    if( rivi.tili.json()->luku("Kohdennukset") && vastarivi.kohdennus.tyyppi() != Kohdennus::EIKOHDENNETA)
+        rivi.kohdennus = vastarivi.kohdennus;
 
     if( sentit > 0)
     {

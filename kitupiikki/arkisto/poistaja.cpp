@@ -111,28 +111,82 @@ bool Poistaja::sumupoistaja(Tilikausi kausi)
             rr.lihavoi();
 
             kirjoittaja.lisaaRivi(rr);
+
+            // #123: Jos poistotili käsitellään kohdennuksilla, kirjataan poistotkin vastaaviin kohdennuksiin
+            // jaettuina
+
+            if( tili.json()->luku("Kohdennukset"))
+            {
+                QSqlQuery kohkysely( QString("SELECT kohdennus, SUM(debetsnt), SUM(kreditsnt) FROM vienti WHERE "
+                                             "tili=%1 AND pvm < '%2' GROUP BY kohdennus ORDER BY kohdennus" )
+                                     .arg(tili.id()).arg(kausi.paattyy().toString(Qt::ISODate)) );
+                while( kohkysely.next())
+                {
+                    Kohdennus kohdennus = kp()->kohdennukset()->kohdennus(kohkysely.value(0).toInt());
+                    qlonglong kohdsaldo = kohkysely.value(1).toLongLong() - kohkysely.value(2).toLongLong();
+                    qlonglong kohdpoisto = std::round( kohdsaldo * poistoprosentti / 100.0 );
+                    qlonglong kohdjalkeen = kohdsaldo - kohdpoisto;
+
+                    RaporttiRivi kr;
+                    kr.lisaa("");
+                    kr.lisaa( kohdennus.nimi() );
+                    kr.lisaa( kohdsaldo );
+                    kr.lisaa( tr("%1 %").arg( poistoprosentti ), 1, true);
+                    kr.lisaa( kohdpoisto);
+                    kr.lisaa( kohdjalkeen);
+                    kirjoittaja.lisaaRivi( kr);
+
+                    VientiRivi rivi;
+                    rivi.pvm = kausi.paattyy();
+                    rivi.tili = tili;
+                    rivi.kreditSnt = kohdpoisto;
+                    rivi.selite = tr("Menojäännöspoisto %1 % %4 saldo ennen %L2 €, jälkeen %L3 €")
+                            .arg(poistoprosentti)
+                            .arg(kohdsaldo / 100.0,0, 'f',2)
+                            .arg(kohdjalkeen / 100.0,0, 'f',2)
+                            .arg( kohdennus.nimi());
+                    rivi.kohdennus = kohdennus;
+                    ehdotus.lisaaVienti(rivi);
+
+                    VientiRivi poistotilille;
+                    poistotilille.pvm = kausi.paattyy();
+                    poistotilille.tili = kp()->tilit()->tiliNumerolla( tili.json()->luku("Poistotili") );
+                    poistotilille.debetSnt = kohdpoisto;
+                    poistotilille.kohdennus = kohdennus;
+                    poistotilille.selite = tr("Tilin %1 %2 %3 menojäännöspoisto")
+                            .arg(tili.numero())
+                            .arg(tili.nimi())
+                            .arg(kohdennus.nimi());
+
+                    ehdotus.lisaaVienti(poistotilille);
+                }
+
+
+            }
+            else
+            {
+                // Tehdään kirjaus
+                VientiRivi vienti;
+                vienti.pvm = kausi.paattyy();
+                vienti.tili = tili;
+                vienti.kreditSnt = poisto;
+                vienti.selite = tr("Menojäännöspoisto %1 % saldo ennen %L2 €, jälkeen %L3 €")
+                        .arg(poistoprosentti)
+                        .arg(saldo / 100.0,0, 'f',2)
+                        .arg(jalkeen / 100.0,0, 'f',2);
+                ehdotus.lisaaVienti(vienti);
+
+                VientiRivi poistotilille;
+                poistotilille.pvm = kausi.paattyy();
+                poistotilille.tili = kp()->tilit()->tiliNumerolla( tili.json()->luku("Poistotili") );
+                poistotilille.debetSnt = poisto;
+                poistotilille.selite = tr("Tilin %1 %2 menojäännöspoisto")
+                        .arg(tili.numero())
+                        .arg(tili.nimi());
+
+                ehdotus.lisaaVienti(poistotilille);
+            }
             kirjoittaja.lisaaRivi();
-
-            // Tehdään kirjaus
-            VientiRivi vienti;
-            vienti.pvm = kausi.paattyy();
-            vienti.tili = tili;
-            vienti.kreditSnt = poisto;
-            vienti.selite = tr("Menojäännöspoisto %1 % saldo ennen %L2 €, jälkeen %L3 €")
-                    .arg(poistoprosentti)
-                    .arg(saldo / 100.0,0, 'f',2)
-                    .arg(jalkeen / 100.0,0, 'f',2);
-            ehdotus.lisaaVienti(vienti);
-
-            VientiRivi poistotilille;
-            poistotilille.pvm = kausi.paattyy();
-            poistotilille.tili = kp()->tilit()->tiliNumerolla( tili.json()->luku("Poistotili") );
-            poistotilille.debetSnt = poisto;
-            poistotilille.selite = tr("Tilin %1 %2 menojäännöspoisto")
-                    .arg(tili.numero())
-                    .arg(tili.nimi());
-
-            ehdotus.lisaaVienti(poistotilille);
 
 
         }
@@ -161,7 +215,7 @@ bool Poistaja::sumupoistaja(Tilikausi kausi)
                 int poistoKk = 0;
 
                 QSqlQuery alkuKysely;
-                alkuKysely.exec(QString("SELECT debetsnt, kreditsnt, json FROM vienti WHERE id=%1").arg(eranId) );
+                alkuKysely.exec(QString("SELECT debetsnt, kreditsnt, json, kohdennus FROM vienti WHERE id=%1").arg(eranId) );
                 if( alkuKysely.next())
                 {
                     alkuSnt = alkuKysely.value("debetsnt").toInt() - alkuKysely.value("kreditsnt").toInt();
@@ -182,8 +236,6 @@ bool Poistaja::sumupoistaja(Tilikausi kausi)
 
 
                 int eraPoisto = laskennallinenPoisto - alkuSnt + eraSaldo;
-
-                qDebug() << kuukauttaKulunut << " kk " << laskennallinenPoisto << " lapo " << poistoKk << " kk poistoaikaa " << alkuSnt << " alkuSnt" ;
 
                 RaporttiRivi rr;
                 rr.lisaa( eranPvm );
@@ -206,6 +258,8 @@ bool Poistaja::sumupoistaja(Tilikausi kausi)
                 vienti.kreditSnt = eraPoisto;
                 vienti.eraId = eInd.data(EranValintaModel::EraIdRooli).toInt();
                 vienti.selite = tr("Tasaeräpoisto %1 ").arg( eInd.data(EranValintaModel::SeliteRooli).toString() );
+                // #123: Kohdennetaan poisto kirjauksen kohdennuksen mukaan
+                vienti.kohdennus = kp()->kohdennukset()->kohdennus( alkuKysely.value("kohdennus").toInt() );
                 ehdotus.lisaaVienti(vienti);
 
                 VientiRivi poistotilille;
