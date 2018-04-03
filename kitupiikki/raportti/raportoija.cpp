@@ -495,6 +495,24 @@ void Raportoija::laskeKohdennusData(int kohdennus)
                 .arg(kohdennus);
 
         sijoitaTulosKyselyData(kysymys, i);
+
+        // Tasetilien summat
+        kysymys = QString("SELECT ysiluku, sum(debetsnt), sum(kreditsnt) "
+                                  "from vienti,tili where vienti.tili = tili.id and ysiluku < 300000000 "
+                                  "and pvm <= \"%1\" and kohdennus=%2 "
+                                  "group by ysiluku").arg(loppuPaivat_.at(i).toString(Qt::ISODate))
+                                                     .arg(kohdennus);
+        QSqlQuery query(kysymys);
+        while (query.next())
+        {
+            int ysiluku = query.value(0).toInt();
+            qlonglong debet = query.value(1).toLongLong();
+            qlonglong kredit = query.value(2).toLongLong();
+
+            data_[i].insert( ysiluku, debet - kredit );
+
+            tilitKaytossa_.insert( ysiluku, true);
+        }
     }
 }
 
