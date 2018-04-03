@@ -4,7 +4,7 @@ Yhdistys
 [TilikarttaTekija]
 artoh.github.io
 [TilikarttaPvm]
-2018-04-01
+2018-04-03
 [TilikarttaKuvaus]
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 <html><head><meta name="qrichtext" content="1" /><style type="text/css">
@@ -41,7 +41,7 @@ p, li { white-space: pre-wrap; }
 <p style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:large; font-weight:600;">Arvonlisävero</span> </p>
 <p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Yhdistyksen aatteellinen toiminta on yleensä arvonlisäverotonta. Jos yhdistys on hakeutunut alv-velvolliseksi, tee tämä valinta kohdassa <span style=" font-weight:600;">Määritykset &gt; Perusvalinnat</span>. Jos perusvalinnoista määritellään, että yhdistyksellä on myös arvonlisäverollista liiketoimintaa, löytyvät sen tilit alueelta 70xx.</p></body></html>
 [TilikarttaLuontiVersio]
-0.7-devel
+0.10-devel
 [tilit]
 H1 1 {} VASTAAVAA
 H2 10 {"Asti":147} Pysyvät vastaavat
@@ -572,106 +572,6 @@ yhdistys-1.kpk
 ON
 [MuotoTeksti]
 Onko yhdistyksellä liiketoimintaa
-[Raportti/Toiminnanalat]
-:kohdennus
-Toimintatulot   S 3 *
-Toimintakulut	S 4..6 * ==
-Henkilöstökulut	5 * s4
-Poistot 6 * s4
-Muut kulut  4 * s4
-
-Varainhankinta  7
-Liiketoiminnan tulot    703 *
-Liiketoiminnan kulut    704..709 *
-Varainhankinnan tulot   73 *
-Varainhankinnan kulut   74..79 *
-
-Toiminnanala yhteensä   = viiva
-
-
-[Raportti/Tase PMA]
-:tase
-
-VASTAAVAA		H bold
-
-PYSYVÄT VASTAAVAT		10..146 
-Aineettomat hyödykkeet		10 s4 *
-Aineelliset hyödykkeet		11 s4 *		
-Sijoitukset		14 s4 *
-OMAKATTEISTEN RAHASTOJEN VARAT	148 s4 *
-VAIHTUVAT VASTAAVAT		15..19 
-Vaihto-omaisuus		15 s4 *		
-Pitkäaikaiset saamiset		16 s4 *
-Lyhytaikaiset saamiset		17 s4 *
-Rahoitusarvopaperit		18 s4 *
-Rahat ja pankkisaamiset		19 s8 *
-
-Vastaavaa yhteensä		1 bold
-
-
-VASTATTAVAA		H bold
-
-VASTATTAVAA		H bold
-OMA PÄÄOMA		20 
-Osake-, osuus- tai muu vastaava pääoma	200 s4 *
-Sidotut rahastot		201,202 s4
-Omakatteiset rahastot		201 s8 *
-Muut sidotut rahastot		202 s8 *
-Ylikurssirahasto		2032 s4 *
-Arvonkorotusrahasto		2033 s4 *
-Muut rahastot		204 s4
-Äänettömät yhtiömiehet		210 s4 *
-Vastuunalaiset yhtiömiehet		211 s4 *
-Yksityistilit tilikaudella		22 s4 *
-Edellisten tilikausien voitto/tappio	2450 s4 *
-Tilikauden voitto/tappio		2460 s4 *
-TILINPÄÄTÖSSIIRTOJEN KERTYMÄ	25 
-PAKOLLISET VARAUKSET		26	
-VIERAS PÄÄOMA		26..28
-Pitkäaikainen vieras pääoma		28 s4
-Lyhytaikainen vieras pääoma		29 s4
-
-
-Vastattavaa yhteensä		2 bold
-
-[Raportti/Tuloslaskelma]
-:tulos
-
-Varsinainen toiminta	bold
-Tuotot	3 S *
-Kulut
-Henkilöstökulut	5 s4 *
-Poistot	6 s4 *
-Muut kulut	4 s4 *
-Kulut yhteensä	3..6 == S4 
-
-Tuotto/Kulujäämä	=
-
-Varainhankinta	bold
-Tuotot	703,73 S4 *
-Kulut	704..709,74..79 S4 *
-Varainhankinta yhteensä	7 == S4 
-
-Tuotto/Kulujäämä	= 
-
-Sijoitus- ja rahoitustoiminta	bold
-Tuotot	90 S4 *
-Kulut	91 S4 *
-Sijoitus- ja rahoitustoiminta yhteensä	90,91 == S4 
-
-Tuotto/Kulujäämä	=
-
-Yleisavustukset	88  * bold
-
-Tilikauden tulos	=
-
-Tilinpäätössiirrot	bold
-Poistoeron muutos	950 * s4
-Verotusperusteisten varausten muutos	951 * s4
-Konserniavustus	958 * s4
-Tilinpäätössiirrot yhteensä	s4 95 == 
-
-Tilikauden ylijäämä (alijäämä)	= bold
 [Raportti/Tase]
 :tase
 VASTAAVAA		H bold
@@ -778,6 +678,110 @@ Muut velat		298 s8 *
 Siirtovelat  		299 s8 *
 
 Vastattavaa yhteensä		2 bold
+[Raportti/Toiminnanalat]
+:kohdennus
+Vastaavaa	1 *
+Vastattavaa	2 *
+Tase yhteensä	1..2 viiva
+
+Toimintatulot   	S 3 *
+Toimintakulut	S 4..6  
+Henkilöstökulut	5 * s4
+Poistot 	6 * s4
+Muut kulut  	4 * s4
+
+Varainhankinta  	7
+Liiketoiminnan tulot  	703 *
+Liiketoiminnan kulut 	704..709 *
+Varainhankinnan tulot	73 *
+Varainhankinnan kulut 	74..79 *
+
+Tulos yhteensä   	3..9 viiva
+
+
+[Raportti/Tuloslaskelma]
+:tulos
+
+Varsinainen toiminta	bold
+Tuotot	3 S *
+Kulut
+Henkilöstökulut	5 s4 *
+Poistot	6 s4 *
+Muut kulut	4 s4 *
+Kulut yhteensä	3..6 == S4 
+
+Tuotto/Kulujäämä	=
+
+Varainhankinta	bold
+Tuotot	703,73 S4 *
+Kulut	704..709,74..79 S4 *
+Varainhankinta yhteensä	7 == S4 
+
+Tuotto/Kulujäämä	= 
+
+Sijoitus- ja rahoitustoiminta	bold
+Tuotot	90 S4 *
+Kulut	91 S4 *
+Sijoitus- ja rahoitustoiminta yhteensä	90,91 == S4 
+
+Tuotto/Kulujäämä	=
+
+Yleisavustukset	88  * bold
+
+Tilikauden tulos	=
+
+Tilinpäätössiirrot	bold
+Poistoeron muutos	950 * s4
+Verotusperusteisten varausten muutos	951 * s4
+Konserniavustus	958 * s4
+Tilinpäätössiirrot yhteensä	s4 95 == 
+
+Tilikauden ylijäämä (alijäämä)	= bold
+[Raportti/Tase PMA]
+:tase
+
+VASTAAVAA		H bold
+
+PYSYVÄT VASTAAVAT		10..146 
+Aineettomat hyödykkeet		10 s4 *
+Aineelliset hyödykkeet		11 s4 *		
+Sijoitukset		14 s4 *
+OMAKATTEISTEN RAHASTOJEN VARAT	148 s4 *
+VAIHTUVAT VASTAAVAT		15..19 
+Vaihto-omaisuus		15 s4 *		
+Pitkäaikaiset saamiset		16 s4 *
+Lyhytaikaiset saamiset		17 s4 *
+Rahoitusarvopaperit		18 s4 *
+Rahat ja pankkisaamiset		19 s8 *
+
+Vastaavaa yhteensä		1 bold
+
+
+VASTATTAVAA		H bold
+
+VASTATTAVAA		H bold
+OMA PÄÄOMA		20 
+Osake-, osuus- tai muu vastaava pääoma	200 s4 *
+Sidotut rahastot		201,202 s4
+Omakatteiset rahastot		201 s8 *
+Muut sidotut rahastot		202 s8 *
+Ylikurssirahasto		2032 s4 *
+Arvonkorotusrahasto		2033 s4 *
+Muut rahastot		204 s4
+Äänettömät yhtiömiehet		210 s4 *
+Vastuunalaiset yhtiömiehet		211 s4 *
+Yksityistilit tilikaudella		22 s4 *
+Edellisten tilikausien voitto/tappio	2450 s4 *
+Tilikauden voitto/tappio		2460 s4 *
+TILINPÄÄTÖSSIIRTOJEN KERTYMÄ	25 
+PAKOLLISET VARAUKSET		26	
+VIERAS PÄÄOMA		26..28
+Pitkäaikainen vieras pääoma		28 s4
+Lyhytaikainen vieras pääoma		29 s4
+
+
+Vastattavaa yhteensä		2 bold
+
 [MuotoOn/On liiketoimintaa]
 +70/3
 +1167
@@ -794,6 +798,3 @@ AlvVelvollinen=ON
 -2984
 -2985
 AlvVelvollinen=EI
-[MuotoOn/Ei liiketoimintaa]
-
-[MuotoPois/Ei liiketoimintaa]
