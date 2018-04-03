@@ -579,6 +579,9 @@ void KirjausApuriDialog::ehdota()
                 rivi.debetSnt = bruttoSnt;
 
             rivi.eraId = ui->taseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
+            if( rivi.tili.json()->luku("Kohdennukset"))
+                rivi.kohdennus = kp()->kohdennukset()->kohdennus(ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
+
             ehdotus.lisaaVienti(rivi);
         }
         if( vastatili.onkoValidi())
@@ -589,6 +592,10 @@ void KirjausApuriDialog::ehdota()
             else
                 rivi.kreditSnt = bruttoSnt;
             rivi.eraId = ui->vastaTaseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
+
+            if( rivi.tili.json()->luku("Kohdennukset"))
+                rivi.kohdennus = kp()->kohdennukset()->kohdennus(ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
+
             ehdotus.lisaaVienti(rivi);
         }
 
