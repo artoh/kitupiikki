@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
             out << "TryExec=" << a.applicationFilePath() << "\n";
             out << "GenericName=Kirjanpito\n";
             out << a.tr("Comment=Avoimen lähdekoodin kirjanpitäjä\n");
-            out << "Categories=Office;Finance;Qt\nTerminal=false";
+            out << "Categories=Office;Finance;Qt;\nTerminal=false";
         }
 #endif
 

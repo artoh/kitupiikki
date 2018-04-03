@@ -5,4 +5,4 @@ Exec=kitupiikki %F
 Icon=kitupiikki
 Comment=Avoimen lähdekoodin kirjanpitäjä
 Terminal=false
-Categories=Office;Finance;Qt
+Categories=Office;Finance;Qt;
