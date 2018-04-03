@@ -47,7 +47,9 @@ pages:
     - Tilinavaus : 'maaritykset/tilinavaus/index.md'
     - Laskutus: 'maaritykset/laskutus/index.md'
     - Sähköpostin lähettäminen: 'maaritykset/sahkoposti/index.md'
-  - Kirjaaminen: 'kirjaus/index.md'
+  - Kirjaaminen: 
+    - Kirjausapuri: 'kirjaus/index.md'
+    - Tuonti: 'kirjaus/tuonti/index.md'
   - Laskutus: 'laskutus/index.md'
   - Selaaminen ja etsiminen: 'selaus/index.md'
   - Tulosteet: 'tulosteet/index.md'
@@ -57,7 +59,6 @@ pages:
     - Tilinpäätös: 'tilikaudet/tilinpaatos/index.md'
     - Sähköinen arkisto: 'tilikaudet/arkisto/index.md'
   - Muita toimintoja: 
-    - Tuonti: 'kirjaus/tuonti/index.md'
     - Raporttien muokkaus: 'maaritykset/raportit/index.md'
     - Tilinpäätöksen malli: 'maaritykset/tilinpaatos/index.md'
   - Lisenssi: 'lisenssi.md'

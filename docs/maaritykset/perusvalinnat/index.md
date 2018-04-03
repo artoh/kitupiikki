@@ -4,10 +4,9 @@
 
 **Organisaation nimi**, **y-tunnus**, **osoite**, **kotipaikka**, **puhelin** ja **logo** näkyvät erilaisissa tulosteissa. Logoksi voi valita jpg- tai png-muotoisen kuvatiedoston.
 
-Valitse **Arvonlisäverovelvollinen** jos olet rekisteröitynyt arvonlisäverovelvolliseksi, katso [Verohallinnon ohjeet arvonlisäverosta](https://www.vero.fi/fi-FI/Yritys_ja_yhteisoasiakkaat/Arvonlisaverotus). Arvonlisäveroon liittyvät toiminnat näytetään vain, kun Arvonlisäverovelvollinen on valittu. Katso Käsikirjan lukua [Arvonlisävero](/alv).
+Elinkeinotoiminnan tilikartoissa määritellään käytettävä **yritysmuoto**. Yhdistystoiminnan tilikartassa määritellään, onko yhdistyksellä arvonlisäveron alaista liiketoimintaa. Nämä valinnat vaikuttavat tilien näyttämiseen ja piilottamiseen tilikartalla.
 
-!!! tip "Arvonlisäverovelvollisuus"
-    Arvonlisäverovelvolliseksi on hakeuduttava, jos tilikauden liikevaihto voi ylittää 10 000 euroa. Alarajahuojennukset takia hakeutuminen kannattaa yleensä pienemmälläkin liikevaihdolla. Yleishyödyllinen toiminta on arvonlisäverotonta, eli useimpien yhdistysten tarvitsee maksaa arvonlisäveroa vain, jos ne harjoittavat huomattavaa liiketoimintaa.
+Valitse **Arvonlisäverovelvollinen** jos olet rekisteröitynyt arvonlisäverovelvolliseksi. Arvonlisäveroon liittyvät toiminnat näytetään vain, kun Arvonlisäverovelvollinen on valittu. Katso Käsikirjan lukua [Arvonlisävero](/alv).
 
 **Näytä tulosteiden muokkauksen työkalut** mahdollistaa tilinpäätösmallin ja eri raporttien mallipohjien muokkaamisen.
 

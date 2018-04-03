@@ -6,7 +6,7 @@
 
 Tilikarttaan voi lisätä uusia tilejä sekä muokata ja poistaa vanhoja.
 
-!!! note "Valmiit tilikartat"
+!!! success "Valmiit tilikartat"
     Lähes kaikki tarvitsemasi tilit löytyvät valmiista tilikartoista, joissa tilien määritykset ovat valmiiksi kohdallaan. Jos lisäät itse tilejä, ole huolellinen numeroinnin ja määritysten kanssa, jotta kirjaukset tulevat käsitellyiksi oikein!
 
 Jos tilikartassa oleva tili on tarpeeton **piilota** se. Piilotettu tili ei näy luetteloissa tiliä valittaessa. Tilin voi myös kokonaan poistaa, mutta yleensä piilottaminen on parempi vaihtoehto.
@@ -25,11 +25,14 @@ Tilejä lisättäessä on tärkeää, että tili tulee oikealle numeroalueelle, 
 
 **Täydentävä teksti** tulostuu tase-erittelylle ja **kirjausohje** on luettavissa tiliä valittaessa.
 
+!!! note "Tilien sijoittuminen tilinpäätösessä ja taseessa"
+    Jos tilien numerointia muutetaan tai tilejä lisätään olemassa olevien otsikkoalueiden ulkopuolelle, pitää vastaavat muutokset tehdä myös [raporttien muokkauksessa](../raportit).
+
 ![](myynti.png)
 
 **Tilityyppi** määrittelee, miten tiliä käsitellään kirjanpidossa ja missä luetteloissa tili näytetään, katso alempaa [Tilityypit](#tilityypit).
 
-**Vastatili** määrittää sen, mikä tili valitaan oletuksena tehtäessä tälle tilille kirjaus. Meno- ja tulotileille kannattaa usein valita vastatiliksi pankki- tai käteistili.
+**Vastatili** määrittää sen, mikä tili valitaan oletuksena tehtäessä tälle tilille kirjaus. Meno- ja tulotileille kannattaa usein valita vastatiliksi pankki- tai käteistili taikka suoritusperusteisessa kirjanpidossa myyntisaatavien tai ostovelkojen tili.
 
 **Verolaji** ja **veroprosentti** ovat tilin kirjauksen oletusvalintoja, verolajin ja -prosentin voi aina valita joka viennille erikseen, katso [arvonlisävero](/alv). Valinnat eivät ole näkyvissä, jos yritystä ei ole merkitty [perusvalinnoissa](../perusvalinnat) arvonlisävelvolliseksi.
 
@@ -47,6 +50,8 @@ Tasetilien (vastaavaa ja vastattavaa) kohdalla valitaan, miten tili esitetään 
 * **Lisäykset ja vähennykset**: Kirjauksia ei eritellä, mutta tase-erittelyyn tulostuvat tilikauden aikaiset tapahtumat. Käytetään esimerkiksi menojäännöspoistettavissa tileissä.
 * **Saldo**: Tase-erittelyyn tulostetaan vain tilien saldot.
 
+Tasetileille on erikseen merkittävä, jos [kohdennukset](../kohdennukset) on käytettävissä.
+
 ## Poistettava omaisuus
 
 ![](kalusto.png)
@@ -62,39 +67,28 @@ Kitupiikki tukee suunnitelman mukaisten poistojen tekemistä tasaeräpoistoina t
 
 ## Tilityypit
 
-**Vastaavaa-tilityypit**
+Koodi | Tilityyppi | Ryhmä | Huomautukset
+------|------------|-------|----------
+A     | Vastaavaa  | Vastaavaa | Vastaavaa-tili ilman tarkempaa erittelyä
+APM   | Poistokelpoinen omaisuus, menojäännöspoisto | Vastaavaa |
+APT   | Poistokelpoinen omaisuus, tasapoisto | Vastaavaa |
+AS    | Saatavaa  | Vastaavaa | Saatavat ilman tarkempaa erittelyä
+AO    | Myyntisaatava | Vastaavaa | Laskutettu myynti
+AL    | Arvonlisäverosaatava | Vastaavaa | Vain yksi tili. Tälle tilille kirjataan palautettavan arvonlisäveron osuus ennen alv-ilmoituksen antamista. Tilille saa tehdä vain sellaisia kirjauksia, joihin on määritelty oikeat alv-tunnistetiedot.
+ARK   | Käteisvarat | Vastaavaa |
+ARP   | Pankkitili | Vastaavaa  |
+B     | Vastattavaa | Vastattavaa | Vastattavaa-tili ilman tarkempaa erittelyä
+BE    | Edellisten tilikausien voitto/tappio | Vastattavaa | Vain yksi tili. Edellisten tilikausien yli/alijäämä tulee näkyviin tälle tilille.
+T     | Tämän tilikauden tulos | Vastattavaa | Vain yksi tili. Tämän tilikauden tulos tulee näkyviin tälle tilille. Tilille ei saa tehdä mitään kirjauksia.
+BS    | Velat | Vastattavaa | Velat ilman tarkempaa erittelyä
+BL    | Arvonlisäverovelka | Vastattavaa | Vain yksi tili. Tälle tilille kirjataan arvonlisäveron osuus ennen alv-ilmoituksen antamista. Tilille saa tehdä vain sellaisia kirjauksia, joihin on merkitty oikeat alv-ohjaustiedot.
+BO   | Ostovelka | Vastattavaa | Maksamattomat ostolaskut
+BV   | Verovelka | Vastattavaa | Vain yksi tili. Oma-aloitteisesti maksettavat verot (esim. arvonlisävero ja ennakonpidätykset), jotka on ilmoitettu mutta ei vielä maksettu. Vastaa OmaVero-tilin velkasaldoa.
+C    | Tulot    | Tulo   | Tulot, joita ei lasketa liikevaihtoon
+CL   | Liikevaihtotulo | Tulo | Liikevaihtoon laskettava myynti
+D    | Menot  | Meno |
+DP   | Poistot | Meno  | Poistojen menotili
 
-Nämä tilit alkavat aina numerolla 1.
-
-* Vastaavaa (ei tarkempaa erittelyä)
-* Poistokelpoinen omaisuus, menojäännöspoisto
-* Poistokelpoinen omaisuus, tasapoisto
-* Saatavaa
-* Arvonlisäverosaatava (yksi tili)
-* Myyntisaatavat
-* Käteisvarat
-* Pankkitili
-
-**Vastattavaa-tilityypit**
-
-Nämä tilit alkavat aina numerolla 2.
-
-* Vastattavaa (ei tarkempaa erittelyä)
-* Edellisen tilikausien voitto/tappio (yksi tili)
-* Tämän tilikauden tulos (yksi tili)
-* Velat
-* Arvonlisäverovelka (yksi tili)
-* Ostovelat
-* Verovelka (OmaVero-ilmoitetut) (yksi tili)
-
-**Tuloslaskelman tilityypit**
-
-Nämä tilit alkavat numeroilla 3..9
-
-* Tulot (ei lasketa mukaan liikevaihtoon)
-* Liikevaihtotulo (liikevaihtoon laskettava myynti)
-* Menot
-* Poistot
 
 ## Tilikartan vieminen
 
@@ -102,10 +96,9 @@ Nämä tilit alkavat numeroilla 3..9
 
 **Vie tilikartta**-painikkeellä pääset viemään tilikartan tilit, tositelajit, raportit, tilinpäätöspohjan ja joukon muita valintoja ktk-tiedostoksi, jonka pohjalta voi aloittaa uuden kirjanpidon.
 
-Näin siirtää kirjanpitosi valinnat toiseen kirjanpitoon tai jakaa tilikarttasi muiden Kitupiikin käyttäjien kanssa.
+Näin voit siirtää kirjanpitosi valinnat toiseen kirjanpitoon tai jakaa tilikarttasi muiden Kitupiikin käyttäjien kanssa.
 
-Painike käynnistää sarjan valintaikkunoita, joissa valitset tilikartalle nimen ja kirjoitat tilikartan ohjeet. Valinta **yksityinen elinkeinonharjoittaja** vaikuttaa tilinpäätökseen: pienten elinkeinonharjoittajien ei tarvitse laatia ollenkaan tilinpäätöstä, ja isommat laativat sen mikroyrityssäännösten mukaisesti.
-
+Painike käynnistää sarjan valintaikkunoita, joissa valitset tilikartalle nimen ja kirjoitat tilikartan ohjeet.
 
 ## Tilikartan päivittäminen
 
@@ -122,7 +115,7 @@ Päivitystoiminto
 
 ![](paivitys.png)
 
-Ylempi valinta päivittää ohjelman mukana tulleeseen tilikarttaan. **Päivitys tiedostossa olevaan tilikarttaan** mahdollistaa tilikartan lataamisen ktk-tiedostosta.
+**Päivitä ohjelman mukana sisäiseen tilikarttaan** päivittää ohjelman mukana tulleeseen tilikarttaan. **Päivitys tiedostossa olevaan tilikarttaan** mahdollistaa tilikartan lataamisen ktk-tiedostosta.
 
 !!! warning "Varmista tiedoston sopivuus"
     Ohjelman sisäisissä päivityksissä on varmistettu, että päivitys sopii käytössä olevaan tilikarttaan. Jos päivität erilliseen tiedostoon, varmista tiedostot sopivuus (ettet esimerkiksi päivitä osakeyhtiölle yhdistyksen tilikarttaa.)

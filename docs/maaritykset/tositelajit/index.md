@@ -15,4 +15,5 @@ Tositelajille voi määritellä **oletustilin** eli tilin, mihin kirjauksen pä�
 
 Määrittämällä, että tosittella kirjataan **vain ostolaskuja** tai **vain myyntilaskuja** näytetään tilille kirjattaessa vain menotilit tai tulotilit. Valinnalla **Tiliotteita tilille** määritellään, että tällä tositelajilla tehdään kirjauksia vain tietyn tilin tiliotteen perusteella.
 
-Määrittämällä eri käyttötarkoituksille omat tositelajinsa ja tekemällä niille oletusvalinnat, tulee kirjaamisesta huomattavasti nopeampaa ja tositeluetteloista selvempiä.
+!!! success "Tositelajeilla nopeammat kirjaukset"
+    Määrittämällä eri käyttötarkoituksille omat tositelajinsa ja tekemällä niille oletusvalinnat, tulee kirjaamisesta huomattavasti nopeampaa ja tositeluetteloista selvempiä. Kitupiikin kirjaustoiminto toimii parhaiten silloin, kun mahdollisimman paljon valintoja on yhdistetty tositelajeihin.

@@ -17,37 +17,42 @@ todellista kirjanpitoa.
 !!! tip "Kokeile ensin"
     Ennen varsinaisen kirjanpidon aloittamista, kannattaa Kitupiikkiä kokeilla harjoittelutilassa. Harjoittelutilassa voit nopeuttaa ajan kulumista, joten voit harjoitella myös tilinpäätöksen tekemistä ja uuden tilikauden aloittamista.
 
-!!! warning "Harjoittelukirjanpitoa ei voi muuttaa varsinaiseksi kirjanpidoksi"
-    Harjoittelutila mahdollistaa "ajassa matkaamisen" mikä mahdollistaa lukittujen
-    kirjausten muuttumisen. Harjoittelutilassa aloitettua kirjanpitoa ei siksi voi
-    muuttaa varsinaiseksi kirjanpidoksi. Voit kuitenkin viedä harjoittelukirjanpidosta
-    tilikartan ja raporttipohjat uuden varsinaisen kirjanpidon pohjaksi.
-    Harjoittelutilassa kaikkiin raportteihin tulostuu myös huomautus harjoittelutilasta.
-
-## Perustiedot
-
-![](nimi3.png)
-
-Toisessa ruudussa syötetään organisaation nimi ja Y-tunnus. Näitä voi muokata
-myöhemmin [perusmäärityksissä](/maaritykset/perusvalinnat/).
-
-Lisäksi voit syöttää pankkitilin (ensisijainen käyttötili) tilinumeron. Tilinumero tulostuu laskuille ja
-sitä käytetään myös maksujen ja tiliotteiden kohdistamiseen. Tilinumeron voi syöttää myöhemmin
-tilin tietoihin [tilikartassa](/maaritykset/tilikartta).
-
 ## Tilikartta
 
 ![](tilikartta4.png)
 
-Seuraavaksi valitaan tilikartta. Tilikartta määrittää käytettävien tilien lisäksi
+Toisessa ruudussa valitaan tilikartta. Tilikartta määrittää käytettävien tilien lisäksi
 myös käytössä olevat raportit eli esimerkiksi tuloslaskelman rakenteen sekä
 tilinpäätöksen pohjan.
+
+Tilikartan nimi   | Kuvaus
+------------------|-------------------------
+Elinkeinotoiminta (suppea) | Tilikartta yritystoimintaa varten. Yritysmuotoina yksityinen elinkeinonharjoittaja, avoin yhtiö, kommandiittiyhtiö, osuuskunta ja osakeyhtiö. Tilikartta on verraten suppea, ja se perustuu [Rapointikoodistoon](http://raportointikoodisto.fi).
+Elinkeintotoiminta (Tilitin-yhteensopiva) | Laaja tilikartta yritystoimintaa varten, 869 tiliä. Yritysmuotoina suppean tilikartan tilien lisäksi julkinen osakeyhtiö. Tilikartta on yhteensopiva [Tilitin](http://helineva,net/tilitin)-ohjelman elinkeinotoiminnan tilikartan kanssa.
+Kiinteistöyhtiö | Kiinteistökaavan mukaisen tuloslaskelman tilikartta kiinteistöyhtiölle ja asunto-osakeyhtiölle. **Tämä tilikartta on puutteellisesti testattu**
+Yhdistys | Aatteellisen yhdistys ja säätiö, tuloslaskelma yhdistyskaavan mukainen.
+
 
 Voit valita ohjelman mukana tulevan tilikartan tai **Lataa tilikartta tiedostosta**-napilla
 erilliseen tiedostoon tallennetun tilikartan.
 
 Voit myöhemmin lisätä, muokata ja poistaa käytössä olevia tilejä samoin kuin
 raporttien ja tilinpäätöksen malleja.
+
+
+## Perustiedot
+
+![](nimi3.png)
+
+Seuraavassa ruudussa syötetään organisaation nimi ja Y-tunnus. Näitä voi muokata
+myöhemmin [perusmäärityksissä](/maaritykset/perusvalinnat/).
+
+Lisäksi voit syöttää pankkitilin (ensisijainen käyttötili) tilinumeron. Tilinumero tulostuu laskuille ja
+sitä käytetään myös maksujen ja tiliotteiden kohdistamiseen. Tilinumeron voi syöttää myöhemmin
+tilin tietoihin [tilikartassa](/maaritykset/tilikartta).
+
+Elinkeinotoiminnan tilikartoissa valitaan yritysmuoto, mikä määritelee käytössä olevia tilejä. Yhdistystilikartassa valitaan, onko yhdistyksellä arvonlisäverollista liiketoimintaa, joka kirjataan erikseen 70-alkuisille tileille.
+
 
 ##Tilikausi
 
