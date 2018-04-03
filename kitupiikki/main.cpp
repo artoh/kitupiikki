@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
 #endif
 
     a.setApplicationName("Kitupiikki");
-    a.setApplicationVersion("0.10-beta");
+    a.setApplicationVersion("0.10-devel");
     a.setOrganizationDomain("artoh.github.io");
     a.setOrganizationName("Kitupiikki Kirjanpito");
     a.setWindowIcon( QIcon(":/pic/Possu64.png"));
@@ -86,6 +86,7 @@ int main(int argc, char *argv[])
         if( tervetuloUi.valikkoonCheck->isChecked())
         {
             // Kopioidaan kuvake
+            QDir::home().mkpath( ".local/share/icons" );
             QFile::copy(":/pic/Possu64.png", QDir::home().absoluteFilePath(".local/share/icons/Kitupiikki.png"));
             // Lisätään työpöytätiedosto
             QFile desktop( QDir::home().absoluteFilePath(".local/share/applications/Kitupiikki.desktop") );
@@ -95,9 +96,8 @@ int main(int argc, char *argv[])
             out << "[Desktop Entry]\nVersion=1.0\nType=Application\nName=Kitupiikki kirjanpito\n";
             out << "Icon=" << QDir::home().absoluteFilePath(".local/share/icons/Kitupiikki.png") << "\n";
             out << "Exec=" << a.applicationFilePath() << "\n";
-            out << "GenericName=Finnish bookkeeping software\n";
-            out << "Comment[fi]=Kirjanpito\n";
-            out << a.tr("GenericName[fi]=Avoimen lähdekoodin kirjanpitäjä\n");
+            out << "GenericName=Kirjanpito\n";
+            out << a.tr("Comment=Avoimen lähdekoodin kirjanpitäjä\n");
             out << "Categories=Office;Finance;Qt\nTerminal=false";
         }
 #endif
