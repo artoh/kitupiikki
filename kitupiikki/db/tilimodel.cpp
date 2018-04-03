@@ -402,6 +402,6 @@ bool TiliModel::tallenna(bool tietokantaaLuodaan)
         return false;
     }
 
-    return false;
+    return true;
 }
 
