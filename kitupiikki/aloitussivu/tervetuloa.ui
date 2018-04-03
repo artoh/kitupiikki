@@ -93,6 +93,16 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="valikkoonCheck">
+     <property name="text">
+      <string>Lisää Kitupiikki aloitusvalikkoon</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -111,6 +121,9 @@
       <widget class="QCheckBox" name="paivitysCheck">
        <property name="text">
         <string>Ilmoita saatavilla olevista päivityksistä</string>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
        </property>
       </widget>
      </item>
