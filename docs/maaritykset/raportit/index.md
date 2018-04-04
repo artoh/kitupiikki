@@ -1,16 +1,18 @@
 !!! note "Edistynyt toiminto"
-    Sinun ei yleensä tarvitse muokata raportteja. Raporttien muokkaus on otettava erikseen käyttöön [perusvalintojen](../perusvalinnat) kohdasta **Näytä tulosteiden muokkauksen työkalut**
+    Sinun ei yleensä tarvitse muokata raportteja. Raporttien muokkaus on otettava erikseen käyttöön [perusvalintojen](../perusvalinnat) kohdasta **Näytä tulosteiden muokkauksen työkalut**.
+
+    Raporttien muokkausta tarvitaan, jos olet muuttanut tilien numerointia tai lisännyt tilejä olemassa olevien otsikkoalueiden ulkopuolelle.
 
 ![](muokkaus.png)
 
 **Määritykset > Raportit** pääset muokkaamaan raportteja.
 
 * Valitse ylhäällä vasemmalla olevasta luettelosta muokattava raportti tai aloita **uusi**-painikkeella uusi raportti
-* Oikealla yläkulmassa valitaan raportin tyyppi
-  * **Tuloslaskelma** kuvaa tilikauden tulosta (tulostilit)
-  * **Tase** kuvaa taloudellista tilannetta tilinpäätöspäivänä (tasetilit)
-  * **Kohdennuslaskelma** lasketaan erikseen jokaiselle käytössä olevalle kohdennukselle
-  * **Liitä erittely arkistoon** määrittelee, liitetäänkö tämä raportti erittelynä sähköiseen arkistoon.
+* Oikealla yläkulmassa valitaan raportin tyyppi <ul>
+  <li> **Tuloslaskelma** kuvaa tilikauden tulosta (tulostilit) </li>
+  <li> **Tase** kuvaa taloudellista tilannetta tilinpäätöspäivänä (tasetilit) </li>
+  <li> **Kohdennuslaskelma** lasketaan erikseen jokaiselle käytössä olevalle kohdennukselle. Kohdennuslaskelmassa voi olla sekä tase- että tulostilejä samalla laskelmalla. </li></ul>
+* **Liitä erittely arkistoon** määrittelee, liitetäänkö tämä raportti erittelynä sähköiseen arkistoon.
 
 Raportin kaava muodostuu siten, että vasemmassa reunassa on tulostettavat tekstit ja tabulaattorin jälkeen tulostetta ohjaavat määritteet.
 

@@ -2,7 +2,7 @@
 
 [![versio](https://img.shields.io/github/release/artoh/kitupiikki.svg?label=Julkaistu%20versio)](https://github.com/artoh/kitupiikki/releases)
 [![versio](https://img.shields.io/github/release/artoh/kitupiikki/all.svg?label=Esiversio)](https://github.com/artoh/kitupiikki/releases)
-![lisenssi](https://img.shields.io/github/license/artoh/kitupiikki.svg?label=Lisenssi)
+[![lisenssi](https://img.shields.io/github/license/artoh/kitupiikki.svg?label=Lisenssi)](https://raw.githubusercontent.com/artoh/kitupiikki/master/LICENSE)
 [![mathdown HuBoard](https://img.shields.io/github/issues/artoh/kitupiikki.svg?label=Tehtävät%20%28HuBoard%29)](https://huboard.com/artoh/kitupiikki)
 [![Join the chat at https://gitter.im/kitupiikki/Lobby](https://badges.gitter.im/kitupiikki/Lobby.svg)](https://gitter.im/kitupiikki/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -35,7 +35,7 @@ Linuxissa poppler on helppo asentaa järjestelmään:
 
     sudo apt-get install libpoppler-qt5-1 libpoppler-qt5-dev
 
-Windowsissa voi käyttää [valmiiksi käännettyä Poppler Win32](https://sourceforge.net/projects/poppler-win32/) -kirjastoa, joka puretaan kitupiikin hakemistoon. Päivitysten tarkistaminen ja SMTP/SSL-sähköpostin lähettäminen vaativat OpenSSL-kirjastoa.
+Windowsissa voi käyttää [valmiiksi käännettyä Poppler Win32](https://sourceforge.net/projects/poppler-win32/) -kirjastoa, joka puretaan kitupiikin hakemistoon. SMTP/SSL-sähköpostin lähettäminen vaativat OpenSSL-kirjastoa.
 
 
 ## Kääntäminen

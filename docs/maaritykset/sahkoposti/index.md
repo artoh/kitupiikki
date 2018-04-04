@@ -19,6 +19,4 @@ Kun olet syöttänyt asetukset, paina **Kokeile**-painiketta, joka yrittää lä
 
 Tässä tapauksessa käyttäjätunnus tai salasana on väärin.
 
-Jos lähetys onnistuu, tulee Kokeile-napin vasemmalle puolelle teksti **Sähköposti lähetetty**, ja löydät testiviestin postilaatikostasi
-
-![](mailissa.png)
+Jos lähetys onnistuu, tulee Kokeile-napin vasemmalle puolelle teksti **Sähköposti lähetetty**, ja löydät testiviestin postilaatikostasi.
