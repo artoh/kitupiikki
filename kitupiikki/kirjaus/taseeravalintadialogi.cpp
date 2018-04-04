@@ -24,6 +24,7 @@
 #include "db/tili.h"
 
 #include <QDebug>
+#include <QRegularExpressionValidator>
 
 TaseEraValintaDialogi::TaseEraValintaDialogi(QWidget *parent) :
     QDialog(parent),
@@ -31,15 +32,24 @@ TaseEraValintaDialogi::TaseEraValintaDialogi(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    sntProxy_ = new QSortFilterProxyModel(this);
+    sntProxy_->setSourceModel(&model_);
+    sntProxy_->setFilterRole(EranValintaModel::SaldoRooli);
+
     proxy_ = new QSortFilterProxyModel(this);
     proxy_->setSortRole(EranValintaModel::PvmRooli);
-    proxy_->setSourceModel(&model_);
+    proxy_->setSourceModel(sntProxy_);
 
     ui->view->setModel( proxy_);
     ui->view->setSelectionMode(QListView::SingleSelection);
 
+    ui->summaEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("[-]?\\d+(,\\d\\d)?"), this));
+
     connect( ui->suodatusEdit, SIGNAL(textChanged(QString)), proxy_, SLOT(setFilterFixedString(QString)));
     connect( ui->view->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(eraValintaVaihtuu()) );
+
+    connect( ui->vainAvoimetCheck, SIGNAL(clicked(bool)), this, SLOT(sntSuodatusVaihtuu()));
+    connect( ui->summaEdit, SIGNAL(textEdited(QString)), this, SLOT(sntSuodatusVaihtuu()));
 }
 
 TaseEraValintaDialogi::~TaseEraValintaDialogi()
@@ -53,20 +63,11 @@ TaseEraValintaDialogi::~TaseEraValintaDialogi()
 bool TaseEraValintaDialogi::nayta(VientiModel *model, QModelIndex &index)
 {
     tili_ = kp()->tilit()->tiliNumerolla( index.data(VientiModel::TiliNumeroRooli).toInt() );
-    int taseEra = index.data( VientiModel::EraIdRooli).toInt();
+    taseEra_ = index.data( VientiModel::EraIdRooli).toInt();
 
     model_.lataa( tili_, true );
 
     ui->view->setCurrentIndex( proxy_->index(0,0));
-    for(int i=0; i < proxy_->rowCount(); i++)
-    {
-        qDebug() << i << "   " << proxy_->data( proxy_->index(i,0), EranValintaModel::EraIdRooli).toInt();
-        if( proxy_->data( proxy_->index(i,0), EranValintaModel::EraIdRooli ).toInt() == taseEra)
-        {
-            ui->view->setCurrentIndex( proxy_->index(i,0) );
-            break;
-        }
-    }
 
     ui->tiliEdit->setText( index.data(VientiModel::SaajanTiliRooli).toString());
     ui->viiteEdit->setText( index.data(VientiModel::ViiteRooli).toString());
@@ -101,6 +102,7 @@ bool TaseEraValintaDialogi::nayta(VientiModel *model, QModelIndex &index)
         ui->kohdennusCombo->setCurrentIndex( ui->kohdennusCombo->findData( index.data(VientiModel::KohdennusRooli), KohdennusModel::IdRooli ) );
     }
 
+    sntSuodatusVaihtuu();
 
     if( exec())
     {
@@ -145,4 +147,30 @@ void TaseEraValintaDialogi::eraValintaVaihtuu()
 
     ui->tabWidget->setTabEnabled( OSTO_TAB ,eraId()==0 && tili_.onko(TiliLaji::OSTOVELKA));
 
+}
+
+void TaseEraValintaDialogi::sntSuodatusVaihtuu()
+{
+
+    if( ui->summaEdit->hasAcceptableInput() )
+    {
+        int sentit = std::round(ui->summaEdit->text().replace(',','.').toDouble() * 100);
+        sntProxy_->setFilterRegExp( QString("^[-]?%1$").arg(sentit) );
+    }
+    else if( ui->vainAvoimetCheck->isChecked())
+    {
+        sntProxy_->setFilterRegExp("^[-1-9].*");
+    }
+    else
+        sntProxy_->setFilterFixedString("");
+
+    // Valitaan valittuna ollut
+    for(int i=0; i < proxy_->rowCount(); i++)
+    {
+        if( proxy_->data( proxy_->index(i,0), EranValintaModel::EraIdRooli ).toInt() == taseEra_)
+        {
+            ui->view->setCurrentIndex( proxy_->index(i,0) );
+            break;
+        }
+    }
 }

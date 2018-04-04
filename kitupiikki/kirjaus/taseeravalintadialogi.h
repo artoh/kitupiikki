@@ -54,14 +54,17 @@ public:
 
 public slots:
     void eraValintaVaihtuu();
+    void sntSuodatusVaihtuu();
 
 private:
     Ui::TaseEraValintaDialogi *ui;
 
     QSortFilterProxyModel *proxy_;
+    QSortFilterProxyModel *sntProxy_;
     EranValintaModel model_;
 
     Tili tili_;
+    int taseEra_;
 
 };
 

@@ -25,11 +25,32 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QLineEdit" name="suodatusEdit">
-         <property name="placeholderText">
-          <string>Suodata tekstillä</string>
-         </property>
-        </widget>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QLineEdit" name="suodatusEdit">
+           <property name="placeholderText">
+            <string>Suodata tekstillä</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="vainAvoimetCheck">
+           <property name="text">
+            <string>Vain avoimet</string>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="summaEdit">
+           <property name="placeholderText">
+            <string>Etsi summa</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item>
         <widget class="QListView" name="view"/>
@@ -166,8 +187,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>257</x>
-     <y>290</y>
+     <x>266</x>
+     <y>471</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -182,8 +203,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>325</x>
-     <y>290</y>
+     <x>334</x>
+     <y>471</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
