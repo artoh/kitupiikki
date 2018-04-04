@@ -37,6 +37,7 @@ TilikarttaMuokkaus::TilikarttaMuokkaus(QWidget *parent)
     proxy = new QSortFilterProxyModel(this);
     proxy->setSourceModel(model);
     proxy->setSortRole(TiliModel::YsiRooli);
+    proxy->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
     ui->view->setModel(proxy);
     ui->view->hideColumn( TiliModel::NRONIMI);
