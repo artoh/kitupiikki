@@ -8,7 +8,7 @@
 
 Kun kirjausikkunassa lisätään pdf-muotoinen tosite, pyrkii Kitupiikki poimimaan siitä tietoja kirjauksien pohjaksi.
 
-Toiminto edellyttää, että pdf-tiedostossa teksti on upotettuna. Näin on yleensä, kun pdf-tiedosto on ollut koko ajan sähköisessä muodossa (välitetty sähköpostilla tai haettu verkkopankista). Skannattu tiedosto pitää käsitellä erikseen OCR- eli tekstintunnistusohjelmalla. Lisäksi pdf-tiedostojen tuonti pitää olla otettuna [määrityksistä](#maaritykset) käyttöön.
+Toiminto edellyttää, että pdf-tiedostossa teksti on upotettuna. Näin on yleensä, kun pdf-tiedosto on ollut koko ajan sähköisessä muodossa (välitetty sähköpostilla tai haettu verkkopankista). Skannattu tiedosto pitää käsitellä erikseen OCR- eli tekstintunnistusohjelmalla. Lisäksi pdf-tiedostojen tuonti pitää olla otettuna [tuonnin määrityksistä](/maaritykset/tuonti) käyttöön.
 
 ### Ostolaskut
 
@@ -24,7 +24,7 @@ Lisäksi ostolaskulle tallennetaan lisätiedot (Saajan pankkitili ja viite), joi
 ### Tiliotteet
 
 !!! tip "Eikö toimi?"
-    Pdf-tiliotteen tuonti on kokeellinen toiminto. Jos se toimii väärin oman pankkisi tiliotteiden kanssa tai muuten ottaa päähän tai häiritsee, ota se pois käytöstä [määrityksistä](#maaritykset).
+    Pdf-tiliotteen tuonti on kokeellinen toiminto. Jos se toimii väärin oman pankkisi tiliotteiden kanssa tai muuten ottaa päähän tai häiritsee, ota se pois käytöstä [tuonnin määrityksistä](/maaritykset/tuonti).
 
 Tiliotteen perusteella Kitupiikki tekee valmiit pankkitilin kirjaukset. Jos tiliotteella olevan tapahtuman IBAN- ja viitenumerot täsmäävät avoinna olevaan myynti- tai ostolaskuun, osaa Kitupiikki kohdentaa suorituksen ja tekee koko kirjauksen valmiiksi. Verohallinnon oma-aloitteisten verojen maksutilille tehdyt suoritukset kohdistetaan verovelkatilille.
 
@@ -33,11 +33,10 @@ Tiliotteen kirjaaminen edellyttää, että tilin IBAN-numero on määritelty kys
 !!! info "Tiliotteiden muoto"
     Tiliotteiden tuonti perustuu tiettyihin tiliotteella oleviin sanoihin ja niiden asemointiin. Kitupiikki on onnistunut tunnistamaan ainakin seuraavien pankkien tiliotteita: S-Pankki, XXXXXX.
 
-### Määritykset
+## TITO-tiliotteiden tuonti
 
-![Tuontimääritykset](tuontimaaritys.png)
+Kitupiikki laatii viennit konekielisten TITO-tiliotteiden tilitapahtumista (ascii-muoto). Tilin IBAN-numeron pitää olla määriteltynä kyseisen tilin [määrityksissä](/maaritykset/tilikartta). Lisää tiliotetiedosto raahaamalla se **Sähjöinen tosite**-laatikkoon tai **Lisää tiedosto**-painikkeella.
 
-Määrityksien **Tuonti** välilehdellä pdf-tiedostojen tuonti otetaan käyttöön (erikseen ostolaskujen ja tiliotteiden osalta). Ostolaskuista määritellään myös tuotavien laskujen **tositetyyppi** ja **ostolaskutili** sekä se, tehdäänkö kirjaukset **suoriteperusteisina** (toimituspäivämäärän mukaan, jos mainittu laskulla) vai **laskuperusteisesti** (laskun päivämäärän mukaan).
 
 ## CSV-tiedostojen tuonti
 

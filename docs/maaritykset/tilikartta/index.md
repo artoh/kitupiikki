@@ -75,6 +75,7 @@ APT   | Poistokelpoinen omaisuus, tasapoisto | Vastaavaa |
 AS    | Saatavaa  | Vastaavaa | Saatavat ilman tarkempaa erittelyä
 AO    | Myyntisaatava | Vastaavaa | Laskutettu myynti
 AL    | Arvonlisäverosaatava | Vastaavaa | Vain yksi tili. Tälle tilille kirjataan palautettavan arvonlisäveron osuus ennen alv-ilmoituksen antamista. Tilille saa tehdä vain sellaisia kirjauksia, joihin on määritelty oikeat alv-tunnistetiedot.
+ALM   | Maksuperusteisen alv:n kohdentamaton saatava | Vastaavaa | Vain yksi tili. Tälle tilille kirjataan maksuperusteista arvonlisäveromenettelyä käytettäessä kohdentamaton arvonlisäverosaaminen. Kun maksu on suoritettu, siirretään erä arvonlisäverosaatavien tilille. Tilille saa tehdä vain kirjauksia oikeanlaisilla alv-ohjaustiedoilla.
 ARK   | Käteisvarat | Vastaavaa |
 ARP   | Pankkitili | Vastaavaa  |
 B     | Vastattavaa | Vastattavaa | Vastattavaa-tili ilman tarkempaa erittelyä
@@ -82,6 +83,7 @@ BE    | Edellisten tilikausien voitto/tappio | Vastattavaa | Vain yksi tili. Ede
 T     | Tämän tilikauden tulos | Vastattavaa | Vain yksi tili. Tämän tilikauden tulos tulee näkyviin tälle tilille. Tilille ei saa tehdä mitään kirjauksia.
 BS    | Velat | Vastattavaa | Velat ilman tarkempaa erittelyä
 BL    | Arvonlisäverovelka | Vastattavaa | Vain yksi tili. Tälle tilille kirjataan arvonlisäveron osuus ennen alv-ilmoituksen antamista. Tilille saa tehdä vain sellaisia kirjauksia, joihin on merkitty oikeat alv-ohjaustiedot.
+BLM  | Maksuperusteisen alv:n kohdentamaton velka | Vastattavaa  | Vain yksi tili. Tälle tilille kirjataan maksuperusteista arvonlisäveromenettelyä käytettäessä kohdetamaton arvonlisäverovelka. Kun myynnistä on saatu maksu, siirretään erä arvonlisäverovelan tilille.
 BO   | Ostovelka | Vastattavaa | Maksamattomat ostolaskut
 BV   | Verovelka | Vastattavaa | Vain yksi tili. Oma-aloitteisesti maksettavat verot (esim. arvonlisävero ja ennakonpidätykset), jotka on ilmoitettu mutta ei vielä maksettu. Vastaa OmaVero-tilin velkasaldoa.
 C    | Tulot    | Tulo   | Tulot, joita ei lasketa liikevaihtoon
