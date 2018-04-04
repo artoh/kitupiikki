@@ -54,7 +54,7 @@ tilin tietoihin [tilikartassa](/maaritykset/tilikartta).
 Elinkeinotoiminnan tilikartoissa valitaan yritysmuoto, mikä määritelee käytössä olevia tilejä. Yhdistystilikartassa valitaan, onko yhdistyksellä arvonlisäverollista liiketoimintaa, joka kirjataan erikseen 70-alkuisille tileille.
 
 
-##Tilikausi
+## Tilikausi
 
 ![](tilikausi5.png)
 
@@ -65,7 +65,7 @@ Edellisen tilikauden tiedot syötetään viimeisimmän tilinpäätöksen tilinko
 tase-erittelystä sekä tuloslaskelman erittelystä. Voit aloittaa kirjanpidon ja myös tehdä
 uusia kirjauksia, vaikka tilinavausta ei olisikaan tehty.
 
-##Tiedostojen sijainti
+## Tiedostojen sijainti
 
 ![](sijainti6.png)
 
@@ -89,7 +89,7 @@ kuuluvat sähköiset tositteet.
 Kaikki valinnat on tehty, ja sinulle näytetään valitsemaasi tililuetteloon liittyvä ohje. Kun olet vielä vahvistanut valintasi, luodaan uusi kirjanpito.
 
 
-##Viimeistele vielä määritykset
+## Viimeistele vielä määritykset
 
 ![](vinkit7.png)
 

@@ -35,7 +35,8 @@ markdown_extensions:
   - toc:
         permalink: true
 pages:
-  - Esittely: 'index.md'
+  - Kitupiikki: 'index.md'
+  - Esittely: 'esittely.md'
   - Kirjanpidosta lyhyesti: 'kirjanpito/index.md'
   - Asennus: 'asennus.md'
   - Kirjanpidon aloittaminen: 'aloitus/index.md'
