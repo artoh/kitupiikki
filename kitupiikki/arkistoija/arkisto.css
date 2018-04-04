@@ -34,3 +34,11 @@ a { text-decoration: none;}
 img.logo { float: right; margin: 1em;}
 
 h2.etusivu { font-size: 16pt; font-weight: normal;}
+
+@media print
+{
+    nav ul li.nappi { display: none; }
+    a { color: black; }
+    a.avaaliite { display: none; }
+    #liite { display: none; }
+}
