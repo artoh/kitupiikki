@@ -17,7 +17,7 @@
 
 #include <QDialogButtonBox>
 #include <QPushButton>
-
+#include <QRegularExpressionValidator>
 #include <QDebug>
 
 #include "tositelajidialogi.h"
@@ -38,6 +38,8 @@ TositelajiDialogi::TositelajiDialogi(TositelajiModel *model, const QModelIndex &
 
     ui->oletusTiliEdit->suodataTyypilla("[CD].*");
     ui->vastatiliEdit->suodataTyypilla("[AB].*");
+
+    ui->tunnusEdit->setValidator( new QRegularExpressionValidator( QRegularExpression("[A-ö]+") ,0) );
 
     connect( ui->tunnusEdit, SIGNAL(textEdited(QString)), this, SLOT(tarkasta()));
     connect( ui->nimiEdit, SIGNAL(textEdited(QString)), this, SLOT(tarkasta()));
