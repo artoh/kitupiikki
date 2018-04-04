@@ -59,6 +59,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 {
 
     connect( Kirjanpito::db(), SIGNAL(tietokantaVaihtui()), this, SLOT(kirjanpitoLadattu()));
+    connect(kp(), SIGNAL(perusAsetusMuuttui()), this, SLOT(kirjanpitoLadattu()));
 
     setWindowIcon(QIcon(":/pic/Possu64.png"));
     setWindowTitle( tr("Kitupiikki %1").arg(qApp->applicationVersion()));

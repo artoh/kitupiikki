@@ -196,6 +196,7 @@ void KirjausWg::tyhjenna()
         apurivinkki_->move( (width() - apurivinkki_->width()) / 2 ,
                             ui->apuriNappi->y() - apurivinkki_->height() - ui->apuriNappi->height() / 2 );
     }
+    naytaSummat();
 }
 
 void KirjausWg::tallenna()

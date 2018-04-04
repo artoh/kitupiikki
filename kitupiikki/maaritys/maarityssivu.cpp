@@ -95,16 +95,18 @@ MaaritysSivu::MaaritysSivu() :
     connect( tallennanappi, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
     connect( kp(), SIGNAL(tilikausiPaatetty()), this, SLOT(paivitaNakyvat()));
 
+    connect( kp(), &Kirjanpito::tietokantaVaihtui, [this] { nykyinen=0; });
+
 }
 
 void MaaritysSivu::siirrySivulle()
 {
     paivitaNakyvat();   // Piilottaa luettelosta ne valinnat, jotka eivät ole käytössä
 
-    if( lista->currentItem())
+    if( lista->currentItem() && !lista->currentItem()->isHidden() && nykyinen)
         valitseSivu( lista->currentItem());
     else
-        valitseSivu( lista->item(0));
+        lista->setCurrentItem( lista->item(0) );
 }
 
 bool MaaritysSivu::poistuSivulta(int /* minne */)
@@ -235,7 +237,7 @@ void MaaritysSivu::valitseSivu(QString otsikko)
         QListWidgetItem *item = lista->item(i);
         if( item->text() == otsikko )
         {
-            valitseSivu( item );
+            lista->setCurrentItem(item);
             return;
         }
     }

@@ -48,6 +48,7 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     ui->alvVaaraKuva->setVisible(false);
     ui->alvVaaraTeksti->setVisible(false);
     ui->yhdistaCheck->setVisible(false);
+    ui->eiVahennaCheck->setVisible(false);
     ui->ostoBox->setVisible(false);
 
     // Jos kredit ja debet poikkeaa, voidaan tehdä toispuoleinen kirjaus
@@ -89,6 +90,7 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     connect( ui->vaihdaNappi, SIGNAL(clicked(bool)), this, SLOT(ehdota()));
     connect(ui->seliteEdit, SIGNAL(editingFinished()), this, SLOT(ehdota()));
     connect( ui->eiVahennaCheck, SIGNAL(toggled(bool)), this, SLOT(ehdota()));
+    connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("kirjaus/apuri");} );
 
     // #44 pvm:n muutos aiheuttaa vastatilin tarkastamisen, koska vaikuttaa erien yhdistämiseen
     connect(ui->pvmDate, SIGNAL(editingFinished()), this, SLOT(vastaTiliMuuttui()));
