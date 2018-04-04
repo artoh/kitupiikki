@@ -3,7 +3,7 @@ Elinkeinotoiminta (Tilitin-yhteensopiva)
 [TilikarttaTekija]
 artoh.github.io
 [TilikarttaPvm]
-2018-03-20
+2018-04-01
 [TilikarttaKuvaus]
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 <html><head><meta name="qrichtext" content="1" /><style type="text/css">
@@ -282,8 +282,8 @@ A 1861 {"Taseerittely":3} Tytäryritysten osakkeet (rahoitusomaisuus)
 A 1863 {"Taseerittely":3} Emoyrityksen osakkeet (rahoitusomaisuus)
 A 1865 {"Taseerittely":3} Sisaryritysten osakkeet (rahoitusomaisuus)
 A 1867 {"Taseerittely":3} Muut konserniosuudet (rahoitusomaisuus)
-H4 187 {} Omat osakkeet
-A 1871 {"Taseerittely":1} OYJ:n (pörssinoteerattu) omat osakkeet (rahoitusomaisuus)
+H4- 187 {} Omat osakkeet
+A- 1871 {"Taseerittely":1} OYJ:n (pörssinoteerattu) omat osakkeet (rahoitusomaisuus)
 H4 188 {} Muut osakkeet ja osuudet
 A 1881 {"Taseerittely":3} Muut osakkeet ja osuudet (rahoitusomaisuus)
 H4 189 {} Muut arvopaperit
@@ -1604,17 +1604,21 @@ Tulos	3..9 viiva
 [MuotoTeksti]
 Yritysmuoto
 [MuotoOn/Julkinen osakeyhtiö]
++187
 +201..207
 +226
 +149
 [MuotoPois/Julkinen osakeyhtiö]
+-187
 -201..207
 -226
 -149
 [MuotoOn/Osakeyhtiö]
++187
 +201..207
 +226
 [MuotoPois/Osakeyhtiö]
+-187
 -201..207
 -226
 [MuotoOn/Osuuskunta]
@@ -1637,3 +1641,9 @@ Elinkeinonharjoittaja=ON
 -220
 -236
 Elinkeinonharjoittaja=EI
+[MuotoOn/Avoin yhtiö]
++215
++231
+[MuotoPois/Avoin yhtiö]
+-215
+-231
