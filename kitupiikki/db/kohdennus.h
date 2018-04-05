@@ -34,7 +34,8 @@ public:
     {
         EIKOHDENNETA = 0,
         KUSTANNUSPAIKKA = 1,
-        PROJEKTI = 2
+        PROJEKTI = 2,
+        MERKKAUS = 3
     };
 
     Kohdennus(int tyyppi = EIKOHDENNETA, const QString& nimi = QString());

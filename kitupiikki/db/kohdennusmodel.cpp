@@ -250,8 +250,6 @@ void KohdennusModel::tallenna()
             if( !kohdennus.id() )
                 kohdennukset_[i].asetaId( kysely.lastInsertId().toInt());
 
-            qDebug() << kysely.lastQuery() << " " << kysely.lastError().text() << " " << kohdennus.nimi() << "  "
-                     << kysely.lastInsertId().toInt();
         }
     }
     foreach (int id, poistetutIdt_)

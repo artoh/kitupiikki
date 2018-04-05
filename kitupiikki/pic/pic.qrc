@@ -103,6 +103,7 @@
         <file>apuri64.png</file>
         <file>siirto.png</file>
         <file>Menu-Circles.png</file>
+        <file>tag.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

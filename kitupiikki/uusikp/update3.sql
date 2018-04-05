@@ -6,7 +6,7 @@ CREATE TABLE merkkaus (
                             REFERENCES vienti(id)  ON DELETE CASCADE
                                                    ON UPDATE CASCADE,
     kohdennus       INTEGER NOT NULL
-                            REFERENCES kohdennus(id) ON DELETE CASCADE,
+                            REFERENCES kohdennus(id) ON DELETE CASCADE
                                                      ON UPDATE CASCADE
 );
 

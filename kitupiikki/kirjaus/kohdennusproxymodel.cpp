@@ -42,6 +42,9 @@ bool KohdennusProxyModel::filterAcceptsRow(int source_row, const QModelIndex & s
         return false;
     if( paattyy.isValid() && nykyinenPaiva > paattyy)
         return false;
+    if( index.data(KohdennusModel::TyyppiRooli).toInt() == Kohdennus::MERKKAUS)
+        return false;   // Tageja ei näytetä kohdennusvalikoissa
+
 
     return true;
 }
