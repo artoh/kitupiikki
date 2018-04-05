@@ -30,12 +30,16 @@
  */
 class MuokattavaRaportti : public Raportti
 {
+    Q_OBJECT
 public:
     MuokattavaRaportti(const QString& raporttinimi);
     ~MuokattavaRaportti();
 
     RaportinKirjoittaja raportti( bool csvmuoto = false);
 
+
+public slots:
+    void paivitaUi();
 
 protected:
     Ui::MuokattavaRaportti *ui;   

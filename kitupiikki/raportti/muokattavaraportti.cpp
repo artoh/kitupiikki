@@ -30,36 +30,21 @@ MuokattavaRaportti::MuokattavaRaportti(const QString &raporttinimi)
     ui = new Ui::MuokattavaRaportti;
     ui->setupUi( raporttiWidget );
 
-    Raportoija raportoija(raporttinimi);
+    QStringList muodot = kp()->asetukset()->avaimet("Raportti/" + raporttinimi + '/');
 
-    // Jos tehdään taselaskelmaa, piilotetaan turhat tiedot!
-    ui->alkaa1Date->setVisible( raportoija.onkoKausiraportti() );
-    ui->alkaa2Date->setVisible( raportoija.onkoKausiraportti() );
-    ui->alkaa3Date->setVisible( raportoija.onkoKausiraportti() );
-    ui->alkaaLabel->setVisible( raportoija.onkoKausiraportti() );
-    ui->paattyyLabel->setVisible( raportoija.onkoKausiraportti() );
+    ui->muotoCombo->setVisible( muodot.count());
+    ui->muotoLabel->setVisible( muodot.count());
 
-    // Sitten laitetaan valmiiksi tilikausia nykyisestä taaksepäin
-    int tilikausiIndeksi = kp()->tilikaudet()->indeksiPaivalle( kp()->paivamaara() );
-    if( tilikausiIndeksi > -1 )
+    if( muodot.count())
     {
-        ui->alkaa1Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi).alkaa() );
-        ui->loppuu1Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi).paattyy() );
+        for( QString muoto : muodot)
+        {
+            ui->muotoCombo->addItem( muoto.mid(muoto.lastIndexOf(QChar('/'))+1) , muoto.mid(9) );
+        }
+        connect( ui->muotoCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(paivitaUi()));
     }
-    if( tilikausiIndeksi > 0)
-    {
-        ui->alkaa2Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi-1).alkaa() );
-        ui->loppuu2Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi-1).paattyy() );
-    }
-    ui->sarake2Box->setChecked(tilikausiIndeksi > 0);
 
-    if( tilikausiIndeksi > 1)
-    {
-        ui->alkaa3Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi-2).alkaa() );
-        ui->loppuu3Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi-2).paattyy() );
-    }
-    ui->sarake3Box->setChecked(tilikausiIndeksi > 1);
-
+    paivitaUi();
 }
 
 MuokattavaRaportti::~MuokattavaRaportti()
@@ -93,5 +78,42 @@ RaportinKirjoittaja MuokattavaRaportti::raportti(bool /* csvmuoto */ )
         raportoija.etsiKohdennukset();
 
     return raportoija.raportti( ui->erittelyCheck->isChecked());
+}
+
+void MuokattavaRaportti::paivitaUi()
+{
+    if( ui->muotoCombo->isVisible())
+        raporttiNimi = ui->muotoCombo->currentData(Qt::UserRole).toString();
+
+
+    Raportoija raportoija(raporttiNimi);
+
+    // Jos tehdään taselaskelmaa, piilotetaan turhat tiedot!
+    ui->alkaa1Date->setVisible( raportoija.onkoKausiraportti() );
+    ui->alkaa2Date->setVisible( raportoija.onkoKausiraportti() );
+    ui->alkaa3Date->setVisible( raportoija.onkoKausiraportti() );
+    ui->alkaaLabel->setVisible( raportoija.onkoKausiraportti() );
+    ui->paattyyLabel->setVisible( raportoija.onkoKausiraportti() );
+
+    // Sitten laitetaan valmiiksi tilikausia nykyisestä taaksepäin
+    int tilikausiIndeksi = kp()->tilikaudet()->indeksiPaivalle( kp()->paivamaara() );
+    if( tilikausiIndeksi > -1 )
+    {
+        ui->alkaa1Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi).alkaa() );
+        ui->loppuu1Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi).paattyy() );
+    }
+    if( tilikausiIndeksi > 0)
+    {
+        ui->alkaa2Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi-1).alkaa() );
+        ui->loppuu2Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi-1).paattyy() );
+    }
+    ui->sarake2Box->setChecked(tilikausiIndeksi > 0);
+
+    if( tilikausiIndeksi > 1)
+    {
+        ui->alkaa3Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi-2).alkaa() );
+        ui->loppuu3Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi-2).paattyy() );
+    }
+    ui->sarake3Box->setChecked(tilikausiIndeksi > 1);
 }
 
