@@ -781,7 +781,8 @@ Lyhytaikainen vieras pääoma		29 s4
 
 
 Vastattavaa yhteensä		2 bold
-
+[MuotoOn/Ei liiketoimintaa]
+[MuotoPois/Ei liiketoimintaa]
 [MuotoOn/On liiketoimintaa]
 +70/3
 +1167
@@ -798,3 +799,4 @@ AlvVelvollinen=ON
 -2984
 -2985
 AlvVelvollinen=EI
+
