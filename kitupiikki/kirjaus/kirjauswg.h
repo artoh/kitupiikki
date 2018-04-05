@@ -171,7 +171,7 @@ signals:
 
 protected:
     /**
-     * @brief Pvm-kentästä eteenpäin enterillä
+     * @brief Pvm-kentästä eteenpäin enterillä, tagivalikko
      * @param watched
      * @param event
      * @return

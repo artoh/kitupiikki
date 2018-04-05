@@ -130,6 +130,9 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     ui->otsikkoEdit->installEventFilter(this);
     ui->tositetyyppiCombo->installEventFilter(this);
 
+    // Tagivalikko
+    ui->viennitView->viewport()->installEventFilter(this);
+
 }
 
 KirjausWg::~KirjausWg()
@@ -457,6 +460,29 @@ bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
             }
         }
     }
+    else if( watched == ui->viennitView->viewport() )
+    {
+        // Merkkaus eli täggäys
+        // Kohdennus-sarakkeessa hiiren oikealla napilla valikko, josta voi valita tägit
+        if( event->type() == QEvent::MouseButtonPress)
+        {
+            QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
+            if( mouseEvent->button() == Qt::RightButton)
+            {
+                QModelIndex index = ui->viennitView->indexAt( mouseEvent->pos() );
+                if( index.column() == VientiModel::KOHDENNUS && index.data(VientiModel::PvmRooli).toDate().isValid() )
+                {
+
+                    model_->vientiModel()->setData(index, KohdennusProxyModel::tagiValikko( index.data(VientiModel::PvmRooli).toDate(),
+                                                                                            index.data(VientiModel::TagiIdListaRooli).toList()) ,
+                                                   VientiModel::TagiIdListaRooli);
+                    return false;
+                }
+            }
+        }
+    }
+
+
     return QWidget::eventFilter(watched, event);
 }
 

@@ -40,8 +40,8 @@ QIcon Kohdennus::tyyppiKuvake() const
         return QIcon(":/pic/kohdennus.png");
     else if( tyyppi() == PROJEKTI )
         return QIcon(":/pic/projekti.png");
-    else if( tyyppi() == MERKKAUS)
-        return QIcon(":/pic/merkkaus.png");
+    else if( tyyppi() == MERKKAUS )
+        return QIcon(":/pic/tag.png");
     else
         return QIcon();
 }

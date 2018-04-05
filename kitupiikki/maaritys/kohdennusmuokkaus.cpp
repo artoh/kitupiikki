@@ -44,6 +44,7 @@ KohdennusMuokkaus::KohdennusMuokkaus(QWidget *parent) :
     connect( ui->lisaaNappi, SIGNAL(clicked(bool)), this, SLOT(uusi()));
     connect( ui->muokkaaNappi, SIGNAL(clicked(bool)), this, SLOT(muokkaa()));
     connect(ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poista()));
+    connect( ui->view, SIGNAL(clicked(QModelIndex)), this, SLOT(muokkaa()));
 
 }
 

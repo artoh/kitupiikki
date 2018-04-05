@@ -121,6 +121,20 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
         return rivi.erapvm;
     else if( role == ArkistoTunnusRooli )
         return rivi.arkistotunnus;
+    else if( role == TagiNimilistaRooli)
+    {
+        QStringList nimilista;
+        for(Kohdennus tagi : rivi.tagit)
+            nimilista.append( tagi.nimi());
+        return nimilista;
+    }
+    else if( role == TagiIdListaRooli)
+    {
+        QVariantList lista;
+        for( Kohdennus tagi : rivi.tagit)
+            lista.append( tagi.id() );
+        return lista;
+    }
 
 
     else if( role==Qt::DisplayRole || role == Qt::EditRole)
@@ -202,6 +216,15 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
                             txt.append("\n");
                         txt.append( rivi.kohdennus.nimi());
                     }
+                    if( !rivi.tagit.isEmpty() )
+                    {
+                        if( !txt.isEmpty())
+                            txt.append("\n");
+                        QStringList taginimet;
+                        for( Kohdennus tagi : rivi.tagit)
+                            taginimet.append( tagi.nimi());
+                        txt.append( taginimet.join(", ") );
+                    }
 
                     return txt;
 
@@ -222,16 +245,18 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
     {
         if( index.column() == KOHDENNUS)
         {
-        if( rivi.maksaaLaskua )
-            return QIcon(":/pic/lasku.png");
-        else if( rivi.kohdennus.id() )
-            return rivi.kohdennus.tyyppiKuvake();
-        else if( !rivi.eraId && rivi.vientiId)
-        {
-            TaseEra era(rivi.vientiId);
-            if( !era.saldoSnt )
-                return QIcon(":/pic/ok.png");
-        }
+            if( rivi.maksaaLaskua )
+                return QIcon(":/pic/lasku.png");
+            else if( rivi.kohdennus.id() )
+                return rivi.kohdennus.tyyppiKuvake();
+            else if( !rivi.eraId && rivi.vientiId)
+            {
+                TaseEra era(rivi.vientiId);
+                if( !era.saldoSnt )
+                    return QIcon(":/pic/ok.png");
+            }
+            if( rivi.tagit.count())
+                return QIcon(":/pic/tag.png");
         }
         else if( index.column() == ALV )
         {
@@ -406,6 +431,14 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
     else if(role == ArkistoTunnusRooli)
     {
         viennit_[rivi].arkistotunnus = value.toString();
+    }
+    else if( role == TagiIdListaRooli)
+    {
+        // Asettaa näytettävät tägit eli korvamerkkaukset
+        viennit_[rivi].tagit.clear();
+        QVariantList lista = value.toList();
+        for( QVariant variant : lista )
+            viennit_[rivi].tagit.append( kp()->kohdennukset()->kohdennus(variant.toInt()) );
     }
     else
         return false;

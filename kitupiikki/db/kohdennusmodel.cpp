@@ -99,10 +99,7 @@ QVariant KohdennusModel::data(const QModelIndex &index, int role) const
     }
     else if( role == Qt::DecorationRole && index.column() == NIMI)
     {
-        if( kohdennus.tyyppi() == Kohdennus::PROJEKTI)
-            return QIcon(":/pic/projekti.png");
-        else if( kohdennus.tyyppi() == Kohdennus::KUSTANNUSPAIKKA)
-            return QIcon(":/pic/kohdennus.png");
+        return kohdennus.tyyppiKuvake();
     }
 
     return QVariant();
@@ -117,6 +114,8 @@ bool KohdennusModel::setData(const QModelIndex &index, const QVariant &value, in
             kohdennukset_[index.row()].asetaTyyppi( Kohdennus::PROJEKTI);
         else if( value.toInt() == Kohdennus::KUSTANNUSPAIKKA)
             kohdennukset_[index.row()].asetaTyyppi( Kohdennus::KUSTANNUSPAIKKA);
+        else if( value.toInt() == Kohdennus::MERKKAUS)
+            kohdennukset_[index.row()].asetaTyyppi( Kohdennus::MERKKAUS);
     }
     else if( role == NimiRooli)
     {
@@ -164,6 +163,23 @@ Kohdennus KohdennusModel::kohdennus(const QString &nimi) const
 QList<Kohdennus> KohdennusModel::kohdennukset() const
 {
     return kohdennukset_;
+}
+
+bool KohdennusModel::kohdennuksia() const
+{
+    for( Kohdennus kohdennus : kohdennukset_)
+        if( kohdennus.tyyppi() == Kohdennus::KUSTANNUSPAIKKA ||
+            kohdennus.tyyppi() == Kohdennus::PROJEKTI)
+            return true;
+    return false;
+}
+
+bool KohdennusModel::merkkauksia() const
+{
+    for( Kohdennus kohdennus : kohdennukset_)
+        if( kohdennus.tyyppi() == Kohdennus::MERKKAUS)
+            return true;
+    return false;
 }
 
 void KohdennusModel::poistaRivi(int riviIndeksi)

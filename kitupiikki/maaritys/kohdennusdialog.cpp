@@ -70,6 +70,8 @@ void KohdennusDialog::lataa()
 {
     ui->kustannuspaikkaRadio->setChecked( index_.data(KohdennusModel::TyyppiRooli).toInt() == Kohdennus::KUSTANNUSPAIKKA);
     ui->projektiRadio->setChecked(index_.data(KohdennusModel::TyyppiRooli).toInt() == Kohdennus::PROJEKTI );
+    ui->tagRadio->setChecked(index_.data(KohdennusModel::TyyppiRooli).toInt() == Kohdennus::MERKKAUS );
+
     ui->nimiEdit->setText( index_.data(KohdennusModel::NimiRooli).toString());
 
     ui->maaraaikainenCheck->setChecked( index_.data(KohdennusModel::AlkaaRooli ).toDate().isValid() );
@@ -84,6 +86,8 @@ void KohdennusDialog::tallenna()
         tyyppi = Kohdennus::KUSTANNUSPAIKKA;
     else if( ui->projektiRadio->isChecked())
         tyyppi = Kohdennus::PROJEKTI;
+    else if( ui->tagRadio->isChecked())
+        tyyppi = Kohdennus::MERKKAUS;
 
 
     if( index_.isValid())

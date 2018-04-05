@@ -19,6 +19,7 @@
 #define VIENTIMODEL_H
 
 #include <QAbstractTableModel>
+#include <QList>
 
 #include "db/tili.h"
 #include "db/kohdennus.h"
@@ -53,6 +54,7 @@ struct VientiRivi
     QString saajanTili;
     QDate erapvm;
     QString arkistotunnus;
+    QList<Kohdennus> tagit;
 };
 
 /**
@@ -95,7 +97,9 @@ public:
         SaajanTiliRooli = Qt::UserRole + 17,
         SaajanNimiRooli = Qt::UserRole + 18,
         EraPvmRooli = Qt::UserRole + 19,
-        ArkistoTunnusRooli = Qt::UserRole + 20
+        ArkistoTunnusRooli = Qt::UserRole + 20,
+        TagiNimilistaRooli = Qt::UserRole + 21,
+        TagiIdListaRooli = Qt::UserRole + 22
     };
 
 

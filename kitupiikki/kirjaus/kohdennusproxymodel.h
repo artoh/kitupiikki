@@ -27,10 +27,26 @@
 class KohdennusProxyModel : public QSortFilterProxyModel
 {
 public:
+    /**
+     * @brief Kohdennuksia suodattava proxy
+     * @param parent
+     * @param paiva Päivämäärä, jonka suhteen määräaikaisten suodatus
+     * @param kohdennus Nykyisen kohdennukset id TAI MERKKAUS (-10) jos näytetään merkkauksia
+     */
     KohdennusProxyModel(QObject *parent = nullptr, QDate paiva = QDate(), int kohdennus = -1);
 
     void asetaPaiva(const QDate& paiva) { nykyinenPaiva = paiva; invalidate(); }
     void asetaKohdennus(int kohdennus) { nykyinenKohdennus = kohdennus; invalidate(); }
+
+    enum { MERKKAUKSET = -10 };
+
+    /**
+     * @brief Valikko tägien valitsemiseen
+     * @param pvm Päivämäärä, jonka mukaan tägit valitaan
+     * @param valitut Lista valittujen tagien id:stä
+     * @return Valittujen tagit id-lista
+     */
+    static QVariantList tagiValikko(const QDate &pvm, QVariantList valitut = QVariantList());
 
 protected:
     virtual bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
