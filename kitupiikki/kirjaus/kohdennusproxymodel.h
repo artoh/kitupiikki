@@ -20,6 +20,7 @@
 
 #include <QSortFilterProxyModel>
 #include <QDate>
+#include <QCursor>
 
 /**
  * @brief Model, joka suodattaa vain aktiiviset kohdennukset
@@ -46,7 +47,7 @@ public:
      * @param valitut Lista valittujen tagien id:stä
      * @return Valittujen tagit id-lista
      */
-    static QVariantList tagiValikko(const QDate &pvm, QVariantList valitut = QVariantList());
+    static QVariantList tagiValikko(const QDate &pvm, QVariantList valitut = QVariantList(), QPoint sijainti = QCursor::pos());
 
 protected:
     virtual bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;

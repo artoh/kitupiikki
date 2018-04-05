@@ -194,7 +194,7 @@
      <item row="10" column="1">
       <widget class="QComboBox" name="kohdennusCombo"/>
      </item>
-     <item row="11" column="0">
+     <item row="12" column="0">
       <widget class="QLabel" name="label_6">
        <property name="text">
         <string>Vienti&amp;pvm</string>
@@ -204,10 +204,10 @@
        </property>
       </widget>
      </item>
-     <item row="11" column="1">
+     <item row="12" column="1">
       <widget class="QDateEdit" name="pvmDate"/>
      </item>
-     <item row="12" column="0">
+     <item row="13" column="0">
       <widget class="QLabel" name="label_7">
        <property name="text">
         <string>&amp;Selite</string>
@@ -217,10 +217,10 @@
        </property>
       </widget>
      </item>
-     <item row="12" column="1">
+     <item row="13" column="1">
       <widget class="QLineEdit" name="seliteEdit"/>
      </item>
-     <item row="13" column="0">
+     <item row="14" column="0">
       <widget class="QLabel" name="alvlajiLabel">
        <property name="text">
         <string>Alv-&amp;laji</string>
@@ -230,10 +230,10 @@
        </property>
       </widget>
      </item>
-     <item row="13" column="1">
+     <item row="14" column="1">
       <widget class="QComboBox" name="alvCombo"/>
      </item>
-     <item row="14" column="0">
+     <item row="15" column="0">
       <widget class="QLabel" name="alvprossaLabel">
        <property name="text">
         <string>Alv-&amp;prosentti</string>
@@ -243,7 +243,7 @@
        </property>
       </widget>
      </item>
-     <item row="14" column="1">
+     <item row="15" column="1">
       <widget class="QSpinBox" name="alvSpin">
        <property name="suffix">
         <string>%</string>
@@ -253,10 +253,27 @@
        </property>
       </widget>
      </item>
-     <item row="15" column="1">
+     <item row="16" column="1">
       <widget class="QCheckBox" name="eiVahennaCheck">
        <property name="text">
         <string>Ei &amp;oikeuta alv-vähennykseen</string>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="0">
+      <widget class="QLabel" name="merkkausLabel">
+       <property name="text">
+        <string>Merkka&amp;ukset</string>
+       </property>
+       <property name="buddy">
+        <cstring>merkkausEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="1">
+      <widget class="QLineEdit" name="merkkausEdit">
+       <property name="readOnly">
+        <bool>true</bool>
        </property>
       </widget>
      </item>

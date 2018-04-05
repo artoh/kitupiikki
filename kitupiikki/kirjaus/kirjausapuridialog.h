@@ -95,12 +95,17 @@ protected:
      */
     VientiRivi uusiEhdotusRivi(Tili tili = Tili(), int debetSnt = 0, int kreditSnt = 0);
 
+    bool eventFilter(QObject *watched, QEvent *event);
+
 private:
     Ui::KirjausApuriDialog *ui;
     TositeModel *model;
 
     double bruttoEur = 0.0;
     double nettoEur = 0.0;
+
+    QVariantList merkkaukset;
+    bool merkkauksessa = false;
 
     EhdotusModel ehdotus;
     EranValintaModel eraModelTilille;

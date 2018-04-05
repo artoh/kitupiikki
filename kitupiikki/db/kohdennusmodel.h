@@ -66,6 +66,17 @@ public:
     QList<Kohdennus> kohdennukset() const;
 
     /**
+     * @brief Onko määritelty kustannuspaikkoja tai projekteja
+     * @return
+     */
+    bool kohdennuksia() const;
+    /**
+     * @brief Onko määritelty merkkauksia
+     * @return
+     */
+    bool merkkauksia() const;
+
+    /**
      * @brief Poistaa kohdennuksen
      * @param riviIndeksi Indeksi (index.row()) poistettavaan
      */

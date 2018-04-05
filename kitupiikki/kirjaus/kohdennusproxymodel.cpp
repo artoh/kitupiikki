@@ -29,7 +29,7 @@ KohdennusProxyModel::KohdennusProxyModel(QObject *parent, QDate paiva, int kohde
     sort(KohdennusModel::NIMI);
 }
 
-QVariantList KohdennusProxyModel::tagiValikko(const QDate& pvm, QVariantList valitut)
+QVariantList KohdennusProxyModel::tagiValikko(const QDate& pvm, QVariantList valitut, QPoint sijainti)
 {
     // Valikko tägien valitsemiseen
     QMenu tagvalikko;
@@ -45,7 +45,7 @@ QVariantList KohdennusProxyModel::tagiValikko(const QDate& pvm, QVariantList val
             aktio->setChecked(true);
     }
 
-    tagvalikko.exec( QCursor::pos() );
+    tagvalikko.exec( sijainti );
 
     // Uusi valinta, jossa valitut tagit
     QVariantList uusivalinta;

@@ -18,6 +18,7 @@
 #include <QDebug>
 #include <QTimer>
 #include <cmath>
+#include "kohdennusproxymodel.h"
 #include "kirjausapuridialog.h"
 #include "ui_kirjausapuridialog.h"
 #include "validator/ibanvalidator.h"
@@ -50,6 +51,9 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     ui->yhdistaCheck->setVisible(false);
     ui->eiVahennaCheck->setVisible(false);
     ui->ostoBox->setVisible(false);
+
+    ui->merkkausLabel->setVisible( kp()->kohdennukset()->merkkauksia() );
+    ui->merkkausEdit->setVisible( kp()->kohdennukset()->merkkauksia());
 
     // Jos kredit ja debet poikkeaa, voidaan tehdä toispuoleinen kirjaus
     ui->vastaCheck->setVisible( false );
@@ -100,7 +104,7 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     connect(ui->vastaTaseEraCombo, SIGNAL(currentIndexChanged(int)), this, SLOT( vastaEraValittu()) );
     connect(ui->pvmDate, SIGNAL(dateChanged(QDate)), this, SLOT(pvmMuuttuu()));
 
-    connect( ui->vastaCheck, SIGNAL(toggled(bool)), this, SLOT(vastakirjausOlemassa(bool)));
+    connect( ui->vastaCheck, SIGNAL(toggled(bool)), this, SLOT(vastakirjausOlemassa(bool)));        
 
     // Hakee tositteen tiedoista esitäytöt
     QDate pvm = model->pvm();
@@ -151,6 +155,8 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     QTimer::singleShot(0, this, SLOT(korjaaSarakeLeveydet()));
 
     connect( model, SIGNAL(tyhjennetty()), this, SLOT(close()) );
+
+    ui->merkkausEdit->installEventFilter(this);
 }
 
 KirjausApuriDialog::~KirjausApuriDialog()
@@ -434,6 +440,11 @@ void KirjausApuriDialog::ehdota()
     int alvprosentti = ui->alvSpin->value();
     int alvkoodi = ui->alvCombo->currentData(VerotyyppiModel::KoodiRooli).toInt();
 
+    QList<Kohdennus> tagit;
+    for(QVariant variant : merkkaukset)
+    {
+        tagit.append( kp()->kohdennukset()->kohdennus( variant.toInt() ) );
+    }
 
     switch ( ui->valintaTab->currentIndex()) {
     case TULO:
@@ -449,6 +460,7 @@ void KirjausApuriDialog::ehdota()
             tulorivi.alvprosentti = alvprosentti;
             tulorivi.alvkoodi = alvkoodi;
             tulorivi.eraId = ui->taseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
+            tulorivi.tagit = tagit;
             ehdotus.lisaaVienti(tulorivi);
         }
         if( (alvkoodi == AlvKoodi::MYYNNIT_NETTO || alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI )
@@ -483,6 +495,7 @@ void KirjausApuriDialog::ehdota()
             if( taserivi.tili.json()->luku("Kohdennukset"))
                 taserivi.kohdennus = kp()->kohdennukset()->kohdennus(ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
             taserivi.eraId = ui->vastaTaseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
+            taserivi.tagit = tagit;
             ehdotus.lisaaVienti(taserivi);
         }
         break;
@@ -501,6 +514,7 @@ void KirjausApuriDialog::ehdota()
             menorivi.alvprosentti = alvprosentti;
             menorivi.alvkoodi = alvkoodi;
             menorivi.eraId = ui->taseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
+            menorivi.tagit = tagit;
             if(tili.tyyppi().onko(TiliLaji::TASAERAPOISTO))
             {
                 menorivi.json.set("Tasaerapoisto", ui->poistoSpin->value() * 12);  // vuodet -> kk
@@ -565,7 +579,7 @@ void KirjausApuriDialog::ehdota()
                     taserivi.erapvm = ui->erapvmEdit->date();
 
             }
-
+            taserivi.tagit = tagit;
             ehdotus.lisaaVienti(taserivi);
         }
         break;
@@ -583,7 +597,7 @@ void KirjausApuriDialog::ehdota()
             rivi.eraId = ui->taseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
             if( rivi.tili.json()->luku("Kohdennukset"))
                 rivi.kohdennus = kp()->kohdennukset()->kohdennus(ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
-
+            rivi.tagit = tagit;
             ehdotus.lisaaVienti(rivi);
         }
         if( vastatili.onkoValidi())
@@ -598,6 +612,7 @@ void KirjausApuriDialog::ehdota()
             if( rivi.tili.json()->luku("Kohdennukset"))
                 rivi.kohdennus = kp()->kohdennukset()->kohdennus(ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
 
+            rivi.tagit = tagit;
             ehdotus.lisaaVienti(rivi);
         }
 
@@ -696,8 +711,12 @@ void KirjausApuriDialog::viiteTarkastus(const QString txt)
         ui->viiteEdit->setStyleSheet("color: darkRed;");
 }
 
+
 void KirjausApuriDialog::accept()
 {
+    if(merkkauksessa)   // Suojataan merkkausvalikon enteriltä
+        return;
+
     ehdota();
 
     if( ui->yhdistaCheck->isChecked())
@@ -717,6 +736,39 @@ VientiRivi KirjausApuriDialog::uusiEhdotusRivi(Tili tili, int debetSnt, int kred
     rivi.debetSnt = debetSnt;
     rivi.kreditSnt = kreditSnt;
     return rivi;
+}
+
+bool KirjausApuriDialog::eventFilter(QObject *watched, QEvent *event)
+{
+    // Merkkauslista
+    if( watched == ui->merkkausEdit && ( event->type()==QEvent::MouseButtonPress || event->type() == QEvent::KeyPress) )
+    {
+        if( event->type() == QEvent::KeyPress)
+        {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+            if( keyEvent->key() == Qt::Key_Space)
+            {
+                merkkauksessa = false;
+                merkkaukset = KohdennusProxyModel::tagiValikko( ui->pvmDate->date(), merkkaukset, ui->merkkausEdit->mapToGlobal(QPoint(0,0)) );
+            }
+            else
+                return QDialog::eventFilter(watched, event);
+        }
+        else
+            merkkaukset = KohdennusProxyModel::tagiValikko( ui->pvmDate->date(), merkkaukset );
+
+        QStringList lista;
+        for( QVariant merkkaus : merkkaukset)
+        {
+            lista.append( kp()->kohdennukset()->kohdennus( merkkaus.toInt() ).nimi() );
+        }
+        ui->merkkausEdit->setText( lista.join(", ") );
+        merkkauksessa = false;
+
+        return false;   // Ei muuta valikkoa
+    }
+    return QDialog::eventFilter(watched, event);
+
 }
 
 void KirjausApuriDialog::laskeNetto()
