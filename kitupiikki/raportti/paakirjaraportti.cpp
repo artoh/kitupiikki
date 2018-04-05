@@ -88,7 +88,7 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
     rk.lisaaOtsake(otsikko);
 
     // Haetaan ensin alkusaldot
-    QMap<int,qlonglong> alkusaldot;   // tilino, sentit
+    QMap<int,qlonglong> alkusaldot;   // ysiluku, sentit
 
     Tilikausi tilikausi = kp()->tilikaudet()->tilikausiPaivalle( mista );
 
@@ -102,21 +102,21 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
     }
 
     // 1) Tasetilit
-    kysymys = QString("SELECT nro, tyyppi, SUM(debetsnt), SUM(kreditsnt) "
+    kysymys = QString("SELECT ysiluku, tyyppi, SUM(debetsnt), SUM(kreditsnt) "
                              "FROM vienti, tili WHERE vienti.tili=tili.id AND tili.ysiluku < 300000000 AND "
                              "pvm < \"%1\" %2 GROUP BY nro").arg(mista.toString(Qt::ISODate)).arg(kohdennusehto);
     kysely.exec(kysymys);
     while( kysely.next())
     {
-        int tilinro = kysely.value(0).toInt();
+        int ysiluku = kysely.value(0).toInt();
         QString tyyppi = kysely.value(1).toString();
         qlonglong debet = kysely.value(2).toLongLong();
         qlonglong kredit = kysely.value(3).toLongLong();
 
         if( tyyppi.startsWith('A') )
-            alkusaldot.insert(tilinro, debet - kredit);
+            alkusaldot.insert(ysiluku, debet - kredit);
         else
-            alkusaldot.insert(tilinro, kredit - debet);
+            alkusaldot.insert(ysiluku, kredit - debet);
     }
 
     // Lisätään aiempien tilikausien tulos (ei kuitenkaan kohdennusotteelle)
@@ -129,7 +129,7 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
         if( kysely.next())
         {
             qlonglong edYlijaama = kysely.value(1).toLongLong() - kysely.value(0).toLongLong();
-            int kertymaTiliNro = kp()->tilit()->edellistenYlijaamaTili().numero();
+            int kertymaTiliNro = kp()->tilit()->edellistenYlijaamaTili().ysivertailuluku();
             alkusaldot[kertymaTiliNro] = alkusaldot.value(kertymaTiliNro, 0) + edYlijaama;
         }
     }
@@ -141,7 +141,7 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
 
     if( alkupaiva != mista )
     {
-        kysymys = QString("SELECT nro, SUM(debetsnt), SUM(kreditsnt) "
+        kysymys = QString("SELECT ysiluku, SUM(debetsnt), SUM(kreditsnt) "
                                  "FROM vienti, tili WHERE vienti.tili=tili.id AND tili.ysiluku > 300000000 AND "
                                  "pvm BETWEEN \"%1\" AND \"%2\" %3 GROUP BY nro")
                 .arg(alkupaiva.toString(Qt::ISODate))
@@ -151,16 +151,16 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
         kysely.exec(kysymys);
         while( kysely.next())
         {
-            int tilinro = kysely.value(0).toInt();
+            int ysiluku = kysely.value(0).toInt();
             qlonglong debet = kysely.value(1).toLongLong();
             qlonglong kredit = kysely.value(2).toLongLong();
-            alkusaldot.insert(tilinro, kredit - debet);
+            alkusaldot.insert(ysiluku, kredit - debet);
         }
     }
 
 
     // Varmistetaan, että kaikilla tämän tilikauden tileillä on tietue
-    kysymys = QString("SELECT nro FROM vienti, tili WHERE vienti.tili = tili.id AND "
+    kysymys = QString("SELECT ysiluku FROM vienti, tili WHERE vienti.tili = tili.id AND "
                       "pvm BETWEEN \"%1\" AND \"%2\" %3 GROUP BY nro")
             .arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate)).arg(kohdennusehto);
 
@@ -182,7 +182,7 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
     while(iter.hasNext())
     {
         iter.next();
-        Tili tili = kp()->tilit()->tiliNumerolla( iter.key() );
+        Tili tili = kp()->tilit()->tiliYsiluvulla( iter.key() );
 
         RaporttiRivi tiliotsikko;
         tiliotsikko.lisaaLinkilla( RaporttiRiviSarake::TILI_LINKKI, tili.numero(),  QString("%1 %2").arg(tili.numero()).arg( tili.nimi()) , 5 + (int) tulostakohdennus );

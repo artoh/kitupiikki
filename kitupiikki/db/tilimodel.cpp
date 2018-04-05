@@ -224,11 +224,15 @@ Tili TiliModel::tiliIdlla(int id) const
 
 Tili TiliModel::tiliNumerolla(int numero, int otsikkotaso) const
 {
+    // Vertailu tehdään "ysiluvuilla" joten tilit 154 ja 15400 ovat samoja
+    return tiliYsiluvulla( Tili::ysiluku(numero, otsikkotaso) );
+}
 
+Tili TiliModel::tiliYsiluvulla(int ysiluku) const
+{
     foreach (Tili tili, tilit_)
     {
-        // Vertailu tehdään "ysiluvuilla" joten tilit 154 ja 15400 ovat samoja
-        if( tili.ysivertailuluku() == Tili::ysiluku(numero, otsikkotaso) )
+        if( tili.ysivertailuluku() == ysiluku )
             return tili;
     }
     return Tili();
