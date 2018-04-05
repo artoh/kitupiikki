@@ -38,7 +38,7 @@ Voit muokatat tilikartat ja raportit mieleisiksesi. Muokatun tilikartan voit tal
 ### Arvonlisäveron käsittely ohjaustiedoilla
 ![](alv/alvvalinta.png)
 
-Tilejä ei tarvitse eritellä verokannoittain, koska arvonlisävero määritetään viennin tietoihin. Toki kirjausta voi nopeuttaa määrittelemälle tilin oletusvalinnat alv-käsittelyyn.
+Tilejä ei tarvitse eritellä verokannoittain, koska arvonlisävero määritetään viennin tietoihin. Toki kirjausta voi nopeuttaa määrittelemälle tilin oletusvalinnat alv-käsittelyyn. Kitupiikki tukee kaikkia alv-ilmoituksen verotyyppejä, myös maksuperusteisesti tilitettävää arvonlisäveroa.
 
 ## Avoimen lähdekoodin kirjanpitäjä
 
@@ -48,11 +48,13 @@ Kitupiikin lähdekoodi on julkisesti saatavilla osoitteessa <https://github.com/
     Saat ohjelmiston käyttöösi täysin ilman maksua.
     Kitupikki-ohjelmaan ei sisälly minkäänlaista takuuta ohjelma toimivuudesta tai soveltuvuudesta. Ohjelma on testattu huolellisesti, mutta siinä voi silti olla virheitä ja ohjelman käyttäjä ottaa vastuun ohjelman mahdollisesti aiheuttamista vahigoista.
 
-Kitupiikkiä kehitetään ja testataan täysin vapaaehtoisvoimin. Voit osallistua itse antamalla palautetta, vastaamalla muiden kysymyksiin sekä etsimällä ohjelmasta virheitä. Voit myös ehdottaa itse tekemäsi tilikartan liittämistä Kitupiikkiin tai jopa osallistua GitHubin kautta Kitupiikin koodaamiseen.
+Kitupiikkiä kehitetään ja testataan täysin vapaaehtoisvoimin. Voit osallistua itse antamalla [palautetta](https://form.jotformeu.com/73283959099374), vastaamalla muiden kysymyksiin sekä etsimällä ohjelmasta virheitä. Voit myös ehdottaa itse tekemäsi tilikartan liittämistä Kitupiikkiin tai jopa osallistua [GitHubin](https://github.com/artoh/kitupiikki) kautta Kitupiikin koodaamiseen.
+
+Kitupiikin tulevaisuuden näkymät löytyvät [Kitupiikin HuBoardista](https://huboard.com/artoh/kitupiikki#/milestones). Parannusehdotuksia voi tehdä [GitHubin Issues-toiminnolla](https://github.com/artoh/kitupiikki/issues/new).
 
 
 ## Käyttäjätuki
 
 Kysy, kommentoi ja tee ehdotuksia Kitupiikin uusista ominaisuuksista osallistumalla sivun alalaidassa olevaan keskusteluun.
 
-Voit lähettää Kitupiikistä palautetta [palautelomakkeella](https://form.jotformeu.com/73283959099374).
+Voit lähettää Kitupiikistä palautetta myös [palautelomakkeella](https://form.jotformeu.com/73283959099374).

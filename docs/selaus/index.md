@@ -40,4 +40,4 @@ Aloitusruudun saldoluettelon tilinnumerot ovat linkkejä, joita napsauttamalla n
 
 ## Porautuminen arkistossa
 
-Sähköisen arkiston raporteista pääset seuraamaan kirjausketjua taseesta ja tilinpäätöksestä aina yksittäisiin tositteisiin saakka.
+[Sähköisen arkiston](/tilikaudet/arkisto) raporteista pääset seuraamaan kirjausketjua taseesta ja tilinpäätöksestä aina yksittäisiin tositteisiin saakka.

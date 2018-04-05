@@ -14,9 +14,6 @@ Kitupiikki pyrkii täydentämään laskun saajan nimen ja osoitetiedot vanhojen 
 
 Laskun **kirjausperuste** sen mukaan, mille päivämäärälle lasku kirjataan kirjanpitoon, katso [kirjaamisperusteet](/kirjanpito/kirjanpito/#kirjaamisperusteet). **Maksuperusteinen lasku** näkyy kirjanpidossa vasta, kun se on maksettu. **Käteiskuitti** laaditaan välittömästi käteisellä maksettaessa, jolloin tuloste toimii myös kuittina.
 
-!!! tip "Maksuperusteinen arvonlisävero"
-    Laskut kirjataan yleensä suoriteperusteisesti. Alle 500 000 euron liikevaihdon yrityksillä on kuitenkin [oikeus tilittää arvonlisävero maksuperusteisesti](https://www.vero.fi/yritykset-ja-yhteisot/tietoa-yritysverotuksesta/arvonlisaverotus/pienyritykset_voivat_tilittaa_arvonlisa/).
-
 Syötä laskutettavat tuotteet **Rivit**-välilehdelle. Samalla valitset, miten myyntilasku kohdennetaan kirjanpidossa. **Arvonlisävero** kirjataan oletuksena nettokirjauksena, bruttokirjauksen voit tehdä **Muu alv**-valinnasta avautuvalla ikkunalla.
 
 **Tuotteet**-napilla avautuu tuoteluettelo. Kun olet syöttänyt riveille tuotteen, paina rivin päällä hiiren oikeaa nappia ja pääset valitsemaan **Lisää tuoteluetteloon**. Tuotteesta tallennetaan nimi, yksikkö, yksikköhinta, verotus, tili ja kohdennus. Luettelossa olevan tuotteen lisäät laskulle napsauttamala sitä tuoteluettelossa. Tuotteen voi poistaa valitsemalla tuoteluettelossa tuotteen nimen päällä hiiren oikealla napilla avautuvasta valikosta **Poista tuoteluettelosta** tai tuotteen tiedot voi päivittää valitsemalla tuotteen rivin päällä hiiren oikealla napilla avautuvasta valikosta **Päivitä tuoteluetteloon**.
@@ -41,7 +38,6 @@ Kirjoita laskulle tehtävät hyvitykset/korjaukset **Rivit**-välilehden ruudukk
 
 ## Laskun maksaminen
 
-![](alareuna.png)
 Laskut kirjataan maksetuksi yleensä tiliotteen perusteella niin, että tiliotteesta tulee maksun todentava tosite. Kirjattaessa tiliotetta paina kirjausikkunan alareunan **Lasku**-painiketta.
 
 ![](maksu.png)
@@ -49,3 +45,5 @@ Laskut kirjataan maksetuksi yleensä tiliotteen perusteella niin, että tiliotte
 Saat avointen laskujen luettelon, josta laskua voi etsiä viitenumerolla tai asiakkaan numerolla. Valitse lasku ja paina **Kirjaa**.
 
 Jos lasku on maksettu vain osaksi, muuta euromäärä vastaamaan maksua. Lasku jää edelleen maksamattomalta osaltaan avoimeksi samalla viitenumerolla.
+
+Myös tilitapahtumien [tuonti](/kirjaus/tuonti) merkitsee laskuja maksetuiksi viitenumeron perusteella.

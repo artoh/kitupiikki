@@ -19,6 +19,8 @@ Raportin kaava muodostuu siten, että vasemmassa reunassa on tulostettavat tekst
 !!! warning "Tiedä, mitä teet"
     Ole huolellinen muokatessasi tulosteita. Taseen ja tuloslaskelmat muodot on määrätty kirjanpitoa koskevassa lainsäädännössä.
 
+Esimerkiksi taseesta on olemassa vaihtoehtoinen lyhyempi muoto pien- ja mikroyrityksille. Raportti *Tase/Yleinen* ja *Tase/PMA* ovat saman raportin vaihtoehtoisia muotoja, joista tulostusvaiheessa valitaan yksi. Samalla tavalla muistakin raporteista on mahdollista luoda vaihtoehtoisia muotoja.
+
 ## Käytettävät määreet
 
 Määreitä voi laittaa vapaassa järjestyksessä, välilyönnillä erotettuna.

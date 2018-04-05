@@ -1,13 +1,13 @@
 
 ![](tilikaudet.png)
 
+Kitupiikki tallentaa samaan kirjanpitoon eri tilikausien tapahtumat. Voit aloittaa uuden tilikauden kirjausten tekemisen jo ennen kuin edellisen tilikauden kirjanpito on valmistunut. Tilien saldot ja tase eivät ole kuitenkaan oikein, ennen kuin kaikki edellisen tilikauden kirjaukset on tehty.
+
 ## Tilikauden aloittaminen
 
 ![](aloita.png)
 
 Kitupiikki ilmoittaa aloitusnäytössä, kun tilikausi alkaa olla lopussa. Voidaksesi tehdä kirjauksia seuraavalle tilikaudelle, aloita **Uusi tilikausi**.
-
-Edellistä tilikautta ei tarvitse päättää ennen uuden tilikauden aloittamista. Tilien saldot ja tase eivät ole kuitenkaan oikein, ennen kuin kaikki edellisen tilikauden kirjaukset on tehty.
 
 ![](uusi.png)
 

@@ -8,8 +8,6 @@
 
 ## Määritykset
 
-![](velvollinen.png)
-
 Kirjanpitovelvollinen määritellään arvonlisäverovelvolliseksi **Perusvalinnoista**. Jos yritys ei ole alv-velvollinen, ei arvonlisäveroon liittyviä valintoja näytetä kirjauksissa eikä määrityksissä.
 
 ![](alvsivu.png)
@@ -20,7 +18,7 @@ Kirjanpitovelvollinen määritellään arvonlisäverovelvolliseksi **Perusvalinn
 
 Tällä sivulla voit myös tehdä uuden alv-tilityksen (**Tee alv-tilitys**) tai tarkastella jo tehtyjä tilityksiä (**Näytä tilitys** ja **Näytä erittely**)
 
-## Arvonlisävero kirjaamisessa
+## Arvonlisäverolajit
 
 Kitupiikki käsittelee arvonlisäveroa ohjaustietojen avulla, eli samalla kirjanpitotilille voi kirjata erilaisen alv-kohtelun kirjauksia. Kirjaamisen helpottamiseksi voit toki luoda eri kirjanpitotilit esimerkiksi elintarvikkeiden myynnille (alv 14%) ja muulle myynnille.
 
@@ -30,20 +28,18 @@ Kitupiikissä on seuraavat alv-kirjaustyypit
 ----------------|---------|---------
  | Veroton | Myynnistä ei makseta veroa / menosta ei tehdä alv-vähennystä. Tämä merkitään myös kaikille niille menotileille, jotka eivät ole alv-vähennyskelpoisia.
  ![](netto.png) | Verollinen myynti/osto (netto) | Verollinen kotimaan myynti/osto. Heti kirjauksen yhteydessä myynti- tai ostotilille kirjataan veroton määrä, ja alv-veron tai vähennyksen osuus kirjataan alv-velkojen tai -saatavien tilille.
- ![](lihavoi.png) | Verollinen myynti/osto (brutto) | Verollinen bruttosumma kirjataan tilille, ja vero erotetaan tililtä arvonlisäveroilmoitusta laadittaessa.
+ ![](lihavoi.png) | Verollinen myynti/osto (brutto) | Verollinen bruttosumma kirjataan tilille, ja vero erotetaan tililtä alv-velkatilille vasta arvonlisäveroilmoitusta laadittaessa.
  ![](euro.png) | Verollinen myynti/osto (maksuperusteinen alv) | Arvonlisävero tilitetään vasta, kun maksu on suoritettu.
  ![](0pros.png) | Nollaverokannan alainen myynti | [Erikseen määritellyt tilanteet](https://www.edilex.fi/verohallinnon_ohjeet/2014_0627.html#4.2 Nollaverokannan alaiset myynnit ja yritysj%C3%A4rjestelyt), joissa myynnistä ei suorita veroa, mutta hankinnoista saa vähentää arvonlisäveron.
  ![](eu.png) | Tavaroiden ja palveluiden yhteisömyynti** | [Verohallinnon ohje](https://www.vero.fi/yritykset-ja-yhteisot/tietoa-yritysverotuksesta/arvonlisaverotus/ulkomaankaupan_arvonlisaverotus/).  Kirjauksen voi tehdä Avustajalla.
  ![](laiva.png) | Tavaroiden maahantuonti EU:n ulkopuolelta | [Maahantuonnin arvonlisävero](https://www.vero.fi/yritykset-ja-yhteisot/tietoa-yritysverotuksesta/arvonlisaverotus/ulkomaankaupan_arvonlisaverotus/maahantuonnin-arvonlisavero/) ilmoitetaan kausiveroilmoituksessa. Myyntilaskun yhteydessä kirjauksen voi tehdä Avustajalla.
 ![](vasara.png) | **Rakennuspalveluiden myynti tai osto** | [Rakennuspalveluiden arvonlisäveron suorittaa ostaja](https://www.vero.fi/yritykset-ja-yhteisot/tietoa-yritysverotuksesta/arvonlisaverotus/rakennusalan_kaannetty_arvonlisaverovelvollisuus/) käänteisen verovelvollisuuden mukaisesti. Kirjauksen voi tehdä Avustajalla ja Kitupiikillä voi myös laatia laskun (mainittava ostajan Y-tunnus tai VAT-tunnus).
 
-### Kirjaaminen Avustajalla
+## Verolliset kirjaukset
 
-Arvonlisäverolliset kirjaukset on helpointa tehdä Avustajalla, joka jakaa myös nettokirjaukset tulos- ja alv-tileille. Myös laskutuksessa alv-kirjautuu automaattisesti valinnan mukaan.
+Arvonlisäverolliset kirjaukset on helpointa tehdä [Kirjausapurilla](/kirjaus/apuri), joka jakaa myös nettokirjaukset tulos- ja alv-tileille. Myös laskutuksessa alv-kirjautuu automaattisesti valinnan mukaan.
 
-### Kirjaaminen ilman avustajaa
-
-Ilman avustajaa kirjattaessa verolaji ja -prosentti on valittava erikseen.
+[Ilman avustajaa](/kirjaus/kasin) kirjattaessa verolaji ja -prosentti on valittava erikseen.
 
 ![](alvvalinta.png)
 
@@ -61,9 +57,7 @@ Ilman avustajaa kirjattaessa verolaji ja -prosentti on valittava erikseen.
 
 Kitupiikki muistuttaa alotusikkunassa, kun arvonlisäveroilmoituksen eräpäivä lähestyy
 
-![](tilitysnappi.png)
-
-Kun kaikki tälle ilmoituskaudelle tehdyt verolliset kirjaukset on tehty, paina *Määritysten* *Arvonlisävero*-sivulla **Tee alv-tilitys**-nappia.
+Kun kaikki tälle ilmoituskaudelle tehdyt verolliset kirjaukset on tehty, paina *Arvonlisävero*-sivulla **Tee alv-tilitys**-nappia.
 
 ![](laskelma.png)
 
@@ -71,15 +65,12 @@ Kitupiikki esittää Alv-laskelman, jossa on kausiveroilmoituksessa arvolisäver
 
 Laskelman pohjalta tehdään kirjaus, jossa alv-velka ja alv-saatava yhdistetään ja kirjataan **Verovelat**-tilille. Samalle tilille tulee kirjata myös muut oma-aloitteisesti maksettavat verot, kuten ennakonpidätys ja työnantajamaksut.
 
+!!! note "Verovelat-tili"
+    Verovelat-tilille kirjataan kaikki oma-aloitteset verot, jotka on ilmoitettu verottajalle mutta ei vielä maksettu. Näin Verovelat-tilin saldon pitäisi aina vastata OmaVeron maksamattomien verojen saldoa.
+
 Erittely, jossa kirjauksia voi seurata aina tositteisiin saakka, avautuu alv-sivun **Näytä erittely**-napista. Se tallentuu myös liitteeksi alv-tilitysvientiin ja siten myös sähköiseen arkistoon.
 
 ![](erittely.png)
-
-## Varoitus myöhässä kirjaamisesta
-
-![](myohassa.png)
-
-Kun alv-ilmoitus on annettu, ei alv:n alaisia kirjauksia enää pitäisi tehdä.  Avustaja ei suostu kirjaamaan enää alv-ilmoituksen jälkeen verollisia kirjauksia, ja käsin kirjaamisesta annetaan varoitus.
 
 ## Maksuperusteinen arvonlisävero
 
