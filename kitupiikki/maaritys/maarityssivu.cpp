@@ -95,7 +95,7 @@ MaaritysSivu::MaaritysSivu() :
     connect( tallennanappi, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
     connect( kp(), SIGNAL(tilikausiPaatetty()), this, SLOT(paivitaNakyvat()));
 
-    connect( kp(), &Kirjanpito::tietokantaVaihtui, [this] { nykyinen=0; });
+    connect( kp(), &Kirjanpito::tietokantaVaihtui, [this] { lista->setCurrentRow(0); });
 
 }
 
@@ -103,7 +103,7 @@ void MaaritysSivu::siirrySivulle()
 {
     paivitaNakyvat();   // Piilottaa luettelosta ne valinnat, jotka eivät ole käytössä
 
-    if( lista->currentItem() && !lista->currentItem()->isHidden() && nykyinen)
+    if( lista->currentItem() && !lista->currentItem()->isHidden() )
         valitseSivu( lista->currentItem());
     else
         lista->setCurrentItem( lista->item(0) );

@@ -16,7 +16,7 @@ public:
 signals:
 
 public slots:
-    void nayta(const QString& teksti, int aika = 3000);
+    void nayta(const QString& teksti, int aika = 5000);
 
 protected:
     void mousePressEvent(QMouseEvent *event);

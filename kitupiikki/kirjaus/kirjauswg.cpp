@@ -197,6 +197,7 @@ void KirjausWg::tyhjenna()
                             ui->apuriNappi->y() - apurivinkki_->height() - ui->apuriNappi->height() / 2 );
     }
     naytaSummat();
+    ui->tabWidget->setCurrentIndex(0);
 }
 
 void KirjausWg::tallenna()
@@ -279,11 +280,16 @@ void KirjausWg::tallenna()
                                .arg(virhe.text()));
         return;
     }
+
+    emit kp()->onni(tr("Tosite %1%2/%3 tallennettu")
+                    .arg(model_->tositelaji().tunnus())
+                    .arg(model_->tunniste())
+                    .arg( kp()->tilikausiPaivalle( model_->pvm() ).kausitunnus() ));
+
     tyhjenna();
     emit tositeKasitelty();
 
     ui->tositePvmEdit->setFocus();
-    emit kp()->onni("Tosite tallennettu");
 
     if( !kp()->asetukset()->onko("EkaTositeKirjattu"))
         kp()->asetukset()->aseta("EkaTositeKirjattu", true);
@@ -354,7 +360,7 @@ void KirjausWg::kirjaaLaskunmaksu()
 
 void KirjausWg::paivitaTallennaPoistaNapit()
 {
-    ui->tallennaButton->setEnabled( model()->muokattu() && model()->muokkausSallittu() &&
+    ui->tallennaButton->setEnabled( (model()->muokattu() ) && model()->muokkausSallittu() &&
                                     model()->kelpaakoTunniste( ui->tunnisteEdit->text().toInt() ) );
     ui->poistaNappi->setEnabled( model()->muokattu() && model_->id() > -1 && model()->muokkausSallittu());
 }
@@ -510,6 +516,7 @@ void KirjausWg::paivitaKommenttiMerkki()
     {
         ui->tabWidget->setTabIcon(1, QIcon(":/pic/kommentti.png"));
     }
+    model_->asetaKommentti( ui->kommentitEdit->toPlainText() );
 
 }
 
