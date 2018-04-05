@@ -3,7 +3,7 @@ Elinkeinotoiminta (Tilitin-yhteensopiva)
 [TilikarttaTekija]
 artoh.github.io
 [TilikarttaPvm]
-2018-04-01
+2018-04-02
 [TilikarttaKuvaus]
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 <html><head><meta name="qrichtext" content="1" /><style type="text/css">
@@ -1131,20 +1131,18 @@ OL {"Kirjaustyyppi":1,"Oletustili":4000,"Vastatili":2871} Ostolaskut
 ON
 [TilinpaatosPohja]
 #MIKRO
-@Tase PMA!TASE (TILINPÄÄTÖS)@
+@Tase/PMA!TASE (TILINPÄÄTÖS)@
 #PIEN
-@Tase PMA!TASE (TILINPÄÄTÖS)@
+@Tase/PMA!TASE (TILINPÄÄTÖS)@
 #ISO
-@Tase!TASE (TILINPÄÄTÖS)@
+@Tase/Yleinen!TASE (TILINPÄÄTÖS)@
 ##Tuloslaskelma
 #brutto -I -mikrolv -mikrobrutto Bruttotuloslaskelma (PMA-asetuksen mukainen)
-@Tuloslaskelma PMA bruttotulos!TULOSLASKELMA (TILINPÄÄTÖS)@
-#mikrolv -I -P -brutto -mikrobrutto Mikroyrityksen lyhyt tuloslaskelma (PMA-asetuksen mukainen)
-@Tuloslaskelma mikroyritys!TULOSLASKELMA (TILINPÄÄTÖS)@
+@Tuloslaskelma/PMA bruttotulos!TULOSLASKELMA (TILINPÄÄTÖS)@
 #mikrobrutto -I -P -brutto -mikrolv Mikroyrityksen lyhyt bruttotuloslaskelma (PMA-asetuksen mukainen)
-@Tuloslaskelma mikro bruttotulos!TULOSLASKELMA (TILINPÄÄTÖS)@
+@Tuloslaskelma/Mikro bruttotulos!TULOSLASKELMA (TILINPÄÄTÖS)@
 #-brutto -mikrobrutto -mikrolv
-@Tuloslaskelma!TULOSLASKELMA (TILINPÄÄTÖS)@
+@Tuloslaskelma/Yleinen!TULOSLASKELMA (TILINPÄÄTÖS)@
 #ISO
 <b>Yrityksestä on annettava täydet liitetiedot ja laadittava toimintakertomus</b>
 <p>Liitetiedot sisältävät ainakin
@@ -1320,7 +1318,7 @@ tilitin.kpk
 1
 [TuontiTiliote]
 ON
-[Raportti/Tase]
+[Raportti/Tase/Yleinen]
 :tase
 VASTAAVAA		H bold
 
@@ -1428,7 +1426,7 @@ Siirtovelat  		295..299 s8 *
 
 Vastattavaa yhteensä		2 bold
 
-[Raportti/Tase PMA]
+[Raportti/Tase/PMA]
 :tase
 
 VASTAAVAA		H bold
@@ -1471,7 +1469,7 @@ Lyhytaikainen vieras pääoma		28,29 s4 *
 Vastattavaa yhteensä		2 bold
 
 
-[Raportti/Tuloslaskelma]
+[Raportti/Tuloslaskelma/Yleinen]
 :tulos
 Liikevaihto		30..35 * bold
 
@@ -1531,7 +1529,7 @@ Muut välittömät verot		998..999 *
 
 Tilikauden voitto / tappio		0 bold
 
-[Raportti/Tuloslaskelma PMA bruttotulos]
+[Raportti/Tuloslaskelma/PMA bruttotulos]
 :tulos
 
 Bruttotulos		3..4 * bold
@@ -1580,7 +1578,7 @@ Tuloverot		99..996 *
 Laskennalliset verot		997 *
 Muut välittömät verot		998..999 *
 
-[Raportti/Tuloslaskelma mikro bruttotulos]
+[Raportti/Tuloslaskelma/Mikro bruttotulos]
 :tulos
 Bruttotulos		3,4 bold *
 
