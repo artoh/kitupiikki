@@ -302,7 +302,7 @@ public:
      *
      * Jos yritetään avata uudempaa, tulee virhe
      */
-    static const int TIETOKANTAVERSIO = 2;
+    static const int TIETOKANTAVERSIO = 3;
 
     /**
      * @brief Palauttaa satunnaismerkkijonon
