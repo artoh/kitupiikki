@@ -3,7 +3,7 @@ Kiinteistöyhtiö
 [TilikarttaTekija]
 artoh.github.io
 [TilikarttaPvm]
-2018-03-01
+2018-04-05
 [TilikarttaKuvaus]
 Yhtiön toiminta perustuu kiinteistön hallintaan (kiinteistöyhtiö, asunto-osakeyhtiö). Tilinpäätös laaditaan Kiinteistökaavan mukaisesti.
 [TilikarttaOhje]
@@ -311,11 +311,11 @@ OL {"Kirjaustyyppi":1,"Oletustili":4000,"Vastatili":2960} Ostolaskut
 EI
 [TilinpaatosPohja]
 #MIKRO
-@Tase PMA!TASE (TILINPÄÄTÖS)@
+@Tase/PMA!TASE (TILINPÄÄTÖS)@
 #PIEN
-@Tase PMA!TASE (TILINPÄÄTÖS)@
+@Tase/PMA!TASE (TILINPÄÄTÖS)@
 #ISO
-@Tase!TASE (TILINPÄÄTÖS)@
+@Tase/Yleinen!TASE (TILINPÄÄTÖS)@
 #
 @Tuloslaskelma!TULOSLASKELMA (TILINPÄÄTÖS)@
 #ISO
@@ -486,12 +486,12 @@ tilintarkastus
 [TuontiTiliote]
 ON
 [ArkistoRaportit]
-Tase
+Tase/Yleinen
 Tuloslaskelma
 Kohdennukset
 [VakioTilikartta]
 osakeyhtio.kpk
-[Raportti/Tase PMA]
+[Raportti/Tase/PMA]
 :tase
 
 VASTAAVAA		H bold
@@ -583,7 +583,7 @@ Konserniavustukset		958 s4 *
 Välittömät verot		96 * bold
 
 Tilikauden ylijäämä / alijäämä 	0 bold
-[Raportti/Tase]
+[Raportti/Tase/Yleinen]
 :tase
 VASTAAVAA		H bold
 
