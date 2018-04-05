@@ -30,6 +30,7 @@
 class Kirjanpito;
 class LaskunMaksuDialogi;
 class ApuriVinkki;
+class QAction;
 
 /**
  * @brief Kirjausten muokkaus
@@ -142,6 +143,11 @@ public slots:
      */
     void numeroSiirto();
 
+    /**
+     * @brief Tositteen tulostaminen
+     */
+    void tulostaTosite();
+
 public:
     /**
      * @brief Jos kirjataan tiliotetta, tiliotetilin id
@@ -179,6 +185,7 @@ protected:
     LaskunMaksuDialogi *laskuDlg_;
     ApuriVinkki *apurivinkki_;
 
+    QAction *poistaAktio_;
 
 
 

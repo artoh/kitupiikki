@@ -452,16 +452,16 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="poistaNappi">
+      <widget class="QPushButton" name="valikkoNappi">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="text">
-        <string>Poista</string>
+        <string/>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
-         <normaloff>:/pic/roskis.png</normaloff>:/pic/roskis.png</iconset>
+         <normaloff>:/pic/Menu-Circles.png</normaloff>:/pic/Menu-Circles.png</iconset>
        </property>
       </widget>
      </item>

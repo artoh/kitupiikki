@@ -23,6 +23,8 @@
 #include <QFileDialog>
 #include <QDesktopServices>
 #include <QUrl>
+#include <QMenu>
+#include <QAction>
 
 #include <QShortcut>
 #include <QSettings>
@@ -76,7 +78,6 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( ui->kommentitEdit, SIGNAL(textChanged()), this, SLOT(paivitaKommenttiMerkki()));
     connect( ui->apuriNappi, SIGNAL(clicked(bool)), this, SLOT(kirjausApuri()));
     connect( ui->laskuNappi, SIGNAL(clicked(bool)), this, SLOT(kirjaaLaskunmaksu()));
-    connect( ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poistaTosite()));
     connect( ui->siiraNumerotBtn, SIGNAL(clicked(bool)), this, SLOT(numeroSiirto()));
 
     ui->tositetyyppiCombo->setModel( Kirjanpito::db()->tositelajit());
@@ -116,6 +117,12 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( ui->tiliotetiliCombo, SIGNAL(activated(int)), this, SLOT(tiedotModeliin()));
 
     connect( model(), SIGNAL(tositettaMuokattu(bool)), this, SLOT(paivitaTallennaPoistaNapit()));
+
+    // Lisätoimintojen valikko
+    QMenu *valikko = new QMenu(this);
+    valikko->addAction(QIcon(":/pic/tulosta.png"), tr("Tulosta tosite"), this, SLOT(tulostaTosite()), QKeySequence("Ctrl+P"));
+    poistaAktio_ = valikko->addAction(QIcon(":/pic/roskis.png"),tr("Poista tosite"),this, SLOT(poistaTosite()));
+    ui->valikkoNappi->setMenu( valikko );
 
 
     // Enterillä päiväyksestä eteenpäin
@@ -169,7 +176,8 @@ void KirjausWg::tyhjenna()
     tiedotModelista();
     // Ei voi tallentaa eikä poistaa kun ei ole mitään...
     ui->tallennaButton->setEnabled(false);
-    ui->poistaNappi->setEnabled(false);
+    poistaAktio_->setEnabled(false);
+
     ui->poistaLiiteNappi->setEnabled(false);
     pvmVaihtuu();
     // Verosarake näytetään vain, jos alv-toiminnot käytössä
@@ -362,7 +370,7 @@ void KirjausWg::paivitaTallennaPoistaNapit()
 {
     ui->tallennaButton->setEnabled( (model()->muokattu() ) && model()->muokkausSallittu() &&
                                     model()->kelpaakoTunniste( ui->tunnisteEdit->text().toInt() ) );
-    ui->poistaNappi->setEnabled( model()->muokattu() && model_->id() > -1 && model()->muokkausSallittu());
+    poistaAktio_->setEnabled( model()->muokattu() && model_->id() > -1 && model()->muokkausSallittu());
 }
 
 void KirjausWg::paivitaVaroitukset() const
@@ -417,6 +425,11 @@ void KirjausWg::numeroSiirto()
         paivitaTunnisteVari();
     }
 
+}
+
+void KirjausWg::tulostaTosite()
+{
+    QMessageBox::information(this, tr("Tulostus"), tr("Ei vielä toteutettu..."));
 }
 
 int KirjausWg::tiliotetiliId()
@@ -492,14 +505,14 @@ void KirjausWg::lataaTosite(int id)
         ui->liiteView->setCurrentIndex( model_->liiteModel()->index(0) );
 
     // Jos tositteella yksikin lukittu vienti, ei voi poistaa
-    ui->poistaNappi->setEnabled(model()->muokkausSallittu() &&
+    poistaAktio_->setEnabled(model()->muokkausSallittu() &&
                                 model()->id() > -1);
 
     for(int i = 0; i < model_->vientiModel()->rowCount(QModelIndex()); i++)
     {
         QModelIndex index = model_->vientiModel()->index(i,0);
         if( index.data(VientiModel::PvmRooli).toDate() <= kp()->tilitpaatetty())
-            ui->poistaNappi->setEnabled(false);
+            poistaAktio_->setEnabled(false);
     }
 
     ui->poistaLiiteNappi->setEnabled( model()->liiteModel()->rowCount(QModelIndex()) );
