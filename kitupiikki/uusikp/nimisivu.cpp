@@ -65,11 +65,12 @@ void NimiSivu::initializePage()
             ui->muotoList->addItem( iter.key().mid(8) );
     }
 
+    ui->muotoLabel->setVisible( ui->muotoList->count() );
+    ui->muotoList->setVisible( ui->muotoList->count());
+
     if( !ui->muotoList->count() )
     {
         // Ei muotoja
-        ui->muotoLabel->hide();
-        ui->muotoList->hide();
         setField("muoto", "-");
     }
 }
