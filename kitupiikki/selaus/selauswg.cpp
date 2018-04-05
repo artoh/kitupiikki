@@ -65,7 +65,7 @@ SelausWg::SelausWg() :
     connect( ui->tiliCombo, SIGNAL(currentTextChanged(QString)), this, SLOT(suodata()));
     connect( ui->selausView, SIGNAL(activated(QModelIndex)), this, SLOT(naytaTositeRivilta(QModelIndex)));
 
-    ui->valintaTab->setCurrentIndex(1);
+    ui->valintaTab->setCurrentIndex(0);     // Oletuksena tositteiden selaus
     connect( ui->valintaTab, SIGNAL(currentChanged(int)), this, SLOT(selaa(int)));
 
     connect( Kirjanpito::db(), SIGNAL(kirjanpitoaMuokattu()), this, SLOT(paivita()));

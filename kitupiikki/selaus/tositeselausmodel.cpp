@@ -129,9 +129,9 @@ QVariant TositeSelausModel::data(const QModelIndex &index, int role) const
 
 void TositeSelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
 {
-    QString kysymys = QString("SELECT tosite.id, tosite.pvm, otsikko, laji, tunniste, SUM(debetsnt), SUM(kreditsnt) "
-                              "FROM tosite, vienti WHERE tosite.pvm BETWEEN \"%1\" AND \"%2\" "
-                              "AND vienti.tosite=tosite.id GROUP BY tosite.id ORDER BY tosite.pvm, tosite.id ")
+    QString kysymys = QString("SELECT tosite.id, tosite.pvm, otsikko, laji, tunniste "
+                              "FROM tosite WHERE tosite.pvm BETWEEN \"%1\" AND \"%2\" "
+                              "ORDER BY tosite.pvm, tosite.id ")
             .arg(alkaa.toString(Qt::ISODate)).arg(loppuu.toString(Qt::ISODate)) ;
 
     beginResetModel();
@@ -153,14 +153,19 @@ void TositeSelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
         rivi.tositeLaji = kysely.value(3).toInt();
         rivi.tositeTunniste = kysely.value(4).toInt();
 
-        qlonglong debet = kysely.value(5).toLongLong();
-        qlonglong kredit = kysely.value(6).toLongLong();
+        // #138 Jotta viennittömät kirjaukset näytettäisiin, kysellään summat erikseen
+        QSqlQuery summakysely( QString("SELECT sum(debetsnt), sum(kreditsnt) FROM vienti WHERE tosite=%1").arg(rivi.tositeId));
+        if( summakysely.next())
+        {
+            qlonglong debet = summakysely.value(0).toLongLong();
+            qlonglong kredit = summakysely.value(1).toLongLong();
 
-        // Yleensä kreditin ja debetin pitäisi täsmätä ;)
-        if( debet > kredit)
-            rivi.summa = debet;
-        else
-            rivi.summa = kredit;
+            // Yleensä kreditin ja debetin pitäisi täsmätä ;)
+            if( debet > kredit)
+                rivi.summa = debet;
+            else
+                rivi.summa = kredit;
+        }
 
         rivit.append(rivi);
 
