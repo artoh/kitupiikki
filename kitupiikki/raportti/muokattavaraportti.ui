@@ -108,6 +108,23 @@
     </widget>
    </item>
    <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Raportin muoto</string>
+       </property>
+       <property name="buddy">
+        <cstring>muotoCombo</cstring>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="muotoCombo"/>
+     </item>
+    </layout>
+   </item>
+   <item>
     <widget class="QCheckBox" name="erittelyCheck">
      <property name="text">
       <string>Tulosta tilikohtaiset erittelyt</string>

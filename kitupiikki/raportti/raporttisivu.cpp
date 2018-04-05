@@ -66,9 +66,14 @@ void RaporttiSivu::siirrySivulle()
     // Lisätään muokattavat raportit
     QStringList raporttilista;
 
-    foreach (QString rnimi, kp()->asetukset()->avaimet("Raportti/") )
+    for (QString rnimi : kp()->asetukset()->avaimet("Raportti/") )
     {
-        raporttilista << rnimi;
+        // Raporttilajit: Jos lajillinen raportti (esim. Tase/PMA, tulee listalle kuitenkin vain Tase yhteen kertaan
+        if( rnimi.count(QChar('/')) > 1)
+            rnimi = rnimi.left( rnimi.lastIndexOf(QChar('/')) );
+
+        if( !raporttilista.contains(rnimi))
+            raporttilista.append(rnimi);
     }
     raporttilista.sort(Qt::CaseInsensitive);
     for( QString nimi : raporttilista)
