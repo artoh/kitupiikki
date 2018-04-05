@@ -54,6 +54,8 @@ void NimiSivu::initializePage()
 
     QMapIterator<QString, QStringList> iter(ktk);
 
+    ui->muotoList->clear();
+
     while( iter.hasNext() )
     {
         iter.next();
