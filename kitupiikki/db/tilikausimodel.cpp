@@ -33,7 +33,7 @@ int TilikausiModel::rowCount(const QModelIndex & /* parent */) const
 
 int TilikausiModel::columnCount(const QModelIndex & /* parent */) const
 {
-    return 6;
+    return 7;
 }
 
 QVariant TilikausiModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -57,6 +57,8 @@ QVariant TilikausiModel::headerData(int section, Qt::Orientation orientation, in
             return QVariant("Arkistoitu");
         case TILINPAATOS:
             return QVariant("Tilinpäätös");
+        case LYHENNE:
+            return QVariant("Tunnus");
         }
     }
     return QVariant();
@@ -103,6 +105,8 @@ QVariant TilikausiModel::data(const QModelIndex &index, int role) const
                     return tr("Aika laatia!");
             }
         }
+        else if( index.column() == LYHENNE)
+            return kausi.kausitunnus();
     }
     else if( role == AlkaaRooli)
         return QVariant( kausi.alkaa());

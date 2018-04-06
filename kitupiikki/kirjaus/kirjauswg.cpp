@@ -41,12 +41,15 @@
 
 #include "verodialogi.h"
 
+#include "siirrydlg.h"
+
 #include "db/kirjanpito.h"
 #include "laskutus/laskunmaksudialogi.h"
 
 #include "tuonti/tuonti.h"
 #include "apurivinkki.h"
 #include "ui_numerosiirto.h"
+
 
 
 KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
@@ -438,7 +441,19 @@ void KirjausWg::tulostaTosite()
 
 void KirjausWg::siirryTositteeseen()
 {
-    QMessageBox::information(this, tr("Siirry"), tr("Ei vielä toteutettu..."));
+    int id = SiirryDlg::tositeId( ui->tositePvmEdit->date(), ui->tositetyyppiCombo->currentData(TositelajiModel::TunnusRooli).toString()  );
+
+    if( id )
+    {
+        if( model_->muokattu())
+        {
+            if( QMessageBox::question(this, tr("Kitupiikki"), tr("Nykyistä kirjausta on muokattu. Siirrytkö toiseen tositteeseen tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
+            {
+                return;
+            }
+        }
+        lataaTosite(id);
+    }
 }
 
 int KirjausWg::tiliotetiliId()

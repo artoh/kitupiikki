@@ -139,7 +139,8 @@ SOURCES += main.cpp \
     laskutus/nayukiQR/BitBuffer.cpp \
     laskutus/nayukiQR/QrCode.cpp \
     laskutus/nayukiQR/QrSegment.cpp \
-    tuonti/titotuonti.cpp
+    tuonti/titotuonti.cpp \
+    kirjaus/siirrydlg.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -260,7 +261,8 @@ HEADERS += \
     laskutus/nayukiQR/BitBuffer.hpp \
     laskutus/nayukiQR/QrCode.hpp \
     laskutus/nayukiQR/QrSegment.hpp \
-    tuonti/titotuonti.h
+    tuonti/titotuonti.h \
+    kirjaus/siirrydlg.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -333,7 +335,8 @@ FORMS += \
     tools/devtool.ui \
     maaritys/maksuperusteinen.ui \
     kirjaus/apurivinkki.ui \
-    kirjaus/numerosiirto.ui
+    kirjaus/numerosiirto.ui \
+    kirjaus/siirry.ui
 
 DISTFILES += \
     uusikp/luo.sql \

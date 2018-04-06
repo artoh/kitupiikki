@@ -42,7 +42,8 @@ public:
         TASE,
         TULOS,
         ARKISTOITU,
-        TILINPAATOS
+        TILINPAATOS,
+        LYHENNE
     };
 
     enum

@@ -18,11 +18,25 @@
 #ifndef SIIRRYDLG_H
 #define SIIRRYDLG_H
 
+#include <QDialog>
+#include "ui_siirry.h"
 
 class SiirryDlg : public QDialog
 {
-public:
+    Q_OBJECT
+protected:
     SiirryDlg();
+    ~SiirryDlg();
+
+protected slots:
+    void tarkista();
+
+public:
+    static int tositeId(QDate pvm, QString tositelaji);
+
+protected:
+    Ui::SiirryDlg *ui;
+    int tosite = 0;
 };
 
 #endif // SIIRRYDLG_H
