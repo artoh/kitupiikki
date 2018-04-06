@@ -58,9 +58,11 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
 {
     RaportinKirjoittaja rk;
 
-    if( kohdennuksella > -1)
+    Kohdennus kohdennus = kp()->kohdennukset()->kohdennus(kohdennuksella);
+
+    if( kohdennuksella > -1 )
         // Tulostetaan vain yhdestä kohdennuksesta
-        rk.asetaOtsikko( tr("PÄÄKIRJAN OTE (%1)").arg( kp()->kohdennukset()->kohdennus(kohdennuksella).nimi()));
+        rk.asetaOtsikko( tr("PÄÄKIRJAN OTE (%1)").arg( kohdennus.nimi()));
     else
         rk.asetaOtsikko( "PÄÄKIRJA");
 
@@ -95,16 +97,23 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
     QString kysymys;
     QSqlQuery kysely;
 
-    QString kohdennusehto;
+    // 1) Tasetilit
     if( kohdennuksella > -1)
     {
-        kohdennusehto = QString(" AND vienti.kohdennus=%1 ").arg(kohdennuksella);
+        if( kohdennus.tyyppi() == Kohdennus::MERKKAUS)
+            kysymys = QString("SELECT ysiluku, tyyppi, SUM(debetsnt), SUM(kreditsnt) "
+                                 "FROM vienti, tili, merkkaus WHERE vienti.tili=tili.id AND tili.ysiluku < 300000000 AND "
+                                 "pvm < \"%1\" AND vienti.id=merkkaus.vienti AND merkkaus.kohdennus=%2 GROUP BY nro").arg(mista.toString(Qt::ISODate)).arg(kohdennuksella);
+        else
+            kysymys = QString("SELECT ysiluku, tyyppi, SUM(debetsnt), SUM(kreditsnt) "
+                                 "FROM vienti, tili WHERE vienti.tili=tili.id AND tili.ysiluku < 300000000 AND "
+                                 "pvm < \"%1\" AND vienti.kohdennus=%2 GROUP BY nro").arg(mista.toString(Qt::ISODate)).arg(kohdennuksella);
     }
-
-    // 1) Tasetilit
-    kysymys = QString("SELECT ysiluku, tyyppi, SUM(debetsnt), SUM(kreditsnt) "
+    else
+        kysymys = QString("SELECT ysiluku, tyyppi, SUM(debetsnt), SUM(kreditsnt) "
                              "FROM vienti, tili WHERE vienti.tili=tili.id AND tili.ysiluku < 300000000 AND "
-                             "pvm < \"%1\" %2 GROUP BY nro").arg(mista.toString(Qt::ISODate)).arg(kohdennusehto);
+                             "pvm < \"%1\" GROUP BY nro").arg(mista.toString(Qt::ISODate));
+
     kysely.exec(kysymys);
     while( kysely.next())
     {
@@ -141,12 +150,27 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
 
     if( alkupaiva != mista )
     {
-        kysymys = QString("SELECT ysiluku, SUM(debetsnt), SUM(kreditsnt) "
-                                 "FROM vienti, tili WHERE vienti.tili=tili.id AND tili.ysiluku > 300000000 AND "
-                                 "pvm BETWEEN \"%1\" AND \"%2\" %3 GROUP BY nro")
-                .arg(alkupaiva.toString(Qt::ISODate))
-                .arg(mista.toString(Qt::ISODate))
-                .arg(kohdennusehto);
+        if( kohdennuksella > -1 && kohdennus.tyyppi() == Kohdennus::MERKKAUS)
+            kysymys = QString("SELECT ysiluku, SUM(debetsnt), SUM(kreditsnt) "
+                                     "FROM merkkaus,vienti, tili WHERE merkkaus.kohdennus=%3 AND merkkaus.vienti=vienti.id AND "
+                                     "vienti.tili=tili.id AND tili.ysiluku > 300000000 AND "
+                                     "pvm BETWEEN \"%1\" AND \"%2\" GROUP BY nro")
+                    .arg(alkupaiva.toString(Qt::ISODate))
+                    .arg(mista.toString(Qt::ISODate))
+                    .arg(kohdennuksella);
+        else if( kohdennuksella > -1)
+            kysymys = QString("SELECT ysiluku, SUM(debetsnt), SUM(kreditsnt) "
+                                     "FROM vienti, tili WHERE vienti.tili=tili.id AND tili.ysiluku > 300000000 AND "
+                                     "pvm BETWEEN \"%1\" AND \"%2\" AND vienti.kohdennus=%3 GROUP BY nro")
+                    .arg(alkupaiva.toString(Qt::ISODate))
+                    .arg(mista.toString(Qt::ISODate))
+                    .arg(kohdennuksella);
+        else
+            kysymys = QString("SELECT ysiluku, SUM(debetsnt), SUM(kreditsnt) "
+                                     "FROM vienti, tili WHERE vienti.tili=tili.id AND tili.ysiluku > 300000000 AND "
+                                     "pvm BETWEEN \"%1\" AND \"%2\" GROUP BY nro")
+                    .arg(alkupaiva.toString(Qt::ISODate))
+                    .arg(mista.toString(Qt::ISODate));
 
         kysely.exec(kysymys);
         while( kysely.next())
@@ -160,9 +184,19 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
 
 
     // Varmistetaan, että kaikilla tämän tilikauden tileillä on tietue
-    kysymys = QString("SELECT ysiluku FROM vienti, tili WHERE vienti.tili = tili.id AND "
-                      "pvm BETWEEN \"%1\" AND \"%2\" %3 GROUP BY nro")
-            .arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate)).arg(kohdennusehto);
+    if( kohdennuksella > -1 && kohdennus.tyyppi() == Kohdennus::MERKKAUS)
+        kysymys = QString("SELECT ysiluku FROM merkkaus,vienti, tili WHERE "
+                          "merkkaus.kohdennus=%3 AND merkkaus.vienti=vienti.id AND vienti.tili = tili.id AND "
+                          "pvm BETWEEN \"%1\" AND \"%2\" GROUP BY nro")
+                .arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate)).arg(kohdennuksella);
+    else if( kohdennuksella > -1)
+        kysymys = QString("SELECT ysiluku FROM vienti, tili WHERE vienti.tili = tili.id AND "
+                          "pvm BETWEEN \"%1\" AND \"%2\" AND vienti.kohdennus=%3 GROUP BY nro")
+                .arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate)).arg(kohdennuksella);
+    else
+        kysymys = QString("SELECT ysiluku FROM vienti, tili WHERE vienti.tili = tili.id AND "
+                      "pvm BETWEEN \"%1\" AND \"%2\" GROUP BY nro")
+                .arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate));
 
     kysely.exec(kysymys);
     while( kysely.next() )
@@ -176,8 +210,6 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
     qlonglong debetYht = 0;
     qlonglong kreditYht = 0;
 
-    if( kohdennuksella > -1)
-        kohdennusehto = QString(" AND kohdennusId=%1 ").arg(kohdennuksella);
 
     while(iter.hasNext())
     {
@@ -191,12 +223,28 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
         rk.lisaaRivi( tiliotsikko);
 
         qlonglong saldo = iter.value();
+        QString kysymys;
 
-        QString kysymys = QString("SELECT pvm, tositelaji, tunniste, kohdennusId, tositeId, "
-                                  "kohdennus, selite, debetsnt, kreditsnt FROM vientivw "
-                                  "WHERE tilinro=%1 AND pvm BETWEEN \"%2\" AND \"%3\" %4 "
-                                  "ORDER BY pvm, vientiId ")
-                .arg(tili.numero()).arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate)).arg(kohdennusehto);
+        if( kohdennuksella > -1 && kohdennus.tyyppi() == Kohdennus::MERKKAUS)
+            kysymys = QString("SELECT pvm, tositelaji, tunniste, kohdennusId, tositeId, "
+                                      "vientivw.kohdennus, selite, debetsnt, kreditsnt FROM merkkaus, vientivw "
+                                      "WHERE merkkaus.kohdennus=%4 AND merkkaus.vienti=vientiId AND tilinro=%1 AND pvm BETWEEN \"%2\" AND \"%3\" "
+                                      "ORDER BY pvm, vientiId ")
+                    .arg(tili.numero()).arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate)).arg(kohdennuksella);
+        else if( kohdennuksella > -1)
+            kysymys = QString("SELECT pvm, tositelaji, tunniste, kohdennusId, tositeId, "
+                                      "vientivw.kohdennus, selite, debetsnt, kreditsnt FROM vientivw "
+                                      "WHERE tilinro=%1 AND pvm BETWEEN \"%2\" AND \"%3\" AND kohdennusId=%4 "
+                                      "ORDER BY pvm, vientiId ")
+                    .arg(tili.numero()).arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate)).arg(kohdennuksella);
+        else
+            kysymys = QString("SELECT pvm, tositelaji, tunniste, kohdennusId, tositeId, "
+                                      "vientivw.kohdennus, selite, debetsnt, kreditsnt FROM vientivw "
+                                      "WHERE tilinro=%1 AND pvm BETWEEN \"%2\" AND \"%3\" "
+                                      "ORDER BY pvm, vientiId ")
+                    .arg(tili.numero()).arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate));
+
+
         kysely.exec(kysymys);
 
         while(kysely.next())
@@ -222,7 +270,7 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
             if( tulostakohdennus)
             {
                 if( kysely.value("kohdennusId").toInt())
-                    rr.lisaa( kysely.value("kohdennus").toString());
+                    rr.lisaa( kysely.value("vientivw.kohdennus").toString());
                 else
                     rr.lisaa("");   // Ei kohdenneta-tekstiä ei tulosteta
             }
