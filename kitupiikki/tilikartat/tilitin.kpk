@@ -167,8 +167,8 @@ H4 151 {} Keskeneräiset tuotteet
 A 1511 {"Taseerittely":1} Keskeneräiset tuotteet
 H4 152 {} Valmiit tuotteet
 A 1521 {"Taseerittely":1} Valmiit tuotteet
-H4 1531 {"Taseerittely":1} Tavarat
-A 153 {"Taseerittely":1} Tavarat
+H4 153 {} Tavarat
+A 1531 {"Taseerittely":1} Tavarat
 A 1533 {"Taseerittely":1} Matkalla olevat tavarat
 H4 154 {} Muu vaihto-omaisuus
 A 1541 {"Taseerittely":3} Kiinteistöt
