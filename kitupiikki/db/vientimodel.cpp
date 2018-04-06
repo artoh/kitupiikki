@@ -439,6 +439,7 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
         QVariantList lista = value.toList();
         for( QVariant variant : lista )
             viennit_[rivi].tagit.append( kp()->kohdennukset()->kohdennus(variant.toInt()) );
+        emit muuttunut();
     }
     else
         return false;
@@ -483,7 +484,7 @@ bool VientiModel::insertRows(int row, int count, const QModelIndex & /* parent *
         viennit_.insert(row, uusiRivi() );
     endInsertRows();
     emit muuttunut();
-    // emit vientejaOnTaiEi(true);
+
     return true;
 }
 
@@ -648,6 +649,18 @@ bool VientiModel::tallenna()
 
         if( !rivi.vientiId )
             viennit_[i].vientiId = query.lastInsertId().toInt();
+        else
+            // Poistetaan tagit, jotta ne voitaisiin kohta lisätä...
+            query.exec( QString("DELETE FROM merkkaus WHERE vienti=%1").arg( rivi.vientiId));
+
+        for(Kohdennus tagi : rivi.tagit)
+        {
+            if( !query.exec( QString("INSERT INTO merkkaus(vienti,kohdennus) VALUES(%1,%2)")
+                        .arg(viennit_[i].vientiId)
+                        .arg(tagi.id()) ) )
+                    return false;
+        }
+
 
         if( rivi.maksaaLaskua)
         {
@@ -657,7 +670,10 @@ bool VientiModel::tallenna()
                                     .arg(rivi.debetSnt).arg(rivi.maksaaLaskua) ) )
                 return false;
         }
+
     }
+
+
     // Lopuksi pitäisi vielä poistaa ne rivit, jotka on poistettu...
     foreach (int id, poistetutVientiIdt_)
     {
@@ -710,6 +726,16 @@ void VientiModel::lataa()
         rivi.saajanTili = query.value("iban").toString();
         rivi.erapvm = query.value("erapvm").toDate();
         rivi.arkistotunnus = query.value("arkistotunnus").toString();
+
+        // Tagien hakeminen
+        QSqlQuery tagiKysely( *tositeModel_->tietokanta() );
+        tagiKysely.exec( QString("SELECT kohdennus FROM merkkaus WHERE vienti=%1").arg(rivi.vientiId));
+        while( tagiKysely.next())
+        {
+            rivi.tagit.append( kp()->kohdennukset()->kohdennus( tagiKysely.value(0).toInt() ) );
+        }
+
+
         viennit_.append(rivi);
     }
 
