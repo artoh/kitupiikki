@@ -113,14 +113,25 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
             case SELITE: return QVariant( rivi.selite );
 
             case KOHDENNUS :
+                QString txt;
+
+                if( rivi.kohdennus.tyyppi() != Kohdennus::EIKOHDENNETA)
+                    txt = rivi.kohdennus.nimi();
+
                 if( rivi.taseEra.eraId )
                 {
-                    return QVariant( tr("%1/%2").arg(rivi.taseEra.tositteenTunniste() ).arg( rivi.taseEra.pvm.toString("dd.MM.yyyy")) );
+                    if( !txt.isEmpty())
+                        txt.append("\n");
+                    txt.append(  tr("%1/%2").arg(rivi.taseEra.tositteenTunniste() ).arg( rivi.taseEra.pvm.toString("dd.MM.yyyy")) );
                 }
-                else if( rivi.kohdennus.tyyppi() == Kohdennus::EIKOHDENNETA )
-                    return QVariant();
-                else
-                    return QVariant( rivi.kohdennus.nimi());
+
+                if( rivi.tagit.count())
+                {
+                    if( !txt.isEmpty())
+                        txt.append("\n");
+                    txt.append(  rivi.tagit.join(", ") );
+                }
+                return txt;
 
         }
     }
@@ -187,6 +198,12 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
         {
             TaseEra era( query.value("vienti.id").toInt() );
             rivi.eraMaksettu = era.saldoSnt == 0;
+        }
+
+        QSqlQuery tagikysely( QString("SELECT kohdennus FROM merkkaus WHERE vienti=%1").arg( query.value("vienti.id").toInt() ));
+        while( tagikysely.next())
+        {
+            rivi.tagit.append( kp()->kohdennukset()->kohdennus( tagikysely.value(0).toInt() ).nimi() );
         }
 
         rivit.append(rivi);

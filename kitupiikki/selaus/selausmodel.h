@@ -42,6 +42,7 @@ struct SelausRivi
     TaseEra taseEra;
     QString tositetunniste;
     QString lajiteltavaTositetunniste;
+    QStringList tagit;
     bool eraMaksettu = false;
 };
 
