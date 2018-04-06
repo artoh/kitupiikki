@@ -465,13 +465,13 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu)
 
     painter->translate(0, rivinkorkeus);
 
-    QString ytunnus = Kirjanpito::db()->asetus("Ytunnus") ;
-    QString sivustr = QString("Sivu %1").arg(sivu);
+    QString ytunnus = Kirjanpito::db()->asetus("Ytunnus") ;    
 
     painter->drawText(QRect(vasenreunus,0,sivunleveys/4, rivinkorkeus ), Qt::AlignLeft, ytunnus );
 
     painter->drawText(QRect(sivunleveys/4,0,sivunleveys/2, rivinkorkeus  ), Qt::AlignHCenter, kausiteksti_);
-    painter->drawText(QRect(sivunleveys*3/4, 0, sivunleveys/4, rivinkorkeus), Qt::AlignRight, sivustr);
+    if( sivu )
+        painter->drawText(QRect(sivunleveys*3/4, 0, sivunleveys/4, rivinkorkeus), Qt::AlignRight, QString("Sivu %1").arg(sivu));
 
 
 

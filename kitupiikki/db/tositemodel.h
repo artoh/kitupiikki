@@ -29,6 +29,8 @@
 #include "db/liitemodel.h"
 #include "db/kirjanpito.h"
 
+#include "raportti/raportinkirjoittaja.h"
+
 /**
  * @brief Tositteen tiedot
  */
@@ -116,10 +118,10 @@ public slots:
 
 public:
     /**
-     * @brief Palauttaa tositteen html-muodossa tulostukseen
+     * @brief Tulostettava tosite
      * @return
      */
-    QString html();
+    RaportinKirjoittaja tuloste();
 
 
 

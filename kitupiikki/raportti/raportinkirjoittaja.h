@@ -73,7 +73,7 @@ struct RaporttiSarake
  * Ja lopuksi raportti tulostetaan
  *
  * @code
- *    raportti.tulosta( &printer, &painter );
+ *    kirjoittaja.tulosta( &printer, &painter );
  * @endcode
  *
  */
@@ -124,7 +124,7 @@ public:
      * @brief Tulostaa kirjoitetun raportin
      * @param printer
      * @param painter
-     * @param alkusivunumero Ensimmäisen tulostettavan sivun numero
+     * @param alkusivunumero Ensimmäisen tulostettavan sivun numero. Jos 0 ei tulosteta sivunumeroita.
      * @return sivuja tulostettu
      */
     int tulosta(QPrinter *printer, QPainter *painter, bool raidoita = false, int alkusivunumero = 1);

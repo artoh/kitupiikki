@@ -294,69 +294,90 @@ bool TositeModel::poista()
     return tietokanta()->commit();
 }
 
-QString TositeModel::html()
+RaportinKirjoittaja TositeModel::tuloste()
 {
-    QString html;
-    QTextStream out(&html);
+    RaportinKirjoittaja rk;
+    rk.asetaOtsikko("TOSITE");
 
-    out << "<table class=ylarivi><tr>";
-    if( QFile::exists( kp()->hakemisto().absoluteFilePath("logo128.png") ) )
-       out << "<td><img src=" + kp()->hakemisto().absoluteFilePath("logo128.png") + " width=64px height=64px></td>";
+    rk.lisaaPvmSarake();
+    rk.lisaaSarake("999999 Tilin nimi tarkenne");
+    rk.lisaaSarake("Kohdennustaa");
+    rk.lisaaVenyvaSarake();
+    rk.lisaaEurosarake();
+    rk.lisaaEurosarake();
 
-    out << "<td>" + kp()->asetukset()->asetus("Nimi") + "</td>";
-    out << "<td align=right>" + QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm") + "</td></table>";
+    rk.lisaaRivi();
 
-    out << "<table class=tositeotsikot><tr>";
-    out << "<td class=paiva width=25%>" << pvm().toString("dd.MM.yyyy") << "</td>";
-    out << "<td class=tositeotsikko>" << otsikko() << "</td>";
-    out << QString("<td class=tositetunnus align=right>%1%2/%3</td>")
-           .arg(tositelaji().tunnus()).arg(tunniste()).arg( kp()->tilikaudet()->tilikausiPaivalle( pvm() ).kausitunnus() );
-    out << "</tr></table>";
+    RaporttiRivi orivi;
+    orivi.lisaa( pvm().toString("dd.MM.yyyy"), 2 );
+    orivi.lisaa( otsikko(), 2);
+    orivi.lisaa( QString("%1%2/%3")
+                   .arg(tositelaji().tunnus()).arg(tunniste()).arg( kp()->tilikaudet()->tilikausiPaivalle( pvm() ).kausitunnus()),2,true);
+    orivi.asetaKoko(16);
+    rk.lisaaRivi(orivi);
+
+    rk.lisaaRivi();
 
     // Sitten viennit
-
     int vienteja = vientiModel()->rowCount(QModelIndex());
     if( vienteja )
     {
-
-        out << "<table class=viennit>";
-        out <<  "<tr><th>Pvm</th><th>Tili</th><th>Kohdennus</th><th>Selite</th><th>Debet</th><th>Kredit</th></tr>";
+        RaporttiRivi th;
+        th.lisaa(tr("Pvm"));
+        th.lisaa(tr("Tili"));
+        th.lisaa(tr("Kohdennus"));
+        th.lisaa(tr("Selite"));
+        th.lisaa(tr("Debet"));
+        th.lisaa(tr("Kredit"));
+        rk.lisaaRivi(th);
 
         for(int vientiRivi = 0; vientiRivi < vienteja; vientiRivi++)
         {
             QModelIndex index = vientiModel()->index(vientiRivi,0);
+            RaporttiRivi rr;
 
-            out << "<tr><td width=10%>" << index.data(VientiModel::PvmRooli).toDate().toString("dd.MM.yyyy") << "</td>";
-            out << "<td width=15%> "   << index.sibling(vientiRivi, VientiModel::TILI).data().toString() << "</td>";
-            out << "</td><td width=15%>" << index.sibling(vientiRivi, VientiModel::KOHDENNUS).data().toString() << "</td>";
-            out << "</td><td width=40%>" << index.sibling(vientiRivi, VientiModel::SELITE).data().toString();
-            out << "</td><td width=10% align=right>" << index.sibling(vientiRivi, VientiModel::DEBET).data().toString();
-            out << "</td><td width=10% align=right>" << index.sibling(vientiRivi, VientiModel::KREDIT).data().toString();
-            out << "</td></tr>\n";
+            rr.lisaa( index.data(VientiModel::PvmRooli).toDate() );
+            rr.lisaa( index.sibling(vientiRivi, VientiModel::TILI).data().toString());
+            rr.lisaa( index.sibling(vientiRivi, VientiModel::KOHDENNUS).data().toString() );
+            rr.lisaa( index.data(VientiModel::SeliteRooli).toString() );
+            rr.lisaa( index.data(VientiModel::DebetRooli).toLongLong());
+            rr.lisaa( index.data(VientiModel::KreditRooli).toLongLong());
+
+            if( vientiRivi == 0)
+                rr.viivaYlle();
+            rk.lisaaRivi(rr);
         }
-        out << "</table>";
+        RaporttiRivi vr;
+        vr.viivaYlle();
+        rk.lisaaRivi(vr);
     }
+
     // Kommentit
     if( !kommentti().isEmpty())
     {
-        out << "<p class=kommentti>";
-        out << kommentti();
-        out << "</p>";
+        RaporttiRivi rr;
+        rr.lisaa( kommentti(), 6);
+        rk.lisaaRivi(rr);
+        rk.lisaaRivi();
     }
 
     // Liitteet
     if( liiteModel()->rowCount(QModelIndex()))
     {
-        out << "<p class=liitteet>";
-        out << "<h3>Liitteet</h3><ol>";
+        RaporttiRivi rr;
+        rr.lisaa("Liitteet",2);
+        rr.lihavoi();
+        rk.lisaaRivi(rr);
+
         for(int liite=0; liite < liiteModel()->rowCount(QModelIndex()); liite++)
         {
+            RaporttiRivi lr;
             QModelIndex lInd = liiteModel()->index(liite,0);
-            out << "<li>" << lInd.data(LiiteModel::OtsikkoRooli ).toString() << "</li>";
+            lr.lisaa(lInd.data(LiiteModel::OtsikkoRooli ).toString(), 6);
+            rk.lisaaRivi(lr);
         }
-        out << "</ol></p>";
     }
 
-    return html;
+    return rk;
 }
 

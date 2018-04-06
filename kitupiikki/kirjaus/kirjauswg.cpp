@@ -27,6 +27,7 @@
 #include <QAction>
 #include <QPrintDialog>
 #include <QPrinter>
+#include <QPainter>
 
 #include <QShortcut>
 #include <QSettings>
@@ -441,14 +442,9 @@ void KirjausWg::tulostaTosite()
     QPrintDialog printDialog( kp()->printer(), this);
     if( printDialog.exec() )
     {
-        QTextDocument doc;
-        doc.setHtml( model()->html());
-        doc.setDefaultStyleSheet(
-                    "body { font-family: sans-serif; } "
-                    "table { width: 100%;}"
-
-                    );
-        doc.print( kp()->printer() );
+        QPainter painter( kp()->printer() );
+        model()->tuloste().tulosta( kp()->printer(), &painter, 0 );
+        painter.end();
     }
 }
 
