@@ -105,15 +105,15 @@ void Kirjanpito::avaaUrl(const QUrl &url)
     {
         if( url.fileName().endsWith("pdf"))
             QMessageBox::critical(0, tr("Pdf-lukijan käynnistäminen epäonnistui"),
-                                  tr("Kitupiikki ei saanut käynnistettyä pdf-lukuohjelmaa ohjeen näyttämiseksi. Onhan järjestelmässäsi "
-                                     "määritelty ohjelma avaamaan pdf-tiedostoja?\n\n"));
+                                  tr("Kitupiikki ei saanut käynnistettyä pdf-lukuohjelmaa tiedoston %1 näyttämiseksi. Onhan järjestelmässäsi "
+                                     "määritelty ohjelma avaamaan pdf-tiedostoja?\n\n").arg( url.toDisplayString()));
         else if( url.fileName().endsWith("html"))
             QMessageBox::critical(0, tr("Selaimen käynnistäminen epäonnistui"),
-                                  tr("Kitupiikki ei saanut käynnistettyä selainta tiedoston näyttämiseksi. Onhan järjestelmässäsi "
-                                     "määritelty oletusselain avaamaan internet-sivuja?\n\n"));
+                                  tr("Kitupiikki ei saanut käynnistettyä selainta tiedoston %1 näyttämiseksi. Onhan järjestelmässäsi "
+                                     "määritelty oletusselain avaamaan internet-sivuja?\n\n").arg(url.toDisplayString()));
         else
             QMessageBox::critical(0, tr("Tiedoston näyttäminen epäonnistui"),
-                                  tr("Kitupiikki ei saanut käynnistettyä ulkoista ohjelmaa tiedoston %1 näyttämiseksi.").arg(url.fileName()));
+                                  tr("Kitupiikki ei saanut käynnistettyä ulkoista ohjelmaa tiedoston %1 näyttämiseksi.").arg(url.toDisplayString() );
     }
 }
 
