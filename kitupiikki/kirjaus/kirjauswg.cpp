@@ -25,6 +25,8 @@
 #include <QUrl>
 #include <QMenu>
 #include <QAction>
+#include <QPrintDialog>
+#include <QPrinter>
 
 #include <QShortcut>
 #include <QSettings>
@@ -436,7 +438,18 @@ void KirjausWg::numeroSiirto()
 
 void KirjausWg::tulostaTosite()
 {
-    QMessageBox::information(this, tr("Tulostus"), tr("Ei vielä toteutettu..."));
+    QPrintDialog printDialog( kp()->printer(), this);
+    if( printDialog.exec() )
+    {
+        QTextDocument doc;
+        doc.setHtml( model()->html());
+        doc.setDefaultStyleSheet(
+                    "body { font-family: sans-serif; } "
+                    "table { width: 100%;}"
+
+                    );
+        doc.print( kp()->printer() );
+    }
 }
 
 void KirjausWg::siirryTositteeseen()

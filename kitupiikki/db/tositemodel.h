@@ -21,6 +21,7 @@
 #include <QObject>
 #include <QDate>
 #include <QSqlDatabase>
+#include <QTextDocument>
 
 #include "db/vientimodel.h"
 #include "db/tositelaji.h"
@@ -112,6 +113,14 @@ public slots:
     void tyhjaa();
     bool tallenna();
     bool poista();
+
+public:
+    /**
+     * @brief Palauttaa tositteen html-muodossa tulostukseen
+     * @return
+     */
+    QString html();
+
 
 
 protected:

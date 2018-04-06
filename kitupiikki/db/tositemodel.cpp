@@ -293,3 +293,70 @@ bool TositeModel::poista()
 
     return tietokanta()->commit();
 }
+
+QString TositeModel::html()
+{
+    QString html;
+    QTextStream out(&html);
+
+    out << "<table class=ylarivi><tr>";
+    if( QFile::exists( kp()->hakemisto().absoluteFilePath("logo128.png") ) )
+       out << "<td><img src=" + kp()->hakemisto().absoluteFilePath("logo128.png") + " width=64px height=64px></td>";
+
+    out << "<td>" + kp()->asetukset()->asetus("Nimi") + "</td>";
+    out << "<td align=right>" + QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm") + "</td></table>";
+
+    out << "<table class=tositeotsikot><tr>";
+    out << "<td class=paiva width=25%>" << pvm().toString("dd.MM.yyyy") << "</td>";
+    out << "<td class=tositeotsikko>" << otsikko() << "</td>";
+    out << QString("<td class=tositetunnus align=right>%1%2/%3</td>")
+           .arg(tositelaji().tunnus()).arg(tunniste()).arg( kp()->tilikaudet()->tilikausiPaivalle( pvm() ).kausitunnus() );
+    out << "</tr></table>";
+
+    // Sitten viennit
+
+    int vienteja = vientiModel()->rowCount(QModelIndex());
+    if( vienteja )
+    {
+
+        out << "<table class=viennit>";
+        out <<  "<tr><th>Pvm</th><th>Tili</th><th>Kohdennus</th><th>Selite</th><th>Debet</th><th>Kredit</th></tr>";
+
+        for(int vientiRivi = 0; vientiRivi < vienteja; vientiRivi++)
+        {
+            QModelIndex index = vientiModel()->index(vientiRivi,0);
+
+            out << "<tr><td width=10%>" << index.data(VientiModel::PvmRooli).toDate().toString("dd.MM.yyyy") << "</td>";
+            out << "<td width=15%> "   << index.sibling(vientiRivi, VientiModel::TILI).data().toString() << "</td>";
+            out << "</td><td width=15%>" << index.sibling(vientiRivi, VientiModel::KOHDENNUS).data().toString() << "</td>";
+            out << "</td><td width=40%>" << index.sibling(vientiRivi, VientiModel::SELITE).data().toString();
+            out << "</td><td width=10% align=right>" << index.sibling(vientiRivi, VientiModel::DEBET).data().toString();
+            out << "</td><td width=10% align=right>" << index.sibling(vientiRivi, VientiModel::KREDIT).data().toString();
+            out << "</td></tr>\n";
+        }
+        out << "</table>";
+    }
+    // Kommentit
+    if( !kommentti().isEmpty())
+    {
+        out << "<p class=kommentti>";
+        out << kommentti();
+        out << "</p>";
+    }
+
+    // Liitteet
+    if( liiteModel()->rowCount(QModelIndex()))
+    {
+        out << "<p class=liitteet>";
+        out << "<h3>Liitteet</h3><ol>";
+        for(int liite=0; liite < liiteModel()->rowCount(QModelIndex()); liite++)
+        {
+            QModelIndex lInd = liiteModel()->index(liite,0);
+            out << "<li>" << lInd.data(LiiteModel::OtsikkoRooli ).toString() << "</li>";
+        }
+        out << "</ol></p>";
+    }
+
+    return html;
+}
+
