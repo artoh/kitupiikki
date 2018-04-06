@@ -71,7 +71,8 @@ void Tositelajit::poista()
 
 void Tositelajit::riviValittu(const QModelIndex &index)
 {
-    ui->muokkaaNappi->setEnabled( index.isValid());
+    // Järjestelmätositelajia ei saa muokata!
+    ui->muokkaaNappi->setEnabled( index.isValid() && index.data(TositelajiModel::TunnusRooli).toString() != "*");
     ui->poistaNappi->setEnabled( index.isValid() &&
                                  index.data(TositelajiModel::IdRooli).toInt() > 1 &&
                                  index.data(TositelajiModel::TositeMaaraRooli).toInt() == 0);

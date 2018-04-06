@@ -123,7 +123,7 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
 
     // Lisätoimintojen valikko
     QMenu *valikko = new QMenu(this);
-    valikko->addAction(QIcon(":/pic/etsi.png"), tr("Siirry tositteeseen\tCtrl+G"), this, SLOT(siirryTositteeseen()), QKeySequence("Ctrl+G"));
+    valikko->addAction(QIcon(":/pic/etsi.png"), tr("Siirry tositteeseen\tCtrl+G"), this, SLOT(siirryTositteeseen()));
     valikko->addAction(QIcon(":/pic/tulosta.png"), tr("Tulosta tosite\tCtrl+P"), this, SLOT(tulostaTosite()), QKeySequence("Ctrl+P"));
     poistaAktio_ = valikko->addAction(QIcon(":/pic/roskis.png"),tr("Poista tosite"),this, SLOT(poistaTosite()));
     ui->valikkoNappi->setMenu( valikko );

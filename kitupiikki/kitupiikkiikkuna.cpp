@@ -53,6 +53,7 @@
 
 #include "lisaikkuna.h"
 
+#include "kirjaus/siirrydlg.h"
 
 KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     nykysivu(0)
@@ -116,6 +117,8 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     uusiSelausAktio = new QAction(QIcon(":/pic/Paivakirja64.png"), tr("Selaa uudessa ikkunassa"), this );
     connect( uusiSelausAktio, SIGNAL(triggered(bool)), this, SLOT(uusiSelausIkkuna()));
     new QShortcut(QKeySequence(Qt::SHIFT + Qt::Key_F3), this, SLOT(uusiSelausIkkuna()), 0, Qt::ApplicationShortcut);
+
+    new QShortcut(QKeySequence("Ctrl+G"), this, SLOT(siirryTositteeseen()), 0, Qt::ApplicationShortcut);
 
     toolbar->installEventFilter(this);
     toolbar->setContextMenuPolicy(Qt::PreventContextMenu);
@@ -252,6 +255,18 @@ void KitupiikkiIkkuna::ohje()
         kp()->ohje( nykysivu->ohjeSivunNimi() );
     else
         kp()->ohje();
+}
+
+void KitupiikkiIkkuna::siirryTositteeseen()
+{
+    int id = SiirryDlg::tositeId(kp()->paivamaara(), "" );
+    if( !id || (nykysivu && !nykysivu->poistuSivulta(KIRJAUSSIVU) ))
+    {
+        return;
+    }
+    valitseSivu(KIRJAUSSIVU, false);
+    kirjaussivu->naytaTosite( id );
+
 }
 
 void KitupiikkiIkkuna::mousePressEvent(QMouseEvent *event)

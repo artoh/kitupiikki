@@ -177,8 +177,6 @@ void TositelajiModel::poistaRivi(int riviIndeksi)
 
 Tositelaji TositelajiModel::tositelaji(int id) const
 {
-    if( id == 0)
-        return Tositelaji(0,"*","Järjestelmän tosite");
 
     foreach (Tositelaji laji, lajit_)
     {
@@ -206,9 +204,7 @@ void TositelajiModel::lataa()
     kysely.exec("SELECT id,tunnus,nimi,json FROM tositelaji ORDER BY id");
     while( kysely.next())
     {
-        // Järjestelmätositetta ei laiteta näkyviin
-        if( kysely.value(0) > 0 )
-            lajit_.append( Tositelaji(kysely.value(0).toInt(), kysely.value(1).toString(),
+        lajit_.append( Tositelaji(kysely.value(0).toInt(), kysely.value(1).toString(),
                                       kysely.value(2).toString(), kysely.value(3).toByteArray() ));
     }
 

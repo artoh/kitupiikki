@@ -91,6 +91,8 @@ protected slots:
      */
     void ohje();
 
+    void siirryTositteeseen();
+
 
 protected:
     void mousePressEvent(QMouseEvent *event);
