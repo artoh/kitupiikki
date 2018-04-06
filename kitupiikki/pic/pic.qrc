@@ -104,6 +104,7 @@
         <file>siirto.png</file>
         <file>Menu-Circles.png</file>
         <file>tag.png</file>
+        <file>etsi.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

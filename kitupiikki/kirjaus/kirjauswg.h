@@ -148,6 +148,11 @@ public slots:
      */
     void tulostaTosite();
 
+    /**
+     * @brief Valikon siirry-toiminta
+     */
+    void siirryTositteeseen();
+
 public:
     /**
      * @brief Jos kirjataan tiliotetta, tiliotetilin id
