@@ -113,7 +113,7 @@ void Kirjanpito::avaaUrl(const QUrl &url)
                                      "määritelty oletusselain avaamaan internet-sivuja?\n\n").arg(url.toDisplayString()));
         else
             QMessageBox::critical(0, tr("Tiedoston näyttäminen epäonnistui"),
-                                  tr("Kitupiikki ei saanut käynnistettyä ulkoista ohjelmaa tiedoston %1 näyttämiseksi.").arg(url.toDisplayString() );
+                                  tr("Kitupiikki ei saanut käynnistettyä ulkoista ohjelmaa tiedoston %1 näyttämiseksi.").arg(url.toDisplayString() ));
     }
 }
 
