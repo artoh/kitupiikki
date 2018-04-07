@@ -1,9 +1,9 @@
 div.asennusinfo
 {
    border: 1px solid #7e57c2;
-   width: 50%;  
-   padding: 0px 10px 10px 10px;
-   margin: auto auto auto auto;
+   width: 100%;  
+   padding: 10px 10px 10px 10px;
+   margin: 2em auto auto auto;
    box-shadow: 3px 3px 2px #d0d0d0;
    text-align: center;
    
@@ -13,6 +13,7 @@ div.asennusinfo > h3
 {
    color: #7e57c2;
    font-weight: bold;
+   margin-top: 0px;
     
 }
 
@@ -29,7 +30,7 @@ div.asennuslaatikko
     text-align: center;
     background: #7e57c2;
     color: white;
-    width: 80%;
+    width: 200px;
 }
 
 
