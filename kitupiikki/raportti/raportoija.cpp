@@ -68,11 +68,24 @@ RaportinKirjoittaja Raportoija::raportti(bool tulostaErittelyt)
 
     if( tyyppi() == TULOSLASKELMA)
     {
-        laskeTulosData();
+        if( kohdennusKaytossa_.size())
+        {
+            for(int kohdennus : kohdennusKaytossa_)
+                laskeKohdennusData(kohdennus);
+        }
+        else
+                laskeTulosData();
+
         kirjoitaDatasta(rk, tulostaErittelyt);
     }
     else if( tyyppi() == TASE )
     {
+        if( kohdennusKaytossa_.size())
+        {
+            for( int kohdennus : kohdennusKaytossa_)
+                laskeKohdennusData(kohdennus, true);
+        }
+
         laskeTaseDate();
         kirjoitaDatasta(rk, tulostaErittelyt);
     }
@@ -115,7 +128,16 @@ RaportinKirjoittaja Raportoija::raportti(bool tulostaErittelyt)
 
 void Raportoija::kirjoitaYlatunnisteet(RaportinKirjoittaja &rk)
 {
-    rk.asetaOtsikko( otsikko_);
+    if( tyyppi() != KOHDENNUSLASKELMA && kohdennusKaytossa_.size() )
+    {
+        // Jos poimittu kohdennuksia, niin näyttään ne otsikossa jotta näkee että tämä on ote
+        QStringList kohdennukset;
+        for(int kohdId : kohdennusKaytossa_)
+            kohdennukset.append( kp()->kohdennukset()->kohdennus( kohdId ).nimi() );
+        rk.asetaOtsikko( QString("%1 (%2)").arg(otsikko_).arg( kohdennukset.join(", ") ));
+    }
+    else
+        rk.asetaOtsikko( otsikko_);
 
     rk.lisaaSarake(40);
     for( int i=0; i < loppuPaivat_.count(); i++)
@@ -476,32 +498,53 @@ void Raportoija::laskeTaseDate()
     }
 }
 
-void Raportoija::laskeKohdennusData(int kohdennus)
+void Raportoija::laskeKohdennusData(int kohdennusId, bool poiminnassa)
 {
     data_.clear();
     data_.resize( loppuPaivat_.count());
 
     tilitKaytossa_.clear();
+    Kohdennus kohdennus = kp()->kohdennukset()->kohdennus(kohdennusId);
 
     // Kohdennuksen summien laskemista
     for( int i = 0; i < alkuPaivat_.count(); i++)
     {
-        QString kysymys = QString("SELECT ysiluku, sum(debetsnt), sum(kreditsnt) "
+        QString kysymys;
+
+        if( kohdennus.tyyppi() == Kohdennus::MERKKAUS)
+            kysymys = QString("SELECT ysiluku, sum(debetsnt), sum(kreditsnt) "
+                                  "from merkkaus, vienti,tili where merkkaus.kohdennus=%3 "
+                                  "AND merkkaus.vienti=vienti.id AND vienti.tili = tili.id and ysiluku > 300000000 "
+                                  "and pvm between \"%1\" and \"%2\"  "
+                                  "group by ysiluku")
+                .arg( alkuPaivat_.at(i).toString(Qt::ISODate))
+                .arg(loppuPaivat_.at(i).toString(Qt::ISODate))
+                .arg(kohdennusId);
+        else
+            kysymys = QString("SELECT ysiluku, sum(debetsnt), sum(kreditsnt) "
                                   "from vienti,tili where vienti.tili = tili.id and ysiluku > 300000000 "
                                   "and pvm between \"%1\" and \"%2\" and kohdennus=%3 "
                                   "group by ysiluku")
                 .arg( alkuPaivat_.at(i).toString(Qt::ISODate))
                 .arg(loppuPaivat_.at(i).toString(Qt::ISODate))
-                .arg(kohdennus);
+                .arg(kohdennusId);
 
         sijoitaTulosKyselyData(kysymys, i);
 
         // Tasetilien summat
+        if( kohdennus.tyyppi() == Kohdennus::MERKKAUS)
+            kysymys = QString("SELECT ysiluku, sum(debetsnt), sum(kreditsnt) "
+                                      "from merkkaus, vienti,tili where merkkaus.kohdennus=%2 AND "
+                                      "merkkaus.vienti=vienti.id AND vienti.tili = tili.id and ysiluku < 300000000 "
+                                      "and pvm <= \"%1\"  "
+                                      "group by ysiluku").arg(loppuPaivat_.at(i).toString(Qt::ISODate))
+                                                         .arg(kohdennusId);
+
         kysymys = QString("SELECT ysiluku, sum(debetsnt), sum(kreditsnt) "
                                   "from vienti,tili where vienti.tili = tili.id and ysiluku < 300000000 "
                                   "and pvm <= \"%1\" and kohdennus=%2 "
                                   "group by ysiluku").arg(loppuPaivat_.at(i).toString(Qt::ISODate))
-                                                     .arg(kohdennus);
+                                                     .arg(kohdennusId);
         QSqlQuery query(kysymys);
         while (query.next())
         {
@@ -509,7 +552,10 @@ void Raportoija::laskeKohdennusData(int kohdennus)
             qlonglong debet = query.value(1).toLongLong();
             qlonglong kredit = query.value(2).toLongLong();
 
-            data_[i].insert( ysiluku, debet - kredit );
+            if( poiminnassa && ysiluku > 200000000 )
+                data_[i].insert( ysiluku, kredit - debet);
+            else
+                data_[i].insert( ysiluku, debet - kredit );
 
             tilitKaytossa_.insert( ysiluku, true);
         }

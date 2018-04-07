@@ -44,6 +44,8 @@ MuokattavaRaportti::MuokattavaRaportti(const QString &raporttinimi)
         connect( ui->muotoCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(paivitaUi()));
     }
 
+    ui->kohdennusCombo->setModel(kp()->kohdennukset());
+
     paivitaUi();
 }
 
@@ -56,6 +58,9 @@ MuokattavaRaportti::~MuokattavaRaportti()
 RaportinKirjoittaja MuokattavaRaportti::raportti(bool /* csvmuoto */ )
 {    
     Raportoija raportoija( raporttiNimi );
+
+    if( ui->kohdennusCheck->isChecked())
+        raportoija.lisaaKohdennus( ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt() );
 
     if( raportoija.onkoKausiraportti())
     {
@@ -74,7 +79,7 @@ RaportinKirjoittaja MuokattavaRaportti::raportti(bool /* csvmuoto */ )
             raportoija.lisaaTasepaiva( ui->loppuu3Date->date());
     }
 
-    if( raportoija.tyyppi() == Raportoija::KOHDENNUSLASKELMA)
+    if( raportoija.tyyppi() == Raportoija::KOHDENNUSLASKELMA && !ui->kohdennusCheck->isChecked())
         raportoija.etsiKohdennukset();
 
     return raportoija.raportti( ui->erittelyCheck->isChecked());

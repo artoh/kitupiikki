@@ -139,7 +139,12 @@ protected:
     void laskeTulosData();
     void laskeTaseDate();
 
-    void laskeKohdennusData(int kohdennus);
+    /**
+     * @brief Laskee kohdennusten datan
+     * @param kohdennusId Kohdennuksen id
+     * @param poiminnassa tosi, jos tulostetaan tasemuodossa
+     */
+    void laskeKohdennusData(int kohdennusId, bool poiminnassa=false);
 
 
 

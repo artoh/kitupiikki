@@ -130,7 +130,11 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QComboBox" name="kohdennusCombo"/>
+      <widget class="QComboBox" name="kohdennusCombo">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -251,6 +255,22 @@
     <hint type="destinationlabel">
      <x>382</x>
      <y>38</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>kohdennusCheck</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>kohdennusCombo</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>72</x>
+     <y>149</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>220</x>
+     <y>151</y>
     </hint>
    </hints>
   </connection>
