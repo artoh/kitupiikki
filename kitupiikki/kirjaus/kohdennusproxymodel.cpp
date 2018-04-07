@@ -20,10 +20,11 @@
 #include "kohdennusproxymodel.h"
 #include "db/kirjanpito.h"
 
-KohdennusProxyModel::KohdennusProxyModel(QObject *parent, QDate paiva, int kohdennus)
+KohdennusProxyModel::KohdennusProxyModel(QObject *parent, QDate paiva, int kohdennus, Naytettavat naytetaan)
     : QSortFilterProxyModel(parent),
       nykyinenPaiva(paiva),
-      nykyinenKohdennus(kohdennus)
+      nykyinenKohdennus(kohdennus),
+      naytettavat(naytetaan)
 {
     setSourceModel( kp()->kohdennukset());
     sort(KohdennusModel::NIMI);
@@ -34,7 +35,7 @@ QVariantList KohdennusProxyModel::tagiValikko(const QDate& pvm, QVariantList val
     // Valikko tägien valitsemiseen
     QMenu tagvalikko;
 
-    KohdennusProxyModel proxy(0, pvm, KohdennusProxyModel::MERKKAUKSET);
+    KohdennusProxyModel proxy(0, pvm, -1, MERKKKAUKSET);
     for(int i=0; i < proxy.rowCount(QModelIndex()); i++)
     {
         QModelIndex pInd = proxy.index(i, 0);
@@ -73,9 +74,13 @@ bool KohdennusProxyModel::filterAcceptsRow(int source_row, const QModelIndex & s
     if( paattyy.isValid() && nykyinenPaiva > paattyy)
         return false;
 
-    if( (nykyinenKohdennus >= -1 && index.data(KohdennusModel::TyyppiRooli).toInt() == Kohdennus::MERKKAUS) ||
-        (nykyinenKohdennus == -10 && index.data(KohdennusModel::TyyppiRooli).toInt() != Kohdennus::MERKKAUS) )
-        return false;   // Tageja ei näytetä kohdennusvalikoissa eikä kohdennuksia tagivalikossa
+    int tyyppi = index.data(KohdennusModel::TyyppiRooli).toInt();
+
+    if( naytettavat == KOHDENNUKSET_PROJEKTIT && tyyppi == Kohdennus::MERKKAUS )
+        return false;
+    else if( naytettavat == MERKKKAUKSET && tyyppi != Kohdennus::MERKKAUS)
+        return false;
+
 
 
     return true;

@@ -28,18 +28,21 @@
 class KohdennusProxyModel : public QSortFilterProxyModel
 {
 public:
+    enum Naytettavat { KAIKKI, KOHDENNUKSET_PROJEKTIT, MERKKKAUKSET };
+
     /**
      * @brief Kohdennuksia suodattava proxy
      * @param parent
      * @param paiva Päivämäärä, jonka suhteen määräaikaisten suodatus
-     * @param kohdennus Nykyisen kohdennukset id TAI MERKKAUS (-10) jos näytetään merkkauksia
+     * @param kohdennus Nykyisen kohdennukset id
+     * @param naytetaan Minkä tyyppiset näytetään
      */
-    KohdennusProxyModel(QObject *parent = nullptr, QDate paiva = QDate(), int kohdennus = -1);
+    KohdennusProxyModel(QObject *parent = nullptr, QDate paiva = QDate(), int kohdennus = -1, Naytettavat naytetaan = KOHDENNUKSET_PROJEKTIT);
 
     void asetaPaiva(const QDate& paiva) { nykyinenPaiva = paiva; invalidate(); }
     void asetaKohdennus(int kohdennus) { nykyinenKohdennus = kohdennus; invalidate(); }
+    void asetaNaytettavat(Naytettavat naytetaan) { naytettavat = naytetaan; invalidate(); }
 
-    enum { MERKKAUKSET = -10 };
 
     /**
      * @brief Valikko tägien valitsemiseen
@@ -55,6 +58,7 @@ protected:
 private:
     QDate nykyinenPaiva;
     int nykyinenKohdennus;  // Nykykohdennus kelpaa aina
+    Naytettavat naytettavat;
 };
 
 #endif // KOHDENNUSPROXYMODEL_H
