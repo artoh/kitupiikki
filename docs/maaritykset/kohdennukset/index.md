@@ -26,5 +26,3 @@ Yrityksen eri **osastojen** tuloja ja menoja seurataan määrittelemällä osast
 *Partiolippukunta kirjaa järjestämänsä leirin tuloiksi leirimaksut ja leiriä varten saadut avustukset ja kuluiksi leirin kustannukset. Näin leirin kustannuksia voidaan seurata ja kirjanpito osoittaa leiriä avustaneille, että kohdeavustukset ovat menneet juuri tämän leirin kuluihin.*
 
 *Jos alueen lippukunnat järjestävät leirin yhdessä ja sopivat, että leiristä koituvat kulut jaetaan lippukuntien kesken osallistujien suhteissa mutta yksi lippukunta huolehtii rahaliikenteen, voi tämä lippukunta tehdä leiristä projektin. Projektin tuloiksi kirjataan leirimaksut ja avustukset ja menoiksi kaikki kulut. Jäämä laskutetaan osallistujien kesken ja merkitään projektin tuloiksi. Järjestäjälippukunta tekee omasta osuudestaan sisäisen kirjauksen kredit leiritoiminta debet leiriprojekti.*
-
-Eräiden **EU-tukien** tilityksissä vaadittavan pääkirjanotteen saa, kun hankkeen muodostaa projektiksi. Hankkeeseen liittyvillä tasetileillä pitää ottaa kohdennukset käyttöön.
