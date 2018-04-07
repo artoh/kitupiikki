@@ -95,7 +95,7 @@ MaaritysSivu::MaaritysSivu() :
     connect( tallennanappi, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
     connect( kp(), SIGNAL(tilikausiPaatetty()), this, SLOT(paivitaNakyvat()));
 
-    connect( kp(), &Kirjanpito::tietokantaVaihtui, [this] { lista->setCurrentRow(0); });
+    connect( kp(), &Kirjanpito::tietokantaVaihtui, [this] { nykyinen=0; lista->setCurrentRow(0); });
 
 }
 
