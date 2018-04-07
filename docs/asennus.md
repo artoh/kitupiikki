@@ -15,7 +15,7 @@ Tuetut Windowsin versiot: Windows 7, 8 ja 10.
 
 !!! note ""
 
-    <span class="fa fa-windows"></span> [Kitupiikki 0.9 beta Windows asennusohjelma (21 MB)](https://github.com/artoh/kitupiikki/releases/download/v0.9.0-beta/kitupiikki0.9-beta-asennus.exe) Kehitysvaiheessa oleva ohjelma, virheet ja puutteet vielä todennäköisiä
+    <span class="fa fa-windows"></span> [Kitupiikki 0.10 beta Windows asennusohjelma (21 MB)](https://github.com/artoh/kitupiikki/releases/download/v.0.10.0-beta/kitupiikki0.10-beta-asennus.exe) Kehitysvaiheessa oleva ohjelma, virheet ja puutteet vielä todennäköisiä
 
 Lataa Kitupiikin asennusohjelma yllä olevasta linkistä ja suorita se. Asennus ei tarvitse ylläpitäjän oikeuksia.
 
@@ -25,7 +25,7 @@ Lataa Kitupiikin asennusohjelma yllä olevasta linkistä ja suorita se. Asennus 
 Toimii 64-bittisissä Linux-jakeluissa joissa graafinen työpöytä (esim. Ubuntu 16.04 ja uudemmat)
 
 !!! note ""
-    <span class="fa fa-linux"></span> [Kitupiikki 0.9 beta Linux AppImage (34 MB)](https://github.com/artoh/kitupiikki/releases/download/v0.9.0-beta/Kitupiikki-0.9-beta-x86_64.AppImage)
+    <span class="fa fa-linux"></span> [Kitupiikki 0.10 beta Linux AppImage (35 MB)](https://github.com/artoh/kitupiikki/releases/download/v.0.10.0-beta/Kitupiikki-0.10-beta-x86_64.AppImage)
      Kehitysvaiheessa oleva ohjelma, virheet ja puutteet vielä todennäköisiä
 
 Kitupiikin Linux-version toimitetaan AppImage-tiedostona, jota ei varsinaisesti edes tarvitse asentaa. Et tarvitse ylläpitäjän oikeuksia.
