@@ -153,37 +153,37 @@ void LaskutModel::lataaAvoimet()
 
 void LaskutModel::paivita(int valinta, QDate mista, QDate mihin)
 {
-    QString kysely = "SELECT id, laskupvm, erapvm, summaSnt, avoinSnt, asiakas, tosite, kirjausperuste, json from lasku";
-
-    QStringList ehdot;
-    if(valinta == AVOIMET)
-        ehdot.append("avoinsnt > 0");
-    if(valinta == ERAANTYNEET)
-        ehdot.append(QString("avoinsnt > 0 AND erapvm < '%1' ").arg( kp()->paivamaara().toString(Qt::ISODate) ) );
-    if(mista.isValid())
-        ehdot.append(QString("laskupvm >= '%1'").arg(mista.toString(Qt::ISODate)));
-    if(mihin.isValid())
-        ehdot.append(QString("laskupvm <= '%1'").arg(mihin.toString(Qt::ISODate)));
-    if(!ehdot.isEmpty())
-        kysely.append(" WHERE " +  ehdot.join(" AND ") );
+    QString kysely = "SELECT id, pvm, tili, debetsnt, kreditsnt, eraid, viite, erapvm, json, tosite, asiakas FROM vienti "
+                     "WHERE viite IS NOT NULL AND iban IS NULL ";
 
     beginResetModel();
     laskut.clear();
-    QSqlQuery query;
-    query.exec( kysely );
+    QSqlQuery query( kysely );
 
     while( query.next())
     {
+        JsonKentta json( query.value("json").toByteArray()  );
+        QDate laskupvm = json.date("Laskupvm");
+        if( laskupvm < mista || laskupvm > mihin)
+            continue;
+
+        TaseEra era( query.value("eraid").toInt());
+        if( valinta == AVOIMET && !era.saldoSnt )
+            continue;
+        if( valinta == ERAANTYNEET && ( !era.saldoSnt || query.value("erapvm").toDate() > kp()->paivamaara() ))
+            continue;
+
+        // Tämä lasku kelpaa ;)
         AvoinLasku lasku;
-        lasku.viitenro = query.value("id").toInt();
-        lasku.pvm = query.value("laskupvm").toDate();
+        lasku.viitenro = query.value("viite").toInt();
+        lasku.pvm = laskupvm;
         lasku.erapvm = query.value("erapvm").toDate();
-        lasku.summaSnt = query.value("summaSnt").toInt();
-        lasku.avoinSnt = query.value("avoinSnt").toInt();
+        lasku.summaSnt = query.value("debetSnt").toInt();
+        lasku.avoinSnt = era.saldoSnt;
         lasku.asiakas = query.value("asiakas").toString();
         lasku.tosite = query.value("tosite").toInt();
-        lasku.kirjausperuste = query.value("kirjausperuste").toInt();
-        lasku.json.fromJson( query.value("json").toByteArray() );
+        lasku.kirjausperuste =  json.luku("Kirjausperuste");
+        lasku.json = json;
         laskut.append(lasku);
     }
     endResetModel();

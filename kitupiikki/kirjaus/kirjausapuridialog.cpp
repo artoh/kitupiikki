@@ -572,7 +572,7 @@ void KirjausApuriDialog::ehdota()
             if(vastatili.onko(TiliLaji::OSTOVELKA))
             {
                 if( ui->ibanEdit->hasAcceptableInput())
-                    taserivi.saajanTili = ui->ibanEdit->text().remove(' ');
+                    taserivi.ibanTili = ui->ibanEdit->text().remove(' ');
                 if( ui->viiteEdit->hasAcceptableInput())
                     taserivi.viite = ui->viiteEdit->text().remove(' ');
                 if( ui->eraCheck->isChecked())

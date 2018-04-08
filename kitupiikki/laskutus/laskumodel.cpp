@@ -303,7 +303,7 @@ qulonglong LaskuModel::laskunro() const
         // Lasketaan aina tunnistenumero uudelleen!!!
         qlonglong numero = pohjanro * 10 + laskeViiteTarkiste(pohjanro);
         // Varmistetaan, että tämä numero ei vielä ole käytössä!
-        QSqlQuery kysely(QString("SELECT id FROM lasku WHERE id=%1").arg(numero));
+        QSqlQuery kysely(QString("SELECT viite FROM vienti WHERE viite='%1' AND iban IS NULL").arg(numero));
         if( !kysely.next())
             return numero;
         pohjanro++;
@@ -360,6 +360,9 @@ bool LaskuModel::tallenna(Tili rahatili)
 
     foreach (LaskuRivi rivi, rivit_)
     {
+        if( !rivi.ahintaSnt )
+            continue;   // Ei tyhjiä rivejä
+
         // Maksuperusteisen koodaus, jos käytössä maksuperusteinen
         if( kp()->onkoMaksuperusteinenAlv(pvm()) && rivi.alvKoodi == AlvKoodi::MYYNNIT_NETTO &&
                 ( kirjausperuste() == SUORITEPERUSTE || kirjausperuste() == LASKUTUSPERUSTE  ))
@@ -489,25 +492,45 @@ bool LaskuModel::tallenna(Tili rahatili)
                 viennit->lisaaVienti(verorivi);
         }
     }
-    // Vielä rahasummarivi !!!
-    if( kirjausperuste() != MAKSUPERUSTE)
-    {
-        VientiRivi raharivi;
-        raharivi.tili = rahatili;
-        raharivi.pvm = pvm();
-        raharivi.selite = tr("%1 [%2]").arg(laskunsaajanNimi()).arg(laskunro());
-        raharivi.kohdennus = tasekohdennus;
 
-        if( laskunSumma() > 0 )
-            raharivi.debetSnt = laskunSumma();
-        else
-            raharivi.kreditSnt = 0 - laskunSumma();
+    VientiRivi raharivi;
+    raharivi.tili =  kirjausperuste() == MAKSUPERUSTE ? Tili() : rahatili;      // Maksuperusteinen kirjataan NULL-tilille
+    raharivi.pvm = pvm();
+    raharivi.selite = tr("%1 [%2]").arg(laskunsaajanNimi()).arg(laskunro());
+    raharivi.kohdennus = tasekohdennus;
 
-        if( hyvityslasku().viitenro )
-            raharivi.eraId = hyvityslasku().json.luku("TaseEra");
+    if( laskunSumma() > 0 )
+        raharivi.debetSnt = laskunSumma();
+    else
+        raharivi.kreditSnt = 0 - laskunSumma();
 
-        viennit->lisaaVienti(raharivi);
-    }
+    if( hyvityslasku().viitenro )
+        raharivi.eraId = hyvityslasku().json.luku("TaseEra");
+
+
+    // Sitten tälle rahariville kirjataan aiemmin laskut-taulussa olleet tiedot
+    // #149 since 0.11
+
+    raharivi.viite = QString::number( laskunro() );
+    raharivi.asiakas = laskunsaajanNimi();
+    raharivi.erapvm = erapaiva();
+
+    if( kirjausperuste() == KATEISLASKU)
+        raharivi.eraId = -1;    // Maksettu on...
+
+    raharivi.json.set("Osoite", osoite());
+    raharivi.json.set("Laskupvm", kp()->paivamaara() );
+    raharivi.json.set("Toimituspvm", toimituspaiva());
+    raharivi.json.set("Lisatieto", lisatieto());
+    raharivi.json.set("Email", email());
+    raharivi.json.setVar("Erittely", rivitTalteen);
+    raharivi.json.set("Kirjausperuste", kirjausperuste());
+
+    if( hyvityslasku().viitenro )
+        raharivi.json.set("Hyvityslasku", hyvityslasku().viitenro);
+
+
+    viennit->lisaaVienti(raharivi);
 
     // Tallennetaan liiteeksi
 
@@ -523,75 +546,8 @@ bool LaskuModel::tallenna(Tili rahatili)
     tulostaja.tulosta(&printer);
 
     tosite.liiteModel()->lisaaTiedosto( tpnimi , tr("Lasku nr %1").arg(laskunro()));
-    tosite.tallenna();
+    tosite.tallenna(true);
 
-    
-    QSqlQuery query;
-    query.prepare("INSERT INTO lasku(id,tosite,laskupvm,erapvm,summaSnt,avoinSnt,asiakas,kirjausperuste,json) "
-                  "VALUES(:id,:tosite,:pvm,:erapvm,:summa,:avoin,:asiakas,:kirjausperuste,:json)");
-    query.bindValue(":id", laskunro());
-    query.bindValue(":tosite", tosite.id());
-    query.bindValue(":pvm", kp()->paivamaara());
-    query.bindValue(":erapvm", erapaiva());
-    query.bindValue(":summa", laskunSumma());
-
-    if( kirjausperuste() == KATEISLASKU || hyvityslasku().viitenro)
-        query.bindValue(":avoin", 0);
-    else
-        query.bindValue(":avoin", laskunSumma());
-    query.bindValue(":asiakas", laskunsaajanNimi());
-    query.bindValue(":kirjausperuste", kirjausperuste());
-
-    JsonKentta json;
-    json.set("Osoite", osoite());
-    json.set("Toimituspvm", toimituspaiva());
-    json.set("Lisatieto", lisatieto());
-    json.set("Email", email());
-    json.setVar("Erittely", rivitTalteen);
-    if( tasekohdennus.id())
-        json.set("Kohdennus", tasekohdennus.id());
-
-    if( hyvityslasku().viitenro )
-        json.set("Hyvityslasku", hyvityslasku().viitenro);
-
-    // Etsitään tase-erä. Tämän tallentaminen laskun json-kenttään helpottaa maksun suorittamista ;)
-    if( (kirjausperuste() == SUORITEPERUSTE || kirjausperuste() == LASKUTUSPERUSTE) && !hyvityslasku().viitenro )
-    {
-        for( int i=0; i < viennit->rowCount(QModelIndex()); i++)
-        {
-            if( viennit->index(i, 0).data(VientiModel::TiliNumeroRooli).toInt() == rahatili.numero())
-            {
-                json.set("TaseEra", viennit->index(i,0).data(VientiModel::IdRooli).toInt());
-                break;
-            }
-        }
-        json.set("Saatavatili", rahatili.numero());
-    }
-
-    // Etsitään liitetiedoston nimi. Näin liitetiedosto helpommin viitattavissa myös hyvityslaskuille
-    for(int i=0; i < tosite.liiteModel()->rowCount(QModelIndex()); i++)
-    {
-        if( tosite.liiteModel()->index(i,0).data(LiiteModel::OtsikkoRooli) == tr("Lasku nr %1").arg(laskunro()) )
-        {
-            json.set("Liite", tosite.liiteModel()->index(i,0).data(LiiteModel::TiedostoNimiRooli).toString());
-        }
-    }
-
-
-    query.bindValue(":json", json.toSqlJson() );
-    qDebug()  << query.exec();
-
-    qDebug() << query.lastError().text();
-    qDebug() << query.lastQuery();
-
-    if( hyvityslasku().viitenro)
-    {
-        // Vähennetään hyvityslasku alkuperäisen laskun avoimista
-        query.exec( QString("UPDATE lasku SET avoinSnt = avoinSnt - %1 where id = %2")
-                    .arg( 0 - laskunSumma()).arg( hyvityslasku().viitenro) );
-    }
-
-    // Kelataan laskuria eteenpäin - tallennettava laskunnumero
     kp()->asetukset()->aseta("LaskuSeuraavaId", laskunro() );
 
     return true;

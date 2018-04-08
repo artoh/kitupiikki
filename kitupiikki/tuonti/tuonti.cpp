@@ -99,7 +99,7 @@ void Tuonti::tuoLasku(qlonglong sentit, QDate laskupvm, QDate toimituspvm, QDate
     viite.replace( QRegularExpression("^0*"),"");
 
     rivi.viite = viite;
-    rivi.saajanTili = tilinumero;
+    rivi.ibanTili = tilinumero;
     rivi.erapvm = erapvm;
     rivi.json.set("SaajanNimi", saajanNimi);
 
@@ -190,7 +190,6 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, Q
                 // Jos määritelty kohdennettavaksi
                 if( vastarivi.tili.json()->luku("Kohdennuksella"))
                     vastarivi.kohdennus = kp()->kohdennukset()->kohdennus(json.luku("Kohdennus"));
-                vastarivi.maksaaLaskua = viite.toInt();
             }
             else if( kysely.value("kirjausperuste").toInt() == LaskuModel::MAKSUPERUSTE)
             {
@@ -240,7 +239,6 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, Q
     rivi.tili = tiliotetili();
     rivi.selite = selite;
     vastarivi.selite = selite;
-    rivi.riviNro = kirjausWg()->model()->vientiModel()->seuraavaRiviNumero();
 
     if( rivi.tili.json()->luku("Kohdennukset") && vastarivi.kohdennus.tyyppi() != Kohdennus::EIKOHDENNETA)
         rivi.kohdennus = vastarivi.kohdennus;

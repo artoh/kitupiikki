@@ -100,7 +100,7 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
     else if( role == MuokattuRooli)
         return QVariant( rivi.muokattu);
     else if( role == RiviRooli)
-        return QVariant( rivi.riviNro );
+        return QVariant( index.row() );
     else if( role == EraIdRooli)
         return QVariant( rivi.eraId );
     else if( role == PoistoKkRooli)
@@ -114,7 +114,7 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
     else if( role == ViiteRooli )
         return QVariant( rivi.viite );
     else if( role == SaajanTiliRooli )
-        return QVariant( rivi.saajanTili );
+        return QVariant( rivi.ibanTili );
     else if( role == SaajanNimiRooli)
         return rivi.json.str("SaajanNimi");
     else if( role == EraPvmRooli )
@@ -135,6 +135,8 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
             lista.append( tagi.id() );
         return lista;
     }
+    else if( role == AsiakasRooli)
+        return rivi.asiakas;
 
 
     else if( role==Qt::DisplayRole || role == Qt::EditRole)
@@ -201,13 +203,14 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
                         else
                             txt = tr("Tasaerapoisto %1 v").arg(kk / 12) ;
                     }
+                    else if( !rivi.viite.isEmpty() && rivi.ibanTili.isEmpty() && !rivi.eraId)
+                    {
+                        txt = rivi.viite;
+                    }
+
                     else if( !rivi.viite.isEmpty())
                     {
                         txt = tr("VIITE");
-                    }
-                    else if( rivi.maksaaLaskua)
-                    {
-                        txt = QString::number(rivi.maksaaLaskua);
                     }
 
                     if( rivi.kohdennus.tyyppi() != Kohdennus::EIKOHDENNETA)
@@ -245,7 +248,7 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
     {
         if( index.column() == KOHDENNUS)
         {
-            if( rivi.maksaaLaskua )
+            if( rivi.viite.length() && rivi.ibanTili.isEmpty() && !rivi.eraId )
                 return QIcon(":/pic/lasku.png");
             else if( rivi.kohdennus.id() )
                 return rivi.kohdennus.tyyppiKuvake();
@@ -418,7 +421,7 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
     }
     else if( role == SaajanTiliRooli )
     {
-        viennit_[rivi].saajanTili = value.toString();
+        viennit_[rivi].ibanTili = value.toString();
     }
     else if( role == SaajanNimiRooli)
     {
@@ -441,6 +444,8 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
             viennit_[rivi].tagit.append( kp()->kohdennukset()->kohdennus(variant.toInt()) );
         emit muuttunut();
     }
+    else if( role == AsiakasRooli)
+        viennit_[rivi].asiakas = value.toString();
     else
         return false;
 
@@ -549,7 +554,6 @@ QModelIndex VientiModel::lisaaVienti(VientiRivi rivi, int indeksi)
 
     beginInsertRows( QModelIndex(), indeksi, indeksi);
 
-    rivi.riviNro = seuraavaRiviNumero();
     viennit_.insert(indeksi, rivi);
 
     endInsertRows();
@@ -578,14 +582,14 @@ qlonglong VientiModel::kreditSumma() const
     return summa;
 }
 
-bool VientiModel::tallenna()
+bool VientiModel::tallenna(bool tallennatyhjat)
 {
     QSqlQuery query(*tositeModel_->tietokanta());
     for(int i=0; i < viennit_.count() ; i++)
     {
         VientiRivi rivi = viennit_[i];
 
-        if(( rivi.kreditSnt == 0 && rivi.debetSnt == 0) || rivi.tili.id() == 0)
+        if((( rivi.kreditSnt == 0 && rivi.debetSnt == 0) || rivi.tili.id() == 0) && !tallennatyhjat )
             continue;       // "Tyhjä" rivi, ei tallenneta
 
         if( rivi.vientiId )
@@ -594,7 +598,7 @@ bool VientiModel::tallenna()
                           "kreditsnt=:kreditsnt, selite=:selite, alvkoodi=:alvkoodi,"
                           "kohdennus=:kohdennus, eraid=:eraid, alvprosentti=:alvprosentti, "
                           "viite=:viite, iban=:iban, erapvm=:erapvm, arkistotunnus=:arkistotunnus, "
-                          "muokattu=:muokattu, json=:json"
+                          "muokattu=:muokattu, json=:json, asiakas=:asiakas, vientirivi=:rivinro"
                           " WHERE id=:id");
             query.bindValue(":id", rivi.vientiId);
         }
@@ -602,18 +606,22 @@ bool VientiModel::tallenna()
         {
             query.prepare("INSERT INTO vienti(tosite,pvm,tili,debetsnt,kreditsnt,selite,"
                            "alvkoodi, alvprosentti, luotu, muokattu, json, kohdennus, eraid, vientirivi,"
-                           "viite, iban, erapvm, arkistotunnus) "
+                           "viite, iban, erapvm, arkistotunnus,asiakas) "
                             "VALUES(:tosite,:pvm,:tili,:debetsnt,:kreditsnt,:selite,"
                             ":alvkoodi, :alvprosentti, :luotu, :muokattu, :json, :kohdennus, :eraid, :rivinro,"
-                            ":viite, :iban, :erapvm, :arkistotunnus)");
-            query.bindValue(":luotu",  QDateTime::currentDateTime() );
-            query.bindValue(":rivinro", rivi.riviNro);
+                            ":viite, :iban, :erapvm, :arkistotunnus, :asiakas)");
+            query.bindValue(":luotu",  QDateTime::currentDateTime() );            
         }
+        query.bindValue(":rivinro", i + 1);        // Pidetään viennit siististi numeroituina
 
 
         query.bindValue(":tosite", tositeModel_->id() );
         query.bindValue(":pvm", rivi.pvm);
-        query.bindValue(":tili", rivi.tili.id());
+
+        if( rivi.tili.onkoValidi())
+            query.bindValue(":tili", rivi.tili.id());
+        else
+            query.bindValue(":tili", QVariant());   // NULL maksuperusteisen rahakirjauksille
 
         if( rivi.debetSnt )
             query.bindValue(":debetsnt", rivi.debetSnt);
@@ -625,8 +633,10 @@ bool VientiModel::tallenna()
         else
             query.bindValue(":kreditsnt", QVariant());
 
-        if( rivi.eraId )
+        if( rivi.eraId > 0)
             query.bindValue(":eraid", rivi.eraId);
+        else if(  rivi.eraId == 0 &&  rivi.vientiId)
+            query.bindValue(":eraid", rivi.vientiId);
         else
             query.bindValue(":eraid", QVariant());
 
@@ -636,9 +646,10 @@ bool VientiModel::tallenna()
         query.bindValue(":muokattu", QDateTime::currentDateTime() );
         query.bindValue(":kohdennus", rivi.kohdennus.id());
         query.bindValue(":viite", rivi.viite);
-        query.bindValue(":iban", rivi.saajanTili);
+        query.bindValue(":iban", rivi.ibanTili);
         query.bindValue(":erapvm", rivi.erapvm);
         query.bindValue(":arkistotunnus", rivi.arkistotunnus);
+        query.bindValue(":asiakas", rivi.asiakas);
         query.bindValue(":json", rivi.json.toSqlJson());
 
         if( !query.exec() )
@@ -648,7 +659,12 @@ bool VientiModel::tallenna()
         }
 
         if( !rivi.vientiId )
+        {
             viennit_[i].vientiId = query.lastInsertId().toInt();
+            // Jos ei ole tase-erää, niin merkitään tase-erä itseensä - helpottaa tase-erien laskentaa
+            if( !rivi.eraId )
+                query.exec(QString("UPDATE vienti SET eraid=%1 WHERE id=%1").arg(viennit_[i].vientiId) );
+        }
         else
             // Poistetaan tagit, jotta ne voitaisiin kohta lisätä...
             query.exec( QString("DELETE FROM merkkaus WHERE vienti=%1").arg( rivi.vientiId));
@@ -660,17 +676,6 @@ bool VientiModel::tallenna()
                         .arg(tagi.id()) ) )
                     return false;
         }
-
-
-        if( rivi.maksaaLaskua)
-        {
-            // Tämä kirjaus maksaa laskua eli vähentää sen avointa summaa
-            QSqlQuery laskunMaksuKysely;
-            if( !laskunMaksuKysely.exec( QString("UPDATE lasku SET avoinSnt = avoinSnt - %1 WHERE id=%2")
-                                    .arg(rivi.debetSnt).arg(rivi.maksaaLaskua) ) )
-                return false;
-        }
-
     }
 
 
@@ -720,10 +725,17 @@ void VientiModel::lataa()
         rivi.muokattu = query.value("muokattu").toDateTime();
         rivi.kohdennus = kp()->kohdennukset()->kohdennus( query.value("kohdennus").toInt());
         rivi.eraId = query.value("eraid").toInt();
-        rivi.riviNro = query.value("vientirivi").toInt();
+
+        // Kun aloittaa uuden erän...
+        if( rivi.eraId == rivi.vientiId)
+            rivi.eraId = 0;
+        else if( rivi.eraId == 0)
+            rivi.eraId = -1;    // Negatiivinen eraId tarkoittaa NULL: ei voi liittää erää
+                                // (esim. käteislasku)
+
         rivi.json.fromJson( query.value("json").toByteArray() );
         rivi.viite = query.value("viite").toString();
-        rivi.saajanTili = query.value("iban").toString();
+        rivi.ibanTili = query.value("iban").toString();
         rivi.erapvm = query.value("erapvm").toDate();
         rivi.arkistotunnus = query.value("arkistotunnus").toString();
 
@@ -751,8 +763,6 @@ void VientiModel::lataa()
 VientiRivi VientiModel::uusiRivi()
 {
     VientiRivi uusirivi;
-
-    uusirivi.riviNro = seuraavaRiviNumero();
 
     int debetit = debetSumma();
     int kreditit = kreditSumma();
@@ -799,16 +809,7 @@ VientiRivi VientiModel::uusiRivi()
     return uusirivi;
 }
 
-int VientiModel::seuraavaRiviNumero()
-{
-    int seuraava = 1;
-    foreach (VientiRivi rivi, viennit_)
-    {
-        if( rivi.riviNro >= seuraava )
-            seuraava = rivi.riviNro + 1;
-    }
-    return seuraava;
-}
+
 
 
 

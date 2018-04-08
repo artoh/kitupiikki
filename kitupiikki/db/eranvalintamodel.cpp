@@ -92,12 +92,12 @@ void EranValintaModel::lataa(Tili tili, bool kaikki, QDate paivalle)
     }
 
     query.exec(QString("SELECT id, pvm, selite, debetsnt, kreditsnt from vienti "
-               "where tili=%1 and eraid is NULL %2 order by pvm").arg(tili.id()).arg(pvmehto));
+               "where tili=%1 and eraid=id order by pvm").arg(tili.id()) );
 
     while( query.next())
     {
         int id = query.value("id").toInt();
-        qlonglong saldo = saldot.value(id, 0) + query.value("debetsnt").toLongLong() - query.value("kreditsnt").toLongLong();
+        qlonglong saldo = saldot.value(id, 0);
         if( saldo || kaikki )
         {
             // Tämä tase-erä ei ole mennyt tasan, joten se on valittavissa
@@ -135,8 +135,6 @@ TaseEra::TaseEra(int id)
         {
             pvm = query.value("pvm").toDate();
             selite = query.value("selite").toString();
-            saldoSnt += query.value("debetsnt").toLongLong();
-            saldoSnt -= query.value("kreditsnt").toLongLong();
         }
 
     }

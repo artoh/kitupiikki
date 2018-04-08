@@ -94,7 +94,6 @@ void LaskunMaksuDialogi::kirjaa()
     rahaRivi.debetSnt = int( ui->euroSpin->value() * 100 );
     rahaRivi.selite = selite;
     rahaRivi.tili = kp()->tilit()->tiliNumerolla( ui->tiliEdit->valittuTilinumero() );
-    rahaRivi.maksaaLaskua = index.data(LaskutModel::ViiteRooli).toInt();
     rahaRivi.kohdennus = kp()->kohdennukset()->kohdennus( json.luku("Kohdennus") );
 
     if( index.data(LaskutModel::KirjausPerusteRooli).toInt() == LaskuModel::MAKSUPERUSTE )

@@ -36,7 +36,6 @@ class TositeModel;
 struct VientiRivi
 {   
     int vientiId = 0;
-    int riviNro = 0;
     QDate pvm;
     Tili tili;
     QString selite;
@@ -49,10 +48,10 @@ struct VientiRivi
     QDateTime luotu;
     QDateTime muokattu;
     JsonKentta json;
-    int maksaaLaskua = 0;   /** Kirjattaessa vähentää laskun avointa summaa **/
     QString viite;
-    QString saajanTili;
+    QString ibanTili;
     QDate erapvm;
+    QString asiakas;
     QString arkistotunnus;
     QList<Kohdennus> tagit;
 };
@@ -99,7 +98,8 @@ public:
         EraPvmRooli = Qt::UserRole + 19,
         ArkistoTunnusRooli = Qt::UserRole + 20,
         TagiNimilistaRooli = Qt::UserRole + 21,
-        TagiIdListaRooli = Qt::UserRole + 22
+        TagiIdListaRooli = Qt::UserRole + 22,
+        AsiakasRooli = Qt::UserRole + 23
     };
 
 
@@ -148,14 +148,13 @@ public:
      * @return
      */
     bool muokattu() const { return muokattu_; }
-    int seuraavaRiviNumero();
 
 public slots:
     /**
      * @brief Tallentaa viennit
      * @return tosi, jos onnistui
      */
-    bool tallenna();
+    bool tallenna(bool tallennatyhjat = false);
     void tyhjaa();
     void lataa();
 

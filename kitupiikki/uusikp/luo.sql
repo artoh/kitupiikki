@@ -1,3 +1,5 @@
+PRAGMA foreign_keys = ON;
+
 CREATE TABLE asetus (
     avain   VARCHAR(40) NOT NULL,
     arvo    TEXT,
@@ -58,7 +60,8 @@ CREATE TABLE kohdennus (
     nimi   VARCHAR (60) NOT NULL,
     alkaa  DATE,
     loppuu DATE,
-    tyyppi INTEGER  NOT NULL
+    tyyppi INTEGER  NOT NULL,
+    json   TEXT
 );
 
 INSERT INTO kohdennus(id, nimi, tyyppi) VALUES(0,"Yleinen",0);
@@ -66,12 +69,10 @@ INSERT INTO kohdennus(id, nimi, tyyppi) VALUES(0,"Yleinen",0);
 
 CREATE TABLE vienti (
     id              INTEGER PRIMARY KEY AUTOINCREMENT,
-    tosite          INTEGER NOT NULL
-                            REFERENCES tosite (id),
+    tosite          INTEGER REFERENCES tosite (id),
     vientirivi      INTEGER NOT NULL,
     pvm             DATE,
-    tili            INTEGER NOT NULL
-                            REFERENCES tili (id) ON DELETE RESTRICT
+    tili            INTEGER REFERENCES tili (id) ON DELETE RESTRICT
                                                  ON UPDATE RESTRICT,
     debetsnt        BIGINT,
     kreditsnt       BIGINT,
@@ -81,12 +82,13 @@ CREATE TABLE vienti (
     kohdennus        INTEGER DEFAULT(0)
                              REFERENCES kohdennus (id) ON DELETE RESTRICT
                                                       ON UPDATE CASCADE,
-    eraid           INTEGER REFERENCES vienti(id) ON DELETE RESTRICT
+    eraid           INTEGER REFERENCES vienti(id) ON DELETE SET NULL
                                                   ON UPDATE CASCADE,
     viite           VARCHAR(60),
     iban            VARCHAR(60),
     erapvm          DATE,
     arkistotunnus   VARCHAR(60),
+    asiakas         VARCHAR(60),
     json            TEXT,
     luotu           DATETIME,
     muokattu        DATETIME
