@@ -66,3 +66,77 @@ a.asennuslaatikko:hover
     color: white;
     font-weight: bold;
 }
+
+li.tukilaatikko
+{
+    margin-left: 2px;
+    margin-right: 5px;
+    margin-top: 10px;
+    margin-bottom: 4px;
+    padding: 10px 10px 10px 10px;
+    border: 1px solid #7e57c2;
+    box-shadow: 3px 3px 2px #d0d0d0;
+    text-align: center;
+    background: white;
+    color: #7e57c2;
+    
+    
+}
+
+li.tukilaatikko:hover, li.tukilaatikko:active
+{
+    color: #7e57c2;
+    text-decoration: none;
+}
+
+a.tukilaatikko
+{
+    color: #7e57c2;
+}
+
+a.tukilaatikko:hover
+{
+    color: #7e57c2;
+    font-weight: bold;
+}
+
+
+.karuselli
+{
+  max-width: 600px;
+  position: relative;
+  margin: auto;    
+}
+
+/* Hide the images by default */
+.karusellissa {
+    display: none;
+}
+
+.txt {
+  color: #7e57c2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: relative;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}

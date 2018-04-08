@@ -1,6 +1,24 @@
 # Kitupiikki <small>Avoimen lähdekoodin kirjanpitäjä</small>
 
-![](images/kitupiikkikannettava.png)
+<div class="karuselli">
+<div class="karusellissa fade">
+ <img src="images/kitupiikkikannettava.png">
+  <div class="txt">Avoimen lähdekoodin kirjanpitäjä</div>
+</div>
+ <div class="karusellissa fade">
+  <img src="kirjaus/myllykirjaus.png">
+  <div class="txt">Kitupiikki tallentaa pdf-muotoiset liitteet</div>
+ </div>
+ <div class="karusellissa fade">
+  <img src="tulosteet/paakirja.png">
+  <div class="txt">Pääkirja</div>
+ </div>
+ <div class="karusellissa fade">
+  <img src="laskutus/luettelo.png">
+  <div class="txt">Kitupiikkiin sisältyy myös laskutus</div>
+ </div>
+</div>
+
 
 Kitupiikki on ilmainen suomalainen kirjanpito-ohjelma. Kitupiikki käsittelee ja arkistoi skannatut tositteet. Ohjelma on alunperin suunniteltu yhdistyksille, mutta Kitupiikin avulla hoidat vaivattomasti myös pienehkön yrityksen kirjanpidon.
 
@@ -13,3 +31,19 @@ Uutena kohdennusmahdollisuus tasetileillä ja kokeellinen TITO-tiliotteiden tuom
 </div>
 
 </div>
+
+<script>
+var slideIndex = 0;
+showSlides();
+
+function showSlides() {
+    var i;
+    var slides = document.getElementsByClassName("karusellissa");
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+    slides[ Math.floor( Math.random() * slides.length )].style.display = "block";
+    setTimeout(showSlides, 5000); // Kuva vaihtuu kahden sekunnin välein
+}
+
+</script>
