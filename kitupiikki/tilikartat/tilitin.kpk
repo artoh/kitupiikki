@@ -1631,11 +1631,11 @@ Yritysmuoto
 [MuotoPois/Kommandiittiyhtiö]
 -215..219
 -231..235
-[MuotoOn/Toiminimi]
+[MuotoOn/Elinkeinonharjoittaja]
 +220
 +236
 Elinkeinonharjoittaja=ON
-[MuotoPois/Toiminimi]
+[MuotoPois/Elinkeinonharjoittaja]
 -220
 -236
 Elinkeinonharjoittaja=EI
