@@ -36,7 +36,11 @@ markdown_extensions:
         permalink: true
 pages:
   - Kitupiikki: 'index.md'
-  - Esittely: 'esittely.md'
+  - Esittely:
+    - Videot: 'videot.md'
+    - Ominaisuudet: 'esittely.md'
+    - Käyttöliittymä: 'ui.md'
+    - Tuki: 'tuki.md'
   - Kirjanpidosta lyhyesti: 'kirjanpito/index.md'
   - Asennus: 'asennus.md'
   - Kirjanpidon aloittaminen: 'aloitus/index.md'

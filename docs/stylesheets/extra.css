@@ -105,12 +105,21 @@ a.tukilaatikko:hover
 {
   max-width: 600px;
   position: relative;
-  margin: auto;    
+  margin: auto;  
+  height: 420px;  
+  margin-bottom: 2em;
 }
 
 /* Hide the images by default */
 .karusellissa {
     display: none;
+}
+
+.karusellissa > img
+{
+    width: auto;
+    height: auto;
+    max-height: 400px;
 }
 
 .txt {
