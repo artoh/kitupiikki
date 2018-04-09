@@ -328,7 +328,7 @@ bool LaskuModel::tallenna(Tili rahatili)
 {
     // Ensin tehdään tosite
     TositeModel tosite( kp()->tietokanta() );    
-    if( hyvityslasku().viitenro)
+    if( !hyvityslasku().viite.isEmpty())
         tosite.asetaOtsikko( tr("%1 [Hyvityslasku %2]").arg(laskunsaajanNimi()).arg(laskunro()) );
     else
         tosite.asetaOtsikko( tr("%1 [%2]").arg(laskunsaajanNimi()).arg(laskunro()) );
@@ -528,7 +528,7 @@ bool LaskuModel::tallenna(Tili rahatili)
     else
         raharivi.kreditSnt = 0 - laskunSumma();
 
-    if( hyvityslasku().viitenro )
+    if( !hyvityslasku().viite.isEmpty() )
         raharivi.eraId = hyvityslasku().json.luku("TaseEra");
 
     // Sitten tälle rahariville kirjataan aiemmin laskut-taulussa olleet tiedot
@@ -542,9 +542,9 @@ bool LaskuModel::tallenna(Tili rahatili)
     // Käteislaskulta ei jää velkaa, joten eräId:ksi tulee NULL
     raharivi.eraId = kirjausperuste() == KATEISLASKU ? TaseEra::EIERAA :  TaseEra::UUSIERA;
 
-    if( hyvityslasku().viitenro)
+    if( !hyvityslasku().viite.isEmpty())
     {
-        raharivi.json.set("Hyvityslasku", hyvityslasku().viitenro);
+        raharivi.json.set("Hyvityslasku", hyvityslasku().viite.toInt());
         raharivi.eraId = hyvityslasku().eraId;        // EräId
     }
     else if( kirjausperuste() != KATEISLASKU)

@@ -49,7 +49,7 @@ QVariant LaskutModel::data(const QModelIndex &item, int role) const
         switch (item.column())
         {
         case NUMERO:
-            return lasku.viitenro;
+            return lasku.viite;
         case PVM:
             return lasku.pvm;
         case ERAPVM:
@@ -112,10 +112,8 @@ QVariant LaskutModel::data(const QModelIndex &item, int role) const
         return lasku.tosite;
     else if( role == AvoinnaRooli)
         return lasku.avoinSnt;
-    else if( role == JsonRooli )
-        return lasku.json.toJson();
     else if( role == ViiteRooli)
-        return lasku.viitenro;
+        return lasku.viite;
     else if( role == AsiakasRooli)
         return lasku.asiakas;
     else if( role == LiiteRooli)
@@ -128,6 +126,8 @@ QVariant LaskutModel::data(const QModelIndex &item, int role) const
         return lasku.kohdennusId;
     else if( role == EraIdRooli)
         return lasku.eraId;
+    else if( role == TiliIdRooli)
+        return lasku.tiliid;
 
     return QVariant();
 }
@@ -186,7 +186,7 @@ void LaskutModel::paivita(int valinta, QDate mista, QDate mihin)
 
         // Tämä lasku kelpaa ;)        
         AvoinLasku lasku;
-        lasku.viitenro = query.value("viite").toInt();
+        lasku.viite = query.value("viite").toString();
         lasku.pvm = query.value("laskupvm").toDate();
         lasku.erapvm = query.value("erapvm").toDate();
         lasku.eraId = query.value("eraid").toInt();
@@ -195,6 +195,7 @@ void LaskutModel::paivita(int valinta, QDate mista, QDate mihin)
         lasku.asiakas = query.value("asiakas").toString();
         lasku.tosite = query.value("tosite").toInt();
         lasku.kirjausperuste =  json.luku("Kirjausperuste");
+        lasku.tiliid = query.value("tili").toInt();
         lasku.json = json;
         lasku.kohdennusId = query.value("kohdennus").toInt();
         laskut.append(lasku);

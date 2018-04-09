@@ -37,7 +37,10 @@ LaskunMaksuDialogi::LaskunMaksuDialogi(KirjausWg *kirjauswg) :
     ui->tabBar->addTab(tr("Ostolaskut"));
 
     laskut = new LaskutModel(this);
+    ostolaskut = new OstolaskutModel(this);
+
     laskut->lataaAvoimet();
+    ostolaskut->lataaAvoimet();
 
     proxy = new QSortFilterProxyModel(this);
     proxy->setSourceModel( laskut );
@@ -68,6 +71,8 @@ LaskunMaksuDialogi::LaskunMaksuDialogi(KirjausWg *kirjauswg) :
 
     connect( ui->laskutView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(valintaMuuttuu()));
     connect(ui->kirjaaNappi, SIGNAL(clicked(bool)), this, SLOT(kirjaa()));
+
+    connect( ui->tabBar, SIGNAL(currentChanged(int)), this, SLOT(valilehti()));
 }
 
 LaskunMaksuDialogi::~LaskunMaksuDialogi()
@@ -79,6 +84,8 @@ void LaskunMaksuDialogi::valintaMuuttuu()
 {
     QModelIndex index = ui->laskutView->currentIndex();
     ui->euroSpin->setValue( index.data(LaskutModel::AvoinnaRooli).toDouble() / 100.0 );
+
+    ui->naytaNappi->setEnabled( QFile::exists( index.data(LaskutModel::LiiteRooli).toString() ) );
 }
 
 void LaskunMaksuDialogi::kirjaa()
@@ -87,14 +94,15 @@ void LaskunMaksuDialogi::kirjaa()
     if( !index.isValid())
         return;
 
-    JsonKentta json( index.data(LaskutModel::JsonRooli).toByteArray() );
-
     QString selite = QString("%1 [%2]").arg(index.data(LaskutModel::AsiakasRooli).toString())
-            .arg(index.data(LaskutModel::ViiteRooli).toInt());
+            .arg(index.data(LaskutModel::ViiteRooli).toString());
+
+    bool ostolasku = ui->tabBar->currentIndex();
 
     VientiRivi rahaRivi;
     rahaRivi.pvm = ui->pvmEdit->date();
-    rahaRivi.debetSnt = int( ui->euroSpin->value() * 100 );
+    rahaRivi.debetSnt = ostolasku ? 0 : int( ui->euroSpin->value() * 100 );
+    rahaRivi.kreditSnt = ostolasku ? int( ui->euroSpin->value() * 100 ) : 0;
     rahaRivi.selite = selite;
     rahaRivi.tili = kp()->tilit()->tiliNumerolla( ui->tiliEdit->valittuTilinumero() );
 
@@ -143,8 +151,11 @@ void LaskunMaksuDialogi::kirjaa()
         EhdotusModel ehdotus;
 
         VientiRivi saatavaRivi;
-        saatavaRivi.tili = kp()->tilit()->tiliNumerolla( json.luku("Saatavatili") );
-        saatavaRivi.kreditSnt = qlonglong( ui->euroSpin->value() * 100 );
+        saatavaRivi.tili = kp()->tilit()->tiliIdlla( index.data(LaskutModel::TiliIdRooli).toInt() );
+
+        saatavaRivi.kreditSnt = rahaRivi.debetSnt;
+        saatavaRivi.debetSnt = rahaRivi.kreditSnt;
+
         saatavaRivi.eraId = index.data( LaskutModel::EraIdRooli ).toInt();
         saatavaRivi.pvm = ui->pvmEdit->date();
         saatavaRivi.selite = selite;
@@ -160,8 +171,6 @@ void LaskunMaksuDialogi::kirjaa()
 
         laskut->maksa(index.row(), ui->euroSpin->value() * 100);
     }
-
-
 }
 
 void LaskunMaksuDialogi::tarkistaKelpo()
@@ -183,4 +192,16 @@ void LaskunMaksuDialogi::suodata()
     else
         proxy->setFilterKeyColumn( LaskutModel::ASIAKAS);
     proxy->setFilterFixedString( suodatin );
+}
+
+void LaskunMaksuDialogi::valilehti()
+{
+    if( ui->tabBar->currentIndex())
+    {
+        proxy->setSourceModel( ostolaskut );
+    }
+    else
+    {
+        proxy->setSourceModel( laskut);
+    }
 }

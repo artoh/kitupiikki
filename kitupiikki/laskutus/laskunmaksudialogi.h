@@ -22,6 +22,7 @@
 #include <QSortFilterProxyModel>
 
 #include "laskutmodel.h"
+#include "ostolaskutmodel.h"
 #include "kirjaus/kirjauswg.h"
 
 
@@ -49,12 +50,14 @@ private slots:
     void tarkistaKelpo();
     void naytaLasku();
     void suodata();
+    void valilehti();
 
 private:
     KirjausWg *kirjaaja;
     Ui::LaskunMaksuDialogi *ui;
 
     LaskutModel *laskut;
+    OstolaskutModel *ostolaskut;
     QSortFilterProxyModel *proxy;
 };
 

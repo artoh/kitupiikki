@@ -140,7 +140,8 @@ SOURCES += main.cpp \
     laskutus/nayukiQR/QrCode.cpp \
     laskutus/nayukiQR/QrSegment.cpp \
     tuonti/titotuonti.cpp \
-    kirjaus/siirrydlg.cpp
+    kirjaus/siirrydlg.cpp \
+    laskutus/ostolaskutmodel.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -262,7 +263,8 @@ HEADERS += \
     laskutus/nayukiQR/QrCode.hpp \
     laskutus/nayukiQR/QrSegment.hpp \
     tuonti/titotuonti.h \
-    kirjaus/siirrydlg.h
+    kirjaus/siirrydlg.h \
+    laskutus/ostolaskutmodel.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

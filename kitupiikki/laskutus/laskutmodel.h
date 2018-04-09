@@ -31,7 +31,7 @@ struct AvoinLasku
 {
     AvoinLasku() {}
 
-    int viitenro = 0;
+    QString viite;
     QDate pvm;
     QDate erapvm;
     int summaSnt = 0;
@@ -40,6 +40,7 @@ struct AvoinLasku
     int tosite = -1;
     int kirjausperuste = 0;
     int eraId = 0;
+    int tiliid = 0;
     JsonKentta json;
     int kohdennusId;
 };
@@ -60,7 +61,6 @@ public:
     enum Laskuvalinta { KAIKKI, AVOIMET, ERAANTYNEET };
     enum AvoinLaskuSarake { NUMERO, PVM, ERAPVM, SUMMA, MAKSAMATTA, ASIAKAS };
     enum { TositeRooli = Qt::UserRole + 1 ,
-           JsonRooli = Qt::UserRole + 2,
            AvoinnaRooli = Qt::UserRole + 3,
            ViiteRooli = Qt::UserRole + 4,
            AsiakasRooli = Qt::UserRole + 5,
@@ -68,7 +68,8 @@ public:
            HyvitysLaskuRooli = Qt::UserRole + 7,
            KirjausPerusteRooli = Qt::UserRole + 8,
            KohdennusIdRooli = Qt::UserRole + 9,
-           EraIdRooli = Qt::UserRole + 10};
+           EraIdRooli = Qt::UserRole + 10,
+           TiliIdRooli = Qt::UserRole + 11};
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
@@ -96,7 +97,7 @@ public:
      */
     static QString bicIbanilla(const QString& iban);
 
-private:
+protected:
     QList<AvoinLasku> laskut;
 
 };

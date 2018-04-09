@@ -93,7 +93,7 @@ LaskuDialogi::LaskuDialogi(QWidget *parent, AvoinLasku hyvitettavaLasku) :
 
     ui->naytaNappi->setChecked( kp()->asetukset()->onko("LaskuNaytaTuotteet") );
     // Hyvityslaskun asetukset
-    if( hyvitettavaLasku.viitenro)
+    if( !hyvitettavaLasku.viite.isEmpty())
     {
         setWindowTitle( tr("Hyvityslasku"));
         ui->perusteCombo->setCurrentIndex( hyvitettavaLasku.json.luku("Kirjausperuste") );
@@ -109,7 +109,7 @@ LaskuDialogi::LaskuDialogi(QWidget *parent, AvoinLasku hyvitettavaLasku) :
         ui->rahaTiliEdit->setEnabled(false);
 
         ui->lisatietoEdit->setPlainText( tr("Hyvityslasku laskulle %1, päiväys %2")
-                                         .arg(hyvitettavaLasku.viitenro)
+                                         .arg(hyvitettavaLasku.viite)
                                          .arg(hyvitettavaLasku.pvm.toString("dd.MM.yyyy")));
     }
     else

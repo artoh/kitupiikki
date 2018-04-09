@@ -191,7 +191,7 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
                     QString txt;    // Näytettävä kohdennusteksti
                                     // Jos sekä tase-erä että kohdennus, näkyy kohdennus alemmalla rivillä
                     // Tase-erät näytetään samalla sarakkeella
-                    if( rivi.eraId )
+                    if( rivi.eraId > 0 &&  rivi.eraId != rivi.vientiId )
                     {
                         TaseEra era(rivi.eraId);                      
                         txt =  tr("%1/%2").arg( era.tositteenTunniste() ).arg(era.pvm.toString("dd.MM.yyyy")) ;
@@ -205,11 +205,6 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
                         else
                             txt = tr("Tasaerapoisto %1 v").arg(kk / 12) ;
                     }
-                    else if( !rivi.viite.isEmpty() && rivi.ibanTili.isEmpty() && !rivi.eraId)
-                    {
-                        txt = rivi.viite;
-                    }
-
                     else if( !rivi.viite.isEmpty())
                     {
                         txt = tr("VIITE");
@@ -254,7 +249,7 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
                 return QIcon(":/pic/lasku.png");
             else if( rivi.kohdennus.id() )
                 return rivi.kohdennus.tyyppiKuvake();
-            else if( !rivi.eraId && rivi.vientiId)
+            else if( !rivi.eraId && rivi.eraId != rivi.vientiId && rivi.tili.eritellaankoTase())
             {
                 TaseEra era(rivi.vientiId);
                 if( !era.saldoSnt )
