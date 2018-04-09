@@ -40,7 +40,7 @@ QVariant EranValintaModel::data(const QModelIndex &index, int role) const
     {
         // Ensimmäinen rivi jolla ei ole erää
         if( role == EraIdRooli)
-            return QVariant(0);
+            return QVariant(TaseEra::UUSIERA);
         else if(  role == Qt::DisplayRole )
             return QVariant(tr("Muodosta uusi tase-erä"));
     }

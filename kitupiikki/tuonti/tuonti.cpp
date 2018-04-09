@@ -173,31 +173,30 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, Q
     QStringList omaEhtoistenVerojenTilit;
     omaEhtoistenVerojenTilit << "FI6416603000117625" << "FI5689199710000724" << "FI3550000120253504";
 
-    // Etsitään mahdolliset erät
+    // Etsitään mahdollinen erä, johon liittyy
+    // MYYNTILASKU
     if( sentit > 0 && !viite.isEmpty())
     {
-        QSqlQuery kysely( QString("SELECT avoinSnt, json, asiakas, kirjausperuste FROM lasku WHERE id=%1").arg(viite) );
-        if( kysely.next())
+        QSqlQuery kysely( QString("SELECT eraid FROM vienti WHERE viite='%1' AND iban IS NULL "));
+        while( kysely.next())
         {
-            if( kysely.value("avoinSnt").toLongLong() >= sentit )
+            TaseEra era( kysely.value(0).toInt() );
+            if( era.saldoSnt >= sentit )
             {
-                // Kyseisellä viitteellä on avoin lasku, jota voidaan siis maksaa
-                JsonKentta json( kysely.value("json").toByteArray() );
-                selite = QString("%1 [%2]").arg( kysely.value("asiakas").toString(), viite );
+                // Tällä viittellä on lasku, joka voidaan maksaa
+                // Viitteen maksamiseen tarvitaan erän tiedot
+                QSqlQuery tilikysely( QString("SELECT tili, selite, kohdennus FROM vienti WHERE id=%1").arg(era.eraId));
+                if( tilikysely.next())
+                {
+                    vastarivi.tili = kp()->tilit()->tiliIdlla( tilikysely.value("tili").toInt() );
+                    vastarivi.kohdennus = kp()->kohdennukset()->kohdennus( tilikysely.value("kohdennus").toInt() );
+                    vastarivi.selite = tilikysely.value("kohdennus").toString();
+                    break;
+                }
+            }
 
-                vastarivi.tili = kp()->tilit()->tiliNumerolla( json.luku("Saatavatili") );
-                vastarivi.eraId = json.luku("TaseEra");
-                // Jos määritelty kohdennettavaksi
-                if( vastarivi.tili.json()->luku("Kohdennuksella"))
-                    vastarivi.kohdennus = kp()->kohdennukset()->kohdennus(json.luku("Kohdennus"));
-            }
-            else if( kysely.value("kirjausperuste").toInt() == LaskuModel::MAKSUPERUSTE)
-            {
-                // Maksuperusteinen lasku, joka on jo kirjattu maksetuksi (avoin summa 0)
-                // Tälle ei tehdä enää mitään muuta kirjausta eli ei edes lisätä tositteelle
-                return;
-            }
         }
+
     }
     else if(  sentit < 0 && omaEhtoistenVerojenTilit.contains(iban) )
     {
@@ -221,7 +220,7 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, Q
             if( era.saldoSnt == sentit )
             {
                 vastarivi.tili = kp()->tilit()->tiliIdlla( kysely.value("tili").toInt() );
-                vastarivi.eraId = kysely.value("id").toInt();                
+                vastarivi.eraId = era.eraId;
                 selite = kysely.value("selite").toString();
 
                 // #123: Kohdennusten sijoittaminen
@@ -232,7 +231,6 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, Q
             }
         }
     }
-
 
     VientiRivi rivi;
     rivi.pvm = pvm;

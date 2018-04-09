@@ -235,21 +235,6 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                     alkusaldot.insert( kysely.value("eraid").toInt(), kysely.value("debetit").toLongLong() - kysely.value("kreditit").toLongLong() );
                 }
 
-                // ja lisätään vielä aloittava vienti
-                kysely.exec(QString("SELECT id, pvm, selite, debetsnt, kreditsnt from vienti "
-                           "where tili=%1 and eraid is NULL and pvm < \"%2\" order by pvm")
-                           .arg(tili.id()).arg( mista.toString(Qt::ISODate) ));
-
-
-                qDebug() << kysely.lastQuery();
-
-                while( kysely.next())
-                {
-
-                    int id = kysely.value("id").toInt();
-                    alkusaldot[id] = alkusaldot.value(id, 0) + kysely.value("debetsnt").toInt() - kysely.value("kreditsnt").toInt();
-                }
-
                 // Sitten haetaan tase-erän tiedot
                 kysely.exec(QString("SELECT vienti.id, debetsnt, kreditsnt, vienti.pvm, selite, laji, tunniste from vienti, tosite "
                            "where tili=%1 and vienti.tosite=tosite.id and eraid is NULL order by vienti.pvm")

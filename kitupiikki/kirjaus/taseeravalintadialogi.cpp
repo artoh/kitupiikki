@@ -133,7 +133,7 @@ int TaseEraValintaDialogi::eraId()
 
 int TaseEraValintaDialogi::poistoKk()
 {
-    if( tili_.onko(TiliLaji::TASAERAPOISTO)   && eraId() == 0)
+    if( tili_.onko(TiliLaji::TASAERAPOISTO)   && eraId() == TaseEra::UUSIERA )
         return ui->poistoSpin->value() * 12;
     else
         return 0;
@@ -145,7 +145,7 @@ void TaseEraValintaDialogi::eraValintaVaihtuu()
     ui->poistoLabel->setVisible( eraId() == 0 && tili_.onko(TiliLaji::TASAERAPOISTO) );
     ui->poistoSpin->setVisible( eraId() == 0 && tili_.onko(TiliLaji::TASAERAPOISTO) );
 
-    ui->tabWidget->setTabEnabled( OSTO_TAB ,eraId()==0 && tili_.onko(TiliLaji::OSTOVELKA));
+    ui->tabWidget->setTabEnabled( OSTO_TAB , eraId()==TaseEra::UUSIERA && tili_.onko(TiliLaji::OSTOVELKA));
 
 }
 
