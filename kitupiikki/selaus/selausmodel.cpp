@@ -194,10 +194,10 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
                                        .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() );
 
 
-        if( query.value("eraid").toInt() == 0 )
+        if( query.value("eraid").toInt() == query.value("vienti.id").toInt() )
         {
             TaseEra era( query.value("vienti.id").toInt() );
-            rivi.eraMaksettu = era.saldoSnt == 0;
+            rivi.eraMaksettu = era.saldoSnt == 0 ;
         }
 
         QSqlQuery tagikysely( QString("SELECT kohdennus FROM merkkaus WHERE vienti=%1").arg( query.value("vienti.id").toInt() ));

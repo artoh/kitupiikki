@@ -374,6 +374,8 @@ void KirjausWg::kirjaaLaskunmaksu()
 
     laskuDlg_->exec();
 
+    tiedotModelista();
+
 }
 
 void KirjausWg::paivitaTallennaPoistaNapit()

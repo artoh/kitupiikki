@@ -83,7 +83,7 @@ bool TositeModel::muokattu()
 
 void TositeModel::asetaPvm(const QDate &pvm)
 {
-    if( pvm == pvm_ || !pvm.isValid())
+    if( pvm == pvm_ )
         return;
 
    pvm_ = pvm;

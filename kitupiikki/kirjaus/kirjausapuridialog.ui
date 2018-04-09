@@ -285,20 +285,20 @@
       <string>Ostolaskun lisätiedot</string>
      </property>
      <layout class="QFormLayout" name="formLayout">
-      <item row="0" column="0">
+      <item row="1" column="0">
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>Saajan I&amp;BAN</string>
+         <string>I&amp;BAN</string>
         </property>
         <property name="buddy">
          <cstring>ibanEdit</cstring>
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
+      <item row="1" column="1">
        <widget class="QLineEdit" name="ibanEdit"/>
       </item>
-      <item row="1" column="0">
+      <item row="2" column="0">
        <widget class="QLabel" name="label_2">
         <property name="text">
          <string>&amp;Viite</string>
@@ -308,22 +308,48 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
+      <item row="2" column="1">
        <widget class="QLineEdit" name="viiteEdit"/>
       </item>
-      <item row="2" column="0">
+      <item row="4" column="0">
        <widget class="QCheckBox" name="eraCheck">
         <property name="text">
          <string>Eräpä&amp;ivä</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
+      <item row="4" column="1">
        <widget class="QDateEdit" name="erapvmEdit">
         <property name="enabled">
          <bool>false</bool>
         </property>
        </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="saajannimiLabel">
+        <property name="text">
+         <string>Saajan &amp;nimi</string>
+        </property>
+        <property name="buddy">
+         <cstring>saajanNimiEdit</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="saajanNimiEdit"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>&amp;Laskun pvm</string>
+        </property>
+        <property name="buddy">
+         <cstring>laskupvmEdit</cstring>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QDateEdit" name="laskupvmEdit"/>
       </item>
      </layout>
     </widget>
@@ -402,15 +428,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>TilinvalintaLine</class>
-   <extends>QLineEdit</extends>
-   <header>db/tilinvalintaline.h</header>
-  </customwidget>
-  <customwidget>
    <class>QTabBar</class>
    <extends>QWidget</extends>
    <header>QTabBar</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>TilinvalintaLine</class>
+   <extends>QLineEdit</extends>
+   <header>db/tilinvalintaline.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
@@ -479,12 +505,28 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>57</x>
-     <y>577</y>
+     <x>78</x>
+     <y>635</y>
     </hint>
     <hint type="destinationlabel">
-     <x>156</x>
-     <y>587</y>
+     <x>261</x>
+     <y>638</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pvmDate</sender>
+   <signal>dateChanged(QDate)</signal>
+   <receiver>laskupvmEdit</receiver>
+   <slot>setDate(QDate)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>186</x>
+     <y>352</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>179</x>
+     <y>589</y>
     </hint>
    </hints>
   </connection>

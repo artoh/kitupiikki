@@ -144,10 +144,10 @@ QString TaseEra::tositteenTunniste()
 {
     if(eraId)
     {
-        QSqlQuery query(QString("select tositelaji,tunniste from vientivw where vientiId=%1").arg(eraId));
+        QSqlQuery query(QString("select tositelaji.tunnus, tosite.tunniste from vienti,tositelaji,tosite where vienti.id=%1 and vienti.tosite=tosite.id and tosite.laji=tositelaji.id").arg(eraId));
         if( query.next())
         {
-            return  query.value("tositelaji").toString() + query.value("tunniste").toString();
+            return  query.value(0).toString() + query.value(1).toString();
         }
     }
     return QString();

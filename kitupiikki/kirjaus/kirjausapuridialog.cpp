@@ -575,6 +575,11 @@ void KirjausApuriDialog::ehdota()
                     taserivi.ibanTili = ui->ibanEdit->text().remove(' ');
                 if( ui->viiteEdit->hasAcceptableInput())
                     taserivi.viite = ui->viiteEdit->text().remove(' ');
+                if( !ui->saajanNimiEdit->text().isEmpty())
+                    taserivi.asiakas = ui->saajanNimiEdit->text();
+
+                taserivi.laskupvm = ui->laskupvmEdit->date();
+
                 if( ui->eraCheck->isChecked())
                     taserivi.erapvm = ui->erapvmEdit->date();
 

@@ -113,10 +113,8 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
         return QVariant( rivi.tili.eritellaankoTase());
     else if( role == ViiteRooli )
         return QVariant( rivi.viite );
-    else if( role == SaajanTiliRooli )
+    else if( role == IbanRooli )
         return QVariant( rivi.ibanTili );
-    else if( role == SaajanNimiRooli)
-        return rivi.json.str("SaajanNimi");
     else if( role == EraPvmRooli )
         return rivi.erapvm;
     else if( role == ArkistoTunnusRooli )
@@ -249,7 +247,7 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
                 return QIcon(":/pic/lasku.png");
             else if( rivi.kohdennus.id() )
                 return rivi.kohdennus.tyyppiKuvake();
-            else if( !rivi.eraId && rivi.eraId != rivi.vientiId && rivi.tili.eritellaankoTase())
+            else if( rivi.eraId == rivi.vientiId && rivi.tili.eritellaankoTase() )
             {
                 TaseEra era(rivi.vientiId);
                 if( !era.saldoSnt )
@@ -416,13 +414,9 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
     {
         viennit_[rivi].viite = value.toString();
     }
-    else if( role == SaajanTiliRooli )
+    else if( role == IbanRooli )
     {
         viennit_[rivi].ibanTili = value.toString();
-    }
-    else if( role == SaajanNimiRooli)
-    {
-        viennit_[rivi].json.set("SaajanNimi", value.toString());
     }
     else if( role == EraPvmRooli )
     {
@@ -615,7 +609,11 @@ bool VientiModel::tallenna()
 
 
         query.bindValue(":tosite", tositeModel_->id() );
-        query.bindValue(":pvm", rivi.pvm);
+
+        if( rivi.pvm.isValid())
+            query.bindValue(":pvm", rivi.pvm);
+        else
+            query.bindValue(":pvm", QVariant());
 
         if( rivi.tili.onkoValidi())
             query.bindValue(":tili", rivi.tili.id());

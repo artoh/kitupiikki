@@ -69,9 +69,16 @@ bool TaseEraValintaDialogi::nayta(VientiModel *model, QModelIndex &index)
 
     ui->view->setCurrentIndex( proxy_->index(0,0));
 
-    ui->tiliEdit->setText( index.data(VientiModel::SaajanTiliRooli).toString());
+    ui->tiliEdit->setText( index.data(VientiModel::IbanRooli).toString());
     ui->viiteEdit->setText( index.data(VientiModel::ViiteRooli).toString());
-    ui->nimiEdit->setText( index.data(VientiModel::SaajanNimiRooli).toString());
+    ui->nimiEdit->setText( index.data(VientiModel::AsiakasRooli).toString());
+    QDate laskupvm = index.data(VientiModel::LaskuPvmRooli).toDate();
+
+    if( laskupvm.isValid())
+        ui->laskunpvmEdit->setDate( index.data(VientiModel::LaskuPvmRooli).toDate());
+    else
+        ui->laskunpvmEdit->setDate( index.data(VientiModel::PvmRooli).toDate() );
+
     QDate erapvm = index.data( VientiModel::EraPvmRooli ).toDate();
     if( !erapvm.isValid() || erapvm < kp()->tilitpaatetty() )
         erapvm = kp()->paivamaara();
@@ -111,10 +118,11 @@ bool TaseEraValintaDialogi::nayta(VientiModel *model, QModelIndex &index)
 
         if( eraId()==0 && tili_.onko(TiliLaji::OSTOVELKA) )
         {
-            model->setData( index, ui->tiliEdit->text(), VientiModel::SaajanTiliRooli);
+            model->setData( index, ui->tiliEdit->text(), VientiModel::IbanRooli);
             model->setData( index, ui->viiteEdit->text(), VientiModel::ViiteRooli);
             model->setData( index, ui->eraDate->date(), VientiModel::EraPvmRooli);
-            model->setData( index, ui->nimiEdit->text(), VientiModel::SaajanNimiRooli);
+            model->setData( index, ui->nimiEdit->text(), VientiModel::AsiakasRooli);
+            model->setData( index, ui->laskunpvmEdit->date(), VientiModel::LaskuPvmRooli );
         }
         if( kohdennuskaytossa)
             model->setData( index, ui->kohdennusCombo->currentData(KohdennusModel::IdRooli), VientiModel::KohdennusRooli);
