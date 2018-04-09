@@ -125,7 +125,7 @@ LaskuDialogi::LaskuDialogi(QWidget *parent, AvoinLasku hyvitettavaLasku) :
     // Laitetaan täydentäjä nimen syöttöön
     QCompleter *nimiTaydentaja = new QCompleter(this);
     QSqlQueryModel *sqlmalli = new QSqlQueryModel(this);
-    sqlmalli->setQuery("select distinct asiakas from lasku order by asiakas");
+    sqlmalli->setQuery("select distinct asiakas from vienti order by asiakas");
     nimiTaydentaja->setModel(sqlmalli);
     nimiTaydentaja->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->saajaEdit->setCompleter(nimiTaydentaja);
@@ -215,7 +215,8 @@ void LaskuDialogi::haeOsoite()
     QString nimistr = ui->saajaEdit->text();
     nimistr.remove(QRegExp("['\"]"));
 
-    kysely.exec( QString("SELECT json FROM lasku WHERE asiakas='%1' ORDER BY laskupvm DESC").arg( nimistr)) ;
+    kysely.exec( QString("SELECT json FROM vienti WHERE asiakas='%1' ORDER BY muokattu DESC").arg( nimistr)) ;
+
     if( kysely.next() )
     {
         JsonKentta json;

@@ -50,6 +50,7 @@ struct VientiRivi
     JsonKentta json;
     QString viite;
     QString ibanTili;
+    QDate laskupvm;
     QDate erapvm;
     QString asiakas;
     QString arkistotunnus;
@@ -99,7 +100,8 @@ public:
         ArkistoTunnusRooli = Qt::UserRole + 20,
         TagiNimilistaRooli = Qt::UserRole + 21,
         TagiIdListaRooli = Qt::UserRole + 22,
-        AsiakasRooli = Qt::UserRole + 23
+        AsiakasRooli = Qt::UserRole + 23,
+        LaskuPvmRooli = Qt::UserRole + 24
     };
 
 
@@ -154,7 +156,7 @@ public slots:
      * @brief Tallentaa viennit
      * @return tosi, jos onnistui
      */
-    bool tallenna(bool tallennatyhjat = false);
+    bool tallenna();
     void tyhjaa();
     void lataa();
 

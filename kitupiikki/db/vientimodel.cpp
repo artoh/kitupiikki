@@ -137,6 +137,8 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
     }
     else if( role == AsiakasRooli)
         return rivi.asiakas;
+    else if( role == LaskuPvmRooli)
+        return rivi.laskupvm;
 
 
     else if( role==Qt::DisplayRole || role == Qt::EditRole)
@@ -446,6 +448,8 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
     }
     else if( role == AsiakasRooli)
         viennit_[rivi].asiakas = value.toString();
+    else if( role == LaskuPvmRooli)
+        viennit_[rivi].laskupvm = value.toDate();
     else
         return false;
 
@@ -582,14 +586,14 @@ qlonglong VientiModel::kreditSumma() const
     return summa;
 }
 
-bool VientiModel::tallenna(bool tallennatyhjat)
+bool VientiModel::tallenna()
 {
     QSqlQuery query(*tositeModel_->tietokanta());
     for(int i=0; i < viennit_.count() ; i++)
     {
         VientiRivi rivi = viennit_[i];
 
-        if((( rivi.kreditSnt == 0 && rivi.debetSnt == 0) || rivi.tili.id() == 0) && !tallennatyhjat )
+        if((( rivi.kreditSnt == 0 && rivi.debetSnt == 0) || rivi.tili.id() == 0) && rivi.json.avaimet().isEmpty() )
             continue;       // "Tyhjä" rivi, ei tallenneta
 
         if( rivi.vientiId )
@@ -598,7 +602,7 @@ bool VientiModel::tallenna(bool tallennatyhjat)
                           "kreditsnt=:kreditsnt, selite=:selite, alvkoodi=:alvkoodi,"
                           "kohdennus=:kohdennus, eraid=:eraid, alvprosentti=:alvprosentti, "
                           "viite=:viite, iban=:iban, erapvm=:erapvm, arkistotunnus=:arkistotunnus, "
-                          "muokattu=:muokattu, json=:json, asiakas=:asiakas, vientirivi=:rivinro"
+                          "muokattu=:muokattu, json=:json, asiakas=:asiakas, vientirivi=:rivinro, laskupvm=:laskupvm"
                           " WHERE id=:id");
             query.bindValue(":id", rivi.vientiId);
         }
@@ -606,10 +610,10 @@ bool VientiModel::tallenna(bool tallennatyhjat)
         {
             query.prepare("INSERT INTO vienti(tosite,pvm,tili,debetsnt,kreditsnt,selite,"
                            "alvkoodi, alvprosentti, luotu, muokattu, json, kohdennus, eraid, vientirivi,"
-                           "viite, iban, erapvm, arkistotunnus,asiakas) "
+                           "viite, iban, erapvm, arkistotunnus,asiakas,laskupvm) "
                             "VALUES(:tosite,:pvm,:tili,:debetsnt,:kreditsnt,:selite,"
                             ":alvkoodi, :alvprosentti, :luotu, :muokattu, :json, :kohdennus, :eraid, :rivinro,"
-                            ":viite, :iban, :erapvm, :arkistotunnus, :asiakas)");
+                            ":viite, :iban, :erapvm, :arkistotunnus, :asiakas, :laskupvm)");
             query.bindValue(":luotu",  QDateTime::currentDateTime() );            
         }
         query.bindValue(":rivinro", i + 1);        // Pidetään viennit siististi numeroituina
@@ -648,6 +652,7 @@ bool VientiModel::tallenna(bool tallennatyhjat)
         query.bindValue(":viite", rivi.viite);
         query.bindValue(":iban", rivi.ibanTili);
         query.bindValue(":erapvm", rivi.erapvm);
+        query.bindValue(":laskupvm", rivi.laskupvm);
         query.bindValue(":arkistotunnus", rivi.arkistotunnus);
         query.bindValue(":asiakas", rivi.asiakas);
         query.bindValue(":json", rivi.json.toSqlJson());
@@ -662,7 +667,7 @@ bool VientiModel::tallenna(bool tallennatyhjat)
         {
             viennit_[i].vientiId = query.lastInsertId().toInt();
             // Jos uusi tase-erä, niin merkitään tase-erä itseensä - helpottaa tase-erien laskentaa
-            if( rivi.eraId == TaseEra::UUSIERA && !rivi.vientiId && rivi.tili.onko(TiliLaji::TASE))
+            if( rivi.eraId == TaseEra::UUSIERA && !rivi.vientiId && !rivi.tili.onko(TiliLaji::TULOS))
                 query.exec(QString("UPDATE vienti SET eraid=%1 WHERE id=%1").arg(viennit_[i].vientiId) );
         }
         else
@@ -707,7 +712,7 @@ void VientiModel::lataa()
     QSqlQuery query( *tositeModel_->tietokanta() );
     query.exec(QString("SELECT id, pvm, tili, debetsnt, kreditsnt, selite, "
                        "alvkoodi, alvprosentti, luotu, muokattu, json, "
-                       "kohdennus, eraid, vientirivi, viite, iban, erapvm, arkistotunnus "
+                       "kohdennus, eraid, vientirivi, viite, iban, erapvm, arkistotunnus, asiakas, laskupvm "
                        "FROM vienti WHERE tosite=%1 "
                        "ORDER BY id").arg( tositeModel_->id() ));
     while( query.next())
@@ -738,6 +743,8 @@ void VientiModel::lataa()
         rivi.ibanTili = query.value("iban").toString();
         rivi.erapvm = query.value("erapvm").toDate();
         rivi.arkistotunnus = query.value("arkistotunnus").toString();
+        rivi.asiakas = query.value("asiakas").toString();
+        rivi.laskupvm = query.value("laskupvm").toDate();
 
         // Tagien hakeminen
         QSqlQuery tagiKysely( *tositeModel_->tietokanta() );

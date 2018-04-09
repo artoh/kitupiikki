@@ -44,9 +44,10 @@ public:
 
     QString str(const QString& avain);
     QDate date(const QString& avain);
-    int luku(const QString& avain);
+    int luku(const QString& avain, int oletus = 0);
     qulonglong isoluku(const QString& avain);
     QVariant variant(const QString& avain);
+    QStringList avaimet() const { return map_.keys(); }
 
     QByteArray toJson();
     QVariant toSqlJson();

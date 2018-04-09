@@ -113,7 +113,7 @@ public slots:
      * Päivämäärä ja tositelaji jäävät kuitenkin edellisestä
      */
     void tyhjaa();
-    bool tallenna(bool tallennatyhjat = false);
+    bool tallenna();
     bool poista();
 
 public:

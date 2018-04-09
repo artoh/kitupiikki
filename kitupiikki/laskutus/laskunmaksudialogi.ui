@@ -19,6 +19,9 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
+    <widget class="QTabBar" name="tabBar" native="true"/>
+   </item>
+   <item>
     <widget class="QLineEdit" name="suodatusEdit">
      <property name="placeholderText">
       <string>Etsi viitenumerolla tai asiakkaan nimellä</string>
@@ -143,6 +146,12 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>QTabBar</class>
+   <extends>QWidget</extends>
+   <header>QTabBar</header>
+   <container>1</container>
+  </customwidget>
   <customwidget>
    <class>TilinvalintaLine</class>
    <extends>QLineEdit</extends>

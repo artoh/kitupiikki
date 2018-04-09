@@ -33,6 +33,9 @@ LaskunMaksuDialogi::LaskunMaksuDialogi(KirjausWg *kirjauswg) :
 {
     ui->setupUi(this);
 
+    ui->tabBar->addTab(tr("Myyntilaskut"));
+    ui->tabBar->addTab(tr("Ostolaskut"));
+
     laskut = new LaskutModel(this);
     laskut->lataaAvoimet();
 
@@ -94,7 +97,9 @@ void LaskunMaksuDialogi::kirjaa()
     rahaRivi.debetSnt = int( ui->euroSpin->value() * 100 );
     rahaRivi.selite = selite;
     rahaRivi.tili = kp()->tilit()->tiliNumerolla( ui->tiliEdit->valittuTilinumero() );
-    rahaRivi.kohdennus = kp()->kohdennukset()->kohdennus( json.luku("Kohdennus") );
+
+    if( rahaRivi.tili.json()->luku("Kohdennuksella"))
+        rahaRivi.kohdennus = kp()->kohdennukset()->kohdennus( index.data(LaskutModel::KohdennusIdRooli).toInt() );
 
     if( index.data(LaskutModel::KirjausPerusteRooli).toInt() == LaskuModel::MAKSUPERUSTE )
     {
@@ -112,9 +117,22 @@ void LaskunMaksuDialogi::kirjaa()
 
         for(int i=0; i < kirjaaja->model()->vientiModel()->rowCount(QModelIndex()); i++ )
         {
-            kirjaaja->model()->vientiModel()->setData( kirjaaja->model()->vientiModel()->index(i, VientiModel::PVM), ui->pvmEdit->date(), VientiModel::PvmRooli );
+            QModelIndex kirjaajaindeksi = kirjaaja->model()->vientiModel()->index(i, VientiModel::PVM);
+            if( !kirjaajaindeksi.data(VientiModel::PvmRooli).toDate().isValid() )
+                kirjaaja->model()->vientiModel()->setData( kirjaajaindeksi, ui->pvmEdit->date(), VientiModel::PvmRooli );
         }
         kirjaaja->model()->vientiModel()->lisaaVienti(rahaRivi);
+
+        // Lisätään erärivi, jotta saadaan erä nollatuksi
+        VientiRivi eraRivi;
+        eraRivi.pvm = ui->pvmEdit->date();
+        eraRivi.kreditSnt = rahaRivi.debetSnt;
+        eraRivi.selite = selite;
+        eraRivi.tili = Tili();
+        eraRivi.eraId = index.data(LaskutModel::EraIdRooli).toInt();
+        eraRivi.json.set("Kirjausperuste", LaskuModel::MAKSUPERUSTE);
+        kirjaaja->model()->vientiModel()->lisaaVienti(eraRivi);
+
         laskut->maksa(index.row(), ui->euroSpin->value() * 100);
         reject();
 
@@ -127,10 +145,12 @@ void LaskunMaksuDialogi::kirjaa()
         VientiRivi saatavaRivi;
         saatavaRivi.tili = kp()->tilit()->tiliNumerolla( json.luku("Saatavatili") );
         saatavaRivi.kreditSnt = qlonglong( ui->euroSpin->value() * 100 );
-        saatavaRivi.eraId = json.luku("TaseEra");
+        saatavaRivi.eraId = index.data( LaskutModel::EraIdRooli ).toInt();
         saatavaRivi.pvm = ui->pvmEdit->date();
         saatavaRivi.selite = selite;
-        saatavaRivi.kohdennus = kp()->kohdennukset()->kohdennus(json.luku("Kohdennus"));
+
+        if( saatavaRivi.tili.json()->luku("Kohdennuksella"))
+            saatavaRivi.kohdennus = kp()->kohdennukset()->kohdennus( index.data(LaskutModel::KohdennusIdRooli).toInt() );
 
         ehdotus.lisaaVienti(saatavaRivi);
         ehdotus.lisaaVienti(rahaRivi);
@@ -152,11 +172,7 @@ void LaskunMaksuDialogi::tarkistaKelpo()
 void LaskunMaksuDialogi::naytaLasku()
 {
     QModelIndex index =  ui->laskutView->currentIndex();
-    QString liite = index.data(LaskutModel::LiiteRooli).toString();
-    if(!liite.isEmpty())
-    {
-        Kirjanpito::avaaUrl( QUrl( LiiteModel::liiteNimella(liite) ) );
-    }
+    Kirjanpito::avaaUrl( QUrl( index.data(LaskutModel::LiiteRooli).toString() ) );
 }
 
 void LaskunMaksuDialogi::suodata()

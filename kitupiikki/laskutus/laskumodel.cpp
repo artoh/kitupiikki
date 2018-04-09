@@ -519,7 +519,7 @@ bool LaskuModel::tallenna(Tili rahatili)
 
     VientiRivi raharivi;
     raharivi.tili =  kirjausperuste() == MAKSUPERUSTE ? Tili() : rahatili;      // Maksuperusteinen kirjataan NULL-tilille
-    raharivi.pvm = pvm();
+    raharivi.pvm = kirjausperuste() == MAKSUPERUSTE ? kp()->paivamaara() : pvm();
     raharivi.selite = tr("%1 [%2]").arg(laskunsaajanNimi()).arg(laskunro());
     raharivi.kohdennus = tasekohdennus;
 
@@ -531,13 +531,16 @@ bool LaskuModel::tallenna(Tili rahatili)
     if( hyvityslasku().viitenro )
         raharivi.eraId = hyvityslasku().json.luku("TaseEra");
 
-
     // Sitten tälle rahariville kirjataan aiemmin laskut-taulussa olleet tiedot
     // #149 since 0.11
 
     raharivi.viite = QString::number( laskunro() );
     raharivi.asiakas = laskunsaajanNimi();
     raharivi.erapvm = erapaiva();
+    raharivi.laskupvm = kp()->paivamaara();
+
+    // Käteislaskulta ei jää velkaa, joten eräId:ksi tulee NULL
+    raharivi.eraId = kirjausperuste() == KATEISLASKU ? TaseEra::EIERAA :  TaseEra::UUSIERA;
 
     if( hyvityslasku().viitenro)
     {
@@ -548,7 +551,6 @@ bool LaskuModel::tallenna(Tili rahatili)
         raharivi.eraId = TaseEra::UUSIERA;
 
     raharivi.json.set("Osoite", osoite());
-    raharivi.json.set("Laskupvm", kp()->paivamaara() );
     raharivi.json.set("Toimituspvm", toimituspaiva());
     raharivi.json.set("Lisatieto", lisatieto());
     raharivi.json.set("Email", email());
@@ -557,7 +559,7 @@ bool LaskuModel::tallenna(Tili rahatili)
     raharivi.json.set("Liite", liitenro);
 
     viennit->lisaaVienti(raharivi);
-    tosite.tallenna(true);
+    tosite.tallenna();
 
     kp()->asetukset()->aseta("LaskuSeuraavaId", laskunro() );
 

@@ -58,7 +58,12 @@ QVariant LaskutModel::data(const QModelIndex &item, int role) const
             return lasku.erapvm;
         case SUMMA:
             if( role == Qt::DisplayRole)
-                return QString("%L1 €").arg(lasku.summaSnt / 100.0,0,'f',2);
+            {
+                if( lasku.summaSnt)
+                    return QString("%L1 €").arg(lasku.summaSnt / 100.0,0,'f',2);
+                else
+                    return QVariant();  // Nollalle tyhjää
+            }
             else
                return lasku.summaSnt;
         case MAKSAMATTA:
@@ -114,11 +119,15 @@ QVariant LaskutModel::data(const QModelIndex &item, int role) const
     else if( role == AsiakasRooli)
         return lasku.asiakas;
     else if( role == LiiteRooli)
-        return LiiteModel::liitePolulla(lasku.tosite, lasku.json.luku("Liite") );
+        return LiiteModel::liitePolulla(lasku.tosite, lasku.json.luku("Liite", 1) );
     else if( role == HyvitysLaskuRooli)
         return lasku.json.luku("Hyvityslasku");
     else if( role == KirjausPerusteRooli)
         return lasku.kirjausperuste;
+    else if( role == KohdennusIdRooli)
+        return lasku.kohdennusId;
+    else if( role == EraIdRooli)
+        return lasku.eraId;
 
     return QVariant();
 }
@@ -148,13 +157,16 @@ AvoinLasku LaskutModel::laskunTiedot(int indeksi) const
 
 void LaskutModel::lataaAvoimet()
 {
-    paivita( AVOIMET) ;
+    paivita( AVOIMET ) ;
 }
 
 void LaskutModel::paivita(int valinta, QDate mista, QDate mihin)
 {
-    QString kysely = "SELECT id, pvm, tili, debetsnt, kreditsnt, eraid, viite, erapvm, json, tosite, asiakas FROM vienti "
-                     "WHERE viite IS NOT NULL AND iban IS NULL ";
+    QString kysely = QString("SELECT id, pvm, tili, debetsnt, kreditsnt, eraid, viite, erapvm, json, tosite, asiakas, laskupvm, kohdennus FROM vienti "
+                     "WHERE viite IS NOT NULL AND iban IS NULL");
+
+    if( mista.isValid() && mihin.isValid())
+        kysely.append( QString(" AND pvm BETWEEN '%1' AND '%2' ") .arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate)) );
 
     beginResetModel();
     laskut.clear();
@@ -162,29 +174,29 @@ void LaskutModel::paivita(int valinta, QDate mista, QDate mihin)
 
     while( query.next())
     {
-        JsonKentta json( query.value("json").toByteArray()  );
-        QDate laskupvm = json.date("Laskupvm");
-        if( laskupvm < mista || laskupvm > mihin)
-            continue;
-
         TaseEra era( query.value("eraid").toInt());
-        if( valinta == AVOIMET && !era.saldoSnt )
+        int vientiId = query.value("id").toInt();
+
+        if( valinta == AVOIMET && (!era.saldoSnt || era.eraId != vientiId))
             continue;
         if( valinta == ERAANTYNEET && ( !era.saldoSnt || query.value("erapvm").toDate() > kp()->paivamaara() ))
             continue;
 
-        // Tämä lasku kelpaa ;)
+        JsonKentta json( query.value("json").toByteArray() );
+
+        // Tämä lasku kelpaa ;)        
         AvoinLasku lasku;
         lasku.viitenro = query.value("viite").toInt();
-        lasku.pvm = laskupvm;
+        lasku.pvm = query.value("laskupvm").toDate();
         lasku.erapvm = query.value("erapvm").toDate();
-        lasku.summaSnt = query.value("debetSnt").toInt();
-        lasku.avoinSnt = era.saldoSnt;
+        lasku.eraId = query.value("eraid").toInt();
+        lasku.summaSnt = query.value("debetSnt").toInt() - query.value("kreditSnt").toInt();
+        lasku.avoinSnt = vientiId == lasku.eraId ? era.saldoSnt : 0;        // Hyvityslaskuille avoinsnt näytetään nollaa
         lasku.asiakas = query.value("asiakas").toString();
         lasku.tosite = query.value("tosite").toInt();
         lasku.kirjausperuste =  json.luku("Kirjausperuste");
-        lasku.eraId = query.value("eraid").toInt();
         lasku.json = json;
+        lasku.kohdennusId = query.value("kohdennus").toInt();
         laskut.append(lasku);
     }
     endResetModel();

@@ -97,9 +97,9 @@ QDate JsonKentta::date(const QString &avain)
     return QDate::fromString( map_.value(avain).toString() , Qt::ISODate);
 }
 
-int JsonKentta::luku(const QString &avain)
+int JsonKentta::luku(const QString &avain, int oletus)
 {
-    return map_.value(avain,"0").toInt();
+    return map_.value(avain, QString::number(oletus) ).toInt();
 }
 
 qulonglong JsonKentta::isoluku(const QString &avain)

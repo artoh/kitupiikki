@@ -211,7 +211,7 @@ void TositeModel::tyhjaa()
 
 }
 
-bool TositeModel::tallenna(bool tallennatyhjat)
+bool TositeModel::tallenna()
 {
     // Tallentaa tositteen
     tietokanta()->transaction();
@@ -259,7 +259,7 @@ bool TositeModel::tallenna(bool tallennatyhjat)
     if( id() < 0)
         id_ = kysely.lastInsertId().toInt();
 
-    if( !vientiModel_->tallenna(tallennatyhjat) || !liiteModel_->tallenna() )
+    if( !vientiModel_->tallenna() || !liiteModel_->tallenna() )
     {
         // Tallennuksessa virheitä, perutaan ja palautetaan virhe
         tietokanta()->rollback();

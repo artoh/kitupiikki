@@ -86,6 +86,7 @@ CREATE TABLE vienti (
                                                   ON UPDATE CASCADE,
     viite           VARCHAR(60),
     iban            VARCHAR(60),
+    laskupvm        DATE,
     erapvm          DATE,
     arkistotunnus   VARCHAR(60),
     asiakas         VARCHAR(60),

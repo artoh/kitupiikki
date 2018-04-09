@@ -41,6 +41,7 @@ struct AvoinLasku
     int kirjausperuste = 0;
     int eraId = 0;
     JsonKentta json;
+    int kohdennusId;
 };
 
 /**
@@ -65,7 +66,9 @@ public:
            AsiakasRooli = Qt::UserRole + 5,
            LiiteRooli = Qt::UserRole + 6,
            HyvitysLaskuRooli = Qt::UserRole + 7,
-           KirjausPerusteRooli = Qt::UserRole + 8};
+           KirjausPerusteRooli = Qt::UserRole + 8,
+           KohdennusIdRooli = Qt::UserRole + 9,
+           EraIdRooli = Qt::UserRole + 10};
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;

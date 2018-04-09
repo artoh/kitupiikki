@@ -543,7 +543,12 @@ void KirjausWg::naytaSummat()
         if( index.data(VientiModel::TiliNumeroRooli).toInt() == 0 &&
                 ( index.data(VientiModel::DebetRooli).toLongLong() != 0 ||
                   index.data(VientiModel::KreditRooli).toLongLong() != 0))
-            ui->tallennaButton->setEnabled(false);
+        {
+            // Nollatilille saa kuitenkin kirjata maksuperusteisen laskun maksamisen
+            if( !index.data(VientiModel::LaskuPvmRooli).toDate().isValid() &&
+                !index.data(VientiModel::EraIdRooli).toInt())
+                    ui->tallennaButton->setEnabled(false);
+        }
     }
 
 }
