@@ -32,7 +32,7 @@ LaskunTulostaja::LaskunTulostaja(LaskuModel *model) : QObject(model), model_(mod
     iban = kp()->tilit()->tiliNumerolla( kp()->asetukset()->luku("LaskuTili")).json()->str("IBAN");
 }
 
-bool LaskunTulostaja::tulosta(QPrinter *printer)
+bool LaskunTulostaja::tulosta(QPagedPaintDevice *printer)
 {
 
     QPainter painter(printer);
@@ -217,13 +217,19 @@ QString LaskunTulostaja::valeilla(const QString &teksti)
     return palautettava;
 }
 
-void LaskunTulostaja::ylaruudukko(QPrinter *printer, QPainter *painter)
+void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter)
 {
     const int TEKSTIPT = 10;
     const int OTSAKEPT = 7;
 
     double mm = printer->width() * 1.00 / printer->widthMM();
-    double rk = QFontMetrics( QFont("Sans",OTSAKEPT)).height() + QFontMetrics(QFont("Sans",TEKSTIPT)).height() + 2 * mm;  // rivinkorkeus
+
+    // Lasketaan rivinkorkeus. Tehdään painterin kautta, jotta toimii myös pdf-writerillä
+    painter->setFont( QFont("Sans",OTSAKEPT) );
+    double rk = painter->fontMetrics().height();
+    painter->setFont(QFont("Sans",TEKSTIPT));
+    rk += painter->fontMetrics().height();
+    rk += 2 * mm;
 
     double leveys = painter->window().width();
 
@@ -366,7 +372,7 @@ void LaskunTulostaja::lisatieto(QPainter *painter)
 
 }
 
-qreal LaskunTulostaja::alatunniste(QPrinter *printer,QPainter *painter)
+qreal LaskunTulostaja::alatunniste(QPagedPaintDevice *printer, QPainter *painter)
 {
     painter->setFont( QFont("Sans",10));
     qreal rk = painter->fontMetrics().height();
@@ -410,7 +416,7 @@ qreal LaskunTulostaja::alatunniste(QPrinter *printer,QPainter *painter)
     return tila;
 }
 
-void LaskunTulostaja::erittely(QPrinter *printer, QPainter *painter, qreal marginaali)
+void LaskunTulostaja::erittely(QPagedPaintDevice *printer, QPainter *painter, qreal marginaali)
 {
     bool alv = kp()->asetukset()->onko("AlvVelvollinen");
     erittelyOtsikko(printer, painter, alv);
@@ -529,7 +535,7 @@ void LaskunTulostaja::erittely(QPrinter *printer, QPainter *painter, qreal margi
 
 }
 
-void LaskunTulostaja::erittelyOtsikko(QPrinter *printer, QPainter *painter, bool alv)
+void LaskunTulostaja::erittelyOtsikko(QPagedPaintDevice *printer, QPainter *painter, bool alv)
 {
     painter->setFont( QFont("Sans",8));
     qreal rk = painter->fontMetrics().height();
@@ -558,7 +564,7 @@ void LaskunTulostaja::erittelyOtsikko(QPrinter *printer, QPainter *painter, bool
 
 }
 
-void LaskunTulostaja::tilisiirto(QPrinter *printer, QPainter *painter)
+void LaskunTulostaja::tilisiirto(QPagedPaintDevice *printer, QPainter *painter)
 {
     painter->setFont(QFont("Sans", 7));
     double mm = printer->width() * 1.00 / printer->widthMM();

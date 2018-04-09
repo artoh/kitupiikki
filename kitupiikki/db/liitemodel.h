@@ -21,6 +21,7 @@
 #include <QAbstractListModel>
 #include <QString>
 #include <QSqlDatabase>
+#include <QBuffer>
 
 /**
  * @brief Yhden liitteen tiedot. TositeModel käyttää.
@@ -66,7 +67,14 @@ public:
     Qt::ItemFlags flags(const QModelIndex &index) const;
     bool setData(const QModelIndex &index, const QVariant &value, int role);
 
-    void lisaaTiedosto(const QString& polku, const QString& otsikko);
+    /**
+     * @brief Lisää pdf:n
+     * @param pdf
+     * @param otsikko
+     * @return Liitteen nro
+     */
+    int lisaaPdf(const QByteArray &pdf, const QString& otsikko);
+    int lisaaTiedosto(const QString& polku, const QString& otsikko);
     void poistaLiite(int indeksi);
 
     bool muokattu() const { return muokattu_; }

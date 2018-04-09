@@ -635,7 +635,7 @@ bool VientiModel::tallenna(bool tallennatyhjat)
 
         if( rivi.eraId > 0)
             query.bindValue(":eraid", rivi.eraId);
-        else if(  rivi.eraId == 0 &&  rivi.vientiId)
+        else if(  rivi.eraId == TaseEra::UUSIERA &&  rivi.vientiId)
             query.bindValue(":eraid", rivi.vientiId);
         else
             query.bindValue(":eraid", QVariant());
@@ -661,8 +661,8 @@ bool VientiModel::tallenna(bool tallennatyhjat)
         if( !rivi.vientiId )
         {
             viennit_[i].vientiId = query.lastInsertId().toInt();
-            // Jos ei ole tase-erää, niin merkitään tase-erä itseensä - helpottaa tase-erien laskentaa
-            if( !rivi.eraId )
+            // Jos uusi tase-erä, niin merkitään tase-erä itseensä - helpottaa tase-erien laskentaa
+            if( rivi.eraId == TaseEra::UUSIERA && !rivi.vientiId && rivi.tili.onko(TiliLaji::TASE))
                 query.exec(QString("UPDATE vienti SET eraid=%1 WHERE id=%1").arg(viennit_[i].vientiId) );
         }
         else
@@ -728,10 +728,10 @@ void VientiModel::lataa()
 
         // Kun aloittaa uuden erän...
         if( rivi.eraId == rivi.vientiId)
-            rivi.eraId = 0;
+            rivi.eraId = TaseEra::UUSIERA;
         else if( rivi.eraId == 0)
-            rivi.eraId = -1;    // Negatiivinen eraId tarkoittaa NULL: ei voi liittää erää
-                                // (esim. käteislasku)
+            rivi.eraId = TaseEra::EIERAA;    // Negatiivinen eraId tarkoittaa NULL: ei voi liittää erää
+                                             // (esim. käteislasku)
 
         rivi.json.fromJson( query.value("json").toByteArray() );
         rivi.viite = query.value("viite").toString();

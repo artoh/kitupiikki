@@ -31,6 +31,8 @@
  */
 struct TaseEra
 {
+    enum { UUSIERA = -1, EIERAA = 0};
+
     /**
      * @brief TaseEra
      * @param id Haettavan erän id

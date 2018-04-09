@@ -114,7 +114,7 @@ QVariant LaskutModel::data(const QModelIndex &item, int role) const
     else if( role == AsiakasRooli)
         return lasku.asiakas;
     else if( role == LiiteRooli)
-        return lasku.json.str("Liite");
+        return LiiteModel::liitePolulla(lasku.tosite, lasku.json.luku("Liite") );
     else if( role == HyvitysLaskuRooli)
         return lasku.json.luku("Hyvityslasku");
     else if( role == KirjausPerusteRooli)
@@ -183,6 +183,7 @@ void LaskutModel::paivita(int valinta, QDate mista, QDate mihin)
         lasku.asiakas = query.value("asiakas").toString();
         lasku.tosite = query.value("tosite").toInt();
         lasku.kirjausperuste =  json.luku("Kirjausperuste");
+        lasku.eraId = query.value("eraid").toInt();
         lasku.json = json;
         laskut.append(lasku);
     }

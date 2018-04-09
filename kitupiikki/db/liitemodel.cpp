@@ -21,6 +21,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QIcon>
+#include <QPdfWriter>
 
 #include <QPrinter>
 #include <QPainter>
@@ -101,55 +102,17 @@ bool LiiteModel::setData(const QModelIndex &index, const QVariant &value, int ro
     return false;
 }
 
-void LiiteModel::lisaaTiedosto(const QString &polku, const QString &otsikko)
+int LiiteModel::lisaaPdf(const QByteArray &pdf, const QString &otsikko)
 {
     beginInsertRows( QModelIndex(), liitteet_.count(), liitteet_.count() );
     Liite uusi;
 
     uusi.liiteno = seuraavaNumero();
-
-
-    if( polku.toLower().endsWith(".pdf"))
-    {
-        // On valmiiksi pdf
-        QFile tiedosto(polku);
-        tiedosto.open( QIODevice::ReadOnly);
-
-        uusi.pdf = tiedosto.readAll();
-
-        tiedosto.close();
-    }
-    else
-    {
-        QImage kuva(polku);
-
-        // Kuvatiedosto, muutetaan pdf-muotoon
-
-        QPrinter printer(QPrinter::HighResolution);
-        QString tpnimi =  kp()->tilapainen("imgcnv-XXXX.pdf");
-        printer.setOutputFileName( tpnimi );
-        {
-            QPainter painter( &printer);
-
-            QRect rect = painter.viewport();
-            QSize size = kuva.size();
-            size.scale( rect.size(), Qt::KeepAspectRatio );
-            painter.setViewport( rect.x(), rect.y(),
-                                 size.width(), size.height());
-            painter.setWindow( kuva.rect() );
-            painter.drawImage(0,0,kuva);
-        }
-
-        QFile luku( tpnimi );
-        luku.open( QIODevice::ReadOnly );
-        uusi.pdf = luku.readAll();
-        luku.close();
-    }
-
+    uusi.pdf = pdf;
     uusi.otsikko = otsikko;
-    uusi.muokattu = true;   // Uusi, tallentamaton tiedosto
+    uusi.muokattu = true;
 
-    // Peukkukuvan tulostus, kun päästään sinne saakka
+    // Peukkukuvan muodostaminen
     Poppler::Document *pdfDoc = Poppler::Document::loadFromData( uusi.pdf );
     if( pdfDoc )
     {
@@ -172,6 +135,50 @@ void LiiteModel::lisaaTiedosto(const QString &polku, const QString &otsikko)
     endInsertRows();
     muokattu_ = true;
     emit liiteMuutettu();
+
+    return uusi.liiteno;
+}
+
+int LiiteModel::lisaaTiedosto(const QString &polku, const QString &otsikko)
+{
+    QByteArray pdf;
+
+    if( polku.toLower().endsWith(".pdf"))
+    {
+
+        // On valmiiksi pdf
+        QFile tiedosto(polku);
+        tiedosto.open( QIODevice::ReadOnly);
+
+        pdf = tiedosto.readAll();
+
+        tiedosto.close();
+    }
+    else
+    {
+        QImage kuva(polku);
+
+        QBuffer puskuri(&pdf);
+        puskuri.open(QBuffer::WriteOnly);
+
+        QPdfWriter writer( &puskuri );
+        writer.setTitle( otsikko );
+        writer.setPageSize( QPageSize(QPageSize::A4));
+
+        QPainter painter( &writer );
+
+        QRect rect = painter.viewport();
+        QSize size = kuva.size();
+        size.scale( rect.size(), Qt::KeepAspectRatio );
+        painter.setViewport( rect.x(), rect.y(),
+                             size.width(), size.height());
+        painter.setWindow( kuva.rect() );
+        painter.drawImage(0,0,kuva);
+
+        puskuri.close();
+    }
+
+    return lisaaPdf(pdf, otsikko);
 }
 
 void LiiteModel::poistaLiite(int indeksi)

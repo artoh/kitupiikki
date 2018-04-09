@@ -50,7 +50,7 @@ public:
 signals:
 
 public slots:
-    bool tulosta(QPrinter *printer);
+    bool tulosta(QPagedPaintDevice *printer);
     bool kirjoitaPdf(QString tiedostonnimi);
 
 public:
@@ -66,13 +66,13 @@ public:
     static QString valeilla(const QString& teksti);
 
 protected:
-    void ylaruudukko(QPrinter *printer, QPainter *painter);
+    void ylaruudukko(QPagedPaintDevice *printer, QPainter *painter);
     void lisatieto(QPainter *painter);
-    qreal alatunniste(QPrinter *printer, QPainter *painter);
-    void erittely(QPrinter *printer, QPainter *painter, qreal marginaali);
-    void erittelyOtsikko(QPrinter *printer, QPainter *painter, bool alv);
+    qreal alatunniste(QPagedPaintDevice *printer, QPainter *painter);
+    void erittely(QPagedPaintDevice *printer, QPainter *painter, qreal marginaali);
+    void erittelyOtsikko(QPagedPaintDevice *printer, QPainter *painter, bool alv);
 
-    void tilisiirto(QPrinter *printer, QPainter *painter);
+    void tilisiirto(QPagedPaintDevice *printer, QPainter *painter);
     QString iban;
 
     /**

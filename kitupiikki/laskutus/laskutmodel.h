@@ -39,6 +39,7 @@ struct AvoinLasku
     QString asiakas;
     int tosite = -1;
     int kirjausperuste = 0;
+    int eraId = 0;
     JsonKentta json;
 };
 

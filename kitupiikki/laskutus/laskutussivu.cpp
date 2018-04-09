@@ -126,11 +126,8 @@ void LaskutusSivu::suodata()
 void LaskutusSivu::nayta()
 {
     QModelIndex index =  ui->laskutView->currentIndex();
-    QString liite = index.data(LaskutModel::LiiteRooli).toString();
-    if(!liite.isEmpty())
-    {
-        Kirjanpito::avaaUrl(  QUrl( LiiteModel::liiteNimella(liite) ) );
-    }
+    Kirjanpito::avaaUrl(  QUrl( index.data(LaskutModel::LiiteRooli).toString() ) );
+
 }
 
 void LaskutusSivu::valintaMuuttuu()

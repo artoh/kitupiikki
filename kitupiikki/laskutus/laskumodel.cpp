@@ -18,6 +18,9 @@
 #include <cmath>
 #include <QSqlQuery>
 #include <QPrinter>
+#include <QBuffer>
+#include <QPdfWriter>
+#include <QApplication>
 
 #include <QDebug>
 #include <QSqlError>
@@ -343,6 +346,27 @@ bool LaskuModel::tallenna(Tili rahatili)
         tosite.asetaKommentti( tosite.kommentti() + "\n\n[Hyvityslasku]\n" + lisatieto() );
     }
 
+    // Tallennetaan liite
+    // Luo tilapäisen pdf-tiedoston
+
+    QString liiteOtsikko = tr("Lasku nr %1").arg(laskunro());
+
+    QByteArray liiteArray;
+    QBuffer buffer(&liiteArray);
+    buffer.open(QBuffer::WriteOnly);
+
+    QPdfWriter writer(&buffer);
+    writer.setCreator(QString("Kitupiikki %1").arg( qApp->applicationVersion() ));
+    writer.setPageSize(QPageSize(QPageSize::A4));
+    writer.setTitle( liiteOtsikko );
+
+    LaskunTulostaja tulostaja(this);
+    tulostaja.tulosta(&writer);
+    buffer.close();
+
+    int liitenro = tosite.liiteModel()->lisaaPdf( liiteArray, liiteOtsikko );
+
+
     // #96 Laskun kirjaaminen yhdistelmäriveillä
     // 11.3.2017 v0.8 Muutettu niin, että kirjanpitoon ei enää kirjata yksittäisiä
     // tuoterivejä, vaan yhdistelmäviennit jokaiselta erilaiselta veroryhmältä
@@ -515,8 +539,13 @@ bool LaskuModel::tallenna(Tili rahatili)
     raharivi.asiakas = laskunsaajanNimi();
     raharivi.erapvm = erapaiva();
 
-    if( kirjausperuste() == KATEISLASKU)
-        raharivi.eraId = -1;    // Maksettu on...
+    if( hyvityslasku().viitenro)
+    {
+        raharivi.json.set("Hyvityslasku", hyvityslasku().viitenro);
+        raharivi.eraId = hyvityslasku().eraId;        // EräId
+    }
+    else if( kirjausperuste() != KATEISLASKU)
+        raharivi.eraId = TaseEra::UUSIERA;
 
     raharivi.json.set("Osoite", osoite());
     raharivi.json.set("Laskupvm", kp()->paivamaara() );
@@ -525,27 +554,9 @@ bool LaskuModel::tallenna(Tili rahatili)
     raharivi.json.set("Email", email());
     raharivi.json.setVar("Erittely", rivitTalteen);
     raharivi.json.set("Kirjausperuste", kirjausperuste());
-
-    if( hyvityslasku().viitenro )
-        raharivi.json.set("Hyvityslasku", hyvityslasku().viitenro);
-
+    raharivi.json.set("Liite", liitenro);
 
     viennit->lisaaVienti(raharivi);
-
-    // Tallennetaan liiteeksi
-
-    // Luo tilapäisen pdf-tiedoston
-
-    QPrinter printer;
-    printer.setPaperSize(QPrinter::A4);
-    printer.setOutputFormat(QPrinter::PdfFormat);
-    QString tpnimi = kp()->tilapainen("lasku-XXXX.pdf");
-    printer.setOutputFileName( tpnimi );
-
-    LaskunTulostaja tulostaja(this);
-    tulostaja.tulosta(&printer);
-
-    tosite.liiteModel()->lisaaTiedosto( tpnimi , tr("Lasku nr %1").arg(laskunro()));
     tosite.tallenna(true);
 
     kp()->asetukset()->aseta("LaskuSeuraavaId", laskunro() );
