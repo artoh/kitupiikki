@@ -220,13 +220,15 @@ bool TositeModel::tallenna()
     if( id() > -1)
     {
         kysely.prepare("UPDATE tosite SET pvm=:pvm, otsikko=:otsikko, kommentti=:kommentti, "
-                       "tunniste=:tunniste, laji=:laji, tiliote=:tiliote, json=:json WHERE id=:id");
+                       "tunniste=:tunniste, laji=:laji, tiliote=:tiliote, json=:json, muokattu=:muokattu WHERE id=:id");
         kysely.bindValue(":id", id());
     }
     else
     {
-        kysely.prepare("INSERT INTO tosite(pvm, otsikko, kommentti, tunniste, laji, tiliote, json) "
-                       "VALUES(:pvm, :otsikko, :kommentti, :tunniste, :laji, :tiliote, :json)");
+        kysely.prepare("INSERT INTO tosite(pvm, otsikko, kommentti, tunniste, laji, tiliote, json, luotu, muokattu) "
+                       "VALUES(:pvm, :otsikko, :kommentti, :tunniste, :laji, :tiliote, :json, :luotu, :muokattu)");
+
+        kysely.bindValue(":luotu", QDateTime::currentDateTime());
     }
     kysely.bindValue(":pvm", pvm());
     kysely.bindValue(":otsikko", otsikko());
@@ -248,6 +250,7 @@ bool TositeModel::tallenna()
         kysely.bindValue(":tiliote", QVariant());
 
     kysely.bindValue(":json", json_.toSqlJson());
+    kysely.bindValue(":muokattu", QDateTime::currentDateTime());
 
     if( !kysely.exec() )
     {
