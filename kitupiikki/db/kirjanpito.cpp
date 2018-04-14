@@ -201,6 +201,7 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
         }
         // Tietokanta päivitetään suorittamalla update-komennot
         // nykyiseen tietokantaversioon saakka
+        // Esitiedostoversioita 1-2 tuetaan VAIN versioon 0.12 saakka !
         for(int i = asetusModel_->luku("KpVersio") + 1; i <= TIETOKANTAVERSIO; i++)
             paivita( i );
 
@@ -225,26 +226,47 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
 
             // Laskujen siirtäminen vienteihin
 
-            QSqlQuery laskukysely("SELECT id, tosite, laskupvm, erapvm, summaSnt, avoinSnt, asiakas, kirjausperuste, json FROM lasku");
+            QSqlQuery laskukysely("SELECT id, tosite, laskupvm, erapvm, avoinSnt, asiakas, kirjausperuste, json FROM lasku");
 
             while( laskukysely.next())
             {
                 int kirjausperuste = laskukysely.value("kirjausperuste").toInt();
+                JsonKentta json( laskukysely.value("json").toByteArray());
                 QSqlQuery lkysely;
-
 
                 if( kirjausperuste == LaskuModel::SUORITEPERUSTE || kirjausperuste == LaskuModel::LASKUTUSPERUSTE)
                 {
                     lkysely.prepare("UPDATE vienti SET viite=:viite, laskupvm=:laskupvm, erapvm=:erapvm, asiakas=:asiakas, json=:json "
-                                    "WHERE id:=id");
+                                    "WHERE id=:era");
+                    lkysely.bindValue(":era", json.luku("TaseEra"));
                 }
                 else if( kirjausperuste == LaskuModel::MAKSUPERUSTE)
                 {
-                    ;   // TODOOO!!
+                    lkysely.prepare("INSERT INTO vienti(tosite, vientirivi, pvm, kreditsnt, viite, laskupvm, erapvm, asiakas) "
+                                    " VALUES(:tosite, 999, :laskupvm, :snt, :viite, :laskupvm, :erapvm, :asiakas");
+                    ;
+                    lkysely.bindValue(":tosite", laskukysely.value("tosite").toInt());
+                    lkysely.bindValue(":snt", laskukysely.value("avoinSnt").toInt());
+
+                }
+                else if( kirjausperuste == LaskuModel::KATEISLASKU)
+                {
+                    lkysely.prepare("UPDATE vienti SET eraid=NULL, viite=:viite, laskupvm=:laskupvm, erapvm=:erapvm, asiakas=:asiakas, json=:json"
+                                    "WHERE tosite=:tosite AND debetsnt > 0");
+                    lkysely.bindValue(":tosite", laskukysely.value("tosite").toInt());
                 }
 
+                lkysely.bindValue(":viite", laskukysely.value("viite").toString());
+                lkysely.bindValue(":laskupvm", laskukysely.value("laskupvm").toDate());
+                lkysely.bindValue(":asiakas", laskukysely.value("asiakas").toString());
+                lkysely.bindValue(":erapvm", laskukysely.value("erapvm").toDate());
 
+                json.set("Kirjausperuste", laskukysely.value("kirjausperuste").toInt());
+                lkysely.bindValue(":json", json.toJson());
 
+                lkysely.exec();
+                if( kirjausperuste == LaskuModel::MAKSUPERUSTE)
+                    QSqlQuery eraaja( QString("UPDATE vienti SET eraid=id WHERE id=%1").arg( lkysely.lastInsertId().toInt() ));
             }
         }
 
