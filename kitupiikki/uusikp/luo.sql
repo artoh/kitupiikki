@@ -47,7 +47,7 @@ CREATE TABLE tosite (
     laji      INTEGER         REFERENCES tositelaji (id)
                               DEFAULT (1),
     json      TEXT,
-    luoto     DATETIME,
+    luotu     DATETIME,
     muokattu  DATETIME
 );
 
@@ -113,7 +113,8 @@ CREATE TABLE liite (
     otsikko  TEXT,
     sha      TEXT         NOT NULL,
     peukku   BLOB,
-    data     BLOB
+    data     BLOB,
+    liitetty DATETIME
 );
 
 CREATE INDEX liite_tosite_index ON liite(tosite)
