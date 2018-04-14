@@ -204,6 +204,50 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
         for(int i = asetusModel_->luku("KpVersio") + 1; i <= TIETOKANTAVERSIO; i++)
             paivita( i );
 
+        if( asetusModel_->luku("KpVersio") < 3)
+        {
+            // Erityiset toimet kolmosversioon
+            // Liitteiden haku tietokantaan
+
+            QSqlQuery liitekysely("SELECT id, tosite, liiteno FROM liite");
+            QSqlQuery liittokysely;
+            liittokysely.prepare("UPDATE liite SET data=:data WHERE id=:id" );
+
+            while( liitekysely.next())
+            {
+                QString tiedostonimi = LiiteModel::liitePolulla( liitekysely.value("id").toInt(), liitekysely.value("liiteno").toInt());
+                QFile tiedosto(tiedostonimi);
+                tiedosto.open(QIODevice::ReadOnly);
+                liittokysely.bindValue(":data", tiedosto.readAll());
+                liittokysely.bindValue(":id", liitekysely.value("id").toInt());
+                liittokysely.exec();
+            }
+
+            // Laskujen siirtäminen vienteihin
+
+            QSqlQuery laskukysely("SELECT id, tosite, laskupvm, erapvm, summaSnt, avoinSnt, asiakas, kirjausperuste, json FROM lasku");
+
+            while( laskukysely.next())
+            {
+                int kirjausperuste = laskukysely.value("kirjausperuste").toInt();
+                QSqlQuery lkysely;
+
+
+                if( kirjausperuste == LaskuModel::SUORITEPERUSTE || kirjausperuste == LaskuModel::LASKUTUSPERUSTE)
+                {
+                    lkysely.prepare("UPDATE vienti SET viite=:viite, laskupvm=:laskupvm, erapvm=:erapvm, asiakas=:asiakas, json=:json "
+                                    "WHERE id:=id");
+                }
+                else if( kirjausperuste == LaskuModel::MAKSUPERUSTE)
+                {
+                    ;   // TODOOO!!
+                }
+
+
+
+            }
+        }
+
         asetusModel_->aseta("KpVersio", TIETOKANTAVERSIO);
         asetusModel_->aseta("LuotuVersiolla", qApp->applicationVersion());
         QMessageBox::information(0, tr("Kirjanpito päivitetty"),
