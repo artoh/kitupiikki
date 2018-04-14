@@ -46,7 +46,9 @@ CREATE TABLE tosite (
     tiliote   INTEGER      REFERENCES tili (id) ON UPDATE CASCADE,
     laji      INTEGER         REFERENCES tositelaji (id)
                               DEFAULT (1),
-    json      TEXT
+    json      TEXT,
+    luoto     DATETIME,
+    muokattu  DATETIME
 );
 
 CREATE INDEX tosite_pvm_index ON tosite(pvm);
@@ -110,8 +112,11 @@ CREATE TABLE liite (
                                                  ON UPDATE RESTRICT,
     otsikko  TEXT,
     sha      TEXT         NOT NULL,
-    peukku   BLOB
+    peukku   BLOB,
+    data     BLOB
 );
+
+CREATE INDEX liite_tosite_index ON liite(tosite)
 
 CREATE TABLE lasku (
     id          INTEGER        PRIMARY KEY,
