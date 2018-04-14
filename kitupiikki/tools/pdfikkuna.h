@@ -41,6 +41,8 @@ public:
     static void naytaPdf(const QByteArray &pdfdata);
 
     static void naytaLiite(const int tositeId, const int liiteId=1);
+
+    static void naytaPdf(const QString& tiedostonnimi);
 };
 
 #endif // PDFIKKUNA_H

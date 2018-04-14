@@ -31,6 +31,7 @@
 #include <ctime>
 
 #include "kirjanpito.h"
+#include "tools/pdfikkuna.h"
 
 
 Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
@@ -101,13 +102,11 @@ void Kirjanpito::ohje(const QString &ohjesivu)
 
 void Kirjanpito::avaaUrl(const QUrl &url)
 {
-    if( !QDesktopServices::openUrl(url) )
+    if( url.fileName().endsWith(".pdf"))
+        PdfIkkuna::naytaPdf( url.path() );
+    else if( !QDesktopServices::openUrl(url) )
     {
-        if( url.fileName().endsWith("pdf"))
-            QMessageBox::critical(0, tr("Pdf-lukijan käynnistäminen epäonnistui"),
-                                  tr("Kitupiikki ei saanut käynnistettyä pdf-lukuohjelmaa tiedoston %1 näyttämiseksi. Onhan järjestelmässäsi "
-                                     "määritelty ohjelma avaamaan pdf-tiedostoja?\n\n").arg( url.toDisplayString()));
-        else if( url.fileName().endsWith("html"))
+        if( url.fileName().endsWith("html"))
             QMessageBox::critical(0, tr("Selaimen käynnistäminen epäonnistui"),
                                   tr("Kitupiikki ei saanut käynnistettyä selainta tiedoston %1 näyttämiseksi. Onhan järjestelmässäsi "
                                      "määritelty oletusselain avaamaan internet-sivuja?\n\n").arg(url.toDisplayString()));

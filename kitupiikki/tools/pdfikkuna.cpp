@@ -20,6 +20,7 @@
 
 #include <QSqlQuery>
 #include <QMessageBox>
+#include <QFile>
 
 PdfIkkuna::PdfIkkuna(QWidget *parent) : QMainWindow(parent)
 {
@@ -34,6 +35,7 @@ void PdfIkkuna::naytaPdf(const QByteArray &pdfdata)
     ikkuna->setCentralWidget(wg);
 
     wg->naytaPdf(pdfdata);
+    ikkuna->show();
 }
 
 void PdfIkkuna::naytaLiite(const int tositeId, const int liiteId)
@@ -50,4 +52,19 @@ void PdfIkkuna::naytaLiite(const int tositeId, const int liiteId)
         QMessageBox::critical(0, tr("Virhe liitteen näyttämisessä"),
                               tr("Liitettä %1-%2 ei löydy").arg(tositeId).arg(liiteId));
     }
+}
+
+void PdfIkkuna::naytaPdf(const QString &tiedostonnimi)
+{
+    QByteArray data;
+    QFile tiedosto( tiedostonnimi);
+    if( tiedosto.open( QIODevice::ReadOnly) )
+    {
+        data = tiedosto.readAll();
+        tiedosto.close();
+        naytaPdf( data );
+    }
+    else
+        QMessageBox::critical(0, tr("Virhe tiedoston näyttämisessä"),
+                              tr("Tiedostoa %1 ei voi avata").arg(tiedostonnimi));
 }
