@@ -569,6 +569,8 @@ int CsvTuonti::tuoListaan(const QByteArray &data)
             {
                 if( muodot_[i] == TYHJA || (muodot_[i]==LUKU && muoto == LUKUTEKSTI))
                     muodot_[i] = muoto;
+                else if( (muodot_[i] == LUKU && muoto == VIITE ) || (muodot_[i] == VIITE && muoto == LUKU) )
+                    muodot_[i] = LUKU;
                 else
                     muodot_[i] = TEKSTI;
             }
