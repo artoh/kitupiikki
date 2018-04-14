@@ -38,6 +38,7 @@ TaseEraValintaDialogi::TaseEraValintaDialogi(QWidget *parent) :
 
     proxy_ = new QSortFilterProxyModel(this);
     proxy_->setSortRole(EranValintaModel::PvmRooli);
+    proxy_->setFilterCaseSensitivity(Qt::CaseInsensitive);
     proxy_->setSourceModel(sntProxy_);
 
     ui->view->setModel( proxy_);
