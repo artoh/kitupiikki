@@ -28,6 +28,8 @@
 #include <QSqlError>
 #include <QTextStream>
 
+#include <QDebug>
+
 #include <ctime>
 
 #include "kirjanpito.h"
@@ -138,6 +140,7 @@ bool Kirjanpito::onkoMaksuperusteinenAlv(const QDate &paiva) const
 bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
 {
     tietokanta_.setDatabaseName(tiedosto);
+    polkuTiedostoon_ = tiedosto;
 
     if( !tietokanta_.open() )
     {
@@ -216,7 +219,7 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
 
             while( liitekysely.next())
             {
-                QString tiedostonimi = LiiteModel::liitePolulla( liitekysely.value("id").toInt(), liitekysely.value("liiteno").toInt());
+                QString tiedostonimi = LiiteModel::liitePolulla( liitekysely.value("tosite").toInt(), liitekysely.value("liiteno").toInt()) ;
                 QFile tiedosto(tiedostonimi);
                 tiedosto.open(QIODevice::ReadOnly);
                 liittokysely.bindValue(":data", tiedosto.readAll());
@@ -256,7 +259,7 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
                     lkysely.bindValue(":tosite", laskukysely.value("tosite").toInt());
                 }
 
-                lkysely.bindValue(":viite", laskukysely.value("viite").toString());
+                lkysely.bindValue(":viite", laskukysely.value("id").toString());
                 lkysely.bindValue(":laskupvm", laskukysely.value("laskupvm").toDate());
                 lkysely.bindValue(":asiakas", laskukysely.value("asiakas").toString());
                 lkysely.bindValue(":erapvm", laskukysely.value("erapvm").toDate());
@@ -265,6 +268,8 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
                 lkysely.bindValue(":json", json.toJson());
 
                 lkysely.exec();
+                qDebug() << lkysely.lastQuery() << lkysely.lastError().text();
+
                 if( kirjausperuste == LaskuModel::MAKSUPERUSTE)
                     QSqlQuery eraaja( QString("UPDATE vienti SET eraid=id WHERE id=%1").arg( lkysely.lastInsertId().toInt() ));
             }
@@ -285,8 +290,6 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
     kohdennukset_->lataa();
     tuotteet_->lataa();
 
-
-    polkuTiedostoon_ = tiedosto;
 
     // #124 Jos väliaikaistiedosto ei toimi...
     if( tempDir_ )
@@ -354,13 +357,14 @@ void Kirjanpito::paivita(int versioon)
     sqltiedosto.open(QIODevice::ReadOnly);
     QTextStream in(&sqltiedosto);
     QString sqluonti = in.readAll();
-    sqluonti.replace("\n","");
+    sqluonti.replace("\n"," ");
     QStringList sqlista = sqluonti.split(";");
     QSqlQuery query;
 
     foreach (QString kysely,sqlista)
     {
         query.exec(kysely);
+        qDebug() << query.lastQuery() << query.lastError().text();
         qApp->processEvents();
     }
 }

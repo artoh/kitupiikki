@@ -40,13 +40,6 @@ CREATE TABLE vienti (
     muokattu        DATETIME
 );
 
-CREATE INDEX vienti_tosite_index ON vienti(tosite);
-CREATE INDEX vienti_pvm_index ON vienti(pvm);
-CREATE INDEX vienti_tili_index ON vienti(tili);
-CREATE INDEX vienti_kodennus_index ON vienti(kohdennus);
-CREATE INDEX vienti_taseera_index ON vienti(eraid);
-CREATE INDEX vienti_ibanviite_index ON vienti(iban,viite);
-CREATE INDEX vienti_arkisto_index ON vienti(arkistotunnus);
 
 INSERT INTO vienti(id, tosite, vientirivi, pvm, tili, debetsnt, kreditsnt, selite,
                    alvkoodi, alvprosentti, kohdennus, eraid, viite, iban, erapvm, arkistotunnus,
