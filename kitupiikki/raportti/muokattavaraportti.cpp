@@ -32,19 +32,24 @@ MuokattavaRaportti::MuokattavaRaportti(const QString &raporttinimi)
 
     QStringList muodot = kp()->asetukset()->avaimet("Raportti/" + raporttinimi + '/');
 
-    ui->muotoCombo->setVisible( muodot.count());
-    ui->muotoLabel->setVisible( muodot.count());
+    monimuoto = muodot.count();
 
-    if( muodot.count())
+    ui->muotoCombo->setVisible( monimuoto);
+    ui->muotoLabel->setVisible( monimuoto);
+
+    if( monimuoto)
     {
         for( QString muoto : muodot)
         {
             ui->muotoCombo->addItem( muoto.mid(muoto.lastIndexOf(QChar('/'))+1) , muoto.mid(9) );
         }
+        ui->muotoCombo->setCurrentIndex( ui->muotoCombo->findText("Yleinen") );
+
         connect( ui->muotoCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(paivitaUi()));
     }
 
     paivitaUi();
+
 }
 
 MuokattavaRaportti::~MuokattavaRaportti()
@@ -82,7 +87,7 @@ RaportinKirjoittaja MuokattavaRaportti::raportti(bool /* csvmuoto */ )
 
 void MuokattavaRaportti::paivitaUi()
 {
-    if( ui->muotoCombo->isVisible())
+    if( monimuoto)
         raporttiNimi = ui->muotoCombo->currentData(Qt::UserRole).toString();
 
 

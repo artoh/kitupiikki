@@ -44,6 +44,7 @@ public slots:
 protected:
     Ui::MuokattavaRaportti *ui;   
     QString raporttiNimi;
+    bool monimuoto = false;
 };
 
 #endif // MUOKATTAVARAPORTTI_H
