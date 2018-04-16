@@ -26,6 +26,8 @@
 #include "laskudialogi.h"
 #include "db/liitemodel.h"
 
+#include "tools/pdfikkuna.h"
+
 #include "kirjaus/eurodelegaatti.h"
 #include "db/kirjanpito.h"
 
@@ -126,7 +128,10 @@ void LaskutusSivu::suodata()
 void LaskutusSivu::nayta()
 {
     QModelIndex index =  ui->laskutView->currentIndex();
-    Kirjanpito::avaaUrl(  QUrl( index.data(LaskutModel::LiiteRooli).toString() ) );
+    int tosite = index.data(LaskutModel::TositeRooli).toInt();
+    int liite = index.data(LaskutModel::LiiteRooli).toInt() ? index.data(LaskutModel::LiiteRooli).toInt() : 1;
+
+    PdfIkkuna::naytaLiite(tosite, liite);
 
 }
 

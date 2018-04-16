@@ -117,7 +117,7 @@ QVariant LaskutModel::data(const QModelIndex &item, int role) const
     else if( role == AsiakasRooli)
         return lasku.asiakas;
     else if( role == LiiteRooli)
-        return LiiteModel::liitePolulla(lasku.tosite, lasku.json.luku("Liite", 1) );
+        return lasku.json.luku("Liite", 1);
     else if( role == HyvitysLaskuRooli)
         return lasku.json.luku("Hyvityslasku");
     else if( role == KirjausPerusteRooli)
