@@ -348,6 +348,7 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
         }
         case SELITE:
             viennit_[index.row()].selite = value.toString();
+            emit muuttunut();
             return true;
         case DEBET:
             viennit_[index.row()].debetSnt = value.toLongLong();

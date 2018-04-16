@@ -1374,7 +1374,7 @@ Vastaavaa yhteensä		1 bold
 
 
 VASTATTAVAA		H bold
-OMA PÄÄOMA		20 
+OMA PÄÄOMA		20..23 
 Osakepääoma		200,201 s4 *
 Osuuspääoma		210 s4 *
 Ylikurssirahasto		2021 s4 *
@@ -1390,7 +1390,7 @@ Yksityistilit tilikaudella		234..236 s4 *
 Peruspääoma		220 s4 *
 Edellisten tilikausien voitto/tappio	2251..232 s4 *
 Pääomavajaus		233 s4 *
-Tilikauden voitto/tappio		2250 s4 *
+Tilikauden voitto/tappio		2240 s4 *
 Pääomalainat		238 s4 *
 TILINPÄÄTÖSSIIRTOJEN KERTYMÄ	24 
 Poistoero		24..244 s4 *
@@ -1446,7 +1446,7 @@ Vastaavaa yhteensä		1 bold
 
 
 VASTATTAVAA		H bold
-OMA PÄÄOMA		20 
+OMA PÄÄOMA		20..23 
 Osakepääoma		200,201 s4 *
 Osuuspääoma		210 s4 *
 Ylikurssirahasto		2021 s4 *
@@ -1458,7 +1458,7 @@ Yksityistilit tilikaudella		234..236 s4 *
 Peruspääoma		220 s4 *
 Edellisten tilikausien voitto/tappio	2251..232 s4 *
 Pääomavajaus		233 s4 *
-Tilikauden voitto/tappio		2250 s4 *
+Tilikauden voitto/tappio		2240 s4 *
 Pääomalainat		238 s4 *
 TILINPÄÄTÖSSIIRTOJEN KERTYMÄ	24 *
 PAKOLLISET VARAUKSET		25	*

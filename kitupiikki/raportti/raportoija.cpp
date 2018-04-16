@@ -46,6 +46,7 @@ Raportoija::Raportoija(const QString &raportinNimi) :
         else if( optiorivi_.startsWith(":kohdennus"))
             tyyppi_ = KOHDENNUSLASKELMA;
     }
+
 }
 
 void Raportoija::lisaaKausi(const QDate &alkaa, const QDate &paattyy)
@@ -128,16 +129,22 @@ RaportinKirjoittaja Raportoija::raportti(bool tulostaErittelyt)
 
 void Raportoija::kirjoitaYlatunnisteet(RaportinKirjoittaja &rk)
 {
+    QString otsikko = otsikko_;
+    // Jos otsikko päättyy tarkenteeseen /Yleinen, ei sitä tartte tulostaa
+    if( otsikko.endsWith("/Yleinen") )
+        otsikko.truncate( otsikko_.lastIndexOf(QChar('/') ) ) ;
+
     if( tyyppi() != KOHDENNUSLASKELMA && kohdennusKaytossa_.size() )
     {
         // Jos poimittu kohdennuksia, niin näyttään ne otsikossa jotta näkee että tämä on ote
         QStringList kohdennukset;
         for(int kohdId : kohdennusKaytossa_)
             kohdennukset.append( kp()->kohdennukset()->kohdennus( kohdId ).nimi() );
-        rk.asetaOtsikko( QString("%1 (%2)").arg(otsikko_).arg( kohdennukset.join(", ") ));
+        otsikko.append( " (" + kohdennukset.join(",") + ")" );
     }
-    else
-        rk.asetaOtsikko( otsikko_);
+
+    rk.asetaOtsikko( otsikko);
+
 
     rk.lisaaSarake(40);
     for( int i=0; i < loppuPaivat_.count(); i++)
