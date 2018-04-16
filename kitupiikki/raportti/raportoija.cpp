@@ -46,6 +46,7 @@ Raportoija::Raportoija(const QString &raportinNimi) :
         else if( optiorivi_.startsWith(":kohdennus"))
             tyyppi_ = KOHDENNUSLASKELMA;
     }
+
 }
 
 void Raportoija::lisaaKausi(const QDate &alkaa, const QDate &paattyy)
@@ -115,7 +116,11 @@ RaportinKirjoittaja Raportoija::raportti(bool tulostaErittelyt)
 
 void Raportoija::kirjoitaYlatunnisteet(RaportinKirjoittaja &rk)
 {
-    rk.asetaOtsikko( otsikko_);
+    // Jos otsikko päättyy tarkenteeseen /Yleinen, ei sitä tartte tulostaa
+    if( otsikko_.endsWith("/Yleinen") )
+        rk.asetaOtsikko( otsikko_.left( otsikko_.lastIndexOf(QChar('/') ) ) );
+    else
+        rk.asetaOtsikko( otsikko_);
 
     rk.lisaaSarake(40);
     for( int i=0; i < loppuPaivat_.count(); i++)
