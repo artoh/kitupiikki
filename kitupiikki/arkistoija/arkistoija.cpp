@@ -471,8 +471,12 @@ void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
         if( raportti.length() > 1 )
         {
 
-            QString tiedostonnimi = raportti.toLower() + ".html";
+            QString tiedostonnimi = raportti.toLower();
             tiedostonnimi.replace(" ","");
+
+            if( tiedostonnimi.contains(QChar('/')))
+                    tiedostonnimi.truncate( tiedostonnimi.indexOf(QChar('/')) );
+            tiedostonnimi.append(".html");
 
             Tilikausi edellinenkausi = kp()->tilikaudet()->tilikausiPaivalle( tilikausi_.alkaa().addDays(-1) );
 
@@ -498,6 +502,9 @@ void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
             }
 
             arkistoiTiedosto( tiedostonnimi, raportoija.raportti().html(true) );
+
+            if( raportti.contains(QChar('/')))
+                    raportti.truncate( raportti.indexOf(QChar('/')) );
 
             // Kirjoitetaan indeksiin
             out << "<li><a href=\'" << tiedostonnimi << "\'>";
