@@ -360,9 +360,9 @@ void KirjausWg::kirjaaLaskunmaksu()
 
 void KirjausWg::paivitaTallennaPoistaNapit()
 {
-    ui->tallennaButton->setEnabled( (model()->muokattu() ) && model()->muokkausSallittu() &&
+    ui->tallennaButton->setEnabled( model()->muokattu()  && model()->muokkausSallittu() &&
                                     model()->kelpaakoTunniste( ui->tunnisteEdit->text().toInt() ) );
-    ui->poistaNappi->setEnabled( model()->muokattu() && model_->id() > -1 && model()->muokkausSallittu());
+    ui->poistaNappi->setEnabled(  model()->id() > -1 && model()->muokkausSallittu());
 }
 
 void KirjausWg::paivitaVaroitukset() const
