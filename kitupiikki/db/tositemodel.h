@@ -49,6 +49,9 @@ public:
     QString otsikko() const { return otsikko_; }
     QString kommentti() const { return kommentti_; }
 
+    QDateTime luontiAika() const { return luotu_; }
+    QDateTime muokattuAika() const { return muokattuAika_; }
+
     int tunniste() const { return tunniste_; }
     Tositelaji tositelaji() const;
 
@@ -133,6 +136,8 @@ protected:
     int tunniste_;
     int tositelaji_;
     int tiliotetili_;
+    QDateTime luotu_;
+    QDateTime muokattuAika_;
 
     JsonKentta json_;
 

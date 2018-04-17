@@ -59,7 +59,7 @@ PdfIkkuna::PdfIkkuna(const QByteArray &pdfdata,  QWidget *parent) :
 
     QToolBar *tb = addToolBar(tr("Pdf"));
     tb->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-//    tb->addAction(QIcon(":/pic/peru.png"), tr("Sulje"), this, SLOT(close()));
+    tb->addAction(QIcon(":/pic/peru.png"), tr("Sulje"), this, SLOT(close()));
     tb->addAction(QIcon(":/pic/pdf.png"), tr("Avaa"), this, SLOT(avaaOhjelmalla()));
     tb->addAction(QIcon(":/pic/tulosta.png"), tr("Tulosta"), this, SLOT(tulosta()));
 

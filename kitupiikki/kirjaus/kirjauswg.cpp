@@ -681,6 +681,11 @@ void KirjausWg::tiedotModelista()
         ui->tilioteloppuenEdit->setDate( model_->json()->date("TilioteLoppuu"));
     }
     paivitaVaroitukset();
+
+    ui->tunnisteLabel->setText( QString("%1").arg( model_->id(), 8, 10, QChar('0') ) );
+    ui->luotuLabel->setText( model_->luontiAika().toString("dd.MM.yyyy hh.mm.ss") );
+    ui->muokattuLabel->setText( model_->muokattuAika().toString("dd.MM.yyyy hh.mm.ss"));
+
 }
 
 void KirjausWg::salliMuokkaus(bool sallitaanko)

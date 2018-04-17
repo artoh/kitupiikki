@@ -163,7 +163,7 @@ void TositeModel::lataa(int id)
 
     QSqlQuery kysely(*tietokanta_);
     kysely.exec( QString("SELECT pvm, otsikko, kommentti, tunniste,"
-                              "laji, tiliote, json FROM tosite "
+                              "laji, tiliote, json, luotu, muokattu FROM tosite "
                               "WHERE id = %1").arg(id));
     if( kysely.next())
     {
@@ -175,6 +175,8 @@ void TositeModel::lataa(int id)
         tositelaji_ = kysely.value("laji").toInt();
         tiliotetili_ = kysely.value("tiliote").toInt();
         json_.fromJson( kysely.value("json").toByteArray());
+        luotu_ = kysely.value("luotu").toDateTime();
+        muokattuAika_ = kysely.value("muokattu").toDateTime();
 
         vientiModel_->lataa();
         liiteModel_->lataa();
@@ -229,6 +231,7 @@ bool TositeModel::tallenna()
                        "VALUES(:pvm, :otsikko, :kommentti, :tunniste, :laji, :tiliote, :json, :luotu, :muokattu)");
 
         kysely.bindValue(":luotu", QDateTime::currentDateTime());
+        luotu_ = QDateTime::currentDateTime();
     }
     kysely.bindValue(":pvm", pvm());
     kysely.bindValue(":otsikko", otsikko());
@@ -275,6 +278,13 @@ bool TositeModel::tallenna()
 
     emit kp()->kirjanpitoaMuokattu();
     muokattu_ = false;
+    muokattuAika_ = QDateTime::currentDateTime();
+
+    // Tallennetaan vielä tosite varmuuden vuoksi pdf-muotoon
+    QFile out( kp()->hakemisto().absoluteFilePath( QString("liitteet/%1.pdf").arg( id(), 8, 10, QChar('0') )  ) );
+    out.open(QIODevice::WriteOnly);
+    out.write( tuloste().pdf(false, true) );
+    out.close();
 
     emit tositettaMuokattu(false);
 
@@ -344,7 +354,7 @@ RaportinKirjoittaja TositeModel::tuloste()
             rr.lisaa( index.data(VientiModel::PvmRooli).toDate() );
             rr.lisaa( index.sibling(vientiRivi, VientiModel::TILI).data().toString());
             rr.lisaa( index.sibling(vientiRivi, VientiModel::KOHDENNUS).data().toString() );
-            rr.lisaa( index.data(VientiModel::SeliteRooli).toString() );
+            rr.lisaa( index.sibling(vientiRivi, VientiModel::SELITE).data().toString() );
             rr.lisaa( index.data(VientiModel::DebetRooli).toLongLong());
             rr.lisaa( index.data(VientiModel::KreditRooli).toLongLong());
 
