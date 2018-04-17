@@ -306,7 +306,15 @@ bool TositeModel::poista()
     kysely.exec(QString("DELETE FROM liite WHERE tosite=%1").arg( id() ));
     kysely.exec(QString("DELETE FROM tosite WHERE id=%1").arg( id()) );
 
-    return tietokanta()->commit();
+    if( tietokanta()->commit())
+    {
+        emit kp()->kirjanpitoaMuokattu();
+        return true;
+    }
+    else
+        return false;
+
+
 }
 
 RaportinKirjoittaja TositeModel::tuloste()

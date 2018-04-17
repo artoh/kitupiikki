@@ -50,6 +50,7 @@ public:
 public slots:
     void uusiLasku();
     void hyvitysLasku();
+    void tosite();
 
     void paivita();
     void suodata();

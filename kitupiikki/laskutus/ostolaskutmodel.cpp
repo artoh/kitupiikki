@@ -16,6 +16,7 @@
 */
 
 #include <QSqlQuery>
+#include <QDebug>
 
 #include "db/eranvalintamodel.h"
 #include "ostolaskutmodel.h"
@@ -29,14 +30,17 @@ OstolaskutModel::OstolaskutModel(QObject *parent)
 QVariant OstolaskutModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if( role == Qt::DisplayRole && orientation == Qt::Horizontal && section == ASIAKAS)
-        return tr("Laskuttaja");
+        return tr("Laskuttaja Selite");
     return LaskutModel::headerData(section, orientation, role);
 }
 
 void OstolaskutModel::lataaAvoimet()
 {
-    QString kysely = QString("SELECT id, pvm, tili, debetsnt, kreditsnt, eraid, viite, erapvm, json, tosite, asiakas, laskupvm, kohdennus FROM vienti "
-                     "WHERE viite IS NOT NULL AND iban IS NOT NULL");
+    QString kysely = QString("SELECT vienti.id, pvm, tili, debetsnt, kreditsnt, eraid, viite, erapvm, vienti.json as json, tosite, asiakas, laskupvm, kohdennus, selite FROM vienti,tili "
+                     "WHERE vienti.tili=tili.id AND ((viite IS NOT NULL AND iban IS NOT NULL) OR tili.tyyppi='BO' )");
+
+
+    qDebug() << kysely;
 
     beginResetModel();
     laskut.clear();
@@ -59,7 +63,12 @@ void OstolaskutModel::lataaAvoimet()
         lasku.eraId = query.value("eraid").toInt();
         lasku.summaSnt = query.value("kreditSnt").toInt() -  query.value("debetSnt").toInt();
         lasku.avoinSnt = 0 - era.saldoSnt;
+
         lasku.asiakas = query.value("asiakas").toString();
+        if( lasku.asiakas.length())
+            lasku.asiakas.append(" ");
+        lasku.asiakas.append( query.value("selite").toString());
+
         lasku.tosite = query.value("tosite").toInt();
         lasku.kirjausperuste =  json.luku("Kirjausperuste");
         lasku.tiliid = query.value("tili").toInt();

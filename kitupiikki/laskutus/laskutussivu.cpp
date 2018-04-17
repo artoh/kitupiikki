@@ -30,6 +30,7 @@
 
 #include "kirjaus/eurodelegaatti.h"
 #include "db/kirjanpito.h"
+#include "lisaikkuna.h"
 
 LaskutusSivu::LaskutusSivu() :
     ui(new Ui::Laskutus)
@@ -48,6 +49,7 @@ LaskutusSivu::LaskutusSivu() :
     connect(ui->suodatusTab, SIGNAL(currentChanged(int)), this, SLOT(paivita()));
     connect( kp(), SIGNAL(kirjanpitoaMuokattu()), this, SLOT(paivita()));
     connect(ui->naytaNappi, SIGNAL(clicked(bool)), this, SLOT(nayta()));
+    connect(ui->tositeNappi, SIGNAL(clicked(bool)), this, SLOT(tosite()));
     connect(ui->hyvitysNappi, SIGNAL(clicked(bool)), this, SLOT(hyvitysLasku()));
 
     model = new LaskutModel(this);
@@ -107,6 +109,14 @@ void LaskutusSivu::hyvitysLasku()
 
 }
 
+void LaskutusSivu::tosite()
+{
+    QModelIndex index =  ui->laskutView->currentIndex();
+    int tosite = index.data(LaskutModel::TositeRooli).toInt();
+    LisaIkkuna *ikkuna = new LisaIkkuna;
+    ikkuna->kirjaa(tosite);
+}
+
 void LaskutusSivu::paivita()
 {
     model->paivita( ui->suodatusTab->currentIndex(), ui->mistaDate->date(), ui->mihinDate->date() );
@@ -137,6 +147,7 @@ void LaskutusSivu::nayta()
 void LaskutusSivu::valintaMuuttuu()
 {
     ui->naytaNappi->setEnabled( ui->laskutView->currentIndex().isValid());
+    ui->tositeNappi->setEnabled( ui->laskutView->currentIndex().isValid());
     ui->hyvitysNappi->setEnabled( ui->laskutView->currentIndex().isValid() &&
                                   !ui->laskutView->currentIndex().data(LaskutModel::HyvitysLaskuRooli).toInt());
 }

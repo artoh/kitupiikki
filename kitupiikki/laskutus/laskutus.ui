@@ -65,6 +65,17 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="tositeNappi">
+       <property name="text">
+        <string>Tosite</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/tekstisivu.png</normaloff>:/pic/tekstisivu.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="hyvitysNappi">
        <property name="text">
         <string>Hyvityslasku</string>
