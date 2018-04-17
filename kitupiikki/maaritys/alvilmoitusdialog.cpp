@@ -400,18 +400,11 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         ehdotus.tallenna( model.vientiModel() );
 
         // Liitetään laskelma
-        QPrinter printer;
-        QString tpnimi = kp()->tilapainen("alv-XXXX.pdf");
+        model.liiteModel()->lisaaPdf( kirjoittaja->pdf(false, false), tr("Alv-laskelma") );
 
-        printer.setPageSize(QPrinter::A4);
-        printer.setOutputFileName( tpnimi );
+        // Laskelman erittely liitetään myös ...
+        model.liiteModel()->lisaaPdf( erittely(alkupvm, loppupvm).pdf(false, false), tr("Alv-erittely") );
 
-        QPainter painter(&printer);
-
-        kirjoittaja->tulosta(&printer, &painter);
-        painter.end();
-
-        model.liiteModel()->lisaaTiedosto( tpnimi , tr("Alv-laskelma"));
 
         if( !model.tallenna() )
         {
@@ -420,17 +413,6 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
                                      "tietokantavirheen takia: %1").arg( kp()->tietokanta()->lastError().text() ));
             return false;
         }
-
-        // Laskelman erittely liitetään myös ...
-        QString erinimi = kp()->tilapainen("alv-XXXX.pdf");
-
-        printer.setOutputFileName(erinimi);
-        painter.begin(&printer);
-        erittely(alkupvm,loppupvm).tulosta(&printer, &painter);
-        painter.end();
-
-        model.liiteModel()->lisaaTiedosto( erinimi, tr("Alv-erittely"));
-        model.tallenna();
 
         return true;
     }

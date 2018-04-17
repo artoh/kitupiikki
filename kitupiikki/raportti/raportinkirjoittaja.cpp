@@ -396,7 +396,7 @@ QString RaportinKirjoittaja::html(bool linkit)
     return txt;
 }
 
-QByteArray RaportinKirjoittaja::pdf(bool taustaraidat)
+QByteArray RaportinKirjoittaja::pdf(bool taustaraidat, bool tulostaA4)
 {
     QByteArray array;
     QBuffer buffer(&array);
@@ -406,7 +406,11 @@ QByteArray RaportinKirjoittaja::pdf(bool taustaraidat)
     writer.setCreator( QString("Kitupiikki %1").arg( qApp->applicationVersion() ) );
     writer.setTitle( otsikko() );
 
-    writer.setPageLayout( kp()->printer()->pageLayout() );
+    if( tulostaA4 )
+        writer.setPageSize( QPdfWriter::A4 );
+    else
+        writer.setPageLayout( kp()->printer()->pageLayout() );
+
     QPainter painter( &writer );
 
     tulosta( &writer, &painter, taustaraidat );

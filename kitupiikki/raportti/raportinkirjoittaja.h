@@ -136,10 +136,12 @@ public:
     QString html(bool linkit=false);
 
     /**
-     * @brief Palauttaa pdf-raportin QByteArrayna
+     * @brief pdf Raportti pdf-muodossa
+     * @param taustaraidat Tulosta taustaraidat
+     * @param kaytaA4 Tulostaa asetuksista riippumatta A4
      * @return
      */
-    QByteArray pdf(bool taustaraidat = false);
+    QByteArray pdf(bool taustaraidat = false, bool kaytaA4 = false);
 
     /**
      * @brief Palauttaa raportin csv-muodossa
