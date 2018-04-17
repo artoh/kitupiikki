@@ -83,8 +83,6 @@ protected:
 
     QToolBar *tilinpaatosTb_;
 
-    QPrinter printer_;
-
     QString raportit_;
 };
 

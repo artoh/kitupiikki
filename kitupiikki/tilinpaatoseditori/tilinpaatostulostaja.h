@@ -29,8 +29,7 @@ class TilinpaatosTulostaja
 {
 public:
 
-    static bool tulostaTilinpaatos(Tilikausi tilikausi, QString teksti,
-                                  QPrinter *printer);
+    static bool tulostaTilinpaatos(Tilikausi tilikausi, QString teksti);
 private:
     static void tulostaKansilehti(Tilikausi tilikausi, QPainter *painter);
 

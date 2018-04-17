@@ -28,16 +28,13 @@
 
 TilinpaatosEditori::TilinpaatosEditori(Tilikausi tilikausi, QWidget *parent)
     : QMainWindow(parent),
-      tilikausi_(tilikausi),
-      printer_( QPrinter::HighResolution)
+      tilikausi_(tilikausi)
 {
     editori_ = new MRichTextEdit;
     setCentralWidget( editori_);
     setWindowTitle( tr("Tilinpäätöksen liitetiedot %1").arg(tilikausi.kausivaliTekstina()));
 
     setWindowIcon( QIcon(":/pic/Possu64.png"));
-
-    printer_.setPageMargins( 25,10,10,10, QPrinter::Millimeter);
 
     luoAktiot();
     luoPalkit();
@@ -236,7 +233,7 @@ void TilinpaatosEditori::tallenna()
     kp()->tilikaudet()->json(tilikausi_)->set("TilinpaatosTeksti", teksti);
     kp()->tilikaudet()->tallennaJSON();
 
-    TilinpaatosTulostaja::tulostaTilinpaatos( tilikausi_, teksti , &printer_);
+    TilinpaatosTulostaja::tulostaTilinpaatos( tilikausi_, teksti);
 
     emit tallennettu();
 }

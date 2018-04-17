@@ -18,6 +18,9 @@
 #include <QDesktopServices>
 #include <QFile>
 #include <QPainter>
+
+#include <QPdfWriter>
+
 #include <QTextDocument>
 #include <QAbstractTextDocumentLayout>
 
@@ -26,21 +29,28 @@
 #include <QRegularExpressionMatchIterator>
 
 #include <QDebug>
+#include <QApplication>
 
 #include "tilinpaatostulostaja.h"
 #include "db/kirjanpito.h"
 
 #include "raportti/raportoija.h"
 
-bool TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, QString teksti, QPrinter *printer)
+bool TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, QString teksti)
 {
     QString tiedosto =  kp()->hakemisto().absoluteFilePath("arkisto/" + tilikausi.arkistoHakemistoNimi() + "/tilinpaatos.pdf" );
     if( QFile::exists(tiedosto))
             QFile(tiedosto).remove();
 
-    // Pdf-tiedoston nimi
-    printer->setOutputFileName( tiedosto );
-    QPainter painter( printer );
+    QPdfWriter writer( tiedosto );
+    writer.setPageSize( QPdfWriter::A4);
+
+    writer.setPageMargins( QMarginsF(25,10,10,10), QPageLayout::Millimeter );
+    QPainter painter( &writer );
+
+
+    writer.setCreator( QString("%1 %2").arg(qApp->applicationName()).arg(qApp->applicationVersion()) );
+    writer.setTitle( Kirjanpito::tr("Tilinpäätös %1").arg(tilikausi.kausivaliTekstina()) );
 
     tulostaKansilehti( tilikausi, &painter);
     int sivulla = 1;
@@ -80,12 +90,12 @@ bool TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, QString tekst
 
         }
 
-        printer->newPage();
+        writer.newPage();
 
         RaportinKirjoittaja kirjoittaja = raportoija.raportti( mats.captured("erotin") == "*" );
         kirjoittaja.asetaOtsikko( otsikko );
         kirjoittaja.asetaKausiteksti( tilikausi.kausivaliTekstina() );
-        sivulla += kirjoittaja.tulosta(printer, &painter, false, sivulla);
+        sivulla += kirjoittaja.tulosta(&writer, &painter, false, sivulla);
     }
 
     // Liitetiedot, allekirjoitukset yms
@@ -96,10 +106,11 @@ bool TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, QString tekst
     kirjoittaja.asetaKausiteksti( tilikausi.kausivaliTekstina());
 
     QTextDocument doc;
-    // Sivutetaan niin, että ylätunniste mahtuu
-    QSize sivunkoko( printer->pageRect().width(), printer->pageRect().height() - rivinkorkeus * 4 );
+    // Sivutetaan niin, että ylätunniste mahtuu    
 
-    doc.documentLayout()->setPaintDevice( painter.device());
+    QSizeF sivunkoko( painter.viewport().width()  ,  painter.viewport().height() - rivinkorkeus * 4 );
+
+    doc.documentLayout()->setPaintDevice( painter.device() );
     doc.setPageSize( sivunkoko );
     doc.setHtml( teksti.mid(teksti.indexOf('\n')+1) );
 
@@ -107,7 +118,7 @@ bool TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, QString tekst
     int pages = doc.size().height() / sivunkoko.height() + 1;
     for( int i=0; i < pages; i++)
     {
-        printer->newPage();
+        writer.newPage();
         painter.save();
         kirjoittaja.tulostaYlatunniste( &painter, sivulla);
         painter.drawLine(0,0,sivunkoko.width(),0);
