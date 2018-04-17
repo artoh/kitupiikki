@@ -21,6 +21,8 @@
 #include <QBuffer>
 #include <QPdfWriter>
 #include <QApplication>
+#include <QMessageBox>
+#include <QSqlError>
 
 #include <QDebug>
 #include <QSqlError>
@@ -547,7 +549,11 @@ bool LaskuModel::tallenna(Tili rahatili)
     raharivi.json.set("Liite", liitenro);
 
     viennit->lisaaVienti(raharivi);
-    tosite.tallenna();
+    if( !tosite.tallenna() )
+    {
+        return false;
+    }
+
 
     kp()->asetukset()->aseta("LaskuSeuraavaId", laskunro() );
 

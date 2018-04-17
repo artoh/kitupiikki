@@ -46,6 +46,7 @@ LaskutusSivu::LaskutusSivu() :
 
     connect(ui->uusiNappi, SIGNAL(clicked(bool)), this, SLOT(uusiLasku()) );
     connect(ui->suodatusTab, SIGNAL(currentChanged(int)), this, SLOT(paivita()));
+    connect( kp(), SIGNAL(kirjanpitoaMuokattu()), this, SLOT(paivita()));
     connect(ui->naytaNappi, SIGNAL(clicked(bool)), this, SLOT(nayta()));
     connect(ui->hyvitysNappi, SIGNAL(clicked(bool)), this, SLOT(hyvitysLasku()));
 
@@ -90,9 +91,7 @@ bool LaskutusSivu::poistuSivulta(int /* minne */)
 void LaskutusSivu::uusiLasku()
 {
     LaskuDialogi *dlg = new LaskuDialogi(this);
-    dlg->exec();
-    paivita();
-    dlg->deleteLater();
+    dlg->show();
 }
 
 void LaskutusSivu::hyvitysLasku()

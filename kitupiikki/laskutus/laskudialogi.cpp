@@ -52,6 +52,8 @@ LaskuDialogi::LaskuDialogi(QWidget *parent, AvoinLasku hyvitettavaLasku) :
     QDialog(parent),
     ui(new Ui::LaskuDialogi)
 {
+    setAttribute(Qt::WA_DeleteOnClose);
+
     ui->setupUi(this);
 
     ui->perusteCombo->addItem(QIcon(":/pic/suorite.png"), tr("Suoriteperusteinen"), LaskuModel::SUORITEPERUSTE);
@@ -247,8 +249,10 @@ void LaskuDialogi::vieMalliin()
 void LaskuDialogi::accept()
 {
     vieMalliin();
-    model->tallenna(kp()->tilit()->tiliNumerolla( ui->rahaTiliEdit->valittuTilinumero() ));
-    QDialog::accept();
+    if( model->tallenna(kp()->tilit()->tiliNumerolla( ui->rahaTiliEdit->valittuTilinumero() )) )
+        QDialog::accept();
+    else
+        QMessageBox::critical(this, tr("Virhe laskun tallentamisessa"), tr("Laskun tallentaminen epäonnistui"));
 
 }
 

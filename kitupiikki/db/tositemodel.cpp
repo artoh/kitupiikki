@@ -255,6 +255,7 @@ bool TositeModel::tallenna()
     if( !kysely.exec() )
     {
         tietokanta()->rollback();
+        qDebug() << kysely.lastQuery() << kysely.lastError().text();
         return false;
     }
 
@@ -265,6 +266,7 @@ bool TositeModel::tallenna()
     if( !vientiModel_->tallenna() || !liiteModel_->tallenna() )
     {
         // Tallennuksessa virheitä, perutaan ja palautetaan virhe
+        qDebug() << tietokanta()->lastError().text();
         tietokanta()->rollback();
         return false;
     }
