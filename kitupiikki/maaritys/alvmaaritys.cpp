@@ -27,6 +27,7 @@
 #include "alvilmoitusdialog.h"
 #include "ui_maksuperusteinen.h"
 
+#include "tools/pdfikkuna.h"
 
 AlvMaaritys::AlvMaaritys() :
     ui(new Ui::AlvMaaritys)
@@ -112,11 +113,7 @@ void AlvMaaritys::naytaIlmoitus()
     // Ilmoitus on tositteen ensimmäinen liite
     int tositeId = model->data( ui->ilmoituksetView->selectionModel()->currentIndex() , AlvIlmoitustenModel::TositeIdRooli ).toInt();
 
-    TositeModel tosite( kp()->tietokanta());
-    tosite.lataa(tositeId);
-    QString polku = tosite.liiteModel()->liitePolku(1);
-    Kirjanpito::avaaUrl(  QUrl( polku ) );
-
+    PdfIkkuna::naytaLiite(tositeId, 1);
 
 }
 
@@ -125,10 +122,7 @@ void AlvMaaritys::naytaErittely()
     // Erittely on tositteen toinen liite
     int tositeId = model->data( ui->ilmoituksetView->selectionModel()->currentIndex() , AlvIlmoitustenModel::TositeIdRooli ).toInt();
 
-    TositeModel tosite( kp()->tietokanta());
-    tosite.lataa(tositeId);
-    QString polku = tosite.liiteModel()->liitePolku(2);
-    Kirjanpito::avaaUrl( QUrl( polku ) );
+    PdfIkkuna::naytaLiite(tositeId, 2);
 }
 
 void AlvMaaritys::riviValittu()

@@ -21,7 +21,10 @@
 #include <QFont>
 #include <QPixmap>
 #include <QSettings>
+#include <QApplication>
 #include "raportinkirjoittaja.h"
+
+#include <QPdfWriter>
 
 #include "db/kirjanpito.h"
 
@@ -90,7 +93,7 @@ void RaportinKirjoittaja::lisaaTyhjaRivi()
             rivit_.append( RaporttiRivi());
 }
 
-int RaportinKirjoittaja::tulosta(QPrinter *printer, QPainter *painter, bool raidoita, int alkusivunumero)
+int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, bool raidoita, int alkusivunumero)
 {
     if( rivit_.isEmpty())
         return 0;     // Ei tulostettavaa !
@@ -391,6 +394,26 @@ QString RaportinKirjoittaja::html(bool linkit)
     txt.append("</p></body></html>\n");
 
     return txt;
+}
+
+QByteArray RaportinKirjoittaja::pdf(bool taustaraidat)
+{
+    QByteArray array;
+    QBuffer buffer(&array);
+    buffer.open(QIODevice::WriteOnly);
+
+    QPdfWriter writer(&buffer);
+    writer.setCreator( QString("Kitupiikki %1").arg( qApp->applicationVersion() ) );
+    writer.setTitle( otsikko() );
+
+    writer.setPageLayout( kp()->printer()->pageLayout() );
+    QPainter painter( &writer );
+
+    tulosta( &writer, &painter, taustaraidat );
+    painter.end();
+
+    return array;
+
 }
 
 QByteArray RaportinKirjoittaja::csv()

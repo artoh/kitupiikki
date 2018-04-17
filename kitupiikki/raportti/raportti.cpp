@@ -28,6 +28,8 @@
 #include <QTextStream>
 #include <QMessageBox>
 
+#include <QPdfWriter>
+
 #include <QCheckBox>
 #include <QPushButton>
 
@@ -47,6 +49,8 @@
 #include <QSettings>
 #include <QDialog>
 #include "ui_csvvientivalinnat.h"
+
+#include "tools/pdfikkuna.h"
 
 
 Raportti::Raportti(bool csv, QWidget *parent) : QWidget(parent)
@@ -109,19 +113,7 @@ void Raportti::tulosta()
 
 void Raportti::esikatsele()
 {
-    QString tiedosto =  kp()->tilapainen( "raportti-XXXX.pdf" );
-
-    // #88: Käytetään pdf:n luomisessakin tulostusasetuksia, jotta saadaan vaakaan taikka isompaan
-    // paperikokoon
-    QPrinter tulostin( QPrinter::HighResolution);
-    tulostin.setPageLayout( kp()->printer()->pageLayout() );
-
-    tulostin.setOutputFileName( tiedosto );
-    QPainter painter( &tulostin );
-    raportti().tulosta( &tulostin, &painter, raitaCheck->isChecked());
-    painter.end();
-
-    Kirjanpito::avaaUrl( QUrl(tiedosto) );
+    PdfIkkuna::naytaPdf( raportti().pdf( raitaCheck->isChecked() ) );
 }
 
 void Raportti::avaaHtml()

@@ -127,13 +127,19 @@ public:
      * @param alkusivunumero Ensimmäisen tulostettavan sivun numero. Jos 0 ei tulosteta sivunumeroita.
      * @return sivuja tulostettu
      */
-    int tulosta(QPrinter *printer, QPainter *painter, bool raidoita = false, int alkusivunumero = 1);
+    int tulosta(QPagedPaintDevice *printer, QPainter *painter, bool raidoita = false, int alkusivunumero = 1);
 
     /**
      * @brief Palauttaa raportin html-muodossa
      * @return
      */
     QString html(bool linkit=false);
+
+    /**
+     * @brief Palauttaa pdf-raportin QByteArrayna
+     * @return
+     */
+    QByteArray pdf(bool taustaraidat = false);
 
     /**
      * @brief Palauttaa raportin csv-muodossa
