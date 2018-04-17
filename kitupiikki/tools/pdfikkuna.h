@@ -20,6 +20,9 @@
 
 #include <QMainWindow>
 
+class QGraphicsScene;
+class QGraphicsView;
+
 /**
  * @brief Ikkuna pdf-tiedostojen näyttämiseen
  */
@@ -27,11 +30,14 @@ class PdfIkkuna : public QMainWindow
 {
     Q_OBJECT
 public:
-    explicit PdfIkkuna(QWidget *parent = nullptr);
+    PdfIkkuna(const QByteArray &pdfdata, QWidget *parent = nullptr);
+    ~PdfIkkuna();
 
 signals:
 
 public slots:
+    void tulosta();
+    void avaaOhjelmalla();
 
 public:
     /**
@@ -43,6 +49,16 @@ public:
     static void naytaLiite(const int tositeId, const int liiteId=1);
 
     static void naytaPdf(const QString& tiedostonnimi);
+
+protected:
+    void resizeEvent(QResizeEvent *event);
+
+    QGraphicsScene *scene;
+    QGraphicsView *view;
+
+    QByteArray data;
+
+    double leveys = 0.0;
 };
 
 #endif // PDFIKKUNA_H
