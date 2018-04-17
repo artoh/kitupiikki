@@ -459,7 +459,10 @@ void Raportoija::laskeTaseDate()
 
             int kertymaTilinYsiluku = kp()->tilit()->edellistenYlijaamaTili().ysivertailuluku();
             if( kertymaTilinYsiluku )
+            {
                 data_[i][ kertymaTilinYsiluku] = edYlijaama + data_[i].value( kertymaTilinYsiluku, 0);
+                tilitKaytossa_.insert(kertymaTilinYsiluku, true);
+            }
 
         }
 
@@ -475,7 +478,10 @@ void Raportoija::laskeTaseDate()
             qlonglong kredit = query.value(1).toLongLong();
             data_[i].insert(0, kredit - debet);
             if( kp()->tilit()->tiliTyypilla(TiliLaji::KAUDENTULOS).onkoValidi())
+            {
                 data_[i].insert(kp()->tilit()->tiliTyypilla(TiliLaji::KAUDENTULOS).ysivertailuluku(), kredit - debet);
+                tilitKaytossa_.insert(kp()->tilit()->tiliTyypilla(TiliLaji::KAUDENTULOS).ysivertailuluku(), true  );
+            }
         }
 
     }

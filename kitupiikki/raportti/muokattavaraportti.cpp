@@ -43,7 +43,10 @@ MuokattavaRaportti::MuokattavaRaportti(const QString &raporttinimi)
         {
             ui->muotoCombo->addItem( muoto.mid(muoto.lastIndexOf(QChar('/'))+1) , muoto.mid(9) );
         }
-        ui->muotoCombo->setCurrentIndex( ui->muotoCombo->findText("Yleinen") );
+
+        // Oletuksena monesta muodosta valittuna Yleinen
+        if( ui->muotoCombo->findText("Yleinen") > -1)
+            ui->muotoCombo->setCurrentIndex( ui->muotoCombo->findText("Yleinen") );
 
         connect( ui->muotoCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(paivitaUi()));
     }
