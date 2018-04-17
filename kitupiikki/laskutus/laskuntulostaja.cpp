@@ -18,6 +18,9 @@
 #include <QDebug>
 #include <cmath>
 #include <QSvgRenderer>
+#include <QPdfWriter>
+
+#include <QApplication>
 
 #include "laskuntulostaja.h"
 #include "db/kirjanpito.h"
@@ -61,14 +64,20 @@ bool LaskunTulostaja::tulosta(QPagedPaintDevice *printer)
     return true;
 }
 
-bool LaskunTulostaja::kirjoitaPdf(QString tiedostonnimi)
+QByteArray LaskunTulostaja::pdf()
 {
-    QPrinter printer;
-    printer.setPaperSize(QPrinter::A4);
-    printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setOutputFileName( tiedostonnimi );
-    tulosta(&printer);
-    return true;
+    QByteArray array;
+    QBuffer buffer(&array);
+    buffer.open(QIODevice::WriteOnly);
+
+    QPdfWriter writer(&buffer);
+    writer.setCreator(QString("%1 %2").arg( qApp->applicationName() ).arg( qApp->applicationVersion() ));
+    writer.setTitle( tr("Lasku %1").arg(model_->laskunro()));
+    tulosta(&writer);
+
+    buffer.close();
+
+    return array;
 }
 
 QString LaskunTulostaja::html()

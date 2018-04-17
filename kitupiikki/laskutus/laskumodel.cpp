@@ -350,21 +350,9 @@ bool LaskuModel::tallenna(Tili rahatili)
     // Luo tilapäisen pdf-tiedoston
 
     QString liiteOtsikko = tr("Lasku nr %1").arg(laskunro());
-
-    QByteArray liiteArray;
-    QBuffer buffer(&liiteArray);
-    buffer.open(QBuffer::WriteOnly);
-
-    QPdfWriter writer(&buffer);
-    writer.setCreator(QString("Kitupiikki %1").arg( qApp->applicationVersion() ));
-    writer.setPageSize(QPageSize(QPageSize::A4));
-    writer.setTitle( liiteOtsikko );
-
     LaskunTulostaja tulostaja(this);
-    tulostaja.tulosta(&writer);
-    buffer.close();
 
-    int liitenro = tosite.liiteModel()->lisaaPdf( liiteArray, liiteOtsikko );
+    int liitenro = tosite.liiteModel()->lisaaPdf( tulostaja.pdf(), liiteOtsikko );
 
 
     // #96 Laskun kirjaaminen yhdistelmäriveillä

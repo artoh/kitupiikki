@@ -46,6 +46,7 @@
 #include "kirjaus/tilidelegaatti.h"
 
 #include "kirjaus/verodialogi.h"
+#include "tools/pdfikkuna.h"
 
 LaskuDialogi::LaskuDialogi(QWidget *parent, AvoinLasku hyvitettavaLasku) :
     QDialog(parent),
@@ -171,12 +172,7 @@ void LaskuDialogi::esikatsele()
 {
     vieMalliin();
 
-    // Luo tilapäisen pdf-tiedoston
-    QString tiedosto = kp()->tilapainen( "lasku-XXXX.pdf" );
-
-    tulostaja->kirjoitaPdf(tiedosto);
-
-    Kirjanpito::avaaUrl( QUrl(tiedosto) );
+    PdfIkkuna::naytaPdf( tulostaja->pdf() );
 }
 
 void LaskuDialogi::perusteVaihtuu()
@@ -326,7 +322,10 @@ void LaskuDialogi::lahetaSahkopostilla()
 
     // Luo tilapäisen pdf-tiedoston
     QString tpnimi = kp()->tilapainen("lasku-XXXX.pdf");
-    tulostaja->kirjoitaPdf(tpnimi);
+    QFile tiedosto(tpnimi);
+    tiedosto.open(QIODevice::WriteOnly);
+    tiedosto.write( tulostaja->pdf() );
+    tiedosto.close();
 
     QString kenelta = QString("\"%1\" <%2>").arg(kp()->asetukset()->asetus("EmailNimi"))
                                                 .arg(kp()->asetukset()->asetus("EmailOsoite"));

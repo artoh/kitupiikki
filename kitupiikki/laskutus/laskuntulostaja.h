@@ -51,9 +51,11 @@ signals:
 
 public slots:
     bool tulosta(QPagedPaintDevice *printer);
-    bool kirjoitaPdf(QString tiedostonnimi);
+
 
 public:
+    QByteArray pdf();
+
     QString html();
 
     QString virtuaaliviivakoodi() const;
