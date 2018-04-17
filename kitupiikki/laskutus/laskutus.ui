@@ -90,6 +90,17 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="poistaNappi">
+       <property name="text">
+        <string>Poista</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/roskis.png</normaloff>:/pic/roskis.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>

@@ -249,6 +249,14 @@ void LaskuDialogi::vieMalliin()
 void LaskuDialogi::accept()
 {
     vieMalliin();
+
+    if( model->pvm().isValid() && ( model->pvm() <= kp()->tilitpaatetty() || model->pvm() > kp()->tilikaudet()->kirjanpitoLoppuu() ))
+    {
+        QMessageBox::critical(this, tr("Kirjanpito on lukittu"),
+                              tr("Laskun päivämäärälle %1 ei ole avointa tilikautta. Laskua ei voi tallentaa.").arg( model->pvm().toString("dd.MM.yyyy") ));
+        return;
+    }
+
     if( model->tallenna(kp()->tilit()->tiliNumerolla( ui->rahaTiliEdit->valittuTilinumero() )) )
         QDialog::accept();
     else

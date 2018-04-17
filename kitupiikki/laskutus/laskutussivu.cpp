@@ -29,6 +29,7 @@
 #include "tools/pdfikkuna.h"
 
 #include "kirjaus/eurodelegaatti.h"
+#include "db/tositemodel.h"
 #include "db/kirjanpito.h"
 #include "lisaikkuna.h"
 
@@ -51,6 +52,7 @@ LaskutusSivu::LaskutusSivu() :
     connect(ui->naytaNappi, SIGNAL(clicked(bool)), this, SLOT(nayta()));
     connect(ui->tositeNappi, SIGNAL(clicked(bool)), this, SLOT(tosite()));
     connect(ui->hyvitysNappi, SIGNAL(clicked(bool)), this, SLOT(hyvitysLasku()));
+    connect(ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poista()));
 
     model = new LaskutModel(this);
     proxy = new QSortFilterProxyModel(this);
@@ -117,6 +119,35 @@ void LaskutusSivu::tosite()
     ikkuna->kirjaa(tosite);
 }
 
+void LaskutusSivu::poista()
+{
+
+    QModelIndex index =  ui->laskutView->currentIndex();
+    int tositeId = index.data(LaskutModel::TositeRooli).toInt();
+
+    TositeModel tosite( kp()->tietokanta() );
+    tosite.lataa(tositeId);
+
+    if( !tosite.muokkausSallittu() )
+    {
+        QMessageBox::critical(0, tr("Tositetta ei saa poistaa"),
+                              tr("Tositteen muokkaaminen on kielletty"));
+        return;
+    }
+
+
+    if( QMessageBox::question(0, tr("Vahvista laskun poistaminen"),
+                              tr("Haluatko varmasti poistaa laskun %1 asiakkaalle %2")
+                              .arg(index.data(LaskutModel::ViiteRooli).toString())
+                              .arg(index.data(LaskutModel::AsiakasRooli).toString()),
+                              QMessageBox::Yes | QMessageBox::No,
+                              QMessageBox::No) != QMessageBox::Yes)
+        return;
+
+    tosite.poista();
+
+}
+
 void LaskutusSivu::paivita()
 {
     model->paivita( ui->suodatusTab->currentIndex(), ui->mistaDate->date(), ui->mihinDate->date() );
@@ -148,6 +179,7 @@ void LaskutusSivu::valintaMuuttuu()
 {
     ui->naytaNappi->setEnabled( ui->laskutView->currentIndex().isValid());
     ui->tositeNappi->setEnabled( ui->laskutView->currentIndex().isValid());
+    ui->poistaNappi->setEnabled( ui->laskutView->currentIndex().isValid());
     ui->hyvitysNappi->setEnabled( ui->laskutView->currentIndex().isValid() &&
                                   !ui->laskutView->currentIndex().data(LaskutModel::HyvitysLaskuRooli).toInt());
 }
