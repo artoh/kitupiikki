@@ -276,8 +276,8 @@ bool LiiteModel::tallenna()
 
                 liitteet_[i].sha = QCryptographicHash::hash( liitteet_.at(i).pdf, QCryptographicHash::Sha256).toHex();
 
-                kysely.prepare("INSERT INTO liite(liiteno, tosite, otsikko, peukku, sha, data) "
-                               "VALUES(:liiteno, :tosite, :otsikko, :peukku, :sha, :data)");
+                kysely.prepare("INSERT INTO liite(liiteno, tosite, otsikko, peukku, sha, data, liitetty) "
+                               "VALUES(:liiteno, :tosite, :otsikko, :peukku, :sha, :data, :liitetty)");
 
                 kysely.bindValue(":liiteno", liitteet_.at(i).liiteno);
                 kysely.bindValue(":tosite", tositeModel_->id());
@@ -285,6 +285,7 @@ bool LiiteModel::tallenna()
                 kysely.bindValue(":peukku", liitteet_.at(i).thumbnail);
                 kysely.bindValue(":otsikko", liitteet_[i].otsikko);
                 kysely.bindValue(":data", liitteet_.at(i).pdf);
+                kysely.bindValue(":liitetty", QDateTime::currentDateTime());
 
                 if( !kysely.exec() )
                     return false;
