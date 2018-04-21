@@ -464,8 +464,10 @@ void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
     out << "<li><a href=tililuettelo.html>Tililuettelo</a></li>";
     out << "</ul><h3>Raportit</h3><ul>";
 
-    QStringList raportit;
-    raportit = kp()->asetukset()->lista("ArkistoRaportit");
+
+    // Arkistoitavien raporttien lista käytetään QSetin kautta jotta ei tulisi tuplia
+    QStringList raportit = kp()->asetukset()->lista("ArkistoRaportit").toSet().toList();
+
     raportit.sort(Qt::CaseInsensitive);
 
     // Kirjoitetaan kaikki kirjanpitoon liittyvät raportit arkistoon
