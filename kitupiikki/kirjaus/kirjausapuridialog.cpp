@@ -170,8 +170,6 @@ void KirjausApuriDialog::tiliTaytetty()
             ui->vastatiliEdit->valitseTiliNumerolla( tili.json()->luku("Vastatili") );
             vastaTiliMuuttui();
         }
-        ui->alvSpin->setValue( tili.json()->luku("AlvProsentti"));
-        ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( tili.json()->luku("AlvLaji") ) );
 
         if( tili.onko(TiliLaji::MENO) )
         {
@@ -200,9 +198,12 @@ void KirjausApuriDialog::tiliTaytetty()
         ui->valintaTab->setTabEnabled(SIIRTO, tili.onko(TiliLaji::TASE) );
 
         // Verotuksen oletuskäsittely
-        ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( tili.json()->luku("AlvLaji") ) );
-        ui->alvSpin->setValue( tili.json()->luku("AlvProsentti"));
-        valilehtiVaihtui( ui->valintaTab->currentIndex());  // Jotta veroruudut näytetään!
+        if( kp()->asetukset()->onko("AlvVelvollinen"))
+        {
+            ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( tili.json()->luku("AlvLaji") ) );
+            ui->alvSpin->setValue( tili.json()->luku("AlvProsentti"));
+            valilehtiVaihtui( ui->valintaTab->currentIndex());  // Jotta veroruudut näytetään!
+        }
 
         // Tasaeräpoiston oletusprossa
         ui->poistoSpin->setValue( tili.json()->luku("Tasaerapoisto") / 12);  // kuukaudet -> vuodet
@@ -382,6 +383,9 @@ void KirjausApuriDialog::veroSuodattimetKuntoon()
     // Jos maksuperusteinen alv, voidaan ostovelka/myyntisaatava kirjata kotimaassa
     // vain maksuperusteisesti
 
+    if( !kp()->asetukset()->onko("AlvVelvollinen"))
+        return;
+
     int alvkoodi = ui->alvCombo->currentData(VerotyyppiModel::KoodiRooli).toInt();
 
     if( ui->valintaTab->currentIndex() == TULO )
@@ -429,10 +433,18 @@ void KirjausApuriDialog::ehdota()
 
     Tili tili = kp()->tilit()->tiliNumerolla( ui->tiliEdit->valittuTilinumero() );
     Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliEdit->valittuTilinumero());
-    int nettoSnt = std::round(ui->nettoSpin->value() * 100.0);
+
+    int nettoSnt = std::round(ui->euroSpin->value() * 100.0);
     int bruttoSnt = std::round(ui->euroSpin->value() * 100.0);
-    int alvprosentti = ui->alvSpin->value();
-    int alvkoodi = ui->alvCombo->currentData(VerotyyppiModel::KoodiRooli).toInt();
+    int alvprosentti = 0;
+    int alvkoodi = AlvKoodi::EIALV;
+
+    if( kp()->asetukset()->onko("AlvVelvollinen"))
+    {
+        nettoSnt = std::round(ui->nettoSpin->value() * 100.0);
+        alvprosentti = ui->alvSpin->value();
+        alvkoodi = ui->alvCombo->currentData(VerotyyppiModel::KoodiRooli).toInt();
+    }
 
 
     switch ( ui->valintaTab->currentIndex()) {
@@ -624,7 +636,6 @@ void KirjausApuriDialog::valilehtiVaihtui(int indeksi)
     kohdennusNakyviin();
     ui->vaihdaNappi->setVisible(indeksi == SIIRTO );
 
-
     bool verot = kp()->asetukset()->onko("AlvVelvollinen") && indeksi != SIIRTO;
 
     ui->alvlajiLabel->setVisible(verot);
@@ -632,9 +643,11 @@ void KirjausApuriDialog::valilehtiVaihtui(int indeksi)
     // Ensimmäisenä combossa verottomuus
     ui->alvprossaLabel->setVisible(verot && ui->alvCombo->currentIndex() > 0);
     ui->alvSpin->setVisible(verot && ui->alvCombo->currentIndex() > 0 );
+    ui->nettoLabel->setVisible(verot);
+    ui->nettoSpin->setVisible(verot);
 
     if(!verot)
-        ui->alvSpin->setValue(0);
+        ui->alvCombo->setCurrentIndex(0);   // Veroton
 
     ui->vastaCheck->setVisible( indeksi != SIIRTO && model->vientiModel()->debetSumma() != model->vientiModel()->kreditSumma() );
     ui->vastaCheck->setChecked( indeksi != SIIRTO && model->vientiModel()->debetSumma() != model->vientiModel()->kreditSumma() );
