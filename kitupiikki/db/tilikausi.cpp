@@ -38,7 +38,7 @@ Tilikausi::Tilikausi(QDate tkalkaa, QDate tkpaattyy, QByteArray json) :
 
 QDateTime Tilikausi::arkistoitu()
 {
-    QString arkistoituna = json()->str("Arkistoitu");
+    QString arkistoituna = json()->str("Arkisto");
     if( arkistoituna.isEmpty())
         return QDateTime();
     else

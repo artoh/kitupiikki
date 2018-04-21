@@ -474,6 +474,11 @@ void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
         if( raportti.length() > 1 )
         {
 
+            Raportoija raportoija(raportti);
+
+            if( !raportoija.tyyppi() )
+                continue;       // Jos raportti on virheellinen, ei sitä lisätä!
+
             QString tiedostonnimi = raportti.toLower();
             tiedostonnimi.replace(" ","");
 
@@ -483,8 +488,6 @@ void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
 
             Tilikausi edellinenkausi = kp()->tilikaudet()->tilikausiPaivalle( tilikausi_.alkaa().addDays(-1) );
 
-
-            Raportoija raportoija(raportti);
             if( raportoija.onkoKausiraportti())
             {
 

@@ -285,7 +285,7 @@ void ArkistoSivu::teeArkisto(Tilikausi kausi)
 
     // Merkitsee arkistoiduksi
 
-    kp()->tilikaudet()->json(kausi)->set("Arkistoitu", QDateTime::currentDateTime().toString(Qt::ISODate) );
+    kp()->tilikaudet()->json(kausi)->set("Arkisto", QDateTime::currentDateTime().toString(Qt::ISODate) );
     kp()->tilikaudet()->json(kausi)->set("ArkistoSHA", sha);
     kp()->tilikaudet()->tallennaJSON();
 

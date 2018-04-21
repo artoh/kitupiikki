@@ -171,7 +171,10 @@ void RaporttiMuokkaus::raporttiArkistoon(bool laitetaanko)
     QStringList raporttilista = kp()->asetukset()->lista("ArkistoRaportit");
 
     if( laitetaanko )
-        raporttilista.append(nimi);
+    {
+        if( !raporttilista.contains(nimi))
+            raporttilista.append(nimi);
+    }
     else
         raporttilista.removeAll(nimi);
 
