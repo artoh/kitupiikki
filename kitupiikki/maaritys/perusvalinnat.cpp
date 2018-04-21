@@ -47,6 +47,8 @@ Perusvalinnat::Perusvalinnat() :
     connect( ui->paivitysCheck, SIGNAL(clicked(bool)), this, SLOT(ilmoitaMuokattu()));
     connect( ui->muotoCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(ilmoitaMuokattu()));
 
+    connect( ui->hakemistoNappi, SIGNAL(clicked(bool)), this, SLOT(avaaHakemisto()));
+
 }
 
 Perusvalinnat::~Perusvalinnat()
@@ -90,6 +92,8 @@ bool Perusvalinnat::nollaa()
     // Jos logotiedosto, merkitään se
     ui->logoLabel->setPixmap( QPixmap::fromImage( kp()->logo().scaled(64, 64, Qt::KeepAspectRatio) ) );
 
+    ui->sijaintiLabel->setText( kp()->tiedostopolku() );
+
     return true;
 }
 
@@ -107,6 +111,12 @@ void Perusvalinnat::vaihdaLogo()
 void Perusvalinnat::ilmoitaMuokattu()
 {
     emit tallennaKaytossa( onkoMuokattu());
+}
+
+void Perusvalinnat::avaaHakemisto()
+{
+    QFileInfo info( kp()->tiedostopolku());
+    kp()->avaaUrl( QUrl( info.absoluteDir().absolutePath() ) );
 }
 
 bool Perusvalinnat::onkoMuokattu()

@@ -48,6 +48,7 @@ public:
 public slots:
     void vaihdaLogo();
     void ilmoitaMuokattu();
+    void avaaHakemisto();
 
 private:
     Ui::Perusvalinnat *ui;
