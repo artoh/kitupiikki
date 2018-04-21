@@ -303,6 +303,11 @@ bool LiiteModel::tallenna()
             liitteet_[i].muokattu = false;
         }
     }
+
+    // Poistetut liitteet
+    for( int poistettuId : poistetutIdt_)
+        kysely.exec( QString("DELETE from liite WHERE id=%1").arg(poistettuId) );
+
     muokattu_ = false;
     return true;
 }
