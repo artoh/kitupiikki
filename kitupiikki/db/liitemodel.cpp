@@ -83,7 +83,7 @@ QVariant LiiteModel::data(const QModelIndex &index, int role) const
 
 Qt::ItemFlags LiiteModel::flags(const QModelIndex &index) const
 {
-    if( tositeModel_->muokkausSallittu())
+    if( tositeModel_ && tositeModel_->muokkausSallittu())
         return QAbstractListModel::flags(index) | Qt::ItemIsEditable;
     else
         return QAbstractListModel::flags(index);
@@ -196,6 +196,9 @@ void LiiteModel::poistaLiite(int indeksi)
 
 QString LiiteModel::liiteNimi(int liitenro) const
 {
+    if(!tositeModel_)
+        return QString();
+
     return QString("%1-%2.pdf")
             .arg( tositeModel_->id(), 8, 10, QChar('0') )
             .arg( liitenro, 2, 10, QChar('0') );
@@ -207,9 +210,16 @@ void LiiteModel::lataa()
     endResetModel();
     liitteet_.clear();
 
-    QSqlQuery kysely( *tositeModel_->tietokanta());
-    kysely.exec( QString("SELECT id, liiteno, otsikko, peukku, sha, data "
+    QSqlQuery kysely();
+
+    if( tositeModel_ )
+        kysely.exec( QString("SELECT id, liiteno, otsikko, peukku, sha, data "
                          "FROM liite WHERE tosite=%1 ORDER BY liiteno").arg( tositeModel_->id() ));
+    else
+        kysely.exec( QString("SELECT id, liiteno, otsikko, peukku, sha, data "
+                         "FROM liite WHERE tosite is NULL ORDER BY liiteno"));
+
+
     while( kysely.next())
     {
         Liite uusi;
@@ -236,7 +246,7 @@ void LiiteModel::tyhjaa()
 
 bool LiiteModel::tallenna()
 {
-    QSqlQuery kysely( *tositeModel_->tietokanta());
+    QSqlQuery kysely();
     for( int i=0; i<liitteet_.count(); i++)
     {        
         if( liitteet_.at(i).muokattu)
@@ -250,7 +260,12 @@ bool LiiteModel::tallenna()
                                "VALUES(:liiteno, :tosite, :otsikko, :peukku, :sha, :data, :liitetty)");
 
                 kysely.bindValue(":liiteno", liitteet_.at(i).liiteno);
-                kysely.bindValue(":tosite", tositeModel_->id());
+
+                if( tositeModel_)
+                    kysely.bindValue(":tosite", tositeModel_->id());
+                else
+                    kysely.bindValue(":tosite", QVariant());
+
                 kysely.bindValue(":sha", liitteet_.at(i).sha);
                 kysely.bindValue(":peukku", liitteet_.at(i).thumbnail);
                 kysely.bindValue(":otsikko", liitteet_[i].otsikko);
