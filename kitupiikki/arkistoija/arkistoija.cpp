@@ -43,8 +43,10 @@ Arkistoija::Arkistoija(Tilikausi tilikausi)
 
 void Arkistoija::luoHakemistot()
 {
-    hakemisto_ = kp()->hakemisto();
-    hakemisto_.cd("arkisto");
+    QDir hakemisto;
+
+    hakemisto.mkpath( kp()->tiedostopolku() + ".arkisto" );
+    hakemisto_ = QDir( kp()->tiedostopolku() + ".arkisto" );
 
     QString arkistonimi = tilikausi_.arkistoHakemistoNimi();
 
@@ -60,10 +62,9 @@ void Arkistoija::luoHakemistot()
     hakemisto_.mkdir( arkistonimi );
     hakemisto_.cd( arkistonimi );
 
-    if( QFile::exists( kp()->hakemisto().absoluteFilePath("logo128.png") ))
+    if( !kp()->logo().isNull() )
     {
-        QFile::copy( kp()->hakemisto().absoluteFilePath("logo128.png"),
-                     hakemisto_.absoluteFilePath("logo.png"));
+        kp()->logo().save(hakemisto_.absoluteFilePath("logo.png"),"PNG");
         onkoLogoa = true;
     }
 

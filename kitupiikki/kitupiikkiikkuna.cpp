@@ -131,7 +131,7 @@ KitupiikkiIkkuna::~KitupiikkiIkkuna()
 {
     QSettings settings;
     settings.setValue("geometry",saveGeometry());
-    settings.setValue("viimeisin", Kirjanpito::db()->hakemisto().absoluteFilePath("kitupiikki.sqlite"));
+    settings.setValue("viimeisin", kp()->tiedostopolku() );
 }
 
 void KitupiikkiIkkuna::valitseSivu(int mikasivu, bool paluu)

@@ -112,7 +112,7 @@ void ArkistoSivu::arkisto()
         }
         // Avataan arkistoi
 
-        Kirjanpito::avaaUrl( QUrl::fromLocalFile( kp()->hakemisto().absoluteFilePath("arkisto/" + kausi.arkistoHakemistoNimi()) + "/index.html" ));
+        Kirjanpito::avaaUrl( QUrl::fromLocalFile(  kp()->tiedostopolku() + ".arkisto/" + kausi.arkistoHakemistoNimi() + "/index.html" ));
 
     }
 }
@@ -137,7 +137,7 @@ void ArkistoSivu::vieArkisto()
         teeArkisto(kausi);
     }
 
-    QDir mista( kp()->hakemisto().absoluteFilePath("arkisto/" + kausi.arkistoHakemistoNimi() ) );
+    QDir mista( kp()->tiedostopolku() + ".arkisto/" + kausi.arkistoHakemistoNimi() );
     QStringList tiedostot = mista.entryList(QDir::Files);
 
 
@@ -173,7 +173,7 @@ void ArkistoSivu::vieArkisto()
         // Muodostetaan tar-arkisto
         // Tässä käytetään Pierre Lindenbaumin Tar-luokkaa http://plindenbaum.blogspot.fi/2010/08/creating-tar-file-in-c.html
 
-        QString arkistotiedosto = QDir::root().absoluteFilePath( QString("%1-%2.tar").arg( kp()->hakemisto().dirName() ).arg(kausi.arkistoHakemistoNimi()) );
+        QString arkistotiedosto = QDir::root().absoluteFilePath( QString("%1-%2.tar").arg( kp()->tiedostopolku().replace(QRegularExpression(".kitupiikki$"),"") ).arg(kausi.arkistoHakemistoNimi()) );
         QString arkisto = QFileDialog::getSaveFileName(this, tr("Vie arkisto"), arkistotiedosto, tr("Tar-arkisto (*.tar)") );
 
 
@@ -234,7 +234,7 @@ void ArkistoSivu::tilinpaatos()
         if( kausi.tilinpaatoksenTila() == Tilikausi::VAHVISTETTU )
         {
             // Avataan tilinpäätös
-            Kirjanpito::avaaUrl( QUrl::fromLocalFile( kp()->hakemisto().absoluteFilePath("arkisto/" + kausi.arkistoHakemistoNimi()) + "/tilinpaatos.pdf" ));
+            Kirjanpito::avaaUrl( QUrl::fromLocalFile( kp()->tiedostopolku() +  ".arkisto/" + kausi.arkistoHakemistoNimi() + "/tilinpaatos.pdf" ));
         }
         else
         {

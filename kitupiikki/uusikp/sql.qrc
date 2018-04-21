@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/sql">
         <file>luo.sql</file>
-        <file>update2.sql</file>
         <file>update3.sql</file>
     </qresource>
 </RCC>

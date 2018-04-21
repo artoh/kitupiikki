@@ -273,10 +273,9 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter)
     // Lähettäjätiedot
 
     double vasen = 0.0;
-    if( QFile::exists(kp()->hakemisto().absoluteFilePath("logo128.png")))
+    if( !kp()->logo().isNull() )
     {
-        painter->drawPixmap( QRectF( lahettajaAlue.x()+mm, lahettajaAlue.y()+mm, rk*2, rk*2 ), QPixmap( kp()->hakemisto().absoluteFilePath("logo128.png") ),
-                             QRect(0,0,128,128));
+        painter->drawImage( QRectF( lahettajaAlue.x()+mm, lahettajaAlue.y()+mm, rk*2, rk*2 ),  kp()->logo()  );
         vasen += rk * 2.2;
 
     }

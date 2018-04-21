@@ -469,10 +469,9 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu)
 
     int vasenreunus = 0;
 
-    if( QFile::exists(kp()->hakemisto().absoluteFilePath("logo128.png")))
+    if( !kp()->logo().isNull() )
     {
-        painter->drawPixmap( QRect(0,0,rivinkorkeus*2, rivinkorkeus*2), QPixmap( kp()->hakemisto().absoluteFilePath("logo128.png") ),
-                             QRect(0,0,128,128));
+        painter->drawPixmap( QRect(0,0,rivinkorkeus*2, rivinkorkeus*2), QPixmap::fromImage( kp()->logo() ) );
         vasenreunus = rivinkorkeus * 2 + painter->fontMetrics().width("A");
     }
 

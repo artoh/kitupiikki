@@ -46,7 +46,8 @@
 LiiteModel::LiiteModel(TositeModel *tositemodel, QObject *parent)
     : QAbstractListModel(parent), tositeModel_(tositemodel), muokattu_(false)
 {
-
+    if( !tositemodel)
+        lataa();
 }
 
 int LiiteModel::rowCount(const QModelIndex & /* parent */) const
@@ -194,6 +195,15 @@ void LiiteModel::poistaLiite(int indeksi)
     emit liiteMuutettu();
 }
 
+QByteArray LiiteModel::liite(const QString &otsikko)
+{
+    for( Liite liite : liitteet_ )
+        if( liite.otsikko == otsikko )
+            return liite.pdf;
+
+    return QByteArray();
+}
+
 QString LiiteModel::liiteNimi(int liitenro) const
 {
     if(!tositeModel_)
@@ -210,7 +220,7 @@ void LiiteModel::lataa()
     endResetModel();
     liitteet_.clear();
 
-    QSqlQuery kysely();
+    QSqlQuery kysely( *kp()->tietokanta() );
 
     if( tositeModel_ )
         kysely.exec( QString("SELECT id, liiteno, otsikko, peukku, sha, data "
@@ -246,7 +256,7 @@ void LiiteModel::tyhjaa()
 
 bool LiiteModel::tallenna()
 {
-    QSqlQuery kysely();
+    QSqlQuery kysely( *kp()->tietokanta() );
     for( int i=0; i<liitteet_.count(); i++)
     {        
         if( liitteet_.at(i).muokattu)

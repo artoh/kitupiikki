@@ -59,6 +59,11 @@ public:
     };
 
 
+    /**
+     * @brief LiiteModel
+     * @param tositemodel Tosite, jonka liitteitä käsitellään: jos 0, käsitellään liitteitä tositteella NULL
+     * @param parent
+     */
     LiiteModel(TositeModel *tositemodel, QObject *parent = 0);
 
     int rowCount(const QModelIndex &parent) const;
@@ -76,6 +81,13 @@ public:
     int lisaaPdf(const QByteArray &pdf, const QString& otsikko);
     int lisaaTiedosto(const QString& polku, const QString& otsikko);
     void poistaLiite(int indeksi);
+
+    /**
+     * @brief Palauttaa liitteen datan halutulla otsikolla
+     * @param otsikko
+     * @return
+     */
+    QByteArray liite(const QString& otsikko);
 
     bool muokattu() const { return muokattu_; }
 

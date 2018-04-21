@@ -280,12 +280,6 @@ bool TositeModel::tallenna()
     muokattu_ = false;
     muokattuAika_ = QDateTime::currentDateTime();
 
-    // Tallennetaan vielä tosite varmuuden vuoksi pdf-muotoon
-    QFile out( kp()->hakemisto().absoluteFilePath( QString("liitteet/%1.pdf").arg( id(), 8, 10, QChar('0') )  ) );
-    out.open(QIODevice::WriteOnly);
-    out.write( tuloste().pdf(false, true) );
-    out.close();
-
     emit tositettaMuokattu(false);
 
     return true;

@@ -27,6 +27,7 @@
 #include <QUrl>
 #include <QSqlError>
 #include <QTextStream>
+#include <QBuffer>
 
 #include <QDebug>
 
@@ -62,13 +63,6 @@ Kirjanpito::~Kirjanpito()
 QString Kirjanpito::asetus(const QString &avain) const
 {
     return asetukset()->asetus(avain);
-}
-
-
-QDir Kirjanpito::hakemisto()
-{
-    QFileInfo finfo(polkuTiedostoon_);
-    return finfo.absoluteDir();
 }
 
 
@@ -135,6 +129,26 @@ bool Kirjanpito::onkoMaksuperusteinenAlv(const QDate &paiva) const
     return true;
 }
 
+void Kirjanpito::asetaLogo(const QImage &logo)
+{
+
+    logo_ = logo;
+
+    // Tallennetaan logo tietokantaan liitteeksi NULL, logo
+
+    QByteArray ba;
+
+    QBuffer buffer(&ba);
+    buffer.open(QIODevice::WriteOnly);
+
+    logo.save(&buffer, "PNG");
+    buffer.close();
+
+    LiiteModel liite(0);    // Tallennetaan NULL-liitteeksi
+    liite.lisaaPdf( ba, "logo" );
+    liite.tallenna();
+}
+
 
 
 bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
@@ -191,7 +205,7 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
         if( QMessageBox::question(0, tr("Kirjanpidon %1 päivittäminen").arg(asetusModel_->asetus("Nimi")),
                                   tr("Kirjanpito on luotu Kitupiikin versiolla %1 ja se täytyy päivittää, ennen kuin sitä "
                                      "voi käyttää nykyisellä versiolla %2.\n\n"
-                                     "Päivittämisen jälkeen kirjanpitoa ei voi enää avata vanhemmilla versioilla kuin 0.10.\n\n"
+                                     "Päivittämisen jälkeen kirjanpitoa ei voi enää avata vanhemmilla versioilla kuin 0.11\n\n"
                                      "On erittäin suositeltavaa varmuuskopioida kirjanpito ennen päivittämistä!\n\n"
                                      "Päivitetäänkö tietokanta Kitupiikin nykyiselle versiolle?").arg(asetusModel_->asetus("LuotuVersiolla"))
                                      .arg(qApp->applicationVersion()),
@@ -205,11 +219,14 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
         // Tietokanta päivitetään suorittamalla update-komennot
         // nykyiseen tietokantaversioon saakka
         // Esitiedostoversioita 1-2 tuetaan VAIN versioon 0.12 saakka !
-        for(int i = asetusModel_->luku("KpVersio") + 1; i <= TIETOKANTAVERSIO; i++)
-            paivita( i );
 
-        if( asetusModel_->luku("KpVersio") < 3)
+        // for(int i = asetusModel_->luku("KpVersio") + 1; i <= TIETOKANTAVERSIO; i++)
+        //     paivita( i );
+
+        if( asetusModel_->luku("KpVersio") < 10)
         {
+            paivita(3);
+
             // Erityiset toimet kolmosversioon
             // Liitteiden haku tietokantaan
 
@@ -217,13 +234,15 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
             QSqlQuery liittokysely;
             liittokysely.prepare("UPDATE liite SET data=:data WHERE id=:id" );
 
+            QFileInfo info( kp()->tiedostopolku());
+
             while( liitekysely.next())
             {
                 QString tiedostonnimi = QString("%1-%2.pdf")
                             .arg( liitekysely.value("tosite").toInt()  , 8, 10, QChar('0') )
                             .arg( liitekysely.value("liiteno").toInt() , 2, 10, QChar('0') );
 
-                QFile tiedosto( kp()->hakemisto().absoluteFilePath("liitteet/" + tiedostonnimi));
+                QFile tiedosto( info.dir().absoluteFilePath("liitteet/" + tiedostonnimi));
                 tiedosto.open(QIODevice::ReadOnly);
                 liittokysely.bindValue(":data", tiedosto.readAll());
                 liittokysely.bindValue(":id", liitekysely.value("id").toInt());
@@ -276,6 +295,12 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
                 if( kirjausperuste == LaskuModel::MAKSUPERUSTE)
                     QSqlQuery eraaja( QString("UPDATE vienti SET eraid=id WHERE id=%1").arg( lkysely.lastInsertId().toInt() ));
             }
+            // Logo
+            QFile logotiedosto( info.dir().absoluteFilePath("logo.png") );
+            logotiedosto.open(QIODevice::ReadOnly);
+            QByteArray ba = logotiedosto.readAll();
+            QImage logo = QImage::fromData(ba, "PNG");
+            asetaLogo(logo);
         }
 
         asetusModel_->aseta("KpVersio", TIETOKANTAVERSIO);
@@ -285,15 +310,13 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
 
     }
 
-
-
     tositelajiModel_->lataa();
     tiliModel_->lataa();
     tilikaudetModel_->lataa();
     kohdennukset_->lataa();
     tuotteet_->lataa();
 
-
+    // Tilapäishakemiston luominen
     // #124 Jos väliaikaistiedosto ei toimi...
     if( tempDir_ )
         delete tempDir_;
@@ -303,11 +326,19 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
     if( !tempDir_->isValid())
     {
         delete tempDir_;
-        tempDir_ = new QTemporaryDir( hakemisto().absoluteFilePath("Temp")  );
+
+        QFileInfo info( kp()->tiedostopolku() );
+
+        tempDir_ = new QTemporaryDir( info.dir().absoluteFilePath("Temp")  );
         if( !tempDir_->isValid())
             QMessageBox::critical(0, tr("Tilapäishakemiston luominen epäonnistui"),
                                   tr("Kitupiikki ei onnistunut luomaan tilapäishakemistoa. Raporttien ja laskujen esikatselu ei toimi."));
     }
+
+    // Ladataan logo
+    LiiteModel liite(0);
+    logo_ = QImage::fromData( liite.liite("logo") , "PNG" );
+
 
     // Ilmoitetaan, että tietokanta on vaihtunut
     emit tietokantaVaihtui();
@@ -317,7 +348,7 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
 
 bool Kirjanpito::lataaUudelleen()
 {
-    return avaaTietokanta(hakemisto().absoluteFilePath("kitupiikki.sqlite"));
+    return avaaTietokanta(tiedostopolku());
 }
 
 void Kirjanpito::asetaHarjoitteluPvm(const QDate &pvm)

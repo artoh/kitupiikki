@@ -31,6 +31,7 @@
 #include <QSqlDatabase>
 #include <QDate>
 #include <QTemporaryDir>
+#include <QImage>
 
 #include "tili.h"
 #include "tilikausi.h"
@@ -77,10 +78,10 @@ public:
     QString asetus(const QString& avain) const;
 
     /**
-     * @brief Hakemisto, jossa kirjanpito (kitupiikki.sqlite)
-     * @return hakemisto
+     * @brief Polku kirjanpitotiedostoon
+     * @return
      */
-    QDir hakemisto();
+    QString tiedostopolku() { return polkuTiedostoon_;}
 
     /**
      * @brief Käytetäänkö harjoittelutilassa
@@ -207,6 +208,18 @@ public:
      */
     bool onkoMaksuperusteinenAlv(const QDate& paiva) const;
 
+    /**
+     * @brief Palauttaa logon
+     * @return
+     */
+    QImage logo() const { return logo_;}
+
+    /**
+     * @brief Asettaa kirjanpidon logon
+     * @param logo
+     */
+    void asetaLogo(const QImage& logo);
+
 signals:
     /**
      * @brief Tietokanta on avattu
@@ -276,6 +289,7 @@ protected:
     QPrinter *printer_;
 
     QTemporaryDir *tempDir_;
+    QImage logo_;
 
 public:
     /**
@@ -302,7 +316,7 @@ public:
      *
      * Jos yritetään avata uudempaa, tulee virhe
      */
-    static const int TIETOKANTAVERSIO = 3;
+    static const int TIETOKANTAVERSIO = 10;
 
     /**
      * @brief Palauttaa satunnaismerkkijonon

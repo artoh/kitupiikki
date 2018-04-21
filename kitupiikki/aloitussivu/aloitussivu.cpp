@@ -118,13 +118,13 @@ void AloitusSivu::kirjanpitoVaihtui()
         // Kirjanpito avattu
         ui->nimiLabel->setText( kp()->asetukset()->asetus("Nimi"));
 
-        if( QFile::exists( kp()->hakemisto().absoluteFilePath("logo64.png") ) )
+        if( kp()->logo().isNull())
+            ui->logoLabel->hide();
+        else
         {
             ui->logoLabel->show();
-            ui->logoLabel->setPixmap( QPixmap( kp()->hakemisto().absoluteFilePath("logo64.png") ) );
+            ui->logoLabel->setPixmap( QPixmap::fromImage( kp()->logo().scaled(64,64,Qt::KeepAspectRatio) ) );
         }
-        else
-            ui->logoLabel->hide();
 
         ui->tilikausiCombo->setModel( kp()->tilikaudet() );
         ui->tilikausiCombo->setModelColumn( 0 );
@@ -194,13 +194,13 @@ void AloitusSivu::uusiTietokanta()
 {
     QString uusitiedosto = UusiKirjanpito::aloitaUusiKirjanpito();
     if( !uusitiedosto.isEmpty())
-        Kirjanpito::db()->avaaTietokanta(uusitiedosto + "/kitupiikki.sqlite");
+        Kirjanpito::db()->avaaTietokanta(uusitiedosto);
 }
 
 void AloitusSivu::avaaTietokanta()
 {
     QString polku = QFileDialog::getOpenFileName(this, "Avaa kirjanpito",
-                                                 QDir::homePath(),"Kirjanpito (kitupiikki.sqlite)");
+                                                 QDir::homePath(),"Kirjanpito (*.kitupiikki kitupiikki.sqlite)");
     if( !polku.isEmpty())
         Kirjanpito::db()->avaaTietokanta(polku);
 
@@ -480,49 +480,58 @@ QString AloitusSivu::summat()
 void AloitusSivu::paivitaTiedostoLista()
 {
     QSettings settings;
-    QStringList viimeiset = settings.value("ViimeisetTiedostot").toStringList();
+    QVariantMap kirjanpidot = settings.value("Tietokannat").toMap();
 
-    QStringList polut;
-    QStringList uusilista;
+    // Poistetaan ne, joita ei löydy
+    for(QString polku : kirjanpidot.keys())
+    {
+        if( !QFile::exists(polku))
+            kirjanpidot.remove(polku);
+    }
 
     // Nykyinen
     if( kp()->asetukset()->onko("Nimi"))
     {
-        QString polku = kp()->hakemisto().absolutePath();
-        polut.append(polku);
-        if( kp()->onkoHarjoitus() )
-            uusilista.append(tr("%1 %2 (harjoitus)").arg(polku).arg(kp()->asetukset()->asetus("Nimi")));
-        else
-            uusilista.append(tr("%1 %2").arg(polku).arg(kp()->asetukset()->asetus("Nimi")));
+        QString polku = kp()->tiedostopolku();
+        QString nimi = kp()->asetukset()->asetus("Nimi");
+        if( kp()->onkoHarjoitus())
+            nimi.append(tr(" (harjoitus)"));
+
+        QByteArray logoBa;
+        QBuffer buff(&logoBa);
+        buff.open(QIODevice::WriteOnly);
+
+        kp()->logo().scaled(32,32).save(&buff, "PNG");
+        buff.close();
+
+        QVariantList nama;
+        nama.append(nimi);
+        nama.append(logoBa);
+
+        kirjanpidot.insert(polku, nama);
     }
 
-    // Vanhat, jos olemassa eikä vielä listalla
-    for( QString rivi : viimeiset )
-    {
-        QString polku = rivi.left(  rivi.indexOf(' '));
-        if( !polut.contains(polku) && QFile::exists( QDir(polku).absoluteFilePath("kitupiikki.sqlite")) )
-        {
-            uusilista.append(rivi);
-        }
-    }
 
     // Näytölle
 
     ui->viimeiset->clear();
-
-    for( QString rivi : uusilista)
+    QMapIterator<QString,QVariant> iter(kirjanpidot);
+    while( iter.hasNext())
     {
-        int tyhja = rivi.indexOf(' ');
-        QString polku = rivi.left(tyhja);
-        QString nimi = rivi.mid(tyhja);
+        iter.next();
+        QString polku = iter.key();
+        QVariantList lista = iter.value().toList();
+        QString nimi = lista.at(0).toString();
+        QByteArray logo = lista.at(1).toByteArray();
 
         QListWidgetItem *item = new QListWidgetItem(nimi, ui->viimeiset);
-        item->setData(Qt::UserRole, QDir(polku).absoluteFilePath("kitupiikki.sqlite"));
+        item->setData(Qt::UserRole, polku );
 
-        QString kuvake = QDir(polku).absoluteFilePath("logo64.png");
-        if( QFile::exists( kuvake ))
-            item->setIcon( QIcon(kuvake));
+        QPixmap kuva;
+        kuva.loadFromData(logo, "PNG");
+
+        item->setIcon( QIcon( kuva ));
     }
 
-    settings.setValue("ViimeisetTiedostot", uusilista);
+    settings.setValue("Tietokannat", kirjanpidot );
 }

@@ -89,7 +89,7 @@ void TpAloitus::lataaTiedosto()
                                                     QDir::homePath(), tr("Pdf-tiedostot (*.pdf)"));
     if( !tiedosto.isEmpty() )
     {
-        QString tulosfile =  kp()->hakemisto().absoluteFilePath("arkisto/" + tilikausi.arkistoHakemistoNimi() + "/tilinpaatos.pdf" );
+        QString tulosfile =  kp()->tiedostopolku() + ".arkisto/" + tilikausi.arkistoHakemistoNimi() + "/tilinpaatos.pdf" ;
         if( QFile::exists(tulosfile))
             QFile(tulosfile).remove();
         QFile::copy( tiedosto, tulosfile);

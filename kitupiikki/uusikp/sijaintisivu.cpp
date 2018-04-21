@@ -23,12 +23,12 @@
 
 SijaintiSivu::SijaintiSivu()
 {
-    setTitle("Tiedostojen sijainti");
+    setTitle("Kirjanpidon sijainti");
 
     ui = new Ui::SijaintiSivu;
     ui->setupUi(this);
 
-    registerField("hakemisto",ui->hakemistoEdit);
+    registerField("tiedosto",ui->tiedostoEdit);
     registerField("sijainti",ui->sijaintiEdit);
 
     ui->sijaintiEdit->setText( QDir::homePath());
@@ -48,7 +48,7 @@ void SijaintiSivu::vaihdaSijainti()
                                                          ui->sijaintiEdit->text());
     if( !sijainti.isEmpty())
         ui->sijaintiEdit->setText(sijainti);
-    estaTuplaHakemistot();
+    estaTuplaTiedosto();
 }
 
 void SijaintiSivu::initializePage()
@@ -61,27 +61,26 @@ void SijaintiSivu::initializePage()
 
     if( field("harjoitus").toBool() )
         nimi += "-kokeilu";
-    else
-        nimi += "-kirjanpito";
+    nimi += ".kitupiikki";
 
-    ui->hakemistoEdit->setText(nimi);
-    estaTuplaHakemistot();
+    ui->tiedostoEdit->setText(nimi);
+    estaTuplaTiedosto();
 }
 
-void SijaintiSivu::estaTuplaHakemistot()
+void SijaintiSivu::estaTuplaTiedosto()
 {
-    QString hakemisto = ui->hakemistoEdit->text();
-    // Poistetaan lopussa mahdollisesti jo oleva numerolisäys
-    hakemisto.replace(QRegularExpression("-\\d*$"),"");
+    QString tiedosto = ui->tiedostoEdit->text();
+    // Poistetaan lopussa mahdollisesti jo oleva lisäys
+    tiedosto.replace(QRegularExpression("-?\\d*.kitupiikki$"),"");
 
     QString lisake = "";
     int lisanumero = 0;
-    while( QFile(ui->sijaintiEdit->text() + "/" + hakemisto + lisake).exists() )
+    while( QFile(ui->sijaintiEdit->text() + "/" + tiedosto + lisake + ".kitupiikki").exists() )
     {
         lisanumero++;
         lisake = QString("-%1").arg(lisanumero);
     }
 
-    ui->hakemistoEdit->setText(hakemisto + lisake);
+    ui->tiedostoEdit->setText(tiedosto + lisake + ".kitupiikki");
 }
 

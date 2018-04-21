@@ -82,7 +82,7 @@ QString UusiKirjanpito::aloitaUusiKirjanpito()
 
     if( velho.alustaKirjanpito())
         // Palautetaan uuden kirjanpidon hakemistopolku
-        return velho.field("sijainti").toString() + "/" + velho.field("hakemisto").toString();
+        return velho.field("sijainti").toString() + "/" + velho.field("tiedosto").toString();
     else
         // Epäonnistui, tyhjä merkkijono
         return QString();
@@ -149,23 +149,14 @@ bool UusiKirjanpito::alustaKirjanpito()
     qApp->processEvents();
 
 
-    QString hakemistopolku = field("sijainti").toString() + "/" + field("hakemisto").toString();
-    QDir hakemisto;
-
-    // Luodaan hakemisto
-    if( !hakemisto.mkdir(hakemistopolku) || !hakemisto.cd(hakemistopolku))
-        return false;
-
-    // Luodaan alihakemistot
-    hakemisto.mkdir("liitteet");
-    hakemisto.mkdir("arkisto");
+    QString polku = field("sijainti").toString() + "/" + field("tiedosto").toString();
 
     progDlg.setValue( progDlg.value() + 1 );
 
     // Luodaan tietokanta
     {
         QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE","luonti");
-        db.setDatabaseName(hakemistopolku + "/kitupiikki.sqlite");
+        db.setDatabaseName(polku);
         if( !db.open())
         {
             return false;

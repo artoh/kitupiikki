@@ -47,7 +47,7 @@ TilinpaatosEditori::TilinpaatosEditori(Tilikausi tilikausi, QWidget *parent)
 void TilinpaatosEditori::esikatsele()
 {
     tallenna();
-    Kirjanpito::avaaUrl( QUrl::fromLocalFile( kp()->hakemisto().absoluteFilePath("arkisto/" + tilikausi_.arkistoHakemistoNimi() + "/tilinpaatos.pdf") ));
+    Kirjanpito::avaaUrl( QUrl::fromLocalFile( kp()->tiedostopolku()  + ".arkisto/" + tilikausi_.arkistoHakemistoNimi() + "/tilinpaatos.pdf") );
 }
 
 void TilinpaatosEditori::luoAktiot()

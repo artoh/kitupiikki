@@ -40,7 +40,7 @@ protected slots:
 
 protected:
     void initializePage();
-    void estaTuplaHakemistot();
+    void estaTuplaTiedosto();
 };
 
 #endif // SIJAINTISIVU_H

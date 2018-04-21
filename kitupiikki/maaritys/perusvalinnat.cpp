@@ -88,11 +88,8 @@ bool Perusvalinnat::nollaa()
     uusilogo = QImage();
 
     // Jos logotiedosto, merkitään se
-    QFile logotiedosto( Kirjanpito::db()->hakemisto().absoluteFilePath("logo64.png"));
-    if( logotiedosto.exists())
-        ui->logoLabel->setPixmap( QPixmap( Kirjanpito::db()->hakemisto().absoluteFilePath("logo64.png") ));
-    else
-        ui->logoLabel->clear();
+    ui->logoLabel->setPixmap( QPixmap::fromImage( kp()->logo().scaled(64, 64, Qt::KeepAspectRatio) ) );
+
     return true;
 }
 
@@ -141,21 +138,9 @@ bool Perusvalinnat::tallenna()
     kp()->asetukset()->aseta("Kotipaikka", ui->kotipaikkaEdit->text());
     kp()->asetukset()->aseta("Puhelin", ui->puhelinEdit->text());
 
-    // Logosta tallennetaan logo64.png ja logo128.png -versiot
     if( !uusilogo.isNull())
     {
-
-        QFile tiedosto64( Kirjanpito::db()->hakemisto().absoluteFilePath("logo64.png") );
-        if( tiedosto64.exists())
-            tiedosto64.remove();
-        QFile tiedosto128( Kirjanpito::db()->hakemisto().absoluteFilePath("logo128.png"));
-        if( tiedosto128.exists())
-            tiedosto128.remove();
-        // Sitten tallennetaan
-
-        uusilogo.save(Kirjanpito::db()->hakemisto().absoluteFilePath("logo.png")  );    // Skaalaamaton logo
-        uusilogo.scaled(64, 64, Qt::KeepAspectRatio).save( Kirjanpito::db()->hakemisto().absoluteFilePath("logo64.png")  );
-        uusilogo.scaled(128, 128, Qt::KeepAspectRatio).save( Kirjanpito::db()->hakemisto().absoluteFilePath("logo128.png")  );
+        kp()->asetaLogo(uusilogo );
     }
     uusilogo = QImage();
 

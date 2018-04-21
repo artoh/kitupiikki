@@ -73,7 +73,7 @@ void TilinPaattaja::paivitaDialogi()
     ui->lukittuLabel->setVisible(lukittu);
     ui->tilinpaatosNappi->setEnabled(lukittu);
 
-    bool tilinpaatosolemassa = QFile::exists( kp()->hakemisto().absoluteFilePath("arkisto/" + tilikausi.arkistoHakemistoNimi() + "/tilinpaatos.pdf"  ));
+    bool tilinpaatosolemassa = QFile::exists( kp()->tiedostopolku() + ".arkisto/" + tilikausi.arkistoHakemistoNimi() + "/tilinpaatos.pdf"  );
 
     ui->tulostaNappi->setEnabled( tilinpaatosolemassa );
     ui->vahvistaNappi->setEnabled( tilinpaatosolemassa );
@@ -155,7 +155,7 @@ void TilinPaattaja::muokkaa()
 
 void TilinPaattaja::esikatsele()
 {
-    Kirjanpito::avaaUrl( QUrl::fromLocalFile( kp()->hakemisto().absoluteFilePath("arkisto/" + tilikausi.arkistoHakemistoNimi() + "/tilinpaatos.pdf") ));
+    Kirjanpito::avaaUrl( QUrl::fromLocalFile( kp()->tiedostopolku() + "arkisto/" + tilikausi.arkistoHakemistoNimi() + "/tilinpaatos.pdf") );
 }
 
 void TilinPaattaja::vahvista()

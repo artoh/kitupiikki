@@ -38,7 +38,7 @@
 
 bool TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, QString teksti)
 {
-    QString tiedosto =  kp()->hakemisto().absoluteFilePath("arkisto/" + tilikausi.arkistoHakemistoNimi() + "/tilinpaatos.pdf" );
+    QString tiedosto =  kp()->tiedostopolku() + ".arkisto/" + tilikausi.arkistoHakemistoNimi() + "/tilinpaatos.pdf" ;
     if( QFile::exists(tiedosto))
             QFile(tiedosto).remove();
 
@@ -145,9 +145,10 @@ void TilinpaatosTulostaja::tulostaKansilehti(Tilikausi tilikausi, QPainter *pain
     int rivinkorkeus = painter->fontMetrics().height();
     int sivunkorkeus = painter->window().height();
 
-    if( QFile::exists(kp()->hakemisto().absoluteFilePath("logo.png")))
+    if( !kp()->logo().isNull()  )
     {
-        painter->drawPixmap( sivunleveys/2 - rivinkorkeus*2, sivunkorkeus / 3 - rivinkorkeus * 4, rivinkorkeus*4, rivinkorkeus*4, QPixmap( kp()->hakemisto().absoluteFilePath("logo.png") ) );
+        painter->drawImage( QRectF(sivunleveys/2 - rivinkorkeus*2, sivunkorkeus / 3 - rivinkorkeus * 4, rivinkorkeus*4, rivinkorkeus*4),
+                              kp()->logo() );
     }
     painter->drawText( QRectF(0, sivunkorkeus/3, sivunleveys, rivinkorkeus * 2), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter, kp()->asetukset()->asetus("Nimi"));
 
