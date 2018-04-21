@@ -52,6 +52,7 @@
 #include "tuonti/tuonti.h"
 #include "apurivinkki.h"
 #include "ui_numerosiirto.h"
+#include "tools/pdfikkuna.h"
 
 
 
@@ -791,8 +792,9 @@ void KirjausWg::pvmVaihtuu()
 
 void KirjausWg::naytaLiite()
 {
-    if( ui->liiteView->currentIndex().isValid())
-        Kirjanpito::avaaUrl( QUrl::fromLocalFile( ui->liiteView->currentIndex().data(LiiteModel::PolkuRooli).toString() ) );
+    QModelIndex index = ui->liiteView->currentIndex();
+    if( index.isValid())
+        PdfIkkuna::naytaLiite( model()->id(), index.data(LiiteModel::LiiteNumeroRooli).toInt() );
 
 }
 

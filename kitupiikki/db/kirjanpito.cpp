@@ -219,8 +219,11 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
 
             while( liitekysely.next())
             {
-                QString tiedostonimi = LiiteModel::liitePolulla( liitekysely.value("tosite").toInt(), liitekysely.value("liiteno").toInt()) ;
-                QFile tiedosto(tiedostonimi);
+                QString tiedostonnimi = QString("%1-%2.pdf")
+                            .arg( liitekysely.value("tosite").toInt()  , 8, 10, QChar('0') )
+                            .arg( liitekysely.value("liiteno").toInt() , 2, 10, QChar('0') );
+
+                QFile tiedosto( kp()->hakemisto().absoluteFilePath("liitteet/" + tiedostonnimi));
                 tiedosto.open(QIODevice::ReadOnly);
                 liittokysely.bindValue(":data", tiedosto.readAll());
                 liittokysely.bindValue(":id", liitekysely.value("id").toInt());

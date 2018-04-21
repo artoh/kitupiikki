@@ -52,10 +52,10 @@ public:
     {
         IdRooli = Qt::UserRole + 1,
         OtsikkoRooli = Qt::UserRole + 2,
-        PolkuRooli = Qt::UserRole + 3,
         Sharooli = Qt::UserRole + 5,
         TiedostoNimiRooli = Qt::UserRole + 6,
-        PdfRooli = Qt::UserRole + 7
+        PdfRooli = Qt::UserRole + 7,
+        LiiteNumeroRooli = Qt::UserRole + 8
     };
 
 
@@ -79,11 +79,8 @@ public:
 
     bool muokattu() const { return muokattu_; }
 
-    QString liitePolku(int liitenro) const;
     QString liiteNimi(int liitenro) const;
 
-    static QString liitePolulla(int tositeId, int liiteId);
-    static QString liiteNimella(const QString& tiedosto);
 
 public slots:
     void lataa();

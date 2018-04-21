@@ -246,8 +246,10 @@ void Arkistoija::arkistoiTositteet()
                      << "</td><td><a href='" << liiteIndeksi.data(LiiteModel::TiedostoNimiRooli).toString()
                      << "' class=avaaliite>Avaa</a></td></tr>\n";
 
-                QFile::copy( liiteIndeksi.data(LiiteModel::PolkuRooli).toString(),
-                             hakemisto_.absoluteFilePath( liiteIndeksi.data(LiiteModel::TiedostoNimiRooli).toString()));
+                QFile out( hakemisto_.absoluteFilePath( liiteIndeksi.data(LiiteModel::TiedostoNimiRooli).toString() ) );
+                out.open( QIODevice::WriteOnly);
+                out.write( liiteIndeksi.data(LiiteModel::PdfRooli).toByteArray() );
+                out.close();
 
                 shaBytes.append( liiteIndeksi.data(LiiteModel::Sharooli).toByteArray() );
                 shaBytes.append(" ");
