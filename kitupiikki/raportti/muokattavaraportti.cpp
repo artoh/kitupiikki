@@ -43,7 +43,10 @@ MuokattavaRaportti::MuokattavaRaportti(const QString &raporttinimi)
         {
             ui->muotoCombo->addItem( muoto.mid(muoto.lastIndexOf(QChar('/'))+1) , muoto.mid(9) );
         }
-        ui->muotoCombo->setCurrentIndex( ui->muotoCombo->findText("Yleinen") );
+
+        // Oletuksena monesta muodosta valittuna Yleinen
+        if( ui->muotoCombo->findText("Yleinen") > -1)
+            ui->muotoCombo->setCurrentIndex( ui->muotoCombo->findText("Yleinen") );
 
         connect( ui->muotoCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(paivitaUi()));
     }
@@ -107,6 +110,10 @@ void MuokattavaRaportti::paivitaUi()
 
     // Sitten laitetaan valmiiksi tilikausia nykyisestä taaksepäin
     int tilikausiIndeksi = kp()->tilikaudet()->indeksiPaivalle( kp()->paivamaara() );
+    // #160 Tai sitten viimeinen tilikausi
+    if( tilikausiIndeksi < 0)
+        tilikausiIndeksi = kp()->tilikaudet()->rowCount(QModelIndex()) - 1;
+
     if( tilikausiIndeksi > -1 )
     {
         ui->alkaa1Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi).alkaa() );

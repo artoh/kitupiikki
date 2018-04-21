@@ -27,6 +27,9 @@ TositeluetteloRaportti::TositeluetteloRaportti()
     ui->setupUi(raporttiWidget);
 
     Tilikausi nykykausi = Kirjanpito::db()->tilikausiPaivalle( Kirjanpito::db()->paivamaara() );
+    if( !nykykausi.alkaa().isValid())
+        nykykausi = kp()->tilikaudet()->tilikausiIndeksilla( kp()->tilikaudet()->rowCount(QModelIndex()) - 1 );
+
     ui->alkupvm->setDate(nykykausi.alkaa());
     ui->loppupvm->setDate(nykykausi.paattyy());
 

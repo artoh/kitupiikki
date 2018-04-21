@@ -406,7 +406,7 @@ void CsvTuonti::paivitaOletukset()
     {
         for(int i=0; i < muodot_.count(); i++)
         {
-            QString otsikko = otsikot.at(i);
+            QString otsikko = otsikot.at(i).toLower() ;
             Sarakemuoto muoto = muodot_.at(i);
 
             if( (muoto == SUOMIPVM || muoto == ISOPVM) && !pvmkaytetty )
@@ -414,23 +414,23 @@ void CsvTuonti::paivitaOletukset()
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, PAIVAMAARA);
                 pvmkaytetty = true;
             }
-            else if( muoto == RAHA && otsikko.contains("debet", Qt::CaseInsensitive))
+            else if( muoto == RAHA && otsikko.contains("debet"))
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, DEBETEURO);
-            else if( muoto == RAHA && otsikko.contains("kredit", Qt::CaseInsensitive))
+            else if( muoto == RAHA && otsikko.contains("kredit"))
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, KREDITEURO);
-            else if( otsikko.contains("tosite", Qt::CaseInsensitive))
+            else if( otsikko.contains("tosite"))
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, TOSITETUNNUS);
-            else if( otsikko.contains("selite", Qt::CaseInsensitive) ||
-                     otsikko.contains("selitys", Qt::CaseInsensitive) ||
-                     otsikko.contains("saaja/maksaja", Qt::CaseInsensitive) ||
-                     otsikko.contains("viesti"), Qt::CaseInsensitive)
+            else if( otsikko.contains("selite") ||
+                     otsikko.contains("selitys") ||
+                     otsikko.contains("saaja/maksaja") ||
+                     otsikko.contains("viesti"))
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, SELITE);
-            else if( (otsikko=="Nro" && muoto == LUKU) ||
-                     (otsikko.contains("tili", Qt::CaseInsensitive) && muoto == LUKUTEKSTI) )
+            else if( (otsikko=="nro" && muoto == LUKU) ||
+                     (otsikko.contains("tili") && muoto == LUKUTEKSTI) )
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, TILINUMERO);
-            else if( otsikko == "Kohdennus" )
+            else if( otsikko == "kohdennus" )
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, KOHDENNUS);
-            else if( otsikko == "Tili" && muoto == TEKSTI)
+            else if( otsikko == "tili" && muoto == TEKSTI)
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, TILINIMI);
             else
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, EITUODA);
