@@ -198,34 +198,33 @@ p, li { white-space: pre-wrap; }
      </property>
     </spacer>
    </item>
-   <item row="21" column="0">
+   <item row="14" column="0">
     <widget class="QLabel" name="label_7">
      <property name="text">
       <string>Kirjanpidon sijainti</string>
      </property>
     </widget>
    </item>
-   <item row="21" column="1">
+   <item row="14" column="1">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QLabel" name="sijaintiLabel">
-       <property name="text">
-        <string>/</string>
+      <widget class="QLineEdit" name="sijaintiLabel">
+       <property name="mouseTracking">
+        <bool>true</bool>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="frame">
+        <bool>false</bool>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+       <property name="clearButtonEnabled">
+        <bool>false</bool>
        </property>
       </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
      </item>
      <item>
       <widget class="QPushButton" name="hakemistoNappi">
@@ -238,6 +237,20 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>organisaatioEdit</tabstop>
+  <tabstop>ytunnusEdit</tabstop>
+  <tabstop>osoiteEdit</tabstop>
+  <tabstop>kotipaikkaEdit</tabstop>
+  <tabstop>puhelinEdit</tabstop>
+  <tabstop>muotoCombo</tabstop>
+  <tabstop>vaihdaLogoNappi</tabstop>
+  <tabstop>hakemistoNappi</tabstop>
+  <tabstop>alvCheck</tabstop>
+  <tabstop>edistyneetCheck</tabstop>
+  <tabstop>paivitysCheck</tabstop>
+  <tabstop>sijaintiLabel</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
