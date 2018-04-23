@@ -822,7 +822,7 @@ void KirjausWg::naytaLiite()
 {
     QModelIndex index = ui->liiteView->currentIndex();
     if( index.isValid())
-        PdfIkkuna::naytaLiite( model()->id(), index.data(LiiteModel::LiiteNumeroRooli).toInt() );
+        PdfIkkuna::naytaPdf( index.data(LiiteModel::PdfRooli).toByteArray() );
 
 }
 

@@ -22,6 +22,7 @@
 #include <QFileInfo>
 #include <QIcon>
 #include <QPdfWriter>
+#include <QMessageBox>
 
 #include <QPrinter>
 #include <QPainter>
@@ -114,7 +115,7 @@ int LiiteModel::lisaaPdf(const QByteArray &pdf, const QString &otsikko)
     uusi.muokattu = true;
 
     // Peukkukuvan muodostaminen
-    Poppler::Document *pdfDoc = Poppler::Document::loadFromData( uusi.pdf );
+    Poppler::Document *pdfDoc = Poppler::Document::loadFromData( pdf );
     if( pdfDoc )
     {
         Poppler::Page *pdfsivu = pdfDoc->page(0);
@@ -142,22 +143,23 @@ int LiiteModel::lisaaPdf(const QByteArray &pdf, const QString &otsikko)
 
 int LiiteModel::lisaaTiedosto(const QString &polku, const QString &otsikko)
 {
-    QByteArray pdf;
+    QByteArray data;
 
-    if( polku.toLower().endsWith(".pdf"))
+    QFile tiedosto(polku);
+    if( !tiedosto.open(QIODevice::ReadOnly) )
     {
-
-        // On valmiiksi pdf
-        QFile tiedosto(polku);
-        tiedosto.open( QIODevice::ReadOnly);
-
-        pdf = tiedosto.readAll();
-
-        tiedosto.close();
+        QMessageBox::critical(0, tr("Tiedostovirhe"),
+                              tr("Tiedoston %1 avaaminen epäonnistui/n%1").arg(tiedosto.errorString()));
+        return 0;
     }
-    else
+    data = tiedosto.readAll();
+    tiedosto.close();
+
+    if( !data.startsWith("%PDF"))
     {
+        QByteArray pdf;
         QImage kuva(polku);
+
 
         QBuffer puskuri(&pdf);
         puskuri.open(QBuffer::WriteOnly);
@@ -175,11 +177,13 @@ int LiiteModel::lisaaTiedosto(const QString &polku, const QString &otsikko)
                              size.width(), size.height());
         painter.setWindow( kuva.rect() );
         painter.drawImage(0,0,kuva);
+        painter.end();
 
         puskuri.close();
+        return lisaaPdf(pdf, otsikko);
     }
 
-    return lisaaPdf(pdf, otsikko);
+    return lisaaPdf(data, otsikko);
 }
 
 void LiiteModel::poistaLiite(int indeksi)

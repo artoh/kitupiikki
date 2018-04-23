@@ -212,7 +212,7 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                 // Alkusaldot
                 kysely.exec(QString("SELECT eraid, sum(debetsnt) as debetit, sum(kreditsnt) as kreditit from vienti "
                                    "where tili=%1 and eraid is not null and pvm < \"%2\" group by eraid")
-                           .arg(tili.id()).arg(mihin.toString(Qt::ISODate)));
+                           .arg(tili.id()).arg(mista.toString(Qt::ISODate)));
 
 
                 // Tallennetaan saldotaulukkoon tilien eräsaldot
@@ -249,12 +249,11 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                     nimirivi.lisaa( alkusnt);
                     rk.lisaaRivi(nimirivi);
 
-                    qlonglong saldo;
+                    qlonglong saldo = alkusaldot.value(eraId);;
 
-                    if( alkusaldot.value(eraId))
+                    if( saldo && saldo != alkusnt )
                     {
                         // Poistot tähän mennessä ja saldo vuoden alkaessa
-                        saldo = alkusaldot.value(eraId);
 
                         RaporttiRivi poistettuRivi;
                         poistettuRivi.lisaa(" ",2);
