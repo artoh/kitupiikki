@@ -579,6 +579,23 @@ qlonglong VientiModel::kreditSumma() const
     return summa;
 }
 
+void VientiModel::uusiPohjalta(const QString &otsikko)
+{
+    for(int i=0; i < viennit_.count(); i++)
+    {
+        viennit_[i].pvm = tositeModel_->pvm();
+
+        // Jos selite oli tositteen otsikko, päivitetään se
+        if( viennit_[i].selite == tositeModel_->otsikko())
+            viennit_[i].selite = otsikko;
+
+        if( viennit_[i].eraId == viennit_[i].vientiId)
+            viennit_[i].eraId = TaseEra::UUSIERA;
+
+        viennit_[i].vientiId = 0;   // Tallennetaan uusi
+    }
+}
+
 bool VientiModel::tallenna()
 {
     QSqlQuery query(*tositeModel_->tietokanta());

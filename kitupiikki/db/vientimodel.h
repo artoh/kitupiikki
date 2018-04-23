@@ -150,6 +150,12 @@ public:
      */
     bool muokattu() const { return muokattu_; }
 
+    /**
+     * @brief Kopioidaan uusi tosite tämän pohjalta
+     * @param otsikko
+     */
+    void uusiPohjalta(const QString& otsikko);
+
 public slots:
     /**
      * @brief Tallentaa viennit
