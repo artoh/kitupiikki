@@ -3,7 +3,7 @@ Kiinteistöyhtiö
 [TilikarttaTekija]
 artoh.github.io
 [TilikarttaPvm]
-2018-04-05
+2018-04-20
 [TilikarttaKuvaus]
 Yhtiön toiminta perustuu kiinteistön hallintaan (kiinteistöyhtiö, asunto-osakeyhtiö). Tilinpäätös laaditaan Kiinteistökaavan mukaisesti.
 [TilikarttaOhje]
@@ -514,7 +514,7 @@ Vastaavaa yhteensä		1 bold
 VASTATTAVAA		H bold
 
 VASTATTAVAA		H bold
-OMA PÄÄOMA		20 
+OMA PÄÄOMA		20..24 
 Osake-, osuus- tai muu vastaava pääoma	200 s4 *
 Sidotut rahastot		201,202 s4
 Omakatteiset rahastot		201 s8 *
@@ -639,7 +639,7 @@ Vastaavaa yhteensä		1 bold
 
 
 VASTATTAVAA		H bold
-OMA PÄÄOMA		20 
+OMA PÄÄOMA		20..24 
 Osake-, osuus- tai muu vastaava pääoma	200 s4 *
 Sidotut rahastot		201,202 s4
 Omakatteiset rahastot		201 s8 *
