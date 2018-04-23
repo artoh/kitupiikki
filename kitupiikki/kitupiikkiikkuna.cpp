@@ -52,7 +52,7 @@
 #include "onniwidget.h"
 
 #include "lisaikkuna.h"
-
+#include "laskutus/laskudialogi.h"
 #include "kirjaus/siirrydlg.h"
 
 KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
@@ -118,7 +118,12 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     connect( uusiSelausAktio, SIGNAL(triggered(bool)), this, SLOT(uusiSelausIkkuna()));
     new QShortcut(QKeySequence(Qt::SHIFT + Qt::Key_F3), this, SLOT(uusiSelausIkkuna()), 0, Qt::ApplicationShortcut);
 
+    uusiLaskuAktio = new QAction(QIcon(":/pic/lasku.png"), tr("Uusi lasku"), this);
+    connect( uusiLaskuAktio, SIGNAL(triggered(bool)), this, SLOT(uusiLasku()));
+    new QShortcut(QKeySequence(Qt::SHIFT + Qt::Key_F4), this, SLOT(uusiLasku()), 0, Qt::ApplicationShortcut);
+
     new QShortcut(QKeySequence("Ctrl+G"), this, SLOT(siirryTositteeseen()), 0, Qt::ApplicationShortcut);
+
 
     toolbar->installEventFilter(this);
     toolbar->setContextMenuPolicy(Qt::PreventContextMenu);
@@ -200,6 +205,12 @@ void KitupiikkiIkkuna::uusiSelausIkkuna()
 {
     LisaIkkuna *ikkuna = new LisaIkkuna;
     ikkuna->selaa();
+}
+
+void KitupiikkiIkkuna::uusiLasku()
+{
+    LaskuDialogi *dlg = new LaskuDialogi(this);
+    dlg->show();
 }
 
 void KitupiikkiIkkuna::aktivoiSivu(QAction *aktio)
@@ -287,13 +298,16 @@ bool KitupiikkiIkkuna::eventFilter(QObject *watched, QEvent *event)
     {
         QMouseEvent* mouse = static_cast<QMouseEvent*>(event);
         if( mouse->button() == Qt::RightButton
-            && ( toolbar->actionAt( mouse->pos() ) == sivuaktiot[KIRJAUSSIVU ] || toolbar->actionAt( mouse->pos() ) == sivuaktiot[SELAUSSIVU ]))
+            && ( toolbar->actionAt( mouse->pos() ) == sivuaktiot[KIRJAUSSIVU ] || toolbar->actionAt( mouse->pos() ) == sivuaktiot[SELAUSSIVU ] ||
+                 toolbar->actionAt( mouse->pos() ) == sivuaktiot[LASKUTUSSIVU ] ))
         {
             QMenu valikko;
             if( toolbar->actionAt( mouse->pos() ) == sivuaktiot[KIRJAUSSIVU ] )
                 valikko.addAction( uusiKirjausAktio );
             else if( toolbar->actionAt( mouse->pos() ) == sivuaktiot[SELAUSSIVU ] )
                 valikko.addAction( uusiSelausAktio);
+            else if( toolbar->actionAt( mouse->pos()) == sivuaktiot[LASKUTUSSIVU] )
+                valikko.addAction( uusiLaskuAktio );
 
             valikko.exec(QCursor::pos() );
 

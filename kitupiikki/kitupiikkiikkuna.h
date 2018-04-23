@@ -73,6 +73,7 @@ public slots:
 
     void uusiKirjausIkkuna();
     void uusiSelausIkkuna();
+    void uusiLasku();
 
 
 protected slots:
@@ -123,6 +124,7 @@ protected:
 
     QAction* uusiKirjausAktio;
     QAction* uusiSelausAktio;
+    QAction* uusiLaskuAktio;
 
 
 
