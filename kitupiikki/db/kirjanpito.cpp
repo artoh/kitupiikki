@@ -41,7 +41,7 @@ Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
     harjoitusPvm( QDate::currentDate()), tempDir_(0)
 {
     tietokanta_ = QSqlDatabase::addDatabase("QSQLITE");
-    QSettings settings;
+
     asetusModel_ = new AsetusModel(&tietokanta_, this);
     tositelajiModel_ = new TositelajiModel(&tietokanta_, this);
     tiliModel_ = new TiliModel( &tietokanta_, this);
@@ -50,8 +50,10 @@ Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
     veroTyypit_ = new VerotyyppiModel(this);
     tiliTyypit_ = new TilityyppiModel(this);
     tuotteet_ = new TuoteModel(this);
+
     printer_ = new QPrinter(QPrinter::HighResolution);
     printer_->setPaperSize(QPrinter::A4);
+    printer_->setPageMargins(10,5,5,5, QPrinter::Millimeter);
 }
 
 Kirjanpito::~Kirjanpito()
