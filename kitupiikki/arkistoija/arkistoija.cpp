@@ -385,7 +385,7 @@ void Arkistoija::arkistoiTositteet()
         if( !tosite->kommentti().isEmpty())
         {
             out << "<p class=kommentti>";
-            out << tosite->kommentti();
+            out << tosite->kommentti().toHtmlEscaped().replace("\n","<br>");
             out << "</p>";
         }
 
