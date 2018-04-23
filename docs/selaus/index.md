@@ -2,9 +2,6 @@
 
 **Selaa**-välilehdellä pääset selaamaan ja hakemaan jo tehtyjä kirjauksia.
 
-!!! tip "Oikotie"
-    Selausnäkymään pääsee myös painamalla <kbd>F3</kbd>. Selausnäkymän saat avattua uuteen ikkunaan painamalla <kbd>SHIFT</kbd>+<kbd>F3</kbd>.
-
 ## Tositteiden selaaminen
 
 ![](tositteet.png)

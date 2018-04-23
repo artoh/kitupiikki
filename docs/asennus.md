@@ -19,6 +19,7 @@ Tuetut Windowsin versiot: Windows 7, 8 ja 10.
 
 Lataa Kitupiikin asennusohjelma yllä olevasta linkistä ja suorita se. Asennus ei tarvitse ylläpitäjän oikeuksia.
 
+![](images/asennus_hakemisto.png)
 
 ## Linux
 

@@ -13,6 +13,8 @@ Jos tilikartassa oleva tili on tarpeeton **piilota** se. Piilotettu tili ei näy
 
 Voit merkitä paljon käytetyt tilit **suosikkitileiksi**. Tiliä valittaessa voit näyttää pelkät suosikkitilit.
 
+Ylärivin kuvakkeilla määritellään, näytetäänkö **kaikki tilit**, **käytettävissä olevat tilit** (tilit, joita ei ole piilotettu) tai ainoastaan **suosikkitilit**.
+
 Sininen info-kuvake luettelossa merkitsee, että tilille on annettu kirjausohje.
 
 ![](otsikko.png)

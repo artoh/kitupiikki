@@ -2,9 +2,6 @@
 
 ![](tyhjakirjaus.png)
 
-!!! tip "Oikotie"
-    Painamalla <kbd>F2</kbd> avautuu uuden tositteen kirjaaminen nykyiseen ja <kbd>SHIFT</kbd>+<kbd>F2</kbd> uuteen ikkunaan.
-
 1. Jos tosite on tietokoneella (pdf- tai jpg-tiedostona) tuo se joko raahaamalla se **Sähköinen tosite**-kohtaan tai **Valitse tiedosto**-napilla (tai <kbd>CTRL</kbd>+<kbd>O</kbd>).
     Kitupiikki pyrkii poimimaan pdf-tiedostolta osan kirjauksen tiedoista, katso [tuonti](tuonti).
 2. Täytä tositteen **päivämäärä** <kbd>Enter</kbd> ja **otsikko** <kbd>Enter</kbd>.

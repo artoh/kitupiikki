@@ -30,13 +30,15 @@ Muut arvonlisäverot kirjataan aina nettoperusteisesti niin, että alv-tiedolla 
 
 ## Kohdennuksen kirjaaminen
 
-Tileillä, joissa ei ole käytössä tase-erittelyä, voi kohdennuksen valita suoraan **Kohdennus**-sarakkeelta avautustava valintalistasta. Tase-eritellyillä tileillä kohdennus valitaan valintaikkunasta, joka avautuu napsauttamalla **Kohdennus**-saraketta.
+Tileillä, joissa ei ole käytössä tase-erittelyä, voi kohdennuksen valita suoraan **Kohdennus**-sarakkeelta avautustava valintalistasta. Tase-eritellyillä tileillä kohdennus valitaan valintaikkunasta, joka avautuu napsauttamalla **Kohdennus**-saraketta. **Merkkaukset** valitaan sarakkeen päällä hiiren oikeasta painikkeesta avautuvasta valikosta.
 
 
-### Ostolaskun kohdennus
+### Osto- ja myyntilaskujen lisätiedot
 
 ![](olkohdennus.png)
 
 Kirjattaessa **Ostovelat**-tilille on kohdennusikkunassa käytettävissä myös ostolaskun lisätiedot. Näitä tietoja käytetään kohdennettaessa tiliotteelta tuotava suoritus oikealle laskulle. Kitupiikki pyrkii lisäämään nämä tiedot automaattisesti pdf-muotoiselta laskulta.
+
+Vastaavasti **Myyntisaatavat**-tilille kirjattaessa voit antaa viitetiedot, joiden perusteella saapuva maksu kohdennetaan.
 
 Kun ostolaskulla on kohdennustietoja, näkyy Kohdennus-sarakkeessa sana **VIITE**.

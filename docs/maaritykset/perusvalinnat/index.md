@@ -2,9 +2,11 @@
 
 ![](perusvalinnat.png)
 
-**Organisaation nimi**, **y-tunnus**, **osoite**, **kotipaikka**, **puhelin** ja **logo** näkyvät erilaisissa tulosteissa. Logoksi voi valita jpg- tai png-muotoisen kuvatiedoston.
+**Organisaation nimi**, **y-tunnus**, **osoite**, **kotipaikka**, **puhelin** ja **logo** näkyvät erilaisissa tulosteissa. Logoksi voi valita jpg- tai png-muotoisen kuvatiedoston. Logo toimii parhaiten, jos se on muodoltaan neliö.
 
 Elinkeinotoiminnan tilikartoissa määritellään käytettävä **yritysmuoto**. Yhdistystoiminnan tilikartassa määritellään, onko yhdistyksellä arvonlisäveron alaista liiketoimintaa. Nämä valinnat vaikuttavat tilien näyttämiseen ja piilottamiseen tilikartalla.
+
+**Tiedoston sijainti** näyttää kirjanpitotiedoston nimen ja sijainnin. Voit kopioida koko kirjanpidon kopioimalla tämän yhden tiedoston.
 
 Valitse **Arvonlisäverovelvollinen** jos olet rekisteröitynyt arvonlisäverovelvolliseksi. Arvonlisäveroon liittyvät toiminnat näytetään vain, kun Arvonlisäverovelvollinen on valittu. Katso Käsikirjan lukua [Arvonlisävero](/alv).
 
