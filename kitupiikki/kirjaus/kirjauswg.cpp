@@ -89,7 +89,7 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( ui->siiraNumerotBtn, SIGNAL(clicked(bool)), this, SLOT(numeroSiirto()));
 
     ui->tositetyyppiCombo->setModel( Kirjanpito::db()->tositelajit());
-    ui->tositetyyppiCombo->setModelColumn( TositelajiModel::NIMI);
+    ui->tositetyyppiCombo->setModelColumn( TositelajiModel::NIMI);    
 
     // Kun tositteen päivää vaihdetaan, vaihtuu myös tiliotepäivät.
     // Siksi tosipäivä ladattava aina ennen tiliotepäiviä!
@@ -219,6 +219,12 @@ void KirjausWg::tyhjenna()
     }
     naytaSummat();
     ui->tabWidget->setCurrentIndex(0);
+
+    if( ui->tositetyyppiCombo->currentData(TositelajiModel::IdRooli).toInt() == 0)
+    {
+        // Ei oletuksena järjestelmätositetta
+        ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( 1, TositelajiModel::IdRooli) );
+    }
 }
 
 void KirjausWg::tallenna()
