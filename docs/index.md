@@ -10,12 +10,32 @@
   <div class="txt">Kitupiikki tallentaa pdf-muotoiset liitteet</div>
  </div>
  <div class="karusellissa fade">
-  <img src="tulosteet/paakirja.png">
+  <img src="images/paakirja.png">
   <div class="txt">Pääkirja</div>
  </div>
  <div class="karusellissa fade">
   <img src="laskutus/luettelo.png">
   <div class="txt">Kitupiikkiin sisältyy myös laskutus</div>
+ </div>
+ <div class="karusellissa fade">
+  <img src="images/maksualv.png">
+  <div class="txt">Kitupiikki tulee maksuperusteista arvonlisäveroa</div>
+ </div>
+ <div class="karusellissa fade">
+  <img src="images/arkisto.png">
+  <div class="txt">Kirjanpidosta muodostetaan sähköinen arkisto</div>
+ </div>
+ <div class="karusellissa fade">
+  <img src="images/raportinmuokkaus.png">
+  <div class="txt">Tulosteet ovat täysin muokattavissa</div>
+ </div>
+ <div class="karusellissa fade">
+  <img src="aloitus/vinkit7.png">
+  <div class="txt">Kitupiikki vinkkaa ja neuvoo</div>
+ </div>
+ <div class="karusellissa fade">
+  <img src="images/viivakoodi.png">
+  <div class="txt">Laskuissa pankkiviivakoodi ja QR-koodi</div>
  </div>
 </div>
 
