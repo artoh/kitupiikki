@@ -65,6 +65,7 @@ private:
 
     Tili tili_;
     int taseEra_;
+    int vientiId_;
 
 };
 

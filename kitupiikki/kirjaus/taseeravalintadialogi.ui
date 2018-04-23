@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="eraTab">
       <attribute name="title">
@@ -80,13 +80,13 @@
      </widget>
      <widget class="QWidget" name="ostoTab">
       <attribute name="title">
-       <string>Ostolasku</string>
+       <string>Lasku</string>
       </attribute>
       <layout class="QFormLayout" name="formLayout">
        <item row="0" column="0">
         <widget class="QLabel" name="nimiLabel">
          <property name="text">
-          <string>Laskuttajan nimi</string>
+          <string>Nimi</string>
          </property>
          <property name="buddy">
           <cstring>nimiEdit</cstring>
@@ -122,16 +122,6 @@
        <item row="2" column="1">
         <widget class="QLineEdit" name="viiteEdit"/>
        </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>Eräpäivä</string>
-         </property>
-         <property name="buddy">
-          <cstring>eraDate</cstring>
-         </property>
-        </widget>
-       </item>
        <item row="4" column="1">
         <widget class="QDateEdit" name="eraDate"/>
        </item>
@@ -148,15 +138,25 @@
          </property>
         </spacer>
        </item>
+       <item row="3" column="1">
+        <widget class="QDateEdit" name="laskunpvmEdit"/>
+       </item>
        <item row="3" column="0">
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>Laskun päivä</string>
+          <string>Laskun päivämäärä</string>
+         </property>
+         <property name="buddy">
+          <cstring>laskunpvmEdit</cstring>
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
-        <widget class="QDateEdit" name="laskunpvmEdit"/>
+       <item row="4" column="0">
+        <widget class="QCheckBox" name="erapvmCheck">
+         <property name="text">
+          <string>Eräpäivä</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -219,6 +219,22 @@
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>erapvmCheck</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>eraDate</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>68</x>
+     <y>168</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>131</x>
+     <y>168</y>
     </hint>
    </hints>
   </connection>
