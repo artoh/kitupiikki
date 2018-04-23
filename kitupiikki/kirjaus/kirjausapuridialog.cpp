@@ -311,7 +311,31 @@ void KirjausApuriDialog::vastaTiliMuuttui()
     ui->yhdistaCheck->setChecked(yhdistettavissa && !model->tiliotetili() );
     yhdistaminenMuuttui( ui->yhdistaCheck->isChecked());
 
-    ui->ostoBox->setVisible( vastatili.onko(TiliLaji::OSTOVELKA));
+    if( vastatili.onko(TiliLaji::OSTOVELKA) && ui->valintaTab->currentIndex() == MENO )
+    {
+        ui->ostoBox->setVisible(true);
+        ui->ostoBox->setTitle(tr("Ostolaskun lisätiedot"));
+
+        ui->saajannimiLabel->setText( tr("Saajan &nimi"));
+
+        ui->ibanLabel->setVisible(true);
+        ui->ibanEdit->setVisible(true);
+
+    }
+    else if( vastatili.onko(TiliLaji::MYYNTISAATAVA) && ui->valintaTab->currentIndex() == TULO)
+    {
+        ui->ostoBox->setVisible(true);
+        ui->ostoBox->setTitle( tr("Myyntilaskun lisätiedot") );
+
+        ui->saajannimiLabel->setText(tr("Asiakkaan &nimi"));
+
+        ui->ibanLabel->setVisible(false);
+        ui->ibanEdit->setVisible(false);
+
+    }
+    else
+        ui->ostoBox->setVisible(false);
+
     veroSuodattimetKuntoon();
     kohdennusNakyviin();
 
@@ -507,6 +531,22 @@ void KirjausApuriDialog::ehdota()
             if( taserivi.tili.json()->luku("Kohdennukset"))
                 taserivi.kohdennus = kp()->kohdennukset()->kohdennus(ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
             taserivi.eraId = ui->vastaTaseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
+
+            if(vastatili.onko(TiliLaji::MYYNTISAATAVA))
+            {
+
+                if( ui->viiteEdit->hasAcceptableInput())
+                    taserivi.viite = ui->viiteEdit->text().remove(' ');
+                if( !ui->saajanNimiEdit->text().isEmpty())
+                    taserivi.asiakas = ui->saajanNimiEdit->text();
+
+                taserivi.laskupvm = ui->laskupvmEdit->date();
+
+                if( ui->eraCheck->isChecked())
+                    taserivi.erapvm = ui->erapvmEdit->date();
+            }
+
+
             taserivi.tagit = tagit;
             ehdotus.lisaaVienti(taserivi);
         }
@@ -585,6 +625,9 @@ void KirjausApuriDialog::ehdota()
             {
                 if( ui->ibanEdit->hasAcceptableInput())
                     taserivi.ibanTili = ui->ibanEdit->text().remove(' ');
+                else
+                    taserivi.ibanTili = QString("");
+
                 if( ui->viiteEdit->hasAcceptableInput())
                     taserivi.viite = ui->viiteEdit->text().remove(' ');
                 if( !ui->saajanNimiEdit->text().isEmpty())
