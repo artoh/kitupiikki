@@ -62,6 +62,10 @@ QVariant EranValintaModel::data(const QModelIndex &index, int role) const
         {
             return QVariant( QString("%1 %2 (%L3 €)").arg(era.pvm.toString("dd.MM.yyyy")).arg(era.selite).arg(era.saldoSnt / 100.0,0,'f',2));
         }
+        else if(role == TositeIdRooli)
+        {
+            return era.tositeId;
+        }
     }
     return QVariant();
 }
@@ -129,12 +133,13 @@ TaseEra::TaseEra(int id)
             saldoSnt -= query.value(1).toLongLong();
         }
 
-        query.exec(QString("SELECT pvm, selite, debetsnt, kreditsnt from vienti "
+        query.exec(QString("SELECT pvm, selite, tosite from vienti "
                    "where id=%1").arg( id ));
         if( query.next())
         {
             pvm = query.value("pvm").toDate();
             selite = query.value("selite").toString();
+            tositeId = query.value("tosite").toInt();
         }
 
     }
@@ -144,7 +149,7 @@ QString TaseEra::tositteenTunniste()
 {
     if(eraId)
     {
-        QSqlQuery query(QString("select tositelaji.tunnus, tosite.tunniste from vienti,tositelaji,tosite where vienti.id=%1 and vienti.tosite=tosite.id and tosite.laji=tositelaji.id").arg(eraId));
+        QSqlQuery query(QString("select tositelaji.tunnus, tosite.tunniste from tositelaji,tosite WHERE tosite.id=%1 and tosite.laji=tositelaji.id").arg(tositeId));
         if( query.next())
         {
             return  query.value(0).toString() + query.value(1).toString();

@@ -48,6 +48,7 @@ struct TaseEra
     int eraId;
     QDate pvm;
     QString selite;
+    int tositeId;
     qlonglong saldoSnt = 0;
 };
 
@@ -71,7 +72,8 @@ public:
         PvmRooli = Qt::UserRole +1,
         SeliteRooli = Qt::UserRole +2,
         SaldoRooli = Qt::UserRole + 3,
-        TositteenTunnisteRooli = Qt::UserRole + 4
+        TositteenTunnisteRooli = Qt::UserRole + 4,
+        TositeIdRooli = Qt::UserRole + 5
     };
 
 

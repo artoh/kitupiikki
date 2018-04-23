@@ -190,7 +190,7 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                     RaporttiRivi rr;
                     QModelIndex ind = erat.index(i, 0);
 
-                    rr.lisaaLinkilla( RaporttiRiviSarake::TOSITE_ID, ind.data(EranValintaModel::EraIdRooli).toInt(),
+                    rr.lisaaLinkilla( RaporttiRiviSarake::TOSITE_ID, ind.data(EranValintaModel::TositeIdRooli).toInt(),
                                       ind.data(EranValintaModel::TositteenTunnisteRooli).toString()  );
                     rr.lisaa( ind.data(EranValintaModel::PvmRooli).toDate());
                     rr.lisaa( ind.data(EranValintaModel::SeliteRooli).toString());
@@ -209,21 +209,7 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                 // EraId,SaldoSnt
                 QHash<int,qlonglong> alkusaldot;
 
-                // Sijoitetaan ensin kaikki tämän tilikauden tase-erät
-                kysely.exec( QString("SELECT DISTINCT id, eraid FROM vienti WHERE tili=%1 "
-                                     "AND pvm BETWEEN \"%2\" AND \"%3\" ")
-                             .arg(tili.id()).arg(mista.toString(Qt::ISODate))
-                             .arg(mihin.toString(Qt::ISODate)));
-
-                while( kysely.next() )
-                {
-                    if( kysely.value("eraid").toLongLong())
-                        alkusaldot.insert( kysely.value("eraid").toLongLong(), 0);
-                    else
-                        alkusaldot.insert( kysely.value("id").toLongLong(),0);
-                }
-
-                // Sitten alkusaldot
+                // Alkusaldot
                 kysely.exec(QString("SELECT eraid, sum(debetsnt) as debetit, sum(kreditsnt) as kreditit from vienti "
                                    "where tili=%1 and eraid is not null and pvm < \"%2\" group by eraid")
                            .arg(tili.id()).arg(mihin.toString(Qt::ISODate)));
@@ -237,7 +223,7 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
 
                 // Sitten haetaan tase-erän tiedot
                 kysely.exec(QString("SELECT vienti.id, debetsnt, kreditsnt, vienti.pvm, selite, laji, tunniste from vienti, tosite "
-                           "where tili=%1 and vienti.tosite=tosite.id and eraid is NULL order by vienti.pvm")
+                           "where tili=%1 and vienti.tosite=tosite.id and eraid=vienti.id order by vienti.pvm")
                            .arg(tili.id()));
 
 
@@ -272,7 +258,7 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
 
                         RaporttiRivi poistettuRivi;
                         poistettuRivi.lisaa(" ",2);
-                        poistettuRivi.lisaa( tr("Vähennykset %1 saakka").arg( mista.addDays(-1).toString("dd.MM.yyyy")));
+                        poistettuRivi.lisaa( tr("Lisäykset/vähennykset %1 saakka").arg( mista.addDays(-1).toString("dd.MM.yyyy")));
                         poistettuRivi.lisaa( saldo - alkusnt);
                         rk.lisaaRivi(poistettuRivi);
 
