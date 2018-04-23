@@ -249,7 +249,8 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
                 return QIcon(":/pic/lasku.png");
             else if( rivi.kohdennus.id() )
                 return rivi.kohdennus.tyyppiKuvake();
-            else if( rivi.eraId == rivi.vientiId && rivi.tili.eritellaankoTase() )
+
+            else if( rivi.eraId == rivi.vientiId &&  rivi.eraId > 0 && rivi.tili.eritellaankoTase() )
             {
                 TaseEra era(rivi.vientiId);
                 if( !era.saldoSnt )
