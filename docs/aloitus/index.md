@@ -71,6 +71,8 @@ uusia kirjauksia, vaikka tilinavausta ei olisikaan tehty.
 
 Valitse tiedostonnimi ja sijainti, minne kirjanpito tallennetaan. Tähän tiedostoon tallennetaan koko kirjanpito kaikkine liitteineen niin, että kirjanpidon voi siirtää tai varmuuskopioida kopioimalla tämä yksi tiedosto.
 
+Kirjanpitotiedoston lisäksi samaan hakemistoon luodaan myöhemmin .arkisto-päätteinen hakemisto, jonne kirjanpidon sähköinen arkisto tallennetaan.
+
 !!! warning "Huolehdi varmuuskopioinnista"
     Huolehdi kirjanpitosi varmuuskopioinnista! Kirjanpidosta tulisi olla aina
     varmuuskopio toisella tietovälineellä!
