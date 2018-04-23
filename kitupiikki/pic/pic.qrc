@@ -105,6 +105,8 @@
         <file>Menu-Circles.png</file>
         <file>tag.png</file>
         <file>etsi.png</file>
+        <file>kaytossa.png</file>
+        <file>kaikkitilit.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

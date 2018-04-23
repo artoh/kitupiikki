@@ -34,8 +34,13 @@ TilikarttaMuokkaus::TilikarttaMuokkaus(QWidget *parent)
 
 
     model = new TiliModel( kp()->tietokanta(), this);
+
+    naytaProxy = new QSortFilterProxyModel(this);
+    naytaProxy->setSourceModel(model);
+    naytaProxy->setFilterRole(TiliModel::TilaRooli);
+
     proxy = new QSortFilterProxyModel(this);
-    proxy->setSourceModel(model);
+    proxy->setSourceModel(naytaProxy);
     proxy->setSortRole(TiliModel::YsiRooli);
     proxy->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
@@ -51,6 +56,10 @@ TilikarttaMuokkaus::TilikarttaMuokkaus(QWidget *parent)
     connect(ui->suosikkiNappi, SIGNAL(clicked()), tilamapper, SLOT(map()));
     tilamapper->setMapping(ui->suosikkiNappi, 2);
     connect(tilamapper, SIGNAL(mapped(int)), this, SLOT(muutaTila(int)));
+
+    connect( ui->kaikkiNappi, &QPushButton::clicked, [this]() { this->suodataTila(0);}  );
+    connect( ui->kaytossaNappi, &QPushButton::clicked, [this]() {this->suodataTila(1);});
+    connect( ui->suosikitNappi, &QPushButton::clicked, [this]() { this->suodataTila(2); });
 
     connect(ui->view->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
             this, SLOT(riviValittu(QModelIndex)));
@@ -134,7 +143,7 @@ void TilikarttaMuokkaus::riviValittu(const QModelIndex& index)
 void TilikarttaMuokkaus::muokkaa()
 {
 
-    TilinMuokkausDialog dlg(model, proxy->mapToSource(ui->view->currentIndex()));
+    TilinMuokkausDialog dlg(model, naytaProxy->mapToSource( proxy->mapToSource(ui->view->currentIndex())));
     dlg.exec();
     proxy->sort(0);
     emit tallennaKaytossa( onkoMuokattu() );
@@ -154,6 +163,24 @@ void TilikarttaMuokkaus::poista()
     if( ui->view->currentIndex().isValid())
         model->poistaRivi(  proxy->mapToSource(ui->view->currentIndex()).row());
     emit tallennaKaytossa( onkoMuokattu() );
+}
+
+void TilikarttaMuokkaus::suodataTila(int tila)
+{
+    ui->kaikkiNappi->setChecked(tila == 0);
+    ui->kaytossaNappi->setChecked(tila == 1);
+    ui->suosikitNappi->setChecked(tila == 2);
+
+    switch (tila) {
+    case 0:
+        naytaProxy->setFilterFixedString("");
+        break;
+    case 1:
+        naytaProxy->setFilterRegExp("(1|2)");
+        break;
+    case 2:
+        naytaProxy->setFilterFixedString("2");
+    }
 }
 
 void TilikarttaMuokkaus::suodata(const QString &teksti)

@@ -49,6 +49,7 @@ public slots:
     void muokkaa();
     void uusi();
     void poista();
+    void suodataTila(int tila);
 
     void suodata(const QString& teksti);
     /**
@@ -61,6 +62,7 @@ protected:
     Ui::Tilikartta *ui;
     TiliModel *model;
     QSortFilterProxyModel *proxy;
+    QSortFilterProxyModel *naytaProxy;
 };
 
 #endif // TILIKARTTAMUOKKAUS_H

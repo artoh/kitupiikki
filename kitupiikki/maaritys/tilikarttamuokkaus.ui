@@ -37,6 +37,60 @@
       </spacer>
      </item>
      <item>
+      <widget class="QPushButton" name="kaikkiNappi">
+       <property name="toolTip">
+        <string>Näytä kaikki tilit</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/kaikkitilit.png</normaloff>:/pic/kaikkitilit.png</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="kaytossaNappi">
+       <property name="toolTip">
+        <string>Näytä käytettävissä olevat tilit</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/kaytossa.png</normaloff>:/pic/kaytossa.png</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="suosikitNappi">
+       <property name="toolTip">
+        <string>Näytä vain suosikkitilit</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/tahti.png</normaloff>:/pic/tahti.png</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QLineEdit" name="siirryEdit">
        <property name="placeholderText">
         <string>Siirry tiliin</string>
@@ -149,6 +203,10 @@
       <widget class="QPushButton" name="normaaliNappi">
        <property name="text">
         <string>&amp;Normaali</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/kaytossa.png</normaloff>:/pic/kaytossa.png</iconset>
        </property>
        <property name="checkable">
         <bool>true</bool>
