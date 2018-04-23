@@ -529,7 +529,7 @@ Edellisten tilikausien voitto/tappio	2450 s4 *
 Tilikauden voitto/tappio		2460 s4 *
 TILINPÄÄTÖSSIIRTOJEN KERTYMÄ	25 
 PAKOLLISET VARAUKSET		26	
-VIERAS PÄÄOMA		26..28
+VIERAS PÄÄOMA		28..29
 Pitkäaikainen vieras pääoma		28 s4
 Lyhytaikainen vieras pääoma		29 s4
 
@@ -664,7 +664,7 @@ PAKOLLISET VARAUKSET		26
 Eläkevaraukset		260 s4 *
 Verovaraukset		261 s4 *
 Muut pakolliset varaukset		269 s4 *
-VIERAS PÄÄOMA		26..28
+VIERAS PÄÄOMA		28..29
 Pitkäaikainen vieras pääoma		28 s4
 Joukkovelkakirjalainat		281 s8 *
 Vaihtovelkakirjalainat		282 s8 *
