@@ -38,6 +38,7 @@ signals:
 public slots:
     void tulosta();
     void avaaOhjelmalla();
+    void tallenna();
 
 public:
     /**

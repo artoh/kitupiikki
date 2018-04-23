@@ -19,6 +19,7 @@
 #include <QMessageBox>
 #include <QFile>
 #include <QSettings>
+#include <QFileDialog>
 
 #ifdef Q_OS_LINUX
     #include <poppler/qt5/poppler-qt5.h>
@@ -61,6 +62,7 @@ PdfIkkuna::PdfIkkuna(const QByteArray &pdfdata,  QWidget *parent) :
     tb->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     tb->addAction(QIcon(":/pic/peru.png"), tr("Sulje"), this, SLOT(close()));
     tb->addAction(QIcon(":/pic/pdf.png"), tr("Avaa"), this, SLOT(avaaOhjelmalla()));
+    tb->addAction(QIcon(":/pic/tiedostoon.png"), tr("Tallenna"), this, SLOT(tallenna()));
     tb->addAction(QIcon(":/pic/tulosta.png"), tr("Tulosta"), this, SLOT(tulosta()));
 
 
@@ -104,6 +106,23 @@ void PdfIkkuna::avaaOhjelmalla()
 
     if( !QDesktopServices::openUrl( QUrl(tiedosto.fileName()) ))
         QMessageBox::critical(this, tr("Pdf-tiedoston näyttäminen"), tr("Pdf-tiedostoja näyttävän ohjelman käynnistäminen ei onnistunut"));
+}
+
+void PdfIkkuna::tallenna()
+{
+    QString tiedostoon = QFileDialog::getSaveFileName(this, tr("Tallenna tiedostoon"), QString(), tr("Pdf-tiedostot (*.pdf)"));
+    if( !tiedostoon.isEmpty())
+    {
+        QFile out(tiedostoon);
+        if( out.open(QIODevice::WriteOnly))
+        {
+            out.write( data );
+        }
+        else
+        {
+            QMessageBox::critical(this, tr("Tiedoston tallentaminen"), tr("Tiedoston tallentaminen epäonnistui\n%1").arg(out.errorString()));
+        }
+    }
 }
 
 void PdfIkkuna::naytaPdf(const QByteArray &pdfdata)
