@@ -25,6 +25,7 @@
 #include "tilinpaatostulostaja.h"
 #include "db/kirjanpito.h"
 #include "tpaloitus.h"
+#include "tools/pdfikkuna.h"
 
 TilinpaatosEditori::TilinpaatosEditori(Tilikausi tilikausi, QWidget *parent)
     : QMainWindow(parent),
@@ -45,9 +46,10 @@ TilinpaatosEditori::TilinpaatosEditori(Tilikausi tilikausi, QWidget *parent)
 }
 
 void TilinpaatosEditori::esikatsele()
-{
-    tallenna();
-    Kirjanpito::avaaUrl( QUrl::fromLocalFile( kp()->tiedostopolku()  + ".arkisto/" + tilikausi_.arkistoHakemistoNimi() + "/tilinpaatos.pdf") );
+{    
+    QString teksti = raportit_ + "\n" + editori_->toHtml();
+
+    PdfIkkuna::naytaPdf(TilinpaatosTulostaja::tulostaTilinpaatos( tilikausi_, teksti));
 }
 
 void TilinpaatosEditori::luoAktiot()
@@ -233,7 +235,16 @@ void TilinpaatosEditori::tallenna()
     kp()->tilikaudet()->json(tilikausi_)->set("TilinpaatosTeksti", teksti);
     kp()->tilikaudet()->tallennaJSON();
 
-    TilinpaatosTulostaja::tulostaTilinpaatos( tilikausi_, teksti);
+    QByteArray pdf = TilinpaatosTulostaja::tulostaTilinpaatos( tilikausi_, teksti);
+
+    kp()->liitteet()->asetaPdf( pdf, tilikausi_.alkaa().toString(Qt::ISODate) );
+    kp()->liitteet()->tallenna();
+
+    // Tallennetaan myös Arkistoon
+    QFile out(kp()->arkistopolku()  + "/" + tilikausi_.arkistoHakemistoNimi() + "/tilinpaatos.pdf");
+    out.open(QIODevice::WriteOnly);
+    out.write( pdf );
+    out.close();
 
     emit tallennettu();
 }

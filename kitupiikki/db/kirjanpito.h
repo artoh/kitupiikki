@@ -81,7 +81,7 @@ public:
      * @brief Polku kirjanpitotiedostoon
      * @return
      */
-    QString tiedostopolku() { return polkuTiedostoon_;}
+    QString tiedostopolku() const { return polkuTiedostoon_;}
 
     /**
      * @brief Käytetäänkö harjoittelutilassa
@@ -220,6 +220,18 @@ public:
      */
     void asetaLogo(const QImage& logo);
 
+    /**
+     * @brief Liitteet ilman tositetta (esim. logo, tilinpäätökset)
+     * @return
+     */
+    LiiteModel *liitteet() { return liitteet_;}
+
+    /**
+     * @brief Arkistohakemiston polku
+     * @return
+     */
+    QString arkistopolku() const;
+
 signals:
     /**
      * @brief Tietokanta on avattu
@@ -286,6 +298,7 @@ protected:
     VerotyyppiModel *veroTyypit_;
     TilityyppiModel *tiliTyypit_;
     TuoteModel *tuotteet_;
+    LiiteModel *liitteet_;
     QPrinter *printer_;
 
     QTemporaryDir *tempDir_;

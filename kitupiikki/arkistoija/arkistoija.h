@@ -49,6 +49,8 @@ protected:
     void arkistoiTiedosto(const QString& tiedostonnimi,
                           const QString& html);
 
+    void arkistoiByteArray(const QString& tiedostonnimi, const QByteArray& array);
+
     void kirjoitaHash();
 
     QString navipalkki(int edellinen=0, int seuraava=0);

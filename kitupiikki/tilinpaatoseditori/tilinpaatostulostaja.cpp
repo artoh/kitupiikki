@@ -36,21 +36,20 @@
 
 #include "raportti/raportoija.h"
 
-bool TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, QString teksti)
+QByteArray TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, QString teksti)
 {
-    QString tiedosto =  kp()->tiedostopolku() + ".arkisto/" + tilikausi.arkistoHakemistoNimi() + "/tilinpaatos.pdf" ;
-    if( QFile::exists(tiedosto))
-            QFile(tiedosto).remove();
+    QByteArray barray;
+    QBuffer buffer(&barray);
+    buffer.open(QIODevice::WriteOnly);
 
-    QPdfWriter writer( tiedosto );
+    QPdfWriter writer( &buffer );
+
     writer.setPageSize( QPdfWriter::A4);
+    writer.setCreator( QString("%1 %2").arg(qApp->applicationName()).arg(qApp->applicationVersion()) );
+    writer.setTitle( Kirjanpito::tr("Tilinpäätös %1").arg(tilikausi.kausivaliTekstina()) );
 
     writer.setPageMargins( QMarginsF(25,10,10,10), QPageLayout::Millimeter );
     QPainter painter( &writer );
-
-
-    writer.setCreator( QString("%1 %2").arg(qApp->applicationName()).arg(qApp->applicationVersion()) );
-    writer.setTitle( Kirjanpito::tr("Tilinpäätös %1").arg(tilikausi.kausivaliTekstina()) );
 
     tulostaKansilehti( tilikausi, &painter);
     int sivulla = 1;
@@ -132,7 +131,8 @@ bool TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, QString tekst
         sivulla++;
     }
     painter.end();
-    return true;
+
+    return barray;
 }
 
 void TilinpaatosTulostaja::tulostaKansilehti(Tilikausi tilikausi, QPainter *painter)

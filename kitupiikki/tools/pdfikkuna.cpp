@@ -127,6 +127,9 @@ void PdfIkkuna::tallenna()
 
 void PdfIkkuna::naytaPdf(const QByteArray &pdfdata)
 {
+    if( pdfdata.isEmpty())
+        return;
+
     PdfIkkuna *ikkuna = new PdfIkkuna( pdfdata );
     ikkuna->show();
     ikkuna->raise();

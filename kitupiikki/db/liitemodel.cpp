@@ -141,6 +141,17 @@ int LiiteModel::lisaaPdf(const QByteArray &pdf, const QString &otsikko)
     return uusi.liiteno;
 }
 
+int LiiteModel::asetaPdf(const QByteArray &pdf, const QString &otsikko)
+{
+    for(int i=0; i < liitteet_.count(); i++)
+        if( liitteet_.at(i).otsikko == otsikko)
+        {
+            poistaLiite(i);
+            break;
+        }
+    return lisaaPdf(pdf, otsikko);
+}
+
 int LiiteModel::lisaaTiedosto(const QString &polku, const QString &otsikko)
 {
     QByteArray data;

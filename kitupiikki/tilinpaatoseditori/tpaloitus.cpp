@@ -23,6 +23,8 @@
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 #include <QRegularExpressionMatchIterator>
+#include <QMessageBox>
+
 #include "tpaloitus.h"
 #include "ui_tpaloitus.h"
 
@@ -89,10 +91,21 @@ void TpAloitus::lataaTiedosto()
                                                     QDir::homePath(), tr("Pdf-tiedostot (*.pdf)"));
     if( !tiedosto.isEmpty() )
     {
-        QString tulosfile =  kp()->tiedostopolku() + ".arkisto/" + tilikausi.arkistoHakemistoNimi() + "/tilinpaatos.pdf" ;
+        QString tulosfile =  kp()->arkistopolku() + "/" + tilikausi.arkistoHakemistoNimi() + "/tilinpaatos.pdf" ;
         if( QFile::exists(tulosfile))
             QFile(tulosfile).remove();
         QFile::copy( tiedosto, tulosfile);
+
+        QFile luku(tiedosto);
+        if(!luku.open(QIODevice::ReadOnly))
+            QMessageBox::critical(this, tr("Tiedostovirhe"), tr("Tiedoston %1 luku epäonnistui\n%2")
+                                  .arg(tiedosto)
+                                  .arg(luku.errorString()));
+
+
+        kp()->liitteet()->asetaPdf( luku.readAll(), tilikausi.alkaa().toString(Qt::ISODate) );
+        kp()->liitteet()->tallenna();
+
         reject();
     }
 }

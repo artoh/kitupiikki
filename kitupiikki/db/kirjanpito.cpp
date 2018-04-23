@@ -50,6 +50,7 @@ Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
     veroTyypit_ = new VerotyyppiModel(this);
     tiliTyypit_ = new TilityyppiModel(this);
     tuotteet_ = new TuoteModel(this);
+    liitteet_ = 0;
 
     printer_ = new QPrinter(QPrinter::HighResolution);
     printer_->setPaperSize(QPrinter::A4);
@@ -146,9 +147,18 @@ void Kirjanpito::asetaLogo(const QImage &logo)
     logo.save(&buffer, "PNG");
     buffer.close();
 
-    LiiteModel liite(0);    // Tallennetaan NULL-liitteeksi
-    liite.lisaaPdf( ba, "logo" );
-    liite.tallenna();
+    // Tallennetaan NULL-liitteeksi
+    liitteet_->asetaPdf( ba, "logo" );
+    liitteet_->tallenna();
+}
+
+QString Kirjanpito::arkistopolku() const
+{
+    if( tiedostopolku().endsWith(".kitupiikki"))
+        return tiedostopolku().replace(".kitupiikki",".arkisto");
+
+    QFileInfo info(tiedostopolku());
+    return info.dir().absoluteFilePath("arkisto");
 }
 
 
@@ -337,9 +347,9 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
                                   tr("Kitupiikki ei onnistunut luomaan tilapäishakemistoa. Raporttien ja laskujen esikatselu ei toimi."));
     }
 
-    // Ladataan logo
-    LiiteModel liite(0);
-    logo_ = QImage::fromData( liite.liite("logo") , "PNG" );
+    // Ladataan logo    
+    liitteet_ = new LiiteModel(0, this);
+    logo_ = QImage::fromData( liitteet_->liite("logo") , "PNG" );
 
 
     // Ilmoitetaan, että tietokanta on vaihtunut

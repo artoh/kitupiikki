@@ -30,9 +30,14 @@
 #include "arkistosivu.h"
 #include "poistaja.h"
 
-TilinPaattaja::TilinPaattaja(Tilikausi kausi, QWidget *parent) :
+#include "arkisto/arkistosivu.h"
+
+#include "tools/pdfikkuna.h"
+
+TilinPaattaja::TilinPaattaja(Tilikausi kausi,ArkistoSivu *arkisto , QWidget *parent) :
     QDialog(parent),
     tilikausi(kausi),
+    arkistosivu(arkisto),
     ui(new Ui::TilinPaattaja)
 {
     ui->setupUi(this);
@@ -73,7 +78,7 @@ void TilinPaattaja::paivitaDialogi()
     ui->lukittuLabel->setVisible(lukittu);
     ui->tilinpaatosNappi->setEnabled(lukittu);
 
-    bool tilinpaatosolemassa = QFile::exists( kp()->tiedostopolku() + ".arkisto/" + tilikausi.arkistoHakemistoNimi() + "/tilinpaatos.pdf"  );
+    bool tilinpaatosolemassa = QFile::exists( kp()->arkistopolku() + "/" + tilikausi.arkistoHakemistoNimi() + "/tilinpaatos.pdf"  );
 
     ui->tulostaNappi->setEnabled( tilinpaatosolemassa );
     ui->vahvistaNappi->setEnabled( tilinpaatosolemassa );
@@ -131,7 +136,7 @@ void TilinPaattaja::lukitse()
     // Lukitaan tilikausi!
     kp()->asetukset()->aseta("TilitPaatetty", tilikausi.paattyy());
     // Laaditaan arkisto
-    emit lukittu(tilikausi);
+    arkistosivu->teeArkisto(tilikausi);
 
     paivitaDialogi();
 }
@@ -155,7 +160,8 @@ void TilinPaattaja::muokkaa()
 
 void TilinPaattaja::esikatsele()
 {
-    Kirjanpito::avaaUrl( QUrl::fromLocalFile( kp()->tiedostopolku() + "arkisto/" + tilikausi.arkistoHakemistoNimi() + "/tilinpaatos.pdf") );
+    // Avataan tilinpäätös
+    PdfIkkuna::naytaPdf( kp()->liitteet()->liite( tilikausi.alkaa().toString(Qt::ISODate) ) );
 }
 
 void TilinPaattaja::vahvista()

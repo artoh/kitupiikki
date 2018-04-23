@@ -42,6 +42,7 @@
 #include "tilinpaattaja.h"
 
 #include "tararkisto.h"
+#include "tools/pdfikkuna.h"
 
 
 ArkistoSivu::ArkistoSivu()
@@ -104,15 +105,16 @@ void ArkistoSivu::arkisto()
     if( ui->view->currentIndex().isValid())
     {
         Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->view->currentIndex().row() );
+        QString arkistotiedosto = kp()->arkistopolku() + "/" + kausi.arkistoHakemistoNimi() + "/index.html";
 
         // Tehdään arkisto, jos se on päivittämisen tarpeessa
-        if( !kausi.arkistoitu().isValid() || kausi.arkistoitu() < kausi.viimeinenPaivitys())
+        if( !kausi.arkistoitu().isValid() || kausi.arkistoitu() < kausi.viimeinenPaivitys() || !QFile::exists(arkistotiedosto))
         {
             teeArkisto(kausi);
         }
         // Avataan arkistoi
 
-        Kirjanpito::avaaUrl( QUrl::fromLocalFile(  kp()->tiedostopolku() + ".arkisto/" + kausi.arkistoHakemistoNimi() + "/index.html" ));
+        Kirjanpito::avaaUrl( QUrl::fromLocalFile(  arkistotiedosto ));
 
     }
 }
@@ -130,14 +132,15 @@ void ArkistoSivu::vieArkisto()
         return;
 
     Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->view->currentIndex().row() );
+    QString arkistotiedosto = kp()->arkistopolku() + "/" + kausi.arkistoHakemistoNimi() + "/index.html";
 
     // Tehdään arkisto, jos se on päivittämisen tarpeessa
-    if( !kausi.arkistoitu().isValid() || kausi.arkistoitu() < kausi.viimeinenPaivitys())
+    if( !kausi.arkistoitu().isValid() || kausi.arkistoitu() < kausi.viimeinenPaivitys() || !QFile::exists(arkistotiedosto))
     {
         teeArkisto(kausi);
     }
 
-    QDir mista( kp()->tiedostopolku() + ".arkisto/" + kausi.arkistoHakemistoNimi() );
+    QDir mista( kp()->arkistopolku() + "/" + kausi.arkistoHakemistoNimi() );
     QStringList tiedostot = mista.entryList(QDir::Files);
 
 
@@ -234,11 +237,11 @@ void ArkistoSivu::tilinpaatos()
         if( kausi.tilinpaatoksenTila() == Tilikausi::VAHVISTETTU )
         {
             // Avataan tilinpäätös
-            Kirjanpito::avaaUrl( QUrl::fromLocalFile( kp()->tiedostopolku() +  ".arkisto/" + kausi.arkistoHakemistoNimi() + "/tilinpaatos.pdf" ));
+            PdfIkkuna::naytaPdf( kp()->liitteet()->liite( kausi.alkaa().toString(Qt::ISODate) ) );
         }
         else
         {
-            TilinPaattaja *paattaja = new TilinPaattaja(kausi, parentWidget() );
+            TilinPaattaja *paattaja = new TilinPaattaja(kausi, this, parentWidget() );
             connect( paattaja, SIGNAL(lukittu(Tilikausi)), this, SLOT(teeArkisto(Tilikausi)));
             paattaja->show();
         }

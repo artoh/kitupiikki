@@ -45,8 +45,8 @@ void Arkistoija::luoHakemistot()
 {
     QDir hakemisto;
 
-    hakemisto.mkpath( kp()->tiedostopolku() + ".arkisto" );
-    hakemisto_ = QDir( kp()->tiedostopolku() + ".arkisto" );
+    hakemisto.mkpath( kp()->arkistopolku() );
+    hakemisto_ = QDir( kp()->arkistopolku() );
 
     QString arkistonimi = tilikausi_.arkistoHakemistoNimi();
 
@@ -247,15 +247,9 @@ void Arkistoija::arkistoiTositteet()
                      << "</td><td><a href='" << liiteIndeksi.data(LiiteModel::TiedostoNimiRooli).toString()
                      << "' class=avaaliite>Avaa</a></td></tr>\n";
 
-                QFile out( hakemisto_.absoluteFilePath( liiteIndeksi.data(LiiteModel::TiedostoNimiRooli).toString() ) );
-                out.open( QIODevice::WriteOnly);
-                out.write( liiteIndeksi.data(LiiteModel::PdfRooli).toByteArray() );
-                out.close();
+                arkistoiByteArray(  liiteIndeksi.data(LiiteModel::TiedostoNimiRooli).toString() ,
+                                    liiteIndeksi.data(LiiteModel::PdfRooli).toByteArray() );
 
-                shaBytes.append( liiteIndeksi.data(LiiteModel::Sharooli).toByteArray() );
-                shaBytes.append(" ");
-                shaBytes.append(liiteIndeksi.data(LiiteModel::TiedostoNimiRooli).toString().toLatin1());
-                shaBytes.append("\n");
             }
             out << "</table>";
         }
@@ -535,8 +529,17 @@ void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
     if( tilikausi_.paattyy() > kp()->tilitpaatetty() )
         out << "Kirjanpito on viel&auml; keskener&auml;inen.";
 
-
     out << "</body></html>";
+
+    // Jos löytyy tilinpäätös, kirjoitetaan se
+    QByteArray ba = kp()->liitteet()->liite( tilikausi_.alkaa().toString(Qt::ISODate) );
+    if( !ba.isEmpty())
+    {
+        QFile tilinpaatos( hakemisto_.absoluteFilePath( "tilinpaatos.pdf" ) );
+        tilinpaatos.open(QIODevice::WriteOnly);
+        tilinpaatos.write(ba);
+        tilinpaatos.close();
+    }
 }
 
 
@@ -556,13 +559,18 @@ void Arkistoija::arkistoiTiedosto(const QString &tiedostonnimi, const QString &h
 
     out.flush();
 
+    arkistoiByteArray( tiedostonnimi, bArray );
+}
+
+void Arkistoija::arkistoiByteArray(const QString &tiedostonnimi, const QByteArray &array)
+{
     QFile tiedosto( hakemisto_.absoluteFilePath(tiedostonnimi));
     tiedosto.open( QIODevice::WriteOnly);
-    tiedosto.write( bArray );
+    tiedosto.write( array );
     tiedosto.close();
 
     // SHA-varmistus
-    shaBytes.append(QCryptographicHash::hash( bArray, QCryptographicHash::Sha256).toHex());
+    shaBytes.append(QCryptographicHash::hash( array, QCryptographicHash::Sha256).toHex());
     shaBytes.append(" ");
     shaBytes.append(tiedostonnimi.toLatin1());
     shaBytes.append("\n");
@@ -623,8 +631,6 @@ QString Arkistoija::arkistoi(Tilikausi &tilikausi)
                                 TositeluetteloRaportti::kirjoitaRaportti( tilikausi.alkaa(), tilikausi.paattyy(), true, true, false, false, true).html(true) );
     arkistoija.arkistoiTiedosto("tositepaivakirja.html",
                                 TositeluetteloRaportti::kirjoitaRaportti( tilikausi.alkaa(), tilikausi.paattyy(), true, true, true, true, true).html(true));
-
-
 
     // Tämän pitää tulla lopuksi jotta hash toimii !!!
     arkistoija.kirjoitaIndeksiJaArkistoiRaportit();

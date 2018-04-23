@@ -26,6 +26,8 @@ namespace Ui {
 class TilinPaattaja;
 }
 
+class ArkistoSivu;
+
 /**
  * @brief Tilinpäätösdialogi
  *
@@ -38,7 +40,7 @@ class TilinPaattaja : public QDialog
     Q_OBJECT
 
 public:
-    explicit TilinPaattaja(Tilikausi kausi, QWidget *parent = 0);
+    explicit TilinPaattaja(Tilikausi kausi, ArkistoSivu* arkisto, QWidget *parent = 0);
     ~TilinPaattaja();
 
 public slots:
@@ -57,6 +59,7 @@ signals:
 
 private:
     Tilikausi tilikausi;
+    ArkistoSivu *arkistosivu;
     Ui::TilinPaattaja *ui;
 };
 

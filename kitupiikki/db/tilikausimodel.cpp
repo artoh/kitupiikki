@@ -132,7 +132,8 @@ QVariant TilikausiModel::data(const QModelIndex &index, int role) const
         }
         else if(  index.column() == ARKISTOITU)
         {
-            if( kausi.arkistoitu() > kausi.viimeinenPaivitys() )
+            if( kausi.arkistoitu() > kausi.viimeinenPaivitys() &&
+                    QFile::exists( kp()->arkistopolku() + "/" + kausi.arkistoHakemistoNimi() + "/index.html" )  )
                 return QIcon(":/pic/ok.png");
         }
         else if( index.column() == TILINPAATOS)

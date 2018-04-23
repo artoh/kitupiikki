@@ -79,6 +79,14 @@ public:
      * @return Liitteen nro
      */
     int lisaaPdf(const QByteArray &pdf, const QString& otsikko);
+    /**
+     * @brief Jos samalla otsikolla olemassa, korvaa - muuten lisää
+     * @param pdf
+     * @param otsikko
+     * @return
+     */
+    int asetaPdf(const QByteArray &pdf, const QString& otsikko);
+
     int lisaaTiedosto(const QString& polku, const QString& otsikko);
     void poistaLiite(int indeksi);
 
