@@ -119,6 +119,13 @@ public slots:
     bool tallenna();
     bool poista();
 
+    /**
+     * @brief Luo uuden tositteen tämän tositteen pohjalta
+     * @param pvm
+     * @param otsikko
+     */
+    void uusiPohjalta(const QDate& pvm, const QString& otsikko);
+
 public:
     /**
      * @brief Tulostettava tosite

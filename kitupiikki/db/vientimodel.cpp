@@ -103,6 +103,8 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
         return QVariant( index.row() );
     else if( role == EraIdRooli)
         return QVariant( rivi.eraId );
+    else if( role == SeliteRooli)
+        return rivi.selite;
     else if( role == PoistoKkRooli)
     {
         if( !rivi.tili.onko(TiliLaji::TASAERAPOISTO))

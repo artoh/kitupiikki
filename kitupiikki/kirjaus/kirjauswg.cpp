@@ -53,6 +53,7 @@
 #include "apurivinkki.h"
 #include "ui_numerosiirto.h"
 #include "tools/pdfikkuna.h"
+#include "ui_kopioitosite.h"
 
 
 
@@ -129,6 +130,7 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     QMenu *valikko = new QMenu(this);
     valikko->addAction(QIcon(":/pic/etsi.png"), tr("Siirry tositteeseen\tCtrl+G"), this, SLOT(siirryTositteeseen()));
     valikko->addAction(QIcon(":/pic/tulosta.png"), tr("Tulosta tosite\tCtrl+P"), this, SLOT(tulostaTosite()), QKeySequence("Ctrl+P"));
+    uudeksiAktio_ = valikko->addAction(QIcon(":/pic/kopioi.png"), tr("Kopioi uuden pohjaksi\tCtrl+T"), this, SLOT(uusiPohjalta()), QKeySequence("Ctrl+T"));
     poistaAktio_ = valikko->addAction(QIcon(":/pic/roskis.png"),tr("Poista tosite"),this, SLOT(poistaTosite()));
     ui->valikkoNappi->setMenu( valikko );
 
@@ -345,6 +347,25 @@ void KirjausWg::vientiValittu()
     ui->poistariviNappi->setEnabled( index.isValid() && vientiPvm > kp()->tilitpaatetty());
 }
 
+void KirjausWg::uusiPohjalta()
+{
+    Ui::KopioiDlg kui;
+    QDialog dlg;
+
+    kui.setupUi(&dlg);
+    kui.otsikkoEdit->setText( ui->otsikkoEdit->text() );
+    kui.pvmEdit->setDate( kp()->paivamaara() );
+    kui.pvmEdit->setDateRange( kp()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );
+
+    if( dlg.exec() == QDialog::Accepted)
+    {
+        model_->uusiPohjalta( kui.pvmEdit->date(), kui.otsikkoEdit->text() );
+        tiedotModelista();
+        paivitaTallennaPoistaNapit();
+    }
+
+}
+
 void KirjausWg::vientivwAktivoitu(QModelIndex indeksi)
 {
     // Tehdään alv-kirjaus
@@ -384,6 +405,7 @@ void KirjausWg::paivitaTallennaPoistaNapit()
     ui->tallennaButton->setEnabled( model()->muokattu()  && model()->muokkausSallittu() &&
                                     model()->kelpaakoTunniste( ui->tunnisteEdit->text().toInt() ) );
     poistaAktio_->setEnabled( model()->muokattu() && model_->id() > -1 && model()->muokkausSallittu());
+    uudeksiAktio_->setEnabled( !model()->muokattu() );
 }
 
 void KirjausWg::paivitaVaroitukset() const

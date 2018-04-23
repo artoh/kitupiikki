@@ -340,7 +340,8 @@ FORMS += \
     maaritys/maksuperusteinen.ui \
     kirjaus/apurivinkki.ui \
     kirjaus/numerosiirto.ui \
-    kirjaus/siirry.ui
+    kirjaus/siirry.ui \
+    kirjaus/kopioitosite.ui
 
 DISTFILES += \
     uusikp/luo.sql \

@@ -311,6 +311,37 @@ bool TositeModel::poista()
 
 }
 
+void TositeModel::uusiPohjalta(const QDate &pvm, const QString &otsikko)
+{
+    json_.set("KopioituTositteelta", id_);
+
+    id_ = -1;   // Ei tallennettu
+
+    luotu_ = QDateTime::currentDateTime();
+    muokattuAika_ = QDateTime::currentDateTime();
+
+    // Asetetaan päivämäärä ja haetaan uusi tunnistenumero
+    pvm_ = pvm;
+    tunniste_ = seuraavaTunnistenumero();
+
+
+    // Asetetaan vielä päivämäärä vienteihin
+    for(int i=0; i < vientiModel()->rowCount(QModelIndex()); i++)
+    {
+        QModelIndex indeksi = vientiModel()->index(i, 0);
+        vientiModel()->setData(indeksi, pvm, VientiModel::PvmRooli);
+
+        // Jos selite oli sama kuin vanha otsikko, päivitetään myös otsikko uudeksi
+
+        if( indeksi.data(VientiModel::SeliteRooli).toString() == otsikko_ )
+            vientiModel()->setData( indeksi, otsikko, VientiModel::SeliteRooli);
+    }
+
+    otsikko_ = otsikko;
+    muokattu_ = true;
+
+}
+
 RaportinKirjoittaja TositeModel::tuloste()
 {
     RaportinKirjoittaja rk;

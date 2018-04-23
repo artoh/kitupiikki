@@ -61,6 +61,11 @@ public slots:
     void poistaTosite();
     void vientiValittu();
 
+    /**
+     * @brief Tekee uuden tositteen tämän pohjalta
+     */
+    void uusiPohjalta();
+
 
     /**
      * @brief Päivittää debet- ja kredit summat ja jos ei täsmää ei tallennusnappi käytössä
@@ -191,6 +196,7 @@ protected:
     ApuriVinkki *apurivinkki_;
 
     QAction *poistaAktio_;
+    QAction *uudeksiAktio_;
 
 
 
