@@ -4,6 +4,9 @@ Kysy, kommentoi ja tee ehdotuksia Kitupiikin uusista ominaisuuksista osallistuma
 
 Kirjoita kysymyksesi kommenttina sille sivulle, jossa käsitellään sinua askarruttavaa asiaa.
 
+
+## Palaute
+
 Voit lähettää Kitupiikistä palautetta myös [palautelomakkeella](https://form.jotformeu.com/73283959099374). Sivun alalaidan kommenteilla saat kuitenkin nopeamman vastauksen, koska näihin kysymyksiin voivat vastata myös muut ohjelman käyttäjän.
 
 
