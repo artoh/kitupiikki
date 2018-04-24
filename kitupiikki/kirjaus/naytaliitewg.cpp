@@ -142,9 +142,16 @@ void NaytaliiteWg::dropEvent(QDropEvent *event)
         QList<QUrl> urlit = event->mimeData()->urls();
         foreach (QUrl url, urlit)
         {
-            qDebug() << url;
             if( url.isLocalFile())
-                emit lisaaLiite( url.path() );
+            {
+                QString polku = url.path();
+
+#ifdef Q_OS_WIN
+                if( polku.startsWith(QChar('/')))
+                    polku = polku.mid(1);
+#endif
+                emit lisaaLiite( polku );
+            }
         }
     }
 }
