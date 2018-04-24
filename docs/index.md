@@ -37,6 +37,10 @@
   <img src="images/viivakoodi.png">
   <div class="txt">Laskuissa pankkiviivakoodi ja QR-koodi</div>
  </div>
+ <div class="karusellissa fade">
+  <img src="images/arkisto1.png">
+  <div class="txt">Sähköisen arkiston etusivu</div>
+ </div>
 </div>
 
 
