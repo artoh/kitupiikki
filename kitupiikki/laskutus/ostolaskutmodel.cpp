@@ -37,7 +37,7 @@ QVariant OstolaskutModel::headerData(int section, Qt::Orientation orientation, i
 void OstolaskutModel::lataaAvoimet()
 {
     QString kysely = QString("SELECT vienti.id, pvm, tili, debetsnt, kreditsnt, eraid, viite, erapvm, vienti.json as json, tosite, asiakas, laskupvm, kohdennus, selite FROM vienti,tili "
-                     "WHERE vienti.tili=tili.id AND ((viite IS NOT NULL AND iban IS NOT NULL) OR tili.tyyppi='BO' )");
+                     "WHERE vienti.tili=tili.id AND tili.tyyppi='BO' ");
 
 
     qDebug() << kysely;

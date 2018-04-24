@@ -19,7 +19,7 @@
  </div>
  <div class="karusellissa fade">
   <img src="images/maksualv.png">
-  <div class="txt">Kitupiikki tulee maksuperusteista arvonlisäveroa</div>
+  <div class="txt">Kitupiikki tukee maksuperusteista arvonlisäveroa</div>
  </div>
  <div class="karusellissa fade">
   <img src="images/arkisto.png">

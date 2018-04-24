@@ -162,8 +162,8 @@ void LaskutModel::lataaAvoimet()
 
 void LaskutModel::paivita(int valinta, QDate mista, QDate mihin)
 {
-    QString kysely = QString("SELECT id, pvm, tili, debetsnt, kreditsnt, eraid, viite, erapvm, json, tosite, asiakas, laskupvm, kohdennus FROM vienti "
-                     "WHERE viite IS NOT NULL AND iban IS NULL");
+    QString kysely = QString("SELECT vienti.id, pvm, tili, debetsnt, kreditsnt, eraid, viite, erapvm, vienti.json, tosite, asiakas, laskupvm, kohdennus, tyyppi FROM vienti, tili "
+                     "WHERE tili.id=vienti.tili AND ((viite IS NOT NULL AND iban IS NULL) OR tyyppi='AO' ) ");
 
     if( mista.isValid() && mihin.isValid())
         kysely.append( QString(" AND pvm BETWEEN '%1' AND '%2' ") .arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate)) );
@@ -175,14 +175,14 @@ void LaskutModel::paivita(int valinta, QDate mista, QDate mihin)
     while( query.next())
     {
         TaseEra era( query.value("eraid").toInt());
-        int vientiId = query.value("id").toInt();
+        int vientiId = query.value("vienti.id").toInt();
 
         if( valinta == AVOIMET && (!era.saldoSnt || era.eraId != vientiId))
             continue;
         if( valinta == ERAANTYNEET && ( !era.saldoSnt || query.value("erapvm").toDate() > kp()->paivamaara() ))
             continue;
 
-        JsonKentta json( query.value("json").toByteArray() );
+        JsonKentta json( query.value("vienti.json").toByteArray() );
 
         // Tämä lasku kelpaa ;)        
         AvoinLasku lasku;

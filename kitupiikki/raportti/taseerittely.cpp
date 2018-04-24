@@ -274,7 +274,7 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                     // Muutokset
                     QSqlQuery muKysely;
                     muKysely.exec(QString("SELECT tositelaji,tunniste,pvm,selite,debetsnt,kreditsnt,tositeId from vientivw where eraid=%1 and "
-                                "pvm between \"%2\" and \"%3\" order by pvm")
+                                "vientiId<>eraid and  pvm between \"%2\" and \"%3\" order by pvm")
                                 .arg( eraId ).arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate)) );
 
                     while( muKysely.next() )
