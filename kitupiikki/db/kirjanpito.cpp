@@ -312,7 +312,10 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
             logotiedosto.open(QIODevice::ReadOnly);
             QByteArray ba = logotiedosto.readAll();
             QImage logo = QImage::fromData(ba, "PNG");
+
+            liitteet_ = new LiiteModel(0, this);
             asetaLogo(logo);
+            liitteet_->tallenna();
         }
 
         asetusModel_->aseta("KpVersio", TIETOKANTAVERSIO);
