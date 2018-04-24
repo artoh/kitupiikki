@@ -170,6 +170,8 @@ bool UusiKirjanpito::alustaKirjanpito()
         QFile sqltiedosto(":/sql/luo.sql");
         sqltiedosto.open(QIODevice::ReadOnly);
         QTextStream in(&sqltiedosto);
+        in.setCodec("UTF-8");
+
         QString sqluonti = in.readAll();
         sqluonti.replace("\n","");
         QStringList sqlista = sqluonti.split(";");
