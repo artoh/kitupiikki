@@ -115,20 +115,20 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
     if( kohdennuksella > -1)
     {
         if( kp()->kohdennukset()->kohdennus(kohdennuksella).tyyppi() == Kohdennus::MERKKAUS)
-            kysymys = QString("SELECT pvm, tositelaji, tunniste, tilinro, tilinimi, selite, debetsnt, kreditsnt, vientivw.kohdennus, kohdennusId, tositelajiId, tositeId from merkkaus, vientivw "
+            kysymys = QString("SELECT pvm, tositelaji, tunniste, tilinro, tilinimi, selite, debetsnt, kreditsnt, vientivw.kohdennus as kohdennusnimi, kohdennusId, tositelajiId, tositeId from merkkaus, vientivw "
                               "WHERE merkkaus.kohdennus = %4 AND merkkaus.vienti=vientiId AND pvm BETWEEN \"%1\" AND \"%2\" ORDER BY %3")
                               .arg(mista.toString(Qt::ISODate) )
                               .arg( mihin.toString(Qt::ISODate))
                               .arg(jarjestys).arg(kohdennuksella);
         else
-            kysymys = QString("SELECT pvm, tositelaji, tunniste, tilinro, tilinimi, selite, debetsnt, kreditsnt, kohdennus, kohdennusId, tositelajiId, tositeId from vientivw "
+            kysymys = QString("SELECT pvm, tositelaji, tunniste, tilinro, tilinimi, selite, debetsnt, kreditsnt, kohdennus as kohdennusnimi, kohdennusId, tositelajiId, tositeId from vientivw "
                               "WHERE pvm BETWEEN \"%1\" AND \"%2\" AND kohdennusId=%4 ORDER BY %3")
                               .arg(mista.toString(Qt::ISODate) )
                               .arg( mihin.toString(Qt::ISODate))
                               .arg(jarjestys).arg(kohdennuksella);
     }
     else
-        kysymys = QString("SELECT pvm, tositelaji, tunniste, tilinro, tilinimi, selite, debetsnt, kreditsnt, kohdennus, kohdennusId, tositelajiId, tositeId from vientivw "
+        kysymys = QString("SELECT pvm, tositelaji, tunniste, tilinro, tilinimi, selite, debetsnt, kreditsnt, kohdennus as kohdennusnimi, kohdennusId, tositelajiId, tositeId from vientivw "
                               "WHERE pvm BETWEEN \"%1\" AND \"%2\" ORDER BY %3")
                               .arg(mista.toString(Qt::ISODate) )
                               .arg( mihin.toString(Qt::ISODate))
@@ -181,7 +181,7 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
         {
             // Kohdennussarake
             if( kysely.value("kohdennusId").toInt() )
-                rivi.lisaa( kysely.value("vientivw.kohdennus").toString());
+                rivi.lisaa( kysely.value("kohdennusnimi").toString());
             else
                 rivi.lisaa("");
         }

@@ -230,19 +230,19 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
 
         if( kohdennuksella > -1 && kohdennus.tyyppi() == Kohdennus::MERKKAUS)
             kysymys = QString("SELECT pvm, tositelaji, tunniste, kohdennusId, tositeId, "
-                                      "vientivw.kohdennus, selite, debetsnt, kreditsnt FROM merkkaus, vientivw "
+                                      "vientivw.kohdennus as kohdennusnimi, selite, debetsnt, kreditsnt FROM merkkaus, vientivw "
                                       "WHERE merkkaus.kohdennus=%4 AND merkkaus.vienti=vientiId AND tilinro=%1 AND pvm BETWEEN \"%2\" AND \"%3\" "
                                       "ORDER BY pvm, vientiId ")
                     .arg(tili.numero()).arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate)).arg(kohdennuksella);
         else if( kohdennuksella > -1)
             kysymys = QString("SELECT pvm, tositelaji, tunniste, kohdennusId, tositeId, "
-                                      "vientivw.kohdennus, selite, debetsnt, kreditsnt FROM vientivw "
+                                      "kohdennus as kohdennusnimi, selite, debetsnt, kreditsnt FROM vientivw "
                                       "WHERE tilinro=%1 AND pvm BETWEEN \"%2\" AND \"%3\" AND kohdennusId=%4 "
                                       "ORDER BY pvm, vientiId ")
                     .arg(tili.numero()).arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate)).arg(kohdennuksella);
         else
             kysymys = QString("SELECT pvm, tositelaji, tunniste, kohdennusId, tositeId, "
-                                      "vientivw.kohdennus, selite, debetsnt, kreditsnt FROM vientivw "
+                                      "kohdennus as kohdennusnimi, selite, debetsnt, kreditsnt FROM vientivw "
                                       "WHERE tilinro=%1 AND pvm BETWEEN \"%2\" AND \"%3\" "
                                       "ORDER BY pvm, vientiId ")
                     .arg(tili.numero()).arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate));
@@ -273,7 +273,7 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
             if( tulostakohdennus)
             {
                 if( kysely.value("kohdennusId").toInt())
-                    rr.lisaa( kysely.value("vientivw.kohdennus").toString());
+                    rr.lisaa( kysely.value("kohdennusnimi").toString());
                 else
                     rr.lisaa("");   // Ei kohdenneta-tekstiä ei tulosteta
             }
