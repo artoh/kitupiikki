@@ -81,21 +81,37 @@
     
       <header class="md-header" data-md-component="header">
     
-    <script src="https://form.jotformeu.com/static/feedback2.js" type="text/javascript">
-      new JotformFeedback({
-        formId: "73283959099374",
-        buttonText: "<span class='fa fa-comment'></span> Lähetä palautetta",
-        base: "https://form.jotformeu.com/",
-        background: "#9013fe",
-        fontColor: "#FFFFFF",
-        buttonSide: "right",
-        buttonAlign: "center",
-        type: 1,
-        width: 800,
-        height: 700,
-        isCardForm: false
-      });
-    </script>
+    
+    <!-- Googlen jäsenneltyjen tietojen merkintäapurin luomat JSON-LD-merkinnät. -->
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "SoftwareApplication",
+  "name" : "Kitupiikki",
+  "image" : "https://artoh.github.io/kitupiikki/images/kitupiikkikannettava.png",
+  "url" : "https://artoh.github.io/kitupiikki",
+  "author" : {
+    "@type" : "Person",
+    "name" : "Arto Hyvättinen"
+  },
+  "downloadUrl" : "https://artoh.github.io/kitupiikki/asennus",
+  "operatingSystem" : "Windows,Linux",
+  "screenshot" : "https://artoh.github.io/kitupiikki/kirjaus/myllykirjaus.png",
+  "applicationCategory": "Office",
+  "applicationSubCategory": "Finance",
+  "inLanguage" : "fi",
+  "license" : "https://www.gnu.org/licenses/gpl-3.0.en.html",
+    "offers": {
+    "@type": "Offer",
+    "priceCurrency": "EUR",
+    "price": "0.00"
+    }
+
+}
+
+</script>
+    
     
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
@@ -185,10 +201,78 @@
 
 
 
-  <li class="md-nav__item">
-    <a href="esittely/" title="Esittely" class="md-nav__link">
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
       Esittely
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Esittely
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="videot/" title="Videot" class="md-nav__link">
+      Videot
     </a>
+  </li>
+
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="esittely/" title="Ominaisuudet" class="md-nav__link">
+      Ominaisuudet
+    </a>
+  </li>
+
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="ui/" title="Käyttöliittymä" class="md-nav__link">
+      Käyttöliittymä
+    </a>
+  </li>
+
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="tuki/" title="Tuki" class="md-nav__link">
+      Tuki
+    </a>
+  </li>
+
+
+        
+      </ul>
+    </nav>
   </li>
 
 
@@ -663,7 +747,8 @@
     
     
 
-    <li class="md-nav__item asennuslaatikko"><a href="/kitupiikki/asennus/" title="Lataa Kitupiikki" class="asennuslaatikko"><span class="fa fa-download"></span> Lataa Kitupiikki</a></li>       
+    <li class="md-nav__item asennuslaatikko"><a href="/kitupiikki/asennus/" title="Lataa Kitupiikki" class="asennuslaatikko"> <span class="fa fa-download"></span><span class="fa fa-windows"> </span><span class="fa fa-linux"> </span> Lataa Kitupiikki</a></li>       
+    <li class="md-nav__item tukilaatikko"><a href="/kitupiikki/tuki/" title="Tuki ja palaute" class="tukilaatikko"><span class="fa fa-question-circle"></span><span class="fa fa-comments"></span> Käyttäjätuki ja palaute</a></li>      
   </ul>
 </nav>
                   </div>
@@ -693,17 +778,83 @@
                 
                 
                 <h1 id="kitupiikki-avoimen-lahdekoodin-kirjanpitaja">Kitupiikki <small>Avoimen lähdekoodin kirjanpitäjä</small><a class="headerlink" href="#kitupiikki-avoimen-lahdekoodin-kirjanpitaja" title="Permanent link">&para;</a></h1>
-<p><img alt="" src="./images/kitupiikkikannettava.png" /></p>
+<div class="karuselli">
+<div class="karusellissa fade">
+ <img src="images/kitupiikkikannettava.png">
+  <div class="txt">Avoimen lähdekoodin kirjanpitäjä</div>
+</div>
+ <div class="karusellissa fade">
+  <img src="kirjaus/myllykirjaus.png">
+  <div class="txt">Kitupiikki tallentaa pdf-muotoiset liitteet</div>
+ </div>
+ <div class="karusellissa fade">
+  <img src="images/paakirja.png">
+  <div class="txt">Pääkirja</div>
+ </div>
+ <div class="karusellissa fade">
+  <img src="laskutus/luettelo.png">
+  <div class="txt">Kitupiikkiin sisältyy myös laskutus</div>
+ </div>
+ <div class="karusellissa fade">
+  <img src="images/maksualv.png">
+  <div class="txt">Kitupiikki tukee maksuperusteista arvonlisäveroa</div>
+ </div>
+ <div class="karusellissa fade">
+  <img src="images/arkisto.png">
+  <div class="txt">Kirjanpidosta muodostetaan sähköinen arkisto</div>
+ </div>
+ <div class="karusellissa fade">
+  <img src="images/raportinmuokkaus.png">
+  <div class="txt">Tulosteet ovat täysin muokattavissa</div>
+ </div>
+ <div class="karusellissa fade">
+  <img src="aloitus/vinkit7.png">
+  <div class="txt">Kitupiikki vinkkaa ja neuvoo</div>
+ </div>
+ <div class="karusellissa fade">
+  <img src="images/viivakoodi.png">
+  <div class="txt">Laskuissa pankkiviivakoodi ja QR-koodi</div>
+ </div>
+ <div class="karusellissa fade">
+  <img src="images/arkisto1.png">
+  <div class="txt">Sähköisen arkiston etusivu</div>
+ </div>
+ <div class="karusellissa fade">
+  <img src="images/arkisto1.png">
+  <div class="txt">Sähköisen arkiston etusivu</div>
+ </div>
+ <div class="karusellissa fade">
+  <img src="maaritykset/kohdennukset/kohdennukset.png">
+  <div class="txt">Kirjauksia voi kohdentaa toiminnoille, projekteille jne.</div>
+ </div>
+</div>
+
 <p>Kitupiikki on ilmainen suomalainen kirjanpito-ohjelma. Kitupiikki käsittelee ja arkistoi skannatut tositteet. Ohjelma on alunperin suunniteltu yhdistyksille, mutta Kitupiikin avulla hoidat vaivattomasti myös pienehkön yrityksen kirjanpidon.</p>
 <div class="asennusinfo">
-<h3>Kitupiikki 0.10.1 (beta) julkaistu 17.4.2018</h3>
-Uutena kohdennusmahdollisuus tasetileillä ja kokeellinen TITO-tiliotteiden tuominen
+<h3>Kitupiikki 0.11 (beta) julkaistu 22.4.2018</h3>
+Uutena hankekohdennus, pdf-raporttien sisäänrakennettu esikatselu, tositteen kopiointi uuden pohjaksi, tositteen tulostus ja laskujen tulostus ikkunakuoriin sopiviksi.
 
 <div class="asennuslaatikko">
 <a href="asennus" style="color:white;"><span class="fa fa-download"></span> Lataa Kitupiikki <span class="fa fa-windows"></span> <span class="fa fa-linux"></span></a>
 </div>
 
 </div>
+
+<script>
+var slideIndex = 0;
+showSlides();
+
+function showSlides() {
+    var i;
+    var slides = document.getElementsByClassName("karusellissa");
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+    slides[ Math.floor( Math.random() * slides.length )].style.display = "block";
+    setTimeout(showSlides, 5000); // Kuva vaihtuu kahden sekunnin välein
+}
+
+</script>
                 
                   
                 
@@ -724,13 +875,13 @@ Uutena kohdennusmahdollisuus tasetileillä ja kokeellinen TITO-tiliotteiden tuom
       <nav class="md-footer-nav__inner md-grid">
         
         
-          <a href="esittely/" title="Esittely" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="videot/" title="Videot" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Seuraava
                 </span>
-                Esittely
+                Videot
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

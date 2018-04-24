@@ -13,7 +13,7 @@
         <meta name="description" content="Ilmainen kirjanpito-ohjelma">
       
       
-        <link rel="canonical" href="https://artoh.github.io/kitupiikki/maaritykset/monimuoto/">
+        <link rel="canonical" href="https://artoh.github.io/kitupiikki/ui/">
       
       
         <meta name="author" content="Arto Hyvättinen">
@@ -33,22 +33,22 @@
       
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
-      <link rel="shortcut icon" href="../../images/Possu64.png">
+      <link rel="shortcut icon" href="../images/Possu64.png">
       <meta name="generator" content="mkdocs-0.17.2, mkdocs-material-2.2.6">
     
     
       
-        <title>Monimuotoiset tilikartat - Kitupiikki</title>
+        <title>Käyttöliittymä - Kitupiikki</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application.6525f7f6.css">
+      <link rel="stylesheet" href="../assets/stylesheets/application.6525f7f6.css">
       
-        <link rel="stylesheet" href="../../assets/stylesheets/application-palette.792431c1.css">
+        <link rel="stylesheet" href="../assets/stylesheets/application-palette.792431c1.css">
       
     
     
-      <script src="../../assets/javascripts/modernizr.1aa3b519.js"></script>
+      <script src="../assets/javascripts/modernizr.1aa3b519.js"></script>
     
     
       
@@ -58,7 +58,7 @@
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     
     
-      <link rel="stylesheet" href="../../stylesheets/extra.css">
+      <link rel="stylesheet" href="../stylesheets/extra.css">
     
     
   </head>
@@ -118,7 +118,7 @@
       <div class="md-flex__cell md-flex__cell--shrink">
         <a href="https://artoh.github.io/kitupiikki" title="Kitupiikki" class="md-header-nav__button md-logo">
           
-            <img src="../../images/Possu64.png" width="24" height="24">
+            <img src="../images/Possu64.png" width="24" height="24">
           
         </a>
       </div>
@@ -133,7 +133,7 @@
                 Kitupiikki
               </span>
               <span class="md-header-nav__topic">
-                Monimuotoiset tilikartat
+                Käyttöliittymä
               </span>
             
           
@@ -188,7 +188,7 @@
   <label class="md-nav__title md-nav__title--site" for="drawer">
     <span class="md-nav__button md-logo">
       
-        <img src="../../images/Possu64.png" width="24" height="24">
+        <img src="../images/Possu64.png" width="24" height="24">
       
     </span>
     Kitupiikki
@@ -205,10 +205,12 @@
       
 
 
+  
 
-  <li class="md-nav__item md-nav__item--nested">
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
     
     <label class="md-nav__link" for="nav-2">
       Esittely
@@ -227,7 +229,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../videot/" title="Videot" class="md-nav__link">
+    <a href="../videot/" title="Videot" class="md-nav__link">
       Videot
     </a>
   </li>
@@ -241,7 +243,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../esittely/" title="Ominaisuudet" class="md-nav__link">
+    <a href="../esittely/" title="Ominaisuudet" class="md-nav__link">
       Ominaisuudet
     </a>
   </li>
@@ -253,11 +255,69 @@
           
 
 
+  
 
-  <li class="md-nav__item">
-    <a href="../../ui/" title="Käyttöliittymä" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        Käyttöliittymä
+      </label>
+    
+    <a href="./" title="Käyttöliittymä" class="md-nav__link md-nav__link--active">
       Käyttöliittymä
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="toc">Sisältö</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pikanappaimet" title="Pikanäppäimet" class="md-nav__link">
+    Pikanäppäimet
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tositteen-kirjaamisessa" title="Tositteen kirjaamisessa" class="md-nav__link">
+    Tositteen kirjaamisessa
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#laskua-luotaessa" title="Laskua luotaessa" class="md-nav__link">
+    Laskua luotaessa
+  </a>
+  
+</li>
+      
+      
+      
+        <li class="md-nav__item">
+          <a href="#__comments" title="Kommentit" class="md-nav__link md-nav__link--active">
+            Kommentit
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
 
@@ -269,7 +329,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../tuki/" title="Tuki" class="md-nav__link">
+    <a href="../tuki/" title="Tuki" class="md-nav__link">
       Tuki
     </a>
   </li>
@@ -289,7 +349,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../kirjanpito/" title="Kirjanpidosta lyhyesti" class="md-nav__link">
+    <a href="../kirjanpito/" title="Kirjanpidosta lyhyesti" class="md-nav__link">
       Kirjanpidosta lyhyesti
     </a>
   </li>
@@ -303,7 +363,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../asennus/" title="Asennus" class="md-nav__link">
+    <a href="../asennus/" title="Asennus" class="md-nav__link">
       Asennus
     </a>
   </li>
@@ -317,7 +377,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../aloitus/" title="Kirjanpidon aloittaminen" class="md-nav__link">
+    <a href="../aloitus/" title="Kirjanpidon aloittaminen" class="md-nav__link">
       Kirjanpidon aloittaminen
     </a>
   </li>
@@ -329,12 +389,10 @@
       
 
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
     
     <label class="md-nav__link" for="nav-6">
       Määritykset
@@ -353,7 +411,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../perusvalinnat/" title="Perusvalinnat" class="md-nav__link">
+    <a href="../maaritykset/perusvalinnat/" title="Perusvalinnat" class="md-nav__link">
       Perusvalinnat
     </a>
   </li>
@@ -367,7 +425,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../tilikartta/" title="Tilikartta" class="md-nav__link">
+    <a href="../maaritykset/tilikartta/" title="Tilikartta" class="md-nav__link">
       Tilikartta
     </a>
   </li>
@@ -381,7 +439,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../tositelajit/" title="Tositelajit" class="md-nav__link">
+    <a href="../maaritykset/tositelajit/" title="Tositelajit" class="md-nav__link">
       Tositelajit
     </a>
   </li>
@@ -395,7 +453,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../kohdennukset/" title="Kohdennukset" class="md-nav__link">
+    <a href="../maaritykset/kohdennukset/" title="Kohdennukset" class="md-nav__link">
       Kohdennukset
     </a>
   </li>
@@ -409,7 +467,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../tilinavaus/" title="Tilinavaus" class="md-nav__link">
+    <a href="../maaritykset/tilinavaus/" title="Tilinavaus" class="md-nav__link">
       Tilinavaus
     </a>
   </li>
@@ -423,7 +481,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../laskutus/" title="Laskutus" class="md-nav__link">
+    <a href="../maaritykset/laskutus/" title="Laskutus" class="md-nav__link">
       Laskutus
     </a>
   </li>
@@ -437,7 +495,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../sahkoposti/" title="Sähköpostin lähettäminen" class="md-nav__link">
+    <a href="../maaritykset/sahkoposti/" title="Sähköpostin lähettäminen" class="md-nav__link">
       Sähköpostin lähettäminen
     </a>
   </li>
@@ -451,7 +509,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../tuonti/" title="Tuonti" class="md-nav__link">
+    <a href="../maaritykset/tuonti/" title="Tuonti" class="md-nav__link">
       Tuonti
     </a>
   </li>
@@ -463,12 +521,10 @@
           
 
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-9" type="checkbox" id="nav-6-9" checked>
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6-9" type="checkbox" id="nav-6-9">
     
     <label class="md-nav__link" for="nav-6-9">
       Mukauttaminen
@@ -487,7 +543,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../raportit/" title="Raportit" class="md-nav__link">
+    <a href="../maaritykset/raportit/" title="Raportit" class="md-nav__link">
       Raportit
     </a>
   </li>
@@ -501,7 +557,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../tilinpaatos/" title="Tilinpäätöksen malli" class="md-nav__link">
+    <a href="../maaritykset/tilinpaatos/" title="Tilinpäätöksen malli" class="md-nav__link">
       Tilinpäätöksen malli
     </a>
   </li>
@@ -513,53 +569,11 @@
           
 
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="toc">
-        Monimuotoiset tilikartat
-      </label>
-    
-    <a href="./" title="Monimuotoiset tilikartat" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../maaritykset/monimuoto/" title="Monimuotoiset tilikartat" class="md-nav__link">
       Monimuotoiset tilikartat
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="toc">Sisältö</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#devtool" title="DevTool" class="md-nav__link">
-    DevTool
-  </a>
-  
-</li>
-      
-      
-      
-        <li class="md-nav__item">
-          <a href="#__comments" title="Kommentit" class="md-nav__link md-nav__link--active">
-            Kommentit
-          </a>
-        </li>
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
 
@@ -603,7 +617,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../kirjaus/" title="Kirjaaminen" class="md-nav__link">
+    <a href="../kirjaus/" title="Kirjaaminen" class="md-nav__link">
       Kirjaaminen
     </a>
   </li>
@@ -617,7 +631,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../kirjaus/apuri/" title="Kirjausapuri" class="md-nav__link">
+    <a href="../kirjaus/apuri/" title="Kirjausapuri" class="md-nav__link">
       Kirjausapuri
     </a>
   </li>
@@ -631,7 +645,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../kirjaus/kasin/" title="Käsin kirjaaminen" class="md-nav__link">
+    <a href="../kirjaus/kasin/" title="Käsin kirjaaminen" class="md-nav__link">
       Käsin kirjaaminen
     </a>
   </li>
@@ -645,7 +659,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../kirjaus/tuonti/" title="Tuonti" class="md-nav__link">
+    <a href="../kirjaus/tuonti/" title="Tuonti" class="md-nav__link">
       Tuonti
     </a>
   </li>
@@ -665,7 +679,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../laskutus/" title="Laskutus" class="md-nav__link">
+    <a href="../laskutus/" title="Laskutus" class="md-nav__link">
       Laskutus
     </a>
   </li>
@@ -679,7 +693,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../selaus/" title="Selaaminen ja etsiminen" class="md-nav__link">
+    <a href="../selaus/" title="Selaaminen ja etsiminen" class="md-nav__link">
       Selaaminen ja etsiminen
     </a>
   </li>
@@ -693,7 +707,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../tulosteet/" title="Tulosteet" class="md-nav__link">
+    <a href="../tulosteet/" title="Tulosteet" class="md-nav__link">
       Tulosteet
     </a>
   </li>
@@ -707,7 +721,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../alv/" title="Arvonlisävero" class="md-nav__link">
+    <a href="../alv/" title="Arvonlisävero" class="md-nav__link">
       Arvonlisävero
     </a>
   </li>
@@ -741,7 +755,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../tilikaudet/tilikaudet/" title="Tilikaudet" class="md-nav__link">
+    <a href="../tilikaudet/tilikaudet/" title="Tilikaudet" class="md-nav__link">
       Tilikaudet
     </a>
   </li>
@@ -755,7 +769,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../tilikaudet/tilinpaatos/" title="Tilinpäätös" class="md-nav__link">
+    <a href="../tilikaudet/tilinpaatos/" title="Tilinpäätös" class="md-nav__link">
       Tilinpäätös
     </a>
   </li>
@@ -769,7 +783,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../tilikaudet/arkisto/" title="Sähköinen arkisto" class="md-nav__link">
+    <a href="../tilikaudet/arkisto/" title="Sähköinen arkisto" class="md-nav__link">
       Sähköinen arkisto
     </a>
   </li>
@@ -789,7 +803,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../lisenssi/" title="Lisenssi" class="md-nav__link">
+    <a href="../lisenssi/" title="Lisenssi" class="md-nav__link">
       Lisenssi
     </a>
   </li>
@@ -814,15 +828,33 @@
 <nav class="md-nav md-nav--secondary">
   
   
-    
-  
   
     <label class="md-nav__title" for="toc">Sisältö</label>
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#devtool" title="DevTool" class="md-nav__link">
-    DevTool
+  <a href="#pikanappaimet" title="Pikanäppäimet" class="md-nav__link">
+    Pikanäppäimet
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tositteen-kirjaamisessa" title="Tositteen kirjaamisessa" class="md-nav__link">
+    Tositteen kirjaamisessa
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#laskua-luotaessa" title="Laskua luotaessa" class="md-nav__link">
+    Laskua luotaessa
   </a>
   
 </li>
@@ -848,64 +880,150 @@
               
                 
                 
-                <h1 id="monimuotoiset-tilikartat">Monimuotoiset tilikartat<a class="headerlink" href="#monimuotoiset-tilikartat" title="Permanent link">&para;</a></h1>
-<div class="admonition note">
-<p class="admonition-title">Todella edistynyt toiminto</p>
-<p>Tätä toimintoa tarvitaan vain tilikarttojen tekemiseen.</p>
-</div>
-<p>Kitupiikin elinkeinotoiminnan tilikartoissa voidaan valita <a href="./../perusvalinnat">perusvalinnoissa</a> yritysmuoto. Tällainen monimuotoinen tilikartta on toteutettu joukolla tilikartan asetuksia.</p>
-<pre><code>[MuotoTeksti]
-Yritysmuoto
-[MuotoOn/Julkinen osakeyhtiö]
-+201..207
-+226
-+149
-[MuotoPois/Julkinen osakeyhtiö]
--201..207
--226
--149
-[MuotoOn/Osakeyhtiö]
-+201..207
-+226
-[MuotoPois/Osakeyhtiö]
--201..207
--226
-[MuotoOn/Osuuskunta]
-+205..210
-+227
-[MuotoPois/Osuuskunta]
--205..210
--227
-[MuotoOn/Kommandiittiyhtiö]
-+215..219
-+231..235
-[MuotoPois/Kommandiittiyhtiö]
--215..219
--231..235
-[MuotoOn/Toiminimi]
-+220
-+236
-Elinkeinonharjoittaja=ON
-[MuotoPois/Toiminimi]
--220
--236
-Elinkeinonharjoittaja=EI
-</code></pre>
-
-<p><strong>MuotoTeksti</strong>-asetus määrittelee, mikä otsikko näytetään muodon valinnassa. <strong>MuotoOn/<Nimi></strong> määrittelee komentojonon, joka suoritetaan muotoa valittaessa ja <strong>MuotoPois/<Nimi></strong> kun valinta poistuu. Aina tilikarttaa päivitettäessä suoritetaan ensin vanhan tilikartan <strong>MuotoPois</strong>-komentojono ja päivityksen lopuksi uuden tilikartan <strong>MuotoOn</strong>-komentojono.</p>
-<p>Komentojono voi sisältää seuraavia komentoja</p>
-<p>Joukko tilejä voidaan piilottaa, näyttää tai asettaa suosikkitileiksi. Tilit näytetään komennolla <code>+201..207</code> missä <strong>+</strong>-merkkiä seuraa tilinumeroväli samalla tavalla kuin raporteissa. Tilit piilotetaan vastaavasti komennolla <code>-201..207</code> tai asetetaan suosikiksi <code>*220</code>.</p>
-<p>Tilien <a href="https://github.com/artoh/kitupiikki/wiki/Json#tili">json-määreitä</a> voidaan muuttaa komennolla <code>30..31 AlvProsentti=14</code> (esimerkki muuttaa tilien 3000-3199 alv-prosentiksi 14).</p>
-<p>Kirjanpidon <a href="https://github.com/artoh/kitupiikki/wiki/Asetukset">asetuksia</a> voidaan muuttaa komennolla <code>Elinkeinonharjoittaja=ON</code>. Listamuotoiseen asetukseen voidaan lisätä rivi komennolla <code>ArkistoRaportit+=Toiminnanalat</code> ja vastaavasti poistaa komennolla <code>ArkistoRaportit=Toiminnanalat</code>.</p>
-<h2 id="devtool">DevTool<a class="headerlink" href="#devtool" title="Permanent link">&para;</a></h2>
-<div class="admonition danger">
-<p class="admonition-title">Tiedä, mitä teet</p>
-<p>Ole erittäin huolellinen! DevTool mahdollistaa kaikkien kirjanpidon asetusten suoran muokkaamisen. Varmuuskopiointi ennen DevTool-toimintoja ei ole mitenkään huono idea.</p>
-</div>
-<p>Kun <a href="./../perusvalinnat">perusvalintojen</a> kohta <strong>Näytä tulosteiden muokkauksen työkalut</strong> on valittuna, löytyy <strong>Tilikartan ohje</strong>-määritysvälilehdeltä painike <strong>DevTool</strong>. Painikkeesta avautuu kehittäjille tarkoitettu erikoistyökalu.</p>
-<p><img alt="" src="./devtool.png" /></p>
-<p><strong>Asetukset</strong>-välilehdellä voit muokata kaikkia kirjanpidon asetuksia ja siten muokata monimuotoisen tilikartan toimintoja.</p>
-<p><strong>Skripti</strong>-välilehdellä voit suorittaa yllä kuvattuja komentojonoja. Niillä voit muokata kerralla suurempaakin tiliryhmää.</p>
+                  <h1>Käyttöliittymä</h1>
+                
+                <p><img alt="" src="../images/ui.png" /></p>
+<p>Kitupiikin käyttöliittymä muodostuu seitsemästä välilehdestä.</p>
+<p><strong>Aloituksessa</strong> näet vinkkejä ajankohtaisista tehtävistä sekä tilien saldot. Tilien numerot ovat linkkejä, joista pääset suoraan selaamaan kirjauksia. Välilehdeltä pääset myös avaamaan toisen kirjanpidon tai aloittamaan uuden.</p>
+<p><strong>Uusi tosite</strong>-välilehdellä kirjataan tositteita.</p>
+<p><strong>Selauksessa</strong> pääset selaamaan jo tehtyjä kirjauksia.</p>
+<p><strong>Laskut</strong>-välilehdellä näet myyntilaskut ja laskutat myynnistä.</p>
+<p><strong>Tulosteet</strong>-välilehdellä pääset katselemaan ja tulostamaan mm. pääkirjan, päiväkirjan, tositeluettelot, tililuettelon, tuloslaskelman ja taseen. Kaikki tulosteet voi tallentaa myös tiedostoksi.</p>
+<p><strong>Tilikaudet</strong>-välilehdellä tehdään tilinpäätös, aloitetaan uusi tilikausi sekä muodostetaan tilikauden sähköinen arkisto.</p>
+<p><strong>Käsikirja</strong>-painike käynnistää internet-selaimella tämän ohjesivuston.</p>
+<h2 id="pikanappaimet">Pikanäppäimet<a class="headerlink" href="#pikanappaimet" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Näppäin</th>
+<th>Toiminto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><kbd>Home</kbd></td>
+<td>Aloitus-välilehdelle</td>
+</tr>
+<tr>
+<td><kbd>F1</kbd></td>
+<td>Näyttää internet-selaimessa ohjeen</td>
+</tr>
+<tr>
+<td><kbd>F2</kdb></td>
+<td>Uuden tositteen kirjaus</td>
+</tr>
+<tr>
+<td><kbd>Shift</kbd>+<kbd>F2</kdb></td>
+<td>Avaa uuden tositteen kirjauksen uudessa ikkunassa</td>
+</tr>
+<tr>
+<td><kbd>F3</kdb></td>
+<td>Tositteiden ja kirjausten selaus</td>
+</tr>
+<tr>
+<td><kbd>Shift</kbd>+<kbd>F3</kdb></td>
+<td>Avaa selauksen uudessa ikkunassa</td>
+</tr>
+<tr>
+<td><kbd>F4</kdb></td>
+<td>Laskutus</td>
+</tr>
+<tr>
+<td><kbd>Shift</kbd>+<kbd>F4</kdb></td>
+<td>Uusi lasku</td>
+</tr>
+<tr>
+<td><kbd>F5</kdb></td>
+<td>Tulosteet</td>
+</tr>
+<tr>
+<td><kbd>F6</kdb></td>
+<td>Tilikaudet</td>
+</tr>
+<tr>
+<td><kbd>F7</kdb></td>
+<td>Määritykset</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd>+<kbd>G</kdb></td>
+<td>Siirry tositteeseen tositenumerolla</td>
+</tr>
+</tbody>
+</table>
+<h3 id="tositteen-kirjaamisessa">Tositteen kirjaamisessa<a class="headerlink" href="#tositteen-kirjaamisessa" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Näppäin</th>
+<th>Toiminto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><kbd>F9</kbd></td>
+<td>Käynnistä Kirjausapuri</td>
+</tr>
+<tr>
+<td><kbd>F10</kbd></td>
+<td>Laskujen maksu</td>
+</tr>
+<tr>
+<td><kbd>F11</kbd></td>
+<td>Uusi vienti (rivi)</td>
+</tr>
+<tr>
+<td><kbd>F12</kbd></td>
+<td>Tallenna</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd>+<kbd>O</kdb></td>
+<td>Lisää liite</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd>+<kbd>P</kdb></td>
+<td>Tulosta tosite</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd>+<kbd>T</kdb></td>
+<td>Uusi tosite tämän tositteen pohjalta</td>
+</tr>
+</tbody>
+</table>
+<h2 id="laskua-luotaessa">Laskua luotaessa<a class="headerlink" href="#laskua-luotaessa" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Näppäin</th>
+<th>Toiminto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><kbd>F9</kbd></td>
+<td>Näytä/Piilota tuotteet</td>
+</tr>
+<tr>
+<td><kbd>F10</kbd></td>
+<td>Esikatsele</td>
+</tr>
+<tr>
+<td><kbd>F11</kbd></td>
+<td>Uusi rivi</td>
+</tr>
+<tr>
+<td><kbd>F12</kbd></td>
+<td>Tallenna</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd>+<kbd>P</kdb></td>
+<td>Tulosta</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd>+<kbd>E</kdb></td>
+<td>Lähetä sähköpostilla</td>
+</tr>
+</tbody>
+</table>
                 
                   
                 
@@ -916,9 +1034,9 @@ Elinkeinonharjoittaja=EI
                   <div id="disqus_thread"></div>
 <script>
   var disqus_config = function () {
-    this.page.url = "https://artoh.github.io/kitupiikki/maaritykset/monimuoto/";
+    this.page.url = "https://artoh.github.io/kitupiikki/ui/";
     this.page.identifier =
-      "/maaritykset/monimuoto/";
+      "/ui/";
   };
   (function() {
     var d = document, s = d.createElement("script");
@@ -941,7 +1059,7 @@ Elinkeinonharjoittaja=EI
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../tilinpaatos/" title="Tilinpäätöksen malli" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../esittely/" title="Ominaisuudet" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -950,19 +1068,19 @@ Elinkeinonharjoittaja=EI
                 <span class="md-footer-nav__direction">
                   Edellinen
                 </span>
-                Tilinpäätöksen malli
+                Ominaisuudet
               </span>
             </div>
           </a>
         
         
-          <a href="../../kirjaus/" title="Kirjaaminen" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../tuki/" title="Tuki" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Seuraava
                 </span>
-                Kirjaaminen
+                Tuki
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">
@@ -1006,26 +1124,26 @@ Elinkeinonharjoittaja=EI
       
     </div>
     
-      <script src="../../assets/javascripts/application.206c856d.js"></script>
+      <script src="../assets/javascripts/application.206c856d.js"></script>
       
         
         
           
-          <script src="../../assets/javascripts/lunr/lunr.stemmer.support.js"></script>
+          <script src="../assets/javascripts/lunr/lunr.stemmer.support.js"></script>
           
             
               
-              <script src="../../assets/javascripts/lunr/lunr.fi.js"></script>
+              <script src="../assets/javascripts/lunr/lunr.fi.js"></script>
             
           
           
         
       
-      <script>app.initialize({version:"0.17.2",url:{base:"../.."}})</script>
+      <script>app.initialize({version:"0.17.2",url:{base:".."}})</script>
       
-        <script src="../../search/require.js"></script>
+        <script src="../search/require.js"></script>
       
-        <script src="../../search/search.js"></script>
+        <script src="../search/search.js"></script>
       
     
     

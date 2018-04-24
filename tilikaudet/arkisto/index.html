@@ -81,21 +81,37 @@
     
       <header class="md-header" data-md-component="header">
     
-    <script src="https://form.jotformeu.com/static/feedback2.js" type="text/javascript">
-      new JotformFeedback({
-        formId: "73283959099374",
-        buttonText: "<span class='fa fa-comment'></span> Lähetä palautetta",
-        base: "https://form.jotformeu.com/",
-        background: "#9013fe",
-        fontColor: "#FFFFFF",
-        buttonSide: "right",
-        buttonAlign: "center",
-        type: 1,
-        width: 800,
-        height: 700,
-        isCardForm: false
-      });
-    </script>
+    
+    <!-- Googlen jäsenneltyjen tietojen merkintäapurin luomat JSON-LD-merkinnät. -->
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "SoftwareApplication",
+  "name" : "Kitupiikki",
+  "image" : "https://artoh.github.io/kitupiikki/images/kitupiikkikannettava.png",
+  "url" : "https://artoh.github.io/kitupiikki",
+  "author" : {
+    "@type" : "Person",
+    "name" : "Arto Hyvättinen"
+  },
+  "downloadUrl" : "https://artoh.github.io/kitupiikki/asennus",
+  "operatingSystem" : "Windows,Linux",
+  "screenshot" : "https://artoh.github.io/kitupiikki/kirjaus/myllykirjaus.png",
+  "applicationCategory": "Office",
+  "applicationSubCategory": "Finance",
+  "inLanguage" : "fi",
+  "license" : "https://www.gnu.org/licenses/gpl-3.0.en.html",
+    "offers": {
+    "@type": "Offer",
+    "priceCurrency": "EUR",
+    "price": "0.00"
+    }
+
+}
+
+</script>
+    
     
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
@@ -190,10 +206,78 @@
 
 
 
-  <li class="md-nav__item">
-    <a href="../../esittely/" title="Esittely" class="md-nav__link">
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
       Esittely
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Esittely
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="../../videot/" title="Videot" class="md-nav__link">
+      Videot
     </a>
+  </li>
+
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="../../esittely/" title="Ominaisuudet" class="md-nav__link">
+      Ominaisuudet
+    </a>
+  </li>
+
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="../../ui/" title="Käyttöliittymä" class="md-nav__link">
+      Käyttöliittymä
+    </a>
+  </li>
+
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="../../tuki/" title="Tuki" class="md-nav__link">
+      Tuki
+    </a>
+  </li>
+
+
+        
+      </ul>
+    </nav>
   </li>
 
 
@@ -722,7 +806,8 @@
     
     
 
-    <li class="md-nav__item asennuslaatikko"><a href="/kitupiikki/asennus/" title="Lataa Kitupiikki" class="asennuslaatikko"><span class="fa fa-download"></span> Lataa Kitupiikki</a></li>       
+    <li class="md-nav__item asennuslaatikko"><a href="/kitupiikki/asennus/" title="Lataa Kitupiikki" class="asennuslaatikko"> <span class="fa fa-download"></span><span class="fa fa-windows"> </span><span class="fa fa-linux"> </span> Lataa Kitupiikki</a></li>       
+    <li class="md-nav__item tukilaatikko"><a href="/kitupiikki/tuki/" title="Tuki ja palaute" class="tukilaatikko"><span class="fa fa-question-circle"></span><span class="fa fa-comments"></span> Käyttäjätuki ja palaute</a></li>      
   </ul>
 </nav>
                   </div>

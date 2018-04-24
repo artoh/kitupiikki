@@ -81,21 +81,37 @@
     
       <header class="md-header" data-md-component="header">
     
-    <script src="https://form.jotformeu.com/static/feedback2.js" type="text/javascript">
-      new JotformFeedback({
-        formId: "73283959099374",
-        buttonText: "<span class='fa fa-comment'></span> Lähetä palautetta",
-        base: "https://form.jotformeu.com/",
-        background: "#9013fe",
-        fontColor: "#FFFFFF",
-        buttonSide: "right",
-        buttonAlign: "center",
-        type: 1,
-        width: 800,
-        height: 700,
-        isCardForm: false
-      });
-    </script>
+    
+    <!-- Googlen jäsenneltyjen tietojen merkintäapurin luomat JSON-LD-merkinnät. -->
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "SoftwareApplication",
+  "name" : "Kitupiikki",
+  "image" : "https://artoh.github.io/kitupiikki/images/kitupiikkikannettava.png",
+  "url" : "https://artoh.github.io/kitupiikki",
+  "author" : {
+    "@type" : "Person",
+    "name" : "Arto Hyvättinen"
+  },
+  "downloadUrl" : "https://artoh.github.io/kitupiikki/asennus",
+  "operatingSystem" : "Windows,Linux",
+  "screenshot" : "https://artoh.github.io/kitupiikki/kirjaus/myllykirjaus.png",
+  "applicationCategory": "Office",
+  "applicationSubCategory": "Finance",
+  "inLanguage" : "fi",
+  "license" : "https://www.gnu.org/licenses/gpl-3.0.en.html",
+    "offers": {
+    "@type": "Offer",
+    "priceCurrency": "EUR",
+    "price": "0.00"
+    }
+
+}
+
+</script>
+    
     
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
@@ -190,10 +206,78 @@
 
 
 
-  <li class="md-nav__item">
-    <a href="../../esittely/" title="Esittely" class="md-nav__link">
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
       Esittely
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Esittely
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="../../videot/" title="Videot" class="md-nav__link">
+      Videot
     </a>
+  </li>
+
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="../../esittely/" title="Ominaisuudet" class="md-nav__link">
+      Ominaisuudet
+    </a>
+  </li>
+
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="../../ui/" title="Käyttöliittymä" class="md-nav__link">
+      Käyttöliittymä
+    </a>
+  </li>
+
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="../../tuki/" title="Tuki" class="md-nav__link">
+      Tuki
+    </a>
+  </li>
+
+
+        
+      </ul>
+    </nav>
   </li>
 
 
@@ -516,8 +600,8 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#ostolaskun-kohdennus" title="Ostolaskun kohdennus" class="md-nav__link">
-    Ostolaskun kohdennus
+  <a href="#osto-ja-myyntilaskun-lisatiedot" title="Osto- ja myyntilaskun lisätiedot" class="md-nav__link">
+    Osto- ja myyntilaskun lisätiedot
   </a>
   
 </li>
@@ -739,7 +823,8 @@
     
     
 
-    <li class="md-nav__item asennuslaatikko"><a href="/kitupiikki/asennus/" title="Lataa Kitupiikki" class="asennuslaatikko"><span class="fa fa-download"></span> Lataa Kitupiikki</a></li>       
+    <li class="md-nav__item asennuslaatikko"><a href="/kitupiikki/asennus/" title="Lataa Kitupiikki" class="asennuslaatikko"> <span class="fa fa-download"></span><span class="fa fa-windows"> </span><span class="fa fa-linux"> </span> Lataa Kitupiikki</a></li>       
+    <li class="md-nav__item tukilaatikko"><a href="/kitupiikki/tuki/" title="Tuki ja palaute" class="tukilaatikko"><span class="fa fa-question-circle"></span><span class="fa fa-comments"></span> Käyttäjätuki ja palaute</a></li>      
   </ul>
 </nav>
                   </div>
@@ -761,8 +846,8 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#ostolaskun-kohdennus" title="Ostolaskun kohdennus" class="md-nav__link">
-    Ostolaskun kohdennus
+  <a href="#osto-ja-myyntilaskun-lisatiedot" title="Osto- ja myyntilaskun lisätiedot" class="md-nav__link">
+    Osto- ja myyntilaskun lisätiedot
   </a>
   
 </li>
@@ -822,13 +907,14 @@
 <li>Käynnistä Kirjausapuri joko <strong>Kirjausapuri</strong>-napista tai painamalla <kbd>F9</kbd>. Heti tositalajin valittuasi voit käynnistää Apurin myös painamalla <kbd>Enter</kbd></li>
 <li>Valitse välilehdeltä, mitä kirjaat: <strong>Tulo</strong>, <strong>meno</strong> vai <strong>siirto</strong>.</li>
 <li>Valitse tili. Voit joko kirjoittaa suoraan tilinumeron tai aloittaa kirjoittamalla tilin nimeä, jolloin pääset valitsemaan tilin luettelosta. Painamalla välilyöntiä pääset kaikkien tilien luetteloon.</li>
-<li>Syötä määrä ja varmista, että <strong>vastatili</strong>, <strong>vientipäivä</strong>, <strong>selite</strong>, <strong>alv-laji</strong> ja <strong>alv-prosentti</strong> on oikein. Valitse tarvittaessa <strong>kohdennus</strong>. Kirjattaessa siirto tasetililtä toiselle valittavina on <strong>debet-tili</strong> (minne siirretään) ja <strong>kredit-tili</strong> (mistä siirretään).</li>
+<li>Syötä määrä ja varmista, että <strong>vastatili</strong>, <strong>vientipäivä</strong>, <strong>selite</strong>, <strong>alv-laji</strong> ja <strong>alv-prosentti</strong> on oikein. Valitse tarvittaessa <strong>kohdennus</strong>. Kirjattaessa siirto tasetililtä toiselle valittavina on <strong>debet-tili</strong> (minne siirretään) ja <strong>kredit-tili</strong> (mistä siirretään). <strong>Merkkaukset</strong> valitaan <em>Merkkaukset</em>-kentässä hiiren oikeasta painikkeesta avautuvasta valikosta.</li>
 <li>Varmista Apurin ikkunassa alinpana olevasta ruudusta, että kirjaus menee oikein, ja paina <strong>Ok</strong> (tai <kbd>Enter</kbd>)</li>
 <li>Kirjauksen tiedot tulevat <strong>Viennit</strong>-välilehdelle. Jos tositteella on useampia vientejä, käynnistä Avustaja uudelleen.</li>
 </ol>
-<h2 id="ostolaskun-kohdennus">Ostolaskun kohdennus<a class="headerlink" href="#ostolaskun-kohdennus" title="Permanent link">&para;</a></h2>
+<h2 id="osto-ja-myyntilaskun-lisatiedot">Osto- ja myyntilaskun lisätiedot<a class="headerlink" href="#osto-ja-myyntilaskun-lisatiedot" title="Permanent link">&para;</a></h2>
 <p><img alt="" src="./ostolasku.png" /></p>
 <p>Kirjattaessa <strong>Ostovelat</strong>-tilille voi Kirjausapurissa täyttää myös ostolaskun lisätiedot. Näitä tietoja käytetään kohdennettaessa tiliotteelta tuotava suoritus oikealle laskulle. Kitupiikki pyrkii lisäämään nämä tiedot automaattisesti pdf-muotoiselta laskulta.</p>
+<p>Vastaavasti <strong>Myyntisaamiset</strong>-tilille kirjattaessa voi täyttää tietoja, joiden perusteella saapuva maksu kohdistetaan oikealle myyntilaskulle.</p>
 <h2 id="tase-erat">Tase-erät<a class="headerlink" href="#tase-erat" title="Permanent link">&para;</a></h2>
 <p>Tase-erien avulla voidaan tasetileille laatia kirjanpitolain vaatima tase-erittely. Eriteltävät tilit valitaan <a href="../../maaritykset/tilikartta/#tase-erittely-ja-tase-erat">tilikartan määrityksistä</a>.</p>
 <p>Jos olet kirjaamassa tositteelle useampaa riviä samalle vastatilille (joudut esimerkiksi jakamaan saman ostolaskun eri veroprosenteille), tarjoaa Kitupiikki valintaa <strong>Yhdistä aiempaan vientiin</strong>, jolloin vastatilille kirjataan vain yksi vienti.</p>

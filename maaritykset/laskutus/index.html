@@ -81,21 +81,37 @@
     
       <header class="md-header" data-md-component="header">
     
-    <script src="https://form.jotformeu.com/static/feedback2.js" type="text/javascript">
-      new JotformFeedback({
-        formId: "73283959099374",
-        buttonText: "<span class='fa fa-comment'></span> Lähetä palautetta",
-        base: "https://form.jotformeu.com/",
-        background: "#9013fe",
-        fontColor: "#FFFFFF",
-        buttonSide: "right",
-        buttonAlign: "center",
-        type: 1,
-        width: 800,
-        height: 700,
-        isCardForm: false
-      });
-    </script>
+    
+    <!-- Googlen jäsenneltyjen tietojen merkintäapurin luomat JSON-LD-merkinnät. -->
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "SoftwareApplication",
+  "name" : "Kitupiikki",
+  "image" : "https://artoh.github.io/kitupiikki/images/kitupiikkikannettava.png",
+  "url" : "https://artoh.github.io/kitupiikki",
+  "author" : {
+    "@type" : "Person",
+    "name" : "Arto Hyvättinen"
+  },
+  "downloadUrl" : "https://artoh.github.io/kitupiikki/asennus",
+  "operatingSystem" : "Windows,Linux",
+  "screenshot" : "https://artoh.github.io/kitupiikki/kirjaus/myllykirjaus.png",
+  "applicationCategory": "Office",
+  "applicationSubCategory": "Finance",
+  "inLanguage" : "fi",
+  "license" : "https://www.gnu.org/licenses/gpl-3.0.en.html",
+    "offers": {
+    "@type": "Offer",
+    "priceCurrency": "EUR",
+    "price": "0.00"
+    }
+
+}
+
+</script>
+    
     
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
@@ -190,10 +206,78 @@
 
 
 
-  <li class="md-nav__item">
-    <a href="../../esittely/" title="Esittely" class="md-nav__link">
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
       Esittely
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Esittely
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="../../videot/" title="Videot" class="md-nav__link">
+      Videot
     </a>
+  </li>
+
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="../../esittely/" title="Ominaisuudet" class="md-nav__link">
+      Ominaisuudet
+    </a>
+  </li>
+
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="../../ui/" title="Käyttöliittymä" class="md-nav__link">
+      Käyttöliittymä
+    </a>
+  </li>
+
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="../../tuki/" title="Tuki" class="md-nav__link">
+      Tuki
+    </a>
+  </li>
+
+
+        
+      </ul>
+    </nav>
   </li>
 
 
@@ -345,9 +429,40 @@
     <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
     
     
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        Laskutus
+      </label>
+    
     <a href="./" title="Laskutus" class="md-nav__link md-nav__link--active">
       Laskutus
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="toc">Sisältö</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ikkunakuoret" title="Ikkunakuoret" class="md-nav__link">
+    Ikkunakuoret
+  </a>
+  
+</li>
+      
+      
+      
+        <li class="md-nav__item">
+          <a href="#__comments" title="Kommentit" class="md-nav__link md-nav__link--active">
+            Kommentit
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
     
   </li>
 
@@ -677,13 +792,47 @@
     
     
 
-    <li class="md-nav__item asennuslaatikko"><a href="/kitupiikki/asennus/" title="Lataa Kitupiikki" class="asennuslaatikko"><span class="fa fa-download"></span> Lataa Kitupiikki</a></li>       
+    <li class="md-nav__item asennuslaatikko"><a href="/kitupiikki/asennus/" title="Lataa Kitupiikki" class="asennuslaatikko"> <span class="fa fa-download"></span><span class="fa fa-windows"> </span><span class="fa fa-linux"> </span> Lataa Kitupiikki</a></li>       
+    <li class="md-nav__item tukilaatikko"><a href="/kitupiikki/tuki/" title="Tuki ja palaute" class="tukilaatikko"><span class="fa fa-question-circle"></span><span class="fa fa-comments"></span> Käyttäjätuki ja palaute</a></li>      
   </ul>
 </nav>
                   </div>
                 </div>
               </div>
             
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="toc">Sisältö</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ikkunakuoret" title="Ikkunakuoret" class="md-nav__link">
+    Ikkunakuoret
+  </a>
+  
+</li>
+      
+      
+      
+        <li class="md-nav__item">
+          <a href="#__comments" title="Kommentit" class="md-nav__link md-nav__link--active">
+            Kommentit
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
             
           
           <div class="md-content">
@@ -711,6 +860,50 @@
 <p>Voidaksesi valita <strong>laskuille tulostuvan pankkitilin numeron</strong>, pitää IBAN-tilinumero olla syötettynä
 <a href="../../maaritykset/tilikartta">tilin tiedoissa</a>.</p>
 <p>Valitse myös, tulostetaanko pankkisiirtolomakkeeseen <strong>pankkiviivakoodi</strong> sekä vastaavat tiedot sisältävä <strong>QR-koodi</strong>.</p>
+<h2 id="ikkunakuoret">Ikkunakuoret<a class="headerlink" href="#ikkunakuoret" title="Permanent link">&para;</a></h2>
+<p>Jos laskut on tarkoitus postittaa <strong>ikkunakuoressa</strong>, määrittele kirjekuoren osoiteikkunan koko sekä sijainti. Isoikkunakuoressa (ikkunan korkeus yli 5,5 cm) ikkunan kohdalle tulostetaan sekä lähettäjän että vastaanottajan tiedot.</p>
+<p>Suositellut ikkunakuoret</p>
+<table>
+<thead>
+<tr>
+<th>Koko</th>
+<th>Ikkunan leveys</th>
+<th>Ikkunan korkeus</th>
+<th>Etäisyys vasemmalta</th>
+<th>Etäisyys ylhäältä</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C5</td>
+<td>9,5 cm</td>
+<td>3,5 cm</td>
+<td>1,8 cm</td>
+<td>4,0 cm</td>
+</tr>
+<tr>
+<td>C5 isoikkuna</td>
+<td>9,0 cm</td>
+<td>6,0 cm</td>
+<td>1,8 cm</td>
+<td>1,0 cm</td>
+</tr>
+<tr>
+<td>E65</td>
+<td>9,0 cm</td>
+<td>3,0 cm</td>
+<td>1,8 cm</td>
+<td>4,0 cm</td>
+</tr>
+<tr>
+<td>E65 isoikkuna</td>
+<td>9,0 cm</td>
+<td>6,0 cm</td>
+<td>1,8 cm</td>
+<td>1,0 cm</td>
+</tr>
+</tbody>
+</table>
                 
                   
                 
