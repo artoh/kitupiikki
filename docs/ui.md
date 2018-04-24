@@ -21,6 +21,7 @@ Kitupiikin käyttöliittymä muodostuu seitsemästä välilehdestä.
 
 Näppäin   |  Toiminto
 ----------|----------
+<kbd>Home</kbd> | Aloitus-välilehdelle
 <kbd>F1</kbd> | Näyttää internet-selaimessa ohjeen
 <kbd>F2</kdb> | Uuden tositteen kirjaus
 <kbd>Shift</kbd>+<kbd>F2</kdb> | Avaa uuden tositteen kirjauksen uudessa ikkunassa

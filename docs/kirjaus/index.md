@@ -48,3 +48,14 @@ Voit myös tehdä tositteen, jossa on liite ja mahdollisesti kommentteja ilman y
 Kitupiikki numeroi tositteet juoksevalla numerolla tositelajeittain ja tilikausittain. Jos haluat numeroida tositteita itse, syötä numero Tositenumero-ruutuun. Punainen numero tarkoittaa, että kyseinen tositenumero on jo käytössä. **Siirrä numeroita**-painikkeellä pääset siirtämään numerointia eteenpäin niin, että voit lisätä uuden tositteen olemassa olevien väliin.
 
 ![](numerosiirto.png)
+
+## Lisää toimintoja
+
+![](lisavalikko.png)
+
+Kirjausikkunan oikean alakulman valikosta löytyy
+
+* **Siirry tositteeseen** <kbd>Ctrl</kbd>+<kbd>G</kbd> Nopea tositteeseen siirtyminen tositenumeron perusteella
+* **Tulosta tosite** <kbd>Ctrl</kbd>+<kbd>P</kbd>
+* **Kopioi uuden pohjaksi** <kbd>Ctrl</kbd>+<kbd>T</kbd> Luo uuden tositteen, johon kopioidaan näkyvissä olevan tositteen tiedot, uudella päivämäärällä ja otsikolla
+* **Poista tosite**
