@@ -18,3 +18,16 @@ Voidaksesi valita **laskuille tulostuvan pankkitilin numeron**, pitää IBAN-til
 [tilin tiedoissa](/maaritykset/tilikartta).
 
 Valitse myös, tulostetaanko pankkisiirtolomakkeeseen **pankkiviivakoodi** sekä vastaavat tiedot sisältävä **QR-koodi**.
+
+## Ikkunakuoret
+
+Jos laskut on tarkoitus postittaa **ikkunakuoressa**, määrittele kirjekuoren osoiteikkunan koko sekä sijainti. Isoikkunakuoressa (ikkunan korkeus yli 5,5 cm) ikkunan kohdalle tulostetaan sekä lähettäjän että vastaanottajan tiedot.
+
+Suositellut ikkunakuoret
+
+Koko  | Ikkunan leveys | Ikkunan korkeus | Etäisyys vasemmalta | Etäisyys ylhäältä
+------|----------------|-----------------|---------------------|------------------
+C5    | 9,5 cm          | 3,5 cm         |  1,8 cm             | 4,0 cm
+C5 isoikkuna | 9,0 cm  | 6,0 cm          | 1,8 cm              | 1,0 cm
+E65  |  9,0 cm         | 3,0 cm          | 1,8 cm              | 4,0 cm
+E65 isoikkuna |  9,0 cm  | 6,0 cm        | 1,8 cm              | 1,0 cm
