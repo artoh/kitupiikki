@@ -393,7 +393,7 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt)
                         rr.lisaaLinkilla( RaporttiRiviSarake::TILI_NRO, tili.numero(), QString("%1%2 %3").arg(eriSisennysStr).arg(tili.numero()).arg(tili.nimi()));
                         for( int sarake=0; sarake < data_.count(); sarake++)
                         {
-                            rr.lisaa( data_.at(sarake).value(iter.key(), 0) );
+                            rr.lisaa( data_.at(sarake).value(iter.key(), 0), true );
                         }
                         rk.lisaaRivi( rr );
                     }
