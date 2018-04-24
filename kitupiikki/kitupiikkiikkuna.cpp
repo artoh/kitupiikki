@@ -110,15 +110,15 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 
     // Aktiot kirjaamisella ja selaamisella uudessa ikkunassa
 
-    uusiKirjausAktio = new QAction(QIcon(":/pic/uusitosite.png"), tr("Kirjaa uudessa ikkunassa"), this);
+    uusiKirjausAktio = new QAction(QIcon(":/pic/uusitosite.png"), tr("Kirjaa uudessa ikkunassa\tShift+F2"), this);
     connect( uusiKirjausAktio, SIGNAL(triggered(bool)), this, SLOT(uusiKirjausIkkuna()));
     new QShortcut(QKeySequence(Qt::SHIFT + Qt::Key_F2), this, SLOT(uusiKirjausIkkuna()),0,Qt::ApplicationShortcut);
 
-    uusiSelausAktio = new QAction(QIcon(":/pic/Paivakirja64.png"), tr("Selaa uudessa ikkunassa"), this );
+    uusiSelausAktio = new QAction(QIcon(":/pic/Paivakirja64.png"), tr("Selaa uudessa ikkunassa\tShift+F3"), this );
     connect( uusiSelausAktio, SIGNAL(triggered(bool)), this, SLOT(uusiSelausIkkuna()));
     new QShortcut(QKeySequence(Qt::SHIFT + Qt::Key_F3), this, SLOT(uusiSelausIkkuna()), 0, Qt::ApplicationShortcut);
 
-    uusiLaskuAktio = new QAction(QIcon(":/pic/lasku.png"), tr("Uusi lasku"), this);
+    uusiLaskuAktio = new QAction(QIcon(":/pic/lasku.png"), tr("Uusi lasku\tShift+F4"), this);
     connect( uusiLaskuAktio, SIGNAL(triggered(bool)), this, SLOT(uusiLasku()));
     new QShortcut(QKeySequence(Qt::SHIFT + Qt::Key_F4), this, SLOT(uusiLasku()), 0, Qt::ApplicationShortcut);
 
@@ -330,6 +330,7 @@ QAction *KitupiikkiIkkuna::lisaaSivu(const QString &nimi, const QString &kuva, c
 {
     QAction *uusi = new QAction( nimi, aktioryhma);
     uusi->setIcon( QIcon(kuva));
+    uusi->setToolTip( nimi + "\t " + pikanappain );
     uusi->setStatusTip(vihje);
     uusi->setShortcut(QKeySequence(pikanappain));
     uusi->setCheckable(true);
@@ -370,6 +371,7 @@ void KitupiikkiIkkuna::lisaaSivut()
 
     QAction *ohjeAktio = new QAction(QIcon(":/pic/ohje.png"),tr("Käsikirja"), this);
     ohjeAktio->setShortcut( QKeySequence(Qt::Key_F1));
+    ohjeAktio->setToolTip("Ohjeet \tF1");
     connect( ohjeAktio, SIGNAL(triggered(bool)), this, SLOT(ohje()));
     toolbar->addAction(ohjeAktio);
 

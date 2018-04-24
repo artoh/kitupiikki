@@ -98,6 +98,9 @@
          </item>
          <item>
           <widget class="QPushButton" name="lisaaRiviNappi">
+           <property name="toolTip">
+            <string>Lisää uusi vienti F11</string>
+           </property>
            <property name="text">
             <string>Lisää rivi</string>
            </property>
@@ -427,6 +430,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="apuriNappi">
+       <property name="toolTip">
+        <string>Kirjausapuri F9</string>
+       </property>
        <property name="text">
         <string>Kirjausapuri</string>
        </property>
@@ -441,6 +447,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="laskuNappi">
+       <property name="toolTip">
+        <string>Laskun maksu F10</string>
+       </property>
        <property name="text">
         <string>Laskun maksu</string>
        </property>
@@ -471,6 +480,9 @@
        <property name="enabled">
         <bool>false</bool>
        </property>
+       <property name="toolTip">
+        <string>Tallenna tosite F12</string>
+       </property>
        <property name="text">
         <string>Tallenna</string>
        </property>
@@ -488,6 +500,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="hylkaaNappi">
+       <property name="toolTip">
+        <string>Hylkää muutokset Esc</string>
+       </property>
        <property name="text">
         <string>Hylkää</string>
        </property>
