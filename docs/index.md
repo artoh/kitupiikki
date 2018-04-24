@@ -41,6 +41,14 @@
   <img src="images/arkisto1.png">
   <div class="txt">Sähköisen arkiston etusivu</div>
  </div>
+ <div class="karusellissa fade">
+  <img src="images/arkisto1.png">
+  <div class="txt">Sähköisen arkiston etusivu</div>
+ </div>
+ <div class="karusellissa fade">
+  <img src="maaritykset/kohdennukset/kohdennukset.png">
+  <div class="txt">Kirjauksia voi kohdentaa toiminnoille, projekteille jne.</div>
+ </div>
 </div>
 
 
