@@ -100,7 +100,8 @@ public:
         TagiNimilistaRooli = Qt::UserRole + 21,
         TagiIdListaRooli = Qt::UserRole + 22,
         AsiakasRooli = Qt::UserRole + 23,
-        LaskuPvmRooli = Qt::UserRole + 24
+        LaskuPvmRooli = Qt::UserRole + 24,
+        TiliIdRooli = Qt::UserRole + 25
     };
 
 

@@ -236,6 +236,7 @@ void Arkistoija::arkistoiTositteet()
 
             out << "<table class='liiteluettelo'>";
 
+
             // Liitteiden kopiointi sekä luettelo
             for(int liiteInd=0; liiteInd < liitteita; liiteInd ++)
             {
@@ -284,10 +285,13 @@ void Arkistoija::arkistoiTositteet()
                                     .arg( index.data(VientiModel::IdRooli).toInt() )
                                     .arg( tilikausi_.paattyy().toString(Qt::ISODate))  );
 
-                qlonglong eraSaldo = index.data(VientiModel::DebetRooli).toInt() - index.data(VientiModel::KreditRooli).toInt();
+                qlonglong eraSaldo = 0;
 
                 bool taseEraSeurannassa = false;
-                while( eraKysely.next())
+
+                Tili tili = kp()->tilit()->tiliIdlla( index.data(VientiModel::TiliIdRooli).toInt() );
+
+                while( eraKysely.next() && tili.eritellaankoTase() )
                 {
                     if( !taseEraSeurannassa)
                     {

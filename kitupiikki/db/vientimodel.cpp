@@ -139,6 +139,8 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
         return rivi.asiakas;
     else if( role == LaskuPvmRooli)
         return rivi.laskupvm;
+    else if( role == TiliIdRooli)
+        return rivi.tili.id();
 
 
     else if( role==Qt::DisplayRole || role == Qt::EditRole)
