@@ -169,7 +169,10 @@ void LaskunMaksuDialogi::kirjaa()
 
         ehdotus.tallenna( kirjaaja->model()->vientiModel() );
 
-        laskut->maksa(index.row(), ui->euroSpin->value() * 100);
+        if( ostolasku)
+            ostolaskut->maksa( index.row(), ui->euroSpin->value() * 100 );
+        else
+            laskut->maksa(index.row(), ui->euroSpin->value() * 100);
     }
 }
 
