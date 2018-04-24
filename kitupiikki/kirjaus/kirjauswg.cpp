@@ -368,6 +368,7 @@ void KirjausWg::uusiPohjalta()
         model_->uusiPohjalta( kui.pvmEdit->date(), kui.otsikkoEdit->text() );
         tiedotModelista();
         paivitaTallennaPoistaNapit();
+        emit liiteValittu(QByteArray());
     }
 
 }

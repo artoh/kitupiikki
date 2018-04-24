@@ -328,6 +328,9 @@ void TositeModel::uusiPohjalta(const QDate &pvm, const QString &otsikko)
     vientiModel()->uusiPohjalta(otsikko);
 
     otsikko_ = otsikko;
+
+    liiteModel_->tyhjaa();
+
     muokattu_ = true;
 
 }

@@ -450,16 +450,20 @@
   <tabstop>vastaCheck</tabstop>
   <tabstop>vastaTaseEraCombo</tabstop>
   <tabstop>kohdennusCombo</tabstop>
+  <tabstop>merkkausEdit</tabstop>
   <tabstop>pvmDate</tabstop>
   <tabstop>seliteEdit</tabstop>
   <tabstop>alvCombo</tabstop>
   <tabstop>alvSpin</tabstop>
   <tabstop>eiVahennaCheck</tabstop>
+  <tabstop>saajanNimiEdit</tabstop>
   <tabstop>ibanEdit</tabstop>
   <tabstop>viiteEdit</tabstop>
+  <tabstop>laskupvmEdit</tabstop>
   <tabstop>eraCheck</tabstop>
   <tabstop>erapvmEdit</tabstop>
   <tabstop>ehdotusView</tabstop>
+  <tabstop>ohjeNappi</tabstop>
   <tabstop>vaihdaNappi</tabstop>
  </tabstops>
  <resources>
