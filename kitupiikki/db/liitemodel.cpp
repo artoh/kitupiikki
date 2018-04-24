@@ -160,7 +160,7 @@ int LiiteModel::lisaaTiedosto(const QString &polku, const QString &otsikko)
     if( !tiedosto.open(QIODevice::ReadOnly) )
     {
         QMessageBox::critical(0, tr("Tiedostovirhe"),
-                              tr("Tiedoston %1 avaaminen epäonnistui/n%1").arg(tiedosto.errorString()));
+                              tr("Tiedoston %1 avaaminen epäonnistui \n%2").arg(polku).arg(tiedosto.errorString()));
         return 0;
     }
     data = tiedosto.readAll();
