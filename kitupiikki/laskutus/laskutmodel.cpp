@@ -163,7 +163,7 @@ void LaskutModel::lataaAvoimet()
 void LaskutModel::paivita(int valinta, QDate mista, QDate mihin)
 {
     QString kysely = QString("SELECT vienti.id, pvm, tili, debetsnt, kreditsnt, eraid, viite, erapvm, vienti.json, tosite, asiakas, laskupvm, kohdennus, tyyppi FROM vienti, tili "
-                     "WHERE tili.id=vienti.tili AND ((viite IS NOT NULL AND iban IS NULL) OR tyyppi='AO' ) ");
+                     "WHERE tili.id=vienti.tili AND ((viite IS NOT NULL AND iban IS NULL) OR (tyyppi='AO' and vienti.id=vienti.eraid) ) ");
 
     if( mista.isValid() && mihin.isValid())
         kysely.append( QString(" AND pvm BETWEEN '%1' AND '%2' ") .arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate)) );

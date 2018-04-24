@@ -16,6 +16,7 @@
 */
 
 #include <QSqlQueryModel>
+#include <QSqlQuery>
 #include <QDesktopServices>
 #include <QUrl>
 #include <QShortcut>
@@ -177,7 +178,20 @@ void LaskutusSivu::nayta()
 
 void LaskutusSivu::valintaMuuttuu()
 {
-    ui->naytaNappi->setEnabled( ui->laskutView->currentIndex().isValid());
+
+    ui->naytaNappi->setEnabled( false );
+
+    if(  ui->laskutView->currentIndex().isValid()  )
+    {
+        QModelIndex index =  ui->laskutView->currentIndex();
+        int tosite = index.data(LaskutModel::TositeRooli).toInt();
+        int liite = index.data(LaskutModel::LiiteRooli).toInt() ? index.data(LaskutModel::LiiteRooli).toInt() : 1;
+
+        QSqlQuery liitekysely( QString("SELECT id FROM liite WHERE tosite=%1 AND liiteno=%2").arg(tosite).arg(liite));
+        if( liitekysely.next())
+            ui->naytaNappi->setEnabled(true);
+    }
+
     ui->tositeNappi->setEnabled( ui->laskutView->currentIndex().isValid());
     ui->poistaNappi->setEnabled( ui->laskutView->currentIndex().isValid());
     ui->hyvitysNappi->setEnabled( ui->laskutView->currentIndex().isValid() &&
