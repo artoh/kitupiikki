@@ -709,13 +709,13 @@ Kulut
 Henkilöstökulut	5 s4 *
 Poistot	6 s4 *
 Muut kulut	4 s4 *
-Kulut yhteensä	3..6 == S4 
+Kulut yhteensä	4..6 == S4 
 
 Tuotto/Kulujäämä	=
 
 Varainhankinta	bold
-Tuotot	703,73 S4 *
-Kulut	704..709,74..79 S4 *
+Tuotot	7+ S4 *
+Kulut	7- S4 *
 Varainhankinta yhteensä	7 == S4 
 
 Tuotto/Kulujäämä	= 
