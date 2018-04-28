@@ -475,10 +475,13 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu)
         vasenreunus = rivinkorkeus * 2 + painter->fontMetrics().width("A");
     }
 
+    QRectF nimiRect = painter->boundingRect( vasenreunus, 0, sivunleveys / 3 - vasenreunus, painter->viewport().height(),
+                                             Qt::TextWordWrap, nimi );
 
-    painter->drawText( QRect(vasenreunus,0,sivunleveys/4, rivinkorkeus ), Qt::AlignLeft, nimi );
-    painter->drawText( QRect(sivunleveys/4,0,sivunleveys/2, rivinkorkeus  ), Qt::AlignHCenter, otsikko_);
-    painter->drawText( QRect(sivunleveys*3/4, 0, sivunleveys/4, rivinkorkeus), Qt::AlignRight, paivays);
+    painter->drawText( nimiRect, Qt::AlignLeft | Qt::TextWordWrap, nimi );
+
+    painter->drawText( QRect(sivunleveys/3,0,sivunleveys/3, rivinkorkeus  ), Qt::AlignHCenter, otsikko_);
+    painter->drawText( QRect(sivunleveys*2/3, 0, sivunleveys/3, rivinkorkeus), Qt::AlignRight, paivays);
 
     if( kp()->asetukset()->onko("Harjoitus")  )
     {
@@ -489,15 +492,15 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu)
         painter->restore();
     }
 
-    painter->translate(0, rivinkorkeus);
+    painter->translate(0, nimiRect.height() > rivinkorkeus ? nimiRect.height() : rivinkorkeus );
 
     QString ytunnus = Kirjanpito::db()->asetus("Ytunnus") ;    
 
-    painter->drawText(QRect(vasenreunus,0,sivunleveys/4, rivinkorkeus ), Qt::AlignLeft, ytunnus );
+    painter->drawText(QRect(vasenreunus,0,sivunleveys/3, rivinkorkeus ), Qt::AlignLeft, ytunnus );
 
-    painter->drawText(QRect(sivunleveys/4,0,sivunleveys/2, rivinkorkeus  ), Qt::AlignHCenter, kausiteksti_);
+    painter->drawText(QRect(sivunleveys/3,0,sivunleveys/3, rivinkorkeus  ), Qt::AlignHCenter, kausiteksti_);
     if( sivu )
-        painter->drawText(QRect(sivunleveys*3/4, 0, sivunleveys/4, rivinkorkeus), Qt::AlignRight, QString("Sivu %1").arg(sivu));
+        painter->drawText(QRect(sivunleveys*2/3, 0, sivunleveys/3, rivinkorkeus), Qt::AlignRight, QString("Sivu %1").arg(sivu));
 
 
 

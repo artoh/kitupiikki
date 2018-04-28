@@ -281,17 +281,18 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter)
     }
     painter->setFont(QFont("Sans",14));
     double pv = painter->fontMetrics().height();
-    painter->drawText(QRectF( lahettajaAlue.x() + vasen , lahettajaAlue.y(), lahettajaAlue.width() - vasen, pv), Qt::AlignLeft, kp()->asetus("Nimi"));
+    QRectF lahettajaRect = painter->boundingRect( QRectF( lahettajaAlue.x()+vasen, lahettajaAlue.y(),
+                                                       lahettajaAlue.width()-vasen, 20 * mm), Qt::TextWordWrap, kp()->asetus("Nimi") );
+    painter->drawText(QRectF( lahettajaRect), Qt::AlignLeft | Qt::TextWordWrap, kp()->asetus("Nimi"));
 
     painter->setFont(QFont("Sans",9));
-    QRectF lahettajaosoiteRect = painter->boundingRect( QRectF( lahettajaAlue.x()+vasen, lahettajaAlue.y()+pv,
+    QRectF lahettajaosoiteRect = painter->boundingRect( QRectF( lahettajaAlue.x()+vasen, lahettajaAlue.y() + lahettajaRect.height(),
                                                        lahettajaAlue.width()-vasen, 20 * mm), Qt::TextWordWrap, kp()->asetus("Osoite") );
     painter->drawText(lahettajaosoiteRect, Qt::AlignLeft, kp()->asetus("Osoite") );
 
     // Tulostetaan saajan osoite ikkunaan
     painter->setFont(QFont("Sans", TEKSTIPT));
     painter->drawText(ikkuna, Qt::TextWordWrap, model_->osoite());
-
 
     pv += rk ;     // pv = perusviiva
 
