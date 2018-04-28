@@ -17,6 +17,7 @@
 
 #include <QDebug>
 #include <QTimer>
+#include <QSettings>
 #include <cmath>
 #include "kohdennusproxymodel.h"
 #include "kirjausapuridialog.h"
@@ -59,9 +60,9 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     ui->vastaCheck->setVisible( false );
 
     // ValintaTab ylälaidassa kirjauksen tyypin valintaan
-    ui->valintaTab->addTab(QIcon(":/pic/lisaa.png"),"Tulo");
-    ui->valintaTab->addTab(QIcon(":/pic/poista.png"),"Meno");
-    ui->valintaTab->addTab(QIcon(":/pic/siirra.png"),"Siirto");
+    ui->valintaTab->addTab(QIcon(":/pic/lisaa.png"),"&Tulo");
+    ui->valintaTab->addTab(QIcon(":/pic/poista.png"),"Men&o");
+    ui->valintaTab->addTab(QIcon(":/pic/siirra.png"),"Si&irto");
     ui->valintaTab->setCurrentIndex(SIIRTO);
 
     ui->kohdennusCombo->setModel( &kohdennusfiltteri);
@@ -157,10 +158,16 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     connect( model, SIGNAL(tyhjennetty()), this, SLOT(close()) );
 
     ui->merkkausEdit->installEventFilter(this);
+
+    QSettings settings;
+    restoreGeometry( settings.value("ApuriDlg").toByteArray());
 }
 
 KirjausApuriDialog::~KirjausApuriDialog()
 {
+    QSettings settings;
+    settings.setValue("ApuriDlg", this->saveGeometry());
+
     delete ui;
 }
 
@@ -734,16 +741,16 @@ void KirjausApuriDialog::valilehtiVaihtui(int indeksi)
     }
 
     if( indeksi == MENO)
-        ui->tiliLabel->setText("Menotili");
+        ui->tiliLabel->setText("Meno&tili");
     else if(indeksi == TULO)
-        ui->tiliLabel->setText("Tulotili");
+        ui->tiliLabel->setText("Tulo&tili");
     else if(indeksi == SIIRTO)
-        ui->tiliLabel->setText("Debet-tili");
+        ui->tiliLabel->setText("&Debet-tili");
 
     if( indeksi == SIIRTO)
-        ui->vastatiliLabel->setText("Kredit-tili");
+        ui->vastatiliLabel->setText("K&redit-tili");
     else
-        ui->vastatiliLabel->setText("Vastatili");
+        ui->vastatiliLabel->setText("&Vastatili");
 
     vastaTiliMuuttui();
     ehdota();
