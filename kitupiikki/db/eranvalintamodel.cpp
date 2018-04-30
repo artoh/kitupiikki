@@ -95,7 +95,7 @@ void EranValintaModel::lataa(Tili tili, bool kaikki, QDate paivalle)
         saldot.insert( query.value("eraid").toInt(), query.value("debetit").toLongLong() - query.value("kreditit").toLongLong() );
     }
 
-    query.exec(QString("SELECT id, pvm, selite, debetsnt, kreditsnt from vienti "
+    query.exec(QString("SELECT id, pvm, selite, debetsnt, kreditsnt, tosite from vienti "
                "where tili=%1 and eraid=id order by pvm").arg(tili.id()) );
 
     while( query.next())
@@ -110,6 +110,7 @@ void EranValintaModel::lataa(Tili tili, bool kaikki, QDate paivalle)
             era.pvm = query.value("pvm").toDate();
             era.selite = query.value("selite").toString();
             era.saldoSnt = saldo;
+            era.tositeId = query.value("tosite").toInt();
             erat_.append(era);
         }
 
@@ -125,7 +126,7 @@ TaseEra::TaseEra(int id)
     if(id)
     {
         QSqlQuery query( *( kp()->tietokanta() ));
-        query.exec(QString("SELECT sum(debetsnt),sum(kreditsnt) as saldo from vienti "
+        query.exec(QString("SELECT sum(debetsnt),sum(kreditsnt) from vienti "
                            "where eraid=%1").arg(id ));
         if( query.next() )
         {
@@ -152,7 +153,10 @@ QString TaseEra::tositteenTunniste()
         QSqlQuery query(QString("select tositelaji.tunnus, tosite.tunniste from tositelaji,tosite WHERE tosite.id=%1 and tosite.laji=tositelaji.id").arg(tositeId));
         if( query.next())
         {
-            return  query.value(0).toString() + query.value(1).toString();
+            return QString("%1%2/%3").arg( query.value(0).toString() )
+                    .arg( query.value(1).toString())
+                    .arg( kp()->tilikaudet()->tilikausiPaivalle( pvm ).kausitunnus() );
+
         }
     }
     return QString();

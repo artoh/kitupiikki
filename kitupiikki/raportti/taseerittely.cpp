@@ -74,9 +74,9 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
     QSqlQuery kysely;
     QList<int> tiliIdt;
 
-    kysely.exec( QString("select tili.id from tili,vienti where vienti.tili=tili.id and tili.ysiluku < 300000000 "
+    kysely.exec( QString("select tili.id, sum(debetsnt), sum(kreditsnt) from tili,vienti where vienti.tili=tili.id and tili.ysiluku < 300000000 "
                          "and pvm <= \"%1\" group by tili.ysiluku order by tili.ysiluku").arg(mihin.toString(Qt::ISODate)) );
-    while(kysely.next())
+    while(kysely.next() && kysely.value(1).toLongLong() != kysely.value(2).toLongLong() )
         tiliIdt.append( kysely.value(0).toInt());
 
     int otsikkoId = 0;
@@ -168,7 +168,9 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                 while( kysely.next() )
                 {
                     RaporttiRivi rr;
-                    rr.lisaaLinkilla(RaporttiRiviSarake::TOSITE_ID, kysely.value("tositeId").toInt(), QString("%1%2").arg( kysely.value("tositelaji").toString()).arg(kysely.value("tunniste").toInt()));
+                    rr.lisaaLinkilla(RaporttiRiviSarake::TOSITE_ID, kysely.value("tositeId").toInt(),
+                                     QString("%1%2/%3").arg( kysely.value("tositelaji").toString()).arg(kysely.value("tunniste").toInt())
+                                     .arg( kp()->tilikaudet()->tilikausiPaivalle( kysely.value("pvm").toDate() ).kausitunnus() ) );
                     rr.lisaa( kysely.value("pvm").toDate());
                     rr.lisaa(kysely.value("selite").toString());
                     if( tili.onko(TiliLaji::VASTAAVAA))
@@ -239,9 +241,10 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                     qDebug() << kysely.value("id").toInt();
 
                     RaporttiRivi nimirivi;
-                    QString tunniste = QString("%1%2")
+                    QString tunniste = QString("%1%2/%3")
                             .arg( kp()->tositelajit()->tositelaji( kysely.value("laji").toInt() ).tunnus() )
-                            .arg( kysely.value("tunniste").toInt());
+                            .arg( kysely.value("tunniste").toInt())
+                            .arg( kp()->tilikaudet()->tilikausiPaivalle( kysely.value("vienti.pvm").toDate() ).kausitunnus()  );
 
                     nimirivi.lisaa(tunniste);
                     nimirivi.lisaa( kysely.value("pvm").toDate());
@@ -287,7 +290,9 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                             muutos =  muKysely.value("kreditsnt").toLongLong() - muKysely.value("debetsnt").toLongLong();
                         saldo += muutos;
 
-                        rr.lisaaLinkilla(RaporttiRiviSarake::TOSITE_ID, muKysely.value("tositeId").toInt(), QString("%1%2").arg( muKysely.value("tositelaji").toString()).arg(muKysely.value("tunniste").toInt()));
+                        rr.lisaaLinkilla(RaporttiRiviSarake::TOSITE_ID, muKysely.value("tositeId").toInt(),
+                                         QString("%1%2/%3").arg( muKysely.value("tositelaji").toString()).arg(muKysely.value("tunniste").toInt())
+                                                            .arg( kp()->tilikaudet()->tilikausiPaivalle( muKysely.value("pvm").toDate() ).kausitunnus() ));
 
                         rr.lisaa( muKysely.value("pvm").toDate());
                         rr.lisaa( muKysely.value("selite").toString());
