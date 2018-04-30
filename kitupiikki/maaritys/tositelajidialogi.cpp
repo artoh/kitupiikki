@@ -67,7 +67,15 @@ void TositelajiDialogi::lataa()
     ui->tilioteRadio->setChecked( kirjaustyyppi == TositelajiModel::TILIOTE);
 
 
-    if( indeksi_.data( TositelajiModel::IdRooli).toInt() == 1)
+    if( indeksi_.data(TositelajiModel::IdRooli).toInt() == 0)
+    {
+        // Järjestelmätositteessa saa muokata vain näytettävän nimen
+        ui->tunnusEdit->setEnabled(false);
+        ui->vastatiliEdit->setEnabled(false);
+        ui->oletusTiliEdit->setEnabled(false);
+        ui->lajiRyhma->setEnabled(false);
+    }
+    else if( indeksi_.data( TositelajiModel::IdRooli).toInt() == 1)
     {
         // Oletustositelaji Muut lyhenne "" pitää säilyttää, ei saa muuttaa!
         ui->tunnusEdit->setEnabled(false);
