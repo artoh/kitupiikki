@@ -86,7 +86,7 @@ protected:
     QString tyyppikoodi_;
     QString kuvaus_;
     TiliLaji::TiliLuonne     luonne_;
-    int otsikkotaso_ = 0;
+    int otsikkotaso_ = -1;
 };
 
 /**

@@ -109,6 +109,7 @@ void TilinMuokkausDialog::lataa()
     ui->taydentavaEdit->setText( tili.json()->str("Taydentava"));
     ui->numeroEdit->setText( QString::number( tili.numero()));
     ui->tasoSpin->setValue( tili.otsikkotaso());
+
     ui->valiastiEdit->setText( QString::number(tili.json()->luku("Asti")) );
 
     ui->ibanLabel->setVisible( tili.onko(TiliLaji::PANKKITILI));
@@ -239,10 +240,10 @@ void TilinMuokkausDialog::nroMuuttaaTyyppia(const QString &nroteksti)
             }
         }
 
-        int ysinro = Tili::ysiluku( nroteksti.toInt(), ui->tasoSpin->value() ? ui->otsikkoRadio->isChecked() : 0);
+        int ysinro = Tili::ysiluku( nroteksti.toInt(), ui->otsikkoRadio->isChecked() ? ui->tasoSpin->value() : 0);
         // Haetaan ylempi otsikkoteksti
-
         Tili ylatili;
+
         for( int i=0; i < model_->rowCount(QModelIndex()) ; i++)
         {
            Tili tili = model_->tiliIndeksilla(i);
