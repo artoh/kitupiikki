@@ -60,8 +60,7 @@ LaskunMaksuDialogi::LaskunMaksuDialogi(KirjausWg *kirjauswg) :
     connect( ui->naytaNappi, SIGNAL(clicked()), this, SLOT(naytaLasku()));
     connect( ui->suodatusEdit, SIGNAL(textChanged(QString)), this, SLOT(suodata()));
 
-    ui->pvmEdit->setDateRange( kp()->tilikausiPaivalle( kp()->paivamaara()).alkaa(),
-                               kp()->tilikausiPaivalle( kp()->paivamaara()).paattyy());
+    ui->pvmEdit->setDateRange( kp()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu()  );
     ui->pvmEdit->setDate( kp()->paivamaara() );
 
     ui->tiliEdit->suodataTyypilla("AR");
