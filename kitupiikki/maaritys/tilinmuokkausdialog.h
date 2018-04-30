@@ -66,6 +66,13 @@ protected slots:
     void accept();
 
 protected:
+    /**
+     * @brief Hakee tilille tai otsikolle yläotsikon
+     * @param ysinro Haettavan tilin/otsikon ysiluku
+     * @return
+     */
+    Tili ylaotsikko(int ysinro);
+
     Ui::tilinmuokkausDialog *ui;
     TiliModel *model_;
     QModelIndex index_;

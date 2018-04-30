@@ -242,18 +242,8 @@ void TilinMuokkausDialog::nroMuuttaaTyyppia(const QString &nroteksti)
 
         int ysinro = Tili::ysiluku( nroteksti.toInt(), ui->otsikkoRadio->isChecked() ? ui->tasoSpin->value() : 0);
         // Haetaan ylempi otsikkoteksti
-        Tili ylatili;
+        Tili ylatili = ylaotsikko(ysinro);
 
-        for( int i=0; i < model_->rowCount(QModelIndex()) ; i++)
-        {
-           Tili tili = model_->tiliIndeksilla(i);
-           int asti = tili.json()->luku("Asti") ? tili.json()->luku("Asti") : tili.numero();
-           if( ysinro > tili.ysivertailuluku() && ysinro < Tili::ysiluku( asti, true )  )
-           {
-               if( tili.otsikkotaso() > ylatili.otsikkotaso() && tili.ysivertailuluku() != ysinro)
-                   ylatili = tili;
-           }
-        }
         ui->kuuluuLabel->setText( ylatili.nimi() );
 
         // Vaikuttaa otsikon otsikkotasoon
@@ -457,5 +447,22 @@ void TilinMuokkausDialog::accept()
 
 
     QDialog::accept();
+}
+
+Tili TilinMuokkausDialog::ylaotsikko(int ysinro)
+{
+    Tili ylatili;
+
+    for( int i=0; i < model_->rowCount(QModelIndex()) ; i++)
+    {
+       Tili tili = model_->tiliIndeksilla(i);
+       int asti = tili.json()->luku("Asti") ? tili.json()->luku("Asti") : tili.numero();
+       if( ysinro > tili.ysivertailuluku() && ysinro < Tili::ysiluku( asti, true )  )
+       {
+           if( tili.otsikkotaso() > ylatili.otsikkotaso() && tili.ysivertailuluku() != ysinro)
+               ylatili = tili;
+       }
+    }
+    return ylatili;
 }
 

@@ -104,10 +104,10 @@ bool TilikarttaMuokkaus::onkoMuokattu()
 
 void TilikarttaMuokkaus::muutaTila(int tila)
 {
-    QModelIndex index = ui->view->currentIndex();
+    QModelIndex index = naytaProxy->mapToSource(  proxy->mapToSource( ui->view->currentIndex() ) );
     if( index.isValid())
     {
-        proxy->setData(index, tila, TiliModel::TilaRooli);
+        model->setData(index, tila, TiliModel::TilaRooli);
         if( index.data(TiliModel::OtsikkotasoRooli).toInt())
         {
             // Otsikkotaso - tila muutetaan kaikkialle alle
@@ -119,7 +119,25 @@ void TilikarttaMuokkaus::muutaTila(int tila)
                 // Eli jos muutetaan H2 niin myös H3,H4... muuttuu
                 if( (otsikkotaso > 0) && (otsikkotaso <= tamanotsikkotaso ))
                     break;      // Löydetty seuraava samantasoinen otsikko
-                proxy->setData( proxy->index(r, 0) , tila, TiliModel::TilaRooli );
+                model->setData( model->index(r, 0) , tila, TiliModel::TilaRooli );
+            }
+        }
+
+        if( tila )
+        {
+            // Jos tila muutettu näkyväksi, niin muutetaan myös otsikot tästä ylöspäin
+            int edtaso = index.data(TiliModel::OtsikkotasoRooli).toInt() ? index.data(TiliModel::OtsikkotasoRooli).toInt() : 10;
+            for(int r = index.row()-1; r > -1; r--)
+            {
+                int otsikkotaso = model->index(r,0).data(TiliModel::OtsikkotasoRooli).toInt();
+                if( otsikkotaso >= edtaso )
+                    break;
+                if( otsikkotaso )
+                {
+                    edtaso = otsikkotaso;
+                    if( model->index(r,0).data(TiliModel::TilaRooli).toInt() == 0)
+                        model->setData( model->index(r,0), 1, TiliModel::TilaRooli );
+                }
             }
         }
     }
@@ -130,7 +148,6 @@ void TilikarttaMuokkaus::muutaTila(int tila)
 void TilikarttaMuokkaus::riviValittu(const QModelIndex& index)
 {
     ui->muokkaaNappi->setEnabled( index.isValid());
-
 
     int tila = index.data(TiliModel::TilaRooli).toInt();
     ui->piilotaNappi->setChecked( tila == 0);
