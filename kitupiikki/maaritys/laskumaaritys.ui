@@ -196,7 +196,7 @@
         <item>
          <widget class="QSpinBox" name="ySpin">
           <property name="suffix">
-           <string>mm</string>
+           <string> mm</string>
           </property>
           <property name="prefix">
            <string/>
@@ -220,7 +220,7 @@
         <item>
          <widget class="QSpinBox" name="xSpin">
           <property name="suffix">
-           <string>mm</string>
+           <string> mm</string>
           </property>
           <property name="maximum">
            <number>60</number>
