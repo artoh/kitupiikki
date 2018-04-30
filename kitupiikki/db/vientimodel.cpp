@@ -193,10 +193,10 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
                     QString txt;    // Näytettävä kohdennusteksti
                                     // Jos sekä tase-erä että kohdennus, näkyy kohdennus alemmalla rivillä
                     // Tase-erät näytetään samalla sarakkeella
-                    if( rivi.eraId > 0 &&  rivi.eraId != rivi.vientiId )
+                    if( rivi.eraId > 0  )
                     {
                         TaseEra era(rivi.eraId);                      
-                        txt =  tr("%1/%2").arg( era.tositteenTunniste() ).arg(era.pvm.toString("dd.MM.yyyy")) ;
+                        txt =  era.tositteenTunniste() ;
                     }
                     else if( rivi.json.luku("Tasaerapoisto") )
                     {
@@ -210,6 +210,10 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
                     else if( !rivi.viite.isEmpty())
                     {
                         txt = tr("VIITE");
+                    }
+                    else if( rivi.eraId == TaseEra::UUSIERA)
+                    {
+                        txt = tr("Uusi tase-erä");
                     }
 
                     if( rivi.kohdennus.tyyppi() != Kohdennus::EIKOHDENNETA)
@@ -307,7 +311,6 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
             if( value.toDate().isValid())
             {
                 viennit_[index.row()].pvm = value.toDate();
-                emit muuttunut();
                 emit siirryRuutuun( index.sibling(index.row(), TILI) );
             }
             return true;
@@ -348,12 +351,10 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
                 else
                     emit siirryRuutuun(index.sibling(index.row(), DEBET));
             }
-            emit muuttunut();
             return true;
         }
         case SELITE:
             viennit_[index.row()].selite = value.toString();
-            emit muuttunut();
             return true;
         case DEBET:
             viennit_[index.row()].debetSnt = value.toLongLong();
@@ -362,7 +363,6 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
                 viennit_[index.row()].kreditSnt = 0;
                 emit siirryRuutuun(index.sibling(index.row(), KOHDENNUS));
             }
-            emit muuttunut();
             return true;
         case KREDIT:
             viennit_[index.row()].kreditSnt = value.toLongLong();
@@ -371,11 +371,9 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
                 viennit_[index.row()].debetSnt = 0;
                 emit siirryRuutuun(index.sibling(index.row(), KOHDENNUS));
             }
-            emit muuttunut();
             return true;
         case KOHDENNUS:
             viennit_[rivi].kohdennus = kp()->kohdennukset()->kohdennus(value.toInt());
-            emit muuttunut();
             return true;
         default:
             return false;
@@ -394,12 +392,10 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
     else if( role == DebetRooli)
     {
         viennit_[rivi].debetSnt = value.toLongLong();
-        emit muuttunut();
     }
     else if( role == KreditRooli)
     {
         viennit_[rivi].kreditSnt = value.toLongLong();
-        emit muuttunut();
     }
     else if( role == KohdennusRooli)
         viennit_[rivi].kohdennus=kp()->kohdennukset()->kohdennus( value.toInt());
@@ -439,7 +435,6 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
         QVariantList lista = value.toList();
         for( QVariant variant : lista )
             viennit_[rivi].tagit.append( kp()->kohdennukset()->kohdennus(variant.toInt()) );
-        emit muuttunut();
     }
     else if( role == AsiakasRooli)
         viennit_[rivi].asiakas = value.toString();
@@ -448,6 +443,7 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
     else
         return false;
 
+    emit muuttunut();
     return true;
 }
 

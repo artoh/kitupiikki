@@ -31,7 +31,7 @@ EranValintaModel::EranValintaModel()
 
 int EranValintaModel::rowCount(const QModelIndex & /* parent */) const
 {
-    return erat_.count() + 1;
+    return erat_.count() + 2;
 }
 
 QVariant EranValintaModel::data(const QModelIndex &index, int role) const
@@ -44,9 +44,17 @@ QVariant EranValintaModel::data(const QModelIndex &index, int role) const
         else if(  role == Qt::DisplayRole )
             return QVariant(tr("Muodosta uusi tase-erä"));
     }
+    else if( index.row() == 1)
+    {
+        // Toinen rivi: ei tase-erää
+        if( role == EraIdRooli)
+            return TaseEra::EIERAA;
+        else if( role == Qt::DisplayRole)
+            return tr("Ei tase-erää");
+    }
     else if( index.isValid() )
     {
-        TaseEra era = erat_.value(index.row()-1);
+        TaseEra era = erat_.value(index.row()-2);
 
         if( role == EraIdRooli || role == Qt::UserRole)
             return QVariant( era.eraId);
@@ -154,7 +162,7 @@ QString TaseEra::tositteenTunniste()
         if( query.next())
         {
             return QString("%1%2/%3").arg( query.value(0).toString() )
-                    .arg( query.value(1).toString())
+                    .arg( query.value(1).toInt())
                     .arg( kp()->tilikaudet()->tilikausiPaivalle( pvm ).kausitunnus() );
 
         }

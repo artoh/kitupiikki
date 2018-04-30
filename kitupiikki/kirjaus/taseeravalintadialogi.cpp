@@ -194,10 +194,10 @@ void TaseEraValintaDialogi::sntSuodatusVaihtuu()
     // Valitaan valittuna ollut
     for(int i=0; i < proxy_->rowCount(); i++)
     {
-        if( proxy_->data( proxy_->index(i,0), EranValintaModel::EraIdRooli ).toInt() == taseEra_)
+        if( proxy_->data( proxy_->index(i,0), EranValintaModel::EraIdRooli ).toInt() == taseEra_ ||
+            proxy_->data( proxy_->index(i,0), EranValintaModel::EraIdRooli ).toInt() == vientiId_ )
         {
             ui->view->setCurrentIndex( proxy_->index(i,0) );
-            break;
         }
     }
 }

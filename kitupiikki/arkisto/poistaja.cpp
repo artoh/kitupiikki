@@ -60,7 +60,7 @@ bool Poistaja::sumupoistaja(Tilikausi kausi)
     kirjoittaja.lisaaSarake("TUN123456/31.12.9999");
     kirjoittaja.lisaaVenyvaSarake();
     kirjoittaja.lisaaEurosarake();
-    kirjoittaja.lisaaSarake("Poistosääntö");
+    kirjoittaja.lisaaSarake("Sääntö");
     kirjoittaja.lisaaEurosarake();
     kirjoittaja.lisaaEurosarake();
 
@@ -222,6 +222,9 @@ bool Poistaja::sumupoistaja(Tilikausi kausi)
                     JsonKentta json( alkuKysely.value("json").toByteArray());
                     poistoKk = json.luku("Tasaerapoisto");
                 }
+
+                if( !poistoKk)
+                    continue;
 
                 // Montako kuukautta on kulunut hankinnasta
                 int kuukauttaKulunut = kausi.paattyy().year() * 12 + kausi.paattyy().month() -
