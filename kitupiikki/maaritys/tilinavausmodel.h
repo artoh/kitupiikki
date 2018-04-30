@@ -40,6 +40,11 @@ public:
         NRO, NIMI, SALDO
     };
 
+    enum
+    {
+        KaytossaRooli = Qt::UserRole + 1
+    };
+
     TilinavausModel();
 
     int rowCount(const QModelIndex &parent) const;

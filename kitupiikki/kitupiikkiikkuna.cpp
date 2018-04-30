@@ -106,6 +106,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     connect( kirjaussivu, SIGNAL(palaaEdelliselleSivulle()), this, SLOT(palaaSivulta()));
 
     connect( kp(), SIGNAL(onni(QString)), this, SLOT(naytaOnni(QString)));
+    connect( kp(), SIGNAL(naytaTosite(int)), this, SLOT(naytaTosite(int)));
     connect( aloitussivu, SIGNAL(ktpkasky(QString)), this, SLOT(ktpKasky(QString)));
 
     // Aktiot kirjaamisella ja selaamisella uudessa ikkunassa

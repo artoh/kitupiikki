@@ -25,6 +25,8 @@
 
 #include "maarityswidget.h"
 
+class QSortFilterProxyModel;
+
 /**
  * @brief Määritywidget kirjanpidon tilinavauksen kirjaamiseen
  *
@@ -44,6 +46,8 @@ signals:
 public slots:
     void naytaInfo(QString info);
     void hlostoMuutos();
+    void tosite();
+    void naytaPiilotetut(bool naytetaanko);
 
 public:
     bool nollaa();
@@ -55,6 +59,8 @@ public:
 private:
     Ui::Tilinavaus *ui;
     TilinavausModel *model;
+
+    QSortFilterProxyModel *proxy;
 };
 
 #endif // TILINAVAUS_H

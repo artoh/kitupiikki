@@ -15,6 +15,8 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QSortFilterProxyModel>
+
 #include "tilinavaus.h"
 #include "tilinavausmodel.h"
 #include "kirjaus/eurodelegaatti.h"
@@ -25,7 +27,13 @@ Tilinavaus::Tilinavaus(QWidget *parent) : MaaritysWidget(parent)
     ui->setupUi(this);
 
     model = new TilinavausModel();
-    ui->tiliView->setModel(model);
+
+    proxy = new QSortFilterProxyModel(this);
+    proxy->setSourceModel(model);
+    proxy->setFilterRole(TilinavausModel::KaytossaRooli);
+    proxy->setFilterFixedString("1");
+
+    ui->tiliView->setModel(proxy);
 
     ui->tiliView->setItemDelegateForColumn( TilinavausModel::SALDO, new EuroDelegaatti);
 
@@ -33,6 +41,8 @@ Tilinavaus::Tilinavaus(QWidget *parent) : MaaritysWidget(parent)
 
     connect(model, SIGNAL(infoteksti(QString)), this, SLOT(naytaInfo(QString)));
     connect( ui->henkilostoSpin, SIGNAL(valueChanged(int)), this, SLOT(hlostoMuutos()));
+    connect(ui->piiloCheck, SIGNAL(toggled(bool)), this, SLOT(naytaPiilotetut(bool)));
+    connect(ui->tositeNappi, SIGNAL(clicked(bool)), this, SLOT(tosite()));
 
 }
 
@@ -45,17 +55,36 @@ void Tilinavaus::naytaInfo(QString info)
 {
     ui->infoLabel->setText(info);
     emit tallennaKaytossa( onkoMuokattu());
+
+    // Tositetta voi käyttää vain, jos ei tallentamatonta!
+    ui->tositeNappi->setEnabled( !onkoMuokattu() );
 }
 
 void Tilinavaus::hlostoMuutos()
 {
+    // Tositetta voi käyttää vain, jos ei tallentamatonta!
+    ui->tositeNappi->setEnabled( !onkoMuokattu() );
     emit tallennaKaytossa( onkoMuokattu());
+}
+
+void Tilinavaus::tosite()
+{
+    emit kp()->naytaTosite(0);
+}
+
+void Tilinavaus::naytaPiilotetut(bool naytetaanko)
+{
+    if( naytetaanko)
+        proxy->setFilterFixedString("");
+    else
+        proxy->setFilterFixedString("1");
 }
 
 bool Tilinavaus::nollaa()
 {
     model->lataa();
     ui->henkilostoSpin->setValue(kp()->tilikaudet()->tilikausiIndeksilla(0).json()->luku("Henkilosto"));
+    ui->tositeNappi->setEnabled(true);
     emit tallennaKaytossa(onkoMuokattu());
     return true;
 }
@@ -70,6 +99,10 @@ bool Tilinavaus::tallenna()
     kp()->tilikaudet()->tallennaJSON();
 
     emit tallennaKaytossa(onkoMuokattu());
+
+    // Tositetta voi käyttää vain, jos ei tallentamatonta!
+    ui->tositeNappi->setEnabled( !onkoMuokattu() );
+
     return true;
 }
 

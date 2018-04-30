@@ -105,6 +105,22 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
             fontti.setBold(true);
         return QVariant( fontti );
     }
+    else if( role == Qt::TextColorRole)
+    {
+        Tili tili = kp()->tilit()->tiliIndeksilla( index.row());
+        if( !tili.tila() )
+            return QColor(Qt::darkGray);
+        else
+            return QColor(Qt::black);
+    }
+    else if( role == KaytossaRooli)
+    {
+        Tili tili = kp()->tilit()->tiliIndeksilla( index.row());
+        if( tili.tila() )
+            return 1;
+        else
+            return 0;
+    }
 
 
     return QVariant();

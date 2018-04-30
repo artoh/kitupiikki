@@ -263,6 +263,12 @@ signals:
      */
     void onni(const QString& teksti);
 
+    /**
+     * @brief Pyytää näyttämään tositteen
+     * @param tositeId
+     */
+    void naytaTosite(int tositeId);
+
 public slots:
     /**
      * @brief Avaa kirjanpitotietokannan
