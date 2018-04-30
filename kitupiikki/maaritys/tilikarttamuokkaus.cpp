@@ -93,6 +93,7 @@ bool TilikarttaMuokkaus::tallenna()
 {
     model->tallenna();
     kp()->tilit()->lataa();
+    kp()->onni(tr("Tilikartta tallennettu"));
     return true;
 }
 
