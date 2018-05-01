@@ -863,6 +863,10 @@
                 <h1 id="tilinavaus">Tilinavaus<a class="headerlink" href="#tilinavaus" title="Permanent link">&para;</a></h1>
 <p><img alt="" src="./tilinavaus.png" /></p>
 <p>Tilinavauksessa syötetään tilin avaavina saldoina tilien loppusummat edellisen tilinpäätöksen taseesta ja tuloslaskelman erittelystä.</p>
+<div class="admonition note">
+<p class="admonition-title">Vain ensimmäiselle tilikaudelle</p>
+<p>Tilinavaus tehdään vain ensimmäiselle tilikaudelle, joka pidetään Kitupiikillä. Jatkossa ohjelma huolehtii automaattisesti uusien tilikausien tilinavauksista.</p>
+</div>
 <p>Saldot syötetään ilman etumerkkiä (ellei sitten esimerkiksi edellisiltä tilikausilta ole jäänyt alijäämää).</p>
 <p>Tuloslaskelmaan saldot syötetään tileittäin, koska uuden tilikauden tuloslaskelmaan on merkittävä vertailutiedot edelliseltä tilikaudelta.</p>
 <p>Jos tilikarttaa on Kitupiikkiin siirryttäessä muutettu, pitäisi tilinavaukset vertailulukemat pyrkiä merkitsemään uuden tilikartan mukaisille tileille.</p>
@@ -872,8 +876,7 @@
 <p>Voit aloittaa kirjaamisen, vaikka edellisen tilikauden tilinpäätös ei olisi valmis eikä tilinavausta olisi tehty. Taseesta tehtävät tulosteet ovat kuitenkin virheellisiä kunnes tilinavaus on tehty.</p>
 </div>
 <h2 id="kohdennukset-ja-tase-erat">Kohdennukset ja tase-erät<a class="headerlink" href="#kohdennukset-ja-tase-erat" title="Permanent link">&para;</a></h2>
-<p>Jos tilinavauksessa on tarpeen tehdä erittelyä eri kohdennuksille tai tase-erille, muokkaa tilinavaustositetta (tosite tunnuksella *0 edellisen tilikauden viimeisellä päivämäärällä).
-Etsi tosite <strong>Selaa</strong>-välilehdeltä ja napsauta sitä muokataksesi.</p>
+<p>Jos tilinavauksessa on tarpeen tehdä erittelyä eri kohdennuksille tai tase-erille, muokkaa tilinavaustositetta. Tilinavaustosite aukeaa <strong>Näytä tosite</strong> -painikkeesta.</p>
 <ul>
 <li>Voit jakaa tilinavauksen eri kohdennuksille, jolloin kustannuspaikkakohtaisille raporteille voidaan tulostaa oikein vertailutiedot edelliseltä tilikaudelta.</li>
 <li>Voit merkitä seurattavat tase-erät (ostovelat, myyntisaamiset, poistettava omaisuus) jolloin ne tulostuvat oikein tase-erittelylle</li>
@@ -888,7 +891,7 @@ Etsi tosite <strong>Selaa</strong>-välilehdeltä ja napsauta sitä muokataksesi
 <p>Jos aloitat kirjanpidon Kitupiikissä kesken tilikauden, syötä Tilinavaus-toiminnolla edellisen tilikauden loppusummat ja muodosta tavallinen tosite (<strong>Uusi tosite</strong>), jolla kirjaat jokaiselle käytössä olevalle tilille ennen Kitupiikin käyttöönottoa kirjatut kokonaissummat (debet-summa ja kredit-summa)</p>
 <div class="admonition example">
 <p class="admonition-title">Esimerkki</p>
-<p>Tilikautena on vuosi, ja yritys siirtyy 1.6.2018 toisesta kirjanpito-ohjelmasta käyttämään Kitupiikkiä. Tilinavaukseen kirjataan tilien päättävät saldot 31.12.2017. Lisäksi luodaan tosite päivämäärälle 31.5.2018, johon kirjataan jokaiselle tilille erikseen debet- ja kredit-summa niistä kirjauksista, jotka on tehty aiemmalla kirjanpito-ohjelmalla 1.1. - 31.5.2018.</p>
+<p>Tilikautena on vuosi, ja yritys siirtyy 1.6.2018 toisesta kirjanpito-ohjelmasta käyttämään Kitupiikkiä. Tilinavaukseen kirjataan tilien päättävät saldot 31.12.2017. Lisäksi luodaan tosite päivämäärälle 31.5.2018, johon kirjataan jokaiselle tilille erikseen debet- ja kredit-summa niistä kirjauksista, jotka on tehty aiemmalla kirjanpito-ohjelmalla 1.1.–31.5.2018.</p>
 </div>
                 
                   

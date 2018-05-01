@@ -872,14 +872,14 @@
                 
                 <h2 id="arkisto">Arkisto<a class="headerlink" href="#arkisto" title="Permanent link">&para;</a></h2>
 <p>Kitupiikki muodostaa kirjanpidosta html-muotoisen sähköisen arkiston. Arkisto muodostetaan ja siihen pääsee Kitupiikistä <strong>Tilikaudet</strong>-välilehden <strong>Arkisto</strong>-painikkeella.</p>
-<p>Arkisto on hakemisto, johon kirjanpitoainesto on tallennettu html-muodossa ja tositteet pdf-muodossa. Arkistoa voi lukea millä tahansa selaimella avaamalla hakemistosta <strong>index.html</strong>-tiedoston. Arkisto on suunniteltu niin, että kirjanpidon aineisto on tarkasteltavissa kirjausketju säilyttäen sellaisessa muodossa, joka oletetaan olevan yleisesti käytettävillä ohjelmilla avattavissa vielä vuosikymmenten kuluttua, myös ilman Kitupiikki-ohjelmaa.</p>
+<p>Arkisto on hakemisto, johon kirjanpitoaineisto on tallennettu html-muodossa ja tositteet pdf-muodossa. Arkistoa voi lukea millä tahansa selaimella avaamalla hakemistosta <strong>index.html</strong>-tiedoston. Arkisto on suunniteltu niin, että kirjanpidon aineisto on tarkasteltavissa kirjausketju säilyttäen sellaisessa muodossa, joka oletetaan olevan yleisesti käytettävillä ohjelmilla avattavissa vielä vuosikymmenten kuluttua, myös ilman Kitupiikki-ohjelmaa.</p>
 <div class="admonition note">
 <p class="admonition-title">Huolehdi säilyttämisestä</p>
 <p>Huolehdi siitä, että kirjanpitoarkistosi on varmistettu tallentamalle se useammalle fyysiselle medialle, jotka säilyvät käyttökelpoisina koko 10 vuoden säilytysajan.</p>
 </div>
 <p>Sähköistä arkistoa voit käyttää myös kirjanpitoaineiston siirtämiseen esimerkiksi tilintarkastajille.</p>
 <p><img alt="" src="./arkisto.png" /></p>
-<p>Arkisto sisältää kirjanpidon (<a href="../../tulosteet#paakirja">pääkirja</a>, <a href="../../tulosteet#paivakirja">päiväkirja</a>, <a href="../../tulosteet#tositeluettelo">tositeluettelo</a> ja -päiväkirja sekä <a href="../../tulosteet#tililuettelo">tililuettelo</a> tositteineen), <a href="../../tulosteet#tase">taseen</a> ja <a href="../../tulosteet#tuloslaskelma">tuloslaskelman</a>, <a href="../../tulosteet#tase-erittely">tase-erittelyn</a> sekä mahdollisesti myös muita tilikarttakohtaisia raportteja. Raportti sisällytetään sähköiseen arkistoon <a href="../../maaritykset/raportit">raportin muokkaamisen</a> <strong>Liitä erittely arkistoon</strong>-valinnalla.</p>
+<p>Arkisto sisältää kirjanpidon (<a href="../../tulosteet#paakirja">pääkirja</a>, <a href="../../tulosteet#paivakirja">päiväkirja</a>, <a href="../../tulosteet#tositeluettelo">tositeluettelo</a> sekä <a href="../../tulosteet#tililuettelo">tililuettelo</a> tositteineen), <a href="../../tulosteet#tase">taseen</a> ja <a href="../../tulosteet#tuloslaskelma">tuloslaskelman</a>, <a href="../../tulosteet#tase-erittely">tase-erittelyn</a> sekä mahdollisesti myös muita tilikarttakohtaisia raportteja. Raportti sisällytetään sähköiseen arkistoon <a href="../../maaritykset/raportit">raportin muokkaamisen</a> <strong>Liitä erittely arkistoon</strong>-valinnalla.</p>
 <p><img alt="" src="./tuloslaskelma.png" /></p>
 <p>Tilinumerot ovat linkkejä, joista pääsee tilin pääkirjanäkymään. Tositteiden numerot ovat puolestaan linkkejä tositteisiin.</p>
 <p><img alt="" src="./tosite.png" /></p>
@@ -896,7 +896,7 @@
 </div>
 <h2 id="arkiston-muuttumattomuuden-varmistaminen">Arkiston muuttumattomuuden varmistaminen<a class="headerlink" href="#arkiston-muuttumattomuuden-varmistaminen" title="Permanent link">&para;</a></h2>
 <p>Voit varmistaa Kitupiikin luomalla <a href="https://fi.wikipedia.org/wiki/SHA">sha256-tiivisteellä</a>, ettei arkistossa olevia tiedostoja (esimerkiksi tositteita) ole muokattu arkiston muodostamisen jälkeen. Tämä edellyttää kuitenkin, että valvonnassa käytetty tiiviste  on säilytetty turvassa muutoksilta esimerkiksi niin, että tiiviste on tulostettu paperiseen ja allekirjoitettuun tilinpäätösasiakirjaan.</p>
-<p>Tässä kuvattua muuttumattomuuden varmistamista tarvittaneen lähinnä vain, mikäli on syytä epäillä, että kirjanpitoa on muutettu jälkikäteen. Kirjanpitolaki kieltää kirjanpitoaineiston muuttamisen tilinpäätöksen laatimisen jälkeen (2. luku 7§). Väärien tai harhaanjohtavien tietojen merkitsemisestä kirjanpitoon rangaistaan sakolla tai vankeudella (Rikoslaki 30. luku 9§ ja 9a§).</p>
+<p>Tässä kuvattua muuttumattomuuden varmistamista tarvittaneen lähinnä vain, mikäli on syytä epäillä, että kirjanpitoa on muutettu jälkikäteen. Kirjanpitolaki kieltää kirjanpitoaineiston muuttamisen tilinpäätöksen laatimisen jälkeen (2. luku 7 §). Väärien tai harhaanjohtavien tietojen merkitsemisestä kirjanpitoon rangaistaan sakolla tai vankeudella (Rikoslaki 30. luku 9 § ja 9a §).</p>
 <div class="admonition danger">
 <p class="admonition-title">Muuttumattomuus varmistetaan tiivistettä vastaan</p>
 <p>Muuttumattomuuden varmistus perustuu siihen, että tiiviste on turvassa muutokselta, eikä tiivistettä voi väärentää esimerkiksi muuttamalla jälkikäteen tiivisteen sisältävää tilinpäätöksen sivua.</p>
