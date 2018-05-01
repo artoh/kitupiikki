@@ -317,8 +317,8 @@ void TositeModel::uusiPohjalta(const QDate &pvm, const QString &otsikko)
 
     id_ = -1;   // Ei tallennettu
 
-    luotu_ = QDateTime::currentDateTime();
-    muokattuAika_ = QDateTime::currentDateTime();
+    luotu_ = QDateTime();
+    muokattuAika_ = QDateTime();
 
     // Asetetaan päivämäärä ja haetaan uusi tunnistenumero
     pvm_ = pvm;

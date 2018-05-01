@@ -663,7 +663,10 @@ bool VientiModel::tallenna()
         query.bindValue(":selite", rivi.selite);
         query.bindValue(":alvkoodi", rivi.alvkoodi);
         query.bindValue(":alvprosentti", rivi.alvprosentti);
+
+        // Muokattu-kenttä päivittyy aina, kun vienti tallennetaan (vaikka se ei olisikaan muuttunut)
         query.bindValue(":muokattu", QDateTime::currentDateTime() );
+
         query.bindValue(":kohdennus", rivi.kohdennus.id());
         query.bindValue(":viite", rivi.viite);
         query.bindValue(":iban", rivi.ibanTili);
@@ -730,7 +733,7 @@ void VientiModel::lataa()
                        "alvkoodi, alvprosentti, luotu, muokattu, json, "
                        "kohdennus, eraid, vientirivi, viite, iban, erapvm, arkistotunnus, asiakas, laskupvm "
                        "FROM vienti WHERE tosite=%1 "
-                       "ORDER BY id").arg( tositeModel_->id() ));
+                       "ORDER BY vientirivi").arg( tositeModel_->id() ));
     while( query.next())
     {
         VientiRivi rivi;
