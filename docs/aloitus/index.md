@@ -15,7 +15,7 @@ Ensimmäisellä näytöllä valitset, oletko aloittamassa harjoittelukirjanpitoa
 todellista kirjanpitoa.
 
 !!! tip "Kokeile ensin"
-    Ennen varsinaisen kirjanpidon aloittamista, kannattaa Kitupiikkiä kokeilla harjoittelutilassa. Harjoittelutilassa voit nopeuttaa ajan kulumista, joten voit harjoitella myös tilinpäätöksen tekemistä ja uuden tilikauden aloittamista.
+    Ennen varsinaisen kirjanpidon aloittamista kannattaa Kitupiikkiä kokeilla harjoittelutilassa. Harjoittelutilassa voit nopeuttaa ajan kulumista, joten voit harjoitella myös tilinpäätöksen tekemistä ja uuden tilikauden aloittamista.
 
 ## Tilikartta
 
@@ -27,10 +27,10 @@ tilinpäätöksen pohjan.
 
 Tilikartan nimi   | Kuvaus
 ------------------|-------------------------
-Elinkeinotoiminta (suppea) | Tilikartta yritystoimintaa varten. Yritysmuotoina yksityinen elinkeinonharjoittaja, avoin yhtiö, kommandiittiyhtiö, osuuskunta ja osakeyhtiö. Tilikartta on verraten suppea, ja se perustuu [Rapointikoodistoon](http://raportointikoodisto.fi).
-Elinkeintotoiminta (Tilitin-yhteensopiva) | Laaja tilikartta yritystoimintaa varten, 869 tiliä. Yritysmuotoina suppean tilikartan tilien lisäksi julkinen osakeyhtiö. Tilikartta on yhteensopiva [Tilitin](http://helineva,net/tilitin)-ohjelman elinkeinotoiminnan tilikartan kanssa.
-Kiinteistöyhtiö | Kiinteistökaavan mukaisen tuloslaskelman tilikartta kiinteistöyhtiölle ja asunto-osakeyhtiölle. **Tämä tilikartta on puutteellisesti testattu**
-Yhdistys | Aatteellisen yhdistys ja säätiö, tuloslaskelma yhdistyskaavan mukainen.
+Elinkeinotoiminta (suppea) | Tilikartta yritystoimintaa varten. Yritysmuotoina yksityinen elinkeinonharjoittaja, avoin yhtiö, kommandiittiyhtiö, osuuskunta ja osakeyhtiö. Tilikartta on verraten suppea, ja se perustuu [Raportointikoodistoon](http://raportointikoodisto.fi).
+Elinkeintotoiminta (Tilitin-yhteensopiva) | Laaja tilikartta yritystoimintaa varten, 869 tiliä. Yritysmuotoina suppean tilikartan tilien lisäksi julkinen osakeyhtiö. Tilikartta on yhteensopiva [Tilitin](http://helineva.net/tilitin)-ohjelman elinkeinotoiminnan tilikartan kanssa.
+Kiinteistöyhtiö | Kiinteistökaavan mukaisen tuloslaskelman tilikartta kiinteistöyhtiölle ja asunto-osakeyhtiölle. **Tämä tilikartta on puutteellisesti testattu.**
+Yhdistys | Tilikartta aatteelliselle yhdistykselle ja säätiölle. Tuloslaskelma on yhdistyskaavan mukainen.
 
 
 Voit valita ohjelman mukana tulevan tilikartan tai **Lataa tilikartta tiedostosta**-napilla
@@ -61,7 +61,7 @@ Elinkeinotoiminnan tilikartoissa valitaan yritysmuoto, mikä määritelee käyt�
 Anna tiedot ensimmäisestä Kitupiikillä pidettävästä tilikaudesta. Koska tilinpäätökseen tulostetaan vertailutiedot myös edellisestä tilikaudesta, anna myös edellisen tilikauden
 päivämäärät.
 
-Edellisen tilikauden tiedot syötetään viimeisimmän tilinpäätöksen tilinkohtaisesta
+Edellisen tilikauden tiedot syötetään viimeisimmän tilinpäätöksen tilikohtaisesta
 tase-erittelystä sekä tuloslaskelman erittelystä. Voit aloittaa kirjanpidon ja myös tehdä
 uusia kirjauksia, vaikka tilinavausta ei olisikaan tehty.
 
@@ -69,7 +69,7 @@ uusia kirjauksia, vaikka tilinavausta ei olisikaan tehty.
 
 ![](sijainti6.png)
 
-Valitse tiedostonnimi ja sijainti, minne kirjanpito tallennetaan. Tähän tiedostoon tallennetaan koko kirjanpito kaikkine liitteineen niin, että kirjanpidon voi siirtää tai varmuuskopioida kopioimalla tämä yksi tiedosto.
+Valitse tiedostonnimi ja sijainti, minne kirjanpito tallennetaan. Tähän tiedostoon tallennetaan koko kirjanpito kaikkine liitteineen niin, että kirjanpidon voi siirtää tai varmuuskopioida kopioimalla tämän yhden tiedoston.
 
 Kirjanpitotiedoston lisäksi samaan hakemistoon luodaan myöhemmin .arkisto-päätteinen hakemisto, jonne kirjanpidon sähköinen arkisto tallennetaan.
 
@@ -95,7 +95,7 @@ Kaikki valinnat on tehty, ja sinulle näytetään valitsemaasi tililuetteloon li
 ![](vinkit7.png)
 
 Ennen kuin aloitat kirjausten tekemisen, kannattaa vielä tarkistaa joukko
-määrityksiä. Ne kaikki on selostettu Käsikirjan seuraavassa luvussa.
+määrityksiä. Ne kaikki on selostettu seuraavassa luvussa.
 
 ![](harjoittelu.png)
 

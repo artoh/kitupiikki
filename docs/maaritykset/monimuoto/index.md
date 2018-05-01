@@ -52,7 +52,7 @@ Joukko tilejä voidaan piilottaa, näyttää tai asettaa suosikkitileiksi. Tilit
 
 Tilien [json-määreitä](https://github.com/artoh/kitupiikki/wiki/Json#tili) voidaan muuttaa komennolla `30..31 AlvProsentti=14` (esimerkki muuttaa tilien 3000-3199 alv-prosentiksi 14).
 
-Kirjanpidon [asetuksia](https://github.com/artoh/kitupiikki/wiki/Asetukset) voidaan muuttaa komennolla `Elinkeinonharjoittaja=ON`. Listamuotoiseen asetukseen voidaan lisätä rivi komennolla `ArkistoRaportit+=Toiminnanalat` ja vastaavasti poistaa komennolla `ArkistoRaportit=Toiminnanalat`.
+Kirjanpidon [asetuksia](https://github.com/artoh/kitupiikki/wiki/Asetukset) voidaan muuttaa komennolla `Elinkeinonharjoittaja=ON`. Listamuotoiseen asetukseen voidaan lisätä rivi komennolla `ArkistoRaportit+=Toiminnanalat` ja vastaavasti poistaa komennolla `ArkistoRaportit-=Toiminnanalat`.
 
 ## DevTool
 

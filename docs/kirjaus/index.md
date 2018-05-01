@@ -53,7 +53,7 @@ Kitupiikki numeroi tositteet juoksevalla numerolla tositelajeittain ja tilikausi
 
 ![](lisavalikko.png)
 
-Kirjausikkunan oikean alakulman valikosta löytyy
+Kirjausikkunan oikean alakulman valikosta löytyvät
 
 * **Siirry tositteeseen** <kbd>Ctrl</kbd>+<kbd>G</kbd> Nopea tositteeseen siirtyminen tositenumeron perusteella
 * **Tulosta tosite** <kbd>Ctrl</kbd>+<kbd>P</kbd>

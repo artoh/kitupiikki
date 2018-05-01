@@ -19,7 +19,7 @@ Napsauttamalla riviä pääset katsomaan tai muokkaamaan valittua tositetta.
 
 **Viennit**-napilla valitset vientien eli tositteella olevien rivien selaamisen.
 Rajaa selattavien vientien aikaväli. Voit selata yksittäisen tilin tapahtumia
-valitsemalla **Kaikki tilit**-valinnat tilalle haluamasi tilin.
+valitsemalla **Kaikki tilit**-valinnan tilalle haluamasi tilin.
 
 **Etsi**-valinta suodattaa näytöllä olevista vienneistä ne, joiden selitteessä on
 etsittävä teksti.

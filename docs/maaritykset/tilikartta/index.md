@@ -27,7 +27,7 @@ Tilejä lisättäessä on tärkeää, että tili tulee oikealle numeroalueelle, 
 
 **Täydentävä teksti** tulostuu tase-erittelylle ja **kirjausohje** on luettavissa tiliä valittaessa.
 
-!!! note "Tilien sijoittuminen tilinpäätösessä ja taseessa"
+!!! note "Tilien sijoittuminen tilinpäätöksessä ja taseessa"
     Jos tilien numerointia muutetaan tai tilejä lisätään olemassa olevien otsikkoalueiden ulkopuolelle, pitää vastaavat muutokset tehdä myös [raporttien muokkauksessa](../raportit).
 
 ![](myynti.png)
@@ -119,14 +119,14 @@ Päivitystoiminto
 
 ![](paivitys.png)
 
-**Päivitä ohjelman mukana sisäiseen tilikarttaan** päivittää ohjelman mukana tulleeseen tilikarttaan. **Päivitys tiedostossa olevaan tilikarttaan** mahdollistaa tilikartan lataamisen ktk-tiedostosta.
+**Päivitä ohjelman sisäiseen tilikarttaan** päivittää ohjelman mukana tulleeseen tilikarttaan. **Päivitys tiedostossa olevaan tilikarttaan** mahdollistaa tilikartan lataamisen ktk-tiedostosta.
 
 !!! warning "Varmista tiedoston sopivuus"
-    Ohjelman sisäisissä päivityksissä on varmistettu, että päivitys sopii käytössä olevaan tilikarttaan. Jos päivität erilliseen tiedostoon, varmista tiedostot sopivuus (ettet esimerkiksi päivitä osakeyhtiölle yhdistyksen tilikarttaa.)
+    Ohjelman sisäisissä päivityksissä on varmistettu, että päivitys sopii käytössä olevaan tilikarttaan. Jos päivität erilliseen tiedostoon, varmista tiedoston sopivuus (ettet esimerkiksi päivitä osakeyhtiölle yhdistyksen tilikarttaa).
 
 ![](korvaukset.png)
 
 Jos olet muokannut itse raportteja tai tilinpäätöksen pohjaa, joudut valitsemaan, korvataanko muokatut raportit/pohjat päivitetyillä vai säästetäänkö muokkaamasi versiot.
 
 !!! tip "Muokattujen raporttien säilyttäminen"
-    Voit säilyttää muokkatut raporttisi nimeämällä ne uudelleen ennen päivitystä
+    Voit säilyttää muokatut raporttisi nimeämällä ne uudelleen ennen päivitystä

@@ -11,11 +11,11 @@ Pienet yritykset ja yhteisöt saavat noudattaa joissain asioissa hieman yksinker
 !!! note "Pienten puolella"
     Kitupiikki ohjeineen on suunniteltu erityisesti pienehköille yrityksille ja yhteisöille (alle 50 työntekijää, liikevaihto alle 12 milj. euroa). Kitupiikin laatima tilinpäätös on pien- ja mikroyritysasetuksen mukainen[^4].
 
-[^1]: Kirjanpitolaki 3§. Kirjanpitolain ja [-asetuksen](http://www.finlex.fi/fi/laki/ajantasa/1997/19971339) lisäksi
+[^1]: Kirjanpitolaki 3 §. Kirjanpitolain ja [-asetuksen](http://www.finlex.fi/fi/laki/ajantasa/1997/19971339) lisäksi
     [kirjanpitolautakunta](http://tem.fi/kirjanpitolautakunta) antaa kirjanpitoa koskevia
     ratkaisuja ja ohjeita.
-[^2]: Rikoslaki 30 luku 9§, kirjanpitolaki 8. luku 4§
-[^3]: Kevyimmät säännöt ovat mikroyrityksellä. Se tarkoittaa kirjanpitovelvollista, jolla sekä päättyneellä että sitä välittömästi edeltäneellä tilikaudella ylittyy enintään yksi seuraavista kolmesta raja-arvosta tilinpäätöspäivänä: taseen loppusumma 350 000 euroa; liikevaihto 700 000 euroa; tilikauden aikana palveluksessa keskimäärin 10 henkilöä. Pienyrityksellä saa puolestaan ylittyä enintään yksi seuraavista: taseen loppusumma 6 milj. euroa, liikevaihto 12 milj. euroa, henkilökunta keskimäärin 50. (Kirjanpitolaki 4b§)
+[^2]: Rikoslaki 30 luku 9 §, kirjanpitolaki 8. luku 4 §
+[^3]: Kevyimmät säännöt ovat mikroyrityksellä. Se tarkoittaa kirjanpitovelvollista, jolla sekä päättyneellä että sitä välittömästi edeltäneellä tilikaudella ylittyy enintään yksi seuraavista kolmesta raja-arvosta tilinpäätöspäivänä: taseen loppusumma 350 000 euroa; liikevaihto 700 000 euroa; tilikauden aikana palveluksessa keskimäärin 10 henkilöä. Pienyrityksellä saa puolestaan ylittyä enintään yksi seuraavista: taseen loppusumma 6 milj. euroa, liikevaihto 12 milj. euroa, henkilökunta keskimäärin 50. (Kirjanpitolaki 4b §)
 [^4]: [Valtioneuvoston asetus
 pien- ja mikroyrityksen tilinpäätöksessä esitettävistä tiedoista](http://www.finlex.fi/fi/laki/alkup/2015/20151753)
 
@@ -28,7 +28,7 @@ Kirjanpito laaditaan tilikausittain. Normaali tilikausi on 12 kuukautta, yleisim
 
 **Tilinavauksessa** edellisen tilikauden päättävä tase siirretään uuden tilikauden pohjaksi.
 
-Tilikauden aikana kaikki menot, tulot ja rahoitustapahtumat **kirjataan tositteiden mukaan kirjanpitoon**. Tätä kutsutaan "juoksevaksi kirjanpidoksi.
+Tilikauden aikana kaikki menot, tulot ja rahoitustapahtumat **kirjataan tositteiden mukaan kirjanpitoon**. Tätä kutsutaan "juoksevaksi" kirjanpidoksi.
 
 Tilikauden päätyttyä tehdään **tilinpäätös**. Tilinpäätös on laadittava neljän kuukauden kuluessa tilikauden päättymisestä. Ensiksi tehdään tarpeelliset tilinpäätöskirjaukset: avoinna olevia maksuja merkitään saataviksi tai veloiksi ja käyttö-omaisuudesta tehdään poistoja. Tämän jälkeen laaditaan tilinpäätösasiakirjat: tuloslaskelma ja tase liitetietoineen.
 
@@ -124,7 +124,7 @@ Lopuksi valmistellaan tilinpäätösasiakirjat, tarvittaessa suoritetaan tilin- 
 
 **Tuloslaskema** selvittää tilikauden tuloksen eli voiton tai tappion, joka löytyy tuloslaskelman viimeiseltä riviltä. Laskelman kaavat on määritelty tilinpäätösasetuksessa, ja ne poikkeavat hieman erityyppisillä yhtiöillä ja yhteisöillä.
 
-**Taseesta** näkyy taloudellinen tilanne. *Vastaavaa*-puolelle merkityään omaisuus ja saamiset. *Vastattavaa*-puolella on *oma pääoma* (kuten osakepääoma sekä edellisten tilikausien voiton kertymä) sekä *vieras pääoma* eli velat. Tuloslaskeman osoittama tilikauden tulos siirretään taseeseen omaan pääomaan.
+**Taseesta** näkyy taloudellinen tilanne. *Vastaavaa*-puolelle merkitään omaisuus ja saamiset. *Vastattavaa*-puolella on *oma pääoma* (kuten osakepääoma sekä edellisten tilikausien voiton kertymä) sekä *vieras pääoma* eli velat. Tuloslaskeman osoittama tilikauden tulos siirretään taseeseen omaan pääomaan.
 
 Tase laaditaan kirjanpitoasetuksen kaavan mukaisesti. Pienet yhtiöt saavat laatia taseen muita lyhyemmän kaavan mukaisesti.
 

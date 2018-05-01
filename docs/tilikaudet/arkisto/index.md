@@ -2,7 +2,7 @@
 
 Kitupiikki muodostaa kirjanpidosta html-muotoisen sähköisen arkiston. Arkisto muodostetaan ja siihen pääsee Kitupiikistä **Tilikaudet**-välilehden **Arkisto**-painikkeella.
 
-Arkisto on hakemisto, johon kirjanpitoainesto on tallennettu html-muodossa ja tositteet pdf-muodossa. Arkistoa voi lukea millä tahansa selaimella avaamalla hakemistosta **index.html**-tiedoston. Arkisto on suunniteltu niin, että kirjanpidon aineisto on tarkasteltavissa kirjausketju säilyttäen sellaisessa muodossa, joka oletetaan olevan yleisesti käytettävillä ohjelmilla avattavissa vielä vuosikymmenten kuluttua, myös ilman Kitupiikki-ohjelmaa.
+Arkisto on hakemisto, johon kirjanpitoaineisto on tallennettu html-muodossa ja tositteet pdf-muodossa. Arkistoa voi lukea millä tahansa selaimella avaamalla hakemistosta **index.html**-tiedoston. Arkisto on suunniteltu niin, että kirjanpidon aineisto on tarkasteltavissa kirjausketju säilyttäen sellaisessa muodossa, joka oletetaan olevan yleisesti käytettävillä ohjelmilla avattavissa vielä vuosikymmenten kuluttua, myös ilman Kitupiikki-ohjelmaa.
 
 !!! note "Huolehdi säilyttämisestä"
     Huolehdi siitä, että kirjanpitoarkistosi on varmistettu tallentamalle se useammalle fyysiselle medialle, jotka säilyvät käyttökelpoisina koko 10 vuoden säilytysajan.
@@ -11,7 +11,7 @@ Sähköistä arkistoa voit käyttää myös kirjanpitoaineiston siirtämiseen es
 
 ![](arkisto.png)
 
-Arkisto sisältää kirjanpidon ([pääkirja](/tulosteet#paakirja), [päiväkirja](/tulosteet#paivakirja), [tositeluettelo](/tulosteet#tositeluettelo) ja -päiväkirja sekä [tililuettelo](/tulosteet#tililuettelo) tositteineen), [taseen](/tulosteet#tase) ja [tuloslaskelman](/tulosteet#tuloslaskelma), [tase-erittelyn](/tulosteet#tase-erittely) sekä mahdollisesti myös muita tilikarttakohtaisia raportteja. Raportti sisällytetään sähköiseen arkistoon [raportin muokkaamisen](/maaritykset/raportit) **Liitä erittely arkistoon**-valinnalla.
+Arkisto sisältää kirjanpidon ([pääkirja](/tulosteet#paakirja), [päiväkirja](/tulosteet#paivakirja), [tositeluettelo](/tulosteet#tositeluettelo) sekä [tililuettelo](/tulosteet#tililuettelo) tositteineen), [taseen](/tulosteet#tase) ja [tuloslaskelman](/tulosteet#tuloslaskelma), [tase-erittelyn](/tulosteet#tase-erittely) sekä mahdollisesti myös muita tilikarttakohtaisia raportteja. Raportti sisällytetään sähköiseen arkistoon [raportin muokkaamisen](/maaritykset/raportit) **Liitä erittely arkistoon**-valinnalla.
 
 ![](tuloslaskelma.png)
 
@@ -41,7 +41,7 @@ Tar-tiedoston avaamiseen tarvitaan Windowsissa erillinen ohjelma, esimerkiksi [7
 
 Voit varmistaa Kitupiikin luomalla [sha256-tiivisteellä](https://fi.wikipedia.org/wiki/SHA), ettei arkistossa olevia tiedostoja (esimerkiksi tositteita) ole muokattu arkiston muodostamisen jälkeen. Tämä edellyttää kuitenkin, että valvonnassa käytetty tiiviste  on säilytetty turvassa muutoksilta esimerkiksi niin, että tiiviste on tulostettu paperiseen ja allekirjoitettuun tilinpäätösasiakirjaan.
 
-Tässä kuvattua muuttumattomuuden varmistamista tarvittaneen lähinnä vain, mikäli on syytä epäillä, että kirjanpitoa on muutettu jälkikäteen. Kirjanpitolaki kieltää kirjanpitoaineiston muuttamisen tilinpäätöksen laatimisen jälkeen (2. luku 7§). Väärien tai harhaanjohtavien tietojen merkitsemisestä kirjanpitoon rangaistaan sakolla tai vankeudella (Rikoslaki 30. luku 9§ ja 9a§).
+Tässä kuvattua muuttumattomuuden varmistamista tarvittaneen lähinnä vain, mikäli on syytä epäillä, että kirjanpitoa on muutettu jälkikäteen. Kirjanpitolaki kieltää kirjanpitoaineiston muuttamisen tilinpäätöksen laatimisen jälkeen (2. luku 7 §). Väärien tai harhaanjohtavien tietojen merkitsemisestä kirjanpitoon rangaistaan sakolla tai vankeudella (Rikoslaki 30. luku 9 § ja 9a §).
 
 !!! danger "Muuttumattomuus varmistetaan tiivistettä vastaan"
     Muuttumattomuuden varmistus perustuu siihen, että tiiviste on turvassa muutokselta, eikä tiivistettä voi väärentää esimerkiksi muuttamalla jälkikäteen tiivisteen sisältävää tilinpäätöksen sivua.

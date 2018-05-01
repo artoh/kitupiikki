@@ -16,7 +16,7 @@ Toiminto edellyttää, että pdf-tiedostossa teksti on upotettuna. Näin on ylee
 
 Pdf-ostolaskun pohjalta Kitupiikki tekee valmiiksi **Ostovelat**-tilin kirjauksen. Valitsemalla **Apuri** tai **F9** pääset kirjaamaan Apurilla laskun oikealle menotilille.
 
-Lisäksi ostolaskulle tallennetaan lisätiedot (Saajan pankkitili ja viite), joiden avulla maksu on kohdennettavissa tiliotteelta.
+Lisäksi ostolaskulle tallennetaan lisätiedot (saajan pankkitili ja viite), joiden avulla maksu on kohdennettavissa tiliotteelta.
 
 !!! info "Ostolaskujen muoto"
     Kitupiikki pyrkii etsimään laskun tietoja tiettyjen laskulla olevien sanojen avulla. Parhaiten ostolaskun tiedot löytyvät, jos laskun alareunassa on tilisiirtolomake, josta tiedot saa poimittua.
@@ -31,11 +31,11 @@ Tiliotteen perusteella Kitupiikki tekee valmiit pankkitilin kirjaukset. Jos tili
 Tiliotteen kirjaaminen edellyttää, että tilin IBAN-numero on määritelty kyseisen tilin [määrityksissä](/maaritykset/tilikartta).
 
 !!! info "Tiliotteiden muoto"
-    Tiliotteiden tuonti perustuu tiettyihin tiliotteella oleviin sanoihin ja niiden asemointiin. Kitupiikki on onnistunut tunnistamaan ainakin seuraavien pankkien tiliotteita: S-Pankki, XXXXXX.
+    Tiliotteiden tuonti perustuu tiettyihin tiliotteella oleviin sanoihin ja niiden asemointiin. Kitupiikki on onnistunut tunnistamaan ainakin S-pankin tiliotteita.
 
 ## TITO-tiliotteiden tuonti
 
-Kitupiikki laatii viennit konekielisten TITO-tiliotteiden tilitapahtumista (ascii-muoto). Tilin IBAN-numeron pitää olla määriteltynä kyseisen tilin [määrityksissä](/maaritykset/tilikartta). Lisää tiliotetiedosto raahaamalla se **Sähjöinen tosite**-laatikkoon tai **Lisää tiedosto**-painikkeella.
+Kitupiikki laatii viennit konekielisten TITO-tiliotteiden tilitapahtumista (ascii-muoto). Tilin IBAN-numeron pitää olla määriteltynä kyseisen tilin [määrityksissä](/maaritykset/tilikartta). Lisää tiliotetiedosto raahaamalla se **Sähköinen tosite**-laatikkoon tai **Lisää tiedosto**-painikkeella.
 
 
 ## CSV-tiedostojen tuonti
