@@ -403,9 +403,8 @@ void KirjausWg::kirjaaLaskunmaksu()
     if( !laskuDlg_ )
         laskuDlg_ = new LaskunMaksuDialogi(this);
 
-    laskuDlg_->exec();
-
-    tiedotModelista();
+    laskuDlg_->show();
+    connect( laskuDlg_, SIGNAL(finished(int)), this, SLOT(tiedotModelista()));
 
 }
 
