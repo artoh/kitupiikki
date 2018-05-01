@@ -107,6 +107,7 @@
         <file>etsi.png</file>
         <file>kaytossa.png</file>
         <file>kaikkitilit.png</file>
+        <file>kalenteri16.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

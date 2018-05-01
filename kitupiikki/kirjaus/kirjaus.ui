@@ -21,20 +21,10 @@
        <property name="text">
         <string>Tositteen &amp;pvm</string>
        </property>
-       <property name="buddy">
-        <cstring>tositePvmEdit</cstring>
-       </property>
       </widget>
      </item>
      <item>
-      <widget class="QDateEdit" name="tositePvmEdit">
-       <property name="displayFormat">
-        <string>dd.MM.yyyy</string>
-       </property>
-       <property name="calendarPopup">
-        <bool>true</bool>
-       </property>
-      </widget>
+      <widget class="KpDateEdit" name="tositePvmEdit" native="true"/>
      </item>
      <item>
       <widget class="QLabel" name="label_2">
@@ -533,6 +523,14 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KpDateEdit</class>
+   <extends>QWidget</extends>
+   <header location="global">tools/kpdateedit.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../pic/pic.qrc"/>
  </resources>

@@ -19,7 +19,8 @@
 #define PVMDELEGAATTI_H
 
 #include <QItemDelegate>
-#include <QDateEdit>
+
+class KpDateEdit;
 
 /**
  * @brief Delegaatti, joka vaatii kirjauksen samalle tilikaudelle kuin
@@ -29,14 +30,14 @@ class PvmDelegaatti : public QItemDelegate
 {
     Q_OBJECT
 public:
-    PvmDelegaatti(QDateEdit *kantapaivaeditori);
+    PvmDelegaatti(KpDateEdit *kantapaivaeditori);
 
     QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
     void setEditorData(QWidget *editor, const QModelIndex &index) const;
     void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
 
 protected:
-    QDateEdit *kantaeditori;
+    KpDateEdit *kantaeditori;
 
 };
 

@@ -19,7 +19,9 @@
 #include "db/kirjanpito.h"
 #include "db/tilikausi.h"
 
-PvmDelegaatti::PvmDelegaatti(QDateEdit *kantapaivaeditori) :
+#include "tools/kpdateedit.h"
+
+PvmDelegaatti::PvmDelegaatti(KpDateEdit *kantapaivaeditori) :
     kantaeditori(kantapaivaeditori)
 {
 
@@ -27,21 +29,19 @@ PvmDelegaatti::PvmDelegaatti(QDateEdit *kantapaivaeditori) :
 
 QWidget *PvmDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem & /* option */, const QModelIndex & /* index */ ) const
 {
-    QDateEdit *edit = new QDateEdit(parent);
-    edit->setDateRange( kp()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );
-
+    KpDateEdit *edit = new KpDateEdit(parent);
     return edit;
 }
 
 void PvmDelegaatti::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    QDateEdit *edit = qobject_cast<QDateEdit*>(editor);
+    KpDateEdit *edit = qobject_cast<KpDateEdit*>(editor);
     edit->setDate( index.data(Qt::EditRole).toDate());
 }
 
 void PvmDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
-    QDateEdit *edit = qobject_cast<QDateEdit*>(editor);
+    KpDateEdit *edit = qobject_cast<KpDateEdit*>(editor);
     model->setData(index, edit->date());
 }
 
