@@ -312,7 +312,8 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
             {
                 viennit_[index.row()].pvm = value.toDate();
                 emit siirryRuutuun( index.sibling(index.row(), TILI) );
-            }
+                emit muuttunut();
+            }            
             return true;
         case TILI:
         {
@@ -351,10 +352,12 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
                 else
                     emit siirryRuutuun(index.sibling(index.row(), DEBET));
             }
+            emit muuttunut();
             return true;
         }
         case SELITE:
             viennit_[index.row()].selite = value.toString();
+            emit muuttunut();
             return true;
         case DEBET:
             viennit_[index.row()].debetSnt = value.toLongLong();
@@ -362,6 +365,7 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
             {
                 viennit_[index.row()].kreditSnt = 0;
                 emit siirryRuutuun(index.sibling(index.row(), KOHDENNUS));
+                emit muuttunut();
             }
             return true;
         case KREDIT:
@@ -370,10 +374,12 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
             {
                 viennit_[index.row()].debetSnt = 0;
                 emit siirryRuutuun(index.sibling(index.row(), KOHDENNUS));
+                emit muuttunut();
             }
             return true;
         case KOHDENNUS:
             viennit_[rivi].kohdennus = kp()->kohdennukset()->kohdennus(value.toInt());
+            emit muuttunut();
             return true;
         default:
             return false;
