@@ -49,6 +49,8 @@ public:
 
     static void naytaLiite(const int tositeId, const int liiteId=1);
 
+    static bool onkoLiitetta(const int tositeId, const int liiteId=1);
+
     static void naytaPdf(const QString& tiedostonnimi);
 
 protected:

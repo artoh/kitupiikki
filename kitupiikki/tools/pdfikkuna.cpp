@@ -151,6 +151,13 @@ void PdfIkkuna::naytaLiite(const int tositeId, const int liiteId)
     }
 }
 
+bool PdfIkkuna::onkoLiitetta(const int tositeId, const int liiteId)
+{
+    QSqlQuery kysely( QString("SELECT id FROM liite WHERE tosite=%1 AND liiteno=%2")
+                      .arg(tositeId).arg(liiteId));
+    return kysely.next();
+}
+
 void PdfIkkuna::naytaPdf(const QString &tiedostonnimi)
 {
     QByteArray data;

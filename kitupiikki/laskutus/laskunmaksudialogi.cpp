@@ -20,6 +20,7 @@
 #include "db/jsonkentta.h"
 #include "db/kirjanpito.h"
 #include "kirjaus/ehdotusmodel.h"
+#include "tools/pdfikkuna.h"
 
 #include <QSqlQuery>
 #include <QMessageBox>
@@ -83,8 +84,8 @@ void LaskunMaksuDialogi::valintaMuuttuu()
 {
     QModelIndex index = ui->laskutView->currentIndex();
     ui->euroSpin->setValue( index.data(LaskutModel::AvoinnaRooli).toDouble() / 100.0 );
-
-    ui->naytaNappi->setEnabled( QFile::exists( index.data(LaskutModel::LiiteRooli).toString() ) );
+    ui->naytaNappi->setEnabled( PdfIkkuna::onkoLiitetta( index.data(LaskutModel::TositeRooli).toInt(),
+                                                         index.data(LaskutModel::LiiteRooli).toInt() ) );
 }
 
 void LaskunMaksuDialogi::kirjaa()
@@ -183,7 +184,9 @@ void LaskunMaksuDialogi::tarkistaKelpo()
 void LaskunMaksuDialogi::naytaLasku()
 {
     QModelIndex index =  ui->laskutView->currentIndex();
-    Kirjanpito::avaaUrl( QUrl( index.data(LaskutModel::LiiteRooli).toString() ) );
+
+    PdfIkkuna::naytaLiite( index.data(LaskutModel::TositeRooli).toInt(),
+                           index.data(LaskutModel::LiiteRooli).toInt() );
 }
 
 void LaskunMaksuDialogi::suodata()
