@@ -24,6 +24,7 @@
 #include <QDate>
 #include <QEvent>
 #include <QKeyEvent>
+#include <QPainter>
 
 #include "kpdateedit.h"
 #include "db/kirjanpito.h"
@@ -31,23 +32,20 @@
 
 
 KpDateEdit::KpDateEdit(QWidget *parent) :
-    QWidget(parent),
-    kalenteri_(0)
+    QLineEdit(parent),
+    kalenteri_(0),
+    popupKaytossa_(false)
 {
-    editori_ = new QLineEdit(this);
-    nappi_ = new QPushButton(this);
-    nappi_->setIcon(QIcon(":/pic/kalenteri16.png"));
+    // nappi_->setIcon(QIcon(":/pic/kalenteri16.png"));
 
     setDateRange( kp()->tilitpaatetty().addDays(1) , kp()->tilikaudet()->kirjanpitoLoppuu()  );
 
-    editori_->setInputMask("00.00.2\\000");
+    setInputMask("00.00.2\\000");
     setDate( kp()->paivamaara() );
 
-    resizeEvent();
-
-    connect( editori_, SIGNAL(textEdited(QString)), this, SLOT(editMuuttui(QString)));
-    connect( nappi_, SIGNAL(clicked(bool)), this, SLOT(kalenteri()) );
-    connect( editori_, SIGNAL(editingFinished()), this, SIGNAL(editingFinished()));
+    connect( this, SIGNAL(textEdited(QString)), this, SLOT(editMuuttui(QString)));
+    // connect( nappi_, SIGNAL(clicked(bool)), this, SLOT(kalenteri()) );
+    // connect( editori_, SIGNAL(editingFinished()), this, SIGNAL(editingFinished()));
 }
 
 KpDateEdit::~KpDateEdit()
@@ -58,14 +56,20 @@ KpDateEdit::~KpDateEdit()
 
 QSize KpDateEdit::sizeHint() const
 {
-    return QSize( editori_->sizeHint().width() + 20,
-                  editori_->sizeHint().height());
+    return QSize( 200,
+                  QLineEdit::sizeHint().height());
+
 }
 
 void KpDateEdit::setDateRange(const QDate &min, const QDate &max)
 {
     minDate_ = min;
     maxDate_ = max;
+}
+
+void KpDateEdit::setCalendarPopup(bool enable)
+{
+    popupKaytossa_ = enable;
 }
 
 void KpDateEdit::kalenteri()
@@ -77,7 +81,7 @@ void KpDateEdit::kalenteri()
 
     kalenteri_->setWindowFlag(Qt::FramelessWindowHint);
     kalenteri_->show();
-    kalenteri_->move( mapToGlobal( QPoint(0, editori_->height()  )));
+    kalenteri_->move( mapToGlobal( QPoint(0, height()  )));
 
     // Jotta kalenterista poistuttaessa kalenteri suljetaan:
     kalenteri_->installEventFilter(this);
@@ -101,7 +105,9 @@ void KpDateEdit::setDate(QDate date)
             date = maximumDate();
 
         date_ = date;
-        editori_->setText( date.toString("dd.MM.yyyy") );
+        int pos = cursorPosition();
+        setText( date.toString("dd.MM.yyyy") );
+        setCursorPosition(pos);
         emit dateChanged( date );
     }
 
@@ -130,7 +136,7 @@ void KpDateEdit::editMuuttui(QString uusi)
    if( pp > 40)
    {
         pp = pp / 10;
-        editori_->setCursorPosition( editori_->cursorPosition()+1 );
+        setCursorPosition( cursorPosition()+1 );
    }
    // 32 -> 30
    else if( pp > 31)
@@ -139,7 +145,7 @@ void KpDateEdit::editMuuttui(QString uusi)
    if( kk > 20)
    {
         kk = kk / 10;
-        editori_->setCursorPosition( editori_->cursorPosition()+1 );
+        setCursorPosition( cursorPosition()+1 );
    }
    if( kk > 12)
    {
@@ -154,18 +160,12 @@ void KpDateEdit::editMuuttui(QString uusi)
 
     if( pvm.isValid())
     {
-        int pos = editori_->cursorPosition();
         setDate(pvm);
-        editori_->setCursorPosition(pos);
     }
 
 }
 
-void KpDateEdit::resizeEvent()
-{
-    editori_->setGeometry(0,0,width()-20, height());
-    nappi_->setGeometry(width()-20, 0, 20, height());
-}
+
 
 bool KpDateEdit::eventFilter(QObject *watched, QEvent *event)
 {
@@ -181,7 +181,7 @@ bool KpDateEdit::eventFilter(QObject *watched, QEvent *event)
 
 void KpDateEdit::keyPressEvent(QKeyEvent *event)
 {
-    int pos = editori_->cursorPosition();
+    int pos = cursorPosition();
 
     if( event->key() == Qt::Key_Up)
     {
@@ -202,7 +202,40 @@ void KpDateEdit::keyPressEvent(QKeyEvent *event)
             setDate( date().addYears(-1));
     }
 
-    editori_->setCursorPosition(pos);
+    setCursorPosition(pos);
 
-    QWidget::keyPressEvent(event);
+    QLineEdit::keyPressEvent(event);
+}
+
+void KpDateEdit::paintEvent(QPaintEvent *event)
+{
+    QLineEdit::paintEvent(event);
+    QPainter painter(this);
+
+    if( popupKaytossa_)
+        painter.drawPixmap( width() - 20, height() / 2 - 8,  16, 16, QPixmap(":/pic/kalenteri16.png") );
+}
+
+void KpDateEdit::focusInEvent(QFocusEvent * event)
+{
+    setCursorPosition(0);
+    QLineEdit::focusInEvent(event);
+}
+
+void KpDateEdit::mousePressEvent(QMouseEvent *event)
+{
+    if( event->pos().x() > width() - 22 && popupKaytossa_)
+        kalenteri();
+    else
+        QLineEdit::mousePressEvent(event);
+}
+
+void KpDateEdit::mouseMoveEvent(QMouseEvent *event)
+{
+    if( event->pos().x() > width() - 22 && popupKaytossa_)
+        setCursor( Qt::ArrowCursor );
+    else
+        setCursor( Qt::IBeamCursor);
+
+    QLineEdit::mouseMoveEvent( event);
 }

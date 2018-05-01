@@ -18,11 +18,10 @@
 #ifndef KPDATEEDIT_H
 #define KPDATEEDIT_H
 
-#include <QObject>
-#include <QWidget>
+#include <QLineEdit>
 #include <QDate>
 
-class QLineEdit;
+
 class QPushButton;
 class QCalendarWidget;
 
@@ -35,7 +34,7 @@ class QCalendarWidget;
  * Kirjanpidon päivämäärien syöttöwidget. Osittain yhteensopiva QDateEditin kanssa.
  *
  */
-class KpDateEdit : public QWidget
+class KpDateEdit : public QLineEdit
 {
     Q_OBJECT
 public:
@@ -69,6 +68,10 @@ public:
      */
     QDate maximumDate() const { return maxDate_; }
 
+    void setCalendarPopup(bool enable);
+
+    bool calendarPopup() const { return popupKaytossa_; }
+
 signals:
     /**
      * @brief Ilmoittaa valitun päivämäärän muuttuneen
@@ -79,7 +82,7 @@ signals:
     /**
      * @brief Muokkaus tullut valmiiksi
      */
-    void editingFinished();
+//    void editingFinished();
 
 public slots:
     /**
@@ -97,17 +100,19 @@ protected slots:
     void editMuuttui(QString uusi);
 
 protected:
-    void resizeEvent();
     bool eventFilter(QObject *watched, QEvent *event);
     void keyPressEvent(QKeyEvent* event);
+    void paintEvent(QPaintEvent* event);
+    void focusInEvent(QFocusEvent* event);
+    void mousePressEvent(QMouseEvent* event);
+    void mouseMoveEvent(QMouseEvent* event);
 
-    QLineEdit *editori_;
-    QPushButton *nappi_;
     QCalendarWidget *kalenteri_;
 
     QDate date_;
     QDate minDate_;
     QDate maxDate_;
+    bool popupKaytossa_;
 
 };
 

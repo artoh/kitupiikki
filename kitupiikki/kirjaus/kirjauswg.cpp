@@ -143,6 +143,8 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     // Tagivalikko
     ui->viennitView->viewport()->installEventFilter(this);
 
+    ui->tositePvmEdit->setCalendarPopup(true);
+
 }
 
 KirjausWg::~KirjausWg()
