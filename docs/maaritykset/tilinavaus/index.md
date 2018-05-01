@@ -4,6 +4,9 @@
 
 Tilinavauksessa syötetään tilin avaavina saldoina tilien loppusummat edellisen tilinpäätöksen taseesta ja tuloslaskelman erittelystä.
 
+!!! note "Vain ensimmäiselle tilikaudelle"
+    Tilinavaus tehdään vain ensimmäiselle tilikaudelle, joka pidetään Kitupiikillä. Jatkossa ohjelma huolehtii automaattisesti uusien tilikausien tilinavauksista.
+
 Saldot syötetään ilman etumerkkiä (ellei sitten esimerkiksi edellisiltä tilikausilta ole jäänyt alijäämää).
 
 Tuloslaskelmaan saldot syötetään tileittäin, koska uuden tilikauden tuloslaskelmaan on merkittävä vertailutiedot edelliseltä tilikaudelta.
@@ -17,8 +20,7 @@ Samalla näytöllä syötetään myös **henkilöstön keskimäärä** edellisen
 
 ## Kohdennukset ja tase-erät
 
-Jos tilinavauksessa on tarpeen tehdä erittelyä eri kohdennuksille tai tase-erille, muokkaa tilinavaustositetta (tosite tunnuksella *0 edellisen tilikauden viimeisellä päivämäärällä).
-Etsi tosite **Selaa**-välilehdeltä ja napsauta sitä muokataksesi.
+Jos tilinavauksessa on tarpeen tehdä erittelyä eri kohdennuksille tai tase-erille, muokkaa tilinavaustositetta. Tilinavaustosite aukeaa **Näytä tosite** -painikkeesta.
 
 * Voit jakaa tilinavauksen eri kohdennuksille, jolloin kustannuspaikkakohtaisille raporteille voidaan tulostaa oikein vertailutiedot edelliseltä tilikaudelta.
 * Voit merkitä seurattavat tase-erät (ostovelat, myyntisaamiset, poistettava omaisuus) jolloin ne tulostuvat oikein tase-erittelylle

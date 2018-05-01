@@ -44,6 +44,10 @@
  <div class="karusellissa fade">
   <img src="maaritykset/kohdennukset/kohdennukset.png">
   <div class="txt">Kirjauksia voi kohdentaa toiminnoille, projekteille jne.</div>
+  <div class="karusellissa fade">
+   <img src="images/poisto.png">
+   <div class="txt">Kitupiikki laskee tasaerä- ja menojäännöspoistot.</div>
+  </div>
  </div>
 </div>
 
