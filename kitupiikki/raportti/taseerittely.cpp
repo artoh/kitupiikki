@@ -220,7 +220,10 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                 // Tallennetaan saldotaulukkoon tilien eräsaldot
                 while( kysely.next() )
                 {
-                    alkusaldot.insert( kysely.value("eraid").toInt(), kysely.value("debetit").toLongLong() - kysely.value("kreditit").toLongLong() );
+                    if( tili.onko(TiliLaji::VASTATTAVAA))
+                         alkusaldot.insert( kysely.value("eraid").toInt(), kysely.value("kreditit").toLongLong() - kysely.value("debetit").toLongLong() );
+                    else
+                        alkusaldot.insert( kysely.value("eraid").toInt(), kysely.value("debetit").toLongLong() - kysely.value("kreditit").toLongLong() );
                 }
 
                 // Sitten haetaan tase-erän tiedot
@@ -228,12 +231,12 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                            "where tili=%1 and vienti.tosite=tosite.id and eraid=vienti.id order by vienti.pvm")
                            .arg(tili.id()));
 
-
                 while( kysely.next())
                 {
                     rk.lisaaRivi();
 
                     int eraId = kysely.value("id").toInt();
+
                     qlonglong alkusnt = kysely.value("debetsnt").toLongLong() - kysely.value("kreditsnt").toLongLong();
                     if( tili.onko(TiliLaji::VASTATTAVAA))
                         alkusnt = 0 - alkusnt;
