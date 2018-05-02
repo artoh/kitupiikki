@@ -1,7 +1,7 @@
 # Tilinpäätöksen malli
 
 !!! note "Edistynyt toiminto"
-    Sinun ei yleensä tarvitse muokata tilinpäätöksen mallia. Muokkaus on otettava erikseen käyttöön [perusvalintojen](../perusvalinnat) kohdasta **Näytä tulosteiden muokkauksen työkalut**
+    Sinun ei yleensä tarvitse muokata tilinpäätöksen mallia. Muokkaus on otettava erikseen käyttöön [perusvalintojen](../perusvalinnat) kohdasta **Näytä tulosteiden muokkauksen työkalut**.
 
 ![](malli.png)
 
@@ -69,7 +69,7 @@ annetun asetuksen (PMA) pienyrityssäänöstöä.</p>
 
 Rivi voi olla myös ilman tulostuvaa tekstiä, jos valinnan tunnus on määritelty jo aiemmin. Jos rivillä on pelkästään **-**-merkillä alkavia poissulkevia tunnuksia, tulee rivi valituksi, ellei yksikään mainittu tunnus ole valittu.
 
-Pelkkä **#** lopettaa ehdon, jonka jälkeiset rivit tulostuvat kaikilla valinnoilla.
+Pelkkä **#** lopettaa ehdon, ja sen jälkeen rivit tulostuvat jälleen kaikilla valinnoilla.
 
 **@**-alkuiset rivit määrittelevät erityisen tulostettavan
 

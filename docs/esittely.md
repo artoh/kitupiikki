@@ -25,13 +25,13 @@ Kitupiikillä voit laatia koko tilinpäätöksen. Ohjelmassa on valmiit pohjat p
 ## Tilikartat ja raportit muokattavissa
 ![](maaritykset/tilikartta/tilikartta1.png)
 
-Voit muokatat tilikartat ja raportit mieleisiksesi. Muokatun tilikartan voit tallettaa ja ottaa käyttöön toisessa kirjanpidossa. Raportit saa tallennettua myös pdf-, html- ja csv-muotoon.
+Voit muokata tilikartat ja raportit mieleisiksesi. Muokatun tilikartan voit tallentaa ja ottaa käyttöön toisessa kirjanpidossa. Raportit saa tallennettua myös pdf-, html- ja csv-muotoon.
 
 
 ## Arvonlisäveron käsittely ohjaustiedoilla
 ![](alv/alvvalinta.png)
 
-Tilejä ei tarvitse eritellä verokannoittain, koska arvonlisävero määritetään viennin tietoihin. Toki kirjausta voi nopeuttaa määrittelemälle tilin oletusvalinnat alv-käsittelyyn. Kitupiikki tukee kaikkia alv-ilmoituksen verotyyppejä, myös maksuperusteisesti tilitettävää arvonlisäveroa.
+Tilejä ei tarvitse eritellä verokannoittain, koska arvonlisävero määritetään viennin tietoihin. Toki kirjausta voi nopeuttaa määrittelemällä tilin oletusvalinnat alv-käsittelylle. Kitupiikki tukee kaikkia alv-ilmoituksen verotyyppejä, myös maksuperusteisesti tilitettävää arvonlisäveroa.
 
 ## Avoimen lähdekoodin kirjanpitäjä
 

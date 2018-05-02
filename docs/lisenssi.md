@@ -6,7 +6,7 @@ Ohjelmalla ei ole mitään takuuta. Tätä ohjelmaa saa käyttää, levittää j
 
 ## Käytettyjä kirjastoja
 
-[Qt Toolkit](http://qt.io) Copyright &copy; Qt Company Ltd. and other contributors, lisenssillä [GNU Lesser General Public License version 3](http://http://doc.qt.io/qt-5/lgpl.html).
+[Qt Toolkit](http://qt.io) Copyright &copy; Qt Company Ltd. and other contributors, lisenssillä [GNU Lesser General Public License version 3](http://doc.qt.io/qt-5/lgpl.html).
 
 [Poppler PDF rendering library](https://poppler.freedesktop.org) lisenssillä [GNU General Public License version 2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
 
@@ -14,17 +14,17 @@ Ohjelmalla ei ole mitään takuuta. Tätä ohjelmaa saa käyttää, levittää j
 
 [Nayuki QR Code generator library](https://github.com/nayuki/QR-Code-generator) lisenssillä MIT License
 
-[Code-128-font](https://github.com/Holger-Will/code-128-font) lisenssillä [GNU General Public License version 3](https://www.gnu.org/licenses/old-licenses/gpl-3.0.html)
+[Code-128-font](https://github.com/Holger-Will/code-128-font) lisenssillä [GNU General Public License version 3](https://www.gnu.org/licenses/gpl.html)
 
 ## Tilikarttojen pohja
 
-Tilikartat pohjautuvat Tili-instituuttisäätiön [Raportointikoodistoon](https://www.raportointikoodisto.fi). Tilitin-yhteensopiva elinkeinoelämän tilikartta perustuu [Tilitin-kirjanpito-ohjelmaan](http://helineva.net/tilitin/) &copy; Tommi Helineva lisenssillä [GNU General Public License version 3](https://www.gnu.org/licenses/old-licenses/gpl-3.0.html)
+Tilikartat pohjautuvat Tili-instituuttisäätiön [Raportointikoodistoon](https://www.raportointikoodisto.fi). Tilitin-yhteensopiva elinkeinoelämän tilikartta perustuu [Tilitin-kirjanpito-ohjelmaan](http://helineva.net/tilitin/) &copy; Tommi Helineva lisenssillä [GNU General Public License version 3](https://www.gnu.org/licenses/gpl.html)
 
 ## Asennusohjelmat
 
-Linux [AppImage](https://appimage.org) MIT License
+Linux [AppImage](https://appimage.org) lisenssillä MIT License
 
-Windows [Inno Setup](http://www.jrsoftware.org/isinfo.php) Inno Setup License
+Windows [Inno Setup](http://www.jrsoftware.org/isinfo.php) lisenssillä [Inno Setup License](http://www.jrsoftware.org/files/is/license.txt)
 
 ## GNU General Public License 3
 [Epävirallinen suomenkielinen käännös](https://www.turre.com/licenses/gpl_fi.php)

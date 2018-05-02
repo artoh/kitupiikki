@@ -4,11 +4,11 @@
 Tilinpäätös on laadittava neljän kuukauden kuluessa tilikauden päättymisestä. Kitupiikki muistuttaa tästä aloitusnäytössä. Kun kaikki tilikaudelle kuuluvat tositteet on kirjattu, aloitetaan tilinpäätöksen laatiminen **Tilikaudet**-välilehden **Tilinpäätös**-painikkeesta.
 
 !!! info "Ammatin- ja liikkeenharjoittajan vapautus tilinpäätöksen laatimisesta"
-    Ammatin- ja liikkeenharjoittaja on velvollinen laatimaan tilinpäätöksen vain, mikäli sekä päättyneellä että edellisellä tilikaudella on täyttynyt kaksi seuraavista ehdoista
+    Ammatin- ja liikkeenharjoittaja on velvollinen laatimaan tilinpäätöksen vain, mikäli sekä päättyneellä että edellisellä tilikaudella on täyttynyt kaksi seuraavista ehdoista:
 
-    * Taseen loppusumma ylittää 100 000 euroa
-    * Liikevaihto ylittää 200 000 euroa
-    * Palveluksessa on keskimäärin yli kolme henkilöä
+    * Taseen loppusumma ylittää 100 000 euroa.
+    * Liikevaihto ylittää 200 000 euroa.
+    * Palveluksessa on keskimäärin yli kolme henkilöä.
 
 ## Poistojen kirjaaminen
 
@@ -32,7 +32,7 @@ Tee tämän jälkeen tarvittavat siirtokirjaukset ja mahdolliset muut tilinpää
 !!! info "Siirtosaamiset ja -velat"
     Siirtosaamisia ovat tilikaudella suoritetut maksut tulevina tilikausina suoriteperusteisina toteutuvista menoista (ellei niitä ole merkitty ennakkomaksuiksi) tai sellaiset toteutuneet tulot, joista ei vielä ole saatu maksua (ellei merkitty myyntisaataviin).
 
-    Siirtovelkoja ovat saadut maksut sellaisista tuloista, jotka toteutuvat myöhemmin; menot, joista ei ole suoritettu maksua (ellei merkitty ostovelkoihin) sekä vastaiset menot ja menetykset.
+    Siirtovelkoja ovat saadut maksut sellaisista tuloista, jotka toteutuvat myöhemmin, menot, joista ei ole suoritettu maksua (ellei merkitty ostovelkoihin), sekä vastaiset menot ja menetykset.
 
     Siirtokirjauksia ja jaksotuksia tehtäessä voidaan ottaa huomioon olennaisuusperiaate.
 
@@ -55,7 +55,7 @@ Kun kirjanpito on valmis, lukitse tilikauden kirjanpito (**Lukitse kirjanpito**-
 
 Kitupiikin tilikartat sisältävät tilinpäätöksen ja liitetietojen rungon. **Tilinpäätös**-painikkeella pääset tekemään tilinpäätökseen liittyvät valinnat. Tehtyäsi valinnat paina **Jatka**.
 
-Kitupiikki pystyy pääsääntöisesti päättelemään liikevaihdon, taseen ja henkilökuntamäärän perusteella, voidaanko tilinpäätös laatia mikro- tai pienyrityssäänösten mukaisesti.
+Kitupiikki pystyy pääsääntöisesti päättelemään liikevaihdon, taseen ja henkilökuntamäärän perusteella, voidaanko tilinpäätös laatia mikro- tai pienyrityssäännösten mukaisesti.
 
 Jos laadit tilinpäätöksen jolloin muulla ohjelmalla (kuten tekstinkäsittelyohjelma), voit tallentaa pdf-muotoisen tilinpäätöksen Kitupiikin sähköiseen arkistoon valitsemalla **Lataa tiedosto**.
 

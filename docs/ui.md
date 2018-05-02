@@ -45,7 +45,7 @@ Näppäin   |  Toiminto
 <kbd>Ctrl</kbd>+<kbd>P</kdb> | Tulosta tosite
 <kbd>Ctrl</kbd>+<kbd>T</kdb> | Uusi tosite tämän tositteen pohjalta
 
-## Laskua luotaessa
+### Laskua luotaessa
 Näppäin   |  Toiminto
 ----------|----------
 <kbd>F9</kbd> | Näytä/Piilota tuotteet

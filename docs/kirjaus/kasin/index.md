@@ -4,7 +4,7 @@
 !!! note "Käytä Kirjausapuria aina kuin voit"
     Kirjauksiin liittyy usein paljon erilaisia ohjaustietoja, kuten arvonlisäveron ja tase-erien tiedot. Nämä tiedot tulevat kaikkein varmimmiten oikein käyttämällä Kirjausapuria. Käytä siksi Kirjausapuria aina kuin se on mahdollista!
 
-Voit tehdä kirjauksen myös ilman Avustajaa valitsemalla **Viennit**-välilehdellä **Lisää rivi** (tai painamalla <kbd>F11</kbd>).
+Voit tehdä kirjauksen myös ilman Kirjausapuria valitsemalla **Viennit**-välilehdellä **Lisää rivi** (tai painamalla <kbd>F11</kbd>).
 
 ![](ruudukko.png)
 

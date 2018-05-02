@@ -7,10 +7,10 @@ Useimmat tavanomaiset kirjaukset kuten ostot, myynnit, nostot pankkitililtä jne
 
 1. Käynnistä Kirjausapuri joko **Kirjausapuri**-napista tai painamalla <kbd>F9</kbd>. Heti tositalajin valittuasi voit käynnistää Apurin myös painamalla <kbd>Enter</kbd>
 2. Valitse välilehdeltä, mitä kirjaat: **Tulo**, **meno** vai **siirto**.
-3. Valitse tili. Voit joko kirjoittaa suoraan tilinumeron tai aloittaa kirjoittamalla tilin nimeä, jolloin pääset valitsemaan tilin luettelosta. Painamalla välilyöntiä pääset kaikkien tilien luetteloon.
-4. Syötä määrä ja varmista, että **vastatili**, **vientipäivä**, **selite**, **alv-laji** ja **alv-prosentti** on oikein. Valitse tarvittaessa **kohdennus**. Kirjattaessa siirto tasetililtä toiselle valittavina on **debet-tili** (minne siirretään) ja **kredit-tili** (mistä siirretään). **Merkkaukset** valitaan *Merkkaukset*-kentässä hiiren oikeasta painikkeesta avautuvasta valikosta.
+3. Valitse tili. Voit joko kirjoittaa suoraan tilinumeron tai alkaa kirjoittaa tilin nimeä, jolloin pääset valitsemaan tilin luettelosta. Painamalla välilyöntiä pääset kaikkien tilien luetteloon.
+4. Syötä määrä ja varmista, että **vastatili**, **vientipäivä**, **selite**, **alv-laji** ja **alv-prosentti** ovat oikein. Valitse tarvittaessa **kohdennus**. Kirjattaessa siirto tasetililtä toiselle valittavina ovat **debet-tili** (minne siirretään) ja **kredit-tili** (mistä siirretään). **Merkkaukset** valitaan *Merkkaukset*-kentässä hiiren oikeasta painikkeesta avautuvasta valikosta.
 5. Varmista Apurin ikkunassa alinpana olevasta ruudusta, että kirjaus menee oikein, ja paina **Ok** (tai <kbd>Enter</kbd>)
-6. Kirjauksen tiedot tulevat **Viennit**-välilehdelle. Jos tositteella on useampia vientejä, käynnistä Avustaja uudelleen.
+6. Kirjauksen tiedot tulevat **Viennit**-välilehdelle. Jos tositteella on useampia vientejä, käynnistä Apuri uudelleen.
 
 
 ## Osto- ja myyntilaskun lisätiedot

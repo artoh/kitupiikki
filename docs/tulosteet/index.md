@@ -5,17 +5,17 @@
 Tulosteet-välilehdellä voit katsella ja tulostaa erilaisia raportteja kirjanpidostasi. Tulosteet ovat erilaisia eri tilikartoilla.
 
 * **Avaa selaimessa** avaa raportin selaimeen. Voit tallentaa raportin html-muodossa selaimen tallennustoiminnolla.
-* **Vie leikepöydälle** kopioi raportin html-muodossa leikepöydälle, josta sen voi liittää esim.  tekstinkäsittelyyn
-* **CSV määritykset** antaa valita CSV-tiedoston muodon, mm. käytettävä erotin, koodaus, päivämäärän ja lukujen muoto
+* **Vie leikepöydälle** kopioi raportin html-muodossa leikepöydälle, josta sen voi liittää esim.  tekstinkäsittelyyn.
+* **CSV määritykset** antaa valita CSV-tiedoston muodon, mm. käytettävä erotin, koodaus, päivämäärän ja lukujen muoto.
 * **Vie CSV** vie raportin csv-tiedostona.
 * **CSV leikepöydälle** kopioi raportin csv-muodossa leikepöydälle, josta sen voi liittää esim. taulukkolaskentaan.
-* **Sivun asetuksista** löytyy esim. tulostettavan raportin paperinkoko
+* **Sivun asetuksista** löytyy esim. tulostettavan raportin paperinkoko.
 * **Esikatsele** avaa raportin pdf-muodossa käyttöjärjestelmän asetuksista riippuen selaimeen tai pdf-katseluohjelmaan, jolla voit tallentaa tai tulostaa raportin.
 * **Tulosta** tulostaa raportin suoraan tulostimelle.
 
 !!! tip "Kirjausten vienti CSV-muotoon"
     *Päiväkirja*-näkymä soveltuu erityisen hyvin kirjausten siirtämiseen csv-muodossa toisiin ohjelmiin.
-    CSV-tiedosto on tekstitiedosto, jossa sarakkeet on erotettu toisistaan pilkulla, on soveltuu tiedon siirtämiseen ohjelmasta toiseen.
+    CSV-tiedosto on tekstitiedosto, jossa sarakkeet on erotettu toisistaan pilkulla. Se soveltuu tiedon siirtämiseen ohjelmasta toiseen.
 
 ## Päiväkirja
 
@@ -39,7 +39,7 @@ Tositeluettelossa on tositteet luetteloitu lajeittain numerojärjestyksessä. Vo
 
 ![](tase.png)
 
-Tase kuvaa taloudellista tilannetta tilinpäätöspäivänä. Monessa tilikartassa oli lisäksi lyhennetty tasekaava, jota saavat käyttää PMA-asetuksen mukaiset yritykset. Myös taseen voi tulostaa tileittäin eriteltynä
+Tase kuvaa taloudellista tilannetta tilinpäätöspäivänä. Monessa tilikartassa on lisäksi lyhennetty tasekaava, jota saavat käyttää PMA-asetuksen mukaiset yritykset. Myös taseen voi tulostaa tileittäin eriteltynä
 
 ## Tuloslaskelma
 
@@ -52,7 +52,7 @@ Joissain tilikartoissa on eri tuloslaskelmavaihtoehtoja. Myös tuloslaskelman vo
 
 ![](taseerittely.png)
 
-Tase-erittely laaditaan varmentaan taseen summat. Yllä olevan erittelyn ensimmäisellä tilillä 1062 IT-ohjelmistot on täysi tase-eräkohtainen erittely, keskimmäisellä luetellaan tilikauden aikaiset muutokset ja alimmalla tilin saldon muodostavat summat tilikauden päätöspäivänä.
+Tase-erittely laaditaan varmentamaan taseen summat. Yllä olevan erittelyn ensimmäisellä tilillä 1062 IT-ohjelmistot on täysi tase-eräkohtainen erittely, keskimmäisellä luetellaan tilikauden aikaiset muutokset ja alimmalla tilin saldon muodostavat summat tilikauden päätöspäivänä.
 
 ## Tililuettelo
 
