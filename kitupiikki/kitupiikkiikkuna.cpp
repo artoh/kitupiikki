@@ -365,6 +365,11 @@ void KitupiikkiIkkuna::lisaaSivut()
     lisaaSivu("Tilikaudet",":/pic/kirja64.png","Tilinpäätös ja arkistot","F6", ARKISTOSIVU, arkistosivu);
     lisaaSivu("Määritykset",":/pic/ratas.png","Kirjanpitoon liittyvät määritykset","F7", MAARITYSSIVU, maarityssivu);
 
+    // Possulla on tonttulakki tuomaanpäivästä loppiaiseen ;)
+    if( (QDate::currentDate().month() == 12 && QDate::currentDate().day() >= 21) ||
+        (QDate::currentDate().month() == 1 && QDate::currentDate().day() <= 6) )
+        sivuaktiot[ALOITUSSIVU]->setIcon(QIcon(":/pic/Joulupossu.png"));
+
 
     aktioryhma->actions().first()->setChecked(true);
 

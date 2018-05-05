@@ -108,6 +108,7 @@
         <file>kaytossa.png</file>
         <file>kaikkitilit.png</file>
         <file>kalenteri16.png</file>
+        <file>Joulupossu.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
