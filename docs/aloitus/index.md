@@ -51,7 +51,7 @@ Lisäksi voit syöttää pankkitilin (ensisijainen käyttötili) tilinumeron. Ti
 sitä käytetään myös maksujen ja tiliotteiden kohdistamiseen. Tilinumeron voi syöttää myöhemmin
 tilin tietoihin [tilikartassa](/maaritykset/tilikartta).
 
-Elinkeinotoiminnan tilikartoissa valitaan yritysmuoto, mikä määritelee käytössä olevia tilejä. Yhdistystilikartassa valitaan, onko yhdistyksellä arvonlisäverollista liiketoimintaa, joka kirjataan erikseen 70-alkuisille tileille.
+Elinkeinotoiminnan tilikartoissa valitaan **yritysmuoto**, mikä määritelee käytössä olevia tilejä. Yhdistystilikartassa valitaan vastaavasti **tilikartan laajuus**. Laajaa elinkeintoiminnan tilikarttaa tarvitset vain, jos yhdistys harjoittaa sellaista elinkeinotoimintaa, josta maksetaan arvonlisäveroa.
 
 
 ## Tilikausi

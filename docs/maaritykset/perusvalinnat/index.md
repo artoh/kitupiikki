@@ -4,7 +4,7 @@
 
 **Organisaation nimi**, **y-tunnus**, **osoite**, **kotipaikka**, **puhelin** ja **logo** näkyvät erilaisissa tulosteissa. Logoksi voi valita jpg- tai png-muotoisen kuvatiedoston. Logo toimii parhaiten, jos se on muodoltaan neliö.
 
-Elinkeinotoiminnan tilikartoissa määritellään käytettävä **yritysmuoto**. Yhdistystoiminnan tilikartassa määritellään, onko yhdistyksellä arvonlisäveron alaista liiketoimintaa. Nämä valinnat vaikuttavat tilien näyttämiseen ja piilottamiseen tilikartalla.
+Elinkeinotoiminnan tilikartoissa määritellään käytettävä **yritysmuoto**. Yhdistystoiminnan tilikartassa määritellään **tilikartan laajuus**. Nämä valinnat vaikuttavat tilien näyttämiseen ja piilottamiseen tilikartalla.
 
 **Tiedoston sijainti** näyttää kirjanpitotiedoston nimen ja sijainnin. Voit kopioida koko kirjanpidon kopioimalla tämän yhden tiedoston.
 

@@ -7,7 +7,7 @@ Kirjoita kysymyksesi kommenttina sille sivulle, jossa käsitellään sinua askar
 
 ## Palaute
 
-Voit lähettää Kitupiikistä palautetta myös [palautelomakkeella](https://form.jotformeu.com/73283959099374). Sivun alalaidan kommenteilla saat kuitenkin nopeamman vastauksen, koska näihin kysymyksiin voivat vastata myös muut ohjelman käyttäjän.
+Voit lähettää Kitupiikistä palautetta myös [palautelomakkeella](https://form.jotformeu.com/73283959099374). Sivun alalaidan kommenteilla saat kuitenkin nopeamman vastauksen, koska näihin kysymyksiin voivat vastata myös muut ohjelman käyttäjät.
 
 
 ## Osallistu
