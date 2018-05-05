@@ -44,10 +44,10 @@
  <div class="karusellissa fade">
   <img src="maaritykset/kohdennukset/kohdennukset.png">
   <div class="txt">Kirjauksia voi kohdentaa toiminnoille, projekteille jne.</div>
-  <div class="karusellissa fade">
+ </div>
+ <div class="karusellissa fade">
    <img src="images/poisto.png">
    <div class="txt">Kitupiikki laskee tasaerä- ja menojäännöspoistot.</div>
-  </div>
  </div>
 </div>
 
@@ -65,7 +65,7 @@ Uutena hankekohdennus, pdf-raporttien sisäänrakennettu esikatselu, tositteen k
 </div>
 
 <script>
-var slideIndex = 0;
+var slideIndex = Math.floor( Math.random() * document.getElementsByClassName("karusellissa").length );
 showSlides();
 
 function showSlides() {
@@ -74,8 +74,13 @@ function showSlides() {
     for (i = 0; i < slides.length; i++) {
         slides[i].style.display = "none";
     }
-    slides[ Math.floor( Math.random() * slides.length )].style.display = "block";
-    setTimeout(showSlides, 5000); // Kuva vaihtuu kahden sekunnin välein
+
+    slideIndex = slideIndex + 1;
+    if( slideIndex >= slides.length)
+      slideIndex = 0;
+
+    slides[ slideIndex ].style.display = "block";
+    setTimeout(showSlides, 4000); // Kuva vaihtuu kahden sekunnin välein
 }
 
 </script>
