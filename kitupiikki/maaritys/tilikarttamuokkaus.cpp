@@ -126,18 +126,27 @@ void TilikarttaMuokkaus::muutaTila(int tila)
         if( tila )
         {
             // Jos tila muutettu näkyväksi, niin muutetaan myös otsikot tästä ylöspäin
-            int edtaso = index.data(TiliModel::OtsikkotasoRooli).toInt() ? index.data(TiliModel::OtsikkotasoRooli).toInt() : 10;
+            int edtaso = index.data(TiliModel::OtsikkotasoRooli).toInt() ? index.data(TiliModel::OtsikkotasoRooli).toInt() : 10;            
+            bool muuttaa = true;
+
             for(int r = index.row()-1; r > -1; r--)
             {
                 int otsikkotaso = model->index(r,0).data(TiliModel::OtsikkotasoRooli).toInt();
+
                 if( otsikkotaso >= edtaso )
-                    break;
-                if( otsikkotaso )
+                    muuttaa = false;
+                else if(otsikkotaso)
+                    muuttaa = true;
+
+                if( otsikkotaso && muuttaa )
                 {
                     edtaso = otsikkotaso;
                     if( model->index(r,0).data(TiliModel::TilaRooli).toInt() == 0)
                         model->setData( model->index(r,0), 1, TiliModel::TilaRooli );
                 }
+
+                if( otsikkotaso == 1)
+                    break;
             }
         }
     }

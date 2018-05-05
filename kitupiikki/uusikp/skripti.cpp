@@ -70,6 +70,30 @@ void Skripti::suorita()
                    {
                        if( index.data(TiliModel::TilaRooli) == Tili::TILI_PIILOSSA )
                            tiliModel_->setData(index, Tili::TILI_KAYTOSSA, TiliModel::TilaRooli);
+
+                       // Jos tila muutettu näkyväksi, niin muutetaan myös otsikot tästä ylöspäin
+                       int edtaso = index.data(TiliModel::OtsikkotasoRooli).toInt() ? index.data(TiliModel::OtsikkotasoRooli).toInt() : 10;
+                       bool muuttaa = true;
+
+                       for(int r = i; r > -1; r--)
+                       {
+                           int otsikkotaso = tiliModel_->index(r,0).data(TiliModel::OtsikkotasoRooli).toInt();
+
+                           if( otsikkotaso >= edtaso )
+                               muuttaa = false;
+                           else if(otsikkotaso)
+                               muuttaa = true;
+
+                           if( otsikkotaso && muuttaa )
+                           {
+                               edtaso = otsikkotaso;
+                               if( tiliModel_->index(r,0).data(TiliModel::TilaRooli).toInt() == 0)
+                                   tiliModel_->setData( tiliModel_->index(r,0), 1, TiliModel::TilaRooli );
+                           }
+
+                           if( otsikkotaso == 1)
+                               break;
+                       }
                    }
                    else if(tiliMats.captured("lipo") == "-")
                    {

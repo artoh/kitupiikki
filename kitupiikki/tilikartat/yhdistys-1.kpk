@@ -4,7 +4,7 @@ Yhdistys
 [TilikarttaTekija]
 artoh.github.io
 [TilikarttaPvm]
-2018-04-20
+2018-05-05
 [TilikarttaKuvaus]
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 <html><head><meta name="qrichtext" content="1" /><style type="text/css">
@@ -12,7 +12,7 @@ p, li { white-space: pre-wrap; }
 </style></head><body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;">
 <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-weight:600;">Aatteellinen yhdistys tai säätiö</span> </p>
 <p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Aatteellisen toiminnan ensisijaisena tarkoituksena ei ole taloudellinen toiminta.</p>
-<p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Toiminta jaetaan varsinaiseen toimintaan, varainhankintaan ja rahoitustoimintaan. Kirjanpitoa aloitettaessa valitaan, onko yhdistyksellä arvonlisäverollista liiketoimintaa (yleensä ei ole).</p></body></html>
+<p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Toiminta jaetaan varsinaiseen toimintaan, varainhankintaan ja rahoitustoimintaan. Kirjanpitoa aloitettaessa valitaan tilikartan laajuus.</p></body></html>
 [TilikarttaOhje]
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 <html><head><meta name="qrichtext" content="1" /><style type="text/css">
@@ -41,15 +41,15 @@ p, li { white-space: pre-wrap; }
 <p style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:large; font-weight:600;">Arvonlisävero</span> </p>
 <p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Yhdistyksen aatteellinen toiminta on yleensä arvonlisäverotonta. Jos yhdistys on hakeutunut alv-velvolliseksi, tee tämä valinta kohdassa <span style=" font-weight:600;">Määritykset &gt; Perusvalinnat</span>. Jos perusvalinnoista määritellään, että yhdistyksellä on myös arvonlisäverollista liiketoimintaa, löytyvät sen tilit alueelta 70xx.</p></body></html>
 [TilikarttaLuontiVersio]
-0.10-devel
+0.12-beta
 [tilit]
 H1 1 {} VASTAAVAA
 H2 10 {"Asti":147} Pysyvät vastaavat
 H3 10 {} Aineettomat hyödykkeet
 H4- 102 {} Kehittämismenot
 APT- 1020 {"Poistotili":6000,"Tasaerapoisto":120,"Taseerittely":3} Kehittämismenot
-H4 103 {} Aineettomat oikeudet
-APT 1030 {"Poistotili":6000,"Tasaerapoisto":120,"Taseerittely":3} Aineettomat oikeudet
+H4- 103 {} Aineettomat oikeudet
+APT- 1030 {"Poistotili":6000,"Tasaerapoisto":120,"Taseerittely":3} Aineettomat oikeudet
 H4- 104 {} Liikearvo
 A- 1040 {"Taseerittely":1} Liikearvo
 H4 106 {} Muut pitkävaikutteiset menot
@@ -68,7 +68,7 @@ APM 1114 {"Menojaannospoisto":20,"Poistotili":6001,"Taseerittely":1} Rakennelmat
 A 1140 {"Taseerittely":3} Rakennusten vuokraoikeudet
 H4 116 {} Koneet ja kalusto
 APM 1160 {"Menojaannospoisto":25,"Poistotili":6002,"Taseerittely":1} Koneet ja kalusto 25%
-APM- 1167 {"AlvLaji":21,"AlvProsentti":24,"Menojaannospoisto":25,"Poistotili":70602,"Taseerittely":1} Liiketoiminnan koneet ja kalusto 25%
+APM- 1167 {"AlvLaji":21,"AlvProsentti":24,"Menojaannospoisto":25,"Poistotili":70602,"Taseerittely":1} Elinkeinotoiminnan koneet ja kalusto 25%
 H4 117 {} Muut aineelliset hyödykkeet
 APT 1170 {"Poistotili":6003} Muuta aineelliset hyödykkeet
 H4 118 {} Ennakkomaksut ja Keskeneräiset hankinnat
@@ -95,18 +95,18 @@ A 1485 {"Taseerittely":3} Osakkeet ja osuudet; omakatteiset rahastot
 A 1486 {"Taseerittely":2} Muut saamiset; omakatteiset rahastot
 A 1489 {"Taseerittely":1} Rahavarat; omakatteiset rahastot
 H2 15 {"Asti":19} Vaihtuvat vastaavat
-H3- 15 {} Vaihto-omaisuus
-H4- 151 {} Aineet ja tarvikkeet
-A- 1510 {"Taseerittely":1} Raaka-aineet
-H4- 152 {} Keskeneräiset tuotteet
-A- 1520 {"Taseerittely":1} Keskeneräiset tuotteet
-H4- 153 {} Valmiit tuotteet
-A- 1530 {"Taseerittely":1} Valmiit tuotteet; itse valmistetut
-A- 1531 {"Taseerittely":1} Ostetut kauppatavarat
-H4- 154 {} Muu vaihto-omaisuus
-A- 1549 {"Taseerittely":1} Muu vaihto-omaisuus
-H4- 155 {} Ennakkomaksut
-A- 1550 {} Ennakkomaksut
+H3 15 {} Vaihto-omaisuus
+H4 151 {} Aineet ja tarvikkeet
+A 1510 {"Taseerittely":1} Raaka-aineet
+H4 152 {} Keskeneräiset tuotteet
+A 1520 {"Taseerittely":1} Keskeneräiset tuotteet
+H4 153 {} Valmiit tuotteet
+A 1530 {"Taseerittely":1} Valmiit tuotteet; itse valmistetut
+A 1531 {"Taseerittely":1} Ostetut kauppatavarat
+H4 154 {} Muu vaihto-omaisuus
+A 1549 {"Taseerittely":1} Muu vaihto-omaisuus
+H4 155 {} Ennakkomaksut
+A 1550 {} Ennakkomaksut
 H3 16 {} Pitkäaikaiset saamiset
 H4- 160 {} Myyntisaamiset
 AS- 1600 {"Taseerittely":2} Myyntisaamiset; pitkäaikaiset
@@ -131,7 +131,7 @@ H4 174 {} Lainasaamiset
 A 1740 {"Taseerittely":2} Lainasaamiset
 H4 176 {} Muut saamiset
 AS 1760 {"Taseerittely":2} Muut saamiset
-AL 1762 {} Arvonlisäverosaamiset
+AL- 1762 {} Arvonlisäverosaamiset
 ALM- 1763 {} Maksuperusteinen arvonlisäverosaaminen
 H4- 177 {} Siirtosaamiset
 AS 1770 {"Taseerittely":2} Siirtosaamiset
@@ -160,8 +160,8 @@ H3 24 {} Tulos
 BE 2450 {} Edellisten tilikausien voitto/tappio
 T 2460 {} Tilikauden tulos
 H2 25 {} Tilinpäätössiirtojen kertymä
-H3 250 {} Poistoero
-B 2501 {} Poistoero
+H3- 250 {} Poistoero
+B- 2501 {} Poistoero
 H3- 251 {} Verotusperusteiset varaukset
 B- 2510 {} Verotusperusteiset varaukset
 H2- 26 {} Pakolliset varaukset
@@ -213,7 +213,7 @@ BS- 2975 {"Taseerittely":2} Velat omistusyhteysyrityksille; lyhytaikaiset
 H4 298 {} Muut velat
 BL- 2984 {} Arvonlisäverovelka
 BLM- 2985 {} Maksuperusteinen arvonlisäverovelka
-BV 2986 {"Kirjausohje":"Tälle tilille siirretään maksettavat arvonlisäverot siinä vaiheessa, kun tehdään arvonlisäveroilmoitus."} Verovelka (Omavero-tili)
+BV- 2986 {"Kirjausohje":"Tälle tilille siirretään maksettavat arvonlisäverot siinä vaiheessa, kun tehdään arvonlisäveroilmoitus."} Verovelka (Omavero-tili)
 BS 2989 {"Taseerittely":2} Muut velat
 H4 299 {} Siirtovelat
 BS 2990 {"Taseerittely":2} Siirtovelat
@@ -319,24 +319,24 @@ D 6020 {} Arvonalentumat pysyvien vastaavien hyödykkeistä
 D 6030 {} Vaihtuvien vastaavien poikkeukselliset arvonalentumiset
 D 6034 {} Varaston arvonalennus
 H2- 7 {} Varainhankinta
-H3- 70 {} Liiketoiminta
-H4- 703 {} Liiketoiminnan tulot
-C- 7030 {"AlvLaji":11,"AlvProsentti":24} Liiketoiminnan tulot
-H4- 704 {} Liiketoiminnan kulut
-D- 7040 {"AlvLaji":21,"AlvProsentti":24} Liiketoiminnan ostot
-D- 7045 {"AlvLaji":21,"AlvProsentti":24} Liiketoiminnan muut kulut
-H4- 705 {} Liiketoiminnan henkilökulut
-D- 70500 {} Liiketoiminnan palkat
-D- 70502 {} Liiketoiminnan lisät ja korvaukset
-D- 70503 {} Liiketoiminnan palkkiot
-D- 70504 {} Liiketoiminnan loma-ajan ja sosiaalipalkat
-D- 70510 {} Liiketoiminnan eläkevakuutusmaksut
-D- 70511 {} Liiketoiminnan työntekijöiltä perityt eläkevakuutusmaksut
-D- 70513 {} Liiketoiminnan vapaaehtoiset eläkevakuutusmaksut
-D- 70520 {} Liiketoiminnan sosiaaliturvamaksut
-D- 70521 {} Liiketoiminnan pakolliset vakuutusmaksut
-D- 70522 {} Liiketoiminnan muut henkilöstön vakuutusmaksut
-H4- 706 {} Liiketoiminnan poistot
+H3- 70 {} Elinkeinotoiminta
+H4- 703 {} Elinkeinotoiminnan tulot
+C- 7030 {"AlvLaji":11,"AlvProsentti":24} Elinkeinotoiminnan tulot
+H4- 704 {} Elinkeinotoiminnan kulut
+D- 7040 {"AlvLaji":21,"AlvProsentti":24} Elinkeinotoiminnan ostot
+D- 7045 {"AlvLaji":21,"AlvProsentti":24} Elinkeinotoiminnan muut kulut
+H4- 705 {} Elinkeinotoiminnan henkilökulut
+D- 70500 {} Elinkeinotoiminnan palkat
+D- 70502 {} Elinkeinotoiminnan lisät ja korvaukset
+D- 70503 {} Elinkeinotoiminnan palkkiot
+D- 70504 {} Elinkeinotoiminnan loma-ajan ja sosiaalipalkat
+D- 70510 {} Elinkeinotoiminnan eläkevakuutusmaksut
+D- 70511 {} Elinkeinotoiminnan työntekijöiltä perityt eläkevakuutusmaksut
+D- 70513 {} Elinkeinotoiminnan vapaaehtoiset eläkevakuutusmaksut
+D- 70520 {} Elinkeinotoiminnan sosiaaliturvamaksut
+D- 70521 {} Elinkeinotoiminnan pakolliset vakuutusmaksut
+D- 70522 {} Elinkeinotoiminnan muut henkilöstön vakuutusmaksut
+H4- 706 {} Elinkeinotoiminnan poistot
 DP- 70602 {} Poistot liiketoiminnan koneista ja kalustosta
 H3 73 {"Asti":79} Muu varainhankinta
 H4 73 {} Varainhankinnan tulot
@@ -570,8 +570,108 @@ yhdistys-1.kpk
 1
 [TuontiTiliote]
 ON
-[MuotoTeksti]
-Onko yhdistyksellä liiketoimintaa
+[Raportti/Tase/PMA]
+:tase
+
+VASTAAVAA		H bold
+
+PYSYVÄT VASTAAVAT		10..146 
+Aineettomat hyödykkeet		10 s4 *
+Aineelliset hyödykkeet		11 s4 *		
+Sijoitukset		14 s4 *
+OMAKATTEISTEN RAHASTOJEN VARAT	148 s4 *
+VAIHTUVAT VASTAAVAT		15..19 
+Vaihto-omaisuus		15 s4 *		
+Pitkäaikaiset saamiset		16 s4 *
+Lyhytaikaiset saamiset		17 s4 *
+Rahoitusarvopaperit		18 s4 *
+Rahat ja pankkisaamiset		19 s8 *
+
+Vastaavaa yhteensä		1 bold
+
+
+VASTATTAVAA		H bold
+
+OMA PÄÄOMA		20..24 
+Osake-, osuus- tai muu vastaava pääoma	200 s4 *
+Sidotut rahastot		201,202 s4
+Omakatteiset rahastot		201 s8 *
+Muut sidotut rahastot		202 s8 *
+Ylikurssirahasto		2032 s4 *
+Arvonkorotusrahasto		2033 s4 *
+Muut rahastot		204 s4
+Äänettömät yhtiömiehet		210 s4 *
+Vastuunalaiset yhtiömiehet		211 s4 *
+Yksityistilit tilikaudella		22 s4 *
+Edellisten tilikausien voitto/tappio	2450 s4 *
+Tilikauden voitto/tappio		2460 s4 *
+TILINPÄÄTÖSSIIRTOJEN KERTYMÄ	25 
+PAKOLLISET VARAUKSET		26	
+VIERAS PÄÄOMA		28..29
+Pitkäaikainen vieras pääoma		28 s4
+Lyhytaikainen vieras pääoma		29 s4
+
+
+Vastattavaa yhteensä		2 bold
+[Raportti/Tuloslaskelma]
+:tulos
+
+Varsinainen toiminta	bold
+Tuotot	3 S *
+Kulut
+Henkilöstökulut	5 s4 *
+Poistot	6 s4 *
+Muut kulut	4 s4 *
+Kulut yhteensä	4..6 == S4 
+
+Tuotto/Kulujäämä	=
+
+Varainhankinta	bold
+Tuotot	7+ S4 *
+Kulut	7- S4 *
+Varainhankinta yhteensä	7 == S4 
+
+Tuotto/Kulujäämä	= 
+
+Sijoitus- ja rahoitustoiminta	bold
+Tuotot	90 S4 *
+Kulut	91 S4 *
+Sijoitus- ja rahoitustoiminta yhteensä	90,91 == S4 
+
+Tuotto/Kulujäämä	=
+
+Yleisavustukset	88  * bold
+
+Tilikauden tulos	=
+
+Tilinpäätössiirrot	bold
+Poistoeron muutos	950 * s4
+Verotusperusteisten varausten muutos	951 * s4
+Konserniavustus	958 * s4
+Tilinpäätössiirrot yhteensä	s4 95 == 
+
+Tilikauden ylijäämä (alijäämä)	= bold
+[Raportti/Toiminnanalat]
+:kohdennus
+Vastaavaa	1 *
+Vastattavaa	2 *
+Tase yhteensä	1..2 viiva
+
+Toimintatulot   	S 3 *
+Toimintakulut	S 4..6  
+Henkilöstökulut	5 * s4
+Poistot 	6 * s4
+Muut kulut  	4 * s4
+
+Varainhankinta  	7
+Elinkeinotoiminnan tulot  	703 *
+Elinkeinotoiminnan kulut 	704..709 *
+Varainhankinnan tulot	73 *
+Varainhankinnan kulut 	74..79 *
+
+Tulos yhteensä   	3..9 viiva
+
+
 [Raportti/Tase/Yleinen]
 :tase
 VASTAAVAA		H bold
@@ -580,7 +680,7 @@ PYSYVÄT VASTAAVAT		10..146
 Aineettomat hyödykkeet		10 s4
 Kehittämismenot		102 s8 *
 Aineettomat oikeudet		103 s8 *
-Liikearvo		104 s8 *
+Elinkeinoarvo		104 s8 *
 Muut aineettomat oikeudet		106 s8 *
 Ennakkomaksut		107 s8 *
 Aineelliset hyödykkeet		11 s4		
@@ -679,111 +779,57 @@ Muut velat		298 s8 *
 Siirtovelat  		299 s8 *
 
 Vastattavaa yhteensä		2 bold
-[Raportti/Toiminnanalat]
-:kohdennus
-Vastaavaa	1 *
-Vastattavaa	2 *
-Tase yhteensä	1..2 viiva
+[MuotoTeksti]
+Tilikartan laajuus
+[MuotoOn/Suppein (vain perustilit)]
+-1..9
++1160
++1700
++1770
++1900
++1910
++2450
++2460
++2960
++2989
++2990
++3000
++3700
++3800
++3900
++4000
++4100
++4200
++4310
++4580
++4991
++6002
++7300
++7310
++7390
++9050
++9150
+[MuotoPois/Suppein (vain perustilit)]
++1..9
+-102..104
+-141..144
+-160/4..163
+-181
+-25/3..26
+-287
+-297
+-95
+[MuotoOn/Suppea (ei palkkoja)]
+-26/3
+-5
+-75
+[MuotoPois/Suppea (ei palkkoja)]
++26/3
++5
++75
+[MuotoOn/Tavallinen]
 
-Toimintatulot   	S 3 *
-Toimintakulut	S 4..6  
-Henkilöstökulut	5 * s4
-Poistot 	6 * s4
-Muut kulut  	4 * s4
-
-Varainhankinta  	7
-Liiketoiminnan tulot  	703 *
-Liiketoiminnan kulut 	704..709 *
-Varainhankinnan tulot	73 *
-Varainhankinnan kulut 	74..79 *
-
-Tulos yhteensä   	3..9 viiva
-
-
-[Raportti/Tuloslaskelma]
-:tulos
-
-Varsinainen toiminta	bold
-Tuotot	3 S *
-Kulut
-Henkilöstökulut	5 s4 *
-Poistot	6 s4 *
-Muut kulut	4 s4 *
-Kulut yhteensä	4..6 == S4 
-
-Tuotto/Kulujäämä	=
-
-Varainhankinta	bold
-Tuotot	7+ S4 *
-Kulut	7- S4 *
-Varainhankinta yhteensä	7 == S4 
-
-Tuotto/Kulujäämä	= 
-
-Sijoitus- ja rahoitustoiminta	bold
-Tuotot	90 S4 *
-Kulut	91 S4 *
-Sijoitus- ja rahoitustoiminta yhteensä	90,91 == S4 
-
-Tuotto/Kulujäämä	=
-
-Yleisavustukset	88  * bold
-
-Tilikauden tulos	=
-
-Tilinpäätössiirrot	bold
-Poistoeron muutos	950 * s4
-Verotusperusteisten varausten muutos	951 * s4
-Konserniavustus	958 * s4
-Tilinpäätössiirrot yhteensä	s4 95 == 
-
-Tilikauden ylijäämä (alijäämä)	= bold
-[Raportti/Tase/PMA]
-:tase
-
-VASTAAVAA		H bold
-
-PYSYVÄT VASTAAVAT		10..146 
-Aineettomat hyödykkeet		10 s4 *
-Aineelliset hyödykkeet		11 s4 *		
-Sijoitukset		14 s4 *
-OMAKATTEISTEN RAHASTOJEN VARAT	148 s4 *
-VAIHTUVAT VASTAAVAT		15..19 
-Vaihto-omaisuus		15 s4 *		
-Pitkäaikaiset saamiset		16 s4 *
-Lyhytaikaiset saamiset		17 s4 *
-Rahoitusarvopaperit		18 s4 *
-Rahat ja pankkisaamiset		19 s8 *
-
-Vastaavaa yhteensä		1 bold
-
-
-VASTATTAVAA		H bold
-
-OMA PÄÄOMA		20..24 
-Osake-, osuus- tai muu vastaava pääoma	200 s4 *
-Sidotut rahastot		201,202 s4
-Omakatteiset rahastot		201 s8 *
-Muut sidotut rahastot		202 s8 *
-Ylikurssirahasto		2032 s4 *
-Arvonkorotusrahasto		2033 s4 *
-Muut rahastot		204 s4
-Äänettömät yhtiömiehet		210 s4 *
-Vastuunalaiset yhtiömiehet		211 s4 *
-Yksityistilit tilikaudella		22 s4 *
-Edellisten tilikausien voitto/tappio	2450 s4 *
-Tilikauden voitto/tappio		2460 s4 *
-TILINPÄÄTÖSSIIRTOJEN KERTYMÄ	25 
-PAKOLLISET VARAUKSET		26	
-VIERAS PÄÄOMA		28..29
-Pitkäaikainen vieras pääoma		28 s4
-Lyhytaikainen vieras pääoma		29 s4
-
-
-Vastattavaa yhteensä		2 bold
-[MuotoOn/Ei liiketoimintaa]
-[MuotoPois/Ei liiketoimintaa]
-[MuotoOn/On liiketoimintaa]
+[MuotoOn/Laaja (elinkeinotoimintaa)]
 +70/3
 +1167
 +1762
@@ -791,7 +837,7 @@ Vastattavaa yhteensä		2 bold
 +2984
 +2985
 AlvVelvollinen=ON
-[MuotoPois/On liiketoimintaa]
+[MuotoPois/Laaja (elinekeinotoimintaa)]
 -1167
 -70/3
 -1762
@@ -799,4 +845,16 @@ AlvVelvollinen=ON
 -2984
 -2985
 AlvVelvollinen=EI
-
+[MuotoOn/Laajin (kaikki tilit)]
++1..9
+AlvVelvollinen=ON
+[MuotoPois/Laajin (kaikki tilit)]
+-102..104
+-141..144
+-160/4..163
+-181
+-25/3..26
+-287
+-297
+-95
+AlvVelvollinen=EI
