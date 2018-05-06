@@ -307,6 +307,15 @@
        </item>
        <item row="0" column="1">
         <widget class="QLabel" name="tunnisteLabel">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
          <property name="text">
           <string>000000</string>
          </property>
@@ -321,6 +330,15 @@
        </item>
        <item row="1" column="1">
         <widget class="QLabel" name="luotuLabel">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
          <property name="text">
           <string>0000</string>
          </property>
@@ -335,6 +353,15 @@
        </item>
        <item row="2" column="1">
         <widget class="QLabel" name="muokattuLabel">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
          <property name="text">
           <string>0000</string>
          </property>

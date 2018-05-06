@@ -146,7 +146,7 @@ void Raportoija::kirjoitaYlatunnisteet(RaportinKirjoittaja &rk)
     rk.asetaOtsikko( otsikko);
 
 
-    rk.lisaaSarake(40);
+    rk.lisaaVenyvaSarake();
     for( int i=0; i < loppuPaivat_.count(); i++)
         rk.lisaaEurosarake();
 

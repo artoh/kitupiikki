@@ -65,7 +65,7 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
 
     if( kohdennuksella > -1 )
         // Tulostetaan vain yhdestä kohdennuksesta
-        rk.asetaOtsikko( tr("PÄÄKIRJAN OTE (%1)").arg( kohdennus.nimi()));
+        rk.asetaOtsikko( tr("PÄÄKIRJAN OTE \n%1").arg( kohdennus.nimi()));
     else
         rk.asetaOtsikko( "PÄÄKIRJA");
 

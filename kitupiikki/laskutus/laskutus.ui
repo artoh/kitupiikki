@@ -115,6 +115,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="uusiNappi">
+       <property name="toolTip">
+        <string>Luo uusi lasku  F9</string>
+       </property>
        <property name="text">
         <string>Uusi lasku...</string>
        </property>

@@ -714,12 +714,19 @@ void KirjausWg::tiedotModelista()
     paivitaVaroitukset();
 
     if( model()->id() > 0)
+    {
         ui->tunnisteLabel->setText( QString("%1").arg( model_->id(), 8, 10, QChar('0') ) );
-    else
-        ui->tunnisteLabel->setText( tr("Uusi tosite"));
+        ui->luotuLabel->setText( model_->luontiAika().toString("dd.MM.yyyy hh.mm.ss") );
+        ui->muokattuLabel->setText( model_->muokattuAika().toString("dd.MM.yyyy hh.mm.ss"));
 
-    ui->luotuLabel->setText( model_->luontiAika().toString("dd.MM.yyyy hh.mm.ss") );
-    ui->muokattuLabel->setText( model_->muokattuAika().toString("dd.MM.yyyy hh.mm.ss"));
+    }
+    else
+    {
+        ui->tunnisteLabel->setText( tr("Uusi tosite"));
+        ui->luotuLabel->clear();
+        ui->muokattuLabel->clear();
+    }
+
 
 }
 

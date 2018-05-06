@@ -477,10 +477,11 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu)
 
     QRectF nimiRect = painter->boundingRect( vasenreunus, 0, sivunleveys / 3 - vasenreunus, painter->viewport().height(),
                                              Qt::TextWordWrap, nimi );
+    QRectF otsikkoRect = painter->boundingRect( sivunleveys/3, 0, sivunleveys / 3, painter->viewport().height(),
+                                                Qt::AlignHCenter | Qt::TextWordWrap, otsikko());
 
     painter->drawText( nimiRect, Qt::AlignLeft | Qt::TextWordWrap, nimi );
-
-    painter->drawText( QRect(sivunleveys/3,0,sivunleveys/3, rivinkorkeus  ), Qt::AlignHCenter, otsikko_);
+    painter->drawText( otsikkoRect, Qt::AlignHCenter | Qt::TextWordWrap, otsikko());
     painter->drawText( QRect(sivunleveys*2/3, 0, sivunleveys/3, rivinkorkeus), Qt::AlignRight, paivays);
 
     if( kp()->asetukset()->onko("Harjoitus")  )
@@ -492,7 +493,7 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu)
         painter->restore();
     }
 
-    painter->translate(0, nimiRect.height() > rivinkorkeus ? nimiRect.height() : rivinkorkeus );
+    painter->translate(0, nimiRect.height() > otsikkoRect.height() ? nimiRect.height() : otsikkoRect.height() );
 
     QString ytunnus = Kirjanpito::db()->asetus("Ytunnus") ;    
 

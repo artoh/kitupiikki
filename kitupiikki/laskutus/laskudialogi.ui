@@ -250,6 +250,9 @@ p, li { white-space: pre-wrap; }
           <layout class="QHBoxLayout" name="horizontalLayout">
            <item>
             <widget class="QPushButton" name="naytaNappi">
+             <property name="toolTip">
+              <string>Näytä tuoteluettelo  F9</string>
+             </property>
              <property name="text">
               <string>&amp;Tuotteet</string>
              </property>
@@ -282,6 +285,9 @@ p, li { white-space: pre-wrap; }
            </item>
            <item>
             <widget class="QPushButton" name="lisaaNappi">
+             <property name="toolTip">
+              <string>Lisää rivi   F11</string>
+             </property>
              <property name="text">
               <string>L&amp;isää</string>
              </property>
@@ -357,6 +363,9 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <widget class="QPushButton" name="tulostaNappi">
+       <property name="toolTip">
+        <string>Tulosta lasku  Ctrl+P</string>
+       </property>
        <property name="text">
         <string>Tulosta</string>
        </property>
@@ -371,6 +380,9 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <widget class="QPushButton" name="esikatseluNappi">
+       <property name="toolTip">
+        <string>Näytä lasku  F10</string>
+       </property>
        <property name="text">
         <string>Näytä</string>
        </property>
@@ -387,6 +399,9 @@ p, li { white-space: pre-wrap; }
       <widget class="QPushButton" name="spostiNappi">
        <property name="enabled">
         <bool>false</bool>
+       </property>
+       <property name="toolTip">
+        <string>Lähetä lasku sähköpostilla  Ctrl+E</string>
        </property>
        <property name="text">
         <string>Sähköposti</string>
@@ -422,6 +437,9 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <widget class="QPushButton" name="tallennaNappi">
+       <property name="toolTip">
+        <string>Tallenna lasku   F10</string>
+       </property>
        <property name="text">
         <string>T&amp;allenna</string>
        </property>
