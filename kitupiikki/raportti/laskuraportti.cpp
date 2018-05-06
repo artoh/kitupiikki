@@ -114,49 +114,40 @@ RaportinKirjoittaja LaskuRaportti::myyntilaskut(QDate saldopvm, bool avoimet, La
     else if( lajittelu == Asiakas)
         jarjestys = "asiakas";
 
+
     qlonglong laskusumma = 0;
     qlonglong avoinsumma = 0;
 
-    QString ehto;
-    if( rajaus == RajaaErapaiva )
-            ehto = QString(" erapvm BETWEEN '%1' and '%2' AND")
-                    .arg( mista.toString(Qt::ISODate) ).arg( mihin.toString(Qt::ISODate));
-    else if( rajaus == RajaaLaskupaiva )
-            ehto = QString(" laskupvm BETWEEN '%1' and '%2' AND")
-                    .arg( mista.toString(Qt::ISODate) ).arg( mihin.toString(Qt::ISODate));
+    QString kysymys = QString("SELECT pvm, debetsnt, kreditsnt, eraid, viite, erapvm, asiakas, laskupvm FROM vienti, tili "
+                     "WHERE tili.id=vienti.tili AND ((viite IS NOT NULL AND iban IS NULL) OR (tyyppi='AO' and vienti.id=vienti.eraid) ) ");
 
-    QString kysymys = QString("SELECT id, tosite, laskupvm, erapvm, summaSnt, avoinSnt, asiakas, kirjausperuste, json from lasku "
-                             " WHERE %1 summaSnt > 0 order by %2").arg(ehto).arg(jarjestys);
+    if( rajaus == RajaaErapaiva)
+        kysymys.append( QString(" AND erapvm BETWEEN '%1' AND '%2' ") .arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate)) );
+    else if( rajaus == RajaaLaskupaiva)
+        kysymys.append( QString(" AND laskupvm BETWEEN '%1' AND '%2' ") .arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate)) );
+
+    kysymys.append(" ORDER BY " + jarjestys);
+
 
     QSqlQuery kysely(kysymys);
 
     while( kysely.next() )
     {
-        qlonglong avoinna = kysely.value("summaSnt").toLongLong();
-        JsonKentta json( kysely.value("json").toByteArray() );
+        qlonglong avoinna = 0;
 
-        if( kysely.value("kirjausperuste").toInt() == LaskuModel::KATEISLASKU)
-            avoinna = 0;    // Käteislasku maksettu kokonaan
-        else if( kysely.value("kirjausperuste").toInt() == LaskuModel::MAKSUPERUSTE)
+        if( kysely.value("eraid").toInt() )
         {
-            // Maksuperusteinen lasku kirjataan tositteeksi, jossa kredit maksettavaa ja debet maksua
-            TositeModel tosite(kp()->tietokanta());
-            tosite.lataa( kysely.value("tosite").toInt() );
-            avoinna = tosite.vientiModel()->kreditSumma() - tosite.vientiModel()->debetSumma();
-        }
-        else
-        {
-            // Nyt pitää hakea tähän tase-erään tulevat muutokset ko. päivään asti
-            QSqlQuery erakysely( QString("SELECT debetsnt, kreditsnt FROM vienti "
-                             "WHERE eraid=%1 AND pvm <= '%2'")
-                                 .arg( json.luku("TaseEra")).arg(saldopvm.toString(Qt::ISODate)));
-            qDebug() << erakysely.lastQuery();
+            QString erakysymys = QString("SELECT sum(debetsnt) as debet, sum(kreditsnt) as kredit FROM vienti WHERE eraid=%1 AND pvm<'%2'")
+                    .arg( kysely.value("eraid").toInt())
+                    .arg( saldopvm.toString(Qt::ISODate));
 
-            while( erakysely.next())
+            QSqlQuery erakysely( erakysymys);
+            if( erakysely.next())
             {
-                avoinna -= erakysely.value("kreditsnt").toLongLong();
-                avoinna += erakysely.value("debetsnt").toLongLong();
+                avoinna -= erakysely.value("kredit").toLongLong();
+                avoinna += erakysely.value("debet").toLongLong();
             }
+
         }
 
         // Lopuksi tulostus
@@ -165,16 +156,16 @@ RaportinKirjoittaja LaskuRaportti::myyntilaskut(QDate saldopvm, bool avoimet, La
 
         RaporttiRivi rivi;
         if( viitteet)
-            rivi.lisaa( kysely.value("id").toString() );
+            rivi.lisaa( kysely.value("viite").toString() );
 
         rivi.lisaa( kysely.value("laskupvm").toDate());
         rivi.lisaa( kysely.value("erapvm").toDate());
-        rivi.lisaa( kysely.value("summaSnt").toLongLong());
+        rivi.lisaa( kysely.value("debetsnt").toLongLong());
         rivi.lisaa( avoinna);
         rivi.lisaa( kysely.value("asiakas").toString());
         rk.lisaaRivi(rivi);
 
-        laskusumma += kysely.value("summaSnt").toLongLong();
+        laskusumma += kysely.value("debetsnt").toLongLong();
         avoinsumma += avoinna;
 
     }
