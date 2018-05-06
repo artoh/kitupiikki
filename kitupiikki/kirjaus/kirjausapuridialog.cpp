@@ -502,7 +502,8 @@ void KirjausApuriDialog::ehdota()
             tulorivi.kohdennus = kp()->kohdennukset()->kohdennus(ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
             tulorivi.alvprosentti = alvprosentti;
             tulorivi.alvkoodi = alvkoodi;
-            tulorivi.eraId = ui->taseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
+            if( ui->taseEraCombo->isVisible())
+                tulorivi.eraId = ui->taseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
             tulorivi.tagit = tagit;
             ehdotus.lisaaVienti(tulorivi);
         }
@@ -537,7 +538,9 @@ void KirjausApuriDialog::ehdota()
 
             if( taserivi.tili.json()->luku("Kohdennukset"))
                 taserivi.kohdennus = kp()->kohdennukset()->kohdennus(ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
-            taserivi.eraId = ui->vastaTaseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
+
+            if( ui->vastaTaseEraCombo->isVisible())
+                taserivi.eraId = ui->vastaTaseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
 
             if(vastatili.onko(TiliLaji::MYYNTISAATAVA))
             {
@@ -572,7 +575,10 @@ void KirjausApuriDialog::ehdota()
             menorivi.kohdennus = kp()->kohdennukset()->kohdennus(ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
             menorivi.alvprosentti = alvprosentti;
             menorivi.alvkoodi = alvkoodi;
-            menorivi.eraId = ui->taseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
+
+            if( ui->taseEraCombo->isVisible())
+                menorivi.eraId = ui->taseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
+
             menorivi.tagit = tagit;
             if(tili.tyyppi().onko(TiliLaji::TASAERAPOISTO))
             {
@@ -623,7 +629,9 @@ void KirjausApuriDialog::ehdota()
                 taserivi.kreditSnt = bruttoSnt;
             else
                 taserivi.kreditSnt = nettoSnt;
-            taserivi.eraId = ui->vastaTaseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
+
+            if( ui->vastaTaseEraCombo->isVisible())
+                taserivi.eraId = ui->vastaTaseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
 
             if( taserivi.tili.json()->luku("Kohdennukset"))
                 taserivi.kohdennus = kp()->kohdennukset()->kohdennus(ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
@@ -661,7 +669,9 @@ void KirjausApuriDialog::ehdota()
             else
                 rivi.debetSnt = bruttoSnt;
 
-            rivi.eraId = ui->taseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
+            if( ui->taseEraCombo->isVisible())
+                rivi.eraId = ui->taseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
+
             if( rivi.tili.json()->luku("Kohdennukset"))
                 rivi.kohdennus = kp()->kohdennukset()->kohdennus(ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
             rivi.tagit = tagit;
@@ -674,7 +684,9 @@ void KirjausApuriDialog::ehdota()
                 rivi.debetSnt = bruttoSnt;
             else
                 rivi.kreditSnt = bruttoSnt;
-            rivi.eraId = ui->vastaTaseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
+
+            if( ui->vastaTaseEraCombo->isVisible())
+                rivi.eraId = ui->vastaTaseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
 
             if( rivi.tili.json()->luku("Kohdennukset"))
                 rivi.kohdennus = kp()->kohdennukset()->kohdennus(ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
