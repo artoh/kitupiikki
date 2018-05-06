@@ -54,6 +54,18 @@ Jos tuot **tilitietoja**, valitse lisäksi tili, jolle tiedot kirjataan. Tilitie
 
 Kaikki csv-tiedoston kirjaukset tulevat samalle tuontitositteelle ja alkuperäinen tositetunniste tulee selitteen alkuun.
 
+### Kirjausten tuonti Tilittimestä
+
+1. Vie Tilittimen kirjanpito csv-tiedostoksi **Työkalut | Vie tiedostoon** -valinnalla
+   ![Tilittimen valikko](tilitin.png)
+2. Avaa tai luo Kitupiikillä kirjanpito, johon haluat tuoda Tilittimen kirjaukset
+3. Varmista, että Kitupiikissä on kaikki ne tilikaudet, joille kirjauksia tuodaan.
+4. Muokkaa tarvittaessa Kitupiikin tilikarttaa.
+5. Tuo Tilittimen CSV-tiedosto yllä olevien ohjeiden mukaisesti. Käytä tilinumeron muuntoa ja varmista jokaisen tuotavan tilin kohdalta, että kirjaukset kohdistuvat oikealle tilille.
+
+!!! note "Alv-ohjaustietoja ei tuoda"
+    Tilitin käsittelee arvonlisäveroa tilikohtaisesti ja Kitupiikki kirjauksen ohjaustietojen mukaan. Tuoduissa kirjauksissa ei ole arvonlisäveron ohjaustietoja, joten jokaista verollista kirjausta täytyy muokata käsin, jos niiden perusteella on tarpeen luoda Kitupiikillä alv-ilmoitus.
+
 ### CSV-tiedoston muoto
 
 CSV-tiedostossa erottimena saa olla pilkku, puolipiste tai tabulaattori. Päivämäärät voivat olla suomalaisessa (31.12.2018) tai ISO-muodossa (2018-12-31). Tiedostossa pitää olla otsikkorivi, mutta otsikoiden nimet voivat olla mitä tahansa - sarakkeiden sisältö valitaan aina tuotaessa.
