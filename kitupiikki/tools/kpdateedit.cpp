@@ -99,6 +99,12 @@ void KpDateEdit::setDate(QDate date)
 {
     if( date.isValid())
     {
+        // Jos päivämäärä on minimiä pienempi, laitetaan ensin vuosi lisää. Tämä siksi, että tavanomaisessa
+        // tilanteessa muokataan vuoden viimeistä päivämäärää eteenpäin
+
+        if( date < minimumDate() )
+            date.addYears(1);
+
         if( date < minimumDate() )
             date = minimumDate();
         else if( date > maximumDate())
