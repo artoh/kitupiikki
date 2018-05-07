@@ -118,7 +118,7 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
                 if( rivi.kohdennus.tyyppi() != Kohdennus::EIKOHDENNETA)
                     txt = rivi.kohdennus.nimi();
 
-                if( rivi.taseEra.eraId )
+                if( rivi.taseEra.eraId && rivi.taseEra.eraId != rivi.vientiId)
                 {
                     if( !txt.isEmpty())
                         txt.append(" \n");
@@ -192,6 +192,7 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
                                        .arg( kp()->tositelajit()->tositelaji( query.value(8).toInt()  ).tunnus() )
                                        .arg( query.value(9).toInt(),8,10,QChar('0'))
                                        .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() );
+        rivi.vientiId = query.value("vienti.id").toInt();
 
 
         if( query.value("eraid").toInt() && rivi.tili.eritellaankoTase() )

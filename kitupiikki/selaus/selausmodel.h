@@ -44,6 +44,7 @@ struct SelausRivi
     QString lajiteltavaTositetunniste;
     QStringList tagit;
     bool eraMaksettu = false;
+    int vientiId;
 };
 
 /**
