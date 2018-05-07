@@ -76,10 +76,9 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
 
     kysely.exec( QString("select tili.id, sum(debetsnt), sum(kreditsnt) from tili,vienti where vienti.tili=tili.id and tili.ysiluku < 300000000 "
                          "and pvm <= \"%1\" group by tili.ysiluku order by tili.ysiluku").arg(mihin.toString(Qt::ISODate)) );
-    while(kysely.next() && kysely.value(1).toLongLong() != kysely.value(2).toLongLong() )
+    while(kysely.next() )
         tiliIdt.append( kysely.value(0).toInt());
 
-    int otsikkoId = 0;
     long edYsiluku = 0;
 
     foreach (int tiliId, tiliIdt)
@@ -99,20 +98,14 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
         }
         edYsiluku = tili.ysivertailuluku();
 
-        if( otsikkoId != tili.ylaotsikkoId())
-        {
-            // Tulostetaan yläotsikko
-            otsikkoId = tili.ylaotsikkoId();
-            RaporttiRivi valiOtsikko;
-            valiOtsikko.lisaa( kp()->tilit()->tiliIdlla( otsikkoId ).nimi().toUpper(), 3 );
-            valiOtsikko.lihavoi();
-            rk.lisaaRivi(valiOtsikko);
-            rk.lisaaRivi();
-        }
+        if( !tili.saldoPaivalle(mihin) && (tili.taseErittelyTapa() == Tili::TASEERITTELY_SALDOT || tili.taseErittelyTapa() == Tili::TASEERITTELY_LISTA) )
+            continue;
+
         // Ja sitten toimitaan erittelyvalinnan mukaisesti
 
         if( tili.taseErittelyTapa() == Tili::TASEERITTELY_SALDOT)
         {
+
             RaporttiRivi rr;
             rr.lisaaLinkilla( RaporttiRiviSarake::TILI_NRO, tili.numero(), QString("%1 %2").arg(tili.numero()).arg(tili.nimi()), 3 );
 
@@ -186,8 +179,8 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                 // Tase-erät saldoineen löytyvät kätevästi EranValintaModel:ista
                 EranValintaModel erat;
                 erat.lataa(tili, false, mihin);
-                // HUOM! Tase-erät alkavat riviltä 1, rivillä 0 "Muodosta uusi tase-erä"
-                for(int i=1; i < erat.rowCount(QModelIndex()); i++)
+                // HUOM! Tase-erät alkavat riviltä 2, rivillä 0 "Muodosta uusi tase-erä", rivillä 1 "Ei tase-erää"
+                for(int i=2; i < erat.rowCount(QModelIndex()); i++)
                 {
                     RaporttiRivi rr;
                     QModelIndex ind = erat.index(i, 0);
