@@ -121,14 +121,14 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
                 if( rivi.taseEra.eraId )
                 {
                     if( !txt.isEmpty())
-                        txt.append("\n");
+                        txt.append(" \n");
                     txt.append( rivi.taseEra.tositteenTunniste() );
                 }
 
                 if( rivi.tagit.count())
                 {
                     if( !txt.isEmpty())
-                        txt.append("\n");
+                        txt.append(" \n");
                     txt.append(  rivi.tagit.join(", ") );
                 }
                 return txt;

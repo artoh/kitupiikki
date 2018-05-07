@@ -1,15 +1,14 @@
 body
 {
     background: white;
-    font-family: Sans;
+    font-family: Helvetica, Arial, Sans;
     font-size: 12pt;
 }
 
 h1
 {
-    font-family: sans-serif;
-    font-weight: normal;
-    font-size: 16pt;
+    font-weight: bold;
+    font-size: 18pt;
 }
 
 h2
