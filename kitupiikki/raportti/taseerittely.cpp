@@ -74,8 +74,8 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
     QSqlQuery kysely;
     QList<int> tiliIdt;
 
-    kysely.exec( QString("select tili.id, sum(debetsnt), sum(kreditsnt) from tili,vienti where vienti.tili=tili.id and tili.ysiluku < 300000000 "
-                         "and pvm <= \"%1\" group by tili.ysiluku order by tili.ysiluku").arg(mihin.toString(Qt::ISODate)) );
+    kysely.exec( QString("select DISTINCT tili.id from tili,vienti where vienti.tili=tili.id and tili.ysiluku < 300000000 "
+                         "and pvm <= '%1' order by tili.ysiluku").arg(mihin.toString(Qt::ISODate)) );
     while(kysely.next() )
         tiliIdt.append( kysely.value(0).toInt());
 
@@ -84,6 +84,24 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
     foreach (int tiliId, tiliIdt)
     {
         Tili tili = kp()->tilit()->tiliIdlla(tiliId);
+
+        // Ohitetaan tyhjät/tapahtumattomat tilit
+        if( !tili.saldoPaivalle(mihin))
+        {
+             if(tili.taseErittelyTapa() == Tili::TASEERITTELY_SALDOT || tili.taseErittelyTapa() == Tili::TASEERITTELY_LISTA )
+             {
+                continue;
+             }
+            else
+            {
+                // Jos täysi tai muutos-tapahtumaerittely, niin ohitetaan jos ei myöskään tapahtumia
+                QSqlQuery tapahtumakysely( QString("SELECT count(id) from vienti where tili=%1 and pvm between '%2' and '%3")
+                                           .arg(tiliId).arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate)));
+                if( tapahtumakysely.next())
+                    if(!tapahtumakysely.value(0).toInt())
+                        continue;
+            }
+        }
 
         if( edYsiluku / 100000000 < tili.ysivertailuluku()  / 100000000 )
         {
@@ -97,9 +115,6 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
             rk.lisaaRivi();
         }
         edYsiluku = tili.ysivertailuluku();
-
-        if( !tili.saldoPaivalle(mihin) && (tili.taseErittelyTapa() == Tili::TASEERITTELY_SALDOT || tili.taseErittelyTapa() == Tili::TASEERITTELY_LISTA) )
-            continue;
 
         // Ja sitten toimitaan erittelyvalinnan mukaisesti
 
