@@ -194,9 +194,9 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
                                        .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() );
 
 
-        if( query.value("eraid").toInt() == query.value("vienti.id").toInt() )
+        if( query.value("eraid").toInt() && rivi.tili.eritellaankoTase() )
         {
-            TaseEra era( query.value("vienti.id").toInt() );
+            TaseEra era( query.value("eraid").toInt() );
             rivi.eraMaksettu = era.saldoSnt == 0 ;
         }
 
