@@ -36,16 +36,12 @@ KpDateEdit::KpDateEdit(QWidget *parent) :
     kalenteri_(0),
     popupKaytossa_(false)
 {
-    // nappi_->setIcon(QIcon(":/pic/kalenteri16.png"));
-
     setDateRange( kp()->tilitpaatetty().addDays(1) , kp()->tilikaudet()->kirjanpitoLoppuu()  );
 
     setInputMask("00.00.2\\000");
     setDate( kp()->paivamaara() );
 
     connect( this, SIGNAL(textEdited(QString)), this, SLOT(editMuuttui(QString)));
-    // connect( nappi_, SIGNAL(clicked(bool)), this, SLOT(kalenteri()) );
-    // connect( editori_, SIGNAL(editingFinished()), this, SIGNAL(editingFinished()));
 }
 
 KpDateEdit::~KpDateEdit()
@@ -103,7 +99,7 @@ void KpDateEdit::setDate(QDate date)
         // tilanteessa muokataan vuoden viimeistä päivämäärää eteenpäin
 
         if( date < minimumDate() )
-            date.addYears(1);
+            date = date.addYears(1);
 
         if( date < minimumDate() )
             date = minimumDate();
