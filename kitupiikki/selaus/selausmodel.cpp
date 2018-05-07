@@ -122,7 +122,7 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
                 {
                     if( !txt.isEmpty())
                         txt.append("\n");
-                    txt.append(  tr("%1/%2").arg(rivi.taseEra.tositteenTunniste() ).arg( rivi.taseEra.pvm.toString("dd.MM.yyyy")) );
+                    txt.append( rivi.taseEra.tositteenTunniste() );
                 }
 
                 if( rivi.tagit.count())
