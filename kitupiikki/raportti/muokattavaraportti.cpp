@@ -63,7 +63,7 @@ MuokattavaRaportti::~MuokattavaRaportti()
 
 }
 
-RaportinKirjoittaja MuokattavaRaportti::raportti(bool /* csvmuoto */ )
+RaportinKirjoittaja MuokattavaRaportti::raportti(bool csvmuoto )
 {    
     Raportoija raportoija( raporttiNimi );
 
@@ -90,7 +90,7 @@ RaportinKirjoittaja MuokattavaRaportti::raportti(bool /* csvmuoto */ )
     if( raportoija.tyyppi() == Raportoija::KOHDENNUSLASKELMA && !ui->kohdennusCheck->isChecked())
         raportoija.etsiKohdennukset();
 
-    return raportoija.raportti( ui->erittelyCheck->isChecked());
+    return raportoija.raportti( ui->erittelyCheck->isChecked(), csvmuoto);
 }
 
 void MuokattavaRaportti::paivitaUi()

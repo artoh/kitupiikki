@@ -117,9 +117,10 @@ public:
     /**
      * @brief Kirjoittaa raportin tehdyillä valinnoilla
      * @param tulostaErittelyt Tulostetaanko *-rivien jälkeen tilikohtaiset erittelyt
+     * @param csvmuoto Muotoillaanko csv-tulostusta varten
      * @return
      */
-    RaportinKirjoittaja raportti(bool tulostaErittelyt = true);
+    RaportinKirjoittaja raportti(bool tulostaErittelyt = true, bool csvmuoto = false);
 
 protected:
     enum RivinTyyppi
@@ -127,7 +128,7 @@ protected:
         OLETUS, SUMMA, OTSIKKO, ERITTELY
     };
 
-    void kirjoitaYlatunnisteet( RaportinKirjoittaja &rk);
+    void kirjoitaYlatunnisteet( RaportinKirjoittaja &rk, bool csvmuoto = false);
     void kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt);
 
     /**
