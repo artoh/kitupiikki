@@ -71,8 +71,5 @@ pages:
     - Tilinpäätös: 'tilikaudet/tilinpaatos/index.md'
     - Sähköinen arkisto: 'tilikaudet/arkisto/index.md'
   - Lisenssi: 'lisenssi.md'
-google_analytics:
-  - 'UA-92837430-1'
-  - 'auto'
 extra_css:
   - 'stylesheets/extra.css'
