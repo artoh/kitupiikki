@@ -38,9 +38,9 @@ LaskutusSivu::LaskutusSivu() :
     ui(new Ui::Laskutus)
 {
     ui->setupUi(this);
-    ui->suodatusTab->addTab("Kaikki");
-    ui->suodatusTab->addTab("Avoimet");
-    ui->suodatusTab->addTab("Erääntyneet");
+    ui->suodatusTab->addTab("&Kaikki");
+    ui->suodatusTab->addTab("&Avoimet");
+    ui->suodatusTab->addTab("&Erääntyneet");
     ui->suodatusTab->setCurrentIndex(1);
 
     connect( ui->mistaDate, SIGNAL(dateChanged(QDate)), this, SLOT(paivita()));
