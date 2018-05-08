@@ -22,6 +22,7 @@
 #include <QDate>
 
 
+
 class QPushButton;
 class QCalendarWidget;
 
@@ -113,6 +114,7 @@ protected:
     QDate minDate_;
     QDate maxDate_;
     bool popupKaytossa_;
+    quint64 suljettu_;
 
 };
 

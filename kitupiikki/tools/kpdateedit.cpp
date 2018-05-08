@@ -34,7 +34,8 @@
 KpDateEdit::KpDateEdit(QWidget *parent) :
     QLineEdit(parent),
     kalenteri_(0),
-    popupKaytossa_(false)
+    popupKaytossa_(false),
+    suljettu_(0)
 {
     setDateRange( kp()->tilitpaatetty().addDays(1) , kp()->tilikaudet()->kirjanpitoLoppuu()  );
 
@@ -176,6 +177,7 @@ bool KpDateEdit::eventFilter(QObject *watched, QEvent *event)
     {
         kalenteri_->deleteLater();
         kalenteri_ = 0;
+        suljettu_ = QDateTime::currentMSecsSinceEpoch();
     }
 
     return QWidget::eventFilter(watched, event);
@@ -226,15 +228,21 @@ void KpDateEdit::focusInEvent(QFocusEvent * event)
 
 void KpDateEdit::mousePressEvent(QMouseEvent *event)
 {
-    if( event->pos().x() > width() - 22 && popupKaytossa_)
-        kalenteri();
+    // suljettu_ -ehdolla varmistetaan, ettei kyse ole saman napsautuksen
+    // aiheuttamasta eventistä, jolla yritettiin sulkea ikkuna
+
+    if( event->pos().x() > width() - 22 && popupKaytossa_ && !kalenteri_ &&
+            QDateTime::currentMSecsSinceEpoch() - suljettu_ > 10)
+    {
+            kalenteri();
+    }
     else
         QLineEdit::mousePressEvent(event);
 }
 
 void KpDateEdit::mouseMoveEvent(QMouseEvent *event)
 {
-    if( event->pos().x() > width() - 22 && popupKaytossa_)
+    if( event->pos().x() > width() - 22 && popupKaytossa_ )
         setCursor( Qt::ArrowCursor );
     else
         setCursor( Qt::IBeamCursor);
