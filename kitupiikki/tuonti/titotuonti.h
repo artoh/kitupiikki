@@ -20,6 +20,9 @@
 
 #include "tuonti.h"
 
+/**
+ * @brief The Konekielisen TITO-tiliotteen tuominen
+ */
 class TitoTuonti : public Tuonti
 {
 public:

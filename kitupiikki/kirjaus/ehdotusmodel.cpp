@@ -156,9 +156,14 @@ void EhdotusModel::tallenna(VientiModel *model, int yhdistettavaVastatiliNumero,
 
 }
 
-struct maksuAlvEra
+/**
+ * @brief The Maksuperusteisen arvonlisäveron määrittelyn apurakenne
+ *
+ * Yksi maksuperäisen arvonlisäveron erä
+ */
+struct MaksuAlvEra
 {
-    maksuAlvEra() {}
+    MaksuAlvEra() {}
 
     int alvprosentti = 0;
     qlonglong sentit = 0;
@@ -177,7 +182,7 @@ void EhdotusModel::viimeisteleMaksuperusteinen()
                                     kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVSAATAVA);
 
 
-            QList<maksuAlvEra> verot;
+            QList<MaksuAlvEra> verot;
             qlonglong verosumma = 0;
 
             TaseEra era(rivi.eraId);
@@ -191,7 +196,7 @@ void EhdotusModel::viimeisteleMaksuperusteinen()
                                       "WHERE tili=%1 AND tosite=%2").arg(haeTili.id()).arg(tosite));
             while( kysely.next())
             {
-                maksuAlvEra maksuEra;
+                MaksuAlvEra maksuEra;
                 maksuEra.alvprosentti = kysely.value("alvprosentti").toInt();
                 maksuEra.id = kysely.value("id").toInt();
 

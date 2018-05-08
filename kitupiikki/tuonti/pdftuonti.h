@@ -26,6 +26,9 @@ namespace Poppler {
   class Document;
 }
 
+/**
+ * @brief Pdf-tiedoston tietojen poiminta
+ */
 class PdfTuonti : public Tuonti
 {
 public:

@@ -20,7 +20,12 @@
 
 #include "laskutmodel.h"
 
-
+/**
+ * @brief Ostolaskujen luettelon model
+ *
+ * Tätä käytetään laskujen maksun dialogissa, jotta voidaan käsitellä myös
+ * ostolaskuja
+ */
 class OstolaskutModel : public LaskutModel
 {
     Q_OBJECT

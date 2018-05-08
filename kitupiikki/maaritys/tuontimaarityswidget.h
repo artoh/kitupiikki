@@ -21,7 +21,9 @@
 #include "maarityswidget.h"
 #include "ui_tuontimaaritys.h"
 
-
+/**
+ * @brief Tuonnin määritykset
+ */
 class TuontiMaaritysWidget : public MaaritysWidget
 {
     Q_OBJECT

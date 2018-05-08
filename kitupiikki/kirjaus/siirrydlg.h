@@ -21,6 +21,9 @@
 #include <QDialog>
 #include "ui_siirry.h"
 
+/**
+ * @brief Dialogi tositenumeron perusteella siirtymiseen
+ */
 class SiirryDlg : public QDialog
 {
     Q_OBJECT
