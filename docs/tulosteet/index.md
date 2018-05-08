@@ -10,7 +10,7 @@ Tulosteet-välilehdellä voit katsella ja tulostaa erilaisia raportteja kirjanpi
 * **Vie CSV** vie raportin csv-tiedostona.
 * **CSV leikepöydälle** kopioi raportin csv-muodossa leikepöydälle, josta sen voi liittää esim. taulukkolaskentaan.
 * **Sivun asetuksista** löytyy esim. tulostettavan raportin paperinkoko.
-* **Esikatsele** avaa raportin pdf-muodossa käyttöjärjestelmän asetuksista riippuen selaimeen tai pdf-katseluohjelmaan, jolla voit tallentaa tai tulostaa raportin.
+* **Esikatsele** avaa raportin Kitupiikin sisäiseen pdf-esikatseluun, jolla voit tallentaa tai tulostaa raportin.
 * **Tulosta** tulostaa raportin suoraan tulostimelle.
 
 !!! tip "Kirjausten vienti CSV-muotoon"
