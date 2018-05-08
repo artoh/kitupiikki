@@ -25,8 +25,6 @@
 /**
  * @brief Delegaatti kohdennusten valitsemiseen taulukossa
  *
- * @todo Vain aktiivisten projektien suodattaminen ja lajittelut
- *
  */
 class KohdennusDelegaatti : public QItemDelegate
 {
