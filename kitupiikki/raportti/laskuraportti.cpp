@@ -118,8 +118,8 @@ RaportinKirjoittaja LaskuRaportti::myyntilaskut(QDate saldopvm, bool avoimet, La
     qlonglong laskusumma = 0;
     qlonglong avoinsumma = 0;
 
-    QString kysymys = QString("SELECT pvm, debetsnt, kreditsnt, eraid, viite, erapvm, asiakas, laskupvm FROM vienti, tili "
-                     "WHERE tili.id=vienti.tili AND ((viite IS NOT NULL AND iban IS NULL) OR (tyyppi='AO' and vienti.id=vienti.eraid) ) ");
+    QString kysymys = QString("SELECT pvm, debetsnt, kreditsnt, eraid, viite, erapvm, asiakas, laskupvm FROM vienti LEFT OUTER JOIN tili ON vienti.tili=tili.id "
+                     "WHERE ((viite IS NOT NULL AND iban IS NULL) OR (tyyppi='AO' and vienti.id=vienti.eraid) ) ");
 
     if( rajaus == RajaaErapaiva)
         kysymys.append( QString(" AND erapvm BETWEEN '%1' AND '%2' ") .arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate)) );
@@ -137,7 +137,7 @@ RaportinKirjoittaja LaskuRaportti::myyntilaskut(QDate saldopvm, bool avoimet, La
 
         if( kysely.value("eraid").toInt() )
         {
-            QString erakysymys = QString("SELECT sum(debetsnt) as debet, sum(kreditsnt) as kredit FROM vienti WHERE eraid=%1 AND pvm<'%2'")
+            QString erakysymys = QString("SELECT sum(debetsnt) as debet, sum(kreditsnt) as kredit FROM vienti WHERE eraid=%1 AND pvm<='%2'")
                     .arg( kysely.value("eraid").toInt())
                     .arg( saldopvm.toString(Qt::ISODate));
 
