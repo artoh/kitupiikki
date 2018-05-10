@@ -11,7 +11,9 @@ Kitupiikillä on mahdollista lähettää laskut suoraan sähköpostiin. Jos tät
 * **Viestin lähettäjän nimi ja osoite**: Viesteissä näkyvät tiedot. Jotkut sähköpostipalvelut vaativat kyseisen palvelun sähköpostiosoitteen käyttämistä.
 
 !!! note "Suojattu sähköposti"
-    Kitupiikki tukee suojattua sähköpostia, mutta tarvitsee sitä varten OpenSSL-kirjastoa. Jos oikeaa versiota kirjastosta ei ole saatavilla, näkyy se sähköpostiasetusten sivulla. Ilman OpenSSL-kirjastoa voit lähettää suojaamatonta sähköpostia (smtp-palvelin portissa 25).
+    Kitupiikki tukee suojattua sähköpostia, mutta tarvitsee sitä varten OpenSSL-kirjastoa. Jos oikeaa versiota kirjastosta ei ole saatavilla, näkyy se sähköpostiasetusten sivulla. Ilman OpenSSL-kirjastoa voit lähettää vain suojaamatonta sähköpostia (smtp-palvelin portissa 25).
+
+    Jos OpenSSL-kirjasto puuttuu, voit etsiä ja asentaa sen internetistä. Huomaa, että tarvitset juuri oikean OpenSSL-kirjaston version.
 
 Kun olet syöttänyt asetukset, paina **Kokeile**-painiketta, joka yrittää lähettää sähköpostin omaan osoitteeseesi. Jos lähetys epäonnistuu, saat siitä ilmoituksen
 
