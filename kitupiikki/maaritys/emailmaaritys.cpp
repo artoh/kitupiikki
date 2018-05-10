@@ -67,7 +67,9 @@ bool EmailMaaritys::nollaa()
     {
         ui->sslTeksti->setText(tr("<b>SSL-suojattu verkkoliikenne ei käytössä</b><p>"
                           "Laskujen lähettäminen suojatulla sähköpostilla edellyttää "
-                          "OpenSSL-kirjaston versiota %1").arg(QSslSocket::sslLibraryBuildVersionString()));
+                          "OpenSSL-kirjaston versiota %1"
+                          "<p>Voidaksesi lähettää suojattua sähköpostia lataa Internetistä "
+                          "ja asenna OpenSSL-kirjasto %1.").arg(QSslSocket::sslLibraryBuildVersionString()));
     }
     ui->sslTeksti->setVisible( !ssltuki );
     ui->sslVaro->setVisible( !ssltuki );

@@ -29,7 +29,7 @@
      <item>
       <widget class="QLabel" name="sslTeksti">
        <property name="text">
-        <string>SSL-virhe</string>
+        <string>Tarkastetaan, onko SSL käytettävissä...</string>
        </property>
       </widget>
      </item>
