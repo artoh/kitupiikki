@@ -49,8 +49,8 @@ bool TositeModel::muokkausSallittu() const
 {
     // Jos päätetyllä tilikaudella, niin
     // ei saa muokata
-    return pvm() >= kp()->tilitpaatetty() &&
-           kp()->tilitpaatetty() < kp()->tilikaudet()->kirjanpitoLoppuu();
+    return  !pvm().isValid() ||  ( pvm() >= kp()->tilitpaatetty() &&
+            kp()->tilitpaatetty() < kp()->tilikaudet()->kirjanpitoLoppuu() );
 }
 
 int TositeModel::seuraavaTunnistenumero() const

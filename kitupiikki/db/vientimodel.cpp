@@ -272,7 +272,9 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
         else if( index.column() == PVM)
         {
             // Väärät päivät
-            if( rivi.vientiId && rivi.pvm <= kp()->tilitpaatetty())
+            if( !rivi.pvm.isValid() )
+                return QVariant();
+            else if( rivi.vientiId && rivi.pvm <= kp()->tilitpaatetty())
                 return QIcon(":/pic/lukittu.png");
             else if( rivi.pvm <= kp()->tilitpaatetty() || rivi.pvm > kp()->tilikaudet()->kirjanpitoLoppuu() )
                 return QIcon(":/pic/varoitus.png");
@@ -462,7 +464,7 @@ Qt::ItemFlags VientiModel::flags(const QModelIndex &index) const
     // Huom! Rivien lukitus
 
     if( tositeModel_->muokkausSallittu() &&
-            ( !rivi.vientiId || rivi.pvm > kp()->tilitpaatetty() ))
+            ( !rivi.vientiId || rivi.pvm > kp()->tilitpaatetty() || !rivi.pvm.isValid()))
     {
         // Alv-saraketta ei voi suoraan muokata, vaan siihen tarvitaan oma dialogi
         // Samoin kohdennusta voi muokata vain, jos tili ei ole tasetili

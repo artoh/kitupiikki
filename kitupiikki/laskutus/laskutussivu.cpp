@@ -106,8 +106,6 @@ void LaskutusSivu::hyvitysLasku()
     {
         LaskuDialogi *dlg = new LaskuDialogi(this, model->laskunTiedot( index.row() ) );
         dlg->exec();
-        paivita();
-        dlg->deleteLater();
     }
 
 }
@@ -136,11 +134,22 @@ void LaskutusSivu::poista()
         return;
     }
 
+    // Maksuperusteisen hyvityslaskusta varoitetaan, koska poistaa alkuperäisenkin laskun
+    QString maksuperusteisenhyvityslisavaroitus;
+    if( index.data(LaskutModel::HyvitysLaskuRooli).toInt() > 0 )
+    {
+        QSqlQuery pvmkysely( QString("SELECT tili FROM vienti WHERE id=%1").arg( index.data(LaskutModel::EraIdRooli).toInt() ));
+        if( pvmkysely.next() && pvmkysely.value(0).isNull())
+            maksuperusteisenhyvityslisavaroitus = tr("\n\nMaksuperusteisessa laskussa hyvityslaskun poistaminen "
+                                                     "poistaa myös alkuperäisen laskun!");
+    }
+
 
     if( QMessageBox::question(0, tr("Vahvista laskun poistaminen"),
-                              tr("Haluatko varmasti poistaa laskun %1 asiakkaalle %2")
+                              tr("Haluatko varmasti poistaa laskun %1 asiakkaalle %2 %3")
                               .arg(index.data(LaskutModel::ViiteRooli).toString())
-                              .arg(index.data(LaskutModel::AsiakasRooli).toString()),
+                              .arg(index.data(LaskutModel::AsiakasRooli).toString())
+                              .arg(maksuperusteisenhyvityslisavaroitus),
                               QMessageBox::Yes | QMessageBox::No,
                               QMessageBox::No) != QMessageBox::Yes)
         return;
