@@ -1,4 +1,4 @@
-# Sähköpostin lähetys
+# Sähköpostin lähettäminen
 
 ![](sahkoposti.png)
 
