@@ -105,7 +105,7 @@ void LaskutusSivu::hyvitysLasku()
     if( index.isValid() )
     {
         LaskuDialogi *dlg = new LaskuDialogi(this, model->laskunTiedot( index.row() ) );
-        dlg->exec();
+        dlg->show();
     }
 
 }

@@ -34,6 +34,8 @@
 #include <QFile>
 #include <QTextStream>
 
+#include <QFont>
+
 #include "ui_tervetuloa.h"
 
 #include "arkisto/tararkisto.h"
@@ -47,14 +49,13 @@ int main(int argc, char *argv[])
 
 #ifdef Q_OS_WIN
     a.setStyle(QStyleFactory::create("Fusion"));
-    a.setStyleSheet("font-family: \"Arial\"; ");
 #else
     // #120 GNOME-ongelmien takia ei käytetä Linuxissa natiiveja dialogeja
     a.setAttribute(Qt::AA_DontUseNativeDialogs);
 #endif
 
     a.setApplicationName("Kitupiikki");
-    a.setApplicationVersion("0.12.1-beta");
+    a.setApplicationVersion("0.12.2-beta");
     a.setOrganizationDomain("artoh.github.io");
     a.setOrganizationName("Kitupiikki Kirjanpito");
     a.setWindowIcon( QIcon(":/pic/Possu64.png"));
