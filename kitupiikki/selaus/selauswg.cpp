@@ -63,7 +63,7 @@ SelausWg::SelausWg() :
     connect( ui->alkuEdit, SIGNAL(editingFinished()), this, SLOT(paivita()));
     connect( ui->loppuEdit, SIGNAL(editingFinished()), this, SLOT(paivita()));
     connect( ui->tiliCombo, SIGNAL(currentTextChanged(QString)), this, SLOT(suodata()));
-    connect( ui->selausView, SIGNAL(activated(QModelIndex)), this, SLOT(naytaTositeRivilta(QModelIndex)));
+    connect( ui->selausView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)) , this, SLOT(naytaTositeRivilta(QModelIndex)));
 
     ui->valintaTab->setCurrentIndex(0);     // Oletuksena tositteiden selaus
     connect( ui->valintaTab, SIGNAL(currentChanged(int)), this, SLOT(selaa(int)));
