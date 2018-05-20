@@ -119,7 +119,7 @@ RaportinKirjoittaja LaskuRaportti::myyntilaskut(QDate saldopvm, bool avoimet, La
     qlonglong avoinsumma = 0;
 
     QString kysymys = QString("SELECT pvm, debetsnt, kreditsnt, eraid, viite, erapvm, asiakas, laskupvm FROM vienti LEFT OUTER JOIN tili ON vienti.tili=tili.id "
-                     "WHERE ((viite IS NOT NULL AND iban IS NULL) OR (tyyppi='AO' and vienti.id=vienti.eraid) ) ");
+                     "WHERE ((viite IS NOT NULL AND iban IS NULL) OR (tyyppi='AO' and vienti.id=vienti.eraid) ) AND vienti.id=vienti.eraid ");
 
     if( rajaus == RajaaErapaiva)
         kysymys.append( QString(" AND erapvm BETWEEN '%1' AND '%2' ") .arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate)) );

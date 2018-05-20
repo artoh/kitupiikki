@@ -99,7 +99,13 @@ QString LaskunTulostaja::html()
 
     txt.append(tr("<tr><td rowspan=2 width=50%>%1<br>%2</td><td colspan=3>%3</td></tr>").arg(kp()->asetukset()->asetus("Nimi")).arg(omaosoite).arg(otsikko) );
     txt.append(tr("<tr><td width=25%>Laskun päivämäärä</td><td width=25%>%1</td></tr>").arg( kp()->paivamaara().toString("dd.MM.yyyy") ));
-    txt.append(tr("<tr><td rowspan=4>%1</td><td>Viitenumero</td><td>%2</td></td>").arg( osoite ).arg(model_->viitenumero() ));
+
+    if( model_->kirjausperuste() == LaskuModel::KATEISLASKU)
+        txt.append(tr("<tr><td rowspan=4>%1</td><td>Laskun numero</td><td>%2</td></td>").arg( osoite ).arg(model_->viitenumero() ));
+    else if( !model_->hyvityslasku().viite.isEmpty())
+        txt.append(tr("<tr><td rowspan=4>%1</td><td>Hyvityslaskun numero</td><td>%2</td></td>").arg( osoite ).arg(model_->viitenumero() ));
+    else
+        txt.append(tr("<tr><td rowspan=4>%1</td><td>Viitenumero</td><td>%2</td></td>").arg( osoite ).arg(model_->viitenumero() ));
 
     // Käteislaskulla tai hyvityslaskulla ei eräpäivää
     if( model_->kirjausperuste() != LaskuModel::KATEISLASKU && model_->hyvityslasku().viite.isEmpty())
@@ -315,7 +321,15 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter)
 
     painter->drawText(QRectF( keskiviiva + mm, pv - rk + mm, leveys / 4, rk ), Qt::AlignTop, tr("Päivämäärä"));
     painter->drawText(QRectF( keskiviiva + mm, pv + mm, leveys / 4, rk ), Qt::AlignTop, tr("Toimituspäivä"));
-    painter->drawText(QRectF( keskiviiva + mm, pv + rk + mm, leveys / 4, rk ), Qt::AlignTop, tr("Viitenumero"));
+
+    if( model_->kirjausperuste() == LaskuModel::KATEISLASKU)
+        painter->drawText(QRectF( keskiviiva + mm, pv + rk + mm, leveys / 4, rk ), Qt::AlignTop, tr("Laskun numero"));
+    else if( !model_->hyvityslasku().viite.isEmpty())
+        painter->drawText(QRectF( keskiviiva + mm, pv + rk + mm, leveys / 4, rk ), Qt::AlignTop, tr("Hyvityslaskun numero"));
+    else
+        painter->drawText(QRectF( keskiviiva + mm, pv + rk + mm, leveys / 4, rk ), Qt::AlignTop, tr("Viitenumero"));
+
+
     painter->drawText(QRectF( keskiviiva + mm, pv + rk * 2 + mm, leveys / 4, rk ), Qt::AlignTop, tr("Eräpäivä"));
     painter->drawText(QRectF( puoliviiva + mm, pv + rk * 2 + mm, leveys / 4, rk ), Qt::AlignTop, tr("Summa"));
     painter->drawText(QRectF( keskiviiva + mm, pv + rk * 3 + mm, leveys / 4, rk ), Qt::AlignTop, tr("Huomautusaika"));
