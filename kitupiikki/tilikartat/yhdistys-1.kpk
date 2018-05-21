@@ -399,10 +399,10 @@ TILI {"Kirjaustyyppi":3,"Vastatili":1910} Tiliotteet
 <h2>Tilinpäätöksen laatimisperusteet</h2>
 #MIKRO
 <p>Tilinpäätöksen laatimisessa on noudatettu pien- ja mikroyrityksen tilinpäätöksessä esitettävistä tiedoista
-annetun asetuksen (PMA) mikroyrityssäänöstöä.</p>
+annetun asetuksen (PMA) mikroyrityssäännöstöä.</p>
 #PIEN
 <p>Tilinpäätöksen laatimisessa on noudatettu pien- ja mikroyrityksen tilinpäätöksessä esitettävistä tiedoista
-annetun asetuksen (PMA) pienyrityssäänöstöä.</p>
+annetun asetuksen (PMA) pienyrityssäännöstöä.</p>
 #ISO
 <b>Yhdistyksestä on annettava täydet liitetiedot ja laadittava toimintakertomus</b>
 <p>Liitetiedot sisältävät ainakin
@@ -515,7 +515,7 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 <h2>Allekirjoitukset</h2>
 <p> __________________ssa XX.XX.20XX</p>
 <p>
-<table widht=100%><tr><td>N.N.</td><td>N.N.</td><td>N.N.</td></tr>
+<table width=100%><tr><td>N.N.</td><td>N.N.</td><td>N.N.</td></tr>
 <tr><td>N.N.</td><td>N.N.</td><td>N.N.</td></tr></table>
 <p>
 <p>
