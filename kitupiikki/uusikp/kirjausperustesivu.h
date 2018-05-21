@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2017 Arto Hyvättinen
+   Copyright (C) 2018 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -15,31 +15,23 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TILIKAUSISIVU_H
-#define TILIKAUSISIVU_H
+#ifndef KIRJAUSPERUSTESIVU_H
+#define KIRJAUSPERUSTESIVU_H
 
 #include <QWizardPage>
-#include "ui_tilikausi.h"
 
-/**
- * @brief Uuden kirjanpidon velhon sivu, jossa määritellään nykyinen ja edellinen tilikausi
- */
-class TilikausiSivu : public QWizardPage
-{
-    Q_OBJECT
-
-protected:
-    Ui::TilikausiSivu *ui;
-
-public:
-    TilikausiSivu();
-    ~TilikausiSivu();
-
-    int nextId() const;
-
-public slots:
-    void alkuPaivaMuuttui(const QDate& date);
-
+namespace Ui {
+ class KirjausPeruste;
 };
 
-#endif // TILIKAUSISIVU_H
+class KirjausperusteSivu : public QWizardPage
+{
+public:
+    KirjausperusteSivu();
+    ~KirjausperusteSivu();
+
+protected:
+    Ui::KirjausPeruste *ui;
+};
+
+#endif // KIRJAUSPERUSTESIVU_H

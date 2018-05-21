@@ -22,13 +22,13 @@
 
 
 Skripti::Skripti() :
-    asetusModel_( kp()->asetukset() ), tiliModel_( kp()->tilit() )
+    asetusModel_( kp()->asetukset() ), tiliModel_( kp()->tilit() ), tositelajiModel_( kp()->tositelajit() )
 {
 
 }
 
-Skripti::Skripti(AsetusModel *asetusModel, TiliModel *tiliModel) :
-    asetusModel_(asetusModel), tiliModel_(tiliModel)
+Skripti::Skripti(AsetusModel *asetusModel, TiliModel *tiliModel, TositelajiModel *lajimodel) :
+    asetusModel_(asetusModel), tiliModel_(tiliModel), tositelajiModel_(lajimodel)
 {
 
 }
@@ -37,6 +37,8 @@ void Skripti::suorita()
 {
     QRegularExpression tiliRe("^(?<lipo>[-+*])?(?<mista>\\d+)(/(?<taso>\\d+))?(..(?<mihin>\\d+))?(\\s(?<avain>\\w+)=(?<arvo>.+))?");
     QRegularExpression asetusRe("^(?<avain>\\w+)(?<lipo>[-+]?)=(?<arvo>.*)");
+    QRegularExpression vastatiliRe("^(?<laji>\\w+)/(?<tili>\\d+)");
+
     asetusRe.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);
 
     for( QString rivi : skripti_)
@@ -150,10 +152,30 @@ void Skripti::suorita()
            {
                asetusModel_->aseta(avain, arvo);
            }
+           continue;
+       }
+
+       QRegularExpressionMatch vastaMats = vastatiliRe.match(rivi);
+       if( vastaMats.hasMatch())
+       {
+           QString laji = vastaMats.captured("laji");
+           int tilinro = vastaMats.captured("tili").toInt();
+
+           for(int r=0; r < tositelajiModel_->rowCount(QModelIndex()); r++)
+           {
+               QModelIndex indeksi = tositelajiModel_->index(r,0);
+               if( indeksi.data(TositelajiModel::TunnusRooli).toString() == laji )
+               {
+                   tositelajiModel_->setData(indeksi, tilinro, TositelajiModel::VastatiliNroRooli);
+                   break;
+               }
+           }
        }
 
     }
+
     tiliModel_->tallenna(true);
+    tositelajiModel_->tallenna();
 
 }
 
@@ -164,9 +186,9 @@ void Skripti::suorita(const QString &skriptinnimi)
     skripti.suorita();
 }
 
-void Skripti::suorita(const QStringList &skripti, AsetusModel *asetusModel, TiliModel *tiliModel)
+void Skripti::suorita(const QStringList &skripti, AsetusModel *asetusModel, TiliModel *tiliModel, TositelajiModel *lajimodel)
 {
-    Skripti omaSkripti(asetusModel, tiliModel);
+    Skripti omaSkripti(asetusModel, tiliModel, lajimodel);
     omaSkripti.skripti_ = skripti;
     omaSkripti.suorita();
 }

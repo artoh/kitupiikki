@@ -145,6 +145,13 @@ bool TositelajiModel::setData(const QModelIndex &index, const QVariant &value, i
         lajit_[index.row()].asetaNimi( value.toString());
     else if( role == JsonRooli )
         lajit_[index.row()].json()->fromJson( value.toByteArray());
+    else if( role == VastatiliNroRooli )
+    {
+        if( value.toInt())
+            lajit_[index.row()].json()->set("Vastatili", value.toInt());
+        else
+            lajit_[index.row()].json()->unset("Vastatili");
+    }
 
     return false;
 }

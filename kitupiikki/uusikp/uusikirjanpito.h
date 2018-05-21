@@ -39,7 +39,7 @@
  * Uusi kirjanpito luodaan aloitaUusiKirjanpito()-funktiolla, joka näyttää
  * valintavelhon ja luo tarvittavat tiedostot.
  *
- * kitupiikki.sqlite-tietokannan alustamiskomennot ovat luo.sql-tiedostossa
+ *  sqlite-tietokannan alustamiskomennot ovat luo.sql-tiedostossa
  *
  */
 class UusiKirjanpito : public QWizard
@@ -50,6 +50,10 @@ protected:
     UusiKirjanpito();
 
 public:
+    enum { INTROSIVU = 1, TILIKARTTASIVU = 2, NIMISIVU = 3, TILIKAUSISIVU = 4,
+           KIRJAUSPERUSTESIVU = 5, SIJAINTISIVU = 6, LOPPUSIVU = 7};
+
+
     /**
      * @brief Näyttää valintavelhon ja luo uuden kirjanpidon
      * @return Polku uuden kirjanpidon hakemistoon tai String(), ellei luominen onnistunut

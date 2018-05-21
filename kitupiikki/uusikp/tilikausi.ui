@@ -104,7 +104,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Toiminta alkaa vasta tästä tilikaudesta</string>
+         <string>Toiminta alkaa vasta tästä tilikaudesta (ei tilinavausta)</string>
         </property>
        </widget>
       </item>

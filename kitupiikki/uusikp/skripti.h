@@ -22,6 +22,7 @@
 
 class AsetusModel;
 class TiliModel;
+class TositelajiModel;
 
 /**
  * @brief Suorittaa monimuotoisuuteen liittyvän Kitupiikin skriptin
@@ -35,6 +36,10 @@ class TiliModel;
  * MuotoPois/muoto
  * MuotoPaivitys/muoto
  *
+ * Kirjausperuste/Suoriteperuste
+ * Kirjausperuste/Laskuperuste
+ * Kirjausperuste/Maksuperuste
+ *
  * Skripteissä komentoja
  * +2001..2005  Tilit käyttöön
  * -2005..2007  Tilit pois käytöstä
@@ -43,21 +48,24 @@ class TiliModel;
  * Avain+=Asetus
  * Avaon-=Asetus
  *
+ * OL/1910  Tositelajin oletusvastatili
+ *
  */
 class Skripti
 {
 protected:
     Skripti();
-    Skripti(AsetusModel* asetusModel, TiliModel* tiliModel);
+    Skripti(AsetusModel* asetusModel, TiliModel* tiliModel, TositelajiModel *lajimodel);
     void suorita();
 
     QStringList skripti_;
     AsetusModel *asetusModel_;
     TiliModel* tiliModel_;
+    TositelajiModel *tositelajiModel_;
 
 public:
     static void suorita(const QString& skriptinnimi);
-    static void suorita(const QStringList &skripti, AsetusModel* asetusModel, TiliModel* tiliModel);
+    static void suorita(const QStringList &skripti, AsetusModel* asetusModel, TiliModel* tiliModel, TositelajiModel *lajimodel);
     static void suorita(const QStringList& skripti);
 };
 

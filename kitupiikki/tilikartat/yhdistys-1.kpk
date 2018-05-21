@@ -533,16 +533,10 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 <p>____________________  ___. päivänä _________kuuta  _________ </p>
 <p>
 <p>
-
-
-
-
-
 [TilinpaatosValinnat]
 toiminnanalat
-maksuperuste
 sahko
-tilintarkastus
+toiminnantarkastus
 MIKRO
 [LaskuTositelaji]
 3
@@ -566,8 +560,6 @@ yhdistys-1.kpk
 2960
 [TuontiOstolaskuTositelaji]
 2
-[TuontiOstolaskuPeruste]
-1
 [TuontiTiliote]
 ON
 [Raportti/Tase/PMA]
@@ -858,3 +850,15 @@ AlvVelvollinen=ON
 -297
 -95
 AlvVelvollinen=EI
+[Kirjausperuste/Suoriteperuste]
+TuontiOstolaskuPeruste=1
+[Kirjausperuste/Laskuperuste]
+LaskuKirjausperuste=1
+TuontiOstolaskuPeruste=2
+[Kirjausperuste/Maksuperuste]
+ML/1910
+OL/1910
+LaskuKirjausperuste=2
+TuontiOstolaskuPeruste=2
+TuontiOstolaskuTili=1910
+TilinpaatosValinnat+=maksuperuste

@@ -43,6 +43,7 @@
 #include "tilikarttasivu.h"
 #include "tilikausisivu.h"
 #include "sijaintisivu.h"
+#include "kirjausperustesivu.h"
 #include "loppusivu.h"
 
 #include "db/kirjanpito.h"
@@ -62,12 +63,13 @@ UusiKirjanpito::UusiKirjanpito() :
     setWindowIcon(QIcon(":/pic/Possu64.png"));
     setWindowTitle("Uuden kirjanpidon luominen");
     setPixmap( WatermarkPixmap, QPixmap(":/pic/Possu64.png") );
-    addPage( new IntroSivu());
-    addPage( new TilikarttaSivu);
-    addPage( new NimiSivu());
-    addPage( new TilikausiSivu );
-    addPage( new SijaintiSivu );
-    addPage( new LoppuSivu );
+    setPage( INTROSIVU, new IntroSivu());
+    setPage( TILIKARTTASIVU, new TilikarttaSivu);
+    setPage( NIMISIVU, new NimiSivu());
+    setPage( TILIKAUSISIVU, new TilikausiSivu );
+    setPage( KIRJAUSPERUSTESIVU, new KirjausperusteSivu );
+    setPage( SIJAINTISIVU, new SijaintiSivu );
+    setPage( LOPPUSIVU, new LoppuSivu );
 
     setOption( HaveHelpButton, true);
     connect( this, SIGNAL(helpRequested()), this, SLOT(naytaOhje()));
@@ -327,15 +329,25 @@ bool UusiKirjanpito::alustaKirjanpito()
                           "VALUES (0,?,\"Tilinavaus\",0)");
             query.addBindValue( field("edpaattyi").toDate());
             query.exec();
-        }
-        // Prosessi valmis
+        }        
+        progDlg.setValue( progDlg.value() + 1 );
 
         // Yleisskripti
-        Skripti::suorita( asetukset.lista("LuontiSkripti"), &asetukset, &tilit);
+        Skripti::suorita( asetukset.lista("LuontiSkripti"), &asetukset, &tilit, &lajit);
 
         // Muodon aktivoiva skripti
         if( asetukset.onko("Muoto"))
-            Skripti::suorita( asetukset.lista("MuotoOn/" + asetukset.asetus("Muoto")), &asetukset, &tilit);
+            Skripti::suorita( asetukset.lista("MuotoOn/" + asetukset.asetus("Muoto")), &asetukset, &tilit, &lajit);
+
+        // Kirjausperusteeseen liittyvät skripti
+        // Jos velhossa on määritelty kirjausperuste, tehdään sen perusteella valintoja
+
+        if( field("suoriteperuste").toBool())
+            Skripti::suorita( asetukset.lista("Kirjausperuste/Suoriteperuste"), &asetukset, &tilit, &lajit );
+        else if( field("laskuperuste").toBool())
+            Skripti::suorita( asetukset.lista("Kirjausperuste/Laskuperuste"), &asetukset, &tilit, &lajit );
+        else if( field("maksuperuste").toBool())
+            Skripti::suorita( asetukset.lista("Kirjausperuste/Maksuperuste"), &asetukset, &tilit, &lajit );
 
         progDlg.setValue( prosessiluku );
 

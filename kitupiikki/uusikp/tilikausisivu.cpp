@@ -15,6 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "uusikirjanpito.h"
 #include "tilikausisivu.h"
 #include <QDate>
 
@@ -46,6 +47,20 @@ TilikausiSivu::TilikausiSivu()
 TilikausiSivu::~TilikausiSivu()
 {
     delete ui;
+}
+
+int TilikausiSivu::nextId() const
+{
+    // Jos käytössä ei ole kirjausperusteskriptejä, hypätään
+    // suoraan sijaintisivulle
+
+    QString polku = field("tilikartta").toString();
+    QMap<QString,QStringList> ktk = UusiKirjanpito::lueKtkTiedosto(polku);
+
+    if( ktk.keys().contains("Kirjausperuste/Maksuperuste"))
+        return UusiKirjanpito::KIRJAUSPERUSTESIVU;
+    else
+        return UusiKirjanpito::SIJAINTISIVU;
 }
 
 void TilikausiSivu::alkuPaivaMuuttui(const QDate &date)

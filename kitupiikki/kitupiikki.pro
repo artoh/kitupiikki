@@ -143,7 +143,8 @@ SOURCES += main.cpp \
     kirjaus/siirrydlg.cpp \
     laskutus/ostolaskutmodel.cpp \
     tools/pdfikkuna.cpp \
-    tools/kpdateedit.cpp
+    tools/kpdateedit.cpp \
+    uusikp/kirjausperustesivu.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -268,7 +269,8 @@ HEADERS += \
     kirjaus/siirrydlg.h \
     laskutus/ostolaskutmodel.h \
     tools/pdfikkuna.h \
-    tools/kpdateedit.h
+    tools/kpdateedit.h \
+    uusikp/kirjausperustesivu.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -343,7 +345,8 @@ FORMS += \
     kirjaus/apurivinkki.ui \
     kirjaus/numerosiirto.ui \
     kirjaus/siirry.ui \
-    kirjaus/kopioitosite.ui
+    kirjaus/kopioitosite.ui \
+    uusikp/kirjausperuste.ui
 
 DISTFILES += \
     uusikp/luo.sql \
