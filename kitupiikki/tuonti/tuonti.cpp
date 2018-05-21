@@ -67,8 +67,10 @@ bool Tuonti::tuo(const QString &tiedostonnimi, KirjausWg *wg)
 void Tuonti::tuoLasku(qlonglong sentit, QDate laskupvm, QDate toimituspvm, QDate erapvm, QString viite, QString tilinumero, QString saajanNimi)
 {
     QDate pvm = toimituspvm;
-    if( !toimituspvm.isValid() || kp()->asetukset()->luku("TuontiOstolaskuPeruste") == LASKUPERUSTEINEN)
+    if( !pvm.isValid() || kp()->asetukset()->luku("TuontiOstolaskuPeruste") == LASKUPERUSTEINEN)
         pvm = laskupvm;
+    if( !pvm.isValid() || kp()->asetukset()->luku("TuontiOstolaskuPeruste") == MAKSUPERUSTEINEN )
+        pvm = erapvm;
 
     kirjausWg()->gui()->otsikkoEdit->setText(saajanNimi);
     kirjausWg()->gui()->tositePvmEdit->setDate(pvm);

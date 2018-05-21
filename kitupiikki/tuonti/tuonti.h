@@ -45,7 +45,7 @@ protected:
 public:
     enum KirjausPeruste
     {
-        EITUODA = 0, SUORITEPERUSTEINEN = 1, LASKUPERUSTEINEN = 2
+        EITUODA = 0, SUORITEPERUSTEINEN = 1, LASKUPERUSTEINEN = 2, MAKSUPERUSTEINEN = 3
     };
 
     /**

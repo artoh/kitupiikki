@@ -29,6 +29,7 @@ TuontiMaaritysWidget::TuontiMaaritysWidget()
 
     ui->perusteCombo->addItem(QIcon(":/pic/suorite.png"), tr("Suoriteperusteinen"), Tuonti::SUORITEPERUSTEINEN);
     ui->perusteCombo->addItem(QIcon(":/pic/kirje.png"), tr("Laskutusperusteinen"), Tuonti::LASKUPERUSTEINEN);
+    ui->perusteCombo->addItem(QIcon(":/pic/euro.png"), tr("Maksuperusteinen"), Tuonti::MAKSUPERUSTEINEN);
 
     ui->velkatiliEdit->suodataTyypilla("BO");
 
