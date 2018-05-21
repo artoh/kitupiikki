@@ -54,6 +54,27 @@ Tilien [json-määreitä](https://github.com/artoh/kitupiikki/wiki/Json#tili) vo
 
 Kirjanpidon [asetuksia](https://github.com/artoh/kitupiikki/wiki/Asetukset) voidaan muuttaa komennolla `Elinkeinonharjoittaja=ON`. Listamuotoiseen asetukseen voidaan lisätä rivi komennolla `ArkistoRaportit+=Toiminnanalat` ja vastaavasti poistaa komennolla `ArkistoRaportit-=Toiminnanalat`.
 
+[Tositelajien](/maaritykset/tositelajit/) oletusvastatilejä voidaan muuttaa komennolla `OL/1910`, joka määrittää tositelajin OL oletusvastatiliksi 1910.
+
+## Kirjaamisperusteen valinta
+
+[Kirjaamisperusteen valinta kirjanpitoa aloitettaessa](/aloitus/#kirjaamisperuste) toteutetaan vastaavilla skripteillä **Kirjaamisperuste/Suoriteperuste**, **Kirjaamisperuste/Laskuperuste** ja **Kirjaamisperuste/Maksuperuste**.
+
+```
+[Kirjaamisperuste/Suoriteperuste]
+TuontiOstolaskuPeruste=1
+[Kirjaamisperuste/Laskuperuste]
+LaskuKirjausperuste=1
+TuontiOstolaskuPeruste=2
+[Kirjaamisperuste/Maksuperuste]
+ML/1910
+OL/1910
+LaskuKirjausperuste=2
+TuontiOstolaskuPeruste=3
+TuontiOstolaskuTili=1910
+TilinpaatosValinnat+=maksuperuste
+```
+
 ## DevTool
 
 !!! danger "Tiedä, mitä teet"

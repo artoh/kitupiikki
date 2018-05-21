@@ -343,11 +343,11 @@ bool UusiKirjanpito::alustaKirjanpito()
         // Jos velhossa on määritelty kirjausperuste, tehdään sen perusteella valintoja
 
         if( field("suoriteperuste").toBool())
-            Skripti::suorita( asetukset.lista("Kirjausperuste/Suoriteperuste"), &asetukset, &tilit, &lajit );
+            Skripti::suorita( asetukset.lista("Kirjaamisperuste/Suoriteperuste"), &asetukset, &tilit, &lajit );
         else if( field("laskuperuste").toBool())
-            Skripti::suorita( asetukset.lista("Kirjausperuste/Laskuperuste"), &asetukset, &tilit, &lajit );
+            Skripti::suorita( asetukset.lista("Kirjaamisperuste/Laskuperuste"), &asetukset, &tilit, &lajit );
         else if( field("maksuperuste").toBool())
-            Skripti::suorita( asetukset.lista("Kirjausperuste/Maksuperuste"), &asetukset, &tilit, &lajit );
+            Skripti::suorita( asetukset.lista("Kirjaamisperuste/Maksuperuste"), &asetukset, &tilit, &lajit );
 
         progDlg.setValue( prosessiluku );
 

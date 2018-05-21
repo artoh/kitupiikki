@@ -20,7 +20,7 @@
 
 KirjausperusteSivu::KirjausperusteSivu()
 {
-    setTitle("Kirjausperuste");
+    setTitle("Kirjaamisperuste");
 
     ui = new Ui::KirjausPeruste;
     ui->setupUi(this);

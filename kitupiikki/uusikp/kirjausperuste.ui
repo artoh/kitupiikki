@@ -11,13 +11,13 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Kirjausperuste</string>
+   <string>Kirjaamisperuste</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <widget class="QLabel" name="label_5">
      <property name="text">
-      <string>Valitse kirjanpidossa pääasiallisesti käytettävä kirjausperuste</string>
+      <string>Valitse kirjanpidossa pääasiallisesti käytettävä kirjaamisperuste</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -137,7 +137,7 @@
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
-       <height>113</height>
+       <height>99</height>
       </size>
      </property>
     </spacer>

@@ -57,7 +57,7 @@ int TilikausiSivu::nextId() const
     QString polku = field("tilikartta").toString();
     QMap<QString,QStringList> ktk = UusiKirjanpito::lueKtkTiedosto(polku);
 
-    if( ktk.keys().contains("Kirjausperuste/Maksuperuste"))
+    if( ktk.keys().contains("Kirjaamisperuste/Maksuperuste"))
         return UusiKirjanpito::KIRJAUSPERUSTESIVU;
     else
         return UusiKirjanpito::SIJAINTISIVU;

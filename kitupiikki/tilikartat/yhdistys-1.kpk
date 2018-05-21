@@ -850,12 +850,12 @@ AlvVelvollinen=ON
 -297
 -95
 AlvVelvollinen=EI
-[Kirjausperuste/Suoriteperuste]
+[Kirjaamisperuste/Suoriteperuste]
 TuontiOstolaskuPeruste=1
-[Kirjausperuste/Laskuperuste]
+[Kirjaamisperuste/Laskuperuste]
 LaskuKirjausperuste=1
 TuontiOstolaskuPeruste=2
-[Kirjausperuste/Maksuperuste]
+[Kirjaamisperuste/Maksuperuste]
 ML/1910
 OL/1910
 LaskuKirjausperuste=2

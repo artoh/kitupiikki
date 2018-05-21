@@ -65,6 +65,17 @@ Edellisen tilikauden tiedot syötetään viimeisimmän tilinpäätöksen tilikoh
 tase-erittelystä sekä tuloslaskelman erittelystä. Voit aloittaa kirjanpidon ja myös tehdä
 uusia kirjauksia, vaikka tilinavausta ei olisikaan tehty.
 
+Valitse **Toiminta alkaa vasta tästä tilikaudesta** vain, jos yritys perustetaan vasta tällä tilikaudella eikä tilinavausta tehdä lainkaan.
+
+## Kirjaamisperuste
+
+![](peruste.png)
+
+Osalla tilikarttoja voit valita pääasiallisen [kirjaamisperusteen](/kirjanpito/#kirjaamisperusteet). Valinta vaikuttaa kirjaamisen oletusvastatileihin ja laskutuksen valintoihin.
+
+!!! note "Suoriteperuste on ensisijainen"
+    Mikroyhdistyksiä ja -säätiöitä lukuun ottamatta kirjanpito on oikaistava tilinpäätöstä varten aina suoritusperusteiseksi.
+
 ## Tiedostojen sijainti
 
 ![](sijainti6.png)
