@@ -773,7 +773,7 @@ Siirtovelat  		299 s8 *
 Vastattavaa yhteensä		2 bold
 [MuotoTeksti]
 Tilikartan laajuus
-[MuotoOn/Suppein (vain perustilit)]
+[MuotoOn/1 Vain perustilit]
 -1..9
 +1160
 +1700
@@ -801,7 +801,7 @@ Tilikartan laajuus
 +7390
 +9050
 +9150
-[MuotoPois/Suppein (vain perustilit)]
+[MuotoPois/1 Vain perustilit]
 +1..9
 -102..104
 -141..144
@@ -811,17 +811,17 @@ Tilikartan laajuus
 -287
 -297
 -95
-[MuotoOn/Suppea (ei palkkoja)]
+[MuotoOn/2 Ei palkkoja]
 -26/3
 -5
 -75
-[MuotoPois/Suppea (ei palkkoja)]
+[MuotoPois/2 Ei palkkoja]
 +26/3
 +5
 +75
-[MuotoOn/Tavallinen]
+[MuotoOn/3 Tavallinen]
 
-[MuotoOn/Laaja (elinkeinotoimintaa)]
+[MuotoOn/4 Elinkeinotoimintaa]
 +70/3
 +1167
 +1762
@@ -829,7 +829,7 @@ Tilikartan laajuus
 +2984
 +2985
 AlvVelvollinen=ON
-[MuotoPois/Laaja (elinekeinotoimintaa)]
+[MuotoPois/4 Elinkeinotoimintaa]
 -1167
 -70/3
 -1762
@@ -837,10 +837,10 @@ AlvVelvollinen=ON
 -2984
 -2985
 AlvVelvollinen=EI
-[MuotoOn/Laajin (kaikki tilit)]
+[MuotoOn/5 Kaikki tilit]
 +1..9
 AlvVelvollinen=ON
-[MuotoPois/Laajin (kaikki tilit)]
+[MuotoPois/5 Kaikki tilit]
 -102..104
 -141..144
 -160/4..163
@@ -850,6 +850,8 @@ AlvVelvollinen=ON
 -297
 -95
 AlvVelvollinen=EI
+[Muoto]
+3 Tavallinen
 [Kirjaamisperuste/Suoriteperuste]
 TuontiOstolaskuPeruste=1
 [Kirjaamisperuste/Laskuperuste]

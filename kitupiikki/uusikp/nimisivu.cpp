@@ -56,13 +56,20 @@ void NimiSivu::initializePage()
 
     ui->muotoList->clear();
 
+    QString valittuTeksti = ktk.value("Muoto").join("");
+
     while( iter.hasNext() )
     {
         iter.next();
         if( iter.key() == "MuotoTeksti")
             ui->muotoLabel->setText( iter.value().join(" "));
         else if( iter.key().startsWith("MuotoOn/"))
-            ui->muotoList->addItem( iter.key().mid(8) );
+        {
+            QString nimi = iter.key().mid(8);
+            QListWidgetItem *item = new QListWidgetItem(nimi, ui->muotoList);
+            if( nimi == valittuTeksti)
+                ui->muotoList->setCurrentItem(item);
+        }
     }
 
     ui->muotoLabel->setVisible( ui->muotoList->count() );
