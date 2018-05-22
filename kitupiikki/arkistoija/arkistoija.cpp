@@ -279,6 +279,10 @@ void Arkistoija::arkistoiTositteet()
             {
                 QModelIndex index = viennit.index(vientiRivi,0);
 
+                // Ei tulosteta rivejä, joilla maksuperusteisen laskun seurantavientejä (null-tili)
+                if( !index.data(VientiModel::TiliIdRooli).toInt())
+                    continue;
+
                 // Mahdollisen tase-erän seuranta
                 QSqlQuery eraKysely(QString("SELECT tosite.id, tosite.tunniste, tosite.laji, tosite.pvm, vienti.pvm, vienti.selite, vienti.debetsnt, vienti.kreditsnt FROM vienti,tosite WHERE vienti.tosite=tosite.id "
                             "AND vienti.eraid=%1 AND vienti.pvm <= '%2' ORDER BY vienti.pvm")

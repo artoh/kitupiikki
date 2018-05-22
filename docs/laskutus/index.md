@@ -47,3 +47,8 @@ Saat avointen laskujen luettelon, josta laskua voi etsiä viitenumerolla tai asi
 Jos lasku on maksettu vain osaksi, muuta euromäärä vastaamaan maksua. Lasku jää edelleen maksamattomalta osaltaan avoimeksi samalla viitenumerolla.
 
 Myös tilitapahtumien [tuonti](/kirjaus/tuonti) merkitsee laskuja maksetuiksi viitenumeron perusteella.
+
+!!! note "Maksuperusteisen laskun maksaminen"
+    Maksuperusteisen laskun tositteessa on kaksi riviä ilman tiliöintiä. Näitä käytetään laskujen seuraamisen laskujen luetteloilla, eikä niitä saa poistaa. Rivit eivät tulostu kirjanpidon tulosteilla.
+
+    Maksuperusteista laskua ei kirjata maksetuksi tilitapahtumia tuotaessa.

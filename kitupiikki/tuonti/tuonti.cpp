@@ -188,7 +188,7 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, Q
                 // Tällä viittellä on lasku, joka voidaan maksaa
                 // Viitteen maksamiseen tarvitaan erän tiedot
                 QSqlQuery tilikysely( QString("SELECT tili, selite, kohdennus FROM vienti WHERE id=%1").arg(era.eraId));
-                if( tilikysely.next())
+                if( tilikysely.next() && tilikysely.value("tili").toInt())
                 {
                     vastarivi.tili = kp()->tilit()->tiliIdlla( tilikysely.value("tili").toInt() );
                     vastarivi.kohdennus = kp()->kohdennukset()->kohdennus( tilikysely.value("kohdennus").toInt() );

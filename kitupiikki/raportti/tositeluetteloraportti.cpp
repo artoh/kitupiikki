@@ -206,7 +206,7 @@ RaportinKirjoittaja TositeluetteloRaportti::kirjoitaRaportti(QDate mista, QDate 
 
         kirjoittaja.lisaaRivi( tositerivi );
 
-        // TODO: Vientien haku ja tulostus, jos sellaista halutaan
+        // Vientien haku ja tulostus, jos sellaista halutaan
         if( tulostaviennit)
         {
 
@@ -215,6 +215,9 @@ RaportinKirjoittaja TositeluetteloRaportti::kirjoitaRaportti(QDate mista, QDate 
                             .arg(tositeId));
             while( lisakysely.next())
             {
+                if( !lisakysely.value("tili").toInt())
+                    continue;   // Ei tulosteta maksuperusteisen laskun lisärivejä
+
                 RaporttiRivi vientirivi;
                 vientirivi.lisaa("");
                 vientirivi.lisaa( lisakysely.value("pvm").toDate() );
