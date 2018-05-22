@@ -24,6 +24,13 @@ namespace Ui {
  class KirjausPeruste;
 };
 
+/**
+ * @brief Kirjaamisperusteen valinta
+ *
+ * Tilikartan mukaan on mahdollista kirjanpitoa aloitettaessa valita pääasiallinen kirjaamisperuste:
+ * suoriteperuste, laskuperuste tai maksuperuste. Tämän mukaan suoritetaan Kirjaamisperuste/XX skripti
+ *
+ */
 class KirjausperusteSivu : public QWizardPage
 {
 public:
