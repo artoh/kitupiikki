@@ -163,7 +163,7 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
     QString kysymys = QString("SELECT vienti.tosite, vienti.pvm, tili, debetsnt, kreditsnt, selite, kohdennus, eraid, "
                               "tosite.laji, tosite.tunniste, vienti.id "
                               "FROM vienti, tosite WHERE vienti.pvm BETWEEN \"%1\" AND \"%2\" "
-                              "AND vienti.tosite=tosite.id ORDER BY vienti.pvm, vienti.id")
+                              "AND vienti.tosite=tosite.id AND tili is not null ORDER BY vienti.pvm, vienti.id")
                               .arg( alkaa.toString(Qt::ISODate ) )
                               .arg( loppuu.toString(Qt::ISODate)) ;
 

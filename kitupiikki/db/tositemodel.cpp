@@ -144,6 +144,8 @@ void TositeModel::asetaTositelaji(int tositelajiId)
             emit tositettaMuokattu(true);
         }
     }
+    if( tositelajiId < 0)
+        tunniste_ = 0;
 
 }
 
@@ -245,7 +247,10 @@ bool TositeModel::tallenna()
     else
         kysely.bindValue(":tunniste", QVariant());
 
-    kysely.bindValue(":laji", tositelaji().id());
+    if( tositelaji_ > -1)
+        kysely.bindValue(":laji", tositelaji_ );
+    else
+        kysely.bindValue(":laji", QVariant() );
 
     if( tiliotetili())
         kysely.bindValue(":tiliote", tiliotetili());

@@ -325,8 +325,8 @@ bool UusiKirjanpito::alustaKirjanpito()
         // Kirjoitetaan nollatosite tilien avaamiseen
         if( !field("onekakausi").toBool())
         {
-            query.prepare("INSERT INTO TOSITE(id,pvm,otsikko,laji) "
-                          "VALUES (0,?,\"Tilinavaus\",0)");
+            query.prepare("INSERT INTO TOSITE(id,pvm,otsikko,laji,tunniste) "
+                          "VALUES (0,?,\"Tilinavaus\",0,0)");
             query.addBindValue( field("edpaattyi").toDate());
             query.exec();
         }        

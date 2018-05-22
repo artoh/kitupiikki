@@ -335,7 +335,15 @@ bool LaskuModel::tallenna(Tili rahatili)
     else
         tosite.asetaOtsikko( tr("%1 [%2]").arg(laskunsaajanNimi()).arg(laskunro()) );
     tosite.asetaKommentti( lisatieto() );
-    tosite.asetaTositelaji( kp()->asetukset()->luku("LaskuTositelaji", 1) );
+
+    if( kirjausperuste() == MAKSUPERUSTE )
+    {
+        tosite.asetaTositelaji(-1);
+    }
+    else
+        tosite.asetaTositelaji( kp()->asetukset()->luku("LaskuTositelaji", 1) );
+
+
     tosite.json()->set("Lasku", laskunro());
 
     tosite.asetaPvm(pvm() );

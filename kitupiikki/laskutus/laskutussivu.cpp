@@ -201,7 +201,9 @@ void LaskutusSivu::valintaMuuttuu()
             ui->naytaNappi->setEnabled(true);
     }
 
-    ui->tositeNappi->setEnabled( ui->laskutView->currentIndex().isValid());
+    ui->tositeNappi->setEnabled( ui->laskutView->currentIndex().isValid() &&
+                                 ( ui->laskutView->currentIndex().data(LaskutModel::KirjausPerusteRooli).toInt() != LaskuModel::MAKSUPERUSTE
+                                   || !ui->laskutView->currentIndex().data(LaskutModel::AvoinnaRooli).toInt() ));
     ui->poistaNappi->setEnabled( ui->laskutView->currentIndex().isValid());
     ui->hyvitysNappi->setEnabled( ui->laskutView->currentIndex().isValid() &&
                                   !ui->laskutView->currentIndex().data(LaskutModel::HyvitysLaskuRooli).toInt());

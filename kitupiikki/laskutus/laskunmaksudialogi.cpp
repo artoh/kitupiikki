@@ -122,6 +122,7 @@ void LaskunMaksuDialogi::kirjaa()
         kirjaaja->lataaTosite( index.data(LaskutModel::TositeRooli).toInt() );
         kirjaaja->model()->asetaPvm( ui->pvmEdit->date() );
         kirjaaja->model()->asetaTositelaji( kp()->asetukset()->luku("LaskuTositelaji") );
+        kirjaaja->model()->asetaTunniste( kirjaaja->model()->seuraavaTunnistenumero() );
 
         for(int i=0; i < kirjaaja->model()->vientiModel()->rowCount(QModelIndex()); i++ )
         {
