@@ -18,7 +18,7 @@ Ohjelmalla ei ole mitään takuuta. Tätä ohjelmaa saa käyttää, levittää j
 
 ## Tilikarttojen pohja
 
-Tilikartat pohjautuvat Tili-instituuttisäätiön [Raportointikoodistoon](https://www.raportointikoodisto.fi). Tilitin-yhteensopiva elinkeinoelämän tilikartta perustuu [Tilitin-kirjanpito-ohjelmaan](http://helineva.net/tilitin/) &copy; Tommi Helineva lisenssillä [GNU General Public License version 3](https://www.gnu.org/licenses/gpl.html)
+Elinkeinoelämän tilikartta perustuu [Tilitin-kirjanpito-ohjelmaan](http://helineva.net/tilitin/) &copy; Tommi Helineva lisenssillä [GNU General Public License version 3](https://www.gnu.org/licenses/gpl.html). Muut tilikartat pohjautuvat Tili-instituuttisäätiön [Raportointikoodistoon](https://www.raportointikoodisto.fi).
 
 ## Asennusohjelmat
 

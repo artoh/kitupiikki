@@ -34,7 +34,6 @@
 #include <QFile>
 #include <QTextStream>
 
-#include <QFont>
 
 #include "ui_tervetuloa.h"
 

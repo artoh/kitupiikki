@@ -23,6 +23,7 @@
 #include "pdftuonti.h"
 #include "csvtuonti.h"
 #include "titotuonti.h"
+#include "palkkafituonti.h"
 
 #include "kirjaus/kirjauswg.h"
 #include "db/tili.h"
@@ -49,6 +50,11 @@ bool Tuonti::tuo(const QString &tiedostonnimi, KirjausWg *wg)
     {
         PdfTuonti pdftuonti(wg);
         return pdftuonti.tuo(data);
+    }
+    else if( data.startsWith( QString("T;%1").arg( kp()->asetukset()->asetus("Ytunnus") ).toUtf8() ))
+    {
+        PalkkaFiTuonti palkkatuonti(wg);
+        return palkkatuonti.tuo(data);
     }
     else if( tiedostonnimi.endsWith(".csv", Qt::CaseInsensitive))
     {

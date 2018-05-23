@@ -27,10 +27,9 @@ tilinpäätöksen pohjan.
 
 Tilikartan nimi   | Kuvaus
 ------------------|-------------------------
-Elinkeinotoiminta (suppea) | Tilikartta yritystoimintaa varten. Yritysmuotoina yksityinen elinkeinonharjoittaja, avoin yhtiö, kommandiittiyhtiö, osuuskunta ja osakeyhtiö. Tilikartta on verraten suppea, ja se perustuu [Raportointikoodistoon](http://raportointikoodisto.fi).
-Elinkeintotoiminta (Tilitin-yhteensopiva) | Laaja tilikartta yritystoimintaa varten, 869 tiliä. Yritysmuotoina suppean tilikartan tilien lisäksi julkinen osakeyhtiö. Tilikartta on yhteensopiva [Tilitin](http://helineva.net/tilitin)-ohjelman elinkeinotoiminnan tilikartan kanssa.
+Elinkeintotoiminta  | Tilikartta yritystoimintaa varten. Yritysmuotoina elinkeinonharjoittaja, avoin yhtiö, kommandiittiyhtiö, osuuskunta, osakeyhtiö ja julkinen osakeyhtiö. Tilikartta on yhteensopiva [Tilitin](http://helineva.net/tilitin)-ohjelman elinkeinotoiminnan tilikartan kanssa. 869 tiliä.
 Kiinteistöyhtiö | Kiinteistökaavan mukaisen tuloslaskelman tilikartta kiinteistöyhtiölle ja asunto-osakeyhtiölle. <span class="fa fa-exclamation-triangle"></span>**Tämä tilikartta on puutteellisesti testattu.**
-Yhdistys | Tilikartta aatteelliselle yhdistykselle ja säätiölle. Tuloslaskelma on yhdistyskaavan mukainen.
+Yhdistys | Tilikartta aatteelliselle yhdistykselle ja säätiölle. Tuloslaskelma on yhdistyskaavan mukainen. 214 tiliä, kirjanpitoa aloitettaessa valitaan tilikartan laajuus (käytössä olevat tilit) yhdistyksen tarpeiden mukaisesti.
 
 
 Voit valita ohjelman mukana tulevan tilikartan tai **Lataa tilikartta tiedostosta**-napilla

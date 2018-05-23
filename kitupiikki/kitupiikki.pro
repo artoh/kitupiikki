@@ -144,7 +144,8 @@ SOURCES += main.cpp \
     laskutus/ostolaskutmodel.cpp \
     tools/pdfikkuna.cpp \
     tools/kpdateedit.cpp \
-    uusikp/kirjausperustesivu.cpp
+    uusikp/kirjausperustesivu.cpp \
+    tuonti/palkkafituonti.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -270,7 +271,8 @@ HEADERS += \
     laskutus/ostolaskutmodel.h \
     tools/pdfikkuna.h \
     tools/kpdateedit.h \
-    uusikp/kirjausperustesivu.h
+    uusikp/kirjausperustesivu.h \
+    tuonti/palkkafituonti.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
