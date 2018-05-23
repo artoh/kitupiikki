@@ -28,6 +28,9 @@
  *
  * Tuo csv-muotoisen kirjanpitotositteen palkka.fi-palvelusta
  *
+ * Tilien muunnos tehdään tilikartan [PalkkaFiTuonti] määritteellä, jossa jokaisella rivillä on välilyönnillä
+ * erotettuna ensin palkka.fi-tilinumero ja sitten Kitupiikissä käytettävä tilinumero
+ *
  */
 class PalkkaFiTuonti : public Tuonti
 {
