@@ -29,6 +29,7 @@
 #include "kirjaus/ehdotusmodel.h"
 #include "db/kirjanpito.h"
 
+#include "raportti/alverittely.h"
 
 
 AlvIlmoitusDialog::AlvIlmoitusDialog(QWidget *parent) :
@@ -403,7 +404,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         model.liiteModel()->lisaaPdf( kirjoittaja->pdf(false, false), tr("Alv-laskelma") );
 
         // Laskelman erittely liitetään myös ...
-        model.liiteModel()->lisaaPdf( erittely(alkupvm, loppupvm).pdf(false, false), tr("Alv-erittely") );
+        model.liiteModel()->lisaaPdf( AlvErittely::kirjoitaRaporti(alkupvm, loppupvm).pdf(false, false), tr("Alv-erittely") );
 
 
         if( !model.tallenna() )
@@ -520,138 +521,3 @@ bool AlvIlmoitusDialog::maksuperusteisenTilitys(const QDate &paivayksesta, const
 
 }
 
-RaportinKirjoittaja AlvIlmoitusDialog::erittely(QDate alkupvm, QDate loppupvm)
-{
-    RaportinKirjoittaja kirjoittaja;
-    kirjoittaja.asetaOtsikko("ARVONLISÄVEROLASKELMAN ERITTELY");
-    kirjoittaja.asetaKausiteksti( QString("%1 - %2").arg(alkupvm.toString("dd.MM.yyyy")).arg(loppupvm.toString("dd.MM.yyyy") ) );
-
-    kirjoittaja.lisaaPvmSarake();
-    kirjoittaja.lisaaSarake("TOSITE12345");
-    kirjoittaja.lisaaVenyvaSarake();
-    kirjoittaja.lisaaSarake("24");
-    kirjoittaja.lisaaEurosarake();
-
-    RaporttiRivi otsikko;
-    otsikko.lisaa("Pvm");
-    otsikko.lisaa("Tosite");
-    otsikko.lisaa("Selite");
-    otsikko.lisaa("%",1,true);
-    otsikko.lisaa("€",1,true);
-    kirjoittaja.lisaaOtsake(otsikko);
-
-    QSqlQuery kysely;
-    QString kysymys = QString("select vienti.pvm as paiva, debetsnt, kreditsnt, selite, alvkoodi, alvprosentti, nro, tunniste, laji "
-                              "from vienti,tili,tosite where vienti.tosite=tosite.id and vienti.tili=tili.id "
-                              "and vienti.pvm between \"%1\" and \"%2\" "
-                              "and alvkoodi > 0 order by alvkoodi, alvprosentti desc, tili, vienti.pvm")
-            .arg(alkupvm.toString(Qt::ISODate))
-            .arg(loppupvm.toString(Qt::ISODate));
-
-    int nAlvkoodi = -1; // edellisten alv-prosentti jne...
-    int nTili = -1;
-    int nProsentti = -1;
-    int tilisumma = 0;
-    int yhtsumma = 0;
-
-    kysely.exec(kysymys);
-    while(kysely.next())
-    {
-        int alvkoodi = kysely.value("alvkoodi").toInt();
-        int alvprosentti = kysely.value("alvprosentti").toInt();
-        int tilinro = kysely.value("nro").toInt();
-
-        // Teknisiä kirjauksia ei tulosteta erittelyyn
-        if( alvkoodi == AlvKoodi::TILITYS)
-            continue;
-
-
-        if( tilinro != nTili || alvkoodi != nAlvkoodi || alvprosentti != nProsentti)
-        {
-            if( tilisumma)
-            {
-                RaporttiRivi tiliSummaRivi;
-                tiliSummaRivi.lisaa(" ", 3);
-                tiliSummaRivi.lisaa( QString::number(nProsentti));
-                tiliSummaRivi.lisaa( tilisumma);
-                tiliSummaRivi.viivaYlle();
-                kirjoittaja.lisaaRivi(tiliSummaRivi);
-
-                if( (alvkoodi != nAlvkoodi || alvprosentti != nProsentti) && yhtsumma != tilisumma )
-                {
-                    // Lopuksi vielä lihavoituna kokonaissumma
-                    RaporttiRivi summaRivi;
-                    summaRivi.lisaa(" ", 3);
-                    summaRivi.lisaa( QString::number(nProsentti));
-                    summaRivi.lisaa( yhtsumma );
-                    summaRivi.lihavoi();
-                    kirjoittaja.lisaaRivi(summaRivi);
-                }
-
-
-                kirjoittaja.lisaaRivi();
-                tilisumma = 0;
-            }
-        }
-
-
-        if( alvkoodi != nAlvkoodi || alvprosentti != nProsentti)
-        {
-
-            RaporttiRivi koodiOtsikko;
-            if( alvkoodi == AlvKoodi::MAKSETTAVAALV)
-                koodiOtsikko.lisaa(tr("MAKSETTAVA VERO"), 3);
-            else if( alvkoodi > AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON)
-                koodiOtsikko.lisaa(tr("KOHDENTAMATON MAKSUPERUSTEINEN"),3);
-            else if( alvkoodi > AlvKoodi::ALVVAHENNYS)
-                koodiOtsikko.lisaa( tr("VÄHENNYS: %1").arg( kp()->alvTyypit()->seliteKoodilla(alvkoodi - AlvKoodi::ALVVAHENNYS) ), 3 );
-            else if( alvkoodi > AlvKoodi::ALVKIRJAUS)
-                koodiOtsikko.lisaa( tr("VERO: %1").arg( kp()->alvTyypit()->seliteKoodilla(alvkoodi - AlvKoodi::ALVKIRJAUS) ), 3 );
-            else
-                koodiOtsikko.lisaa( kp()->alvTyypit()->seliteKoodilla(alvkoodi), 3 );
-
-            if( alvprosentti)
-                koodiOtsikko.lisaa( QString::number(alvprosentti));
-            else
-                koodiOtsikko.lisaa("");
-
-            koodiOtsikko.lihavoi();
-            kirjoittaja.lisaaRivi(koodiOtsikko);
-
-            nAlvkoodi = alvkoodi;
-            nProsentti = alvprosentti;
-            nTili = -1;
-            yhtsumma = 0;
-        }
-
-        if( tilinro != nTili )
-        {
-            RaporttiRivi tiliOtsikko;
-            tiliOtsikko.lisaa( tr("%1 %2").arg(tilinro).arg(kp()->tilit()->tiliNumerolla(tilinro).nimi() ), 3);
-            tiliOtsikko.lisaa( QString::number(alvprosentti));
-            kirjoittaja.lisaaRivi(tiliOtsikko);
-            nTili = tilinro;
-        }
-
-        RaporttiRivi rivi;
-        rivi.lisaa( kysely.value("paiva").toDate() );
-        rivi.lisaa( QString("%1%2").arg( kp()->tositelajit()->tositelaji( kysely.value("laji").toInt() ).tunnus() )
-                    .arg( kysely.value("tunniste").toInt() ));
-        rivi.lisaa( kysely.value("selite").toString());
-        rivi.lisaa( QString::number(alvprosentti));
-
-        int debetsnt = kysely.value("debetsnt").toInt();
-        int kreditsnt = kysely.value("kreditsnt").toInt();
-        int summa = kreditsnt - debetsnt;
-        if( alvkoodi % 100 / 10 == 2)
-            summa = debetsnt - kreditsnt;
-        rivi.lisaa( summa );
-        kirjoittaja.lisaaRivi( rivi );
-
-        tilisumma += summa;
-        yhtsumma += summa;
-
-    }
-    return kirjoittaja;
-
-}

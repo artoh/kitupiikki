@@ -80,8 +80,6 @@ private:
      */
     bool maksuperusteisenTilitys(const QDate& paivayksesta, const QDate &tilityspvm);
 
-    RaportinKirjoittaja erittely(QDate alkupvm, QDate loppupvm);
-
 };
 
 #endif // ALVILMOITUSDIALOG_H
