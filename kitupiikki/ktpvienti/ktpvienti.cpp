@@ -163,7 +163,7 @@ void KtpVienti::vieKtp()
                 << "TuontiOstolaskuTili" << "TuontiOstolaskuTositelaji"
                 << "TuontiOstolaskuPeruste" << "TuontiTiliote"
                 << "MuotoTeksti"
-                << "LuontiSkripti" << "PaivitysSkripti";
+                << "LuontiSkripti" << "PaivitysSkripti" << "PalkkaFiTuonti";
 
         avaimet << kp()->asetukset()->avaimet("Raportti/");
         avaimet << kp()->asetukset()->avaimet("MuotoOn/");
