@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/tilikartat">
-        <file>kiinteisto.kpk</file>
         <file>tilitin.kpk</file>
         <file>yhdistys-1.kpk</file>
     </qresource>

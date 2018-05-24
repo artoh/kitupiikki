@@ -150,7 +150,8 @@ bool PaivitaKirjanpito::lataaPaivitys(const QString &tiedosto)
     QStringList siirrettavat;
     siirrettavat             << "TilikarttaNimi" << "TilikarttaKuvaus"
                              << "TilikarttaOhje" << "TilikarttaPvm"
-                             << "TilikarttaTekija" << "TilikarttaLuontiVersio";
+                             << "TilikarttaTekija" << "TilikarttaLuontiVersio"
+                             << "PalkkaFiTuonti";
 
     if( tpYlikirjoita )
         siirrettavat.append("TilinpaatosPohja");
