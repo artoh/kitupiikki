@@ -212,12 +212,13 @@ QString LaskunTulostaja::virtuaaliviivakoodi() const
     if( model_->laskunSumma() > 99999999 )  // Ylisuuri laskunsumma
         return QString();
 
-    return QString("4 %1 %2 000 %3 %4")
+    QString koodi = QString("4 %1 %2 000 %3 %4")
             .arg( iban.mid(2,16) )  // Tilinumeron numeerinen osuus
             .arg( model_->laskunSumma(), 8, 10, QChar('0') )  // Rahamäärä
-            .arg( model_->viitenumero(), 20, QChar('0'))
-            .arg( model_->erapaiva().toString("yyMMdd"))
-            .remove(QChar(' '));
+            .arg( model_->viitenumero().remove(QChar(' ')), 20, QChar('0'))
+            .arg( model_->erapaiva().toString("yyMMdd"));
+
+    return koodi.remove(QChar(' '));
 }
 
 QString LaskunTulostaja::valeilla(const QString &teksti)
@@ -720,7 +721,7 @@ QByteArray LaskunTulostaja::qrSvg() const
     data.append(kp()->asetukset()->asetus("Nimi") + "\n");
     data.append(iban + "\n");
     data.append( QString("EUR%1.%2\n\n").arg( model_->laskunSumma() / 100 ).arg( model_->laskunSumma() % 100, 2, 10, QChar('0') ));
-    data.append(model_->viitenumero() + "\n\n");
+    data.append(model_->viitenumero().remove(QChar(' ')) + "\n\n");
     data.append( QString("ReqdExctnDt/%1").arg( model_->erapaiva().toString(Qt::ISODate) ));
 
     qrcodegen::QrCode qr = qrcodegen::QrCode::encodeText( data.toUtf8().data() , qrcodegen::QrCode::Ecc::QUARTILE);
