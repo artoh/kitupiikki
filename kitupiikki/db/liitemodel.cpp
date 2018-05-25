@@ -170,6 +170,8 @@ int LiiteModel::lisaaTiedosto(const QString &polku, const QString &otsikko)
     {
         QByteArray pdf;
         QImage kuva(polku);
+        if( kuva.isNull())
+            return 0;
 
 
         QBuffer puskuri(&pdf);
@@ -183,10 +185,12 @@ int LiiteModel::lisaaTiedosto(const QString &polku, const QString &otsikko)
 
         QRect rect = painter.viewport();
         QSize size = kuva.size();
+
         size.scale( rect.size(), Qt::KeepAspectRatio );
-        painter.setViewport( rect.x(), rect.y(),
-                             size.width(), size.height());
+        painter.setViewport( rect.x(), rect.y(),                             size.width(), size.height());
         painter.setWindow( kuva.rect() );
+
+
         painter.drawImage(0,0,kuva);
         painter.end();
 
