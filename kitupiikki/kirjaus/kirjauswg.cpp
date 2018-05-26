@@ -18,6 +18,7 @@
 #include <QDebug>
 #include <QSqlQuery>
 #include <QSqlError>
+#include <QSqlQueryModel>
 #include <QMessageBox>
 #include <QIntValidator>
 #include <QFileDialog>
@@ -33,6 +34,7 @@
 #include <QSettings>
 
 #include <QSortFilterProxyModel>
+#include <QCompleter>
 
 #include "kirjauswg.h"
 #include "tilidelegaatti.h"
@@ -58,7 +60,8 @@
 
 
 KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
-    : QWidget(parent), model_(tositeModel), laskuDlg_(0), apurivinkki_(0)
+    : QWidget(parent), model_(tositeModel), laskuDlg_(0), apurivinkki_(0),
+      taydennysSql_( new QSqlQueryModel )
 {
     ui = new Ui::KirjausWg();
     ui->setupUi(this);
@@ -97,7 +100,6 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
 
     connect( ui->tositetyyppiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(vaihdaTositeTyyppi()));
     connect( ui->tunnisteEdit, SIGNAL(textChanged(QString)), this, SLOT(paivitaTunnisteVari()));
-    connect( ui->otsikkoEdit, SIGNAL(textEdited(QString)), model_, SLOT(asetaOtsikko(QString)));
     connect( ui->viennitView, SIGNAL(activated(QModelIndex)), this, SLOT( vientivwAktivoitu(QModelIndex)));
     connect( ui->viennitView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(vientiValittu()));
 
@@ -148,6 +150,10 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
 
     ui->tositePvmEdit->setCalendarPopup(true);
 
+    QCompleter *otsikonTaydentaja = new QCompleter(taydennysSql_, this);
+    otsikonTaydentaja->setModelSorting(QCompleter::CaseSensitivelySortedModel);
+    ui->otsikkoEdit->setCompleter(otsikonTaydentaja);
+    connect( ui->otsikkoEdit, SIGNAL(textChanged(QString)), this, SLOT(paivitaOtsikonTaydennys(QString)));
 }
 
 KirjausWg::~KirjausWg()
@@ -230,6 +236,7 @@ void KirjausWg::tyhjenna()
         // Ei oletuksena järjestelmätositetta
         ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( 1, TositelajiModel::IdRooli) );
     }
+
 }
 
 void KirjausWg::tallenna()
@@ -501,6 +508,16 @@ void KirjausWg::siirryTositteeseen()
     }
 }
 
+void KirjausWg::paivitaOtsikonTaydennys(const QString &teksti)
+{
+    if( teksti.length() > 2 && !teksti.contains(QChar('\'')))
+        taydennysSql_->setQuery(QString("SELECT otsikko FROM tosite WHERE otsikko LIKE '%1%' order by otsikko").arg(teksti));
+    else
+        taydennysSql_->clear();
+
+    model()->asetaOtsikko(teksti);
+}
+
 int KirjausWg::tiliotetiliId()
 {
     if( !ui->tilioteBox->isChecked())
@@ -550,9 +567,6 @@ bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
             }
         }
     }
-
-    if( event->type() == QEvent::KeyPress)
-        qDebug() << watched;
 
     if( watched == ui->viennitView && event->type() == QEvent::KeyPress)
     {
