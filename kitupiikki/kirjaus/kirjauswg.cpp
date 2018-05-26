@@ -143,6 +143,9 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     // Tagivalikko
     ui->viennitView->viewport()->installEventFilter(this);
 
+    ui->viennitView->installEventFilter(this);
+    ui->viennitView->setFocusPolicy(Qt::StrongFocus);
+
     ui->tositePvmEdit->setCalendarPopup(true);
 
 }
@@ -521,6 +524,9 @@ bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
                     focusNextChild();
                 return true;
             }
+            // Tositetyypistä pääsee tabulaattorilla uudelle riville
+            else if( keyEvent->key() == Qt::Key_Tab && watched == ui->tositetyyppiCombo)
+                lisaaRivi();
         }
     }
     else if( watched == ui->viennitView->viewport() )
@@ -541,6 +547,26 @@ bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
                                                    VientiModel::TagiIdListaRooli);
                     return false;
                 }
+            }
+        }
+    }
+
+    if( event->type() == QEvent::KeyPress)
+        qDebug() << watched;
+
+    if( watched == ui->viennitView && event->type() == QEvent::KeyPress)
+    {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        if( keyEvent->key() == Qt::Key_Enter ||
+            keyEvent->key() == Qt::Key_Return ||
+            keyEvent->key() == Qt::Key_Tab)
+        {
+            qDebug() << ui->viennitView->currentIndex().column();
+
+            if( ui->viennitView->currentIndex().column() == VientiModel::SELITE &&
+                ui->viennitView->currentIndex().row() == model()->vientiModel()->rowCount(QModelIndex()) - 1 )
+            {
+                lisaaRivi();
             }
         }
     }
