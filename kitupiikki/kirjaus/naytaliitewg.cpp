@@ -76,7 +76,8 @@ void NaytaliiteWg::valitseTiedosto()
 
 void NaytaliiteWg::naytaPdf(const QByteArray &pdfdata)
 {
-    if( pdfdata.isEmpty())
+    // 26.5.2018 Lisätty pdf-tarkastus
+    if( pdfdata.isEmpty()  || !pdfdata.startsWith("%PDF"))
     {
         setCurrentIndex(0);
     }
