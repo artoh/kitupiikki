@@ -382,6 +382,7 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
         case KOHDENNUS:
             viennit_[rivi].kohdennus = kp()->kohdennukset()->kohdennus(value.toInt());
             emit muuttunut();
+            emit siirryRuutuun(index.sibling(index.row(), SELITE));
             return true;
         default:
             return false;

@@ -181,7 +181,12 @@ signals:
 
 protected:
     /**
-     * @brief Pvm-kentästä eteenpäin enterillä, tagivalikko
+     * @brief Muokattuja toimintoja
+     *
+     * Pvm-kentästä eteenpäin enterillä
+     * tagivalikko
+     * Seliteestä tablilla uusi rivi
+     *
      * @param watched
      * @param event
      * @return
