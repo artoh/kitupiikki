@@ -72,6 +72,9 @@ Erittely, jossa kirjauksia voi seurata aina tositteisiin saakka, avautuu alv-siv
 
 ![](erittely.png)
 
+!!! tip "Arvonlisäverolaskelma kesken kauden"
+    Tulosteet-välilehdeltä voit tulostaa Alv-erittelyn haluamaltasi aikaväliltä.
+
 ## Maksuperusteinen arvonlisävero
 
 !!! info ""
