@@ -61,6 +61,7 @@ NaytaliiteWg::NaytaliiteWg(QWidget *parent)
     connect( qApp->clipboard(), SIGNAL(dataChanged()), this, SLOT(tarkistaLeikepoyta()));
 
     setAcceptDrops(true);
+    tarkistaLeikepoyta();
 }
 
 NaytaliiteWg::~NaytaliiteWg()
@@ -130,6 +131,14 @@ void NaytaliiteWg::naytaPdf(const QByteArray &pdfdata)
 void NaytaliiteWg::tarkistaLeikepoyta()
 {
     qDebug() << qApp->clipboard()->mimeData()->formats() ;
+
+    QStringList formaatit = qApp->clipboard()->mimeData()->formats();
+
+    ui->liitaNappi->setVisible( formaatit.contains("image/png") ||
+                                formaatit.contains("image/jpg") ||
+                                formaatit.contains("text/plain") ||
+                                formaatit.contains("text/html"));
+
 }
 
 void NaytaliiteWg::dragEnterEvent(QDragEnterEvent *event)
