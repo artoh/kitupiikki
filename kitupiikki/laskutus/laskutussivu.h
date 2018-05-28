@@ -59,6 +59,8 @@ public slots:
     void nayta();
     void valintaMuuttuu();
 
+    void paaTab(int indeksi);
+
 private:
     Ui::Laskutus *ui;
     LaskutModel *model;

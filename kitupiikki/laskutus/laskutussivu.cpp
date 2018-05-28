@@ -38,6 +38,12 @@ LaskutusSivu::LaskutusSivu() :
     ui(new Ui::Laskutus)
 {
     ui->setupUi(this);
+
+    ui->paaTab->addTab("&Ostolaskut");
+    ui->paaTab->addTab("&Myyntilaskut");
+    ui->paaTab->addTab("&Asiakkaat");
+    ui->paaTab->addTab("&Toimittajat");
+
     ui->suodatusTab->addTab("&Kaikki");
     ui->suodatusTab->addTab("&Avoimet");
     ui->suodatusTab->addTab("&Erääntyneet");
@@ -54,6 +60,8 @@ LaskutusSivu::LaskutusSivu() :
     connect(ui->tositeNappi, SIGNAL(clicked(bool)), this, SLOT(tosite()));
     connect(ui->hyvitysNappi, SIGNAL(clicked(bool)), this, SLOT(hyvitysLasku()));
     connect(ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poista()));
+
+    connect(ui->paaTab, SIGNAL(currentChanged(int)), this, SLOT(paaTab(int)));
 
     model = new LaskutModel(this);
     proxy = new QSortFilterProxyModel(this);
@@ -207,5 +215,17 @@ void LaskutusSivu::valintaMuuttuu()
     ui->poistaNappi->setEnabled( ui->laskutView->currentIndex().isValid());
     ui->hyvitysNappi->setEnabled( ui->laskutView->currentIndex().isValid() &&
                                   !ui->laskutView->currentIndex().data(LaskutModel::HyvitysLaskuRooli).toInt());
+}
+
+void LaskutusSivu::paaTab(int indeksi)
+{
+    ui->asiakasView->setVisible( indeksi > 1 );
+
+    if( indeksi > 1 && ui->suodatusTab->count() < 4)
+        ui->suodatusTab->addTab("Yhteystiedot");
+    else if( indeksi < 3 && ui->suodatusTab->count() > 3)
+        ui->suodatusTab->removeTab(3);
+
+    // Sitten pitäisi vielä vaihtaa sisällöt päätabin mukaisesti
 }
 

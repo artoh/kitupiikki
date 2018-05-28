@@ -27,6 +27,7 @@
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
 #include <QDropEvent>
+#include <QClipboard>
 
 #ifdef Q_OS_LINUX
     #include <poppler/qt5/poppler-qt5.h>
@@ -56,6 +57,8 @@ NaytaliiteWg::NaytaliiteWg(QWidget *parent)
     addWidget(view);
 
     connect(ui->valitseTiedostoNappi, SIGNAL(clicked(bool)), this, SLOT(valitseTiedosto()));
+
+    connect( qApp->clipboard(), SIGNAL(dataChanged()), this, SLOT(tarkistaLeikepoyta()));
 
     setAcceptDrops(true);
 }
@@ -122,6 +125,11 @@ void NaytaliiteWg::naytaPdf(const QByteArray &pdfdata)
         // Tositteen näyttöwiget esiin
         setCurrentIndex(1);
     }
+}
+
+void NaytaliiteWg::tarkistaLeikepoyta()
+{
+    qDebug() << qApp->clipboard()->mimeData()->formats() ;
 }
 
 void NaytaliiteWg::dragEnterEvent(QDragEnterEvent *event)

@@ -47,8 +47,11 @@ public slots:
     void valitseTiedosto();
     void naytaPdf(const QByteArray& pdfdata);
 
+    void tarkistaLeikepoyta();
+
 signals:
     void lisaaLiite(const QString& polku);
+
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event);
