@@ -267,7 +267,7 @@ void KirjausApuriDialog::alvLajiMuuttui()
         ui->alvSpin->setEnabled(false);
         laskeNetto();
     }
-    else
+    else    
     {
         ui->alvSpin->setEnabled(true);
         Tili tili = kp()->tilit()->tiliNumerolla(  ui->tiliEdit->valittuTilinumero() );
@@ -275,13 +275,23 @@ void KirjausApuriDialog::alvLajiMuuttui()
             ui->alvSpin->setValue( tili.json()->luku("AlvProsentti"));
         else
             ui->alvSpin->setValue( VerotyyppiModel::oletusAlvProsentti());
+    }
 
+    if( alvlaji == AlvKoodi::MAAHANTUONTI_VERO)
+    {
+        ui->vastatiliLabel->hide();
+        ui->vastatiliEdit->hide();
+    }
+    else
+    {
+        yhdistaminenMuuttui( ui->yhdistaCheck->isChecked());
     }
 
     ui->alvSpin->setVisible( alvlaji );
     ui->alvprossaLabel->setVisible(alvlaji);
 
-    ui->eiVahennaCheck->setVisible( alvlaji==AlvKoodi::MAAHANTUONTI || alvlaji==AlvKoodi::YHTEISOHANKINNAT_PALVELUT || alvlaji==AlvKoodi::YHTEISOHANKINNAT_TAVARAT );
+    ui->eiVahennaCheck->setVisible( alvlaji==AlvKoodi::MAAHANTUONTI || alvlaji==AlvKoodi::YHTEISOHANKINNAT_PALVELUT || alvlaji==AlvKoodi::YHTEISOHANKINNAT_TAVARAT
+                                    || alvlaji == AlvKoodi::MAAHANTUONTI_VERO);
 
     ehdota();
 }
@@ -430,7 +440,7 @@ void KirjausApuriDialog::veroSuodattimetKuntoon()
         if( kp()->onkoMaksuperusteinenAlv( ui->pvmDate->date() ) &&
                 ui->vastatiliEdit->valittuTili().onko(TiliLaji::MYYNTISAATAVA))
         {
-            verofiltteri.setFilterRegExp("^(0|1[3-9])");
+            verofiltteri.setFilterRegExp("^(0|1[3-9]");
             // Jos valittuna ollut kotimaan myynti, valitaan maksuperusteinen myynti
             if( alvkoodi < 13)
                 ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::MAKSUPERUSTEINEN_MYYNTI, VerotyyppiModel::KoodiRooli) );
@@ -450,13 +460,13 @@ void KirjausApuriDialog::veroSuodattimetKuntoon()
         if( kp()->onkoMaksuperusteinenAlv( ui->pvmDate->date() ) &&
                 ui->vastatiliEdit->valittuTili().onko(TiliLaji::OSTOVELKA))
         {
-            verofiltteri.setFilterRegExp("^(0|2[3-9])");
+            verofiltteri.setFilterRegExp("^(0|2[3-9]|927)");
             if( alvkoodi < 23)
                 ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::MAKSUPERUSTEINEN_OSTO, VerotyyppiModel::KoodiRooli) );
         }
         else
         {
-            verofiltteri.setFilterRegExp("^(0|2[1-79])");
+            verofiltteri.setFilterRegExp("^(0|2[1-79]|927)");
             if( alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO)
                 ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::OSTOT_NETTO, VerotyyppiModel::KoodiRooli) );
         }
@@ -470,6 +480,8 @@ void KirjausApuriDialog::ehdota()
 
     Tili tili = kp()->tilit()->tiliNumerolla( ui->tiliEdit->valittuTilinumero() );
     Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliEdit->valittuTilinumero());
+    Kohdennus kohdennus = kp()->kohdennukset()->kohdennus(ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
+
 
     int nettoSnt = std::round(ui->euroSpin->value() * 100.0);
     int bruttoSnt = std::round(ui->euroSpin->value() * 100.0);
@@ -563,7 +575,39 @@ void KirjausApuriDialog::ehdota()
         break;
 
     case MENO:
+
         // Menojen (osto) kirjaus per tasetili an ostotili
+        if( alvkoodi == AlvKoodi::MAAHANTUONTI_VERO )
+        {
+            // Veron peruste
+            VientiRivi menorivi = uusiEhdotusRivi(tili, nettoSnt, 0);
+            menorivi.alvkoodi = AlvKoodi::MAAHANTUONTI;
+            menorivi.alvprosentti = alvprosentti;
+            ehdotus.lisaaVienti(menorivi);
+
+            // Veron perusteen vastavienti
+            ehdotus.lisaaVienti( uusiEhdotusRivi( tili, 0, nettoSnt));
+
+            // Alv-saatava
+            VientiRivi vahennysrivi = uusiEhdotusRivi( tili, bruttoSnt-nettoSnt, 0);
+            vahennysrivi.alvprosentti = alvprosentti;
+            if( !ui->eiVahennaCheck->isChecked() )
+            {
+                vahennysrivi.tili =  kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA);
+                vahennysrivi.alvkoodi = AlvKoodi::MAAHANTUONTI + AlvKoodi::ALVVAHENNYS;
+            }
+            ehdotus.lisaaVienti(vahennysrivi);
+
+            // Alv-velka
+            VientiRivi alvrivi = uusiEhdotusRivi( kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA), 0, bruttoSnt - nettoSnt);
+            alvrivi.alvkoodi = AlvKoodi::MAAHANTUONTI + AlvKoodi::ALVKIRJAUS;
+            alvrivi.alvprosentti = alvprosentti;
+            ehdotus.lisaaVienti( alvrivi );
+
+            break;
+        }
+
+
         if( tili.onko(TiliLaji::MENO) || tili.onko(TiliLaji::POISTETTAVA)  )
         {
             VientiRivi menorivi = uusiEhdotusRivi(tili);
@@ -572,7 +616,7 @@ void KirjausApuriDialog::ehdota()
             else
                 menorivi.debetSnt = nettoSnt;
 
-            menorivi.kohdennus = kp()->kohdennukset()->kohdennus(ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
+            menorivi.kohdennus = kohdennus;
             menorivi.alvprosentti = alvprosentti;
             menorivi.alvkoodi = alvkoodi;
 
@@ -634,7 +678,7 @@ void KirjausApuriDialog::ehdota()
                 taserivi.eraId = ui->vastaTaseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
 
             if( taserivi.tili.json()->luku("Kohdennukset"))
-                taserivi.kohdennus = kp()->kohdennukset()->kohdennus(ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
+                taserivi.kohdennus = kohdennus;
 
             if(vastatili.onko(TiliLaji::OSTOVELKA))
             {
@@ -673,7 +717,7 @@ void KirjausApuriDialog::ehdota()
                 rivi.eraId = ui->taseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
 
             if( rivi.tili.json()->luku("Kohdennukset"))
-                rivi.kohdennus = kp()->kohdennukset()->kohdennus(ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
+                rivi.kohdennus = kohdennus;
             rivi.tagit = tagit;
             ehdotus.lisaaVienti(rivi);
         }
@@ -689,7 +733,7 @@ void KirjausApuriDialog::ehdota()
                 rivi.eraId = ui->vastaTaseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
 
             if( rivi.tili.json()->luku("Kohdennukset"))
-                rivi.kohdennus = kp()->kohdennukset()->kohdennus(ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
+                rivi.kohdennus = kohdennus;
 
             rivi.tagit = tagit;
             ehdotus.lisaaVienti(rivi);
