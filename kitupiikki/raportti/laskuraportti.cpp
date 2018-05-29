@@ -238,7 +238,7 @@ RaportinKirjoittaja LaskuRaportti::ostolaskut(QDate saldopvm, bool avoimet, Lask
                     .arg( mista.toString(Qt::ISODate) ).arg( mihin.toString(Qt::ISODate));
 
     QString kysymys = QString("SELECT vienti.id, pvm, kreditsnt, viite, iban, erapvm, vienti.json, selite FROM vienti,tili WHERE "
-                             " %1 vienti.tili=tili.id AND tili.tyyppi='BO' AND kreditsnt > 0  ").arg(ehto);
+                             " %1 vienti.tili=tili.id AND tili.tyyppi='BO' AND vienti.eraid=vienti.id  ").arg(ehto);
 
     QSqlQuery kysely(kysymys);
 

@@ -110,6 +110,7 @@ void Tuonti::tuoLasku(qlonglong sentit, QDate laskupvm, QDate toimituspvm, QDate
     rivi.ibanTili = tilinumero;
     rivi.erapvm = erapvm;
     rivi.json.set("SaajanNimi", saajanNimi);
+    rivi.eraId = TaseEra::UUSIERA;
 
     kirjausWg()->model()->vientiModel()->lisaaVienti(rivi);
     kirjausWg()->tiedotModeliin();
