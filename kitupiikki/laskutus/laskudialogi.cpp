@@ -107,7 +107,7 @@ LaskuDialogi::LaskuDialogi(QWidget *parent, AvoinLasku hyvitettavaLasku) :
         ui->eraDate->setDate( hyvitettavaLasku.erapvm );
         ui->eraDate->setEnabled(false);
         ui->toimitusDate->setDate( hyvitettavaLasku.json.date("Toimituspvm"));
-        ui->toimitusDate->setEnabled(false);
+        ui->toimituspvmLabel->setText( tr("Hyvityspvm"));
         ui->rahaTiliEdit->valitseTiliNumerolla( hyvitettavaLasku.json.luku("Saatavatili") );
         ui->rahaTiliEdit->setEnabled(false);
 
@@ -257,7 +257,9 @@ void LaskuDialogi::accept()
         return;
     }
 
-    if( model->tallenna(kp()->tilit()->tiliNumerolla( ui->rahaTiliEdit->valittuTilinumero() )) )
+    int rahatilinro = ui->rahaTiliEdit->valittuTilinumero();
+
+    if( model->tallenna(kp()->tilit()->tiliNumerolla( rahatilinro ) ) )
         QDialog::accept();
     else
         QMessageBox::critical(this, tr("Virhe laskun tallentamisessa"), tr("Laskun tallentaminen epäonnistui"));
