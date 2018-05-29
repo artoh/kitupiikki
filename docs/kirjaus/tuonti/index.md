@@ -1,9 +1,5 @@
 # Tuonti
 
-!!! info "Uusi toiminto"
-    Tuontitoiminto on vasta lisätty Kitupiikkiin, eikä sitä ole ollut mahdollista kokeilla kovin monipuolisella aineistolla. Lähetä mieluusti [palautetta](https://form.jotformeu.com/73283959099374) tuonnin toimivuudesta.
-
-
 ## Pdf-tiedostojen tuonti
 
 Kun kirjausikkunassa lisätään pdf-muotoinen tosite, pyrkii Kitupiikki poimimaan siitä tietoja kirjauksien pohjaksi.
@@ -37,6 +33,16 @@ Tiliotteen kirjaaminen edellyttää, että tilin IBAN-numero on määritelty kys
 
 Kitupiikki laatii viennit konekielisten TITO-tiliotteiden tilitapahtumista (ascii-muoto). Tilin IBAN-numeron pitää olla määriteltynä kyseisen tilin [määrityksissä](/maaritykset/tilikartta). Lisää tiliotetiedosto raahaamalla se **Sähköinen tosite**-laatikkoon tai **Lisää tiedosto**-painikkeella.
 
+## Palkat palkka.fi-palvelusta
+
+[Palkka.fi](https://palkka.fi) on Verohallinnon ylläpitämä ilmainen palvelu palkan laskemiseen ja kaikkien palkanmaksuun liittyvien viranomaisilmoitusten hoitamiseen.
+
+1. Kun olet tehnyt palkka.fi-palvelussa kuukauden palkat, valitse Palkanlaskennat tulosteet -kohdasta Tee uusi tuloste. Valitse tulostetyypiksi **Kirjanpidon tosite (CSV)**. Syötä kausi ja valitse **Tee tuloste**. Lataa tekemäsi tuloste.
+   ![Palkka-fi tulosteen luominen](palkkatuloste.png)
+2. Tee Kitupiikissä **Uusi tosite** ja liitä lataamasi *kirjanpito_csv.txt* tuloste tositteelle. Kitupiikki laatii palkanmaksun kirjauksen.
+   ![Palkkakirjaus](kppalkka.png)
+3. Näen palkanmaksuun liittyvät maksut viitteinen palkka.fi-palvelun **Maksut**-kohdasta. Työnatajamaksut tulevat näkyviin vasta, kun ilmoitukset on annettu - joko automaattisesti seuraavan kuukauden alettua tai tekemällä ilmoitus heti.
+   ![Maksut](palkkausmaksut.png)
 
 ## CSV-tiedostojen tuonti
 

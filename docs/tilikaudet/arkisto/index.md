@@ -2,7 +2,7 @@
 
 Kitupiikki muodostaa kirjanpidosta html-muotoisen sähköisen arkiston. Arkisto muodostetaan ja siihen pääsee Kitupiikistä **Tilikaudet**-välilehden **Arkisto**-painikkeella.
 
-Arkisto on hakemisto, johon kirjanpitoaineisto on tallennettu html-muodossa ja tositteet pdf-muodossa. Arkistoa voi lukea millä tahansa selaimella avaamalla hakemistosta **index.html**-tiedoston. Arkisto on suunniteltu niin, että kirjanpidon aineisto on tarkasteltavissa kirjausketju säilyttäen sellaisessa muodossa, joka oletetaan olevan yleisesti käytettävillä ohjelmilla avattavissa vielä vuosikymmenten kuluttua, myös ilman Kitupiikki-ohjelmaa.
+Arkisto on hakemisto, johon kirjanpitoaineisto on tallennettu html-muodossa. Arkistoa voi lukea millä tahansa selaimella avaamalla hakemistosta **index.html**-tiedoston. Arkisto on suunniteltu niin, että kirjanpidon aineisto on tarkasteltavissa kirjausketju säilyttäen sellaisessa muodossa, joka oletetaan olevan yleisesti käytettävillä ohjelmilla avattavissa vielä vuosikymmenten kuluttua, myös ilman Kitupiikki-ohjelmaa.
 
 !!! note "Huolehdi säilyttämisestä"
     Huolehdi siitä, että kirjanpitoarkistosi on varmistettu tallentamalle se useammalle fyysiselle medialle, jotka säilyvät käyttökelpoisina koko 10 vuoden säilytysajan.
