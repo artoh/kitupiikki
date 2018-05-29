@@ -85,6 +85,7 @@ void Tuonti::tuoLasku(qlonglong sentit, QDate laskupvm, QDate toimituspvm, QDate
     VientiRivi rivi;
     rivi.pvm = pvm;
     rivi.selite = saajanNimi;
+    rivi.asiakas = saajanNimi;
 
     if( !tilinumero.isEmpty() &&  kp()->tilit()->tiliIbanilla(tilinumero).onkoValidi() )
     {
@@ -111,6 +112,7 @@ void Tuonti::tuoLasku(qlonglong sentit, QDate laskupvm, QDate toimituspvm, QDate
     rivi.erapvm = erapvm;
     rivi.json.set("SaajanNimi", saajanNimi);
     rivi.eraId = TaseEra::UUSIERA;
+    rivi.laskupvm = laskupvm;
 
     kirjausWg()->model()->vientiModel()->lisaaVienti(rivi);
     kirjausWg()->tiedotModeliin();
