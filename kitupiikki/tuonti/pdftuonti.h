@@ -57,7 +57,7 @@ protected:
      */
     void tuoPdfTiliote();
 
-    void tuoTiliTapahtumat(bool kirjausPvmRivit);
+    void tuoTiliTapahtumat(bool kirjausPvmRivit, int vuosiluku);
 
 
     /**
