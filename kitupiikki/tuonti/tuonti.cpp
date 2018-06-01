@@ -202,6 +202,7 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, Q
                     vastarivi.tili = kp()->tilit()->tiliIdlla( tilikysely.value("tili").toInt() );
                     vastarivi.kohdennus = kp()->kohdennukset()->kohdennus( tilikysely.value("kohdennus").toInt() );
                     vastarivi.selite = tilikysely.value("kohdennus").toString();
+                    vastarivi.eraId = era.eraId;
                     break;
                 }
             }

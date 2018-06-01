@@ -300,7 +300,7 @@ void PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuosiluku = 
     kirjausPvmRe.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
 
     QRegularExpression rahaRe("(?<etu>[+-])?(?<eur>(\\d+[ .])*\\d+),(?<snt>\\d{2})(?<taka>[+-])?");
-    QRegularExpression viiteRe("\\b(Viite\\w*\\W*)?(?<viite>RF\\d{2}\\d{4,20}|\\d{4,20})");
+    QRegularExpression viiteRe("(Viite\\w*\\W*|\\b)(?<viite>(RF\\d{2}\\d{4,20}|\\d{4,20}))");
     QRegularExpression arkistoRe("\\b([A-Za-z0-9]+\\s?)*\\b");
     QRegularExpression seliteRe("\\b[A-ö& ]{8,}\\b");
     QRegularExpression pvmRe("(?<p>\\d{1,2})\\.(?<k>\\d{1,2})\\.(?<v>\\d{2}\\d{2}?)");
