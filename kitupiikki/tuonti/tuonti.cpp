@@ -188,7 +188,7 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, Q
     // MYYNTILASKU
     if( sentit > 0 && !viite.isEmpty())
     {
-        QSqlQuery kysely( QString("SELECT eraid FROM vienti WHERE viite='%1' AND iban IS NULL "));
+        QSqlQuery kysely( QString("SELECT eraid FROM vienti WHERE viite='%1' AND iban IS NULL ").arg(viite));
         while( kysely.next())
         {
             TaseEra era( kysely.value(0).toInt() );
