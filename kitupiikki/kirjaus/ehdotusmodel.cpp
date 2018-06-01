@@ -118,7 +118,7 @@ void EhdotusModel::lisaaVienti(VientiRivi rivi)
     endInsertRows();
 }
 
-void EhdotusModel::tallenna(VientiModel *model, int yhdistettavaVastatiliNumero, QDate yhdistettavaPvm)
+void EhdotusModel::tallenna(VientiModel *model, int yhdistettavaVastatiliNumero, QDate yhdistettavaPvm, int indeksi)
 {
     qlonglong yhdistettavaDebet = 0;
     qlonglong yhdistettavaKredit = 0;
@@ -133,7 +133,7 @@ void EhdotusModel::tallenna(VientiModel *model, int yhdistettavaVastatiliNumero,
         }
         else
         {
-            model->lisaaVienti(vienti);
+            model->lisaaVienti(vienti, indeksi);
         }
     }
 

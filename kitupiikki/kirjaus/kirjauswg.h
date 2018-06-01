@@ -170,6 +170,12 @@ public:
 
     Ui::KirjausWg* gui() { return ui;}
 
+    /**
+     * @brief Vientilistauksen nykyinen indeksi
+     * @return
+     */
+    int nykyinenRivi() const { return ui->viennitView->currentIndex().row(); }
+
 signals:
     void liiteValittu(const QByteArray& pdf);
     /**
