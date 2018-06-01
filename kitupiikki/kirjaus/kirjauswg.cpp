@@ -410,10 +410,11 @@ void KirjausWg::kirjaaLaskunmaksu()
 
 void KirjausWg::paivitaTallennaPoistaNapit()
 {
-    ui->tallennaButton->setEnabled( model()->muokattu()  && model()->muokkausSallittu() &&
-                                    model()->kelpaakoTunniste( ui->tunnisteEdit->text().toInt() ) );
     poistaAktio_->setEnabled( model()->muokattu() && model_->id() > -1 && model()->muokkausSallittu());
     uudeksiAktio_->setEnabled( !model()->muokattu() );
+
+    naytaSummat();
+
 }
 
 void KirjausWg::paivitaVaroitukset() const
@@ -567,7 +568,8 @@ void KirjausWg::naytaSummat()
                                  .arg(((double) kredit ) / 100.0 ,0,'f',2));
 
     // #39: Debet- ja kredit-kirjausten on täsmättävä
-    ui->tallennaButton->setEnabled( !erotus && model()->muokattu() && model()->muokkausSallittu() );
+    ui->tallennaButton->setEnabled( !erotus && model()->muokattu() && model()->muokkausSallittu() &&
+                                    model()->kelpaakoTunniste( ui->tunnisteEdit->text().toInt() ));
 
     // Tilien joilla kirjauksia oltava valideja
     for(int i=0; i < model_->vientiModel()->rowCount(QModelIndex()); i++)
