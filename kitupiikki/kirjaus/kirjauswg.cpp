@@ -316,12 +316,13 @@ void KirjausWg::tallenna()
                     .arg( kp()->tilikausiPaivalle( model_->pvm() ).kausitunnus() ));
 
     tyhjenna();
-    emit tositeKasitelty();
 
     ui->tositePvmEdit->setFocus();
 
     if( !kp()->asetukset()->onko("EkaTositeKirjattu"))
         kp()->asetukset()->aseta("EkaTositeKirjattu", true);
+
+    emit tositeKasitelty();
 }
 
 void KirjausWg::hylkaa()
@@ -769,6 +770,7 @@ void KirjausWg::vaihdaTositeTyyppi()
             ui->otsikkoEdit->setText( QString("Tiliote %1 ajalta %2 - %3")
                     .arg(otetili.nimi()).arg(ui->tiliotealkaenEdit->date().toString("dd.MM.yyyy"))
                     .arg( ui->tilioteloppuenEdit->date().toString("dd.MM.yyyy")));
+        tiedotModeliin();
     }
     else
     {
