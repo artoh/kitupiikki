@@ -75,6 +75,8 @@ public:
 
     QString ohjeSivunNimi() override { return "selaus"; }
 
+protected:
+    bool eventFilter(QObject *watched, QEvent *event);
 
 signals:
     void tositeValittu(int id);

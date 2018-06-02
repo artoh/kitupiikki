@@ -33,8 +33,8 @@ SelausWg::SelausWg() :
 {
     ui->setupUi(this);
 
-    ui->valintaTab->addTab(QIcon(":/pic/tekstisivu.png"),tr("Tositteet"));
-    ui->valintaTab->addTab(QIcon(":/pic/vientilista.png"),tr("Viennit"));
+    ui->valintaTab->addTab(QIcon(":/pic/tekstisivu.png"),tr("&Tositteet"));
+    ui->valintaTab->addTab(QIcon(":/pic/vientilista.png"),tr("&Viennit"));
 
     model = new SelausModel();
     tositeModel = new TositeSelausModel();
@@ -65,8 +65,6 @@ SelausWg::SelausWg() :
     connect( ui->tiliCombo, SIGNAL(currentTextChanged(QString)), this, SLOT(suodata()));
     connect( ui->selausView, SIGNAL(clicked(QModelIndex)), this, SLOT(naytaTositeRivilta(QModelIndex)));
 
-    // connect( ui->selausView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)) , this, SLOT(naytaTositeRivilta(QModelIndex)));
-
     ui->valintaTab->setCurrentIndex(0);     // Oletuksena tositteiden selaus
     connect( ui->valintaTab, SIGNAL(currentChanged(int)), this, SLOT(selaa(int)));
 
@@ -74,6 +72,8 @@ SelausWg::SelausWg() :
     connect( kp(), SIGNAL(tietokantaVaihtui()), this, SLOT(alusta()));
 
     connect( ui->alkuEdit, SIGNAL(dateChanged(QDate)), this, SLOT(alkuPvmMuuttui()));
+
+    ui->selausView->installEventFilter(this);
 
     paivitettava = true;
 }
@@ -250,11 +250,25 @@ void SelausWg::selaa(int kumpi)
         selaaTositteita();
     else
         selaaVienteja();
+
+    ui->selausView->selectRow(0);
+    ui->selausView->setFocus();
 }
 
 void SelausWg::siirrySivulle()
 {
 
-        selaa( ui->valintaTab->currentIndex() );
+    selaa( ui->valintaTab->currentIndex() );
+}
+
+bool SelausWg::eventFilter(QObject *watched, QEvent *event)
+{
+    if( watched == ui->selausView && event->type() == QEvent::KeyPress)
+    {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        if( keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return )
+            naytaTositeRivilta( ui->selausView->selectionModel()->currentIndex() );
+    }
+    return false;
 }
 
