@@ -37,6 +37,7 @@
 #include "validator/ibanvalidator.h"
 #include "validator/viitevalidator.h"
 
+#include "db/kirjanpito.h"
 
 PdfTuonti::PdfTuonti(KirjausWg *wg) :
     Tuonti( wg )
@@ -54,9 +55,9 @@ bool PdfTuonti::tuo(const QByteArray &data)
 
         if( etsi("hyvityslasku",0,30))
             {;}    // Hyvityslaskulle ei automaattista käsittelyä
-        else if( etsi("lasku",0,30))
+        else if( etsi("lasku",0,30) && kp()->asetukset()->luku("TuontiOstolaskuPeruste"))
             tuoPdfLasku();
-        else if( etsi("tiliote",0,30))
+        else if( etsi("tiliote",0,30) && kp()->asetukset()->onko("TuontiTiliote") )
             tuoPdfTiliote();
 
     }
