@@ -542,6 +542,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#kirjaamisperusteen-valinta" title="Kirjaamisperusteen valinta" class="md-nav__link">
+    Kirjaamisperusteen valinta
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#devtool" title="DevTool" class="md-nav__link">
     DevTool
   </a>
@@ -821,6 +828,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#kirjaamisperusteen-valinta" title="Kirjaamisperusteen valinta" class="md-nav__link">
+    Kirjaamisperusteen valinta
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#devtool" title="DevTool" class="md-nav__link">
     DevTool
   </a>
@@ -897,6 +911,23 @@ Elinkeinonharjoittaja=EI
 <p>Joukko tilejä voidaan piilottaa, näyttää tai asettaa suosikkitileiksi. Tilit näytetään komennolla <code>+201..207</code> missä <strong>+</strong>-merkkiä seuraa tilinumeroväli samalla tavalla kuin raporteissa. Tilit piilotetaan vastaavasti komennolla <code>-201..207</code> tai asetetaan suosikiksi <code>*220</code>.</p>
 <p>Tilien <a href="https://github.com/artoh/kitupiikki/wiki/Json#tili">json-määreitä</a> voidaan muuttaa komennolla <code>30..31 AlvProsentti=14</code> (esimerkki muuttaa tilien 3000-3199 alv-prosentiksi 14).</p>
 <p>Kirjanpidon <a href="https://github.com/artoh/kitupiikki/wiki/Asetukset">asetuksia</a> voidaan muuttaa komennolla <code>Elinkeinonharjoittaja=ON</code>. Listamuotoiseen asetukseen voidaan lisätä rivi komennolla <code>ArkistoRaportit+=Toiminnanalat</code> ja vastaavasti poistaa komennolla <code>ArkistoRaportit-=Toiminnanalat</code>.</p>
+<p><a href="../../maaritykset/tositelajit/">Tositelajien</a> oletusvastatilejä voidaan muuttaa komennolla <code>OL/1910</code>, joka määrittää tositelajin OL oletusvastatiliksi 1910.</p>
+<h2 id="kirjaamisperusteen-valinta">Kirjaamisperusteen valinta<a class="headerlink" href="#kirjaamisperusteen-valinta" title="Permanent link">&para;</a></h2>
+<p><a href="../../aloitus/#kirjaamisperuste">Kirjaamisperusteen valinta kirjanpitoa aloitettaessa</a> toteutetaan vastaavilla skripteillä <strong>Kirjaamisperuste/Suoriteperuste</strong>, <strong>Kirjaamisperuste/Laskuperuste</strong> ja <strong>Kirjaamisperuste/Maksuperuste</strong>.</p>
+<pre><code>[Kirjaamisperuste/Suoriteperuste]
+TuontiOstolaskuPeruste=1
+[Kirjaamisperuste/Laskuperuste]
+LaskuKirjausperuste=1
+TuontiOstolaskuPeruste=2
+[Kirjaamisperuste/Maksuperuste]
+ML/1910
+OL/1910
+LaskuKirjausperuste=2
+TuontiOstolaskuPeruste=3
+TuontiOstolaskuTili=1910
+TilinpaatosValinnat+=maksuperuste
+</code></pre>
+
 <h2 id="devtool">DevTool<a class="headerlink" href="#devtool" title="Permanent link">&para;</a></h2>
 <div class="admonition danger">
 <p class="admonition-title">Tiedä, mitä teet</p>
