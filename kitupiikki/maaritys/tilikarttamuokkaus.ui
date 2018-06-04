@@ -93,7 +93,7 @@
      <item>
       <widget class="QLineEdit" name="siirryEdit">
        <property name="placeholderText">
-        <string>Siirry tiliin</string>
+        <string>Siirry tiliin nro</string>
        </property>
       </widget>
      </item>

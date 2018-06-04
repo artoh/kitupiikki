@@ -19,6 +19,7 @@
 
 #include <QDebug>
 #include <QScrollBar>
+#include <QRegularExpressionValidator>
 
 #include "tilikarttamuokkaus.h"
 #include "db/kirjanpito.h"
@@ -46,6 +47,9 @@ TilikarttaMuokkaus::TilikarttaMuokkaus(QWidget *parent)
 
     ui->view->setModel(proxy);
     ui->view->hideColumn( TiliModel::NRONIMI);
+    ui->view->horizontalHeader()->setSectionResizeMode( TiliModel::NIMI, QHeaderView::Stretch );
+
+    ui->siirryEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("[1-9][0-9]{0,7}")));
 
     // Tilin tilaa muuttavat napit käsitellään signaalimappauksella
     QSignalMapper *tilamapper = new QSignalMapper(this);
