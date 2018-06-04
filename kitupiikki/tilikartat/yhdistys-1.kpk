@@ -4,7 +4,7 @@ Yhdistys
 [TilikarttaTekija]
 artoh.github.io
 [TilikarttaPvm]
-2018-05-05
+2018-06-01
 [TilikarttaKuvaus]
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 <html><head><meta name="qrichtext" content="1" /><style type="text/css">
@@ -213,7 +213,7 @@ BS- 2975 {"Taseerittely":2} Velat omistusyhteysyrityksille; lyhytaikaiset
 H4 298 {} Muut velat
 BL- 2984 {} Arvonlisäverovelka
 BLM- 2985 {} Maksuperusteinen arvonlisäverovelka
-BV- 2986 {"Kirjausohje":"Tälle tilille siirretään maksettavat arvonlisäverot siinä vaiheessa, kun tehdään arvonlisäveroilmoitus."} Verovelka (Omavero-tili)
+BV 2986 {"Kirjausohje":"Tälle tilille siirretään maksettavat arvonlisäverot siinä vaiheessa, kun tehdään arvonlisäveroilmoitus."} Verovelka (Omavero-tili)
 BS 2989 {"Taseerittely":2} Muut velat
 H4 299 {} Siirtovelat
 BS 2990 {"Taseerittely":2} Siirtovelat
@@ -813,10 +813,12 @@ Tilikartan laajuus
 -95
 [MuotoOn/2 Ei palkkoja]
 -26/3
+-2986
 -5
 -75
 [MuotoPois/2 Ei palkkoja]
 +26/3
++2986
 +5
 +75
 [MuotoOn/3 Tavallinen]
