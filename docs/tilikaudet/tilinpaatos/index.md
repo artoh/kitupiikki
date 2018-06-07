@@ -1,3 +1,5 @@
+!!! tip ""
+    [<span class="fa fa-youtube"></span> Katso video tilinpäätöksen laatimisesta](https://www.youtube.com/watch?v=cldqp1k_3Qo)   
 
 ![](aikalaatia.png)
 

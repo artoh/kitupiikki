@@ -22,6 +22,9 @@ Lisäksi ostolaskulle tallennetaan lisätiedot (saajan pankkitili ja viite), joi
 !!! tip "Eikö toimi?"
     Pdf-tiliotteen tuonti on kokeellinen toiminto. Jos se toimii väärin oman pankkisi tiliotteiden kanssa tai muuten ottaa päähän tai häiritsee, ota se pois käytöstä [tuonnin määrityksistä](/maaritykset/tuonti).
 
+!!! tip ""
+    [<span class="fa fa-youtube"></span> Katso video tiliotteen kirjaamisesta](https://www.youtube.com/watch?v=0uR19M1-Aao)    
+
 Tiliotteen perusteella Kitupiikki tekee valmiit pankkitilin kirjaukset. Jos tiliotteella olevan tapahtuman IBAN- ja viitenumerot täsmäävät avoinna olevaan myynti- tai ostolaskuun, osaa Kitupiikki kohdentaa suorituksen ja tekee koko kirjauksen valmiiksi. Verohallinnon oma-aloitteisten verojen maksutilille tehdyt suoritukset kohdistetaan verovelkatilille.
 
 Tiliotteen kirjaaminen edellyttää, että tilin IBAN-numero on määritelty kyseisen tilin [määrityksissä](/maaritykset/tilikartta).
@@ -36,6 +39,9 @@ Kitupiikki laatii viennit konekielisten TITO-tiliotteiden tilitapahtumista (asci
 ## Palkat palkka.fi-palvelusta
 
 [Palkka.fi](https://palkka.fi) on Verohallinnon ylläpitämä ilmainen palvelu palkan laskemiseen ja kaikkien palkanmaksuun liittyvien viranomaisilmoitusten hoitamiseen.
+
+!!! tip ""
+    [<span class="fa fa-youtube"></span> Katso video palkkatositteen tuomisesta](https://www.youtube.com/watch?v=7o0L5SQBXuk)
 
 1. Kun olet tehnyt palkka.fi-palvelussa kuukauden palkat, valitse Palkanlaskennat tulosteet -kohdasta Tee uusi tuloste. Valitse tulostetyypiksi **Kirjanpidon tosite (CSV)**. Syötä kausi ja valitse **Tee tuloste**. Lataa tekemäsi tuloste.
    ![Palkka-fi tulosteen luominen](palkkatuloste.png)

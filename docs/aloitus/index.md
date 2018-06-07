@@ -1,5 +1,7 @@
 # Kirjanpidon aloittaminen
 
+!!! tip ""
+    [<span class="fa fa-youtube"></span> Katso video uuden kirjanpidon aloittamisesta](https://www.youtube.com/watch?v=ESYLC2T0Tds&t=6s)   
 
 ## Aloittaminen
 

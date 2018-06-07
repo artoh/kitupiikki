@@ -2,6 +2,9 @@
 
 Useimmat tavanomaiset kirjaukset kuten ostot, myynnit, nostot pankkitililtä jne. kirjaat helpoiten käyttämällä Kirjausapuria.
 
+!!! tip ""
+    [<span class="fa fa-youtube"></span> Katso video ostolaskun kirjaamisesta](https://www.youtube.com/watch?v=JiM0y-HHoCI)
+
 ![](apuri1.png)
 
 
