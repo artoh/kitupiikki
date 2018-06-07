@@ -191,11 +191,11 @@ void TaseEraValintaDialogi::sntSuodatusVaihtuu()
     else
         sntProxy_->setFilterFixedString("");
 
+
     // Valitaan valittuna ollut
     for(int i=0; i < proxy_->rowCount(); i++)
     {
-        if( proxy_->data( proxy_->index(i,0), EranValintaModel::EraIdRooli ).toInt() == taseEra_ ||
-            proxy_->data( proxy_->index(i,0), EranValintaModel::EraIdRooli ).toInt() == vientiId_ )
+        if( proxy_->data( proxy_->index(i,0), EranValintaModel::EraIdRooli ).toInt() == taseEra_ )
         {
             ui->view->setCurrentIndex( proxy_->index(i,0) );
         }

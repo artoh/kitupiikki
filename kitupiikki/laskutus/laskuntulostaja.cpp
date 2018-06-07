@@ -98,7 +98,11 @@ QString LaskunTulostaja::html()
         otsikko = tr("Kuitti");
 
     txt.append(tr("<tr><td rowspan=2 width=50%>%1<br>%2</td><td colspan=3>%3</td></tr>").arg(kp()->asetukset()->asetus("Nimi")).arg(omaosoite).arg(otsikko) );
-    txt.append(tr("<tr><td width=25%>Laskun päivämäärä</td><td width=25%>%1</td></tr>").arg( kp()->paivamaara().toString("dd.MM.yyyy") ));
+
+    if(model_->hyvityslasku().viite.isEmpty())
+        txt.append(tr("<tr><td width=25%>Laskun päivämäärä</td><td width=25%>%1</td></tr>").arg( kp()->paivamaara().toString("dd.MM.yyyy") ));
+    else
+        txt.append(tr("<tr><td width=25%>Hyvityksen päivämäärä</td><td width=25%>%1</td></tr>").arg( kp()->paivamaara().toString("dd.MM.yyyy") ));
 
     if( model_->kirjausperuste() == LaskuModel::KATEISLASKU)
         txt.append(tr("<tr><td rowspan=4>%1</td><td>Laskun numero</td><td>%2</td></td>").arg( osoite ).arg(model_->viitenumero() ));
@@ -321,7 +325,11 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter)
     }
 
     painter->drawText(QRectF( keskiviiva + mm, pv - rk + mm, leveys / 4, rk ), Qt::AlignTop, tr("Päivämäärä"));
-    painter->drawText(QRectF( keskiviiva + mm, pv + mm, leveys / 4, rk ), Qt::AlignTop, tr("Toimituspäivä"));
+
+    if( !model_->hyvityslasku().viite.isEmpty() )
+        painter->drawText(QRectF( keskiviiva + mm, pv + mm, leveys / 4, rk ), Qt::AlignTop, tr("Hyvityksen päivämäärä"));
+    else
+        painter->drawText(QRectF( keskiviiva + mm, pv + mm, leveys / 4, rk ), Qt::AlignTop, tr("Toimituspäivä"));
 
     if( model_->kirjausperuste() == LaskuModel::KATEISLASKU)
         painter->drawText(QRectF( keskiviiva + mm, pv + rk + mm, leveys / 4, rk ), Qt::AlignTop, tr("Laskun numero"));

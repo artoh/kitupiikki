@@ -1,5 +1,7 @@
 # Kirjanpidon aloittaminen
 
+!!! tip ""
+    [<span class="fa fa-youtube"></span> Katso video uuden kirjanpidon aloittamisesta](https://www.youtube.com/watch?v=ESYLC2T0Tds&t=6s)   
 
 ## Aloittaminen
 
@@ -28,9 +30,10 @@ tilinpäätöksen pohjan.
 Tilikartan nimi   | Kuvaus
 ------------------|-------------------------
 Elinkeintotoiminta  | Tilikartta yritystoimintaa varten. Yritysmuotoina elinkeinonharjoittaja, avoin yhtiö, kommandiittiyhtiö, osuuskunta, osakeyhtiö ja julkinen osakeyhtiö. Tilikartta on yhteensopiva [Tilitin](http://helineva.net/tilitin)-ohjelman elinkeinotoiminnan tilikartan kanssa. 869 tiliä.
-Kiinteistöyhtiö | Kiinteistökaavan mukaisen tuloslaskelman tilikartta kiinteistöyhtiölle ja asunto-osakeyhtiölle. <span class="fa fa-exclamation-triangle"></span>**Tämä tilikartta on puutteellisesti testattu.**
 Yhdistys | Tilikartta aatteelliselle yhdistykselle ja säätiölle. Tuloslaskelma on yhdistyskaavan mukainen. 214 tiliä, kirjanpitoa aloitettaessa valitaan tilikartan laajuus (käytössä olevat tilit) yhdistyksen tarpeiden mukaisesti.
 
+!!! note "Kiinteistöyhtiön tilikartta"
+    Kiinteistöyhtiön tilikartan voi [ladata erikseen](https://raw.githubusercontent.com/artoh/kitupiikki/master/kitupiikki/tilikartat/kiinteisto.kpk). *Kiinteistöyhtiön tilikartta on puutteellisesti testattu, eikä siinä ole käytössä kaikkia ominaisuuksia.*
 
 Voit valita ohjelman mukana tulevan tilikartan tai **Lataa tilikartta tiedostosta**-napilla
 erilliseen tiedostoon tallennetun tilikartan.

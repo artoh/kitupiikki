@@ -4,7 +4,7 @@
 
 Välilehdellä valitaan näytettäväksi kaikki laskut, maksamattomat eli avoimet tai erääntyneet eli myöhässä olevat laskut. Laskuja voi rajata laskun päivämäärän mukaan. Voit myös hakea asiakkaan nimellä tai viitenumeron alkuosalla.
 
-**Näytä**-painike avaa nähtäväksi valitsemasi laskun, **Hyvityslasku**-painikkeella laadit valittua laskua koskevan hyvityslaskun ja **Uusi lasku**-painikkeella pääset laatimaan uuden laskun.
+**Näytä**-painike avaa nähtäväksi valitsemasi laskun, **Hyvityslasku**-painikkeella laadit valittua laskua koskevan hyvityslaskun ja **Uusi lasku**-painikkeella pääset laatimaan uuden laskun. **Poista**-painikkeella voit poistaa laskun ja kaikki siihen liittyvät kirjaukset.
 
 ## Uusi lasku
 
@@ -31,9 +31,6 @@ Hyvityslasku laaditaan valitsemalla **Laskut**-välilehden luettelosta hyvitett�
 ![](hyvityslasku.png)
 
 Kirjoita laskulle tehtävät hyvitykset/korjaukset **Rivit**-välilehden ruudukkoon.
-
-!!! tip "Luottotappio"
-    Jos lasku jää luottotappioksi, se poistetaan avointen laskujen luottelosta tekemällä hyvityslasku, jossa laskun summa kirjataan luottotappioiden menotilille.
 
 
 ## Laskun maksaminen

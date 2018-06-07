@@ -219,7 +219,7 @@ void KirjausWg::tyhjenna()
     // Apurivinkit alkuun
     // Ensimmäisillä kerroilla näytetään erityinen vinkki Apurin käytöstä
     QSettings settings;
-    if( settings.value("ApuriVinkki", 1).toInt())
+    if( settings.value("ApuriVinkki", 1).toInt() > 0)
     {
         if( !apurivinkki_)
             apurivinkki_ = new ApuriVinkki(this);
@@ -326,12 +326,13 @@ void KirjausWg::tallenna()
                     .arg( kp()->tilikausiPaivalle( model_->pvm() ).kausitunnus() ));
 
     tyhjenna();
-    emit tositeKasitelty();
 
     ui->tositePvmEdit->setFocus();
 
     if( !kp()->asetukset()->onko("EkaTositeKirjattu"))
         kp()->asetukset()->aseta("EkaTositeKirjattu", true);
+
+    emit tositeKasitelty();
 }
 
 void KirjausWg::hylkaa()
@@ -420,10 +421,11 @@ void KirjausWg::kirjaaLaskunmaksu()
 
 void KirjausWg::paivitaTallennaPoistaNapit()
 {
-    ui->tallennaButton->setEnabled( model()->muokattu()  && model()->muokkausSallittu() &&
-                                    model()->kelpaakoTunniste( ui->tunnisteEdit->text().toInt() ) );
     poistaAktio_->setEnabled( model()->muokattu() && model_->id() > -1 && model()->muokkausSallittu());
     uudeksiAktio_->setEnabled( !model()->muokattu() );
+
+    naytaSummat();
+
 }
 
 void KirjausWg::paivitaVaroitukset() const
@@ -607,7 +609,8 @@ void KirjausWg::naytaSummat()
                                  .arg(((double) kredit ) / 100.0 ,0,'f',2));
 
     // #39: Debet- ja kredit-kirjausten on täsmättävä
-    ui->tallennaButton->setEnabled( !erotus && model()->muokattu() && model()->muokkausSallittu() );
+    ui->tallennaButton->setEnabled( !erotus && model()->muokattu() && model()->muokkausSallittu() &&
+                                    model()->kelpaakoTunniste( ui->tunnisteEdit->text().toInt() ));
 
     // Tilien joilla kirjauksia oltava valideja
     for(int i=0; i < model_->vientiModel()->rowCount(QModelIndex()); i++)
@@ -807,6 +810,7 @@ void KirjausWg::vaihdaTositeTyyppi()
             ui->otsikkoEdit->setText( QString("Tiliote %1 ajalta %2 - %3")
                     .arg(otetili.nimi()).arg(ui->tiliotealkaenEdit->date().toString("dd.MM.yyyy"))
                     .arg( ui->tilioteloppuenEdit->date().toString("dd.MM.yyyy")));
+        tiedotModeliin();
     }
     else
     {
@@ -836,7 +840,8 @@ void KirjausWg::kirjausApuri()
     if( apurivinkki_ )
     {
         QSettings settings;
-        settings.setValue("ApuriVinkki", settings.value("ApuriVinkki",3).toInt() - 1 );
+        if( settings.value("ApuriVinkki"),3)
+            settings.setValue("ApuriVinkki", settings.value("ApuriVinkki",3).toInt() - 1 );
         apurivinkki_->hide();
     }
 

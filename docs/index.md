@@ -55,8 +55,8 @@
 Kitupiikki on ilmainen suomalainen kirjanpito-ohjelma. Kitupiikki käsittelee ja arkistoi skannatut tositteet. Ohjelma on alunperin suunniteltu yhdistyksille, mutta Kitupiikin avulla hoidat vaivattomasti myös pienehkön yrityksen kirjanpidon.
 
 <div class="asennusinfo">
-<h3>Kitupiikki 0.12.2 (beta) julkaistu 16.5.2018</h3>
-Parannettu päivämäärien syöttämistä ja tilien muokkaamista.
+<h3>Kitupiikki 1.0 BETA julkaistu 4.6.2018</h3>
+Uutena kirjausperusteen valinta aloituksessa, palkka.fi -tositteen tuonti ja alv-laskelma kesken verokauden.
 
 <div class="asennuslaatikko">
 <a href="asennus" style="color:white;"><span class="fa fa-download"></span> Lataa Kitupiikki <span class="fa fa-windows"></span> <span class="fa fa-linux"></span></a>

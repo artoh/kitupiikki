@@ -70,6 +70,9 @@
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QPushButton" name="uusiNappi">
+       <property name="toolTip">
+        <string>Aloita uusi kirjanpito   Ctrl+N</string>
+       </property>
        <property name="text">
         <string>Uusi kirjanpito</string>
        </property>
@@ -84,6 +87,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="avaaNappi">
+       <property name="toolTip">
+        <string>Avaa kirjanpitotiedosto    Ctrl + O</string>
+       </property>
        <property name="text">
         <string>Avaa kirjanpito</string>
        </property>

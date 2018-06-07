@@ -37,6 +37,7 @@
 #include "validator/ibanvalidator.h"
 #include "validator/viitevalidator.h"
 
+#include "db/kirjanpito.h"
 
 PdfTuonti::PdfTuonti(KirjausWg *wg) :
     Tuonti( wg )
@@ -54,9 +55,9 @@ bool PdfTuonti::tuo(const QByteArray &data)
 
         if( etsi("hyvityslasku",0,30))
             {;}    // Hyvityslaskulle ei automaattista käsittelyä
-        else if( etsi("lasku",0,30))
+        else if( etsi("lasku",0,30) && kp()->asetukset()->luku("TuontiOstolaskuPeruste"))
             tuoPdfLasku();
-        else if( etsi("tiliote",0,30))
+        else if( etsi("tiliote",0,30) && kp()->asetukset()->onko("TuontiTiliote") )
             tuoPdfTiliote();
 
     }
@@ -285,24 +286,24 @@ void PdfTuonti::tuoPdfTiliote()
     // Sitten tuodaan tiliotteen tiedot
     // Jos Kirjauspäivä xx.xx.xx -kenttiä, niin haetaan kirjauspäivät niistä
 
-    QRegularExpression kirjausPvmRe("\\bKirjauspäivä\\W+(?<p>\\d{1,2})\\.(?<k>\\d{1,2})\\.(?<v>\\d{2,4})\\b");
+    QRegularExpression kirjausPvmRe("\\bKirjauspäivä\\W+(?<p>\\d{1,2})\\.(?<k>\\d{1,2})\\.(?<v>(\\d{2})?(\\d{2})?)");
     kirjausPvmRe.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
 
-    tuoTiliTapahtumat( kokoteksti.contains( kirjausPvmRe) );
+    tuoTiliTapahtumat( kokoteksti.contains( kirjausPvmRe) , mihin.year());
 
 }
 
-void PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false)
+void PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuosiluku = QDate::currentDate().year())
 {
     QMapIterator<int,QString> iter(tekstit_);
 
-    QRegularExpression kirjausPvmRe("\\bKirjauspäivä\\W+(?<p>\\d{1,2})\\.(?<k>\\d{1,2})\\.(?<v>\\d{2,4})\\b");
+    QRegularExpression kirjausPvmRe("\\bKirjauspäivä\\W+(?<p>\\d{1,2})\\.(?<k>\\d{1,2})\\.(?<v>(\\d{2})?(\\d{2})?)");
     kirjausPvmRe.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
 
     QRegularExpression rahaRe("(?<etu>[+-])?(?<eur>(\\d+[ .])*\\d+),(?<snt>\\d{2})(?<taka>[+-])?");
-    QRegularExpression viiteRe("\\b(RF\\d{2}\\d{4,20}|\\d{4,20})\\b");
+    QRegularExpression viiteRe("(Viite\\w*\\W*|\\b)(?<viite>(RF\\d{2}\\d{4,20}|\\d{4,20}))");
     QRegularExpression arkistoRe("\\b([A-Za-z0-9]+\\s?)*\\b");
-    QRegularExpression seliteRe("\\b[A-ö ]{8,}\\b");
+    QRegularExpression seliteRe("\\b[A-ö& ]{8,}\\b");
     QRegularExpression pvmRe("(?<p>\\d{1,2})\\.(?<k>\\d{1,2})\\.(?<v>\\d{2}\\d{2}?)");
 
 
@@ -392,7 +393,9 @@ void PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false)
             if( (teksti.contains(kirjausPvmRe) || teksti.contains(rahaRe) ) &&
                 maara && !arkistotunnus.isEmpty())
             {
-                oterivi(kirjauspvm, maara, iban, viite, arkistotunnus, selite);
+                if( kirjauspvm.isValid())
+                    oterivi(kirjauspvm, maara, iban, viite, arkistotunnus, selite);
+
                 maara = 0;
                 iban.clear();
                 viite.clear();
@@ -405,7 +408,9 @@ void PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false)
             {
                 QRegularExpressionMatch mats = kirjausPvmRe.match(teksti);
                 int vuosi = mats.captured("v").toInt();
-                if( vuosi < 100)
+                if( !vuosi)
+                    vuosi = vuosiluku;
+                else if( vuosi < 100)
                     vuosi += QDate::currentDate().year() / 100 * 100;
                 kirjauspvm = QDate( vuosi, mats.captured("k").toInt(), mats.captured("p").toInt());
                 continue;
@@ -416,7 +421,9 @@ void PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false)
             {
                 QRegularExpressionMatch mats = pvmRe.match(teksti);
                 int vuosi = mats.captured("v").toInt();
-                if( vuosi < 100)
+                if( !vuosi )
+                    vuosi = vuosiluku;
+                else if( vuosi < 100)
                     vuosi += QDate::currentDate().year() / 100;
                 riviKirjauspvm = QDate( vuosi, mats.captured("k").toInt(), mats.captured("p").toInt());
             }
@@ -435,7 +442,7 @@ void PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false)
             else if( teksti.contains(viiteRe) && riviViite.isEmpty())
             {
                 QRegularExpressionMatch mats = viiteRe.match(teksti);
-                QString ehdokas = mats.captured(0);
+                QString ehdokas = mats.captured("viite");
                 if( viiteValidoija.validate(ehdokas,position) == ViiteValidator::Acceptable)
                 {
                     riviViite = ehdokas;
@@ -475,6 +482,7 @@ void PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false)
                     !ehdokas.contains("OSTO") &&
                     !ehdokas.contains("LASKU") &&
                     !ehdokas.contains("IBAN") &&
+                    !ehdokas.contains("VIITEMAKSU") &&
                     !ehdokas.contains("BIC") &&
                     !ehdokas.contains("ARKISTOINTITUNNUS", Qt::CaseInsensitive) &&
                     !ehdokas.contains("TILINUMERO", Qt::CaseInsensitive) &&

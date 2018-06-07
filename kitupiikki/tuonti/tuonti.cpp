@@ -85,6 +85,7 @@ void Tuonti::tuoLasku(qlonglong sentit, QDate laskupvm, QDate toimituspvm, QDate
     VientiRivi rivi;
     rivi.pvm = pvm;
     rivi.selite = saajanNimi;
+    rivi.asiakas = saajanNimi;
 
     if( !tilinumero.isEmpty() &&  kp()->tilit()->tiliIbanilla(tilinumero).onkoValidi() )
     {
@@ -110,6 +111,8 @@ void Tuonti::tuoLasku(qlonglong sentit, QDate laskupvm, QDate toimituspvm, QDate
     rivi.ibanTili = tilinumero;
     rivi.erapvm = erapvm;
     rivi.json.set("SaajanNimi", saajanNimi);
+    rivi.eraId = TaseEra::UUSIERA;
+    rivi.laskupvm = laskupvm;
 
     kirjausWg()->model()->vientiModel()->lisaaVienti(rivi);
     kirjausWg()->tiedotModeliin();
@@ -185,7 +188,7 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, Q
     // MYYNTILASKU
     if( sentit > 0 && !viite.isEmpty())
     {
-        QSqlQuery kysely( QString("SELECT eraid FROM vienti WHERE viite='%1' AND iban IS NULL "));
+        QSqlQuery kysely( QString("SELECT eraid FROM vienti WHERE viite='%1' AND iban IS NULL ").arg(viite));
         while( kysely.next())
         {
             TaseEra era( kysely.value(0).toInt() );
@@ -199,6 +202,7 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, Q
                     vastarivi.tili = kp()->tilit()->tiliIdlla( tilikysely.value("tili").toInt() );
                     vastarivi.kohdennus = kp()->kohdennukset()->kohdennus( tilikysely.value("kohdennus").toInt() );
                     vastarivi.selite = tilikysely.value("kohdennus").toString();
+                    vastarivi.eraId = era.eraId;
                     break;
                 }
             }

@@ -256,7 +256,7 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
             else if( rivi.kohdennus.id() )
                 return rivi.kohdennus.tyyppiKuvake();
 
-            else if( ( rivi.eraId == TaseEra::UUSIERA || rivi.eraId > 0 ) && rivi.tili.eritellaankoTase() )
+            else if( ( (rivi.eraId == TaseEra::UUSIERA && rivi.vientiId ) || rivi.eraId > 0 ) && rivi.tili.eritellaankoTase() )
             {
                 TaseEra era(rivi.eraId == TaseEra::UUSIERA ? rivi.vientiId : rivi.eraId);
                 if( !era.saldoSnt )

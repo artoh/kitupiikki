@@ -168,7 +168,7 @@ void LaskunMaksuDialogi::kirjaa()
         ehdotus.lisaaVienti(rahaRivi);
         ehdotus.viimeisteleMaksuperusteinen();  // Tämä siksi, että maksuperusteisen lisärivit tulevat
 
-        ehdotus.tallenna( kirjaaja->model()->vientiModel() );
+        ehdotus.tallenna( kirjaaja->model()->vientiModel() , 0, QDate(), kirjaaja->nykyinenRivi());
 
         if( ostolasku)
             ostolaskut->maksa( index.row(), ui->euroSpin->value() * 100 );
