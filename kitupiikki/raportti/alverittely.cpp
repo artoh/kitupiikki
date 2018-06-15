@@ -119,6 +119,27 @@ RaportinKirjoittaja AlvErittely::kirjoitaRaporti(QDate alkupvm, QDate loppupvm)
                 tiliSummaRivi.viivaYlle();
                 kirjoittaja.lisaaRivi(tiliSummaRivi);
                 
+                if( nAlvkoodi == AlvKoodi::MYYNNIT_BRUTTO || nAlvkoodi == AlvKoodi::OSTOT_BRUTTO )
+                {
+                    // Bruttokirjauksista lasketaan tileittäin veron osuus, ja myös
+                    // lisätään se yhteissummiin. Tämä sitä varten, että myös kesken kauden
+                    // tulostettavassa alv-erittelyssä näkyisi alv bruttokirjauksista
+
+                    int osuus = qRound( ( nProsentti  * (double) tilisumma ) / ( nProsentti + 100  ) );
+                    RaporttiRivi osuusRivi;
+                    osuusRivi.lisaa(" ", 2);
+                    osuusRivi.lisaa("Arvonlisäveron osuus bruttosummasta");
+                    if( nAlvkoodi == AlvKoodi::MYYNNIT_BRUTTO ) {
+                        veroyhteensa += osuus;
+                    } else {
+                        vahennysyhteensa += osuus;
+                    }
+                    osuusRivi.lisaa(QString::number(nProsentti) );
+                    osuusRivi.lisaa(osuus);
+                    kirjoittaja.lisaaRivi(osuusRivi);
+
+                }
+
                 if( (alvkoodi != nAlvkoodi || alvprosentti != nProsentti || !jatkuu) && yhtsumma != tilisumma && alvkoodi != AlvKoodi::TILITYS)
                 {
                     // Lopuksi vielä lihavoituna alv-koodin ja -prosentin kokonaissumma
@@ -134,29 +155,6 @@ RaportinKirjoittaja AlvErittely::kirjoitaRaporti(QDate alkupvm, QDate loppupvm)
                     summaRivi.lihavoi();
                     kirjoittaja.lisaaRivi(summaRivi);
                 }
-
-                if( nAlvkoodi == AlvKoodi::MYYNNIT_BRUTTO || nAlvkoodi == AlvKoodi::OSTOT_BRUTTO )
-                {
-                    // Bruttokirjauksista lasketaan tileittäin veron osuus, ja myös
-                    // lisätään se yhteissummiin. Tämä sitä varten, että myös kesken kauden
-                    // tulostettavassa alv-erittelyssä näkyisi alv bruttokirjauksista
-
-                    int osuus = qRound( ( nProsentti  * (double) tilisumma ) / ( nProsentti + 100  ) );
-                    RaporttiRivi osuusRivi;
-                    osuusRivi.lisaa(" ", 2);
-                    if( nAlvkoodi == AlvKoodi::MYYNNIT_BRUTTO ) {
-                        osuusRivi.lisaa("ALV OSUUS");
-                        veroyhteensa += osuus;
-                    } else {
-                        osuusRivi.lisaa("ALV VÄHENNYS");
-                        vahennysyhteensa += osuus;
-                    }
-                    osuusRivi.lisaa("");
-                    osuusRivi.lisaa(osuus);
-                    kirjoittaja.lisaaRivi(osuusRivi);
-
-                }
-
 
                 kirjoittaja.lisaaRivi();
 
