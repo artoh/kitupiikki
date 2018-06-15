@@ -306,7 +306,7 @@ QString RaportinKirjoittaja::html(bool linkit)
                " a { text-decoration: none; color: black; }"
                " td { padding-right: 2em; }"
                " td:last-of-type { padding-right: 0; }"
-               " table { border-collapse: collapse }"
+               " table { border-collapse: collapse;}"
                " p.tulostettu { margin-top:2em; color: darkgray; }"
                "</style>"
                "</head><body>");
@@ -314,7 +314,7 @@ QString RaportinKirjoittaja::html(bool linkit)
     txt.append("<h1>" + otsikko() + "</h1>");
     txt.append("<p>" + kp()->asetukset()->asetus("Nimi") + "<br>");
     txt.append( kausiteksti() + "</p>");
-    txt.append("<table><thead>\n");
+    txt.append("<table width=100%><thead>\n");
 
     // Otsikkorivit
     foreach (RaporttiRivi otsikkorivi, otsakkeet_ )
