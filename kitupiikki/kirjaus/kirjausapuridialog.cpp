@@ -520,6 +520,7 @@ void KirjausApuriDialog::ehdota()
             {
                 verorivi.tili = kp()->tilit()->tiliTyypilla( TiliLaji::KOHDENTAMATONALVVELKA );
                 verorivi.alvkoodi = AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_MYYNTI;
+                verorivi.eraId = TaseEra::UUSIERA;      // Maksuperusteisessa alv:ssa tarvitaan tase-erien seuranta verolle
             }
             else
                 verorivi.alvkoodi = AlvKoodi::ALVKIRJAUS + alvkoodi;
@@ -603,6 +604,7 @@ void KirjausApuriDialog::ehdota()
                 {
                     vahennysrivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVSAATAVA);
                     vahennysrivi.alvkoodi = AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_OSTO;
+                    vahennysrivi.eraId = TaseEra::UUSIERA;
                 }
                 else
                     vahennysrivi.alvkoodi = AlvKoodi::ALVVAHENNYS + alvkoodi;

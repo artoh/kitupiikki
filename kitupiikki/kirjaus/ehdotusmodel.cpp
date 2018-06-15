@@ -17,6 +17,8 @@
 
 #include <QSqlQuery>
 
+#include <QDebug>
+
 #include "ehdotusmodel.h"
 #include "db/kirjanpito.h"
 
@@ -187,6 +189,8 @@ void EhdotusModel::viimeisteleMaksuperusteinen()
 
             TaseEra era(rivi.eraId);
             QSqlQuery tositeKysely( QString("SELECT tosite FROM vienti WHERE id=%1").arg(rivi.eraId));
+
+
             int tosite = tositeKysely.next() ? tositeKysely.value("tosite").toInt() : -1;
 
 
@@ -194,6 +198,8 @@ void EhdotusModel::viimeisteleMaksuperusteinen()
 
             QSqlQuery kysely( QString("SELECT alvprosentti, debetsnt, kreditsnt, id FROM vienti "
                                       "WHERE tili=%1 AND tosite=%2").arg(haeTili.id()).arg(tosite));
+
+
             while( kysely.next())
             {
                 MaksuAlvEra maksuEra;
@@ -206,6 +212,7 @@ void EhdotusModel::viimeisteleMaksuperusteinen()
 
                 TaseEra veroEra(maksuEra.id);
                 maksuEra.sentit = veroEra.saldoSnt;
+
 
                 if( maksuEra.sentit)
                     verot.append(maksuEra);
