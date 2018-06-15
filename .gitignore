@@ -48,3 +48,5 @@ site/*
 *-debug/*
 
 poppler/
+
+apidoc/
