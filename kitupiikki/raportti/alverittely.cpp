@@ -55,7 +55,7 @@ RaportinKirjoittaja AlvErittely::kirjoitaRaporti(QDate alkupvm, QDate loppupvm)
     kirjoittaja.lisaaPvmSarake();
     kirjoittaja.lisaaSarake("TOSITE12345");
     kirjoittaja.lisaaVenyvaSarake();
-    kirjoittaja.lisaaSarake("24");
+    kirjoittaja.lisaaSarake("24 ");
     kirjoittaja.lisaaEurosarake();
 
     RaporttiRivi otsikko;
@@ -109,21 +109,54 @@ RaportinKirjoittaja AlvErittely::kirjoitaRaporti(QDate alkupvm, QDate loppupvm)
             {
                 RaporttiRivi tiliSummaRivi;
                 tiliSummaRivi.lisaa(" ", 3);
-                tiliSummaRivi.lisaa( QString::number(nProsentti));
+
+                if( nAlvkoodi == AlvKoodi::MAKSETTAVAALV)
+                    tiliSummaRivi.lisaa("");
+                else
+                    tiliSummaRivi.lisaa( QString::number(nProsentti));
+
                 tiliSummaRivi.lisaa( tilisumma);
                 tiliSummaRivi.viivaYlle();
                 kirjoittaja.lisaaRivi(tiliSummaRivi);
-
+                
                 if( (alvkoodi != nAlvkoodi || alvprosentti != nProsentti || !jatkuu) && yhtsumma != tilisumma && alvkoodi != AlvKoodi::TILITYS)
                 {
-                    // Lopuksi vielä lihavoituna kokonaissumma
+                    // Lopuksi vielä lihavoituna alv-koodin ja -prosentin kokonaissumma
                     RaporttiRivi summaRivi;
                     summaRivi.lisaa(" ", 3);
-                    summaRivi.lisaa( QString::number(nProsentti));
+
+                    if( nAlvkoodi == AlvKoodi::MAKSETTAVAALV)
+                        summaRivi.lisaa(" ");
+                    else
+                        summaRivi.lisaa( QString::number(nProsentti));
+
                     summaRivi.lisaa( yhtsumma );
                     summaRivi.lihavoi();
                     kirjoittaja.lisaaRivi(summaRivi);
                 }
+
+                if( nAlvkoodi == AlvKoodi::MYYNNIT_BRUTTO || nAlvkoodi == AlvKoodi::OSTOT_BRUTTO )
+                {
+                    // Bruttokirjauksista lasketaan tileittäin veron osuus, ja myös
+                    // lisätään se yhteissummiin. Tämä sitä varten, että myös kesken kauden
+                    // tulostettavassa alv-erittelyssä näkyisi alv bruttokirjauksista
+
+                    int osuus = qRound( ( nProsentti  * (double) tilisumma ) / ( nProsentti + 100  ) );
+                    RaporttiRivi osuusRivi;
+                    osuusRivi.lisaa(" ", 2);
+                    if( nAlvkoodi == AlvKoodi::MYYNNIT_BRUTTO ) {
+                        osuusRivi.lisaa("ALV OSUUS");
+                        veroyhteensa += osuus;
+                    } else {
+                        osuusRivi.lisaa("ALV VÄHENNYS");
+                        vahennysyhteensa += osuus;
+                    }
+                    osuusRivi.lisaa("");
+                    osuusRivi.lisaa(osuus);
+                    kirjoittaja.lisaaRivi(osuusRivi);
+
+                }
+
 
                 kirjoittaja.lisaaRivi();
 
@@ -172,7 +205,12 @@ RaportinKirjoittaja AlvErittely::kirjoitaRaporti(QDate alkupvm, QDate loppupvm)
         {
             RaporttiRivi tiliOtsikko;
             tiliOtsikko.lisaa( tr("%1 %2").arg(tilinro).arg(kp()->tilit()->tiliNumerolla(tilinro).nimi() ), 3);
-            tiliOtsikko.lisaa( QString::number(alvprosentti));
+
+            if( alvkoodi == AlvKoodi::MAKSETTAVAALV)
+                tiliOtsikko.lisaa("");
+            else
+                tiliOtsikko.lisaa( QString::number(alvprosentti));
+
             kirjoittaja.lisaaRivi(tiliOtsikko);
             nTili = tilinro;
         }
@@ -182,12 +220,15 @@ RaportinKirjoittaja AlvErittely::kirjoitaRaporti(QDate alkupvm, QDate loppupvm)
         rivi.lisaa( QString("%1%2").arg( kp()->tositelajit()->tositelaji( kysely.value("laji").toInt() ).tunnus() )
                     .arg( kysely.value("tunniste").toInt() ));
         rivi.lisaa( kysely.value("selite").toString());
-        rivi.lisaa( QString::number(alvprosentti));
 
+        if( alvkoodi == AlvKoodi::MAKSETTAVAALV)
+            rivi.lisaa("");
+        else
+            rivi.lisaa( QString::number(alvprosentti));
+
+        // Rahamäärän etumerkitys riippuu alv-koodista
         int debetsnt = kysely.value("debetsnt").toInt();
         int kreditsnt = kysely.value("kreditsnt").toInt();
-
-        // @TODO TÄSSÄ VIRHE !!!!
 
         int summa = kreditsnt - debetsnt;   // MYYNTI tai KIRJAUS tai MAKSETTAVA ALV
 
@@ -195,19 +236,18 @@ RaportinKirjoittaja AlvErittely::kirjoitaRaporti(QDate alkupvm, QDate loppupvm)
             // 1nx (n parillinen) = OSTO  4nx Maksuperusteinen OSTO , 2xx VÄHENNYS
             summa = debetsnt - kreditsnt;
 
-
-
         rivi.lisaa( summa );
         kirjoittaja.lisaaRivi( rivi );
 
         tilisumma += summa;
         yhtsumma += summa;
 
-        // Bruttoalv:n summaarinen käsittely
+        // Brutto-alv lisätään tileittän, joten sitä ei lisätä enää alv-kirjauksesta
+        // Nettokirjausten alv:t lisätään alv-kirjauksista
 
-        if( alvkoodi >= AlvKoodi::ALVVAHENNYS && alvkoodi < AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON)
+        if( alvkoodi >= AlvKoodi::ALVVAHENNYS && alvkoodi < AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON && alvkoodi != AlvKoodi::ALVVAHENNYS + AlvKoodi::OSTOT_BRUTTO)
             vahennysyhteensa += summa;
-        else if( alvkoodi >= AlvKoodi::ALVKIRJAUS && alvkoodi < AlvKoodi::ALVVAHENNYS )
+        else if( alvkoodi >= AlvKoodi::ALVKIRJAUS && alvkoodi < AlvKoodi::ALVVAHENNYS && alvkoodi != AlvKoodi::ALVKIRJAUS + AlvKoodi::MYYNNIT_BRUTTO)
             veroyhteensa += summa;
 
     }
@@ -215,6 +255,7 @@ RaportinKirjoittaja AlvErittely::kirjoitaRaporti(QDate alkupvm, QDate loppupvm)
     kirjoittaja.lisaaTyhjaRivi();
 
     // Lopuksi yhteenveto verosta ja vähennyksestä
+    // Tämän pitäisi täsmätä alv-laskelman kanssa ;)
 
     RaporttiRivi orivi;
     orivi.lisaa("",2);
