@@ -125,7 +125,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         verorivi.alvprosentti = alvprosentti;
 
         // Brutosta erotetaan verot
-        int veroSnt = ( alvprosentti * saldoSnt ) / ( 100 + alvprosentti) ;
+        int veroSnt =qRound( ( alvprosentti * (double) saldoSnt ) / ( 100 + alvprosentti) );
         int nettoSnt = saldoSnt - veroSnt;
 
         if( nettoSnt > 0)
@@ -150,7 +150,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
             rivi.debetSnt = veroSnt;
 
             verorivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA);
-            verorivi.alvkoodi = query.value("alvkoodi").toInt() | AlvKoodi::ALVKIRJAUS;
+            verorivi.alvkoodi = AlvKoodi::MYYNNIT_BRUTTO + AlvKoodi::ALVKIRJAUS;
 
         }
         else
@@ -164,7 +164,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
                     .arg(qAbs(saldoSnt) / 100.0,0, 'f', 2);
 
             verorivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA);
-            verorivi.alvkoodi = query.value("alvkoodi").toInt() | AlvKoodi::ALVVAHENNYS;
+            verorivi.alvkoodi = AlvKoodi::OSTOT_BRUTTO + AlvKoodi::ALVVAHENNYS;
         }
 
         verorivi.selite = tr("%1 tilillä %2 %3")
@@ -402,6 +402,9 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
 
         // Liitetään laskelma
         model.liiteModel()->lisaaPdf( kirjoittaja->pdf(false, false), tr("Alv-laskelma") );
+
+        // Tallennetaan laskelma, jotta erittelyssä olisi myös bruttokirjaukset
+        model.tallenna();
 
         // Laskelman erittely liitetään myös ...
         model.liiteModel()->lisaaPdf( AlvErittely::kirjoitaRaporti(alkupvm, loppupvm).pdf(false, false), tr("Alv-erittely") );
