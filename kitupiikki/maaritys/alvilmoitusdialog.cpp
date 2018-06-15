@@ -403,6 +403,9 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         // Liitetään laskelma
         model.liiteModel()->lisaaPdf( kirjoittaja->pdf(false, false), tr("Alv-laskelma") );
 
+        // Tallennetaan laskelma, jotta erittelyssä olisi myös bruttokirjaukset
+        model.tallenna();
+
         // Laskelman erittely liitetään myös ...
         model.liiteModel()->lisaaPdf( AlvErittely::kirjoitaRaporti(alkupvm, loppupvm).pdf(false, false), tr("Alv-erittely") );
 

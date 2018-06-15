@@ -102,12 +102,8 @@ RaportinKirjoittaja AlvErittely::kirjoitaRaporti(QDate alkupvm, QDate loppupvm)
             tilinro = kysely.value("nro").toInt();
         }
 
-        // Teknisiä kirjauksia ei tulosteta erittelyyn
-        if( alvkoodi == AlvKoodi::TILITYS)
-            continue;
 
-
-        if( tilinro != nTili || alvkoodi != nAlvkoodi || alvprosentti != nProsentti || !jatkuu)
+        if( tilinro != nTili || alvkoodi != nAlvkoodi || alvprosentti != nProsentti || !jatkuu )
         {
             if( tilisumma)
             {
@@ -118,7 +114,7 @@ RaportinKirjoittaja AlvErittely::kirjoitaRaporti(QDate alkupvm, QDate loppupvm)
                 tiliSummaRivi.viivaYlle();
                 kirjoittaja.lisaaRivi(tiliSummaRivi);
 
-                if( (alvkoodi != nAlvkoodi || alvprosentti != nProsentti || !jatkuu) && yhtsumma != tilisumma )
+                if( (alvkoodi != nAlvkoodi || alvprosentti != nProsentti || !jatkuu) && yhtsumma != tilisumma && alvkoodi != AlvKoodi::TILITYS)
                 {
                     // Lopuksi vielä lihavoituna kokonaissumma
                     RaporttiRivi summaRivi;
@@ -137,6 +133,10 @@ RaportinKirjoittaja AlvErittely::kirjoitaRaporti(QDate alkupvm, QDate loppupvm)
 
         if( !jatkuu )
             break;
+
+        // Teknisiä kirjauksia ei tulosteta erittelyyn
+        if( alvkoodi == AlvKoodi::TILITYS)
+            continue;
 
 
         if( alvkoodi != nAlvkoodi || alvprosentti != nProsentti)
@@ -186,14 +186,24 @@ RaportinKirjoittaja AlvErittely::kirjoitaRaporti(QDate alkupvm, QDate loppupvm)
 
         int debetsnt = kysely.value("debetsnt").toInt();
         int kreditsnt = kysely.value("kreditsnt").toInt();
-        int summa = kreditsnt - debetsnt;
-        if( alvkoodi % 100 / 10 == 2)
+
+        // @TODO TÄSSÄ VIRHE !!!!
+
+        int summa = kreditsnt - debetsnt;   // MYYNTI tai KIRJAUS tai MAKSETTAVA ALV
+
+        if( (( alvkoodi / 100 == 0 || alvkoodi / 100 == 4 ) && alvkoodi % 20 / 10 == 0  ) ||  ( alvkoodi / 100 == 2 ) )
+            // 1nx (n parillinen) = OSTO  4nx Maksuperusteinen OSTO , 2xx VÄHENNYS
             summa = debetsnt - kreditsnt;
+
+
+
         rivi.lisaa( summa );
         kirjoittaja.lisaaRivi( rivi );
 
         tilisumma += summa;
         yhtsumma += summa;
+
+        // Bruttoalv:n summaarinen käsittely
 
         if( alvkoodi >= AlvKoodi::ALVVAHENNYS && alvkoodi < AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON)
             vahennysyhteensa += summa;
