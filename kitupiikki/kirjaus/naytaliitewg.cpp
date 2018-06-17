@@ -32,6 +32,8 @@
     #include <poppler/qt5/poppler-qt5.h>
 #elif defined(Q_OS_WIN)
     #include "poppler-qt5.h"
+#elif defined(Q_OS_MACX)
+    #include "/usr/local/opt/poppler/include/poppler/qt5/poppler-qt5.h"
 #endif
 
 #include <QGraphicsPixmapItem>

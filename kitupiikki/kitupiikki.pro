@@ -14,6 +14,10 @@ linux {
     LIBS += -lpoppler-qt5
 }
 
+macx {
+    LIBS += -L/usr/local/opt/poppler/lib -lpoppler-qt5
+}
+
 CONFIG += c++11
 
 TARGET = kitupiikki
