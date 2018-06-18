@@ -409,7 +409,16 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
     else if( role == KohdennusRooli)
         viennit_[rivi].kohdennus=kp()->kohdennukset()->kohdennus( value.toInt());
     else if( role == AlvKoodiRooli)
+    {
         viennit_[rivi].alvkoodi = value.toInt();
+        if( ( value.toInt() == AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_MYYNTI ||
+              value.toInt() == AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_OSTO) &&
+                viennit_[rivi].eraId == TaseEra::EIERAA ) {
+            viennit_[rivi].eraId = TaseEra::UUSIERA;
+        }
+
+
+    }
     else if( role == AlvProsenttiRooli)
         viennit_[rivi].alvprosentti = value.toInt();
     else if( role == EraIdRooli )

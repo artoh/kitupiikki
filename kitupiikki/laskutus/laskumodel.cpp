@@ -497,6 +497,7 @@ bool LaskuModel::tallenna(Tili rahatili)
             {
                 verorivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVVELKA);
                 verorivi.alvkoodi = AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_MYYNTI;
+                verorivi.eraId = TaseEra::UUSIERA;
             }
 
             verorivi.alvprosentti = alvprosentti;

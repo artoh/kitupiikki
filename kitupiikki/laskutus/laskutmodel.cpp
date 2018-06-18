@@ -162,7 +162,7 @@ void LaskutModel::lataaAvoimet()
 
 void LaskutModel::paivita(int valinta, QDate mista, QDate mihin)
 {
-    QString kysely = QString("SELECT vienti.id, pvm, tili, debetsnt, kreditsnt, eraid, viite, erapvm, vienti.json, tosite, asiakas, laskupvm, kohdennus, tyyppi "
+    QString kysely = QString("SELECT vienti.id, pvm, tili, debetsnt, kreditsnt, eraid, viite, erapvm, vienti.json, tosite, asiakas, laskupvm, kohdennus, tyyppi, selite "
                              "FROM vienti LEFT OUTER JOIN tili ON vienti.tili=tili.id "
                              "WHERE ((viite IS NOT NULL AND iban IS NULL) OR (tyyppi='AO' and vienti.id=vienti.eraid)) ");
 
@@ -194,6 +194,8 @@ void LaskutModel::paivita(int valinta, QDate mista, QDate mihin)
         lasku.summaSnt = query.value("debetSnt").toInt() - query.value("kreditSnt").toInt();
         lasku.avoinSnt = vientiId == lasku.eraId ? era.saldoSnt : 0;        // Hyvityslaskuille avoinsnt näytetään nollaa
         lasku.asiakas = query.value("asiakas").toString();
+        if( lasku.asiakas.isEmpty())
+            lasku.asiakas = query.value("selite").toString();
         lasku.tosite = query.value("tosite").toInt();
         lasku.kirjausperuste =  json.luku("Kirjausperuste");
         lasku.tiliid = query.value("tili").toInt();

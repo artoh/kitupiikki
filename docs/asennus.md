@@ -14,7 +14,7 @@
 Tuetut Windowsin versiot: Windows 7, 8 ja 10.
 
 !!! note ""
-    <span class="fa fa-windows"></span> [Kitupiikki 1.0 BETA Windows asennusohjelma (21 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.0-beta/kitupiikki1.0-beta-asennus.exe) <span class="fa fa-exclamation-triangle"></span> Ohjelman testaus kesken. **Varmuuskopioi kirjanpitosi ennen päivitystä!**
+    <span class="fa fa-windows"></span> [Kitupiikki 1.0 BETA.1 Windows asennusohjelma (21 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.0-beta.1/kitupiikki1.0-beta.1-asennus.exe) <span class="fa fa-exclamation-triangle"></span> Ohjelman testaus kesken. **Varmuuskopioi kirjanpitosi ennen päivitystä!**
 
 Lataa Kitupiikin asennusohjelma yllä olevasta linkistä ja suorita se. Asennushakemisto on vapaasti valittavissa, joten asennus ei tarvitse ylläpitäjän oikeuksia.
 
@@ -25,7 +25,7 @@ Lataa Kitupiikin asennusohjelma yllä olevasta linkistä ja suorita se. Asennush
 Toimii 64-bittisissä Linux-jakeluissa joissa graafinen työpöytä (esim. Ubuntu 16.04 ja uudemmat)
 
 !!! note ""
-    <span class="fa fa-linux"></span> [Kitupiikki 1.0 BETA Linux AppImage (35 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.0-beta/Kitupiikki-1.0-beta-x86_64.AppImage) <span class="fa fa-exclamation-triangle"></span> Ohjelman testaus kesken. **Varmuuskopioi kirjanpitosi ennen päivitystä!**
+    <span class="fa fa-linux"></span> [Kitupiikki 1.0 BETA.1 Linux AppImage (35 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.0-beta.1/Kitupiikki-1.0-beta.1-x86_64.AppImage) <span class="fa fa-exclamation-triangle"></span> Ohjelman testaus kesken. **Varmuuskopioi kirjanpitosi ennen päivitystä!**
 
 Kitupiikin Linux-version toimitetaan AppImage-tiedostona, jota ei varsinaisesti edes tarvitse asentaa. Et tarvitse ylläpitäjän oikeuksia.
 

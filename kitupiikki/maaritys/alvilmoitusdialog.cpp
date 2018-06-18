@@ -177,7 +177,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
     }
 
     // 2) Nettokirjausten koonti
-    query.exec( QString("select alvprosentti, sum(debetsnt) as debetit, sum(kreditsnt) as kreditit from vienti where pvm between \"%1\" and \"%2\" and alvkoodi=%3 or alvkoodi=%4 group by alvprosentti")
+    query.exec( QString("select alvprosentti, sum(debetsnt) as debetit, sum(kreditsnt) as kreditit from vienti where pvm between \"%1\" and \"%2\" and (alvkoodi=%3 or alvkoodi=%4) group by alvprosentti")
                 .arg(alkupvm.toString(Qt::ISODate)).arg(loppupvm.toString(Qt::ISODate))
                 .arg(AlvKoodi::ALVKIRJAUS + AlvKoodi::MYYNNIT_NETTO).arg(AlvKoodi::ALVKIRJAUS + AlvKoodi::MAKSUPERUSTEINEN_MYYNTI) );
 
@@ -264,8 +264,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
 
 
     // Laskelman tulostus
-    QMapIterator<int,int> iter(verotKannoittainSnt);
-    iter.toBack();
+
 
     kirjoittaja = new RaportinKirjoittaja();
     kirjoittaja->asetaOtsikko("ARVONLISÄVEROLASKELMA");
@@ -278,7 +277,8 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
 
     otsikko("Vero kotimaan myynnistä verokannoittain");
 
-
+    QMapIterator<int,int> iter(verotKannoittainSnt);
+    iter.toBack();
 
     while( iter.hasPrevious())
     {
@@ -386,7 +386,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
     }
 
 
-    ui->ilmoitusBrowser->setHtml( kirjoittaja->html());
+    ui->ilmoitusBrowser->setHtml( kirjoittaja->html() + "<hr>" + AlvErittely::kirjoitaRaporti(alkupvm, loppupvm).html());
     if( exec() )
     {
         // Laskelma vahvistettu, tallennetaan tositteeksi

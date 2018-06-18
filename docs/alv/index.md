@@ -67,6 +67,7 @@ Laskelman pohjalta tehdään kirjaus, jossa alv-velka ja alv-saatava yhdistetä�
 
 !!! note "Verovelat-tili"
     Verovelat-tilille kirjataan kaikki oma-aloitteiset verot, jotka on ilmoitettu verottajalle mutta ei vielä maksettu. Näin Verovelat-tilin saldon pitäisi aina vastata OmaVeron maksamattomien verojen saldoa.
+    Vastaavasti kaikki verojen suoritukset ja verohallinnon tilittämät alv-palautukset kirjataan Verovelat-tilille. 
 
 Erittely, jossa kirjauksia voi seurata aina tositteisiin saakka, avautuu alv-sivun **Näytä erittely**-napista. Se tallentuu myös liitteeksi alv-tilitysvientiin ja siten myös sähköiseen arkistoon.
 
