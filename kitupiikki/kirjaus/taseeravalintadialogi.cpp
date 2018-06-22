@@ -181,7 +181,7 @@ void TaseEraValintaDialogi::sntSuodatusVaihtuu()
 
     if( ui->summaEdit->hasAcceptableInput() )
     {
-        int sentit = std::round(ui->summaEdit->text().replace(',','.').toDouble() * 100);
+        int sentit = qRound(ui->summaEdit->text().replace(',','.').toDouble() * 100);
         sntProxy_->setFilterRegExp( QString("^[-]?%1$").arg(sentit) );
     }
     else if( ui->vainAvoimetCheck->isChecked())
