@@ -146,7 +146,8 @@ SOURCES += main.cpp \
     tools/kpdateedit.cpp \
     uusikp/kirjausperustesivu.cpp \
     tuonti/palkkafituonti.cpp \
-    raportti/alverittely.cpp
+    raportti/alverittely.cpp \
+    raportti/myyntiraportti.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -274,7 +275,8 @@ HEADERS += \
     tools/kpdateedit.h \
     uusikp/kirjausperustesivu.h \
     tuonti/palkkafituonti.h \
-    raportti/alverittely.h
+    raportti/alverittely.h \
+    raportti/myyntiraportti.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
