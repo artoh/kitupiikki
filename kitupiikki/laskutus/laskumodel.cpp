@@ -396,7 +396,6 @@ bool LaskuModel::tallenna(Tili rahatili)
         // mahdollisen myöhemmän käytön varalle (näistä voisi koota vaikkapa myyntitilastot)
         QVariantMap riviTalteen;
         riviTalteen["Selite"] = rivi.nimike;
-        riviTalteen["Pvm"] = pvm();
         riviTalteen["Tili"] = rivi.myyntiTili.numero();
         riviTalteen["Alvkoodi"] = rivi.alvKoodi;
         riviTalteen["Alvprosentti"] = rivi.alvProsentti;
