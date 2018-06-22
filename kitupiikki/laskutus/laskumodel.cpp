@@ -395,11 +395,11 @@ bool LaskuModel::tallenna(Tili rahatili)
         // Tallennetaan laskun json-kenttään myös rivitiedot
         // mahdollisen myöhemmän käytön varalle (näistä voisi koota vaikkapa myyntitilastot)
         QVariantMap riviTalteen;
-        riviTalteen["Selite"] = rivi.nimike;
+        riviTalteen["Nimike"] = rivi.nimike;
         riviTalteen["Tili"] = rivi.myyntiTili.numero();
         riviTalteen["Alvkoodi"] = rivi.alvKoodi;
         riviTalteen["Alvprosentti"] = rivi.alvProsentti;
-        riviTalteen["Maara"] = QString("%L1").arg(rivi.maara,0,'f',2);
+        riviTalteen["Maara"] = QString("%1").arg(rivi.maara,0,'f',2);
         riviTalteen["Yksikko"] = rivi.yksikko;
         if( rivi.tuoteKoodi)
             riviTalteen["Tuotekoodi"] = rivi.tuoteKoodi;
@@ -552,7 +552,7 @@ bool LaskuModel::tallenna(Tili rahatili)
     raharivi.json.set("Toimituspvm", toimituspaiva());
     raharivi.json.set("Lisatieto", lisatieto());
     raharivi.json.set("Email", email());
-    raharivi.json.setVar("Erittely", rivitTalteen);
+    raharivi.json.setVar("Laskurivit", rivitTalteen);
     raharivi.json.set("Kirjausperuste", kirjausperuste());
     raharivi.json.set("Liite", liitenro);
 
