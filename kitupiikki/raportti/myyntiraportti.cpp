@@ -42,22 +42,20 @@ MyyntiRaportti::~MyyntiRaportti()
     delete ui;
 }
 
-RaportinKirjoittaja MyyntiRaportti::raportti(bool /* csvmuoto */)
+RaportinKirjoittaja MyyntiRaportti::raportti(bool csvmuoto )
 {
-    return kirjoitaRaportti(ui->alkaa->date(), ui->paattyy->date());
+    return kirjoitaRaportti(ui->alkaa->date(), ui->paattyy->date(), !csvmuoto);
 }
 
-RaportinKirjoittaja MyyntiRaportti::kirjoitaRaportti(QDate mista, QDate mihin)
+RaportinKirjoittaja MyyntiRaportti::kirjoitaRaportti(QDate mista, QDate mihin, bool summat)
 {
 
     RaportinKirjoittaja rk;
     rk.asetaOtsikko("MYYNTI");
     rk.asetaKausiteksti(QString("%1 - %2").arg(mista.toString("dd.MM.yyyy")).arg(mihin.toString("dd.MM.yyyy")));
-
-    //   Tuote    kpl     á hinta     hinta yht
-    //
     rk.lisaaVenyvaSarake();
     rk.lisaaSarake("999999.99");
+    rk.lisaaEurosarake();
     rk.lisaaEurosarake();
     rk.lisaaEurosarake();
 
@@ -68,50 +66,75 @@ RaportinKirjoittaja MyyntiRaportti::kirjoitaRaportti(QDate mista, QDate mihin)
         otsikko.lisaa("Kpl");
         otsikko.lisaa("á netto");
         otsikko.lisaa("Yht netto");
+        otsikko.lisaa("Yht brutto");
         rk.lisaaOtsake(otsikko);
     }
 
     QMap<QString,double> myyntiKpl;
     QMap<QString,qlonglong> myyntiSnt;
+    QMap<QString,qlonglong> bruttoSnt;
 
     QSqlQuery kysely;
-    kysely.exec(QString("pvm, json from vienti where viite is not null and pvm between '%1' and '%2'")
+    kysely.exec(QString("SELECT json from vienti where viite is not null and pvm between '%1' and '%2'")
                 .arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate)));
 
     while( kysely.next())
     {
-        QDate pvm = kysely.value(0).toDate();
-        QJsonDocument json = QJsonDocument::fromJson( kysely.value(1).toByteArray() );
+        QJsonDocument json = QJsonDocument::fromJson( kysely.value(0).toByteArray() );
         QVariantMap vmap = json.toVariant().toMap();
-        if( vmap.contains("Erittely"))
+        if( vmap.contains("Laskurivit"))
         {
-            for( QVariant var : vmap.value("Erittely").toList())
+            for( QVariant var : vmap.value("Laskurivit").toList())
             {
-                QString nimike = var.toMap().value("Selite").toString();
+                QString nimike = var.toMap().value("Nimike").toString();
 
                 double maara = var.toMap().value("Maara").toDouble();
                 qlonglong sentit = var.toMap().value("Nettoyht").toLongLong();
+                qlonglong brutto = var.toMap().value("Yhteensa").toLongLong();
 
                 myyntiKpl[nimike] = myyntiKpl.value(nimike,0.0) + maara;
-                myyntiSnt[nimike] = myyntiSnt.value(nimike, sentit) + maara;
+                myyntiSnt[nimike] = myyntiSnt.value(nimike, 0) + sentit;
+                bruttoSnt[nimike] = bruttoSnt.value(nimike, 0) + brutto;
             }
         }
     }
 
-    QMapIterator iter(myyntiKpl);
-    while( iter.next() )
+    qlonglong nettoSumma = 0;
+    qlonglong bruttoSumma = 0;
+
+    QMapIterator<QString,double> iter(myyntiKpl);
+    while( iter.hasNext() )
     {
+        iter.next();
+
         RaporttiRivi rivi;
         rivi.lisaa( iter.key());
 
         double kpl = iter.value();
         qlonglong snt = myyntiSnt.value(iter.key());
+        qlonglong brutto = bruttoSnt.value(iter.key());
 
         rivi.lisaa( QString("%L1").arg(kpl,0,'f',2), 1, true );
         rivi.lisaa( snt / kpl);
         rivi.lisaa( snt );
+        rivi.lisaa( brutto );
+
+        nettoSumma += snt;
+        bruttoSumma += brutto;
+
         rk.lisaaRivi(rivi);
     }
+
+    if( summat )
+    {
+        RaporttiRivi summarivi;
+        summarivi.lisaa( tr("Myynti yhteensä") , 3 );
+        summarivi.lisaa( nettoSumma );
+        summarivi.lisaa( bruttoSumma );
+        summarivi.viivaYlle();
+        rk.lisaaRivi( summarivi );
+    }
+
 
     return rk;
 }

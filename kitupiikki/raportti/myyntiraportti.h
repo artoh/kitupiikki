@@ -21,7 +21,9 @@
 
 #include "raportti.h"
 
-class Ui::TaseErittely;
+namespace Ui {
+    class TaseErittely;
+}
 
 /**
  * @brief Myyntiraportin kirjoittaminen
@@ -34,7 +36,14 @@ public:
 
     RaportinKirjoittaja raportti(bool csvmuoto = false);
 
-    static RaportinKirjoittaja kirjoitaRaportti(QDate mista, QDate mihin);
+    /**
+     * @brief Kirjoittaa myyntiraportin
+     * @param mista Pvm alkaen
+     * @param mihin Pvm saakka
+     * @param summat Tulostetaanko lopuksi summarivi
+     * @return
+     */
+    static RaportinKirjoittaja kirjoitaRaportti(QDate mista, QDate mihin, bool summat = true);
 
 protected:
     Ui::TaseErittely *ui;
