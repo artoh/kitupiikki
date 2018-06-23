@@ -48,6 +48,7 @@ Perusvalinnat::Perusvalinnat() :
     connect( ui->puhelinEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
     connect( ui->paivitysCheck, SIGNAL(clicked(bool)), this, SLOT(ilmoitaMuokattu()));
     connect( ui->muotoCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(ilmoitaMuokattu()));
+    connect( ui->logossaNimiBox, SIGNAL(toggled(bool)), this, SLOT(ilmoitaMuokattu()));
 
     connect( ui->hakemistoNappi, SIGNAL(clicked(bool)), this, SLOT(avaaHakemisto()));
 
@@ -69,6 +70,7 @@ bool Perusvalinnat::nollaa()
     ui->osoiteEdit->setText( kp()->asetukset()->asetus("Osoite"));
     ui->kotipaikkaEdit->setText( kp()->asetukset()->asetus("Kotipaikka"));
     ui->puhelinEdit->setText( kp()->asetus("Puhelin"));
+    ui->logossaNimiBox->setChecked( kp()->asetukset()->onko("LogossaNimi") );
 
     // Haetaan muodot
 
@@ -136,6 +138,7 @@ bool Perusvalinnat::onkoMuokattu()
             ui->kotipaikkaEdit->text() != kp()->asetukset()->asetus("Kotipaikka") ||
             ui->puhelinEdit->text() != kp()->asetukset()->asetus("Puhelin") ||
             ui->paivitysCheck->isChecked() != asetukset.value("NaytaPaivitykset",true).toBool() ||
+            ui->logossaNimiBox->isChecked() != kp()->asetukset()->onko("LogossaNimi") ||
             ( ui->muotoCombo->currentText() != kp()->asetukset()->asetus("Muoto"));
 }
 
@@ -151,6 +154,7 @@ bool Perusvalinnat::tallenna()
     kp()->asetukset()->aseta("Osoite", ui->osoiteEdit->toPlainText());
     kp()->asetukset()->aseta("Kotipaikka", ui->kotipaikkaEdit->text());
     kp()->asetukset()->aseta("Puhelin", ui->puhelinEdit->text());
+    kp()->asetukset()->aseta("LogossaNimi", ui->logossaNimiBox->isChecked());
 
     if( !uusilogo.isNull())
     {

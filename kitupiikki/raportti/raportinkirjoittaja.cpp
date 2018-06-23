@@ -464,7 +464,7 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu)
     int sivunleveys = painter->window().width();
     int rivinkorkeus = painter->fontMetrics().height();
 
-    QString nimi = Kirjanpito::db()->asetus("Nimi");
+    QString nimi = kp()->asetukset()->onko("LogossaNimi") ? QString() : Kirjanpito::db()->asetus("Nimi");
     QString paivays = kp()->paivamaara().toString("dd.MM.yyyy");
 
     int vasenreunus = 0;
@@ -491,7 +491,7 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu)
         painter->save();
         painter->setPen( QPen(Qt::red));
         painter->setFont( QFont("Sans",14));
-        painter->drawText(QRect(vasenreunus + sivunleveys / 8 * 5,0,sivunleveys/4, rivinkorkeus*2 ), Qt::AlignHCenter | Qt::AlignVCenter, QString("HARJOITUS") );
+        painter->drawText(QRect(sivunleveys / 8 * 5,0,sivunleveys/4, rivinkorkeus*2 ), Qt::AlignHCenter | Qt::AlignVCenter, QString("HARJOITUS") );
         painter->restore();
     }
 

@@ -298,6 +298,7 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter)
     }
     painter->setFont(QFont("Sans",14));
     double pv = painter->fontMetrics().height();
+    QString nimi = kp()->asetukset()->onko("LogossaNimi") ? QString() : kp()->asetus("Nimi");   // Jos nimi logossa, sitä ei toisteta
     QRectF lahettajaRect = painter->boundingRect( QRectF( lahettajaAlue.x()+vasen, lahettajaAlue.y(),
                                                        lahettajaAlue.width()-vasen, 20 * mm), Qt::TextWordWrap, kp()->asetus("Nimi") );
     painter->drawText(QRectF( lahettajaRect), Qt::AlignLeft | Qt::TextWordWrap, kp()->asetus("Nimi"));
