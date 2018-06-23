@@ -51,7 +51,7 @@ Perusvalinnat::Perusvalinnat() :
     connect( ui->logossaNimiBox, SIGNAL(toggled(bool)), this, SLOT(ilmoitaMuokattu()));
 
     connect( ui->hakemistoNappi, SIGNAL(clicked(bool)), this, SLOT(avaaHakemisto()));
-
+    connect( ui->avaaArkistoNappi, &QPushButton::clicked, [] { kp()->avaaUrl( kp()->arkistopolku() ); } );
     ui->ytunnusEdit->setValidator(new YTunnusValidator());
 
 }
@@ -99,6 +99,13 @@ bool Perusvalinnat::nollaa()
     ui->logoLabel->setPixmap( QPixmap::fromImage( kp()->logo().scaled(64, 64, Qt::KeepAspectRatio) ) );
 
     ui->sijaintiLabel->setText( kp()->tiedostopolku() );
+
+    bool arkistoloytyy =  QDir(kp()->arkistopolku()).exists();
+    ui->avaaArkistoNappi->setEnabled(arkistoloytyy);
+    if( arkistoloytyy )
+        ui->arkistoEdit->setText( kp()->arkistopolku());
+    else
+        ui->arkistoEdit->setText(QString());
 
     return true;
 }
