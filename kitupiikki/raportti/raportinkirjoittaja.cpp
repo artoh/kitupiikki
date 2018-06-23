@@ -471,8 +471,10 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu)
 
     if( !kp()->logo().isNull() )
     {
-        painter->drawPixmap( QRect(0,0,rivinkorkeus*2, rivinkorkeus*2), QPixmap::fromImage( kp()->logo() ) );
-        vasenreunus = rivinkorkeus * 2 + painter->fontMetrics().width("A");
+        double skaala = ((double) kp()->logo().width()) / kp()->logo().height();
+        double skaalattu = skaala < 5.0 ? skaala : 5.0;
+        painter->drawPixmap( QRect(0,0,rivinkorkeus*2*skaalattu, rivinkorkeus*2), QPixmap::fromImage( kp()->logo() ) );
+        vasenreunus = rivinkorkeus * 2 * skaalattu + painter->fontMetrics().width("A");
     }
 
     QRectF nimiRect = painter->boundingRect( vasenreunus, 0, sivunleveys / 3 - vasenreunus, painter->viewport().height(),

@@ -102,6 +102,7 @@ public:
     QString laskunsaajanNimi() const { return laskunsaajanNimi_; }
     int kirjausperuste() const { return kirjausperuste_;}
     QString email() const { return email_;}
+    QString ytunnus() const { return ytunnus_; }
     AvoinLasku hyvityslasku() const { return hyvitettavaLasku_; }
 
 
@@ -117,6 +118,7 @@ public slots:
     void asetaLaskunsaajannimi(const QString& nimi) { laskunsaajanNimi_ = nimi; }
     void asetaKirjausperuste(int kirjausperuste) { kirjausperuste_ = kirjausperuste; }
     void asetaEmail(const QString& osoite) { email_ = osoite; }
+    void asetaYTunnus(const QString& ytunnus) { ytunnus_ = ytunnus; }
 
 public:
 
@@ -149,6 +151,7 @@ private:
     QString osoite_;
     int kirjausperuste_;
     QString email_;
+    QString ytunnus_;
     AvoinLasku hyvitettavaLasku_;
 
     void paivitaSumma(int rivi);

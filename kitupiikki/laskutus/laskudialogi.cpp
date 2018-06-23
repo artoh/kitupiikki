@@ -224,6 +224,7 @@ void LaskuDialogi::haeOsoite()
         JsonKentta json;
         json.fromJson( kysely.value(0).toByteArray() );
         ui->emailEdit->setText( json.str("Email"));
+        ui->ytunnus->setText( json.str("YTunnus"));
 
         if( !json.str("Osoite").isEmpty())
         {
@@ -248,6 +249,11 @@ void LaskuDialogi::vieMalliin()
     model->asetaToimituspaiva(ui->toimitusDate->date());
     model->asetaLaskunsaajannimi(ui->saajaEdit->text());
     model->asetaKirjausperuste(ui->perusteCombo->currentData().toInt());
+
+    if( ui->ytunnus->hasAcceptableInput())
+        model->asetaYTunnus( ui->ytunnus->text());
+    else
+        model->asetaYTunnus(QString());
 }
 
 void LaskuDialogi::accept()

@@ -555,6 +555,8 @@ bool LaskuModel::tallenna(Tili rahatili)
     raharivi.json.setVar("Laskurivit", rivitTalteen);
     raharivi.json.set("Kirjausperuste", kirjausperuste());
     raharivi.json.set("Liite", liitenro);
+    if( !ytunnus().isEmpty() )
+        raharivi.json.set("YTunnus", ytunnus());
 
     viennit->lisaaVienti(raharivi);
     if( !tosite.tallenna() )
