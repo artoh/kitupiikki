@@ -34,13 +34,15 @@
 #include "db/kirjanpito.h"
 #include "lisaikkuna.h"
 
+#include "ostolaskutmodel.h"
+
 LaskutusSivu::LaskutusSivu() :
     ui(new Ui::Laskutus)
 {
     ui->setupUi(this);
 
-    ui->paaTab->addTab("&Ostolaskut");
     ui->paaTab->addTab("&Myyntilaskut");
+    ui->paaTab->addTab("&Ostolaskut");
     ui->paaTab->addTab("&Asiakkaat");
     ui->paaTab->addTab("&Toimittajat");
 
@@ -63,9 +65,9 @@ LaskutusSivu::LaskutusSivu() :
 
     connect(ui->paaTab, SIGNAL(currentChanged(int)), this, SLOT(paaTab(int)));
 
-    model = new LaskutModel(this);
     proxy = new QSortFilterProxyModel(this);
-    proxy->setSourceModel(model);
+
+    paaTab(0);
     proxy->setDynamicSortFilter(true);
     proxy->setSortRole(Qt::EditRole);
 
@@ -78,7 +80,8 @@ LaskutusSivu::LaskutusSivu() :
 
     connect(ui->laskutView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(valintaMuuttuu()));
 
-    QFontDatabase::addApplicationFont(":/code128_XL.ttf");
+    QFontDatabase::addApplicationFont(":/code128_XL.ttf");    
+
 
 }
 
@@ -221,11 +224,24 @@ void LaskutusSivu::paaTab(int indeksi)
 {
     ui->asiakasView->setVisible( indeksi > 1 );
 
-    if( indeksi > 1 && ui->suodatusTab->count() < 4)
+    if( indeksi == ASIAKAS && ui->suodatusTab->count() < 4)
         ui->suodatusTab->addTab("Yhteystiedot");
-    else if( indeksi < 3 && ui->suodatusTab->count() > 3)
+    else if( indeksi != ASIAKAS && ui->suodatusTab->count() > 3)
         ui->suodatusTab->removeTab(3);
 
     // Sitten pitäisi vielä vaihtaa sisällöt päätabin mukaisesti
+    if( model )
+        delete model;
+
+    if( indeksi == MYYNTI || indeksi == ASIAKAS) {
+        model = new LaskutModel(this);
+    }
+    else
+    {
+        model = new OstolaskutModel(this);
+    }
+    proxy->setSourceModel(model);
+    paivita();
+
 }
 

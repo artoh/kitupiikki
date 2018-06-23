@@ -19,7 +19,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,1">
+    <layout class="QHBoxLayout" name="horizontalLayout_7">
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
@@ -58,11 +58,22 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="emailEdit">
-         <property name="placeholderText">
-          <string>Sähköposti</string>
-         </property>
-        </widget>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QLineEdit" name="emailEdit">
+           <property name="placeholderText">
+            <string>Sähköposti</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="ytunnus">
+           <property name="placeholderText">
+            <string>Asiakkaan Y-tunnus</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </item>
