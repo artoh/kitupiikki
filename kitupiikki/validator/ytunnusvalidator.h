@@ -18,11 +18,20 @@
 #ifndef YTUNNUSVALIDATOR_H
 #define YTUNNUSVALIDATOR_H
 
+#include <QValidator>
 
+/**
+ * @brief Y-tunnuksen muodon tarkastus
+ */
 class YTunnusValidator : public QValidator
 {
 public:
     YTunnusValidator();
+
+    State validate(QString &input, int &pos) const;
+
+    static QValidator::State kelpo(const QString &input);
+    static bool kelpaako(const QString& input);
 };
 
 #endif // YTUNNUSVALIDATOR_H

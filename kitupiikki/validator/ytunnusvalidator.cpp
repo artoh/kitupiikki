@@ -21,3 +21,54 @@ YTunnusValidator::YTunnusValidator()
 {
 
 }
+
+QValidator::State YTunnusValidator::validate(QString &input, int & /* pos */) const
+{
+    return kelpo(input);
+}
+
+QValidator::State YTunnusValidator::kelpo(const QString &input)
+{
+    QString str = input.simplified();
+
+    if( input.length() > 9)
+        return Invalid;
+
+    for(int i=0; i < str.length(); i++)
+    {
+        if(( i != 7 && !str.at(i).isDigit() ) ||
+            (i == 7 && str.at(7) != '-') )
+            return Invalid;
+    }
+
+    if( input.length() < 9)
+        return Intermediate;
+
+
+    int summa = str.at(0).digitValue() * 7 +
+                 str.at(1).digitValue() * 9 +
+                 str.at(2).digitValue() * 10 +
+                 str.at(3).digitValue() * 5 +
+                 str.at(4).digitValue() * 8 +
+                 str.at(5).digitValue() * 4 +
+                 str.at(6).digitValue() * 2 ;
+
+    int jaannos = summa % 11;
+    int tarkaste = str.at(8).digitValue();
+
+    if( jaannos == 1)
+        return Invalid;
+
+    if( jaannos == 0 && tarkaste == 0 )
+        return Acceptable;
+
+    if( 11 - jaannos == tarkaste)
+        return Acceptable;
+
+    return Invalid;
+}
+
+bool YTunnusValidator::kelpaako(const QString &input)
+{
+    return kelpo(input) == Acceptable;
+}
