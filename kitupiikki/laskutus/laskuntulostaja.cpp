@@ -255,17 +255,17 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter)
 
     // Kuoren ikkuna
     QRectF ikkuna;
+    double keskiviiva = leveys / 2;
 
-
-    if( kp()->asetukset()->luku("LaskuIkkunaX") || kp()->asetukset()->luku("LaskuIkkunaY"))
+    if( kp()->asetukset()->onko("LaskuIkkuna"))
         ikkuna = QRectF( (kp()->asetukset()->luku("LaskuIkkunaX", 0) - printer->pageLayout().margins(QPageLayout::Millimeter).left()  ) * mm,
                        (kp()->asetukset()->luku("LaskuIkkunaY",0) - printer->pageLayout().margins(QPageLayout::Millimeter).top()) * mm,
                        kp()->asetukset()->luku("LaskuIkkunaLeveys",90) * mm, kp()->asetukset()->luku("LaskuIkkunaKorkeus",30) * mm);
     else
-        ikkuna = QRectF( 0, rk * 3, kp()->asetukset()->luku("LaskuIkkunaLeveys",90) * mm, kp()->asetukset()->luku("LaskuIkkunaKorkeus",30) * mm);
+        ikkuna = QRectF( 0, rk * 3, keskiviiva, rk * 3);
 
 
-    double keskiviiva = leveys / 2;
+
     if( ikkuna.x() + ikkuna.width() > keskiviiva )
             keskiviiva = ikkuna.x() + ikkuna.width() + 2 * mm;
 

@@ -130,6 +130,12 @@ bool LaskuValintaWidget::tallenna()
 
 bool LaskuValintaWidget::onkoMuokattu()
 {
+    if( ui->korkeusSpin->value() < 55 && ui->ySpin->value() < 25)
+        ui->ySpin->setStyleSheet("color: red;");
+    else
+        ui->ySpin->setStyleSheet("");
+
+
     return ui->tositelajiCombo->currentData().toInt() != kp()->asetukset()->luku("LaskuTositelaji") ||
             ui->perusteCombo->currentData().toInt() != kp()->asetukset()->luku("LaskuKirjausperuste") ||
             ui->saatavatiliEdit->valittuTilinumero() != kp()->asetukset()->luku("LaskuSaatavatili") ||
@@ -139,7 +145,7 @@ bool LaskuValintaWidget::onkoMuokattu()
             ui->viivastyskorkoEdit->text() != kp()->asetukset()->asetus("LaskuViivastyskorko") ||
             ui->seuraavaLasku->value() != kp()->asetukset()->luku("LaskuSeuraavaId") ||
             ui->viivakoodiCheck->isChecked() == kp()->asetukset()->onko("LaskuEiViivakoodi") ||
-            ui->ikkunaKuori->isChecked() == kp()->asetukset()->onko("IkkunaKuori") ||
+            ui->ikkunaKuori->isChecked() != kp()->asetukset()->onko("LaskuIkkuna") ||
             ui->qrCheck->isChecked() == kp()->asetukset()->onko("LaskuEiQR") ||            
             ui->xSpin->value() !=  kp()->asetukset()->luku("LaskuIkkunaX", 0) ||
             ui->ySpin->value() !=  kp()->asetukset()->luku("LaskuIkkunaY", 0) ||
