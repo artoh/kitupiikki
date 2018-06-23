@@ -28,6 +28,8 @@
 #include "db/kirjanpito.h"
 #include "uusikp/skripti.h"
 
+#include "validator/ytunnusvalidator.h"
+
 
 Perusvalinnat::Perusvalinnat() :
     MaaritysWidget(),
@@ -48,6 +50,8 @@ Perusvalinnat::Perusvalinnat() :
     connect( ui->muotoCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(ilmoitaMuokattu()));
 
     connect( ui->hakemistoNappi, SIGNAL(clicked(bool)), this, SLOT(avaaHakemisto()));
+
+    ui->ytunnusEdit->setValidator(new YTunnusValidator());
 
 }
 
