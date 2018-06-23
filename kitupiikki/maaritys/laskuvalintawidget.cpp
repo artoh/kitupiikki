@@ -51,6 +51,8 @@ LaskuValintaWidget::LaskuValintaWidget()
     connect(ui->viivakoodiCheck, SIGNAL(clicked(bool)), this, SLOT(ilmoitaMuokattu()));
     connect(ui->qrCheck, SIGNAL(clicked(bool)), this, SLOT(ilmoitaMuokattu()));
 
+    connect( ui->ikkunaKuori, SIGNAL(toggled(bool)), this, SLOT(ilmoitaMuokattu()));
+
     connect(ui->xSpin, SIGNAL(valueChanged(int)), this, SLOT(ilmoitaMuokattu()));
     connect(ui->ySpin, SIGNAL(valueChanged(int)), this, SLOT(ilmoitaMuokattu()));
     connect(ui->leveysSpin, SIGNAL(valueChanged(int)), this, SLOT(ilmoitaMuokattu()));
@@ -78,10 +80,11 @@ bool LaskuValintaWidget::nollaa()
     ui->viivakoodiCheck->setChecked( !kp()->asetukset()->onko("LaskuEiViivakoodi") );
     ui->qrCheck->setChecked( !kp()->asetukset()->onko("LaskuEiQR"));
 
-    ui->xSpin->setValue( kp()->asetukset()->luku("LaskuIkkunaX", 0) );
-    ui->ySpin->setValue( kp()->asetukset()->luku("LaskuIkkunaY", 0));
-    ui->leveysSpin->setValue( kp()->asetukset()->luku("LaskuIkkunaLeveys", 90));
-    ui->korkeusSpin->setValue( kp()->asetukset()->luku("LaskuIkkunaKorkeus", 30));
+    ui->ikkunaKuori->setChecked( kp()->asetukset()->onko("LaskuIkkuna"));
+    ui->xSpin->setValue( kp()->asetukset()->luku("LaskuIkkunaX", 18) );
+    ui->ySpin->setValue( kp()->asetukset()->luku("LaskuIkkunaY", 40));
+    ui->leveysSpin->setValue( kp()->asetukset()->luku("LaskuIkkunaLeveys", 95));
+    ui->korkeusSpin->setValue( kp()->asetukset()->luku("LaskuIkkunaKorkeus", 35));
 
     for(int i=0; i < kp()->tilit()->rowCount(QModelIndex()); i++)
     {
@@ -114,6 +117,7 @@ bool LaskuValintaWidget::tallenna()
     kp()->asetukset()->aseta("LaskuSeuraavaId", ui->seuraavaLasku->value());
     kp()->asetukset()->aseta("LaskuTili", ui->tiliCombo->currentData().toInt() );
     kp()->asetukset()->aseta("LaskuEiViivakoodi", !ui->viivakoodiCheck->isChecked());
+    kp()->asetukset()->aseta("LaskuIkkuna", ui->ikkunaKuori->isChecked());
     kp()->asetukset()->aseta("LaskuIkkunaX", ui->xSpin->value());
     kp()->asetukset()->aseta("LaskuIkkunaY", ui->ySpin->value());
     kp()->asetukset()->aseta("LaskuIkkunaLeveys", ui->leveysSpin->value());
@@ -135,6 +139,7 @@ bool LaskuValintaWidget::onkoMuokattu()
             ui->viivastyskorkoEdit->text() != kp()->asetukset()->asetus("LaskuViivastyskorko") ||
             ui->seuraavaLasku->value() != kp()->asetukset()->luku("LaskuSeuraavaId") ||
             ui->viivakoodiCheck->isChecked() == kp()->asetukset()->onko("LaskuEiViivakoodi") ||
+            ui->ikkunaKuori->isChecked() == kp()->asetukset()->onko("IkkunaKuori") ||
             ui->qrCheck->isChecked() == kp()->asetukset()->onko("LaskuEiQR") ||            
             ui->xSpin->value() !=  kp()->asetukset()->luku("LaskuIkkunaX", 0) ||
             ui->ySpin->value() !=  kp()->asetukset()->luku("LaskuIkkunaY", 0) ||
