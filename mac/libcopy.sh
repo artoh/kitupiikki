@@ -10,10 +10,14 @@ APPCONTENTS=$1/kitupiikki.app/Contents
 APPDIR=$APPCONTENTS/MacOS
 LIBDIR=$APPCONTENTS/Libraries
 
-mkdir $LIBDIR/
+mkdir -p $LIBDIR/
+mkdir -p $APPDIR/platforms/
 
 #app
 install_name_tool -change /usr/local/opt/poppler/lib/libpoppler-qt5.1.dylib @rpath/libpoppler-qt5.dylib $APPDIR/kitupiikki
+
+#plugins
+cp /Users/petri/Qt/5.11.0/clang_64/plugins/platforms/libqcocoa.dylib $APPDIR/platforms/
 
 #libpoppler-qt5
 cp /usr/local/opt/poppler/lib/libpoppler-qt5.dylib $LIBDIR
@@ -21,8 +25,8 @@ chmod +w $LIBDIR/libpoppler-qt5.dylib
 install_name_tool -id @rpath/libpoppler-qt5.dylib $LIBDIR/libpoppler-qt5.dylib
 install_name_tool -change /usr/local/Cellar/poppler/0.65.0/lib/libpoppler.76.dylib @rpath/libpoppler.dylib $LIBDIR/libpoppler-qt5.dylib
 install_name_tool -change /usr/local/opt/qt/lib/QtGui.framework/Versions/5/QtGui @rpath/QtGui.framework/Versions/5/QtGui $LIBDIR/libpoppler-qt5.dylib
-install_name_tool -change /usr/local/opt/qt/lib/QtXml.framework/Versions/5/QtXml @rpath/QtGui.framework/Versions/5/QtXml $LIBDIR/libpoppler-qt5.dylib
-install_name_tool -change /usr/local/opt/qt/lib/QtCore.framework/Versions/5/QtCore @rpath/QtGui.framework/Versions/5/QtCore $LIBDIR/libpoppler-qt5.dylib
+install_name_tool -change /usr/local/opt/qt/lib/QtXml.framework/Versions/5/QtXml @rpath/QtXml.framework/Versions/5/QtXml $LIBDIR/libpoppler-qt5.dylib
+install_name_tool -change /usr/local/opt/qt/lib/QtCore.framework/Versions/5/QtCore @rpath/QtCore.framework/Versions/5/QtCore $LIBDIR/libpoppler-qt5.dylib
 
 #libpoppler
 cp /usr/local/opt/poppler/lib/libpoppler.dylib $LIBDIR
