@@ -130,7 +130,7 @@ void Raportti::avaaHtml()
     out << raportti().html();
     tiedosto.close();
 
-    Kirjanpito::avaaUrl( QUrl(tiedostonnimi) );
+    Kirjanpito::avaaUrl(QUrl::fromLocalFile(tiedostonnimi));
 }
 
 void Raportti::vieCsv()
