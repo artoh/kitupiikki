@@ -2135,6 +2135,7 @@
 					/Users/petri/Qt/5.11.0/clang_64/lib,
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = s;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -2168,7 +2169,6 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				OTHER_CFLAGS = (
 					"-pipe",
-					"-O2",
 					"-Wall",
 					"-W",
 					"-fPIC",
@@ -2184,7 +2184,6 @@
 				OTHER_CPLUSPLUSFLAGS = (
 					"-pipe",
 					"-stdlib=libc++",
-					"-O2",
 					"-std=gnu++11",
 					"-Wall",
 					"-W",
@@ -2285,7 +2284,6 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"-pipe",
-					"-O2",
 					"-Wall",
 					"-W",
 					"-fPIC",
@@ -2301,7 +2299,6 @@
 				OTHER_CPLUSPLUSFLAGS = (
 					"-pipe",
 					"-stdlib=libc++",
-					"-O2",
 					"-std=gnu++11",
 					"-Wall",
 					"-W",
@@ -2340,6 +2337,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = FJ2CG9GU7J;
 				ENABLE_BITCODE = NO;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/../Libraries";
@@ -2359,6 +2357,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = FJ2CG9GU7J;
 				ENABLE_BITCODE = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
