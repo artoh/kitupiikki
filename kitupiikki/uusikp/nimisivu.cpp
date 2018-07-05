@@ -66,9 +66,11 @@ void NimiSivu::initializePage()
         else if( iter.key().startsWith("MuotoOn/"))
         {
             QString nimi = iter.key().mid(8);
-            QListWidgetItem *item = new QListWidgetItem(nimi, ui->muotoList);
             if( nimi == valittuTeksti)
+            {
+                QListWidgetItem *item = new QListWidgetItem(nimi, ui->muotoList);
                 ui->muotoList->setCurrentItem(item);
+            }
         }
     }
 
