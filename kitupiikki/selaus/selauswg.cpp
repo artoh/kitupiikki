@@ -173,8 +173,8 @@ void SelausWg::paivitaSummat()
         int valittunro = valittuTekstina.left( valittuTekstina.indexOf(' ') ).toInt();
         Tili valittutili = Kirjanpito::db()->tilit()->tiliNumerolla(valittunro);
 
-        int saldo = valittutili.saldoPaivalle( ui->loppuEdit->date());
-        int muutos = kreditSumma - debetSumma;
+        qlonglong saldo = valittutili.saldoPaivalle( ui->loppuEdit->date());
+        qlonglong muutos = kreditSumma - debetSumma;
 
         if( valittutili.onko(TiliLaji::VASTAAVAA)  )
         {

@@ -83,7 +83,7 @@ QDate AlvIlmoitusDialog::teeAlvIlmoitus(QDate alkupvm, QDate loppupvm)
 
 bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
 {
-    QMap<int,int> verotKannoittainSnt;  // verokanta - maksettava vero
+    QMap<int,qlonglong> verotKannoittainSnt;  // verokanta - maksettava vero
 
     // Lisätään kotimaiset verokannat, jotta ilmoitus näyttää paremmalta
     verotKannoittainSnt.insert(24, 0);
@@ -125,8 +125,8 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         verorivi.alvprosentti = alvprosentti;
 
         // Brutosta erotetaan verot
-        int veroSnt =qRound( ( alvprosentti * (double) saldoSnt ) / ( 100 + alvprosentti) );
-        int nettoSnt = saldoSnt - veroSnt;
+        qlonglong veroSnt = qRound( ( alvprosentti * (double) saldoSnt ) / ( 100 + alvprosentti) );
+        qlonglong nettoSnt = saldoSnt - veroSnt;
 
         if( nettoSnt > 0)
         {
@@ -277,7 +277,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
 
     otsikko("Vero kotimaan myynnistä verokannoittain");
 
-    QMapIterator<int,int> iter(verotKannoittainSnt);
+    QMapIterator<int,qlonglong> iter(verotKannoittainSnt);
     iter.toBack();
 
     while( iter.hasPrevious())
@@ -334,7 +334,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
             if( kp()->tilikaudet()->kirjanpitoAlkaa().daysTo( laskelmaMista ) < 0 )
                 laskelmaMista = kp()->tilikaudet()->kirjanpitoAlkaa();
         }
-        int kuukausiaLaskelmassa = laskelmaMista.daysTo(loppupvm) / 30;
+        qlonglong kuukausiaLaskelmassa = laskelmaMista.daysTo(loppupvm) / 30;
 
         QSqlQuery kysely;
         kysely.exec(  QString("SELECT SUM(kreditsnt), SUM(debetsnt) "
@@ -357,7 +357,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         if( kysely.next())
             vero += kysely.value(1).toInt() - kysely.value(0).toInt();
 
-        int suhteutettu = liikevaihto;
+        qlonglong suhteutettu = liikevaihto;
 
         if( kuukausiaLaskelmassa )
             suhteutettu = liikevaihto *  12 / kuukausiaLaskelmassa;
@@ -433,7 +433,7 @@ void AlvIlmoitusDialog::otsikko(const QString &teksti)
     kirjoittaja->lisaaRivi(rivi);
 }
 
-void AlvIlmoitusDialog::luku(const QString &nimike, int senttia, bool viiva)
+void AlvIlmoitusDialog::luku(const QString &nimike, qlonglong senttia, bool viiva)
 {
     RaporttiRivi rivi;
     rivi.lisaa(nimike);

@@ -803,8 +803,8 @@ VientiRivi VientiModel::uusiRivi()
 {
     VientiRivi uusirivi;
 
-    int debetit = debetSumma();
-    int kreditit = kreditSumma();
+    qlonglong debetit = debetSumma();
+    qlonglong kreditit = kreditSumma();
 
     // Ensimmäiseen vientiin kopioidaan tositteen otsikko ja päivämäärä
     if( !viennit_.count() )

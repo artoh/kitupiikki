@@ -28,6 +28,7 @@
 #include <QSqlError>
 #include <QTextStream>
 #include <QBuffer>
+#include <QRandomGenerator>
 
 #include <QDebug>
 
@@ -395,15 +396,13 @@ void Kirjanpito::asetaInstanssi(Kirjanpito *kp)
 
 QString Kirjanpito::satujono(int pituus)
 {
-    qsrand( std::time(NULL) );
-
     // https://stackoverflow.com/questions/18862963/qt-c-random-string-generation
     const QString merkit("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
 
     QString randomString;
     for(int i=0; i<pituus; ++i)
     {
-       int index = qrand() % merkit.length();
+        int index = QRandomGenerator::global()->generate() % merkit.length();
        QChar nextChar = merkit.at(index);
        randomString.append(nextChar);
     }
