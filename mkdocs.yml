@@ -3,7 +3,7 @@ site_description: 'Ilmainen kirjanpito-ohjelma'
 site_author: 'Arto Hyvättinen'
 site_url: 'https://kitupiikki.info'
 
-copyright: 'Copyright &copy; 2017-2018 Arto Hyvättinen GPL3 License'
+copyright: 'Copyright &copy; 2017-2018 Arto Hyvättinen GPL3'
 theme:
   name: null
   custom_dir: material
