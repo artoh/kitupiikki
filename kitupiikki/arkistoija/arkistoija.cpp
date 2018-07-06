@@ -530,7 +530,7 @@ void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
 
     kirjoitaHash();
 
-    out << tr("<p class=info>Tämä kirjanpidon sähköinen arkisto on luotu %1 <a href=https://artoh.github.io/kitupiikki>Kitupiikki-ohjelman</a> versiolla %2 <br>")
+    out << tr("<p class=info>Tämä kirjanpidon sähköinen arkisto on luotu %1 <a href=https://kitupiikki.info>Kitupiikki-ohjelman</a> versiolla %2 <br>")
            .arg(QDate::currentDate().toString(Qt::SystemLocaleDate))
            .arg(qApp->applicationVersion());
     out << tr("Arkiston muuttumattomuus voidaan valvoa sha256-tiivisteellä <code>%1</code> </p>").arg( QString(QCryptographicHash::hash( shaBytes, QCryptographicHash::Sha256).toHex()) );

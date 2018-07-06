@@ -1,7 +1,7 @@
 site_name: 'Kitupiikki'
 site_description: 'Ilmainen kirjanpito-ohjelma'
 site_author: 'Arto Hyvättinen'
-site_url: 'https://artoh.github.io/kitupiikki'
+site_url: 'https://kitupiikki.info'
 
 copyright: 'Copyright &copy; 2017-2018 Arto Hyvättinen GPL3 License'
 theme:
@@ -34,6 +34,9 @@ markdown_extensions:
   - meta
   - toc:
         permalink: true
+google_analytics:
+  - 'UA-92837430-1'
+  - 'auto'        
 pages:
   - Kitupiikki: 'index.md'
   - Esittely:
