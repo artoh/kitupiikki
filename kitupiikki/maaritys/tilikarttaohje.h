@@ -35,7 +35,7 @@ public:
     bool nollaa() override;
     bool tallenna() override;
     bool onkoMuokattu() override;
-    bool naytetaankoVienti() { return true; }
+    bool naytetaankoVienti()  override { return true; }
 
 public slots:
     void devtool();

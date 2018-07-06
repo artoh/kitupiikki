@@ -36,9 +36,9 @@ public:
     KohdennusMuokkaus(QWidget *parent = 0);
     ~KohdennusMuokkaus();
 
-    bool nollaa();
-    bool tallenna();
-    bool onkoMuokattu();
+    bool nollaa() override;
+    bool tallenna() override;
+    bool onkoMuokattu() override;
 
 public slots:
     void uusi();

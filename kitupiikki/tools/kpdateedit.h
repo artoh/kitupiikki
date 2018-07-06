@@ -101,12 +101,12 @@ protected slots:
     void editMuuttui(QString uusi);
 
 protected:
-    bool eventFilter(QObject *watched, QEvent *event);
-    void keyPressEvent(QKeyEvent* event);
-    void paintEvent(QPaintEvent* event);
-    void focusInEvent(QFocusEvent* event);
-    void mousePressEvent(QMouseEvent* event);
-    void mouseMoveEvent(QMouseEvent* event);
+    bool eventFilter(QObject *watched, QEvent *event) override;
+    void keyPressEvent(QKeyEvent* event) override;
+    void paintEvent(QPaintEvent* event) override;
+    void focusInEvent(QFocusEvent* event) override;
+    void mousePressEvent(QMouseEvent* event) override;
+    void mouseMoveEvent(QMouseEvent* event) override;
 
     QCalendarWidget *kalenteri_;
 

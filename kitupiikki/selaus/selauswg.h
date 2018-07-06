@@ -71,12 +71,12 @@ public slots:
 
 
 public:
-    void siirrySivulle();
+    void siirrySivulle() override;
 
     QString ohjeSivunNimi() override { return "selaus"; }
 
 protected:
-    bool eventFilter(QObject *watched, QEvent *event);
+    bool eventFilter(QObject *watched, QEvent *event) override;
 
 signals:
     void tositeValittu(int id);
