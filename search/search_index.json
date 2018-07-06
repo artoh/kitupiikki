@@ -92,7 +92,7 @@
         },
         {
             "location": "/tuki/",
-            "text": "K\u00e4ytt\u00e4j\u00e4tuki\n\u00b6\n\n\nKysy, kommentoi ja tee ehdotuksia Kitupiikin uusista ominaisuuksista osallistumalla n\u00e4iden nettisivujen alalaidassa olevaan keskusteluun.\n\n\nKirjoita kysymyksesi kommenttina sille sivulle, jossa k\u00e4sitell\u00e4\u00e4n sinua askarruttavaa asiaa.\n\n\nPalaute\n\u00b6\n\n\nVoit l\u00e4hett\u00e4\u00e4 Kitupiikist\u00e4 palautetta my\u00f6s \npalautelomakkeella\n. Sivun alalaidan kommenteilla saat kuitenkin nopeamman vastauksen, koska n\u00e4ihin kysymyksiin voivat vastata my\u00f6s muut ohjelman k\u00e4ytt\u00e4j\u00e4t.\n\n\nOsallistu\n\u00b6\n\n\nKitupiikki\u00e4 kehitet\u00e4\u00e4n ja testataan t\u00e4ysin vapaaehtoisvoimin. Voit osallistua itse antamalla \npalautetta\n, vastaamalla muiden kysymyksiin sek\u00e4 etsim\u00e4ll\u00e4 ohjelmasta virheit\u00e4. Voit my\u00f6s ehdottaa itse tekem\u00e4si tilikartan liitt\u00e4mist\u00e4 Kitupiikkiin tai jopa osallistua \nGitHubin\n kautta Kitupiikin koodaamiseen.\n\n\nKitupiikin tulevaisuuden n\u00e4kym\u00e4t l\u00f6ytyv\u00e4t \nKitupiikin HuBoardista\n. Parannusehdotuksia voi tehd\u00e4 \nGitHubin Issues-toiminnolla\n.",
+            "text": "K\u00e4ytt\u00e4j\u00e4tuki\n\u00b6\n\n\nKysy, kommentoi ja tee ehdotuksia Kitupiikin uusista ominaisuuksista osallistumalla n\u00e4iden nettisivujen alalaidassa olevaan keskusteluun.\n\n\nKirjoita kysymyksesi kommenttina sille sivulle, jossa k\u00e4sitell\u00e4\u00e4n sinua askarruttavaa asiaa.\n\n\nPalaute\n\u00b6\n\n\nVoit l\u00e4hett\u00e4\u00e4 Kitupiikist\u00e4 palautetta \npalautelomakkeella\n tai s\u00e4hk\u00f6postilla \npalaute@kitupiikki.info\n. Sivun alalaidan kommenteilla saat kuitenkin nopeamman vastauksen, koska n\u00e4ihin kysymyksiin voivat vastata my\u00f6s muut ohjelman k\u00e4ytt\u00e4j\u00e4t.\n\n\nOsallistu\n\u00b6\n\n\nKitupiikki\u00e4 kehitet\u00e4\u00e4n ja testataan t\u00e4ysin vapaaehtoisvoimin. Voit osallistua itse antamalla \npalautetta\n, vastaamalla muiden kysymyksiin sek\u00e4 etsim\u00e4ll\u00e4 ohjelmasta virheit\u00e4. Voit my\u00f6s ehdottaa itse tekem\u00e4si tilikartan liitt\u00e4mist\u00e4 Kitupiikkiin tai jopa osallistua \nGitHubin\n kautta Kitupiikin koodaamiseen.\n\n\nKitupiikin tulevaisuuden n\u00e4kym\u00e4t l\u00f6ytyv\u00e4t \nKitupiikin HuBoardista\n. Parannusehdotuksia voi tehd\u00e4 \nGitHubin Issues-toiminnolla\n.",
             "title": "Tuki"
         },
         {
@@ -102,7 +102,7 @@
         },
         {
             "location": "/tuki/#palaute",
-            "text": "Voit l\u00e4hett\u00e4\u00e4 Kitupiikist\u00e4 palautetta my\u00f6s  palautelomakkeella . Sivun alalaidan kommenteilla saat kuitenkin nopeamman vastauksen, koska n\u00e4ihin kysymyksiin voivat vastata my\u00f6s muut ohjelman k\u00e4ytt\u00e4j\u00e4t.",
+            "text": "Voit l\u00e4hett\u00e4\u00e4 Kitupiikist\u00e4 palautetta  palautelomakkeella  tai s\u00e4hk\u00f6postilla  palaute@kitupiikki.info . Sivun alalaidan kommenteilla saat kuitenkin nopeamman vastauksen, koska n\u00e4ihin kysymyksiin voivat vastata my\u00f6s muut ohjelman k\u00e4ytt\u00e4j\u00e4t.",
             "title": "Palaute"
         },
         {
