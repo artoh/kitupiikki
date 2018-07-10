@@ -75,7 +75,7 @@ void OstolaskutModel::paivita(int valinta, QDate mista, QDate mihin)
         lasku.erapvm = query.value("erapvm").toDate();
         lasku.eraId = query.value("eraid").toInt();
         lasku.summaSnt = query.value("kreditSnt").toInt() -  query.value("debetSnt").toInt();
-        lasku.avoinSnt = 0 - era.saldoSnt;
+        lasku.avoinSnt = 0LL - era.saldoSnt;
 
         lasku.asiakas = query.value("asiakas").toString();
         if( lasku.asiakas.length())

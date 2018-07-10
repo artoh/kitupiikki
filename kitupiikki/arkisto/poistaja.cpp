@@ -80,7 +80,7 @@ bool Poistaja::sumupoistaja(Tilikausi kausi)
         if( !tili.onko(TiliLaji::POISTETTAVA))
             continue;
 
-        int saldo = tili.saldoPaivalle( kausi.paattyy());
+        qlonglong saldo = tili.saldoPaivalle( kausi.paattyy());
 
         if( !saldo)
             continue;
@@ -98,8 +98,8 @@ bool Poistaja::sumupoistaja(Tilikausi kausi)
             //  Menojäännöspoistossa poistetaan määrätty prosenttimäärä siihen asti olevasta saldosta
 
             int poistoprosentti = tili.json()->luku("Menojaannospoisto");
-            int poisto = std::round( saldo * poistoprosentti / 100.0 );
-            int jalkeen = saldo - poisto;
+            qlonglong poisto = std::round( saldo * poistoprosentti / 100.0 );
+            qlonglong jalkeen = saldo - poisto;
 
             RaporttiRivi rr;
             rr.lisaaLinkilla(RaporttiRiviSarake::TILI_LINKKI, tili.id(), QString::number(tili.numero()) );

@@ -50,7 +50,7 @@ public:
      * @param tyyppilukko Jos kirjaustyyppiä ei saa muuttaa
      * @return QDialog::exec() paluuarvo
      */
-    int exec(int koodi, int prosentti, bool tyyppilukko = false);
+    int nayta(int koodi, int prosentti, bool tyyppilukko = false);
 
 public slots:
     void lajimuuttuu();

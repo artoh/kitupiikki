@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
     splash->setPixmap( QPixmap(":/pic/splash.png"));
     splash->show();
 
-#ifdef Q_OS_WIN
+#if defined (Q_OS_WIN) || defined (Q_OS_MACX)
     a.setStyle(QStyleFactory::create("Fusion"));
 #else
     // #120 GNOME-ongelmien takia ei käytetä Linuxissa natiiveja dialogeja
@@ -58,8 +58,9 @@ int main(int argc, char *argv[])
 
     a.setOrganizationDomain("artoh.github.io");
     a.setOrganizationName("Kitupiikki Kirjanpito");
+#ifndef Q_OS_MACX
     a.setWindowIcon( QIcon(":/pic/Possu64.png"));
-
+#endif
 
     QLocale::setDefault(QLocale(QLocale::Finnish, QLocale::Finland));
 

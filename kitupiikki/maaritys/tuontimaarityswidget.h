@@ -31,9 +31,9 @@ public:
     TuontiMaaritysWidget();
     ~TuontiMaaritysWidget();
 
-    bool nollaa();
-    bool tallenna();
-    bool onkoMuokattu();
+    bool nollaa() override;
+    bool tallenna() override;
+    bool onkoMuokattu() override;
 
     QString ohjesivu() override { return "kirjaus/tuonti"; }
 

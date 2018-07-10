@@ -305,7 +305,7 @@ QString AloitusSivu::vinkit()
         QDate kausipaattyy = kp()->asetukset()->pvm("AlvIlmoitus").addMonths( kp()->asetukset()->luku("AlvKausi")).addDays(-1);
         QDate erapaiva = AlvMaaritys::erapaiva(kausipaattyy);
 
-        int paivaaIlmoitukseen = kp()->paivamaara().daysTo( erapaiva );
+        qlonglong paivaaIlmoitukseen = kp()->paivamaara().daysTo( erapaiva );
         if( paivaaIlmoitukseen < 0)
         {
             vinkki.append( tr("<table class=varoitus width=100%><tr><td>"

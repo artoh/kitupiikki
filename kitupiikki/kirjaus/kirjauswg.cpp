@@ -395,7 +395,7 @@ void KirjausWg::vientivwAktivoitu(QModelIndex indeksi)
         if(indeksi.column() == VientiModel::ALV )
         {
             VeroDialogi verodlg(this);
-            if( verodlg.exec( indeksi.data(VientiModel::AlvKoodiRooli).toInt(), indeksi.data(VientiModel::AlvProsenttiRooli).toInt() ))
+            if( verodlg.nayta( indeksi.data(VientiModel::AlvKoodiRooli).toInt(), indeksi.data(VientiModel::AlvProsenttiRooli).toInt() ))
             {
                 model_->vientiModel()->setData(indeksi, verodlg.alvKoodi() , VientiModel::AlvKoodiRooli);
                 model_->vientiModel()->setData(indeksi, verodlg.alvProsentti() , VientiModel::AlvProsenttiRooli);
@@ -840,7 +840,7 @@ void KirjausWg::kirjausApuri()
     if( apurivinkki_ )
     {
         QSettings settings;
-        if( settings.value("ApuriVinkki"),3)
+        if( settings.value("ApuriVinkki", 3).toInt())
             settings.setValue("ApuriVinkki", settings.value("ApuriVinkki",3).toInt() - 1 );
         apurivinkki_->hide();
     }

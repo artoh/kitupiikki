@@ -222,7 +222,7 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
     return kirjoittaja;
 }
 
-void PaivakirjaRaportti::kirjoitaSummaRivi(RaportinKirjoittaja &rk, int debet, int kredit, int sarakeleveys)
+void PaivakirjaRaportti::kirjoitaSummaRivi(RaportinKirjoittaja &rk, qlonglong debet, qlonglong kredit, int sarakeleveys)
 {
     RaporttiRivi rivi;
     rivi.lisaa("Yhteensä", sarakeleveys );

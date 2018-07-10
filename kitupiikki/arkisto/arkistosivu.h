@@ -43,7 +43,7 @@ public:
     ArkistoSivu();
     ~ArkistoSivu();
 
-    void siirrySivulle();
+    void siirrySivulle() override;
 
     QString ohjeSivunNimi() override { return "tilikaudet/tilikaudet"; }
 
