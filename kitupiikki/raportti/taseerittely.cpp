@@ -157,7 +157,7 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
             {
 
                 // Alkusaldo
-                int alkusaldo = tili.saldoPaivalle( mista.addDays(-1));
+                quint64 alkusaldo = tili.saldoPaivalle( mista.addDays(-1));
                 if( alkusaldo )
                 {
                     RaporttiRivi ekaRivi;

@@ -44,7 +44,7 @@ void JsonKentta::set(const QString &avain, const QString &arvo)
 
 void JsonKentta::set(const QString &avain, const QDate &pvm)
 {
-    if( pvm != QDate::fromString(map_.value(avain).toString()), Qt::ISODate)
+    if( pvm != QDate::fromString(map_.value(avain).toString(), Qt::ISODate))
     {
         map_[avain] = QVariant(pvm.toString(Qt::ISODate));
         muokattu_ = true;

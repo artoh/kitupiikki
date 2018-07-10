@@ -68,7 +68,9 @@ void NimiSivu::initializePage()
             QString nimi = iter.key().mid(8);
             QListWidgetItem *item = new QListWidgetItem(nimi, ui->muotoList);
             if( nimi == valittuTeksti)
+            {
                 ui->muotoList->setCurrentItem(item);
+            }
         }
     }
 

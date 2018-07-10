@@ -34,8 +34,8 @@ struct AvoinLasku
     QString viite;
     QDate pvm;
     QDate erapvm;
-    int summaSnt = 0;
-    int avoinSnt = 0;
+    qlonglong summaSnt = 0;
+    qlonglong avoinSnt = 0;
     QString asiakas;
     int tosite = -1;
     int kirjausperuste = 0;

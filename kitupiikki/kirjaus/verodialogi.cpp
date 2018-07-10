@@ -67,7 +67,7 @@ int VeroDialogi::alvKoodi() const
     return koodi;
 }
 
-int VeroDialogi::exec(int koodi, int prosentti, bool tyyppilukko)
+int VeroDialogi::nayta(int koodi, int prosentti, bool tyyppilukko)
 {
 
     if( koodi > AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON )

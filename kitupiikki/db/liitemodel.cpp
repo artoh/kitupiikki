@@ -40,7 +40,6 @@
 #include <poppler/qt5/poppler-qt5.h>
 
 
-
 LiiteModel::LiiteModel(TositeModel *tositemodel, QObject *parent)
     : QAbstractListModel(parent), tositeModel_(tositemodel), muokattu_(false)
 {

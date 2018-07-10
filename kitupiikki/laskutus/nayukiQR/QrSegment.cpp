@@ -103,7 +103,7 @@ QrSegment QrSegment::makeAlphanumeric(const char *text) {
 		const char *temp = std::strchr(ALPHANUMERIC_CHARSET, *text);
 		if (temp == nullptr)
 			throw "String contains unencodable characters in alphanumeric mode";
-		accumData = accumData * 45 + (temp - ALPHANUMERIC_CHARSET);
+		accumData = (int)(accumData * 45 + (temp - ALPHANUMERIC_CHARSET));
 		accumCount++;
 		if (accumCount == 2) {
 			bb.appendBits(accumData, 11);
@@ -132,22 +132,6 @@ vector<QrSegment> QrSegment::makeSegments(const char *text) {
 		result.push_back(makeBytes(bytes));
 	}
 	return result;
-}
-
-
-QrSegment QrSegment::makeEci(long assignVal) {
-	BitBuffer bb;
-	if (0 <= assignVal && assignVal < (1 << 7))
-		bb.appendBits(assignVal, 8);
-	else if ((1 << 7) <= assignVal && assignVal < (1 << 14)) {
-		bb.appendBits(2, 2);
-		bb.appendBits(assignVal, 14);
-	} else if ((1 << 14) <= assignVal && assignVal < 1000000L) {
-		bb.appendBits(6, 3);
-		bb.appendBits(assignVal, 21);
-	} else
-		throw "ECI assignment value out of range";
-	return QrSegment(Mode::ECI, 0, std::move(bb));
 }
 
 

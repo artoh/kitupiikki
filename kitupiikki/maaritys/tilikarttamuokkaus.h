@@ -34,11 +34,11 @@ public:
     TilikarttaMuokkaus(QWidget *parent=0);
     ~TilikarttaMuokkaus();
 
-    bool nollaa();
-    bool tallenna();
-    bool onkoMuokattu();
+    bool nollaa() override;
+    bool tallenna() override;
+    bool onkoMuokattu() override;
 
-    bool naytetaankoVienti() { return true; }
+    bool naytetaankoVienti() override { return true; }
 
     QString ohjesivu() override { return "maaritykset/tilikartta"; }
 

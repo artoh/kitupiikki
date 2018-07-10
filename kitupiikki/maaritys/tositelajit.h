@@ -49,9 +49,9 @@ public slots:
     void riviValittu(const QModelIndex& index);
 
 public:
-    bool tallenna();
-    bool nollaa();
-    bool onkoMuokattu();
+    bool tallenna() override;
+    bool nollaa() override;
+    bool onkoMuokattu() override;
 
     QString ohjesivu() override { return "maaritykset/tositelajit"; }
 

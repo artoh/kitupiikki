@@ -71,7 +71,7 @@ private:
      * @param nimike
      * @param senttia
      */
-    void luku(const QString& nimike, int senttia, bool viiva = false);
+    void luku(const QString& nimike, qlonglong senttia, bool viiva = false);
 
     /**
      * @brief Tekee erääntyneen maksuperusteisen alvin tilitykset

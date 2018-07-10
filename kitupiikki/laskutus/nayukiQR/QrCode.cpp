@@ -95,7 +95,7 @@ QrCode QrCode::encodeSegments(const vector<QrSegment> &segs, Ecc ecl,
 	}
 	
 	// Add terminator and pad up to a byte if applicable
-	bb.appendBits(0, std::min<size_t>(4, dataCapacityBits - bb.size()));
+	bb.appendBits(0, (int)std::min<size_t>(4, dataCapacityBits - bb.size()));
 	bb.appendBits(0, (8 - bb.size() % 8) % 8);
 	
 	// Pad with alternate bytes until data capacity is reached
@@ -199,9 +199,9 @@ void QrCode::drawFunctionPatterns() {
 	
 	// Draw numerous alignment patterns
 	const vector<int> alignPatPos = getAlignmentPatternPositions(version);
-	int numAlign = alignPatPos.size();
-	for (int i = 0; i < numAlign; i++) {
-		for (int j = 0; j < numAlign; j++) {
+	unsigned long numAlign = alignPatPos.size();
+	for (unsigned long i = 0; i < numAlign; i++) {
+		for (unsigned long j = 0; j < numAlign; j++) {
 			if ((i == 0 && j == 0) || (i == 0 && j == numAlign - 1) || (i == numAlign - 1 && j == 0))
 				continue;  // Skip the three finder corners
 			else
