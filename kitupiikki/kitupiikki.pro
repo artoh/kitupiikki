@@ -4,15 +4,12 @@ QT += sql
 QT += printsupport
 QT += network
 QT += svg
+QT += xml
 
-windows {
-    LIBS += $$PWD/../poppler/lib/libpoppler-qt5.dll.a
-    INCLUDEPATH += $$PWD/../poppler/
-}
 
-linux {
-    LIBS += -lpoppler-qt5
-}
+LIBS += -lpoppler-qt5
+LIBS += -lpoppler
+
 
 CONFIG += c++11
 
@@ -357,4 +354,8 @@ DISTFILES += \
     aloitussivu/qrc/avaanappi.png \
     aloitussivu/qrc/aloitus.css \
     uusikp/update3.sql
+
+#if defined Q_OS_WINDOWS
+    RC_ICONS = kitupiikki.ico
+#endif
 

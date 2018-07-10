@@ -50,3 +50,5 @@ site/*
 poppler/
 
 apidoc/
+
+dist/
