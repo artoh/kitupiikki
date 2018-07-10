@@ -90,13 +90,13 @@ TositeModel *Kirjanpito::tositemodel(QObject *parent)
 
 void Kirjanpito::ohje(const QString &ohjesivu)
 {
-    QString osoite("https://artoh.github.io/kitupiikki/");
+    QString osoite("https://kitupiikki.info/");
     osoite.append(ohjesivu);
     if(!QDesktopServices::openUrl( QUrl(osoite)))
         QMessageBox::critical(0, tr("Ohjeen näyttäminen epäonnistui"),
                               tr("Kitupiikki ei saanut käynnistettyä selainta ohjeen näyttämiseksi. Onhan järjestelmässäsi "
                                  "määritelty oletusselain avaamaan internet-sivuja?\n\n"
-                                 "Ohjelman ohjeet löytyvät sivulta https://artoh.github.io/kitupiikki"));
+                                 "Ohjelman ohjeet löytyvät sivulta https://kitupiikki.info"));
 }
 
 void Kirjanpito::avaaUrl(const QUrl &url)
@@ -197,7 +197,7 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
         QMessageBox::critical(0, tr("Kirjanpitoa %1 ei voi avata").arg(asetusModel_->asetus("Nimi")),
                               tr("Kirjanpito on luotu Kitupiikin versiolla %1, eikä käytössäsi oleva versio %2 pysty avaamaan sitä.\n\n"
                                  "Voidaksesi avata tiedoston, sinun on asennettava uudempi versio Kitupiikistä. Lataa ohjelma "
-                                 "osoitteesta https://artoh.github.io/kitupiikki").arg( asetusModel_->asetus("LuotuVersiolla"))
+                                 "osoitteesta https://kitupiikki.info").arg( asetusModel_->asetus("LuotuVersiolla"))
                               .arg( qApp->applicationVersion() ));
 
         tietokanta()->close();

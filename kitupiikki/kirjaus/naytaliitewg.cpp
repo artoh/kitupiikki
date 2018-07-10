@@ -29,11 +29,8 @@
 #include <QDropEvent>
 #include <QClipboard>
 
-#ifdef Q_OS_LINUX
-    #include <poppler/qt5/poppler-qt5.h>
-#elif defined(Q_OS_WIN)
-    #include "poppler-qt5.h"
-#endif
+#include <poppler/qt5/poppler-qt5.h>
+
 
 #include <QGraphicsPixmapItem>
 
