@@ -1,6 +1,8 @@
 #include "asiakkaatmodel.h"
-
+#include "db/kirjanpito.h"
 #include <QSqlQuery>
+
+#include <QDebug>
 
 AsiakkaatModel::AsiakkaatModel(QObject *parent, bool toimittajat)
     : QAbstractTableModel(parent), toimittajat_(toimittajat)
@@ -30,11 +32,16 @@ QVariant AsiakkaatModel::data(const QModelIndex &index, int role) const
         case NIMI:
             return rivi.nimi;
         case YHTEENSA:
-            return QString("%L1 €").arg(rivi.yhteensa / 100.0,0,'f',2);
+            if( rivi.yhteensa)
+                return QString("%L1 €").arg(rivi.yhteensa / 100.0,0,'f',2);
+            break;
         case AVOINNA:
-            return QString("%L1 €").arg(rivi.avoinna / 100.0,0,'f',2);
+            if( rivi.avoinna)
+                return QString("%L1 €").arg(rivi.avoinna / 100.0,0,'f',2);
+            break;
         case ERAANTYNYT:
-            return QString("%L1 €").arg(rivi.eraantynyt / 100.0,0,'f',2);
+            if( rivi.eraantynyt)
+                return QString("%L1 €").arg(rivi.eraantynyt / 100.0,0,'f',2);
         }
     }
     else if( role == Qt::TextAlignmentRole)
@@ -44,6 +51,8 @@ QVariant AsiakkaatModel::data(const QModelIndex &index, int role) const
         else
             return QVariant(Qt::AlignRight | Qt::AlignRight);
     }
+    else if( role == Qt::TextColorRole && index.column() == ERAANTYNYT)
+        return QColor(Qt::red);
     return QVariant();
 }
 
@@ -86,9 +95,38 @@ void AsiakkaatModel::paivita(bool toimittajat)
         AsiakasRivi rivi;
         rivi.nimi = query.value(0).toString();
 
+        if( rivi.nimi.isEmpty())
+            continue;
+
         // TODO: Summien laskeminen eri kyselyllä
+        QString summakysely = QString("SELECT id, pvm, debetsnt, kreditsnt, erapvm, eraid FROM vienti "
+                                      "WHERE asiakas=\"%1\" and iban is ").arg(rivi.nimi.replace("\"","\\\""));
+        if( toimittajat_)
+            summakysely.append("not ");
+        summakysely.append("null");
+
+        qlonglong summa=0;
+        qlonglong eraantyneet=0;
+        qlonglong avoimet = 0;
+
+        QSqlQuery summaquery( summakysely );
+        while( summaquery.next())
+        {
+           qlonglong sentit = toimittajat_ ? summaquery.value("kreditsnt").toLongLong() - summaquery.value("debetsnt").toLongLong()  :  summaquery.value("debetsnt").toLongLong() - summaquery.value("kreditsnt").toLongLong();
+           TaseEra era( summaquery.value("eraid").toInt() );
+
+            summa += sentit;
+            avoimet += toimittajat_ ? 0 - era.saldoSnt : era.saldoSnt;
+            QDate erapvm = summaquery.value("erapvm").toDate();
+            if( erapvm.isValid() && erapvm < kp()->paivamaara())
+                eraantyneet += toimittajat_ ? 0 - era.saldoSnt : era.saldoSnt;;
+        }
+        rivi.yhteensa = summa;
+        rivi.avoinna = avoimet;
+        rivi.eraantynyt = eraantyneet;
 
         rivit_.append(rivi);
+
     }
     endResetModel();
 }
