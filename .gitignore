@@ -47,8 +47,6 @@ site/*
 .directory
 *-debug/*
 
-poppler/
-
 apidoc/
 
 dist/

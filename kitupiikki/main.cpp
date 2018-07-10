@@ -62,9 +62,8 @@ int main(int argc, char *argv[])
 
     QLocale::setDefault(QLocale(QLocale::Finnish, QLocale::Finland));
 
-    // Qt:n vakioiden kääntämiseksi
     QTranslator translator;
-    translator.load("qt_fi.qm",a.applicationDirPath().append("/translations"));
+    translator.load("fi.qm",":/aloitus/");
     a.installTranslator(&translator);
 
     QSettings settings;
