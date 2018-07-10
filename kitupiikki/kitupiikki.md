@@ -3,7 +3,5 @@ Kitupiikki          {#mainpage}
 
 Avoimen lähdekoodin kirjanpitäjä
 
-* Kotisivu https://artoh.github.io/kitupiikki
+* Kotisivu https://kitupiikki.info
 * Lähdekoodi https://github.com/artoh/kitupiikki
-
-

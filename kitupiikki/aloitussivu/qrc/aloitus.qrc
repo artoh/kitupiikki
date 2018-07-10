@@ -2,6 +2,7 @@
     <qresource prefix="/aloitus">
         <file>aloitus.css</file>
         <file>tervetuloa.html</file>
+        <file>fi.qm</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

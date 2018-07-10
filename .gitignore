@@ -48,9 +48,9 @@ site/*
 .directory
 *-debug/*
 
-poppler/
-
 apidoc/
+
+dist/
 
 #Xcode
 xcuserdata

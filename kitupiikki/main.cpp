@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
 #endif
 
     a.setApplicationName("Kitupiikki");
-    a.setApplicationVersion("1.0-beta.1");
+    a.setApplicationVersion("1.0-rc");
     a.setOrganizationDomain("artoh.github.io");
     a.setOrganizationName("Kitupiikki Kirjanpito");
 #ifndef Q_OS_MACX
@@ -63,9 +63,8 @@ int main(int argc, char *argv[])
 
     QLocale::setDefault(QLocale(QLocale::Finnish, QLocale::Finland));
 
-    // Qt:n vakioiden kääntämiseksi
     QTranslator translator;
-    translator.load("qt_fi.qm",a.applicationDirPath().append("/translations"));
+    translator.load("fi.qm",":/aloitus/");
     a.installTranslator(&translator);
 
     QSettings settings;
