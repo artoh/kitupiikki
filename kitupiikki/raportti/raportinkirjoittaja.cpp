@@ -464,15 +464,17 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu)
     int sivunleveys = painter->window().width();
     int rivinkorkeus = painter->fontMetrics().height();
 
-    QString nimi = Kirjanpito::db()->asetus("Nimi");
+    QString nimi = kp()->asetukset()->onko("LogossaNimi") ? QString() : Kirjanpito::db()->asetus("Nimi");
     QString paivays = kp()->paivamaara().toString("dd.MM.yyyy");
 
     int vasenreunus = 0;
 
     if( !kp()->logo().isNull() )
     {
-        painter->drawPixmap( QRect(0,0,rivinkorkeus*2, rivinkorkeus*2), QPixmap::fromImage( kp()->logo() ) );
-        vasenreunus = rivinkorkeus * 2 + painter->fontMetrics().width("A");
+        double skaala = ((double) kp()->logo().width()) / kp()->logo().height();
+        double skaalattu = skaala < 5.0 ? skaala : 5.0;
+        painter->drawPixmap( QRect(0,0,rivinkorkeus*2*skaalattu, rivinkorkeus*2), QPixmap::fromImage( kp()->logo() ) );
+        vasenreunus = rivinkorkeus * 2 * skaalattu + painter->fontMetrics().width("A");
     }
 
     QRectF nimiRect = painter->boundingRect( vasenreunus, 0, sivunleveys / 3 - vasenreunus, painter->viewport().height(),
@@ -489,7 +491,7 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu)
         painter->save();
         painter->setPen( QPen(Qt::red));
         painter->setFont( QFont("Sans",14));
-        painter->drawText(QRect(vasenreunus + sivunleveys / 8 * 5,0,sivunleveys/4, rivinkorkeus*2 ), Qt::AlignHCenter | Qt::AlignVCenter, QString("HARJOITUS") );
+        painter->drawText(QRect(sivunleveys / 8 * 5,0,sivunleveys/4, rivinkorkeus*2 ), Qt::AlignHCenter | Qt::AlignVCenter, QString("HARJOITUS") );
         painter->restore();
     }
 

@@ -147,7 +147,17 @@ void TilinpaatosTulostaja::tulostaKansilehti(Tilikausi tilikausi, QPainter *pain
 
     if( !kp()->logo().isNull()  )
     {
-        painter->drawImage( QRectF(sivunleveys/2 - rivinkorkeus*2, sivunkorkeus / 3 - rivinkorkeus * 4, rivinkorkeus*4, rivinkorkeus*4),
+        double skaala = ((double) kp()->logo().width() ) / kp()->logo().height();
+        double leveys = rivinkorkeus * 4 * skaala;
+        double korkeus = rivinkorkeus * 4;
+
+        if( leveys > sivunleveys * 10 / 11)
+        {
+            leveys = sivunleveys * 10 / 11;
+            korkeus = leveys / skaala;
+        }
+
+        painter->drawImage( QRectF((sivunleveys - leveys) / 2, sivunkorkeus / 3 - rivinkorkeus * 4, leveys , korkeus),
                               kp()->logo() );
     }
     painter->drawText( QRectF(0, sivunkorkeus/3, sivunleveys, rivinkorkeus * 2), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter, kp()->asetukset()->asetus("Nimi"));

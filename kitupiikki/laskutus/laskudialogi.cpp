@@ -15,6 +15,22 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+
+#include "db/kirjanpito.h"
+
+#include "laskudialogi.h"
+#include "ui_laskudialogi.h"
+#include "laskuntulostaja.h"
+#include "laskutusverodelegaatti.h"
+
+#include "kirjaus/eurodelegaatti.h"
+#include "kirjaus/kohdennusdelegaatti.h"
+#include "kirjaus/tilidelegaatti.h"
+
+#include "kirjaus/verodialogi.h"
+#include "tools/pdfikkuna.h"
+#include "validator/ytunnusvalidator.h"
+
 #include <QDebug>
 
 #include <QPrinter>
@@ -34,19 +50,7 @@
 
 #include <QMessageBox>
 
-#include "db/kirjanpito.h"
 
-#include "laskudialogi.h"
-#include "ui_laskudialogi.h"
-#include "laskuntulostaja.h"
-#include "laskutusverodelegaatti.h"
-
-#include "kirjaus/eurodelegaatti.h"
-#include "kirjaus/kohdennusdelegaatti.h"
-#include "kirjaus/tilidelegaatti.h"
-
-#include "kirjaus/verodialogi.h"
-#include "tools/pdfikkuna.h"
 
 LaskuDialogi::LaskuDialogi(QWidget *parent, AvoinLasku hyvitettavaLasku) :
     QDialog(parent),
@@ -76,8 +80,8 @@ LaskuDialogi::LaskuDialogi(QWidget *parent, AvoinLasku hyvitettavaLasku) :
     tuoteProxy->setSortLocaleAware(true);
     connect( ui->tuotehakuEdit, SIGNAL(textChanged(QString)), tuoteProxy, SLOT(setFilterFixedString(QString)) );
 
-
     ui->nroLabel->setText( QString::number(model->laskunro()));
+    ui->ytunnus->setValidator( new YTunnusValidator());
 
     ui->rivitView->setModel(model);
     ui->rivitView->setItemDelegateForColumn(LaskuModel::AHINTA, new EuroDelegaatti());
@@ -220,6 +224,7 @@ void LaskuDialogi::haeOsoite()
         JsonKentta json;
         json.fromJson( kysely.value(0).toByteArray() );
         ui->emailEdit->setText( json.str("Email"));
+        ui->ytunnus->setText( json.str("YTunnus"));
 
         if( !json.str("Osoite").isEmpty())
         {
@@ -244,6 +249,11 @@ void LaskuDialogi::vieMalliin()
     model->asetaToimituspaiva(ui->toimitusDate->date());
     model->asetaLaskunsaajannimi(ui->saajaEdit->text());
     model->asetaKirjausperuste(ui->perusteCombo->currentData().toInt());
+
+    if( ui->ytunnus->hasAcceptableInput())
+        model->asetaYTunnus( ui->ytunnus->text());
+    else
+        model->asetaYTunnus(QString());
 }
 
 void LaskuDialogi::accept()

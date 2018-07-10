@@ -28,6 +28,8 @@
 #include "db/kirjanpito.h"
 #include "uusikp/skripti.h"
 
+#include "validator/ytunnusvalidator.h"
+
 
 Perusvalinnat::Perusvalinnat() :
     MaaritysWidget(),
@@ -46,8 +48,11 @@ Perusvalinnat::Perusvalinnat() :
     connect( ui->puhelinEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
     connect( ui->paivitysCheck, SIGNAL(clicked(bool)), this, SLOT(ilmoitaMuokattu()));
     connect( ui->muotoCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(ilmoitaMuokattu()));
+    connect( ui->logossaNimiBox, SIGNAL(toggled(bool)), this, SLOT(ilmoitaMuokattu()));
 
     connect( ui->hakemistoNappi, SIGNAL(clicked(bool)), this, SLOT(avaaHakemisto()));
+    connect( ui->avaaArkistoNappi, &QPushButton::clicked, [] { kp()->avaaUrl( kp()->arkistopolku() ); } );
+    ui->ytunnusEdit->setValidator(new YTunnusValidator());
 
 }
 
@@ -65,6 +70,7 @@ bool Perusvalinnat::nollaa()
     ui->osoiteEdit->setText( kp()->asetukset()->asetus("Osoite"));
     ui->kotipaikkaEdit->setText( kp()->asetukset()->asetus("Kotipaikka"));
     ui->puhelinEdit->setText( kp()->asetus("Puhelin"));
+    ui->logossaNimiBox->setChecked( kp()->asetukset()->onko("LogossaNimi") );
 
     // Haetaan muodot
 
@@ -93,6 +99,13 @@ bool Perusvalinnat::nollaa()
     ui->logoLabel->setPixmap( QPixmap::fromImage( kp()->logo().scaled(64, 64, Qt::KeepAspectRatio) ) );
 
     ui->sijaintiLabel->setText( kp()->tiedostopolku() );
+
+    bool arkistoloytyy =  QDir(kp()->arkistopolku()).exists();
+    ui->avaaArkistoNappi->setEnabled(arkistoloytyy);
+    if( arkistoloytyy )
+        ui->arkistoEdit->setText( kp()->arkistopolku());
+    else
+        ui->arkistoEdit->setText(QString());
 
     return true;
 }
@@ -132,6 +145,7 @@ bool Perusvalinnat::onkoMuokattu()
             ui->kotipaikkaEdit->text() != kp()->asetukset()->asetus("Kotipaikka") ||
             ui->puhelinEdit->text() != kp()->asetukset()->asetus("Puhelin") ||
             ui->paivitysCheck->isChecked() != asetukset.value("NaytaPaivitykset",true).toBool() ||
+            ui->logossaNimiBox->isChecked() != kp()->asetukset()->onko("LogossaNimi") ||
             ( ui->muotoCombo->currentText() != kp()->asetukset()->asetus("Muoto"));
 }
 
@@ -147,6 +161,7 @@ bool Perusvalinnat::tallenna()
     kp()->asetukset()->aseta("Osoite", ui->osoiteEdit->toPlainText());
     kp()->asetukset()->aseta("Kotipaikka", ui->kotipaikkaEdit->text());
     kp()->asetukset()->aseta("Puhelin", ui->puhelinEdit->text());
+    kp()->asetukset()->aseta("LogossaNimi", ui->logossaNimiBox->isChecked());
 
     if( !uusilogo.isNull())
     {

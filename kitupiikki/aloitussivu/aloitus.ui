@@ -17,12 +17,24 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
-      <layout class="QHBoxLayout" name="kpLeiska">
+      <layout class="QHBoxLayout" name="kpLeiska" stretch="0,1,0">
        <item>
         <widget class="QLabel" name="logoLabel">
-         <property name="maximumSize">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
           <size>
            <width>64</width>
+           <height>64</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>640</width>
            <height>64</height>
           </size>
          </property>

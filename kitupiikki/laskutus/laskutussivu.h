@@ -41,6 +41,7 @@ class LaskutusSivu : public KitupiikkiSivu
 public:
     LaskutusSivu();
 
+    enum PaaLehdet { MYYNTI, OSTO, ASIAKAS, TOIMITTAJA };
     enum Valilehdet { KAIKKI, AVOIMET, ERAANTYNEET };
 
     void siirrySivulle();
@@ -59,9 +60,11 @@ public slots:
     void nayta();
     void valintaMuuttuu();
 
+    void paaTab(int indeksi);
+
 private:
     Ui::Laskutus *ui;
-    LaskutModel *model;
+    LaskutModel *model = 0;
     QSortFilterProxyModel *proxy;
 };
 

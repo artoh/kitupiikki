@@ -135,19 +135,7 @@ bool Kirjanpito::onkoMaksuperusteinenAlv(const QDate &paiva) const
 void Kirjanpito::asetaLogo(const QImage &logo)
 {
 
-    // Neliöidään logo
-    if( logo.height() == logo.width() )
-        logo_ = logo;
-    else if( logo.height() > logo.width())
-    {
-        logo_ = logo.copy( (logo.width() - logo.height()) / 2, 0, logo.height(), logo.height() );
-    }
-    else
-    {
-        logo_ = logo.copy( 0, (logo.height() - logo.width()) / 2, logo.width(), logo.width() );
-    }
-
-    // Tallennetaan logo tietokantaan liitteeksi NULL, logo
+    logo_ = logo;
 
     QByteArray ba;
 

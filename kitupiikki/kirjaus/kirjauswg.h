@@ -31,6 +31,7 @@ class Kirjanpito;
 class LaskunMaksuDialogi;
 class ApuriVinkki;
 class QAction;
+class QSqlQueryModel;
 
 /**
  * @brief Kirjausten muokkaus
@@ -158,6 +159,13 @@ public slots:
      */
     void siirryTositteeseen();
 
+    /**
+     * @brief Päivittää otsikon täydennyksen
+     * @param teksti
+     */
+    void paivitaOtsikonTaydennys(const QString& teksti);
+
+
 public:
     /**
      * @brief Jos kirjataan tiliotetta, tiliotetilin id
@@ -187,7 +195,12 @@ signals:
 
 protected:
     /**
-     * @brief Pvm-kentästä eteenpäin enterillä, tagivalikko
+     * @brief Muokattuja toimintoja
+     *
+     * Pvm-kentästä eteenpäin enterillä
+     * tagivalikko
+     * Seliteestä tablilla uusi rivi
+     *
      * @param watched
      * @param event
      * @return
@@ -204,6 +217,7 @@ protected:
     QAction *poistaAktio_;
     QAction *uudeksiAktio_;
 
+    QSqlQueryModel *taydennysSql_;
 
 
 };

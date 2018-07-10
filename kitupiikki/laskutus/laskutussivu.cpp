@@ -34,10 +34,18 @@
 #include "db/kirjanpito.h"
 #include "lisaikkuna.h"
 
+#include "ostolaskutmodel.h"
+
 LaskutusSivu::LaskutusSivu() :
     ui(new Ui::Laskutus)
 {
     ui->setupUi(this);
+
+    ui->paaTab->addTab("&Myyntilaskut");
+    ui->paaTab->addTab("&Ostolaskut");
+    ui->paaTab->addTab("&Asiakkaat");
+    ui->paaTab->addTab("&Toimittajat");
+
     ui->suodatusTab->addTab("&Kaikki");
     ui->suodatusTab->addTab("&Avoimet");
     ui->suodatusTab->addTab("&Erääntyneet");
@@ -55,9 +63,11 @@ LaskutusSivu::LaskutusSivu() :
     connect(ui->hyvitysNappi, SIGNAL(clicked(bool)), this, SLOT(hyvitysLasku()));
     connect(ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poista()));
 
-    model = new LaskutModel(this);
+    connect(ui->paaTab, SIGNAL(currentChanged(int)), this, SLOT(paaTab(int)));
+
     proxy = new QSortFilterProxyModel(this);
-    proxy->setSourceModel(model);
+
+    paaTab(0);
     proxy->setDynamicSortFilter(true);
     proxy->setSortRole(Qt::EditRole);
 
@@ -70,7 +80,8 @@ LaskutusSivu::LaskutusSivu() :
 
     connect(ui->laskutView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(valintaMuuttuu()));
 
-    QFontDatabase::addApplicationFont(":/code128_XL.ttf");
+    QFontDatabase::addApplicationFont(":/code128_XL.ttf");    
+
 
 }
 
@@ -207,5 +218,30 @@ void LaskutusSivu::valintaMuuttuu()
     ui->poistaNappi->setEnabled( ui->laskutView->currentIndex().isValid());
     ui->hyvitysNappi->setEnabled( ui->laskutView->currentIndex().isValid() &&
                                   !ui->laskutView->currentIndex().data(LaskutModel::HyvitysLaskuRooli).toInt());
+}
+
+void LaskutusSivu::paaTab(int indeksi)
+{
+    ui->asiakasView->setVisible( indeksi > 1 );
+
+    if( indeksi == ASIAKAS && ui->suodatusTab->count() < 4)
+        ui->suodatusTab->addTab("Yhteystiedot");
+    else if( indeksi != ASIAKAS && ui->suodatusTab->count() > 3)
+        ui->suodatusTab->removeTab(3);
+
+    // Sitten pitäisi vielä vaihtaa sisällöt päätabin mukaisesti
+    if( model )
+        delete model;
+
+    if( indeksi == MYYNTI || indeksi == ASIAKAS) {
+        model = new LaskutModel(this);
+    }
+    else
+    {
+        model = new OstolaskutModel(this);
+    }
+    proxy->setSourceModel(model);
+    paivita();
+
 }
 

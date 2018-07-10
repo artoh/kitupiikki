@@ -123,7 +123,8 @@ void AloitusSivu::kirjanpitoVaihtui()
         else
         {
             ui->logoLabel->show();
-            ui->logoLabel->setPixmap( QPixmap::fromImage( kp()->logo().scaled(64,64,Qt::KeepAspectRatio) ) );
+            double skaala = ((double) kp()->logo().width() ) / kp()->logo().height();
+            ui->logoLabel->setPixmap( QPixmap::fromImage( kp()->logo().scaled(64 * skaala,64,Qt::KeepAspectRatio) ) );
         }
 
         ui->tilikausiCombo->setModel( kp()->tilikaudet() );

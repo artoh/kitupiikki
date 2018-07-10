@@ -4,7 +4,7 @@ nav ul { margin: 0; padding: 0; overflow: hidden; background-color: #f3f3f3; lis
 nav ul li { display: block; color: black; text-align: center; padding: 14px 16px; float: right;}
 nav ul li.nappi { width: 6em; text-align: center;}
 nav ul li.kotinappi { float: left; vertical-align: middle;}
-nav ul li.kotinappi img { width: 16px; height: 16px; margin-right: 1em;}
+nav ul li.kotinappi img { height: 16px; margin-right: 1em;}
 nav ul li a {  text-decoration: none; color: black;}
 nav ul li a:hover { background-color: #eee;}
 
@@ -31,7 +31,7 @@ table.viennit tr:hover { background-color: #ccc;}
 
 p.info { font-size: 10pt; margin-top: 2em;}
 a { text-decoration: none;}
-img.logo { float: right; margin: 1em;}
+img.logo { float: right; margin: 1em; max-width: 50%}
 
 h2.etusivu { font-size: 16pt; font-weight: normal;}
 

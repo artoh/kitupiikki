@@ -32,6 +32,7 @@
 #include "taseerittely.h"
 #include "laskuraportti.h"
 #include "alverittely.h"
+#include "myyntiraportti.h"
 
 #include "db/kirjanpito.h"
 
@@ -86,6 +87,7 @@ void RaporttiSivu::siirrySivulle()
     lisaaRaportti("Tase-erittely","TaseErittely",":/pic/valilehdet.png");
     lisaaRaportti("Tililuettelo","Tilikartta",":/pic/valilehdet.png");
     lisaaRaportti("Laskut", "Laskut", ":/pic/lasku.png");
+    lisaaRaportti("Myynti","Myynti",":/pic/suorite.png");
 
     if( kp()->asetukset()->onko("AlvVelvollinen") )
         lisaaRaportti("Arvonlisäveron erittely", "AlvErittely", ":/pic/vero.png");
@@ -136,6 +138,8 @@ void RaporttiSivu::raporttiValittu(QListWidgetItem *item)
         nykyinen = new LaskuRaportti();
     else if( raporttinimi == "AlvErittely")
         nykyinen = new AlvErittely;
+    else if( raporttinimi == "Myynti")
+        nykyinen = new MyyntiRaportti;
 
 
     if( nykyinen )

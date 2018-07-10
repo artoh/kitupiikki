@@ -179,9 +179,15 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_3">
+    <widget class="QGroupBox" name="ikkunaKuori">
      <property name="title">
       <string>Ikkunakuori</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
      </property>
      <layout class="QGridLayout" name="gridLayout" columnstretch="1,2">
       <item row="0" column="1">
@@ -201,8 +207,14 @@
           <property name="prefix">
            <string/>
           </property>
+          <property name="minimum">
+           <number>0</number>
+          </property>
           <property name="maximum">
            <number>100</number>
+          </property>
+          <property name="value">
+           <number>40</number>
           </property>
          </widget>
         </item>
@@ -224,6 +236,9 @@
           </property>
           <property name="maximum">
            <number>60</number>
+          </property>
+          <property name="value">
+           <number>18</number>
           </property>
          </widget>
         </item>
@@ -251,10 +266,13 @@
             <string> mm</string>
            </property>
            <property name="minimum">
-            <number>30</number>
+            <number>50</number>
            </property>
            <property name="maximum">
             <number>180</number>
+           </property>
+           <property name="value">
+            <number>95</number>
            </property>
           </widget>
          </item>
@@ -275,6 +293,9 @@
            </property>
            <property name="maximum">
             <number>120</number>
+           </property>
+           <property name="value">
+            <number>35</number>
            </property>
           </widget>
          </item>

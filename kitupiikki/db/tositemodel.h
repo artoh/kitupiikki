@@ -107,7 +107,6 @@ public slots:
     void asetaTositelaji(int tositelajiId);
     void asetaTiliotetili(int tiliId);
 
-
     void lataa(int id);
 
     /**
