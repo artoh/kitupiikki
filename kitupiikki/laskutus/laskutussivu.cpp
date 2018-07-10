@@ -35,9 +35,10 @@
 #include "lisaikkuna.h"
 
 #include "ostolaskutmodel.h"
+#include "asiakkaatmodel.h"
 
 LaskutusSivu::LaskutusSivu() :
-    ui(new Ui::Laskutus)
+    ui(new Ui::Laskutus), asiakkaat(new AsiakkaatModel(this))
 {
     ui->setupUi(this);
 
@@ -77,6 +78,8 @@ LaskutusSivu::LaskutusSivu() :
     ui->laskutView->setModel(proxy);
     ui->laskutView->setSortingEnabled(true);
     ui->laskutView->horizontalHeader()->setStretchLastSection(true);
+
+    ui->asiakasView->setModel(asiakkaat);
 
     connect(ui->laskutView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(valintaMuuttuu()));
 
@@ -232,6 +235,11 @@ void LaskutusSivu::paaTab(int indeksi)
     // Sitten pitäisi vielä vaihtaa sisällöt päätabin mukaisesti
     if( model )
         delete model;
+
+    if( indeksi == ASIAKAS )
+        asiakkaat->paivita(false);
+    else if( indeksi = TOIMITTAJA)
+        asiakkaat->paivita(true);
 
     if( indeksi == MYYNTI || indeksi == ASIAKAS) {
         model = new LaskutModel(this);

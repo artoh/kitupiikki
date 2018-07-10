@@ -20,6 +20,8 @@
 
 #include "db/eranvalintamodel.h"
 #include "ostolaskutmodel.h"
+#include "db/kirjanpito.h"
+
 
 OstolaskutModel::OstolaskutModel(QObject *parent)
     : LaskutModel(parent)
@@ -36,9 +38,17 @@ QVariant OstolaskutModel::headerData(int section, Qt::Orientation orientation, i
 
 void OstolaskutModel::lataaAvoimet()
 {
+    paivita(AVOIMET);
+}
+
+void OstolaskutModel::paivita(int valinta, QDate mista, QDate mihin)
+{
     QString kysely = QString("SELECT vienti.id, pvm, tili, debetsnt, kreditsnt, eraid, viite, erapvm, vienti.json as json, tosite, asiakas, laskupvm, kohdennus, selite FROM vienti,tili "
                      "WHERE vienti.tili=tili.id AND tili.tyyppi='BO' AND eraid=vienti.id ");
 
+
+    if( mista.isValid() && mihin.isValid())
+        kysely.append( QString(" AND pvm BETWEEN '%1' AND '%2' ") .arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate)) );
 
     qDebug() << kysely;
 
@@ -51,8 +61,11 @@ void OstolaskutModel::lataaAvoimet()
         TaseEra era( query.value("eraid").toInt());
 
         JsonKentta json( query.value("json").toByteArray() );
+        int vientiId = query.value("vienti.id").toInt();
 
-        if( !era.saldoSnt )
+        if( valinta == AVOIMET && (!era.saldoSnt || era.eraId != vientiId))
+            continue;
+        if( valinta == ERAANTYNEET && ( !era.saldoSnt || query.value("erapvm").toDate() > kp()->paivamaara() ))
             continue;
 
         // Tämä lasku kelpaa ;)

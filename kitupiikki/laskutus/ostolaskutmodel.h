@@ -37,6 +37,7 @@ public:
 
 public slots:
     void lataaAvoimet();
+    void paivita(int valinta=KAIKKI, QDate mista=QDate(), QDate mihin = QDate()) override;
 
 
 };

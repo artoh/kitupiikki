@@ -29,6 +29,8 @@
 #include "ui_laskutus.h"
 #include "laskutmodel.h"
 
+class AsiakkaatModel;
+
 /**
  * @brief Laskusivu
  *
@@ -65,6 +67,7 @@ public slots:
 private:
     Ui::Laskutus *ui;
     LaskutModel *model = 0;
+    AsiakkaatModel *asiakkaat = 0;
     QSortFilterProxyModel *proxy;
 };
 
