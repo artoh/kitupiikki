@@ -80,6 +80,8 @@ LaskutusSivu::LaskutusSivu() :
     ui->laskutView->horizontalHeader()->setStretchLastSection(true);
 
     ui->asiakasView->setModel(asiakkaat);
+    ui->asiakasView->horizontalHeader()->setSectionResizeMode( AsiakkaatModel::NIMI, QHeaderView::Stretch );
+    ui->asiakasView->setSelectionBehavior(QTableView::SelectRows);
 
     connect(ui->laskutView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(valintaMuuttuu()));
 
@@ -238,7 +240,7 @@ void LaskutusSivu::paaTab(int indeksi)
 
     if( indeksi == ASIAKAS )
         asiakkaat->paivita(false);
-    else if( indeksi = TOIMITTAJA)
+    else if( indeksi == TOIMITTAJA)
         asiakkaat->paivita(true);
 
     if( indeksi == MYYNTI || indeksi == ASIAKAS) {

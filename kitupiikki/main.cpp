@@ -22,6 +22,7 @@
 #include <QTextCodec>
 #include <QIcon>
 #include <QTranslator>
+#include <QFontDatabase>
 
 #include "db/kirjanpito.h"
 #include "kitupiikkiikkuna.h"
@@ -42,6 +43,7 @@
 int main(int argc, char *argv[])
 {   
     QApplication a(argc, argv);
+
     QSplashScreen *splash = new QSplashScreen;
     splash->setPixmap( QPixmap(":/pic/splash.png"));
     splash->show();
@@ -56,14 +58,13 @@ int main(int argc, char *argv[])
     a.setApplicationName("Kitupiikki");
     a.setApplicationVersion("1.1-devel");
 
-    a.setOrganizationDomain("artoh.github.io");
+    a.setOrganizationDomain("kitupiikki.info");
     a.setOrganizationName("Kitupiikki Kirjanpito");
 #ifndef Q_OS_MACX
     a.setWindowIcon( QIcon(":/pic/Possu64.png"));
 #endif
 
     QLocale::setDefault(QLocale(QLocale::Finnish, QLocale::Finland));
-
 
     // Qt:n vakioiden kääntämiseksi
     // Käytetään ohjelmaan upotettua käännöstiedostoa, jotta varmasti mukana  
@@ -72,6 +73,7 @@ int main(int argc, char *argv[])
 
     a.installTranslator(&translator);
 
+    // Jos versio on muuttunut, näytetään tervetulodialogi
     QSettings settings;
     if( settings.value("ViimeksiVersiolla").toString() != a.applicationVersion()  )
     {
@@ -83,12 +85,13 @@ int main(int argc, char *argv[])
         tervetuloUi.esiVaro->setVisible( a.applicationVersion().contains('-'));
         tervetuloUi.paivitysCheck->setChecked( settings.value("NaytaPaivitykset",true).toBool());
 
-#ifdef Q_OS_WIN
+#ifndef Q_OS_LINUX
     tervetuloUi.valikkoonCheck->setVisible(false);
 #endif
         tervetuloDlg.exec();
 
 #ifdef Q_OS_LINUX
+        // Ohjelman lisääminen käynnistysvalikkoon Linuxilla
         if( tervetuloUi.valikkoonCheck->isChecked())
         {
             // Poistetaan vanha, jotta päivittyisi
@@ -117,6 +120,9 @@ int main(int argc, char *argv[])
 
     Kirjanpito kirjanpito;
     Kirjanpito::asetaInstanssi(&kirjanpito);
+
+    // Viivakoodifontti
+    QFontDatabase::addApplicationFont(":/code128_XL.ttf");
 
     KitupiikkiIkkuna ikkuna;
     ikkuna.show();

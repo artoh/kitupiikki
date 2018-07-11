@@ -33,7 +33,7 @@ class SelausWg;
 class RaporttiSivu;
 class MaaritysSivu;
 class ArkistoSivu;
-class LaskutusSivu;
+class LaskuSivu;
 
 class QDateEdit;
 class QDockWidget;
@@ -113,7 +113,7 @@ protected:
 
     AloitusSivu *aloitussivu;
     KirjausSivu *kirjaussivu;
-    LaskutusSivu *laskutussivu;
+    LaskuSivu *laskutussivu;
     SelausWg *selaussivu;
     RaporttiSivu *raporttisivu;
     MaaritysSivu *maarityssivu;

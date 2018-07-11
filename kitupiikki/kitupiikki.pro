@@ -150,7 +150,8 @@ SOURCES += main.cpp \
     raportti/alverittely.cpp \
     raportti/myyntiraportti.cpp \
     validator/ytunnusvalidator.cpp \
-    laskutus/asiakkaatmodel.cpp
+    laskutus/asiakkaatmodel.cpp \
+    laskutus/laskusivu.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -281,7 +282,8 @@ HEADERS += \
     raportti/alverittely.h \
     raportti/myyntiraportti.h \
     validator/ytunnusvalidator.h \
-    laskutus/asiakkaatmodel.h
+    laskutus/asiakkaatmodel.h \
+    laskutus/laskusivu.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

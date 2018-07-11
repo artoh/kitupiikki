@@ -45,7 +45,7 @@
 #include "raportti/raporttisivu.h"
 #include "arkisto/arkistosivu.h"
 #include "uusikp/uusikirjanpito.h"
-#include "laskutus/laskutussivu.h"
+#include "laskutus/laskusivu.h"
 
 #include "db/kirjanpito.h"
 
@@ -67,7 +67,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 
     aloitussivu = new AloitusSivu();
     kirjaussivu =  new KirjausSivu(this);
-    laskutussivu = new LaskutusSivu();
+    laskutussivu = new LaskuSivu();
     selaussivu = new SelausWg();
     maarityssivu = new MaaritysSivu();
     raporttisivu = new RaporttiSivu();
