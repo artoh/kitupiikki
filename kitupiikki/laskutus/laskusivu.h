@@ -30,6 +30,11 @@ class QSplitter;
 class QTableView;
 class QPushButton;
 class QLineEdit;
+class QSortFilterProxyModel;
+class QDateEdit;
+
+class AsiakkaatModel;
+class LaskutModel;
 
 /**
  * @brief Laskusivu
@@ -44,6 +49,7 @@ class LaskuSivu : public KitupiikkiSivu
 {
 public:
     LaskuSivu();
+    ~LaskuSivu();
 
     enum PaaLehdet { MYYNTI, OSTO, ASIAKAS, TOIMITTAJA };
     enum LajiLehdet { KAIKKI, AVOIMET, ERAANTYNEET, TIEDOT };
@@ -53,9 +59,19 @@ public:
 
 public slots:
     void paaTab(int indeksi);
+    void paivitaAsiakasSuodatus();
+    void paivitaLaskulista();
+    void asiakasValintaMuuttuu();
 
 private:
     void luoUi();
+
+    AsiakkaatModel* asiakasmodel_;
+    LaskutModel* laskumodel_ = 0;
+
+    QSortFilterProxyModel* asiakasProxy_ = 0;
+    QSortFilterProxyModel* laskuAsiakasProxy_;
+    QSortFilterProxyModel* laskuViiteProxy_;
 
     QTabBar *paaTab_;
     QTabBar *lajiTab_;
@@ -67,6 +83,9 @@ private:
 
     QLineEdit* asiakasSuodatusEdit_;
     QLineEdit* viiteSuodatusEdit_;
+
+    QDateEdit* mistaEdit_;
+    QDateEdit* mihinEdit_;
 
     QPushButton* naytaNappi_;
 };

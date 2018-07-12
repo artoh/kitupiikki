@@ -17,6 +17,11 @@
 
 #include "laskusivu.h"
 
+#include "asiakkaatmodel.h"
+#include "laskutmodel.h"
+#include "ostolaskutmodel.h"
+#include "db/kirjanpito.h"
+
 #include <QTabBar>
 #include <QSplitter>
 #include <QTableView>
@@ -24,18 +29,70 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QLineEdit>
+#include <QDateEdit>
+#include <QLabel>
+
+#include <QHeaderView>
+#include <QSortFilterProxyModel>
 
 LaskuSivu::LaskuSivu()
+    : asiakasmodel_(new AsiakkaatModel(this))
 {
     luoUi();
-    paaTab(MYYNTI);
+    lajiTab_->setCurrentIndex(LaskutModel::AVOIMET);
+
     connect( paaTab_, &QTabBar::currentChanged, this, &LaskuSivu::paaTab );
+    connect( lajiTab_, &QTabBar::currentChanged, this, &LaskuSivu::paivitaLaskulista);
+
+    asiakasProxy_ = new QSortFilterProxyModel(this);
+    asiakasProxy_->setSourceModel(asiakasmodel_);
+    asiakasProxy_->setFilterKeyColumn(AsiakkaatModel::NIMI);
+    asiakasProxy_->setDynamicSortFilter(true);
+    asiakasProxy_->setFilterCaseSensitivity(Qt::CaseInsensitive);
+
+    asiakasView_->setModel(asiakasProxy_);
+    asiakasView_->horizontalHeader()->setSectionResizeMode(AsiakkaatModel::NIMI, QHeaderView::Stretch);
+    asiakasView_->setSelectionBehavior(QTableView::SelectRows);
+    asiakasView_->setSelectionMode(QTableView::SingleSelection);
+    asiakasView_->setSortingEnabled(true);
+
+    laskuAsiakasProxy_ = new QSortFilterProxyModel(this);
+    laskuAsiakasProxy_->setFilterKeyColumn(LaskutModel::ASIAKAS);
+    laskuViiteProxy_ = new QSortFilterProxyModel(this);
+    laskuAsiakasProxy_->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    laskuViiteProxy_->setSourceModel(laskuAsiakasProxy_);
+    laskuViiteProxy_->setFilterRole(LaskutModel::ViiteRooli);
+    laskuViiteProxy_->setDynamicSortFilter(true);
+
+    laskuView_->setModel(laskuViiteProxy_);
+    laskuView_->setSelectionBehavior(QTableView::SelectRows);
+    laskuView_->setSelectionMode(QTableView::SingleSelection);
+    laskuView_->setSortingEnabled(true);
+    laskuView_->horizontalHeader()->setStretchLastSection(true);
+
+    connect( viiteSuodatusEdit_, &QLineEdit::textChanged,
+             laskuViiteProxy_, &QSortFilterProxyModel::setFilterFixedString);
+    connect( asiakasSuodatusEdit_, &QLineEdit::textChanged,
+             this, &LaskuSivu::paivitaAsiakasSuodatus);
+    connect( asiakasView_->selectionModel(), &QItemSelectionModel::currentChanged,
+             this, &LaskuSivu::asiakasValintaMuuttuu);
+    connect( mistaEdit_, &QDateEdit::dateChanged, this, &LaskuSivu::paivitaLaskulista);
+    connect( mihinEdit_, &QDateEdit::dateChanged, this, &LaskuSivu::paivitaLaskulista);
+
+
+    paaTab(MYYNTI);
+}
+
+LaskuSivu::~LaskuSivu()
+{
 
 }
 
 void LaskuSivu::siirrySivulle()
 {
-
+    mistaEdit_->setDate(kp()->tilikaudet()->kirjanpitoAlkaa());
+    mihinEdit_->setDate(kp()->tilikaudet()->kirjanpitoLoppuu());
+    paaTab( paaTab_->currentIndex() );
 }
 
 void LaskuSivu::paaTab(int indeksi)
@@ -46,6 +103,49 @@ void LaskuSivu::paaTab(int indeksi)
         lajiTab_->addTab(tr("&Yhteystiedot"));
     else if(indeksi < ASIAKAS && lajiTab_->count() == 4)
         lajiTab_->removeTab(TIEDOT);
+
+    if( indeksi ==  ASIAKAS)
+        asiakasmodel_->paivita(false);
+    else if( indeksi == TOIMITTAJA)
+        asiakasmodel_->paivita(true);
+
+    if( laskumodel_ )
+        delete laskumodel_;
+
+    if( indeksi == MYYNTI || indeksi == ASIAKAS )
+        laskumodel_ = new LaskutModel(this);
+    else
+        laskumodel_ = new OstolaskutModel(this);
+
+    paivitaLaskulista();
+    laskuAsiakasProxy_->setSourceModel(laskumodel_);
+    paivitaAsiakasSuodatus();
+
+}
+
+void LaskuSivu::paivitaAsiakasSuodatus()
+{
+    if( paaTab_->currentIndex() >= ASIAKAS)
+    {
+        asiakasProxy_->setFilterFixedString( asiakasSuodatusEdit_->text() );
+    }
+    else
+    {
+        laskuAsiakasProxy_->setFilterFixedString( asiakasSuodatusEdit_->text());
+    }
+}
+
+void LaskuSivu::paivitaLaskulista()
+{
+    if( lajiTab_->currentIndex() < TIEDOT && laskumodel_)
+    {
+        laskumodel_->paivita( lajiTab_->currentIndex(), mistaEdit_->date(), mihinEdit_->date() );
+    }
+}
+
+void LaskuSivu::asiakasValintaMuuttuu()
+{
+    laskuAsiakasProxy_->setFilterFixedString( asiakasView_->currentIndex().data(AsiakkaatModel::NimiRooli).toString() );
 }
 
 void LaskuSivu::luoUi()
@@ -76,9 +176,17 @@ void LaskuSivu::luoUi()
 
     viiteSuodatusEdit_ = new QLineEdit();
     viiteSuodatusEdit_->setPlaceholderText(tr("Etsi viitenumerolla"));
+    viiteSuodatusEdit_->setValidator(new QRegularExpressionValidator(QRegularExpression("\\d*")));
 
     QHBoxLayout *keskirivi = new QHBoxLayout;
     keskirivi->addWidget(lajiTab_);
+
+    mistaEdit_ = new QDateEdit();
+    mihinEdit_ = new QDateEdit();
+    keskirivi->addWidget(mistaEdit_);
+    keskirivi->addWidget(new QLabel(" - "));
+    keskirivi->addWidget(mihinEdit_);
+
     keskirivi->addWidget(viiteSuodatusEdit_);
 
     QVBoxLayout *alaruutuleiska = new QVBoxLayout;

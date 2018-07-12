@@ -53,6 +53,8 @@ QVariant AsiakkaatModel::data(const QModelIndex &index, int role) const
     }
     else if( role == Qt::TextColorRole && index.column() == ERAANTYNYT)
         return QColor(Qt::red);
+    else if( role == NimiRooli)
+        return rivi.nimi;
     return QVariant();
 }
 
