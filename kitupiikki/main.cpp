@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
 
     a.setApplicationName("Kitupiikki");
     a.setApplicationVersion("1.0-rc");
-    a.setOrganizationDomain("artoh.github.io");
+    a.setOrganizationDomain("kitupiikki.info");
     a.setOrganizationName("Kitupiikki Kirjanpito");
 #ifndef Q_OS_MACX
     a.setWindowIcon( QIcon(":/pic/Possu64.png"));
