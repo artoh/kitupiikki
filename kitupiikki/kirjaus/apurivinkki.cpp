@@ -32,3 +32,11 @@ ApuriVinkki::~ApuriVinkki()
 {
     delete ui;
 }
+
+void ApuriVinkki::mousePressEvent(QMouseEvent *event)
+{
+    // Suljetaan ApuriVinkki napsauttamalla sitä
+
+    close();
+    QWidget::mousePressEvent(event);
+}

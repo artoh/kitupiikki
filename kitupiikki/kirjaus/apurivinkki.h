@@ -40,6 +40,8 @@ public:
 
 private:
     Ui::ApuriVinkki *ui;
+
+    void mousePressEvent(QMouseEvent* event) override;
 };
 
 #endif // APURIVINKKI_H
