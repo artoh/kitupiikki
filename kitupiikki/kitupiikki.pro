@@ -359,7 +359,7 @@ DISTFILES += \
     aloitussivu/qrc/aloitus.css \
     uusikp/update3.sql
 
-#if defined Q_OS_WINDOWS
-    RC_ICONS = kitupiikki.ico
-#endif
+
+RC_ICONS = kitupiikki.ico
+
 

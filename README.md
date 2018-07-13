@@ -35,23 +35,22 @@ Linuxissa poppler on helppo asentaa järjestelmään:
 
     sudo apt-get install libpoppler-qt5-1 libpoppler-qt5-dev
 
-Windowsissa voi käyttää [valmiiksi käännettyä Poppler Win32](https://sourceforge.net/projects/poppler-win32/) -kirjastoa, joka puretaan kitupiikin hakemistoon. SMTP/SSL-sähköpostin lähettäminen vaativat OpenSSL-kirjastoa.
-
-
 ## Kääntäminen
 
 Kitupiikki käyttää QMakea. Kääntäminen on helpointa tehdä [QtCreatorin](http://doc.qt.io/qtcreator/) ympäristössä. Komentorivillä kääntyy komennoilla
 
-    qmake -o Makefile kitupiikki.pro
-    make all
+    qmake kitupiikki.pro && make qmake_all
+    make
 
+Kitupiikin Windows-jakeluversion käännetään [MXE-ristiinkääntöympäristössä](http://mxe.cc) [jakelut.sh-skriptillä](https://raw.githubusercontent.com/artoh/kitupiikki/master/jakelut.sh).
+    
 ## Kehittäminen
 
 Kehittämisen suuntaviivat löytyvät projektin GitHubin Issues- ja Wiki-osastoista. Koodi kommentoidaan doxygenin merkkauksella niin, että API-dokumentaatio on laadittavissa Doxygenillä. Kirjanpito talletetaan SQLite-tietokantaan ja liitteet säilytetään pdf-muodossa.
 
-## Tekijä
+## Ylläpitäjä
 
-Arto Hyvättinen
+Arto Hyvättinen <devel@kitupiikki.info>
 
 ## Lisenssi
 
