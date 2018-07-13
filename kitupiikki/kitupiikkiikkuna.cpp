@@ -210,7 +210,7 @@ void KitupiikkiIkkuna::uusiSelausIkkuna()
 
 void KitupiikkiIkkuna::uusiLasku()
 {
-    LaskuDialogi *dlg = new LaskuDialogi(this);
+    LaskuDialogi *dlg = new LaskuDialogi();
     dlg->show();
 }
 

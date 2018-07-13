@@ -42,7 +42,8 @@ class LaskuDialogi : public QDialog
     Q_OBJECT
 public:
 
-    explicit LaskuDialogi(QWidget *parent = 0, AvoinLasku hyvitettavaLasku = AvoinLasku());
+    LaskuDialogi(LaskuModel *laskumodel = 0);
+    LaskuDialogi(AvoinLasku hyvitettavaLasku);
     ~LaskuDialogi();
 
 private slots:
@@ -82,9 +83,10 @@ public slots:
     void reject();
 
 private:
-    Ui::LaskuDialogi *ui;
+
     LaskuModel *model;
     TuoteModel *tuotteet;
+    Ui::LaskuDialogi *ui;
     
     LaskunTulostaja *tulostaja;
     

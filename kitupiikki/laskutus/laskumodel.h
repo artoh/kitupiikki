@@ -65,6 +65,7 @@ public:
     };
 
     enum Kirjausperuste {SUORITEPERUSTE, LASKUTUSPERUSTE, MAKSUPERUSTE, KATEISLASKU};
+    enum Laskutyppi { LASKU, HYVITYSLASKU, MAKSUMUISTUTUS};
 
 
     enum
@@ -108,6 +109,7 @@ public:
 
     qulonglong laskunro() const;
     QString viitenumero() const;
+    Laskutyppi tyyppi() const { return tyyppi_; }
 
 public slots:
 
@@ -153,6 +155,7 @@ private:
     QString email_;
     QString ytunnus_;
     AvoinLasku hyvitettavaLasku_;
+    Laskutyppi tyyppi_ = LASKU;
 
     void paivitaSumma(int rivi);
 };

@@ -20,6 +20,7 @@
 #include "asiakkaatmodel.h"
 #include "laskutmodel.h"
 #include "ostolaskutmodel.h"
+#include "laskudialogi.h"
 #include "db/kirjanpito.h"
 
 #include <QTabBar>
@@ -148,6 +149,15 @@ void LaskuSivu::asiakasValintaMuuttuu()
     laskuAsiakasProxy_->setFilterFixedString( asiakasView_->currentIndex().data(AsiakkaatModel::NimiRooli).toString() );
 }
 
+void LaskuSivu::uusiLasku()
+{
+    LaskuModel *uusi = new LaskuModel();
+    if( paaTab_->currentIndex() == ASIAKAS )
+        uusi->asetaLaskunsaajannimi( asiakasView_->currentIndex().data(AsiakkaatModel::NimiRooli).toString() );
+    LaskuDialogi *dlg = new LaskuDialogi(uusi);
+    dlg->show();
+}
+
 void LaskuSivu::luoUi()
 {
     paaTab_ = new QTabBar();
@@ -203,6 +213,11 @@ void LaskuSivu::luoUi()
 
     naytaNappi_ = new QPushButton(QIcon(":/pic/print.png"), tr("&Näytä"));
     nappileiska->addWidget(naytaNappi_);
+
+    QPushButton *uusiNappi = new QPushButton(QIcon(":/pic/uusitiedosto.png"), tr("&Uusi lasku"));
+    nappileiska->addStretch();
+    nappileiska->addWidget(uusiNappi);
+    connect( uusiNappi, &QPushButton::clicked, this, &LaskuSivu::uusiLasku);
 
     QVBoxLayout *paaLeiska = new QVBoxLayout;
     paaLeiska->addLayout(ylarivi);

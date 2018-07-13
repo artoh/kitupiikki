@@ -111,7 +111,7 @@ bool LaskutusSivu::poistuSivulta(int /* minne */)
 
 void LaskutusSivu::uusiLasku()
 {
-    LaskuDialogi *dlg = new LaskuDialogi(this);
+    LaskuDialogi *dlg = new LaskuDialogi();
     dlg->show();
 }
 
@@ -120,7 +120,7 @@ void LaskutusSivu::hyvitysLasku()
     QModelIndex index = proxy->mapToSource( ui->laskutView->currentIndex() );
     if( index.isValid() )
     {
-        LaskuDialogi *dlg = new LaskuDialogi(this, model->laskunTiedot( index.row() ) );
+        LaskuDialogi *dlg = new LaskuDialogi( model->laskunTiedot( index.row() ) );
         dlg->show();
     }
 

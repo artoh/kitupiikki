@@ -38,7 +38,8 @@ LaskuModel::LaskuModel(QObject *parent, AvoinLasku hyvitettava) :
     QAbstractTableModel( parent ),
     hyvitettavaLasku_(hyvitettava)
 {
-
+    if( !hyvitettava.viite.isEmpty())
+        tyyppi_ = HYVITYSLASKU;
 }
 
 int LaskuModel::rowCount(const QModelIndex & /* parent */) const

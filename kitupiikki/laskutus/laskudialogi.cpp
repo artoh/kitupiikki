@@ -52,10 +52,12 @@
 
 
 
-LaskuDialogi::LaskuDialogi(QWidget *parent, AvoinLasku hyvitettavaLasku) :
-    QDialog(parent),
-    ui(new Ui::LaskuDialogi)
+LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
+    model(laskumodel), ui( new Ui::LaskuDialogi)
 {
+    if( !laskumodel)
+        model = new LaskuModel();
+
     setAttribute(Qt::WA_DeleteOnClose);
 
     ui->setupUi(this);
@@ -65,13 +67,11 @@ LaskuDialogi::LaskuDialogi(QWidget *parent, AvoinLasku hyvitettavaLasku) :
     ui->perusteCombo->addItem(QIcon(":/pic/euro.png"), tr("Maksuperusteinen"), LaskuModel::MAKSUPERUSTE);
     ui->perusteCombo->addItem(QIcon(":/pic/kateinen.png"), tr("Käteiskuitti"), LaskuModel::KATEISLASKU);
 
-    model = new LaskuModel(this, hyvitettavaLasku);
-
     connect( ui->toimitusDate, SIGNAL(dateChanged(QDate)), model, SLOT(asetaToimituspaiva(QDate)));
     connect(ui->eraDate, SIGNAL(dateChanged(QDate)), model, SLOT(asetaErapaiva(QDate)));
 
     model->lisaaRivi();
-    
+
     tuotteet = kp()->tuotteet();
     tuoteProxy = new QSortFilterProxyModel(this);
     tuoteProxy->setSourceModel(tuotteet);
@@ -99,35 +99,7 @@ LaskuDialogi::LaskuDialogi(QWidget *parent, AvoinLasku hyvitettavaLasku) :
     ui->rivitView->setColumnHidden( LaskuModel::KOHDENNUS, kp()->kohdennukset()->rowCount(QModelIndex()) < 2);
 
     ui->naytaNappi->setChecked( kp()->asetukset()->onko("LaskuNaytaTuotteet") );
-    // Hyvityslaskun asetukset
-    if( !hyvitettavaLasku.viite.isEmpty())
-    {
-        setWindowTitle( tr("Hyvityslasku"));
-        ui->perusteCombo->setCurrentIndex( hyvitettavaLasku.json.luku("Kirjausperuste") );
-        ui->perusteCombo->setEnabled(false);
-        ui->saajaEdit->setText( hyvitettavaLasku.asiakas );
-        ui->osoiteEdit->setPlainText( hyvitettavaLasku.json.str("Osoite"));
-        ui->emailEdit->setText( hyvitettavaLasku.json.str("Email"));
-        ui->eraDate->setDate( hyvitettavaLasku.erapvm );
-        ui->eraDate->setEnabled(false);
-        ui->toimitusDate->setDate( hyvitettavaLasku.json.date("Toimituspvm"));
-        ui->toimituspvmLabel->setText( tr("Hyvityspvm"));
-        ui->rahaTiliEdit->valitseTiliNumerolla( hyvitettavaLasku.json.luku("Saatavatili") );
-        ui->rahaTiliEdit->setEnabled(false);
 
-        ui->lisatietoEdit->setPlainText( tr("Hyvityslasku laskulle %1, päiväys %2")
-                                         .arg(hyvitettavaLasku.viite)
-                                         .arg(hyvitettavaLasku.pvm.toString("dd.MM.yyyy")));
-    }
-    else
-    {
-        ui->eraDate->setMinimumDate( kp()->paivamaara() );
-        ui->perusteCombo->setCurrentIndex( ui->perusteCombo->findData( kp()->asetukset()->luku("LaskuKirjausperuste") ));
-        perusteVaihtuu();
-
-        ui->toimitusDate->setDate( kp()->paivamaara() );
-        ui->eraDate->setDate( kp()->paivamaara().addDays( kp()->asetukset()->luku("LaskuMaksuaika")));
-    }
 
     // Laitetaan täydentäjä nimen syöttöön
     QCompleter *nimiTaydentaja = new QCompleter(this);
@@ -153,20 +125,57 @@ LaskuDialogi::LaskuDialogi(QWidget *parent, AvoinLasku hyvitettavaLasku) :
     connect( ui->tuotelistaView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(tuotteidenKonteksiValikko(QPoint)));
     connect( ui->emailEdit, SIGNAL(textChanged(QString)), this, SLOT(onkoPostiKaytossa()));
 
-
-
     ui->rivitView->horizontalHeader()->setSectionResizeMode(LaskuModel::NIMIKE, QHeaderView::Stretch);
     ui->tuotelistaView->horizontalHeader()->setSectionResizeMode(TuoteModel::NIMIKE, QHeaderView::Stretch);
 
     tulostaja = new LaskunTulostaja(model);
 
+    ui->perusteCombo->setCurrentIndex( model->kirjausperuste() );
+    ui->perusteCombo->setEnabled( model->tyyppi() == LaskuModel::LASKU );
+    ui->saajaEdit->setText( model->laskunsaajanNimi() );
+    if( !model->osoite().isEmpty())
+        ui->osoiteEdit->setPlainText( model->osoite());
+    if( !model->email().isEmpty())
+        ui->emailEdit->setText( model->email());
+    ui->eraDate->setDate( model->erapaiva() );
+    ui->eraDate->setEnabled( model->tyyppi() != LaskuModel::HYVITYSLASKU );
+    ui->toimitusDate->setDate( model->toimituspaiva());
+
+    if( model->tyyppi() == LaskuModel::HYVITYSLASKU)
+    {
+        setWindowTitle( tr("Hyvityslasku"));
+        ui->toimituspvmLabel->setText( tr("Hyvityspvm"));
+        ui->rahaTiliEdit->valitseTiliNumerolla( model->hyvityslasku().json.luku("Saatavatili") );
+        ui->rahaTiliEdit->setEnabled(false);
+        ui->lisatietoEdit->setPlainText( tr("Hyvityslasku laskulle %1, päiväys %2")
+                                         .arg( model->hyvityslasku().viite)
+                                         .arg( model->hyvityslasku().pvm.toString("dd.MM.yyyy")));
+    }
+
+    if( model->tyyppi() == LaskuModel::LASKU)
+    {
+        ui->eraDate->setMinimumDate( kp()->paivamaara() );
+        ui->perusteCombo->setCurrentIndex( ui->perusteCombo->findData( kp()->asetukset()->luku("LaskuKirjausperuste") ));
+        perusteVaihtuu();
+
+        ui->toimitusDate->setDate( kp()->paivamaara() );
+        ui->eraDate->setDate( kp()->paivamaara().addDays( kp()->asetukset()->luku("LaskuMaksuaika")));
+    }
+
+
     paivitaTuoteluettelonNaytto();
+}
+
+LaskuDialogi::LaskuDialogi(AvoinLasku hyvitettavaLasku)
+{
+    LaskuDialogi( new LaskuModel(0, hyvitettavaLasku) );
 }
 
 LaskuDialogi::~LaskuDialogi()
 {
     kp()->asetukset()->aseta("LaskuNaytaTuotteet", ui->naytaNappi->isChecked());
     delete ui;
+    delete model;
 }
 
 void LaskuDialogi::paivitaSumma(int summa)

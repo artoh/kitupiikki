@@ -63,6 +63,8 @@ public slots:
     void paivitaLaskulista();
     void asiakasValintaMuuttuu();
 
+    void uusiLasku();
+
 private:
     void luoUi();
 
