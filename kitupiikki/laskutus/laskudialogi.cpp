@@ -131,12 +131,16 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     tulostaja = new LaskunTulostaja(model);
 
     ui->perusteCombo->setCurrentIndex( model->kirjausperuste() );
+
     ui->perusteCombo->setEnabled( model->tyyppi() == LaskuModel::LASKU );
     ui->saajaEdit->setText( model->laskunsaajanNimi() );
     if( !model->osoite().isEmpty())
         ui->osoiteEdit->setPlainText( model->osoite());
     if( !model->email().isEmpty())
         ui->emailEdit->setText( model->email());
+    if( !model->ytunnus().isEmpty())
+        ui->ytunnus->setText( model->ytunnus());
+
     ui->eraDate->setDate( model->erapaiva() );
     ui->eraDate->setEnabled( model->tyyppi() != LaskuModel::HYVITYSLASKU );
     ui->toimitusDate->setDate( model->toimituspaiva());

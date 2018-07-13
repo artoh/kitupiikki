@@ -79,6 +79,7 @@ LaskuSivu::LaskuSivu()
              this, &LaskuSivu::asiakasValintaMuuttuu);
     connect( mistaEdit_, &QDateEdit::dateChanged, this, &LaskuSivu::paivitaLaskulista);
     connect( mihinEdit_, &QDateEdit::dateChanged, this, &LaskuSivu::paivitaLaskulista);
+    connect( kp(), &Kirjanpito::kirjanpitoaMuokattu, this, &LaskuSivu::paivitaLaskulista);
 
 
     paaTab(MYYNTI);
