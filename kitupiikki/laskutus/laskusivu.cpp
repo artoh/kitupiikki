@@ -101,10 +101,11 @@ void LaskuSivu::paaTab(int indeksi)
 {
     asiakasView_->setVisible( indeksi >= ASIAKAS );
 
-    if( indeksi >= ASIAKAS && lajiTab_->count() < 4)
+    if( indeksi == ASIAKAS && lajiTab_->count() < 4)
         lajiTab_->addTab(tr("&Yhteystiedot"));
-    else if(indeksi < ASIAKAS && lajiTab_->count() == 4)
+    else if(indeksi != ASIAKAS && lajiTab_->count() == 4)
         lajiTab_->removeTab(TIEDOT);
+    uusiAsiakasNappi_->setVisible(indeksi == ASIAKAS);
 
     if( indeksi ==  ASIAKAS)
         asiakasmodel_->paivita(false);
@@ -214,11 +215,23 @@ void LaskuSivu::luoUi()
 
     naytaNappi_ = new QPushButton(QIcon(":/pic/print.png"), tr("&Näytä"));
     nappileiska->addWidget(naytaNappi_);
+    muokkaaNappi_ = new QPushButton( QIcon(":/pic/muokkaa.png"), tr("&Muokkaa"));
+    nappileiska->addWidget(muokkaaNappi_);
+    tositeNappi_ = new QPushButton(QIcon(":/pic/tekstisivu.png"), tr("&Tosite"));
+    nappileiska->addWidget(tositeNappi_);
+    poistaNappi_ = new QPushButton(QIcon(":/pic/roskis.png"), tr("Poista"));
+    nappileiska->addWidget(poistaNappi_);
+    hyvitysNappi_ = new QPushButton(QIcon(":/pic/poista.png"), tr("&Hyvityslasku"));
+    nappileiska->addWidget(hyvitysNappi_);
+
+    nappileiska->addStretch();
+    uusiAsiakasNappi_ = new QPushButton(QIcon(":/pic/yrittaja.png"), tr("Uusi &asiakas"));
+    nappileiska->addWidget(uusiAsiakasNappi_);
 
     QPushButton *uusiNappi = new QPushButton(QIcon(":/pic/uusitiedosto.png"), tr("&Uusi lasku"));
-    nappileiska->addStretch();
     nappileiska->addWidget(uusiNappi);
     connect( uusiNappi, &QPushButton::clicked, this, &LaskuSivu::uusiLasku);
+
 
     QVBoxLayout *paaLeiska = new QVBoxLayout;
     paaLeiska->addLayout(ylarivi);

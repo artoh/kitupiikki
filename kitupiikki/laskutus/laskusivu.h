@@ -90,6 +90,12 @@ private:
     QDateEdit* mihinEdit_;
 
     QPushButton* naytaNappi_;
+    QPushButton* muokkaaNappi_;
+    QPushButton* tositeNappi_;
+    QPushButton* poistaNappi_;
+    QPushButton* hyvitysNappi_;
+    QPushButton* uusiAsiakasNappi_;
+
 };
 
 #endif // LASKUSIVU_H
