@@ -99,7 +99,6 @@ SOURCES += main.cpp \
     maaritys/maarityswidget.cpp \
     kirjaus/ehdotusmodel.cpp \
     db/eranvalintamodel.cpp \
-    laskutus/laskutussivu.cpp \
     kirjaus/verodialogi.cpp \
     db/tilityyppimodel.cpp \
     kirjaus/taseeravalintadialogi.cpp \
@@ -231,7 +230,6 @@ HEADERS += \
     arkisto/arkistosivu.h \
     kirjaus/ehdotusmodel.h \
     db/eranvalintamodel.h \
-    laskutus/laskutussivu.h \
     kirjaus/verodialogi.h \
     db/tilityyppimodel.h \
     kirjaus/taseeravalintadialogi.h \
