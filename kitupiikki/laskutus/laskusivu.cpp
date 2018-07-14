@@ -102,7 +102,10 @@ void LaskuSivu::paaTab(int indeksi)
     asiakasView_->setVisible( indeksi >= ASIAKAS );
 
     if( indeksi == ASIAKAS && lajiTab_->count() < 4)
+    {
         lajiTab_->addTab(tr("&Yhteystiedot"));
+        lajiTab_->setTabEnabled(TIEDOT, false);
+    }
     else if(indeksi != ASIAKAS && lajiTab_->count() == 4)
         lajiTab_->removeTab(TIEDOT);
     uusiAsiakasNappi_->setVisible(indeksi == ASIAKAS);
@@ -149,6 +152,8 @@ void LaskuSivu::paivitaLaskulista()
 void LaskuSivu::asiakasValintaMuuttuu()
 {
     laskuAsiakasProxy_->setFilterFixedString( asiakasView_->currentIndex().data(AsiakkaatModel::NimiRooli).toString() );
+    if( paaTab_->currentIndex() == ASIAKAS )
+        lajiTab_->setTabEnabled(TIEDOT, !asiakasView_->currentIndex().data(AsiakkaatModel::NimiRooli).toString().isEmpty() );
 }
 
 void LaskuSivu::uusiLasku()
