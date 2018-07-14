@@ -22,6 +22,9 @@
 #include "ostolaskutmodel.h"
 #include "laskudialogi.h"
 #include "db/kirjanpito.h"
+#include "db/tositemodel.h"
+#include "lisaikkuna.h"
+#include "tools/pdfikkuna.h"
 
 #include <QTabBar>
 #include <QSplitter>
@@ -32,6 +35,7 @@
 #include <QLineEdit>
 #include <QDateEdit>
 #include <QLabel>
+#include <QSqlQuery>
 
 #include <QHeaderView>
 #include <QSortFilterProxyModel>
@@ -80,6 +84,8 @@ LaskuSivu::LaskuSivu()
     connect( mistaEdit_, &QDateEdit::dateChanged, this, &LaskuSivu::paivitaLaskulista);
     connect( mihinEdit_, &QDateEdit::dateChanged, this, &LaskuSivu::paivitaLaskulista);
     connect( kp(), &Kirjanpito::kirjanpitoaMuokattu, this, &LaskuSivu::paivitaLaskulista);
+    connect( laskuView_->selectionModel(), &QItemSelectionModel::selectionChanged,
+             this, &LaskuSivu::laskuValintaMuuttuu);
 
 
     paaTab(MYYNTI);
@@ -146,6 +152,7 @@ void LaskuSivu::paivitaLaskulista()
     if( lajiTab_->currentIndex() < TIEDOT && laskumodel_)
     {
         laskumodel_->paivita( lajiTab_->currentIndex(), mistaEdit_->date(), mihinEdit_->date() );
+        laskuValintaMuuttuu();
     }
 }
 
@@ -154,6 +161,42 @@ void LaskuSivu::asiakasValintaMuuttuu()
     laskuAsiakasProxy_->setFilterFixedString( asiakasView_->currentIndex().data(AsiakkaatModel::NimiRooli).toString() );
     if( paaTab_->currentIndex() == ASIAKAS )
         lajiTab_->setTabEnabled(TIEDOT, !asiakasView_->currentIndex().data(AsiakkaatModel::NimiRooli).toString().isEmpty() );
+
+}
+
+void LaskuSivu::laskuValintaMuuttuu()
+{
+    if( laskuView_->currentIndex().isValid() )
+    {
+        QModelIndex index = laskuView_->currentIndex();
+        int tosite = index.data(LaskutModel::TositeRooli).toInt();
+        int liite = index.data(LaskutModel::LiiteRooli).toInt();
+
+        QSqlQuery liitekysely( QString("SELECT id FROM liite WHERE tosite=%1 AND liiteno=%2").arg(tosite).arg(liite));
+        naytaNappi_->setEnabled( liitekysely.next());
+
+        tositeNappi_->setEnabled( index.data(LaskutModel::KirjausPerusteRooli).toInt() != LaskuModel::MAKSUPERUSTE );
+
+        // Tarkistetaan, onko muokkaaminen sallittu
+        TositeModel tositeModel( kp()->tietokanta());
+        tositeModel.lataa(tosite);
+
+        muokkaaNappi_->setEnabled( tositeModel.muokkausSallittu() );
+        poistaNappi_->setEnabled( tositeModel.muokkausSallittu() );
+
+        hyvitysNappi_->setEnabled( index.data(LaskutModel::TyyppiRooli).toInt() == LaskuModel::LASKU );
+        muistutusNappi_->setVisible( index.data(LaskutModel::EraPvmRooli).toDate() < kp()->paivamaara());
+
+    }
+    else
+    {
+        naytaNappi_->setDisabled(true);
+        muokkaaNappi_->setDisabled(true);
+        tositeNappi_->setDisabled(true);
+        poistaNappi_->setDisabled(true);
+        hyvitysNappi_->setDisabled(true);
+        muistutusNappi_->hide();
+    }
 }
 
 void LaskuSivu::uusiLasku()
@@ -163,6 +206,19 @@ void LaskuSivu::uusiLasku()
         uusi->asetaLaskunsaajannimi( asiakasView_->currentIndex().data(AsiakkaatModel::NimiRooli).toString() );
     LaskuDialogi *dlg = new LaskuDialogi(uusi);
     dlg->show();
+}
+
+void LaskuSivu::naytaTosite()
+{
+    LisaIkkuna *ikkuna = new LisaIkkuna();
+    ikkuna->kirjaa( laskuView_->currentIndex().data(LaskutModel::TositeRooli).toInt() );
+}
+
+void LaskuSivu::naytaLasku()
+{
+    QModelIndex index = laskuView_->currentIndex();
+    PdfIkkuna::naytaLiite( index.data(LaskutModel::TositeRooli).toInt(),
+                           index.data(LaskutModel::LiiteRooli).toInt());
 }
 
 void LaskuSivu::luoUi()
@@ -219,15 +275,19 @@ void LaskuSivu::luoUi()
     QHBoxLayout *nappileiska = new QHBoxLayout;
 
     naytaNappi_ = new QPushButton(QIcon(":/pic/print.png"), tr("&Näytä"));
+    connect( naytaNappi_, &QPushButton::clicked, this, &LaskuSivu::naytaLasku );
     nappileiska->addWidget(naytaNappi_);
     muokkaaNappi_ = new QPushButton( QIcon(":/pic/muokkaa.png"), tr("&Muokkaa"));
     nappileiska->addWidget(muokkaaNappi_);
     tositeNappi_ = new QPushButton(QIcon(":/pic/tekstisivu.png"), tr("&Tosite"));
+    connect( tositeNappi_, &QPushButton::clicked, this, &LaskuSivu::naytaTosite );
     nappileiska->addWidget(tositeNappi_);
     poistaNappi_ = new QPushButton(QIcon(":/pic/roskis.png"), tr("Poista"));
     nappileiska->addWidget(poistaNappi_);
     hyvitysNappi_ = new QPushButton(QIcon(":/pic/poista.png"), tr("&Hyvityslasku"));
     nappileiska->addWidget(hyvitysNappi_);
+    muistutusNappi_ = new QPushButton(QIcon(":/pic/varoitus.png"), tr("Maksumuistutus"));
+    nappileiska->addWidget(muistutusNappi_);
 
     nappileiska->addStretch();
     uusiAsiakasNappi_ = new QPushButton(QIcon(":/pic/yrittaja.png"), tr("Uusi &asiakas"));

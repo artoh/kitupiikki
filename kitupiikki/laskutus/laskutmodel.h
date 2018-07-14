@@ -69,7 +69,9 @@ public:
            KirjausPerusteRooli = Qt::UserRole + 8,
            KohdennusIdRooli = Qt::UserRole + 9,
            EraIdRooli = Qt::UserRole + 10,
-           TiliIdRooli = Qt::UserRole + 11};
+           TiliIdRooli = Qt::UserRole + 11,
+           TyyppiRooli = Qt::UserRole + 12,
+           EraPvmRooli = Qt::UserRole + 13};
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;

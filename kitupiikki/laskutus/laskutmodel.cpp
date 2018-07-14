@@ -128,6 +128,19 @@ QVariant LaskutModel::data(const QModelIndex &item, int role) const
         return lasku.eraId;
     else if( role == TiliIdRooli)
         return lasku.tiliid;
+    else if( role == TyyppiRooli)
+    {
+        if( lasku.json.luku("Hyvityslasku"))
+            return LaskuModel::HYVITYSLASKU;
+        else
+            return LaskuModel::LASKU;
+    }
+    else if( role == EraPvmRooli)
+    {
+        if( lasku.kirjausperuste == LaskuModel::KATEISLASKU ||  lasku.json.luku("Hyvityslasku") )
+            return QDate();
+        return lasku.erapvm;
+    }
 
     return QVariant();
 }

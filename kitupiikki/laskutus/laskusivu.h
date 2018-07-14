@@ -62,8 +62,11 @@ public slots:
     void paivitaAsiakasSuodatus();
     void paivitaLaskulista();
     void asiakasValintaMuuttuu();
+    void laskuValintaMuuttuu();
 
     void uusiLasku();
+    void naytaTosite();
+    void naytaLasku();
 
 private:
     void luoUi();
@@ -94,6 +97,7 @@ private:
     QPushButton* tositeNappi_;
     QPushButton* poistaNappi_;
     QPushButton* hyvitysNappi_;
+    QPushButton* muistutusNappi_;
     QPushButton* uusiAsiakasNappi_;
 
 };
