@@ -191,7 +191,9 @@ void LaskuSivu::laskuValintaMuuttuu()
         TositeModel tositeModel( kp()->tietokanta());
         tositeModel.lataa(tosite);
 
-        muokkaaNappi_->setEnabled( tositeModel.muokkausSallittu() );
+        muokkaaNappi_->setEnabled( tositeModel.muokkausSallittu() &&
+                                  ( index.data(LaskutModel::KirjausPerusteRooli).toInt() != LaskuModel::MAKSUPERUSTE ||
+                                    index.data(LaskutModel::SummaRooli).toLongLong() == index.data(LaskutModel::AvoinnaRooli).toLongLong() ));
         poistaNappi_->setEnabled( tositeModel.muokkausSallittu() );
 
         hyvitysNappi_->setEnabled( index.data(LaskutModel::TyyppiRooli).toInt() == LaskuModel::LASKU );

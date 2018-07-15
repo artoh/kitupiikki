@@ -631,6 +631,8 @@ bool VientiModel::tallenna()
                           "muokattu=:muokattu, json=:json, asiakas=:asiakas, vientirivi=:rivinro, laskupvm=:laskupvm"
                           " WHERE id=:id");
             query.bindValue(":id", rivi.vientiId);
+            if( poistetutVientiIdt_.contains(rivi.vientiId))
+                poistetutVientiIdt_.removeAll(rivi.vientiId);
         }
         else
         {

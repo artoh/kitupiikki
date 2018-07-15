@@ -361,10 +361,7 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter)
     // Haetaan tositetunniste
     if( model_->kirjausperuste() != LaskuModel::MAKSUPERUSTE)
     {
-        Tositelaji laji = kp()->tositelajit()->tositelaji( kp()->asetukset()->luku("LaskuTositelaji") );
-        painter->drawText(QRectF( puoliviiva + mm, pv - rk, leveys / 4, rk-mm ), Qt::AlignBottom, QString("%1%2/%3")
-                          .arg(laji.tunnus()).arg(laji.seuraavanTunnistenumero( model_->pvm() ))
-                          .arg( kp()->tilikausiPaivalle(kp()->paivamaara()).kausitunnus())  );
+        painter->drawText(QRectF( puoliviiva + mm, pv - rk, leveys / 4, rk-mm ), Qt::AlignBottom, model_->tositetunnus() );
     }
 
     painter->drawText(QRectF( keskiviiva + mm, pv - rk, leveys / 4, rk-mm ), Qt::AlignBottom, kp()->paivamaara().toString("dd.MM.yyyy") );

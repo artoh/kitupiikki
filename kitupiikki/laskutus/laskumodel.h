@@ -145,6 +145,14 @@ public:
      */
     static int laskeViiteTarkiste(qulonglong luvusta);
 
+    /**
+     * @brief Kirjanpidon tositetunnus
+     *
+     * Jos muokataan tositetta, on tositetunnus jo olemassa, muuten haetaan seuraava
+     * @return
+     */
+    QString tositetunnus();
+
 public slots:
     void lisaaRivi(LaskuRivi rivi = LaskuRivi());
     void poistaRivi(int indeksi);
@@ -166,6 +174,7 @@ private:
     Laskutyppi tyyppi_ = LASKU;
     int tositeId_ = 0;
     qlonglong laskunNumero_ = 0;
+    int vientiId_ = 0;
 
     void paivitaSumma(int rivi);
 };

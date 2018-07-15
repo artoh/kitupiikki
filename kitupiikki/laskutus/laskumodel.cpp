@@ -58,6 +58,7 @@ LaskuModel *LaskuModel::teeHyvityslasku(int hyvitettavaVientiId)
     model->asetaEmail( model->viittausLasku().json.str("Email") );
     model->asetaYTunnus( model->viittausLasku().json.str("YTunnus"));
     model->asetaToimituspaiva( model->viittausLasku().json.date("Toimituspvm"));
+
     return model;
 }
 
@@ -81,6 +82,7 @@ LaskuModel *LaskuModel::haeLasku(int vientiId)
     model->asetaYTunnus( lasku.json.str("YTunnus"));
     model->asetaToimituspaiva( lasku.json.date("Toimituspvm"));
     model->tositeId_ = lasku.tosite;
+    model->vientiId_ = lasku.vientiId;
     model->laskunNumero_ = lasku.viite.toLongLong();
 
 
@@ -396,11 +398,25 @@ QString LaskuModel::viitenumero() const
 bool LaskuModel::tallenna(Tili rahatili)
 {
     // Ensin tehdään tosite
-    TositeModel tosite( kp()->tietokanta() );    
-    if( !viittausLasku().viite.isEmpty())
+    TositeModel tosite( kp()->tietokanta() );
+
+    if( tositeId_)
+    {
+        tosite.lataa(tositeId_);
+        // Tyhjennetään tosite
+        while( tosite.vientiModel()->rowCount(QModelIndex()))
+            tosite.vientiModel()->poistaRivi(0);
+        // Poistetaan vanha liite
+        while( tosite.liiteModel()->rowCount(QModelIndex()))
+            tosite.liiteModel()->poistaLiite(0);
+
+    }
+
+    if( tyyppi() == HYVITYSLASKU )
         tosite.asetaOtsikko( tr("%1 [Hyvityslasku %2]").arg(laskunsaajanNimi()).arg(laskunro()) );
     else
         tosite.asetaOtsikko( tr("%1 [%2]").arg(laskunsaajanNimi()).arg(laskunro()) );
+
     tosite.asetaKommentti( lisatieto() );
 
     if( kirjausperuste() == MAKSUPERUSTE )
@@ -415,7 +431,7 @@ bool LaskuModel::tallenna(Tili rahatili)
 
     tosite.asetaPvm(pvm() );
 
-    if(  viittausLasku().tosite > 0 && kirjausperuste() == MAKSUPERUSTE )
+    if(  tyyppi() == HYVITYSLASKU && kirjausperuste() == MAKSUPERUSTE )
     {
         // Maksuperusteinen kirjataan samaan tositteeseen alkuperäisen laskun kanssa
         tosite.lataa( viittausLasku().tosite );
@@ -584,6 +600,7 @@ bool LaskuModel::tallenna(Tili rahatili)
     }
 
     VientiRivi raharivi;
+    raharivi.vientiId = vientiId_;
     raharivi.tili =  kirjausperuste() == MAKSUPERUSTE ? Tili() : rahatili;      // Maksuperusteinen kirjataan NULL-tilille
     raharivi.pvm = kirjausperuste() == MAKSUPERUSTE ? kp()->paivamaara() : pvm();
     raharivi.selite = tr("%1 [%2]").arg(laskunsaajanNimi()).arg(laskunro());
@@ -657,6 +674,27 @@ int LaskuModel::laskeViiteTarkiste(qulonglong luvusta)
     }
     return ( 10 - summa % 10) % 10;
 
+}
+
+QString LaskuModel::tositetunnus()
+{
+    if( kirjausperuste() == LaskuModel::MAKSUPERUSTE)
+        return QString();
+
+    if( tositeId_ )
+    {
+        TositeModel tositeModel( kp()->tietokanta());
+        tositeModel.lataa(tositeId_);
+        return QString("%1%2/%3")
+               .arg(tositeModel.tositelaji().tunnus() ).arg( tositeModel.tunniste() )
+                .arg( kp()->tilikausiPaivalle( tositeModel.pvm() ).kausitunnus());
+    }
+    else
+    {
+        Tositelaji laji = kp()->tositelajit()->tositelaji( kp()->asetukset()->luku("LaskuTositelaji") );
+        return QString("%1%2/%3").arg(laji.tunnus()).arg(laji.seuraavanTunnistenumero( pvm() ))
+                          .arg( kp()->tilikausiPaivalle(kp()->paivamaara()).kausitunnus());
+    }
 }
 
 void LaskuModel::lisaaRivi(LaskuRivi rivi)
