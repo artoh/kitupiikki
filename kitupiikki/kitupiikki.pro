@@ -150,7 +150,8 @@ SOURCES += main.cpp \
     raportti/myyntiraportti.cpp \
     validator/ytunnusvalidator.cpp \
     laskutus/asiakkaatmodel.cpp \
-    laskutus/laskusivu.cpp
+    laskutus/laskusivu.cpp \
+    laskutus/yhteystietowidget.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -281,7 +282,8 @@ HEADERS += \
     raportti/myyntiraportti.h \
     validator/ytunnusvalidator.h \
     laskutus/asiakkaatmodel.h \
-    laskutus/laskusivu.h
+    laskutus/laskusivu.h \
+    laskutus/yhteystietowidget.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -357,7 +359,8 @@ FORMS += \
     kirjaus/numerosiirto.ui \
     kirjaus/siirry.ui \
     kirjaus/kopioitosite.ui \
-    uusikp/kirjausperuste.ui
+    uusikp/kirjausperuste.ui \
+    laskutus/yhteystiedot.ui
 
 DISTFILES += \
     uusikp/luo.sql \

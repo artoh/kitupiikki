@@ -230,7 +230,7 @@ void LaskuDialogi::haeOsoite()
     QString nimistr = ui->saajaEdit->text();
     nimistr.remove(QRegExp("['\"]"));
 
-    kysely.exec( QString("SELECT json FROM vienti WHERE asiakas='%1' ORDER BY muokattu DESC").arg( nimistr)) ;
+    kysely.exec( QString("SELECT json FROM vienti WHERE asiakas='%1' AND iban is null ORDER BY muokattu DESC").arg( nimistr)) ;
 
     if( kysely.next() )
     {

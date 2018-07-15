@@ -25,6 +25,7 @@
 #include "db/tositemodel.h"
 #include "lisaikkuna.h"
 #include "tools/pdfikkuna.h"
+#include "yhteystietowidget.h"
 
 #include <QTabBar>
 #include <QSplitter>
@@ -149,10 +150,17 @@ void LaskuSivu::paivitaAsiakasSuodatus()
 
 void LaskuSivu::paivitaLaskulista()
 {
+    laskuView_->setVisible( lajiTab_->currentIndex() != TIEDOT);
+    yhteystiedot_->setVisible( lajiTab_->currentIndex() == TIEDOT);
+
     if( lajiTab_->currentIndex() < TIEDOT && laskumodel_)
     {
         laskumodel_->paivita( lajiTab_->currentIndex(), mistaEdit_->date(), mihinEdit_->date() );
         laskuValintaMuuttuu();
+    }
+    else
+    {
+        yhteystiedot_->haeTiedot( asiakasView_->currentIndex().data(AsiakkaatModel::NimiRooli).toString() );
     }
 }
 
@@ -161,6 +169,8 @@ void LaskuSivu::asiakasValintaMuuttuu()
     laskuAsiakasProxy_->setFilterFixedString( asiakasView_->currentIndex().data(AsiakkaatModel::NimiRooli).toString() );
     if( paaTab_->currentIndex() == ASIAKAS )
         lajiTab_->setTabEnabled(TIEDOT, !asiakasView_->currentIndex().data(AsiakkaatModel::NimiRooli).toString().isEmpty() );
+    if( lajiTab_->currentIndex() == TIEDOT)
+        yhteystiedot_->haeTiedot( asiakasView_->currentIndex().data(AsiakkaatModel::NimiRooli).toString() );
 
 }
 
@@ -208,6 +218,13 @@ void LaskuSivu::uusiLasku()
     dlg->show();
 }
 
+void LaskuSivu::uusiAsiakas()
+{
+    asiakasView_->selectRow(-1);
+    lajiTab_->setCurrentIndex(TIEDOT);
+    yhteystiedot_->haeTiedot();
+}
+
 void LaskuSivu::naytaTosite()
 {
     LisaIkkuna *ikkuna = new LisaIkkuna();
@@ -219,6 +236,19 @@ void LaskuSivu::naytaLasku()
     QModelIndex index = laskuView_->currentIndex();
     PdfIkkuna::naytaLiite( index.data(LaskutModel::TositeRooli).toInt(),
                            index.data(LaskutModel::LiiteRooli).toInt());
+}
+
+void LaskuSivu::asiakasLisatty(const QString &nimi)
+{
+    asiakasmodel_->paivita(false);
+    for(int i=0; i < asiakasView_->model()->rowCount(QModelIndex()); i++)
+    {
+        if( asiakasView_->model()->index(i,AsiakkaatModel::NIMI).data().toString() == nimi )
+        {
+            asiakasView_->selectRow(i);
+            return;
+        }
+    }
 }
 
 void LaskuSivu::luoUi()
@@ -267,6 +297,10 @@ void LaskuSivu::luoUi()
 
     laskuView_ = new QTableView;
     alaruutuleiska->addWidget(laskuView_);
+    yhteystiedot_ = new YhteystietoWidget;
+    alaruutuleiska->addWidget(yhteystiedot_);
+    connect(yhteystiedot_, &YhteystietoWidget::uusiAsiakas, this, &LaskuSivu::asiakasLisatty );
+
 
     QWidget *alaWidget = new QWidget();
     alaWidget->setLayout(alaruutuleiska);
@@ -291,6 +325,7 @@ void LaskuSivu::luoUi()
 
     nappileiska->addStretch();
     uusiAsiakasNappi_ = new QPushButton(QIcon(":/pic/yrittaja.png"), tr("Uusi &asiakas"));
+    connect( uusiAsiakasNappi_, &QPushButton::clicked, this, &LaskuSivu::uusiAsiakas);
     nappileiska->addWidget(uusiAsiakasNappi_);
 
     QPushButton *uusiNappi = new QPushButton(QIcon(":/pic/uusitiedosto.png"), tr("&Uusi lasku"));

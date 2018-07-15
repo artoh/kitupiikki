@@ -35,6 +35,7 @@ class QDateEdit;
 
 class AsiakkaatModel;
 class LaskutModel;
+class YhteystietoWidget;
 
 /**
  * @brief Laskusivu
@@ -65,8 +66,10 @@ public slots:
     void laskuValintaMuuttuu();
 
     void uusiLasku();
+    void uusiAsiakas();
     void naytaTosite();
     void naytaLasku();
+    void asiakasLisatty(const QString& nimi);
 
 private:
     void luoUi();
@@ -99,6 +102,10 @@ private:
     QPushButton* hyvitysNappi_;
     QPushButton* muistutusNappi_;
     QPushButton* uusiAsiakasNappi_;
+
+    YhteystietoWidget* yhteystiedot_;
+
+
 
 };
 
