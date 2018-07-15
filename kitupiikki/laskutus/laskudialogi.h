@@ -43,7 +43,6 @@ class LaskuDialogi : public QDialog
 public:
 
     LaskuDialogi(LaskuModel *laskumodel = 0);
-    LaskuDialogi(AvoinLasku hyvitettavaLasku);
     ~LaskuDialogi();
 
 private slots:

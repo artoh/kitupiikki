@@ -71,6 +71,9 @@ public slots:
     void naytaLasku();
     void asiakasLisatty(const QString& nimi);
 
+    void hyvityslasku();
+    void muokkaaLaskua();
+
 private:
     void luoUi();
 

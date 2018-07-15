@@ -15,6 +15,15 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
+
+
+#include "laskumodel.h"
+#include "laskutusverodelegaatti.h"
+#include "db/kirjanpito.h"
+#include "db/tilinvalintadialogi.h"
+#include "kirjaus/verodialogi.h"
+#include "laskuntulostaja.h"
+
 #include <cmath>
 #include <QSqlQuery>
 #include <QPrinter>
@@ -26,21 +35,75 @@
 
 #include <QDebug>
 #include <QSqlError>
+#include <QJsonDocument>
 
-#include "laskumodel.h"
-#include "laskutusverodelegaatti.h"
-#include "db/kirjanpito.h"
-#include "db/tilinvalintadialogi.h"
-#include "kirjaus/verodialogi.h"
-#include "laskuntulostaja.h"
-
-LaskuModel::LaskuModel(QObject *parent, AvoinLasku hyvitettava) :
-    QAbstractTableModel( parent ),
-    hyvitettavaLasku_(hyvitettava)
+LaskuModel::LaskuModel(QObject *parent) :
+    QAbstractTableModel( parent )
 {
-    if( !hyvitettava.viite.isEmpty())
-        tyyppi_ = HYVITYSLASKU;
+    toimituspaiva_ = kp()->paivamaara();
+    erapaiva_ = kp()->paivamaara().addDays( kp()->asetukset()->luku("LaskuMaksuaika"));
+    kirjausperuste_ = kp()->asetukset()->luku("LaskuKirjausperuste") ;
 }
+
+LaskuModel *LaskuModel::teeHyvityslasku(int hyvitettavaVientiId)
+{
+    LaskuModel *model = new LaskuModel;
+    model->viittausLasku_.haeLasku(hyvitettavaVientiId);
+
+    model->tyyppi_ = HYVITYSLASKU;
+    model->kirjausperuste_ = model->viittausLasku().kirjausperuste;
+    model->asetaErapaiva( model->viittausLasku().erapvm );
+    model->asetaLaskunsaajannimi( model->viittausLasku().asiakas );
+    model->asetaOsoite( model->viittausLasku().json.str("Osoite") );
+    model->asetaEmail( model->viittausLasku().json.str("Email") );
+    model->asetaYTunnus( model->viittausLasku().json.str("YTunnus"));
+    model->asetaToimituspaiva( model->viittausLasku().json.date("Toimituspvm"));
+    return model;
+}
+
+LaskuModel *LaskuModel::haeLasku(int vientiId)
+{
+    LaskuModel *model = new LaskuModel;
+
+    AvoinLasku lasku;
+    lasku.haeLasku(vientiId);
+
+    if( lasku.json.luku("Hyvityslasku"))
+    {
+        model->tyyppi_ = HYVITYSLASKU;
+        model->viittausLasku_.haeLasku( lasku.eraId );
+    }
+
+    model->kirjausperuste_ = lasku.kirjausperuste;
+    model->asetaLaskunsaajannimi( lasku.asiakas );
+    model->asetaOsoite( lasku.json.str("Osoite") );
+    model->asetaEmail( lasku.json.str("Email"));
+    model->asetaYTunnus( lasku.json.str("YTunnus"));
+    model->asetaToimituspaiva( lasku.json.date("Toimituspvm"));
+    model->tositeId_ = lasku.tosite;
+    model->laskunNumero_ = lasku.viite.toLongLong();
+
+
+    QVariantList lista = lasku.json.variant("Laskurivit").toList();
+    for( QVariant var : lista)
+    {
+        LaskuRivi rivi;
+        QVariantMap map = var.toMap();
+
+        rivi.nimike = map.value("Nimike").toString();
+        rivi.maara = map.value("Maara").toDouble();
+        rivi.yksikko = map.value("Yksikko").toString();
+        rivi.ahintaSnt = map.value("YksikkohintaSnt").toDouble();
+        rivi.alvKoodi = map.value("Alvkoodi").toInt();
+        rivi.alvProsentti = map.value("Alvprosentti").toInt();
+        rivi.myyntiTili = kp()->tilit()->tiliNumerolla( map.value("Tili").toInt() );
+        rivi.kohdennus = kp()->kohdennukset()->kohdennus( map.value("Kohdennus").toInt() );
+        rivi.tuoteKoodi = map.value("Tuotekoodi").toInt();
+        model->rivit_.append(rivi);
+    }
+    return model;
+}
+
 
 int LaskuModel::rowCount(const QModelIndex & /* parent */) const
 {
@@ -300,6 +363,9 @@ QDate LaskuModel::pvm() const
 
 qulonglong LaskuModel::laskunro() const
 {
+    if( laskunNumero_)
+        return laskunNumero_;
+
     qlonglong pohjanro = kp()->asetukset()->isoluku("LaskuSeuraavaId") / 10;
     if( pohjanro < 100)
         pohjanro = 100;
@@ -331,7 +397,7 @@ bool LaskuModel::tallenna(Tili rahatili)
 {
     // Ensin tehdään tosite
     TositeModel tosite( kp()->tietokanta() );    
-    if( !hyvityslasku().viite.isEmpty())
+    if( !viittausLasku().viite.isEmpty())
         tosite.asetaOtsikko( tr("%1 [Hyvityslasku %2]").arg(laskunsaajanNimi()).arg(laskunro()) );
     else
         tosite.asetaOtsikko( tr("%1 [%2]").arg(laskunsaajanNimi()).arg(laskunro()) );
@@ -349,10 +415,10 @@ bool LaskuModel::tallenna(Tili rahatili)
 
     tosite.asetaPvm(pvm() );
 
-    if(  hyvityslasku().tosite > 0 && kirjausperuste() == MAKSUPERUSTE )
+    if(  viittausLasku().tosite > 0 && kirjausperuste() == MAKSUPERUSTE )
     {
         // Maksuperusteinen kirjataan samaan tositteeseen alkuperäisen laskun kanssa
-        tosite.lataa( hyvityslasku().tosite );
+        tosite.lataa( viittausLasku().tosite );
         // Lisätään hyvityslaskun kommentit
         tosite.asetaKommentti( tosite.kommentti() + "\n\n[Hyvityslasku]\n" + lisatieto() );
     }
@@ -405,6 +471,7 @@ bool LaskuModel::tallenna(Tili rahatili)
         if( rivi.tuoteKoodi)
             riviTalteen["Tuotekoodi"] = rivi.tuoteKoodi;
         riviTalteen["YksikkohintaSnt"] = rivi.ahintaSnt;
+        riviTalteen["Kohdennus"] = rivi.kohdennus.id();
 
         qlonglong nettoSnt = std::round( rivi.ahintaSnt * rivi.maara );
         qlonglong bruttoSnt = std::round( rivi.yhteensaSnt() );
@@ -527,8 +594,8 @@ bool LaskuModel::tallenna(Tili rahatili)
     else
         raharivi.kreditSnt = 0 - laskunSumma();
 
-    if( !hyvityslasku().viite.isEmpty() )
-        raharivi.eraId = hyvityslasku().json.luku("TaseEra");
+    if( !viittausLasku().viite.isEmpty() )
+        raharivi.eraId = viittausLasku().json.luku("TaseEra");
 
     // Sitten tälle rahariville kirjataan aiemmin laskut-taulussa olleet tiedot
     // #149 since 0.11
@@ -541,10 +608,10 @@ bool LaskuModel::tallenna(Tili rahatili)
     // Käteislaskulta ei jää velkaa, joten eräId:ksi tulee NULL
     raharivi.eraId = kirjausperuste() == KATEISLASKU ? TaseEra::EIERAA :  TaseEra::UUSIERA;
 
-    if( !hyvityslasku().viite.isEmpty())
+    if( !viittausLasku().viite.isEmpty())
     {
-        raharivi.json.set("Hyvityslasku", hyvityslasku().viite.toInt());
-        raharivi.eraId = hyvityslasku().eraId;        // EräId
+        raharivi.json.set("Hyvityslasku", viittausLasku().viite.toInt());
+        raharivi.eraId = viittausLasku().eraId;        // EräId
     }
     else if( kirjausperuste() != KATEISLASKU)
         raharivi.eraId = TaseEra::UUSIERA;
@@ -565,8 +632,8 @@ bool LaskuModel::tallenna(Tili rahatili)
         return false;
     }
 
-
-    kp()->asetukset()->aseta("LaskuSeuraavaId", laskunro() );
+    if( laskunro() > kp()->asetukset()->isoluku("LaskuSeuraavaId"))
+        kp()->asetukset()->aseta("LaskuSeuraavaId", laskunro() );
 
     return true;
 }

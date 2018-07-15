@@ -18,6 +18,8 @@
 #include "laskutmodel.h"
 #include "db/kirjanpito.h"
 #include <QSqlQuery>
+#include <QSqlError>
+#include <QDebug>
 
 
 LaskutModel::LaskutModel(QObject *parent) :
@@ -141,6 +143,12 @@ QVariant LaskutModel::data(const QModelIndex &item, int role) const
             return QDate();
         return lasku.erapvm;
     }
+    else if( role == IndeksiRooli)
+        return item.row();
+    else if( role == VientiIdRooli)
+        return lasku.vientiId;
+    else if( role == SummaRooli)
+        return lasku.summaSnt;
 
     return QVariant();
 }
@@ -200,6 +208,7 @@ void LaskutModel::paivita(int valinta, QDate mista, QDate mihin)
 
         // Tämä lasku kelpaa ;)        
         AvoinLasku lasku;
+        lasku.vientiId = vientiId;
         lasku.viite = query.value("viite").toString();
         lasku.pvm = query.value("laskupvm").toDate();
         lasku.erapvm = query.value("erapvm").toDate();
@@ -275,4 +284,30 @@ QString LaskutModel::bicIbanilla(const QString &iban)
 
     // Tuntematon pankkikoodi
     return QString();
+}
+
+void AvoinLasku::haeLasku(int vientiid)
+{
+    QString kysely = QString("SELECT pvm, tili, debetsnt, kreditsnt, eraid, viite, erapvm, json, tosite, asiakas, laskupvm, kohdennus, selite "
+                             "FROM vienti WHERE id=%1").arg(vientiid);
+    QSqlQuery query( kysely );
+
+    if( query.next())
+    {
+        TaseEra era( query.value("eraid").toInt());
+        json.fromJson( query.value("vienti.json").toByteArray() );
+
+        vientiId = vientiid;
+        viite = query.value("viite").toString() ;
+        pvm = query.value("laskupvm").toDate();
+        eraId = query.value("eraid").toInt();
+        erapvm = query.value("erapvm").toDate();
+        summaSnt = query.value("debetSnt").toInt() - query.value("kreditSnt").toInt();
+        avoinSnt =  vientiId == eraId ? era.saldoSnt : 0; ;
+        asiakas = query.value("asiakas").toString();
+        tosite = query.value("tosite").toInt();
+        kirjausperuste = json.luku("Kirjausperuste");
+        tiliid = query.value("tili").toInt();
+        kohdennusId = query.value("kohdennus").toInt();
+    }
 }

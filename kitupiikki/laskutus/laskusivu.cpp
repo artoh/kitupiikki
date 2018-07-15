@@ -251,6 +251,18 @@ void LaskuSivu::asiakasLisatty(const QString &nimi)
     }
 }
 
+void LaskuSivu::hyvityslasku()
+{
+    LaskuDialogi *dlg = new LaskuDialogi( LaskuModel::teeHyvityslasku(  laskuView_->currentIndex().data(LaskutModel::VientiIdRooli).toInt() ));
+    dlg->show();
+}
+
+void LaskuSivu::muokkaaLaskua()
+{
+    LaskuDialogi *dlg = new LaskuDialogi( LaskuModel::haeLasku( laskuView_->currentIndex().data(LaskutModel::VientiIdRooli).toInt() ) );
+    dlg->show();
+}
+
 void LaskuSivu::luoUi()
 {
     paaTab_ = new QTabBar();
@@ -312,6 +324,7 @@ void LaskuSivu::luoUi()
     connect( naytaNappi_, &QPushButton::clicked, this, &LaskuSivu::naytaLasku );
     nappileiska->addWidget(naytaNappi_);
     muokkaaNappi_ = new QPushButton( QIcon(":/pic/muokkaa.png"), tr("&Muokkaa"));
+    connect( muokkaaNappi_, &QPushButton::clicked, this, &LaskuSivu::muokkaaLaskua);
     nappileiska->addWidget(muokkaaNappi_);
     tositeNappi_ = new QPushButton(QIcon(":/pic/tekstisivu.png"), tr("&Tosite"));
     connect( tositeNappi_, &QPushButton::clicked, this, &LaskuSivu::naytaTosite );
@@ -319,6 +332,7 @@ void LaskuSivu::luoUi()
     poistaNappi_ = new QPushButton(QIcon(":/pic/roskis.png"), tr("Poista"));
     nappileiska->addWidget(poistaNappi_);
     hyvitysNappi_ = new QPushButton(QIcon(":/pic/poista.png"), tr("&Hyvityslasku"));
+    connect( hyvitysNappi_, &QPushButton::clicked, this, &LaskuSivu::hyvityslasku);
     nappileiska->addWidget(hyvitysNappi_);
     muistutusNappi_ = new QPushButton(QIcon(":/pic/varoitus.png"), tr("Maksumuistutus"));
     nappileiska->addWidget(muistutusNappi_);

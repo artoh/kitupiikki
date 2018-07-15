@@ -92,32 +92,32 @@ QString LaskunTulostaja::html()
     omaosoite.replace("\n","<br>");
 
     QString otsikko = tr("Lasku");
-    if( !model_->hyvityslasku().viite.isEmpty())
-        otsikko = tr("Hyvityslasku laskulle %1").arg( model_->hyvityslasku().viite);
+    if( !model_->viittausLasku().viite.isEmpty())
+        otsikko = tr("Hyvityslasku laskulle %1").arg( model_->viittausLasku().viite);
     else if(model_->kirjausperuste() == LaskuModel::KATEISLASKU)
         otsikko = tr("Kuitti");
 
     txt.append(tr("<tr><td rowspan=2 width=50%>%1<br>%2</td><td colspan=3>%3</td></tr>").arg(kp()->asetukset()->asetus("Nimi")).arg(omaosoite).arg(otsikko) );
 
-    if(model_->hyvityslasku().viite.isEmpty())
+    if(model_->viittausLasku().viite.isEmpty())
         txt.append(tr("<tr><td width=25%>Laskun päivämäärä</td><td width=25%>%1</td></tr>").arg( kp()->paivamaara().toString("dd.MM.yyyy") ));
     else
         txt.append(tr("<tr><td width=25%>Hyvityksen päivämäärä</td><td width=25%>%1</td></tr>").arg( kp()->paivamaara().toString("dd.MM.yyyy") ));
 
     if( model_->kirjausperuste() == LaskuModel::KATEISLASKU)
         txt.append(tr("<tr><td rowspan=5>%1</td><td>Laskun numero</td><td>%2</td></td>").arg( osoite ).arg(model_->viitenumero() ));
-    else if( !model_->hyvityslasku().viite.isEmpty())
+    else if( !model_->viittausLasku().viite.isEmpty())
         txt.append(tr("<tr><td rowspan=5>%1</td><td>Hyvityslaskun numero</td><td>%2</td></td>").arg( osoite ).arg(model_->viitenumero() ));
     else
         txt.append(tr("<tr><td rowspan=5>%1</td><td>Viitenumero</td><td>%2</td></td>").arg( osoite ).arg(model_->viitenumero() ));
 
     // Käteislaskulla tai hyvityslaskulla ei eräpäivää
-    if( model_->kirjausperuste() != LaskuModel::KATEISLASKU && model_->hyvityslasku().viite.isEmpty())
+    if( model_->kirjausperuste() != LaskuModel::KATEISLASKU && model_->viittausLasku().viite.isEmpty())
         txt.append(tr("<tr><td>Eräpäivä</td><td>%1</td></tr>").arg(model_->erapaiva().toString("dd.MM.yyyy")));
 
     txt.append(tr("<tr><td>Summa</td><td>%L1 €</td>").arg( (model_->laskunSumma() / 100.0) ,0,'f',2));
 
-    if( model_->kirjausperuste() != LaskuModel::KATEISLASKU && model_->hyvityslasku().viite.isEmpty())
+    if( model_->kirjausperuste() != LaskuModel::KATEISLASKU && model_->viittausLasku().viite.isEmpty())
     {
         txt.append(tr("<tr><td>IBAN</td><td>%1</td></tr>").arg( iban) );        
     }
@@ -335,7 +335,7 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter)
 
     painter->drawText(QRectF( keskiviiva + mm, pv - rk + mm, leveys / 4, rk ), Qt::AlignTop, tr("Päivämäärä"));
 
-    if( !model_->hyvityslasku().viite.isEmpty() )
+    if( !model_->viittausLasku().viite.isEmpty() )
         painter->drawText(QRectF( keskiviiva + mm, pv + mm, leveys / 4, rk ), Qt::AlignTop, tr("Hyvityksen päivämäärä"));
     else
         painter->drawText(QRectF( keskiviiva + mm, pv + mm, leveys / 4, rk ), Qt::AlignTop, tr("Toimituspäivä"));
@@ -345,7 +345,7 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter)
 
     if( model_->kirjausperuste() == LaskuModel::KATEISLASKU)
         painter->drawText(QRectF( keskiviiva + mm, pv + rk + mm, leveys / 4, rk ), Qt::AlignTop, tr("Laskun numero"));
-    else if( !model_->hyvityslasku().viite.isEmpty())
+    else if( !model_->viittausLasku().viite.isEmpty())
         painter->drawText(QRectF( keskiviiva + mm, pv + rk + mm, leveys / 4, rk ), Qt::AlignTop, tr("Hyvityslaskun numero"));
     else
         painter->drawText(QRectF( keskiviiva + mm, pv + rk + mm, leveys / 4, rk ), Qt::AlignTop, tr("Viitenumero"));
@@ -383,10 +383,10 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter)
         painter->drawText(QRectF( keskiviiva + mm, pv - rk * 2, leveys / 4, rk-mm ), Qt::AlignBottom,  tr("Käteislasku / Kuitti") );
         painter->drawText(QRectF( keskiviiva + mm, pv + rk * 2, leveys / 4, rk-mm ), Qt::AlignBottom,  tr("Maksettu") );
     }
-    else if( !model_->hyvityslasku().viite.isEmpty())
+    else if( !model_->viittausLasku().viite.isEmpty())
     {
         painter->drawText(QRectF( keskiviiva + mm, pv - rk * 2, leveys - keskiviiva, rk-mm ), Qt::AlignBottom,  tr("Hyvityslasku laskulle %1")
-                          .arg( model_->hyvityslasku().viite ));
+                          .arg( model_->viittausLasku().viite ));
     }
     else
     {

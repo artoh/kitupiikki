@@ -57,7 +57,11 @@ class LaskuModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
-    LaskuModel(QObject *parent = 0, AvoinLasku hyvitettava = AvoinLasku());
+    LaskuModel(QObject *parent = 0);
+
+    static LaskuModel* teeHyvityslasku(int hyvitettavaVientiId);
+    static LaskuModel *haeLasku(int vientiId);
+
 
     enum LaskuSarake
     {
@@ -104,7 +108,11 @@ public:
     int kirjausperuste() const { return kirjausperuste_;}
     QString email() const { return email_;}
     QString ytunnus() const { return ytunnus_; }
-    AvoinLasku hyvityslasku() const { return hyvitettavaLasku_; }
+    /**
+     * @brief Hyvityslaskulla hyvitettävä lasku ja maksumuistutuksella muistutettava
+     * @return
+     */
+    AvoinLasku viittausLasku() const { return viittausLasku_; }
 
 
     qulonglong laskunro() const;
@@ -154,8 +162,10 @@ private:
     int kirjausperuste_;
     QString email_;
     QString ytunnus_;
-    AvoinLasku hyvitettavaLasku_;
+    AvoinLasku viittausLasku_;
     Laskutyppi tyyppi_ = LASKU;
+    int tositeId_ = 0;
+    qlonglong laskunNumero_ = 0;
 
     void paivitaSumma(int rivi);
 };

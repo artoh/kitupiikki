@@ -30,6 +30,7 @@
 struct AvoinLasku
 {
     AvoinLasku() {}
+    void haeLasku(int vientiid);
 
     QString viite;
     QDate pvm;
@@ -43,6 +44,7 @@ struct AvoinLasku
     int tiliid = 0;
     JsonKentta json;
     int kohdennusId;
+    int vientiId = 0;
 };
 
 /**
@@ -71,7 +73,11 @@ public:
            EraIdRooli = Qt::UserRole + 10,
            TiliIdRooli = Qt::UserRole + 11,
            TyyppiRooli = Qt::UserRole + 12,
-           EraPvmRooli = Qt::UserRole + 13};
+           EraPvmRooli = Qt::UserRole + 13,
+           IndeksiRooli = Qt::UserRole + 14,
+           VientiIdRooli = Qt::UserRole + 15,
+           SummaRooli = Qt::UserRole + 16
+         };
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;

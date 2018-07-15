@@ -144,36 +144,32 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     ui->eraDate->setDate( model->erapaiva() );
     ui->eraDate->setEnabled( model->tyyppi() != LaskuModel::HYVITYSLASKU );
     ui->toimitusDate->setDate( model->toimituspaiva());
+    ui->perusteCombo->setCurrentIndex( ui->perusteCombo->findData( model->kirjausperuste() ));
+
 
     if( model->tyyppi() == LaskuModel::HYVITYSLASKU)
     {
         setWindowTitle( tr("Hyvityslasku"));
         ui->toimituspvmLabel->setText( tr("Hyvityspvm"));
-        ui->rahaTiliEdit->valitseTiliNumerolla( model->hyvityslasku().json.luku("Saatavatili") );
+        ui->rahaTiliEdit->valitseTiliIdlla( model->viittausLasku().tiliid );
         ui->rahaTiliEdit->setEnabled(false);
         ui->lisatietoEdit->setPlainText( tr("Hyvityslasku laskulle %1, päiväys %2")
-                                         .arg( model->hyvityslasku().viite)
-                                         .arg( model->hyvityslasku().pvm.toString("dd.MM.yyyy")));
+                                         .arg( model->viittausLasku().viite)
+                                         .arg( model->viittausLasku().pvm.toString("dd.MM.yyyy")));
     }
 
     if( model->tyyppi() == LaskuModel::LASKU)
     {
         ui->eraDate->setMinimumDate( kp()->paivamaara() );
-        ui->perusteCombo->setCurrentIndex( ui->perusteCombo->findData( kp()->asetukset()->luku("LaskuKirjausperuste") ));
         perusteVaihtuu();
 
-        ui->toimitusDate->setDate( kp()->paivamaara() );
         ui->eraDate->setDate( kp()->paivamaara().addDays( kp()->asetukset()->luku("LaskuMaksuaika")));
     }
 
-
     paivitaTuoteluettelonNaytto();
+    paivitaSumma( model->laskunSumma() );
 }
 
-LaskuDialogi::LaskuDialogi(AvoinLasku hyvitettavaLasku)
-{
-    LaskuDialogi( new LaskuModel(0, hyvitettavaLasku) );
-}
 
 LaskuDialogi::~LaskuDialogi()
 {
