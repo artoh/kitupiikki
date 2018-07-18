@@ -223,7 +223,7 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, Q
         // Mahdollisen alv-velan kuittaaminen alv-saatavilla
         if( kp()->tilit()->tiliTyypilla(TiliLaji::VEROSAATAVA).onkoValidi())
         {
-            if( 0 - kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA).saldoPaivalle(pvm) == sentit + kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).saldoPaivalle(pvm) )
+            if( kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA).saldoPaivalle(pvm) == sentit - kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).saldoPaivalle(pvm) )
             {
                 VientiRivi verodebet;
                 verodebet.tili = kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA);
