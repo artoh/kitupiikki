@@ -87,7 +87,7 @@ bool Poistaja::sumupoistaja(Tilikausi kausi)
 
         if( !kp()->tilit()->tiliNumerolla( tili.json()->luku("Poistotili") ).onkoValidi() )
         {
-            QMessageBox::critical(0, tr("Kitupiikin virhe"),
+            QMessageBox::critical(nullptr, tr("Kitupiikin virhe"),
                                   tr("Poistoja ei voi kirjata, koska tilille %1 ei ole määritelty "
                                      "kelvollista poistojen kirjaustiliä.").arg(tili.numero()));
             return false;

@@ -489,8 +489,8 @@ bool LaskuModel::tallenna(Tili rahatili)
         riviTalteen["YksikkohintaSnt"] = rivi.ahintaSnt;
         riviTalteen["Kohdennus"] = rivi.kohdennus.id();
 
-        qlonglong nettoSnt = std::round( rivi.ahintaSnt * rivi.maara );
-        qlonglong bruttoSnt = std::round( rivi.yhteensaSnt() );
+        qlonglong nettoSnt = qRound( rivi.ahintaSnt * rivi.maara );
+        qlonglong bruttoSnt = qRound( rivi.yhteensaSnt() );
         qlonglong veroSnt = bruttoSnt - nettoSnt;
 
         riviTalteen["Nettoyht"] = nettoSnt;

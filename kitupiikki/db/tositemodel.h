@@ -38,7 +38,7 @@ class TositeModel : public QObject
 {
     Q_OBJECT
 public:
-    TositeModel(QSqlDatabase *tietokanta, QObject *parent = 0);
+    TositeModel(QSqlDatabase *tietokanta, QObject *parent = nullptr);
 
     /**
      * @brief Tositteen id

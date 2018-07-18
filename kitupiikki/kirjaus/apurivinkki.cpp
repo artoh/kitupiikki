@@ -37,6 +37,6 @@ void ApuriVinkki::mousePressEvent(QMouseEvent *event)
 {
     // Suljetaan ApuriVinkki napsauttamalla sitä
 
-    close();
+    hide();
     QWidget::mousePressEvent(event);
 }

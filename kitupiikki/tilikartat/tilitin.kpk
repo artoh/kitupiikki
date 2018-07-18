@@ -3,7 +3,7 @@ Elinkeinotoiminta
 [TilikarttaTekija]
 artoh.github.io
 [TilikarttaPvm]
-2018-06-01
+2018-07-18
 [TilikarttaKuvaus]
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 <html><head><meta name="qrichtext" content="1" /><style type="text/css">
@@ -244,7 +244,7 @@ A 1756 {"Taseerittely":3} Saamiset osakkailta ja omaisilta (veronalaiset)
 A 1757 {"Taseerittely":3} Muut lähipiirilainat
 A 1759 {"Taseerittely":3} Muut lainasaamiset
 H4 176..177 {} Muut saamiset
-A 1761 {"Taseerittely":2} Verosaamiset
+AV 1761 {"Taseerittely":1} Verosaamiset
 AL 1763 {} Arvonlisäverosaamiset
 ALM 17631 {} Maksuperusteinen arvonlisäverosaaminen
 A 1764 {"Taseerittely":2} Anotut arvonlisäveropalautukset

@@ -35,8 +35,8 @@ class ApuriVinkki : public QWidget
     Q_OBJECT
 
 public:
-    explicit ApuriVinkki(QWidget *parent = 0);
-    ~ApuriVinkki();
+    explicit ApuriVinkki(QWidget *parent = nullptr );
+    ~ApuriVinkki() override;
 
 private:
     Ui::ApuriVinkki *ui;

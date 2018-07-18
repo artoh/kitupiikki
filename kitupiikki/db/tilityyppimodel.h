@@ -32,6 +32,7 @@ namespace TiliLaji {
         MENOJAANNOSPOISTO=  0b0001010101010,
         SAATAVA        =    0b0000011001010,
         ALVSAATAVA     =    0b0010111001010,
+        VEROSAATAVA    =    0b0100011011010,
   KOHDENTAMATONALVSAATAVA = 0b0110111001010,
         MYYNTISAATAVA  =    0b0000111001010,
         RAHAVARAT       =   0b0101011001010,
@@ -103,7 +104,7 @@ public:
         LuonneRooli = Qt::UserRole + 3
     };
 
-    TilityyppiModel(QObject *parent = 0);
+    TilityyppiModel(QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;

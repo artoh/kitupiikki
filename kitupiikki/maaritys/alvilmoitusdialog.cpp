@@ -253,11 +253,20 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         VientiRivi rivi;
         rivi.pvm = loppupvm;
         rivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA);
-        rivi.selite = tr("Alv-ilmoituksella tilitettävä vero kaudelta %1 - %2").arg(alkupvm.toString("dd.MM.yyyy")).arg(loppupvm.toString("dd.MM.yyyy"));
         if( maksettavavero > 0 )
+        {
+            rivi.selite = tr("Alv-ilmoituksella tilitettävä vero kaudelta %1 - %2").arg(alkupvm.toString("dd.MM.yyyy")).arg(loppupvm.toString("dd.MM.yyyy"));
             rivi.kreditSnt = maksettavavero;
+        }
         else
+        {
+            // #219 Jos kokonaisuudessa palautettavaa, kirjataan se verosaataviin
+            if( kp()->tilit()->tiliTyypilla(TiliLaji::VEROSAATAVA).onkoValidi() )
+                rivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::VEROSAATAVA);
+
+            rivi.selite = tr("Alv-palautus kaudelta %1 - %2").arg(alkupvm.toString("dd.MM.yyyy")).arg(loppupvm.toString("dd.MM.yyyy"));
             rivi.debetSnt = 0 - maksettavavero;
+        }
         rivi.alvkoodi = AlvKoodi::MAKSETTAVAALV;
         ehdotus.lisaaVienti(rivi);
     }

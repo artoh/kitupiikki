@@ -41,6 +41,7 @@ class Tuonti
 {
 protected:
     Tuonti(KirjausWg *wg);
+    ~Tuonti();
 
 public:
     enum KirjausPeruste
