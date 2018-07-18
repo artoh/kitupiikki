@@ -39,7 +39,7 @@
 
 
 Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
-    harjoitusPvm( QDate::currentDate()), tempDir_(0)
+    harjoitusPvm( QDate::currentDate()), tempDir_(nullptr)
 {
     tietokanta_ = QSqlDatabase::addDatabase("QSQLITE");
 
@@ -51,7 +51,7 @@ Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
     veroTyypit_ = new VerotyyppiModel(this);
     tiliTyypit_ = new TilityyppiModel(this);
     tuotteet_ = new TuoteModel(this);
-    liitteet_ = 0;
+    liitteet_ = nullptr;
 
     printer_ = new QPrinter(QPrinter::HighResolution);
     printer_->setPaperSize(QPrinter::A4);
@@ -181,7 +181,7 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
 
     if( !tietokanta_.open() )
     {
-        QMessageBox::critical(0, tr("Tiedostoa %1 ei voi avata").arg(tiedosto),
+        QMessageBox::critical(nullptr, tr("Tiedostoa %1 ei voi avata").arg(tiedosto),
                               tr("Tiedoston avaamisessa tapahtui virhe\n %1").arg( tietokanta_.lastError().text() ));
         return false;
     }
