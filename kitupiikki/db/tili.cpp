@@ -58,7 +58,7 @@ int Tili::ysivertailuluku() const
 }
 
 
-quint64 Tili::saldoPaivalle(const QDate &pvm)
+qlonglong Tili::saldoPaivalle(const QDate &pvm)
 {
     QString kysymys = QString("SELECT SUM(debetsnt), SUM(kreditsnt) FROM vienti WHERE tili=%1 ").arg(id());
     if( onko(TiliLaji::TASE) )
@@ -71,8 +71,8 @@ quint64 Tili::saldoPaivalle(const QDate &pvm)
     QSqlQuery kysely(kysymys);
     if( kysely.next())
     {
-        quint64 debet = kysely.value(0).toLongLong();
-        quint64 kredit = kysely.value(1).toLongLong();
+        qlonglong debet = kysely.value(0).toLongLong();
+        qlonglong kredit = kysely.value(1).toLongLong();
 
         if( onko(TiliLaji::EDELLISTENTULOS) )
         {

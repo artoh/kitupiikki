@@ -37,6 +37,11 @@ Tuonti::Tuonti(KirjausWg *wg)
 
 }
 
+Tuonti::~Tuonti()
+{
+
+}
+
 bool Tuonti::tuo(const QString &tiedostonnimi, KirjausWg *wg)
 {
 
@@ -214,6 +219,31 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, Q
     {
         // Verojen maksua, kohdistuu Verovelka-tilille
         vastarivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA);
+
+        // Mahdollisen alv-velan kuittaaminen alv-saatavilla
+        if( kp()->tilit()->tiliTyypilla(TiliLaji::VEROSAATAVA).onkoValidi())
+        {
+            if( 0 - kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA).saldoPaivalle(pvm) == sentit + kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).saldoPaivalle(pvm) )
+            {
+                VientiRivi verodebet;
+                verodebet.tili = kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA);
+                verodebet.pvm = pvm;
+                verodebet.debetSnt = sentit;
+                verodebet.selite = Kirjanpito::tr("Verovelka kuitataan saatavilla");
+
+                VientiRivi verokredit;
+                verokredit.tili = kp()->tilit()->tiliTyypilla(TiliLaji::VEROSAATAVA);
+                verokredit.pvm = pvm;
+                verokredit.kreditSnt = sentit;
+                verodebet.selite = verokredit.selite;
+
+                EhdotusModel veronkuittaus;
+                veronkuittaus.lisaaVienti(verodebet);
+                veronkuittaus.lisaaVienti(verokredit);
+                veronkuittaus.tallenna( kirjausWg()->model()->vientiModel() );
+
+            }
+        }
 
     }
     else if( sentit < 0 && !iban.isEmpty() && !viite.isEmpty())
