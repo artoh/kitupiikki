@@ -58,7 +58,7 @@
 
 
 KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
-    : QWidget(parent), model_(tositeModel), laskuDlg_(0), apurivinkki_(0)
+    : QWidget(parent), model_(tositeModel), laskuDlg_(nullptr), apurivinkki_(nullptr)
 {
     ui = new Ui::KirjausWg();
     ui->setupUi(this);
@@ -203,7 +203,7 @@ void KirjausWg::tyhjenna()
     if( laskuDlg_)
     {
         laskuDlg_->deleteLater();
-        laskuDlg_ = 0;
+        laskuDlg_ = nullptr;
     }
     ui->tositePvmEdit->setFocus();
 
@@ -635,7 +635,10 @@ void KirjausWg::paivitaTunnisteVari()
     bool kelpaako = model_->kelpaakoTunniste( ui->tunnisteEdit->text().toInt()) ;
 
     if( kelpaako)
+    {
         ui->tunnisteEdit->setStyleSheet("color: black;");
+        model()->asetaTunniste(ui->tunnisteEdit->text().toInt());
+    }
     else
         ui->tunnisteEdit->setStyleSheet("color: red;");
 
