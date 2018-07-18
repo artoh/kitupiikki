@@ -223,19 +223,22 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, Q
         // Mahdollisen alv-velan kuittaaminen alv-saatavilla
         if( kp()->tilit()->tiliTyypilla(TiliLaji::VEROSAATAVA).onkoValidi())
         {
-            if( kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA).saldoPaivalle(pvm) == sentit - kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).saldoPaivalle(pvm) )
+            qDebug() << kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA).saldoPaivalle(pvm);
+            qDebug() << kp()->tilit()->tiliTyypilla(TiliLaji::VEROSAATAVA).saldoPaivalle(pvm);
+
+            if( kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA).saldoPaivalle(pvm) == qAbs(sentit) + kp()->tilit()->tiliTyypilla(TiliLaji::VEROSAATAVA).saldoPaivalle(pvm) )
             {
                 VientiRivi verodebet;
                 verodebet.tili = kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA);
                 verodebet.pvm = pvm;
-                verodebet.debetSnt = sentit;
+                verodebet.debetSnt = kp()->tilit()->tiliTyypilla(TiliLaji::VEROSAATAVA).saldoPaivalle(pvm);
                 verodebet.selite = Kirjanpito::tr("Verovelka kuitataan saatavilla");
 
                 VientiRivi verokredit;
                 verokredit.tili = kp()->tilit()->tiliTyypilla(TiliLaji::VEROSAATAVA);
                 verokredit.pvm = pvm;
-                verokredit.kreditSnt = sentit;
-                verodebet.selite = verokredit.selite;
+                verokredit.kreditSnt = verodebet.debetSnt;
+                verokredit.selite = verodebet.selite;
 
                 EhdotusModel veronkuittaus;
                 veronkuittaus.lisaaVienti(verodebet);
