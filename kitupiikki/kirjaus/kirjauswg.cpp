@@ -560,13 +560,13 @@ void KirjausWg::naytaSummat()
 
     if( erotus )
         ui->summaLabel->setText( tr("Debet %L1 €    Kredit %L2 €    <b>Erotus %L3 €</b>")
-                                 .arg(((double) debet )/100.0 ,0,'f',2)
-                                 .arg(((double) kredit ) / 100.0 ,0,'f',2)
-                                 .arg(((double) erotus ) / 100.0 ,0,'f',2) );
+                                 .arg((1.0 * debet )/100.0 ,0,'f',2)
+                                 .arg((1.0 * kredit ) / 100.0 ,0,'f',2)
+                                 .arg((1.0 * erotus ) / 100.0 ,0,'f',2) );
     else
         ui->summaLabel->setText( tr("Debet %L1 €    Kredit %L2 €")
-                                 .arg(((double) debet )/100.0 ,0,'f',2)
-                                 .arg(((double) kredit ) / 100.0 ,0,'f',2));
+                                 .arg((1.0 * debet )/100.0 ,0,'f',2)
+                                 .arg((1.0 * kredit ) / 100.0 ,0,'f',2));
 
     // #39: Debet- ja kredit-kirjausten on täsmättävä
     ui->tallennaButton->setEnabled( !erotus && model()->muokattu() && model()->muokkausSallittu() &&

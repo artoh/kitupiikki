@@ -46,7 +46,7 @@
 #include "uusikp/paivitakirjanpito.h"
 
 AloitusSivu::AloitusSivu() :
-    KitupiikkiSivu(0)
+    KitupiikkiSivu(nullptr)
 {
 
     ui = new Ui::Aloitus;
@@ -400,9 +400,9 @@ QString AloitusSivu::summat()
         saldosumma += saldosnt;
         txt.append( tr("<tr><td><a href=\"selaa:%1\">%1 %2</a></td><td class=euro>%L3 €</td></tr>").arg(kysely.value(0).toInt())
                                                            .arg(kysely.value(1).toString())
-                                                           .arg( ((double) saldosnt ) / 100,0,'f',2 ) );
+                                                           .arg( (1.0 *  saldosnt ) / 100,0,'f',2 ) );
     }
-    txt.append( tr("<tr class=summa><td>Rahavarat yhteensä</td><td class=euro>%L1 €</td></tr>").arg( ((double) saldosumma ) / 100,0,'f',2 ) );
+    txt.append( tr("<tr class=summa><td>Rahavarat yhteensä</td><td class=euro>%L1 €</td></tr>").arg( (1.0 * saldosumma ) / 100,0,'f',2 ) );
     txt.append("<tr><td colspan=2>&nbsp;</td></tr>");
 
     // Sitten tulot
@@ -419,9 +419,9 @@ QString AloitusSivu::summat()
         summatulot += saldosnt;
         txt.append( tr("<tr><td><a href=\"selaa:%1\">%1 %2</a></td><td class=euro>%L3 €</td></tr>").arg(kysely.value(0).toInt())
                                                            .arg(kysely.value(1).toString())
-                                                           .arg( ((double) saldosnt ) / 100,0,'f',2 ) );
+                                                           .arg( (1.0 * saldosnt ) / 100,0,'f',2 ) );
     }
-    txt.append( tr("<tr class=summa><td>Tulot yhteensä</td><td class=euro>%L1 €</td></tr>").arg( ((double) summatulot ) / 100,0,'f',2 ) );
+    txt.append( tr("<tr class=summa><td>Tulot yhteensä</td><td class=euro>%L1 €</td></tr>").arg( (1.0 * summatulot ) / 100,0,'f',2 ) );
     txt.append("<tr><td colspan=2>&nbsp;</td></tr>");
 
     // ja menot
@@ -439,15 +439,15 @@ QString AloitusSivu::summat()
         summamenot += saldosnt;
         txt.append( tr("<tr><td><a href=\"selaa:%1\">%1 %2</a></td><td class=euro>%L3 €</td></tr>").arg(kysely.value(0).toInt())
                                                            .arg(kysely.value(1).toString())
-                                                           .arg( ((double) saldosnt ) / 100,0,'f',2 ) );
+                                                           .arg( (1.0 * saldosnt ) / 100,0,'f',2 ) );
     }
-    txt.append( tr("<tr class=summa><td>Menot yhteensä</td><td class=euro>%L1 €</td></tr>").arg( ((double) summamenot ) / 100,0,'f',2 ) );
+    txt.append( tr("<tr class=summa><td>Menot yhteensä</td><td class=euro>%L1 €</td></tr>").arg( (1.0 * summamenot ) / 100,0,'f',2 ) );
     txt.append("<tr><td colspan=2>&nbsp;</td></tr>");
 
 
 
     // Yli/alijäämä
-    txt.append( tr("<tr class=kokosumma><td>Yli/alijäämä</td><td class=euro> %L1 €</td></tr></table>").arg(( ((double) (summatulot - summamenot) ) / 100), 0,'f',2 )) ;
+    txt.append( tr("<tr class=kokosumma><td>Yli/alijäämä</td><td class=euro> %L1 €</td></tr></table>").arg(( (1.0 * (summatulot - summamenot) ) / 100), 0,'f',2 )) ;
 
     txt.append("</table><p>&nbsp;</p><table width=100%>");
 
@@ -464,9 +464,9 @@ QString AloitusSivu::summat()
     {
         txt.append(QString("<tr><td>%1</td><td class=euro>%L2 €</td><td class=euro>%L3 €</td><td class=euro>%L4 €</td></tr>")
                    .arg( kysely.value(0).toString())
-                   .arg( ((double) kysely.value(1).toInt() ) / 100,0,'f',2 )
-                   .arg( ((double) kysely.value(2).toInt() ) / 100,0,'f',2 )
-                   .arg( ((double) (kysely.value(1).toInt() - kysely.value(2).toInt())) / 100,0,'f',2 ));
+                   .arg( (1.0 * kysely.value(1).toInt() ) / 100,0,'f',2 )
+                   .arg( (1.0 * kysely.value(2).toInt() ) / 100,0,'f',2 )
+                   .arg( (1.0 * (kysely.value(1).toInt() - kysely.value(2).toInt())) / 100,0,'f',2 ));
     }
     txt.append("</table>");
 

@@ -94,7 +94,7 @@ void Kirjanpito::ohje(const QString &ohjesivu)
     QString osoite("https://kitupiikki.info/");
     osoite.append(ohjesivu);
     if(!QDesktopServices::openUrl( QUrl(osoite)))
-        QMessageBox::critical(0, tr("Ohjeen näyttäminen epäonnistui"),
+        QMessageBox::critical(nullptr, tr("Ohjeen näyttäminen epäonnistui"),
                               tr("Kitupiikki ei saanut käynnistettyä selainta ohjeen näyttämiseksi. Onhan järjestelmässäsi "
                                  "määritelty oletusselain avaamaan internet-sivuja?\n\n"
                                  "Ohjelman ohjeet löytyvät sivulta https://kitupiikki.info"));
@@ -107,11 +107,11 @@ void Kirjanpito::avaaUrl(const QUrl &url)
     else if( !QDesktopServices::openUrl(url) )
     {
         if( url.fileName().endsWith("html"))
-            QMessageBox::critical(0, tr("Selaimen käynnistäminen epäonnistui"),
+            QMessageBox::critical(nullptr, tr("Selaimen käynnistäminen epäonnistui"),
                                   tr("Kitupiikki ei saanut käynnistettyä selainta tiedoston %1 näyttämiseksi. Onhan järjestelmässäsi "
                                      "määritelty oletusselain avaamaan internet-sivuja?\n\n").arg(url.toDisplayString()));
         else
-            QMessageBox::critical(0, tr("Tiedoston näyttäminen epäonnistui"),
+            QMessageBox::critical(nullptr, tr("Tiedoston näyttäminen epäonnistui"),
                                   tr("Kitupiikki ei saanut käynnistettyä ulkoista ohjelmaa tiedoston %1 näyttämiseksi.").arg(url.toDisplayString() ));
     }
 }
@@ -193,7 +193,7 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
     if( asetusModel_->asetus("Nimi").isEmpty() || !asetusModel_->luku("KpVersio"))
     {
         // Tämä ei ole lainkaan kelvollinen tietokanta
-        QMessageBox::critical(0, tr("Tiedostoa %1 ei voi avata").arg(tiedosto),
+        QMessageBox::critical(nullptr, tr("Tiedostoa %1 ei voi avata").arg(tiedosto),
                               tr("Valitsemasi tiedosto ei ole Kitupiikin tietokanta, tai tiedosto on vahingoittunut."));
         tietokanta()->close();
         asetusModel_->lataa();
@@ -207,7 +207,7 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
     if( asetusModel_->luku("KpVersio") > TIETOKANTAVERSIO )
     {
         // Luotu uudemmalla tietokannalla, sellainen ei kelpaa!
-        QMessageBox::critical(0, tr("Kirjanpitoa %1 ei voi avata").arg(asetusModel_->asetus("Nimi")),
+        QMessageBox::critical(nullptr, tr("Kirjanpitoa %1 ei voi avata").arg(asetusModel_->asetus("Nimi")),
                               tr("Kirjanpito on luotu Kitupiikin versiolla %1, eikä käytössäsi oleva versio %2 pysty avaamaan sitä.\n\n"
                                  "Voidaksesi avata tiedoston, sinun on asennettava uudempi versio Kitupiikistä. Lataa ohjelma "
                                  "osoitteesta https://kitupiikki.info").arg( asetusModel_->asetus("LuotuVersiolla"))
@@ -225,7 +225,7 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
     //
     if( asetusModel_->luku("KpVersio") < TIETOKANTAVERSIO )
     {
-        if( QMessageBox::question(0, tr("Kirjanpidon %1 päivittäminen").arg(asetusModel_->asetus("Nimi")),
+        if( QMessageBox::question(nullptr, tr("Kirjanpidon %1 päivittäminen").arg(asetusModel_->asetus("Nimi")),
                                   tr("Kirjanpito on luotu Kitupiikin versiolla %1 ja se täytyy päivittää, ennen kuin sitä "
                                      "voi käyttää nykyisellä versiolla %2.\n\n"
                                      "Päivittämisen jälkeen kirjanpitoa ei voi enää avata vanhemmilla versioilla kuin 0.11\n\n"
@@ -324,14 +324,14 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
             QByteArray ba = logotiedosto.readAll();
             QImage logo = QImage::fromData(ba, "PNG");
 
-            liitteet_ = new LiiteModel(0, this);
+            liitteet_ = new LiiteModel(nullptr, this);
             asetaLogo(logo);
             liitteet_->tallenna();
         }
 
         asetusModel_->aseta("KpVersio", TIETOKANTAVERSIO);
         asetusModel_->aseta("LuotuVersiolla", qApp->applicationVersion());
-        QMessageBox::information(0, tr("Kirjanpito päivitetty"),
+        QMessageBox::information(nullptr, tr("Kirjanpito päivitetty"),
                                  tr("Kirjanpito päivitetty käytössä olevaan versioon."));
 
     }
@@ -357,12 +357,12 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
 
         tempDir_ = new QTemporaryDir( info.dir().absoluteFilePath("Temp")  );
         if( !tempDir_->isValid())
-            QMessageBox::critical(0, tr("Tilapäishakemiston luominen epäonnistui"),
+            QMessageBox::critical(nullptr, tr("Tilapäishakemiston luominen epäonnistui"),
                                   tr("Kitupiikki ei onnistunut luomaan tilapäishakemistoa. Raporttien ja laskujen esikatselu ei toimi."));
     }
 
     // Ladataan logo    
-    liitteet_ = new LiiteModel(0, this);
+    liitteet_ = new LiiteModel(nullptr, this);
     logo_ = QImage::fromData( liitteet_->liite("logo") , "PNG" );
 
 
@@ -402,7 +402,7 @@ QString Kirjanpito::satujono(int pituus)
     QString randomString;
     for(int i=0; i<pituus; ++i)
     {
-        int index = QRandomGenerator::global()->generate() % merkit.length();
+       int index = QRandomGenerator::global()->generate() % merkit.length() ;
        QChar nextChar = merkit.at(index);
        randomString.append(nextChar);
     }
@@ -427,6 +427,6 @@ void Kirjanpito::paivita(int versioon)
     }
 }
 
-Kirjanpito* Kirjanpito::instanssi__ = 0;
+Kirjanpito* Kirjanpito::instanssi__ = nullptr;
 
 Kirjanpito *kp()  { return Kirjanpito::db(); }
