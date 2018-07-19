@@ -131,9 +131,7 @@ void NaytaliiteWg::tarkistaLeikepoyta()
     QStringList formaatit = qApp->clipboard()->mimeData()->formats();
 
     ui->liitaNappi->setVisible( formaatit.contains("image/png") ||
-                                formaatit.contains("image/jpg") ||
-                                formaatit.contains("text/plain") ||
-                                formaatit.contains("text/html"));
+                                formaatit.contains("image/jpg") );
 
 }
 
