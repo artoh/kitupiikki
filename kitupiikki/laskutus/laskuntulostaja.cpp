@@ -57,8 +57,23 @@ bool LaskunTulostaja::tulosta(QPagedPaintDevice *printer)
     painter.resetTransform();
 
     ylaruudukko(printer, &painter);
-    lisatieto(&painter);
-    erittely(printer, &painter, marginaali);
+    lisatieto(&painter, model_->lisatieto());
+    erittely( model_, printer, &painter, marginaali);
+
+    painter.translate(0, mm*15);
+
+    if( model_->tyyppi() == LaskuModel::MAKSUMUISTUTUS)
+    {
+        lisatieto(&painter, tr("Alkuperäinen lasku\n"
+                               "Laskun numero: %1 \t Laskun päiväys: %2 \t Eräpäivä: %3")
+                  .arg( model_->viittausLasku().viite)
+                  .arg( model_->viittausLasku().pvm.toString("dd.MM.yyyy"))
+                  .arg( model_->viittausLasku().erapvm.toString("dd.MM.yyyy")));
+
+        LaskuModel *alkuperainenLasku = LaskuModel::haeLasku( model_->viittausLasku().eraId );
+        erittely( alkuperainenLasku, printer, &painter, marginaali);
+    }
+
     painter.end();
 
     return true;
@@ -92,32 +107,34 @@ QString LaskunTulostaja::html()
     omaosoite.replace("\n","<br>");
 
     QString otsikko = tr("Lasku");
-    if( !model_->viittausLasku().viite.isEmpty())
+    if( model_->tyyppi() == LaskuModel::HYVITYSLASKU)
         otsikko = tr("Hyvityslasku laskulle %1").arg( model_->viittausLasku().viite);
+    else if( model_->tyyppi() == LaskuModel::MAKSUMUISTUTUS)
+        otsikko = tr("MAKSUMUISTUTUS");
     else if(model_->kirjausperuste() == LaskuModel::KATEISLASKU)
         otsikko = tr("Kuitti");
 
     txt.append(tr("<tr><td rowspan=2 width=50%>%1<br>%2</td><td colspan=3>%3</td></tr>").arg(kp()->asetukset()->asetus("Nimi")).arg(omaosoite).arg(otsikko) );
 
-    if(model_->viittausLasku().viite.isEmpty())
+    if( model_->tyyppi() != LaskuModel::HYVITYSLASKU )
         txt.append(tr("<tr><td width=25%>Laskun päivämäärä</td><td width=25%>%1</td></tr>").arg( kp()->paivamaara().toString("dd.MM.yyyy") ));
     else
         txt.append(tr("<tr><td width=25%>Hyvityksen päivämäärä</td><td width=25%>%1</td></tr>").arg( kp()->paivamaara().toString("dd.MM.yyyy") ));
 
     if( model_->kirjausperuste() == LaskuModel::KATEISLASKU)
         txt.append(tr("<tr><td rowspan=5>%1</td><td>Laskun numero</td><td>%2</td></td>").arg( osoite ).arg(model_->viitenumero() ));
-    else if( !model_->viittausLasku().viite.isEmpty())
+    else if( model_->tyyppi() == LaskuModel::HYVITYSLASKU)
         txt.append(tr("<tr><td rowspan=5>%1</td><td>Hyvityslaskun numero</td><td>%2</td></td>").arg( osoite ).arg(model_->viitenumero() ));
     else
         txt.append(tr("<tr><td rowspan=5>%1</td><td>Viitenumero</td><td>%2</td></td>").arg( osoite ).arg(model_->viitenumero() ));
 
     // Käteislaskulla tai hyvityslaskulla ei eräpäivää
-    if( model_->kirjausperuste() != LaskuModel::KATEISLASKU && model_->viittausLasku().viite.isEmpty())
+    if( model_->kirjausperuste() != LaskuModel::KATEISLASKU && model_->tyyppi() != LaskuModel::HYVITYSLASKU)
         txt.append(tr("<tr><td>Eräpäivä</td><td>%1</td></tr>").arg(model_->erapaiva().toString("dd.MM.yyyy")));
 
     txt.append(tr("<tr><td>Summa</td><td>%L1 €</td>").arg( (model_->laskunSumma() / 100.0) ,0,'f',2));
 
-    if( model_->kirjausperuste() != LaskuModel::KATEISLASKU && model_->viittausLasku().viite.isEmpty())
+    if( model_->kirjausperuste() != LaskuModel::KATEISLASKU && model_->tyyppi() != LaskuModel::HYVITYSLASKU)
     {
         txt.append(tr("<tr><td>IBAN</td><td>%1</td></tr>").arg( iban) );        
     }
@@ -180,7 +197,7 @@ QString LaskunTulostaja::html()
         }
     }
     txt.append("</table><p>");
-    if( alv)
+    if( alv && model_->tyyppi() != LaskuModel::MAKSUMUISTUTUS)
     {
         txt.append("<table width=50%><tr><th>Alv%</th><th>Veroton</th><th>Vero</th><th>Yhtensä</th></tr>");
         QMapIterator<int,AlvErittelyEra> iter(alvit);
@@ -289,7 +306,7 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter)
     double vasen = 0.0;
     if( !kp()->logo().isNull() )
     {
-        double logosuhde = ((double) kp()->logo().width() ) / kp()->logo().height();
+        double logosuhde = (1.0 * kp()->logo().width() ) / kp()->logo().height();
         double skaala = logosuhde < 5.00 ? logosuhde : 5.00;    // Logon sallittu suhde enintään 5:1
 
         painter->drawImage( QRectF( lahettajaAlue.x()+mm, lahettajaAlue.y()+mm, rk*2*skaala, rk*2 ),  kp()->logo()  );
@@ -335,7 +352,7 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter)
 
     painter->drawText(QRectF( keskiviiva + mm, pv - rk + mm, leveys / 4, rk ), Qt::AlignTop, tr("Päivämäärä"));
 
-    if( !model_->viittausLasku().viite.isEmpty() )
+    if( model_->tyyppi() == LaskuModel::HYVITYSLASKU )
         painter->drawText(QRectF( keskiviiva + mm, pv + mm, leveys / 4, rk ), Qt::AlignTop, tr("Hyvityksen päivämäärä"));
     else
         painter->drawText(QRectF( keskiviiva + mm, pv + mm, leveys / 4, rk ), Qt::AlignTop, tr("Toimituspäivä"));
@@ -345,7 +362,7 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter)
 
     if( model_->kirjausperuste() == LaskuModel::KATEISLASKU)
         painter->drawText(QRectF( keskiviiva + mm, pv + rk + mm, leveys / 4, rk ), Qt::AlignTop, tr("Laskun numero"));
-    else if( !model_->viittausLasku().viite.isEmpty())
+    else if( model_->tyyppi() == LaskuModel::HYVITYSLASKU)
         painter->drawText(QRectF( keskiviiva + mm, pv + rk + mm, leveys / 4, rk ), Qt::AlignTop, tr("Hyvityslaskun numero"));
     else
         painter->drawText(QRectF( keskiviiva + mm, pv + rk + mm, leveys / 4, rk ), Qt::AlignTop, tr("Viitenumero"));
@@ -380,13 +397,20 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter)
         painter->drawText(QRectF( keskiviiva + mm, pv - rk * 2, leveys / 4, rk-mm ), Qt::AlignBottom,  tr("Käteislasku / Kuitti") );
         painter->drawText(QRectF( keskiviiva + mm, pv + rk * 2, leveys / 4, rk-mm ), Qt::AlignBottom,  tr("Maksettu") );
     }
-    else if( !model_->viittausLasku().viite.isEmpty())
+    else if( model_->tyyppi() == LaskuModel::HYVITYSLASKU)
     {
         painter->drawText(QRectF( keskiviiva + mm, pv - rk * 2, leveys - keskiviiva, rk-mm ), Qt::AlignBottom,  tr("Hyvityslasku laskulle %1")
                           .arg( model_->viittausLasku().viite ));
     }
     else
     {
+        if( model_->tyyppi() == LaskuModel::MAKSUMUISTUTUS)
+        {
+            painter->setFont( QFont("Sans", TEKSTIPT+2,QFont::Black));
+            painter->drawText(QRectF( keskiviiva + mm, pv - rk * 2, leveys / 4, rk-mm ), Qt::AlignBottom,  tr("MAKSUMUISTUTUS") );
+            painter->setFont(QFont("Sans", TEKSTIPT));
+        }
+
         painter->drawText(QRectF( keskiviiva + mm, pv - rk * 2, leveys / 4, rk-mm ), Qt::AlignBottom,  tr("Lasku") );
         if( model_->laskunSumma() > 0.0 )  // Näytetään eräpäivä vain jos on maksettavaa
         {
@@ -407,12 +431,12 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter)
         painter->translate(0, pv + 4*rk + 5 * mm);
 }
 
-void LaskunTulostaja::lisatieto(QPainter *painter)
+void LaskunTulostaja::lisatieto(QPainter *painter, QString lisatieto)
 {
     painter->setFont( QFont("Sans", 10));
-    QRectF ltRect = painter->boundingRect(QRect(0,0,painter->window().width(), painter->window().height()), Qt::TextWordWrap, model_->lisatieto());
-    painter->drawText(ltRect, Qt::TextWordWrap, model_->lisatieto());
-    if( ltRect.height() )
+    QRectF ltRect = painter->boundingRect(QRect(0,0,painter->window().width(), painter->window().height()), Qt::TextWordWrap, lisatieto );
+    painter->drawText(ltRect, Qt::TextWordWrap, lisatieto );
+    if( ltRect.height() > 0 )
         painter->translate( 0, ltRect.height() + painter->fontMetrics().height());  // Vähän väliä
 
 
@@ -462,7 +486,7 @@ qreal LaskunTulostaja::alatunniste(QPagedPaintDevice *printer, QPainter *painter
     return tila;
 }
 
-void LaskunTulostaja::erittely(QPagedPaintDevice *printer, QPainter *painter, qreal marginaali)
+void LaskunTulostaja::erittely(LaskuModel *model, QPagedPaintDevice *printer, QPainter *painter, qreal marginaali)
 {
     bool alv = kp()->asetukset()->onko("AlvVelvollinen");
     erittelyOtsikko(printer, painter, alv);
@@ -477,22 +501,22 @@ void LaskunTulostaja::erittely(QPagedPaintDevice *printer, QPainter *painter, qr
 
     QMap<int,AlvErittelyEra> alvit;
 
-    for(int i=0; i < model_->rowCount(QModelIndex());i++)
+    for(int i=0; i < model->rowCount(QModelIndex());i++)
     {
-        int yhtsnt = model_->data( model_->index(i, LaskuModel::BRUTTOSUMMA), Qt::EditRole ).toInt();
+        int yhtsnt = model->data( model->index(i, LaskuModel::BRUTTOSUMMA), Qt::EditRole ).toInt();
         if( !yhtsnt)
             continue;   // Ohitetaan tyhjät rivit
 
-        QString nimike = model_->data( model_->index(i, LaskuModel::NIMIKE), Qt::DisplayRole ).toString();
-        QString maara = model_->data( model_->index(i, LaskuModel::MAARA), Qt::DisplayRole ).toString();
-        QString yksikko = model_->data( model_->index(i, LaskuModel::YKSIKKO), Qt::DisplayRole ).toString();
-        QString ahinta = model_->data( model_->index(i, LaskuModel::AHINTA), Qt::DisplayRole ).toString();
-        QString vero = model_->data( model_->index(i, LaskuModel::ALV), Qt::DisplayRole ).toString();
-        QString yht = model_->data( model_->index(i, LaskuModel::BRUTTOSUMMA), Qt::DisplayRole ).toString();
+        QString nimike = model->data( model->index(i, LaskuModel::NIMIKE), Qt::DisplayRole ).toString();
+        QString maara = model->data( model->index(i, LaskuModel::MAARA), Qt::DisplayRole ).toString();
+        QString yksikko = model->data( model->index(i, LaskuModel::YKSIKKO), Qt::DisplayRole ).toString();
+        QString ahinta = model->data( model->index(i, LaskuModel::AHINTA), Qt::DisplayRole ).toString();
+        QString vero = model->data( model->index(i, LaskuModel::ALV), Qt::DisplayRole ).toString();
+        QString yht = model->data( model->index(i, LaskuModel::BRUTTOSUMMA), Qt::DisplayRole ).toString();
 
-        double verosnt = model_->data( model_->index(i, LaskuModel::NIMIKE), LaskuModel::VeroRooli ).toDouble();
-        double nettosnt = model_->data( model_->index(i, LaskuModel::NIMIKE), LaskuModel::NettoRooli ).toDouble();
-        int veroprossa = model_->data( model_->index(i, LaskuModel::NIMIKE), LaskuModel::AlvProsenttiRooli ).toInt();
+        double verosnt = model->data( model->index(i, LaskuModel::NIMIKE), LaskuModel::VeroRooli ).toDouble();
+        double nettosnt = model->data( model->index(i, LaskuModel::NIMIKE), LaskuModel::NettoRooli ).toDouble();
+        int veroprossa = model->data( model->index(i, LaskuModel::NIMIKE), LaskuModel::AlvProsenttiRooli ).toInt();
 
         // Lisätään alv-erittelyä varten summataulukkoihin
         if( !alvit.contains(veroprossa))
@@ -506,7 +530,7 @@ void LaskunTulostaja::erittely(QPagedPaintDevice *printer, QPainter *painter, qr
 
         QRectF rect = alv ? painter->boundingRect(QRectF(0,0,leveys/2, leveys), Qt::TextWordWrap, nimike ) : painter->boundingRect(QRectF(0,0,3*leveys/8, leveys), Qt::TextWordWrap, nimike );
 
-        qreal tamarivi = rect.height() ? rect.height() : rk;
+        qreal tamarivi = rect.height() > 0.0 ? rect.height() : rk;
         if( tamarivi + painter->transform().dy() > korkeus - 4 * rk )
         {
             painter->drawText(QRectF(7*leveys/8,0,leveys/8,rk), Qt::AlignLeft, tr("Jatkuu ..."));
@@ -523,7 +547,9 @@ void LaskunTulostaja::erittely(QPagedPaintDevice *printer, QPainter *painter, qr
             painter->drawText(QRectF(6 *leveys / 16 + mm ,0,leveys/16,rk), Qt::AlignLeft, yksikko);
 
             painter->drawText(QRectF(7 *leveys / 16,0,leveys/8,rk), Qt::AlignRight, ahinta);
-            painter->drawText(QRectF(9 *leveys / 16,0,leveys/8,rk), Qt::AlignRight, QString("%L1 €").arg( (nettosnt / 100.0) ,0,'f',2)  );
+
+            if( nettosnt > 0.0)
+                painter->drawText(QRectF(9 *leveys / 16,0,leveys/8,rk), Qt::AlignRight, QString("%L1 €").arg( (nettosnt / 100.0) ,0,'f',2)  );
 
             if( vero.endsWith("%"))
             {
@@ -547,7 +573,7 @@ void LaskunTulostaja::erittely(QPagedPaintDevice *printer, QPainter *painter, qr
     }
 
     // ALV-erittelyn tulostus
-    if( alv )
+    if( alv && model->tyyppi() != LaskuModel::MAKSUMUISTUTUS)
     {
         painter->translate( 0, rk * 0.5);
         painter->drawLine(QLineF(7*leveys / 16.0, 0, leveys, 0));
@@ -576,7 +602,7 @@ void LaskunTulostaja::erittely(QPagedPaintDevice *printer, QPainter *painter, qr
         painter->drawText(QRectF(9 *leveys / 16,0,leveys/8,rk), Qt::AlignRight, QString("%L1 €").arg( ( kokoNetto / 100.0) ,0,'f',2)  );
         painter->drawText(QRectF(12 *leveys / 16,0,leveys/8,rk), Qt::AlignRight, QString("%L1 €").arg( ( kokoVero / 100.0) ,0,'f',2) );
     }
-    painter->drawText(QRectF(7*leveys/8,0,leveys/8,rk), Qt::AlignRight, QString("%L1 €").arg( ( model_->laskunSumma() / 100.0) ,0,'f',2) );
+    painter->drawText(QRectF(7*leveys/8,0,leveys/8,rk), Qt::AlignRight, QString("%L1 €").arg( ( model->laskunSumma() / 100.0) ,0,'f',2) );
 
 
 }

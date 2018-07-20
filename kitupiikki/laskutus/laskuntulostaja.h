@@ -69,9 +69,9 @@ public:
 
 protected:
     void ylaruudukko(QPagedPaintDevice *printer, QPainter *painter);
-    void lisatieto(QPainter *painter);
+    void lisatieto(QPainter *painter, QString lisatieto);
     qreal alatunniste(QPagedPaintDevice *printer, QPainter *painter);
-    void erittely(QPagedPaintDevice *printer, QPainter *painter, qreal marginaali);
+    void erittely(LaskuModel* model, QPagedPaintDevice *printer, QPainter *painter, qreal marginaali);
     void erittelyOtsikko(QPagedPaintDevice *printer, QPainter *painter, bool alv);
 
     void tilisiirto(QPagedPaintDevice *printer, QPainter *painter);

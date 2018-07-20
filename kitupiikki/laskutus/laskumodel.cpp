@@ -62,6 +62,29 @@ LaskuModel *LaskuModel::teeHyvityslasku(int hyvitettavaVientiId)
     return model;
 }
 
+LaskuModel *LaskuModel::teeMaksumuistutus(int muistutettavaVientiId)
+{
+    LaskuModel *model = new LaskuModel;
+    model->viittausLasku_.haeLasku(muistutettavaVientiId);
+
+    model->tyyppi_ = MAKSUMUISTUTUS;
+    model->kirjausperuste_ = model->viittausLasku().kirjausperuste;
+    model->asetaLaskunsaajannimi( model->viittausLasku().asiakas );
+    model->asetaOsoite( model->viittausLasku().json.str("Osoite") );
+    model->asetaEmail( model->viittausLasku().json.str("Email") );
+    model->asetaYTunnus( model->viittausLasku().json.str("YTunnus"));
+    model->asetaToimituspaiva( model->viittausLasku().json.date("Toimituspvm"));
+
+    model->asetaLisatieto( tr("Kirjanpitomme mukaan emme ole saaneet maksusuoritustanne. Pyydämme maksuanne alla olevan erittelyn mukaisesti. "
+                              "Mikäli olette jo maksaneet laskun tai lasku on virheellinen, ottakaa yhteyttä asian selvittämiseksi.") );
+
+
+    model->haeAvoinSaldo();
+    return model;
+}
+
+
+
 LaskuModel *LaskuModel::haeLasku(int vientiId)
 {
     LaskuModel *model = new LaskuModel;
@@ -74,6 +97,12 @@ LaskuModel *LaskuModel::haeLasku(int vientiId)
         model->tyyppi_ = HYVITYSLASKU;
         model->viittausLasku_.haeLasku( lasku.eraId );
     }
+    else if( lasku.json.luku("Maksumuistutus"))
+    {
+        model->tyyppi_ = MAKSUMUISTUTUS;
+        model->viittausLasku_.haeLasku( lasku.eraId );
+        model->haeAvoinSaldo();
+    }
 
     model->kirjausperuste_ = lasku.kirjausperuste;
     model->asetaLaskunsaajannimi( lasku.asiakas );
@@ -83,7 +112,7 @@ LaskuModel *LaskuModel::haeLasku(int vientiId)
     model->asetaToimituspaiva( lasku.json.date("Toimituspvm"));
     model->tositeId_ = lasku.tosite;
     model->vientiId_ = lasku.vientiId;
-    model->laskunNumero_ = lasku.viite.toLongLong();
+    model->laskunNumero_ = lasku.viite.toULongLong();
 
 
     QVariantList lista = lasku.json.variant("Laskurivit").toList();
@@ -109,6 +138,8 @@ LaskuModel *LaskuModel::haeLasku(int vientiId)
 
 int LaskuModel::rowCount(const QModelIndex & /* parent */) const
 {
+    if( tyyppi() == MAKSUMUISTUTUS)
+        return  rivit_.count() + 1;
     return rivit_.count();
 }
 
@@ -154,7 +185,45 @@ QVariant LaskuModel::data(const QModelIndex &index, int role) const
     if( !index.isValid())
         return QVariant();
 
-    LaskuRivi rivi = rivit_.value(index.row());
+    if( role == Qt::TextAlignmentRole)
+    {
+        if( index.column()==BRUTTOSUMMA || index.column() == MAARA || index.column() == ALV || index.column() == AHINTA)
+            return QVariant(Qt::AlignRight | Qt::AlignVCenter);
+        else
+            return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
+
+    }
+
+    LaskuRivi rivi;
+    if( tyyppi() == LaskuModel::MAKSUMUISTUTUS)
+    {
+        // Maksumuistutuksessa ylimmäksi riviksi tulostuu laskun avoin saldo
+        if( index.row() > 0)
+        {
+            rivi = rivit_.value(index.row() - 1);
+        }
+        else
+        {
+            if( role == Qt::DisplayRole )
+            {
+                switch(index.column())
+                {
+                    case NIMIKE:
+                        return tr("Laskun %1 avoin saldo").arg(viittausLasku().viite);
+                    case BRUTTOSUMMA:
+                        return QString("%L1 €").arg( avoinSaldo() / 100.0,0,'f',2);
+                }
+            }
+            else if( role == Qt::EditRole && index.column() == BRUTTOSUMMA)
+                return avoinSaldo();
+
+            return QVariant();
+        }
+    }
+    else
+    {
+        rivi = rivit_.value(index.row());
+    }
 
     if( role == Qt::DisplayRole || role == Qt::EditRole)
     {
@@ -223,14 +292,6 @@ QVariant LaskuModel::data(const QModelIndex &index, int role) const
     }
     else if( role == TuoteKoodiRooli)
         return rivi.tuoteKoodi;
-    else if( role == Qt::TextAlignmentRole)
-    {
-        if( index.column()==BRUTTOSUMMA || index.column() == MAARA || index.column() == ALV || index.column() == AHINTA)
-            return QVariant(Qt::AlignRight | Qt::AlignVCenter);
-        else
-            return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
-
-    }
     else if( role == Qt::DecorationRole && index.column() == ALV)
     {
         // Jos käytössä maksuperusteinen alv, niin nettokirjaukset muunnetaan tallennusvaiheessa
@@ -247,6 +308,8 @@ QVariant LaskuModel::data(const QModelIndex &index, int role) const
 bool LaskuModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     int rivi = index.row();
+    if( tyyppi() == MAKSUMUISTUTUS)
+        rivi = rivi - 1;    // Alussa avoin saldo
 
     if( role == Qt::EditRole)
     {
@@ -296,13 +359,12 @@ bool LaskuModel::setData(const QModelIndex &index, const QVariant &value, int ro
         }
         case BRUTTOSUMMA:
             // Lasketaan bruton avulla nettoyksikköhinta ja laitetaan se paikalleen
-            if( !rivit_[rivi].maara)
+            if( qAbs(rivit_[rivi].maara) < 0.0001)
                 return false;
 
             int alvprosentti = rivit_[rivi].alvProsentti;
             double netto =  100.0 * value.toInt() / rivit_[rivi].maara / ( 100.0 + alvprosentti) ;
             rivit_[rivi].ahintaSnt = netto;
-            emit dataChanged( createIndex(rivi, AHINTA , rivi), createIndex(rivi, AHINTA, rivi) );
             paivitaSumma(rivi);
 
             // Lisätään loppuun aina automaattisesti uusi rivi
@@ -334,13 +396,16 @@ bool LaskuModel::setData(const QModelIndex &index, const QVariant &value, int ro
 
 Qt::ItemFlags LaskuModel::flags(const QModelIndex &index) const
 {
-    return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
+    if( index.row() > 0 || tyyppi() != MAKSUMUISTUTUS)
+        return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
+
+    return  QAbstractTableModel::flags(index);  // Avoin summa ei ole muokattavissa!
 
 }
 
-int LaskuModel::laskunSumma() const
+qlonglong LaskuModel::laskunSumma() const
 {
-    int summa = 0;
+    qlonglong summa = avoinSaldo();     // Maksumuistusta varten
     foreach (LaskuRivi rivi, rivit_)
     {
         summa += std::round(rivi.yhteensaSnt());
@@ -368,14 +433,14 @@ qulonglong LaskuModel::laskunro() const
     if( laskunNumero_)
         return laskunNumero_;
 
-    qlonglong pohjanro = kp()->asetukset()->isoluku("LaskuSeuraavaId") / 10;
+    qulonglong pohjanro = kp()->asetukset()->isoluku("LaskuSeuraavaId") / 10;
     if( pohjanro < 100)
         pohjanro = 100;
 
     while(true)
     {
         // Lasketaan aina tunnistenumero uudelleen!!!
-        qlonglong numero = pohjanro * 10 + laskeViiteTarkiste(pohjanro);
+        qulonglong numero = pohjanro * 10 + laskeViiteTarkiste(pohjanro);
         // Varmistetaan, että tämä numero ei vielä ole käytössä!
         QSqlQuery kysely(QString("SELECT viite FROM vienti WHERE viite='%1' AND iban IS NULL").arg(numero));
         if( !kysely.next())
@@ -431,7 +496,7 @@ bool LaskuModel::tallenna(Tili rahatili)
 
     tosite.asetaPvm(pvm() );
 
-    if(  tyyppi() == HYVITYSLASKU && kirjausperuste() == MAKSUPERUSTE )
+    if(  (tyyppi() == HYVITYSLASKU || tyyppi() == MAKSUMUISTUTUS) && kirjausperuste() == MAKSUPERUSTE )
     {
         // Maksuperusteinen kirjataan samaan tositteeseen alkuperäisen laskun kanssa
         tosite.lataa( viittausLasku().tosite );
@@ -465,7 +530,7 @@ bool LaskuModel::tallenna(Tili rahatili)
 
     foreach (LaskuRivi rivi, rivit_)
     {
-        if( !rivi.ahintaSnt )
+        if( qAbs(rivi.ahintaSnt) < 0.001 )
             continue;   // Ei tyhjiä rivejä
 
         // Maksuperusteisen koodaus, jos käytössä maksuperusteinen
@@ -607,12 +672,10 @@ bool LaskuModel::tallenna(Tili rahatili)
     raharivi.kohdennus = tasekohdennus;
 
     if( laskunSumma() > 0 )
-        raharivi.debetSnt = laskunSumma();
+        raharivi.debetSnt = laskunSumma() - avoinSaldo();
     else
-        raharivi.kreditSnt = 0 - laskunSumma();
+        raharivi.kreditSnt = 0 - laskunSumma() - avoinSaldo();
 
-    if( !viittausLasku().viite.isEmpty() )
-        raharivi.eraId = viittausLasku().json.luku("TaseEra");
 
     // Sitten tälle rahariville kirjataan aiemmin laskut-taulussa olleet tiedot
     // #149 since 0.11
@@ -625,10 +688,15 @@ bool LaskuModel::tallenna(Tili rahatili)
     // Käteislaskulta ei jää velkaa, joten eräId:ksi tulee NULL
     raharivi.eraId = kirjausperuste() == KATEISLASKU ? TaseEra::EIERAA :  TaseEra::UUSIERA;
 
-    if( !viittausLasku().viite.isEmpty())
+    if( tyyppi() == HYVITYSLASKU )
     {
-        raharivi.json.set("Hyvityslasku", viittausLasku().viite.toInt());
+        raharivi.json.set("Hyvityslasku", viittausLasku().viite.toULongLong());
         raharivi.eraId = viittausLasku().eraId;        // EräId
+    }
+    else if( tyyppi() == MAKSUMUISTUTUS)
+    {
+        raharivi.json.set("Maksumuistutus", viittausLasku().viite.toULongLong());
+        raharivi.eraId = viittausLasku().eraId;
     }
     else if( kirjausperuste() != KATEISLASKU)
         raharivi.eraId = TaseEra::UUSIERA;
@@ -655,7 +723,7 @@ bool LaskuModel::tallenna(Tili rahatili)
     return true;
 }
 
-int LaskuModel::laskeViiteTarkiste(qulonglong luvusta)
+unsigned int LaskuModel::laskeViiteTarkiste(qulonglong luvusta)
 {
     int indeksi = 0;
     int summa = 0;
@@ -700,7 +768,7 @@ QString LaskuModel::tositetunnus()
 void LaskuModel::lisaaRivi(LaskuRivi rivi)
 {
     int rivia = rivit_.count();
-    if( rivia  && rivit_.value(rivia-1).ahintaSnt == 0)
+    if( rivia  && qAbs(rivit_.value(rivia-1).ahintaSnt) < 0.001)
     {
         // Jos viimeisenä on tyhjä rivi, korvataan se tällä ja lisätään sen jälkeen uusi
         rivit_[rivia-1] = rivi;
@@ -722,9 +790,26 @@ void LaskuModel::poistaRivi(int indeksi)
     emit summaMuuttunut(laskunSumma());
 }
 
+void LaskuModel::haeAvoinSaldo()
+{
+    // Haetaan maksumuistusta varten tämän erän avoin saldo
+
+    QString kysymys = QString("SELECT SUM(debetsnt), SUM(kreditsnt) FROM vienti WHERE eraid=%1 AND id!=%2")
+            .arg( viittausLasku().eraId ).arg( vientiId_ );
+
+    QSqlQuery kysely(kysymys);
+    if( kysely.next())
+    {
+        avoinSaldo_ = kysely.value(0).toLongLong() - kysely.value(1).toLongLong();
+    }
+
+}
+
 void LaskuModel::paivitaSumma(int rivi)
 {
-    emit dataChanged( createIndex(rivi, BRUTTOSUMMA, rivi), createIndex(rivi, BRUTTOSUMMA, rivi) );
+    if( tyyppi() == MAKSUMUISTUTUS)
+        rivi++; // Koska ylimmällä rivillä avoin saldo
+    emit dataChanged( createIndex(rivi, BRUTTOSUMMA), createIndex(rivi, BRUTTOSUMMA) );
     emit summaMuuttunut(laskunSumma());
 
 }

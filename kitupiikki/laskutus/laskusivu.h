@@ -50,7 +50,7 @@ class LaskuSivu : public KitupiikkiSivu
 {
 public:
     LaskuSivu();
-    ~LaskuSivu();
+    ~LaskuSivu() override;
 
     enum PaaLehdet { MYYNTI, OSTO, ASIAKAS, TOIMITTAJA };
     enum LajiLehdet { KAIKKI, AVOIMET, ERAANTYNEET, TIEDOT };
@@ -73,14 +73,15 @@ public slots:
 
     void hyvityslasku();
     void muokkaaLaskua();
+    void maksumuistutus();
 
 private:
     void luoUi();
 
     AsiakkaatModel* asiakasmodel_;
-    LaskutModel* laskumodel_ = 0;
+    LaskutModel* laskumodel_ = nullptr;
 
-    QSortFilterProxyModel* asiakasProxy_ = 0;
+    QSortFilterProxyModel* asiakasProxy_ = nullptr;
     QSortFilterProxyModel* laskuAsiakasProxy_;
     QSortFilterProxyModel* laskuViiteProxy_;
 

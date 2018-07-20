@@ -114,7 +114,8 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     connect( ui->tulostaNappi, SIGNAL(clicked(bool)), this, SLOT(tulostaLasku()));
     connect( ui->esikatseluNappi, SIGNAL(clicked(bool)), this, SLOT(esikatsele()));
     connect( ui->spostiNappi, SIGNAL(clicked(bool)), this, SLOT(lahetaSahkopostilla()));
-    connect( model, SIGNAL(summaMuuttunut(int)), this, SLOT(paivitaSumma(int)));
+
+    connect( model, &LaskuModel::summaMuuttunut, this, &LaskuDialogi::paivitaSumma);
     connect( ui->perusteCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(perusteVaihtuu()));
     connect( ui->saajaEdit, SIGNAL(textChanged(QString)), this, SLOT(haeOsoite()));
     connect( ui->rivitView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(rivienKontekstiValikko(QPoint)));
@@ -157,8 +158,11 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
                                          .arg( model->viittausLasku().viite)
                                          .arg( model->viittausLasku().pvm.toString("dd.MM.yyyy")));
     }
-
-    if( model->tyyppi() == LaskuModel::LASKU)
+    else if( model->tyyppi() == LaskuModel::MAKSUMUISTUTUS)
+    {
+        setWindowTitle( tr("Maksumuistutus"));
+    }
+    else if( model->tyyppi() == LaskuModel::LASKU)
     {
         ui->eraDate->setMinimumDate( kp()->paivamaara() );
         perusteVaihtuu();
@@ -178,7 +182,7 @@ LaskuDialogi::~LaskuDialogi()
     delete model;
 }
 
-void LaskuDialogi::paivitaSumma(int summa)
+void LaskuDialogi::paivitaSumma(qlonglong summa)
 {
     ui->summaLabel->setText( QString("%L1 €").arg(summa / 100.0,0,'f',2) );
 }

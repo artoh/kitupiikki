@@ -46,7 +46,7 @@ public:
     ~LaskuDialogi();
 
 private slots:
-    void paivitaSumma(int paivitaSumma);
+    void paivitaSumma(qlonglong paivitaSumma);
     void esikatsele();
     void perusteVaihtuu();
     void haeOsoite();

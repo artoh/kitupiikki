@@ -265,6 +265,12 @@ void LaskuSivu::muokkaaLaskua()
     dlg->show();
 }
 
+void LaskuSivu::maksumuistutus()
+{
+    LaskuDialogi *dlg = new LaskuDialogi( LaskuModel::teeMaksumuistutus( laskuView_->currentIndex().data(LaskutModel::VientiIdRooli).toInt() ));
+    dlg->show();
+}
+
 void LaskuSivu::luoUi()
 {
     paaTab_ = new QTabBar();
@@ -337,6 +343,7 @@ void LaskuSivu::luoUi()
     connect( hyvitysNappi_, &QPushButton::clicked, this, &LaskuSivu::hyvityslasku);
     nappileiska->addWidget(hyvitysNappi_);
     muistutusNappi_ = new QPushButton(QIcon(":/pic/varoitus.png"), tr("Maksumuistutus"));
+    connect( muistutusNappi_, &QPushButton::clicked, this, &LaskuSivu::maksumuistutus);
     nappileiska->addWidget(muistutusNappi_);
 
     nappileiska->addStretch();

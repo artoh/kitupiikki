@@ -57,10 +57,12 @@ class LaskuModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
-    LaskuModel(QObject *parent = 0);
+    LaskuModel(QObject *parent = nullptr);
 
-    static LaskuModel* teeHyvityslasku(int hyvitettavaVientiId);
+    static LaskuModel *teeHyvityslasku(int hyvitettavaVientiId);
+    static LaskuModel *teeMaksumuistutus(int muistutettavaVientiId);
     static LaskuModel *haeLasku(int vientiId);
+
 
 
     enum LaskuSarake
@@ -90,7 +92,7 @@ public:
     bool setData(const QModelIndex &index, const QVariant &value, int role);
     Qt::ItemFlags flags(const QModelIndex &index) const;
 
-    int laskunSumma() const;
+    qlonglong laskunSumma() const;
 
     /**
      * @brief Palauttaa kopion laskurivistä
@@ -118,6 +120,7 @@ public:
     qulonglong laskunro() const;
     QString viitenumero() const;
     Laskutyppi tyyppi() const { return tyyppi_; }
+    qlonglong avoinSaldo() const { return avoinSaldo_; }
 
 public slots:
 
@@ -143,7 +146,7 @@ public:
      * @param luvusta Viitenumero ilman tarkastetta
      * @return
      */
-    static int laskeViiteTarkiste(qulonglong luvusta);
+    static unsigned int laskeViiteTarkiste(qulonglong luvusta);
 
     /**
      * @brief Kirjanpidon tositetunnus
@@ -158,7 +161,10 @@ public slots:
     void poistaRivi(int indeksi);
 
 signals:
-    void summaMuuttunut(int summaSnt);
+    void summaMuuttunut(qlonglong summaSnt);
+
+protected:
+    void haeAvoinSaldo();
 
 private:
     QList<LaskuRivi> rivit_;
@@ -173,8 +179,9 @@ private:
     AvoinLasku viittausLasku_;
     Laskutyppi tyyppi_ = LASKU;
     int tositeId_ = 0;
-    qlonglong laskunNumero_ = 0;
+    qulonglong laskunNumero_ = 0;
     int vientiId_ = 0;
+    qlonglong avoinSaldo_ = 0;
 
     void paivitaSumma(int rivi);
 };

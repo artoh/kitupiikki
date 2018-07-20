@@ -94,8 +94,10 @@ QVariant LaskutModel::data(const QModelIndex &item, int role) const
     }
     else if( role == Qt::DecorationRole && item.column() == PVM)
     {
-        if( lasku.json.luku("Hyvityslasku") )
+        if( lasku.json.isoluku("Hyvityslasku") )
             return QIcon(":/pic/poista.png");
+        else if( lasku.json.isoluku("Maksumuistutus"))
+            return QIcon(":/pic/varoitus.png");
 
         switch (lasku.kirjausperuste) {
         case LaskuModel::SUORITEPERUSTE:
@@ -214,7 +216,7 @@ void LaskutModel::paivita(int valinta, QDate mista, QDate mihin)
         lasku.erapvm = query.value("erapvm").toDate();
         lasku.eraId = query.value("eraid").toInt();
         lasku.summaSnt = query.value("debetSnt").toInt() - query.value("kreditSnt").toInt();
-        lasku.avoinSnt = vientiId == lasku.eraId ? era.saldoSnt : 0;        // Hyvityslaskuille avoinsnt näytetään nollaa
+        lasku.avoinSnt = json.luku("Hyvityslasku") ? 0 : era.saldoSnt;        // Hyvityslaskuille avoinsnt näytetään nollaa
         lasku.asiakas = query.value("asiakas").toString();
         if( lasku.asiakas.isEmpty())
             lasku.asiakas = query.value("selite").toString();

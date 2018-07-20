@@ -57,7 +57,7 @@ class LaskutModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    LaskutModel(QObject *parent = 0);
+    LaskutModel(QObject *parent = nullptr);
 
 
     enum Laskuvalinta { KAIKKI, AVOIMET, ERAANTYNEET };
