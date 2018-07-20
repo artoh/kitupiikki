@@ -58,6 +58,10 @@ LaskuModel *LaskuModel::teeHyvityslasku(int hyvitettavaVientiId)
     model->asetaEmail( model->viittausLasku().json.str("Email") );
     model->asetaYTunnus( model->viittausLasku().json.str("YTunnus"));
     model->asetaToimituspaiva( model->viittausLasku().json.date("Toimituspvm"));
+    model->asetaLisatieto( tr("Hyvityslasku laskulle %1, päiväys %2")
+                                     .arg( model->viittausLasku().viite)
+                                     .arg( model->viittausLasku().pvm.toString("dd.MM.yyyy")));
+
 
     return model;
 }

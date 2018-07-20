@@ -146,6 +146,7 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     ui->eraDate->setEnabled( model->tyyppi() != LaskuModel::HYVITYSLASKU );
     ui->toimitusDate->setDate( model->toimituspaiva());
     ui->perusteCombo->setCurrentIndex( ui->perusteCombo->findData( model->kirjausperuste() ));
+    ui->lisatietoEdit->setPlainText( model->lisatieto() );
 
 
     if( model->tyyppi() == LaskuModel::HYVITYSLASKU)
@@ -154,13 +155,13 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
         ui->toimituspvmLabel->setText( tr("Hyvityspvm"));
         ui->rahaTiliEdit->valitseTiliIdlla( model->viittausLasku().tiliid );
         ui->rahaTiliEdit->setEnabled(false);
-        ui->lisatietoEdit->setPlainText( tr("Hyvityslasku laskulle %1, päiväys %2")
-                                         .arg( model->viittausLasku().viite)
-                                         .arg( model->viittausLasku().pvm.toString("dd.MM.yyyy")));
     }
     else if( model->tyyppi() == LaskuModel::MAKSUMUISTUTUS)
     {
         setWindowTitle( tr("Maksumuistutus"));
+        ui->rahaTiliEdit->valitseTiliIdlla( model->viittausLasku().tiliid );
+        ui->rahaTiliEdit->setEnabled(false);
+
     }
     else if( model->tyyppi() == LaskuModel::LASKU)
     {
