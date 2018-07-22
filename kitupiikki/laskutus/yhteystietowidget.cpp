@@ -102,8 +102,6 @@ void YhteystietoWidget::tallenna()
 
     kysely.exec();
 
-    qDebug() << kysely.lastError().text();
-
     ui_->tallennaNappi->setEnabled(false);
     ui_->nimiEdit->setEnabled(false);
 

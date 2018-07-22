@@ -172,7 +172,6 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                             "pvm between \"%2\" and \"%3\" order by pvm")
                             .arg(tili.numero()).arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate)) );
 
-                qDebug() << kysely.lastQuery();
                 while( kysely.next() )
                 {
                     RaporttiRivi rr;
@@ -249,7 +248,6 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                     if( tili.onko(TiliLaji::VASTATTAVAA))
                         alkusnt = 0 - alkusnt;
 
-                    qDebug() << kysely.value("id").toInt();
 
                     RaporttiRivi nimirivi;
                     QString tunniste = QString("%1%2/%3")

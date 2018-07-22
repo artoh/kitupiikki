@@ -424,8 +424,6 @@ void Raportoija::sijoitaTulosKyselyData(const QString &kysymys, int i)
 {
     QSqlQuery query(kysymys);
 
-    qDebug() << query.lastQuery() << " " << query.lastError().text();
-
     qlonglong tulossumma = 0;
 
     while( query.next())

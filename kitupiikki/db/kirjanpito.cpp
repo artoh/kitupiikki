@@ -301,7 +301,6 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
                 lkysely.bindValue(":json", json.toJson());
 
                 lkysely.exec();
-                qDebug() << lkysely.lastQuery() << lkysely.lastError().text();
 
                 if( kirjausperuste == LaskuModel::MAKSUPERUSTE)
                     QSqlQuery eraaja( QString("UPDATE vienti SET eraid=id WHERE id=%1").arg( lkysely.lastInsertId().toInt() ));
@@ -410,7 +409,6 @@ void Kirjanpito::paivita(int versioon)
     foreach (QString kysely,sqlista)
     {
         query.exec(kysely);
-        qDebug() << query.lastQuery() << query.lastError().text();
         qApp->processEvents();
     }
 }

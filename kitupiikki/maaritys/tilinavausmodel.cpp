@@ -209,7 +209,6 @@ bool TilinavausModel::tallenna()
             kysely.bindValue(":kredit", iter.value());
         }
         kysely.exec();
-        qDebug() << kysely.lastQuery() << " " << kysely.lastError().text();
     }
     kp()->asetukset()->aseta("Tilinavaus",1);   // Tilit merkitään avatuiksi
 

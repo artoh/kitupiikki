@@ -265,7 +265,6 @@ void PdfTuonti::tuoPdfTiliote()
 
     if( valiMats.hasMatch())
     {
-        qDebug()  << valiMats.captured();
 
         int vuosi = valiMats.captured("v1").toInt();
         if( !vuosi )
@@ -457,7 +456,6 @@ void PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuosiluku = 
             {
                 QRegularExpressionMatch mats = rahaRe.match(teksti);
                 // +/- ennen tai jälkeen
-                // qDebug() << mats.captured() << " " << mats.captured("etu") << "|" << mats.captured("taka");
 
                 if( mats.captured("etu") != mats.captured("taka"))
                 {

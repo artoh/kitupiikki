@@ -45,6 +45,7 @@ LaskuSivu::LaskuSivu()
     : asiakasmodel_(new AsiakkaatModel(this))
 {
     luoUi();
+    paaTab_->setCurrentIndex(MYYNTI);
     lajiTab_->setCurrentIndex(LaskutModel::AVOIMET);
 
     connect( paaTab_, &QTabBar::currentChanged, this, &LaskuSivu::paaTab );
@@ -88,8 +89,6 @@ LaskuSivu::LaskuSivu()
     connect( laskuView_->selectionModel(), &QItemSelectionModel::selectionChanged,
              this, &LaskuSivu::laskuValintaMuuttuu);
 
-
-    paaTab(MYYNTI);
 }
 
 LaskuSivu::~LaskuSivu()

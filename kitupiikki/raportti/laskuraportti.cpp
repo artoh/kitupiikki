@@ -252,7 +252,6 @@ RaportinKirjoittaja LaskuRaportti::ostolaskut(QDate saldopvm, bool avoimet, Lask
                          "WHERE eraid=%1 AND pvm <= '%2'")
                              .arg( kysely.value("vienti.id").toInt()  ).arg(saldopvm.toString(Qt::ISODate)));
 
-        qDebug() << erakysely.lastQuery();
 
         while( erakysely.next())
         {

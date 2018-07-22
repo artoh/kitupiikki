@@ -223,8 +223,6 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, Q
         // Mahdollisen alv-velan kuittaaminen alv-saatavilla
         if( kp()->tilit()->tiliTyypilla(TiliLaji::VEROSAATAVA).onkoValidi())
         {
-            qDebug() << kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA).saldoPaivalle(pvm);
-            qDebug() << kp()->tilit()->tiliTyypilla(TiliLaji::VEROSAATAVA).saldoPaivalle(pvm);
 
             if( kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA).saldoPaivalle(pvm) == qAbs(sentit) + kp()->tilit()->tiliTyypilla(TiliLaji::VEROSAATAVA).saldoPaivalle(pvm) )
             {
@@ -256,7 +254,6 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, Q
 
         QSqlQuery kysely( QString("SELECT id, tili, selite, kohdennus FROM vienti WHERE iban='%1' AND viite='%2' ORDER BY pvm")
                           .arg(iban).arg(viite) );
-        qDebug() << kysely.lastQuery();
         while( kysely.next())
         {
             int eraId = kysely.value("id").toInt();

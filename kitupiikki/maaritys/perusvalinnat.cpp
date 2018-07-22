@@ -96,7 +96,8 @@ bool Perusvalinnat::nollaa()
     uusilogo = QImage();
 
     // Jos logotiedosto, merkitään se
-    ui->logoLabel->setPixmap( QPixmap::fromImage( kp()->logo().scaled(64, 64, Qt::KeepAspectRatio) ) );
+    if( !kp()->logo().isNull())
+        ui->logoLabel->setPixmap( QPixmap::fromImage( kp()->logo().scaled(64, 64, Qt::KeepAspectRatio) ) );
 
     ui->sijaintiLabel->setText( kp()->tiedostopolku() );
 
@@ -172,7 +173,7 @@ bool Perusvalinnat::tallenna()
     if( ui->muotoCombo->currentText() != kp()->asetukset()->asetus("Muoto"))
     {
         // Muodon vaihto pitää vielä varmistaa
-        if( QMessageBox::question(0, tr("Vahvista muutos"),
+        if( QMessageBox::question(nullptr, tr("Vahvista muutos"),
                                   tr("Haluatko todella tehdä muutoksen\n"
                                      "%1: %2").arg( kp()->asetukset()->asetus("MuotoTeksti") )
                                               .arg( ui->muotoCombo->currentText()),

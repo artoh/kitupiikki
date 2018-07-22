@@ -47,14 +47,12 @@ bool TarArkisto::lisaaTiedosto(const QString &polku)
 
     if( !info.exists() || !info.size() )
     {
-        qDebug() << "Tiedostoa " << polku << " ei löydy.";
         return false;
     }
 
     QFile in(polku);
     if( !in.open(QIODevice::ReadOnly))
     {
-        qDebug() << "Tiedostoa " << polku << " ei voi avata.";
         return false;
     }
 
@@ -99,7 +97,6 @@ bool TarArkisto::lisaaTiedosto(const QString &polku)
     QByteArray tyhja( jaannos, '\0');
     write( tyhja );
 
-    qDebug() << info.fileName() << " " << info.size();
 
     return true;
 

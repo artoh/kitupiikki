@@ -120,10 +120,12 @@ int main(int argc, char *argv[])
     Kirjanpito kirjanpito;
     Kirjanpito::asetaInstanssi(&kirjanpito);
 
+
     // Viivakoodifontti
     QFontDatabase::addApplicationFont(":/code128_XL.ttf");
 
     KitupiikkiIkkuna ikkuna;
+
     ikkuna.show();
     splash->finish( &ikkuna );
     delete splash;

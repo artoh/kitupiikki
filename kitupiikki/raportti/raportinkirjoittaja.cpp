@@ -111,8 +111,6 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
     int tekijayhteensa = 0; // Lasketaan jäävän tilan jako
     int jaljella = sivunleveys;
 
-    qDebug() << sivunleveys;
-
     for( int i=0; i < sarakkeet_.count(); i++)
     {
        int leveys = 0;

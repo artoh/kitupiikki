@@ -50,8 +50,6 @@ void OstolaskutModel::paivita(int valinta, QDate mista, QDate mihin)
     if( mista.isValid() && mihin.isValid())
         kysely.append( QString(" AND pvm BETWEEN '%1' AND '%2' ") .arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate)) );
 
-    qDebug() << kysely;
-
     beginResetModel();
     laskut.clear();
     QSqlQuery query( kysely );

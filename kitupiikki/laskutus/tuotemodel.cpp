@@ -95,8 +95,6 @@ int TuoteModel::lisaaTuote(LaskuRivi tuote)
     tuotteet_.append( tuote );
     endInsertRows();
 
-    qDebug() << kysely.lastQuery();
-    qDebug() << kysely.lastError().text();
 
     return tuote.tuoteKoodi;
 }
