@@ -60,7 +60,7 @@
 
 
 KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
-    : QWidget(parent), model_(tositeModel), laskuDlg_(0), apurivinkki_(0),
+    : QWidget(parent), model_(tositeModel), laskuDlg_(nullptr), apurivinkki_(nullptr),
       taydennysSql_( new QSqlQueryModel )
 {
     ui = new Ui::KirjausWg();
@@ -68,8 +68,6 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
 
     ui->viennitView->setModel( model_->vientiModel() );
 
-    connect( model_->vientiModel() , SIGNAL(siirryRuutuun(QModelIndex)), ui->viennitView, SLOT(setCurrentIndex(QModelIndex)));
-    connect( model_->vientiModel(), SIGNAL(siirryRuutuun(QModelIndex)), ui->viennitView, SLOT(edit(QModelIndex)));
     connect( model_->vientiModel(), SIGNAL(muuttunut()), this, SLOT(naytaSummat()));
 
     ui->viennitView->setItemDelegateForColumn( VientiModel::PVM, new PvmDelegaatti(ui->tositePvmEdit));
