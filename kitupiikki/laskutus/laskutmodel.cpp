@@ -97,7 +97,7 @@ QVariant LaskutModel::data(const QModelIndex &item, int role) const
         if( lasku.json.isoluku("Hyvityslasku") )
             return QIcon(":/pic/poista.png");
         else if( lasku.json.isoluku("Maksumuistutus"))
-            return QIcon(":/pic/varoitus.png");
+            return QIcon(":/pic/punainenkuori.png");
 
         switch (lasku.kirjausperuste) {
         case LaskuModel::SUORITEPERUSTE:
@@ -111,7 +111,12 @@ QVariant LaskutModel::data(const QModelIndex &item, int role) const
 
         }
     }
-
+    else if( role == Qt::DecorationRole && item.column() == ERAPVM)
+    {
+        // Jos maksumuistutus on jo lähetetty, näytetään siitä maksumuistutuksen kuvake
+        if( lasku.muistutettu )
+            return  QIcon(":/pic/punainenkuori.png");
+    }
     else if( role == TositeRooli)
         return lasku.tosite;
     else if( role == AvoinnaRooli)
@@ -151,6 +156,8 @@ QVariant LaskutModel::data(const QModelIndex &item, int role) const
         return lasku.vientiId;
     else if( role == SummaRooli)
         return lasku.summaSnt;
+    else if( role == MuistutettuRooli)
+        return lasku.muistutettu;
 
     return QVariant();
 }
@@ -201,7 +208,7 @@ void LaskutModel::paivita(int valinta, QDate mista, QDate mihin)
         TaseEra era( query.value("eraid").toInt());
         int vientiId = query.value("vienti.id").toInt();
 
-        if( valinta == AVOIMET && (!era.saldoSnt || era.eraId != vientiId))
+        if( valinta == AVOIMET && (!era.saldoSnt || !query.value("erapvm").toDate().isValid() ))
             continue;
         if( valinta == ERAANTYNEET && ( !era.saldoSnt || query.value("erapvm").toDate() > kp()->paivamaara() ))
             continue;
@@ -225,6 +232,20 @@ void LaskutModel::paivita(int valinta, QDate mista, QDate mihin)
         lasku.tiliid = query.value("tili").toInt();
         lasku.json = json;
         lasku.kohdennusId = query.value("kohdennus").toInt();
+
+        // Jos lasku on erääntynyt, selvitetään, onko siitä jo lähetetty maksumuistutus
+        if( lasku.erapvm < kp()->paivamaara())
+        {
+            QString muistutuskysymys = QString("SELECT json FROM vienti WHERE eraid=%1").arg(lasku.eraId);
+            QSqlQuery muistutuskysely(muistutuskysymys);
+            while( muistutuskysely.next())
+            {
+                JsonKentta muistutusJson( muistutuskysely.value("json").toByteArray() );
+                if( muistutusJson.str("Maksumuistutus")==lasku.viite)
+                    lasku.muistutettu = true;
+            }
+        }
+
         laskut.append(lasku);
     }
     endResetModel();

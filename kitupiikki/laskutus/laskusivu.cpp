@@ -153,6 +153,10 @@ void LaskuSivu::paivitaLaskulista()
     laskuView_->setVisible( lajiTab_->currentIndex() != TIEDOT);
     yhteystiedot_->setVisible( lajiTab_->currentIndex() == TIEDOT);
 
+    asiakasSuodatusEdit_->setEnabled( lajiTab_->currentIndex() != TIEDOT);
+    mistaEdit_->setEnabled( lajiTab_->currentIndex() != TIEDOT );
+    mihinEdit_->setEnabled( lajiTab_->currentIndex() != TIEDOT );
+
     if( lajiTab_->currentIndex() < TIEDOT && laskumodel_)
     {
         laskumodel_->paivita( lajiTab_->currentIndex(), mistaEdit_->date(), mihinEdit_->date() );
@@ -190,14 +194,16 @@ void LaskuSivu::laskuValintaMuuttuu()
         // Tarkistetaan, onko muokkaaminen sallittu
         TositeModel tositeModel( kp()->tietokanta());
         tositeModel.lataa(tosite);
+        bool muokkausSallittu = tositeModel.muokkausSallittu() &&
+                ( index.data(LaskutModel::KirjausPerusteRooli).toInt() != LaskuModel::MAKSUPERUSTE ||
+                  index.data(LaskutModel::SummaRooli).toLongLong() == index.data(LaskutModel::AvoinnaRooli).toLongLong() );
 
-        muokkaaNappi_->setEnabled( tositeModel.muokkausSallittu() &&
-                                  ( index.data(LaskutModel::KirjausPerusteRooli).toInt() != LaskuModel::MAKSUPERUSTE ||
-                                    index.data(LaskutModel::SummaRooli).toLongLong() == index.data(LaskutModel::AvoinnaRooli).toLongLong() ));
-        poistaNappi_->setEnabled( tositeModel.muokkausSallittu() );
+        muokkaaNappi_->setEnabled( muokkausSallittu );
+        poistaNappi_->setEnabled( muokkausSallittu );
 
         hyvitysNappi_->setEnabled( index.data(LaskutModel::TyyppiRooli).toInt() == LaskuModel::LASKU );
-        muistutusNappi_->setVisible( index.data(LaskutModel::EraPvmRooli).toDate() < kp()->paivamaara());
+        muistutusNappi_->setVisible( index.data(LaskutModel::EraPvmRooli).toDate() < kp()->paivamaara() &&
+                                     !index.data(LaskutModel::MuistutettuRooli).toBool());
 
     }
     else
@@ -271,6 +277,24 @@ void LaskuSivu::maksumuistutus()
     dlg->show();
 }
 
+void LaskuSivu::poistaLasku()
+{
+
+    TositeModel tosite( kp()->tietokanta() );
+    tosite.lataa( laskuView_->currentIndex().data(LaskutModel::VientiIdRooli).toInt() );
+
+
+    if( QMessageBox::question(nullptr, tr("Vahvista laskun poistaminen"),
+                              tr("Haluatko varmasti poistaa laskun %1 asiakkaalle %2")
+                              .arg(laskuView_->currentIndex().data(LaskutModel::ViiteRooli).toString())
+                              .arg(laskuView_->currentIndex().data(LaskutModel::AsiakasRooli).toString()),
+                              QMessageBox::Yes | QMessageBox::No,
+                              QMessageBox::No) != QMessageBox::Yes)
+        return;
+
+    tosite.poista();
+}
+
 void LaskuSivu::luoUi()
 {
     paaTab_ = new QTabBar();
@@ -339,6 +363,7 @@ void LaskuSivu::luoUi()
     nappileiska->addWidget(tositeNappi_);
     poistaNappi_ = new QPushButton(QIcon(":/pic/roskis.png"), tr("Poista"));
     nappileiska->addWidget(poistaNappi_);
+    connect( poistaNappi_, &QPushButton::clicked, this, &LaskuSivu::poistaLasku);
     hyvitysNappi_ = new QPushButton(QIcon(":/pic/poista.png"), tr("&Hyvityslasku"));
     connect( hyvitysNappi_, &QPushButton::clicked, this, &LaskuSivu::hyvityslasku);
     nappileiska->addWidget(hyvitysNappi_);

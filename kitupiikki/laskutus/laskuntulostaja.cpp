@@ -703,7 +703,7 @@ void LaskunTulostaja::tilisiirto(QPagedPaintDevice *printer, QPainter *painter)
 
 
     painter->save();
-    painter->setFont(QFont("Sans", 7.5));
+    painter->setFont(QFont("Sans", 7));
     painter->translate(mm * 2, mm* 60);
     painter->rotate(-90.0);
     painter->drawText(0,0,tr("TILISIIRTO. GIRERING"));

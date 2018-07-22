@@ -45,6 +45,7 @@ struct AvoinLasku
     JsonKentta json;
     int kohdennusId;
     int vientiId = 0;
+    bool muistutettu = false;
 };
 
 /**
@@ -76,7 +77,8 @@ public:
            EraPvmRooli = Qt::UserRole + 13,
            IndeksiRooli = Qt::UserRole + 14,
            VientiIdRooli = Qt::UserRole + 15,
-           SummaRooli = Qt::UserRole + 16
+           SummaRooli = Qt::UserRole + 16,
+           MuistutettuRooli = Qt::UserRole + 17
          };
 
     int rowCount(const QModelIndex &parent) const;
