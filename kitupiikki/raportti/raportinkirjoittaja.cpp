@@ -93,7 +93,7 @@ void RaportinKirjoittaja::lisaaTyhjaRivi()
             rivit_.append( RaporttiRivi());
 }
 
-int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, bool raidoita, int alkusivunumero)
+int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, bool raidoita, int alkusivunumero) const
 {
     if( rivit_.isEmpty())
         return 0;     // Ei tulostettavaa !
@@ -394,7 +394,7 @@ QString RaportinKirjoittaja::html(bool linkit)
     return txt;
 }
 
-QByteArray RaportinKirjoittaja::pdf(bool taustaraidat, bool tulostaA4)
+QByteArray RaportinKirjoittaja::pdf(bool taustaraidat, bool tulostaA4) const
 {
     QByteArray array;
     QBuffer buffer(&array);
@@ -454,7 +454,7 @@ QByteArray RaportinKirjoittaja::csv()
         return txt.toUtf8();
 }
 
-void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu)
+void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu) const
 {
 
     painter->setFont(QFont("Sans",10));

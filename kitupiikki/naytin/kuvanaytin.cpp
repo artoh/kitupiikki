@@ -14,41 +14,41 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#include "naytinview.h"
-
-#include "pdfscene.h"
 #include "kuvanaytin.h"
 
-NaytinView::NaytinView(QWidget *parent)
-    : QGraphicsView(parent)
+#include <QGraphicsPixmapItem>
+#include <QPixmap>
+
+
+KuvaNaytin::KuvaNaytin(QObject *parent) :
+    NaytinScene (parent)
 {
 
 }
 
-
-void NaytinView::nayta(const QByteArray &data)
+KuvaNaytin::KuvaNaytin(const QByteArray &kuvadata, QObject *parent)
+    : KuvaNaytin( parent )
 {
-    if( data.startsWith("%PDF"))
-        vaihdaScene( new PdfScene(data, this) );
-    else
-        vaihdaScene( new KuvaNaytin(data, this));
-
+    naytaKuva( kuvadata );
 }
 
-void NaytinView::vaihdaScene(NaytinScene *uusi)
+bool KuvaNaytin::naytaKuva(const QByteArray &kuvadata)
 {
-    if( scene_)
-        scene_->deleteLater();
-
-    scene_ = uusi;
-    connect( uusi, &NaytinScene::sisaltoVaihtunut, this, &NaytinView::sisaltoVaihtunut );
-
-    setScene(uusi);
-    scene_->piirraLeveyteen( width() - 20.0 );
+    kuva_.loadFromData(kuvadata);
+    if( !kuva_.isNull())
+    {
+        emit sisaltoVaihtunut( "img" );
+        return true;
+    }
+    return false;
 }
 
-void NaytinView::resizeEvent(QResizeEvent * /*event*/)
+void KuvaNaytin::piirraLeveyteen(double leveyteen)
 {
-    if( scene_)
-        scene_->piirraLeveyteen( width() - 20.0);
+    clear();
+    double korkeus = leveyteen / kuva_.width() * kuva_.height();
+    QPixmap pixmap = QPixmap::fromImage( kuva_.scaled( qRound( leveyteen ),  qRound(korkeus), Qt::KeepAspectRatio) );
+    addPixmap( pixmap );
 }
+
+

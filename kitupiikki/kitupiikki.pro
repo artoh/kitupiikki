@@ -154,7 +154,9 @@ SOURCES += main.cpp \
     laskutus/yhteystietowidget.cpp \
     naytin/naytinscene.cpp \
     naytin/pdfscene.cpp \
-    naytin/naytinview.cpp
+    naytin/naytinview.cpp \
+    naytin/kuvanaytin.cpp \
+    naytin/raporttiscene.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -289,7 +291,9 @@ HEADERS += \
     laskutus/yhteystietowidget.h \
     naytin/naytinscene.h \
     naytin/pdfscene.h \
-    naytin/naytinview.h
+    naytin/naytinview.h \
+    naytin/kuvanaytin.h \
+    naytin/raporttiscene.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

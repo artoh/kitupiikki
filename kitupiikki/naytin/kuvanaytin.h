@@ -14,31 +14,26 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef NAYTINSCENE_H
-#define NAYTINSCENE_H
+#ifndef KUVANAYTIN_H
+#define KUVANAYTIN_H
 
+#include "naytinscene.h"
 
-#include <QGraphicsScene>
+#include <QImage>
 
-
-/**
- * @brief Scenen kantaluokka Nayttimeen
- */
-class NaytinScene : public QGraphicsScene
+class KuvaNaytin : public NaytinScene
 {
     Q_OBJECT
 public:
-    NaytinScene(QObject *parent = nullptr);
+    KuvaNaytin(QObject *parent = nullptr);
+    KuvaNaytin(const QByteArray& kuvadata, QObject *parent = nullptr);
 
-    virtual QString otsikko() const { return QString(); }
+    bool naytaKuva(const QByteArray& kuvadata);
 
-    virtual void piirraLeveyteen(double leveyteen) = 0;
+    void piirraLeveyteen(double leveyteen) override;
 
-signals:
-    void sisaltoVaihtunut(const QString& tyyppi);
-
-protected:
-
+private:
+    QImage kuva_;
 };
 
-#endif // NAYTINSCENE_H
+#endif // KUVANAYTIN_H

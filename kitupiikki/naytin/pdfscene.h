@@ -29,7 +29,7 @@ public:
 
     QString otsikko() const override;
 
-    void naytaPdf(const QByteArray& pdfdata);
+    bool naytaPdf(const QByteArray& pdfdata);
 
     void piirraLeveyteen(double leveyteen) override;
 

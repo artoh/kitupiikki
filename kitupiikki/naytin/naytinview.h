@@ -20,7 +20,6 @@
 #include <QGraphicsView>
 
 #include "naytinscene.h"
-#include "pdfscene.h"
 
 /**
  * @brief Widgetti liitteiden, raporttien jne esittämiseen

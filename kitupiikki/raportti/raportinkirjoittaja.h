@@ -127,7 +127,7 @@ public:
      * @param alkusivunumero Ensimmäisen tulostettavan sivun numero. Jos 0 ei tulosteta sivunumeroita.
      * @return sivuja tulostettu
      */
-    int tulosta(QPagedPaintDevice *printer, QPainter *painter, bool raidoita = false, int alkusivunumero = 1);
+    int tulosta(QPagedPaintDevice *printer, QPainter *painter, bool raidoita = false, int alkusivunumero = 1) const;
 
     /**
      * @brief Palauttaa raportin html-muodossa
@@ -141,7 +141,7 @@ public:
      * @param kaytaA4 Tulostaa asetuksista riippumatta A4
      * @return
      */
-    QByteArray pdf(bool taustaraidat = false, bool kaytaA4 = false);
+    QByteArray pdf(bool taustaraidat = false, bool kaytaA4 = false) const;
 
     /**
      * @brief Palauttaa raportin csv-muodossa
@@ -156,7 +156,7 @@ public:
     QString otsikko() const { return otsikko_; }
     QString kausiteksti() const { return kausiteksti_; }
 
-    void tulostaYlatunniste(QPainter *painter, int sivu);
+    void tulostaYlatunniste(QPainter *painter, int sivu) const;
 
 signals:
 

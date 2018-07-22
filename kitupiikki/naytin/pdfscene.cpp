@@ -36,9 +36,16 @@ QString PdfScene::otsikko() const
     return otsikko_;
 }
 
-void PdfScene::naytaPdf(const QByteArray &pdfdata)
+bool PdfScene::naytaPdf(const QByteArray &pdfdata)
 {
-    data_ = pdfdata;
+    if( pdfdata.startsWith("%PDF"))
+    {
+        data_ = pdfdata;
+        emit sisaltoVaihtunut("pdf");
+        return true;
+    }
+    return false;
+
 }
 
 void PdfScene::piirraLeveyteen(double leveyteen)

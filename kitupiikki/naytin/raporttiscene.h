@@ -14,31 +14,27 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef NAYTINSCENE_H
-#define NAYTINSCENE_H
+#ifndef RAPORTTISCENE_H
+#define RAPORTTISCENE_H
+
+#include "pdfscene.h"
+#include "raportti/raportinkirjoittaja.h"
 
 
-#include <QGraphicsScene>
-
-
-/**
- * @brief Scenen kantaluokka Nayttimeen
- */
-class NaytinScene : public QGraphicsScene
+class RaporttiScene : public PdfScene
 {
     Q_OBJECT
 public:
-    NaytinScene(QObject *parent = nullptr);
+    RaporttiScene(QObject *parent = nullptr);
+    RaporttiScene(RaportinKirjoittaja raportti, QObject *parent = nullptr);
 
-    virtual QString otsikko() const { return QString(); }
+    void nayta(RaportinKirjoittaja raportti);
 
-    virtual void piirraLeveyteen(double leveyteen) = 0;
+    QString otsikko() const override;
 
-signals:
-    void sisaltoVaihtunut(const QString& tyyppi);
 
-protected:
-
+private:
+    RaportinKirjoittaja raportti_;
 };
 
-#endif // NAYTINSCENE_H
+#endif // RAPORTTISCENE_H
