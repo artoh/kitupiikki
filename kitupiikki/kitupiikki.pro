@@ -151,7 +151,10 @@ SOURCES += main.cpp \
     validator/ytunnusvalidator.cpp \
     laskutus/asiakkaatmodel.cpp \
     laskutus/laskusivu.cpp \
-    laskutus/yhteystietowidget.cpp
+    laskutus/yhteystietowidget.cpp \
+    naytin/naytinscene.cpp \
+    naytin/pdfscene.cpp \
+    naytin/naytinview.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -283,7 +286,10 @@ HEADERS += \
     validator/ytunnusvalidator.h \
     laskutus/asiakkaatmodel.h \
     laskutus/laskusivu.h \
-    laskutus/yhteystietowidget.h
+    laskutus/yhteystietowidget.h \
+    naytin/naytinscene.h \
+    naytin/pdfscene.h \
+    naytin/naytinview.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

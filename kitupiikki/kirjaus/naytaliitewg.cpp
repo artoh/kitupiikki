@@ -36,6 +36,8 @@
 #include "naytaliitewg.h"
 #include "db/kirjanpito.h"
 
+#include "naytin/naytinview.h"
+
 
 NaytaliiteWg::NaytaliiteWg(QWidget *parent)
     : QStackedWidget(parent)
@@ -45,15 +47,13 @@ NaytaliiteWg::NaytaliiteWg(QWidget *parent)
     ui->setupUi(paasivu);
     addWidget(paasivu);
 
-    scene = new QGraphicsScene(this);
-    view = new QGraphicsView(scene);
+    view = new NaytinView(this);
 
     view->setDragMode( QGraphicsView::ScrollHandDrag);
 
     addWidget(view);
 
     connect(ui->valitseTiedostoNappi, SIGNAL(clicked(bool)), this, SLOT(valitseTiedosto()));
-
     connect( qApp->clipboard(), SIGNAL(dataChanged()), this, SLOT(tarkistaLeikepoyta()));
 
     setAcceptDrops(true);
@@ -76,51 +76,14 @@ void NaytaliiteWg::valitseTiedosto()
 
 void NaytaliiteWg::naytaPdf(const QByteArray &pdfdata)
 {
-    // 26.5.2018 Lisätty pdf-tarkastus
-    if( pdfdata.isEmpty()  || !pdfdata.startsWith("%PDF"))
+    if( pdfdata.isEmpty())
     {
         setCurrentIndex(0);
     }
     else
     {
-        // Näytä tiedosto
-        scene->setBackgroundBrush(QBrush(Qt::gray));
-        scene->clear();
-
-        // Näytä pdf
-        Poppler::Document *pdfDoc = Poppler::Document::loadFromData( pdfdata );
-
-        if( !pdfDoc )
-            return;
-
-        pdfDoc->setRenderHint(Poppler::Document::TextAntialiasing);
-        pdfDoc->setRenderHint(Poppler::Document::Antialiasing);
-
-
-        double ypos = 0.0;
-
-        // Monisivuisen pdf:n sivut pinotaan päällekkäin
-        for( int sivu = 0; sivu < pdfDoc->numPages(); sivu++)
-        {
-            Poppler::Page *pdfSivu = pdfDoc->page(sivu);
-
-            if( !pdfSivu )
-                continue;
-
-            QImage image = pdfSivu->renderToImage(144,144);
-            QPixmap kuva = QPixmap::fromImage( image, Qt::DiffuseAlphaDither);
-
-            QGraphicsPixmapItem *item = scene->addPixmap(kuva);
-            item->setY( ypos );
-            ypos += kuva.height();
-
-
-            delete pdfSivu;
-        }
-        delete pdfDoc;
-
-        // Tositteen näyttöwiget esiin
         setCurrentIndex(1);
+        view->nayta(pdfdata);
     }
 }
 

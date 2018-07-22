@@ -22,8 +22,7 @@
 #include "ui_tositewg.h"
 
 
-class QGraphicsScene;
-class QGraphicsView;
+class NaytinView;
 
 /**
  * @brief Liitteen näyttäminen
@@ -40,7 +39,7 @@ class NaytaliiteWg : public QStackedWidget
 {
     Q_OBJECT
 public:
-    NaytaliiteWg(QWidget *parent=0);
+    NaytaliiteWg(QWidget *parent=nullptr);
     ~NaytaliiteWg();
 
 public slots:
@@ -61,8 +60,7 @@ protected:
 protected:
     Ui::TositeWg *ui;
 
-    QGraphicsScene* scene;
-    QGraphicsView *view;
+    NaytinView *view;
 
 };
 
