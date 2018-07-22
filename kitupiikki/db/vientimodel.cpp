@@ -313,7 +313,6 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
             if( value.toDate().isValid())
             {
                 viennit_[index.row()].pvm = value.toDate();
-                emit siirryRuutuun( index.sibling(index.row(), TILI) );
                 emit muuttunut();
             }            
             return true;
@@ -346,15 +345,6 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
 
             emit dataChanged(index, index.sibling(index.row(), ALV));
 
-            if( uusitili.onkoValidi())
-            {
-                // Jos kirjataan tulotilille, niin siirrytään syöttämään kredit-summaa
-                if( uusitili.onko(TiliLaji::TULO) )
-                    emit siirryRuutuun(index.sibling(index.row(), KREDIT));
-                else
-                    emit siirryRuutuun(index.sibling(index.row(), DEBET));
-            }
-            emit muuttunut();
             return true;
         }
         case SELITE:
@@ -366,7 +356,6 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
             if(value.toLongLong())
             {
                 viennit_[index.row()].kreditSnt = 0;
-                emit siirryRuutuun(index.sibling(index.row(), KOHDENNUS));
                 emit muuttunut();
             }
             return true;
@@ -375,14 +364,12 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
             if( value.toLongLong())
             {
                 viennit_[index.row()].debetSnt = 0;
-                emit siirryRuutuun(index.sibling(index.row(), KOHDENNUS));
                 emit muuttunut();
             }
             return true;
         case KOHDENNUS:
             viennit_[rivi].kohdennus = kp()->kohdennukset()->kohdennus(value.toInt());
             emit muuttunut();
-            emit siirryRuutuun(index.sibling(index.row(), SELITE));
             return true;
         default:
             return false;

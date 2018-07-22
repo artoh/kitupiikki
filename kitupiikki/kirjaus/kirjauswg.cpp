@@ -545,7 +545,13 @@ bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
             }
             // Tositetyypistä pääsee tabulaattorilla uudelle riville
             else if( keyEvent->key() == Qt::Key_Tab && watched == ui->tositetyyppiCombo)
-                lisaaRivi();
+            {
+                if( !model()->vientiModel()->rowCount(QModelIndex()))
+                    lisaaRivi();
+                ui->viennitView->setFocus(Qt::TabFocusReason);
+                ui->viennitView->setCurrentIndex( ui->viennitView->model()->index(0,VientiModel::TILI));
+                return true;
+            }
         }
     }
     else if( watched == ui->viennitView->viewport() )
@@ -573,17 +579,60 @@ bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
     if( watched == ui->viennitView && event->type() == QEvent::KeyPress)
     {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-        if( keyEvent->key() == Qt::Key_Enter ||
+        if( ( keyEvent->key() == Qt::Key_Enter ||
             keyEvent->key() == Qt::Key_Return ||
-            keyEvent->key() == Qt::Key_Tab)
+            keyEvent->key() == Qt::Key_Tab) &&
+                keyEvent->modifiers() == Qt::NoModifier )
         {
-            qDebug() << ui->viennitView->currentIndex().column();
 
             if( ui->viennitView->currentIndex().column() == VientiModel::SELITE &&
                 ui->viennitView->currentIndex().row() == model()->vientiModel()->rowCount(QModelIndex()) - 1 )
             {
                 lisaaRivi();
+                ui->viennitView->setCurrentIndex( model()->vientiModel()->index( model()->vientiModel()->rowCount(QModelIndex())-1, VientiModel::TILI ) );
+                return true;
             }
+
+            else if( ui->viennitView->currentIndex().column() == VientiModel::TILI )
+            {
+                ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().siblingAtColumn(VientiModel::DEBET) );
+                Tili tili = kp()->tilit()->tiliIdlla( ui->viennitView->currentIndex().data(VientiModel::TiliIdRooli).toInt() );
+                if( tili.onko(TiliLaji::MENO))
+                    ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().siblingAtColumn(VientiModel::KREDIT) );
+                return true;
+            }
+
+            else if( ui->viennitView->currentIndex().column() == VientiModel::DEBET)
+            {
+                ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().siblingAtColumn(VientiModel::KREDIT) );
+                if( ui->viennitView->currentIndex().data(VientiModel::DebetRooli).toInt()  )
+                {
+                    ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().siblingAtColumn(VientiModel::KOHDENNUS) );
+                    // Enterillä suoraan uusi rivi
+                    if( ( keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return )
+                            && ui->viennitView->currentIndex().row() == model()->vientiModel()->rowCount(QModelIndex()) - 1 )
+                    {
+                        lisaaRivi();
+                        ui->viennitView->setCurrentIndex( model()->vientiModel()->index( model()->vientiModel()->rowCount(QModelIndex())-1, VientiModel::TILI ) );
+                    }
+                }
+                return true;
+            }
+            else if( ui->viennitView->currentIndex().column() < VientiModel::ALV)
+            {
+                // Enterillä pääsee suoraan seuraavalle riville
+                ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().siblingAtColumn( ui->viennitView->currentIndex().column()+1)  );
+                if( ( ui->viennitView->currentIndex().data(VientiModel::KreditRooli).toInt()  || ui->viennitView->currentIndex().data(VientiModel::DebetRooli).toInt() ) &&
+                    ( keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return ) &&
+                      ui->viennitView->currentIndex().row() == model()->vientiModel()->rowCount(QModelIndex()) - 1 )
+                {
+                    lisaaRivi();
+                    ui->viennitView->setCurrentIndex( model()->vientiModel()->index( model()->vientiModel()->rowCount(QModelIndex())-1, VientiModel::TILI ) );
+                }
+                return true;
+            }
+
+
         }
     }
 

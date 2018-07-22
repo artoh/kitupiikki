@@ -168,7 +168,6 @@ public slots:
 
 
 signals:
-    void siirryRuutuun(QModelIndex index);
     void muuttunut();
 
 protected:
