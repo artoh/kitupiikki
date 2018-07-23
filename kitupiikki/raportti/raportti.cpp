@@ -49,8 +49,6 @@
 #include <QSettings>
 
 
-#include "tools/pdfikkuna.h"
-
 #include "naytin/naytinikkuna.h"
 
 

@@ -23,7 +23,8 @@
 #include <QToolBar>
 #include <QMenu>
 #include <QSettings>
-
+#include <QMessageBox>
+#include <QSqlQuery>
 
 
 NaytinIkkuna::NaytinIkkuna(QWidget *parent) : QMainWindow(parent)
@@ -61,6 +62,39 @@ void NaytinIkkuna::nayta(const QByteArray& data)
     NaytinIkkuna *ikkuna = new NaytinIkkuna;
     ikkuna->show();
     ikkuna->view()->nayta(data);
+}
+
+void NaytinIkkuna::naytaTiedosto(const QString &tiedostonnimi)
+{
+    QByteArray data;
+    QFile tiedosto( tiedostonnimi);
+    if( tiedosto.open( QIODevice::ReadOnly) )
+    {
+        data = tiedosto.readAll();
+        tiedosto.close();
+        nayta( data );
+    }
+    else
+        QMessageBox::critical(nullptr, tr("Virhe tiedoston näyttämisessä"),
+                              tr("Tiedostoa %1 ei voi avata").arg(tiedostonnimi));
+
+}
+
+void NaytinIkkuna::naytaLiite(const int tositeId, const int liiteId)
+{
+    QSqlQuery kysely( QString("SELECT data FROM liite WHERE tosite=%1 AND liiteno=%2")
+                      .arg(tositeId).arg(liiteId));
+    if( kysely.next() )
+    {
+        QByteArray data = kysely.value("data").toByteArray();
+        nayta(data);
+    }
+    else
+    {
+        QMessageBox::critical(nullptr, tr("Virhe liitteen näyttämisessä"),
+                              tr("Liitettä %1-%2 ei löydy").arg(tositeId).arg(liiteId));
+    }
+
 }
 
 void NaytinIkkuna::sisaltoMuuttui(const QString& tyyppi)

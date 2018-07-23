@@ -32,7 +32,7 @@
 
 #include "arkisto/arkistosivu.h"
 
-#include "tools/pdfikkuna.h"
+#include "naytin/naytinikkuna.h"
 
 TilinPaattaja::TilinPaattaja(Tilikausi kausi,ArkistoSivu *arkisto , QWidget *parent) :
     QDialog(parent),
@@ -161,7 +161,7 @@ void TilinPaattaja::muokkaa()
 void TilinPaattaja::esikatsele()
 {
     // Avataan tilinpäätös
-    PdfIkkuna::naytaPdf( kp()->liitteet()->liite( tilikausi.alkaa().toString(Qt::ISODate) ) );
+    NaytinIkkuna::nayta( kp()->liitteet()->liite( tilikausi.alkaa().toString(Qt::ISODate) ) );
 }
 
 void TilinPaattaja::vahvista()

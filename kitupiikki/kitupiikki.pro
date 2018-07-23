@@ -142,7 +142,6 @@ SOURCES += main.cpp \
     tuonti/titotuonti.cpp \
     kirjaus/siirrydlg.cpp \
     laskutus/ostolaskutmodel.cpp \
-    tools/pdfikkuna.cpp \
     tools/kpdateedit.cpp \
     uusikp/kirjausperustesivu.cpp \
     tuonti/palkkafituonti.cpp \
@@ -280,7 +279,6 @@ HEADERS += \
     tuonti/titotuonti.h \
     kirjaus/siirrydlg.h \
     laskutus/ostolaskutmodel.h \
-    tools/pdfikkuna.h \
     tools/kpdateedit.h \
     uusikp/kirjausperustesivu.h \
     tuonti/palkkafituonti.h \

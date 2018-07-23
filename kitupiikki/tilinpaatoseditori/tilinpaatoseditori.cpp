@@ -25,7 +25,7 @@
 #include "tilinpaatostulostaja.h"
 #include "db/kirjanpito.h"
 #include "tpaloitus.h"
-#include "tools/pdfikkuna.h"
+#include "naytin/naytinikkuna.h"
 
 TilinpaatosEditori::TilinpaatosEditori(Tilikausi tilikausi, QWidget *parent)
     : QMainWindow(parent),
@@ -49,7 +49,7 @@ void TilinpaatosEditori::esikatsele()
 {    
     QString teksti = raportit_ + "\n" + editori_->toHtml();
 
-    PdfIkkuna::naytaPdf(TilinpaatosTulostaja::tulostaTilinpaatos( tilikausi_, teksti));
+    NaytinIkkuna::nayta(TilinpaatosTulostaja::tulostaTilinpaatos( tilikausi_, teksti));
 }
 
 void TilinpaatosEditori::luoAktiot()

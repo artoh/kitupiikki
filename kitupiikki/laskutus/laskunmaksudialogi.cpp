@@ -20,7 +20,7 @@
 #include "db/jsonkentta.h"
 #include "db/kirjanpito.h"
 #include "kirjaus/ehdotusmodel.h"
-#include "tools/pdfikkuna.h"
+#include "naytin/naytinikkuna.h"
 
 #include <QSqlQuery>
 #include <QMessageBox>
@@ -84,8 +84,13 @@ void LaskunMaksuDialogi::valintaMuuttuu()
 {
     QModelIndex index = ui->laskutView->currentIndex();
     ui->euroSpin->setValue( index.data(LaskutModel::AvoinnaRooli).toDouble() / 100.0 );
-    ui->naytaNappi->setEnabled( PdfIkkuna::onkoLiitetta( index.data(LaskutModel::TositeRooli).toInt(),
-                                                         index.data(LaskutModel::LiiteRooli).toInt() ) );
+
+    // Selvitetään tällaisella vähän hassun näköisellä kyselyllä, että onko näytettävä liite olemassa
+
+    QSqlQuery kysely( QString("SELECT id FROM liite WHERE tosite=%1 AND liiteno=%2")
+                      .arg(index.data(LaskutModel::TositeRooli).toInt()).arg( index.data(LaskutModel::LiiteRooli).toInt()  ));
+
+    ui->naytaNappi->setEnabled( kysely.next() );
 }
 
 void LaskunMaksuDialogi::kirjaa()
@@ -186,7 +191,7 @@ void LaskunMaksuDialogi::naytaLasku()
 {
     QModelIndex index =  ui->laskutView->currentIndex();
 
-    PdfIkkuna::naytaLiite( index.data(LaskutModel::TositeRooli).toInt(),
+    NaytinIkkuna::naytaLiite( index.data(LaskutModel::TositeRooli).toInt(),
                            index.data(LaskutModel::LiiteRooli).toInt() );
 }
 

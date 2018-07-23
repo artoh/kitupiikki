@@ -35,7 +35,7 @@
 #include <ctime>
 
 #include "kirjanpito.h"
-#include "tools/pdfikkuna.h"
+#include "naytin/naytinikkuna.h"
 
 
 Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
@@ -103,7 +103,7 @@ void Kirjanpito::ohje(const QString &ohjesivu)
 void Kirjanpito::avaaUrl(const QUrl &url)
 {
     if( url.fileName().endsWith(".pdf"))
-        PdfIkkuna::naytaPdf( url.path() );
+        NaytinIkkuna::naytaTiedosto( url.path() );
     else if( !QDesktopServices::openUrl(url) )
     {
         if( url.fileName().endsWith("html"))

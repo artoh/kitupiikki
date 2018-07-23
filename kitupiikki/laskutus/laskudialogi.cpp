@@ -28,7 +28,7 @@
 #include "kirjaus/tilidelegaatti.h"
 
 #include "kirjaus/verodialogi.h"
-#include "tools/pdfikkuna.h"
+#include "naytin/naytinikkuna.h"
 #include "validator/ytunnusvalidator.h"
 
 #include <QDebug>
@@ -192,7 +192,7 @@ void LaskuDialogi::esikatsele()
 {
     vieMalliin();
 
-    PdfIkkuna::naytaPdf( tulostaja->pdf() );
+    NaytinIkkuna::nayta( tulostaja->pdf() );
 }
 
 void LaskuDialogi::perusteVaihtuu()

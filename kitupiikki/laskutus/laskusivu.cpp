@@ -24,7 +24,7 @@
 #include "db/kirjanpito.h"
 #include "db/tositemodel.h"
 #include "lisaikkuna.h"
-#include "tools/pdfikkuna.h"
+#include "naytin/naytinikkuna.h"
 #include "yhteystietowidget.h"
 
 #include <QTabBar>
@@ -241,7 +241,7 @@ void LaskuSivu::naytaTosite()
 void LaskuSivu::naytaLasku()
 {
     QModelIndex index = laskuView_->currentIndex();
-    PdfIkkuna::naytaLiite( index.data(LaskutModel::TositeRooli).toInt(),
+    NaytinIkkuna::naytaLiite( index.data(LaskutModel::TositeRooli).toInt(),
                            index.data(LaskutModel::LiiteRooli).toInt());
 }
 

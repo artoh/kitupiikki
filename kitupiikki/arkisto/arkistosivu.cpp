@@ -42,7 +42,7 @@
 #include "tilinpaattaja.h"
 
 #include "tararkisto.h"
-#include "tools/pdfikkuna.h"
+#include "naytin/naytinikkuna.h"
 
 
 ArkistoSivu::ArkistoSivu()
@@ -237,7 +237,7 @@ void ArkistoSivu::tilinpaatos()
         if( kausi.tilinpaatoksenTila() == Tilikausi::VAHVISTETTU )
         {
             // Avataan tilinpäätös
-            PdfIkkuna::naytaPdf( kp()->liitteet()->liite( kausi.alkaa().toString(Qt::ISODate) ) );
+            NaytinIkkuna::nayta( kp()->liitteet()->liite( kausi.alkaa().toString(Qt::ISODate) ) );
         }
         else
         {
