@@ -230,9 +230,9 @@ void Arkistoija::arkistoiTositteet()
         if( liitteita )
         {
             // Liitteen laatikko, johon nykyinen liite ladataan
-            out << "<object type='application/pdf' width='100%' height='50%' class='liite' id='liite' data='";
+            out << "<iframe width='100%' height='50%' class='liite' id='liite' src='";
             out << liitteet.index(0,0).data(LiiteModel::TiedostoNimiRooli).toString();
-            out <<  "'></object>";
+            out <<  "'></iframe>";
 
             out << "<table class='liiteluettelo'>";
 
@@ -242,7 +242,7 @@ void Arkistoija::arkistoiTositteet()
             {
                 QModelIndex liiteIndeksi = liitteet.index(liiteInd,0);
 
-                out << "<tr><td onclick=\"$('#liite').attr('data','"
+                out << "<tr><td onclick=\"$('#liite').attr('src','"
                      << liiteIndeksi.data(LiiteModel::TiedostoNimiRooli).toString()
                      << "');\">" << liiteIndeksi.data(LiiteModel::OtsikkoRooli).toString()
                      << "</td><td><a href='" << liiteIndeksi.data(LiiteModel::TiedostoNimiRooli).toString()

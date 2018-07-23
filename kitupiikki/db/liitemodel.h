@@ -99,8 +99,6 @@ public:
 
     bool muokattu() const { return muokattu_; }
 
-    QString liiteNimi(int liitenro) const;
-
 
 public slots:
     void lataa();

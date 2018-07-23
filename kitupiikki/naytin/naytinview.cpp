@@ -335,4 +335,6 @@ void NaytinView::mousePressEvent(QMouseEvent *event)
 
         valikko.exec(QCursor::pos());
     }
+    else
+        QGraphicsView::mousePressEvent(event);
 }

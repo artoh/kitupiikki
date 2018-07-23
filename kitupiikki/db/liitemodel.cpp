@@ -62,8 +62,21 @@ QVariant LiiteModel::data(const QModelIndex &index, int role) const
         return QVariant( liite.otsikko );
     else if( role == Sharooli)
         return QVariant( liite.sha);
-    else if( role == TiedostoNimiRooli )
-        return liiteNimi( liite.liiteno );
+    else if( role == TiedostoNimiRooli && tositeModel_)
+    {
+        if( liite.pdf.startsWith("%PDF") )
+        {
+            return QString("%1-%2.pdf")
+                    .arg( tositeModel_->id(), 8, 10, QChar('0') )
+                    .arg( liite.liiteno , 2, 10, QChar('0') );
+        }
+        else if( liite.pdf.startsWith(  static_cast<char>( 0xff) ))
+        {
+            return QString("%1-%2.png")
+                    .arg( tositeModel_->id(), 8, 10, QChar('0') )
+                    .arg( liite.liiteno , 2, 10, QChar('0') );
+        }
+    }
     else if( role == PdfRooli )
         return liite.pdf;
     else if( role == LiiteNumeroRooli )
@@ -131,7 +144,7 @@ int LiiteModel::lisaaLiite(const QByteArray &liite, const QString &otsikko)
             delete pdfDoc;
         }
     }
-    else
+    else if( liite.startsWith(  static_cast<char>( 0xff) ))
     {
         // Peukkukuvan muodostaminen jpg-tiedostosta
         QImage kuva = QImage::fromData( liite, "JPG" );
@@ -218,16 +231,6 @@ QByteArray LiiteModel::liite(const QString &otsikko)
             return liite.pdf;
 
     return QByteArray();
-}
-
-QString LiiteModel::liiteNimi(int liitenro) const
-{
-    if(!tositeModel_)
-        return QString();
-
-    return QString("%1-%2.pdf")
-            .arg( tositeModel_->id(), 8, 10, QChar('0') )
-            .arg( liitenro, 2, 10, QChar('0') );
 }
 
 
