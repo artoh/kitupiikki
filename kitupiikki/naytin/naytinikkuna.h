@@ -39,6 +39,7 @@ public:
     NaytinView* view() { return view_;}
 
     static void naytaRaportti(RaportinKirjoittaja raportti);
+    static void nayta(const QByteArray &data);
 
 private slots:
     void sisaltoMuuttui(const QString& tyyppi);

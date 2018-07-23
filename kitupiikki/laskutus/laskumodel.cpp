@@ -514,7 +514,7 @@ bool LaskuModel::tallenna(Tili rahatili)
     QString liiteOtsikko = tr("Lasku nr %1").arg(laskunro());
     LaskunTulostaja tulostaja(this);
 
-    int liitenro = tosite.liiteModel()->lisaaPdf( tulostaja.pdf(), liiteOtsikko );
+    int liitenro = tosite.liiteModel()->lisaaLiite( tulostaja.pdf(), liiteOtsikko );
 
 
     // #96 Laskun kirjaaminen yhdistelmäriveillä

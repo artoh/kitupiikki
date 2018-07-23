@@ -74,18 +74,18 @@ public:
 
     /**
      * @brief Lisää pdf:n
-     * @param pdf
+     * @param liite
      * @param otsikko
      * @return Liitteen nro
      */
-    int lisaaPdf(const QByteArray &pdf, const QString& otsikko);
+    int lisaaLiite(const QByteArray &liite, const QString& otsikko);
     /**
      * @brief Jos samalla otsikolla olemassa, korvaa - muuten lisää
      * @param pdf
      * @param otsikko
      * @return
      */
-    int asetaPdf(const QByteArray &pdf, const QString& otsikko);
+    int asetaLiite(const QByteArray &liite, const QString& otsikko);
 
     int lisaaTiedosto(const QString& polku, const QString& otsikko);
     void poistaLiite(int indeksi);

@@ -56,6 +56,13 @@ void NaytinIkkuna::naytaRaportti(RaportinKirjoittaja raportti)
     ikkuna->view()->nayta(raportti);
 }
 
+void NaytinIkkuna::nayta(const QByteArray& data)
+{
+    NaytinIkkuna *ikkuna = new NaytinIkkuna;
+    ikkuna->show();
+    ikkuna->view()->nayta(data);
+}
+
 void NaytinIkkuna::sisaltoMuuttui(const QString& tyyppi)
 {
     setWindowTitle( view()->otsikko() );

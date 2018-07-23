@@ -147,7 +147,7 @@ void Kirjanpito::asetaLogo(const QImage &logo)
     buffer.close();
 
     // Tallennetaan NULL-liitteeksi
-    liitteet_->asetaPdf( ba, "logo" );
+    liitteet_->asetaLiite( ba, "logo" );
     liitteet_->tallenna();
 }
 

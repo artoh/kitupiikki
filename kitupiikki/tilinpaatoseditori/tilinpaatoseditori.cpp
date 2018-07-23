@@ -237,7 +237,7 @@ void TilinpaatosEditori::tallenna()
 
     QByteArray pdf = TilinpaatosTulostaja::tulostaTilinpaatos( tilikausi_, teksti);
 
-    kp()->liitteet()->asetaPdf( pdf, tilikausi_.alkaa().toString(Qt::ISODate) );
+    kp()->liitteet()->asetaLiite( pdf, tilikausi_.alkaa().toString(Qt::ISODate) );
     kp()->liitteet()->tallenna();
 
     // Tallennetaan myös Arkistoon

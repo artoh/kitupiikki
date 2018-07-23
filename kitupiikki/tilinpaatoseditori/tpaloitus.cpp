@@ -103,7 +103,7 @@ void TpAloitus::lataaTiedosto()
                                   .arg(luku.errorString()));
 
 
-        kp()->liitteet()->asetaPdf( luku.readAll(), tilikausi.alkaa().toString(Qt::ISODate) );
+        kp()->liitteet()->asetaLiite( luku.readAll(), tilikausi.alkaa().toString(Qt::ISODate) );
         kp()->liitteet()->tallenna();
 
         reject();

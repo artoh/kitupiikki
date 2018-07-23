@@ -100,32 +100,48 @@ bool LiiteModel::setData(const QModelIndex &index, const QVariant &value, int ro
     return false;
 }
 
-int LiiteModel::lisaaPdf(const QByteArray &pdf, const QString &otsikko)
+int LiiteModel::lisaaLiite(const QByteArray &liite, const QString &otsikko)
 {
     beginInsertRows( QModelIndex(), liitteet_.count(), liitteet_.count() );
     Liite uusi;
 
     uusi.liiteno = seuraavaNumero();
-    uusi.pdf = pdf;
+    uusi.pdf = liite;
     uusi.otsikko = otsikko;
     uusi.muokattu = true;
 
-    // Peukkukuvan muodostaminen
-    Poppler::Document *pdfDoc = Poppler::Document::loadFromData( pdf );
-    if( pdfDoc )
+    if( liite.startsWith("%PDF"))
     {
-        Poppler::Page *pdfsivu = pdfDoc->page(0);
-        if( pdfsivu )
+
+        // Peukkukuvan muodostaminen
+        Poppler::Document *pdfDoc = Poppler::Document::loadFromData( liite );
+        if( pdfDoc )
         {
-            QImage image = pdfsivu->renderToImage(24,24);
-            QPixmap kuva = QPixmap::fromImage( image.scaled(64,64,Qt::KeepAspectRatio) );
+            Poppler::Page *pdfsivu = pdfDoc->page(0);
+            if( pdfsivu )
+            {
+                QImage image = pdfsivu->renderToImage(24,24);
+                QPixmap kuva = QPixmap::fromImage( image.scaled(64,64,Qt::KeepAspectRatio) );
+                QBuffer buffer(&uusi.thumbnail);
+                buffer.open(QIODevice::WriteOnly);
+                kuva.save(&buffer, "PNG");
+
+                delete pdfsivu;
+            }
+            delete pdfDoc;
+        }
+    }
+    else
+    {
+        // Peukkukuvan muodostaminen jpg-tiedostosta
+        QImage kuva = QImage::fromData( liite, "JPG" );
+        if( !kuva.isNull())
+        {
+            QPixmap peukkukuva = QPixmap::fromImage( kuva.scaled(64,64,Qt::KeepAspectRatio) );
             QBuffer buffer(&uusi.thumbnail);
             buffer.open(QIODevice::WriteOnly);
-            kuva.save(&buffer, "PNG");
-
-            delete pdfsivu;
+            peukkukuva.save(&buffer, "PNG");
         }
-        delete pdfDoc;
     }
 
     liitteet_.append(uusi);
@@ -137,7 +153,7 @@ int LiiteModel::lisaaPdf(const QByteArray &pdf, const QString &otsikko)
     return uusi.liiteno;
 }
 
-int LiiteModel::asetaPdf(const QByteArray &pdf, const QString &otsikko)
+int LiiteModel::asetaLiite(const QByteArray &liite, const QString &otsikko)
 {
     for(int i=0; i < liitteet_.count(); i++)
         if( liitteet_.at(i).otsikko == otsikko)
@@ -145,7 +161,7 @@ int LiiteModel::asetaPdf(const QByteArray &pdf, const QString &otsikko)
             poistaLiite(i);
             break;
         }
-    return lisaaPdf(pdf, otsikko);
+    return lisaaLiite(liite, otsikko);
 }
 
 int LiiteModel::lisaaTiedosto(const QString &polku, const QString &otsikko)
@@ -155,7 +171,7 @@ int LiiteModel::lisaaTiedosto(const QString &polku, const QString &otsikko)
     QFile tiedosto(polku);
     if( !tiedosto.open(QIODevice::ReadOnly) )
     {
-        QMessageBox::critical(0, tr("Tiedostovirhe"),
+        QMessageBox::critical(nullptr, tr("Tiedostovirhe"),
                               tr("Tiedoston %1 avaaminen epäonnistui \n%2").arg(polku).arg(tiedosto.errorString()));
         return 0;
     }
@@ -164,37 +180,22 @@ int LiiteModel::lisaaTiedosto(const QString &polku, const QString &otsikko)
 
     if( !data.startsWith("%PDF"))
     {
-        QByteArray pdf;
+        // Kuvatiedostot muunnetaan jpg-muotoon
+        QByteArray jpg;
         QImage kuva(polku);
         if( kuva.isNull())
             return 0;
 
 
-        QBuffer puskuri(&pdf);
+        QBuffer puskuri(&jpg);
         puskuri.open(QBuffer::WriteOnly);
-
-        QPdfWriter writer( &puskuri );
-        writer.setTitle( otsikko );
-        writer.setPageSize( QPageSize(QPageSize::A4));
-
-        QPainter painter( &writer );
-
-        QRect rect = painter.viewport();
-        QSize size = kuva.size();
-
-        size.scale( rect.size(), Qt::KeepAspectRatio );
-        painter.setViewport( rect.x(), rect.y(),                             size.width(), size.height());
-        painter.setWindow( kuva.rect() );
-
-
-        painter.drawImage(0,0,kuva);
-        painter.end();
+        kuva.save(&puskuri, "JPG");
 
         puskuri.close();
-        return lisaaPdf(pdf, otsikko);
+        return lisaaLiite(jpg, otsikko);
     }
 
-    return lisaaPdf(data, otsikko);
+    return lisaaLiite(data, otsikko);
 }
 
 void LiiteModel::poistaLiite(int indeksi)

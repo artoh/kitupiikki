@@ -54,7 +54,7 @@
 #include "tuonti/tuonti.h"
 #include "apurivinkki.h"
 #include "ui_numerosiirto.h"
-#include "tools/pdfikkuna.h"
+#include "naytin/naytinikkuna.h"
 #include "ui_kopioitosite.h"
 
 
@@ -930,7 +930,7 @@ void KirjausWg::naytaLiite()
 {
     QModelIndex index = ui->liiteView->currentIndex();
     if( index.isValid())
-        PdfIkkuna::naytaPdf( index.data(LiiteModel::PdfRooli).toByteArray() );
+        NaytinIkkuna::nayta( index.data(LiiteModel::PdfRooli).toByteArray() );
 
 }
 
