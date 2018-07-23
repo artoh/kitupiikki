@@ -46,3 +46,8 @@ QByteArray RaporttiScene::csv()
 {
     return  raportti_.csv();
 }
+
+bool RaporttiScene::csvMuoto()
+{
+    return raportti_.csvKaytossa();
+}

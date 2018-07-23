@@ -31,6 +31,8 @@ public:
 
     bool naytaPdf(const QByteArray& pdfdata);
 
+    QString tyyppi() const override { return "pdf"; }
+
     void piirraLeveyteen(double leveyteen) override;
 
 protected:

@@ -62,6 +62,8 @@ void NaytinIkkuna::sisaltoMuuttui(const QString& tyyppi)
 {
     setWindowTitle( view()->naytinScene()->otsikko() );
 
+    csvNappi_->setEnabled( view()->naytinScene()->csvMuoto() );
+
     // Tyypin mukaan napit
 }
 

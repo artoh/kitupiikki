@@ -43,6 +43,13 @@ bool KuvaNaytin::naytaKuva(const QByteArray &kuvadata)
     return false;
 }
 
+QString KuvaNaytin::tyyppi() const
+{
+    if( kuva_.isNull())
+        return  QString();
+    return "img";
+}
+
 void KuvaNaytin::piirraLeveyteen(double leveyteen)
 {
     clear();

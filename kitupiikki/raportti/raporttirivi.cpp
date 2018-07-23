@@ -25,18 +25,17 @@ RaporttiRivi::RaporttiRivi(RivinKaytto kaytto)
 
 }
 
-void RaporttiRivi::lisaa(const QString &teksti, int sarakkeet, bool tasaaOikealle, RaporttiRiviSarake::SarakkeenKaytto kaytto)
+void RaporttiRivi::lisaa(const QString &teksti, int sarakkeet, bool tasaaOikealle)
 {
     RaporttiRiviSarake uusi;
     uusi.arvo = QVariant(teksti);
 
     uusi.leveysSaraketta = sarakkeet;
     uusi.tasaaOikealle = tasaaOikealle;
-    uusi.kaytto = kaytto;
     sarakkeet_.append(uusi);
 }
 
-void RaporttiRivi::lisaaLinkilla(RaporttiRiviSarake::Linkki linkkityyppi, int linkkitieto, const QString &teksti, int sarakkeet, RaporttiRiviSarake::SarakkeenKaytto kaytto)
+void RaporttiRivi::lisaaLinkilla(RaporttiRiviSarake::Linkki linkkityyppi, int linkkitieto, const QString &teksti, int sarakkeet)
 {
     RaporttiRiviSarake uusi;
     uusi.arvo = QVariant( teksti );
@@ -44,24 +43,22 @@ void RaporttiRivi::lisaaLinkilla(RaporttiRiviSarake::Linkki linkkityyppi, int li
     uusi.leveysSaraketta = sarakkeet;
     uusi.linkkityyppi = linkkityyppi;
     uusi.linkkidata = linkkitieto;
-    uusi.kaytto = kaytto;
     sarakkeet_.append(uusi);
 }
 
-void RaporttiRivi::lisaa(qlonglong sentit, bool tulostanollat,RaporttiRiviSarake::SarakkeenKaytto kaytto)
+void RaporttiRivi::lisaa(qlonglong sentit, bool tulostanollat)
 {
     RaporttiRiviSarake uusi;
     if( sentit || tulostanollat)
         uusi.arvo = QVariant(sentit);
 
     uusi.tasaaOikealle = true;
-    uusi.kaytto = kaytto;
     sarakkeet_.append( uusi );
 }
 
-void RaporttiRivi::lisaa(const QDate &pvm, RaporttiRiviSarake::SarakkeenKaytto kaytto)
+void RaporttiRivi::lisaa(const QDate &pvm)
 {
-    lisaa( pvm.toString("dd.MM.yyyy"), 1, false, kaytto);
+    lisaa( pvm.toString("dd.MM.yyyy"), 1, false);
 }
 
 QString RaporttiRivi::teksti(int sarake)

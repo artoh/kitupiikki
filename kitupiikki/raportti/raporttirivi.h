@@ -35,8 +35,6 @@ struct RaporttiRiviSarake
         TILI_LINKKI = 3
     };
 
-    enum SarakkeenKaytto { KAIKKI, EICSV, CSV};
-
     bool tasaaOikealle = false;
 
     QVariant arvo;
@@ -46,7 +44,6 @@ struct RaporttiRiviSarake
 
     Linkki linkkityyppi = EI_LINKKIA;
     int linkkidata = 0;
-    SarakkeenKaytto kaytto = KAIKKI;
 
 };
 
@@ -76,8 +73,7 @@ public:
      * @param sarakkeet Kuinka monen sarakkeen levyisenä
      * @param tasaaOikealle Tasataanko oikealle (oletuksena vasemmalle)
      */
-    void lisaa(const QString& teksti, int sarakkeet = 1, bool tasaaOikealle = false,
-               RaporttiRiviSarake::SarakkeenKaytto kaytto = RaporttiRiviSarake::KAIKKI);
+    void lisaa(const QString& teksti, int sarakkeet = 1, bool tasaaOikealle = false);
 
     /**
      * @brief Lisää tekstisarakkeen, joka toimii linkkinä
@@ -90,21 +86,19 @@ public:
      * @param sarakkeet Leveys saraketta
      */
     void lisaaLinkilla(RaporttiRiviSarake::Linkki linkkityyppi, int linkkitieto,
-                       const QString& teksti, int sarakkeet = 1,
-                       RaporttiRiviSarake::SarakkeenKaytto kaytto = RaporttiRiviSarake::KAIKKI);
+                       const QString& teksti, int sarakkeet = 1);
     /**
      * @brief Lisää rahamäärän
      * @param sentit Rahamäärä sentteinä
      * @param tulostanollat Tulostetaanko nollat (oletuksena ei)
      */
-    void lisaa(qlonglong sentit,bool tulostanollat = false,
-               RaporttiRiviSarake::SarakkeenKaytto kaytto = RaporttiRiviSarake::KAIKKI);
+    void lisaa(qlonglong sentit,bool tulostanollat = false);
 
     /**
      * @brief Lisää päivämäärän
      * @param pvm Päivämäärä QDate:na
      */
-    void lisaa(const QDate& pvm, RaporttiRiviSarake::SarakkeenKaytto kaytto = RaporttiRiviSarake::KAIKKI);
+    void lisaa(const QDate& pvm);
 
     /**
      * @brief Sarakkeiden lukumäärä

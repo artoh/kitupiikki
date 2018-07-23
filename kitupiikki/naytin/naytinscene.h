@@ -34,10 +34,15 @@ public:
 
     virtual void piirraLeveyteen(double leveyteen) = 0;
 
+    virtual QString tyyppi() const = 0;
+
     void csvLeikepoydalle();
+    virtual bool csvMuoto() { return false; }
 
 protected:
     virtual QByteArray csv() { return QByteArray(); }
+
+
 
 signals:
     void sisaltoVaihtunut(const QString& tyyppi);

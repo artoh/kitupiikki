@@ -49,6 +49,8 @@ void NaytinView::vaihdaScene(NaytinScene *uusi)
     scene_ = uusi;
     connect( uusi, &NaytinScene::sisaltoVaihtunut, this, &NaytinView::sisaltoVaihtunut );
 
+    emit( sisaltoVaihtunut(scene_->tyyppi()));
+
     setScene(uusi);
     scene_->piirraLeveyteen( width() - 20.0 );
 }

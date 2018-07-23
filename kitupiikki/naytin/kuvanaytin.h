@@ -30,6 +30,9 @@ public:
 
     bool naytaKuva(const QByteArray& kuvadata);
 
+    QString tyyppi() const override;
+    QString otsikko() const override { return tr("Kitupiikki");}
+
     void piirraLeveyteen(double leveyteen) override;
 
 private:
