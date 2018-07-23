@@ -20,6 +20,7 @@
 
 #include <QGraphicsScene>
 
+class QPrinter;
 
 /**
  * @brief Scenen kantaluokka Nayttimeen
@@ -42,11 +43,13 @@ public:
     virtual QString tiedostonMuoto() = 0;
     virtual QString tiedostoPaate() = 0;
     virtual QByteArray data() = 0;
+    virtual QString html() { return QString(); }
+
+    virtual void tulosta(QPrinter* printer) = 0;
+
+    virtual bool raidoita(bool raidat = false);
 
     virtual bool sivunAsetuksetMuuttuneet() { return false;}
-
-signals:
-    void sisaltoVaihtunut(const QString& tyyppi);
 
 protected:
 

@@ -20,7 +20,9 @@
 #include "pdfscene.h"
 #include "raportti/raportinkirjoittaja.h"
 
-
+/**
+ * @brief Raportin käsittely Näyttimessä
+ */
 class RaporttiScene : public PdfScene
 {
     Q_OBJECT
@@ -36,12 +38,14 @@ public:
     virtual bool csvMuoto() override;
 
     virtual QByteArray csv() override;
+    virtual QString html() override;
 
     virtual bool sivunAsetuksetMuuttuneet() override;
-
+    virtual bool raidoita(bool raidat=false) override;
 
 private:
     RaportinKirjoittaja raportti_;
+    bool raidat_ = false;
 };
 
 #endif // RAPORTTISCENE_H

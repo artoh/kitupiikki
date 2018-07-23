@@ -111,6 +111,9 @@
         <file>Joulupossu.png</file>
         <file>punainenkuori.png</file>
         <file>raidoitus.png</file>
+        <file>zoom-fit-width.png</file>
+        <file>zoom-in.png</file>
+        <file>zoom-out.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

@@ -38,10 +38,13 @@ public:
     QByteArray data() override { return data_; }
 
     void piirraLeveyteen(double leveyteen) override;
+    void tulosta(QPrinter *printer) override;
+
 
 protected:
     QByteArray data_;
     QString otsikko_;
+
 };
 
 #endif // PDFSCENE_H

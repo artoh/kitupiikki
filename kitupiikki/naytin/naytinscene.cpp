@@ -24,4 +24,9 @@ NaytinScene::NaytinScene(QObject *parent)
 
 }
 
+bool NaytinScene::raidoita(bool /* raidat */)
+{
+    return false;
+}
+
 

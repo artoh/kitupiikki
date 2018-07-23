@@ -33,8 +33,7 @@ RaporttiScene::RaporttiScene(RaportinKirjoittaja raportti, QObject *parent) :
 void RaporttiScene::nayta(RaportinKirjoittaja raportti)
 {
     raportti_ = raportti;
-    naytaPdf( raportti_.pdf() );
-    emit sisaltoVaihtunut("raportti");
+    naytaPdf( raportti_.pdf(raidat_) );
 }
 
 QString RaporttiScene::otsikko() const
@@ -47,9 +46,21 @@ QByteArray RaporttiScene::csv()
     return  raportti_.csv();
 }
 
+QString RaporttiScene::html()
+{
+    return raportti_.html();
+}
+
 bool RaporttiScene::sivunAsetuksetMuuttuneet()
 {
-    naytaPdf( raportti_.pdf() );
+    naytaPdf( raportti_.pdf(raidat_) );
+    return true;
+}
+
+bool RaporttiScene::raidoita(bool raidat)
+{
+    raidat_ = raidat;
+    naytaPdf( raportti_.pdf(raidat_));
     return true;
 }
 

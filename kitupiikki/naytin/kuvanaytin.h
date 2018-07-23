@@ -39,6 +39,8 @@ public:
     QString tiedostoPaate() override { return "jpg"; }
     QByteArray data() override;
 
+    void tulosta(QPrinter* printer) override;
+
 private:
     QImage kuva_;
 };

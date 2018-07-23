@@ -18,6 +18,8 @@
 
 #include <poppler/qt5/poppler-qt5.h>
 #include <QGraphicsPixmapItem>
+#include <QPrinter>
+#include <QPainter>
 
 PdfScene::PdfScene(QObject *parent)
     : NaytinScene (parent)
@@ -41,7 +43,6 @@ bool PdfScene::naytaPdf(const QByteArray &pdfdata)
     if( pdfdata.startsWith("%PDF"))
     {
         data_ = pdfdata;
-        emit sisaltoVaihtunut("pdf");
         return true;
     }
     return false;
@@ -95,3 +96,22 @@ void PdfScene::piirraLeveyteen(double leveyteen)
 
     delete pdfDoc;
 }
+
+void PdfScene::tulosta(QPrinter *printer)
+{
+    QPainter painter(printer);
+
+    Poppler::Document *document = Poppler::Document::loadFromData(data_);
+    document->setRenderBackend(Poppler::Document::ArthurBackend);
+
+    int pageCount = document->numPages();
+    for(int i=0; i < pageCount; i++)
+    {
+        document->page(i)->renderToPainter( &painter, printer->resolution(), printer->resolution(),
+                                            0,0,document->page(i)->pageSize().width(), document->page(i)->pageSize().height());
+        printer->newPage();
+    }
+    painter.end();
+}
+
+

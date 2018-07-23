@@ -38,22 +38,10 @@ public:
 
     NaytinView* view() { return view_;}
 
-
     static void naytaRaportti(RaportinKirjoittaja raportti);
-
-signals:
-
-public slots:
-
 
 private slots:
     void sisaltoMuuttui(const QString& tyyppi);
-    void csvAsetukset();
-    void csvLeikepoydalle();
-    void tallennaCsv();
-    void tallenna();
-    void avaaOhjelmalla();
-    void sivunAsetukset();
 
 private:
     void teeToolbar();

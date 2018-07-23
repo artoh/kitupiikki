@@ -32,7 +32,7 @@ class QCheckBox;
 /**
  * @brief Raportin kantaluokka
  *
- * Raporttikehys, jossa raportin tulostus ja esikatselu.
+ * Raporttikehys, jossa raportin esikatselu.
  * Tästä periytetty raporttiluokka luo oman käyttöliittymänsä
  * raporttiWidget -widgetin sisään
  *
@@ -63,35 +63,14 @@ signals:
 
 public slots:
     /**
-     * @brief Tulostaa raportin
-     */
-    void tulosta();
-    /**
      * @brief Pdf-raportin esikatselu
      */
     void esikatsele();
-
-    /**
-     * @brief Avaa html-muotoisena selaimessa
-     */
-    void avaaHtml();
-
-
-    /**
-     * @brief Näyttää dialogin sivun asetuksista
-     */
-    void sivunAsetukset();
-
-    /**
-     * @brief Kopioi raportin leikepöydälle
-     */
-    void leikepoydalle();
 
 
 
 protected:
     QWidget *raporttiWidget;
-    QCheckBox *raitaCheck;
 
 
 };

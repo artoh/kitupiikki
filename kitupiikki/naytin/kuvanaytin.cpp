@@ -20,6 +20,8 @@
 #include <QPixmap>
 #include <QByteArray>
 #include <QBuffer>
+#include <QPainter>
+#include <QPrinter>
 
 KuvaNaytin::KuvaNaytin(QObject *parent) :
     NaytinScene (parent)
@@ -38,7 +40,6 @@ bool KuvaNaytin::naytaKuva(const QByteArray &kuvadata)
     kuva_.loadFromData(kuvadata);
     if( !kuva_.isNull())
     {
-        emit sisaltoVaihtunut( "img" );
         return true;
     }
     return false;
@@ -69,6 +70,18 @@ QByteArray KuvaNaytin::data()
     buffer.close();
 
     return ba;
+}
+
+void KuvaNaytin::tulosta(QPrinter *printer)
+{
+    QPainter painter( printer );
+    QRect rect = painter.viewport();
+    QSize size = kuva_.size();
+    size.scale(rect.size(), Qt::KeepAspectRatio);
+    painter.setViewport( rect.x(), rect.y(),
+                         size.width(), size.height());
+    painter.setWindow(kuva_.rect());
+    painter.drawImage(0, 0, kuva_);
 }
 
 

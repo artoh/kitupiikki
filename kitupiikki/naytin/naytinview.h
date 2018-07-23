@@ -21,6 +21,8 @@
 #include "naytinscene.h"
 #include "raportti/raportinkirjoittaja.h"
 
+class QAction;
+
 /**
  * @brief Widgetti liitteiden, raporttien jne esittämiseen
  */
@@ -35,26 +37,48 @@ public slots:
     void nayta(RaportinKirjoittaja raportti);
     void sivunAsetuksetMuuttuneet();
     void paivita();
+    void raidoita(bool raidat);
+    void tulosta();
+    void sivunAsetukset();
+    void avaaOhjelmalla();
+    void tallenna();
+
+    void avaaHtml();
+    void htmlLeikepoydalle();
+    void tallennaHtml();
+
+    void csvAsetukset();
+    void tallennaCsv();
+    void csvLeikepoydalle();
 
     QString otsikko() const;
-
     bool csvKaytossa() const;
 
-
-    QByteArray csv();
     QString tiedostonMuoto();
     QString tiedostoPaate();
+    QByteArray csv();
     QByteArray data();
+    QString html();
 
 signals:
     void sisaltoVaihtunut(const QString& tyyppi);
+
 
 protected:
     void vaihdaScene(NaytinScene* uusi);
     void resizeEvent(QResizeEvent *event) override;
 
+    void mousePressEvent(QMouseEvent *event) override;
 
+    double zoomaus_ = 1.00;
     NaytinScene *scene_ = nullptr;
+
+    QAction* zoomAktio_;
+    QAction* zoomInAktio_;
+    QAction* zoomOutAktio_;
+    QAction* tulostaAktio_;
+    QAction* tallennaAktio_;
+
 };
 
 #endif // NAYTINVIEW_H
