@@ -23,7 +23,7 @@
 
 class NaytinView;
 class QAction;
-class QToolButton;
+
 
 
 /**
@@ -57,8 +57,10 @@ private:
 private:
     NaytinView *view_;
 
-    QToolButton *htmlNappi_;
-    QToolButton *csvNappi_;
+    QAction *csvAktio_;
+    QAction *htmlAktio_;
+
+
 
 };
 

@@ -62,7 +62,7 @@ void NaytinIkkuna::sisaltoMuuttui(const QString& tyyppi)
 {
     setWindowTitle( view()->naytinScene()->otsikko() );
 
-    csvNappi_->setEnabled( view()->naytinScene()->csvMuoto() );
+    csvAktio_->setEnabled( view()->naytinScene()->csvMuoto() );
 
     // Tyypin mukaan napit
 }
@@ -124,21 +124,29 @@ void NaytinIkkuna::csvAsetukset()
 void NaytinIkkuna::teeToolbar()
 {
     QToolBar *tb = addToolBar(tr("Ikkuna"));
+    tb->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 
     tb->addAction(QIcon(":/pic/peru.png"), tr("Sulje"), this, SLOT(close()));
+    tb->addSeparator();
 
+    tb->addAction(QIcon(":/pic/pdf.png"), tr("Avaa"));
+    tb->addAction(QIcon(":/pic/tiedostoon.png"), tr("Tallenna"));
 
     tb->addSeparator();
 
-    htmlNappi_ = new QToolButton;
-    htmlNappi_->setIcon( QIcon(":/pic/web.png"));
-    htmlNappi_->setText( tr("HTML"));
+    tb->addAction(QIcon(":/pic/sivunasetukset.png"), tr("Raidat"));
+    tb->addAction(QIcon(":/pic/sivunasetukset.png"), tr("Sivun asetukset"));
+    tb->addAction(QIcon(":/pic/tulosta.png"), tr("Tulosta"));
 
-    tb->addWidget(htmlNappi_);
+    tb->addSeparator();
 
-    csvNappi_ = new QToolButton();
-    csvNappi_->setIcon( QIcon(":/pic/csv.png"));
-    csvNappi_->setText(tr("CSV"));
+    htmlAktio_ = new QAction(QIcon(":/pic/web.png"), tr("HTML") );
+    tb->addAction(htmlAktio_);
+
+    csvAktio_ = new QAction(QIcon(":/pic/csv.png"), tr("CSV") );
+    tb->addAction(csvAktio_);
+    QToolButton *csvBtn = dynamic_cast<QToolButton*>( tb->widgetForAction(csvAktio_) );
+
     QMenu *csvValikko = new QMenu();
 
     QAction *csvLeikepoydelleAktio = new QAction( QIcon(":/pic/csv.png"), tr("Leikepöydälle") );
@@ -148,8 +156,7 @@ void NaytinIkkuna::teeToolbar()
     connect( csvAsetukset, &QAction::triggered, this, &NaytinIkkuna::csvAsetukset);
     csvValikko->addAction(csvAsetukset);
 
+    csvBtn->setMenu(csvValikko);
 
-    csvNappi_->setMenu(csvValikko);
-    tb->addWidget(csvNappi_);
 }
 
