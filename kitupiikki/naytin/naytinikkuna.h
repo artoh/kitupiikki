@@ -48,14 +48,21 @@ public slots:
 
 private slots:
     void sisaltoMuuttui(const QString& tyyppi);
-
     void csvAsetukset();
+    void csvLeikepoydalle();
+    void tallennaCsv();
+    void tallenna();
+    void avaaOhjelmalla();
+    void sivunAsetukset();
 
 private:
     void teeToolbar();
 
 private:
     NaytinView *view_;
+
+    QAction *avaaAktio_;
+    QAction *raitaAktio_;
 
     QAction *csvAktio_;
     QAction *htmlAktio_;

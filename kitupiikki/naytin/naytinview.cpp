@@ -41,6 +41,47 @@ void NaytinView::nayta(RaportinKirjoittaja raportti)
     vaihdaScene( new RaporttiScene(raportti)  );
 }
 
+void NaytinView::sivunAsetuksetMuuttuneet()
+{
+    if( scene_->sivunAsetuksetMuuttuneet() )
+        paivita();
+}
+
+void NaytinView::paivita()
+{
+    scene_->piirraLeveyteen( width() - 20.0 );
+}
+
+QString NaytinView::otsikko() const
+{
+    return scene_->otsikko();
+}
+
+bool NaytinView::csvKaytossa() const
+{
+    return scene_->csvMuoto();
+}
+
+QByteArray NaytinView::csv()
+{
+    return scene_->csv();
+}
+
+QString NaytinView::tiedostonMuoto()
+{
+    return scene_->tiedostonMuoto();
+}
+
+QString NaytinView::tiedostoPaate()
+{
+    return scene_->tiedostoPaate();
+}
+
+QByteArray NaytinView::data()
+{
+    return scene_->data();
+}
+
 void NaytinView::vaihdaScene(NaytinScene *uusi)
 {
     if( scene_)
@@ -52,7 +93,7 @@ void NaytinView::vaihdaScene(NaytinScene *uusi)
     emit( sisaltoVaihtunut(scene_->tyyppi()));
 
     setScene(uusi);
-    scene_->piirraLeveyteen( width() - 20.0 );
+    paivita();
 }
 
 void NaytinView::resizeEvent(QResizeEvent * /*event*/)

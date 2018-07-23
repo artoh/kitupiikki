@@ -36,13 +36,14 @@ public:
 
     virtual QString tyyppi() const = 0;
 
-    void csvLeikepoydalle();
     virtual bool csvMuoto() { return false; }
-
-protected:
     virtual QByteArray csv() { return QByteArray(); }
 
+    virtual QString tiedostonMuoto() = 0;
+    virtual QString tiedostoPaate() = 0;
+    virtual QByteArray data() = 0;
 
+    virtual bool sivunAsetuksetMuuttuneet() { return false;}
 
 signals:
     void sisaltoVaihtunut(const QString& tyyppi);

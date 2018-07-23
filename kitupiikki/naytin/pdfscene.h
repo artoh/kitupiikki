@@ -33,6 +33,10 @@ public:
 
     QString tyyppi() const override { return "pdf"; }
 
+    QString tiedostonMuoto() override { return tr("pdf-tiedosto (*.pdf");}
+    QString tiedostoPaate() override { return "pdf"; }
+    QByteArray data() override { return data_; }
+
     void piirraLeveyteen(double leveyteen) override;
 
 protected:

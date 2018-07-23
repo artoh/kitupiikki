@@ -15,14 +15,22 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "naytinikkuna.h"
-
 #include "naytinview.h"
+#include "db/kirjanpito.h"
 
 #include <QSettings>
 #include <QAction>
 #include <QToolButton>
 #include <QToolBar>
 #include <QMenu>
+#include <QPageSetupDialog>
+
+#include <QMimeData>
+#include <QApplication>
+#include <QClipboard>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QDesktopServices>
 
 #include <QDialog>
 #include "ui_csvvientivalinnat.h"
@@ -60,11 +68,16 @@ void NaytinIkkuna::naytaRaportti(RaportinKirjoittaja raportti)
 
 void NaytinIkkuna::sisaltoMuuttui(const QString& tyyppi)
 {
-    setWindowTitle( view()->naytinScene()->otsikko() );
-
-    csvAktio_->setEnabled( view()->naytinScene()->csvMuoto() );
+    setWindowTitle( view()->otsikko() );
+    csvAktio_->setEnabled( view()->csvKaytossa() );
 
     // Tyypin mukaan napit
+    raitaAktio_->setEnabled( tyyppi == "raportti");
+
+    if( view()->tiedostoPaate() == "jpg"  )
+        avaaAktio_->setIcon( QIcon(":/pic/kuva.png"));
+    else if( view()->tiedostoPaate() == "pdf")
+        avaaAktio_->setIcon( QIcon(":/pic/pdf.png"));
 }
 
 void NaytinIkkuna::csvAsetukset()
@@ -121,6 +134,67 @@ void NaytinIkkuna::csvAsetukset()
     }
 }
 
+void NaytinIkkuna::csvLeikepoydalle()
+{
+    qApp->clipboard()->setText( view()->csv() );
+}
+
+void NaytinIkkuna::tallennaCsv()
+{
+    QString polku = QFileDialog::getSaveFileName(this, tr("Vie csv-tiedostoon"),
+                                                 QDir::homePath(), "csv-tiedosto (*.csv)");
+    if( !polku.isEmpty())
+    {
+        QFile tiedosto( polku );
+        if( !tiedosto.open( QIODevice::WriteOnly))
+        {
+            QMessageBox::critical(this, tr("Tiedoston vieminen"),
+                                  tr("Tiedostoon %1 kirjoittaminen epäonnistui.").arg(polku));
+            return;
+        }
+        tiedosto.write( view()->csv() );
+    }
+}
+
+void NaytinIkkuna::tallenna()
+{
+    QString polku = QFileDialog::getSaveFileName(this, tr("Tallenna tiedostoon"),
+                                                 QDir::homePath(), view()->tiedostonMuoto() );
+    if( !polku.isEmpty())
+    {
+        QFile tiedosto( polku );
+        if( !tiedosto.open( QIODevice::WriteOnly))
+        {
+            QMessageBox::critical(this, tr("Tiedoston tallentaminen"),
+                                  tr("Tiedostoon %1 kirjoittaminen epäonnistui.").arg(polku));
+            return;
+        }
+        tiedosto.write( view()->data() );
+    }
+}
+
+void NaytinIkkuna::avaaOhjelmalla()
+{
+    // Luo tilapäisen pdf-tiedoston
+    QString tiedostonnimi = kp()->tilapainen( QString("raportti-XXXX.").append(view()->tiedostoPaate()) );
+
+    QFile tiedosto( tiedostonnimi);
+    tiedosto.open( QIODevice::WriteOnly);
+    tiedosto.write( view()->data());
+    tiedosto.close();
+
+    if( !QDesktopServices::openUrl( QUrl(tiedosto.fileName()) ))
+        QMessageBox::critical(this, tr("Tiedoston avaaminen"), tr("%1-tiedostoja näyttävän ohjelman käynnistäminen ei onnistunut").arg( view()->tiedostoPaate() ) );
+}
+
+void NaytinIkkuna::sivunAsetukset()
+{
+    QPageSetupDialog dlg(kp()->printer(), this);
+    dlg.exec();
+    view()->sivunAsetuksetMuuttuneet();
+}
+
+
 void NaytinIkkuna::teeToolbar()
 {
     QToolBar *tb = addToolBar(tr("Ikkuna"));
@@ -129,13 +203,15 @@ void NaytinIkkuna::teeToolbar()
     tb->addAction(QIcon(":/pic/peru.png"), tr("Sulje"), this, SLOT(close()));
     tb->addSeparator();
 
-    tb->addAction(QIcon(":/pic/pdf.png"), tr("Avaa"));
-    tb->addAction(QIcon(":/pic/tiedostoon.png"), tr("Tallenna"));
+    avaaAktio_ = tb->addAction(QIcon(":/pic/pdf.png"), tr("Avaa"), this, SLOT(avaaOhjelmalla()) );
+    tb->addAction(QIcon(":/pic/tiedostoon.png"), tr("Tallenna"), this, SLOT(tallenna()));
 
     tb->addSeparator();
 
-    tb->addAction(QIcon(":/pic/sivunasetukset.png"), tr("Raidat"));
-    tb->addAction(QIcon(":/pic/sivunasetukset.png"), tr("Sivun asetukset"));
+    raitaAktio_ = tb->addAction(QIcon(":/pic/raidoitus.png"), tr("Raidat"));
+    raitaAktio_->setCheckable(true);
+
+    tb->addAction(QIcon(":/pic/sivunasetukset.png"), tr("Sivun asetukset"), this, SLOT(sivunAsetukset()));
     tb->addAction(QIcon(":/pic/tulosta.png"), tr("Tulosta"));
 
     tb->addSeparator();
@@ -150,8 +226,13 @@ void NaytinIkkuna::teeToolbar()
     QMenu *csvValikko = new QMenu();
 
     QAction *csvLeikepoydelleAktio = new QAction( QIcon(":/pic/csv.png"), tr("Leikepöydälle") );
-    connect( csvLeikepoydelleAktio, &QAction::triggered, [this] { this->view()->naytinScene()->csvLeikepoydalle(); });
+    connect( csvLeikepoydelleAktio, &QAction::triggered,  this, &NaytinIkkuna::csvLeikepoydalle );
     csvValikko->addAction(csvLeikepoydelleAktio);
+    QAction *csvTallennaAktio = new QAction( QIcon(":/pic/tiedostoon.png"), tr("Tiedostoon"));
+    connect( csvTallennaAktio, &QAction::triggered, this, &NaytinIkkuna::tallennaCsv);
+    csvValikko->addAction(csvTallennaAktio);
+    csvValikko->addSeparator();
+
     QAction *csvAsetukset = new QAction( QIcon(":/pic/ratas.png"), tr("CSV:n muoto"));
     connect( csvAsetukset, &QAction::triggered, this, &NaytinIkkuna::csvAsetukset);
     csvValikko->addAction(csvAsetukset);

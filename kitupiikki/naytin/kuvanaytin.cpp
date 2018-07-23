@@ -18,7 +18,8 @@
 
 #include <QGraphicsPixmapItem>
 #include <QPixmap>
-
+#include <QByteArray>
+#include <QBuffer>
 
 KuvaNaytin::KuvaNaytin(QObject *parent) :
     NaytinScene (parent)
@@ -56,6 +57,18 @@ void KuvaNaytin::piirraLeveyteen(double leveyteen)
     double korkeus = leveyteen / kuva_.width() * kuva_.height();
     QPixmap pixmap = QPixmap::fromImage( kuva_.scaled( qRound( leveyteen ),  qRound(korkeus), Qt::KeepAspectRatio) );
     addPixmap( pixmap );
+}
+
+QByteArray KuvaNaytin::data()
+{
+    QByteArray ba;
+    QBuffer buffer(&ba);
+
+    buffer.open(QIODevice::WriteOnly);
+    kuva_.save(&buffer,"JPG");
+    buffer.close();
+
+    return ba;
 }
 
 

@@ -35,6 +35,10 @@ public:
 
     void piirraLeveyteen(double leveyteen) override;
 
+    QString tiedostonMuoto() override { return tr("jpg-kuvatiedosto (*.jpg)");}
+    QString tiedostoPaate() override { return "jpg"; }
+    QByteArray data() override;
+
 private:
     QImage kuva_;
 };

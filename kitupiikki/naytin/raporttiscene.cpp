@@ -47,6 +47,12 @@ QByteArray RaporttiScene::csv()
     return  raportti_.csv();
 }
 
+bool RaporttiScene::sivunAsetuksetMuuttuneet()
+{
+    naytaPdf( raportti_.pdf() );
+    return true;
+}
+
 bool RaporttiScene::csvMuoto()
 {
     return raportti_.csvKaytossa();

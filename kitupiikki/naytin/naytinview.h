@@ -30,12 +30,21 @@ class NaytinView : public QGraphicsView
 public:
     NaytinView(QWidget *parent = nullptr);
 
-    NaytinScene* naytinScene() { return scene_; }
-
 public slots:
     void nayta(const QByteArray& data);
     void nayta(RaportinKirjoittaja raportti);
+    void sivunAsetuksetMuuttuneet();
+    void paivita();
 
+    QString otsikko() const;
+
+    bool csvKaytossa() const;
+
+
+    QByteArray csv();
+    QString tiedostonMuoto();
+    QString tiedostoPaate();
+    QByteArray data();
 
 signals:
     void sisaltoVaihtunut(const QString& tyyppi);

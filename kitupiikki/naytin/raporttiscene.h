@@ -30,13 +30,14 @@ public:
 
     void nayta(RaportinKirjoittaja raportti);
 
-    QString tyyppi() const override { return "raportti"; };
+    QString tyyppi() const override { return "raportti"; }
 
     QString otsikko() const override;
     virtual bool csvMuoto() override;
 
-protected:
     virtual QByteArray csv() override;
+
+    virtual bool sivunAsetuksetMuuttuneet() override;
 
 
 private:
