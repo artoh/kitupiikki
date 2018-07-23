@@ -30,7 +30,7 @@ class TositeluetteloRaportti : public Raportti
 public:
     TositeluetteloRaportti();
 
-    RaportinKirjoittaja raportti(bool csvmuoto);
+    RaportinKirjoittaja raportti() override;
 
 
     static RaportinKirjoittaja kirjoitaRaportti( QDate mista, QDate mihin,

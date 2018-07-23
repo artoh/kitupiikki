@@ -30,7 +30,8 @@
 
 #include <QDebug>
 
-RaportinKirjoittaja::RaportinKirjoittaja()
+RaportinKirjoittaja::RaportinKirjoittaja(bool csvKaytossa) :
+    csvKaytossa_( csvKaytossa)
 {
 
 }
@@ -45,10 +46,11 @@ void RaportinKirjoittaja::asetaKausiteksti(const QString &kausiteksti)
     kausiteksti_ = kausiteksti;
 }
 
-void RaportinKirjoittaja::lisaaSarake(const QString &leveysteksti)
+void RaportinKirjoittaja::lisaaSarake(const QString &leveysteksti, RaporttiRivi::RivinKaytto kaytto)
 {
     RaporttiSarake uusi;
     uusi.leveysteksti = leveysteksti;
+    uusi.sarakkeenKaytto = kaytto;
     sarakkeet_.append(uusi);
 }
 
@@ -90,7 +92,7 @@ void RaportinKirjoittaja::lisaaTyhjaRivi()
 {
     if( rivit_.count())
         if( rivit_.last().sarakkeita() )
-            rivit_.append( RaporttiRivi());
+            rivit_.append( RaporttiRivi(RaporttiRivi::EICSV));
 }
 
 int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, bool raidoita, int alkusivunumero) const
@@ -114,6 +116,8 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
     for( int i=0; i < sarakkeet_.count(); i++)
     {
        int leveys = 0;
+       if( sarakkeet_[i].sarakkeenKaytto == RaporttiRiviSarake::CSV)
+           leveys = 0;
        if( !sarakkeet_[i].leveysteksti.isEmpty())
            leveys = painter->fontMetrics().width( sarakkeet_[i].leveysteksti );
        else if( sarakkeet_[i].leveysprossa)
@@ -146,6 +150,9 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
 
     foreach (RaporttiRivi rivi, rivit_)
     {
+        if( rivi.kaytto() == RaporttiRivi::CSV)
+            continue;
+
         fontti.setPointSize( rivi.pistekoko() );
         fontti.setBold( rivi.onkoLihava() );
         painter->setFont(fontti);
@@ -163,6 +170,9 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
 
         for(int i=0; i < rivi.sarakkeita(); i++)
         {
+            if( rivi.sarake(i).kaytto == RaporttiRiviSarake::CSV)
+                continue;
+
             int sarakeleveys = 0;
             // ysind (Yhdistettyjen Sarakkeiden Indeksi) kelaa ne sarakkeet läpi,
             // jotka tällä riville yhdistetty toisiinsa
@@ -204,7 +214,7 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
             painter->restore();
         }
 
-        if( painter->transform().dy() == 0)
+        if( painter->transform().dy() < 0.1 )
         {
             // Ollaan sivun alussa
 
@@ -220,11 +230,17 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
             // Otsikkorivit
             foreach (RaporttiRivi otsikkorivi, otsakkeet_)
             {
+                if( otsikkorivi.kaytto() == RaporttiRivi::CSV)
+                    continue;
+
                 x = 0;
                 sarake = 0;
 
                 for( int i = 0; i < otsikkorivi.sarakkeita(); i++)
-                {                     
+                {
+                    if( otsikkorivi.sarake(i).kaytto == RaporttiRiviSarake::CSV)
+                        continue;
+
                     int lippu = 0;
                     QString teksti = otsikkorivi.teksti(i);
 
@@ -317,9 +333,15 @@ QString RaportinKirjoittaja::html(bool linkit)
     // Otsikkorivit
     foreach (RaporttiRivi otsikkorivi, otsakkeet_ )
     {
+        if( otsikkorivi.kaytto() == RaporttiRivi::CSV)
+            continue;
+
         txt.append("<tr>");
         for(int i=0; i < otsikkorivi.sarakkeita(); i++)
         {
+            if( otsikkorivi.sarake(i).kaytto == RaporttiRiviSarake::CSV)
+                continue;
+
             txt.append(QString("<th colspan=%1>").arg( otsikkorivi.leveysSaraketta(i)));
             txt.append( otsikkorivi.teksti(i));
             txt.append("</th>");
@@ -331,6 +353,9 @@ QString RaportinKirjoittaja::html(bool linkit)
     // Rivit
     foreach (RaporttiRivi rivi, rivit_)
     {
+        if( rivi.kaytto() == RaporttiRivi::CSV)
+            continue;
+
         QStringList trluokat;
         if( rivi.onkoLihava())
             trluokat << "lihava";
@@ -347,6 +372,9 @@ QString RaportinKirjoittaja::html(bool linkit)
 
         for(int i=0; i < rivi.sarakkeita(); i++)
         {
+            if( rivi.sarake(i).kaytto == RaporttiRiviSarake::CSV)
+                continue;
+
             if( rivi.tasattuOikealle(i) )
                 txt.append(QString("<td colspan=%1 class=oikealle>").arg(rivi.leveysSaraketta(i)));
             else
@@ -427,20 +455,30 @@ QByteArray RaportinKirjoittaja::csv()
 
     for( RaporttiRivi otsikko : otsakkeet_)
     {
+        if( otsikko.kaytto() == RaporttiRivi::EICSV)
+            continue;
+
         QStringList otsakkeet;
         for(int i=0; i < otsikko.sarakkeita(); i++)
-            otsakkeet.append( otsikko.csv(i));
+            if( otsikko.sarake(i).kaytto != RaporttiRiviSarake::EICSV)
+                otsakkeet.append( otsikko.csv(i));
         txt.append( otsakkeet.join(erotin));
     }
     for( RaporttiRivi rivi : rivit_ )
     {
+        if( rivi.kaytto() == RaporttiRivi::EICSV)
+            continue;
+
         if( rivi.sarakkeita() )
         {
 
             txt.append("\r\n");
             QStringList sarakkeet;
             for( int i=0; i < rivi.sarakkeita(); i++)
-                sarakkeet.append( rivi.csv(i));
+            {
+                if( rivi.sarake(i).kaytto != RaporttiRiviSarake::EICSV )
+                    sarakkeet.append( rivi.csv(i));
+            }
             txt.append( sarakkeet.join(erotin));
         }
     }

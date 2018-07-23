@@ -19,23 +19,24 @@
 #include "raporttirivi.h"
 
 
-RaporttiRivi::RaporttiRivi()
-    : lihava_(false), ylaviiva_(false), pistekoko_(10)
+RaporttiRivi::RaporttiRivi(RivinKaytto kaytto)
+    : lihava_(false), ylaviiva_(false), pistekoko_(10), rivinKaytto_(kaytto)
 {
 
 }
 
-void RaporttiRivi::lisaa(const QString &teksti, int sarakkeet, bool tasaaOikealle)
+void RaporttiRivi::lisaa(const QString &teksti, int sarakkeet, bool tasaaOikealle, RaporttiRiviSarake::SarakkeenKaytto kaytto)
 {
     RaporttiRiviSarake uusi;
     uusi.arvo = QVariant(teksti);
 
     uusi.leveysSaraketta = sarakkeet;
     uusi.tasaaOikealle = tasaaOikealle;
+    uusi.kaytto = kaytto;
     sarakkeet_.append(uusi);
 }
 
-void RaporttiRivi::lisaaLinkilla(RaporttiRiviSarake::Linkki linkkityyppi, int linkkitieto, const QString &teksti, int sarakkeet)
+void RaporttiRivi::lisaaLinkilla(RaporttiRiviSarake::Linkki linkkityyppi, int linkkitieto, const QString &teksti, int sarakkeet, RaporttiRiviSarake::SarakkeenKaytto kaytto)
 {
     RaporttiRiviSarake uusi;
     uusi.arvo = QVariant( teksti );
@@ -43,22 +44,24 @@ void RaporttiRivi::lisaaLinkilla(RaporttiRiviSarake::Linkki linkkityyppi, int li
     uusi.leveysSaraketta = sarakkeet;
     uusi.linkkityyppi = linkkityyppi;
     uusi.linkkidata = linkkitieto;
+    uusi.kaytto = kaytto;
     sarakkeet_.append(uusi);
 }
 
-void RaporttiRivi::lisaa(qlonglong sentit, bool tulostanollat)
+void RaporttiRivi::lisaa(qlonglong sentit, bool tulostanollat,RaporttiRiviSarake::SarakkeenKaytto kaytto)
 {
     RaporttiRiviSarake uusi;
     if( sentit || tulostanollat)
         uusi.arvo = QVariant(sentit);
 
     uusi.tasaaOikealle = true;
+    uusi.kaytto = kaytto;
     sarakkeet_.append( uusi );
 }
 
-void RaporttiRivi::lisaa(const QDate &pvm)
+void RaporttiRivi::lisaa(const QDate &pvm, RaporttiRiviSarake::SarakkeenKaytto kaytto)
 {
-    lisaa( pvm.toString("dd.MM.yyyy"));
+    lisaa( pvm.toString("dd.MM.yyyy"), 1, false, kaytto);
 }
 
 QString RaporttiRivi::teksti(int sarake)
@@ -67,7 +70,7 @@ QString RaporttiRivi::teksti(int sarake)
 
     if( arvo.type() == QVariant::LongLong )
     {
-        return QString("%L1").arg( ((double) arvo.toLongLong() ) / 100.0 ,0,'f',2 );
+        return QString("%L1").arg(  arvo.toLongLong()  / 100.0 ,0,'f',2 );
     }
     else if( arvo.type() == QVariant::Date )
     {
@@ -91,9 +94,9 @@ QString RaporttiRivi::csv(int sarake)
     {
         QChar despilkku = settings.value("CsvDesimaali", QChar(',')).toChar();
         if( despilkku == ',')
-            return QString("\"%1\"").arg( ((double) arvo.toLongLong() ) / 100.0 ,0,'f',2 ).replace('.',',');
+            return QString("\"%1\"").arg( arvo.toLongLong()  / 100.0 ,0,'f',2 ).replace('.',',');
         else
-            return QString("\"%1\"").arg( ((double) arvo.toLongLong() ) / 100.0 ,0,'f',2 );
+            return QString("\"%1\"").arg( arvo.toLongLong()  / 100.0 ,0,'f',2 );
     }
     else if( arvo.type() == QVariant::Date )
     {

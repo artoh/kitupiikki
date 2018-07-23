@@ -44,14 +44,14 @@ TositeluetteloRaportti::TositeluetteloRaportti()
 
 }
 
-RaportinKirjoittaja TositeluetteloRaportti::raportti(bool csvmuoto)
+RaportinKirjoittaja TositeluetteloRaportti::raportti()
 {
     return kirjoitaRaportti( ui->alkupvm->date(), ui->loppupvm->date(),
                              ui->tositejarjestysRadio->isChecked(),
-                             ui->ryhmittelelajeittainCheck->isChecked() && !csvmuoto,
+                             ui->ryhmittelelajeittainCheck->isChecked() ,
                              ui->tulostakohdennuksetCheck->isChecked() && ui->tulostaviennitCheck->isChecked(),
-                             ui->tulostaviennitCheck->isChecked() && !csvmuoto,
-                             ui->tulostasummat->isChecked() && !csvmuoto);
+                             ui->tulostaviennitCheck->isChecked(),
+                             ui->tulostasummat->isChecked() );
 }
 
 RaportinKirjoittaja TositeluetteloRaportti::kirjoitaRaportti(QDate mista, QDate mihin, bool tositejarjestys, bool ryhmittelelajeittain, bool tulostakohdennukset, bool tulostaviennit, bool tulostasummat)
@@ -141,7 +141,7 @@ RaportinKirjoittaja TositeluetteloRaportti::kirjoitaRaportti(QDate mista, QDate 
 
             // Ryhmitellään
             edellinenTositelajiId = laji.id();
-            RaporttiRivi rr;
+            RaporttiRivi rr(RaporttiRivi::EICSV);
             kirjoittaja.lisaaRivi();    // Tyhjä
             rr.lisaa( laji.nimi(), 4);
             rr.lihavoi();
@@ -247,7 +247,7 @@ RaportinKirjoittaja TositeluetteloRaportti::kirjoitaRaportti(QDate mista, QDate 
     if(  tulostasummat )
     {
         // Lopuksi vielä kaikki yhteensä -summarivi
-        kirjoittaja.lisaaRivi();
+        kirjoittaja.lisaaRivi(RaporttiRivi::EICSV);
         RaporttiRivi summarivi;
         summarivi.lisaa("Yhteensä", 4 + (int) tulostakohdennukset);
         summarivi.lisaa(debetKaikki);
@@ -264,7 +264,7 @@ RaportinKirjoittaja TositeluetteloRaportti::kirjoitaRaportti(QDate mista, QDate 
 
 void TositeluetteloRaportti::kirjoitaSummaRivi(RaportinKirjoittaja &rk, qlonglong debet, qlonglong kredit, int sarakeleveys)
 {
-    RaporttiRivi rivi;
+    RaporttiRivi rivi(RaporttiRivi::EICSV);
     rivi.lisaa("Yhteensä", sarakeleveys );
     rivi.lisaa( debet );
     rivi.lisaa( kredit );

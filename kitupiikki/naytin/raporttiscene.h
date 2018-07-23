@@ -32,6 +32,8 @@ public:
 
     QString otsikko() const override;
 
+protected:
+    virtual QByteArray csv() override;
 
 private:
     RaportinKirjoittaja raportti_;

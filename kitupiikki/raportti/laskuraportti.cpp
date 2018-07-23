@@ -40,7 +40,7 @@ LaskuRaportti::~LaskuRaportti()
     delete ui;
 }
 
-RaportinKirjoittaja LaskuRaportti::raportti(bool csvmuoto)
+RaportinKirjoittaja LaskuRaportti::raportti()
 {
     PvmRajaus rajaus = KaikkiLaskut;
     if( ui->rajaaEra->isChecked())
@@ -61,7 +61,7 @@ RaportinKirjoittaja LaskuRaportti::raportti(bool csvmuoto)
 
     return kirjoitaRaportti( ui->saldoPvm->date(), ui->myyntiRadio->isChecked(),
                              ui->avoimet->isChecked(),
-                             lajittelu, ui->summaBox->isChecked() && !csvmuoto,  ui->viiteBox->isChecked(), rajaus, ui->alkaenPvm->date(), ui->paattyenPvm->date());
+                             lajittelu, ui->summaBox->isChecked() ,  ui->viiteBox->isChecked(), rajaus, ui->alkaenPvm->date(), ui->paattyenPvm->date());
 
 }
 

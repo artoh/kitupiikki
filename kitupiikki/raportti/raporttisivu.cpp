@@ -40,7 +40,7 @@
 #include "tilikarttaraportti.h"
 
 RaporttiSivu::RaporttiSivu(QWidget *parent) : KitupiikkiSivu(parent),
-    nykyinen(0)
+    nykyinen(nullptr)
 {
     lista = new QListWidget;
 

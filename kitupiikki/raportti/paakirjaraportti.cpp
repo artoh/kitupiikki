@@ -25,7 +25,7 @@
 #include "raportinkirjoittaja.h"
 
 PaakirjaRaportti::PaakirjaRaportti()
-    : Raportti(false)
+    : Raportti()
 {
     ui = new Ui::Paivakirja;
     ui->setupUi( raporttiWidget );
@@ -46,7 +46,7 @@ PaakirjaRaportti::PaakirjaRaportti()
 
 }
 
-RaportinKirjoittaja PaakirjaRaportti::raportti(bool /* csvmuoto */)
+RaportinKirjoittaja PaakirjaRaportti::raportti()
 {
     int kohdennuksella = -1;
     if( ui->kohdennusCheck->isChecked())

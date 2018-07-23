@@ -33,7 +33,7 @@ public:
     PaivakirjaRaportti();
     ~PaivakirjaRaportti();
 
-    RaportinKirjoittaja raportti(bool csvmuoto);
+    RaportinKirjoittaja raportti();
 
 
     /**

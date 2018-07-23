@@ -41,3 +41,8 @@ QString RaporttiScene::otsikko() const
 {
     return raportti_.otsikko();
 }
+
+QByteArray RaporttiScene::csv()
+{
+    return  raportti_.csv();
+}

@@ -60,12 +60,12 @@ void Raportoija::lisaaTasepaiva(const QDate &pvm)
     loppuPaivat_.append(pvm);
 }
 
-RaportinKirjoittaja Raportoija::raportti(bool tulostaErittelyt, bool csvmuoto)
+RaportinKirjoittaja Raportoija::raportti(bool tulostaErittelyt)
 {
     data_.resize( loppuPaivat_.count() );
 
     RaportinKirjoittaja rk;
-    kirjoitaYlatunnisteet(rk, csvmuoto);
+    kirjoitaYlatunnisteet(rk);
 
     if( tyyppi() == TULOSLASKELMA)
     {
@@ -127,7 +127,7 @@ RaportinKirjoittaja Raportoija::raportti(bool tulostaErittelyt, bool csvmuoto)
 }
 
 
-void Raportoija::kirjoitaYlatunnisteet(RaportinKirjoittaja &rk, bool csvmuoto)
+void Raportoija::kirjoitaYlatunnisteet(RaportinKirjoittaja &rk)
 {
     QString otsikko = otsikko_;
     // Jos otsikko päättyy tarkenteeseen /Yleinen, ei sitä tartte tulostaa
@@ -151,34 +151,28 @@ void Raportoija::kirjoitaYlatunnisteet(RaportinKirjoittaja &rk, bool csvmuoto)
         rk.lisaaEurosarake();
 
     // CSV-kausiraportissa kuitenkin kaikki yhdelle riville
-    if( onkoKausiraportti() && csvmuoto)
+    if( onkoKausiraportti() )
     {
-        RaporttiRivi csvrivi;
+        RaporttiRivi csvrivi(RaporttiRivi::CSV);
         csvrivi.lisaa("");
         for(int i=0; i < alkuPaivat_.count(); i++)
             csvrivi.lisaa( QString("%1 - %2").arg( alkuPaivat_.at(i).toString("dd.MM.yyyy"))
                                               .arg( loppuPaivat_.at(i).toString("dd.MM.yyyy")), 1, true );
         rk.lisaaOtsake(csvrivi);
-    }
-    else
-    {
-        // Kausiraportissa ylemmällä rivillä alkupäivä 1.1.2017 -
-        if( onkoKausiraportti())
-        {
-            RaporttiRivi orivi;
-            orivi.lisaa("");
-            for(int i=0; i < alkuPaivat_.count(); i++)
-                orivi.lisaa( QString("%1 -").arg( alkuPaivat_.at(i).toString("dd.MM.yyyy") ), 1, true );
-            rk.lisaaOtsake(orivi);
-        }
-        // Tasepäivät tai loppupäivät
-        RaporttiRivi olrivi;
-        olrivi.lisaa("");
-        for(int i=0; i < loppuPaivat_.count(); i++)
-            olrivi.lisaa( loppuPaivat_.at(i).toString("dd.MM.yyyy"), 1, true );
-        rk.lisaaOtsake(olrivi);
 
+        RaporttiRivi orivi(RaporttiRivi::EICSV);
+        orivi.lisaa("");
+        for(int i=0; i < alkuPaivat_.count(); i++)
+            orivi.lisaa( QString("%1 -").arg( alkuPaivat_.at(i).toString("dd.MM.yyyy") ), 1, true );
+        rk.lisaaOtsake(orivi);
     }
+    // Tasepäivät tai loppupäivät
+    RaporttiRivi olrivi(RaporttiRivi::EICSV);
+    olrivi.lisaa("");
+    for(int i=0; i < loppuPaivat_.count(); i++)
+        olrivi.lisaa( loppuPaivat_.at(i).toString("dd.MM.yyyy"), 1, true );
+    rk.lisaaOtsake(olrivi);
+
 }
 
 void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt)

@@ -42,9 +42,9 @@ MyyntiRaportti::~MyyntiRaportti()
     delete ui;
 }
 
-RaportinKirjoittaja MyyntiRaportti::raportti(bool csvmuoto )
+RaportinKirjoittaja MyyntiRaportti::raportti()
 {
-    return kirjoitaRaportti(ui->alkaa->date(), ui->paattyy->date(), !csvmuoto);
+    return kirjoitaRaportti(ui->alkaa->date(), ui->paattyy->date());
 }
 
 RaportinKirjoittaja MyyntiRaportti::kirjoitaRaportti(QDate mista, QDate mihin, bool summat)

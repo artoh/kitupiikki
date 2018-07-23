@@ -18,6 +18,7 @@
 
 #include "pdfscene.h"
 #include "kuvanaytin.h"
+#include "raporttiscene.h"
 
 NaytinView::NaytinView(QWidget *parent)
     : QGraphicsView(parent)
@@ -33,6 +34,11 @@ void NaytinView::nayta(const QByteArray &data)
     else
         vaihdaScene( new KuvaNaytin(data, this));
 
+}
+
+void NaytinView::nayta(RaportinKirjoittaja raportti)
+{
+    vaihdaScene( new RaporttiScene(raportti)  );
 }
 
 void NaytinView::vaihdaScene(NaytinScene *uusi)

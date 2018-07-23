@@ -16,8 +16,17 @@
 */
 #include "naytinscene.h"
 
+#include <QMimeData>
+#include <QApplication>
+#include <QClipboard>
+
 NaytinScene::NaytinScene(QObject *parent)
     : QGraphicsScene(parent)
 {
 
+}
+
+void NaytinScene::csvLeikepoydalle()
+{
+    qApp->clipboard()->setText( csv() );
 }

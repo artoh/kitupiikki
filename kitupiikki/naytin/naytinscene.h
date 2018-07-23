@@ -34,6 +34,11 @@ public:
 
     virtual void piirraLeveyteen(double leveyteen) = 0;
 
+    void csvLeikepoydalle();
+
+protected:
+    virtual QByteArray csv() { return QByteArray(); }
+
 signals:
     void sisaltoVaihtunut(const QString& tyyppi);
 

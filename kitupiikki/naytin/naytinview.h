@@ -18,8 +18,8 @@
 #define NAYTINVIEW_H
 
 #include <QGraphicsView>
-
 #include "naytinscene.h"
+#include "raportti/raportinkirjoittaja.h"
 
 /**
  * @brief Widgetti liitteiden, raporttien jne esittämiseen
@@ -30,8 +30,11 @@ class NaytinView : public QGraphicsView
 public:
     NaytinView(QWidget *parent = nullptr);
 
+    NaytinScene* naytinScene() { return scene_; }
+
 public slots:
     void nayta(const QByteArray& data);
+    void nayta(RaportinKirjoittaja raportti);
 
 
 signals:

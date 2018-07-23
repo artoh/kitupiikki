@@ -22,7 +22,7 @@
 #include <QDebug>
 
 TaseErittely::TaseErittely() :
-    Raportti(false)
+    Raportti()
 {
     ui = new Ui::TaseErittely;
     ui->setupUi( raporttiWidget);
@@ -39,14 +39,14 @@ TaseErittely::~TaseErittely()
     delete ui;
 }
 
-RaportinKirjoittaja TaseErittely::raportti(bool /* csvmuoto */)
+RaportinKirjoittaja TaseErittely::raportti()
 {
     return kirjoitaRaportti( ui->alkaa->date(), ui->paattyy->date() );
 }
 
 RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
 {
-    RaportinKirjoittaja rk;
+    RaportinKirjoittaja rk(false);
     rk.asetaOtsikko("TASE-ERITTELY");
     rk.asetaKausiteksti(QString("%1 - %2").arg(mista.toString("dd.MM.yyyy")).arg(mihin.toString("dd.MM.yyyy")));
 

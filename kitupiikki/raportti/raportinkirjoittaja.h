@@ -32,7 +32,7 @@ struct RaporttiSarake
     QString leveysteksti;
     int jakotekija = 0;
     int leveysprossa = 0;
-
+    RaporttiRivi::RivinKaytto sarakkeenKaytto = RaporttiRivi::KAIKKI;
 };
 
 /**
@@ -81,7 +81,7 @@ class RaportinKirjoittaja
 {
 
 public:
-    RaportinKirjoittaja();
+    RaportinKirjoittaja(bool csvKaytossa = true);
 
     void asetaOtsikko(const QString& otsikko);
     void asetaKausiteksti(const QString& kausiteksti);
@@ -90,7 +90,7 @@ public:
      * @brief Lisää sarakkeen
      * @param leveysteksti Teksti, jolle sarake mitoitetaan
      */
-    void lisaaSarake(const QString& leveysteksti);
+    void lisaaSarake(const QString& leveysteksti, RaporttiRivi::RivinKaytto kaytto = RaporttiRivi::KAIKKI);
     /**
      * @brief Lisää sarakkeen
      * @param leveysprosentti Sarakkeen leveys on % sivun leveydestä
@@ -113,7 +113,7 @@ public:
     void lisaaPvmSarake();
 
     void lisaaOtsake( RaporttiRivi otsikkorivi);
-    void lisaaRivi( RaporttiRivi rivi = RaporttiRivi());
+    void lisaaRivi( RaporttiRivi rivi = RaporttiRivi(RaporttiRivi::EICSV));
 
     /**
      * @brief Lisää tyhjän rivin jo edellinen ei ollut jo tyhjä
@@ -156,6 +156,8 @@ public:
     QString otsikko() const { return otsikko_; }
     QString kausiteksti() const { return kausiteksti_; }
 
+    bool csvKaytossa() const { return csvKaytossa_;}
+
     void tulostaYlatunniste(QPainter *painter, int sivu) const;
 
 signals:
@@ -169,6 +171,7 @@ protected:
 protected:
     QString otsikko_;
     QString kausiteksti_;
+    bool csvKaytossa_;
 
     QList<RaporttiSarake> sarakkeet_;
     QList<RaporttiRivi> otsakkeet_;

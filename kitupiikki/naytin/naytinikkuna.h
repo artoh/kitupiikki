@@ -14,39 +14,52 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
+#ifndef NAYTINIKKUNA_H
+#define NAYTINIKKUNA_H
 
-#ifndef MYYNTIRAPORTTI_H
-#define MYYNTIRAPORTTI_H
 
+#include "raportti/raportinkirjoittaja.h"
+#include <QMainWindow>
 
-#include "raportti.h"
+class NaytinView;
+class QAction;
+class QToolButton;
 
-namespace Ui {
-    class TaseErittely;
-}
 
 /**
- * @brief Myyntiraportin kirjoittaminen
+ * @brief Ikkuna kaikenlaiseen näyttämiseen
  */
-class MyyntiRaportti : public Raportti
+class NaytinIkkuna : public QMainWindow
 {
+    Q_OBJECT
 public:
-    MyyntiRaportti();
-    ~MyyntiRaportti();
+    NaytinIkkuna(QWidget *parent = nullptr);
+    ~NaytinIkkuna();
 
-    RaportinKirjoittaja raportti();
+    NaytinView* view() { return view_;}
 
-    /**
-     * @brief Kirjoittaa myyntiraportin
-     * @param mista Pvm alkaen
-     * @param mihin Pvm saakka
-     * @param summat Tulostetaanko lopuksi summarivi
-     * @return
-     */
-    static RaportinKirjoittaja kirjoitaRaportti(QDate mista, QDate mihin, bool summat = true);
 
-protected:
-    Ui::TaseErittely *ui;
+    static void naytaRaportti(RaportinKirjoittaja raportti);
+
+signals:
+
+public slots:
+
+
+private slots:
+    void sisaltoMuuttui(const QString& tyyppi);
+
+    void csvAsetukset();
+
+private:
+    void teeToolbar();
+
+private:
+    NaytinView *view_;
+
+    QToolButton *htmlNappi_;
+    QToolButton *csvNappi_;
+
 };
 
-#endif // MYYNTIRAPORTTI_H
+#endif // NAYTINIKKUNA_H

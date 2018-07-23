@@ -156,7 +156,8 @@ SOURCES += main.cpp \
     naytin/pdfscene.cpp \
     naytin/naytinview.cpp \
     naytin/kuvanaytin.cpp \
-    naytin/raporttiscene.cpp
+    naytin/raporttiscene.cpp \
+    naytin/naytinikkuna.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -293,7 +294,8 @@ HEADERS += \
     naytin/pdfscene.h \
     naytin/naytinview.h \
     naytin/kuvanaytin.h \
-    naytin/raporttiscene.h
+    naytin/raporttiscene.h \
+    naytin/naytinikkuna.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

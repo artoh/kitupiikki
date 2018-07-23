@@ -47,13 +47,14 @@
 #include "db/kirjanpito.h"
 
 #include <QSettings>
-#include <QDialog>
-#include "ui_csvvientivalinnat.h"
+
 
 #include "tools/pdfikkuna.h"
 
+#include "naytin/naytinikkuna.h"
 
-Raportti::Raportti(bool csv, QWidget *parent) : QWidget(parent)
+
+Raportti::Raportti(QWidget *parent) : QWidget(parent)
 {
         raporttiWidget = new QWidget();
 
@@ -67,17 +68,9 @@ Raportti::Raportti(bool csv, QWidget *parent) : QWidget(parent)
         QPushButton *esikatseluBtn = new QPushButton(QIcon(":/pic/print.png"), tr("Esikatsele"));
         QPushButton *tulostaBtn = new QPushButton( QIcon(":/pic/tulosta.png"), tr("Tulosta"));
 
-        QGridLayout *nappiLeiska = new QGridLayout;
-        nappiLeiska->addWidget(raitaCheck,0,0);
-
-        nappiLeiska->addWidget( htmlBtn,0,2);
-        nappiLeiska->addWidget( vieBtn ,0,3);
-        nappiLeiska->addWidget( csvBtn ,1,2);
-        nappiLeiska->addWidget( csvleikeBtn, 1,3 );
-        nappiLeiska->addWidget( csvasetusBtn, 1, 1);
-        nappiLeiska->addWidget( sivunasetusBtn,2,1);
-        nappiLeiska->addWidget(esikatseluBtn,2,2);
-        nappiLeiska->addWidget(tulostaBtn,2,3);
+        QHBoxLayout *nappiLeiska = new QHBoxLayout;
+        nappiLeiska->addStretch();
+        nappiLeiska->addWidget(esikatseluBtn);
 
         QVBoxLayout *paaLeiska = new QVBoxLayout;
         paaLeiska->addWidget(raporttiWidget);
@@ -95,9 +88,6 @@ Raportti::Raportti(bool csv, QWidget *parent) : QWidget(parent)
         connect( esikatseluBtn, SIGNAL(clicked(bool)), this, SLOT(esikatsele()) );
         connect( tulostaBtn, SIGNAL(clicked(bool)), this, SLOT(tulosta()) );
 
-        csvBtn->setEnabled(csv);
-        csvleikeBtn->setEnabled(csv);
-        csvasetusBtn->setEnabled(csv);
 }
 
 void Raportti::tulosta()
@@ -113,7 +103,9 @@ void Raportti::tulosta()
 
 void Raportti::esikatsele()
 {
-    PdfIkkuna::naytaPdf( raportti().pdf( raitaCheck->isChecked() ) );
+    NaytinIkkuna::naytaRaportti( raportti() );
+
+    // PdfIkkuna::naytaPdf( raportti().pdf( raitaCheck->isChecked() ) );
 }
 
 void Raportti::avaaHtml()
@@ -133,22 +125,6 @@ void Raportti::avaaHtml()
     Kirjanpito::avaaUrl(QUrl::fromLocalFile(tiedostonnimi));
 }
 
-void Raportti::vieCsv()
-{
-    QString polku = QFileDialog::getSaveFileName(this, tr("Vie csv-tiedostoon"),
-                                                 QDir::homePath(), "csv-tiedosto (csv.*)");
-    if( !polku.isEmpty())
-    {
-        QFile tiedosto( polku );
-        if( !tiedosto.open( QIODevice::WriteOnly))
-        {
-            QMessageBox::critical(this, tr("Tiedoston vieminen"),
-                                  tr("Tiedostoon %1 kirjoittaminen epäonnistui.").arg(polku));
-            return;
-        }
-        tiedosto.write( raportti(true).csv() );
-    }
-}
 
 void Raportti::sivunAsetukset()
 {
@@ -166,68 +142,7 @@ void Raportti::leikepoydalle()
     kp()->onni(tr("Raportti viety leikepöydälle"));
 }
 
-void Raportti::csvleike()
-{
-    // Viedään tekstinä, koska mimetyyppi text/csv huonosti tuettu
 
-    qApp->clipboard()->setText( raportti(true).csv());
-
-    kp()->onni(tr("Raportti viety leikepöydälle"));
-}
-
-void Raportti::csvAsetukset()
-{
-    QSettings settings;
-    QChar erotin = settings.value("CsvErotin", QChar(',')).toChar();
-    QChar despilkku = settings.value("CsvDesimaali", QChar(',')).toChar();
-    QString pvmmuoto = settings.value("CsvPaivays", "dd.MM.yyyy").toString();
-    QString koodaus = settings.value("CsvKoodaus","utf8").toString();
-
-    QDialog dlg;
-    Ui::CsvVientiValintaDlg ui;
-    ui.setupUi(&dlg);
-
-    ui.eropilkku->setChecked( erotin == ',' );
-    ui.eropuolipiste->setChecked( erotin == ';' );
-    ui.erosarakain->setChecked( erotin == '\t' );
-
-    ui.utf8->setChecked( koodaus == "utf8");
-    ui.latin1->setChecked( koodaus == "latin1");
-
-    ui.desipilkku->setChecked( despilkku == ',');
-    ui.desipiste->setChecked( despilkku == '.');
-
-    ui.suomipaiva->setChecked( pvmmuoto == "dd.MM.yyyy");
-    ui.isopaiva->setChecked( pvmmuoto == "yyyy-MM-dd");
-    ui.usapaiva->setChecked( pvmmuoto == "MM/dd/yyyy");
-
-    if( dlg.exec())
-    {
-        if( ui.eropilkku->isChecked())
-            settings.setValue("CsvErotin", QChar(','));
-        else if( ui.eropuolipiste->isChecked())
-            settings.setValue("CsvErotin", QChar(';'));
-        else if( ui.erosarakain->isChecked())
-            settings.setValue("CsvErotin", QChar('\t'));
-
-        if( ui.utf8->isChecked())
-            settings.setValue("CsvKoodaus", "utf8");
-        else if( ui.latin1->isChecked())
-            settings.setValue("CsvKoodaus", "latin1");
-
-        if( ui.desipilkku->isChecked())
-            settings.setValue("CsvDesimaali", QChar(','));
-        else if( ui.desipiste->isChecked())
-            settings.setValue("CsvDesimaali", QChar('.'));
-
-        if( ui.suomipaiva->isChecked())
-            settings.setValue("CsvPaivays","dd.MM.yyyy");
-        else if( ui.isopaiva->isChecked())
-            settings.setValue("CsvPaivays", "yyyy-MM-dd");
-        else if( ui.usapaiva->isChecked())
-            settings.setValue("CsvPaivays","MM/dd/yyyy");
-    }
-}
 
 
 

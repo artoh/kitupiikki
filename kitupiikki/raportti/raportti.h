@@ -48,7 +48,7 @@ class Raportti : public QWidget
 {
     Q_OBJECT
 public:
-    Raportti(bool csv = true, QWidget *parent = 0);
+    Raportti(QWidget *parent = nullptr);
 
 
     /**
@@ -56,7 +56,7 @@ public:
      * @arg csvmuoto Kirjoitetaan csv, eli ilman mitään väliotsikoita sun muita
      * @return RaportinKirjoittaja, jonne raportti on kirjoitettu
      */
-    virtual RaportinKirjoittaja raportti(bool csvmuoto = false) = 0;
+    virtual RaportinKirjoittaja raportti() = 0;
 
 
 signals:
@@ -76,10 +76,6 @@ public slots:
      */
     void avaaHtml();
 
-    /**
-     * @brief Vie csv-muodossa
-     */
-    void vieCsv();
 
     /**
      * @brief Näyttää dialogin sivun asetuksista
@@ -91,10 +87,7 @@ public slots:
      */
     void leikepoydalle();
 
-    void csvleike();
 
-
-    void csvAsetukset();
 
 protected:
     QWidget *raporttiWidget;

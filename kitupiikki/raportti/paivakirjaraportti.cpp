@@ -55,7 +55,7 @@ PaivakirjaRaportti::~PaivakirjaRaportti()
 }
 
 
-RaportinKirjoittaja PaivakirjaRaportti::raportti(bool csvmuoto)
+RaportinKirjoittaja PaivakirjaRaportti::raportti()
 {
     int kohdennuksella = -1;
     if( ui->kohdennusCheck->isChecked())
@@ -64,7 +64,7 @@ RaportinKirjoittaja PaivakirjaRaportti::raportti(bool csvmuoto)
     return kirjoitaRaportti( ui->alkupvm->date(), ui->loppupvm->date(),
                              kohdennuksella, ui->tositejarjestysRadio->isChecked(),
                              ui->ryhmittelelajeittainCheck->isChecked(), ui->tulostakohdennuksetCheck->isChecked(),
-                             ui->tulostasummat->isChecked() && !csvmuoto);
+                             ui->tulostasummat->isChecked());
 
 }
 
@@ -210,7 +210,7 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
     {
         // Lopuksi vielä kaikki yhteensä -summarivi
         kirjoittaja.lisaaRivi();
-        RaporttiRivi summarivi;
+        RaporttiRivi summarivi(RaporttiRivi::EICSV);
         summarivi.lisaa("Yhteensä", 4 + (int) tulostakohdennukset);
         summarivi.lisaa(debetKaikki);
         summarivi.lisaa(kreditKaikki);
@@ -224,7 +224,7 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
 
 void PaivakirjaRaportti::kirjoitaSummaRivi(RaportinKirjoittaja &rk, qlonglong debet, qlonglong kredit, int sarakeleveys)
 {
-    RaporttiRivi rivi;
+    RaporttiRivi rivi(RaporttiRivi::EICSV);
     rivi.lisaa("Yhteensä", sarakeleveys );
     rivi.lisaa( debet );
     rivi.lisaa( kredit );
