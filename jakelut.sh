@@ -22,7 +22,7 @@ make clean
 cp ../kitupiikki.desktop .
 cp ../kitupiikki.png .
 
-/opt/linuxdeployqt-continuous-x86_64.AppImage kitupiikki.desktop -appimage -bundle-non-qt-libs -qmake=/$QTDIR/bin/qmake -verbose=2 -no-translations -no-plugins
+/opt/linuxdeployqt-continuous-x86_64.AppImage kitupiikki.desktop -appimage -bundle-non-qt-libs -qmake=/$QTDIR/bin/qmake -verbose=2 -no-translations -no-plugins -no-copy-copyright-files
 
 cp Kitupiikki-x86_64.AppImage ../$DIST_DIR/Kitupiikki-x.x-x86_64.AppImage
 

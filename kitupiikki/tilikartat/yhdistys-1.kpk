@@ -2,46 +2,44 @@
 [TilikarttaNimi]
 Yhdistys
 [TilikarttaTekija]
-artoh.github.io
+kitupiikki.info
 [TilikarttaPvm]
-2018-07-18
+2018-07-24
 [TilikarttaKuvaus]
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 <html><head><meta name="qrichtext" content="1" /><style type="text/css">
 p, li { white-space: pre-wrap; }
-</style></head><body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;">
-<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-weight:600;">Aatteellinen yhdistys tai säätiö</span> </p>
-<p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Aatteellisen toiminnan ensisijaisena tarkoituksena ei ole taloudellinen toiminta.</p>
-<p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Toiminta jaetaan varsinaiseen toimintaan, varainhankintaan ja rahoitustoimintaan. Kirjanpitoa aloitettaessa valitaan tilikartan laajuus.</p></body></html>
+</style></head><body style=" font-family:'Noto Sans'; font-size:10pt; font-weight:400; font-style:normal;">
+<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-family:'Sans Serif'; font-size:9pt; font-weight:600;">Aatteellinen yhdistys tai säätiö</span><span style=" font-family:'Sans Serif'; font-size:9pt;"> </span></p>
+<p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-family:'Sans Serif'; font-size:9pt;">Aatteellisen toiminnan ensisijaisena tarkoituksena ei ole taloudellinen toiminta.</span></p>
+<p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-family:'Sans Serif'; font-size:9pt;">Toiminta jaetaan varsinaiseen toimintaan, varainhankintaan ja rahoitustoimintaan. Kirjanpitoa aloitettaessa valitaan tilikartan laajuus.</span></p></body></html>
 [TilikarttaOhje]
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 <html><head><meta name="qrichtext" content="1" /><style type="text/css">
 p, li { white-space: pre-wrap; }
-</style></head><body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;">
-<p style=" margin-top:16px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:x-large; font-weight:600;">Yhdistyksen tilikartta</span> </p>
-<p style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:large; font-weight:600;">Tiliryhmät</span></p>
-<p style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Yhdistyksen toiminta jaetaan</p>
-<ul style="margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"><li style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-weight:600;">varsinaiseen toimintaan</span>, joka on yhdistyksen tehtävän toteuttamista</li>
-<li style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;">3xxx: Varsinaisen toiminnan tulot (esim. osallistumismaksut, kohdeavustukset)</li>
-<li style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;">5xxx: Varsinaisen toiminnan henkilöstömenot</li>
-<li style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;">6xxx: Varsinaisen toiminnan poistot</li>
-<li style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;">4xxx: Varsinaisen toiminnan muut menot</li>
-<li style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-weight:600;">varainhankintaan</span></li>
-<li style=" font-weight:600;" style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;"><span style=" font-weight:400;">7xxx-alkuiset tilit: tulot 73xx, menot 74xx, henkilöstömenot 75xx, poistot 76xx</span></li>
-<li style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;">jos yhdistyksellä on arvonlisäveronalaista liiketoimintaa, käyttää se 70xx-alkuisia tilejä</li>
-<li style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-weight:600;">rahoitustoimintaan </span></li>
-<li style=" font-weight:600;" style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;"><span style=" font-weight:400;">90xx rahoitustoiminnan tulot, 91xx rahoitustoiminnan kulut</span></li>
-<li style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">yhdistyksen saamat <span style=" font-weight:600;">yleisavustukset </span>kirjataan tilille 8800</li></ul>
-<p style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Tilikarttaan on yleensä tarpeellista lisätä oman yhdistyksen toimintaan liittyviä tilejä. Lisää varainkeruuseen liittyvät tilit otsikoiden <span style=" font-weight:600;">Varainhankinnat tulot</span> ja <span style=" font-weight:600;">Varainhankinnan kulut</span> alle ja varsinaseen toimintaan liittyvät kohtiin <span style=" font-weight:600;">Varsinaisen toiminnan tulot</span> ja <span style=" font-weight:600;">Varsinaisen toiminnan kulut</span> (jaettu tavaraostoihin, palveluostoihin ja vuokriin). </p>
-<p style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:12pt; font-weight:600;">Konsernitilit </span></p>
-<p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Tilikartasta on piilotettu suuri osa rahoitukseen ja konserneihin liittyviä tileistä, jotka saa näkyviin <span style=" font-weight:600;">Määritykset &gt; Tilikartta</span>-valinnoilla. </p>
-<p style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:large; font-weight:600;">Kohdennukset</span> </p>
-<p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Jos kuluja seurataan toiminnanaloittain tai projekteittain, lisää tarvittavat kohdennukset kohdassa <span style=" font-weight:600;">Määritykset &gt; Kohdennukset</span>. </p>
-<p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Toiminnanaloittainen erittely on lisättävissä osaksi tilinpäätöstä. </p>
-<p style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:large; font-weight:600;">Arvonlisävero</span> </p>
-<p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Yhdistyksen aatteellinen toiminta on yleensä arvonlisäverotonta. Jos yhdistys on hakeutunut alv-velvolliseksi, tee tämä valinta kohdassa <span style=" font-weight:600;">Määritykset &gt; Perusvalinnat</span>. Jos perusvalinnoista määritellään, että yhdistyksellä on myös arvonlisäverollista liiketoimintaa, löytyvät sen tilit alueelta 70xx.</p></body></html>
+</style></head><body style=" font-family:'Noto Sans'; font-size:10pt; font-weight:400; font-style:normal;">
+<p style=" margin-top:16px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-family:'Sans Serif'; font-size:9pt; font-weight:600;">Yhdistyksen tilikartta</span><span style=" font-family:'Sans Serif'; font-size:9pt;"> </span></p>
+<p style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-family:'Sans Serif'; font-size:9pt; font-weight:600;">Tiliryhmät</span></p>
+<p style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-family:'Sans Serif'; font-size:9pt;">Yhdistyksen toiminta jaetaan</span></p>
+<ul style="margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;"><li style=" font-family:'Sans Serif'; font-size:9pt;" style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-weight:600;">varsinaiseen toimintaan</span>, joka on yhdistyksen tehtävän toteuttamista</li>
+<li style=" font-family:'Sans Serif'; font-size:9pt;" style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;">3xxx: Varsinaisen toiminnan tulot (esim. osallistumismaksut, kohdeavustukset)</li>
+<li style=" font-family:'Sans Serif'; font-size:9pt;" style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;">5xxx: Varsinaisen toiminnan henkilöstömenot</li>
+<li style=" font-family:'Sans Serif'; font-size:9pt;" style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;">6xxx: Varsinaisen toiminnan poistot</li>
+<li style=" font-family:'Sans Serif'; font-size:9pt;" style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;">4xxx: Varsinaisen toiminnan muut menot</li>
+<li style=" font-family:'Sans Serif'; font-size:9pt;" style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-weight:600;">varainhankintaan</span></li>
+<li style=" font-family:'Sans Serif'; font-size:9pt; font-weight:600;" style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;"><span style=" font-weight:400;">7xxx-alkuiset tilit: tulot 73xx, menot 74xx, henkilöstömenot 75xx, poistot 76xx</span></li>
+<li style=" font-family:'Sans Serif'; font-size:9pt;" style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;">jos yhdistyksellä on arvonlisäveronalaista liiketoimintaa, käyttää se 70xx-alkuisia tilejä</li>
+<li style=" font-family:'Sans Serif'; font-size:9pt;" style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-weight:600;">rahoitustoimintaan </span></li>
+<li style=" font-family:'Sans Serif'; font-size:9pt; font-weight:600;" style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px;"><span style=" font-weight:400;">90xx rahoitustoiminnan tulot, 91xx rahoitustoiminnan kulut</span></li>
+<li style=" font-family:'Sans Serif'; font-size:9pt;" style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">yhdistyksen saamat <span style=" font-weight:600;">yleisavustukset </span>kirjataan tilille 8800</li></ul>
+<p style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-family:'Sans Serif'; font-size:9pt;">Tilikarttaan on yleensä tarpeellista lisätä oman yhdistyksen toimintaan liittyviä tilejä. Lisää varainkeruuseen liittyvät tilit otsikoiden </span><span style=" font-family:'Sans Serif'; font-size:9pt; font-weight:600;">Varainhankinnat tulot</span><span style=" font-family:'Sans Serif'; font-size:9pt;"> ja </span><span style=" font-family:'Sans Serif'; font-size:9pt; font-weight:600;">Varainhankinnan kulut</span><span style=" font-family:'Sans Serif'; font-size:9pt;"> alle ja varsinaseen toimintaan liittyvät kohtiin </span><span style=" font-family:'Sans Serif'; font-size:9pt; font-weight:600;">Varsinaisen toiminnan tulot</span><span style=" font-family:'Sans Serif'; font-size:9pt;"> ja </span><span style=" font-family:'Sans Serif'; font-size:9pt; font-weight:600;">Varsinaisen toiminnan kulut</span><span style=" font-family:'Sans Serif'; font-size:9pt;"> (jaettu tavaraostoihin, palveluostoihin ja vuokriin). </span></p>
+<p style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-family:'Sans Serif'; font-size:9pt; font-weight:600;">Kohdennukset</span><span style=" font-family:'Sans Serif'; font-size:9pt;"> </span></p>
+<p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-family:'Sans Serif'; font-size:9pt;">Jos kuluja seurataan toiminnanaloittain tai projekteittain, lisää tarvittavat kohdennukset kohdassa </span><span style=" font-family:'Sans Serif'; font-size:9pt; font-weight:600;">Määritykset &gt; Kohdennukset</span><span style=" font-family:'Sans Serif'; font-size:9pt;">. </span></p>
+<p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-family:'Sans Serif'; font-size:9pt;">Toiminnanaloittainen erittely on lisättävissä osaksi tilinpäätöstä. </span></p>
+<p style=" margin-top:14px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-family:'Sans Serif'; font-size:9pt; font-weight:600;">Arvonlisävero</span><span style=" font-family:'Sans Serif'; font-size:9pt;"> </span></p>
+<p style=" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-family:'Sans Serif'; font-size:9pt;">Yhdistyksen aatteellinen toiminta on yleensä arvonlisäverotonta. Jos yhdistys on hakeutunut alv-velvolliseksi,valitse kohdasta </span><span style=" font-family:'Sans Serif'; font-size:9pt; font-weight:600;">Määritykset &gt; </span><span style=" font-family:'Sans Serif'; font-size:9pt;">Perusvalinnat</span><span style=" font-family:'Sans Serif'; font-size:9pt; font-weight:600;"> </span><span style=" font-family:'Sans Serif'; font-size:9pt;">laajempi tilikartta. Arvonlisäverollisen elinkeinotoiminnan tilit löytyvät alueelta 70xx.</span></p></body></html>
 [TilikarttaLuontiVersio]
-0.12-beta
+1.0-rc
 [tilit]
 H1 1 {} VASTAAVAA
 H2 10 {"Asti":147} Pysyvät vastaavat
@@ -131,7 +129,6 @@ H4 174 {} Lainasaamiset
 A 1740 {"Taseerittely":2} Lainasaamiset
 H4 176 {} Muut saamiset
 AS 1760 {"Taseerittely":2} Muut saamiset
-AV- 1761 {"Taseerittely":1} Verosaamiset
 AL- 1762 {} Arvonlisäverosaamiset
 ALM- 1763 {} Maksuperusteinen arvonlisäverosaaminen
 H4- 177 {} Siirtosaamiset
@@ -214,7 +211,7 @@ BS- 2975 {"Taseerittely":2} Velat omistusyhteysyrityksille; lyhytaikaiset
 H4 298 {} Muut velat
 BL- 2984 {} Arvonlisäverovelka
 BLM- 2985 {} Maksuperusteinen arvonlisäverovelka
-BV 2986 {"Kirjausohje":"Tälle tilille siirretään maksettavat arvonlisäverot siinä vaiheessa, kun tehdään arvonlisäveroilmoitus."} Verovelka (Omavero-tili)
+BV- 2986 {"Kirjausohje":"Tälle tilille siirretään maksettavat arvonlisäverot siinä vaiheessa, kun tehdään arvonlisäveroilmoitus."} Verovelka (Omavero-tili)
 BS 2989 {"Taseerittely":2} Muut velat
 H4 299 {} Siirtovelat
 BS 2990 {"Taseerittely":2} Siirtovelat
@@ -229,10 +226,12 @@ H3 4 {} Varsinaisen toiminnan menot
 H4 40 {"Asti":42} Ostot
 H5 40 {} Tavaroiden ostot
 D 4000 {} Tavaraostot, varsinainen toiminta
+D 4020 {"Kirjausohje":"Kilpailuiden pokaalit, mitallit ja muut palkinnot"} Palkinnot
 H5 41 {} Palveluiden ostot
 D 4100 {} Palveluosostot, varsinainen toiminta
 H5 42 {} Vuokrat ja käyttömaksut
 D 4200 {} Vuokrat ja käyttömaksut, varsinainen toiminta
+D 4220 {} Uimahallimaksut
 H4 43 {} Jäsenmaksut
 D 4310 {} Maksetut jäsenmaksut
 H4 44 {} Toimitilakulut
@@ -381,6 +380,7 @@ D- 9510 {} Verotusperusteisten varausten muutos
 C- 9585 {} Saadut konserniavustukset
 D- 9586 {} Annetut konserniavustukset
 D 9590 {} Muut tilinpäätössiirrot
+AV- 1761 {"Taseerittely":1} Verosaamiset
 [tositelajit]
 OL {"Kirjaustyyppi":1,"Oletustili":4000,"Vastatili":2960} Ostolaskut
 ML {"Kirjaustyyppi":2,"Oletustili":3000,"Vastatili":1700} Myyntilaskut
@@ -561,8 +561,44 @@ yhdistys-1.kpk
 2960
 [TuontiOstolaskuTositelaji]
 2
+[TuontiOstolaskuPeruste]
+1
 [TuontiTiliote]
 ON
+[MuotoTeksti]
+Tilikartan laajuus
+[PalkkaFiTuonti]
+2921 2986
+2925 2989
+2933 2989
+5100 5002
+5110 5002
+5130 5000
+5180 5000
+5200 5003
+5201 5003
+5420 5005
+5400 5005
+5410 5005
+5430 5005
+5440 5005
+5300 5004
+5310 5004
+5340 5004
+5350 5004
+6140 5100
+6420 5121
+7070 4500
+7120 4690
+7860 4791
+7870 4741
+7880 4751
+7890 4751
+7900 4751
+7910 4761
+7920 5005
+5990 5040
+5120 5001
 [Raportti/Tase/PMA]
 :tase
 
@@ -606,65 +642,6 @@ Lyhytaikainen vieras pääoma		29 s4
 
 
 Vastattavaa yhteensä		2 bold
-[Raportti/Tuloslaskelma]
-:tulos
-
-Varsinainen toiminta	bold
-Tuotot	3 S *
-Kulut
-Henkilöstökulut	5 s4 *
-Poistot	6 s4 *
-Muut kulut	4 s4 *
-Kulut yhteensä	4..6 == S4 
-
-Tuotto/Kulujäämä	=
-
-Varainhankinta	bold
-Tuotot	7+ S4 *
-Kulut	7- S4 *
-Varainhankinta yhteensä	7 == S4 
-
-Tuotto/Kulujäämä	= 
-
-Sijoitus- ja rahoitustoiminta	bold
-Tuotot	90 S4 *
-Kulut	91 S4 *
-Sijoitus- ja rahoitustoiminta yhteensä	90,91 == S4 
-
-Tuotto/Kulujäämä	=
-
-Yleisavustukset	88  * bold
-
-Tilikauden tulos	=
-
-Tilinpäätössiirrot	bold
-Poistoeron muutos	950 * s4
-Verotusperusteisten varausten muutos	951 * s4
-Konserniavustus	958 * s4
-Tilinpäätössiirrot yhteensä	s4 95 == 
-
-Tilikauden ylijäämä (alijäämä)	= bold
-[Raportti/Toiminnanalat]
-:kohdennus
-Vastaavaa	1 *
-Vastattavaa	2 *
-Tase yhteensä	1..2 viiva
-
-Toimintatulot   	S 3 *
-Toimintakulut	S 4..6  
-Henkilöstökulut	5 * s4
-Poistot 	6 * s4
-Muut kulut  	4 * s4
-
-Varainhankinta  	7
-Elinkeinotoiminnan tulot  	703 *
-Elinkeinotoiminnan kulut 	704..709 *
-Varainhankinnan tulot	73 *
-Varainhankinnan kulut 	74..79 *
-
-Tulos yhteensä   	3..9 viiva
-
-
 [Raportti/Tase/Yleinen]
 :tase
 VASTAAVAA		H bold
@@ -772,8 +749,65 @@ Muut velat		298 s8 *
 Siirtovelat  		299 s8 *
 
 Vastattavaa yhteensä		2 bold
-[MuotoTeksti]
-Tilikartan laajuus
+[Raportti/Tuloslaskelma]
+:tulos
+
+Varsinainen toiminta	bold
+Tuotot	3 S *
+Kulut
+Henkilöstökulut	5 s4 *
+Poistot	6 s4 *
+Muut kulut	4 s4 *
+Kulut yhteensä	4..6 == S4 
+
+Tuotto/Kulujäämä	=
+
+Varainhankinta	bold
+Tuotot	7+ S4 *
+Kulut	7- S4 *
+Varainhankinta yhteensä	7 == S4 
+
+Tuotto/Kulujäämä	= 
+
+Sijoitus- ja rahoitustoiminta	bold
+Tuotot	90 S4 *
+Kulut	91 S4 *
+Sijoitus- ja rahoitustoiminta yhteensä	90,91 == S4 
+
+Tuotto/Kulujäämä	=
+
+Yleisavustukset	88  * bold
+
+Tilikauden tulos	=
+
+Tilinpäätössiirrot	bold
+Poistoeron muutos	950 * s4
+Verotusperusteisten varausten muutos	951 * s4
+Konserniavustus	958 * s4
+Tilinpäätössiirrot yhteensä	s4 95 == 
+
+Tilikauden ylijäämä (alijäämä)	= bold
+[Raportti/Toiminnanalat]
+:kohdennus
+Vastaavaa	1 *
+Vastattavaa	2 *
+Tase yhteensä	1..2 viiva
+
+Toimintatulot   	S 3 *
+Toimintakulut	S 4..6  
+Henkilöstökulut	5 * s4
+Poistot 	6 * s4
+Muut kulut  	4 * s4
+
+Varainhankinta  	7
+Elinkeinotoiminnan tulot  	703 *
+Elinkeinotoiminnan kulut 	704..709 *
+Varainhankinnan tulot	73 *
+Varainhankinnan kulut 	74..79 *
+
+Tulos yhteensä   	3..9 viiva
+
+
 [MuotoOn/1 Vain perustilit]
 -1..9
 +1160
@@ -802,46 +836,25 @@ Tilikartan laajuus
 +7390
 +9050
 +9150
-[MuotoPois/1 Vain perustilit]
-+1..9
--102..104
--141..144
--160/4..163
--181
--25/3..26
--287
--297
--95
-[MuotoOn/2 Ei palkkoja]
--26/3
--2986
--5
--75
-[MuotoPois/2 Ei palkkoja]
-+26/3
-+2986
-+5
-+75
-[MuotoOn/3 Tavallinen]
-
-[MuotoOn/4 Elinkeinotoimintaa]
-+70/3
-+1167
-+1761..1763
-+2984
-+2985
-AlvVelvollinen=ON
-[MuotoPois/4 Elinkeinotoimintaa]
--1167
--70/3
--1761..1763
--1763
--2984
--2985
-AlvVelvollinen=EI
 [MuotoOn/5 Kaikki tilit]
 +1..9
 AlvVelvollinen=ON
+[MuotoOn/2 Ei palkkoja]
+-26/3
+-5
+-75
+[MuotoOn/4 Elinkeinotoimintaa]
++70/3
++1167
++1762
++1763
++2984
++2985
+AlvVelvollinen=ON
+[MuotoPois/2 Ei palkkoja]
++26/3
++5
++75
 [MuotoPois/5 Kaikki tilit]
 -102..104
 -141..144
@@ -852,49 +865,21 @@ AlvVelvollinen=ON
 -297
 -95
 AlvVelvollinen=EI
-[Muoto]
-3 Tavallinen
-[Kirjaamisperuste/Suoriteperuste]
-TuontiOstolaskuPeruste=1
-[Kirjaamisperuste/Laskuperuste]
-LaskuKirjausperuste=1
-TuontiOstolaskuPeruste=2
-[Kirjaamisperuste/Maksuperuste]
-ML/1910
-OL/1910
-LaskuKirjausperuste=2
-TuontiOstolaskuPeruste=3
-TuontiOstolaskuTili=1910
-TilinpaatosValinnat+=maksuperuste
-[PalkkaFiTuonti]
-2921 2986
-2925 2989
-2933 2989
-5100 5002
-5110 5002
-5130 5000
-5180 5000
-5200 5003
-5201 5003
-5420 5005
-5400 5005
-5410 5005
-5430 5005
-5440 5005
-5300 5004
-5310 5004
-5340 5004
-5350 5004
-6140 5100
-6420 5121
-7070 4500
-7120 4690
-7860 4791
-7870 4741
-7880 4751
-7890 4751
-7900 4751
-7910 4761
-7920 5005
-5990 5040
-5120 5001
+[MuotoPois/4 Elinkeinotoimintaa]
+-1167
+-70/3
+-1762
+-1763
+-2984
+-2985
+AlvVelvollinen=EI
+[MuotoPois/1 Vain perustilit]
++1..9
+-102..104
+-141..144
+-160/4..163
+-181
+-25/3..26
+-287
+-297
+-95
