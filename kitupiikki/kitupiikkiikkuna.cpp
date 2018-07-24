@@ -421,6 +421,7 @@ void KitupiikkiIkkuna::luoInboxDock()
     InboxLista *inbox = new InboxLista;
 
     inboxDock = new QDockWidget(tr("Kirjattavat"));
+    inboxDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea );
     inboxDock->setWidget(inbox);
 
     addDockWidget(Qt::RightDockWidgetArea, inboxDock);

@@ -36,6 +36,7 @@ struct Liite
     QByteArray pdf;
     QByteArray thumbnail;
     bool muokattu = false;
+    QString lisattyPolusta;
 };
 
 class TositeModel;
@@ -78,7 +79,7 @@ public:
      * @param otsikko
      * @return Liitteen nro
      */
-    int lisaaLiite(const QByteArray &liite, const QString& otsikko);
+    int lisaaLiite(const QByteArray &liite, const QString& otsikko, const QString& polusta = QString());
     /**
      * @brief Jos samalla otsikolla olemassa, korvaa - muuten lisää
      * @param pdf

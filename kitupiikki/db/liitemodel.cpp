@@ -113,7 +113,7 @@ bool LiiteModel::setData(const QModelIndex &index, const QVariant &value, int ro
     return false;
 }
 
-int LiiteModel::lisaaLiite(const QByteArray &liite, const QString &otsikko)
+int LiiteModel::lisaaLiite(const QByteArray &liite, const QString &otsikko, const QString &polusta)
 {
     beginInsertRows( QModelIndex(), liitteet_.count(), liitteet_.count() );
     Liite uusi;
@@ -122,6 +122,7 @@ int LiiteModel::lisaaLiite(const QByteArray &liite, const QString &otsikko)
     uusi.pdf = liite;
     uusi.otsikko = otsikko;
     uusi.muokattu = true;
+    uusi.lisattyPolusta = polusta;
 
     if( liite.startsWith("%PDF"))
     {
@@ -205,10 +206,10 @@ int LiiteModel::lisaaTiedosto(const QString &polku, const QString &otsikko)
         kuva.save(&puskuri, "JPG");
 
         puskuri.close();
-        return lisaaLiite(jpg, otsikko);
+        return lisaaLiite(jpg, otsikko, polku);
     }
 
-    return lisaaLiite(data, otsikko);
+    return lisaaLiite(data, otsikko, polku);
 }
 
 void LiiteModel::poistaLiite(int indeksi)
@@ -275,6 +276,8 @@ void LiiteModel::tyhjaa()
 
 bool LiiteModel::tallenna()
 {
+    QString inboxPolku = kp()->asetukset()->asetus("KirjattavienKansio");
+
     QSqlQuery kysely( *kp()->tietokanta() );
     for( int i=0; i<liitteet_.count(); i++)
     {        
@@ -304,6 +307,9 @@ bool LiiteModel::tallenna()
                 if( !kysely.exec() )
                     return false;
                 liitteet_[i].id = kysely.lastInsertId().toInt();
+
+                if( !inboxPolku.isEmpty() && liitteet_.at(i).lisattyPolusta.startsWith( inboxPolku ) )
+                    QFile::remove( liitteet_.at(i).lisattyPolusta );
 
             }
             else
