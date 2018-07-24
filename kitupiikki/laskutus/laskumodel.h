@@ -124,14 +124,14 @@ public:
 
 public slots:
 
-    void asetaErapaiva(const QDate & paiva) { erapaiva_ = paiva; }
-    void asetaLisatieto(const QString& tieto) { lisatieto_ = tieto; }
-    void asetaOsoite(const QString& osoite) { osoite_ = osoite; }
-    void asetaToimituspaiva(const QDate& pvm) { toimituspaiva_ = pvm; }
-    void asetaLaskunsaajannimi(const QString& nimi) { laskunsaajanNimi_ = nimi; }
-    void asetaKirjausperuste(int kirjausperuste) { kirjausperuste_ = kirjausperuste; }
-    void asetaEmail(const QString& osoite) { email_ = osoite; }
-    void asetaYTunnus(const QString& ytunnus) { ytunnus_ = ytunnus; }
+    void asetaErapaiva(const QDate & paiva) { if(erapaiva_ != paiva) muokattu_ = true; erapaiva_ = paiva;  }
+    void asetaLisatieto(const QString& tieto) { if(lisatieto_ != tieto) muokattu_ = true; lisatieto_ = tieto;  }
+    void asetaOsoite(const QString& osoite) { if(osoite_ != osoite) muokattu_ = true; osoite_ = osoite;  }
+    void asetaToimituspaiva(const QDate& pvm) { if(toimituspaiva_ != pvm) muokattu_ = true; toimituspaiva_ = pvm;  }
+    void asetaLaskunsaajannimi(const QString& nimi) { if(laskunsaajanNimi_ != nimi) muokattu_ = true; laskunsaajanNimi_ = nimi;  }
+    void asetaKirjausperuste(int kirjausperuste) { if(kirjausperuste_ != kirjausperuste) muokattu_ = true; kirjausperuste_ = kirjausperuste; }
+    void asetaEmail(const QString& osoite) { if(email_ != osoite) muokattu_ = true; email_ = osoite; }
+    void asetaYTunnus(const QString& ytunnus) { if(ytunnus != ytunnus) muokattu_ = true;  ytunnus_ = ytunnus; }
 
 public:
 
@@ -155,6 +155,8 @@ public:
      * @return
      */
     QString tositetunnus();
+
+    bool muokattu() const  { return muokattu_; }
 
 public slots:
     void lisaaRivi(LaskuRivi rivi = LaskuRivi());
@@ -182,6 +184,7 @@ private:
     qulonglong laskunNumero_ = 0;
     int vientiId_ = 0;
     qlonglong avoinSaldo_ = 0;
+    bool muokattu_ = false;
 
     void paivitaSumma(int rivi);
 };

@@ -136,6 +136,8 @@ LaskuModel *LaskuModel::haeLasku(int vientiId)
         rivi.tuoteKoodi = map.value("Tuotekoodi").toInt();
         model->rivit_.append(rivi);
     }
+
+    model->muokattu_ = false;
     return model;
 }
 
@@ -317,6 +319,8 @@ bool LaskuModel::setData(const QModelIndex &index, const QVariant &value, int ro
 
     if( role == Qt::EditRole)
     {
+        muokattu_ = true;
+
         switch (index.column()) {
         case NIMIKE:
             rivit_[rivi].nimike = value.toString();
@@ -382,17 +386,21 @@ bool LaskuModel::setData(const QModelIndex &index, const QVariant &value, int ro
     {
         rivit_[rivi].alvKoodi = value.toInt();
         paivitaSumma(rivi);
+        muokattu_ = true;
         return true;
     }
     else if( role == AlvProsenttiRooli)
     {
         rivit_[rivi].alvProsentti = value.toInt();
         paivitaSumma(rivi);
+        muokattu_ = true;
         return true;
     }
     else if( role == TuoteKoodiRooli)
     {
         rivit_[rivi].tuoteKoodi = value.toInt();
+        muokattu_ = true;
+        return true;
     }
 
     return false;

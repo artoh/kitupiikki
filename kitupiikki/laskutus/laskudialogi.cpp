@@ -254,7 +254,7 @@ void LaskuDialogi::haeOsoite()
 
 void LaskuDialogi::vieMalliin()
 {
-    if( model->laskunSumma() > 0 && ui->perusteCombo->currentData().toInt() != LaskuModel::KATEISLASKU)
+    if( model->laskunSumma() > 0 && ui->perusteCombo->currentData().toInt() != LaskuModel::KATEISLASKU )
         model->asetaErapaiva( ui->eraDate->date());
 
     model->asetaLisatieto( ui->lisatietoEdit->toPlainText());
@@ -408,7 +408,12 @@ void LaskuDialogi::paivitaTuoteluettelonNaytto()
 
 void LaskuDialogi::reject()
 {
-    if( QMessageBox::question(this, tr("Hylkää lasku"),
+    vieMalliin();
+
+    if( !model->muokattu())
+        QDialog::reject();
+
+    else if( QMessageBox::question(this, tr("Hylkää lasku"),
                               tr("Hylkäätkö laskun tallentamatta sitä kirjanpitoon?"))==QMessageBox::Yes)
         QDialog::reject();
 }
