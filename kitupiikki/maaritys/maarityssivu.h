@@ -55,6 +55,7 @@ public:
         LASKUTUS,
         SAHKOPOSTI,
         TUONTI,
+        INBOX,
         RAPORTIT,
         LIITETIETOKAAVA,
         TILIKARTTAOHJE

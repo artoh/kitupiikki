@@ -37,6 +37,7 @@
 #include "emailmaaritys.h"
 #include "tuontimaarityswidget.h"
 #include "tilikarttaohje.h"
+#include "inboxmaaritys.h"
 
 #include "ktpvienti/ktpvienti.h"
 
@@ -45,7 +46,7 @@
 #include <QDebug>
 
 MaaritysSivu::MaaritysSivu() :
-    KitupiikkiSivu(0), nykyinen(0), nykyItem(0)
+    KitupiikkiSivu(nullptr), nykyinen(nullptr), nykyItem(nullptr)
 {
 
     lista = new QListWidget;
@@ -59,6 +60,7 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu("Laskutus", LASKUTUS, QIcon(":/pic/lasku.png"));
     lisaaSivu("Sähköpostin lähetys", SAHKOPOSTI, QIcon(":/pic/email.png"));
     lisaaSivu("Tuonti", TUONTI, QIcon(":/pic/tuotiedosto.png"));
+    lisaaSivu("Kirjattavien kansio", INBOX, QIcon(":/pic/inbox.png"));
     lisaaSivu("Raportit", RAPORTIT, QIcon(":/pic/print.png"));
     lisaaSivu("Tilinpäätöksen malli", LIITETIETOKAAVA, QIcon(":/pic/tekstisivu.png"));
     lisaaSivu("Tilikartan ohje", TILIKARTTAOHJE, QIcon(":/pic/ohje.png"));
@@ -123,7 +125,7 @@ bool MaaritysSivu::poistuSivulta(int /* minne */)
     if( nykyinen )
     {
         delete nykyinen;
-        nykyinen = 0;
+        nykyinen = nullptr;
     }
 
     return true;
@@ -182,7 +184,7 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
 
         sivuleiska->removeWidget(nykyinen);
         delete nykyinen;
-        nykyinen = 0;
+        nykyinen = nullptr;
     }
 
     int sivu = item->data(Qt::UserRole).toInt();
@@ -212,6 +214,8 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         nykyinen = new EmailMaaritys;
     else if(sivu == TILIKARTTAOHJE)
         nykyinen = new TilikarttaOhje;
+    else if(sivu == INBOX)
+        nykyinen = new InboxMaaritys;
     else
         nykyinen = new Perusvalinnat;   // Tilipäinen
 

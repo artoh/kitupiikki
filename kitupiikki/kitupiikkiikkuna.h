@@ -110,6 +110,7 @@ protected:
     KitupiikkiSivu* sivut[SIVUT_LOPPU ];
 
     QDockWidget *harjoitusDock;
+    QDockWidget *inboxDock;
 
     AloitusSivu *aloitussivu;
     KirjausSivu *kirjaussivu;
@@ -135,6 +136,7 @@ protected:
     void lisaaSivut();
 
     void luoHarjoitusDock();
+    void luoInboxDock();
 
 
 };

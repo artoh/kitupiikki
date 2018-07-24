@@ -250,6 +250,11 @@ signals:
     void perusAsetusMuuttui();
 
     /**
+     * @brief Kirjattavien kansio muuttui
+     */
+    void inboxMuuttui();
+
+    /**
      * @brief Tilikausi on päätetty
      *
      * Päätetylle tilikaudelle ei voi enää kirjata mitään. Siksi tilikauden päättäminen vaikuttaa

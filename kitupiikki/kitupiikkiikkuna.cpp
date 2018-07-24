@@ -55,6 +55,8 @@
 #include "laskutus/laskudialogi.h"
 #include "kirjaus/siirrydlg.h"
 
+#include "tools/inboxlista.h"
+
 KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     nykysivu(nullptr)
 {
@@ -78,7 +80,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 
     lisaaSivut();
     luoHarjoitusDock();
-
+    luoInboxDock();
 
     // Himmennetään ne valinnat, jotka mahdollisia vain kirjanpidon ollessa auki
     for(int i=KIRJAUSSIVU; i<SIVUT_LOPPU;i++)
@@ -412,4 +414,17 @@ void KitupiikkiIkkuna::luoHarjoitusDock()
     connect( pvmedit, SIGNAL(dateChanged(QDate)), Kirjanpito::db(), SLOT(asetaHarjoitteluPvm(QDate)));
     connect( pvmedit, SIGNAL(dateChanged(QDate)), aloitussivu, SLOT(siirrySivulle()));  // Jotta päivittyy ;)
     harjoitusDock->setVisible(false);
+}
+
+void KitupiikkiIkkuna::luoInboxDock()
+{
+    InboxLista *inbox = new InboxLista;
+
+    inboxDock = new QDockWidget(tr("Kirjattavat"));
+    inboxDock->setWidget(inbox);
+
+    addDockWidget(Qt::RightDockWidgetArea, inboxDock);
+    inboxDock->setVisible( false );
+    connect( inbox, &InboxLista::nayta, inboxDock, &QDockWidget::setVisible );
+
 }

@@ -156,7 +156,10 @@ SOURCES += main.cpp \
     naytin/naytinview.cpp \
     naytin/kuvanaytin.cpp \
     naytin/raporttiscene.cpp \
-    naytin/naytinikkuna.cpp
+    naytin/naytinikkuna.cpp \
+    maaritys/tallentavamaarityswidget.cpp \
+    maaritys/inboxmaaritys.cpp \
+    tools/inboxlista.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -293,7 +296,10 @@ HEADERS += \
     naytin/naytinview.h \
     naytin/kuvanaytin.h \
     naytin/raporttiscene.h \
-    naytin/naytinikkuna.h
+    naytin/naytinikkuna.h \
+    maaritys/tallentavamaarityswidget.h \
+    maaritys/inboxmaaritys.h \
+    tools/inboxlista.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -370,7 +376,8 @@ FORMS += \
     kirjaus/siirry.ui \
     kirjaus/kopioitosite.ui \
     uusikp/kirjausperuste.ui \
-    laskutus/yhteystiedot.ui
+    laskutus/yhteystiedot.ui \
+    maaritys/inboxmaaritys.ui
 
 DISTFILES += \
     uusikp/luo.sql \

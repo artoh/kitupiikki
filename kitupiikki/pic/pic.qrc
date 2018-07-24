@@ -114,6 +114,7 @@
         <file>zoom-fit-width.png</file>
         <file>zoom-in.png</file>
         <file>zoom-out.png</file>
+        <file>inbox.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
