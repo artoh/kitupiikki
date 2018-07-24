@@ -86,6 +86,8 @@ public slots:
      */
     void lisaaLiite(const QString polku);
     void lisaaLiite();
+    void lisaaLiiteDatasta(const QByteArray& data, const QString& nimi);
+
 
     /**
      * @brief Siirtää lomakkeen tiedot modeliin

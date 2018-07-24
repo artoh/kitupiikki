@@ -55,6 +55,7 @@ NaytaliiteWg::NaytaliiteWg(QWidget *parent)
 
     connect(ui->valitseTiedostoNappi, SIGNAL(clicked(bool)), this, SLOT(valitseTiedosto()));
     connect( qApp->clipboard(), SIGNAL(dataChanged()), this, SLOT(tarkistaLeikepoyta()));
+    connect( ui->liitaNappi, &QPushButton::clicked, this, &NaytaliiteWg::leikepoydalta);
 
     setAcceptDrops(true);
     tarkistaLeikepoyta();
@@ -87,9 +88,16 @@ void NaytaliiteWg::naytaPdf(const QByteArray &pdfdata)
     }
 }
 
+void NaytaliiteWg::leikepoydalta()
+{
+    if( qApp->clipboard()->mimeData()->formats().contains("image/jpg"))
+        emit lisaaLiiteDatalla( qApp->clipboard()->mimeData()->data("image/jpg"), tr("liite.jpg") );
+    else if( qApp->clipboard()->mimeData()->formats().contains("image/png"))
+        emit lisaaLiiteDatalla( qApp->clipboard()->mimeData()->data("image/png"), tr("liite.png") );
+}
+
 void NaytaliiteWg::tarkistaLeikepoyta()
 {
-    qDebug() << qApp->clipboard()->mimeData()->formats() ;
 
     QStringList formaatit = qApp->clipboard()->mimeData()->formats();
 
@@ -100,7 +108,18 @@ void NaytaliiteWg::tarkistaLeikepoyta()
 
 void NaytaliiteWg::dragEnterEvent(QDragEnterEvent *event)
 {
-    if( event->mimeData()->hasUrls())
+    if( event->mimeData()->hasUrls() )
+    {
+        for( QUrl url: event->mimeData()->urls())
+        {
+            if(url.isLocalFile())
+                event->accept();
+        }
+    }
+
+
+    if( event->mimeData()->formats().contains("image/jpg") ||
+        event->mimeData()->formats().contains("image/png"))
         event->accept();
 }
 
@@ -111,6 +130,7 @@ void NaytaliiteWg::dragMoveEvent(QDragMoveEvent *event)
 
 void NaytaliiteWg::dropEvent(QDropEvent *event)
 {
+    int lisatty = 0;
     // Liitetiedosto pudotettu
     if( event->mimeData()->hasUrls())
     {
@@ -126,9 +146,16 @@ void NaytaliiteWg::dropEvent(QDropEvent *event)
                     polku = polku.mid(1);
 #endif
                 emit lisaaLiite( polku );
+                lisatty++;
             }
         }
     }
+    if( !lisatty && event->mimeData()->formats().contains("image/jpg"))
+        emit lisaaLiiteDatalla( event->mimeData()->data("image/jpg"), tr("liite.jpg") );
+    else if(!lisatty && event->mimeData()->formats().contains("image/png"))
+        emit lisaaLiiteDatalla( event->mimeData()->data("image/png"), tr("liite.png") );
+
+    qDebug() << event->mimeData()->formats();
 }
 
 

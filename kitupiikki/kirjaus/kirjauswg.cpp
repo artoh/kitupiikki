@@ -36,6 +36,9 @@
 #include <QSortFilterProxyModel>
 #include <QCompleter>
 
+#include <QClipboard>
+#include <QMimeData>
+
 #include "kirjauswg.h"
 #include "tilidelegaatti.h"
 #include "eurodelegaatti.h"
@@ -758,6 +761,15 @@ void KirjausWg::lisaaLiite(const QString polku)
 void KirjausWg::lisaaLiite()
 {
     lisaaLiite(QFileDialog::getOpenFileName(this, tr("Lisää liite"),QString(),tr("Pdf-tiedosto (*.pdf);;Kuvat (*.png *.jpg);;CSV-tiedosto (*.csv);;Kaikki tiedostot (*.*)")));
+}
+
+void KirjausWg::lisaaLiiteDatasta(const QByteArray &data, const QString &nimi)
+{
+    model_->liiteModel()->lisaaLiite( data, nimi );
+    // Valitsee lisätyn liitteen
+    ui->liiteView->setCurrentIndex( model_->liiteModel()->index( model_->liiteModel()->rowCount(QModelIndex()) - 1 ) );
+    ui->poistaLiiteNappi->setEnabled(true);
+
 }
 
 

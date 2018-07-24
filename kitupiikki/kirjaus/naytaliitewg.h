@@ -45,11 +45,13 @@ public:
 public slots:
     void valitseTiedosto();
     void naytaPdf(const QByteArray& pdfdata);
+    void leikepoydalta();
 
     void tarkistaLeikepoyta();
 
 signals:
     void lisaaLiite(const QString& polku);
+    void lisaaLiiteDatalla(const QByteArray& data, const QString& nimi);
 
 
 protected:

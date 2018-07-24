@@ -128,6 +128,10 @@ int main(int argc, char *argv[])
 
     ikkuna.show();
     splash->finish( &ikkuna );
+
+    if( argc > 1)
+        kirjanpito.avaaTietokanta( argv[1] );
+
     delete splash;
 
 
