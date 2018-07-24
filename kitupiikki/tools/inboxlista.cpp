@@ -23,6 +23,9 @@
 #include <QDrag>
 #include <QMimeData>
 #include <QApplication>
+#include <QImage>
+
+#include <poppler/qt5/poppler-qt5.h>
 
 InboxLista::InboxLista()
 {
@@ -30,6 +33,9 @@ InboxLista::InboxLista()
     connect( kp(), &Kirjanpito::inboxMuuttui, this, &InboxLista::alusta);
     connect( kp(), &Kirjanpito::tietokantaVaihtui, this, &InboxLista::alusta);
     connect( vahti_, &QFileSystemWatcher::directoryChanged, this, &InboxLista::paivita);
+
+    setViewMode(QListWidget::IconMode);
+    setIconSize(QSize( 125 , 150));
 
 }
 
@@ -65,9 +71,42 @@ void InboxLista::paivita()
         {
             QListWidgetItem *item = new QListWidgetItem( info.fileName(), this );
             if( tiedostonimi.endsWith(".pdf"))
-                item->setIcon(QIcon(":/pic/pdf.png"));
+            {
+                QImage kuva;
+                Poppler::Document *pdfDoc = Poppler::Document::load( info.absoluteFilePath());
+                if( pdfDoc )
+                {
+                    Poppler::Page *pdfSivu = pdfDoc->page(0);
+                    if( pdfSivu )
+                    {
+                        kuva = pdfSivu->thumbnail();
+                        if( kuva.isNull())
+                            kuva = pdfSivu->renderToImage(24,24);
+                        delete pdfSivu;
+                    }
+                    delete pdfDoc;
+                }
+                if( kuva.isNull())
+                {
+                    item->setIcon(QIcon(":/pic/pdf.png"));
+                }
+                else
+                {
+                    item->setIcon( QIcon( QPixmap::fromImage(kuva)));
+                }
+            }
             else
-                item->setIcon(QIcon(":/pic/kuva.png"));
+            {
+                QImage kuva( info.absoluteFilePath() );
+                if( kuva.isNull())
+                {
+                    item->setIcon(QIcon(":/pic/kuva.png"));
+                }
+                else
+                {
+                    item->setIcon( QIcon( QPixmap::fromImage(kuva) ) );
+                }
+            }
             item->setData(Qt::UserRole, info.absoluteFilePath());
         }
     }
