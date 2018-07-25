@@ -42,8 +42,8 @@ Kitupiikki käyttää QMakea. Kääntäminen on helpointa tehdä [QtCreatorin](h
     qmake kitupiikki.pro && make qmake_all
     make
 
-Kitupiikin Windows-jakeluversion käännetään [MXE-ristiinkääntöympäristössä](http://mxe.cc) [jakelut.sh-skriptillä](https://raw.githubusercontent.com/artoh/kitupiikki/master/jakelut.sh).
-    
+Kitupiikin Windows-jakeluversion käännetään [MXE-ristiinkääntöympäristössä].
+
 ## Kehittäminen
 
 Kehittämisen suuntaviivat löytyvät projektin GitHubin Issues- ja Wiki-osastoista. Koodi kommentoidaan doxygenin merkkauksella niin, että API-dokumentaatio on laadittavissa Doxygenillä. Kirjanpito talletetaan SQLite-tietokantaan ja liitteet säilytetään pdf-muodossa.
