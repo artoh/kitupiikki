@@ -1,3 +1,4 @@
+
 QT += gui
 QT += widgets
 QT += sql
@@ -13,6 +14,7 @@ LIBS += -lpoppler
 
 macx {
     LIBS += -L/usr/local/opt/poppler/lib -lpoppler-qt5
+    INCLUDEPATH += /usr/local/opt/include
 }
 
 CONFIG += c++11
