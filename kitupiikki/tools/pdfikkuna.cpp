@@ -100,7 +100,7 @@ void PdfIkkuna::avaaOhjelmalla()
     tiedosto.write( data );
     tiedosto.close();
 
-    if( !QDesktopServices::openUrl( QUrl(tiedosto.fileName()) ))
+    if( !QDesktopServices::openUrl( QUrl::fromLocalFile(tiedosto.fileName()) ))
         QMessageBox::critical(this, tr("Pdf-tiedoston näyttäminen"), tr("Pdf-tiedostoja näyttävän ohjelman käynnistäminen ei onnistunut"));
 }
 
