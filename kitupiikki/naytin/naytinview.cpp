@@ -122,7 +122,7 @@ void NaytinView::avaaOhjelmalla()
     tiedosto.write( data());
     tiedosto.close();
 
-    if( !QDesktopServices::openUrl( QUrl(tiedosto.fileName()) ))
+    if( !QDesktopServices::openUrl( QUrl::fromLocalFile(tiedosto.fileName()) ))
         QMessageBox::critical(this, tr("Tiedoston avaaminen"), tr("%1-tiedostoja näyttävän ohjelman käynnistäminen ei onnistunut").arg( tiedostoPaate() ) );
 }
 
