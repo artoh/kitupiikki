@@ -26,6 +26,8 @@ extra:
       link: 'https://github.com/artoh/kitupiikki'
     - type: 'youtube'
       link: 'https://www.youtube.com/channel/UCVNHCMQoNb66OgzuTSfdKqQ'
+    - type: 'comment'
+      link: 'http://palaute.kitupiikki.info'
   search:
     language: 'fi'
 markdown_extensions:
