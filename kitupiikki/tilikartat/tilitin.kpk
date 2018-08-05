@@ -1604,6 +1604,7 @@ Laskennalliset verot		997 *
 Muut välittömät verot		998..999 *
 
 [Raportti/Kohdennukset]
+:kohdennus
 Tulot 	3..9+ *4
 Menot	3..9- *4
 Tulos	3..9 viiva
