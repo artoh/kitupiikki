@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2017 Arto Hyvättinen
+   Copyright (C) 2018 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,41 +14,35 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-
-#ifndef TILINAVAUSMODEL_H
-#define TILINAVAUSMODEL_H
+#ifndef BUDJETTIMODEL_H
+#define BUDJETTIMODEL_H
 
 #include <QAbstractTableModel>
-#include <QList>
 #include <QMap>
+#include <QDate>
 
-#include "db/kirjanpito.h"
+class QSortFilterProxyModel;
 
 /**
- * @brief Tilinavaukset
+ * @brief Budjetin model
  *
- * Tätä modelia käytetään tilinavausten syöttämiseen määrittelynäkymässä
+ * Yhden tilikauden budjetti yhdelle kohdennukselle
  *
  */
-class TilinavausModel : public QAbstractTableModel
+class BudjettiModel : public QAbstractTableModel
 {
     Q_OBJECT
 
 public:
     enum Sarake
     {
-        NRO, NIMI, SALDO
+        NRO, NIMI, SENTIT
     };
 
-    enum
-    {
-        KaytossaRooli = Qt::UserRole + 1
-    };
-
-    TilinavausModel();
+    BudjettiModel(QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent) const override;
-    int columnCount(const QModelIndex &parent) const override;
+    int columnCount(const QModelIndex& parent) const override;
 
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
     QVariant data(const QModelIndex &index, int role) const override;
@@ -59,17 +53,27 @@ public:
     bool onkoMuokattu() const { return muokattu_; }
 
 public slots:
-    void lataa();
-    bool tallenna();
+    void lataa(const QDate& paivamaara, int kohdennusid);
+    void tallenna();
+    void laskeSumma();
 
-    void paivitaInfo();
+    /**
+     * @brief Kopioi edellisen tilikauden budjetin tämän tilikauden budjetin pohjaksi
+     */
+    void kopioiEdellinen();
 
 signals:
-    void infoteksti(QString teksti);
+    void summaMuuttui(qlonglong summa);
 
 protected:
-    QMap<int,qlonglong> saldot;
-    bool muokattu_;
+    QSortFilterProxyModel *proxy_;
+    QVariantMap sentit_;
+
+    QDate paivamaara_;
+    int kohdennusid_ = 0;
+    bool muokattu_ = false;
+
+
 };
 
-#endif // TILINAVAUSMODEL_H
+#endif // BUDJETTIMODEL_H

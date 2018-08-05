@@ -20,6 +20,10 @@
 
 #include <QGraphicsScene>
 
+/**
+ * @dir Erilaisten tiedostojen näyttäminen
+ */
+
 class QPrinter;
 
 /**

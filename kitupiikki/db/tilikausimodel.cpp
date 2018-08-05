@@ -114,6 +114,8 @@ QVariant TilikausiModel::data(const QModelIndex &index, int role) const
         return QVariant( kausi.paattyy());
     else if( role == HenkilostoRooli )
         return kausi.json()->luku("Henkilosto");
+    else if( role == LyhenneRooli)
+        return  kausi.kausitunnus();
     else if( role == Qt::TextAlignmentRole)
     {
         if( index.column()==TULOS )

@@ -290,7 +290,7 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
     if( tulostaSummarivi )
     {
         RaporttiRivi summarivi;
-        summarivi.lisaa("Yhteensä", 3 + (int) tulostakohdennus  );
+        summarivi.lisaa("Yhteensä", 3 +  static_cast<int>(tulostakohdennus)  );
         summarivi.lisaa( debetYht );
         summarivi.lisaa( kreditYht);
         summarivi.lisaa( kreditYht - debetYht );    // Kohdennuksissa ei välttis mene tasan

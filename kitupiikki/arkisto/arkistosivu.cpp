@@ -44,6 +44,8 @@
 #include "tararkisto.h"
 #include "naytin/naytinikkuna.h"
 
+#include "budjettidlg.h"
+
 
 ArkistoSivu::ArkistoSivu()
 {
@@ -55,6 +57,7 @@ ArkistoSivu::ArkistoSivu()
     connect( ui->vieNappi, SIGNAL(clicked(bool)), this, SLOT(vieArkisto()));
     connect( ui->tilinpaatosNappi, SIGNAL(clicked(bool)), this, SLOT(tilinpaatos()));
     connect( ui->muokkaaNappi, SIGNAL(clicked(bool)), this, SLOT(muokkaa()));
+    connect( ui->budjettiNappi, &QPushButton::clicked, this, &ArkistoSivu::budjetti);
 
 }
 
@@ -362,4 +365,12 @@ void ArkistoSivu::muokkaa()
         }
     }
 
+}
+
+void ArkistoSivu::budjetti()
+{
+    BudjettiDlg *dlg = new BudjettiDlg(this);
+    dlg->setAttribute(Qt::WA_DeleteOnClose);
+    dlg->show();
+    dlg->lataa( ui->view->currentIndex().data(TilikausiModel::LyhenneRooli).toString() );
 }

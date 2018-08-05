@@ -50,11 +50,12 @@ public:
     {
         AlkaaRooli = Qt::UserRole + 1,
         PaattyyRooli = Qt::UserRole + 2,
-        HenkilostoRooli = Qt::UserRole + 3
+        HenkilostoRooli = Qt::UserRole + 3,
+        LyhenneRooli = Qt::UserRole + 4
     };
 
 
-    TilikausiModel(QSqlDatabase *tietokanta, QObject *parent = 0);
+    TilikausiModel(QSqlDatabase *tietokanta, QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
