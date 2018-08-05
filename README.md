@@ -42,7 +42,7 @@ Kitupiikki käyttää QMakea. Kääntäminen on helpointa tehdä [QtCreatorin](h
     qmake kitupiikki.pro && make qmake_all
     make
 
-Kitupiikin Windows-jakeluversion käännetään [MXE-ristiinkääntöympäristössä].
+Kitupiikin Windows-jakeluversion käännetään [MXE-ristiinkääntöympäristössä](https://mxe.cc).
 
 ## Kehittäminen
 
