@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>469</width>
-    <height>257</height>
+    <width>780</width>
+    <height>512</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,10 +23,41 @@
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QGridLayout" name="gridLayout">
+      <item row="1" column="2">
+       <widget class="QDateEdit" name="alkaa2Date">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QDateEdit" name="alkaa3Date">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="1">
        <widget class="QLabel" name="label">
         <property name="text">
          <string>Sarake 1</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QDateEdit" name="loppuu2Date">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QDateEdit" name="alkaa1Date"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="paattyyLabel">
+        <property name="text">
+         <string>Päättyy</string>
         </property>
        </widget>
       </item>
@@ -43,6 +74,23 @@
         </property>
        </widget>
       </item>
+      <item row="2" column="1">
+       <widget class="QDateEdit" name="loppuu1Date"/>
+      </item>
+      <item row="2" column="3">
+       <widget class="QDateEdit" name="loppuu3Date">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="alkaaLabel">
+        <property name="text">
+         <string>Alkaa</string>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="3">
        <widget class="QCheckBox" name="sarake3Box">
         <property name="enabled">
@@ -56,53 +104,14 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="alkaaLabel">
-        <property name="text">
-         <string>Alkaa</string>
-        </property>
-       </widget>
+      <item row="3" column="1">
+       <widget class="QComboBox" name="tyyppi1"/>
       </item>
-      <item row="1" column="1">
-       <widget class="QDateEdit" name="alkaa1Date"/>
+      <item row="3" column="2">
+       <widget class="QComboBox" name="tyyppi2"/>
       </item>
-      <item row="1" column="2">
-       <widget class="QDateEdit" name="alkaa2Date">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="3">
-       <widget class="QDateEdit" name="alkaa3Date">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="paattyyLabel">
-        <property name="text">
-         <string>Päättyy</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QDateEdit" name="loppuu1Date"/>
-      </item>
-      <item row="2" column="2">
-       <widget class="QDateEdit" name="loppuu2Date">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="3">
-       <widget class="QDateEdit" name="loppuu3Date">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-       </widget>
+      <item row="3" column="3">
+       <widget class="QComboBox" name="tyyppi3"/>
       </item>
      </layout>
     </widget>

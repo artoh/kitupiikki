@@ -49,15 +49,17 @@ Raportoija::Raportoija(const QString &raportinNimi) :
 
 }
 
-void Raportoija::lisaaKausi(const QDate &alkaa, const QDate &paattyy)
+void Raportoija::lisaaKausi(const QDate &alkaa, const QDate &paattyy, int tyyppi)
 {
     alkuPaivat_.append(alkaa);
     loppuPaivat_.append(paattyy);
+    sarakeTyypit_.append(tyyppi);
 }
 
 void Raportoija::lisaaTasepaiva(const QDate &pvm)
 {
     loppuPaivat_.append(pvm);
+    sarakeTyypit_.append(TOTEUTUNUT);
 }
 
 RaportinKirjoittaja Raportoija::raportti(bool tulostaErittelyt)
@@ -146,6 +148,12 @@ void Raportoija::kirjoitaYlatunnisteet(RaportinKirjoittaja &rk)
     rk.asetaOtsikko( otsikko);
 
 
+    // Jos raportissa erikoissarakkeita "budjetti", "budjettiero", "budjettiero%", niin niille oma rivi
+    bool erikoissarakkeita = false;
+    for(int i=0; i < sarakeTyypit_.count(); i++)
+        if( sarakeTyypit_.value(i) != TOTEUTUNUT)
+            erikoissarakkeita = true;
+
     rk.lisaaVenyvaSarake();
     for( int i=0; i < loppuPaivat_.count(); i++)
         rk.lisaaEurosarake();
@@ -156,8 +164,13 @@ void Raportoija::kirjoitaYlatunnisteet(RaportinKirjoittaja &rk)
         RaporttiRivi csvrivi(RaporttiRivi::CSV);
         csvrivi.lisaa("");
         for(int i=0; i < alkuPaivat_.count(); i++)
-            csvrivi.lisaa( QString("%1 - %2").arg( alkuPaivat_.at(i).toString("dd.MM.yyyy"))
-                                              .arg( loppuPaivat_.at(i).toString("dd.MM.yyyy")), 1, true );
+        {
+            QString tyyppiteksti = erikoissarakkeita ? sarakeTyyppiTeksti(i) : QString();
+            csvrivi.lisaa( QString("%1 - %2 %3").arg( alkuPaivat_.at(i).toString("dd.MM.yyyy"))
+                                              .arg( loppuPaivat_.at(i).toString("dd.MM.yyyy"))
+                                              .arg( tyyppiteksti ), 1, true );
+        }
+
         rk.lisaaOtsake(csvrivi);
 
         RaporttiRivi orivi(RaporttiRivi::EICSV);
@@ -165,6 +178,7 @@ void Raportoija::kirjoitaYlatunnisteet(RaportinKirjoittaja &rk)
         for(int i=0; i < alkuPaivat_.count(); i++)
             orivi.lisaa( QString("%1 -").arg( alkuPaivat_.at(i).toString("dd.MM.yyyy") ), 1, true );
         rk.lisaaOtsake(orivi);
+
     }
     // Tasepäivät tai loppupäivät
     RaporttiRivi olrivi(RaporttiRivi::EICSV);
@@ -172,6 +186,16 @@ void Raportoija::kirjoitaYlatunnisteet(RaportinKirjoittaja &rk)
     for(int i=0; i < loppuPaivat_.count(); i++)
         olrivi.lisaa( loppuPaivat_.at(i).toString("dd.MM.yyyy"), 1, true );
     rk.lisaaOtsake(olrivi);
+
+
+    if( erikoissarakkeita )
+    {
+        RaporttiRivi tyyppirivi(RaporttiRivi::EICSV);
+        tyyppirivi.lisaa("");
+        for(int i=0; i < sarakeTyypit_.count(); i++)
+            tyyppirivi.lisaa( sarakeTyyppiTeksti(i), 1, true );
+        rk.lisaaOtsake( tyyppirivi);
+    }
 
 }
 
@@ -441,13 +465,60 @@ void Raportoija::laskeTulosData()
     // Tuloslaskelman summien laskemista
     for( int i = 0; i < alkuPaivat_.count(); i++)
     {
-        QString kysymys = QString("SELECT ysiluku, sum(debetsnt), sum(kreditsnt) "
-                                  "from vienti,tili where vienti.tili = tili.id and ysiluku > 300000000 "
-                                  "and pvm between \"%1\" and \"%2\" "
-                                  "group by ysiluku").arg( alkuPaivat_.at(i).toString(Qt::ISODate)).arg(loppuPaivat_.at(i).toString(Qt::ISODate));
+        if( sarakeTyypit_.value(i) != BUDJETTI )
+        {
+
+            QString kysymys = QString("SELECT ysiluku, sum(debetsnt), sum(kreditsnt) "
+                                      "from vienti,tili where vienti.tili = tili.id and ysiluku > 300000000 "
+                                      "and pvm between \"%1\" and \"%2\" "
+                                      "group by ysiluku").arg( alkuPaivat_.at(i).toString(Qt::ISODate)).arg(loppuPaivat_.at(i).toString(Qt::ISODate));
 
 
-        sijoitaTulosKyselyData( kysymys , i);
+            sijoitaTulosKyselyData( kysymys , i);
+        }
+
+        if( sarakeTyypit_.value(i) != TOTEUTUNUT)
+        {
+            QMap<int,qlonglong> budjetoitu = budjetti(alkuPaivat_[i]);
+            QMapIterator<int,qlonglong> iter(budjetoitu);
+
+            if( sarakeTyypit_.value(i) == BUDJETTI)
+            {
+                while( iter.hasNext())
+                {
+                    iter.next();
+                    data_[i].insert( iter.key(), iter.value() );
+                    tilitKaytossa_.insert(iter.key(), true);
+                }
+            }
+            else if( sarakeTyypit_.value(i) == BUDJETTIERO)
+            {
+                while( iter.hasNext())
+                {
+                    iter.next();
+                    qlonglong budjetoitu = iter.value();
+                    qlonglong toteutunut = data_[i].value( iter.key(), 0 );
+                    data_[i].insert( iter.key(), toteutunut - budjetoitu );
+                    tilitKaytossa_.insert(iter.key(), true);
+                }
+            }
+            else if( sarakeTyypit_.value(i) == EROPROSENTTI)
+            {
+                QMutableMapIterator<int,qlonglong> dataIter(data_[i]);
+                while (dataIter.hasNext())
+                {
+                    dataIter.next();
+                    // Nyt datassa on toteutunut ja budjetoidussa budjetoitu
+                    qlonglong toteutunut = dataIter.value();
+                    qlonglong budjetissa = budjetoitu.value(dataIter.key());
+
+                    if( budjetissa == 0)
+                        dataIter.setValue(0);
+                    else
+                        dataIter.setValue( 10000 * toteutunut / budjetissa );
+                }
+            }
+        }
     }
 
 }
@@ -580,6 +651,52 @@ void Raportoija::laskeKohdennusData(int kohdennusId, bool poiminnassa)
         }
     }
 }
+
+QString Raportoija::sarakeTyyppiTeksti(int sarake)
+{
+    switch (sarakeTyypit_.value(sarake))
+    {
+        case TOTEUTUNUT:
+            return tr("Toteutunut");
+        case BUDJETTI:
+            return tr("Budjetti");
+        case BUDJETTIERO:
+            return tr("Budjettiero €");
+        case EROPROSENTTI:
+            return tr("Budjettiero %");
+    }
+    return  QString();
+}
+
+QMap<int, qlonglong> Raportoija::budjetti(const QDate& pvm, int kohdennuksella)
+{
+    QMap<int, qlonglong> data;
+    qlonglong summa = 0;
+
+
+    QVariantMap kohdennusMap = kp()->tilikaudet()->json(pvm)->variant("Budjetti").toMap();
+    QMapIterator<QString,QVariant> kohdennusIter(kohdennusMap);
+    while( kohdennusIter.hasNext())
+    {
+        kohdennusIter.next();
+        if( kohdennuksella > -1 && kohdennusIter.key().toInt() != kohdennuksella)
+            continue;   // Ohitetaan väärä kohdennus
+
+        QVariantMap tiliMap = kohdennusIter.value().toMap();
+        QMapIterator<QString, QVariant> tiliIter(tiliMap);
+
+        while( tiliIter.hasNext())
+        {
+            tiliIter.next();
+            data[  Tili::ysiluku( tiliIter.key().toInt() ) + 9] = data.value(tiliIter.key().toInt()) + tiliIter.value().toLongLong();
+            summa += tiliIter.value().toLongLong();
+        }
+    }
+    data[0] = summa;
+
+    return data;
+}
+
 
 
 void Raportoija::etsiKohdennukset()

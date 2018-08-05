@@ -26,7 +26,13 @@ class QSortFilterProxyModel;
 /**
  * @brief Budjetin model
  *
- * Yhden tilikauden budjetti yhdelle kohdennukselle
+ * Yhden tilikauden budjetti yhdelle kohdennukselle.
+ * Budjetti tallennetaan tilikauden json-tietueeseen Budjetti-kenttään, joka
+ * sisältää QVarianMapillisen (avaimena kohdennuksen id) QVariantMappeja
+ * (avaimena tilinumero ja arvona budjetti sentteinä). Menot syötetään negatiivisina
+ * lukuina.
+ *
+ * @since 1.1
  *
  */
 class BudjettiModel : public QAbstractTableModel

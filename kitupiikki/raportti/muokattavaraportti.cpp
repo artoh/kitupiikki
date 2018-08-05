@@ -20,7 +20,7 @@
 #include "db/tilikausi.h"
 
 #include <QSqlQuery>
-
+#include <QStringListModel>
 #include <QDebug>
 
 
@@ -53,6 +53,15 @@ MuokattavaRaportti::MuokattavaRaportti(const QString &raporttinimi)
 
     ui->kohdennusCombo->setModel(kp()->kohdennukset());
 
+    QStringList tyyppiLista;
+    tyyppiLista << tr("Totetunut") << tr("Budjetti") << tr("Budjettiero €") << tr("Budjettiero %");
+    QStringListModel *tyyppiListaModel = new QStringListModel(this);
+    tyyppiListaModel->setStringList(tyyppiLista);
+
+    ui->tyyppi1->setModel(tyyppiListaModel);
+    ui->tyyppi2->setModel(tyyppiListaModel);
+    ui->tyyppi3->setModel(tyyppiListaModel);
+
     paivitaUi();
 
 }
@@ -72,11 +81,11 @@ RaportinKirjoittaja MuokattavaRaportti::raportti()
 
     if( raportoija.onkoKausiraportti())
     {
-        raportoija.lisaaKausi( ui->alkaa1Date->date(), ui->loppuu1Date->date());
+        raportoija.lisaaKausi( ui->alkaa1Date->date(), ui->loppuu1Date->date(), ui->tyyppi1->currentIndex());
         if( ui->sarake2Box->isChecked())
-            raportoija.lisaaKausi( ui->alkaa2Date->date(), ui->loppuu2Date->date());
+            raportoija.lisaaKausi( ui->alkaa2Date->date(), ui->loppuu2Date->date(), ui->tyyppi2->currentIndex());
         if( ui->sarake3Box->isChecked())
-            raportoija.lisaaKausi( ui->alkaa3Date->date(), ui->loppuu3Date->date());
+            raportoija.lisaaKausi( ui->alkaa3Date->date(), ui->loppuu3Date->date(), ui->tyyppi3->currentIndex());
     }
     else
     {
@@ -107,6 +116,10 @@ void MuokattavaRaportti::paivitaUi()
     ui->alkaa3Date->setVisible( raportoija.onkoKausiraportti() );
     ui->alkaaLabel->setVisible( raportoija.onkoKausiraportti() );
     ui->paattyyLabel->setVisible( raportoija.onkoKausiraportti() );
+
+    ui->tyyppi1->setVisible( raportoija.onkoKausiraportti());
+    ui->tyyppi2->setVisible( raportoija.onkoKausiraportti());
+    ui->tyyppi3->setVisible( raportoija.onkoKausiraportti());
 
     // Sitten laitetaan valmiiksi tilikausia nykyisestä taaksepäin
     int tilikausiIndeksi = kp()->tilikaudet()->indeksiPaivalle( kp()->paivamaara() );

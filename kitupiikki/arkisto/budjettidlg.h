@@ -26,6 +26,13 @@ class BudjettiDlg;
 class BudjettiModel;
 class KohdennusProxyModel;
 
+/**
+ * @brief Budjetointidialogi
+ *
+ * Budjetti laaditaan tilikausittain kohdennuksille
+ *
+ * @since 1.1
+ */
 class BudjettiDlg : public QDialog
 {
     Q_OBJECT

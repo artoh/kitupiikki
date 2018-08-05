@@ -22,6 +22,7 @@
 #include <QDate>
 #include <QVector>
 #include <QMap>
+#include <QObject>
 
 #include "raportinkirjoittaja.h"
 
@@ -44,8 +45,9 @@
  * Eli siis uusi raportti uuteen Raportoijaan!
  *
  */
-class Raportoija
+class Raportoija : public QObject
 {       
+    Q_OBJECT
 public:
 
     enum RaportinTyyppi
@@ -54,6 +56,14 @@ public:
         TULOSLASKELMA = 1,
         TASE = 2,
         KOHDENNUSLASKELMA = 3
+    };
+
+    enum SarakeTyyppi
+    {
+        TOTEUTUNUT = 0,
+        BUDJETTI = 1,
+        BUDJETTIERO = 2,
+        EROPROSENTTI = 3
     };
 
     /**
@@ -66,8 +76,9 @@ public:
      * @brief Lisää raporttikauden (sarakkeen)
      * @param alkaa Alkupäivämäärä
      * @param paattyy Päättymispäivämäärä
+     * @param tyyppi Sarakkeen tyyppi (toteutuma, budjetti, ero budjettiin, suhteellinen ero)
      */
-    void lisaaKausi(const QDate& alkaa, const QDate &paattyy);
+    void lisaaKausi(const QDate& alkaa, const QDate &paattyy, int tyyppi = TOTEUTUNUT);
     /**
      * @brief Lisää tasetyyppiseen raporttiin tasepäivän (sarakkeen)
      * @param pvm Tasepäivämäärä (tilikauden viimeinen päivä)
@@ -147,6 +158,10 @@ protected:
      */
     void laskeKohdennusData(int kohdennusId, bool poiminnassa=false);
 
+    QString sarakeTyyppiTeksti(int sarake);
+
+    QMap<int, qlonglong> budjetti(const QDate &pvm, int kohdennuksella = -1);
+
 
 
 protected:
@@ -158,8 +173,10 @@ protected:
 
     QVector<QDate> alkuPaivat_;
     QVector<QDate> loppuPaivat_;
+    QVector<int> sarakeTyypit_;
 
     QVector< QMap< int, qlonglong> > data_;    // ysiluku, sentit
+    QVector< QMap< int, qlonglong> > budjetti_; // ysiluku, sentit
     QMap<int,bool> tilitKaytossa_;           // ysiluku
     std::list<int> kohdennusKaytossa_;       // kohdennusId
 
