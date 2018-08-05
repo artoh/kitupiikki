@@ -52,7 +52,7 @@ QDate AlvIlmoitusDialog::teeAlvIlmoitus(QDate alkupvm, QDate loppupvm)
         !kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).onkoValidi() ||
             !kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).onkoValidi() )
     {
-        QMessageBox::critical(0, tr("Kitupiikin virhe"),
+        QMessageBox::critical(nullptr, tr("Kitupiikin virhe"),
                               tr("Alv-tilitystä ei voi laatia, koska tilikartta on puutteellinen."));
         return QDate();
     }
@@ -195,14 +195,14 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
                 .arg(alkupvm.toString(Qt::ISODate)).arg(loppupvm.toString(Qt::ISODate)) );
 
     qDebug() << query.lastQuery();
-    QMap<int,int> kooditaulu;
+    QMap<int,qlonglong> kooditaulu;
 
     int nettoverosnt = 0;
     int nettovahennyssnt = 0;
 
     while( query.next())
     {
-        int saldo = query.value("kreditit").toInt() - query.value("debetit").toInt();
+        qlonglong saldo = query.value("kreditit").toLongLong() - query.value("debetit").toLongLong();
         int koodi = query.value("alvkoodi").toInt();
 
         if( koodi > AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON)
@@ -299,7 +299,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
     otsikko("Vero ostoista ja maahantuonneista");
     luku(tr("Vero tavaraostoista muista EU-maista"), kooditaulu.value(AlvKoodi::ALVKIRJAUS + AlvKoodi::YHTEISOHANKINNAT_TAVARAT)  );
     luku(tr("Vero palveluostoista muista EU-maista"), kooditaulu.value(AlvKoodi::ALVKIRJAUS + AlvKoodi::YHTEISOHANKINNAT_PALVELUT)  );
-    luku(tr("Vero tavaroiden maahantuonnista EU:n ulkopuolelta"), kooditaulu.value(AlvKoodi::ALVKIRJAUS + AlvKoodi::RAKENNUSPALVELU_OSTO) );
+    luku(tr("Vero tavaroiden maahantuonnista EU:n ulkopuolelta"), kooditaulu.value(AlvKoodi::ALVKIRJAUS + AlvKoodi::MAAHANTUONTI) );
     luku(tr("Vero rakentamispalvelun ja metalliromun ostoista"), kooditaulu.value(AlvKoodi::ALVKIRJAUS + AlvKoodi::RAKENNUSPALVELU_OSTO) );
 
 
@@ -313,7 +313,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
     luku(tr("Tavaraostot muista EU-maista"),kooditaulu.value(AlvKoodi::YHTEISOHANKINNAT_TAVARAT)  );
     luku(tr("Palveluostot muista EU-maista"), kooditaulu.value(AlvKoodi::YHTEISOHANKINNAT_PALVELUT) );
     luku(tr("Tavaroiden maahantuonnit EU:n ulkopuolelta"), kooditaulu.value(AlvKoodi::MAAHANTUONTI)  );
-    luku(tr("Rakentamispalveluiden ja metalliromun myynnit"), kooditaulu.value(AlvKoodi::RAKENNUSPALVELU_OSTO) );
+    luku(tr("Rakentamispalveluiden ja metalliromun myynnit"), kooditaulu.value(AlvKoodi::RAKENNUSPALVELU_MYYNTI) );
     luku(tr("Rakentamispalveluiden ja metalliromun ostot"), kooditaulu.value(AlvKoodi::RAKENNUSPALVELU_OSTO) );
 
 
