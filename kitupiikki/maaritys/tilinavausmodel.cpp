@@ -77,12 +77,12 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
                     return QVariant("*****");   // Kauden tulos lasketaan
 
 
-                int saldo = saldot.value( tili.numero(), 0);
+                qlonglong saldo = saldot.value( tili.numero(), 0l);
                 if( role == Qt::EditRole)
                     return QVariant(saldo);
 
-                double saldod = (double) saldo / 100.0;
-                if( saldod)
+                double saldod = saldo / 100.0;
+                if( saldo )
                     return QVariant( QString("%L1 €").arg( saldod, 10,'f',2));
                 else
                     return QVariant();
@@ -187,7 +187,7 @@ bool TilinavausModel::tallenna()
     kysely.prepare("INSERT INTO vienti(tosite,pvm,tili,debetsnt,kreditsnt,selite, vientirivi) "
                    "VALUES (0,:pvm,:tili,:debet,:kredit,\"Tilinavaus\", :vientirivi)");
 
-    QMapIterator<int,int> iter(saldot);
+    QMapIterator<int,qlonglong> iter(saldot);
     int vientirivi = 1;
 
     while( iter.hasNext())
@@ -218,11 +218,11 @@ bool TilinavausModel::tallenna()
 
 void TilinavausModel::paivitaInfo()
 {
-    int tasevastaavaa = 0;
-    int tasevastattavaa = 0;
-    int tulos = 0;
+    qlonglong tasevastaavaa = 0;
+    qlonglong tasevastattavaa = 0;
+    qlonglong tulos = 0;
 
-    QMapIterator<int,int> iter(saldot);
+    QMapIterator<int,qlonglong> iter(saldot);
     while( iter.hasNext() )
     {
         iter.next();
@@ -240,11 +240,11 @@ void TilinavausModel::paivitaInfo()
     tasevastattavaa += tulos;
 
     QString txt = tr("Yli/alijäämä %L1 €<br>Vastaavaa %L2 €<br>Vastattavaa %L3 €")
-            .arg( (double) tulos / 100, 0, 'f', 2 )
-            .arg( (double) tasevastaavaa / 100, 0, 'f', 2 )
-            .arg( (double) tasevastattavaa / 100, 0, 'f', 2 );
+            .arg( tulos / 100.0 , 0, 'f', 2 )
+            .arg( tasevastaavaa / 100.0 , 0, 'f', 2 )
+            .arg( tasevastattavaa / 100.0 , 0, 'f', 2 );
     if( tasevastaavaa != tasevastattavaa)
-        txt += tr("<br><font color=red>Poikkeama %L1 € </font>").arg((double)(tasevastaavaa - tasevastattavaa) / 100, 0, 'f', 2  );
+        txt += tr("<br><font color=red>Poikkeama %L1 € </font>").arg((tasevastaavaa - tasevastattavaa) / 100.0, 0, 'f', 2  );
 
     emit infoteksti(txt);
 }

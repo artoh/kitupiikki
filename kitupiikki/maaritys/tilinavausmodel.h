@@ -68,7 +68,7 @@ signals:
     void infoteksti(QString teksti);
 
 protected:
-    QMap<int,int> saldot;
+    QMap<int,qlonglong> saldot;
     bool muokattu_;
 };
 

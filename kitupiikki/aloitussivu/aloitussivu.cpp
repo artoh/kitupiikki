@@ -19,6 +19,7 @@
 #include <QStringList>
 #include <QSqlQuery>
 #include <QSslSocket>
+#include <QNetworkRequest>
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -251,12 +252,14 @@ void AloitusSivu::pyydaInfo()
         }
 
 
-        QString kysely = QString("http://kitupiikki.arkku.net/info/?v=%1&os=%2&u=%3")
+        QString kysely = QString("http://paivitysinfo.kitupiikki.info/?v=%1&os=%2&u=%3")
                 .arg( qApp->applicationVersion() )
                 .arg( QSysInfo::prettyProductName())
                 .arg( asetukset.value("Keksi").toString() );
 
-        manager->get( QNetworkRequest( QUrl( kysely )) );
+        QNetworkRequest pyynto = QNetworkRequest( QUrl(kysely));
+        pyynto.setAttribute( QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy  );
+        manager->get( pyynto );
     }
     else
         paivitysInfo.clear();

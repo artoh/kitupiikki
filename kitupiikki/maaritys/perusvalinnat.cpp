@@ -130,7 +130,7 @@ void Perusvalinnat::ilmoitaMuokattu()
 void Perusvalinnat::avaaHakemisto()
 {
     QFileInfo info( kp()->tiedostopolku());
-    kp()->avaaUrl( QUrl( info.absoluteDir().absolutePath() ) );
+    kp()->avaaUrl( QUrl::fromLocalFile( info.absoluteDir().absolutePath() ) );
 }
 
 bool Perusvalinnat::onkoMuokattu()
