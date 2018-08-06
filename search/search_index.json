@@ -11,21 +11,6 @@
             "title": "Kitupiikki Avoimen l\u00e4hdekoodin kirjanpit\u00e4j\u00e4"
         },
         {
-            "location": "/videot/",
-            "text": "Videot\n\u00b6\n\n\nYhdistyksen kirjanpito\n\u00b6\n\n\n\n Yhdistyksen kirjanpidon aloittaminen, tilien ja kohdennusten m\u00e4\u00e4rittely ja tilinavaus.\n\n\n\nEnsimm\u00e4isten tositteiden kirjaaminen (ostolaskuja)\n\n\n\n\n\nTiliotteen kirjaaminen\n\n\n\n Palkan kirjaaminen palkka.fi -palvelusta\n\n\n\nTilinp\u00e4\u00e4t\u00f6ksen laatiminen",
-            "title": "Videot"
-        },
-        {
-            "location": "/videot/#videot",
-            "text": "",
-            "title": "Videot"
-        },
-        {
-            "location": "/videot/#yhdistyksen-kirjanpito",
-            "text": "Yhdistyksen kirjanpidon aloittaminen, tilien ja kohdennusten m\u00e4\u00e4rittely ja tilinavaus.  \nEnsimm\u00e4isten tositteiden kirjaaminen (ostolaskuja)   Tiliotteen kirjaaminen  \n Palkan kirjaaminen palkka.fi -palvelusta  \nTilinp\u00e4\u00e4t\u00f6ksen laatiminen",
-            "title": "Yhdistyksen kirjanpito"
-        },
-        {
             "location": "/esittely/",
             "text": "Ominaisuuksia\n\u00b6\n\n\nKitupiikki taitaa tietenkin sellaiset perusasiat kuin p\u00e4iv\u00e4kirja, p\u00e4\u00e4kirja, tase ja tuloslaskelma, tositteiden kirjaaminen, selaaminen ja hakeminen. Mutta lis\u00e4ksi...\n\n\nKitupiikki neuvoo\n\u00b6\n\n\n\n\nAloitusikkunassa Kitupiikki vinkkaa ajankohtaisista teht\u00e4vist\u00e4, kuten tilinp\u00e4\u00e4t\u00f6s tai alv-ilmoitus. Muutenkin ohjelma neuvoo aina matkan varrella.\n\n\nS\u00e4hk\u00f6inen kirjanpito\n\u00b6\n\n\n\n\nTositteet voi tuoda pdf- tai jpg-muodossa. Tietoja voi tuoda pdf-muotoisista tositteista, csv-tiedostoista, TITO-muotoisista tiliotetiedostoista ja \npalkka.fi-palvelusta\n. Kirjanpidosta ja s\u00e4hk\u00f6isist\u00e4 tositteista muodostetaan s\u00e4hk\u00f6inen arkisto. Arkiston muuttumattomuus varmistetaan sha256-tiivisteill\u00e4.\n\n\nLaskutus\n\u00b6\n\n\n\n\nKitupiikill\u00e4 voit laatia laskuja ja l\u00e4hett\u00e4\u00e4 laskuja suoraan s\u00e4hk\u00f6postilla. Laskujen tiedot siirtyv\u00e4t suoraan kirjanpitoon.\n\n\nTilinp\u00e4\u00e4t\u00f6ksen muodostaminen\n\u00b6\n\n\n\n\nKitupiikill\u00e4 voit laatia koko tilinp\u00e4\u00e4t\u00f6ksen. Ohjelmassa on valmiit pohjat pien- ja mikroyritysasetuksen (PMA) mukaisille liitetiedoille.\n\n\nTilikartat ja raportit muokattavissa\n\u00b6\n\n\n\n\nVoit muokata tilikartat ja raportit mieleisiksesi. Muokatun tilikartan voit tallentaa ja ottaa k\u00e4ytt\u00f6\u00f6n toisessa kirjanpidossa. Raportit saa tallennettua my\u00f6s pdf-, html- ja csv-muotoon.\n\n\nArvonlis\u00e4veron k\u00e4sittely ohjaustiedoilla\n\u00b6\n\n\n\n\nTilej\u00e4 ei tarvitse eritell\u00e4 verokannoittain, koska arvonlis\u00e4vero m\u00e4\u00e4ritet\u00e4\u00e4n viennin tietoihin. Toki kirjausta voi nopeuttaa m\u00e4\u00e4rittelem\u00e4ll\u00e4 tilin oletusvalinnat alv-k\u00e4sittelylle. Kitupiikki tukee kaikkia alv-ilmoituksen verotyyppej\u00e4, my\u00f6s maksuperusteisesti tilitett\u00e4v\u00e4\u00e4 arvonlis\u00e4veroa.\n\n\nAvoimen l\u00e4hdekoodin kirjanpit\u00e4j\u00e4\n\u00b6\n\n\nKitupiikin l\u00e4hdekoodi on julkisesti saatavilla osoitteessa \nhttps://github.com/artoh/kitupiikki\n. Ohjelmaa saa k\u00e4ytt\u00e4\u00e4, kopioida, muokata ja levitt\u00e4\u00e4 ilman maksua, katso \nlisenssi\n.\n\n\n\n\nEi takuuta\n\n\nSaat ohjelmiston k\u00e4ytt\u00f6\u00f6si t\u00e4ysin ilman maksua.\nKitupikki-ohjelmaan ei sis\u00e4lly mink\u00e4\u00e4nlaista takuuta ohjelma toimivuudesta tai soveltuvuudesta. Ohjelma on testattu huolellisesti, mutta siin\u00e4 voi silti olla virheit\u00e4 ja ohjelman k\u00e4ytt\u00e4j\u00e4 ottaa vastuun ohjelman mahdollisesti aiheuttamista vahigoista.",
             "title": "Ominaisuudet"
@@ -69,6 +54,21 @@
             "location": "/esittely/#avoimen-lahdekoodin-kirjanpitaja",
             "text": "Kitupiikin l\u00e4hdekoodi on julkisesti saatavilla osoitteessa  https://github.com/artoh/kitupiikki . Ohjelmaa saa k\u00e4ytt\u00e4\u00e4, kopioida, muokata ja levitt\u00e4\u00e4 ilman maksua, katso  lisenssi .   Ei takuuta  Saat ohjelmiston k\u00e4ytt\u00f6\u00f6si t\u00e4ysin ilman maksua.\nKitupikki-ohjelmaan ei sis\u00e4lly mink\u00e4\u00e4nlaista takuuta ohjelma toimivuudesta tai soveltuvuudesta. Ohjelma on testattu huolellisesti, mutta siin\u00e4 voi silti olla virheit\u00e4 ja ohjelman k\u00e4ytt\u00e4j\u00e4 ottaa vastuun ohjelman mahdollisesti aiheuttamista vahigoista.",
             "title": "Avoimen l\u00e4hdekoodin kirjanpit\u00e4j\u00e4"
+        },
+        {
+            "location": "/videot/",
+            "text": "Videot\n\u00b6\n\n\nYhdistyksen kirjanpito\n\u00b6\n\n\n\n Yhdistyksen kirjanpidon aloittaminen, tilien ja kohdennusten m\u00e4\u00e4rittely ja tilinavaus.\n\n\n\nEnsimm\u00e4isten tositteiden kirjaaminen (ostolaskuja)\n\n\n\n\n\nTiliotteen kirjaaminen\n\n\n\n Palkan kirjaaminen palkka.fi -palvelusta\n\n\n\nTilinp\u00e4\u00e4t\u00f6ksen laatiminen",
+            "title": "Videot"
+        },
+        {
+            "location": "/videot/#videot",
+            "text": "",
+            "title": "Videot"
+        },
+        {
+            "location": "/videot/#yhdistyksen-kirjanpito",
+            "text": "Yhdistyksen kirjanpidon aloittaminen, tilien ja kohdennusten m\u00e4\u00e4rittely ja tilinavaus.  \nEnsimm\u00e4isten tositteiden kirjaaminen (ostolaskuja)   Tiliotteen kirjaaminen  \n Palkan kirjaaminen palkka.fi -palvelusta  \nTilinp\u00e4\u00e4t\u00f6ksen laatiminen",
+            "title": "Yhdistyksen kirjanpito"
         },
         {
             "location": "/ui/",
@@ -157,7 +157,7 @@
         },
         {
             "location": "/asennus/",
-            "text": "Kitupiikin asentaminen\n\u00b6\n\n\n\n\nEi takuuta\n\n\nSaat ohjelmiston k\u00e4ytt\u00f6\u00f6si t\u00e4ysin ilman maksua.\nKitupiikki-ohjelmaan ei sis\u00e4lly mink\u00e4\u00e4nlaista takuuta ohjelman toimivuudesta tai soveltuvuudesta. Ohjelma on testattu huolellisesti, mutta siin\u00e4 voi silti olla virheit\u00e4 ja ohjelman k\u00e4ytt\u00e4j\u00e4 ottaa vastuun ohjelman mahdollisesti aiheuttamista vahigoista.\n\n\n\n\n Windows\n\u00b6\n\n\nTuetut Windowsin versiot: Windows 7, 8 ja 10.\n\n\n\n\n \nKitupiikki 1.0 RC Windows asennusohjelma (11 MB)\n \n Julkaisuehdokas-versio\n\n\n\n\nLataa Kitupiikin asennusohjelma yll\u00e4 olevasta linkist\u00e4 ja suorita se. Asennushakemisto on vapaasti valittavissa, joten asennus ei tarvitse yll\u00e4pit\u00e4j\u00e4n oikeuksia.\n\n\n\n\n Linux\n\u00b6\n\n\nToimii 64-bittisiss\u00e4 Linux-jakeluissa joissa graafinen ty\u00f6p\u00f6yt\u00e4 (esim. Ubuntu 14.04 ja uudemmat)\n\n\n\n\n \nKitupiikki 1.0 RC Linux AppImage (30 MB)\n \n Julkaisuehdokas -versio\n\n\n\n\nKitupiikin Linux-version toimitetaan AppImage-tiedostona, jota ei varsinaisesti edes tarvitse asentaa. Et tarvitse yll\u00e4pit\u00e4j\u00e4n oikeuksia.\n\n\n\n\nLataa yll\u00e4 oleva asennustiedosto\n\n\nMerkitse tiedosto suoritettavaksi. Useimpien Linux-versioiden tiedostonhallinnassa se tehd\u00e4\u00e4n klikkaamalla tiedostoa hiiren oikealla napilla ja valitsemalla \nOminaisuudet\n, ja ruksaamalla \nOikeudet\n-v\u00e4lilehdelt\u00e4 \nSuoritettava\n. Komentorivill\u00e4 onnistuu komennolla \nchmod u+x Kitupiikki*.AppImage\n\n\nK\u00e4ynnist\u00e4 ohjelma klikkaamalla tiedostoa tai komennolla \n./Kitupiikki*.AppImage\n\n   \n\n\nEnsimm\u00e4isell\u00e4 k\u00e4ynnistyskerralla Kitupiikki kysyy, haluatko lis\u00e4t\u00e4 ohjelman k\u00e4ynnistysvalikkoon.\n\n\n\n\nKehitysversio\n\u00b6\n\n\nOhjelman viimeisimm\u00e4n kehitysversion saat GitHubista \nhttps://github.com/artoh/kitupiikki\n. Kehitysversio pit\u00e4\u00e4 tietenkin k\u00e4\u00e4nt\u00e4\u00e4 itse, joten tarvitset \nQt-kirjastoa\n.\n\n\nVersiohistoria\n\u00b6\n\n\nOhjelman versiohistoria sek\u00e4 aiemmat julkaistut versiot l\u00f6ytyv\u00e4t GitHub-palvelusta \nhttps://github.com/artoh/kitupiikki/releases\n.",
+            "text": "Kitupiikin asentaminen\n\u00b6\n\n\n\n\nEi takuuta\n\n\nSaat ohjelmiston k\u00e4ytt\u00f6\u00f6si t\u00e4ysin ilman maksua.\nKitupiikki-ohjelmaan ei sis\u00e4lly mink\u00e4\u00e4nlaista takuuta ohjelman toimivuudesta tai soveltuvuudesta. Ohjelma on testattu huolellisesti, mutta siin\u00e4 voi silti olla virheit\u00e4 ja ohjelman k\u00e4ytt\u00e4j\u00e4 ottaa vastuun ohjelman mahdollisesti aiheuttamista vahigoista.\n\n\n\n\n Windows\n\u00b6\n\n\nTuetut Windowsin versiot: Windows 7, 8 ja 10.\n\n\n\n\n \nKitupiikki 1.0 RC.1 Windows asennusohjelma (11 MB)\n \n Julkaisuehdokas-versio\n\n\n\n\nLataa Kitupiikin asennusohjelma yll\u00e4 olevasta linkist\u00e4 ja suorita se. Asennushakemisto on vapaasti valittavissa, joten asennus ei tarvitse yll\u00e4pit\u00e4j\u00e4n oikeuksia.\n\n\n\n\n Linux\n\u00b6\n\n\nToimii 64-bittisiss\u00e4 Linux-jakeluissa joissa graafinen ty\u00f6p\u00f6yt\u00e4 (esim. Ubuntu 14.04 ja uudemmat)\n\n\n\n\n \nKitupiikki 1.0 RC.1 Linux AppImage (30 MB)\n \n Julkaisuehdokas -versio\n\n\n\n\nKitupiikin Linux-version toimitetaan AppImage-tiedostona, jota ei varsinaisesti edes tarvitse asentaa. Et tarvitse yll\u00e4pit\u00e4j\u00e4n oikeuksia.\n\n\n\n\nLataa yll\u00e4 oleva asennustiedosto\n\n\nMerkitse tiedosto suoritettavaksi. Useimpien Linux-versioiden tiedostonhallinnassa se tehd\u00e4\u00e4n klikkaamalla tiedostoa hiiren oikealla napilla ja valitsemalla \nOminaisuudet\n, ja ruksaamalla \nOikeudet\n-v\u00e4lilehdelt\u00e4 \nSuoritettava\n. Komentorivill\u00e4 onnistuu komennolla \nchmod u+x Kitupiikki*.AppImage\n\n\nK\u00e4ynnist\u00e4 ohjelma klikkaamalla tiedostoa tai komennolla \n./Kitupiikki*.AppImage\n\n   \n\n\nEnsimm\u00e4isell\u00e4 k\u00e4ynnistyskerralla Kitupiikki kysyy, haluatko lis\u00e4t\u00e4 ohjelman k\u00e4ynnistysvalikkoon.\n\n\n\n\n Kitupiikki Beta\n\u00b6\n\n\n\n\nTestik\u00e4ytt\u00f6\u00f6n\n\n\nBeta-versiota ei testattu kattavasti, joten siin\u00e4 on todenn\u00e4k\u00f6isesti viel\u00e4 virheit\u00e4 ja puutteita.\n\n\n\n\nVersion 1.1 uusia ominaisuuksia\n\n\n\n\nUusittu laskun\u00e4kym\u00e4, jossa asiakas- ja toimittajarekisterit\n\n\nLaskun muokkaaminen\n\n\nMaksumuistutukset\n\n\nBudjetin laatiminen ja seuranta\n\n\nKirjattavien tositteiden kansio\n\n\n\n\nBeta-versio asentuu Kitupiikin varsinaisen version rinnalle.\n\n\n\n\n \nKitupiikki 1.1 BETA Windows asennusohjelma (11 MB)\n \n \n \nTestik\u00e4ytt\u00f6\u00f6n\n\n\n \nKitupiikki 1.1 BETA Linux AppImage (30 MB)\n \n \n  \nTestik\u00e4ytt\u00f6\u00f6n\n        \n\n\n\n\nKehitysversio\n\u00b6\n\n\nOhjelman viimeisimm\u00e4n kehitysversion saat GitHubista \nhttps://github.com/artoh/kitupiikki\n. Kehitysversio pit\u00e4\u00e4 tietenkin k\u00e4\u00e4nt\u00e4\u00e4 itse, joten tarvitset \nQt-kirjastoa\n.\n\n\nVersiohistoria\n\u00b6\n\n\nOhjelman versiohistoria sek\u00e4 aiemmat julkaistut versiot l\u00f6ytyv\u00e4t GitHub-palvelusta \nhttps://github.com/artoh/kitupiikki/releases\n.",
             "title": "Asennus"
         },
         {
@@ -167,13 +167,18 @@
         },
         {
             "location": "/asennus/#windows",
-            "text": "Tuetut Windowsin versiot: Windows 7, 8 ja 10.     Kitupiikki 1.0 RC Windows asennusohjelma (11 MB)    Julkaisuehdokas-versio   Lataa Kitupiikin asennusohjelma yll\u00e4 olevasta linkist\u00e4 ja suorita se. Asennushakemisto on vapaasti valittavissa, joten asennus ei tarvitse yll\u00e4pit\u00e4j\u00e4n oikeuksia.",
+            "text": "Tuetut Windowsin versiot: Windows 7, 8 ja 10.     Kitupiikki 1.0 RC.1 Windows asennusohjelma (11 MB)    Julkaisuehdokas-versio   Lataa Kitupiikin asennusohjelma yll\u00e4 olevasta linkist\u00e4 ja suorita se. Asennushakemisto on vapaasti valittavissa, joten asennus ei tarvitse yll\u00e4pit\u00e4j\u00e4n oikeuksia.",
             "title": " Windows"
         },
         {
             "location": "/asennus/#linux",
-            "text": "Toimii 64-bittisiss\u00e4 Linux-jakeluissa joissa graafinen ty\u00f6p\u00f6yt\u00e4 (esim. Ubuntu 14.04 ja uudemmat)     Kitupiikki 1.0 RC Linux AppImage (30 MB)    Julkaisuehdokas -versio   Kitupiikin Linux-version toimitetaan AppImage-tiedostona, jota ei varsinaisesti edes tarvitse asentaa. Et tarvitse yll\u00e4pit\u00e4j\u00e4n oikeuksia.   Lataa yll\u00e4 oleva asennustiedosto  Merkitse tiedosto suoritettavaksi. Useimpien Linux-versioiden tiedostonhallinnassa se tehd\u00e4\u00e4n klikkaamalla tiedostoa hiiren oikealla napilla ja valitsemalla  Ominaisuudet , ja ruksaamalla  Oikeudet -v\u00e4lilehdelt\u00e4  Suoritettava . Komentorivill\u00e4 onnistuu komennolla  chmod u+x Kitupiikki*.AppImage  K\u00e4ynnist\u00e4 ohjelma klikkaamalla tiedostoa tai komennolla  ./Kitupiikki*.AppImage \n     Ensimm\u00e4isell\u00e4 k\u00e4ynnistyskerralla Kitupiikki kysyy, haluatko lis\u00e4t\u00e4 ohjelman k\u00e4ynnistysvalikkoon.",
+            "text": "Toimii 64-bittisiss\u00e4 Linux-jakeluissa joissa graafinen ty\u00f6p\u00f6yt\u00e4 (esim. Ubuntu 14.04 ja uudemmat)     Kitupiikki 1.0 RC.1 Linux AppImage (30 MB)    Julkaisuehdokas -versio   Kitupiikin Linux-version toimitetaan AppImage-tiedostona, jota ei varsinaisesti edes tarvitse asentaa. Et tarvitse yll\u00e4pit\u00e4j\u00e4n oikeuksia.   Lataa yll\u00e4 oleva asennustiedosto  Merkitse tiedosto suoritettavaksi. Useimpien Linux-versioiden tiedostonhallinnassa se tehd\u00e4\u00e4n klikkaamalla tiedostoa hiiren oikealla napilla ja valitsemalla  Ominaisuudet , ja ruksaamalla  Oikeudet -v\u00e4lilehdelt\u00e4  Suoritettava . Komentorivill\u00e4 onnistuu komennolla  chmod u+x Kitupiikki*.AppImage  K\u00e4ynnist\u00e4 ohjelma klikkaamalla tiedostoa tai komennolla  ./Kitupiikki*.AppImage \n     Ensimm\u00e4isell\u00e4 k\u00e4ynnistyskerralla Kitupiikki kysyy, haluatko lis\u00e4t\u00e4 ohjelman k\u00e4ynnistysvalikkoon.",
             "title": " Linux"
+        },
+        {
+            "location": "/asennus/#kitupiikki-beta",
+            "text": "Testik\u00e4ytt\u00f6\u00f6n  Beta-versiota ei testattu kattavasti, joten siin\u00e4 on todenn\u00e4k\u00f6isesti viel\u00e4 virheit\u00e4 ja puutteita.   Version 1.1 uusia ominaisuuksia   Uusittu laskun\u00e4kym\u00e4, jossa asiakas- ja toimittajarekisterit  Laskun muokkaaminen  Maksumuistutukset  Budjetin laatiminen ja seuranta  Kirjattavien tositteiden kansio   Beta-versio asentuu Kitupiikin varsinaisen version rinnalle.     Kitupiikki 1.1 BETA Windows asennusohjelma (11 MB)       Testik\u00e4ytt\u00f6\u00f6n    Kitupiikki 1.1 BETA Linux AppImage (30 MB)        Testik\u00e4ytt\u00f6\u00f6n",
+            "title": " Kitupiikki Beta"
         },
         {
             "location": "/asennus/#kehitysversio",
