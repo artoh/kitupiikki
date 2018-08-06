@@ -74,10 +74,16 @@ RaportinKirjoittaja Raportoija::raportti(bool tulostaErittelyt)
         if( kohdennusKaytossa_.size())
         {
             for(int kohdennus : kohdennusKaytossa_)
+            {
                 laskeKohdennusData(kohdennus);
+                sijoitaBudjetti(kohdennus);
+            }
         }
         else
+        {
                 laskeTulosData();
+                sijoitaBudjetti();
+        }
 
         kirjoitaDatasta(rk, tulostaErittelyt);
     }
@@ -120,6 +126,7 @@ RaportinKirjoittaja Raportoija::raportti(bool tulostaErittelyt)
             rk.lisaaRivi(rr);
 
             laskeKohdennusData( kohdennus.id() );
+            sijoitaBudjetti( kohdennus.id() );
 
             kirjoitaDatasta(rk, tulostaErittelyt);
             rk.lisaaRivi( RaporttiRivi());
@@ -207,6 +214,7 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt)
 
     // Välisummien käsittelyä = varten
     QVector<qlonglong> kokosumma( data_.count());
+    QVector<qlonglong> budjettikokosumma( budjetti_.count());
 
     foreach (QString rivi, kaava_)
     {
@@ -235,6 +243,7 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt)
 
         // Lasketaan summat
         QVector<qlonglong> summat( data_.count() );
+        QVector<qlonglong> budjetit( budjetti_.count());
 
         int sisennys = 0;
 
@@ -317,6 +326,8 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt)
                 bool vainMenot = tiliMats.captured("menotulo") == "-";
 
                 // Lasketaan summa joka sarakkeelle
+                // Tässä voitaisiin käyttää vähän tehokkaampaa algoritmiä..
+
                 for( int sarake = 0; sarake < data_.count(); sarake++)
                 {
                     QMapIterator<int,qlonglong> iter( data_.at(sarake));
@@ -340,6 +351,30 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt)
                                 kokosumma[sarake] += iter.value();  // Lisätään välisummaan
                         }
                     }
+
+                    QMapIterator<int,qlonglong> budjettiIter( budjetti_.at(sarake));
+                    while( budjettiIter.hasNext())
+                    {
+                        budjettiIter.next();
+                        if( budjettiIter.key() >= alku && budjettiIter.key() <= loppu )
+                        {
+                            if( vainTulot || vainMenot)
+                            {
+                                Tili tili = kp()->tilit()->tiliNumerolla( iter.key() / 10);
+
+                                // Ohitetaan, jos haluttu vain tulot ja menot eikä ole niitä
+                                if( (vainTulot && !tili.onko(TiliLaji::TULO) ) || (vainMenot && !tili.onko(TiliLaji::MENO) ))
+                                        continue;
+                            }
+
+                            budjetit[sarake] += budjettiIter.value();
+
+                            if( laskevalisummaan)
+                                budjettikokosumma[sarake] += budjettiIter.value();  // Lisätään välisummaan
+                        }
+                    }
+
+
                 }
 
             }
@@ -347,14 +382,17 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt)
             {
                 // Välisumman lisääminen
                 for(int sarake=0; sarake < data_.count(); sarake++)
+                {
                     summat[sarake] += kokosumma.at(sarake);
+                    budjetit[sarake] += budjettikokosumma.at(sarake);
+                }
             }
 
             bool kirjauksia = false;
             // Selvitetään, jääkö summa nollaan
             for( int sarake = 0; sarake < data_.count(); sarake++)
             {
-                if( summat.at(sarake))
+                if( summat.at(sarake) || budjetit.at(sarake))
                 {
                     kirjauksia = true;
                     break;
@@ -373,7 +411,29 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt)
         {
             // Sitten kirjoitetaan summat riville
             for( int sarake=0; sarake < data_.count(); sarake++)
-                rr.lisaa( summat.at(sarake) , true );
+            {
+                // Since 1.1: Saraketyypin mukaisesti
+
+                switch (sarakeTyypit_.at(sarake)) {
+
+                case TOTEUTUNUT :
+                    rr.lisaa( summat.at(sarake) , true );
+                    break;
+                case BUDJETTI:
+                    rr.lisaa( budjetit.at(sarake), true);
+                    break;
+                case BUDJETTIERO:
+                    rr.lisaa( summat.at(sarake) - budjetit.at(sarake), true );
+                    break;
+                case EROPROSENTTI:
+                    if( !budjetit.at(sarake))
+                        rr.lisaa("");
+                    else
+                        rr.lisaa( 10000 * summat.at(sarake) / budjetit.at(sarake), true );
+
+                }
+
+            }
         }
 
         if( rivityyppi != ERITTELY)
@@ -425,7 +485,24 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt)
                         rr.lisaaLinkilla( RaporttiRiviSarake::TILI_NRO, tili.numero(), QString("%1%2 %3").arg(eriSisennysStr).arg(tili.numero()).arg(tili.nimi()));
                         for( int sarake=0; sarake < data_.count(); sarake++)
                         {
-                            rr.lisaa( data_.at(sarake).value(iter.key(), 0), true );
+                            switch (sarakeTyypit_.at(sarake)) {
+
+                            case TOTEUTUNUT :
+                                rr.lisaa( data_.at(sarake).value(iter.key(), 0) , true );
+                                break;
+                            case BUDJETTI:
+                                rr.lisaa( budjetti_.at(sarake).value(iter.key(), 0), true);
+                                break;
+                            case BUDJETTIERO:
+                                rr.lisaa( data_.at(sarake).value(iter.key(), 0) - budjetti_.at(sarake).value(iter.key(), 0), true );
+                                break;
+                            case EROPROSENTTI:
+                                if( !budjetti_.at(sarake).value(iter.key(), 0))
+                                    rr.lisaa("");
+                                else
+                                    rr.lisaa( 10000 * data_.at(sarake).value(iter.key(), 0) / budjetti_.at(sarake).value(iter.key(), 0), true );
+                            }
+
                         }
                         rk.lisaaRivi( rr );
                     }
@@ -475,52 +552,8 @@ void Raportoija::laskeTulosData()
 
 
             sijoitaTulosKyselyData( kysymys , i);
-        }
-
-        if( sarakeTyypit_.value(i) != TOTEUTUNUT)
-        {
-            QMap<int,qlonglong> budjetoitu = budjetti(alkuPaivat_[i]);
-            QMapIterator<int,qlonglong> iter(budjetoitu);
-
-            if( sarakeTyypit_.value(i) == BUDJETTI)
-            {
-                while( iter.hasNext())
-                {
-                    iter.next();
-                    data_[i].insert( iter.key(), iter.value() );
-                    tilitKaytossa_.insert(iter.key(), true);
-                }
-            }
-            else if( sarakeTyypit_.value(i) == BUDJETTIERO)
-            {
-                while( iter.hasNext())
-                {
-                    iter.next();
-                    qlonglong budjetoitu = iter.value();
-                    qlonglong toteutunut = data_[i].value( iter.key(), 0 );
-                    data_[i].insert( iter.key(), toteutunut - budjetoitu );
-                    tilitKaytossa_.insert(iter.key(), true);
-                }
-            }
-            else if( sarakeTyypit_.value(i) == EROPROSENTTI)
-            {
-                QMutableMapIterator<int,qlonglong> dataIter(data_[i]);
-                while (dataIter.hasNext())
-                {
-                    dataIter.next();
-                    // Nyt datassa on toteutunut ja budjetoidussa budjetoitu
-                    qlonglong toteutunut = dataIter.value();
-                    qlonglong budjetissa = budjetoitu.value(dataIter.key());
-
-                    if( budjetissa == 0)
-                        dataIter.setValue(0);
-                    else
-                        dataIter.setValue( 10000 * toteutunut / budjetissa );
-                }
-            }
-        }
+        }        
     }
-
 }
 
 void Raportoija::laskeTaseDate()
@@ -663,40 +696,56 @@ QString Raportoija::sarakeTyyppiTeksti(int sarake)
         case BUDJETTIERO:
             return tr("Budjettiero €");
         case EROPROSENTTI:
-            return tr("Budjettiero %");
+            return tr("Toteutunut %");
     }
     return  QString();
 }
 
-QMap<int, qlonglong> Raportoija::budjetti(const QDate& pvm, int kohdennuksella)
+void Raportoija::sijoitaBudjetti(int kohdennus)
 {
-    QMap<int, qlonglong> data;
-    qlonglong summa = 0;
+    budjetti_.clear();
+    budjetti_.resize( sarakeTyypit_.count() );
 
-
-    QVariantMap kohdennusMap = kp()->tilikaudet()->json(pvm)->variant("Budjetti").toMap();
-    QMapIterator<QString,QVariant> kohdennusIter(kohdennusMap);
-    while( kohdennusIter.hasNext())
+    for(int i=0; i < sarakeTyypit_.count(); i++)
     {
-        kohdennusIter.next();
-        if( kohdennuksella > -1 && kohdennusIter.key().toInt() != kohdennuksella)
-            continue;   // Ohitetaan väärä kohdennus
+        qlonglong summa = 0;
 
-        QVariantMap tiliMap = kohdennusIter.value().toMap();
-        QMapIterator<QString, QVariant> tiliIter(tiliMap);
+        if( sarakeTyypit_.value(i) == TOTEUTUNUT)
+            continue;
 
-        while( tiliIter.hasNext())
+        for(int kausi=0; kausi < kp()->tilikaudet()->rowCount(QModelIndex()); kausi++ )
         {
-            tiliIter.next();
-            data[  Tili::ysiluku( tiliIter.key().toInt() ) + 9] = data.value(tiliIter.key().toInt()) + tiliIter.value().toLongLong();
-            summa += tiliIter.value().toLongLong();
+            Tilikausi tilikausi = kp()->tilikaudet()->tilikausiIndeksilla(kausi);
+            if( tilikausi.alkaa() > loppuPaivat_.value(i) || tilikausi.paattyy() < alkuPaivat_.value(i))
+                continue;
+
+            // Lisätään tämä tilikausi budjettiin
+            QVariantMap kohdennusMap = tilikausi.json()->variant("Budjetti").toMap();
+            QMapIterator<QString,QVariant> kohdennusIter(kohdennusMap);
+            while( kohdennusIter.hasNext())
+            {
+                kohdennusIter.next();
+                if( kohdennus > -1 && kohdennusIter.key().toInt() != kohdennus)
+                    continue;   // Ohitetaan väärä kohdennus
+
+                QVariantMap tiliMap = kohdennusIter.value().toMap();
+                QMapIterator<QString, QVariant> tiliIter(tiliMap);
+
+                while( tiliIter.hasNext())
+                {
+                    tiliIter.next();
+                    int tilille = Tili::ysiluku( tiliIter.key().toInt() ) + 9;
+                    qlonglong ennen = budjetti_[i].value( tilille, 0 );
+                    qlonglong lisattava = tiliIter.value().toLongLong();
+                    budjetti_[i].insert(tilille, ennen +  lisattava );
+                    summa += lisattava;
+                    tilitKaytossa_.insert( tilille, true );
+                }
+            }
         }
+        budjetti_[i].insert(0, summa);
     }
-    data[0] = summa;
-
-    return data;
 }
-
 
 
 void Raportoija::etsiKohdennukset()

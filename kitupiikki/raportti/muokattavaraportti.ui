@@ -113,6 +113,25 @@
       <item row="3" column="3">
        <widget class="QComboBox" name="tyyppi3"/>
       </item>
+      <item row="0" column="4">
+       <widget class="QCheckBox" name="sarake4Box">
+        <property name="text">
+         <string>Sarake 4</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4">
+       <widget class="QDateEdit" name="alkaa4Date"/>
+      </item>
+      <item row="2" column="4">
+       <widget class="QDateEdit" name="loppuu4Date"/>
+      </item>
+      <item row="3" column="4">
+       <widget class="QComboBox" name="tyyppi4"/>
+      </item>
      </layout>
     </widget>
    </item>
@@ -178,12 +197,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>276</x>
-     <y>38</y>
+     <x>458</x>
+     <y>59</y>
     </hint>
     <hint type="destinationlabel">
-     <x>276</x>
-     <y>67</y>
+     <x>458</x>
+     <y>105</y>
     </hint>
    </hints>
   </connection>
@@ -194,12 +213,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>276</x>
-     <y>38</y>
+     <x>458</x>
+     <y>59</y>
     </hint>
     <hint type="destinationlabel">
-     <x>276</x>
-     <y>96</y>
+     <x>458</x>
+     <y>151</y>
     </hint>
    </hints>
   </connection>
@@ -210,12 +229,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>382</x>
-     <y>38</y>
+     <x>605</x>
+     <y>59</y>
     </hint>
     <hint type="destinationlabel">
-     <x>382</x>
-     <y>67</y>
+     <x>605</x>
+     <y>105</y>
     </hint>
    </hints>
   </connection>
@@ -226,12 +245,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>382</x>
-     <y>38</y>
+     <x>605</x>
+     <y>59</y>
     </hint>
     <hint type="destinationlabel">
-     <x>382</x>
-     <y>96</y>
+     <x>605</x>
+     <y>151</y>
     </hint>
    </hints>
   </connection>
@@ -242,12 +261,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>276</x>
-     <y>38</y>
+     <x>458</x>
+     <y>59</y>
     </hint>
     <hint type="destinationlabel">
-     <x>382</x>
-     <y>38</y>
+     <x>605</x>
+     <y>59</y>
     </hint>
    </hints>
   </connection>
@@ -258,12 +277,12 @@
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>276</x>
-     <y>38</y>
+     <x>458</x>
+     <y>59</y>
     </hint>
     <hint type="destinationlabel">
-     <x>382</x>
-     <y>38</y>
+     <x>605</x>
+     <y>59</y>
     </hint>
    </hints>
   </connection>
@@ -274,12 +293,92 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>72</x>
-     <y>149</y>
+     <x>86</x>
+     <y>293</y>
     </hint>
     <hint type="destinationlabel">
-     <x>220</x>
-     <y>151</y>
+     <x>418</x>
+     <y>295</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sarake4Box</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>alkaa4Date</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>703</x>
+     <y>46</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>696</x>
+     <y>87</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sarake4Box</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>loppuu4Date</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>671</x>
+     <y>42</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>661</x>
+     <y>134</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sarake2Box</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>tyyppi2</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>376</x>
+     <y>32</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>379</x>
+     <y>179</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sarake3Box</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>tyyppi3</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>545</x>
+     <y>34</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>540</x>
+     <y>173</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sarake4Box</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>tyyppi4</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>733</x>
+     <y>34</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>733</x>
+     <y>174</y>
     </hint>
    </hints>
   </connection>

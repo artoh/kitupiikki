@@ -160,7 +160,7 @@ protected:
 
     QString sarakeTyyppiTeksti(int sarake);
 
-    QMap<int, qlonglong> budjetti(const QDate &pvm, int kohdennuksella = -1);
+    void sijoitaBudjetti(int kohdennus = -1);
 
 
 

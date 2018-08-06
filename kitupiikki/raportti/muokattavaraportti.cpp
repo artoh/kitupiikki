@@ -54,13 +54,20 @@ MuokattavaRaportti::MuokattavaRaportti(const QString &raporttinimi)
     ui->kohdennusCombo->setModel(kp()->kohdennukset());
 
     QStringList tyyppiLista;
-    tyyppiLista << tr("Totetunut") << tr("Budjetti") << tr("Budjettiero €") << tr("Budjettiero %");
+    tyyppiLista << tr("Totetunut") << tr("Budjetti") << tr("Budjettiero €") << tr("Toteutunut %");
     QStringListModel *tyyppiListaModel = new QStringListModel(this);
     tyyppiListaModel->setStringList(tyyppiLista);
 
     ui->tyyppi1->setModel(tyyppiListaModel);
     ui->tyyppi2->setModel(tyyppiListaModel);
     ui->tyyppi3->setModel(tyyppiListaModel);
+    ui->tyyppi4->setModel(tyyppiListaModel);
+
+    // Jos alkupäivämäärä on tilikauden aloittava, päivitetään myös päättymispäivä tilikauden päättäväksi
+    connect( ui->alkaa1Date, &QDateEdit::dateChanged, [this](const QDate& date){  if( kp()->tilikaudet()->tilikausiPaivalle(date).alkaa() == date) this->ui->loppuu1Date->setDate( kp()->tilikaudet()->tilikausiPaivalle(date).paattyy() );  });
+    connect( ui->alkaa2Date, &QDateEdit::dateChanged, [this](const QDate& date){  if( kp()->tilikaudet()->tilikausiPaivalle(date).alkaa() == date) this->ui->loppuu2Date->setDate( kp()->tilikaudet()->tilikausiPaivalle(date).paattyy() );  });
+    connect( ui->alkaa3Date, &QDateEdit::dateChanged, [this](const QDate& date){  if( kp()->tilikaudet()->tilikausiPaivalle(date).alkaa() == date) this->ui->loppuu3Date->setDate( kp()->tilikaudet()->tilikausiPaivalle(date).paattyy() );  });
+    connect( ui->alkaa4Date, &QDateEdit::dateChanged, [this](const QDate& date){  if( kp()->tilikaudet()->tilikausiPaivalle(date).alkaa() == date) this->ui->loppuu4Date->setDate( kp()->tilikaudet()->tilikausiPaivalle(date).paattyy() );  });
 
     paivitaUi();
 
@@ -86,6 +93,8 @@ RaportinKirjoittaja MuokattavaRaportti::raportti()
             raportoija.lisaaKausi( ui->alkaa2Date->date(), ui->loppuu2Date->date(), ui->tyyppi2->currentIndex());
         if( ui->sarake3Box->isChecked())
             raportoija.lisaaKausi( ui->alkaa3Date->date(), ui->loppuu3Date->date(), ui->tyyppi3->currentIndex());
+        if( ui->sarake4Box->isChecked())
+            raportoija.lisaaKausi( ui->alkaa4Date->date(), ui->loppuu4Date->date(), ui->tyyppi4->currentIndex());
     }
     else
     {
@@ -94,6 +103,8 @@ RaportinKirjoittaja MuokattavaRaportti::raportti()
             raportoija.lisaaTasepaiva( ui->loppuu2Date->date());
         if( ui->sarake3Box->isChecked())
             raportoija.lisaaTasepaiva( ui->loppuu3Date->date());
+        if( ui->sarake4Box->isChecked())
+            raportoija.lisaaTasepaiva( ui->loppuu4Date->date());
     }
 
     if( raportoija.tyyppi() == Raportoija::KOHDENNUSLASKELMA && !ui->kohdennusCheck->isChecked())
@@ -114,12 +125,15 @@ void MuokattavaRaportti::paivitaUi()
     ui->alkaa1Date->setVisible( raportoija.onkoKausiraportti() );
     ui->alkaa2Date->setVisible( raportoija.onkoKausiraportti() );
     ui->alkaa3Date->setVisible( raportoija.onkoKausiraportti() );
+    ui->alkaa4Date->setVisible( raportoija.onkoKausiraportti() );
     ui->alkaaLabel->setVisible( raportoija.onkoKausiraportti() );
     ui->paattyyLabel->setVisible( raportoija.onkoKausiraportti() );
 
     ui->tyyppi1->setVisible( raportoija.onkoKausiraportti());
     ui->tyyppi2->setVisible( raportoija.onkoKausiraportti());
     ui->tyyppi3->setVisible( raportoija.onkoKausiraportti());
+    ui->tyyppi4->setVisible( raportoija.onkoKausiraportti());
+
 
     // Sitten laitetaan valmiiksi tilikausia nykyisestä taaksepäin
     int tilikausiIndeksi = kp()->tilikaudet()->indeksiPaivalle( kp()->paivamaara() );
@@ -137,6 +151,13 @@ void MuokattavaRaportti::paivitaUi()
         ui->alkaa2Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi-1).alkaa() );
         ui->loppuu2Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi-1).paattyy() );
     }
+    else if( tilikausiIndeksi > -1)
+    {
+        ui->alkaa2Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi).alkaa() );
+        ui->loppuu2Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi).paattyy() );
+    }
+
+
     ui->sarake2Box->setChecked(tilikausiIndeksi > 0);
 
     if( tilikausiIndeksi > 1)
@@ -144,6 +165,27 @@ void MuokattavaRaportti::paivitaUi()
         ui->alkaa3Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi-2).alkaa() );
         ui->loppuu3Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi-2).paattyy() );
     }
+    else if( tilikausiIndeksi > -1)
+    {
+        ui->alkaa3Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi).alkaa() );
+        ui->loppuu3Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi).paattyy() );
+    }
+
+
     ui->sarake3Box->setChecked(tilikausiIndeksi > 1);
+
+    if( tilikausiIndeksi > 2)
+    {
+        ui->alkaa4Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi-3).alkaa() );
+        ui->loppuu4Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi-3).paattyy() );
+    }
+    else if( tilikausiIndeksi > -1)
+    {
+        ui->alkaa4Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi).alkaa() );
+        ui->loppuu4Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi).paattyy() );
+    }
+
+
+    ui->sarake4Box->setChecked(tilikausiIndeksi > 2);
 }
 
