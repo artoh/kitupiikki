@@ -478,6 +478,14 @@ void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
         if( raportti.length() > 1 )
         {
 
+            bool budjettivertailu = raportti.endsWith("$");
+            if( budjettivertailu )
+            {
+                raportti.truncate( raportti.length() -1 );
+                if( !tilikausi_.onkoBudjettia())
+                    continue;   // Budjettivertailua ei tulosteta, jos ei budjettia ;)
+            }
+
             Raportoija raportoija(raportti);
 
             if( !raportoija.tyyppi() )
@@ -488,6 +496,8 @@ void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
 
             if( tiedostonnimi.contains(QChar('/')))
                     tiedostonnimi.truncate( tiedostonnimi.indexOf(QChar('/')) );
+            if( budjettivertailu )
+                tiedostonnimi.append("-vertailu");
             tiedostonnimi.append(".html");
 
             Tilikausi edellinenkausi = kp()->tilikaudet()->tilikausiPaivalle( tilikausi_.alkaa().addDays(-1) );
@@ -495,10 +505,20 @@ void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
             if( raportoija.onkoKausiraportti())
             {
 
-
-                raportoija.lisaaKausi(tilikausi_.alkaa(), tilikausi_.paattyy());
-                if( edellinenkausi.alkaa().isValid())
-                    raportoija.lisaaKausi( edellinenkausi.alkaa(), edellinenkausi.paattyy());
+                if( budjettivertailu)
+                {
+                    // Budjettivertailu
+                    raportoija.lisaaKausi( tilikausi_.alkaa(), tilikausi_.paattyy(), Raportoija::TOTEUTUNUT);
+                    raportoija.lisaaKausi( tilikausi_.alkaa(), tilikausi_.paattyy(), Raportoija::BUDJETTI);
+                    raportoija.lisaaKausi( tilikausi_.alkaa(), tilikausi_.paattyy(), Raportoija::BUDJETTIERO);
+                    raportoija.lisaaKausi( tilikausi_.alkaa(), tilikausi_.paattyy(), Raportoija::TOTEUMAPROSENTTI);
+                }
+                else
+                {
+                    raportoija.lisaaKausi(tilikausi_.alkaa(), tilikausi_.paattyy());
+                    if( edellinenkausi.alkaa().isValid())
+                        raportoija.lisaaKausi( edellinenkausi.alkaa(), edellinenkausi.paattyy());
+                }
 
                 if( raportoija.tyyppi() == Raportoija::KOHDENNUSLASKELMA)
                     raportoija.etsiKohdennukset();
@@ -518,7 +538,9 @@ void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
 
             // Kirjoitetaan indeksiin
             out << "<li><a href=\'" << tiedostonnimi << "\'>";
-            out << raportti;
+            out << raportti;            
+            if( budjettivertailu )
+                out << " (Budjettivertailu)";
             out << "</a></li>";
         }
     }

@@ -100,7 +100,10 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
     if( rivit_.isEmpty())
         return 0;     // Ei tulostettavaa !
 
-    QFont fontti("Sans", 10);
+
+    int pienennys = sarakkeet_.count() > 4 && printer->pageSizeMM().width() < 300 ? 2 : 0;
+
+    QFont fontti("Sans", 10 - pienennys );
     painter->setFont(fontti);
 
     int rivinkorkeus = painter->fontMetrics().height();
@@ -152,7 +155,7 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
         if( rivi.kaytto() == RaporttiRivi::CSV)
             continue;
 
-        fontti.setPointSize( rivi.pistekoko() );
+        fontti.setPointSize( rivi.pistekoko() - pienennys );
         fontti.setBold( rivi.onkoLihava() );
         painter->setFont(fontti);
 
@@ -216,6 +219,7 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
             // Ollaan sivun alussa
 
             painter->save();
+            painter->setFont(QFont("Sans", 10 - pienennys));
 
             // Tulostetaan ylätunniste
             if( !otsikko_.isEmpty())
@@ -275,7 +279,7 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
 
         }
 
-        fontti.setPointSize( rivi.pistekoko());
+        fontti.setPointSize( rivi.pistekoko() - pienennys );
         fontti.setBold( rivi.onkoLihava() );
         painter->setFont(fontti);
 
@@ -483,8 +487,6 @@ QByteArray RaportinKirjoittaja::csv()
 
 void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu) const
 {
-
-    painter->setFont(QFont("Sans",10));
 
     int sivunleveys = painter->window().width();
     int rivinkorkeus = painter->fontMetrics().height();

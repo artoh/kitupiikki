@@ -427,7 +427,7 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt)
                 case BUDJETTIERO:
                     rr.lisaa( summat.at(sarake) - budjetit.at(sarake), true );
                     break;
-                case EROPROSENTTI:
+                case TOTEUMAPROSENTTI:
                     if( !budjetit.at(sarake))
                         rr.lisaa("");
                     else
@@ -498,7 +498,7 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt)
                             case BUDJETTIERO:
                                 rr.lisaa( data_.at(sarake).value(iter.key(), 0) - budjetti_.at(sarake).value(iter.key(), 0), true );
                                 break;
-                            case EROPROSENTTI:
+                            case TOTEUMAPROSENTTI:
                                 if( !budjetti_.at(sarake).value(iter.key(), 0))
                                     rr.lisaa("");
                                 else
@@ -697,7 +697,7 @@ QString Raportoija::sarakeTyyppiTeksti(int sarake)
             return tr("Budjetti");
         case BUDJETTIERO:
             return tr("Budjettiero €");
-        case EROPROSENTTI:
+        case TOTEUMAPROSENTTI:
             return tr("Toteutunut %");
     }
     return  QString();

@@ -154,7 +154,11 @@ void BudjettiModel::tallenna()
     JsonKentta *json = kp()->tilikaudet()->json(paivamaara_);
 
     QVariantMap varmap = json->variant("Budjetti").toMap();
-    varmap.insert( QString::number(kohdennusid_), sentit_ );
+
+    if( sentit_.isEmpty())
+        varmap.remove(QString::number(kohdennusid_) );
+    else
+        varmap.insert( QString::number(kohdennusid_), sentit_ );
 
     json->setVar("Budjetti", varmap);
     kp()->tilikaudet()->tallennaJSON();

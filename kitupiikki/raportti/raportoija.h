@@ -63,7 +63,7 @@ public:
         TOTEUTUNUT = 0,
         BUDJETTI = 1,
         BUDJETTIERO = 2,
-        EROPROSENTTI = 3
+        TOTEUMAPROSENTTI = 3
     };
 
     /**

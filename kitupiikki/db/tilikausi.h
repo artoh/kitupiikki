@@ -129,6 +129,12 @@ public:
 
     void asetaKausitunnus(const QString& kausitunnus);
 
+    /**
+     * @brief Onko tälle kaudelle laadittu budjettia
+     * @return
+     */
+    bool onkoBudjettia();
+
 protected:
     QDate alkaa_;
     QDate paattyy_;

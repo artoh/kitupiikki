@@ -62,7 +62,7 @@ QByteArray TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, QString
     // Raportit on määritelty ensimmäisellä rivillä muodossa @Raportin nimi!Tulostettava otsikko@
     // Erittelyraportti puolestaan @Raportin nimi*Tulostettava otsikko@
     QString ekarivi = teksti.left( teksti.indexOf('\n') );
-    QRegularExpression raporttiRe("@(?<raportti>.+?)(?<erotin>[\\*!])(?<otsikko>.+?)@");
+    QRegularExpression raporttiRe("@(?<raportti>.+?)(?<vertailu>\\$?)(?<erotin>[\\*!])(?<otsikko>.+?)@");
     raporttiRe.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);
     QRegularExpressionMatchIterator iter = raporttiRe.globalMatch(ekarivi);
     while( iter.hasNext() )
@@ -74,9 +74,24 @@ QByteArray TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, QString
         Raportoija raportoija(raporttiNimi);
         if( raportoija.onkoKausiraportti() )
         {
-            raportoija.lisaaKausi( tilikausi.alkaa(), tilikausi.paattyy());
-            if( edellinenKausi.paattyy().isValid())
-                raportoija.lisaaKausi( edellinenKausi.alkaa(), edellinenKausi.paattyy());
+            if( mats.captured("vertailu").isEmpty())
+            {
+                raportoija.lisaaKausi( tilikausi.alkaa(), tilikausi.paattyy());
+                if( edellinenKausi.paattyy().isValid())
+                    raportoija.lisaaKausi( edellinenKausi.alkaa(), edellinenKausi.paattyy());
+            }
+            else
+            {
+                if( !tilikausi.onkoBudjettia())
+                    continue;   // Ei budjettivertailua, jos ei budjettia!
+
+                // Budjettivertailu
+                raportoija.lisaaKausi( tilikausi.alkaa(), tilikausi.paattyy(), Raportoija::TOTEUTUNUT);
+                raportoija.lisaaKausi( tilikausi.alkaa(), tilikausi.paattyy(), Raportoija::BUDJETTI);
+                raportoija.lisaaKausi( tilikausi.alkaa(), tilikausi.paattyy(), Raportoija::BUDJETTIERO);
+                raportoija.lisaaKausi( tilikausi.alkaa(), tilikausi.paattyy(), Raportoija::TOTEUMAPROSENTTI);
+
+            }
 
             if( raportoija.tyyppi() == Raportoija::KOHDENNUSLASKELMA)
                 raportoija.etsiKohdennukset();

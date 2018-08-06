@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>188</height>
+    <width>464</width>
+    <height>196</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -71,6 +71,13 @@
      </property>
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QCheckBox" name="vertailuBox">
+     <property name="text">
+      <string>Budjettivertailu</string>
      </property>
     </widget>
    </item>

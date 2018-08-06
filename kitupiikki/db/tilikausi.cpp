@@ -180,3 +180,8 @@ void Tilikausi::asetaKausitunnus(const QString &kausitunnus)
     kausitunnus_ = kausitunnus;
 }
 
+bool Tilikausi::onkoBudjettia()
+{
+    return !json_.variant("Budjetti").toMap().isEmpty();
+}
+

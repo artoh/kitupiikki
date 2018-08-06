@@ -75,14 +75,19 @@ void LiitetietokaavaMuokkaus::lisaaRaportti()
 
     if( dlg.exec() )
     {
+        // Since 1.1 Mahdollisuus budjettivertailuun (vain tuloslaskelmassa)
+        QString budjettivertailu = dlgUi.vertailuBox->isChecked() ? "$" : QString();
+
         if( dlgUi.erittelyCheck->isChecked() )
-            ui->editori->insertPlainText( QString("@%1*%2@")
+            ui->editori->insertPlainText( QString("@%1%3*%2@")
                                           .arg( dlgUi.rapottiCombo->currentText() )
-                                          .arg( dlgUi.otsikkoLine->text()));
+                                          .arg( dlgUi.otsikkoLine->text())
+                                          .arg(budjettivertailu));
         else
-            ui->editori->insertPlainText( QString("@%1!%2@")
+            ui->editori->insertPlainText( QString("@%1%3!%2@")
                                           .arg( dlgUi.rapottiCombo->currentText() )
-                                          .arg( dlgUi.otsikkoLine->text()));
+                                          .arg( dlgUi.otsikkoLine->text())
+                                          .arg(budjettivertailu));
 
     }
 
