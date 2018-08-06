@@ -226,12 +226,10 @@ H3 4 {} Varsinaisen toiminnan menot
 H4 40 {"Asti":42} Ostot
 H5 40 {} Tavaroiden ostot
 D 4000 {} Tavaraostot, varsinainen toiminta
-D 4020 {"Kirjausohje":"Kilpailuiden pokaalit, mitallit ja muut palkinnot"} Palkinnot
 H5 41 {} Palveluiden ostot
 D 4100 {} Palveluosostot, varsinainen toiminta
 H5 42 {} Vuokrat ja käyttömaksut
 D 4200 {} Vuokrat ja käyttömaksut, varsinainen toiminta
-D 4220 {} Uimahallimaksut
 H4 43 {} Jäsenmaksut
 D 4310 {} Maksetut jäsenmaksut
 H4 44 {} Toimitilakulut
