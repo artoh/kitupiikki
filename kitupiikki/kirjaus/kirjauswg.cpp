@@ -596,19 +596,19 @@ bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
 
             else if( ui->viennitView->currentIndex().column() == VientiModel::TILI )
             {
-                ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().siblingAtColumn(VientiModel::DEBET) );
+                ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().sibling( ui->viennitView->currentIndex().row(), VientiModel::DEBET) );
                 Tili tili = kp()->tilit()->tiliIdlla( ui->viennitView->currentIndex().data(VientiModel::TiliIdRooli).toInt() );
                 if( tili.onko(TiliLaji::MENO))
-                    ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().siblingAtColumn(VientiModel::KREDIT) );
+                    ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().sibling( ui->viennitView->currentIndex().row(),VientiModel::KREDIT) );
                 return true;
             }
 
             else if( ui->viennitView->currentIndex().column() == VientiModel::DEBET)
             {
-                ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().siblingAtColumn(VientiModel::KREDIT) );
+                ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().sibling( ui->viennitView->currentIndex().row(),VientiModel::KREDIT) );
                 if( ui->viennitView->currentIndex().data(VientiModel::DebetRooli).toInt()  )
                 {
-                    ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().siblingAtColumn(VientiModel::KOHDENNUS) );
+                    ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().sibling( ui->viennitView->currentIndex().row(),VientiModel::KOHDENNUS) );
                     // Enterillä suoraan uusi rivi
                     if( ( keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return )
                             && ui->viennitView->currentIndex().row() == model()->vientiModel()->rowCount(QModelIndex()) - 1 )
@@ -622,7 +622,7 @@ bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
             else if( ui->viennitView->currentIndex().column() < VientiModel::ALV)
             {
                 // Enterillä pääsee suoraan seuraavalle riville
-                ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().siblingAtColumn( ui->viennitView->currentIndex().column()+1)  );
+                ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().sibling( ui->viennitView->currentIndex().row(), ui->viennitView->currentIndex().column()+1)  );
                 if( ( ui->viennitView->currentIndex().data(VientiModel::KreditRooli).toInt()  || ui->viennitView->currentIndex().data(VientiModel::DebetRooli).toInt() ) &&
                     ( keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return ) &&
                       ui->viennitView->currentIndex().row() == model()->vientiModel()->rowCount(QModelIndex()) - 1 )
