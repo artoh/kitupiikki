@@ -4,7 +4,7 @@ Yhdistys
 [TilikarttaTekija]
 kitupiikki.info
 [TilikarttaPvm]
-2018-07-24
+2018-08-01
 [TilikarttaKuvaus]
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 <html><head><meta name="qrichtext" content="1" /><style type="text/css">
@@ -129,6 +129,7 @@ H4 174 {} Lainasaamiset
 A 1740 {"Taseerittely":2} Lainasaamiset
 H4 176 {} Muut saamiset
 AS 1760 {"Taseerittely":2} Muut saamiset
+AV- 1761 {"Taseerittely":1} Verosaamiset
 AL- 1762 {} Arvonlisäverosaamiset
 ALM- 1763 {} Maksuperusteinen arvonlisäverosaaminen
 H4- 177 {} Siirtosaamiset
@@ -378,7 +379,6 @@ D- 9510 {} Verotusperusteisten varausten muutos
 C- 9585 {} Saadut konserniavustukset
 D- 9586 {} Annetut konserniavustukset
 D 9590 {} Muut tilinpäätössiirrot
-AV- 1761 {"Taseerittely":1} Verosaamiset
 [tositelajit]
 OL {"Kirjaustyyppi":1,"Oletustili":4000,"Vastatili":2960} Ostolaskut
 ML {"Kirjaustyyppi":2,"Oletustili":3000,"Vastatili":1700} Myyntilaskut
@@ -881,3 +881,15 @@ AlvVelvollinen=EI
 -287
 -297
 -95
+[Kirjaamisperuste/Suoriteperuste] 
+TuontiOstolaskuPeruste=1 
+[Kirjaamisperuste/Laskuperuste] 
+LaskuKirjausperuste=1 
+TuontiOstolaskuPeruste=2 
+[Kirjaamisperuste/Maksuperuste] 
+ML/1910 
+OL/1910 
+LaskuKirjausperuste=2 
+TuontiOstolaskuPeruste=3 
+TuontiOstolaskuTili=1910 
+TilinpaatosValinnat+=maksuperuste 
