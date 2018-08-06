@@ -5,6 +5,7 @@
 #
 
 BUILD_DIR=build-windows
+DIST_DIR=dist
 
 mkdir -p $BUILD_DIR
 cd $BUILD_DIR
