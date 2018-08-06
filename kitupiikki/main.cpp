@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
 #endif
 
     a.setApplicationName("Kitupiikki");
-    a.setApplicationVersion("1.1-devel");
+    a.setApplicationVersion("1.1-beta");
     a.setOrganizationDomain("kitupiikki.info");
     a.setOrganizationName("Kitupiikki Kirjanpito");
 #ifndef Q_OS_MACX

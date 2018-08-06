@@ -233,6 +233,9 @@ void LaskutModel::paivita(int valinta, QDate mista, QDate mihin)
         lasku.json = json;
         lasku.kohdennusId = query.value("kohdennus").toInt();
 
+        if( valinta != KAIKKI && !lasku.avoinSnt)
+            continue;   // Hyvityslaskuja ei näytetä avoimina saatika erääntyneinä
+
         // Jos lasku on erääntynyt, selvitetään, onko siitä jo lähetetty maksumuistutus
         if( lasku.erapvm < kp()->paivamaara())
         {
