@@ -841,6 +841,8 @@ AlvVelvollinen=ON
 -26/3
 -5
 -75
+[MuotoOn/3 Tavallinen]
+
 [MuotoOn/4 Elinkeinotoimintaa]
 +70/3
 +1167
@@ -886,7 +888,7 @@ TuontiOstolaskuPeruste=1
 [Kirjaamisperuste/Laskuperuste] 
 LaskuKirjausperuste=1 
 TuontiOstolaskuPeruste=2 
-[Kirjaamisperuste/Maksuperuste] 
+[Kirjaamisperuste/Maksuperuste]
 ML/1910 
 OL/1910 
 LaskuKirjausperuste=2 
