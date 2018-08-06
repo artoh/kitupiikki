@@ -105,6 +105,7 @@ void NaytinIkkuna::sisaltoMuuttui(const QString& tyyppi)
     // Tyypin mukaan napit
     raitaAktio_->setEnabled( tyyppi == "raportti");
     htmlAktio_->setEnabled( tyyppi == "raportti");
+    sivunAsetusAktio_->setEnabled( tyyppi != "pdf");
 
     if( view()->tiedostoPaate() == "jpg"  )
         avaaAktio_->setIcon( QIcon(":/pic/kuva.png"));
@@ -131,13 +132,19 @@ void NaytinIkkuna::teeToolbar()
 
     tb->addSeparator();
 
+    QAction *tulostaAktio = tb->addAction(QIcon(":/pic/tulosta.png"), tr("Tulosta"));
+    connect( tulostaAktio, &QAction::triggered, view(), &NaytinView::tulosta);
+
+    tb->addSeparator();
+
     raitaAktio_ = tb->addAction(QIcon(":/pic/raidoitus.png"), tr("Raidat"));
     connect( raitaAktio_, &QAction::triggered, view_, &NaytinView::raidoita);
     raitaAktio_->setCheckable(true);
 
-    QAction *sivunAsetusAktio = tb->addAction(QIcon(":/pic/sivunasetukset.png"), tr("Sivun asetukset"));
-    connect( sivunAsetusAktio, &QAction::triggered, view_, &NaytinView::sivunAsetukset );
-    tb->addAction(QIcon(":/pic/tulosta.png"), tr("Tulosta"));
+    sivunAsetusAktio_ = tb->addAction(QIcon(":/pic/sivunasetukset.png"), tr("Sivun asetukset"));
+    connect( sivunAsetusAktio_, &QAction::triggered, view_, &NaytinView::sivunAsetukset );
+
+
 
     tb->addSeparator();
 

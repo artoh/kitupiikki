@@ -54,6 +54,7 @@ private:
 
     QAction *avaaAktio_;
     QAction *raitaAktio_;
+    QAction *sivunAsetusAktio_;
 
     QAction *csvAktio_;
     QAction *htmlAktio_;
