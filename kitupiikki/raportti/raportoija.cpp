@@ -96,6 +96,8 @@ RaportinKirjoittaja Raportoija::raportti(bool tulostaErittelyt)
         }
 
         laskeTaseDate();
+        budjetti_.resize( loppuPaivat_.count() );
+
         kirjoitaDatasta(rk, tulostaErittelyt);
     }
     else if( tyyppi() == KOHDENNUSLASKELMA )
@@ -213,8 +215,8 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt)
     QRegularExpression maareRe("(?<maare>([A-Za-z=]+|\\*))(?<sisennys>[0-9]?)");
 
     // Välisummien käsittelyä = varten
-    QVector<qlonglong> kokosumma( data_.count());
-    QVector<qlonglong> budjettikokosumma( budjetti_.count());
+    QVector<qlonglong> kokosumma( loppuPaivat_.count());
+    QVector<qlonglong> budjettikokosumma( loppuPaivat_.count());
 
     foreach (QString rivi, kaava_)
     {
@@ -242,8 +244,8 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt)
         QString loppurivi = rivi.mid(tyhjanpaikka);     // Aloittava tyhjä mukaan!
 
         // Lasketaan summat
-        QVector<qlonglong> summat( data_.count() );
-        QVector<qlonglong> budjetit( budjetti_.count());
+        QVector<qlonglong> summat( loppuPaivat_.count() );
+        QVector<qlonglong> budjetit( loppuPaivat_.count());
 
         int sisennys = 0;
 
@@ -360,7 +362,7 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt)
                         {
                             if( vainTulot || vainMenot)
                             {
-                                Tili tili = kp()->tilit()->tiliNumerolla( iter.key() / 10);
+                                Tili tili = kp()->tilit()->tiliNumerolla( budjettiIter.key() / 10);
 
                                 // Ohitetaan, jos haluttu vain tulot ja menot eikä ole niitä
                                 if( (vainTulot && !tili.onko(TiliLaji::TULO) ) || (vainMenot && !tili.onko(TiliLaji::MENO) ))
@@ -711,7 +713,9 @@ void Raportoija::sijoitaBudjetti(int kohdennus)
         qlonglong summa = 0;
 
         if( sarakeTyypit_.value(i) == TOTEUTUNUT)
+        {
             continue;
+        }
 
         for(int kausi=0; kausi < kp()->tilikaudet()->rowCount(QModelIndex()); kausi++ )
         {

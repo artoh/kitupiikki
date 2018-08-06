@@ -107,7 +107,7 @@
      <item>
       <widget class="QPushButton" name="peruNappi">
        <property name="text">
-        <string>&amp;Peru</string>
+        <string>&amp;Sulje</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
