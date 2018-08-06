@@ -82,7 +82,7 @@ QVariant BudjettiModel::data(const QModelIndex &index, int role) const
                 QString tilinumero = proxy_->data( proxy_->index(index.row(), TiliModel::NUMERO) ).toString();
                 qlonglong sentit = sentit_.value( tilinumero, "0").toLongLong() ;
                 if( role == Qt::EditRole)
-                    return QVariant(sentit);
+                    return QVariant(sentit / 100.0);
 
                 if( sentit )
                     return QVariant( QString("%L1 €").arg( sentit / 100.0, 10,'f',2));

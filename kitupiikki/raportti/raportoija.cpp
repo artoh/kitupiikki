@@ -764,6 +764,35 @@ void Raportoija::etsiKohdennukset()
         while( kysely.next())
             kohdennusKaytossa_.push_back( kysely.value(0).toInt());
     }
+
+    for( int sarakeTyyppi : sarakeTyypit_ )
+    {
+        // Jos budjettiin liittyvä sarake, haetaan kaikki ne kohdennukset, joissa näinä aikoina
+        // budjetti
+        if( sarakeTyyppi != TOTEUTUNUT)
+        {
+            for(int i=0; i < loppuPaivat_.count(); i++)
+            {
+                // Lisätään budjetin kohdennukset näistä tilikausista
+                for(int kausi=0; kausi < kp()->tilikaudet()->rowCount(QModelIndex()); kausi++ )
+                {
+                    Tilikausi tilikausi = kp()->tilikaudet()->tilikausiIndeksilla(kausi);
+                    if( tilikausi.alkaa() > loppuPaivat_.value(i) || tilikausi.paattyy() < alkuPaivat_.value(i))
+                        continue;
+
+                    // Lisätään tämä tilikausi budjettiin
+                    QVariantMap kohdennusMap = tilikausi.json()->variant("Budjetti").toMap();
+                    QMapIterator<QString,QVariant> kohdennusIter(kohdennusMap);
+                    while( kohdennusIter.hasNext())
+                    {
+                        kohdennusIter.next();
+                        kohdennusKaytossa_.push_back(kohdennusIter.key().toInt());
+                    }
+                }
+            }
+            break;
+        }
+    }
 }
 
 void Raportoija::lisaaKohdennus(int kohdennusId)
