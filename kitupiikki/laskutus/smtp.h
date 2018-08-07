@@ -38,9 +38,9 @@ public:
           const QString &host, int port = 465, int timeout = 30000 );
     ~Smtp();
 
-    void sendMail( const QString &from, const QString &to,
-                   const QString &subject, const QString &body,
-                   QStringList files = QStringList());
+    void lahetaLiitteella(const QString& from, const QString &to,
+                          const QString& subject, const QString& viesti,
+                          const QString& liitenimi, const QByteArray& liite);
 
 signals:
     void status( const QString &);
@@ -54,6 +54,7 @@ private slots:
 
 private:
     int timeout;
+    QString otsikko;
     QString message;
     QTextStream *t;
     QSslSocket *socket;

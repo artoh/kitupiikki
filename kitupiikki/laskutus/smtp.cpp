@@ -8,6 +8,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
+#include <QApplication>
 
 #include "smtp.h"
 
@@ -32,49 +33,31 @@ Smtp::Smtp( const QString &user, const QString &pass, const QString &host, int p
 
 }
 
-void Smtp::sendMail(const QString &from, const QString &to, const QString &subject, const QString &body, QStringList files)
+
+
+void Smtp::lahetaLiitteella(const QString &from, const QString &to, const QString &subject, const QString &viesti, const QString &liitenimi, const QByteArray &liite)
 {
-    message = "To: " + to + "\n";
-    message.append("From: " + from + "\n");
-    message.append("Subject: " + subject + "\n");
+    emit status(tr("Yhdistetään sähköpostipalvelimeen..."));
+    qApp->processEvents();
+
+    otsikko = "To: " + to + "\n";
+    otsikko.append("From: " + from + "\n");
+    otsikko.append("Subject: " + subject + "\n");
 
     //Let's intitiate multipart MIME with cutting boundary "frontier"
-    message.append("MIME-Version: 1.0\n");
-    message.append("Content-Type: multipart/mixed; boundary=frontier\n\n");
+    otsikko.append("MIME-Version: 1.0\n");
+    otsikko.append("Content-Type: multipart/mixed; boundary=frontier\n\n");
 
-
-
-    message.append( "--frontier\n" );
-    message.append( "Content-Type: text/html; charset=\"UTF-8\"\n\n" );  //Uncomment this for HTML formating, coment the line below
+    otsikko.append( "--frontier\n" );
+    otsikko.append( "Content-Type: text/html; charset=\"UTF-8\"\n\n" );  //Uncomment this for HTML formating, coment the line below
     // message.append( "Content-Type: text/plain\n\n" );
-    message.append(body);
+    message = viesti;
+
     message.append("\n\n");
-
-    if(!files.isEmpty())
-    {
-        qDebug() << "Files to be sent: " << files.size();
-        foreach(QString filePath, files)
-        {
-            QFile file(filePath);
-            if(file.exists())
-            {
-                if (!file.open(QIODevice::ReadOnly))
-                {
-                    qDebug("Couldn't open the file");
-                    QMessageBox::warning( 0, tr( "Qt Simple SMTP client" ), tr( "Couldn't open the file\n\n" )  );
-                        return ;
-                }
-                QByteArray bytes = file.readAll();
-                message.append( "--frontier\n" );
-                message.append( "Content-Type: application/octet-stream\nContent-Disposition: attachment; filename="+ QFileInfo(file.fileName()).fileName() +";\nContent-Transfer-Encoding: base64\n\n" );
-                message.append(bytes.toBase64());
-                message.append("\n");
-            }
-        }
-    }
-    else
-        qDebug() << "No attachments found";
-
+    message.append( "--frontier\n" );
+    message.append( "Content-Type: application/octet-stream\nContent-Disposition: attachment; filename="+ liitenimi +";\nContent-Transfer-Encoding: base64\n\n" );
+    message.append(liite.toBase64());
+    message.append("\n");
 
     message.append( "--frontier--\n" );
 
@@ -98,13 +81,19 @@ void Smtp::sendMail(const QString &from, const QString &to, const QString &subje
 
 
     if (!socket->waitForConnected(timeout)) {
-         qDebug() << socket->errorString();
+
+        if( state != Close)
+        {
+            QMessageBox::warning( nullptr, tr( "Virhe sähköpostin lähetyksessä" ), tr( "Sähköpostipalvelin ilmoitti virheen: %1" ).arg( socket->errorString())  );
+            state = Close;
+            emit status(tr("Sähköpostin lähetys epäonnistui"));
+        }
+        qDebug() << socket->errorString();
      }
 
 
     t = new QTextStream( socket );
-
-
+    t->setCodec("ISO 8859-1");
 
 }
 
@@ -122,13 +111,19 @@ void Smtp::stateChanged(QAbstractSocket::SocketState socketState)
 void Smtp::errorReceived(QAbstractSocket::SocketError socketError)
 {
     qDebug() << "error " <<socketError;
+    // something broke.
+    if( state != Close)
+    {
+        QMessageBox::warning( nullptr, tr( "Virhe sähköpostin lähetyksessä" ), tr( "Sähköpostipalvelin ilmoitti virheen: %1" ).arg( socket->errorString())  );
+        state = Close;
+        emit status( tr( "Sähköpostin lähetys epäonnistui" ) );
+    }
 }
 
 void Smtp::disconnected()
 {
 
     qDebug() <<"disconneted";
-    qDebug() << "error "  << socket->errorString();
 }
 
 void Smtp::connected()
@@ -157,6 +152,7 @@ void Smtp::readyRead()
 
     if ( state == Init && responseLine == "220" )
     {
+        emit status( tr( "Lähetetään sähköpostia..." ) );
         if( port == 25)
         {
             // Portti 25 SMTP-protokolla
@@ -253,7 +249,9 @@ void Smtp::readyRead()
     }
     else if ( state == Body && responseLine == "354" )
     {
-
+        *t << otsikko;
+        t->flush();
+        t->setCodec("UTF-8");
         *t << message << "\r\n.\r\n";
         t->flush();
         state = Quit;
@@ -274,10 +272,10 @@ void Smtp::readyRead()
     }
     else
     {
-        // something broke.
-        QMessageBox::warning( 0, tr( "Virhe sähköpostin lähetyksessä" ), tr( "Sähköpostipalvelin ilmoitti virheen:\n\n" ) + response );
+        // something broke.        
+        // QMessageBox::warning( nullptr, tr( "Virhe sähköpostin lähetyksessä" ), tr( "Sähköpostipalvelin ilmoitti virheen:\n\n" ) + response );
         state = Close;
-        emit status( tr( "Sähköpostin lähetys epäonnistui" ) );
+        // emit status( tr( "Sähköpostin lähetys epäonnistui" ) );
     }
     response = "";
 }

@@ -159,7 +159,7 @@ QString LaskunTulostaja::html()
 
         if( alv )
         {
-            txt.append(QString("<tr><td>%1</td><td>%2 %3</td><td>%4 €</td><td>%5</td><td>%L6 €</td><td>%7</td><tr>")
+            txt.append(QString("<tr><td>%1</td><td>%2 %3</td><td style='text-align:right;'>%4</td><td style='text-align:right;'>%5</td><td style='text-align:right;'>%L6 €</td><td style='text-align:right;'>%7</td><tr>")
                        .arg(nimike).arg(maara).arg(yksikko).arg(ahinta).arg(vero).arg(verosnt / 100.0,0,'f',2).arg(yht) );
 
             // Lisätään alv-erittelyä varten summataulukkoihin
@@ -172,25 +172,25 @@ QString LaskunTulostaja::html()
         }
         else
         {
-            txt.append(QString("<tr><td>%1</td><td>%2 %3</td><td>%4 €</td><td>%L5 €</td><tr>")
+            txt.append(QString("<tr><td>%1</td><td>%2 %3</td><td style='text-align:right;'>%4</td><td style='text-align:right;'>%L5 €</td><tr>")
                        .arg(nimike).arg(maara).arg(yksikko).arg(ahinta).arg(yht) );            
         }
     }
     txt.append("</table><p>");
     if( alv)
     {
-        txt.append("<table width=50%><tr><th>Alv%</th><th>Veroton</th><th>Vero</th><th>Yhtensä</th></tr>");
+        txt.append(tr("<table width=50%><tr><th>Alv%</th><th>Veroton</th><th>Vero</th><th>Yhteensä</th></tr>"));
         QMapIterator<int,AlvErittelyEra> iter(alvit);
         while(iter.hasNext())
         {
             iter.next();
-            txt.append( tr("<tr><td>%1 %</td><td>%L2 €</td><td>%L3 €</td><td>%L4 €</td><tr>")
+            txt.append( tr("<tr><td>%1 %</td><td>%L2 €</td><td style='text-align:right;'>%L3 €</td><td  style='text-align:right;'>%L4 €</td><tr>")
                         .arg( iter.key())
                         .arg( ( iter.value().netto / 100.0) ,0,'f',2)
                         .arg( ( iter.value().vero / 100.0) ,0,'f',2)
                         .arg( (iter.value().brutto() / 100.0) ,0,'f',2) ) ;
         }
-        txt.append( tr("<tr><td>YHTEENSÄ </td><td>%L1 €</td><td>%L2 €</td><td>%L3 €</td><tr>")
+        txt.append( tr("<tr><td>YHTEENSÄ </td><td>%L1 €</td><td style='text-align:right;'>%L2 €</td><td style='text-align:right;'>%L3 €</td><tr>")
                     .arg( ( kokoNetto / 100.0) ,0,'f',2)
                     .arg( ( kokoVero / 100.0) ,0,'f',2)
                     .arg( ( model_->laskunSumma() / 100.0) ,0,'f',2) ) ;
@@ -202,9 +202,9 @@ QString LaskunTulostaja::html()
         txt.append(tr("<hr>Virtuaaliviivakoodi <b>%1</b>").arg( virtuaaliviivakoodi()) );
 
     if( kp()->asetukset()->asetus("Ytunnus").length())
-        txt.append(tr("<hr>Y-tunnus %1<b>").arg(kp()->asetukset()->asetus("Ytunnus")));
+        txt.append(tr("<hr>Y-tunnus %1").arg(kp()->asetukset()->asetus("Ytunnus")));
     if( kp()->asetukset()->asetus("Puhelin").length())
-        txt.append(tr("Puhelin %2").arg(kp()->asetukset()->asetus("Puhelin")));
+        txt.append(tr("<br>Puhelin %2").arg(kp()->asetukset()->asetus("Puhelin")));
 
     txt.append("</body></html>");
 
