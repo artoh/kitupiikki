@@ -172,7 +172,7 @@ QString LaskunTulostaja::html()
         }
         else
         {
-            txt.append(QString("<tr><td>%1</td><td>%2 %3</td><td style='text-align:right;'>%4</td><td style='text-align:right;'>%L5 €</td><tr>")
+            txt.append(QString("<tr><td>%1</td><td>%2 %3</td><td style='text-align:right;'>%4</td><td style='text-align:right;'>%5</td><tr>")
                        .arg(nimike).arg(maara).arg(yksikko).arg(ahinta).arg(yht) );            
         }
     }
