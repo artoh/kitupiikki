@@ -119,13 +119,15 @@ void EmailMaaritys::kokeile()
 
     Smtp *smtp = new Smtp( ui->kayttajaEdit->text(), ui->salasanaEdit->text(), ui->palvelinEdit->text(), ui->porttiSpin->value());
     connect( smtp, SIGNAL(status(QString)), ui->tulosLabel, SLOT(setText(QString)));
-    ui->tulosLabel->setText("Lähetetään testisähköpostia...");
 
-    QStringList lista;
-    lista << ":/pic/aboutpossu.png";
 
-    smtp->sendMail( osoite, osoite, tr("Kitupiikin kokeilu"),
-                    tr("<html><body><h1>Kitupiikki Kirjanpito</h1><p>Sähköpostin lähetys onnistui</p>"
-                       "<hr>%1</body></html>").arg(QDateTime::currentDateTime().toString("dd.MM.yyyy")), lista);
+    QFile kuva(":/pic/possukirjaa.png");
+    kuva.open(QIODevice::ReadOnly);
+
+    smtp->lahetaLiitteella(osoite, osoite, tr("Kitupiikin sähköpostikokeilu"),
+                           tr("<html><body><h3>Kitupiikin sähköposti</h3><p>Sähköpostin lähettäminen Kitupiikki-ohjelmasta onnistui.</p>"
+                              "<hr>%1 </body></html>").arg(QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm")),
+                       "possu.png", kuva.readAll());
+
 }
 

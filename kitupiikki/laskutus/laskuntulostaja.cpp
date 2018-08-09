@@ -97,7 +97,7 @@ QByteArray LaskunTulostaja::pdf()
 
 QString LaskunTulostaja::html()
 {
-    QString txt = "<html><body><table width=100%>";
+    QString txt = "<html><body><table width=100%>\n";
 
 
     QString osoite = model_->osoite();
@@ -114,12 +114,12 @@ QString LaskunTulostaja::html()
     else if(model_->kirjausperuste() == LaskuModel::KATEISLASKU)
         otsikko = tr("Kuitti");
 
-    txt.append(tr("<tr><td rowspan=2 width=50%>%1<br>%2</td><td colspan=3>%3</td></tr>").arg(kp()->asetukset()->asetus("Nimi")).arg(omaosoite).arg(otsikko) );
+    txt.append(tr("<tr><td rowspan=2 width=50%>%1<br>%2</td><td colspan=3>%3</td></tr>\n").arg(kp()->asetukset()->asetus("Nimi")).arg(omaosoite).arg(otsikko) );
 
     if( model_->tyyppi() != LaskuModel::HYVITYSLASKU )
         txt.append(tr("<tr><td width=25%>Laskun päivämäärä</td><td width=25%>%1</td></tr>").arg( kp()->paivamaara().toString("dd.MM.yyyy") ));
     else
-        txt.append(tr("<tr><td width=25%>Hyvityksen päivämäärä</td><td width=25%>%1</td></tr>").arg( kp()->paivamaara().toString("dd.MM.yyyy") ));
+        txt.append(tr("<tr><td width=25%>Hyvityksen päivämäärä</td><td width=25%>%1</td></tr>\n").arg( kp()->paivamaara().toString("dd.MM.yyyy") ));
 
     if( model_->kirjausperuste() == LaskuModel::KATEISLASKU)
         txt.append(tr("<tr><td rowspan=5>%1</td><td>Laskun numero</td><td>%2</td></td>").arg( osoite ).arg(model_->viitenumero() ));
@@ -179,7 +179,7 @@ QString LaskunTulostaja::html()
 
         if( alv )
         {
-            txt.append(QString("<tr><td>%1</td><td>%2 %3</td><td>%4 €</td><td>%5</td><td>%L6 €</td><td>%7</td><tr>")
+            txt.append(QString("<tr><td>%1</td><td>%2 %3</td><td style='text-align:right;'>%4</td><td style='text-align:right;'>%5</td><td style='text-align:right;'>%L6 €</td><td style='text-align:right;'>%7</td><tr>\n")
                        .arg(nimike).arg(maara).arg(yksikko).arg(ahinta).arg(vero).arg(verosnt / 100.0,0,'f',2).arg(yht) );
 
             // Lisätään alv-erittelyä varten summataulukkoihin
@@ -192,25 +192,25 @@ QString LaskunTulostaja::html()
         }
         else
         {
-            txt.append(QString("<tr><td>%1</td><td>%2 %3</td><td>%4 €</td><td>%L5 €</td><tr>")
+            txt.append(QString("<tr><td>%1</td><td>%2 %3</td><td style='text-align:right;'>%4</td><td style='text-align:right;'>%5</td><tr>\n")
                        .arg(nimike).arg(maara).arg(yksikko).arg(ahinta).arg(yht) );            
         }
     }
     txt.append("</table><p>");
     if( alv && model_->tyyppi() != LaskuModel::MAKSUMUISTUTUS)
     {
-        txt.append("<table width=50%><tr><th>Alv%</th><th>Veroton</th><th>Vero</th><th>Yhtensä</th></tr>");
+        txt.append(tr("<table width=50%><tr><th>Alv%</th><th>Veroton</th><th>Vero</th><th>Yhteensä</th></tr>"));
         QMapIterator<int,AlvErittelyEra> iter(alvit);
         while(iter.hasNext())
         {
             iter.next();
-            txt.append( tr("<tr><td>%1 %</td><td>%L2 €</td><td>%L3 €</td><td>%L4 €</td><tr>")
+            txt.append( tr("<tr><td>%1 %</td><td>%L2 €</td><td style='text-align:right;'>%L3 €</td><td  style='text-align:right;'>%L4 €</td><tr>\n")
                         .arg( iter.key())
                         .arg( ( iter.value().netto / 100.0) ,0,'f',2)
                         .arg( ( iter.value().vero / 100.0) ,0,'f',2)
                         .arg( (iter.value().brutto() / 100.0) ,0,'f',2) ) ;
         }
-        txt.append( tr("<tr><td>YHTEENSÄ </td><td>%L1 €</td><td>%L2 €</td><td>%L3 €</td><tr>")
+        txt.append( tr("<tr><td>YHTEENSÄ </td><td>%L1 €</td><td style='text-align:right;'>%L2 €</td><td style='text-align:right;'>%L3 €</td><tr>\n")
                     .arg( ( kokoNetto / 100.0) ,0,'f',2)
                     .arg( ( kokoVero / 100.0) ,0,'f',2)
                     .arg( ( model_->laskunSumma() / 100.0) ,0,'f',2) ) ;
@@ -219,14 +219,15 @@ QString LaskunTulostaja::html()
     }
 
     if( virtuaaliviivakoodi().length() > 50)
-        txt.append(tr("<hr>Virtuaaliviivakoodi <b>%1</b>").arg( virtuaaliviivakoodi()) );
+        txt.append(tr("<hr><p>Virtuaaliviivakoodi <b>%1</b></p>").arg( virtuaaliviivakoodi()) );
 
+    txt.append("<hr><table>");
     if( kp()->asetukset()->asetus("Ytunnus").length())
-        txt.append(tr("<hr>Y-tunnus %1<b>").arg(kp()->asetukset()->asetus("Ytunnus")));
+        txt.append(tr("<tr><td>Y-tunnus </td><td>%1</td></tr>\n").arg(kp()->asetukset()->asetus("Ytunnus")));
     if( kp()->asetukset()->asetus("Puhelin").length())
-        txt.append(tr("Puhelin %2").arg(kp()->asetukset()->asetus("Puhelin")));
+        txt.append(tr("<tr><td>Puhelin </td><td>%2</td></tr> \n").arg(kp()->asetukset()->asetus("Puhelin")));
 
-    txt.append("</body></html>");
+    txt.append("</table></body></html>\n");
 
     return txt;
 }

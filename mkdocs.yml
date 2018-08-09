@@ -42,8 +42,8 @@ google_analytics:
 pages:
   - Kitupiikki: 'index.md'
   - Esittely:
+    - Ominaisuudet: 'esittely.md'  
     - Videot: 'videot.md'
-    - Ominaisuudet: 'esittely.md'
     - Käyttöliittymä: 'ui.md'
     - Tuki: 'tuki.md'
   - Kirjanpidosta lyhyesti: 'kirjanpito/index.md'
