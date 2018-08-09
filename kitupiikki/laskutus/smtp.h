@@ -54,7 +54,6 @@ private slots:
 
 private:
     int timeout;
-    QString otsikko;
     QString message;
     QTextStream *t;
     QSslSocket *socket;

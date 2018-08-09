@@ -40,18 +40,19 @@ void Smtp::lahetaLiitteella(const QString &from, const QString &to, const QStrin
     emit status(tr("Yhdistetään sähköpostipalvelimeen..."));
     qApp->processEvents();
 
-    otsikko = "To: " + to + "\n";
-    otsikko.append("From: " + from + "\n");
-    otsikko.append("Subject: " + subject + "\n");
+    message = "To: =?utf-8?Q?" + to + "?=\n";
+    message.append("From: =?utf-8?Q?" + from + "?=\n");
+    message.append("Subject: =?utf-8?Q?" + subject + "?=\n");
 
     //Let's intitiate multipart MIME with cutting boundary "frontier"
-    otsikko.append("MIME-Version: 1.0\n");
-    otsikko.append("Content-Type: multipart/mixed; boundary=frontier\n\n");
+    message.append("MIME-Version: 1.0\n");
+    message.append("Content-Type: multipart/mixed; boundary=frontier\n\n");
 
-    otsikko.append( "--frontier\n" );
-    otsikko.append( "Content-Type: text/html; charset=\"UTF-8\"\n\n" );  //Uncomment this for HTML formating, coment the line below
-    // message.append( "Content-Type: text/plain\n\n" );
-    message = viesti;
+    message.append( "--frontier\n" );
+    message.append( "Content-Type: text/html; charset=\"UTF-8\"\n\n" );  //Uncomment this for HTML formating, coment the line below
+
+    // Koska ei lähetetä utf-koodauksella, enkoodataan €-merkit html-muotoon
+    message.append(viesti);
 
     message.append("\n\n");
     message.append( "--frontier\n" );
@@ -93,7 +94,7 @@ void Smtp::lahetaLiitteella(const QString &from, const QString &to, const QStrin
 
 
     t = new QTextStream( socket );
-    t->setCodec("ISO 8859-1");
+    t->setCodec("UTF-8");
 
 }
 
@@ -249,9 +250,6 @@ void Smtp::readyRead()
     }
     else if ( state == Body && responseLine == "354" )
     {
-        *t << otsikko;
-        t->flush();
-        t->setCodec("UTF-8");
         *t << message << "\r\n.\r\n";
         t->flush();
         state = Quit;
