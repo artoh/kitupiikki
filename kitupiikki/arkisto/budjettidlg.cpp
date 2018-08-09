@@ -42,6 +42,7 @@ BudjettiDlg::BudjettiDlg(QWidget *parent) :
     connect( model_, &BudjettiModel::summaMuuttui, this, &BudjettiDlg::muokattu);
     connect( ui->kopioiNappi, &QPushButton::clicked, model_, &BudjettiModel::kopioiEdellinen);
     connect( ui->peruNappi, &QPushButton::clicked, this, &BudjettiDlg::close );
+    connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("tilikaudet/budjetti"); });
 
     ui->view->horizontalHeader()->setSectionResizeMode(BudjettiModel::NIMI, QHeaderView::Stretch );
 }
