@@ -65,7 +65,8 @@ int TilikausiSivu::nextId() const
 
 void TilikausiSivu::alkuPaivaMuuttui(const QDate &date)
 {
-    ui->ekaPaattyy->setDate(date.addDays(-1).addYears(1));
+    ui->ekaPaattyy->setDate( QDate( date.year(), 12, 31)  );
+
     ui->ekaPaattyy->setMinimumDate(date.addDays(1));
     ui->ekaPaattyy->setMaximumDate(date.addMonths(18));
 
