@@ -582,9 +582,18 @@ bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
         if( ( keyEvent->key() == Qt::Key_Enter ||
             keyEvent->key() == Qt::Key_Return ||
+            keyEvent->key() == Qt::Key_Insert ||
             keyEvent->key() == Qt::Key_Tab) &&
                 keyEvent->modifiers() == Qt::NoModifier )
         {
+
+            // Insertillä suoraan uusi rivi
+            if( ( keyEvent->key() == Qt::Key_Insert )
+                    && ui->viennitView->currentIndex().row() == model()->vientiModel()->rowCount(QModelIndex()) - 1 )
+            {
+                lisaaRivi();
+                ui->viennitView->setCurrentIndex( model()->vientiModel()->index( model()->vientiModel()->rowCount(QModelIndex())-1, VientiModel::TILI ) );
+            }
 
             if( ui->viennitView->currentIndex().column() == VientiModel::SELITE &&
                 ui->viennitView->currentIndex().row() == model()->vientiModel()->rowCount(QModelIndex()) - 1 )
@@ -606,16 +615,12 @@ bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
             else if( ui->viennitView->currentIndex().column() == VientiModel::DEBET)
             {
                 ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().sibling( ui->viennitView->currentIndex().row(),VientiModel::KREDIT) );
+                qApp->processEvents();
+
                 if( ui->viennitView->currentIndex().data(VientiModel::DebetRooli).toInt()  )
                 {
                     ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().sibling( ui->viennitView->currentIndex().row(),VientiModel::KOHDENNUS) );
-                    // Enterillä suoraan uusi rivi
-                    if( ( keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return )
-                            && ui->viennitView->currentIndex().row() == model()->vientiModel()->rowCount(QModelIndex()) - 1 )
-                    {
-                        lisaaRivi();
-                        ui->viennitView->setCurrentIndex( model()->vientiModel()->index( model()->vientiModel()->rowCount(QModelIndex())-1, VientiModel::TILI ) );
-                    }
+
                 }
                 return true;
             }
@@ -623,13 +628,6 @@ bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
             {
                 // Enterillä pääsee suoraan seuraavalle riville
                 ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().sibling( ui->viennitView->currentIndex().row(), ui->viennitView->currentIndex().column()+1)  );
-                if( ( ui->viennitView->currentIndex().data(VientiModel::KreditRooli).toInt()  || ui->viennitView->currentIndex().data(VientiModel::DebetRooli).toInt() ) &&
-                    ( keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return ) &&
-                      ui->viennitView->currentIndex().row() == model()->vientiModel()->rowCount(QModelIndex()) - 1 )
-                {
-                    lisaaRivi();
-                    ui->viennitView->setCurrentIndex( model()->vientiModel()->index( model()->vientiModel()->rowCount(QModelIndex())-1, VientiModel::TILI ) );
-                }
                 return true;
             }
 
