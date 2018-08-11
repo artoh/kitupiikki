@@ -40,8 +40,8 @@ void Smtp::lahetaLiitteella(const QString &from, const QString &to, const QStrin
     emit status(tr("Yhdistetään sähköpostipalvelimeen..."));
     qApp->processEvents();
 
-    message = "To: =?utf-8?Q?" + to + "?=\n";
-    message.append("From: =?utf-8?Q?" + from + "?=\n");
+    message = "To: " + to + "\n";
+    message.append("From: " + from + "\n");
     message.append("Subject: =?utf-8?Q?" + subject + "?=\n");
 
     //Let's intitiate multipart MIME with cutting boundary "frontier"

@@ -359,9 +359,9 @@ void LaskuDialogi::lahetaSahkopostilla()
     connect( smtp, SIGNAL(status(QString)), this, SLOT(smtpViesti(QString)));
 
 
-    QString kenelta = QString("\"%1\" <%2>").arg(kp()->asetukset()->asetus("EmailNimi"))
+    QString kenelta = QString("=?utf-8?Q?%1?= <%2>").arg(kp()->asetukset()->asetus("EmailNimi"))
                                                 .arg(kp()->asetukset()->asetus("EmailOsoite"));
-    QString kenelle = QString("\"%1\" <%2>").arg( ui->saajaEdit->text() )
+    QString kenelle = QString("=?utf-8?Q?%1?= <%2>").arg( ui->saajaEdit->text() )
                                             .arg(ui->emailEdit->text() );
 
     smtp->lahetaLiitteella(kenelta, kenelle, tr("Lasku %1 - %2").arg( model->viitenumero() ).arg( kp()->asetukset()->asetus("Nimi") ),
