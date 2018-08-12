@@ -297,7 +297,7 @@ H4 190 {} Rahat
 ARK 1900 {} Käteisvarat
 ARK 1905 {} Valuuttakassat
 H4 191 {"Asti":198} Pankkisaamiset
-ARP 1910 {"IBAN":"FI4171545560008342"} Pankkitili 1
+ARP 1910 {} Pankkitili 1
 A 1919 {} Pankkitili 1 shekkitililimiitti
 ARP 1920 {} Pankkitili 2
 A 1929 {} Pankkitili 2 shekkitililimiitti
@@ -315,15 +315,15 @@ A 1995 {} Rahansiirrot matkalla
 A 1996 {} Virhemaksut
 H1 2 {} Vastattavaa
 H2 20 {"Asti":23} Oma pääoma
-H3 200 {"Asti":203} Osakepääoma
+H3- 200 {"Asti":203} Osakepääoma
 B- 2001 {"Taseerittely":1} Osakepääoma
-B 2011 {"Taseerittely":1} Osakeanti
-B 2021 {"Taseerittely":1} Ylikurssirahasto
-B 2031 {"Taseerittely":1} Arvonkorotusrahasto
-H3 205 {"Asti":209} Muut rahastot
-B 2051 {"Taseerittely":1} Vararahasto
-B 2061 {"Taseerittely":1} Yhtiöjärjestyksen mukainen rahasto
-B 2071 {"Taseerittely":1} Muut rahastot
+B- 2011 {"Taseerittely":1} Osakeanti
+B- 2021 {"Taseerittely":1} Ylikurssirahasto
+B- 2031 {"Taseerittely":1} Arvonkorotusrahasto
+H3- 205 {"Asti":209} Muut rahastot
+B- 2051 {"Taseerittely":1} Vararahasto
+B- 2061 {"Taseerittely":1} Yhtiöjärjestyksen mukainen rahasto
+B- 2071 {"Taseerittely":1} Muut rahastot
 H3- 210 {} Osuuspääoma
 B- 2101 {"Taseerittely":1} Osuuspääoma
 B- 2103 {"Taseerittely":1} Lisäosuuspääoma
@@ -338,8 +338,8 @@ H3 224 {} Tilikauden tulos
 T 2240 {} Tilikauden voitto/tappio
 H3 225 {"Asti":232} Edellisten tilikausien voitto (tappio)
 BE 2251 {} Edellisten tilikausien voitto/tappio
-B 2261 {"Taseerittely":1} Osingonjako
-B 2265 {"Taseerittely":1} Omista osakkeista maksettu määrä
+B- 2261 {"Taseerittely":1} Osingonjako
+B- 2265 {"Taseerittely":1} Omista osakkeista maksettu määrä
 B- 2271 {"Taseerittely":1} Osuuskorot
 B- 2291 {"Taseerittely":1} Voitto-osuus yhtiömies A
 B- 2293 {"Taseerittely":1} Voitto-osuus yhtiömies B
@@ -1604,6 +1604,7 @@ Laskennalliset verot		997 *
 Muut välittömät verot		998..999 *
 
 [Raportti/Kohdennukset]
+:kohdennus
 Tulot 	3..9+ *4
 Menot	3..9- *4
 Tulos	3..9 viiva

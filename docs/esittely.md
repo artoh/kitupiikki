@@ -37,6 +37,6 @@ Tilejä ei tarvitse eritellä verokannoittain, koska arvonlisävero määritetä
 
 Kitupiikin lähdekoodi on julkisesti saatavilla osoitteessa <https://github.com/artoh/kitupiikki>. Ohjelmaa saa käyttää, kopioida, muokata ja levittää ilman maksua, katso [lisenssi](lisenssi).
 
-!!! warning "Ei takuuta"
+!!! info "Ei takuuta"
     Saat ohjelmiston käyttöösi täysin ilman maksua.
     Kitupikki-ohjelmaan ei sisälly minkäänlaista takuuta ohjelma toimivuudesta tai soveltuvuudesta. Ohjelma on testattu huolellisesti, mutta siinä voi silti olla virheitä ja ohjelman käyttäjä ottaa vastuun ohjelman mahdollisesti aiheuttamista vahigoista.

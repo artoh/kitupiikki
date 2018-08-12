@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>704</width>
-    <height>580</height>
+    <width>712</width>
+    <height>729</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -58,7 +58,11 @@
      <item>
       <widget class="QPushButton" name="aboutQtNappi">
        <property name="text">
-        <string>About Qt</string>
+        <string>&amp;Tietoja Qt:sta</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/QtIcon.png</normaloff>:/pic/QtIcon.png</iconset>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -81,7 +85,11 @@
      <item>
       <widget class="QPushButton" name="pushButton">
        <property name="text">
-        <string>OK</string>
+        <string>&amp;OK</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/ok.png</normaloff>:/pic/ok.png</iconset>
        </property>
        <property name="default">
         <bool>true</bool>

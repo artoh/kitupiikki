@@ -334,22 +334,14 @@ void LaskuDialogi::lahetaSahkopostilla()
                      settings.value("SmtpServer").toString(), settings.value("SmtpPort", 465).toInt() );
     connect( smtp, SIGNAL(status(QString)), this, SLOT(smtpViesti(QString)));
 
-    // Luo tilapäisen pdf-tiedoston
-    QString tpnimi = kp()->tilapainen("lasku-XXXX.pdf");
-    QFile tiedosto(tpnimi);
-    tiedosto.open(QIODevice::WriteOnly);
-    tiedosto.write( tulostaja->pdf() );
-    tiedosto.close();
 
-    QString kenelta = QString("\"%1\" <%2>").arg(kp()->asetukset()->asetus("EmailNimi"))
+    QString kenelta = QString("=?utf-8?Q?%1?= <%2>").arg(kp()->asetukset()->asetus("EmailNimi"))
                                                 .arg(kp()->asetukset()->asetus("EmailOsoite"));
-    QString kenelle = QString("\"%1\" <%2>").arg( ui->saajaEdit->text() )
+    QString kenelle = QString("=?utf-8?Q?%1?= <%2>").arg( ui->saajaEdit->text() )
                                             .arg(ui->emailEdit->text() );
 
-    QStringList lista;
-    lista << tpnimi;
-    smtpViesti("Lähetetään sähköpostilla...");
-    smtp->sendMail(kenelta, kenelle, tr("Lasku"), tulostaja->html(), lista);
+    smtp->lahetaLiitteella(kenelta, kenelle, tr("Lasku %1 - %2").arg( model->viitenumero() ).arg( kp()->asetukset()->asetus("Nimi") ),
+                           tulostaja->html(), tr("lasku%1.pdf").arg( model->viitenumero()), tulostaja->pdf());
 
 }
 
