@@ -1,6 +1,6 @@
 // Kitupiikin tilikartta 
 [TilikarttaNimi]
-Asunto-osakeyhtiö ja muu keskinäinen kiinteistöyhtiö
+Asunto-osakeyhtiö
 [TilikarttaTekija]
 kitupiikki.info
 [TilikarttaPvm]
@@ -748,6 +748,6 @@ Välittömät verot		96 * bold
 
 Tilikauden ylijäämä / alijäämä 	0 bold
 [Raportti/Kohdennukset]
-
+:kohdennus
 Menot	3..9- *4
 Tulot	3..9 viiva

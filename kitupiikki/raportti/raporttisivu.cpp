@@ -70,6 +70,10 @@ void RaporttiSivu::siirrySivulle()
 
     for (QString rnimi : kp()->asetukset()->avaimet("Raportti/") )
     {
+        // Kohdennusraportit kuitenkin vain, jos kohdennuksia käytettävissä
+        if( kp()->asetukset()->asetus(rnimi).startsWith(":kohdennus") && !kp()->kohdennukset()->kohdennuksia() )
+            continue;
+
         // Raporttilajit: Jos lajillinen raportti (esim. Tase/PMA, tulee listalle kuitenkin vain Tase yhteen kertaan
         if( rnimi.count(QChar('/')) > 1)
             rnimi = rnimi.left( rnimi.lastIndexOf(QChar('/')) );
