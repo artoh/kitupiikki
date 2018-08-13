@@ -1,29 +1,48 @@
+// Kitupiikin tilikartta 
 [TilikarttaNimi]
-Kiinteistöyhtiö
+Asunto-osakeyhtiö ja muu keskinäinen kiinteistöyhtiö
 [TilikarttaTekija]
-artoh.github.io
+kitupiikki.info
 [TilikarttaPvm]
-2018-04-20
+2018-08-13
 [TilikarttaKuvaus]
-Yhtiön toiminta perustuu kiinteistön hallintaan (kiinteistöyhtiö, asunto-osakeyhtiö). Tilinpäätös laaditaan Kiinteistökaavan mukaisesti.
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+<html><head><meta name="qrichtext" content="1" /><style type="text/css">
+p, li { white-space: pre-wrap; }
+</style></head><body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;">
+<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Asunto-osakeyhtiö tai muu keskinäinen kiinteistöyhtiö, jossa osakkeet antavat oikeuden huoneiston hallintaan.</p>
+<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><br /></p>
+<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Tilikartta perustuu Kirjanpitolautakunnan yleisohjeeseen 1.2.2017.Tilinpäätös laaditaan Kiinteistökaavan mukaisesti.</p>
+<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><br /></p>
+<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Hallituksen on laadittava aina tilinpäätöksen lisäksi myös Asunto-osakeyhtiölain mukainen toimintakertomus.</p></body></html>
 [TilikarttaOhje]
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 <html><head><meta name="qrichtext" content="1" /><style type="text/css">
 p, li { white-space: pre-wrap; }
 </style></head><body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;">
-<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:16pt; font-weight:600;">Kiinteistön hallintaan perustuva yhtiö</span></p>
-<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Tuloslaskelma on Kirjanpitoasetuksen kiinteisökaavan mukainen. Asunto-osakeyhtiö saa kuitenkin laatia tuloslaskelmansa kululajikohtaisen kaavan mukaisesti, jos kaikki osakkaat ovat antaneet tähän suostumuksensa.</p>
+<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:16pt; font-weight:600;">Asunto-osakeyhtiö ja muu keskinäinen kiinteistöyhtiö</span></p>
+<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Tilikartta perustuu Kirjanpitolautakunnan yleisohjeeseen asunto-osakeyhtiöiden ja muiden keskinäisten kiinteistöyhtiöiden kirjanpidosta, tilinpäätöksestä ja toimintakertomuksesta 1.2.2017.</p>
+<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><br /></p>
+<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Tuloslaskelma on Kirjanpitoasetuksen kiinteisökaavan mukainen. Asunto-osakeyhtiö saisi kuitenkin laatia tuloslaskelmansa kululajikohtaisen kaavan mukaisesti, jos kaikki osakkaat ovat antaneet tähän suostumuksensa.</p>
 <p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><br /></p>
 <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:14pt; font-weight:600;">Arvonlisävero</span></p>
-<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Kiinteistöön kohdistuvien oikeuksien luovuttaminen on pääsääntöisesti arvonlisäverotonta. Kiinteistön omistaja voi hakeutua arvonlisäverovelvolliseksi (kokonaan tai osittain), jos kiinteistöä käytetään arvonlisäverovelvolliseen toimintaan.</p>
+<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Kiinteistöön kohdistuvien oikeuksien luovuttaminen on pääsääntöisesti arvonlisäverotonta. Kiinteistön omistaja voi hakeutua arvonlisäverovelvolliseksi (kokonaan tai osittain), jos kiinteistöä käytetään arvonlisäverovelvolliseen toimintaan. </p>
+<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><br /></p>
 <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-weight:600;">Arvonlisäverovelvollisuus on otettava käyttöön Perusvalinnoista</span>. Jos arvonlisäverovelvollisuus on vain osittaista, pitää tämä huomioida aina kirjauksia tehdessä.</p>
 <p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><br /></p>
+<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Mikäli kalenterivuoden palkkakustannukset sosiaalikuluineen ylittävät 50 000 euroa, pitää yhtiön maksaa <span style=" font-weight:600;">arvonlisäveroa kiinteistöhallintapalvelun omasta käytöstä. </span>Tämä vero kirjataan menoksi tilille 8410.</p>
+<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><br /></p>
+<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:14pt; font-weight:600;">Poistot</span></p>
+<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Kiinteistöyhtiöt saavat tehdä poistoja ilman ennalta laadittua poistosuunnitelmaa edellyttäen, että poistamisessa noudatetaan jatkuvuutta ja johdonmukaisuutta. Näin toimittaessa ei voi käyttää Kitupiikin tilinpäätöksen poistotoimintoa (joka laskee suunnitelman mukaisia poistoja), vaan poistot on kirjattava käsin.</p>
+<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><br /></p>
 <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:14pt; font-weight:600;">Tilikartta</span></p>
-<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Suuri osa tileistä on oletusarvoisesti poissa käytöstä, ja ne on otettavissa käyttöön Määritysten kohdasta Tilikartta.</p></body></html>
+<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Suuri osa tileistä (mm. konserneihin liittyvät) on oletusarvoisesti poissa käytöstä, ja ne on otettavissa käyttöön Määritysten kohdasta Tilikartta.</p>
+<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><br /></p>
+<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-size:14pt; font-weight:600;">Toimintakertomus</span></p>
+<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Asunto-osakeyhtiön on laadittava aina toimntakertomus, jonka sisällöstä on määrättu Asunto-osakeyhtiölaissa.</p>
+<p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><br /></p></body></html>
 [TilikarttaLuontiVersio]
-0.5-devel
-[KpVersio]
-1
+1.1-beta
 [tilit]
 H1 1 {} VASTAAVAA
 H2 10 {"Asti":147} Pysyvät vastaavat
@@ -127,22 +146,25 @@ ARP 1910 {} Pankkitili
 H1 2 {} VASTATTAVAA
 H2 20 {"Asti":24} Oma pääoma
 B 2000 {"Taseerittely":1} Osakepääoma
-B 2031 {"Taseerittely":1} Rakennusrahasto
-B 2033 {"Taseerittely":1} Arvonkorotusrahasto
-H3 204 {} Muut rahastot
-B 2041 {"Taseerittely":1} Sijoitetun vapaan oman pääoman rahasto
-B 2042 {"Taseerittely":1} Vararahasto
-B 2043 {"Taseerittely":1} Yhtiöjärjestyksen tai sääntöjen mukaiset rahastot
-B 2044 {"Taseerittely":1} Käyvän arvon rahasto
-B 2045 {"Taseerittely":1} Muut rahastot
+B 2010 {"Taseerittely":1} Osakepääoman korotus
+B 2110 {"Taseerittely":1} Rakennusrahasto
+B 2130 {"Taseerittely":1} Arvonkorotusrahasto
+H3 22 {} Muut rahastot
+B 2210 {"Taseerittely":1} Sijoitetun vapaan oman pääoman rahasto
+B 2220 {"Taseerittely":1} Vararahasto
+B 2230 {"Taseerittely":1} Lainanlyhennysrahasto
+B 2240 {"Taseerittely":1} Perusparannusrahasto
+B 2250 {"Taseerittely":1} Käyvän arvon rahasto
+B 2260 {"Taseerittely":1} Muut rahastot
 H3 24 {} Tulos
-BE 2450 {} Edellisten tilikausien voitto/tappio
-T 2460 {} Tilikauden tulos
+BE 2450 {} Edellisten tilikausien ylijäämä/alijäämä
+T 2460 {} Tilikauden ylijäämä/alijäämä
 H2 25 {} Tilinpäätössiirtojen kertymä
 H3 250 {} Poistoero
 B 2501 {"Taseerittely":1} Poistoero
-H3 251 {} Verotusperusteiset varaukset
-B 2510 {"Taseerittely":1} Verotusperusteiset varaukset
+H3 251 {"Asti":252} Verotusperusteiset varaukset
+B 2510 {"Taseerittely":1} Asuintalovaraus
+B 2520 {"Taseerittely":1} Muut verotusperusteiset varaukset
 H2 26 {} Pakolliset varaukset
 H3 260 {} Eläkevaraukset
 B 2600 {"Taseerittely":1} Eläkevaraukset
@@ -196,33 +218,33 @@ BV 2986 {} Verovelka (Omavero-tili)
 BS 2989 {"Taseerittely":2} Muut velat
 BS 2990 {"Taseerittely":2} Siirtovelat
 H1 3 {"Asti":9} TULOSLASKELMA
-H2 3 Kiinteistön tuotot
-H3 31 Vastikkeet
-H4 310 Hoitovastikkeet
-CL 3100 Hoitovastike
-H4 311 Korjausvastikkeet
-CL 3110 Korjausvastike
-H4 312 Hankeosuussuoritukset
-CL 3120 Hankeosuussuoritukset
-H4 313 Kulutusperusteiset vastikkeet
-CL 3131 Vesimaksu
-H4 315 Erityisvastikkeet
-CL 3150 Erityisvastikkeet
-H4 319 Rahastoidut vastikkeet
-D 3191 Rahastoidut vastikkeet
-H3 32 Vuokrat
-CL 3210 Asuintilojen vuokrat
-CL 3220 Liiketilojen vuokrat
-CL 3230 Varastotilojen vuokrat
-H3 33 Käyttökorvaukset
-CL 3310 Vesimaksut
-CL 3320 Autopaikkamaksut
-CL 3330 Saunamaksut
-CL 3340 Pesutupamaksut
-H3 35 Muut kiinteistön tuotot
-CL 3590 Muut kinteistön tuotot
-H3 39 Luottotappiot ja oikaisuerät  
-CL 3900 Luottotappiot ja oikaisuerät
+H2 3 {} Kiinteistön tuotot
+H3 31 {} Vastikkeet
+H4 310 {} Hoitovastikkeet
+CL 3100 {} Hoitovastike
+H4 311 {} Korjausvastikkeet
+CL 3110 {} Korjausvastike
+H4 312 {} Hankeosuussuoritukset
+CL 3120 {} Hankeosuussuoritukset
+H4 313 {} Kulutusperusteiset vastikkeet
+CL 3131 {} Vesimaksu
+H4 315 {} Erityisvastikkeet
+CL 3150 {} Erityisvastikkeet
+H4 319 {} Rahastoidut vastikkeet
+D 3191 {} Rahastoidut vastikkeet
+H3 32 {} Vuokrat
+CL 3210 {} Asuintilojen vuokrat
+CL 3220 {} Liiketilojen vuokrat
+CL 3230 {} Varastotilojen vuokrat
+H3 33 {} Käyttökorvaukset
+CL 3310 {} Vesimaksut
+CL 3320 {} Autopaikkamaksut
+CL 3330 {} Saunamaksut
+CL 3340 {} Pesutupamaksut
+H3 35 {} Muut kiinteistön tuotot
+CL 3590 {} Muut kinteistön tuotot
+H3 39 {} Luottotappiot ja oikaisuerät  
+CL 3900 {} Luottotappiot ja oikaisuerät
 H2 5 {} Henkilöstökulut
 H3 50 {} Palkat ja palkkiot
 D 5000 {} Palkat
@@ -251,59 +273,59 @@ DP 6000 {} Poistot aineettomista hyödykkeistä
 DP 6010 {} Poistot rakennuksista
 DP 6020 {} Poistot koneista ja kalustosta
 DP 6030 {} Poistot muista pitkäaikaisista menoista
-H2 7 {Asti:89} Kiinteistön hoitokulut
-H3 70 Hallinto
-D 7010 Isännöintipalvelut
-D 7011 Puhelinkulut
-D 7015 Postikulut
-D 7021 Rahaliikenteen kulut
-D 7041 Toimistotarvikkeet
-D 7051 Hallinnon kokous- ja neuvottelukulut
-D 7071 Viranomaismaksut
-D 7086 Tilintarkastuspalvelut
-D 7090 Muut hallintokulut
-H3 71 Käyttö ja huolto
-D 7110 Ostetut kiinteistöhuoltopalvelut
-D 7140 Kiinteistön ostot
-D 7190 Muu käyttö ja huolto
-H3 72 Ulkoalueiden hoito
-D 7210 Talvikunnossapito
-D 7220 Piha-alueiden kunnossapitopalvelut
-D 7240 Hankinnat ulkoalueille
-D 7280 Talkookustannukset
-D 7290 Muu ulkoalueiden 
-H3 73 Siivous
-D 7310 Ostetut siivouspalvelut
-D 7340 Siivousvälineet
-H3 74 Lämmitys
-D 7400 Lämmitys
-H3 75 Vesi ja jätevesi
-D 7510 Vesi
-D 7520 Jätevesi
-H3 76 Sähkö ja kaasu
-D 7610 Sähkö
-D 7650 Kaasu
-H3 77 Jätehuolto
-D 7710 Jätemaksut
-H3 78 Vahinkovakuutukset
-D 7810 Vahinkovakuutukset
-H3 79 Vuokrat
-D 7910 Vuokrat maa-alueista
-D 7920 Vuokrat rakennelmista
-D 7930 Vuokrat laitteista
-D 7990 Muut vuokrat
-H3 81 Kiinteisövero
-D 8110 Kiinteistövero
-H3 82 Korjaukset
-D 8210 Korjauspalvelut
-D 8240 Ostot korjauksiin
-H4 8250 Saadut korvaukset
-H4 8260 Saadut avustukset
-H4 8270 Aktivoinnit taseeseen
-H3 83 Muut hoitokulut
-D 8390 Muut hoitokulut
-H3 84 Oman käytön arvonlisävero
-D 8410 Oman käytön arvonlisävero
+H2 7 {} Kiinteistön hoitokulut
+H3 70 {} Hallinto
+D 7010 {} Isännöintipalvelut
+D 7011 {} Puhelinkulut
+D 7015 {} Postikulut
+D 7021 {} Rahaliikenteen kulut
+D 7041 {} Toimistotarvikkeet
+D 7051 {} Hallinnon kokous- ja neuvottelukulut
+D 7071 {} Viranomaismaksut
+D 7086 {} Tilintarkastuspalvelut
+D 7090 {} Muut hallintokulut
+H3 71 {} Käyttö ja huolto
+D 7110 {} Ostetut kiinteistöhuoltopalvelut
+D 7140 {} Kiinteistön ostot
+D 7190 {} Muu käyttö ja huolto
+H3 72 {} Ulkoalueiden hoito
+D 7210 {} Talvikunnossapito
+D 7220 {} Piha-alueiden kunnossapitopalvelut
+D 7240 {} Hankinnat ulkoalueille
+D 7280 {} Talkookustannukset
+D 7290 {} Muu ulkoalueiden 
+H3 73 {} Siivous
+D 7310 {} Ostetut siivouspalvelut
+D 7340 {} Siivousvälineet
+H3 74 {} Lämmitys
+D 7400 {} Lämmitys
+H3 75 {} Vesi ja jätevesi
+D 7510 {} Vesi
+D 7520 {} Jätevesi
+H3 76 {} Sähkö ja kaasu
+D 7610 {} Sähkö
+D 7650 {} Kaasu
+H3 77 {} Jätehuolto
+D 7710 {} Jätemaksut
+H3 78 {} Vahinkovakuutukset
+D 7810 {} Vahinkovakuutukset
+H3 79 {} Vuokrat
+D 7910 {} Vuokrat maa-alueista
+D 7920 {} Vuokrat rakennelmista
+D 7930 {} Vuokrat laitteista
+D 7990 {} Muut vuokrat
+H3 81 {} Kiinteisövero
+D 8110 {} Kiinteistövero
+H3 82 {} Korjaukset
+D 8210 {} Korjauspalvelut
+D 8240 {} Ostot korjauksiin
+H4 8250 {} Saadut korvaukset
+H4 8260 {} Saadut avustukset
+H4 8270 {} Aktivoinnit taseeseen
+H3 83 {} Muut hoitokulut
+D 8390 {} Muut hoitokulut
+H3 84 {} Oman käytön arvonlisävero
+D 8410 {} Oman käytön arvonlisävero
 H2 90 {"Asti":91} Rahoitustuotot ja -kulut
 H3 90 {} Rahoitustuotot
 H4 905 {} Osinkotuotot
@@ -311,15 +333,15 @@ C 9051 {} Osinkotuotot
 H4 907 {} Korkotuotot
 C 9070 {} Korkotuotot
 H4 909 {} Muut rahoitustulot
-C 9091 Pääomavastikkeet
-C 9092 Rahastoidut vastikkeet
-C 9094 Lainaosuussuoritukset
-C 9096 Rahastoidut osuudet
-C 9099 Muut rahoitustuotot
+C 9091 {} Pääomavastikkeet
+C 9092 {} Rahastoidut vastikkeet
+C 9094 {} Lainaosuussuoritukset
+C 9096 {} Rahastoidut osuudet
+C 9099 {} Muut rahoitustuotot
 H3 91 {} Rahoituskulut
 H4 917 {"Asti":917} Korkokulut
 D 9170 {} Korkokulut
-H4 9190 Muut rahoituskulut
+H4 9190 {} Muut rahoituskulut
 D 9199 {} Muut rahoituskulut
 H2 95 {} Tilinpäätössiirrot
 D 9500 {} Poistoeron muutos aineettomat
@@ -340,19 +362,12 @@ D 9670 {} Muut välittömät verot
 ML {"Kirjaustyyppi":2,"Oletustili":3000,"Vastatili":1700} Myyntilaskut
 TILI {"Kirjaustyyppi":3,"Vastatili":1910} Tiliotteet
 OL {"Kirjaustyyppi":1,"Oletustili":4000,"Vastatili":2960} Ostolaskut
-[AlvVelvollinen]
-EI
 [TilinpaatosPohja]
-#MIKRO
-@Tase/PMA!TASE (TILINPÄÄTÖS)@
-#PIEN
-@Tase/PMA!TASE (TILINPÄÄTÖS)@
-#ISO
-@Tase/Yleinen!TASE (TILINPÄÄTÖS)@
-#
+@Tase!TASE (TULOSLASKELMA)@
 @Tuloslaskelma!TULOSLASKELMA (TILINPÄÄTÖS)@
+@Tuloslaskelma$!BUDJETTIVERTAILU (TILINPÄÄTÖS)@
 #ISO
-<b>Yrityksestä on annettava täydet liitetiedot ja laadittava toimintakertomus</b>
+<b>Yrityksestä on annettava täydet liitetiedot</b>
 <p>Liitetiedot sisältävät ainakin
 <ol><li>tilinpäätöksen esittämistapaa koskevat tiedot</li>
 <li>tilinpäätöksen laatimisperusteet</li>
@@ -457,21 +472,17 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 #muut -M Olennaiset ja riitävän kuvan kannalta tarpeellinen toimintakertomustieto
 <h2>Muut tiedot</h2>
 <p>Tiedot, jotka ovat tarpeen oikean ja riittävän kuvan antamiseksi. Mikrokoon yrityksillä ei ole velvollisuutta näiden tietojen antamiseen </p>
-##Osakeyhtiön pääoma ja vapaan oman pääoman käyttö
+##Osakeyhtiön pääoma 
 #oypaaoma Oman pääoman muutokset
 <h2>Oman pääoman muutokset</h2>
 <p> ... </p>
 #oyeiosinko -oykaytto Ei osinkoa
 <h2>Hallituksen ehdotus jakokelpoisen vapaan oman pääoman käytöstä</h2>
-<p>Hallitus ehdottaa, että osinkoa ei jaeta.</p>
-#oykaytto -oyeiosinko Hallituksen ehdotus vapaan oman pääoman käytöstä
-<h2>Hallituksen ehdotus jakokelpoisen vapaan oman pääoman käytöstä</h2>
-<p>Jakokelpoinen vapaa oma pääoma on ...</p>
-<p>Hallitus ehdottaa, että osinkoa jaetaan XX euroa per osake, eli yhteensä XXX euroa. Osinko on nostettavissa yhtiökokousta seuraavana päivänä.</p>
+<p>Hallitus ehdottaa, ettei osia jaeta ja tilikauden tulos kirjataan edellisten tilikausien yli/alijäämien tilille.</p>
 ##Kirjanpito
 #sahko Sähköinen kirjanpito ja arkistointi
 <h2>Kirjanpitoaineisto</h2>
-<p>Kirjanpito on järjestetty Kitupiikki-ohjelmistolla. Tilinpäätös, tase-erittelyt, tilikartta, pää- ja päiväkirjat sekä pdf-muodossa olevat tositteet on arkistoitu sähköiseksi arkistoksi, jonka muuttumattomuus on varmistettu sha256-tiivisteellä
+<p>Kirjanpito on järjestetty Kitupiikki-ohjelmistolla. Tilinpäätös, tase-erittelyt, tilikartta, pää- ja päiväkirjat sekä  tositteet on arkistoitu sähköiseksi arkistoksi, jonka muuttumattomuus on varmistettu sha256-tiivisteellä &nbsp;
 @sha@
 </p>
 #-sahko
@@ -487,6 +498,12 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 <p>
 <p>
 ##Tilintarkastus
+#toiminnantarkastus -tilintarkastus Toiminnantarkastusmerkintä
+<h2>Toiminnantarkastusmerkintä</h2>
+<p>Suoritetusta toiminnantarkastuksesta on tänään annettu kertomus</p>
+<p>____________________  ___. päivänä _________kuuta  _________ </p>
+<p>
+<p>
 #tilintarkastus -toiminnantarkastus Tilintarkastusmerkintä
 <h2>Tilintarkastusmerkintä</h2>
 <p>Suoritetusta tilintarkastuksesta on tänään annettu kertomus</p>
@@ -508,6 +525,14 @@ tilintarkastus
 14
 [LaskuHuomautusaika]
 8 vrk
+[ArkistoRaportit]
+Kohdennukset
+Tase/Yleinen
+Tuloslaskelma
+Tuloslaskelma/Yleinen
+Tuloslaskelma/Yleinen$
+[VakioTilikartta]
+osakeyhtio.kpk
 [LaskuTili]
 1910
 [TuontiOstolaskuTili]
@@ -518,226 +543,6 @@ tilintarkastus
 1
 [TuontiTiliote]
 ON
-[ArkistoRaportit]
-Tase/Yleinen
-Tuloslaskelma
-Kohdennukset
-[VakioTilikartta]
-osakeyhtio.kpk
-[Raportti/Tase/PMA]
-:tase
-
-VASTAAVAA		H bold
-
-PYSYVÄT VASTAAVAT		10..146 
-Aineettomat hyödykkeet		10 s4 *
-Aineelliset hyödykkeet		11 s4 *		
-Sijoitukset		14 s4 *
-OMAKATTEISTEN RAHASTOJEN VARAT	148 s4 *
-VAIHTUVAT VASTAAVAT		15..19 
-Vaihto-omaisuus		15 s4 *		
-Pitkäaikaiset saamiset		16 s4 *
-Lyhytaikaiset saamiset		17 s4 *
-Rahoitusarvopaperit		18 s4 *
-Rahat ja pankkisaamiset		19 s8 *
-
-Vastaavaa yhteensä		1 bold
-
-
-VASTATTAVAA		H bold
-
-VASTATTAVAA		H bold
-OMA PÄÄOMA		20..24 
-Osake-, osuus- tai muu vastaava pääoma	200 s4 *
-Sidotut rahastot		201,202 s4
-Omakatteiset rahastot		201 s8 *
-Muut sidotut rahastot		202 s8 *
-Ylikurssirahasto		2032 s4 *
-Arvonkorotusrahasto		2033 s4 *
-Muut rahastot		204 s4
-Äänettömät yhtiömiehet		210 s4 *
-Vastuunalaiset yhtiömiehet		211 s4 *
-Yksityistilit tilikaudella		22 s4 *
-Edellisten tilikausien voitto/tappio	2450 s4 *
-Tilikauden voitto/tappio		2460 s4 *
-TILINPÄÄTÖSSIIRTOJEN KERTYMÄ	25 
-PAKOLLISET VARAUKSET		26	
-VIERAS PÄÄOMA		28..29
-Pitkäaikainen vieras pääoma		28 s4
-Lyhytaikainen vieras pääoma		29 s4
-
-
-Vastattavaa yhteensä		2 bold
-
-[Raportti/Tuloslaskelma]
-:tulos
-Kiinteistön tuotot		30..38 bold
-Vastikkeet		31 s4 *
-Vuokrat		32 s4 *
-Käyttökorvaukset		33 s4 *
-Muut kiinteistön tuotot		34 s4 *
-
-Luottotappiot ja oikaisuerät	39 * bold
-
-Kiinteistön hoitokulut		5,7..85 bold
-Henkilöstökulut		5 s4 *
-Hallinto		70 s4 *
-Käyttö ja huolto		71 s4 *
-Ulkoalueiden hoito		72 s4 *
-Siivous		73 s4 *
-Lämmitys		74 s4 *
-Vesi ja jätevesi		75 s4 *
-Sähkö ja kaasu		76 s4 *
-Jätehuolto		77 s4 *
-Vahinkovakuutukset		78 s4 *
-Vuokrat		79 s4 *
-Kiinteistövero		81 s4 *
-Korjaukset		82 s4
-Korjauskulut    820..824 s8 *
-Saadut korvaukset		825 *
-Saadut avustukset		826 *
-Aktivoinnit taseeseen	827 *   
-Muut hoitokulut		83 s4 *
-Oman käytön arvonlisävero       84 s4 *
-
-Hoitokate		3,5,7 bold
-
-Poistot ja arvonalentumat		6 bold
-Aineettomista hyödykkeistä		6000 s4 *
-Rakennuksista ja rakennelmista	6010 s4 *
-Koneista ja kalustosta		6020 s4 *
-Muista pitkävaikutteisista menoista	6030 s4 *
-Rahoitustulot ja -kulut		90..91 bold
-Osinkotulot		905 s4 *
-Korkotulot		907 s4 *
-Muut rahoitustuotot		909 s4 *
-Pääomavastikkeet 9091 s4 *
-Rahastoidut vastikkeet 9092..9093 s8 *
-Lainaosuussuoritukset 9094..9095 s8 *
-Rahastoidut osuudet 9095..9096 s8 *
-Muut rahoitustuotot 9097..9099 s8 *
-Korkokulut		9170 s4 *
-Muut rahoituskulut		9190 s4 *
-
-Ylijäämä (alijäämä) ennen tilinpäätössiirtoja ja veroja	3,5,7,6,90..91 bold
-
-Tilinpäätössiirrot		95 bold
-Poistoeron muutos		950 s4 *
-Veroitusperusteisten varausten muutos	951 s4 *
-Konserniavustukset		958 s4 *
-Välittömät verot		96 * bold
-
-Tilikauden ylijäämä / alijäämä 	0 bold
-[Raportti/Tase/Yleinen]
-:tase
-VASTAAVAA		H bold
-
-PYSYVÄT VASTAAVAT		10..146 
-Aineettomat hyödykkeet		10 s4
-Kehittämismenot		102 s8 *
-Aineettomat oikeudet		103 s8 *
-Liikearvo		104 s8 *
-Muut aineettomat oikeudet		106 s8 *
-Ennakkomaksut		107 s8 *
-Aineelliset hyödykkeet		11 s4		
-Maa- ja vesialueet		110 s8 *
-Rakennukset ja rakennelmat		111,114 s8 *
-Koneet ja kalusto		116 s8 *
-Muut aineelliset hyödykkeet		117 s8 *
-Ennakkomaksut ja keskeneräiset hankinnat	118 s8 *
-Sijoitukset		14 s4
-Osuudet saman konsernin yrityksistä	141 s8 *
-Osuudet omistusyhteysyrityksistä	143 s8 *
-Saamiset omistusyhteysyrityksiltä	144 s8 *
-Muut osakkeet ja osuudet		145 s8 *
-Muut saamiset		146 s8 *
-Sijoituskiinteistöt		147 s8 *		
-OMAKATTEISTEN RAHASTOJEN VARAT	148 s4
-Osakkeet ja osuudet		1485 s8 *
-Muut saamiset		1486 s8 *
-Rahavarat		1489 s8 *
-VAIHTUVAT VASTAAVAT		15..19 
-Vaihto-omaisuus		15 s4		
-Aineet ja tarvikkeet		151 s8 *
-Keskeneräiset tuotteet		152 s8 *
-Valmiit tuotteet/tavarat		153 s8 *
-Muu vaihto-omaisuus		154 s8 *
-Ennakkomaksut		155 s8 *
-Pitkäaikaiset saamiset		16 s4
-Myyntisaamiset		160 s8 *
-Lainasaamiset		164 s8 *
-Maksamattomat osakkeet/osuudet	166 s8 *
-Siirtosaamiset		167 s8 *
-Lyhytaikaiset saamiset		17 s4
-Myyntisaamiset		170 s8 *
-Saamiset saman konsernin yrityksilta	171 s8 *
-Saamiset omistusyhteysyrityksiltä	173 s8 *
-Lainasaamiset		174 s8 *
-Maksamattomat osakkeet/osuudet	176 s8 *
-Siirtosaamiset		177 s8 *
-Rahoitusarvopaperit		18 s4
-Muut osakkeet ja osuudet		182 s8 *
-Muut arvopaperit		183 s8 *
-Rahat ja pankkisaamiset		19 s8 *
-
-Vastaavaa yhteensä		1 bold
-
-
-VASTATTAVAA		H bold
-OMA PÄÄOMA		20..24 
-Osake-, osuus- tai muu vastaava pääoma	200 s4 *
-Sidotut rahastot		201,202 s4
-Omakatteiset rahastot		201 s8 *
-Muut sidotut rahastot		202 s8 *
-Ylikurssirahasto		2032 s4 *
-Arvonkorotusrahasto		2033 s4 *
-Muut rahastot		204 s4
-Sijoitetun vapaan pääoman rahasto	2041 s8 *
-Vararahasto		2042 s8 *
-Yhtiöjärjestyksen tai sääntöjen mukaiset rahastot	2043 s8 *
-Käyvän arvon rahasto		2044 s8 *
-Muut rahastot		2045 s8 *
-Äänettömät yhtiömiehet		210 s4 *
-Vastuunalaiset yhtiömiehet		211 s4 *
-Yksityistilit tilikaudella		22 s4 *
-Edellisten tilikausien voitto/tappio	2450 s4 *
-Tilikauden voitto/tappio		2460 s4 *
-TILINPÄÄTÖSSIIRTOJEN KERTYMÄ	25 
-Poistoero		250 s4 *
-Verotusperäiset varaukset		251 s4 *
-PAKOLLISET VARAUKSET		26	
-Eläkevaraukset		260 s4 *
-Verovaraukset		261 s4 *
-Muut pakolliset varaukset		269 s4 *
-VIERAS PÄÄOMA		28..29
-Pitkäaikainen vieras pääoma		28 s4
-Joukkovelkakirjalainat		281 s8 *
-Vaihtovelkakirjalainat		282 s8 *
-Lainat rahoituslaitoksilta		283 s8 *
-Takaisinlainat työeläkevakuutuslaitoksilta	284 s8 *
-Saadut ennakot		285 s8 *
-Ostovelat		286 s8 *
-Velat saman konsernin yrityksille	2870..2874 s8 *
-Velat omistusyhteysyrityksille	2875..2879 s8 *
-Muut velat		288 s8 *
-Siirtovelat  		289 s8 *
-Lyhytaikainen vieras pääoma		29 s4
-Joukkovelkakirjalainat		291 s8 *
-Vaihtovelkakirjalainat		292 s8 *
-Lainat rahoituslaitoksilta		293 s8 *
-Takaisinlainat työeläkevakuutuslaitoksilta	294 s8 *
-Saadut ennakot		295 s8 *
-Ostovelat		296 s8 *
-Velat saman konsernin yrityksille	2970..2974 s8 *
-Velat omistusyhteysyrityksille	2975..2979 s8 *
-Muut velat		298 s8 *
-Siirtovelat  		299 s8 *
-
-Vastattavaa yhteensä		2 bold
-[Raportti/Kohdennukset]
-Tulot 	3..9+ *4
-Menot	3..9- *4
-Tulos	3..9 viiva
 [PalkkaFiTuonti]
 2921 2986
 2925 2989
@@ -770,3 +575,179 @@ Tulos	3..9 viiva
 7920 5005
 5990 5040
 5120 5001
+[Raportti/Tase]
+:tase
+VASTAAVAA		H bold
+
+PYSYVÄT VASTAAVAT		10..146 
+Aineettomat hyödykkeet		10 s3
+Kehittämismenot		102 s6 *
+Aineettomat oikeudet		103 s6 *
+Liikearvo		104 s6 *
+Muut aineettomat oikeudet		106 s6 *
+Ennakkomaksut		107 s6 *
+Aineelliset hyödykkeet		11 s3		
+Maa- ja vesialueet		110 s6 *
+Omistuskiinteistöt		1100 s9 *
+Kiinteistöjen vuokraoikeudet		1101 s9 *
+Rakennukset ja rakennelmat		111,114 s6 
+Omistusrakennukset ja -rakennelmat	111 s9 *
+Rakennusten ja rakennelmien vuokraoikeudet	114 s9 *
+Koneet ja kalusto		116 s6 *
+Muut aineelliset hyödykkeet		117 s6 *
+Ennakkomaksut ja keskeneräiset hankinnat	118 s6 *
+Sijoitukset		14 s2
+Osuudet saman konsernin yrityksistä	141 s4 *
+Osuudet omistusyhteysyrityksistä	143 s6 *
+Saamiset omistusyhteysyrityksiltä	144 s6 *
+Muut osakkeet ja osuudet		145 s6 *
+Muut saamiset		146 s6 *		
+VAIHTUVAT VASTAAVAT		15..19 
+Vaihto-omaisuus		15 s3		
+Aineet ja tarvikkeet		151 s6 *
+Keskeneräiset tuotteet		152 s6 *
+Valmiit tuotteet/tavarat		153 s6 *
+Muu vaihto-omaisuus		154 s6 *
+Ennakkomaksut		155 s6 *
+Saamiset		16,17 s3
+Pitkäaikaiset saamiset		16 s6
+Saamiset kiinteistön tuotoista	160 s9 *
+Lainasaamiset		164 s9 *
+Muut saamiset		169 s9 *
+Maksamattomat osakkeet/osuudet	166 s9 *
+Siirtosaamiset		167 s9 *
+Lyhytaikaiset saamiset		17 s6
+Saamiset kiinteistön tuotoista	170 s9 *
+Saamiset saman konsernin yrityksilta	171 s9 *
+Saamiset omistusyhteysyrityksiltä	173 s9 *
+Lainasaamiset		174 s9 *
+Muut saamiset		179 s9 *
+Maksamattomat osakkeet/osuudet	176 s9 *
+Siirtosaamiset		177 s9 *
+Rahoitusarvopaperit		18 s3
+Muut osakkeet ja osuudet		182 s9 *
+Muut arvopaperit		183 s9 *
+Rahat ja pankkisaamiset		19 s3 *
+
+Vastaavaa yhteensä		1 bold
+
+
+VASTATTAVAA		H bold
+OMA PÄÄOMA		20..24 
+Osakepääoma		20 s2 *
+Osakepääoma		200 s4 *
+Osakepääoman korotus		201 s4 *
+Rakennusrahasto		211 s2 *
+Arvonkorotusrahasto		213 s2 *
+Muut rahastot		22
+Sijoitetun vapaan pääoman rahasto	221 s8 *
+Vararahasto		222 s8 *
+Lainanlyhennysrahasto		223 s8 *
+Perusparannusrahasto		224 s8 *
+Käyvän arvon rahasto		225 s8 *
+Muut rahastot		226 s8 *
+Edellisten tilikausien ylijäämä/alijäämä	2450 s4 *
+Tilikauden ylijäämä/alijäämä		2460 s4 *
+TILINPÄÄTÖSSIIRTOJEN KERTYMÄ	25 
+Poistoero		250 s4 *
+Verotusperäiset varaukset		251..252 s4
+Asuintalovaraukset		251 s8 *
+Muut verotusperusteiset varaukset	252 s8 *
+PAKOLLISET VARAUKSET		26	
+Eläkevaraukset		260 s4 *
+Verovaraukset		261 s4 *
+Muut pakolliset varaukset		269 s4 *
+VIERAS PÄÄOMA		28..29
+Pitkäaikainen vieras pääoma		28 s4
+Joukkovelkakirjalainat		281 s8 *
+Vaihtovelkakirjalainat		282 s8 *
+Lainat rahoituslaitoksilta		283 s8 *
+Takaisinlainat työeläkevakuutuslaitoksilta	284 s8 *
+Saadut ennakot		285 s8 *
+Ostovelat		286 s8 *
+Velat saman konsernin yrityksille	2870..2874 s8 *
+Velat omistusyhteysyrityksille	2875..2879 s8 *
+Muut velat		288 s8 *
+Siirtovelat  		289 s8 *
+Lyhytaikainen vieras pääoma		29 s4
+Joukkovelkakirjalainat		291 s8 *
+Vaihtovelkakirjalainat		292 s8 *
+Lainat rahoituslaitoksilta		293 s8 *
+Takaisinlainat työeläkevakuutuslaitoksilta	294 s8 *
+Saadut ennakot		295 s8 *
+Ostovelat		296 s8 *
+Velat saman konsernin yrityksille	2970..2974 s8 *
+Velat omistusyhteysyrityksille	2975..2979 s8 *
+Muut velat		298 s8 *
+Siirtovelat  		299 s8 *
+
+Vastattavaa yhteensä		2 bold
+[Raportti/Tuloslaskelma]
+:tulos
+Kiinteistön tuotot		30..38 bold
+Vastikkeet		31 s4 
+Hoitovastikkeet		310 s8 *
+Korjausvastikkeet		311 s8 *
+Hankeosuussuoritukset		312 s8 *
+Kulutusperusteiset vastikkeet		313 s8 *
+Erityisvastikkeet		315 s8 *
+./. Rahastoidut vastikkeet		319 s8 *
+Vuokrat		32 s4 *
+Käyttökorvaukset		33 s4 *
+Muut kiinteistön tuotot		34 s4 *
+
+Luottotappiot ja oikaisuerät	39 * bold
+
+Kiinteistön hoitokulut		5,7..85 bold
+Henkilöstökulut		5 s4 *
+Hallinto		70 s4 *
+Käyttö ja huolto		71 s4 *
+Ulkoalueiden hoito		72 s4 *
+Siivous		73 s4 *
+Lämmitys		74 s4 *
+Vesi ja jätevesi		75 s4 *
+Sähkö ja kaasu		76 s4 *
+Jätehuolto		77 s4 *
+Vahinkovakuutukset		78 s4 *
+Vuokrat		79 s4 *
+Kiinteistövero		81 s4 *
+Korjaukset		82 s4
+Korjauskulut    		820..824 s8 *
+./. Saadut korvaukset		825 *
+./. Saadut avustukset		826 *
+./. Aktivoinnit taseeseen		827 *   
+Muut hoitokulut		83 s4 *
+Oman käytön arvonlisävero       	84 s4 *
+
+Hoitokate		3,5,7..85 bold
+
+Poistot ja arvonalentumat		6 bold
+Aineettomista hyödykkeistä		600 s4 *
+Rakennuksista ja rakennelmista	601 s4 *
+Koneista ja kalustosta		602 s4 *
+Muista pitkävaikutteisista menoista	603 s4 *
+Rahoitustulot ja -kulut		90..91 bold
+Osinkotulot		905 s4 *
+Korkotulot		907 s4 *
+Muut rahoitustuotot		909 s4 *
+Pääomavastikkeet 		9091 s4
+./. Rahastoidut vastikkeet 		9092..9093 s8 *
+Lainaosuussuoritukset 		9094..9095 s8 *
+./. Rahastoidut osuudet 		9095..9096 s8 *
+Muut rahoitustuotot 		9097..9099 s8 *
+Korkokulut		917 s4 *
+Muut rahoituskulut		919 s4 *
+
+Ylijäämä (alijäämä) ennen tilinpäätössiirtoja ja veroja	3..91 bold
+
+Tilinpäätössiirrot		95 bold
+Poistoeron muutos		950 s4 *
+Veroitusperusteisten varausten muutos	951 s4 *
+Konserniavustukset		958 s4 *
+Välittömät verot		96 * bold
+
+Tilikauden ylijäämä / alijäämä 	0 bold
+[Raportti/Kohdennukset]
+
+Menot	3..9- *4
+Tulot	3..9 viiva
