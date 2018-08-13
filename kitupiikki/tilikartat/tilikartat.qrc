@@ -2,5 +2,6 @@
     <qresource prefix="/tilikartat">
         <file>tilitin.kpk</file>
         <file>yhdistys-1.kpk</file>
+        <file>asoy.kpk</file>
     </qresource>
 </RCC>
