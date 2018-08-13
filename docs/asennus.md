@@ -9,7 +9,7 @@
 Tuetut Windowsin versiot: Windows 7, 8 ja 10.
 
 !!! note ""
-    <span class="fa fa-windows"></span> [Kitupiikki 1.0 RC.1 Windows asennusohjelma (11 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.0-rc.1/kitupiikki-1.0-rc.1-asennus.exe) <span class="fa fa-exclamation-triangle"></span> Julkaisuehdokas-versio
+    <span class="fa fa-windows"></span> [Kitupiikki 1.0 RC.2 Windows asennusohjelma (11 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.0-rc.2/kitupiikki-1.0-rc.2-asennus.exe) <span class="fa fa-exclamation-triangle"></span> Julkaisuehdokas-versio
 
 Lataa Kitupiikin asennusohjelma yllä olevasta linkistä ja suorita se. Asennushakemisto on vapaasti valittavissa, joten asennus ei tarvitse ylläpitäjän oikeuksia.
 
@@ -20,7 +20,7 @@ Lataa Kitupiikin asennusohjelma yllä olevasta linkistä ja suorita se. Asennush
 Toimii 64-bittisissä Linux-jakeluissa joissa graafinen työpöytä (esim. Ubuntu 14.04 ja uudemmat)
 
 !!! note ""
-    <span class="fa fa-linux"></span> [Kitupiikki 1.0 RC.1 Linux AppImage (30 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.0-rc/Kitupiikki-1.0-rc-x86_64.AppImage) <span class="fa fa-exclamation-triangle"></span> Julkaisuehdokas -versio
+    <span class="fa fa-linux"></span> [Kitupiikki 1.0 RC.2 Linux AppImage (30 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.0-rc.2/Kitupiikki-1.0-rc.2-x86_64.AppImage) <span class="fa fa-exclamation-triangle"></span> Julkaisuehdokas -versio
 
 Kitupiikin Linux-version toimitetaan AppImage-tiedostona, jota ei varsinaisesti edes tarvitse asentaa. Et tarvitse ylläpitäjän oikeuksia.
 
