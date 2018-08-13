@@ -37,6 +37,8 @@ TilikausiSivu::TilikausiSivu()
     connect( ui->ekaAlkaa, SIGNAL(dateChanged(QDate)),
              this, SLOT(alkuPaivaMuuttui(QDate)));
 
+    connect( ui->ekaPaattyy, &QDateEdit::dateChanged, this, &TilikausiSivu::loppuPaivaMuuttui);
+
     registerField("alkaa", ui->ekaAlkaa);
     registerField("paattyy", ui->ekaPaattyy);
     registerField("onekakausi",ui->aloittavaTilikausiCheck);
@@ -63,16 +65,31 @@ int TilikausiSivu::nextId() const
         return UusiKirjanpito::SIJAINTISIVU;
 }
 
+bool TilikausiSivu::isComplete() const
+{
+    return( ui->ekaAlkaa->date() < ui->ekaPaattyy->date() && ui->ekaPaattyy->date() < ui->ekaAlkaa->date().addMonths(18)  );
+}
+
 void TilikausiSivu::alkuPaivaMuuttui(const QDate &date)
 {
     ui->ekaPaattyy->setDate( QDate( date.year(), 12, 31)  );
-
-    ui->ekaPaattyy->setMinimumDate(date.addDays(1));
-    ui->ekaPaattyy->setMaximumDate(date.addMonths(18));
 
     ui->edellinenPaattyi->setDate( date.addDays(-1));
     ui->edellinenAlkoi->setDate( date.addYears(-1));
 
     ui->edellinenAlkoi->setMaximumDate(date.addDays(-2));
     ui->edellinenAlkoi->setMinimumDate(date.addMonths(-18));
+
+    loppuPaivaMuuttui();
+}
+
+void TilikausiSivu::loppuPaivaMuuttui()
+{
+
+    if( ui->ekaAlkaa->date() < ui->ekaPaattyy->date() && ui->ekaPaattyy->date() < ui->ekaAlkaa->date().addMonths(18)  )
+        ui->ekaPaattyy->setStyleSheet("color: black;");
+    else
+        ui->ekaPaattyy->setStyleSheet("color: red;");
+
+    emit completeChanged();
 }
