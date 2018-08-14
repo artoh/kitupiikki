@@ -1,12 +1,12 @@
 div.asennusinfo
 {
    border: 1px solid #7e57c2;
-   width: 100%;  
+   width: 100%;
    padding: 10px 10px 10px 10px;
    margin: 2em auto auto auto;
    box-shadow: 3px 3px 2px #d0d0d0;
    text-align: center;
-   
+
 }
 
 div.asennusinfo > h3
@@ -14,12 +14,12 @@ div.asennusinfo > h3
    color: #7e57c2;
    font-weight: bold;
    margin-top: 0px;
-    
+
 }
 
 div.asennuslaatikko
 {
-    
+
     margin-left: auto;
     margin-right: auto;
     margin-top: 10px;
@@ -46,8 +46,8 @@ li.asennuslaatikko
     text-align: center;
     background: #7e57c2;
     color: white;
-    
-    
+
+
 }
 
 li.asennuslaatikko:hover, li.asennuslaatikko:active
@@ -79,8 +79,8 @@ li.tukilaatikko
     text-align: center;
     background: white;
     color: #7e57c2;
-    
-    
+
+
 }
 
 li.tukilaatikko:hover, li.tukilaatikko:active
@@ -105,8 +105,8 @@ a.tukilaatikko:hover
 {
   max-width: 600px;
   position: relative;
-  margin: auto;  
-  height: 420px;  
+  margin: auto;
+  height: 420px;
   margin-bottom: 2em;
 }
 
@@ -141,11 +141,44 @@ a.tukilaatikko:hover
 }
 
 @-webkit-keyframes fade {
-  from {opacity: .4} 
+  from {opacity: .4}
   to {opacity: 1}
 }
 
 @keyframes fade {
-  from {opacity: .4} 
+  from {opacity: .4}
   to {opacity: 1}
+}
+
+.ver
+{
+  border: 1px solid blue;
+  border-radius: 3px;
+  padding-left: 2px;
+  padding-right: 2px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  background-color: #7e57c2;
+  box-shadow: 3px 3px 2px #d0d0d0;
+  color: white;
+}
+
+/* Tooltip text */
+span.ver span.selite {
+    visibility: hidden;
+    width: 120px;
+    background-color: #7e57c2;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    box-shadow: 3px 3px 2px #d0d0d0;
+
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+.ver:hover .selite {
+    visibility: visible;
 }

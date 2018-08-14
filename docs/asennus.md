@@ -43,13 +43,14 @@ Version 1.1 uusia ominaisuuksia
 - Maksumuistutukset
 - Budjetin laatiminen ja seuranta
 - Kirjattavien tositteiden kansio
+- Asunto-osakeyhtiön tilikartta <span class=ver>BETA.1</span>
 
 Beta-versio asentuu Kitupiikin varsinaisen version rinnalle.
 
 !!! warning ""
-    <span class="fa fa-windows"></span> [Kitupiikki 1.1 BETA Windows asennusohjelma (11 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.1-beta/kitupiikki-1.1-beta-asennus.exe) <span class="fa fa-exclamation-triangle"> </span> **Testikäyttöön**
+    <span class="fa fa-windows"></span> [Kitupiikki 1.1 BETA.1 Windows asennusohjelma (11 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.1-beta.1/kitupiikki-1.1-beta.1-asennus.exe) <span class="fa fa-exclamation-triangle"> </span> **Testikäyttöön**
 
-    <span class="fa fa-linux"></span> [Kitupiikki 1.1 BETA Linux AppImage (30 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.1-beta/Kitupiikki-1.1-beta-x86_64.AppImage) <span class="fa fa-exclamation-triangle"> </span>  **Testikäyttöön**        
+    <span class="fa fa-linux"></span> [Kitupiikki 1.1 BETA.1 Linux AppImage (30 MB)](hhttps://github.com/artoh/kitupiikki/releases/download/v1.1-beta.1/Kitupiikki-1.1-beta.1-x86_64.AppImage) <span class="fa fa-exclamation-triangle"> </span>  **Testikäyttöön**        
 
 ## Kehitysversio
 
