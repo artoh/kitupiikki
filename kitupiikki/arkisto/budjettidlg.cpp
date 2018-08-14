@@ -19,7 +19,7 @@
 
 #include "db/kirjanpito.h"
 #include "budjettimodel.h"
-#include "kirjaus/kohdennusproxymodel.h"
+#include "budjettikohdennusproxy.h"
 
 #include <QMessageBox>
 
@@ -30,7 +30,7 @@ BudjettiDlg::BudjettiDlg(QWidget *parent) :
     ui->setupUi(this);
 
     model_ = new BudjettiModel(this);
-    kohdennukset_ = new KohdennusProxyModel(this);
+    kohdennukset_ = new BudjettiKohdennusProxy(this);
 
     ui->tilikausiCombo->setModel( kp()->tilikaudet() );
     ui->kohdennusCombo->setModel( kohdennukset_);
@@ -61,7 +61,8 @@ void BudjettiDlg::lataa(const QString &kausi)
 
 void BudjettiDlg::kausivaihtuu()
 {
-    kohdennukset_->asetaPaiva( ui->tilikausiCombo->currentData(TilikausiModel::AlkaaRooli).toDate() );
+    kohdennukset_->asetaKausi( ui->tilikausiCombo->currentData(TilikausiModel::AlkaaRooli).toDate(),
+                               ui->tilikausiCombo->currentData(TilikausiModel::PaattyyRooli).toDate());
     paivita();
 }
 

@@ -35,7 +35,7 @@ QVariantList KohdennusProxyModel::tagiValikko(const QDate& pvm, QVariantList val
     // Valikko tägien valitsemiseen
     QMenu tagvalikko;
 
-    KohdennusProxyModel proxy(0, pvm, -1, MERKKKAUKSET);
+    KohdennusProxyModel proxy(nullptr, pvm, -1, MERKKKAUKSET);
     for(int i=0; i < proxy.rowCount(QModelIndex()); i++)
     {
         QModelIndex pInd = proxy.index(i, 0);

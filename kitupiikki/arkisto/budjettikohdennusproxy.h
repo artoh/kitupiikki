@@ -14,49 +14,33 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef BUDJETTIDLG_H
-#define BUDJETTIDLG_H
+#ifndef BUDJETTIKOHDENNUSPROXY_H
+#define BUDJETTIKOHDENNUSPROXY_H
 
-#include <QDialog>
-
-namespace Ui {
-class BudjettiDlg;
-}
-
-class BudjettiModel;
-class BudjettiKohdennusProxy;
+#include <QSortFilterProxyModel>
+#include <QDate>
 
 /**
- * @brief Budjetointidialogi
+ * @brief BudjettiDlg:n käyttöön proxy kohdennusten suodattamiseen
  *
- * Budjetti laaditaan tilikausittain kohdennuksille
+ * Suodattaa ne kustannuspaikat ja projektit, jotka käytössä
+ * tällä tilikaudella
  *
- * @since 1.1
  */
-class BudjettiDlg : public QDialog
+class BudjettiKohdennusProxy : public QSortFilterProxyModel
 {
     Q_OBJECT
-
 public:
-    explicit BudjettiDlg(QWidget *parent = nullptr);
-    ~BudjettiDlg() override;
+    BudjettiKohdennusProxy(QObject* parent = nullptr);
 
-public slots:
-    void lataa(const QString &kausi);
-    void kausivaihtuu();
-    void paivita();
-    void muokattu(qlonglong summa);
-
-    void kysyTallennus();
+    void asetaKausi(const QDate& alkaa, const QDate &paattyy);
 
 protected:
-    void closeEvent(QCloseEvent *event) override;
+    virtual bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
 
 private:
-    Ui::BudjettiDlg *ui;
-
-    BudjettiModel* model_;
-    BudjettiKohdennusProxy* kohdennukset_;
+    QDate alkaa_;
+    QDate paattyy_;
 };
 
-#endif // BUDJETTIDLG_H
+#endif // BUDJETTIKOHDENNUSPROXY_H

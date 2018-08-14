@@ -163,7 +163,8 @@ SOURCES += main.cpp \
     maaritys/inboxmaaritys.cpp \
     tools/inboxlista.cpp \
     arkisto/budjettimodel.cpp \
-    arkisto/budjettidlg.cpp
+    arkisto/budjettidlg.cpp \
+    arkisto/budjettikohdennusproxy.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -305,7 +306,8 @@ HEADERS += \
     maaritys/inboxmaaritys.h \
     tools/inboxlista.h \
     arkisto/budjettimodel.h \
-    arkisto/budjettidlg.h
+    arkisto/budjettidlg.h \
+    arkisto/budjettikohdennusproxy.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
