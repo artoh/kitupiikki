@@ -422,7 +422,7 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt)
                     rr.lisaa( summat.at(sarake) , true );
                     break;
                 case BUDJETTI:
-                    rr.lisaa( budjetit.at(sarake), true);
+                    rr.lisaa( budjetit.at(sarake), false);
                     break;
                 case BUDJETTIERO:
                     rr.lisaa( summat.at(sarake) - budjetit.at(sarake), true );
@@ -493,7 +493,7 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt)
                                 rr.lisaa( data_.at(sarake).value(iter.key(), 0) , true );
                                 break;
                             case BUDJETTI:
-                                rr.lisaa( budjetti_.at(sarake).value(iter.key(), 0), true);
+                                rr.lisaa( budjetti_.at(sarake).value(iter.key(), 0), false);
                                 break;
                             case BUDJETTIERO:
                                 rr.lisaa( data_.at(sarake).value(iter.key(), 0) - budjetti_.at(sarake).value(iter.key(), 0), true );

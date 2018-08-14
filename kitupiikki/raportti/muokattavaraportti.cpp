@@ -174,18 +174,15 @@ void MuokattavaRaportti::paivitaUi()
 
     ui->sarake3Box->setChecked(tilikausiIndeksi > 1);
 
-    if( tilikausiIndeksi > 2)
-    {
-        ui->alkaa4Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi-3).alkaa() );
-        ui->loppuu4Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi-3).paattyy() );
-    }
-    else if( tilikausiIndeksi > -1)
+    // Neljäs sarake oletuksena poissa käytöstä
+    // Sitä tarvitaan lähinnä budjettivertailuihin
+    if( tilikausiIndeksi > -1)
     {
         ui->alkaa4Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi).alkaa() );
         ui->loppuu4Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi).paattyy() );
     }
+    ui->sarake4Box->setChecked(false);
 
 
-    ui->sarake4Box->setChecked(tilikausiIndeksi > 2);
 }
 
