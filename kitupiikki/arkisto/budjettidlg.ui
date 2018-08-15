@@ -45,6 +45,13 @@
     </layout>
    </item>
    <item>
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Syötä menot miinusmerkkisinä.</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QTableView" name="view"/>
    </item>
    <item>
