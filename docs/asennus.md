@@ -9,25 +9,24 @@
 Tuetut Windowsin versiot: Windows 7, 8 ja 10.
 
 !!! note ""
-    <span class="fa fa-windows"></span> [Kitupiikki 1.0 RC.2 Windows asennusohjelma (11 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.0-rc.2/kitupiikki-1.0-rc.2-asennus.exe) <span class="fa fa-exclamation-triangle"></span> Julkaisuehdokas-versio
+    <span class="fa fa-windows"></span> [Kitupiikki 1.0 Windows asennusohjelma (11 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.0/kitupiikki-1.0-asennus.exe) <i class="fa fa-laptop"></i> Lataa ja suorita asennusohjelma. <i class="fa fa-user"></i> Vaatii pääkäyttäjän oikeudet.
 
-Lataa Kitupiikin asennusohjelma yllä olevasta linkistä ja suorita se. Asennushakemisto on vapaasti valittavissa, joten asennus ei tarvitse ylläpitäjän oikeuksia.
+     <span class="fa fa-windows"></span> [Kitupiikki 1.0 Windows suoritettava ohjelma (13 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.0/kitupiikki1.0.exe) <i class="fa fa-briefcase"></i> Käynnistettävissä ilman asennusta esim. USB-muistilta. Älä kuitenkaan talleta kirjanpitoa USB-muistille, sillä sen käsittely olisi hidasta.
 
-![](images/asennus_hakemisto.png)
+
 
 ## <span class="fa fa-linux"></span> Linux
 
 Toimii 64-bittisissä Linux-jakeluissa joissa graafinen työpöytä (esim. Ubuntu 14.04 ja uudemmat)
 
 !!! note ""
-    <span class="fa fa-linux"></span> [Kitupiikki 1.0 RC.2 Linux AppImage (30 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.0-rc.2/Kitupiikki-1.0-rc.2-x86_64.AppImage) <span class="fa fa-exclamation-triangle"></span> Julkaisuehdokas -versio
+    <span class="fa fa-linux"></span> [Kitupiikki 1.0 Linux AppImage (30 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.0/Kitupiikki-1.0-x86_64.AppImage)
 
 Kitupiikin Linux-version toimitetaan AppImage-tiedostona, jota ei varsinaisesti edes tarvitse asentaa. Et tarvitse ylläpitäjän oikeuksia.
 
 1. Lataa yllä oleva asennustiedosto
 2. Merkitse tiedosto suoritettavaksi. Useimpien Linux-versioiden tiedostonhallinnassa se tehdään klikkaamalla tiedostoa hiiren oikealla napilla ja valitsemalla **Ominaisuudet**, ja ruksaamalla **Oikeudet**-välilehdeltä **Suoritettava**. Komentorivillä onnistuu komennolla `chmod u+x Kitupiikki*.AppImage`
 3. Käynnistä ohjelma klikkaamalla tiedostoa tai komennolla `./Kitupiikki*.AppImage`
-   ![](images/tervetuloa.png)
 4. Ensimmäisellä käynnistyskerralla Kitupiikki kysyy, haluatko lisätä ohjelman käynnistysvalikkoon.
 
 
@@ -50,7 +49,7 @@ Beta-versio asentuu Kitupiikin varsinaisen version rinnalle.
 !!! warning ""
     <span class="fa fa-windows"></span> [Kitupiikki 1.1 BETA.1 Windows asennusohjelma (11 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.1-beta.1/kitupiikki-1.1-beta.1-asennus.exe) <span class="fa fa-exclamation-triangle"> </span> **Testikäyttöön**
 
-    <span class="fa fa-linux"></span> [Kitupiikki 1.1 BETA.1 Linux AppImage (30 MB)](hhttps://github.com/artoh/kitupiikki/releases/download/v1.1-beta.1/Kitupiikki-1.1-beta.1-x86_64.AppImage) <span class="fa fa-exclamation-triangle"> </span>  **Testikäyttöön**        
+    <span class="fa fa-linux"></span> [Kitupiikki 1.1 BETA.1 Linux AppImage (30 MB)](hhttps://github.com/artoh/kitupiikki/releases/download/v1.1-beta.1/Kitupiikki-1.1-beta.1-x86_64.AppImage) <span class="fa fa-exclamation-triangle"> </span>  **Testikäyttöön**
 
 ## Kehitysversio
 
