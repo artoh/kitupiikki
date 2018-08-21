@@ -127,6 +127,12 @@ int main(int argc, char *argv[])
     KitupiikkiIkkuna ikkuna;
 
     ikkuna.show();
+
+    // Avaa argumenttina olevan tiedostonnimen
+    QStringList argumentit = qApp->arguments();
+    if( argumentit.length() > 1 && QFile(argumentit.at(1)).exists())
+        kirjanpito.avaaTietokanta( argumentit.at(1));
+
     splash->finish( &ikkuna );
 
     if( argc > 1)

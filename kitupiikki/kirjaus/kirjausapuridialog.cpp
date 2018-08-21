@@ -237,7 +237,7 @@ void KirjausApuriDialog::tiliTaytetty()
 
 void KirjausApuriDialog::laskeBrutto(double netto)
 {
-    if( netto && ui->nettoSpin->hasFocus())
+    if( netto > 1e-5 && ui->nettoSpin->hasFocus())
     {
         nettoEur = ui->nettoSpin->value();
         bruttoEur = 0;
@@ -250,10 +250,10 @@ void KirjausApuriDialog::laskeBrutto(double netto)
 
 void KirjausApuriDialog::laskeVerolla(int vero )
 {
-    if( nettoEur )
+    if( nettoEur > 1e-5)
         ui->euroSpin->setValue( (100.0 + vero )* nettoEur / 100.0 );
-    else if(bruttoEur)
-        ui->nettoSpin->setValue( (100.0 * vero ) /  (100.0 + ui->alvSpin->value())  );
+    else if(bruttoEur > 1e-5)
+        ui->nettoSpin->setValue( bruttoEur / (100.0 + vero) * 100.0  );
     ehdota();
 }
 
