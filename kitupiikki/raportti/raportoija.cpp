@@ -336,8 +336,11 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt)
                     while( iter.hasNext())
                     {
                         iter.next();
-                        if( iter.key() >= alku && iter.key() <= loppu )
+                        if( iter.key() >= alku )
                         {
+                            if( iter.key() > loppu) // Päästy jo yli
+                                break;
+
                             if( vainTulot || vainMenot)
                             {
                                 Tili tili = kp()->tilit()->tiliNumerolla( iter.key() / 10);
