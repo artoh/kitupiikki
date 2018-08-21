@@ -16,3 +16,6 @@ export PATH=/opt/mxe/usr/bin:$PATH
 make -j 6
 cp release/kitupiikki.exe ../$DIST_DIR
 
+cd ../$DIST_DIR
+
+upx -9 -f -o kitupiikkiX.X.exe kitupiikki.exe
