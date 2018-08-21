@@ -36,6 +36,14 @@ QVariant OstolaskutModel::headerData(int section, Qt::Orientation orientation, i
     return LaskutModel::headerData(section, orientation, role);
 }
 
+QVariant OstolaskutModel::data(const QModelIndex &index, int role) const
+{
+    if( role == TyyppiRooli)
+        return LaskuModel::OSTOLASKU;
+
+    return LaskutModel::data(index, role);
+}
+
 void OstolaskutModel::lataaAvoimet()
 {
     paivita(AVOIMET);

@@ -31,9 +31,10 @@ class OstolaskutModel : public LaskutModel
     Q_OBJECT
 public:
 
-    OstolaskutModel(QObject *parent=0);
+    OstolaskutModel(QObject *parent=nullptr);
 
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
+    QVariant data(const QModelIndex &index, int role) const override;
 
 public slots:
     void lataaAvoimet();

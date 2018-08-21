@@ -71,7 +71,7 @@ public:
     };
 
     enum Kirjausperuste {SUORITEPERUSTE, LASKUTUSPERUSTE, MAKSUPERUSTE, KATEISLASKU};
-    enum Laskutyppi { LASKU, HYVITYSLASKU, MAKSUMUISTUTUS};
+    enum Laskutyppi { LASKU, HYVITYSLASKU, MAKSUMUISTUTUS, OSTOLASKU};
 
 
     enum
