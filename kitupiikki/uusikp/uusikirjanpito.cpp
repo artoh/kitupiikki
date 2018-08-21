@@ -163,6 +163,10 @@ bool UusiKirjanpito::alustaKirjanpito()
         {
             return false;
         }
+
+        // Kirjanpidon luomisen ajaksi synkronointi pois käytöstä
+        db.exec("PRAGMA SYNCHRONOUS = OFF");
+
         QSqlQuery query(db);
 
         progDlg.setValue( progDlg.value() + 1 );

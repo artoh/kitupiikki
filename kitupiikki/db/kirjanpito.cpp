@@ -174,6 +174,11 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
         return false;
     }
 
+    // Tehostetaan tietokannan nopeutta määrittelemällä, että tietokanta on vain tämän yhden
+    // yhteyden käytössä.
+    tietokanta()->exec("PRAGMA LOCKING_MODE = EXCLUSIVE");
+    tietokanta()->exec("PRAGMA JOURNAL_MODE = PERSIST");
+
     // Ladataankin asetukset yms modelista
     asetusModel_->lataa();
 
