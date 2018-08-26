@@ -118,6 +118,20 @@
       <widget class="QListWidget" name="viimeiset"/>
      </item>
      <item>
+      <widget class="QPushButton" name="varmistaNappi">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Varmuuskopioi</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/talleta.png</normaloff>:/pic/talleta.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="tietojaNappi">
        <property name="text">
         <string>Tietoja</string>

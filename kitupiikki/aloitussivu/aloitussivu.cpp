@@ -28,6 +28,7 @@
 #include <QFileDialog>
 #include <QDesktopServices>
 #include <QListWidget>
+#include <QMessageBox>
 
 #include <QRegularExpression>
 
@@ -60,11 +61,13 @@ AloitusSivu::AloitusSivu() :
     connect( ui->tietojaNappi, SIGNAL(clicked(bool)), this, SLOT(abouttiarallaa()));
     connect( ui->viimeiset, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(viimeisinTietokanta(QListWidgetItem*)));
     connect( ui->tilikausiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(siirrySivulle()));
+    connect(ui->varmistaNappi, &QPushButton::clicked, this, &AloitusSivu::varmuuskopioi);
 
     connect( ui->selain, SIGNAL(anchorClicked(QUrl)), this, SLOT(linkki(QUrl)));
 
     connect( kp(), SIGNAL(tietokantaVaihtui()), this, SLOT(kirjanpitoVaihtui()));
     connect( kp(), SIGNAL( perusAsetusMuuttui()), this, SLOT(kirjanpitoVaihtui()));
+
 
     paivitaTiedostoLista();
 }
@@ -113,6 +116,7 @@ void AloitusSivu::kirjanpitoVaihtui()
 
     ui->nimiLabel->setVisible(avoinna);
     ui->tilikausiCombo->setVisible(avoinna);
+    ui->varmistaNappi->setEnabled(avoinna);
 
     if( avoinna )
     {
@@ -124,8 +128,8 @@ void AloitusSivu::kirjanpitoVaihtui()
         else
         {
             ui->logoLabel->show();
-            double skaala = ((double) kp()->logo().width() ) / kp()->logo().height();
-            ui->logoLabel->setPixmap( QPixmap::fromImage( kp()->logo().scaled(64 * skaala,64,Qt::KeepAspectRatio) ) );
+            double skaala = (1.0 * kp()->logo().width() ) / kp()->logo().height();
+            ui->logoLabel->setPixmap( QPixmap::fromImage( kp()->logo().scaled( qRound( 64 * skaala),64,Qt::KeepAspectRatio) ) );
         }
 
         ui->tilikausiCombo->setModel( kp()->tilikaudet() );
@@ -234,6 +238,30 @@ void AloitusSivu::infoSaapui(QNetworkReply *reply)
         siirrySivulle();
     }
     reply->deleteLater();
+}
+
+void AloitusSivu::varmuuskopioi()
+{
+    QFileInfo info(kp()->tiedostopolku());
+    QString polku = QString("%1/%2-%3.kitupiikki")
+            .arg(QDir::homePath())
+            .arg(info.baseName())
+            .arg( QDate::currentDate().toString("yyMMdd"));
+
+    QString tiedostoon = QFileDialog::getSaveFileName(this, tr("Varmuuskopioi kirjanpito"), polku, tr("kirjanpito (*.kitupiikki)") );
+    if( tiedostoon == kp()->tiedostopolku())
+    {
+        QMessageBox::critical(this, tr("Virhe"), tr("Tiedostoa ei saa kopioida itsensä päälle!"));
+        return;
+    }
+    if( !tiedostoon.isEmpty() )
+    {
+        QFile kirjanpito( kp()->tiedostopolku());
+        if( kirjanpito.copy(tiedostoon) )
+            QMessageBox::information(this, kp()->asetukset()->asetus("Nimi"), tr("Kirjanpidon varmuuskopiointi onnistui."));
+        else
+            QMessageBox::critical(this, tr("Virhe"), tr("Tiedoston varmuuskopiointi epäonnistui."));
+    }
 }
 
 void AloitusSivu::pyydaInfo()

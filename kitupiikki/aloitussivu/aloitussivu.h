@@ -60,6 +60,7 @@ public slots:
     void abouttiarallaa();
 
     void infoSaapui(QNetworkReply* reply);
+    void varmuuskopioi();
 
     /**
      * @brief Pyytää infon päivityksistä
