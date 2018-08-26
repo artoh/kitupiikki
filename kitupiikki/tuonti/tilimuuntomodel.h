@@ -45,7 +45,7 @@ public:
         UUSI
     };
 
-    TiliMuuntoModel(QMap<int,QString> tilit);
+    TiliMuuntoModel(const QMap<int, QString> &tilit);
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;

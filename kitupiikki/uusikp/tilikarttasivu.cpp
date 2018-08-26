@@ -62,7 +62,7 @@ void TilikarttaSivu::lataaSisaisetKartat()
         karttalista << it.next();
     }
 
-    for(QString polku : karttalista)
+    for(const QString& polku : karttalista)
     {
         QString nimi = UusiKirjanpito::lueKtkTiedosto(polku).value("TilikarttaNimi").join(" ");
 

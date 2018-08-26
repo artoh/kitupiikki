@@ -37,7 +37,7 @@ TpAloitus::TpAloitus(Tilikausi kausi, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::TpAloitus),
     tilikausi(kausi),
-    model(0)
+    model(nullptr)
 {
     ui->setupUi(this);
     ui->henkilostoSpin->setValue( tilikausi.henkilosto() );

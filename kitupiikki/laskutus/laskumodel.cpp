@@ -120,7 +120,7 @@ LaskuModel *LaskuModel::haeLasku(int vientiId)
 
 
     QVariantList lista = lasku.json.variant("Laskurivit").toList();
-    for( QVariant var : lista)
+    for( const QVariant& var : lista)
     {
         LaskuRivi rivi;
         QVariantMap map = var.toMap();
@@ -630,7 +630,7 @@ bool LaskuModel::tallenna(Tili rahatili)
 
     }
     // Kirjataan maksurivit vienteihin
-    for( VientiRivi vienti : vientiRivit)
+    for( const VientiRivi& vienti : vientiRivit)
         viennit->lisaaVienti(vienti);
 
     // Kirjataan nettokirjausten alv-kirjaukset

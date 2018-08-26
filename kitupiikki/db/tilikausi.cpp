@@ -28,7 +28,7 @@ Tilikausi::Tilikausi()
 
 }
 
-Tilikausi::Tilikausi(QDate tkalkaa, QDate tkpaattyy, QByteArray json) :
+Tilikausi::Tilikausi(QDate tkalkaa, QDate tkpaattyy, const QByteArray& json) :
     alkaa_(tkalkaa),
     paattyy_(tkpaattyy),
     json_(json)
@@ -47,7 +47,7 @@ QDateTime Tilikausi::arkistoitu()
 
 QDateTime Tilikausi::viimeinenPaivitys() const
 {
-    QSqlQuery kysely( QString("SELECT max(muokattu) FROM vienti WHERE pvm BETWEEN \"%1\" AND \"%2\" ").arg(alkaa().toString(Qt::ISODate)).arg(paattyy().toString(Qt::ISODate)));
+    QSqlQuery kysely( QString(R"(SELECT max(muokattu) FROM vienti WHERE pvm BETWEEN "%1" AND "%2" )").arg(alkaa().toString(Qt::ISODate)).arg(paattyy().toString(Qt::ISODate)));
     if( kysely.next() )
         return kysely.value(0).toDateTime();
     return QDateTime();

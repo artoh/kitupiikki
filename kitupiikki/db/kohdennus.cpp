@@ -27,7 +27,7 @@ Kohdennus::Kohdennus(int tyyppi, const QString &nimi) :
 
 }
 
-Kohdennus::Kohdennus(int id, int tyyppi, QString nimi, QDate alkaa, QDate paattyy)
+Kohdennus::Kohdennus(int id, int tyyppi, const QString& nimi, QDate alkaa, QDate paattyy)
     : id_(id), tyyppi_(tyyppi), nimi_(nimi), alkaa_(alkaa), paattyy_(paattyy),
       muokattu_(false)
 {

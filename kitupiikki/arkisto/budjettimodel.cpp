@@ -170,7 +170,7 @@ void BudjettiModel::tallenna()
 void BudjettiModel::laskeSumma()
 {
     qlonglong summa = 0;
-    for( QVariant var : sentit_.values() )
+    for( const QVariant& var : sentit_.values() )
         summa += var.toLongLong();
 
     emit summaMuuttui(summa);

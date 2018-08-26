@@ -22,7 +22,7 @@
 
 #include "kirjanpito.h"
 
-Tili::Tili() : id_(0), numero_(0), tila_(1), muokattu_(false), tilamuokattu_(false)
+Tili::Tili() : id_(0), numero_(0), tila_(1),ylaotsikkoId_(0), muokattu_(false), tilamuokattu_(false), muokkausAika_(QDateTime())
 {
 
 }

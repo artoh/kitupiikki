@@ -25,7 +25,7 @@
 
 
 MuokattavaRaportti::MuokattavaRaportti(const QString &raporttinimi)
-    : Raportti(), raporttiNimi(raporttinimi)
+    : Raportti(nullptr), raporttiNimi(raporttinimi)
 {
     ui = new Ui::MuokattavaRaportti;
     ui->setupUi( raporttiWidget );
@@ -39,7 +39,7 @@ MuokattavaRaportti::MuokattavaRaportti(const QString &raporttinimi)
 
     if( monimuoto)
     {
-        for( QString muoto : muodot)
+        for( const QString& muoto : muodot)
         {
             ui->muotoCombo->addItem( muoto.mid(muoto.lastIndexOf(QChar('/'))+1) , muoto.mid(9) );
         }

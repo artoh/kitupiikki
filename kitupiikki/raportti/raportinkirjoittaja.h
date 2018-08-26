@@ -112,8 +112,8 @@ public:
      */
     void lisaaPvmSarake();
 
-    void lisaaOtsake( RaporttiRivi otsikkorivi);
-    void lisaaRivi( RaporttiRivi rivi = RaporttiRivi(RaporttiRivi::EICSV));
+    void lisaaOtsake(const RaporttiRivi &otsikkorivi);
+    void lisaaRivi(const RaporttiRivi &rivi = RaporttiRivi(RaporttiRivi::EICSV));
 
     /**
      * @brief Lisää tyhjän rivin jo edellinen ei ollut jo tyhjä

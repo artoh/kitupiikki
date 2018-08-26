@@ -109,9 +109,9 @@ public:
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
 
-    TiliTyyppi tyyppiKoodilla(QString koodi);
+    TiliTyyppi tyyppiKoodilla(const QString &koodi);
 protected:
-    void lisaa(TiliTyyppi tyyppi);
+    void lisaa(const TiliTyyppi &tyyppi);
     QList<TiliTyyppi> tyypit;
 };
 

@@ -21,7 +21,7 @@
 #include "tositeluetteloraportti.h"
 
 TositeluetteloRaportti::TositeluetteloRaportti()
-    : Raportti()
+    : Raportti(nullptr)
 {
     ui = new Ui::Paivakirja;
     ui->setupUi(raporttiWidget);

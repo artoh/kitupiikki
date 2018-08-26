@@ -25,7 +25,7 @@
 #include "raportinkirjoittaja.h"
 
 PaakirjaRaportti::PaakirjaRaportti()
-    : Raportti()
+    : Raportti(nullptr)
 {
     ui = new Ui::Paivakirja;
     ui->setupUi( raporttiWidget );

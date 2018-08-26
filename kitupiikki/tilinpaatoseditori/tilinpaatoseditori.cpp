@@ -27,7 +27,7 @@
 #include "tpaloitus.h"
 #include "naytin/naytinikkuna.h"
 
-TilinpaatosEditori::TilinpaatosEditori(Tilikausi tilikausi, QWidget *parent)
+TilinpaatosEditori::TilinpaatosEditori(const Tilikausi& tilikausi, QWidget *parent)
     : QMainWindow(parent),
       tilikausi_(tilikausi)
 {

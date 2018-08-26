@@ -192,7 +192,7 @@ void KitupiikkiIkkuna::palaaSivulta()
         valitseSivu( edellisetIndeksit.pop(), true );
 }
 
-void KitupiikkiIkkuna::selaaTilia(int tilinumero, Tilikausi tilikausi)
+void KitupiikkiIkkuna::selaaTilia(int tilinumero, const Tilikausi& tilikausi)
 {
     valitseSivu( SELAUSSIVU );
     selaussivu->selaa(tilinumero, tilikausi);
@@ -236,7 +236,7 @@ void KitupiikkiIkkuna::naytaTosite(int tositeid)
     kirjaussivu->naytaTosite(tositeid);
 }
 
-void KitupiikkiIkkuna::ktpKasky(QString kasky)
+void KitupiikkiIkkuna::ktpKasky(const QString& kasky)
 {
     if( kasky.startsWith("maaritys/"))
     {

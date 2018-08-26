@@ -28,7 +28,7 @@ JsonKentta::JsonKentta() : muokattu_(false)
 
 }
 
-JsonKentta::JsonKentta(const QByteArray &json)
+JsonKentta::JsonKentta(const QByteArray &json) : muokattu_(false)
 {
     fromJson(json);
 }

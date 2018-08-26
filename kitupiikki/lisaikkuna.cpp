@@ -39,7 +39,7 @@ LisaIkkuna::~LisaIkkuna()
 
 void LisaIkkuna::kirjaa(int tositeId)
 {
-    KirjausSivu *sivu = new KirjausSivu(0);
+    KirjausSivu *sivu = new KirjausSivu(nullptr);
     setCentralWidget( sivu );
     sivu->siirrySivulle();
     sivu->naytaTosite(tositeId);

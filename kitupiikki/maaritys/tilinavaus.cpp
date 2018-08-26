@@ -51,7 +51,7 @@ Tilinavaus::~Tilinavaus()
     delete ui;
 }
 
-void Tilinavaus::naytaInfo(QString info)
+void Tilinavaus::naytaInfo(const QString& info)
 {
     ui->infoLabel->setText(info);
     emit tallennaKaytossa( onkoMuokattu());

@@ -49,7 +49,7 @@ QVariant AsiakkaatModel::data(const QModelIndex &index, int role) const
         if( index.column() == NIMI)
             return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
         else
-            return QVariant(Qt::AlignRight | Qt::AlignRight);
+            return QVariant(Qt::AlignRight | Qt::AlignVCenter);
     }
     else if( role == Qt::TextColorRole && index.column() == ERAANTYNYT)
         return QColor(Qt::red);

@@ -308,7 +308,7 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
                 lkysely.exec();
 
                 if( kirjausperuste == LaskuModel::MAKSUPERUSTE)
-                    QSqlQuery eraaja( QString("UPDATE vienti SET eraid=id WHERE id=%1").arg( lkysely.lastInsertId().toInt() ));
+                    tietokanta()->exec( QString("UPDATE vienti SET eraid=id WHERE id=%1").arg( lkysely.lastInsertId().toInt() ));
             }
             // Logo
             QFile logotiedosto( info.dir().absoluteFilePath("logo.png") );
@@ -336,8 +336,7 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
 
     // Tilapäishakemiston luominen
     // #124 Jos väliaikaistiedosto ei toimi...
-    if( tempDir_ )
-        delete tempDir_;
+    delete tempDir_;
 
     tempDir_ = new QTemporaryDir();
 

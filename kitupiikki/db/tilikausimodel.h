@@ -64,7 +64,7 @@ public:
 
     QVariant data(const QModelIndex &index, int role) const;
 
-    void lisaaTilikausi( Tilikausi tilikausi);
+    void lisaaTilikausi(const Tilikausi &tilikausi);
 
     /**
      * @brief Muuttaa viimeisen tilikauden päätöspäivän tai poistaa sen
@@ -82,7 +82,7 @@ public:
      * @return Osoitin Json-kenttiin
      */
     JsonKentta* json(int indeksi);
-    JsonKentta *json(Tilikausi tilikausi);
+    JsonKentta *json(const Tilikausi &tilikausi);
     JsonKentta* json(const QDate &paiva);
 
     QDate kirjanpitoAlkaa() const;

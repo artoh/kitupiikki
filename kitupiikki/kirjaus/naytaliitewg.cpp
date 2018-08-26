@@ -110,7 +110,7 @@ void NaytaliiteWg::dragEnterEvent(QDragEnterEvent *event)
 {
     if( event->mimeData()->hasUrls() )
     {
-        for( QUrl url: event->mimeData()->urls())
+        for( const QUrl& url: event->mimeData()->urls())
         {
             if(url.isLocalFile())
                 event->accept();

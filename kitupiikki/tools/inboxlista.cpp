@@ -63,7 +63,7 @@ void InboxLista::paivita()
     QDir dir( polku_ );
     dir.setFilter(QDir::Files);
     QFileInfoList list = dir.entryInfoList();
-    for( QFileInfo info : list)
+    for( const QFileInfo& info : list)
     {
         QString tiedostonimi = info.fileName().toLower();
         if( tiedostonimi.endsWith(".pdf")  || tiedostonimi.endsWith(".jpg") ||

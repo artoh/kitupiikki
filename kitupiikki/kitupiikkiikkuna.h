@@ -69,7 +69,7 @@ public slots:
 
     void palaaSivulta();
 
-    void selaaTilia(int tilinumero, Tilikausi tilikausi);
+    void selaaTilia(int tilinumero, const Tilikausi &tilikausi);
 
     void uusiKirjausIkkuna();
     void uusiSelausIkkuna();
@@ -79,7 +79,7 @@ public slots:
 protected slots:
     void aktivoiSivu(QAction* aktio);
     void naytaTosite(int tositeid);
-    void ktpKasky(QString kasky);
+    void ktpKasky(const QString &kasky);
 
     /**
      * @brief Näyttää lyhyen ajan viestiä onnistumisesta

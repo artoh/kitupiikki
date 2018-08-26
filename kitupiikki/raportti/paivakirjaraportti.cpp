@@ -30,7 +30,7 @@
 #include <QSqlError>
 
 PaivakirjaRaportti::PaivakirjaRaportti()
-    : Raportti()
+    : Raportti(nullptr)
 {
     ui = new Ui::Paivakirja;
     ui->setupUi( raporttiWidget );

@@ -32,7 +32,7 @@
 
 
 Perusvalinnat::Perusvalinnat() :
-    MaaritysWidget(),
+    MaaritysWidget(nullptr),
     ui(new Ui::Perusvalinnat)
 {
     ui->setupUi(this);
@@ -77,7 +77,7 @@ bool Perusvalinnat::nollaa()
     QStringList muodot = kp()->asetukset()->avaimet("MuotoOn/");
     if( muodot.count())
     {
-        for(QString muoto : muodot)
+        for(const QString& muoto : muodot)
         {
             ui->muotoCombo->addItem( muoto.mid(8));
         }

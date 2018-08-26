@@ -56,7 +56,7 @@ public slots:
     void paivitaSummat();
     void naytaTositeRivilta(QModelIndex index);
 
-    void selaa(int tilinumero, Tilikausi tilikausi);
+    void selaa(int tilinumero, const Tilikausi &tilikausi);
 
     void selaaVienteja();
     void selaaTositteita();

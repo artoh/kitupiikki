@@ -22,7 +22,7 @@
 #include <QDebug>
 
 TaseErittely::TaseErittely() :
-    Raportti()
+    Raportti(nullptr)
 {
     ui = new Ui::TaseErittely;
     ui->setupUi( raporttiWidget);
@@ -88,10 +88,10 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
         // Ohitetaan tyhjät/tapahtumattomat tilit
         if( !tili.saldoPaivalle(mihin))
         {
-             if(tili.taseErittelyTapa() == Tili::TASEERITTELY_SALDOT || tili.taseErittelyTapa() == Tili::TASEERITTELY_LISTA )
-             {
+            if(tili.taseErittelyTapa() == Tili::TASEERITTELY_SALDOT || tili.taseErittelyTapa() == Tili::TASEERITTELY_LISTA )
+            {
                 continue;
-             }
+            }
             else
             {
                 // Jos täysi tai muutos-tapahtumaerittely, niin ohitetaan jos ei myöskään tapahtumia

@@ -84,7 +84,7 @@ public slots:
      * @brief Lisätään liite
      * @param polku Polku liitetiedostoon.
      */
-    void lisaaLiite(const QString polku);
+    void lisaaLiite(const QString &polku);
     void lisaaLiite();
     void lisaaLiiteDatasta(const QByteArray& data, const QString& nimi);
 

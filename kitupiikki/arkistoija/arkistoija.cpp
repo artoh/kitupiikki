@@ -82,10 +82,10 @@ void Arkistoija::luoHakemistot()
  */
 struct TilioteTieto
 {
-    int tilinumero;
+    int tilinumero = 0;
     QDate alkaa;
     QDate paattyy;
-    int tositeId;
+    int tositeId = 0;
 };
 
 void Arkistoija::arkistoiTositteet()

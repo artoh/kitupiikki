@@ -317,9 +317,8 @@ QChar CsvTuonti::haistaErotin(const QString &data)
 
     bool lainattu = false;
 
-    for(int i=0; i < data.length(); i++)
+    for(const QChar& mki : data)
     {
-        QChar mki = data.at(i);
         if( mki == QChar('\"'))
             lainattu = !lainattu;
         if( !lainattu)
@@ -442,7 +441,7 @@ void CsvTuonti::paivitaOletukset()
 
         for(int i=0; i < muodot_.count(); i++)
         {
-            QString otsikko = otsikot.at(i);
+            const QString& otsikko = otsikot.at(i);
             Sarakemuoto muoto = muodot_.at(i);
 
             if( (muoto == SUOMIPVM || muoto==ISOPVM) && !pvmkaytetty)
@@ -541,7 +540,7 @@ int CsvTuonti::tuoListaan(const QByteArray &data)
 
         for(int i=0; i < qMin(rivi.length(), csv_.first().length()); i++)
         {
-            QString teksti = rivi.at(i);
+            const QString& teksti = rivi.at(i);
             Sarakemuoto muoto = TEKSTI;
 
             if( teksti.isEmpty())

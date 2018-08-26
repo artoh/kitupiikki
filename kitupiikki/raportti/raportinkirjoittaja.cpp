@@ -78,12 +78,12 @@ void RaportinKirjoittaja::lisaaPvmSarake()
     lisaaSarake("99.99.9999XX");
 }
 
-void RaportinKirjoittaja::lisaaOtsake(RaporttiRivi otsikkorivi)
+void RaportinKirjoittaja::lisaaOtsake(const RaporttiRivi& otsikkorivi)
 {
     otsakkeet_.append(otsikkorivi);
 }
 
-void RaportinKirjoittaja::lisaaRivi(RaporttiRivi rivi)
+void RaportinKirjoittaja::lisaaRivi(const RaporttiRivi& rivi)
 {
     rivit_.append(rivi);
 }

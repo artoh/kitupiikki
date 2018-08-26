@@ -89,7 +89,7 @@ public slots:
      * @brief Valitaan näytettävä sivu
      * @param sivu
      */
-    void valitseSivu(QString otsikko);
+    void valitseSivu(const QString &otsikko);
 
     /**
      * @brief Päivittää määritysten mukaan sen, mitkä sivut näkyvät

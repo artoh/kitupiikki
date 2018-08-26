@@ -34,7 +34,7 @@ public:
 
 public slots:
     void nayta(const QByteArray& data);
-    void nayta(RaportinKirjoittaja raportti);
+    void nayta(const RaportinKirjoittaja &raportti);
     void sivunAsetuksetMuuttuneet();
     void paivita();
     void raidoita(bool raidat);

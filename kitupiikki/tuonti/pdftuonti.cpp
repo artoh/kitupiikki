@@ -92,7 +92,7 @@ void PdfTuonti::tuoPdfLasku()
         QRegularExpression ibanRe("\\b[A-Z]{2}\\d{2}[\\w\\s]{6,30}\\b");
 
 
-        for( QString t : haeLahelta( ibansijainti / 100 + 1, ibansijainti % 100 - 2, 10, 50))
+        for( const QString& t : haeLahelta( ibansijainti / 100 + 1, ibansijainti % 100 - 2, 10, 50))
         {
             if( ibanRe.match(t).hasMatch())
             {
@@ -102,7 +102,7 @@ void PdfTuonti::tuoPdfLasku()
             }
         }
 
-        for( QString t : haeLahelta( ibansijainti / 100 + 11, ibansijainti % 100 - 2, 10, 10))
+        for( const QString& t : haeLahelta( ibansijainti / 100 + 11, ibansijainti % 100 - 2, 10, 10))
         {
             if( t.length() > 5 && !t.contains(ibanRe))
             {
@@ -140,7 +140,7 @@ void PdfTuonti::tuoPdfLasku()
     int pvmsijainti;
     if(  (pvmsijainti = etsi("Toimituspäivä")) || (pvmsijainti = etsi("Toimituspvm")) )
     {
-        for( QString t : haeLahelta( pvmsijainti / 100, pvmsijainti % 100, 10, 60) )
+        for( const QString& t : haeLahelta( pvmsijainti / 100, pvmsijainti % 100, 10, 60) )
         {
             QDate pvm = QDate::fromString(t,"dd.M.yyyy");
             if( pvm.isValid())
@@ -153,7 +153,7 @@ void PdfTuonti::tuoPdfLasku()
     // Sitten yritetään hakea laskun päivämäärää
     if(  (pvmsijainti = etsi("Päivämäärä")) || (pvmsijainti == etsi("pvm")) || (pvmsijainti = etsi("päiväys")))
     {
-        for( QString t : haeLahelta( pvmsijainti / 100, pvmsijainti % 100, 10, 60) )
+        for( const QString& t : haeLahelta( pvmsijainti / 100, pvmsijainti % 100, 10, 60) )
         {
             QDate pvm = QDate::fromString(t,"dd.M.yyyy");
             if( pvm.isValid())
@@ -167,7 +167,7 @@ void PdfTuonti::tuoPdfLasku()
     if( !erapvm.isValid() && etsi("Eräp"))
     {
         int erapvmsijainti = etsi("Eräp");
-        for( QString t : haeLahelta( erapvmsijainti / 100, erapvmsijainti % 100, 10, 60) )
+        for( const QString& t : haeLahelta( erapvmsijainti / 100, erapvmsijainti % 100, 10, 60) )
         {
             QDate pvm = QDate::fromString(t,"dd.M.yyyy");
             if( pvm.isValid())
@@ -215,7 +215,7 @@ void PdfTuonti::tuoPdfLasku()
     if( !sentit )
     {
         // Etsitään isoin senttiluku
-        for( QString teksti : tekstit_.values())
+        for( const QString& teksti : tekstit_.values())
         {
             if( rahaRe.match(teksti).hasMatch())
             {
@@ -582,7 +582,7 @@ QStringList PdfTuonti::haeLahelta(int y, int x, int dy, int dx)
     return loydetyt.values();
 }
 
-QList<int> PdfTuonti::sijainnit(QString teksti, int alkukorkeus, int loppukorkeus, int alkusarake, int loppusarake)
+QList<int> PdfTuonti::sijainnit(const QString& teksti, int alkukorkeus, int loppukorkeus, int alkusarake, int loppusarake)
 {
     QList<int> loydetyt;
 
@@ -604,7 +604,7 @@ QList<int> PdfTuonti::sijainnit(QString teksti, int alkukorkeus, int loppukorkeu
     return loydetyt;
 }
 
-int PdfTuonti::etsi(QString teksti, int alkukorkeus, int loppukorkeus, int alkusarake, int loppusarake)
+int PdfTuonti::etsi(const QString& teksti, int alkukorkeus, int loppukorkeus, int alkusarake, int loppusarake)
 {
     QMapIterator<int, QString> iter(tekstit_);
 

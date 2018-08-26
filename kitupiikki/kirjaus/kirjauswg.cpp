@@ -489,7 +489,7 @@ void KirjausWg::tulostaTosite()
     if( printDialog.exec() )
     {
         QPainter painter( kp()->printer() );
-        model()->tuloste().tulosta( kp()->printer(), &painter, 0 );
+        model()->tuloste().tulosta( kp()->printer(), &painter );
         painter.end();
     }
 }
@@ -735,7 +735,7 @@ void KirjausWg::paivitaTunnisteVari()
     paivitaTallennaPoistaNapit();
 }
 
-void KirjausWg::lisaaLiite(const QString polku)
+void KirjausWg::lisaaLiite(const QString& polku)
 {
     if( !polku.isEmpty())
     {

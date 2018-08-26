@@ -39,7 +39,7 @@ public:
     };
 
     Kohdennus(int tyyppi = EIKOHDENNETA, const QString& nimi = QString());
-    Kohdennus(int id, int tyyppi, QString nimi, QDate alkaa = QDate(), QDate paattyy = QDate());
+    Kohdennus(int id, int tyyppi, const QString &nimi, QDate alkaa = QDate(), QDate paattyy = QDate());
 
     int id() const { return id_; }
     QString nimi() const { return nimi_; }

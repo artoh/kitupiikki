@@ -98,7 +98,7 @@ public slots:
     void setDate(QDate date);
 
 protected slots:
-    void editMuuttui(QString uusi);
+    void editMuuttui(const QString &uusi);
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;

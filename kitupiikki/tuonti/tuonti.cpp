@@ -75,7 +75,7 @@ bool Tuonti::tuo(const QString &tiedostonnimi, KirjausWg *wg)
     return true;
 }
 
-void Tuonti::tuoLasku(qlonglong sentit, QDate laskupvm, QDate toimituspvm, QDate erapvm, QString viite, QString tilinumero, QString saajanNimi)
+void Tuonti::tuoLasku(qlonglong sentit, QDate laskupvm, QDate toimituspvm, QDate erapvm, QString viite, const QString& tilinumero, const QString& saajanNimi)
 {
     QDate pvm = toimituspvm;
     if( !pvm.isValid() || kp()->asetukset()->luku("TuontiOstolaskuPeruste") == LASKUPERUSTEINEN)
@@ -124,7 +124,7 @@ void Tuonti::tuoLasku(qlonglong sentit, QDate laskupvm, QDate toimituspvm, QDate
 
 }
 
-bool Tuonti::tiliote(QString iban, QDate mista, QDate mihin)
+bool Tuonti::tiliote(const QString& iban, QDate mista, QDate mihin)
 {
     return tiliote( kp()->tilit()->tiliIbanilla(iban),
                     mista, mihin);
@@ -169,7 +169,7 @@ bool Tuonti::tiliote(Tili tili, QDate mista, QDate mihin)
     return true;
 }
 
-void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, QString arkistotunnus, QString selite)
+void Tuonti::oterivi(QDate pvm, qlonglong sentit, const QString& iban, QString viite, const QString& arkistotunnus, QString selite)
 {
     // Etunollien poisto viiterivistä
     viite.replace( QRegularExpression("^0*"),"");

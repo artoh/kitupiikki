@@ -219,7 +219,7 @@ void AloitusSivu::abouttiarallaa()
     Ui::AboutDlg aboutUi;
     QDialog aboutDlg;
     aboutUi.setupUi( &aboutDlg);
-    connect( aboutUi.aboutQtNappi, SIGNAL(clicked(bool)), qApp, SLOT(aboutQt()));
+    connect( aboutUi.aboutQtNappi, &QPushButton::clicked, qApp, &QApplication::aboutQt);
 
     aboutUi.versioLabel->setText( tr("<b>Versio %1</b>")
                                   .arg( qApp->applicationVersion()) );
@@ -512,7 +512,7 @@ void AloitusSivu::paivitaTiedostoLista()
     QVariantMap kirjanpidot = settings.value("Tietokannat").toMap();
 
     // Poistetaan ne, joita ei löydy
-    for(QString polku : kirjanpidot.keys())
+    for(const QString& polku : kirjanpidot.keys())
     {
         if( !QFile::exists(polku))
             kirjanpidot.remove(polku);

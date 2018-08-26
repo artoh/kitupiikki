@@ -97,7 +97,7 @@ MaaritysSivu::MaaritysSivu() :
     connect( tallennanappi, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
     connect( kp(), SIGNAL(tilikausiPaatetty()), this, SLOT(paivitaNakyvat()));
 
-    connect( kp(), &Kirjanpito::tietokantaVaihtui, [this] { if(nykyinen) { delete nykyinen; nykyinen=0; } lista->setCurrentRow(0); });
+    connect( kp(), &Kirjanpito::tietokantaVaihtui, [this] { if(nykyinen) { delete nykyinen; nykyinen=nullptr; } lista->setCurrentRow(0); });
 
 }
 
@@ -234,7 +234,7 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
 
 }
 
-void MaaritysSivu::valitseSivu(QString otsikko)
+void MaaritysSivu::valitseSivu(const QString& otsikko)
 {
     for(int i=0; i < lista->count(); i++)
     {

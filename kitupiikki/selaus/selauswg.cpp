@@ -28,7 +28,7 @@
 #include "tositeselausmodel.h"
 
 SelausWg::SelausWg() :
-    KitupiikkiSivu(),
+    KitupiikkiSivu(nullptr),
     ui(new Ui::SelausWg)
 {
     ui->setupUi(this);
@@ -170,7 +170,7 @@ void SelausWg::paivitaSummat()
     {
         // Tili on valittuna
         QString valittuTekstina = ui->tiliCombo->currentText();
-        int valittunro = valittuTekstina.left( valittuTekstina.indexOf(' ') ).toInt();
+        int valittunro = valittuTekstina.leftRef( valittuTekstina.indexOf(' ') ).toInt();
         Tili valittutili = Kirjanpito::db()->tilit()->tiliNumerolla(valittunro);
 
         qlonglong saldo = valittutili.saldoPaivalle( ui->loppuEdit->date());
@@ -194,7 +194,7 @@ void SelausWg::naytaTositeRivilta(QModelIndex index)
     emit tositeValittu( id );
 }
 
-void SelausWg::selaa(int tilinumero, Tilikausi tilikausi)
+void SelausWg::selaa(int tilinumero, const Tilikausi& tilikausi)
 {
     // Ohjelmallisesti selaa tiettynä tilikautena tiettyä tiliä
     ui->alkuEdit->setDate( tilikausi.alkaa());

@@ -124,14 +124,14 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
     else if( role == TagiNimilistaRooli)
     {
         QStringList nimilista;
-        for(Kohdennus tagi : rivi.tagit)
+        for(const Kohdennus& tagi : rivi.tagit)
             nimilista.append( tagi.nimi());
         return nimilista;
     }
     else if( role == TagiIdListaRooli)
     {
         QVariantList lista;
-        for( Kohdennus tagi : rivi.tagit)
+        for( const Kohdennus& tagi : rivi.tagit)
             lista.append( tagi.id() );
         return lista;
     }
@@ -227,7 +227,7 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
                         if( !txt.isEmpty())
                             txt.append("\n");
                         QStringList taginimet;
-                        for( Kohdennus tagi : rivi.tagit)
+                        for( const Kohdennus& tagi : rivi.tagit)
                             taginimet.append( tagi.nimi());
                         txt.append( taginimet.join(", ") );
                     }
@@ -438,7 +438,7 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
         // Asettaa näytettävät tägit eli korvamerkkaukset
         viennit_[rivi].tagit.clear();
         QVariantList lista = value.toList();
-        for( QVariant variant : lista )
+        for( const QVariant& variant : lista )
             viennit_[rivi].tagit.append( kp()->kohdennukset()->kohdennus(variant.toInt()) );
     }
     else if( role == AsiakasRooli)
@@ -547,7 +547,7 @@ QModelIndex VientiModel::lisaaVienti(int indeksi)
     return lisaaVienti( uusirivi , indeksi);
 }
 
-QModelIndex VientiModel::lisaaVienti(VientiRivi rivi, int indeksi)
+QModelIndex VientiModel::lisaaVienti(const VientiRivi& rivi, int indeksi)
 {
     if( indeksi == -1)
         indeksi = viennit_.count();
@@ -696,7 +696,7 @@ bool VientiModel::tallenna()
             // Poistetaan tagit, jotta ne voitaisiin kohta lisätä...
             query.exec( QString("DELETE FROM merkkaus WHERE vienti=%1").arg( rivi.vientiId));
 
-        for(Kohdennus tagi : rivi.tagit)
+        for(const Kohdennus& tagi : rivi.tagit)
         {
             if( !query.exec( QString("INSERT INTO merkkaus(vienti,kohdennus) VALUES(%1,%2)")
                         .arg(viennit_[i].vientiId)

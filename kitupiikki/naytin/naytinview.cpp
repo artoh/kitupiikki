@@ -75,7 +75,7 @@ void NaytinView::nayta(const QByteArray &data)
 
 }
 
-void NaytinView::nayta(RaportinKirjoittaja raportti)
+void NaytinView::nayta(const RaportinKirjoittaja& raportti)
 {
     vaihdaScene( new RaporttiScene(raportti)  );
 }

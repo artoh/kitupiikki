@@ -23,7 +23,7 @@
 #include "db/kirjanpito.h"
 
 AlvErittely::AlvErittely()
- : Raportti()
+ : Raportti(nullptr)
 {
     ui = new Ui::TaseErittely;
     ui->setupUi( raporttiWidget );

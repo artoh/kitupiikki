@@ -56,7 +56,7 @@ QVariant EranValintaModel::data(const QModelIndex &index, int role) const
     {
         TaseEra era = erat_.value(index.row()-2);
 
-        if( role == EraIdRooli || role == Qt::UserRole)
+        if( role == EraIdRooli)
             return QVariant( era.eraId);
         else if( role == PvmRooli)
             return QVariant( era.pvm);
@@ -80,7 +80,7 @@ QVariant EranValintaModel::data(const QModelIndex &index, int role) const
 
 
 
-void EranValintaModel::lataa(Tili tili, bool kaikki, QDate paivalle)
+void EranValintaModel::lataa(const Tili& tili, bool kaikki, QDate paivalle)
 {
     beginResetModel();
     erat_.clear();

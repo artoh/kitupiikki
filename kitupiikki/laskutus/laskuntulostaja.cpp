@@ -323,8 +323,8 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter)
     double pv = painter->fontMetrics().height();
     QString nimi = kp()->asetukset()->onko("LogossaNimi") ? QString() : kp()->asetus("Nimi");   // Jos nimi logossa, sitä ei toisteta
     QRectF lahettajaRect = painter->boundingRect( QRectF( lahettajaAlue.x()+vasen, lahettajaAlue.y(),
-                                                       lahettajaAlue.width()-vasen, 20 * mm), Qt::TextWordWrap, kp()->asetus("Nimi") );
-    painter->drawText(QRectF( lahettajaRect), Qt::AlignLeft | Qt::TextWordWrap, kp()->asetus("Nimi"));
+                                                       lahettajaAlue.width()-vasen, 20 * mm), Qt::TextWordWrap, nimi );
+    painter->drawText(QRectF( lahettajaRect), Qt::AlignLeft | Qt::TextWordWrap, nimi);
 
     painter->setFont(QFont("Sans",9));
     QRectF lahettajaosoiteRect = painter->boundingRect( QRectF( lahettajaAlue.x()+vasen, lahettajaAlue.y() + lahettajaRect.height(),
@@ -438,7 +438,7 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter)
         painter->translate(0, pv + 4*rk + 5 * mm);
 }
 
-void LaskunTulostaja::lisatieto(QPainter *painter, QString lisatieto)
+void LaskunTulostaja::lisatieto(QPainter *painter, const QString& lisatieto)
 {
     painter->setFont( QFont("Sans", 10));
     QRectF ltRect = painter->boundingRect(QRect(0,0,painter->window().width(), painter->window().height()), Qt::TextWordWrap, lisatieto );

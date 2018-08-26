@@ -29,13 +29,13 @@ class SiirryDlg : public QDialog
     Q_OBJECT
 protected:
     SiirryDlg();
-    ~SiirryDlg();
+    ~SiirryDlg() = default;
 
 protected slots:
     void tarkista();
 
 public:
-    static int tositeId(QDate pvm, QString tositelaji);
+    static int tositeId(QDate pvm, const QString &tositelaji);
 
 protected:
     Ui::SiirryDlg *ui;

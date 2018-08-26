@@ -63,7 +63,7 @@ void AsetusModel::aseta(const QString &avain, const QString &arvo)
     }
     else
     {
-        QMessageBox::critical(0, tr("Tietokantavirhe"),
+        QMessageBox::critical(nullptr, tr("Tietokantavirhe"),
                               tr("Asetuksen tallentaminen epäonnistui seuraavan virheen takia:%1")
                               .arg(tietokanta_->lastError().text()));
     }

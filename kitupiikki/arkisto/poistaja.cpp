@@ -326,7 +326,7 @@ bool Poistaja::sumupoistaja(Tilikausi kausi)
     return false;
 }
 
-bool Poistaja::onkoPoistoja(Tilikausi kausi)
+bool Poistaja::onkoPoistoja(const Tilikausi& kausi)
 {
 
     QSqlQuery kysely;

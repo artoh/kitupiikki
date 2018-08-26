@@ -26,7 +26,7 @@ TilinMuunnos::TilinMuunnos(int numero, QString nimi)
 }
 
 
-TiliMuuntoModel::TiliMuuntoModel(QMap<int, QString> tilit)
+TiliMuuntoModel::TiliMuuntoModel(const QMap<int, QString>& tilit)
 {
     QMapIterator<int,QString> iter(tilit);
 

@@ -158,7 +158,7 @@ void ArkistoSivu::vieArkisto()
 
             QProgressDialog odota(tr("Kopioidaan arkistoa"), tr("Peruuta"),0, tiedostot.count(),this);
             int kopioitu = 0;
-            for( QString tiedosto : tiedostot)
+            for( const QString& tiedosto : tiedostot)
             {
                 if( odota.wasCanceled())
                     break;
@@ -179,7 +179,7 @@ void ArkistoSivu::vieArkisto()
         // Muodostetaan tar-arkisto
         // Tässä käytetään Pierre Lindenbaumin Tar-luokkaa http://plindenbaum.blogspot.fi/2010/08/creating-tar-file-in-c.html
 
-        QString arkistotiedosto = QDir::root().absoluteFilePath( QString("%1-%2.tar").arg( kp()->tiedostopolku().replace(QRegularExpression(".kitupiikki$"),"") ).arg(kausi.arkistoHakemistoNimi()) );
+        QString arkistotiedosto = QDir::root().absoluteFilePath( QString("%1-%2.tar").arg( kp()->tiedostopolku().replace(QRegularExpression(".kitupiikki$"),""), kausi.arkistoHakemistoNimi()) );
         QString arkisto = QFileDialog::getSaveFileName(this, tr("Vie arkisto"), arkistotiedosto, tr("Tar-arkisto (*.tar)") );
 
 
@@ -196,7 +196,7 @@ void ArkistoSivu::vieArkisto()
             QProgressDialog odota(tr("Kopioidaan arkistoa"), tr("Peruuta"),0, tiedostot.count(),this);
             int kopioitu = 0;
 
-            for( QString tiedosto : tiedostot)
+            for( const QString& tiedosto : tiedostot)
             {
                 if( odota.wasCanceled())
                     break;
@@ -249,7 +249,6 @@ void ArkistoSivu::tilinpaatos()
             paattaja->show();
         }
     }
-    return;
 
 }
 

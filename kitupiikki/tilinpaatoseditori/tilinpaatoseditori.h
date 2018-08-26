@@ -43,7 +43,7 @@ class TilinpaatosEditori : public QMainWindow
 {
     Q_OBJECT
 public:
-    explicit TilinpaatosEditori(Tilikausi tilikausi, QWidget *parent=0);
+    explicit TilinpaatosEditori(const Tilikausi &tilikausi, QWidget *parent=0);
 
 signals:
 

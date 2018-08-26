@@ -38,7 +38,7 @@ public:
 
     NaytinView* view() { return view_;}
 
-    static void naytaRaportti(RaportinKirjoittaja raportti);
+    static void naytaRaportti(const RaportinKirjoittaja &raportti);
     static void nayta(const QByteArray &data);
     static void naytaTiedosto(const QString& tiedostonnimi);
     static void naytaLiite(const int tositeId, const int liiteId);

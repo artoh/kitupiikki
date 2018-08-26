@@ -84,7 +84,7 @@ RaportinKirjoittaja MyyntiRaportti::kirjoitaRaportti(QDate mista, QDate mihin, b
         QVariantMap vmap = json.toVariant().toMap();
         if( vmap.contains("Laskurivit"))
         {
-            for( QVariant var : vmap.value("Laskurivit").toList())
+            for( const QVariant& var : vmap.value("Laskurivit").toList())
             {
                 QString nimike = var.toMap().value("Nimike").toString();
 

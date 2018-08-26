@@ -50,7 +50,7 @@ NaytinIkkuna::~NaytinIkkuna()
     settings.setValue("NaytinIkkuna", saveGeometry());
 }
 
-void NaytinIkkuna::naytaRaportti(RaportinKirjoittaja raportti)
+void NaytinIkkuna::naytaRaportti(const RaportinKirjoittaja& raportti)
 {
     NaytinIkkuna *ikkuna = new NaytinIkkuna;
     ikkuna->show();

@@ -52,16 +52,16 @@ bool TitoTuonti::tuo(const QByteArray &data)
     QString arkistotunnus;
     QString selite;
 
-    for( QString rivi : rivit )
+    for( const QString& rivi : rivit )
     {
         if( rivi.startsWith("T11"))
         {
             // Täydentävää tietoa - tästä poimitaan saajan IBAN
-            if( rivi.mid(6,2) == "11")
+            if( rivi.midRef(6,2) == "11")
             {
                 iban = rivi.mid(43,35).simplified();
                 // Myös mahdollinen euromuotoinen viite
-                if( rivi.mid(8,35).startsWith("RF"))
+                if( rivi.midRef(8,35).startsWith("RF"))
                     viite = rivi.mid(8,35).simplified();
             }
 

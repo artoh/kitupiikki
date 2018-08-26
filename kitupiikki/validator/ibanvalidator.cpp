@@ -77,7 +77,7 @@ int IbanValidator::ibanModulo(const QString &iban)
         if( merkki.isDigit() )
             apu.append(merkki);
         else if( merkki.isUpper())
-            apu.append( QString("%1").arg( (int) merkki.toLatin1() - 55 , 2, 10, QChar('0')  ) );
+            apu.append( QString("%1").arg( static_cast<int>( merkki.toLatin1() ) - 55 , 2, 10, QChar('0')  ) );
         else
             return -1;
     }
@@ -93,8 +93,8 @@ int IbanValidator::ibanModulo(const QString &iban)
 
    while( apu.length() )
    {
-       QString tama = QString("%1").arg( (int) jaannos , 2, 10, QChar('0')  );
-       tama.append( apu.left(7));
+       QString tama = QString("%1").arg( jaannos , 2, 10, QChar('0')  );
+       tama.append( apu.leftRef(7));
        luku = tama.toLongLong();
        jaannos = luku % 97;
 

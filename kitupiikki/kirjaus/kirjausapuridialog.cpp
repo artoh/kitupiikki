@@ -496,7 +496,7 @@ void KirjausApuriDialog::ehdota()
     }
 
     QList<Kohdennus> tagit;
-    for(QVariant variant : merkkaukset)
+    for(const QVariant& variant : merkkaukset)
     {
         tagit.append( kp()->kohdennukset()->kohdennus( variant.toInt() ) );
     }
@@ -821,7 +821,7 @@ void KirjausApuriDialog::korjaaSarakeLeveydet()
     ui->tiliEdit->setFocus();
 }
 
-void KirjausApuriDialog::tiliTarkastus(const QString txt)
+void KirjausApuriDialog::tiliTarkastus(const QString& txt)
 {
     if( IbanValidator::kelpo(txt) == IbanValidator::Acceptable )
         ui->ibanEdit->setStyleSheet("color: darkGreen;");
@@ -829,7 +829,7 @@ void KirjausApuriDialog::tiliTarkastus(const QString txt)
         ui->ibanEdit->setStyleSheet("color: darkRed;");
 }
 
-void KirjausApuriDialog::viiteTarkastus(const QString txt)
+void KirjausApuriDialog::viiteTarkastus(const QString& txt)
 {
     if( ViiteValidator::kelpaako(txt))
         ui->viiteEdit->setStyleSheet("color: darkGreen;");
@@ -853,7 +853,7 @@ void KirjausApuriDialog::accept()
     deleteLater();
 }
 
-VientiRivi KirjausApuriDialog::uusiEhdotusRivi(Tili tili, int debetSnt, int kreditSnt)
+VientiRivi KirjausApuriDialog::uusiEhdotusRivi(const Tili& tili, int debetSnt, int kreditSnt)
 {
     VientiRivi rivi;
     rivi.pvm = ui->pvmDate->date();
@@ -884,7 +884,7 @@ bool KirjausApuriDialog::eventFilter(QObject *watched, QEvent *event)
             merkkaukset = KohdennusProxyModel::tagiValikko( ui->pvmDate->date(), merkkaukset );
 
         QStringList lista;
-        for( QVariant merkkaus : merkkaukset)
+        for( const QVariant& merkkaus : merkkaukset)
         {
             lista.append( kp()->kohdennukset()->kohdennus( merkkaus.toInt() ).nimi() );
         }

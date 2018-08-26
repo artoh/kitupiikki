@@ -23,7 +23,7 @@
 #include <QDebug>
 
 LaskuValintaWidget::LaskuValintaWidget()
-    : MaaritysWidget(),
+    : MaaritysWidget(nullptr),
       ui(new Ui::LaskuValinnat)
 {
     ui->setupUi(this);

@@ -50,7 +50,7 @@ public:
      * @param valitut Lista valittujen tagien id:stä
      * @return Valittujen tagit id-lista
      */
-    static QVariantList tagiValikko(const QDate &pvm, QVariantList valitut = QVariantList(), QPoint sijainti = QCursor::pos());
+    static QVariantList tagiValikko(const QDate &pvm, const QVariantList &valitut = QVariantList(), QPoint sijainti = QCursor::pos());
 
 protected:
     virtual bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;

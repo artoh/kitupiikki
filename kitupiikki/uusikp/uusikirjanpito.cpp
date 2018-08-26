@@ -58,7 +58,7 @@
 #include <QDebug>
 
 UusiKirjanpito::UusiKirjanpito() :
-    QWizard()
+    QWizard(nullptr)
 {
     setWindowIcon(QIcon(":/pic/Possu64.png"));
     setWindowTitle("Uuden kirjanpidon luominen");
@@ -190,7 +190,7 @@ bool UusiKirjanpito::alustaKirjanpito()
 
         progDlg.setValue( progDlg.value() + 1 );
 
-        AsetusModel asetukset(&db, 0, true);
+        AsetusModel asetukset(&db, nullptr, true);
 
         // Siirretään asetustauluun tilikartan tiedot
         // jotka alkavat [Isolla kirjaimella]

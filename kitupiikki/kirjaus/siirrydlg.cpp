@@ -38,11 +38,6 @@ SiirryDlg::SiirryDlg() :
     connect( ui->kausiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(tarkista()));
 }
 
-SiirryDlg::~SiirryDlg()
-{
-
-}
-
 void SiirryDlg::tarkista()
 {
     QString kysymys = QString("SELECT id FROM tosite WHERE tunniste=%1 AND laji=%2 AND pvm BETWEEN '%3' AND '%4'")
@@ -60,7 +55,7 @@ void SiirryDlg::tarkista()
     ui->siirryNappi->setEnabled( tosite );
 }
 
-int SiirryDlg::tositeId(QDate pvm, QString tositelaji)
+int SiirryDlg::tositeId(QDate pvm, const QString& tositelaji)
 {
     SiirryDlg dlg;
 

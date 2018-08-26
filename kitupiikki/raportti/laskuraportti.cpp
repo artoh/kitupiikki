@@ -294,7 +294,7 @@ RaportinKirjoittaja LaskuRaportti::ostolaskut(QDate saldopvm, bool avoimet, Lask
     }
 
     // Laitetaan nyt rivit järjestyksessä
-    for( RaporttiRivi rivi : rivit.values())
+    for( const RaporttiRivi& rivi : rivit.values())
         rk.lisaaRivi(rivi);
 
     if( summat )

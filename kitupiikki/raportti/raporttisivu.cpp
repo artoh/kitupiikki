@@ -82,7 +82,7 @@ void RaporttiSivu::siirrySivulle()
             raporttilista.append(rnimi);
     }
     raporttilista.sort(Qt::CaseInsensitive);
-    for( QString nimi : raporttilista)
+    for( const QString& nimi : raporttilista)
     {
         lisaaRaportti( nimi.mid(9), nimi, ":/pic/tekstisivu.png");
     }
@@ -105,7 +105,7 @@ bool RaporttiSivu::poistuSivulta(int /* minne */)
     {
         wleiska->removeWidget( nykyinen );
         delete( nykyinen );
-        nykyinen = 0;
+        nykyinen = nullptr;
     }
     return true;
 
@@ -120,7 +120,7 @@ void RaporttiSivu::raporttiValittu(QListWidgetItem *item)
     {
         wleiska->removeWidget( nykyinen );
         nykyinen->deleteLater();
-        nykyinen = 0;
+        nykyinen = nullptr;
     }
 
 

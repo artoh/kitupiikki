@@ -113,7 +113,7 @@ void EhdotusModel::tyhjaa()
     endResetModel();
 }
 
-void EhdotusModel::lisaaVienti(VientiRivi rivi)
+void EhdotusModel::lisaaVienti(const VientiRivi& rivi)
 {
     beginInsertRows( QModelIndex(), viennit_.count(), viennit_.count());
     viennit_.append(rivi);

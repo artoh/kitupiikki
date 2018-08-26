@@ -86,7 +86,7 @@ public:
 
 public slots:
     void lataa();
-    void lisaaUusi(Kohdennus uusi);
+    void lisaaUusi(const Kohdennus &uusi);
     void tallenna();
 
 

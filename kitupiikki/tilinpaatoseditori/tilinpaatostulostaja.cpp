@@ -36,7 +36,7 @@
 
 #include "raportti/raportoija.h"
 
-QByteArray TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, QString teksti)
+QByteArray TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, const QString& teksti)
 {
     QByteArray barray;
     QBuffer buffer(&barray);
@@ -129,13 +129,13 @@ QByteArray TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, QString
     doc.setHtml( teksti.mid(teksti.indexOf('\n')+1) );
 
 
-    int pages = doc.size().height() / sivunkoko.height() + 1;
+    int pages = qRound( doc.size().height() / sivunkoko.height() + 1 );
     for( int i=0; i < pages; i++)
     {
         writer.newPage();
         painter.save();
         kirjoittaja.tulostaYlatunniste( &painter, sivulla);
-        painter.drawLine(0,0,sivunkoko.width(),0);
+        painter.drawLine(0,0,qRound(sivunkoko.width()),0);
         painter.translate(0, rivinkorkeus );
 
         painter.translate(0, 0 - i * sivunkoko.height() );

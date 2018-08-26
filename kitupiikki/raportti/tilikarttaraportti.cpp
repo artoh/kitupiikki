@@ -21,7 +21,7 @@
 
 
 TilikarttaRaportti::TilikarttaRaportti()
-    : Raportti()
+    : Raportti(nullptr)
 {
     ui = new Ui::TilikarttaRaportti;
     ui->setupUi( raporttiWidget);
@@ -60,7 +60,7 @@ RaportinKirjoittaja TilikarttaRaportti::raportti()
     return kirjoitaRaportti(valinta, kausi, ui->tilityypitCheck->isChecked(), saldopaiva, ui->kirjausohjeet->isChecked());
 }
 
-RaportinKirjoittaja TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::KarttaValinta valinta, Tilikausi tilikaudelta, bool tulostatyyppi, QDate saldopvm,
+RaportinKirjoittaja TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::KarttaValinta valinta, const Tilikausi& tilikaudelta, bool tulostatyyppi, QDate saldopvm,
                                                          bool kirjausohjeet)
 {
     RaportinKirjoittaja rk;

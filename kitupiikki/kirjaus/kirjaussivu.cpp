@@ -33,7 +33,7 @@
 #include "db/tositemodel.h"
 
 KirjausSivu::KirjausSivu(KitupiikkiIkkuna *ikkuna) :
-    KitupiikkiSivu(), ikkuna_(ikkuna)
+    KitupiikkiSivu(nullptr), ikkuna_(ikkuna)
 {
     model = kp()->tositemodel();
 

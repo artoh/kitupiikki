@@ -48,7 +48,7 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
 
     void tyhjaa();
-    void lisaaVienti(VientiRivi rivi);
+    void lisaaVienti(const VientiRivi &rivi);
     /**
      * @brief Tallentaa ehdotetun viennin
      * @param model VientiModel, minne tallennetaan

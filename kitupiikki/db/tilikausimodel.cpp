@@ -155,7 +155,7 @@ QVariant TilikausiModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void TilikausiModel::lisaaTilikausi(Tilikausi tilikausi)
+void TilikausiModel::lisaaTilikausi(const Tilikausi& tilikausi)
 {
     beginInsertRows( QModelIndex(), kaudet_.count(), kaudet_.count());
 
@@ -218,7 +218,7 @@ JsonKentta *TilikausiModel::json(int indeksi)
     return kaudet_[indeksi].json();
 }
 
-JsonKentta *TilikausiModel::json(Tilikausi tilikausi)
+JsonKentta *TilikausiModel::json(const Tilikausi& tilikausi)
 {
     return json( tilikausi.paattyy() );
 }
@@ -233,14 +233,14 @@ QDate TilikausiModel::kirjanpitoAlkaa() const
 {
     if( kaudet_.count())
         return kaudet_.first().alkaa();
-    return QDate();
+    return {};
 }
 
 QDate TilikausiModel::kirjanpitoLoppuu() const
 {
     if( kaudet_.count())
         return kaudet_.last().paattyy();
-    return QDate();
+    return {};
 }
 
 void TilikausiModel::lataa()

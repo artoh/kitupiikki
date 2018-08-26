@@ -38,7 +38,7 @@ void RaportinKorostin::highlightBlock(const QString &text)
         tyhjanpaikka = text.indexOf("    ");
 
     // Lihavoidaan, jos on bold-määre
-    if( tyhjanpaikka > 0 && text.mid(tyhjanpaikka).contains("bold"))
+    if( tyhjanpaikka > 0 && text.midRef(tyhjanpaikka).contains("bold"))
         setFormat(0, tyhjanpaikka, lihava);
 
     if( tyhjanpaikka < 0 )

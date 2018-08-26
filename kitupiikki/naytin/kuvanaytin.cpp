@@ -38,11 +38,7 @@ KuvaNaytin::KuvaNaytin(const QByteArray &kuvadata, QObject *parent)
 bool KuvaNaytin::naytaKuva(const QByteArray &kuvadata)
 {
     kuva_.loadFromData(kuvadata);
-    if( !kuva_.isNull())
-    {
-        return true;
-    }
-    return false;
+    return !kuva_.isNull();
 }
 
 QString KuvaNaytin::tyyppi() const

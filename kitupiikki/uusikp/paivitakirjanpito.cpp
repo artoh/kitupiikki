@@ -77,7 +77,7 @@ bool PaivitaKirjanpito::paivitaTilikartta()
         }
         else
         {
-            tilikarttaTiedosto = QFileDialog::getOpenFileName(0, tr("Valitse tilikarttatiedosto, johon päivitetään"),
+            tilikarttaTiedosto = QFileDialog::getOpenFileName(nullptr, tr("Valitse tilikarttatiedosto, johon päivitetään"),
                                                               QDir::homePath(), "Tilikartta (*.kpk)");
         }
         if( !tilikarttaTiedosto.isEmpty())
@@ -97,7 +97,7 @@ bool PaivitaKirjanpito::lataaPaivitys(const QString &tiedosto)
     {
         // Vielä varmuudeksi viimeinen tyyppitarkastus !
 
-        if( QMessageBox::warning(0, tr("Tilikartan päivitys"),
+        if( QMessageBox::warning(nullptr, tr("Tilikartan päivitys"),
                                  tr("Päivitettävän tilikartan tyyppitieto %1 poikkeaa "
                                     "nykyisen tilikartan tyyppitiedosta %2.\n\n"
                                     "Oletko varma, että haluat päivittää tilikartan?"),
@@ -111,7 +111,7 @@ bool PaivitaKirjanpito::lataaPaivitys(const QString &tiedosto)
     bool rapoYlikirjoita = false;
     QStringList muokatutRaportit;
 
-    for(auto raportti : raportit)
+    for(const auto& raportti : raportit)
     {
         if( kp()->asetukset()->muokattu(raportti).isValid())
         {
@@ -192,7 +192,7 @@ bool PaivitaKirjanpito::lataaPaivitys(const QString &tiedosto)
             QString tyyppi = mats.captured("tyyppi");
             int otsikkotaso = 0;
             if( tyyppi.startsWith('H') && tyyppi.length()==2)
-                otsikkotaso = tyyppi.mid(1).toInt();
+                otsikkotaso = tyyppi.midRef(1).toInt();
 
             if( !kp()->tilit()->tiliNumerolla(numero, otsikkotaso).onkoValidi())
             {
@@ -254,7 +254,7 @@ bool PaivitaKirjanpito::lataaPaivitys(const QString &tiedosto)
         if( !muoto.isEmpty())
           Skripti::suorita( ktk.value("MuotoOn/" + muoto));
 
-        QMessageBox::information(0, tr("Kitupiikki"),tr("Tilikartta päivitetty") );
+        QMessageBox::information(nullptr, tr("Kitupiikki"),tr("Tilikartta päivitetty") );
         return true;
     }
     return false;

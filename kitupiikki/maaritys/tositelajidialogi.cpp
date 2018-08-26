@@ -39,7 +39,7 @@ TositelajiDialogi::TositelajiDialogi(TositelajiModel *model, const QModelIndex &
     ui->oletusTiliEdit->suodataTyypilla("[CD].*");
     ui->vastatiliEdit->suodataTyypilla("[AB].*");
 
-    ui->tunnusEdit->setValidator( new QRegularExpressionValidator( QRegularExpression("[A-ö]+") ,0) );
+    ui->tunnusEdit->setValidator( new QRegularExpressionValidator( QRegularExpression("[A-ö]+") ,nullptr) );
 
     connect( ui->tunnusEdit, SIGNAL(textEdited(QString)), this, SLOT(tarkasta()));
     connect( ui->nimiEdit, SIGNAL(textEdited(QString)), this, SLOT(tarkasta()));

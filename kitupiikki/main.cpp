@@ -135,11 +135,7 @@ int main(int argc, char *argv[])
 
     splash->finish( &ikkuna );
 
-    if( argc > 1)
-        kirjanpito.avaaTietokanta( argv[1] );
-
     delete splash;
-
 
     return a.exec();
 }

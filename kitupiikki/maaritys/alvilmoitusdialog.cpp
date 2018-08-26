@@ -508,7 +508,7 @@ bool AlvIlmoitusDialog::maksuperusteisenTilitys(const QDate &paivayksesta, const
     // Jos erääntyneitä on, niin pyydetään lupa niiden kirjaamiseen
     if( ehdotus.rowCount(QModelIndex()))
     {
-        if( QMessageBox::question(0, tr("Arvonlisäveron kausi-ilmoitus"),
+        if( QMessageBox::question(nullptr, tr("Arvonlisäveron kausi-ilmoitus"),
                                  tr("Tähän verotusjaksoon on kohdistettava %1 kpl erääntynyttä maksuperusteisena kirjattua "
                                     "arvonlisäveron suoritusta.\n"
                                     "Tehdäänkö kohdistuskirjaukset ja jatketaan arvonlisäverotukseen?")

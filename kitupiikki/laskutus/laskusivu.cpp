@@ -121,8 +121,7 @@ void LaskuSivu::paaTab(int indeksi)
     else if( indeksi == TOIMITTAJA)
         asiakasmodel_->paivita(true);
 
-    if( laskumodel_ )
-        delete laskumodel_;
+    delete laskumodel_;
 
     if( indeksi == MYYNTI || indeksi == ASIAKAS )
         laskumodel_ = new LaskutModel(this);

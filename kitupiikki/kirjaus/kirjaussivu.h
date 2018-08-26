@@ -80,7 +80,7 @@ protected:
     /**
      * @brief Palataanko tämän tositteen käsittelyn jälkeen takaisin edelliseen
      */
-    bool palataanTakaisin_;
+    bool palataanTakaisin_ = false;
 };
 
 #endif // KIRJAUSSIVU_H
