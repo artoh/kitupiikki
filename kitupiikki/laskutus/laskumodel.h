@@ -18,15 +18,19 @@
 #ifndef LASKUMODEL_H
 #define LASKUMODEL_H
 
-#include <QAbstractTableModel>
-#include <QDate>
-#include <QList>
 
 #include "db/tili.h"
 #include "db/kohdennus.h"
 #include "db/tositelaji.h"
 
 #include "laskutmodel.h"
+
+#include <QAbstractTableModel>
+#include <QDate>
+#include <QList>
+#include <memory>
+
+class LaskuRyhmaModel;
 
 /**
  * @brief Laskun yksi rivi
@@ -62,6 +66,7 @@ public:
     static LaskuModel *teeHyvityslasku(int hyvitettavaVientiId);
     static LaskuModel *teeMaksumuistutus(int muistutettavaVientiId);
     static LaskuModel *haeLasku(int vientiId);
+    static LaskuModel *ryhmaLasku();
 
 
 
@@ -71,7 +76,7 @@ public:
     };
 
     enum Kirjausperuste {SUORITEPERUSTE, LASKUTUSPERUSTE, MAKSUPERUSTE, KATEISLASKU};
-    enum Laskutyppi { LASKU, HYVITYSLASKU, MAKSUMUISTUTUS, OSTOLASKU};
+    enum Laskutyppi { LASKU, HYVITYSLASKU, MAKSUMUISTUTUS, OSTOLASKU, RYHMALASKU};
 
 
     enum
@@ -121,6 +126,8 @@ public:
     QString viitenumero() const;
     Laskutyppi tyyppi() const { return tyyppi_; }
     qlonglong avoinSaldo() const { return avoinSaldo_; }
+
+    LaskuRyhmaModel* ryhmaModel() { return ryhma_;}
 
 public slots:
 
@@ -185,6 +192,9 @@ private:
     int vientiId_ = 0;
     qlonglong avoinSaldo_ = 0;
     bool muokattu_ = false;
+
+    LaskuRyhmaModel* ryhma_ = nullptr;
+
 
     void paivitaSumma(int rivi);
 };

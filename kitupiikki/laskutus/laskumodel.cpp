@@ -23,6 +23,7 @@
 #include "db/tilinvalintadialogi.h"
 #include "kirjaus/verodialogi.h"
 #include "laskuntulostaja.h"
+#include "laskuryhmamodel.h"
 
 #include <cmath>
 #include <QSqlQuery>
@@ -32,6 +33,7 @@
 #include <QApplication>
 #include <QMessageBox>
 #include <QSqlError>
+#include <memory>
 
 #include <QDebug>
 #include <QSqlError>
@@ -138,6 +140,14 @@ LaskuModel *LaskuModel::haeLasku(int vientiId)
     }
 
     model->muokattu_ = false;
+    return model;
+}
+
+LaskuModel *LaskuModel::ryhmaLasku()
+{
+    LaskuModel *model = new LaskuModel();
+    model->tyyppi_ = RYHMALASKU;
+    model->ryhma_ = new LaskuRyhmaModel(model);
     return model;
 }
 

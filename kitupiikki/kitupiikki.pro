@@ -17,7 +17,7 @@ macx {
     INCLUDEPATH += /usr/local/opt/include
 }
 
-CONFIG += c++11
+CONFIG += c++14
 
 TARGET = kitupiikki
 
@@ -164,7 +164,8 @@ SOURCES += main.cpp \
     tools/inboxlista.cpp \
     arkisto/budjettimodel.cpp \
     arkisto/budjettidlg.cpp \
-    arkisto/budjettikohdennusproxy.cpp
+    arkisto/budjettikohdennusproxy.cpp \
+    laskutus/laskuryhmamodel.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -307,7 +308,8 @@ HEADERS += \
     tools/inboxlista.h \
     arkisto/budjettimodel.h \
     arkisto/budjettidlg.h \
-    arkisto/budjettikohdennusproxy.h
+    arkisto/budjettikohdennusproxy.h \
+    laskutus/laskuryhmamodel.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
