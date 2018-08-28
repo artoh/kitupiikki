@@ -33,6 +33,8 @@
 #include "validator/ytunnusvalidator.h"
 #include "asiakkaatmodel.h"
 
+#include "ui_yhteystiedot.h"
+
 #include <QDebug>
 
 #include <QPrinter>
@@ -129,6 +131,7 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     connect( ui->emailEdit, SIGNAL(textChanged(QString)), this, SLOT(onkoPostiKaytossa()));
 
     connect( ui->asiakasLista, &QListView::clicked, this, &LaskuDialogi::lisaaAsiakasListalta);
+    connect( ui->lisaaRyhmaanNappi, &QPushButton::clicked, this, &LaskuDialogi::lisaaAsiakas);
 
     ui->rivitView->horizontalHeader()->setSectionResizeMode(LaskuModel::NIMIKE, QHeaderView::Stretch);
     ui->tuotelistaView->horizontalHeader()->setSectionResizeMode(TuoteModel::NIMIKE, QHeaderView::Stretch);
@@ -169,7 +172,7 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
         ui->rahaTiliEdit->setEnabled(false);
 
     }
-    else if( model->tyyppi() == LaskuModel::LASKU)
+    else if( model->tyyppi() == LaskuModel::LASKU || model->tyyppi() == LaskuModel::RYHMALASKU)
     {
         ui->eraDate->setMinimumDate( kp()->paivamaara() );
         perusteVaihtuu();
@@ -194,6 +197,12 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
         ui->viiteLabel->hide();
         ui->nroLabel->hide();
 
+        ui->esikatseluNappi->setEnabled(false);
+        ui->tulostaNappi->setEnabled(false);
+        ui->spostiNappi->setEnabled(false);
+
+        connect( ui->ryhmaView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &LaskuDialogi::ryhmaNapit);
+
     }
     else
     {
@@ -207,7 +216,6 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
 
 LaskuDialogi::~LaskuDialogi()
 {
-    kp()->asetukset()->aseta("LaskuNaytaTuotteet", ui->naytaNappi->isChecked());
     delete ui;
     delete model;
 }
@@ -230,14 +238,21 @@ void LaskuDialogi::esikatsele()
         writer.setTitle( tr("Ryhmälaskutus %1").arg(QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm")) );
         QPainter painter( &writer);
 
-        // Nyt ensiksi koko poppoo
-        for(int i=0; i < model->ryhmaModel()->rowCount(QModelIndex()); i++)
+        if( !ui->ryhmaView->selectionModel()->hasSelection())
+            ui->ryhmaView->selectAll();
+
+        bool sivunvaihto = false;
+        for(const QModelIndex& indeksi : ui->ryhmaView->selectionModel()->selectedRows() )
         {
-            if(i)
+            if( sivunvaihto )
                 writer.newPage();
-            model->haeRyhmasta(i);
+            model->haeRyhmasta(indeksi.row());
+            qDebug() << indeksi.row();
+
             tulostaja->tulosta( &writer, &painter);
+            sivunvaihto = true;
         }
+
         painter.end();
         buffer.close();
         NaytinIkkuna::nayta(array);
@@ -328,6 +343,7 @@ void LaskuDialogi::vieMalliin()
 void LaskuDialogi::accept()
 {
     vieMalliin();
+    kp()->asetukset()->aseta("LaskuNaytaTuotteet", ui->naytaNappi->isChecked());
 
     if( model->pvm().isValid() && ( model->pvm() <= kp()->tilitpaatetty() || model->pvm() > kp()->tilikaudet()->kirjanpitoLoppuu() ))
     {
@@ -401,11 +417,27 @@ void LaskuDialogi::onkoPostiKaytossa()
 {
     // Sähköpostin lähettäminen edellyttää smtp-asetusten laittamista
     QSettings settings;
-    ui->spostiNappi->setEnabled( !settings.value("SmtpServer").toString().isEmpty() && ui->emailEdit->text().contains(QRegularExpression(".+@.+\\.\\w+")));
+    ui->spostiNappi->setEnabled( !settings.value("SmtpServer").toString().isEmpty()
+                                 && ui->emailEdit->text().contains(QRegularExpression(".+@.+\\.\\w+")));
 }
 
 void LaskuDialogi::lahetaSahkopostilla()
 {
+    if( model->tyyppi() == LaskuModel::RYHMALASKU)
+    {
+        ryhmaLahetys_.append(-1);
+        if( !ui->ryhmaView->selectionModel()->hasSelection())
+            ui->ryhmaView->selectAll();
+
+        for( const QModelIndex& indeksi : ui->ryhmaView->selectionModel()->selectedRows())
+        {
+            if( !indeksi.data(LaskuRyhmaModel::SahkopostiRooli).toString().isEmpty())
+                ryhmaLahetys_.append( indeksi.row() );
+        }
+        lahetaRyhmanSeuraava();
+        return;
+    }
+
     vieMalliin();
     QSettings settings;
 
@@ -422,6 +454,38 @@ void LaskuDialogi::lahetaSahkopostilla()
     smtp->lahetaLiitteella(kenelta, kenelle, tr("Lasku %1 - %2").arg( model->viitenumero() ).arg( kp()->asetukset()->asetus("Nimi") ),
                            tulostaja->html(), tr("lasku%1.pdf").arg( model->viitenumero()), tulostaja->pdf());
 
+}
+
+void LaskuDialogi::lahetaRyhmanSeuraava(const QString &viesti)
+{
+    smtpViesti(viesti);
+
+    if( viesti.endsWith('.'))   // Ei ole vielä lopettava viesti
+        return;
+    else if( viesti == tr("Sähköposti lähetetty"))
+        model->ryhmaModel()->sahkopostiLahetetty( ryhmaLahetys_.first() );
+
+    ryhmaLahetys_.removeFirst();
+    if( !ryhmaLahetys_.isEmpty() )
+    {
+        model->haeRyhmasta(ryhmaLahetys_.first());
+
+        QSettings settings;
+
+        Smtp *smtp = new Smtp( settings.value("SmtpUser").toString(), settings.value("SmtpPassword").toString(),
+                         settings.value("SmtpServer").toString(), settings.value("SmtpPort", 465).toInt() );
+        connect( smtp, &Smtp::status, this, &LaskuDialogi::lahetaRyhmanSeuraava);
+
+
+        QString kenelta = QString("=?utf-8?Q?%1?= <%2>").arg(kp()->asetukset()->asetus("EmailNimi"))
+                                                    .arg(kp()->asetukset()->asetus("EmailOsoite"));
+        QString kenelle = QString("=?utf-8?Q?%1?= <%2>").arg( model->laskunsaajanNimi() )
+                                                .arg(model->email() );
+
+        smtp->lahetaLiitteella(kenelta, kenelle, tr("Lasku %1 - %2").arg( model->viitenumero() ).arg( kp()->asetukset()->asetus("Nimi") ),
+                               tulostaja->html(), tr("lasku%1.pdf").arg( model->viitenumero()), tulostaja->pdf());
+
+    }
 }
 
 void LaskuDialogi::smtpViesti(const QString &viesti)
@@ -443,14 +507,84 @@ void LaskuDialogi::tulostaLasku()
     if( printDialog.exec())
     {
         QPainter painter( kp()->printer());
-        tulostaja->tulosta( kp()->printer(), &painter );
+        if( model->tyyppi() == LaskuModel::RYHMALASKU)
+        {
+            if( !ui->ryhmaView->selectionModel()->hasSelection())
+                ui->ryhmaView->selectAll();
+
+            bool sivunvaihto = false;
+            for(const QModelIndex& indeksi : ui->ryhmaView->selectionModel()->selectedRows() )
+            {
+                if( sivunvaihto )
+                    kp()->printer()->newPage();
+                model->haeRyhmasta(indeksi.row());
+
+                tulostaja->tulosta( kp()->printer() , &painter);
+                sivunvaihto = true;
+            }
+        }
+        else
+        {
+            vieMalliin();
+            tulostaja->tulosta( kp()->printer(), &painter );
+        }
+
+        painter.end();
     }
+}
+
+void LaskuDialogi::ryhmaNapit(const QItemSelection &valinta)
+{
+    ui->tulostaNappi->setEnabled( valinta.size());
+    ui->esikatseluNappi->setEnabled( valinta.size());
+
+    QSettings settings;
+    ui->spostiNappi->setEnabled(!settings.value("SmtpServer").toString().isEmpty() && valinta.size());
 }
 
 void LaskuDialogi::lisaaAsiakasListalta(const QModelIndex &indeksi)
 {
     // Tässä testivaiheessa lisätään vain asiakkaan nimi
-    model->ryhmaModel()->lisaa( indeksi.data(AsiakkaatModel::NimiRooli).toString(),"Osoite","asiakas@email" );
+
+    QSqlQuery kysely;
+    QString nimistr = indeksi.data(AsiakkaatModel::NimiRooli).toString();
+    nimistr.remove(QRegExp("['\"]"));
+
+    kysely.exec( QString("SELECT json FROM vienti WHERE asiakas='%1' AND iban is null ORDER BY muokattu DESC").arg( nimistr)) ;
+    QString osoite = nimistr;
+    QString email;
+    QString ytunnus;
+
+    if( kysely.next() )
+    {
+        JsonKentta json;
+        json.fromJson( kysely.value(0).toByteArray() );
+        email =  json.str("Email");
+        ytunnus = json.str("YTunnus");
+
+        if( !json.str("Osoite").isEmpty())
+        {
+            // Haetaan aiempi osoite
+            osoite = json.str("Osoite");
+        }
+    }
+
+    model->ryhmaModel()->lisaa( nimistr, osoite, email);
+}
+
+void LaskuDialogi::lisaaAsiakas()
+{
+    QDialog yhteystiedot;
+    Ui::Yhteystiedot dui;
+    dui.setupUi(&yhteystiedot);
+    yhteystiedot.setWindowTitle(tr("Lisää laskun saaja"));
+    connect(dui.tallennaNappi, &QPushButton::clicked, &yhteystiedot, &QDialog::accept);
+    connect(dui.peruNappi, &QPushButton::clicked, &yhteystiedot, &QDialog::reject);
+    connect(dui.nimiEdit, &QLineEdit::textChanged, [dui](const QString& teksti) { dui.osoiteEdit->setPlainText(teksti + "\n"); });
+    if( yhteystiedot.exec() == QDialog::Accepted)
+    {
+        model->ryhmaModel()->lisaa( dui.nimiEdit->text(), dui.osoiteEdit->toPlainText(), dui.spostiEdit->text() );
+    }
 }
 
 void LaskuDialogi::paivitaTuoteluettelonNaytto()
@@ -463,6 +597,7 @@ void LaskuDialogi::paivitaTuoteluettelonNaytto()
 void LaskuDialogi::reject()
 {
     vieMalliin();
+    kp()->asetukset()->aseta("LaskuNaytaTuotteet", ui->naytaNappi->isChecked());
 
     if( !model->muokattu())
         QDialog::reject();

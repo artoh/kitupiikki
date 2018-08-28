@@ -51,7 +51,6 @@ void Smtp::lahetaLiitteella(const QString &from, const QString &to, const QStrin
     message.append( "--frontier\n" );
     message.append( "Content-Type: text/html; charset=\"UTF-8\"\n\n" );  //Uncomment this for HTML formating, coment the line below
 
-    // Koska ei lähetetä utf-koodauksella, enkoodataan €-merkit html-muotoon
     message.append(viesti);
 
     message.append("\n\n");

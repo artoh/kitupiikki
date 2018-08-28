@@ -31,7 +31,7 @@ int LaskuRyhmaModel::rowCount(const QModelIndex & /* parent */) const
 
 int LaskuRyhmaModel::columnCount(const QModelIndex & /* parent */) const
 {
-    return 4;
+    return 3;
 }
 
 QVariant LaskuRyhmaModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -46,8 +46,6 @@ QVariant LaskuRyhmaModel::headerData(int section, Qt::Orientation orientation, i
                 return tr("Nimi");
             case SAHKOPOSTI:
                 return tr("Sähköposti");
-            case OSOITE:
-                return tr("Osoite");
         }
     }
     return {};
@@ -72,8 +70,6 @@ QVariant LaskuRyhmaModel::data(const QModelIndex &index, int role) const
                 return laskutettava.nimi;
             case SAHKOPOSTI:
                 return laskutettava.sahkoposti;
-            case OSOITE:
-                return laskutettava.osoite;
         }
     }
 
@@ -88,6 +84,12 @@ QVariant LaskuRyhmaModel::data(const QModelIndex &index, int role) const
         return  ryhma_.at(index.row()).osoite;
     else if( role == SahkopostiRooli)
         return  ryhma_.at(index.row()).sahkoposti;
+
+    else if( role == Qt::DecorationRole && index.column() == SAHKOPOSTI)
+    {
+        if( ryhma_.at(index.row()).lahetetty)
+            return QIcon(":/pic/ok.png");
+    }
 
     return {};
 }
@@ -110,5 +112,11 @@ bool LaskuRyhmaModel::onkoNimella(const QString &nimi)
             return true;
 
     return false;
+}
+
+void LaskuRyhmaModel::sahkopostiLahetetty(int indeksiin)
+{
+    ryhma_[indeksiin].lahetetty = true;
+    emit dataChanged( index(indeksiin, SAHKOPOSTI), index(indeksiin, SAHKOPOSTI) );
 }
 

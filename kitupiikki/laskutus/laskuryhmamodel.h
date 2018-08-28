@@ -42,7 +42,7 @@ public:
 
     enum Sarake
     {
-        VIITE, NIMI, SAHKOPOSTI, OSOITE, LAHETETTY
+        VIITE, NIMI, SAHKOPOSTI
     };
 
     enum
@@ -60,6 +60,7 @@ public:
 
     void lisaa(const QString& nimi, const QString& osoite, const QString& sahkoposti);
     bool onkoNimella(const QString& nimi);
+    void sahkopostiLahetetty(int indeksiin);
 
 protected:
     QList<Laskutettava> ryhma_;

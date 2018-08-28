@@ -480,13 +480,27 @@ void LaskuModel::haeRyhmasta(int indeksi)
 {
     QModelIndex ind = ryhma_->index(indeksi, 0);
     laskunsaajanNimi_ = ind.data(LaskuRyhmaModel::NimiRooli).toString();
-    osoite_ = laskunsaajanNimi_ + "\n" + ind.data(LaskuRyhmaModel::OsoiteRooli).toString();
+    osoite_ =  ind.data(LaskuRyhmaModel::OsoiteRooli).toString();
     email_ = ind.data(LaskuRyhmaModel::SahkopostiRooli).toString();
     laskunNumero_ = ind.data(LaskuRyhmaModel::ViiteRooli).toULongLong();
 }
 
 bool LaskuModel::tallenna(Tili rahatili)
 {
+    if( tyyppi() == RYHMALASKU)
+    {
+        bool onni = true;
+        tyyppi_ = LASKU;
+        for(int i=0; i < ryhmaModel()->rowCount(QModelIndex()); i++)
+        {
+            haeRyhmasta(i);
+            if( !tallenna(rahatili) )
+                onni = false;
+        }
+        tyyppi_ = RYHMALASKU;
+        return onni;
+    }
+
     // Ensin tehdään tosite
     TositeModel tosite( kp()->tietokanta() );
 
@@ -785,7 +799,11 @@ QString LaskuModel::tositetunnus()
     else
     {
         Tositelaji laji = kp()->tositelajit()->tositelaji( kp()->asetukset()->luku("LaskuTositelaji") );
-        return QString("%1%2/%3").arg(laji.tunnus()).arg(laji.seuraavanTunnistenumero( pvm() ))
+        int ryhmalisays = 0;
+        if( tyyppi() == RYHMALASKU  )
+            ryhmalisays = static_cast<int>(laskunNumero_ / 10 - kp()->asetukset()->isoluku("LaskuSeuraavaId") / 10);
+
+        return QString("%1%2/%3").arg(laji.tunnus()).arg(laji.seuraavanTunnistenumero( pvm() ) + ryhmalisays )
                           .arg( kp()->tilikausiPaivalle(kp()->paivamaara()).kausitunnus());
     }
 }

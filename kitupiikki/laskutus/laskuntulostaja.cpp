@@ -73,6 +73,7 @@ bool LaskunTulostaja::tulosta(QPagedPaintDevice *printer, QPainter *painter)
         erittely( alkuperainenLasku, printer, painter, marginaali);
     }
 
+    painter->resetTransform();
     return true;
 }
 

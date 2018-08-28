@@ -68,10 +68,14 @@ private slots:
 
     void onkoPostiKaytossa();
     void lahetaSahkopostilla();
+    void lahetaRyhmanSeuraava(const QString& viesti = {} );
+
     void smtpViesti(const QString &viesti);
     void tulostaLasku();
+    void ryhmaNapit(const QItemSelection& valinta);
 
     void lisaaAsiakasListalta(const QModelIndex& indeksi);
+    void lisaaAsiakas();
 
 private:
     /**
@@ -94,6 +98,8 @@ private:
 
     QModelIndex kontekstiIndeksi;
     KohdennusDelegaatti *kohdennusDelegaatti;
+
+    QList<int> ryhmaLahetys_;
     
 };
 
