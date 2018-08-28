@@ -276,6 +276,12 @@ void LaskuSivu::maksumuistutus()
     dlg->show();
 }
 
+void LaskuSivu::ryhmaLasku()
+{
+    auto *dlg = new LaskuDialogi( LaskuModel::ryhmaLasku());
+    dlg->show();
+}
+
 void LaskuSivu::poistaLasku()
 {
 
@@ -378,6 +384,10 @@ void LaskuSivu::luoUi()
     QPushButton *uusiNappi = new QPushButton(QIcon(":/pic/uusitiedosto.png"), tr("&Uusi lasku"));
     nappileiska->addWidget(uusiNappi);
     connect( uusiNappi, &QPushButton::clicked, this, &LaskuSivu::uusiLasku);
+
+    QPushButton *ryhmaNappi = new QPushButton(QIcon(":/pic/uusitiedosto.png"), tr("&Ryhmälasku"));
+    nappileiska->addWidget(ryhmaNappi);
+    connect(ryhmaNappi, &QPushButton::clicked, this, &LaskuSivu::ryhmaLasku);
 
 
     QVBoxLayout *paaLeiska = new QVBoxLayout;

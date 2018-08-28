@@ -74,6 +74,7 @@ public slots:
     void hyvityslasku();
     void muokkaaLaskua();
     void maksumuistutus();
+    void ryhmaLasku();
     void poistaLasku();
 
 private:

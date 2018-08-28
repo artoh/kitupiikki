@@ -473,13 +473,16 @@ qulonglong LaskuModel::laskunro() const
 
 QString LaskuModel::viitenumero() const
 {
-    // Muotoilee viitenumeron tulosteasun
-    QString str = QString::number( laskunro() );
-    for(int i=0; i< str.count() / 5; i++)
-    {
-        str.insert(i * 5 + i,' ');
-    }
-    return str;
+    return muotoileViitenumero( laskunro());
+}
+
+void LaskuModel::haeRyhmasta(int indeksi)
+{
+    QModelIndex ind = ryhma_->index(indeksi, 0);
+    laskunsaajanNimi_ = ind.data(LaskuRyhmaModel::NimiRooli).toString();
+    osoite_ = laskunsaajanNimi_ + "\n" + ind.data(LaskuRyhmaModel::OsoiteRooli).toString();
+    email_ = ind.data(LaskuRyhmaModel::SahkopostiRooli).toString();
+    laskunNumero_ = ind.data(LaskuRyhmaModel::ViiteRooli).toULongLong();
 }
 
 bool LaskuModel::tallenna(Tili rahatili)
@@ -785,6 +788,17 @@ QString LaskuModel::tositetunnus()
         return QString("%1%2/%3").arg(laji.tunnus()).arg(laji.seuraavanTunnistenumero( pvm() ))
                           .arg( kp()->tilikausiPaivalle(kp()->paivamaara()).kausitunnus());
     }
+}
+
+QString LaskuModel::muotoileViitenumero(qulonglong viitenumero)
+{
+    // Muotoilee viitenumeron tulosteasun
+    QString str = QString::number( viitenumero );
+    for(int i=0; i< str.count() / 5; i++)
+    {
+        str.insert(i * 5 + i,' ');
+    }
+    return str;
 }
 
 void LaskuModel::lisaaRivi(LaskuRivi rivi)

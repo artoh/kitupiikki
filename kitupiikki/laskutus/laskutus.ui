@@ -156,6 +156,13 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QPushButton" name="ryhmaNappi">
+       <property name="text">
+        <string>Ryhmän laskutus...</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>

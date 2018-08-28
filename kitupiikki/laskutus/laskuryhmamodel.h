@@ -22,16 +22,14 @@
 #include "laskumodel.h"
 #include <QAbstractTableModel>
 
-namespace {
-    struct Laskutettava
-    {
-        QString nimi;
-        QString osoite;
-        QString sahkoposti;
-        bool lahetetty = false;
-    };
+struct Laskutettava
+{
+    QString nimi;
+    QString osoite;
+    QString sahkoposti;
+    bool lahetetty = false;
+};
 
-}
 
 /**
  * @brief Ryhmälaskulla laskutettavat asiakkaat
@@ -45,6 +43,14 @@ public:
     enum Sarake
     {
         VIITE, NIMI, SAHKOPOSTI, OSOITE, LAHETETTY
+    };
+
+    enum
+    {
+        ViiteRooli = Qt::UserRole + 1,
+        NimiRooli = Qt::UserRole + 2,
+        OsoiteRooli = Qt::UserRole + 3,
+        SahkopostiRooli = Qt::UserRole + 4
     };
 
     int rowCount(const QModelIndex &parent) const;

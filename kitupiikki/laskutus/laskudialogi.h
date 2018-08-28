@@ -71,6 +71,8 @@ private slots:
     void smtpViesti(const QString &viesti);
     void tulostaLasku();
 
+    void lisaaAsiakasListalta(const QModelIndex& indeksi);
+
 private:
     /**
      * @brief Näyttäää tuoteluettelon jos tuotteita, muuten ohjeen
@@ -81,8 +83,7 @@ public slots:
     void accept();
     void reject();
 
-private:
-
+private:    
     LaskuModel *model;
     TuoteModel *tuotteet;
     Ui::LaskuDialogi *ui;

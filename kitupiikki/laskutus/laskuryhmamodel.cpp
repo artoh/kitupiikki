@@ -76,6 +76,19 @@ QVariant LaskuRyhmaModel::data(const QModelIndex &index, int role) const
                 return laskutettava.osoite;
         }
     }
+
+    else if( role == ViiteRooli)
+    {
+        qulonglong pohjanumero =   pohjaviite_ + static_cast<qulonglong>( index.row() );
+        return pohjanumero * 10 + LaskuModel::laskeViiteTarkiste(pohjanumero);
+    }
+    else if( role == NimiRooli)
+        return ryhma_.at(index.row()).nimi;
+    else if( role == OsoiteRooli)
+        return  ryhma_.at(index.row()).osoite;
+    else if( role == SahkopostiRooli)
+        return  ryhma_.at(index.row()).sahkoposti;
+
     return {};
 }
 

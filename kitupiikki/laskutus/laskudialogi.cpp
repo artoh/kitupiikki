@@ -22,6 +22,7 @@
 #include "ui_laskudialogi.h"
 #include "laskuntulostaja.h"
 #include "laskutusverodelegaatti.h"
+#include "laskuryhmamodel.h"
 
 #include "kirjaus/eurodelegaatti.h"
 #include "kirjaus/kohdennusdelegaatti.h"
@@ -30,6 +31,7 @@
 #include "kirjaus/verodialogi.h"
 #include "naytin/naytinikkuna.h"
 #include "validator/ytunnusvalidator.h"
+#include "asiakkaatmodel.h"
 
 #include <QDebug>
 
@@ -49,7 +51,7 @@
 #include <QRegularExpression>
 
 #include <QMessageBox>
-
+#include <QPdfWriter>
 
 
 LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
@@ -126,14 +128,18 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     connect( ui->tuotelistaView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(tuotteidenKonteksiValikko(QPoint)));
     connect( ui->emailEdit, SIGNAL(textChanged(QString)), this, SLOT(onkoPostiKaytossa()));
 
+    connect( ui->asiakasLista, &QListView::clicked, this, &LaskuDialogi::lisaaAsiakasListalta);
+
     ui->rivitView->horizontalHeader()->setSectionResizeMode(LaskuModel::NIMIKE, QHeaderView::Stretch);
     ui->tuotelistaView->horizontalHeader()->setSectionResizeMode(TuoteModel::NIMIKE, QHeaderView::Stretch);
+    ui->ryhmaView->horizontalHeader()->setStretchLastSection(true);
+    ui->ryhmaView->setSelectionBehavior(QTableView::SelectRows);
 
     tulostaja = new LaskunTulostaja(model);
 
     ui->perusteCombo->setCurrentIndex( model->kirjausperuste() );
 
-    ui->perusteCombo->setEnabled( model->tyyppi() == LaskuModel::LASKU );
+    ui->perusteCombo->setEnabled( model->tyyppi() == LaskuModel::LASKU || model->tyyppi() == LaskuModel::RYHMALASKU);
     ui->saajaEdit->setText( model->laskunsaajanNimi() );
     if( !model->osoite().isEmpty())
         ui->osoiteEdit->setPlainText( model->osoite());
@@ -171,6 +177,29 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
         ui->eraDate->setDate( kp()->paivamaara().addDays( kp()->asetukset()->luku("LaskuMaksuaika")));
     }
 
+    if( model->tyyppi() == LaskuModel::RYHMALASKU)
+    {
+        setWindowTitle("Ryhmän laskutus");
+
+        ui->ryhmaView->setModel( model->ryhmaModel() );
+        AsiakkaatModel *asiakkaat = new AsiakkaatModel(model);
+        asiakkaat->paivita();
+
+        ui->asiakasLista->setModel( asiakkaat );
+
+        ui->saajaEdit->hide();
+        ui->osoiteEdit->hide();
+        ui->emailEdit->hide();
+        ui->ytunnus->hide();
+        ui->viiteLabel->hide();
+        ui->nroLabel->hide();
+
+    }
+    else
+    {
+        ui->tabWidget->removeTab(2);
+    }
+
     paivitaTuoteluettelonNaytto();
     paivitaSumma( model->laskunSumma() );
 }
@@ -190,9 +219,35 @@ void LaskuDialogi::paivitaSumma(qlonglong summa)
 
 void LaskuDialogi::esikatsele()
 {
-    vieMalliin();
+    if( model->tyyppi() == LaskuModel::RYHMALASKU )
+    {
+        QByteArray array;
+        QBuffer buffer(&array);
+        buffer.open(QIODevice::WriteOnly);
 
-    NaytinIkkuna::nayta( tulostaja->pdf() );
+        QPdfWriter writer(&buffer);
+        writer.setCreator(QString("%1 %2").arg( qApp->applicationName() ).arg( qApp->applicationVersion() ));
+        writer.setTitle( tr("Ryhmälaskutus %1").arg(QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm")) );
+        QPainter painter( &writer);
+
+        // Nyt ensiksi koko poppoo
+        for(int i=0; i < model->ryhmaModel()->rowCount(QModelIndex()); i++)
+        {
+            if(i)
+                writer.newPage();
+            model->haeRyhmasta(i);
+            tulostaja->tulosta( &writer, &painter);
+        }
+        painter.end();
+        buffer.close();
+        NaytinIkkuna::nayta(array);
+
+    }
+    else
+    {
+        vieMalliin();
+        NaytinIkkuna::nayta( tulostaja->pdf() );
+    }
 }
 
 void LaskuDialogi::perusteVaihtuu()
@@ -387,8 +442,15 @@ void LaskuDialogi::tulostaLasku()
     QPrintDialog printDialog( kp()->printer(), this );
     if( printDialog.exec())
     {
-        tulostaja->tulosta( kp()->printer() );
+        QPainter painter( kp()->printer());
+        tulostaja->tulosta( kp()->printer(), &painter );
     }
+}
+
+void LaskuDialogi::lisaaAsiakasListalta(const QModelIndex &indeksi)
+{
+    // Tässä testivaiheessa lisätään vain asiakkaan nimi
+    model->ryhmaModel()->lisaa( indeksi.data(AsiakkaatModel::NimiRooli).toString(),"Osoite","asiakas@email" );
 }
 
 void LaskuDialogi::paivitaTuoteluettelonNaytto()
@@ -409,3 +471,4 @@ void LaskuDialogi::reject()
                               tr("Hylkäätkö laskun tallentamatta sitä kirjanpitoon?"))==QMessageBox::Yes)
         QDialog::reject();
 }
+

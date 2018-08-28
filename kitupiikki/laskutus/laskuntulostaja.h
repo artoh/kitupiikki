@@ -50,7 +50,7 @@ public:
 signals:
 
 public slots:
-    bool tulosta(QPagedPaintDevice *printer);
+    bool tulosta(QPagedPaintDevice *printer, QPainter *painter);
 
 
 public:

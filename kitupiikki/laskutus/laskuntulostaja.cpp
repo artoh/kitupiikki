@@ -35,46 +35,43 @@ LaskunTulostaja::LaskunTulostaja(LaskuModel *model) : QObject(model), model_(mod
     iban = kp()->tilit()->tiliNumerolla( kp()->asetukset()->luku("LaskuTili")).json()->str("IBAN");
 }
 
-bool LaskunTulostaja::tulosta(QPagedPaintDevice *printer)
+bool LaskunTulostaja::tulosta(QPagedPaintDevice *printer, QPainter *painter)
 {
 
-    QPainter painter(printer);
     double mm = printer->width() * 1.00 / printer->widthMM();
     qreal marginaali = 0.0;
 
     if( model_->laskunSumma() > 0 && model_->kirjausperuste() != LaskuModel::KATEISLASKU)
     {
-        painter.translate( 0, painter.window().height() - mm * 95 );
-        marginaali += alatunniste(printer, &painter) + mm * 95;
-        tilisiirto(printer, &painter);
-        painter.resetTransform();
+        painter->translate( 0, painter->window().height() - mm * 95 );
+        marginaali += alatunniste(printer, painter) + mm * 95;
+        tilisiirto(printer, painter);
+        painter->resetTransform();
     }
     else
     {
-        painter.translate(0, painter.window().height());
-        marginaali += alatunniste(printer, &painter);
+        painter->translate(0, painter->window().height());
+        marginaali += alatunniste(printer, painter);
     }
-    painter.resetTransform();
+    painter->resetTransform();
 
-    ylaruudukko(printer, &painter);
-    lisatieto(&painter, model_->lisatieto());
-    erittely( model_, printer, &painter, marginaali);
+    ylaruudukko(printer, painter);
+    lisatieto(painter, model_->lisatieto());
+    erittely( model_, printer, painter, marginaali);
 
-    painter.translate(0, mm*15);
+    painter->translate(0, mm*15);
 
     if( model_->tyyppi() == LaskuModel::MAKSUMUISTUTUS)
     {
-        lisatieto(&painter, tr("Alkuperäinen lasku\n"
+        lisatieto(painter, tr("Alkuperäinen lasku\n"
                                "Laskun numero: %1 \t Laskun päiväys: %2 \t Eräpäivä: %3")
                   .arg( model_->viittausLasku().viite)
                   .arg( model_->viittausLasku().pvm.toString("dd.MM.yyyy"))
                   .arg( model_->viittausLasku().erapvm.toString("dd.MM.yyyy")));
 
         LaskuModel *alkuperainenLasku = LaskuModel::haeLasku( model_->viittausLasku().eraId );
-        erittely( alkuperainenLasku, printer, &painter, marginaali);
+        erittely( alkuperainenLasku, printer, painter, marginaali);
     }
-
-    painter.end();
 
     return true;
 }
@@ -86,9 +83,12 @@ QByteArray LaskunTulostaja::pdf()
     buffer.open(QIODevice::WriteOnly);
 
     QPdfWriter writer(&buffer);
+    QPainter painter(&writer);
+
     writer.setCreator(QString("%1 %2").arg( qApp->applicationName() ).arg( qApp->applicationVersion() ));
     writer.setTitle( tr("Lasku %1").arg(model_->laskunro()));
-    tulosta(&writer);
+    tulosta(&writer, &painter);
+    painter.end();
 
     buffer.close();
 

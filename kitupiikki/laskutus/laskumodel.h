@@ -129,6 +129,16 @@ public:
 
     LaskuRyhmaModel* ryhmaModel() { return ryhma_;}
 
+    /**
+     * @brief Hakee ryhmämodelista asiakkaan tiedot indeksiin
+     * @param indeksi
+     *
+     * Näin ollen tulostettaessa, talletettaessa tai muussa vastaavassa
+     * voidaan käsitellä tämä asiakas
+     */
+    void haeRyhmasta(int indeksi);
+
+
 public slots:
 
     void asetaErapaiva(const QDate & paiva) { if(erapaiva_ != paiva) muokattu_ = true; erapaiva_ = paiva;  }
@@ -162,6 +172,8 @@ public:
      * @return
      */
     QString tositetunnus();
+
+    static QString muotoileViitenumero(qulonglong viitenumero);
 
     bool muokattu() const  { return muokattu_; }
 
