@@ -42,7 +42,7 @@ class LaskuDialogi : public QDialog
     Q_OBJECT
 public:
 
-    LaskuDialogi(LaskuModel *laskumodel = 0);
+    LaskuDialogi(LaskuModel *laskumodel = nullptr);
     ~LaskuDialogi();
 
 private slots:
@@ -98,6 +98,8 @@ private:
 
     QModelIndex kontekstiIndeksi;
     KohdennusDelegaatti *kohdennusDelegaatti;
+
+    QSortFilterProxyModel *ryhmaProxy_;
 
     QList<int> ryhmaLahetys_;
     

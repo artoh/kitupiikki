@@ -178,9 +178,13 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/vientilista.png</normaloff>:/pic/vientilista.png</iconset>
+      </attribute>
       <attribute name="title">
        <string>&amp;Rivit</string>
       </attribute>
@@ -267,6 +271,10 @@ p, li { white-space: pre-wrap; }
              <property name="text">
               <string>&amp;Tuotteet</string>
              </property>
+             <property name="icon">
+              <iconset resource="../pic/pic.qrc">
+               <normaloff>:/pic/kirjalaatikko.png</normaloff>:/pic/kirjalaatikko.png</iconset>
+             </property>
              <property name="shortcut">
               <string>F9</string>
              </property>
@@ -332,6 +340,10 @@ p, li { white-space: pre-wrap; }
       </layout>
      </widget>
      <widget class="QWidget" name="tab_2">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/Menu-Circles.png</normaloff>:/pic/Menu-Circles.png</iconset>
+      </attribute>
       <attribute name="title">
        <string>Lis&amp;ätiedot</string>
       </attribute>
@@ -342,6 +354,10 @@ p, li { white-space: pre-wrap; }
       </layout>
      </widget>
      <widget class="QWidget" name="ryhma">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/asiakkaat.png</normaloff>:/pic/asiakkaat.png</iconset>
+      </attribute>
       <attribute name="title">
        <string>L&amp;askutettavat</string>
       </attribute>
@@ -380,6 +396,10 @@ p, li { white-space: pre-wrap; }
              <property name="text">
               <string>Asiakkaat</string>
              </property>
+             <property name="icon">
+              <iconset resource="../pic/pic.qrc">
+               <normaloff>:/pic/asiakkaat.png</normaloff>:/pic/asiakkaat.png</iconset>
+             </property>
              <property name="checkable">
               <bool>true</bool>
              </property>
@@ -405,6 +425,10 @@ p, li { white-space: pre-wrap; }
             <widget class="QPushButton" name="pushButton">
              <property name="text">
               <string>Valitse &amp;kaikki</string>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>../pic/select-all.png</normaloff>../pic/select-all.png</iconset>
              </property>
             </widget>
            </item>

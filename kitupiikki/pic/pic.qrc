@@ -116,6 +116,7 @@
         <file>zoom-out.png</file>
         <file>inbox.png</file>
         <file>QtIcon.png</file>
+        <file>select-all.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

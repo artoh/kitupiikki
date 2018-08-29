@@ -165,7 +165,8 @@ SOURCES += main.cpp \
     arkisto/budjettimodel.cpp \
     arkisto/budjettidlg.cpp \
     arkisto/budjettikohdennusproxy.cpp \
-    laskutus/laskuryhmamodel.cpp
+    laskutus/laskuryhmamodel.cpp \
+    laskutus/ryhmaasiakasproxy.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -309,7 +310,8 @@ HEADERS += \
     arkisto/budjettimodel.h \
     arkisto/budjettidlg.h \
     arkisto/budjettikohdennusproxy.h \
-    laskutus/laskuryhmamodel.h
+    laskutus/laskuryhmamodel.h \
+    laskutus/ryhmaasiakasproxy.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

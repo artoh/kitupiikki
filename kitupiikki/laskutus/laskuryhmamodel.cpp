@@ -107,6 +107,7 @@ void LaskuRyhmaModel::lisaa(const QString &nimi, const QString &osoite, const QS
 
 bool LaskuRyhmaModel::onkoNimella(const QString &nimi)
 {
+
     for( const Laskutettava& rivi : ryhma_)
         if( rivi.nimi == nimi)
             return true;

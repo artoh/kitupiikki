@@ -32,6 +32,7 @@
 #include "naytin/naytinikkuna.h"
 #include "validator/ytunnusvalidator.h"
 #include "asiakkaatmodel.h"
+#include "ryhmaasiakasproxy.h"
 
 #include "ui_yhteystiedot.h"
 
@@ -184,11 +185,22 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     {
         setWindowTitle("Ryhmän laskutus");
 
-        ui->ryhmaView->setModel( model->ryhmaModel() );
+        ryhmaProxy_ = new QSortFilterProxyModel(this);
+        ryhmaProxy_->setSourceModel( model->ryhmaModel());
+        ui->ryhmaView->setModel( ryhmaProxy_ );
+        ui->ryhmaView->setSortingEnabled(true);
+
         AsiakkaatModel *asiakkaat = new AsiakkaatModel(model);
         asiakkaat->paivita();
 
-        ui->asiakasLista->setModel( asiakkaat );
+        // Asiakasluettelo suodatetaan ryhmäproxyn läpi
+        RyhmaAsiakasProxy *ryhmaAsiakasProxy = new RyhmaAsiakasProxy(this);
+        ryhmaAsiakasProxy->asetaRyhmaModel( model->ryhmaModel() );
+        ryhmaAsiakasProxy->setSourceModel(asiakkaat);
+        ryhmaAsiakasProxy->setFilterCaseSensitivity(Qt::CaseInsensitive);
+
+        ui->asiakasLista->setModel( ryhmaAsiakasProxy );
+        connect( ui->assuodatusEdit, &QLineEdit::textChanged, [ryhmaAsiakasProxy] (const QString& teksti) { ryhmaAsiakasProxy->setFilterFixedString(teksti); });
 
         ui->saajaEdit->hide();
         ui->osoiteEdit->hide();
@@ -238,16 +250,12 @@ void LaskuDialogi::esikatsele()
         writer.setTitle( tr("Ryhmälaskutus %1").arg(QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm")) );
         QPainter painter( &writer);
 
-        if( !ui->ryhmaView->selectionModel()->hasSelection())
-            ui->ryhmaView->selectAll();
-
         bool sivunvaihto = false;
         for(const QModelIndex& indeksi : ui->ryhmaView->selectionModel()->selectedRows() )
         {
             if( sivunvaihto )
                 writer.newPage();
-            model->haeRyhmasta(indeksi.row());
-            qDebug() << indeksi.row();
+            model->haeRyhmasta( ryhmaProxy_->mapToSource( indeksi ).row());
 
             tulostaja->tulosta( &writer, &painter);
             sivunvaihto = true;
@@ -432,7 +440,7 @@ void LaskuDialogi::lahetaSahkopostilla()
         for( const QModelIndex& indeksi : ui->ryhmaView->selectionModel()->selectedRows())
         {
             if( !indeksi.data(LaskuRyhmaModel::SahkopostiRooli).toString().isEmpty())
-                ryhmaLahetys_.append( indeksi.row() );
+                ryhmaLahetys_.append( ryhmaProxy_->mapToSource(indeksi).row() );
         }
         lahetaRyhmanSeuraava();
         return;
@@ -509,15 +517,13 @@ void LaskuDialogi::tulostaLasku()
         QPainter painter( kp()->printer());
         if( model->tyyppi() == LaskuModel::RYHMALASKU)
         {
-            if( !ui->ryhmaView->selectionModel()->hasSelection())
-                ui->ryhmaView->selectAll();
 
             bool sivunvaihto = false;
             for(const QModelIndex& indeksi : ui->ryhmaView->selectionModel()->selectedRows() )
             {
                 if( sivunvaihto )
                     kp()->printer()->newPage();
-                model->haeRyhmasta(indeksi.row());
+                model->haeRyhmasta( ryhmaProxy_->mapToSource( indeksi).row());
 
                 tulostaja->tulosta( kp()->printer() , &painter);
                 sivunvaihto = true;
