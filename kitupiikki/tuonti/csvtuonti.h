@@ -82,6 +82,13 @@ public:
      */
     static QChar haistaErotin(const QString& data);
 
+    /**
+     * @brief Sijoittaa csv:n listamuotoon
+     * @param data
+     * @return
+     */
+    static QList<QStringList> csvListana(const QByteArray& data);
+
     static QString tyyppiTeksti(int muoto);
     static QString tuontiTeksti(int tuominen);
 

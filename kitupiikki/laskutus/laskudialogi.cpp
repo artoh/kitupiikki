@@ -214,6 +214,7 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
         ui->spostiNappi->setEnabled(false);
 
         connect( ui->ryhmaView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &LaskuDialogi::ryhmaNapit);
+        connect( ui->poistaRyhmastaNappi, &QPushButton::clicked, this, &LaskuDialogi::poistaValitutAsiakkaat);
 
     }
     else
@@ -543,6 +544,7 @@ void LaskuDialogi::ryhmaNapit(const QItemSelection &valinta)
 {
     ui->tulostaNappi->setEnabled( valinta.size());
     ui->esikatseluNappi->setEnabled( valinta.size());
+    ui->poistaRyhmastaNappi->setEnabled( valinta.size());
 
     QSettings settings;
     ui->spostiNappi->setEnabled(!settings.value("SmtpServer").toString().isEmpty() && valinta.size());
@@ -575,7 +577,7 @@ void LaskuDialogi::lisaaAsiakasListalta(const QModelIndex &indeksi)
         }
     }
 
-    model->ryhmaModel()->lisaa( nimistr, osoite, email);
+    model->ryhmaModel()->lisaa( nimistr, osoite, email, ytunnus);
 }
 
 void LaskuDialogi::lisaaAsiakas()
@@ -584,12 +586,34 @@ void LaskuDialogi::lisaaAsiakas()
     Ui::Yhteystiedot dui;
     dui.setupUi(&yhteystiedot);
     yhteystiedot.setWindowTitle(tr("Lisää laskun saaja"));
+    dui.YtunnusEdit->setValidator(new YTunnusValidator);
     connect(dui.tallennaNappi, &QPushButton::clicked, &yhteystiedot, &QDialog::accept);
     connect(dui.peruNappi, &QPushButton::clicked, &yhteystiedot, &QDialog::reject);
     connect(dui.nimiEdit, &QLineEdit::textChanged, [dui](const QString& teksti) { dui.osoiteEdit->setPlainText(teksti + "\n"); });
     if( yhteystiedot.exec() == QDialog::Accepted)
     {
-        model->ryhmaModel()->lisaa( dui.nimiEdit->text(), dui.osoiteEdit->toPlainText(), dui.spostiEdit->text() );
+        if( !dui.YtunnusEdit->hasAcceptableInput() )
+            dui.YtunnusEdit->clear();
+
+        model->ryhmaModel()->lisaa( dui.nimiEdit->text(), dui.osoiteEdit->toPlainText(), dui.spostiEdit->text(),
+                                    dui.YtunnusEdit->text());
+    }
+}
+
+void LaskuDialogi::poistaValitutAsiakkaat()
+{
+    QList<int> indeksit;
+    for(const QModelIndex &indeksi : ui->ryhmaView->selectionModel()->selectedRows())
+        indeksit.append( ryhmaProxy_->mapToSource(indeksi).row() );
+
+    // Poistetaan alimmasta alkaen, jotta poistaminen ei sotke
+    // rivien numerointia
+
+    qSort( indeksit );
+    while( !indeksit.isEmpty())
+    {
+        model->ryhmaModel()->poista( indeksit.last() );
+        indeksit.removeLast();
     }
 }
 

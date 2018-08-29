@@ -483,6 +483,7 @@ void LaskuModel::haeRyhmasta(int indeksi)
     osoite_ =  ind.data(LaskuRyhmaModel::OsoiteRooli).toString();
     email_ = ind.data(LaskuRyhmaModel::SahkopostiRooli).toString();
     laskunNumero_ = ind.data(LaskuRyhmaModel::ViiteRooli).toULongLong();
+    ytunnus_ = ind.data(LaskuRyhmaModel::YTunnusRooli).toString();
 }
 
 bool LaskuModel::tallenna(Tili rahatili)

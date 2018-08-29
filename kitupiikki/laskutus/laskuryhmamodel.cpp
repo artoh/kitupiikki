@@ -84,6 +84,8 @@ QVariant LaskuRyhmaModel::data(const QModelIndex &index, int role) const
         return  ryhma_.at(index.row()).osoite;
     else if( role == SahkopostiRooli)
         return  ryhma_.at(index.row()).sahkoposti;
+    else if( role == YTunnusRooli)
+        return  ryhma_.at(index.row()).ytunnus;
 
     else if( role == Qt::DecorationRole && index.column() == SAHKOPOSTI)
     {
@@ -94,15 +96,23 @@ QVariant LaskuRyhmaModel::data(const QModelIndex &index, int role) const
     return {};
 }
 
-void LaskuRyhmaModel::lisaa(const QString &nimi, const QString &osoite, const QString &sahkoposti)
+void LaskuRyhmaModel::lisaa(const QString &nimi, const QString &osoite, const QString &sahkoposti, const QString& ytunnus)
 {
     beginInsertRows(QModelIndex(), ryhma_.count(), ryhma_.count() );
     Laskutettava uusi;
     uusi.nimi = nimi;
     uusi.osoite = osoite;
     uusi.sahkoposti = sahkoposti;
+    uusi.ytunnus = ytunnus;
     ryhma_.append(uusi);
     endInsertRows();
+}
+
+void LaskuRyhmaModel::poista(int indeksi)
+{
+    beginRemoveRows(QModelIndex(), indeksi, indeksi);
+    ryhma_.removeAt(indeksi);
+    endRemoveRows();
 }
 
 bool LaskuRyhmaModel::onkoNimella(const QString &nimi)

@@ -339,6 +339,58 @@ QChar CsvTuonti::haistaErotin(const QString &data)
         return QChar(',');
 }
 
+QList<QStringList> CsvTuonti::csvListana(const QByteArray &data)
+{
+    QList<QStringList> csv;
+
+    QString kaikki = haistettuKoodattu(data);
+    QStringList listana = kaikki.split(QRegularExpression("\\r?\\n"));
+    if( listana.isEmpty())
+        return {};
+    QChar erotin = haistaErotin(listana.first());
+
+    // Nyt sitten luodaan rivi kerrallaan listaa
+    for(QString rivi : listana)
+    {
+        QStringList nykyinenRivi;
+        QString nykyinenSana;
+        bool lainattuna = false;
+
+        for(int i = 0; i < rivi.length(); i++)
+        {
+            QChar merkki = rivi.at(i);
+            if( merkki == QChar('"'))
+            {
+                if( lainattuna && rivi.length() > i+1 && rivi.at(i+1) == QChar('"'))
+                {
+                    nykyinenSana.append('"');
+                    i++;
+                }
+                else
+                    lainattuna = !lainattuna;
+            }
+            else if( !lainattuna && merkki == erotin )
+            {
+                // Erotin löytyi, sana tuli valmiiksi
+                nykyinenRivi.append(nykyinenSana);
+                nykyinenSana.clear();
+            }
+            else
+            {
+                // Muuten merkki lisätään paikalleen
+                nykyinenSana.append(merkki);
+            }
+        }
+        // Lopuksi viimeinen sana riville ja rivi tauluun
+        if( nykyinenRivi.length())
+        {
+            nykyinenRivi.append(nykyinenSana);
+            csv.append(nykyinenRivi);
+        }
+    }
+    return csv;
+}
+
 QString CsvTuonti::tyyppiTeksti(int muoto)
 {
     switch (muoto) {
@@ -477,51 +529,8 @@ void CsvTuonti::tarkistaTiliValittu()
 
 int CsvTuonti::tuoListaan(const QByteArray &data)
 {
-    QString kaikki = haistettuKoodattu(data);
-    QStringList listana = kaikki.split(QRegularExpression("\\r?\\n"));
-    if( listana.isEmpty())
-        return 0;
-    QChar erotin = haistaErotin(listana.first());
+    csv_ = csvListana(data);
 
-    // Nyt sitten luodaan rivi kerrallaan listaa
-    for(QString rivi : listana)
-    {
-        QStringList nykyinenRivi;
-        QString nykyinenSana;
-        bool lainattuna = false;
-
-        for(int i = 0; i < rivi.length(); i++)
-        {
-            QChar merkki = rivi.at(i);
-            if( merkki == QChar('"'))
-            {
-                if( lainattuna && rivi.length() > i+1 && rivi.at(i+1) == QChar('"'))
-                {
-                    nykyinenSana.append('"');
-                    i++;
-                }
-                else
-                    lainattuna = !lainattuna;
-            }
-            else if( !lainattuna && merkki == erotin )
-            {
-                // Erotin löytyi, sana tuli valmiiksi
-                nykyinenRivi.append(nykyinenSana);
-                nykyinenSana.clear();
-            }
-            else
-            {
-                // Muuten merkki lisätään paikalleen
-                nykyinenSana.append(merkki);
-            }
-        }
-        // Lopuksi viimeinen sana riville ja rivi tauluun
-        if( nykyinenRivi.length())
-        {
-            nykyinenRivi.append(nykyinenSana);
-            csv_.append(nykyinenRivi);
-        }
-    }
     // Tämän jälkeen sitten analysoidaan listaa eli mitä sisältää
     QRegularExpression suomipvmRe("^[0123]?\\d\\.[01]?\\d\\.\\d{4}$");
     QRegularExpression isopvmRe("^\\d{4}-[01]\\d-[0123]\\d$");

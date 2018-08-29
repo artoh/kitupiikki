@@ -27,6 +27,7 @@ struct Laskutettava
     QString nimi;
     QString osoite;
     QString sahkoposti;
+    QString ytunnus;
     bool lahetetty = false;
 };
 
@@ -50,7 +51,8 @@ public:
         ViiteRooli = Qt::UserRole + 1,
         NimiRooli = Qt::UserRole + 2,
         OsoiteRooli = Qt::UserRole + 3,
-        SahkopostiRooli = Qt::UserRole + 4
+        SahkopostiRooli = Qt::UserRole + 4,
+        YTunnusRooli = Qt::UserRole + 5
     };
 
     int rowCount(const QModelIndex &parent) const;
@@ -58,7 +60,8 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     QVariant data(const QModelIndex &index, int role) const;
 
-    void lisaa(const QString& nimi, const QString& osoite, const QString& sahkoposti);
+    void lisaa(const QString& nimi, const QString& osoite, const QString& sahkoposti, const QString& ytunnus);
+    void poista(int indeksi);
     bool onkoNimella(const QString& nimi);
     void sahkopostiLahetetty(int indeksiin);
 
