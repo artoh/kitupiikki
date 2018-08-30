@@ -23,6 +23,7 @@
 #include "laskuntulostaja.h"
 #include "laskutusverodelegaatti.h"
 #include "laskuryhmamodel.h"
+#include "ryhmantuontidlg.h"
 
 #include "kirjaus/eurodelegaatti.h"
 #include "kirjaus/kohdennusdelegaatti.h"
@@ -46,7 +47,7 @@
 #include <QSqlQuery>
 #include <QRegExp>
 #include <QMessageBox>
-
+#include <QFileDialog>
 #include <QMenu>
 #include <QAction>
 
@@ -215,6 +216,7 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
 
         connect( ui->ryhmaView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &LaskuDialogi::ryhmaNapit);
         connect( ui->poistaRyhmastaNappi, &QPushButton::clicked, this, &LaskuDialogi::poistaValitutAsiakkaat);
+        connect( ui->tuoRyhmaanNappi, &QPushButton::clicked, this, &LaskuDialogi::tuoAsiakkaitaTiedostosta);
 
     }
     else
@@ -597,6 +599,18 @@ void LaskuDialogi::lisaaAsiakas()
 
         model->ryhmaModel()->lisaa( dui.nimiEdit->text(), dui.osoiteEdit->toPlainText(), dui.spostiEdit->text(),
                                     dui.YtunnusEdit->text());
+    }
+}
+
+void LaskuDialogi::tuoAsiakkaitaTiedostosta()
+{
+    QString tiedostonnimi = QFileDialog::getOpenFileName(this, tr("Tuo laskutettavien luettelo"),
+                                                         QString(), tr("csv-tiedostot (*.csv);;Kaikki tiedostot (*)"));
+    if( !tiedostonnimi.isEmpty())
+    {
+        RyhmanTuontiDlg dlg(tiedostonnimi, this);
+        dlg.exec();
+        // Vielä itse tuonti
     }
 }
 

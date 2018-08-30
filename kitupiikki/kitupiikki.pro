@@ -166,7 +166,9 @@ SOURCES += main.cpp \
     arkisto/budjettidlg.cpp \
     arkisto/budjettikohdennusproxy.cpp \
     laskutus/laskuryhmamodel.cpp \
-    laskutus/ryhmaasiakasproxy.cpp
+    laskutus/ryhmaasiakasproxy.cpp \
+    laskutus/ryhmantuontidlg.cpp \
+    laskutus/ryhmantuontimodel.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -311,7 +313,9 @@ HEADERS += \
     arkisto/budjettidlg.h \
     arkisto/budjettikohdennusproxy.h \
     laskutus/laskuryhmamodel.h \
-    laskutus/ryhmaasiakasproxy.h
+    laskutus/ryhmaasiakasproxy.h \
+    laskutus/ryhmantuontidlg.h \
+    laskutus/ryhmantuontimodel.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -390,7 +394,8 @@ FORMS += \
     uusikp/kirjausperuste.ui \
     laskutus/yhteystiedot.ui \
     maaritys/inboxmaaritys.ui \
-    arkisto/budjettidlg.ui
+    arkisto/budjettidlg.ui \
+    laskutus/ryhmantuontidlg.ui
 
 DISTFILES += \
     uusikp/luo.sql \

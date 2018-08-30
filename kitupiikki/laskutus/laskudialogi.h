@@ -76,6 +76,7 @@ private slots:
 
     void lisaaAsiakasListalta(const QModelIndex& indeksi);
     void lisaaAsiakas();
+    void tuoAsiakkaitaTiedostosta();
     void poistaValitutAsiakkaat();
 
 private:
