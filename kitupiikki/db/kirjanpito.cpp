@@ -176,8 +176,32 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
 
     // Tehostetaan tietokannan nopeutta määrittelemällä, että tietokanta on vain tämän yhden
     // yhteyden käytössä.
+
     tietokanta()->exec("PRAGMA LOCKING_MODE = EXCLUSIVE");
+
     tietokanta()->exec("PRAGMA JOURNAL_MODE = PERSIST");
+
+    if( tietokanta()->lastError().isValid())
+    {
+        // Tietokanta on jo käytössä
+        if( tietokanta()->lastError().text().contains("locked"))
+        {
+            QMessageBox::critical(nullptr, tr("Tiedostoa %1 ei voi avata").arg(tiedosto),
+                                  tr("Tämä kirjanpitotiedosto on jo käytössä.\n\n"
+                                     "Sulje kaikki Kitupiikki-ohjelman ikkunat ja yritä uudelleen.\n"
+                                     "Ellei tämä auta, käynnistä tietokoneesi uudelleen."));
+        }
+        else
+        {
+            QMessageBox::critical(nullptr, tr("Tiedostoa %1 ei voi avata").arg(tiedosto),
+                              tr("Sql-virhe: %1").arg(tietokanta()->lastError().text()));
+        }
+        tietokanta()->close();
+        asetusModel_->lataa();
+        emit tietokantaVaihtui();
+        return false;
+    }
+
 
     // Ladataankin asetukset yms modelista
     asetusModel_->lataa();
@@ -327,6 +351,8 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
                                  tr("Kirjanpito päivitetty käytössä olevaan versioon."));
 
     }
+    // Lukitaan tietokanta
+    asetusModel_->aseta("Avattu", QDateTime::currentDateTime().toString(Qt::ISODate));
 
     tositelajiModel_->lataa();
     tiliModel_->lataa();
