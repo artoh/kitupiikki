@@ -385,7 +385,7 @@ void LaskuSivu::luoUi()
     nappileiska->addWidget(uusiNappi);
     connect( uusiNappi, &QPushButton::clicked, this, &LaskuSivu::uusiLasku);
 
-    QPushButton *ryhmaNappi = new QPushButton(QIcon(":/pic/uusitiedosto.png"), tr("&Ryhmälasku"));
+    QPushButton *ryhmaNappi = new QPushButton(QIcon(":/pic/dokumentti.png"), tr("&Ryhmälasku"));
     nappileiska->addWidget(ryhmaNappi);
     connect(ryhmaNappi, &QPushButton::clicked, this, &LaskuSivu::ryhmaLasku);
 

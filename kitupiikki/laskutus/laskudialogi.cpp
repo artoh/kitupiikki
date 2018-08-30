@@ -24,6 +24,7 @@
 #include "laskutusverodelegaatti.h"
 #include "laskuryhmamodel.h"
 #include "ryhmantuontidlg.h"
+#include "ryhmantuontimodel.h"
 
 #include "kirjaus/eurodelegaatti.h"
 #include "kirjaus/kohdennusdelegaatti.h"
@@ -609,8 +610,8 @@ void LaskuDialogi::tuoAsiakkaitaTiedostosta()
     if( !tiedostonnimi.isEmpty())
     {
         RyhmanTuontiDlg dlg(tiedostonnimi, this);
-        dlg.exec();
-        // Vielä itse tuonti
+        if( dlg.exec() == QDialog::Accepted )
+            dlg.data()->lisaaLaskuun(model->ryhmaModel());
     }
 }
 

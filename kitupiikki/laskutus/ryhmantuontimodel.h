@@ -19,6 +19,8 @@
 
 #include <QAbstractTableModel>
 
+class LaskuRyhmaModel;
+
 class RyhmanTuontiModel : public QAbstractTableModel
 {
     Q_OBJECT
@@ -42,6 +44,8 @@ public:
 
     int muoto(int sarake) const { return  sarakkeet_.at(sarake);}
     void asetaMuoto(int sarake, int muoto);
+
+    void lisaaLaskuun(LaskuRyhmaModel *model);
 
 protected:
     void arvaaSarakkeet();

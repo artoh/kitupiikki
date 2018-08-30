@@ -33,6 +33,7 @@ class RyhmanTuontiDlg : public QDialog
 public:
     RyhmanTuontiDlg(const QString& tiedostonnimi, QWidget *parent = nullptr);
     ~RyhmanTuontiDlg();
+    RyhmanTuontiModel* data() { return model;}
 
 public slots:
     void vaihdaSarake();

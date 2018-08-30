@@ -16,6 +16,7 @@
 */
 #include "ryhmantuontimodel.h"
 #include "tuonti/csvtuonti.h"
+#include "laskuryhmamodel.h"
 
 #include <QFile>
 
@@ -110,6 +111,66 @@ void RyhmanTuontiModel::asetaMuoto(int sarake, int muoto)
     endResetModel();
 }
 
+void RyhmanTuontiModel::lisaaLaskuun(LaskuRyhmaModel *model)
+{
+    for(int i = onkoOtsikkoRivi() ? 1 : 0; i < csv_.count(); i++)
+    {
+        QString nimi;
+        QString osoite;
+        QString lahiosoite;
+        QString postinumero;
+        QString postiosoite;
+        QString sahkoposti;
+        QString ytunnus;
+
+        for(int c = 0; c < csv_.at(i).count(); c++)
+        {
+            if( sarakkeet_.count() <= c)
+                break;
+
+            const QString& txt = csv_.at(i).at(c);
+
+            switch (sarakkeet_.at(c)) {
+                case NIMI :
+                    if(!nimi.isEmpty())
+                        nimi.append(" ");
+                    nimi.append(txt);
+                    break;
+                case LAHIOSOITE:
+                    lahiosoite = txt;
+                    break;
+                case POSTINUMERO:
+                    postinumero = txt;
+                    break;
+                case POSTIOSOITE:
+                    postiosoite = txt;
+                    break;
+                case SAHKOPOSTI:
+                    sahkoposti = txt;
+                    break;
+                case YTUNNUS:
+                    ytunnus = txt;
+                    break;
+                case OSOITE:
+                    osoite = txt;
+                    osoite.replace(QRegularExpression(R"(,\s*)"),"\n");
+            }
+        }
+        if( osoite.isEmpty())
+        {
+            osoite = lahiosoite + "\n";
+            if( !postinumero.isEmpty())
+                osoite.append(postinumero + " ");
+            osoite.append(postiosoite);
+        }
+
+        osoite = nimi + "\n" + osoite;
+
+        if( !nimi.isEmpty())
+            model->lisaa(nimi, osoite, sahkoposti, ytunnus);
+    }
+}
+
 void RyhmanTuontiModel::arvaaSarakkeet()
 {
     // Ensiksi kokeillaan, josko ensimmäisellä rivillä olisi otsikkoja
@@ -124,6 +185,7 @@ void RyhmanTuontiModel::arvaaSarakkeet()
             {
                 tyyppi = i;
                 otsikkorivi_ = true;
+                loydetty[i] = true;
                 break;
             }
         }
@@ -131,4 +193,70 @@ void RyhmanTuontiModel::arvaaSarakkeet()
 
     }
     // Sitten pitäisi varmaan vielä yrittää muodolla
+
+    QRegularExpression emailRe(R"(\S+@\S+[.]\w+)");
+    QRegularExpression nroRe(R"(^\d{5}$)");
+    QRegularExpression lahiRe(R"(^\S{3,}\s\d.*)");
+    QRegularExpression postiRe(R"(^\d{5}\s\S+.*$)");
+    QRegularExpression osoiteRe(R"(^\S.*,\s?\d{5}\s\S+.*$)");
+    QRegularExpression ytunnusRe(R"(^\d{7}-\d$)");
+
+    for(int c = 0; c < sarakkeet_.count(); c++)
+    {
+        if( sarakkeet_.at(c) > EITUODA)
+            continue;
+
+        QVector<bool> eisovi(YTUNNUS + 1);
+
+        for(int r = onkoOtsikkoRivi() ? 1 : 0; r < csv_.count(); r++)
+        {
+            if( csv_.at(r).count() <= c)
+                continue;
+            eisovi[EITUODA] = true;
+
+            const QString &txt = csv_.at(r).at(c);
+
+            if( txt.isEmpty())
+                continue;
+
+            if(  emailRe.match(txt).hasMatch() )
+                eisovi[NIMI] = true;
+            else
+                eisovi[SAHKOPOSTI] = true;
+
+            if( !nroRe.match(txt).hasMatch())
+                eisovi[POSTINUMERO] = true;
+            if( !lahiRe.match(txt).hasMatch())
+                eisovi[LAHIOSOITE] = true;
+            if( !postiRe.match(txt).hasMatch())
+                eisovi[POSTIOSOITE] = true;
+            if( !osoiteRe.match(txt).hasMatch())
+                eisovi[OSOITE] = true;
+            if( !ytunnusRe.match(txt).hasMatch())
+                eisovi[YTUNNUS] = true;
+        }
+        QVector<bool> kaytetty(YTUNNUS + 1);
+
+        if( eisovi[EITUODA])
+        {
+            for(int v=LAHIOSOITE; v<YTUNNUS+1; v++)
+            {
+                if( !eisovi.at(v))
+                {
+                    if( kaytetty.at(v)  )
+                        continue;
+
+                    sarakkeet_[c] = v;
+                    kaytetty[v] = true;
+                    break;
+                }
+            }
+            if( sarakkeet_.at(c) == EITUODA && !eisovi.at(NIMI) && !kaytetty.at(NIMI))
+            {
+                sarakkeet_[c] = NIMI;
+                kaytetty[NIMI] = true;
+            }
+        }
+    }
 }
+

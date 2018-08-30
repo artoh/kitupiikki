@@ -364,7 +364,6 @@ FORMS += \
     kirjaus/taseeravalintadialogi.ui \
     maaritys/arvonlisavero.ui \
     maaritys/alvilmoitusdialog.ui \
-    laskutus/laskutus.ui \
     laskutus/laskudialogi.ui \
     maaritys/laskumaaritys.ui \
     maaritys/emailmaaritys.ui \
