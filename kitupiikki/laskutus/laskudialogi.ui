@@ -454,6 +454,9 @@ p, li { white-space: pre-wrap; }
               <iconset resource="../pic/pic.qrc">
                <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
              </property>
+             <property name="shortcut">
+              <string>F11</string>
+             </property>
             </widget>
            </item>
            <item>
