@@ -178,7 +178,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="icon">
@@ -400,6 +400,9 @@ p, li { white-space: pre-wrap; }
               <iconset resource="../pic/pic.qrc">
                <normaloff>:/pic/asiakkaat.png</normaloff>:/pic/asiakkaat.png</iconset>
              </property>
+             <property name="shortcut">
+              <string>F9</string>
+             </property>
              <property name="checkable">
               <bool>true</bool>
              </property>
@@ -448,7 +451,7 @@ p, li { white-space: pre-wrap; }
            <item>
             <widget class="QPushButton" name="lisaaRyhmaanNappi">
              <property name="text">
-              <string>Lisää</string>
+              <string>&amp;Lisää</string>
              </property>
              <property name="icon">
               <iconset resource="../pic/pic.qrc">
@@ -462,7 +465,7 @@ p, li { white-space: pre-wrap; }
            <item>
             <widget class="QPushButton" name="tuoRyhmaanNappi">
              <property name="text">
-              <string>Tuo luettelo</string>
+              <string>T&amp;uo luettelo</string>
              </property>
              <property name="icon">
               <iconset resource="../pic/pic.qrc">
@@ -478,6 +481,9 @@ p, li { white-space: pre-wrap; }
              <property name="icon">
               <iconset resource="../pic/pic.qrc">
                <normaloff>:/pic/peru.png</normaloff>:/pic/peru.png</iconset>
+             </property>
+             <property name="shortcut">
+              <string>Del</string>
              </property>
             </widget>
            </item>
