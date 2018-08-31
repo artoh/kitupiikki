@@ -581,7 +581,7 @@ void LaskunTulostaja::erittely(LaskuModel *model, QPagedPaintDevice *printer, QP
     }
 
     // ALV-erittelyn tulostus
-    if( alv && model->tyyppi() != LaskuModel::MAKSUMUISTUTUS)
+    if( alv && model->tyyppi() != LaskuModel::MAKSUMUISTUTUS && model->laskunSumma() > 1e-5)
     {
         painter->translate( 0, rk * 0.5);
         painter->drawLine(QLineF(7*leveys / 16.0, 0, leveys, 0));

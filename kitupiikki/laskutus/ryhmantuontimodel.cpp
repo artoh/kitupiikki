@@ -181,7 +181,7 @@ void RyhmanTuontiModel::arvaaSarakkeet()
         int tyyppi = EITUODA;
         for(int i=0; i<=YTUNNUS; i++)
         {
-            if( !otsikko.compare( otsikkoTeksti(i), Qt::CaseInsensitive ) && !loydetty[i])
+            if( (!otsikko.compare( otsikkoTeksti(i), Qt::CaseInsensitive ) && !loydetty[i]) || (otsikko.contains("nimi", Qt::CaseInsensitive) && i == NIMI))
             {
                 tyyppi = i;
                 otsikkorivi_ = true;

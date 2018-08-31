@@ -214,6 +214,7 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
         ui->esikatseluNappi->setEnabled(false);
         ui->tulostaNappi->setEnabled(false);
         ui->spostiNappi->setEnabled(false);
+        ui->tallennaNappi->setEnabled(false);
 
         connect( ui->ryhmaView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &LaskuDialogi::ryhmaNapit);
         connect( ui->poistaRyhmastaNappi, &QPushButton::clicked, this, &LaskuDialogi::poistaValitutAsiakkaat);
@@ -555,8 +556,6 @@ void LaskuDialogi::ryhmaNapit(const QItemSelection &valinta)
 
 void LaskuDialogi::lisaaAsiakasListalta(const QModelIndex &indeksi)
 {
-    // Tässä testivaiheessa lisätään vain asiakkaan nimi
-
     QSqlQuery kysely;
     QString nimistr = indeksi.data(AsiakkaatModel::NimiRooli).toString();
     nimistr.remove(QRegExp("['\"]"));
@@ -581,6 +580,8 @@ void LaskuDialogi::lisaaAsiakasListalta(const QModelIndex &indeksi)
     }
 
     model->ryhmaModel()->lisaa( nimistr, osoite, email, ytunnus);
+    ui->ryhmaView->resizeColumnsToContents();
+    ui->tallennaNappi->setEnabled( model->ryhmaModel()->rowCount(QModelIndex()) );
 }
 
 void LaskuDialogi::lisaaAsiakas()
@@ -600,6 +601,8 @@ void LaskuDialogi::lisaaAsiakas()
 
         model->ryhmaModel()->lisaa( dui.nimiEdit->text(), dui.osoiteEdit->toPlainText(), dui.spostiEdit->text(),
                                     dui.YtunnusEdit->text());
+        ui->ryhmaView->resizeColumnsToContents();
+        ui->tallennaNappi->setEnabled( model->ryhmaModel()->rowCount(QModelIndex()) );
     }
 }
 
@@ -612,6 +615,9 @@ void LaskuDialogi::tuoAsiakkaitaTiedostosta()
         RyhmanTuontiDlg dlg(tiedostonnimi, this);
         if( dlg.exec() == QDialog::Accepted )
             dlg.data()->lisaaLaskuun(model->ryhmaModel());
+
+        ui->ryhmaView->resizeColumnsToContents();
+        ui->tallennaNappi->setEnabled( model->ryhmaModel()->rowCount(QModelIndex()) );
     }
 }
 
@@ -630,6 +636,7 @@ void LaskuDialogi::poistaValitutAsiakkaat()
         model->ryhmaModel()->poista( indeksit.last() );
         indeksit.removeLast();
     }
+    ui->tallennaNappi->setEnabled( model->ryhmaModel()->rowCount(QModelIndex()) );
 }
 
 void LaskuDialogi::paivitaTuoteluettelonNaytto()
