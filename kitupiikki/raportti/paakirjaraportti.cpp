@@ -44,6 +44,10 @@ PaakirjaRaportti::PaakirjaRaportti()
     ui->ryhmittelelajeittainCheck->hide();
     ui->tulostaviennitCheck->hide();
 
+    connect( ui->alkupvm, &QDateEdit::dateChanged, this, &PaakirjaRaportti::haeTilitComboon);
+    connect( ui->loppupvm, &QDateEdit::dateChanged, this, &PaakirjaRaportti::haeTilitComboon);
+    haeTilitComboon();
+
 }
 
 RaportinKirjoittaja PaakirjaRaportti::raportti()
@@ -51,13 +55,17 @@ RaportinKirjoittaja PaakirjaRaportti::raportti()
     int kohdennuksella = -1;
     if( ui->kohdennusCheck->isChecked())
         kohdennuksella = ui->kohdennusCombo->currentData( KohdennusModel::IdRooli).toInt();
+    int tililta = 0;
+    if( ui->tiliBox->isChecked())
+        tililta = ui->tiliCombo->currentData().toInt();
 
     return kirjoitaRaportti(ui->alkupvm->date(), ui->loppupvm->date(), kohdennuksella,
                             ui->tulostakohdennuksetCheck->isChecked(),
-                            ui->tulostasummat->isChecked());
+                            ui->tulostasummat->isChecked(),
+                            tililta);
 }
 
-RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin, int kohdennuksella, bool tulostakohdennus, bool tulostaSummarivi)
+RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin, int kohdennuksella, bool tulostakohdennus, bool tulostaSummarivi, int tililta)
 {
     RaportinKirjoittaja rk;
 
@@ -66,6 +74,8 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
     if( kohdennuksella > -1 )
         // Tulostetaan vain yhdestä kohdennuksesta
         rk.asetaOtsikko( tr("PÄÄKIRJAN OTE \n%1").arg( kohdennus.nimi()));
+    else if( tililta)
+        rk.asetaOtsikko( tr("PÄÄKIRJAN OTE"));
     else
         rk.asetaOtsikko( "PÄÄKIRJA");
 
@@ -217,7 +227,10 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
     while(iter.hasNext())
     {
         iter.next();
-        Tili tili = kp()->tilit()->tiliYsiluvulla( iter.key() );
+        const Tili& tili = kp()->tilit()->tiliYsiluvulla( iter.key() );
+
+        if( tililta && tili.numero() != tililta)
+            continue;
 
         RaporttiRivi tiliotsikko;
         tiliotsikko.lisaaLinkilla( RaporttiRiviSarake::TILI_LINKKI, tili.numero(),  QString("%1 %2").arg(tili.numero()).arg( tili.nimi()) , 5 + (int) tulostakohdennus );
@@ -301,4 +314,18 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
 
     return rk;
 
+}
+
+void PaakirjaRaportti::haeTilitComboon()
+{
+    QString kysymys = QString(R"(SELECT DISTINCT tili FROM vienti WHERE pvm BETWEEN "%1" AND "%2")").arg(ui->alkupvm->date().toString(Qt::ISODate)).arg(ui->loppupvm->date().toString(Qt::ISODate));
+    QSqlQuery kysely(kysymys);
+    ui->tiliCombo->clear();
+
+    while( kysely.next())
+    {
+        const Tili& tili = kp()->tilit()->tiliIdlla( kysely.value(0).toInt());
+        ui->tiliCombo->addItem( QString("%1 %2").arg(tili.numero()).arg(tili.nimi()), tili.numero() );
+    }
+    ui->tiliCombo->model()->sort(0);
 }

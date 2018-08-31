@@ -34,7 +34,10 @@ public:
 
     static RaportinKirjoittaja kirjoitaRaportti( QDate mista, QDate mihin, int kohdennuksella = -1,
                                                  bool tulostakohdennus = false,
-                                                 bool tulostaSummarivi = true);
+                                                 bool tulostaSummarivi = true,
+                                                 int tililta = 0);
+public slots:
+    void haeTilitComboon();
 protected:
     Ui::Paivakirja *ui;
 };

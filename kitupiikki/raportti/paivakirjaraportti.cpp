@@ -46,6 +46,9 @@ PaivakirjaRaportti::PaivakirjaRaportti()
     ui->kohdennusCombo->setModel( kp()->kohdennukset());
     ui->kohdennusCombo->setModelColumn( KohdennusModel::NIMI);
 
+    ui->tiliBox->hide();
+    ui->tiliCombo->hide();
+
     ui->tulostaviennitCheck->hide();
 }
 
@@ -221,6 +224,7 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
 
     return kirjoittaja;
 }
+
 
 void PaivakirjaRaportti::kirjoitaSummaRivi(RaportinKirjoittaja &rk, qlonglong debet, qlonglong kredit, int sarakeleveys)
 {
