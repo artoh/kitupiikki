@@ -213,7 +213,7 @@ void KitupiikkiIkkuna::uusiSelausIkkuna()
 void KitupiikkiIkkuna::uusiLasku()
 {
     LaskuDialogi *dlg = new LaskuDialogi();
-    dlg->show();
+    dlg->exec();
 }
 
 void KitupiikkiIkkuna::aktivoiSivu(QAction *aktio)

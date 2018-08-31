@@ -221,8 +221,8 @@ void LaskuSivu::uusiLasku()
     LaskuModel *uusi = new LaskuModel();
     if( paaTab_->currentIndex() == ASIAKAS )
         uusi->asetaLaskunsaajannimi( asiakasView_->currentIndex().data(AsiakkaatModel::NimiRooli).toString() );
-    LaskuDialogi *dlg = new LaskuDialogi(uusi);
-    dlg->show();
+    LaskuDialogi* dlg = new LaskuDialogi(uusi);
+    dlg->exec();
 }
 
 void LaskuSivu::uusiAsiakas()
@@ -261,7 +261,7 @@ void LaskuSivu::asiakasLisatty(const QString &nimi)
 void LaskuSivu::hyvityslasku()
 {
     LaskuDialogi *dlg = new LaskuDialogi( LaskuModel::teeHyvityslasku(  laskuView_->currentIndex().data(LaskutModel::VientiIdRooli).toInt() ));
-    dlg->show();
+    dlg->exec();
 }
 
 void LaskuSivu::muokkaaLaskua()
@@ -273,13 +273,13 @@ void LaskuSivu::muokkaaLaskua()
 void LaskuSivu::maksumuistutus()
 {
     LaskuDialogi *dlg = new LaskuDialogi( LaskuModel::teeMaksumuistutus( laskuView_->currentIndex().data(LaskutModel::VientiIdRooli).toInt() ));
-    dlg->show();
+    dlg->exec();
 }
 
 void LaskuSivu::ryhmaLasku()
 {
     auto *dlg = new LaskuDialogi( LaskuModel::ryhmaLasku());
-    dlg->show();
+    dlg->exec();
 }
 
 void LaskuSivu::poistaLasku()
