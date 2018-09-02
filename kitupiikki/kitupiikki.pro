@@ -168,7 +168,8 @@ SOURCES += main.cpp \
     laskutus/laskuryhmamodel.cpp \
     laskutus/ryhmaasiakasproxy.cpp \
     laskutus/ryhmantuontidlg.cpp \
-    laskutus/ryhmantuontimodel.cpp
+    laskutus/ryhmantuontimodel.cpp \
+    laskutus/finvoice.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -315,7 +316,8 @@ HEADERS += \
     laskutus/laskuryhmamodel.h \
     laskutus/ryhmaasiakasproxy.h \
     laskutus/ryhmantuontidlg.h \
-    laskutus/ryhmantuontimodel.h
+    laskutus/ryhmantuontimodel.h \
+    laskutus/finvoice.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

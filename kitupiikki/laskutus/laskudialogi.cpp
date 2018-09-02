@@ -36,6 +36,8 @@
 #include "asiakkaatmodel.h"
 #include "ryhmaasiakasproxy.h"
 
+#include "finvoice.h"
+
 #include "ui_yhteystiedot.h"
 
 #include <QDebug>
@@ -275,6 +277,12 @@ void LaskuDialogi::esikatsele()
     {
         vieMalliin();
         NaytinIkkuna::nayta( tulostaja->pdf() );
+
+        // Tilapäisesti myös tehdään finvoice
+        QFile ulos("/tmp/lasku.xml");
+        ulos.open(QIODevice::Truncate | QIODevice::WriteOnly);
+        ulos.write( Finvoice::lasku( model ) );
+        ulos.close();
     }
 }
 
