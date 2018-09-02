@@ -37,7 +37,10 @@ void JsonKentta::set(const QString &avain, const QString &arvo)
 {
     if( arvo != map_.value(avain).toString())
     {
-        map_[avain] = QVariant(arvo);
+        if( arvo.isEmpty())
+            map_.remove(avain);
+        else
+            map_[avain] = QVariant(arvo);
         muokattu_ = true;
     }
 }

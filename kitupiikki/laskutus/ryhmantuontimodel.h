@@ -26,7 +26,7 @@ class RyhmanTuontiModel : public QAbstractTableModel
     Q_OBJECT
 public:
     enum Sarake {
-        EITUODA, NIMI, LAHIOSOITE, POSTIOSOITE, POSTINUMERO, OSOITE, SAHKOPOSTI, YTUNNUS
+        EITUODA, NIMI, LAHIOSOITE, POSTIOSOITE, POSTINUMERO, OSOITE, SAHKOPOSTI, YTUNNUS, VERKKOOSOITE, VERKKOVALITTAJA
     };
 
     RyhmanTuontiModel(QObject *parent = nullptr);

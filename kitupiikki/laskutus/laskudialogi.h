@@ -45,6 +45,8 @@ public:
     LaskuDialogi(LaskuModel *laskumodel = nullptr);
     ~LaskuDialogi();
 
+    enum Tabs { RIVIT, LISATIEDOT, RYHMAT, VERKKOLASKU};
+
 private slots:
     void paivitaSumma(qlonglong paivitaSumma);
     void esikatsele();
@@ -78,6 +80,8 @@ private slots:
     void lisaaAsiakas();
     void tuoAsiakkaitaTiedostosta();
     void poistaValitutAsiakkaat();
+
+    void verkkolaskuKayttoon();
 
 private:
     /**

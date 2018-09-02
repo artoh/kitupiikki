@@ -33,7 +33,7 @@
 class TallentavaMaaritysWidget : public MaaritysWidget
 {
 public:
-    TallentavaMaaritysWidget();
+    TallentavaMaaritysWidget(QWidget *parent = nullptr);
 
 public:
     bool nollaa() override;

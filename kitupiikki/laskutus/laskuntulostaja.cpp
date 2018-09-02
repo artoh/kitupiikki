@@ -143,6 +143,9 @@ QString LaskunTulostaja::html()
 
     if( !model_->ytunnus().isEmpty())
         txt.append(tr("<tr><td style=\"border-bottom: 1px solid black;\">Asiakkaan Y-tunnus</td><td style=\"border-bottom: 1px solid black;\">%1</td></tr>\n").arg( model_->ytunnus() ));
+    if( !model_->asiakkaanViite().isEmpty())
+        txt.append(tr("<tr><td style=\"border-bottom: 1px solid black;\">Asiakkaan Y-tunnus</td><td style=\"border-bottom: 1px solid black;\">%1</td></tr>\n").arg( model_->asiakkaanViite() ));
+
 
 
     QString lisatieto = model_->lisatieto();
@@ -232,6 +235,8 @@ QString LaskunTulostaja::html()
         txt.append(tr("<tr><td>Y-tunnus </td><td>%1</td></tr>\n").arg(kp()->asetukset()->asetus("Ytunnus")));
     if( kp()->asetukset()->asetus("Puhelin").length())
         txt.append(tr("<tr><td>Puhelin </td><td>%2</td></tr> \n").arg(kp()->asetukset()->asetus("Puhelin")));
+    if( kp()->asetukset()->asetus("Sahkoposti").length())
+        txt.append(tr("<tr><td>Sähköposti </td><td>%2</td></tr> \n").arg(kp()->asetukset()->asetus("Sahkoposti")));
 
     txt.append("</table></body></html>\n");
 
@@ -341,13 +346,13 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter)
     painter->setPen( QPen( QBrush(Qt::black), 0.13));
     painter->drawLine( QLineF(keskiviiva, pv, leveys, pv ));
     painter->drawLine( QLineF(keskiviiva, pv-rk, leveys, pv-rk ));
-    painter->drawLine( QLineF(keskiviiva, pv-rk, keskiviiva, pv+rk*4));
+    painter->drawLine( QLineF(keskiviiva, pv-rk, keskiviiva, pv+rk*5));
     if( !model_->ytunnus().isEmpty())
         painter->drawLine( QLineF(puoliviiva, pv, puoliviiva, pv+rk ));
 
     painter->drawLine( QLineF(keskiviiva, pv+ rk*4, leveys, pv + rk*4));
     painter->drawLine(QLineF(puoliviiva, pv+rk*2, puoliviiva, pv+rk*4));
-    for(int i=1; i<4; i++)
+    for(int i=1; i<6; i++)
         painter->drawLine(QLineF(keskiviiva, pv + i * rk, leveys, pv + i * rk));
 
     painter->setFont( QFont("Sans",OTSAKEPT) );
@@ -379,6 +384,7 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter)
     painter->drawText(QRectF( puoliviiva + mm, pv + rk * 2 + mm, leveys / 4, rk ), Qt::AlignTop, tr("Summa"));
     painter->drawText(QRectF( keskiviiva + mm, pv + rk * 3 + mm, leveys / 4, rk ), Qt::AlignTop, tr("Huomautusaika"));
     painter->drawText(QRectF( puoliviiva + mm, pv + rk * 3 + mm, leveys / 4, rk ), Qt::AlignTop, tr("Viivästyskorko"));
+    painter->drawText(QRectF( keskiviiva + mm, pv + rk * 4 + mm, leveys / 4, rk ), Qt::AlignTop, tr("Asiakkaan viite"));
 
     painter->setFont(QFont("Sans", TEKSTIPT));
 
@@ -430,13 +436,14 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter)
 
     painter->drawText(QRectF( puoliviiva + mm, pv + rk * 2, leveys / 4, rk-mm ), Qt::AlignBottom,  QString("%L1 €").arg( (model_->laskunSumma() / 100.0) ,0,'f',2));
     painter->drawText(QRectF( keskiviiva + mm, pv + rk * 3, leveys / 4, rk-mm ), Qt::AlignBottom,  kp()->asetus("LaskuHuomautusaika") );
+    painter->drawText(QRectF( keskiviiva + mm, pv + rk * 4, leveys / 2, rk-mm ), Qt::AlignBottom,  model_->asiakkaanViite() );
 
     // Kirjoittamista jatkettaan ruudukon jälkeen - taikka ikkunan, jos se on isompi
 
-    if( ikkuna.y() + ikkuna.height() > pv + 4*rk)
+    if( ikkuna.y() + ikkuna.height() > pv + 5*rk)
         painter->translate( 0,  ikkuna.y() + ikkuna.height() + 5 * mm);
     else
-        painter->translate(0, pv + 4*rk + 5 * mm);
+        painter->translate(0, pv + 5*rk + 5 * mm);
 }
 
 void LaskunTulostaja::lisatieto(QPainter *painter, const QString& lisatieto)
@@ -455,12 +462,13 @@ qreal LaskunTulostaja::alatunniste(QPagedPaintDevice *printer, QPainter *painter
     painter->setFont( QFont("Sans",10));
     qreal rk = painter->fontMetrics().height();
     painter->save();
-    painter->translate(0, -1.5 * rk);
+    painter->translate(0, -2.5 * rk);
 
     qreal leveys = painter->window().width();
     double mm = printer->width() * 1.00 / printer->widthMM();
 
     painter->drawText(QRectF(0,0,leveys/3,rk), Qt::AlignLeft, tr("Puh. %1").arg(kp()->asetus("Puhelin")));
+    painter->drawText(QRectF(0,rk,leveys/3,rk), Qt::AlignLeft, tr("Sähköposti %1").arg(kp()->asetus("Sahkoposti")));
     painter->drawText(QRectF(leveys / 3,0,leveys/3,rk), Qt::AlignCenter, tr("IBAN %1").arg( valeilla( iban ) ));
     painter->drawText(QRectF(2 *leveys / 3,0,leveys/3,rk), Qt::AlignRight, tr("Y-tunnus %1").arg(kp()->asetus("Ytunnus")));
     painter->setPen( QPen(QBrush(Qt::black), mm * 0.13));

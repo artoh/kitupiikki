@@ -54,6 +54,7 @@ public:
         ALV,
         LASKUTUS,
         SAHKOPOSTI,
+        VERKKOLASKU,
         TUONTI,
         INBOX,
         RAPORTIT,

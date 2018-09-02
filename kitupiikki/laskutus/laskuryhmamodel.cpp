@@ -86,17 +86,29 @@ QVariant LaskuRyhmaModel::data(const QModelIndex &index, int role) const
         return  ryhma_.at(index.row()).sahkoposti;
     else if( role == YTunnusRooli)
         return  ryhma_.at(index.row()).ytunnus;
+    else if( role == VerkkoLaskuOsoiteRooli)
+        return  ryhma_.at(index.row()).verkkolaskuosoite;
+    else if( role == VerkkoLaskuValittajaRooli)
+        return  ryhma_.at(index.row()).verkkolaskuvalittaja;
 
     else if( role == Qt::DecorationRole && index.column() == SAHKOPOSTI)
     {
         if( ryhma_.at(index.row()).lahetetty)
             return QIcon(":/pic/ok.png");
     }
+    else if( role == Qt::DecorationRole && index.column() == NIMI)
+    {
+        if(ryhma_.at(index.row()).verkkolaskutettu )
+            return QIcon(":/pic/ok.png");
+        if( !ryhma_.at(index.row()).verkkolaskuosoite.isEmpty() &&  !ryhma_.at(index.row()).verkkolaskuvalittaja.isEmpty() )
+            return QIcon(":/pic/verkkolasku.png");
+    }
 
     return {};
 }
 
-void LaskuRyhmaModel::lisaa(const QString &nimi, const QString &osoite, const QString &sahkoposti, const QString& ytunnus)
+void LaskuRyhmaModel::lisaa(const QString &nimi, const QString &osoite, const QString &sahkoposti, const QString& ytunnus,
+                            const QString& verkkolaskuosoite, const QString& verkkolaskuvalittaja)
 {
     beginInsertRows(QModelIndex(), ryhma_.count(), ryhma_.count() );
     Laskutettava uusi;
@@ -104,6 +116,8 @@ void LaskuRyhmaModel::lisaa(const QString &nimi, const QString &osoite, const QS
     uusi.osoite = osoite;
     uusi.sahkoposti = sahkoposti;
     uusi.ytunnus = ytunnus;
+    uusi.verkkolaskuosoite = verkkolaskuosoite;
+    uusi.verkkolaskuvalittaja = verkkolaskuvalittaja;
     ryhma_.append(uusi);
     endInsertRows();
 }

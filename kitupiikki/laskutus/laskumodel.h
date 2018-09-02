@@ -86,7 +86,9 @@ public:
         AlvProsenttiRooli = Qt::UserRole + 6,
         NettoRooli = Qt::UserRole + 7,
         VeroRooli = Qt::UserRole + 8,
-        TuoteKoodiRooli = Qt::UserRole + 9
+        TuoteKoodiRooli = Qt::UserRole + 9,
+        AHintaRooli = Qt::UserRole + 10,
+        BruttoRooli = Qt::UserRole + 11
     };
 
 
@@ -115,6 +117,9 @@ public:
     int kirjausperuste() const { return kirjausperuste_;}
     QString email() const { return email_;}
     QString ytunnus() const { return ytunnus_; }
+    QString verkkolaskuOsoite() const { return verkkolaskuOsoite_;}
+    QString verkkolaskuValittaja() const { return verkkolaskuValittaja_;}
+    QString asiakkaanViite() const { return asiakkaanViite_;}
     /**
      * @brief Hyvityslaskulla hyvitettävä lasku ja maksumuistutuksella muistutettava
      * @return
@@ -149,6 +154,9 @@ public slots:
     void asetaKirjausperuste(int kirjausperuste) { if(kirjausperuste_ != kirjausperuste) muokattu_ = true; kirjausperuste_ = kirjausperuste; }
     void asetaEmail(const QString& osoite) { if(email_ != osoite) muokattu_ = true; email_ = osoite; }
     void asetaYTunnus(const QString& ytunnus) { if(ytunnus != ytunnus) muokattu_ = true;  ytunnus_ = ytunnus; }
+    void asetaAsiakkaanViite(const QString& viite) { if(asiakkaanViite() != viite) muokattu_ = true; asiakkaanViite_ = viite;}
+    void asetaVerkkolaskuOsoite(const QString& osoite) { if(verkkolaskuOsoite() != osoite) muokattu_ = true; verkkolaskuOsoite_ = osoite;}
+    void asetaVerkkolaskuValittaja(const QString& valittaja) { if(verkkolaskuValittaja() != valittaja) muokattu_=true; verkkolaskuValittaja_ = valittaja;}
 
 public:
 
@@ -204,6 +212,9 @@ private:
     int vientiId_ = 0;
     qlonglong avoinSaldo_ = 0;
     bool muokattu_ = false;
+    QString asiakkaanViite_;
+    QString verkkolaskuOsoite_;
+    QString verkkolaskuValittaja_;
 
     LaskuRyhmaModel* ryhma_ = nullptr;
 

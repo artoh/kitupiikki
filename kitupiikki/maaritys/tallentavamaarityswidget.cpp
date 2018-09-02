@@ -18,8 +18,10 @@
 #include "db/kirjanpito.h"
 
 #include <QLineEdit>
+#include <QCheckBox>
 
-TallentavaMaaritysWidget::TallentavaMaaritysWidget()
+TallentavaMaaritysWidget::TallentavaMaaritysWidget(QWidget *parent)
+    : MaaritysWidget (parent)
 {
 
 }
@@ -33,6 +35,12 @@ bool TallentavaMaaritysWidget::nollaa()
         if( edit )
         {
             edit->setText( kp()->asetukset()->asetus(asetustunnus) );
+            continue;
+        }
+        QCheckBox *box = qobject_cast<QCheckBox*>(widget);
+        if( box )
+        {
+            box->setChecked( kp()->asetukset()->onko(asetustunnus));
             continue;
         }
     }
@@ -50,6 +58,10 @@ bool TallentavaMaaritysWidget::tallenna()
             kp()->asetukset()->aseta(asetustunnus, edit->text());
             continue;
         }
+
+        QCheckBox *box = qobject_cast<QCheckBox*>(widget);
+        if( box )
+            kp()->asetukset()->aseta(asetustunnus, box->isChecked());
     }
     return true;
 }
@@ -63,6 +75,12 @@ bool TallentavaMaaritysWidget::onkoMuokattu()
         if( edit )
             if( kp()->asetukset()->asetus(asetustunnus) != edit->text())
                 return true;
+
+        QCheckBox *box = qobject_cast<QCheckBox*>(widget);
+        if( box )
+            if( kp()->asetukset()->onko(asetustunnus) != box->isChecked())
+                return true;
+
     }
     return false;
 }
@@ -80,4 +98,9 @@ void TallentavaMaaritysWidget::rekisteroi(QWidget *widget, const QString &asetus
     QLineEdit *edit = qobject_cast<QLineEdit*>(widget);
     if( edit )
         connect(edit, &QLineEdit::textChanged, this, &TallentavaMaaritysWidget::ilmoitaMuokattu);
+
+    QCheckBox *box = qobject_cast<QCheckBox*>(widget);
+    if( box )
+        connect(box, &QCheckBox::stateChanged, this, &TallentavaMaaritysWidget::ilmoitaMuokattu);
+
 }

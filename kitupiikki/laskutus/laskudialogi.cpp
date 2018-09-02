@@ -138,6 +138,10 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     connect( ui->asiakasLista, &QListView::clicked, this, &LaskuDialogi::lisaaAsiakasListalta);
     connect( ui->lisaaRyhmaanNappi, &QPushButton::clicked, this, &LaskuDialogi::lisaaAsiakas);
 
+    connect( ui->ytunnus, &QLineEdit::textChanged, [this](const QString& tunnus) { QString osoite = QString("0037%1").arg(tunnus); osoite.remove('-'); this->ui->verkkoOsoiteEdit->setText(osoite); });
+    connect( ui->verkkoOsoiteEdit, &QLineEdit::textChanged, this, &LaskuDialogi::verkkolaskuKayttoon);
+    connect( ui->verkkoValittajaEdit, &QLineEdit::textChanged, this, &LaskuDialogi::verkkolaskuKayttoon);
+
     ui->rivitView->horizontalHeader()->setSectionResizeMode(LaskuModel::NIMIKE, QHeaderView::Stretch);
     ui->tuotelistaView->horizontalHeader()->setSectionResizeMode(TuoteModel::NIMIKE, QHeaderView::Stretch);
     ui->ryhmaView->horizontalHeader()->setStretchLastSection(true);
@@ -161,6 +165,9 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     ui->toimitusDate->setDate( model->toimituspaiva());
     ui->perusteCombo->setCurrentIndex( ui->perusteCombo->findData( model->kirjausperuste() ));
     ui->lisatietoEdit->setPlainText( model->lisatieto() );
+    ui->asViiteEdit->setText( model->asiakkaanViite());
+    ui->verkkoOsoiteEdit->setText( model->verkkolaskuOsoite());
+    ui->verkkoValittajaEdit->setText( model->verkkolaskuValittaja());
 
 
     if( model->tyyppi() == LaskuModel::HYVITYSLASKU)
@@ -169,12 +176,14 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
         ui->toimituspvmLabel->setText( tr("Hyvityspvm"));
         ui->rahaTiliEdit->valitseTiliIdlla( model->viittausLasku().tiliid );
         ui->rahaTiliEdit->setEnabled(false);
+        ui->verkkolaskuNappi->setVisible(false);
     }
     else if( model->tyyppi() == LaskuModel::MAKSUMUISTUTUS)
     {
         setWindowTitle( tr("Maksumuistutus"));
         ui->rahaTiliEdit->valitseTiliIdlla( model->viittausLasku().tiliid );
         ui->rahaTiliEdit->setEnabled(false);
+        ui->verkkolaskuNappi->setVisible(false);
 
     }
     else if( model->tyyppi() == LaskuModel::LASKU || model->tyyppi() == LaskuModel::RYHMALASKU)
@@ -183,10 +192,13 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
         perusteVaihtuu();
 
         ui->eraDate->setDate( kp()->paivamaara().addDays( kp()->asetukset()->luku("LaskuMaksuaika")));
+        ui->verkkolaskuNappi->setVisible( kp()->asetukset()->onko("VerkkolaskuKaytossa") );
     }
 
     if( model->tyyppi() == LaskuModel::RYHMALASKU)
     {
+        ui->tabWidget->removeTab(VERKKOLASKU);
+
         setWindowTitle("Ryhmän laskutus");
 
         ryhmaProxy_ = new QSortFilterProxyModel(this);
@@ -225,8 +237,12 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     }
     else
     {
-        ui->tabWidget->removeTab(2);
+        ui->tabWidget->removeTab(RYHMAT);
+        if( !kp()->asetukset()->onko("VerkkolaskuKaytossa"))
+            ui->tabWidget->removeTab(VERKKOLASKU);
+
     }
+
 
     paivitaTuoteluettelonNaytto();
     paivitaSumma( model->laskunSumma() );
@@ -354,6 +370,9 @@ void LaskuDialogi::vieMalliin()
     model->asetaToimituspaiva(ui->toimitusDate->date());
     model->asetaLaskunsaajannimi(ui->saajaEdit->text());
     model->asetaKirjausperuste(ui->perusteCombo->currentData().toInt());
+    model->asetaAsiakkaanViite(ui->asViiteEdit->text());
+    model->asetaVerkkolaskuOsoite(ui->verkkoOsoiteEdit->text());
+    model->asetaVerkkolaskuValittaja(ui->verkkoValittajaEdit->text());
 
     if( ui->ytunnus->hasAcceptableInput())
         model->asetaYTunnus( ui->ytunnus->text());
@@ -645,6 +664,11 @@ void LaskuDialogi::poistaValitutAsiakkaat()
         indeksit.removeLast();
     }
     ui->tallennaNappi->setEnabled( model->ryhmaModel()->rowCount(QModelIndex()) );
+}
+
+void LaskuDialogi::verkkolaskuKayttoon()
+{
+    ui->verkkolaskuNappi->setEnabled( !ui->verkkoOsoiteEdit->text().isEmpty() && !ui->verkkoValittajaEdit->text().isEmpty() );
 }
 
 void LaskuDialogi::paivitaTuoteluettelonNaytto()

@@ -213,6 +213,13 @@ bool UusiKirjanpito::alustaKirjanpito()
         asetukset.aseta("Ytunnus", field("ytunnus").toString());
         asetukset.aseta("Harjoitus", field("harjoitus").toBool());
 
+        if( asetukset.onko("Ytunnus"))
+        {
+            QString verkkolaskuosoite = QString("0037%1").arg(asetukset.asetus("Ytunnus"));
+            verkkolaskuosoite.remove('-');
+            asetukset.aseta("VerkkolaskuOsoite", verkkolaskuosoite);
+        }
+
         // Valittu muoto
         if( field("muoto").toString() != "-")
             asetukset.aseta("Muoto", field("muoto").toString());

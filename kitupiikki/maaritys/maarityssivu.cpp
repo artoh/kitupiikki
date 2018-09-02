@@ -38,6 +38,7 @@
 #include "tuontimaarityswidget.h"
 #include "tilikarttaohje.h"
 #include "inboxmaaritys.h"
+#include "finvoicemaaritys.h"
 
 #include "ktpvienti/ktpvienti.h"
 
@@ -59,6 +60,7 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu("Arvonlisävero", ALV, QIcon(":/pic/vero.png"));
     lisaaSivu("Laskutus", LASKUTUS, QIcon(":/pic/lasku.png"));
     lisaaSivu("Sähköpostin lähetys", SAHKOPOSTI, QIcon(":/pic/email.png"));
+    lisaaSivu("Verkkolasku", VERKKOLASKU, QIcon(":/pic/verkkolasku.png"));
     lisaaSivu("Tuonti", TUONTI, QIcon(":/pic/tuotiedosto.png"));
     lisaaSivu("Kirjattavien kansio", INBOX, QIcon(":/pic/inbox.png"));
     lisaaSivu("Raportit", RAPORTIT, QIcon(":/pic/print.png"));
@@ -216,6 +218,8 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         nykyinen = new TilikarttaOhje;
     else if(sivu == INBOX)
         nykyinen = new InboxMaaritys;
+    else if( sivu == VERKKOLASKU)
+        nykyinen = new FinvoiceMaaritys;
     else
         nykyinen = new Perusvalinnat;   // Tilipäinen
 

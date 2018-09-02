@@ -49,6 +49,7 @@ Perusvalinnat::Perusvalinnat() :
     connect( ui->paivitysCheck, SIGNAL(clicked(bool)), this, SLOT(ilmoitaMuokattu()));
     connect( ui->muotoCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(ilmoitaMuokattu()));
     connect( ui->logossaNimiBox, SIGNAL(toggled(bool)), this, SLOT(ilmoitaMuokattu()));
+    connect( ui->sahkopostiEdit, &QLineEdit::textChanged, this, &Perusvalinnat::ilmoitaMuokattu);
 
     connect( ui->hakemistoNappi, SIGNAL(clicked(bool)), this, SLOT(avaaHakemisto()));
     connect( ui->avaaArkistoNappi, &QPushButton::clicked, [] { kp()->avaaUrl( kp()->arkistopolku() ); } );
@@ -71,6 +72,7 @@ bool Perusvalinnat::nollaa()
     ui->kotipaikkaEdit->setText( kp()->asetukset()->asetus("Kotipaikka"));
     ui->puhelinEdit->setText( kp()->asetus("Puhelin"));
     ui->logossaNimiBox->setChecked( kp()->asetukset()->onko("LogossaNimi") );
+    ui->sahkopostiEdit->setText( kp()->asetukset()->asetus("Sahkoposti"));
 
     // Haetaan muodot
 
@@ -145,6 +147,7 @@ bool Perusvalinnat::onkoMuokattu()
             ui->osoiteEdit->toPlainText() != kp()->asetukset()->asetus("Osoite") ||
             ui->kotipaikkaEdit->text() != kp()->asetukset()->asetus("Kotipaikka") ||
             ui->puhelinEdit->text() != kp()->asetukset()->asetus("Puhelin") ||
+            ui->sahkopostiEdit->text() != kp()->asetukset()->asetus("Sahkoposti") ||
             ui->paivitysCheck->isChecked() != asetukset.value("NaytaPaivitykset",true).toBool() ||
             ui->logossaNimiBox->isChecked() != kp()->asetukset()->onko("LogossaNimi") ||
             ( ui->muotoCombo->currentText() != kp()->asetukset()->asetus("Muoto"));
@@ -162,6 +165,7 @@ bool Perusvalinnat::tallenna()
     kp()->asetukset()->aseta("Osoite", ui->osoiteEdit->toPlainText());
     kp()->asetukset()->aseta("Kotipaikka", ui->kotipaikkaEdit->text());
     kp()->asetukset()->aseta("Puhelin", ui->puhelinEdit->text());
+    kp()->asetukset()->aseta("Sahkoposti", ui->sahkopostiEdit->text());
     kp()->asetukset()->aseta("LogossaNimi", ui->logossaNimiBox->isChecked());
 
     if( !uusilogo.isNull())

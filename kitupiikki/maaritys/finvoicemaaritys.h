@@ -14,45 +14,30 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef YHTEYSTIETOWIDGET_H
-#define YHTEYSTIETOWIDGET_H
+#ifndef FINVOICEMAARITYS_H
+#define FINVOICEMAARITYS_H
 
-#include <QWidget>
+#include "tallentavamaarityswidget.h"
 
 namespace Ui {
-   class Yhteystiedot;
+    class VerkkolaskuMaaritys;
 }
 
-/**
- * @brief Asiakkaan yhteystietojen hallinta laskusivulla
- */
-class YhteystietoWidget : public QWidget
+
+class FinvoiceMaaritys : public TallentavaMaaritysWidget
 {
     Q_OBJECT
 public:
-    explicit YhteystietoWidget(QWidget *parent = nullptr);
-    ~YhteystietoWidget();
+    FinvoiceMaaritys(QWidget *parent = nullptr);
+    ~FinvoiceMaaritys() override;
 
-signals:
-    void uusiAsiakas(const QString& nimi);
+    bool tallenna() override;
 
 public slots:
-    void haeTiedot(const QString& nimi = QString());
-    void taydennaOsoite();
-    void tallenna();
-    void muokattu();
-    void nollaa();
+    void valitseKansio();
 
 private:
-    Ui::Yhteystiedot* ui_;
-
-    QString nimi_;
-    QString osoite_;
-    QString sahkoposti_;
-    QString ytunnus_;
-    QString verkkolaskuosoite_;
-    QString verkkolaskuvalittaja_;
-
+    Ui::VerkkolaskuMaaritys *ui_;
 };
 
-#endif // YHTEYSTIETOWIDGET_H
+#endif // FINVOICEMAARITYS_H

@@ -77,6 +77,8 @@ QString RyhmanTuontiModel::otsikkoTeksti(int sarakeEnum)
         case OSOITE: return tr("Osoite");
         case SAHKOPOSTI: return tr("Sähköposti");
         case YTUNNUS: return tr("Y-tunnus");
+        case VERKKOOSOITE: return tr("Verkkolaskuosoite");
+        case VERKKOVALITTAJA: return tr("Verkkolaskuvälittäjä");
     default:
         return {};
     }
@@ -122,6 +124,8 @@ void RyhmanTuontiModel::lisaaLaskuun(LaskuRyhmaModel *model)
         QString postiosoite;
         QString sahkoposti;
         QString ytunnus;
+        QString verkkolaskuosoite;
+        QString verkkolaskuvalittaja;
 
         for(int c = 0; c < csv_.at(i).count(); c++)
         {
@@ -154,6 +158,13 @@ void RyhmanTuontiModel::lisaaLaskuun(LaskuRyhmaModel *model)
                 case OSOITE:
                     osoite = txt;
                     osoite.replace(QRegularExpression(R"(,\s*)"),"\n");
+                    break;
+                case VERKKOOSOITE:
+                    verkkolaskuosoite = txt;
+                    break;
+                case VERKKOVALITTAJA:
+                    verkkolaskuvalittaja = txt;
+
             }
         }
         if( osoite.isEmpty())

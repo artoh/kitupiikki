@@ -64,6 +64,8 @@ void YhteystietoWidget::haeTiedot(const QString &nimi)
                 osoite_ = json.str("Osoite");
             sahkoposti_ = json.str("Email");
             ytunnus_ = json.str("YTunnus");
+            verkkolaskuosoite_ = json.str("VerkkolaskuOsoite");
+            verkkolaskuvalittaja_ = json.str("VerkkolaskuValittaja");
         }
     }
 
@@ -83,6 +85,8 @@ void YhteystietoWidget::tallenna()
     osoite_ = ui_->osoiteEdit->toPlainText();
     sahkoposti_ = ui_->spostiEdit->text();
     ytunnus_ = ui_->YtunnusEdit->text();
+    verkkolaskuosoite_ = ui_->verkkolaskuOsoite->text();
+    verkkolaskuvalittaja_ = ui_->valittajaTunnus->text();
 
     JsonKentta json;
     if( !osoite_.isEmpty())
@@ -91,6 +95,11 @@ void YhteystietoWidget::tallenna()
         json.set("Email", sahkoposti_);
     if( !ytunnus_.isEmpty())
         json.set("YTunnus", ytunnus_);
+    if( !verkkolaskuosoite_.isEmpty())
+        json.set("VerkkolaskuOsoite", verkkolaskuosoite_);
+    if( !verkkolaskuvalittaja_.isEmpty())
+        json.set("VerkkolaskuValittaja", verkkolaskuvalittaja_);
+
 
     QSqlQuery kysely;
     kysely.prepare("INSERT INTO vienti (vientirivi, asiakas, json, luotu, muokattu) "
@@ -124,6 +133,8 @@ void YhteystietoWidget::nollaa()
     ui_->osoiteEdit->setPlainText(osoite_);
     ui_->spostiEdit->setText(sahkoposti_);
     ui_->YtunnusEdit->setText(ytunnus_);
+    ui_->verkkolaskuOsoite->setText( verkkolaskuosoite_);
+    ui_->valittajaTunnus->setText( verkkolaskuvalittaja_);
 
     ui_->tallennaNappi->setEnabled(false);
 }

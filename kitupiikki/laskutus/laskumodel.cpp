@@ -116,6 +116,9 @@ LaskuModel *LaskuModel::haeLasku(int vientiId)
     model->asetaEmail( lasku.json.str("Email"));
     model->asetaYTunnus( lasku.json.str("YTunnus"));
     model->asetaToimituspaiva( lasku.json.date("Toimituspvm"));
+    model->asetaAsiakkaanViite( lasku.json.str("AsiakkaanViite"));
+    model->asetaVerkkolaskuOsoite( lasku.json.str("VerkkolaskuOsoite"));
+    model->asetaVerkkolaskuValittaja( lasku.json.str("VerkkolaskuValittaja"));
     model->tositeId_ = lasku.tosite;
     model->vientiId_ = lasku.vientiId;
     model->laskunNumero_ = lasku.viite.toULongLong();
@@ -298,6 +301,10 @@ QVariant LaskuModel::data(const QModelIndex &index, int role) const
         return rivi.alvKoodi;
     else if( role == AlvProsenttiRooli)
         return rivi.alvProsentti;
+    else if( role == AHintaRooli)
+        return  rivi.ahintaSnt;
+    else if( role == BruttoRooli)
+        return rivi.yhteensaSnt();
     else if( role == NettoRooli)
     {
         return rivi.maara * rivi.ahintaSnt;
@@ -484,6 +491,8 @@ void LaskuModel::haeRyhmasta(int indeksi)
     email_ = ind.data(LaskuRyhmaModel::SahkopostiRooli).toString();
     laskunNumero_ = ind.data(LaskuRyhmaModel::ViiteRooli).toULongLong();
     ytunnus_ = ind.data(LaskuRyhmaModel::YTunnusRooli).toString();
+    verkkolaskuOsoite_ = ind.data(LaskuRyhmaModel::VerkkoLaskuOsoiteRooli).toString();
+    verkkolaskuValittaja_ = ind.data(LaskuRyhmaModel::VerkkoLaskuValittajaRooli).toString();
 }
 
 bool LaskuModel::tallenna(Tili rahatili)
@@ -748,8 +757,11 @@ bool LaskuModel::tallenna(Tili rahatili)
     raharivi.json.setVar("Laskurivit", rivitTalteen);
     raharivi.json.set("Kirjausperuste", kirjausperuste());
     raharivi.json.set("Liite", liitenro);
-    if( !ytunnus().isEmpty() )
-        raharivi.json.set("YTunnus", ytunnus());
+    raharivi.json.set("YTunnus", ytunnus());
+    raharivi.json.set("AsiakkaanViite", asiakkaanViite());
+    raharivi.json.set("VerkkolaskuOsoite", verkkolaskuOsoite());
+    raharivi.json.set("VerkkolaskuValittaja", verkkolaskuValittaja());
+
 
     viennit->lisaaVienti(raharivi);
     if( !tosite.tallenna() )

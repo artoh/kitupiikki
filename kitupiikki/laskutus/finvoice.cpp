@@ -34,16 +34,16 @@ QByteArray Finvoice::lasku(LaskuModel *model)
 {
     QByteArray soapArray;
 
-    QString lahettajanVerkkolasku = "1234567890";
-    QString lahettajanValittaja = "HELSFIHH";
-    QString vastaanottajanVerkkolasku = "0987654321";
-    QString vastaanottajanValittaja = "BANKFIHH";
+    QString lahettajanVerkkolasku = kp()->asetukset()->asetus("VerkkolaskuOsoite");
+    QString lahettajanValittaja = kp()->asetukset()->asetus("VerkkolaskuValittaja");
+    QString vastaanottajanVerkkolasku = model->verkkolaskuOsoite();
+    QString vastaanottajanValittaja =  model->verkkolaskuValittaja();
     QString aikaleima = QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss");
     QString alvtunnus = QString("FI%1").arg(kp()->asetukset()->asetus("Ytunnus"));
     alvtunnus.remove('-');
     QString iban = kp()->tilit()->tiliNumerolla( kp()->asetukset()->luku("LaskuTili")).json()->str("IBAN");
 
-    if( false )  // Kirjoita SOAP
+    if( kp()->asetukset()->onko("VerkkolaskuSOAP") )  // Kirjoita SOAP
     {
         QTextStream out(&soapArray);
         out << R"(<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:eb="http://www.oasis-open.org/committees/ebxml-msg/schema/msg-header-2_0.xsd">)" << "\n";
@@ -129,18 +129,25 @@ QByteArray Finvoice::lasku(LaskuModel *model)
     writer.writeTextElement("SellerTownName", myyjanOsoite.postitoimipaikka);
     writer.writeTextElement("SellerPostCodeIdentifier", myyjanOsoite.postinumero);
     writer.writeTextElement("CountryCode", myyjanOsoite.maakoodi);
-    writer.writeEndElement();
+    writer.writeEndElement();    
+
     writer.writeEndElement();
 
     writer.writeStartElement("SellerInformationDetails");
+
+    if( kp()->asetukset()->onko("Sahkoposti"))
+        writer.writeTextElement("SellerCommonEmailaddressIdentifier", kp()->asetukset()->asetus("Sahkoposti"));
+    if( kp()->asetukset()->onko("Puhelin"))
+        writer.writeTextElement("SellerPhoneNumber", kp()->asetukset()->asetus("Puhelin"));
+
     writer.writeStartElement("SellerAccountDetails");
 
     writer.writeStartElement("SellerAccountID");
-    writer.writeAttribute("IdenticationsSchemeName","IBAN");
+    writer.writeAttribute("IdentificationsSchemeName","IBAN");
     writer.writeCharacters(iban );
     writer.writeEndElement();
     writer.writeStartElement("SellerBic");
-    writer.writeAttribute("IdenticationsSchemeName", "BIC");
+    writer.writeAttribute("IdentificationsSchemeName", "BIC");
     writer.writeCharacters( LaskutModel::bicIbanilla(iban) );
     writer.writeEndElement();
 
@@ -150,16 +157,16 @@ QByteArray Finvoice::lasku(LaskuModel *model)
     writer.writeStartElement("BuyerPartyDetails");
     writer.writeTextElement("ByerPartyIdentifier", model->ytunnus());
     writer.writeTextElement("BuyerOrganisationName", model->laskunsaajanNimi());
-
+/* Toistaiseksi kommentoitu ulos - otetaan käyttöön kun käänteinen verovelvollisuus
     QString asiakasVeroKoodi = QString("FI%1").arg(model->ytunnus());
     asiakasVeroKoodi.remove('-');
     writer.writeTextElement("BuyerOrganisationTaxCode", asiakasVeroKoodi);
-
+*/
     writer.writeStartElement("BuyerPostalAddressDetails");
     HajoitettuOsoite asiakkaanOsoite = hajoitaOsoite( model->osoite());
     writer.writeTextElement("BuyerStreetName", asiakkaanOsoite.lahiosoite);
     writer.writeTextElement("BuyerTownName", asiakkaanOsoite.postitoimipaikka);
-    writer.writeTextElement("BuyerPostalIdentifier", asiakkaanOsoite.postinumero);
+    writer.writeTextElement("BuyerPostCodeIdentifier", asiakkaanOsoite.postinumero);
     writer.writeTextElement("CountryCode", asiakkaanOsoite.maakoodi);
     writer.writeEndElement();
     writer.writeEndElement();
@@ -171,12 +178,14 @@ QByteArray Finvoice::lasku(LaskuModel *model)
     writer.writeEndElement();
     writer.writeEndElement();
 
-    writer.writeStartElement("InvoceDetails");
+    writer.writeStartElement("InvoiceDetails");
     writer.writeTextElement("InvoiceTypeCode","INV01");
     writer.writeTextElement("InvoiceTypeText","LASKU");
     writer.writeTextElement("OriginCode","Original");
     writer.writeTextElement("InvoiceNumber", QString::number(model->laskunro()));
     writer.writeStartElement("InvoiceDate");
+    if( !model->asiakkaanViite().isEmpty())
+        writer.writeTextElement("BuyerReferenceIdentifier", model->asiakkaanViite());
     writer.writeAttribute("Format","CCYYMMDD");
     writer.writeCharacters( QDate::currentDate().toString("yyyyMMdd") );
     writer.writeEndElement();
@@ -226,7 +235,7 @@ QByteArray Finvoice::lasku(LaskuModel *model)
         writer.writeCharacters( QString("%L1").arg( iter.value().netto / 100.0 , 0, 'f', 2) );
         writer.writeEndElement();
 
-        writer.writeTextElement("VatRatePercent", QString("%1,0").arg(iter.key()) );
+        writer.writeTextElement("VatRatePercent", QString("%1").arg(iter.key()) );
 
         writer.writeStartElement("VatRateAmount");
         writer.writeAttribute("AmountCurrencyIdentifier","EUR");
@@ -252,14 +261,24 @@ QByteArray Finvoice::lasku(LaskuModel *model)
         writer.writeEndElement();
     }
     writer.writeEndElement();
+    writer.writeEndElement();   // InvoiceDetails
 
     // Laskun rivit
     for(int i=0; i < model->rowCount(QModelIndex()); i++)
     {
         QModelIndex indeksi = model->index(i,0);
+        if( !indeksi.data(LaskuModel::NettoRooli).toLongLong() )
+            continue;
+
         writer.writeStartElement("InvoiceRow");
 
         writer.writeTextElement("ArticleName", indeksi.data(LaskuModel::NimikeRooli).toString() );
+
+        writer.writeStartElement("OrderedQuantity");
+        writer.writeAttribute("QuantityUnitCode", indeksi.sibling(i, LaskuModel::YKSIKKO).data().toString());
+        writer.writeCharacters( indeksi.sibling(i, LaskuModel::MAARA).data().toString() );
+        writer.writeEndElement();
+
         writer.writeStartElement("InvoicedQuantity");
         writer.writeAttribute("QuantityUnitCode", indeksi.sibling(i, LaskuModel::YKSIKKO).data().toString());
         writer.writeCharacters( indeksi.sibling(i, LaskuModel::MAARA).data().toString() );
@@ -267,14 +286,14 @@ QByteArray Finvoice::lasku(LaskuModel *model)
 
         writer.writeStartElement("UnitPriceAmount");
         writer.writeAttribute("AmountCurrencyIdentifier","EUR");
-        writer.writeCharacters( indeksi.sibling(i, LaskuModel::AHINTA).data().toString() );
+        writer.writeCharacters( QString("%L1").arg( indeksi.data(LaskuModel::AHintaRooli).toLongLong() / 100.0 , 0, 'f', 2));
         writer.writeEndElement();
 
 
         double verosnt = model->data( model->index(i, LaskuModel::NIMIKE), LaskuModel::VeroRooli ).toDouble();
 
         writer.writeTextElement("RowPositionIdentifier", QString::number( i + 1));
-        writer.writeTextElement("RowVatRatePercent",  QString("%1,0").arg(indeksi.data(LaskuModel::AlvProsenttiRooli).toInt()));
+        writer.writeTextElement("RowVatRatePercent",  QString("%1").arg(indeksi.data(LaskuModel::AlvProsenttiRooli).toInt()));
 
         writer.writeStartElement("RowVatAmount");
         writer.writeAttribute("AmountCurrencyIdentifier","EUR");
@@ -283,7 +302,7 @@ QByteArray Finvoice::lasku(LaskuModel *model)
 
         writer.writeStartElement("RowVatExcludedAmount");
         writer.writeAttribute("AmountCurrencyIdentifier","EUR");
-        writer.writeCharacters( indeksi.sibling(i, LaskuModel::BRUTTOSUMMA).data().toString() );
+        writer.writeCharacters( QString("%L1").arg( indeksi.data(LaskuModel::BruttoRooli).toLongLong() / 100.0 , 0, 'f', 2));
         writer.writeEndElement();
 
         writer.writeEndElement();
@@ -303,7 +322,7 @@ QByteArray Finvoice::lasku(LaskuModel *model)
     writer.writeStartElement("EpiPartyDetails");
     writer.writeStartElement("EpiBfiPartyDetails");
     writer.writeStartElement("EpiBfiIdentifier");
-    writer.writeAttribute("IdenticationsSchemeName", "BIC");
+    writer.writeAttribute("IdentificationsSchemeName", "BIC");
     writer.writeCharacters( LaskutModel::bicIbanilla(iban) );
     writer.writeEndElement();
     writer.writeEndElement();
@@ -312,16 +331,14 @@ QByteArray Finvoice::lasku(LaskuModel *model)
     writer.writeTextElement("EpiNameAddressDetails", kp()->asetukset()->asetus("Nimi"));
     writer.writeTextElement("EpiBei", alvtunnus.mid(2));
     writer.writeStartElement("EpiAccountID");
-    writer.writeAttribute("IdenticationsSchemeName","IBAN");
+    writer.writeAttribute("IdentificationsSchemeName","IBAN");
     writer.writeCharacters(iban );
     writer.writeEndElement();
-
     writer.writeEndElement();
 
-    writer.writeStartElement("EpiPaymentInstructionDetails");
-
+    writer.writeStartElement("EpiPaymentInstructionDetails");                              
     writer.writeStartElement("EpiRemittanceInfoIdentifier");
-    writer.writeAttribute("IdenticationsSchemeName", "SPY");
+    writer.writeAttribute("IdentificationsSchemeName", "SPY");
     writer.writeCharacters( QString::number( model->laskunro() ));
     writer.writeEndElement();
 
