@@ -60,6 +60,8 @@ public slots:
 
 private:
     Ui::TilikausiMaaritykset *ui;
+
+    bool teeZip(const Tilikausi& kausi);
 };
 
 #endif // ARKISTO_H

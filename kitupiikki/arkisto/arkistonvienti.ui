@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>495</width>
-    <height>300</height>
+    <width>601</width>
+    <height>456</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Arkiston vienti</string>
@@ -39,8 +45,30 @@
      <property name="text">
       <string>Arkisto tallennetaan käyttövalmiina haluamaasi hakemistoon. Helppo siirtää esimerkiksi USB-muistilla.
 
-Hakemistoon kopioidaan lukuisia tiedostoja, joten arkistoa varten on suositeltavaa tehdä uusi hakemisto.
-</string>
+Hakemistoon kopioidaan lukuisia tiedostoja, joten arkistoa varten on suositeltavaa tehdä uusi hakemisto.</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QRadioButton" name="zipButton">
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Vie zip-tiedostona</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Arkistosta muodostetaan yksi zip-muotoinen paketti, joka on helppo arkistoida tai välittää edelleen. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -57,16 +85,6 @@ Hakemistoon kopioidaan lukuisia tiedostoja, joten arkistoa varten on suositeltav
      </property>
      <property name="text">
       <string>Vie tar-tiedostona</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Arkistosta muodostetaan yksi tar-muotoinen paketti, joka on helppo arkistoida tai välittää edelleen. Tiedoston avaamiseen tarvitaan Windows-koneilla erillinen purkuohjelma.</string>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
      </property>
     </widget>
    </item>

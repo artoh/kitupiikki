@@ -70,20 +70,23 @@ bool Finvoice::muodostaFinvoice(LaskuModel *model)
     zip_source_t* puskuri = zip_source_buffer_create( ba.data(), static_cast<zip_uint16_t>( ba.length() ), 0,  &virhe);
     if( !puskuri)
         return false;
-    if( zip_file_add(paketti, hakemisto.absoluteFilePath(QString("lasku-%1.xml").arg(model->laskunro())).toStdString().c_str(),
-                     puskuri, 1) < 0)
+    if( zip_file_add(paketti, QString("lasku-%1.xml").arg(model->laskunro()).toStdString().c_str(),
+                     puskuri, 0) < 0)
         return false;
+//    zip_source_free(puskuri);
 
 
     LaskunTulostaja tulostaja(model);
     QByteArray pdfba = tulostaja.pdf();
 
     zip_source_t* pdfPuskuri = zip_source_buffer_create( pdfba.data(), static_cast<zip_uint16_t>( pdfba.length() ), 0,  &virhe);
-    if( !puskuri)
+    if( !pdfPuskuri)
         return false;
-    if( zip_file_add(paketti, hakemisto.absoluteFilePath(QString("lasku-%1.pdf").arg(model->laskunro())).toStdString().c_str(),
-                     pdfPuskuri, 2) < 0)
+    if( zip_file_add(paketti, QString("lasku-%1.pdf").arg(model->laskunro()).toStdString().c_str(),
+                     pdfPuskuri, 0) < 0)
         return false;
+
+//    zip_source_free(pdfPuskuri);
 
     zip_close(paketti);
 

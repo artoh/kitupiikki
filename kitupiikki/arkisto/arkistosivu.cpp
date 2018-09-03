@@ -46,6 +46,7 @@
 
 #include "budjettidlg.h"
 
+#include <zip.h>
 
 ArkistoSivu::ArkistoSivu()
 {
@@ -143,13 +144,13 @@ void ArkistoSivu::vieArkisto()
         teeArkisto(kausi);
     }
 
-    QDir mista( kp()->arkistopolku() + "/" + kausi.arkistoHakemistoNimi() );
-    QStringList tiedostot = mista.entryList(QDir::Files);
-
-
 
     if( dlgUi.hakemistoRadio->isChecked())
     {
+
+
+        QDir mista( kp()->arkistopolku() + "/" + kausi.arkistoHakemistoNimi() );
+        QStringList tiedostot = mista.entryList(QDir::Files);
         QString hakemistoon = QFileDialog::getExistingDirectory(this, tr("Valitse hakemisto, jonne arkisto kopioidaan"),
                                                                 QDir::rootPath());
         if( !hakemistoon.isEmpty())
@@ -174,11 +175,21 @@ void ArkistoSivu::vieArkisto()
                                                                            "Avaa selaimella hakemistossa oleva index.html-tiedosto.").arg(hakemistoon));
 
     }
-    else
+    else if( dlgUi.zipButton->isChecked())
+    {
+        if( !teeZip(kausi))
+            QMessageBox::critical(this, tr("Arkiston viennissä virhe"),
+                                  tr("Arkiston vienti epäonnistui.") );
+
+
+    }
+    else if( dlgUi.tarRadio->isChecked())
     {
         // Muodostetaan tar-arkisto
         // Tässä käytetään Pierre Lindenbaumin Tar-luokkaa http://plindenbaum.blogspot.fi/2010/08/creating-tar-file-in-c.html
 
+        QDir mista( kp()->arkistopolku() + "/" + kausi.arkistoHakemistoNimi() );
+        QStringList tiedostot = mista.entryList(QDir::Files);
         QString arkistotiedosto = QDir::root().absoluteFilePath( QString("%1-%2.tar").arg( kp()->tiedostopolku().replace(QRegularExpression(".kitupiikki$"),""), kausi.arkistoHakemistoNimi()) );
         QString arkisto = QFileDialog::getSaveFileName(this, tr("Vie arkisto"), arkistotiedosto, tr("Tar-arkisto (*.tar)") );
 
@@ -221,12 +232,7 @@ void ArkistoSivu::vieArkisto()
 
         }
 
-
-
-
     }
-
-
 
 }
 
@@ -372,4 +378,59 @@ void ArkistoSivu::budjetti()
     dlg->setAttribute(Qt::WA_DeleteOnClose);
     dlg->show();
     dlg->lataa( ui->view->currentIndex().data(TilikausiModel::LyhenneRooli).toString() );
+}
+
+bool ArkistoSivu::teeZip(const Tilikausi &kausi)
+{
+    QDir mista( kp()->arkistopolku() + "/" + kausi.arkistoHakemistoNimi() );
+    QStringList tiedostot = mista.entryList(QDir::Files);
+
+    QString arkistotiedosto = QDir::root().absoluteFilePath( QString("%1-%2.zip").arg( kp()->tiedostopolku().replace(QRegularExpression(".kitupiikki$"),""), kausi.arkistoHakemistoNimi()) );
+    QString arkisto = QFileDialog::getSaveFileName(this, tr("Vie arkisto"), arkistotiedosto, tr("Tar-arkisto (*.zip)") );
+
+
+    if( !arkisto.isEmpty() )
+    {
+        int virhekoodi = 0;
+        zip_t* paketti = zip_open( arkisto.toStdString().c_str(), ZIP_CREATE | ZIP_TRUNCATE, &virhekoodi );
+
+        if( !paketti)
+            return false;
+
+        QProgressDialog odota(tr("Kopioidaan arkistoa"), tr("Peruuta"),0, tiedostot.count(),this);
+        int kopioitu = 0;
+
+        for( const QString& tiedosto : tiedostot)
+        {
+            if( odota.wasCanceled())
+                return false;
+
+            QFile in( mista.absoluteFilePath( tiedosto ));
+            if( !in.open(QIODevice::ReadOnly))
+                return false;
+
+            QByteArray ba(in.readAll());
+
+            in.close();
+
+            QFileInfo info(tiedosto);
+
+            zip_error_t virhe;
+            zip_source_t* puskuri = zip_source_buffer_create( ba.data(), static_cast<zip_uint16_t>( ba.length() ), 0,  &virhe);
+            if( !puskuri)
+                return false;
+            if( zip_file_add(paketti, info.fileName().toStdString().c_str(),
+                             puskuri, 0) < 0)
+                return false;
+
+            zip_source_free(puskuri);
+            odota.setValue(++kopioitu);
+        }
+        zip_close(paketti);
+
+        QMessageBox::information(this, tr("Arkiston vienti valmis"),
+                             tr("Arkisto viety tiedostoon %1").arg(arkisto));
+        return true;
+
+    }
 }
