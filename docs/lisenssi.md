@@ -16,6 +16,8 @@ Ohjelmalla ei ole mitään takuuta. Tätä ohjelmaa saa käyttää, levittää j
 
 [Code-128-font](https://github.com/Holger-Will/code-128-font) lisenssillä [GNU General Public License version 3](https://www.gnu.org/licenses/gpl.html)
 
+[libzip](https://libzip.org) Copyright &copy; Dieter Baron and Thomas Klausner lisenssillä [3-clause BSD license](https://libzip.org/license/)
+
 ## Tilikarttojen pohja
 
 Elinkeinoelämän tilikartta perustuu [Tilitin-kirjanpito-ohjelmaan](http://helineva.net/tilitin/) &copy; Tommi Helineva lisenssillä [GNU General Public License version 3](https://www.gnu.org/licenses/gpl.html). Muut tilikartat pohjautuvat Tili-instituuttisäätiön [Raportointikoodistoon](https://www.raportointikoodisto.fi).

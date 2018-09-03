@@ -386,7 +386,7 @@ bool ArkistoSivu::teeZip(const Tilikausi &kausi)
     QStringList tiedostot = mista.entryList(QDir::Files);
 
     QString arkistotiedosto = QDir::root().absoluteFilePath( QString("%1-%2.zip").arg( kp()->tiedostopolku().replace(QRegularExpression(".kitupiikki$"),""), kausi.arkistoHakemistoNimi()) );
-    QString arkisto = QFileDialog::getSaveFileName(this, tr("Vie arkisto"), arkistotiedosto, tr("Tar-arkisto (*.zip)") );
+    QString arkisto = QFileDialog::getSaveFileName(this, tr("Vie arkisto"), arkistotiedosto, tr("Zip-arkisto (*.zip)") );
 
 
     if( !arkisto.isEmpty() )
@@ -405,25 +405,16 @@ bool ArkistoSivu::teeZip(const Tilikausi &kausi)
             if( odota.wasCanceled())
                 return false;
 
-            QFile in( mista.absoluteFilePath( tiedosto ));
-            if( !in.open(QIODevice::ReadOnly))
-                return false;
+            QFileInfo info( mista.absoluteFilePath(tiedosto)) ;
 
-            QByteArray ba(in.readAll());
-
-            in.close();
-
-            QFileInfo info(tiedosto);
-
-            zip_error_t virhe;
-            zip_source_t* puskuri = zip_source_buffer_create( ba.data(), static_cast<zip_uint16_t>( ba.length() ), 0,  &virhe);
-            if( !puskuri)
+            zip_source_t* lahde = zip_source_file(paketti, info.absoluteFilePath().toStdString().c_str(),
+                                                  0,-1);
+            if( !lahde)
                 return false;
             if( zip_file_add(paketti, info.fileName().toStdString().c_str(),
-                             puskuri, 0) < 0)
+                             lahde, 0) < 0)
                 return false;
 
-            zip_source_free(puskuri);
             odota.setValue(++kopioitu);
         }
         zip_close(paketti);

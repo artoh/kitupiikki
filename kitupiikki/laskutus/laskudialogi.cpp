@@ -304,6 +304,9 @@ void LaskuDialogi::finvoice()
         for(const QModelIndex& indeksi : ui->ryhmaView->selectionModel()->selectedRows() )
         {
             model->haeRyhmasta( ryhmaProxy_->mapToSource( indeksi ).row());
+            if( model->verkkolaskuOsoite().isEmpty() || model->verkkolaskuValittaja().isEmpty())
+                continue;
+
             if(Finvoice::muodostaFinvoice(model))
                 model->ryhmaModel()->finvoiceMuodostettu( ryhmaProxy_->mapToSource( indeksi).row() );
         }
