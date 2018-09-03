@@ -116,7 +116,7 @@ QString LaskunTulostaja::html()
         otsikko = tr("Kuitti");
 
     txt.append(tr("<tr><td width=50% style=\"border-bottom: 1px solid black;\">%1<br>%2</td><td colspan=2 style='font-size: large; border-bottom: 1px solid black;'>%3</td></tr>\n").arg(kp()->asetukset()->asetus("Nimi")).arg(omaosoite).arg(otsikko) );
-    txt.append(QString("<td rowspan=5 style=\"border-bottom: 1px solid black; border-right: 1px solid black;\">%1</td>").arg(osoite));
+    txt.append(QString("<td rowspan=7 style=\"border-bottom: 1px solid black; border-right: 1px solid black;\">%1</td>").arg(osoite));
 
     if( model_->tyyppi() != LaskuModel::HYVITYSLASKU )
         txt.append(tr("<td width=25% style=\"border-bottom: 1px solid black;\">Laskun päivämäärä</td><td width=25% style=\"border-bottom: 1px solid black;\">%1</td></tr>\n").arg( kp()->paivamaara().toString("dd.MM.yyyy") ));

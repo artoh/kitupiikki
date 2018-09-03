@@ -368,6 +368,8 @@ void LaskuDialogi::haeOsoite()
         json.fromJson( kysely.value(0).toByteArray() );
         ui->emailEdit->setText( json.str("Email"));
         ui->ytunnus->setText( json.str("YTunnus"));
+        ui->verkkoOsoiteEdit->setText( json.str("VerkkolaskuOsoite"));
+        ui->verkkoValittajaEdit->setText( json.str("VerkkolaskuValittaja"));
 
         if( !json.str("Osoite").isEmpty())
         {
@@ -597,6 +599,7 @@ void LaskuDialogi::ryhmaNapit(const QItemSelection &valinta)
 {
     ui->tulostaNappi->setEnabled( valinta.size());
     ui->esikatseluNappi->setEnabled( valinta.size());
+    ui->verkkolaskuNappi->setEnabled( valinta.size());
     ui->poistaRyhmastaNappi->setEnabled( valinta.size());
 
     QSettings settings;
@@ -613,6 +616,8 @@ void LaskuDialogi::lisaaAsiakasListalta(const QModelIndex &indeksi)
     QString osoite = nimistr;
     QString email;
     QString ytunnus;
+    QString verkkolaskuosoite;
+    QString verkkolaskuvalittaja;
 
     if( kysely.next() )
     {
@@ -620,6 +625,8 @@ void LaskuDialogi::lisaaAsiakasListalta(const QModelIndex &indeksi)
         json.fromJson( kysely.value(0).toByteArray() );
         email =  json.str("Email");
         ytunnus = json.str("YTunnus");
+        verkkolaskuosoite = json.str("VerkkolaskuOsoite");
+        verkkolaskuvalittaja = json.str("VerkkolaskuValittaja");
 
         if( !json.str("Osoite").isEmpty())
         {
@@ -628,7 +635,7 @@ void LaskuDialogi::lisaaAsiakasListalta(const QModelIndex &indeksi)
         }
     }
 
-    model->ryhmaModel()->lisaa( nimistr, osoite, email, ytunnus);
+    model->ryhmaModel()->lisaa( nimistr, osoite, email, ytunnus, verkkolaskuosoite, verkkolaskuvalittaja);
     ui->ryhmaView->resizeColumnsToContents();
     ui->tallennaNappi->setEnabled( model->ryhmaModel()->rowCount(QModelIndex()) );
 }
@@ -649,7 +656,7 @@ void LaskuDialogi::lisaaAsiakas()
             dui.YtunnusEdit->clear();
 
         model->ryhmaModel()->lisaa( dui.nimiEdit->text(), dui.osoiteEdit->toPlainText(), dui.spostiEdit->text(),
-                                    dui.YtunnusEdit->text());
+                                    dui.YtunnusEdit->text(), dui.verkkolaskuOsoite->text(), dui.valittajaTunnus->text());
         ui->ryhmaView->resizeColumnsToContents();
         ui->tallennaNappi->setEnabled( model->ryhmaModel()->rowCount(QModelIndex()) );
     }

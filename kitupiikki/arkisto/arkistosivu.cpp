@@ -430,7 +430,6 @@ bool ArkistoSivu::teeZip(const Tilikausi &kausi)
 
         QMessageBox::information(this, tr("Arkiston vienti valmis"),
                              tr("Arkisto viety tiedostoon %1").arg(arkisto));
-        return true;
-
     }
+    return true;
 }

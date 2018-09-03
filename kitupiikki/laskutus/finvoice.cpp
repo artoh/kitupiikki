@@ -73,7 +73,6 @@ bool Finvoice::muodostaFinvoice(LaskuModel *model)
     if( zip_file_add(paketti, QString("lasku-%1.xml").arg(model->laskunro()).toStdString().c_str(),
                      puskuri, 0) < 0)
         return false;
-//    zip_source_free(puskuri);
 
 
     LaskunTulostaja tulostaja(model);
@@ -85,8 +84,6 @@ bool Finvoice::muodostaFinvoice(LaskuModel *model)
     if( zip_file_add(paketti, QString("lasku-%1.pdf").arg(model->laskunro()).toStdString().c_str(),
                      pdfPuskuri, 0) < 0)
         return false;
-
-//    zip_source_free(pdfPuskuri);
 
     zip_close(paketti);
 
