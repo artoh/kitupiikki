@@ -141,6 +141,7 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     connect( ui->ytunnus, &QLineEdit::textChanged, [this](const QString& tunnus) { QString osoite = QString("0037%1").arg(tunnus); osoite.remove('-'); this->ui->verkkoOsoiteEdit->setText(osoite); });
     connect( ui->verkkoOsoiteEdit, &QLineEdit::textChanged, this, &LaskuDialogi::verkkolaskuKayttoon);
     connect( ui->verkkoValittajaEdit, &QLineEdit::textChanged, this, &LaskuDialogi::verkkolaskuKayttoon);
+    connect( ui->verkkolaskuNappi, &QPushButton::clicked, this, &LaskuDialogi::finvoice);
 
     ui->rivitView->horizontalHeader()->setSectionResizeMode(LaskuModel::NIMIKE, QHeaderView::Stretch);
     ui->tuotelistaView->horizontalHeader()->setSectionResizeMode(TuoteModel::NIMIKE, QHeaderView::Stretch);
@@ -293,12 +294,33 @@ void LaskuDialogi::esikatsele()
     {
         vieMalliin();
         NaytinIkkuna::nayta( tulostaja->pdf() );
+    }
+}
 
-        // Tilapäisesti myös tehdään finvoice
-        QFile ulos("/tmp/lasku.xml");
-        ulos.open(QIODevice::Truncate | QIODevice::WriteOnly);
-        ulos.write( Finvoice::lasku( model ) );
-        ulos.close();
+void LaskuDialogi::finvoice()
+{
+    if( model->tyyppi() == LaskuModel::RYHMALASKU )
+    {
+        for(const QModelIndex& indeksi : ui->ryhmaView->selectionModel()->selectedRows() )
+        {
+            model->haeRyhmasta( ryhmaProxy_->mapToSource( indeksi ).row());
+            if(Finvoice::muodostaFinvoice(model))
+                model->ryhmaModel()->finvoiceMuodostettu( ryhmaProxy_->mapToSource( indeksi).row() );
+        }
+    }
+    else
+    {
+        vieMalliin();
+        if( Finvoice::muodostaFinvoice(model))
+        {
+            ui->onniLabel->setText( tr("Verkkolasku muodostettu") );
+            ui->onniLabel->setStyleSheet("color: green;");
+        }
+        else
+        {
+            ui->onniLabel->setText( tr("Verkkolaskun muodostaminen epäonnistui") );
+            ui->onniLabel->setStyleSheet("color: red;");
+        }
     }
 }
 

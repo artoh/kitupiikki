@@ -24,10 +24,70 @@
 
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
+#include <QFile>
+#include <QDir>
+
+#include <zip.h>
 
 Finvoice::Finvoice(QObject *parent) : QObject(parent)
 {
 
+}
+
+bool Finvoice::muodostaFinvoice(LaskuModel *model)
+{
+    QDir hakemisto( kp()->asetukset()->asetus("VerkkolaskuKansio") );
+
+    if( !kp()->asetukset()->onko("VerkkolaskuZip"))
+    {
+        QFile xmlTiedosto( hakemisto.absoluteFilePath(QString("lasku-%1.xml").arg( model->laskunro() )) );
+        if( !xmlTiedosto.open( QIODevice::WriteOnly ))
+            return false;
+        xmlTiedosto.write( lasku(model) );
+        xmlTiedosto.close();
+
+        if( kp()->asetukset()->onko("VerkkolaskuPdf"))
+        {
+            QFile pdfTiedosto( hakemisto.absoluteFilePath(QString("lasku-%1.pdf").arg(model->laskunro())) );
+            if( !pdfTiedosto.open( QIODevice::WriteOnly))
+                return false;
+            LaskunTulostaja tulostaja(model);
+            pdfTiedosto.write( tulostaja.pdf() );
+        }
+        return true;
+    }
+    // Tässä tehdään zip
+
+    int virhekoodi = 0;
+    zip_t* paketti = zip_open( hakemisto.absoluteFilePath(QString("lasku-%1.zip").arg(model->laskunro())).toStdString().c_str(),
+                               ZIP_CREATE | ZIP_TRUNCATE, &virhekoodi);
+    if( !paketti)
+        return false;
+
+    QByteArray ba = lasku(model);
+
+    zip_error_t virhe;
+    zip_source_t* puskuri = zip_source_buffer_create( ba.data(), static_cast<zip_uint16_t>( ba.length() ), 0,  &virhe);
+    if( !puskuri)
+        return false;
+    if( zip_file_add(paketti, hakemisto.absoluteFilePath(QString("lasku-%1.xml").arg(model->laskunro())).toStdString().c_str(),
+                     puskuri, 1) < 0)
+        return false;
+
+
+    LaskunTulostaja tulostaja(model);
+    QByteArray pdfba = tulostaja.pdf();
+
+    zip_source_t* pdfPuskuri = zip_source_buffer_create( pdfba.data(), static_cast<zip_uint16_t>( pdfba.length() ), 0,  &virhe);
+    if( !puskuri)
+        return false;
+    if( zip_file_add(paketti, hakemisto.absoluteFilePath(QString("lasku-%1.pdf").arg(model->laskunro())).toStdString().c_str(),
+                     pdfPuskuri, 2) < 0)
+        return false;
+
+    zip_close(paketti);
+
+    return true;
 }
 
 QByteArray Finvoice::lasku(LaskuModel *model)

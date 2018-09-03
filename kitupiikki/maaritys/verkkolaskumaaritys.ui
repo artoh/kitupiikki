@@ -92,10 +92,44 @@
      </item>
     </layout>
    </item>
+   <item row="6" column="0">
+    <widget class="QCheckBox" name="pdfBox">
+     <property name="text">
+      <string>Liitä pdf-lasku</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="QCheckBox" name="zipBox">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="text">
+      <string>Tee zip-paketti</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <resources>
   <include location="../pic/pic.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>pdfBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>zipBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>102</x>
+     <y>360</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>103</x>
+     <y>408</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

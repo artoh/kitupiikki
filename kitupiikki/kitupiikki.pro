@@ -10,6 +10,7 @@ QT += xml
 
 LIBS += -lpoppler-qt5
 LIBS += -lpoppler
+LIBS += -lzip
 
 
 macx {

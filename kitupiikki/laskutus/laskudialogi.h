@@ -50,6 +50,10 @@ public:
 private slots:
     void paivitaSumma(qlonglong paivitaSumma);
     void esikatsele();
+    /**
+     * @brief Finvoice-verkkolaskun muodostaminen
+     */
+    void finvoice();
     void perusteVaihtuu();
     void haeOsoite();
 

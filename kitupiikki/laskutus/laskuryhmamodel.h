@@ -70,6 +70,7 @@ public:
     void poista(int indeksi);
     bool onkoNimella(const QString& nimi);
     void sahkopostiLahetetty(int indeksiin);
+    void finvoiceMuodostettu(int indeksiin);
 
 protected:
     QList<Laskutettava> ryhma_;

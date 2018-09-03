@@ -145,3 +145,9 @@ void LaskuRyhmaModel::sahkopostiLahetetty(int indeksiin)
     emit dataChanged( index(indeksiin, SAHKOPOSTI), index(indeksiin, SAHKOPOSTI) );
 }
 
+void LaskuRyhmaModel::finvoiceMuodostettu(int indeksiin)
+{
+    ryhma_[indeksiin].verkkolaskutettu = true;
+    emit dataChanged( index(indeksiin, NIMI), index(indeksiin, NIMI) );
+}
+

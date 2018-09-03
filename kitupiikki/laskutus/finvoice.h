@@ -39,6 +39,7 @@ class Finvoice : public QObject
 public:
     explicit Finvoice(QObject *parent = nullptr);
 
+    static bool muodostaFinvoice(LaskuModel *model);
     static QByteArray lasku(LaskuModel* model);
 
     static HajoitettuOsoite hajoitaOsoite(const QString& osoite);
