@@ -115,9 +115,12 @@ void LaskuRyhmaModel::lisaa(const QString &nimi, const QString &osoite, const QS
     uusi.nimi = nimi;
     uusi.osoite = osoite;
     uusi.sahkoposti = sahkoposti;
-    uusi.ytunnus = ytunnus;
-    uusi.verkkolaskuosoite = verkkolaskuosoite;
-    uusi.verkkolaskuvalittaja = verkkolaskuvalittaja;
+    if( !ytunnus.isEmpty())
+    {
+        uusi.ytunnus = ytunnus;
+        uusi.verkkolaskuosoite = verkkolaskuosoite;
+        uusi.verkkolaskuvalittaja = verkkolaskuvalittaja;
+    }
     ryhma_.append(uusi);
     endInsertRows();
 }

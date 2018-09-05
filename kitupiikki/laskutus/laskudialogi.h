@@ -86,6 +86,7 @@ private slots:
     void poistaValitutAsiakkaat();
 
     void verkkolaskuKayttoon();
+    void ytunnusSyotetty(const QString &ytunnus);
 
 private:
     /**

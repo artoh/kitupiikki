@@ -40,6 +40,8 @@
 
 #include "ui_yhteystiedot.h"
 
+#include "validator/ytunnusvalidator.h"
+
 #include <QDebug>
 
 #include <QPrinter>
@@ -108,6 +110,7 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     ui->rivitView->setColumnHidden( LaskuModel::KOHDENNUS, kp()->kohdennukset()->rowCount(QModelIndex()) < 2);
 
     ui->naytaNappi->setChecked( kp()->asetukset()->onko("LaskuNaytaTuotteet") );
+    ui->tabWidget->setTabEnabled(VERKKOLASKU, false);
 
 
     // Laitetaan täydentäjä nimen syöttöön
@@ -138,7 +141,7 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     connect( ui->asiakasLista, &QListView::clicked, this, &LaskuDialogi::lisaaAsiakasListalta);
     connect( ui->lisaaRyhmaanNappi, &QPushButton::clicked, this, &LaskuDialogi::lisaaAsiakas);
 
-    connect( ui->ytunnus, &QLineEdit::textChanged, [this](const QString& tunnus) { QString osoite = QString("0037%1").arg(tunnus); osoite.remove('-'); this->ui->verkkoOsoiteEdit->setText(osoite); });
+    connect( ui->ytunnus, &QLineEdit::textChanged, this, &LaskuDialogi::ytunnusSyotetty);
     connect( ui->verkkoOsoiteEdit, &QLineEdit::textChanged, this, &LaskuDialogi::verkkolaskuKayttoon);
     connect( ui->verkkoValittajaEdit, &QLineEdit::textChanged, this, &LaskuDialogi::verkkolaskuKayttoon);
     connect( ui->verkkolaskuNappi, &QPushButton::clicked, this, &LaskuDialogi::finvoice);
@@ -701,6 +704,18 @@ void LaskuDialogi::poistaValitutAsiakkaat()
 void LaskuDialogi::verkkolaskuKayttoon()
 {
     ui->verkkolaskuNappi->setEnabled( !ui->verkkoOsoiteEdit->text().isEmpty() && !ui->verkkoValittajaEdit->text().isEmpty() );
+}
+
+void LaskuDialogi::ytunnusSyotetty(const QString& ytunnus)
+{
+    bool kelpotunnus =  YTunnusValidator::kelpaako(ytunnus);
+    ui->tabWidget->setTabEnabled(2, kelpotunnus);
+    if( kelpotunnus && ui->verkkoOsoiteEdit->text().isEmpty())
+    {
+        QString osoite = QString("0037%1").arg(ytunnus);
+        osoite.remove('-');
+        ui->verkkoOsoiteEdit->setText(osoite);
+    }
 }
 
 void LaskuDialogi::paivitaTuoteluettelonNaytto()

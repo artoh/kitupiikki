@@ -50,6 +50,8 @@ void YhteystietoWidget::haeTiedot(const QString &nimi)
     osoite_ = nimi + "\n";
     sahkoposti_.clear();
     ytunnus_.clear();
+    verkkolaskuosoite_.clear();
+    verkkolaskuvalittaja_.clear();
 
     if( !nimi.isEmpty())
     {
