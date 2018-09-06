@@ -90,7 +90,8 @@ bool Perusvalinnat::nollaa()
     uusilogo = QImage();
 
     // Jos logotiedosto, merkitään se
-    ui->logoLabel->setPixmap( QPixmap::fromImage( kp()->logo().scaled(64, 64, Qt::KeepAspectRatio) ) );
+    if( !kp()->logo().isNull())
+        ui->logoLabel->setPixmap( QPixmap::fromImage( kp()->logo().scaled(64, 64, Qt::KeepAspectRatio) ) );
 
     ui->sijaintiLabel->setText( kp()->tiedostopolku() );
 

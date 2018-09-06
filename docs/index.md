@@ -55,8 +55,8 @@
 Kitupiikki on ilmainen suomalainen kirjanpito-ohjelma. Kitupiikki käsittelee ja arkistoi skannatut tositteet. Ohjelma on alunperin suunniteltu yhdistyksille, mutta Kitupiikin avulla hoidat vaivattomasti myös pienehkön yrityksen kirjanpidon.
 
 <div class="asennusinfo">
-<h3>Kitupiikki 1.0 RC julkaistu 25.7.2018</h3>
-Yhteensopiva version 1.1 uusien toimintojen kanssa.
+<h3>Kitupiikki 1.0 julkaistu 21.8.2018</h3>
+
 
 <div class="asennuslaatikko">
 <a href="asennus" style="color:white;"><span class="fa fa-download"></span> Lataa Kitupiikki <span class="fa fa-windows"></span> <span class="fa fa-linux"></span></a>
@@ -81,6 +81,35 @@ function showSlides() {
 
     slides[ slideIndex ].style.display = "block";
     setTimeout(showSlides, 4000); // Kuva vaihtuu kahden sekunnin välein
+}
+
+</script>
+
+<!-- Googlen jäsenneltyjen tietojen merkintäapurin luomat JSON-LD-merkinnät. -->
+<script type="application/ld+json">
+{
+"@context" : "http://schema.org",
+"@type" : "SoftwareApplication",
+"name" : "Kitupiikki",
+"image" : "https://kitupiikki.info/images/kitupiikkikannettava.png",
+"url" : "https://kitupiikki.info",
+"author" : {
+"@type" : "Person",
+"name" : "Arto Hyvättinen"
+},
+"downloadUrl" : "https://lataa.kitupiikki.info",
+"operatingSystem" : "Windows,Linux",
+"screenshot" : "https://kitupiikki.info/myllykirjaus.png",
+"applicationCategory": "Office",
+"applicationSubCategory": "Finance",
+"inLanguage" : "fi",
+"license" : "https://www.gnu.org/licenses/gpl-3.0.en.html",
+"offers": {
+"@type": "Offer",
+"priceCurrency": "EUR",
+"price": "0.00"
+}
+
 }
 
 </script>

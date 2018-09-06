@@ -504,7 +504,9 @@ void AloitusSivu::paivitaTiedostoLista()
         QBuffer buff(&logoBa);
         buff.open(QIODevice::WriteOnly);
 
-        kp()->logo().scaled(32,32).save(&buff, "PNG");
+        if( !kp()->logo().isNull())
+            kp()->logo().scaled(32,32).save(&buff, "PNG");
+
         buff.close();
 
         QVariantList nama;

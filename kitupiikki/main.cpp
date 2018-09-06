@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
 #endif
 
     a.setApplicationName("Kitupiikki");
-    a.setApplicationVersion("1.0-rc.1");
+    a.setApplicationVersion("1.0");
     a.setOrganizationDomain("kitupiikki.info");
     a.setOrganizationName("Kitupiikki Kirjanpito");
 #ifndef Q_OS_MACX
@@ -115,6 +115,12 @@ int main(int argc, char *argv[])
 
     KitupiikkiIkkuna ikkuna;
     ikkuna.show();
+
+    // Avaa argumenttina olevan tiedostonnimen
+    QStringList argumentit = qApp->arguments();
+    if( argumentit.length() > 1 && QFile(argumentit.at(1)).exists())
+        kirjanpito.avaaTietokanta( argumentit.at(1));
+
     splash->finish( &ikkuna );
     delete splash;
 

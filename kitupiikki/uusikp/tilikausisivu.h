@@ -35,10 +35,12 @@ public:
     TilikausiSivu();
     ~TilikausiSivu();
 
-    int nextId() const;
+    int nextId() const override;
+    bool isComplete() const override;
 
 public slots:
     void alkuPaivaMuuttui(const QDate& date);
+    void loppuPaivaMuuttui();
 
 };
 
