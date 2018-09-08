@@ -1402,6 +1402,7 @@
 			children = (
 				CB8E95FB20E6A8F000C89EEB /* libcopy.sh */,
 				FEB5A0907FA19EF6152D5304 /* kitupiikki.pro */,
+				CB057C0C2143F2EC00DB5900 /* strip_debug_libs.sh */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1752,6 +1753,7 @@
 				D1C883685E82D5676953459A /* Link Binary With Libraries */,
 				30414803F31797EB689AE508 /* Copy Bundle Resources */,
 				CB8E95E520E69CD700C89EEB /* Embed Frameworks */,
+				CB057C0D2143FB4500DB5900 /* ShellScript */,
 				CB8E95F820E69F5A00C89EEB /* ShellScript */,
 			);
 			buildRules = (
@@ -1832,6 +1834,19 @@
 			shellPath = /bin/sh;
 			shellScript = "make -C /Users/petri/git/kitupiikki/mac/ -f kitupiikki.xcodeproj/qt_preprocess.mak";
 			showEnvVarsInLog = 0;
+		};
+		CB057C0D2143FB4500DB5900 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"${CONFIGURATION}\" = \"Release\" ]; then\n    ${PROJECT_DIR}/strip_debug_libs.sh ${TARGET_BUILD_DIR}\nfi\n";
 		};
 		CB8E95F820E69F5A00C89EEB /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
