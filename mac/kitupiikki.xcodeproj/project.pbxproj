@@ -1782,10 +1782,10 @@
 			};
 			buildConfigurationList = DAC4C1AA5EDEA1C85E9CA5E6 /* Build configuration list for PBXProject "kitupiikki" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = en;
+			developmentRegion = fi;
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				en,
+				fi,
 			);
 			mainGroup = E8C543AB96796ECAA2E65C57 /* kitupiikki */;
 			productRefGroup = FE0A091FDBFB3E9C31B7A1BD /* Products */;
