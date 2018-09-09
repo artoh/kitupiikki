@@ -16,9 +16,6 @@ mkdir -p $APPDIR/platforms/
 #app
 install_name_tool -change /usr/local/opt/poppler/lib/libpoppler-qt5.1.dylib @rpath/libpoppler-qt5.dylib $APPDIR/kitupiikki
 
-#plugins
-cp /Users/petri/Qt/5.11.0/clang_64/plugins/platforms/libqcocoa.dylib $APPDIR/platforms/
-
 #libpoppler-qt5
 cp /usr/local/opt/poppler/lib/libpoppler-qt5.dylib $LIBDIR
 chmod +w $LIBDIR/libpoppler-qt5.dylib
