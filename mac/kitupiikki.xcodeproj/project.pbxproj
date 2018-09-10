@@ -231,7 +231,7 @@
 		CBD3B7FA20EA6779006D9F5B /* QtXml.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = CBD3B7F920EA6778006D9F5B /* QtXml.framework */; };
 		CBD3B7FB20EA6792006D9F5B /* QtXml.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CBD3B7F920EA6778006D9F5B /* QtXml.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CBD9D486EB4A10569EABCC4C /* moc_paakirjaraportti.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = AD4ACB2BB7B0615D23FA9EFC /* moc_paakirjaraportti.cpp */; settings = {ATTRIBUTES = (); }; };
-		CBF4F77A2145662000680B0A /* libqcocoa.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = CBF4F7792145662000680B0A /* libqcocoa.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		CBF4F77A2145662000680B0A /* libqcocoa.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = CBF4F7792145662000680B0A /* libqcocoa.dylib */; };
 		CC57D03C03CDEAE61D1B0511 /* moc_alvmaaritys.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = 2C5336F6D98B19F14CF60110 /* moc_alvmaaritys.cpp */; settings = {ATTRIBUTES = (); }; };
 		CDD2D56F1748B0E0ADB49B09 /* QrCode.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = F9A7AD910321A3942F47CDA1 /* QrCode.cpp */; settings = {ATTRIBUTES = (); }; };
 		CEE673B4AF77E43A99285C9C /* moc_vientimodel.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = 3947AC5A11BC00F607146477 /* moc_vientimodel.cpp */; settings = {ATTRIBUTES = (); }; };
@@ -1776,8 +1776,8 @@
 				30414803F31797EB689AE508 /* Copy Bundle Resources */,
 				CB8E95E520E69CD700C89EEB /* Embed Frameworks */,
 				CB057C0D2143FB4500DB5900 /* Run Script */,
-				CBF4F778214565E700680B0A /* CopyFiles */,
 				CB8E95F820E69F5A00C89EEB /* ShellScript */,
+				CBF4F778214565E700680B0A /* CopyFiles */,
 			);
 			buildRules = (
 			);
