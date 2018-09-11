@@ -9,7 +9,7 @@
 /* Begin PBXAggregateTarget section */
 		1C618312449D717DB9220E1E /* Qt Preprocess */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 6CC3B5D2136C7CD6A5CF5A59 /* Build configuration list for PBXNativeTarget "kitupiikki" */;
+			buildConfigurationList = 6CC3B5D2136C7CD6A5CF5A59 /* Build configuration list for PBXNativeTarget "Kitupiikki" */;
 			buildPhases = (
 				5E618435888B9D49F8540165 /* Qt Qmake */,
 				7EF0942E79C014DCEC8976BC /* Qt Preprocessors */,
@@ -402,7 +402,7 @@
 		275AE056B6EA1A12419A3ED3 /* tilinavausmodel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = tilinavausmodel.h; path = /Users/petri/git/kitupiikki/kitupiikki/maaritys/tilinavausmodel.h; sourceTree = "<absolute>"; };
 		276B8CFD56A7D835A47DEFFF /* ui_alvilmoitusdialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ui_alvilmoitusdialog.h; path = /Users/petri/git/kitupiikki/mac/ui_alvilmoitusdialog.h; sourceTree = "<absolute>"; };
 		277D7512D11A79AC7D097187 /* tositeluetteloraportti.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = tositeluetteloraportti.h; path = /Users/petri/git/kitupiikki/kitupiikki/raportti/tositeluetteloraportti.h; sourceTree = "<absolute>"; };
-		279E566B69B6E4A4284A5616 /* kitupiikki.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kitupiikki.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		279E566B69B6E4A4284A5616 /* Kitupiikki.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kitupiikki.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		282D420C5D9260559977297E /* moc_asetusmodel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = moc_asetusmodel.cpp; path = /Users/petri/git/kitupiikki/mac/moc_asetusmodel.cpp; sourceTree = "<absolute>"; };
 		2855B05C59AFBCB48CA368E0 /* tuotemodel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = tuotemodel.h; path = /Users/petri/git/kitupiikki/kitupiikki/laskutus/tuotemodel.h; sourceTree = "<absolute>"; };
 		2963BCFFCBB10C53C557CEAF /* devtool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = devtool.h; path = /Users/petri/git/kitupiikki/kitupiikki/tools/devtool.h; sourceTree = "<absolute>"; };
@@ -1759,7 +1759,7 @@
 		FE0A091FDBFB3E9C31B7A1BD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				279E566B69B6E4A4284A5616 /* kitupiikki.app */,
+				279E566B69B6E4A4284A5616 /* Kitupiikki.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1767,9 +1767,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3801882A610CB18EA1AD29F5 /* kitupiikki */ = {
+		3801882A610CB18EA1AD29F5 /* Kitupiikki */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6CC3B5D2136C7CD6A5CF5A59 /* Build configuration list for PBXNativeTarget "kitupiikki" */;
+			buildConfigurationList = 6CC3B5D2136C7CD6A5CF5A59 /* Build configuration list for PBXNativeTarget "Kitupiikki" */;
 			buildPhases = (
 				F7E50F631C51CD5B5DC0BC43 /* Compile Sources */,
 				D1C883685E82D5676953459A /* Link Binary With Libraries */,
@@ -1784,9 +1784,9 @@
 			dependencies = (
 				9AFA2F0E750BF0A69339A1BA /* PBXTargetDependency */,
 			);
-			name = kitupiikki;
+			name = Kitupiikki;
 			productName = kitupiikki;
-			productReference = 279E566B69B6E4A4284A5616 /* kitupiikki.app */;
+			productReference = 279E566B69B6E4A4284A5616 /* Kitupiikki.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1805,7 +1805,7 @@
 					};
 				};
 			};
-			buildConfigurationList = DAC4C1AA5EDEA1C85E9CA5E6 /* Build configuration list for PBXProject "kitupiikki" */;
+			buildConfigurationList = DAC4C1AA5EDEA1C85E9CA5E6 /* Build configuration list for PBXProject "Kitupiikki" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = fi;
 			hasScannedForEncodings = 1;
@@ -1817,7 +1817,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3801882A610CB18EA1AD29F5 /* kitupiikki */,
+				3801882A610CB18EA1AD29F5 /* Kitupiikki */,
 				1C618312449D717DB9220E1E /* Qt Preprocess */,
 			);
 		};
@@ -2245,7 +2245,7 @@
 					"-L/usr/local/opt/poppler/lib",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "fi.atfos.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = kitupiikki;
+				PRODUCT_NAME = Kitupiikki;
 				QMAKE_PKGINFO_TYPEINFO = "????";
 				QT_LIBRARY_SUFFIX = "";
 				SDKROOT = macosx;
@@ -2360,7 +2360,7 @@
 					"-L/usr/local/opt/poppler/lib",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "fi.atfos.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = kitupiikki;
+				PRODUCT_NAME = Kitupiikki;
 				QMAKE_PKGINFO_TYPEINFO = "????";
 				QT_LIBRARY_SUFFIX = _debug;
 				SDKROOT = macosx;
@@ -2382,7 +2382,7 @@
 				ENABLE_BITCODE = NO;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/../Libraries";
 				PRODUCT_BUNDLE_IDENTIFIER = "fi.atfos.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = kitupiikki;
+				PRODUCT_NAME = Kitupiikki;
 				QMAKE_PKGINFO_TYPEINFO = "????";
 				QT_LIBRARY_SUFFIX = "";
 				SDKROOT = macosx;
@@ -2404,7 +2404,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/../Libraries";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "fi.atfos.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = kitupiikki;
+				PRODUCT_NAME = Kitupiikki;
 				QMAKE_PKGINFO_TYPEINFO = "????";
 				QT_LIBRARY_SUFFIX = _debug;
 				SDKROOT = macosx;
@@ -2414,7 +2414,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6CC3B5D2136C7CD6A5CF5A59 /* Build configuration list for PBXNativeTarget "kitupiikki" */ = {
+		6CC3B5D2136C7CD6A5CF5A59 /* Build configuration list for PBXNativeTarget "Kitupiikki" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				77418F46922677BB04ED38DD /* Debug */,
@@ -2423,7 +2423,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DAC4C1AA5EDEA1C85E9CA5E6 /* Build configuration list for PBXProject "kitupiikki" */ = {
+		DAC4C1AA5EDEA1C85E9CA5E6 /* Build configuration list for PBXProject "Kitupiikki" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3AA6C32AC930069E80220CF1 /* Debug */,
