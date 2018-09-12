@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "3801882A610CB18EA1AD29F5"
-               BuildableName = "kitupiikki.app"
-               BlueprintName = "kitupiikki"
-               ReferencedContainer = "container:kitupiikki.xcodeproj">
+               BuildableName = "Kitupiikki.app"
+               BlueprintName = "Kitupiikki"
+               ReferencedContainer = "container:Kitupiikki.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,7 +35,7 @@
                BlueprintIdentifier = "9E73BA301EF4580BE706E2EC"
                BuildableName = "Qt Test"
                BlueprintName = "Qt Test"
-               ReferencedContainer = "container:kitupiikki.xcodeproj">
+               ReferencedContainer = "container:Kitupiikki.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -43,9 +43,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3801882A610CB18EA1AD29F5"
-            BuildableName = "kitupiikki.app"
-            BlueprintName = "kitupiikki"
-            ReferencedContainer = "container:kitupiikki.xcodeproj">
+            BuildableName = "Kitupiikki.app"
+            BlueprintName = "Kitupiikki"
+            ReferencedContainer = "container:Kitupiikki.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <CommandLineArguments>
@@ -75,9 +75,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3801882A610CB18EA1AD29F5"
-            BuildableName = "kitupiikki.app"
-            BlueprintName = "kitupiikki"
-            ReferencedContainer = "container:kitupiikki.xcodeproj">
+            BuildableName = "Kitupiikki.app"
+            BlueprintName = "Kitupiikki"
+            ReferencedContainer = "container:Kitupiikki.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <EnvironmentVariables>
@@ -101,9 +101,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3801882A610CB18EA1AD29F5"
-            BuildableName = "kitupiikki.app"
-            BlueprintName = "kitupiikki"
-            ReferencedContainer = "container:kitupiikki.xcodeproj">
+            BuildableName = "Kitupiikki.app"
+            BlueprintName = "Kitupiikki"
+            ReferencedContainer = "container:Kitupiikki.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
