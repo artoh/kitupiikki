@@ -9,7 +9,7 @@
 /* Begin PBXAggregateTarget section */
 		1C618312449D717DB9220E1E /* Qt Preprocess */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 6CC3B5D2136C7CD6A5CF5A59 /* Build configuration list for PBXNativeTarget "kitupiikki" */;
+			buildConfigurationList = 6CC3B5D2136C7CD6A5CF5A59 /* Build configuration list for PBXNativeTarget "Kitupiikki" */;
 			buildPhases = (
 				5E618435888B9D49F8540165 /* Qt Qmake */,
 				7EF0942E79C014DCEC8976BC /* Qt Preprocessors */,
@@ -210,27 +210,28 @@
 		C902A57F9D6FA0646E6E5AB1 /* ktpintro.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = 89AD2AA6CB21A73E26A63383 /* ktpintro.cpp */; settings = {ATTRIBUTES = (); }; };
 		CB76993620DD240B004CA297 /* Images.xcassets in Copy Bundle Resources */ = {isa = PBXBuildFile; fileRef = CB76993520DD240B004CA297 /* Images.xcassets */; };
 		CB8E95E320E69CD700C89EEB /* QtSql.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = 5CE42DDB3F6D3DF4616F8C02 /* QtSql.framework */; };
-		CB8E95E420E69CD700C89EEB /* QtSql.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5CE42DDB3F6D3DF4616F8C02 /* QtSql.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CB8E95E420E69CD700C89EEB /* QtSql.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5CE42DDB3F6D3DF4616F8C02 /* QtSql.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CB8E95E620E69CDB00C89EEB /* QtSvg.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = 03CBD17D70037C0F9F2213FF /* QtSvg.framework */; };
-		CB8E95E720E69CDB00C89EEB /* QtSvg.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 03CBD17D70037C0F9F2213FF /* QtSvg.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CB8E95E720E69CDB00C89EEB /* QtSvg.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 03CBD17D70037C0F9F2213FF /* QtSvg.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CB8E95E820E69CE300C89EEB /* QtCore.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = 40FBA6FF0663B85F27CDFE14 /* QtCore.framework */; };
-		CB8E95E920E69CE300C89EEB /* QtCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 40FBA6FF0663B85F27CDFE14 /* QtCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CB8E95E920E69CE300C89EEB /* QtCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 40FBA6FF0663B85F27CDFE14 /* QtCore.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CB8E95EA20E69CE700C89EEB /* QtGui.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = 2651640484309F884C063123 /* QtGui.framework */; };
-		CB8E95EB20E69CE700C89EEB /* QtGui.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2651640484309F884C063123 /* QtGui.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CB8E95EB20E69CE700C89EEB /* QtGui.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2651640484309F884C063123 /* QtGui.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CB8E95EC20E69CEE00C89EEB /* QtWidgets.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = 241EFBB4D1E6DB6F708C9D12 /* QtWidgets.framework */; };
-		CB8E95ED20E69CEE00C89EEB /* QtWidgets.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 241EFBB4D1E6DB6F708C9D12 /* QtWidgets.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CB8E95ED20E69CEE00C89EEB /* QtWidgets.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 241EFBB4D1E6DB6F708C9D12 /* QtWidgets.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CB8E95EE20E69CF800C89EEB /* QtPrintSupport.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = F7952E00981E8EB253CEE1CA /* QtPrintSupport.framework */; };
-		CB8E95EF20E69CF800C89EEB /* QtPrintSupport.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F7952E00981E8EB253CEE1CA /* QtPrintSupport.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CB8E95EF20E69CF800C89EEB /* QtPrintSupport.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F7952E00981E8EB253CEE1CA /* QtPrintSupport.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CB8E95F120E69D0A00C89EEB /* poppler-qt5 in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = 59DF697A1657BC82C49B8429 /* poppler-qt5 */; };
 		CB8E95F420E69D3700C89EEB /* DiskArbitration.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = 2B774D8E4178765CE52EAAF5 /* DiskArbitration.framework */; };
 		CB8E95F520E69D3F00C89EEB /* IOKit.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = A1A67BEAA744704B29168D39 /* IOKit.framework */; };
 		CB8E95F620E69D4400C89EEB /* OpenGL.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = D4B32C2222F82AC56BADEB21 /* OpenGL.framework */; };
 		CB8E95F720E69D4900C89EEB /* AGL.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = 8D9815BDB5BD9F90D2BC05C5 /* AGL.framework */; };
 		CB8E95F920E6A3CE00C89EEB /* QtNetwork.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = E7958DDBA56B7CE9A40E5333 /* QtNetwork.framework */; };
-		CB8E95FA20E6A3CE00C89EEB /* QtNetwork.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E7958DDBA56B7CE9A40E5333 /* QtNetwork.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CB8E95FA20E6A3CE00C89EEB /* QtNetwork.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E7958DDBA56B7CE9A40E5333 /* QtNetwork.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CBD3B7FA20EA6779006D9F5B /* QtXml.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = CBD3B7F920EA6778006D9F5B /* QtXml.framework */; };
-		CBD3B7FB20EA6792006D9F5B /* QtXml.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CBD3B7F920EA6778006D9F5B /* QtXml.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CBD3B7FB20EA6792006D9F5B /* QtXml.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CBD3B7F920EA6778006D9F5B /* QtXml.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CBD9D486EB4A10569EABCC4C /* moc_paakirjaraportti.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = AD4ACB2BB7B0615D23FA9EFC /* moc_paakirjaraportti.cpp */; settings = {ATTRIBUTES = (); }; };
+		CBF4F77A2145662000680B0A /* libqcocoa.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = CBF4F7792145662000680B0A /* libqcocoa.dylib */; };
 		CC57D03C03CDEAE61D1B0511 /* moc_alvmaaritys.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = 2C5336F6D98B19F14CF60110 /* moc_alvmaaritys.cpp */; settings = {ATTRIBUTES = (); }; };
 		CDD2D56F1748B0E0ADB49B09 /* QrCode.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = F9A7AD910321A3942F47CDA1 /* QrCode.cpp */; settings = {ATTRIBUTES = (); }; };
 		CEE673B4AF77E43A99285C9C /* moc_vientimodel.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = 3947AC5A11BC00F607146477 /* moc_vientimodel.cpp */; settings = {ATTRIBUTES = (); }; };
@@ -306,6 +307,16 @@
 				CB8E95FA20E6A3CE00C89EEB /* QtNetwork.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CBF4F778214565E700680B0A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = platforms;
+			dstSubfolderSpec = 6;
+			files = (
+				CBF4F77A2145662000680B0A /* libqcocoa.dylib in CopyFiles */,
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -391,7 +402,7 @@
 		275AE056B6EA1A12419A3ED3 /* tilinavausmodel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = tilinavausmodel.h; path = /Users/petri/git/kitupiikki/kitupiikki/maaritys/tilinavausmodel.h; sourceTree = "<absolute>"; };
 		276B8CFD56A7D835A47DEFFF /* ui_alvilmoitusdialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ui_alvilmoitusdialog.h; path = /Users/petri/git/kitupiikki/mac/ui_alvilmoitusdialog.h; sourceTree = "<absolute>"; };
 		277D7512D11A79AC7D097187 /* tositeluetteloraportti.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = tositeluetteloraportti.h; path = /Users/petri/git/kitupiikki/kitupiikki/raportti/tositeluetteloraportti.h; sourceTree = "<absolute>"; };
-		279E566B69B6E4A4284A5616 /* kitupiikki.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kitupiikki.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		279E566B69B6E4A4284A5616 /* Kitupiikki.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kitupiikki.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		282D420C5D9260559977297E /* moc_asetusmodel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = moc_asetusmodel.cpp; path = /Users/petri/git/kitupiikki/mac/moc_asetusmodel.cpp; sourceTree = "<absolute>"; };
 		2855B05C59AFBCB48CA368E0 /* tuotemodel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = tuotemodel.h; path = /Users/petri/git/kitupiikki/kitupiikki/laskutus/tuotemodel.h; sourceTree = "<absolute>"; };
 		2963BCFFCBB10C53C557CEAF /* devtool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = devtool.h; path = /Users/petri/git/kitupiikki/kitupiikki/tools/devtool.h; sourceTree = "<absolute>"; };
@@ -715,6 +726,8 @@
 		CB76993520DD240B004CA297 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = kitupiikki/Images.xcassets; sourceTree = "<group>"; };
 		CB8E95FB20E6A8F000C89EEB /* libcopy.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = libcopy.sh; sourceTree = "<group>"; };
 		CBD3B7F920EA6778006D9F5B /* QtXml.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtXml.framework; path = ../../../Qt/5.11.0/clang_64/lib/QtXml.framework; sourceTree = "<group>"; };
+		CBF4F7792145662000680B0A /* libqcocoa.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libqcocoa.dylib; path = ../../../Qt/5.11.0/clang_64/plugins/platforms/libqcocoa.dylib; sourceTree = "<group>"; };
+		CBF4F77F21456A8900680B0A /* strip_embedded_frameworks.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = strip_embedded_frameworks.sh; sourceTree = "<group>"; };
 		CC0B2BA7EE1EDF53D5765B38 /* selauswg.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = selauswg.ui; path = /Users/petri/git/kitupiikki/kitupiikki/selaus/selauswg.ui; sourceTree = "<absolute>"; };
 		CC6E401B6BEB30A35FBB439E /* laskuntulostaja.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = laskuntulostaja.cpp; path = /Users/petri/git/kitupiikki/kitupiikki/laskutus/laskuntulostaja.cpp; sourceTree = "<absolute>"; };
 		CCC7CD9C7054D38F59364B97 /* raporttimuokkaus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = raporttimuokkaus.h; path = /Users/petri/git/kitupiikki/kitupiikki/maaritys/raporttimuokkaus.h; sourceTree = "<absolute>"; };
@@ -832,8 +845,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CBD3B7FA20EA6779006D9F5B /* QtXml.framework in Link Binary With Libraries */,
 				CB8E95F120E69D0A00C89EEB /* poppler-qt5 in Link Binary With Libraries */,
+				CBD3B7FA20EA6779006D9F5B /* QtXml.framework in Link Binary With Libraries */,
 				CB8E95E820E69CE300C89EEB /* QtCore.framework in Link Binary With Libraries */,
 				CB8E95EE20E69CF800C89EEB /* QtPrintSupport.framework in Link Binary With Libraries */,
 				CB8E95EA20E69CE700C89EEB /* QtGui.framework in Link Binary With Libraries */,
@@ -1400,6 +1413,7 @@
 		74B182DB50CB5611B5C1C297 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				CBF4F77F21456A8900680B0A /* strip_embedded_frameworks.sh */,
 				CB8E95FB20E6A8F000C89EEB /* libcopy.sh */,
 				FEB5A0907FA19EF6152D5304 /* kitupiikki.pro */,
 			);
@@ -1614,6 +1628,14 @@
 			name = selaus;
 			sourceTree = "<group>";
 		};
+		CBF4F77E214568EE00680B0A /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				CBF4F7792145662000680B0A /* libqcocoa.dylib */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		D882F47B768804653981A974 /* kirjaus */ = {
 			isa = PBXGroup;
 			children = (
@@ -1652,6 +1674,7 @@
 				74B182DB50CB5611B5C1C297 /* Supporting Files */,
 				AF39DD055C3EF8226FBE929D /* Frameworks */,
 				FE0A091FDBFB3E9C31B7A1BD /* Products */,
+				CBF4F77E214568EE00680B0A /* Recovered References */,
 			);
 			name = kitupiikki;
 			sourceTree = "<group>";
@@ -1736,7 +1759,7 @@
 		FE0A091FDBFB3E9C31B7A1BD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				279E566B69B6E4A4284A5616 /* kitupiikki.app */,
+				279E566B69B6E4A4284A5616 /* Kitupiikki.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1744,24 +1767,26 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3801882A610CB18EA1AD29F5 /* kitupiikki */ = {
+		3801882A610CB18EA1AD29F5 /* Kitupiikki */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6CC3B5D2136C7CD6A5CF5A59 /* Build configuration list for PBXNativeTarget "kitupiikki" */;
+			buildConfigurationList = 6CC3B5D2136C7CD6A5CF5A59 /* Build configuration list for PBXNativeTarget "Kitupiikki" */;
 			buildPhases = (
 				F7E50F631C51CD5B5DC0BC43 /* Compile Sources */,
 				D1C883685E82D5676953459A /* Link Binary With Libraries */,
 				30414803F31797EB689AE508 /* Copy Bundle Resources */,
 				CB8E95E520E69CD700C89EEB /* Embed Frameworks */,
+				CB057C0D2143FB4500DB5900 /* Run Script */,
 				CB8E95F820E69F5A00C89EEB /* ShellScript */,
+				CBF4F778214565E700680B0A /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				9AFA2F0E750BF0A69339A1BA /* PBXTargetDependency */,
 			);
-			name = kitupiikki;
+			name = Kitupiikki;
 			productName = kitupiikki;
-			productReference = 279E566B69B6E4A4284A5616 /* kitupiikki.app */;
+			productReference = 279E566B69B6E4A4284A5616 /* Kitupiikki.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1780,19 +1805,19 @@
 					};
 				};
 			};
-			buildConfigurationList = DAC4C1AA5EDEA1C85E9CA5E6 /* Build configuration list for PBXProject "kitupiikki" */;
+			buildConfigurationList = DAC4C1AA5EDEA1C85E9CA5E6 /* Build configuration list for PBXProject "Kitupiikki" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = en;
+			developmentRegion = fi;
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				en,
+				fi,
 			);
 			mainGroup = E8C543AB96796ECAA2E65C57 /* kitupiikki */;
 			productRefGroup = FE0A091FDBFB3E9C31B7A1BD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3801882A610CB18EA1AD29F5 /* kitupiikki */,
+				3801882A610CB18EA1AD29F5 /* Kitupiikki */,
 				1C618312449D717DB9220E1E /* Qt Preprocess */,
 			);
 		};
@@ -1832,6 +1857,20 @@
 			shellPath = /bin/sh;
 			shellScript = "make -C /Users/petri/git/kitupiikki/mac/ -f kitupiikki.xcodeproj/qt_preprocess.mak";
 			showEnvVarsInLog = 0;
+		};
+		CB057C0D2143FB4500DB5900 /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"${CONFIGURATION}\" = \"Release\" ]; then\n    ${PROJECT_DIR}/strip_embedded_frameworks.sh ${TARGET_BUILD_DIR}\nfi\n";
 		};
 		CB8E95F820E69F5A00C89EEB /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2125,15 +2164,14 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = FJ2CG9GU7J;
 				DYLIB_COMPATIBILITY_VERSION = 1.0;
 				DYLIB_CURRENT_VERSION = 1.0.0;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					/Users/petri/Qt/5.11.0/clang_64/lib,
-					/Users/petri/Qt/5.11.0/clang_64/lib,
-				);
+				FRAMEWORK_SEARCH_PATHS = ../../../Qt/5.11.0/clang_64/lib;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = s;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -2164,7 +2202,7 @@
 				LDPLUSPLUS = "/Library/Developer/CommandLineTools/usr/bin/clang++";
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/opt/poppler/lib,
-					/Users/petri/Qt/5.11.0/clang_64/lib,
+					../../../Qt/5.11.0/clang_64/lib,
 					/System/Library/Frameworks/,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
@@ -2207,7 +2245,7 @@
 					"-L/usr/local/opt/poppler/lib",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "fi.atfos.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = kitupiikki;
+				PRODUCT_NAME = Kitupiikki;
 				QMAKE_PKGINFO_TYPEINFO = "????";
 				QT_LIBRARY_SUFFIX = "";
 				SDKROOT = macosx;
@@ -2239,16 +2277,15 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = FJ2CG9GU7J;
 				DYLIB_COMPATIBILITY_VERSION = 1.0;
 				DYLIB_CURRENT_VERSION = 1.0.0;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					/Users/petri/Qt/5.11.0/clang_64/lib,
-					/Users/petri/Qt/5.11.0/clang_64/lib,
-				);
+				FRAMEWORK_SEARCH_PATHS = ../../../Qt/5.11.0/clang_64/lib;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -2279,7 +2316,7 @@
 				LDPLUSPLUS = "/Library/Developer/CommandLineTools/usr/bin/clang++";
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/opt/poppler/lib,
-					/Users/petri/Qt/5.11.0/clang_64/lib,
+					../../../Qt/5.11.0/clang_64/lib,
 					/System/Library/Frameworks/,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
@@ -2323,10 +2360,11 @@
 					"-L/usr/local/opt/poppler/lib",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "fi.atfos.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = kitupiikki;
+				PRODUCT_NAME = Kitupiikki;
 				QMAKE_PKGINFO_TYPEINFO = "????";
 				QT_LIBRARY_SUFFIX = _debug;
 				SDKROOT = macosx;
+				STRIP_INSTALLED_PRODUCT = NO;
 				SYMROOT = build;
 			};
 			name = Debug;
@@ -2344,7 +2382,7 @@
 				ENABLE_BITCODE = NO;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/../Libraries";
 				PRODUCT_BUNDLE_IDENTIFIER = "fi.atfos.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = kitupiikki;
+				PRODUCT_NAME = Kitupiikki;
 				QMAKE_PKGINFO_TYPEINFO = "????";
 				QT_LIBRARY_SUFFIX = "";
 				SDKROOT = macosx;
@@ -2366,7 +2404,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/../Libraries";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "fi.atfos.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = kitupiikki;
+				PRODUCT_NAME = Kitupiikki;
 				QMAKE_PKGINFO_TYPEINFO = "????";
 				QT_LIBRARY_SUFFIX = _debug;
 				SDKROOT = macosx;
@@ -2376,7 +2414,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6CC3B5D2136C7CD6A5CF5A59 /* Build configuration list for PBXNativeTarget "kitupiikki" */ = {
+		6CC3B5D2136C7CD6A5CF5A59 /* Build configuration list for PBXNativeTarget "Kitupiikki" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				77418F46922677BB04ED38DD /* Debug */,
@@ -2385,7 +2423,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DAC4C1AA5EDEA1C85E9CA5E6 /* Build configuration list for PBXProject "kitupiikki" */ = {
+		DAC4C1AA5EDEA1C85E9CA5E6 /* Build configuration list for PBXProject "Kitupiikki" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3AA6C32AC930069E80220CF1 /* Debug */,
