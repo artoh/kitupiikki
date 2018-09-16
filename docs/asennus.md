@@ -29,6 +29,20 @@ Kitupiikin Linux-versio toimitetaan AppImage-tiedostona, jota ei varsinaisesti e
 4. Ensimmäisellä käynnistyskerralla Kitupiikki kysyy, haluatko lisätä ohjelman käynnistysvalikkoon.
 
 
+## <span class="fa fa-apple"></span> Macintosh
+
+Tukee OS X versiota 10.11 ja uudempia
+
+!!! note ""
+    <span class="fa fa-linux"></span> [Kitupiikki 1.0 macOS asennuspaketti (15 MB) ](https://github.com/petriaarnio/kitupiikki/releases/download/mac_v1.0.0/Kitupiikki.dmg)
+
+1. Lataa yllä oleva asennustiedosto
+2. Avaa asennustiedosto kaksoisnapsauttamalla hiirellä
+3. Vedä avautuneesta ikkunasta Kitupiikin kuvake Ohjelmat (Applications) -hakemiston kuvakkeen päälle
+
+Macintosh-jakelua ylläpitää [Petri Aarnio](https://github.com/petriaarnio).
+
+
 ## <span class="fa fa-exclamation-triangle"></span> Kitupiikki Beta
 
 !!! warning "Testikäyttöön"
