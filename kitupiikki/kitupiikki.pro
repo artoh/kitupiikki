@@ -15,7 +15,7 @@ LIBS += -lzip
 
 macx {
     LIBS += -L/usr/local/opt/poppler/lib -lpoppler-qt5
-    INCLUDEPATH += /usr/local/opt/include
+    INCLUDEPATH += /usr/local/include
 }
 
 CONFIG += c++14
