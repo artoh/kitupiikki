@@ -271,7 +271,7 @@ void LaskuSivu::hyvityslasku()
 {
     if( LaskuDialogi::laskuIkkunoita())
     {
-        QMessageBox::information(this, tr("Uutta laskua ei voi luoda"),
+        QMessageBox::information(this, tr("Hyvityslaskua ei voi luoda"),
                              tr("Päällekkäisten viitenumeroiden välttämiseksi voit tehdä vain "
                                 "yhden laskun kerrallaan.\n"
                                 "Sulje avoinna oleva laskuikkuna ennen uuden laskun luomista."));
@@ -292,7 +292,7 @@ void LaskuSivu::maksumuistutus()
 {
     if( LaskuDialogi::laskuIkkunoita())
     {
-        QMessageBox::information(this, tr("Uutta laskua ei voi luoda"),
+        QMessageBox::information(this, tr("Maksumuistutusta ei voi luoda"),
                              tr("Päällekkäisten viitenumeroiden välttämiseksi voit tehdä vain "
                                 "yhden laskun kerrallaan.\n"
                                 "Sulje avoinna oleva laskuikkuna ennen uuden laskun luomista."));
@@ -306,7 +306,7 @@ void LaskuSivu::ryhmaLasku()
 {
     if( LaskuDialogi::laskuIkkunoita())
     {
-        QMessageBox::information(this, tr("Uutta laskua ei voi luoda"),
+        QMessageBox::information(this, tr("Uutta ryhmälaskua ei voi luoda"),
                              tr("Päällekkäisten viitenumeroiden välttämiseksi voit tehdä vain "
                                 "yhden laskun kerrallaan.\n"
                                 "Sulje avoinna oleva laskuikkuna ennen uuden laskun luomista."));
