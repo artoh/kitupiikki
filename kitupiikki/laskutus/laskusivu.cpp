@@ -218,11 +218,20 @@ void LaskuSivu::laskuValintaMuuttuu()
 
 void LaskuSivu::uusiLasku()
 {
+    if( LaskuDialogi::laskuIkkunoita())
+    {
+        QMessageBox::information(this, tr("Uutta laskua ei voi luoda"),
+                             tr("Päällekkäisten viitenumeroiden välttämiseksi voit tehdä vain "
+                                "yhden laskun kerrallaan.\n"
+                                "Sulje avoinna oleva laskuikkuna ennen uuden laskun luomista."));
+        return;
+    }
+
     LaskuModel *uusi = new LaskuModel();
     if( paaTab_->currentIndex() == ASIAKAS )
         uusi->asetaLaskunsaajannimi( asiakasView_->currentIndex().data(AsiakkaatModel::NimiRooli).toString() );
     LaskuDialogi* dlg = new LaskuDialogi(uusi);
-    dlg->exec();
+    dlg->show();
 }
 
 void LaskuSivu::uusiAsiakas()
@@ -260,8 +269,17 @@ void LaskuSivu::asiakasLisatty(const QString &nimi)
 
 void LaskuSivu::hyvityslasku()
 {
+    if( LaskuDialogi::laskuIkkunoita())
+    {
+        QMessageBox::information(this, tr("Uutta laskua ei voi luoda"),
+                             tr("Päällekkäisten viitenumeroiden välttämiseksi voit tehdä vain "
+                                "yhden laskun kerrallaan.\n"
+                                "Sulje avoinna oleva laskuikkuna ennen uuden laskun luomista."));
+        return;
+    }
+
     LaskuDialogi *dlg = new LaskuDialogi( LaskuModel::teeHyvityslasku(  laskuView_->currentIndex().data(LaskutModel::VientiIdRooli).toInt() ));
-    dlg->exec();
+    dlg->show();
 }
 
 void LaskuSivu::muokkaaLaskua()
@@ -272,14 +290,30 @@ void LaskuSivu::muokkaaLaskua()
 
 void LaskuSivu::maksumuistutus()
 {
+    if( LaskuDialogi::laskuIkkunoita())
+    {
+        QMessageBox::information(this, tr("Uutta laskua ei voi luoda"),
+                             tr("Päällekkäisten viitenumeroiden välttämiseksi voit tehdä vain "
+                                "yhden laskun kerrallaan.\n"
+                                "Sulje avoinna oleva laskuikkuna ennen uuden laskun luomista."));
+        return;
+    }
     LaskuDialogi *dlg = new LaskuDialogi( LaskuModel::teeMaksumuistutus( laskuView_->currentIndex().data(LaskutModel::VientiIdRooli).toInt() ));
-    dlg->exec();
+    dlg->show();
 }
 
 void LaskuSivu::ryhmaLasku()
 {
+    if( LaskuDialogi::laskuIkkunoita())
+    {
+        QMessageBox::information(this, tr("Uutta laskua ei voi luoda"),
+                             tr("Päällekkäisten viitenumeroiden välttämiseksi voit tehdä vain "
+                                "yhden laskun kerrallaan.\n"
+                                "Sulje avoinna oleva laskuikkuna ennen uuden laskun luomista."));
+        return;
+    }
     auto *dlg = new LaskuDialogi( LaskuModel::ryhmaLasku());
-    dlg->exec();
+    dlg->show();
 }
 
 void LaskuSivu::poistaLasku()

@@ -66,6 +66,8 @@
 LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     model(laskumodel), ui( new Ui::LaskuDialogi)
 {
+    laskuIkkunoita__++;
+
     if( !laskumodel)
         model = new LaskuModel();
 
@@ -257,6 +259,7 @@ LaskuDialogi::~LaskuDialogi()
 {
     delete ui;
     delete model;
+    laskuIkkunoita__--;
 }
 
 void LaskuDialogi::paivitaSumma(qlonglong summa)
@@ -725,6 +728,11 @@ void LaskuDialogi::paivitaTuoteluettelonNaytto()
     ui->tuotelistaOhje->setVisible( !tuotteita );
 }
 
+int LaskuDialogi::laskuIkkunoita()
+{
+    return laskuIkkunoita__;
+}
+
 void LaskuDialogi::reject()
 {
     vieMalliin();
@@ -738,3 +746,4 @@ void LaskuDialogi::reject()
         QDialog::reject();
 }
 
+int LaskuDialogi::laskuIkkunoita__ = 0;

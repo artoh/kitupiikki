@@ -212,8 +212,19 @@ void KitupiikkiIkkuna::uusiSelausIkkuna()
 
 void KitupiikkiIkkuna::uusiLasku()
 {
-    LaskuDialogi *dlg = new LaskuDialogi();
-    dlg->exec();
+    if( !LaskuDialogi::laskuIkkunoita() )
+    {
+        // Ei salli useampaa laskuikkunaa!
+        LaskuDialogi *dlg = new LaskuDialogi();
+        dlg->show();
+    }
+    else
+    {
+        QMessageBox::information(this, tr("Uutta laskua ei voi luoda"),
+                                 tr("Päällekkäisten viitenumeroiden välttämiseksi voit tehdä vain "
+                                    "yhden laskun kerrallaan.\n"
+                                    "Sulje avoinna oleva laskuikkuna ennen uuden laskun luomista."));
+    }
 }
 
 void KitupiikkiIkkuna::aktivoiSivu(QAction *aktio)
