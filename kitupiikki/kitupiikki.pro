@@ -320,7 +320,8 @@ HEADERS += \
     laskutus/ryhmantuontidlg.h \
     laskutus/ryhmantuontimodel.h \
     laskutus/finvoice.h \
-    maaritys/finvoicemaaritys.h
+    maaritys/finvoicemaaritys.h \
+    versio.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

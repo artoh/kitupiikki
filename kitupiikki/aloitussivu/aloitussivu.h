@@ -31,7 +31,7 @@
 
 #include "ui_aloitus.h"
 
-
+#include "versio.h"
 
 /**
  * @brief Webipohjaiset aloitus- ja ohjesivut

@@ -221,9 +221,18 @@ void AloitusSivu::abouttiarallaa()
     aboutUi.setupUi( &aboutDlg);
     connect( aboutUi.aboutQtNappi, &QPushButton::clicked, qApp, &QApplication::aboutQt);
 
-    aboutUi.versioLabel->setText( tr("<b>Versio %1</b>")
-                                  .arg( qApp->applicationVersion()) );
+    QString koostepaiva(__DATE__);
+    koostepaiva = koostepaiva.mid(4,3) + koostepaiva.left(3) + koostepaiva.mid(6);
 
+    QString versioteksti = tr("<b>Versio %1</b><br>Käännetty %2")
+            .arg( qApp->applicationVersion())
+            .arg(QDate::fromString( koostepaiva, Qt::RFC2822Date ).toString("dd.MM.yyyy"));
+
+    QString kooste(KITUPIIKKI_BUILD);
+    if( !kooste.isEmpty())
+        versioteksti.append("<br>Kooste " + kooste);
+
+    aboutUi.versioLabel->setText(versioteksti);
 
     aboutDlg.exec();
 }
