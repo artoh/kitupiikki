@@ -721,6 +721,7 @@
 		C972D00D709C76AA104362DA /* qrc_lasku.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = qrc_lasku.cpp; path = /Users/petri/git/kitupiikki/mac/qrc_lasku.cpp; sourceTree = "<absolute>"; };
 		CA3792464C7C4E81E111E830 /* ui_tilinpaattaja.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ui_tilinpaattaja.h; path = /Users/petri/git/kitupiikki/mac/ui_tilinpaattaja.h; sourceTree = "<absolute>"; };
 		CAB20EB2C3BF28E02EEB808F /* tilinmuokkausdialog.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = tilinmuokkausdialog.cpp; path = /Users/petri/git/kitupiikki/kitupiikki/maaritys/tilinmuokkausdialog.cpp; sourceTree = "<absolute>"; };
+		CB0F5EE0214D5DF60035F53D /* read_version.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = read_version.sh; sourceTree = "<group>"; };
 		CB46C6156F6B2BE5E898B3D9 /* tkpaivitys.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = tkpaivitys.ui; path = /Users/petri/git/kitupiikki/kitupiikki/uusikp/tkpaivitys.ui; sourceTree = "<absolute>"; };
 		CB49A155020B45B332976874 /* tilidelegaatti.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = tilidelegaatti.h; path = /Users/petri/git/kitupiikki/kitupiikki/kirjaus/tilidelegaatti.h; sourceTree = "<absolute>"; };
 		CB76993520DD240B004CA297 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = kitupiikki/Images.xcassets; sourceTree = "<group>"; };
@@ -1416,6 +1417,7 @@
 				CBF4F77F21456A8900680B0A /* strip_embedded_frameworks.sh */,
 				CB8E95FB20E6A8F000C89EEB /* libcopy.sh */,
 				FEB5A0907FA19EF6152D5304 /* kitupiikki.pro */,
+				CB0F5EE0214D5DF60035F53D /* read_version.sh */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1771,6 +1773,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6CC3B5D2136C7CD6A5CF5A59 /* Build configuration list for PBXNativeTarget "Kitupiikki" */;
 			buildPhases = (
+				CB0F5EE1214D5E4F0035F53D /* ShellScript */,
 				F7E50F631C51CD5B5DC0BC43 /* Compile Sources */,
 				D1C883685E82D5676953459A /* Link Binary With Libraries */,
 				30414803F31797EB689AE508 /* Copy Bundle Resources */,
@@ -1805,7 +1808,7 @@
 					};
 				};
 			};
-			buildConfigurationList = DAC4C1AA5EDEA1C85E9CA5E6 /* Build configuration list for PBXProject "Kitupiikki" */;
+			buildConfigurationList = DAC4C1AA5EDEA1C85E9CA5E6 /* Build configuration list for PBXProject "kitupiikki" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = fi;
 			hasScannedForEncodings = 1;
@@ -1871,6 +1874,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [ \"${CONFIGURATION}\" = \"Release\" ]; then\n    ${PROJECT_DIR}/strip_embedded_frameworks.sh ${TARGET_BUILD_DIR}\nfi\n";
+		};
+		CB0F5EE1214D5E4F0035F53D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${PROJECT_DIR}/read_version.sh";
+			showEnvVarsInLog = 0;
 		};
 		CB8E95F820E69F5A00C89EEB /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2423,7 +2440,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DAC4C1AA5EDEA1C85E9CA5E6 /* Build configuration list for PBXProject "Kitupiikki" */ = {
+		DAC4C1AA5EDEA1C85E9CA5E6 /* Build configuration list for PBXProject "kitupiikki" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3AA6C32AC930069E80220CF1 /* Debug */,

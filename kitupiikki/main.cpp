@@ -35,29 +35,37 @@
 #include <QFile>
 #include <QTextStream>
 
-
 #include "ui_tervetuloa.h"
-
 #include "arkisto/tararkisto.h"
 
+#if defined Q_OS_MACX
+#include "version.h"
+#endif
+
 int main(int argc, char *argv[])
-{   
+{
     QApplication a(argc, argv);
 
     QSplashScreen *splash = new QSplashScreen;
     splash->setPixmap( QPixmap(":/pic/splash.png"));
     splash->show();
-
+    
 #if defined (Q_OS_WIN) || defined (Q_OS_MACX)
     a.setStyle(QStyleFactory::create("Fusion"));
 #else
     // #120 GNOME-ongelmien takia ei käytetä Linuxissa natiiveja dialogeja
     a.setAttribute(Qt::AA_DontUseNativeDialogs);
 #endif
-
+    
     a.setApplicationName("Kitupiikki");
+#if defined Q_OS_MACX
+    a.setApplicationVersion(VERSION_STRING);
+#else
     a.setApplicationVersion("1.1-beta.2");
+#endif
+    
     a.setOrganizationDomain("kitupiikki.info");
+    
     a.setOrganizationName("Kitupiikki Kirjanpito");
 #ifndef Q_OS_MACX
     a.setWindowIcon( QIcon(":/pic/Possu64.png"));
