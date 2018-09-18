@@ -17,6 +17,13 @@
 #ifndef VERSIO_H
 #define VERSIO_H
 
+
+/**
+  @file Kitupiikin version määrittely
+
+  Kitupiikin versio määritellään tässä tiedostossa. Tiedosto voidaan myös generoida käännösaikaisesti.
+*/
+
 #define KITUPIIKKI_VERSIO "1.1-beta.2"
 #define KITUPIIKKI_BUILD ""
 

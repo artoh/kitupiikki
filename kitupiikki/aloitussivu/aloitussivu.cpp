@@ -47,6 +47,8 @@
 
 #include "uusikp/paivitakirjanpito.h"
 
+#include "versio.h"
+
 AloitusSivu::AloitusSivu() :
     KitupiikkiSivu(nullptr)
 {
@@ -221,7 +223,8 @@ void AloitusSivu::abouttiarallaa()
     aboutUi.setupUi( &aboutDlg);
     connect( aboutUi.aboutQtNappi, &QPushButton::clicked, qApp, &QApplication::aboutQt);
 
-    QString koostepaiva(__DATE__);
+    QString koostepaiva(__DATE__);      // Tämä päivittyy aina versio.h:ta muutettaessa
+
     koostepaiva = koostepaiva.mid(4,3) + koostepaiva.left(3) + koostepaiva.mid(6);
 
     QString versioteksti = tr("<b>Versio %1</b><br>Käännetty %2")
