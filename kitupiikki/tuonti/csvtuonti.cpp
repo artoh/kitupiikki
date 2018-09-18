@@ -104,13 +104,13 @@ bool CsvTuonti::tuo(const QByteArray &data)
 
         if( ui->kirjausRadio->isChecked())  // Tuo kirjauksia
         {
-            QMap<int,int> muuntotaulukko;
+            QMap<QString,int> muuntotaulukko;
 
             if( ui->muuntoRadio->isChecked())
             {
                 // Tuodaan kirjauksia
                 // Ensiksi muuntotaulukko
-                QMap<int,QString> tilinimet;
+                QList<QPair<int,QString>> tilinimet;
                 QRegularExpression tiliRe("(\\d+)\\s?(.*)");                
 
                 for(int r=1; r < csv_.count(); r++)
@@ -134,7 +134,8 @@ bool CsvTuonti::tuo(const QByteArray &data)
                         else if( tuonti == TILINIMI)
                             tilinimi = tieto;
                     }
-                    tilinimet.insert(tilinro, tilinimi);
+                    if( !tilinimet.contains(qMakePair(tilinro, tilinimi)))
+                        tilinimet.append(qMakePair(tilinro, tilinimi));
                 }
 
                 TiliMuuntoModel muuntomodel( tilinimet );
@@ -206,10 +207,18 @@ bool CsvTuonti::tuo(const QByteArray &data)
                     else if( tuonti == TILINUMERO)
                     {
                         int nro = numRe.match(tieto).captured().toInt();
-                        if( muuntotaulukko.isEmpty())
-                            rivi.tili = kp()->tilit()->tiliNumerolla( nro );
-                        else
-                            rivi.tili = kp()->tilit()->tiliNumerolla( muuntotaulukko.value( nro) );
+                        if( nro )
+                        {
+                            if( muuntotaulukko.isEmpty())
+                                rivi.tili = kp()->tilit()->tiliNumerolla( nro );
+                            else
+                                rivi.tili = kp()->tilit()->tiliNumerolla(  muuntotaulukko.value( QString::number(nro) ) );
+                        }
+                    }
+                    else if( tuonti == TILINIMI)
+                    {
+                        if( !rivi.tili.onkoValidi())
+                            rivi.tili = kp()->tilit()->tiliNumerolla( muuntotaulukko.value(tieto) );
                     }
                     else if( tuonti == DEBETEURO)
                         rivi.debetSnt = sentit;
@@ -492,7 +501,7 @@ void CsvTuonti::paivitaOletukset()
 
     bool pvmkaytetty = false;
 
-    if( ui->kirjausRadio->isChecked())
+    if( ui->kirjausRadio->isChecked())  // Kirjauksia
     {
         for(int i=0; i < muodot_.count(); i++)
         {
@@ -512,8 +521,6 @@ void CsvTuonti::paivitaOletukset()
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, TOSITETUNNUS);
             else if( otsikko.contains("selite") ||
                      otsikko.contains("selitys") ||
-                     otsikko.contains("saaja/maksaja") ||
-                     otsikko.contains("viesti") ||
                      otsikko.contains("kuvaus"))
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, SELITE);
             else if( (otsikko=="nro" && muoto == LUKU) ||
@@ -521,7 +528,7 @@ void CsvTuonti::paivitaOletukset()
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, TILINUMERO);
             else if( otsikko == "kohdennus" )
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, KOHDENNUS);
-            else if( otsikko == "tili" && muoto == TEKSTI)
+            else if( (otsikko == "tili"  || otsikko == "luokka" ) && muoto == TEKSTI)
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, TILINIMI);
             else
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, EITUODA);
@@ -553,7 +560,10 @@ void CsvTuonti::paivitaOletukset()
             else if( otsikko.contains("arkisto", Qt::CaseInsensitive))
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, ARKISTOTUNNUS);
             else if( otsikko.contains("selite", Qt::CaseInsensitive) ||
-                     otsikko.contains("selitys", Qt::CaseInsensitive))
+                     otsikko.contains("selitys", Qt::CaseInsensitive)||
+                     otsikko.contains("saaja/maksaja") ||
+                     otsikko.contains("viesti") ||
+                     otsikko.contains("kuvaus"))
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, SELITE);
             else
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, EITUODA);

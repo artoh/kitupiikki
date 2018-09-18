@@ -26,14 +26,11 @@ TilinMuunnos::TilinMuunnos(int numero, QString nimi)
 }
 
 
-TiliMuuntoModel::TiliMuuntoModel(const QMap<int, QString>& tilit)
+TiliMuuntoModel::TiliMuuntoModel(const QList<QPair<int, QString>> &tilit)
 {
-    QMapIterator<int,QString> iter(tilit);
-
-    while (iter.hasNext())
+    for( auto pari : tilit)
     {
-        iter.next();
-        data_.append(TilinMuunnos(iter.key(), iter.value()));
+       data_.append(TilinMuunnos(pari.first, pari.second));
     }
 }
 
@@ -119,12 +116,15 @@ Qt::ItemFlags TiliMuuntoModel::flags(const QModelIndex &index) const
         return QAbstractTableModel::flags(index);
 }
 
-QMap<int, int> TiliMuuntoModel::muunnettu()
+QMap<QString, int> TiliMuuntoModel::muunnettu()
 {
-    QMap<int,int> tulos;
+    QMap<QString,int> tulos;
     for( auto rivi : data_)
     {
-        tulos.insert(rivi.alkuperainenTilinumero, rivi.muunnettuTilinumero);
+        if( rivi.alkuperainenTilinumero )
+            tulos.insert( QString::number( rivi.alkuperainenTilinumero ), rivi.muunnettuTilinumero);
+        else
+            tulos.insert( rivi.tilinNimi, rivi.muunnettuTilinumero);
     }
     return tulos;
 }
