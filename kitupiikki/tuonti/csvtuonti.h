@@ -40,7 +40,8 @@ public:
         TILI = 21,
         VIITE = 22,
         SUOMIPVM = 30,
-        ISOPVM = 31
+        ISOPVM = 31,
+        USPVM = 32
 
     };
 
