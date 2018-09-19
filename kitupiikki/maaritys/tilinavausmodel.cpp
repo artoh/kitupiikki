@@ -121,6 +121,11 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
         else
             return 0;
     }
+    else if( role == Qt::BackgroundColorRole)
+    {
+        if( kp()->tilit()->tiliIndeksilla( index.row()).otsikkotaso() )
+            return QColor( Qt::lightGray );
+    }
 
 
     return QVariant();

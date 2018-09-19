@@ -354,6 +354,7 @@ void LaskuSivu::luoUi()
 
     asiakasView_ = new QTableView();
     splitter_->addWidget(asiakasView_);
+    asiakasView_->setAlternatingRowColors(true);
 
     lajiTab_ = new QTabBar();
     lajiTab_->addTab(tr("&Kaikki"));
@@ -379,6 +380,7 @@ void LaskuSivu::luoUi()
     alaruutuleiska->addLayout(keskirivi);
 
     laskuView_ = new QTableView;
+    laskuView_->setAlternatingRowColors(true);
     alaruutuleiska->addWidget(laskuView_);
     yhteystiedot_ = new YhteystietoWidget;
     alaruutuleiska->addWidget(yhteystiedot_);
