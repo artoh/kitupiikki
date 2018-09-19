@@ -256,7 +256,7 @@ void AloitusSivu::varmuuskopioi()
             .arg(info.baseName())
             .arg( QDate::currentDate().toString("yyMMdd"));
 
-    QString tiedostoon = QFileDialog::getSaveFileName(this, tr("Varmuuskopioi kirjanpito"), polku, tr("kirjanpito (*.kitupiikki)") );
+    QString tiedostoon = QFileDialog::getSaveFileName(this, tr("Varmuuskopioi kirjanpito"), polku, tr("Kirjanpito (*.kitupiikki)") );
     if( tiedostoon == kp()->tiedostopolku())
     {
         QMessageBox::critical(this, tr("Virhe"), tr("Tiedostoa ei saa kopioida itsensä päälle!"));
