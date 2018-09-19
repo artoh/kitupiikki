@@ -65,6 +65,8 @@ public slots:
      */
     void pyydaInfo();
 
+    static QDate buildDate();
+
 signals:
     void selaus(int tilinumero, Tilikausi tilikausi);
     void ktpkasky(QString kasky);
