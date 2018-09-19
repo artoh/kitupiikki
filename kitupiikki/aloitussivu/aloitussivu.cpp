@@ -223,13 +223,9 @@ void AloitusSivu::abouttiarallaa()
     aboutUi.setupUi( &aboutDlg);
     connect( aboutUi.aboutQtNappi, &QPushButton::clicked, qApp, &QApplication::aboutQt);
 
-    QString koostepaiva(__DATE__);      // Tämä päivittyy aina versio.h:ta muutettaessa
-
-    koostepaiva = koostepaiva.mid(4,3) + koostepaiva.left(3) + koostepaiva.mid(6);
-
     QString versioteksti = tr("<b>Versio %1</b><br>Käännetty %2")
             .arg( qApp->applicationVersion())
-            .arg(QDate::fromString( koostepaiva, Qt::RFC2822Date ).toString("dd.MM.yyyy"));
+            .arg( buildDate().toString("dd.MM.yyyy"));
 
     QString kooste(KITUPIIKKI_BUILD);
     if( !kooste.isEmpty())
@@ -292,10 +288,13 @@ void AloitusSivu::pyydaInfo()
         }
 
 
-        QString kysely = QString("http://paivitysinfo.kitupiikki.info/?v=%1&os=%2&u=%3")
+        QString kysely = QString("http://paivitysinfo.kitupiikki.info/?v=%1&os=%2&u=%3&b=%4&d=%5&k=%6")
                 .arg( qApp->applicationVersion() )
                 .arg( QSysInfo::prettyProductName())
-                .arg( asetukset.value("Keksi").toString() );
+                .arg( asetukset.value("Keksi").toString() )
+                .arg(KITUPIIKKI_BUILD)
+                .arg( buildDate().toString(Qt::ISODate) )
+                .arg( asetukset.value("Tilikartta").toString());
 
         QNetworkRequest pyynto = QNetworkRequest( QUrl(kysely));
         pyynto.setAttribute( QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy  );
@@ -303,6 +302,12 @@ void AloitusSivu::pyydaInfo()
     }
     else
         paivitysInfo.clear();
+}
+
+QDate AloitusSivu::buildDate()
+{
+    QString koostepaiva(__DATE__);      // Tämä päivittyy aina versio.h:ta muutettaessa
+    return QDate::fromString( koostepaiva.mid(4,3) + koostepaiva.left(3) + koostepaiva.mid(6), Qt::RFC2822Date);
 }
 
 QString AloitusSivu::vinkit()
@@ -551,6 +556,10 @@ void AloitusSivu::paivitaTiedostoLista()
         nama.append(logoBa);
 
         kirjanpidot.insert(polku, nama);
+
+        // Tallennetaan tilastointia varten tieto vakiotilikartasta
+        QString vakiotilikartta = kp()->asetukset()->asetus("VakioTilikartta");
+        settings.setValue("Tilikartta", vakiotilikartta.left(vakiotilikartta.indexOf('.')));
     }
 
 
