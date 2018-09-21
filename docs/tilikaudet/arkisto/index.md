@@ -29,12 +29,7 @@ Tilikausittaiset arkistot voit viedä *Tilikaudet*-välilehden **Vie arkisto**-p
 
 Tällä toiminnolla voit siirtää yhden vuoden arkiston esim. suoraan USB-muistitikulle.
 
-**Vie tar-tiedostona** muodostaa vuoden arkistosta yhden [tar-tiedoston](https://fi.wikipedia.org/wiki/Tar_(Unix)). Tällainen tiedosto on helppo arkistoida tai lähettää edelleen.
-
-Tar-tiedoston avaamiseen tarvitaan Windowsissa erillinen ohjelma, esimerkiksi [7-zip](http://www.7-zip.org/).
-
-!!! info "Tar-tiedostot"
-    Tar-tiedostomuoto on tehty alunperin nauha-asemalle tallentamista varten: se ei tiivistä eikä salaa tiedostoja.
+**Vie zip-tiedostona** ja **Vie tar-tiedostona** tallentavat koko arkiston yhdeksi pakatuksi tiedostoksi. [ZIP-arkiston](https://fi.wikipedia.org/wiki/ZIP) saa avattua suoraan nykyisillä Windows-, Linux- ja macOS-tietokoneilla, [TAR-arkiston](https://fi.wikipedia.org/wiki/Tar_(Unix)) avaamiseen tarvitaan Windows-koneilla erillinen ohjelma, kuten [7-zip](https://www.7-zip.org).
 
 
 ## Arkiston muuttumattomuuden varmistaminen

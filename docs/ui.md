@@ -3,7 +3,7 @@
 
 Kitupiikin käyttöliittymä muodostuu seitsemästä välilehdestä.
 
-**Aloituksessa** näet vinkkejä ajankohtaisista tehtävistä sekä tilien saldot. Tilien numerot ovat linkkejä, joista pääset suoraan selaamaan kirjauksia. Välilehdeltä pääset myös avaamaan toisen kirjanpidon tai aloittamaan uuden. **Varmuuskopioi**-napilla saat tallennettua varmuuskopion nykyisestä kirjanpidostasi.
+**Aloituksessa** näet vinkkejä ajankohtaisista tehtävistä sekä tilien saldot. Tilien numerot ovat linkkejä, joista pääset suoraan selaamaan kirjauksia. Välilehdeltä pääset myös avaamaan toisen kirjanpidon tai aloittamaan uuden. **Varmuuskopioi**-napilla saat tallennettua varmuuskopion nykyisestä kirjanpidostasi. **Muistiinpanot**-napilla voit muokata aloitussivulla näkyviä omia muistiinpanoja.
 
 **Uusi tosite**-välilehdellä kirjataan tositteita.
 

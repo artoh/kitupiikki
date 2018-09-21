@@ -707,7 +707,6 @@ void LaskuDialogi::poistaValitutAsiakkaat()
 
 void LaskuDialogi::verkkolaskuKayttoon()
 {
-    ui->verkkolaskuNappi->setVisible( !ui->verkkoOsoiteEdit->text().isEmpty() && !ui->verkkoValittajaEdit->text().isEmpty() );
     ui->verkkolaskuNappi->setEnabled( !ui->verkkoOsoiteEdit->text().isEmpty() && !ui->verkkoValittajaEdit->text().isEmpty() );
 }
 

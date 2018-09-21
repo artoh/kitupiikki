@@ -435,11 +435,9 @@ QString AloitusSivu::vinkit()
     // Viimeisenä muistiinpanot
     if( kp()->asetukset()->onko("Muistiinpanot") )
     {
-        vinkki.append(" <table class=memo width=100%><tr><td>");
-        QString muistiinpano = kp()->asetukset()->asetus("Muistiinpanot");
-        muistiinpano.replace("\n","<br>");
-        vinkki.append(muistiinpano);
-        vinkki.append("</td></tr></table");
+        vinkki.append(" <table class=memo width=100%><tr><td><pre>");
+        vinkki.append( kp()->asetukset()->asetus("Muistiinpanot"));
+        vinkki.append("</pre></td></tr></table");
     }
 
     return vinkki;
