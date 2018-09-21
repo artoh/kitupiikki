@@ -33,14 +33,6 @@ tunnus     | Nimi   | Selitys
 
 ![](lasku.png)
 
-## Hyvityslasku
-
-Hyvityslasku laaditaan valitsemalla **Laskut**-välilehden luettelosta hyvitettävä lasku ja painamalla **Hyvityslasku**.
-
-![](hyvityslasku.png)
-
-Kirjoita laskulle tehtävät hyvitykset/korjaukset **Rivit**-välilehden ruudukkoon.
-
 
 ## Laskun maksaminen
 

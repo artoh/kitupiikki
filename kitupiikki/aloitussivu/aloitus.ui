@@ -132,6 +132,20 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="muistiinpanotNappi">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Muistiinpanot</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/kommentti.png</normaloff>:/pic/kommentti.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="tietojaNappi">
        <property name="text">
         <string>Tietoja</string>

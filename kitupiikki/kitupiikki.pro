@@ -401,7 +401,8 @@ FORMS += \
     maaritys/inboxmaaritys.ui \
     arkisto/budjettidlg.ui \
     laskutus/ryhmantuontidlg.ui \
-    maaritys/verkkolaskumaaritys.ui
+    maaritys/verkkolaskumaaritys.ui \
+    aloitussivu/muistiinpanot.ui
 
 DISTFILES += \
     uusikp/luo.sql \

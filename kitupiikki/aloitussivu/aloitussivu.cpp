@@ -39,6 +39,7 @@
 #include <QSysInfo>
 
 #include "ui_aboutdialog.h"
+#include "ui_muistiinpanot.h"
 
 #include "aloitussivu.h"
 #include "db/kirjanpito.h"
@@ -64,6 +65,7 @@ AloitusSivu::AloitusSivu() :
     connect( ui->viimeiset, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(viimeisinTietokanta(QListWidgetItem*)));
     connect( ui->tilikausiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(siirrySivulle()));
     connect(ui->varmistaNappi, &QPushButton::clicked, this, &AloitusSivu::varmuuskopioi);
+    connect(ui->muistiinpanotNappi, &QPushButton::clicked, this, &AloitusSivu::muistiinpanot);
 
     connect( ui->selain, SIGNAL(anchorClicked(QUrl)), this, SLOT(linkki(QUrl)));
 
@@ -119,6 +121,7 @@ void AloitusSivu::kirjanpitoVaihtui()
     ui->nimiLabel->setVisible(avoinna);
     ui->tilikausiCombo->setVisible(avoinna);
     ui->varmistaNappi->setEnabled(avoinna);
+    ui->muistiinpanotNappi->setEnabled(avoinna);
 
     if( avoinna )
     {
@@ -272,6 +275,19 @@ void AloitusSivu::varmuuskopioi()
     }
 }
 
+void AloitusSivu::muistiinpanot()
+{
+    QDialog dlg(this);
+    Ui::Muistiinpanot ui;
+    ui.setupUi(&dlg);
+
+    ui.editori->setPlainText( kp()->asetukset()->asetus("Muistiinpanot") );
+    if( dlg.exec() == QDialog::Accepted )
+        kp()->asetukset()->aseta("Muistiinpanot", ui.editori->toPlainText());
+
+    siirrySivulle();
+}
+
 void AloitusSivu::pyydaInfo()
 {
 
@@ -414,6 +430,16 @@ QString AloitusSivu::vinkit()
                           "<h3><a href=ktp:/maaritys/Tilikartta>Tilikartta puutteellinen</a></h3>"
                           "<p>Tilikartassa pitää olla tilit alv-kirjauksille, alv-vähennyksille ja verovelalle.</td></tr></table>") );
 
+    }
+
+    // Viimeisenä muistiinpanot
+    if( kp()->asetukset()->onko("Muistiinpanot") )
+    {
+        vinkki.append(" <table class=memo width=100%><tr><td>");
+        QString muistiinpano = kp()->asetukset()->asetus("Muistiinpanot");
+        muistiinpano.replace("\n","<br>");
+        vinkki.append(muistiinpano);
+        vinkki.append("</td></tr></table");
     }
 
     return vinkki;

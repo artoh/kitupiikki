@@ -60,6 +60,8 @@ public slots:
     void infoSaapui(QNetworkReply* reply);
     void varmuuskopioi();
 
+    void muistiinpanot();
+
     /**
      * @brief Pyytää infon päivityksistä
      */
