@@ -27,8 +27,8 @@ tunnus     | Nimi   | Selitys
 * **Poista** poistaa laskun.
 * **Hyvityslasku** laatii laskulle hyvityslaskun.
 * **Maksumuistutus** (näkyvissä vain, jos lasku erääntynyt) laatii maksumuistuksen
-* **Uusi lasku**-painikkeesta pääset tekemään uuden laskun. Jos olet valinnut asiakkaan, laaditaan lasku tälle asiakkaalle.
-* **Ryhmälasku**-painikkeella lähetät samansisältöisen laskun usealle asiakkaalle.
+* **Uusi lasku**-painikkeesta pääset tekemään [uuden laskun](uusi). Jos olet valinnut asiakkaan, laaditaan lasku tälle asiakkaalle.
+* **Ryhmälasku**-painikkeella lähetät samansisältöisen [ryhmälaskun](ryhma) usealle asiakkaalle.
 
 
 ![](lasku.png)
