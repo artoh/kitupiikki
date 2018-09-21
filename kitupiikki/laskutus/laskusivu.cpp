@@ -320,7 +320,7 @@ void LaskuSivu::poistaLasku()
 {
 
     TositeModel tosite( kp()->tietokanta() );
-    tosite.lataa( laskuView_->currentIndex().data(LaskutModel::VientiIdRooli).toInt() );
+    tosite.lataa( laskuView_->currentIndex().data(LaskutModel::TositeRooli).toInt() );
 
 
     if( QMessageBox::question(nullptr, tr("Vahvista laskun poistaminen"),
