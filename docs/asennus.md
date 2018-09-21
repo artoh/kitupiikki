@@ -62,9 +62,9 @@ Version 1.1 uusia ominaisuuksia
 Beta-versio käynnistyy suoraan ladattavasta tiedostosta, joten voit kokeilla sitä, vaikka käyttäisitkin muuten Kitupiikin vakaata versiota.
 
 !!! warning ""
-    <span class="fa fa-windows"></span> [Kitupiikki 1.1 BETA.2 Windows suoritettava ohjelma (14 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.1-beta.2/kitupiikki1.1-beta.2.exe) <span class="fa fa-exclamation-triangle"> </span> **Testikäyttöön**
+    <span class="fa fa-windows"></span> [Kitupiikki 1.1 BETA.3 Windows suoritettava ohjelma (14 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.1-beta.3/kitupiikki1.1-beta.3.exe) <span class="fa fa-exclamation-triangle"> </span> **Testikäyttöön**
 
-    <span class="fa fa-linux"></span> [Kitupiikki 1.1 BETA.2 Linux AppImage (30 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.1-beta.2/Kitupiikki-1.1-beta.2-x86_64.AppImage) <span class="fa fa-exclamation-triangle"> </span>  **Testikäyttöön**
+    <span class="fa fa-linux"></span> [Kitupiikki 1.1 BETA.2 Linux AppImage (30 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.1-beta.3/Kitupiikki-1.1-beta.3-x86_64.AppImage) <span class="fa fa-exclamation-triangle"> </span>  **Testikäyttöön**
 
 ## Kehitysversio
 
