@@ -1,10 +1,6 @@
 # Kitupiikki <small>Avoimen lähdekoodin kirjanpitäjä</small>
 
 <div class="karuselli">
-<div class="karusellissa fade">
- <img src="images/kitupiikkikannettava.png">
-  <div class="txt">Avoimen lähdekoodin kirjanpitäjä</div>
-</div>
  <div class="karusellissa fade">
   <img src="kirjaus/myllykirjaus.png">
   <div class="txt">Kitupiikki tallentaa pdf-muotoiset liitteet</div>
@@ -98,7 +94,7 @@ function showSlides() {
 "name" : "Arto Hyvättinen"
 },
 "downloadUrl" : "https://lataa.kitupiikki.info",
-"operatingSystem" : "Windows,Linux",
+"operatingSystem" : "Windows,Linux,macOS",
 "screenshot" : "https://kitupiikki.info/myllykirjaus.png",
 "applicationCategory": "Office",
 "applicationSubCategory": "Finance",

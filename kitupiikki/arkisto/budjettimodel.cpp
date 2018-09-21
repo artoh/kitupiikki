@@ -18,7 +18,7 @@
 #include "db/kirjanpito.h"
 
 #include <QSortFilterProxyModel>
-
+#include <QPalette>
 
 BudjettiModel::BudjettiModel(QObject *parent)
     : QAbstractTableModel(parent)
@@ -110,7 +110,7 @@ QVariant BudjettiModel::data(const QModelIndex &index, int role) const
     else if( role==Qt::BackgroundColorRole)
     {
         if( proxy_->data( proxy_->index(index.row(), TiliModel::NUMERO), TiliModel::OtsikkotasoRooli ).toInt() )
-            return QColor(Qt::lightGray);
+            return QPalette().mid().color();
     }
 
 
