@@ -69,12 +69,12 @@ pages:
     - Kirjausapuri: 'kirjaus/apuri/index.md'
     - Käsin kirjaaminen: 'kirjaus/kasin/index.md'
     - Tuonti: 'kirjaus/tuonti/index.md'
-  - Laskutus: 
+  - Selaaminen ja etsiminen: 'selaus/index.md'
+  - Laskutus:
     - Laskutus: 'laskutus/index.md'
     - Uusi lasku: 'laskutus/uusi/index.md'
     - Maksumuistutukset: 'laskutus/muistutus/index.md'
     - Ryhmälasku : 'laskutus/ryhma/index.md'
-  - Selaaminen ja etsiminen: 'selaus/index.md'
   - Tulosteet: 'tulosteet/index.md'
   - Arvonlisävero: 'alv/index.md'
   - Tilikaudet ja tilinpäätös:
