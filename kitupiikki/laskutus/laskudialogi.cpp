@@ -230,6 +230,7 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
         ui->ytunnus->hide();
         ui->viiteLabel->hide();
         ui->nroLabel->hide();
+        ui->asViiteEdit->hide();
 
         ui->esikatseluNappi->setEnabled(false);
         ui->tulostaNappi->setEnabled(false);
@@ -706,6 +707,7 @@ void LaskuDialogi::poistaValitutAsiakkaat()
 
 void LaskuDialogi::verkkolaskuKayttoon()
 {
+    ui->verkkolaskuNappi->setVisible( !ui->verkkoOsoiteEdit->text().isEmpty() && !ui->verkkoValittajaEdit->text().isEmpty() );
     ui->verkkolaskuNappi->setEnabled( !ui->verkkoOsoiteEdit->text().isEmpty() && !ui->verkkoValittajaEdit->text().isEmpty() );
 }
 

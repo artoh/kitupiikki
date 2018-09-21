@@ -163,9 +163,10 @@ a.tukilaatikko:hover
 /* Tooltip text */
 span.ver span.selite {
     visibility: hidden;
+    font-size: 12pt;
     width: 120px;
-    background-color: #7e57c2;
-    color: #fff;
+    background-color: yellow;
+    color: black;
     text-align: center;
     padding: 5px 0;
     border-radius: 6px;

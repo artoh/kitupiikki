@@ -3,13 +3,13 @@
 
 Kitupiikin käyttöliittymä muodostuu seitsemästä välilehdestä.
 
-**Aloituksessa** näet vinkkejä ajankohtaisista tehtävistä sekä tilien saldot. Tilien numerot ovat linkkejä, joista pääset suoraan selaamaan kirjauksia. Välilehdeltä pääset myös avaamaan toisen kirjanpidon tai aloittamaan uuden.
+**Aloituksessa** näet vinkkejä ajankohtaisista tehtävistä sekä tilien saldot. Tilien numerot ovat linkkejä, joista pääset suoraan selaamaan kirjauksia. Välilehdeltä pääset myös avaamaan toisen kirjanpidon tai aloittamaan uuden. **Varmuuskopioi**-napilla saat tallennettua varmuuskopion nykyisestä kirjanpidostasi.
 
 **Uusi tosite**-välilehdellä kirjataan tositteita.
 
 **Selauksessa** pääset selaamaan jo tehtyjä kirjauksia.
 
-**Laskut**-välilehdellä näet myyntilaskut ja laskutat myynnistä.
+**Laskut**-välilehdellä näet myynti- ja ostolaskut sekä laskutat myynnistä.
 
 **Tulosteet**-välilehdellä pääset katselemaan ja tulostamaan mm. pääkirjan, päiväkirjan, tositeluettelot, tililuettelon, tuloslaskelman ja taseen. Kaikki tulosteet voi tallentaa myös tiedostoksi.
 

@@ -1,5 +1,8 @@
 # Kirjaaminen
 
+!!! tip "Käytä kirjausapuria"
+    Koska kirjaukseen voi sisältyä paljon erilaisia ohjaustietoja, on suositeltavaa tehdä kirjaukset Kirjausapurilla aina, kun se suinkin on mahdollista. Arvonlisäverollisten kirjausten tekeminen käsin vaatii erityistä huolellisuutta!
+
 ![](tyhjakirjaus.png)
 
 1. Jos tosite on tietokoneella (pdf- tai jpg-tiedostona) tuo se joko raahaamalla se **Sähköinen tosite**-kohtaan tai **Valitse tiedosto**-napilla (tai <kbd>CTRL</kbd>+<kbd>O</kbd>).
@@ -7,7 +10,6 @@
 2. Täytä tositteen **päivämäärä** <kbd>Enter</kbd> ja **otsikko** <kbd>Enter</kbd>.
 3. Valitse **tositelaji**.
 4. Kirjaa viennit joko [Kirjausapurilla](apuri) <kbd>F9</kbd> tai [käsin](kasin) <kbd>F11</kbd>.
-   Koska kirjaukseen voi sisältyä paljon erilaisia ohjaustietoja, on suositeltavaa tehdä kirjaukset Kirjausapurilla aina, kun se suinkin on mahdollista.
 5. Lisää tarvittaessa vielä **Kommentit**-välilehdelle tarkemmat selvitykset.
 6. Jos kirjaus perustuu paperitositteeseen, merkitse **Tositenumero** paperiseen tositteeseen.
 7. Tallenna kirjaus painamalla **Tallenna** tai <kbd>F12</kbd>.
