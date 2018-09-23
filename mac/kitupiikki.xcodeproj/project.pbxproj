@@ -256,7 +256,6 @@
 		CB8E95F920E6A3CE00C89EEB /* QtNetwork.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = E7958DDBA56B7CE9A40E5333 /* QtNetwork.framework */; };
 		CB8E95FA20E6A3CE00C89EEB /* QtNetwork.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E7958DDBA56B7CE9A40E5333 /* QtNetwork.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CBB34F1F21554E0000BE6C3E /* ytunnusvalidator.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CBB34F1D21554E0000BE6C3E /* ytunnusvalidator.cpp */; };
-		CBB34F2121554E4300BE6C3E /* pdftuonti.cpp.orig in Copy Bundle Resources */ = {isa = PBXBuildFile; fileRef = CBB34F2021554E4300BE6C3E /* pdftuonti.cpp.orig */; };
 		CBB34F2421554E6E00BE6C3E /* myyntiraportti.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CBB34F2321554E6E00BE6C3E /* myyntiraportti.cpp */; };
 		CBB34F342155510400BE6C3E /* kuvanaytin.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CBB34F282155510300BE6C3E /* kuvanaytin.cpp */; };
 		CBB34F352155510400BE6C3E /* naytinikkuna.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CBB34F292155510300BE6C3E /* naytinikkuna.cpp */; };
