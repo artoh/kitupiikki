@@ -15,6 +15,7 @@ mkdir -p $APPDIR/platforms/
 
 #app
 install_name_tool -change /usr/local/opt/poppler/lib/libpoppler-qt5.1.dylib @rpath/libpoppler-qt5.dylib $APPDIR/kitupiikki
+install_name_tool -change /usr/local/opt/libzip/lib/libzip.5.dylib @rpath/libzip.dylib $APPDIR/kitupiikki
 
 #libpoppler-qt5
 cp /usr/local/opt/poppler/lib/libpoppler-qt5.dylib $LIBDIR
@@ -35,6 +36,11 @@ install_name_tool -change /usr/local/opt/jpeg/lib/libjpeg.9.dylib @rpath/libjpeg
 install_name_tool -change /usr/local/opt/openjpeg/lib/libopenjp2.7.dylib @rpath/libopenjp2.dylib $LIBDIR/libpoppler.dylib
 install_name_tool -change /usr/local/opt/libpng/lib/libpng16.16.dylib @rpath/libpng.dylib $LIBDIR/libpoppler.dylib
 install_name_tool -change /usr/local/opt/libtiff/lib/libtiff.5.dylib @rpath/libtiff.dylib $LIBDIR/libpoppler.dylib
+
+#libzip
+cp /usr/local/lib/libzip.dylib $LIBDIR
+chmod +w $LIBDIR/libzip.dylib
+install_name_tool -id @rpath/libzip.dylib $LIBDIR/libzip.dylib
 
 #libfreetype
 cp /usr/local/opt/freetype/lib/libfreetype.dylib $LIBDIR
