@@ -74,6 +74,3 @@ cp /usr/local/opt/libtiff/lib/libtiff.dylib $LIBDIR
 chmod +w $LIBDIR/libtiff.dylib
 install_name_tool -id @rpath/libtiff.dylib $LIBDIR/libtiff.dylib
 install_name_tool -change /usr/local/opt/jpeg/lib/libjpeg.9.dylib @rpath/libjpeg.dylib $LIBDIR/libtiff.dylib
-
-#all back to read-only
-chmod -w $LIBDIR/*
