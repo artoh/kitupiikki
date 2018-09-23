@@ -20,7 +20,7 @@ Lisäksi ostolaskulle tallennetaan lisätiedot (saajan pankkitili ja viite), joi
 ### Tiliotteet
 
 !!! tip "Eikö toimi?"
-    Pdf-tiliotteen tuonti on kokeellinen toiminto. Jos se toimii väärin oman pankkisi tiliotteiden kanssa tai muuten ottaa päähän tai häiritsee, ota se pois käytöstä [tuonnin määrityksistä](/maaritykset/tuonti).
+    Pdf-tiliotteen tuonti on kokeellinen toiminto. Jos se toimii väärin oman pankkisi tiliotteiden kanssa, ota se pois käytöstä [tuonnin määrityksistä](/maaritykset/tuonti).
 
 !!! tip ""
     [<span class="fa fa-youtube"></span> Katso video tiliotteen kirjaamisesta](https://www.youtube.com/watch?v=0uR19M1-Aao)    
@@ -29,8 +29,6 @@ Tiliotteen perusteella Kitupiikki tekee valmiit pankkitilin kirjaukset. Jos tili
 
 Tiliotteen kirjaaminen edellyttää, että tilin IBAN-numero on määritelty kyseisen tilin [määrityksissä](/maaritykset/tilikartta).
 
-!!! info "Tiliotteiden muoto"
-    Tiliotteiden tuonti perustuu tiettyihin tiliotteella oleviin sanoihin ja niiden asemointiin. Kitupiikki on onnistunut tunnistamaan ainakin S-pankin tiliotteita.
 
 ## TITO-tiliotteiden tuonti
 

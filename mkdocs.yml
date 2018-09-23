@@ -38,11 +38,11 @@ markdown_extensions:
         permalink: true
 google_analytics:
   - 'UA-92837430-1'
-  - 'auto'        
+  - 'auto'
 pages:
   - Kitupiikki: 'index.md'
   - Esittely:
-    - Ominaisuudet: 'esittely.md'  
+    - Ominaisuudet: 'esittely.md'
     - Videot: 'videot.md'
     - Käyttöliittymä: 'ui.md'
     - Tuki: 'tuki.md'
@@ -57,24 +57,31 @@ pages:
     - Tilinavaus : 'maaritykset/tilinavaus/index.md'
     - Laskutus: 'maaritykset/laskutus/index.md'
     - Sähköpostin lähettäminen: 'maaritykset/sahkoposti/index.md'
+    - Verkkolasku: 'maaritykset/verkkolasku/index.md'
     - Tuonti : 'maaritykset/tuonti/index.md'
+    - Kirjattavien kansio : 'maaritykset/inbox/index.md'
     - Mukauttaminen:
         - Raportit: 'maaritykset/raportit/index.md'
         - Tilinpäätöksen malli: 'maaritykset/tilinpaatos/index.md'
         - Monimuotoiset tilikartat : 'maaritykset/monimuoto/index.md'
-  - Kirjaaminen: 
+  - Kirjaaminen:
     - Kirjaaminen : 'kirjaus/index.md'
     - Kirjausapuri: 'kirjaus/apuri/index.md'
     - Käsin kirjaaminen: 'kirjaus/kasin/index.md'
     - Tuonti: 'kirjaus/tuonti/index.md'
-  - Laskutus: 'laskutus/index.md'
   - Selaaminen ja etsiminen: 'selaus/index.md'
+  - Laskutus:
+    - Laskutus: 'laskutus/index.md'
+    - Uusi lasku: 'laskutus/uusi/index.md'
+    - Maksumuistutukset: 'laskutus/muistutus/index.md'
+    - Ryhmälasku : 'laskutus/ryhma/index.md'
   - Tulosteet: 'tulosteet/index.md'
   - Arvonlisävero: 'alv/index.md'
-  - Tilikaudet ja tilinpäätös: 
+  - Tilikaudet ja tilinpäätös:
     - Tilikaudet : 'tilikaudet/tilikaudet/index.md'
     - Tilinpäätös: 'tilikaudet/tilinpaatos/index.md'
     - Sähköinen arkisto: 'tilikaudet/arkisto/index.md'
+    - Budjetti: 'tilikaudet/budjetti/index.md'
   - Lisenssi: 'lisenssi.md'
 extra_css:
   - 'stylesheets/extra.css'

@@ -47,6 +47,8 @@ public:
 
     enum Tabs { RIVIT, LISATIEDOT, RYHMAT, VERKKOLASKU};
 
+    static int laskuIkkunoita();
+
 private slots:
     void paivitaSumma(qlonglong paivitaSumma);
     void esikatsele();
@@ -93,6 +95,8 @@ private:
      * @brief Näyttäää tuoteluettelon jos tuotteita, muuten ohjeen
      */
     void paivitaTuoteluettelonNaytto();
+
+    static int laskuIkkunoita__;
 
 public slots:
     void accept();

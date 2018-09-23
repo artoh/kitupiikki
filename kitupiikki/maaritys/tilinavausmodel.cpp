@@ -21,6 +21,7 @@
 #include <QMessageBox>
 #include <QSqlError>
 #include <QDebug>
+#include <QPalette>
 
 TilinavausModel::TilinavausModel() :
     muokattu_(false)
@@ -120,6 +121,11 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
             return 1;
         else
             return 0;
+    }
+    else if( role == Qt::BackgroundColorRole)
+    {
+        if( kp()->tilit()->tiliIndeksilla( index.row()).otsikkotaso() )
+            return QPalette().mid().color();
     }
 
 

@@ -45,7 +45,7 @@ public:
         UUSI
     };
 
-    TiliMuuntoModel(const QMap<int, QString> &tilit);
+    TiliMuuntoModel(const QList<QPair<int, QString>> &tilit);
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
@@ -58,7 +58,7 @@ public:
      * @brief Tilien muunnostaulukko (alkuperäinen, muunnettu)
      * @return
      */
-    QMap<int,int> muunnettu();
+    QMap<QString,int> muunnettu();
 
 protected:
     QList<TilinMuunnos> data_;

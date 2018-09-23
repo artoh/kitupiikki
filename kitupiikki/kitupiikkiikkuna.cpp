@@ -212,8 +212,19 @@ void KitupiikkiIkkuna::uusiSelausIkkuna()
 
 void KitupiikkiIkkuna::uusiLasku()
 {
-    LaskuDialogi *dlg = new LaskuDialogi();
-    dlg->exec();
+    if( !LaskuDialogi::laskuIkkunoita() )
+    {
+        // Ei salli useampaa laskuikkunaa!
+        LaskuDialogi *dlg = new LaskuDialogi();
+        dlg->show();
+    }
+    else
+    {
+        QMessageBox::information(this, tr("Uutta laskua ei voi luoda"),
+                                 tr("Päällekkäisten viitenumeroiden välttämiseksi voit tehdä vain "
+                                    "yhden laskun kerrallaan.\n"
+                                    "Sulje avoinna oleva laskuikkuna ennen uuden laskun luomista."));
+    }
 }
 
 void KitupiikkiIkkuna::aktivoiSivu(QAction *aktio)
@@ -355,7 +366,7 @@ void KitupiikkiIkkuna::lisaaSivut()
     toolbar = new QToolBar(this);
     toolbar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     toolbar->setIconSize(QSize(64,64));
-    toolbar->setStyleSheet("QToolBar {background-color: darkGray; spacing: 5px; }  QToolBar::separator { border: none; margin-bottom: 16px; }  QToolButton { border: 0px solid lightgray; margin-right: 0px; font-size: 8pt; }  QToolButton:checked {background-color: lightGray; } QToolButton:hover { font-size: 9pt; font-weight: bold; } ");
+    toolbar->setStyleSheet("QToolBar {background-color: palette(mid); spacing: 5px; }  QToolBar::separator { border: none; margin-bottom: 16px; }  QToolButton { border: 0px solid lightgray; margin-right: 0px; font-size: 8pt; width: 90%; margin-left: 3px; margin-top: 0px; border-top-left-radius: 6px; border-bottom-left-radius: 6px}  QToolButton:checked {background-color: palette(window); } QToolButton:hover { font-size: 9pt; font-weight: bold; } ");
     toolbar->setMovable(false);
 
     aktioryhma = new QActionGroup(this);
@@ -377,6 +388,10 @@ void KitupiikkiIkkuna::lisaaSivut()
 
     connect(aktioryhma, SIGNAL(triggered(QAction*)), this, SLOT(aktivoiSivu(QAction*)));
 
+    QWidget *vali = new QWidget();
+    vali->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    toolbar->addWidget(vali);
+
     QAction *ohjeAktio = new QAction(QIcon(":/pic/ohje.png"),tr("Käsikirja"), this);
     ohjeAktio->setShortcut( QKeySequence(Qt::Key_F1));
     ohjeAktio->setToolTip("Ohjeet \tF1");
@@ -395,7 +410,7 @@ void KitupiikkiIkkuna::luoHarjoitusDock()
 
     QDateEdit *pvmedit = new QDateEdit;
     pvmedit->setDate( QDate::currentDate());
-    pvmedit->setStyleSheet("background: white;");
+    pvmedit->setStyleSheet("background: white; border-radius: 0px;");
 
     QHBoxLayout *leiska = new QHBoxLayout;
     leiska->addWidget(teksti, 3);
@@ -407,7 +422,7 @@ void KitupiikkiIkkuna::luoHarjoitusDock()
     harjoitusDock = new QDockWidget;
     harjoitusDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
     harjoitusDock->setWidget(wg);
-    harjoitusDock->setStyleSheet("background: green");
+    harjoitusDock->setStyleSheet("background: green; border-bottom-left-radius: 10px;");
     harjoitusDock->setTitleBarWidget(new QWidget(this));
 
     addDockWidget(Qt::TopDockWidgetArea, harjoitusDock);

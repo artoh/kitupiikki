@@ -66,6 +66,8 @@
 LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     model(laskumodel), ui( new Ui::LaskuDialogi)
 {
+    laskuIkkunoita__++;
+
     if( !laskumodel)
         model = new LaskuModel();
 
@@ -132,7 +134,7 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     connect( ui->saajaEdit, SIGNAL(textChanged(QString)), this, SLOT(haeOsoite()));
     connect( ui->rivitView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(rivienKontekstiValikko(QPoint)));
 
-    connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("laskutus#uusi-lasku");});
+
 
     connect( ui->tuotelistaView, SIGNAL(clicked(QModelIndex)), this, SLOT(lisaaTuote(QModelIndex)));
     connect( ui->tuotelistaView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(tuotteidenKonteksiValikko(QPoint)));
@@ -181,6 +183,7 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
         ui->rahaTiliEdit->valitseTiliIdlla( model->viittausLasku().tiliid );
         ui->rahaTiliEdit->setEnabled(false);
         ui->verkkolaskuNappi->setVisible(false);
+        connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("laskutus/uusi#hyvityslasku");});
     }
     else if( model->tyyppi() == LaskuModel::MAKSUMUISTUTUS)
     {
@@ -188,6 +191,7 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
         ui->rahaTiliEdit->valitseTiliIdlla( model->viittausLasku().tiliid );
         ui->rahaTiliEdit->setEnabled(false);
         ui->verkkolaskuNappi->setVisible(false);
+        connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("laskutus/muistutus");});
 
     }
     else if( model->tyyppi() == LaskuModel::LASKU || model->tyyppi() == LaskuModel::RYHMALASKU)
@@ -197,6 +201,11 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
 
         ui->eraDate->setDate( kp()->paivamaara().addDays( kp()->asetukset()->luku("LaskuMaksuaika")));
         ui->verkkolaskuNappi->setVisible( kp()->asetukset()->onko("VerkkolaskuKaytossa") );
+
+        if( model->tyyppi() == LaskuModel::LASKU)
+            connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("laskutus/uusi");});
+        else
+            connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("laskutus/ryhma");});
     }
 
     if( model->tyyppi() == LaskuModel::RYHMALASKU)
@@ -228,6 +237,7 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
         ui->ytunnus->hide();
         ui->viiteLabel->hide();
         ui->nroLabel->hide();
+        ui->asViiteEdit->hide();
 
         ui->esikatseluNappi->setEnabled(false);
         ui->tulostaNappi->setEnabled(false);
@@ -237,6 +247,8 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
         connect( ui->ryhmaView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &LaskuDialogi::ryhmaNapit);
         connect( ui->poistaRyhmastaNappi, &QPushButton::clicked, this, &LaskuDialogi::poistaValitutAsiakkaat);
         connect( ui->tuoRyhmaanNappi, &QPushButton::clicked, this, &LaskuDialogi::tuoAsiakkaitaTiedostosta);
+
+        connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("laskutus/ryhma");});
 
     }
     else
@@ -257,6 +269,7 @@ LaskuDialogi::~LaskuDialogi()
 {
     delete ui;
     delete model;
+    laskuIkkunoita__--;
 }
 
 void LaskuDialogi::paivitaSumma(qlonglong summa)
@@ -725,6 +738,11 @@ void LaskuDialogi::paivitaTuoteluettelonNaytto()
     ui->tuotelistaOhje->setVisible( !tuotteita );
 }
 
+int LaskuDialogi::laskuIkkunoita()
+{
+    return laskuIkkunoita__;
+}
+
 void LaskuDialogi::reject()
 {
     vieMalliin();
@@ -738,3 +756,4 @@ void LaskuDialogi::reject()
         QDialog::reject();
 }
 
+int LaskuDialogi::laskuIkkunoita__ = 0;

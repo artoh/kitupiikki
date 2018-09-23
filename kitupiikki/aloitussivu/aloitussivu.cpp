@@ -39,6 +39,7 @@
 #include <QSysInfo>
 
 #include "ui_aboutdialog.h"
+#include "ui_muistiinpanot.h"
 
 #include "aloitussivu.h"
 #include "db/kirjanpito.h"
@@ -46,6 +47,8 @@
 #include "maaritys/alvmaaritys.h"
 
 #include "uusikp/paivitakirjanpito.h"
+
+#include "versio.h"
 
 AloitusSivu::AloitusSivu() :
     KitupiikkiSivu(nullptr)
@@ -62,6 +65,7 @@ AloitusSivu::AloitusSivu() :
     connect( ui->viimeiset, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(viimeisinTietokanta(QListWidgetItem*)));
     connect( ui->tilikausiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(siirrySivulle()));
     connect(ui->varmistaNappi, &QPushButton::clicked, this, &AloitusSivu::varmuuskopioi);
+    connect(ui->muistiinpanotNappi, &QPushButton::clicked, this, &AloitusSivu::muistiinpanot);
 
     connect( ui->selain, SIGNAL(anchorClicked(QUrl)), this, SLOT(linkki(QUrl)));
 
@@ -117,6 +121,7 @@ void AloitusSivu::kirjanpitoVaihtui()
     ui->nimiLabel->setVisible(avoinna);
     ui->tilikausiCombo->setVisible(avoinna);
     ui->varmistaNappi->setEnabled(avoinna);
+    ui->muistiinpanotNappi->setEnabled(avoinna);
 
     if( avoinna )
     {
@@ -221,9 +226,15 @@ void AloitusSivu::abouttiarallaa()
     aboutUi.setupUi( &aboutDlg);
     connect( aboutUi.aboutQtNappi, &QPushButton::clicked, qApp, &QApplication::aboutQt);
 
-    aboutUi.versioLabel->setText( tr("<b>Versio %1</b>")
-                                  .arg( qApp->applicationVersion()) );
+    QString versioteksti = tr("<b>Versio %1</b><br>Käännetty %2")
+            .arg( qApp->applicationVersion())
+            .arg( buildDate().toString("dd.MM.yyyy"));
 
+    QString kooste(KITUPIIKKI_BUILD);
+    if( !kooste.isEmpty())
+        versioteksti.append("<br>Kooste " + kooste);
+
+    aboutUi.versioLabel->setText(versioteksti);
 
     aboutDlg.exec();
 }
@@ -248,7 +259,7 @@ void AloitusSivu::varmuuskopioi()
             .arg(info.baseName())
             .arg( QDate::currentDate().toString("yyMMdd"));
 
-    QString tiedostoon = QFileDialog::getSaveFileName(this, tr("Varmuuskopioi kirjanpito"), polku, tr("kirjanpito (*.kitupiikki)") );
+    QString tiedostoon = QFileDialog::getSaveFileName(this, tr("Varmuuskopioi kirjanpito"), polku, tr("Kirjanpito (*.kitupiikki)") );
     if( tiedostoon == kp()->tiedostopolku())
     {
         QMessageBox::critical(this, tr("Virhe"), tr("Tiedostoa ei saa kopioida itsensä päälle!"));
@@ -262,6 +273,19 @@ void AloitusSivu::varmuuskopioi()
         else
             QMessageBox::critical(this, tr("Virhe"), tr("Tiedoston varmuuskopiointi epäonnistui."));
     }
+}
+
+void AloitusSivu::muistiinpanot()
+{
+    QDialog dlg(this);
+    Ui::Muistiinpanot ui;
+    ui.setupUi(&dlg);
+
+    ui.editori->setPlainText( kp()->asetukset()->asetus("Muistiinpanot") );
+    if( dlg.exec() == QDialog::Accepted )
+        kp()->asetukset()->aseta("Muistiinpanot", ui.editori->toPlainText());
+
+    siirrySivulle();
 }
 
 void AloitusSivu::pyydaInfo()
@@ -280,10 +304,13 @@ void AloitusSivu::pyydaInfo()
         }
 
 
-        QString kysely = QString("http://paivitysinfo.kitupiikki.info/?v=%1&os=%2&u=%3")
+        QString kysely = QString("http://paivitysinfo.kitupiikki.info/?v=%1&os=%2&u=%3&b=%4&d=%5&k=%6")
                 .arg( qApp->applicationVersion() )
                 .arg( QSysInfo::prettyProductName())
-                .arg( asetukset.value("Keksi").toString() );
+                .arg( asetukset.value("Keksi").toString() )
+                .arg(KITUPIIKKI_BUILD)
+                .arg( buildDate().toString(Qt::ISODate) )
+                .arg( asetukset.value("Tilikartta").toString());
 
         QNetworkRequest pyynto = QNetworkRequest( QUrl(kysely));
         pyynto.setAttribute( QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy  );
@@ -291,6 +318,12 @@ void AloitusSivu::pyydaInfo()
     }
     else
         paivitysInfo.clear();
+}
+
+QDate AloitusSivu::buildDate()
+{
+    QString koostepaiva(__DATE__);      // Tämä päivittyy aina versio.h:ta muutettaessa
+    return QDate::fromString( koostepaiva.mid(4,3) + koostepaiva.left(3) + koostepaiva.mid(6), Qt::RFC2822Date);
 }
 
 QString AloitusSivu::vinkit()
@@ -397,6 +430,14 @@ QString AloitusSivu::vinkit()
                           "<h3><a href=ktp:/maaritys/Tilikartta>Tilikartta puutteellinen</a></h3>"
                           "<p>Tilikartassa pitää olla tilit alv-kirjauksille, alv-vähennyksille ja verovelalle.</td></tr></table>") );
 
+    }
+
+    // Viimeisenä muistiinpanot
+    if( kp()->asetukset()->onko("Muistiinpanot") )
+    {
+        vinkki.append(" <table class=memo width=100%><tr><td><pre>");
+        vinkki.append( kp()->asetukset()->asetus("Muistiinpanot"));
+        vinkki.append("</pre></td></tr></table");
     }
 
     return vinkki;
@@ -539,6 +580,10 @@ void AloitusSivu::paivitaTiedostoLista()
         nama.append(logoBa);
 
         kirjanpidot.insert(polku, nama);
+
+        // Tallennetaan tilastointia varten tieto vakiotilikartasta
+        QString vakiotilikartta = kp()->asetukset()->asetus("VakioTilikartta");
+        settings.setValue("Tilikartta", vakiotilikartta.left(vakiotilikartta.indexOf('.')));
     }
 
 

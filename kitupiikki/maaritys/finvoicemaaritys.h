@@ -32,6 +32,7 @@ public:
     ~FinvoiceMaaritys() override;
 
     bool tallenna() override;
+    QString ohjesivu() override { return "maaritykset/verkkolasku"; }
 
 public slots:
     void valitseKansio();

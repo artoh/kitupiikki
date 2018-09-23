@@ -291,7 +291,7 @@ void KirjausApuriDialog::alvLajiMuuttui()
     ui->alvprossaLabel->setVisible(alvlaji);
 
     ui->eiVahennaCheck->setVisible( alvlaji==AlvKoodi::MAAHANTUONTI || alvlaji==AlvKoodi::YHTEISOHANKINNAT_PALVELUT || alvlaji==AlvKoodi::YHTEISOHANKINNAT_TAVARAT
-                                    || alvlaji == AlvKoodi::MAAHANTUONTI_VERO);
+                                    || alvlaji == AlvKoodi::MAAHANTUONTI_VERO || alvlaji==AlvKoodi::RAKENNUSPALVELU_OSTO);
 
     ehdota();
 }
@@ -369,7 +369,7 @@ void KirjausApuriDialog::yhdistaminenMuuttui(bool yhdistetaanko)
 void KirjausApuriDialog::eraValittu()
 {
     // Kun tase-erä valitaan, merkitään summaksi oletuksena kyseisen tase-erän saldo
-    if( !ui->euroSpin->value())
+    if( ui->euroSpin->value() < 1e-7)
         ui->euroSpin->setValue( qAbs( ui->taseEraCombo->currentData( EranValintaModel::SaldoRooli).toDouble() / 100.0  ) );
     laskeNetto();
     ehdota();
@@ -377,7 +377,7 @@ void KirjausApuriDialog::eraValittu()
 
 void KirjausApuriDialog::vastaEraValittu()
 {
-    if( !ui->euroSpin->value())
+    if( ui->euroSpin->value() < 1e-7)
         ui->euroSpin->setValue( qAbs( ui->vastaTaseEraCombo->currentData( EranValintaModel::SaldoRooli).toDouble() / 100.0  ) );
     laskeNetto();
     ehdota();
@@ -483,14 +483,14 @@ void KirjausApuriDialog::ehdota()
     Kohdennus kohdennus = kp()->kohdennukset()->kohdennus(ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
 
 
-    int nettoSnt = std::round(ui->euroSpin->value() * 100.0);
-    int bruttoSnt = std::round(ui->euroSpin->value() * 100.0);
+    qlonglong nettoSnt = qRound64(ui->euroSpin->value() * 100.0);
+    qlonglong bruttoSnt = qRound64(ui->euroSpin->value() * 100.0);
     int alvprosentti = 0;
     int alvkoodi = AlvKoodi::EIALV;
 
     if( kp()->asetukset()->onko("AlvVelvollinen"))
     {
-        nettoSnt = std::round(ui->nettoSpin->value() * 100.0);
+        nettoSnt = qRound64(ui->nettoSpin->value() * 100.0);
         alvprosentti = ui->alvSpin->value();
         alvkoodi = ui->alvCombo->currentData(VerotyyppiModel::KoodiRooli).toInt();
     }
@@ -853,7 +853,7 @@ void KirjausApuriDialog::accept()
     deleteLater();
 }
 
-VientiRivi KirjausApuriDialog::uusiEhdotusRivi(const Tili& tili, int debetSnt, int kreditSnt)
+VientiRivi KirjausApuriDialog::uusiEhdotusRivi(const Tili& tili, qlonglong debetSnt, qlonglong kreditSnt)
 {
     VientiRivi rivi;
     rivi.pvm = ui->pvmDate->date();

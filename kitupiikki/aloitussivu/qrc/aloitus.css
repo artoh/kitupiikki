@@ -42,6 +42,12 @@ table.info
     border: 1px solid black;
 }
 
+table.memo
+{
+    background-color: #ffffcc;
+    margin-bottom: 1em;
+}
+
 td
 {
     padding: 6px 6px 6px 6px;

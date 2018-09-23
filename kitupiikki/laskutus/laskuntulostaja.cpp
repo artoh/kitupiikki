@@ -544,7 +544,7 @@ void LaskunTulostaja::erittely(LaskuModel *model, QPagedPaintDevice *printer, QP
         kokoVero += verosnt;
 
 
-        QRectF rect = alv ? painter->boundingRect(QRectF(0,0,leveys/2, leveys), Qt::TextWordWrap, nimike ) : painter->boundingRect(QRectF(0,0,3*leveys/8, leveys), Qt::TextWordWrap, nimike );
+        QRectF rect = alv ? painter->boundingRect(QRectF(0,0, 5 * leveys/16, leveys), Qt::TextWordWrap, nimike ) : painter->boundingRect(QRectF(0,0,5*leveys/8, leveys), Qt::TextWordWrap, nimike );
 
         qreal tamarivi = rect.height() > 0.0 ? rect.height() : rk;
         if( tamarivi + painter->transform().dy() > korkeus - 4 * rk )

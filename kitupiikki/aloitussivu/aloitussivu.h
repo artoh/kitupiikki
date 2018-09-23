@@ -31,8 +31,6 @@
 
 #include "ui_aloitus.h"
 
-
-
 /**
  * @brief Webipohjaiset aloitus- ja ohjesivut
  *
@@ -62,10 +60,14 @@ public slots:
     void infoSaapui(QNetworkReply* reply);
     void varmuuskopioi();
 
+    void muistiinpanot();
+
     /**
      * @brief Pyytää infon päivityksistä
      */
     void pyydaInfo();
+
+    static QDate buildDate();
 
 signals:
     void selaus(int tilinumero, Tilikausi tilikausi);

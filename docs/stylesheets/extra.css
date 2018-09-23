@@ -30,7 +30,6 @@ div.asennuslaatikko
     text-align: center;
     background: #7e57c2;
     color: white;
-    width: 350px;
 }
 
 
@@ -103,10 +102,8 @@ a.tukilaatikko:hover
 
 .karuselli
 {
-  max-width: 600px;
   position: relative;
   margin: auto;
-  height: 420px;
   margin-bottom: 2em;
 }
 
@@ -119,7 +116,7 @@ a.tukilaatikko:hover
 {
     width: auto;
     height: auto;
-    max-height: 400px;
+
 }
 
 .txt {
@@ -166,9 +163,10 @@ a.tukilaatikko:hover
 /* Tooltip text */
 span.ver span.selite {
     visibility: hidden;
+    font-size: 12pt;
     width: 120px;
-    background-color: #7e57c2;
-    color: #fff;
+    background-color: yellow;
+    color: black;
     text-align: center;
     padding: 5px 0;
     border-radius: 6px;

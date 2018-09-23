@@ -427,7 +427,7 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt)
                 case BUDJETTI:
                     rr.lisaa( budjetit.at(sarake), false);
                     break;
-                case BUDJETTIERO:
+                case BUDJETTIERO:                    
                     rr.lisaa( summat.at(sarake) - budjetit.at(sarake), true );
                     break;
                 case TOTEUMAPROSENTTI:

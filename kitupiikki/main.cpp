@@ -26,6 +26,7 @@
 
 #include "db/kirjanpito.h"
 #include "kitupiikkiikkuna.h"
+#include "versio.h"
 
 #include <QDebug>
 #include <QDir>
@@ -36,11 +37,30 @@
 #include <QTextStream>
 
 #include "ui_tervetuloa.h"
-#include "arkisto/tararkisto.h"
 
-#if defined Q_OS_MACX
-#include "version.h"
-#endif
+
+void lisaaLinuxinKaynnistysValikkoon()
+{
+    // Poistetaan vanha, jotta päivittyisi
+    QFile::remove( QDir::home().absoluteFilePath(".local/share/applications/Kitupiikki.desktop") );
+    // Kopioidaan kuvake
+    QDir::home().mkpath( ".local/share/icons" );
+    QFile::copy(":/pic/Possu64.png", QDir::home().absoluteFilePath(".local/share/icons/Kitupiikki.png"));
+    // Lisätään työpöytätiedosto
+    QFile desktop( QDir::home().absoluteFilePath(".local/share/applications/Kitupiikki.desktop") );
+    desktop.open(QIODevice::WriteOnly | QIODevice::Truncate);
+    QTextStream out(&desktop);
+    out.setCodec("UTF-8");
+
+    out << "[Desktop Entry]\nVersion=1.0\nType=Application\nName=Kitupiikki " << qApp->applicationVersion() << "\n";
+    out << "Icon=" << QDir::home().absoluteFilePath(".local/share/icons/Kitupiikki.png") << "\n";
+    out << "Exec=" << qApp->applicationFilePath() << "\n";
+    out << "TryExec=" << qApp->applicationFilePath() << "\n";
+    out << "GenericName=Kirjanpito\n";
+    out << qApp->tr("Comment=Avoimen lähdekoodin kirjanpitäjä\n");
+    out << "Categories=Office;Finance;Qt;\nTerminal=false";
+}
+
 
 int main(int argc, char *argv[])
 {
@@ -58,12 +78,7 @@ int main(int argc, char *argv[])
 #endif
     
     a.setApplicationName("Kitupiikki");
-#if defined Q_OS_MACX
-    a.setApplicationVersion(VERSION_STRING);
-#else
-    a.setApplicationVersion("1.1-beta.2");
-#endif
-    
+    a.setApplicationVersion(KITUPIIKKI_VERSIO);
     a.setOrganizationDomain("kitupiikki.info");
     
     a.setOrganizationName("Kitupiikki Kirjanpito");
@@ -100,25 +115,8 @@ int main(int argc, char *argv[])
 #ifdef Q_OS_LINUX
         // Ohjelman lisääminen käynnistysvalikkoon Linuxilla
         if( tervetuloUi.valikkoonCheck->isChecked())
-        {
-            // Poistetaan vanha, jotta päivittyisi
-            QFile::remove( QDir::home().absoluteFilePath(".local/share/applications/Kitupiikki.desktop") );
-            // Kopioidaan kuvake
-            QDir::home().mkpath( ".local/share/icons" );
-            QFile::copy(":/pic/Possu64.png", QDir::home().absoluteFilePath(".local/share/icons/Kitupiikki.png"));
-            // Lisätään työpöytätiedosto
-            QFile desktop( QDir::home().absoluteFilePath(".local/share/applications/Kitupiikki.desktop") );
-            desktop.open(QIODevice::WriteOnly | QIODevice::Truncate);
-            QTextStream out(&desktop);
-            out.setCodec("UTF-8");
-            out << "[Desktop Entry]\nVersion=1.0\nType=Application\nName=Kitupiikki " << a.applicationVersion() << "\n";
-            out << "Icon=" << QDir::home().absoluteFilePath(".local/share/icons/Kitupiikki.png") << "\n";
-            out << "Exec=" << a.applicationFilePath() << "\n";
-            out << "TryExec=" << a.applicationFilePath() << "\n";
-            out << "GenericName=Kirjanpito\n";
-            out << a.tr("Comment=Avoimen lähdekoodin kirjanpitäjä\n");
-            out << "Categories=Office;Finance;Qt;\nTerminal=false";
-        }
+            lisaaLinuxinKaynnistysValikkoon();
+
 #endif
 
         settings.setValue("NaytaPaivitykset", tervetuloUi.paivitysCheck->isChecked());

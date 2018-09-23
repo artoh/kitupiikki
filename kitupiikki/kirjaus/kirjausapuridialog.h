@@ -43,7 +43,7 @@ class KirjausApuriDialog : public QDialog
     Q_OBJECT
 
 public:
-    KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent = 0);
+    KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent = nullptr);
     ~KirjausApuriDialog();
 
     enum Valilehti { TULO, MENO, SIIRTO};
@@ -93,7 +93,7 @@ protected:
      * @brief VientiRivi, jossa pvm ja selite valmiina paikallaan
      * @return
      */
-    VientiRivi uusiEhdotusRivi(const Tili &tili = Tili(), int debetSnt = 0, int kreditSnt = 0);
+    VientiRivi uusiEhdotusRivi(const Tili &tili = Tili(), qlonglong debetSnt = 0, qlonglong kreditSnt = 0);
 
     bool eventFilter(QObject *watched, QEvent *event);
 
