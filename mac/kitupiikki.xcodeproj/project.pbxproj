@@ -2614,7 +2614,7 @@
 				DEVELOPMENT_TEAM = FJ2CG9GU7J;
 				ENABLE_BITCODE = NO;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/../Libraries";
-				PRODUCT_BUNDLE_IDENTIFIER = "fi.atfos.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = fi.atfos.kitupiikki;
 				PRODUCT_NAME = Kitupiikki;
 				QMAKE_PKGINFO_TYPEINFO = "????";
 				QT_LIBRARY_SUFFIX = "";
@@ -2636,7 +2636,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @loader_path/../Libraries";
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "fi.atfos.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = fi.atfos.kitupiikki;
 				PRODUCT_NAME = Kitupiikki;
 				QMAKE_PKGINFO_TYPEINFO = "????";
 				QT_LIBRARY_SUFFIX = _debug;
