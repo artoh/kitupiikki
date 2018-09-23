@@ -33,14 +33,15 @@ protected:
     Ui::SijaintiSivu *ui;
 public:
     SijaintiSivu();
-    ~SijaintiSivu();
+    ~SijaintiSivu() override;
 
 protected slots:
     void vaihdaSijainti();
 
 protected:
-    void initializePage();
-    void estaTuplaTiedosto();
+    void initializePage() override;
+    QString estaTuplaTiedosto(QString tiedosto);
+    bool validatePage() override;
 };
 
 #endif // SIJAINTISIVU_H

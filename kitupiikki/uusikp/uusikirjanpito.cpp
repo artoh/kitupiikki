@@ -25,7 +25,10 @@
 
 #include <QSqlDatabase>
 #include <QSqlQuery>
+#include <QSqlError>
 #include <QMapIterator>
+
+#include <QMessageBox>
 
 #include <QApplication>
 #include <QRegularExpression>
@@ -35,6 +38,7 @@
 
 #include <QDesktopServices>
 #include <QUrl>
+
 
 #include "uusikirjanpito.h"
 
@@ -82,7 +86,7 @@ QString UusiKirjanpito::aloitaUusiKirjanpito()
 
     velho.exec();
 
-    if( velho.alustaKirjanpito())
+    if(  !velho.field("sijainti").toString().isEmpty() && velho.alustaKirjanpito())
         // Palautetaan uuden kirjanpidon hakemistopolku
         return velho.field("sijainti").toString() + "/" + velho.field("tiedosto").toString();
     else
@@ -161,6 +165,7 @@ bool UusiKirjanpito::alustaKirjanpito()
         db.setDatabaseName(polku);
         if( !db.open())
         {
+            QMessageBox::critical(nullptr, tr("Kirjanpidon luominen epäonnistui"), tr("Tietokannan luominen epäonnistui seuraavan virheen takia: %1").arg( db.lastError().text() ));
             return false;
         }
 
@@ -184,8 +189,13 @@ bool UusiKirjanpito::alustaKirjanpito()
 
         foreach (QString kysely,sqlista)
         {
-            query.exec(kysely);
+            if(!query.exec(kysely))
+            {
+                QMessageBox::critical(nullptr, tr("Kirjanpidon luominen epäonnostui"), tr("Virhe tietokantaa luotaessa: %1 (%2)").arg(query.lastError().text()).arg(kysely) );
+                return false;
+            }
             qApp->processEvents();
+
         }
 
         progDlg.setValue( progDlg.value() + 1 );
@@ -361,6 +371,9 @@ bool UusiKirjanpito::alustaKirjanpito()
             Skripti::suorita( asetukset.lista("Kirjaamisperuste/Maksuperuste"), &asetukset, &tilit, &lajit );
 
         progDlg.setValue( prosessiluku );
+
+        if( db.lastError().isValid())
+            QMessageBox::critical(nullptr, tr("Virhe kirjanpitoa luotaessa"), tr("Tietokantaa luotaessa tapahtui virhe: %1").arg(db.lastError().text()));
 
         db.close();
 

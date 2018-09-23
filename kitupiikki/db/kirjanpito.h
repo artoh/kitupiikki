@@ -62,7 +62,7 @@ class Kirjanpito : public QObject
     Q_OBJECT
 
 public:
-    Kirjanpito(QObject *parent = 0);
+    Kirjanpito(QObject *parent = nullptr);
 
 
     ~Kirjanpito();
@@ -134,7 +134,7 @@ public:
      * @brief Palauttaa TositeModel:in, jonka kautta pääsee tositteisiin
      * @return
      */
-    TositeModel *tositemodel(QObject *parent = 0);
+    TositeModel *tositemodel(QObject *parent = nullptr);
 
     /**
      * @brief Kohdennusten eli kustannuspaikkojen ja projektien model

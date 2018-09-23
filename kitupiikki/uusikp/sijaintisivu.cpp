@@ -17,7 +17,9 @@
 
 #include <QFile>
 #include <QFileDialog>
+#include <QFileInfo>
 #include <QRegularExpression>
+#include <QMessageBox>
 
 #include "sijaintisivu.h"
 
@@ -47,8 +49,20 @@ void SijaintiSivu::vaihdaSijainti()
     QString sijainti = QFileDialog::getExistingDirectory(this,"Valitse sijainti",
                                                          ui->sijaintiEdit->text());
     if( !sijainti.isEmpty())
-        ui->sijaintiEdit->setText(sijainti);
-    estaTuplaTiedosto();
+    {
+        QFileInfo info(sijainti);
+        if( !info.isWritable())
+        {
+            QMessageBox::critical(this, tr("Hakemisto ei voi kelpaa"), tr("Valitsemaasi hakemistoon ei voida luoda uutta tiedostoa. "
+                                                                          "Sinulla ei ehkä ole kirjoitusoikeuksia tähän hakemistoon. \n\n"
+                                                                          "Ole hyvä ja valitse toinen hakemisto."));
+        }
+        else
+        {
+            ui->sijaintiEdit->setText(sijainti);
+            ui->tiedostoEdit->setText( estaTuplaTiedosto(ui->tiedostoEdit->text()) );
+        }
+    }
 }
 
 void SijaintiSivu::initializePage()
@@ -63,13 +77,11 @@ void SijaintiSivu::initializePage()
         nimi += "-kokeilu";
     nimi += ".kitupiikki";
 
-    ui->tiedostoEdit->setText(nimi);
-    estaTuplaTiedosto();
+    ui->tiedostoEdit->setText(estaTuplaTiedosto( nimi ));
 }
 
-void SijaintiSivu::estaTuplaTiedosto()
+QString SijaintiSivu::estaTuplaTiedosto(QString tiedosto)
 {
-    QString tiedosto = ui->tiedostoEdit->text();
     // Poistetaan lopussa mahdollisesti jo oleva lisäys
     tiedosto.replace(QRegularExpression("-?\\d*.kitupiikki$"),"");
 
@@ -81,6 +93,17 @@ void SijaintiSivu::estaTuplaTiedosto()
         lisake = QString("-%1").arg(lisanumero);
     }
 
-    ui->tiedostoEdit->setText(tiedosto + lisake + ".kitupiikki");
+    return tiedosto + lisake + ".kitupiikki";
+}
+
+bool SijaintiSivu::validatePage()
+{
+    QFileInfo sijainti(ui->sijaintiEdit->text());
+    if( sijainti.isWritable())
+        return true;
+    QMessageBox::critical(this, tr("Hakemisto ei voi kelpaa"), tr("Valitsemaasi hakemistoon ei voida luoda uutta tiedostoa. "
+                                                                  "Sinulla ei ehkä ole kirjoitusoikeuksia tähän hakemistoon. \n\n"
+                                                                  "Ole hyvä ja valitse toinen hakemisto."));
+    return false;
 }
 

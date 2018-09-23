@@ -117,27 +117,7 @@ CREATE TABLE liite (
     liitetty DATETIME
 );
 
-CREATE INDEX liite_tosite_index ON liite(tosite)
-
-CREATE TABLE lasku (
-    id          INTEGER        PRIMARY KEY,
-    tosite      INTEGER REFERENCES tosite(id) ON DELETE RESTRICT
-                                              ON UPDATE CASCADE,
-    laskupvm    DATE,
-    erapvm      DATE,
-    summaSnt    BIGINT,
-    avoinSnt    BIGINT,
-    asiakas     VARCHAR(128),
-    kirjausperuste INTEGER DEFAULT(0),
-    json        TEXT
-
-);
-
-CREATE INDEX lasku_viite ON lasku(viite);
-CREATE INDEX lasku_pvm ON lasku(laskupvm);
-CREATE INDEX lasku_erapvm ON lasku(erapvm);
-CREATE INDEX lasku_asiakas ON lasku(asiakas);
-CREATE INDEX lasku_tosite ON lasku(tosite);
+CREATE INDEX liite_tosite_index ON liite(tosite);
 
 CREATE TABLE tuote (
     id              INTEGER     PRIMARY KEY AUTOINCREMENT,
