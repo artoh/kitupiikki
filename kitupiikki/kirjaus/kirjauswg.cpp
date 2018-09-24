@@ -116,6 +116,9 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     ui->tiliotetiliCombo->setModelColumn(TiliModel::NRONIMI);
 
     ui->liiteView->setModel( model_->liiteModel() );
+    ui->liiteView->setAcceptDrops(true);
+    ui->liiteView->setDropIndicatorShown(true);
+
     connect( ui->liiteView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
              this, SLOT(liiteValinta(QModelIndex)));
     connect( ui->lisaaliiteNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaLiite()));

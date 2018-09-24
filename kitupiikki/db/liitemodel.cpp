@@ -23,6 +23,7 @@
 #include <QIcon>
 #include <QPdfWriter>
 #include <QMessageBox>
+#include <QMimeData>
 
 #include <QPrinter>
 #include <QPainter>
@@ -95,7 +96,7 @@ QVariant LiiteModel::data(const QModelIndex &index, int role) const
 Qt::ItemFlags LiiteModel::flags(const QModelIndex &index) const
 {
     if( tositeModel_ && tositeModel_->muokkausSallittu())
-        return QAbstractListModel::flags(index) | Qt::ItemIsEditable;
+        return QAbstractListModel::flags(index) | Qt::ItemIsEditable | Qt::ItemIsDropEnabled;
     else
         return QAbstractListModel::flags(index);
 }
@@ -112,6 +113,7 @@ bool LiiteModel::setData(const QModelIndex &index, const QVariant &value, int ro
     }
     return false;
 }
+
 
 int LiiteModel::lisaaLiite(const QByteArray &liite, const QString &otsikko, const QString &polusta)
 {
@@ -232,6 +234,50 @@ QByteArray LiiteModel::liite(const QString &otsikko)
             return liite.pdf;
 
     return QByteArray();
+}
+
+bool LiiteModel::canDropMimeData(const QMimeData *data, Qt::DropAction /*action*/, int /* row */, int /*column*/, const QModelIndex &/*parent*/) const
+{
+    return( data->hasUrls() || data->formats().contains("image/jpg") || data->formats().contains("image/png"));
+}
+
+bool LiiteModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int /* row */, int /* column */, const QModelIndex & /* parent */)
+{
+    if( action == Qt::IgnoreAction)
+        return true;
+
+    int lisatty = 0;
+    // Liitetiedosto pudotettu
+    if( data->hasUrls())
+    {
+        QList<QUrl> urlit = data->urls();
+        for(auto url : urlit)
+        {
+            if( url.isLocalFile())
+            {
+                QFileInfo info( url.toLocalFile());
+                QString polku = info.absoluteFilePath();
+
+                lisaaTiedosto(info.absoluteFilePath(), info.fileName());
+                lisatty++;
+            }
+        }
+    }
+    if( lisatty)
+        return true;
+
+    if( !lisatty && data->formats().contains("image/jpg"))
+    {
+        lisaaLiite( data->data("image/jpg"), tr("liite.jpg") );
+        return true;
+    }
+    else if(!lisatty && data->formats().contains("image/png"))
+    {
+        lisaaLiite( data->data("image/png"), tr("liite.png") );
+        return true;
+    }
+
+    return false;
 }
 
 
