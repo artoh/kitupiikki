@@ -194,7 +194,8 @@ void LaskuSivu::laskuValintaMuuttuu()
         tositeModel.lataa(tosite);
         bool muokkausSallittu = tositeModel.muokkausSallittu() &&
                 ((index.data(LaskutModel::KirjausPerusteRooli).toInt() != LaskuModel::MAKSUPERUSTE ||
-                  index.data(LaskutModel::SummaRooli).toLongLong() == index.data(LaskutModel::AvoinnaRooli).toLongLong()) &&
+                  (index.data(LaskutModel::SummaRooli).toLongLong() == index.data(LaskutModel::AvoinnaRooli).toLongLong() &&
+                   !index.data(LaskutModel::MuistutettuRooli).toBool())) &&
                   index.data(LaskutModel::TyyppiRooli).toInt() != LaskuModel::OSTOLASKU);
 
         muokkaaNappi_->setEnabled( muokkausSallittu );

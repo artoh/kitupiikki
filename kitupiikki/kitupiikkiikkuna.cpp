@@ -94,7 +94,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
         QString viimeisin = settings.value("viimeisin").toString();
         // #78 Varmistetaan, että kirjanpito edelleen olemassa (0.7 8.3.2018)
         if( QFile::exists( viimeisin ) )
-            Kirjanpito::db()->avaaTietokanta(viimeisin);
+            Kirjanpito::db()->avaaTietokanta(viimeisin, false);
         else
             aloitussivu->kirjanpitoVaihtui();
     }
@@ -410,7 +410,8 @@ void KitupiikkiIkkuna::luoHarjoitusDock()
 
     QDateEdit *pvmedit = new QDateEdit;
     pvmedit->setDate( QDate::currentDate());
-    pvmedit->setStyleSheet("background: white; border-radius: 0px;");
+    pvmedit->setStyleSheet("background: palette(window); border-radius: 0px; border: 1px solid black; color: palette(text);");
+    pvmedit->setCalendarPopup(true);
 
     QHBoxLayout *leiska = new QHBoxLayout;
     leiska->addWidget(teksti, 3);

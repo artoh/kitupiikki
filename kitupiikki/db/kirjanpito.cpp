@@ -162,7 +162,7 @@ QString Kirjanpito::arkistopolku() const
 
 
 
-bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
+bool Kirjanpito::avaaTietokanta(const QString &tiedosto, bool ilmoitaVirheesta)
 {
     tietokanta_.setDatabaseName(tiedosto);
     polkuTiedostoon_ = tiedosto;
@@ -184,18 +184,22 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
     if( tietokanta()->lastError().isValid())
     {
         // Tietokanta on jo käytössä
-        if( tietokanta()->lastError().text().contains("locked"))
+        if( ilmoitaVirheesta )
         {
-            QMessageBox::critical(nullptr, tr("Tiedostoa %1 ei voi avata").arg(tiedosto),
-                                  tr("Tämä kirjanpitotiedosto on jo käytössä.\n\n"
-                                     "Sulje kaikki Kitupiikki-ohjelman ikkunat ja yritä uudelleen.\n"
-                                     "Ellei tämä auta, käynnistä tietokoneesi uudelleen."));
+            if( tietokanta()->lastError().text().contains("locked"))
+            {
+                QMessageBox::critical(nullptr, tr("Kitupiikki").arg(tiedosto),
+                                      tr("Kirjanpitotiedosto on jo käytössä.\n\n%1\n\n"
+                                         "Sulje kaikki Kitupiikki-ohjelman ikkunat ja yritä uudelleen.\n"
+                                         "Ellei tämä auta, käynnistä tietokoneesi uudelleen.").arg(tiedosto));
+            }
+            else
+            {
+                QMessageBox::critical(nullptr, tr("Tiedostoa %1 ei voi avata").arg(tiedosto),
+                                  tr("Sql-virhe: %1").arg(tietokanta()->lastError().text()));
+            }
         }
-        else
-        {
-            QMessageBox::critical(nullptr, tr("Tiedostoa %1 ei voi avata").arg(tiedosto),
-                              tr("Sql-virhe: %1").arg(tietokanta()->lastError().text()));
-        }
+
         tietokanta()->close();
         asetusModel_->lataa();
         emit tietokantaVaihtui();

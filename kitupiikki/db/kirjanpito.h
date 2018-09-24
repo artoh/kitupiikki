@@ -280,7 +280,7 @@ public slots:
      * @param tiedosto Kirjanpidon kitupiikki.sqlite-tiedoston täydellinen polku
      * @return tosi, jos onnistuu
      */
-    bool avaaTietokanta(const QString& tiedosto);
+    bool avaaTietokanta(const QString& tiedosto, bool ilmoitaVirheesta = true);
 
     /**
      * @brief Lataa tietokannan uudelleen rakenteen muutoksen jälkeen
