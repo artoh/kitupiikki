@@ -244,7 +244,7 @@ RaportinKirjoittaja LaskuRaportti::ostolaskut(QDate saldopvm, bool avoimet, Lask
 
     while( kysely.next() )
     {
-        qlonglong avoinna = kysely.value("kreditsnt").toLongLong();
+        qlonglong avoinna = 0l;
         JsonKentta json( kysely.value("vienti.json").toByteArray() );
 
         // Nyt pitää hakea tähän tase-erään tulevat muutokset ko. päivään asti
@@ -252,6 +252,7 @@ RaportinKirjoittaja LaskuRaportti::ostolaskut(QDate saldopvm, bool avoimet, Lask
                          "WHERE eraid=%1 AND pvm <= '%2'")
                              .arg( kysely.value("vienti.id").toInt()  ).arg(saldopvm.toString(Qt::ISODate)));
 
+        qDebug() << erakysely.lastQuery();
 
         while( erakysely.next())
         {
