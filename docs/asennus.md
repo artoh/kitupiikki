@@ -33,6 +33,9 @@ Kitupiikin Linux-versio toimitetaan AppImage-tiedostona, jota ei varsinaisesti e
 
 Tukee OS X versiota 10.11 ja uudempia
 
+!!! note "Yhteensopivuusongelmia"
+    Macintosh-version toimivuudessa on vielä hieman ongelmia. Korjaus on tulossa...
+
 !!! note ""
     <span class="fa fa-linux"></span> [Kitupiikki 1.0 macOS asennuspaketti (15 MB) ](https://github.com/petriaarnio/kitupiikki/releases/download/mac_v1.0.0/Kitupiikki.dmg)
 
@@ -40,7 +43,7 @@ Tukee OS X versiota 10.11 ja uudempia
 2. Avaa asennustiedosto kaksoisnapsauttamalla hiirellä
 3. Vedä avautuneesta ikkunasta Kitupiikin kuvake Ohjelmat (Applications) -hakemiston kuvakkeen päälle
 
-Macintosh-jakelua ylläpitää [Petri Aarnio](https://github.com/petriaarnio).
+Macintosh-julkaisua ylläpitää [Petri Aarnio](https://github.com/petriaarnio).
 
 
 ## <span class="fa fa-exclamation-triangle"></span> Kitupiikki Beta
@@ -62,9 +65,9 @@ Version 1.1 uusia ominaisuuksia
 Beta-versio käynnistyy suoraan ladattavasta tiedostosta, joten voit kokeilla sitä, vaikka käyttäisitkin muuten Kitupiikin vakaata versiota.
 
 !!! warning ""
-    <span class="fa fa-windows"></span> [Kitupiikki 1.1 BETA.3 Windows suoritettava ohjelma (14 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.1-beta.3/kitupiikki1.1-beta.3.exe) <span class="fa fa-exclamation-triangle"> </span> **Testikäyttöön**
+    <span class="fa fa-windows"></span> [Kitupiikki 1.1 BETA.4 Windows suoritettava ohjelma (14 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.1-beta.4/kitupiikki1.1-beta.4.exe) <span class="fa fa-exclamation-triangle"> </span> **Testikäyttöön**
 
-    <span class="fa fa-linux"></span> [Kitupiikki 1.1 BETA.3 Linux AppImage (30 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.1-beta.3/Kitupiikki-1.1-beta.3-x86_64.AppImage) <span class="fa fa-exclamation-triangle"> </span>  **Testikäyttöön**
+    <span class="fa fa-linux"></span> [Kitupiikki 1.1 BETA.4 Linux AppImage (30 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.1-beta.4/Kitupiikki-1.1-beta.4-x86_64.AppImage) <span class="fa fa-exclamation-triangle"> </span>  **Testikäyttöön**
 
 ## Kehitysversio
 
