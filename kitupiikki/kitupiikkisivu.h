@@ -27,7 +27,7 @@ class KitupiikkiSivu : public QWidget
 {
     Q_OBJECT
 public:
-    explicit KitupiikkiSivu(QWidget *parent = 0);
+    explicit KitupiikkiSivu(QWidget *parent = nullptr);
 
     /**
      * @brief Kutsutaan, kun ollaan siirtymässä toiselle sivulle

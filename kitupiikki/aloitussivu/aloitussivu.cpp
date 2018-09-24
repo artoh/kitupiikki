@@ -84,6 +84,12 @@ AloitusSivu::~AloitusSivu()
 
 void AloitusSivu::siirrySivulle()
 {
+    if( !sivulla )
+    {
+        connect( kp(), &Kirjanpito::kirjanpitoaMuokattu, this, &AloitusSivu::siirrySivulle);
+        sivulla = true;
+    }
+
     // Päivitetään aloitussivua
     if( kp()->asetukset()->onko("Nimi"))
     {
@@ -112,6 +118,13 @@ void AloitusSivu::siirrySivulle()
         ui->selain->setHtml( teksti );
     }
 
+}
+
+bool AloitusSivu::poistuSivulta(int /* minne */)
+{
+    disconnect( kp(), &Kirjanpito::kirjanpitoaMuokattu, this, &AloitusSivu::siirrySivulle);
+    sivulla = false;
+    return true;
 }
 
 void AloitusSivu::kirjanpitoVaihtui()

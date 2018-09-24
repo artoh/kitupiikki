@@ -42,11 +42,12 @@ class AloitusSivu : public KitupiikkiSivu
 
 public:
     AloitusSivu();
-    ~AloitusSivu();
+    ~AloitusSivu() override;
+
+    bool poistuSivulta(int minne) override;
 
 public slots:
-
-    void siirrySivulle();
+    void siirrySivulle() override;
     void kirjanpitoVaihtui();
 
     void linkki(const QUrl& linkki);
@@ -89,6 +90,7 @@ protected:
 
 protected:
     Ui::Aloitus *ui;
+    bool sivulla = false;
 };
 
 #endif // ALOITUSSIVU_H
