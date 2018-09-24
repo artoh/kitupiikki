@@ -72,6 +72,9 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
         model = new LaskuModel();
 
     setAttribute(Qt::WA_DeleteOnClose);
+    QSettings settings;
+    resize(800,600);
+    restoreGeometry( settings.value("LaskuDialogi").toByteArray());
 
     ui->setupUi(this);
 
@@ -267,6 +270,8 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
 
 LaskuDialogi::~LaskuDialogi()
 {
+    QSettings settings;
+    settings.setValue("LaskuDialogi", saveGeometry());
     delete ui;
     delete model;
     laskuIkkunoita__--;
@@ -279,6 +284,7 @@ void LaskuDialogi::paivitaSumma(qlonglong summa)
 
 void LaskuDialogi::esikatsele()
 {
+    vieMalliin();
     if( model->tyyppi() == LaskuModel::RYHMALASKU )
     {
         QByteArray array;
@@ -308,13 +314,13 @@ void LaskuDialogi::esikatsele()
     }
     else
     {
-        vieMalliin();
         NaytinIkkuna::nayta( tulostaja->pdf() );
     }
 }
 
 void LaskuDialogi::finvoice()
 {
+    vieMalliin();
     if( model->tyyppi() == LaskuModel::RYHMALASKU )
     {
         for(const QModelIndex& indeksi : ui->ryhmaView->selectionModel()->selectedRows() )
@@ -329,7 +335,6 @@ void LaskuDialogi::finvoice()
     }
     else
     {
-        vieMalliin();
         if( Finvoice::muodostaFinvoice(model))
         {
             ui->onniLabel->setText( tr("Verkkolasku muodostettu") );
@@ -367,9 +372,7 @@ void LaskuDialogi::perusteVaihtuu()
         ui->rahaTiliEdit->suodataTyypilla("AR");
         ui->rahaTiliEdit->valitseTiliNumerolla( kp()->asetus("LaskuKateistili").toInt());
     }
-
-
-
+    model->asetaKirjausperuste(peruste);
 
 }
 
@@ -506,6 +509,7 @@ void LaskuDialogi::onkoPostiKaytossa()
 
 void LaskuDialogi::lahetaSahkopostilla()
 {
+    vieMalliin();
     if( model->tyyppi() == LaskuModel::RYHMALASKU)
     {
         ryhmaLahetys_.append(-1);
@@ -521,7 +525,6 @@ void LaskuDialogi::lahetaSahkopostilla()
         return;
     }
 
-    vieMalliin();
     QSettings settings;
 
     Smtp *smtp = new Smtp( settings.value("SmtpUser").toString(), settings.value("SmtpPassword").toString(),
@@ -586,6 +589,7 @@ void LaskuDialogi::smtpViesti(const QString &viesti)
 
 void LaskuDialogi::tulostaLasku()
 {
+    vieMalliin();
     QPrintDialog printDialog( kp()->printer(), this );
     if( printDialog.exec())
     {
@@ -606,7 +610,6 @@ void LaskuDialogi::tulostaLasku()
         }
         else
         {
-            vieMalliin();
             tulostaja->tulosta( kp()->printer(), &painter );
         }
 
