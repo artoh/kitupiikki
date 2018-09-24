@@ -84,9 +84,7 @@ QString UusiKirjanpito::aloitaUusiKirjanpito()
 {
     UusiKirjanpito velho;
 
-    velho.exec();
-
-    if(  !velho.field("sijainti").toString().isEmpty() && velho.alustaKirjanpito())
+    if(  velho.exec() && velho.alustaKirjanpito())
         // Palautetaan uuden kirjanpidon hakemistopolku
         return velho.field("sijainti").toString() + "/" + velho.field("tiedosto").toString();
     else

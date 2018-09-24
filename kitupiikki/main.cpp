@@ -66,10 +66,6 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    QSplashScreen *splash = new QSplashScreen;
-    splash->setPixmap( QPixmap(":/pic/splash.png"));
-    splash->show();
-    
 #if defined (Q_OS_WIN) || defined (Q_OS_MACX)
     a.setStyle(QStyleFactory::create("Fusion"));
 #else
@@ -122,6 +118,9 @@ int main(int argc, char *argv[])
         settings.setValue("NaytaPaivitykset", tervetuloUi.paivitysCheck->isChecked());
         settings.setValue("ViimeksiVersiolla", a.applicationVersion());
     }
+    QSplashScreen *splash = new QSplashScreen;
+    splash->setPixmap( QPixmap(":/pic/splash.png"));
+    splash->show();
 
     Kirjanpito kirjanpito;
     Kirjanpito::asetaInstanssi(&kirjanpito);
