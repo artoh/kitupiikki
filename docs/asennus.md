@@ -33,11 +33,14 @@ Kitupiikin Linux-versio toimitetaan AppImage-tiedostona, jota ei varsinaisesti e
 
 Tukee OS X versiota 10.11 ja uudempia
 
-!!! note "Yhteensopivuusongelmia"
-    Macintosh-version toimivuudessa on vielä hieman ongelmia. Korjaus on tulossa...
+!!! information "Mac-versiossa vielä hieman hiomista..."
+    Macintosh-versiossa on vielä pieniä yhteensopivuusongelmia. Jotta Kitupiikki saataisiin toimimaan luotettavasti Macilla, olisi testausapu tervetullutta!
 
+    Mac-version voi ladata osoitteesta [https://github.com/petriaarnio/kitupiikki/releases](https://github.com/petriaarnio/kitupiikki/releases) (ensimmäinen .dmg-päätteinen tiedosto) ja virheistä ilmoitella tämän sivun alareunan keskustelualueelle tai palaute@kitupiikki.info. <span class="fa fa-exclamation-triangle"> </span> **Beta-versio, saattaa sisältää vielä virheitä**
+
+<!--
 !!! note ""
-    <span class="fa fa-linux"></span> [Kitupiikki 1.0 macOS asennuspaketti (15 MB) ](https://github.com/petriaarnio/kitupiikki/releases/download/mac_v1.0.0/Kitupiikki.dmg)
+    <span class="fa fa-linux"></span> [Kitupiikki 1.0 macOS asennuspaketti (15 MB) ](https://github.com/petriaarnio/kitupiikki/releases/download/mac_v1.0.0/Kitupiikki.dmg)  -->
 
 1. Lataa yllä oleva asennustiedosto
 2. Avaa asennustiedosto kaksoisnapsauttamalla hiirellä
