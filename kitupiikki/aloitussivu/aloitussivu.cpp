@@ -84,6 +84,12 @@ AloitusSivu::~AloitusSivu()
 
 void AloitusSivu::siirrySivulle()
 {
+    if( !sivulla )
+    {
+        connect( kp(), &Kirjanpito::kirjanpitoaMuokattu, this, &AloitusSivu::siirrySivulle);
+        sivulla = true;
+    }
+
     // Päivitetään aloitussivua
     if( kp()->asetukset()->onko("Nimi"))
     {
@@ -112,6 +118,13 @@ void AloitusSivu::siirrySivulle()
         ui->selain->setHtml( teksti );
     }
 
+}
+
+bool AloitusSivu::poistuSivulta(int /* minne */)
+{
+    disconnect( kp(), &Kirjanpito::kirjanpitoaMuokattu, this, &AloitusSivu::siirrySivulle);
+    sivulla = false;
+    return true;
 }
 
 void AloitusSivu::kirjanpitoVaihtui()
@@ -369,7 +382,7 @@ QString AloitusSivu::vinkit()
         qlonglong paivaaIlmoitukseen = kp()->paivamaara().daysTo( erapaiva );
         if( paivaaIlmoitukseen < 0)
         {
-            vinkki.append( tr("<table class=varoitus width=100%><tr><td>"
+            vinkki.append( tr("<table class=varoitus width=100%><tr><td width=100%>"
                               "<h3><a href=ktp:/maaritys/Arvonlisävero>Arvonlisäveroilmoitus myöhässä</a></h3>"
                               "Arvonlisäveroilmoitus kaudelta %1 - %2 olisi pitänyt antaa %3 mennessä.</td></tr></table>")
                            .arg(kausialkaa.toString("dd.MM.yyyy")).arg(kausipaattyy.toString("dd.MM.yyyy"))
@@ -449,7 +462,7 @@ QString AloitusSivu::summat()
 
     Tilikausi tilikausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->tilikausiCombo->currentIndex() );
 
-    txt.append(tr("<h2>Tilikausi %1 - %2</h2>").arg(tilikausi.alkaa().toString("dd.MM.yyyy"))
+    txt.append(tr("<p><h2 class=kausi>Tilikausi %1 - %2 </h1>").arg(tilikausi.alkaa().toString("dd.MM.yyyy"))
              .arg(tilikausi.paattyy().toString("dd.MM.yyyy")));
 
     txt.append("<table width=100%>");
