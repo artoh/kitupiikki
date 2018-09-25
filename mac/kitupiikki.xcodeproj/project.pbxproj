@@ -798,6 +798,7 @@
 		CB2733792157977E008C8C06 /* inboxmaaritys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = inboxmaaritys.h; path = ../kitupiikki/maaritys/inboxmaaritys.h; sourceTree = "<group>"; };
 		CB27337F215797DA008C8C06 /* inboxlista.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = inboxlista.cpp; path = ../kitupiikki/tools/inboxlista.cpp; sourceTree = "<group>"; };
 		CB273380215797DB008C8C06 /* inboxlista.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = inboxlista.h; path = ../kitupiikki/tools/inboxlista.h; sourceTree = "<group>"; };
+		CB36F828215A9AA6009585B2 /* versio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = versio.h; path = ../kitupiikki/versio.h; sourceTree = "<group>"; };
 		CB46C6156F6B2BE5E898B3D9 /* tkpaivitys.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = tkpaivitys.ui; path = /Users/petri/git/kitupiikki/kitupiikki/uusikp/tkpaivitys.ui; sourceTree = "<absolute>"; };
 		CB4960342152AF35004F0F91 /* laskusivu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = laskusivu.h; path = ../kitupiikki/laskutus/laskusivu.h; sourceTree = "<group>"; };
 		CB4960352152AF36004F0F91 /* asiakkaatmodel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = asiakkaatmodel.cpp; path = ../kitupiikki/laskutus/asiakkaatmodel.cpp; sourceTree = "<group>"; };
@@ -1857,6 +1858,7 @@
 		E8C543AB96796ECAA2E65C57 /* kitupiikki */ = {
 			isa = PBXGroup;
 			children = (
+				CB36F828215A9AA6009585B2 /* versio.h */,
 				CBF2B4F2215A977A00C37031 /* libqsqlite.dylib */,
 				2EB56BE3C2D93CDAB0C52E67 /* Sources */,
 				25B08E2869634E9BCBA333A2 /* Generated Sources */,
