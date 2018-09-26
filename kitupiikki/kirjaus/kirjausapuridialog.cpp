@@ -92,7 +92,7 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     connect( ui->euroSpin, SIGNAL(valueChanged(double)), this, SLOT(laskeNetto(double)));
     connect( ui->nettoSpin, SIGNAL(valueChanged(double)), this, SLOT(laskeBrutto(double)));
     connect( ui->alvSpin, SIGNAL(valueChanged(int)), this, SLOT(laskeVerolla(int)));
-    connect( ui->vaihdaNappi, SIGNAL(clicked(bool)), this, SLOT(ehdota()));
+    connect( ui->vaihdaNappi, &QPushButton::clicked, this, &KirjausApuriDialog::vaihdaDebetKredit);
     connect(ui->seliteEdit, SIGNAL(editingFinished()), this, SLOT(ehdota()));
     connect( ui->eiVahennaCheck, SIGNAL(toggled(bool)), this, SLOT(ehdota()));
     connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("kirjaus/apuri");} );
@@ -412,6 +412,17 @@ void KirjausApuriDialog::vastakirjausOlemassa(bool onko)
         vastaTiliMuuttui();
 }
 
+void KirjausApuriDialog::vaihdaDebetKredit()
+{
+    int kreditId = ui->tiliEdit->valittuTili().id();
+    int debetId = ui->vastatiliEdit->valittuTili().id();
+
+    ui->tiliEdit->valitseTiliIdlla(debetId);
+    ui->vastatiliEdit->valitseTiliIdlla(kreditId);
+
+    ehdota();
+}
+
 void KirjausApuriDialog::kohdennusNakyviin()
 {
     Tili tili = ui->tiliEdit->valittuTili();
@@ -710,10 +721,7 @@ void KirjausApuriDialog::ehdota()
         {
             VientiRivi rivi = uusiEhdotusRivi(tili);
 
-            if( ui->vaihdaNappi->isChecked())
-                rivi.kreditSnt = bruttoSnt;
-            else
-                rivi.debetSnt = bruttoSnt;
+            rivi.debetSnt = bruttoSnt;
 
             if( ui->taseEraCombo->isVisible())
                 rivi.eraId = ui->taseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
@@ -726,10 +734,7 @@ void KirjausApuriDialog::ehdota()
         if( vastatili.onkoValidi())
         {
             VientiRivi rivi = uusiEhdotusRivi(vastatili);
-            if( ui->vaihdaNappi->isChecked())
-                rivi.debetSnt = bruttoSnt;
-            else
-                rivi.kreditSnt = bruttoSnt;
+            rivi.kreditSnt = bruttoSnt;
 
             if( ui->vastaTaseEraCombo->isVisible())
                 rivi.eraId = ui->vastaTaseEraCombo->currentData(EranValintaModel::EraIdRooli).toInt();
@@ -799,16 +804,16 @@ void KirjausApuriDialog::valilehtiVaihtui(int indeksi)
     }
 
     if( indeksi == MENO)
-        ui->tiliLabel->setText("Meno&tili");
+        ui->tiliLabel->setText(tr("Meno&tili"));
     else if(indeksi == TULO)
-        ui->tiliLabel->setText("Tulo&tili");
+        ui->tiliLabel->setText(tr("Tulo&tili"));
     else if(indeksi == SIIRTO)
-        ui->tiliLabel->setText("&Debet-tili");
+        ui->tiliLabel->setText(tr("&Debet-tili (minne)"));
 
     if( indeksi == SIIRTO)
-        ui->vastatiliLabel->setText("K&redit-tili");
+        ui->vastatiliLabel->setText(tr("K&redit-tili (mistä)"));
     else
-        ui->vastatiliLabel->setText("&Vastatili");
+        ui->vastatiliLabel->setText(tr("&Vastatili"));
 
     vastaTiliMuuttui();
     ehdota();

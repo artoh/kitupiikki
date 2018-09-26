@@ -62,6 +62,7 @@ public slots:
     void vastaEraValittu();
     void pvmMuuttuu();
     void vastakirjausOlemassa(bool onko);
+    void vaihdaDebetKredit();
 
     /**
      * @brief Jos tilillä kohdennukset käytössä, näytetään
