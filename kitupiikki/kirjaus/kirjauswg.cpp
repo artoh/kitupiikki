@@ -104,6 +104,10 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( ui->viennitView, SIGNAL(activated(QModelIndex)), this, SLOT( vientivwAktivoitu(QModelIndex)));
     connect( ui->viennitView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(vientiValittu()));
 
+    // Jos toisessa ikkunassa on tehty samaan aikaan kirjaus, voi tämän ikkunan tunniste olla jo mennyttä ja siksi aina
+    // kun kirjanpitoa on muokattu, tarkastetaan, että tositenumero on vielä kelvollinen
+    connect( kp(), &Kirjanpito::kirjanpitoaMuokattu, this, &KirjausWg::paivitaTunnisteVari );
+
 
     // Tiliotteen tilivalintaan hyväksytään vain rahoitustilit
     QSortFilterProxyModel *proxy = new QSortFilterProxyModel(this);

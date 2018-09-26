@@ -21,6 +21,8 @@
 #include "db/kirjanpito.h"
 #include "kirjaus/ehdotusmodel.h"
 #include "naytin/naytinikkuna.h"
+#include "lisaikkuna.h"
+#include "kirjaus/kirjaussivu.h"
 
 #include <QSqlQuery>
 #include <QMessageBox>
@@ -116,26 +118,35 @@ void LaskunMaksuDialogi::kirjaa()
 
     if( index.data(LaskutModel::KirjausPerusteRooli).toInt() == LaskuModel::MAKSUPERUSTE )
     {
-        if( kirjaaja->model()->muokattu())
-        {
-            if( QMessageBox::question(this, tr("Hylkää nykyinen kirjaus"),
-                                      tr("Maksuperusteisen laskun kirjaus tehdään uuteen tositteeseen. "
-                                         "Hylkäätkö nykyisen tositteen tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
-                return;
-        }
-        // Ladataan laskun tosite
-        kirjaaja->lataaTosite( index.data(LaskutModel::TositeRooli).toInt() );
-        kirjaaja->model()->asetaPvm( ui->pvmEdit->date() );
-        kirjaaja->model()->asetaTositelaji( kp()->asetukset()->luku("LaskuTositelaji") );
-        kirjaaja->model()->asetaTunniste( kirjaaja->model()->seuraavaTunnistenumero() );
+        // Maksuperusteinen lasku kirjataan maksetuksi laskun tositteelle, joka saa
+        // vasta nyt tositenumeronsa.
 
-        for(int i=0; i < kirjaaja->model()->vientiModel()->rowCount(QModelIndex()); i++ )
+        KirjausWg *kwg = kirjaaja;
+
+        int tositeNro = index.data(LaskutModel::TositeRooli).toInt() ;
+
+        if( kwg->model()->muokattu())
         {
-            QModelIndex kirjaajaindeksi = kirjaaja->model()->vientiModel()->index(i, VientiModel::PVM);
-            if( !kirjaajaindeksi.data(VientiModel::PvmRooli).toDate().isValid() )
-                kirjaaja->model()->vientiModel()->setData( kirjaajaindeksi, ui->pvmEdit->date(), VientiModel::PvmRooli );
+            // Tätä tositetta on muokattu, joten laskun maksu kirjataan uudessa ikkunassa
+            LisaIkkuna* lisaIkkuna = new LisaIkkuna(nullptr);
+            kwg = lisaIkkuna->kirjaa( tositeNro )->kirjausWg();
         }
-        kirjaaja->model()->vientiModel()->lisaaVienti(rahaRivi);
+        else
+        {
+            // Ladataan laskun tosite
+            kwg->lataaTosite( tositeNro );
+        }
+        kwg->model()->asetaPvm( ui->pvmEdit->date() );
+        kwg->model()->asetaTositelaji( kp()->asetukset()->luku("LaskuTositelaji") );
+        kwg->model()->asetaTunniste( kwg->model()->seuraavaTunnistenumero() );
+
+        for(int i=0; i < kwg->model()->vientiModel()->rowCount(QModelIndex()); i++ )
+        {
+            QModelIndex kirjaajaindeksi = kwg->model()->vientiModel()->index(i, VientiModel::PVM);
+            if( !kirjaajaindeksi.data(VientiModel::PvmRooli).toDate().isValid() )
+                kwg->model()->vientiModel()->setData( kirjaajaindeksi, ui->pvmEdit->date(), VientiModel::PvmRooli );
+        }
+        kwg->model()->vientiModel()->lisaaVienti(rahaRivi);
 
         // Lisätään erärivi, jotta saadaan erä nollatuksi
         VientiRivi eraRivi;
@@ -145,10 +156,13 @@ void LaskunMaksuDialogi::kirjaa()
         eraRivi.tili = Tili();
         eraRivi.eraId = index.data(LaskutModel::EraIdRooli).toInt();
         eraRivi.json.set("Kirjausperuste", LaskuModel::MAKSUPERUSTE);
-        kirjaaja->model()->vientiModel()->lisaaVienti(eraRivi);
+        kwg->model()->vientiModel()->lisaaVienti(eraRivi);
+        kwg->tiedotModelista();
 
-        laskut->maksa(index.row(), ui->euroSpin->value() * 100);
-        reject();
+        laskut->maksa(index.row(), qRound(ui->euroSpin->value() * 100));
+
+        if( kirjaaja == kwg)
+            reject();       // Suljetaan laskunmaksudlg, jos ollaan aloitettu tyhjästä
 
     }
     else
@@ -176,15 +190,15 @@ void LaskunMaksuDialogi::kirjaa()
         ehdotus.tallenna( kirjaaja->model()->vientiModel() , 0, QDate(), kirjaaja->nykyinenRivi());
 
         if( ostolasku)
-            ostolaskut->maksa( index.row(), ui->euroSpin->value() * 100 );
+            ostolaskut->maksa( index.row(), qRound(ui->euroSpin->value() * 100 ));
         else
-            laskut->maksa(index.row(), ui->euroSpin->value() * 100);
+            laskut->maksa(index.row(), qRound( ui->euroSpin->value() * 100));
     }
 }
 
 void LaskunMaksuDialogi::tarkistaKelpo()
 {
-    ui->kirjaaNappi->setEnabled( ui->euroSpin->value() && ui->tiliEdit->valittuTilinumero()  );
+    ui->kirjaaNappi->setEnabled( ui->euroSpin->value() > 1e-4 && ui->tiliEdit->valittuTilinumero()  );
 }
 
 void LaskunMaksuDialogi::naytaLasku()

@@ -37,7 +37,7 @@ LisaIkkuna::~LisaIkkuna()
 
 }
 
-void LisaIkkuna::kirjaa(int tositeId)
+KirjausSivu* LisaIkkuna::kirjaa(int tositeId)
 {
     KirjausSivu *sivu = new KirjausSivu(nullptr);
     setCentralWidget( sivu );
@@ -49,6 +49,8 @@ void LisaIkkuna::kirjaa(int tositeId)
     ohjesivu = sivu->ohjeSivunNimi();
 
     setWindowTitle(tr("%1 - Kirjaus").arg(kp()->asetus("Nimi")));
+
+    return sivu;
 }
 
 void LisaIkkuna::selaa()

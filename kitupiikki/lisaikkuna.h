@@ -22,6 +22,7 @@
 
 #include "kitupiikkiikkuna.h"
 
+
 /**
  * @brief Toinen ikkuna selaamista tai kirjaamista varten
  */
@@ -32,7 +33,7 @@ public:
     LisaIkkuna(QWidget *parent = nullptr);
     ~LisaIkkuna();
 
-    void kirjaa(int tositeId = -1);
+    KirjausSivu *kirjaa(int tositeId = -1);
     void selaa();
 
 signals:

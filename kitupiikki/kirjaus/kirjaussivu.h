@@ -55,6 +55,8 @@ public:
 
     QString ohjeSivunNimi() { return "kirjaus"; }
 
+    KirjausWg* kirjausWg() { return kirjauswg; }
+
 signals:
     /**
      * @brief Palataan sivulle, josta tänne on tultu
