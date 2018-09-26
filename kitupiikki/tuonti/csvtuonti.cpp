@@ -18,7 +18,7 @@
 #include <QTextCodec>
 #include <QRegularExpression>
 #include <QFile>
-
+#include <QDebug>
 
 #include "csvtuonti.h"
 #include "tuontisarakedelegaatti.h"
@@ -233,12 +233,24 @@ bool CsvTuonti::tuo(const QByteArray &data)
                     }
                     else if( tuonti == KOHDENNUS)
                         rivi.kohdennus = kp()->kohdennukset()->kohdennus(tieto);
+                    else if( tuonti == BRUTTOALVP && sentit )
+                    {
+                        rivi.alvprosentti =  static_cast<int>(  sentit / 100 );
+                    }
                 }
 
                 if( !tositetunnus.isEmpty())
                     rivi.selite = QString("%1 : %2").arg(tositetunnus).arg(selite);
                 else
                     rivi.selite = selite;
+
+                if( rivi.alvprosentti )
+                {
+                    if( rivi.debetSnt )
+                        rivi.alvkoodi = AlvKoodi::OSTOT_BRUTTO;
+                    else if(rivi.kreditSnt)
+                        rivi.alvkoodi = AlvKoodi::MYYNNIT_BRUTTO;
+                }
 
                 kirjausWg()->model()->vientiModel()->lisaaVienti(rivi);
             }
@@ -456,7 +468,7 @@ QString CsvTuonti::tyyppiTeksti(int muoto)
     case SUOMIPVM:
     case ISOPVM:
     case USPVM:
-        return tr("Päivämäärä");
+        return tr("Päivämäärä");        
     default:
         return QString();
     }
@@ -489,6 +501,8 @@ QString CsvTuonti::tuontiTeksti(int tuominen)
         return tr("Kohdennus");
     case TILINIMI:
         return tr("Tilin nimi");
+    case BRUTTOALVP:
+        return tr("Alv % Bruttokirjaus");
 
     default:
         return QString();
@@ -523,13 +537,17 @@ void CsvTuonti::paivitaOletukset()
                      otsikko.contains("selitys") ||
                      otsikko.contains("kuvaus"))
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, SELITE);
-            else if( (otsikko=="nro" && muoto == LUKU) ||
+            else if( ((otsikko=="nro" || otsikko=="tilinumero") && muoto == LUKU) ||
                      (otsikko.contains("tili") && muoto == LUKUTEKSTI) )
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, TILINUMERO);
             else if( otsikko == "kohdennus" )
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, KOHDENNUS);
             else if( (otsikko == "tili"  || otsikko == "luokka" ) && muoto == TEKSTI)
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, TILINIMI);
+            else if( otsikko=="alv %")
+                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, BRUTTOALVP);
+            else if( otsikko=="yhteensä")
+                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, RAHAMAARA);
             else
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, EITUODA);
         }
@@ -585,7 +603,7 @@ int CsvTuonti::tuoListaan(const QByteArray &data)
     QRegularExpression suomipvmRe("^[0123]?\\d\\.[01]?\\d\\.\\d{4}$");
     QRegularExpression isopvmRe("^\\d{4}-[01]\\d-[0123]\\d$");
     QRegularExpression uspvmRe(R"(^\d\d [A-Z][a-z][a-z] 20\d\d( \d\d:\d\d:\d\d)?$)");
-    QRegularExpression rahaRe("^[+-]?\\d*[.,]?\\d{0,2}$");
+    QRegularExpression rahaRe("^[+-]?\\d+[.,]?\\d{0,2}$");
     QRegularExpression lukuTekstiRe("^\\d+\\s.*");
     QRegularExpression lukuRe("^[+-]?\\d+$");
 
@@ -629,11 +647,14 @@ int CsvTuonti::tuoListaan(const QByteArray &data)
             else if( teksti.contains(lukuTekstiRe))
                 muoto = LUKUTEKSTI;
 
+
             if(muodot_[i] != TEKSTI && muodot_[i] != muoto && muoto != TYHJA)
             {
                 if( muodot_[i] == TYHJA || (muodot_[i]==LUKU && muoto == LUKUTEKSTI) ||
                         (muodot_[i]==LUKU && muoto==RAHA))
                     muodot_[i] = muoto;
+                else if( muodot_[i]==RAHA && muoto==LUKU)
+                    muodot_[i] = RAHA;
                 else if( (muodot_[i] == LUKU && muoto == VIITE ) || (muodot_[i] == VIITE && muoto == LUKU) )
                     muodot_[i] = LUKU;
                 else

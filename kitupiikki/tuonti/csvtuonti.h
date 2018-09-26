@@ -59,7 +59,8 @@ public:
         VIITENRO,
         ARKISTOTUNNUS,
         KOHDENNUS,
-        TILINIMI
+        TILINIMI,
+        BRUTTOALVP
     };
 
     enum { TyyppiRooli = Qt::UserRole + 1};

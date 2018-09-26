@@ -19,18 +19,45 @@
 #include "db/tilinvalintadialogi.h"
 #include "db/kirjanpito.h"
 
-TilinMuunnos::TilinMuunnos(int numero, QString nimi)
-    : alkuperainenTilinumero(numero), tilinNimi(nimi), muunnettuTilinumero(numero)
+TilinMuunnos::TilinMuunnos(int numero, QString nimi, int muunnettu)
+    : alkuperainenTilinumero(numero), tilinNimi(nimi)
 {
+    if( muunnettu)
+        muunnettuTilinumero = muunnettu;
+    else
+        muunnettuTilinumero = numero;
+}
 
+QString TilinMuunnos::tiliStr() const
+{
+    if( alkuperainenTilinumero )
+        return QString::number(alkuperainenTilinumero);
+    else
+        return tilinNimi;
 }
 
 
 TiliMuuntoModel::TiliMuuntoModel(const QList<QPair<int, QString>> &tilit)
 {
+    // Luetaan asetuksista aiemmat muunnot
+    const QStringList& aiempiMuuntoLista = kp()->asetukset()->lista("TiliMuunto");
+
+    for(auto rivi : aiempiMuuntoLista)
+    {
+        int vali = rivi.indexOf(' ');
+        if( vali < 1)
+            continue;
+        int tili = rivi.left(vali).toInt();
+        if( tili )
+        {
+            muunteluLista_.insert(rivi.mid(vali+1), tili);
+        }
+    }
+
     for( auto pari : tilit)
     {
-       data_.append(TilinMuunnos(pari.first, pari.second));
+       int muunnettu = muunteluLista_.value(pari.second, 0);
+       data_.append(TilinMuunnos(pari.first, pari.second, muunnettu));
     }
 }
 
@@ -120,12 +147,23 @@ QMap<QString, int> TiliMuuntoModel::muunnettu()
 {
     QMap<QString,int> tulos;
     for( auto rivi : data_)
-    {
-        if( rivi.alkuperainenTilinumero )
-            tulos.insert( QString::number( rivi.alkuperainenTilinumero ), rivi.muunnettuTilinumero);
-        else
-            tulos.insert( rivi.tilinNimi, rivi.muunnettuTilinumero);
+    {        
+        tulos.insert( rivi.tiliStr(), rivi.muunnettuTilinumero);
+        muunteluLista_.insert( rivi.tiliStr(), rivi.muunnettuTilinumero );
     }
+
+    // Lopuksi päivitetään muuntotaulukko
+    QStringList listaan;
+    auto iter = QMapIterator<QString,int>(muunteluLista_);
+    while(iter.hasNext())
+    {
+        iter.next();
+        listaan.append( QString("%1 %2").arg(iter.value()).arg(iter.key()) );
+    }
+
+    kp()->asetukset()->aseta("TiliMuunto", listaan);
+
+
     return tulos;
 }
 

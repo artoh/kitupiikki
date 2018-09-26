@@ -46,12 +46,15 @@ QWidget *TuontiSarakeDelegaatti::createEditor(QWidget *parent, const QStyleOptio
     if(  tyyppi >= CsvTuonti::SUOMIPVM)
         combo->addItem(tr("Päivämäärä"), CsvTuonti::PAIVAMAARA);
     else if( tuokirjauksia_ && ( tyyppi == CsvTuonti::LUKU || tyyppi == CsvTuonti::LUKUTEKSTI))
+    {
         combo->addItem(tr("Tilin numero"), CsvTuonti::TILINUMERO);
+    }
     else if( tuokirjauksia_ &&  tyyppi == CsvTuonti::RAHA)
     {
         combo->addItem(tr("Debet euroa"), CsvTuonti::DEBETEURO);
         combo->addItem(tr("Kredit euroa"), CsvTuonti::KREDITEURO);
         combo->addItem(tr("Määrä euroa"), CsvTuonti::RAHAMAARA);
+        combo->addItem(tr("Arvonlisävero% (bruttokirjaus)"), CsvTuonti::BRUTTOALVP);
     }
     else if( tyyppi == CsvTuonti::RAHA || tyyppi == CsvTuonti::LUKU)
     {

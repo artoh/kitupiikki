@@ -344,6 +344,7 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
                 viennit_[index.row()].alvprosentti = uusitili.json()->luku("AlvProsentti");
 
             emit dataChanged(index, index.sibling(index.row(), ALV));
+            emit muuttunut();
 
             return true;
         }

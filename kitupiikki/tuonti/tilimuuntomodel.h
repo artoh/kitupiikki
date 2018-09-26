@@ -25,7 +25,8 @@
  */
 struct TilinMuunnos
 {
-    TilinMuunnos(int numero = 0, QString nimi = QString());
+    TilinMuunnos(int numero = 0, QString nimi = QString(), int muunnettu = 0);
+    QString tiliStr() const;
 
     int alkuperainenTilinumero;
     QString tilinNimi;
@@ -62,6 +63,7 @@ public:
 
 protected:
     QList<TilinMuunnos> data_;
+    QMap<QString,int> muunteluLista_;
 
 
 };

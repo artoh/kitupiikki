@@ -28,7 +28,7 @@ class TuontiSarakeDelegaatti : public QItemDelegate
 {
     Q_OBJECT
 public:
-    TuontiSarakeDelegaatti(QObject* parent = 0);
+    TuontiSarakeDelegaatti(QObject* parent = nullptr);
 
     void paint(QPainter* painter, const QStyleOptionViewItem& option,
                const QModelIndex& index) const;
