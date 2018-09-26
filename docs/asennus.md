@@ -36,7 +36,7 @@ Tukee OS X versiota 10.11 ja uudempia
 !!! information "Mac-versiossa vielä hieman hiomista..."
     Macintosh-versiossa on vielä pieniä yhteensopivuusongelmia. Jotta Kitupiikki saataisiin toimimaan luotettavasti Macilla, olisi testausapu tervetullutta!
 
-    Mac-version voi ladata osoitteesta [https://github.com/petriaarnio/kitupiikki/releases](https://github.com/petriaarnio/kitupiikki/releases) (ensimmäinen .dmg-päätteinen tiedosto) ja virheistä ilmoitella tämän sivun alareunan keskustelualueelle tai palaute@kitupiikki.info. <span class="fa fa-exclamation-triangle"> </span> **Beta-versio, saattaa sisältää vielä virheitä**
+    Mac-version voi ladata osoitteesta [https://github.com/petriaarnio/kitupiikki/releases](https://github.com/petriaarnio/kitupiikki/releases) (ensimmäinen .dmg-päätteinen tiedosto) ja virheistä ilmoitella tämän sivun alareunan keskustelualueelle tai [mac@kitupiikki.info](mailto:mac@kitupiikki.info). <span class="fa fa-exclamation-triangle"> </span> **Beta-versio, saattaa sisältää vielä virheitä**
 
 <!--
 !!! note ""
@@ -46,7 +46,7 @@ Tukee OS X versiota 10.11 ja uudempia
 2. Avaa asennustiedosto kaksoisnapsauttamalla hiirellä
 3. Vedä avautuneesta ikkunasta Kitupiikin kuvake Ohjelmat (Applications) -hakemiston kuvakkeen päälle
 
-Macintosh-julkaisua ylläpitää [Petri Aarnio](https://github.com/petriaarnio).
+Macintosh-julkaisua ylläpitää Petri Aarnio [mac@kitupiikki.info](mailto:mac@kitupiikki.info)
 
 
 ## <span class="fa fa-exclamation-triangle"></span> Kitupiikki Beta
