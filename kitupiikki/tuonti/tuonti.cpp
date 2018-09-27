@@ -251,7 +251,7 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, const QString& iban, QString v
         // Ostolasku
         // Kirjataan vanhin lasku, joka täsmää senttimäärään ja joka vielä maksamatta
 
-        QSqlQuery kysely( QString("SELECT id, tili, selite, kohdennus, asiakas FROM vienti WHERE iban='%1' AND viite='%2' ORDER BY pvm")
+        QSqlQuery kysely( QString("SELECT id, tili, selite, kohdennus FROM vienti WHERE iban='%1' AND viite='%2' ORDER BY pvm")
                           .arg(iban).arg(viite) );
         while( kysely.next())
         {
@@ -267,11 +267,6 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, const QString& iban, QString v
                 // #123: Kohdennusten sijoittaminen
                 if( vastarivi.tili.json()->luku("Kohdennukset"))
                     vastarivi.kohdennus = kp()->kohdennukset()->kohdennus( kysely.value("kohdennus").toInt());
-
-                if( !kysely.value("iban").isNull())
-                    vastarivi.json.set("IBAN", iban);
-                if( !kysely.value("asiakas").isNull())
-                    vastarivi.json.set("Toimittaja", kysely.value("asiakas").toString() );
 
                 break;
             }
