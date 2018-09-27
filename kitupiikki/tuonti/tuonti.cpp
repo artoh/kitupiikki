@@ -61,7 +61,7 @@ bool Tuonti::tuo(const QString &tiedostonnimi, KirjausWg *wg)
         PalkkaFiTuonti palkkatuonti(wg);
         return palkkatuonti.tuo(data);
     }
-    else if( tiedostonnimi.endsWith(".csv", Qt::CaseInsensitive))
+    else if( CsvTuonti::onkoCsv(data))
     {
         CsvTuonti csvtuonti(wg);
         return csvtuonti.tuo(data);

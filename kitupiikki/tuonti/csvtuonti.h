@@ -94,6 +94,13 @@ public:
     static QString tyyppiTeksti(int muoto);
     static QString tuontiTeksti(int tuominen);
 
+    /**
+     * @brief Päättelee, onko data csv-tietoa
+     * @param data
+     * @return
+     */
+    static bool onkoCsv(const QByteArray& data);
+
 public slots:
     void paivitaOletukset();
     void tarkistaTiliValittu();

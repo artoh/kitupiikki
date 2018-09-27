@@ -509,6 +509,28 @@ QString CsvTuonti::tuontiTeksti(int tuominen)
     }
 }
 
+bool CsvTuonti::onkoCsv(const QByteArray &data)
+{
+    QString kooditestiin = CsvTuonti::haistettuKoodattu( data.left(128) );
+    for( QChar merkki : kooditestiin)
+        if( merkki.isNonCharacter())
+            return false;
+
+    QByteArray testattava = data.left(2048);
+
+    QList<QStringList> lista = CsvTuonti::csvListana(testattava);
+
+    // Kelpo CSV:ssä on alussakin vähintään 2 riviä, ja riveillä sama pituus
+    if( lista.count() < 2 )
+        return false;
+
+    for(int i=1; i < lista.count()-1; i++)
+        if( lista.at(i).length() < 2 ||  lista.at(i).length() != lista.at(i-1).length())
+            return false;
+
+    return true;
+}
+
 void CsvTuonti::paivitaOletukset()
 {
     QStringList otsikot = csv_.first();
