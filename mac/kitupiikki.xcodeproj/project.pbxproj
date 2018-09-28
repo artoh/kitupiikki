@@ -226,6 +226,7 @@
 		CB27337C2157977F008C8C06 /* tallentavamaarityswidget.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB2733752157977E008C8C06 /* tallentavamaarityswidget.cpp */; };
 		CB27337D2157977F008C8C06 /* finvoicemaaritys.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB2733762157977E008C8C06 /* finvoicemaaritys.cpp */; };
 		CB273381215797DB008C8C06 /* inboxlista.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB27337F215797DA008C8C06 /* inboxlista.cpp */; };
+		CB314B4C215E5B0500C0A469 /* copy_libs.sh in Copy Bundle Resources */ = {isa = PBXBuildFile; fileRef = CB314B4B215E5B0500C0A469 /* copy_libs.sh */; };
 		CB36F827215A9846009585B2 /* libqsqlite.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = CBF2B4F2215A977A00C37031 /* libqsqlite.dylib */; };
 		CB4960442152AF38004F0F91 /* asiakkaatmodel.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB4960352152AF36004F0F91 /* asiakkaatmodel.cpp */; };
 		CB4960452152AF38004F0F91 /* ryhmaasiakasproxy.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB4960362152AF36004F0F91 /* ryhmaasiakasproxy.cpp */; };
@@ -798,6 +799,7 @@
 		CB2733792157977E008C8C06 /* inboxmaaritys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = inboxmaaritys.h; path = ../kitupiikki/maaritys/inboxmaaritys.h; sourceTree = "<group>"; };
 		CB27337F215797DA008C8C06 /* inboxlista.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = inboxlista.cpp; path = ../kitupiikki/tools/inboxlista.cpp; sourceTree = "<group>"; };
 		CB273380215797DB008C8C06 /* inboxlista.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = inboxlista.h; path = ../kitupiikki/tools/inboxlista.h; sourceTree = "<group>"; };
+		CB314B4B215E5B0500C0A469 /* copy_libs.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = copy_libs.sh; sourceTree = "<group>"; };
 		CB36F828215A9AA6009585B2 /* versio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = versio.h; path = ../kitupiikki/versio.h; sourceTree = "<group>"; };
 		CB46C6156F6B2BE5E898B3D9 /* tkpaivitys.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = tkpaivitys.ui; path = /Users/petri/git/kitupiikki/kitupiikki/uusikp/tkpaivitys.ui; sourceTree = "<absolute>"; };
 		CB4960342152AF35004F0F91 /* laskusivu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = laskusivu.h; path = ../kitupiikki/laskutus/laskusivu.h; sourceTree = "<group>"; };
@@ -819,7 +821,6 @@
 		CB49604C2152BD4D004F0F91 /* libzip.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzip.dylib; path = ../../../../../usr/local/lib/libzip.dylib; sourceTree = "<group>"; };
 		CB49A155020B45B332976874 /* tilidelegaatti.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = tilidelegaatti.h; path = /Users/petri/git/kitupiikki/kitupiikki/kirjaus/tilidelegaatti.h; sourceTree = "<absolute>"; };
 		CB76993520DD240B004CA297 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = kitupiikki/Images.xcassets; sourceTree = "<group>"; };
-		CB8E95FB20E6A8F000C89EEB /* libcopy.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = libcopy.sh; sourceTree = "<group>"; };
 		CBB34F1D21554E0000BE6C3E /* ytunnusvalidator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ytunnusvalidator.cpp; path = ../kitupiikki/validator/ytunnusvalidator.cpp; sourceTree = "<group>"; };
 		CBB34F1E21554E0000BE6C3E /* ytunnusvalidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ytunnusvalidator.h; path = ../kitupiikki/validator/ytunnusvalidator.h; sourceTree = "<group>"; };
 		CBB34F2021554E4300BE6C3E /* pdftuonti.cpp.orig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = pdftuonti.cpp.orig; path = ../kitupiikki/tuonti/pdftuonti.cpp.orig; sourceTree = "<group>"; };
@@ -1575,8 +1576,8 @@
 		74B182DB50CB5611B5C1C297 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				CB314B4B215E5B0500C0A469 /* copy_libs.sh */,
 				CBF4F77F21456A8900680B0A /* strip_embedded_frameworks.sh */,
-				CB8E95FB20E6A8F000C89EEB /* libcopy.sh */,
 				FEB5A0907FA19EF6152D5304 /* kitupiikki.pro */,
 				CB0F5EE0214D5DF60035F53D /* read_version.sh */,
 			);
@@ -2025,6 +2026,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CB76993620DD240B004CA297 /* Images.xcassets in Copy Bundle Resources */,
+				CB314B4C215E5B0500C0A469 /* copy_libs.sh in Copy Bundle Resources */,
 			);
 			name = "Copy Bundle Resources";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2093,7 +2095,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${PROJECT_DIR}/libcopy.sh ${TARGET_BUILD_DIR}";
+			shellScript = "${PROJECT_DIR}/copy_libs.sh ${TARGET_BUILD_DIR}\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
