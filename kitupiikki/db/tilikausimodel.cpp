@@ -142,13 +142,14 @@ QVariant TilikausiModel::data(const QModelIndex &index, int role) const
         {
             if( kausi.tilinpaatoksenTila() == Tilikausi::VAHVISTETTU)
                 return QIcon(":/pic/ok.png");
+            else if( kausi.tilinpaatoksenTila() == Tilikausi::EILAADITATILINAVAUKSELLE)
+                return QIcon(":/pic/rahaa.png");
             else if( kausi.tilinpaatoksenTila() == Tilikausi::KESKEN &&
-                     kausi.paattyy().daysTo( kp()->paivamaara()) > 4 * 30)
-                return QIcon(":/pic/varoitus.png");
+                     kausi.paattyy().daysTo( kp()->paivamaara()) > 4 * 30)                
+                return QIcon(":/pic/varoitus.png");            
             else if( kausi.paattyy().daysTo( kp()->paivamaara()) > 1 &&
-                     kausi.paattyy().daysTo( kp()->paivamaara()) < 4 * 30 &&
-                     kausi.tilinpaatoksenTila() != Tilikausi::EILAADITATILINAVAUKSELLE)
-                return QIcon(":/pic/info.png");
+                     kausi.paattyy().daysTo( kp()->paivamaara()) < 4 * 30)
+                return QIcon(":/pic/info.png");                        
         }
     }
 

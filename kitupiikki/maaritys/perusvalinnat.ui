@@ -161,6 +161,10 @@ p, li { white-space: pre-wrap; }
           <property name="text">
            <string>Vaihda</string>
           </property>
+          <property name="icon">
+           <iconset resource="../pic/pic.qrc">
+            <normaloff>:/pic/ratas.png</normaloff>:/pic/ratas.png</iconset>
+          </property>
          </widget>
         </item>
        </layout>
@@ -208,6 +212,10 @@ p, li { white-space: pre-wrap; }
        <property name="text">
         <string>Avaa hakemisto</string>
        </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/folder.png</normaloff>:/pic/folder.png</iconset>
+       </property>
       </widget>
      </item>
     </layout>
@@ -235,6 +243,10 @@ p, li { white-space: pre-wrap; }
       <widget class="QPushButton" name="avaaArkistoNappi">
        <property name="text">
         <string>Avaa hakemisto</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/folder.png</normaloff>:/pic/folder.png</iconset>
        </property>
       </widget>
      </item>
@@ -300,6 +312,8 @@ p, li { white-space: pre-wrap; }
   <tabstop>paivitysCheck</tabstop>
   <tabstop>sijaintiLabel</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
  <connections/>
 </ui>

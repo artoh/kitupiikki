@@ -88,6 +88,10 @@
        <property name="text">
         <string>Näytä tosite</string>
        </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/tekstisivu.png</normaloff>:/pic/tekstisivu.png</iconset>
+       </property>
       </widget>
      </item>
      <item>
@@ -124,6 +128,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
  <connections/>
 </ui>

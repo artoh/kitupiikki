@@ -118,6 +118,7 @@
         <file>QtIcon.png</file>
         <file>select-all.png</file>
         <file>verkkolasku.png</file>
+        <file>verotilitys.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

@@ -78,7 +78,7 @@ MaaritysSivu::MaaritysSivu() :
 
     vienappi = new QPushButton(QIcon(":/pic/salkkupossu.png"), tr("Vie tilikartta..."));
     paivitaNappi = new QPushButton( QIcon(":/pic/paivita.png"), tr("Päivitä tilikartta..."));
-    perunappi = new QPushButton(tr("Peru"));
+    perunappi = new QPushButton(QIcon(":/pic/sulje.png"),tr("Peru"));
     tallennanappi = new QPushButton(QIcon(":/pic/ok.png"),  tr("Tallenna"));
     tallennanappi->setShortcut(QKeySequence(QKeySequence::Save));
 

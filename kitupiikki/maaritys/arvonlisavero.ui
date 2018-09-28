@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>771</width>
+    <width>780</width>
     <height>485</height>
    </rect>
   </property>
@@ -135,6 +135,10 @@
             <property name="text">
              <string>&amp;Tee alv-tilitys</string>
             </property>
+            <property name="icon">
+             <iconset resource="../pic/pic.qrc">
+              <normaloff>:/pic/verotilitys.png</normaloff>:/pic/verotilitys.png</iconset>
+            </property>
             <property name="shortcut">
              <string>F11</string>
             </property>
@@ -167,6 +171,10 @@
        <property name="text">
         <string>&amp;Näytä tilitys</string>
        </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/print.png</normaloff>:/pic/print.png</iconset>
+       </property>
        <property name="shortcut">
         <string>F9</string>
        </property>
@@ -179,6 +187,10 @@
        </property>
        <property name="text">
         <string>Näytä &amp;erittely</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/tekstisivu.png</normaloff>:/pic/tekstisivu.png</iconset>
        </property>
        <property name="shortcut">
         <string>F10</string>

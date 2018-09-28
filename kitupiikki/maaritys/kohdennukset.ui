@@ -59,8 +59,8 @@
         <string>Muokkaa</string>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>../pic/muokkaa.png</normaloff>../pic/muokkaa.png</iconset>
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/muokkaa.png</normaloff>:/pic/muokkaa.png</iconset>
        </property>
       </widget>
      </item>

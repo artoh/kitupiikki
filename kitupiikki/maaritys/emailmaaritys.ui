@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>519</width>
-    <height>372</height>
+    <height>508</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -158,6 +158,10 @@
       <widget class="QPushButton" name="kokeileNappi">
        <property name="text">
         <string>Kokeile</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/email.png</normaloff>:/pic/email.png</iconset>
        </property>
       </widget>
      </item>

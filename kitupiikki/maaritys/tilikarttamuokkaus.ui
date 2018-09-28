@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>635</width>
+    <width>703</width>
     <height>360</height>
    </rect>
   </property>
@@ -150,8 +150,8 @@
         <string>&amp;Muokkaa</string>
        </property>
        <property name="icon">
-        <iconset>
-         <normaloff>../pic/muokkaa.png</normaloff>../pic/muokkaa.png</iconset>
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/muokkaa.png</normaloff>:/pic/muokkaa.png</iconset>
        </property>
       </widget>
      </item>
