@@ -182,7 +182,6 @@ void KitupiikkiIkkuna::kirjanpitoLadattu()
             sivuaktiot[i]->setEnabled(true);
     }
 
-    valitseSivu(ALOITUSSIVU);
     edellisetIndeksit.clear();  // Tyhjennetään "selaushistoria"
 }
 

@@ -100,6 +100,7 @@ MaaritysSivu::MaaritysSivu() :
     connect( kp(), SIGNAL(tilikausiPaatetty()), this, SLOT(paivitaNakyvat()));
 
     connect( kp(), &Kirjanpito::tietokantaVaihtui, [this] { if(nykyinen) { delete nykyinen; nykyinen=nullptr; } lista->setCurrentRow(0); });
+    connect( kp(), &Kirjanpito::perusAsetusMuuttui, this, &MaaritysSivu::paivitaNakyvat);
 
 }
 
