@@ -48,6 +48,9 @@ Kitupiikki laatii viennit konekielisten TITO-tiliotteiden tilitapahtumista (asci
 3. Näen palkanmaksuun liittyvät maksut viitteinen palkka.fi-palvelun **Maksut**-kohdasta. Työnatajamaksut tulevat näkyviin vasta, kun ilmoitukset on annettu - joko automaattisesti seuraavan kuukauden alettua tai tekemällä ilmoitus heti.
    ![Maksut](palkkausmaksut.png)
 
+!!! note ""
+    Kitupiikissä määritellyn Y-tunnuksen pitää olla sama kuin palkka.fi-palvelussa.
+
 ## CSV-tiedostojen tuonti
 
 CSV-tiedosto on tekstitiedosto, jossa eri tietokentät on eroteltu toisistaan pilkulla. Voit tuoda Kitupiikkiin tällä toiminnolla esimerkiksi [Tilitin-kirjanpito-ohjelman](http://helineva.net/tilitin) kirjauksia tai verkkopankin tilitapahtumia. Kitupiikin kirjauksia voit tuoda csv-muotoisesta [Päiväkirja-raportista](/tulosteet#paivakirja).
