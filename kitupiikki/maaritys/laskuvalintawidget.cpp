@@ -135,6 +135,7 @@ bool LaskuValintaWidget::onkoMuokattu()
     else
         ui->ySpin->setStyleSheet("");
 
+    qDebug() << ui->tiliCombo->currentData().toInt();
 
     return ui->tositelajiCombo->currentData().toInt() != kp()->asetukset()->luku("LaskuTositelaji") ||
             ui->perusteCombo->currentData().toInt() != kp()->asetukset()->luku("LaskuKirjausperuste") ||
@@ -146,11 +147,13 @@ bool LaskuValintaWidget::onkoMuokattu()
             ui->seuraavaLasku->value() != kp()->asetukset()->luku("LaskuSeuraavaId") ||
             ui->viivakoodiCheck->isChecked() == kp()->asetukset()->onko("LaskuEiViivakoodi") ||
             ui->ikkunaKuori->isChecked() != kp()->asetukset()->onko("LaskuIkkuna") ||
-            ui->qrCheck->isChecked() == kp()->asetukset()->onko("LaskuEiQR") ||            
-            ui->xSpin->value() !=  kp()->asetukset()->luku("LaskuIkkunaX", 0) ||
-            ui->ySpin->value() !=  kp()->asetukset()->luku("LaskuIkkunaY", 0) ||
-            ui->leveysSpin->value() != kp()->asetukset()->luku("LaskuIkkunaLeveys", 90) ||
-            ui->korkeusSpin->value() != kp()->asetukset()->luku("LaskuIkkunaKorkeus", 30) ||
+            ui->qrCheck->isChecked() == kp()->asetukset()->onko("LaskuEiQR") ||
+            ( ui->ikkunaKuori->isChecked() && (
+                ui->xSpin->value() !=  kp()->asetukset()->luku("LaskuIkkunaX", 0) ||
+                ui->ySpin->value() !=  kp()->asetukset()->luku("LaskuIkkunaY", 0) ||
+                ui->leveysSpin->value() != kp()->asetukset()->luku("LaskuIkkunaLeveys", 90) ||
+                ui->korkeusSpin->value() != kp()->asetukset()->luku("LaskuIkkunaKorkeus", 30) ))
+            ||
             ( ui->tiliCombo->currentData().toInt() != kp()->asetukset()->luku("LaskuTili") && !ui->tiliCombo->currentText().isEmpty() );
 
 }

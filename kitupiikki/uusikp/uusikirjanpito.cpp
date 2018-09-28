@@ -276,6 +276,7 @@ bool UusiKirjanpito::alustaKirjanpito()
                     // Annettu IBAN-numero yhdistetään ensimmäiseen pankkitiliin
                     tili.json()->set("IBAN", field("iban").toString().simplified().remove(' '));
                     setField("iban",QVariant(""));
+                    asetukset.aseta("LaskuTili", tili.numero());
                 }
 
 
