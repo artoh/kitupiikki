@@ -239,24 +239,24 @@
 		CB49604D2152BD4E004F0F91 /* libzip.dylib in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = CB49604C2152BD4D004F0F91 /* libzip.dylib */; };
 		CB76993620DD240B004CA297 /* Images.xcassets in Copy Bundle Resources */ = {isa = PBXBuildFile; fileRef = CB76993520DD240B004CA297 /* Images.xcassets */; };
 		CB8E95E320E69CD700C89EEB /* QtSql.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = 5CE42DDB3F6D3DF4616F8C02 /* QtSql.framework */; };
-		CB8E95E420E69CD700C89EEB /* QtSql.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5CE42DDB3F6D3DF4616F8C02 /* QtSql.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CB8E95E420E69CD700C89EEB /* QtSql.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5CE42DDB3F6D3DF4616F8C02 /* QtSql.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CB8E95E620E69CDB00C89EEB /* QtSvg.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = 03CBD17D70037C0F9F2213FF /* QtSvg.framework */; };
-		CB8E95E720E69CDB00C89EEB /* QtSvg.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 03CBD17D70037C0F9F2213FF /* QtSvg.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CB8E95E720E69CDB00C89EEB /* QtSvg.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 03CBD17D70037C0F9F2213FF /* QtSvg.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CB8E95E820E69CE300C89EEB /* QtCore.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = 40FBA6FF0663B85F27CDFE14 /* QtCore.framework */; };
-		CB8E95E920E69CE300C89EEB /* QtCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 40FBA6FF0663B85F27CDFE14 /* QtCore.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CB8E95E920E69CE300C89EEB /* QtCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 40FBA6FF0663B85F27CDFE14 /* QtCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CB8E95EA20E69CE700C89EEB /* QtGui.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = 2651640484309F884C063123 /* QtGui.framework */; };
-		CB8E95EB20E69CE700C89EEB /* QtGui.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2651640484309F884C063123 /* QtGui.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CB8E95EB20E69CE700C89EEB /* QtGui.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2651640484309F884C063123 /* QtGui.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CB8E95EC20E69CEE00C89EEB /* QtWidgets.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = 241EFBB4D1E6DB6F708C9D12 /* QtWidgets.framework */; };
-		CB8E95ED20E69CEE00C89EEB /* QtWidgets.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 241EFBB4D1E6DB6F708C9D12 /* QtWidgets.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CB8E95ED20E69CEE00C89EEB /* QtWidgets.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 241EFBB4D1E6DB6F708C9D12 /* QtWidgets.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CB8E95EE20E69CF800C89EEB /* QtPrintSupport.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = F7952E00981E8EB253CEE1CA /* QtPrintSupport.framework */; };
-		CB8E95EF20E69CF800C89EEB /* QtPrintSupport.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F7952E00981E8EB253CEE1CA /* QtPrintSupport.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CB8E95EF20E69CF800C89EEB /* QtPrintSupport.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F7952E00981E8EB253CEE1CA /* QtPrintSupport.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CB8E95F120E69D0A00C89EEB /* poppler-qt5 in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = 59DF697A1657BC82C49B8429 /* poppler-qt5 */; };
 		CB8E95F420E69D3700C89EEB /* DiskArbitration.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = 2B774D8E4178765CE52EAAF5 /* DiskArbitration.framework */; };
 		CB8E95F520E69D3F00C89EEB /* IOKit.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = A1A67BEAA744704B29168D39 /* IOKit.framework */; };
 		CB8E95F620E69D4400C89EEB /* OpenGL.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = D4B32C2222F82AC56BADEB21 /* OpenGL.framework */; };
 		CB8E95F720E69D4900C89EEB /* AGL.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = 8D9815BDB5BD9F90D2BC05C5 /* AGL.framework */; };
 		CB8E95F920E6A3CE00C89EEB /* QtNetwork.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = E7958DDBA56B7CE9A40E5333 /* QtNetwork.framework */; };
-		CB8E95FA20E6A3CE00C89EEB /* QtNetwork.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E7958DDBA56B7CE9A40E5333 /* QtNetwork.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CB8E95FA20E6A3CE00C89EEB /* QtNetwork.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E7958DDBA56B7CE9A40E5333 /* QtNetwork.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CBB34F1F21554E0000BE6C3E /* ytunnusvalidator.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CBB34F1D21554E0000BE6C3E /* ytunnusvalidator.cpp */; };
 		CBB34F2421554E6E00BE6C3E /* myyntiraportti.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CBB34F2321554E6E00BE6C3E /* myyntiraportti.cpp */; };
 		CBB34F342155510400BE6C3E /* kuvanaytin.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CBB34F282155510300BE6C3E /* kuvanaytin.cpp */; };
@@ -269,7 +269,7 @@
 		CBB34F43215552BA00BE6C3E /* budjettikohdennusproxy.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CBB34F3D215552BA00BE6C3E /* budjettikohdennusproxy.cpp */; };
 		CBB34F44215552BA00BE6C3E /* budjettimodel.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CBB34F3E215552BA00BE6C3E /* budjettimodel.cpp */; };
 		CBD3B7FA20EA6779006D9F5B /* QtXml.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = CBD3B7F920EA6778006D9F5B /* QtXml.framework */; };
-		CBD3B7FB20EA6792006D9F5B /* QtXml.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CBD3B7F920EA6778006D9F5B /* QtXml.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CBD3B7FB20EA6792006D9F5B /* QtXml.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CBD3B7F920EA6778006D9F5B /* QtXml.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CBD9D486EB4A10569EABCC4C /* moc_paakirjaraportti.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = AD4ACB2BB7B0615D23FA9EFC /* moc_paakirjaraportti.cpp */; settings = {ATTRIBUTES = (); }; };
 		CC57D03C03CDEAE61D1B0511 /* moc_alvmaaritys.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = 2C5336F6D98B19F14CF60110 /* moc_alvmaaritys.cpp */; settings = {ATTRIBUTES = (); }; };
 		CDD2D56F1748B0E0ADB49B09 /* QrCode.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = F9A7AD910321A3942F47CDA1 /* QrCode.cpp */; settings = {ATTRIBUTES = (); }; };
@@ -1968,7 +1968,7 @@
 		6DB9C3763D02B1415CD9D565 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1000;
 				TargetAttributes = {
 					1C618312449D717DB9220E1E = {
 						DevelopmentTeam = FJ2CG9GU7J;
