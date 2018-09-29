@@ -227,7 +227,7 @@
 		CB27337D2157977F008C8C06 /* finvoicemaaritys.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB2733762157977E008C8C06 /* finvoicemaaritys.cpp */; };
 		CB273381215797DB008C8C06 /* inboxlista.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB27337F215797DA008C8C06 /* inboxlista.cpp */; };
 		CB314B4C215E5B0500C0A469 /* copy_libs.sh in Copy Bundle Resources */ = {isa = PBXBuildFile; fileRef = CB314B4B215E5B0500C0A469 /* copy_libs.sh */; };
-		CB36F827215A9846009585B2 /* libqsqlite.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = CBF2B4F2215A977A00C37031 /* libqsqlite.dylib */; };
+		CB314B4E215E5D4700C0A469 /* copy_plugins.sh in Copy Bundle Resources */ = {isa = PBXBuildFile; fileRef = CB314B4D215E5D4700C0A469 /* copy_plugins.sh */; };
 		CB4960442152AF38004F0F91 /* asiakkaatmodel.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB4960352152AF36004F0F91 /* asiakkaatmodel.cpp */; };
 		CB4960452152AF38004F0F91 /* ryhmaasiakasproxy.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB4960362152AF36004F0F91 /* ryhmaasiakasproxy.cpp */; };
 		CB4960462152AF38004F0F91 /* finvoice.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB4960372152AF36004F0F91 /* finvoice.cpp */; };
@@ -271,8 +271,6 @@
 		CBD3B7FA20EA6779006D9F5B /* QtXml.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = CBD3B7F920EA6778006D9F5B /* QtXml.framework */; };
 		CBD3B7FB20EA6792006D9F5B /* QtXml.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CBD3B7F920EA6778006D9F5B /* QtXml.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CBD9D486EB4A10569EABCC4C /* moc_paakirjaraportti.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = AD4ACB2BB7B0615D23FA9EFC /* moc_paakirjaraportti.cpp */; settings = {ATTRIBUTES = (); }; };
-		CBF2B4F3215A977A00C37031 /* libqsqlite.dylib in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CBF2B4F2215A977A00C37031 /* libqsqlite.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		CBF4F77A2145662000680B0A /* libqcocoa.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = CBF4F7792145662000680B0A /* libqcocoa.dylib */; };
 		CC57D03C03CDEAE61D1B0511 /* moc_alvmaaritys.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = 2C5336F6D98B19F14CF60110 /* moc_alvmaaritys.cpp */; settings = {ATTRIBUTES = (); }; };
 		CDD2D56F1748B0E0ADB49B09 /* QrCode.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = F9A7AD910321A3942F47CDA1 /* QrCode.cpp */; settings = {ATTRIBUTES = (); }; };
 		CEE673B4AF77E43A99285C9C /* moc_vientimodel.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = 3947AC5A11BC00F607146477 /* moc_vientimodel.cpp */; settings = {ATTRIBUTES = (); }; };
@@ -332,16 +330,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		CB36F826215A9838009585B2 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = sqldrivers;
-			dstSubfolderSpec = 6;
-			files = (
-				CB36F827215A9846009585B2 /* libqsqlite.dylib in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		CB8E95E520E69CD700C89EEB /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
@@ -349,7 +337,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				CBD3B7FB20EA6792006D9F5B /* QtXml.framework in Embed Frameworks */,
-				CBF2B4F3215A977A00C37031 /* libqsqlite.dylib in Embed Frameworks */,
 				CB8E95E920E69CE300C89EEB /* QtCore.framework in Embed Frameworks */,
 				CB8E95EF20E69CF800C89EEB /* QtPrintSupport.framework in Embed Frameworks */,
 				CB8E95EB20E69CE700C89EEB /* QtGui.framework in Embed Frameworks */,
@@ -359,16 +346,6 @@
 				CB8E95FA20E6A3CE00C89EEB /* QtNetwork.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CBF4F778214565E700680B0A /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = platforms;
-			dstSubfolderSpec = 6;
-			files = (
-				CBF4F77A2145662000680B0A /* libqcocoa.dylib in CopyFiles */,
-			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -800,6 +777,7 @@
 		CB27337F215797DA008C8C06 /* inboxlista.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = inboxlista.cpp; path = ../kitupiikki/tools/inboxlista.cpp; sourceTree = "<group>"; };
 		CB273380215797DB008C8C06 /* inboxlista.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = inboxlista.h; path = ../kitupiikki/tools/inboxlista.h; sourceTree = "<group>"; };
 		CB314B4B215E5B0500C0A469 /* copy_libs.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = copy_libs.sh; sourceTree = "<group>"; };
+		CB314B4D215E5D4700C0A469 /* copy_plugins.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = copy_plugins.sh; sourceTree = "<group>"; };
 		CB36F828215A9AA6009585B2 /* versio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = versio.h; path = ../kitupiikki/versio.h; sourceTree = "<group>"; };
 		CB46C6156F6B2BE5E898B3D9 /* tkpaivitys.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = tkpaivitys.ui; path = /Users/petri/git/kitupiikki/kitupiikki/uusikp/tkpaivitys.ui; sourceTree = "<absolute>"; };
 		CB4960342152AF35004F0F91 /* laskusivu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = laskusivu.h; path = ../kitupiikki/laskutus/laskusivu.h; sourceTree = "<group>"; };
@@ -845,7 +823,6 @@
 		CBB34F3F215552BA00BE6C3E /* budjettikohdennusproxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = budjettikohdennusproxy.h; path = ../kitupiikki/arkisto/budjettikohdennusproxy.h; sourceTree = "<group>"; };
 		CBB34F40215552BA00BE6C3E /* budjettidlg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = budjettidlg.h; path = ../kitupiikki/arkisto/budjettidlg.h; sourceTree = "<group>"; };
 		CBD3B7F920EA6778006D9F5B /* QtXml.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtXml.framework; path = ../../../Qt/5.11.0/clang_64/lib/QtXml.framework; sourceTree = "<group>"; };
-		CBF2B4F2215A977A00C37031 /* libqsqlite.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libqsqlite.dylib; path = ../../../Qt/5.11.0/clang_64/plugins/sqldrivers/libqsqlite.dylib; sourceTree = "<group>"; };
 		CBF4F7792145662000680B0A /* libqcocoa.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libqcocoa.dylib; path = ../../../Qt/5.11.0/clang_64/plugins/platforms/libqcocoa.dylib; sourceTree = "<group>"; };
 		CBF4F77F21456A8900680B0A /* strip_embedded_frameworks.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = strip_embedded_frameworks.sh; sourceTree = "<group>"; };
 		CC0B2BA7EE1EDF53D5765B38 /* selauswg.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = selauswg.ui; path = /Users/petri/git/kitupiikki/kitupiikki/selaus/selauswg.ui; sourceTree = "<absolute>"; };
@@ -1576,6 +1553,7 @@
 		74B182DB50CB5611B5C1C297 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				CB314B4D215E5D4700C0A469 /* copy_plugins.sh */,
 				CB314B4B215E5B0500C0A469 /* copy_libs.sh */,
 				CBF4F77F21456A8900680B0A /* strip_embedded_frameworks.sh */,
 				FEB5A0907FA19EF6152D5304 /* kitupiikki.pro */,
@@ -1860,7 +1838,6 @@
 			isa = PBXGroup;
 			children = (
 				CB36F828215A9AA6009585B2 /* versio.h */,
-				CBF2B4F2215A977A00C37031 /* libqsqlite.dylib */,
 				2EB56BE3C2D93CDAB0C52E67 /* Sources */,
 				25B08E2869634E9BCBA333A2 /* Generated Sources */,
 				87DF60DE337FB58864343E39 /* Resources */,
@@ -1973,8 +1950,7 @@
 				CB8E95E520E69CD700C89EEB /* Embed Frameworks */,
 				CB057C0D2143FB4500DB5900 /* Run Script */,
 				CB8E95F820E69F5A00C89EEB /* ShellScript */,
-				CBF4F778214565E700680B0A /* CopyFiles */,
-				CB36F826215A9838009585B2 /* CopyFiles */,
+				CB3BA710215F6CCD004A376C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2026,6 +2002,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CB76993620DD240B004CA297 /* Images.xcassets in Copy Bundle Resources */,
+				CB314B4E215E5D4700C0A469 /* copy_plugins.sh in Copy Bundle Resources */,
 				CB314B4C215E5B0500C0A469 /* copy_libs.sh in Copy Bundle Resources */,
 			);
 			name = "Copy Bundle Resources";
@@ -2081,8 +2058,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${PROJECT_DIR}/read_version.sh";
+			shellScript = "${PROJECT_DIR}/read_version.sh\n";
 			showEnvVarsInLog = 0;
+		};
+		CB3BA710215F6CCD004A376C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${PROJECT_DIR}/copy_plugins.sh ${TARGET_BUILD_DIR}\n";
 		};
 		CB8E95F820E69F5A00C89EEB /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
