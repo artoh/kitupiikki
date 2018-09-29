@@ -715,7 +715,7 @@ void KirjausWg::paivitaKommenttiMerkki()
 {
     if( ui->kommentitEdit->document()->toPlainText().isEmpty())
     {
-        ui->tabWidget->setTabIcon(1, QIcon());
+        ui->tabWidget->setTabIcon(1, QIcon(":/pic/kommentti-harmaa.png"));
     }
     else
     {

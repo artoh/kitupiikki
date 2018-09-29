@@ -109,7 +109,7 @@ void LaskuSivu::paaTab(int indeksi)
 
     if( indeksi == ASIAKAS && lajiTab_->count() < 4)
     {
-        lajiTab_->addTab(tr("&Yhteystiedot"));
+        lajiTab_->addTab(QIcon(":/pic/yhteystiedot"),tr("&Yhteystiedot"));
         lajiTab_->setTabEnabled(TIEDOT, false);
     }
     else if(indeksi != ASIAKAS && lajiTab_->count() == 4)
@@ -339,10 +339,10 @@ void LaskuSivu::luoUi()
 {
     paaTab_ = new QTabBar();
 
-    paaTab_->addTab(tr("&Myyntilaskut"));
-    paaTab_->addTab(tr("&Ostolaskut"));
-    paaTab_->addTab(tr("&Asiakkaat"));
-    paaTab_->addTab(tr("&Toimittajat"));
+    paaTab_->addTab(QIcon(":/pic/lisaa.png"),tr("&Myyntilaskut"));
+    paaTab_->addTab(QIcon(":/pic/poista.png"),tr("&Ostolaskut") );
+    paaTab_->addTab(QIcon(":/pic/asiakkaat.png"),("&Asiakkaat"));
+    paaTab_->addTab(QIcon(":/pic/yrittaja.png"),tr("&Toimittajat"));
 
     asiakasSuodatusEdit_ = new QLineEdit();
     asiakasSuodatusEdit_->setPlaceholderText( tr("Etsi asiakkaan nimellä") );
@@ -358,9 +358,9 @@ void LaskuSivu::luoUi()
     asiakasView_->setAlternatingRowColors(true);
 
     lajiTab_ = new QTabBar();
-    lajiTab_->addTab(tr("&Kaikki"));
-    lajiTab_->addTab(tr("&Avoimet"));
-    lajiTab_->addTab(tr("&Erääntyneet"));
+    lajiTab_->addTab(QIcon(":/pic/harmaa.png"),tr("&Kaikki"));
+    lajiTab_->addTab(QIcon(":/pic/keltainen.png"),tr("&Avoimet"));
+    lajiTab_->addTab(QIcon(":/pic/punainen.png"),tr("&Erääntyneet"));
 
     viiteSuodatusEdit_ = new QLineEdit();
     viiteSuodatusEdit_->setPlaceholderText(tr("Etsi viitenumerolla"));

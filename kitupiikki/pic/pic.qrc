@@ -37,7 +37,6 @@
         <file>kirjalaatikko.png</file>
         <file>varoitus.png</file>
         <file>vasara.png</file>
-        <file>karhu.png</file>
         <file>possukirjaa.png</file>
         <file>tekstisivu.png</file>
         <file>kopioi.png</file>
@@ -55,7 +54,6 @@
         <file>suomi.png</file>
         <file>eu.png</file>
         <file>kansiossa.png</file>
-        <file>asiakkaat.png</file>
         <file>lihavoi.png</file>
         <file>lasku.png</file>
         <file>talleta.png</file>
@@ -126,6 +124,15 @@
         <file>ikkunakuori.png</file>
         <file>paketti.png</file>
         <file>paketti2.png</file>
+        <file>liite.png</file>
+        <file>kommentti-harmaa.png</file>
+        <file>info-harmaa.png</file>
+        <file>uusiasiakas.png</file>
+        <file>yhteystiedot.png</file>
+        <file>asiakkaat.png</file>
+        <file>punainen.png</file>
+        <file>keltainen.png</file>
+        <file>harmaa.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

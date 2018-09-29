@@ -53,6 +53,10 @@
       <number>0</number>
      </property>
      <widget class="QWidget" name="viennit">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/vientilista.png</normaloff>:/pic/vientilista.png</iconset>
+      </attribute>
       <attribute name="title">
        <string>&amp;Viennit</string>
       </attribute>
@@ -128,6 +132,10 @@
       </layout>
      </widget>
      <widget class="QWidget" name="kommentit">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/kommentti-harmaa.png</normaloff>:/pic/kommentti-harmaa.png</iconset>
+      </attribute>
       <attribute name="title">
        <string>&amp;Kommentit</string>
       </attribute>
@@ -142,6 +150,10 @@
       </layout>
      </widget>
      <widget class="QWidget" name="liitteet">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/liite.png</normaloff>:/pic/liite.png</iconset>
+      </attribute>
       <attribute name="title">
        <string>L&amp;iitteet</string>
       </attribute>
@@ -217,6 +229,10 @@
       </layout>
      </widget>
      <widget class="QWidget" name="tiliote">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/tekstisivu.png</normaloff>:/pic/tekstisivu.png</iconset>
+      </attribute>
       <attribute name="title">
        <string>&amp;Tiliote</string>
       </attribute>
@@ -300,6 +316,10 @@
       </layout>
      </widget>
      <widget class="QWidget" name="lisatab">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/info-harmaa.png</normaloff>:/pic/info-harmaa.png</iconset>
+      </attribute>
       <attribute name="title">
        <string>Lisätiedot</string>
       </attribute>

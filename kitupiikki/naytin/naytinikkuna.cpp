@@ -166,6 +166,7 @@ void NaytinIkkuna::teeToolbar()
     htmlMenu->addAction(htmlTiedostoonAktio);
 
     htmlBtn->setMenu(htmlMenu);
+    htmlBtn->setPopupMode(QToolButton::InstantPopup);
 
     csvAktio_ = new QAction(QIcon(":/pic/csv.png"), tr("CSV") );
     tb->addAction(csvAktio_);
@@ -186,6 +187,7 @@ void NaytinIkkuna::teeToolbar()
     csvValikko->addAction(csvAsetukset);
 
     csvBtn->setMenu(csvValikko);
+    csvBtn->setPopupMode(QToolButton::InstantPopup);
 
 }
 
