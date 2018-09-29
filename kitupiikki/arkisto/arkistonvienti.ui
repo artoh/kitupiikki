@@ -35,6 +35,10 @@
      <property name="text">
       <string>Vie hakemistoon</string>
      </property>
+     <property name="icon">
+      <iconset resource="../pic/pic.qrc">
+       <normaloff>:/pic/folder.png</normaloff>:/pic/folder.png</iconset>
+     </property>
      <property name="checked">
       <bool>true</bool>
      </property>
@@ -63,6 +67,10 @@ Hakemistoon kopioidaan lukuisia tiedostoja, joten arkistoa varten on suositeltav
      <property name="text">
       <string>Vie zip-tiedostona</string>
      </property>
+     <property name="icon">
+      <iconset resource="../pic/pic.qrc">
+       <normaloff>:/pic/paketti.png</normaloff>:/pic/paketti.png</iconset>
+     </property>
     </widget>
    </item>
    <item>
@@ -85,6 +93,10 @@ Hakemistoon kopioidaan lukuisia tiedostoja, joten arkistoa varten on suositeltav
      </property>
      <property name="text">
       <string>Vie tar-tiedostona</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../pic/pic.qrc">
+       <normaloff>:/pic/paketti.png</normaloff>:/pic/paketti.png</iconset>
      </property>
     </widget>
    </item>

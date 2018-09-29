@@ -6,14 +6,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>427</width>
-    <height>634</height>
+    <width>587</width>
+    <height>898</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <widget class="QLabel" name="label_14">
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Laskutus</string>
+     </property>
+    </widget>
+   </item>
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
@@ -169,12 +182,20 @@
      <property name="text">
       <string>Tulosta pankkiviivakoodi</string>
      </property>
+     <property name="icon">
+      <iconset resource="../pic/pic.qrc">
+       <normaloff>:/pic/viivakoodi.png</normaloff>:/pic/viivakoodi.png</iconset>
+     </property>
     </widget>
    </item>
    <item>
     <widget class="QCheckBox" name="qrCheck">
      <property name="text">
       <string>Tulosta QR-koodi</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../pic/pic.qrc">
+       <normaloff>:/pic/qr.png</normaloff>:/pic/qr.png</iconset>
      </property>
     </widget>
    </item>
@@ -327,6 +348,8 @@
    <header>db/tilinvalintaline.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -65,6 +65,10 @@
      <property name="text">
       <string>Kirjoita SOAP-kehys</string>
      </property>
+     <property name="icon">
+      <iconset resource="../pic/pic.qrc">
+       <normaloff>:/pic/paketti2.png</normaloff>:/pic/paketti2.png</iconset>
+     </property>
     </widget>
    </item>
    <item row="3" column="1">
@@ -97,6 +101,10 @@
      <property name="text">
       <string>Liitä pdf-lasku</string>
      </property>
+     <property name="icon">
+      <iconset resource="../pic/pic.qrc">
+       <normaloff>:/pic/pdf.png</normaloff>:/pic/pdf.png</iconset>
+     </property>
     </widget>
    </item>
    <item row="7" column="0">
@@ -106,6 +114,10 @@
      </property>
      <property name="text">
       <string>Tee zip-paketti</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../pic/pic.qrc">
+       <normaloff>:/pic/paketti.png</normaloff>:/pic/paketti.png</iconset>
      </property>
     </widget>
    </item>

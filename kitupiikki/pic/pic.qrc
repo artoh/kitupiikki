@@ -119,6 +119,13 @@
         <file>select-all.png</file>
         <file>verkkolasku.png</file>
         <file>verotilitys.png</file>
+        <file>kuva2.png</file>
+        <file>teksti.png</file>
+        <file>qr.png</file>
+        <file>viivakoodi.png</file>
+        <file>ikkunakuori.png</file>
+        <file>paketti.png</file>
+        <file>paketti2.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

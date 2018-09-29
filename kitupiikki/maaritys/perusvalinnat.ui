@@ -163,7 +163,7 @@ p, li { white-space: pre-wrap; }
           </property>
           <property name="icon">
            <iconset resource="../pic/pic.qrc">
-            <normaloff>:/pic/ratas.png</normaloff>:/pic/ratas.png</iconset>
+            <normaloff>:/pic/kuva2.png</normaloff>:/pic/kuva2.png</iconset>
           </property>
          </widget>
         </item>
@@ -173,6 +173,10 @@ p, li { white-space: pre-wrap; }
        <widget class="QCheckBox" name="logossaNimiBox">
         <property name="text">
          <string>Logossa organisaation nimi</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/pic/teksti.png</normaloff>:/pic/teksti.png</iconset>
         </property>
        </widget>
       </item>
@@ -257,6 +261,10 @@ p, li { white-space: pre-wrap; }
      <property name="text">
       <string>Arvonlisäverovelvollinen</string>
      </property>
+     <property name="icon">
+      <iconset resource="../pic/pic.qrc">
+       <normaloff>:/pic/vero.png</normaloff>:/pic/vero.png</iconset>
+     </property>
     </widget>
    </item>
    <item row="12" column="0" colspan="2">
@@ -264,12 +272,20 @@ p, li { white-space: pre-wrap; }
      <property name="text">
       <string>Näytä tulosteiden muokkauksen työkalut</string>
      </property>
+     <property name="icon">
+      <iconset resource="../pic/pic.qrc">
+       <normaloff>:/pic/ratas.png</normaloff>:/pic/ratas.png</iconset>
+     </property>
     </widget>
    </item>
    <item row="13" column="0" colspan="2">
     <widget class="QCheckBox" name="paivitysCheck">
      <property name="text">
       <string>Näytä ilmoitus saatavilla olevista päivityksistä</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../pic/pic.qrc">
+       <normaloff>:/pic/paivita.png</normaloff>:/pic/paivita.png</iconset>
      </property>
     </widget>
    </item>
