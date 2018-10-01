@@ -11,7 +11,6 @@ APPDIR=$APPCONTENTS/MacOS
 LIBDIR=$APPCONTENTS/Libraries
 
 mkdir -p $LIBDIR/
-mkdir -p $APPDIR/platforms/
 
 #app
 install_name_tool -change /usr/local/opt/poppler/lib/libpoppler-qt5.1.dylib @rpath/libpoppler-qt5.dylib $APPDIR/kitupiikki
