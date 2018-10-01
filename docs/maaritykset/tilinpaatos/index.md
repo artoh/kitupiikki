@@ -73,7 +73,7 @@ Pelkkä **#** lopettaa ehdon, ja sen jälkeen rivit tulostuvat jälleen kaikilla
 
 **@**-alkuiset rivit määrittelevät erityisen tulostettavan
 
-* `@Raportin nimi!Otsikko@` määrittelee, että mainittu raportti liitetään tilinpäätökseen, ja `@Raportin nimi*Otsikko@` vastaavasti raportin erittelylle (nämä voi liittää helpommin **Lisää raportti**-napilla)
+* `@Raportin nimi!Otsikko@` määrittelee, että mainittu raportti liitetään tilinpäätökseen, `@Raportin nimi$!Otsikko@` budjettivertailun liittämisen tilinpäätökseen ja `@Raportin nimi*Otsikko@` vastaavasti raportin erittelylle (nämä voi liittää helpommin **Lisää raportti**-napilla)
 * `@henkilosto@` lisää taulukon henkilöstön määrästä tällä ja edellisellä tilikaudella
 * `@sha@` lisää arkiston sha256-tiivisteen
 

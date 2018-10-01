@@ -9,6 +9,13 @@ div.asennusinfo
 
 }
 
+p.info
+{
+	font-size: medium;
+	text-align: center;
+	margin-top: 2em;
+}
+
 div.asennusinfo > h3
 {
    color: #7e57c2;
@@ -120,8 +127,8 @@ a.tukilaatikko:hover
 }
 
 .txt {
-  color: #7e57c2;
-  font-size: 15px;
+  color: black;
+  font-size: medium;
   padding: 8px 12px;
   position: relative;
   bottom: 8px;
