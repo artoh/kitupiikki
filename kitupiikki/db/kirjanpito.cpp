@@ -54,6 +54,13 @@ Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
     liitteet_ = nullptr;
 
     printer_ = new QPrinter(QPrinter::HighResolution);
+
+    // Jos järjestelmässä ei ole yhtään tulostinta, otetaan käyttöön pdf-tulostus jotte
+    // saadaan dialogit
+
+    if( !printer_->isValid())
+        printer()->setOutputFileName( QDir::temp().absoluteFilePath("print.pdf") );
+
     printer_->setPaperSize(QPrinter::A4);
     printer_->setPageMargins(10,5,5,5, QPrinter::Millimeter);
 }
