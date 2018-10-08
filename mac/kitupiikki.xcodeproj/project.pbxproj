@@ -823,7 +823,6 @@
 		CBB34F3F215552BA00BE6C3E /* budjettikohdennusproxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = budjettikohdennusproxy.h; path = ../kitupiikki/arkisto/budjettikohdennusproxy.h; sourceTree = "<group>"; };
 		CBB34F40215552BA00BE6C3E /* budjettidlg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = budjettidlg.h; path = ../kitupiikki/arkisto/budjettidlg.h; sourceTree = "<group>"; };
 		CBD3B7F920EA6778006D9F5B /* QtXml.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtXml.framework; path = ../../../Qt/5.11.0/clang_64/lib/QtXml.framework; sourceTree = "<group>"; };
-		CBF4F7792145662000680B0A /* libqcocoa.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libqcocoa.dylib; path = ../../../Qt/5.11.0/clang_64/plugins/platforms/libqcocoa.dylib; sourceTree = "<group>"; };
 		CBF4F77F21456A8900680B0A /* strip_embedded_frameworks.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = strip_embedded_frameworks.sh; sourceTree = "<group>"; };
 		CC0B2BA7EE1EDF53D5765B38 /* selauswg.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = selauswg.ui; path = /Users/petri/git/kitupiikki/kitupiikki/selaus/selauswg.ui; sourceTree = "<absolute>"; };
 		CC6E401B6BEB30A35FBB439E /* laskuntulostaja.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = laskuntulostaja.cpp; path = /Users/petri/git/kitupiikki/kitupiikki/laskutus/laskuntulostaja.cpp; sourceTree = "<absolute>"; };
@@ -1797,14 +1796,6 @@
 			name = naytin;
 			sourceTree = "<group>";
 		};
-		CBF4F77E214568EE00680B0A /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				CBF4F7792145662000680B0A /* libqcocoa.dylib */,
-			);
-			name = "Recovered References";
-			sourceTree = "<group>";
-		};
 		D882F47B768804653981A974 /* kirjaus */ = {
 			isa = PBXGroup;
 			children = (
@@ -1846,7 +1837,6 @@
 				74B182DB50CB5611B5C1C297 /* Supporting Files */,
 				AF39DD055C3EF8226FBE929D /* Frameworks */,
 				FE0A091FDBFB3E9C31B7A1BD /* Products */,
-				CBF4F77E214568EE00680B0A /* Recovered References */,
 			);
 			name = kitupiikki;
 			sourceTree = "<group>";
