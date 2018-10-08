@@ -33,26 +33,20 @@ Kitupiikin Linux-versio toimitetaan AppImage-tiedostona, jota ei varsinaisesti e
 
 Tukee OS X versiota 10.11 ja uudempia
 
-!!! information "Mac-versiossa vielä hieman hiomista..."
-    Macintosh-versiossa on vielä pieniä yhteensopivuusongelmia. Jotta Kitupiikki saataisiin toimimaan luotettavasti Macilla, olisi testausapu tervetullutta!
-
-    Mac-version voi ladata osoitteesta [https://github.com/petriaarnio/kitupiikki/releases](https://github.com/petriaarnio/kitupiikki/releases) (ensimmäinen .dmg-päätteinen tiedosto) ja virheistä ilmoitella tämän sivun alareunan keskustelualueelle tai [mac@kitupiikki.info](mailto:mac@kitupiikki.info). <span class="fa fa-exclamation-triangle"> </span> **Beta-versio, saattaa sisältää vielä virheitä**
-
-<!--
 !!! note ""
-    <span class="fa fa-linux"></span> [Kitupiikki 1.0 macOS asennuspaketti (15 MB) ](https://github.com/petriaarnio/kitupiikki/releases/download/mac_v1.0.0/Kitupiikki.dmg)  -->
+    <span class="fa fa-linux"></span> [Kitupiikki 1.1 RC macOS asennuspaketti (17 MB) ](https://github.com/petriaarnio/kitupiikki/releases/download/mac-v1.1-rc/Kitupiikki-1.1-rc.dmg)  <span class="fa fa-exclamation-triangle"> </span> **Julkaisuehdokas**
 
 1. Lataa yllä oleva asennustiedosto
-2. Avaa asennustiedosto kaksoisnapsauttamalla hiirellä
-3. Vedä avautuneesta ikkunasta Kitupiikin kuvake Ohjelmat (Applications) -hakemiston kuvakkeen päälle
+2. Avaa asennustiedosto
+3. Vedä avautuneessa ikkunasta Kitupiikin kuvake Ohjelmat (Applications) -hakemiston kuvakkeen päälle
 
 Macintosh-julkaisua ylläpitää Petri Aarnio [mac@kitupiikki.info](mailto:mac@kitupiikki.info)
 
 
-## <span class="fa fa-exclamation-triangle"></span> Kitupiikki Beta
+## <span class="fa fa-exclamation-triangle"></span> Kitupiikki 1.1 RC
 
-!!! warning "Testikäyttöön"
-    Beta-versiota ei testattu kattavasti, joten siinä on todennäköisesti vielä virheitä ja puutteita.
+!!! warning "Julkaisuehdokas"
+    Tätä versiota testataan vielä ennen lopullista julkaisua.
 
 Version 1.1 uusia ominaisuuksia
 
@@ -61,16 +55,16 @@ Version 1.1 uusia ominaisuuksia
 - Maksumuistutukset
 - Budjetin laatiminen ja seuranta
 - Kirjattavien tositteiden kansio
-- Asunto-osakeyhtiön tilikartta <span class=ver>BETA.1</span>
-- Ryhmälaskutus <span class=ver>BETA.2</span>
-- Finvoice-laskun muodostaminen <span class=ver>BETA.2</span>
+- Asunto-osakeyhtiön tilikartta
+- Ryhmälaskutus
+- Finvoice-laskun muodostaminen
 
-Beta-versio käynnistyy suoraan ladattavasta tiedostosta, joten voit kokeilla sitä, vaikka käyttäisitkin muuten Kitupiikin vakaata versiota.
+RC-versio käynnistyy suoraan ladattavasta tiedostosta, joten voit kokeilla sitä, vaikka käyttäisitkin muuten Kitupiikin vakaata versiota.
 
 !!! warning ""
-    <span class="fa fa-windows"></span> [Kitupiikki 1.1 BETA.4 Windows suoritettava ohjelma (14 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.1-beta.4/kitupiikki1.1-beta.4.exe) <span class="fa fa-exclamation-triangle"> </span> **Testikäyttöön**
+    <span class="fa fa-windows"></span> [Kitupiikki 1.1 RC Windows suoritettava ohjelma (14 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.1-rc/kitupiikki1.1-rc.exe) <span class="fa fa-exclamation-triangle"> </span> **Julkaisuehdokas**
 
-    <span class="fa fa-linux"></span> [Kitupiikki 1.1 BETA.4 Linux AppImage (30 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.1-beta.4/Kitupiikki-1.1-beta.4-x86_64.AppImage) <span class="fa fa-exclamation-triangle"> </span>  **Testikäyttöön**
+    <span class="fa fa-linux"></span> [Kitupiikki 1.1 RC Linux AppImage (30 MB)](hhttps://github.com/artoh/kitupiikki/releases/download/v1.1-rc/Kitupiikki-1.1-rc-x86_64.AppImage) <span class="fa fa-exclamation-triangle"> </span>  **Julkaisuehdokas**
 
 ## Kehitysversio
 
