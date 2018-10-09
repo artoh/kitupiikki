@@ -18,6 +18,7 @@
 #include <QDebug>
 
 #include <QSqlQuery>
+#include <QImage>
 
 #include "tuonti.h"
 #include "pdftuonti.h"
@@ -44,6 +45,9 @@ Tuonti::~Tuonti()
 
 bool Tuonti::tuo(const QString &tiedostonnimi, KirjausWg *wg)
 {
+    QImage kuvako( tiedostonnimi );
+    if( !kuvako.isNull())
+        return true;
 
     QFile tiedosto( tiedostonnimi );
     tiedosto.open( QFile::ReadOnly );

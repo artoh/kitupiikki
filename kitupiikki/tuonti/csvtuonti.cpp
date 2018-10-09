@@ -511,12 +511,19 @@ QString CsvTuonti::tuontiTeksti(int tuominen)
 
 bool CsvTuonti::onkoCsv(const QByteArray &data)
 {
-    QString kooditestiin = CsvTuonti::haistettuKoodattu( data.left(128) );
-    for( QChar merkki : kooditestiin)
-        if( merkki.isNonCharacter())
-            return false;
+    QByteArray kooditestiin = data.left(1024);
+    int ulkona = 0;
 
-    QByteArray testattava = data.left(2048);
+    for( char merkki : kooditestiin)
+    {
+        if( merkki < 10 )
+            ulkona++;
+    }
+
+    if( ulkona > kooditestiin.length() / 3)
+        return false;
+
+    QByteArray testattava = data.left(4096);
 
     QList<QStringList> lista = CsvTuonti::csvListana(testattava);
 
