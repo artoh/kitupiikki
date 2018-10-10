@@ -43,6 +43,8 @@ public:
     virtual bool sivunAsetuksetMuuttuneet() override;
     virtual bool raidoita(bool raidat=false) override;
 
+    virtual void tulosta(QPrinter *printer) override;
+
 private:
     RaportinKirjoittaja raportti_;
     bool raidat_ = false;

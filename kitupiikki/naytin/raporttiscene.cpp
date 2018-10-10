@@ -15,7 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "raporttiscene.h"
-
+#include <QPainter>
 
 
 RaporttiScene::RaporttiScene(QObject *parent) :
@@ -62,6 +62,13 @@ bool RaporttiScene::raidoita(bool raidat)
     raidat_ = raidat;
     naytaPdf( raportti_.pdf(raidat_));
     return true;
+}
+
+void RaporttiScene::tulosta(QPrinter *printer)
+{
+    QPainter painter(printer);
+    raportti_.tulosta( printer, &painter, raidat_);
+    painter.end();
 }
 
 bool RaporttiScene::csvMuoto()

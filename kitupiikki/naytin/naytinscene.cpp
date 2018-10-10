@@ -29,4 +29,3 @@ bool NaytinScene::raidoita(bool /* raidat */)
     return false;
 }
 
-

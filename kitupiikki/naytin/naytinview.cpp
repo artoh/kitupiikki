@@ -100,6 +100,7 @@ void NaytinView::raidoita(bool raidat)
 void NaytinView::tulosta()
 {
     QPrintDialog printDialog( kp()->printer(), this);
+    printDialog.setOptions( QPrintDialog::PrintToFile | QPrintDialog::PrintShowPageSize );
     if( printDialog.exec())
         scene_->tulosta( kp()->printer() );
 
