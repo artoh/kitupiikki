@@ -105,18 +105,24 @@ void PdfScene::tulosta(QPrinter *printer)
     document->setRenderBackend(Poppler::Document::ArthurBackend);
 
     int pageCount = document->numPages();
-    for(int i=0; i < pageCount; i++)
+    for(int i=0; i < pageCount; i++)               
     {
-        double vaakaResoluutio = 1.0 * printer->resolution() * printer->pageRect(QPrinter::Point).width() / printer->paperRect(QPrinter::Point).width();
-        double pystyResoluutio = 1.0 * printer->resolution() * printer->pageRect(QPrinter::Point).height() / printer->paperRect(QPrinter::Point).height();
+        Poppler::Page *page = document->page(i);
+
+        double vaakaResoluutio = printer->pageRect(QPrinter::Point).width() / page->pageSizeF().width() * printer->resolution();
+        double pystyResoluutio = printer->pageRect(QPrinter::Point).height() / page->pageSizeF().height() * printer->resolution();
+
         double resoluutio = vaakaResoluutio < pystyResoluutio ? vaakaResoluutio : pystyResoluutio;
 
-        document->page(i)->renderToPainter( &painter, resoluutio, resoluutio,
-                                            0,0,document->page(i)->pageSize().width(), document->page(i)->pageSize().height());
+        page->renderToPainter( &painter, resoluutio, resoluutio,
+                                            0,0,page->pageSize().width(), page->pageSize().height());
         if( i < pageCount - 1)
             printer->newPage();
+
+        delete page;
     }
     painter.end();
+    delete document;
 }
 
 

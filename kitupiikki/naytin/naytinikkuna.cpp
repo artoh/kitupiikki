@@ -105,7 +105,7 @@ void NaytinIkkuna::sisaltoMuuttui(const QString& tyyppi)
     // Tyypin mukaan napit
     raitaAktio_->setEnabled( tyyppi == "raportti");
     htmlAktio_->setEnabled( tyyppi == "raportti");
-    sivunAsetusAktio_->setEnabled( tyyppi != "pdf");
+    // sivunAsetusAktio_->setEnabled( tyyppi != "pdf");
 
     if( view()->tiedostoPaate() == "jpg"  )
         avaaAktio_->setIcon( QIcon(":/pic/kuva.png"));
