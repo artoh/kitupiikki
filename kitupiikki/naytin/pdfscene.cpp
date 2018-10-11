@@ -107,9 +107,14 @@ void PdfScene::tulosta(QPrinter *printer)
     int pageCount = document->numPages();
     for(int i=0; i < pageCount; i++)
     {
-        document->page(i)->renderToPainter( &painter, printer->resolution(), printer->resolution(),
+        double vaakaResoluutio = 1.0 * printer->resolution() * printer->pageRect(QPrinter::Point).width() / printer->paperRect(QPrinter::Point).width();
+        double pystyResoluutio = 1.0 * printer->resolution() * printer->pageRect(QPrinter::Point).height() / printer->paperRect(QPrinter::Point).height();
+        double resoluutio = vaakaResoluutio < pystyResoluutio ? vaakaResoluutio : pystyResoluutio;
+
+        document->page(i)->renderToPainter( &painter, resoluutio, resoluutio,
                                             0,0,document->page(i)->pageSize().width(), document->page(i)->pageSize().height());
-        printer->newPage();
+        if( i < pageCount - 1)
+            printer->newPage();
     }
     painter.end();
 }
