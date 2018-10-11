@@ -331,8 +331,8 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
             viennit_[index.row()].tili = uusitili;
             // Tällä tilivalinnalla tulee myös oletukset veroille
             int alvlaji = uusitili.json()->luku("AlvLaji");
-            // #37 Käsinkirjauksessa oletuksena netto
-            if( alvlaji % 10 == 1)
+            //  Uuden rivin alv-laji oletuksena bruttoa
+            if( !viennit_[index.row()].alvkoodi &&  alvlaji % 10 == 1)
                 alvlaji++;
             // #40 Jos muokataan tilinavausta, ei siinä ole alveja
             if( tositeModel_ && tositeModel_->tunniste() == 0)
