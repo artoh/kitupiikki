@@ -656,17 +656,23 @@ void KirjausWg::paivitaLiiteNapit()
     ui->avaaNappi->setEnabled(liitteita);
 
     if( liitteita )
-        ui->tabWidget->setTabIcon(2, QIcon(":/pic/liite-aktiivinen.png"));
+        ui->tabWidget->setTabIcon(LIITTEET, QIcon(":/pic/liite-aktiivinen.png"));
     else
-        ui->tabWidget->setTabIcon(2, QIcon(":/pic/liite"));
+        ui->tabWidget->setTabIcon(LIITTEET, QIcon(":/pic/liite"));
 }
 
 void KirjausWg::paivitaTilioteIcon()
 {
-    if( ui->tilioteBox->isChecked())
-        ui->tabWidget->setTabIcon(3, QIcon(":/pic/tekstisivu-aktiivinen.png"));
+    bool tiliote = ui->tilioteBox->isChecked();
+
+    if( tiliote)
+        ui->tabWidget->setTabIcon(TILIOTE, QIcon(":/pic/tekstisivu-aktiivinen.png"));
     else
-        ui->tabWidget->setTabIcon(3, QIcon(":/pic/tekstisivu.png"));
+        ui->tabWidget->setTabIcon(TILIOTE, QIcon(":/pic/tekstisivu.png"));
+
+    ui->tiliotetiliCombo->setEnabled(tiliote);
+    ui->tiliotealkaenEdit->setEnabled(tiliote);
+    ui->tilioteloppuenEdit->setEnabled(tiliote);
 }
 
 void KirjausWg::naytaSummat()
@@ -705,10 +711,10 @@ void KirjausWg::naytaSummat()
         }
     }
 
-    if( ui->tallennaButton->isEnabled())
-        ui->tabWidget->setTabIcon(0, QIcon(":/pic/vientilista-aktiivinen.png"));
+    if( debet && !erotus)
+        ui->tabWidget->setTabIcon(VIENNIT, QIcon(":/pic/vientilista-aktiivinen.png"));
     else
-        ui->tabWidget->setTabIcon(0, QIcon(":/pic/vientilista.png"));
+        ui->tabWidget->setTabIcon(VIENNIT, QIcon(":/pic/vientilista.png"));
 
 }
 
@@ -743,11 +749,11 @@ void KirjausWg::paivitaKommenttiMerkki()
 {
     if( ui->kommentitEdit->document()->toPlainText().isEmpty())
     {
-        ui->tabWidget->setTabIcon(1, QIcon(":/pic/kommentti-harmaa.png"));
+        ui->tabWidget->setTabIcon(KOMMENTIT, QIcon(":/pic/kommentti-harmaa.png"));
     }
     else
     {
-        ui->tabWidget->setTabIcon(1, QIcon(":/pic/kommentti.png"));
+        ui->tabWidget->setTabIcon(KOMMENTIT, QIcon(":/pic/kommentti.png"));
     }
     model_->asetaKommentti( ui->kommentitEdit->toPlainText() );
 

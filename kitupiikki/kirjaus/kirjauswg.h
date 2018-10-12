@@ -49,7 +49,7 @@ public:
 
     QDate tositePvm() const;
 
-    enum Valilehdet { VIENNIT, KOMMENTIT, LIITTEET, TILIOTE, AVUSTAJA } ;
+    enum Valilehdet { VIENNIT, KOMMENTIT, LIITTEET, TILIOTE, LISATIEDOT } ;
 
     TositeModel *model() { return model_;}
 
