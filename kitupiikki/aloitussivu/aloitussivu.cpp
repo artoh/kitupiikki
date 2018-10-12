@@ -545,8 +545,7 @@ QPair<QString, qlonglong> AloitusSivu::summa(const QString &otsikko, const QStri
 
 void AloitusSivu::paivitaTiedostoLista()
 {
-    QSettings settings;
-    QVariantMap kirjanpidot = settings.value("Tietokannat").toMap();
+    QVariantMap kirjanpidot = kp()->settings()->value("Tietokannat").toMap();
 
     // Poistetaan ne, joita ei löydy
     for(const QString& polku : kirjanpidot.keys())
@@ -579,7 +578,7 @@ void AloitusSivu::paivitaTiedostoLista()
 
         // Tallennetaan tilastointia varten tieto vakiotilikartasta
         QString vakiotilikartta = kp()->asetukset()->asetus("VakioTilikartta");
-        settings.setValue("Tilikartta", vakiotilikartta.left(vakiotilikartta.indexOf('.')));
+        kp()->settings()->setValue("Tilikartta", vakiotilikartta.left(vakiotilikartta.indexOf('.')));
     }
 
 
@@ -606,5 +605,5 @@ void AloitusSivu::paivitaTiedostoLista()
         item->setIcon( QIcon( kuva ));
     }
 
-    settings.setValue("Tietokannat", kirjanpidot );
+    kp()->settings()->setValue("Tietokannat", kirjanpidot );
 }

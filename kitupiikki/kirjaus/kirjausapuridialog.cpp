@@ -162,16 +162,14 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
 
     ui->merkkausEdit->installEventFilter(this);
 
-    QSettings settings;
-    restoreGeometry( settings.value("ApuriDlg").toByteArray());
+    restoreGeometry( kp()->settings()->value("ApuriDlg").toByteArray());
 }
 
 KirjausApuriDialog::~KirjausApuriDialog()
 {
-    QSettings settings;
-    settings.setValue("ApuriDlg", this->saveGeometry());
+   kp()->settings()->setValue("ApuriDlg", this->saveGeometry());
 
-    delete ui;
+   delete ui;
 }
 
 void KirjausApuriDialog::tiliTaytetty()

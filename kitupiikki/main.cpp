@@ -91,9 +91,23 @@ int main(int argc, char *argv[])
 
     a.installTranslator(&translator);
 
-    // Jos versio on muuttunut, näytetään tervetulodialogi
-    QSettings settings;
-    if( settings.value("ViimeksiVersiolla").toString() != a.applicationVersion()  )
+    QStringList argumentit = qApp->arguments();
+
+    // Windowsin asentamattomalla versiolla (ohjelmatiedostossa viiva)
+    // asetukset kirjoitetaan kitupiikki.ini -tiedostoon
+#if defined ( Q_OS_WIN )
+    QString polku;
+    if( argumentit.at(0).contains('-'))
+        polku = argumentit.at(0);
+    Kirjanpito kirjanpito(polku);
+#else
+    Kirjanpito kirjanpito;
+#endif
+    Kirjanpito::asetaInstanssi(&kirjanpito);
+
+
+    // Jos versio on muuttunut, näytetään tervetulodialogi    
+    if( kp()->settings()->value("ViimeksiVersiolla").toString() != a.applicationVersion()  )
     {
         QDialog tervetuloDlg;
         Ui::TervetuloDlg tervetuloUi;
@@ -101,7 +115,7 @@ int main(int argc, char *argv[])
         tervetuloUi.versioLabel->setText("Versio " + a.applicationVersion());
         tervetuloUi.esiKuva->setVisible( a.applicationVersion().contains('-'));
         tervetuloUi.esiVaro->setVisible( a.applicationVersion().contains('-'));
-        tervetuloUi.paivitysCheck->setChecked( settings.value("NaytaPaivitykset",true).toBool());
+        tervetuloUi.paivitysCheck->setChecked( kp()->settings()->value("NaytaPaivitykset",true).toBool());
 
 #ifndef Q_OS_LINUX
     tervetuloUi.valikkoonCheck->setVisible(false);
@@ -115,16 +129,12 @@ int main(int argc, char *argv[])
 
 #endif
 
-        settings.setValue("NaytaPaivitykset", tervetuloUi.paivitysCheck->isChecked());
-        settings.setValue("ViimeksiVersiolla", a.applicationVersion());
+        kp()->settings()->setValue("NaytaPaivitykset", tervetuloUi.paivitysCheck->isChecked());
+        kp()->settings()->setValue("ViimeksiVersiolla", a.applicationVersion());
     }
     QSplashScreen *splash = new QSplashScreen;
     splash->setPixmap( QPixmap(":/pic/splash.png"));
     splash->show();
-
-    Kirjanpito kirjanpito;
-    Kirjanpito::asetaInstanssi(&kirjanpito);
-
 
     // Viivakoodifontti
     QFontDatabase::addApplicationFont(":/code128_XL.ttf");
@@ -134,7 +144,6 @@ int main(int argc, char *argv[])
     ikkuna.show();
 
     // Avaa argumenttina olevan tiedostonnimen
-    QStringList argumentit = qApp->arguments();
     if( argumentit.length() > 1 && QFile(argumentit.at(1)).exists())
         kirjanpito.avaaTietokanta( argumentit.at(1));
 

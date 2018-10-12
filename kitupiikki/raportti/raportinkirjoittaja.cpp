@@ -444,8 +444,7 @@ QByteArray RaportinKirjoittaja::pdf(bool taustaraidat, bool tulostaA4) const
 
 QByteArray RaportinKirjoittaja::csv()
 {
-    QSettings settings;
-    QChar erotin = settings.value("CsvErotin", QChar(',')).toChar();
+    QChar erotin = kp()->settings()->value("CsvErotin", QChar(',')).toChar();
 
     QString txt;
 
@@ -477,7 +476,7 @@ QByteArray RaportinKirjoittaja::csv()
         }
     }
 
-    if( settings.value("CsvKoodaus").toString() == "latin1")
+    if( kp()->settings()->value("CsvKoodaus").toString() == "latin1")
     {
         txt.replace("€","EUR");
         return txt.toLatin1();

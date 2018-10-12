@@ -228,8 +228,7 @@ void KirjausWg::tyhjenna()
 
     // Apurivinkit alkuun
     // Ensimmäisillä kerroilla näytetään erityinen vinkki Apurin käytöstä
-    QSettings settings;
-    if( settings.value("ApuriVinkki", 1).toInt() > 0)
+    if( kp()->settings()->value("ApuriVinkki", 1).toInt() > 0)
     {
         if( !apurivinkki_)
             apurivinkki_ = new ApuriVinkki(this);
@@ -940,9 +939,8 @@ void KirjausWg::kirjausApuri()
     // Apurivinkki näytetään, kunnes Apuria on käytetty kolme kertaa
     if( apurivinkki_ )
     {
-        QSettings settings;
-        if( settings.value("ApuriVinkki", 3).toInt())
-            settings.setValue("ApuriVinkki", settings.value("ApuriVinkki",3).toInt() - 1 );
+        if( kp()->settings()->value("ApuriVinkki", 3).toInt())
+            kp()->settings()->setValue("ApuriVinkki", kp()->settings()->value("ApuriVinkki",3).toInt() - 1 );
         apurivinkki_->hide();
     }
 

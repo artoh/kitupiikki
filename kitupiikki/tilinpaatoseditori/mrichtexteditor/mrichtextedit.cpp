@@ -577,11 +577,10 @@ void MRichTextEdit::setText(const QString& text) {
 }
 
 void MRichTextEdit::insertImage() {
-    QSettings s;
-    QString attdir = s.value("general/filedialog-path").toString();
+
     QString file = QFileDialog::getOpenFileName(this,
                                     tr("Valitse kuva"),
-                                    attdir,
+                                    QString(),
                                     tr("JPEG (*.jpg);; GIF (*.gif);; PNG (*.png);; BMP (*.bmp);; All (*)"));
     QImage image = QImageReader(file).read();
 

@@ -44,8 +44,7 @@ KirjausSivu::KirjausSivu(KitupiikkiIkkuna *ikkuna) :
     splitter->addWidget(liitewg);
     splitter->addWidget(kirjauswg);
 
-    QSettings settings;
-    splitter->restoreState(settings.value("KirjausSplitter").toByteArray());
+    splitter->restoreState(kp()->settings()->value("KirjausSplitter").toByteArray());
 
     QHBoxLayout *leiska = new QHBoxLayout;
     leiska->addWidget(splitter);
@@ -110,7 +109,6 @@ void KirjausSivu::tositeKasitelty()
 
 void KirjausSivu::talletaSplitter()
 {
-    QSettings settings;
-    settings.setValue("KirjausSplitter", splitter->saveState());
+    kp()->settings()->setValue("KirjausSplitter", splitter->saveState());
 }
 

@@ -92,8 +92,8 @@ bool Perusvalinnat::nollaa()
         ui->muotoCombo->hide();
     }
 
-    QSettings asetukset;
-    ui->paivitysCheck->setChecked( asetukset.value("NaytaPaivitykset", true).toBool() );
+
+    ui->paivitysCheck->setChecked( kp()->settings()->value("NaytaPaivitykset", true).toBool() );
 
     uusilogo = QImage();
 
@@ -137,7 +137,6 @@ void Perusvalinnat::avaaHakemisto()
 
 bool Perusvalinnat::onkoMuokattu()
 {
-    QSettings asetukset;
 
     return  ui->organisaatioEdit->text() != kp()->asetus("Nimi")  ||
             ui->ytunnusEdit->text() != kp()->asetus("Ytunnus") ||
@@ -148,15 +147,15 @@ bool Perusvalinnat::onkoMuokattu()
             ui->kotipaikkaEdit->text() != kp()->asetukset()->asetus("Kotipaikka") ||
             ui->puhelinEdit->text() != kp()->asetukset()->asetus("Puhelin") ||
             ui->sahkopostiEdit->text() != kp()->asetukset()->asetus("Sahkoposti") ||
-            ui->paivitysCheck->isChecked() != asetukset.value("NaytaPaivitykset",true).toBool() ||
+            ui->paivitysCheck->isChecked() != kp()->settings()->value("NaytaPaivitykset",true).toBool() ||
             ui->logossaNimiBox->isChecked() != kp()->asetukset()->onko("LogossaNimi") ||
             ( ui->muotoCombo->currentText() != kp()->asetukset()->asetus("Muoto"));
 }
 
 bool Perusvalinnat::tallenna()
 {
-    QSettings asetukset;
-    asetukset.setValue("NaytaPaivitykset", ui->paivitysCheck->isChecked());
+
+    kp()->settings()->setValue("NaytaPaivitykset", ui->paivitysCheck->isChecked());
 
     kp()->asetukset()->aseta("Nimi", ui->organisaatioEdit->text());
     kp()->asetukset()->aseta("Ytunnus", ui->ytunnusEdit->text());

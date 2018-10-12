@@ -48,7 +48,7 @@
 #include "laskutus/tuotemodel.h"
 
 class QPrinter;
-
+class QSettings;
 
 /**
  * @brief Kirjanpidon käsittely
@@ -62,7 +62,7 @@ class Kirjanpito : public QObject
     Q_OBJECT
 
 public:
-    Kirjanpito(QObject *parent = nullptr);
+    Kirjanpito(const QString& asetuspolku = QString());
 
 
     ~Kirjanpito();
@@ -232,6 +232,12 @@ public:
      */
     QString arkistopolku() const;
 
+    /**
+     * @brief QSettings käyttäjäkohtaisille asetuksille
+     * @return
+     */
+    QSettings* settings() { return settings_;}
+
 signals:
     /**
      * @brief Tietokanta on avattu
@@ -314,6 +320,8 @@ protected:
 
     QTemporaryDir *tempDir_;
     QImage logo_;
+
+    QSettings* settings_;
 
 public:
     /**

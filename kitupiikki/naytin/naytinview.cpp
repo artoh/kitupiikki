@@ -193,11 +193,10 @@ void NaytinView::tallennaHtml()
 
 void NaytinView::csvAsetukset()
 {
-    QSettings settings;
-    QChar erotin = settings.value("CsvErotin", QChar(',')).toChar();
-    QChar despilkku = settings.value("CsvDesimaali", QChar(',')).toChar();
-    QString pvmmuoto = settings.value("CsvPaivays", "dd.MM.yyyy").toString();
-    QString koodaus = settings.value("CsvKoodaus","utf8").toString();
+    QChar erotin = kp()->settings()->value("CsvErotin", QChar(',')).toChar();
+    QChar despilkku = kp()->settings()->value("CsvDesimaali", QChar(',')).toChar();
+    QString pvmmuoto = kp()->settings()->value("CsvPaivays", "dd.MM.yyyy").toString();
+    QString koodaus = kp()->settings()->value("CsvKoodaus","utf8").toString();
 
     QDialog dlg;
     Ui::CsvVientiValintaDlg ui;
@@ -220,28 +219,28 @@ void NaytinView::csvAsetukset()
     if( dlg.exec())
     {
         if( ui.eropilkku->isChecked())
-            settings.setValue("CsvErotin", QChar(','));
+            kp()->settings()->setValue("CsvErotin", QChar(','));
         else if( ui.eropuolipiste->isChecked())
-            settings.setValue("CsvErotin", QChar(';'));
+            kp()->settings()->setValue("CsvErotin", QChar(';'));
         else if( ui.erosarakain->isChecked())
-            settings.setValue("CsvErotin", QChar('\t'));
+            kp()->settings()->setValue("CsvErotin", QChar('\t'));
 
         if( ui.utf8->isChecked())
-            settings.setValue("CsvKoodaus", "utf8");
+            kp()->settings()->setValue("CsvKoodaus", "utf8");
         else if( ui.latin1->isChecked())
-            settings.setValue("CsvKoodaus", "latin1");
+            kp()->settings()->setValue("CsvKoodaus", "latin1");
 
         if( ui.desipilkku->isChecked())
-            settings.setValue("CsvDesimaali", QChar(','));
+            kp()->settings()->setValue("CsvDesimaali", QChar(','));
         else if( ui.desipiste->isChecked())
-            settings.setValue("CsvDesimaali", QChar('.'));
+            kp()->settings()->setValue("CsvDesimaali", QChar('.'));
 
         if( ui.suomipaiva->isChecked())
-            settings.setValue("CsvPaivays","dd.MM.yyyy");
+            kp()->settings()->setValue("CsvPaivays","dd.MM.yyyy");
         else if( ui.isopaiva->isChecked())
-            settings.setValue("CsvPaivays", "yyyy-MM-dd");
+            kp()->settings()->setValue("CsvPaivays", "yyyy-MM-dd");
         else if( ui.usapaiva->isChecked())
-            settings.setValue("CsvPaivays","MM/dd/yyyy");
+            kp()->settings()->setValue("CsvPaivays","MM/dd/yyyy");
     }
 }
 

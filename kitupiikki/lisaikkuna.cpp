@@ -30,16 +30,14 @@ LisaIkkuna::LisaIkkuna(QWidget *parent) : QMainWindow(parent)
     setAttribute(Qt::WA_DeleteOnClose);
     connect( kp(), SIGNAL(tietokantaVaihtui()), this, SLOT(close()));
 
-    QSettings settings;
-    restoreGeometry(  settings.value("LisaIkkuna").toByteArray() );
+    restoreGeometry(  kp()->settings()->value("LisaIkkuna").toByteArray() );
 
     new QShortcut( QKeySequence(Qt::Key_F1), this, SLOT(ohje()));
 }
 
 LisaIkkuna::~LisaIkkuna()
 {
-    QSettings settings;
-    settings.setValue("LisaIkkuna", saveGeometry());
+    kp()->settings()->setValue("LisaIkkuna", saveGeometry());
 }
 
 KirjausSivu* LisaIkkuna::kirjaa(int tositeId)

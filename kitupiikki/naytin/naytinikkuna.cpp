@@ -31,9 +31,8 @@ NaytinIkkuna::NaytinIkkuna(QWidget *parent) : QMainWindow(parent)
 {
     setAttribute(Qt::WA_DeleteOnClose);
 
-    QSettings settings;
     resize(800,600);
-    restoreGeometry( settings.value("NaytinIkkuna").toByteArray());
+    restoreGeometry( kp()->settings()->value("NaytinIkkuna").toByteArray());
 
     view_ = new NaytinView(this);
     connect( view_, &NaytinView::sisaltoVaihtunut, this, &NaytinIkkuna::sisaltoMuuttui);
@@ -46,8 +45,7 @@ NaytinIkkuna::NaytinIkkuna(QWidget *parent) : QMainWindow(parent)
 
 NaytinIkkuna::~NaytinIkkuna()
 {
-    QSettings settings;
-    settings.setValue("NaytinIkkuna", saveGeometry());
+    kp()->settings()->setValue("NaytinIkkuna", saveGeometry());
 }
 
 void NaytinIkkuna::naytaRaportti(const RaportinKirjoittaja& raportti)

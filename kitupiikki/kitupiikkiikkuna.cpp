@@ -86,12 +86,11 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     for(int i=KIRJAUSSIVU; i<SIVUT_LOPPU;i++)
         sivuaktiot[i]->setEnabled(false);
 
-    QSettings settings;
-    restoreGeometry( settings.value("geometry").toByteArray());
+    restoreGeometry( kp()->settings()->value("geometry").toByteArray());
     // Ladataan viimeksi avoinna ollut kirjanpito
-    if( settings.contains("viimeisin"))
+    if( kp()->settings()->contains("viimeisin"))
     {
-        QString viimeisin = settings.value("viimeisin").toString();
+        QString viimeisin = kp()->settings()->value("viimeisin").toString();
         // #78 Varmistetaan, että kirjanpito edelleen olemassa (0.7 8.3.2018)
         if( QFile::exists( viimeisin ) )
             Kirjanpito::db()->avaaTietokanta(viimeisin, false);

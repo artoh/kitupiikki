@@ -37,10 +37,18 @@
 #include "kirjanpito.h"
 #include "naytin/naytinikkuna.h"
 
-
-Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
+Kirjanpito::Kirjanpito(const QString& asetuspolku) : QObject(nullptr),
     harjoitusPvm( QDate::currentDate()), tempDir_(nullptr)
 {
+    if( asetuspolku.isEmpty())
+        settings_ = new QSettings(this);
+    else
+    {
+        // Asentamattomassa windows-versiossa asetukset ohjelman hakemistoon
+        QFileInfo info(asetuspolku);
+        settings_ = new QSettings(info.absoluteDir().absoluteFilePath("kitupiikki.ini"),QSettings::IniFormat, this);
+    }
+
     tietokanta_ = QSqlDatabase::addDatabase("QSQLITE");
 
     asetusModel_ = new AsetusModel(&tietokanta_, this);

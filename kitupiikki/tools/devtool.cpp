@@ -41,9 +41,7 @@ DevTool::DevTool(QWidget *parent) :
 
     ui->avainLista->setCurrentRow(0);
 
-    QSettings settings;
-
-    ui->keksiLabel->setText( settings.value("Keksi").toString());
+    ui->keksiLabel->setText( kp()->settings()->value("Keksi").toString());
 
     alustaRistinolla();
 

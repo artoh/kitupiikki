@@ -72,9 +72,8 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
         model = new LaskuModel();
 
     setAttribute(Qt::WA_DeleteOnClose);
-    QSettings settings;
     resize(800,600);
-    restoreGeometry( settings.value("LaskuDialogi").toByteArray());
+    restoreGeometry( kp()->settings()->value("LaskuDialogi").toByteArray());
 
     ui->setupUi(this);
 
@@ -270,8 +269,7 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
 
 LaskuDialogi::~LaskuDialogi()
 {
-    QSettings settings;
-    settings.setValue("LaskuDialogi", saveGeometry());
+    kp()->settings()->setValue("LaskuDialogi", saveGeometry());
     delete ui;
     delete model;
     laskuIkkunoita__--;
@@ -502,8 +500,7 @@ void LaskuDialogi::paivitaTuoteluetteloon()
 void LaskuDialogi::onkoPostiKaytossa()
 {
     // Sähköpostin lähettäminen edellyttää smtp-asetusten laittamista
-    QSettings settings;
-    ui->spostiNappi->setEnabled( !settings.value("SmtpServer").toString().isEmpty()
+    ui->spostiNappi->setEnabled( !kp()->settings()->value("SmtpServer").toString().isEmpty()
                                  && ui->emailEdit->text().contains(QRegularExpression(".+@.+\\.\\w+")));
 }
 
@@ -525,10 +522,9 @@ void LaskuDialogi::lahetaSahkopostilla()
         return;
     }
 
-    QSettings settings;
 
-    Smtp *smtp = new Smtp( settings.value("SmtpUser").toString(), settings.value("SmtpPassword").toString(),
-                     settings.value("SmtpServer").toString(), settings.value("SmtpPort", 465).toInt() );
+    Smtp *smtp = new Smtp( kp()->settings()->value("SmtpUser").toString(), kp()->settings()->value("SmtpPassword").toString(),
+                     kp()->settings()->value("SmtpServer").toString(), kp()->settings()->value("SmtpPort", 465).toInt() );
     connect( smtp, SIGNAL(status(QString)), this, SLOT(smtpViesti(QString)));
 
 
@@ -556,10 +552,9 @@ void LaskuDialogi::lahetaRyhmanSeuraava(const QString &viesti)
     {
         model->haeRyhmasta(ryhmaLahetys_.first());
 
-        QSettings settings;
 
-        Smtp *smtp = new Smtp( settings.value("SmtpUser").toString(), settings.value("SmtpPassword").toString(),
-                         settings.value("SmtpServer").toString(), settings.value("SmtpPort", 465).toInt() );
+        Smtp *smtp = new Smtp( kp()->settings()->value("SmtpUser").toString(), kp()->settings()->value("SmtpPassword").toString(),
+                         kp()->settings()->value("SmtpServer").toString(), kp()->settings()->value("SmtpPort", 465).toInt() );
         connect( smtp, &Smtp::status, this, &LaskuDialogi::lahetaRyhmanSeuraava);
 
 
@@ -624,8 +619,7 @@ void LaskuDialogi::ryhmaNapit(const QItemSelection &valinta)
     ui->verkkolaskuNappi->setEnabled( valinta.size());
     ui->poistaRyhmastaNappi->setEnabled( valinta.size());
 
-    QSettings settings;
-    ui->spostiNappi->setEnabled(!settings.value("SmtpServer").toString().isEmpty() && valinta.size());
+    ui->spostiNappi->setEnabled(!kp()->settings()->value("SmtpServer").toString().isEmpty() && valinta.size());
 }
 
 void LaskuDialogi::lisaaAsiakasListalta(const QModelIndex &indeksi)
