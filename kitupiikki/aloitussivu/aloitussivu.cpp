@@ -470,67 +470,28 @@ QString AloitusSivu::summat()
     QSqlQuery kysely;
 
     // Rahavara-tilien saldot
+    txt.append( summa(tr("Rahavarat"), R"(tili.tyyppi LIKE "AR%")", tilikausi, false  ).first );
 
-    txt.append("<tr><td colspan=2 class=otsikko>Rahavarat</td></tr>");
+    txt.append( summa(tr("Saatavat"), R"((tili.tyyppi="AS" OR tili.tyyppi="AO" or tili.tyyppi="AL" or tili.tyyppi="ALM" or tili.tyyppi="AV"))", tilikausi, false  ).first );
 
-    kysely.exec(QString("select nro, nimi, sum(debetsnt), sum(kreditsnt) from vienti,tili where vienti.tili=tili.id and tili.tyyppi LIKE \"AR%\" and vienti.pvm"
-                        "<\"%1\" group by nro")
-                .arg(tilikausi.paattyy().toString(Qt::ISODate)));
-    int saldosumma = 0;
-    while( kysely.next())
-    {
-        int saldosnt = kysely.value(2).toInt() - kysely.value(3).toInt();
-        saldosumma += saldosnt;
-        txt.append( tr("<tr><td><a href=\"selaa:%1\">%1 %2</a></td><td class=euro>%L3 €</td></tr>").arg(kysely.value(0).toInt())
-                                                           .arg(kysely.value(1).toString())
-                                                           .arg( (1.0 *  saldosnt ) / 100,0,'f',2 ) );
-    }
-    txt.append( tr("<tr class=summa><td>Rahavarat yhteensä</td><td class=euro>%L1 €</td></tr>").arg( (1.0 * saldosumma ) / 100,0,'f',2 ) );
-    txt.append("<tr><td colspan=2>&nbsp;</td></tr>");
+    txt.append( summa(tr("Velat"), R"((tili.tyyppi="BS" OR tili.tyyppi="BO" or tili.tyyppi="BL" or tili.tyyppi="BLM" or tili.tyyppi="BV"))", tilikausi, true  ).first );
+
 
     // Sitten tulot
-    kysely.exec(QString("select tilinro, tilinimi, sum(debetsnt), sum(kreditsnt) from vientivw where tilityyppi like \"C%\" AND pvm BETWEEN \"%1\" AND \"%2\" group by tilinro")
-                .arg(tilikausi.alkaa().toString(Qt::ISODate)  )
-                .arg(tilikausi.paattyy().toString(Qt::ISODate)));
+    QPair<QString,int> tulopari = summa( tr("Tulot"), R"(tili.tyyppi LIKE "C%")", tilikausi, true);
+    txt.append(tulopari.first);
+    qlonglong ylijaama = tulopari.second;
 
-    txt.append("<tr><td colspan=2 class=otsikko>Tulot</td></tr>");
-    int summatulot = 0;
-
-    while( kysely.next())
-    {
-        int saldosnt = kysely.value(3).toInt() - kysely.value(2).toInt();
-        summatulot += saldosnt;
-        txt.append( tr("<tr><td><a href=\"selaa:%1\">%1 %2</a></td><td class=euro>%L3 €</td></tr>").arg(kysely.value(0).toInt())
-                                                           .arg(kysely.value(1).toString())
-                                                           .arg( (1.0 * saldosnt ) / 100,0,'f',2 ) );
-    }
-    txt.append( tr("<tr class=summa><td>Tulot yhteensä</td><td class=euro>%L1 €</td></tr>").arg( (1.0 * summatulot ) / 100,0,'f',2 ) );
-    txt.append("<tr><td colspan=2>&nbsp;</td></tr>");
 
     // ja menot
-    kysely.exec(QString("select tilinro, tilinimi, sum(debetsnt), sum(kreditsnt) from vientivw where tilityyppi like \"D%\" AND pvm BETWEEN \"%1\" AND \"%2\" group by tilinro")
-                .arg(tilikausi.alkaa().toString(Qt::ISODate)  )
-                .arg(tilikausi.paattyy().toString(Qt::ISODate)));
-
-
-    txt.append("<tr><td colspan=2 class=otsikko>Menot</td></tr>");
-    int summamenot = 0;
-
-    while( kysely.next())
-    {
-        int saldosnt = kysely.value(2).toInt() - kysely.value(3).toInt();
-        summamenot += saldosnt;
-        txt.append( tr("<tr><td><a href=\"selaa:%1\">%1 %2</a></td><td class=euro>%L3 €</td></tr>").arg(kysely.value(0).toInt())
-                                                           .arg(kysely.value(1).toString())
-                                                           .arg( (1.0 * saldosnt ) / 100,0,'f',2 ) );
-    }
-    txt.append( tr("<tr class=summa><td>Menot yhteensä</td><td class=euro>%L1 €</td></tr>").arg( (1.0 * summamenot ) / 100,0,'f',2 ) );
-    txt.append("<tr><td colspan=2>&nbsp;</td></tr>");
+    QPair<QString,int> menopari = summa( tr("Menot"), R"(tili.tyyppi LIKE "D%")", tilikausi, false);
+    txt.append(menopari.first);
+    ylijaama -= menopari.second;
 
 
 
     // Yli/alijäämä
-    txt.append( tr("<tr class=kokosumma><td>Yli/alijäämä</td><td class=euro> %L1 €</td></tr></table>").arg(( (1.0 * (summatulot - summamenot) ) / 100), 0,'f',2 )) ;
+    txt.append( tr("<tr class=kokosumma><td>Yli/alijäämä</td><td class=euro> %L1 €</td></tr></table>").arg(( (1.0 * ylijaama ) / 100), 0,'f',2 )) ;
 
     txt.append("</table><p>&nbsp;</p><table width=100%>");
 
@@ -556,6 +517,28 @@ QString AloitusSivu::summat()
 
     return txt;
 
+}
+
+QPair<QString, qlonglong> AloitusSivu::summa(const QString &otsikko, const QString &tyyppikysely, const Tilikausi &tilikausi, bool kreditplus)
+{
+    QString txt = "<tr><td colspan=2 class=otsikko>" + otsikko +"</td></tr>";
+    QSqlQuery kysely;
+
+    kysely.exec(QString("select nro, nimi, sum(debetsnt), sum(kreditsnt) from vienti,tili where vienti.tili=tili.id and %2 and vienti.pvm"
+                        "<\"%1\" group by nro")
+                .arg(tilikausi.paattyy().toString(Qt::ISODate)).arg(tyyppikysely));
+    qlonglong saldosumma = 0;
+    while( kysely.next())
+    {
+        qlonglong saldosnt =  kreditplus ?  kysely.value(3).toLongLong()-kysely.value(2).toLongLong() :  kysely.value(2).toLongLong() - kysely.value(3).toLongLong();
+        saldosumma += saldosnt;
+        txt.append( tr("<tr><td><a href=\"selaa:%1\">%1 %2</a></td><td class=euro>%L3 €</td></tr>").arg(kysely.value(0).toInt())
+                                                           .arg(kysely.value(1).toString())
+                                                           .arg( (1.0 *  saldosnt ) / 100,0,'f',2 ) );
+    }
+    txt.append( tr("<tr class=summa><td>%2 yhteensä</td><td class=euro>%L1 €</td></tr>").arg( (1.0 * saldosumma ) / 100,0,'f',2 ).arg(otsikko) );
+    txt.append("<tr><td colspan=2>&nbsp;</td></tr>");
+    return qMakePair(txt, saldosumma);
 }
 
 

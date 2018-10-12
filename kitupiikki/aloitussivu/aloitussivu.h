@@ -78,6 +78,8 @@ protected:
     QString vinkit();
     QString summat();
 
+    QPair<QString,qlonglong> summa(const QString& otsikko, const QString& tyyppikysely, const Tilikausi& tilikausi, bool kreditplus = false);
+
     void saldot();
     void paivitaTiedostoLista();
 

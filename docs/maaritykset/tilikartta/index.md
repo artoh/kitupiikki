@@ -80,6 +80,7 @@ AL    | Arvonlisäverosaatava | Vastaavaa | Vain yksi tili. Tälle tilille kirja
 ALM   | Maksuperusteisen alv:n kohdentamaton saatava | Vastaavaa | Vain yksi tili. Tälle tilille kirjataan maksuperusteista arvonlisäveromenettelyä käytettäessä kohdentamaton arvonlisäverosaaminen. Kun maksu on suoritettu, siirretään erä arvonlisäverosaatavien tilille. Tilille saa tehdä vain kirjauksia oikeanlaisilla alv-ohjaustiedoilla.
 ARK   | Käteisvarat | Vastaavaa |
 ARP   | Pankkitili | Vastaavaa  |
+AV    | Verosaatava | Vastaavaa | Vain yksi tili. Saatava verottajalta, jos palautettavia veroja on maksettavia enemmän.
 B     | Vastattavaa | Vastattavaa | Vastattavaa-tili ilman tarkempaa erittelyä
 BE    | Edellisten tilikausien voitto/tappio | Vastattavaa | Vain yksi tili. Edellisten tilikausien yli/alijäämä tulee näkyviin tälle tilille.
 T     | Tämän tilikauden tulos | Vastattavaa | Vain yksi tili. Tämän tilikauden tulos tulee näkyviin tälle tilille. Tilille ei saa tehdä mitään kirjauksia.
