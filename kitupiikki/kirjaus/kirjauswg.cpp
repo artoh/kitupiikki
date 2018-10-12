@@ -95,6 +95,8 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     ui->tositetyyppiCombo->setModel( Kirjanpito::db()->tositelajit());
     ui->tositetyyppiCombo->setModelColumn( TositelajiModel::NIMI);    
 
+    connect( ui->tilioteBox, &QCheckBox::stateChanged, this, &KirjausWg::paivitaTilioteIcon);
+
     // Kun tositteen päivää vaihdetaan, vaihtuu myös tiliotepäivät.
     // Siksi tosipäivä ladattava aina ennen tiliotepäiviä!
     connect( ui->tositePvmEdit, SIGNAL(editingFinished()), this, SLOT(pvmVaihtuu()));
@@ -210,8 +212,7 @@ void KirjausWg::tyhjenna()
     ui->tallennaButton->setEnabled(false);
     poistaAktio_->setEnabled(false);
 
-    ui->poistaLiiteNappi->setEnabled(false);
-    ui->avaaNappi->setEnabled(false);
+    paivitaLiiteNapit();
     pvmVaihtuu();
     // Verosarake näytetään vain, jos alv-toiminnot käytössä
     ui->viennitView->setColumnHidden( VientiModel::ALV, !kp()->asetukset()->onko("AlvVelvollinen") );
@@ -647,6 +648,27 @@ bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
     return QWidget::eventFilter(watched, event);
 }
 
+void KirjausWg::paivitaLiiteNapit()
+{
+    bool liitteita = model()->liiteModel()->rowCount(QModelIndex());
+
+    ui->poistaLiiteNappi->setEnabled(liitteita);
+    ui->avaaNappi->setEnabled(liitteita);
+
+    if( liitteita )
+        ui->tabWidget->setTabIcon(2, QIcon(":/pic/liite-aktiivinen.png"));
+    else
+        ui->tabWidget->setTabIcon(2, QIcon(":/pic/liite"));
+}
+
+void KirjausWg::paivitaTilioteIcon()
+{
+    if( ui->tilioteBox->isChecked())
+        ui->tabWidget->setTabIcon(3, QIcon(":/pic/tekstisivu-aktiivinen.png"));
+    else
+        ui->tabWidget->setTabIcon(3, QIcon(":/pic/tekstisivu.png"));
+}
+
 void KirjausWg::naytaSummat()
 {
     qlonglong debet = model_->vientiModel()->debetSumma();
@@ -683,6 +705,11 @@ void KirjausWg::naytaSummat()
         }
     }
 
+    if( ui->tallennaButton->isEnabled())
+        ui->tabWidget->setTabIcon(0, QIcon(":/pic/vientilista-aktiivinen.png"));
+    else
+        ui->tabWidget->setTabIcon(0, QIcon(":/pic/vientilista.png"));
+
 }
 
 void KirjausWg::lataaTosite(int id)
@@ -708,8 +735,7 @@ void KirjausWg::lataaTosite(int id)
             poistaAktio_->setEnabled(false);
     }
 
-    ui->poistaLiiteNappi->setEnabled( model()->liiteModel()->rowCount(QModelIndex()) );
-    ui->avaaNappi->setEnabled( model()->liiteModel()->rowCount(QModelIndex()) );
+    paivitaLiiteNapit();
 
 }
 
@@ -759,9 +785,7 @@ void KirjausWg::lisaaLiite(const QString& polku)
         model_->liiteModel()->lisaaTiedosto(polku, info.fileName());
         // Valitsee lisätyn liitteen
         ui->liiteView->setCurrentIndex( model_->liiteModel()->index( model_->liiteModel()->rowCount(QModelIndex()) - 1 ) );
-        ui->poistaLiiteNappi->setEnabled(true);
-        ui->avaaNappi->setEnabled(true);
-
+        paivitaLiiteNapit();
     }
 
 }
@@ -776,8 +800,7 @@ void KirjausWg::lisaaLiiteDatasta(const QByteArray &data, const QString &nimi)
     model_->liiteModel()->lisaaLiite( data, nimi );
     // Valitsee lisätyn liitteen
     ui->liiteView->setCurrentIndex( model_->liiteModel()->index( model_->liiteModel()->rowCount(QModelIndex()) - 1 ) );
-    ui->poistaLiiteNappi->setEnabled(true);
-    ui->avaaNappi->setEnabled(true);
+    paivitaLiiteNapit();
 
 }
 
@@ -817,7 +840,6 @@ void KirjausWg::tiedotModelista()
     ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( model_->tositelaji().id(), TositelajiModel::IdRooli ) );
     ui->kausiLabel->setText(QString("/ %1").arg( kp()->tilikaudet()->tilikausiPaivalle(model_->pvm()).kausitunnus() ));
 
-    ui->tilioteBox->setChecked( model_->tiliotetili() != 0 );
     // Tiliotetilin yhdistämiset!
     if( model_->tiliotetili())
     {
@@ -825,6 +847,7 @@ void KirjausWg::tiedotModelista()
         ui->tiliotealkaenEdit->setDate( model_->json()->date("TilioteAlkaa") );
         ui->tilioteloppuenEdit->setDate( model_->json()->date("TilioteLoppuu"));
     }
+    ui->tilioteBox->setChecked( model_->tiliotetili() );
     paivitaVaroitukset();
 
     if( model()->id() > 0)
@@ -881,7 +904,8 @@ void KirjausWg::vaihdaTositeTyyppi()
             ui->otsikkoEdit->setText( QString("Tiliote %1 ajalta %2 - %3")
                     .arg(otetili.nimi()).arg(ui->tiliotealkaenEdit->date().toString("dd.MM.yyyy"))
                     .arg( ui->tilioteloppuenEdit->date().toString("dd.MM.yyyy")));
-        tiedotModeliin();
+        if( !model_->tiliotetili())
+            tiedotModeliin();
     }
     else
     {

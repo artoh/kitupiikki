@@ -44,7 +44,7 @@ class KirjausWg : public QWidget
 {
     Q_OBJECT
 public:
-    KirjausWg(TositeModel *tositeModel, QWidget *parent=0);
+    KirjausWg(TositeModel *tositeModel, QWidget *parent=nullptr);
     ~KirjausWg();
 
     QDate tositePvm() const;
@@ -208,6 +208,8 @@ protected:
      * @return
      */
     bool eventFilter(QObject *watched, QEvent *event);
+    void paivitaLiiteNapit();
+    void paivitaTilioteIcon();
 
 
 protected:

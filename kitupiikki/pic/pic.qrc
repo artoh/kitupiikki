@@ -133,6 +133,9 @@
         <file>punainen.png</file>
         <file>keltainen.png</file>
         <file>harmaa.png</file>
+        <file>liite-aktiivinen.png</file>
+        <file>tekstisivu-aktiivinen.png</file>
+        <file>vientilista-aktiivinen.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
