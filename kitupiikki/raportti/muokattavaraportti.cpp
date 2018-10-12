@@ -51,7 +51,16 @@ MuokattavaRaportti::MuokattavaRaportti(const QString &raporttinimi)
         connect( ui->muotoCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(paivitaUi()));
     }
 
-    ui->kohdennusCombo->setModel(kp()->kohdennukset());
+    if( kp()->kohdennukset()->kohdennuksia())
+    {
+        ui->kohdennusCombo->setModel( kp()->kohdennukset());
+        ui->kohdennusCombo->setModelColumn( KohdennusModel::NIMI);
+    }
+    else
+    {
+        ui->kohdennusCheck->setVisible(false);
+        ui->kohdennusCombo->setVisible(false);
+    }
 
     QStringList tyyppiLista;
     tyyppiLista << tr("Totetunut") << tr("Budjetti") << tr("Budjettiero €") << tr("Toteutunut %");

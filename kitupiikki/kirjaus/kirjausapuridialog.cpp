@@ -56,6 +56,9 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     ui->merkkausLabel->setVisible( kp()->kohdennukset()->merkkauksia() );
     ui->merkkausEdit->setVisible( kp()->kohdennukset()->merkkauksia());
 
+    ui->kohdennusLabel->setVisible( kp()->kohdennukset()->kohdennuksia()  );
+    ui->kohdennusCombo->setVisible( kp()->kohdennukset()->kohdennuksia());
+
     // Jos kredit ja debet poikkeaa, voidaan tehdä toispuoleinen kirjaus
     ui->vastaCheck->setVisible( false );
 
@@ -428,9 +431,9 @@ void KirjausApuriDialog::kohdennusNakyviin()
     Tili tili = ui->tiliEdit->valittuTili();
     Tili vastatili = ui->vastatiliEdit->valittuTili();
 
-    bool naytetaan =  ui->valintaTab->currentIndex() != SIIRTO ||
+    bool naytetaan = kp()->kohdennukset()->kohdennuksia() &&  ( ui->valintaTab->currentIndex() != SIIRTO ||
             tili.onko(TiliLaji::TULOS) || tili.json()->luku("Kohdennukset") ||
-        vastatili.onko(TiliLaji::TULOS) || vastatili.json()->luku("Kohdennukset") ;
+        vastatili.onko(TiliLaji::TULOS) || vastatili.json()->luku("Kohdennukset") );
 
     ui->kohdennusLabel->setVisible(naytetaan);
     ui->kohdennusCombo->setVisible(naytetaan);

@@ -35,6 +35,8 @@ TositeluetteloRaportti::TositeluetteloRaportti()
 
     ui->kohdennusCheck->hide();
     ui->kohdennusCombo->hide();
+    ui->tiliBox->hide();
+    ui->tiliCombo->hide();
 
     ui->ryhmittelelajeittainCheck->setChecked(true);
     ui->tositejarjestysRadio->setChecked(true);

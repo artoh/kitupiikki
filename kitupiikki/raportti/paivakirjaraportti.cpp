@@ -43,8 +43,16 @@ PaivakirjaRaportti::PaivakirjaRaportti()
     ui->alkupvm->setDate(nykykausi.alkaa());
     ui->loppupvm->setDate(nykykausi.paattyy());
 
-    ui->kohdennusCombo->setModel( kp()->kohdennukset());
-    ui->kohdennusCombo->setModelColumn( KohdennusModel::NIMI);
+    if( kp()->kohdennukset()->kohdennuksia())
+    {
+        ui->kohdennusCombo->setModel( kp()->kohdennukset());
+        ui->kohdennusCombo->setModelColumn( KohdennusModel::NIMI);
+    }
+    else
+    {
+        ui->kohdennusCheck->setVisible(false);
+        ui->kohdennusCombo->setVisible(false);
+    }
 
     ui->tiliBox->hide();
     ui->tiliCombo->hide();
