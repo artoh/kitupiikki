@@ -614,6 +614,8 @@ void AloitusSivu::paivitaTiedostoLista()
 
         QListWidgetItem *item = new QListWidgetItem(nimi, ui->viimeiset);
         item->setData(Qt::UserRole, polku );
+        if( nimi.endsWith(tr("(harjoitus)")))
+            item->setForeground(QBrush(Qt::darkGreen));
 
         QPixmap kuva;
         kuva.loadFromData(logo, "PNG");

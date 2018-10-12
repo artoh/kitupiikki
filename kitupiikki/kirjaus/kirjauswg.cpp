@@ -211,6 +211,7 @@ void KirjausWg::tyhjenna()
     poistaAktio_->setEnabled(false);
 
     ui->poistaLiiteNappi->setEnabled(false);
+    ui->avaaNappi->setEnabled(false);
     pvmVaihtuu();
     // Verosarake näytetään vain, jos alv-toiminnot käytössä
     ui->viennitView->setColumnHidden( VientiModel::ALV, !kp()->asetukset()->onko("AlvVelvollinen") );
@@ -708,6 +709,7 @@ void KirjausWg::lataaTosite(int id)
     }
 
     ui->poistaLiiteNappi->setEnabled( model()->liiteModel()->rowCount(QModelIndex()) );
+    ui->avaaNappi->setEnabled( model()->liiteModel()->rowCount(QModelIndex()) );
 
 }
 
@@ -758,6 +760,7 @@ void KirjausWg::lisaaLiite(const QString& polku)
         // Valitsee lisätyn liitteen
         ui->liiteView->setCurrentIndex( model_->liiteModel()->index( model_->liiteModel()->rowCount(QModelIndex()) - 1 ) );
         ui->poistaLiiteNappi->setEnabled(true);
+        ui->avaaNappi->setEnabled(true);
 
     }
 
@@ -774,6 +777,7 @@ void KirjausWg::lisaaLiiteDatasta(const QByteArray &data, const QString &nimi)
     // Valitsee lisätyn liitteen
     ui->liiteView->setCurrentIndex( model_->liiteModel()->index( model_->liiteModel()->rowCount(QModelIndex()) - 1 ) );
     ui->poistaLiiteNappi->setEnabled(true);
+    ui->avaaNappi->setEnabled(true);
 
 }
 

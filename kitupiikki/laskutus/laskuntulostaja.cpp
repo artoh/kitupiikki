@@ -44,7 +44,7 @@ bool LaskunTulostaja::tulosta(QPagedPaintDevice *printer, QPainter *painter)
     if( kp()->asetukset()->onko("Harjoitus") && !kp()->asetukset()->onko("Demo") )
     {
         painter->save();
-        painter->setPen( QPen(Qt::red));
+        painter->setPen( QPen(Qt::green));
         painter->setFont( QFont("Sans",14));
         painter->drawText(QRect( 0, 0, painter->window().width(), painter->window().height() ), Qt::AlignTop | Qt::AlignRight, QString("HARJOITUS") );
         painter->restore();
@@ -126,7 +126,7 @@ QString LaskunTulostaja::html()
 
     if( kp()->asetukset()->onko("Harjoitus") && !kp()->asetukset()->onko("Demo") )
     {
-        otsikko = QString("<p style='text-align:right;'><span style='color: red;'>HARJOITUS</span></p>") + otsikko;
+        otsikko = QString("<p style='text-align:right;'><span style='color: green;'>HARJOITUS</span></p>") + otsikko;
     }
 
     txt.append(tr("<tr><td width=50% style=\"border-bottom: 1px solid black;\">%1<br>%2</td><td colspan=2 style='font-size: large; border-bottom: 1px solid black;'>%3</td></tr>\n").arg(kp()->asetukset()->asetus("Nimi")).arg(omaosoite).arg(otsikko) );

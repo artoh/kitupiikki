@@ -321,6 +321,7 @@ QString RaportinKirjoittaja::html(bool linkit)
                " td:last-of-type { padding-right: 0; }"
                " table { border-collapse: collapse;}"
                " p.tulostettu { margin-top:2em; color: darkgray; }"
+               " span.treeni { color: green; }"
                "</style>"
                "</head><body>");
 
@@ -410,7 +411,7 @@ QString RaportinKirjoittaja::html(bool linkit)
     txt.append("</table>");
     txt.append("<p class=tulostettu>Tulostettu " + QDate::currentDate().toString("dd.MM.yyyy"));
     if( kp()->onkoHarjoitus())
-        txt.append("<br>Kirjanpito on laadittu Kitupiikki-ohjelman harjoittelutilassa");
+        txt.append("<br><span class=treeni>Kirjanpito on laadittu Kitupiikki-ohjelman harjoittelutilassa</span>");
 
     txt.append("</p></body></html>\n");
 
@@ -516,7 +517,7 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu) const
     if( kp()->asetukset()->onko("Harjoitus") && !kp()->asetukset()->onko("Demo") )
     {
         painter->save();
-        painter->setPen( QPen(Qt::red));
+        painter->setPen( QPen(Qt::green));
         painter->setFont( QFont("Sans",14));
         painter->drawText(QRect(sivunleveys / 8 * 5,0,sivunleveys/4, rivinkorkeus*2 ), Qt::AlignHCenter | Qt::AlignVCenter, QString("HARJOITUS") );
         painter->restore();

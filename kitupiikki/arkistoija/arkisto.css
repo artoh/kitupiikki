@@ -30,6 +30,7 @@ table.viennit td.erasaldo { border-top: 1px solid #505050;  text-align: right;}
 table.viennit tr:hover { background-color: #ccc;}
 
 p.info { font-size: 10pt; margin-top: 2em;}
+span.treeni { color: green; }
 a { text-decoration: none;}
 img.logo { float: right; margin: 1em; max-width: 50%}
 

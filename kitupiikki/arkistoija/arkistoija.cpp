@@ -401,7 +401,7 @@ void Arkistoija::arkistoiTositteet()
         if( tilikausi_.paattyy() > kp()->tilitpaatetty() )
             out << " (Keskener&auml;inen kirjanpito)";
         if( kp()->onkoHarjoitus())
-            out << "<br>Kirjanpito on laadittu Kitupiikki-ohjelmiston harjoittelutilassa";
+            out << "<br><span class=treeni>Kirjanpito on laadittu Kitupiikki-ohjelmiston harjoittelutilassa</span>";
         out << "</p>";
 
 
@@ -619,7 +619,12 @@ QString Arkistoija::navipalkki(int edellinen, int seuraava)
     QString navi = "<nav><ul><li class=kotinappi><a href=index.html>";
     if( onkoLogoa )
         navi.append("<img src=logo.png>");
-    navi.append( kp()->asetus("Nimi") + " " + tilikausi_.kausivaliTekstina());
+    navi.append( kp()->asetus("Nimi") + " ");
+
+    if( kp()->onkoHarjoitus())
+        navi.append("<span class=treeni>HARJOITUS </span>");
+
+    navi.append(tilikausi_.kausivaliTekstina());
     navi.append("</a></li>");
 
     navi.append("<li class=nappi><a href=ohje.html target=_blank>Ohje</a></li>");
