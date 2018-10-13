@@ -152,6 +152,8 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
             case TILI:
                 if( rivi.tili.numero())
                     return QVariant( QString("%1 %2").arg(rivi.tili.numero()).arg(rivi.tili.nimi()) );
+                else if( !rivi.tili.onkoValidi() && (rivi.laskupvm.isValid() || rivi.eraId ))
+                    return tr("Maksuperusteinen lasku");
                 else
                     return QVariant();
 
@@ -290,6 +292,9 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
             if( rivi.alvkoodi > 800)
                 return QColor(Qt::darkGray);
         }
+        // Maksuperusteisen laskun kirjausrivit
+        else if( !rivi.tili.onkoValidi() && (rivi.laskupvm.isValid() || rivi.eraId ))
+            return QColor(Qt::gray);
 
     }
 
