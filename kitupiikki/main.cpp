@@ -35,6 +35,7 @@
 #include <QDialog>
 #include <QFile>
 #include <QTextStream>
+#include <QFileInfo>
 
 #include "ui_tervetuloa.h"
 
@@ -98,7 +99,10 @@ int main(int argc, char *argv[])
 #if defined ( Q_OS_WIN )
     QString polku;
     if( argumentit.at(0).contains('-'))
-        polku = argumentit.at(0);
+    {
+        QFileInfo info(argumentit.at(0));
+        polku = info.absoluteDir().absolutePath();
+    }
     Kirjanpito kirjanpito(polku);
 #else
     Kirjanpito kirjanpito;

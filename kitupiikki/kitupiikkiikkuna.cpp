@@ -91,6 +91,12 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     if( kp()->settings()->contains("viimeisin"))
     {
         QString viimeisin = kp()->settings()->value("viimeisin").toString();
+        // Portable-käsittely
+        if( !kp()->portableDir().isEmpty())
+        {
+            QDir portableDir( kp()->portableDir());
+            viimeisin = QDir::cleanPath( portableDir.absoluteFilePath(viimeisin) );
+        }
         // #78 Varmistetaan, että kirjanpito edelleen olemassa (0.7 8.3.2018)
         if( QFile::exists( viimeisin ) )
             Kirjanpito::db()->avaaTietokanta(viimeisin, false);
@@ -136,9 +142,14 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 
 KitupiikkiIkkuna::~KitupiikkiIkkuna()
 {
-    QSettings settings;
-    settings.setValue("geometry",saveGeometry());
-    settings.setValue("viimeisin", kp()->tiedostopolku() );
+    kp()->settings()->setValue("geometry",saveGeometry());
+    if( !kp()->portableDir().isEmpty())
+    {
+        QDir portableDir( kp()->portableDir());
+        kp()->settings()->setValue("viimeisin", QDir::cleanPath( portableDir.absoluteFilePath( kp()->tiedostopolku() ) ));
+    }
+    else
+        kp()->settings()->setValue("viimeisin", kp()->tiedostopolku() );
 }
 
 void KitupiikkiIkkuna::valitseSivu(int mikasivu, bool paluu)

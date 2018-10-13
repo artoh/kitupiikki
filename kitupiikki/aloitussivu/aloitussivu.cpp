@@ -229,7 +229,14 @@ void AloitusSivu::avaaTietokanta()
 
 void AloitusSivu::viimeisinTietokanta(QListWidgetItem *item)
 {
-    Kirjanpito::db()->avaaTietokanta( item->data(Qt::UserRole).toString());
+    QString polku = item->data(Qt::UserRole).toString();
+    if( !kp()->portableDir().isEmpty())
+    {
+        QDir portableDir( kp()->portableDir());
+        polku = QDir::cleanPath( portableDir.absoluteFilePath(polku) );
+    }
+
+    Kirjanpito::db()->avaaTietokanta( polku );
 }
 
 void AloitusSivu::abouttiarallaa()
@@ -545,11 +552,15 @@ QPair<QString, qlonglong> AloitusSivu::summa(const QString &otsikko, const QStri
 
 void AloitusSivu::paivitaTiedostoLista()
 {
-    QVariantMap kirjanpidot = kp()->settings()->value("Tietokannat").toMap();
+    QVariantMap kirjanpidot = kp()->settings()->value("Tietokannat").toMap();   
+
+    QDir portableDir( kp()->portableDir() );
 
     // Poistetaan ne, joita ei löydy
-    for(const QString& polku : kirjanpidot.keys())
-    {
+    for(QString polku : kirjanpidot.keys())
+    {        
+        if( !kp()->portableDir().isEmpty())
+            polku = QDir::cleanPath(portableDir.absoluteFilePath(polku));
         if( !QFile::exists(polku))
             kirjanpidot.remove(polku);
     }
@@ -558,6 +569,9 @@ void AloitusSivu::paivitaTiedostoLista()
     if( kp()->asetukset()->onko("Nimi"))
     {
         QString polku = kp()->tiedostopolku();
+        if( !kp()->portableDir().isEmpty())
+            polku = portableDir.relativeFilePath(polku);
+
         QString nimi = kp()->asetukset()->asetus("Nimi");
         if( kp()->onkoHarjoitus())
             nimi.append(tr(" (harjoitus)"));

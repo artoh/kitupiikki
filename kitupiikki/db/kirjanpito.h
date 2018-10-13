@@ -62,7 +62,7 @@ class Kirjanpito : public QObject
     Q_OBJECT
 
 public:
-    Kirjanpito(const QString& asetuspolku = QString());
+    Kirjanpito(const QString& portableDir = QString());
 
 
     ~Kirjanpito();
@@ -322,6 +322,7 @@ protected:
     QImage logo_;
 
     QSettings* settings_;
+    QString portableDir_;      // Portable-ohjelman käynnistyshakemisto
 
 public:
     /**
@@ -356,6 +357,12 @@ public:
      * @return
      */
     static QString satujono(int pituus = 10);
+
+    /**
+     * @brief Portable-ohjelman käynnistyshakemisto
+     * @return Tyhjä, jos ei portable
+     */
+    QString portableDir() const { return portableDir_;}
 
 private:
     static Kirjanpito *instanssi__;
