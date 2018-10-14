@@ -136,6 +136,8 @@
         <file>liite-aktiivinen.png</file>
         <file>tekstisivu-aktiivinen.png</file>
         <file>vientilista-aktiivinen.png</file>
+        <file>sum.png</file>
+        <file>risuaita.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>425</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,6 +25,10 @@
         <property name="text">
          <string>Kaikki tilit</string>
         </property>
+        <property name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/pic/kaikkitilit.png</normaloff>:/pic/kaikkitilit.png</iconset>
+        </property>
         <property name="checked">
          <bool>false</bool>
         </property>
@@ -34,6 +38,10 @@
        <widget class="QRadioButton" name="kaytossaRadio">
         <property name="text">
          <string>Käytössä olevat tilit</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/pic/kaytossa.png</normaloff>:/pic/kaytossa.png</iconset>
         </property>
         <property name="checked">
          <bool>true</bool>
@@ -45,12 +53,20 @@
         <property name="text">
          <string>Tilit, joilla kirjauksia</string>
         </property>
+        <property name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/pic/rahaa.png</normaloff>:/pic/rahaa.png</iconset>
+        </property>
        </widget>
       </item>
       <item>
        <widget class="QRadioButton" name="suosikkiRadio">
         <property name="text">
          <string>Suosikkitilit</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/pic/tahti.png</normaloff>:/pic/tahti.png</iconset>
         </property>
        </widget>
       </item>
@@ -77,12 +93,20 @@
        <property name="text">
         <string>Näytä tilityypit</string>
        </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/tekstisivu.png</normaloff>:/pic/tekstisivu.png</iconset>
+       </property>
       </widget>
      </item>
      <item row="2" column="0">
       <widget class="QCheckBox" name="saldotCheck">
        <property name="text">
         <string>Saldot</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/sum.png</normaloff>:/pic/sum.png</iconset>
        </property>
       </widget>
      </item>
@@ -97,6 +121,10 @@
       <widget class="QCheckBox" name="kirjausohjeet">
        <property name="text">
         <string>Kirjausohjeet</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/info-harmaa.png</normaloff>:/pic/info-harmaa.png</iconset>
        </property>
       </widget>
      </item>
@@ -117,7 +145,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>saldotCheck</sender>
