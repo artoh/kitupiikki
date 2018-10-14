@@ -29,11 +29,11 @@ Muistiotositteessa selitys voidaan kirjoittaa Kommentti-välilehdelle, jolloin t
 
 ![](liite.png)
 
-Tositteeseen voi liittää pdf- tai jpg-tiedostoja. Kuvatiedostot muunnetaan arkistoa varten pdf-muotoon.
+Tositteeseen voi liittää pdf- tai jpg-tiedostoja.
 
 Ensimmäisen liitteen (sähköinen tosite) voit liittää suoraan **Sähköinen tosite**-kohdassa raahaamalla tiedoston tai **Valitse tiedosto**-napista.
 
-Voit lisätä enemmän tiedostoja **Liitteet**-välilehdeltä **Lisää**-napista. Voit myös poistaa liitteitä, muuttaa liitteen nimeä (kaksoisnapsauttamalla nimeä) tai avata liitteen pdf-katseluohjelmaan tulostamista varten.
+Voit lisätä enemmän tiedostoja **Liitteet**-välilehdeltä **Lisää**-napista. Voit myös poistaa liitteitä, muuttaa liitteen nimeä (kaksoisnapsauttamalla nimeä), avata liitteen ulkoisella ohjelmalla tai tulostaa liitteen.
 
 Lisäliite voi olla esimerkiksi hankintapäätös, tarjouspyyntö, lähetyslista tai muu tarpeellinen asiakirja.
 
