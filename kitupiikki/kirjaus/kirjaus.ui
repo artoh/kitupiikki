@@ -50,7 +50,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="viennit">
       <attribute name="icon">
@@ -183,6 +183,21 @@
           <widget class="QPushButton" name="avaaNappi">
            <property name="text">
             <string>Avaa</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../pic/pic.qrc">
+             <normaloff>:/pic/print.png</normaloff>:/pic/print.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="tulostaLiiteNappi">
+           <property name="text">
+            <string>Tulosta</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../pic/pic.qrc">
+             <normaloff>:/pic/tulosta.png</normaloff>:/pic/tulosta.png</iconset>
            </property>
           </widget>
          </item>

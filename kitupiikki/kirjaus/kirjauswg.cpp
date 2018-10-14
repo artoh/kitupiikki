@@ -128,7 +128,8 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( ui->liiteView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
              this, SLOT(liiteValinta(QModelIndex)));
     connect( ui->lisaaliiteNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaLiite()));
-    connect( ui->avaaNappi, SIGNAL(clicked(bool)), this, SLOT(naytaLiite()));
+    connect( ui->avaaNappi, &QPushButton::clicked, this, &KirjausWg::avaaLiite);
+    connect( ui->tulostaLiiteNappi, &QPushButton::clicked, this, &KirjausWg::tulostaLiite);
     connect( ui->poistaLiiteNappi, SIGNAL(clicked(bool)), this, SLOT(poistaLiite()));
 
     connect( ui->tiliotealkaenEdit, SIGNAL(editingFinished()), this, SLOT(tiedotModeliin()));
@@ -973,14 +974,6 @@ void KirjausWg::pvmVaihtuu()
         ui->kausiLabel->setText( QString("/ %1").arg(kp()->tilikaudet()->tilikausiPaivalle(paiva).kausitunnus() ));
     }
     paivitaVaroitukset();
-}
-
-void KirjausWg::naytaLiite()
-{
-    QModelIndex index = ui->liiteView->currentIndex();
-    if( index.isValid())
-        NaytinIkkuna::nayta( index.data(LiiteModel::PdfRooli).toByteArray() );
-
 }
 
 void KirjausWg::poistaLiite()

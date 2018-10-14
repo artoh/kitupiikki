@@ -28,6 +28,7 @@
 
 #include "kirjauswg.h"
 #include "naytaliitewg.h"
+#include "naytin/naytinview.h"
 
 #include "db/kirjanpito.h"
 #include "db/tositemodel.h"
@@ -56,6 +57,9 @@ KirjausSivu::KirjausSivu(KitupiikkiIkkuna *ikkuna) :
 
     connect( kirjauswg, SIGNAL(liiteValittu(QByteArray)), liitewg, SLOT(naytaPdf(QByteArray)));
     connect( kirjauswg, SIGNAL(tositeKasitelty()), this, SLOT(tositeKasitelty()));
+    connect( kirjauswg, &KirjausWg::avaaLiite, liitewg->liiteView(), &NaytinView::avaaOhjelmalla);
+    connect( kirjauswg, &KirjausWg::tulostaLiite, liitewg->liiteView(), &NaytinView::tulosta);
+
     connect( splitter, SIGNAL(splitterMoved(int,int)), this, SLOT(talletaSplitter()));
 }
 

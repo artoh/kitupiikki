@@ -42,6 +42,8 @@ public:
     NaytaliiteWg(QWidget *parent=nullptr);
     ~NaytaliiteWg();
 
+    NaytinView *liiteView() { return view; }
+
 public slots:
     void valitseTiedosto();
     void naytaPdf(const QByteArray& pdfdata);

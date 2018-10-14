@@ -123,7 +123,6 @@ public slots:
 
     void pvmVaihtuu();
 
-    void naytaLiite();
     void poistaLiite();
 
     /**
@@ -194,6 +193,8 @@ signals:
      * Jos ollaan tultu selauksesta, palataan selaukseen
      */
     void tositeKasitelty();
+    void avaaLiite();
+    void tulostaLiite();
 
 protected:
     /**
