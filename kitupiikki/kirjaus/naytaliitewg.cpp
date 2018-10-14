@@ -49,8 +49,6 @@ NaytaliiteWg::NaytaliiteWg(QWidget *parent)
 
     view = new NaytinView(this);
 
-    view->setDragMode( QGraphicsView::ScrollHandDrag);
-
     addWidget(view);
 
     connect(ui->valitseTiedostoNappi, SIGNAL(clicked(bool)), this, SLOT(valitseTiedosto()));

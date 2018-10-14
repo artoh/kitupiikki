@@ -26,7 +26,7 @@ class QAction;
 /**
  * @brief Widgetti liitteiden, raporttien jne esittämiseen
  */
-class NaytinView : public QGraphicsView
+class NaytinView : public QWidget
 {
     Q_OBJECT
 public:
@@ -78,6 +78,8 @@ protected:
     QAction* zoomOutAktio_;
     QAction* tulostaAktio_;
     QAction* tallennaAktio_;
+
+    QGraphicsView* view_;
 
 };
 

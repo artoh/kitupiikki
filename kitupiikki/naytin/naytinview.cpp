@@ -41,9 +41,17 @@
 #include <QMouseEvent>
 #include <QMenu>
 
+#include <QStackedLayout>
+
 NaytinView::NaytinView(QWidget *parent)
-    : QGraphicsView(parent)
+    : QWidget(parent)
 {
+    view_ = new QGraphicsView();
+    view_->setDragMode( QGraphicsView::ScrollHandDrag);
+
+    QStackedLayout *leiska = new QStackedLayout;
+    leiska->addWidget(view_);
+    setLayout(leiska);
 
     zoomAktio_ = new QAction( QIcon(":/pic/zoom-fit-width.png"), tr("Sovita leveyteen"));
     zoomAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_0));
@@ -311,7 +319,7 @@ void NaytinView::vaihdaScene(NaytinScene *uusi)
 
     emit( sisaltoVaihtunut(scene_->tyyppi()));
 
-    setScene(uusi);
+    view_->setScene(uusi);
     paivita();
 }
 
@@ -336,5 +344,5 @@ void NaytinView::mousePressEvent(QMouseEvent *event)
         valikko.exec(QCursor::pos());
     }
     else
-        QGraphicsView::mousePressEvent(event);
+        QWidget::mousePressEvent(event);
 }
