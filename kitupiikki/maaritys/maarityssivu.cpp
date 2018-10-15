@@ -241,6 +241,7 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
 
 void MaaritysSivu::valitseSivu(const QString& otsikko)
 {
+
     for(int i=0; i < lista->count(); i++)
     {
         QListWidgetItem *item = lista->item(i);
@@ -281,6 +282,7 @@ void MaaritysSivu::paivitaTilikartta()
     if( PaivitaKirjanpito::paivitaTilikartta() )
         valitseSivu("Tilikartan ohje");
 }
+
 
 void MaaritysSivu::lisaaSivu(const QString &otsikko, MaaritysSivu::Sivut sivu, const QIcon &kuvake)
 {

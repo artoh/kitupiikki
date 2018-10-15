@@ -107,6 +107,8 @@ public slots:
      */
     void paivitaTilikartta();
 
+    MaaritysWidget *nykyWidget() { return nykyinen; }
+
 protected:
     /**
      * @brief Lisää sivun luetteloon

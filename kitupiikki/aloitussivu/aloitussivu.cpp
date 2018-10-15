@@ -353,9 +353,8 @@ QString AloitusSivu::vinkit()
     QString tkpaivitys = PaivitaKirjanpito::sisainenPaivitys();
     if( !tkpaivitys.isEmpty())
     {
-        vinkki.append(tr("<table class=info width=100%><tr><td><b>Tilikartasta saatavilla uudempi versio %1</b><br>"
-                         "Voit päivittää <a href=ktp:/maaritys/Tilikartta>tilikarttamääritysten</a> "
-                         "painikkeesta <i>Päivitä tilikartta</i></td></tr></table>").arg(tkpaivitys) );
+        vinkki.append(tr("<table class=info width=100%><tr><td><h3><a href=ktp:/paivitatilikartta>Tilikartasta saatavilla uudempi versio %1</a></h3><br>"
+                         "</td></tr></table>").arg(tkpaivitys) );
 
     }
 
@@ -390,7 +389,7 @@ QString AloitusSivu::vinkit()
         if( paivaaIlmoitukseen < 0)
         {
             vinkki.append( tr("<table class=varoitus width=100%><tr><td width=100%>"
-                              "<h3><a href=ktp:/maaritys/Arvonlisävero>Arvonlisäveroilmoitus myöhässä</a></h3>"
+                              "<h3><a href=ktp:/alvilmoitus>Arvonlisäveroilmoitus myöhässä</a></h3>"
                               "Arvonlisäveroilmoitus kaudelta %1 - %2 olisi pitänyt antaa %3 mennessä.</td></tr></table>")
                            .arg(kausialkaa.toString("dd.MM.yyyy")).arg(kausipaattyy.toString("dd.MM.yyyy"))
                            .arg(erapaiva.toString("dd.MM.yyyy")));
@@ -399,7 +398,7 @@ QString AloitusSivu::vinkit()
         else if( paivaaIlmoitukseen < 30)
         {
             vinkki.append( tr("<table class=vinkki width=100%><tr><td>"
-                              "<h3><a href=ktp:/maaritys/Arvonlisävero>Tee arvonlisäverotilitys</a></h3>"
+                              "<h3><a href=ktp:/alvilmoitus>Tee arvonlisäverotilitys</a></h3>"
                               "Arvonlisäveroilmoitus kaudelta %1 - %2 on annettava %3 mennessä.</td></tr></table>")
                            .arg(kausialkaa.toString("dd.MM.yyyy")).arg(kausipaattyy.toString("dd.MM.yyyy"))
                            .arg(erapaiva.toString("dd.MM.yyyy")));
@@ -426,11 +425,11 @@ QString AloitusSivu::vinkit()
                 && ( kausi.tilinpaatoksenTila() == Tilikausi::ALOITTAMATTA || kausi.tilinpaatoksenTila() == Tilikausi::KESKEN) )
         {
             vinkki.append(QString("<table class=vinkki width=100%><tr><td>"
-                          "<h3><a href=ktp:/arkisto>Aika laatia tilinpäätös tilikaudelle %1</a></h3>").arg(kausi.kausivaliTekstina()));
+                          "<h3><a href=ktp:/tilinpaatos>Aika laatia tilinpäätös tilikaudelle %1</a></h3>").arg(kausi.kausivaliTekstina()));
 
             if( kausi.tilinpaatoksenTila() == Tilikausi::ALOITTAMATTA)
             {
-                vinkki.append("<p>Tee loppuun kaikki tilikaudelle kuuluvat kirjaukset ja laadi sen jälkeen <a href=ktp:/arkisto>tilinpäätös</a>.</p>");
+                vinkki.append("<p>Tee loppuun kaikki tilikaudelle kuuluvat kirjaukset ja laadi sen jälkeen <a href=ktp:/tilinpaatos>tilinpäätös</a>.</p>");
             }
             else
             {
