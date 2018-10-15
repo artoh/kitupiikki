@@ -146,7 +146,7 @@ KitupiikkiIkkuna::~KitupiikkiIkkuna()
     if( !kp()->portableDir().isEmpty())
     {
         QDir portableDir( kp()->portableDir());
-        kp()->settings()->setValue("viimeisin", QDir::cleanPath( portableDir.absoluteFilePath( kp()->tiedostopolku() ) ));
+        kp()->settings()->setValue("viimeisin", QDir::cleanPath( portableDir.relativeFilePath( kp()->tiedostopolku() ) ));
     }
     else
         kp()->settings()->setValue("viimeisin", kp()->tiedostopolku() );
