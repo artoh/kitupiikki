@@ -17,6 +17,9 @@
 #include "budjettivertailu.h"
 #include "db/kirjanpito.h"
 #include "db/tilikausimodel.h"
+#include <QComboBox>
+
+#include "raportoija.h"
 
 Budjettivertailu::Budjettivertailu() :
     Raportti(nullptr)
@@ -54,6 +57,24 @@ Budjettivertailu::Budjettivertailu() :
         ui_->raporttiCombo->addItem( QIcon(":/pic/tekstisivu.png"),nimi.mid(9), nimi );
     }
 
+    if( ui_->raporttiCombo->findText("Tuloslaskelma") > -1)
+        ui_->raporttiCombo->setCurrentIndex( ui_->raporttiCombo->findText("Tuloslaskelma") );
+
+
+    if( kp()->kohdennukset()->kohdennuksia())
+    {
+        ui_->kohdennusCombo->setModel( kp()->kohdennukset());
+        ui_->kohdennusCombo->setModelColumn( KohdennusModel::NIMI);
+    }
+    else
+    {
+        ui_->kohdennusCheck->setVisible(false);
+        ui_->kohdennusCombo->setVisible(false);
+    }
+
+    paivitaMuodot();
+    connect( ui_->raporttiCombo, SIGNAL( currentIndexChanged(int) ), this, SLOT(paivitaMuodot()));
+
 }
 
 Budjettivertailu::~Budjettivertailu()
@@ -63,6 +84,47 @@ Budjettivertailu::~Budjettivertailu()
 
 RaportinKirjoittaja Budjettivertailu::raportti()
 {
-    RaportinKirjoittaja rk;
-    return rk;
+    QString raporttiTyyppi = ui_->raporttiCombo->currentData().toString().mid(9);
+    if( ui_->muotoCombo->isVisible())
+        raporttiTyyppi = ui_->muotoCombo->currentData().toString();
+
+    Raportoija raportoija(raporttiTyyppi);
+
+    Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui_->kausiCombo->currentIndex() );
+    raportoija.lisaaKausi( kausi.alkaa(), kausi.paattyy(),  Raportoija::BUDJETTI );
+    raportoija.lisaaKausi( kausi.alkaa(), kausi.paattyy(),  Raportoija::TOTEUTUNUT );
+    raportoija.lisaaKausi( kausi.alkaa(), kausi.paattyy(),  Raportoija::BUDJETTIERO );
+    raportoija.lisaaKausi( kausi.alkaa(), kausi.paattyy(),  Raportoija::TOTEUMAPROSENTTI );
+
+    return  raportoija.raportti( ui_->erittelyCheck->isChecked());
+
+}
+
+void Budjettivertailu::paivitaMuodot()
+{
+    QString raporttiTyyppi = ui_->raporttiCombo->currentData().toString();
+
+    QStringList muodot = kp()->asetukset()->avaimet( raporttiTyyppi + '/');
+
+    bool monimuoto = muodot.count();
+
+    ui_->muotoCombo->setVisible( monimuoto);
+    ui_->muotoLabel->setVisible( monimuoto);
+
+    ui_->muotoCombo->clear();
+
+    if( monimuoto )
+    {
+        for( const QString& muoto : muodot)
+        {
+            ui_->muotoCombo->addItem( muoto.mid(muoto.lastIndexOf(QChar('/'))+1) , muoto.mid(9) );
+        }
+
+        // Oletuksena monesta muodosta valittuna Yleinen
+        if( ui_->muotoCombo->findText("Yleinen") > -1)
+            ui_->muotoCombo->setCurrentIndex( ui_->muotoCombo->findText("Yleinen") );
+
+    }
+
+
 }

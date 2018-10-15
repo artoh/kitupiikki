@@ -10,9 +10,13 @@ Budjetin pääset syöttämään **Tilikaudet**-välilehden **Budjetti**-painikk
 
 ## Budjetin seuranta
 
-![](raportti.png)
+Budjetin toteutumista voit seurata **Budjettivertailu**-raportilla.
 
-Budjetin toteutumista voit seurata **Tuloslaskelma** tai **Toiminnanalat**-raporteista valitsemalla eri sarakkeille haluamasi asiat.
+![](vertailuraportti.png)
+
+Jos haluat muuttaa budjettivertailun sarakkeita, valitse **Tuloslaskelma** tai **Toiminnanalat**-raporttiin tulostettavat sarakkeet:
+
+![](raportti.png)
 
 * **Toteutunut** seuraa toteutuneita tapahtumia
 * **Budjetti** näyttää määritellyn bubjetin

@@ -32,6 +32,9 @@ public:
 
     RaportinKirjoittaja raportti() override;
 
+protected slots:
+    void paivitaMuodot();
+
 protected:
     Ui::Budjettivertailu *ui_;
 };
