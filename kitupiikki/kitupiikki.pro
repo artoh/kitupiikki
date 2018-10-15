@@ -172,7 +172,8 @@ SOURCES += main.cpp \
     laskutus/ryhmantuontidlg.cpp \
     laskutus/ryhmantuontimodel.cpp \
     laskutus/finvoice.cpp \
-    maaritys/finvoicemaaritys.cpp
+    maaritys/finvoicemaaritys.cpp \
+    raportti/budjettivertailu.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -322,7 +323,8 @@ HEADERS += \
     laskutus/ryhmantuontimodel.h \
     laskutus/finvoice.h \
     maaritys/finvoicemaaritys.h \
-    versio.h
+    versio.h \
+    raportti/budjettivertailu.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -403,7 +405,8 @@ FORMS += \
     arkisto/budjettidlg.ui \
     laskutus/ryhmantuontidlg.ui \
     maaritys/verkkolaskumaaritys.ui \
-    aloitussivu/muistiinpanot.ui
+    aloitussivu/muistiinpanot.ui \
+    raportti/budjettivertailu.ui
 
 DISTFILES += \
     uusikp/luo.sql \

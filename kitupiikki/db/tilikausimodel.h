@@ -88,6 +88,8 @@ public:
     QDate kirjanpitoAlkaa() const;
     QDate kirjanpitoLoppuu() const;
 
+    bool onkoBudjetteja() const;
+
 public slots:
     void lataa();
 

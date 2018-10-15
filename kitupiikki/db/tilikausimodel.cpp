@@ -244,6 +244,16 @@ QDate TilikausiModel::kirjanpitoLoppuu() const
     return {};
 }
 
+bool TilikausiModel::onkoBudjetteja() const
+{
+    for(auto kausi: kaudet_)
+    {
+        if( kausi.json()->avaimet().contains("Budjetti"))
+            return true;
+    }
+    return false;
+}
+
 void TilikausiModel::lataa()
 {
     beginResetModel();

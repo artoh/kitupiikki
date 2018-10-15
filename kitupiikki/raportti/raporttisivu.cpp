@@ -38,6 +38,7 @@
 
 #include "muokattavaraportti.h"
 #include "tilikarttaraportti.h"
+#include "budjettivertailu.h"
 
 RaporttiSivu::RaporttiSivu(QWidget *parent) : KitupiikkiSivu(parent),
     nykyinen(nullptr)
@@ -87,6 +88,8 @@ void RaporttiSivu::siirrySivulle()
         lisaaRaportti( nimi.mid(9), nimi, ":/pic/tekstisivu.png");
     }
 
+    if( kp()->tilikaudet()->onkoBudjetteja())
+        lisaaRaportti("Budjettivertailu","Budjettivertailu",":/pic/raha2.png");
 
     lisaaRaportti("Tase-erittely","TaseErittely",":/pic/valilehdet.png");
     lisaaRaportti("Tililuettelo","Tilikartta",":/pic/valilehdet.png");
@@ -144,6 +147,8 @@ void RaporttiSivu::raporttiValittu(QListWidgetItem *item)
         nykyinen = new AlvErittely;
     else if( raporttinimi == "Myynti")
         nykyinen = new MyyntiRaportti;
+    else if( raporttinimi == "Budjettivertailu")
+        nykyinen = new Budjettivertailu;
 
 
     if( nykyinen )

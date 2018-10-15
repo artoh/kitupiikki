@@ -138,6 +138,7 @@
         <file>vientilista-aktiivinen.png</file>
         <file>sum.png</file>
         <file>risuaita.png</file>
+        <file>raha2.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
