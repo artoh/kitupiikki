@@ -1,5 +1,7 @@
 # Budjetti <span class=ver>1.1<span class=selite>Kitupiikin versiosta 1.1 lähtien</span></span>
 
+## Budjetin laadinta
+
 ![](budjetti.png)
 
 Kitupiikillä voit määritellä tilikauden bubjetin ja seurata sen toteutumista.
@@ -30,6 +32,6 @@ Jos haluat muuttaa budjettivertailun sarakkeita, valitse **Tuloslaskelma** tai *
 ### Esimerkki tuloslaskelman budjettiseurannasta
 ![](tulosvertailu.png)
 
-## Esimerkki toiminnanalojen budjettiseurannasta
+### Esimerkki toiminnanalojen budjettiseurannasta
 ![](alavertailu.png)
 Huomaa, että tasetileillä ei ole budjettia!
