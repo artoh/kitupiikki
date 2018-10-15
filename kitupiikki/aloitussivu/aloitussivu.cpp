@@ -353,7 +353,7 @@ QString AloitusSivu::vinkit()
     QString tkpaivitys = PaivitaKirjanpito::sisainenPaivitys();
     if( !tkpaivitys.isEmpty())
     {
-        vinkki.append(tr("<table class=info width=100%><tr><td><h3><a href=ktp:/paivitatilikartta>Tilikartasta saatavilla uudempi versio %1</a></h3><br>"
+        vinkki.append(tr("<table class=info width=100%><tr><td><h3><a href=ktp:/paivitatilikartta>Päivitä tilikartta</a></h3>Tilikartasta saatavilla uudempi versio %1"
                          "</td></tr></table>").arg(tkpaivitys) );
 
     }
