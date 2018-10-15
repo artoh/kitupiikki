@@ -201,6 +201,7 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
         ui->eraDate->setMinimumDate( kp()->paivamaara() );
         perusteVaihtuu();
 
+        ui->toimitusDate->setDate( kp()->paivamaara());
         ui->eraDate->setDate( kp()->paivamaara().addDays( kp()->asetukset()->luku("LaskuMaksuaika")));
         ui->verkkolaskuNappi->setVisible( kp()->asetukset()->onko("VerkkolaskuKaytossa") );
 
