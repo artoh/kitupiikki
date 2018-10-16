@@ -62,9 +62,9 @@ Version 1.1 uusia ominaisuuksia
 RC-versio käynnistyy suoraan ladattavasta tiedostosta, joten voit kokeilla sitä, vaikka käyttäisitkin muuten Kitupiikin vakaata versiota.
 
 !!! warning ""
-    <span class="fa fa-windows"></span> [Kitupiikki 1.1 RC Windows suoritettava ohjelma (14 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.1-rc/kitupiikki1.1-rc.exe) <span class="fa fa-exclamation-triangle"> </span> **Julkaisuehdokas**
+    <span class="fa fa-windows"></span> [Kitupiikki 1.1 RC1 Windows suoritettava ohjelma (14 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.1-rc.1/kitupiikki-1.1-rc.1.exe) <span class="fa fa-exclamation-triangle"> </span> **Julkaisuehdokas**
 
-    <span class="fa fa-linux"></span> [Kitupiikki 1.1 RC Linux AppImage (30 MB)](hhttps://github.com/artoh/kitupiikki/releases/download/v1.1-rc/Kitupiikki-1.1-rc-x86_64.AppImage) <span class="fa fa-exclamation-triangle"> </span>  **Julkaisuehdokas**
+    <span class="fa fa-linux"></span> [Kitupiikki 1.1 RC1 Linux AppImage (30 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.1-rc.1/Kitupiikki-1.1-rc.1-x86_64.AppImage) <span class="fa fa-exclamation-triangle"> </span>  **Julkaisuehdokas**
 
     <span class="fa fa-apple"></span> [Kitupiikki 1.1 RC macOS asennuspaketti (17 MB) ](https://github.com/petriaarnio/kitupiikki/releases/download/mac-v1.1-rc/Kitupiikki-1.1-rc.dmg)  <span class="fa fa-exclamation-triangle"> </span> **Julkaisuehdokas**
 
