@@ -9,8 +9,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 #include <QApplication>
+#include <QSettings>
+#include <QDateTime>
+
+#include <QRandomGenerator>
 
 #include "smtp.h"
+
+#include "db/kirjanpito.h"
 
 Smtp::Smtp( const QString &user, const QString &pass, const QString &host, int port, int timeout )
 {
@@ -43,6 +49,16 @@ void Smtp::lahetaLiitteella(const QString &from, const QString &to, const QStrin
     message = "To: " + to + "\n";
     message.append("From: " + from + "\n");
     message.append("Subject: =?utf-8?Q?" + subject + "?=\n");
+    QString osoite = kp()->asetukset()->asetus("EmailOsoite");
+    QString domain = osoite.mid( osoite.indexOf('@') );
+
+
+    QString mid = "Message-Id: <" +  QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch()) + "-" + QString::number(QRandomGenerator::global()->generate64(),16) +
+            "-" + kp()->asetukset()->asetus("Ytunnus").left(7) + domain + ">\n";
+    message.append( mid );
+
+    message.append("Date: " + QDateTime::currentDateTime().toString(Qt::RFC2822Date) + "\n" );
+    message.append("X-Mailer: Kitupiikki " + qApp->applicationVersion() + "\n");
 
     //Let's intitiate multipart MIME with cutting boundary "frontier"
     message.append("MIME-Version: 1.0\n");
