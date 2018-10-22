@@ -315,7 +315,10 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
         summarivi.lisaa("Yhteensä", 3 +  static_cast<int>(tulostakohdennus)  );
         summarivi.lisaa( debetYht );
         summarivi.lisaa( kreditYht);
-        summarivi.lisaa( kreditYht - debetYht );    // Kohdennuksissa ei välttis mene tasan
+        qlonglong erotus = kreditYht - debetYht;
+        if( tililta && kp()->tilit()->tiliNumerolla(tililta).onko(TiliLaji::TASE))
+            erotus = debetYht - kreditYht;
+        summarivi.lisaa( erotus );    // Kohdennuksissa ei välttis mene tasan
         summarivi.lihavoi();
         summarivi.viivaYlle();
         rk.lisaaRivi(summarivi);
