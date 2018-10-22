@@ -152,7 +152,6 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
 
     ui->rivitView->horizontalHeader()->setSectionResizeMode(LaskuModel::NIMIKE, QHeaderView::Stretch);
     ui->tuotelistaView->horizontalHeader()->setSectionResizeMode(TuoteModel::NIMIKE, QHeaderView::Stretch);
-    ui->ryhmaView->horizontalHeader()->setStretchLastSection(true);
     ui->ryhmaView->setSelectionBehavior(QTableView::SelectRows);
 
     tulostaja = new LaskunTulostaja(model);
@@ -252,6 +251,7 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
         connect( ui->tuoRyhmaanNappi, &QPushButton::clicked, this, &LaskuDialogi::tuoAsiakkaitaTiedostosta);
 
         connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("laskutus/ryhma");});
+        ui->ryhmaView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
     }
     else
@@ -653,7 +653,7 @@ void LaskuDialogi::lisaaAsiakasListalta(const QModelIndex &indeksi)
     }
 
     model->ryhmaModel()->lisaa( nimistr, osoite, email, ytunnus, verkkolaskuosoite, verkkolaskuvalittaja);
-    ui->ryhmaView->resizeColumnsToContents();
+
     ui->tallennaNappi->setEnabled( model->ryhmaModel()->rowCount(QModelIndex()) );
 }
 
@@ -674,7 +674,6 @@ void LaskuDialogi::lisaaAsiakas()
 
         model->ryhmaModel()->lisaa( dui.nimiEdit->text(), dui.osoiteEdit->toPlainText(), dui.spostiEdit->text(),
                                     dui.YtunnusEdit->text(), dui.verkkolaskuOsoite->text(), dui.valittajaTunnus->text());
-        ui->ryhmaView->resizeColumnsToContents();
         ui->tallennaNappi->setEnabled( model->ryhmaModel()->rowCount(QModelIndex()) );
     }
 }
@@ -688,8 +687,6 @@ void LaskuDialogi::tuoAsiakkaitaTiedostosta()
         RyhmanTuontiDlg dlg(tiedostonnimi, this);
         if( dlg.exec() == QDialog::Accepted )
             dlg.data()->lisaaLaskuun(model->ryhmaModel());
-
-        ui->ryhmaView->resizeColumnsToContents();
         ui->tallennaNappi->setEnabled( model->ryhmaModel()->rowCount(QModelIndex()) );
     }
 }

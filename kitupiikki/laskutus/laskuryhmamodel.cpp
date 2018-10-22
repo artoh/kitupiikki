@@ -18,6 +18,13 @@
 #include "laskuryhmamodel.h"
 #include "db/kirjanpito.h"
 
+#include "ryhmantuontidlg.h"
+#include "ryhmantuontimodel.h"
+
+#include "tuonti/csvtuonti.h"
+#include <QMimeData>
+#include <QDebug>
+
 LaskuRyhmaModel::LaskuRyhmaModel(QObject *parent)
     : QAbstractTableModel (parent)
 {
@@ -107,6 +114,11 @@ QVariant LaskuRyhmaModel::data(const QModelIndex &index, int role) const
     return {};
 }
 
+Qt::ItemFlags LaskuRyhmaModel::flags(const QModelIndex &index) const
+{
+    return QAbstractItemModel::flags(index) | Qt::ItemIsDropEnabled;
+}
+
 void LaskuRyhmaModel::lisaa(const QString &nimi, const QString &osoite, const QString &sahkoposti, const QString& ytunnus,
                             const QString& verkkolaskuosoite, const QString& verkkolaskuvalittaja)
 {
@@ -150,7 +162,72 @@ void LaskuRyhmaModel::sahkopostiLahetetty(int indeksiin)
 
 void LaskuRyhmaModel::finvoiceMuodostettu(int indeksiin)
 {
+
     ryhma_[indeksiin].verkkolaskutettu = true;
     emit dataChanged( index(indeksiin, NIMI), index(indeksiin, NIMI) );
+}
+
+bool LaskuRyhmaModel::canDropMimeData(const QMimeData *data, Qt::DropAction /*action*/, int /*row*/, int /*column*/, const QModelIndex &/*parent*/) const
+{
+    // Testataan, onko tuotavana csv-tiedostoja
+    if( data->hasUrls())
+    {
+        QList<QUrl> urlit = data->urls();
+        for(auto url : urlit)
+        {
+            if( url.isLocalFile())
+            {
+                QFileInfo info( url.toLocalFile());
+                QString polku = info.absoluteFilePath();
+
+
+                QFile tiedosto(polku);
+                if(!tiedosto.open(QIODevice::ReadOnly))
+                {
+                    qDebug() << tiedosto.errorString();
+                    continue;
+                }
+                QByteArray ba = tiedosto.readAll();
+
+                if( CsvTuonti::onkoCsv(ba) )
+                    return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool LaskuRyhmaModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int /*row*/, int /*column*/, const QModelIndex &/*parent*/)
+{
+    if( action == Qt::IgnoreAction)
+        return true;
+
+    int lisatty = 0;
+    if( data->hasUrls())
+    {
+        QList<QUrl> urlit = data->urls();
+        for(auto url : urlit)
+        {
+            if( url.isLocalFile())
+            {
+                QFileInfo info( url.toLocalFile());
+                QString polku = info.absoluteFilePath();
+
+                QFile tiedosto(polku);
+                if(!tiedosto.open(QIODevice::ReadOnly))
+                    continue;
+                if( !CsvTuonti::onkoCsv(tiedosto.readAll()))
+                    continue;
+
+                RyhmanTuontiDlg dlg(polku, nullptr);
+                if( dlg.exec() == QDialog::Accepted )
+                {
+                    dlg.data()->lisaaLaskuun(this);
+                    lisatty++;
+                }
+            }
+        }
+    }
+    return lisatty > 0;
 }
 

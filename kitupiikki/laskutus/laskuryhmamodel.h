@@ -60,10 +60,12 @@ public:
         VerkkoLaskuValittajaRooli = Qt::UserRole + 7
     };
 
-    int rowCount(const QModelIndex &parent) const;
-    int columnCount(const QModelIndex &parent) const;
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-    QVariant data(const QModelIndex &index, int role) const;
+    int rowCount(const QModelIndex &parent) const override;
+    int columnCount(const QModelIndex &parent) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
+    QVariant data(const QModelIndex &index, int role) const override;
+
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
 
     void lisaa(const QString& nimi, const QString& osoite, const QString& sahkoposti, const QString& ytunnus, const QString& verkkolaskuosoite = {},
                const QString& verkkolaskuvalittaja = {});
@@ -71,6 +73,10 @@ public:
     bool onkoNimella(const QString& nimi);
     void sahkopostiLahetetty(int indeksiin);
     void finvoiceMuodostettu(int indeksiin);
+
+    bool canDropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex &parent) const override;
+    bool dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex &parent) override;
+
 
 protected:
     QList<Laskutettava> ryhma_;
