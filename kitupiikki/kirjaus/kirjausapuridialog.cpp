@@ -142,7 +142,7 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
             ui->vastaCheck->setChecked( model->vientiModel()->debetSumma() != model->vientiModel()->kreditSumma() );
             if( model->vientiModel()->debetSumma() != model->vientiModel()->kreditSumma() )
             {
-                ui->euroSpin->setValue( qAbs( model->vientiModel()->debetSumma() - model->vientiModel()->kreditSumma()  ) / 100.0);
+                ui->euroSpin->setValue( ( model->vientiModel()->debetSumma() - model->vientiModel()->kreditSumma()  ) / 100.0);
                 laskeNetto();
             }
         }
@@ -238,7 +238,7 @@ void KirjausApuriDialog::tiliTaytetty()
 
 void KirjausApuriDialog::laskeBrutto(double netto)
 {
-    if( netto > 1e-5 && ui->nettoSpin->hasFocus())
+    if( qAbs(netto) > 1e-5 && ui->nettoSpin->hasFocus())
     {
         nettoEur = ui->nettoSpin->value();
         bruttoEur = 0;
@@ -251,9 +251,9 @@ void KirjausApuriDialog::laskeBrutto(double netto)
 
 void KirjausApuriDialog::laskeVerolla(int vero )
 {
-    if( nettoEur > 1e-5)
+    if( qAbs(nettoEur) > 1e-3)
         ui->euroSpin->setValue( (100.0 + vero )* nettoEur / 100.0 );
-    else if(bruttoEur > 1e-5)
+    else if( qAbs(bruttoEur) > 1e-3)
         ui->nettoSpin->setValue( bruttoEur / (100.0 + vero) * 100.0  );
     ehdota();
 }
@@ -378,10 +378,13 @@ void KirjausApuriDialog::eraValittu()
 
 void KirjausApuriDialog::vastaEraValittu()
 {
-    if( ui->euroSpin->value() < 1e-7)
-        ui->euroSpin->setValue( qAbs( ui->vastaTaseEraCombo->currentData( EranValintaModel::SaldoRooli).toDouble() / 100.0  ) );
-    laskeNetto();
-    ehdota();
+    if( ui->vastaTaseEraCombo->isVisible() && qAbs(ui->vastaTaseEraCombo->currentData( EranValintaModel::SaldoRooli).toDouble()) > 1e-5 )
+    {
+        if( ui->euroSpin->value() < 1e-7)
+            ui->euroSpin->setValue( qAbs( ui->vastaTaseEraCombo->currentData( EranValintaModel::SaldoRooli).toDouble() / 100.0  ) );
+        laskeNetto();
+        ehdota();
+    }
 }
 
 void KirjausApuriDialog::pvmMuuttuu()
@@ -906,7 +909,7 @@ bool KirjausApuriDialog::eventFilter(QObject *watched, QEvent *event)
 void KirjausApuriDialog::laskeNetto()
 {
     double brutto = ui->euroSpin->value();
-    if( brutto )
+    if( qAbs(brutto) > 1e-5 )
     {
         bruttoEur = ui->euroSpin->value();
         nettoEur = 0;
@@ -918,7 +921,7 @@ void KirjausApuriDialog::laskeNetto()
 
 void KirjausApuriDialog::laskeNetto(double brutto)
 {
-    if( brutto && ui->euroSpin->hasFocus())
+    if( qAbs(brutto) > 1e-5 && ui->euroSpin->hasFocus())
     {
         bruttoEur = ui->euroSpin->value();
         nettoEur = 0;
