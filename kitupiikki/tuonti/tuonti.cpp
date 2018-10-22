@@ -163,6 +163,14 @@ bool Tuonti::tiliote(Tili tili, QDate mista, QDate mihin)
     if( !tiliotetili_.onko(TiliLaji::PANKKITILI))
         return false;
 
+    if( mista > mihin)
+    {
+        // Joskus päivämäärät sotkeutuvat...
+        QDate apu = mihin;
+        mihin = mista;
+        mista = apu;
+    }
+
     for(int i=0; i < kp()->tositelajit()->rowCount(QModelIndex()); i++)
     {
         QModelIndex index = kp()->tositelajit()->index(i,0);

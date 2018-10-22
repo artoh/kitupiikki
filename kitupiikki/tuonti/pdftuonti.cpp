@@ -53,7 +53,7 @@ bool PdfTuonti::tuo(const QByteArray &data)
             {;}    // Hyvityslaskulle ei automaattista käsittelyä
         else if( etsi("lasku",0,30) && kp()->asetukset()->luku("TuontiOstolaskuPeruste"))
             tuoPdfLasku();
-        else if( etsi("tiliote",0,30) && kp()->asetukset()->onko("TuontiTiliote") )
+        else if( etsi("tiliote",0,30) )
             tuoPdfTiliote();
 
     }
@@ -277,6 +277,9 @@ void PdfTuonti::tuoPdfTiliote()
 
     if( !tiliote(tilinumero, mista, mihin))
         return;
+
+    if( !kp()->asetukset()->onko("TuontiTiliote") )
+        return;     // Jos tiliotteen tuonti ei käytössä, niin ei tuoda tilitapahtumia
 
     // Sitten tuodaan tiliotteen tiedot
     // Jos Kirjauspäivä xx.xx.xx -kenttiä, niin haetaan kirjauspäivät niistä
