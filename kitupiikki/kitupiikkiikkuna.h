@@ -33,7 +33,7 @@ class SelausWg;
 class RaporttiSivu;
 class MaaritysSivu;
 class ArkistoSivu;
-class LaskutusSivu;
+class LaskuSivu;
 
 class QDateEdit;
 class QDockWidget;
@@ -69,7 +69,7 @@ public slots:
 
     void palaaSivulta();
 
-    void selaaTilia(int tilinumero, Tilikausi tilikausi);
+    void selaaTilia(int tilinumero, const Tilikausi &tilikausi);
 
     void uusiKirjausIkkuna();
     void uusiSelausIkkuna();
@@ -79,7 +79,7 @@ public slots:
 protected slots:
     void aktivoiSivu(QAction* aktio);
     void naytaTosite(int tositeid);
-    void ktpKasky(QString kasky);
+    void ktpKasky(const QString &kasky);
 
     /**
      * @brief Näyttää lyhyen ajan viestiä onnistumisesta
@@ -110,10 +110,11 @@ protected:
     KitupiikkiSivu* sivut[SIVUT_LOPPU ];
 
     QDockWidget *harjoitusDock;
+    QDockWidget *inboxDock;
 
     AloitusSivu *aloitussivu;
     KirjausSivu *kirjaussivu;
-    LaskutusSivu *laskutussivu;
+    LaskuSivu *laskutussivu;
     SelausWg *selaussivu;
     RaporttiSivu *raporttisivu;
     MaaritysSivu *maarityssivu;
@@ -135,6 +136,7 @@ protected:
     void lisaaSivut();
 
     void luoHarjoitusDock();
+    void luoInboxDock();
 
 
 };

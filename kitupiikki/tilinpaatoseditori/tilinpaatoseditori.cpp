@@ -25,9 +25,9 @@
 #include "tilinpaatostulostaja.h"
 #include "db/kirjanpito.h"
 #include "tpaloitus.h"
-#include "tools/pdfikkuna.h"
+#include "naytin/naytinikkuna.h"
 
-TilinpaatosEditori::TilinpaatosEditori(Tilikausi tilikausi, QWidget *parent)
+TilinpaatosEditori::TilinpaatosEditori(const Tilikausi& tilikausi, QWidget *parent)
     : QMainWindow(parent),
       tilikausi_(tilikausi)
 {
@@ -49,7 +49,7 @@ void TilinpaatosEditori::esikatsele()
 {    
     QString teksti = raportit_ + "\n" + editori_->toHtml();
 
-    PdfIkkuna::naytaPdf(TilinpaatosTulostaja::tulostaTilinpaatos( tilikausi_, teksti));
+    NaytinIkkuna::nayta(TilinpaatosTulostaja::tulostaTilinpaatos( tilikausi_, teksti));
 }
 
 void TilinpaatosEditori::luoAktiot()
@@ -237,7 +237,7 @@ void TilinpaatosEditori::tallenna()
 
     QByteArray pdf = TilinpaatosTulostaja::tulostaTilinpaatos( tilikausi_, teksti);
 
-    kp()->liitteet()->asetaPdf( pdf, tilikausi_.alkaa().toString(Qt::ISODate) );
+    kp()->liitteet()->asetaLiite( pdf, tilikausi_.alkaa().toString(Qt::ISODate) );
     kp()->liitteet()->tallenna();
 
     // Tallennetaan myös Arkistoon

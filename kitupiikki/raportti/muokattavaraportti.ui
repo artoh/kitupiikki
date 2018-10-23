@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>469</width>
-    <height>257</height>
+    <width>780</width>
+    <height>512</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,10 +23,41 @@
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QGridLayout" name="gridLayout">
+      <item row="1" column="2">
+       <widget class="QDateEdit" name="alkaa2Date">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QDateEdit" name="alkaa3Date">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="1">
        <widget class="QLabel" name="label">
         <property name="text">
          <string>Sarake 1</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QDateEdit" name="loppuu2Date">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QDateEdit" name="alkaa1Date"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="paattyyLabel">
+        <property name="text">
+         <string>Päättyy</string>
         </property>
        </widget>
       </item>
@@ -43,6 +74,23 @@
         </property>
        </widget>
       </item>
+      <item row="2" column="1">
+       <widget class="QDateEdit" name="loppuu1Date"/>
+      </item>
+      <item row="2" column="3">
+       <widget class="QDateEdit" name="loppuu3Date">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="alkaaLabel">
+        <property name="text">
+         <string>Alkaa</string>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="3">
        <widget class="QCheckBox" name="sarake3Box">
         <property name="enabled">
@@ -56,53 +104,33 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="alkaaLabel">
+      <item row="3" column="1">
+       <widget class="QComboBox" name="tyyppi1"/>
+      </item>
+      <item row="3" column="2">
+       <widget class="QComboBox" name="tyyppi2"/>
+      </item>
+      <item row="3" column="3">
+       <widget class="QComboBox" name="tyyppi3"/>
+      </item>
+      <item row="0" column="4">
+       <widget class="QCheckBox" name="sarake4Box">
         <property name="text">
-         <string>Alkaa</string>
+         <string>Sarake 4</string>
         </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QDateEdit" name="alkaa1Date"/>
-      </item>
-      <item row="1" column="2">
-       <widget class="QDateEdit" name="alkaa2Date">
-        <property name="enabled">
+        <property name="checked">
          <bool>true</bool>
         </property>
        </widget>
       </item>
-      <item row="1" column="3">
-       <widget class="QDateEdit" name="alkaa3Date">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-       </widget>
+      <item row="1" column="4">
+       <widget class="QDateEdit" name="alkaa4Date"/>
       </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="paattyyLabel">
-        <property name="text">
-         <string>Päättyy</string>
-        </property>
-       </widget>
+      <item row="2" column="4">
+       <widget class="QDateEdit" name="loppuu4Date"/>
       </item>
-      <item row="2" column="1">
-       <widget class="QDateEdit" name="loppuu1Date"/>
-      </item>
-      <item row="2" column="2">
-       <widget class="QDateEdit" name="loppuu2Date">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="3">
-       <widget class="QDateEdit" name="loppuu3Date">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-       </widget>
+      <item row="3" column="4">
+       <widget class="QComboBox" name="tyyppi4"/>
       </item>
      </layout>
     </widget>
@@ -127,6 +155,10 @@
        <property name="text">
         <string>Kohdennuksella</string>
        </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/kohdennus.png</normaloff>:/pic/kohdennus.png</iconset>
+       </property>
       </widget>
      </item>
      <item row="1" column="1">
@@ -142,6 +174,10 @@
     <widget class="QCheckBox" name="erittelyCheck">
      <property name="text">
       <string>Tulosta tilikohtaiset erittelyt</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../pic/pic.qrc">
+       <normaloff>:/pic/format-list-unordered.png</normaloff>:/pic/format-list-unordered.png</iconset>
      </property>
     </widget>
    </item>
@@ -160,7 +196,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>sarake2Box</sender>
@@ -169,12 +207,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>276</x>
-     <y>38</y>
+     <x>458</x>
+     <y>59</y>
     </hint>
     <hint type="destinationlabel">
-     <x>276</x>
-     <y>67</y>
+     <x>458</x>
+     <y>105</y>
     </hint>
    </hints>
   </connection>
@@ -185,12 +223,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>276</x>
-     <y>38</y>
+     <x>458</x>
+     <y>59</y>
     </hint>
     <hint type="destinationlabel">
-     <x>276</x>
-     <y>96</y>
+     <x>458</x>
+     <y>151</y>
     </hint>
    </hints>
   </connection>
@@ -201,12 +239,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>382</x>
-     <y>38</y>
+     <x>605</x>
+     <y>59</y>
     </hint>
     <hint type="destinationlabel">
-     <x>382</x>
-     <y>67</y>
+     <x>605</x>
+     <y>105</y>
     </hint>
    </hints>
   </connection>
@@ -217,12 +255,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>382</x>
-     <y>38</y>
+     <x>605</x>
+     <y>59</y>
     </hint>
     <hint type="destinationlabel">
-     <x>382</x>
-     <y>96</y>
+     <x>605</x>
+     <y>151</y>
     </hint>
    </hints>
   </connection>
@@ -233,12 +271,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>276</x>
-     <y>38</y>
+     <x>458</x>
+     <y>59</y>
     </hint>
     <hint type="destinationlabel">
-     <x>382</x>
-     <y>38</y>
+     <x>605</x>
+     <y>59</y>
     </hint>
    </hints>
   </connection>
@@ -249,12 +287,12 @@
    <slot>setChecked(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>276</x>
-     <y>38</y>
+     <x>458</x>
+     <y>59</y>
     </hint>
     <hint type="destinationlabel">
-     <x>382</x>
-     <y>38</y>
+     <x>605</x>
+     <y>59</y>
     </hint>
    </hints>
   </connection>
@@ -265,12 +303,92 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>72</x>
-     <y>149</y>
+     <x>86</x>
+     <y>293</y>
     </hint>
     <hint type="destinationlabel">
-     <x>220</x>
-     <y>151</y>
+     <x>418</x>
+     <y>295</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sarake4Box</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>alkaa4Date</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>703</x>
+     <y>46</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>696</x>
+     <y>87</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sarake4Box</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>loppuu4Date</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>671</x>
+     <y>42</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>661</x>
+     <y>134</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sarake2Box</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>tyyppi2</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>376</x>
+     <y>32</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>379</x>
+     <y>179</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sarake3Box</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>tyyppi3</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>545</x>
+     <y>34</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>540</x>
+     <y>173</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sarake4Box</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>tyyppi4</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>733</x>
+     <y>34</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>733</x>
+     <y>174</y>
     </hint>
    </hints>
   </connection>

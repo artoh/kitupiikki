@@ -71,7 +71,7 @@ bool TiliModel::setData(const QModelIndex &index, const QVariant &value, int rol
     else
         return false;
 
-    emit dataChanged( index.sibling(index.row(), 0), index.sibling(index.row(), 4)) ;
+    emit dataChanged( index.sibling(index.row(), 0), index.sibling(index.row(), 4));
 
     return false;
 }
@@ -189,7 +189,7 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void TiliModel::lisaaTili(Tili uusi)
+void TiliModel::lisaaTili(const Tili& uusi)
 {
     beginInsertRows( QModelIndex(), tilit_.count(), tilit_.count()  );
     tilit_.append(uusi);
@@ -296,7 +296,6 @@ void TiliModel::lataa()
     kysely.exec("SELECT id, nro, nimi, tyyppi, tila, json, ysiluku, muokattu "
                 " FROM tili ORDER BY ysiluku");
 
-    QVector<int> otsikkoId(10);
 
     QVector<Tili> otsikot(10);
 
@@ -305,7 +304,7 @@ void TiliModel::lataa()
         int otsikkotaso = 0;
         QString tyyppikoodi = kysely.value(3).toString();
         if( tyyppikoodi.startsWith('H'))    // Tyyppikoodi H1 tarkoittaa 1-tason otsikkoa jne.
-            otsikkotaso = tyyppikoodi.mid(1).toInt();
+            otsikkotaso = tyyppikoodi.midRef(1).toInt();
 
         int id = kysely.value(0).toInt();
         int otsikkoIdTalle = 0; // Nykytilille merkittävä otsikkotaso
@@ -400,7 +399,7 @@ bool TiliModel::tallenna(bool tietokantaaLuodaan)
 
     if( tietokanta_->lastError().isValid() )
     {
-        QMessageBox::critical(0, tr("Tietokantavirhe"),
+        QMessageBox::critical(nullptr, tr("Tietokantavirhe"),
                           tr("Tallentaminen epäonnistui seuraavan virheen takia: %1")
                           .arg( tietokanta_->lastError().text() ));
         return false;

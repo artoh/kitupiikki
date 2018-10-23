@@ -44,6 +44,7 @@ struct RaporttiRiviSarake
 
     Linkki linkkityyppi = EI_LINKKIA;
     int linkkidata = 0;
+
 };
 
 /**
@@ -57,7 +58,14 @@ struct RaporttiRiviSarake
 class RaporttiRivi
 {
 public:
-    RaporttiRivi();
+
+    enum RivinKaytto { KAIKKI, EICSV, CSV};
+
+    /**
+     * @brief Luo uuden raporttirivin
+     * @param kaytto Käytetäänkö uutta raporttiriviä minkä muotoisissa raporteissa
+     */
+    RaporttiRivi(RivinKaytto kaytto = KAIKKI);
 
     /**
      * @brief Lisää tekstisarakkeen
@@ -174,12 +182,19 @@ public:
      */
     int pistekoko() const { return pistekoko_; }
 
+    /**
+     * @brief Käytetäänkö tätä riviä csv-, eicsv- vai kaikissa raporteissa
+     * @return
+     */
+    RivinKaytto kaytto() const { return rivinKaytto_;}
+
 
 protected:
     QList<RaporttiRiviSarake> sarakkeet_;
     bool lihava_;
     bool ylaviiva_;
     int pistekoko_;
+    RivinKaytto rivinKaytto_;
 };
 
 #endif // RAPORTTIRIVI_H

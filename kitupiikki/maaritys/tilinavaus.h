@@ -44,7 +44,7 @@ public:
 signals:
 
 public slots:
-    void naytaInfo(QString info);
+    void naytaInfo(const QString &info);
     void hlostoMuutos();
     void tosite();
     void naytaPiilotetut(bool naytetaanko);

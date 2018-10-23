@@ -33,7 +33,7 @@ public:
     PaivakirjaRaportti();
     ~PaivakirjaRaportti();
 
-    RaportinKirjoittaja raportti(bool csvmuoto);
+    RaportinKirjoittaja raportti();
 
 
     /**
@@ -52,6 +52,7 @@ public:
                                  int kohdennuksella = -1, bool tositejarjestys = false,
                                  bool ryhmitalajeittain = false, bool tulostakohdennukset = false,
                                  bool tulostasummat = false);
+
 protected:
     static void kirjoitaSummaRivi(RaportinKirjoittaja &rk, qlonglong debet, qlonglong kredit, int sarakeleveys);
 

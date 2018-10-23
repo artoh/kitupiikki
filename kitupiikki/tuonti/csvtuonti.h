@@ -40,7 +40,8 @@ public:
         TILI = 21,
         VIITE = 22,
         SUOMIPVM = 30,
-        ISOPVM = 31
+        ISOPVM = 31,
+        USPVM = 32
 
     };
 
@@ -58,7 +59,8 @@ public:
         VIITENRO,
         ARKISTOTUNNUS,
         KOHDENNUS,
-        TILINIMI
+        TILINIMI,
+        BRUTTOALVP
     };
 
     enum { TyyppiRooli = Qt::UserRole + 1};
@@ -82,8 +84,22 @@ public:
      */
     static QChar haistaErotin(const QString& data);
 
+    /**
+     * @brief Sijoittaa csv:n listamuotoon
+     * @param data
+     * @return
+     */
+    static QList<QStringList> csvListana(const QByteArray& data);
+
     static QString tyyppiTeksti(int muoto);
     static QString tuontiTeksti(int tuominen);
+
+    /**
+     * @brief Päättelee, onko data csv-tietoa
+     * @param data
+     * @return
+     */
+    static bool onkoCsv(const QByteArray& data);
 
 public slots:
     void paivitaOletukset();

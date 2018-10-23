@@ -6,14 +6,18 @@ body
 
 h1
 {
-    font-weight: bold;
-    font-size: 18pt;
+    font-size: 20pt;
 }
 
 h2
 {
     font-size: 18pt;
-    margin-bottom: 10pt;
+}
+
+h2.kausi
+{
+    font-weight: normal;
+    margin-bottom: 10px;
 }
 
 h3
@@ -22,31 +26,63 @@ h3
     font-weight: bold;
 }
 
+h3 > a
+{
+    color: black;
+}
+
+pre
+{
+    font-family: "Helvetica";
+}
 
 table.vinkki
 {
-  background-color: #66ff99;
-  margin-bottom: 1em;
+  background-color: #bbff99;
+  margin-bottom: 15px;
+}
+
+table.vinkki > tr > td
+{
+    padding: 15px;
 }
 
 table.varoitus
 {
-    background-color: #ff4d4d;
-    margin-bottom: 1em;
+    background-color: #ff6666;
+    margin-bottom: 15px;
+}
+
+table.varoitus > tr > td
+{
+    padding: 15px;
 }
 
 table.info
 {
     background-color: #ffff99;
-    margin-bottom: 1em;
+    margin-bottom: 15px;
     border: 1px solid black;
 }
 
-td
+table.info > tr > td
 {
-    padding: 6px 6px 6px 6px;
-    font-size: 12pt;
+    padding: 15px;
+    margin-bottom: 15px;
 }
+
+
+table.memo
+{
+    background-color: #ffffcc;
+    margin-bottom: 15px;
+}
+
+table.memo > tr > td
+{
+    padding: 15px;
+}
+
 
 a
 {

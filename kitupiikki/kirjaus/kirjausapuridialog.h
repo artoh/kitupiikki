@@ -43,7 +43,7 @@ class KirjausApuriDialog : public QDialog
     Q_OBJECT
 
 public:
-    KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent = 0);
+    KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent = nullptr);
     ~KirjausApuriDialog();
 
     enum Valilehti { TULO, MENO, SIIRTO};
@@ -62,6 +62,7 @@ public slots:
     void vastaEraValittu();
     void pvmMuuttuu();
     void vastakirjausOlemassa(bool onko);
+    void vaihdaDebetKredit();
 
     /**
      * @brief Jos tilillä kohdennukset käytössä, näytetään
@@ -82,8 +83,8 @@ public slots:
     void valilehtiVaihtui(int indeksi);
     void korjaaSarakeLeveydet();
 
-    void tiliTarkastus(const QString txt);
-    void viiteTarkastus(const QString txt);
+    void tiliTarkastus(const QString &txt);
+    void viiteTarkastus(const QString &txt);
 
     void accept();
 
@@ -93,7 +94,7 @@ protected:
      * @brief VientiRivi, jossa pvm ja selite valmiina paikallaan
      * @return
      */
-    VientiRivi uusiEhdotusRivi(Tili tili = Tili(), int debetSnt = 0, int kreditSnt = 0);
+    VientiRivi uusiEhdotusRivi(const Tili &tili = Tili(), qlonglong debetSnt = 0, qlonglong kreditSnt = 0);
 
     bool eventFilter(QObject *watched, QEvent *event);
 

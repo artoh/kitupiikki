@@ -64,7 +64,7 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     QVariant data(const QModelIndex &index, int role) const;
 
-    void lisaaTili( Tili uusi);
+    void lisaaTili(const Tili &uusi);
     void poistaRivi( int riviIndeksi );
 
     Tili tiliIdlla(int id) const;

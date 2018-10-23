@@ -68,7 +68,7 @@ void KantaTilinvalintaLine::valitseTiliIdlla(int tiliId)
     valitseTili(tili);
 }
 
-void KantaTilinvalintaLine::valitseTili(Tili tili)
+void KantaTilinvalintaLine::valitseTili(const Tili& tili)
 {
     if( tili.id())
         setText( tr("%1 %2").arg(tili.numero()).arg(tili.nimi()));
@@ -127,7 +127,7 @@ void TilinvalintaLineDelegaatille::keyPressEvent(QKeyEvent *event)
 
 
 TilinvalintaLine::TilinvalintaLine(QWidget *parent)
-    : KantaTilinvalintaLine(parent), model_( 0 )
+    : KantaTilinvalintaLine(parent), model_( nullptr )
 {
 
 }

@@ -92,7 +92,7 @@ QVariant TilityyppiModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-TiliTyyppi TilityyppiModel::tyyppiKoodilla(QString koodi)
+TiliTyyppi TilityyppiModel::tyyppiKoodilla(const QString& koodi)
 {
     if( koodi.startsWith('H'))
     {
@@ -107,7 +107,7 @@ TiliTyyppi TilityyppiModel::tyyppiKoodilla(QString koodi)
     return TiliTyyppi(koodi);
 }
 
-void TilityyppiModel::lisaa(TiliTyyppi tyyppi)
+void TilityyppiModel::lisaa(const TiliTyyppi& tyyppi)
 {
     tyypit.append(tyyppi);
 }

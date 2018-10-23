@@ -30,6 +30,7 @@
 struct AvoinLasku
 {
     AvoinLasku() {}
+    void haeLasku(int vientiid);
 
     QString viite;
     QDate pvm;
@@ -43,6 +44,8 @@ struct AvoinLasku
     int tiliid = 0;
     JsonKentta json;
     int kohdennusId;
+    int vientiId = 0;
+    bool muistutettu = false;
 };
 
 /**
@@ -55,7 +58,7 @@ class LaskutModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    LaskutModel(QObject *parent = 0);
+    LaskutModel(QObject *parent = nullptr);
 
 
     enum Laskuvalinta { KAIKKI, AVOIMET, ERAANTYNEET };
@@ -69,7 +72,14 @@ public:
            KirjausPerusteRooli = Qt::UserRole + 8,
            KohdennusIdRooli = Qt::UserRole + 9,
            EraIdRooli = Qt::UserRole + 10,
-           TiliIdRooli = Qt::UserRole + 11};
+           TiliIdRooli = Qt::UserRole + 11,
+           TyyppiRooli = Qt::UserRole + 12,
+           EraPvmRooli = Qt::UserRole + 13,
+           IndeksiRooli = Qt::UserRole + 14,
+           VientiIdRooli = Qt::UserRole + 15,
+           SummaRooli = Qt::UserRole + 16,
+           MuistutettuRooli = Qt::UserRole + 17
+         };
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
@@ -80,7 +90,7 @@ public:
 
 public slots:
     void lataaAvoimet();
-    void paivita(int valinta = KAIKKI, QDate mista=QDate(), QDate mihin = QDate());
+    virtual void paivita(int valinta = KAIKKI, QDate mista=QDate(), QDate mihin = QDate());
 
     /**
      * @brief Vähentää laskun avointa määrää ja poistaa jos kokonaan maksettu

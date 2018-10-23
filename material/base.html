@@ -126,6 +126,9 @@
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     {% include "partials/toc.html" %}
+                    {% if page.is_homepage %}
+						{% include "partials/info.html" %}
+                    {% endif %}
                   </div>
                 </div>
               </div>

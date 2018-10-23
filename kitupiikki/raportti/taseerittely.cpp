@@ -22,7 +22,7 @@
 #include <QDebug>
 
 TaseErittely::TaseErittely() :
-    Raportti(false)
+    Raportti(nullptr)
 {
     ui = new Ui::TaseErittely;
     ui->setupUi( raporttiWidget);
@@ -39,14 +39,14 @@ TaseErittely::~TaseErittely()
     delete ui;
 }
 
-RaportinKirjoittaja TaseErittely::raportti(bool /* csvmuoto */)
+RaportinKirjoittaja TaseErittely::raportti()
 {
     return kirjoitaRaportti( ui->alkaa->date(), ui->paattyy->date() );
 }
 
 RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
 {
-    RaportinKirjoittaja rk;
+    RaportinKirjoittaja rk(false);
     rk.asetaOtsikko("TASE-ERITTELY");
     rk.asetaKausiteksti(QString("%1 - %2").arg(mista.toString("dd.MM.yyyy")).arg(mihin.toString("dd.MM.yyyy")));
 
@@ -88,10 +88,10 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
         // Ohitetaan tyhjät/tapahtumattomat tilit
         if( !tili.saldoPaivalle(mihin))
         {
-             if(tili.taseErittelyTapa() == Tili::TASEERITTELY_SALDOT || tili.taseErittelyTapa() == Tili::TASEERITTELY_LISTA )
-             {
+            if(tili.taseErittelyTapa() == Tili::TASEERITTELY_SALDOT || tili.taseErittelyTapa() == Tili::TASEERITTELY_LISTA )
+            {
                 continue;
-             }
+            }
             else
             {
                 // Jos täysi tai muutos-tapahtumaerittely, niin ohitetaan jos ei myöskään tapahtumia
@@ -172,7 +172,6 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                             "pvm between \"%2\" and \"%3\" order by pvm")
                             .arg(tili.numero()).arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate)) );
 
-                qDebug() << kysely.lastQuery();
                 while( kysely.next() )
                 {
                     RaporttiRivi rr;
@@ -249,7 +248,6 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                     if( tili.onko(TiliLaji::VASTATTAVAA))
                         alkusnt = 0 - alkusnt;
 
-                    qDebug() << kysely.value("id").toInt();
 
                     RaporttiRivi nimirivi;
                     QString tunniste = QString("%1%2/%3")

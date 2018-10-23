@@ -28,9 +28,11 @@
 #include "db/kirjanpito.h"
 #include "uusikp/skripti.h"
 
+#include "validator/ytunnusvalidator.h"
+
 
 Perusvalinnat::Perusvalinnat() :
-    MaaritysWidget(),
+    MaaritysWidget(nullptr),
     ui(new Ui::Perusvalinnat)
 {
     ui->setupUi(this);
@@ -46,8 +48,12 @@ Perusvalinnat::Perusvalinnat() :
     connect( ui->puhelinEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
     connect( ui->paivitysCheck, SIGNAL(clicked(bool)), this, SLOT(ilmoitaMuokattu()));
     connect( ui->muotoCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(ilmoitaMuokattu()));
+    connect( ui->logossaNimiBox, SIGNAL(toggled(bool)), this, SLOT(ilmoitaMuokattu()));
+    connect( ui->sahkopostiEdit, &QLineEdit::textChanged, this, &Perusvalinnat::ilmoitaMuokattu);
 
     connect( ui->hakemistoNappi, SIGNAL(clicked(bool)), this, SLOT(avaaHakemisto()));
+    connect( ui->avaaArkistoNappi, &QPushButton::clicked, [] { kp()->avaaUrl( kp()->arkistopolku() ); } );
+    ui->ytunnusEdit->setValidator(new YTunnusValidator());
 
 }
 
@@ -65,13 +71,15 @@ bool Perusvalinnat::nollaa()
     ui->osoiteEdit->setText( kp()->asetukset()->asetus("Osoite"));
     ui->kotipaikkaEdit->setText( kp()->asetukset()->asetus("Kotipaikka"));
     ui->puhelinEdit->setText( kp()->asetus("Puhelin"));
+    ui->logossaNimiBox->setChecked( kp()->asetukset()->onko("LogossaNimi") );
+    ui->sahkopostiEdit->setText( kp()->asetukset()->asetus("Sahkoposti"));
 
     // Haetaan muodot
 
     QStringList muodot = kp()->asetukset()->avaimet("MuotoOn/");
     if( muodot.count())
     {
-        for(QString muoto : muodot)
+        for(const QString& muoto : muodot)
         {
             ui->muotoCombo->addItem( muoto.mid(8));
         }
@@ -84,8 +92,8 @@ bool Perusvalinnat::nollaa()
         ui->muotoCombo->hide();
     }
 
-    QSettings asetukset;
-    ui->paivitysCheck->setChecked( asetukset.value("NaytaPaivitykset", true).toBool() );
+
+    ui->paivitysCheck->setChecked( kp()->settings()->value("NaytaPaivitykset", true).toBool() );
 
     uusilogo = QImage();
 
@@ -94,6 +102,13 @@ bool Perusvalinnat::nollaa()
         ui->logoLabel->setPixmap( QPixmap::fromImage( kp()->logo().scaled(64, 64, Qt::KeepAspectRatio) ) );
 
     ui->sijaintiLabel->setText( kp()->tiedostopolku() );
+
+    bool arkistoloytyy =  QDir(kp()->arkistopolku()).exists();
+    ui->avaaArkistoNappi->setEnabled(arkistoloytyy);
+    if( arkistoloytyy )
+        ui->arkistoEdit->setText( kp()->arkistopolku());
+    else
+        ui->arkistoEdit->setText(QString());
 
     return true;
 }
@@ -122,7 +137,6 @@ void Perusvalinnat::avaaHakemisto()
 
 bool Perusvalinnat::onkoMuokattu()
 {
-    QSettings asetukset;
 
     return  ui->organisaatioEdit->text() != kp()->asetus("Nimi")  ||
             ui->ytunnusEdit->text() != kp()->asetus("Ytunnus") ||
@@ -132,14 +146,16 @@ bool Perusvalinnat::onkoMuokattu()
             ui->osoiteEdit->toPlainText() != kp()->asetukset()->asetus("Osoite") ||
             ui->kotipaikkaEdit->text() != kp()->asetukset()->asetus("Kotipaikka") ||
             ui->puhelinEdit->text() != kp()->asetukset()->asetus("Puhelin") ||
-            ui->paivitysCheck->isChecked() != asetukset.value("NaytaPaivitykset",true).toBool() ||
+            ui->sahkopostiEdit->text() != kp()->asetukset()->asetus("Sahkoposti") ||
+            ui->paivitysCheck->isChecked() != kp()->settings()->value("NaytaPaivitykset",true).toBool() ||
+            ui->logossaNimiBox->isChecked() != kp()->asetukset()->onko("LogossaNimi") ||
             ( ui->muotoCombo->currentText() != kp()->asetukset()->asetus("Muoto"));
 }
 
 bool Perusvalinnat::tallenna()
 {
-    QSettings asetukset;
-    asetukset.setValue("NaytaPaivitykset", ui->paivitysCheck->isChecked());
+
+    kp()->settings()->setValue("NaytaPaivitykset", ui->paivitysCheck->isChecked());
 
     kp()->asetukset()->aseta("Nimi", ui->organisaatioEdit->text());
     kp()->asetukset()->aseta("Ytunnus", ui->ytunnusEdit->text());
@@ -148,6 +164,8 @@ bool Perusvalinnat::tallenna()
     kp()->asetukset()->aseta("Osoite", ui->osoiteEdit->toPlainText());
     kp()->asetukset()->aseta("Kotipaikka", ui->kotipaikkaEdit->text());
     kp()->asetukset()->aseta("Puhelin", ui->puhelinEdit->text());
+    kp()->asetukset()->aseta("Sahkoposti", ui->sahkopostiEdit->text());
+    kp()->asetukset()->aseta("LogossaNimi", ui->logossaNimiBox->isChecked());
 
     if( !uusilogo.isNull())
     {
@@ -158,7 +176,7 @@ bool Perusvalinnat::tallenna()
     if( ui->muotoCombo->currentText() != kp()->asetukset()->asetus("Muoto"))
     {
         // Muodon vaihto pitää vielä varmistaa
-        if( QMessageBox::question(0, tr("Vahvista muutos"),
+        if( QMessageBox::question(nullptr, tr("Vahvista muutos"),
                                   tr("Haluatko todella tehdä muutoksen\n"
                                      "%1: %2").arg( kp()->asetukset()->asetus("MuotoTeksti") )
                                               .arg( ui->muotoCombo->currentText()),

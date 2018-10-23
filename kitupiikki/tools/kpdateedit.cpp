@@ -33,7 +33,7 @@
 
 KpDateEdit::KpDateEdit(QWidget *parent) :
     QLineEdit(parent),
-    kalenteri_(0),
+    kalenteri_(nullptr),
     popupKaytossa_(false),
     suljettu_(0)
 {
@@ -123,11 +123,11 @@ void KpDateEdit::setDate(QDate date)
 
 }
 
-void KpDateEdit::editMuuttui(QString uusi)
+void KpDateEdit::editMuuttui(const QString& uusi)
 {
-   int pp = uusi.mid(0,2).toInt();
-   int kk = uusi.mid(3,2).toInt();
-   int vv = uusi.mid(6,4).toInt();
+   int pp = uusi.midRef(0,2).toInt();
+   int kk = uusi.midRef(3,2).toInt();
+   int vv = uusi.midRef(6,4).toInt();
 
    // päivä tai kk ei voi olla 0
    if( !pp)
@@ -176,7 +176,7 @@ bool KpDateEdit::eventFilter(QObject *watched, QEvent *event)
     if( watched == kalenteri_ && event->type() == QEvent::WindowDeactivate )
     {
         kalenteri_->deleteLater();
-        kalenteri_ = 0;
+        kalenteri_ = nullptr;
         suljettu_ = QDateTime::currentMSecsSinceEpoch();
     }
 

@@ -23,23 +23,26 @@
 #include "db/kirjanpito.h"
 
 #include <QShortcut>
+#include <QSettings>
 
 LisaIkkuna::LisaIkkuna(QWidget *parent) : QMainWindow(parent)
 {
     setAttribute(Qt::WA_DeleteOnClose);
     connect( kp(), SIGNAL(tietokantaVaihtui()), this, SLOT(close()));
 
+    restoreGeometry(  kp()->settings()->value("LisaIkkuna").toByteArray() );
+
     new QShortcut( QKeySequence(Qt::Key_F1), this, SLOT(ohje()));
 }
 
 LisaIkkuna::~LisaIkkuna()
 {
-
+    kp()->settings()->setValue("LisaIkkuna", saveGeometry());
 }
 
-void LisaIkkuna::kirjaa(int tositeId)
+KirjausSivu* LisaIkkuna::kirjaa(int tositeId)
 {
-    KirjausSivu *sivu = new KirjausSivu(0);
+    KirjausSivu *sivu = new KirjausSivu(nullptr);
     setCentralWidget( sivu );
     sivu->siirrySivulle();
     sivu->naytaTosite(tositeId);
@@ -49,6 +52,8 @@ void LisaIkkuna::kirjaa(int tositeId)
     ohjesivu = sivu->ohjeSivunNimi();
 
     setWindowTitle(tr("%1 - Kirjaus").arg(kp()->asetus("Nimi")));
+
+    return sivu;
 }
 
 void LisaIkkuna::selaa()

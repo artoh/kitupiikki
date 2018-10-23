@@ -33,9 +33,9 @@ class MuokattavaRaportti : public Raportti
     Q_OBJECT
 public:
     MuokattavaRaportti(const QString& raporttinimi);
-    ~MuokattavaRaportti();
+    ~MuokattavaRaportti() override;
 
-    RaportinKirjoittaja raportti( bool csvmuoto = false);
+    RaportinKirjoittaja raportti() override;
 
 
 public slots:

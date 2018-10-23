@@ -20,7 +20,7 @@
 #include "tuonti/tuonti.h"
 
 TuontiMaaritysWidget::TuontiMaaritysWidget()
-    : MaaritysWidget(),
+    : MaaritysWidget(nullptr),
       ui( new Ui::TuontiMaaritys)
 {
     ui->setupUi( this );

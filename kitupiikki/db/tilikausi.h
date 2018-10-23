@@ -46,7 +46,7 @@ public:
     };
 
     Tilikausi();
-    Tilikausi(QDate tkalkaa, QDate tkpaattyy, QByteArray json = QByteArray());
+    Tilikausi(QDate tkalkaa, QDate tkpaattyy, const QByteArray &json = QByteArray());
 
     QDate alkaa() const { return alkaa_; }
     QDate paattyy() const { return paattyy_; }
@@ -128,6 +128,12 @@ public:
     QString kausitunnus() const { return kausitunnus_;}
 
     void asetaKausitunnus(const QString& kausitunnus);
+
+    /**
+     * @brief Onko tälle kaudelle laadittu budjettia
+     * @return
+     */
+    bool onkoBudjettia();
 
 protected:
     QDate alkaa_;

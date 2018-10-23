@@ -88,6 +88,9 @@ Kirjanpitotiedoston lisäksi samaan hakemistoon luodaan myöhemmin .arkisto-pä�
     Huolehdi kirjanpitosi varmuuskopioinnista! Kirjanpidosta tulisi olla aina
     varmuuskopio toisella tietovälineellä!
 
+!!! note "USB-muisti on hidas"
+    Vältä kirjanpidon tallentamista USB-muistitikulle, sillä sen käsittely on ajoittain hidasta.    
+
 !!! tip "Kirjanpito pilvessä"
     Voit tallettaa kirjanpidon sellaiseen hakemistoon, joka synkronoidaan
     automaattisesti pilvipalveluun, kuten Dropbox. Näin tiedostot ovat aina

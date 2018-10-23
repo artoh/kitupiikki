@@ -88,7 +88,7 @@ public:
      * @param kaikki tosi jos ladataan myös tasan menneet erät
      * @param paivalle Päivämäärä, jolta erät lasketaan
      */
-    void lataa(Tili tili, bool kaikki = false, QDate paivalle = QDate());
+    void lataa(const Tili &tili, bool kaikki = false, QDate paivalle = QDate());
 
 private:
     QList<TaseEra> erat_;

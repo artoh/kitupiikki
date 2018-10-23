@@ -56,8 +56,8 @@ protected:
      * @brief Tekee voiton tarkastuksen
      * @return Voittaja
      */
-    int voitonTarkastaja(QVector<int> taulu);
-    int voittajaRivilla(QVector<int> taulu, int a, int b, int c) const;
+    int voitonTarkastaja(const QVector<int> &taulu);
+    int voittajaRivilla(const QVector<int> &taulu, int a, int b, int c) const;
 
 protected:
     void alustaRistinolla();

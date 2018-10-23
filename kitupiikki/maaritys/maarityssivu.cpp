@@ -37,6 +37,8 @@
 #include "emailmaaritys.h"
 #include "tuontimaarityswidget.h"
 #include "tilikarttaohje.h"
+#include "inboxmaaritys.h"
+#include "finvoicemaaritys.h"
 
 #include "ktpvienti/ktpvienti.h"
 
@@ -45,7 +47,7 @@
 #include <QDebug>
 
 MaaritysSivu::MaaritysSivu() :
-    KitupiikkiSivu(0), nykyinen(0), nykyItem(0)
+    KitupiikkiSivu(nullptr), nykyinen(nullptr), nykyItem(nullptr)
 {
 
     lista = new QListWidget;
@@ -58,7 +60,9 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu("Arvonlisävero", ALV, QIcon(":/pic/vero.png"));
     lisaaSivu("Laskutus", LASKUTUS, QIcon(":/pic/lasku.png"));
     lisaaSivu("Sähköpostin lähetys", SAHKOPOSTI, QIcon(":/pic/email.png"));
+    lisaaSivu("Verkkolasku", VERKKOLASKU, QIcon(":/pic/verkkolasku.png"));
     lisaaSivu("Tuonti", TUONTI, QIcon(":/pic/tuotiedosto.png"));
+    lisaaSivu("Kirjattavien kansio", INBOX, QIcon(":/pic/inbox.png"));
     lisaaSivu("Raportit", RAPORTIT, QIcon(":/pic/print.png"));
     lisaaSivu("Tilinpäätöksen malli", LIITETIETOKAAVA, QIcon(":/pic/tekstisivu.png"));
     lisaaSivu("Tilikartan ohje", TILIKARTTAOHJE, QIcon(":/pic/ohje.png"));
@@ -74,7 +78,7 @@ MaaritysSivu::MaaritysSivu() :
 
     vienappi = new QPushButton(QIcon(":/pic/salkkupossu.png"), tr("Vie tilikartta..."));
     paivitaNappi = new QPushButton( QIcon(":/pic/paivita.png"), tr("Päivitä tilikartta..."));
-    perunappi = new QPushButton(tr("Peru"));
+    perunappi = new QPushButton(QIcon(":/pic/sulje.png"),tr("Peru"));
     tallennanappi = new QPushButton(QIcon(":/pic/ok.png"),  tr("Tallenna"));
     tallennanappi->setShortcut(QKeySequence(QKeySequence::Save));
 
@@ -95,7 +99,8 @@ MaaritysSivu::MaaritysSivu() :
     connect( tallennanappi, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
     connect( kp(), SIGNAL(tilikausiPaatetty()), this, SLOT(paivitaNakyvat()));
 
-    connect( kp(), &Kirjanpito::tietokantaVaihtui, [this] { if(nykyinen) { delete nykyinen; nykyinen=0; } lista->setCurrentRow(0); });
+    connect( kp(), &Kirjanpito::tietokantaVaihtui, [this] { if(nykyinen) { delete nykyinen; nykyinen=nullptr; } lista->setCurrentRow(0); });
+    connect( kp(), &Kirjanpito::perusAsetusMuuttui, this, &MaaritysSivu::paivitaNakyvat);
 
 }
 
@@ -123,7 +128,7 @@ bool MaaritysSivu::poistuSivulta(int /* minne */)
     if( nykyinen )
     {
         delete nykyinen;
-        nykyinen = 0;
+        nykyinen = nullptr;
     }
 
     return true;
@@ -182,7 +187,7 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
 
         sivuleiska->removeWidget(nykyinen);
         delete nykyinen;
-        nykyinen = 0;
+        nykyinen = nullptr;
     }
 
     int sivu = item->data(Qt::UserRole).toInt();
@@ -212,6 +217,10 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         nykyinen = new EmailMaaritys;
     else if(sivu == TILIKARTTAOHJE)
         nykyinen = new TilikarttaOhje;
+    else if(sivu == INBOX)
+        nykyinen = new InboxMaaritys;
+    else if( sivu == VERKKOLASKU)
+        nykyinen = new FinvoiceMaaritys;
     else
         nykyinen = new Perusvalinnat;   // Tilipäinen
 
@@ -230,8 +239,9 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
 
 }
 
-void MaaritysSivu::valitseSivu(QString otsikko)
+void MaaritysSivu::valitseSivu(const QString& otsikko)
 {
+
     for(int i=0; i < lista->count(); i++)
     {
         QListWidgetItem *item = lista->item(i);
@@ -272,6 +282,7 @@ void MaaritysSivu::paivitaTilikartta()
     if( PaivitaKirjanpito::paivitaTilikartta() )
         valitseSivu("Tilikartan ohje");
 }
+
 
 void MaaritysSivu::lisaaSivu(const QString &otsikko, MaaritysSivu::Sivut sivu, const QIcon &kuvake)
 {

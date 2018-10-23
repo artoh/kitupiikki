@@ -115,6 +115,17 @@ void EhdotusModel::tyhjaa()
 
 void EhdotusModel::lisaaVienti(VientiRivi rivi)
 {
+    if( rivi.debetSnt < 0)
+    {
+        rivi.kreditSnt = rivi.kreditSnt - rivi.debetSnt;
+        rivi.debetSnt = 0;
+    }
+    else if( rivi.kreditSnt < 0)
+    {
+        rivi.debetSnt = rivi.debetSnt - rivi.kreditSnt;
+        rivi.kreditSnt = 0;
+    }
+
     beginInsertRows( QModelIndex(), viennit_.count(), viennit_.count());
     viennit_.append(rivi);
     endInsertRows();

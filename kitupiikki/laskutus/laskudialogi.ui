@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1164</width>
-    <height>632</height>
+    <width>1444</width>
+    <height>1224</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,1">
+    <layout class="QHBoxLayout" name="horizontalLayout_7">
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
@@ -40,7 +40,7 @@
          <property name="maximumSize">
           <size>
            <width>16777215</width>
-           <height>100</height>
+           <height>160</height>
           </size>
          </property>
          <property name="baseSize">
@@ -54,13 +54,6 @@
          </property>
          <property name="placeholderText">
           <string>Osoite</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="emailEdit">
-         <property name="placeholderText">
-          <string>Sähköposti</string>
          </property>
         </widget>
        </item>
@@ -120,6 +113,26 @@
        <item row="3" column="1">
         <widget class="TilinvalintaLine" name="rahaTiliEdit"/>
        </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="viiteLabel">
+         <property name="text">
+          <string>Viitenumero</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLabel" name="nroLabel">
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Nro</string>
+         </property>
+        </widget>
+       </item>
        <item row="5" column="0">
         <widget class="QLabel" name="label_4">
          <property name="text">
@@ -140,27 +153,32 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="1">
-        <widget class="QLabel" name="nroLabel">
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>Nro</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>Viitenumero</string>
-         </property>
-        </widget>
-       </item>
       </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLineEdit" name="emailEdit">
+       <property name="placeholderText">
+        <string>Sähköposti</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="ytunnus">
+       <property name="placeholderText">
+        <string>Asiakkaan Y-tunnus</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="asViiteEdit">
+       <property name="placeholderText">
+        <string>Asiakkaan viite</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -170,6 +188,10 @@
       <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/vientilista.png</normaloff>:/pic/vientilista.png</iconset>
+      </attribute>
       <attribute name="title">
        <string>&amp;Rivit</string>
       </attribute>
@@ -221,10 +243,10 @@
              <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Tuotelista&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Lisää tuotteita tuotelistaan painamalla laskulle kirjoitetun tuotteen nimikkeen päällä hiiren oikeaa nappia ja valitsemalla Lisää tuotelistaan.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Noto Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans Serif'; font-size:9pt; font-weight:600;&quot;&gt;Tuotelista&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Sans Serif'; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans Serif'; font-size:9pt;&quot;&gt;Lisää tuotteita tuotelistaan painamalla laskulle kirjoitetun tuotteen nimikkeen päällä hiiren oikeaa nappia ja valitsemalla Lisää tuotelistaan.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
           </item>
@@ -255,6 +277,10 @@ p, li { white-space: pre-wrap; }
              </property>
              <property name="text">
               <string>&amp;Tuotteet</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../pic/pic.qrc">
+               <normaloff>:/pic/kirjalaatikko.png</normaloff>:/pic/kirjalaatikko.png</iconset>
              </property>
              <property name="shortcut">
               <string>F9</string>
@@ -321,12 +347,209 @@ p, li { white-space: pre-wrap; }
       </layout>
      </widget>
      <widget class="QWidget" name="tab_2">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/Menu-Circles.png</normaloff>:/pic/Menu-Circles.png</iconset>
+      </attribute>
       <attribute name="title">
        <string>Lis&amp;ätiedot</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
         <widget class="QPlainTextEdit" name="lisatietoEdit"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="ryhma">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/asiakkaat.png</normaloff>:/pic/asiakkaat.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>L&amp;askutettavat</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="0,1">
+       <item>
+        <widget class="QFrame" name="aslistaFrame">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_6">
+          <item>
+           <widget class="QLineEdit" name="assuodatusEdit">
+            <property name="placeholderText">
+             <string>Etsi asiakas</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QListView" name="asiakasLista"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_7">
+         <item>
+          <widget class="QTableView" name="ryhmaView">
+           <property name="dragEnabled">
+            <bool>true</bool>
+           </property>
+           <property name="dragDropOverwriteMode">
+            <bool>false</bool>
+           </property>
+           <property name="dragDropMode">
+            <enum>QAbstractItemView::DropOnly</enum>
+           </property>
+           <property name="defaultDropAction">
+            <enum>Qt::CopyAction</enum>
+           </property>
+           <property name="alternatingRowColors">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_5">
+           <item>
+            <widget class="QPushButton" name="asiakasListaNappi">
+             <property name="text">
+              <string>Asiakkaat</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../pic/pic.qrc">
+               <normaloff>:/pic/asiakkaat.png</normaloff>:/pic/asiakkaat.png</iconset>
+             </property>
+             <property name="shortcut">
+              <string>F9</string>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_5">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton">
+             <property name="text">
+              <string>Valitse &amp;kaikki</string>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>../pic/select-all.png</normaloff>../pic/select-all.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="lisaaRyhmaanNappi">
+             <property name="text">
+              <string>&amp;Lisää</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../pic/pic.qrc">
+               <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
+             </property>
+             <property name="shortcut">
+              <string>F11</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="tuoRyhmaanNappi">
+             <property name="text">
+              <string>T&amp;uo luettelo</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../pic/pic.qrc">
+               <normaloff>:/pic/tuotiedosto.png</normaloff>:/pic/tuotiedosto.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="poistaRyhmastaNappi">
+             <property name="text">
+              <string>Poista</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../pic/pic.qrc">
+               <normaloff>:/pic/peru.png</normaloff>:/pic/peru.png</iconset>
+             </property>
+             <property name="shortcut">
+              <string>Del</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="verkkoTab">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/verkkolasku.png</normaloff>:/pic/verkkolasku.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Verkkolasku</string>
+      </attribute>
+      <layout class="QFormLayout" name="formLayout_2">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Asiakkaan verkkolaskuosoite</string>
+         </property>
+         <property name="buddy">
+          <cstring>verkkoOsoiteEdit</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="verkkoOsoiteEdit"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Asiakkaan välittäjätunnus</string>
+         </property>
+         <property name="buddy">
+          <cstring>verkkoValittajaEdit</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="verkkoValittajaEdit"/>
        </item>
       </layout>
      </widget>
@@ -367,7 +590,7 @@ p, li { white-space: pre-wrap; }
         <string>Tulosta lasku  Ctrl+P</string>
        </property>
        <property name="text">
-        <string>Tulosta</string>
+        <string>&amp;Tulosta</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
@@ -384,7 +607,7 @@ p, li { white-space: pre-wrap; }
         <string>Näytä lasku  F10</string>
        </property>
        <property name="text">
-        <string>Näytä</string>
+        <string>Nä&amp;ytä</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
@@ -404,7 +627,7 @@ p, li { white-space: pre-wrap; }
         <string>Lähetä lasku sähköpostilla  Ctrl+E</string>
        </property>
        <property name="text">
-        <string>Sähköposti</string>
+        <string>&amp;Sähköposti</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
@@ -412,6 +635,20 @@ p, li { white-space: pre-wrap; }
        </property>
        <property name="shortcut">
         <string>Ctrl+E</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="verkkolaskuNappi">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>&amp;Verkkolasku</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/verkkolasku.png</normaloff>:/pic/verkkolasku.png</iconset>
        </property>
       </widget>
      </item>
@@ -488,12 +725,12 @@ p, li { white-space: pre-wrap; }
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>407</x>
-     <y>576</y>
+     <x>422</x>
+     <y>1007</y>
     </hint>
     <hint type="destinationlabel">
-     <x>26</x>
-     <y>424</y>
+     <x>41</x>
+     <y>741</y>
     </hint>
    </hints>
   </connection>
@@ -504,8 +741,8 @@ p, li { white-space: pre-wrap; }
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1131</x>
-     <y>613</y>
+     <x>1285</x>
+     <y>1068</y>
     </hint>
     <hint type="destinationlabel">
      <x>903</x>
@@ -520,12 +757,44 @@ p, li { white-space: pre-wrap; }
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1030</x>
-     <y>603</y>
+     <x>1197</x>
+     <y>1068</y>
     </hint>
     <hint type="destinationlabel">
      <x>828</x>
      <y>606</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>asiakasListaNappi</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>aslistaFrame</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>417</x>
+     <y>1007</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>206</x>
+     <y>365</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>ryhmaView</receiver>
+   <slot>selectAll()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>708</x>
+     <y>980</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>695</x>
+     <y>697</y>
     </hint>
    </hints>
   </connection>

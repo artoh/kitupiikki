@@ -167,7 +167,7 @@ QList<Kohdennus> KohdennusModel::kohdennukset() const
 
 bool KohdennusModel::kohdennuksia() const
 {
-    for( Kohdennus kohdennus : kohdennukset_)
+    for( const Kohdennus& kohdennus : kohdennukset_)
         if( kohdennus.tyyppi() == Kohdennus::KUSTANNUSPAIKKA ||
             kohdennus.tyyppi() == Kohdennus::PROJEKTI)
             return true;
@@ -176,7 +176,7 @@ bool KohdennusModel::kohdennuksia() const
 
 bool KohdennusModel::merkkauksia() const
 {
-    for( Kohdennus kohdennus : kohdennukset_)
+    for( const Kohdennus& kohdennus : kohdennukset_)
         if( kohdennus.tyyppi() == Kohdennus::MERKKAUS)
             return true;
     return false;
@@ -226,7 +226,7 @@ void KohdennusModel::lataa()
     endResetModel();
 }
 
-void KohdennusModel::lisaaUusi(Kohdennus uusi)
+void KohdennusModel::lisaaUusi(const Kohdennus& uusi)
 {
     beginInsertRows(QModelIndex(), kohdennukset_.count(), kohdennukset_.count());
     kohdennukset_.append( uusi );

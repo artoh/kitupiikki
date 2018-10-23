@@ -29,7 +29,7 @@
 #include "validator/ibanvalidator.h"
 
 TilinMuokkausDialog::TilinMuokkausDialog(TiliModel *model, QModelIndex index) :
-    QDialog(), model_(model), index_(index)
+    QDialog(nullptr), model_(model), index_(index)
 {
     ui = new Ui::tilinmuokkausDialog();
     ui->setupUi(this);
@@ -209,7 +209,7 @@ void TilinMuokkausDialog::nroMuuttaaTyyppia(const QString &nroteksti)
 {
     if( !nroteksti.isEmpty())
     {
-        int ekanro = nroteksti.left(1).toInt();
+        int ekanro = nroteksti.leftRef(1).toInt();
         int nykyluonne = ui->tyyppiCombo->currentData(TilityyppiModel::LuonneRooli).toInt();
 
         // Jos numero alkaa 1, pitää olla vastaavaa-tili

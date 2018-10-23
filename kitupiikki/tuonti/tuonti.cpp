@@ -18,12 +18,15 @@
 #include <QDebug>
 
 #include <QSqlQuery>
+#include <QImage>
+#include <QMessageBox>
 
 #include "tuonti.h"
 #include "pdftuonti.h"
 #include "csvtuonti.h"
 #include "titotuonti.h"
 #include "palkkafituonti.h"
+#include "validator/ytunnusvalidator.h"
 
 #include "kirjaus/kirjauswg.h"
 #include "db/tili.h"
@@ -44,6 +47,9 @@ Tuonti::~Tuonti()
 
 bool Tuonti::tuo(const QString &tiedostonnimi, KirjausWg *wg)
 {
+    QImage kuvako( tiedostonnimi );
+    if( !kuvako.isNull())
+        return true;
 
     QFile tiedosto( tiedostonnimi );
     tiedosto.open( QFile::ReadOnly );
@@ -56,12 +62,33 @@ bool Tuonti::tuo(const QString &tiedostonnimi, KirjausWg *wg)
         PdfTuonti pdftuonti(wg);
         return pdftuonti.tuo(data);
     }
-    else if( data.startsWith( QString("T;%1").arg( kp()->asetukset()->asetus("Ytunnus") ).toUtf8() ))
+
+    QString ytunnus = QString( data.left(11).right(9) );
+
+    if( data.startsWith( "T;") && YTunnusValidator::kelpaako(ytunnus))
     {
+        if( !data.startsWith( QString("T;%1").arg( kp()->asetukset()->asetus("Ytunnus") ).toUtf8() ) )
+        {
+            if( kp()->onkoHarjoitus())
+            {
+                if( QMessageBox::question(nullptr, kp()->tr("Palkkatositteen tuonti"),
+                                          kp()->tr("Palkkatositteessa oleva y-tunnus %1 poikkeaa omasta y-tunnuksesta. Haluatko jatkaa?").arg(ytunnus),
+                                          QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) != QMessageBox::Yes)
+                    return false;
+            }
+            else
+            {
+                QMessageBox::critical(nullptr, kp()->tr("Palkkatositteen tuonti"),
+                                      kp()->tr("Palkkatositteessa oleva y-tunnus %1 poikkeaa omasta y-tunnuksesta. "
+                                               "Palkkatositetta ei voi tuoda.").arg(ytunnus));
+                return false;
+            }
+        }
+
         PalkkaFiTuonti palkkatuonti(wg);
         return palkkatuonti.tuo(data);
     }
-    else if( tiedostonnimi.endsWith(".csv", Qt::CaseInsensitive))
+    else if( CsvTuonti::onkoCsv(data))
     {
         CsvTuonti csvtuonti(wg);
         return csvtuonti.tuo(data);
@@ -75,7 +102,7 @@ bool Tuonti::tuo(const QString &tiedostonnimi, KirjausWg *wg)
     return true;
 }
 
-void Tuonti::tuoLasku(qlonglong sentit, QDate laskupvm, QDate toimituspvm, QDate erapvm, QString viite, QString tilinumero, QString saajanNimi)
+void Tuonti::tuoLasku(qlonglong sentit, QDate laskupvm, QDate toimituspvm, QDate erapvm, QString viite, const QString& tilinumero, const QString& saajanNimi)
 {
     QDate pvm = toimituspvm;
     if( !pvm.isValid() || kp()->asetukset()->luku("TuontiOstolaskuPeruste") == LASKUPERUSTEINEN)
@@ -124,7 +151,7 @@ void Tuonti::tuoLasku(qlonglong sentit, QDate laskupvm, QDate toimituspvm, QDate
 
 }
 
-bool Tuonti::tiliote(QString iban, QDate mista, QDate mihin)
+bool Tuonti::tiliote(const QString& iban, QDate mista, QDate mihin)
 {
     return tiliote( kp()->tilit()->tiliIbanilla(iban),
                     mista, mihin);
@@ -135,6 +162,14 @@ bool Tuonti::tiliote(Tili tili, QDate mista, QDate mihin)
     tiliotetili_ = tili;
     if( !tiliotetili_.onko(TiliLaji::PANKKITILI))
         return false;
+
+    if( mista > mihin)
+    {
+        // Joskus päivämäärät sotkeutuvat...
+        QDate apu = mihin;
+        mihin = mista;
+        mista = apu;
+    }
 
     for(int i=0; i < kp()->tositelajit()->rowCount(QModelIndex()); i++)
     {
@@ -169,7 +204,7 @@ bool Tuonti::tiliote(Tili tili, QDate mista, QDate mihin)
     return true;
 }
 
-void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, QString arkistotunnus, QString selite)
+void Tuonti::oterivi(QDate pvm, qlonglong sentit, const QString& iban, QString viite, const QString& arkistotunnus, QString selite)
 {
     // Etunollien poisto viiterivistä
     viite.replace( QRegularExpression("^0*"),"");
@@ -253,7 +288,6 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, Q
 
         QSqlQuery kysely( QString("SELECT id, tili, selite, kohdennus FROM vienti WHERE iban='%1' AND viite='%2' ORDER BY pvm")
                           .arg(iban).arg(viite) );
-        qDebug() << kysely.lastQuery();
         while( kysely.next())
         {
             int eraId = kysely.value("id").toInt();

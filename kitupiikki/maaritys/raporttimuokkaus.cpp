@@ -38,11 +38,18 @@ RaporttiMuokkaus::RaporttiMuokkaus(QWidget *parent) :
     connect( ui->nimeaNappi, SIGNAL(clicked(bool)), this, SLOT(nimea()));
     connect( ui->tyyppiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(merkkaaMuokattu()));
     connect( ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poista()));
-    connect( ui->arkistoBox, SIGNAL(clicked(bool)), this, SLOT(raporttiArkistoon(bool)));
+
+    connect( ui->arkistoBox, &QCheckBox::clicked, [this] (bool laitetaanko) { this->raportinArkistointi(laitetaanko,false); } );
+    connect( ui->vertailuCheck, &QCheckBox::clicked, [this] (bool laitetaanko) { this->raportinArkistointi(laitetaanko,true); } );
+
+
+    connect( ui->tyyppiCombo, &QComboBox::currentTextChanged, [this] { this->ui->vertailuCheck->setEnabled( ui->tyyppiCombo->currentData().toString() != ":tase"); } );
 
     ui->tyyppiCombo->addItem( tr("Tuloslaskelma"), ":tulos");
     ui->tyyppiCombo->addItem( tr("Tase"), ":tase");
     ui->tyyppiCombo->addItem( tr("Kohdennuslaskelma"), ":kohdennus");
+
+
 
 
     muokattu = false;
@@ -113,7 +120,7 @@ void RaporttiMuokkaus::avaaRaportti(const QString &raportti)
         emit tallennaKaytossa(false);
 
          ui->arkistoBox->setChecked(kp()->asetukset()->lista("ArkistoRaportit").contains(raportti) );
-
+         ui->vertailuCheck->setChecked(kp()->asetukset()->lista("ArkistoRaportit").contains(raportti + QString("$")) );
     }
 }
 
@@ -166,23 +173,6 @@ void RaporttiMuokkaus::poista()
     }
 }
 
-void RaporttiMuokkaus::raporttiArkistoon(bool laitetaanko)
-{
-    QStringList raporttilista = kp()->asetukset()->lista("ArkistoRaportit");
-
-    if( laitetaanko )
-    {
-        if( !raporttilista.contains(nimi))
-            raporttilista.append(nimi);
-    }
-    else
-        raporttilista.removeAll(nimi);
-
-    raporttilista.sort(Qt::CaseInsensitive);
-    kp()->asetukset()->aseta("ArkistoRaportit", raporttilista);
-    merkkaaMuokattu();
-}
-
 bool RaporttiMuokkaus::kysyTallennus()
 {
     int tallennetaanko =  QMessageBox::question(this, tr("Raportin muokkaus"),
@@ -215,5 +205,23 @@ bool RaporttiMuokkaus::aloitaUusi()
     }
     return true;
 
+}
+
+void RaporttiMuokkaus::raportinArkistointi(bool laitetaanko, bool vertailu)
+{
+    QStringList raporttilista = kp()->asetukset()->lista("ArkistoRaportit");
+    QString raporttinimi = vertailu ? nimi + QString("$") : nimi ;
+
+    if( laitetaanko )
+    {
+        if( !raporttilista.contains(raporttinimi))
+            raporttilista.append(raporttinimi);
+    }
+    else
+        raporttilista.removeAll(raporttinimi);
+
+    raporttilista.sort(Qt::CaseInsensitive);
+    kp()->asetukset()->aseta("ArkistoRaportit", raporttilista);
+    merkkaaMuokattu();
 }
 

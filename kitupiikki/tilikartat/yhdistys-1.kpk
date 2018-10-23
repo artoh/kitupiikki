@@ -803,6 +803,12 @@ Elinkeinotoiminnan kulut 	704..709 *
 Varainhankinnan tulot	73 *
 Varainhankinnan kulut 	74..79 *
 
+Yleisavustukset		8 *
+
+Sijoitus- ja rahoitustoiminta	90..91
+Tuotot							90 *
+Kulut							91 *
+
 Tulos yhteensä   	3..9 viiva
 
 
@@ -895,3 +901,4 @@ LaskuKirjausperuste=2
 TuontiOstolaskuPeruste=3 
 TuontiOstolaskuTili=1910 
 TilinpaatosValinnat+=maksuperuste 
+TuontiTiliote=EI

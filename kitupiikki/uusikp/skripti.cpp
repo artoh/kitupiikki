@@ -41,7 +41,7 @@ void Skripti::suorita()
 
     asetusRe.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);
 
-    for( QString rivi : skripti_)
+    for( const QString& rivi : skripti_)
     {
        // Tilikomennolla tili käyttöön taikka piiloon
        QRegularExpressionMatch tiliMats = tiliRe.match(rivi);

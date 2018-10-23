@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>InboxMaaritys</class>
+ <widget class="QWidget" name="InboxMaaritys">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>777</width>
+    <height>437</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Kirjattavien kansio&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Kirjattavien kansio on tietokoneella oleva hakemisto, jonne on sijoitettu kirjattavaksi tulevia pdf- ja jpg-tositteita. Kitupiikki näyttää tämän hakemiston listauksen.&lt;/p&gt;&lt;p&gt;Kun tässä hakemistossa oleva tiedosto lisätään tositteen liitteeksi, Kitupiikki &lt;span style=&quot; font-weight:600;&quot;&gt;poistaa tämän tiedoston &lt;/span&gt;tietokoneelta.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0">
+      <widget class="QLineEdit" name="kansioEdit">
+       <property name="frame">
+        <bool>false</bool>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QPushButton" name="valitseNappi">
+       <property name="text">
+        <string>Valitse kansio</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/kansiossa.png</normaloff>:/pic/kansiossa.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QPushButton" name="poistaNappi">
+       <property name="text">
+        <string>Poista käytöstä</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/peru.png</normaloff>:/pic/peru.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="2" column="0">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>153</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>poistaNappi</sender>
+   <signal>clicked()</signal>
+   <receiver>kansioEdit</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>603</x>
+     <y>270</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>388</x>
+     <y>249</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

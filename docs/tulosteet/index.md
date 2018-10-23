@@ -4,14 +4,19 @@
 
 Tulosteet-välilehdellä voit katsella ja tulostaa erilaisia raportteja kirjanpidostasi. Tulosteet ovat erilaisia eri tilikartoilla.
 
-* **Avaa selaimessa** avaa raportin selaimeen. Voit tallentaa raportin html-muodossa selaimen tallennustoiminnolla.
-* **Vie leikepöydälle** kopioi raportin html-muodossa leikepöydälle, josta sen voi liittää esim.  tekstinkäsittelyyn.
-* **CSV määritykset** antaa valita CSV-tiedoston muodon, mm. käytettävä erotin, koodaus, päivämäärän ja lukujen muoto.
-* **Vie CSV** vie raportin csv-tiedostona.
-* **CSV leikepöydälle** kopioi raportin csv-muodossa leikepöydälle, josta sen voi liittää esim. taulukkolaskentaan.
-* **Sivun asetuksista** löytyy esim. tulostettavan raportin paperinkoko.
-* **Esikatsele** avaa raportin Kitupiikin sisäiseen pdf-esikatseluun, jolla voit tallentaa tai tulostaa raportin.
-* **Tulosta** tulostaa raportin suoraan tulostimelle.
+Tehtyäsi haluamasi valinnat paina **Esikatsele** ja näe raportin:
+
+![](esikatselu.png)
+
+Esikatseluikkunassa
+
+* **Avaa** avaa raportin pdf-katseluohjelmassa
+* **Tallenna** tallentaa raportin pdf-muodossa
+* **Tulosta** tulostaa raportin
+* **Raidat** lisää raportin taustalle taustaraitoja rivien seuraamista helpottamaan
+* **Sivun asetukset** antaa mahdollisuuden vaihtaa paperin kokoa, suuntaa ja marginaaleja
+* **HTML**-painikkeesta avautuu valikko, jossa voit avata raporin selaimessa, kopioida raportin leikepöydälle tai tallentaa tiedostoon html-muodossa.
+* **CSV**-painikkeesta avautuu valikko, jolla voit kopioida raportin leikepöydälle tai tiedostoon csv-muodossa tai määritellä csv-tiedoston muodon (kuten merkistökoodaus ja sarakkeiden erotin.)
 
 !!! tip "Kirjausten vienti CSV-muotoon"
     *Päiväkirja*-näkymä soveltuu erityisen hyvin kirjausten siirtämiseen csv-muodossa toisiin ohjelmiin.
@@ -48,6 +53,8 @@ Tase kuvaa taloudellista tilannetta tilinpäätöspäivänä. Monessa tilikartas
 Tuloslaskelma kuvaa tilikauden tulosta niin, että viimeiselle riville jää tilikauden voitto tai tappio. Tässä kuvassa on esitetty yhdistyksen tuloslaskelma: elinkeinotoiminnalla ja kiinteistön hallinnalla on erilaiset tuloslaskelmakaavat.
 Joissain tilikartoissa on eri tuloslaskelmavaihtoehtoja. Myös tuloslaskelman voi eritellä tileittäin.
 
+Tuloslaskelmalle voi valita tulostettavaksi toteutuman lisäksi myös tilikauden [budjetin](/tilikaudet/budjetti/#budjetin-seuranta) tai budjetin toteutuman.
+
 ## Tase-erittely
 
 ![](taseerittely.png)
@@ -66,6 +73,15 @@ Tililuettelossa on numerojärjestyksessä ja otsikoittain lueteltu kirjanpidon t
 
 Voit tulostaa laskuluettelon myyntilaskuista (Kitupiikillä laaditut laskut) tai ostolaskuista (Ostovelat-tileille kirjatut laskut). Laskuluettelon saa myös haluttuna päivänä avoinna olleista laskuista saldoineen.
 
+## Myyyntiraportti
+
+![Myyntiraportti](myyntiraportti.png)
+
+Myyntiraportissa luetellaan Kitupiikin myyntilaskutuksella laskutetut tuotteet, niiden määrä, keskimääräinen kappalehinta ja myynti yhteensä.
+
+## Arvonlisäveron erittely
+
+Voit tulostaa [arvonlisäverolaskelman erittelyn](/alv/#arvonlisaverolaskelma) myös kesken verokauden.
 
 ## Muut raportit
 

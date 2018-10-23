@@ -23,7 +23,7 @@
 #include "db/kirjanpito.h"
 
 AlvErittely::AlvErittely()
- : Raportti( false )
+ : Raportti(nullptr)
 {
     ui = new Ui::TaseErittely;
     ui->setupUi( raporttiWidget );
@@ -41,14 +41,14 @@ AlvErittely::~AlvErittely()
     delete ui;
 }
 
-RaportinKirjoittaja AlvErittely::raportti(bool /* csvmuoto */)
+RaportinKirjoittaja AlvErittely::raportti()
 {
     return kirjoitaRaporti( ui->alkaa->date(), ui->paattyy->date() );
 }
 
 RaportinKirjoittaja AlvErittely::kirjoitaRaporti(QDate alkupvm, QDate loppupvm)
 {
-    RaportinKirjoittaja kirjoittaja;
+    RaportinKirjoittaja kirjoittaja(false);
     kirjoittaja.asetaOtsikko(tr("ARVONLISÄVEROLASKELMAN ERITTELY"));
     kirjoittaja.asetaKausiteksti( QString("%1 - %2").arg(alkupvm.toString("dd.MM.yyyy")).arg(loppupvm.toString("dd.MM.yyyy") ) );
 

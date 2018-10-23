@@ -124,14 +124,14 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
     else if( role == TagiNimilistaRooli)
     {
         QStringList nimilista;
-        for(Kohdennus tagi : rivi.tagit)
+        for(const Kohdennus& tagi : rivi.tagit)
             nimilista.append( tagi.nimi());
         return nimilista;
     }
     else if( role == TagiIdListaRooli)
     {
         QVariantList lista;
-        for( Kohdennus tagi : rivi.tagit)
+        for( const Kohdennus& tagi : rivi.tagit)
             lista.append( tagi.id() );
         return lista;
     }
@@ -152,6 +152,8 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
             case TILI:
                 if( rivi.tili.numero())
                     return QVariant( QString("%1 %2").arg(rivi.tili.numero()).arg(rivi.tili.nimi()) );
+                else if( !rivi.tili.onkoValidi() && (rivi.laskupvm.isValid() || rivi.eraId ))
+                    return tr("Maksuperusteinen lasku");
                 else
                     return QVariant();
 
@@ -227,7 +229,7 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
                         if( !txt.isEmpty())
                             txt.append("\n");
                         QStringList taginimet;
-                        for( Kohdennus tagi : rivi.tagit)
+                        for( const Kohdennus& tagi : rivi.tagit)
                             taginimet.append( tagi.nimi());
                         txt.append( taginimet.join(", ") );
                     }
@@ -290,6 +292,9 @@ QVariant VientiModel::data(const QModelIndex &index, int role) const
             if( rivi.alvkoodi > 800)
                 return QColor(Qt::darkGray);
         }
+        // Maksuperusteisen laskun kirjausrivit
+        else if( !rivi.tili.onkoValidi() && (rivi.laskupvm.isValid() || rivi.eraId ))
+            return QColor(Qt::gray);
 
     }
 
@@ -313,7 +318,6 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
             if( value.toDate().isValid())
             {
                 viennit_[index.row()].pvm = value.toDate();
-                emit siirryRuutuun( index.sibling(index.row(), TILI) );
                 emit muuttunut();
             }            
             return true;
@@ -332,8 +336,8 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
             viennit_[index.row()].tili = uusitili;
             // Tällä tilivalinnalla tulee myös oletukset veroille
             int alvlaji = uusitili.json()->luku("AlvLaji");
-            // #37 Käsinkirjauksessa oletuksena netto
-            if( alvlaji % 10 == 1)
+            //  Uuden rivin alv-laji oletuksena bruttoa
+            if( !viennit_[index.row()].alvkoodi &&  alvlaji % 10 == 1)
                 alvlaji++;
             // #40 Jos muokataan tilinavausta, ei siinä ole alveja
             if( tositeModel_ && tositeModel_->tunniste() == 0)
@@ -345,16 +349,8 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
                 viennit_[index.row()].alvprosentti = uusitili.json()->luku("AlvProsentti");
 
             emit dataChanged(index, index.sibling(index.row(), ALV));
-
-            if( uusitili.onkoValidi())
-            {
-                // Jos kirjataan tulotilille, niin siirrytään syöttämään kredit-summaa
-                if( uusitili.onko(TiliLaji::TULO) )
-                    emit siirryRuutuun(index.sibling(index.row(), KREDIT));
-                else
-                    emit siirryRuutuun(index.sibling(index.row(), DEBET));
-            }
             emit muuttunut();
+
             return true;
         }
         case SELITE:
@@ -366,7 +362,6 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
             if(value.toLongLong())
             {
                 viennit_[index.row()].kreditSnt = 0;
-                emit siirryRuutuun(index.sibling(index.row(), KOHDENNUS));
                 emit muuttunut();
             }
             return true;
@@ -375,7 +370,6 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
             if( value.toLongLong())
             {
                 viennit_[index.row()].debetSnt = 0;
-                emit siirryRuutuun(index.sibling(index.row(), KOHDENNUS));
                 emit muuttunut();
             }
             return true;
@@ -450,7 +444,7 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
         // Asettaa näytettävät tägit eli korvamerkkaukset
         viennit_[rivi].tagit.clear();
         QVariantList lista = value.toList();
-        for( QVariant variant : lista )
+        for( const QVariant& variant : lista )
             viennit_[rivi].tagit.append( kp()->kohdennukset()->kohdennus(variant.toInt()) );
     }
     else if( role == AsiakasRooli)
@@ -559,7 +553,7 @@ QModelIndex VientiModel::lisaaVienti(int indeksi)
     return lisaaVienti( uusirivi , indeksi);
 }
 
-QModelIndex VientiModel::lisaaVienti(VientiRivi rivi, int indeksi)
+QModelIndex VientiModel::lisaaVienti(const VientiRivi& rivi, int indeksi)
 {
     if( indeksi == -1)
         indeksi = viennit_.count();
@@ -630,6 +624,8 @@ bool VientiModel::tallenna()
                           "muokattu=:muokattu, json=:json, asiakas=:asiakas, vientirivi=:rivinro, laskupvm=:laskupvm"
                           " WHERE id=:id");
             query.bindValue(":id", rivi.vientiId);
+            if( poistetutVientiIdt_.contains(rivi.vientiId))
+                poistetutVientiIdt_.removeAll(rivi.vientiId);
         }
         else
         {
@@ -706,7 +702,7 @@ bool VientiModel::tallenna()
             // Poistetaan tagit, jotta ne voitaisiin kohta lisätä...
             query.exec( QString("DELETE FROM merkkaus WHERE vienti=%1").arg( rivi.vientiId));
 
-        for(Kohdennus tagi : rivi.tagit)
+        for(const Kohdennus& tagi : rivi.tagit)
         {
             if( !query.exec( QString("INSERT INTO merkkaus(vienti,kohdennus) VALUES(%1,%2)")
                         .arg(viennit_[i].vientiId)
@@ -789,8 +785,6 @@ void VientiModel::lataa()
 
         viennit_.append(rivi);
     }
-
-    qDebug() << query.lastQuery() << " - " << query.lastError().text();
 
     endResetModel();
     muokattu_ = false;

@@ -36,6 +36,7 @@ struct Liite
     QByteArray pdf;
     QByteArray thumbnail;
     bool muokattu = false;
+    QString lisattyPolusta;
 };
 
 class TositeModel;
@@ -64,28 +65,28 @@ public:
      * @param tositemodel Tosite, jonka liitteitä käsitellään: jos 0, käsitellään liitteitä tositteella NULL
      * @param parent
      */
-    LiiteModel(TositeModel *tositemodel, QObject *parent = 0);
+    LiiteModel(TositeModel *tositemodel, QObject *parent = nullptr);
 
-    int rowCount(const QModelIndex &parent) const;
-    QVariant data(const QModelIndex &index, int role) const;
+    int rowCount(const QModelIndex &parent) const override;
+    QVariant data(const QModelIndex &index, int role) const override;
 
-    Qt::ItemFlags flags(const QModelIndex &index) const;
-    bool setData(const QModelIndex &index, const QVariant &value, int role);
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
+    bool setData(const QModelIndex &index, const QVariant &value, int role) override;
 
     /**
      * @brief Lisää pdf:n
-     * @param pdf
+     * @param liite
      * @param otsikko
      * @return Liitteen nro
      */
-    int lisaaPdf(const QByteArray &pdf, const QString& otsikko);
+    int lisaaLiite(const QByteArray &liite, const QString& otsikko, const QString& polusta = QString());
     /**
      * @brief Jos samalla otsikolla olemassa, korvaa - muuten lisää
      * @param pdf
      * @param otsikko
      * @return
      */
-    int asetaPdf(const QByteArray &pdf, const QString& otsikko);
+    int asetaLiite(const QByteArray &liite, const QString& otsikko);
 
     int lisaaTiedosto(const QString& polku, const QString& otsikko);
     void poistaLiite(int indeksi);
@@ -99,8 +100,8 @@ public:
 
     bool muokattu() const { return muokattu_; }
 
-    QString liiteNimi(int liitenro) const;
-
+    bool canDropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex &parent) const override;
+    bool dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex &parent) override;
 
 public slots:
     void lataa();

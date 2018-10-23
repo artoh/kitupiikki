@@ -18,6 +18,8 @@
 #include "laskutmodel.h"
 #include "db/kirjanpito.h"
 #include <QSqlQuery>
+#include <QSqlError>
+#include <QDebug>
 
 
 LaskutModel::LaskutModel(QObject *parent) :
@@ -92,8 +94,10 @@ QVariant LaskutModel::data(const QModelIndex &item, int role) const
     }
     else if( role == Qt::DecorationRole && item.column() == PVM)
     {
-        if( lasku.json.luku("Hyvityslasku") )
+        if( lasku.json.isoluku("Hyvityslasku") )
             return QIcon(":/pic/poista.png");
+        else if( lasku.json.isoluku("Maksumuistutus"))
+            return QIcon(":/pic/punainenkuori.png");
 
         switch (lasku.kirjausperuste) {
         case LaskuModel::SUORITEPERUSTE:
@@ -107,7 +111,12 @@ QVariant LaskutModel::data(const QModelIndex &item, int role) const
 
         }
     }
-
+    else if( role == Qt::DecorationRole && item.column() == ERAPVM)
+    {
+        // Jos maksumuistutus on jo lähetetty, näytetään siitä maksumuistutuksen kuvake
+        if( lasku.muistutettu )
+            return  QIcon(":/pic/punainenkuori.png");
+    }
     else if( role == TositeRooli)
         return lasku.tosite;
     else if( role == AvoinnaRooli)
@@ -128,6 +137,27 @@ QVariant LaskutModel::data(const QModelIndex &item, int role) const
         return lasku.eraId;
     else if( role == TiliIdRooli)
         return lasku.tiliid;
+    else if( role == TyyppiRooli)
+    {
+        if( lasku.json.luku("Hyvityslasku"))
+            return LaskuModel::HYVITYSLASKU;
+        else
+            return LaskuModel::LASKU;
+    }
+    else if( role == EraPvmRooli)
+    {
+        if( lasku.kirjausperuste == LaskuModel::KATEISLASKU ||  lasku.json.luku("Hyvityslasku") )
+            return QDate();
+        return lasku.erapvm;
+    }
+    else if( role == IndeksiRooli)
+        return item.row();
+    else if( role == VientiIdRooli)
+        return lasku.vientiId;
+    else if( role == SummaRooli)
+        return lasku.summaSnt;
+    else if( role == MuistutettuRooli)
+        return lasku.muistutettu;
 
     return QVariant();
 }
@@ -178,7 +208,7 @@ void LaskutModel::paivita(int valinta, QDate mista, QDate mihin)
         TaseEra era( query.value("eraid").toInt());
         int vientiId = query.value("vienti.id").toInt();
 
-        if( valinta == AVOIMET && (!era.saldoSnt || era.eraId != vientiId))
+        if( valinta == AVOIMET && (!era.saldoSnt || !query.value("erapvm").toDate().isValid() ))
             continue;
         if( valinta == ERAANTYNEET && ( !era.saldoSnt || query.value("erapvm").toDate() > kp()->paivamaara() ))
             continue;
@@ -187,12 +217,13 @@ void LaskutModel::paivita(int valinta, QDate mista, QDate mihin)
 
         // Tämä lasku kelpaa ;)        
         AvoinLasku lasku;
+        lasku.vientiId = vientiId;
         lasku.viite = query.value("viite").toString();
         lasku.pvm = query.value("laskupvm").toDate();
         lasku.erapvm = query.value("erapvm").toDate();
         lasku.eraId = query.value("eraid").toInt();
         lasku.summaSnt = query.value("debetSnt").toInt() - query.value("kreditSnt").toInt();
-        lasku.avoinSnt = vientiId == lasku.eraId ? era.saldoSnt : 0;        // Hyvityslaskuille avoinsnt näytetään nollaa
+        lasku.avoinSnt = json.luku("Hyvityslasku") ? 0 : era.saldoSnt;        // Hyvityslaskuille avoinsnt näytetään nollaa
         lasku.asiakas = query.value("asiakas").toString();
         if( lasku.asiakas.isEmpty())
             lasku.asiakas = query.value("selite").toString();
@@ -201,6 +232,23 @@ void LaskutModel::paivita(int valinta, QDate mista, QDate mihin)
         lasku.tiliid = query.value("tili").toInt();
         lasku.json = json;
         lasku.kohdennusId = query.value("kohdennus").toInt();
+
+        if( valinta != KAIKKI && !lasku.avoinSnt)
+            continue;   // Hyvityslaskuja ei näytetä avoimina saatika erääntyneinä
+
+        // Jos lasku on erääntynyt, selvitetään, onko siitä jo lähetetty maksumuistutus
+        if( lasku.erapvm < kp()->paivamaara())
+        {
+            QString muistutuskysymys = QString("SELECT json FROM vienti WHERE eraid=%1").arg(lasku.eraId);
+            QSqlQuery muistutuskysely(muistutuskysymys);
+            while( muistutuskysely.next())
+            {
+                JsonKentta muistutusJson( muistutuskysely.value("json").toByteArray() );
+                if( muistutusJson.str("Maksumuistutus")==lasku.viite)
+                    lasku.muistutettu = true;
+            }
+        }
+
         laskut.append(lasku);
     }
     endResetModel();
@@ -262,4 +310,30 @@ QString LaskutModel::bicIbanilla(const QString &iban)
 
     // Tuntematon pankkikoodi
     return QString();
+}
+
+void AvoinLasku::haeLasku(int vientiid)
+{
+    QString kysely = QString("SELECT pvm, tili, debetsnt, kreditsnt, eraid, viite, erapvm, json, tosite, asiakas, laskupvm, kohdennus, selite "
+                             "FROM vienti WHERE id=%1").arg(vientiid);
+    QSqlQuery query( kysely );
+
+    if( query.next())
+    {
+        TaseEra era( query.value("eraid").toInt());
+        json.fromJson( query.value("vienti.json").toByteArray() );
+
+        vientiId = vientiid;
+        viite = query.value("viite").toString() ;
+        pvm = query.value("laskupvm").toDate();
+        eraId = query.value("eraid").toInt();
+        erapvm = query.value("erapvm").toDate();
+        summaSnt = query.value("debetSnt").toInt() - query.value("kreditSnt").toInt();
+        avoinSnt =  vientiId == eraId ? era.saldoSnt : 0; ;
+        asiakas = query.value("asiakas").toString();
+        tosite = query.value("tosite").toInt();
+        kirjausperuste = json.luku("Kirjausperuste");
+        tiliid = query.value("tili").toInt();
+        kohdennusId = query.value("kohdennus").toInt();
+    }
 }

@@ -42,7 +42,7 @@ public slots:
 
 private:
     Ui::TilikarttaOhje *ui;
-    bool muokattu;
+    bool muokattu = false;
 };
 
 #endif // TILIKARTTAOHJE_H

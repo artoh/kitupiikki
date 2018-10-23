@@ -29,8 +29,8 @@ class Tositelaji
 {
 public:
     Tositelaji();
-    Tositelaji(int id, QString tunnus, QString nimi,
-               QByteArray json = QByteArray());
+    Tositelaji(int id, const QString &tunnus, const QString &nimi,
+               const QByteArray &json = QByteArray());
 
     int id() const { return id_; }
     QString tunnus() const { return tunnus_; }

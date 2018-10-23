@@ -15,6 +15,19 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
+    <widget class="QLabel" name="label_4">
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Tuonti</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QGroupBox" name="ostolaskuGroup">
      <property name="title">
       <string>Pdf-ostolaskujen tuonti</string>

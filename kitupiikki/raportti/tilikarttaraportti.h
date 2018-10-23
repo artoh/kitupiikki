@@ -45,10 +45,10 @@ public:
     ~TilikarttaRaportti();
 
 
-    RaportinKirjoittaja raportti( bool csvmuoto );
+    RaportinKirjoittaja raportti();
 
-    static RaportinKirjoittaja kirjoitaRaportti(KarttaValinta valinta, Tilikausi tilikaudelta,
-                             bool tulostatyypi, QDate saldopvm, bool kirjausohjeet, bool csv = false);
+    static RaportinKirjoittaja kirjoitaRaportti(KarttaValinta valinta, const Tilikausi &tilikaudelta,
+                             bool tulostatyypi, QDate saldopvm, bool kirjausohjeet);
 
 protected slots:
     /**

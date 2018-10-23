@@ -17,6 +17,7 @@
 
 #include "nimisivu.h"
 #include "validator/ibanvalidator.h"
+#include "validator/ytunnusvalidator.h"
 #include "uusikirjanpito.h"
 
 NimiSivu::NimiSivu()
@@ -26,6 +27,7 @@ NimiSivu::NimiSivu()
     ui->setupUi(this);
 
     ui->tiliLine->setValidator(new IbanValidator());
+    ui->ytunnusEdit->setValidator(new YTunnusValidator());
 
     registerField("nimi*",ui->nimiEdit);
     registerField("ytunnus",ui->ytunnusEdit);

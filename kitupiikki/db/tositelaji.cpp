@@ -26,7 +26,7 @@ Tositelaji::Tositelaji() :
 
 }
 
-Tositelaji::Tositelaji(int id, QString tunnus, QString nimi, QByteArray json) :
+Tositelaji::Tositelaji(int id, const QString& tunnus, const QString& nimi, const QByteArray& json) :
     id_(id), tunnus_(tunnus), nimi_(nimi), muokattu_(false)
 {
     if( !json.isEmpty())

@@ -28,7 +28,7 @@ JsonKentta::JsonKentta() : muokattu_(false)
 
 }
 
-JsonKentta::JsonKentta(const QByteArray &json)
+JsonKentta::JsonKentta(const QByteArray &json) : muokattu_(false)
 {
     fromJson(json);
 }
@@ -37,7 +37,10 @@ void JsonKentta::set(const QString &avain, const QString &arvo)
 {
     if( arvo != map_.value(avain).toString())
     {
-        map_[avain] = QVariant(arvo);
+        if( arvo.isEmpty())
+            map_.remove(avain);
+        else
+            map_[avain] = QVariant(arvo);
         muokattu_ = true;
     }
 }

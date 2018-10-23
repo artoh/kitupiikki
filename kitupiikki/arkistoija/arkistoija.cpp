@@ -82,10 +82,10 @@ void Arkistoija::luoHakemistot()
  */
 struct TilioteTieto
 {
-    int tilinumero;
+    int tilinumero = 0;
     QDate alkaa;
     QDate paattyy;
-    int tositeId;
+    int tositeId = 0;
 };
 
 void Arkistoija::arkistoiTositteet()
@@ -230,9 +230,9 @@ void Arkistoija::arkistoiTositteet()
         if( liitteita )
         {
             // Liitteen laatikko, johon nykyinen liite ladataan
-            out << "<object type='application/pdf' width='100%' height='50%' class='liite' id='liite' data='";
+            out << "<iframe width='100%' height='50%' class='liite' id='liite' src='";
             out << liitteet.index(0,0).data(LiiteModel::TiedostoNimiRooli).toString();
-            out <<  "'></object>";
+            out <<  "'></iframe>";
 
             out << "<table class='liiteluettelo'>";
 
@@ -242,7 +242,7 @@ void Arkistoija::arkistoiTositteet()
             {
                 QModelIndex liiteIndeksi = liitteet.index(liiteInd,0);
 
-                out << "<tr><td onclick=\"$('#liite').attr('data','"
+                out << "<tr><td onclick=\"$('#liite').attr('src','"
                      << liiteIndeksi.data(LiiteModel::TiedostoNimiRooli).toString()
                      << "');\">" << liiteIndeksi.data(LiiteModel::OtsikkoRooli).toString()
                      << "</td><td><a href='" << liiteIndeksi.data(LiiteModel::TiedostoNimiRooli).toString()
@@ -365,10 +365,13 @@ void Arkistoija::arkistoiTositteet()
 
                 QString kohdennusTxt = index.sibling(vientiRivi, VientiModel::KOHDENNUS).data().toString();
 
-                if( eranid)
-                    out << QString("<a href=%1.html>%2</a>").arg( eranid, 8, 10, QChar('0')).arg(kohdennusTxt);
-                else if(kohdennusTxt != "VIITE")        // VIITE-tekstiä ei tulosteta
-                    out << kohdennusTxt;
+                if( kohdennusTxt != "VIITE")
+                {
+                    if( eranid)
+                        out << QString("<a href=%1.html>%2</a>").arg( eranid, 8, 10, QChar('0')).arg(kohdennusTxt);
+                    else
+                        out << kohdennusTxt;
+                }
                 if(taseEraSeurannassa)      // Jos muodostaa tase-erän, tulee viittaus sen erittelyyn
                     out << QString("<sup>%1)</sup>").arg(seuratutTaseErat);
 
@@ -401,7 +404,7 @@ void Arkistoija::arkistoiTositteet()
         if( tilikausi_.paattyy() > kp()->tilitpaatetty() )
             out << " (Keskener&auml;inen kirjanpito)";
         if( kp()->onkoHarjoitus())
-            out << "<br>Kirjanpito on laadittu Kitupiikki-ohjelmiston harjoittelutilassa";
+            out << "<br><span class=treeni>Kirjanpito on laadittu Kitupiikki-ohjelmiston harjoittelutilassa</span>";
         out << "</p>";
 
 
@@ -478,6 +481,14 @@ void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
         if( raportti.length() > 1 )
         {
 
+            bool budjettivertailu = raportti.endsWith("$");
+            if( budjettivertailu )
+            {
+                raportti.truncate( raportti.length() -1 );
+                if( !tilikausi_.onkoBudjettia())
+                    continue;   // Budjettivertailua ei tulosteta, jos ei budjettia ;)
+            }
+
             Raportoija raportoija(raportti);
 
             if( !raportoija.tyyppi() )
@@ -488,6 +499,8 @@ void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
 
             if( tiedostonnimi.contains(QChar('/')))
                     tiedostonnimi.truncate( tiedostonnimi.indexOf(QChar('/')) );
+            if( budjettivertailu )
+                tiedostonnimi.append("-vertailu");
             tiedostonnimi.append(".html");
 
             Tilikausi edellinenkausi = kp()->tilikaudet()->tilikausiPaivalle( tilikausi_.alkaa().addDays(-1) );
@@ -495,10 +508,20 @@ void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
             if( raportoija.onkoKausiraportti())
             {
 
-
-                raportoija.lisaaKausi(tilikausi_.alkaa(), tilikausi_.paattyy());
-                if( edellinenkausi.alkaa().isValid())
-                    raportoija.lisaaKausi( edellinenkausi.alkaa(), edellinenkausi.paattyy());
+                if( budjettivertailu)
+                {
+                    // Budjettivertailu
+                    raportoija.lisaaKausi( tilikausi_.alkaa(), tilikausi_.paattyy(), Raportoija::TOTEUTUNUT);
+                    raportoija.lisaaKausi( tilikausi_.alkaa(), tilikausi_.paattyy(), Raportoija::BUDJETTI);
+                    raportoija.lisaaKausi( tilikausi_.alkaa(), tilikausi_.paattyy(), Raportoija::BUDJETTIERO);
+                    raportoija.lisaaKausi( tilikausi_.alkaa(), tilikausi_.paattyy(), Raportoija::TOTEUMAPROSENTTI);
+                }
+                else
+                {
+                    raportoija.lisaaKausi(tilikausi_.alkaa(), tilikausi_.paattyy());
+                    if( edellinenkausi.alkaa().isValid())
+                        raportoija.lisaaKausi( edellinenkausi.alkaa(), edellinenkausi.paattyy());
+                }
 
                 if( raportoija.tyyppi() == Raportoija::KOHDENNUSLASKELMA)
                     raportoija.etsiKohdennukset();
@@ -518,7 +541,9 @@ void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
 
             // Kirjoitetaan indeksiin
             out << "<li><a href=\'" << tiedostonnimi << "\'>";
-            out << raportti;
+            out << raportti;            
+            if( budjettivertailu )
+                out << " (Budjettivertailu)";
             out << "</a></li>";
         }
     }
@@ -597,7 +622,12 @@ QString Arkistoija::navipalkki(int edellinen, int seuraava)
     QString navi = "<nav><ul><li class=kotinappi><a href=index.html>";
     if( onkoLogoa )
         navi.append("<img src=logo.png>");
-    navi.append( kp()->asetus("Nimi") + " " + tilikausi_.kausivaliTekstina());
+    navi.append( kp()->asetus("Nimi") + " ");
+
+    if( kp()->onkoHarjoitus())
+        navi.append("<span class=treeni>HARJOITUS </span>");
+
+    navi.append(tilikausi_.kausivaliTekstina());
     navi.append("</a></li>");
 
     navi.append("<li class=nappi><a href=ohje.html target=_blank>Ohje</a></li>");

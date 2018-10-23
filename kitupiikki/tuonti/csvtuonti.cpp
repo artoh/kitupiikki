@@ -18,7 +18,7 @@
 #include <QTextCodec>
 #include <QRegularExpression>
 #include <QFile>
-
+#include <QDebug>
 
 #include "csvtuonti.h"
 #include "tuontisarakedelegaatti.h"
@@ -100,15 +100,17 @@ bool CsvTuonti::tuo(const QByteArray &data)
 
     if( exec() == QDialog::Accepted )
     {
-        if( ui->kirjausRadio->isChecked())
+        QRegularExpression rahaRe(R"((?<m>[+-])?(?<eur>\d+)[,.]?(?<snt>\d{0,2}))");
+
+        if( ui->kirjausRadio->isChecked())  // Tuo kirjauksia
         {
-            QMap<int,int> muuntotaulukko;
+            QMap<QString,int> muuntotaulukko;
 
             if( ui->muuntoRadio->isChecked())
             {
                 // Tuodaan kirjauksia
                 // Ensiksi muuntotaulukko
-                QMap<int,QString> tilinimet;
+                QList<QPair<int,QString>> tilinimet;
                 QRegularExpression tiliRe("(\\d+)\\s?(.*)");                
 
                 for(int r=1; r < csv_.count(); r++)
@@ -132,7 +134,8 @@ bool CsvTuonti::tuo(const QByteArray &data)
                         else if( tuonti == TILINIMI)
                             tilinimi = tieto;
                     }
-                    tilinimet.insert(tilinro, tilinimi);
+                    if( !tilinimet.contains(qMakePair(tilinro, tilinimi)))
+                        tilinimet.append(qMakePair(tilinro, tilinimi));
                 }
 
                 TiliMuuntoModel muuntomodel( tilinimet );
@@ -172,12 +175,27 @@ bool CsvTuonti::tuo(const QByteArray &data)
 
                     int tuonti = ui->tuontiTable->item(c,2)->data(Qt::EditRole).toInt();
                     QString tieto = csv_.at(r).at(c);
+                    qlonglong sentit = 0;
+
+                    QRegularExpressionMatch mats = rahaRe.match(tieto);
+                    if( mats.hasMatch())
+                    {
+                        sentit = 100 * mats.captured("eur").toLongLong();
+                        if( mats.captured("snt").startsWith('0'))
+                            sentit += mats.captured("snt").toLongLong() * 10L;
+                        else
+                            sentit += mats.captured("snt").toLongLong();
+                        if( mats.captured("m") == '-')
+                            sentit = 0 - sentit;
+                    }
 
                     if( tuonti == PAIVAMAARA )
                         if( muodot_.at(c) == SUOMIPVM)
                             rivi.pvm = QDate::fromString(tieto, "d.M.yyyy");
-                        else
+                        else if( muodot_.at(c) == ISOPVM )
                             rivi.pvm = QDate::fromString(tieto, Qt::ISODate);
+                        else
+                            rivi.pvm = QDate::fromString(tieto, Qt::RFC2822Date);
                     else if( tuonti == TOSITETUNNUS)
                         tositetunnus = tieto;
                     else if( tuonti == SELITE && !tieto.isEmpty())
@@ -189,23 +207,50 @@ bool CsvTuonti::tuo(const QByteArray &data)
                     else if( tuonti == TILINUMERO)
                     {
                         int nro = numRe.match(tieto).captured().toInt();
-                        if( muuntotaulukko.isEmpty())
-                            rivi.tili = kp()->tilit()->tiliNumerolla( nro );
-                        else
-                            rivi.tili = kp()->tilit()->tiliNumerolla( muuntotaulukko.value( nro) );
+                        if( nro )
+                        {
+                            if( muuntotaulukko.isEmpty())
+                                rivi.tili = kp()->tilit()->tiliNumerolla( nro );
+                            else
+                                rivi.tili = kp()->tilit()->tiliNumerolla(  muuntotaulukko.value( QString::number(nro) ) );
+                        }
+                    }
+                    else if( tuonti == TILINIMI)
+                    {
+                        if( !rivi.tili.onkoValidi())
+                            rivi.tili = kp()->tilit()->tiliNumerolla( muuntotaulukko.value(tieto) );
                     }
                     else if( tuonti == DEBETEURO)
-                        rivi.debetSnt = tieto.remove('.').remove(',').toLongLong();
+                        rivi.debetSnt = sentit;
                     else if( tuonti == KREDITEURO)
-                        rivi.kreditSnt = tieto.remove('.').remove(',').toLongLong();
+                        rivi.kreditSnt = sentit;
+                    else if( tuonti == RAHAMAARA)
+                    {
+                        if( sentit > 0)
+                            rivi.debetSnt = sentit;
+                        else
+                            rivi.kreditSnt = 0 - sentit;
+                    }
                     else if( tuonti == KOHDENNUS)
                         rivi.kohdennus = kp()->kohdennukset()->kohdennus(tieto);
+                    else if( tuonti == BRUTTOALVP && sentit )
+                    {
+                        rivi.alvprosentti =  static_cast<int>(  sentit / 100 );
+                    }
                 }
 
                 if( !tositetunnus.isEmpty())
                     rivi.selite = QString("%1 : %2").arg(tositetunnus).arg(selite);
                 else
                     rivi.selite = selite;
+
+                if( rivi.alvprosentti )
+                {
+                    if( rivi.debetSnt )
+                        rivi.alvkoodi = AlvKoodi::OSTOT_BRUTTO;
+                    else if(rivi.kreditSnt)
+                        rivi.alvkoodi = AlvKoodi::MYYNNIT_BRUTTO;
+                }
 
                 kirjausWg()->model()->vientiModel()->lisaaVienti(rivi);
             }
@@ -243,8 +288,10 @@ bool CsvTuonti::tuo(const QByteArray &data)
                     {
                         if( muodot_.at(c) == SUOMIPVM)
                             pvm = QDate::fromString(tieto, "d.M.yyyy");
-                        else
+                        else if( muodot_.at(c) == ISOPVM )
                             pvm = QDate::fromString(tieto, Qt::ISODate);
+                        else
+                            pvm = QDate::fromString(tieto, Qt::RFC2822Date);
                     }
                     else if( tuonti == IBAN)
                     {
@@ -258,7 +305,19 @@ bool CsvTuonti::tuo(const QByteArray &data)
                     else if( tuonti == VIITENRO )
                         viite = tieto;
                     else if( tuonti == RAHAMAARA)
-                        sentit = tieto.remove('.').remove(',').toLongLong();
+                    {
+                        QRegularExpressionMatch mats = rahaRe.match(tieto);
+                        if( mats.hasMatch())
+                        {
+                            sentit = 100 * mats.captured("eur").toLongLong();
+                            if( mats.captured("snt").startsWith('0'))
+                                sentit += mats.captured("snt").toLongLong() * 10L;
+                            else
+                                sentit += mats.captured("snt").toLongLong();
+                            if( mats.captured("m") == '-')
+                                sentit = 0 - sentit;
+                        }
+                    }
                     else if( tuonti == SELITE && !tieto.isEmpty())
                     {
                         if( !selite.isEmpty())
@@ -317,9 +376,8 @@ QChar CsvTuonti::haistaErotin(const QString &data)
 
     bool lainattu = false;
 
-    for(int i=0; i < data.length(); i++)
+    for(const QChar& mki : data)
     {
-        QChar mki = data.at(i);
         if( mki == QChar('\"'))
             lainattu = !lainattu;
         if( !lainattu)
@@ -340,148 +398,14 @@ QChar CsvTuonti::haistaErotin(const QString &data)
         return QChar(',');
 }
 
-QString CsvTuonti::tyyppiTeksti(int muoto)
+QList<QStringList> CsvTuonti::csvListana(const QByteArray &data)
 {
-    switch (muoto) {
-    case TEKSTI:
-        return tr("Teksti");
-    case LUKUTEKSTI:
-        return tr("Luku ja teksti");
-    case LUKU:
-        return tr("Luku");
-    case RAHA:
-        return tr("Rahamäärä");
-    case TILI:
-        return tr("IBAN-tilinumero");
-    case VIITE:
-        return tr("Viitenumero");
-    case SUOMIPVM:
-    case ISOPVM:
-        return tr("Päivämäärä");
-    default:
-        return QString();
-    }
-}
+    QList<QStringList> csv;
 
-QString CsvTuonti::tuontiTeksti(int tuominen)
-{
-    switch (tuominen) {
-    case PAIVAMAARA:
-        return tr("Päivämäärä");
-    case TOSITETUNNUS:
-        return tr("Tositteen tunnus");
-    case TILINUMERO:
-        return tr("Tilin numero");
-    case DEBETEURO:
-        return tr("Debet euroa");
-    case KREDITEURO:
-        return tr("Kredit euroa");
-    case SELITE:
-        return tr("Selite");
-    case RAHAMAARA:
-        return tr("Määrä euroa");
-    case IBAN:
-        return tr("IBAN-tilinumero");
-    case VIITENRO:
-        return tr("Viitenumero");
-    case ARKISTOTUNNUS:
-        return tr("Arkistotunnus");
-    case KOHDENNUS:
-        return tr("Kohdennus");
-    case TILINIMI:
-        return tr("Tilin nimi");
-
-    default:
-        return QString();
-    }
-}
-
-void CsvTuonti::paivitaOletukset()
-{
-    QStringList otsikot = csv_.first();
-
-    bool pvmkaytetty = false;
-
-    if( ui->kirjausRadio->isChecked())
-    {
-        for(int i=0; i < muodot_.count(); i++)
-        {
-            QString otsikko = otsikot.at(i).toLower() ;
-            Sarakemuoto muoto = muodot_.at(i);
-
-            if( (muoto == SUOMIPVM || muoto == ISOPVM) && !pvmkaytetty )
-            {
-                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, PAIVAMAARA);
-                pvmkaytetty = true;
-            }
-            else if( muoto == RAHA && otsikko.contains("debet"))
-                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, DEBETEURO);
-            else if( muoto == RAHA && otsikko.contains("kredit"))
-                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, KREDITEURO);
-            else if( otsikko.contains("tosite"))
-                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, TOSITETUNNUS);
-            else if( otsikko.contains("selite") ||
-                     otsikko.contains("selitys") ||
-                     otsikko.contains("saaja/maksaja") ||
-                     otsikko.contains("viesti"))
-                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, SELITE);
-            else if( (otsikko=="nro" && muoto == LUKU) ||
-                     (otsikko.contains("tili") && muoto == LUKUTEKSTI) )
-                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, TILINUMERO);
-            else if( otsikko == "kohdennus" )
-                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, KOHDENNUS);
-            else if( otsikko == "tili" && muoto == TEKSTI)
-                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, TILINIMI);
-            else
-                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, EITUODA);
-        }
-    }
-    else
-    {
-        bool rahakaytetty = false;
-
-        for(int i=0; i < muodot_.count(); i++)
-        {
-            QString otsikko = otsikot.at(i);
-            Sarakemuoto muoto = muodot_.at(i);
-
-            if( (muoto == SUOMIPVM || muoto==ISOPVM) && !pvmkaytetty)
-            {
-                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, PAIVAMAARA);
-                pvmkaytetty = true;
-            }
-            else if( muoto == RAHA && !rahakaytetty)
-            {
-                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, RAHAMAARA);
-                rahakaytetty = true;
-            }
-            else if( muoto == TILI)
-                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, IBAN);
-            else if( muoto == VIITE)
-                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, VIITENRO);
-            else if( otsikko.contains("arkisto", Qt::CaseInsensitive))
-                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, ARKISTOTUNNUS);
-            else if( otsikko.contains("selite", Qt::CaseInsensitive) ||
-                     otsikko.contains("selitys", Qt::CaseInsensitive))
-                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, SELITE);
-            else
-                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, EITUODA);
-        }
-    }
-}
-
-void CsvTuonti::tarkistaTiliValittu()
-{
-    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(
-                ui->kirjausRadio->isChecked() || ui->tiliEdit->valittuTili().onkoValidi());
-}
-
-int CsvTuonti::tuoListaan(const QByteArray &data)
-{
     QString kaikki = haistettuKoodattu(data);
     QStringList listana = kaikki.split(QRegularExpression("\\r?\\n"));
     if( listana.isEmpty())
-        return 0;
+        return {};
     QChar erotin = haistaErotin(listana.first());
 
     // Nyt sitten luodaan rivi kerrallaan listaa
@@ -520,13 +444,195 @@ int CsvTuonti::tuoListaan(const QByteArray &data)
         if( nykyinenRivi.length())
         {
             nykyinenRivi.append(nykyinenSana);
-            csv_.append(nykyinenRivi);
+            csv.append(nykyinenRivi);
         }
     }
+    return csv;
+}
+
+QString CsvTuonti::tyyppiTeksti(int muoto)
+{
+    switch (muoto) {
+    case TEKSTI:
+        return tr("Teksti");
+    case LUKUTEKSTI:
+        return tr("Luku ja teksti");
+    case LUKU:
+        return tr("Luku");
+    case RAHA:
+        return tr("Rahamäärä");
+    case TILI:
+        return tr("IBAN-tilinumero");
+    case VIITE:
+        return tr("Viitenumero");
+    case SUOMIPVM:
+    case ISOPVM:
+    case USPVM:
+        return tr("Päivämäärä");        
+    default:
+        return QString();
+    }
+}
+
+QString CsvTuonti::tuontiTeksti(int tuominen)
+{
+    switch (tuominen) {
+    case PAIVAMAARA:
+        return tr("Päivämäärä");
+    case TOSITETUNNUS:
+        return tr("Tositteen tunnus");
+    case TILINUMERO:
+        return tr("Tilin numero");
+    case DEBETEURO:
+        return tr("Debet euroa");
+    case KREDITEURO:
+        return tr("Kredit euroa");
+    case SELITE:
+        return tr("Selite");
+    case RAHAMAARA:
+        return tr("Määrä euroa");
+    case IBAN:
+        return tr("IBAN-tilinumero");
+    case VIITENRO:
+        return tr("Viitenumero");
+    case ARKISTOTUNNUS:
+        return tr("Arkistotunnus");
+    case KOHDENNUS:
+        return tr("Kohdennus");
+    case TILINIMI:
+        return tr("Tilin nimi");
+    case BRUTTOALVP:
+        return tr("Alv % Bruttokirjaus");
+
+    default:
+        return QString();
+    }
+}
+
+bool CsvTuonti::onkoCsv(const QByteArray &data)
+{
+    QByteArray kooditestiin = data.left(1024);
+    int ulkona = 0;
+
+    for( char merkki : kooditestiin)
+    {
+        if( merkki < 10 )
+            ulkona++;
+    }
+
+    if( ulkona > kooditestiin.length() / 3)
+        return false;
+
+    QByteArray testattava = data.left(4096);
+
+    QList<QStringList> lista = CsvTuonti::csvListana(testattava);
+
+    // Kelpo CSV:ssä on alussakin vähintään 2 riviä, ja riveillä sama pituus
+    if( lista.count() < 2 )
+        return false;
+
+    for(int i=1; i < lista.count()-1; i++)
+        if( lista.at(i).length() < 2 ||  lista.at(i).length() != lista.at(i-1).length())
+            return false;
+
+    return true;
+}
+
+void CsvTuonti::paivitaOletukset()
+{
+    QStringList otsikot = csv_.first();
+
+    bool pvmkaytetty = false;
+
+    if( ui->kirjausRadio->isChecked())  // Kirjauksia
+    {
+        for(int i=0; i < muodot_.count(); i++)
+        {
+            QString otsikko = otsikot.at(i).toLower() ;
+            Sarakemuoto muoto = muodot_.at(i);
+
+            if( (muoto == SUOMIPVM || muoto == ISOPVM || muoto == USPVM)  && !pvmkaytetty )
+            {
+                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, PAIVAMAARA);
+                pvmkaytetty = true;
+            }
+            else if( muoto == RAHA && otsikko.contains("debet"))
+                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, DEBETEURO);
+            else if( muoto == RAHA && otsikko.contains("kredit"))
+                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, KREDITEURO);
+            else if( otsikko.contains("tosite"))
+                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, TOSITETUNNUS);
+            else if( otsikko.contains("selite") ||
+                     otsikko.contains("selitys") ||
+                     otsikko.contains("kuvaus"))
+                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, SELITE);
+            else if( ((otsikko=="nro" || otsikko=="tilinumero") && muoto == LUKU) ||
+                     (otsikko.contains("tili") && muoto == LUKUTEKSTI) )
+                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, TILINUMERO);
+            else if( otsikko == "kohdennus" )
+                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, KOHDENNUS);
+            else if( (otsikko == "tili"  || otsikko == "luokka" ) && muoto == TEKSTI)
+                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, TILINIMI);
+            else if( otsikko=="alv %")
+                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, BRUTTOALVP);
+            else if( otsikko=="yhteensä")
+                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, RAHAMAARA);
+            else
+                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, EITUODA);
+        }
+    }
+    else
+    {
+        bool rahakaytetty = false;
+
+        for(int i=0; i < muodot_.count(); i++)
+        {
+            const QString& otsikko = otsikot.at(i);
+            Sarakemuoto muoto = muodot_.at(i);
+
+            if( (muoto == SUOMIPVM || muoto==ISOPVM || muoto == USPVM) && !pvmkaytetty)
+            {
+                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, PAIVAMAARA);
+                pvmkaytetty = true;
+            }
+            else if( muoto == RAHA && !rahakaytetty)
+            {
+                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, RAHAMAARA);
+                rahakaytetty = true;
+            }
+            else if( muoto == TILI)
+                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, IBAN);
+            else if( muoto == VIITE)
+                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, VIITENRO);
+            else if( otsikko.contains("arkisto", Qt::CaseInsensitive))
+                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, ARKISTOTUNNUS);
+            else if( otsikko.contains("selite", Qt::CaseInsensitive) ||
+                     otsikko.contains("selitys", Qt::CaseInsensitive)||
+                     otsikko.contains("saaja/maksaja") ||
+                     otsikko.contains("viesti") ||
+                     otsikko.contains("kuvaus"))
+                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, SELITE);
+            else
+                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, EITUODA);
+        }
+    }
+}
+
+void CsvTuonti::tarkistaTiliValittu()
+{
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(
+                ui->kirjausRadio->isChecked() || ui->tiliEdit->valittuTili().onkoValidi());
+}
+
+int CsvTuonti::tuoListaan(const QByteArray &data)
+{
+    csv_ = csvListana(data);
+
     // Tämän jälkeen sitten analysoidaan listaa eli mitä sisältää
     QRegularExpression suomipvmRe("^[0123]?\\d\\.[01]?\\d\\.\\d{4}$");
     QRegularExpression isopvmRe("^\\d{4}-[01]\\d-[0123]\\d$");
-    QRegularExpression rahaRe("^[+-]?\\d*[.,]\\d{2}$");
+    QRegularExpression uspvmRe(R"(^\d\d [A-Z][a-z][a-z] 20\d\d( \d\d:\d\d:\d\d)?$)");
+    QRegularExpression rahaRe("^[+-]?\\d+[.,]?\\d{0,2}$");
     QRegularExpression lukuTekstiRe("^\\d+\\s.*");
     QRegularExpression lukuRe("^[+-]?\\d+$");
 
@@ -541,34 +647,43 @@ int CsvTuonti::tuoListaan(const QByteArray &data)
 
         for(int i=0; i < qMin(rivi.length(), csv_.first().length()); i++)
         {
-            QString teksti = rivi.at(i);
+            const QString& teksti = rivi.at(i);
+            QString valeitta = teksti;
+            valeitta.remove(QRegularExpression("\\s"));
+
             Sarakemuoto muoto = TEKSTI;
 
-            if( teksti.isEmpty())
+            if( valeitta.isEmpty())
                 muoto = TYHJA;
             else if( teksti.count(suomipvmRe)  )
                 muoto = SUOMIPVM;
             else if( teksti.count(isopvmRe))
                 muoto = ISOPVM;
+            else if( teksti.contains(uspvmRe))
+                muoto = USPVM;
             // Tilinumeron kanssa samaan kenttään on voitu tunkea IBAN-joten kokeillaan
             // myös vähän muokatuilla versioilla
-            else if( IbanValidator::kelpaako(teksti) ||
-                     IbanValidator::kelpaako(teksti.left(18)) ||
+            else if( IbanValidator::kelpaako(valeitta) ||
+                     IbanValidator::kelpaako(valeitta.left(18)) ||
                      IbanValidator::kelpaako(teksti.left(teksti.indexOf(QChar(' '))) )  )
                 muoto = TILI;
-            else if( ViiteValidator::kelpaako(teksti ) )
+            else if( ViiteValidator::kelpaako(valeitta ) )
                 muoto = VIITE;
-            else if( teksti.contains(rahaRe))
-                muoto = RAHA;
             else if( teksti.contains(lukuRe))
                 muoto = LUKU;
+            else if( teksti.contains(rahaRe))
+                muoto = RAHA;
             else if( teksti.contains(lukuTekstiRe))
                 muoto = LUKUTEKSTI;
 
+
             if(muodot_[i] != TEKSTI && muodot_[i] != muoto && muoto != TYHJA)
             {
-                if( muodot_[i] == TYHJA || (muodot_[i]==LUKU && muoto == LUKUTEKSTI))
+                if( muodot_[i] == TYHJA || (muodot_[i]==LUKU && muoto == LUKUTEKSTI) ||
+                        (muodot_[i]==LUKU && muoto==RAHA))
                     muodot_[i] = muoto;
+                else if( muodot_[i]==RAHA && muoto==LUKU)
+                    muodot_[i] = RAHA;
                 else if( (muodot_[i] == LUKU && muoto == VIITE ) || (muodot_[i] == VIITE && muoto == LUKU) )
                     muodot_[i] = LUKU;
                 else

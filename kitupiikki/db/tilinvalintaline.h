@@ -43,7 +43,7 @@ public:
 public slots:
     void valitseTiliNumerolla(int tilinumero);
     void valitseTiliIdlla(int tiliId);
-    void valitseTili(Tili tili);
+    void valitseTili(const Tili &tili);
 
     void suodataTyypilla(const QString& regexp);
 

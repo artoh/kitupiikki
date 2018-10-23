@@ -41,9 +41,7 @@ DevTool::DevTool(QWidget *parent) :
 
     ui->avainLista->setCurrentRow(0);
 
-    QSettings settings;
-
-    ui->keksiLabel->setText( settings.value("Keksi").toString());
+    ui->keksiLabel->setText( kp()->settings()->value("Keksi").toString());
 
     alustaRistinolla();
 
@@ -189,11 +187,11 @@ void DevTool::peliNapautus(int ruutu)
 
 }
 
-int DevTool::voitonTarkastaja(QVector<int> taulu)
+int DevTool::voitonTarkastaja(const QVector<int>& taulu)
 {
     QStringList rivit;
     rivit << "012" << "345" << "678" << "036" << "147" << "258" << "048" << "246";
-    for(QString r : rivit)
+    for(const QString& r : rivit)
     {
         int tulos = voittajaRivilla(taulu, r.at(0).digitValue(), r.at(1).digitValue(), r.at(2).digitValue());
         if( tulos )
@@ -216,7 +214,7 @@ int DevTool::tarkastaVoitto()
     return tulos;
 }
 
-int DevTool::voittajaRivilla(QVector<int> taulu, int a, int b, int c) const
+int DevTool::voittajaRivilla(const QVector<int>& taulu, int a, int b, int c) const
 {
     if( taulu.at(a) == taulu.at(b) && taulu.at(b) == taulu.at(c))
         return taulu.at(a);

@@ -17,10 +17,10 @@
 
 #include <QSettings>
 #include "raporttirivi.h"
+#include "db/kirjanpito.h"
 
-
-RaporttiRivi::RaporttiRivi()
-    : lihava_(false), ylaviiva_(false), pistekoko_(10)
+RaporttiRivi::RaporttiRivi(RivinKaytto kaytto)
+    : lihava_(false), ylaviiva_(false), pistekoko_(10), rivinKaytto_(kaytto)
 {
 
 }
@@ -58,7 +58,7 @@ void RaporttiRivi::lisaa(qlonglong sentit, bool tulostanollat)
 
 void RaporttiRivi::lisaa(const QDate &pvm)
 {
-    lisaa( pvm.toString("dd.MM.yyyy"));
+    lisaa( pvm.toString("dd.MM.yyyy"), 1, false);
 }
 
 QString RaporttiRivi::teksti(int sarake)
@@ -67,7 +67,7 @@ QString RaporttiRivi::teksti(int sarake)
 
     if( arvo.type() == QVariant::LongLong )
     {
-        return QString("%L1").arg( ((double) arvo.toLongLong() ) / 100.0 ,0,'f',2 );
+        return QString("%L1").arg(  arvo.toLongLong()  / 100.0 ,0,'f',2 );
     }
     else if( arvo.type() == QVariant::Date )
     {
@@ -85,19 +85,18 @@ QString RaporttiRivi::teksti(int sarake)
 QString RaporttiRivi::csv(int sarake)
 {
     QVariant arvo = sarakkeet_.at(sarake).arvo;
-    QSettings settings;
 
     if( arvo.type() == QVariant::LongLong )
     {
-        QChar despilkku = settings.value("CsvDesimaali", QChar(',')).toChar();
+        QChar despilkku = kp()->settings()->value("CsvDesimaali", QChar(',')).toChar();
         if( despilkku == ',')
-            return QString("\"%1\"").arg( ((double) arvo.toLongLong() ) / 100.0 ,0,'f',2 ).replace('.',',');
+            return QString("\"%1\"").arg( arvo.toLongLong()  / 100.0 ,0,'f',2 ).replace('.',',');
         else
-            return QString("\"%1\"").arg( ((double) arvo.toLongLong() ) / 100.0 ,0,'f',2 );
+            return QString("\"%1\"").arg( arvo.toLongLong()  / 100.0 ,0,'f',2 );
     }
     else if( arvo.type() == QVariant::Date )
     {
-        QString pvmmuoto = settings.value("CsvPaivays", "dd.MM.yyyy").toString();
+        QString pvmmuoto = kp()->settings()->value("CsvPaivays", "dd.MM.yyyy").toString();
         return arvo.toDate().toString(pvmmuoto);
     }
     else if( arvo.type() == QVariant::String)

@@ -30,7 +30,8 @@
 
 #include <QDebug>
 
-RaportinKirjoittaja::RaportinKirjoittaja()
+RaportinKirjoittaja::RaportinKirjoittaja(bool csvKaytossa) :
+    csvKaytossa_( csvKaytossa)
 {
 
 }
@@ -45,10 +46,11 @@ void RaportinKirjoittaja::asetaKausiteksti(const QString &kausiteksti)
     kausiteksti_ = kausiteksti;
 }
 
-void RaportinKirjoittaja::lisaaSarake(const QString &leveysteksti)
+void RaportinKirjoittaja::lisaaSarake(const QString &leveysteksti, RaporttiRivi::RivinKaytto kaytto)
 {
     RaporttiSarake uusi;
     uusi.leveysteksti = leveysteksti;
+    uusi.sarakkeenKaytto = kaytto;
     sarakkeet_.append(uusi);
 }
 
@@ -76,12 +78,12 @@ void RaportinKirjoittaja::lisaaPvmSarake()
     lisaaSarake("99.99.9999XX");
 }
 
-void RaportinKirjoittaja::lisaaOtsake(RaporttiRivi otsikkorivi)
+void RaportinKirjoittaja::lisaaOtsake(const RaporttiRivi& otsikkorivi)
 {
     otsakkeet_.append(otsikkorivi);
 }
 
-void RaportinKirjoittaja::lisaaRivi(RaporttiRivi rivi)
+void RaportinKirjoittaja::lisaaRivi(const RaporttiRivi& rivi)
 {
     rivit_.append(rivi);
 }
@@ -90,15 +92,18 @@ void RaportinKirjoittaja::lisaaTyhjaRivi()
 {
     if( rivit_.count())
         if( rivit_.last().sarakkeita() )
-            rivit_.append( RaporttiRivi());
+            rivit_.append( RaporttiRivi(RaporttiRivi::EICSV));
 }
 
-int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, bool raidoita, int alkusivunumero)
+int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, bool raidoita, int alkusivunumero) const
 {
     if( rivit_.isEmpty())
         return 0;     // Ei tulostettavaa !
 
-    QFont fontti("Sans", 10);
+
+    int pienennys = sarakkeet_.count() > 4 && printer->pageSizeMM().width() < 300 ? 2 : 0;
+
+    QFont fontti("Sans", 10 - pienennys );
     painter->setFont(fontti);
 
     int rivinkorkeus = painter->fontMetrics().height();
@@ -111,11 +116,10 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
     int tekijayhteensa = 0; // Lasketaan jäävän tilan jako
     int jaljella = sivunleveys;
 
-    qDebug() << sivunleveys;
-
     for( int i=0; i < sarakkeet_.count(); i++)
     {
        int leveys = 0;
+
        if( !sarakkeet_[i].leveysteksti.isEmpty())
            leveys = painter->fontMetrics().width( sarakkeet_[i].leveysteksti );
        else if( sarakkeet_[i].leveysprossa)
@@ -148,7 +152,10 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
 
     foreach (RaporttiRivi rivi, rivit_)
     {
-        fontti.setPointSize( rivi.pistekoko() );
+        if( rivi.kaytto() == RaporttiRivi::CSV)
+            continue;
+
+        fontti.setPointSize( rivi.pistekoko() - pienennys );
         fontti.setBold( rivi.onkoLihava() );
         painter->setFont(fontti);
 
@@ -165,6 +172,7 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
 
         for(int i=0; i < rivi.sarakkeita(); i++)
         {
+
             int sarakeleveys = 0;
             // ysind (Yhdistettyjen Sarakkeiden Indeksi) kelaa ne sarakkeet läpi,
             // jotka tällä riville yhdistetty toisiinsa
@@ -206,11 +214,12 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
             painter->restore();
         }
 
-        if( painter->transform().dy() == 0)
+        if( painter->transform().dy() < 0.1 )
         {
             // Ollaan sivun alussa
 
             painter->save();
+            painter->setFont(QFont("Sans", 10 - pienennys));
 
             // Tulostetaan ylätunniste
             if( !otsikko_.isEmpty())
@@ -222,11 +231,15 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
             // Otsikkorivit
             foreach (RaporttiRivi otsikkorivi, otsakkeet_)
             {
+                if( otsikkorivi.kaytto() == RaporttiRivi::CSV)
+                    continue;
+
                 x = 0;
                 sarake = 0;
 
                 for( int i = 0; i < otsikkorivi.sarakkeita(); i++)
-                {                     
+                {
+
                     int lippu = 0;
                     QString teksti = otsikkorivi.teksti(i);
 
@@ -266,7 +279,7 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
 
         }
 
-        fontti.setPointSize( rivi.pistekoko());
+        fontti.setPointSize( rivi.pistekoko() - pienennys );
         fontti.setBold( rivi.onkoLihava() );
         painter->setFont(fontti);
 
@@ -308,6 +321,7 @@ QString RaportinKirjoittaja::html(bool linkit)
                " td:last-of-type { padding-right: 0; }"
                " table { border-collapse: collapse;}"
                " p.tulostettu { margin-top:2em; color: darkgray; }"
+               " span.treeni { color: green; }"
                "</style>"
                "</head><body>");
 
@@ -319,9 +333,13 @@ QString RaportinKirjoittaja::html(bool linkit)
     // Otsikkorivit
     foreach (RaporttiRivi otsikkorivi, otsakkeet_ )
     {
+        if( otsikkorivi.kaytto() == RaporttiRivi::CSV)
+            continue;
+
         txt.append("<tr>");
         for(int i=0; i < otsikkorivi.sarakkeita(); i++)
         {
+
             txt.append(QString("<th colspan=%1>").arg( otsikkorivi.leveysSaraketta(i)));
             txt.append( otsikkorivi.teksti(i));
             txt.append("</th>");
@@ -333,6 +351,9 @@ QString RaportinKirjoittaja::html(bool linkit)
     // Rivit
     foreach (RaporttiRivi rivi, rivit_)
     {
+        if( rivi.kaytto() == RaporttiRivi::CSV)
+            continue;
+
         QStringList trluokat;
         if( rivi.onkoLihava())
             trluokat << "lihava";
@@ -349,6 +370,7 @@ QString RaportinKirjoittaja::html(bool linkit)
 
         for(int i=0; i < rivi.sarakkeita(); i++)
         {
+
             if( rivi.tasattuOikealle(i) )
                 txt.append(QString("<td colspan=%1 class=oikealle>").arg(rivi.leveysSaraketta(i)));
             else
@@ -389,14 +411,14 @@ QString RaportinKirjoittaja::html(bool linkit)
     txt.append("</table>");
     txt.append("<p class=tulostettu>Tulostettu " + QDate::currentDate().toString("dd.MM.yyyy"));
     if( kp()->onkoHarjoitus())
-        txt.append("<br>Kirjanpito on laadittu Kitupiikki-ohjelman harjoittelutilassa");
+        txt.append("<br><span class=treeni>Kirjanpito on laadittu Kitupiikki-ohjelman harjoittelutilassa</span>");
 
     txt.append("</p></body></html>\n");
 
     return txt;
 }
 
-QByteArray RaportinKirjoittaja::pdf(bool taustaraidat, bool tulostaA4)
+QByteArray RaportinKirjoittaja::pdf(bool taustaraidat, bool tulostaA4) const
 {
     QByteArray array;
     QBuffer buffer(&array);
@@ -422,13 +444,15 @@ QByteArray RaportinKirjoittaja::pdf(bool taustaraidat, bool tulostaA4)
 
 QByteArray RaportinKirjoittaja::csv()
 {
-    QSettings settings;
-    QChar erotin = settings.value("CsvErotin", QChar(',')).toChar();
+    QChar erotin = kp()->settings()->value("CsvErotin", QChar(',')).toChar();
 
     QString txt;
 
     for( RaporttiRivi otsikko : otsakkeet_)
     {
+        if( otsikko.kaytto() == RaporttiRivi::EICSV)
+            continue;
+
         QStringList otsakkeet;
         for(int i=0; i < otsikko.sarakkeita(); i++)
             otsakkeet.append( otsikko.csv(i));
@@ -436,18 +460,23 @@ QByteArray RaportinKirjoittaja::csv()
     }
     for( RaporttiRivi rivi : rivit_ )
     {
+        if( rivi.kaytto() == RaporttiRivi::EICSV)
+            continue;
+
         if( rivi.sarakkeita() )
         {
 
             txt.append("\r\n");
             QStringList sarakkeet;
             for( int i=0; i < rivi.sarakkeita(); i++)
+            {
                 sarakkeet.append( rivi.csv(i));
+            }
             txt.append( sarakkeet.join(erotin));
         }
     }
 
-    if( settings.value("CsvKoodaus").toString() == "latin1")
+    if( kp()->settings()->value("CsvKoodaus").toString() == "latin1")
     {
         txt.replace("€","EUR");
         return txt.toLatin1();
@@ -456,23 +485,23 @@ QByteArray RaportinKirjoittaja::csv()
         return txt.toUtf8();
 }
 
-void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu)
+void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu) const
 {
-
-    painter->setFont(QFont("Sans",10));
 
     int sivunleveys = painter->window().width();
     int rivinkorkeus = painter->fontMetrics().height();
 
-    QString nimi = Kirjanpito::db()->asetus("Nimi");
+    QString nimi = kp()->asetukset()->onko("LogossaNimi") ? QString() : Kirjanpito::db()->asetus("Nimi");
     QString paivays = kp()->paivamaara().toString("dd.MM.yyyy");
 
     int vasenreunus = 0;
 
     if( !kp()->logo().isNull() )
     {
-        painter->drawPixmap( QRect(0,0,rivinkorkeus*2, rivinkorkeus*2), QPixmap::fromImage( kp()->logo() ) );
-        vasenreunus = rivinkorkeus * 2 + painter->fontMetrics().width("A");
+        double skaala = ((double) kp()->logo().width()) / kp()->logo().height();
+        double skaalattu = skaala < 5.0 ? skaala : 5.0;
+        painter->drawPixmap( QRect(0,0,rivinkorkeus*2*skaalattu, rivinkorkeus*2), QPixmap::fromImage( kp()->logo() ) );
+        vasenreunus = rivinkorkeus * 2 * skaalattu + painter->fontMetrics().width("A");
     }
 
     QRectF nimiRect = painter->boundingRect( vasenreunus, 0, sivunleveys / 3 - vasenreunus, painter->viewport().height(),
@@ -484,12 +513,12 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu)
     painter->drawText( otsikkoRect, Qt::AlignHCenter | Qt::TextWordWrap, otsikko());
     painter->drawText( QRect(sivunleveys*2/3, 0, sivunleveys/3, rivinkorkeus), Qt::AlignRight, paivays);
 
-    if( kp()->asetukset()->onko("Harjoitus")  )
+    if( kp()->asetukset()->onko("Harjoitus") && !kp()->asetukset()->onko("Demo") )
     {
         painter->save();
-        painter->setPen( QPen(Qt::red));
+        painter->setPen( QPen(Qt::green));
         painter->setFont( QFont("Sans",14));
-        painter->drawText(QRect(vasenreunus + sivunleveys / 8 * 5,0,sivunleveys/4, rivinkorkeus*2 ), Qt::AlignHCenter | Qt::AlignVCenter, QString("HARJOITUS") );
+        painter->drawText(QRect(sivunleveys / 8 * 5,0,sivunleveys/4, rivinkorkeus*2 ), Qt::AlignHCenter | Qt::AlignVCenter, QString("HARJOITUS") );
         painter->restore();
     }
 

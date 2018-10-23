@@ -37,7 +37,7 @@ TpAloitus::TpAloitus(Tilikausi kausi, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::TpAloitus),
     tilikausi(kausi),
-    model(0)
+    model(nullptr)
 {
     ui->setupUi(this);
     ui->henkilostoSpin->setValue( tilikausi.henkilosto() );
@@ -103,7 +103,7 @@ void TpAloitus::lataaTiedosto()
                                   .arg(luku.errorString()));
 
 
-        kp()->liitteet()->asetaPdf( luku.readAll(), tilikausi.alkaa().toString(Qt::ISODate) );
+        kp()->liitteet()->asetaLiite( luku.readAll(), tilikausi.alkaa().toString(Qt::ISODate) );
         kp()->liitteet()->tallenna();
 
         reject();

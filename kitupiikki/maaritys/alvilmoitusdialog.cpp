@@ -104,8 +104,6 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
                  .arg(AlvKoodi::MYYNNIT_BRUTTO).arg(AlvKoodi::OSTOT_BRUTTO)
                  .arg(alkupvm.toString(Qt::ISODate)).arg(loppupvm.toString(Qt::ISODate)));
 
-    qDebug() << query.lastQuery();
-
     while( query.next() && query.value("alvprosentti").toInt())
     {
 
@@ -181,7 +179,6 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
                 .arg(alkupvm.toString(Qt::ISODate)).arg(loppupvm.toString(Qt::ISODate))
                 .arg(AlvKoodi::ALVKIRJAUS + AlvKoodi::MYYNNIT_NETTO).arg(AlvKoodi::ALVKIRJAUS + AlvKoodi::MAKSUPERUSTEINEN_MYYNTI) );
 
-    qDebug() << query.lastQuery();
     while( query.next())
     {
         int alvprosentti = query.value("alvprosentti").toInt();
@@ -194,7 +191,6 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
     query.exec( QString("select alvkoodi, sum(debetsnt) as debetit, sum(kreditsnt) as kreditit from vienti where pvm between \"%1\" and \"%2\" group by alvkoodi")
                 .arg(alkupvm.toString(Qt::ISODate)).arg(loppupvm.toString(Qt::ISODate)) );
 
-    qDebug() << query.lastQuery();
     QMap<int,qlonglong> kooditaulu;
 
     int nettoverosnt = 0;
@@ -410,13 +406,13 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         ehdotus.tallenna( model.vientiModel() );
 
         // Liitetään laskelma
-        model.liiteModel()->lisaaPdf( kirjoittaja->pdf(false, false), tr("Alv-laskelma") );
+        model.liiteModel()->lisaaLiite( kirjoittaja->pdf(false, false), tr("Alv-laskelma") );
 
         // Tallennetaan laskelma, jotta erittelyssä olisi myös bruttokirjaukset
         model.tallenna();
 
         // Laskelman erittely liitetään myös ...
-        model.liiteModel()->lisaaPdf( AlvErittely::kirjoitaRaporti(alkupvm, loppupvm).pdf(false, false), tr("Alv-erittely") );
+        model.liiteModel()->lisaaLiite( AlvErittely::kirjoitaRaporti(alkupvm, loppupvm).pdf(false, false), tr("Alv-erittely") );
 
 
         if( !model.tallenna() )
@@ -511,7 +507,7 @@ bool AlvIlmoitusDialog::maksuperusteisenTilitys(const QDate &paivayksesta, const
     // Jos erääntyneitä on, niin pyydetään lupa niiden kirjaamiseen
     if( ehdotus.rowCount(QModelIndex()))
     {
-        if( QMessageBox::question(0, tr("Arvonlisäveron kausi-ilmoitus"),
+        if( QMessageBox::question(nullptr, tr("Arvonlisäveron kausi-ilmoitus"),
                                  tr("Tähän verotusjaksoon on kohdistettava %1 kpl erääntynyttä maksuperusteisena kirjattua "
                                     "arvonlisäveron suoritusta.\n"
                                     "Tehdäänkö kohdistuskirjaukset ja jatketaan arvonlisäverotukseen?")

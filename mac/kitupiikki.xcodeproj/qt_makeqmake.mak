@@ -186,6 +186,7 @@ kitupiikki.xcodeproj/project.pbxproj: ../kitupiikki/kitupiikki.pro ../../../Qt/5
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/QtGui.prl \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/QtSql.prl \
 		../../../Qt/5.11.0/clang_64/lib/QtNetwork.framework/QtNetwork.prl \
+		../../../Qt/5.11.0/clang_64/lib/QtXml.framework/QtXml.prl \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/QtCore.prl
 	$(QMAKE) -o kitupiikki.xcodeproj/project.pbxproj ../kitupiikki/kitupiikki.pro -spec macx-xcode
 ../../../Qt/5.11.0/clang_64/mkspecs/features/spec_pre.prf:
@@ -365,6 +366,7 @@ kitupiikki.xcodeproj/project.pbxproj: ../kitupiikki/kitupiikki.pro ../../../Qt/5
 ../../../Qt/5.11.0/clang_64/lib/QtGui.framework/QtGui.prl:
 ../../../Qt/5.11.0/clang_64/lib/QtSql.framework/QtSql.prl:
 ../../../Qt/5.11.0/clang_64/lib/QtNetwork.framework/QtNetwork.prl:
+../../../Qt/5.11.0/clang_64/lib/QtXml.framework/QtXml.prl:
 ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/QtCore.prl:
 qmake: FORCE
 	@$(QMAKE) -o kitupiikki.xcodeproj/project.pbxproj ../kitupiikki/kitupiikki.pro -spec macx-xcode

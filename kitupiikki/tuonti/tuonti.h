@@ -79,7 +79,7 @@ protected:
      */
     void tuoLasku(qlonglong sentit,
                     QDate laskupvm, QDate toimituspvm, QDate erapvm, QString viite,
-                    QString tilinumero, QString saajanNimi);
+                    const QString &tilinumero, const QString &saajanNimi);
 
     /**
      * @brief Aloittaa tiliotteen tuomisen
@@ -88,7 +88,7 @@ protected:
      * @param mihin Tiliote päättyy
      * @return tosi, jos onnistuu (tili olemassa)
      */
-    bool tiliote(QString iban, QDate mista=QDate(), QDate mihin=QDate());
+    bool tiliote(const QString &iban, QDate mista=QDate(), QDate mihin=QDate());
 
     bool tiliote(Tili tili, QDate mista=QDate(), QDate mihin=QDate());
 
@@ -101,7 +101,7 @@ protected:
      * @param arkistotunnus Pankin arkistotunnus
      * @param selite Selite
      */
-    void oterivi(QDate pvm, qlonglong sentit, QString iban, QString viite, QString arkistotunnus, QString selite);
+    void oterivi(QDate pvm, qlonglong sentit, const QString &iban, QString viite, const QString &arkistotunnus, QString selite);
 
     Tili tiliotetili() const { return tiliotetili_; }
 

@@ -27,13 +27,17 @@ Kotisivu ja käyttöohjeet [https://kitupiikki.info](https://kitupiikki.info)
 
 ## Vaatimukset
 Kitupiikki käyttää [Qt-kirjastoa](https://qt.io) versio vähintään 5.10.
-Pdf-tiedostojen näyttämiseen käytetään [Poppler-kirjastoa](https://poppler.freedesktop.org/).
+Pdf-tiedostojen näyttämiseen käytetään [Poppler-kirjastoa](https://poppler.freedesktop.org/) ja zip-tiedostojen käsittelyyn [libzip](https://libzip.org)-kirjastoa.
 
 Lataa ja asenna Qt-kirjastot osoitteesta https://qt.io/download.
 
 Linuxissa poppler on helppo asentaa järjestelmään:
 
     sudo apt-get install libpoppler-qt5-1 libpoppler-qt5-dev
+
+ja lizip
+
+    sudo apt-get install libzip-devel
 
 ## Kääntäminen
 

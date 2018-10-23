@@ -22,8 +22,7 @@
 #include "ui_tositewg.h"
 
 
-class QGraphicsScene;
-class QGraphicsView;
+class NaytinView;
 
 /**
  * @brief Liitteen näyttäminen
@@ -40,15 +39,22 @@ class NaytaliiteWg : public QStackedWidget
 {
     Q_OBJECT
 public:
-    NaytaliiteWg(QWidget *parent=0);
+    NaytaliiteWg(QWidget *parent=nullptr);
     ~NaytaliiteWg();
+
+    NaytinView *liiteView() { return view; }
 
 public slots:
     void valitseTiedosto();
     void naytaPdf(const QByteArray& pdfdata);
+    void leikepoydalta();
+
+    void tarkistaLeikepoyta();
 
 signals:
     void lisaaLiite(const QString& polku);
+    void lisaaLiiteDatalla(const QByteArray& data, const QString& nimi);
+
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event);
@@ -58,8 +64,7 @@ protected:
 protected:
     Ui::TositeWg *ui;
 
-    QGraphicsScene* scene;
-    QGraphicsView *view;
+    NaytinView *view;
 
 };
 

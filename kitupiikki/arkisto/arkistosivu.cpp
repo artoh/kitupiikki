@@ -42,8 +42,11 @@
 #include "tilinpaattaja.h"
 
 #include "tararkisto.h"
-#include "tools/pdfikkuna.h"
+#include "naytin/naytinikkuna.h"
 
+#include "budjettidlg.h"
+
+#include <zip.h>
 
 ArkistoSivu::ArkistoSivu()
 {
@@ -55,6 +58,7 @@ ArkistoSivu::ArkistoSivu()
     connect( ui->vieNappi, SIGNAL(clicked(bool)), this, SLOT(vieArkisto()));
     connect( ui->tilinpaatosNappi, SIGNAL(clicked(bool)), this, SLOT(tilinpaatos()));
     connect( ui->muokkaaNappi, SIGNAL(clicked(bool)), this, SLOT(muokkaa()));
+    connect( ui->budjettiNappi, &QPushButton::clicked, this, &ArkistoSivu::budjetti);
 
 }
 
@@ -140,13 +144,13 @@ void ArkistoSivu::vieArkisto()
         teeArkisto(kausi);
     }
 
-    QDir mista( kp()->arkistopolku() + "/" + kausi.arkistoHakemistoNimi() );
-    QStringList tiedostot = mista.entryList(QDir::Files);
-
-
 
     if( dlgUi.hakemistoRadio->isChecked())
     {
+
+
+        QDir mista( kp()->arkistopolku() + "/" + kausi.arkistoHakemistoNimi() );
+        QStringList tiedostot = mista.entryList(QDir::Files);
         QString hakemistoon = QFileDialog::getExistingDirectory(this, tr("Valitse hakemisto, jonne arkisto kopioidaan"),
                                                                 QDir::rootPath());
         if( !hakemistoon.isEmpty())
@@ -155,7 +159,7 @@ void ArkistoSivu::vieArkisto()
 
             QProgressDialog odota(tr("Kopioidaan arkistoa"), tr("Peruuta"),0, tiedostot.count(),this);
             int kopioitu = 0;
-            for( QString tiedosto : tiedostot)
+            for( const QString& tiedosto : tiedostot)
             {
                 if( odota.wasCanceled())
                     break;
@@ -171,12 +175,22 @@ void ArkistoSivu::vieArkisto()
                                                                            "Avaa selaimella hakemistossa oleva index.html-tiedosto.").arg(hakemistoon));
 
     }
-    else
+    else if( dlgUi.zipButton->isChecked())
+    {
+        if( !teeZip(kausi))
+            QMessageBox::critical(this, tr("Arkiston viennissä virhe"),
+                                  tr("Arkiston vienti epäonnistui.") );
+
+
+    }
+    else if( dlgUi.tarRadio->isChecked())
     {
         // Muodostetaan tar-arkisto
         // Tässä käytetään Pierre Lindenbaumin Tar-luokkaa http://plindenbaum.blogspot.fi/2010/08/creating-tar-file-in-c.html
 
-        QString arkistotiedosto = QDir::root().absoluteFilePath( QString("%1-%2.tar").arg( kp()->tiedostopolku().replace(QRegularExpression(".kitupiikki$"),"") ).arg(kausi.arkistoHakemistoNimi()) );
+        QDir mista( kp()->arkistopolku() + "/" + kausi.arkistoHakemistoNimi() );
+        QStringList tiedostot = mista.entryList(QDir::Files);
+        QString arkistotiedosto = QDir::root().absoluteFilePath( QString("%1-%2.tar").arg( kp()->tiedostopolku().replace(QRegularExpression(".kitupiikki$"),""), kausi.arkistoHakemistoNimi()) );
         QString arkisto = QFileDialog::getSaveFileName(this, tr("Vie arkisto"), arkistotiedosto, tr("Tar-arkisto (*.tar)") );
 
 
@@ -193,7 +207,7 @@ void ArkistoSivu::vieArkisto()
             QProgressDialog odota(tr("Kopioidaan arkistoa"), tr("Peruuta"),0, tiedostot.count(),this);
             int kopioitu = 0;
 
-            for( QString tiedosto : tiedostot)
+            for( const QString& tiedosto : tiedostot)
             {
                 if( odota.wasCanceled())
                     break;
@@ -218,12 +232,7 @@ void ArkistoSivu::vieArkisto()
 
         }
 
-
-
-
     }
-
-
 
 }
 
@@ -237,7 +246,7 @@ void ArkistoSivu::tilinpaatos()
         if( kausi.tilinpaatoksenTila() == Tilikausi::VAHVISTETTU )
         {
             // Avataan tilinpäätös
-            PdfIkkuna::naytaPdf( kp()->liitteet()->liite( kausi.alkaa().toString(Qt::ISODate) ) );
+            NaytinIkkuna::nayta( kp()->liitteet()->liite( kausi.alkaa().toString(Qt::ISODate) ) );
         }
         else
         {
@@ -246,7 +255,6 @@ void ArkistoSivu::tilinpaatos()
             paattaja->show();
         }
     }
-    return;
 
 }
 
@@ -362,4 +370,57 @@ void ArkistoSivu::muokkaa()
         }
     }
 
+}
+
+void ArkistoSivu::budjetti()
+{
+    BudjettiDlg *dlg = new BudjettiDlg(this);
+    dlg->setAttribute(Qt::WA_DeleteOnClose);
+    dlg->show();
+    dlg->lataa( ui->view->currentIndex().data(TilikausiModel::LyhenneRooli).toString() );
+}
+
+bool ArkistoSivu::teeZip(const Tilikausi &kausi)
+{
+    QDir mista( kp()->arkistopolku() + "/" + kausi.arkistoHakemistoNimi() );
+    QStringList tiedostot = mista.entryList(QDir::Files);
+
+    QString arkistotiedosto = QDir::root().absoluteFilePath( QString("%1-%2.zip").arg( kp()->tiedostopolku().replace(QRegularExpression(".kitupiikki$"),""), kausi.arkistoHakemistoNimi()) );
+    QString arkisto = QFileDialog::getSaveFileName(this, tr("Vie arkisto"), arkistotiedosto, tr("Zip-arkisto (*.zip)") );
+
+
+    if( !arkisto.isEmpty() )
+    {
+        int virhekoodi = 0;
+        zip_t* paketti = zip_open( arkisto.toStdString().c_str(), ZIP_CREATE | ZIP_TRUNCATE, &virhekoodi );
+
+        if( !paketti)
+            return false;
+
+        QProgressDialog odota(tr("Kopioidaan arkistoa"), tr("Peruuta"),0, tiedostot.count(),this);
+        int kopioitu = 0;
+
+        for( const QString& tiedosto : tiedostot)
+        {
+            if( odota.wasCanceled())
+                return false;
+
+            QFileInfo info( mista.absoluteFilePath(tiedosto)) ;
+
+            zip_source_t* lahde = zip_source_file(paketti, info.absoluteFilePath().toStdString().c_str(),
+                                                  0,-1);
+            if( !lahde)
+                return false;
+            if( zip_file_add(paketti, info.fileName().toStdString().c_str(),
+                             lahde, 0) < 0)
+                return false;
+
+            odota.setValue(++kopioitu);
+        }
+        zip_close(paketti);
+
+        QMessageBox::information(this, tr("Arkiston vienti valmis"),
+                             tr("Arkisto viety tiedostoon %1").arg(arkisto));
+    }
+    return true;
 }

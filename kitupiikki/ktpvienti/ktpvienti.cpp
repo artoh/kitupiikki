@@ -53,7 +53,7 @@ void KtpVienti::vieKtp()
     {
 
         // Koko velho on näytetty. Nyt kysytään vielä tiedosto.
-        QString tiedostoPolku = QFileDialog::getSaveFileName(0, tr("Tallenna uusi tilikarttatiedosto"),
+        QString tiedostoPolku = QFileDialog::getSaveFileName(nullptr, tr("Tallenna uusi tilikarttatiedosto"),
                                                         QDir::homePath(), tr("Kitupiikin tilikartta (*.kpk)"));
         if( tiedostoPolku.isEmpty())
         {
@@ -69,7 +69,7 @@ void KtpVienti::vieKtp()
         QFile tiedosto(tiedostoPolku);
         if( !tiedosto.open( QIODevice::WriteOnly))
         {
-            QMessageBox::critical(0, tr("Virhe tilikarttatiedoston luomisessa"),
+            QMessageBox::critical(nullptr, tr("Virhe tilikarttatiedoston luomisessa"),
                                   tr("Ei voi kirjoittaa tiedostoon %1\n%2")
                                   .arg(tiedostoPolku).arg( qPrintable(tiedosto.errorString()) ));
             return;

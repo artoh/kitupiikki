@@ -85,7 +85,7 @@ protected:
      * @param loppusarake Sarake, johon loppuu
      * @return Lista sijainneista
      */
-    QList<int> sijainnit(QString teksti, int alkukorkeus = 0, int loppukorkeus = 0,
+    QList<int> sijainnit(const QString &teksti, int alkukorkeus = 0, int loppukorkeus = 0,
                          int alkusarake = 0, int loppusarake = 100);
 
     /**
@@ -97,7 +97,7 @@ protected:
      * @param loppusarake Sarake, johon loppuu
      * @return
      */
-    int etsi(QString teksti, int alkukorkeus=0, int loppukorkeus=0, int alkusarake = 0, int loppusarake = 100);
+    int etsi(const QString &teksti, int alkukorkeus=0, int loppukorkeus=0, int alkusarake = 0, int loppusarake = 100);
 };
 
 #endif // PDFTUONTI_H

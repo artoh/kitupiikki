@@ -27,6 +27,7 @@
 #include <QDragEnterEvent>
 #include <QDragMoveEvent>
 #include <QDropEvent>
+#include <QClipboard>
 
 #include <poppler/qt5/poppler-qt5.h>
 
@@ -34,6 +35,8 @@
 
 #include "naytaliitewg.h"
 #include "db/kirjanpito.h"
+
+#include "naytin/naytinview.h"
 
 
 NaytaliiteWg::NaytaliiteWg(QWidget *parent)
@@ -44,16 +47,16 @@ NaytaliiteWg::NaytaliiteWg(QWidget *parent)
     ui->setupUi(paasivu);
     addWidget(paasivu);
 
-    scene = new QGraphicsScene(this);
-    view = new QGraphicsView(scene);
-
-    view->setDragMode( QGraphicsView::ScrollHandDrag);
+    view = new NaytinView(this);
 
     addWidget(view);
 
     connect(ui->valitseTiedostoNappi, SIGNAL(clicked(bool)), this, SLOT(valitseTiedosto()));
+    connect( qApp->clipboard(), SIGNAL(dataChanged()), this, SLOT(tarkistaLeikepoyta()));
+    connect( ui->liitaNappi, &QPushButton::clicked, this, &NaytaliiteWg::leikepoydalta);
 
     setAcceptDrops(true);
+    tarkistaLeikepoyta();
 }
 
 NaytaliiteWg::~NaytaliiteWg()
@@ -63,7 +66,7 @@ NaytaliiteWg::~NaytaliiteWg()
 
 void NaytaliiteWg::valitseTiedosto()
 {
-    QString polku = QFileDialog::getOpenFileName(this, tr("Valitse tosite"),QString(),tr("Pdf-tiedostot (*.pdf);;Kuvat (*.png *.jpg);;Csv-tiedosto (*.csv);;Kaikki tiedostot (*.*)"));
+    QString polku = QFileDialog::getOpenFileName(this, tr("Valitse tosite"),QString(),tr("Pdf-tiedostot (*.pdf);;Kuvat (*.png *.jpg);;Csv-tiedosto (*.csv);;Kaikki tiedostot (*)"));
     if( !polku.isEmpty())
     {
         emit lisaaLiite( polku );
@@ -72,57 +75,49 @@ void NaytaliiteWg::valitseTiedosto()
 
 void NaytaliiteWg::naytaPdf(const QByteArray &pdfdata)
 {
-    // 26.5.2018 Lisätty pdf-tarkastus
-    if( pdfdata.isEmpty()  || !pdfdata.startsWith("%PDF"))
+    if( pdfdata.isEmpty())
     {
         setCurrentIndex(0);
     }
     else
     {
-        // Näytä tiedosto
-        scene->setBackgroundBrush(QBrush(Qt::gray));
-        scene->clear();
-
-        // Näytä pdf
-        Poppler::Document *pdfDoc = Poppler::Document::loadFromData( pdfdata );
-
-        if( !pdfDoc )
-            return;
-
-        pdfDoc->setRenderHint(Poppler::Document::TextAntialiasing);
-        pdfDoc->setRenderHint(Poppler::Document::Antialiasing);
-
-
-        double ypos = 0.0;
-
-        // Monisivuisen pdf:n sivut pinotaan päällekkäin
-        for( int sivu = 0; sivu < pdfDoc->numPages(); sivu++)
-        {
-            Poppler::Page *pdfSivu = pdfDoc->page(sivu);
-
-            if( !pdfSivu )
-                continue;
-
-            QImage image = pdfSivu->renderToImage(144,144);
-            QPixmap kuva = QPixmap::fromImage( image, Qt::DiffuseAlphaDither);
-
-            QGraphicsPixmapItem *item = scene->addPixmap(kuva);
-            item->setY( ypos );
-            ypos += kuva.height();
-
-
-            delete pdfSivu;
-        }
-        delete pdfDoc;
-
-        // Tositteen näyttöwiget esiin
         setCurrentIndex(1);
+        view->nayta(pdfdata);
     }
+}
+
+void NaytaliiteWg::leikepoydalta()
+{
+    if( qApp->clipboard()->mimeData()->formats().contains("image/jpg"))
+        emit lisaaLiiteDatalla( qApp->clipboard()->mimeData()->data("image/jpg"), tr("liite.jpg") );
+    else if( qApp->clipboard()->mimeData()->formats().contains("image/png"))
+        emit lisaaLiiteDatalla( qApp->clipboard()->mimeData()->data("image/png"), tr("liite.png") );
+}
+
+void NaytaliiteWg::tarkistaLeikepoyta()
+{
+
+    QStringList formaatit = qApp->clipboard()->mimeData()->formats();
+
+    ui->liitaNappi->setVisible( formaatit.contains("image/png") ||
+                                formaatit.contains("image/jpg") );
+
 }
 
 void NaytaliiteWg::dragEnterEvent(QDragEnterEvent *event)
 {
-    if( event->mimeData()->hasUrls())
+    if( event->mimeData()->hasUrls() )
+    {
+        for( const QUrl& url: event->mimeData()->urls())
+        {
+            if(url.isLocalFile())
+                event->accept();
+        }
+    }
+
+
+    if( event->mimeData()->formats().contains("image/jpg") ||
+        event->mimeData()->formats().contains("image/png"))
         event->accept();
 }
 
@@ -133,6 +128,7 @@ void NaytaliiteWg::dragMoveEvent(QDragMoveEvent *event)
 
 void NaytaliiteWg::dropEvent(QDropEvent *event)
 {
+    int lisatty = 0;
     // Liitetiedosto pudotettu
     if( event->mimeData()->hasUrls())
     {
@@ -148,9 +144,15 @@ void NaytaliiteWg::dropEvent(QDropEvent *event)
                     polku = polku.mid(1);
 #endif
                 emit lisaaLiite( polku );
+                lisatty++;
             }
         }
     }
+    if( !lisatty && event->mimeData()->formats().contains("image/jpg"))
+        emit lisaaLiiteDatalla( event->mimeData()->data("image/jpg"), tr("liite.jpg") );
+    else if(!lisatty && event->mimeData()->formats().contains("image/png"))
+        emit lisaaLiiteDatalla( event->mimeData()->data("image/png"), tr("liite.png") );
+
 }
 
 

@@ -54,7 +54,9 @@ public:
         ALV,
         LASKUTUS,
         SAHKOPOSTI,
+        VERKKOLASKU,
         TUONTI,
+        INBOX,
         RAPORTIT,
         LIITETIETOKAAVA,
         TILIKARTTAOHJE
@@ -88,7 +90,7 @@ public slots:
      * @brief Valitaan näytettävä sivu
      * @param sivu
      */
-    void valitseSivu(QString otsikko);
+    void valitseSivu(const QString &otsikko);
 
     /**
      * @brief Päivittää määritysten mukaan sen, mitkä sivut näkyvät
@@ -104,6 +106,8 @@ public slots:
      * @brief Tilikartan päivitystoiminto
      */
     void paivitaTilikartta();
+
+    MaaritysWidget *nykyWidget() { return nykyinen; }
 
 protected:
     /**

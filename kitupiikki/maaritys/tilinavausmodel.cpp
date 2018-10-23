@@ -21,6 +21,7 @@
 #include <QMessageBox>
 #include <QSqlError>
 #include <QDebug>
+#include <QPalette>
 
 TilinavausModel::TilinavausModel() :
     muokattu_(false)
@@ -121,6 +122,11 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
         else
             return 0;
     }
+    else if( role == Qt::BackgroundColorRole)
+    {
+        if( kp()->tilit()->tiliIndeksilla( index.row()).otsikkotaso() )
+            return QPalette().mid().color();
+    }
 
 
     return QVariant();
@@ -209,7 +215,6 @@ bool TilinavausModel::tallenna()
             kysely.bindValue(":kredit", iter.value());
         }
         kysely.exec();
-        qDebug() << kysely.lastQuery() << " " << kysely.lastError().text();
     }
     kp()->asetukset()->aseta("Tilinavaus",1);   // Tilit merkitään avatuiksi
 

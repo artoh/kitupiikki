@@ -31,6 +31,7 @@ class Kirjanpito;
 class LaskunMaksuDialogi;
 class ApuriVinkki;
 class QAction;
+class QSqlQueryModel;
 
 /**
  * @brief Kirjausten muokkaus
@@ -43,12 +44,12 @@ class KirjausWg : public QWidget
 {
     Q_OBJECT
 public:
-    KirjausWg(TositeModel *tositeModel, QWidget *parent=0);
+    KirjausWg(TositeModel *tositeModel, QWidget *parent=nullptr);
     ~KirjausWg();
 
     QDate tositePvm() const;
 
-    enum Valilehdet { VIENNIT, KOMMENTIT, LIITTEET, TILIOTE, AVUSTAJA } ;
+    enum Valilehdet { VIENNIT, KOMMENTIT, LIITTEET, TILIOTE, LISATIEDOT } ;
 
     TositeModel *model() { return model_;}
 
@@ -83,8 +84,10 @@ public slots:
      * @brief Lisätään liite
      * @param polku Polku liitetiedostoon.
      */
-    void lisaaLiite(const QString polku);
+    void lisaaLiite(const QString &polku);
     void lisaaLiite();
+    void lisaaLiiteDatasta(const QByteArray& data, const QString& nimi);
+
 
     /**
      * @brief Siirtää lomakkeen tiedot modeliin
@@ -120,7 +123,6 @@ public slots:
 
     void pvmVaihtuu();
 
-    void naytaLiite();
     void poistaLiite();
 
     /**
@@ -158,6 +160,13 @@ public slots:
      */
     void siirryTositteeseen();
 
+    /**
+     * @brief Päivittää otsikon täydennyksen
+     * @param teksti
+     */
+    void paivitaOtsikonTaydennys(const QString& teksti);
+
+
 public:
     /**
      * @brief Jos kirjataan tiliotetta, tiliotetilin id
@@ -184,15 +193,24 @@ signals:
      * Jos ollaan tultu selauksesta, palataan selaukseen
      */
     void tositeKasitelty();
+    void avaaLiite();
+    void tulostaLiite();
 
 protected:
     /**
-     * @brief Pvm-kentästä eteenpäin enterillä, tagivalikko
+     * @brief Muokattuja toimintoja
+     *
+     * Pvm-kentästä eteenpäin enterillä
+     * tagivalikko
+     * Seliteestä tablilla uusi rivi
+     *
      * @param watched
      * @param event
      * @return
      */
     bool eventFilter(QObject *watched, QEvent *event);
+    void paivitaLiiteNapit();
+    void paivitaTilioteIcon();
 
 
 protected:
@@ -204,6 +222,7 @@ protected:
     QAction *poistaAktio_;
     QAction *uudeksiAktio_;
 
+    QSqlQueryModel *taydennysSql_;
 
 
 };

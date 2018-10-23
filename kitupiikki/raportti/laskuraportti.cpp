@@ -40,7 +40,7 @@ LaskuRaportti::~LaskuRaportti()
     delete ui;
 }
 
-RaportinKirjoittaja LaskuRaportti::raportti(bool csvmuoto)
+RaportinKirjoittaja LaskuRaportti::raportti()
 {
     PvmRajaus rajaus = KaikkiLaskut;
     if( ui->rajaaEra->isChecked())
@@ -61,7 +61,7 @@ RaportinKirjoittaja LaskuRaportti::raportti(bool csvmuoto)
 
     return kirjoitaRaportti( ui->saldoPvm->date(), ui->myyntiRadio->isChecked(),
                              ui->avoimet->isChecked(),
-                             lajittelu, ui->summaBox->isChecked() && !csvmuoto,  ui->viiteBox->isChecked(), rajaus, ui->alkaenPvm->date(), ui->paattyenPvm->date());
+                             lajittelu, ui->summaBox->isChecked() ,  ui->viiteBox->isChecked(), rajaus, ui->alkaenPvm->date(), ui->paattyenPvm->date());
 
 }
 
@@ -244,15 +244,13 @@ RaportinKirjoittaja LaskuRaportti::ostolaskut(QDate saldopvm, bool avoimet, Lask
 
     while( kysely.next() )
     {
-        qlonglong avoinna = kysely.value("kreditsnt").toLongLong();
+        qlonglong avoinna = 0l;
         JsonKentta json( kysely.value("vienti.json").toByteArray() );
 
         // Nyt pitää hakea tähän tase-erään tulevat muutokset ko. päivään asti
         QSqlQuery erakysely( QString("SELECT debetsnt, kreditsnt FROM vienti "
                          "WHERE eraid=%1 AND pvm <= '%2'")
                              .arg( kysely.value("vienti.id").toInt()  ).arg(saldopvm.toString(Qt::ISODate)));
-
-        qDebug() << erakysely.lastQuery();
 
         while( erakysely.next())
         {
@@ -295,7 +293,7 @@ RaportinKirjoittaja LaskuRaportti::ostolaskut(QDate saldopvm, bool avoimet, Lask
     }
 
     // Laitetaan nyt rivit järjestyksessä
-    for( RaporttiRivi rivi : rivit.values())
+    for( const RaporttiRivi& rivi : rivit.values())
         rk.lisaaRivi(rivi);
 
     if( summat )

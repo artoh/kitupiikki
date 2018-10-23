@@ -41,7 +41,7 @@ class ArkistoSivu : public KitupiikkiSivu
     Q_OBJECT
 public:
     ArkistoSivu();
-    ~ArkistoSivu();
+    ~ArkistoSivu() override;
 
     void siirrySivulle() override;
 
@@ -56,9 +56,12 @@ public slots:
     void nykyinenVaihtuuPaivitaNapit();
     void teeArkisto(Tilikausi kausi);
     void muokkaa();
+    void budjetti();
 
 private:
     Ui::TilikausiMaaritykset *ui;
+
+    bool teeZip(const Tilikausi& kausi);
 };
 
 #endif // ARKISTO_H

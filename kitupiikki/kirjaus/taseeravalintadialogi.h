@@ -64,8 +64,8 @@ private:
     EranValintaModel model_;
 
     Tili tili_;
-    int taseEra_;
-    int vientiId_;
+    int taseEra_ = 0;
+    int vientiId_ = 0;
 
 };
 

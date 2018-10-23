@@ -37,7 +37,7 @@ public:
     AlvErittely();
     ~AlvErittely();
 
-    RaportinKirjoittaja raportti(bool csvmuoto = false);
+    RaportinKirjoittaja raportti() override;
 
     static RaportinKirjoittaja kirjoitaRaporti(QDate alkupvm, QDate loppupvm);
 

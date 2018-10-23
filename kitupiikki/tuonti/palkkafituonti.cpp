@@ -29,10 +29,10 @@ PalkkaFiTuonti::PalkkaFiTuonti(KirjausWg *wg)
 {
     // Haetaan muuntotaulukko
     QStringList muunnot = kp()->asetukset()->lista("PalkkaFiTuonti");
-    for( QString muunto : muunnot)
+    for( const QString& muunto : muunnot)
     {
         int vali = muunto.indexOf(' ');
-        muunto_.insert( muunto.left(vali).toInt(), muunto.mid(vali+1).toInt()  );
+        muunto_.insert( muunto.leftRef(vali).toInt(), muunto.midRef(vali+1).toInt()  );
     }
 }
 

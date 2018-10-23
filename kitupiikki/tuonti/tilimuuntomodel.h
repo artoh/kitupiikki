@@ -25,7 +25,8 @@
  */
 struct TilinMuunnos
 {
-    TilinMuunnos(int numero = 0, QString nimi = QString());
+    TilinMuunnos(int numero = 0, QString nimi = QString(), int muunnettu = 0);
+    QString tiliStr() const;
 
     int alkuperainenTilinumero;
     QString tilinNimi;
@@ -45,7 +46,7 @@ public:
         UUSI
     };
 
-    TiliMuuntoModel(QMap<int,QString> tilit);
+    TiliMuuntoModel(const QList<QPair<int, QString>> &tilit);
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
@@ -58,10 +59,11 @@ public:
      * @brief Tilien muunnostaulukko (alkuperäinen, muunnettu)
      * @return
      */
-    QMap<int,int> muunnettu();
+    QMap<QString,int> muunnettu();
 
 protected:
     QList<TilinMuunnos> data_;
+    QMap<QString,int> muunteluLista_;
 
 
 };

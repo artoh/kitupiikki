@@ -55,6 +55,8 @@ public:
 
     QString ohjeSivunNimi() { return "kirjaus"; }
 
+    KirjausWg* kirjausWg() { return kirjauswg; }
+
 signals:
     /**
      * @brief Palataan sivulle, josta tänne on tultu
@@ -80,7 +82,7 @@ protected:
     /**
      * @brief Palataanko tämän tositteen käsittelyn jälkeen takaisin edelliseen
      */
-    bool palataanTakaisin_;
+    bool palataanTakaisin_ = false;
 };
 
 #endif // KIRJAUSSIVU_H

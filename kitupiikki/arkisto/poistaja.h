@@ -56,7 +56,7 @@ public:
      * @param kausi
      * @return Tosi, jos poistoja voi tehdä
      */
-    bool static onkoPoistoja(Tilikausi kausi);
+    bool static onkoPoistoja(const Tilikausi &kausi);
 
 private:
     bool sumupoistaja(Tilikausi kausi);

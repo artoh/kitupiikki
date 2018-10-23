@@ -25,7 +25,10 @@
 
 #include <QSqlDatabase>
 #include <QSqlQuery>
+#include <QSqlError>
 #include <QMapIterator>
+
+#include <QMessageBox>
 
 #include <QApplication>
 #include <QRegularExpression>
@@ -35,6 +38,7 @@
 
 #include <QDesktopServices>
 #include <QUrl>
+
 
 #include "uusikirjanpito.h"
 
@@ -58,7 +62,7 @@
 #include <QDebug>
 
 UusiKirjanpito::UusiKirjanpito() :
-    QWizard()
+    QWizard(nullptr)
 {
     setWindowIcon(QIcon(":/pic/Possu64.png"));
     setWindowTitle("Uuden kirjanpidon luominen");
@@ -80,9 +84,7 @@ QString UusiKirjanpito::aloitaUusiKirjanpito()
 {
     UusiKirjanpito velho;
 
-    velho.exec();
-
-    if( velho.alustaKirjanpito())
+    if(  velho.exec() && velho.alustaKirjanpito())
         // Palautetaan uuden kirjanpidon hakemistopolku
         return velho.field("sijainti").toString() + "/" + velho.field("tiedosto").toString();
     else
@@ -161,8 +163,13 @@ bool UusiKirjanpito::alustaKirjanpito()
         db.setDatabaseName(polku);
         if( !db.open())
         {
+            QMessageBox::critical(nullptr, tr("Kirjanpidon luominen epäonnistui"), tr("Tietokannan luominen epäonnistui seuraavan virheen takia: %1").arg( db.lastError().text() ));
             return false;
         }
+
+        // Kirjanpidon luomisen ajaksi synkronointi pois käytöstä
+        db.exec("PRAGMA SYNCHRONOUS = OFF");
+
         QSqlQuery query(db);
 
         progDlg.setValue( progDlg.value() + 1 );
@@ -180,13 +187,18 @@ bool UusiKirjanpito::alustaKirjanpito()
 
         foreach (QString kysely,sqlista)
         {
-            query.exec(kysely);
+            if(!query.exec(kysely))
+            {
+                QMessageBox::critical(nullptr, tr("Kirjanpidon luominen epäonnostui"), tr("Virhe tietokantaa luotaessa: %1 (%2)").arg(query.lastError().text()).arg(kysely) );
+                return false;
+            }
             qApp->processEvents();
+
         }
 
         progDlg.setValue( progDlg.value() + 1 );
 
-        AsetusModel asetukset(&db, 0, true);
+        AsetusModel asetukset(&db, nullptr, true);
 
         // Siirretään asetustauluun tilikartan tiedot
         // jotka alkavat [Isolla kirjaimella]
@@ -208,6 +220,13 @@ bool UusiKirjanpito::alustaKirjanpito()
         asetukset.aseta("Nimi", field("nimi").toString());
         asetukset.aseta("Ytunnus", field("ytunnus").toString());
         asetukset.aseta("Harjoitus", field("harjoitus").toBool());
+
+        if( asetukset.onko("Ytunnus"))
+        {
+            QString verkkolaskuosoite = QString("0037%1").arg(asetukset.asetus("Ytunnus"));
+            verkkolaskuosoite.remove('-');
+            asetukset.aseta("VerkkolaskuOsoite", verkkolaskuosoite);
+        }
 
         // Valittu muoto
         if( field("muoto").toString() != "-")
@@ -257,6 +276,7 @@ bool UusiKirjanpito::alustaKirjanpito()
                     // Annettu IBAN-numero yhdistetään ensimmäiseen pankkitiliin
                     tili.json()->set("IBAN", field("iban").toString().simplified().remove(' '));
                     setField("iban",QVariant(""));
+                    asetukset.aseta("LaskuTili", tili.numero());
                 }
 
 
@@ -350,6 +370,9 @@ bool UusiKirjanpito::alustaKirjanpito()
             Skripti::suorita( asetukset.lista("Kirjaamisperuste/Maksuperuste"), &asetukset, &tilit, &lajit );
 
         progDlg.setValue( prosessiluku );
+
+        if( db.lastError().isValid())
+            QMessageBox::critical(nullptr, tr("Virhe kirjanpitoa luotaessa"), tr("Tietokantaa luotaessa tapahtui virhe: %1").arg(db.lastError().text()));
 
         db.close();
 

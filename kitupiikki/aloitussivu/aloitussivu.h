@@ -31,8 +31,6 @@
 
 #include "ui_aloitus.h"
 
-
-
 /**
  * @brief Webipohjaiset aloitus- ja ohjesivut
  *
@@ -44,11 +42,12 @@ class AloitusSivu : public KitupiikkiSivu
 
 public:
     AloitusSivu();
-    ~AloitusSivu();
+    ~AloitusSivu() override;
+
+    bool poistuSivulta(int minne) override;
 
 public slots:
-
-    void siirrySivulle();
+    void siirrySivulle() override;
     void kirjanpitoVaihtui();
 
     void linkki(const QUrl& linkki);
@@ -60,11 +59,16 @@ public slots:
     void abouttiarallaa();
 
     void infoSaapui(QNetworkReply* reply);
+    void varmuuskopioi();
+
+    void muistiinpanot();
 
     /**
      * @brief Pyytää infon päivityksistä
      */
     void pyydaInfo();
+
+    static QDate buildDate();
 
 signals:
     void selaus(int tilinumero, Tilikausi tilikausi);
@@ -73,6 +77,8 @@ signals:
 protected:
     QString vinkit();
     QString summat();
+
+    QPair<QString,qlonglong> summa(const QString& otsikko, const QString& tyyppikysely, const Tilikausi& tilikausi, bool kreditplus = false, bool vali=false);
 
     void saldot();
     void paivitaTiedostoLista();
@@ -86,6 +92,7 @@ protected:
 
 protected:
     Ui::Aloitus *ui;
+    bool sivulla = false;
 };
 
 #endif // ALOITUSSIVU_H

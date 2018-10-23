@@ -6,6 +6,26 @@
 !!! tip "Arvonlisäverovelvollisuus"
     Arvonlisäverovelvolliseksi on hakeuduttava, jos tilikauden liikevaihto voi ylittää 10 000 euroa. Alarajahuojennuksen takia hakeutuminen kannattaa yleensä pienemmälläkin liikevaihdolla. Yleishyödyllinen toiminta on arvonlisäverotonta, eli useimpien yhdistysten tarvitsee maksaa arvonlisäveroa vain, jos ne harjoittavat huomattavaa liiketoimintaa.
 
+## Arvonlisävero kirjanpidossa
+
+Alla esimerkki kotimaan arvonlisäveron käsittelystä nettoperiaatetta noudattaen:
+
+![](alvkirjaukset.png)
+
+10.9. on tehty osto, josta saadaan tehdä alv-vähennys. Veroton osuus kirjataan ostotilille ja veron osuus alv-saamiseksi.
+
+15.9. on saatu verollista myyntituloa. Veroton osuus kirjataan myyntitilille ja veron osuus alv-velaksi.
+
+30.9. näkyy kirjanpidossa verokauden viimeiselle päivälle kirjattava alv-ilmoitus. Siinä alv-velat ja saamiset yhdistetään Verovelka-tilille.
+
+Noin puolentoista kuukauden kuluttua, alv-ilmoituksen antamisen yhteydessä, verot sitten maksetaan verottajan pankkitilille.
+
+Huomaa, että Kitupiikissä kaikkiin arvonlisäverollisiin kirjauksiin määritellään alv-koodi (merkitty yllä olevaan esimerkkiin sinisellä).
+
+!!! warning "Koodit kohdalleen"
+    Arvonlisäveron käsittely perustuu kirjauksiin liittyviin ohjaustietoihin (eli alv-laji, alv-prosentti ja kirjauksen tyyppikoodi). Väärät alv-koodit johtavat virheelliseen alv-ilmoitukseen. Jotta ohjaustiedot tulevat oikein, on verolliset kirjaukset suositeltavaa tehdä Kirjausapurilla aina kuin se vain on mahdollista!
+
+
 ## Määritykset
 
 Kirjanpitovelvollinen määritellään arvonlisäverovelvolliseksi **Perusvalinnoista**. Jos yritys ei ole alv-velvollinen, ei arvonlisäveroon liittyviä valintoja näytetä kirjauksissa eikä määrityksissä.
@@ -31,13 +51,26 @@ Kitupiikissä on seuraavat alv-kirjaustyypit
  ![](lihavoi.png) | Verollinen myynti/osto (brutto) | Verollinen bruttosumma kirjataan tilille, ja vero erotetaan tililtä alv-velkatilille vasta arvonlisäveroilmoitusta laadittaessa.
  ![](euro.png) | Verollinen myynti/osto (maksuperusteinen alv) | Arvonlisävero tilitetään vasta, kun maksu on suoritettu.
  ![](0pros.png) | Nollaverokannan alainen myynti | [Erikseen määritellyt tilanteet](https://www.edilex.fi/verohallinnon_ohjeet/2014_0627.html#4.2 Nollaverokannan alaiset myynnit ja yritysj%C3%A4rjestelyt), joissa myynnistä ei suorita veroa, mutta hankinnoista saa vähentää arvonlisäveron.
- ![](eu.png) | Tavaroiden ja palveluiden yhteisömyynti | [Verohallinnon ohje](https://www.vero.fi/yritykset-ja-yhteisot/tietoa-yritysverotuksesta/arvonlisaverotus/ulkomaankaupan_arvonlisaverotus/).  Kirjauksen voi tehdä Kirjausapurilla.
- ![](laiva.png) | Tavaroiden maahantuonti EU:n ulkopuolelta | [Maahantuonnin arvonlisävero](https://www.vero.fi/yritykset-ja-yhteisot/tietoa-yritysverotuksesta/arvonlisaverotus/ulkomaankaupan_arvonlisaverotus/maahantuonnin-arvonlisavero/) ilmoitetaan kausiveroilmoituksessa. Myyntilaskun yhteydessä kirjauksen voi tehdä Kirjausapurilla.
+ ![](eu.png) | Tavaroiden ja palveluiden yhteisömyynti tai -osto | [Verohallinnon ohje](https://www.vero.fi/yritykset-ja-yhteisot/tietoa-yritysverotuksesta/arvonlisaverotus/ulkomaankaupan_arvonlisaverotus/).  Kirjauksen voi tehdä Kirjausapurilla.
+ ![](laiva.png) | Tavaroiden maahantuonti EU:n ulkopuolelta | [Maahantuonnin arvonlisävero](https://www.vero.fi/yritykset-ja-yhteisot/tietoa-yritysverotuksesta/arvonlisaverotus/ulkomaankaupan_arvonlisaverotus/maahantuonnin-arvonlisavero/) ilmoitetaan kausiveroilmoituksessa. Myyntilaskun yhteydessä kirjaus tehdään valinnalla **Tavaroiden maahantuonti EU:n ulkopuolelta**. Jos myyntilasku on jo kirjattu verottomana, voidaan tullauspäätös kirjata myöhemmin valinnalla **Tavaroiden maahantuonti, veron kirjaus**.
 ![](vasara.png) | Rakennuspalveluiden myynti tai osto | [Rakennuspalveluiden arvonlisäveron suorittaa ostaja](https://www.vero.fi/yritykset-ja-yhteisot/tietoa-yritysverotuksesta/arvonlisaverotus/rakennusalan_kaannetty_arvonlisaverovelvollisuus/) käänteisen verovelvollisuuden mukaisesti. Kirjauksen voi tehdä Kirjausapurilla ja Kitupiikillä voi myös laatia laskun (mainittava ostajan Y-tunnus tai VAT-tunnus).
 
 ## Verolliset kirjaukset
 
 Arvonlisäverolliset kirjaukset on helpointa tehdä [Kirjausapurilla](/kirjaus/apuri), joka jakaa myös nettokirjaukset tulos- ja alv-tileille. Myös laskutuksessa alv-kirjautuu automaattisesti valinnan mukaan.
+
+### Kirjausapurilla
+
+Esimerkki kotimaan myynnin kirjaamisesta (nettokirjaus):
+![](kotimaaapuri.png)
+
+Esimerkki käänteisen arvonlisäveron EU-palveluostosta. Huomaa, että maksettu määrä kirjataan kohtaan *Veroton* ja *alv-prosentti* on suomalainen arvonlisävero.
+![](eupalveluapuri.png)
+
+!!! tip "Kirjauksen korjaaminen"
+    Jos olet tullut kirjanneeksi euromäärän väärin, on yleensä helpointi poistaa tositteelta kaikki kirjaukseen liittyvät rivit ja tehdä Kirjausapurilla koko kirjaus uudestaan.
+
+### Ilman kirjausapuria
 
 [Ilman avustajaa](/kirjaus/kasin) kirjattaessa verolaji ja -prosentti on valittava erikseen.
 
@@ -48,8 +81,6 @@ Arvonlisäverolliset kirjaukset on helpointa tehdä [Kirjausapurilla](/kirjaus/a
 * **Vähennettävä määrä** tarkoittaa ostojen kirjauksessa arvonlisäverosta vähennettävää määrää.
 * **Kohdentamaton maksuperusteinen alv** tarkoittaa maksua odottavaa veroa
 
-!!! warning "Koodit kohdalleen"
-    Arvonlisäveron käsittely perustuu kirjauksiin liittyviin ohjaustietoihin. Väärät alv-koodit johtavat virheelliseen alv-ilmoitukseen. Jotta ohjaustiedot tulevat oikein, on verolliset kirjaukset suositeltavaa tehdä Kirjausapurilla aina kuin se vain on mahdollista!
 
 ## Arvonlisäverolaskelma
 
@@ -67,7 +98,6 @@ Laskelman pohjalta tehdään kirjaus, jossa alv-velka ja alv-saatava yhdistetä�
 
 !!! note "Verovelat-tili"
     Verovelat-tilille kirjataan kaikki oma-aloitteiset verot, jotka on ilmoitettu verottajalle mutta ei vielä maksettu. Näin Verovelat-tilin saldon pitäisi aina vastata OmaVeron maksamattomien verojen saldoa.
-    Vastaavasti kaikki verojen suoritukset ja verohallinnon tilittämät alv-palautukset kirjataan Verovelat-tilille. 
 
 Erittely, jossa kirjauksia voi seurata aina tositteisiin saakka, avautuu alv-sivun **Näytä erittely**-napista. Se tallentuu myös liitteeksi alv-tilitysvientiin ja siten myös sähköiseen arkistoon.
 

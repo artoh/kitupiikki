@@ -49,11 +49,10 @@ EmailMaaritys::~EmailMaaritys()
 
 bool EmailMaaritys::nollaa()
 {
-    QSettings settings;
 
-    ui->palvelinEdit->setText( settings.value("SmtpServer").toString() );
-    ui->kayttajaEdit->setText( settings.value("SmtpUser").toString());
-    ui->salasanaEdit->setText( settings.value("SmtpPassword").toString());
+    ui->palvelinEdit->setText( kp()->settings()->value("SmtpServer").toString() );
+    ui->kayttajaEdit->setText( kp()->settings()->value("SmtpUser").toString());
+    ui->salasanaEdit->setText( kp()->settings()->value("SmtpPassword").toString());
 
     ui->nimiEdit->setText( kp()->asetukset()->asetus("EmailNimi"));
     ui->emailEdit->setText( kp()->asetukset()->asetus("EmailOsoite"));
@@ -76,18 +75,17 @@ bool EmailMaaritys::nollaa()
     ui->kayttajaEdit->setEnabled( ssltuki);
     ui->salasanaEdit->setEnabled( ssltuki );
 
-    ui->porttiSpin->setValue( settings.value("SmtpPort", QSslSocket::supportsSsl() ? 465 : 25 ).toInt());
+    ui->porttiSpin->setValue( kp()->settings()->value("SmtpPort", QSslSocket::supportsSsl() ? 465 : 25 ).toInt());
 
     return true;
 }
 
 bool EmailMaaritys::tallenna()
 {
-    QSettings settings;
-    settings.setValue("SmtpServer", ui->palvelinEdit->text());
-    settings.setValue("SmtpPort", ui->porttiSpin->value());
-    settings.setValue("SmtpUser", ui->kayttajaEdit->text());
-    settings.setValue("SmtpPassword", ui->salasanaEdit->text());
+    kp()->settings()->setValue("SmtpServer", ui->palvelinEdit->text());
+    kp()->settings()->setValue("SmtpPort", ui->porttiSpin->value());
+    kp()->settings()->setValue("SmtpUser", ui->kayttajaEdit->text());
+    kp()->settings()->setValue("SmtpPassword", ui->salasanaEdit->text());
 
     kp()->asetukset()->aseta("EmailNimi", ui->nimiEdit->text());
     kp()->asetukset()->aseta("EmailOsoite", ui->emailEdit->text());
@@ -97,12 +95,11 @@ bool EmailMaaritys::tallenna()
 
 bool EmailMaaritys::onkoMuokattu()
 {
-    QSettings settings;
 
-    return settings.value("SmtpServer").toString() != ui->palvelinEdit->text() ||
-            settings.value("SmtpPort",465).toInt() != ui->porttiSpin->value() ||
-            settings.value("SmtpUser").toString() != ui->kayttajaEdit->text() ||
-            settings.value("SmtpPassword").toString() != ui->salasanaEdit->text() ||
+    return kp()->settings()->value("SmtpServer").toString() != ui->palvelinEdit->text() ||
+            kp()->settings()->value("SmtpPort",465).toInt() != ui->porttiSpin->value() ||
+            kp()->settings()->value("SmtpUser").toString() != ui->kayttajaEdit->text() ||
+            kp()->settings()->value("SmtpPassword").toString() != ui->salasanaEdit->text() ||
             kp()->asetukset()->asetus("EmailNimi") != ui->nimiEdit->text() ||
             kp()->asetukset()->asetus("EmailOsoite") != ui->emailEdit->text();
 }

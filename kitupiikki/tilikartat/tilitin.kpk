@@ -975,7 +975,7 @@ D 8520 {"AlvLaji":21,"AlvProsentti":24} Telefaxkulut
 D 8530 {"AlvLaji":21,"AlvProsentti":24} Datasiirtokulut
 D 8540 {"AlvLaji":21,"AlvProsentti":24} Posti- ja lähettikulut
 D 8550 {"AlvLaji":21,"AlvProsentti":24} Arvo-osuuksien hoitokulut
-D 8560 {"AlvLaji":21,"AlvProsentti":24} Rahaliikenteen kulut
+D 8560 {} Rahaliikenteen kulut
 D 8570 {} Pyöristyserot
 D 8580 {} Vastuuvakuutukset
 D 8590 {} Esinevakuutukset

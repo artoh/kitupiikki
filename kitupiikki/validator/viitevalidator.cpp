@@ -57,7 +57,7 @@ QValidator::State ViiteValidator::kelpo(const QString &input)
         return Intermediate;
 
 
-    int tarkaste = str.right(1).toInt();
+    int tarkaste = str.rightRef(1).toInt();
 
     int indeksi = 0;
     int summa = 0;
@@ -86,7 +86,7 @@ QValidator::State ViiteValidator::kelpo(const QString &input)
 
 }
 
-bool ViiteValidator::kelpaako(const QString input)
+bool ViiteValidator::kelpaako(const QString& input)
 {
     return kelpo(input) == Acceptable;
 }

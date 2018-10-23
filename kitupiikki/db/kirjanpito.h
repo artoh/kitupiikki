@@ -48,7 +48,7 @@
 #include "laskutus/tuotemodel.h"
 
 class QPrinter;
-
+class QSettings;
 
 /**
  * @brief Kirjanpidon käsittely
@@ -62,7 +62,7 @@ class Kirjanpito : public QObject
     Q_OBJECT
 
 public:
-    Kirjanpito(QObject *parent = 0);
+    Kirjanpito(const QString& portableDir = QString());
 
 
     ~Kirjanpito();
@@ -134,7 +134,7 @@ public:
      * @brief Palauttaa TositeModel:in, jonka kautta pääsee tositteisiin
      * @return
      */
-    TositeModel *tositemodel(QObject *parent = 0);
+    TositeModel *tositemodel(QObject *parent = nullptr);
 
     /**
      * @brief Kohdennusten eli kustannuspaikkojen ja projektien model
@@ -232,6 +232,12 @@ public:
      */
     QString arkistopolku() const;
 
+    /**
+     * @brief QSettings käyttäjäkohtaisille asetuksille
+     * @return
+     */
+    QSettings* settings() { return settings_;}
+
 signals:
     /**
      * @brief Tietokanta on avattu
@@ -248,6 +254,11 @@ signals:
      * @brief Perusasetuksia muutetaan, joten aloitussivu päivitetään
      */
     void perusAsetusMuuttui();
+
+    /**
+     * @brief Kirjattavien kansio muuttui
+     */
+    void inboxMuuttui();
 
     /**
      * @brief Tilikausi on päätetty
@@ -275,7 +286,7 @@ public slots:
      * @param tiedosto Kirjanpidon kitupiikki.sqlite-tiedoston täydellinen polku
      * @return tosi, jos onnistuu
      */
-    bool avaaTietokanta(const QString& tiedosto);
+    bool avaaTietokanta(const QString& tiedosto, bool ilmoitaVirheesta = true);
 
     /**
      * @brief Lataa tietokannan uudelleen rakenteen muutoksen jälkeen
@@ -310,6 +321,9 @@ protected:
     QTemporaryDir *tempDir_;
     QImage logo_;
 
+    QSettings* settings_;
+    QString portableDir_;      // Portable-ohjelman käynnistyshakemisto
+
 public:
     /**
      * @brief Staattinen funktio, jonka kautta Kirjanpitoon päästään käsiksi
@@ -343,6 +357,12 @@ public:
      * @return
      */
     static QString satujono(int pituus = 10);
+
+    /**
+     * @brief Portable-ohjelman käynnistyshakemisto
+     * @return Tyhjä, jos ei portable
+     */
+    QString portableDir() const { return portableDir_;}
 
 private:
     static Kirjanpito *instanssi__;

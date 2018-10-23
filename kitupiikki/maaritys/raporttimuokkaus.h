@@ -45,11 +45,6 @@ protected slots:
     void kopio();
     void nimea();
     void poista();
-    /**
-     * @brief Liitetäänkö tämän raportin erittely arkistoon
-     * @param laitetaanko
-     */
-    void raporttiArkistoon(bool laitetaanko);
 
 protected:
     /**
@@ -62,6 +57,13 @@ protected:
     bool kysyTallennus();
 
     bool aloitaUusi();
+
+    /**
+     * @brief Arkiston liittäminen arkistoon
+     * @param laitetaanko Laitetaanko
+     * @param vertailu Onko budjettivertailu
+     */
+    void raportinArkistointi(bool laitetaanko, bool vertailu);
 
     Ui::RaporttiMuokkain *ui;
     QString nimi;

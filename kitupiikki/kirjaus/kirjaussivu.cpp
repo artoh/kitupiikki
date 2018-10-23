@@ -28,12 +28,13 @@
 
 #include "kirjauswg.h"
 #include "naytaliitewg.h"
+#include "naytin/naytinview.h"
 
 #include "db/kirjanpito.h"
 #include "db/tositemodel.h"
 
 KirjausSivu::KirjausSivu(KitupiikkiIkkuna *ikkuna) :
-    KitupiikkiSivu(), ikkuna_(ikkuna)
+    KitupiikkiSivu(nullptr), ikkuna_(ikkuna)
 {
     model = kp()->tositemodel();
 
@@ -44,8 +45,7 @@ KirjausSivu::KirjausSivu(KitupiikkiIkkuna *ikkuna) :
     splitter->addWidget(liitewg);
     splitter->addWidget(kirjauswg);
 
-    QSettings settings;
-    splitter->restoreState(settings.value("KirjausSplitter").toByteArray());
+    splitter->restoreState(kp()->settings()->value("KirjausSplitter").toByteArray());
 
     QHBoxLayout *leiska = new QHBoxLayout;
     leiska->addWidget(splitter);
@@ -53,8 +53,13 @@ KirjausSivu::KirjausSivu(KitupiikkiIkkuna *ikkuna) :
     setLayout(leiska);
 
     connect( liitewg, SIGNAL(lisaaLiite(QString)), kirjauswg, SLOT(lisaaLiite(QString)));
+    connect( liitewg, &NaytaliiteWg::lisaaLiiteDatalla, kirjauswg, &KirjausWg::lisaaLiiteDatasta);
+
     connect( kirjauswg, SIGNAL(liiteValittu(QByteArray)), liitewg, SLOT(naytaPdf(QByteArray)));
     connect( kirjauswg, SIGNAL(tositeKasitelty()), this, SLOT(tositeKasitelty()));
+    connect( kirjauswg, &KirjausWg::avaaLiite, liitewg->liiteView(), &NaytinView::avaaOhjelmalla);
+    connect( kirjauswg, &KirjausWg::tulostaLiite, liitewg->liiteView(), &NaytinView::tulosta);
+
     connect( splitter, SIGNAL(splitterMoved(int,int)), this, SLOT(talletaSplitter()));
 }
 
@@ -108,7 +113,6 @@ void KirjausSivu::tositeKasitelty()
 
 void KirjausSivu::talletaSplitter()
 {
-    QSettings settings;
-    settings.setValue("KirjausSplitter", splitter->saveState());
+    kp()->settings()->setValue("KirjausSplitter", splitter->saveState());
 }
 

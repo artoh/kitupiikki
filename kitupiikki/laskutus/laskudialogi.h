@@ -42,12 +42,20 @@ class LaskuDialogi : public QDialog
     Q_OBJECT
 public:
 
-    explicit LaskuDialogi(QWidget *parent = 0, AvoinLasku hyvitettavaLasku = AvoinLasku());
+    LaskuDialogi(LaskuModel *laskumodel = nullptr);
     ~LaskuDialogi();
 
+    enum Tabs { RIVIT, LISATIEDOT, RYHMAT, VERKKOLASKU};
+
+    static int laskuIkkunoita();
+
 private slots:
-    void paivitaSumma(int paivitaSumma);
+    void paivitaSumma(qlonglong paivitaSumma);
     void esikatsele();
+    /**
+     * @brief Finvoice-verkkolaskun muodostaminen
+     */
+    void finvoice();
     void perusteVaihtuu();
     void haeOsoite();
 
@@ -68,8 +76,20 @@ private slots:
 
     void onkoPostiKaytossa();
     void lahetaSahkopostilla();
+    void lahetaRyhmanSeuraava(const QString& viesti = {} );
+
     void smtpViesti(const QString &viesti);
     void tulostaLasku();
+    void ryhmaNapit(const QItemSelection& valinta);
+
+    void lisaaAsiakasListalta(const QModelIndex& indeksi);
+    void lisaaAsiakas();
+    void tuoAsiakkaitaTiedostosta();
+    void poistaValitutAsiakkaat();
+    void paivitaRyhmanTallennusNappi();
+
+    void verkkolaskuKayttoon();
+    void ytunnusSyotetty(const QString &ytunnus);
 
 private:
     /**
@@ -77,14 +97,16 @@ private:
      */
     void paivitaTuoteluettelonNaytto();
 
+    static int laskuIkkunoita__;
+
 public slots:
     void accept();
     void reject();
 
-private:
-    Ui::LaskuDialogi *ui;
+private:    
     LaskuModel *model;
     TuoteModel *tuotteet;
+    Ui::LaskuDialogi *ui;
     
     LaskunTulostaja *tulostaja;
     
@@ -92,6 +114,10 @@ private:
 
     QModelIndex kontekstiIndeksi;
     KohdennusDelegaatti *kohdennusDelegaatti;
+
+    QSortFilterProxyModel *ryhmaProxy_;
+
+    QList<int> ryhmaLahetys_;
     
 };
 

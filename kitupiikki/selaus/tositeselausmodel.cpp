@@ -142,8 +142,6 @@ void TositeSelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
     QSqlQuery kysely;
     kysely.exec(kysymys);
 
-    qDebug() << kysely.lastError().text() << kysely.lastQuery();
-
     while( kysely.next())
     {
         TositeSelausRivi rivi;

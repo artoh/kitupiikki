@@ -22,9 +22,11 @@
 #include <QTextCodec>
 #include <QIcon>
 #include <QTranslator>
+#include <QFontDatabase>
 
 #include "db/kirjanpito.h"
 #include "kitupiikkiikkuna.h"
+#include "versio.h"
 
 #include <QDebug>
 #include <QDir>
@@ -33,18 +35,37 @@
 #include <QDialog>
 #include <QFile>
 #include <QTextStream>
-
+#include <QFileInfo>
 
 #include "ui_tervetuloa.h"
 
-#include "arkisto/tararkisto.h"
+
+void lisaaLinuxinKaynnistysValikkoon()
+{
+    // Poistetaan vanha, jotta päivittyisi
+    QFile::remove( QDir::home().absoluteFilePath(".local/share/applications/Kitupiikki.desktop") );
+    // Kopioidaan kuvake
+    QDir::home().mkpath( ".local/share/icons" );
+    QFile::copy(":/pic/Possu64.png", QDir::home().absoluteFilePath(".local/share/icons/Kitupiikki.png"));
+    // Lisätään työpöytätiedosto
+    QFile desktop( QDir::home().absoluteFilePath(".local/share/applications/Kitupiikki.desktop") );
+    desktop.open(QIODevice::WriteOnly | QIODevice::Truncate);
+    QTextStream out(&desktop);
+    out.setCodec("UTF-8");
+
+    out << "[Desktop Entry]\nVersion=1.0\nType=Application\nName=Kitupiikki " << qApp->applicationVersion() << "\n";
+    out << "Icon=" << QDir::home().absoluteFilePath(".local/share/icons/Kitupiikki.png") << "\n";
+    out << "Exec=" << qApp->applicationFilePath() << "\n";
+    out << "TryExec=" << qApp->applicationFilePath() << "\n";
+    out << "GenericName=Kirjanpito\n";
+    out << qApp->tr("Comment=Avoimen lähdekoodin kirjanpitäjä\n");
+    out << "Categories=Office;Finance;Qt;\nTerminal=false";
+}
+
 
 int main(int argc, char *argv[])
-{   
+{
     QApplication a(argc, argv);
-    QSplashScreen *splash = new QSplashScreen;
-    splash->setPixmap( QPixmap(":/pic/splash.png"));
-    splash->show();
 
 #if defined (Q_OS_WIN) || defined (Q_OS_MACX)
     a.setStyle(QStyleFactory::create("Fusion"));
@@ -52,10 +73,11 @@ int main(int argc, char *argv[])
     // #120 GNOME-ongelmien takia ei käytetä Linuxissa natiiveja dialogeja
     a.setAttribute(Qt::AA_DontUseNativeDialogs);
 #endif
-
+    
     a.setApplicationName("Kitupiikki");
-    a.setApplicationVersion("1.0");
+    a.setApplicationVersion(KITUPIIKKI_VERSIO);
     a.setOrganizationDomain("kitupiikki.info");
+    
     a.setOrganizationName("Kitupiikki Kirjanpito");
 #ifndef Q_OS_MACX
     a.setWindowIcon( QIcon(":/pic/Possu64.png"));
@@ -63,12 +85,33 @@ int main(int argc, char *argv[])
 
     QLocale::setDefault(QLocale(QLocale::Finnish, QLocale::Finland));
 
+    // Qt:n vakioiden kääntämiseksi
+    // Käytetään ohjelmaan upotettua käännöstiedostoa, jotta varmasti mukana  
     QTranslator translator;
     translator.load("fi.qm",":/aloitus/");
+
     a.installTranslator(&translator);
 
-    QSettings settings;
-    if( settings.value("ViimeksiVersiolla").toString() != a.applicationVersion()  )
+    QStringList argumentit = qApp->arguments();
+
+    // Windowsin asentamattomalla versiolla (ohjelmatiedostossa viiva)
+    // asetukset kirjoitetaan kitupiikki.ini -tiedostoon
+#if defined ( Q_OS_WIN )
+    QString polku;
+    if( argumentit.at(0).contains('-'))
+    {
+        QFileInfo info(argumentit.at(0));
+        polku = info.absoluteDir().absolutePath();
+    }
+    Kirjanpito kirjanpito(polku);
+#else
+    Kirjanpito kirjanpito;
+#endif
+    Kirjanpito::asetaInstanssi(&kirjanpito);
+
+
+    // Jos versio on muuttunut, näytetään tervetulodialogi    
+    if( kp()->settings()->value("ViimeksiVersiolla").toString() != a.applicationVersion()  )
     {
         QDialog tervetuloDlg;
         Ui::TervetuloDlg tervetuloUi;
@@ -76,54 +119,41 @@ int main(int argc, char *argv[])
         tervetuloUi.versioLabel->setText("Versio " + a.applicationVersion());
         tervetuloUi.esiKuva->setVisible( a.applicationVersion().contains('-'));
         tervetuloUi.esiVaro->setVisible( a.applicationVersion().contains('-'));
-        tervetuloUi.paivitysCheck->setChecked( settings.value("NaytaPaivitykset",true).toBool());
+        tervetuloUi.paivitysCheck->setChecked( kp()->settings()->value("NaytaPaivitykset",true).toBool());
 
-#ifdef Q_OS_WIN
+#ifndef Q_OS_LINUX
     tervetuloUi.valikkoonCheck->setVisible(false);
 #endif
         tervetuloDlg.exec();
 
 #ifdef Q_OS_LINUX
+        // Ohjelman lisääminen käynnistysvalikkoon Linuxilla
         if( tervetuloUi.valikkoonCheck->isChecked())
-        {
-            // Poistetaan vanha, jotta päivittyisi
-            QFile::remove( QDir::home().absoluteFilePath(".local/share/applications/Kitupiikki.desktop") );
-            // Kopioidaan kuvake
-            QDir::home().mkpath( ".local/share/icons" );
-            QFile::copy(":/pic/Possu64.png", QDir::home().absoluteFilePath(".local/share/icons/Kitupiikki.png"));
-            // Lisätään työpöytätiedosto
-            QFile desktop( QDir::home().absoluteFilePath(".local/share/applications/Kitupiikki.desktop") );
-            desktop.open(QIODevice::WriteOnly | QIODevice::Truncate);
-            QTextStream out(&desktop);
-            out.setCodec("UTF-8");
-            out << "[Desktop Entry]\nVersion=1.0\nType=Application\nName=Kitupiikki " << a.applicationVersion() << "\n";
-            out << "Icon=" << QDir::home().absoluteFilePath(".local/share/icons/Kitupiikki.png") << "\n";
-            out << "Exec=" << a.applicationFilePath() << "\n";
-            out << "TryExec=" << a.applicationFilePath() << "\n";
-            out << "GenericName=Kirjanpito\n";
-            out << a.tr("Comment=Avoimen lähdekoodin kirjanpitäjä\n");
-            out << "Categories=Office;Finance;Qt;\nTerminal=false";
-        }
+            lisaaLinuxinKaynnistysValikkoon();
+
 #endif
 
-        settings.setValue("NaytaPaivitykset", tervetuloUi.paivitysCheck->isChecked());
-        settings.setValue("ViimeksiVersiolla", a.applicationVersion());
+        kp()->settings()->setValue("NaytaPaivitykset", tervetuloUi.paivitysCheck->isChecked());
+        kp()->settings()->setValue("ViimeksiVersiolla", a.applicationVersion());
     }
+    QSplashScreen *splash = new QSplashScreen;
+    splash->setPixmap( QPixmap(":/pic/splash.png"));
+    splash->show();
 
-    Kirjanpito kirjanpito;
-    Kirjanpito::asetaInstanssi(&kirjanpito);
+    // Viivakoodifontti
+    QFontDatabase::addApplicationFont(":/code128_XL.ttf");
 
     KitupiikkiIkkuna ikkuna;
+
     ikkuna.show();
 
     // Avaa argumenttina olevan tiedostonnimen
-    QStringList argumentit = qApp->arguments();
     if( argumentit.length() > 1 && QFile(argumentit.at(1)).exists())
         kirjanpito.avaaTietokanta( argumentit.at(1));
 
     splash->finish( &ikkuna );
-    delete splash;
 
+    delete splash;
 
     return a.exec();
 }

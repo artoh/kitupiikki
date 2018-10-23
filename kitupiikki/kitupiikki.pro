@@ -10,14 +10,16 @@ QT += xml
 
 LIBS += -lpoppler-qt5
 LIBS += -lpoppler
+LIBS += -lzip
 
 
 macx {
     LIBS += -L/usr/local/opt/poppler/lib -lpoppler-qt5
+    LIBS += -L/usr/local/opt/libzip -lzip
     INCLUDEPATH += /usr/local/include
 }
 
-CONFIG += c++11
+CONFIG += c++14
 
 TARGET = kitupiikki
 
@@ -101,7 +103,6 @@ SOURCES += main.cpp \
     maaritys/maarityswidget.cpp \
     kirjaus/ehdotusmodel.cpp \
     db/eranvalintamodel.cpp \
-    laskutus/laskutussivu.cpp \
     kirjaus/verodialogi.cpp \
     db/tilityyppimodel.cpp \
     kirjaus/taseeravalintadialogi.cpp \
@@ -145,11 +146,34 @@ SOURCES += main.cpp \
     tuonti/titotuonti.cpp \
     kirjaus/siirrydlg.cpp \
     laskutus/ostolaskutmodel.cpp \
-    tools/pdfikkuna.cpp \
     tools/kpdateedit.cpp \
     uusikp/kirjausperustesivu.cpp \
     tuonti/palkkafituonti.cpp \
-    raportti/alverittely.cpp
+    raportti/alverittely.cpp \
+    raportti/myyntiraportti.cpp \
+    validator/ytunnusvalidator.cpp \
+    laskutus/asiakkaatmodel.cpp \
+    laskutus/laskusivu.cpp \
+    laskutus/yhteystietowidget.cpp \
+    naytin/naytinscene.cpp \
+    naytin/pdfscene.cpp \
+    naytin/naytinview.cpp \
+    naytin/kuvanaytin.cpp \
+    naytin/raporttiscene.cpp \
+    naytin/naytinikkuna.cpp \
+    maaritys/tallentavamaarityswidget.cpp \
+    maaritys/inboxmaaritys.cpp \
+    tools/inboxlista.cpp \
+    arkisto/budjettimodel.cpp \
+    arkisto/budjettidlg.cpp \
+    arkisto/budjettikohdennusproxy.cpp \
+    laskutus/laskuryhmamodel.cpp \
+    laskutus/ryhmaasiakasproxy.cpp \
+    laskutus/ryhmantuontidlg.cpp \
+    laskutus/ryhmantuontimodel.cpp \
+    laskutus/finvoice.cpp \
+    maaritys/finvoicemaaritys.cpp \
+    raportti/budjettivertailu.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -229,7 +253,6 @@ HEADERS += \
     arkisto/arkistosivu.h \
     kirjaus/ehdotusmodel.h \
     db/eranvalintamodel.h \
-    laskutus/laskutussivu.h \
     kirjaus/verodialogi.h \
     db/tilityyppimodel.h \
     kirjaus/taseeravalintadialogi.h \
@@ -273,11 +296,35 @@ HEADERS += \
     tuonti/titotuonti.h \
     kirjaus/siirrydlg.h \
     laskutus/ostolaskutmodel.h \
-    tools/pdfikkuna.h \
     tools/kpdateedit.h \
     uusikp/kirjausperustesivu.h \
     tuonti/palkkafituonti.h \
-    raportti/alverittely.h
+    raportti/alverittely.h \
+    raportti/myyntiraportti.h \
+    validator/ytunnusvalidator.h \
+    laskutus/asiakkaatmodel.h \
+    laskutus/laskusivu.h \
+    laskutus/yhteystietowidget.h \
+    naytin/naytinscene.h \
+    naytin/pdfscene.h \
+    naytin/naytinview.h \
+    naytin/kuvanaytin.h \
+    naytin/raporttiscene.h \
+    naytin/naytinikkuna.h \
+    maaritys/tallentavamaarityswidget.h \
+    maaritys/inboxmaaritys.h \
+    tools/inboxlista.h \
+    arkisto/budjettimodel.h \
+    arkisto/budjettidlg.h \
+    arkisto/budjettikohdennusproxy.h \
+    laskutus/laskuryhmamodel.h \
+    laskutus/ryhmaasiakasproxy.h \
+    laskutus/ryhmantuontidlg.h \
+    laskutus/ryhmantuontimodel.h \
+    laskutus/finvoice.h \
+    maaritys/finvoicemaaritys.h \
+    versio.h \
+    raportti/budjettivertailu.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -326,7 +373,6 @@ FORMS += \
     kirjaus/taseeravalintadialogi.ui \
     maaritys/arvonlisavero.ui \
     maaritys/alvilmoitusdialog.ui \
-    laskutus/laskutus.ui \
     laskutus/laskudialogi.ui \
     maaritys/laskumaaritys.ui \
     maaritys/emailmaaritys.ui \
@@ -353,7 +399,14 @@ FORMS += \
     kirjaus/numerosiirto.ui \
     kirjaus/siirry.ui \
     kirjaus/kopioitosite.ui \
-    uusikp/kirjausperuste.ui
+    uusikp/kirjausperuste.ui \
+    laskutus/yhteystiedot.ui \
+    maaritys/inboxmaaritys.ui \
+    arkisto/budjettidlg.ui \
+    laskutus/ryhmantuontidlg.ui \
+    maaritys/verkkolaskumaaritys.ui \
+    aloitussivu/muistiinpanot.ui \
+    raportti/budjettivertailu.ui
 
 DISTFILES += \
     uusikp/luo.sql \

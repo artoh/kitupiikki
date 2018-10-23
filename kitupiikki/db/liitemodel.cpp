@@ -23,6 +23,7 @@
 #include <QIcon>
 #include <QPdfWriter>
 #include <QMessageBox>
+#include <QMimeData>
 
 #include <QPrinter>
 #include <QPainter>
@@ -62,8 +63,21 @@ QVariant LiiteModel::data(const QModelIndex &index, int role) const
         return QVariant( liite.otsikko );
     else if( role == Sharooli)
         return QVariant( liite.sha);
-    else if( role == TiedostoNimiRooli )
-        return liiteNimi( liite.liiteno );
+    else if( role == TiedostoNimiRooli && tositeModel_)
+    {
+        if( liite.pdf.startsWith("%PDF") )
+        {
+            return QString("%1-%2.pdf")
+                    .arg( tositeModel_->id(), 8, 10, QChar('0') )
+                    .arg( liite.liiteno , 2, 10, QChar('0') );
+        }
+        else if( liite.pdf.startsWith(  static_cast<char>( 0xff) ))
+        {
+            return QString("%1-%2.png")
+                    .arg( tositeModel_->id(), 8, 10, QChar('0') )
+                    .arg( liite.liiteno , 2, 10, QChar('0') );
+        }
+    }
     else if( role == PdfRooli )
         return liite.pdf;
     else if( role == LiiteNumeroRooli )
@@ -82,7 +96,7 @@ QVariant LiiteModel::data(const QModelIndex &index, int role) const
 Qt::ItemFlags LiiteModel::flags(const QModelIndex &index) const
 {
     if( tositeModel_ && tositeModel_->muokkausSallittu())
-        return QAbstractListModel::flags(index) | Qt::ItemIsEditable;
+        return QAbstractListModel::flags(index) | Qt::ItemIsEditable | Qt::ItemIsDropEnabled;
     else
         return QAbstractListModel::flags(index);
 }
@@ -100,32 +114,50 @@ bool LiiteModel::setData(const QModelIndex &index, const QVariant &value, int ro
     return false;
 }
 
-int LiiteModel::lisaaPdf(const QByteArray &pdf, const QString &otsikko)
+
+int LiiteModel::lisaaLiite(const QByteArray &liite, const QString &otsikko, const QString &polusta)
 {
     beginInsertRows( QModelIndex(), liitteet_.count(), liitteet_.count() );
     Liite uusi;
 
     uusi.liiteno = seuraavaNumero();
-    uusi.pdf = pdf;
+    uusi.pdf = liite;
     uusi.otsikko = otsikko;
     uusi.muokattu = true;
+    uusi.lisattyPolusta = polusta;
 
-    // Peukkukuvan muodostaminen
-    Poppler::Document *pdfDoc = Poppler::Document::loadFromData( pdf );
-    if( pdfDoc )
+    if( liite.startsWith("%PDF"))
     {
-        Poppler::Page *pdfsivu = pdfDoc->page(0);
-        if( pdfsivu )
+
+        // Peukkukuvan muodostaminen
+        Poppler::Document *pdfDoc = Poppler::Document::loadFromData( liite );
+        if( pdfDoc )
         {
-            QImage image = pdfsivu->renderToImage(24,24);
-            QPixmap kuva = QPixmap::fromImage( image.scaled(64,64,Qt::KeepAspectRatio) );
+            Poppler::Page *pdfsivu = pdfDoc->page(0);
+            if( pdfsivu )
+            {
+                QImage image = pdfsivu->renderToImage(24,24);
+                QPixmap kuva = QPixmap::fromImage( image.scaled(64,64,Qt::KeepAspectRatio) );
+                QBuffer buffer(&uusi.thumbnail);
+                buffer.open(QIODevice::WriteOnly);
+                kuva.save(&buffer, "PNG");
+
+                delete pdfsivu;
+            }
+            delete pdfDoc;
+        }
+    }
+    else if( liite.startsWith(  static_cast<char>( 0xff) ))
+    {
+        // Peukkukuvan muodostaminen jpg-tiedostosta
+        QImage kuva = QImage::fromData( liite, "JPG" );
+        if( !kuva.isNull())
+        {
+            QPixmap peukkukuva = QPixmap::fromImage( kuva.scaled(64,64,Qt::KeepAspectRatio) );
             QBuffer buffer(&uusi.thumbnail);
             buffer.open(QIODevice::WriteOnly);
-            kuva.save(&buffer, "PNG");
-
-            delete pdfsivu;
+            peukkukuva.save(&buffer, "PNG");
         }
-        delete pdfDoc;
     }
 
     liitteet_.append(uusi);
@@ -137,7 +169,7 @@ int LiiteModel::lisaaPdf(const QByteArray &pdf, const QString &otsikko)
     return uusi.liiteno;
 }
 
-int LiiteModel::asetaPdf(const QByteArray &pdf, const QString &otsikko)
+int LiiteModel::asetaLiite(const QByteArray &liite, const QString &otsikko)
 {
     for(int i=0; i < liitteet_.count(); i++)
         if( liitteet_.at(i).otsikko == otsikko)
@@ -145,7 +177,7 @@ int LiiteModel::asetaPdf(const QByteArray &pdf, const QString &otsikko)
             poistaLiite(i);
             break;
         }
-    return lisaaPdf(pdf, otsikko);
+    return lisaaLiite(liite, otsikko);
 }
 
 int LiiteModel::lisaaTiedosto(const QString &polku, const QString &otsikko)
@@ -155,7 +187,7 @@ int LiiteModel::lisaaTiedosto(const QString &polku, const QString &otsikko)
     QFile tiedosto(polku);
     if( !tiedosto.open(QIODevice::ReadOnly) )
     {
-        QMessageBox::critical(0, tr("Tiedostovirhe"),
+        QMessageBox::critical(nullptr, tr("Tiedostovirhe"),
                               tr("Tiedoston %1 avaaminen epäonnistui \n%2").arg(polku).arg(tiedosto.errorString()));
         return 0;
     }
@@ -164,37 +196,22 @@ int LiiteModel::lisaaTiedosto(const QString &polku, const QString &otsikko)
 
     if( !data.startsWith("%PDF"))
     {
-        QByteArray pdf;
+        // Kuvatiedostot muunnetaan jpg-muotoon
+        QByteArray jpg;
         QImage kuva(polku);
         if( kuva.isNull())
             return 0;
 
 
-        QBuffer puskuri(&pdf);
+        QBuffer puskuri(&jpg);
         puskuri.open(QBuffer::WriteOnly);
-
-        QPdfWriter writer( &puskuri );
-        writer.setTitle( otsikko );
-        writer.setPageSize( QPageSize(QPageSize::A4));
-
-        QPainter painter( &writer );
-
-        QRect rect = painter.viewport();
-        QSize size = kuva.size();
-
-        size.scale( rect.size(), Qt::KeepAspectRatio );
-        painter.setViewport( rect.x(), rect.y(),                             size.width(), size.height());
-        painter.setWindow( kuva.rect() );
-
-
-        painter.drawImage(0,0,kuva);
-        painter.end();
+        kuva.save(&puskuri, "JPG");
 
         puskuri.close();
-        return lisaaPdf(pdf, otsikko);
+        return lisaaLiite(jpg, otsikko, polku);
     }
 
-    return lisaaPdf(data, otsikko);
+    return lisaaLiite(data, otsikko, polku);
 }
 
 void LiiteModel::poistaLiite(int indeksi)
@@ -219,14 +236,48 @@ QByteArray LiiteModel::liite(const QString &otsikko)
     return QByteArray();
 }
 
-QString LiiteModel::liiteNimi(int liitenro) const
+bool LiiteModel::canDropMimeData(const QMimeData *data, Qt::DropAction /*action*/, int /* row */, int /*column*/, const QModelIndex &/*parent*/) const
 {
-    if(!tositeModel_)
-        return QString();
+    return( data->hasUrls() || data->formats().contains("image/jpg") || data->formats().contains("image/png"));
+}
 
-    return QString("%1-%2.pdf")
-            .arg( tositeModel_->id(), 8, 10, QChar('0') )
-            .arg( liitenro, 2, 10, QChar('0') );
+bool LiiteModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int /* row */, int /* column */, const QModelIndex & /* parent */)
+{
+    if( action == Qt::IgnoreAction)
+        return true;
+
+    int lisatty = 0;
+    // Liitetiedosto pudotettu
+    if( data->hasUrls())
+    {
+        QList<QUrl> urlit = data->urls();
+        for(auto url : urlit)
+        {
+            if( url.isLocalFile())
+            {
+                QFileInfo info( url.toLocalFile());
+                QString polku = info.absoluteFilePath();
+
+                lisaaTiedosto(info.absoluteFilePath(), info.fileName());
+                lisatty++;
+            }
+        }
+    }
+    if( lisatty)
+        return true;
+
+    if( !lisatty && data->formats().contains("image/jpg"))
+    {
+        lisaaLiite( data->data("image/jpg"), tr("liite.jpg") );
+        return true;
+    }
+    else if(!lisatty && data->formats().contains("image/png"))
+    {
+        lisaaLiite( data->data("image/png"), tr("liite.png") );
+        return true;
+    }
+
+    return false;
 }
 
 
@@ -271,6 +322,8 @@ void LiiteModel::tyhjaa()
 
 bool LiiteModel::tallenna()
 {
+    QString inboxPolku = kp()->asetukset()->asetus("KirjattavienKansio");
+
     QSqlQuery kysely( *kp()->tietokanta() );
     for( int i=0; i<liitteet_.count(); i++)
     {        
@@ -300,6 +353,9 @@ bool LiiteModel::tallenna()
                 if( !kysely.exec() )
                     return false;
                 liitteet_[i].id = kysely.lastInsertId().toInt();
+
+                if( !inboxPolku.isEmpty() && liitteet_.at(i).lisattyPolusta.startsWith( inboxPolku ) )
+                    QFile::remove( liitteet_.at(i).lisattyPolusta );
 
             }
             else

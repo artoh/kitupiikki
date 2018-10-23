@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>957</width>
+    <width>1095</width>
     <height>420</height>
    </rect>
   </property>
@@ -50,9 +50,13 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="viennit">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/vientilista.png</normaloff>:/pic/vientilista.png</iconset>
+      </attribute>
       <attribute name="title">
        <string>&amp;Viennit</string>
       </attribute>
@@ -128,6 +132,10 @@
       </layout>
      </widget>
      <widget class="QWidget" name="kommentit">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/kommentti-harmaa.png</normaloff>:/pic/kommentti-harmaa.png</iconset>
+      </attribute>
       <attribute name="title">
        <string>&amp;Kommentit</string>
       </attribute>
@@ -142,12 +150,22 @@
       </layout>
      </widget>
      <widget class="QWidget" name="liitteet">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/liite.png</normaloff>:/pic/liite.png</iconset>
+      </attribute>
       <attribute name="title">
        <string>L&amp;iitteet</string>
       </attribute>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
         <widget class="QListView" name="liiteView">
+         <property name="dragEnabled">
+          <bool>false</bool>
+         </property>
+         <property name="dragDropMode">
+          <enum>QAbstractItemView::DragDrop</enum>
+         </property>
          <property name="iconSize">
           <size>
            <width>128</width>
@@ -165,6 +183,21 @@
           <widget class="QPushButton" name="avaaNappi">
            <property name="text">
             <string>Avaa</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../pic/pic.qrc">
+             <normaloff>:/pic/print.png</normaloff>:/pic/print.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="tulostaLiiteNappi">
+           <property name="text">
+            <string>Tulosta</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../pic/pic.qrc">
+             <normaloff>:/pic/tulosta.png</normaloff>:/pic/tulosta.png</iconset>
            </property>
           </widget>
          </item>
@@ -211,6 +244,10 @@
       </layout>
      </widget>
      <widget class="QWidget" name="tiliote">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/tekstisivu.png</normaloff>:/pic/tekstisivu.png</iconset>
+      </attribute>
       <attribute name="title">
        <string>&amp;Tiliote</string>
       </attribute>
@@ -233,7 +270,11 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QComboBox" name="tiliotetiliCombo"/>
+        <widget class="QComboBox" name="tiliotetiliCombo">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+        </widget>
        </item>
        <item row="2" column="0">
         <widget class="QLabel" name="label_4">
@@ -248,7 +289,11 @@
        <item row="2" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_5">
          <item>
-          <widget class="QDateEdit" name="tiliotealkaenEdit"/>
+          <widget class="QDateEdit" name="tiliotealkaenEdit">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QLabel" name="label_5">
@@ -261,7 +306,11 @@
           </widget>
          </item>
          <item>
-          <widget class="QDateEdit" name="tilioteloppuenEdit"/>
+          <widget class="QDateEdit" name="tilioteloppuenEdit">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+          </widget>
          </item>
          <item>
           <spacer name="horizontalSpacer_3">
@@ -294,6 +343,10 @@
       </layout>
      </widget>
      <widget class="QWidget" name="lisatab">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/info-harmaa.png</normaloff>:/pic/info-harmaa.png</iconset>
+      </attribute>
       <attribute name="title">
        <string>Lisätiedot</string>
       </attribute>

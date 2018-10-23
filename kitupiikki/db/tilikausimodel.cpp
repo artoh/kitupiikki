@@ -114,6 +114,8 @@ QVariant TilikausiModel::data(const QModelIndex &index, int role) const
         return QVariant( kausi.paattyy());
     else if( role == HenkilostoRooli )
         return kausi.json()->luku("Henkilosto");
+    else if( role == LyhenneRooli)
+        return  kausi.kausitunnus();
     else if( role == Qt::TextAlignmentRole)
     {
         if( index.column()==TULOS )
@@ -140,20 +142,21 @@ QVariant TilikausiModel::data(const QModelIndex &index, int role) const
         {
             if( kausi.tilinpaatoksenTila() == Tilikausi::VAHVISTETTU)
                 return QIcon(":/pic/ok.png");
+            else if( kausi.tilinpaatoksenTila() == Tilikausi::EILAADITATILINAVAUKSELLE)
+                return QIcon(":/pic/rahaa.png");
             else if( kausi.tilinpaatoksenTila() == Tilikausi::KESKEN &&
-                     kausi.paattyy().daysTo( kp()->paivamaara()) > 4 * 30)
-                return QIcon(":/pic/varoitus.png");
+                     kausi.paattyy().daysTo( kp()->paivamaara()) > 4 * 30)                
+                return QIcon(":/pic/varoitus.png");            
             else if( kausi.paattyy().daysTo( kp()->paivamaara()) > 1 &&
-                     kausi.paattyy().daysTo( kp()->paivamaara()) < 4 * 30 &&
-                     kausi.tilinpaatoksenTila() != Tilikausi::EILAADITATILINAVAUKSELLE)
-                return QIcon(":/pic/info.png");
+                     kausi.paattyy().daysTo( kp()->paivamaara()) < 4 * 30)
+                return QIcon(":/pic/info.png");                        
         }
     }
 
     return QVariant();
 }
 
-void TilikausiModel::lisaaTilikausi(Tilikausi tilikausi)
+void TilikausiModel::lisaaTilikausi(const Tilikausi& tilikausi)
 {
     beginInsertRows( QModelIndex(), kaudet_.count(), kaudet_.count());
 
@@ -216,7 +219,7 @@ JsonKentta *TilikausiModel::json(int indeksi)
     return kaudet_[indeksi].json();
 }
 
-JsonKentta *TilikausiModel::json(Tilikausi tilikausi)
+JsonKentta *TilikausiModel::json(const Tilikausi& tilikausi)
 {
     return json( tilikausi.paattyy() );
 }
@@ -231,14 +234,24 @@ QDate TilikausiModel::kirjanpitoAlkaa() const
 {
     if( kaudet_.count())
         return kaudet_.first().alkaa();
-    return QDate();
+    return {};
 }
 
 QDate TilikausiModel::kirjanpitoLoppuu() const
 {
     if( kaudet_.count())
         return kaudet_.last().paattyy();
-    return QDate();
+    return {};
+}
+
+bool TilikausiModel::onkoBudjetteja() const
+{
+    for(auto kausi: kaudet_)
+    {
+        if( kausi.json()->avaimet().contains("Budjetti"))
+            return true;
+    }
+    return false;
 }
 
 void TilikausiModel::lataa()

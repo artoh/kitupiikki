@@ -45,7 +45,7 @@
 #include "raportti/raporttisivu.h"
 #include "arkisto/arkistosivu.h"
 #include "uusikp/uusikirjanpito.h"
-#include "laskutus/laskutussivu.h"
+#include "laskutus/laskusivu.h"
 
 #include "db/kirjanpito.h"
 
@@ -54,6 +54,9 @@
 #include "lisaikkuna.h"
 #include "laskutus/laskudialogi.h"
 #include "kirjaus/siirrydlg.h"
+
+#include "tools/inboxlista.h"
+#include "maaritys/alvmaaritys.h"
 
 KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     nykysivu(nullptr)
@@ -67,7 +70,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 
     aloitussivu = new AloitusSivu();
     kirjaussivu =  new KirjausSivu(this);
-    laskutussivu = new LaskutusSivu();
+    laskutussivu = new LaskuSivu();
     selaussivu = new SelausWg();
     maarityssivu = new MaaritysSivu();
     raporttisivu = new RaporttiSivu();
@@ -78,21 +81,26 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 
     lisaaSivut();
     luoHarjoitusDock();
-
+    luoInboxDock();
 
     // Himmennetään ne valinnat, jotka mahdollisia vain kirjanpidon ollessa auki
     for(int i=KIRJAUSSIVU; i<SIVUT_LOPPU;i++)
         sivuaktiot[i]->setEnabled(false);
 
-    QSettings settings;
-    restoreGeometry( settings.value("geometry").toByteArray());
+    restoreGeometry( kp()->settings()->value("geometry").toByteArray());
     // Ladataan viimeksi avoinna ollut kirjanpito
-    if( settings.contains("viimeisin"))
+    if( kp()->settings()->contains("viimeisin"))
     {
-        QString viimeisin = settings.value("viimeisin").toString();
+        QString viimeisin = kp()->settings()->value("viimeisin").toString();
+        // Portable-käsittely
+        if( !kp()->portableDir().isEmpty())
+        {
+            QDir portableDir( kp()->portableDir());
+            viimeisin = QDir::cleanPath( portableDir.absoluteFilePath(viimeisin) );
+        }
         // #78 Varmistetaan, että kirjanpito edelleen olemassa (0.7 8.3.2018)
         if( QFile::exists( viimeisin ) )
-            Kirjanpito::db()->avaaTietokanta(viimeisin);
+            Kirjanpito::db()->avaaTietokanta(viimeisin, false);
         else
             aloitussivu->kirjanpitoVaihtui();
     }
@@ -135,9 +143,14 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 
 KitupiikkiIkkuna::~KitupiikkiIkkuna()
 {
-    QSettings settings;
-    settings.setValue("geometry",saveGeometry());
-    settings.setValue("viimeisin", kp()->tiedostopolku() );
+    kp()->settings()->setValue("geometry",saveGeometry());
+    if( !kp()->portableDir().isEmpty())
+    {
+        QDir portableDir( kp()->portableDir());
+        kp()->settings()->setValue("viimeisin", QDir::cleanPath( portableDir.relativeFilePath( kp()->tiedostopolku() ) ));
+    }
+    else
+        kp()->settings()->setValue("viimeisin", kp()->tiedostopolku() );
 }
 
 void KitupiikkiIkkuna::valitseSivu(int mikasivu, bool paluu)
@@ -180,7 +193,6 @@ void KitupiikkiIkkuna::kirjanpitoLadattu()
             sivuaktiot[i]->setEnabled(true);
     }
 
-    valitseSivu(ALOITUSSIVU);
     edellisetIndeksit.clear();  // Tyhjennetään "selaushistoria"
 }
 
@@ -190,7 +202,7 @@ void KitupiikkiIkkuna::palaaSivulta()
         valitseSivu( edellisetIndeksit.pop(), true );
 }
 
-void KitupiikkiIkkuna::selaaTilia(int tilinumero, Tilikausi tilikausi)
+void KitupiikkiIkkuna::selaaTilia(int tilinumero, const Tilikausi& tilikausi)
 {
     valitseSivu( SELAUSSIVU );
     selaussivu->selaa(tilinumero, tilikausi);
@@ -210,8 +222,19 @@ void KitupiikkiIkkuna::uusiSelausIkkuna()
 
 void KitupiikkiIkkuna::uusiLasku()
 {
-    LaskuDialogi *dlg = new LaskuDialogi(this);
-    dlg->show();
+    if( !LaskuDialogi::laskuIkkunoita() )
+    {
+        // Ei salli useampaa laskuikkunaa!
+        LaskuDialogi *dlg = new LaskuDialogi();
+        dlg->show();
+    }
+    else
+    {
+        QMessageBox::information(this, tr("Uutta laskua ei voi luoda"),
+                                 tr("Päällekkäisten viitenumeroiden välttämiseksi voit tehdä vain "
+                                    "yhden laskun kerrallaan.\n"
+                                    "Sulje avoinna oleva laskuikkuna ennen uuden laskun luomista."));
+    }
 }
 
 void KitupiikkiIkkuna::aktivoiSivu(QAction *aktio)
@@ -234,22 +257,37 @@ void KitupiikkiIkkuna::naytaTosite(int tositeid)
     kirjaussivu->naytaTosite(tositeid);
 }
 
-void KitupiikkiIkkuna::ktpKasky(QString kasky)
+void KitupiikkiIkkuna::ktpKasky(const QString& kasky)
 {
     if( kasky.startsWith("maaritys/"))
     {
         valitseSivu( MAARITYSSIVU, true );
         maarityssivu->valitseSivu(kasky.mid(9));
     }
+    else if(kasky=="alvilmoitus")
+    {
+        valitseSivu(MAARITYSSIVU, true);
+        maarityssivu->valitseSivu("Arvonlisävero");
+        AlvMaaritys *alv = qobject_cast<AlvMaaritys*>(maarityssivu->nykyWidget());
+        if(alv)
+            alv->ilmoita();
+    }
     else if( kasky == "raportit")
         valitseSivu( TULOSTESIVU, true);
     else if( kasky == "kirjaa")
         valitseSivu( KIRJAUSSIVU, true);
-    else if( kasky == "uusitilikausi" || kasky=="arkisto")
+    else if( kasky == "uusitilikausi" || kasky=="arkisto" || kasky=="tilinpaatos")
     {
         valitseSivu( ARKISTOSIVU, true);
         if( kasky == "uusitilikausi")
             arkistosivu->uusiTilikausi();
+        else if(kasky == "tilinpaatos")
+            arkistosivu->tilinpaatos();
+    }
+    else if( kasky == "paivitatilikartta")
+    {
+        maarityssivu->paivitaTilikartta();
+        aloitussivu->siirrySivulle();   // Päivitä aloitussivu, jotta päivitysinfo katoaa
     }
 }
 
@@ -353,7 +391,7 @@ void KitupiikkiIkkuna::lisaaSivut()
     toolbar = new QToolBar(this);
     toolbar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     toolbar->setIconSize(QSize(64,64));
-    toolbar->setStyleSheet("QToolBar {background-color: darkGray; spacing: 5px; }  QToolBar::separator { border: none; margin-bottom: 16px; }  QToolButton { border: 0px solid lightgray; margin-right: 0px; font-size: 8pt; }  QToolButton:checked {background-color: lightGray; } QToolButton:hover { font-size: 9pt; font-weight: bold; } ");
+    toolbar->setStyleSheet("QToolBar {background-color: palette(mid); spacing: 5px; }  QToolBar::separator { border: none; margin-bottom: 16px; }  QToolButton { border: 0px solid lightgray; margin-right: 0px; font-size: 8pt; width: 90%; margin-left: 3px; margin-top: 0px; border-top-left-radius: 6px; border-bottom-left-radius: 6px}  QToolButton:checked {background-color: palette(window); } QToolButton:hover { font-size: 9pt; font-weight: bold; } ");
     toolbar->setMovable(false);
 
     aktioryhma = new QActionGroup(this);
@@ -375,6 +413,10 @@ void KitupiikkiIkkuna::lisaaSivut()
 
     connect(aktioryhma, SIGNAL(triggered(QAction*)), this, SLOT(aktivoiSivu(QAction*)));
 
+    QWidget *vali = new QWidget();
+    vali->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    toolbar->addWidget(vali);
+
     QAction *ohjeAktio = new QAction(QIcon(":/pic/ohje.png"),tr("Käsikirja"), this);
     ohjeAktio->setShortcut( QKeySequence(Qt::Key_F1));
     ohjeAktio->setToolTip("Ohjeet \tF1");
@@ -393,7 +435,8 @@ void KitupiikkiIkkuna::luoHarjoitusDock()
 
     QDateEdit *pvmedit = new QDateEdit;
     pvmedit->setDate( QDate::currentDate());
-    pvmedit->setStyleSheet("background: white;");
+    pvmedit->setStyleSheet("background: palette(window); border-radius: 0px; border: 1px solid black; color: palette(text);");
+    pvmedit->setCalendarPopup(true);
 
     QHBoxLayout *leiska = new QHBoxLayout;
     leiska->addWidget(teksti, 3);
@@ -405,11 +448,25 @@ void KitupiikkiIkkuna::luoHarjoitusDock()
     harjoitusDock = new QDockWidget;
     harjoitusDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
     harjoitusDock->setWidget(wg);
-    harjoitusDock->setStyleSheet("background: green");
+    harjoitusDock->setStyleSheet("background: green; border-bottom-left-radius: 10px;");
     harjoitusDock->setTitleBarWidget(new QWidget(this));
 
     addDockWidget(Qt::TopDockWidgetArea, harjoitusDock);
     connect( pvmedit, SIGNAL(dateChanged(QDate)), Kirjanpito::db(), SLOT(asetaHarjoitteluPvm(QDate)));
     connect( pvmedit, SIGNAL(dateChanged(QDate)), aloitussivu, SLOT(siirrySivulle()));  // Jotta päivittyy ;)
     harjoitusDock->setVisible(false);
+}
+
+void KitupiikkiIkkuna::luoInboxDock()
+{
+    InboxLista *inbox = new InboxLista;
+
+    inboxDock = new QDockWidget(tr("Kirjattavat"));
+    inboxDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea );
+    inboxDock->setWidget(inbox);
+
+    addDockWidget(Qt::RightDockWidgetArea, inboxDock);
+    inboxDock->setVisible( false );
+    connect( inbox, &InboxLista::nayta, inboxDock, &QDockWidget::setVisible );
+
 }

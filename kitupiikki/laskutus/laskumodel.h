@@ -18,15 +18,19 @@
 #ifndef LASKUMODEL_H
 #define LASKUMODEL_H
 
-#include <QAbstractTableModel>
-#include <QDate>
-#include <QList>
 
 #include "db/tili.h"
 #include "db/kohdennus.h"
 #include "db/tositelaji.h"
 
 #include "laskutmodel.h"
+
+#include <QAbstractTableModel>
+#include <QDate>
+#include <QList>
+#include <memory>
+
+class LaskuRyhmaModel;
 
 /**
  * @brief Laskun yksi rivi
@@ -57,7 +61,14 @@ class LaskuModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
-    LaskuModel(QObject *parent = 0, AvoinLasku hyvitettava = AvoinLasku());
+    LaskuModel(QObject *parent = nullptr);
+
+    static LaskuModel *teeHyvityslasku(int hyvitettavaVientiId);
+    static LaskuModel *teeMaksumuistutus(int muistutettavaVientiId);
+    static LaskuModel *haeLasku(int vientiId);
+    static LaskuModel *ryhmaLasku();
+
+
 
     enum LaskuSarake
     {
@@ -65,6 +76,7 @@ public:
     };
 
     enum Kirjausperuste {SUORITEPERUSTE, LASKUTUSPERUSTE, MAKSUPERUSTE, KATEISLASKU};
+    enum Laskutyppi { LASKU, HYVITYSLASKU, MAKSUMUISTUTUS, OSTOLASKU, RYHMALASKU};
 
 
     enum
@@ -74,7 +86,9 @@ public:
         AlvProsenttiRooli = Qt::UserRole + 6,
         NettoRooli = Qt::UserRole + 7,
         VeroRooli = Qt::UserRole + 8,
-        TuoteKoodiRooli = Qt::UserRole + 9
+        TuoteKoodiRooli = Qt::UserRole + 9,
+        AHintaRooli = Qt::UserRole + 10,
+        BruttoRooli = Qt::UserRole + 11
     };
 
 
@@ -85,7 +99,7 @@ public:
     bool setData(const QModelIndex &index, const QVariant &value, int role);
     Qt::ItemFlags flags(const QModelIndex &index) const;
 
-    int laskunSumma() const;
+    qlonglong laskunSumma() const;
 
     /**
      * @brief Palauttaa kopion laskurivistä
@@ -102,21 +116,47 @@ public:
     QString laskunsaajanNimi() const { return laskunsaajanNimi_; }
     int kirjausperuste() const { return kirjausperuste_;}
     QString email() const { return email_;}
-    AvoinLasku hyvityslasku() const { return hyvitettavaLasku_; }
+    QString ytunnus() const { return ytunnus_; }
+    QString verkkolaskuOsoite() const { return verkkolaskuOsoite_;}
+    QString verkkolaskuValittaja() const { return verkkolaskuValittaja_;}
+    QString asiakkaanViite() const { return asiakkaanViite_;}
+    /**
+     * @brief Hyvityslaskulla hyvitettävä lasku ja maksumuistutuksella muistutettava
+     * @return
+     */
+    AvoinLasku viittausLasku() const { return viittausLasku_; }
 
 
     qulonglong laskunro() const;
     QString viitenumero() const;
+    Laskutyppi tyyppi() const { return tyyppi_; }
+    qlonglong avoinSaldo() const { return avoinSaldo_; }
+
+    LaskuRyhmaModel* ryhmaModel() { return ryhma_;}
+
+    /**
+     * @brief Hakee ryhmämodelista asiakkaan tiedot indeksiin
+     * @param indeksi
+     *
+     * Näin ollen tulostettaessa, talletettaessa tai muussa vastaavassa
+     * voidaan käsitellä tämä asiakas
+     */
+    void haeRyhmasta(int indeksi);
+
 
 public slots:
 
-    void asetaErapaiva(const QDate & paiva) { erapaiva_ = paiva; }
-    void asetaLisatieto(const QString& tieto) { lisatieto_ = tieto; }
-    void asetaOsoite(const QString& osoite) { osoite_ = osoite; }
-    void asetaToimituspaiva(const QDate& pvm) { toimituspaiva_ = pvm; }
-    void asetaLaskunsaajannimi(const QString& nimi) { laskunsaajanNimi_ = nimi; }
-    void asetaKirjausperuste(int kirjausperuste) { kirjausperuste_ = kirjausperuste; }
-    void asetaEmail(const QString& osoite) { email_ = osoite; }
+    void asetaErapaiva(const QDate & paiva) { if(erapaiva_ != paiva) muokattu_ = true; erapaiva_ = paiva;  }
+    void asetaLisatieto(const QString& tieto) { if(lisatieto_ != tieto) muokattu_ = true; lisatieto_ = tieto;  }
+    void asetaOsoite(const QString& osoite) { if(osoite_ != osoite) muokattu_ = true; osoite_ = osoite;  }
+    void asetaToimituspaiva(const QDate& pvm) { if(toimituspaiva_ != pvm) muokattu_ = true; toimituspaiva_ = pvm;  }
+    void asetaLaskunsaajannimi(const QString& nimi) { if(laskunsaajanNimi_ != nimi) muokattu_ = true; laskunsaajanNimi_ = nimi;  }
+    void asetaKirjausperuste(int kirjausperuste) { if(kirjausperuste_ != kirjausperuste) muokattu_ = true; kirjausperuste_ = kirjausperuste; }
+    void asetaEmail(const QString& osoite) { if(email_ != osoite) muokattu_ = true; email_ = osoite; }
+    void asetaYTunnus(const QString& ytunnus) { if(ytunnus != ytunnus) muokattu_ = true;  ytunnus_ = ytunnus; }
+    void asetaAsiakkaanViite(const QString& viite) { if(asiakkaanViite() != viite) muokattu_ = true; asiakkaanViite_ = viite;}
+    void asetaVerkkolaskuOsoite(const QString& osoite) { if(verkkolaskuOsoite() != osoite) muokattu_ = true; verkkolaskuOsoite_ = osoite;}
+    void asetaVerkkolaskuValittaja(const QString& valittaja) { if(verkkolaskuValittaja() != valittaja) muokattu_=true; verkkolaskuValittaja_ = valittaja;}
 
 public:
 
@@ -131,14 +171,29 @@ public:
      * @param luvusta Viitenumero ilman tarkastetta
      * @return
      */
-    static int laskeViiteTarkiste(qulonglong luvusta);
+    static unsigned int laskeViiteTarkiste(qulonglong luvusta);
+
+    /**
+     * @brief Kirjanpidon tositetunnus
+     *
+     * Jos muokataan tositetta, on tositetunnus jo olemassa, muuten haetaan seuraava
+     * @return
+     */
+    QString tositetunnus();
+
+    static QString muotoileViitenumero(qulonglong viitenumero);
+
+    bool muokattu() const  { return muokattu_; }
 
 public slots:
     void lisaaRivi(LaskuRivi rivi = LaskuRivi());
     void poistaRivi(int indeksi);
 
 signals:
-    void summaMuuttunut(int summaSnt);
+    void summaMuuttunut(qlonglong summaSnt);
+
+protected:
+    void haeAvoinSaldo();
 
 private:
     QList<LaskuRivi> rivit_;
@@ -149,7 +204,20 @@ private:
     QString osoite_;
     int kirjausperuste_;
     QString email_;
-    AvoinLasku hyvitettavaLasku_;
+    QString ytunnus_;
+    AvoinLasku viittausLasku_;
+    Laskutyppi tyyppi_ = LASKU;
+    int tositeId_ = 0;
+    qulonglong laskunNumero_ = 0;
+    int vientiId_ = 0;
+    qlonglong avoinSaldo_ = 0;
+    bool muokattu_ = false;
+    QString asiakkaanViite_;
+    QString verkkolaskuOsoite_;
+    QString verkkolaskuValittaja_;
+
+    LaskuRyhmaModel* ryhma_ = nullptr;
+
 
     void paivitaSumma(int rivi);
 };

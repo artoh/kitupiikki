@@ -1,58 +1,73 @@
 # Kitupiikki <small>Avoimen lähdekoodin kirjanpitäjä</small>
 
 <div class="karuselli">
-<div class="karusellissa fade">
- <img src="images/kitupiikkikannettava.png">
-  <div class="txt">Avoimen lähdekoodin kirjanpitäjä</div>
-</div>
  <div class="karusellissa fade">
-  <img src="kirjaus/myllykirjaus.png">
+  <img src="karuselli/1pdf.png">
   <div class="txt">Kitupiikki tallentaa pdf-muotoiset liitteet</div>
  </div>
  <div class="karusellissa fade">
-  <img src="images/paakirja.png">
+  <img src="karuselli/2paakirja.png">
   <div class="txt">Pääkirja</div>
  </div>
  <div class="karusellissa fade">
-  <img src="laskutus/luettelo.png">
+  <img src="karuselli/3laskut.png">
   <div class="txt">Kitupiikkiin sisältyy myös laskutus</div>
  </div>
  <div class="karusellissa fade">
-  <img src="images/maksualv.png">
-  <div class="txt">Kitupiikki tukee maksuperusteista arvonlisäveroa</div>
- </div>
- <div class="karusellissa fade">
-  <img src="images/arkisto.png">
+  <img src="karuselli/4arkisto.png">
   <div class="txt">Kirjanpidosta muodostetaan sähköinen arkisto</div>
  </div>
  <div class="karusellissa fade">
-  <img src="images/raportinmuokkaus.png">
+  <img src="karuselli/5raporttimuokkaus.png">
   <div class="txt">Tulosteet ovat täysin muokattavissa</div>
  </div>
  <div class="karusellissa fade">
-  <img src="aloitus/vinkit7.png">
+  <img src="karuselli/6vinkki.png">
   <div class="txt">Kitupiikki vinkkaa ja neuvoo</div>
  </div>
  <div class="karusellissa fade">
-  <img src="images/viivakoodi.png">
+  <img src="karuselli/7viivakoodi.png">
   <div class="txt">Laskuissa pankkiviivakoodi ja QR-koodi</div>
  </div>
  <div class="karusellissa fade">
-  <img src="images/arkisto1.png">
-  <div class="txt">Sähköisen arkiston etusivu</div>
- </div>
- <div class="karusellissa fade">
-  <img src="maaritykset/kohdennukset/kohdennukset.png">
+  <img src="karuselli/8kohdennukset.png">
   <div class="txt">Kirjauksia voi kohdentaa toiminnoille, projekteille jne.</div>
  </div>
  <div class="karusellissa fade">
-   <img src="images/poisto.png">
-   <div class="txt">Kitupiikki laskee tasaerä- ja menojäännöspoistot.</div>
+  <img src="karuselli/tilinpaatos.png">
+  <div class="txt">Kitupiikillä muodostat tilinpäätöksen näppärästi</div>
  </div>
+ <div class="karusellissa fade">
+   <img src="karuselli/9poistot.png">
+   <div class="txt">Kitupiikki laskee tasaerä- ja menojäännöspoistot</div>
+ </div>
+ <div class="karusellissa fade">
+   <img src="karuselli/alv.png">
+   <div class="txt">Kitupiikki laskee alv-ilmoituksen tiedot</div>
+ </div>
+ <div class="karusellissa fade">
+   <img src="karuselli/taseerittely.png">
+   <div class="txt">Kitupiikki muodostaa tase-erittelyn</div>
+ </div>
+ <div class="karusellissa fade">
+   <img src="karuselli/selaus.png">
+   <div class="txt">Kirjausten selaaminen</div>
+ </div>  
+ <div class="karusellissa fade">
+   <img src="karuselli/budjetti.png">
+   <div class="txt">Kitupiikissä on budjetin laadinta ja seuranta</div>
+ </div>   
+ <div class="karusellissa fade">
+   <img src="karuselli/raportit.png">
+   <div class="txt">Kitupiikissä on monipuolinen raportointi</div>
+ </div>   
+ <div class="karusellissa fade">
+   <img src="karuselli/mac.png">
+   <div class="txt">Saatavilla Windowsille, Macintoshille ja Linuxille</div>
+ </div>     
 </div>
 
 
-Kitupiikki on ilmainen suomalainen kirjanpito-ohjelma. Kitupiikki käsittelee ja arkistoi skannatut tositteet. Ohjelma on alunperin suunniteltu yhdistyksille, mutta Kitupiikin avulla hoidat vaivattomasti myös pienehkön yrityksen kirjanpidon.
 
 <div class="asennusinfo">
 <h3>Kitupiikki 1.0 julkaistu 21.8.2018</h3>
@@ -80,7 +95,7 @@ function showSlides() {
       slideIndex = 0;
 
     slides[ slideIndex ].style.display = "block";
-    setTimeout(showSlides, 4000); // Kuva vaihtuu kahden sekunnin välein
+    setTimeout(showSlides, 5000); // Kuva vaihtuu muutaman sekunnin välein
 }
 
 </script>
@@ -98,7 +113,7 @@ function showSlides() {
 "name" : "Arto Hyvättinen"
 },
 "downloadUrl" : "https://lataa.kitupiikki.info",
-"operatingSystem" : "Windows,Linux",
+"operatingSystem" : "Windows,Linux,macOS",
 "screenshot" : "https://kitupiikki.info/myllykirjaus.png",
 "applicationCategory": "Office",
 "applicationSubCategory": "Finance",

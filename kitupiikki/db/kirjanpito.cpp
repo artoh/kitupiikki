@@ -35,12 +35,20 @@
 #include <ctime>
 
 #include "kirjanpito.h"
-#include "tools/pdfikkuna.h"
+#include "naytin/naytinikkuna.h"
 
-
-Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
-    harjoitusPvm( QDate::currentDate()), tempDir_(nullptr)
+Kirjanpito::Kirjanpito(const QString& portableDir) : QObject(nullptr),
+    harjoitusPvm( QDate::currentDate()), tempDir_(nullptr), portableDir_(portableDir)
 {
+    if( portableDir.isEmpty())
+        settings_ = new QSettings(this);
+    else
+    {
+        // Asentamattomassa windows-versiossa asetukset ohjelman hakemistoon
+        QDir portable(portableDir);
+        settings_ = new QSettings(portable.absoluteFilePath("kitupiikki.ini"),QSettings::IniFormat, this);
+    }
+
     tietokanta_ = QSqlDatabase::addDatabase("QSQLITE");
 
     asetusModel_ = new AsetusModel(&tietokanta_, this);
@@ -54,6 +62,13 @@ Kirjanpito::Kirjanpito(QObject *parent) : QObject(parent),
     liitteet_ = nullptr;
 
     printer_ = new QPrinter(QPrinter::HighResolution);
+
+    // Jos järjestelmässä ei ole yhtään tulostinta, otetaan käyttöön pdf-tulostus jotte
+    // saadaan dialogit
+
+    if( !printer_->isValid())
+        printer()->setOutputFileName( QDir::temp().absoluteFilePath("print.pdf") );
+
     printer_->setPaperSize(QPrinter::A4);
     printer_->setPageMargins(10,5,5,5, QPrinter::Millimeter);
 }
@@ -103,7 +118,7 @@ void Kirjanpito::ohje(const QString &ohjesivu)
 void Kirjanpito::avaaUrl(const QUrl &url)
 {
     if( url.fileName().endsWith(".pdf"))
-        PdfIkkuna::naytaPdf( url.path() );
+        NaytinIkkuna::naytaTiedosto( url.path() );
     else if( !QDesktopServices::openUrl(url) )
     {
         if( url.fileName().endsWith("html"))
@@ -136,19 +151,7 @@ bool Kirjanpito::onkoMaksuperusteinenAlv(const QDate &paiva) const
 void Kirjanpito::asetaLogo(const QImage &logo)
 {
 
-    // Neliöidään logo
-    if( logo.height() == logo.width() )
-        logo_ = logo;
-    else if( logo.height() > logo.width())
-    {
-        logo_ = logo.copy( (logo.width() - logo.height()) / 2, 0, logo.height(), logo.height() );
-    }
-    else
-    {
-        logo_ = logo.copy( 0, (logo.height() - logo.width()) / 2, logo.width(), logo.width() );
-    }
-
-    // Tallennetaan logo tietokantaan liitteeksi NULL, logo
+    logo_ = logo;
 
     QByteArray ba;
 
@@ -159,7 +162,7 @@ void Kirjanpito::asetaLogo(const QImage &logo)
     buffer.close();
 
     // Tallennetaan NULL-liitteeksi
-    liitteet_->asetaPdf( ba, "logo" );
+    liitteet_->asetaLiite( ba, "logo" );
     liitteet_->tallenna();
 }
 
@@ -174,7 +177,7 @@ QString Kirjanpito::arkistopolku() const
 
 
 
-bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
+bool Kirjanpito::avaaTietokanta(const QString &tiedosto, bool ilmoitaVirheesta)
 {
     tietokanta_.setDatabaseName(tiedosto);
     polkuTiedostoon_ = tiedosto;
@@ -185,6 +188,39 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
                               tr("Tiedoston avaamisessa tapahtui virhe\n %1").arg( tietokanta_.lastError().text() ));
         return false;
     }
+
+    // Tehostetaan tietokannan nopeutta määrittelemällä, että tietokanta on vain tämän yhden
+    // yhteyden käytössä.
+
+    tietokanta()->exec("PRAGMA LOCKING_MODE = EXCLUSIVE");
+
+    tietokanta()->exec("PRAGMA JOURNAL_MODE = PERSIST");
+
+    if( tietokanta()->lastError().isValid())
+    {
+        // Tietokanta on jo käytössä
+        if( ilmoitaVirheesta )
+        {
+            if( tietokanta()->lastError().text().contains("locked"))
+            {
+                QMessageBox::critical(nullptr, tr("Kitupiikki").arg(tiedosto),
+                                      tr("Kirjanpitotiedosto on jo käytössä.\n\n%1\n\n"
+                                         "Sulje kaikki Kitupiikki-ohjelman ikkunat ja yritä uudelleen.\n"
+                                         "Ellei tämä auta, käynnistä tietokoneesi uudelleen.").arg(tiedosto));
+            }
+            else
+            {
+                QMessageBox::critical(nullptr, tr("Tiedostoa %1 ei voi avata").arg(tiedosto),
+                                  tr("Sql-virhe: %1").arg(tietokanta()->lastError().text()));
+            }
+        }
+
+        tietokanta()->close();
+        asetusModel_->lataa();
+        emit tietokantaVaihtui();
+        return false;
+    }
+
 
     // Ladataankin asetukset yms modelista
     asetusModel_->lataa();
@@ -313,10 +349,9 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
                 lkysely.bindValue(":json", json.toJson());
 
                 lkysely.exec();
-                qDebug() << lkysely.lastQuery() << lkysely.lastError().text();
 
                 if( kirjausperuste == LaskuModel::MAKSUPERUSTE)
-                    QSqlQuery eraaja( QString("UPDATE vienti SET eraid=id WHERE id=%1").arg( lkysely.lastInsertId().toInt() ));
+                    tietokanta()->exec( QString("UPDATE vienti SET eraid=id WHERE id=%1").arg( lkysely.lastInsertId().toInt() ));
             }
             // Logo
             QFile logotiedosto( info.dir().absoluteFilePath("logo.png") );
@@ -335,6 +370,8 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
                                  tr("Kirjanpito päivitetty käytössä olevaan versioon."));
 
     }
+    // Lukitaan tietokanta
+    asetusModel_->aseta("Avattu", QDateTime::currentDateTime().toString(Qt::ISODate));
 
     tositelajiModel_->lataa();
     tiliModel_->lataa();
@@ -344,8 +381,7 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto)
 
     // Tilapäishakemiston luominen
     // #124 Jos väliaikaistiedosto ei toimi...
-    if( tempDir_ )
-        delete tempDir_;
+    delete tempDir_;
 
     tempDir_ = new QTemporaryDir();
 
@@ -422,7 +458,6 @@ void Kirjanpito::paivita(int versioon)
     foreach (QString kysely,sqlista)
     {
         query.exec(kysely);
-        qDebug() << query.lastQuery() << query.lastError().text();
         qApp->processEvents();
     }
 }

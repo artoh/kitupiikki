@@ -32,7 +32,7 @@ class QCheckBox;
 /**
  * @brief Raportin kantaluokka
  *
- * Raporttikehys, jossa raportin tulostus ja esikatselu.
+ * Raporttikehys, jossa raportin esikatselu.
  * Tästä periytetty raporttiluokka luo oman käyttöliittymänsä
  * raporttiWidget -widgetin sisään
  *
@@ -48,7 +48,7 @@ class Raportti : public QWidget
 {
     Q_OBJECT
 public:
-    Raportti(bool csv = true, QWidget *parent = 0);
+    Raportti(QWidget *parent = nullptr);
 
 
     /**
@@ -56,49 +56,21 @@ public:
      * @arg csvmuoto Kirjoitetaan csv, eli ilman mitään väliotsikoita sun muita
      * @return RaportinKirjoittaja, jonne raportti on kirjoitettu
      */
-    virtual RaportinKirjoittaja raportti(bool csvmuoto = false) = 0;
+    virtual RaportinKirjoittaja raportti() = 0;
 
 
 signals:
 
 public slots:
     /**
-     * @brief Tulostaa raportin
-     */
-    void tulosta();
-    /**
      * @brief Pdf-raportin esikatselu
      */
     void esikatsele();
 
-    /**
-     * @brief Avaa html-muotoisena selaimessa
-     */
-    void avaaHtml();
 
-    /**
-     * @brief Vie csv-muodossa
-     */
-    void vieCsv();
-
-    /**
-     * @brief Näyttää dialogin sivun asetuksista
-     */
-    void sivunAsetukset();
-
-    /**
-     * @brief Kopioi raportin leikepöydälle
-     */
-    void leikepoydalle();
-
-    void csvleike();
-
-
-    void csvAsetukset();
 
 protected:
     QWidget *raporttiWidget;
-    QCheckBox *raitaCheck;
 
 
 };
