@@ -95,7 +95,7 @@ function showSlides() {
       slideIndex = 0;
 
     slides[ slideIndex ].style.display = "block";
-    setTimeout(showSlides, 4000); // Kuva vaihtuu kahden sekunnin välein
+    setTimeout(showSlides, 5000); // Kuva vaihtuu muutaman sekunnin välein
 }
 
 </script>
