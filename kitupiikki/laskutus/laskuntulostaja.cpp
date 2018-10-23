@@ -37,7 +37,6 @@ LaskunTulostaja::LaskunTulostaja(LaskuModel *model) : QObject(model), model_(mod
 
 bool LaskunTulostaja::tulosta(QPagedPaintDevice *printer, QPainter *painter)
 {
-
     double mm = printer->width() * 1.00 / printer->widthMM();
     qreal marginaali = 0.0;
 
@@ -83,6 +82,7 @@ bool LaskunTulostaja::tulosta(QPagedPaintDevice *printer, QPainter *painter)
     }
 
     painter->resetTransform();
+
     return true;
 }
 
@@ -481,8 +481,11 @@ qreal LaskunTulostaja::alatunniste(QPagedPaintDevice *printer, QPainter *painter
     qreal leveys = painter->window().width();
     double mm = printer->width() * 1.00 / printer->widthMM();
 
-    painter->drawText(QRectF(0,0,leveys/3,rk), Qt::AlignLeft, tr("Puh. %1").arg(kp()->asetus("Puhelin")));
-    painter->drawText(QRectF(0,rk,leveys/3,rk), Qt::AlignLeft, tr("Sähköposti %1").arg(kp()->asetus("Sahkoposti")));
+    if( !kp()->asetukset()->asetus("Puhelin").isEmpty() )
+        painter->drawText(QRectF(0,0,leveys/3,rk), Qt::AlignLeft, tr("Puh. %1").arg(kp()->asetus("Puhelin")));
+    if( !kp()->asetukset()->asetus("Sahkoposti").isEmpty() )
+        painter->drawText(QRectF(0,rk,leveys/3,rk), Qt::AlignLeft, tr("Sähköposti %1").arg(kp()->asetus("Sahkoposti")));
+
     painter->drawText(QRectF(leveys / 3,0,leveys/3,rk), Qt::AlignCenter, tr("IBAN %1").arg( valeilla( iban ) ));
     painter->drawText(QRectF(2 *leveys / 3,0,leveys/3,rk), Qt::AlignRight, tr("Y-tunnus %1").arg(kp()->asetus("Ytunnus")));
     painter->setPen( QPen(QBrush(Qt::black), mm * 0.13));
@@ -705,9 +708,9 @@ void LaskunTulostaja::tilisiirto(QPagedPaintDevice *printer, QPainter *painter)
     painter->drawLine(QLineF(0, mm*16.9, mm*111.4, mm*16.9));
     painter->drawLine(QLineF(0, mm*31.7, mm*111.4, mm*31.7));
     painter->drawLine(QLineF(mm*20, 0, mm*20, mm*31.7));
-    painter->drawLine(QLineF(0, mm*61.3, mm*205, mm*61.3));
-    painter->drawLine(QLineF(0, mm*69.8, mm*205, mm*69.8));
-    painter->drawLine(QLineF(mm*111.4, mm*52.8, mm*205, mm*52.8));
+    painter->drawLine(QLineF(0, mm*61.3, mm*200, mm*61.3));
+    painter->drawLine(QLineF(0, mm*69.8, mm*200, mm*69.8));
+    painter->drawLine(QLineF(mm*111.4, mm*52.8, mm*200, mm*52.8));
     painter->drawLine(QLineF(mm*131.4, mm*52.8, mm*131.4, mm*69.8));
     painter->drawLine(QLineF(mm*158, mm*61.3, mm*158, mm*69.8));
     painter->drawLine(QLineF(mm*20, mm*61.3, mm*20, mm*69.8));

@@ -142,7 +142,7 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
             ui->vastaCheck->setChecked( model->vientiModel()->debetSumma() != model->vientiModel()->kreditSumma() );
             if( model->vientiModel()->debetSumma() != model->vientiModel()->kreditSumma() )
             {
-                ui->euroSpin->setValue( ( model->vientiModel()->debetSumma() - model->vientiModel()->kreditSumma()  ) / 100.0);
+                ui->euroSpin->setValue( qAbs( model->vientiModel()->debetSumma() - model->vientiModel()->kreditSumma()  ) / 100.0);
                 laskeNetto();
             }
         }

@@ -586,7 +586,14 @@ void LaskuDialogi::smtpViesti(const QString &viesti)
 void LaskuDialogi::tulostaLasku()
 {
     vieMalliin();
-    QPrintDialog printDialog( kp()->printer(), this );
+
+    QPageLayout vanhaleiska = kp()->printer()->pageLayout();
+    QPageLayout uusileiska = vanhaleiska;
+    uusileiska.setUnits(QPageLayout::Millimeter);
+    uusileiska.setMargins( QMarginsF(5.0,5.0,5.0,5.0));
+    kp()->printer()->setPageLayout(uusileiska);
+
+    QPrintDialog printDialog( kp()->printer(), this );    
     if( printDialog.exec())
     {
         QPainter painter( kp()->printer());
@@ -611,6 +618,8 @@ void LaskuDialogi::tulostaLasku()
 
         painter.end();
     }
+
+    kp()->printer()->setPageLayout(vanhaleiska);
 }
 
 void LaskuDialogi::ryhmaNapit(const QItemSelection &valinta)

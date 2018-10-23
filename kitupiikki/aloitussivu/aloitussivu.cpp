@@ -484,13 +484,13 @@ QString AloitusSivu::summat()
 
 
     // Sitten tulot
-    QPair<QString,int> tulopari = summa( tr("Tulot"), R"(tili.tyyppi LIKE "C%")", tilikausi, true);
+    QPair<QString,int> tulopari = summa( tr("Tulot"), R"(tili.tyyppi LIKE "C%")", tilikausi, true, true);
     txt.append(tulopari.first);
     qlonglong ylijaama = tulopari.second;
 
 
     // ja menot
-    QPair<QString,int> menopari = summa( tr("Menot"), R"(tili.tyyppi LIKE "D%")", tilikausi, false);
+    QPair<QString,int> menopari = summa( tr("Menot"), R"(tili.tyyppi LIKE "D%")", tilikausi, false, true);
     txt.append(menopari.first);
     ylijaama -= menopari.second;
 
@@ -525,14 +525,20 @@ QString AloitusSivu::summat()
 
 }
 
-QPair<QString, qlonglong> AloitusSivu::summa(const QString &otsikko, const QString &tyyppikysely, const Tilikausi &tilikausi, bool kreditplus)
+QPair<QString, qlonglong> AloitusSivu::summa(const QString &otsikko, const QString &tyyppikysely, const Tilikausi &tilikausi, bool kreditplus, bool vali)
 {
     QString txt = "<tr><td colspan=2 class=otsikko>" + otsikko +"</td></tr>";
     QSqlQuery kysely;
 
-    kysely.exec(QString("select nro, nimi, sum(debetsnt), sum(kreditsnt) from vienti,tili where vienti.tili=tili.id and %2 and vienti.pvm"
+    if( vali )
+        kysely.exec(QString("select nro, nimi, sum(debetsnt), sum(kreditsnt) from vienti,tili where vienti.tili=tili.id and %3 and vienti.pvm"
+                        " BETWEEN \"%1\" AND \"%2\" group by nro")
+                .arg(tilikausi.alkaa().toString(Qt::ISODate)).arg(tilikausi.paattyy().toString(Qt::ISODate)).arg(tyyppikysely));
+    else
+        kysely.exec(QString("select nro, nimi, sum(debetsnt), sum(kreditsnt) from vienti,tili where vienti.tili=tili.id and %2 and vienti.pvm"
                         "<\"%1\" group by nro")
                 .arg(tilikausi.paattyy().toString(Qt::ISODate)).arg(tyyppikysely));
+
     qlonglong saldosumma = 0;
     while( kysely.next())
     {

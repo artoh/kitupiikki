@@ -365,10 +365,13 @@ void Arkistoija::arkistoiTositteet()
 
                 QString kohdennusTxt = index.sibling(vientiRivi, VientiModel::KOHDENNUS).data().toString();
 
-                if( eranid)
-                    out << QString("<a href=%1.html>%2</a>").arg( eranid, 8, 10, QChar('0')).arg(kohdennusTxt);
-                else if(kohdennusTxt != "VIITE")        // VIITE-tekstiä ei tulosteta
-                    out << kohdennusTxt;
+                if( kohdennusTxt != "VIITE")
+                {
+                    if( eranid)
+                        out << QString("<a href=%1.html>%2</a>").arg( eranid, 8, 10, QChar('0')).arg(kohdennusTxt);
+                    else
+                        out << kohdennusTxt;
+                }
                 if(taseEraSeurannassa)      // Jos muodostaa tase-erän, tulee viittaus sen erittelyyn
                     out << QString("<sup>%1)</sup>").arg(seuratutTaseErat);
 
