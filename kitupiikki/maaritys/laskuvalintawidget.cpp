@@ -135,7 +135,6 @@ bool LaskuValintaWidget::onkoMuokattu()
     else
         ui->ySpin->setStyleSheet("");
 
-    qDebug() << ui->tiliCombo->currentData().toInt();
 
     return ui->tositelajiCombo->currentData().toInt() != kp()->asetukset()->luku("LaskuTositelaji") ||
             ui->perusteCombo->currentData().toInt() != kp()->asetukset()->luku("LaskuKirjausperuste") ||

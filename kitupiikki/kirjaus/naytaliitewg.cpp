@@ -153,7 +153,6 @@ void NaytaliiteWg::dropEvent(QDropEvent *event)
     else if(!lisatty && event->mimeData()->formats().contains("image/png"))
         emit lisaaLiiteDatalla( event->mimeData()->data("image/png"), tr("liite.png") );
 
-    qDebug() << event->mimeData()->formats();
 }
 
 

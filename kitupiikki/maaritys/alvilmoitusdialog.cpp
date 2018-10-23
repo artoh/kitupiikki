@@ -179,7 +179,6 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
                 .arg(alkupvm.toString(Qt::ISODate)).arg(loppupvm.toString(Qt::ISODate))
                 .arg(AlvKoodi::ALVKIRJAUS + AlvKoodi::MYYNNIT_NETTO).arg(AlvKoodi::ALVKIRJAUS + AlvKoodi::MAKSUPERUSTEINEN_MYYNTI) );
 
-    qDebug() << query.lastQuery();
     while( query.next())
     {
         int alvprosentti = query.value("alvprosentti").toInt();

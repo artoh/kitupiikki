@@ -786,8 +786,6 @@ void VientiModel::lataa()
         viennit_.append(rivi);
     }
 
-    qDebug() << query.lastQuery() << " - " << query.lastError().text();
-
     endResetModel();
     muokattu_ = false;
     emit muuttunut();
