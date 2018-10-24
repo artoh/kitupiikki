@@ -8,12 +8,12 @@ Kitupiikki taitaa tietenkin sellaiset perusasiat kuin päiväkirja, pääkirja, 
 Aloitusikkunassa Kitupiikki vinkkaa ajankohtaisista tehtävistä, kuten tilinpäätös tai alv-ilmoitus. Muutenkin ohjelma neuvoo aina matkan varrella.
 
 ## Sähköinen kirjanpito
-![](kirjaus/myllykirjaus.png)
+![](karuselli/1pdf.png)
 
 Tositteet voi tuoda pdf- tai jpg-muodossa. Tietoja voi tuoda pdf-muotoisista tositteista, csv-tiedostoista, TITO-muotoisista tiliotetiedostoista ja [palkka.fi-palvelusta](https://palkka.fi). Kirjanpidosta ja sähköisistä tositteista muodostetaan sähköinen arkisto. Arkiston muuttumattomuus varmistetaan sha256-tiivisteillä.
 
 ## Laskutus
-![](laskutus/uusilasku.png)
+![](laskutus/uusi/uusi.png)
 
 Kitupiikillä voit laatia laskuja ja lähettää laskuja suoraan sähköpostilla. Voit muodostaa myös Finvoice-verkkolaskuja. Laskujen tiedot siirtyvät suoraan kirjanpitoon. Ohjelmassa on reskontrat niin myynti- kuin ostolaskuillekin sekä laskutuksen tehdyn myynnin raportointi nimikkeiden mukaan.
 
