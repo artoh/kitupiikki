@@ -11,9 +11,28 @@ div.asennusinfo
 
 p.info
 {
-	font-size: medium;
 	text-align: center;
-	margin-top: 2em;
+	margin-top: 5em;
+	margin-bottom: 5em;	
+}
+
+p.intro
+{
+	font-size: 120%;
+}
+
+img.sikapossu
+{
+  margin-top: 5em;
+}
+
+div.twitter
+{
+  border: 1px solid #7e57c2;
+  box-shadow: 3px 3px 3px #d0d0d0;  
+  padding: 2px 2px 2px 2px;
+  margin-right: 3px;
+  margin-bottom: 5px;
 }
 
 div.asennusinfo > h3

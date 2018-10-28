@@ -28,6 +28,8 @@ extra:
       link: 'https://www.youtube.com/channel/UCVNHCMQoNb66OgzuTSfdKqQ'
     - type: 'comment'
       link: 'http://palaute.kitupiikki.info'
+    - type: 'twitter'
+      link: 'https://twitter.com/KitupiikkiInfo'
   search:
     language: 'fi'
 markdown_extensions:
