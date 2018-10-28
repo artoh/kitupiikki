@@ -1954,6 +1954,7 @@
 				CB057C0D2143FB4500DB5900 /* Run Script */,
 				CB8E95F820E69F5A00C89EEB /* ShellScript */,
 				CB3BA710215F6CCD004A376C /* ShellScript */,
+				CBBA6C69218608C30040020A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2094,6 +2095,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "${PROJECT_DIR}/copy_libs.sh ${TARGET_BUILD_DIR}\n";
+		};
+		CBBA6C69218608C30040020A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\ngit checkout -- ../kitupiikki/versio.h\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
