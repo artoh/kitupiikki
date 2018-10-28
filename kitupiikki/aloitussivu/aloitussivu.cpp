@@ -484,13 +484,13 @@ QString AloitusSivu::summat()
 
 
     // Sitten tulot
-    QPair<QString,int> tulopari = summa( tr("Tulot"), R"(tili.tyyppi LIKE "C%")", tilikausi, true, true);
+    QPair<QString,qlonglong> tulopari = summa( tr("Tulot"), R"(tili.tyyppi LIKE "C%")", tilikausi, true, true);
     txt.append(tulopari.first);
     qlonglong ylijaama = tulopari.second;
 
 
     // ja menot
-    QPair<QString,int> menopari = summa( tr("Menot"), R"(tili.tyyppi LIKE "D%")", tilikausi, false, true);
+    QPair<QString,qlonglong> menopari = summa( tr("Menot"), R"(tili.tyyppi LIKE "D%")", tilikausi, false, true);
     txt.append(menopari.first);
     ylijaama -= menopari.second;
 
