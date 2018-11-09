@@ -536,7 +536,7 @@ QPair<QString, qlonglong> AloitusSivu::summa(const QString &otsikko, const QStri
                 .arg(tilikausi.alkaa().toString(Qt::ISODate)).arg(tilikausi.paattyy().toString(Qt::ISODate)).arg(tyyppikysely));
     else
         kysely.exec(QString("select nro, nimi, sum(debetsnt), sum(kreditsnt) from vienti,tili where vienti.tili=tili.id and %2 and vienti.pvm"
-                        "<\"%1\" group by nro")
+                        "<= \"%1\" group by nro")
                 .arg(tilikausi.paattyy().toString(Qt::ISODate)).arg(tyyppikysely));
 
     qlonglong saldosumma = 0;
