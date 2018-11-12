@@ -221,6 +221,7 @@ protected:
 
     QAction *poistaAktio_;
     QAction *uudeksiAktio_;
+    QAction *tyhjennaViennitAktio_;
 
     QSqlQueryModel *taydennysSql_;
 

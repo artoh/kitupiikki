@@ -139,6 +139,7 @@
         <file>sum.png</file>
         <file>risuaita.png</file>
         <file>raha2.png</file>
+        <file>edit-clear.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
