@@ -28,6 +28,8 @@
 #include <QDragMoveEvent>
 #include <QDropEvent>
 #include <QClipboard>
+#include <QDir>
+#include <QShortcut>
 
 #include <poppler/qt5/poppler-qt5.h>
 
@@ -54,6 +56,8 @@ NaytaliiteWg::NaytaliiteWg(QWidget *parent)
     connect(ui->valitseTiedostoNappi, SIGNAL(clicked(bool)), this, SLOT(valitseTiedosto()));
     connect( qApp->clipboard(), SIGNAL(dataChanged()), this, SLOT(tarkistaLeikepoyta()));
     connect( ui->liitaNappi, &QPushButton::clicked, this, &NaytaliiteWg::leikepoydalta);
+
+    new QShortcut( QKeySequence(tr("F8")),this, SLOT(lisaaKirjattavienKansiosta()));
 
     setAcceptDrops(true);
     tarkistaLeikepoyta();
@@ -102,6 +106,24 @@ void NaytaliiteWg::tarkistaLeikepoyta()
     ui->liitaNappi->setVisible( formaatit.contains("image/png") ||
                                 formaatit.contains("image/jpg") );
 
+}
+
+void NaytaliiteWg::lisaaKirjattavienKansiosta()
+{
+    QDir dir( kp()->asetukset()->asetus("KirjattavienKansio"));
+    dir.setFilter( QDir::Files );
+    dir.setSorting( QDir::Name );
+    QFileInfoList list = dir.entryInfoList();
+    for( const QFileInfo& info : list)
+    {
+        QString tiedostonimi = info.fileName().toLower();
+        if( tiedostonimi.endsWith(".pdf")  || tiedostonimi.endsWith(".jpg") ||
+            tiedostonimi.endsWith(".jpeg") || tiedostonimi.endsWith(".png"))
+        {
+            emit lisaaLiite( info.absoluteFilePath() );
+            break;  // Lisätään vain yksi
+        }
+    }
 }
 
 void NaytaliiteWg::dragEnterEvent(QDragEnterEvent *event)
