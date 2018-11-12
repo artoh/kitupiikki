@@ -56,7 +56,7 @@ bool TitoTuonti::tuo(const QByteArray &data)
     for( const QString& rivi : rivit )
     {
         if( rivi.startsWith("T11"))
-        {
+        {            
             // Täydentävää tietoa - tästä poimitaan saajan IBAN
             if( rivi.midRef(6,2) == "11")
             {
@@ -64,6 +64,28 @@ bool TitoTuonti::tuo(const QByteArray &data)
                 // Myös mahdollinen euromuotoinen viite
                 if( rivi.midRef(8,35).startsWith("RF"))
                     viite = rivi.mid(8,35).simplified();
+            }
+            // Vapaa lisätieto
+            else if( rivi.midRef(6,2) == "00" )
+            {
+                // Koska OP ei käytä asianmukaisesti 11-tyypin tietuetta,
+                // poimitaan viite myös 00-tietueesta
+                if( rivi.midRef(8,35).startsWith("RF"))
+                    viite = rivi.mid(8,35).simplified();
+                else
+                {
+                    if( !selite.isEmpty() && !selite.right(1).isEmpty())
+                       selite.append(' ');
+                    selite.append( rivi.mid(8));
+                }
+
+            }
+            // Kappaletieto jos monta
+            else if( rivi.midRef(6,2)== "01")
+            {
+                if( !selite.isEmpty() && !selite.right(1).isEmpty())
+                    selite.append(' ');
+                selite.append( QString("%1 kpl").arg( rivi.midRef(8,8).toInt() ) );
             }
 
         }
@@ -91,6 +113,8 @@ bool TitoTuonti::tuo(const QByteArray &data)
             viite = rivi.mid(159,20);
             arkistotunnus = rivi.mid(12,18).simplified();
             selite = rivi.mid(108,35).simplified();
+            if( selite.isEmpty())
+                selite = rivi.mid(52,35).simplified();
             tasotunnus = rivi.mid(187,1).simplified().toInt();
         }
     }
