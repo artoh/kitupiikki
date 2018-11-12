@@ -77,6 +77,13 @@ QVariant LiiteModel::data(const QModelIndex &index, int role) const
                     .arg( tositeModel_->id(), 8, 10, QChar('0') )
                     .arg( liite.liiteno , 2, 10, QChar('0') );
         }
+        else
+        {
+            return QString("%1-%2-%3")
+                    .arg( tositeModel_->id(), 8, 10, QChar('0') )
+                    .arg( liite.liiteno , 2, 10, QChar('0'))
+                    .arg( liite.otsikko );
+        }
     }
     else if( role == PdfRooli )
         return liite.pdf;
@@ -199,16 +206,16 @@ int LiiteModel::lisaaTiedosto(const QString &polku, const QString &otsikko)
         // Kuvatiedostot muunnetaan jpg-muotoon
         QByteArray jpg;
         QImage kuva(polku);
-        if( kuva.isNull())
-            return 0;
+        if( !kuva.isNull())
+        {
 
+            QBuffer puskuri(&jpg);
+            puskuri.open(QBuffer::WriteOnly);
+            kuva.save(&puskuri, "JPG");
 
-        QBuffer puskuri(&jpg);
-        puskuri.open(QBuffer::WriteOnly);
-        kuva.save(&puskuri, "JPG");
-
-        puskuri.close();
-        return lisaaLiite(jpg, otsikko, polku);
+            puskuri.close();
+            return lisaaLiite(jpg, otsikko, polku);
+        }
     }
 
     return lisaaLiite(data, otsikko, polku);

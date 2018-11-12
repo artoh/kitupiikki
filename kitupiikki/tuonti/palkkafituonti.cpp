@@ -66,7 +66,7 @@ bool PalkkaFiTuonti::tuo(const QByteArray &data)
 
     kirjausWg()->tiedotModelista();
 
-    return false;
+    return true;
 }
 
 void PalkkaFiTuonti::tuoRivi(const QString &rivi)

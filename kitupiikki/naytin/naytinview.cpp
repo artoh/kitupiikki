@@ -42,6 +42,9 @@
 #include <QMenu>
 
 #include <QStackedLayout>
+#include <QTextEdit>
+
+#include "tuonti/csvtuonti.h"
 
 NaytinView::NaytinView(QWidget *parent)
     : QWidget(parent)
@@ -49,9 +52,13 @@ NaytinView::NaytinView(QWidget *parent)
     view_ = new QGraphicsView();
     view_->setDragMode( QGraphicsView::ScrollHandDrag);
 
-    QStackedLayout *leiska = new QStackedLayout;
-    leiska->addWidget(view_);
-    setLayout(leiska);
+    leiska_ = new QStackedLayout;
+    leiska_->addWidget(view_);
+    setLayout(leiska_);
+
+    editor_ = new QTextEdit();
+    editor_->setReadOnly(true);
+    leiska_->addWidget(editor_);
 
     zoomAktio_ = new QAction( QIcon(":/pic/zoom-fit-width.png"), tr("Sovita leveyteen"));
     zoomAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_0));
@@ -79,7 +86,16 @@ void NaytinView::nayta(const QByteArray &data)
     if( data.startsWith("%PDF"))
         vaihdaScene( new PdfScene(data, this) );
     else
+    {
         vaihdaScene( new KuvaNaytin(data, this));
+        if( scene_->tyyppi().isEmpty())
+        {
+            leiska_->setCurrentIndex(Editor);
+            editor_->setText( CsvTuonti::haistettuKoodattu(data) );
+            scene_->deleteLater();
+            scene_=nullptr;
+        }
+    }
 
 }
 
@@ -96,12 +112,13 @@ void NaytinView::sivunAsetuksetMuuttuneet()
 
 void NaytinView::paivita()
 {
-    scene_->piirraLeveyteen( zoomaus_ * width() - 20.0 );
+    if( scene_ )
+        scene_->piirraLeveyteen( zoomaus_ * width() - 20.0 );
 }
 
 void NaytinView::raidoita(bool raidat)
 {
-    if( scene_->raidoita(raidat))
+    if( scene_ && scene_->raidoita(raidat))
         paivita();
 }
 
@@ -110,7 +127,12 @@ void NaytinView::tulosta()
     QPrintDialog printDialog( kp()->printer(), this);
     printDialog.setOptions( QPrintDialog::PrintToFile | QPrintDialog::PrintShowPageSize );
     if( printDialog.exec())
-        scene_->tulosta( kp()->printer() );
+    {
+        if( scene_ )
+            scene_->tulosta( kp()->printer() );
+        else
+            editor_->print( kp()->printer() );
+    }
 
 }
 
@@ -124,10 +146,10 @@ void NaytinView::sivunAsetukset()
 void NaytinView::avaaOhjelmalla()
 {
     // Luo tilapäisen pdf-tiedoston
-    QString tiedostonnimi = kp()->tilapainen( QString("raportti-XXXX.").append(tiedostoPaate()) );
+    QString tiedostonnimi = kp()->tilapainen( QString("liite-XXXX.").append(tiedostoPaate()) );
 
     QFile tiedosto( tiedostonnimi);
-    tiedosto.open( QIODevice::WriteOnly);
+    tiedosto.open( QIODevice::WriteOnly);    
     tiedosto.write( data());
     tiedosto.close();
 
@@ -277,37 +299,52 @@ void NaytinView::csvLeikepoydalle()
 
 QString NaytinView::otsikko() const
 {
-    return scene_->otsikko();
+    if( scene_ )
+        return scene_->otsikko();
+    else
+        return QString();
 }
 
 bool NaytinView::csvKaytossa() const
 {
-    return scene_->csvMuoto();
+    if( scene_ )
+        return scene_->csvMuoto();
+    return false;
 }
 
 QByteArray NaytinView::csv()
 {
-    return scene_->csv();
+    if( scene_ )
+        return scene_->csv();
+    return QByteArray();
 }
 
 QString NaytinView::tiedostonMuoto()
 {
-    return scene_->tiedostonMuoto();
+    if( scene_ )
+        return scene_->tiedostonMuoto();
+    return "txt";
 }
 
 QString NaytinView::tiedostoPaate()
 {
-    return scene_->tiedostoPaate();
+    if( scene_)
+        return scene_->tiedostoPaate();
+    return "txt";
 }
 
 QByteArray NaytinView::data()
 {
-    return scene_->data();
+    if( scene_ )
+        return scene_->data();
+    return editor_->toPlainText().toUtf8();
 }
 
 QString NaytinView::html()
 {
-    return  scene_->html();
+    if( scene_ )
+        return  scene_->html();
+    return editor_->toHtml();
 }
 
 void NaytinView::vaihdaScene(NaytinScene *uusi)
@@ -319,6 +356,7 @@ void NaytinView::vaihdaScene(NaytinScene *uusi)
 
     emit( sisaltoVaihtunut(scene_->tyyppi()));
 
+    leiska_->setCurrentIndex(Scene);
     view_->setScene(uusi);
     paivita();
 }
@@ -334,10 +372,13 @@ void NaytinView::mousePressEvent(QMouseEvent *event)
     if( event->button() == Qt::RightButton)
     {
         QMenu valikko;
-        valikko.addAction(zoomAktio_);
-        valikko.addAction(zoomInAktio_);
-        valikko.addAction(zoomOutAktio_);
-        valikko.addSeparator();
+        if( scene_ )
+        {
+            valikko.addAction(zoomAktio_);
+            valikko.addAction(zoomInAktio_);
+            valikko.addAction(zoomOutAktio_);
+            valikko.addSeparator();
+        }
         valikko.addAction(tulostaAktio_);
         valikko.addAction(tallennaAktio_);
 

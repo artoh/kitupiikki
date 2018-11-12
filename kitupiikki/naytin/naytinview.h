@@ -22,6 +22,8 @@
 #include "raportti/raportinkirjoittaja.h"
 
 class QAction;
+class QTextEdit;
+class QStackedLayout;
 
 /**
  * @brief Widgetti liitteiden, raporttien jne esittämiseen
@@ -31,6 +33,11 @@ class NaytinView : public QWidget
     Q_OBJECT
 public:
     NaytinView(QWidget *parent = nullptr);
+
+    enum {
+      Scene = 0,
+      Editor = 1
+    };
 
 public slots:
     void nayta(const QByteArray& data);
@@ -79,7 +86,9 @@ protected:
     QAction* tulostaAktio_;
     QAction* tallennaAktio_;
 
+    QStackedLayout* leiska_;
     QGraphicsView* view_;
+    QTextEdit *editor_;
 
 };
 
