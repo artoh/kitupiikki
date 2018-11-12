@@ -165,10 +165,22 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     otsikonTaydentaja->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->otsikkoEdit->setCompleter(otsikonTaydentaja);
     connect( ui->otsikkoEdit, SIGNAL(textChanged(QString)), this, SLOT(paivitaOtsikonTaydennys(QString)));
+
+    // Ladataan leveyslista
+    QStringList leveysLista = kp()->settings()->value("KirjausWgRuudukko").toStringList();
+    for(int i=0; i < leveysLista.count()-1; i++)
+        ui->viennitView->horizontalHeader()->resizeSection(i, leveysLista.at(i).toInt());
 }
 
 KirjausWg::~KirjausWg()
 {
+    // Tallennetaan ruudukon sarakkeiden leveydet
+    QStringList leveysLista;
+    for(int i=0; i<ui->viennitView->model()->columnCount(); i++)
+        leveysLista.append( QString::number( ui->viennitView->horizontalHeader()->sectionSize(i) ) );
+
+    kp()->settings()->setValue("KirjausWgRuudukko", leveysLista);
+
     delete ui;
     delete model_;
 }
