@@ -50,6 +50,10 @@ public slots:
     void leikepoydalta();
 
     void tarkistaLeikepoyta();
+    /**
+     * @brief Lisää ensimmäisen tiedoston kirjattavien kansiosta
+     */
+    void lisaaKirjattavienKansiosta();
 
 signals:
     void lisaaLiite(const QString& polku);

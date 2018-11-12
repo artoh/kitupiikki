@@ -15,6 +15,7 @@ Useimmat tavanomaiset kirjaukset kuten ostot, myynnit, nostot pankkitililtä jne
 5. Varmista Apurin ikkunassa alinpana olevasta ruudusta, että kirjaus menee oikein, ja paina **Ok** (tai <kbd>Enter</kbd>)
 6. Kirjauksen tiedot tulevat **Viennit**-välilehdelle. Jos tositteella on useampia vientejä, käynnistä Apuri uudelleen.
 
+Oikaisuja kirjattaessa rahamäärät voivat olla miinusmerkkisiä.
 
 ## Osto- ja myyntilaskun lisätiedot
 

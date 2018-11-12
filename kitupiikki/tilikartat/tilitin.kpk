@@ -4,7 +4,7 @@ Elinkeinotoiminta
 [TilikarttaTekija]
 kitupiikki.info
 [TilikarttaPvm]
-2018-07-24
+2018-11-01
 [TilikarttaKuvaus]
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 <html><head><meta name="qrichtext" content="1" /><style type="text/css">
@@ -688,7 +688,7 @@ H3 445 {"Asti":449} Ulkopuoliset palvelut
 D 4450 {"AlvLaji":21,"AlvProsentti":24} Alihankinta 1
 D 4460 {"AlvLaji":21,"AlvProsentti":24} Alihankinta 2
 D 4470 {"AlvLaji":21,"AlvProsentti":24} Rakentamispalveluiden osto (käänn. verovelv.)
-D 4475 {"AlvLaji":21,"AlvProsentti":24} Palveluiden osto EU-maista
+D 4475 {"AlvLaji":25,"AlvProsentti":24} Palveluiden osto EU-maista
 D 4480 {"AlvLaji":21,"AlvProsentti":24} Vuokrattu työvoima
 D 4490 {"AlvLaji":21,"AlvProsentti":24} Muut ulkopuoliset palvelut
 H2 50 {"Asti":66} Henkilöstökulut
@@ -920,7 +920,7 @@ D 7980 {} Edustustilat
 D 7990 {} Muut edustuskulut
 H3 800 {"Asti":804} Myyntikulut
 D 8000 {"AlvLaji":21,"AlvProsentti":24} Maksetut myyntiprovisiot
-D 8010 {"AlvLaji":21,"AlvProsentti":24} Luottokorttiprovisiot
+D 8010 {} Luottokorttiprovisiot
 D 8020 {"AlvLaji":21,"AlvProsentti":24} Myyntirahdit
 D 8030 {"AlvLaji":21,"AlvProsentti":24} Myyntihuolinta
 D 8040 {"AlvLaji":21,"AlvProsentti":24} Muut myyntikulut

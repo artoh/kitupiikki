@@ -51,13 +51,15 @@ Juokseva kirjanpito tarkoittaa näiden tositteiden tallentamista ja merkitsemist
 
 ## Kaksinkertainen kirjanpito ja tilit
 
-Yksinkertaiseen kirjanpitoon merkitään tulot ja menot aikajärjestyksessä. Yksityinen ammatinharjoittaja voi yleensä pitää kirjanpitonsa yksinkertaisena.
-
+**Yksinkertaiseen kirjanpitoon** merkitään tulot ja menot aikajärjestyksessä. Yksityinen ammatinharjoittaja voi yleensä pitää kirjanpitonsa yksinkertaisena.
 
 ![Yksinkertaista kirjanpitoa](yksinkertainen.png)
 > Yksinkertaisessa kirjanpidossa vasemmalle kirjataan tulot ja oikealle menot
 
-Kaksinkertaisessa kirjanpidossa jokainen tapahtuma kirjataan aina vähintään kahdelle tilille. *Rahatilejä* ovat pankkitilit ja käteiskassa: niillä seurataan rahan todellista liikennettä. *Tulotilit* ja *menotilit* osoittavat, mistä raha on tullut ja mihin sitä on käytetty. *Pääomatilit* seuraavat omaisuutta ja velkoja.
+!!! tip "Yksinkertaisesti taulukkolaskennalla"
+    Yksinkertainen kirjanpito on helppo tehdä taulukkolaskentaohjelmalla. Kaksinkertainen kirjanpito antaa kuitenkin paljon enemmän tietoa tuloista, menoista ja taloudellisesta tilanteesta. Kitupiikki on kaksinkertaisen kirjanpidon ohjelma, joka noudattaa suomalaista kirjanpidon säännöstöä.
+
+**Kaksinkertaisessa kirjanpidossa** jokainen tapahtuma kirjataan aina vähintään kahdelle tilille. *Rahatilejä* ovat pankkitilit ja käteiskassa: niillä seurataan rahan todellista liikennettä. *Tulotilit* ja *menotilit* osoittavat, mistä raha on tullut ja mihin sitä on käytetty. *Pääomatilit* seuraavat omaisuutta ja velkoja.
 
 Kaikessa yhtiömuotoisessa liiketoiminnassa ja yhdistyksissä pitää käyttää kaksinkertaista kirjanpitoa.
 

@@ -51,11 +51,12 @@ bool TitoTuonti::tuo(const QByteArray &data)
     QString viite;
     QString arkistotunnus;
     QString selite;
+    int tasotunnus = 0;
 
     for( const QString& rivi : rivit )
     {
         if( rivi.startsWith("T11"))
-        {
+        {            
             // Täydentävää tietoa - tästä poimitaan saajan IBAN
             if( rivi.midRef(6,2) == "11")
             {
@@ -64,12 +65,35 @@ bool TitoTuonti::tuo(const QByteArray &data)
                 if( rivi.midRef(8,35).startsWith("RF"))
                     viite = rivi.mid(8,35).simplified();
             }
+            // Vapaa lisätieto
+            else if( rivi.midRef(6,2) == "00" )
+            {
+                // Koska OP ei käytä asianmukaisesti 11-tyypin tietuetta,
+                // poimitaan viite myös 00-tietueesta
+                if( rivi.midRef(8,35).startsWith("RF"))
+                    viite = rivi.mid(8,35).simplified();
+                else
+                {
+                    if( !selite.isEmpty() && !selite.right(1).isEmpty())
+                       selite.append(' ');
+                    selite.append( rivi.mid(8));
+                }
+
+            }
+            // Kappaletieto jos monta
+            else if( rivi.midRef(6,2)== "01")
+            {
+                if( !selite.isEmpty() && !selite.right(1).isEmpty())
+                    selite.append(' ');
+                selite.append( QString("%1 kpl").arg( rivi.midRef(8,8).toInt() ) );
+            }
 
         }
         else
         {
             // Rivin tallentaminen
-            if( pvm.isValid())
+            int rivintaso = rivi.mid(187,1).simplified().toInt();
+            if( pvm.isValid() && rivintaso <= tasotunnus)
                 oterivi(pvm, sentit, iban, viite, arkistotunnus, selite);
 
             pvm = QDate();
@@ -83,12 +107,15 @@ bool TitoTuonti::tuo(const QByteArray &data)
         if( rivi.startsWith("T10") )
         {
             pvm = QDate::fromString( rivi.mid(30,6), "yyMMdd" ).addYears(100);
-            sentit = rivi.mid(88,19).toLongLong();
+            sentit = rivi.mid(88,18).toLongLong();
             if( rivi.at(87) == QChar('-'))
                 sentit = 0-sentit;
             viite = rivi.mid(159,20);
             arkistotunnus = rivi.mid(12,18).simplified();
             selite = rivi.mid(108,35).simplified();
+            if( selite.isEmpty())
+                selite = rivi.mid(52,35).simplified();
+            tasotunnus = rivi.mid(187,1).simplified().toInt();
         }
     }
     return false;

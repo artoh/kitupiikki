@@ -531,9 +531,13 @@ bool CsvTuonti::onkoCsv(const QByteArray &data)
     if( lista.count() < 2 )
         return false;
 
-    for(int i=1; i < lista.count()-1; i++)
+    for(int i=1; i < lista.count()-1; i++)        
         if( lista.at(i).length() < 2 ||  lista.at(i).length() != lista.at(i-1).length())
-            return false;
+            // OP:n csv:ssä vain otsikkorivi päättyy puolipisteeseen.
+            // Siksi hyväksytään se, että rivi voi päättyä taikka olla päättymättä välimerkkiin
+            if( !(lista.at(i-1).last().isEmpty() && lista.at(i-1).length() == lista.at(i).length()+1   ) &&
+                !(lista.at(i).last().isEmpty() && lista.at(i).length() == lista.at(i+1).length() ))
+                return false;
 
     return true;
 }
@@ -608,9 +612,9 @@ void CsvTuonti::paivitaOletukset()
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, ARKISTOTUNNUS);
             else if( otsikko.contains("selite", Qt::CaseInsensitive) ||
                      otsikko.contains("selitys", Qt::CaseInsensitive)||
-                     otsikko.contains("saaja/maksaja") ||
-                     otsikko.contains("viesti") ||
-                     otsikko.contains("kuvaus"))
+                     otsikko.contains("saaja/maksaja", Qt::CaseInsensitive) ||
+                     otsikko.contains("viesti", Qt::CaseInsensitive) ||
+                     otsikko.contains("kuvaus", Qt::CaseInsensitive))
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, SELITE);
             else
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, EITUODA);

@@ -68,7 +68,7 @@ Esimerkki käänteisen arvonlisäveron EU-palveluostosta. Huomaa, että maksettu
 ![](eupalveluapuri.png)
 
 !!! tip "Kirjauksen korjaaminen"
-    Jos olet tullut kirjanneeksi euromäärän väärin, on yleensä helpointi poistaa tositteelta kaikki kirjaukseen liittyvät rivit ja tehdä Kirjausapurilla koko kirjaus uudestaan.
+    Jos olet tullut kirjanneeksi euromäärän väärin, on yleensä helpointa poistaa tositteelta kaikki kirjaukseen liittyvät rivit ja tehdä Kirjausapurilla koko kirjaus uudestaan.
 
 ### Ilman kirjausapuria
 

@@ -62,6 +62,7 @@ void InboxLista::paivita()
 
     QDir dir( polku_ );
     dir.setFilter(QDir::Files);
+    dir.setSorting(QDir::Name);
     QFileInfoList list = dir.entryInfoList();
     for( const QFileInfo& info : list)
     {

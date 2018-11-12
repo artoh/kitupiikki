@@ -88,16 +88,17 @@ bool Tuonti::tuo(const QString &tiedostonnimi, KirjausWg *wg)
         PalkkaFiTuonti palkkatuonti(wg);
         return palkkatuonti.tuo(data);
     }
-    else if( CsvTuonti::onkoCsv(data))
-    {
-        CsvTuonti csvtuonti(wg);
-        return csvtuonti.tuo(data);
-    }
     else if( data.startsWith("T00322100"))  // Konekielisen tiliotteen TITO-tiedoston alkutunniste
     {
         TitoTuonti titotuonti(wg);
         return titotuonti.tuo(data);
     }
+    else if( CsvTuonti::onkoCsv(data))
+    {
+        CsvTuonti csvtuonti(wg);
+        return csvtuonti.tuo(data);
+    }
+
 
     return true;
 }
