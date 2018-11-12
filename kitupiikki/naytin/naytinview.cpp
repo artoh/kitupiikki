@@ -323,7 +323,7 @@ QString NaytinView::tiedostonMuoto()
 {
     if( scene_ )
         return scene_->tiedostonMuoto();
-    return "txt";
+    return tr("kaikki tiedostot (*)");
 }
 
 QString NaytinView::tiedostoPaate()

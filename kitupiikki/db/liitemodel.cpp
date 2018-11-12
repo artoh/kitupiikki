@@ -92,6 +92,9 @@ QVariant LiiteModel::data(const QModelIndex &index, int role) const
 
     else if( role == Qt::DecorationRole)
     {
+        if( liite.thumbnail.isEmpty())
+            return QIcon(":/pic/tekstisivu.png");
+
         QPixmap pixmap;
         pixmap.loadFromData( liite.thumbnail, "PNG");
         return QIcon( pixmap );
