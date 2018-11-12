@@ -36,6 +36,7 @@ struct RaporttiRiviSarake
     };
 
     bool tasaaOikealle = false;
+    bool tulostaPlus = false;
 
     QVariant arvo;
 
@@ -91,8 +92,9 @@ public:
      * @brief Lisää rahamäärän
      * @param sentit Rahamäärä sentteinä
      * @param tulostanollat Tulostetaanko nollat (oletuksena ei)
+     * @param tulostaplus Tulostetaanko + positiivisen eteen (oletuksena ei)
      */
-    void lisaa(qlonglong sentit,bool tulostanollat = false);
+    void lisaa(qlonglong sentit, bool tulostanollat = false, bool tulostaplus = false);
 
     /**
      * @brief Lisää päivämäärän

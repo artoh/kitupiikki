@@ -145,6 +145,8 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     valikko->addAction(QIcon(":/pic/tulosta.png"), tr("Tulosta tosite\tCtrl+P"), this, SLOT(tulostaTosite()), QKeySequence("Ctrl+P"));
     uudeksiAktio_ = valikko->addAction(QIcon(":/pic/kopioi.png"), tr("Kopioi uuden pohjaksi\tCtrl+T"), this, SLOT(uusiPohjalta()), QKeySequence("Ctrl+T"));
     poistaAktio_ = valikko->addAction(QIcon(":/pic/roskis.png"),tr("Poista tosite"),this, SLOT(poistaTosite()));
+    tyhjennaViennitAktio_ = valikko->addAction(QIcon(":/pic/edit-clear.png"),tr("Tyhjennä viennit"), model_->vientiModel(), &VientiModel::tyhjaa);
+
     ui->valikkoNappi->setMenu( valikko );
 
 
@@ -165,10 +167,22 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     otsikonTaydentaja->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->otsikkoEdit->setCompleter(otsikonTaydentaja);
     connect( ui->otsikkoEdit, SIGNAL(textChanged(QString)), this, SLOT(paivitaOtsikonTaydennys(QString)));
+
+    // Ladataan leveyslista
+    QStringList leveysLista = kp()->settings()->value("KirjausWgRuudukko").toStringList();
+    for(int i=0; i < leveysLista.count()-1; i++)
+        ui->viennitView->horizontalHeader()->resizeSection(i, leveysLista.at(i).toInt());
 }
 
 KirjausWg::~KirjausWg()
 {
+    // Tallennetaan ruudukon sarakkeiden leveydet
+    QStringList leveysLista;
+    for(int i=0; i<ui->viennitView->model()->columnCount(); i++)
+        leveysLista.append( QString::number( ui->viennitView->horizontalHeader()->sectionSize(i) ) );
+
+    kp()->settings()->setValue("KirjausWgRuudukko", leveysLista);
+
     delete ui;
     delete model_;
 }
@@ -212,6 +226,7 @@ void KirjausWg::tyhjenna()
     // Ei voi tallentaa eikä poistaa kun ei ole mitään...
     ui->tallennaButton->setEnabled(false);
     poistaAktio_->setEnabled(false);
+    tyhjennaViennitAktio_->setEnabled(false);
 
     paivitaLiiteNapit();
     pvmVaihtuu();
@@ -432,6 +447,7 @@ void KirjausWg::kirjaaLaskunmaksu()
 void KirjausWg::paivitaTallennaPoistaNapit()
 {
     poistaAktio_->setEnabled( model()->muokattu() && model_->id() > -1 && model()->muokkausSallittu());
+    tyhjennaViennitAktio_->setEnabled(model()->muokattu() && model_->id() > -1 && model()->muokkausSallittu() );
     uudeksiAktio_->setEnabled( !model()->muokattu() );
 
     naytaSummat();
@@ -733,6 +749,8 @@ void KirjausWg::lataaTosite(int id)
     // Jos tositteella yksikin lukittu vienti, ei voi poistaa
     poistaAktio_->setEnabled(model()->muokkausSallittu() &&
                                 model()->id() > -1);
+    tyhjennaViennitAktio_->setEnabled( model()->muokkausSallittu() &&
+                                       model()->id() > -1);
 
     for(int i = 0; i < model_->vientiModel()->rowCount(QModelIndex()); i++)
     {

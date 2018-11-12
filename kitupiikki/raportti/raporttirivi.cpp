@@ -46,13 +46,14 @@ void RaporttiRivi::lisaaLinkilla(RaporttiRiviSarake::Linkki linkkityyppi, int li
     sarakkeet_.append(uusi);
 }
 
-void RaporttiRivi::lisaa(qlonglong sentit, bool tulostanollat)
+void RaporttiRivi::lisaa(qlonglong sentit, bool tulostanollat, bool tulostaplus)
 {
     RaporttiRiviSarake uusi;
     if( sentit || tulostanollat)
         uusi.arvo = QVariant(sentit);
 
     uusi.tasaaOikealle = true;
+    uusi.tulostaPlus = tulostaplus;
     sarakkeet_.append( uusi );
 }
 
@@ -67,6 +68,9 @@ QString RaporttiRivi::teksti(int sarake)
 
     if( arvo.type() == QVariant::LongLong )
     {
+        if( sarakkeet_.at(sarake).tulostaPlus && arvo.toLongLong() > 0)
+            return QString("+%L1").arg(  arvo.toLongLong()  / 100.0 ,0,'f',2 );
+
         return QString("%L1").arg(  arvo.toLongLong()  / 100.0 ,0,'f',2 );
     }
     else if( arvo.type() == QVariant::Date )

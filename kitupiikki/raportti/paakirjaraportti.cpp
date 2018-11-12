@@ -229,17 +229,22 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
 
     // Sitten päästäänkin tulostamaan pääkirjaa
     QMapIterator<int,qlonglong> iter( alkusaldot );
-    qlonglong debetYht = 0;
-    qlonglong kreditYht = 0;
+
+    qlonglong kokoDebetYht = 0;
+    qlonglong kokoKreditYht = 0;
 
 
     while(iter.hasNext())
     {
         iter.next();
-        const Tili& tili = kp()->tilit()->tiliYsiluvulla( iter.key() );
+
+        const Tili& tili = kp()->tilit()->tiliYsiluvulla( iter.key() );            
 
         if( tililta && tili.numero() != tililta)
             continue;
+
+        qlonglong debetYht = 0;
+        qlonglong kreditYht = 0;
 
         RaporttiRivi tiliotsikko;
         tiliotsikko.lisaaLinkilla( RaporttiRiviSarake::TILI_LINKKI, tili.numero(),  QString("%1 %2").arg(tili.numero()).arg( tili.nimi()) , 5 + (int) tulostakohdennus );
@@ -305,20 +310,40 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
             rk.lisaaRivi( rr);
         }
 
+        kokoDebetYht += debetYht;
+        kokoKreditYht += kreditYht;
+
+        if( tulostaSummarivi && (debetYht || kreditYht))
+        {
+            RaporttiRivi summarivi;
+            qlonglong erotus = kreditYht - debetYht;
+            if( tili.onko(TiliLaji::TASE))
+                erotus = debetYht - kreditYht;
+
+            summarivi.lisaa("", 2 +static_cast<int>(tulostakohdennus));
+            summarivi.lisaa( erotus , false, true);
+            summarivi.lisaa( debetYht );
+            summarivi.lisaa( kreditYht );
+            summarivi.lisaa( saldo );
+            summarivi.viivaYlle();
+            summarivi.lihavoi();
+            rk.lisaaRivi(summarivi);
+        }
+
         rk.lisaaRivi(); // Tyhjä rivi tilien väliin
 
     }
 
-    if( tulostaSummarivi )
+    if( tulostaSummarivi && !tililta )
     {
         RaporttiRivi summarivi;
-        summarivi.lisaa("Yhteensä", 3 +  static_cast<int>(tulostakohdennus)  );
-        summarivi.lisaa( debetYht );
-        summarivi.lisaa( kreditYht);
-        qlonglong erotus = kreditYht - debetYht;
-        if( tililta && kp()->tilit()->tiliNumerolla(tililta).onko(TiliLaji::TASE))
-            erotus = debetYht - kreditYht;
-        summarivi.lisaa( erotus );    // Kohdennuksissa ei välttis mene tasan
+        summarivi.lisaa("Yhteensä", 2 +  static_cast<int>(tulostakohdennus)  );
+        qlonglong erotus = kokoKreditYht - kokoDebetYht;
+
+        summarivi.lisaa( erotus , false, true);
+
+        summarivi.lisaa( kokoDebetYht );
+        summarivi.lisaa( kokoKreditYht);
         summarivi.lihavoi();
         summarivi.viivaYlle();
         rk.lisaaRivi(summarivi);
