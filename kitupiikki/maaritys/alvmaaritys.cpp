@@ -60,6 +60,10 @@ bool AlvMaaritys::nollaa()
     ui->kausiCombo->setCurrentIndex( ui->kausiCombo->findData( kp()->asetukset()->luku("AlvKausi") ) );
     ui->viimeisinEdit->setDate( kp()->asetukset()->pvm("AlvIlmoitus"));
     riviValittu();      // Jotta napit harmaantuvat
+
+    for(int i=0; i<3; i++)
+        ui->ilmoituksetView->horizontalHeader()->resizeSection(i, ui->ilmoituksetView->width() / 4 );
+
     return true;
 }
 
@@ -106,7 +110,6 @@ void AlvMaaritys::ilmoita()
         kp()->asetukset()->aseta("AlvIlmoitus", ilmoitettu);
         ui->viimeisinEdit->setDate(ilmoitettu);
         model->lataa();
-        ui->ilmoituksetView->resizeColumnsToContents();
     }
 }
 
