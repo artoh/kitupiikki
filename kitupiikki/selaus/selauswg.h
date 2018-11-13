@@ -47,7 +47,7 @@ class SelausWg : public KitupiikkiSivu
 
 public:
     SelausWg();
-    ~SelausWg();
+    ~SelausWg() override;
 
 public slots:
     void alusta();

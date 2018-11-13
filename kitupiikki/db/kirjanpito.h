@@ -269,6 +269,13 @@ signals:
     void tilikausiPaatetty();
 
     /**
+     * @brief Tilikausi on avattu tai poistettu
+     *
+     * Päivittää luettelot, joissa tilikausia
+     */
+    void tilikausiAvattu();
+
+    /**
      * @brief Näytetään vähän aikaa ilmoitus onnistumisesta
      * @param teksti Näytettävä teksti
      */

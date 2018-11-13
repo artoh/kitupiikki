@@ -166,6 +166,7 @@ void TilikausiModel::lisaaTilikausi(const Tilikausi& tilikausi)
                               .arg(tilikausi.paattyy().toString(Qt::ISODate)));
     paivitaKausitunnukset();
     endInsertRows();
+    emit kp()->tilikausiAvattu();
 }
 
 void TilikausiModel::muokkaaViimeinenTilikausi(const QDate &paattyy)
@@ -185,6 +186,7 @@ void TilikausiModel::muokkaaViimeinenTilikausi(const QDate &paattyy)
         emit dataChanged( index(kaudet_.count()-1, KAUSI), index(kaudet_.count()-1, KAUSI) );
     }
     paivitaKausitunnukset();
+    emit kp()->tilikausiAvattu();
 }
 
 Tilikausi TilikausiModel::tilikausiPaivalle(const QDate &paiva) const

@@ -99,7 +99,7 @@ void ArkistoSivu::uusiTilikausi()
     {
         Tilikausi uusitilikausi( dlgUi.alkaaEdit->date(), dlgUi.paattyyEdit->date() );
         kp()->tilikaudet()->lisaaTilikausi( uusitilikausi );
-        kp()->tilikaudet()->tallennaJSON();
+        kp()->tilikaudet()->tallennaJSON();        
     }
 
 }

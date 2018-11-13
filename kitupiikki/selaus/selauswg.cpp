@@ -72,6 +72,7 @@ SelausWg::SelausWg() :
     connect( kp(), SIGNAL(tietokantaVaihtui()), this, SLOT(alusta()));
 
     connect( ui->alkuEdit, SIGNAL(dateChanged(QDate)), this, SLOT(alkuPvmMuuttui()));
+    connect( kp(), &Kirjanpito::tilikausiAvattu, this, &SelausWg::alusta);
 
     ui->selausView->installEventFilter(this);
 
