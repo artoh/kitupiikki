@@ -51,7 +51,7 @@ class RaporttiSivu : public KitupiikkiSivu
 public:
     enum { RAPORTTINIMI = Qt::UserRole } ;
 
-    explicit RaporttiSivu(QWidget *parent = 0);
+    explicit RaporttiSivu(QWidget *parent = nullptr);
 
     void siirrySivulle() override;
     bool poistuSivulta(int minne) override;

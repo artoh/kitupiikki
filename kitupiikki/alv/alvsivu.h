@@ -14,17 +14,15 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef VERSIO_H
-#define VERSIO_H
+#ifndef ALVSIVU_H
+#define ALVSIVU_H
 
+#include "../kitupiikkisivu.h"
 
-/**
-  @file Kitupiikin version määrittely
+class AlvSivu : public KitupiikkiSivu
+{
+public:
+    AlvSivu(QWidget *parent = nullptr);
+};
 
-  Kitupiikin versio määritellään tässä tiedostossa. Tiedosto voidaan myös generoida käännösaikaisesti.
-*/
-
-#define KITUPIIKKI_VERSIO "1.2-devel"
-#define KITUPIIKKI_BUILD ""
-
-#endif // VERSIO_H
+#endif // ALVSIVU_H

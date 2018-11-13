@@ -34,6 +34,7 @@ class RaporttiSivu;
 class MaaritysSivu;
 class ArkistoSivu;
 class LaskuSivu;
+class AlvSivu;
 
 class QDateEdit;
 class QDockWidget;
@@ -51,10 +52,10 @@ class KitupiikkiIkkuna : public QMainWindow
 {
     Q_OBJECT
 public:
-    KitupiikkiIkkuna(QWidget *parent = 0);
+    KitupiikkiIkkuna(QWidget *parent = nullptr);
     ~KitupiikkiIkkuna();
 
-    enum Sivu { ALOITUSSIVU, KIRJAUSSIVU, SELAUSSIVU, LASKUTUSSIVU, TULOSTESIVU, ARKISTOSIVU, MAARITYSSIVU, SIVUT_LOPPU    };
+    enum Sivu { ALOITUSSIVU, KIRJAUSSIVU, SELAUSSIVU, LASKUTUSSIVU, TULOSTESIVU, ARKISTOSIVU, ALVSIVU, MAARITYSSIVU, SIVUT_LOPPU    };
 
 signals:
 
@@ -99,6 +100,8 @@ protected slots:
      */
     void kirjaaKirjattavienKansiosta();
 
+    void piilotaAlvJosEiVerovelvollinen();
+
 
 protected:
     void mousePressEvent(QMouseEvent *event);
@@ -124,6 +127,7 @@ protected:
     RaporttiSivu *raporttisivu;
     MaaritysSivu *maarityssivu;
     ArkistoSivu *arkistosivu;
+    AlvSivu *alvsivu;
     KitupiikkiSivu *nykysivu;
 
     QStack<int> edellisetIndeksit;

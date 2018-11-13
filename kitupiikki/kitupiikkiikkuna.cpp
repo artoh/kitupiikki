@@ -36,6 +36,9 @@
 #include <QUrl>
 #include <QFile>
 
+#include <QScreen>
+#include <QGuiApplication>
+
 #include "kitupiikkiikkuna.h"
 
 #include "aloitussivu/aloitussivu.h"
@@ -46,6 +49,7 @@
 #include "arkisto/arkistosivu.h"
 #include "uusikp/uusikirjanpito.h"
 #include "laskutus/laskusivu.h"
+#include "alv/alvsivu.h"
 
 #include "db/kirjanpito.h"
 
@@ -75,6 +79,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     maarityssivu = new MaaritysSivu();
     raporttisivu = new RaporttiSivu();
     arkistosivu = new ArkistoSivu();
+    alvsivu = new AlvSivu();
 
     pino = new QStackedWidget;
     setCentralWidget(pino);
@@ -116,6 +121,8 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     connect( kp(), SIGNAL(onni(QString)), this, SLOT(naytaOnni(QString)));
     connect( kp(), SIGNAL(naytaTosite(int)), this, SLOT(naytaTosite(int)));
     connect( aloitussivu, SIGNAL(ktpkasky(QString)), this, SLOT(ktpKasky(QString)));
+
+    connect( kp(), &Kirjanpito::perusAsetusMuuttui, this, &KitupiikkiIkkuna::piilotaAlvJosEiVerovelvollinen);
 
     // Aktiot kirjaamisella ja selaamisella uudessa ikkunassa
 
@@ -195,6 +202,7 @@ void KitupiikkiIkkuna::kirjanpitoLadattu()
     }
 
     edellisetIndeksit.clear();  // Tyhjennetään "selaushistoria"
+    piilotaAlvJosEiVerovelvollinen();
 }
 
 void KitupiikkiIkkuna::palaaSivulta()
@@ -326,6 +334,11 @@ void KitupiikkiIkkuna::kirjaaKirjattavienKansiosta()
     kirjaussivu->lisaaKirjattavienKansiosta();
 }
 
+void KitupiikkiIkkuna::piilotaAlvJosEiVerovelvollinen()
+{
+    sivuaktiot[ALVSIVU]->setVisible( kp()->asetukset()->onko("AlvVelvollinen") );
+}
+
 void KitupiikkiIkkuna::mousePressEvent(QMouseEvent *event)
 {
     // Vähän kokeellista: palataan edelliselle sivulle, jos menty Käy-valinnalla ;)
@@ -397,7 +410,14 @@ void KitupiikkiIkkuna::lisaaSivut()
     // Luodaan vasemman reunan työkalupalkki
     toolbar = new QToolBar(this);
     toolbar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    toolbar->setIconSize(QSize(64,64));
+
+    // Työkalupalkin namiskat sopeutuvat jonkin verran näytön kokoon, että mahtuvat läppärin näytöllekin
+    QScreen *screen = QGuiApplication::primaryScreen();
+    if( screen->availableGeometry().height() > 1024)
+        toolbar->setIconSize(QSize(64,64));
+    else
+        toolbar->setIconSize(QSize(32,32));
+
     toolbar->setStyleSheet("QToolBar {background-color: palette(mid); spacing: 5px; }  QToolBar::separator { border: none; margin-bottom: 16px; }  QToolButton { border: 0px solid lightgray; margin-right: 0px; font-size: 8pt; width: 90%; margin-left: 3px; margin-top: 0px; border-top-left-radius: 6px; border-bottom-left-radius: 6px}  QToolButton:checked {background-color: palette(window); } QToolButton:hover { font-size: 9pt; font-weight: bold; } ");
     toolbar->setMovable(false);
 
@@ -408,6 +428,7 @@ void KitupiikkiIkkuna::lisaaSivut()
     lisaaSivu("Laskut",":/pic/lasku.png","Laskuta ja selaa laskuja","F4",LASKUTUSSIVU, laskutussivu);
     lisaaSivu("Tulosteet",":/pic/print.png","Tulosta erilaisia raportteja","F5", TULOSTESIVU, raporttisivu);
     lisaaSivu("Tilikaudet",":/pic/kirja64.png","Tilinpäätös ja arkistot","F6", ARKISTOSIVU, arkistosivu);
+    lisaaSivu("ALV", ":/pic/vero64.png", "Arvonlisäveron ilmoittaminen", "Sift+F7",ALVSIVU, alvsivu );
     lisaaSivu("Määritykset",":/pic/ratas.png","Kirjanpitoon liittyvät määritykset","F7", MAARITYSSIVU, maarityssivu);
 
     // Possulla on tonttulakki tuomaanpäivästä loppiaiseen ;)

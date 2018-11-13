@@ -140,6 +140,7 @@
         <file>risuaita.png</file>
         <file>raha2.png</file>
         <file>edit-clear.png</file>
+        <file>vero64.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

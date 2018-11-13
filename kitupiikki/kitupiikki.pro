@@ -173,7 +173,8 @@ SOURCES += main.cpp \
     laskutus/ryhmantuontimodel.cpp \
     laskutus/finvoice.cpp \
     maaritys/finvoicemaaritys.cpp \
-    raportti/budjettivertailu.cpp
+    raportti/budjettivertailu.cpp \
+    alv/alvsivu.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -324,7 +325,8 @@ HEADERS += \
     laskutus/finvoice.h \
     maaritys/finvoicemaaritys.h \
     versio.h \
-    raportti/budjettivertailu.h
+    raportti/budjettivertailu.h \
+    alv/alvsivu.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
