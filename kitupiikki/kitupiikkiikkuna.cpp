@@ -132,6 +132,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     new QShortcut(QKeySequence(Qt::SHIFT + Qt::Key_F4), this, SLOT(uusiLasku()), nullptr, Qt::ApplicationShortcut);
 
     new QShortcut(QKeySequence("Ctrl+G"), this, SLOT(siirryTositteeseen()), nullptr, Qt::ApplicationShortcut);
+    new QShortcut(QKeySequence(Qt::Key_F8), this, SLOT(kirjaaKirjattavienKansiosta()), nullptr, Qt::ApplicationShortcut  );
 
 
     toolbar->installEventFilter(this);
@@ -317,6 +318,12 @@ void KitupiikkiIkkuna::siirryTositteeseen()
     valitseSivu(KIRJAUSSIVU, false);
     kirjaussivu->naytaTosite( id );
 
+}
+
+void KitupiikkiIkkuna::kirjaaKirjattavienKansiosta()
+{
+    valitseSivu(KIRJAUSSIVU, false);
+    kirjaussivu->lisaaKirjattavienKansiosta();
 }
 
 void KitupiikkiIkkuna::mousePressEvent(QMouseEvent *event)

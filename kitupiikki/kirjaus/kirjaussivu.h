@@ -71,6 +71,11 @@ public slots:
      */
     void talletaSplitter();
 
+    /**
+     * @brief Lisää ensimmäisen tiedoston kirjattavien kansiosta
+     */
+    void lisaaKirjattavienKansiosta();
+
 protected:
     KitupiikkiIkkuna *ikkuna_;
     KirjausWg *kirjauswg;

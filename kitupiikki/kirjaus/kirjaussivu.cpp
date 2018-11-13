@@ -21,6 +21,7 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QSettings>
+#include <QDir>
 
 #include "kitupiikkiikkuna.h"
 
@@ -114,5 +115,23 @@ void KirjausSivu::tositeKasitelty()
 void KirjausSivu::talletaSplitter()
 {
     kp()->settings()->setValue("KirjausSplitter", splitter->saveState());
+}
+
+void KirjausSivu::lisaaKirjattavienKansiosta()
+{
+    QDir dir( kp()->asetukset()->asetus("KirjattavienKansio"));
+    dir.setFilter( QDir::Files );
+    dir.setSorting( QDir::Name );
+    QFileInfoList list = dir.entryInfoList();
+    for( const QFileInfo& info : list)
+    {
+        QString tiedostonimi = info.fileName().toLower();
+        if( tiedostonimi.endsWith(".pdf")  || tiedostonimi.endsWith(".jpg") ||
+            tiedostonimi.endsWith(".jpeg") || tiedostonimi.endsWith(".png"))
+        {
+            kirjausWg()->lisaaLiite( info.absoluteFilePath() );
+            break;  // Lisätään vain yksi
+        }
+    }
 }
 

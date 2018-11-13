@@ -94,6 +94,11 @@ protected slots:
 
     void siirryTositteeseen();
 
+    /**
+     * @brief Kirjaa ensimmäisen tositteen Kirjattavien kansiosta
+     */
+    void kirjaaKirjattavienKansiosta();
+
 
 protected:
     void mousePressEvent(QMouseEvent *event);
