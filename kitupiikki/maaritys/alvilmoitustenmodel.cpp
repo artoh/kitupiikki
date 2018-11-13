@@ -21,6 +21,12 @@
 #include "db/kirjanpito.h"
 #include "db/jsonkentta.h"
 
+
+QDate AlvIlmoitusTieto::erapvm()
+{
+    return loppuPvm.addDays(1).addMonths(1).addDays(11);
+}
+
 AlvIlmoitustenModel::AlvIlmoitustenModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
@@ -76,7 +82,7 @@ QVariant AlvIlmoitustenModel::data(const QModelIndex &index, int role) const
         case PAATTYY:
             return tieto.loppuPvm;
         case ERAPVM:
-            return tieto.loppuPvm.addDays(1).addMonths(1).addDays(11);
+            return tieto.erapvm();
         case VEROSNT:
             return QString("%L1 €").arg( tieto.maksettavaVeroSnt / 100.0 , 0,'f',2);
         }
@@ -91,6 +97,10 @@ QVariant AlvIlmoitustenModel::data(const QModelIndex &index, int role) const
     }
     else if( role == TositeIdRooli )
         return tieto.tositeId;
+    else if( role == PaattyyRooli)
+        return  tieto.loppuPvm;
+    else if( role == EraPvmRooli)
+        return tieto.erapvm();
 
     return QVariant();
 
@@ -118,3 +128,5 @@ void AlvIlmoitustenModel::lataa()
     }
     endResetModel();
 }
+
+

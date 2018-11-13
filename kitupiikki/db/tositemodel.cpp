@@ -293,10 +293,14 @@ bool TositeModel::tallenna()
 bool TositeModel::poista()
 {
     // Tosite on poistettava ihan oikeasti, koska muuten sotkee tase-erät
-    // Liitteiden tiedostoja ei kuitenkaan poisteta
 
     if( !id())
         return true;
+
+
+    // Alv-ilmoituksen poistaminen kääntää alv-lukko taaksepäin
+    if( json()->date("AlvTilitysAlkaa").isValid() && json()->date("AlvTilitysPaattyy") == kp()->asetukset()->pvm("AlvIlmoitus"))
+        kp()->asetukset()->aseta("AlvIlmoitus", json()->date("AlvTilitysAlkaa").addDays(-1));
 
     tietokanta()->transaction();
     QSqlQuery kysely(*tietokanta());

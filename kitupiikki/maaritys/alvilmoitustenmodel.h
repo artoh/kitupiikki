@@ -32,6 +32,8 @@ struct AlvIlmoitusTieto
     QDate alkuPvm;
     QDate loppuPvm;
     int maksettavaVeroSnt;
+
+    QDate erapvm();
 };
 
 /**
@@ -47,10 +49,12 @@ public:
     };
     enum
     {
-        TositeIdRooli = Qt::UserRole
+        TositeIdRooli = Qt::UserRole,
+        PaattyyRooli = Qt::UserRole + 1,
+        EraPvmRooli = Qt::UserRole + 2
     };
 
-    AlvIlmoitustenModel(QObject *parent = 0);
+    AlvIlmoitustenModel(QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;

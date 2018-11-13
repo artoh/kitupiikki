@@ -51,6 +51,7 @@ AlvMaaritys::AlvMaaritys() :
     connect( ui->erittelyNappi, SIGNAL(clicked(bool)), this, SLOT(naytaErittely()));
     connect(ui->ilmoituksetView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(riviValittu()));
     connect( ui->maksuperusteNappi, SIGNAL(clicked(bool)), this, SLOT(maksuAlv()));
+    connect( ui->poistaTilitysNappi, &QPushButton::clicked, this, &AlvMaaritys::poistaIlmoitus);
 
 }
 
@@ -58,6 +59,7 @@ bool AlvMaaritys::nollaa()
 {
     ui->kausiCombo->setCurrentIndex( ui->kausiCombo->findData( kp()->asetukset()->luku("AlvKausi") ) );
     ui->viimeisinEdit->setDate( kp()->asetukset()->pvm("AlvIlmoitus"));
+    riviValittu();      // Jotta napit harmaantuvat
     return true;
 }
 
@@ -125,10 +127,33 @@ void AlvMaaritys::naytaErittely()
     NaytinIkkuna::naytaLiite(tositeId, 2);
 }
 
+void AlvMaaritys::poistaIlmoitus()
+{
+    int tositeId = model->data( ui->ilmoituksetView->selectionModel()->currentIndex() , AlvIlmoitustenModel::TositeIdRooli ).toInt();
+
+    TositeModel tosite(kp()->tietokanta());
+
+    if( QMessageBox::question(this, tr("Alv-ilmoituksen poistaminen"), tr("Haluatko todellakin poistaa viimeisimmän alv-ilmoituksen?\n"
+                                                                          "Poistamisen jälkeen sinun on laadittava uusi alv-ilmoitus."),
+                              QMessageBox::Yes | QMessageBox::Cancel) == QMessageBox::Yes   )
+    {
+        tosite.lataa( tositeId );
+        tosite.poista();
+        model->lataa();
+        nollaa();
+    }
+}
+
 void AlvMaaritys::riviValittu()
 {
-    ui->tilitysNappi->setEnabled( ui->ilmoituksetView->selectionModel()->currentIndex().isValid() );
-    ui->erittelyNappi->setEnabled( ui->ilmoituksetView->selectionModel()->currentIndex().isValid() );
+    QModelIndex index = ui->ilmoituksetView->selectionModel()->currentIndex();
+
+    ui->tilitysNappi->setEnabled( index.isValid() );
+    ui->erittelyNappi->setEnabled( index.isValid() );
+    ui->poistaTilitysNappi->setEnabled( index.isValid() &&
+                                        index.data(AlvIlmoitustenModel::PaattyyRooli).toDate() == kp()->asetukset()->pvm("AlvIlmoitus")  &&
+                                        index.data(AlvIlmoitustenModel::EraPvmRooli).toDate() >= kp()->paivamaara() );
+
 }
 
 void AlvMaaritys::maksuAlv()

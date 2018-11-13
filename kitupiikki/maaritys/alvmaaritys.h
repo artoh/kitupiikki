@@ -45,6 +45,7 @@ public slots:
     void ilmoita();
     void naytaIlmoitus();
     void naytaErittely();
+    void poistaIlmoitus();
     void riviValittu();
     void maksuAlv();
     void paivitaMaksuAlvTieto();
