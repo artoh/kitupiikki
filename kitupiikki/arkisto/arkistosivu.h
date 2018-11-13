@@ -53,10 +53,11 @@ public slots:
     void arkisto();
     void vieArkisto();
     void tilinpaatos();
+    void tilinpaatosKasky();
     void nykyinenVaihtuuPaivitaNapit();
     void teeArkisto(Tilikausi kausi);
     void muokkaa();
-    void budjetti();
+    void budjetti();    
 
 private:
     Ui::TilikausiMaaritykset *ui;

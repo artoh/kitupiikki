@@ -291,7 +291,8 @@ void KitupiikkiIkkuna::ktpKasky(const QString& kasky)
         if( kasky == "uusitilikausi")
             arkistosivu->uusiTilikausi();
         else if(kasky == "tilinpaatos")
-            arkistosivu->tilinpaatos();
+            arkistosivu->tilinpaatosKasky();
+            // Varmistaa, että tilinpäätös kohdistuu oikealle tilikaudelle
     }
     else if( kasky == "paivitatilikartta")
     {
@@ -389,8 +390,7 @@ QAction *KitupiikkiIkkuna::lisaaSivu(const QString &nimi, const QString &kuva, c
 {
     QAction *uusi = new QAction( nimi, aktioryhma);
     uusi->setIcon( QIcon(kuva));
-    uusi->setToolTip( nimi + "\t " + pikanappain );
-    uusi->setStatusTip(vihje);
+    uusi->setToolTip( vihje + "\t " + pikanappain );
     uusi->setShortcut(QKeySequence(pikanappain));
     uusi->setCheckable(true);
     uusi->setActionGroup(aktioryhma);
@@ -428,7 +428,7 @@ void KitupiikkiIkkuna::lisaaSivut()
     lisaaSivu("Laskut",":/pic/lasku.png","Laskuta ja selaa laskuja","F4",LASKUTUSSIVU, laskutussivu);
     lisaaSivu("Tulosteet",":/pic/print.png","Tulosta erilaisia raportteja","F5", TULOSTESIVU, raporttisivu);
     lisaaSivu("Tilikaudet",":/pic/kirja64.png","Tilinpäätös ja arkistot","F6", ARKISTOSIVU, arkistosivu);
-    lisaaSivu("ALV", ":/pic/vero64.png", "Arvonlisäveron ilmoittaminen", "Sift+F7",ALVSIVU, alvsivu );
+    lisaaSivu("ALV", ":/pic/vero64.png", "Arvonlisäveron ilmoittaminen", "Shift+F7",ALVSIVU, alvsivu );
     lisaaSivu("Määritykset",":/pic/ratas.png","Kirjanpitoon liittyvät määritykset","F7", MAARITYSSIVU, maarityssivu);
 
     // Possulla on tonttulakki tuomaanpäivästä loppiaiseen ;)

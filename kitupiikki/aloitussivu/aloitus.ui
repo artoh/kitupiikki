@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>764</width>
-    <height>499</height>
+    <width>1126</width>
+    <height>565</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
-      <layout class="QHBoxLayout" name="kpLeiska" stretch="0,1,0">
+      <layout class="QHBoxLayout" name="kpLeiska" stretch="0,2,1">
        <item>
         <widget class="QLabel" name="logoLabel">
          <property name="sizePolicy">
@@ -62,7 +62,23 @@
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="tilikausiCombo"/>
+        <widget class="QComboBox" name="tilikausiCombo">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>200</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="sizeAdjustPolicy">
+          <enum>QComboBox::AdjustToContents</enum>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>

@@ -258,6 +258,12 @@ void ArkistoSivu::tilinpaatos()
 
 }
 
+void ArkistoSivu::tilinpaatosKasky()
+{
+    ui->view->setCurrentIndex( ui->view->model()->index( kp()->tilikaudet()->indeksiPaivalle( kp()->paivamaara().addMonths(-4) ),0) );
+    tilinpaatos();
+}
+
 void ArkistoSivu::nykyinenVaihtuuPaivitaNapit()
 {
     if( ui->view->currentIndex().isValid())
