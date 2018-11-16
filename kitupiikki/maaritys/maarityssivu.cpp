@@ -32,7 +32,6 @@
 #include "kohdennusmuokkaus.h"
 #include "raporttimuokkaus.h"
 #include "liitetietokaavamuokkaus.h"
-#include "alvmaaritys.h"
 #include "laskuvalintawidget.h"
 #include "emailmaaritys.h"
 #include "tuontimaarityswidget.h"
@@ -57,7 +56,6 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu("Tositelajit", TOSITELAJIT, QIcon(":/pic/kansiot.png"));
     lisaaSivu("Kohdennukset", KOHDENNUS, QIcon(":/pic/kohdennus.png"));
     lisaaSivu("Tilinavaus", TILINAVAUS, QIcon(":/pic/rahaa.png"));
-    lisaaSivu("Arvonlisävero", ALV, QIcon(":/pic/vero.png"));
     lisaaSivu("Laskutus", LASKUTUS, QIcon(":/pic/lasku.png"));
     lisaaSivu("Sähköpostin lähetys", SAHKOPOSTI, QIcon(":/pic/email.png"));
     lisaaSivu("Verkkolasku", VERKKOLASKU, QIcon(":/pic/verkkolasku.png"));
@@ -211,8 +209,6 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         nykyinen = new LaskuValintaWidget;
     else if( sivu == TUONTI)
         nykyinen = new TuontiMaaritysWidget;
-    else if( sivu == ALV)
-        nykyinen = new AlvMaaritys;
     else if(sivu == SAHKOPOSTI)
         nykyinen = new EmailMaaritys;
     else if(sivu == TILIKARTTAOHJE)
@@ -255,14 +251,9 @@ void MaaritysSivu::valitseSivu(const QString& otsikko)
 
 void MaaritysSivu::paivitaNakyvat()
 {
-    // ALV
-    // Jos merkitty alv-velvolliseksi
-    QListWidgetItem *item = lista->item( ALV );
-    item->setHidden( !kp()->asetukset()->onko("AlvVelvollinen") );
-
     // Tilinavaus
     // Jos tilit avattavissa eikä avaustilikautta ole vielä päätetty
-    item = lista->item( TILINAVAUS );
+    QListWidgetItem *item = lista->item( TILINAVAUS );
     item->setHidden( kp()->asetukset()->luku("Tilinavaus") == 0 || kp()->tilitpaatetty() > kp()->asetukset()->pvm("TilinavausPvm") );
 
     // Edistyneet toiminnot

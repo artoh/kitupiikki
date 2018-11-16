@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AlvMaaritys</class>
- <widget class="QWidget" name="AlvMaaritys">
+ <class>AlvSivu</class>
+ <widget class="QWidget" name="AlvSivu">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -14,19 +14,6 @@
    <string>Form</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
-   <item>
-    <widget class="QLabel" name="label_6">
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>Arvonlisävero</string>
-     </property>
-    </widget>
-   </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_7">
      <item>

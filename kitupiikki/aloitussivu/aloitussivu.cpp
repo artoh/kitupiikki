@@ -44,7 +44,7 @@
 #include "aloitussivu.h"
 #include "db/kirjanpito.h"
 #include "uusikp/uusikirjanpito.h"
-#include "maaritys/alvmaaritys.h"
+#include "alv/alvsivu.h"
 
 #include "uusikp/paivitakirjanpito.h"
 
@@ -383,7 +383,7 @@ QString AloitusSivu::vinkit()
     {
         QDate kausialkaa = kp()->asetukset()->pvm("AlvIlmoitus").addDays(1);
         QDate kausipaattyy = kp()->asetukset()->pvm("AlvIlmoitus").addMonths( kp()->asetukset()->luku("AlvKausi")).addDays(-1);
-        QDate erapaiva = AlvMaaritys::erapaiva(kausipaattyy);
+        QDate erapaiva = AlvSivu::erapaiva(kausipaattyy);
 
         qlonglong paivaaIlmoitukseen = kp()->paivamaara().daysTo( erapaiva );
         if( paivaaIlmoitukseen < 0)

@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2018 Arto Hyvättinen
+   Copyright (C) 2017 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,15 +14,53 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef ALVSIVU_H
-#define ALVSIVU_H
+
+#ifndef ALVMAARITYS_H
+#define ALVMAARITYS_H
+
+#include <QDate>
 
 #include "../kitupiikkisivu.h"
+#include "alvilmoitustenmodel.h"
 
+namespace Ui {
+class AlvSivu;
+}
+
+/**
+ * @brief Arvonlisäveromääritysten sivu, jolla tehdään alv-tilitys
+ */
 class AlvSivu : public KitupiikkiSivu
 {
+    Q_OBJECT
 public:
-    AlvSivu(QWidget *parent = nullptr);
+    AlvSivu();
+
+    void siirrySivulle() override;
+
+public slots:
+    void paivitaSeuraavat();
+    void ilmoita();
+    void naytaIlmoitus();
+    void naytaErittely();
+    void poistaIlmoitus();
+    void riviValittu();
+    void maksuAlv();
+    void paivitaMaksuAlvTieto();  
+
+public:
+    /**
+     * @brief Alv-ilmoituksen eräpäivä
+     * @param loppupaiva Verokauden viimeinen päivä
+     * @return
+     */
+    static QDate erapaiva(const QDate& loppupaiva);
+
+private:
+    Ui::AlvSivu *ui;
+    QDate seuraavaAlkaa;
+    QDate seuraavaLoppuu;
+    AlvIlmoitustenModel *model = new AlvIlmoitustenModel;
 };
 
-#endif // ALVSIVU_H
+#endif // ALVMAARITYS_H

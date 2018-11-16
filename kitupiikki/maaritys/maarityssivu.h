@@ -51,7 +51,6 @@ public:
         TOSITELAJIT,
         KOHDENNUS,
         TILINAVAUS,
-        ALV,
         LASKUTUS,
         SAHKOPOSTI,
         VERKKOLASKU,

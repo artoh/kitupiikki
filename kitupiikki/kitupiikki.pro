@@ -106,9 +106,6 @@ SOURCES += main.cpp \
     kirjaus/verodialogi.cpp \
     db/tilityyppimodel.cpp \
     kirjaus/taseeravalintadialogi.cpp \
-    maaritys/alvmaaritys.cpp \
-    maaritys/alvilmoitusdialog.cpp \
-    maaritys/alvilmoitustenmodel.cpp \
     laskutus/laskumodel.cpp \
     laskutus/laskudialogi.cpp \
     laskutus/laskuntulostaja.cpp \
@@ -174,6 +171,8 @@ SOURCES += main.cpp \
     laskutus/finvoice.cpp \
     maaritys/finvoicemaaritys.cpp \
     raportti/budjettivertailu.cpp \
+    alv/alvilmoitusdialog.cpp \
+    alv/alvilmoitustenmodel.cpp \
     alv/alvsivu.cpp
 
 HEADERS += \
@@ -257,9 +256,6 @@ HEADERS += \
     kirjaus/verodialogi.h \
     db/tilityyppimodel.h \
     kirjaus/taseeravalintadialogi.h \
-    maaritys/alvmaaritys.h \
-    maaritys/alvilmoitusdialog.h \
-    maaritys/alvilmoitustenmodel.h \
     laskutus/laskumodel.h \
     laskutus/laskudialogi.h \
     laskutus/laskuntulostaja.h \
@@ -326,6 +322,8 @@ HEADERS += \
     maaritys/finvoicemaaritys.h \
     versio.h \
     raportti/budjettivertailu.h \
+    alv/alvilmoitusdialog.h \
+    alv/alvilmoitustenmodel.h \
     alv/alvsivu.h
 
 RESOURCES += \
@@ -373,8 +371,6 @@ FORMS += \
     arkisto/lukitsetilikausi.ui \
     kirjaus/verodialogi.ui \
     kirjaus/taseeravalintadialogi.ui \
-    maaritys/arvonlisavero.ui \
-    maaritys/alvilmoitusdialog.ui \
     laskutus/laskudialogi.ui \
     maaritys/laskumaaritys.ui \
     maaritys/emailmaaritys.ui \
@@ -408,7 +404,9 @@ FORMS += \
     laskutus/ryhmantuontidlg.ui \
     maaritys/verkkolaskumaaritys.ui \
     aloitussivu/muistiinpanot.ui \
-    raportti/budjettivertailu.ui
+    raportti/budjettivertailu.ui \
+    alv/alvilmoitusdialog.ui \
+    alv/arvonlisavero.ui
 
 DISTFILES += \
     uusikp/luo.sql \

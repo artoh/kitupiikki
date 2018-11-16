@@ -60,7 +60,6 @@
 #include "kirjaus/siirrydlg.h"
 
 #include "tools/inboxlista.h"
-#include "maaritys/alvmaaritys.h"
 
 KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     nykysivu(nullptr)
@@ -275,11 +274,8 @@ void KitupiikkiIkkuna::ktpKasky(const QString& kasky)
     }
     else if(kasky=="alvilmoitus")
     {
-        valitseSivu(MAARITYSSIVU, true);
-        maarityssivu->valitseSivu("Arvonlisävero");
-        AlvMaaritys *alv = qobject_cast<AlvMaaritys*>(maarityssivu->nykyWidget());
-        if(alv)
-            alv->ilmoita();
+        valitseSivu(ALVSIVU, true);
+        alvsivu->ilmoita();
     }
     else if( kasky == "raportit")
         valitseSivu( TULOSTESIVU, true);
