@@ -360,16 +360,26 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter)
     painter->setPen( QPen( QBrush(Qt::black), 0.13));
     painter->drawLine( QLineF(keskiviiva, pv, leveys, pv ));
     painter->drawLine( QLineF(keskiviiva, pv-rk, leveys, pv-rk ));
-    painter->drawLine( QLineF(keskiviiva, pv-rk, keskiviiva, pv+rk*5));
     if( !model_->ytunnus().isEmpty())
         painter->drawLine( QLineF(puoliviiva, pv, puoliviiva, pv+rk ));
 
-    painter->drawLine( QLineF(keskiviiva, pv+ rk*4, leveys, pv + rk*4));
     painter->drawLine(QLineF(puoliviiva, pv+rk*2, puoliviiva, pv+rk*4));
-    for(int i=1; i<6; i++)
+    for(int i=1; i<5; i++)
         painter->drawLine(QLineF(keskiviiva, pv + i * rk, leveys, pv + i * rk));
 
     painter->setFont( QFont("Sans",OTSAKEPT) );
+
+    if( model_->asiakkaanViite().isEmpty())
+    {
+        painter->drawLine(QLineF(keskiviiva, pv-rk, keskiviiva, pv + 4 * rk));
+    }
+    else
+    {
+        painter->drawLine(QLineF(keskiviiva, pv + 5 * rk, leveys, pv + 5 * rk));
+        painter->drawLine( QLineF(keskiviiva, pv-rk, keskiviiva, pv+rk*5));
+        painter->drawText(QRectF( keskiviiva + mm, pv + rk * 4 + mm, leveys / 4, rk ), Qt::AlignTop, tr("Asiakkaan viite"));
+    }
+
     if( model_->kirjausperuste() != LaskuModel::MAKSUPERUSTE)
     {
         painter->drawLine(QLineF(puoliviiva, pv-rk, puoliviiva, pv));
@@ -398,7 +408,6 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter)
     painter->drawText(QRectF( puoliviiva + mm, pv + rk * 2 + mm, leveys / 4, rk ), Qt::AlignTop, tr("Summa"));
     painter->drawText(QRectF( keskiviiva + mm, pv + rk * 3 + mm, leveys / 4, rk ), Qt::AlignTop, tr("Huomautusaika"));
     painter->drawText(QRectF( puoliviiva + mm, pv + rk * 3 + mm, leveys / 4, rk ), Qt::AlignTop, tr("Viivästyskorko"));
-    painter->drawText(QRectF( keskiviiva + mm, pv + rk * 4 + mm, leveys / 4, rk ), Qt::AlignTop, tr("Asiakkaan viite"));
 
     painter->setFont(QFont("Sans", TEKSTIPT));
 
@@ -453,11 +462,12 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter)
     painter->drawText(QRectF( keskiviiva + mm, pv + rk * 4, leveys / 2, rk-mm ), Qt::AlignBottom,  model_->asiakkaanViite() );
 
     // Kirjoittamista jatkettaan ruudukon jälkeen - taikka ikkunan, jos se on isompi
+    int rivit = model_->asiakkaanViite().isEmpty() ? 4 : 5;
 
-    if( ikkuna.y() + ikkuna.height() > pv + 5*rk)
+    if( ikkuna.y() + ikkuna.height() > pv + rivit *rk)
         painter->translate( 0,  ikkuna.y() + ikkuna.height() + 5 * mm);
     else
-        painter->translate(0, pv + 5*rk + 5 * mm);
+        painter->translate(0, pv + rivit*rk + 5 * mm);
 }
 
 void LaskunTulostaja::lisatieto(QPainter *painter, const QString& lisatieto)
@@ -490,7 +500,7 @@ qreal LaskunTulostaja::alatunniste(QPagedPaintDevice *printer, QPainter *painter
     QString ytunnus = kp()->asetus("Ytunnus");
     painter->drawText(QRectF(2 *leveys / 3,0,leveys/3,rk), Qt::AlignRight, tr("Y-tunnus %1").arg(ytunnus));
     if( kp()->asetukset()->onko("AlvVelvollinen"))
-        painter->drawText(QRectF(2 *leveys / 3,rk,leveys/3,rk), Qt::AlignRight, tr("VAT-tunnus FI%1").arg( ytunnus.left(7)+ytunnus.right(1) ));
+        painter->drawText(QRectF(2 *leveys / 3,rk,leveys/3,rk), Qt::AlignRight, tr("ALV-tunnus FI%1").arg( ytunnus.left(7)+ytunnus.right(1) ));
     else
         painter->drawText(QRectF(2 *leveys / 3,rk,leveys/3,rk), Qt::AlignRight, tr("Myyjä ei arvonlisäverovelvollinen"));
 
