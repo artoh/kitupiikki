@@ -272,6 +272,8 @@ QVariant LaskuModel::data(const QModelIndex &index, int role) const
             case AlvKoodi::YHTEISOMYYNTI_PALVELUT:
             case AlvKoodi::YHTEISOMYYNTI_TAVARAT:
                 return tr("AVL 72 a §");
+            case AlvKoodi::MYYNNIT_MARGINAALI :
+                return tr("Voittomarginaalijärj");
             default:
                 return QVariant( QString("%1 %").arg(rivi.alvProsentti));
             }
@@ -404,6 +406,8 @@ bool LaskuModel::setData(const QModelIndex &index, const QVariant &value, int ro
         rivit_[rivi].alvKoodi = value.toInt();
         paivitaSumma(rivi);
         muokattu_ = true;
+        if( value.toInt() == AlvKoodi::MYYNNIT_MARGINAALI)
+            emit marginaaliVeroKaytossa();
         return true;
     }
     else if( role == AlvProsenttiRooli)
@@ -898,5 +902,8 @@ LaskuRivi::LaskuRivi()
 double LaskuRivi::yhteensaSnt() const
 {
     // TODO: Eri alv-tyypeillä
+    if( alvKoodi == AlvKoodi::MYYNNIT_MARGINAALI)
+        return qRound( maara * ahintaSnt);
+
     return std::round( maara *  ahintaSnt * (100 + alvProsentti ) / 100 );
 }

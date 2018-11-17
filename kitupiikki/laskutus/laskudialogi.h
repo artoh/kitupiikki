@@ -91,6 +91,8 @@ private slots:
     void verkkolaskuKayttoon();
     void ytunnusSyotetty(const QString &ytunnus);
 
+    void lisaaMarginaaliTieto();
+
 private:
     /**
      * @brief Näyttäää tuoteluettelon jos tuotteita, muuten ohjeen

@@ -455,7 +455,7 @@ void KirjausApuriDialog::veroSuodattimetKuntoon()
         if( kp()->onkoMaksuperusteinenAlv( ui->pvmDate->date() ) &&
                 ui->vastatiliEdit->valittuTili().onko(TiliLaji::MYYNTISAATAVA))
         {
-            verofiltteri.setFilterRegExp("^(0|1[3-9]");
+            verofiltteri.setFilterRegExp("^(0|1[4-9])");
             // Jos valittuna ollut kotimaan myynti, valitaan maksuperusteinen myynti
             if( alvkoodi < 13)
                 ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::MAKSUPERUSTEINEN_MYYNTI, VerotyyppiModel::KoodiRooli) );
@@ -475,7 +475,7 @@ void KirjausApuriDialog::veroSuodattimetKuntoon()
         if( kp()->onkoMaksuperusteinenAlv( ui->pvmDate->date() ) &&
                 ui->vastatiliEdit->valittuTili().onko(TiliLaji::OSTOVELKA))
         {
-            verofiltteri.setFilterRegExp("^(0|2[3-9]|927)");
+            verofiltteri.setFilterRegExp("^(0|2[4-9]|927)");
             if( alvkoodi < 23)
                 ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::MAKSUPERUSTEINEN_OSTO, VerotyyppiModel::KoodiRooli) );
         }
@@ -522,7 +522,7 @@ void KirjausApuriDialog::ehdota()
         if( tili.onko(TiliLaji::TULO)  || tili.onko( TiliLaji::POISTETTAVA))
         {
             VientiRivi tulorivi = uusiEhdotusRivi(tili);
-            if( alvkoodi == AlvKoodi::MYYNNIT_BRUTTO)
+            if( alvkoodi == AlvKoodi::MYYNNIT_BRUTTO || alvkoodi == AlvKoodi::MYYNNIT_MARGINAALI)
                 tulorivi.kreditSnt = bruttoSnt;
             else
                 tulorivi.kreditSnt = nettoSnt;
@@ -559,7 +559,7 @@ void KirjausApuriDialog::ehdota()
         {
             VientiRivi taserivi = uusiEhdotusRivi();
             taserivi.tili = vastatili;
-            if( alvkoodi == AlvKoodi::MYYNNIT_NETTO || alvkoodi == AlvKoodi::MYYNNIT_BRUTTO || alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI)
+            if( alvkoodi == AlvKoodi::MYYNNIT_NETTO || alvkoodi == AlvKoodi::MYYNNIT_BRUTTO || alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI || alvkoodi == AlvKoodi::MYYNNIT_MARGINAALI)
                 taserivi.debetSnt = bruttoSnt;
             else
                 taserivi.debetSnt = nettoSnt;
@@ -627,7 +627,7 @@ void KirjausApuriDialog::ehdota()
         if( tili.onko(TiliLaji::MENO) || tili.onko(TiliLaji::POISTETTAVA)  )
         {
             VientiRivi menorivi = uusiEhdotusRivi(tili);
-            if( alvkoodi == AlvKoodi::OSTOT_BRUTTO || (ui->eiVahennaCheck->isChecked() && ui->eiVahennaCheck->isVisible()))
+            if( alvkoodi == AlvKoodi::OSTOT_BRUTTO ||  alvkoodi == AlvKoodi::OSTOT_MARGINAALI || (ui->eiVahennaCheck->isChecked() && ui->eiVahennaCheck->isVisible()))
                 menorivi.debetSnt = bruttoSnt;
             else
                 menorivi.debetSnt = nettoSnt;
@@ -649,7 +649,7 @@ void KirjausApuriDialog::ehdota()
 
         }
         if( alvprosentti && kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).onkoValidi() &&
-                ( alvkoodi != AlvKoodi::OSTOT_BRUTTO  ) )
+                ( alvkoodi != AlvKoodi::OSTOT_BRUTTO  ) && ( alvkoodi != AlvKoodi::OSTOT_MARGINAALI) )
         {
             if( !(ui->eiVahennaCheck->isChecked() && ui->eiVahennaCheck->isVisible()))
             {
@@ -685,7 +685,7 @@ void KirjausApuriDialog::ehdota()
         if( vastatili.onko(TiliLaji::TASE) && !ui->vastaCheck->isChecked())
         {
             VientiRivi taserivi = uusiEhdotusRivi(vastatili);
-            if( alvkoodi == AlvKoodi::OSTOT_NETTO || alvkoodi == AlvKoodi::OSTOT_BRUTTO ||
+            if( alvkoodi == AlvKoodi::OSTOT_NETTO || alvkoodi == AlvKoodi::OSTOT_BRUTTO || alvkoodi == AlvKoodi::OSTOT_MARGINAALI ||
                     alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO )
                 taserivi.kreditSnt = bruttoSnt;
             else
@@ -757,8 +757,8 @@ void KirjausApuriDialog::ehdota()
     ehdotus.viimeisteleMaksuperusteinen();
 
     // Netto näytetään jos vero
-    ui->nettoLabel->setVisible(ui->alvSpin->value());
-    ui->nettoSpin->setVisible( ui->alvSpin->value());
+    ui->nettoLabel->setVisible(ui->alvSpin->value() && alvkoodi != AlvKoodi::MYYNNIT_MARGINAALI && alvkoodi != AlvKoodi::OSTOT_MARGINAALI);
+    ui->nettoSpin->setVisible( ui->alvSpin->value() && alvkoodi != AlvKoodi::MYYNNIT_MARGINAALI && alvkoodi != AlvKoodi::OSTOT_MARGINAALI);
 
     ui->buttonBox->button( QDialogButtonBox::Ok )->setEnabled( ehdotus.onkoKelpo(ui->vastaCheck->isChecked()) );
 

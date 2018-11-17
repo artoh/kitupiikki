@@ -191,6 +191,7 @@ public slots:
 
 signals:
     void summaMuuttunut(qlonglong summaSnt);
+    void marginaaliVeroKaytossa();
 
 protected:
     void haeAvoinSaldo();

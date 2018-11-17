@@ -150,6 +150,8 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     connect( ui->verkkoValittajaEdit, &QLineEdit::textChanged, this, &LaskuDialogi::verkkolaskuKayttoon);
     connect( ui->verkkolaskuNappi, &QPushButton::clicked, this, &LaskuDialogi::finvoice);
 
+    connect( model, &LaskuModel::marginaaliVeroKaytossa, this, &LaskuDialogi::lisaaMarginaaliTieto);
+
     ui->rivitView->horizontalHeader()->setSectionResizeMode(LaskuModel::NIMIKE, QHeaderView::Stretch);
     ui->tuotelistaView->horizontalHeader()->setSectionResizeMode(TuoteModel::NIMIKE, QHeaderView::Stretch);
     ui->ryhmaView->setSelectionBehavior(QTableView::SelectRows);
@@ -737,6 +739,12 @@ void LaskuDialogi::ytunnusSyotetty(const QString& ytunnus)
         osoite.remove('-');
         ui->verkkoOsoiteEdit->setText(osoite);
     }
+}
+
+void LaskuDialogi::lisaaMarginaaliTieto()
+{
+    if( ui->lisatietoEdit->toPlainText().isEmpty())
+        ui->lisatietoEdit->appendPlainText("Voittomarginaalijärjestelmä - käytetyt tavarat / taide-esineet / keräily- ja antiikkiesineet");
 }
 
 void LaskuDialogi::paivitaTuoteluettelonNaytto()

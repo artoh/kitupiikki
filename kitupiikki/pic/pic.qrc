@@ -141,6 +141,7 @@
         <file>raha2.png</file>
         <file>edit-clear.png</file>
         <file>vero64.png</file>
+        <file>marginaali.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

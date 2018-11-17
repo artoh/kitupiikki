@@ -484,10 +484,16 @@ qreal LaskunTulostaja::alatunniste(QPagedPaintDevice *printer, QPainter *painter
     if( !kp()->asetukset()->asetus("Puhelin").isEmpty() )
         painter->drawText(QRectF(0,0,leveys/3,rk), Qt::AlignLeft, tr("Puh. %1").arg(kp()->asetus("Puhelin")));
     if( !kp()->asetukset()->asetus("Sahkoposti").isEmpty() )
-        painter->drawText(QRectF(0,rk,leveys/3,rk), Qt::AlignLeft, tr("Sähköposti %1").arg(kp()->asetus("Sahkoposti")));
+        painter->drawText(QRectF(0, kp()->asetukset()->asetus("Puhelin").isEmpty() ? 0 : rk,leveys/3,rk), Qt::AlignLeft, tr("Sähköposti %1").arg(kp()->asetus("Sahkoposti")));
 
     painter->drawText(QRectF(leveys / 3,0,leveys/3,rk), Qt::AlignCenter, tr("IBAN %1").arg( valeilla( iban ) ));
-    painter->drawText(QRectF(2 *leveys / 3,0,leveys/3,rk), Qt::AlignRight, tr("Y-tunnus %1").arg(kp()->asetus("Ytunnus")));
+    QString ytunnus = kp()->asetus("Ytunnus");
+    painter->drawText(QRectF(2 *leveys / 3,0,leveys/3,rk), Qt::AlignRight, tr("Y-tunnus %1").arg(ytunnus));
+    if( kp()->asetukset()->onko("AlvVelvollinen"))
+        painter->drawText(QRectF(2 *leveys / 3,rk,leveys/3,rk), Qt::AlignRight, tr("VAT-tunnus FI%1").arg( ytunnus.left(7)+ytunnus.right(1) ));
+    else
+        painter->drawText(QRectF(2 *leveys / 3,rk,leveys/3,rk), Qt::AlignRight, tr("Myyjä ei arvonlisäverovelvollinen"));
+
     painter->setPen( QPen(QBrush(Qt::black), mm * 0.13));
     painter->drawLine( QLineF( 0, 0, leveys, 0));
 
@@ -550,6 +556,9 @@ void LaskunTulostaja::erittely(LaskuModel *model, QPagedPaintDevice *printer, QP
         double verosnt = model->data( model->index(i, LaskuModel::NIMIKE), LaskuModel::VeroRooli ).toDouble();
         double nettosnt = model->data( model->index(i, LaskuModel::NIMIKE), LaskuModel::NettoRooli ).toDouble();
         int veroprossa = model->data( model->index(i, LaskuModel::NIMIKE), LaskuModel::AlvProsenttiRooli ).toInt();
+
+        if( verosnt < 1e-5 )
+            veroprossa = 0;
 
         // Lisätään alv-erittelyä varten summataulukkoihin
         if( !alvit.contains(veroprossa))

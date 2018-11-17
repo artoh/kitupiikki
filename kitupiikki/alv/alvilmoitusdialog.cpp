@@ -31,6 +31,8 @@
 
 #include "raportti/alverittely.h"
 
+#include "marginaalilaskelma.h"
+
 
 AlvIlmoitusDialog::AlvIlmoitusDialog(QWidget *parent) :
     QDialog(parent),
@@ -118,6 +120,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         rivi.pvm = loppupvm;
         rivi.tili = tili;
         rivi.alvprosentti = alvprosentti;
+        rivi.alvkoodi = AlvKoodi::TILITYS;
 
         verorivi.pvm = loppupvm;
         verorivi.alvprosentti = alvprosentti;
@@ -174,6 +177,47 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         ehdotus.lisaaVienti(verorivi);
     }
 
+    // 1B) Voittomarginaaliverotus
+    MarginaaliLaskelma marginaali(alkupvm, loppupvm);
+    query.exec( QString("select tili, alvprosentti, sum(kreditsnt) as plus, sum(debetsnt) as minus from vienti "
+                        "where alvkoodi=%1 and pvm between \"%2\" and \"%3\" group by tili,alvprosentti")
+                .arg(AlvKoodi::MYYNNIT_MARGINAALI).arg(alkupvm.toString(Qt::ISODate)).arg(loppupvm.toString(Qt::ISODate)));
+
+    while( query.next())
+    {
+        qlonglong myynti = query.value("plus").toLongLong() - query.value("minus").toLongLong();
+        int kanta = query.value("alvprosentti").toInt();
+        double osuus = (myynti * 1.00 / marginaali.myynnit(kanta));
+        qlonglong vero = qRound( osuus * marginaali.vero(kanta) );
+
+        VientiRivi tilirivi;
+        VientiRivi verorivi;
+
+        tilirivi.pvm = loppupvm;
+        tilirivi.alvprosentti = kanta;
+        tilirivi.tili = kp()->tilit()->tiliIdlla( query.value("tili").toInt() );
+        tilirivi.alvkoodi = AlvKoodi::TILITYS;
+
+        verorivi.pvm = loppupvm;
+        verorivi.alvprosentti = kanta;
+        verorivi.alvkoodi = AlvKoodi::MYYNNIT_MARGINAALI + AlvKoodi::ALVKIRJAUS;
+        verorivi.tili = kp()->tilit()->tiliTyypilla( TiliLaji::ALVVELKA);
+
+        tilirivi.debetSnt = vero;
+        verorivi.kreditSnt = vero;
+
+        tilirivi.selite = tr("Voittomarginaalivero %1 - %2 (VEROKANTA %3 %, OSUUS %4 %)")
+                .arg(alkupvm.toString("dd.MM.yyyy")).arg(loppupvm.toString("dd.MM.yyyy"))
+                .arg(kanta).arg( qRound(osuus*100));
+        verorivi.selite = tilirivi.selite;
+
+        ehdotus.lisaaVienti(tilirivi);
+        ehdotus.lisaaVienti(verorivi);
+
+        verotKannoittainSnt[ kanta ] = verotKannoittainSnt.value( kanta, 0) + vero;
+    }
+
+
     // 2) Nettokirjausten koonti
     query.exec( QString("select alvprosentti, sum(debetsnt) as debetit, sum(kreditsnt) as kreditit from vienti where pvm between \"%1\" and \"%2\" and (alvkoodi=%3 or alvkoodi=%4) group by alvprosentti")
                 .arg(alkupvm.toString(Qt::ISODate)).arg(loppupvm.toString(Qt::ISODate))
@@ -182,7 +226,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
     while( query.next())
     {
         int alvprosentti = query.value("alvprosentti").toInt();
-        int saldo = query.value("kreditit").toInt() - query.value("debetit").toInt();
+        qlonglong saldo = query.value("kreditit").toInt() - query.value("debetit").toInt();
         verotKannoittainSnt[ alvprosentti ] = verotKannoittainSnt.value(alvprosentti) + saldo;
     }
 
@@ -222,13 +266,13 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         }
     }
     // Kirjaus alv-saamistililtä ja alv-velkatililtä verovelkatilille
-    if( nettoverosnt + bruttoveroayhtSnt)
+    if( nettoverosnt + bruttoveroayhtSnt + marginaali.vero() )
     {
         VientiRivi rivi;
         rivi.pvm = loppupvm;
         rivi.tili = kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA);
         rivi.selite = tr("Alv-kirjaus %1 - %2 ").arg(alkupvm.toString("dd.MM.yyyy")).arg(loppupvm.toString("dd.MM.yyyy"));
-        rivi.debetSnt = nettoverosnt + bruttoveroayhtSnt;
+        rivi.debetSnt = nettoverosnt + bruttoveroayhtSnt + marginaali.vero();
         rivi.alvkoodi = AlvKoodi::TILITYS;
         ehdotus.lisaaVienti(rivi);
     }
@@ -243,7 +287,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         ehdotus.lisaaVienti(rivi);
     }
     // Ja lopuksi kirjataan verot verotilille
-    int maksettavavero = bruttoveroayhtSnt + nettoverosnt - bruttovahennettavaaSnt - nettovahennyssnt;
+    qlonglong maksettavavero = bruttoveroayhtSnt + nettoverosnt + marginaali.vero() - bruttovahennettavaaSnt - nettovahennyssnt;
     if( maksettavavero )
     {
         VientiRivi rivi;
@@ -314,7 +358,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
 
 
     otsikko(tr("Maksettava vero"));
-    luku(tr("Vero yhteensä"), bruttoveroayhtSnt + nettoverosnt );
+    luku(tr("Vero yhteensä"), bruttoveroayhtSnt + nettoverosnt + marginaali.vero() );
     luku(tr("Vähenettävä vero yhteensä"), bruttovahennettavaaSnt + nettovahennyssnt);
     luku(tr("Maksettava vero"), maksettavavero  , true);
 
@@ -402,7 +446,17 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
 
         model.json()->set("AlvTilitysAlkaa", alkupvm);
         model.json()->set("AlvTilitysPaattyy", loppupvm);
-        model.json()->set("MaksettavaAlv", maksettavavero);
+        model.json()->set("MaksettavaAlv",  static_cast<qulonglong>( qAbs(maksettavavero) ) );
+
+        QVariantMap aliMap; // Marginaaliveron alijäämät
+        for(int i=0; i < marginaali.riveja(); i++)
+        {
+            if( marginaali.rivi(i).marginaali() < 0)
+                aliMap.insert( QString::number( marginaali.rivi(i).verokanta()), 0 - marginaali.rivi(i).marginaali() );
+        }
+        if( !aliMap.isEmpty())
+            model.json()->setVar("Voittomarginaalialijaama", aliMap);
+
         ehdotus.tallenna( model.vientiModel() );
 
         // Liitetään laskelma

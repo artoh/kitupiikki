@@ -22,6 +22,8 @@
 #include "ui_taseerittely.h"
 #include "db/kirjanpito.h"
 
+#include "alv/marginaalilaskelma.h"
+
 AlvErittely::AlvErittely()
  : Raportti(nullptr)
 {
@@ -125,7 +127,7 @@ RaportinKirjoittaja AlvErittely::kirjoitaRaporti(QDate alkupvm, QDate loppupvm)
                     // lisätään se yhteissummiin. Tämä sitä varten, että myös kesken kauden
                     // tulostettavassa alv-erittelyssä näkyisi alv bruttokirjauksista
 
-                    int osuus = qRound( ( nProsentti  * (double) tilisumma ) / ( nProsentti + 100  ) );
+                    int osuus = qRound( ( nProsentti  * static_cast<double>( tilisumma ) ) / ( nProsentti + 100  ) );
                     RaporttiRivi osuusRivi;
                     osuusRivi.lisaa(" ", 2);
                     osuusRivi.lisaa("Arvonlisäveron osuus bruttosummasta");
@@ -251,6 +253,66 @@ RaportinKirjoittaja AlvErittely::kirjoitaRaporti(QDate alkupvm, QDate loppupvm)
     }
 
     kirjoittaja.lisaaTyhjaRivi();
+
+    // Voittomarginaalijärjestelmän verot
+
+    MarginaaliLaskelma marginaalit(alkupvm, loppupvm);
+    for(int i=0; i < marginaalit.riveja(); i++)
+    {
+        MarginaaliLaskelmaRivi rivi = marginaalit.rivi(i);
+        QString kanta = QString::number( rivi.verokanta());
+
+        if( rivi.myynnit() )
+        {
+            RaporttiRivi myyntirivi;
+            myyntirivi.lisaa("", 2);
+            myyntirivi.lisaa("Voittomarginaaliverotus myynti");
+            myyntirivi.lisaa( kanta );
+            myyntirivi.lisaa( rivi.myynnit());
+            kirjoittaja.lisaaRivi(myyntirivi);
+        }
+
+        if( rivi.ostot())
+        {
+            RaporttiRivi ostorivi;
+            ostorivi.lisaa("", 2);
+            ostorivi.lisaa("Voittomarginaaliverotus ostot");
+            ostorivi.lisaa( kanta );
+            ostorivi.lisaa( rivi.ostot() );
+            kirjoittaja.lisaaRivi( ostorivi );
+        }
+
+        if( rivi.alijaama() )
+        {
+            RaporttiRivi ajrivi;
+            ajrivi.lisaa("", 2);
+            ajrivi.lisaa("Edellisten kausien negatiivinen marginaali");
+            ajrivi.lisaa( kanta );
+            ajrivi.lisaa( rivi.alijaama() );
+            kirjoittaja.lisaaRivi( ajrivi );
+        }
+
+        RaporttiRivi mrivi;
+        mrivi.lisaa("",2);
+        mrivi.lisaa("Voittomarginaali");
+        mrivi.lisaa( kanta );
+        mrivi.lisaa( rivi.marginaali() );
+        kirjoittaja.lisaaRivi( mrivi );
+
+        if( rivi.vero() )
+        {
+            RaporttiRivi mvrivi;
+            mvrivi.lisaa("",2);
+            mvrivi.lisaa("Maksettava vero");
+            mvrivi.lisaa( kanta );
+            mvrivi.lisaa( rivi.vero() );
+            kirjoittaja.lisaaRivi( mvrivi );
+        }
+
+        veroyhteensa += rivi.vero();
+        kirjoittaja.lisaaTyhjaRivi();
+    }
+
 
     // Lopuksi yhteenveto verosta ja vähennyksestä
     // Tämän pitäisi täsmätä alv-laskelman kanssa ;)

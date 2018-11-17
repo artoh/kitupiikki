@@ -20,6 +20,7 @@
 #include <QComboBox>
 #include "db/verotyyppimodel.h"
 #include "laskumodel.h"
+#include "db/kirjanpito.h"
 
 LaskutusVeroDelegaatti::LaskutusVeroDelegaatti()
 {
@@ -30,13 +31,19 @@ QWidget *LaskutusVeroDelegaatti::createEditor(QWidget *parent, const QStyleOptio
 {
     QComboBox *cbox = new QComboBox(parent);
 
-    cbox->addItem("0%", QVariant(AlvKoodi::ALV0));
-    cbox->addItem("10%", QVariant(AlvKoodi::MYYNNIT_NETTO + 10 * 100 ));
-    cbox->addItem("14%", QVariant(AlvKoodi::MYYNNIT_NETTO + 14 * 100));
-    cbox->addItem("24%", QVariant(AlvKoodi::MYYNNIT_NETTO + 24 * 100 ));
+    cbox->addItem(QIcon(":/pic/0pros.png"),"0%", QVariant(AlvKoodi::ALV0));
+    cbox->addItem(QIcon(":/pic/netto.png"),"10%", QVariant(AlvKoodi::MYYNNIT_NETTO + 10 * 100 ));
+    cbox->addItem(QIcon(":/pic/netto.png"),"14%", QVariant(AlvKoodi::MYYNNIT_NETTO + 14 * 100));
+    cbox->addItem(QIcon(":/pic/netto.png"),"24%", QVariant(AlvKoodi::MYYNNIT_NETTO + 24 * 100 ));
     cbox->addItem(QIcon(":/pic/vasara.png"), tr("Rakennuspalvelut"), QVariant( AlvKoodi::RAKENNUSPALVELU_MYYNTI ));
     cbox->addItem(QIcon(":/pic/eu.png"), tr("Tavaramyynti"), QVariant( AlvKoodi::YHTEISOMYYNTI_TAVARAT ));
     cbox->addItem(QIcon(":/pic/eu.png"), tr("Palvelumyynti"), QVariant( AlvKoodi::YHTEISOMYYNTI_PALVELUT ));
+
+    if( !kp()->onkoMaksuperusteinenAlv(kp()->paivamaara()))
+    {
+        cbox->addItem(QIcon(":/pic/marginaali.png"),"10% Voittomarginaalimenettely", QVariant(AlvKoodi::MYYNNIT_MARGINAALI + 10 * 100 ));
+        cbox->addItem(QIcon(":/pic/marginaali.png"),"24% Voittomarginaalimenettely", QVariant(AlvKoodi::MYYNNIT_MARGINAALI + 24 * 100 ));
+    }
 
     return cbox;
 }
