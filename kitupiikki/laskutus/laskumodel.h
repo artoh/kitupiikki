@@ -47,7 +47,8 @@ struct LaskuRivi
     QString yksikko;
     double ahintaSnt = 0.00;
     int alvKoodi;
-    int alvProsentti = 0.00;
+    int alvProsentti = 0;
+    int aleProsentti = 0;
     Tili myyntiTili;
     Kohdennus kohdennus;
     int tuoteKoodi = 0;
@@ -72,7 +73,7 @@ public:
 
     enum LaskuSarake
     {
-        NIMIKE, MAARA, YKSIKKO, AHINTA, ALV, TILI, KOHDENNUS, BRUTTOSUMMA
+        NIMIKE, MAARA, YKSIKKO, AHINTA, ALE, ALV, TILI, KOHDENNUS, BRUTTOSUMMA
     };
 
     enum Kirjausperuste {SUORITEPERUSTE, LASKUTUSPERUSTE, MAKSUPERUSTE, KATEISLASKU};

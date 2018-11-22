@@ -164,7 +164,7 @@ int LaskuModel::rowCount(const QModelIndex & /* parent */) const
 
 int LaskuModel::columnCount(const QModelIndex & /* parent */) const
 {
-    return 8;
+    return 9;
 }
 
 QVariant LaskuModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -185,6 +185,8 @@ QVariant LaskuModel::headerData(int section, Qt::Orientation orientation, int ro
                 return tr("Yksikkö");
             case AHINTA :
                 return tr("á netto");
+            case ALE:
+                return  tr("Alennus");
             case ALV:
                 return tr("Alv");
             case TILI:
@@ -206,7 +208,7 @@ QVariant LaskuModel::data(const QModelIndex &index, int role) const
 
     if( role == Qt::TextAlignmentRole)
     {
-        if( index.column()==BRUTTOSUMMA || index.column() == MAARA || index.column() == ALV || index.column() == AHINTA)
+        if( index.column()==BRUTTOSUMMA || index.column() == MAARA || index.column() == ALV || index.column() == AHINTA || index.column() == ALE)
             return QVariant(Qt::AlignRight | Qt::AlignVCenter);
         else
             return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
@@ -261,6 +263,16 @@ QVariant LaskuModel::data(const QModelIndex &index, int role) const
                 return QString("%L1 €").arg(rivi.ahintaSnt / 100.0,0,'f',2);
             else
                 return rivi.ahintaSnt;
+        case ALE:
+            if( role == Qt::DisplayRole)
+            {
+                if(rivi.aleProsentti)
+                    return QString("%1 %").arg(rivi.aleProsentti);
+                else
+                    return QString();
+            }
+            else
+                return rivi.aleProsentti;
         case ALV:
             switch (rivi.alvKoodi) {
             case AlvKoodi::EIALV :
@@ -362,6 +374,10 @@ bool LaskuModel::setData(const QModelIndex &index, const QVariant &value, int ro
                 paivitaSumma(rivi);
             }
             return true;
+        case ALE:
+            rivit_[rivi].aleProsentti = value.toInt();
+            paivitaSumma(rivi);
+            return true;
         case YKSIKKO:
             rivit_[rivi].yksikko = value.toString();
             return true;
@@ -390,7 +406,7 @@ bool LaskuModel::setData(const QModelIndex &index, const QVariant &value, int ro
                 return false;
 
             int alvprosentti = rivit_[rivi].alvProsentti;
-            double netto =  100.0 * value.toInt() / rivit_[rivi].maara / ( 100.0 + alvprosentti) ;
+            double netto =  10000.0 * value.toInt() / rivit_[rivi].maara / ( 100.0 + alvprosentti) / (100.0 - rivit_.at(rivi).aleProsentti) ;
             rivit_[rivi].ahintaSnt = netto;
             paivitaSumma(rivi);
 
@@ -903,7 +919,7 @@ double LaskuRivi::yhteensaSnt() const
 {
     // TODO: Eri alv-tyypeillä
     if( alvKoodi == AlvKoodi::MYYNNIT_MARGINAALI)
-        return qRound( maara * ahintaSnt);
+        return qRound( maara * ahintaSnt * (100 - aleProsentti) / 100);
 
-    return std::round( maara *  ahintaSnt * (100 + alvProsentti ) / 100 );
+    return qRound( maara *  (100 - aleProsentti) *  ahintaSnt * (100 + alvProsentti ) / 10000 );
 }
