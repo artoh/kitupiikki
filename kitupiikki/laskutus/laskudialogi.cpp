@@ -71,11 +71,11 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     if( !laskumodel)
         model = new LaskuModel();
 
+    ui->setupUi(this);
+
     setAttribute(Qt::WA_DeleteOnClose);
     resize(800,600);
     restoreGeometry( kp()->settings()->value("LaskuDialogi").toByteArray());
-
-    ui->setupUi(this);
 
     ui->perusteCombo->addItem(QIcon(":/pic/suorite.png"), tr("Suoriteperusteinen"), LaskuModel::SUORITEPERUSTE);
     ui->perusteCombo->addItem(QIcon(":/pic/kirje.png"), tr("Laskutusperusteinen"), LaskuModel::LASKUTUSPERUSTE);
