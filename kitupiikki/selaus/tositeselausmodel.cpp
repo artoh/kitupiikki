@@ -118,6 +118,13 @@ QVariant TositeSelausModel::data(const QModelIndex &index, int role) const
         // UserRolessa on id
         return rivi.tositeId;
     }
+    else if( role == Qt::DecorationRole && index.column()==TUNNISTE )
+    {
+        if( rivi.liitteita )
+            return QIcon(":/pic/liite.png");
+        else
+            return QIcon(":/pic/tyhja.png");
+    }
     else if( role == TositeLajiIdRooli)
     {
         return QVariant( rivi.tositeLaji );
@@ -129,8 +136,9 @@ QVariant TositeSelausModel::data(const QModelIndex &index, int role) const
 
 void TositeSelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
 {
-    QString kysymys = QString("SELECT tosite.id, tosite.pvm, otsikko, laji, tunniste "
-                              "FROM tosite WHERE tosite.pvm BETWEEN \"%1\" AND \"%2\" "
+    QString kysymys = QString("SELECT tosite.id, tosite.pvm, tosite.otsikko, laji, tunniste, liite.id "
+                              "FROM tosite LEFT OUTER JOIN liite ON tosite.id=liite.tosite "
+                              "WHERE tosite.pvm BETWEEN \"%1\" AND \"%2\" "
                               "ORDER BY tosite.pvm, tosite.id ")
             .arg(alkaa.toString(Qt::ISODate)).arg(loppuu.toString(Qt::ISODate)) ;
 
@@ -141,15 +149,22 @@ void TositeSelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
 
     QSqlQuery kysely;
     kysely.exec(kysymys);
+    int edellinenId = -1;
 
     while( kysely.next())
     {
+        if( kysely.value(0).toInt() == edellinenId)
+            continue;   // Jotta tosite ei toistu
+
         TositeSelausRivi rivi;
         rivi.tositeId = kysely.value(0).toInt();
         rivi.pvm = kysely.value(1).toDate();
         rivi.otsikko = kysely.value(2).toString();
         rivi.tositeLaji = kysely.value(3).toInt();
         rivi.tositeTunniste = kysely.value(4).toInt();
+        rivi.liitteita = !kysely.value(5).isNull();
+
+        edellinenId = rivi.tositeId;
 
         // #138 Jotta viennittömät kirjaukset näytettäisiin, kysellään summat erikseen
         QSqlQuery summakysely( QString("SELECT sum(debetsnt), sum(kreditsnt) FROM vienti WHERE tosite=%1").arg(rivi.tositeId));

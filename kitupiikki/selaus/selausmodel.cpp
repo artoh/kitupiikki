@@ -154,6 +154,14 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
             return QIcon(":/pic/ok.png");
         return rivi.kohdennus.tyyppiKuvake();
     }
+    else if( role == Qt::DecorationRole && index.column() == TOSITE)
+    {
+        if( rivi.liitteita )
+            return QIcon(":/pic/liite.png");
+        else
+            return QIcon(":/pic/tyhja.png");
+    }
+
 
     return QVariant();
 }
@@ -161,8 +169,9 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
 void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
 {
     QString kysymys = QString("SELECT vienti.tosite, vienti.pvm, tili, debetsnt, kreditsnt, selite, kohdennus, eraid, "
-                              "tosite.laji, tosite.tunniste, vienti.id "
-                              "FROM vienti, tosite WHERE vienti.pvm BETWEEN \"%1\" AND \"%2\" "
+                              "tosite.laji, tosite.tunniste, vienti.id, liite.id "
+                              "FROM vienti, tosite LEFT OUTER JOIN liite ON tosite.id=liite.tosite "
+                              "WHERE vienti.pvm BETWEEN \"%1\" AND \"%2\" "
                               "AND vienti.tosite=tosite.id AND tili is not null ORDER BY vienti.pvm, vienti.id")
                               .arg( alkaa.toString(Qt::ISODate ) )
                               .arg( loppuu.toString(Qt::ISODate)) ;
@@ -171,10 +180,15 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
     rivit.clear();
     tileilla.clear();
 
+    int edellinenVientiId = -1;
+
     QSqlQuery query;
     query.exec(kysymys);
     while( query.next())
     {
+        if( query.value("vienti.id").toInt() == edellinenVientiId)
+            continue;
+
         SelausRivi rivi;
         rivi.tositeId = query.value(0).toInt();
         rivi.pvm = query.value(1).toDate();
@@ -193,7 +207,9 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
                                        .arg( query.value(9).toInt(),8,10,QChar('0'))
                                        .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() );
         rivi.vientiId = query.value("vienti.id").toInt();
+        rivi.liitteita = !query.value("liite.id").isNull();
 
+        edellinenVientiId = rivi.vientiId;
 
         if( query.value("eraid").toInt() && rivi.tili.eritellaankoTase() )
         {

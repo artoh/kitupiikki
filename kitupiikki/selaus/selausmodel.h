@@ -45,6 +45,7 @@ struct SelausRivi
     QStringList tagit;
     bool eraMaksettu = false;
     int vientiId;
+    bool liitteita = false;
 };
 
 /**

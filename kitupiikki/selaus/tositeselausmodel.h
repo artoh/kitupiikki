@@ -35,6 +35,8 @@ struct TositeSelausRivi
     QString otsikko;
     qlonglong summa;
 
+    bool liitteita;
+
 };
 
 /**
