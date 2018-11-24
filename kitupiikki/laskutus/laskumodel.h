@@ -166,6 +166,8 @@ public:
     QString viitenumero() const;
     Laskutyppi tyyppi() const { return tyyppi_; }
     qlonglong avoinSaldo() const { return avoinSaldo_; }
+    bool onkoAlennuksia() const;
+    int kplDesimaalit() const;
 
     /**
      * @brief Laskun arvonlisäveroerittely

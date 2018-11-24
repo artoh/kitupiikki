@@ -51,11 +51,11 @@ public:
 signals:
 
 public slots:
-    bool tulosta(QPagedPaintDevice *printer, QPainter *painter);
+    bool tulosta(QPagedPaintDevice *printer, QPainter *painter, bool kaytaIkkunakuorta = true);
     void asetaKieli(const QString& kieli="FI");
 
 public:
-    QByteArray pdf();
+    QByteArray pdf(bool kaytaIkkunakuorta=true);
 
     QString html();
 
@@ -78,8 +78,7 @@ public:
     QString veroteksti(int verokoodi) const;
 
 protected:
-    void ylaruudukko(QPagedPaintDevice *printer, QPainter *painter);
-    void lisatieto(QPainter *painter, const QString &lisatieto);
+    void ylaruudukko(QPagedPaintDevice *printer, QPainter *painter, bool kaytaIkkunakuorta = true);
     qreal alatunniste(QPagedPaintDevice *printer, QPainter *painter);
     void erittely(LaskuModel* model, QPagedPaintDevice *printer, QPainter *painter, qreal marginaali);
     void erittelyOtsikko(QPagedPaintDevice *printer, QPainter *painter, bool alv);

@@ -30,8 +30,6 @@ ytunnus Y-tunnus
 ENytunnus Organisation number
 eialv Myyjä ei arvonlisäverovelvollinen
 ENeialv Seller is not registered for VAT
-alvtunnus ALV-tunnus
-ENalvtunnus VAT number
 kpl kpl
 anetto á netto
 ahinta á hinta
@@ -59,3 +57,13 @@ pvm Päivämäärä
 hyvpvm Hyvityksen päivämäärä
 toimpvm Toimituspäivämäärä
 asytunnus Asiakkaan y-tunnus
+viitenro Viitenumero
+erapvm Eräpäivä
+maksettu Maksettu
+hyvnro Hyvityslaskun numero
+huomaika Huomautusaika
+viivkorko Viivästyskorko
+kateinen Käteislasku / Kuitti
+hlasku Hyvityslasku laskulle
+maksumuistutus MAKSUMUISTUTUS
+alkuplasku Alkuperäinen lasku|Laskun numero: %1|Laskun päiväys:|Eräpäivä: %3

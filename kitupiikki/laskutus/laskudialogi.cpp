@@ -544,7 +544,7 @@ void LaskuDialogi::lahetaSahkopostilla()
                                             .arg(ui->emailEdit->text() );
 
     smtp->lahetaLiitteella(kenelta, kenelle, tr("Lasku %1 - %2").arg( model->viitenumero() ).arg( kp()->asetukset()->asetus("Nimi") ),
-                           tulostaja->html(), tr("lasku%1.pdf").arg( model->viitenumero()), tulostaja->pdf());
+                           tulostaja->html(), tr("lasku%1.pdf").arg( model->viitenumero()), tulostaja->pdf(false));
 
 }
 
@@ -574,7 +574,7 @@ void LaskuDialogi::lahetaRyhmanSeuraava(const QString &viesti)
                                                 .arg(model->email() );
 
         smtp->lahetaLiitteella(kenelta, kenelle, tr("Lasku %1 - %2").arg( model->viitenumero() ).arg( kp()->asetukset()->asetus("Nimi") ),
-                               tulostaja->html(), tr("lasku%1.pdf").arg( model->viitenumero()), tulostaja->pdf());
+                               tulostaja->html(), tr("lasku%1.pdf").arg( model->viitenumero()), tulostaja->pdf(false));
 
     }
 }

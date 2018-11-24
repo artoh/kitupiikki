@@ -254,7 +254,7 @@ QVariant LaskuModel::data(const QModelIndex &index, int role) const
             return rivi.nimike;
         case MAARA:
             if( role == Qt::DisplayRole)
-                return QString("%L1").arg(rivi.maara,0,'f',2);
+                return QString("%L1").arg(rivi.maara,0,'f', kplDesimaalit() );
             else
                 return rivi.maara;
         case YKSIKKO:
@@ -519,6 +519,34 @@ qulonglong LaskuModel::laskunro() const
 QString LaskuModel::viitenumero() const
 {
     return muotoileViitenumero( laskunro());
+}
+
+bool LaskuModel::onkoAlennuksia() const
+{
+    for(LaskuRivi rivi : rivit_)
+    {
+        if( rivi.aleProsentti )
+            return true;
+    }
+    return false;
+}
+
+int LaskuModel::kplDesimaalit() const
+{
+    int desim = 0;
+    for( LaskuRivi rivi : rivit_)
+    {
+        int tamanDesim = 0;
+        qreal luku = rivi.maara;
+        while( luku - static_cast<int>(luku) > 1e-7)
+        {
+            luku *= 10;
+            tamanDesim++;
+        }
+        if( tamanDesim > desim)
+            desim = tamanDesim;
+    }
+    return desim;
 }
 
 QList<AlvErittelyRivi> LaskuModel::alverittely() const
