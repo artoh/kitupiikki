@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>587</width>
-    <height>898</height>
+    <height>933</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -178,6 +178,17 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="tilisiirtoCheck">
+     <property name="text">
+      <string>Tulosta tilisiirto</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../pic/pic.qrc">
+       <normaloff>:/pic/lasku.png</normaloff>:/pic/lasku.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QCheckBox" name="viivakoodiCheck">
      <property name="text">
       <string>Tulosta pankkiviivakoodi</string>
@@ -196,6 +207,17 @@
      <property name="icon">
       <iconset resource="../pic/pic.qrc">
        <normaloff>:/pic/qr.png</normaloff>:/pic/qr.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="lyhyetCheck">
+     <property name="text">
+      <string>Lyhyet rivit</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../pic/pic.qrc">
+       <normaloff>:/pic/format-list-unordered.png</normaloff>:/pic/format-list-unordered.png</iconset>
      </property>
     </widget>
    </item>
@@ -351,5 +373,22 @@
  <resources>
   <include location="../pic/pic.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>tilisiirtoCheck</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>qrCheck</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>110</x>
+     <y>583</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>159</x>
+     <y>667</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

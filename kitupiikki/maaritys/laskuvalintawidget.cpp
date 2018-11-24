@@ -50,6 +50,8 @@ LaskuValintaWidget::LaskuValintaWidget()
     connect(ui->tiliCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(tiliIlmoitus()));
     connect(ui->viivakoodiCheck, SIGNAL(clicked(bool)), this, SLOT(ilmoitaMuokattu()));
     connect(ui->qrCheck, SIGNAL(clicked(bool)), this, SLOT(ilmoitaMuokattu()));
+    connect(ui->tilisiirtoCheck, &QCheckBox::clicked, this, &LaskuValintaWidget::ilmoitaMuokattu);
+    connect(ui->lyhyetCheck, &QCheckBox::clicked, this, &LaskuValintaWidget::ilmoitaMuokattu);
 
     connect( ui->ikkunaKuori, SIGNAL(toggled(bool)), this, SLOT(ilmoitaMuokattu()));
 
@@ -85,6 +87,9 @@ bool LaskuValintaWidget::nollaa()
     ui->ySpin->setValue( kp()->asetukset()->luku("LaskuIkkunaY", 40));
     ui->leveysSpin->setValue( kp()->asetukset()->luku("LaskuIkkunaLeveys", 95));
     ui->korkeusSpin->setValue( kp()->asetukset()->luku("LaskuIkkunaKorkeus", 35));
+    ui->tilisiirtoCheck->setChecked( !kp()->asetukset()->onko("LaskuEiTilisiirto"));
+    ui->qrCheck->setEnabled( ui->tilisiirtoCheck->isChecked());
+    ui->lyhyetCheck->setChecked( kp()->asetukset()->onko("LaskuLyhyetRivit"));
 
     for(int i=0; i < kp()->tilit()->rowCount(QModelIndex()); i++)
     {
@@ -123,6 +128,8 @@ bool LaskuValintaWidget::tallenna()
     kp()->asetukset()->aseta("LaskuIkkunaLeveys", ui->leveysSpin->value());
     kp()->asetukset()->aseta("LaskuIkkunaKorkeus", ui->korkeusSpin->value());
     kp()->asetukset()->aseta("LaskuEiQR", !ui->qrCheck->isChecked());
+    kp()->asetukset()->aseta("LaskuEiTilisiirto", !ui->tilisiirtoCheck->isChecked());
+    kp()->asetukset()->aseta("LaskuLyhyetRivit", ui->lyhyetCheck->isChecked());
 
 
     return true;
@@ -147,6 +154,8 @@ bool LaskuValintaWidget::onkoMuokattu()
             ui->viivakoodiCheck->isChecked() == kp()->asetukset()->onko("LaskuEiViivakoodi") ||
             ui->ikkunaKuori->isChecked() != kp()->asetukset()->onko("LaskuIkkuna") ||
             ui->qrCheck->isChecked() == kp()->asetukset()->onko("LaskuEiQR") ||
+            ui->tilisiirtoCheck->isChecked() == kp()->asetukset()->onko("LaskuEiTilisiirto") ||
+            ui->lyhyetCheck->isChecked() != kp()->asetukset()->onko("LaskuLyhyetRivit") ||
             ( ui->ikkunaKuori->isChecked() && (
                 ui->xSpin->value() !=  kp()->asetukset()->luku("LaskuIkkunaX", 0) ||
                 ui->ySpin->value() !=  kp()->asetukset()->luku("LaskuIkkunaY", 0) ||

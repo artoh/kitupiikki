@@ -571,9 +571,8 @@ qreal LaskunTulostaja::alatunniste(QPagedPaintDevice *printer, QPainter *painter
     painter->drawLine( QLineF( 0, 0, leveys, 0));
 
 
-    qreal tila = 0 - painter->transform().dy();
     painter->restore();
-    return tila;
+    return 3.5 * rk;
 }
 
 void LaskunTulostaja::erittely(LaskuModel *model, QPagedPaintDevice *printer, QPainter *painter, qreal marginaali)
@@ -703,7 +702,7 @@ void LaskunTulostaja::erittely(LaskuModel *model, QPagedPaintDevice *printer, QP
 }
 
 void LaskunTulostaja::erittelyOtsikko(QPagedPaintDevice *printer, QPainter *painter, bool alv)
-{
+{    
     painter->setFont( QFont("Sans",8));
     qreal rk = painter->fontMetrics().height();
     qreal leveys = painter->window().width();
@@ -728,6 +727,7 @@ void LaskunTulostaja::erittelyOtsikko(QPagedPaintDevice *printer, QPainter *pain
     painter->setPen( QPen(QBrush(Qt::black), mm * 0.13));
     painter->drawLine( QLineF( 0, rk, leveys, rk));
     painter->translate(0, rk * 1.1);
+    painter->setFont( QFont("Sans",10));
 
 }
 
