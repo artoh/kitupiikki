@@ -82,6 +82,10 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     ui->perusteCombo->addItem(QIcon(":/pic/euro.png"), tr("Maksuperusteinen"), LaskuModel::MAKSUPERUSTE);
     ui->perusteCombo->addItem(QIcon(":/pic/kateinen.png"), tr("Käteiskuitti"), LaskuModel::KATEISLASKU);
 
+    ui->kieliCombo->addItem(QIcon(":/pic/fi.png"), tr("Suomi"), "FI");
+    ui->kieliCombo->addItem(QIcon(":/pic/se.png"), tr("Ruotsi"), "SE");
+    ui->kieliCombo->addItem(QIcon(":/pic/en.png"), tr("Englanti"), "EN");
+
     connect( ui->toimitusDate, SIGNAL(dateChanged(QDate)), model, SLOT(asetaToimituspaiva(QDate)));
     connect(ui->eraDate, SIGNAL(dateChanged(QDate)), model, SLOT(asetaErapaiva(QDate)));
 
@@ -96,7 +100,7 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     connect( ui->tuotehakuEdit, SIGNAL(textChanged(QString)), tuoteProxy, SLOT(setFilterFixedString(QString)) );
 
     ui->nroLabel->setText( QString::number(model->laskunro()));
-    ui->ytunnus->setValidator( new YTunnusValidator());
+    ui->ytunnus->setValidator( new YTunnusValidator(true));
 
     ui->rivitView->setModel(model);
     ui->rivitView->setItemDelegateForColumn(LaskuModel::AHINTA, new EuroDelegaatti());
@@ -133,6 +137,8 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
 
     connect( model, &LaskuModel::summaMuuttunut, this, &LaskuDialogi::paivitaSumma);
     connect( ui->perusteCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(perusteVaihtuu()));
+    connect( ui->kieliCombo, &QComboBox::currentTextChanged, [this]() { this->tulostaja->asetaKieli( this->ui->kieliCombo->currentData().toString()); } );
+
     connect( ui->saajaEdit, SIGNAL(textChanged(QString)), this, SLOT(haeOsoite()));
     connect( ui->rivitView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(rivienKontekstiValikko(QPoint)));
 
@@ -149,8 +155,6 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     connect( ui->verkkoOsoiteEdit, &QLineEdit::textChanged, this, &LaskuDialogi::verkkolaskuKayttoon);
     connect( ui->verkkoValittajaEdit, &QLineEdit::textChanged, this, &LaskuDialogi::verkkolaskuKayttoon);
     connect( ui->verkkolaskuNappi, &QPushButton::clicked, this, &LaskuDialogi::finvoice);
-
-    connect( model, &LaskuModel::marginaaliVeroKaytossa, this, &LaskuDialogi::lisaaMarginaaliTieto);
 
     ui->rivitView->horizontalHeader()->setSectionResizeMode(LaskuModel::NIMIKE, QHeaderView::Stretch);
     ui->tuotelistaView->horizontalHeader()->setSectionResizeMode(TuoteModel::NIMIKE, QHeaderView::Stretch);
@@ -676,7 +680,7 @@ void LaskuDialogi::lisaaAsiakas()
     Ui::Yhteystiedot dui;
     dui.setupUi(&yhteystiedot);
     yhteystiedot.setWindowTitle(tr("Lisää laskun saaja"));
-    dui.YtunnusEdit->setValidator(new YTunnusValidator);
+    dui.YtunnusEdit->setValidator(new YTunnusValidator(true));
     connect(dui.tallennaNappi, &QPushButton::clicked, &yhteystiedot, &QDialog::accept);
     connect(dui.peruNappi, &QPushButton::clicked, &yhteystiedot, &QDialog::reject);
     connect(dui.nimiEdit, &QLineEdit::textChanged, [dui](const QString& teksti) { dui.osoiteEdit->setPlainText(teksti + "\n"); });
@@ -731,7 +735,7 @@ void LaskuDialogi::verkkolaskuKayttoon()
 
 void LaskuDialogi::ytunnusSyotetty(const QString& ytunnus)
 {
-    bool kelpotunnus =  YTunnusValidator::kelpaako(ytunnus);
+    bool kelpotunnus =  YTunnusValidator::kelpaako(ytunnus, true);
     ui->tabWidget->setTabEnabled(2, kelpotunnus);
     if( kelpotunnus && ui->verkkoOsoiteEdit->text().isEmpty())
     {
@@ -741,11 +745,6 @@ void LaskuDialogi::ytunnusSyotetty(const QString& ytunnus)
     }
 }
 
-void LaskuDialogi::lisaaMarginaaliTieto()
-{
-    if( ui->lisatietoEdit->toPlainText().isEmpty())
-        ui->lisatietoEdit->appendPlainText("Voittomarginaalijärjestelmä - käytetyt tavarat / taide-esineet / keräily- ja antiikkiesineet");
-}
 
 void LaskuDialogi::paivitaTuoteluettelonNaytto()
 {

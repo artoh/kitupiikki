@@ -1,5 +1,6 @@
 <RCC>
-    <qresource prefix="/">
+    <qresource prefix="/lasku">
         <file>code128_XL.ttf</file>
+        <file>laskutekstit.txt</file>
     </qresource>
 </RCC>

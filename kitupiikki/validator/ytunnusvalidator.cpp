@@ -17,21 +17,37 @@
 
 #include "ytunnusvalidator.h"
 
-YTunnusValidator::YTunnusValidator()
+YTunnusValidator::YTunnusValidator(bool alvtunnuksia)
+    : alvtunnuskelpaa(alvtunnuksia)
 {
 
 }
 
 QValidator::State YTunnusValidator::validate(QString &input, int & /* pos */) const
 {
-    return kelpo(input);
+    return kelpo(input, alvtunnuskelpaa);
 }
 
-QValidator::State YTunnusValidator::kelpo(const QString &input)
+QValidator::State YTunnusValidator::kelpo(const QString &input, bool alvkelpaa)
 {
     QString str = input.simplified();
 
-    if( input.length() > 9)
+    if( alvkelpaa && str.length() && str.at(0).isLetter() )
+    {
+        if( str.startsWith("FI"))
+        {
+            str = str.mid(2);
+            if( str.length() > 7)
+                str.insert(7,'-');
+        }
+        else if( str.length() < 10)
+            return Intermediate;
+
+        else
+            return Acceptable;
+    }
+
+    if( str.length() > 9 )
         return Invalid;
 
     for(int i=0; i < str.length(); i++)
@@ -41,7 +57,7 @@ QValidator::State YTunnusValidator::kelpo(const QString &input)
             return Invalid;
     }
 
-    if( input.length() < 9)
+    if( str.length() < 9)
         return Intermediate;
 
 
@@ -68,7 +84,7 @@ QValidator::State YTunnusValidator::kelpo(const QString &input)
     return Invalid;
 }
 
-bool YTunnusValidator::kelpaako(const QString &input)
+bool YTunnusValidator::kelpaako(const QString &input, bool alvtunnuksia)
 {
-    return kelpo(input) == Acceptable;
+    return kelpo(input, alvtunnuksia) == Acceptable;
 }

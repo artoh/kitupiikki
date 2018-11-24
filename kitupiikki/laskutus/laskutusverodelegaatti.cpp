@@ -35,14 +35,16 @@ QWidget *LaskutusVeroDelegaatti::createEditor(QWidget *parent, const QStyleOptio
     cbox->addItem(QIcon(":/pic/netto.png"),"10%", QVariant(AlvKoodi::MYYNNIT_NETTO + 10 * 100 ));
     cbox->addItem(QIcon(":/pic/netto.png"),"14%", QVariant(AlvKoodi::MYYNNIT_NETTO + 14 * 100));
     cbox->addItem(QIcon(":/pic/netto.png"),"24%", QVariant(AlvKoodi::MYYNNIT_NETTO + 24 * 100 ));
+    cbox->addItem(QIcon(":/pic/tyhja.png"),"Veroton myynti", QVariant(AlvKoodi::EIALV));
     cbox->addItem(QIcon(":/pic/vasara.png"), tr("Rakennuspalvelut"), QVariant( AlvKoodi::RAKENNUSPALVELU_MYYNTI ));
     cbox->addItem(QIcon(":/pic/eu.png"), tr("Tavaramyynti"), QVariant( AlvKoodi::YHTEISOMYYNTI_TAVARAT ));
     cbox->addItem(QIcon(":/pic/eu.png"), tr("Palvelumyynti"), QVariant( AlvKoodi::YHTEISOMYYNTI_PALVELUT ));
 
     if( !kp()->onkoMaksuperusteinenAlv(kp()->paivamaara()))
     {
-        cbox->addItem(QIcon(":/pic/marginaali.png"),"10% Voittomarginaalimenettely", QVariant(AlvKoodi::MYYNNIT_MARGINAALI + 10 * 100 ));
-        cbox->addItem(QIcon(":/pic/marginaali.png"),"24% Voittomarginaalimenettely", QVariant(AlvKoodi::MYYNNIT_MARGINAALI + 24 * 100 ));
+        cbox->addItem(QIcon(":/pic/marginaali.png"),"Voittomarginaalimenettely - käytetyt tavarat", QVariant(LaskuModel::Kaytetyt));
+        cbox->addItem(QIcon(":/pic/marginaali.png"),"Voittomarginaalimenettely - taide-esineet", QVariant(LaskuModel::Taide));
+        cbox->addItem(QIcon(":/pic/marginaali.png"),"Voittomarginaalimenettely - keräily- ja antiikkiesineet", QVariant(LaskuModel::KerailyAntiikki));
     }
 
     return cbox;
@@ -51,6 +53,8 @@ QWidget *LaskutusVeroDelegaatti::createEditor(QWidget *parent, const QStyleOptio
 void LaskutusVeroDelegaatti::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
     int koodi = index.data(LaskuModel::AlvProsenttiRooli).toInt() * 100 + index.data(LaskuModel::AlvKoodiRooli).toInt();
+    if( index.data(LaskuModel::VoittomarginaaliRooli).toInt())
+        koodi = index.data(LaskuModel::VoittomarginaaliRooli).toInt();
 
     QComboBox *cbox = qobject_cast<QComboBox*>(editor);
     cbox->setCurrentIndex( cbox->findData(koodi) );
@@ -61,8 +65,15 @@ void LaskutusVeroDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *m
     QComboBox *cbox = qobject_cast<QComboBox*>(editor);
     int koodi = cbox->currentData().toInt();
 
-    model->setData(index, koodi / 100, LaskuModel::AlvProsenttiRooli);
-    model->setData(index, koodi % 100, LaskuModel::AlvKoodiRooli);
+    if( koodi >= LaskuModel::Kaytetyt)
+    {
+        model->setData(index, koodi, LaskuModel::VoittomarginaaliRooli);
+    }
+    else
+    {
+        model->setData(index, koodi / 100, LaskuModel::AlvProsenttiRooli);
+        model->setData(index, koodi % 100, LaskuModel::AlvKoodiRooli);
+    }
 
 }
 

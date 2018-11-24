@@ -139,6 +139,7 @@ LaskuModel *LaskuModel::haeLasku(int vientiId)
         rivi.myyntiTili = kp()->tilit()->tiliNumerolla( map.value("Tili").toInt() );
         rivi.kohdennus = kp()->kohdennukset()->kohdennus( map.value("Kohdennus").toInt() );
         rivi.tuoteKoodi = map.value("Tuotekoodi").toInt();
+        rivi.voittoMarginaaliMenettely = map.value("Voittomarginaalimenettely",0).toInt();
         model->rivit_.append(rivi);
     }
 
@@ -276,16 +277,17 @@ QVariant LaskuModel::data(const QModelIndex &index, int role) const
         case ALV:
             switch (rivi.alvKoodi) {
             case AlvKoodi::EIALV :
-                return QVariant();
+                return QString("");
             case AlvKoodi::ALV0:
-                return tr("Veroton myynti");
+                return tr("0 %");
             case AlvKoodi::RAKENNUSPALVELU_MYYNTI:
                 return tr("AVL 8 c §");
             case AlvKoodi::YHTEISOMYYNTI_PALVELUT:
+                return tr("AVL 65 §");
             case AlvKoodi::YHTEISOMYYNTI_TAVARAT:
                 return tr("AVL 72 a §");
             case AlvKoodi::MYYNNIT_MARGINAALI :
-                return tr("Voittomarginaalijärj");
+                return "Margin.";
             default:
                 return QVariant( QString("%1 %").arg(rivi.alvProsentti));
             }
@@ -338,6 +340,8 @@ QVariant LaskuModel::data(const QModelIndex &index, int role) const
 
         return kp()->alvTyypit()->kuvakeKoodilla( rivi.alvKoodi % 100 );
     }
+    else if( role == VoittomarginaaliRooli)
+        return rivi.voittoMarginaaliMenettely;
 
     return QVariant();
 }
@@ -422,8 +426,6 @@ bool LaskuModel::setData(const QModelIndex &index, const QVariant &value, int ro
         rivit_[rivi].alvKoodi = value.toInt();
         paivitaSumma(rivi);
         muokattu_ = true;
-        if( value.toInt() == AlvKoodi::MYYNNIT_MARGINAALI)
-            emit marginaaliVeroKaytossa();
         return true;
     }
     else if( role == AlvProsenttiRooli)
@@ -436,6 +438,14 @@ bool LaskuModel::setData(const QModelIndex &index, const QVariant &value, int ro
     else if( role == TuoteKoodiRooli)
     {
         rivit_[rivi].tuoteKoodi = value.toInt();
+        muokattu_ = true;
+        return true;
+    }
+    else if( role == VoittomarginaaliRooli)
+    {
+        rivit_[rivi].voittoMarginaaliMenettely = value.toInt();
+        rivit_[rivi].alvKoodi = AlvKoodi::MYYNNIT_MARGINAALI;
+        rivit_[rivi].alvProsentti = 24;
         muokattu_ = true;
         return true;
     }
@@ -457,9 +467,17 @@ qlonglong LaskuModel::laskunSumma() const
     qlonglong summa = avoinSaldo();     // Maksumuistusta varten
     foreach (LaskuRivi rivi, rivit_)
     {
-        summa += std::round(rivi.yhteensaSnt());
+        summa += rivi.yhteensaSnt();
     }
     return summa;
+}
+
+qlonglong LaskuModel::nettoSumma() const
+{
+    qlonglong nettosumma = avoinSaldo();
+    foreach( LaskuRivi rivi, rivit_)
+        nettosumma += rivi.nettoSnt();
+    return nettosumma;
 }
 
 LaskuRivi LaskuModel::rivi(int indeksi) const
@@ -501,6 +519,27 @@ qulonglong LaskuModel::laskunro() const
 QString LaskuModel::viitenumero() const
 {
     return muotoileViitenumero( laskunro());
+}
+
+QList<AlvErittelyRivi> LaskuModel::alverittely() const
+{
+    QMap<int,AlvErittelyRivi> alvit;
+
+    for(LaskuRivi rivi : rivit_)
+    {
+        if( !rivi.yhteensaSnt() )
+            continue;
+
+        int avain = rivi.voittoMarginaaliMenettely ? rivi.voittoMarginaaliMenettely : rivi.alvKoodi * 100 + rivi.alvProsentti;
+        if( avain == AlvKoodi::EIALV)
+            avain = AlvKoodi::MYYNNIT_NETTO * 100 + 99;   // Järjestyksen takia
+
+        if( !alvit.contains(avain))
+            alvit.insert(avain, AlvErittelyRivi(rivi.voittoMarginaaliMenettely ? rivi.voittoMarginaaliMenettely : rivi.alvKoodi, rivi.alvProsentti));
+        alvit[avain].lisaa( rivi.nettoSnt(), rivi.yhteensaSnt() );
+    }
+
+    return alvit.values();
 }
 
 void LaskuModel::haeRyhmasta(int indeksi)
@@ -616,6 +655,8 @@ bool LaskuModel::tallenna(Tili rahatili)
         riviTalteen["Tili"] = rivi.myyntiTili.numero();
         riviTalteen["Alvkoodi"] = rivi.alvKoodi;
         riviTalteen["Alvprosentti"] = rivi.alvProsentti;
+        if( rivi.voittoMarginaaliMenettely)
+            riviTalteen["Voittomarginaalimenettely"] = rivi.voittoMarginaaliMenettely;
         riviTalteen["Maara"] = QString("%1").arg(rivi.maara,0,'f',2);
         riviTalteen["Yksikko"] = rivi.yksikko;
         if( rivi.tuoteKoodi)
@@ -624,7 +665,7 @@ bool LaskuModel::tallenna(Tili rahatili)
         riviTalteen["Kohdennus"] = rivi.kohdennus.id();
 
         qlonglong nettoSnt = qRound( rivi.ahintaSnt * rivi.maara );
-        qlonglong bruttoSnt = qRound( rivi.yhteensaSnt() );
+        qlonglong bruttoSnt =  rivi.yhteensaSnt() ;
         qlonglong veroSnt = bruttoSnt - nettoSnt;
 
         riviTalteen["Nettoyht"] = nettoSnt;
@@ -915,11 +956,27 @@ LaskuRivi::LaskuRivi()
     myyntiTili = kp()->tilit()->tiliNumerolla( laji.json()->luku("Oletustili") );
 }
 
-double LaskuRivi::yhteensaSnt() const
+qlonglong LaskuRivi::yhteensaSnt() const
 {
-    // TODO: Eri alv-tyypeillä
     if( alvKoodi == AlvKoodi::MYYNNIT_MARGINAALI)
         return qRound( maara * ahintaSnt * (100 - aleProsentti) / 100);
 
-    return qRound( maara *  (100 - aleProsentti) *  ahintaSnt * (100 + alvProsentti ) / 10000 );
+    return  qRound(maara *  (100 - aleProsentti) *  ahintaSnt * (100 + alvProsentti ) / 10000 ) ;
+}
+
+qlonglong LaskuRivi::nettoSnt() const
+{
+    return qRound( maara * ahintaSnt * (100 - aleProsentti) / 100);
+}
+
+AlvErittelyRivi::AlvErittelyRivi(int koodi, int prosentti) :
+    alvKoodi_(koodi), alvProsentti_(prosentti), netto_(0.0), brutto_(0.0)
+{
+
+}
+
+void AlvErittelyRivi::lisaa(qlonglong netto, qlonglong brutto)
+{
+    netto_ += netto;
+    brutto_ += brutto;
 }

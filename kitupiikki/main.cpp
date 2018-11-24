@@ -141,7 +141,7 @@ int main(int argc, char *argv[])
     splash->show();
 
     // Viivakoodifontti
-    QFontDatabase::addApplicationFont(":/code128_XL.ttf");
+    QFontDatabase::addApplicationFont(":/lasku/code128_XL.ttf");
 
     KitupiikkiIkkuna ikkuna;
 

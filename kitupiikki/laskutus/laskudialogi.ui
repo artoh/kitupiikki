@@ -113,14 +113,14 @@
        <item row="3" column="1">
         <widget class="TilinvalintaLine" name="rahaTiliEdit"/>
        </item>
-       <item row="4" column="0">
+       <item row="5" column="0">
         <widget class="QLabel" name="viiteLabel">
          <property name="text">
           <string>Viitenumero</string>
          </property>
         </widget>
        </item>
-       <item row="4" column="1">
+       <item row="5" column="1">
         <widget class="QLabel" name="nroLabel">
          <property name="font">
           <font>
@@ -133,14 +133,14 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="0">
+       <item row="6" column="0">
         <widget class="QLabel" name="label_4">
          <property name="text">
           <string>Summa</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="1">
+       <item row="6" column="1">
         <widget class="QLabel" name="summaLabel">
          <property name="font">
           <font>
@@ -152,6 +152,19 @@
           <string>0,00 €</string>
          </property>
         </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="kieliLabel">
+         <property name="text">
+          <string>&amp;Kieli</string>
+         </property>
+         <property name="buddy">
+          <cstring>kieliCombo</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QComboBox" name="kieliCombo"/>
        </item>
       </layout>
      </item>
@@ -169,7 +182,7 @@
      <item>
       <widget class="QLineEdit" name="ytunnus">
        <property name="placeholderText">
-        <string>Asiakkaan Y-tunnus</string>
+        <string>Asiakkaan Y/ALV-tunnus</string>
        </property>
       </widget>
      </item>
@@ -725,8 +738,8 @@ p, li { white-space: pre-wrap; }
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>422</x>
-     <y>1007</y>
+     <x>449</x>
+     <y>1148</y>
     </hint>
     <hint type="destinationlabel">
      <x>41</x>
@@ -741,8 +754,8 @@ p, li { white-space: pre-wrap; }
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1285</x>
-     <y>1068</y>
+     <x>1429</x>
+     <y>1209</y>
     </hint>
     <hint type="destinationlabel">
      <x>903</x>
@@ -757,8 +770,8 @@ p, li { white-space: pre-wrap; }
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1197</x>
-     <y>1068</y>
+     <x>1341</x>
+     <y>1209</y>
     </hint>
     <hint type="destinationlabel">
      <x>828</x>
@@ -773,12 +786,12 @@ p, li { white-space: pre-wrap; }
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>417</x>
-     <y>1007</y>
+     <x>444</x>
+     <y>1148</y>
     </hint>
     <hint type="destinationlabel">
-     <x>206</x>
-     <y>365</y>
+     <x>221</x>
+     <y>762</y>
     </hint>
    </hints>
   </connection>
@@ -789,8 +802,8 @@ p, li { white-space: pre-wrap; }
    <slot>selectAll()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>708</x>
-     <y>980</y>
+     <x>837</x>
+     <y>1148</y>
     </hint>
     <hint type="destinationlabel">
      <x>695</x>

@@ -129,5 +129,6 @@ qlonglong MarginaaliLaskelma::myynnit(int kanta)
         if( rivi.verokanta() == kanta)
             return rivi.myynnit();
     }
+    return 0;
 }
 

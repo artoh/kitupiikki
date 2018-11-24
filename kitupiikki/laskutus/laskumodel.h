@@ -33,6 +33,31 @@
 class LaskuRyhmaModel;
 
 /**
+ * @brief Laskun alv-erittelyn yksi rivi
+ */
+class AlvErittelyRivi
+{
+public:
+
+    AlvErittelyRivi(int koodi = 0, int prosentti = 0);
+    void lisaa(qlonglong netto,  qlonglong brutto);
+
+    int alvKoodi() const { return alvKoodi_; }
+    int alvProsentti() const { return alvProsentti_;}
+    double netto() const { return  netto_;}
+    double vero() const { return brutto_ - netto_; }
+    double brutto() const { return brutto_;}
+
+private:
+    int alvKoodi_;
+    int alvProsentti_;
+    qlonglong netto_;
+    qlonglong brutto_;
+
+};
+
+
+/**
  * @brief Laskun yksi rivi
  * 
  * Käytetään myös tuoteluettelon tuotteesta
@@ -40,7 +65,8 @@ class LaskuRyhmaModel;
 struct LaskuRivi
 {
     LaskuRivi();
-    double yhteensaSnt() const;
+    qlonglong yhteensaSnt() const;
+    qlonglong nettoSnt() const;
 
     QString nimike;
     double maara = 1.00;
@@ -52,6 +78,7 @@ struct LaskuRivi
     Tili myyntiTili;
     Kohdennus kohdennus;
     int tuoteKoodi = 0;
+    int voittoMarginaaliMenettely = 0;
 };
 
 /**
@@ -89,9 +116,15 @@ public:
         VeroRooli = Qt::UserRole + 8,
         TuoteKoodiRooli = Qt::UserRole + 9,
         AHintaRooli = Qt::UserRole + 10,
-        BruttoRooli = Qt::UserRole + 11
+        BruttoRooli = Qt::UserRole + 11,
+        VoittomarginaaliRooli = Qt::UserRole + 12
     };
 
+    enum Voittomarginaalisyy {
+        Kaytetyt = 310024,
+        Taide = 320024,
+        KerailyAntiikki = 330024
+    };
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
@@ -101,6 +134,7 @@ public:
     Qt::ItemFlags flags(const QModelIndex &index) const;
 
     qlonglong laskunSumma() const;
+    qlonglong nettoSumma() const;
 
     /**
      * @brief Palauttaa kopion laskurivistä
@@ -132,6 +166,12 @@ public:
     QString viitenumero() const;
     Laskutyppi tyyppi() const { return tyyppi_; }
     qlonglong avoinSaldo() const { return avoinSaldo_; }
+
+    /**
+     * @brief Laskun arvonlisäveroerittely
+     * @return
+     */
+    QList<AlvErittelyRivi> alverittely() const;
 
     LaskuRyhmaModel* ryhmaModel() { return ryhma_;}
 
@@ -192,7 +232,6 @@ public slots:
 
 signals:
     void summaMuuttunut(qlonglong summaSnt);
-    void marginaaliVeroKaytossa();
 
 protected:
     void haeAvoinSaldo();

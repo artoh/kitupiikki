@@ -142,6 +142,9 @@
         <file>edit-clear.png</file>
         <file>vero64.png</file>
         <file>marginaali.png</file>
+        <file>fi.png</file>
+        <file>se.png</file>
+        <file>en.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

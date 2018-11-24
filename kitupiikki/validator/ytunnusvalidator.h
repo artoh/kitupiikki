@@ -26,12 +26,14 @@
 class YTunnusValidator : public QValidator
 {
 public:
-    YTunnusValidator();
+    YTunnusValidator(bool alvtunnuksia = false);
 
     State validate(QString &input, int &pos) const;
 
-    static QValidator::State kelpo(const QString &input);
-    static bool kelpaako(const QString& input);
+    static QValidator::State kelpo(const QString &input, bool alvkelpaa = false);
+    static bool kelpaako(const QString& input, bool alvtunnuksia = false);
+private:
+    bool alvtunnuskelpaa = false;
 };
 
 #endif // YTUNNUSVALIDATOR_H

@@ -22,6 +22,7 @@
 #include <QPainter>
 #include <QPrinter>
 #include <QFile>
+#include <QMap>
 
 #include "laskumodel.h"
 
@@ -45,13 +46,13 @@ class LaskunTulostaja : public QObject
 {
     Q_OBJECT
 public:
-    explicit LaskunTulostaja(LaskuModel *model);
+    explicit LaskunTulostaja(LaskuModel *model, const QString& kieli="FI");
 
 signals:
 
 public slots:
     bool tulosta(QPagedPaintDevice *printer, QPainter *painter);
-
+    void asetaKieli(const QString& kieli="FI");
 
 public:
     QByteArray pdf();
@@ -66,6 +67,15 @@ public:
      * @return
      */
     static QString valeilla(const QString& teksti);
+
+    /**
+     * @brief Palauttaa tekstin nykyisellä kielellä
+     * @param avain Tekstin hakutunnus
+     * @return Näytettävä teksti
+     */
+    QString t(const QString &avain) const;
+
+    QString veroteksti(int verokoodi) const;
 
 protected:
     void ylaruudukko(QPagedPaintDevice *printer, QPainter *painter);
@@ -98,6 +108,8 @@ protected:
 private:
     LaskuModel *model_;
 
+    QString kieli_;
+    QMap<QString,QString> tekstit_;
 };
 
 #endif // LASKUNTULOSTAJA_H
