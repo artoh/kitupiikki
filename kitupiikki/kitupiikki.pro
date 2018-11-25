@@ -174,7 +174,8 @@ SOURCES += main.cpp \
     alv/alvilmoitusdialog.cpp \
     alv/alvilmoitustenmodel.cpp \
     alv/alvsivu.cpp \
-    alv/marginaalilaskelma.cpp
+    alv/marginaalilaskelma.cpp \
+    laskutus/erittelyruudukko.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -326,7 +327,8 @@ HEADERS += \
     alv/alvilmoitusdialog.h \
     alv/alvilmoitustenmodel.h \
     alv/alvsivu.h \
-    alv/marginaalilaskelma.h
+    alv/marginaalilaskelma.h \
+    laskutus/erittelyruudukko.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

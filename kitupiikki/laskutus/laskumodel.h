@@ -117,7 +117,9 @@ public:
         TuoteKoodiRooli = Qt::UserRole + 9,
         AHintaRooli = Qt::UserRole + 10,
         BruttoRooli = Qt::UserRole + 11,
-        VoittomarginaaliRooli = Qt::UserRole + 12
+        VoittomarginaaliRooli = Qt::UserRole + 12,
+        AleProsenttiRooli = Qt::UserRole + 13,
+        AlennusRooli = Qt::UserRole + 14
     };
 
     enum Voittomarginaalisyy {

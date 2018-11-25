@@ -14,20 +14,20 @@ palymy AVL 65 §: Käännetty verovelvollisuus, arvonlisäverodirektiivi 44 art.
 ENpalmy AVL 65 §: Reverse charge, VAT Directive art 44
 rakmy AVL 8 c §: Käännetty verovelvollisuus
 ENrakmy AVL 8 c §: Reverse charge, VAT Directive art 199
-alv Alv
+alv ALV
 ENalv VAT
-veroton Veroton myynti
-ENveroton Tax free sale
+verotonm Veroton myynti
+ENverotonm Tax free sale
 jatkuu Jatkuu...
 ENjatkuu To be continue...
-alvtunnus Alv-tunnus
+alvtunnus ALV-tunnus
 ENalvtunnus VAT number
 puhelin Puhelin
 ENpuhelin Phone
 sahkoposti Sähköposti
 ENsahkoposti Email
 ytunnus Y-tunnus
-ENytunnus Organisation number
+ENytunnus Business ID
 eialv Myyjä ei arvonlisäverovelvollinen
 ENeialv Seller is not registered for VAT
 kpl kpl
@@ -41,29 +41,57 @@ ENyhteensa total
 Yhteensa Yhteensä
 ENYhteensa Total
 bst Saajan|tilinumero|Mottagarens|kontonummer
+ENbst Recipient's|account number
 bsa Saaja|Mottagare
+ENbsa Recipient
 bmo Maksajan|nimi ja|osoite|Betalarens|namn och|address
+ENbmo Payer's|name and|address
 bak Allekirjoitus|Underskrift
+ENbak Signature
 btl Tililtä nro|Från konto nr
+ENbtl From account|no.
 iban IBAN
 bvn Viitenumero|Ref.nr.
+ENbvn Ref.no.
 bep Eräpäivä|Förfallodag
+ENbep Due date
 eur Euro
 behto Maksu välitetään saajalle maksujenvälityksen ehtojen mukaisesti ja vain maksajan ilmoittaman tilinumeron perusteella.|Betalning förmedlas till mottagaren enligt villkoren för betalningsförmedling och endast till det betalaren angivit.
+ENbehto The payment will be cleared for the recipient in accordance with the General terms for payment transmission and only on the basis of the account number given by the payer.
 btilis TILISIIRTO. GIRERING
+ENbtilis CREDIT TRANSFER
 asviite Asiakkaan viite
+ENasviite Your reference
 lnro Laskun numero
+ENlnro Invoice number
 pvm Päivämäärä
+ENpvm Date
+SEpvm Datum
 hyvpvm Hyvityksen päivämäärä
 toimpvm Toimituspäivämäärä
+ENtoimpvm Date of delivery
 asytunnus Asiakkaan y-tunnus
+ENasytunnus Your business ID
 viitenro Viitenumero
+ENviitenro Invoice reference number
+SEviitenro Ref nr
 erapvm Eräpäivä
+ENerapvm Due date
+SEerapvm Förfdatum
 maksettu Maksettu
 hyvnro Hyvityslaskun numero
 huomaika Huomautusaika
+ENhuomaika Period for complaints
 viivkorko Viivästyskorko
+ENviivkorko Overdue fine
 kateinen Käteislasku / Kuitti
 hlasku Hyvityslasku laskulle
 maksumuistutus MAKSUMUISTUTUS
 alkuplasku Alkuperäinen lasku|Laskun numero: %1|Laskun päiväys:|Eräpäivä: %3
+veroton veroton
+ENveroton netto
+verollinen verollinen
+ENverollinen brutto
+nimike nimike
+ENnimike product
+ENlkm qty

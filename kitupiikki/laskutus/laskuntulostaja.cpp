@@ -29,6 +29,7 @@
 #include "laskumodel.h"
 #include "nayukiQR/QrCode.hpp"
 
+#include "erittelyruudukko.h"
 
 
 LaskunTulostaja::LaskunTulostaja(LaskuModel *model, const QString &kieli) : QObject(model), model_(model), kieli_(kieli)
@@ -626,123 +627,75 @@ qreal LaskunTulostaja::alatunniste(QPagedPaintDevice *printer, QPainter *painter
 
 void LaskunTulostaja::erittely(LaskuModel *model, QPagedPaintDevice *printer, QPainter *painter, qreal marginaali)
 {
-    bool alv = kp()->asetukset()->onko("AlvVelvollinen");
-    erittelyOtsikko(printer, painter, alv);
-    double mm = printer->width() * 1.00 / printer->widthMM();
 
-    painter->setFont( QFont("Sans",10));
-    qreal leveys = painter->window().width();
-    qreal korkeus = painter->window().height() - marginaali;
+    ErittelyRuudukko ruudukko(model, this);
+    ruudukko.tulostaErittely(printer, painter, marginaali);
+
+    // ALV-erittelyn tulostus
     qreal rk = painter->fontMetrics().height();
+    qreal leveys = painter->window().width();
+    double mm = printer->width() * 1.00 / printer->widthMM();
 
     QList<AlvErittelyRivi> alvLista = model->alverittely();
 
-    for(int i=0; i < model->rowCount(QModelIndex());i++)
+
+    // Tarvittaessa vaihdetaan sivua
+    if( painter->transform().dy() + rk * (alvLista.count()+2.5)  >  painter->window().height() - marginaali )
     {
-        int yhtsnt = model->data( model->index(i, LaskuModel::BRUTTOSUMMA), Qt::EditRole ).toInt();
-        if( !yhtsnt)
-            continue;   // Ohitetaan tyhjät rivit
-
-        QString nimike = model->data( model->index(i, LaskuModel::NIMIKE), Qt::DisplayRole ).toString();
-        QString maara = model->data( model->index(i, LaskuModel::MAARA), Qt::DisplayRole ).toString();
-        QString yksikko = model->data( model->index(i, LaskuModel::YKSIKKO), Qt::DisplayRole ).toString();
-        QString ahinta = model->data( model->index(i, LaskuModel::AHINTA), Qt::DisplayRole ).toString();
-        QString vero = model->data( model->index(i, LaskuModel::ALV), Qt::DisplayRole ).toString();
-        QString yht = model->data( model->index(i, LaskuModel::BRUTTOSUMMA), Qt::DisplayRole ).toString();
-
-        double verosnt = model->data( model->index(i, LaskuModel::NIMIKE), LaskuModel::VeroRooli ).toDouble();
-        double nettosnt = model->data( model->index(i, LaskuModel::NIMIKE), LaskuModel::NettoRooli ).toDouble();
-        int veroprossa = model->data( model->index(i, LaskuModel::NIMIKE), LaskuModel::AlvProsenttiRooli ).toInt();
-
-        if( verosnt < 1e-5 )
-            veroprossa = 0;
-
-
-        QRectF rect = alv ? painter->boundingRect(QRectF(0,0, 5 * leveys/16, leveys), Qt::TextWordWrap, nimike ) : painter->boundingRect(QRectF(0,0,5*leveys/8, leveys), Qt::TextWordWrap, nimike );
-
-        qreal tamarivi = rect.height() > 0.0 ? rect.height() : rk;
-        if( tamarivi + painter->transform().dy() > korkeus - (alvLista.count()+2) * rk )
-        {
-            painter->drawText(QRectF(7*leveys/8,0,leveys/8,rk), Qt::AlignLeft, t("jatkuu"));
-            printer->newPage();
-            painter->resetTransform();
-            korkeus = painter->window().height();
-            erittelyOtsikko(printer, painter, alv);
-        }
-        painter->drawText(rect, Qt::TextWordWrap, nimike);
-
-        if( alv )
-        {
-            painter->drawText(QRectF(5 *leveys / 16,0,leveys/16-mm,rk), Qt::AlignRight, maara);
-            painter->drawText(QRectF(6 *leveys / 16 + mm ,0,leveys/16,rk), Qt::AlignLeft, yksikko);
-
-            painter->drawText(QRectF(7 *leveys / 16,0,leveys/8,rk), Qt::AlignRight, ahinta);
-
-            if( nettosnt > 0.0)
-                painter->drawText(QRectF(9 *leveys / 16,0,leveys/8,rk), Qt::AlignRight, QString("%L1 €").arg( (nettosnt / 100.0) ,0,'f',2)  );
-
-            if( vero.endsWith("%"))
-            {
-                painter->drawText(QRectF(11 *leveys / 16,0,leveys/16,rk), Qt::AlignRight, vero);
-                painter->drawText(QRectF(12 *leveys / 16,0,leveys/8,rk), Qt::AlignRight, QString("%L1 €").arg( (verosnt / 100.0) ,0,'f',2) );
-            }
-            else
-                painter->drawText(QRectF(11 *leveys / 16,0,3* leveys/16,rk), Qt::AlignCenter, vero);
-
-            painter->drawText(QRectF(7*leveys/8,0,leveys/8,rk), Qt::AlignRight, yht);
-        }
-        else
-        {
-            painter->drawText(QRectF(10 *leveys / 16,0,leveys/16-mm,rk), Qt::AlignRight, maara);
-            painter->drawText(QRectF(11 *leveys / 16 + mm ,0,leveys/16,rk), Qt::AlignLeft, yksikko);
-            painter->drawText(QRectF(6 *leveys / 8,0,leveys/8,rk), Qt::AlignRight, ahinta);
-            painter->drawText(QRectF(7*leveys/8,0,leveys/8,rk), Qt::AlignRight, yht);
-        }
-
-        painter->translate(0, tamarivi);
+        printer->newPage();
+        painter->resetTransform();
+        painter->drawText( QRectF(0,0,leveys/2,rk), Qt::AlignLeft, kp()->asetukset()->asetus("Nimi"));
+        painter->drawText( QRectF(leveys/2,0,leveys/2, rk), Qt::AlignRight, kp()->paivamaara().toString("dd.MM.yyyy"));
+        painter->translate(0, rk*2);
     }
 
-    // ALV-erittelyn tulostus
-
-    if( alv && model->tyyppi() != LaskuModel::MAKSUMUISTUTUS && !alvLista.isEmpty())
+    bool alv = kp()->asetukset()->onko("AlvVelvollinen");
+    if( model->tyyppi() != LaskuModel::MAKSUMUISTUTUS && !alvLista.isEmpty())
     {
         painter->translate( 0, rk * 0.5);
-        painter->drawLine(QLineF(7*leveys / 16.0, 0, leveys, 0));
-        if( alvLista.first().alvKoodi() == AlvKoodi::MYYNNIT_NETTO)
-            painter->drawText(QRectF(7 *leveys / 16,0,leveys/8,rk), Qt::AlignLeft, tr("Alv-erittely")  );
 
+        if( alvLista.first().vero() > 1e-7)
+        {
+            painter->setFont(QFont("Sans",8));
+            painter->drawText(QRectF( leveys * 5 / 8, 0, leveys / 8, rk), Qt::AlignRight, t("veroton"));
+            painter->drawText(QRectF( leveys * 6 / 8, 0, leveys / 8, rk), Qt::AlignRight, t("vero"));
+            painter->drawText(QRectF( leveys * 7 / 8, 0, leveys / 8, rk), Qt::AlignRight, t("verollinen"));
+            painter->translate(0, painter->fontMetrics().height());
+            painter->setFont(QFont("Sans",10));
+        }
+
+        painter->drawLine(QLineF(3*leveys / 8.0, 0, leveys, 0));
 
         for( AlvErittelyRivi alvRivi : alvLista )
         {
             if( alvRivi.alvKoodi() != AlvKoodi::MYYNNIT_NETTO && alvRivi.alvKoodi() != AlvKoodi::ALV0)
             {
-                painter->drawText(QRectF(7 * leveys / 16,0,7 * leveys/16,rk), Qt::AlignLeft, veroteksti(alvRivi.alvKoodi())  );
+                painter->drawText(QRectF(3 * leveys / 8,0, leveys/2,rk), Qt::AlignLeft, veroteksti(alvRivi.alvKoodi())  );
             }
             else
             {
-                painter->drawText(QRectF(9 *leveys / 16,0,leveys/8,rk), Qt::AlignRight, QString("%L1 €").arg( ( alvRivi.netto() / 100.0) ,0,'f',2)  );
-                painter->drawText(QRectF(11 *leveys / 16,0,leveys/16,rk), Qt::AlignRight, QString("%1 %").arg( alvRivi.alvProsentti() ) );
-                painter->drawText(QRectF(12 *leveys / 16,0,leveys/8,rk), Qt::AlignRight, QString("%L1 €").arg( ( (alvRivi.brutto() - alvRivi.netto()) / 100.0) ,0,'f',2) );
+                painter->drawText(QRectF(3 *leveys / 8,0,leveys/4,rk), Qt::AlignLeft, QString("%1 %2 %").arg(t("alv")).arg( alvRivi.alvProsentti() ) );
+                painter->drawText(QRectF(5 *leveys / 8,0,leveys/8,rk), Qt::AlignRight, QString("%L1 €").arg( ( alvRivi.netto() / 100.0) ,0,'f',2)  );
+                painter->drawText(QRectF(6 *leveys / 8,0,leveys/8,rk), Qt::AlignRight, QString("%L1 €").arg( ( (alvRivi.brutto() - alvRivi.netto()) / 100.0) ,0,'f',2) );
             }
             painter->drawText(QRectF(7*leveys/8,0,leveys/8,rk), Qt::AlignRight, QString("%L1 €").arg( ( alvRivi.brutto() / 100.0) ,0,'f',2) );
             painter->translate(0, rk);
-
 
         }
     }
 
     painter->translate(0, rk * 0.25);
 
-    qreal yhtviivaAlkaa = alv == true ? 7 * leveys / 16.0 : 10 * leveys / 16.0; // ilman alviä lyhyempi yhteensä-viiva
+    qreal yhtviivaAlkaa = alv == true ? 3 * leveys / 8 : 10 * leveys / 16.0; // ilman alviä lyhyempi yhteensä-viiva
 
     painter->drawLine(QLineF(yhtviivaAlkaa, -0.26 * mm , leveys, -0.26 * mm));
     painter->drawLine(QLineF(yhtviivaAlkaa, 0, leveys, 0));
     painter->drawText(QRectF(yhtviivaAlkaa, 0,leveys/8,rk), Qt::AlignLeft, t("Yhteensa")  );
 
-    if( alv )
+    if( alv && alvLista.first().vero() > 1e-7)
     {
-        painter->drawText(QRectF(9 *leveys / 16,0,leveys/8,rk), Qt::AlignRight, QString("%L1 €").arg( ( model->nettoSumma()  / 100.0) ,0,'f',2)  );
-        painter->drawText(QRectF(12 *leveys / 16,0,leveys/8,rk), Qt::AlignRight, QString("%L1 €").arg( ( (model->laskunSumma() - model->nettoSumma() ) / 100.0) ,0,'f',2) );
+        painter->drawText(QRectF(5 *leveys / 8,0,leveys/8,rk), Qt::AlignRight, QString("%L1 €").arg( ( model->nettoSumma()  / 100.0) ,0,'f',2)  );
+        painter->drawText(QRectF(6 *leveys / 8,0,leveys/8,rk), Qt::AlignRight, QString("%L1 €").arg( ( (model->laskunSumma() - model->nettoSumma() ) / 100.0) ,0,'f',2) );
     }
     painter->drawText(QRectF(7*leveys/8,0,leveys/8,rk), Qt::AlignRight, QString("%L1 €").arg( ( model->laskunSumma() / 100.0) ,0,'f',2) );
     painter->translate(0, 2*rk);

@@ -276,16 +276,14 @@ QVariant LaskuModel::data(const QModelIndex &index, int role) const
                 return rivi.aleProsentti;
         case ALV:
             switch (rivi.alvKoodi) {
-            case AlvKoodi::EIALV :
-                return QString("");
             case AlvKoodi::ALV0:
                 return tr("0 %");
             case AlvKoodi::RAKENNUSPALVELU_MYYNTI:
-                return tr("AVL 8 c §");
+                return tr("AVL 8c §");
             case AlvKoodi::YHTEISOMYYNTI_PALVELUT:
                 return tr("AVL 65 §");
             case AlvKoodi::YHTEISOMYYNTI_TAVARAT:
-                return tr("AVL 72 a §");
+                return tr("AVL 72a §");
             case AlvKoodi::MYYNNIT_MARGINAALI :
                 return "Margin.";
             default:
@@ -323,11 +321,11 @@ QVariant LaskuModel::data(const QModelIndex &index, int role) const
         return rivi.yhteensaSnt();
     else if( role == NettoRooli)
     {
-        return rivi.maara * rivi.ahintaSnt;
+        return rivi.nettoSnt();
     }
     else if( role == VeroRooli)
     {
-        return rivi.yhteensaSnt() - rivi.maara * rivi.ahintaSnt;
+        return rivi.yhteensaSnt() - rivi.nettoSnt();
     }
     else if( role == TuoteKoodiRooli)
         return rivi.tuoteKoodi;
@@ -342,6 +340,10 @@ QVariant LaskuModel::data(const QModelIndex &index, int role) const
     }
     else if( role == VoittomarginaaliRooli)
         return rivi.voittoMarginaaliMenettely;
+    else if( role == AleProsenttiRooli)
+        return rivi.aleProsentti;
+    else if( role == AlennusRooli)
+        return qRound(rivi.maara * rivi.ahintaSnt * rivi.aleProsentti / 100.0);
 
     return QVariant();
 }
@@ -551,6 +553,9 @@ int LaskuModel::kplDesimaalit() const
 
 QList<AlvErittelyRivi> LaskuModel::alverittely() const
 {
+    if( !kp()->asetukset()->onko("AlvVelvollinen"))
+        return QList<AlvErittelyRivi>();
+
     QMap<int,AlvErittelyRivi> alvit;
 
     for(LaskuRivi rivi : rivit_)
@@ -559,8 +564,6 @@ QList<AlvErittelyRivi> LaskuModel::alverittely() const
             continue;
 
         int avain = rivi.voittoMarginaaliMenettely ? rivi.voittoMarginaaliMenettely : rivi.alvKoodi * 100 + rivi.alvProsentti;
-        if( avain == AlvKoodi::EIALV)
-            avain = AlvKoodi::MYYNNIT_NETTO * 100 + 99;   // Järjestyksen takia
 
         if( !alvit.contains(avain))
             alvit.insert(avain, AlvErittelyRivi(rivi.voittoMarginaaliMenettely ? rivi.voittoMarginaaliMenettely : rivi.alvKoodi, rivi.alvProsentti));
