@@ -53,6 +53,7 @@ public slots:
 private:
     Ui::Perusvalinnat *ui;
     QImage uusilogo;
+    bool poistalogo = false;
 };
 
 #endif // PERUSVALINNAT_H

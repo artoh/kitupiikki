@@ -53,6 +53,7 @@ Perusvalinnat::Perusvalinnat() :
 
     connect( ui->hakemistoNappi, SIGNAL(clicked(bool)), this, SLOT(avaaHakemisto()));
     connect( ui->avaaArkistoNappi, &QPushButton::clicked, [] { kp()->avaaUrl( kp()->arkistopolku() ); } );
+    connect( ui->poistaLogoNappi, &QPushButton::clicked, [this] { poistalogo=true; ui->logoLabel->clear(); ilmoitaMuokattu(); });
     ui->ytunnusEdit->setValidator(new YTunnusValidator());
 
 }
@@ -73,6 +74,7 @@ bool Perusvalinnat::nollaa()
     ui->puhelinEdit->setText( kp()->asetus("Puhelin"));
     ui->logossaNimiBox->setChecked( kp()->asetukset()->onko("LogossaNimi") );
     ui->sahkopostiEdit->setText( kp()->asetukset()->asetus("Sahkoposti"));
+    ui->poistaLogoNappi->setEnabled( !kp()->logo().isNull() );
 
     // Haetaan muodot
 
@@ -149,6 +151,7 @@ bool Perusvalinnat::onkoMuokattu()
             ui->sahkopostiEdit->text() != kp()->asetukset()->asetus("Sahkoposti") ||
             ui->paivitysCheck->isChecked() != kp()->settings()->value("NaytaPaivitykset",true).toBool() ||
             ui->logossaNimiBox->isChecked() != kp()->asetukset()->onko("LogossaNimi") ||
+            poistalogo ||
             ( ui->muotoCombo->currentText() != kp()->asetukset()->asetus("Muoto"));
 }
 
@@ -167,10 +170,16 @@ bool Perusvalinnat::tallenna()
     kp()->asetukset()->aseta("Sahkoposti", ui->sahkopostiEdit->text());
     kp()->asetukset()->aseta("LogossaNimi", ui->logossaNimiBox->isChecked());
 
-    if( !uusilogo.isNull())
+    if( poistalogo )
+    {
+        kp()->asetaLogo( QImage() );
+        poistalogo = false;
+    }
+    else if( !uusilogo.isNull())
     {
         kp()->asetaLogo(uusilogo );
     }
+
     uusilogo = QImage();
 
     if( ui->muotoCombo->currentText() != kp()->asetukset()->asetus("Muoto"))
@@ -194,6 +203,7 @@ bool Perusvalinnat::tallenna()
         emit kp()->onni("Asetukset tallennettu");
 
     emit kp()->perusAsetusMuuttui();     // Uusi lataus, koska nimi tai kuva saattoi vaihtua!
+    ui->poistaLogoNappi->setEnabled( !kp()->logo().isNull() );
 
     return true;
 }

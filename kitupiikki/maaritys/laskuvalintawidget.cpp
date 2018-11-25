@@ -52,6 +52,8 @@ LaskuValintaWidget::LaskuValintaWidget()
     connect(ui->qrCheck, SIGNAL(clicked(bool)), this, SLOT(ilmoitaMuokattu()));
     connect(ui->tilisiirtoCheck, &QCheckBox::clicked, this, &LaskuValintaWidget::ilmoitaMuokattu);
     connect(ui->lyhyetCheck, &QCheckBox::clicked, this, &LaskuValintaWidget::ilmoitaMuokattu);
+    connect(ui->apunimiEdit, &QLineEdit::textChanged, this, &LaskuValintaWidget::ilmoitaMuokattu);
+    connect(ui->rfCheck, &QCheckBox::clicked, this, &LaskuValintaWidget::ilmoitaMuokattu);
 
     connect( ui->ikkunaKuori, SIGNAL(toggled(bool)), this, SLOT(ilmoitaMuokattu()));
 
@@ -90,6 +92,8 @@ bool LaskuValintaWidget::nollaa()
     ui->tilisiirtoCheck->setChecked( !kp()->asetukset()->onko("LaskuEiTilisiirto"));
     ui->qrCheck->setEnabled( ui->tilisiirtoCheck->isChecked());
     ui->lyhyetCheck->setChecked( kp()->asetukset()->onko("LaskuLyhyetRivit"));
+    ui->apunimiEdit->setText( kp()->asetukset()->asetus("LaskuAputoiminimi"));
+    ui->rfCheck->setChecked( kp()->asetukset()->onko("LaskuRF"));
 
     for(int i=0; i < kp()->tilit()->rowCount(QModelIndex()); i++)
     {
@@ -130,6 +134,8 @@ bool LaskuValintaWidget::tallenna()
     kp()->asetukset()->aseta("LaskuEiQR", !ui->qrCheck->isChecked());
     kp()->asetukset()->aseta("LaskuEiTilisiirto", !ui->tilisiirtoCheck->isChecked());
     kp()->asetukset()->aseta("LaskuLyhyetRivit", ui->lyhyetCheck->isChecked());
+    kp()->asetukset()->aseta("LaskuAputoiminimi", ui->apunimiEdit->text());
+    kp()->asetukset()->aseta("LaskuRF", ui->rfCheck->isChecked());
 
 
     return true;
@@ -156,6 +162,8 @@ bool LaskuValintaWidget::onkoMuokattu()
             ui->qrCheck->isChecked() == kp()->asetukset()->onko("LaskuEiQR") ||
             ui->tilisiirtoCheck->isChecked() == kp()->asetukset()->onko("LaskuEiTilisiirto") ||
             ui->lyhyetCheck->isChecked() != kp()->asetukset()->onko("LaskuLyhyetRivit") ||
+            ui->rfCheck->isChecked() != kp()->asetukset()->onko("LaskuRF") ||
+            ui->apunimiEdit->text() != kp()->asetukset()->asetus("LaskuAputoiminimi") ||
             ( ui->ikkunaKuori->isChecked() && (
                 ui->xSpin->value() !=  kp()->asetukset()->luku("LaskuIkkunaX", 0) ||
                 ui->ySpin->value() !=  kp()->asetukset()->luku("LaskuIkkunaY", 0) ||

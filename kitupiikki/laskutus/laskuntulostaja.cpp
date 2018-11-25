@@ -408,8 +408,8 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter,
 
     }
     painter->setFont(QFont("Sans",14));
-    double pv = painter->fontMetrics().height();
-    QString nimi = kp()->asetukset()->onko("LogossaNimi") ? QString() : kp()->asetus("Nimi");   // Jos nimi logossa, sitä ei toisteta
+    double pv = painter->fontMetrics().height();    
+    QString nimi = kp()->asetukset()->onko("LogossaNimi") ? QString() : ( kp()->asetukset()->asetus("LaskuAputoiminimi").isEmpty() ? kp()->asetukset()->asetus("Nimi") : kp()->asetukset()->asetus("LaskuAputoiminimi") );   // Jos nimi logossa, sitä ei toisteta
     QRectF lahettajaRect = painter->boundingRect( QRectF( lahettajaAlue.x()+vasen, lahettajaAlue.y(),
                                                        lahettajaAlue.width()-vasen, 20 * mm), Qt::TextWordWrap, nimi );
     painter->drawText(QRectF( lahettajaRect), Qt::AlignLeft | Qt::TextWordWrap, nimi);
@@ -644,7 +644,7 @@ void LaskunTulostaja::erittely(LaskuModel *model, QPagedPaintDevice *printer, QP
     {
         printer->newPage();
         painter->resetTransform();
-        painter->drawText( QRectF(0,0,leveys/2,rk), Qt::AlignLeft, kp()->asetukset()->asetus("Nimi"));
+        painter->drawText( QRectF(0,0,leveys/2,rk), Qt::AlignLeft, kp()->asetukset()->asetus("LaskuAputoiminimi").isEmpty() ? kp()->asetukset()->asetus("Nimi") : kp()->asetukset()->asetus("LaskuAputoiminimi"));
         painter->drawText( QRectF(leveys/2,0,leveys/2, rk), Qt::AlignRight, kp()->paivamaara().toString("dd.MM.yyyy"));
         painter->translate(0, rk*2);
     }

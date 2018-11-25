@@ -167,6 +167,17 @@ p, li { white-space: pre-wrap; }
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QPushButton" name="poistaLogoNappi">
+          <property name="text">
+           <string>Poista</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../pic/pic.qrc">
+            <normaloff>:/pic/edit-clear.png</normaloff>:/pic/edit-clear.png</iconset>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
       <item>

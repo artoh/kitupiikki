@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>587</width>
-    <height>933</height>
+    <height>1015</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -200,6 +200,17 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="rfCheck">
+     <property name="text">
+      <string>RF-viitteet</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../pic/pic.qrc">
+       <normaloff>:/pic/rf.png</normaloff>:/pic/rf.png</iconset>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QCheckBox" name="qrCheck">
      <property name="text">
       <string>Tulosta QR-koodi</string>
@@ -349,6 +360,23 @@
     </widget>
    </item>
    <item>
+    <layout class="QFormLayout" name="formLayout_4">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_15">
+       <property name="text">
+        <string>Aputoiminimi</string>
+       </property>
+       <property name="buddy">
+        <cstring>apunimiEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="apunimiEdit"/>
+     </item>
+    </layout>
+   </item>
+   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -385,8 +413,8 @@
      <y>583</y>
     </hint>
     <hint type="destinationlabel">
-     <x>159</x>
-     <y>667</y>
+     <x>172</x>
+     <y>722</y>
     </hint>
    </hints>
   </connection>

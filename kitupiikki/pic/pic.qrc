@@ -145,6 +145,7 @@
         <file>fi.png</file>
         <file>se.png</file>
         <file>en.png</file>
+        <file>rf.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

@@ -154,7 +154,7 @@ void ErittelyRuudukko::tulostaErittelyOtsikko(QPagedPaintDevice *printer, QPaint
     if(sivuntunniste)
     {
         painter->setFont(QFont("Sans",10));
-        painter->drawText( QRectF(0,0,sivunleveys/2,painter->fontMetrics().height()), Qt::AlignLeft, kp()->asetukset()->asetus("Nimi"));
+        painter->drawText( QRectF(0,0,sivunleveys/2,painter->fontMetrics().height()), Qt::AlignLeft, kp()->asetukset()->asetus("LaskuAputoiminimi").isEmpty() ? kp()->asetukset()->asetus("Nimi") : kp()->asetukset()->asetus("LaskuAputoiminimi"));
         painter->drawText( QRectF(sivunleveys/2,0,sivunleveys/2, painter->fontMetrics().height()), Qt::AlignRight, kp()->paivamaara().toString("dd.MM.yyyy"));
         painter->translate(0, painter->fontMetrics().height()*2);
     }
