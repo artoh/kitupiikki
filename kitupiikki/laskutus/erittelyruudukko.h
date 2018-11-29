@@ -23,12 +23,16 @@
 #include "laskumodel.h"
 #include "laskuntulostaja.h"
 
+/**
+ * @brief Laskussa oleva tuote-erittely
+ */
 class ErittelyRuudukko
 {
 public:
     ErittelyRuudukko(LaskuModel *model, LaskunTulostaja *tulostaja);
 
     void tulostaErittely(QPagedPaintDevice *printer, QPainter *painter, qreal marginaali);
+    QString html();
 
 private:
     void lisaaSarake(const QString& otsikontekstinimi, Qt::AlignmentFlag tasaus = Qt::AlignLeft);

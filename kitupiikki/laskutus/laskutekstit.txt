@@ -67,6 +67,7 @@ ENlnro Invoice number
 pvm Päivämäärä
 ENpvm Date
 SEpvm Datum
+lpvm Laskun päivämäärä
 hyvpvm Hyvityksen päivämäärä
 toimpvm Toimituspäivämäärä
 ENtoimpvm Date of delivery
@@ -95,3 +96,5 @@ ENverollinen brutto
 nimike nimike
 ENnimike product
 ENlkm qty
+virtviiv Virtuaaliviivakoodi
+summa Laskun summa

@@ -140,6 +140,31 @@ void ErittelyRuudukko::tulostaErittely(QPagedPaintDevice *printer, QPainter *pai
 
 }
 
+QString ErittelyRuudukko::html()
+{
+    QString txt = "<table width=100% style='margin-top: 2em; margin-bottom: 1em;'>\n<theader><tr>";
+    for(QString otsikko : otsikot_)
+        txt.append("<th>" + otsikko + "</th>");
+    txt.append("</tr></header>\n<tbody>");
+    for( QStringList rivi : ruudut_)
+    {
+        txt.append("<tr>");
+        for(int i=0; i < rivi.count(); i++)
+        {
+            if( tasaukset_.at(i) == Qt::AlignRight)
+                txt.append("<td style='text-align: right;'");
+            else
+                txt.append("<td>");
+            txt.append( rivi.at(i) );
+            txt.append("</td>");
+        }
+        txt.append("</tr>");
+    }
+
+    txt.append("</tbody></table>");
+    return txt;
+}
+
 void ErittelyRuudukko::lisaaSarake(const QString &otsikontekstinimi, Qt::AlignmentFlag tasaus)
 {
     otsikot_.append( otsikontekstinimi.isEmpty() ? QString() :  tulostaja_->t(otsikontekstinimi) );

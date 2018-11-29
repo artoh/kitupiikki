@@ -215,13 +215,13 @@ QByteArray Finvoice::lasku(LaskuModel *model)
     writer.writeEndElement();
 
     writer.writeStartElement("BuyerPartyDetails");
-    writer.writeTextElement("ByerPartyIdentifier", model->ytunnus());
+    if( !model->ytunnus().isEmpty() && model->ytunnus().at(0).isDigit())
+        writer.writeTextElement("ByerPartyIdentifier", model->ytunnus());
     writer.writeTextElement("BuyerOrganisationName", model->laskunsaajanNimi());
-/* Toistaiseksi kommentoitu ulos - otetaan käyttöön kun käänteinen verovelvollisuus
-    QString asiakasVeroKoodi = QString("FI%1").arg(model->ytunnus());
-    asiakasVeroKoodi.remove('-');
-    writer.writeTextElement("BuyerOrganisationTaxCode", asiakasVeroKoodi);
-*/
+
+    if( !model->ytunnus().isEmpty() && model->ytunnus().at(0).isLetter())
+        writer.writeTextElement("BuyerOrganisationTaxCode", model->ytunnus());
+
     writer.writeStartElement("BuyerPostalAddressDetails");
     HajoitettuOsoite asiakkaanOsoite = hajoitaOsoite( model->osoite());
     writer.writeTextElement("BuyerStreetName", asiakkaanOsoite.lahiosoite);
@@ -251,33 +251,16 @@ QByteArray Finvoice::lasku(LaskuModel *model)
     writer.writeEndElement();
 
     // Hakee alv-erittelyt
-    qlonglong kokoNetto = 0;
-
-    QMap<int,AlvErittelyEra> alvit;
-    for(int i=0; i < model->rowCount(QModelIndex()); i++)
-    {
-        double verosnt = model->data( model->index(i, LaskuModel::NIMIKE), LaskuModel::VeroRooli ).toDouble();
-        double nettosnt = model->data( model->index(i, LaskuModel::NIMIKE), LaskuModel::NettoRooli ).toDouble();
-        int veroprossa = model->data( model->index(i, LaskuModel::NIMIKE), LaskuModel::AlvProsenttiRooli ).toInt();
-
-        // Lisätään alv-erittelyä varten summataulukkoihin
-        if( !alvit.contains(veroprossa))
-            alvit.insert(veroprossa, AlvErittelyEra() );
-
-        alvit[veroprossa].netto += nettosnt;
-        alvit[veroprossa].vero += verosnt;
-
-        kokoNetto += nettosnt;
-    }
+    QList<AlvErittelyRivi> alvErittely = model->alverittely();
 
     writer.writeStartElement("InvoiceTotalVatExcludedAmount");
     writer.writeAttribute("AmountCurrencyIdentifier","EUR");
-    writer.writeCharacters( QString("%L1").arg( kokoNetto / 100.0 , 0, 'f', 2) );
+    writer.writeCharacters( QString("%L1").arg( model->nettoSumma() / 100.0 , 0, 'f', 2) );
     writer.writeEndElement();
 
     writer.writeStartElement("InvoiceTotalVatAmount");
     writer.writeAttribute("AmountCurrencyIdentifier","EUR");
-    writer.writeCharacters( QString("%L1").arg( ( model->laskunSumma() - kokoNetto ) / 100.0 , 0, 'f', 2) );
+    writer.writeCharacters( QString("%L1").arg( ( model->laskunSumma() - model->nettoSumma() ) / 100.0 , 0, 'f', 2) );
     writer.writeEndElement();
 
     writer.writeStartElement("InvoiceTotalVatIncludedAmount");
@@ -285,21 +268,22 @@ QByteArray Finvoice::lasku(LaskuModel *model)
     writer.writeCharacters( QString("%L1").arg( model->laskunSumma() / 100.0, 0, 'f', 2 ) );
     writer.writeEndElement();
 
-    QMapIterator<int,AlvErittelyEra> iter(alvit);
-    while( iter.hasNext())
+    for( AlvErittelyRivi alv : alvErittely)
     {
-        iter.next();
+        if( alv.vero() < 1e-5 )
+            continue;
+
         writer.writeStartElement("VatSpecificationDetails");
         writer.writeStartElement("VatBaseAmount");
         writer.writeAttribute("AmountCurrencyIdentifier","EUR");
-        writer.writeCharacters( QString("%L1").arg( iter.value().netto / 100.0 , 0, 'f', 2) );
+        writer.writeCharacters( QString("%L1").arg( alv.netto() / 100.0 , 0, 'f', 2) );
         writer.writeEndElement();
 
-        writer.writeTextElement("VatRatePercent", QString("%1").arg(iter.key()) );
+        writer.writeTextElement("VatRatePercent", QString("%1").arg( alv.alvProsentti() ) );
 
         writer.writeStartElement("VatRateAmount");
         writer.writeAttribute("AmountCurrencyIdentifier","EUR");
-        writer.writeCharacters( QString("%L1").arg( iter.value().vero / 100.0 , 0, 'f', 2) );
+        writer.writeCharacters( QString("%L1").arg( alv.vero() / 100.0 , 0, 'f', 2) );
         writer.writeEndElement();
 
         writer.writeEndElement();
@@ -349,6 +333,12 @@ QByteArray Finvoice::lasku(LaskuModel *model)
         writer.writeCharacters( QString("%L1").arg( indeksi.data(LaskuModel::AHintaRooli).toLongLong() / 100.0 , 0, 'f', 2));
         writer.writeEndElement();
 
+        if( indeksi.data(LaskuModel::AleProsenttiRooli).toInt())
+        {
+            writer.writeStartElement("RowDiscountPercent");
+            writer.writeCharacters( QString("%1").arg( indeksi.data(LaskuModel::AleProsenttiRooli).toInt() ));
+            writer.writeEndElement();
+        }
 
         double verosnt = model->data( model->index(i, LaskuModel::NIMIKE), LaskuModel::VeroRooli ).toDouble();
 
