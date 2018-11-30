@@ -182,6 +182,13 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto, bool ilmoitaVirheesta)
     tietokanta_.setDatabaseName(tiedosto);
     polkuTiedostoon_ = tiedosto;
 
+    if( tiedosto.isEmpty())
+    {
+        asetusModel_->tyhjenna();
+        emit tietokantaVaihtui();
+        return false;
+    }
+
     if( !tietokanta_.open() )
     {
         QMessageBox::critical(nullptr, tr("Tiedostoa %1 ei voi avata").arg(tiedosto),

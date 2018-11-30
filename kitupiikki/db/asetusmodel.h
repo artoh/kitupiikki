@@ -88,6 +88,7 @@ public:
     void tilikarttaMoodiin(bool onko);
 
     void lataa();
+    void tyhjenna() { asetukset_.clear(); }
 
 signals:
 

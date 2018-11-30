@@ -63,6 +63,8 @@ public slots:
 
     void muistiinpanot();
 
+    void poistaListalta();
+
     /**
      * @brief Pyytää infon päivityksistä
      */

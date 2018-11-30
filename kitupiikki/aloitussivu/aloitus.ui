@@ -148,6 +148,20 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="poistaNappi">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Poista luettelosta</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/sulje.png</normaloff>:/pic/sulje.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="muistiinpanotNappi">
        <property name="enabled">
         <bool>false</bool>

@@ -125,6 +125,7 @@ LaskuModel *LaskuModel::haeLasku(int vientiId)
     model->asetaAsiakkaanViite( lasku.json.str("AsiakkaanViite"));
     model->asetaVerkkolaskuOsoite( lasku.json.str("VerkkolaskuOsoite"));
     model->asetaVerkkolaskuValittaja( lasku.json.str("VerkkolaskuValittaja"));
+    model->asetaErapaiva( lasku.erapvm );
     model->tositeId_ = lasku.tosite;
     model->vientiId_ = lasku.vientiId;
     model->laskunNumero_ = lasku.viite.toULongLong();

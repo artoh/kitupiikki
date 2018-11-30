@@ -66,6 +66,7 @@ AloitusSivu::AloitusSivu() :
     connect( ui->tilikausiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(siirrySivulle()));
     connect(ui->varmistaNappi, &QPushButton::clicked, this, &AloitusSivu::varmuuskopioi);
     connect(ui->muistiinpanotNappi, &QPushButton::clicked, this, &AloitusSivu::muistiinpanot);
+    connect(ui->poistaNappi, &QPushButton::clicked, this, &AloitusSivu::poistaListalta);
 
     connect( ui->selain, SIGNAL(anchorClicked(QUrl)), this, SLOT(linkki(QUrl)));
 
@@ -135,6 +136,8 @@ void AloitusSivu::kirjanpitoVaihtui()
     ui->tilikausiCombo->setVisible(avoinna);
     ui->varmistaNappi->setEnabled(avoinna);
     ui->muistiinpanotNappi->setEnabled(avoinna);
+    ui->poistaNappi->setVisible( kp()->onkoHarjoitus() );
+    ui->poistaNappi->setEnabled( kp()->onkoHarjoitus() );
 
     if( avoinna )
     {
@@ -306,6 +309,30 @@ void AloitusSivu::muistiinpanot()
         kp()->asetukset()->aseta("Muistiinpanot", ui.editori->toPlainText());
 
     siirrySivulle();
+}
+
+void AloitusSivu::poistaListalta()
+{
+    if( QMessageBox::question(this, tr("Poista kirjanpito luettelosta"),
+                              tr("Haluatko poistaa tämän kirjanpidon viimeisten kirjanpitojen luettelosta?\n"
+                                 "Kirjanpitoa ei poisteta levyltä."),
+                              QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes)
+        return;
+
+
+    QVariantMap kirjanpidot = kp()->settings()->value("Tietokannat").toMap();
+    QDir portableDir( kp()->portableDir() );
+
+    QString polku = kp()->tiedostopolku();
+    if( !kp()->portableDir().isEmpty())
+        polku = QDir::cleanPath(portableDir.absoluteFilePath(polku));
+
+    kirjanpidot.remove(polku);
+    kp()->avaaTietokanta(QString());
+
+    kp()->settings()->setValue("Tietokannat", kirjanpidot );
+    paivitaTiedostoLista();
+
 }
 
 void AloitusSivu::pyydaInfo()
