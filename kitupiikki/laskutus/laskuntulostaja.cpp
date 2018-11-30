@@ -189,7 +189,12 @@ QString LaskunTulostaja::html()
     }
 
     if( !model_->ytunnus().isEmpty())
-        txt.append(tr("<tr><td style=\"border-bottom: 1px solid black;\">%2</td><td style=\"border-bottom: 1px solid black;\">%1</td></tr>\n").arg( model_->ytunnus() ).arg(t("asytunnus")));
+    {
+        if( model_->ytunnus().at(0).isDigit())
+            txt.append(tr("<tr><td style=\"border-bottom: 1px solid black;\">%2</td><td style=\"border-bottom: 1px solid black;\">%1</td></tr>\n").arg( model_->ytunnus() ).arg(t("asytunnus")));
+        else
+            txt.append(tr("<tr><td style=\"border-bottom: 1px solid black;\">%2</td><td style=\"border-bottom: 1px solid black;\">%1</td></tr>\n").arg( model_->ytunnus() ).arg(t("asalvtunnus")));
+    }
     if( !model_->asiakkaanViite().isEmpty())
         txt.append(tr("<tr><td style=\"border-bottom: 1px solid black;\">%2</td><td style=\"border-bottom: 1px solid black;\">%1</td></tr>\n").arg( model_->asiakkaanViite() ).arg(t("asviite")));
 
@@ -429,7 +434,12 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter,
         painter->drawText(QRectF( keskiviiva + mm, pv + mm, leveys / 4, rk ), Qt::AlignTop, t("toimpvm"));
 
     if( !model_->ytunnus().isEmpty())
-        painter->drawText(QRectF( puoliviiva + mm, pv + mm, leveys / 4, rk), Qt::AlignTop, t("asytunnus"));
+    {
+        if( model_->ytunnus().at(0).isNumber())
+            painter->drawText(QRectF( puoliviiva + mm, pv + mm, leveys / 4, rk), Qt::AlignTop, t("asytunnus"));
+        else
+            painter->drawText(QRectF( puoliviiva + mm, pv + mm, leveys / 4, rk), Qt::AlignTop, t("asalvtunnus"));
+    }
 
     painter->drawText(QRectF( keskiviiva + mm, pv + rk + mm, leveys / 4, rk ), Qt::AlignTop, t("huomaika"));
     painter->drawText(QRectF( puoliviiva + mm, pv + rk + mm, leveys / 4, rk ), Qt::AlignTop, t("viivkorko"));

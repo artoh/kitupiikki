@@ -255,36 +255,40 @@ QByteArray Finvoice::lasku(LaskuModel *model)
 
     writer.writeStartElement("InvoiceTotalVatExcludedAmount");
     writer.writeAttribute("AmountCurrencyIdentifier","EUR");
-    writer.writeCharacters( QString("%L1").arg( model->nettoSumma() / 100.0 , 0, 'f', 2) );
+    writer.writeCharacters( QString("%1").arg( model->nettoSumma() / 100.0 , 0, 'f', 2).replace('.',',') );
     writer.writeEndElement();
 
     writer.writeStartElement("InvoiceTotalVatAmount");
     writer.writeAttribute("AmountCurrencyIdentifier","EUR");
-    writer.writeCharacters( QString("%L1").arg( ( model->laskunSumma() - model->nettoSumma() ) / 100.0 , 0, 'f', 2) );
+    writer.writeCharacters( QString("%1").arg( ( model->laskunSumma() - model->nettoSumma() ) / 100.0 , 0, 'f', 2).replace('.',',') );
     writer.writeEndElement();
 
     writer.writeStartElement("InvoiceTotalVatIncludedAmount");
     writer.writeAttribute("AmountCurrencyIdentifier","EUR");
-    writer.writeCharacters( QString("%L1").arg( model->laskunSumma() / 100.0, 0, 'f', 2 ) );
+    writer.writeCharacters( QString("%1").arg( model->laskunSumma() / 100.0, 0, 'f', 2 ).replace('.',',') );
     writer.writeEndElement();
 
     for( AlvErittelyRivi alv : alvErittely)
     {
-        if( alv.vero() < 1e-5 )
-            continue;
 
         writer.writeStartElement("VatSpecificationDetails");
         writer.writeStartElement("VatBaseAmount");
         writer.writeAttribute("AmountCurrencyIdentifier","EUR");
-        writer.writeCharacters( QString("%L1").arg( alv.netto() / 100.0 , 0, 'f', 2) );
+        writer.writeCharacters( QString("%1").arg( alv.netto() / 100.0 , 0, 'f', 2).replace('.',',') );
         writer.writeEndElement();
 
-        writer.writeTextElement("VatRatePercent", QString("%1").arg( alv.alvProsentti() ) );
+        if( alv.vero() > 1e-5)
+            writer.writeTextElement("VatRatePercent", QString("%1,0").arg( alv.alvProsentti() ) );
 
         writer.writeStartElement("VatRateAmount");
         writer.writeAttribute("AmountCurrencyIdentifier","EUR");
-        writer.writeCharacters( QString("%L1").arg( alv.vero() / 100.0 , 0, 'f', 2) );
+        writer.writeCharacters( QString("%1").arg( alv.vero() / 100.0 , 0, 'f', 2).replace('.',',') );
         writer.writeEndElement();
+
+        writer.writeTextElement("VatCode", vatCode(alv.alvKoodi()) );
+        QString vatTeksti = vatFree( alv.alvKoodi() );
+        if( !vatTeksti.isEmpty())
+            writer.writeTextElement("VatFreeText", vatTeksti);
 
         writer.writeEndElement();
     }
@@ -330,30 +334,34 @@ QByteArray Finvoice::lasku(LaskuModel *model)
 
         writer.writeStartElement("UnitPriceAmount");
         writer.writeAttribute("AmountCurrencyIdentifier","EUR");
-        writer.writeCharacters( QString("%L1").arg( indeksi.data(LaskuModel::AHintaRooli).toLongLong() / 100.0 , 0, 'f', 2));
+        writer.writeCharacters( QString("%1").arg( indeksi.data(LaskuModel::AHintaRooli).toLongLong() / 100.0 , 0, 'f', 2).replace('.',','));
         writer.writeEndElement();
 
         if( indeksi.data(LaskuModel::AleProsenttiRooli).toInt())
         {
             writer.writeStartElement("RowDiscountPercent");
-            writer.writeCharacters( QString("%1").arg( indeksi.data(LaskuModel::AleProsenttiRooli).toInt() ));
+            writer.writeCharacters( QString("%1,0").arg( indeksi.data(LaskuModel::AleProsenttiRooli).toInt() ));
             writer.writeEndElement();
         }
 
         double verosnt = model->data( model->index(i, LaskuModel::NIMIKE), LaskuModel::VeroRooli ).toDouble();
 
         writer.writeTextElement("RowPositionIdentifier", QString::number( i + 1));
-        writer.writeTextElement("RowVatRatePercent",  QString("%1").arg(indeksi.data(LaskuModel::AlvProsenttiRooli).toInt()));
+        writer.writeTextElement("RowVatRatePercent",  QString("%1,0").arg(indeksi.data(LaskuModel::AlvProsenttiRooli).toInt()));
 
         writer.writeStartElement("RowVatAmount");
         writer.writeAttribute("AmountCurrencyIdentifier","EUR");
-        writer.writeCharacters( QString("%L1").arg( verosnt / 100.0 , 0, 'f', 2) );
+        writer.writeCharacters( QString("%1").arg( verosnt / 100.0 , 0, 'f', 2).replace('.',',') );
         writer.writeEndElement();
 
         writer.writeStartElement("RowVatExcludedAmount");
         writer.writeAttribute("AmountCurrencyIdentifier","EUR");
-        writer.writeCharacters( QString("%L1").arg( indeksi.data(LaskuModel::BruttoRooli).toLongLong() / 100.0 , 0, 'f', 2));
+        writer.writeCharacters( QString("%1").arg( indeksi.data(LaskuModel::BruttoRooli).toLongLong() / 100.0 , 0, 'f', 2).replace('.',','));
         writer.writeEndElement();
+
+
+        int alvkoodi = indeksi.data(LaskuModel::AlvKoodiRooli).toInt();
+        writer.writeTextElement("RowVatCode", vatCode( alvkoodi ) );
 
         writer.writeEndElement();
     }
@@ -394,7 +402,7 @@ QByteArray Finvoice::lasku(LaskuModel *model)
 
     writer.writeStartElement("EpiInstructedAmount");
     writer.writeAttribute("AmountCurrencyIdentifier","EUR");
-    writer.writeCharacters( QString("%L1").arg( model->laskunSumma() / 100.0 , 0, 'f', 2)  );
+    writer.writeCharacters( QString("%1").arg( model->laskunSumma() / 100.0 , 0, 'f', 2).replace('.',',')  );
     writer.writeEndElement();
 
     writer.writeStartElement("EpiCharge");
@@ -428,4 +436,39 @@ HajoitettuOsoite Finvoice::hajoitaOsoite(const QString &osoite)
         hajalla.maakoodi = mats.captured("maa").isEmpty() ? "FI" : mats.captured("maa");
     }
     return hajalla;
+}
+
+QString Finvoice::vatCode(int koodi)
+{
+    switch (koodi)
+    {
+    case AlvKoodi::MYYNNIT_MARGINAALI:
+        return "AB";
+    case AlvKoodi::RAKENNUSPALVELU_MYYNTI:
+        return "AE";
+    case AlvKoodi::YHTEISOMYYNTI_TAVARAT:
+    case AlvKoodi::YHTEISOMYYNTI_PALVELUT:
+        return "E";
+    case AlvKoodi::ALV0:
+        return "Z";
+    default:
+        return "S";
+    }
+}
+
+QString Finvoice::vatFree(int koodi)
+{
+    switch (koodi) {
+    case AlvKoodi::MYYNNIT_MARGINAALI:
+        return "Marginaalivero";
+    case AlvKoodi::RAKENNUSPALVELU_MYYNTI:
+        return "Käännetty ALV";
+    case AlvKoodi::YHTEISOMYYNTI_PALVELUT:
+    case AlvKoodi::YHTEISOHANKINNAT_TAVARAT:
+        return "Yhteisömyynti";
+    case AlvKoodi::ALV0:
+        return "Veroton myynti";
+    default:
+        return QString();
+    }
 }

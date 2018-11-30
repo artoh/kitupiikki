@@ -18,6 +18,7 @@
 #define FINVOICE_H
 
 #include <QObject>
+#include "db/verotyyppimodel.h"
 
 class LaskuModel;
 
@@ -43,6 +44,9 @@ public:
     static QByteArray lasku(LaskuModel* model);
 
     static HajoitettuOsoite hajoitaOsoite(const QString& osoite);
+
+    static QString vatCode(int koodi);
+    static QString vatFree(int koodi);
 
 signals:
 

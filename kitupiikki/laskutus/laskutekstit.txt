@@ -72,7 +72,9 @@ hyvpvm Hyvityksen päivämäärä
 toimpvm Toimituspäivämäärä
 ENtoimpvm Date of delivery
 asytunnus Asiakkaan y-tunnus
-ENasytunnus Your business ID
+ENasytunnus Customer's Business ID
+asalvtunnus Asiakkaan ALV-tunnus
+ENasalvtunnus Customer's VAT number
 viitenro Viitenumero
 ENviitenro Invoice reference number
 SEviitenro Ref nr
