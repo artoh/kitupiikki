@@ -69,6 +69,12 @@ public:
     static QString valeilla(const QString& teksti);
 
     /**
+     * @brief Muotoilee viitenumeron ottaen huomioon RF:n
+     * @return
+     */
+    QString muotoiltuViite() const;
+
+    /**
      * @brief Palauttaa tekstin nykyisellä kielellä
      * @param avain Tekstin hakutunnus
      * @return Näytettävä teksti

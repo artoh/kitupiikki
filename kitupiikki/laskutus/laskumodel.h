@@ -157,6 +157,7 @@ public:
     QString verkkolaskuOsoite() const { return verkkolaskuOsoite_;}
     QString verkkolaskuValittaja() const { return verkkolaskuValittaja_;}
     QString asiakkaanViite() const { return asiakkaanViite_;}
+    QString kieli() const { return kieli_; }
     /**
      * @brief Hyvityslaskulla hyvitettävä lasku ja maksumuistutuksella muistutettava
      * @return
@@ -209,7 +210,7 @@ public:
      * @brief Tallentaa tämän laskun, jonka jälkeen model pitäisi unohtaa
      * @return
      */
-    bool tallenna(Tili rahatili);
+    bool tallenna(Tili rahatili, const QString& kieli = QString());
 
     /**
      * @brief Laskee viitenumeron tarkasteluvun
@@ -226,7 +227,6 @@ public:
      */
     QString tositetunnus();
 
-    static QString muotoileViitenumero(qulonglong viitenumero);
 
     bool muokattu() const  { return muokattu_; }
 
@@ -260,6 +260,7 @@ private:
     QString asiakkaanViite_;
     QString verkkolaskuOsoite_;
     QString verkkolaskuValittaja_;
+    QString kieli_;
 
     LaskuRyhmaModel* ryhma_ = nullptr;
 

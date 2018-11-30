@@ -67,6 +67,7 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     model(laskumodel), ui( new Ui::LaskuDialogi)
 {
     laskuIkkunoita__++;
+    tulostaja = new LaskunTulostaja(model);
 
     if( !laskumodel)
         model = new LaskuModel();
@@ -139,6 +140,8 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     connect( ui->perusteCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(perusteVaihtuu()));
     connect( ui->kieliCombo, &QComboBox::currentTextChanged, [this]() { this->tulostaja->asetaKieli( this->ui->kieliCombo->currentData().toString()); } );
 
+    ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( model->kieli() ) );
+
     connect( ui->saajaEdit, SIGNAL(textChanged(QString)), this, SLOT(haeOsoite()));
     connect( ui->rivitView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(rivienKontekstiValikko(QPoint)));
 
@@ -159,8 +162,6 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     ui->rivitView->horizontalHeader()->setSectionResizeMode(LaskuModel::NIMIKE, QHeaderView::Stretch);
     ui->tuotelistaView->horizontalHeader()->setSectionResizeMode(TuoteModel::NIMIKE, QHeaderView::Stretch);
     ui->ryhmaView->setSelectionBehavior(QTableView::SelectRows);
-
-    tulostaja = new LaskunTulostaja(model);
 
     ui->perusteCombo->setCurrentIndex( model->kirjausperuste() );
 
@@ -401,6 +402,10 @@ void LaskuDialogi::haeOsoite()
         ui->verkkoOsoiteEdit->setText( json.str("VerkkolaskuOsoite"));
         ui->verkkoValittajaEdit->setText( json.str("VerkkolaskuValittaja"));
 
+        qDebug() << "Kieli:" << json.str("Kieli");
+        if( !json.str("Kieli").isEmpty())
+            ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( json.str("Kieli") ));
+
         if( !json.str("Osoite").isEmpty())
         {
             // Haetaan aiempi osoite
@@ -410,6 +415,7 @@ void LaskuDialogi::haeOsoite()
     }
     // Osoitetta ei tiedossa, kirjoitetaan nimi
     ui->osoiteEdit->setPlainText( nimistr + "\n" );
+
 
 }
 
@@ -448,7 +454,7 @@ void LaskuDialogi::accept()
 
     int rahatilinro = ui->rahaTiliEdit->valittuTilinumero();
 
-    if( model->tallenna(kp()->tilit()->tiliNumerolla( rahatilinro ) ) )
+    if( model->tallenna(kp()->tilit()->tiliNumerolla( rahatilinro ), ui->kieliCombo->currentData().toString() ) )
         QDialog::accept();
     else
         QMessageBox::critical(this, tr("Virhe laskun tallentamisessa"), tr("Laskun tallentaminen epäonnistui"));

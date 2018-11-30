@@ -24,6 +24,7 @@
 #include "kirjaus/verodialogi.h"
 #include "laskuntulostaja.h"
 #include "laskuryhmamodel.h"
+#include "laskuntulostaja.h"
 
 #include <cmath>
 #include <QSqlQuery>
@@ -40,7 +41,7 @@
 #include <QJsonDocument>
 
 LaskuModel::LaskuModel(QObject *parent) :
-    QAbstractTableModel( parent )
+    QAbstractTableModel( parent ), kieli_("FI")
 {
     toimituspaiva_ = kp()->paivamaara();
     erapaiva_ = kp()->paivamaara().addDays( kp()->asetukset()->luku("LaskuMaksuaika"));
@@ -60,7 +61,11 @@ LaskuModel *LaskuModel::teeHyvityslasku(int hyvitettavaVientiId)
     model->asetaEmail( model->viittausLasku().json.str("Email") );
     model->asetaYTunnus( model->viittausLasku().json.str("YTunnus"));
     model->asetaToimituspaiva( model->viittausLasku().json.date("Toimituspvm"));
-    model->asetaLisatieto( tr("Hyvityslasku laskulle %1, päiväys %2")
+
+    model->kieli_ = model->viittausLasku().json.str("Kieli").isEmpty() ? "FI" : model->viittausLasku().json.str("Kieli");
+    LaskunTulostaja tulostaja(model, model->kieli());
+
+    model->asetaLisatieto( tulostaja.t("hyvitysteksti")
                                      .arg( model->viittausLasku().viite)
                                      .arg( model->viittausLasku().pvm.toString("dd.MM.yyyy")));
 
@@ -81,9 +86,10 @@ LaskuModel *LaskuModel::teeMaksumuistutus(int muistutettavaVientiId)
     model->asetaYTunnus( model->viittausLasku().json.str("YTunnus"));
     model->asetaToimituspaiva( model->viittausLasku().json.date("Toimituspvm"));
 
-    model->asetaLisatieto( tr("Kirjanpitomme mukaan emme ole saaneet maksusuoritustanne. Pyydämme maksuanne alla olevan erittelyn mukaisesti. "
-                              "Mikäli olette jo maksaneet laskun tai lasku on virheellinen, ottakaa yhteyttä asian selvittämiseksi.") );
+    model->kieli_ = model->viittausLasku().json.str("Kieli").isEmpty() ? "FI" : model->viittausLasku().json.str("Kieli");
+    LaskunTulostaja tulostaja(model, model->kieli());
 
+    model->asetaLisatieto( tulostaja.t("muistutusteksti") );
 
     model->haeAvoinSaldo();
     return model;
@@ -123,6 +129,7 @@ LaskuModel *LaskuModel::haeLasku(int vientiId)
     model->vientiId_ = lasku.vientiId;
     model->laskunNumero_ = lasku.viite.toULongLong();
 
+    model->kieli_ = model->viittausLasku().json.str("Kieli").isEmpty() ? "FI" : model->viittausLasku().json.str("Kieli");
 
     QVariantList lista = lasku.json.variant("Laskurivit").toList();
     for( const QVariant& var : lista)
@@ -231,7 +238,10 @@ QVariant LaskuModel::data(const QModelIndex &index, int role) const
                 switch(index.column())
                 {
                     case NIMIKE:
-                        return tr("Laskun %1 avoin saldo").arg(viittausLasku().viite);
+                    {
+                        LaskunTulostaja tulostaja(nullptr, kieli_);
+                        return tulostaja.t("mmrivi").arg(viittausLasku().viite);
+                    }
                     case BRUTTOSUMMA:
                         return QString("%L1 €").arg( avoinSaldo() / 100.0,0,'f',2);
                 }
@@ -520,7 +530,7 @@ qulonglong LaskuModel::laskunro() const
 
 QString LaskuModel::viitenumero() const
 {
-    return muotoileViitenumero( laskunro());
+    return QString::number(laskunro());
 }
 
 bool LaskuModel::onkoAlennuksia() const
@@ -585,7 +595,7 @@ void LaskuModel::haeRyhmasta(int indeksi)
     verkkolaskuValittaja_ = ind.data(LaskuRyhmaModel::VerkkoLaskuValittajaRooli).toString();
 }
 
-bool LaskuModel::tallenna(Tili rahatili)
+bool LaskuModel::tallenna(Tili rahatili, const QString &kieli)
 {
     if( tyyppi() == RYHMALASKU)
     {
@@ -594,7 +604,7 @@ bool LaskuModel::tallenna(Tili rahatili)
         for(int i=0; i < ryhmaModel()->rowCount(QModelIndex()); i++)
         {
             haeRyhmasta(i);
-            if( !tallenna(rahatili) )
+            if( !tallenna(rahatili, kieli) )
                 onni = false;
         }
         tyyppi_ = RYHMALASKU;
@@ -853,6 +863,7 @@ bool LaskuModel::tallenna(Tili rahatili)
     raharivi.json.set("AsiakkaanViite", asiakkaanViite());
     raharivi.json.set("VerkkolaskuOsoite", verkkolaskuOsoite());
     raharivi.json.set("VerkkolaskuValittaja", verkkolaskuValittaja());
+    raharivi.json.set("Kieli", kieli);
 
 
     viennit->lisaaVienti(raharivi);
@@ -911,17 +922,6 @@ QString LaskuModel::tositetunnus()
         return QString("%1%2/%3").arg(laji.tunnus()).arg(laji.seuraavanTunnistenumero( pvm() ) + ryhmalisays )
                           .arg( kp()->tilikausiPaivalle(kp()->paivamaara()).kausitunnus());
     }
-}
-
-QString LaskuModel::muotoileViitenumero(qulonglong viitenumero)
-{
-    // Muotoilee viitenumeron tulosteasun
-    QString str = QString::number( viitenumero );
-    for(int i=0; i< str.count() / 5; i++)
-    {
-        str.insert(i * 5 + i,' ');
-    }
-    return str;
 }
 
 void LaskuModel::lisaaRivi(LaskuRivi rivi)

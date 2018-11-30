@@ -207,6 +207,10 @@ bool Tuonti::tiliote(Tili tili, QDate mista, QDate mihin)
 
 void Tuonti::oterivi(QDate pvm, qlonglong sentit, const QString& iban, QString viite, const QString& arkistotunnus, QString selite)
 {
+    // RF-viitteen muunto kansalliseksi, koska laskunnumerona on kansallinen viite
+    if( viite.startsWith("RF"))
+        viite = viite.mid(4);
+
     // Etunollien poisto viiterivistä
     viite.replace( QRegularExpression("^0*"),"");
 

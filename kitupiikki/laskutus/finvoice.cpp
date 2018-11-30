@@ -21,6 +21,7 @@
 #include "db/kirjanpito.h"
 
 #include "laskuntulostaja.h"
+#include "validator/ibanvalidator.h"
 
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
@@ -396,8 +397,22 @@ QByteArray Finvoice::lasku(LaskuModel *model)
 
     writer.writeStartElement("EpiPaymentInstructionDetails");                              
     writer.writeStartElement("EpiRemittanceInfoIdentifier");
-    writer.writeAttribute("IdentificationsSchemeName", "SPY");
-    writer.writeCharacters( QString::number( model->laskunro() ));
+
+    if( kp()->asetukset()->onko("LaskuRF"))
+    {
+        // RF-muotoinen viite
+        QString rf= "RF00" + model->viitenumero();
+        int tarkiste = 98 - IbanValidator::ibanModulo( rf );
+        writer.writeAttribute("IdentificationsSchemeName", "ISO");
+        writer.writeCharacters( QString("RF%1%2").arg(tarkiste,2,10,QChar('0')).arg(rf.mid(4)) );
+
+    }
+    else
+    {
+        writer.writeAttribute("IdentificationsSchemeName", "SPY");
+        writer.writeCharacters( model->viitenumero() );
+
+    }
     writer.writeEndElement();
 
     writer.writeStartElement("EpiInstructedAmount");
@@ -406,7 +421,7 @@ QByteArray Finvoice::lasku(LaskuModel *model)
     writer.writeEndElement();
 
     writer.writeStartElement("EpiCharge");
-    writer.writeAttribute("ChargeOption","SLEV");
+    writer.writeAttribute("ChargeOption","SLEV");    
     writer.writeEndElement();
 
     writer.writeStartElement("EpiDateOptionDate");

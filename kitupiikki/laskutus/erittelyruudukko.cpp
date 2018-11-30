@@ -64,12 +64,15 @@ ErittelyRuudukko::ErittelyRuudukko(LaskuModel *model, LaskunTulostaja *tulostaja
             qlonglong alennus = model->data( model->index(i, 0), LaskuModel::AlennusRooli).toLongLong();
             rivi.append( alennus ? QString("%L1 €").arg( (alennus / 100.0) ,0,'f',2) : QString()  );
         }
-        if( kaikki )
-             rivi.append( QString("%L1 €").arg( ( nettosnt / 100.0) ,0,'f',2) );
+        if( kaikki )            
+             rivi.append(  nettosnt > 0 ? QString("%L1 €").arg( ( nettosnt / 100.0) ,0,'f',2) : QString());
         if( model->alverittely().count() > 1)
             rivi.append( model->data( model->index(i, LaskuModel::ALV), Qt::DisplayRole ).toString() );
         if( kaikki )
-            rivi.append( QString("%L1 €").arg( ( model->data( model->index(i, LaskuModel::NIMIKE), LaskuModel::VeroRooli ).toDouble()  / 100.0) ,0,'f',2) );
+        {
+            qlonglong vero = model->data( model->index(i, LaskuModel::NIMIKE), LaskuModel::VeroRooli ).toLongLong();
+            rivi.append( vero > 0 ? QString("%L1 €").arg( (  vero / 100.0) ,0,'f',2) : QString() );
+        }
         rivi.append( model->data( model->index(i, LaskuModel::BRUTTOSUMMA), Qt::DisplayRole ).toString() );
 
         ruudut_.append(rivi);
@@ -152,16 +155,16 @@ QString ErittelyRuudukko::html()
         for(int i=0; i < rivi.count(); i++)
         {
             if( tasaukset_.at(i) == Qt::AlignRight)
-                txt.append("<td style='text-align: right;'");
+                txt.append("<td style='text-align: right;'>");
             else
                 txt.append("<td>");
             txt.append( rivi.at(i) );
             txt.append("</td>");
         }
-        txt.append("</tr>");
+        txt.append("</tr>\n");
     }
 
-    txt.append("</tbody></table>");
+    txt.append("</tbody></table>\n");
     return txt;
 }
 

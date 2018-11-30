@@ -1,7 +1,9 @@
 laskuotsikko Lasku
 SElaskuotsikko Faktura
 ENlaskuotsikko Invoice
-laskupvm Laskun päivämäärä
+lpvm Laskun päivämäärä
+ENlpvm Date
+SElpvm Datum
 vmkt Voittomarginaalijärjestelmä - Käytetyt tavarat
 ENvmkt Margin scheme - Second-hand goods
 vmte Voittomarginaalijärjestelmä - Taide-esineet
@@ -16,30 +18,42 @@ rakmy AVL 8 c §: Käännetty verovelvollisuus
 ENrakmy AVL 8 c §: Reverse charge, VAT Directive art 199
 alv ALV
 ENalv VAT
+SEalv MOMS
 verotonm Veroton myynti
 ENverotonm Tax free sale
 jatkuu Jatkuu...
 ENjatkuu To be continue...
+SEjatkuu Fortsätter...
 alvtunnus ALV-tunnus
 ENalvtunnus VAT number
+SEalvtunnus MOMS-nummer
 puhelin Puhelin
 ENpuhelin Phone
+SEpuhelin Telefon
 sahkoposti Sähköposti
 ENsahkoposti Email
+SEsahkoposti Email
 ytunnus Y-tunnus
 ENytunnus Business ID
+SEytunnus FO-nummer
 eialv Myyjä ei arvonlisäverovelvollinen
 ENeialv Seller is not registered for VAT
+SEeialv Säljer har inte registerat för MOMS 
 kpl kpl
+SEkpl antal
 anetto á netto
 ahinta á hinta
+SEahinta á pris
 netto netto
 vero vero
+SEvero skatt
 ENvero tax
 yhteensa yhteensä
 ENyhteensa total
+SEyhteensa totalt
 Yhteensa Yhteensä
 ENYhteensa Total
+SEyhteensa Totalt
 bst Saajan|tilinumero|Mottagarens|kontonummer
 ENbst Recipient's|account number
 bsa Saaja|Mottagare
@@ -62,41 +76,80 @@ btilis TILISIIRTO. GIRERING
 ENbtilis CREDIT TRANSFER
 asviite Asiakkaan viite
 ENasviite Your reference
+SEasviite Kundens referens
 lnro Laskun numero
 ENlnro Invoice number
+SElnro Fakturans nummer
 pvm Päivämäärä
 ENpvm Date
 SEpvm Datum
-lpvm Laskun päivämäärä
 hyvpvm Hyvityksen päivämäärä
+SEhyvpvm Kompensationdatum
 toimpvm Toimituspäivämäärä
+SEtoimpvm Leveransdatum
 ENtoimpvm Date of delivery
 asytunnus Asiakkaan y-tunnus
+SEasytunnus Kundens FO-nummer
 ENasytunnus Customer's Business ID
 asalvtunnus Asiakkaan ALV-tunnus
 ENasalvtunnus Customer's VAT number
+SEasalvtunnus Kundens MOMS-nummer
 viitenro Viitenumero
 ENviitenro Invoice reference number
-SEviitenro Ref nr
+SEviitenro Referensnummer
 erapvm Eräpäivä
 ENerapvm Due date
-SEerapvm Förfdatum
+SEerapvm Förfallodag
 maksettu Maksettu
 hyvnro Hyvityslaskun numero
+SEhyvnro Kompensatiofakturans nummer
+ENhyvnro Number of compensation invoice
 huomaika Huomautusaika
+SEhuomaika Anmärkningstid
 ENhuomaika Period for complaints
 viivkorko Viivästyskorko
+SEviivkorko Dröpmålsränta
 ENviivkorko Overdue fine
 kateinen Käteislasku / Kuitti
+SEkateinen Kvitto
+ENkateinen Cash receipt
 hlasku Hyvityslasku laskulle
+SEhlasku Kompensationtill faktura  
+ENhlasku Compensation for invoice
 maksumuistutus MAKSUMUISTUTUS
-alkuplasku Alkuperäinen lasku|Laskun numero: %1|Laskun päiväys:|Eräpäivä: %3
+SEmaksumuistutus BETALNINGSPÅMINNELSE
+ENmaksumuistutus REMINDER
+alkuplasku Alkuperäinen lasku|Laskun numero: %1|Laskun päiväys: %2|Eräpäivä: %3
+ENalkuplasku Original invoice|Invoice number: %1|Date of invoice: %2|Due date: %3
+SEalkuplasku Original faktura|Faktura nummer: %1|Datum: %2|Förfallodag: %3
 veroton veroton
 ENveroton netto
+SEveroton netto
 verollinen verollinen
 ENverollinen brutto
+SEverollinen brutto
 nimike nimike
+SEnimike produkt
 ENnimike product
 ENlkm qty
 virtviiv Virtuaaliviivakoodi
+SEvirtviiv Virtual streckkod
+ENvirtviiv Virtual barcode
 summa Laskun summa
+ENsumma Total
+SEsumma Totalt
+ale% ale%
+SEale% rabatt%
+ENale% discount%
+alennus alennus
+SEalennus rabatt
+ENalennus discount
+muistutusteksti Kirjanpitomme mukaan emme ole saaneet maksusuoritustanne. Pyydämme maksuanne alla olevan erittelyn mukaisesti. Mikäli olette jo maksaneet laskun tai lasku on virheellinen, ottakaa yhteyttä asian selvittämiseksi.
+ENmuistutusteksti According to our records, we have not yet received a remittance for above invoice. If you have already sent your payment or there is a mistake in this invoice, please take contact to us.
+SEmuistutusteksti Enligt våra noteringar är ovanstående fakturor obetalda. Vi ber er betala dem omgående. Om ni har betalt eller om faktura är felig, var vänlig och kontakta oss.
+hyvitysteksti Hyvityslasku laskulle %1, päiväys %2
+SEhyvitysteksti Kompensation för faktura %1, datum %2
+ENhyvitysteksti Compensation for invoice %1, date %2
+mmrivi Laskun %1 avoin saldo
+SEmmrivi Saldo för faktura %1
+ENmmrivi Saldo for invoice %1

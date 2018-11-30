@@ -28,7 +28,7 @@
 #include "db/kirjanpito.h"
 #include "laskumodel.h"
 #include "nayukiQR/QrCode.hpp"
-
+#include "validator/ibanvalidator.h"
 #include "erittelyruudukko.h"
 
 
@@ -163,19 +163,21 @@ QString LaskunTulostaja::html()
     }
 
     txt.append(tr("<tr><td width=50% style=\"border-bottom: 1px solid black;\">%1<br>%2</td><td colspan=2 style='font-size: large; border-bottom: 1px solid black;'>%3</td></tr>\n").arg(kp()->asetukset()->asetus("Nimi")).arg(omaosoite).arg(otsikko) );
-    txt.append(QString("<td rowspan=7 style=\"border-bottom: 1px solid black; border-right: 1px solid black;\">%1</td>").arg(osoite));
+    txt.append(QString("<td rowspan=8 style=\"border-bottom: 1px solid black; border-right: 1px solid black;\">%1</td>").arg(osoite));
 
     if( model_->tyyppi() != LaskuModel::HYVITYSLASKU )
         txt.append(QString("<td width=25% style=\"border-bottom: 1px solid black;\">%2</td><td width=25% style=\"border-bottom: 1px solid black;\">%1</td></tr>\n").arg( kp()->paivamaara().toString("dd.MM.yyyy") ).arg(t("lpvm")));
     else
         txt.append(tr("<td width=25% style=\"border-bottom: 1px solid black;\">%2</td><td width=25% style=\"border-bottom: 1px solid black;\">%1</td></tr>\n").arg( kp()->paivamaara().toString("dd.MM.yyyy") ).arg(t("hyvpvm")));
 
-    if( model_->kirjausperuste() == LaskuModel::KATEISLASKU)
-        txt.append(tr("<tr><td style=\"border-bottom: 1px solid black;\">%2</td><td style=\"border-bottom: 1px solid black;\">%1</td></tr>\n").arg(model_->viitenumero() ).arg(t("lnro")));
-    else if( model_->tyyppi() == LaskuModel::HYVITYSLASKU)
-        txt.append(tr("<tr><td style=\"border-bottom: 1px solid black;\">%2</td><td style=\"border-bottom: 1px solid black;\">%1</td></tr>\n").arg(model_->viitenumero() ).arg("hyvnro"));
+    if( model_->kirjausperuste() == LaskuModel::HYVITYSLASKU)
+        txt.append(tr("<tr><td style=\"border-bottom: 1px solid black;\">%2</td><td style=\"border-bottom: 1px solid black;\">%1</td></tr>\n").arg(model_->laskunro() ).arg(t("hyvnro")));
     else
-        txt.append(tr("<tr><td style=\"border-bottom: 1px solid black;\">%2</td><td style=\"border-bottom: 1px solid black;\">%1</td></tr>\n").arg(model_->viitenumero() ).arg("viitenro"));
+        txt.append(tr("<tr><td style=\"border-bottom: 1px solid black;\">%2</td><td style=\"border-bottom: 1px solid black;\">%1</td></tr>\n").arg(model_->laskunro() ).arg(t("lnro")));
+
+    if( model_->laskunSumma() > 0 )
+        txt.append(tr("<tr><td style=\"border-bottom: 1px solid black;\">%2</td><td style=\"border-bottom: 1px solid black;\">%1</td></tr>\n").arg( muotoiltuViite() ).arg(t("viitenro")));
+
 
     // Käteislaskulla tai hyvityslaskulla ei eräpäivää
     if( model_->kirjausperuste() != LaskuModel::KATEISLASKU && model_->tyyppi() != LaskuModel::HYVITYSLASKU)
@@ -215,7 +217,8 @@ QString LaskunTulostaja::html()
 
     if( alv && model_->tyyppi() != LaskuModel::MAKSUMUISTUTUS)
     {
-        txt.append(tr("<table width=50% style=\"margin-left: auto;\"><tr><th style=\"border-bottom: 1px solid black;\">Alv%</th><th style=\"border-bottom: 1px solid black;\">Veroton</th><th style=\"border-bottom: 1px solid black;\">Vero</th><th style=\"border-bottom: 1px solid black;\">Yhteensä</th></tr>"));
+        txt.append(tr("<table width=50% style=\"margin-left: auto;\"><tr><th style=\"border-bottom: 1px solid black;\">%1</th><th style=\"border-bottom: 1px solid black;\">%2</th><th style=\"border-bottom: 1px solid black;\">%3</th><th style=\"border-bottom: 1px solid black;\">%4</th></tr>\n")
+                   .arg(t("alv")).arg(t("veroton")).arg(t("verollinen")).arg(t("yhteensa")));
         for( AlvErittelyRivi alvRivi : alvErittely)
         {
             if( alvRivi.vero() > 1e-5)
@@ -239,7 +242,7 @@ QString LaskunTulostaja::html()
                     .arg( ( model_->nettoSumma() / 100.0) ,0,'f',2)
                     .arg( ( (model_->laskunSumma() - model_->nettoSumma()) / 100.0) ,0,'f',2)
                     .arg( ( model_->laskunSumma() / 100.0) ,0,'f',2)
-                    .arg( t("yhteensa") )) ;
+                    .arg( t("Yhteensa") )) ;
         txt.append("</table>");
 
     }
@@ -265,10 +268,18 @@ QString LaskunTulostaja::virtuaaliviivakoodi() const
     if( model_->laskunSumma() > 99999999 )  // Ylisuuri laskunsumma
         return QString();
 
-    QString koodi = QString("4 %1 %2 000 %3 %4")
+    QString koodi = kp()->asetukset()->onko("LaskuRF") ?
+         QString("5 %1 %2 %3 %4 %5")
+                .arg(iban.mid(2,16))    // Numeerinen tilinumero
+                .arg(model_->laskunSumma(), 8, 10, QChar('0'))
+                .arg(muotoiltuViite().mid(2,2) )
+                .arg(muotoiltuViite().remove(' ').mid(4),21,QChar('0'))
+                .arg(model_->erapaiva().toString("yyMMdd"))
+        :
+        QString("4 %1 %2 000 %3 %4")
             .arg( iban.mid(2,16) )  // Tilinumeron numeerinen osuus
             .arg( model_->laskunSumma(), 8, 10, QChar('0') )  // Rahamäärä
-            .arg( model_->viitenumero().remove(QChar(' ')), 20, QChar('0'))
+            .arg( model_->viitenumero(), 20, QChar('0'))
             .arg( model_->erapaiva().toString("yyMMdd"));
 
     return koodi.remove(QChar(' '));
@@ -284,6 +295,18 @@ QString LaskunTulostaja::valeilla(const QString &teksti)
             palautettava.append(QChar(' '));
     }
     return palautettava;
+}
+
+QString LaskunTulostaja::muotoiltuViite() const
+{
+    if( kp()->asetukset()->onko("LaskuRF"))
+    {
+        QString rf= "RF00" + model_->viitenumero();
+        int tarkiste = 98 - IbanValidator::ibanModulo( rf );
+        return valeilla( QString("RF%1%2").arg(tarkiste,2,10,QChar('0')).arg(rf.mid(4)));
+    }
+    else
+        return valeilla(model_->viitenumero());
 }
 
 void LaskunTulostaja::asetaKieli(const QString &kieli)
@@ -448,7 +471,7 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter,
 
     painter->drawText(QRectF( keskiviiva + mm, pv - rk, leveys / 4, rk-mm ), Qt::AlignBottom, kp()->paivamaara().toString("dd.MM.yyyy") );
     painter->drawText(QRectF( keskiviiva + mm, pv + mm, leveys / 4, rk-mm ), Qt::AlignBottom,  model_->toimituspaiva().toString("dd.MM.yyyy") );
-    painter->drawText(QRectF( puoliviiva + mm, pv - rk, leveys / 2, rk-mm ), Qt::AlignBottom, model_->viitenumero() );
+    painter->drawText(QRectF( puoliviiva + mm, pv - rk, leveys / 2, rk-mm ), Qt::AlignBottom, QString::number(model_->laskunro()) );
 
     if( !model_->ytunnus().isEmpty())
         painter->drawText(QRectF( puoliviiva + mm, pv + mm, leveys / 4, rk-mm ), Qt::AlignBottom,  model_->ytunnus() );
@@ -551,7 +574,7 @@ qreal LaskunTulostaja::alatunniste(QPagedPaintDevice *printer, QPainter *painter
             painter->drawText(QRectF(mm, 0 + mm, leveys * 2 / 5, rk), t("iban"));
 
             painter->setFont( QFont("Sans", 11));
-            painter->drawText(QRectF(leveys * 2 / 5, 0, leveys / 5-mm, rk * 2), Qt::AlignBottom | Qt::AlignRight, valeilla(model_->viitenumero()) );
+            painter->drawText(QRectF(leveys * 2 / 5, 0, leveys / 5-mm, rk * 2), Qt::AlignBottom | Qt::AlignRight,  muotoiltuViite() );
             painter->drawText(QRectF(0, 0, leveys * 2 / 5 -mm, rk * 2), Qt::AlignBottom | Qt::AlignRight, valeilla(iban) );
         }
     }
@@ -667,7 +690,7 @@ void LaskunTulostaja::erittely(LaskuModel *model, QPagedPaintDevice *printer, QP
     painter->drawLine(QLineF(yhtviivaAlkaa, 0, leveys, 0));
     painter->drawText(QRectF(yhtviivaAlkaa, 0,leveys/8,rk), Qt::AlignLeft, t("Yhteensa")  );
 
-    if( alv && alvLista.first().vero() > 1e-7)
+    if( alv && !alvLista.isEmpty() && alvLista.first().vero() > 1e-7)
     {
         painter->drawText(QRectF(5 *leveys / 8,0,leveys/8,rk), Qt::AlignRight, QString("%L1 €").arg( ( model->nettoSumma()  / 100.0) ,0,'f',2)  );
         painter->drawText(QRectF(6 *leveys / 8,0,leveys/8,rk), Qt::AlignRight, QString("%L1 €").arg( ( (model->laskunSumma() - model->nettoSumma() ) / 100.0) ,0,'f',2) );
@@ -760,7 +783,7 @@ void LaskunTulostaja::tilisiirto(QPagedPaintDevice *printer, QPainter *painter)
 
     painter->drawText(QRectF( mm*22, mm * 33, mm * 90, mm * 25), Qt::TextWordWrap, model_->osoite());
 
-    painter->drawText( QRectF(mm*133.4, mm*53.8, mm*60, mm*7.5), Qt::AlignLeft | Qt::AlignBottom, model_->viitenumero() );
+    painter->drawText( QRectF(mm*133.4, mm*53.8, mm*60, mm*7.5), Qt::AlignLeft | Qt::AlignBottom, muotoiltuViite() );
 
     painter->drawText( QRectF(mm*133.4, mm*62.3, mm*30, mm*7.5), Qt::AlignLeft | Qt::AlignBottom, model_->erapaiva().toString("dd.MM.yyyy") );
     painter->drawText( QRectF(mm*165, mm*62.3, mm*30, mm*7.5), Qt::AlignRight | Qt::AlignBottom, QString("%L1").arg( (model_->laskunSumma() / 100.0) ,0,'f',2) );
@@ -837,7 +860,7 @@ QByteArray LaskunTulostaja::qrSvg() const
     data.append(kp()->asetukset()->asetus("Nimi") + "\n");
     data.append(iban + "\n");
     data.append( QString("EUR%1.%2\n\n").arg( model_->laskunSumma() / 100 ).arg( model_->laskunSumma() % 100, 2, 10, QChar('0') ));
-    data.append(model_->viitenumero().remove(QChar(' ')) + "\n\n");
+    data.append(muotoiltuViite().remove(QChar(' ')) + "\n\n");
     data.append( QString("ReqdExctnDt/%1").arg( model_->erapaiva().toString(Qt::ISODate) ));
 
     qrcodegen::QrCode qr = qrcodegen::QrCode::encodeText( data.toUtf8().data() , qrcodegen::QrCode::Ecc::QUARTILE);
