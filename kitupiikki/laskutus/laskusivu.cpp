@@ -192,18 +192,21 @@ void LaskuSivu::laskuValintaMuuttuu()
         // Tarkistetaan, onko muokkaaminen sallittu
         TositeModel tositeModel( kp()->tietokanta());
         tositeModel.lataa(tosite);
-        bool muokkausSallittu = tositeModel.muokkausSallittu() &&
+        bool muokkausSallittu = tositeModel.muokkausSallittu()  &&
                 ((index.data(LaskutModel::KirjausPerusteRooli).toInt() != LaskuModel::MAKSUPERUSTE ||
                   (index.data(LaskutModel::SummaRooli).toLongLong() == index.data(LaskutModel::AvoinnaRooli).toLongLong() &&
                    !index.data(LaskutModel::MuistutettuRooli).toBool())) &&
                   index.data(LaskutModel::TyyppiRooli).toInt() != LaskuModel::OSTOLASKU);
 
-        muokkaaNappi_->setEnabled( muokkausSallittu );
+        // Vain Kitupiikin laskuja voi muokata
+        muokkaaNappi_->setEnabled( muokkausSallittu  && index.data(LaskutModel::KirjausPerusteRooli).toInt());
         poistaNappi_->setEnabled( muokkausSallittu );
 
         hyvitysNappi_->setEnabled( index.data(LaskutModel::TyyppiRooli).toInt() == LaskuModel::LASKU );
         muistutusNappi_->setVisible( index.data(LaskutModel::EraPvmRooli).toDate() < kp()->paivamaara() &&
                                      !index.data(LaskutModel::MuistutettuRooli).toBool());
+
+        kopioiNappi_->setEnabled( index.data(LaskutModel::KirjausPerusteRooli).toInt() );
 
     }
     else
@@ -213,6 +216,7 @@ void LaskuSivu::laskuValintaMuuttuu()
         tositeNappi_->setDisabled(true);
         poistaNappi_->setDisabled(true);
         hyvitysNappi_->setDisabled(true);
+        kopioiNappi_->setDisabled(true);
         muistutusNappi_->hide();
     }
 }
@@ -280,6 +284,12 @@ void LaskuSivu::hyvityslasku()
     }
 
     LaskuDialogi *dlg = new LaskuDialogi( LaskuModel::teeHyvityslasku(  laskuView_->currentIndex().data(LaskutModel::VientiIdRooli).toInt() ));
+    dlg->show();
+}
+
+void LaskuSivu::kopioiLasku()
+{
+    LaskuDialogi *dlg = new LaskuDialogi( LaskuModel::kopioiLasku( laskuView_->currentIndex().data(LaskutModel::VientiIdRooli).toInt() ) );
     dlg->show();
 }
 
@@ -408,6 +418,11 @@ void LaskuSivu::luoUi()
     connect( poistaNappi_, &QPushButton::clicked, this, &LaskuSivu::poistaLasku);
     hyvitysNappi_ = new QPushButton(QIcon(":/pic/poista.png"), tr("&Hyvityslasku"));
     connect( hyvitysNappi_, &QPushButton::clicked, this, &LaskuSivu::hyvityslasku);
+
+    kopioiNappi_ = new QPushButton( QIcon(":/pic/kopioilasku.png"), tr("&Kopioi"));
+    nappileiska->addWidget( kopioiNappi_ );
+    connect( kopioiNappi_, &QPushButton::clicked, this, &LaskuSivu::kopioiLasku);
+
     nappileiska->addWidget(hyvitysNappi_);
     muistutusNappi_ = new QPushButton(QIcon(":/pic/varoitus.png"), tr("Maksumuistutus"));
     connect( muistutusNappi_, &QPushButton::clicked, this, &LaskuSivu::maksumuistutus);

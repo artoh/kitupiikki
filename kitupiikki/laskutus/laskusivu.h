@@ -72,6 +72,7 @@ public slots:
     void asiakasLisatty(const QString& nimi);
 
     void hyvityslasku();
+    void kopioiLasku();
     void muokkaaLaskua();
     void maksumuistutus();
     void ryhmaLasku();
@@ -105,6 +106,7 @@ private:
     QPushButton* muokkaaNappi_;
     QPushButton* tositeNappi_;
     QPushButton* poistaNappi_;
+    QPushButton* kopioiNappi_;
     QPushButton* hyvitysNappi_;
     QPushButton* muistutusNappi_;
     QPushButton* uusiAsiakasNappi_;

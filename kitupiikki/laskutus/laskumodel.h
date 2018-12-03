@@ -94,6 +94,12 @@ public:
     static LaskuModel *teeHyvityslasku(int hyvitettavaVientiId);
     static LaskuModel *teeMaksumuistutus(int muistutettavaVientiId);
     static LaskuModel *haeLasku(int vientiId);
+    /**
+     * @brief Tekee laskusta kopion (uudella laskunumerolla ja päivämäärillä)
+     * @param vientiId
+     * @return
+     */
+    static LaskuModel *kopioiLasku(int vientiId);
     static LaskuModel *ryhmaLasku();
 
 

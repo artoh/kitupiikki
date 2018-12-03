@@ -140,7 +140,11 @@ QVariant LaskutModel::data(const QModelIndex &item, int role) const
     else if( role == TyyppiRooli)
     {
         if( lasku.json.luku("Hyvityslasku"))
-            return LaskuModel::HYVITYSLASKU;
+            return LaskuModel::HYVITYSLASKU;        
+        else if( lasku.json.isoluku("Maksumuistutus"))
+            return LaskuModel::MAKSUMUISTUTUS;
+        else if( !lasku.kirjausperuste )
+            return 0;   // Ei tyyppitietoa
         else
             return LaskuModel::LASKU;
     }
@@ -210,7 +214,7 @@ void LaskutModel::paivita(int valinta, QDate mista, QDate mihin)
 
         if( valinta == AVOIMET && (!era.saldoSnt || !query.value("erapvm").toDate().isValid() ))
             continue;
-        if( valinta == ERAANTYNEET && ( !era.saldoSnt || query.value("erapvm").toDate() > kp()->paivamaara() ))
+        if( valinta == ERAANTYNEET && ( !era.saldoSnt || !query.value("erapvm").toDate().isValid() || query.value("erapvm").toDate() > kp()->paivamaara() ))
             continue;
 
         JsonKentta json( query.value("vienti.json").toByteArray() );
@@ -237,7 +241,7 @@ void LaskutModel::paivita(int valinta, QDate mista, QDate mihin)
             continue;   // Hyvityslaskuja ei näytetä avoimina saatika erääntyneinä
 
         // Jos lasku on erääntynyt, selvitetään, onko siitä jo lähetetty maksumuistutus
-        if( lasku.erapvm < kp()->paivamaara())
+        if( !lasku.viite.isEmpty() && lasku.erapvm < kp()->paivamaara())
         {
             QString muistutuskysymys = QString("SELECT json FROM vienti WHERE eraid=%1").arg(lasku.eraId);
             QSqlQuery muistutuskysely(muistutuskysymys);

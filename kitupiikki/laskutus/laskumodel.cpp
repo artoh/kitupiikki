@@ -155,6 +155,20 @@ LaskuModel *LaskuModel::haeLasku(int vientiId)
     return model;
 }
 
+LaskuModel *LaskuModel::kopioiLasku(int vientiId)
+{
+    LaskuModel *model = haeLasku(vientiId);
+
+    model->tositeId_ = 0;
+    model->vientiId_ = 0;
+    model->laskunNumero_ = 0;
+
+    model->asetaToimituspaiva( kp()->paivamaara() );
+    model->asetaErapaiva( kp()->paivamaara().addDays( kp()->asetukset()->luku("LaskuMaksuaika")) );
+
+    return model;
+}
+
 LaskuModel *LaskuModel::ryhmaLasku()
 {
     LaskuModel *model = new LaskuModel();
