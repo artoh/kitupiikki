@@ -204,7 +204,8 @@ void LaskuSivu::laskuValintaMuuttuu()
 
         hyvitysNappi_->setEnabled( index.data(LaskutModel::TyyppiRooli).toInt() == LaskuModel::LASKU );
         muistutusNappi_->setVisible( index.data(LaskutModel::EraPvmRooli).toDate() < kp()->paivamaara() &&
-                                     !index.data(LaskutModel::MuistutettuRooli).toBool());
+                                     !index.data(LaskutModel::MuistutettuRooli).toBool() &&
+                                     index.data(LaskutModel::EraPvmRooli).toDate().isValid() );
 
         kopioiNappi_->setEnabled( index.data(LaskutModel::KirjausPerusteRooli).toInt() );
 
@@ -413,16 +414,20 @@ void LaskuSivu::luoUi()
     tositeNappi_ = new QPushButton(QIcon(":/pic/tekstisivu.png"), tr("&Tosite"));
     connect( tositeNappi_, &QPushButton::clicked, this, &LaskuSivu::naytaTosite );
     nappileiska->addWidget(tositeNappi_);
-    poistaNappi_ = new QPushButton(QIcon(":/pic/roskis.png"), tr("Poista"));
-    nappileiska->addWidget(poistaNappi_);
-    connect( poistaNappi_, &QPushButton::clicked, this, &LaskuSivu::poistaLasku);
-    hyvitysNappi_ = new QPushButton(QIcon(":/pic/poista.png"), tr("&Hyvityslasku"));
-    connect( hyvitysNappi_, &QPushButton::clicked, this, &LaskuSivu::hyvityslasku);
+
+    nappileiska->addSpacing(64);
 
     kopioiNappi_ = new QPushButton( QIcon(":/pic/kopioilasku.png"), tr("&Kopioi"));
     nappileiska->addWidget( kopioiNappi_ );
     connect( kopioiNappi_, &QPushButton::clicked, this, &LaskuSivu::kopioiLasku);
+    poistaNappi_ = new QPushButton(QIcon(":/pic/roskis.png"), tr("Poista"));
+    nappileiska->addWidget(poistaNappi_);
+    connect( poistaNappi_, &QPushButton::clicked, this, &LaskuSivu::poistaLasku);
 
+    nappileiska->addSpacing(64);
+
+    hyvitysNappi_ = new QPushButton(QIcon(":/pic/poista.png"), tr("&Hyvityslasku"));
+    connect( hyvitysNappi_, &QPushButton::clicked, this, &LaskuSivu::hyvityslasku);
     nappileiska->addWidget(hyvitysNappi_);
     muistutusNappi_ = new QPushButton(QIcon(":/pic/varoitus.png"), tr("Maksumuistutus"));
     connect( muistutusNappi_, &QPushButton::clicked, this, &LaskuSivu::maksumuistutus);

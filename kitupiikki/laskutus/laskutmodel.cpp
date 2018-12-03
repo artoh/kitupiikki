@@ -144,7 +144,7 @@ QVariant LaskutModel::data(const QModelIndex &item, int role) const
         else if( lasku.json.isoluku("Maksumuistutus"))
             return LaskuModel::MAKSUMUISTUTUS;
         else if( !lasku.kirjausperuste )
-            return 0;   // Ei tyyppitietoa
+            return LaskuModel::TUOTULASKU;   // Ei tyyppitietoa
         else
             return LaskuModel::LASKU;
     }
