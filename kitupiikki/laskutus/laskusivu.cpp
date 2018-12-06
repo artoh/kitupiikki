@@ -199,7 +199,7 @@ void LaskuSivu::laskuValintaMuuttuu()
                   index.data(LaskutModel::TyyppiRooli).toInt() != LaskuModel::OSTOLASKU);
 
         // Vain Kitupiikin laskuja voi muokata
-        muokkaaNappi_->setEnabled( muokkausSallittu  && index.data(LaskutModel::KirjausPerusteRooli).toInt());
+        muokkaaNappi_->setEnabled( muokkausSallittu  && index.data(LaskutModel::KirjausPerusteRooli).toInt() >= 0);
         poistaNappi_->setEnabled( muokkausSallittu );
 
         hyvitysNappi_->setEnabled( index.data(LaskutModel::TyyppiRooli).toInt() == LaskuModel::LASKU );
@@ -207,7 +207,7 @@ void LaskuSivu::laskuValintaMuuttuu()
                                      !index.data(LaskutModel::MuistutettuRooli).toBool() &&
                                      index.data(LaskutModel::EraPvmRooli).toDate().isValid() );
 
-        kopioiNappi_->setEnabled( index.data(LaskutModel::KirjausPerusteRooli).toInt() );
+        kopioiNappi_->setEnabled( index.data(LaskutModel::KirjausPerusteRooli).toInt() >= 0 );
 
     }
     else

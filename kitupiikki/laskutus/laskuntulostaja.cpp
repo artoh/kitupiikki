@@ -327,7 +327,7 @@ QString LaskunTulostaja::veroteksti(int verokoodi) const
 {
     switch (verokoodi) {
     case AlvKoodi::EIALV:
-        return t("veroton");
+        return t("verotonm");
     case AlvKoodi::YHTEISOMYYNTI_TAVARAT:
         return t("yhtmy");
     case AlvKoodi::YHTEISOMYYNTI_PALVELUT:

@@ -39,7 +39,7 @@ struct AvoinLasku
     qlonglong avoinSnt = 0;
     QString asiakas;
     int tosite = -1;
-    int kirjausperuste = 0;
+    int kirjausperuste = -1;
     int eraId = 0;
     int tiliid = 0;
     JsonKentta json;

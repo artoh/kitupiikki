@@ -232,6 +232,7 @@ void LaskutModel::paivita(int valinta, QDate mista, QDate mihin)
         if( lasku.asiakas.isEmpty())
             lasku.asiakas = query.value("selite").toString();
         lasku.tosite = query.value("tosite").toInt();
+
         lasku.kirjausperuste =  json.luku("Kirjausperuste");
         lasku.tiliid = query.value("tili").toInt();
         lasku.json = json;
