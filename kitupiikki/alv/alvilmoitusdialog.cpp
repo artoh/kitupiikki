@@ -401,7 +401,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
                            .arg(laskelmaMista.toString(Qt::ISODate))
                            .arg(loppupvm.toString(Qt::ISODate)));
         if( kysely.next())
-            liikevaihto = kysely.value(0).toLongLong() - kysely.value(1).toLongLong();
+            liikevaihto += kysely.value(0).toLongLong() - kysely.value(1).toLongLong();
 
         // Liikevaihdossa ei oteta kuitenkaan huomioon veron osuutta (bruttomenettely)
         liikevaihto -= bruttoveroayhtSnt;
@@ -449,7 +449,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
 
 
         RaporttiRivi rivi;
-        rivi.lisaa(tr("Tarkista laskelma alarajahuojennuksesta Verohallinnon ohjeiden mukaan."),2);
+        rivi.lisaa(tr("Tarkista laskelma alarajahuojennuksesta Verohallinnon ohjeiden mukaisesti"),2);
         kirjoittaja->lisaaRivi(rivi);
 
     }
