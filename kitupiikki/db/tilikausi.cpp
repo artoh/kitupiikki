@@ -95,7 +95,7 @@ qlonglong Tilikausi::liikevaihto() const
                                "FROM vienti, tili WHERE "
                                "pvm BETWEEN \"%1\" AND \"%2\" "
                                "AND vienti.tili=tili.id AND "
-                               "tili.tyyppi = \"CL\"")
+                               "(tili.tyyppi = \"CL\" OR tili.tyyppi = \"CLX\") ")
                        .arg(alkaa().toString(Qt::ISODate))
                        .arg(paattyy().toString(Qt::ISODate)));
     if( kysely.next())

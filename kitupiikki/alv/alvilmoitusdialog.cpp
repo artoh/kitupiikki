@@ -363,12 +363,11 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
     luku(tr("Maksettava vero"), maksettavavero  , true);
 
     // Alarajahuojennus
+    qlonglong huojennus = 0;
     int alvKaudenPituus = kp()->asetukset()->luku("AlvKausi");
     if( ( alvKaudenPituus > 1 && loppupvm.month() == 12) ||
          ( alvKaudenPituus == 1 && loppupvm == kp()->tilikaudet()->tilikausiPaivalle(loppupvm).paattyy() )   )
     {
-        long liikevaihto = 0;
-        long vero = maksettavavero;
         QDate laskelmaMista;
 
         if( alvKaudenPituus == 1)
@@ -385,26 +384,48 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         }
         qlonglong kuukausiaLaskelmassa = laskelmaMista.daysTo(loppupvm) / 30;
 
+        MarginaaliLaskelma marginaalithl(laskelmaMista,loppupvm);
+
+        qlonglong vero = bruttoveroayhtSnt + marginaalithl.vero();
+        qlonglong liikevaihto = marginaalithl.marginaali();
+
+
         QSqlQuery kysely;
+        // Liikevaihtoon ei lasketa verotonta myyntiä eikä palveluiden yhteisömyyntiä
         kysely.exec(  QString("SELECT SUM(kreditsnt), SUM(debetsnt) "
                                    "FROM vienti, tili WHERE "
                                    "pvm BETWEEN \"%1\" AND \"%2\" "
                                    "AND vienti.tili=tili.id AND "
-                                   "tili.tyyppi = \"CL\" AND vienti.alvkoodi > 0")
+                                   "tili.tyyppi = \"CL\" AND vienti.alvkoodi > 0 AND vienti.alvkoodi <> 13 AND "
+                                   "vienti.alvkoodi <> 15")
                            .arg(laskelmaMista.toString(Qt::ISODate))
                            .arg(loppupvm.toString(Qt::ISODate)));
         if( kysely.next())
-            liikevaihto = kysely.value(0).toInt() - kysely.value(1).toInt();
+            liikevaihto = kysely.value(0).toLongLong() - kysely.value(1).toLongLong();
+
+        // Liikevaihdossa ei oteta kuitenkaan huomioon veron osuutta (bruttomenettely)
+        liikevaihto -= bruttoveroayhtSnt;
 
         kysely.exec(  QString("SELECT SUM(kreditsnt), SUM(debetsnt) "
                                    "FROM vienti WHERE "
                                    "pvm BETWEEN \"%1\" AND \"%2\" "
-                                   "AND alvkoodi = %3 ")
+                                   "AND (alvkoodi = 111 OR alvkoodi = 127 OR alvkoodi = 118) ")
                            .arg(laskelmaMista.toString(Qt::ISODate))
-                           .arg(loppupvm.toString(Qt::ISODate))
-                           .arg( AlvKoodi::MAKSETTAVAALV ));
+                           .arg(loppupvm.toString(Qt::ISODate)) );
+
         if( kysely.next())
-            vero += kysely.value(1).toInt() - kysely.value(0).toInt();
+            vero += kysely.value(0).toLongLong() - kysely.value(1).toLongLong();
+
+        // Verosta vähennetään vielä vähennetyt
+        kysely.exec(  QString("SELECT SUM(kreditsnt), SUM(debetsnt) "
+                                   "FROM vienti WHERE "
+                                   "pvm BETWEEN \"%1\" AND \"%2\" "
+                                   "AND alvkoodi > 200 AND alvkoodi < 300 ")
+                           .arg(laskelmaMista.toString(Qt::ISODate))
+                           .arg(loppupvm.toString(Qt::ISODate)) );
+
+        if( kysely.next())
+            vero -= kysely.value(1).toLongLong() - kysely.value(0).toLongLong();
 
         qlonglong suhteutettu = liikevaihto;
 
@@ -412,8 +433,9 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
             suhteutettu = liikevaihto *  12 / kuukausiaLaskelmassa;
 
 
-        long huojennus = 0;
-        if( suhteutettu <= 1000000)
+        if( vero < 0)
+            huojennus=0;
+        else if( suhteutettu <= 1000000)
             huojennus = vero;
         else if( suhteutettu <= 3000000)
         {
@@ -422,17 +444,17 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         otsikko(tr("Arvonlisäveron alarajahuojennus"));
         luku(tr("Liikevaihto"), liikevaihto );
         luku(tr("Maksettu vero"), vero );
-        luku(tr("Arvio alarajahuojennuksesta"), huojennus);
+        luku(tr("Alarajahuojennus"), huojennus);
+        luku(tr("Maksettavaa veroa jää"), maksettavavero - huojennus, true);
+
 
         RaporttiRivi rivi;
-        rivi.lisaa(tr("Yllä oleva laskelma on tehty koko verollisella liikevaihdolla ja "
-                      "maksetulla arvonlisäverolla. Alarajahuojennusta laskettaessa "
-                      "on otettava huomioon useita poikkeuksia ja huojennus "
-                      "on laskettava erikseen verohallinnon ohjeiden mukaisesti."),2);
+        rivi.lisaa(tr("Tarkista laskelma alarajahuojennuksesta Verohallinnon ohjeiden mukaan."),2);
         kirjoittaja->lisaaRivi(rivi);
 
-
     }
+    ui->huojennusCheck->setVisible( huojennus && kp()->asetukset()->onko("AlvHuojennusTili") );
+    ui->saatavaCheck->setVisible( kp()->tilit()->tiliTyypilla(TiliLaji::VEROSAATAVA).saldoPaivalle(loppupvm) );
 
 
     ui->ilmoitusBrowser->setHtml( kirjoittaja->html() + "<hr>" + AlvErittely::kirjoitaRaporti(alkupvm, loppupvm).html());
@@ -456,6 +478,42 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         }
         if( !aliMap.isEmpty())
             model.json()->setVar("Voittomarginaalialijaama", aliMap);
+
+        if( ui->huojennusCheck->isChecked())
+        {
+            VientiRivi huojennusDebet;
+            huojennusDebet.tili = kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA);
+            huojennusDebet.debetSnt = huojennus;
+            huojennusDebet.pvm = loppupvm;
+            huojennusDebet.selite = tr("Arvonlisäveron alarajahuojennus");
+            ehdotus.lisaaVienti(huojennusDebet);
+
+            VientiRivi huojennusKredit;
+            huojennusKredit.tili = kp()->tilit()->tiliNumerolla( kp()->asetukset()->luku("AlvHuojennusTili") );
+            huojennusKredit.kreditSnt = huojennus;
+            huojennusKredit.pvm = loppupvm;
+            huojennusKredit.selite = tr("Arvonlisäveron alarajahuojennus");
+            ehdotus.lisaaVienti(huojennusKredit);
+        }
+        if( ui->saatavaCheck->isChecked())
+        {
+            qlonglong saatavasta = kp()->tilit()->tiliTyypilla(TiliLaji::VEROSAATAVA).saldoPaivalle(loppupvm);
+            if( saatavasta > maksettavavero)
+                saatavasta = maksettavavero;
+            VientiRivi saatavastaDebet;
+            saatavastaDebet.tili = kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA);
+            saatavastaDebet.debetSnt = saatavasta;
+            saatavastaDebet.selite = tr("Aiempi verosaatava");
+            saatavastaDebet.pvm = loppupvm;
+            ehdotus.lisaaVienti( saatavastaDebet );
+
+            VientiRivi saatavastaKredit;
+            saatavastaKredit.tili = kp()->tilit()->tiliTyypilla(TiliLaji::VEROSAATAVA);
+            saatavastaKredit.kreditSnt = saatavasta;
+            saatavastaKredit.selite = tr("Aiempi verosaatava");
+            saatavastaKredit.pvm = loppupvm;
+            ehdotus.lisaaVienti( saatavastaKredit );
+        }
 
         ehdotus.tallenna( model.vientiModel() );
 

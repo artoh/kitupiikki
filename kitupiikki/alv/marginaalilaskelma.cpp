@@ -112,6 +112,15 @@ qlonglong MarginaaliLaskelma::vero() const
     return yhteensa;
 }
 
+qlonglong MarginaaliLaskelma::marginaali() const
+{
+    qlonglong yhteensa = 0l;
+    for( MarginaaliLaskelmaRivi rivi : rivit_)
+        yhteensa += rivi.marginaali();
+
+    return yhteensa;
+}
+
 qlonglong MarginaaliLaskelma::vero(int kanta)
 {
     for( MarginaaliLaskelmaRivi rivi : rivit_)

@@ -86,7 +86,7 @@ public:
         NollaLajiRooli = Qt::UserRole + 3
     };
 
-    VerotyyppiModel(QObject *parent = 0);
+    VerotyyppiModel(QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;

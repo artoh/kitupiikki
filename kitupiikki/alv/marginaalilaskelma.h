@@ -54,6 +54,7 @@ public:
     int riveja() const { return rivit_.count();}
     MarginaaliLaskelmaRivi rivi(int indeksi) { return rivit_.at(indeksi);}    
     qlonglong vero() const;
+    qlonglong marginaali() const;
 
     qlonglong vero(int kanta);
     qlonglong myynnit(int kanta);

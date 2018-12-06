@@ -85,10 +85,13 @@ void AlvSivu::paivitaSeuraavat()
     else
         ui->erapaivaLabel->setStyleSheet("color: black;");
 
-    ui->tilitaNappi->setEnabled( seuraavaLoppuu < kp()->tilikaudet()->kirjanpitoLoppuu() );
+    ui->tilitaNappi->setEnabled( seuraavaLoppuu <= kp()->tilikaudet()->kirjanpitoLoppuu() );
 
-    kp()->asetukset()->aseta("AlvKausi", ui->kausiCombo->currentData().toInt());
-    kp()->asetukset()->aseta("AlvIlmoitus", ui->viimeisinEdit->date());
+    if( ui->viimeisinEdit->date() >= kp()->tilikaudet()->kirjanpitoAlkaa().addYears(-1) )
+    {
+        kp()->asetukset()->aseta("AlvKausi", ui->kausiCombo->currentData().toInt());
+        kp()->asetukset()->aseta("AlvIlmoitus", ui->viimeisinEdit->date());
+    }
 
 }
 
