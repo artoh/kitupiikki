@@ -468,7 +468,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
 
         model.json()->set("AlvTilitysAlkaa", alkupvm);
         model.json()->set("AlvTilitysPaattyy", loppupvm);
-        model.json()->set("MaksettavaAlv",  static_cast<qulonglong>( qAbs(maksettavavero) ) );
+        model.json()->set("MaksettavaAlv",  maksettavavero );
 
         QVariantMap aliMap; // Marginaaliveron alijäämät
         for(int i=0; i < marginaali.riveja(); i++)

@@ -39,12 +39,14 @@ public:
     void set(const QString& avain, const QDate& pvm);
     void set(const QString& avain, int arvo=1);
     void set(const QString& avain, qulonglong arvo );
+    void set(const QString& avain, qlonglong arvo);
     void unset(const QString &avain);
     void setVar(const QString& avain, const QVariant& arvo);
 
     QString str(const QString& avain);
     QDate date(const QString& avain);
     int luku(const QString& avain, int oletus = 0);
+    qlonglong pitkaluku(QString& avain);
     qulonglong isoluku(const QString& avain);
     QVariant variant(const QString& avain);
     QStringList avaimet() const { return map_.keys(); }

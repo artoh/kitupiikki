@@ -72,6 +72,15 @@ void JsonKentta::set(const QString &avain, qulonglong arvo)
     }
 }
 
+void JsonKentta::set(const QString &avain, qlonglong arvo)
+{
+    if( map_.value(avain).toLongLong() != arvo )
+    {
+        map_[avain] = QVariant(arvo);
+        muokattu_ = true;
+    }
+}
+
 void JsonKentta::unset(const QString &avain)
 {
     if( map_.contains(avain))
@@ -103,6 +112,11 @@ QDate JsonKentta::date(const QString &avain)
 int JsonKentta::luku(const QString &avain, int oletus)
 {
     return map_.value(avain, QString::number(oletus) ).toInt();
+}
+
+qlonglong JsonKentta::pitkaluku(QString &avain)
+{
+    return map_.value(avain).toLongLong();
 }
 
 qulonglong JsonKentta::isoluku(const QString &avain)
