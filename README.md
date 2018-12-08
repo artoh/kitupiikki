@@ -35,9 +35,9 @@ Linuxissa poppler on helppo asentaa järjestelmään:
 
     sudo apt-get install libpoppler-qt5-1 libpoppler-qt5-dev
 
-ja lizip
+ja libzip
 
-    sudo apt-get install libzip-devel
+    sudo apt-get install libzip-dev
 
 ## Kääntäminen
 
