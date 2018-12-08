@@ -247,7 +247,7 @@ A 1756 {"Taseerittely":3} Saamiset osakkailta ja omaisilta (veronalaiset)
 A 1757 {"Taseerittely":3} Muut lähipiirilainat
 A 1759 {"Taseerittely":3} Muut lainasaamiset
 H4 176 {"Asti":177} Muut saamiset
-AV 1761 {"Taseerittely":1} Verosaamiset
+AV 1761 {"Taseerittely":0} Verosaamiset
 AL 1763 {} Arvonlisäverosaamiset
 ALM 17631 {} Maksuperusteinen arvonlisäverosaaminen
 A 1764 {"Taseerittely":2} Anotut arvonlisäveropalautukset
