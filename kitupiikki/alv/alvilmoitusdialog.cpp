@@ -483,10 +483,20 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         {
             VientiRivi huojennusDebet;
             huojennusDebet.tili = kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA);
-            huojennusDebet.debetSnt = huojennus;
+            huojennusDebet.debetSnt = huojennus > maksettavavero ? maksettavavero : huojennus;
             huojennusDebet.pvm = loppupvm;
             huojennusDebet.selite = tr("Arvonlisäveron alarajahuojennus");
             ehdotus.lisaaVienti(huojennusDebet);
+
+            if( huojennus > maksettavavero )
+            {
+                VientiRivi huojennusDebet;
+                huojennusDebet.tili = kp()->tilit()->tiliTyypilla(TiliLaji::VEROSAATAVA);
+                huojennusDebet.debetSnt = huojennus - maksettavavero;
+                huojennusDebet.pvm = loppupvm;
+                huojennusDebet.selite = tr("Arvonlisäveron alarajahuojennus");
+                ehdotus.lisaaVienti(huojennusDebet);
+            }
 
             VientiRivi huojennusKredit;
             huojennusKredit.tili = kp()->tilit()->tiliNumerolla( kp()->asetukset()->luku("AlvHuojennusTili") );
