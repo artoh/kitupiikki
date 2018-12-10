@@ -24,7 +24,7 @@
   Kitupiikin versio määritellään tässä tiedostossa. Tiedosto voidaan myös generoida käännösaikaisesti.
 */
 
-#define KITUPIIKKI_VERSIO "1.2-devel"
+#define KITUPIIKKI_VERSIO "1.3-beta"
 #define KITUPIIKKI_BUILD ""
 
 #endif // VERSIO_H
