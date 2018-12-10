@@ -60,6 +60,7 @@ Beta-versiota voit käyttää toisen Kitupiikin version rinnalla. Windowsin beta
 
 !!! note ""
      <span class="fa fa-windows"></span> [Kitupiikki 1.3 BETA Windows suoritettava ohjelma (14 MB)](https://github.com/artoh/kitupiikki/releases/download/1.3-beta/kitupiikki-1.3-beta.exe) <i class="fa fa-briefcase"></i> Käynnistettävissä ilman asennusta esim. USB-muistilta.
+     
     <span class="fa fa-linux"></span> [Kitupiikki 1.3 BETA Linux AppImage (34 MB)](https://github.com/artoh/kitupiikki/releases/download/1.3-beta/Kitupiikki-1.3-beta-x86_64.AppImage)
 
 
