@@ -363,7 +363,7 @@ void KirjausWg::tallenna()
 void KirjausWg::hylkaa()
 {
     tyhjenna();
-    ui->tositetyyppiCombo->setCurrentIndex(0);
+    ui->tositetyyppiCombo->setCurrentIndex(1);
     emit tositeKasitelty();
 }
 
