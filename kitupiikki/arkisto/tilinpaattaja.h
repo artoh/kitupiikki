@@ -40,7 +40,7 @@ class TilinPaattaja : public QDialog
     Q_OBJECT
 
 public:
-    explicit TilinPaattaja(Tilikausi kausi, ArkistoSivu* arkisto, QWidget *parent = 0);
+    explicit TilinPaattaja(Tilikausi kausi, ArkistoSivu* arkisto, QWidget *parent = nullptr);
     ~TilinPaattaja();
 
 public slots:

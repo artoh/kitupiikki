@@ -92,7 +92,11 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( ui->laskuNappi, SIGNAL(clicked(bool)), this, SLOT(kirjaaLaskunmaksu()));
     connect( ui->siiraNumerotBtn, SIGNAL(clicked(bool)), this, SLOT(numeroSiirto()));
 
-    ui->tositetyyppiCombo->setModel( Kirjanpito::db()->tositelajit());
+    tyyppiProxy_ = new QSortFilterProxyModel(this);
+    tyyppiProxy_->setSourceModel( kp()->tositelajit() );
+    tyyppiProxy_->setSortRole(TositelajiModel::NimiRooli);
+    tyyppiProxy_->setFilterRole(TositelajiModel::IdRooli);
+    ui->tositetyyppiCombo->setModel( tyyppiProxy_ );
     ui->tositetyyppiCombo->setModelColumn( TositelajiModel::NIMI);    
 
     connect( ui->tilioteBox, &QCheckBox::stateChanged, this, &KirjausWg::paivitaTilioteIcon);
@@ -256,11 +260,8 @@ void KirjausWg::tyhjenna()
     naytaSummat();
     ui->tabWidget->setCurrentIndex(0);
 
-    if( ui->tositetyyppiCombo->currentData(TositelajiModel::IdRooli).toInt() == 0)
-    {
-        // Ei oletuksena järjestelmätositetta
-        ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( 1, TositelajiModel::IdRooli) );
-    }
+    tyyppiProxy_->setFilterRegExp("[1-9].*");
+
 
 }
 
@@ -363,7 +364,6 @@ void KirjausWg::tallenna()
 void KirjausWg::hylkaa()
 {
     tyhjenna();
-    ui->tositetyyppiCombo->setCurrentIndex(1);
     emit tositeKasitelty();
 }
 
@@ -861,6 +861,13 @@ void KirjausWg::tiedotModelista()
     ui->otsikkoEdit->setText( model_->otsikko() );
     ui->kommentitEdit->setPlainText( model_->kommentti());
     ui->tunnisteEdit->setText( QString::number(model_->tunniste()));
+
+    if( model_->tositelaji().id())
+        tyyppiProxy_->setFilterRegExp("[1-9].*");
+    else
+        tyyppiProxy_->setFilterRegExp("0");
+
+
     ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( model_->tositelaji().id(), TositelajiModel::IdRooli ) );
     ui->kausiLabel->setText(QString("/ %1").arg( kp()->tilikaudet()->tilikausiPaivalle(model_->pvm()).kausitunnus() ));
 

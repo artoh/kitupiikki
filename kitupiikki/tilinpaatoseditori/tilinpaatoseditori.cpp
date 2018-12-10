@@ -20,6 +20,7 @@
 #include <QRegularExpressionMatch>
 #include <QMessageBox>
 #include <QCloseEvent>
+#include <QSqlQuery>
 
 #include "tilinpaatoseditori.h"
 #include "tilinpaatostulostaja.h"
@@ -137,9 +138,9 @@ void TilinpaatosEditori::uusiTp()
             if( rivi == "@sha@")
                 teksti.append( tilikausi_.json()->str("ArkistoSHA"));
             else if( rivi == "@henkilosto@")
-            {
                 teksti.append( henkilostotaulukko());
-            }
+            else if( rivi == "@tositelajit@")
+                teksti.append( tositelajitaulukko() );
             else
             {
                 QRegularExpressionMatch rmats = raporttiRe.match(rivi);
@@ -212,6 +213,25 @@ QString TilinpaatosEditori::henkilostotaulukko()
     if( verrokki.alkaa().isValid())
         txt.append( QString("<td align=center>%1</td>").arg(verrokki.henkilosto()));
     txt.append("</tr></table>");
+    return txt;
+}
+
+QString TilinpaatosEditori::tositelajitaulukko()
+{
+    QString kysymys = QString("select tositelaji.nimi, count(tosite.id)  from tosite, tositelaji where tosite.pvm between '%1' and '%21' and  tosite.laji=tositelaji.id group by tositelaji.id order by tositelaji.nimi")
+            .arg( tilikausi_.alkaa().toString(Qt::ISODate) )
+            .arg( tilikausi_.paattyy().toString(Qt::ISODate));
+
+
+    QString txt = tr("<table>");
+    QSqlQuery kysely(kysymys);
+    while(kysely.next())
+    {
+        txt.append( QString("<tr><td>%1 &nbsp;</td><td align=right>%2 kpl</td></tr>")
+                    .arg(kysely.value(0).toString())
+                    .arg(kysely.value(1).toInt()));
+    }
+    txt.append("</table>");
     return txt;
 }
 

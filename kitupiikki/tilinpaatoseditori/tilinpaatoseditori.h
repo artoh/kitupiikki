@@ -72,6 +72,12 @@ protected:
      */
     QString henkilostotaulukko();
 
+    /**
+     * @brief Taulukko, jossa käytetyt tositelajit ja kappalemäärät
+     * @return
+     */
+    QString tositelajitaulukko();
+
 protected:
     MRichTextEdit *editori_;
     Tilikausi tilikausi_;

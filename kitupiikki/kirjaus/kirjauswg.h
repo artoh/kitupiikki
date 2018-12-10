@@ -19,6 +19,7 @@
 #define KIRJAUSWG_H
 
 #include <QWidget>
+#include <QSortFilterProxyModel>
 
 #include "ui_kirjaus.h"
 #include "naytaliitewg.h"
@@ -224,6 +225,7 @@ protected:
     QAction *tyhjennaViennitAktio_;
 
     QSqlQueryModel *taydennysSql_;
+    QSortFilterProxyModel *tyyppiProxy_;
 
 
 };

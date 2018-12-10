@@ -209,6 +209,7 @@ public slots:
     void asetaAsiakkaanViite(const QString& viite) { if(asiakkaanViite() != viite) muokattu_ = true; asiakkaanViite_ = viite;}
     void asetaVerkkolaskuOsoite(const QString& osoite) { if(verkkolaskuOsoite() != osoite) muokattu_ = true; verkkolaskuOsoite_ = osoite;}
     void asetaVerkkolaskuValittaja(const QString& valittaja) { if(verkkolaskuValittaja() != valittaja) muokattu_=true; verkkolaskuValittaja_ = valittaja;}
+    void asetaKieli(const QString& kieli) { kieli_ = kieli; }
 
 public:
 
@@ -216,7 +217,7 @@ public:
      * @brief Tallentaa tämän laskun, jonka jälkeen model pitäisi unohtaa
      * @return
      */
-    bool tallenna(Tili rahatili, const QString& kieli = QString());
+    bool tallenna(Tili rahatili);
 
     /**
      * @brief Laskee viitenumeron tarkasteluvun
@@ -235,6 +236,13 @@ public:
 
 
     bool muokattu() const  { return muokattu_; }
+
+    /**
+     * @brief Palauttaa tekstin nykyisellä kielellä
+     * @param avain Tekstin hakutunnus
+     * @return Näytettävä teksti
+     */
+    QString t(const QString &avain) const;
 
 public slots:
     void lisaaRivi(LaskuRivi rivi = LaskuRivi());
@@ -270,6 +278,7 @@ private:
 
     LaskuRyhmaModel* ryhma_ = nullptr;
 
+    QMap<QString,QString> tekstit_;
 
     void paivitaSumma(int rivi);
 };

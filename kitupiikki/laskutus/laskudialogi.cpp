@@ -138,7 +138,7 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
 
     connect( model, &LaskuModel::summaMuuttunut, this, &LaskuDialogi::paivitaSumma);
     connect( ui->perusteCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(perusteVaihtuu()));
-    connect( ui->kieliCombo, &QComboBox::currentTextChanged, [this]() { this->tulostaja->asetaKieli( this->ui->kieliCombo->currentData().toString()); } );
+    connect( ui->kieliCombo, &QComboBox::currentTextChanged, [this]() { this->model->asetaKieli( this->ui->kieliCombo->currentData().toString()); } );
 
     ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( model->kieli() ) );
 
@@ -454,7 +454,7 @@ void LaskuDialogi::accept()
 
     int rahatilinro = ui->rahaTiliEdit->valittuTilinumero();
 
-    if( model->tallenna(kp()->tilit()->tiliNumerolla( rahatilinro ), ui->kieliCombo->currentData().toString() ) )
+    if( model->tallenna(kp()->tilit()->tiliNumerolla( rahatilinro )) )
         QDialog::accept();
     else
         QMessageBox::critical(this, tr("Virhe laskun tallentamisessa"), tr("Laskun tallentaminen epäonnistui"));
@@ -549,8 +549,18 @@ void LaskuDialogi::lahetaSahkopostilla()
     QString kenelle = QString("=?utf-8?Q?%1?= <%2>").arg( ui->saajaEdit->text() )
                                             .arg(ui->emailEdit->text() );
 
-    smtp->lahetaLiitteella(kenelta, kenelle, tr("Lasku %1 - %2").arg( model->viitenumero() ).arg( kp()->asetukset()->asetus("Nimi") ),
+    smtp->lahetaLiitteella(kenelta, kenelle, tr("%3 %1 - %2").arg( model->viitenumero() ).arg( kp()->asetukset()->asetus("Nimi").arg(model->t("laskuotsikko")) ),
                            tulostaja->html(), tr("lasku%1.pdf").arg( model->viitenumero()), tulostaja->pdf(false));
+
+
+    if( kp()->asetukset()->onko("EmailKopio") )
+    {
+        // Lähetä kopio myös itsellesi
+        Smtp *kopioSmtp = new Smtp( kp()->settings()->value("SmtpUser").toString(), kp()->settings()->value("SmtpPassword").toString(),
+                         kp()->settings()->value("SmtpServer").toString(), kp()->settings()->value("SmtpPort", 465).toInt() );
+        kopioSmtp->lahetaLiitteella(kenelta, kenelta, tr("Kopio: Lasku %1 - %2").arg( model->viitenumero() ).arg( kp()->asetukset()->asetus("Nimi") ),
+                               tulostaja->html(), tr("lasku%1.pdf").arg( model->viitenumero()), tulostaja->pdf(false));
+    }
 
 }
 
@@ -579,8 +589,17 @@ void LaskuDialogi::lahetaRyhmanSeuraava(const QString &viesti)
         QString kenelle = QString("=?utf-8?Q?%1?= <%2>").arg( model->laskunsaajanNimi() )
                                                 .arg(model->email() );
 
-        smtp->lahetaLiitteella(kenelta, kenelle, tr("Lasku %1 - %2").arg( model->viitenumero() ).arg( kp()->asetukset()->asetus("Nimi") ),
+        smtp->lahetaLiitteella(kenelta, kenelle, tr("%3 %1 - %2").arg( model->viitenumero() ).arg( kp()->asetukset()->asetus("Nimi").arg(model->t("laskuotsikko")) ),
                                tulostaja->html(), tr("lasku%1.pdf").arg( model->viitenumero()), tulostaja->pdf(false));
+
+        if( kp()->asetukset()->onko("EmailKopio") )
+        {
+            // Lähetä kopio myös itsellesi
+            Smtp *kopioSmtp = new Smtp( kp()->settings()->value("SmtpUser").toString(), kp()->settings()->value("SmtpPassword").toString(),
+                             kp()->settings()->value("SmtpServer").toString(), kp()->settings()->value("SmtpPort", 465).toInt() );
+            kopioSmtp->lahetaLiitteella(kenelta, kenelta, tr("Kopio: Lasku %1 - %2").arg( model->viitenumero() ).arg( kp()->asetukset()->asetus("Nimi") ),
+                                   tulostaja->html(), tr("lasku%1.pdf").arg( model->viitenumero()), tulostaja->pdf(false));
+        }
 
     }
 }
@@ -589,8 +608,8 @@ void LaskuDialogi::smtpViesti(const QString &viesti)
 {
     ui->onniLabel->setText( viesti );
 
-    if( viesti == tr( "Sähköposti lähetetty" ) )
-        ui->onniLabel->setStyleSheet("color: green;");
+    if( viesti == tr( "Sähköposti lähetetty" ) )    
+        ui->onniLabel->setStyleSheet("color: green;");        
     else if(viesti == tr( "Sähköpostin lähetys epäonnistui" )  )
         ui->onniLabel->setStyleSheet("color: red;");
     else

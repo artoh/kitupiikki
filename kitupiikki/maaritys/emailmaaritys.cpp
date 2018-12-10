@@ -38,6 +38,7 @@ EmailMaaritys::EmailMaaritys() :
 
     connect( ui->emailEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
     connect( ui->nimiEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
+    connect( ui->kopioBox, &QCheckBox::clicked, this, &EmailMaaritys::ilmoitaMuokattu);
 
     connect( ui->kokeileNappi, SIGNAL(clicked(bool)), this, SLOT(kokeile()));
 }
@@ -76,6 +77,7 @@ bool EmailMaaritys::nollaa()
     ui->salasanaEdit->setEnabled( ssltuki );
 
     ui->porttiSpin->setValue( kp()->settings()->value("SmtpPort", QSslSocket::supportsSsl() ? 465 : 25 ).toInt());
+    ui->kopioBox->setChecked( kp()->asetukset()->onko("EmailKopio") );
 
     return true;
 }
@@ -89,6 +91,7 @@ bool EmailMaaritys::tallenna()
 
     kp()->asetukset()->aseta("EmailNimi", ui->nimiEdit->text());
     kp()->asetukset()->aseta("EmailOsoite", ui->emailEdit->text());
+    kp()->asetukset()->aseta("EmailKopio", ui->kopioBox->isChecked());
 
     return true;
 }
@@ -101,7 +104,8 @@ bool EmailMaaritys::onkoMuokattu()
             kp()->settings()->value("SmtpUser").toString() != ui->kayttajaEdit->text() ||
             kp()->settings()->value("SmtpPassword").toString() != ui->salasanaEdit->text() ||
             kp()->asetukset()->asetus("EmailNimi") != ui->nimiEdit->text() ||
-            kp()->asetukset()->asetus("EmailOsoite") != ui->emailEdit->text();
+            kp()->asetukset()->asetus("EmailOsoite") != ui->emailEdit->text() ||
+            kp()->asetukset()->onko("EmailKopio") != ui->kopioBox->isChecked();
 }
 
 void EmailMaaritys::ilmoitaMuokattu()

@@ -32,37 +32,10 @@
 #include "erittelyruudukko.h"
 
 
-LaskunTulostaja::LaskunTulostaja(LaskuModel *model, const QString &kieli) : QObject(model), model_(model), kieli_(kieli)
+LaskunTulostaja::LaskunTulostaja(LaskuModel *model) : QObject(model), model_(model)
 {
     // Hakee laskulle tulostuvan IBAN-numeron
     iban = kp()->tilit()->tiliNumerolla( kp()->asetukset()->luku("LaskuTili")).json()->str("IBAN");
-
-    // Hakee tekstit
-    QFile tiedosto(":/lasku/laskutekstit.txt");
-    tiedosto.open(QIODevice::ReadOnly);
-
-    QTextStream in( &tiedosto );
-    in.setCodec("utf-8");
-    while( !in.atEnd() )
-    {
-        QString rivi = in.readLine();
-        rivi.replace('|','\n');
-        int valinpaikka = rivi.indexOf(' ');
-        if( valinpaikka )
-            tekstit_.insert( rivi.left(valinpaikka), rivi.mid(valinpaikka + 1));
-    }
-
-    // Vielä muokatut asetuksista
-    // Näin voidaan määritellä muokatut tekstit eri kirjanpidoille
-
-    QStringList muokatut = kp()->asetukset()->lista("LaskuTekstit");
-    for( QString rivi : muokatut)
-    {
-        int valinpaikka = rivi.indexOf(' ');
-        if( valinpaikka )
-            tekstit_[ rivi.left(valinpaikka)] = rivi.mid(valinpaikka + 1);
-    }
-
 }
 
 bool LaskunTulostaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, bool kaytaIkkunakuorta)
@@ -309,18 +282,9 @@ QString LaskunTulostaja::muotoiltuViite() const
         return valeilla(model_->viitenumero());
 }
 
-void LaskunTulostaja::asetaKieli(const QString &kieli)
-{
-    kieli_ = kieli;
-}
-
 QString LaskunTulostaja::t(const QString &avain) const
 {
-    // Ensisijaisesti palautetaan nykyisellä kielellä
-    if( tekstit_.contains( kieli_ + avain ))
-        return  tekstit_.value( kieli_ + avain );
-    // Ellei ole käännöstä nykyiselle kielelle, palautetaan oletusteksti (suomea)
-    return tekstit_.value( avain, avain );
+    return model_->t(avain);
 }
 
 QString LaskunTulostaja::veroteksti(int verokoodi) const
@@ -497,9 +461,9 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter,
         else
             painter->drawText(QRectF( keskiviiva + mm, pv - rk * 2, (leveys -keskiviiva)/2, rk-mm ), Qt::AlignBottom,  t("laskuotsikko") );
 
-        if( model_->laskunSumma() > 0.0 )  // Näytetään eräpäivä vain jos on maksettavaa
+        if( model_->laskunSumma() > 0.0 &&  kp()->asetukset()->asetus("LaskuViivastyskorko").toDouble() > 1e-5 )  // Näytetään eräpäivä vain jos on maksettavaa
         {
-            painter->drawText(QRectF( puoliviiva + mm, pv + rk, (leveys-keskiviiva) / 2, rk-mm ), Qt::AlignBottom,  kp()->asetus("LaskuViivastyskorko") );
+            painter->drawText(QRectF( puoliviiva + mm, pv + rk, (leveys-keskiviiva) / 2, rk-mm ), Qt::AlignBottom,  QString("%L1 %").arg(kp()->asetus("LaskuViivastyskorko").toDouble(),0,'g',2) );
         }
     }
     painter->drawText(QRectF( keskiviiva + mm, pv + rk, (leveys-keskiviiva) / 2, rk-mm ), Qt::AlignBottom,  kp()->asetus("LaskuHuomautusaika") );

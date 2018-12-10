@@ -146,6 +146,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="kopioBox">
+     <property name="text">
+      <string>Kopio sähköposteista omaan osoitteeseen</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLabel" name="tulosLabel">

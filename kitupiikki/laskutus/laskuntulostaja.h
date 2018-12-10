@@ -46,13 +46,12 @@ class LaskunTulostaja : public QObject
 {
     Q_OBJECT
 public:
-    explicit LaskunTulostaja(LaskuModel *model, const QString& kieli="FI");
+    explicit LaskunTulostaja(LaskuModel *model);
 
 signals:
 
 public slots:
     bool tulosta(QPagedPaintDevice *printer, QPainter *painter, bool kaytaIkkunakuorta = true);
-    void asetaKieli(const QString& kieli="FI");
 
 public:
     QByteArray pdf(bool kaytaIkkunakuorta=true);
@@ -113,8 +112,6 @@ protected:
 private:
     LaskuModel *model_;
 
-    QString kieli_;
-    QMap<QString,QString> tekstit_;
 };
 
 #endif // LASKUNTULOSTAJA_H

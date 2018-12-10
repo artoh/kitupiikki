@@ -48,7 +48,7 @@ void KaavanKorostin::highlightBlock(const QString &text)
     }
     else if( text.startsWith("@"))
     {
-        if( text == "@sha@" || text == "@henkilosto@")
+        if( text == "@sha@" || text == "@henkilosto@" || text == "@tositelajit@")
             setFormat(0, text.length(), QColor(Qt::green));
         else if( raporttiRe.match(text).hasMatch() )
             setFormat(0, text.length(), QColor(Qt::green));

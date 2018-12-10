@@ -30,7 +30,7 @@ class EmailMaaritys : public MaaritysWidget
     Q_OBJECT
 public:
     EmailMaaritys();
-    ~EmailMaaritys();
+    ~EmailMaaritys() override;
 
 public:
     bool nollaa() override;

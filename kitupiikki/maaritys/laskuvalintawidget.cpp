@@ -44,7 +44,7 @@ LaskuValintaWidget::LaskuValintaWidget()
     connect(ui->kateistiliEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
     connect(ui->maksuaikaSpin, SIGNAL(valueChanged(int)), this, SLOT(ilmoitaMuokattu()));
     connect(ui->huomautusaikaEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
-    connect(ui->viivastyskorkoEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
+    connect(ui->viivkorkoSpin, SIGNAL(valueChanged(double)) , this, SLOT(ilmoitaMuokattu()) );
     connect(ui->seuraavaLasku, SIGNAL(valueChanged(int)), this, SLOT(ilmoitaMuokattu()));
     connect(ui->tiliCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(ilmoitaMuokattu()));
     connect(ui->tiliCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(tiliIlmoitus()));
@@ -78,7 +78,7 @@ bool LaskuValintaWidget::nollaa()
     ui->kateistiliEdit->valitseTiliNumerolla( kp()->asetukset()->luku("LaskuKateistili"));
     ui->maksuaikaSpin->setValue( kp()->asetukset()->luku("LaskuMaksuaika", 14) );
     ui->huomautusaikaEdit->setText( kp()->asetus("LaskuHuomautusaika"));
-    ui->viivastyskorkoEdit->setText( kp()->asetus("LaskuViivastyskorko"));
+    ui->viivkorkoSpin->setValue(kp()->asetukset()->asetus("LaskuViivastyskorko").toDouble());
     ui->seuraavaLasku->setValue( kp()->asetukset()->luku("LaskuSeuraavaId", 1000));
 
     ui->viivakoodiCheck->setChecked( !kp()->asetukset()->onko("LaskuEiViivakoodi") );
@@ -122,7 +122,7 @@ bool LaskuValintaWidget::tallenna()
     kp()->asetukset()->aseta("LaskuKateistili", ui->kateistiliEdit->valittuTilinumero());
     kp()->asetukset()->aseta("LaskuMaksuaika", ui->maksuaikaSpin->value());
     kp()->asetukset()->aseta("LaskuHuomautusaika", ui->huomautusaikaEdit->text());
-    kp()->asetukset()->aseta("LaskuViivastyskorko", ui->viivastyskorkoEdit->text());
+    kp()->asetukset()->aseta("LaskuViivastyskorko", QString::number(ui->viivkorkoSpin->value()) );
     kp()->asetukset()->aseta("LaskuSeuraavaId", ui->seuraavaLasku->value());
     kp()->asetukset()->aseta("LaskuTili", ui->tiliCombo->currentData().toInt() );
     kp()->asetukset()->aseta("LaskuEiViivakoodi", !ui->viivakoodiCheck->isChecked());
@@ -155,7 +155,7 @@ bool LaskuValintaWidget::onkoMuokattu()
             ui->kateistiliEdit->valittuTilinumero() != kp()->asetukset()->luku("LaskuKateistili") ||
             ui->maksuaikaSpin->value() != kp()->asetukset()->luku("LaskuMaksuaika") ||
             ui->huomautusaikaEdit->text() != kp()->asetukset()->asetus("LaskuHuomautusaika") ||
-            ui->viivastyskorkoEdit->text() != kp()->asetukset()->asetus("LaskuViivastyskorko") ||
+            qAbs(ui->viivkorkoSpin->value() - kp()->asetukset()->asetus("LaskuViivastyskorko").toDouble()) > 1e-5 ||
             ui->seuraavaLasku->value() != kp()->asetukset()->luku("LaskuSeuraavaId") ||
             ui->viivakoodiCheck->isChecked() == kp()->asetukset()->onko("LaskuEiViivakoodi") ||
             ui->ikkunaKuori->isChecked() != kp()->asetukset()->onko("LaskuIkkuna") ||
