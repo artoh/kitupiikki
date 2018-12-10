@@ -108,8 +108,8 @@ void LaskunMaksuDialogi::kirjaa()
 
     VientiRivi rahaRivi;
     rahaRivi.pvm = ui->pvmEdit->date();
-    rahaRivi.debetSnt = ostolasku ? 0 : int( ui->euroSpin->value() * 100 );
-    rahaRivi.kreditSnt = ostolasku ? int( ui->euroSpin->value() * 100 ) : 0;
+    rahaRivi.debetSnt = ostolasku ? 0 : qRound( ui->euroSpin->value() * 100 );
+    rahaRivi.kreditSnt = ostolasku ? qRound( ui->euroSpin->value() * 100 ) : 0;
     rahaRivi.selite = selite;
     rahaRivi.tili = kp()->tilit()->tiliNumerolla( ui->tiliEdit->valittuTilinumero() );
 
