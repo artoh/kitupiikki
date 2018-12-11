@@ -17,6 +17,8 @@ Kitupiikissä ei ole koneellista tietojen siirtoa. Tarkista Kitupiikin laatima v
 
 Erittely, jossa kirjauksia voi seurata aina tositteisiin saakka, avautuu alv-sivun **Näytä erittely**-napista. Se tallentuu myös liitteeksi alv-tilitysvientiin ja siten myös sähköiseen arkistoon.
 
+## Arvonlisäveron erittely
+
 ![](erittely.png)
 
 !!! tip "Arvonlisäverolaskelma kesken kauden"

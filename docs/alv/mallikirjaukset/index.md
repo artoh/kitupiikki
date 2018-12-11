@@ -36,9 +36,9 @@ Alv-lajia **Veroton** käytetään verottomaan myyntiin (esim. terveydenhuoltopa
 
 Alv-lajia **Veroton** käytetään kaikkiin ostoihin, joista ei voi tehdä alv-vähennystä.
 
-## Marginaaliverotusmenettely <span class=ver>1.3<span class=selite>Kitupiikin versiosta 1.3 lähtien</span></span>
+## Marginaaliverotusmenettely
 
-[Marginaaliverotusmenettelyssä](https://www.vero.fi/syventavat-vero-ohjeet/ohje-hakusivu/48682/k%C3%A4ytettyjen-tavaroiden-sek%C3%A4-taide--ker%C3%A4ily--ja-antiikkiesineiden-marginaaliverotusmenettely/) vero maksetaan ainoastaan voittomarginaalista. Kitupiikki tukee Verohallinnon ohjeessa kuvattua yksinkertaistettua menettelyä.
+[Marginaaliverotusmenettelyssä](https://www.vero.fi/syventavat-vero-ohjeet/ohje-hakusivu/48682/k%C3%A4ytettyjen-tavaroiden-sek%C3%A4-taide--ker%C3%A4ily--ja-antiikkiesineiden-marginaaliverotusmenettely/) vero maksetaan ainoastaan voittomarginaalista. Kitupiikki tukee Verohallinnon ohjeessa kuvattua yksinkertaistettua menettelyä.<span class=ver>1.3<span class=selite>Kitupiikin versiosta 1.3 lähtien</span></span>
 
 ![](marginaaliosto.png)
 

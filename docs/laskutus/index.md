@@ -2,7 +2,7 @@
 
 **Laskut**-välilehdellä voit selata laskuja sekä tehdä uusia. Voit tarkistella laskuja myös asiakkaiden ja toimittajien mukaan (myynti- ja ostoreskontra.)
 
-!!! note "Ostoreskontra perustuu ostovelakirjauksiin"
+!!! note "Ostoreskontra perustuu ostovelkakirjauksiin"
     Ostolaskuista näkyvät vain velaksi tehdyt ostolaskukirjaukset - ei siis suoraan käteis- tai pankkitililtä kirjattuja.
 
 Ylälaidassa valitset näytettäväksi *Myyntilaskut* tai *ostolaskut* taikka tarkastella laskuja *asiakkaiden* tai *toimittajien* mukaan.
@@ -24,6 +24,7 @@ tunnus     | Nimi   | Selitys
 * **Näytä**-painike avaa nähtäväksi valitsemasi laskun
 * **Muokkaa**-painikkella pääset muokkaamaan jo tehtyä laskua. Jo asiakkaalle toimitettua laskua ei pääsääntöisesti kuitenkaan pitäisi enää muokata, vaan lähettää hyvityslasku.
 * **Tosite** avaa laskuun liittyvän kirjanpitotositteen
+* **Kopioi** tekee uuden laskun vanhan laskun pohjalta. Toimintoa voit käyttää esimerkiksi sopimuksen kausilaskutuksessa.
 * **Poista** poistaa laskun.
 * **Hyvityslasku** laatii laskulle hyvityslaskun.
 * **Maksumuistutus** (näkyvissä vain, jos lasku erääntynyt) laatii maksumuistuksen

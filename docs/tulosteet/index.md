@@ -81,7 +81,7 @@ Myyntiraportissa luetellaan Kitupiikin myyntilaskutuksella laskutetut tuotteet, 
 
 ## Arvonlisäveron erittely
 
-Voit tulostaa [arvonlisäverolaskelman erittelyn](/alv/#arvonlisaverolaskelma) myös kesken verokauden.
+Voit tulostaa [arvonlisäverolaskelman erittelyn](/alv/tilitys/#arvonlisaveron-erittely) myös kesken verokauden.
 
 ## Muut raportit
 

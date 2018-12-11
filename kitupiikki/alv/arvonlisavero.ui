@@ -52,6 +52,9 @@
           </item>
           <item row="1" column="1">
            <widget class="QDateEdit" name="viimeisinEdit">
+            <property name="readOnly">
+             <bool>false</bool>
+            </property>
             <property name="calendarPopup">
              <bool>true</bool>
             </property>

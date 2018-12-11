@@ -25,3 +25,5 @@ Jos maksuperusteisesta arvonlisäverotuksesta siirrytään takaisin suoriteperus
 
 !!! note "Tutustu huolella verohallinnon ohjeisiin"
     Ennen maksuperusteiseen arvonlisäverotukseen siirtymistä tutustu huolella verohallinnon ohjeisiin. Huomaa, että myös alv-vähennykset tilitetään maksuperusteisesti (myös osamaksua käytettäessä).
+
+Maksuperusteista arvonlisäveroa käytettäessä et voi käyttää Kitupiikissä automaattista **marginaaliverotusmenettelyä**, vaan voittomarginaali on kirjattava käsin.

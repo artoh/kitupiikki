@@ -79,7 +79,7 @@ pages:
     - Ryhmälasku : 'laskutus/ryhma/index.md'
   - Tulosteet: 'tulosteet/index.md'
   - Arvonlisävero: 
-    - Arvolisävero Kitupiikissä: 'alv/index.md'
+    - Arvolisävero: 'alv/index.md'
     - Mallikirjaukset: 'alv/mallikirjaukset/index.md'
     - Alv-ilmoitus: 'alv/tilitys/index.md'
     - Maksuperusteinen alv: 'alv/maksuperusteinen/index.md'

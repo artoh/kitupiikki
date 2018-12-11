@@ -1,7 +1,7 @@
 
  ![](images/ui.png)
 
-Kitupiikin käyttöliittymä muodostuu seitsemästä välilehdestä.
+Kitupiikin käyttöliittymä muodostuu kahdeksasta välilehdestä.
 
 **Aloituksessa** näet vinkkejä ajankohtaisista tehtävistä sekä tilien saldot. Tilien numerot ovat linkkejä, joista pääset suoraan selaamaan kirjauksia. Välilehdeltä pääset myös avaamaan toisen kirjanpidon tai aloittamaan uuden. **Varmuuskopioi**-napilla saat tallennettua varmuuskopion nykyisestä kirjanpidostasi. **Muistiinpanot**-napilla voit muokata aloitussivulla näkyviä omia muistiinpanoja.
 
@@ -14,6 +14,10 @@ Kitupiikin käyttöliittymä muodostuu seitsemästä välilehdestä.
 **Tulosteet**-välilehdellä pääset katselemaan ja tulostamaan mm. pääkirjan, päiväkirjan, tositeluettelot, tililuettelon, tuloslaskelman ja taseen. Kaikki tulosteet voi tallentaa myös tiedostoksi.
 
 **Tilikaudet**-välilehdellä tehdään tilinpäätös, aloitetaan uusi tilikausi sekä muodostetaan tilikauden sähköinen arkisto.
+
+**ALV**-välilehdellä tehdään arvonlisäveroilmoitus, selataan vanhoja ilmoituksia sekä tehdään arvonlisäveroon liittyvät valinnat. Välilehti on näkyvissä vain, jos yritys on arvonlisäverovelvollinen.
+
+**Määritykset**-välilehdellä on monta ruudullista erilaisia valintoja.
 
 **Käsikirja**-painike käynnistää internet-selaimella tämän ohjesivuston.
 
