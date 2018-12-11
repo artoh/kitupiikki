@@ -127,7 +127,7 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
         otsikko.lisaa("Debet €", 1, true);
         otsikko.lisaa("Kredit €", 1, true);
         otsikko.lisaa("Alv%", 1, true);
-        otsikko.lisaa("AlvKoodi", 1, true);
+        otsikko.lisaa("Alvkoodi", 1, true);
         kirjoittaja.lisaaOtsake(otsikko);
 
     }
