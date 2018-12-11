@@ -60,7 +60,9 @@ public:
         ARKISTOTUNNUS,
         KOHDENNUS,
         TILINIMI,
-        BRUTTOALVP
+        BRUTTOALVP,
+        ALVPROSENTTI,
+        ALVKOODI
     };
 
     enum { TyyppiRooli = Qt::UserRole + 1};

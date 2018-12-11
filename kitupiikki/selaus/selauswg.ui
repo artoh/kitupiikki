@@ -38,7 +38,7 @@
      <item>
       <widget class="QDateEdit" name="alkuEdit">
        <property name="calendarPopup">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -52,7 +52,7 @@
      <item>
       <widget class="QDateEdit" name="loppuEdit">
        <property name="calendarPopup">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
       </widget>
      </item>

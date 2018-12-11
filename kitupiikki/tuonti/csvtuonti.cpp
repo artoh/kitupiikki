@@ -233,9 +233,13 @@ bool CsvTuonti::tuo(const QByteArray &data)
                     }
                     else if( tuonti == KOHDENNUS)
                         rivi.kohdennus = kp()->kohdennukset()->kohdennus(tieto);
-                    else if( tuonti == BRUTTOALVP && sentit )
+                    else if( (tuonti == BRUTTOALVP || tuonti == ALVPROSENTTI) && sentit )
                     {
                         rivi.alvprosentti =  static_cast<int>(  sentit / 100 );
+                    }
+                    else if( tuonti == ALVKOODI && sentit)
+                    {
+                        rivi.alvkoodi = static_cast<int>(sentit / 100);
                     }
                 }
 
@@ -244,7 +248,7 @@ bool CsvTuonti::tuo(const QByteArray &data)
                 else
                     rivi.selite = selite;
 
-                if( rivi.alvprosentti )
+                if( rivi.alvprosentti && !rivi.alvkoodi)
                 {
                     if( rivi.debetSnt )
                         rivi.alvkoodi = AlvKoodi::OSTOT_BRUTTO;
@@ -581,6 +585,10 @@ void CsvTuonti::paivitaOletukset()
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, BRUTTOALVP);
             else if( otsikko=="yhteensä")
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, RAHAMAARA);
+            else if( otsikko=="alv%")
+                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, ALVPROSENTTI);
+            else if( otsikko=="alvkoodi")
+                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, ALVKOODI);
             else
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, EITUODA);
         }

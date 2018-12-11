@@ -78,7 +78,11 @@ pages:
     - Maksumuistutukset: 'laskutus/muistutus/index.md'
     - Ryhmälasku : 'laskutus/ryhma/index.md'
   - Tulosteet: 'tulosteet/index.md'
-  - Arvonlisävero: 'alv/index.md'
+  - Arvonlisävero: 
+    - Arvolisävero Kitupiikissä: 'alv/index.md'
+    - Mallikirjaukset: 'alv/mallikirjaukset/index.md'
+    - Alv-ilmoitus: 'alv/tilitys/index.md'
+    - Maksuperusteinen alv: 'alv/maksuperusteinen/index.md'
   - Tilikaudet ja tilinpäätös:
     - Tilikaudet : 'tilikaudet/tilikaudet/index.md'
     - Tilinpäätös: 'tilikaudet/tilinpaatos/index.md'

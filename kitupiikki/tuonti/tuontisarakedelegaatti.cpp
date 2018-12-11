@@ -48,6 +48,8 @@ QWidget *TuontiSarakeDelegaatti::createEditor(QWidget *parent, const QStyleOptio
     else if( tuokirjauksia_ && ( tyyppi == CsvTuonti::LUKU || tyyppi == CsvTuonti::LUKUTEKSTI))
     {
         combo->addItem(tr("Tilin numero"), CsvTuonti::TILINUMERO);
+        combo->addItem(tr("Arvonlisävero%"), CsvTuonti::ALVPROSENTTI);
+        combo->addItem(tr("Arvonlisäverokoodi"), CsvTuonti::ALVKOODI);
     }
     else if( tuokirjauksia_ &&  tyyppi == CsvTuonti::RAHA)
     {

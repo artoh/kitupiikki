@@ -51,7 +51,11 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QDateEdit" name="viimeisinEdit"/>
+           <widget class="QDateEdit" name="viimeisinEdit">
+            <property name="calendarPopup">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
           <item row="2" column="0">
            <widget class="QLabel" name="label_4">
