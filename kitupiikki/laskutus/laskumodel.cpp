@@ -637,6 +637,9 @@ void LaskuModel::haeRyhmasta(int indeksi)
 
 bool LaskuModel::tallenna(Tili rahatili)
 {
+    if( !tarkastaAlvLukko() )
+        return false;
+
     if( tyyppi() == RYHMALASKU)
     {
         bool onni = true;
@@ -972,6 +975,27 @@ QString LaskuModel::t(const QString &avain) const
         return  tekstit_.value( kieli_ + avain );
     // Ellei ole käännöstä nykyiselle kielelle, palautetaan oletusteksti (suomea)
     return tekstit_.value( avain, avain );
+}
+
+bool LaskuModel::tarkastaAlvLukko()
+{
+    // Tarkastetaan, ettei mene alv-lukitulle
+    if( pvm().isValid() &&  pvm() <= kp()->asetukset()->pvm("AlvIlmoitus") )
+    {
+        for( LaskuRivi rivi : rivit_)
+        {
+            if( rivi.alvKoodi != AlvKoodi::EIALV && rivi.yhteensaSnt())
+            {
+                QMessageBox::critical(nullptr, tr("Laskua ei voi tallentaa kirjanpitoon"),
+                                      tr("Arvonlisäveroilmoitus on annettu %1 saakka. Arvonlisäverollisia kirjauksia ei voi tehdä ajalle, "
+                                         "jolta on jo annettu alv-ilmoitus.")
+                                      .arg( kp()->asetukset()->pvm("AlvIlmoitus").toString("dd.MM.yyyy") ),
+                                      QMessageBox::Cancel);
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 void LaskuModel::lisaaRivi(LaskuRivi rivi)

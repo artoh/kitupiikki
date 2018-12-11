@@ -244,6 +244,8 @@ public:
      */
     QString t(const QString &avain) const;
 
+    bool tarkastaAlvLukko();
+
 public slots:
     void lisaaRivi(LaskuRivi rivi = LaskuRivi());
     void poistaRivi(int indeksi);

@@ -294,6 +294,9 @@ void LaskuDialogi::paivitaSumma(qlonglong summa)
 void LaskuDialogi::esikatsele()
 {
     vieMalliin();
+    if( !model->tarkastaAlvLukko())
+        return;
+
     if( model->tyyppi() == LaskuModel::RYHMALASKU )
     {
         QByteArray array;
@@ -522,7 +525,11 @@ void LaskuDialogi::onkoPostiKaytossa()
 
 void LaskuDialogi::lahetaSahkopostilla()
 {
+
     vieMalliin();
+    if( !model->tarkastaAlvLukko())
+        return;
+
     if( model->tyyppi() == LaskuModel::RYHMALASKU)
     {
         ryhmaLahetys_.append(-1);
@@ -620,6 +627,8 @@ void LaskuDialogi::smtpViesti(const QString &viesti)
 void LaskuDialogi::tulostaLasku()
 {
     vieMalliin();
+    if( !model->tarkastaAlvLukko())
+        return;
 
     QPageLayout vanhaleiska = kp()->printer()->pageLayout();
     QPageLayout uusileiska = vanhaleiska;
