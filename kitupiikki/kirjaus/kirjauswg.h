@@ -167,6 +167,8 @@ public slots:
      */
     void paivitaOtsikonTaydennys(const QString& teksti);
 
+    void naytaSelvitys();
+
 
 public:
     /**

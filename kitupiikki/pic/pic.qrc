@@ -147,6 +147,7 @@
         <file>en.png</file>
         <file>rf.png</file>
         <file>kopioilasku.png</file>
+        <file>bug.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

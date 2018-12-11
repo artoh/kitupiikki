@@ -50,7 +50,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="viennit">
       <attribute name="icon">
@@ -419,6 +419,30 @@
           <string>0000</string>
          </property>
         </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QPushButton" name="selvittelyNappi">
+         <property name="text">
+          <string>Selvittelytiedot...</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../pic/pic.qrc">
+           <normaloff>:/pic/bug.png</normaloff>:/pic/bug.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>

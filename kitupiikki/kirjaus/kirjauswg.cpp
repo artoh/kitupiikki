@@ -140,6 +140,7 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( ui->tilioteloppuenEdit, SIGNAL(editingFinished()), this, SLOT(tiedotModeliin()));
     connect( ui->tilioteBox, SIGNAL(clicked(bool)), this, SLOT(tiedotModeliin()));
     connect( ui->tiliotetiliCombo, SIGNAL(activated(int)), this, SLOT(tiedotModeliin()));
+    connect( ui->selvittelyNappi, &QPushButton::clicked, this, &KirjausWg::naytaSelvitys);
 
     connect( model(), SIGNAL(tositettaMuokattu(bool)), this, SLOT(paivitaTallennaPoistaNapit()));
 
@@ -259,6 +260,7 @@ void KirjausWg::tyhjenna()
     }
     naytaSummat();
     ui->tabWidget->setCurrentIndex(0);
+    ui->selvittelyNappi->setEnabled(false);
 
     tyyppiProxy_->setFilterRegExp("[1-9].*");
 
@@ -357,6 +359,8 @@ void KirjausWg::tallenna()
 
     if( !kp()->asetukset()->onko("EkaTositeKirjattu"))
         kp()->asetukset()->aseta("EkaTositeKirjattu", true);
+
+    ui->selvittelyNappi->setEnabled(true);
 
     emit tositeKasitelty();
 }
@@ -517,6 +521,12 @@ void KirjausWg::tulostaTosite()
         model()->tuloste().tulosta( kp()->printer(), &painter );
         painter.end();
     }
+}
+
+void KirjausWg::naytaSelvitys()
+{
+    NaytinIkkuna *naytin = new NaytinIkkuna();
+    naytin->naytaRaportti( model()->selvittelyTuloste() );
 }
 
 void KirjausWg::siirryTositteeseen()
@@ -861,6 +871,7 @@ void KirjausWg::tiedotModelista()
     ui->otsikkoEdit->setText( model_->otsikko() );
     ui->kommentitEdit->setPlainText( model_->kommentti());
     ui->tunnisteEdit->setText( QString::number(model_->tunniste()));
+    ui->selvittelyNappi->setEnabled( model()->id() );
 
     if( model_->tositelaji().id())
         tyyppiProxy_->setFilterRegExp("[1-9].*");

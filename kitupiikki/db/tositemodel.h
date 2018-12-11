@@ -132,6 +132,12 @@ public:
      */
     RaportinKirjoittaja tuloste();
 
+    /**
+     * @brief Tietokannan tiedot raakamuodossa
+     * @return
+     */
+    RaportinKirjoittaja selvittelyTuloste();
+
 
 
 protected:

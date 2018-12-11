@@ -89,6 +89,8 @@ QVariant LiiteModel::data(const QModelIndex &index, int role) const
         return liite.pdf;
     else if( role == LiiteNumeroRooli )
         return liite.liiteno;
+    else if( role == IdRooli)
+        return liite.id;
 
     else if( role == Qt::DecorationRole)
     {

@@ -25,6 +25,11 @@
 #include <QDebug>
 #include <QSqlError>
 #include <QMessageBox>
+#include <QSqlRecord>
+
+#include "aloitussivu/aloitussivu.h"
+#include "versio.h"
+
 
 TositeModel::TositeModel(QSqlDatabase *tietokanta, QObject *parent)
     : QObject(parent),
@@ -428,6 +433,96 @@ RaportinKirjoittaja TositeModel::tuloste()
         }
     }
 
+    return rk;
+}
+
+RaportinKirjoittaja TositeModel::selvittelyTuloste()
+{
+    RaportinKirjoittaja rk;
+    rk.asetaOtsikko("TOSITTEEN TIEDOT");
+
+    rk.lisaaSarake("XXXXXXXXXXXXXXX");
+    rk.lisaaVenyvaSarake();
+
+    QSqlQuery kysely( QString("SELECT * FROM tosite WHERE id=%1").arg(id()) );
+    while(kysely.next())
+    {
+        QSqlRecord tietue = kysely.record();
+        for(int i=0; i < tietue.count(); i++)
+        {
+            RaporttiRivi rr;
+            QString avain = tietue.fieldName(i);
+            QString arvo = tietue.value(i).toString();
+
+            if( avain == "laji")
+            {
+                Tositelaji laji = kp()->tositelajit()->tositelaji( arvo.toInt() );
+                arvo.append(QString(" [%1 %2]").arg(laji.tunnus()).arg(laji.nimi()));
+            }
+
+            rr.lisaa( avain );
+            rr.lisaa( arvo );
+            rk.lisaaRivi( rr );
+        }
+    }
+
+
+    kysely.exec( QString("SELECT * FROM vienti WHERE tosite=%1").arg(id()));
+    while(kysely.next())
+    {
+        rk.lisaaRivi();
+        QSqlRecord tietue = kysely.record();
+        for(int i=0; i < tietue.count(); i++)
+        {
+            RaporttiRivi rr;
+            QString avain = tietue.fieldName(i);
+            QString arvo = tietue.value(i).toString();
+
+            if( avain == "tili")
+            {
+                Tili tili = kp()->tilit()->tiliIdlla( arvo.toInt() );
+                if( tili.onkoValidi())
+                    arvo.append(QString(" [%1 %2]").arg(tili.numero()).arg(tili.nimi()) );
+            }
+            else if( avain == "kohdennus" && arvo.toInt())
+            {
+                Kohdennus kohdennus = kp()->kohdennukset()->kohdennus( arvo.toInt() );
+                arvo.append( QString(" [%1]").arg(kohdennus.nimi()));
+            }
+
+            rr.lisaa( avain );
+            rr.lisaa( arvo );
+            rk.lisaaRivi( rr );
+        }
+    }
+
+    // Liitteet - id ja otsikko
+    if( liiteModel()->rowCount(QModelIndex()))
+    {
+        rk.lisaaRivi();
+        RaporttiRivi rr;
+        rr.lisaa("Liitteet",2);
+        rr.lihavoi();
+        rk.lisaaRivi(rr);
+
+        for(int liite=0; liite < liiteModel()->rowCount(QModelIndex()); liite++)
+        {
+            RaporttiRivi lr;
+            QModelIndex lInd = liiteModel()->index(liite,0);
+            lr.lisaa( QString::number( lInd.data(LiiteModel::IdRooli).toInt() ));
+            lr.lisaa(lInd.data(LiiteModel::OtsikkoRooli ).toString());
+            rk.lisaaRivi(lr);
+        }
+    }
+    rk.lisaaRivi();
+    RaporttiRivi rr;
+    rr.lisaa("Kitupiikin versio");
+    rr.lisaa( QString("%1 %2 %3 %4")
+              .arg( KITUPIIKKI_VERSIO )
+              .arg( KITUPIIKKI_BUILD)
+              .arg( AloitusSivu::buildDate().toString("dd.MM.yyyy"))
+              .arg( QSysInfo::prettyProductName() ));
+    rk.lisaaRivi(rr);
     return rk;
 }
 
