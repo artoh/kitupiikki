@@ -103,49 +103,76 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
     kirjoittaja.lisaaEurosarake();
     kirjoittaja.lisaaEurosarake();
 
-    RaporttiRivi otsikko;
-    otsikko.lisaa("Pvm");
-    otsikko.lisaa("Tosite");
-    otsikko.lisaa("Tili");
-    if( tulostakohdennukset )
-        otsikko.lisaa("Kohdennus");
-    otsikko.lisaa("Selite");
-    otsikko.lisaa("Debet €", 1, true);
-    otsikko.lisaa("Kredit €", 1, true);
-    kirjoittaja.lisaaOtsake(otsikko);
+    {
+        RaporttiRivi otsikko(RaporttiRivi::EICSV);
+        otsikko.lisaa("Pvm");
+        otsikko.lisaa("Tosite");
+        otsikko.lisaa("Tili");
+        if( tulostakohdennukset )
+            otsikko.lisaa("Kohdennus");
+        otsikko.lisaa("Selite");
+        otsikko.lisaa("Debet €", 1, true);
+        otsikko.lisaa("Kredit €", 1, true);
+        kirjoittaja.lisaaOtsake(otsikko);
+    }
+    {
+        // CSV-tiedostoon tulostetaan myös arvonlisäveron kentät
+        RaporttiRivi otsikko(RaporttiRivi::CSV);
+        otsikko.lisaa("Pvm");
+        otsikko.lisaa("Tosite");
+        otsikko.lisaa("Tili");
+        if( tulostakohdennukset )
+            otsikko.lisaa("Kohdennus");
+        otsikko.lisaa("Selite");
+        otsikko.lisaa("Debet €", 1, true);
+        otsikko.lisaa("Kredit €", 1, true);
+        otsikko.lisaa("Alv%", 1, true);
+        otsikko.lisaa("AlvKoodi", 1, true);
+        kirjoittaja.lisaaOtsake(otsikko);
+
+    }
+
 
     QSqlQuery kysely;
-    QString jarjestys = "pvm, vientiId";
+    QString jarjestys = "vienti.pvm, vientiId";
     if(  tositejarjestys )
-        jarjestys = " tositelaji, tunniste, vientiId";
+        jarjestys = " tositelajiId, tunniste, vientiId";
     else if( ryhmitalajeittain )
-        jarjestys = " tositelaji, pvm, vientiId";
+        jarjestys = " tositelajiId, vienti.pvm, vientiId";
 
     QString kysymys;
 
+
+    kysymys = QString("SELECT vienti.pvm, tili, selite, debetsnt, kreditsnt, vienti.kohdennus, tosite.laji as tositelajiId, tosite.tunniste as tunniste, vienti.id as vientiId, alvkoodi, alvprosentti, tosite.id as tositeId " );
+
     if( kohdennuksella > -1)
     {
+
+
         if( kp()->kohdennukset()->kohdennus(kohdennuksella).tyyppi() == Kohdennus::MERKKAUS)
-            kysymys = QString("SELECT pvm, tositelaji, tunniste, tilinro, tilinimi, selite, debetsnt, kreditsnt, vientivw.kohdennus as kohdennusnimi, kohdennusId, tositelajiId, tositeId from merkkaus, vientivw "
-                              "WHERE merkkaus.kohdennus = %4 AND merkkaus.vienti=vientiId AND pvm BETWEEN \"%1\" AND \"%2\" ORDER BY %3")
+            kysymys.append( QString(" FROM merkkaus, vienti, tosite WHERE merkkaus.kohdennus=%4 AND vienti.pvm BETWEEN '%1' AND '%2' AND vienti.tosite=tosite.id ORDER BY %3")
                               .arg(mista.toString(Qt::ISODate) )
                               .arg( mihin.toString(Qt::ISODate))
-                              .arg(jarjestys).arg(kohdennuksella);
+                              .arg(jarjestys).arg(kohdennuksella));
         else
-            kysymys = QString("SELECT pvm, tositelaji, tunniste, tilinro, tilinimi, selite, debetsnt, kreditsnt, kohdennus as kohdennusnimi, kohdennusId, tositelajiId, tositeId from vientivw "
-                              "WHERE pvm BETWEEN \"%1\" AND \"%2\" AND kohdennusId=%4 ORDER BY %3")
+            kysymys.append(QString("FROM vienti,tosite "
+                              "WHERE vienti.pvm BETWEEN \"%1\" AND \"%2\" AND vienti.tosite=tosite.id AND kohdennusId=%4 ORDER BY %3")
                               .arg(mista.toString(Qt::ISODate) )
                               .arg( mihin.toString(Qt::ISODate))
-                              .arg(jarjestys).arg(kohdennuksella);
+                              .arg(jarjestys).arg(kohdennuksella));
     }
     else
-        kysymys = QString("SELECT pvm, tositelaji, tunniste, tilinro, tilinimi, selite, debetsnt, kreditsnt, kohdennus as kohdennusnimi, kohdennusId, tositelajiId, tositeId from vientivw "
-                              "WHERE pvm BETWEEN \"%1\" AND \"%2\" ORDER BY %3")
+        kysymys.append(QString("FROM vienti, tosite "
+                              "WHERE vienti.pvm BETWEEN \"%1\" AND \"%2\" AND vienti.tosite=tosite.id ORDER BY %3")
                               .arg(mista.toString(Qt::ISODate) )
                               .arg( mihin.toString(Qt::ISODate))
-                              .arg(jarjestys);
+                              .arg(jarjestys));
+
+    qDebug() << kysymys;
 
     kysely.exec(kysymys);
+
+    qDebug() << kysely.lastError().text();
 
     int edellinenTositelajiId = -1;
     qlonglong debetYht = 0;
@@ -161,7 +188,7 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
             {
                 if( tulostasummat )
                 {
-                    kirjoitaSummaRivi( kirjoittaja, debetYht, kreditYht, 4 + (int) tulostakohdennukset );
+                    kirjoitaSummaRivi( kirjoittaja, debetYht, kreditYht, 4 + (tulostakohdennukset ? 1 : 0) );
                     debetYht = 0;
                     kreditYht = 0;
                 }
@@ -178,23 +205,44 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
             kirjoittaja.lisaaRivi( rr );
         }
 
-        RaporttiRivi rivi;
+        RaporttiRivi rivi(RaporttiRivi::EICSV);
+        RaporttiRivi csvRivi(RaporttiRivi::CSV);
 
-        QDate pvm = kysely.value("pvm").toDate();
+        QDate pvm = kysely.value("vienti.pvm").toDate();
         rivi.lisaa( pvm );
+        csvRivi.lisaa(pvm);
+
+        Tositelaji laji = kp()->tositelajit()->tositelaji( kysely.value("tositelajiId").toInt() );
 
         rivi.lisaaLinkilla( RaporttiRiviSarake::TOSITE_ID, kysely.value("tositeId").toInt() ,
-                          QString("%1%2/%3").arg(kysely.value("tositelaji").toString()).arg(kysely.value("tunniste").toInt())
+                          QString("%1%2/%3").arg( laji.tunnus() ).arg(kysely.value("tunniste").toInt())
                           .arg( kp()->tilikaudet()->tilikausiPaivalle(pvm).kausitunnus() ));
-        rivi.lisaaLinkilla( RaporttiRiviSarake::TILI_NRO, kysely.value("tilinro").toInt() , tr("%1 %2").arg(kysely.value("tilinro").toString()).arg(kysely.value("tilinimi").toString()));
+
+        csvRivi.lisaaLinkilla( RaporttiRiviSarake::TOSITE_ID, kysely.value("tositeId").toInt() ,
+                          QString("%1%2/%3").arg( laji.tunnus() ).arg(kysely.value("tunniste").toInt())
+                          .arg( kp()->tilikaudet()->tilikausiPaivalle(pvm).kausitunnus() ));
+
+        Tili tili = kp()->tilit()->tiliIdlla( kysely.value("tili").toInt() );
+        if( !tili.onkoValidi())
+            continue;   // Maksuperusteisen laskun valvontarivi
+
+        rivi.lisaaLinkilla( RaporttiRiviSarake::TILI_NRO, tili.numero() , tr("%1 %2").arg( tili.numero() ).arg( tili.nimi() ) );
+        csvRivi.lisaaLinkilla( RaporttiRiviSarake::TILI_NRO, tili.numero() , tr("%1 %2").arg( tili.numero() ).arg( tili.nimi() ) );
 
         if( tulostakohdennukset )
         {
             // Kohdennussarake
             if( kysely.value("kohdennusId").toInt() )
-                rivi.lisaa( kysely.value("kohdennusnimi").toString());
+            {
+                Kohdennus kohdennus = kp()->kohdennukset()->kohdennus( kysely.value("kohdennus").toInt() );
+                rivi.lisaa( kohdennus.nimi() );
+                csvRivi.lisaa( kohdennus.nimi() );
+            }
             else
+            {
                 rivi.lisaa("");
+                csvRivi.lisaa("");
+            }
         }
 
         qlonglong debetSnt = kysely.value("debetsnt").toLongLong();
@@ -204,6 +252,14 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
         rivi.lisaa(  debetSnt );
         rivi.lisaa( kreditSnt );
         kirjoittaja.lisaaRivi( rivi );
+
+        csvRivi.lisaa( kysely.value("selite").toString());
+        csvRivi.lisaa(  debetSnt );
+        csvRivi.lisaa( kreditSnt );
+        csvRivi.lisaa( kysely.value("alvprosentti").toString());
+        csvRivi.lisaa( kysely.value("alvkoodi").toString());
+        kirjoittaja.lisaaRivi(csvRivi);
+
 
         if(  tulostasummat )
         {
@@ -215,14 +271,14 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
     }
 
     if( ryhmitalajeittain && tulostasummat )
-        kirjoitaSummaRivi(kirjoittaja, debetYht, kreditYht, 4 + (int)  tulostakohdennukset );
+        kirjoitaSummaRivi(kirjoittaja, debetYht, kreditYht, 4 + (  tulostakohdennukset ? 1 : 0) );
 
     if(  tulostasummat )
     {
         // Lopuksi vielä kaikki yhteensä -summarivi
         kirjoittaja.lisaaRivi();
         RaporttiRivi summarivi(RaporttiRivi::EICSV);
-        summarivi.lisaa("Yhteensä", 4 + (int) tulostakohdennukset);
+        summarivi.lisaa("Yhteensä", 4 + ( tulostakohdennukset ? 4 : 0 ) );
         summarivi.lisaa(debetKaikki);
         summarivi.lisaa(kreditKaikki);
         summarivi.viivaYlle();

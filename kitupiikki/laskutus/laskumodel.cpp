@@ -904,6 +904,7 @@ bool LaskuModel::tallenna(Tili rahatili)
     raharivi.json.set("VerkkolaskuOsoite", verkkolaskuOsoite());
     raharivi.json.set("VerkkolaskuValittaja", verkkolaskuValittaja());
     raharivi.json.set("Kieli", kieli());
+    raharivi.json.set("Viivastyskorko", kp()->asetukset()->asetus("LaskuViivastyskorko"));
 
 
     viennit->lisaaVienti(raharivi);
