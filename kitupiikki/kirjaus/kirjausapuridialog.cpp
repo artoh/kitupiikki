@@ -106,7 +106,6 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
 
     connect(ui->taseEraCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(eraValittu()));
     connect(ui->vastaTaseEraCombo, SIGNAL(currentIndexChanged(int)), this, SLOT( vastaEraValittu()) );
-    connect(ui->pvmDate, SIGNAL(dateChanged(QDate)), this, SLOT(pvmMuuttuu()));
 
     connect( ui->vastaCheck, SIGNAL(toggled(bool)), this, SLOT(vastakirjausOlemassa(bool)));        
 
@@ -161,6 +160,9 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     connect( model, SIGNAL(tyhjennetty()), this, SLOT(close()) );
 
     ui->merkkausEdit->installEventFilter(this);
+
+    pvmMuuttuu();
+    connect(ui->pvmDate, SIGNAL(dateChanged(QDate)), this, SLOT(pvmMuuttuu()));
 
     restoreGeometry( kp()->settings()->value("ApuriDlg").toByteArray());
 }
@@ -398,7 +400,7 @@ void KirjausApuriDialog::pvmMuuttuu()
         ui->alvVaaraTeksti->setVisible(alvlukko);
         ui->alvCombo->setEnabled(!alvlukko);
         if( alvlukko )
-            ui->alvCombo->setCurrentIndex(0);
+            ui->alvCombo->setCurrentIndex( ui->alvCombo->findData(AlvKoodi::EIALV) );
     }
     kohdennusfiltteri.asetaPaiva(ui->pvmDate->date());
 }
