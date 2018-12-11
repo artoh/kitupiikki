@@ -32,6 +32,7 @@ Näppäin   |  Toiminto
 <kbd>F5</kdb> | Tulosteet
 <kbd>F6</kdb> | Tilikaudet
 <kbd>F7</kdb> | Määritykset
+<kbd>F8</kbd> | Kirjaa [kirjattavien kansion](/maaritykset/inbox) ensimmäinen tosite <span class=ver>1.3<span class=selite>Kitupiikin versiosta 1.3 lähtien</span></span>
 <kbd>Ctrl</kbd>+<kbd>G</kdb> | Siirry tositteeseen tositenumerolla
 
 ### Tositteen kirjaamisessa

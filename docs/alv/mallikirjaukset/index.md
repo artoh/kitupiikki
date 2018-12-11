@@ -36,7 +36,7 @@ Alv-lajia **Veroton** käytetään verottomaan myyntiin (esim. terveydenhuoltopa
 
 Alv-lajia **Veroton** käytetään kaikkiin ostoihin, joista ei voi tehdä alv-vähennystä.
 
-## Marginaaliverotusmenettely
+## Marginaaliverotusmenettely <span class=ver>1.3<span class=selite>Kitupiikin versiosta 1.3 lähtien</span></span>
 
 [Marginaaliverotusmenettelyssä](https://www.vero.fi/syventavat-vero-ohjeet/ohje-hakusivu/48682/k%C3%A4ytettyjen-tavaroiden-sek%C3%A4-taide--ker%C3%A4ily--ja-antiikkiesineiden-marginaaliverotusmenettely/) vero maksetaan ainoastaan voittomarginaalista. Kitupiikki tukee Verohallinnon ohjeessa kuvattua yksinkertaistettua menettelyä.
 
@@ -76,7 +76,7 @@ Yhteisömyynnissä ostaja maksaa arvonlisäveron. Myyjän tulee antaa myös [kuu
 
 [Maahantuonnin arvonlisävero](https://www.vero.fi/yritykset-ja-yhteisot/tietoa-yritysverotuksesta/arvonlisaverotus/ulkomaankaupan_arvonlisaverotus/maahantuonnin-arvonlisavero/) ilmoitetaan kausiveroilmoituksessa. Myyntilaskun yhteydessä kirjaus tehdään valinnalla **Tavaroiden maahantuonti EU:n ulkopuolelta**. Jos myyntilasku on jo kirjattu verottomana, voidaan tullauspäätös kirjata myöhemmin valinnalla **Tavaroiden maahantuonti, veron kirjaus**
 
-### Kirjaaminen ilman kirjausapuria
+## Kirjaaminen ilman kirjausapuria
 
 [Ilman Kirjausapuria](/kirjaus/kasin) kirjattaessa verolaji ja -prosentti on valittava erikseen. Ole huolellinen!
 

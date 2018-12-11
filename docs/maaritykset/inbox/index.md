@@ -8,4 +8,6 @@ Toiminnalla määritellään tietokoneella oleva hakemisto, jonka sisältämät 
 
 Tästä kirjattavien ikkunasta lasku on helppo siirtää raahaamalla kirjattavaksi. Kun kirjattavien kansiossa oleva tiedosto on liitetty laskuun ja lasku tallennetaan, **poistetaan tiedosto automaattisesti tietokoneelta**.
 
+Voit kirjata lista ensimmäisen tositteen myös <kbd>F8</kbd>-näppäimellä. <span class=ver>1.3<span class=selite>Kitupiikin versiosta 1.3 lähtien</span></span>
+
 Määrittelemällä sama hakemisto skannausohjelmaan skannattavien tiedostojen tallennushakemistoksi ja Kitupiikkiin kirjattavien kansioksi saat käsiteltyä nopeammin paperilla saamasi tositteet.
