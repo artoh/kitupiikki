@@ -440,6 +440,8 @@ RaportinKirjoittaja TositeModel::selvittelyTuloste()
 {
     RaportinKirjoittaja rk;
     rk.asetaOtsikko("TOSITTEEN TIEDOT");
+    rk.asetaKausiteksti(QString("%1%2/%3")
+                        .arg(tositelaji().tunnus()).arg(tunniste()).arg( kp()->tilikaudet()->tilikausiPaivalle( pvm() ).kausitunnus()));
 
     rk.lisaaSarake("XXXXXXXXXXXXXXX");
     rk.lisaaVenyvaSarake();
@@ -482,7 +484,7 @@ RaportinKirjoittaja TositeModel::selvittelyTuloste()
             {
                 Tili tili = kp()->tilit()->tiliIdlla( arvo.toInt() );
                 if( tili.onkoValidi())
-                    arvo.append(QString(" [%1 %2]").arg(tili.numero()).arg(tili.nimi()) );
+                    arvo.append(QString(" [%1 %2 %3]").arg(tili.numero()).arg(tili.nimi()).arg( tili.tyyppiKoodi() ) );
             }
             else if( avain == "kohdennus" && arvo.toInt())
             {
