@@ -198,18 +198,18 @@ public:
 
 public slots:
 
-    void asetaErapaiva(const QDate & paiva) { if(erapaiva_ != paiva) muokattu_ = true; erapaiva_ = paiva;  }
-    void asetaLisatieto(const QString& tieto) { if(lisatieto_ != tieto) muokattu_ = true; lisatieto_ = tieto;  }
-    void asetaOsoite(const QString& osoite) { if(osoite_ != osoite) muokattu_ = true; osoite_ = osoite;  }
-    void asetaToimituspaiva(const QDate& pvm) { if(toimituspaiva_ != pvm) muokattu_ = true; toimituspaiva_ = pvm;  }
-    void asetaLaskunsaajannimi(const QString& nimi) { if(laskunsaajanNimi_ != nimi) muokattu_ = true; laskunsaajanNimi_ = nimi;  }
-    void asetaKirjausperuste(int kirjausperuste) { if(kirjausperuste_ != kirjausperuste) muokattu_ = true; kirjausperuste_ = kirjausperuste; }
-    void asetaEmail(const QString& osoite) { if(email_ != osoite) muokattu_ = true; email_ = osoite; }
-    void asetaYTunnus(const QString& ytunnus) { if(ytunnus != ytunnus) muokattu_ = true;  ytunnus_ = ytunnus; }
-    void asetaAsiakkaanViite(const QString& viite) { if(asiakkaanViite() != viite) muokattu_ = true; asiakkaanViite_ = viite;}
-    void asetaVerkkolaskuOsoite(const QString& osoite) { if(verkkolaskuOsoite() != osoite) muokattu_ = true; verkkolaskuOsoite_ = osoite;}
-    void asetaVerkkolaskuValittaja(const QString& valittaja) { if(verkkolaskuValittaja() != valittaja) muokattu_=true; verkkolaskuValittaja_ = valittaja;}
-    void asetaKieli(const QString& kieli) { kieli_ = kieli; }
+    void asetaErapaiva(const QDate & paiva) { if(erapaiva_ != paiva) ilmoitaMuokattu(); erapaiva_ = paiva;  }
+    void asetaLisatieto(const QString& tieto) { if(lisatieto_ != tieto) ilmoitaMuokattu(); lisatieto_ = tieto;  }
+    void asetaOsoite(const QString& osoite) { if(osoite_ != osoite) ilmoitaMuokattu(); osoite_ = osoite;  }
+    void asetaToimituspaiva(const QDate& pvm) { if(toimituspaiva_ != pvm) ilmoitaMuokattu(); toimituspaiva_ = pvm;  }
+    void asetaLaskunsaajannimi(const QString& nimi) { if(laskunsaajanNimi_ != nimi) ilmoitaMuokattu(); laskunsaajanNimi_ = nimi;  }
+    void asetaKirjausperuste(int kirjausperuste) { if(kirjausperuste_ != kirjausperuste) ilmoitaMuokattu(); kirjausperuste_ = kirjausperuste; }
+    void asetaEmail(const QString& osoite) { if(email_ != osoite) ilmoitaMuokattu(); email_ = osoite; }
+    void asetaYTunnus(const QString& ytunnus) { if(ytunnus != ytunnus) ilmoitaMuokattu();  ytunnus_ = ytunnus; }
+    void asetaAsiakkaanViite(const QString& viite) { if(asiakkaanViite() != viite) ilmoitaMuokattu(); asiakkaanViite_ = viite;}
+    void asetaVerkkolaskuOsoite(const QString& osoite) { if(verkkolaskuOsoite() != osoite) ilmoitaMuokattu(); verkkolaskuOsoite_ = osoite;}
+    void asetaVerkkolaskuValittaja(const QString& valittaja) { if(verkkolaskuValittaja() != valittaja) ilmoitaMuokattu(); verkkolaskuValittaja_ = valittaja;}
+    void asetaKieli(const QString& kieli) { if(kieli != kieli_) ilmoitaMuokattu(); kieli_ = kieli; }
 
 public:
 
@@ -252,9 +252,11 @@ public slots:
 
 signals:
     void summaMuuttunut(qlonglong summaSnt);
+    void laskuaMuokattu(bool onkoMuokattu);
 
 protected:
     void haeAvoinSaldo();
+    void ilmoitaMuokattu(bool onkoMuokattu=true);
 
 private:
     QList<LaskuRivi> rivit_;

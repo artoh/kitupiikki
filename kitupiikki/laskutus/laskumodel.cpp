@@ -406,7 +406,7 @@ bool LaskuModel::setData(const QModelIndex &index, const QVariant &value, int ro
 
     if( role == Qt::EditRole)
     {
-        muokattu_ = true;
+        ilmoitaMuokattu();
 
         switch (index.column()) {
         case NIMIKE:
@@ -477,14 +477,14 @@ bool LaskuModel::setData(const QModelIndex &index, const QVariant &value, int ro
     {
         rivit_[rivi].alvKoodi = value.toInt();
         paivitaSumma(rivi);
-        muokattu_ = true;
+        ilmoitaMuokattu();
         return true;
     }
     else if( role == AlvProsenttiRooli)
     {
         rivit_[rivi].alvProsentti = value.toInt();
         paivitaSumma(rivi);
-        muokattu_ = true;
+        ilmoitaMuokattu();
         return true;
     }
     else if( role == TuoteKoodiRooli)
@@ -498,7 +498,7 @@ bool LaskuModel::setData(const QModelIndex &index, const QVariant &value, int ro
         rivit_[rivi].voittoMarginaaliMenettely = value.toInt();
         rivit_[rivi].alvKoodi = AlvKoodi::MYYNNIT_MARGINAALI;
         rivit_[rivi].alvProsentti = 24;
-        muokattu_ = true;
+        ilmoitaMuokattu();
         return true;
     }
 
@@ -980,7 +980,7 @@ QString LaskuModel::t(const QString &avain) const
 bool LaskuModel::tarkastaAlvLukko()
 {
     // Tarkastetaan, ettei mene alv-lukitulle
-    if( pvm().isValid() &&  pvm() <= kp()->asetukset()->pvm("AlvIlmoitus") )
+    if( pvm().isValid() &&  pvm() <= kp()->asetukset()->pvm("AlvIlmoitus") && muokattu() )
     {
         for( LaskuRivi rivi : rivit_)
         {
@@ -1036,6 +1036,15 @@ void LaskuModel::haeAvoinSaldo()
         avoinSaldo_ = kysely.value(0).toLongLong() - kysely.value(1).toLongLong();
     }
 
+}
+
+void LaskuModel::ilmoitaMuokattu(bool onkoMuokattu)
+{
+    if( muokattu_ != onkoMuokattu)
+    {
+        muokattu_ = onkoMuokattu;
+        emit laskuaMuokattu(true);
+    }
 }
 
 void LaskuModel::paivitaSumma(int rivi)

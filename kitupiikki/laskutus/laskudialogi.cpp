@@ -87,9 +87,6 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     ui->kieliCombo->addItem(QIcon(":/pic/se.png"), tr("Ruotsi"), "SE");
     ui->kieliCombo->addItem(QIcon(":/pic/en.png"), tr("Englanti"), "EN");
 
-    connect( ui->toimitusDate, SIGNAL(dateChanged(QDate)), model, SLOT(asetaToimituspaiva(QDate)));
-    connect(ui->eraDate, SIGNAL(dateChanged(QDate)), model, SLOT(asetaErapaiva(QDate)));
-
     model->lisaaRivi();
 
     tuotteet = kp()->tuotteet();
@@ -130,34 +127,6 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     nimiTaydentaja->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->saajaEdit->setCompleter(nimiTaydentaja);
 
-    connect( ui->lisaaNappi, SIGNAL(clicked(bool)), model, SLOT(lisaaRivi()));
-    connect( ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poistaLaskuRivi()));
-    connect( ui->tulostaNappi, SIGNAL(clicked(bool)), this, SLOT(tulostaLasku()));
-    connect( ui->esikatseluNappi, SIGNAL(clicked(bool)), this, SLOT(esikatsele()));
-    connect( ui->spostiNappi, SIGNAL(clicked(bool)), this, SLOT(lahetaSahkopostilla()));
-
-    connect( model, &LaskuModel::summaMuuttunut, this, &LaskuDialogi::paivitaSumma);
-    connect( ui->perusteCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(perusteVaihtuu()));
-    connect( ui->kieliCombo, &QComboBox::currentTextChanged, [this]() { this->model->asetaKieli( this->ui->kieliCombo->currentData().toString()); } );
-
-    ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( model->kieli() ) );
-
-    connect( ui->saajaEdit, SIGNAL(textChanged(QString)), this, SLOT(haeOsoite()));
-    connect( ui->rivitView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(rivienKontekstiValikko(QPoint)));
-
-
-
-    connect( ui->tuotelistaView, SIGNAL(clicked(QModelIndex)), this, SLOT(lisaaTuote(QModelIndex)));
-    connect( ui->tuotelistaView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(tuotteidenKonteksiValikko(QPoint)));
-    connect( ui->emailEdit, SIGNAL(textChanged(QString)), this, SLOT(onkoPostiKaytossa()));
-
-    connect( ui->asiakasLista, &QListView::clicked, this, &LaskuDialogi::lisaaAsiakasListalta);
-    connect( ui->lisaaRyhmaanNappi, &QPushButton::clicked, this, &LaskuDialogi::lisaaAsiakas);
-
-    connect( ui->ytunnus, &QLineEdit::textChanged, this, &LaskuDialogi::ytunnusSyotetty);
-    connect( ui->verkkoOsoiteEdit, &QLineEdit::textChanged, this, &LaskuDialogi::verkkolaskuKayttoon);
-    connect( ui->verkkoValittajaEdit, &QLineEdit::textChanged, this, &LaskuDialogi::verkkolaskuKayttoon);
-    connect( ui->verkkolaskuNappi, &QPushButton::clicked, this, &LaskuDialogi::finvoice);
 
     ui->rivitView->horizontalHeader()->setSectionResizeMode(LaskuModel::NIMIKE, QHeaderView::Stretch);
     ui->tuotelistaView->horizontalHeader()->setSectionResizeMode(TuoteModel::NIMIKE, QHeaderView::Stretch);
@@ -199,6 +168,7 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
         ui->rahaTiliEdit->valitseTiliIdlla( model->viittausLasku().tiliid );
         ui->rahaTiliEdit->setEnabled(false);
         ui->verkkolaskuNappi->setVisible(false);
+        ui->tallennaNappi->setEnabled(true);
         connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("laskutus/muistutus");});
 
     }
@@ -206,9 +176,6 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     {
         ui->eraDate->setMinimumDate( kp()->paivamaara() );
         perusteVaihtuu();
-
-        ui->toimitusDate->setDate( kp()->paivamaara());
-        ui->eraDate->setDate( model->erapaiva() );
         ui->verkkolaskuNappi->setVisible( kp()->asetukset()->onko("VerkkolaskuKaytossa") );
 
         if( model->tyyppi() == LaskuModel::LASKU)
@@ -271,6 +238,39 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
             ui->tabWidget->removeTab(VERKKOLASKU);
 
     }
+
+    connect( ui->lisaaNappi, SIGNAL(clicked(bool)), model, SLOT(lisaaRivi()));
+    connect( ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poistaLaskuRivi()));
+    connect( ui->tulostaNappi, SIGNAL(clicked(bool)), this, SLOT(tulostaLasku()));
+    connect( ui->esikatseluNappi, SIGNAL(clicked(bool)), this, SLOT(esikatsele()));
+    connect( ui->spostiNappi, SIGNAL(clicked(bool)), this, SLOT(lahetaSahkopostilla()));
+
+    connect( model, &LaskuModel::summaMuuttunut, this, &LaskuDialogi::paivitaSumma);
+    connect( ui->perusteCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(perusteVaihtuu()));
+    connect( ui->kieliCombo, &QComboBox::currentTextChanged, [this]() { this->model->asetaKieli( this->ui->kieliCombo->currentData().toString()); } );
+
+    ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( model->kieli() ) );
+
+    connect( ui->saajaEdit, SIGNAL(textChanged(QString)), this, SLOT(haeOsoite()));
+    connect( ui->rivitView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(rivienKontekstiValikko(QPoint)));
+
+
+
+    connect( ui->tuotelistaView, SIGNAL(clicked(QModelIndex)), this, SLOT(lisaaTuote(QModelIndex)));
+    connect( ui->tuotelistaView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(tuotteidenKonteksiValikko(QPoint)));
+    connect( ui->emailEdit, SIGNAL(textChanged(QString)), this, SLOT(onkoPostiKaytossa()));
+
+    connect( ui->asiakasLista, &QListView::clicked, this, &LaskuDialogi::lisaaAsiakasListalta);
+    connect( ui->lisaaRyhmaanNappi, &QPushButton::clicked, this, &LaskuDialogi::lisaaAsiakas);
+
+    connect( ui->ytunnus, &QLineEdit::textChanged, this, &LaskuDialogi::ytunnusSyotetty);
+    connect( ui->verkkoOsoiteEdit, &QLineEdit::textChanged, this, &LaskuDialogi::verkkolaskuKayttoon);
+    connect( ui->verkkoValittajaEdit, &QLineEdit::textChanged, this, &LaskuDialogi::verkkolaskuKayttoon);
+    connect( ui->verkkolaskuNappi, &QPushButton::clicked, this, &LaskuDialogi::finvoice);
+
+    connect( ui->toimitusDate, SIGNAL(dateChanged(QDate)), model, SLOT(asetaToimituspaiva(QDate)));
+    connect(ui->eraDate, SIGNAL(dateChanged(QDate)), model, SLOT(asetaErapaiva(QDate)));
+    connect( model, &LaskuModel::laskuaMuokattu, ui->tallennaNappi, &QPushButton::setEnabled );
 
 
     paivitaTuoteluettelonNaytto();
