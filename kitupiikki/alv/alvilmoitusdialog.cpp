@@ -126,7 +126,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         verorivi.alvprosentti = alvprosentti;
 
         // Brutosta erotetaan verot
-        qlonglong veroSnt = qRound( ( alvprosentti * (double) saldoSnt ) / ( 100 + alvprosentti) );
+        qlonglong veroSnt = qRound( ( alvprosentti * 1.0 * saldoSnt ) / ( 100 + alvprosentti) );
         qlonglong nettoSnt = saldoSnt - veroSnt;
 
         if( nettoSnt > 0)

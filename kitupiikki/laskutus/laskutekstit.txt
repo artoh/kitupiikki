@@ -131,6 +131,7 @@ SEverollinen brutto
 nimike nimike
 SEnimike produkt
 ENnimike product
+SElkm antal
 ENlkm qty
 virtviiv Virtuaaliviivakoodi
 SEvirtviiv Virtual streckkod

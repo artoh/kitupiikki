@@ -227,9 +227,9 @@ QString LaskunTulostaja::html()
     if( kp()->asetukset()->asetus("Ytunnus").length())
         txt.append(QString("<tr><td>%2 </td><td>%1</td></tr>\n").arg(kp()->asetukset()->asetus("Ytunnus")).arg(t("ytunnus")));
     if( kp()->asetukset()->asetus("Puhelin").length())
-        txt.append(QString("<tr><td>%2 </td><td>%2</td></tr> \n").arg(kp()->asetukset()->asetus("Puhelin")).arg(t("puhelin")));
+        txt.append(QString("<tr><td>%2 </td><td>%1</td></tr> \n").arg(kp()->asetukset()->asetus("Puhelin")).arg(t("puhelin")));
     if( kp()->asetukset()->asetus("Sahkoposti").length())
-        txt.append(QString("<tr><td>%2 </td><td>%2</td></tr> \n").arg(kp()->asetukset()->asetus("Sahkoposti")).arg(t("sahkoposti")));
+        txt.append(QString("<tr><td>%2 </td><td>%1</td></tr> \n").arg(kp()->asetukset()->asetus("Sahkoposti")).arg(t("sahkoposti")));
 
     txt.append("</table></body></html>\n");
 
