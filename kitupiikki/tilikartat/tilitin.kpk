@@ -579,9 +579,9 @@ CL 3380 {} Myynti yhteisön ulkopuolelle
 CL 3390 {"AlvLaji":15} Palveluiden myynti EU-maihin
 H3 340 {"Asti":343} Myynti, käytetyt tavarat ja taide-, keräily- ja antiikkiesineet
 CL 3400 {"AlvLaji":11,"AlvProsentti":24} Myynti käytetyt tavarat
-CL 3410 {"Kirjausohje":"Marginaaliveromenettelyssä voittomarginaalin osuus on kirjattava verollisena joko esineittäin tai yhteenlaskettuna verokauden lopuksi."} Myynti käytetyt tavarat marginaalimenettely
-CL 3420 {"Kirjausohje":"Marginaaliveromenettelyssä voittomarginaalin osuus on kirjattava verollisena joko esineittäin tai yhteenlaskettuna verokauden lopuksi."} Myynti taide-, keräily- ja antiikkiesineet
-CL 3430 {"Kirjausohje":"Marginaaliveromenettelyssä voittomarginaalin osuus on kirjattava verollisena joko esineittäin tai yhteenlaskettuna verokauden lopuksi."} Myynti taide-, keräily-ja antiikkiesineet marginaalimenettely
+CL 3410 {"AlvLaji":13,"AlvProsentti":24, "Kirjausohje":"Yksinkertaistettu voittomarginaalijärjestelmä, jossa vero lasketaan verokausittain arvonlisäveroilmoitusta annettaessa."} Myynti käytetyt tavarat marginaalimenettely
+CL 3420 {"AlvLaji":11,"AlvProsentti":24} Myynti taide-, keräily- ja antiikkiesineet
+CL 3430 {"AlvLaji":13,"AlvProsentti":24, "Kirjausohje":"Yksinkertaistettu voittomarginaalijärjestelmä, jossa vero lasketaan verokausittain arvonlisäveroilmoitusta annettaessa."} Myynti taide-, keräily-ja antiikkiesineet marginaalimenettely
 H3 344 {"Asti":349} Myynti, arvopaperit ja kiinteistöt
 C 3440 {} Kiinteistöjen myynti
 C 3450 {} Vuokratuotot
@@ -655,9 +655,9 @@ D 4130 {} Ostot tuonti
 D 4140 {} Tullit, verot ja muut maksut tullattaessa
 H5 415 {"Asti":419} Ostot, käytetyt tavarat ja taide- keräily- ja antiikkiesineet
 D 4150 {"AlvLaji":21,"AlvProsentti":24} Ostot käytetyt tavarat
-D 4160 {} Ostot käytetyt tavarat marginaalimenettely
-D 4170 {} Ostot taide, keräily- ja antiikkiesineet
-D 4180 {} Ostot taide, keräily- ja antiikkiesineet marginaalimenettely
+D 4160 {"AlvLaji":23, "AlvProsentti":24} Ostot käytetyt tavarat marginaalimenettely
+D 4170 {"AlvLaji":21, "AlvProsentti":24} Ostot taide, keräily- ja antiikkiesineet
+D 4180 {"AlvLaji":23, "AlvProsentti":24} Ostot taide, keräily- ja antiikkiesineet marginaalimenettely
 H5 420 {"Asti":422} Ostot, arvopaperit ja kiinteistöt
 D 4200 {} Kiinteistöostot
 D 4210 {} Arvopapereiden ostot

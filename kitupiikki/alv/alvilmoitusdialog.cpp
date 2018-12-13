@@ -479,7 +479,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         if( !aliMap.isEmpty())
             model.json()->setVar("Voittomarginaalialijaama", aliMap);
 
-        if( ui->huojennusCheck->isChecked())
+        if( ui->huojennusCheck->isVisible() &&  ui->huojennusCheck->isChecked())
         {
             VientiRivi huojennusDebet;
             huojennusDebet.tili = kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA);
@@ -504,8 +504,11 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
             huojennusKredit.pvm = loppupvm;
             huojennusKredit.selite = tr("Arvonlisäveron alarajahuojennus");
             ehdotus.lisaaVienti(huojennusKredit);
+
+            model.json()->set("Huojennus", huojennus);
+            model.json()->set("MaksettavaAlv", maksettavavero - huojennus);
         }
-        if( ui->saatavaCheck->isChecked())
+        if(  ui->saatavaCheck->isVisible() && ui->saatavaCheck->isChecked())
         {
             qlonglong saatavasta = kp()->tilit()->tiliTyypilla(TiliLaji::VEROSAATAVA).saldoPaivalle(loppupvm);
             if( saatavasta > maksettavavero)

@@ -49,7 +49,7 @@
           <string>Käytä aiempi verosaaminen tilitykseen</string>
          </property>
          <property name="checked">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -59,7 +59,7 @@
           <string>Kirjaa alarajahuojennus laskelman mukaisesti</string>
          </property>
          <property name="checked">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
         </widget>
        </item>
