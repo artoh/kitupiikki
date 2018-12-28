@@ -127,7 +127,6 @@ install_name_tool -change /usr/local/opt/nspr/lib/libplds4.dylib @rpath/libplds.
 install_name_tool -change /usr/local/opt/nspr/lib/libnspr4.dylib @rpath/libnspr.dylib $LIBDIR/libsmime.dylib
 
 #libssl
-/usr/local/opt/nss/lib/libssl3.dylib
 cp /usr/local/opt/nss/lib/libssl3.dylib $LIBDIR/libssl.dylib
 chmod +w $LIBDIR/libssl.dylib
 install_name_tool -id @rpath/libssl.dylib $LIBDIR/libssl.dylib
@@ -136,3 +135,8 @@ install_name_tool -change /usr/local/Cellar/nss/3.41/lib/libnssutil3.dylib @rpat
 install_name_tool -change /usr/local/opt/nspr/lib/libplc4.dylib @rpath/libplc.dylib $LIBDIR/libssl.dylib
 install_name_tool -change /usr/local/opt/nspr/lib/libplds4.dylib @rpath/libplds.dylib $LIBDIR/libssl.dylib
 install_name_tool -change /usr/local/opt/nspr/lib/libnspr4.dylib @rpath/libnspr.dylib $LIBDIR/libssl.dylib
+
+#liblcms
+cp /usr/local/opt/little-cms2/lib/liblcms2.2.dylib $LIBDIR/liblcms.dylib
+chmod +w $LIBDIR/liblcms.dylib
+install_name_tool -change /usr/local/opt/little-cms2/lib/liblcms2.2.dylib @rpath/liblcms.dylib $LIBDIR/liblcms.dylib
