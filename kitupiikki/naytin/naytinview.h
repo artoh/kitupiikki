@@ -24,6 +24,7 @@
 class QAction;
 class QTextEdit;
 class QStackedLayout;
+class QPrintPreviewWidget;
 
 /**
  * @brief Widgetti liitteiden, raporttien jne esittämiseen
@@ -36,7 +37,8 @@ public:
 
     enum {
       Scene = 0,
-      Editor = 1
+      Editor = 1,
+      Raportti = 2
     };
 
 public slots:
@@ -89,6 +91,8 @@ protected:
     QStackedLayout* leiska_;
     QGraphicsView* view_;
     QTextEdit *editor_;
+
+    QPrintPreviewWidget *preview_;
 
 };
 

@@ -44,6 +44,8 @@
 #include <QStackedLayout>
 #include <QTextEdit>
 
+#include <QPrintPreviewWidget>
+
 #include "tuonti/csvtuonti.h"
 
 NaytinView::NaytinView(QWidget *parent)
@@ -59,6 +61,10 @@ NaytinView::NaytinView(QWidget *parent)
     editor_ = new QTextEdit();
     editor_->setReadOnly(true);
     leiska_->addWidget(editor_);
+
+    // Kokeillaan esikatseluwidgettiä raportin esikatseluun
+    preview_ = new QPrintPreviewWidget( kp()->printer() );
+    leiska_->addWidget( preview_ );
 
     zoomAktio_ = new QAction( QIcon(":/pic/zoom-fit-width.png"), tr("Sovita leveyteen"));
     zoomAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_0));
@@ -101,7 +107,15 @@ void NaytinView::nayta(const QByteArray &data)
 
 void NaytinView::nayta(const RaportinKirjoittaja& raportti)
 {
-    vaihdaScene( new RaporttiScene(raportti)  );
+    if( scene_)
+        scene_->deleteLater();
+
+    // vaihdaScene( new RaporttiScene(raportti)  );
+    scene_ = new RaporttiScene(raportti);
+
+    connect( preview_, &QPrintPreviewWidget::paintRequested, scene_, &NaytinScene::tulosta );
+    leiska_->setCurrentIndex( Raportti );
+
 }
 
 void NaytinView::sivunAsetuksetMuuttuneet()
