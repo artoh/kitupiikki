@@ -14,72 +14,70 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#include "kuvanaytin.h"
-#include "kuvaview.h"
+#include "vanhakuvanaytin.h"
 
-#include <QGraphicsScene>
-#include <QGraphicsView>
-
+#include <QGraphicsPixmapItem>
 #include <QPixmap>
+#include <QByteArray>
 #include <QBuffer>
 #include <QPainter>
 #include <QPrinter>
 
-Naytin::KuvaNaytin::KuvaNaytin(const QImage &kuva, QObject *parent)
-    : AbstraktiNaytin (parent),
-      view_{ new KuvaView(kuva)}
+VanhaKuvaNaytin::VanhaKuvaNaytin(QObject *parent) :
+    NaytinScene (parent)
 {
 
 }
 
-QWidget *Naytin::KuvaNaytin::widget()
+VanhaKuvaNaytin::VanhaKuvaNaytin(const QByteArray &kuvadata, QObject *parent)
+    : VanhaKuvaNaytin( parent )
 {
-    return view_;
+    naytaKuva( kuvadata );
 }
 
-QByteArray Naytin::KuvaNaytin::data() const
+bool VanhaKuvaNaytin::naytaKuva(const QByteArray &kuvadata)
+{
+    kuva_.loadFromData(kuvadata);
+    return !kuva_.isNull();
+}
+
+QString VanhaKuvaNaytin::tyyppi() const
+{
+    if( kuva_.isNull())
+        return  QString();
+    return "img";
+}
+
+void VanhaKuvaNaytin::piirraLeveyteen(double leveyteen)
+{
+    clear();
+    double korkeus = leveyteen / kuva_.width() * kuva_.height();
+    QPixmap pixmap = QPixmap::fromImage( kuva_.scaled( qRound( leveyteen ),  qRound(korkeus), Qt::KeepAspectRatio) );
+    addPixmap( pixmap );
+}
+
+QByteArray VanhaKuvaNaytin::data()
 {
     QByteArray ba;
     QBuffer buffer(&ba);
 
     buffer.open(QIODevice::WriteOnly);
-    view_->kuva().save(&buffer,"JPG");
+    kuva_.save(&buffer,"JPG");
     buffer.close();
 
     return ba;
 }
 
-void Naytin::KuvaNaytin::paivita() const
-{
-    view_->paivita();
-}
-
-void Naytin::KuvaNaytin::tulosta(QPrinter *printer) const
+void VanhaKuvaNaytin::tulosta(QPrinter *printer)
 {
     QPainter painter( printer );
     QRect rect = painter.viewport();
-    QImage kuva = view_->kuva();
-    QSize size = kuva.size();
+    QSize size = kuva_.size();
     size.scale(rect.size(), Qt::KeepAspectRatio);
     painter.setViewport( rect.x(), rect.y(),
                          size.width(), size.height());
-    painter.setWindow(kuva.rect());
-    painter.drawImage(0, 0, kuva);
+    painter.setWindow(kuva_.rect());
+    painter.drawImage(0, 0, kuva_);
 }
 
-void Naytin::KuvaNaytin::zoomOut()
-{
-    view_->zoomOut();
-}
-
-void Naytin::KuvaNaytin::zoomFit()
-{
-    view_->zoomFit();
-}
-
-void Naytin::KuvaNaytin::zoomIn()
-{
-    view_->zoomIn();
-    paivita();
-}
 

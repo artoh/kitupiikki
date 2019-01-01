@@ -18,10 +18,10 @@
 #define PRINTPREVIEWNAYTIN_H
 
 #include "abstraktinaytin.h"
-
 class QPrintPreviewWidget;
 
 namespace Naytin {
+
 
 /**
  * @brief QPrintPreviewWidgetillä toteutettujen näyttimien kantaluokka
@@ -33,10 +33,19 @@ public:
     PrintPreviewNaytin(QObject* parent = nullptr);
     virtual ~PrintPreviewNaytin() override;
 
+    virtual QString tiedostonMuoto() const override { return tr("pdf-tiedosto (*.pdf)");}
+    virtual QString tiedostonPaate() const override { return "pdf"; }
+
     virtual QWidget* widget() override;
+
+    virtual bool voikoZoomata() const override { return true;}
 
 public slots:
     virtual void paivita() const override;
+
+    virtual void zoomIn() override;
+    virtual void zoomOut() override;
+    virtual void zoomFit() override;
 
 protected:
     QPrintPreviewWidget *widget_ ;

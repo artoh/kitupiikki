@@ -31,7 +31,7 @@ NaytinIkkuna::NaytinIkkuna(QWidget *parent) : QMainWindow(parent)
 {
     setAttribute(Qt::WA_DeleteOnClose);
 
-    resize(800,600);
+    resize(800,600);   
     restoreGeometry( kp()->settings()->value("NaytinIkkuna").toByteArray());
 
     view_ = new NaytinView(this);
@@ -95,15 +95,13 @@ void NaytinIkkuna::naytaLiite(const int tositeId, const int liiteId)
 
 }
 
-void NaytinIkkuna::sisaltoMuuttui(const QString& tyyppi)
+void NaytinIkkuna::sisaltoMuuttui()
 {
     setWindowTitle( view()->otsikko() );
-    csvAktio_->setEnabled( view()->csvKaytossa() );
+    csvAktio_->setVisible( view()->csvKaytossa() );
 
-    // Tyypin mukaan napit
-    raitaAktio_->setEnabled( tyyppi == "raportti");
-    htmlAktio_->setEnabled( tyyppi == "raportti");
-    // sivunAsetusAktio_->setEnabled( tyyppi != "pdf");
+    raitaAktio_->setVisible( view()->csvKaytossa());
+    htmlAktio_->setVisible( view()->htmlKaytossa());
 
     if( view()->tiedostoPaate() == "jpg"  )
         avaaAktio_->setIcon( QIcon(":/pic/kuva.png"));

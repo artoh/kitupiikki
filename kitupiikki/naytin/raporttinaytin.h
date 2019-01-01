@@ -26,13 +26,9 @@ class RaporttiNaytin : public PrintPreviewNaytin
 {
     Q_OBJECT
 public:
-    RaporttiNaytin(RaportinKirjoittaja raportti, QObject *parent = nullptr);
+    RaporttiNaytin(const RaportinKirjoittaja& raportti, QObject *parent = nullptr);
 
     virtual QString otsikko() const override;
-    virtual QString tyyppi() const override { return "raportti"; }
-
-    virtual QString tiedostonMuoto() const override { return tr("pdf-tiedosto (*.pdf)");}
-    virtual QString tiedostonPaate() const override { return "pdf"; }
 
     virtual bool csvMuoto() const override;
     virtual QByteArray csv() const override;
@@ -41,6 +37,8 @@ public:
 
     virtual bool htmlMuoto() const override { return true; }
     virtual QString html() const override;
+
+    virtual bool voikoRaidoittaa() const override { return false;}
 
 public slots:
     virtual void tulosta(QPrinter* printer) const override;

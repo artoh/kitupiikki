@@ -18,7 +18,7 @@
 
 #include <QPainter>
 
-Naytin::RaporttiNaytin::RaporttiNaytin(RaportinKirjoittaja raportti, QObject *parent)
+Naytin::RaporttiNaytin::RaporttiNaytin(const RaportinKirjoittaja &raportti, QObject *parent)
     : PrintPreviewNaytin (parent),
       raportti_(raportti)
 {

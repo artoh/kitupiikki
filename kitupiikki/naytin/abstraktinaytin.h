@@ -36,7 +36,7 @@ public:
     virtual QWidget* widget() = 0;
 
     virtual QString otsikko() const { return QString();}
-    virtual QString tyyppi() const = 0;
+
     virtual QString tiedostonMuoto() const = 0;
     virtual QString tiedostonPaate() const = 0;
 
@@ -48,8 +48,11 @@ public:
     virtual bool htmlMuoto() const { return false; }
     virtual QString html() const { return QString();}
 
-    virtual void raidoita(bool raidat = false);
+    void raidoita(bool raidat = false);
     bool onkoRaidat() const { return raidat_;}
+    virtual bool voikoRaidoittaa() const { return false;}
+
+    virtual bool voikoZoomata() const { return false; }
 
 signals:
 
@@ -57,6 +60,10 @@ public slots:
 
     virtual void paivita() const = 0;
     virtual void tulosta(QPrinter* printer) const = 0;
+
+    virtual void zoomIn() {;}
+    virtual void zoomOut() {;}
+    virtual void zoomFit() {;}
 
 private:
     bool raidat_ {false};

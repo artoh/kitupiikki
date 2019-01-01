@@ -24,7 +24,7 @@
 #include "raportti/raportinkirjoittaja.h"
 
 class QAction;
-class QHBoxLayout;
+class QStackedLayout;
 
 namespace Naytin {
     class AbstraktiNaytin;
@@ -42,6 +42,9 @@ public:
 
     QString otsikko() const;
     bool csvKaytossa() const;
+    bool htmlKaytossa() const;
+    bool raidatKaytossa() const;
+    bool zoomKaytossa() const;
 
     QString tiedostonMuoto();
     QString tiedostoPaate();
@@ -67,17 +70,20 @@ public slots:
     void tallennaCsv();
     void csvLeikepoydalle();
 
+    void zoomFit();
+    void zoomIn();
+    void zoomOut();
+
 
 signals:
-    void sisaltoVaihtunut(const QString& tyyppi);
+    void sisaltoVaihtunut();
 
 
 protected:
     void vaihdaNaytin(Naytin::AbstraktiNaytin* naytin);
 
-    void mousePressEvent(QMouseEvent *event) override;
+    void contextMenuEvent(QContextMenuEvent *event) override;
 
-    double zoomaus_ = 1.00;
 
     QAction* zoomAktio_;
     QAction* zoomInAktio_;
@@ -85,7 +91,7 @@ protected:
     QAction* tulostaAktio_;
     QAction* tallennaAktio_;
 
-    QHBoxLayout *leiska_;
+    QStackedLayout *leiska_;
     Naytin::AbstraktiNaytin *naytin_ = nullptr;
 
 };

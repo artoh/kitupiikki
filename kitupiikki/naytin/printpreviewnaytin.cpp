@@ -39,3 +39,18 @@ void Naytin::PrintPreviewNaytin::paivita() const
 {
     widget_->updatePreview();
 }
+
+void Naytin::PrintPreviewNaytin::zoomIn()
+{
+    widget_->zoomIn();
+}
+
+void Naytin::PrintPreviewNaytin::zoomOut()
+{
+    widget_->zoomOut();
+}
+
+void Naytin::PrintPreviewNaytin::zoomFit()
+{
+    widget_->fitToWidth();
+}

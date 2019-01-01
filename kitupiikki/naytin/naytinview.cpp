@@ -30,7 +30,7 @@
 #include <QPrintDialog>
 #include <QTextStream>
 
-#include <QHBoxLayout>
+#include <QStackedLayout>
 
 #include <QDialog>
 #include "ui_csvvientivalinnat.h"
@@ -40,27 +40,35 @@
 #include <QMouseEvent>
 #include <QMenu>
 
+#include <QDebug>
+
+#include <QImage>
+#include <QApplication>
+
 #include "naytin/raporttinaytin.h"
+#include "naytin/pdfnaytin.h"
+#include "naytin/kuvanaytin.h"
+#include "naytin/tekstinaytin.h"
 
 #include "tuonti/csvtuonti.h"
 
 NaytinView::NaytinView(QWidget *parent)
     : QWidget(parent),
-      leiska_{ new QHBoxLayout()}
+      leiska_{ new QStackedLayout()}
 {
     setLayout(leiska_);
 
     zoomAktio_ = new QAction( QIcon(":/pic/zoom-fit-width.png"), tr("Sovita leveyteen"));
     zoomAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_0));
-    connect( zoomAktio_, &QAction::triggered, [this] { this->zoomaus_ = 1.00; this->paivita(); }  );
+    connect( zoomAktio_, &QAction::triggered, this, &NaytinView::zoomFit);
 
     zoomInAktio_ = new QAction( QIcon(":/pic/zoom-in.png"), tr("Suurenna"));
     zoomInAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus));
-    connect( zoomInAktio_, &QAction::triggered, [this] { this->zoomaus_ *= 1.5; this->paivita(); } );
+    connect( zoomInAktio_, &QAction::triggered, this, &NaytinView::zoomIn);
 
     zoomOutAktio_ = new QAction( QIcon(":/pic/zoom-out.png"), tr("Pienennä"));
     zoomOutAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus));
-    connect( zoomOutAktio_, &QAction::triggered, [this] { this->zoomaus_ *= 0.5; this->paivita();} );
+    connect( zoomOutAktio_, &QAction::triggered, this, &NaytinView::zoomOut);
 
     tulostaAktio_ = new QAction( QIcon(":/pic/tulosta.png"), tr("Tulosta"));
     connect( tulostaAktio_, &QAction::triggered, this, &NaytinView::tulosta);
@@ -73,6 +81,17 @@ NaytinView::NaytinView(QWidget *parent)
 
 void NaytinView::nayta(const QByteArray &data)
 {
+    if( data.startsWith("%PDF"))
+        vaihdaNaytin( new Naytin::PdfNaytin(data));
+    else {
+        QImage kuva;
+        kuva.loadFromData(data);
+        if( !kuva.isNull()) {
+            vaihdaNaytin( new Naytin::KuvaNaytin(kuva));
+        } else {
+            vaihdaNaytin( new Naytin::TekstiNaytin( CsvTuonti::haistettuKoodattu(data) ) );
+        }
+    }
 
 }
 
@@ -144,7 +163,7 @@ void NaytinView::tallenna()
 
 void NaytinView::avaaHtml()
 {
-    QString tiedostonnimi = kp()->tilapainen( "raportti-XXXX.html" );
+    QString tiedostonnimi = kp()->tilapainen( "XXXX.html" );
 
     QFile tiedosto( tiedostonnimi);
     tiedosto.open( QIODevice::WriteOnly);
@@ -265,6 +284,24 @@ void NaytinView::csvLeikepoydalle()
     kp()->onni(tr("Viety leikepöydälle"));
 }
 
+void NaytinView::zoomFit()
+{
+    if( naytin_)
+        naytin_->zoomFit();
+}
+
+void NaytinView::zoomIn()
+{
+    if( naytin_)
+        naytin_->zoomIn();
+}
+
+void NaytinView::zoomOut()
+{
+    if( naytin_)
+        naytin_->zoomOut();
+}
+
 QString NaytinView::otsikko() const
 {
     return naytin_ ? naytin_->otsikko() : QString();
@@ -273,6 +310,21 @@ QString NaytinView::otsikko() const
 bool NaytinView::csvKaytossa() const
 {
     return naytin_ ? naytin_->csvMuoto() : false;
+}
+
+bool NaytinView::htmlKaytossa() const
+{
+    return naytin_ ? naytin_->htmlMuoto() : false;
+}
+
+bool NaytinView::raidatKaytossa() const
+{
+    return naytin_ ? naytin_->voikoRaidoittaa() : false;
+}
+
+bool NaytinView::zoomKaytossa() const
+{
+    return naytin_ ? naytin_->voikoZoomata() : false;
 }
 
 QByteArray NaytinView::csv()
@@ -311,25 +363,24 @@ void NaytinView::vaihdaNaytin(Naytin::AbstraktiNaytin *naytin)
 
     naytin_ = naytin;
     leiska_->addWidget( naytin->widget());
+
+
+    emit sisaltoVaihtunut();
 }
 
-void NaytinView::mousePressEvent(QMouseEvent *event)
-{
-    if( event->button() == Qt::RightButton)
-    {
-        QMenu valikko;
-        if( naytin_ )
-        {
-            valikko.addAction(zoomAktio_);
-            valikko.addAction(zoomInAktio_);
-            valikko.addAction(zoomOutAktio_);
-            valikko.addSeparator();
-        }
-        valikko.addAction(tulostaAktio_);
-        valikko.addAction(tallennaAktio_);
 
-        valikko.exec(QCursor::pos());
+void NaytinView::contextMenuEvent(QContextMenuEvent *event)
+{
+    QMenu valikko(this);
+    if( naytin_ && naytin_->voikoZoomata() )
+    {
+        valikko.addAction(zoomAktio_);
+        valikko.addAction(zoomInAktio_);
+        valikko.addAction(zoomOutAktio_);
+        valikko.addSeparator();
     }
-    else
-        QWidget::mousePressEvent(event);
+    valikko.addAction(tulostaAktio_);
+    valikko.addAction(tallennaAktio_);
+
+    valikko.exec( event->globalPos() );
 }

@@ -17,43 +17,32 @@
 #ifndef KUVANAYTIN_H
 #define KUVANAYTIN_H
 
-#include "abstraktinaytin.h"
+#include "naytinscene.h"
 
 #include <QImage>
 
-namespace Naytin {
-
-class KuvaView;
-
-class KuvaNaytin : public AbstraktiNaytin
+class VanhaKuvaNaytin : public NaytinScene
 {
+    Q_OBJECT
 public:
-    KuvaNaytin(const QImage& kuva, QObject *parent = nullptr);
+    VanhaKuvaNaytin(QObject *parent = nullptr);
+    VanhaKuvaNaytin(const QByteArray& kuvadata, QObject *parent = nullptr);
 
-    QWidget* widget() override;
+    bool naytaKuva(const QByteArray& kuvadata);
 
-    QString tiedostonMuoto() const override { return tr("jpg-kuvatiedosto (*.jpg)");}
-    QString tiedostonPaate() const override { return "jpg"; }
+    QString tyyppi() const override;
+    QString otsikko() const override { return tr("Kitupiikki");}
 
-    QByteArray data() const override;
+    void piirraLeveyteen(double leveyteen) override;
 
-    bool voikoZoomata() const override { return true; }
+    QString tiedostonMuoto() override { return tr("jpg-kuvatiedosto (*.jpg)");}
+    QString tiedostoPaate() override { return "jpg"; }
+    QByteArray data() override;
 
-public slots:
-    void paivita() const override;
-    void tulosta(QPrinter* printer) const override;
+    void tulosta(QPrinter* printer) override;
 
-    virtual void zoomIn() override;
-    virtual void zoomOut() override;
-    virtual void zoomFit() override;
-
-protected:
-    KuvaView* view_;
-
+private:
+    QImage kuva_;
 };
-
-}
-
-
 
 #endif // KUVANAYTIN_H

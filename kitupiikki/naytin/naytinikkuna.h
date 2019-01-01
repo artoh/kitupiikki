@@ -44,7 +44,7 @@ public:
     static void naytaLiite(const int tositeId, const int liiteId);
 
 private slots:
-    void sisaltoMuuttui(const QString& tyyppi);
+    void sisaltoMuuttui();
 
 private:
     void teeToolbar();
