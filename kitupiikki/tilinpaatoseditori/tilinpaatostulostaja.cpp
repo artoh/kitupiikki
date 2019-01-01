@@ -129,7 +129,7 @@ QByteArray TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, const Q
     doc.setHtml( teksti.mid(teksti.indexOf('\n')+1) );
 
 
-    int pages = qRound( doc.size().height() / sivunkoko.height() + 1 );
+    int pages = qRound( doc.size().height() / sivunkoko.height()  );
     for( int i=0; i < pages; i++)
     {
         writer.newPage();
