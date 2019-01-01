@@ -152,10 +152,7 @@ SOURCES += main.cpp \
     laskutus/asiakkaatmodel.cpp \
     laskutus/laskusivu.cpp \
     laskutus/yhteystietowidget.cpp \
-    naytin/naytinscene.cpp \
-    naytin/pdfscene.cpp \
     naytin/naytinview.cpp \
-    naytin/raporttiscene.cpp \
     naytin/naytinikkuna.cpp \
     maaritys/tallentavamaarityswidget.cpp \
     maaritys/inboxmaaritys.cpp \
@@ -179,7 +176,6 @@ SOURCES += main.cpp \
     naytin/printpreviewnaytin.cpp \
     naytin/raporttinaytin.cpp \
     naytin/pdfnaytin.cpp \
-    naytin/vanhakuvanaytin.cpp \
     naytin/kuvanaytin.cpp \
     naytin/kuvaview.cpp \
     naytin/tekstinaytin.cpp
@@ -311,10 +307,7 @@ HEADERS += \
     laskutus/asiakkaatmodel.h \
     laskutus/laskusivu.h \
     laskutus/yhteystietowidget.h \
-    naytin/naytinscene.h \
-    naytin/pdfscene.h \
     naytin/naytinview.h \
-    naytin/raporttiscene.h \
     naytin/naytinikkuna.h \
     maaritys/tallentavamaarityswidget.h \
     maaritys/inboxmaaritys.h \
@@ -339,7 +332,6 @@ HEADERS += \
     naytin/printpreviewnaytin.h \
     naytin/raporttinaytin.h \
     naytin/pdfnaytin.h \
-    naytin/vanhakuvanaytin.h \
     naytin/kuvanaytin.h \
     naytin/kuvaview.h \
     naytin/tekstinaytin.h

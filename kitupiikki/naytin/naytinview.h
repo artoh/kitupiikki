@@ -19,8 +19,6 @@
 
 #include <QWidget>
 
-
-#include "naytinscene.h"
 #include "raportti/raportinkirjoittaja.h"
 
 class QAction;
@@ -55,6 +53,7 @@ public:
 public slots:
     void nayta(const QByteArray& data);
     void nayta(const RaportinKirjoittaja &raportti);
+
     void paivita();
     void raidoita(bool raidat);
     void tulosta();

@@ -53,6 +53,14 @@ private slots:
     void paivitaSumma(qlonglong paivitaSumma);
     void esikatsele();
     /**
+     * @brief Tulostuksen toteutus
+     *
+     * Tukee ryhmälaskutusta
+     *
+     * @param printer
+     */
+    void tulosta(QPrinter *printer);
+    /**
      * @brief Finvoice-verkkolaskun muodostaminen
      */
     void finvoice();

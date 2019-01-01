@@ -32,6 +32,7 @@
 
 #include "kirjaus/verodialogi.h"
 #include "naytin/naytinikkuna.h"
+#include "naytin/naytinview.h"
 #include "validator/ytunnusvalidator.h"
 #include "asiakkaatmodel.h"
 #include "ryhmaasiakasproxy.h"
@@ -55,6 +56,7 @@
 #include <QFileDialog>
 #include <QMenu>
 #include <QAction>
+#include <QPrintPreviewDialog>
 
 #include <QSettings>
 #include <QRegularExpression>
@@ -297,37 +299,39 @@ void LaskuDialogi::esikatsele()
     if( !model->tarkastaAlvLukko())
         return;
 
-    if( model->tyyppi() == LaskuModel::RYHMALASKU )
-    {
-        QByteArray array;
-        QBuffer buffer(&array);
-        buffer.open(QIODevice::WriteOnly);
+    QPrintPreviewDialog esikatselija( kp()->printer());
+    connect( &esikatselija, &QPrintPreviewDialog::paintRequested,
+             this, &LaskuDialogi::tulosta);
+    esikatselija.restoreGeometry(kp()->settings()->value("NaytinIkkuna").toByteArray());
+    esikatselija.exec();
 
-        QPdfWriter writer(&buffer);
-        writer.setCreator(QString("%1 %2").arg( qApp->applicationName() ).arg( qApp->applicationVersion() ));
-        writer.setTitle( tr("Ryhmälaskutus %1").arg(QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm")) );
-        QPainter painter( &writer);
+
+    return;
+}
+
+void LaskuDialogi::tulosta(QPrinter *printer)
+{
+    QPainter painter( printer);
+    if( model->tyyppi() == LaskuModel::RYHMALASKU)
+    {
 
         bool sivunvaihto = false;
         for(const QModelIndex& indeksi : ui->ryhmaView->selectionModel()->selectedRows() )
         {
             if( sivunvaihto )
-                writer.newPage();
-            model->haeRyhmasta( ryhmaProxy_->mapToSource( indeksi ).row());
+                printer->newPage();
+            model->haeRyhmasta( ryhmaProxy_->mapToSource( indeksi).row());
 
-            tulostaja->tulosta( &writer, &painter);
+            tulostaja->tulosta( printer , &painter);
             sivunvaihto = true;
         }
-
-        painter.end();
-        buffer.close();
-        NaytinIkkuna::nayta(array);
-
     }
     else
     {
-        NaytinIkkuna::nayta( tulostaja->pdf() );
+        tulostaja->tulosta( printer, &painter );
     }
+
+    painter.end();
 }
 
 void LaskuDialogi::finvoice()
@@ -639,27 +643,7 @@ void LaskuDialogi::tulostaLasku()
     QPrintDialog printDialog( kp()->printer(), this );    
     if( printDialog.exec())
     {
-        QPainter painter( kp()->printer());
-        if( model->tyyppi() == LaskuModel::RYHMALASKU)
-        {
-
-            bool sivunvaihto = false;
-            for(const QModelIndex& indeksi : ui->ryhmaView->selectionModel()->selectedRows() )
-            {
-                if( sivunvaihto )
-                    kp()->printer()->newPage();
-                model->haeRyhmasta( ryhmaProxy_->mapToSource( indeksi).row());
-
-                tulostaja->tulosta( kp()->printer() , &painter);
-                sivunvaihto = true;
-            }
-        }
-        else
-        {
-            tulostaja->tulosta( kp()->printer(), &painter );
-        }
-
-        painter.end();
+       tulosta( kp()->printer() );
     }
 
     kp()->printer()->setPageLayout(vanhaleiska);
