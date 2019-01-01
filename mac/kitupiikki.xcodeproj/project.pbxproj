@@ -266,7 +266,6 @@
 		CB97A50F2183800C009B6CE7 /* budjettivertailu.ui in Copy Bundle Resources */ = {isa = PBXBuildFile; fileRef = CB97A50E2183800C009B6CE7 /* budjettivertailu.ui */; };
 		CB97A5122183801E009B6CE7 /* budjettivertailu.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB97A5102183801E009B6CE7 /* budjettivertailu.cpp */; };
 		CB97A515218387B1009B6CE7 /* moc_budjettivertailu.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB97A514218387B0009B6CE7 /* moc_budjettivertailu.cpp */; };
-		CB9F3C0221D76FFF00F116B4 /* QtDBus.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = CB9F3C0121D76FFF00F116B4 /* QtDBus.framework */; };
 		CB9F3C0321D771C000F116B4 /* QtDBus.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = CB9F3C0121D76FFF00F116B4 /* QtDBus.framework */; };
 		CB9F3C0421D771C000F116B4 /* QtDBus.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CB9F3C0121D76FFF00F116B4 /* QtDBus.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CBB34F1F21554E0000BE6C3E /* ytunnusvalidator.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CBB34F1D21554E0000BE6C3E /* ytunnusvalidator.cpp */; };
@@ -972,7 +971,6 @@
 				CB8E95F920E6A3CE00C89EEB /* QtNetwork.framework in Link Binary With Libraries */,
 				CB8E95F420E69D3700C89EEB /* DiskArbitration.framework in Link Binary With Libraries */,
 				CB8E95E320E69CD700C89EEB /* QtSql.framework in Link Binary With Libraries */,
-				CB9F3C0221D76FFF00F116B4 /* QtDBus.framework in Link Binary With Libraries */,
 				CB8E95F520E69D3F00C89EEB /* IOKit.framework in Link Binary With Libraries */,
 				CB8E95F620E69D4400C89EEB /* OpenGL.framework in Link Binary With Libraries */,
 				CB8E95F720E69D4900C89EEB /* AGL.framework in Link Binary With Libraries */,
