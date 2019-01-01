@@ -14,17 +14,23 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef VERSIO_H
-#define VERSIO_H
+#include "abstraktinaytin.h"
 
 
-/**
-  @file Kitupiikin version määrittely
 
-  Kitupiikin versio määritellään tässä tiedostossa. Tiedosto voidaan myös generoida käännösaikaisesti.
-*/
+Naytin::AbstraktiNaytin::AbstraktiNaytin( QObject *parent)
+    :  QObject (parent)
+{
 
-#define KITUPIIKKI_VERSIO "1.3-beta.1"
-#define KITUPIIKKI_BUILD "TESTI"
+}
 
-#endif // VERSIO_H
+Naytin::AbstraktiNaytin::~AbstraktiNaytin()
+{
+
+}
+
+void Naytin::AbstraktiNaytin::raidoita(bool raidat)
+{
+    raidat_ = raidat;
+    paivita();
+}

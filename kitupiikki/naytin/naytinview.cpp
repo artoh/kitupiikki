@@ -16,9 +16,6 @@
 */
 #include "naytinview.h"
 
-#include "pdfscene.h"
-#include "kuvanaytin.h"
-#include "raporttiscene.h"
 #include "db/kirjanpito.h"
 
 #include <QPageSetupDialog>
@@ -33,6 +30,8 @@
 #include <QPrintDialog>
 #include <QTextStream>
 
+#include <QHBoxLayout>
+
 #include <QDialog>
 #include "ui_csvvientivalinnat.h"
 #include <QAction>
@@ -41,30 +40,15 @@
 #include <QMouseEvent>
 #include <QMenu>
 
-#include <QStackedLayout>
-#include <QTextEdit>
-
-#include <QPrintPreviewWidget>
+#include "naytin/raporttinaytin.h"
 
 #include "tuonti/csvtuonti.h"
 
 NaytinView::NaytinView(QWidget *parent)
-    : QWidget(parent)
+    : QWidget(parent),
+      leiska_{ new QHBoxLayout()}
 {
-    view_ = new QGraphicsView();
-    view_->setDragMode( QGraphicsView::ScrollHandDrag);
-
-    leiska_ = new QStackedLayout;
-    leiska_->addWidget(view_);
     setLayout(leiska_);
-
-    editor_ = new QTextEdit();
-    editor_->setReadOnly(true);
-    leiska_->addWidget(editor_);
-
-    // Kokeillaan esikatseluwidgettiä raportin esikatseluun
-    preview_ = new QPrintPreviewWidget( kp()->printer() );
-    leiska_->addWidget( preview_ );
 
     zoomAktio_ = new QAction( QIcon(":/pic/zoom-fit-width.png"), tr("Sovita leveyteen"));
     zoomAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_0));
@@ -89,63 +73,33 @@ NaytinView::NaytinView(QWidget *parent)
 
 void NaytinView::nayta(const QByteArray &data)
 {
-    if( data.startsWith("%PDF"))
-        vaihdaScene( new PdfScene(data, this) );
-    else
-    {
-        vaihdaScene( new KuvaNaytin(data, this));
-        if( scene_->tyyppi().isEmpty())
-        {
-            leiska_->setCurrentIndex(Editor);
-            editor_->setText( CsvTuonti::haistettuKoodattu(data) );
-            scene_->deleteLater();
-            scene_=nullptr;
-        }
-    }
 
 }
 
 void NaytinView::nayta(const RaportinKirjoittaja& raportti)
 {
-    if( scene_)
-        scene_->deleteLater();
-
-    // vaihdaScene( new RaporttiScene(raportti)  );
-    scene_ = new RaporttiScene(raportti);
-
-    connect( preview_, &QPrintPreviewWidget::paintRequested, scene_, &NaytinScene::tulosta );
-    leiska_->setCurrentIndex( Raportti );
-
-}
-
-void NaytinView::sivunAsetuksetMuuttuneet()
-{
-    if( scene_->sivunAsetuksetMuuttuneet() )
-        paivita();
+    vaihdaNaytin( new Naytin::RaporttiNaytin(raportti ) );
 }
 
 void NaytinView::paivita()
 {
-    if( scene_ )
-        scene_->piirraLeveyteen( zoomaus_ * width() - 20.0 );
+    if( naytin_)
+        naytin_->paivita();
 }
 
 void NaytinView::raidoita(bool raidat)
 {
-    if( scene_ && scene_->raidoita(raidat))
-        paivita();
+    if( naytin_)
+        naytin_->raidoita(raidat);
 }
 
 void NaytinView::tulosta()
 {
     QPrintDialog printDialog( kp()->printer(), this);
     printDialog.setOptions( QPrintDialog::PrintToFile | QPrintDialog::PrintShowPageSize );
-    if( printDialog.exec())
+    if( printDialog.exec() && naytin_)
     {
-        if( scene_ )
-            scene_->tulosta( kp()->printer() );
-        else
-            editor_->print( kp()->printer() );
+        naytin_->tulosta( kp()->printer() );
     }
 
 }
@@ -154,12 +108,12 @@ void NaytinView::sivunAsetukset()
 {
     QPageSetupDialog dlg(kp()->printer(), this);
     dlg.exec();
-    sivunAsetuksetMuuttuneet();
+    paivita();
 }
 
 void NaytinView::avaaOhjelmalla()
 {
-    // Luo tilapäisen pdf-tiedoston
+    // Luo tilapäisen tiedoston
     QString tiedostonnimi = kp()->tilapainen( QString("liite-XXXX.").append(tiedostoPaate()) );
 
     QFile tiedosto( tiedostonnimi);
@@ -313,72 +267,50 @@ void NaytinView::csvLeikepoydalle()
 
 QString NaytinView::otsikko() const
 {
-    if( scene_ )
-        return scene_->otsikko();
-    else
-        return QString();
+    return naytin_ ? naytin_->otsikko() : QString();
 }
 
 bool NaytinView::csvKaytossa() const
 {
-    if( scene_ )
-        return scene_->csvMuoto();
-    return false;
+    return naytin_ ? naytin_->csvMuoto() : false;
 }
 
 QByteArray NaytinView::csv()
 {
-    if( scene_ )
-        return scene_->csv();
-    return QByteArray();
+    return naytin_ ? naytin_->csv() : QByteArray();
 }
 
 QString NaytinView::tiedostonMuoto()
 {
-    if( scene_ )
-        return scene_->tiedostonMuoto();
-    return tr("kaikki tiedostot (*)");
+    return naytin_ ? naytin_->tiedostonMuoto() : QString();
 }
 
 QString NaytinView::tiedostoPaate()
 {
-    if( scene_)
-        return scene_->tiedostoPaate();
-    return "txt";
+    return naytin_ ? naytin_->tiedostonPaate() : QString();
 }
 
 QByteArray NaytinView::data()
 {
-    if( scene_ )
-        return scene_->data();
-    return editor_->toPlainText().toUtf8();
+    return naytin_ ? naytin_->data() : QByteArray();
 }
 
 QString NaytinView::html()
 {
-    if( scene_ )
-        return  scene_->html();
-    return editor_->toHtml();
+    return naytin_ ? naytin_->html() : QString();
 }
 
-void NaytinView::vaihdaScene(NaytinScene *uusi)
+void NaytinView::vaihdaNaytin(Naytin::AbstraktiNaytin *naytin)
 {
-    if( scene_)
-        scene_->deleteLater();
+    if( naytin_ )
+    {
+        leiska_->removeWidget( naytin_->widget() );
+        naytin_->deleteLater();
+        naytin_ = nullptr;
+    }
 
-    scene_ = uusi;
-
-    emit( sisaltoVaihtunut(scene_->tyyppi()));
-
-    leiska_->setCurrentIndex(Scene);
-    view_->setScene(uusi);
-    paivita();
-}
-
-void NaytinView::resizeEvent(QResizeEvent * /*event*/)
-{
-    if( scene_)
-        scene_->piirraLeveyteen( zoomaus_ * width() - 20.0);
+    naytin_ = naytin;
+    leiska_->addWidget( naytin->widget());
 }
 
 void NaytinView::mousePressEvent(QMouseEvent *event)
@@ -386,7 +318,7 @@ void NaytinView::mousePressEvent(QMouseEvent *event)
     if( event->button() == Qt::RightButton)
     {
         QMenu valikko;
-        if( scene_ )
+        if( naytin_ )
         {
             valikko.addAction(zoomAktio_);
             valikko.addAction(zoomInAktio_);

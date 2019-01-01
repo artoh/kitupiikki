@@ -302,7 +302,7 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
     return sivu;
 }
 
-QString RaportinKirjoittaja::html(bool linkit)
+QString RaportinKirjoittaja::html(bool linkit) const
 {
     QString txt;
 
@@ -442,7 +442,7 @@ QByteArray RaportinKirjoittaja::pdf(bool taustaraidat, bool tulostaA4) const
 
 }
 
-QByteArray RaportinKirjoittaja::csv()
+QByteArray RaportinKirjoittaja::csv() const
 {
     QChar erotin = kp()->settings()->value("CsvErotin", QChar(',')).toChar();
 

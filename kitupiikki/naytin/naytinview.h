@@ -17,14 +17,19 @@
 #ifndef NAYTINVIEW_H
 #define NAYTINVIEW_H
 
-#include <QGraphicsView>
+#include <QWidget>
+
+
 #include "naytinscene.h"
 #include "raportti/raportinkirjoittaja.h"
 
 class QAction;
-class QTextEdit;
-class QStackedLayout;
-class QPrintPreviewWidget;
+class QHBoxLayout;
+
+namespace Naytin {
+    class AbstraktiNaytin;
+}
+
 
 /**
  * @brief Widgetti liitteiden, raporttien jne esittämiseen
@@ -35,16 +40,18 @@ class NaytinView : public QWidget
 public:
     NaytinView(QWidget *parent = nullptr);
 
-    enum {
-      Scene = 0,
-      Editor = 1,
-      Raportti = 2
-    };
+    QString otsikko() const;
+    bool csvKaytossa() const;
+
+    QString tiedostonMuoto();
+    QString tiedostoPaate();
+    QByteArray csv();
+    QByteArray data();
+    QString html();
 
 public slots:
     void nayta(const QByteArray& data);
     void nayta(const RaportinKirjoittaja &raportti);
-    void sivunAsetuksetMuuttuneet();
     void paivita();
     void raidoita(bool raidat);
     void tulosta();
@@ -60,27 +67,17 @@ public slots:
     void tallennaCsv();
     void csvLeikepoydalle();
 
-    QString otsikko() const;
-    bool csvKaytossa() const;
-
-    QString tiedostonMuoto();
-    QString tiedostoPaate();
-    QByteArray csv();
-    QByteArray data();
-    QString html();
 
 signals:
     void sisaltoVaihtunut(const QString& tyyppi);
 
 
 protected:
-    void vaihdaScene(NaytinScene* uusi);
-    void resizeEvent(QResizeEvent *event) override;
+    void vaihdaNaytin(Naytin::AbstraktiNaytin* naytin);
 
     void mousePressEvent(QMouseEvent *event) override;
 
     double zoomaus_ = 1.00;
-    NaytinScene *scene_ = nullptr;
 
     QAction* zoomAktio_;
     QAction* zoomInAktio_;
@@ -88,11 +85,8 @@ protected:
     QAction* tulostaAktio_;
     QAction* tallennaAktio_;
 
-    QStackedLayout* leiska_;
-    QGraphicsView* view_;
-    QTextEdit *editor_;
-
-    QPrintPreviewWidget *preview_;
+    QHBoxLayout *leiska_;
+    Naytin::AbstraktiNaytin *naytin_ = nullptr;
 
 };
 

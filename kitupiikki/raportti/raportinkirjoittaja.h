@@ -133,7 +133,7 @@ public:
      * @brief Palauttaa raportin html-muodossa
      * @return
      */
-    QString html(bool linkit=false);
+    QString html(bool linkit=false) const;
 
     /**
      * @brief pdf Raportti pdf-muodossa
@@ -151,7 +151,7 @@ public:
      *
      * @return
      */
-    QByteArray csv();
+    QByteArray csv() const;
 
     QString otsikko() const { return otsikko_; }
     QString kausiteksti() const { return kausiteksti_; }

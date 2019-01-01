@@ -175,7 +175,10 @@ SOURCES += main.cpp \
     alv/alvilmoitustenmodel.cpp \
     alv/alvsivu.cpp \
     alv/marginaalilaskelma.cpp \
-    laskutus/erittelyruudukko.cpp
+    laskutus/erittelyruudukko.cpp \
+    naytin/abstraktinaytin.cpp \
+    naytin/printpreviewnaytin.cpp \
+    naytin/raporttinaytin.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -328,7 +331,10 @@ HEADERS += \
     alv/alvilmoitustenmodel.h \
     alv/alvsivu.h \
     alv/marginaalilaskelma.h \
-    laskutus/erittelyruudukko.h
+    laskutus/erittelyruudukko.h \
+    naytin/abstraktinaytin.h \
+    naytin/printpreviewnaytin.h \
+    naytin/raporttinaytin.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

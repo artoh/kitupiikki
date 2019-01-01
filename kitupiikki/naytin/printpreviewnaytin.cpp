@@ -14,17 +14,28 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef VERSIO_H
-#define VERSIO_H
+#include "printpreviewnaytin.h"
 
+#include <QPrintPreviewWidget>
+#include "db/kirjanpito.h"
 
-/**
-  @file Kitupiikin version määrittely
+Naytin::PrintPreviewNaytin::PrintPreviewNaytin(QObject *parent)
+    : AbstraktiNaytin (parent), widget_{ new QPrintPreviewWidget( kp()->printer() ) }
+{
+    connect( widget_, &QPrintPreviewWidget::paintRequested, this, &PrintPreviewNaytin::tulosta );
+}
 
-  Kitupiikin versio määritellään tässä tiedostossa. Tiedosto voidaan myös generoida käännösaikaisesti.
-*/
+Naytin::PrintPreviewNaytin::~PrintPreviewNaytin()
+{
+    widget_->deleteLater();
+}
 
-#define KITUPIIKKI_VERSIO "1.3-beta.1"
-#define KITUPIIKKI_BUILD "TESTI"
+QWidget *Naytin::PrintPreviewNaytin::widget()
+{
+    return widget_;
+}
 
-#endif // VERSIO_H
+void Naytin::PrintPreviewNaytin::paivita() const
+{
+    widget_->updatePreview();
+}

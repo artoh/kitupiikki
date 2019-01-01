@@ -14,17 +14,34 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef VERSIO_H
-#define VERSIO_H
+#ifndef PRINTPREVIEWNAYTIN_H
+#define PRINTPREVIEWNAYTIN_H
 
+#include "abstraktinaytin.h"
+
+class QPrintPreviewWidget;
+
+namespace Naytin {
 
 /**
-  @file Kitupiikin version määrittely
+ * @brief QPrintPreviewWidgetillä toteutettujen näyttimien kantaluokka
+ */
+class PrintPreviewNaytin : public AbstraktiNaytin
+{
+    Q_OBJECT
+public:
+    PrintPreviewNaytin(QObject* parent = nullptr);
+    virtual ~PrintPreviewNaytin() override;
 
-  Kitupiikin versio määritellään tässä tiedostossa. Tiedosto voidaan myös generoida käännösaikaisesti.
-*/
+    virtual QWidget* widget() override;
 
-#define KITUPIIKKI_VERSIO "1.3-beta.1"
-#define KITUPIIKKI_BUILD "TESTI"
+public slots:
+    virtual void paivita() const override;
 
-#endif // VERSIO_H
+protected:
+    QPrintPreviewWidget *widget_ ;
+};
+
+}
+
+#endif // PRINTPREVIEWNAYTIN_H
