@@ -61,6 +61,8 @@ RC-versiota voit käyttää toisen Kitupiikin version rinnalla. Windowsin beta-v
 
     <span class="fa fa-linux"></span> [Kitupiikki 1.3 RC Linux AppImage (34 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.3-rc/Kitupiikki-1.3-rc-x86_64.AppImage)
 
+    <span class="fa fa-apple"></span> [Kitupiikki 1.3-beta.1 macOS asennuspaketti (17 MB) ](https://github.com/petriaarnio/kitupiikki/releases/download/mac-v1.3-beta.1%2B9/kitupiikki-1.3-beta.1+9.dmg)  
+
 
 ## Kehitysversio
 
