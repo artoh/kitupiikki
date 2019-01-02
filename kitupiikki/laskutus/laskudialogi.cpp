@@ -65,6 +65,8 @@
 #include <QPdfWriter>
 
 
+
+
 LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     model(laskumodel), ui( new Ui::LaskuDialogi)
 {
@@ -244,7 +246,7 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     connect( ui->lisaaNappi, SIGNAL(clicked(bool)), model, SLOT(lisaaRivi()));
     connect( ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poistaLaskuRivi()));
     connect( ui->tulostaNappi, SIGNAL(clicked(bool)), this, SLOT(tulostaLasku()));
-    connect( ui->esikatseluNappi, SIGNAL(clicked(bool)), this, SLOT(esikatsele()));
+    connect( ui->esikatseluNappi, SIGNAL(clicked(bool)), this, SLOT(esikatselu()));
     connect( ui->spostiNappi, SIGNAL(clicked(bool)), this, SLOT(lahetaSahkopostilla()));
 
     connect( model, &LaskuModel::summaMuuttunut, this, &LaskuDialogi::paivitaSumma);
@@ -293,11 +295,15 @@ void LaskuDialogi::paivitaSumma(qlonglong summa)
     ui->summaLabel->setText( QString("%L1 €").arg(summa / 100.0,0,'f',2) );
 }
 
-void LaskuDialogi::esikatsele()
+void LaskuDialogi::esikatselu()
 {
     vieMalliin();
     if( !model->tarkastaAlvLukko())
         return;
+
+    esikatsele();
+
+    return;
 
     QPrintPreviewDialog esikatselija( kp()->printer());
     connect( &esikatselija, &QPrintPreviewDialog::paintRequested,
@@ -309,7 +315,7 @@ void LaskuDialogi::esikatsele()
     return;
 }
 
-void LaskuDialogi::tulosta(QPrinter *printer)
+void LaskuDialogi::tulosta(QPagedPaintDevice *printer)
 {
     QPainter painter( printer);
     if( model->tyyppi() == LaskuModel::RYHMALASKU)
@@ -332,6 +338,11 @@ void LaskuDialogi::tulosta(QPrinter *printer)
     }
 
     painter.end();
+}
+
+QString LaskuDialogi::otsikko() const
+{
+    return tr("Lasku %1").arg(model->laskunro());
 }
 
 void LaskuDialogi::finvoice()

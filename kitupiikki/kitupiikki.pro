@@ -178,7 +178,9 @@ SOURCES += main.cpp \
     naytin/pdfnaytin.cpp \
     naytin/kuvanaytin.cpp \
     naytin/kuvaview.cpp \
-    naytin/tekstinaytin.cpp
+    naytin/tekstinaytin.cpp \
+    naytin/esikatseltava.cpp \
+    naytin/esikatselunaytin.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -334,7 +336,9 @@ HEADERS += \
     naytin/pdfnaytin.h \
     naytin/kuvanaytin.h \
     naytin/kuvaview.h \
-    naytin/tekstinaytin.h
+    naytin/tekstinaytin.h \
+    naytin/esikatseltava.h \
+    naytin/esikatselunaytin.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

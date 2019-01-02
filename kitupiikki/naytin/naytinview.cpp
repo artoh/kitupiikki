@@ -51,6 +51,7 @@
 #include "naytin/tekstinaytin.h"
 
 #include "tuonti/csvtuonti.h"
+#include "naytin/esikatselunaytin.h"
 
 NaytinView::NaytinView(QWidget *parent)
     : QWidget(parent),
@@ -99,6 +100,15 @@ void NaytinView::nayta(const RaportinKirjoittaja& raportti)
 {
     vaihdaNaytin( new Naytin::RaporttiNaytin(raportti ) );
 }
+
+Naytin::EsikatseluNaytin* NaytinView::esikatsele(Esikatseltava *katseltava)
+{
+    Naytin::EsikatseluNaytin *naytin = new Naytin::EsikatseluNaytin(katseltava);
+    vaihdaNaytin( naytin );
+    return naytin;
+}
+
+
 
 void NaytinView::paivita()
 {

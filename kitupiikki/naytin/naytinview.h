@@ -23,9 +23,11 @@
 
 class QAction;
 class QStackedLayout;
+class Esikatseltava;
 
 namespace Naytin {
     class AbstraktiNaytin;
+    class EsikatseluNaytin;
 }
 
 
@@ -53,6 +55,8 @@ public:
 public slots:
     void nayta(const QByteArray& data);
     void nayta(const RaportinKirjoittaja &raportti);
+
+    Naytin::EsikatseluNaytin *esikatsele(Esikatseltava* katseltava);
 
     void paivita();
     void raidoita(bool raidat);
