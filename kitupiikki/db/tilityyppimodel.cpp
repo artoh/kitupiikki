@@ -25,8 +25,8 @@ TiliTyyppi::TiliTyyppi(int otsikkotaso)
     kuvaus_ = QString("Otsikko %1").arg(otsikkotaso);
 }
 
-TiliTyyppi::TiliTyyppi(QString tyyppikoodi, QString kuvaus, TiliLaji::TiliLuonne luonne)
-    : tyyppikoodi_(tyyppikoodi), kuvaus_(kuvaus), luonne_(luonne), otsikkotaso_(0)
+TiliTyyppi::TiliTyyppi(QString tyyppikoodi, QString kuvaus, TiliLaji::TiliLuonne luonne, bool uniikki)
+    : tyyppikoodi_(tyyppikoodi), kuvaus_(kuvaus), luonne_(luonne), otsikkotaso_(0), uniikki_(uniikki)
 {
 
 }
@@ -47,20 +47,20 @@ TilityyppiModel::TilityyppiModel(QObject *parent)
     lisaa(TiliTyyppi("APT","Poistokelpoinen omaisuus tasapoistolla",TiliLaji::TASAERAPOISTO));
     lisaa(TiliTyyppi("AS","Saatavaa",TiliLaji::SAATAVA));
     lisaa(TiliTyyppi("AO","Myyntisaatavat",TiliLaji::MYYNTISAATAVA));
-    lisaa(TiliTyyppi("AL","Arvonlisäverosaatava", TiliLaji::ALVSAATAVA));
-    lisaa(TiliTyyppi("ALM","Maksuperusteisen alv:n kohdentamaton saatava", TiliLaji::KOHDENTAMATONALVSAATAVA));
-    lisaa(TiliTyyppi("AV","Verosaatava",TiliLaji::VEROSAATAVA));
+    lisaa(TiliTyyppi("AL","Arvonlisäverosaatava", TiliLaji::ALVSAATAVA, true));
+    lisaa(TiliTyyppi("ALM","Maksuperusteisen alv:n kohdentamaton saatava", TiliLaji::KOHDENTAMATONALVSAATAVA, true));
+    lisaa(TiliTyyppi("AV","Verosaatava",TiliLaji::VEROSAATAVA, true));
     lisaa(TiliTyyppi("ARK","Käteisvarat", TiliLaji::KATEINEN));
     lisaa(TiliTyyppi("ARP","Pankkitili",TiliLaji::PANKKITILI));
 
     lisaa(TiliTyyppi("B","Vastattavaa", TiliLaji::VASTATTAVAA));
-    lisaa(TiliTyyppi("BE","Edellisten tilikausien voitto/tappio",TiliLaji::EDELLISTENTULOS));
-    lisaa(TiliTyyppi("T","Tilikauden tulos", TiliLaji::KAUDENTULOS));
+    lisaa(TiliTyyppi("BE","Edellisten tilikausien voitto/tappio",TiliLaji::EDELLISTENTULOS, true));
+    lisaa(TiliTyyppi("T","Tilikauden tulos", TiliLaji::KAUDENTULOS, true));
     lisaa(TiliTyyppi("BS","Velat",TiliLaji::VELKA));
     lisaa(TiliTyyppi("BO","Ostovelat", TiliLaji::OSTOVELKA));
-    lisaa(TiliTyyppi("BL","Arvonlisäverovelka",TiliLaji::ALVVELKA));
-    lisaa(TiliTyyppi("BLM","Maksuperusteisen alv:n kohdentamaton velka", TiliLaji::KOHDENTAMATONALVVELKA));
-    lisaa(TiliTyyppi("BV","Verovelka",TiliLaji::VEROVELKA));
+    lisaa(TiliTyyppi("BL","Arvonlisäverovelka",TiliLaji::ALVVELKA, true));
+    lisaa(TiliTyyppi("BLM","Maksuperusteisen alv:n kohdentamaton velka", TiliLaji::KOHDENTAMATONALVVELKA, true));
+    lisaa(TiliTyyppi("BV","Verovelka",TiliLaji::VEROVELKA, true));
 
     lisaa(TiliTyyppi("C","Tulot",TiliLaji::TULO));
     lisaa(TiliTyyppi("CL","Liikevaihtotulo (myynti)", TiliLaji::LVTULO));
@@ -88,6 +88,8 @@ QVariant TilityyppiModel::data(const QModelIndex &index, int role) const
         return tyyppi.koodi();
     else if( role == LuonneRooli )
         return tyyppi.luonne();
+    else if( role == UniikkiRooli)
+        return tyyppi.onkoUniikki();
 
     return QVariant();
 }

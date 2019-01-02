@@ -303,7 +303,22 @@ void TilinMuokkausDialog::tarkasta()
                return;
            }
    }
+   // Uniikkitarkastus
+   if( ui->tyyppiCombo->currentData(TilityyppiModel::UniikkiRooli).toBool())
+   {
+       for( int i = 0; i < model_->rowCount(QModelIndex()); i++)
+           if( model_->index(i,0).data(TiliModel::TyyppiRooli).toString() == ui->tyyppiCombo->currentData(TilityyppiModel::KoodiRooli)
+               && model_->index(i,0).data(TiliModel::NroRooli).toInt() != luku )
+           {
+               ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+               ui->uniikkiVaroitus->setVisible(true);
+               return;
+           }
+   }
+
+
    // Ei löytynyt samaa
+   ui->uniikkiVaroitus->setVisible(false);
    ui->numeroEdit->setStyleSheet("color: black;");
    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
 

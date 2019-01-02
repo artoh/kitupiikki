@@ -66,7 +66,7 @@ class TiliTyyppi
 {
 public:
     TiliTyyppi(int otsikkotaso);
-    TiliTyyppi(QString tyyppikoodi=QString(), QString kuvaus=QString(), TiliLaji::TiliLuonne luonne=TiliLaji::TUNTEMATON);
+    TiliTyyppi(QString tyyppikoodi=QString(), QString kuvaus=QString(), TiliLaji::TiliLuonne luonne=TiliLaji::TUNTEMATON, bool uniikki = false);
 
     QString koodi() const { return tyyppikoodi_; }
     QString kuvaus() const { return kuvaus_; }
@@ -83,11 +83,14 @@ public:
      */
     bool onko(TiliLaji::TiliLuonne luonnetta) const;
 
+    bool onkoUniikki() const { return uniikki_;}
+
 protected:
     QString tyyppikoodi_;
     QString kuvaus_;
     TiliLaji::TiliLuonne     luonne_;
     int otsikkotaso_ = -1;
+    bool uniikki_ = false;
 };
 
 /**
@@ -101,7 +104,8 @@ public:
     {
         KoodiRooli = Qt::UserRole,
         KuvausRooli = Qt::UserRole + 2,
-        LuonneRooli = Qt::UserRole + 3
+        LuonneRooli = Qt::UserRole + 3,
+        UniikkiRooli = Qt::UserRole + 4
     };
 
     TilityyppiModel(QObject *parent = nullptr);
