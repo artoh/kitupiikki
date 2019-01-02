@@ -181,7 +181,7 @@ bool CsvTuonti::tuo(const QByteArray &data)
                     if( mats.hasMatch())
                     {
                         sentit = 100 * mats.captured("eur").toLongLong();
-                        if( mats.captured("snt").startsWith('0'))
+                        if( !mats.captured("snt").startsWith('0') && mats.captured("snt").length() == 1)
                             sentit += mats.captured("snt").toLongLong() * 10L;
                         else
                             sentit += mats.captured("snt").toLongLong();
