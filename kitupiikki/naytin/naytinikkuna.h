@@ -59,6 +59,10 @@ private:
     QAction *csvAktio_;
     QAction *htmlAktio_;
 
+    QAction* zoomAktio_;
+    QAction* zoomInAktio_;
+    QAction* zoomOutAktio_;
+
 
 
 };
