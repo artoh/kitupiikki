@@ -44,24 +44,22 @@ Tukee OS X versiota 10.11 ja uudempia. <span class="fa fa-exclamation-triangle">
 
 Macintosh-julkaisua ylläpitää Petri Aarnio [mac@kitupiikki.info](mailto:mac@kitupiikki.info)
 
-## Kitupiikki Beta
+## Kitupiikki RC
 
-!!! warning "Vain testikäyttöön!"
-    Beta-versiota ei ole testattu kattavasti. Käyttöä varsinaiseen kirjanpitoon ei suositella.
-
-Beta-versiolla pääset testaamaan Kitupiikin seuraavaan versioon tulevia ominaisuuksia
+Julkaisuehdokas-versiossa on kaikki version 1.3 ominaisuudet, mutta **ohjelma tarvitsee vielä testaamista ennen lopullista julkaisua.**
 
 - marginaaliveromenettely
 - ruotsin ja englanninkieliset laskut
 - alennukset laskutuksessa
 - tulostetun laskun ulkoasun parannukset
+- viivästyskorko määriteltävissä laskulle
 
-Beta-versiota voit käyttää toisen Kitupiikin version rinnalla. Windowsin beta-versio ei asennu käynnistysvalikkoon, vaan käynnistetään aina ohjelmatiedostosta.
+RC-versiota voit käyttää toisen Kitupiikin version rinnalla. Windowsin beta-versio ei asennu käynnistysvalikkoon, vaan käynnistetään aina ohjelmatiedostosta.
 
 !!! note ""
-     <span class="fa fa-windows"></span> [Kitupiikki 1.3 BETA 1 Windows suoritettava ohjelma (14 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.3-beta.1/kitupiikki-1.3-beta.1.exe) <i class="fa fa-briefcase"></i> Käynnistettävissä ilman asennusta esim. USB-muistilta.
+     <span class="fa fa-windows"></span> [Kitupiikki 1.3 RC Windows suoritettava ohjelma (14 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.3-rc/kitupiikki-1.3-rc.exe) <i class="fa fa-briefcase"></i> Käynnistettävissä ilman asennusta esim. USB-muistilta.
 
-    <span class="fa fa-linux"></span> [Kitupiikki 1.3 BETA 1 Linux AppImage (34 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.3-beta.1/Kitupiikki-1.3-beta.1-x86_64.AppImage)
+    <span class="fa fa-linux"></span> [Kitupiikki 1.3 RC Linux AppImage (34 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.3-rc/Kitupiikki-1.3-rc-x86_64.AppImage)
 
 
 ## Kehitysversio
