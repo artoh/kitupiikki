@@ -46,6 +46,7 @@ LaskuModel::LaskuModel(QObject *parent) :
     toimituspaiva_ = kp()->paivamaara();
     erapaiva_ = kp()->paivamaara().addDays( kp()->asetukset()->luku("LaskuMaksuaika"));
     kirjausperuste_ = kp()->asetukset()->luku("LaskuKirjausperuste") ;
+    viivkorko_ = kp()->asetukset()->asetus("LaskuViivastyskorko").toDouble();
 
     // Ladataan tekstit
     // Hakee tekstit
@@ -155,6 +156,7 @@ LaskuModel *LaskuModel::haeLasku(int vientiId)
     model->tositeId_ = lasku.tosite;
     model->vientiId_ = lasku.vientiId;
     model->laskunNumero_ = lasku.viite.toULongLong();
+    model->asetaViivastyskorko( lasku.json.str("Viivastyskorko").toDouble() );
 
     model->kieli_ = model->viittausLasku().json.str("Kieli").isEmpty() ? "FI" : model->viittausLasku().json.str("Kieli");
 
@@ -907,7 +909,7 @@ bool LaskuModel::tallenna(Tili rahatili)
     raharivi.json.set("VerkkolaskuOsoite", verkkolaskuOsoite());
     raharivi.json.set("VerkkolaskuValittaja", verkkolaskuValittaja());
     raharivi.json.set("Kieli", kieli());
-    raharivi.json.set("Viivastyskorko", kp()->asetukset()->asetus("LaskuViivastyskorko"));
+    raharivi.json.set("Viivastyskorko", QString::number(viivkorko_,'f',1));
 
 
     viennit->lisaaVienti(raharivi);

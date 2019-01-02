@@ -17,7 +17,7 @@
    <iconset resource="../pic/pic.qrc">
     <normaloff>:/pic/lasku.png</normaloff>:/pic/lasku.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_5">
+  <layout class="QVBoxLayout" name="verticalLayout_8">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_7">
      <item>
@@ -40,7 +40,7 @@
          <property name="maximumSize">
           <size>
            <width>16777215</width>
-           <height>160</height>
+           <height>250</height>
           </size>
          </property>
          <property name="baseSize">
@@ -60,111 +60,143 @@
       </layout>
      </item>
      <item>
-      <layout class="QFormLayout" name="formLayout">
-       <item row="0" column="0">
-        <widget class="QLabel" name="toimituspvmLabel">
-         <property name="text">
-          <string>Toi&amp;mituspäivä</string>
-         </property>
-         <property name="buddy">
-          <cstring>toimitusDate</cstring>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <layout class="QFormLayout" name="formLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="toimituspvmLabel">
+           <property name="text">
+            <string>Toi&amp;mituspäivä</string>
+           </property>
+           <property name="buddy">
+            <cstring>toimitusDate</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QDateEdit" name="toimitusDate"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="eraLabel">
+           <property name="text">
+            <string>Eräpäi&amp;vä</string>
+           </property>
+           <property name="buddy">
+            <cstring>eraDate</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QDateEdit" name="eraDate"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Kirjausp&amp;eruste</string>
+           </property>
+           <property name="buddy">
+            <cstring>perusteCombo</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QComboBox" name="perusteCombo"/>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="rahatiliLabel">
+           <property name="text">
+            <string>Ra&amp;hatili</string>
+           </property>
+           <property name="buddy">
+            <cstring>rahaTiliEdit</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="TilinvalintaLine" name="rahaTiliEdit"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QDateEdit" name="toimitusDate"/>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Eräpäi&amp;vä</string>
-         </property>
-         <property name="buddy">
-          <cstring>eraDate</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QDateEdit" name="eraDate"/>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Kirjausp&amp;eruste</string>
-         </property>
-         <property name="buddy">
-          <cstring>perusteCombo</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QComboBox" name="perusteCombo"/>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="rahatiliLabel">
-         <property name="text">
-          <string>Ra&amp;hatili</string>
-         </property>
-         <property name="buddy">
-          <cstring>rahaTiliEdit</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="TilinvalintaLine" name="rahaTiliEdit"/>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="viiteLabel">
-         <property name="text">
-          <string>Viitenumero</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <widget class="QLabel" name="nroLabel">
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>Nro</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>Summa</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="1">
-        <widget class="QLabel" name="summaLabel">
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>0,00 €</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="kieliLabel">
-         <property name="text">
-          <string>&amp;Kieli</string>
-         </property>
-         <property name="buddy">
-          <cstring>kieliCombo</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QComboBox" name="kieliCombo"/>
+       <item>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="0" column="1">
+          <widget class="QComboBox" name="kieliCombo"/>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="viivkorkoLabel">
+           <property name="text">
+            <string>Viivästyskorko</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="kieliLabel">
+           <property name="text">
+            <string>&amp;Kieli</string>
+           </property>
+           <property name="buddy">
+            <cstring>kieliCombo</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>Summa</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLabel" name="nroLabel">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Nro</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="3">
+          <widget class="QLabel" name="summaLabel">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>0,00 €</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <widget class="QDoubleSpinBox" name="viivkorkoSpin">
+           <property name="suffix">
+            <string> %</string>
+           </property>
+           <property name="decimals">
+            <number>1</number>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="viiteLabel">
+           <property name="text">
+            <string>Viitenumero</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </item>

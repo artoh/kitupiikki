@@ -155,6 +155,7 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     ui->asViiteEdit->setText( model->asiakkaanViite());
     ui->verkkoOsoiteEdit->setText( model->verkkolaskuOsoite());
     ui->verkkoValittajaEdit->setText( model->verkkolaskuValittaja());
+    ui->viivkorkoSpin->setValue( model->viivastysKorko() );
 
 
     if( model->tyyppi() == LaskuModel::HYVITYSLASKU)
@@ -371,6 +372,11 @@ void LaskuDialogi::perusteVaihtuu()
     ui->rahaTiliEdit->setVisible( peruste != LaskuModel::MAKSUPERUSTE );
     ui->rahatiliLabel->setVisible( peruste != LaskuModel::MAKSUPERUSTE );
 
+    ui->viivkorkoLabel->setVisible( peruste != LaskuModel::KATEISLASKU);
+    ui->viivkorkoSpin->setVisible( peruste != LaskuModel::KATEISLASKU);
+    ui->eraLabel->setVisible( peruste != LaskuModel::KATEISLASKU);
+    ui->eraDate->setVisible( peruste != LaskuModel::KATEISLASKU);
+
     if( peruste == LaskuModel::MAKSUPERUSTE || peruste == LaskuModel::LASKUTUSPERUSTE)
         ui->toimitusDate->setMinimumDate( kp()->tilitpaatetty().addYears(-1));
     else
@@ -440,6 +446,7 @@ void LaskuDialogi::vieMalliin()
     model->asetaAsiakkaanViite(ui->asViiteEdit->text());
     model->asetaVerkkolaskuOsoite(ui->verkkoOsoiteEdit->text());
     model->asetaVerkkolaskuValittaja(ui->verkkoValittajaEdit->text());
+    model->asetaViivastyskorko( ui->viivkorkoSpin->value() );
 
     if( ui->ytunnus->hasAcceptableInput())
         model->asetaYTunnus( ui->ytunnus->text());
