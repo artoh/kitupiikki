@@ -19,6 +19,11 @@
 #include "naytinikkuna.h"
 #include "naytinview.h"
 
+#include <QPrinter>
+#include <QBuffer>
+#include <QPdfWriter>
+#include <QApplication>
+
 Esikatseltava::Esikatseltava()
 {
 
@@ -40,4 +45,22 @@ void Esikatseltava::esikatsele()
     ikkuna_->raise();
 
     ikkuna_->view()->esikatsele(this);
+}
+
+QByteArray Esikatseltava::pdf() const
+{
+    QByteArray array;
+    QBuffer buffer(&array);
+    buffer.open(QIODevice::WriteOnly);
+
+    QPdfWriter writer(&buffer);
+
+    writer.setCreator(QString("%1 %2").arg( qApp->applicationName() ).arg( qApp->applicationVersion() ));
+    writer.setTitle( otsikko() );
+
+    tulosta( &writer );
+
+    buffer.close();
+
+    return array;
 }

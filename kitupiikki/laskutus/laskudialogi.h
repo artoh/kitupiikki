@@ -61,7 +61,7 @@ private slots:
      *
      * @param printer
      */
-    void tulosta(QPagedPaintDevice *printer) override;
+    void tulosta(QPagedPaintDevice *printer) const override;
     QString otsikko() const override;
     /**
      * @brief Finvoice-verkkolaskun muodostaminen

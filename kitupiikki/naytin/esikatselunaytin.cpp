@@ -18,9 +18,6 @@
 #include "esikatseltava.h"
 
 #include <QPrinter>
-#include <QBuffer>
-#include <QPdfWriter>
-#include <QApplication>
 
 Naytin::EsikatseluNaytin::EsikatseluNaytin(Esikatseltava *katseltava, QObject *parent)
     : PrintPreviewNaytin (parent),
@@ -41,20 +38,7 @@ QString Naytin::EsikatseluNaytin::otsikko() const
 
 QByteArray Naytin::EsikatseluNaytin::data() const
 {
-    QByteArray array;
-    QBuffer buffer(&array);
-    buffer.open(QIODevice::WriteOnly);
-
-    QPdfWriter writer(&buffer);
-
-    writer.setCreator(QString("%1 %2").arg( qApp->applicationName() ).arg( qApp->applicationVersion() ));
-    writer.setTitle( otsikko() );
-
-    esikatseltava_->tulosta( &writer );
-
-    buffer.close();
-
-    return array;
+    return esikatseltava_->pdf();
 }
 
 void Naytin::EsikatseluNaytin::tulosta(QPrinter *printer) const

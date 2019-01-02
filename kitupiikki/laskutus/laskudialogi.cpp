@@ -302,20 +302,9 @@ void LaskuDialogi::esikatselu()
         return;
 
     esikatsele();
-
-    return;
-
-    QPrintPreviewDialog esikatselija( kp()->printer());
-    connect( &esikatselija, &QPrintPreviewDialog::paintRequested,
-             this, &LaskuDialogi::tulosta);
-    esikatselija.restoreGeometry(kp()->settings()->value("NaytinIkkuna").toByteArray());
-    esikatselija.exec();
-
-
-    return;
 }
 
-void LaskuDialogi::tulosta(QPagedPaintDevice *printer)
+void LaskuDialogi::tulosta(QPagedPaintDevice *printer) const
 {
     QPainter painter( printer);
     if( model->tyyppi() == LaskuModel::RYHMALASKU)

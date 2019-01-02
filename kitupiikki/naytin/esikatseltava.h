@@ -35,7 +35,7 @@ public:
     void esikatsele();
     QByteArray pdf() const;
 
-    virtual void tulosta(QPagedPaintDevice * printer) = 0;
+    virtual void tulosta(QPagedPaintDevice * printer) const = 0 ;
     virtual QString otsikko() const { return QString(); }
 
 protected:
