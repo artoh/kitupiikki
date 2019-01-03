@@ -24,7 +24,9 @@
   Kitupiikin versio määritellään tässä tiedostossa. Tiedosto voidaan myös generoida käännösaikaisesti.
 */
 
-#define KITUPIIKKI_VERSIO "1.3-rc"
+#define KITUPIIKKI_VERSIO "1.3"
 #define KITUPIIKKI_BUILD ""
+
+// #define KITUPIIKKI_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
 
 #endif // VERSIO_H
