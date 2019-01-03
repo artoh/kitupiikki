@@ -21,6 +21,8 @@
 #include <QPrinter>
 
 #include <QPrintPreviewWidget>
+#include "db/kirjanpito.h"
+#include <QSettings>
 
 Naytin::PdfNaytin::PdfNaytin(const QByteArray &pdfdata, QObject *parent)
     : PrintPreviewNaytin (parent),
@@ -46,27 +48,35 @@ void Naytin::PdfNaytin::tulosta(QPrinter *printer) const
 {
     QPainter painter(printer);
 
-    Poppler::Document *document = Poppler::Document::loadFromData(data_);
-    document->setRenderBackend(Poppler::Document::ArthurBackend);
-
-    int pageCount = document->numPages();
-    for(int i=0; i < pageCount; i++)
+    if( kp()->settings()->value("PopplerPois").toBool())
     {
-        Poppler::Page *page = document->page(i);
+        painter.drawText( QRectF(painter.window()), tr("Käyttäjä on poistanut käytöstä pdf-liitteiden esikatselun.\n\n"
+                                                       "Valinta löytyy kohdasta Määritykset / Perusvalinnat."));
+        painter.end();
+    } else {
 
-        double vaakaResoluutio = printer->pageRect(QPrinter::Point).width() / page->pageSizeF().width() * printer->resolution();
-        double pystyResoluutio = printer->pageRect(QPrinter::Point).height() / page->pageSizeF().height() * printer->resolution();
+        Poppler::Document *document = Poppler::Document::loadFromData(data_);
+        document->setRenderBackend(Poppler::Document::ArthurBackend);
 
-        double resoluutio = vaakaResoluutio < pystyResoluutio ? vaakaResoluutio : pystyResoluutio;
+        int pageCount = document->numPages();
+        for(int i=0; i < pageCount; i++)
+        {
+            Poppler::Page *page = document->page(i);
 
-        page->renderToPainter( &painter, resoluutio, resoluutio,
-                                            0,0,page->pageSize().width(), page->pageSize().height());
-        if( i < pageCount - 1)
-            printer->newPage();
+            double vaakaResoluutio = printer->pageRect(QPrinter::Point).width() / page->pageSizeF().width() * printer->resolution();
+            double pystyResoluutio = printer->pageRect(QPrinter::Point).height() / page->pageSizeF().height() * printer->resolution();
 
-        delete page;
+            double resoluutio = vaakaResoluutio < pystyResoluutio ? vaakaResoluutio : pystyResoluutio;
+
+            page->renderToPainter( &painter, resoluutio, resoluutio,
+                                                0,0,page->pageSize().width(), page->pageSize().height());
+            if( i < pageCount - 1)
+                printer->newPage();
+
+            delete page;
+        }
+        painter.end();
+        delete document;
     }
-    painter.end();
-    delete document;
 
 }

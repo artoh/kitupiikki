@@ -29,8 +29,6 @@
 #include <QDropEvent>
 #include <QClipboard>
 
-#include <poppler/qt5/poppler-qt5.h>
-
 #include <QGraphicsPixmapItem>
 
 #include "naytaliitewg.h"
