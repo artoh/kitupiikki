@@ -24,6 +24,7 @@
 #include <QMimeData>
 #include <QApplication>
 #include <QImage>
+#include <QSettings>
 
 #include <poppler/qt5/poppler-qt5.h>
 
@@ -71,7 +72,7 @@ void InboxLista::paivita()
             tiedostonimi.endsWith(".jpeg") || tiedostonimi.endsWith(".png"))
         {
             QListWidgetItem *item = new QListWidgetItem( info.fileName(), this );
-            if( tiedostonimi.endsWith(".pdf"))
+            if( tiedostonimi.endsWith(".pdf") && !kp()->settings()->value("PopplerPois").toBool())
             {
                 QImage kuva;
                 Poppler::Document *pdfDoc = Poppler::Document::load( info.absoluteFilePath());

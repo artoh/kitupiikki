@@ -15,69 +15,71 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "kuvanaytin.h"
+#include "kuvaview.h"
 
-#include <QGraphicsPixmapItem>
+#include <QGraphicsScene>
+#include <QGraphicsView>
+
 #include <QPixmap>
-#include <QByteArray>
 #include <QBuffer>
 #include <QPainter>
 #include <QPrinter>
 
-KuvaNaytin::KuvaNaytin(QObject *parent) :
-    NaytinScene (parent)
+Naytin::KuvaNaytin::KuvaNaytin(const QImage &kuva, QObject *parent)
+    : AbstraktiNaytin (parent),
+      view_{ new KuvaView(kuva)}
 {
 
 }
 
-KuvaNaytin::KuvaNaytin(const QByteArray &kuvadata, QObject *parent)
-    : KuvaNaytin( parent )
+QWidget *Naytin::KuvaNaytin::widget()
 {
-    naytaKuva( kuvadata );
+    return view_;
 }
 
-bool KuvaNaytin::naytaKuva(const QByteArray &kuvadata)
-{
-    kuva_.loadFromData(kuvadata);
-    return !kuva_.isNull();
-}
-
-QString KuvaNaytin::tyyppi() const
-{
-    if( kuva_.isNull())
-        return  QString();
-    return "img";
-}
-
-void KuvaNaytin::piirraLeveyteen(double leveyteen)
-{
-    clear();
-    double korkeus = leveyteen / kuva_.width() * kuva_.height();
-    QPixmap pixmap = QPixmap::fromImage( kuva_.scaled( qRound( leveyteen ),  qRound(korkeus), Qt::KeepAspectRatio) );
-    addPixmap( pixmap );
-}
-
-QByteArray KuvaNaytin::data()
+QByteArray Naytin::KuvaNaytin::data() const
 {
     QByteArray ba;
     QBuffer buffer(&ba);
 
     buffer.open(QIODevice::WriteOnly);
-    kuva_.save(&buffer,"JPG");
+    view_->kuva().save(&buffer,"JPG");
     buffer.close();
 
     return ba;
 }
 
-void KuvaNaytin::tulosta(QPrinter *printer)
+void Naytin::KuvaNaytin::paivita() const
+{
+    view_->paivita();
+}
+
+void Naytin::KuvaNaytin::tulosta(QPrinter *printer) const
 {
     QPainter painter( printer );
     QRect rect = painter.viewport();
-    QSize size = kuva_.size();
+    QImage kuva = view_->kuva();
+    QSize size = kuva.size();
     size.scale(rect.size(), Qt::KeepAspectRatio);
     painter.setViewport( rect.x(), rect.y(),
                          size.width(), size.height());
-    painter.setWindow(kuva_.rect());
-    painter.drawImage(0, 0, kuva_);
+    painter.setWindow(kuva.rect());
+    painter.drawImage(0, 0, kuva);
 }
 
+void Naytin::KuvaNaytin::zoomOut()
+{
+    view_->zoomOut();
+}
+
+void Naytin::KuvaNaytin::zoomFit()
+{
+    view_->zoomFit();
+}
+
+void Naytin::KuvaNaytin::zoomIn()
+{
+    view_->zoomIn();
+    paivita();
+}
 

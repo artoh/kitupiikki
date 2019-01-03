@@ -28,6 +28,8 @@
 
 #include "smtp.h"
 
+#include "naytin/esikatseltava.h"
+
 namespace Ui {
 class LaskuDialogi;
 }
@@ -37,13 +39,13 @@ class KohdennusDelegaatti;
 /**
  * @brief Laskun laatimisen dialogi
  */
-class LaskuDialogi : public QDialog
+class LaskuDialogi : public QDialog, public Esikatseltava
 {
     Q_OBJECT
 public:
 
     LaskuDialogi(LaskuModel *laskumodel = nullptr);
-    ~LaskuDialogi();
+    ~LaskuDialogi() override;
 
     enum Tabs { RIVIT, LISATIEDOT, RYHMAT, VERKKOLASKU};
 
@@ -51,7 +53,16 @@ public:
 
 private slots:
     void paivitaSumma(qlonglong paivitaSumma);
-    void esikatsele();
+    void esikatselu();
+    /**
+     * @brief Tulostuksen toteutus
+     *
+     * Tukee ryhmälaskutusta
+     *
+     * @param printer
+     */
+    void tulosta(QPagedPaintDevice *printer) const override;
+    QString otsikko() const override;
     /**
      * @brief Finvoice-verkkolaskun muodostaminen
      */

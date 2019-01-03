@@ -14,17 +14,39 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef VERSIO_H
-#define VERSIO_H
+#include "tekstinaytin.h"
+#include <QTextEdit>
+#include <QPrinter>
 
+Naytin::TekstiNaytin::TekstiNaytin(const QString &teksti, QObject *parent)
+    : AbstraktiNaytin (parent),
+      editori_( new QTextEdit )
+{
+    editori_->setReadOnly(true);
+    editori_->setPlainText(teksti);
+}
 
-/**
-  @file Kitupiikin version määrittely
+QWidget *Naytin::TekstiNaytin::widget()
+{
+    return editori_;
+}
 
-  Kitupiikin versio määritellään tässä tiedostossa. Tiedosto voidaan myös generoida käännösaikaisesti.
-*/
+QByteArray Naytin::TekstiNaytin::data() const
+{
+    return editori_->toPlainText().toUtf8();
+}
 
-#define KITUPIIKKI_VERSIO "1.3-rc"
-#define KITUPIIKKI_BUILD ""
+QString Naytin::TekstiNaytin::html() const
+{
+    return editori_->toHtml();
+}
 
-#endif // VERSIO_H
+void Naytin::TekstiNaytin::paivita() const
+{
+    ;
+}
+
+void Naytin::TekstiNaytin::tulosta(QPrinter *printer) const
+{
+    editori_->print(printer);
+}

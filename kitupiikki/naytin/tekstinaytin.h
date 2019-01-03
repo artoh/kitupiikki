@@ -14,46 +14,43 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef KUVANAYTIN_H
-#define KUVANAYTIN_H
+#ifndef TEKSTINAYTIN_H
+#define TEKSTINAYTIN_H
 
 #include "abstraktinaytin.h"
 
-#include <QImage>
+class QTextEdit;
 
 namespace Naytin {
 
-class KuvaView;
-
-class KuvaNaytin : public AbstraktiNaytin
+/**
+ * @brief Näytin tekstille
+ */
+class TekstiNaytin : public AbstraktiNaytin
 {
 public:
-    KuvaNaytin(const QImage& kuva, QObject *parent = nullptr);
+    TekstiNaytin(const QString& teksti, QObject *parent = nullptr);
 
-    QWidget* widget() override;
+    QWidget *widget() override;
 
-    QString tiedostonMuoto() const override { return tr("jpg-kuvatiedosto (*.jpg)");}
-    QString tiedostonPaate() const override { return "jpg"; }
+    QString tiedostonMuoto() const override { return tr("tekstitiedosto (*.txt)");}
+    QString tiedostonPaate() const override { return "txt"; }
 
     QByteArray data() const override;
 
-    bool voikoZoomata() const override { return true; }
+    bool htmlMuoto() const override { return true; }
+    QString html() const override;
 
 public slots:
     void paivita() const override;
     void tulosta(QPrinter* printer) const override;
 
-    virtual void zoomIn() override;
-    virtual void zoomOut() override;
-    virtual void zoomFit() override;
-
 protected:
-    KuvaView* view_;
-
+    QTextEdit *editori_;
 };
 
 }
 
 
 
-#endif // KUVANAYTIN_H
+#endif // TEKSTINAYTIN_H

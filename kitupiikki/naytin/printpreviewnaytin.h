@@ -14,46 +14,43 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef KUVANAYTIN_H
-#define KUVANAYTIN_H
+#ifndef PRINTPREVIEWNAYTIN_H
+#define PRINTPREVIEWNAYTIN_H
 
 #include "abstraktinaytin.h"
-
-#include <QImage>
+class QPrintPreviewWidget;
 
 namespace Naytin {
 
-class KuvaView;
 
-class KuvaNaytin : public AbstraktiNaytin
+/**
+ * @brief QPrintPreviewWidgetillä toteutettujen näyttimien kantaluokka
+ */
+class PrintPreviewNaytin : public AbstraktiNaytin
 {
+    Q_OBJECT
 public:
-    KuvaNaytin(const QImage& kuva, QObject *parent = nullptr);
+    PrintPreviewNaytin(QObject* parent = nullptr);
+    virtual ~PrintPreviewNaytin() override;
 
-    QWidget* widget() override;
+    virtual QString tiedostonMuoto() const override { return tr("pdf-tiedosto (*.pdf)");}
+    virtual QString tiedostonPaate() const override { return "pdf"; }
 
-    QString tiedostonMuoto() const override { return tr("jpg-kuvatiedosto (*.jpg)");}
-    QString tiedostonPaate() const override { return "jpg"; }
+    virtual QWidget* widget() override;
 
-    QByteArray data() const override;
-
-    bool voikoZoomata() const override { return true; }
+    virtual bool voikoZoomata() const override { return true;}
 
 public slots:
-    void paivita() const override;
-    void tulosta(QPrinter* printer) const override;
+    virtual void paivita() const override;
 
     virtual void zoomIn() override;
     virtual void zoomOut() override;
     virtual void zoomFit() override;
 
 protected:
-    KuvaView* view_;
-
+    QPrintPreviewWidget *widget_ ;
 };
 
 }
 
-
-
-#endif // KUVANAYTIN_H
+#endif // PRINTPREVIEWNAYTIN_H

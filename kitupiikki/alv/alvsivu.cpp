@@ -71,6 +71,13 @@ void AlvSivu::siirrySivulle()
 void AlvSivu::paivitaSeuraavat()
 {
     QDate viimeisin = ui->viimeisinEdit->date();
+
+    if( viimeisin.day() != viimeisin.daysInMonth())
+    {
+        viimeisin.setDate( viimeisin.year(), viimeisin.month(), viimeisin.daysInMonth() );
+        ui->viimeisinEdit->setDate(viimeisin);
+    }
+
     int kausikk = ui->kausiCombo->currentData().toInt();
 
     seuraavaAlkaa = viimeisin.addDays(1);

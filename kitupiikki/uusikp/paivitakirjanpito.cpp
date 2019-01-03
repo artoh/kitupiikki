@@ -111,12 +111,20 @@ bool PaivitaKirjanpito::lataaPaivitys(const QString &tiedosto)
     bool rapoYlikirjoita = false;
     QStringList muokatutRaportit;
 
+    QStringList siirrettavat;
+    siirrettavat             << "TilikarttaNimi" << "TilikarttaKuvaus"
+                             << "TilikarttaOhje" << "TilikarttaPvm"
+                             << "TilikarttaTekija" << "TilikarttaLuontiVersio"
+                             << "PalkkaFiTuonti";
+
     for(const auto& raportti : raportit)
     {
         if( kp()->asetukset()->muokattu(raportti).isValid())
         {
             rapoYlikirjoita = true;
             muokatutRaportit.append( raportti.mid(9));
+        } else {
+            siirrettavat.append(raportti);  // Jos ei muokattu, niin korvataan ilman muuta!
         }
     }
     bool tpYlikirjoita = kp()->asetukset()->muokattu("TilinpaatosPohja").isValid();
@@ -145,13 +153,6 @@ bool PaivitaKirjanpito::lataaPaivitys(const QString &tiedosto)
         if( tpYlikirjoita )
             tpYlikirjoita = ui.korvaaKaava->isChecked();
     }
-
-
-    QStringList siirrettavat;
-    siirrettavat             << "TilikarttaNimi" << "TilikarttaKuvaus"
-                             << "TilikarttaOhje" << "TilikarttaPvm"
-                             << "TilikarttaTekija" << "TilikarttaLuontiVersio"
-                             << "PalkkaFiTuonti";
 
     if( tpYlikirjoita )
         siirrettavat.append("TilinpaatosPohja");

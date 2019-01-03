@@ -32,6 +32,7 @@
 
 #include "kirjaus/verodialogi.h"
 #include "naytin/naytinikkuna.h"
+#include "naytin/naytinview.h"
 #include "validator/ytunnusvalidator.h"
 #include "asiakkaatmodel.h"
 #include "ryhmaasiakasproxy.h"
@@ -55,12 +56,15 @@
 #include <QFileDialog>
 #include <QMenu>
 #include <QAction>
+#include <QPrintPreviewDialog>
 
 #include <QSettings>
 #include <QRegularExpression>
 
 #include <QMessageBox>
 #include <QPdfWriter>
+
+
 
 
 LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
@@ -151,6 +155,7 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     ui->asViiteEdit->setText( model->asiakkaanViite());
     ui->verkkoOsoiteEdit->setText( model->verkkolaskuOsoite());
     ui->verkkoValittajaEdit->setText( model->verkkolaskuValittaja());
+    ui->viivkorkoSpin->setValue( model->viivastysKorko() );
 
 
     if( model->tyyppi() == LaskuModel::HYVITYSLASKU)
@@ -242,7 +247,7 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     connect( ui->lisaaNappi, SIGNAL(clicked(bool)), model, SLOT(lisaaRivi()));
     connect( ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poistaLaskuRivi()));
     connect( ui->tulostaNappi, SIGNAL(clicked(bool)), this, SLOT(tulostaLasku()));
-    connect( ui->esikatseluNappi, SIGNAL(clicked(bool)), this, SLOT(esikatsele()));
+    connect( ui->esikatseluNappi, SIGNAL(clicked(bool)), this, SLOT(esikatselu()));
     connect( ui->spostiNappi, SIGNAL(clicked(bool)), this, SLOT(lahetaSahkopostilla()));
 
     connect( model, &LaskuModel::summaMuuttunut, this, &LaskuDialogi::paivitaSumma);
@@ -291,43 +296,43 @@ void LaskuDialogi::paivitaSumma(qlonglong summa)
     ui->summaLabel->setText( QString("%L1 €").arg(summa / 100.0,0,'f',2) );
 }
 
-void LaskuDialogi::esikatsele()
+void LaskuDialogi::esikatselu()
 {
     vieMalliin();
     if( !model->tarkastaAlvLukko())
         return;
 
-    if( model->tyyppi() == LaskuModel::RYHMALASKU )
-    {
-        QByteArray array;
-        QBuffer buffer(&array);
-        buffer.open(QIODevice::WriteOnly);
+    esikatsele();
+}
 
-        QPdfWriter writer(&buffer);
-        writer.setCreator(QString("%1 %2").arg( qApp->applicationName() ).arg( qApp->applicationVersion() ));
-        writer.setTitle( tr("Ryhmälaskutus %1").arg(QDateTime::currentDateTime().toString("dd.MM.yyyy hh.mm")) );
-        QPainter painter( &writer);
+void LaskuDialogi::tulosta(QPagedPaintDevice *printer) const
+{
+    QPainter painter( printer);
+    if( model->tyyppi() == LaskuModel::RYHMALASKU)
+    {
 
         bool sivunvaihto = false;
         for(const QModelIndex& indeksi : ui->ryhmaView->selectionModel()->selectedRows() )
         {
             if( sivunvaihto )
-                writer.newPage();
-            model->haeRyhmasta( ryhmaProxy_->mapToSource( indeksi ).row());
+                printer->newPage();
+            model->haeRyhmasta( ryhmaProxy_->mapToSource( indeksi).row());
 
-            tulostaja->tulosta( &writer, &painter);
+            tulostaja->tulosta( printer , &painter);
             sivunvaihto = true;
         }
-
-        painter.end();
-        buffer.close();
-        NaytinIkkuna::nayta(array);
-
     }
     else
     {
-        NaytinIkkuna::nayta( tulostaja->pdf() );
+        tulostaja->tulosta( printer, &painter );
     }
+
+    painter.end();
+}
+
+QString LaskuDialogi::otsikko() const
+{
+    return tr("Lasku %1").arg(model->laskunro());
 }
 
 void LaskuDialogi::finvoice()
@@ -366,6 +371,11 @@ void LaskuDialogi::perusteVaihtuu()
 
     ui->rahaTiliEdit->setVisible( peruste != LaskuModel::MAKSUPERUSTE );
     ui->rahatiliLabel->setVisible( peruste != LaskuModel::MAKSUPERUSTE );
+
+    ui->viivkorkoLabel->setVisible( peruste != LaskuModel::KATEISLASKU);
+    ui->viivkorkoSpin->setVisible( peruste != LaskuModel::KATEISLASKU);
+    ui->eraLabel->setVisible( peruste != LaskuModel::KATEISLASKU);
+    ui->eraDate->setVisible( peruste != LaskuModel::KATEISLASKU);
 
     if( peruste == LaskuModel::MAKSUPERUSTE || peruste == LaskuModel::LASKUTUSPERUSTE)
         ui->toimitusDate->setMinimumDate( kp()->tilitpaatetty().addYears(-1));
@@ -436,6 +446,7 @@ void LaskuDialogi::vieMalliin()
     model->asetaAsiakkaanViite(ui->asViiteEdit->text());
     model->asetaVerkkolaskuOsoite(ui->verkkoOsoiteEdit->text());
     model->asetaVerkkolaskuValittaja(ui->verkkoValittajaEdit->text());
+    model->asetaViivastyskorko( ui->viivkorkoSpin->value() );
 
     if( ui->ytunnus->hasAcceptableInput())
         model->asetaYTunnus( ui->ytunnus->text());
@@ -639,27 +650,7 @@ void LaskuDialogi::tulostaLasku()
     QPrintDialog printDialog( kp()->printer(), this );    
     if( printDialog.exec())
     {
-        QPainter painter( kp()->printer());
-        if( model->tyyppi() == LaskuModel::RYHMALASKU)
-        {
-
-            bool sivunvaihto = false;
-            for(const QModelIndex& indeksi : ui->ryhmaView->selectionModel()->selectedRows() )
-            {
-                if( sivunvaihto )
-                    kp()->printer()->newPage();
-                model->haeRyhmasta( ryhmaProxy_->mapToSource( indeksi).row());
-
-                tulostaja->tulosta( kp()->printer() , &painter);
-                sivunvaihto = true;
-            }
-        }
-        else
-        {
-            tulostaja->tulosta( kp()->printer(), &painter );
-        }
-
-        painter.end();
+       tulosta( kp()->printer() );
     }
 
     kp()->printer()->setPageLayout(vanhaleiska);

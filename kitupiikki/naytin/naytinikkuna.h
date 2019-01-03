@@ -44,7 +44,7 @@ public:
     static void naytaLiite(const int tositeId, const int liiteId);
 
 private slots:
-    void sisaltoMuuttui(const QString& tyyppi);
+    void sisaltoMuuttui();
 
 private:
     void teeToolbar();
@@ -58,6 +58,10 @@ private:
 
     QAction *csvAktio_;
     QAction *htmlAktio_;
+
+    QAction* zoomAktio_;
+    QAction* zoomInAktio_;
+    QAction* zoomOutAktio_;
 
 
 

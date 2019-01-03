@@ -14,46 +14,33 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef KUVANAYTIN_H
-#define KUVANAYTIN_H
+#ifndef ESIKATSELUNAYTIN_H
+#define ESIKATSELUNAYTIN_H
 
-#include "abstraktinaytin.h"
+#include "printpreviewnaytin.h"
 
-#include <QImage>
+class Esikatseltava;
 
 namespace Naytin {
 
-class KuvaView;
-
-class KuvaNaytin : public AbstraktiNaytin
+class EsikatseluNaytin : public PrintPreviewNaytin
 {
 public:
-    KuvaNaytin(const QImage& kuva, QObject *parent = nullptr);
+    EsikatseluNaytin(Esikatseltava* katseltava, QObject *parent = nullptr);
+    ~EsikatseluNaytin() override;
 
-    QWidget* widget() override;
-
-    QString tiedostonMuoto() const override { return tr("jpg-kuvatiedosto (*.jpg)");}
-    QString tiedostonPaate() const override { return "jpg"; }
-
-    QByteArray data() const override;
-
-    bool voikoZoomata() const override { return true; }
+    virtual QString otsikko() const override;
+    virtual QByteArray data() const override;
 
 public slots:
-    void paivita() const override;
-    void tulosta(QPrinter* printer) const override;
+    virtual void tulosta(QPrinter* printer) const override;
 
-    virtual void zoomIn() override;
-    virtual void zoomOut() override;
-    virtual void zoomFit() override;
 
 protected:
-    KuvaView* view_;
+    Esikatseltava* esikatseltava_;
 
 };
 
 }
 
-
-
-#endif // KUVANAYTIN_H
+#endif // ESIKATSELUNAYTIN_H

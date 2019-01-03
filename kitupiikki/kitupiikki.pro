@@ -152,11 +152,7 @@ SOURCES += main.cpp \
     laskutus/asiakkaatmodel.cpp \
     laskutus/laskusivu.cpp \
     laskutus/yhteystietowidget.cpp \
-    naytin/naytinscene.cpp \
-    naytin/pdfscene.cpp \
     naytin/naytinview.cpp \
-    naytin/kuvanaytin.cpp \
-    naytin/raporttiscene.cpp \
     naytin/naytinikkuna.cpp \
     maaritys/tallentavamaarityswidget.cpp \
     maaritys/inboxmaaritys.cpp \
@@ -175,7 +171,16 @@ SOURCES += main.cpp \
     alv/alvilmoitustenmodel.cpp \
     alv/alvsivu.cpp \
     alv/marginaalilaskelma.cpp \
-    laskutus/erittelyruudukko.cpp
+    laskutus/erittelyruudukko.cpp \
+    naytin/abstraktinaytin.cpp \
+    naytin/printpreviewnaytin.cpp \
+    naytin/raporttinaytin.cpp \
+    naytin/pdfnaytin.cpp \
+    naytin/kuvanaytin.cpp \
+    naytin/kuvaview.cpp \
+    naytin/tekstinaytin.cpp \
+    naytin/esikatseltava.cpp \
+    naytin/esikatselunaytin.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -304,11 +309,7 @@ HEADERS += \
     laskutus/asiakkaatmodel.h \
     laskutus/laskusivu.h \
     laskutus/yhteystietowidget.h \
-    naytin/naytinscene.h \
-    naytin/pdfscene.h \
     naytin/naytinview.h \
-    naytin/kuvanaytin.h \
-    naytin/raporttiscene.h \
     naytin/naytinikkuna.h \
     maaritys/tallentavamaarityswidget.h \
     maaritys/inboxmaaritys.h \
@@ -328,7 +329,16 @@ HEADERS += \
     alv/alvilmoitustenmodel.h \
     alv/alvsivu.h \
     alv/marginaalilaskelma.h \
-    laskutus/erittelyruudukko.h
+    laskutus/erittelyruudukko.h \
+    naytin/abstraktinaytin.h \
+    naytin/printpreviewnaytin.h \
+    naytin/raporttinaytin.h \
+    naytin/pdfnaytin.h \
+    naytin/kuvanaytin.h \
+    naytin/kuvaview.h \
+    naytin/tekstinaytin.h \
+    naytin/esikatseltava.h \
+    naytin/esikatselunaytin.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

@@ -52,9 +52,18 @@ Perusvalinnat::Perusvalinnat() :
     connect( ui->sahkopostiEdit, &QLineEdit::textChanged, this, &Perusvalinnat::ilmoitaMuokattu);
 
     connect( ui->hakemistoNappi, SIGNAL(clicked(bool)), this, SLOT(avaaHakemisto()));
-    connect( ui->avaaArkistoNappi, &QPushButton::clicked, [] { kp()->avaaUrl( kp()->arkistopolku() ); } );
+    connect( ui->avaaArkistoNappi, &QPushButton::clicked, [] { kp()->avaaUrl( kp()->arkistopolku() ); } );    
     connect( ui->poistaLogoNappi, &QPushButton::clicked, [this] { poistalogo=true; ui->logoLabel->clear(); ilmoitaMuokattu(); });
+    connect( ui->eipdfCheck, SIGNAL(toggled(bool)), this, SLOT(ilmoitaMuokattu()));
+
     ui->ytunnusEdit->setValidator(new YTunnusValidator());
+
+#ifndef QT_WS_MAC
+    // Mahdollisuus pdf-toimintojen käytöstä poistamiseen vain maceille, koska niillä joskus ongelmia..
+    ui->eipdfCheck->hide();
+#endif
+
+
 
 }
 
@@ -74,7 +83,7 @@ bool Perusvalinnat::nollaa()
     ui->puhelinEdit->setText( kp()->asetus("Puhelin"));
     ui->logossaNimiBox->setChecked( kp()->asetukset()->onko("LogossaNimi") );
     ui->sahkopostiEdit->setText( kp()->asetukset()->asetus("Sahkoposti"));
-    ui->poistaLogoNappi->setEnabled( !kp()->logo().isNull() );
+    ui->poistaLogoNappi->setEnabled( !kp()->logo().isNull() );    
 
     // Haetaan muodot
 
@@ -96,6 +105,7 @@ bool Perusvalinnat::nollaa()
 
 
     ui->paivitysCheck->setChecked( kp()->settings()->value("NaytaPaivitykset", true).toBool() );
+    ui->eipdfCheck->setChecked(kp()->settings()->value("PopplerPois", true).toBool());
 
     uusilogo = QImage();
 
@@ -150,6 +160,7 @@ bool Perusvalinnat::onkoMuokattu()
             ui->puhelinEdit->text() != kp()->asetukset()->asetus("Puhelin") ||
             ui->sahkopostiEdit->text() != kp()->asetukset()->asetus("Sahkoposti") ||
             ui->paivitysCheck->isChecked() != kp()->settings()->value("NaytaPaivitykset",true).toBool() ||
+            ui->eipdfCheck->isChecked() != kp()->settings()->value("PopplerPois",true).toBool() ||
             ui->logossaNimiBox->isChecked() != kp()->asetukset()->onko("LogossaNimi") ||
             poistalogo ||
             ( ui->muotoCombo->currentText() != kp()->asetukset()->asetus("Muoto"));
@@ -159,6 +170,7 @@ bool Perusvalinnat::tallenna()
 {
 
     kp()->settings()->setValue("NaytaPaivitykset", ui->paivitysCheck->isChecked());
+    kp()->settings()->setValue("PopplerPois", ui->eipdfCheck->isChecked());
 
     kp()->asetukset()->aseta("Nimi", ui->organisaatioEdit->text());
     kp()->asetukset()->aseta("Ytunnus", ui->ytunnusEdit->text());

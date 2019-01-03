@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2017 Arto Hyvättinen
+   Copyright (C) 2018 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,25 +14,33 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
+#ifndef ESIKATSELTAVA_H
+#define ESIKATSELTAVA_H
 
-#ifndef TILINPAATOSTULOSTAJA_H
-#define TILINPAATOSTULOSTAJA_H
+#include <QString>
 
-#include <QTextDocument>
-#include <QPagedPaintDevice>
-#include "db/tilikausi.h"
+class QPagedPaintDevice;
+class NaytinIkkuna;
+
 
 /**
- * @brief Tilinpäätöksen tulostus
-*/
-class TilinpaatosTulostaja
+ * @brief Esikatseluikkunassa esitettävää ainesta
+ */
+class Esikatseltava
 {
 public:
+    Esikatseltava();
+    virtual ~Esikatseltava();
 
-    static void tulostaTilinpaatos(QPagedPaintDevice* writer,Tilikausi tilikausi, const QString &teksti);
-private:
-    static void tulostaKansilehti(Tilikausi tilikausi, QPainter *painter);
+    void esikatsele();
+    QByteArray pdf() const;
+
+    virtual void tulosta(QPagedPaintDevice * printer) const = 0 ;
+    virtual QString otsikko() const { return QString(); }
+
+protected:
+    NaytinIkkuna *ikkuna_ = nullptr;
 
 };
 
-#endif // TILINPAATOSTULOSTAJA_H
+#endif // ESIKATSELTAVA_H

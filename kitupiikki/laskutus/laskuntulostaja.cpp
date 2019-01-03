@@ -461,9 +461,9 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter,
         else
             painter->drawText(QRectF( keskiviiva + mm, pv - rk * 2, (leveys -keskiviiva)/2, rk-mm ), Qt::AlignBottom,  t("laskuotsikko") );
 
-        if( model_->laskunSumma() > 0.0 &&  kp()->asetukset()->asetus("LaskuViivastyskorko").toDouble() > 1e-5 )  // Näytetään eräpäivä vain jos on maksettavaa
+        if( model_->laskunSumma() > 0.0 &&  model_->viivastysKorko() > 1e-5 )
         {
-            painter->drawText(QRectF( puoliviiva + mm, pv + rk, (leveys-keskiviiva) / 2, rk-mm ), Qt::AlignBottom,  QString("%L1 %").arg(kp()->asetus("LaskuViivastyskorko").toDouble(),0,'g',2) );
+            painter->drawText(QRectF( puoliviiva + mm, pv + rk, (leveys-keskiviiva) / 2, rk-mm ), Qt::AlignBottom,  QString("%L1 %").arg(model_->viivastysKorko(),0,'f',1) );
         }
     }
     painter->drawText(QRectF( keskiviiva + mm, pv + rk, (leveys-keskiviiva) / 2, rk-mm ), Qt::AlignBottom,  kp()->asetus("LaskuHuomautusaika") );

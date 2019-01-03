@@ -31,7 +31,7 @@ NaytinIkkuna::NaytinIkkuna(QWidget *parent) : QMainWindow(parent)
 {
     setAttribute(Qt::WA_DeleteOnClose);
 
-    resize(800,600);
+    resize(800,600);   
     restoreGeometry( kp()->settings()->value("NaytinIkkuna").toByteArray());
 
     view_ = new NaytinView(this);
@@ -95,15 +95,17 @@ void NaytinIkkuna::naytaLiite(const int tositeId, const int liiteId)
 
 }
 
-void NaytinIkkuna::sisaltoMuuttui(const QString& tyyppi)
+void NaytinIkkuna::sisaltoMuuttui()
 {
     setWindowTitle( view()->otsikko() );
-    csvAktio_->setEnabled( view()->csvKaytossa() );
+    csvAktio_->setVisible( view()->csvKaytossa() );
 
-    // Tyypin mukaan napit
-    raitaAktio_->setEnabled( tyyppi == "raportti");
-    htmlAktio_->setEnabled( tyyppi == "raportti");
-    // sivunAsetusAktio_->setEnabled( tyyppi != "pdf");
+    raitaAktio_->setVisible( view()->csvKaytossa());
+    htmlAktio_->setVisible( view()->htmlKaytossa());
+
+    zoomAktio_->setVisible( view()->zoomKaytossa() );
+    zoomInAktio_->setVisible( view()->zoomKaytossa() );
+    zoomOutAktio_->setVisible( view()->zoomKaytossa() );
 
     if( view()->tiedostoPaate() == "jpg"  )
         avaaAktio_->setIcon( QIcon(":/pic/kuva.png"));
@@ -186,6 +188,26 @@ void NaytinIkkuna::teeToolbar()
 
     csvBtn->setMenu(csvValikko);
     csvBtn->setPopupMode(QToolButton::InstantPopup);
+
+    tb->addSeparator();
+
+    zoomAktio_ = new QAction( QIcon(":/pic/zoom-fit-width.png"), tr("Sovita"));
+    zoomAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_0));
+    connect( zoomAktio_, &QAction::triggered, view(), &NaytinView::zoomFit);
+
+    zoomInAktio_ = new QAction( QIcon(":/pic/zoom-in.png"), tr("Suurenna"));
+    zoomInAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus));
+    connect( zoomInAktio_, &QAction::triggered, view(), &NaytinView::zoomIn);
+
+    zoomOutAktio_ = new QAction( QIcon(":/pic/zoom-out.png"), tr("Pienennä"));
+    zoomOutAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus));
+    connect( zoomOutAktio_, &QAction::triggered, view(), &NaytinView::zoomOut);
+
+    tb->addAction(zoomAktio_);
+    tb->addAction(zoomInAktio_);
+    tb->addAction(zoomOutAktio_);
+
+
 
 }
 

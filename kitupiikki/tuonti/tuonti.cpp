@@ -20,6 +20,7 @@
 #include <QSqlQuery>
 #include <QImage>
 #include <QMessageBox>
+#include <QSettings>
 
 #include "tuonti.h"
 #include "pdftuonti.h"
@@ -57,7 +58,7 @@ bool Tuonti::tuo(const QString &tiedostonnimi, KirjausWg *wg)
     QByteArray data = tiedosto.readAll();
     tiedosto.close();
 
-    if( data.startsWith("%PDF"))
+    if( data.startsWith("%PDF") && !kp()->settings()->value("PopplerPois").toBool())
     {
         PdfTuonti pdftuonti(wg);
         return pdftuonti.tuo(data);

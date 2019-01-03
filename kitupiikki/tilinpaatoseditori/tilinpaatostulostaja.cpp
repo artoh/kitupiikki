@@ -36,20 +36,13 @@
 
 #include "raportti/raportoija.h"
 
-QByteArray TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, const QString& teksti)
+void TilinpaatosTulostaja::tulostaTilinpaatos(QPagedPaintDevice *writer, Tilikausi tilikausi, const QString& teksti)
 {
-    QByteArray barray;
-    QBuffer buffer(&barray);
-    buffer.open(QIODevice::WriteOnly);
 
-    QPdfWriter writer( &buffer );
+    writer->setPageSize( QPdfWriter::A4);
 
-    writer.setPageSize( QPdfWriter::A4);
-    writer.setCreator( QString("%1 %2").arg(qApp->applicationName()).arg(qApp->applicationVersion()) );
-    writer.setTitle( Kirjanpito::tr("Tilinpäätös %1").arg(tilikausi.kausivaliTekstina()) );
-
-    writer.setPageMargins( QMarginsF(25,10,10,10), QPageLayout::Millimeter );
-    QPainter painter( &writer );
+    writer->setPageMargins( QMarginsF(25,10,10,10), QPageLayout::Millimeter );
+    QPainter painter( writer );
 
     tulostaKansilehti( tilikausi, &painter);
     int sivulla = 1;
@@ -104,12 +97,12 @@ QByteArray TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, const Q
 
         }
 
-        writer.newPage();
+        writer->newPage();
 
         RaportinKirjoittaja kirjoittaja = raportoija.raportti( mats.captured("erotin") == "*" );
         kirjoittaja.asetaOtsikko( otsikko );
         kirjoittaja.asetaKausiteksti( tilikausi.kausivaliTekstina() );
-        sivulla += kirjoittaja.tulosta(&writer, &painter, false, sivulla);
+        sivulla += kirjoittaja.tulosta(writer, &painter, false, sivulla);
     }
 
     // Liitetiedot, allekirjoitukset yms
@@ -129,10 +122,10 @@ QByteArray TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, const Q
     doc.setHtml( teksti.mid(teksti.indexOf('\n')+1) );
 
 
-    int pages = qRound( doc.size().height() / sivunkoko.height() + 1 );
+    int pages = qRound( doc.size().height() / sivunkoko.height()  );
     for( int i=0; i < pages; i++)
     {
-        writer.newPage();
+        writer->newPage();
         painter.save();
         kirjoittaja.tulostaYlatunniste( &painter, sivulla);
         painter.drawLine(0,0,qRound(sivunkoko.width()),0);
@@ -147,7 +140,6 @@ QByteArray TilinpaatosTulostaja::tulostaTilinpaatos(Tilikausi tilikausi, const Q
     }
     painter.end();
 
-    return barray;
 }
 
 void TilinpaatosTulostaja::tulostaKansilehti(Tilikausi tilikausi, QPainter *painter)
