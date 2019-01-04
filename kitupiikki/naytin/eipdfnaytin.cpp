@@ -32,8 +32,8 @@ Naytin::EiPdfNaytin::EiPdfNaytin(const QByteArray &pdf, QObject *parent) :
     data_(pdf),
     widget_( new QWidget)
 {
-    QLabel *teksti = new QLabel( tr("Käyttäjä on poistanut käytöstä pdf-tiedostojen katselun.\n"
-                                "Esikatselun voi ottaa uudelleen käyttöön sivulta Määritykset / Perusvalinnat."));
+    QLabel *teksti = new QLabel( tr("Käyttäjä on poistanut käytöstä pdf-tiedostojen katselun\n"
+                                "Esikatselun voi ottaa uudelleen käyttöön sivulta Määritykset / Perusvalinnat"));
     QPushButton *nappi = new QPushButton(QIcon(":/pic/pdf.png"), tr("Avaa ohjelmalla..."));
     QHBoxLayout *leiska = new QHBoxLayout();
     leiska->addWidget(teksti);

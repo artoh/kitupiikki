@@ -175,7 +175,6 @@ SOURCES += main.cpp \
     naytin/abstraktinaytin.cpp \
     naytin/printpreviewnaytin.cpp \
     naytin/raporttinaytin.cpp \
-    naytin/pdfnaytin.cpp \
     naytin/tekstinaytin.cpp \
     naytin/esikatseltava.cpp \
     naytin/esikatselunaytin.cpp \
@@ -336,7 +335,6 @@ HEADERS += \
     naytin/abstraktinaytin.h \
     naytin/printpreviewnaytin.h \
     naytin/raporttinaytin.h \
-    naytin/pdfnaytin.h \
     naytin/tekstinaytin.h \
     naytin/esikatseltava.h \
     naytin/esikatselunaytin.h \
