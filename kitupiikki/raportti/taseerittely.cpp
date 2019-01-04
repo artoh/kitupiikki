@@ -157,7 +157,7 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
             {
 
                 // Alkusaldo
-                quint64 alkusaldo = tili.saldoPaivalle( mista.addDays(-1));
+                qlonglong alkusaldo = tili.saldoPaivalle( mista.addDays(-1));
                 if( alkusaldo )
                 {
                     RaporttiRivi ekaRivi;
@@ -249,6 +249,22 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                         alkusnt = 0 - alkusnt;
 
 
+                    // Tarkistetaan, jos tase-erä jäänyt tyhjäksi
+                    qlonglong saldo = alkusaldot.value(eraId);
+
+                    if( !saldo )
+                    {
+                        QSqlQuery takysely;
+                        takysely.exec( QString("SELECT count(id) FROM vienti WHERE eraid=%1 AND pvm BETWEEN '%2' AND '%3'")
+                                       .arg( eraId )
+                                       .arg( mista.toString(Qt::ISODate) )
+                                       .arg( mihin.toString( Qt::ISODate)) );
+                        qDebug() << takysely.lastQuery();
+                        if( takysely.next() && !takysely.value(0).toInt())
+                            continue;
+                    }
+
+
                     RaporttiRivi nimirivi;
                     QString tunniste = QString("%1%2/%3")
                             .arg( kp()->tositelajit()->tositelaji( kysely.value("laji").toInt() ).tunnus() )
@@ -261,7 +277,6 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                     nimirivi.lisaa( alkusnt);
                     rk.lisaaRivi(nimirivi);
 
-                    qlonglong saldo = alkusaldot.value(eraId);;
 
                     if( saldo && saldo != alkusnt )
                     {
