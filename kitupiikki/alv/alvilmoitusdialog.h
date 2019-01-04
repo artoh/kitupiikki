@@ -37,7 +37,7 @@ class AlvIlmoitusDialog : public QDialog
     Q_OBJECT
 
 protected:
-    explicit AlvIlmoitusDialog(QWidget *parent = 0);
+    explicit AlvIlmoitusDialog(QWidget *parent = nullptr);
     ~AlvIlmoitusDialog();
 
 public:
