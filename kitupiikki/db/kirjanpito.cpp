@@ -176,12 +176,11 @@ QString Kirjanpito::arkistopolku() const
     return info.dir().absoluteFilePath("arkisto");
 }
 
-QString Kirjanpito::viimeVirheet() const
+QString Kirjanpito::viimeVirhe() const
 {
-    QString palautettava = "Virheloki\n";
-    for(int i = virheloki_.count()-1; i >= (virheloki_.count() > 3 ? virheloki_.count() - 4 : 0); i-- )
-        palautettava.append( virheloki_.at(i) + "\n" );
-    return palautettava;
+    if( virheloki_.isEmpty())
+        return QString();
+    return virheloki().last();
 }
 
 void Kirjanpito::lokiin(const QSqlQuery &kysely)

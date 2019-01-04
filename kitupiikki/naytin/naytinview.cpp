@@ -46,12 +46,17 @@
 #include <QApplication>
 
 #include "naytin/raporttinaytin.h"
-#include "naytin/pdfnaytin.h"
-#include "naytin/kuvanaytin.h"
+// #include "naytin/pdfnaytin.h"
+
+#include "naytin/scenenaytin.h"
 #include "naytin/tekstinaytin.h"
+
+#include "naytin/kuvaview.h"
+#include "naytin/pdfview.h"
 
 #include "tuonti/csvtuonti.h"
 #include "naytin/esikatselunaytin.h"
+#include "naytin/eipdfnaytin.h"
 
 NaytinView::NaytinView(QWidget *parent)
     : QWidget(parent),
@@ -83,12 +88,17 @@ NaytinView::NaytinView(QWidget *parent)
 void NaytinView::nayta(const QByteArray &data)
 {
     if( data.startsWith("%PDF"))
-        vaihdaNaytin( new Naytin::PdfNaytin(data));
+    {
+        if( kp()->settings()->value("PopplerPois").toBool())
+            vaihdaNaytin( new Naytin::EiPdfNaytin(data));
+        else
+            vaihdaNaytin( new Naytin::SceneNaytin( new Naytin::PdfView( data)));
+    }
     else {
         QImage kuva;
         kuva.loadFromData(data);
         if( !kuva.isNull()) {
-            vaihdaNaytin( new Naytin::KuvaNaytin(kuva));
+            vaihdaNaytin( new Naytin::SceneNaytin( new Naytin::KuvaView(kuva) ));
         } else {
             vaihdaNaytin( new Naytin::TekstiNaytin( CsvTuonti::haistettuKoodattu(data) ) );
         }

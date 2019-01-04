@@ -16,48 +16,46 @@
 */
 #include "kuvaview.h"
 
+#include <QPainter>
+#include <QPrinter>
+#include <QBuffer>
 
 Naytin::KuvaView::KuvaView(const QImage &kuva) :
-    QGraphicsView (new QGraphicsScene()),
-    kuva_( kuva )
+    kuva_(kuva)
 {
-    setDragMode(QGraphicsView::ScrollHandDrag);
-    setBackgroundBrush(QBrush(Qt::darkGray));
+
 }
 
-QImage Naytin::KuvaView::kuva() const
+QByteArray Naytin::KuvaView::data() const
 {
-    return kuva_;
+    QByteArray ba;
+    QBuffer buffer(&ba);
+
+    buffer.open(QIODevice::WriteOnly);
+    kuva_.save(&buffer,"JPG");
+    buffer.close();
+
+    return ba;
 }
 
-void Naytin::KuvaView::paivita()
+void Naytin::KuvaView::paivita() const
 {
     scene()->clear();
     int leveys = kuva_.width() > width() ?  width() - 20 : kuva_.width();
     int korkeus = qRound( 1.00 * leveys / kuva_.width() * kuva_.height());
-    QPixmap pixmap = QPixmap::fromImage( kuva_.scaled( qRound(leveys * zoomaus_), qRound(korkeus * zoomaus_), Qt::KeepAspectRatio ) );
+    QPixmap pixmap = QPixmap::fromImage( kuva_.scaled( qRound(leveys * zoomaus()), qRound(korkeus * zoomaus()), Qt::KeepAspectRatio ) );
     scene()->addPixmap(pixmap);
 }
 
-void Naytin::KuvaView::zoomOut()
+void Naytin::KuvaView::tulosta(QPrinter *printer) const
 {
-    zoomaus_ *= 0.7;
-    paivita();
-}
+    QPainter painter( printer );
+    QRect rect = painter.viewport();
 
-void Naytin::KuvaView::zoomFit()
-{
-    zoomaus_ = 1.0;
-    paivita();
-}
-
-void Naytin::KuvaView::resizeEvent(QResizeEvent * /* event */)
-{
-    paivita();
-}
-
-void Naytin::KuvaView::zoomIn()
-{
-    zoomaus_ *= 1.2;
-    paivita();
+    QSize size = kuva_.size();
+    size.scale(rect.size(), Qt::KeepAspectRatio);
+    painter.setViewport( rect.x(), rect.y(),
+                         size.width(), size.height());
+    painter.setWindow(kuva_.rect());
+    painter.drawImage(0, 0, kuva_);
 }

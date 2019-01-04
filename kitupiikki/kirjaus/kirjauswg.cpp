@@ -343,7 +343,7 @@ void KirjausWg::tallenna()
         // Kirjauksessa virhe
         QMessageBox::critical( this, tr("Virhe tallennuksessa"),
                                tr("Tallentaminen ei onnistunut seuraavan tietokantavirheen takia\n\n %1")
-                               .arg( kp()->viimeVirheet() ) );
+                               .arg( kp()->viimeVirhe() ) );
         return;
     }
 
@@ -383,7 +383,7 @@ void KirjausWg::poistaTosite()
         }
         else
             QMessageBox::critical(this, tr("Tietokantavirhe"),
-                                  tr("Tietokantavirhe tositetta poistettaessa\n\n%1").arg( kp()->viimeVirheet() ));
+                                  tr("Tietokantavirhe tositetta poistettaessa\n\n%1").arg( kp()->viimeVirhe() ));
     }
 }
 

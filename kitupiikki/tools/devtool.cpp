@@ -28,6 +28,7 @@ DevTool::DevTool(QWidget *parent) :
     ui(new Ui::DevTool)
 {
     ui->setupUi(this);
+    ui->lokiBrowser->setPlainText( kp()->virheloki().join("\n") );
 
     connect( ui->avainEdit, SIGNAL(textChanged(QString)), this, SLOT(haeAsetus(QString)));
 
@@ -42,8 +43,8 @@ DevTool::DevTool(QWidget *parent) :
     connect( kp(), &Kirjanpito::tietokantavirhe, [this]() { this->ui->lokiBrowser->setPlainText( kp()->virheloki().join('\n') ); } );
 
     ui->avainLista->setCurrentRow(0);
-
     ui->keksiLabel->setText( kp()->settings()->value("Keksi").toString());
+
 
     alustaRistinolla();
 

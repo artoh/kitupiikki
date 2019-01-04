@@ -14,46 +14,35 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef KUVANAYTIN_H
-#define KUVANAYTIN_H
+#ifndef PDFVIEW_H
+#define PDFVIEW_H
 
-#include "abstraktinaytin.h"
-
-#include <QImage>
+#include "abstraktiview.h"
 
 namespace Naytin {
 
-class KuvaView;
-
-class KuvaNaytin : public AbstraktiNaytin
+class PdfView : public AbstraktiView
 {
 public:
-    KuvaNaytin(const QImage& kuva, QObject *parent = nullptr);
+    PdfView(const QByteArray& pdf);
 
-    QWidget* widget() override;
+    virtual QString tiedostonMuoto() const override { return tr("pdf-tiedosto (*.pdf)");}
+    virtual QString tiedostonPaate() const override { return "pdf"; }
 
-    QString tiedostonMuoto() const override { return tr("jpg-kuvatiedosto (*.jpg)");}
-    QString tiedostonPaate() const override { return "jpg"; }
+    virtual QByteArray data() const override;
 
-    QByteArray data() const override;
-
-    bool voikoZoomata() const override { return true; }
+    virtual QString otsikko() const override;
 
 public slots:
     void paivita() const override;
     void tulosta(QPrinter* printer) const override;
 
-    virtual void zoomIn() override;
-    virtual void zoomOut() override;
-    virtual void zoomFit() override;
-
 protected:
-    KuvaView* view_;
-
+    QByteArray data_;
 };
+
 
 }
 
 
-
-#endif // KUVANAYTIN_H
+#endif // PDFVIEW_H

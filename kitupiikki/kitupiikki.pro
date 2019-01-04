@@ -176,11 +176,14 @@ SOURCES += main.cpp \
     naytin/printpreviewnaytin.cpp \
     naytin/raporttinaytin.cpp \
     naytin/pdfnaytin.cpp \
-    naytin/kuvanaytin.cpp \
-    naytin/kuvaview.cpp \
     naytin/tekstinaytin.cpp \
     naytin/esikatseltava.cpp \
-    naytin/esikatselunaytin.cpp
+    naytin/esikatselunaytin.cpp \
+    naytin/abstraktiview.cpp \
+    naytin/kuvaview.cpp \
+    naytin/scenenaytin.cpp \
+    naytin/pdfview.cpp \
+    naytin/eipdfnaytin.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -334,11 +337,14 @@ HEADERS += \
     naytin/printpreviewnaytin.h \
     naytin/raporttinaytin.h \
     naytin/pdfnaytin.h \
-    naytin/kuvanaytin.h \
-    naytin/kuvaview.h \
     naytin/tekstinaytin.h \
     naytin/esikatseltava.h \
-    naytin/esikatselunaytin.h
+    naytin/esikatselunaytin.h \
+    naytin/abstraktiview.h \
+    naytin/kuvaview.h \
+    naytin/scenenaytin.h \
+    naytin/pdfview.h \
+    naytin/eipdfnaytin.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

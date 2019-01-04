@@ -249,7 +249,7 @@ public:
      * @brief Kolme viimeistä virhettä
      * @return
      */
-    QString viimeVirheet() const;
+    QString viimeVirhe() const;
 
     /**
      * @brief Tietokantavirhe on tapahtunut

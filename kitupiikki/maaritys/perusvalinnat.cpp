@@ -60,7 +60,7 @@ Perusvalinnat::Perusvalinnat() :
 
 #ifndef QT_WS_MAC
     // Mahdollisuus pdf-toimintojen käytöstä poistamiseen vain maceille, koska niillä joskus ongelmia..
-    ui->eipdfCheck->hide();
+    // ui->eipdfCheck->hide();
 #endif
 
 

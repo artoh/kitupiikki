@@ -1,4 +1,5 @@
 /*
+ *
    Copyright (C) 2018 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
@@ -14,8 +15,8 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#include "kuvanaytin.h"
-#include "kuvaview.h"
+#include "scenenaytin.h"
+#include "abstraktiview.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsView>
@@ -25,61 +26,61 @@
 #include <QPainter>
 #include <QPrinter>
 
-Naytin::KuvaNaytin::KuvaNaytin(const QImage &kuva, QObject *parent)
+
+Naytin::SceneNaytin::SceneNaytin(AbstraktiView *view, QObject *parent)
     : AbstraktiNaytin (parent),
-      view_{ new KuvaView(kuva)}
+      view_(view)
 {
 
 }
 
-QWidget *Naytin::KuvaNaytin::widget()
+QWidget *Naytin::SceneNaytin::widget()
 {
     return view_;
 }
 
-QByteArray Naytin::KuvaNaytin::data() const
+QByteArray Naytin::SceneNaytin::data() const
 {
-    QByteArray ba;
-    QBuffer buffer(&ba);
-
-    buffer.open(QIODevice::WriteOnly);
-    view_->kuva().save(&buffer,"JPG");
-    buffer.close();
-
-    return ba;
+    return view_->data();
 }
 
-void Naytin::KuvaNaytin::paivita() const
+QString Naytin::SceneNaytin::tiedostonMuoto() const
+{
+    return view_->tiedostonMuoto();
+}
+
+QString Naytin::SceneNaytin::tiedostonPaate() const
+{
+    return view_->tiedostonPaate();
+}
+
+QString Naytin::SceneNaytin::otsikko() const
+{
+    return view_->otsikko();
+}
+
+void Naytin::SceneNaytin::paivita() const
 {
     view_->paivita();
 }
 
-void Naytin::KuvaNaytin::tulosta(QPrinter *printer) const
+void Naytin::SceneNaytin::tulosta(QPrinter *printer) const
 {
-    QPainter painter( printer );
-    QRect rect = painter.viewport();
-    QImage kuva = view_->kuva();
-    QSize size = kuva.size();
-    size.scale(rect.size(), Qt::KeepAspectRatio);
-    painter.setViewport( rect.x(), rect.y(),
-                         size.width(), size.height());
-    painter.setWindow(kuva.rect());
-    painter.drawImage(0, 0, kuva);
+    view_->tulosta(printer);
 }
 
-void Naytin::KuvaNaytin::zoomOut()
+void Naytin::SceneNaytin::zoomOut()
 {
     view_->zoomOut();
 }
 
-void Naytin::KuvaNaytin::zoomFit()
+void Naytin::SceneNaytin::zoomFit()
 {
     view_->zoomFit();
 }
 
-void Naytin::KuvaNaytin::zoomIn()
+void Naytin::SceneNaytin::zoomIn()
 {
     view_->zoomIn();
-    paivita();
 }
 
