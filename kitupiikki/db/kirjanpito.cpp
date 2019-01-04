@@ -17,6 +17,7 @@
 
 #include <QSqlDatabase>
 #include <QSqlQuery>
+#include <QSqlError>
 #include <QVariant>
 #include <QFileInfo>
 #include <QSettings>
@@ -173,6 +174,24 @@ QString Kirjanpito::arkistopolku() const
 
     QFileInfo info(tiedostopolku());
     return info.dir().absoluteFilePath("arkisto");
+}
+
+QString Kirjanpito::viimeVirheet() const
+{
+    QString palautettava = "Virheloki\n";
+    for(int i = virheloki_.count()-1; i >= (virheloki_.count() > 3 ? virheloki_.count() - 4 : 0); i-- )
+        palautettava.append( virheloki_.at(i) + "\n" );
+    return palautettava;
+}
+
+void Kirjanpito::lokiin(const QSqlQuery &kysely)
+{
+    QString ilmoitus = QString("%1 -> %2")
+            .arg(kysely.lastQuery())
+            .arg(kysely.lastError().text());
+
+    virheloki_.append(ilmoitus);
+    emit tietokantavirhe(ilmoitus);
 }
 
 

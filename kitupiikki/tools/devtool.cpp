@@ -39,6 +39,8 @@ DevTool::DevTool(QWidget *parent) :
 
     connect( ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(tabMuuttui(int)));
 
+    connect( kp(), &Kirjanpito::tietokantavirhe, [this]() { this->ui->lokiBrowser->setPlainText( kp()->virheloki().join('\n') ); } );
+
     ui->avainLista->setCurrentRow(0);
 
     ui->keksiLabel->setText( kp()->settings()->value("Keksi").toString());

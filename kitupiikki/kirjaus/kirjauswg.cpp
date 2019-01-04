@@ -341,10 +341,9 @@ void KirjausWg::tallenna()
     if( !model_->tallenna() )
     {
         // Kirjauksessa virhe
-        QSqlError virhe = kp()->tietokanta()->lastError();
         QMessageBox::critical( this, tr("Virhe tallennuksessa"),
-                               tr("Tallentaminen ei onnistunut seuraavan tietokantavirheen takia: %1")
-                               .arg(virhe.text()));
+                               tr("Tallentaminen ei onnistunut seuraavan tietokantavirheen takia\n\n %1")
+                               .arg( kp()->viimeVirheet() ) );
         return;
     }
 
@@ -384,7 +383,7 @@ void KirjausWg::poistaTosite()
         }
         else
             QMessageBox::critical(this, tr("Tietokantavirhe"),
-                                  tr("Tietokantavirhe tositetta poistettaessa\n\n%1").arg( kp()->tietokanta()->lastError().text() ));
+                                  tr("Tietokantavirhe tositetta poistettaessa\n\n%1").arg( kp()->viimeVirheet() ));
     }
 }
 

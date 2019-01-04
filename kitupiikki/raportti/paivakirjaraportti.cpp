@@ -170,9 +170,8 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
 
     qDebug() << kysymys;
 
-    kysely.exec(kysymys);
-
-    qDebug() << kysely.lastError().text();
+    if(!kysely.exec(kysymys))
+        kp()->lokiin(kysely);
 
     int edellinenTositelajiId = -1;
     qlonglong debetYht = 0;

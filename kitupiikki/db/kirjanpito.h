@@ -32,6 +32,7 @@
 #include <QDate>
 #include <QTemporaryDir>
 #include <QImage>
+#include <QStringList>
 
 #include "tili.h"
 #include "tilikausi.h"
@@ -238,6 +239,24 @@ public:
      */
     QSettings* settings() { return settings_;}
 
+    /**
+     * @brief Lista tietokantavirheistä
+     * @return
+     */
+    QStringList virheloki() const { return virheloki_;}
+
+    /**
+     * @brief Kolme viimeistä virhettä
+     * @return
+     */
+    QString viimeVirheet() const;
+
+    /**
+     * @brief Tietokantavirhe on tapahtunut
+     * @param kysely
+     */
+    void lokiin(const QSqlQuery &kysely);
+
 signals:
     /**
      * @brief Tietokanta on avattu
@@ -287,6 +306,12 @@ signals:
      */
     void naytaTosite(int tositeId);
 
+    /**
+     * @brief Tietokantavirhe on tapahtunut
+     * @param virheilmoitus
+     */
+    void tietokantavirhe(QString virheilmoitus);
+
 public slots:
     /**
      * @brief Avaa kirjanpitotietokannan
@@ -330,6 +355,8 @@ protected:
 
     QSettings* settings_;
     QString portableDir_;      // Portable-ohjelman käynnistyshakemisto
+
+    QStringList virheloki_;
 
 public:
     /**

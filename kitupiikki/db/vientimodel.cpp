@@ -687,7 +687,7 @@ bool VientiModel::tallenna()
 
         if( !query.exec() )
         {
-            qDebug() << query.lastQuery() << query.lastError().text();
+            kp()->lokiin(query);
             return false;
         }
 
@@ -696,18 +696,32 @@ bool VientiModel::tallenna()
             viennit_[i].vientiId = query.lastInsertId().toInt();
             // Jos uusi tase-erä, niin merkitään tase-erä itseensä - helpottaa tase-erien laskentaa
             if( rivi.eraId == TaseEra::UUSIERA && !rivi.vientiId && !rivi.tili.onko(TiliLaji::TULOS))
-                query.exec(QString("UPDATE vienti SET eraid=%1 WHERE id=%1").arg(viennit_[i].vientiId) );
+            {
+                if(!query.exec(QString("UPDATE vienti SET eraid=%1 WHERE id=%1").arg(viennit_[i].vientiId) ))
+                {
+                    kp()->lokiin(query);
+                    return false;
+                }
+            }
         }
         else
             // Poistetaan tagit, jotta ne voitaisiin kohta lisätä...
-            query.exec( QString("DELETE FROM merkkaus WHERE vienti=%1").arg( rivi.vientiId));
+            if(!query.exec( QString("DELETE FROM merkkaus WHERE vienti=%1").arg( rivi.vientiId)))
+            {
+                kp()->lokiin(query);
+                return false;
+            }
 
         for(const Kohdennus& tagi : rivi.tagit)
         {
             if( !query.exec( QString("INSERT INTO merkkaus(vienti,kohdennus) VALUES(%1,%2)")
                         .arg(viennit_[i].vientiId)
                         .arg(tagi.id()) ) )
-                    return false;
+            {
+                kp()->lokiin(query);
+                return false;
+            }
+
         }
     }
 
@@ -716,7 +730,10 @@ bool VientiModel::tallenna()
     foreach (int id, poistetutVientiIdt_)
     {
         if( !query.exec( QString("DELETE FROM vienti WHERE id=%1").arg(id)) )
+        {
+            kp()->lokiin(query);
             return false;
+        }
     }
 
     muokattu_ = false;
