@@ -94,7 +94,7 @@ LaskuModel *LaskuModel::teeHyvityslasku(int hyvitettavaVientiId)
     model->kieli_ = model->viittausLasku().json.str("Kieli").isEmpty() ? "FI" : model->viittausLasku().json.str("Kieli");
     LaskunTulostaja tulostaja(model);
 
-    model->asetaLisatieto( tulostaja.t("hyvitysteksti")
+    model->asetaLisatieto( model->t("hyvitysteksti")
                                      .arg( model->viittausLasku().viite)
                                      .arg( model->viittausLasku().pvm.toString("dd.MM.yyyy")));
 
@@ -541,7 +541,9 @@ LaskuRivi LaskuModel::rivi(int indeksi) const
 
 QDate LaskuModel::pvm() const
 {
-    if( kirjausperuste()==SUORITEPERUSTE)
+    if( tyyppi() == MAKSUMUISTUTUS)
+        return kp()->paivamaara();      // Maksumuistutus kirjataan muistutuspäivälle
+    else if( kirjausperuste()==SUORITEPERUSTE)
         return toimituspaiva();
     else if(kirjausperuste()==LASKUTUSPERUSTE || kirjausperuste()==KATEISLASKU)
         return kp()->paivamaara();

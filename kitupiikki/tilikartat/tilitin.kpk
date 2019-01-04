@@ -1480,7 +1480,7 @@ Saamiset omistusyhteysyrityksiltä	174 s8 *
 Lainasaamiset		175 s8 *
 Maksamattomat osakkeet/osuudet	178 s8 *
 Siirtosaamiset		180..184 s8 *
-Muut saamiset		176..177 185 *
+Muut saamiset		176..177 185 s8 *
 Rahoitusarvopaperit		186..188 s4
 Osuudet saman konsernin yrityksissä	186 s8 *
 Omat osakkeet		187 s8 *

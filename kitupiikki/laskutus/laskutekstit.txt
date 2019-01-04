@@ -53,7 +53,7 @@ ENyhteensa total
 SEyhteensa totalt
 Yhteensa Yhteensä
 ENYhteensa Total
-SEyhteensa Totalt
+SEYhteensa Totalt
 bst Saajan|tilinumero|Mottagarens|kontonummer
 ENbst Recipient's|account number
 bsa Saaja|Mottagare
