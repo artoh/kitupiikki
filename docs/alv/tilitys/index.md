@@ -15,6 +15,8 @@ Kitupiikissä ei ole koneellista tietojen siirtoa. Tarkista Kitupiikin laatima v
 !!! note "Verovelat-tili"
     Verovelat-tilille kirjataan kaikki oma-aloitteiset verot, jotka on ilmoitettu verottajalle mutta ei vielä maksettu. Näin Verovelat-tilin saldon pitäisi aina vastata OmaVeron maksamattomien verojen saldoa. Jos tulossa on veronpalautusta, kirjataan se Verosaamiset-tilille.
 
+    Verokauden vaihtuessa vero kirjattu Verovelat-tilille, ja Arvonlisäverovelat ja -saamiset -tilien saldot ovat tyhjiä.
+
 Erittely, jossa kirjauksia voi seurata aina tositteisiin saakka, avautuu alv-sivun **Näytä erittely**-napista. Se tallentuu myös liitteeksi alv-tilitysvientiin ja siten myös sähköiseen arkistoon.
 
 ## Arvonlisäveron erittely

@@ -5,6 +5,12 @@
 
     Jos olet tullut kirjanneeksi euromäärän tai alv-prosentin väärin, on yleensä helpointa poistaa tositteelta kaikki kirjaukseen liittyvät rivit ja tehdä Kirjausapurilla koko kirjaus uudestaan.
 
+Kitupiikin tapa käyttää ohjaustietoja vaatii usein vähän totuttelua, sillä monilla muilla ohjelmilla kirjaukset tehdään yksinomaan eri tilejä käyttäen. Kitupiikin menettelystä on kuitenkin omat etunsa
+
+* Kitupiikki pystyy laatimaan arvonlisäveroilmoituksen ja useimmissa tapauksissa laskemaan myös mahdollisen alarajahuojennuksen
+* Jos alv-prosentit muuttuvat, ei tilikarttaan tarvitse luoda uusia tilejä, ja myös muutosvaihessa kirjauksien tekeminen onnistuu
+* Alv-kirjauksia ei ole mitenkään piilotettu käyttäjältä, joten monimutkaisemmissakin tapauksissa (esim. vähennyskelvottomat yhteisöhankinnat) kirjauksen oikeellisuus on havaittavissa.
+
 
 ## Arvolisäverovelvollisuus
 
