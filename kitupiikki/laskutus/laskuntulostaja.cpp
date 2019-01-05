@@ -396,15 +396,16 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter,
 
     painter->setFont( QFont("Sans",OTSAKEPT) );
 
-    if( model_->asiakkaanViite().isEmpty())
-    {
-        painter->drawLine(QLineF(keskiviiva, pv-rk, keskiviiva, pv + 2 * rk));
-    }
-    else
-    {
-        painter->drawLine(QLineF(keskiviiva, pv + 3 * rk, leveys, pv + 3 * rk));
+    painter->drawLine(QLineF(keskiviiva, pv-rk, keskiviiva, pv + 2 * rk));
+
+    painter->drawLine( QLineF(keskiviiva, pv+rk*2, leveys, pv+rk*2));
+
+    if( model_->asiakkaanViite().isEmpty())    {
         painter->drawLine( QLineF(keskiviiva, pv-rk, keskiviiva, pv+rk*3));
-        painter->drawText(QRectF( keskiviiva + mm, pv + rk * 4 + mm, leveys / 4, rk ), Qt::AlignTop, t("asviite"));
+    } else {
+        painter->drawLine( QLineF(keskiviiva, pv-rk, keskiviiva, pv+rk*3));
+        painter->drawLine(QLineF(keskiviiva, pv + 3 * rk, leveys, pv + 3 * rk));        
+        painter->drawText(QRectF( keskiviiva + mm, pv + rk * 2 + mm, leveys / 4, rk ), Qt::AlignTop, t("asviite"));
     }
 
 
