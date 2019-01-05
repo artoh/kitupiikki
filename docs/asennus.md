@@ -9,9 +9,9 @@
 Tuetut Windowsin versiot: Windows 7, 8 ja 10.
 
 !!! note ""
-    <span class="fa fa-windows"></span> [Kitupiikki 1.3.1 Windows asennusohjelma (11 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.3.1/Kitupiikki-1.3.1-x86_64.AppImage) <i class="fa fa-laptop"></i> Lataa ja suorita asennusohjelma. <i class="fa fa-user"></i> Vaatii pääkäyttäjän oikeudet.
+    <span class="fa fa-windows"></span> [Kitupiikki 1.3.1 Windows asennusohjelma (11 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.3.1/kitupiikki-1.3.1-asennus.exe) <i class="fa fa-laptop"></i> Lataa ja suorita asennusohjelma. <i class="fa fa-user"></i> Vaatii pääkäyttäjän oikeudet.
 
-     <span class="fa fa-windows"></span> [Kitupiikki 1.3.1 Windows suoritettava ohjelma (14 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.3/kitupiikki-1.3.exe) <i class="fa fa-briefcase"></i> Käynnistettävissä ilman asennusta esim. USB-muistilta.
+     <span class="fa fa-windows"></span> [Kitupiikki 1.3.1 Windows suoritettava ohjelma (14 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.3.1/kitupiikki-1.3.1.exe) <i class="fa fa-briefcase"></i> Käynnistettävissä ilman asennusta esim. USB-muistilta.
 
 
 ## <span class="fa fa-linux"></span> Linux
