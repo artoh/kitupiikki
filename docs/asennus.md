@@ -9,9 +9,9 @@
 Tuetut Windowsin versiot: Windows 7, 8 ja 10.
 
 !!! note ""
-    <span class="fa fa-windows"></span> [Kitupiikki 1.3 Windows asennusohjelma (11 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.3/kitupiikki-1.3-asennus.exe) <i class="fa fa-laptop"></i> Lataa ja suorita asennusohjelma. <i class="fa fa-user"></i> Vaatii pääkäyttäjän oikeudet.
+    <span class="fa fa-windows"></span> [Kitupiikki 1.3.1 Windows asennusohjelma (11 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.3.1/Kitupiikki-1.3.1-x86_64.AppImage) <i class="fa fa-laptop"></i> Lataa ja suorita asennusohjelma. <i class="fa fa-user"></i> Vaatii pääkäyttäjän oikeudet.
 
-     <span class="fa fa-windows"></span> [Kitupiikki 1.3 Windows suoritettava ohjelma (14 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.3/kitupiikki-1.3.exe) <i class="fa fa-briefcase"></i> Käynnistettävissä ilman asennusta esim. USB-muistilta.
+     <span class="fa fa-windows"></span> [Kitupiikki 1.3.1 Windows suoritettava ohjelma (14 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.3/kitupiikki-1.3.exe) <i class="fa fa-briefcase"></i> Käynnistettävissä ilman asennusta esim. USB-muistilta.
 
 
 ## <span class="fa fa-linux"></span> Linux
@@ -19,7 +19,7 @@ Tuetut Windowsin versiot: Windows 7, 8 ja 10.
 Toimii 64-bittisissä Linux-jakeluissa joissa graafinen työpöytä (esim. Ubuntu 16.04 ja uudemmat)
 
 !!! note ""
-    <span class="fa fa-linux"></span> [Kitupiikki 1.3 Linux AppImage (34 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.3/Kitupiikki-1.3-x86_64.AppImage)
+    <span class="fa fa-linux"></span> [Kitupiikki 1.3.1 Linux AppImage (34 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.3.1/Kitupiikki-1.3.1-x86_64.AppImage)
 
     <span class="fa fa-linux"></span> [Kitupiikki 1.0 Linux AppImage (30 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.0/Kitupiikki-1.0-x86_64.AppImage). Tarkoitettu vanhemmille linux-järjestelmille (esim. Ubuntu 14.04)
 
@@ -38,7 +38,7 @@ Tukee OS X versiota 10.11 ja uudempia. <span class="fa fa-exclamation-triangle">
 !!! note ""
     <span class="fa fa-apple"></span> [Kitupiikki 1.1 macOS asennuspaketti (17 MB) ](https://github.com/petriaarnio/kitupiikki/releases/download/mac_v1.1/Kitupiikki-1.1.dmg)  
 
-    <span class="fa fa-apple"></span> [Kitupiikki 1.3 BETA macOS asennuspaketti (17 MB) ](https://github.com/petriaarnio/kitupiikki/releases/download/mac-v1.3-beta.1%2B9/kitupiikki-1.3-beta.1+9.dmg) 
+    <span class="fa fa-apple"></span> [Kitupiikki 1.3 BETA macOS asennuspaketti (17 MB) ](https://github.com/petriaarnio/kitupiikki/releases/download/mac-v1.3-beta.1%2B9/kitupiikki-1.3-beta.1+9.dmg)
 
 1. Lataa yllä oleva asennustiedosto
 2. Avaa asennustiedosto
