@@ -17,7 +17,7 @@
    <iconset resource="../pic/pic.qrc">
     <normaloff>:/pic/lasku.png</normaloff>:/pic/lasku.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_8">
+  <layout class="QVBoxLayout" name="verticalLayout_8" stretch="0,0,1,0">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_7">
      <item>
@@ -53,7 +53,7 @@
           <bool>true</bool>
          </property>
          <property name="placeholderText">
-          <string>Osoite</string>
+          <string>Nimi ja osoite (siten kuin tulostuvat laskulle)</string>
          </property>
         </widget>
        </item>

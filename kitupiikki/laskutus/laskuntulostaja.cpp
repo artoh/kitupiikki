@@ -401,7 +401,7 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter,
     painter->drawLine( QLineF(keskiviiva, pv+rk*2, leveys, pv+rk*2));
 
     if( model_->asiakkaanViite().isEmpty())    {
-        painter->drawLine( QLineF(keskiviiva, pv-rk, keskiviiva, pv+rk*3));
+        painter->drawLine( QLineF(keskiviiva, pv-rk, keskiviiva, pv+rk*2));
     } else {
         painter->drawLine( QLineF(keskiviiva, pv-rk, keskiviiva, pv+rk*3));
         painter->drawLine(QLineF(keskiviiva, pv + 3 * rk, leveys, pv + 3 * rk));        
