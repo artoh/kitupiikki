@@ -1405,8 +1405,8 @@ Sijoitukset		14 s4 *
 VAIHTUVAT VASTAAVAT		15..19 
 Vaihto-omaisuus		15 s4 *
 Pitkäaikaiset saamiset		16 s4 *
-Lyhytaikaiset saamiset		17 s4 *
-Rahoitusarvopaperit		186..188 s4 *
+Lyhytaikaiset saamiset		17..185 s4 *
+Rahoitusarvopaperit		186..189 s4 *
 Rahat ja pankkisaamiset		19 s4 *
 
 Vastaavaa yhteensä		1 bold
