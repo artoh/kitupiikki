@@ -36,6 +36,8 @@
 
 #include "raportti/raportoija.h"
 
+#include <cmath>
+
 void TilinpaatosTulostaja::tulostaTilinpaatos(QPagedPaintDevice *writer, Tilikausi tilikausi, const QString& teksti)
 {
 
@@ -122,7 +124,7 @@ void TilinpaatosTulostaja::tulostaTilinpaatos(QPagedPaintDevice *writer, Tilikau
     doc.setHtml( teksti.mid(teksti.indexOf('\n')+1) );
 
 
-    int pages = qRound( doc.size().height() / sivunkoko.height()  );
+    int pages = qRound(std::ceil( doc.size().height() / sivunkoko.height()  ));
     for( int i=0; i < pages; i++)
     {
         writer->newPage();
@@ -154,7 +156,7 @@ void TilinpaatosTulostaja::tulostaKansilehti(Tilikausi tilikausi, QPainter *pain
 
     if( !kp()->logo().isNull()  )
     {
-        double skaala = ((double) kp()->logo().width() ) / kp()->logo().height();
+        double skaala = (1.00 *  kp()->logo().width() ) / kp()->logo().height();
         double leveys = rivinkorkeus * 4 * skaala;
         double korkeus = rivinkorkeus * 4;
 
