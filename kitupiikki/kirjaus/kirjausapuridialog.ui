@@ -204,9 +204,6 @@
        </property>
       </widget>
      </item>
-     <item row="12" column="1">
-      <widget class="QDateEdit" name="pvmDate"/>
-     </item>
      <item row="13" column="0">
       <widget class="QLabel" name="label_7">
        <property name="text">
@@ -272,10 +269,16 @@
      </item>
      <item row="11" column="1">
       <widget class="QLineEdit" name="merkkausEdit">
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
        <property name="readOnly">
         <bool>true</bool>
        </property>
       </widget>
+     </item>
+     <item row="12" column="1">
+      <widget class="KpDateEdit" name="pvmDate"/>
      </item>
     </layout>
    </item>
@@ -318,13 +321,6 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
-       <widget class="QDateEdit" name="erapvmEdit">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
       <item row="0" column="0">
        <widget class="QLabel" name="saajannimiLabel">
         <property name="text">
@@ -349,7 +345,14 @@
        </widget>
       </item>
       <item row="3" column="1">
-       <widget class="QDateEdit" name="laskupvmEdit"/>
+       <widget class="KpDateEdit" name="laskupvmEdit"/>
+      </item>
+      <item row="4" column="1">
+       <widget class="KpDateEdit" name="erapvmEdit">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -438,6 +441,11 @@
    <extends>QLineEdit</extends>
    <header>db/tilinvalintaline.h</header>
   </customwidget>
+  <customwidget>
+   <class>KpDateEdit</class>
+   <extends>QLineEdit</extends>
+   <header>tools/kpdateedit.h</header>
+  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>tiliEdit</tabstop>
@@ -450,7 +458,6 @@
   <tabstop>vastaCheck</tabstop>
   <tabstop>vastaTaseEraCombo</tabstop>
   <tabstop>kohdennusCombo</tabstop>
-  <tabstop>merkkausEdit</tabstop>
   <tabstop>pvmDate</tabstop>
   <tabstop>seliteEdit</tabstop>
   <tabstop>alvCombo</tabstop>
@@ -460,8 +467,8 @@
   <tabstop>ibanEdit</tabstop>
   <tabstop>viiteEdit</tabstop>
   <tabstop>laskupvmEdit</tabstop>
-  <tabstop>eraCheck</tabstop>
   <tabstop>erapvmEdit</tabstop>
+  <tabstop>eraCheck</tabstop>
   <tabstop>ehdotusView</tabstop>
   <tabstop>ohjeNappi</tabstop>
   <tabstop>vaihdaNappi</tabstop>
@@ -477,8 +484,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>523</x>
-     <y>757</y>
+     <x>609</x>
+     <y>1210</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -493,8 +500,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>523</x>
-     <y>757</y>
+     <x>609</x>
+     <y>1210</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -509,28 +516,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>78</x>
-     <y>635</y>
+     <x>96</x>
+     <y>1011</y>
     </hint>
     <hint type="destinationlabel">
-     <x>261</x>
-     <y>638</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pvmDate</sender>
-   <signal>dateChanged(QDate)</signal>
-   <receiver>laskupvmEdit</receiver>
-   <slot>setDate(QDate)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>186</x>
-     <y>352</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>179</x>
-     <y>589</y>
+     <x>191</x>
+     <y>1016</y>
     </hint>
    </hints>
   </connection>
