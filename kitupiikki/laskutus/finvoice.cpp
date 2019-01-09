@@ -302,11 +302,11 @@ QByteArray Finvoice::lasku(LaskuModel *model)
     writer.writeAttribute("Format","CCYYMMDD");
     writer.writeCharacters( model->erapaiva().toString("yyyyMMdd") );
     writer.writeEndElement();
-    if( kp()->asetukset()->asetus("LaskuViivastyskorko").toDouble() > 1e-5)
+    if( model->viivastysKorko() > 1e-5)
     {
         writer.writeStartElement("PaymentOverDueFineDetails");
         writer.writeTextElement("PaymentOverDueFineFreeText", "Viivästyskorko");
-        writer.writeTextElement("PaymentOverDueFinePercent", QString::number(kp()->asetukset()->asetus("LaskuViivastyskorko").toDouble(),'g',1) );
+        writer.writeTextElement("PaymentOverDueFinePercent", QString::number(model->viivastysKorko(),'g',1) );
         writer.writeEndElement();
     }
     writer.writeEndElement();

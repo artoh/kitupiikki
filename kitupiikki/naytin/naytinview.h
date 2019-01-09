@@ -17,13 +17,19 @@
 #ifndef NAYTINVIEW_H
 #define NAYTINVIEW_H
 
-#include <QGraphicsView>
-#include "naytinscene.h"
+#include <QWidget>
+
 #include "raportti/raportinkirjoittaja.h"
 
 class QAction;
-class QTextEdit;
 class QStackedLayout;
+class Esikatseltava;
+
+namespace Naytin {
+    class AbstraktiNaytin;
+    class EsikatseluNaytin;
+}
+
 
 /**
  * @brief Widgetti liitteiden, raporttien jne esittämiseen
@@ -34,15 +40,24 @@ class NaytinView : public QWidget
 public:
     NaytinView(QWidget *parent = nullptr);
 
-    enum {
-      Scene = 0,
-      Editor = 1
-    };
+    QString otsikko() const;
+    bool csvKaytossa() const;
+    bool htmlKaytossa() const;
+    bool raidatKaytossa() const;
+    bool zoomKaytossa() const;
+
+    QString tiedostonMuoto();
+    QString tiedostoPaate();
+    QByteArray csv();
+    QByteArray data();
+    QString html();
 
 public slots:
     void nayta(const QByteArray& data);
     void nayta(const RaportinKirjoittaja &raportti);
-    void sivunAsetuksetMuuttuneet();
+
+    Naytin::EsikatseluNaytin *esikatsele(Esikatseltava* katseltava);
+
     void paivita();
     void raidoita(bool raidat);
     void tulosta();
@@ -58,27 +73,20 @@ public slots:
     void tallennaCsv();
     void csvLeikepoydalle();
 
-    QString otsikko() const;
-    bool csvKaytossa() const;
+    void zoomFit();
+    void zoomIn();
+    void zoomOut();
 
-    QString tiedostonMuoto();
-    QString tiedostoPaate();
-    QByteArray csv();
-    QByteArray data();
-    QString html();
 
 signals:
-    void sisaltoVaihtunut(const QString& tyyppi);
+    void sisaltoVaihtunut();
 
 
 protected:
-    void vaihdaScene(NaytinScene* uusi);
-    void resizeEvent(QResizeEvent *event) override;
+    void vaihdaNaytin(Naytin::AbstraktiNaytin* naytin);
 
-    void mousePressEvent(QMouseEvent *event) override;
+    void contextMenuEvent(QContextMenuEvent *event) override;
 
-    double zoomaus_ = 1.00;
-    NaytinScene *scene_ = nullptr;
 
     QAction* zoomAktio_;
     QAction* zoomInAktio_;
@@ -86,9 +94,8 @@ protected:
     QAction* tulostaAktio_;
     QAction* tallennaAktio_;
 
-    QStackedLayout* leiska_;
-    QGraphicsView* view_;
-    QTextEdit *editor_;
+    QStackedLayout *leiska_;
+    Naytin::AbstraktiNaytin *naytin_ = nullptr;
 
 };
 

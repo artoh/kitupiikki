@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>428</width>
-    <height>727</height>
+    <height>1164</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -57,6 +57,19 @@
       <widget class="QLabel" name="varoitusLabel">
        <property name="text">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tilinumeron muuttaminen aiheuttaa muutoksia jo kirjatuissa vienneissä. Jos tili on valittu vastatiliksi, katoaa tämä valinta. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="uniikkiVaroitus">
+       <property name="styleSheet">
+        <string notr="true">color: red;</string>
+       </property>
+       <property name="text">
+        <string>Valittu tilityyppi on tarkoitettu käytettäväksi vain yhdellä tilikartan tilillä.</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>

@@ -321,7 +321,7 @@ bool Poistaja::sumupoistaja(Tilikausi kausi)
         else
             QMessageBox::critical(this, tr("Virhe poistotositteen tallentamisessa"),
                                   tr("Poistojen tallentuminen epäonnistui seuraavan "
-                                     "tietokantavirheen takia: %1").arg( kp()->tietokanta()->lastError().text() ));
+                                     "tietokantavirheen takia: %1").arg( kp()->viimeVirhe() ));
     }
     return false;
 }

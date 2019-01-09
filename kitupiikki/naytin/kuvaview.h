@@ -14,35 +14,34 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef KUVANAYTIN_H
-#define KUVANAYTIN_H
+#ifndef KUVAVIEW_H
+#define KUVAVIEW_H
 
-#include "naytinscene.h"
-
+#include "abstraktiview.h"
 #include <QImage>
 
-class KuvaNaytin : public NaytinScene
+namespace Naytin {
+
+class KuvaView : public AbstraktiView
 {
-    Q_OBJECT
 public:
-    KuvaNaytin(QObject *parent = nullptr);
-    KuvaNaytin(const QByteArray& kuvadata, QObject *parent = nullptr);
+    KuvaView(const QImage& kuva);
 
-    bool naytaKuva(const QByteArray& kuvadata);
+    virtual QString tiedostonMuoto() const override { return tr("jpg-kuva (*.jpg)");}
+    virtual QString tiedostonPaate() const override { return "jpg"; }
 
-    QString tyyppi() const override;
-    QString otsikko() const override { return tr("Kitupiikki");}
+    virtual QByteArray data() const override;
 
-    void piirraLeveyteen(double leveyteen) override;
+public slots:
+    void paivita() const override;
+    void tulosta(QPrinter *printer) const override;
 
-    QString tiedostonMuoto() override { return tr("jpg-kuvatiedosto (*.jpg)");}
-    QString tiedostoPaate() override { return "jpg"; }
-    QByteArray data() override;
-
-    void tulosta(QPrinter* printer) override;
-
-private:
+protected:
     QImage kuva_;
 };
 
-#endif // KUVANAYTIN_H
+
+}
+
+
+#endif // KUVAVIEW_H

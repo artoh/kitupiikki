@@ -381,7 +381,7 @@ bool TiliModel::tallenna(bool tietokantaaLuodaan)
             if( kysely.exec() )
                 tilit_[i].nollaaMuokattu();
             else
-                qDebug() << "Tietokantavirhe " << kysely.lastError().text();
+                kp()->lokiin(kysely);
 
             if( !tili.id())
                 tilit_[i].asetaId( kysely.lastInsertId().toInt() );

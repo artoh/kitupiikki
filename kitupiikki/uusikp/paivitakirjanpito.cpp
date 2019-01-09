@@ -111,12 +111,20 @@ bool PaivitaKirjanpito::lataaPaivitys(const QString &tiedosto)
     bool rapoYlikirjoita = false;
     QStringList muokatutRaportit;
 
+    QStringList siirrettavat;
+    siirrettavat             << "TilikarttaNimi" << "TilikarttaKuvaus"
+                             << "TilikarttaOhje" << "TilikarttaPvm"
+                             << "TilikarttaTekija" << "TilikarttaLuontiVersio"
+                             << "PalkkaFiTuonti" << "AlvHuojennusTili";
+
     for(const auto& raportti : raportit)
     {
         if( kp()->asetukset()->muokattu(raportti).isValid())
         {
             rapoYlikirjoita = true;
             muokatutRaportit.append( raportti.mid(9));
+        } else {
+            siirrettavat.append(raportti);  // Jos ei muokattu, niin korvataan ilman muuta!
         }
     }
     bool tpYlikirjoita = kp()->asetukset()->muokattu("TilinpaatosPohja").isValid();
@@ -146,25 +154,23 @@ bool PaivitaKirjanpito::lataaPaivitys(const QString &tiedosto)
             tpYlikirjoita = ui.korvaaKaava->isChecked();
     }
 
-
-    QStringList siirrettavat;
-    siirrettavat             << "TilikarttaNimi" << "TilikarttaKuvaus"
-                             << "TilikarttaOhje" << "TilikarttaPvm"
-                             << "TilikarttaTekija" << "TilikarttaLuontiVersio"
-                             << "PalkkaFiTuonti";
-
     if( tpYlikirjoita )
         siirrettavat.append("TilinpaatosPohja");
 
     // Estetään muokkauspäivien tallentuminen asetuksiin
     kp()->asetukset()->tilikarttaMoodiin(true);
 
+    // Suoritetaan skriptit
+    QString muoto = kp()->asetukset()->asetus("Muoto");
+    if( !muoto.isEmpty())
+      Skripti::suorita( kp()->asetukset()->lista("MuotoPois/" + muoto ));
+
     // Siirretään asetuksien muutokset
     QMapIterator<QString,QStringList> i(ktk);
     while (i.hasNext())
     {
         i.next();
-        if( siirrettavat.contains( i.key())  )
+        if( siirrettavat.contains( i.key()) || i.key().startsWith("Muoto") )
         {
                 kp()->asetukset()->aseta(i.key(), i.value());
         }
@@ -246,10 +252,6 @@ bool PaivitaKirjanpito::lataaPaivitys(const QString &tiedosto)
     }   // Tilirivien lukeminen
     if( kp()->tilit()->tallenna(true))
     {
-        // Suoritetaan skriptit
-        QString muoto = kp()->asetukset()->asetus("Muoto");
-        if( !muoto.isEmpty())
-          Skripti::suorita( ktk.value("MuotoPois/" + muoto ));
         Skripti::suorita( ktk.value("PaivitysSkripti"));
         if( !muoto.isEmpty())
           Skripti::suorita( ktk.value("MuotoOn/" + muoto));

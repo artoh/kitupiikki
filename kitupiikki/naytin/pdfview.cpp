@@ -14,54 +14,45 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#include "pdfscene.h"
+#include "pdfview.h"
 
 #include <poppler/qt5/poppler-qt5.h>
 #include <QGraphicsPixmapItem>
 #include <QPrinter>
 #include <QPainter>
 
-PdfScene::PdfScene(QObject *parent)
-    : NaytinScene (parent)
+Naytin::PdfView::PdfView(const QByteArray &pdf) :
+    data_(pdf)
 {
 
 }
 
-PdfScene::PdfScene(const QByteArray &pdfdata, QObject *parent) :
-    PdfScene( parent)
+QByteArray Naytin::PdfView::data() const
 {
-    naytaPdf(pdfdata);
+    return data_;
 }
 
-QString PdfScene::otsikko() const
+QString Naytin::PdfView::otsikko() const
 {
-    return otsikko_;
+    Poppler::Document *pdfDoc = Poppler::Document::loadFromData( data_ );
+    QString otsikkoni = pdfDoc->info("Title") ;
+    delete pdfDoc;
+    return otsikkoni;
 }
 
-bool PdfScene::naytaPdf(const QByteArray &pdfdata)
+void Naytin::PdfView::paivita() const
 {
-    if( pdfdata.startsWith("%PDF"))
-    {
-        data_ = pdfdata;
-        return true;
-    }
-    return false;
 
-}
-
-void PdfScene::piirraLeveyteen(double leveyteen)
-{
-    setBackgroundBrush(QBrush(Qt::gray));
-    clear();
+    scene()->setBackgroundBrush(QBrush(Qt::gray));
+    scene()->clear();
 
     Poppler::Document *pdfDoc = Poppler::Document::loadFromData( data_ );
     pdfDoc->setRenderHint(Poppler::Document::TextAntialiasing);
     pdfDoc->setRenderHint(Poppler::Document::Antialiasing);
 
-    otsikko_ = pdfDoc->info("Title") ;
-
     double ypos = 0.0;
     double leveys = 0.0;
+    double leveyteen = width() - 20.0;
 
     // Monisivuisen pdf:n sivut pinotaan päällekkäin
     for( int sivu = 0; sivu < pdfDoc->numPages(); sivu++)
@@ -77,11 +68,11 @@ void PdfScene::piirraLeveyteen(double leveyteen)
         QImage image = pdfSivu->renderToImage(skaala, skaala);
         QPixmap kuva = QPixmap::fromImage( image, Qt::DiffuseAlphaDither);
 
-        addRect(2, ypos+2, kuva.width(), kuva.height(), QPen(Qt::NoPen), QBrush(Qt::black) );
+        scene()->addRect(2, ypos+2, kuva.width(), kuva.height(), QPen(Qt::NoPen), QBrush(Qt::black) );
 
-        QGraphicsPixmapItem *item = addPixmap(kuva);
+        QGraphicsPixmapItem *item = scene()->addPixmap(kuva);
         item->setY( ypos );
-        addRect(0, ypos, kuva.width(), kuva.height(), QPen(Qt::black), Qt::NoBrush );
+        scene()->addRect(0, ypos, kuva.width(), kuva.height(), QPen(Qt::black), Qt::NoBrush );
 
         if( kuva.width() > leveys)
             leveys = kuva.width();
@@ -92,20 +83,20 @@ void PdfScene::piirraLeveyteen(double leveyteen)
         delete pdfSivu;
     }
 
-    setSceneRect(-5.0, -5.0, leveys + 10.0, ypos + 5.0  );
+    scene()->setSceneRect(-5.0, -5.0, leveys + 10.0, ypos + 5.0  );
 
     delete pdfDoc;
+
 }
 
-void PdfScene::tulosta(QPrinter *printer)
+void Naytin::PdfView::tulosta(QPrinter *printer) const
 {
     QPainter painter(printer);
-
     Poppler::Document *document = Poppler::Document::loadFromData(data_);
     document->setRenderBackend(Poppler::Document::ArthurBackend);
 
     int pageCount = document->numPages();
-    for(int i=0; i < pageCount; i++)               
+    for(int i=0; i < pageCount; i++)
     {
         Poppler::Page *page = document->page(i);
 
@@ -124,5 +115,3 @@ void PdfScene::tulosta(QPrinter *printer)
     painter.end();
     delete document;
 }
-
-

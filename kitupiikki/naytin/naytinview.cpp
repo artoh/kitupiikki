@@ -16,9 +16,6 @@
 */
 #include "naytinview.h"
 
-#include "pdfscene.h"
-#include "kuvanaytin.h"
-#include "raporttiscene.h"
 #include "db/kirjanpito.h"
 
 #include <QPageSetupDialog>
@@ -33,6 +30,8 @@
 #include <QPrintDialog>
 #include <QTextStream>
 
+#include <QStackedLayout>
+
 #include <QDialog>
 #include "ui_csvvientivalinnat.h"
 #include <QAction>
@@ -41,36 +40,41 @@
 #include <QMouseEvent>
 #include <QMenu>
 
-#include <QStackedLayout>
-#include <QTextEdit>
+#include <QDebug>
+
+#include <QImage>
+#include <QApplication>
+
+#include "naytin/raporttinaytin.h"
+// #include "naytin/pdfnaytin.h"
+
+#include "naytin/scenenaytin.h"
+#include "naytin/tekstinaytin.h"
+
+#include "naytin/kuvaview.h"
+#include "naytin/pdfview.h"
 
 #include "tuonti/csvtuonti.h"
+#include "naytin/esikatselunaytin.h"
+#include "naytin/eipdfnaytin.h"
 
 NaytinView::NaytinView(QWidget *parent)
-    : QWidget(parent)
+    : QWidget(parent),
+      leiska_{ new QStackedLayout()}
 {
-    view_ = new QGraphicsView();
-    view_->setDragMode( QGraphicsView::ScrollHandDrag);
-
-    leiska_ = new QStackedLayout;
-    leiska_->addWidget(view_);
     setLayout(leiska_);
-
-    editor_ = new QTextEdit();
-    editor_->setReadOnly(true);
-    leiska_->addWidget(editor_);
 
     zoomAktio_ = new QAction( QIcon(":/pic/zoom-fit-width.png"), tr("Sovita leveyteen"));
     zoomAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_0));
-    connect( zoomAktio_, &QAction::triggered, [this] { this->zoomaus_ = 1.00; this->paivita(); }  );
+    connect( zoomAktio_, &QAction::triggered, this, &NaytinView::zoomFit);
 
     zoomInAktio_ = new QAction( QIcon(":/pic/zoom-in.png"), tr("Suurenna"));
     zoomInAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus));
-    connect( zoomInAktio_, &QAction::triggered, [this] { this->zoomaus_ *= 1.5; this->paivita(); } );
+    connect( zoomInAktio_, &QAction::triggered, this, &NaytinView::zoomIn);
 
     zoomOutAktio_ = new QAction( QIcon(":/pic/zoom-out.png"), tr("Pienennä"));
     zoomOutAktio_->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus));
-    connect( zoomOutAktio_, &QAction::triggered, [this] { this->zoomaus_ *= 0.5; this->paivita();} );
+    connect( zoomOutAktio_, &QAction::triggered, this, &NaytinView::zoomOut);
 
     tulostaAktio_ = new QAction( QIcon(":/pic/tulosta.png"), tr("Tulosta"));
     connect( tulostaAktio_, &QAction::triggered, this, &NaytinView::tulosta);
@@ -84,16 +88,19 @@ NaytinView::NaytinView(QWidget *parent)
 void NaytinView::nayta(const QByteArray &data)
 {
     if( data.startsWith("%PDF"))
-        vaihdaScene( new PdfScene(data, this) );
-    else
     {
-        vaihdaScene( new KuvaNaytin(data, this));
-        if( scene_->tyyppi().isEmpty())
-        {
-            leiska_->setCurrentIndex(Editor);
-            editor_->setText( CsvTuonti::haistettuKoodattu(data) );
-            scene_->deleteLater();
-            scene_=nullptr;
+        if( kp()->settings()->value("PopplerPois").toBool())
+            vaihdaNaytin( new Naytin::EiPdfNaytin(data));
+        else
+            vaihdaNaytin( new Naytin::SceneNaytin( new Naytin::PdfView( data)));
+    }
+    else {
+        QImage kuva;
+        kuva.loadFromData(data);
+        if( !kuva.isNull()) {
+            vaihdaNaytin( new Naytin::SceneNaytin( new Naytin::KuvaView(kuva) ));
+        } else {
+            vaihdaNaytin( new Naytin::TekstiNaytin( CsvTuonti::haistettuKoodattu(data) ) );
         }
     }
 
@@ -101,37 +108,37 @@ void NaytinView::nayta(const QByteArray &data)
 
 void NaytinView::nayta(const RaportinKirjoittaja& raportti)
 {
-    vaihdaScene( new RaporttiScene(raportti)  );
+    vaihdaNaytin( new Naytin::RaporttiNaytin(raportti ) );
 }
 
-void NaytinView::sivunAsetuksetMuuttuneet()
+Naytin::EsikatseluNaytin* NaytinView::esikatsele(Esikatseltava *katseltava)
 {
-    if( scene_->sivunAsetuksetMuuttuneet() )
-        paivita();
+    Naytin::EsikatseluNaytin *naytin = new Naytin::EsikatseluNaytin(katseltava);
+    vaihdaNaytin( naytin );
+    return naytin;
 }
+
+
 
 void NaytinView::paivita()
 {
-    if( scene_ )
-        scene_->piirraLeveyteen( zoomaus_ * width() - 20.0 );
+    if( naytin_)
+        naytin_->paivita();
 }
 
 void NaytinView::raidoita(bool raidat)
 {
-    if( scene_ && scene_->raidoita(raidat))
-        paivita();
+    if( naytin_)
+        naytin_->raidoita(raidat);
 }
 
 void NaytinView::tulosta()
 {
     QPrintDialog printDialog( kp()->printer(), this);
     printDialog.setOptions( QPrintDialog::PrintToFile | QPrintDialog::PrintShowPageSize );
-    if( printDialog.exec())
+    if( printDialog.exec() && naytin_)
     {
-        if( scene_ )
-            scene_->tulosta( kp()->printer() );
-        else
-            editor_->print( kp()->printer() );
+        naytin_->tulosta( kp()->printer() );
     }
 
 }
@@ -140,12 +147,12 @@ void NaytinView::sivunAsetukset()
 {
     QPageSetupDialog dlg(kp()->printer(), this);
     dlg.exec();
-    sivunAsetuksetMuuttuneet();
+    paivita();
 }
 
 void NaytinView::avaaOhjelmalla()
 {
-    // Luo tilapäisen pdf-tiedoston
+    // Luo tilapäisen tiedoston
     QString tiedostonnimi = kp()->tilapainen( QString("liite-XXXX.").append(tiedostoPaate()) );
 
     QFile tiedosto( tiedostonnimi);
@@ -176,7 +183,7 @@ void NaytinView::tallenna()
 
 void NaytinView::avaaHtml()
 {
-    QString tiedostonnimi = kp()->tilapainen( "raportti-XXXX.html" );
+    QString tiedostonnimi = kp()->tilapainen( "XXXX.html" );
 
     QFile tiedosto( tiedostonnimi);
     tiedosto.open( QIODevice::WriteOnly);
@@ -297,93 +304,103 @@ void NaytinView::csvLeikepoydalle()
     kp()->onni(tr("Viety leikepöydälle"));
 }
 
+void NaytinView::zoomFit()
+{
+    if( naytin_)
+        naytin_->zoomFit();
+}
+
+void NaytinView::zoomIn()
+{
+    if( naytin_)
+        naytin_->zoomIn();
+}
+
+void NaytinView::zoomOut()
+{
+    if( naytin_)
+        naytin_->zoomOut();
+}
+
 QString NaytinView::otsikko() const
 {
-    if( scene_ )
-        return scene_->otsikko();
-    else
-        return QString();
+    return naytin_ ? naytin_->otsikko() : QString();
 }
 
 bool NaytinView::csvKaytossa() const
 {
-    if( scene_ )
-        return scene_->csvMuoto();
-    return false;
+    return naytin_ ? naytin_->csvMuoto() : false;
+}
+
+bool NaytinView::htmlKaytossa() const
+{
+    return naytin_ ? naytin_->htmlMuoto() : false;
+}
+
+bool NaytinView::raidatKaytossa() const
+{
+    return naytin_ ? naytin_->voikoRaidoittaa() : false;
+}
+
+bool NaytinView::zoomKaytossa() const
+{
+    return naytin_ ? naytin_->voikoZoomata() : false;
 }
 
 QByteArray NaytinView::csv()
 {
-    if( scene_ )
-        return scene_->csv();
-    return QByteArray();
+    return naytin_ ? naytin_->csv() : QByteArray();
 }
 
 QString NaytinView::tiedostonMuoto()
 {
-    if( scene_ )
-        return scene_->tiedostonMuoto();
-    return tr("kaikki tiedostot (*)");
+    return naytin_ ? naytin_->tiedostonMuoto() : QString();
 }
 
 QString NaytinView::tiedostoPaate()
 {
-    if( scene_)
-        return scene_->tiedostoPaate();
-    return "txt";
+    return naytin_ ? naytin_->tiedostonPaate() : QString();
 }
 
 QByteArray NaytinView::data()
 {
-    if( scene_ )
-        return scene_->data();
-    return editor_->toPlainText().toUtf8();
+    return naytin_ ? naytin_->data() : QByteArray();
 }
 
 QString NaytinView::html()
 {
-    if( scene_ )
-        return  scene_->html();
-    return editor_->toHtml();
+    return naytin_ ? naytin_->html() : QString();
 }
 
-void NaytinView::vaihdaScene(NaytinScene *uusi)
+void NaytinView::vaihdaNaytin(Naytin::AbstraktiNaytin *naytin)
 {
-    if( scene_)
-        scene_->deleteLater();
-
-    scene_ = uusi;
-
-    emit( sisaltoVaihtunut(scene_->tyyppi()));
-
-    leiska_->setCurrentIndex(Scene);
-    view_->setScene(uusi);
-    paivita();
-}
-
-void NaytinView::resizeEvent(QResizeEvent * /*event*/)
-{
-    if( scene_)
-        scene_->piirraLeveyteen( zoomaus_ * width() - 20.0);
-}
-
-void NaytinView::mousePressEvent(QMouseEvent *event)
-{
-    if( event->button() == Qt::RightButton)
+    if( naytin_ )
     {
-        QMenu valikko;
-        if( scene_ )
-        {
-            valikko.addAction(zoomAktio_);
-            valikko.addAction(zoomInAktio_);
-            valikko.addAction(zoomOutAktio_);
-            valikko.addSeparator();
-        }
-        valikko.addAction(tulostaAktio_);
-        valikko.addAction(tallennaAktio_);
-
-        valikko.exec(QCursor::pos());
+        leiska_->removeWidget( naytin_->widget() );
+        naytin_->deleteLater();
+        naytin_ = nullptr;
     }
-    else
-        QWidget::mousePressEvent(event);
+
+    naytin_ = naytin;
+    leiska_->addWidget( naytin->widget());
+
+
+    emit sisaltoVaihtunut();
+}
+
+
+void NaytinView::contextMenuEvent(QContextMenuEvent *event)
+{
+    QMenu valikko(this);
+    if( naytin_ && naytin_->voikoZoomata() )
+    {
+        valikko.addAction(zoomAktio_);
+        valikko.addAction(zoomInAktio_);
+        valikko.addAction(zoomOutAktio_);
+        valikko.addSeparator();
+    }
+    valikko.addAction(tulostaAktio_);
+    valikko.addAction(tallennaAktio_);
+
+    valikko.exec( event->globalPos() );
 }

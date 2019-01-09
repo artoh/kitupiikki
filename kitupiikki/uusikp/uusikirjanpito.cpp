@@ -317,7 +317,9 @@ bool UusiKirjanpito::alustaKirjanpito()
         tilikaudet.lisaaTilikausi( Tilikausi( field("alkaa").toDate(), field("paattyy").toDate() ));
 
         // Alv-tietojen oletukset
-        asetukset.aseta("AlvIlmoitus", field("alkaa").toDate().addDays(-1));
+        // Alv-ilmoitus asetetaan annetuksi edellisen kuukauden loppuun
+        QDate alvpaiva = field("alkaa").toDate().addMonths(-1);
+        asetukset.aseta("AlvIlmoitus", QDate( alvpaiva.year(), alvpaiva.month(), alvpaiva.daysInMonth() ));
         asetukset.aseta("AlvKausi",1);
         // Laskunumero
         asetukset.aseta("LaskuSeuraavaId",1009);

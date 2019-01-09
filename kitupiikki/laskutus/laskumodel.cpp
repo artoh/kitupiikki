@@ -46,6 +46,7 @@ LaskuModel::LaskuModel(QObject *parent) :
     toimituspaiva_ = kp()->paivamaara();
     erapaiva_ = kp()->paivamaara().addDays( kp()->asetukset()->luku("LaskuMaksuaika"));
     kirjausperuste_ = kp()->asetukset()->luku("LaskuKirjausperuste") ;
+    viivkorko_ = kp()->asetukset()->asetus("LaskuViivastyskorko").toDouble();
 
     // Ladataan tekstit
     // Hakee tekstit
@@ -93,7 +94,7 @@ LaskuModel *LaskuModel::teeHyvityslasku(int hyvitettavaVientiId)
     model->kieli_ = model->viittausLasku().json.str("Kieli").isEmpty() ? "FI" : model->viittausLasku().json.str("Kieli");
     LaskunTulostaja tulostaja(model);
 
-    model->asetaLisatieto( tulostaja.t("hyvitysteksti")
+    model->asetaLisatieto( model->t("hyvitysteksti")
                                      .arg( model->viittausLasku().viite)
                                      .arg( model->viittausLasku().pvm.toString("dd.MM.yyyy")));
 
@@ -155,6 +156,7 @@ LaskuModel *LaskuModel::haeLasku(int vientiId)
     model->tositeId_ = lasku.tosite;
     model->vientiId_ = lasku.vientiId;
     model->laskunNumero_ = lasku.viite.toULongLong();
+    model->asetaViivastyskorko( lasku.json.str("Viivastyskorko").toDouble() );
 
     model->kieli_ = model->viittausLasku().json.str("Kieli").isEmpty() ? "FI" : model->viittausLasku().json.str("Kieli");
 
@@ -539,7 +541,9 @@ LaskuRivi LaskuModel::rivi(int indeksi) const
 
 QDate LaskuModel::pvm() const
 {
-    if( kirjausperuste()==SUORITEPERUSTE)
+    if( tyyppi() == MAKSUMUISTUTUS)
+        return kp()->paivamaara();      // Maksumuistutus kirjataan muistutuspäivälle
+    else if( kirjausperuste()==SUORITEPERUSTE)
         return toimituspaiva();
     else if(kirjausperuste()==LASKUTUSPERUSTE || kirjausperuste()==KATEISLASKU)
         return kp()->paivamaara();
@@ -907,7 +911,7 @@ bool LaskuModel::tallenna(Tili rahatili)
     raharivi.json.set("VerkkolaskuOsoite", verkkolaskuOsoite());
     raharivi.json.set("VerkkolaskuValittaja", verkkolaskuValittaja());
     raharivi.json.set("Kieli", kieli());
-    raharivi.json.set("Viivastyskorko", kp()->asetukset()->asetus("LaskuViivastyskorko"));
+    raharivi.json.set("Viivastyskorko", QString::number(viivkorko_,'f',1));
 
 
     viennit->lisaaVienti(raharivi);

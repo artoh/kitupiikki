@@ -94,19 +94,19 @@ int main(int argc, char *argv[])
 
     QStringList argumentit = qApp->arguments();
 
-    // Windowsin asentamattomalla versiolla (ohjelmatiedostossa viiva)
+    // Windowsin asentamattomalla versiolla
     // asetukset kirjoitetaan kitupiikki.ini -tiedostoon
-#if defined ( Q_OS_WIN )
-    QString polku;
-    if( argumentit.at(0).contains('-'))
-    {
-        QFileInfo info(argumentit.at(0));
-        polku = info.absoluteDir().absolutePath();
-    }
+
+#if defined  (Q_OS_WIN) && defined (KITUPIIKKI_PORTABLE)
+
+    QFileInfo info(argumentit.at(0));
+    QString polku = info.absoluteDir().absolutePath();
+
     Kirjanpito kirjanpito(polku);
 #else
     Kirjanpito kirjanpito;
 #endif
+
     Kirjanpito::asetaInstanssi(&kirjanpito);
 
 

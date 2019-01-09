@@ -14,18 +14,23 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#include "naytinscene.h"
+#include "abstraktinaytin.h"
 
 
 
-NaytinScene::NaytinScene(QObject *parent)
-    : QGraphicsScene(parent)
+Naytin::AbstraktiNaytin::AbstraktiNaytin( QObject *parent)
+    :  QObject (parent)
 {
 
 }
 
-bool NaytinScene::raidoita(bool /* raidat */)
+Naytin::AbstraktiNaytin::~AbstraktiNaytin()
 {
-    return false;
+
 }
 
+void Naytin::AbstraktiNaytin::raidoita(bool raidat)
+{
+    raidat_ = raidat;
+    paivita();
+}

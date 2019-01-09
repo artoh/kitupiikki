@@ -177,6 +177,7 @@ public:
     qlonglong avoinSaldo() const { return avoinSaldo_; }
     bool onkoAlennuksia() const;
     int kplDesimaalit() const;
+    double viivastysKorko() const { return viivkorko_;}
 
     /**
      * @brief Laskun arvonlisäveroerittely
@@ -210,6 +211,7 @@ public slots:
     void asetaVerkkolaskuOsoite(const QString& osoite) { if(verkkolaskuOsoite() != osoite) ilmoitaMuokattu(); verkkolaskuOsoite_ = osoite;}
     void asetaVerkkolaskuValittaja(const QString& valittaja) { if(verkkolaskuValittaja() != valittaja) ilmoitaMuokattu(); verkkolaskuValittaja_ = valittaja;}
     void asetaKieli(const QString& kieli) { if(kieli != kieli_) ilmoitaMuokattu(); kieli_ = kieli; }
+    void asetaViivastyskorko(double viivastyskorko) { if(qAbs(viivastyskorko - viivkorko_)>1e-5) ilmoitaMuokattu(); viivkorko_ = viivastyskorko;}
 
 public:
 
@@ -279,6 +281,7 @@ private:
     QString verkkolaskuOsoite_;
     QString verkkolaskuValittaja_;
     QString kieli_;
+    double viivkorko_;
 
     LaskuRyhmaModel* ryhma_ = nullptr;
 

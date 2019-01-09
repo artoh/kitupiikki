@@ -14,49 +14,19 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#include "kuvanaytin.h"
+#include "kuvaview.h"
 
-#include <QGraphicsPixmapItem>
-#include <QPixmap>
-#include <QByteArray>
-#include <QBuffer>
 #include <QPainter>
 #include <QPrinter>
+#include <QBuffer>
 
-KuvaNaytin::KuvaNaytin(QObject *parent) :
-    NaytinScene (parent)
+Naytin::KuvaView::KuvaView(const QImage &kuva) :
+    kuva_(kuva)
 {
 
 }
 
-KuvaNaytin::KuvaNaytin(const QByteArray &kuvadata, QObject *parent)
-    : KuvaNaytin( parent )
-{
-    naytaKuva( kuvadata );
-}
-
-bool KuvaNaytin::naytaKuva(const QByteArray &kuvadata)
-{
-    kuva_.loadFromData(kuvadata);
-    return !kuva_.isNull();
-}
-
-QString KuvaNaytin::tyyppi() const
-{
-    if( kuva_.isNull())
-        return  QString();
-    return "img";
-}
-
-void KuvaNaytin::piirraLeveyteen(double leveyteen)
-{
-    clear();
-    double korkeus = leveyteen / kuva_.width() * kuva_.height();
-    QPixmap pixmap = QPixmap::fromImage( kuva_.scaled( qRound( leveyteen ),  qRound(korkeus), Qt::KeepAspectRatio) );
-    addPixmap( pixmap );
-}
-
-QByteArray KuvaNaytin::data()
+QByteArray Naytin::KuvaView::data() const
 {
     QByteArray ba;
     QBuffer buffer(&ba);
@@ -68,10 +38,20 @@ QByteArray KuvaNaytin::data()
     return ba;
 }
 
-void KuvaNaytin::tulosta(QPrinter *printer)
+void Naytin::KuvaView::paivita() const
+{
+    scene()->clear();
+    int leveys = kuva_.width() > width() ?  width() - 20 : kuva_.width();
+    int korkeus = qRound( 1.00 * leveys / kuva_.width() * kuva_.height());
+    QPixmap pixmap = QPixmap::fromImage( kuva_.scaled( qRound(leveys * zoomaus()), qRound(korkeus * zoomaus()), Qt::KeepAspectRatio ) );
+    scene()->addPixmap(pixmap);
+}
+
+void Naytin::KuvaView::tulosta(QPrinter *printer) const
 {
     QPainter painter( printer );
     QRect rect = painter.viewport();
+
     QSize size = kuva_.size();
     size.scale(rect.size(), Qt::KeepAspectRatio);
     painter.setViewport( rect.x(), rect.y(),
@@ -79,5 +59,3 @@ void KuvaNaytin::tulosta(QPrinter *printer)
     painter.setWindow(kuva_.rect());
     painter.drawImage(0, 0, kuva_);
 }
-
-

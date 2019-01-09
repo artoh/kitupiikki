@@ -19,7 +19,7 @@
 #define TILINPAATOSTULOSTAJA_H
 
 #include <QTextDocument>
-#include <QPrinter>
+#include <QPagedPaintDevice>
 #include "db/tilikausi.h"
 
 /**
@@ -29,7 +29,7 @@ class TilinpaatosTulostaja
 {
 public:
 
-    static QByteArray tulostaTilinpaatos(Tilikausi tilikausi, const QString &teksti);
+    static void tulostaTilinpaatos(QPagedPaintDevice* writer,Tilikausi tilikausi, const QString &teksti);
 private:
     static void tulostaKansilehti(Tilikausi tilikausi, QPainter *painter);
 

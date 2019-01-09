@@ -28,6 +28,7 @@
 #include <QPrinter>
 #include <QPainter>
 #include <QImage>
+#include <QSettings>
 
 #include <QBuffer>
 
@@ -138,7 +139,7 @@ int LiiteModel::lisaaLiite(const QByteArray &liite, const QString &otsikko, cons
     uusi.muokattu = true;
     uusi.lisattyPolusta = polusta;
 
-    if( liite.startsWith("%PDF"))
+    if( liite.startsWith("%PDF") &&  !kp()->settings()->value("PopplerPois").toBool() )
     {
 
         // Peukkukuvan muodostaminen

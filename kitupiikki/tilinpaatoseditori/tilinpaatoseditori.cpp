@@ -46,11 +46,24 @@ TilinpaatosEditori::TilinpaatosEditori(const Tilikausi& tilikausi, QWidget *pare
     lataa();
 }
 
-void TilinpaatosEditori::esikatsele()
-{    
+void TilinpaatosEditori::tulosta(QPagedPaintDevice *printer) const
+{
     QString teksti = raportit_ + "\n" + editori_->toHtml();
 
-    NaytinIkkuna::nayta(TilinpaatosTulostaja::tulostaTilinpaatos( tilikausi_, teksti));
+    TilinpaatosTulostaja::tulostaTilinpaatos( printer, tilikausi_, teksti);
+}
+
+QString TilinpaatosEditori::otsikko() const
+{
+    return tr("Tilinpäätös %1 - %2")
+            .arg(tilikausi_.alkaa().toString("dd.MM.yyyy"))
+            .arg(tilikausi_.paattyy().toString("dd.MM.yyyy"));
+
+}
+
+void TilinpaatosEditori::esikatselu()
+{    
+    esikatsele();
 }
 
 void TilinpaatosEditori::luoAktiot()
@@ -59,7 +72,7 @@ void TilinpaatosEditori::luoAktiot()
     connect( tallennaAktio_, SIGNAL(triggered(bool)), this, SLOT(tallenna()));
 
     esikatseleAction_ = new QAction( QIcon(":/pic/print.png"), tr("Esikatsele"), this);
-    connect( esikatseleAction_, SIGNAL(triggered(bool)), this, SLOT(esikatsele()));
+    connect( esikatseleAction_, SIGNAL(triggered(bool)), this, SLOT(esikatselu()));
 
     aloitaUudelleenAktio_ = new QAction( QIcon(":/pic/uusitiedosto.png"), tr("Aloita uudelleen"), this);
     connect( aloitaUudelleenAktio_, SIGNAL(triggered(bool)), this, SLOT(aloitaAlusta()));
@@ -255,15 +268,15 @@ void TilinpaatosEditori::tallenna()
     kp()->tilikaudet()->json(tilikausi_)->set("TilinpaatosTeksti", teksti);
     kp()->tilikaudet()->tallennaJSON();
 
-    QByteArray pdf = TilinpaatosTulostaja::tulostaTilinpaatos( tilikausi_, teksti);
+    QByteArray pdfa = pdf();
 
-    kp()->liitteet()->asetaLiite( pdf, tilikausi_.alkaa().toString(Qt::ISODate) );
+    kp()->liitteet()->asetaLiite( pdfa, tilikausi_.alkaa().toString(Qt::ISODate) );
     kp()->liitteet()->tallenna();
 
     // Tallennetaan myös Arkistoon
     QFile out(kp()->arkistopolku()  + "/" + tilikausi_.arkistoHakemistoNimi() + "/tilinpaatos.pdf");
     out.open(QIODevice::WriteOnly);
-    out.write( pdf );
+    out.write( pdfa );
     out.close();
 
     emit tallennettu();

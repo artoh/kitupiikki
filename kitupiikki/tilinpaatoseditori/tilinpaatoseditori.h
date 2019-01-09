@@ -32,6 +32,8 @@
 #include "db/tilikausi.h"
 #include "mrichtexteditor/mrichtextedit.h"
 
+#include "naytin/esikatseltava.h"
+
 /**
  * @brief Tilinpäätöksen editori
  *
@@ -39,16 +41,19 @@
  * sitten TilinpaatosEditori:lla muokataan tekstiosa
  *
  */
-class TilinpaatosEditori : public QMainWindow
+class TilinpaatosEditori : public QMainWindow, public Esikatseltava
 {
     Q_OBJECT
 public:
-    explicit TilinpaatosEditori(const Tilikausi &tilikausi, QWidget *parent=0);
+    explicit TilinpaatosEditori(const Tilikausi &tilikausi, QWidget *parent=nullptr);
+
+    void tulosta(QPagedPaintDevice* printer) const override;
+    QString otsikko() const override;
 
 signals:
 
 public slots:
-    void esikatsele();
+    void esikatselu();
     bool aloitaAlusta();
     void tallenna();
     void ohje();
@@ -64,7 +69,7 @@ signals:
     void tallennettu();
 
 protected:
-    void closeEvent(QCloseEvent *event);
+    void closeEvent(QCloseEvent *event) override;
 
     /**
      * @brief Taulukko, jossa tämän ja edellisen tilikauden henkilöstömäärä

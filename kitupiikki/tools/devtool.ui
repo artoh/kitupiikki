@@ -235,6 +235,20 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="tab_2">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/bug.png</normaloff>:/pic/bug.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Virheloki</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <widget class="QTextBrowser" name="lokiBrowser"/>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="tab">
       <attribute name="icon">
        <iconset resource="../pic/pic.qrc">
@@ -321,7 +335,7 @@
           </font>
          </property>
          <property name="text">
-          <string>  </string>
+          <string/>
          </property>
         </widget>
        </item>

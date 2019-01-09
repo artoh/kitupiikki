@@ -4,7 +4,7 @@ Elinkeinotoiminta
 [TilikarttaTekija]
 kitupiikki.info
 [TilikarttaPvm]
-2018-12-01
+2019-01-04
 [TilikarttaKuvaus]
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 <html><head><meta name="qrichtext" content="1" /><style type="text/css">
@@ -47,7 +47,7 @@ p, li { white-space: pre-wrap; }
 <p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Sans Serif'; font-size:9pt;"><br /></p>
 <p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Sans Serif'; font-size:9pt;"><br /></p></body></html>
 [TilikarttaLuontiVersio]
-1.0-rc
+1.3
 [tilit]
 H1 1 {} Vastaavaa
 H2 10 {"Asti":14} Pysyvät vastaavat
@@ -1430,8 +1430,8 @@ Pääomalainat		238 s4 *
 TILINPÄÄTÖSSIIRTOJEN KERTYMÄ	24 *
 PAKOLLISET VARAUKSET		25	*
 VIERAS PÄÄOMA		26..29
-Pitkäaikainen vieras pääoma		26..28 s4 *
-Lyhytaikainen vieras pääoma		28,29 s4 *
+Pitkäaikainen vieras pääoma		26..27 s4 *
+Lyhytaikainen vieras pääoma		28..29 s4 *
 
 Vastattavaa yhteensä		2 bold
 
@@ -1480,7 +1480,7 @@ Saamiset omistusyhteysyrityksiltä	174 s8 *
 Lainasaamiset		175 s8 *
 Maksamattomat osakkeet/osuudet	178 s8 *
 Siirtosaamiset		180..184 s8 *
-Muut saamiset		176..177 185 *
+Muut saamiset		176..177 185 s8 *
 Rahoitusarvopaperit		186..188 s4
 Osuudet saman konsernin yrityksissä	186 s8 *
 Omat osakkeet		187 s8 *
@@ -1518,7 +1518,7 @@ Eläkevaraukset		250 s4 *
 Verovaraukset		253 s4 *
 Muut pakolliset varaukset		255..259 s4 *
 VIERAS PÄÄOMA		26..29
-Pitkäaikainen vieras pääoma		26..28 s4
+Pitkäaikainen vieras pääoma		26..27 s4
 Joukkovelkakirjalainat		260 s8 *
 Vaihtovelkakirjalainat		261 s8 *
 Lainat rahoituslaitoksilta		262..264 s8 *
@@ -1529,7 +1529,7 @@ Velat saman konsernin yrityksille	270 s8 *
 Velat omistusyhteysyrityksille	271 s8 *
 Muut velat		272 s8 *
 Siirtovelat  		275..277 s8 *
-Lyhytaikainen vieras pääoma		28,29 s4
+Lyhytaikainen vieras pääoma		28..29 s4
 Joukkovelkakirjalainat		280 s8 *
 Vaihtovelkakirjalainat		281 s8 *
 Lainat rahoituslaitoksilta		282..284 s8 *

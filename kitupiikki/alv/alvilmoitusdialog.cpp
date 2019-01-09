@@ -545,7 +545,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         {
             QMessageBox::critical(this, tr("Virhe alv-tilityksen tallentamisessa"),
                                   tr("Alv-tilityksen tallentuminen epäonnistui seuraavan "
-                                     "tietokantavirheen takia: %1").arg( kp()->tietokanta()->lastError().text() ));
+                                     "tietokantavirheen takia\n %1").arg( kp()->viimeVirhe() ));
             return false;
         }
 

@@ -164,7 +164,8 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     pvmMuuttuu();
     connect(ui->pvmDate, SIGNAL(dateChanged(QDate)), this, SLOT(pvmMuuttuu()));
 
-    restoreGeometry( kp()->settings()->value("ApuriDlg").toByteArray());
+    if( kp()->settings()->contains("ApuriDlg"))
+        restoreGeometry( kp()->settings()->value("ApuriDlg").toByteArray());
 }
 
 KirjausApuriDialog::~KirjausApuriDialog()

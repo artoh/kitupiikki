@@ -100,8 +100,8 @@ void AsiakkaatModel::paivita(bool toimittajat)
         if( rivi.nimi.isEmpty())
             continue;
 
-        // TODO: Summien laskeminen eri kyselyllä
-        QString summakysely = QString("SELECT id, pvm, debetsnt, kreditsnt, erapvm, eraid FROM vienti "
+        // Summien laskeminen eri kyselyllä
+        QString summakysely = QString("SELECT id, pvm, debetsnt, kreditsnt, erapvm, eraid, tili FROM vienti "
                                       "WHERE asiakas=\"%1\" and iban is ").arg(rivi.nimi.replace("\"","\\\""));
         if( toimittajat_)
             summakysely.append("not ");
@@ -111,17 +111,28 @@ void AsiakkaatModel::paivita(bool toimittajat)
         qlonglong eraantyneet=0;
         qlonglong avoimet = 0;
 
+
         QSqlQuery summaquery( summakysely );
         while( summaquery.next())
         {
-           qlonglong sentit = toimittajat_ ? summaquery.value("kreditsnt").toLongLong() - summaquery.value("debetsnt").toLongLong()  :  summaquery.value("debetsnt").toLongLong() - summaquery.value("kreditsnt").toLongLong();
-           TaseEra era( summaquery.value("eraid").toInt() );
 
-            summa += sentit;
-            avoimet += toimittajat_ ? 0 - era.saldoSnt : era.saldoSnt;
-            QDate erapvm = summaquery.value("erapvm").toDate();
-            if( erapvm.isValid() && erapvm < kp()->paivamaara())
-                eraantyneet += toimittajat_ ? 0 - era.saldoSnt : era.saldoSnt;;
+           qlonglong sentit = toimittajat_ ? summaquery.value("kreditsnt").toLongLong() - summaquery.value("debetsnt").toLongLong()  :  summaquery.value("debetsnt").toLongLong() - summaquery.value("kreditsnt").toLongLong();
+           summa += sentit;
+
+           int eraId = summaquery.value("eraid").toInt();
+           TaseEra era( eraId );
+
+           qlonglong avoinsnt = toimittajat_ ? 0 - era.saldoSnt : era.saldoSnt;
+           if( avoinsnt > sentit)
+               avoinsnt = sentit;
+
+            if( !toimittajat_ ||  kp()->tilit()->tiliIdlla( summaquery.value("tili").toInt() ).onko(TiliLaji::OSTOVELKA))
+            {
+                avoimet += avoinsnt;
+                QDate erapvm = summaquery.value("erapvm").toDate();
+                if( erapvm.isValid() && erapvm < kp()->paivamaara())
+                    eraantyneet += avoinsnt;
+            }
         }
         rivi.yhteensa = summa;
         rivi.avoinna = avoimet;
