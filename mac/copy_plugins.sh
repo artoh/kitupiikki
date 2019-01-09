@@ -17,7 +17,7 @@ PRINTSUPPORT=$APPDIR/printsupport
 SQLDRIVERS=$APPDIR/sqldrivers
 STYLES=$APPDIR/styles
 
-QT_VERSION=5.12.0
+QT_VERSION=5.11.0
 
 mkdir -p $BEARER/
 mkdir -p $ICONENGINES/
