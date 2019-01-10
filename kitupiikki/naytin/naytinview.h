@@ -97,6 +97,8 @@ protected:
     QStackedLayout *leiska_;
     Naytin::AbstraktiNaytin *naytin_ = nullptr;
 
+    static QString viimeisinPolku__;
+
 };
 
 #endif // NAYTINVIEW_H

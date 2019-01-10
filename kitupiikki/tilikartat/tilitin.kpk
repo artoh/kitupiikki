@@ -1167,10 +1167,10 @@ ON
 <h2>Tilinpäätöksen laatimisperusteet</h2>
 #MIKRO
 <p>Tilinpäätöksen laatimisessa on noudatettu pien- ja mikroyrityksen tilinpäätöksessä esitettävistä tiedoista
-annetun asetuksen (PMA) mikroyrityssäänöstöä.</p>
+ annetun asetuksen (PMA) mikroyrityssäänöstöä.</p>
 #PIEN
 <p>Tilinpäätöksen laatimisessa on noudatettu pien- ja mikroyrityksen tilinpäätöksessä esitettävistä tiedoista
-annetun asetuksen (PMA) pienyrityssäänöstöä.</p>
+ annetun asetuksen (PMA) pienyrityssäänöstöä.</p>
 ##Liitetiedot
 #laatimisperuste Tilinpäätöksessä käytetään valinnaisia laatimisperusteita
 <p>Vaihto-omaisuus (käyttöjärjestys poikkeaa hankkimisjärjestyksestä)</p>
@@ -1335,7 +1335,7 @@ Yritysmuoto
 2921 2920
 [Raportti/Tuloslaskelma/Yleinen]
 :tulos
-Liikevaihto		30..35 * bold
+Liikevaihto		30..35 S * bold
 
 Valmiiden ja keskeneräisten tuotteiden varastojen muutos	36..364 *
 Valmistus omaan käyttöön		363..364 *
@@ -1405,8 +1405,8 @@ Sijoitukset		14 s4 *
 VAIHTUVAT VASTAAVAT		15..19 
 Vaihto-omaisuus		15 s4 *
 Pitkäaikaiset saamiset		16 s4 *
-Lyhytaikaiset saamiset		17 s4 *
-Rahoitusarvopaperit		186..188 s4 *
+Lyhytaikaiset saamiset		17..185 s4 *
+Rahoitusarvopaperit		186..189 s4 *
 Rahat ja pankkisaamiset		19 s4 *
 
 Vastaavaa yhteensä		1 bold
@@ -1546,7 +1546,7 @@ Vastattavaa yhteensä		2 bold
 
 [Raportti/Tuloslaskelma/Mikro bruttotulos]
 :tulos
-Bruttotulos		3,4 bold *
+Bruttotulos		3,4 S bold *
 
 Henkilöstökulut		5..67 *
 Poistot ja arvonalentumat		68..69 *
@@ -1564,7 +1564,7 @@ Tilikauden voitto / tappio		0 bold
 [Raportti/Tuloslaskelma/PMA bruttotulos]
 :tulos
 
-Bruttotulos		3..4 * bold
+Bruttotulos		3..4 S * bold
 
 Henkilöstökulut		5..67
 Palkat ja palkkiot		5 s4 *

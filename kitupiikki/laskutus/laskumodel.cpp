@@ -541,7 +541,7 @@ LaskuRivi LaskuModel::rivi(int indeksi) const
 
 QDate LaskuModel::pvm() const
 {
-    if( tyyppi() == MAKSUMUISTUTUS)
+    if( tyyppi() == MAKSUMUISTUTUS && kirjausperuste() != MAKSUPERUSTE)
         return kp()->paivamaara();      // Maksumuistutus kirjataan muistutuspäivälle
     else if( kirjausperuste()==SUORITEPERUSTE)
         return toimituspaiva();

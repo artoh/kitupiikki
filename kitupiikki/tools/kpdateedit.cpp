@@ -25,6 +25,7 @@
 #include <QEvent>
 #include <QKeyEvent>
 #include <QPainter>
+#include <QApplication>
 
 #include "kpdateedit.h"
 #include "db/kirjanpito.h"
@@ -66,7 +67,7 @@ void KpDateEdit::setDateRange(const QDate &min, const QDate &max)
 
 void KpDateEdit::setCalendarPopup(bool enable)
 {
-    popupKaytossa_ = enable;
+    popupKaytossa_ = enable;    
 }
 
 void KpDateEdit::kalenteri()
@@ -74,7 +75,7 @@ void KpDateEdit::kalenteri()
     if(kalenteri_)
         kalenteri_->deleteLater();
 
-    kalenteri_ = new QCalendarWidget(0);
+    kalenteri_ = new QCalendarWidget(nullptr);
 
     kalenteri_->setWindowFlag(Qt::FramelessWindowHint);
     kalenteri_->show();
@@ -86,9 +87,8 @@ void KpDateEdit::kalenteri()
     kalenteri_->setSelectedDate( date() );
     kalenteri_->setDateRange( minimumDate(), maximumDate() );
     kalenteri_->setGridVisible(true);
-    kalenteri_->resize(300,200);
 
-    connect( kalenteri_, SIGNAL(clicked(QDate)), this, SLOT(setDate(QDate)));
+    connect( kalenteri_, SIGNAL(clicked(QDate)), this, SLOT( setDateFromPopUp(QDate)));
 
 }
 
@@ -118,16 +118,52 @@ void KpDateEdit::setDate(QDate date)
     if( kalenteri_)
     {
         kalenteri_->deleteLater();
-        kalenteri_ = 0;
+        kalenteri_ = nullptr;
     }
+
+}
+
+void KpDateEdit::setDateFromPopUp(const QDate &date)
+{
+    setDate( date );
+    QKeyEvent *event = new QKeyEvent( QEvent::KeyPress, Qt::Key_Tab, Qt::NoModifier);
+    qApp->postEvent( parent(), event );
 
 }
 
 void KpDateEdit::editMuuttui(const QString& uusi)
 {
-   int pp = uusi.midRef(0,2).toInt();
-   int kk = uusi.midRef(3,2).toInt();
-   int vv = uusi.midRef(6,4).toInt();
+   // Hyödynnetään tietoa siitä, mikä luku on muuttunut
+
+    int pp = uusi.midRef(0,2).toInt();
+    int kk = uusi.midRef(3,2).toInt();
+    int vv = uusi.midRef(6,4).toInt();
+
+   if( cursorPosition() == 1)
+   {
+       if( uusi.midRef(0,1).toInt() > 3 ) {
+           // 4 -> 04 jne.
+           pp = uusi.midRef(0,1).toInt();
+           setCursorPosition(3);
+
+       } else if( uusi.at(1) == '9' && QString("123").contains( uusi.at(0) ) ) {
+           // Päivämäärän korottaminen
+           pp = uusi.mid(0,1).toInt() * 10;
+       }
+   }
+
+   if( cursorPosition() == 3 )
+   {
+       if( uusi.at(0) == '3' && uusi.midRef(1,1).toInt() > 1)
+       {
+           // 34 -> 03.04.
+           pp=uusi.midRef(0,1).toInt();
+           kk=uusi.midRef(1,1).toInt();
+           setCursorPosition(8);
+       }
+   }
+
+
 
    // päivä tai kk ei voi olla 0
    if( !pp)
@@ -136,23 +172,16 @@ void KpDateEdit::editMuuttui(const QString& uusi)
        kk = 1;
 
    // 40 -> 04 jne.
-   if( pp > 40)
+   if( pp > 31)
    {
         pp = pp / 10;
         setCursorPosition( cursorPosition()+1 );
    }
-   // 32 -> 30
-   else if( pp > 31)
-       pp = 30;
 
-   if( kk > 20)
+   if( kk > 12)
    {
         kk = kk / 10;
         setCursorPosition( cursorPosition()+1 );
-   }
-   if( kk > 12)
-   {
-       kk = 10;
    }
 
     if( !QDate(vv,kk,pp).isValid() )

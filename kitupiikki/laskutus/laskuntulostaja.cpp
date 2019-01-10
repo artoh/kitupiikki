@@ -314,6 +314,7 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter,
     const int OTSAKEPT = 7;
 
     double mm = printer->width() * 1.00 / printer->widthMM();
+    painter->setPen( QPen(QBrush(Qt::black), mm * 0.2));
 
     // Lasketaan rivinkorkeus. Tehdään painterin kautta, jotta toimii myös pdf-writerillä
     painter->setFont( QFont("Sans",OTSAKEPT) );
@@ -382,7 +383,6 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter,
 
     pv += rk ;     // pv = perusviiva
 
-    painter->setPen( QPen( QBrush(Qt::black), 0.13));
     painter->drawLine( QLineF(keskiviiva, pv, keskiviiva,  model_->asiakkaanViite().isEmpty() ? pv+2 : pv + 3  ));
     for(int i=-1; model_->asiakkaanViite().isEmpty() ? i < 3 : i < 2; i++)
         painter->drawLine(QLineF(keskiviiva, pv + i * rk, leveys, pv + i * rk));
@@ -392,19 +392,19 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter,
         painter->drawLine( QLineF(puoliviiva, pv, puoliviiva, pv+rk ));
 
     painter->drawLine(QLineF(puoliviiva, pv-rk, puoliviiva, pv));
-    painter->drawLine(QLineF(puoliviiva, pv+rk, puoliviiva, pv+rk*2));
 
     painter->setFont( QFont("Sans",OTSAKEPT) );
 
-    if( model_->asiakkaanViite().isEmpty())
-    {
-        painter->drawLine(QLineF(keskiviiva, pv-rk, keskiviiva, pv + 2 * rk));
-    }
-    else
-    {
-        painter->drawLine(QLineF(keskiviiva, pv + 3 * rk, leveys, pv + 3 * rk));
+    painter->drawLine(QLineF(keskiviiva, pv-rk, keskiviiva, pv + 2 * rk));
+
+    painter->drawLine( QLineF(keskiviiva, pv+rk*2, leveys, pv+rk*2));
+
+    if( model_->asiakkaanViite().isEmpty())    {
+        painter->drawLine( QLineF(keskiviiva, pv-rk, keskiviiva, pv+rk*2));
+    } else {
         painter->drawLine( QLineF(keskiviiva, pv-rk, keskiviiva, pv+rk*3));
-        painter->drawText(QRectF( keskiviiva + mm, pv + rk * 4 + mm, leveys / 4, rk ), Qt::AlignTop, t("asviite"));
+        painter->drawLine(QLineF(keskiviiva, pv + 3 * rk, leveys, pv + 3 * rk));        
+        painter->drawText(QRectF( keskiviiva + mm, pv + rk * 2 + mm, leveys / 4, rk ), Qt::AlignTop, t("asviite"));
     }
 
 
@@ -429,7 +429,13 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter,
     }
 
     painter->drawText(QRectF( keskiviiva + mm, pv + rk + mm, leveys / 4, rk ), Qt::AlignTop, t("huomaika"));
-    painter->drawText(QRectF( puoliviiva + mm, pv + rk + mm, leveys / 4, rk ), Qt::AlignTop, t("viivkorko"));
+
+    // Viivästyskorko-laatikko vain, jos viivästyskorko määritelty ja laskulla maksettavaa
+    if( model_->laskunSumma() > 0.0 &&  model_->viivastysKorko() > 1e-5 && model_->kirjausperuste() != LaskuModel::KATEISLASKU )
+    {
+        painter->drawText(QRectF( puoliviiva + mm, pv + rk + mm, leveys / 4, rk ), Qt::AlignTop, t("viivkorko"));
+        painter->drawLine(QLineF(puoliviiva, pv+rk, puoliviiva, pv+rk*2));
+    }
 
     painter->setFont(QFont("Sans", TEKSTIPT));
 

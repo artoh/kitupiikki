@@ -29,6 +29,7 @@
 #include <QDesktopServices>
 #include <QPrintDialog>
 #include <QTextStream>
+#include <QFileInfo>
 
 #include <QStackedLayout>
 
@@ -167,9 +168,10 @@ void NaytinView::avaaOhjelmalla()
 void NaytinView::tallenna()
 {
     QString polku = QFileDialog::getSaveFileName(this, tr("Tallenna tiedostoon"),
-                                                 QDir::homePath(), tiedostonMuoto() );
+                                                 viimeisinPolku__, tiedostonMuoto() );
     if( !polku.isEmpty())
     {
+        viimeisinPolku__ = QFileInfo(polku).absolutePath();
         QFile tiedosto( polku );
         if( !tiedosto.open( QIODevice::WriteOnly))
         {
@@ -210,9 +212,10 @@ void NaytinView::htmlLeikepoydalle()
 void NaytinView::tallennaHtml()
 {
     QString polku = QFileDialog::getSaveFileName(this, tr("Tallenna tiedostoon"),
-                                                 QDir::homePath(), "html-tiedosto (*.html)");
+                                                 viimeisinPolku__, "html-tiedosto (*.html)");
     if( !polku.isEmpty())
     {
+        viimeisinPolku__ = QFileInfo(polku).absolutePath();
         QFile tiedosto( polku );
         if( !tiedosto.open( QIODevice::WriteOnly))
         {
@@ -284,9 +287,10 @@ void NaytinView::csvAsetukset()
 void NaytinView::tallennaCsv()
 {
     QString polku = QFileDialog::getSaveFileName(this, tr("Vie csv-tiedostoon"),
-                                                 QDir::homePath(), "csv-tiedosto (*.csv)");
+                                                 viimeisinPolku__, "csv-tiedosto (*.csv)");
     if( !polku.isEmpty())
     {
+        viimeisinPolku__ = QFileInfo(polku).absolutePath();
         QFile tiedosto( polku );
         if( !tiedosto.open( QIODevice::WriteOnly))
         {
@@ -404,3 +408,5 @@ void NaytinView::contextMenuEvent(QContextMenuEvent *event)
 
     valikko.exec( event->globalPos() );
 }
+
+QString NaytinView::viimeisinPolku__ = QDir::homePath();

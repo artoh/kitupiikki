@@ -97,6 +97,8 @@ public slots:
      */
     void setDate(QDate date);
 
+    void setDateFromPopUp(const QDate& date);
+
 protected slots:
     void editMuuttui(const QString &uusi);
 
