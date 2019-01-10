@@ -36,9 +36,7 @@ Kitupiikin Linux-versio toimitetaan AppImage-tiedostona, jota ei varsinaisesti e
 Tukee OS X versiota 10.11 ja uudempia. <span class="fa fa-exclamation-triangle"> </span> macOS Mojavessa Kitupiikki toimii vain vaaleassa näkymässä.
 
 !!! note ""
-    <span class="fa fa-apple"></span> [Kitupiikki 1.1 macOS asennuspaketti (17 MB) ](https://github.com/petriaarnio/kitupiikki/releases/download/mac_v1.1/Kitupiikki-1.1.dmg)  
-
-    <span class="fa fa-apple"></span> [Kitupiikki 1.3 BETA macOS asennuspaketti (17 MB) ](https://github.com/petriaarnio/kitupiikki/releases/download/mac-v1.3-beta.1%2B9/kitupiikki-1.3-beta.1+9.dmg)
+    <span class="fa fa-apple"></span> [Kitupiikki 1.3.1 macOS asennuspaketti (17 MB) ](https://github.com/petriaarnio/kitupiikki/releases/download/mac-v1.3.1/Kitupiikki-1.3.1.dmg)  
 
 1. Lataa yllä oleva asennustiedosto
 2. Avaa asennustiedosto
