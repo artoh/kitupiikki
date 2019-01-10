@@ -2094,7 +2094,7 @@
 			name = "Qt Qmake";
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "make -C /Users/petri/git/kitupiikki/mac/ -f kitupiikki.xcodeproj/qt_makeqmake.mak";
+			shellScript = "make -C /Users/petri/git/kitupiikki/mac/ -f kitupiikki.xcodeproj/qt_makeqmake.mak\n";
 			showEnvVarsInLog = 0;
 		};
 		7EF0942E79C014DCEC8976BC /* Qt Preprocessors */ = {
@@ -2105,7 +2105,7 @@
 			name = "Qt Preprocessors";
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "make -C /Users/petri/git/kitupiikki/mac/ -f kitupiikki.xcodeproj/qt_preprocess.mak";
+			shellScript = "make -C /Users/petri/git/kitupiikki/mac/ -f kitupiikki.xcodeproj/qt_preprocess.mak\n";
 			showEnvVarsInLog = 0;
 		};
 		CB057C0D2143FB4500DB5900 /* Run Script */ = {
