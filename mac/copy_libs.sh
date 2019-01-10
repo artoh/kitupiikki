@@ -20,7 +20,7 @@ install_name_tool -change /usr/local/opt/libzip/lib/libzip.5.dylib @rpath/libzip
 cp /usr/local/opt/poppler/lib/libpoppler-qt5.dylib $LIBDIR
 chmod +w $LIBDIR/libpoppler-qt5.dylib
 install_name_tool -id @rpath/libpoppler-qt5.dylib $LIBDIR/libpoppler-qt5.dylib
-install_name_tool -change /usr/local/Cellar/poppler/0.65.0/lib/libpoppler.76.dylib @rpath/libpoppler.dylib $LIBDIR/libpoppler-qt5.dylib
+install_name_tool -change /usr/local/Cellar/poppler/0.68.0/lib/libpoppler.79.dylib @rpath/libpoppler.dylib $LIBDIR/libpoppler-qt5.dylib
 install_name_tool -change /usr/local/opt/qt/lib/QtGui.framework/Versions/5/QtGui @rpath/QtGui.framework/Versions/5/QtGui $LIBDIR/libpoppler-qt5.dylib
 install_name_tool -change /usr/local/opt/qt/lib/QtXml.framework/Versions/5/QtXml @rpath/QtXml.framework/Versions/5/QtXml $LIBDIR/libpoppler-qt5.dylib
 install_name_tool -change /usr/local/opt/qt/lib/QtCore.framework/Versions/5/QtCore @rpath/QtCore.framework/Versions/5/QtCore $LIBDIR/libpoppler-qt5.dylib
