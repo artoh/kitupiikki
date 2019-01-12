@@ -23,7 +23,7 @@
 #include "csvtuonti.h"
 #include "tuontisarakedelegaatti.h"
 #include "tilimuuntomodel.h"
-
+#include "tuontiapu.h"
 #include "kirjaus/tilidelegaatti.h"
 
 
@@ -100,8 +100,6 @@ bool CsvTuonti::tuo(const QByteArray &data)
 
     if( exec() == QDialog::Accepted )
     {
-        QRegularExpression rahaRe(R"((?<m>[+-])?(?<eur>\d+)[,.]?(?<snt>\d{0,2}))");
-
         if( ui->kirjausRadio->isChecked())  // Tuo kirjauksia
         {
             QMap<QString,int> muuntotaulukko;
@@ -175,20 +173,7 @@ bool CsvTuonti::tuo(const QByteArray &data)
 
                     int tuonti = ui->tuontiTable->item(c,2)->data(Qt::EditRole).toInt();
                     QString tieto = csv_.at(r).at(c);
-                    qlonglong sentit = 0;
-
-                    QRegularExpressionMatch mats = rahaRe.match(tieto);
-                    if( mats.hasMatch())
-                    {
-                        sentit = 100 * mats.captured("eur").toLongLong();
-                        if( !mats.captured("snt").startsWith('0') && mats.captured("snt").length() == 1)
-                            sentit += mats.captured("snt").toLongLong() * 10L;
-                        else
-                            sentit += mats.captured("snt").toLongLong();
-                        if( mats.captured("m") == '-')
-                            sentit = 0 - sentit;
-
-                    }
+                    qlonglong sentit = TuontiApu::sentteina(tieto);
 
                     if( tuonti == PAIVAMAARA )
                         if( muodot_.at(c) == SUOMIPVM)
@@ -311,17 +296,7 @@ bool CsvTuonti::tuo(const QByteArray &data)
                         viite = tieto;
                     else if( tuonti == RAHAMAARA)
                     {
-                        QRegularExpressionMatch mats = rahaRe.match(tieto);
-                        if( mats.hasMatch())
-                        {
-                            sentit = 100 * mats.captured("eur").toLongLong();
-                            if( !mats.captured("snt").startsWith('0') && mats.captured("snt").length() > 1)
-                                sentit += mats.captured("snt").toLongLong() * 10L;
-                            else
-                                sentit += mats.captured("snt").toLongLong();
-                            if( mats.captured("m") == '-')
-                                sentit = 0 - sentit;
-                        }
+                        sentit = TuontiApu::sentteina(tieto);
                     }
                     else if( tuonti == SELITE && !tieto.isEmpty())
                     {
