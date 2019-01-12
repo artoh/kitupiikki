@@ -167,6 +167,22 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
                     rk.lisaaRivi( ekaRivi);
                 }
 
+                // #318 Edellisten tilikausien tulokseen tulee tilinavauksen yhteydessä vielä edellisen tilikauden tulos
+                if( tili.onko(TiliLaji::EDELLISTENTULOS))
+                {
+                    Tili tulostili = kp()->tilit()->tiliTyypilla(TiliLaji::KAUDENTULOS);
+                    qlonglong edellinentulos = tulostili.saldoPaivalle( mista.addDays(-1) );
+                    if( edellinentulos )
+                    {
+                        RaporttiRivi edellinenTulosRivi;
+                        edellinenTulosRivi.lisaa("",2);
+                        edellinenTulosRivi.lisaa( tr("Edellisen tilikauden tulos") );
+                        edellinenTulosRivi.lisaa( edellinentulos , true );
+                        rk.lisaaRivi( edellinenTulosRivi);
+                    }
+
+                }
+
                 // Muutokset
                 kysely.exec(QString("SELECT tositelaji,tunniste,pvm,selite,debetsnt,kreditsnt,tositeId from vientivw where tilinro=%1 and "
                             "pvm between \"%2\" and \"%3\" order by pvm")
