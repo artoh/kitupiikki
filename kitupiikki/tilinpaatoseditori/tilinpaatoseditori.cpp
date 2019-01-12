@@ -154,6 +154,8 @@ void TilinpaatosEditori::uusiTp()
                 teksti.append( henkilostotaulukko());
             else if( rivi == "@tositelajit@")
                 teksti.append( tositelajitaulukko() );
+            else if( rivi == "@tulos@")
+                teksti.append( QString(" %L1 € ").arg(kp()->tilit()->tiliTyypilla(TiliLaji::KAUDENTULOS).saldoPaivalle( tilikausi_.paattyy() ) / 100.0 , 0, 'f', 2 ) );
             else
             {
                 QRegularExpressionMatch rmats = raporttiRe.match(rivi);

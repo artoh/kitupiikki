@@ -41,7 +41,7 @@
 
 MRichTextEdit::MRichTextEdit(QWidget *parent) : QWidget(parent) {
     setupUi(this);
-    m_lastBlockList = 0;
+    m_lastBlockList = nullptr;
     f_textedit->setTabStopWidth(40);
 
     connect(f_textedit, SIGNAL(currentCharFormatChanged(QTextCharFormat)),
@@ -215,9 +215,9 @@ void MRichTextEdit::textRemoveFormat() {
     fmt.setFontStrikeOut  (false);
     fmt.setFontItalic     (false);
     fmt.setFontPointSize  (9);
-//  fmt.setFontFamily     ("Helvetica");
-//  fmt.setFontStyleHint  (QFont::SansSerif);
-//  fmt.setFontFixedPitch (true);
+    fmt.setFontFamily     ("Helvetica");
+    fmt.setFontStyleHint  (QFont::SansSerif);
+    fmt.setFontFixedPitch (true);
 
     f_bold      ->setChecked(false);
     f_underline ->setChecked(false);
@@ -322,6 +322,7 @@ void MRichTextEdit::textStyle(int index) {
         cursor.select(QTextCursor::BlockUnderCursor);
         }
     QTextCharFormat fmt;
+    fmt.setFontFamily("Sans");
     cursor.setCharFormat(fmt);
     f_textedit->setCurrentCharFormat(fmt);
 

@@ -40,6 +40,11 @@
 QString PaivitaKirjanpito::sisainenPaivitys()
 {
     QString tiedostonnimi = kp()->asetukset()->asetus("VakioTilikartta");
+
+    // Väliaikainen paikka, jotta saadaan päivitetty asoy-tilikartat, joissa väärä vakionimi
+    if( tiedostonnimi == "osakeyhtio.kpk" && kp()->asetukset()->asetus("TilikarttaNimi")=="Asunto-osakeyhtiö")
+        tiedostonnimi="asoy.kpk";
+
     if( tiedostonnimi.isEmpty())
         return QString();
 

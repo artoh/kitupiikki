@@ -4,7 +4,7 @@ Asunto-osakeyhtiö
 [TilikarttaTekija]
 kitupiikki.info
 [TilikarttaPvm]
-2019-01-01
+2019-01-10
 [TilikarttaKuvaus]
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 <html><head><meta name="qrichtext" content="1" /><style type="text/css">
@@ -478,7 +478,9 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 <p> ... </p>
 #oyeiosinko -oykaytto Ei osinkoa
 <h2>Hallituksen ehdotus jakokelpoisen vapaan oman pääoman käytöstä</h2>
-<p>Hallitus ehdottaa, ettei osia jaeta ja tilikauden tulos kirjataan edellisten tilikausien yli/alijäämien tilille.</p>
+<p>Hallitus ehdottaa, ettei osia jaeta ja tilikauden tulos&nbsp;
+@tulos@
+kirjataan edellisten tilikausien yli/alijäämien tilille.</p>
 ##Kirjanpito
 #sahko Sähköinen kirjanpito ja arkistointi
 <h2>Kirjanpitoaineisto</h2>
