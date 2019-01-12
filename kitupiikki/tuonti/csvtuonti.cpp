@@ -320,7 +320,7 @@ bool CsvTuonti::tuo(const QByteArray &data)
     }
 
 
-    return false;   // CSV-tiedostoa ei tallenneta tositteeksi
+    return true;   // CSV-tiedosto tallennetaan tositteeksi siinä missä muutkin
 }
 
 QString CsvTuonti::haistettuKoodattu(const QByteArray &data)
