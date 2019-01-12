@@ -345,6 +345,10 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
 
             viennit_[index.row()].alvkoodi = alvlaji;
 
+            // Jos tase-erittely käytössä, niin uusi tase-erä
+            viennit_[index.row()].eraId = uusitili.eritellaankoTase() ? TaseEra::UUSIERA : TaseEra::EIERAA;
+
+
             if( alvlaji)
                 viennit_[index.row()].alvprosentti = uusitili.json()->luku("AlvProsentti");
 
@@ -549,6 +553,9 @@ QModelIndex VientiModel::lisaaVienti(int indeksi)
         }
         uusirivi.tili = kp()->tilit()->tiliNumerolla( vastatili);
     }
+
+    uusirivi.eraId = uusirivi.tili.eritellaankoTase() ? TaseEra::UUSIERA : TaseEra::EIERAA;
+
 
     return lisaaVienti( uusirivi , indeksi);
 }
