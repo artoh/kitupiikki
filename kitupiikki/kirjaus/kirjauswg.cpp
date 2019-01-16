@@ -73,13 +73,9 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
 
     connect( model_->vientiModel(), SIGNAL(muuttunut()), this, SLOT(naytaSummat()));
 
+    // Tämä pitää säilyttää, jotta saadaan päivämäärä paikalleen
     ui->viennitView->setItemDelegateForColumn( VientiModel::PVM, new PvmDelegaatti(ui->tositePvmEdit));
-    ui->viennitView->setItemDelegateForColumn( VientiModel::TILI, new TiliDelegaatti( ) );
-    ui->viennitView->setItemDelegateForColumn( VientiModel::DEBET, new EuroDelegaatti);
-    ui->viennitView->setItemDelegateForColumn( VientiModel::KREDIT, new EuroDelegaatti);
-    ui->viennitView->setItemDelegateForColumn( VientiModel::KOHDENNUS, new KohdennusDelegaatti);
 
-    ui->viennitView->horizontalHeader()->setStretchLastSection(true);
 
     ui->tunnisteEdit->setValidator( new QIntValidator(1,99999999) );
 
@@ -163,7 +159,7 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     // Tagivalikko
     ui->viennitView->viewport()->installEventFilter(this);
 
-    ui->viennitView->installEventFilter(this);
+    // ui->viennitView->installEventFilter(this);
     ui->viennitView->setFocusPolicy(Qt::StrongFocus);
 
     ui->tositePvmEdit->setCalendarPopup(true);
@@ -172,11 +168,6 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     otsikonTaydentaja->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->otsikkoEdit->setCompleter(otsikonTaydentaja);
     connect( ui->otsikkoEdit, SIGNAL(textChanged(QString)), this, SLOT(paivitaOtsikonTaydennys(QString)));
-
-    // Ladataan leveyslista
-    QStringList leveysLista = kp()->settings()->value("KirjausWgRuudukko").toStringList();
-    for(int i=0; i < leveysLista.count()-1; i++)
-        ui->viennitView->horizontalHeader()->resizeSection(i, leveysLista.at(i).toInt());
 }
 
 KirjausWg::~KirjausWg()

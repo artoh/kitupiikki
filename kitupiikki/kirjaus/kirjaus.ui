@@ -62,7 +62,7 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QTableView" name="viennitView">
+        <widget class="ViennitView" name="viennitView">
          <property name="alternatingRowColors">
           <bool>true</bool>
          </property>
@@ -635,6 +635,11 @@
    <class>KpDateEdit</class>
    <extends>QLineEdit</extends>
    <header location="global">tools/kpdateedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ViennitView</class>
+   <extends>QTableView</extends>
+   <header>kirjaus/viennitview.h</header>
   </customwidget>
  </customwidgets>
  <resources>
