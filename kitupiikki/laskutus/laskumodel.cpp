@@ -1048,7 +1048,7 @@ void LaskuModel::ilmoitaMuokattu(bool onkoMuokattu)
     if( muokattu_ != onkoMuokattu)
     {
         muokattu_ = onkoMuokattu;
-        emit laskuaMuokattu(true);
+        emit laskuaMuokattu(onkoMuokattu);
     }
 }
 

@@ -156,7 +156,7 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     ui->verkkoOsoiteEdit->setText( model->verkkolaskuOsoite());
     ui->verkkoValittajaEdit->setText( model->verkkolaskuValittaja());
     ui->viivkorkoSpin->setValue( model->viivastysKorko() );
-
+    ui->tallennaNappi->setEnabled( model->muokattu() );
 
     if( model->tyyppi() == LaskuModel::HYVITYSLASKU)
     {
