@@ -119,6 +119,7 @@ LaskuModel *LaskuModel::teeMaksumuistutus(int muistutettavaVientiId)
     model->asetaLisatieto( model->t("muistutusteksti") );
 
     model->haeAvoinSaldo();
+    model->muokattu_ = true;
     return model;
 }
 
@@ -1045,11 +1046,10 @@ void LaskuModel::haeAvoinSaldo()
 
 void LaskuModel::ilmoitaMuokattu(bool onkoMuokattu)
 {
-    if( muokattu_ != onkoMuokattu)
-    {
-        muokattu_ = onkoMuokattu;
-        emit laskuaMuokattu(onkoMuokattu);
-    }
+
+    muokattu_ = onkoMuokattu;
+    emit laskuaMuokattu(onkoMuokattu);
+
 }
 
 void LaskuModel::paivitaSumma(int rivi)

@@ -156,6 +156,7 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     ui->verkkoOsoiteEdit->setText( model->verkkolaskuOsoite());
     ui->verkkoValittajaEdit->setText( model->verkkolaskuValittaja());
     ui->viivkorkoSpin->setValue( model->viivastysKorko() );
+
     ui->tallennaNappi->setEnabled( model->muokattu() );
 
     if( model->tyyppi() == LaskuModel::HYVITYSLASKU)
@@ -173,7 +174,6 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
         ui->rahaTiliEdit->valitseTiliIdlla( model->viittausLasku().tiliid );
         ui->rahaTiliEdit->setEnabled(false);
         ui->verkkolaskuNappi->setVisible(false);
-        ui->tallennaNappi->setEnabled(true);
         connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("laskutus/muistutus");});
 
     }
@@ -276,6 +276,17 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     connect( ui->toimitusDate, SIGNAL(dateChanged(QDate)), model, SLOT(asetaToimituspaiva(QDate)));
     connect(ui->eraDate, SIGNAL(dateChanged(QDate)), model, SLOT(asetaErapaiva(QDate)));
     connect( model, &LaskuModel::laskuaMuokattu, ui->tallennaNappi, &QPushButton::setEnabled );
+
+    connect( ui->eraDate, &QDateEdit::dateChanged, model, &LaskuModel::asetaErapaiva);
+    connect( ui->lisatietoEdit, &QPlainTextEdit::textChanged, this, &LaskuDialogi::vieMalliin);
+    connect( ui->osoiteEdit, &QPlainTextEdit::textChanged, this, &LaskuDialogi::vieMalliin );
+    connect( ui->toimitusDate, &QDateEdit::dateChanged, model, &LaskuModel::asetaToimituspaiva);
+    connect( ui->emailEdit, &QLineEdit::textChanged, model, &LaskuModel::asetaEmail);
+    connect( ui->asViiteEdit, &QLineEdit::textChanged, model, &LaskuModel::asetaAsiakkaanViite);
+    connect( ui->verkkoOsoiteEdit, &QLineEdit::textChanged, model, &LaskuModel::asetaVerkkolaskuOsoite);
+    connect( ui->verkkoValittajaEdit, &QLineEdit::textChanged, model, &LaskuModel::asetaVerkkolaskuValittaja);
+    connect( ui->viivkorkoSpin, SIGNAL( valueChanged(double) ), model, SLOT(asetaViivastyskorko(double)) );
+
 
 
     paivitaTuoteluettelonNaytto();
@@ -428,8 +439,7 @@ void LaskuDialogi::haeOsoite()
     }
     // Osoitetta ei tiedossa, kirjoitetaan nimi
     ui->osoiteEdit->setPlainText( nimistr + "\n" );
-
-
+    vieMalliin();
 }
 
 void LaskuDialogi::vieMalliin()
