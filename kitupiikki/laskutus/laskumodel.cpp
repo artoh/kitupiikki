@@ -193,6 +193,7 @@ LaskuModel *LaskuModel::kopioiLasku(int vientiId)
 
     model->asetaToimituspaiva( kp()->paivamaara() );
     model->asetaErapaiva( kp()->paivamaara().addDays( kp()->asetukset()->luku("LaskuMaksuaika")) );
+    model->muokattu_ = true;
 
     return model;
 }
