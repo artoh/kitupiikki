@@ -254,6 +254,7 @@
 		CB49604B2152AF38004F0F91 /* ryhmantuontidlg.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB49603F2152AF37004F0F91 /* ryhmantuontidlg.cpp */; };
 		CB49604D2152BD4E004F0F91 /* libzip.dylib in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = CB49604C2152BD4D004F0F91 /* libzip.dylib */; };
 		CB76993620DD240B004CA297 /* Images.xcassets in Copy Bundle Resources */ = {isa = PBXBuildFile; fileRef = CB76993520DD240B004CA297 /* Images.xcassets */; };
+		CB8B566C21F4B36100307454 /* tuontiapu.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB8B566A21F4B36100307454 /* tuontiapu.cpp */; };
 		CB8E95E320E69CD700C89EEB /* QtSql.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = 5CE42DDB3F6D3DF4616F8C02 /* QtSql.framework */; };
 		CB8E95E420E69CD700C89EEB /* QtSql.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5CE42DDB3F6D3DF4616F8C02 /* QtSql.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CB8E95E620E69CDB00C89EEB /* QtSvg.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = 03CBD17D70037C0F9F2213FF /* QtSvg.framework */; };
@@ -844,6 +845,8 @@
 		CB49604C2152BD4D004F0F91 /* libzip.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzip.dylib; path = ../../../../../usr/local/lib/libzip.dylib; sourceTree = "<group>"; };
 		CB49A155020B45B332976874 /* tilidelegaatti.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = tilidelegaatti.h; path = /Users/petri/git/kitupiikki/kitupiikki/kirjaus/tilidelegaatti.h; sourceTree = "<absolute>"; };
 		CB76993520DD240B004CA297 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = kitupiikki/Images.xcassets; sourceTree = "<group>"; };
+		CB8B566A21F4B36100307454 /* tuontiapu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tuontiapu.cpp; path = ../kitupiikki/tuonti/tuontiapu.cpp; sourceTree = "<group>"; };
+		CB8B566B21F4B36100307454 /* tuontiapu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tuontiapu.h; path = ../kitupiikki/tuonti/tuontiapu.h; sourceTree = "<group>"; };
 		CB97A50E2183800C009B6CE7 /* budjettivertailu.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = budjettivertailu.ui; path = ../kitupiikki/raportti/budjettivertailu.ui; sourceTree = "<group>"; };
 		CB97A5102183801E009B6CE7 /* budjettivertailu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = budjettivertailu.cpp; path = ../kitupiikki/raportti/budjettivertailu.cpp; sourceTree = "<group>"; };
 		CB97A5112183801E009B6CE7 /* budjettivertailu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = budjettivertailu.h; path = ../kitupiikki/raportti/budjettivertailu.h; sourceTree = "<group>"; };
@@ -851,7 +854,6 @@
 		CB97A514218387B0009B6CE7 /* moc_budjettivertailu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = moc_budjettivertailu.cpp; sourceTree = "<group>"; };
 		CBB34F1D21554E0000BE6C3E /* ytunnusvalidator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ytunnusvalidator.cpp; path = ../kitupiikki/validator/ytunnusvalidator.cpp; sourceTree = "<group>"; };
 		CBB34F1E21554E0000BE6C3E /* ytunnusvalidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ytunnusvalidator.h; path = ../kitupiikki/validator/ytunnusvalidator.h; sourceTree = "<group>"; };
-		CBB34F2021554E4300BE6C3E /* pdftuonti.cpp.orig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = pdftuonti.cpp.orig; path = ../kitupiikki/tuonti/pdftuonti.cpp.orig; sourceTree = "<group>"; };
 		CBB34F2221554E6E00BE6C3E /* myyntiraportti.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = myyntiraportti.h; path = ../kitupiikki/raportti/myyntiraportti.h; sourceTree = "<group>"; };
 		CBB34F2321554E6E00BE6C3E /* myyntiraportti.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = myyntiraportti.cpp; path = ../kitupiikki/raportti/myyntiraportti.cpp; sourceTree = "<group>"; };
 		CBB34F292155510300BE6C3E /* naytinikkuna.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = naytinikkuna.cpp; path = ../kitupiikki/naytin/naytinikkuna.cpp; sourceTree = "<group>"; };
@@ -1714,7 +1716,8 @@
 		A16D9DE6299FF886383BFA1F /* tuonti */ = {
 			isa = PBXGroup;
 			children = (
-				CBB34F2021554E4300BE6C3E /* pdftuonti.cpp.orig */,
+				CB8B566A21F4B36100307454 /* tuontiapu.cpp */,
+				CB8B566B21F4B36100307454 /* tuontiapu.h */,
 				4B326B30DE8C5FE21D031E7E /* tuonti.cpp */,
 				D616C31E574ED62DC792451D /* pdftuonti.cpp */,
 				43FA259C72C5DE239CD11E31 /* csvtuonti.cpp */,
@@ -2324,6 +2327,7 @@
 				D4EAFD111F75CC4EC2A11C54 /* devtool.cpp in Compile Sources */,
 				487F580448F44512563FBC05 /* lisaikkuna.cpp in Compile Sources */,
 				B6BC681FED28EBE20A736C09 /* apurivinkki.cpp in Compile Sources */,
+				CB8B566C21F4B36100307454 /* tuontiapu.cpp in Compile Sources */,
 				C74B907273CEE32343177856 /* BitBuffer.cpp in Compile Sources */,
 				CDD2D56F1748B0E0ADB49B09 /* QrCode.cpp in Compile Sources */,
 				751F8F36EDFAD5B6C3A47DC4 /* QrSegment.cpp in Compile Sources */,
