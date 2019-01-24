@@ -106,7 +106,7 @@ RaportinKirjoittaja TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::Kar
     // tiliIdtKaytossa - settiin lisätään kaikki, joissa kirjauksia ko. tilikaudella
     // Lisäksi käytössä ovat ne tasetilit, joilla on saldoa
 
-    QSqlQuery kysely( QString("SELECT tili FROM vienti WHERE PVM BETWEEN \"%1\" AND \"%2\" GROUP BY tili")
+    QSqlQuery kysely( QString("SELECT DISTINCT tili FROM vienti WHERE PVM BETWEEN \"%1\" AND \"%2\" ")
             .arg(tilikaudelta.alkaa().toString(Qt::ISODate))
             .arg(tilikaudelta.paattyy().toString(Qt::ISODate)) );
     while( kysely.next())
@@ -121,6 +121,23 @@ RaportinKirjoittaja TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::Kar
         }
     }
 
+    QSet<int> ehtoTaytetty;     // Jos valitaan Käytössä tai Suosikit
+    for(int i=0; i < kp()->tilit()->rowCount( QModelIndex());i++)
+    {
+        Tili tili = kp()->tilit()->tiliIndeksilla(i);
+        if( (valinta == KAYTOSSA_TILIT && tili.tila() > 0) ||
+            (valinta == SUOSIKKI_TILIT && tili.tila() > 1) )
+        {
+            ehtoTaytetty.insert(tili.id());
+            int tiliId = tili.ylaotsikkoId();
+            while( tiliId)
+            {
+                ehtoTaytetty.insert(tiliId);
+                Tili tili = kp()->tilit()->tiliIdlla(tiliId);
+                tiliId = tili.ylaotsikkoId();
+            }
+        }
+    }
 
 
 
@@ -131,9 +148,9 @@ RaportinKirjoittaja TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::Kar
 
         Tili tili = kp()->tilit()->tiliIndeksilla(i);
 
-        if( valinta == KAYTOSSA_TILIT && tili.tila() == 0 && !tiliIdtKaytossa.contains( tili.id()))
+        if( valinta == KAYTOSSA_TILIT && !ehtoTaytetty.contains(tili.id()) && !tiliIdtKaytossa.contains( tili.id()))
             continue;   // Tili ei käytössä
-        else if( valinta == SUOSIKKI_TILIT && tili.tila() < 2 )
+        else if( valinta == SUOSIKKI_TILIT && !ehtoTaytetty.contains(tili.id() ) )
             continue;
         else if( valinta == KIRJATUT_TILIT )
         {

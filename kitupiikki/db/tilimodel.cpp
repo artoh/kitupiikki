@@ -309,11 +309,14 @@ void TiliModel::lataa()
         int id = kysely.value(0).toInt();
         int otsikkoIdTalle = 0; // Nykytilille merkittävä otsikkotaso
         int ysiluku = kysely.value(6).toInt();
+        int nro = kysely.value(1).toInt();
+
 
         // Etsitään otsikkotasoa tasojen lopusta alkaen
         for(int i=9; i >= 0; i--)
         {
-            if( otsikot.at(i).onkoValidi() && otsikot.at(i).ysivertailuluku() <= ysiluku && otsikot[i].json()->luku("Asti") >= ysiluku )
+            int asti = otsikot[i].json()->luku("Asti") ? Tili::ysiluku( otsikot[i].json()->luku("Asti"),true) : Tili::ysiluku( otsikot[i].numero(), true);
+            if( otsikot.at(i).onkoValidi() && otsikot.at(i).ysivertailuluku() <= ysiluku && asti >= ysiluku )
             {
                 otsikkoIdTalle = otsikot.at(i).id();
                 break;
@@ -321,7 +324,7 @@ void TiliModel::lataa()
         }
 
         Tili uusi( id,     // id
-                   kysely.value(1).toInt(),     // nro
+                   nro,     // nro
                    kysely.value(2).toString(),  // nimi
                    tyyppikoodi,  // tyyppi
                    kysely.value(4).toInt(),     // tila
