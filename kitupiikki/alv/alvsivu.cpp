@@ -85,12 +85,6 @@ void AlvSivu::paivitaSeuraavat()
 
     ui->seuraavaLabel->setText( QString("%1 - %2").arg( seuraavaAlkaa.toString("dd.MM.yyyy"))
                                                         .arg(seuraavaLoppuu.toString("dd.MM.yyyy")) );
-    ui->erapaivaLabel->setText( erapaiva(seuraavaLoppuu).toString("dd.MM.yyyy") );
-
-    if( kp()->paivamaara().daysTo( erapaiva(seuraavaLoppuu) ) < 3)
-        ui->erapaivaLabel->setStyleSheet("color: red;");
-    else
-        ui->erapaivaLabel->setStyleSheet("color: black;");
 
     ui->tilitaNappi->setEnabled( seuraavaLoppuu <= kp()->tilikaudet()->kirjanpitoLoppuu() );
 
@@ -99,6 +93,13 @@ void AlvSivu::paivitaSeuraavat()
         kp()->asetukset()->aseta("AlvKausi", ui->kausiCombo->currentData().toInt());
         kp()->asetukset()->aseta("AlvIlmoitus", ui->viimeisinEdit->date());
     }
+
+    ui->erapaivaLabel->setText( erapaiva(seuraavaLoppuu).toString("dd.MM.yyyy") );
+
+    if( kp()->paivamaara().daysTo( erapaiva(seuraavaLoppuu) ) < 3)
+        ui->erapaivaLabel->setStyleSheet("color: red;");
+    else
+        ui->erapaivaLabel->setStyleSheet("color: black;");
 
 }
 
@@ -232,6 +233,9 @@ void AlvSivu::paivitaMaksuAlvTieto()
 
 QDate AlvSivu::erapaiva(const QDate &loppupaiva)
 {
+    if( kp()->asetukset()->luku("AlvKausi") == 12 )
+        return loppupaiva.addMonths(2);
+
     return loppupaiva.addDays(1).addMonths(1).addDays(11);
 }
 

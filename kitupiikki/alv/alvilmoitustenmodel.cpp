@@ -24,6 +24,9 @@
 
 QDate AlvIlmoitusTieto::erapvm()
 {
+    // Jos verokautena koko vuosi, eräpäivänä helmikuun viimeinen
+    if( kp()->asetukset()->luku("AlvKausi") == 12 )
+        return loppuPvm.addMonths(2);
     return loppuPvm.addDays(1).addMonths(1).addDays(11);
 }
 
