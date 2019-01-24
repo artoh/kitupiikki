@@ -28,11 +28,17 @@
         <property name="enabled">
          <bool>true</bool>
         </property>
+        <property name="calendarPopup">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item row="1" column="3">
        <widget class="QDateEdit" name="alkaa3Date">
         <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="calendarPopup">
          <bool>true</bool>
         </property>
        </widget>
@@ -49,10 +55,17 @@
         <property name="enabled">
          <bool>true</bool>
         </property>
+        <property name="calendarPopup">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QDateEdit" name="alkaa1Date"/>
+       <widget class="QDateEdit" name="alkaa1Date">
+        <property name="calendarPopup">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
       <item row="2" column="0">
        <widget class="QLabel" name="paattyyLabel">
@@ -75,11 +88,18 @@
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QDateEdit" name="loppuu1Date"/>
+       <widget class="QDateEdit" name="loppuu1Date">
+        <property name="calendarPopup">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
       <item row="2" column="3">
        <widget class="QDateEdit" name="loppuu3Date">
         <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="calendarPopup">
          <bool>true</bool>
         </property>
        </widget>
@@ -124,10 +144,18 @@
        </widget>
       </item>
       <item row="1" column="4">
-       <widget class="QDateEdit" name="alkaa4Date"/>
+       <widget class="QDateEdit" name="alkaa4Date">
+        <property name="calendarPopup">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
       <item row="2" column="4">
-       <widget class="QDateEdit" name="loppuu4Date"/>
+       <widget class="QDateEdit" name="loppuu4Date">
+        <property name="calendarPopup">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
       <item row="3" column="4">
        <widget class="QComboBox" name="tyyppi4"/>

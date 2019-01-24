@@ -27,7 +27,11 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QDateEdit" name="alkaa"/>
+      <widget class="QDateEdit" name="alkaa">
+       <property name="calendarPopup">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label_2">
@@ -40,7 +44,11 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QDateEdit" name="paattyy"/>
+      <widget class="QDateEdit" name="paattyy">
+       <property name="calendarPopup">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

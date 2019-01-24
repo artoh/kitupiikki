@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>642</width>
-    <height>738</height>
+    <height>885</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -85,6 +85,9 @@
         <property name="enabled">
          <bool>false</bool>
         </property>
+        <property name="calendarPopup">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item row="4" column="0">
@@ -101,6 +104,9 @@
        <widget class="QDateEdit" name="paattyenPvm">
         <property name="enabled">
          <bool>false</bool>
+        </property>
+        <property name="calendarPopup">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -120,7 +126,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QDateEdit" name="saldoPvm"/>
+      <widget class="QDateEdit" name="saldoPvm">
+       <property name="calendarPopup">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item>
       <spacer name="horizontalSpacer">
