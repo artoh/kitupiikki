@@ -48,7 +48,7 @@ public:
      * @brief Nykyinen päivä
      * @return
      */
-    QDate date() const { return date_; }
+    QDate date() const;
 
     /**
      * @brief Sallittu päivämääräväli
@@ -71,7 +71,7 @@ public:
 
     void setCalendarPopup(bool enable);
 
-    bool calendarPopup() const { return popupKaytossa_; }
+    bool calendarPopup() const { return popupKaytossa_; }    
 
 signals:
     /**

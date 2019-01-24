@@ -59,6 +59,14 @@ QSize KpDateEdit::sizeHint() const
 
 }
 
+QDate KpDateEdit::date() const
+{
+    if( date_.isValid() && date_ >= minDate_ && date_ <= maxDate_)
+        return date_;
+    else
+        return QDate();
+}
+
 void KpDateEdit::setDateRange(const QDate &min, const QDate &max)
 {
     minDate_ = min;
@@ -99,18 +107,16 @@ void KpDateEdit::setDate(QDate date)
         // Jos päivämäärä on minimiä pienempi, laitetaan ensin vuosi lisää. Tämä siksi, että tavanomaisessa
         // tilanteessa muokataan vuoden viimeistä päivämäärää eteenpäin
 
-        if( date < minimumDate() )
-            date = date.addYears(1);
-
-        if( date < minimumDate() )
-            date = minimumDate();
-        else if( date > maximumDate())
-            date = maximumDate();
-
         date_ = date;
         int pos = cursorPosition();
         setText( date.toString("dd.MM.yyyy") );
         setCursorPosition(pos);
+
+        if( date < minimumDate() || date > maximumDate())
+            setStyleSheet("color: red;");
+        else
+            setStyleSheet("");
+
         emit dateChanged( date );
     }
 
@@ -172,10 +178,14 @@ void KpDateEdit::editMuuttui(const QString& uusi)
        kk = 1;
 
    // 40 -> 04 jne.
-   if( pp > 31)
+   if( pp > 40)
    {
         pp = pp / 10;
         setCursorPosition( cursorPosition()+1 );
+   }
+   else if( pp > 31)
+   {
+       pp = 31;
    }
 
    if( kk > 12)

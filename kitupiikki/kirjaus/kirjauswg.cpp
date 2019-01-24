@@ -710,7 +710,8 @@ void KirjausWg::naytaSummat()
 
     // #39: Debet- ja kredit-kirjausten on täsmättävä
     ui->tallennaButton->setEnabled( !erotus && model()->muokattu() && model()->muokkausSallittu() &&
-                                    model()->kelpaakoTunniste( ui->tunnisteEdit->text().toInt() ));
+                                    model()->kelpaakoTunniste( ui->tunnisteEdit->text().toInt() ) &&
+                                    ui->tositePvmEdit->date().isValid());
 
     // Tilien joilla kirjauksia oltava valideja
     for(int i=0; i < model_->vientiModel()->rowCount(QModelIndex()); i++)
