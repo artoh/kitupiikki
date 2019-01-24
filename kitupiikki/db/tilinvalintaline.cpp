@@ -71,7 +71,10 @@ void KantaTilinvalintaLine::valitseTiliIdlla(int tiliId)
 void KantaTilinvalintaLine::valitseTili(const Tili& tili)
 {
     if( tili.id())
+    {
         setText( tr("%1 %2").arg(tili.numero()).arg(tili.nimi()));
+        setCursorPosition(0);
+    }
     else
         setText("");
 
@@ -121,7 +124,11 @@ void TilinvalintaLineDelegaatille::keyPressEvent(QKeyEvent *event)
         qobject_cast<QWidget*>(parent())->setFocus();
     }
     else
+    {
+        if( !event->text().isEmpty() && event->text().at(0).isNumber() && cursorPosition() == 0 )
+            clear();
         QLineEdit::keyPressEvent(event);
+    }
 }
 
 
@@ -158,5 +165,10 @@ void TilinvalintaLine::keyPressEvent(QKeyEvent *event)
 
     }
     else
+    {
+        if( !event->text().isEmpty() && event->text().at(0).isNumber() && cursorPosition() == 0 )
+            clear();
         KantaTilinvalintaLine::keyPressEvent(event);
+    }
+
 }
