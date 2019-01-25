@@ -75,7 +75,6 @@ void PdfTuonti::tuoPdfLasku()
     qlonglong sentit = 0;
     QDate laskupvm;
     QDate toimituspvm;
-    QRegularExpression rahaRe("\\d{1,10}[,]\\d{2}");
 
 
     // Tutkitaan, onko tässä tilisiirtolomaketta
@@ -227,16 +226,15 @@ void PdfTuonti::tuoPdfLasku()
     }
     if( !sentit )
     {
+        QRegularExpression rahaRe("^\\d{1,10}[,.]\\d{2}$");
         // Etsitään isoin senttiluku
         for( const QString& teksti : tekstit_.values())
         {
             if( rahaRe.match(teksti).hasMatch())
             {
-                QString rahaa = rahaRe.match(teksti).captured(0);
-                rahaa.remove(',');
-                // Jäljelle jää senttimäärä
-                if( rahaa.toLongLong() > sentit)
-                    sentit = rahaa.toLongLong();
+                qlonglong rahaa = TuontiApu::sentteina( rahaRe.match(teksti).captured(0) );
+                if( rahaa > sentit)
+                    sentit = rahaa;
             }
         }
     }
@@ -513,6 +511,8 @@ void PdfTuonti::haeTekstit(Poppler::Document *pdfDoc)
     for(int sivu = 0; sivu < pdfDoc->numPages(); sivu++)
     {
         Poppler::Page *pdfSivu = pdfDoc->page(sivu);
+        if( !pdfSivu)   // Jos sivu ei ole kelpo
+            continue;
 
         qreal leveysKerroin = 100.0 / pdfSivu->pageSizeF().width();
         qreal korkeusKerroin = 200.0 / pdfSivu->pageSizeF().height();
