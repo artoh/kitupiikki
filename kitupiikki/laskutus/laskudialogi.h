@@ -68,7 +68,6 @@ private slots:
      */
     void finvoice();
     void perusteVaihtuu();
-    void haeOsoite();
 
     /**
      * @brief Tallentaa lomaketiedot malliin
@@ -111,8 +110,10 @@ private:
     static int laskuIkkunoita__;
 
 public slots:
-    void accept();
-    void reject();
+    void accept() override;
+    void reject() override;
+
+    void haeOsoite();
 
 private:    
     LaskuModel *model;

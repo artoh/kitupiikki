@@ -234,10 +234,13 @@ void LaskuSivu::uusiLasku()
     }
 
     LaskuModel *uusi = new LaskuModel();
-    if( paaTab_->currentIndex() == ASIAKAS )
+    if( paaTab_->currentIndex() == ASIAKAS )    
         uusi->asetaLaskunsaajannimi( asiakasView_->currentIndex().data(AsiakkaatModel::NimiRooli).toString() );
+
     LaskuDialogi* dlg = new LaskuDialogi(uusi);
     dlg->show();
+    if( paaTab_->currentIndex() == ASIAKAS )
+        dlg->haeOsoite();
 }
 
 void LaskuSivu::uusiAsiakas()
