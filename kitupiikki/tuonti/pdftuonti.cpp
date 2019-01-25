@@ -21,6 +21,7 @@
 #include <QByteArray>
 #include <QMap>
 #include <QSet>
+#include <cmath>
 
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
@@ -165,7 +166,7 @@ void PdfTuonti::tuoPdfLasku()
     // Sitten yritetään hakea laskun päivämäärää
     if(  (pvmsijainti = etsi("Päivämäärä"))  || (pvmsijainti = etsi("päiväys")) || ( (etsi("Eräp") != etsi("pvm")) &&  (pvmsijainti = etsi("pvm")) ))
     {
-        for( const QString& t : haeLahelta( pvmsijainti / 100-2, pvmsijainti % 100-1, 10, 60) )
+        for( const QString& t : haeLahelta( pvmsijainti / 100, pvmsijainti % 100, 10, 80) )
         {
             QDate pvm = QDate::fromString(t,"dd.M.yyyy");
             if( pvm.isValid())
@@ -574,8 +575,8 @@ void PdfTuonti::haeTekstit(Poppler::Document *pdfDoc)
 
 QStringList PdfTuonti::haeLahelta(int y, int x, int dy, int dx)
 {
-    // Lähellä on: -3 < Y < 15, -3 < X < 30
-    QMap<int, QString> loydetyt;
+
+    QMultiMap<int, QString> loydetyt;
 
     QMapIterator<int, QString> iter(tekstit_);
 
@@ -586,10 +587,10 @@ QStringList PdfTuonti::haeLahelta(int y, int x, int dy, int dx)
         int sy = sijainti / 100;
         int sx = sijainti % 100;
 
-        if( sy >= y && sy < y + dy &&
-            sx >= x && sx < x + dx )
+        if( sy >= y-2 && sy < y + dy &&
+            sx >= x-2 && sx < x + dx )
         {
-            int ero = qAbs(x - sx) + qAbs( y - sy);
+            int ero =  qRound( std::sqrt(  std::pow( (x - sx), 2) + std::pow( ( y - sy), 2)  ));
             loydetyt.insert( ero, iter.value());
         }
     }
