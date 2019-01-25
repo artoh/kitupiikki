@@ -32,6 +32,7 @@
 
 #include "validator/ibanvalidator.h"
 #include "validator/viitevalidator.h"
+#include "tuontiapu.h"
 
 #include "db/kirjanpito.h"
 
@@ -80,15 +81,12 @@ void PdfTuonti::tuoPdfLasku()
     if( etsi("Saajan", 125, 150, 0, 15) &&
         etsi("IBAN", 125, 140, 8, 16) &&
         etsi("Saaja", 135, 155, 0, 15) &&
-        etsi("Viitenumero", 150, 185, 40, 70) &&
-        etsi("Eräpäivä", 155, 190, 40, 70) &&
-        etsi("Euro", 155, 190, 67, 90) )
+        etsi("Viite", 150, 185, 40, 70) &&
+        etsi("Erä", 160, 190, 40, 70) &&
+        etsi("Euro", 160, 190, 60, 90) )
     {
         // Löytyy koko lailla sopivia kenttiä
         int ibansijainti = etsi("IBAN", 125, 140, 8, 30);
-
-
-
         QRegularExpression ibanRe("\\b[A-Z]{2}\\d{2}[\\w\\s]{6,30}\\b");
 
 
@@ -98,7 +96,10 @@ void PdfTuonti::tuoPdfLasku()
             {
                 QString poimittu = ibanRe.match(t).captured(0);
                 if( tilinro.isEmpty() &&  IbanValidator::kelpaako(poimittu) )
+                {
                     tilinro = poimittu.remove(QRegularExpression("\\s"));
+                    break;
+                }
             }
         }
 
@@ -112,35 +113,46 @@ void PdfTuonti::tuoPdfLasku()
         }
 
 
-        int viitesijainti = etsi("Viitenumero", 150, 185, 40, 70);
+        int viitesijainti = etsi("Viite", 150, 185, 40, 70);
 
         for( QString t : haeLahelta( viitesijainti / 100, viitesijainti % 100, 20, 60) )
         {
             if( viite.isEmpty() && ViiteValidator::kelpaako(t) )
-                viite = t.remove(QRegularExpression("\\s"));
-            else
             {
-                QDate pvm = QDate::fromString(t,"dd.M.yyyy");
-                if( pvm.isValid())
-                    erapvm = pvm;
-                if( rahaRe.match(t).hasMatch())
-                {
-                    QString rahaa = rahaRe.match(t).captured(0);
-                    rahaa.remove(',');
-                    // Jäljelle jää senttimäärä
-                    sentit = rahaa.toLongLong();
-                }
+                viite = t.remove(QRegularExpression("\\s"));
+                break;
             }
         }
 
-    }
+        int erapvmsijainti = etsi("Eräpäivä", 160, 190, 40, 70);
+        for( const QString& t : haeLahelta( erapvmsijainti / 100 - 2, erapvmsijainti % 100 + 2, 10, 25))
+        {
+            QDate pvm = QDate::fromString(t,"dd.M.yyyy");
+            if( pvm.isValid())
+            {
+                erapvm = pvm;
+                break;
+            }
+        }
+
+        int eurosijainti = etsi("Euro",160,190,60,90);
+        for( const QString& t : haeLahelta( eurosijainti / 100 - 2, eurosijainti % 100 + 2, 10, 25))
+        {
+            if( TuontiApu::sentteina(t))
+            {
+                sentit = TuontiApu::sentteina(t);
+                break;
+            }
+        }
+
+    }   // Ruudukosta
 
     // Laskun päiväys: Etsitään erilaisilla otsikoilla
     // Ensin yritetään etsiä erillinen toimituspäivämäär
     int pvmsijainti;
     if(  (pvmsijainti = etsi("Toimituspäivä")) || (pvmsijainti = etsi("Toimituspvm")) )
     {
-        for( const QString& t : haeLahelta( pvmsijainti / 100, pvmsijainti % 100, 10, 60) )
+        for( const QString& t : haeLahelta( pvmsijainti / 100, pvmsijainti % 100, 10, 70) )
         {
             QDate pvm = QDate::fromString(t,"dd.M.yyyy");
             if( pvm.isValid())
@@ -151,9 +163,9 @@ void PdfTuonti::tuoPdfLasku()
         }
     }
     // Sitten yritetään hakea laskun päivämäärää
-    if(  (pvmsijainti = etsi("Päivämäärä")) || (pvmsijainti == etsi("pvm")) || (pvmsijainti = etsi("päiväys")))
+    if(  (pvmsijainti = etsi("Päivämäärä"))  || (pvmsijainti = etsi("päiväys")) || ( (etsi("Eräp") != etsi("pvm")) &&  (pvmsijainti = etsi("pvm")) ))
     {
-        for( const QString& t : haeLahelta( pvmsijainti / 100, pvmsijainti % 100, 10, 60) )
+        for( const QString& t : haeLahelta( pvmsijainti / 100-2, pvmsijainti % 100-1, 10, 60) )
         {
             QDate pvm = QDate::fromString(t,"dd.M.yyyy");
             if( pvm.isValid())
