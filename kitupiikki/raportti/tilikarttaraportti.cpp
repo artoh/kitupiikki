@@ -57,10 +57,10 @@ RaportinKirjoittaja TilikarttaRaportti::raportti()
     if( ui->saldotCheck->isChecked())
         saldopaiva = ui->saldotDate->date();
 
-    return kirjoitaRaportti(valinta, kausi, ui->tilityypitCheck->isChecked(), saldopaiva, ui->kirjausohjeet->isChecked());
+    return kirjoitaRaportti(valinta, kausi, ui->otsikotCheck->isChecked(), ui->tilityypitCheck->isChecked(), saldopaiva, ui->kirjausohjeet->isChecked());
 }
 
-RaportinKirjoittaja TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::KarttaValinta valinta, const Tilikausi& tilikaudelta, bool tulostatyyppi, QDate saldopvm,
+RaportinKirjoittaja TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::KarttaValinta valinta, const Tilikausi& tilikaudelta, bool otsikot, bool tulostatyyppi, QDate saldopvm,
                                                          bool kirjausohjeet)
 {
     RaportinKirjoittaja rk;
@@ -148,7 +148,9 @@ RaportinKirjoittaja TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::Kar
 
         Tili tili = kp()->tilit()->tiliIndeksilla(i);
 
-        if( valinta == KAYTOSSA_TILIT && !ehtoTaytetty.contains(tili.id()) && !tiliIdtKaytossa.contains( tili.id()))
+        if( tili.otsikkotaso() && !otsikot)
+            continue;
+        else if( valinta == KAYTOSSA_TILIT && !ehtoTaytetty.contains(tili.id()) && !tiliIdtKaytossa.contains( tili.id()))
             continue;   // Tili ei käytössä
         else if( valinta == SUOSIKKI_TILIT && !ehtoTaytetty.contains(tili.id() ) )
             continue;

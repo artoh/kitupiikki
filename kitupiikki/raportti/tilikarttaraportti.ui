@@ -88,7 +88,7 @@
      <item row="0" column="1">
       <widget class="QComboBox" name="tilikaudeltaCombo"/>
      </item>
-     <item row="1" column="0">
+     <item row="2" column="0">
       <widget class="QCheckBox" name="tilityypitCheck">
        <property name="text">
         <string>Näytä tilityypit</string>
@@ -99,7 +99,7 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="0">
+     <item row="3" column="0">
       <widget class="QCheckBox" name="saldotCheck">
        <property name="text">
         <string>Saldot</string>
@@ -110,7 +110,7 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
+     <item row="3" column="1">
       <widget class="QDateEdit" name="saldotDate">
        <property name="enabled">
         <bool>false</bool>
@@ -120,7 +120,7 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="0">
+     <item row="4" column="0">
       <widget class="QCheckBox" name="kirjausohjeet">
        <property name="text">
         <string>Kirjausohjeet</string>
@@ -128,6 +128,20 @@
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/info-harmaa.png</normaloff>:/pic/info-harmaa.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QCheckBox" name="otsikotCheck">
+       <property name="text">
+        <string>Näytä otsikot</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/lihavoi.png</normaloff>:/pic/lihavoi.png</iconset>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
        </property>
       </widget>
      </item>

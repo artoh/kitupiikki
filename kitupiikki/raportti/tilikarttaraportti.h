@@ -47,7 +47,7 @@ public:
 
     RaportinKirjoittaja raportti();
 
-    static RaportinKirjoittaja kirjoitaRaportti(KarttaValinta valinta, const Tilikausi &tilikaudelta,
+    static RaportinKirjoittaja kirjoitaRaportti(KarttaValinta valinta, const Tilikausi &tilikaudelta, bool otsikot,
                              bool tulostatyypi, QDate saldopvm, bool kirjausohjeet);
 
 protected slots:
