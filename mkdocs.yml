@@ -13,8 +13,8 @@ theme:
   logo: 'images/Possu64.png'
   language: 'fi'
   favicon: 'images/Possu64.png'
-  font: 'Sans'
-  code: 'Mono'
+  font: 'Roboto'
+  mono: 'Ubuntu Mono'
   feature:
     tabs: false
   extra_templates:
