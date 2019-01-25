@@ -48,15 +48,15 @@ Tuonti::~Tuonti()
 
 bool Tuonti::tuo(const QString &tiedostonnimi, KirjausWg *wg)
 {
-    QImage kuvako( tiedostonnimi );
-    if( !kuvako.isNull())
-        return true;
 
     QFile tiedosto( tiedostonnimi );
     tiedosto.open( QFile::ReadOnly );
 
     QByteArray data = tiedosto.readAll();
     tiedosto.close();
+
+    if( !QImage::fromData(data).isNull() )
+        return true;
 
     if( data.startsWith("%PDF") && !kp()->settings()->value("PopplerPois").toBool())
     {
