@@ -444,7 +444,7 @@
   <customwidget>
    <class>KpDateEdit</class>
    <extends>QLineEdit</extends>
-   <header>tools/kpdateedit.h</header>
+   <header location="global">tools/kpdateedit.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

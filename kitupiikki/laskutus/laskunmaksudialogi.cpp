@@ -28,6 +28,7 @@
 #include <QMessageBox>
 #include <QDesktopServices>
 #include <QUrl>
+#include <QSettings>
 
 LaskunMaksuDialogi::LaskunMaksuDialogi(KirjausWg *kirjauswg) :
     QDialog(kirjauswg),
@@ -62,6 +63,7 @@ LaskunMaksuDialogi::LaskunMaksuDialogi(KirjausWg *kirjauswg) :
     connect( ui->tiliEdit, SIGNAL(textChanged(QString)), this, SLOT(tarkistaKelpo()));
     connect( ui->naytaNappi, SIGNAL(clicked()), this, SLOT(naytaLasku()));
     connect( ui->suodatusEdit, SIGNAL(textChanged(QString)), this, SLOT(suodata()));
+    connect( ui->pvmEdit, &KpDateEdit::dateChanged, this, &LaskunMaksuDialogi::tarkistaKelpo);
 
     ui->pvmEdit->setDateRange( kp()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu()  );
     ui->pvmEdit->setDate( kp()->paivamaara() );
@@ -75,10 +77,13 @@ LaskunMaksuDialogi::LaskunMaksuDialogi(KirjausWg *kirjauswg) :
     connect(ui->kirjaaNappi, SIGNAL(clicked(bool)), this, SLOT(kirjaa()));
 
     connect( ui->tabBar, SIGNAL(currentChanged(int)), this, SLOT(valilehti()));
+
+    restoreGeometry( kp()->settings()->value("LaskunmaksuDlg").toByteArray() );
 }
 
 LaskunMaksuDialogi::~LaskunMaksuDialogi()
 {
+    kp()->settings()->setValue("LaskunmaksuDlg", saveGeometry() );
     delete ui;
 }
 
@@ -198,7 +203,7 @@ void LaskunMaksuDialogi::kirjaa()
 
 void LaskunMaksuDialogi::tarkistaKelpo()
 {
-    ui->kirjaaNappi->setEnabled( ui->euroSpin->value() > 1e-4 && ui->tiliEdit->valittuTilinumero()  );
+    ui->kirjaaNappi->setEnabled( ui->euroSpin->value() > 1e-4 && ui->tiliEdit->valittuTilinumero() && ui->pvmEdit->date().isValid() );
 }
 
 void LaskunMaksuDialogi::naytaLasku()
