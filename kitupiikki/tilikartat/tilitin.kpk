@@ -4,7 +4,7 @@ Elinkeinotoiminta
 [TilikarttaTekija]
 kitupiikki.info
 [TilikarttaPvm]
-2019-01-04
+2019-02-01
 [TilikarttaKuvaus]
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 <html><head><meta name="qrichtext" content="1" /><style type="text/css">
@@ -1442,13 +1442,16 @@ VASTAAVAA		H bold
 
 PYSYVÄT VASTAAVAT		10..149 
 Aineettomat hyödykkeet		10 s4
+Perustamismenot	100 s8 *
+Tutkimusmenot	101 s8 *
 Kehittämismenot		102 s8 *
 Aineettomat oikeudet		103..104 s8 *
-Liikearvo		105..106 s8 *
+Liikearvo		105 s8 *
+Konserniliikearvo	106 s8 *
 Muut aineettomat oikeudet		107..108 s8 *
 Ennakkomaksut		109 s8 *
 Aineelliset hyödykkeet		11..13 s4		
-Maa- ja vesialueet		111 s8 *
+Maa- ja vesialueet		110..111 s8 *
 Rakennukset ja rakennelmat		112..115 s8 *
 Koneet ja kalusto		116..12 s8 *
 Muut aineelliset hyödykkeet		130..137 s8 *
@@ -1469,10 +1472,13 @@ Muu vaihto-omaisuus		154 s8 *
 Ennakkomaksut		155 s8 *
 Pitkäaikaiset saamiset		16 s4
 Myyntisaamiset		160..162 s8 *
+Saamiset saman konsernin yrityksiltä	163 s8 *
+Saamiset omistusyhteysyrityksiltä	164 s8 *
 Lainasaamiset		165 s8 *
 Maksamattomat osakkeet/osuudet	167 s8 *
 Siirtosaamiset		168 s8 *
 Laskennalliset verosaamiset		169 s8 *
+Muut saamiset	166 s8 *
 Lyhytaikaiset saamiset		17 s4
 Myyntisaamiset		170..172 s8 *  
 Saamiset saman konsernin yrityksilta	173 s8 *
@@ -1495,8 +1501,8 @@ VASTATTAVAA		H bold
 OMA PÄÄOMA		20..23 
 Osakepääoma		200,201 s4 *
 Osuuspääoma		210 s4 *
-Ylikurssirahasto		2021 s4 *
-Arvonkorotusrahasto		2031 s4 *
+Ylikurssirahasto		202 s4 *
+Arvonkorotusrahasto		203 s4 *
 Muut rahastot		205 s4
 Sijoitetun vapaan pääoman rahasto	204 s8 *
 Vararahasto		205 s8 *
@@ -1527,8 +1533,9 @@ Saadut ennakot		266 s8 *
 Ostovelat		267..268 s8 *
 Velat saman konsernin yrityksille	270 s8 *
 Velat omistusyhteysyrityksille	271 s8 *
-Muut velat		272 s8 *
-Siirtovelat  		275..277 s8 *
+Siirtovelat  		275..276 s8 *
+Laskennalliset verovelat	277 s8 *
+Muut velat		272..274 s8 *
 Lyhytaikainen vieras pääoma		28..29 s4
 Joukkovelkakirjalainat		280 s8 *
 Vaihtovelkakirjalainat		281 s8 *
@@ -1539,8 +1546,9 @@ Ostovelat		287..288 s8 *
 Rahoitusvekselit		289 s8 *
 Velat saman konsernin yrityksille	290 s8 *
 Velat omistusyhteysyrityksille	291 s8 *
+Siirtovelat  		295..297 s8 *
+Laskennalliset verovelat 298 s8 *
 Muut velat		292..294 s8 *
-Siirtovelat  		295..299 s8 *
 
 Vastattavaa yhteensä		2 bold
 
