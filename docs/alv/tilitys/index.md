@@ -13,7 +13,7 @@ Laskelman pohjalta tehdään kirjaus, jossa alv-velka ja alv-saatava yhdistetä�
 Kitupiikissä ei ole koneellista tietojen siirtoa. Tarkista Kitupiikin laatima verolaskelma ja tee ilmoitus [OmaVero](https://www.vero.fi/sahkoiset-asiointipalvelut/omavero/)-palvelussa.
 
 !!! note "Verovelat-tili"
-    Verovelat-tilille kirjataan kaikki oma-aloitteiset verot, jotka on ilmoitettu verottajalle mutta ei vielä maksettu. Näin Verovelat-tilin saldon pitäisi aina vastata OmaVeron maksamattomien verojen saldoa. Jos tulossa on veronpalautusta, kirjataan se Verosaamiset-tilille.
+    Verovelat-tilille kirjataan kaikki oma-aloitteiset verot, jotka on ilmoitettu verottajalle mutta ei vielä maksettu. Jos tulossa on veronpalautusta, kirjataan se Verosaamiset-tilille.
 
     Verokauden vaihtuessa vero kirjattu Verovelat-tilille, ja Arvonlisäverovelat ja -saamiset -tilien saldot ovat tyhjiä.
 

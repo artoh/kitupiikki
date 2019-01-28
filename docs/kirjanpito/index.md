@@ -1,6 +1,6 @@
 # Kirjanpidosta lyhyesti
 
-[Kirjanpitolaissa](http://www.finlex.fi/fi/laki/ajantasa/1997/19971336) säädetään, että kaikenlaiset yhtiöt ja yhdistykset ovat velvollisia pitämään lain mukaista kirjanpitoa taloudellisesta toiminnastaan. Myös yksityiset ammatinharjoittajat ovat kirjanpitovelvollisia liike- ja ammattitoiminnastaan.
+<a href="http://www.finlex.fi/fi/laki/ajantasa/1997/19971336" target="_blank">Kirjanpitolaissa</a> säädetään, että kaikenlaiset yhtiöt ja yhdistykset ovat velvollisia pitämään lain mukaista kirjanpitoa taloudellisesta toiminnastaan. Myös yksityiset ammatinharjoittajat ovat kirjanpitovelvollisia liike- ja ammattitoiminnastaan.
 
 Kirjanpidolla seurataan tulojen ja kulujen muodostamaa taloudellista tuottoa (*tuloslaskelma*) sekä varojen ja velkojen muodostamaa varallisuutta (*tase*). Kirjanpito toimii myös yritysten verotuksen perusteena.
 
@@ -11,13 +11,13 @@ Pienet yritykset ja yhteisöt saavat noudattaa joissain asioissa hieman yksinker
 !!! note "Pienten puolella"
     Kitupiikki ohjeineen on suunniteltu erityisesti pienehköille yrityksille ja yhteisöille (alle 50 työntekijää, liikevaihto alle 12 milj. euroa). Kitupiikin laatima tilinpäätös on pien- ja mikroyritysasetuksen mukainen[^4].
 
-[^1]: Kirjanpitolaki 3 §. Kirjanpitolain ja [-asetuksen](http://www.finlex.fi/fi/laki/ajantasa/1997/19971339) lisäksi
-    [kirjanpitolautakunta](http://tem.fi/kirjanpitolautakunta) antaa kirjanpitoa koskevia
+[^1]: Kirjanpitolaki 3 §. Kirjanpitolain ja (<a href="http://www.finlex.fi/fi/laki/ajantasa/1997/19971339" target="_blank">-asetuksen</a> lisäksi
+    <a href="http://tem.fi/kirjanpitolautakunta" target="_blank">Kirjanpitolautakunta</a> antaa kirjanpitoa koskevia
     ratkaisuja ja ohjeita.
 [^2]: Rikoslaki 30 luku 9 §, kirjanpitolaki 8. luku 4 §
 [^3]: Kevyimmät säännöt ovat mikroyrityksellä. Se tarkoittaa kirjanpitovelvollista, jolla sekä päättyneellä että sitä välittömästi edeltäneellä tilikaudella ylittyy enintään yksi seuraavista kolmesta raja-arvosta tilinpäätöspäivänä: taseen loppusumma 350 000 euroa; liikevaihto 700 000 euroa; tilikauden aikana palveluksessa keskimäärin 10 henkilöä. Pienyrityksellä saa puolestaan ylittyä enintään yksi seuraavista: taseen loppusumma 6 milj. euroa, liikevaihto 12 milj. euroa, henkilökunta keskimäärin 50. (Kirjanpitolaki 4b §)
-[^4]: [Valtioneuvoston asetus
-pien- ja mikroyrityksen tilinpäätöksessä esitettävistä tiedoista](http://www.finlex.fi/fi/laki/alkup/2015/20151753)
+[^4]: <a href="http://www.finlex.fi/fi/laki/alkup/2015/20151753" target="_blank">  Valtioneuvoston asetus
+pien- ja mikroyrityksen tilinpäätöksessä esitettävistä tiedoista</a>
 
 
 ## Tilikausi
@@ -143,7 +143,7 @@ Tase laaditaan kirjanpitoasetuksen kaavan mukaisesti. Pienet yhtiöt saavat laat
     Kirjanpitolain viimeisin merkittävä muutos on vuodelta 2016, ja laki muuttuu varmasti myös jatkossa. Vaikka vanhoissa kirjoissa osa yksityiskohdista on jo vanhentunut, ovat kaksinkertaisen kirjanpidon perusteet pysyneet toki samoina.
 
 - Kaupallisen alan oppikirjat
-- Antti-Juhani Kaijanahon erinomainen [blogikirjoitus pienen yhdistyksen kirjanpidosta ja tilinpäätöksestä](http://antti-juhani.kaijanaho.fi/newblog/archives/788)
-- [Tilintarkastus.fi](http://tilintarkastus.fi) sisältää malleja erilaisten yhteisöjen tilinpäätöksistä
-- Taloushallintoliiton [Kirjanpidon ABC](https://taloushallintoliitto.fi/kirjanpidon-abc)
-- Tilisanomien [Kirjanpitokoulu](http://tilisanomat.fi/artikkeli/kirjanpitokoulu-osa-1-tilinpaatoksen-laatiminen)
+- Antti-Juhani Kaijanahon erinomainen <a href="http://antti-juhani.kaijanaho.fi/newblog/archives/788" target="_blank">blogikirjoitus pienen yhdistyksen kirjanpidosta ja tilinpäätöksestä</a>
+- <a href="tilintarkastus.fi" target="_blank">Tilintarkastus.fi</a> sisältää malleja erilaisten yhteisöjen tilinpäätöksistä
+- Taloushallintoliiton <a href="https://taloushallintoliitto.fi/kirjanpidon-abc" target="_blank">Kirjanpidon ABC</a>
+- Tilisanomien <a href="http://tilisanomat.fi/artikkeli/kirjanpitokoulu-osa-1-tilinpaatoksen-laatiminen" target="_blank">Kirjanpitokoulu</a>
