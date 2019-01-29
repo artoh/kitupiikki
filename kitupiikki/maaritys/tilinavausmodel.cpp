@@ -75,7 +75,20 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
 
             case SALDO:
                 if( tili.onko(TiliLaji::KAUDENTULOS))
-                    return QVariant("*****");   // Kauden tulos lasketaan
+                {
+                    qlonglong tulos = 0;
+                    QMapIterator<int,qlonglong> iter(saldot);
+                    while( iter.hasNext() )
+                    {
+                        iter.next();
+                        Tili tili = Kirjanpito::db()->tilit()->tiliNumerolla( iter.key());
+                        if( tili.onko(TiliLaji::TULO) )
+                            tulos += iter.value();
+                        else if( tili.onko(TiliLaji::MENO) )
+                            tulos -= iter.value();
+                    }
+                    return QVariant( QString("%L1 €").arg( ( tulos / 100.0 ), 10,'f',2));
+                }
 
 
                 qlonglong saldo = saldot.value( tili.numero(), 0l);
@@ -111,6 +124,8 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
         Tili tili = kp()->tilit()->tiliIndeksilla( index.row());
         if( !tili.tila() )
             return QColor(Qt::darkGray);
+        else if( tili.onko(TiliLaji::KAUDENTULOS))
+            return QColor(Qt::gray);
         else
             return QColor(Qt::black);
     }
@@ -152,6 +167,14 @@ bool TilinavausModel::setData(const QModelIndex &index, const QVariant &value, i
 
     paivitaInfo();
     muokattu_ = true;
+
+    if( kp()->tilit()->tiliIndeksilla( index.row() ).onko(TiliLaji::TULOS))
+    {
+        // Päivitetään kauden tulosta
+        dataChanged( index.sibling(kaudenTulosIndeksi_, SALDO),
+                     index.sibling(kaudenTulosIndeksi_, SALDO));
+    }
+
     return true;
 }
 
@@ -180,6 +203,15 @@ void TilinavausModel::lataa()
     paivitaInfo();
     endResetModel();
     muokattu_ = false;
+
+    // Haetaan kauden tuloksen indeksi, jotta voidaan päivittää tulosta
+    for(int i=0; i < kp()->tilit()->rowCount(QModelIndex()); i++)
+        if( kp()->tilit()->tiliIndeksilla(i).onko(TiliLaji::KAUDENTULOS))
+        {
+            kaudenTulosIndeksi_ = i;
+            break;
+        }
+
 }
 
 bool TilinavausModel::tallenna()

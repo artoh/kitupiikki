@@ -45,6 +45,7 @@ PdfTuonti::PdfTuonti(KirjausWg *wg) :
 
 bool PdfTuonti::tuo(const QByteArray &data)
 {
+
     Poppler::Document *pdfDoc = Poppler::Document::loadFromData( data );
 
     if( pdfDoc )
@@ -61,7 +62,6 @@ bool PdfTuonti::tuo(const QByteArray &data)
     }
 
     delete pdfDoc;
-
     return true;
 }
 

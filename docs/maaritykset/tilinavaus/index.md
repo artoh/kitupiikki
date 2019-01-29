@@ -9,7 +9,7 @@ Tilinavauksessa syötetään tilin avaavina saldoina tilien loppusummat edellise
 
 Saldot syötetään ilman etumerkkiä (ellei sitten esimerkiksi edellisiltä tilikausilta ole jäänyt alijäämää).
 
-Tuloslaskelmaan saldot syötetään tileittäin, koska uuden tilikauden tuloslaskelmaan on merkittävä vertailutiedot edelliseltä tilikaudelta.
+Tuloslaskelmaan saldot syötetään tileittäin, koska uuden tilikauden tuloslaskelmaan on merkittävä vertailutiedot edelliseltä tilikaudelta. **Yli/alijäämä** lasketaan tileittäin syötetyistä tiedoista - varmista, että se sekä **Vastaavaa** ja **Vastattavaa** -summat täsmäävät tilinpäätöksen lukemiin.
 
 Jos tilikarttaa on Kitupiikkiin siirryttäessä muutettu, pitäisi tilinavaukset vertailulukemat pyrkiä merkitsemään uuden tilikartan mukaisille tileille.
 

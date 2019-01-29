@@ -70,6 +70,7 @@ signals:
 protected:
     QMap<int,qlonglong> saldot;
     bool muokattu_;
+    int kaudenTulosIndeksi_ = 0;
 };
 
 #endif // TILINAVAUSMODEL_H
