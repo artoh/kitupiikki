@@ -135,7 +135,10 @@ void ErittelyRuudukko::tulostaErittely(QPagedPaintDevice *printer, QPainter *pai
         qreal x = leveydet_.first() + VALI * mm;
         for(int i=1; i < rivi.count(); i++)
         {
-            painter->drawText(QRectF(x,0,leveydet_.at(i),rk), tasaukset_.at(i), rivi.at(i));
+            if( i == rivi.count()-1)
+                painter->drawText(QRectF(x,0, painter->window().width() - x ,rk), tasaukset_.at(i), rivi.at(i));
+            else
+                painter->drawText(QRectF(x,0,leveydet_.at(i),rk), tasaukset_.at(i), rivi.at(i));
             x += i==1 ? leveydet_.at(i) + 2 * mm :  leveydet_.at(i) + VALI * mm; // Lyhyempi väli kappalemäärän ja yksikön välissä
         }
         painter->translate( 0, seliteRect.height() > rk ? seliteRect.height() : rk );

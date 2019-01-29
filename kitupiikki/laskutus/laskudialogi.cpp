@@ -617,7 +617,7 @@ void LaskuDialogi::lahetaRyhmanSeuraava(const QString &viesti)
         QString kenelle = QString("=?utf-8?Q?%1?= <%2>").arg( model->laskunsaajanNimi() )
                                                 .arg(model->email() );
 
-        smtp->lahetaLiitteella(kenelta, kenelle, tr("%3 %1 - %2").arg( model->viitenumero() ).arg( kp()->asetukset()->asetus("Nimi").arg(model->t("laskuotsikko")) ),
+        smtp->lahetaLiitteella(kenelta, kenelle, tr("%3 %1 - %2").arg( model->viitenumero() ).arg( kp()->asetukset()->asetus("Nimi")).arg(model->t("laskuotsikko") ),
                                tulostaja->html(), tr("lasku%1.pdf").arg( model->viitenumero()), tulostaja->pdf(false));
 
         if( kp()->asetukset()->onko("EmailKopio") )
