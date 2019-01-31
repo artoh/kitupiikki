@@ -109,19 +109,16 @@ void Arkistoija::arkistoiTositteet()
 
 
     // Haetaan id:t listaan. Näin ollen aina tieto edellisestä ja seuraavasta
-    QList<int> idLista;
     QList<TilioteTieto> tilioteLista;
 
     while(kysely.next())
     {
         // Lisätään tositteet tositetunnuksen mukaan
         QString tunnus = QString("%1%2/%3").arg( kp()->tositelajit()->tositelaji( kysely.value("laji").toInt() ).tunnus() )
-                .arg( kysely.value("tunniste").toInt() )
+                .arg( kysely.value("tunniste").toInt(),8,10,QChar('0') )
                 .arg( tilikausi_.kausitunnus());
 
         tositeLista.insert( tunnus, kysely.value("id").toInt() );
-
-        idLista.append( kysely.value(0).toInt());
 
         // Jos tämä tosite on tiliote, lisätään se tilioteluetteloon, jotta tällä välillä tiliin tehtäviin
         // kirjauksiin voidaan lisätä myös viittaus tiliotteeseen
@@ -151,7 +148,7 @@ void Arkistoija::arkistoiTositteet()
     while( kysely.next())
     {
         QString tunnus = QString("%1%2/%3").arg( kp()->tositelajit()->tositelaji( kysely.value("tosite.laji").toInt() ).tunnus() )
-                .arg( kysely.value("tosite.tunniste").toInt() )
+                .arg( kysely.value("tosite.tunniste").toInt(),8,10,QChar('0') )
                 .arg( kp()->tilikaudet()->tilikausiPaivalle( kysely.value("tosite.pvm").toDate() ).kausitunnus() );
 
         tositeLista.insert( tunnus, kysely.value("id").toInt() );
@@ -165,7 +162,7 @@ void Arkistoija::arkistoiTositteet()
             while( eraKysely.next())
             {
                 QString eratunnus = QString("%1%2/%3").arg( kp()->tositelajit()->tositelaji( eraKysely.value("tosite.laji").toInt() ).tunnus() )
-                        .arg( eraKysely.value("tosite.tunniste").toInt() )
+                        .arg( eraKysely.value("tosite.tunniste").toInt(),8,10,QChar('0') )
                         .arg( kp()->tilikaudet()->tilikausiPaivalle( eraKysely.value("tosite.pvm").toDate() ).kausitunnus()  );
                 tositeLista.insert(eratunnus, eraKysely.value("tosite.id").toInt());
             }

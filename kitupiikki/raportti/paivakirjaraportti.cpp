@@ -231,7 +231,7 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
         if( tulostakohdennukset )
         {
             // Kohdennussarake
-            if( kysely.value("kohdennusId").toInt() )
+            if( kysely.value("vienti.kohdennus").toInt() )
             {
                 Kohdennus kohdennus = kp()->kohdennukset()->kohdennus( kysely.value("kohdennus").toInt() );
                 rivi.lisaa( kohdennus.nimi() );
@@ -277,7 +277,7 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
         // Lopuksi vielä kaikki yhteensä -summarivi
         kirjoittaja.lisaaRivi();
         RaporttiRivi summarivi(RaporttiRivi::EICSV);
-        summarivi.lisaa("Yhteensä", 4 + ( tulostakohdennukset ? 4 : 0 ) );
+        summarivi.lisaa("Yhteensä", 4 + ( tulostakohdennukset ? 1 : 0 ) );
         summarivi.lisaa(debetKaikki);
         summarivi.lisaa(kreditKaikki);
         summarivi.viivaYlle();

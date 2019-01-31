@@ -143,7 +143,7 @@ Tase laaditaan kirjanpitoasetuksen kaavan mukaisesti. Pienet yhtiöt saavat laat
     Kirjanpitolain viimeisin merkittävä muutos on vuodelta 2016, ja laki muuttuu varmasti myös jatkossa. Vaikka vanhoissa kirjoissa osa yksityiskohdista on jo vanhentunut, ovat kaksinkertaisen kirjanpidon perusteet pysyneet toki samoina.
 
 - Kaupallisen alan oppikirjat
-- Antti-Juhani Kaijanahon erinomainen <a href="http://antti-juhani.kaijanaho.fi/newblog/archives/788" target="_blank">blogikirjoitus pienen yhdistyksen kirjanpidosta ja tilinpäätöksestä</a>
+- Antti-Juhani Kaijanahon erinomainen <a href="hhttps://yhdistysneuvoja.fi/artikkelit/yhdistyskirjanpito" target="_blank">opas pienen yhdistyksen kirjanpidosta ja tilinpäätöksestä</a>
 - <a href="tilintarkastus.fi" target="_blank">Tilintarkastus.fi</a> sisältää malleja erilaisten yhteisöjen tilinpäätöksistä
 - Taloushallintoliiton <a href="https://taloushallintoliitto.fi/kirjanpidon-abc" target="_blank">Kirjanpidon ABC</a>
 - Tilisanomien <a href="http://tilisanomat.fi/artikkeli/kirjanpitokoulu-osa-1-tilinpaatoksen-laatiminen" target="_blank">Kirjanpitokoulu</a>
