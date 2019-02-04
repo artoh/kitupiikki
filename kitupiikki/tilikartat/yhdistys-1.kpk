@@ -4,7 +4,7 @@ Yhdistys
 [TilikarttaTekija]
 kitupiikki.info
 [TilikarttaPvm]
-2018-08-01
+2019-02-01
 [TilikarttaKuvaus]
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 <html><head><meta name="qrichtext" content="1" /><style type="text/css">
@@ -275,7 +275,7 @@ D 4761 {} Ateriakorvaukset
 D 4791 {} Muut matkakulut
 H4 48 {} Annetut avustukset
 D 4800 {} Annetut avustukset
-H4 49 {} Hallintokulut
+H4 49 {"Asti": 4998} Hallintokulut
 D 4911 {} Puhelinkulut
 D 4913 {} Datasiirtokulut
 D 4915 {} Postikulut
@@ -291,6 +291,7 @@ D 4986 {} Tilintarkastuspalvelut
 D 4987 {} Laki- ja konsultointipalvelut
 D 4989 {} Muut hallintopalvelut
 D 4991 {} Muut hallintokulut
+D 4999 {} Muut varsinaiset toiminnan menot
 H3 5 {} Henkilöstökulut
 H4 50 {} Palkat ja palkkiot
 D 5000 {} Palkat
@@ -382,6 +383,7 @@ D 9590 {} Muut tilinpäätössiirrot
 [tositelajit]
 OL {"Kirjaustyyppi":1,"Oletustili":4000,"Vastatili":2960} Ostolaskut
 ML {"Kirjaustyyppi":2,"Oletustili":3000,"Vastatili":1700} Myyntilaskut
+K {"Kirjaustyyppi":3,"Vastatili":1900} Käteistositteet
 TILI {"Kirjaustyyppi":3,"Vastatili":1910} Tiliotteet
 [TilinpaatosPohja]
 ## Raportit
@@ -835,12 +837,7 @@ Tulos yhteensä   	3..9 viiva
 +3700
 +3800
 +3900
-+4000
-+4100
-+4200
-+4310
-+4580
-+4991
++4999
 +6002
 +7300
 +7310
