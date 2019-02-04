@@ -302,7 +302,7 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto, bool ilmoitaVirheesta)
         }
         // Tietokanta päivitetään suorittamalla update-komennot
         // nykyiseen tietokantaversioon saakka
-        // Esitiedostoversioita 1-2 tuetaan VAIN versioon 0.12 saakka !
+        // Esitiedostoversioita 1-2 tuetaan VAIN versioon 0.12 saakka ! (Hupsis, näitä tuetaan yhä edelleen...)
 
         // for(int i = asetusModel_->luku("KpVersio") + 1; i <= TIETOKANTAVERSIO; i++)
         //     paivita( i );
@@ -397,6 +397,18 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto, bool ilmoitaVirheesta)
     }
     // Lukitaan tietokanta
     asetusModel_->aseta("Avattu", QDateTime::currentDateTime().toString(Qt::ISODate));
+
+    // #342 Puuttuva merkkaustaulu
+    // Bugi ilmenee, jos ennen versiota 0.11 luotu tietokanta on muunnettu ennen versiota 1.3.2
+    tietokanta()->exec("CREATE TABLE IF NOT EXISTS merkkaus ("
+                       "id              INTEGER PRIMARY KEY AUTOINCREMENT,"
+                       "vienti          INTEGER NOT NULL"
+                       "                        REFERENCES vienti(id)  ON DELETE CASCADE"
+                       "                                               ON UPDATE CASCADE,"
+                       "kohdennus       INTEGER NOT NULL"
+                       "                        REFERENCES kohdennus(id) ON DELETE CASCADE"
+                       "                                                 ON UPDATE CASCADE"
+                   ");");
 
     tositelajiModel_->lataa();
     tiliModel_->lataa();
