@@ -378,11 +378,18 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
         }
         else
         {
-            laskelmaMista = loppupvm.addYears(-1);
+            laskelmaMista = loppupvm.addYears(-1).addDays(1);
             if( kp()->tilikaudet()->kirjanpitoAlkaa().daysTo( laskelmaMista ) < 0 )
                 laskelmaMista = kp()->tilikaudet()->kirjanpitoAlkaa();
         }
-        qlonglong kuukausiaLaskelmassa = laskelmaMista.daysTo(loppupvm) / 30;
+        // Lasketaan täydet kalenterikuukaudet
+        qlonglong kuukausiaLaskelmassa = 0;
+        if( laskelmaMista.day()==1)
+            kuukausiaLaskelmassa++;
+        if( loppupvm.day() == loppupvm.daysInMonth())
+            kuukausiaLaskelmassa++;
+        for(QDate laskupaiva = laskelmaMista.addMonths(1); laskupaiva < loppupvm.addMonths(-1); laskupaiva = laskupaiva.addMonths(1))
+            kuukausiaLaskelmassa++;
 
         MarginaaliLaskelma marginaalithl(laskelmaMista,loppupvm);
 
