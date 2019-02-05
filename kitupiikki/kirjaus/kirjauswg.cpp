@@ -863,7 +863,6 @@ void KirjausWg::tiedotModelista()
     ui->kommentitEdit->setPlainText( model_->kommentti());
     ui->tunnisteEdit->setText( QString::number(model_->tunniste()));
     ui->selvittelyNappi->setEnabled( model()->id() );
-    qDebug() << model_->tositelaji().id();
 
     int tositelaji = model_->tositelaji().id();
     if( tositelaji)

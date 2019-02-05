@@ -136,7 +136,7 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
         {
             ui->valintaTab->setCurrentIndex(MENO);
             ui->valintaTab->setTabEnabled(TULO, false);
-            ui->valintaTab->setTabEnabled(SIIRTO,false);
+            // ui->valintaTab->setTabEnabled(SIIRTO,false);
             ui->vastaCheck->setVisible( model->vientiModel()->debetSumma() != model->vientiModel()->kreditSumma() );
             ui->vastaCheck->setChecked( model->vientiModel()->debetSumma() != model->vientiModel()->kreditSumma() );
             if( model->vientiModel()->debetSumma() != model->vientiModel()->kreditSumma() )
@@ -149,7 +149,7 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
         {
             ui->valintaTab->setCurrentIndex(TULO);
             ui->valintaTab->setTabEnabled(MENO, false);
-            ui->valintaTab->setTabEnabled(SIIRTO, false);
+            // ui->valintaTab->setTabEnabled(SIIRTO, false);
         }
 
         // Jos tositelajille on määritelty oletusvastatili, esitäytetään sekin
@@ -212,7 +212,7 @@ void KirjausApuriDialog::tiliTaytetty()
         // Tilityyppi määrää, mitkä välilehdet mahdollisia!
         ui->valintaTab->setTabEnabled(MENO, tili.onko(TiliLaji::MENO) || tili.onko(TiliLaji::POISTETTAVA));
         ui->valintaTab->setTabEnabled(TULO, tili.onko(TiliLaji::TULO) || tili.onko(TiliLaji::POISTETTAVA));
-        ui->valintaTab->setTabEnabled(SIIRTO, tili.onko(TiliLaji::TASE) );
+        // ui->valintaTab->setTabEnabled(SIIRTO, tili.onko(TiliLaji::TASE) );
 
         // Verotuksen oletuskäsittely
         if( kp()->asetukset()->onko("AlvVelvollinen"))

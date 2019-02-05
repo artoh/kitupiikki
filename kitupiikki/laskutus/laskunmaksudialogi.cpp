@@ -145,7 +145,6 @@ void LaskunMaksuDialogi::kirjaa()
         kwg->model()->asetaPvm( ui->pvmEdit->date() );
 
         kwg->model()->asetaTositelaji( kp()->asetukset()->luku("LaskuTositelaji") );
-        qDebug() << "t:" << kwg->model()->tositelaji().id();
 
         for(int i=0; i < kwg->model()->vientiModel()->rowCount(QModelIndex()); i++ )
         {
