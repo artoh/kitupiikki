@@ -300,12 +300,9 @@ D 5002 {} Lisät ja korvaukset
 D 5003 {} Palkkiot
 D 5004 {} Loma-ajan ja sosiaalipalkat
 D 5005 {} Luontoisedut
-D 5010 {} Johdon palkat ja palkkiot
-D 5015 {} Johdon luontoisedut
 D 5040 {} Luontoisetujen vastatili
 H4 51 {} Henkilöstösivukulut
 D 5100 {} Eläkevakuutusmaksut
-D 5111 {} Työntekijöiltä perityt eläkevakuutusmaksut
 D 5113 {} Vapaaehtoiset eläkevakuutusmaksut
 D 5120 {} Sosiaaliturvamaksut
 D 5121 {} Pakolliset vakuutusmaksut
@@ -331,7 +328,6 @@ D- 70502 {} Elinkeinotoiminnan lisät ja korvaukset
 D- 70503 {} Elinkeinotoiminnan palkkiot
 D- 70504 {} Elinkeinotoiminnan loma-ajan ja sosiaalipalkat
 D- 70510 {} Elinkeinotoiminnan eläkevakuutusmaksut
-D- 70511 {} Elinkeinotoiminnan työntekijöiltä perityt eläkevakuutusmaksut
 D- 70513 {} Elinkeinotoiminnan vapaaehtoiset eläkevakuutusmaksut
 D- 70520 {} Elinkeinotoiminnan sosiaaliturvamaksut
 D- 70521 {} Elinkeinotoiminnan pakolliset vakuutusmaksut
