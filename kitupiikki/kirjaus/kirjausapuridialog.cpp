@@ -188,11 +188,11 @@ void KirjausApuriDialog::tiliTaytetty()
             vastaTiliMuuttui();
         }
 
-        if( tili.onko(TiliLaji::MENO) )
+        if( tili.onko(TiliLaji::MENO) && ui->valintaTab->isTabEnabled(MENO))
         {
             ui->valintaTab->setCurrentIndex(MENO);
         }
-        else if( tili.onko(TiliLaji::TULO) )
+        else if( tili.onko(TiliLaji::TULO) && ui->valintaTab->isTabEnabled(TULO))
         {
             ui->valintaTab->setCurrentIndex(TULO);
         }
