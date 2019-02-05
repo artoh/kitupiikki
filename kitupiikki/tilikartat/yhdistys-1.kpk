@@ -383,7 +383,7 @@ D 9590 {} Muut tilinpäätössiirrot
 [tositelajit]
 OL {"Kirjaustyyppi":1,"Oletustili":4000,"Vastatili":2960} Ostolaskut
 ML {"Kirjaustyyppi":2,"Oletustili":3000,"Vastatili":1700} Myyntilaskut
-K {"Kirjaustyyppi":3,"Vastatili":1900} Käteistositteet
+K {"Vastatili":1900} Käteistositteet
 TILI {"Kirjaustyyppi":3,"Vastatili":1910} Tiliotteet
 [TilinpaatosPohja]
 ## Raportit
