@@ -434,7 +434,7 @@ void KirjausWg::kirjaaLaskunmaksu()
         laskuDlg_ = new LaskunMaksuDialogi(this);
 
     laskuDlg_->show();
-    connect( laskuDlg_, SIGNAL(finished(int)), this, SLOT(tiedotModelista()));
+    // connect( laskuDlg_, SIGNAL(finished(int)), this, SLOT(tiedotModelista()));
 
 }
 
@@ -863,14 +863,16 @@ void KirjausWg::tiedotModelista()
     ui->kommentitEdit->setPlainText( model_->kommentti());
     ui->tunnisteEdit->setText( QString::number(model_->tunniste()));
     ui->selvittelyNappi->setEnabled( model()->id() );
+    qDebug() << model_->tositelaji().id();
 
-    if( model_->tositelaji().id())
+    int tositelaji = model_->tositelaji().id();
+    if( tositelaji)
         tyyppiProxy_->setFilterRegExp("[1-9].*");
     else
         tyyppiProxy_->setFilterRegExp("0");
 
 
-    ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( model_->tositelaji().id(), TositelajiModel::IdRooli ) );
+    ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( tositelaji, TositelajiModel::IdRooli ) );
     ui->kausiLabel->setText(QString("/ %1").arg( kp()->tilikaudet()->tilikausiPaivalle(model_->pvm()).kausitunnus() ));
 
     // Tiliotetilin yhdistämiset!

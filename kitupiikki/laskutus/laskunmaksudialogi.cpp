@@ -29,6 +29,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QSettings>
+#include <QDebug>
 
 LaskunMaksuDialogi::LaskunMaksuDialogi(KirjausWg *kirjauswg) :
     QDialog(kirjauswg),
@@ -142,8 +143,9 @@ void LaskunMaksuDialogi::kirjaa()
             kwg->lataaTosite( tositeNro );
         }
         kwg->model()->asetaPvm( ui->pvmEdit->date() );
+
         kwg->model()->asetaTositelaji( kp()->asetukset()->luku("LaskuTositelaji") );
-        kwg->model()->asetaTunniste( kwg->model()->seuraavaTunnistenumero() );
+        qDebug() << "t:" << kwg->model()->tositelaji().id();
 
         for(int i=0; i < kwg->model()->vientiModel()->rowCount(QModelIndex()); i++ )
         {

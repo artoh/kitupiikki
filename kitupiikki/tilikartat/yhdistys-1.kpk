@@ -212,7 +212,7 @@ BS- 2975 {"Taseerittely":2} Velat omistusyhteysyrityksille; lyhytaikaiset
 H4 298 {} Muut velat
 BL- 2984 {} Arvonlisäverovelka
 BLM- 2985 {} Maksuperusteinen arvonlisäverovelka
-BV- 2986 {"Kirjausohje":"Tälle tilille siirretään maksettavat arvonlisäverot siinä vaiheessa, kun tehdään arvonlisäveroilmoitus."} Verovelka (Omavero-tili)
+BV 2986 {"Kirjausohje":"Tälle tilille siirretään maksettavat arvonlisäverot siinä vaiheessa, kun tehdään arvonlisäveroilmoitus. Tilille kirjataan myös ennakonpidätys, jota ei ole vielä tilitetty verottajalle."} Verovelka (Omavero-tili)
 BS 2989 {"Taseerittely":2} Muut velat
 H4 299 {} Siirtovelat
 BS 2990 {"Taseerittely":2} Siirtovelat
@@ -849,6 +849,7 @@ Tulos yhteensä   	3..9 viiva
 AlvVelvollinen=ON
 [MuotoOn/2 Ei palkkoja]
 -26/3
+-2986
 -5
 -75
 [MuotoOn/3 Tavallinen]
@@ -863,6 +864,7 @@ AlvVelvollinen=ON
 AlvVelvollinen=ON
 [MuotoPois/2 Ei palkkoja]
 +26/3
++2986
 +5
 +75
 [MuotoPois/5 Kaikki tilit]
