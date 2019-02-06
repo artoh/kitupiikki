@@ -494,12 +494,8 @@ Qt::ItemFlags VientiModel::flags(const QModelIndex &index) const
 
 bool VientiModel::insertRows(int row, int count, const QModelIndex & /* parent */)
 {
-    beginInsertRows( QModelIndex(), row, row + count - 1);
     for(int i=0; i < count; i++)
-        viennit_.insert(row, uusiRivi() );
-    endInsertRows();
-    emit muuttunut();
-
+        lisaaVienti( row + i );
     return true;
 }
 
@@ -523,8 +519,21 @@ QModelIndex VientiModel::lisaaVienti(int indeksi)
     // Kun lisätään uusi insertillä, yritetään arvata oikeat täytöt
 
     VientiRivi uusirivi;
-    uusirivi.pvm = tositeModel_->pvm();
-    uusirivi.selite = tositeModel_->otsikko();
+    if( !indeksi || viennit_.isEmpty())
+    {
+        uusirivi.pvm = tositeModel_->pvm();
+        uusirivi.selite = tositeModel_->otsikko();
+    }
+    else if( indeksi < 0 )
+    {
+        uusirivi.pvm = viennit_.last().pvm;
+        uusirivi.selite = viennit_.last().selite;
+    }
+    else
+    {
+        uusirivi.pvm = viennit_.at(indeksi-1).pvm;
+        uusirivi.selite = viennit_.at(indeksi-1).selite;
+    }
 
     if( debetSumma() == kreditSumma() )
     {
@@ -814,59 +823,4 @@ void VientiModel::lataa()
     muokattu_ = false;
     emit muuttunut();
 }
-
-
-
-VientiRivi VientiModel::uusiRivi()
-{
-    VientiRivi uusirivi;
-
-    qlonglong debetit = debetSumma();
-    qlonglong kreditit = kreditSumma();
-
-    // Ensimmäiseen vientiin kopioidaan tositteen otsikko ja päivämäärä
-    if( !viennit_.count() )
-    {
-        // Uuden rivin pvm tositteen päivämäärästä
-        // Jos tositetyypille on määrätty oletustili, otetaan se käyttöön
-        uusirivi.pvm = tositeModel_->pvm();
-        uusirivi.selite = tositeModel_->otsikko();
-
-        if( tositeModel_->tositelaji().json()->luku("Oletustili") )
-            uusirivi.tili = kp()->tilit()->tiliNumerolla(  tositeModel_->tositelaji().json()->luku("Oletustili") );
-    }
-    else
-    {
-        // Päivämäärä edellisestä kirjauksesta
-        uusirivi.pvm = viennit_.last().pvm;
-
-        // Jos kirjaukset eivät täsmää, tarvitaan vastatiliä jolle lasketaan jo vastatilisummaa
-        if( kreditit >= 0 && debetit >= 0 && kreditit != debetit && viennit_.count())
-        {
-            if( kreditit > debetit)
-                uusirivi.debetSnt = kreditit - debetit;
-            else
-                uusirivi.kreditSnt = debetit - kreditit;
-
-            uusirivi.selite = viennit_.last().selite;
-
-            // Arvataan edellisen tilin vastatiliä tai tositelajin vastatiliä
-            Tili edellinen = viennit_.last().tili;
-            if( edellinen.json()->luku("Vastatili"))
-            {
-                uusirivi.tili = kp()->tilit()->tiliNumerolla( edellinen.json()->luku("Vastatili") );
-            }
-            else if( tositeModel_->tositelaji().json()->luku("Vastatili"))
-            {
-                uusirivi.tili = kp()->tilit()->tiliNumerolla(  tositeModel_->tositelaji().json()->luku("Vastatili") );
-            }
-        }
-    }
-
-    return uusirivi;
-}
-
-
-
-
 

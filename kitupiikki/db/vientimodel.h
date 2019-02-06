@@ -174,7 +174,6 @@ protected:
     TositeModel *tositeModel_;
     QList<VientiRivi> viennit_;
 
-    VientiRivi uusiRivi();
     bool muokattu_;
 
     QList<int> poistetutVientiIdt_;
