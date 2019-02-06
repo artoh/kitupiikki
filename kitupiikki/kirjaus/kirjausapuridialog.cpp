@@ -113,7 +113,19 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     QDate pvm = model->pvm();
     ui->pvmDate->setDate( pvm );
     ui->pvmDate->setDateRange( kp()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );
-    ui->seliteEdit->setText( model->otsikko());
+
+    // #345 Haetaan oletusselite
+    // Ei kuitenkaan tiliotteelle
+    if( !model->tiliotetili())
+    {
+        if( model->vientiModel()->rowCount( QModelIndex() ))
+        {
+            ui->seliteEdit->setText( model->vientiModel()->index( model->vientiModel()->rowCount( QModelIndex() ) - 1, VientiModel::SELITE ).data().toString()  );
+        }
+        ui->seliteEdit->setText( model->otsikko());
+    }
+
+
     ui->erapvmEdit->setDate( pvm.addDays(14));
 
     connect( ui->ibanEdit, SIGNAL(textChanged(QString)), this, SLOT(tiliTarkastus(QString)));
