@@ -295,7 +295,7 @@ void PdfTuonti::tuoPdfTiliote()
     // Sitten tuodaan tiliotteen tiedot
     // Jos Kirjauspäivä xx.xx.xx -kenttiä, niin haetaan kirjauspäivät niistä
 
-    QRegularExpression kirjausPvmRe("\\bKirjauspäivä\\W+(?<p>\\d{1,2})\\.(?<k>\\d{1,2})\\.(?<v>(\\d{2})?(\\d{2})?)");
+    QRegularExpression kirjausPvmRe("\\b(Kirjauspäivä|Entry date)\\W+(?<p>\\d{1,2})\\.(?<k>\\d{1,2})\\.(?<v>(\\d{2})?(\\d{2})?)");
     kirjausPvmRe.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
 
     tuoTiliTapahtumat( kokoteksti.contains( kirjausPvmRe) , mihin.year());
@@ -306,11 +306,11 @@ void PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuosiluku = 
 {
     QMapIterator<int,QString> iter(tekstit_);
 
-    QRegularExpression kirjausPvmRe("\\bKirjauspäivä\\W+(?<p>\\d{1,2})\\.(?<k>\\d{1,2})\\.(?<v>(\\d{2})?(\\d{2})?)");
+    QRegularExpression kirjausPvmRe("\\b(Kirjauspäivä|Entry date)\\W+(?<p>\\d{1,2})\\.(?<k>\\d{1,2})\\.(?<v>(\\d{2})?(\\d{2})?)");
     kirjausPvmRe.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
 
     QRegularExpression rahaRe("(?<etu>[+-])?(?<eur>(\\d+[ .])*\\d+),(?<snt>\\d{2})(?<taka>[+-])?");
-    QRegularExpression viiteRe("(Viite\\w*\\W*|\\b)(?<viite>(RF\\d{2}\\d{4,20}|\\d{4,20}))");
+    QRegularExpression viiteRe("((Viite|Reference)\\w*\\W*|\\b)(?<viite>(RF\\d{2}\\d{4,20}|\\d{4,20}))");
     QRegularExpression arkistoRe("\\b([A-Za-z0-9]+\\s?)*\\b");
     QRegularExpression seliteRe("\\b[A-ö& ]{8,}\\b");
     QRegularExpression pvmRe("(?<p>\\d{1,2})\\.(?<k>\\d{1,2})\\.(?<v>\\d{2}\\d{2}?)");
@@ -389,7 +389,7 @@ void PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuosiluku = 
 
         if( !taulussa )
         {
-            if( teksti.contains("arkistointitunnus", Qt::CaseInsensitive))
+            if( teksti.contains("arkistointitunnus", Qt::CaseInsensitive) || teksti.contains("Filings code", Qt::CaseInsensitive))
             {
                 // Arkistointitunnus-otsake tunnistetaan ja siirrytään tauluun
                 arkistosarake = sarake;
@@ -494,6 +494,7 @@ void PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuosiluku = 
                     !ehdokas.contains("BIC") &&
                     !ehdokas.contains("ARKISTOINTITUNNUS", Qt::CaseInsensitive) &&
                     !ehdokas.contains("TILINUMERO", Qt::CaseInsensitive) &&
+                    !ehdokas.contains("Payment", Qt::CaseInsensitive) &&
                      ehdokas.length() > 8)
                     riviSelite = ehdokas;
             }
