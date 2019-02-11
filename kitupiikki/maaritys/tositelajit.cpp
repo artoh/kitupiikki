@@ -40,6 +40,8 @@ Tositelajit::Tositelajit(QWidget *parent) : MaaritysWidget(parent)
 
     connect( ui->view, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(muokkaa()));
 
+    connect( ui->sarjaanCheck, &QCheckBox::clicked, [this] {emit this->tallennaKaytossa(this->onkoMuokattu());});
+
 }
 
 Tositelajit::~Tositelajit()
@@ -74,8 +76,7 @@ void Tositelajit::riviValittu(const QModelIndex &index)
     ui->muokkaaNappi->setEnabled( index.isValid() );
     ui->poistaNappi->setEnabled( index.isValid() &&
                                  index.data(TositelajiModel::IdRooli).toInt() > 1 &&
-                                 index.data(TositelajiModel::TositeMaaraRooli).toInt() == 0);
-
+                                 index.data(TositelajiModel::TositeMaaraRooli).toInt() == 0);    
 }
 
 bool Tositelajit::tallenna()
@@ -84,6 +85,8 @@ bool Tositelajit::tallenna()
     model->tallenna();
     // Lataa kirjanpidon modelin
     kp()->tositelajit()->lataa();
+
+    kp()->asetukset()->aseta("Samaansarjaan", ui->sarjaanCheck->isChecked());
     return true;
 }
 
@@ -95,11 +98,12 @@ bool Tositelajit::nollaa()
     ui->view->setColumnWidth(TositelajiModel::NIMI, ui->view->width() / 2);
 
     proxy->sort(0);
+    ui->sarjaanCheck->setChecked( kp()->asetukset()->onko("Samaansarjaan") );
 
     return true;
 }
 
 bool Tositelajit::onkoMuokattu()
 {
-    return model->onkoMuokattu();
+    return model->onkoMuokattu() || ui->sarjaanCheck->isChecked() != kp()->asetukset()->onko("Samaansarjaan");
 }

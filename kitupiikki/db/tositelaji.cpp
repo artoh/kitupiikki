@@ -77,11 +77,14 @@ int Tositelaji::seuraavanTunnistenumero(const QDate pvm) const
 
     Tilikausi kausi = kp()->tilikausiPaivalle( pvm );
     QString kysymys = QString("SELECT max(tunniste) FROM tosite WHERE "
-                    " pvm BETWEEN \"%1\" AND \"%2\" "
-                    " AND laji=\"%3\" ")
+                    " pvm BETWEEN \"%1\" AND \"%2\" ")
                                 .arg(kausi.alkaa().toString(Qt::ISODate))
-                                .arg(kausi.paattyy().toString(Qt::ISODate))
-                                .arg( id() );
+                                .arg(kausi.paattyy().toString(Qt::ISODate));
+
+    // #323 Tositenumerointi määriteltävissä yhteen sarjaan
+    if(  !kp()->asetukset()->onko("Samaansarjaan")  )
+        kysymys.append( QString(" AND laji=%1").arg( id()));
+
 
     QSqlQuery kysely;
     kysely.exec(kysymys);
