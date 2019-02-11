@@ -26,6 +26,10 @@ InboxMaaritys::InboxMaaritys() :
     ui_->setupUi(this);
     rekisteroi( ui_->kansioEdit, "KirjattavienKansio" );
     connect( ui_->valitseNappi, &QPushButton::clicked, this, &InboxMaaritys::valitseKansio );
+    rekisteroi( ui_->kopioEdit, "KirjattavienSiirtokansio");
+    connect( ui_->kopioNappi, &QPushButton::clicked, this, &InboxMaaritys::valitseKopioKansio);
+    rekisteroi( ui_->kopioRadio, "KirjattavienKansioSiirto");
+
 }
 
 InboxMaaritys::~InboxMaaritys()
@@ -40,10 +44,33 @@ bool InboxMaaritys::tallenna()
     return true;
 }
 
+bool InboxMaaritys::nollaa()
+{
+    ui_->poistaRadio->setChecked( !kp()->asetukset()->onko("KirjattavienKansioSiirto") );
+    ui_->kopioRadio->setEnabled(!kp()->asetukset()->asetus("KirjattavienKansio").isEmpty() );
+    return TallentavaMaaritysWidget::nollaa();
+}
+
 void InboxMaaritys::valitseKansio()
 {
     QString kansio = QFileDialog::getExistingDirectory(this, tr("Valitse kirjattavien tositteiden kansio"),
                                                        QDir::homePath());
     if( !kansio.isEmpty())
         ui_->kansioEdit->setText(kansio);
+}
+
+void InboxMaaritys::valitseKopioKansio()
+{
+    QString kansio = QFileDialog::getExistingDirectory(this, tr("Valitse kansio, jonne kirjatut siirretään"),
+                                                       QDir::homePath());
+    if( !kansio.isEmpty())
+    {
+        ui_->kopioEdit->setText(kansio);
+        ui_->kopioRadio->setEnabled(true);
+        ui_->kopioRadio->setChecked(true);
+    }
+    else {
+        ui_->kopioRadio->setEnabled(false);
+        ui_->poistaRadio->setChecked(true);
+    }
 }

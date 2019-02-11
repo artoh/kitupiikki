@@ -33,11 +33,13 @@ public:
     ~InboxMaaritys() override;
 
     bool tallenna() override;
+    bool nollaa() override;
 
     QString ohjesivu() override { return "maaritykset/inbox"; }
 
 public slots:
     void valitseKansio();
+    void valitseKopioKansio();
 
 private:
     Ui::InboxMaaritys *ui_;

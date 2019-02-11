@@ -19,6 +19,7 @@
 
 #include <QLineEdit>
 #include <QCheckBox>
+#include <QRadioButton>
 
 TallentavaMaaritysWidget::TallentavaMaaritysWidget(QWidget *parent)
     : MaaritysWidget (parent)
@@ -43,6 +44,12 @@ bool TallentavaMaaritysWidget::nollaa()
             box->setChecked( kp()->asetukset()->onko(asetustunnus));
             continue;
         }
+        QRadioButton *radio = qobject_cast<QRadioButton*>(widget);
+        if( radio )
+        {
+            radio->setChecked( kp()->asetukset()->onko(asetustunnus) );
+            continue;
+        }
     }
     return true;
 }
@@ -61,7 +68,18 @@ bool TallentavaMaaritysWidget::tallenna()
 
         QCheckBox *box = qobject_cast<QCheckBox*>(widget);
         if( box )
+        {
             kp()->asetukset()->aseta(asetustunnus, box->isChecked());
+            continue;
+        }
+
+        QRadioButton *radio = qobject_cast<QRadioButton*>( widget );
+        if( radio )
+        {
+            kp()->asetukset()->aseta(asetustunnus, radio->isChecked());
+            continue;
+        }
+
     }
     return true;
 }
@@ -80,6 +98,11 @@ bool TallentavaMaaritysWidget::onkoMuokattu()
         if( box )
             if( kp()->asetukset()->onko(asetustunnus) != box->isChecked())
                 return true;
+
+        QRadioButton *radio = qobject_cast<QRadioButton*>(widget);
+        if( radio )
+          if( kp()->asetukset()->onko(asetustunnus) != radio->isChecked())
+              return true;
 
     }
     return false;
@@ -102,5 +125,9 @@ void TallentavaMaaritysWidget::rekisteroi(QWidget *widget, const QString &asetus
     QCheckBox *box = qobject_cast<QCheckBox*>(widget);
     if( box )
         connect(box, &QCheckBox::stateChanged, this, &TallentavaMaaritysWidget::ilmoitaMuokattu);
+
+    QRadioButton *radio = qobject_cast<QRadioButton*>(widget);
+    if( radio )
+        connect(radio, &QRadioButton::toggled, this, &TallentavaMaaritysWidget::ilmoitaMuokattu);
 
 }

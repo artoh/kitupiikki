@@ -368,7 +368,17 @@ bool LiiteModel::tallenna()
                 liitteet_[i].id = kysely.lastInsertId().toInt();
 
                 if( !inboxPolku.isEmpty() && liitteet_.at(i).lisattyPolusta.startsWith( inboxPolku ) )
-                    QFile::remove( liitteet_.at(i).lisattyPolusta );
+                {
+                    if( kp()->asetukset()->onko("KirjattavienKansioSiirto") )
+                    {
+                        QFileInfo info(liitteet_.at(i).lisattyPolusta);
+                        QDir kohde( kp()->asetukset()->asetus("KirjattavienSiirtokansio")  );
+                        if( QFile::copy( info.absoluteFilePath() , kohde.absoluteFilePath( info.fileName() )  ) )
+                            QFile::remove(info.absoluteFilePath());
+                    }
+                    else
+                        QFile::remove( liitteet_.at(i).lisattyPolusta );
+                }
 
             }
             else
