@@ -72,12 +72,18 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
 
     // Haetaan tilit, joissa kirjauksia
     QSqlQuery kysely;
-    QList<int> tiliIdt;
+    QSet<int> tiliSet;
 
     kysely.exec( QString("select DISTINCT tili.id from tili,vienti where vienti.tili=tili.id and tili.ysiluku < 300000000 "
                          "and pvm <= '%1' order by tili.ysiluku").arg(mihin.toString(Qt::ISODate)) );
     while(kysely.next() )
-        tiliIdt.append( kysely.value(0).toInt());
+        tiliSet.insert( kysely.value(0).toInt());
+
+    tiliSet.insert( kp()->tilit()->tiliTyypilla(TiliLaji::KAUDENTULOS).id() );
+    tiliSet.insert( kp()->tilit()->tiliTyypilla(TiliLaji::EDELLISTENTULOS).id());
+
+    QList<int> tiliIdt = tiliSet.toList();
+    qSort( tiliIdt );
 
     long edYsiluku = 0;
 
