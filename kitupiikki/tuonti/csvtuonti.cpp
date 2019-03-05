@@ -623,6 +623,8 @@ int CsvTuonti::tuoListaan(const QByteArray &data)
     QRegularExpression rahaRe("^[+-]?\\d+[.,]?\\d{0,2}$");
     QRegularExpression lukuTekstiRe("^\\d+\\s.*");
     QRegularExpression lukuRe("^[+-]?\\d+$");
+    QRegularExpression valiRe("\\s");
+    valiRe.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);
 
 
     // Muototauluun luetaan datasarakkeiden muoto
@@ -637,7 +639,7 @@ int CsvTuonti::tuoListaan(const QByteArray &data)
         {
             const QString& teksti = rivi.at(i);
             QString valeitta = teksti;
-            valeitta.remove(QRegularExpression("\\s"));
+            valeitta.remove(valiRe);
 
             Sarakemuoto muoto = TEKSTI;
 
@@ -659,7 +661,7 @@ int CsvTuonti::tuoListaan(const QByteArray &data)
                 muoto = VIITE;
             else if( teksti.contains(lukuRe))
                 muoto = LUKU;
-            else if( teksti.contains(rahaRe))
+            else if( valeitta.contains(rahaRe))
                 muoto = RAHA;
             else if( teksti.contains(lukuTekstiRe))
                 muoto = LUKUTEKSTI;
