@@ -276,6 +276,9 @@ void KirjausWg::tallenna()
     // Varoitus, jos kirjataan verollisia alv-ilmoituksen antamisen jälkeen
     bool alvvaro = false;
 
+    qlonglong laskennallinenvero = 0l;
+    qlonglong maksettavavero = 0l;
+
     for(int i=0; i < model()->vientiModel()->rowCount(QModelIndex()); i++)
     {
         QModelIndex indeksi = model()->vientiModel()->index(i,0);
@@ -299,6 +302,12 @@ void KirjausWg::tallenna()
             }
         }
 
+        // #347 (osittain): Tarkistaa nettomyyntikirjausten pätevyyden
+        if( indeksi.data(VientiModel::AlvKoodiRooli).toInt() == AlvKoodi::MYYNNIT_NETTO )
+            laskennallinenvero += indeksi.data(VientiModel::AlvProsenttiRooli).toInt() * indeksi.data(VientiModel::KreditRooli).toLongLong() / 100;
+        if( indeksi.data(VientiModel::AlvKoodiRooli).toInt() == AlvKoodi::MYYNNIT_NETTO + AlvKoodi::ALVKIRJAUS)
+            maksettavavero += indeksi.data(VientiModel::KreditRooli).toLongLong();
+
 
         // #62: Estetään kirjaukset lukitulle tilikaudelle
         if( indeksi.data(VientiModel::PvmRooli).toDate() <= kp()->tilitpaatetty() &&
@@ -321,6 +330,16 @@ void KirjausWg::tallenna()
               "poistaa sen jälkeen kuin 6§ tarkoitettu (kirjanpidosta viranomaisille verotusta "
               "tai muuta tarkoitusta varten määräajassa tehtävä) ilmoitus on tehty.\n\n"
               "Tallennetaanko tosite silti?").arg( kp()->asetukset()->pvm("AlvIlmoitus").toString("dd.MM.yyyy") ),
+            QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) != QMessageBox::Yes)
+            return;
+    }
+
+    // #347 Varoitus, jos nettoalv on virheellinen
+    if( qAbs(laskennallinenvero - maksettavavero) > model()->vientiModel()->rowCount(QModelIndex()) )
+    {
+        if( QMessageBox::critical(this, tr("Arvonlisäveron kirjaus virheellinen"),
+           tr("Maksettavan arvonlisäveron määrä ei täsmää veron perusteena olevan rahamäärän kanssa.\n\n"
+              "Tallennetaanko tosite silti?"),
             QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) != QMessageBox::Yes)
             return;
     }
