@@ -921,9 +921,11 @@ bool LaskuModel::tallenna(Tili rahatili)
     {
         return false;
     }
-
-    if( laskunro() > kp()->asetukset()->isoluku("LaskuSeuraavaId"))
-        kp()->asetukset()->aseta("LaskuSeuraavaId", laskunro() );
+    // Laskunumeroinnin korjaus ryhmälaskuja tallennettaessa #351
+    if( laskunro() == kp()->asetukset()->isoluku("LaskuSeuraavaId"))
+        kp()->asetukset()->aseta("LaskuSeuraavaId",  (laskunro() / 10 + 1) * 10 + laskeViiteTarkiste( laskunro() / 10 + 1));
+    else if( laskunro() > kp()->asetukset()->isoluku("LaskuSeuraavaId"))
+        kp()->asetukset()->aseta("LaskuSeuraavaId",  laskunro() );
 
     return true;
 }
