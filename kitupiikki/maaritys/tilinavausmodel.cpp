@@ -23,6 +23,8 @@
 #include <QDebug>
 #include <QPalette>
 
+#include <QMessageBox>
+
 TilinavausModel::TilinavausModel() :
     muokattu_(false)
 {
@@ -159,6 +161,28 @@ Qt::ItemFlags TilinavausModel::flags(const QModelIndex &index) const
 bool TilinavausModel::setData(const QModelIndex &index, const QVariant &value, int /* role */)
 {
     int tilinro = kp()->tilit()->tiliIndeksilla( index.row()).numero() ;
+
+    if(kp()->tilit()->tiliIndeksilla( index.row() ).onko(TiliLaji::ALVSAATAVA ) && !alvSaatavaVaroitus)
+    {
+        QMessageBox::critical(nullptr, tr("ALV-saatavien tili"),
+           tr("ALV-saatavien tili on tarkoitettu ainoastaan saataville, joista ei ole vielä "
+              "annettu alv-ilmoitusta. Jo ilmoitetun saatavan tulisi olla Verosaatavat-tilillä niin, "
+              "että tämä tili on tilikauden vaihtuessa ilman saldoa."));
+            alvSaatavaVaroitus = true;
+            return false;
+    }
+    if(kp()->tilit()->tiliIndeksilla( index.row() ).onko(TiliLaji::ALVVELKA ) && !alvVelkaVaroitus)
+    {
+        QMessageBox::critical(nullptr, tr("ALV-velkojen tili"),
+           tr("ALV-velkojen tili on tarkoitettu ainoastaan saataville, joista ei ole vielä "
+              "annettu alv-ilmoitusta. Jo ilmoitetun velan tulisi olla Verovelat-tilillä niin, "
+              "että tämä tili on tilikauden vaihtuessa ilman saldoa."));
+            alvVelkaVaroitus = true;
+            return false;
+    }
+
+
+
 
     if( value.toInt())
         saldot[tilinro] = value.toInt(); // Delegaatti käsittelee senttejä
