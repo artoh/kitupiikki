@@ -60,6 +60,7 @@
 #include "naytin/naytinikkuna.h"
 #include "ui_kopioitosite.h"
 
+#include "edellinenseuraavatieto.h"
 
 
 KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
@@ -168,6 +169,14 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     otsikonTaydentaja->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->otsikkoEdit->setCompleter(otsikonTaydentaja);
     connect( ui->otsikkoEdit, SIGNAL(textChanged(QString)), this, SLOT(paivitaOtsikonTaydennys(QString)));
+
+    edellinenSeuraava_ = new EdellinenSeuraavaTieto( model(), this );
+    connect( edellinenSeuraava_, &EdellinenSeuraavaTieto::edellinenOlemassa, ui->edellinenButton, &QPushButton::setEnabled );
+    connect( edellinenSeuraava_, &EdellinenSeuraavaTieto::seuraavaOlemassa, ui->seuraavaButton, &QPushButton::setEnabled );
+
+    connect( ui->edellinenButton, &QPushButton::clicked, [this] () { this->lataaTosite(this->edellinenSeuraava_->edellinenId()); });
+    connect( ui->seuraavaButton, &QPushButton::clicked, [this] () { this -> lataaTosite(this->edellinenSeuraava_->seuraavaId()); });
+
 }
 
 KirjausWg::~KirjausWg()
@@ -217,6 +226,7 @@ void KirjausWg::tyhjenna()
     ui->tunnisteEdit->setStyleSheet("color: black;");
     // Tyhjennetään ensin model
     model_->tyhjaa();
+    edellinenSeuraava_->paivita();
     // ja sitten päivitetään lomakkeen tiedot modelista
     tiedotModelista();
     // Ei voi tallentaa eikä poistaa kun ei ole mitään...
@@ -780,6 +790,7 @@ void KirjausWg::lataaTosite(int id)
     }
 
     paivitaLiiteNapit();
+    edellinenSeuraava_->paivita();
 
 }
 

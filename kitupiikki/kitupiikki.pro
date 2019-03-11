@@ -184,7 +184,8 @@ SOURCES += main.cpp \
     naytin/pdfview.cpp \
     naytin/eipdfnaytin.cpp \
     tuonti/tuontiapu.cpp \
-    kirjaus/viennitview.cpp
+    kirjaus/viennitview.cpp \
+    kirjaus/edellinenseuraavatieto.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -346,7 +347,8 @@ HEADERS += \
     naytin/pdfview.h \
     naytin/eipdfnaytin.h \
     tuonti/tuontiapu.h \
-    kirjaus/viennitview.h
+    kirjaus/viennitview.h \
+    kirjaus/edellinenseuraavatieto.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

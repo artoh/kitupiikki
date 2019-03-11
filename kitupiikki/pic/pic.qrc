@@ -149,6 +149,8 @@
         <file>kopioilasku.png</file>
         <file>bug.png</file>
         <file>123.png</file>
+        <file>edellinen.png</file>
+        <file>seuraava.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

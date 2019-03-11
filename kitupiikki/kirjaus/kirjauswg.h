@@ -33,6 +33,7 @@ class LaskunMaksuDialogi;
 class ApuriVinkki;
 class QAction;
 class QSqlQueryModel;
+class EdellinenSeuraavaTieto;
 
 /**
  * @brief Kirjausten muokkaus
@@ -167,7 +168,7 @@ public slots:
      */
     void paivitaOtsikonTaydennys(const QString& teksti);
 
-    void naytaSelvitys();
+    void naytaSelvitys();    
 
 
 public:
@@ -228,6 +229,8 @@ protected:
 
     QSqlQueryModel *taydennysSql_;
     QSortFilterProxyModel *tyyppiProxy_;
+
+    EdellinenSeuraavaTieto *edellinenSeuraava_;
 
 
 };
