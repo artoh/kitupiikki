@@ -61,6 +61,7 @@
 #include "ui_kopioitosite.h"
 
 #include "edellinenseuraavatieto.h"
+#include "verotarkastaja.h"
 
 
 KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
@@ -284,76 +285,8 @@ void KirjausWg::tallenna()
             return;
     }
 
-    // Varoitus, jos kirjataan verollisia alv-ilmoituksen antamisen jälkeen
-    bool alvvaro = false;
-
-    qlonglong laskennallinenvero = 0l;
-    qlonglong maksettavavero = 0l;
-
-    for(int i=0; i < model()->vientiModel()->rowCount(QModelIndex()); i++)
-    {
-        QModelIndex indeksi = model()->vientiModel()->index(i,0);
-        if(  indeksi.data(VientiModel::AlvKoodiRooli).toInt() > 0 &&
-             indeksi.data(VientiModel::PvmRooli).toDate().daysTo( kp()->asetukset()->pvm("AlvIlmoitus")) >= 0  )
-            alvvaro = true;
-
-        // Estetään alv-tileille kirjaaminen ilman alv-koodia
-        if( indeksi.data(VientiModel::AlvKoodiRooli).toInt() == 0)
-        {
-            Tili tili = kp()->tilit()->tiliNumerolla( indeksi.data(VientiModel::TiliNumeroRooli).toInt() );
-            if( tili.onko(TiliLaji::ALVSAATAVA) || tili.onko(TiliLaji::ALVVELKA))
-            {
-                QMessageBox::critical(this, tr("Arvonlisäverokoodi puuttuu"),
-                                      tr("Tilille %1 %2 on tehty kirjaus, jossa ei ole määritelty arvonlisäveron ohjaustietoja.\n\n"
-                                         "Arvonlisäveroon liittyvät kirjaukset on aina määriteltävä oikeilla verokoodeilla, "
-                                         "jotta kausiveroilmoitukseen saadaan oikeat tiedot.\n\n"
-                                         "Käyttämällä Kirjausapuria saat automaattisesti oikeat arvonlisäveron ohjaustiedot." )
-                                      .arg(tili.numero()).arg(tili.nimi()));
-                return;
-            }
-        }
-
-        // #347 (osittain): Tarkistaa nettomyyntikirjausten pätevyyden
-        if( indeksi.data(VientiModel::AlvKoodiRooli).toInt() == AlvKoodi::MYYNNIT_NETTO )
-            laskennallinenvero += indeksi.data(VientiModel::AlvProsenttiRooli).toInt() * indeksi.data(VientiModel::KreditRooli).toLongLong() / 100;
-        if( indeksi.data(VientiModel::AlvKoodiRooli).toInt() == AlvKoodi::MYYNNIT_NETTO + AlvKoodi::ALVKIRJAUS)
-            maksettavavero += indeksi.data(VientiModel::KreditRooli).toLongLong();
-
-
-        // #62: Estetään kirjaukset lukitulle tilikaudelle
-        if( indeksi.data(VientiModel::PvmRooli).toDate() <= kp()->tilitpaatetty() &&
-                indeksi.data(VientiModel::IdRooli).toInt() == 0)
-        {
-            QMessageBox::critical(this, tr("Ei voi kirjata lukitulle tilikaudelle"),
-                                  tr("Kirjaus %1 kohdistuu lukitulle tilikaudelle "
-                                     "(kirjanpito lukittu %2 saakka)." )
-                                  .arg( indeksi.data(VientiModel::PvmRooli).toDate().toString("dd.MM.yyyy"))
-                                  .arg( kp()->tilitpaatetty().toString("dd.MM.yyyy")), QMessageBox::Cancel);
-            return;
-        }
-    }
-    if( alvvaro )
-    {
-        if( QMessageBox::critical(this, tr("Arvonlisäveroilmoitus annettu"),
-           tr("Arvonlisäveroilmoitus on annettu %1 saakka.\n\n"
-              "Kirjanpitolaki 2. luku 7§ 2. mom:\n"
-              "Tositteen, kirjanpidon tai muun kirjanpitoaineiston sisältöä ei saa muuttaa eikä "
-              "poistaa sen jälkeen kuin 6§ tarkoitettu (kirjanpidosta viranomaisille verotusta "
-              "tai muuta tarkoitusta varten määräajassa tehtävä) ilmoitus on tehty.\n\n"
-              "Tallennetaanko tosite silti?").arg( kp()->asetukset()->pvm("AlvIlmoitus").toString("dd.MM.yyyy") ),
-            QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) != QMessageBox::Yes)
-            return;
-    }
-
-    // #347 Varoitus, jos nettoalv on virheellinen
-    if( qAbs(laskennallinenvero - maksettavavero) > model()->vientiModel()->rowCount(QModelIndex()) )
-    {
-        if( QMessageBox::critical(this, tr("Arvonlisäveron kirjaus virheellinen"),
-           tr("Maksettavan arvonlisäveron määrä ei täsmää veron perusteena olevan rahamäärän kanssa.\n\n"
-              "Tallennetaanko tosite silti?"),
-            QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) != QMessageBox::Yes)
-            return;
-    }
+    if( !Verotarkastaja::tarkasta( model()->vientiModel() ))
+        return;
 
     // Tallennus
 

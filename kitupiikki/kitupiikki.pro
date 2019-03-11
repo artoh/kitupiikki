@@ -186,7 +186,8 @@ SOURCES += main.cpp \
     tuonti/tuontiapu.cpp \
     kirjaus/viennitview.cpp \
     kirjaus/edellinenseuraavatieto.cpp \
-    uusikp/numerointisivu.cpp
+    uusikp/numerointisivu.cpp \
+    kirjaus/verotarkastaja.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -350,7 +351,8 @@ HEADERS += \
     tuonti/tuontiapu.h \
     kirjaus/viennitview.h \
     kirjaus/edellinenseuraavatieto.h \
-    uusikp/numerointisivu.h
+    uusikp/numerointisivu.h \
+    kirjaus/verotarkastaja.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
