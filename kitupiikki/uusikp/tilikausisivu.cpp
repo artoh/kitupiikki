@@ -62,7 +62,7 @@ int TilikausiSivu::nextId() const
     if( ktk.keys().contains("Kirjaamisperuste/Maksuperuste"))
         return UusiKirjanpito::KIRJAUSPERUSTESIVU;
     else
-        return UusiKirjanpito::SIJAINTISIVU;
+        return UusiKirjanpito::NUMEROINTISIVU;
 }
 
 bool TilikausiSivu::isComplete() const

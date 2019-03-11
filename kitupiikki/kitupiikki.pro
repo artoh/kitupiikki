@@ -185,7 +185,8 @@ SOURCES += main.cpp \
     naytin/eipdfnaytin.cpp \
     tuonti/tuontiapu.cpp \
     kirjaus/viennitview.cpp \
-    kirjaus/edellinenseuraavatieto.cpp
+    kirjaus/edellinenseuraavatieto.cpp \
+    uusikp/numerointisivu.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -348,7 +349,8 @@ HEADERS += \
     naytin/eipdfnaytin.h \
     tuonti/tuontiapu.h \
     kirjaus/viennitview.h \
-    kirjaus/edellinenseuraavatieto.h
+    kirjaus/edellinenseuraavatieto.h \
+    uusikp/numerointisivu.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -430,7 +432,8 @@ FORMS += \
     aloitussivu/muistiinpanot.ui \
     raportti/budjettivertailu.ui \
     alv/alvilmoitusdialog.ui \
-    alv/arvonlisavero.ui
+    alv/arvonlisavero.ui \
+    uusikp/numerointi.ui
 
 DISTFILES += \
     uusikp/luo.sql \

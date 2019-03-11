@@ -48,6 +48,7 @@
 #include "tilikausisivu.h"
 #include "sijaintisivu.h"
 #include "kirjausperustesivu.h"
+#include "numerointisivu.h"
 #include "loppusivu.h"
 
 #include "db/kirjanpito.h"
@@ -72,6 +73,7 @@ UusiKirjanpito::UusiKirjanpito() :
     setPage( NIMISIVU, new NimiSivu());
     setPage( TILIKAUSISIVU, new TilikausiSivu );
     setPage( KIRJAUSPERUSTESIVU, new KirjausperusteSivu );
+    setPage( NUMEROINTISIVU, new NumerointiSivu);
     setPage( SIJAINTISIVU, new SijaintiSivu );
     setPage( LOPPUSIVU, new LoppuSivu );
 
@@ -354,6 +356,9 @@ bool UusiKirjanpito::alustaKirjanpito()
         }        
         progDlg.setValue( progDlg.value() + 1 );
 
+        if( field("samaansarjaan").toBool())
+            asetukset.aseta("Samaansarjaan", true);
+
         // Yleisskripti
         Skripti::suorita( asetukset.lista("LuontiSkripti"), &asetukset, &tilit, &lajit);
 
@@ -369,7 +374,7 @@ bool UusiKirjanpito::alustaKirjanpito()
         else if( field("laskuperuste").toBool())
             Skripti::suorita( asetukset.lista("Kirjaamisperuste/Laskuperuste"), &asetukset, &tilit, &lajit );
         else if( field("maksuperuste").toBool())
-            Skripti::suorita( asetukset.lista("Kirjaamisperuste/Maksuperuste"), &asetukset, &tilit, &lajit );
+            Skripti::suorita( asetukset.lista("Kirjaamisperuste/Maksuperuste"), &asetukset, &tilit, &lajit );                
 
         progDlg.setValue( prosessiluku );
 
