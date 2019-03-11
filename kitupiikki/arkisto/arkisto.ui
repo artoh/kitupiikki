@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>966</width>
-    <height>306</height>
+    <width>1110</width>
+    <height>342</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -57,6 +57,20 @@
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/muokkaa.png</normaloff>:/pic/muokkaa.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="numeroiButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Numeroi uudelleen</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/123.png</normaloff>:/pic/123.png</iconset>
        </property>
       </widget>
      </item>

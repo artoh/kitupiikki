@@ -59,6 +59,7 @@ ArkistoSivu::ArkistoSivu()
     connect( ui->tilinpaatosNappi, SIGNAL(clicked(bool)), this, SLOT(tilinpaatos()));
     connect( ui->muokkaaNappi, SIGNAL(clicked(bool)), this, SLOT(muokkaa()));
     connect( ui->budjettiNappi, &QPushButton::clicked, this, &ArkistoSivu::budjetti);
+    connect( ui->numeroiButton, &QPushButton::clicked, this, &ArkistoSivu::uudellenNumerointi);
 
 }
 
@@ -283,12 +284,14 @@ void ArkistoSivu::nykyinenVaihtuuPaivitaNapit()
         // Muokata voidaan vain viimeistä tilikautta tai poistaa lukitus
         ui->muokkaaNappi->setEnabled( kausi.paattyy() == kp()->tilikaudet()->kirjanpitoLoppuu()  ||
                                      kp()->tilitpaatetty() >= kausi.alkaa() );
+        ui->numeroiButton->setEnabled( kausi.alkaa() > kp()->tilitpaatetty() );
     }
     else
     {
         ui->tilinpaatosNappi->setEnabled(false);
         ui->arkistoNappi->setEnabled(false);
         ui->muokkaaNappi->setEnabled(false);
+        ui->numeroiButton->setEnabled(false);
     }
 }
 
@@ -384,6 +387,74 @@ void ArkistoSivu::budjetti()
     dlg->setAttribute(Qt::WA_DeleteOnClose);
     dlg->show();
     dlg->lataa( ui->view->currentIndex().data(TilikausiModel::LyhenneRooli).toString() );
+}
+
+void ArkistoSivu::uudellenNumerointi()
+{
+    if( QMessageBox::question(this, tr("Tositteiden uudelleennumerointi"),
+                              tr("Toiminto numeroi kaikki tositteet uudelleen päivämäärän mukaiseen järjestykseen.\n"
+                                 "Kaikkien tositteiden numerointi muuttuu, ja paperisiin tositteisiin on merkittävä uudet numerot.\n\n"
+                                 "Oletko varma, että halut numeroida kaikki tositteet uudelleen?"),
+                              QMessageBox::Yes | QMessageBox::Cancel,
+                              QMessageBox::Cancel) != QMessageBox::Yes)
+        return;
+
+    Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla(ui->view->currentIndex().row() );
+
+    kp()->tietokanta()->transaction();
+
+    QSqlQuery kysely;
+    QSqlQuery paivitys;
+
+
+    paivitys.prepare("UPDATE Tosite SET tunniste=? WHERE id=?");
+
+    int uusinumero = 1;
+
+    if( kp()->asetukset()->onko("Samaansarjaan") )
+    {
+        kysely.exec( QString("SELECT id FROM tosite WHERE pvm BETWEEN '%1' and '%2' ORDER BY pvm")
+                     .arg( kausi.alkaa().toString(Qt::ISODate) ).arg( kausi.paattyy().toString(Qt::ISODate)) );
+        while( kysely.next() )
+        {
+            paivitys.bindValue(0, uusinumero);
+            paivitys.bindValue(1, kysely.value(0).toInt());
+            if( !paivitys.exec() )
+            {
+                kp()->tietokanta()->rollback();
+                return;
+            }
+            uusinumero++;
+        }
+    }
+    else
+    {
+        int laji = -1;
+
+        kysely.exec( QString("SELECT id, laji FROM tosite "
+                             "WHERE pvm BETWEEN '%1' AND '%2' "
+                             "ORDER BY laji, pvm")
+                     .arg( kausi.alkaa().toString(Qt::ISODate) ).arg( kausi.paattyy().toString(Qt::ISODate)) );
+        while( kysely.next() )
+        {
+            if( kysely.value(1).toInt() != laji)
+            {
+                laji = kysely.value(1).toInt();
+                uusinumero = 1;
+            }
+            paivitys.bindValue(0, uusinumero);
+            paivitys.bindValue(1, kysely.value(0).toInt());
+            if( !paivitys.exec() )
+            {
+                kp()->tietokanta()->rollback();
+                return;
+            }
+            uusinumero++;
+        }
+
+    }
+    kp()->tietokanta()->commit();
+
 }
 
 bool ArkistoSivu::teeZip(const Tilikausi &kausi)

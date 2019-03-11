@@ -58,6 +58,7 @@ public slots:
     void teeArkisto(Tilikausi kausi);
     void muokkaa();
     void budjetti();    
+    void uudellenNumerointi();
 
 private:
     Ui::TilikausiMaaritykset *ui;
