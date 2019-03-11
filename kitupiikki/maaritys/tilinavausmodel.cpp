@@ -167,7 +167,8 @@ bool TilinavausModel::setData(const QModelIndex &index, const QVariant &value, i
         QMessageBox::critical(nullptr, tr("ALV-saatavien tili"),
            tr("ALV-saatavien tili on tarkoitettu ainoastaan saataville, joista ei ole vielä "
               "annettu alv-ilmoitusta. Jo ilmoitetun saatavan tulisi olla Verosaatavat-tilillä niin, "
-              "että tämä tili on tilikauden vaihtuessa ilman saldoa."));
+              "että tämä tili on tilikauden vaihtuessa ilman saldoa.\n"
+              "Lue Kitupiikin ohjeet arvonlisäverosta."));
             alvSaatavaVaroitus = true;
             return false;
     }
@@ -176,7 +177,8 @@ bool TilinavausModel::setData(const QModelIndex &index, const QVariant &value, i
         QMessageBox::critical(nullptr, tr("ALV-velkojen tili"),
            tr("ALV-velkojen tili on tarkoitettu ainoastaan saataville, joista ei ole vielä "
               "annettu alv-ilmoitusta. Jo ilmoitetun velan tulisi olla Verovelat-tilillä niin, "
-              "että tämä tili on tilikauden vaihtuessa ilman saldoa."));
+              "että tämä tili on tilikauden vaihtuessa ilman saldoa.\n"
+              "Lue Kitupiikin ohjeet arvonlisäverosta."));
             alvVelkaVaroitus = true;
             return false;
     }

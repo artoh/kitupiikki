@@ -34,7 +34,7 @@ class KantaTilinvalintaLine : public QLineEdit
     Q_OBJECT
 
 public:
-    KantaTilinvalintaLine( QWidget *parent=0);
+    KantaTilinvalintaLine( QWidget *parent=nullptr);
 
     int valittuTilinumero() const;
     Tili valittuTili() const;
@@ -50,8 +50,12 @@ public slots:
 protected:
     QSortFilterProxyModel *proxyTyyppi_;
     QSortFilterProxyModel *proxyTila_;
-};
 
+    void paintEvent(QPaintEvent *event) override;
+    void mouseMoveEvent(QMouseEvent* event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+
+};
 
 /**
  * @brief QLineEditor, joka valitsee tilejä delegaatille
@@ -64,11 +68,11 @@ class TilinvalintaLineDelegaatille : public KantaTilinvalintaLine
 {
     Q_OBJECT
 public:
-    TilinvalintaLineDelegaatille(QWidget *parent = 0);
+    TilinvalintaLineDelegaatille(QWidget *parent = nullptr);
     QString tilinimiAlkaa() const { return alku_; }
 
 protected:
-    void keyPressEvent(QKeyEvent *event);
+    void keyPressEvent(QKeyEvent *event) override;
 
 
 protected:
@@ -83,13 +87,13 @@ class TilinvalintaLine : public KantaTilinvalintaLine
 {
     Q_OBJECT
 public:
-    TilinvalintaLine(QWidget *parent = 0);
+    TilinvalintaLine(QWidget *parent = nullptr);
 
 public slots:
     void asetaModel( TiliModel *model);
 
 protected:
-    void keyPressEvent(QKeyEvent *event);
+    void keyPressEvent(QKeyEvent *event) override;
     TiliModel *model_;
 };
 

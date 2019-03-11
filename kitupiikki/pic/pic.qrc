@@ -151,6 +151,7 @@
         <file>123.png</file>
         <file>edellinen.png</file>
         <file>seuraava.png</file>
+        <file>etsitili.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

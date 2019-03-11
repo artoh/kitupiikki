@@ -58,6 +58,10 @@
        <property name="text">
         <string>&amp;Suosikit</string>
        </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/tahti.png</normaloff>:/pic/tahti.png</iconset>
+       </property>
        <property name="checkable">
         <bool>true</bool>
        </property>
@@ -81,6 +85,10 @@
        <property name="text">
         <string>Valitse</string>
        </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/ok.png</normaloff>:/pic/ok.png</iconset>
+       </property>
        <property name="default">
         <bool>true</bool>
        </property>
@@ -90,6 +98,10 @@
       <widget class="QPushButton" name="peruNappi">
        <property name="text">
         <string>Peru</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/sulje.png</normaloff>:/pic/sulje.png</iconset>
        </property>
       </widget>
      </item>

@@ -22,6 +22,7 @@
 
 #include <QDebug>
 #include <QKeyEvent>
+#include <QPainter>
 
 KantaTilinvalintaLine::KantaTilinvalintaLine(QWidget *parent)
     : QLineEdit(parent)
@@ -83,6 +84,36 @@ void KantaTilinvalintaLine::valitseTili(const Tili& tili)
 void KantaTilinvalintaLine::suodataTyypilla(const QString &regexp)
 {
     proxyTyyppi_->setFilterRegExp(regexp);
+}
+
+void KantaTilinvalintaLine::paintEvent(QPaintEvent *event)
+{
+    QLineEdit::paintEvent(event);
+    QPainter painter(this);
+    painter.drawPixmap( width() - 20, height() / 2 - 8,  16, 16, QPixmap(":/pic/etsitili.png") );
+
+}
+
+void KantaTilinvalintaLine::mouseMoveEvent(QMouseEvent *event)
+{
+    if( event->pos().x() > width() - 22 )
+        setCursor( Qt::ArrowCursor );
+    else
+        setCursor( Qt::IBeamCursor);
+
+    QLineEdit::mouseMoveEvent( event);
+}
+
+void KantaTilinvalintaLine::mousePressEvent(QMouseEvent *event)
+{
+    if( event->pos().x() > width() - 22)
+    {
+        Tili valittu = TilinValintaDialogi::valitseTili( QString(), proxyTyyppi_->filterRegExp().pattern(), kp()->tilit() );
+        if( valittu.id())
+        {
+            valitseTili( valittu);
+        }
+    }
 }
 
 

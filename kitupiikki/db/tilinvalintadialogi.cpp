@@ -17,6 +17,7 @@
 */
 
 #include <QDebug>
+#include <QSettings>
 
 #include "tilinvalintadialogi.h"
 #include "ui_tilinvalintadialogi.h"
@@ -62,13 +63,14 @@ TilinValintaDialogi::TilinValintaDialogi(QWidget *parent) :
              this, SLOT(valintaMuuttui(QModelIndex)));
 
     ui->suodatusEdit->installEventFilter(this);
-
+    restoreGeometry( kp()->settings()->value("TilinValintaDlg").toByteArray());
 
 
 }
 
 TilinValintaDialogi::~TilinValintaDialogi()
 {
+    kp()->settings()->setValue("TilinValintaDlg", saveGeometry());
     delete ui;
 }
 

@@ -492,6 +492,12 @@
      </item>
      <item>
       <widget class="QLineEdit" name="tunnisteEdit">
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="placeholderText">
         <string/>
        </property>

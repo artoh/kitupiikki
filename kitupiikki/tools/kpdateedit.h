@@ -40,7 +40,7 @@ class KpDateEdit : public QLineEdit
     Q_OBJECT
 public:
     KpDateEdit(QWidget *parent = nullptr);
-    ~KpDateEdit();
+    ~KpDateEdit() override;
 
     QSize sizeHint() const override;
 
