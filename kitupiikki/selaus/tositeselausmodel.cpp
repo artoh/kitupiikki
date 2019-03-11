@@ -75,15 +75,24 @@ QVariant TositeSelausModel::data(const QModelIndex &index, int role) const
         {
 
         case TUNNISTE:
-            if( role == Qt::EditRole)
+            if( role == Qt::EditRole) {
                 // Lajittelua varten tasaleveä kenttä
-                 return QVariant(QString("%1%2/%3")
-                        .arg( kp()->tositelajit()->tositelaji( rivi.tositeLaji ).tunnus() )
-                        .arg( rivi.tositeTunniste,8,10,QChar('0'))
-                        .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() ));
-
-
-            return QVariant(QString("%1 %2/%3")
+                if( kp()->asetukset()->onko("Samaansarjaan"))
+                    return QVariant(QString("%1/%2")
+                           .arg( rivi.tositeTunniste,8,10,QChar('0'))
+                           .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() ));
+                else
+                     return QVariant(QString("%1%2/%3")
+                            .arg( kp()->tositelajit()->tositelaji( rivi.tositeLaji ).tunnus() )
+                            .arg( rivi.tositeTunniste,8,10,QChar('0'))
+                            .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() ));
+             }
+            if( kp()->asetukset()->onko("Samaansarjaan"))
+                return QVariant(QString("%1/%2")
+                    .arg( rivi.tositeTunniste)
+                    .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() ));
+            else
+                return QVariant(QString("%1 %2/%3")
                     .arg( kp()->tositelajit()->tositelaji( rivi.tositeLaji ).tunnus() )
                     .arg( rivi.tositeTunniste)
                     .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() ));

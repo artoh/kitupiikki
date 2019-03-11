@@ -25,8 +25,14 @@ SiirryDlg::SiirryDlg() :
 {
     ui->setupUi(this);
 
-    ui->tyyppiCombo->setModel( kp()->tositelajit() );
-    ui->tyyppiCombo->setModelColumn( TositelajiModel::TUNNUS);
+    if(kp()->asetukset()->onko("Samaansarjaan"))
+    {
+        ui->tyyppiLabel->hide();
+        ui->tyyppiCombo->hide();
+    } else {
+        ui->tyyppiCombo->setModel( kp()->tositelajit() );
+        ui->tyyppiCombo->setModelColumn( TositelajiModel::TUNNUS);
+    }
 
     ui->nroEdit->setValidator( new QRegularExpressionValidator( QRegularExpression("\\d+")) );
 
@@ -40,11 +46,21 @@ SiirryDlg::SiirryDlg() :
 
 void SiirryDlg::tarkista()
 {
-    QString kysymys = QString("SELECT id FROM tosite WHERE tunniste=%1 AND laji=%2 AND pvm BETWEEN '%3' AND '%4'")
-            .arg( ui->nroEdit->text().toInt() )
-            .arg( ui->tyyppiCombo->currentData(TositelajiModel::IdRooli).toInt())
-            .arg( ui->kausiCombo->currentData(TilikausiModel::AlkaaRooli).toDate().toString(Qt::ISODate))
-            .arg( ui->kausiCombo->currentData(TilikausiModel::PaattyyRooli).toDate().toString(Qt::ISODate));
+    QString kysymys;
+
+    if(kp()->asetukset()->onko("Samaansarjaan"))
+    {
+        kysymys = QString("SELECT id FROM tosite WHERE tunniste=%1 AND pvm BETWEEN '%2' AND '%3'")
+                .arg( ui->nroEdit->text().toInt() )
+                .arg( ui->kausiCombo->currentData(TilikausiModel::AlkaaRooli).toDate().toString(Qt::ISODate))
+                .arg( ui->kausiCombo->currentData(TilikausiModel::PaattyyRooli).toDate().toString(Qt::ISODate));
+    } else {
+        kysymys = QString("SELECT id FROM tosite WHERE tunniste=%1 AND laji=%2 AND pvm BETWEEN '%3' AND '%4'")
+                .arg( ui->nroEdit->text().toInt() )
+                .arg( ui->tyyppiCombo->currentData(TositelajiModel::IdRooli).toInt())
+                .arg( ui->kausiCombo->currentData(TilikausiModel::AlkaaRooli).toDate().toString(Qt::ISODate))
+                .arg( ui->kausiCombo->currentData(TilikausiModel::PaattyyRooli).toDate().toString(Qt::ISODate));
+    }
 
     QSqlQuery kysely( kysymys );
     tosite = 0;

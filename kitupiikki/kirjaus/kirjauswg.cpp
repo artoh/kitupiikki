@@ -177,6 +177,7 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( ui->edellinenButton, &QPushButton::clicked, [this] () { this->lataaTosite(this->edellinenSeuraava_->edellinenId()); });
     connect( ui->seuraavaButton, &QPushButton::clicked, [this] () { this -> lataaTosite(this->edellinenSeuraava_->seuraavaId()); });
 
+    connect( kp(), &Kirjanpito::tietokantaVaihtui, [this] () { this->ui->tyyppiLabel->setVisible( !kp()->asetukset()->onko("Samaansarjaan") ); });
 }
 
 KirjausWg::~KirjausWg()
