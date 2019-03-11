@@ -7,14 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>667</width>
-    <height>431</height>
+    <height>565</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QFormLayout" name="formLayout">
-   <item row="0" column="0" colspan="2">
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
     <widget class="QLabel" name="label">
      <property name="text">
       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Verkkolaskut&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Finvoice-verkkolaskun käyttöönottaminen edellyttää sopimusta verkkolaskuoperaattorin kanssa. Kitupiikki osaa muodostaa verkkolaskuja, mutta ne on ladattava verkkolaskuoperaattorin palveluun.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -24,102 +24,119 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Oma verkkolaskuosoite</string>
+   <item>
+    <widget class="QLabel" name="label_5">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgba(255, 255, 0, 125);</string>
      </property>
-     <property name="buddy">
-      <cstring>osoiteEdit</cstring>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Verkkolaskuominaisuus on keskeneräinen ja ominaisuutta täydennetään myöhemmissä versioissa.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Varmista yhteensopivuus oman verkkolaskuoperaattorisi kanssa.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
-   <item row="1" column="1">
-    <widget class="QLineEdit" name="osoiteEdit"/>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>Verkkolaskuoperaattorin välittäjätunnus</string>
-     </property>
-     <property name="buddy">
-      <cstring>valittajaEdit</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="QLineEdit" name="valittajaEdit"/>
-   </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="label_4">
-     <property name="text">
-      <string>Verkkolaskujen tallennuskansio</string>
-     </property>
-     <property name="buddy">
-      <cstring>kansioEdit</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0">
-    <widget class="QCheckBox" name="soapBox">
-     <property name="text">
-      <string>Kirjoita SOAP-kehys</string>
-     </property>
-     <property name="icon">
-      <iconset resource="../pic/pic.qrc">
-       <normaloff>:/pic/paketti2.png</normaloff>:/pic/paketti2.png</iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QLineEdit" name="kansioEdit">
-       <property name="frame">
-        <bool>false</bool>
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Oma verkkolaskuosoite</string>
        </property>
-       <property name="readOnly">
-        <bool>true</bool>
+       <property name="buddy">
+        <cstring>osoiteEdit</cstring>
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QPushButton" name="kansioNappi">
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="osoiteEdit"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_3">
        <property name="text">
-        <string>Valitse</string>
+        <string>Verkkolaskuoperaattorin välittäjätunnus</string>
+       </property>
+       <property name="buddy">
+        <cstring>valittajaEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="valittajaEdit"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>Verkkolaskujen tallennuskansio</string>
+       </property>
+       <property name="buddy">
+        <cstring>kansioEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLineEdit" name="kansioEdit">
+         <property name="frame">
+          <bool>false</bool>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="kansioNappi">
+         <property name="text">
+          <string>Valitse</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../pic/pic.qrc">
+           <normaloff>:/pic/avaatiedosto.png</normaloff>:/pic/avaatiedosto.png</iconset>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="3" column="0">
+      <widget class="QCheckBox" name="soapBox">
+       <property name="text">
+        <string>Kirjoita SOAP-kehys</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
-         <normaloff>:/pic/avaatiedosto.png</normaloff>:/pic/avaatiedosto.png</iconset>
+         <normaloff>:/pic/paketti2.png</normaloff>:/pic/paketti2.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QCheckBox" name="pdfBox">
+       <property name="text">
+        <string>Liitä pdf-lasku</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/pdf.png</normaloff>:/pic/pdf.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QCheckBox" name="zipBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Tee zip-paketti</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/paketti.png</normaloff>:/pic/paketti.png</iconset>
        </property>
       </widget>
      </item>
     </layout>
-   </item>
-   <item row="6" column="0">
-    <widget class="QCheckBox" name="pdfBox">
-     <property name="text">
-      <string>Liitä pdf-lasku</string>
-     </property>
-     <property name="icon">
-      <iconset resource="../pic/pic.qrc">
-       <normaloff>:/pic/pdf.png</normaloff>:/pic/pdf.png</iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0">
-    <widget class="QCheckBox" name="zipBox">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="text">
-      <string>Tee zip-paketti</string>
-     </property>
-     <property name="icon">
-      <iconset resource="../pic/pic.qrc">
-       <normaloff>:/pic/paketti.png</normaloff>:/pic/paketti.png</iconset>
-     </property>
-    </widget>
    </item>
   </layout>
  </widget>

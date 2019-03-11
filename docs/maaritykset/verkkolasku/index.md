@@ -15,7 +15,7 @@ Kitupiikillä voit muodostaa [Finvoice](https://fi.wikipedia.org/wiki/Finvoice)-
 
 **Liitä pdf-tiedosto** tallentaa myös pdf-muotoisen laskun.
 
-**Tee zip-paketti** tekee jokaisesta laskusta zip-paketin, joka sisältää sekä Finvoice-laskun että laskun pdf-muodossa. 
+**Tee zip-paketti** tekee jokaisesta laskusta zip-paketin, joka sisältää sekä Finvoice-laskun että laskun pdf-muodossa.
 
 !!! note "Uusi toiminto"
     Verkkolaskutus on uusi toiminta, eikä sitä ole voitu kokeilla kaikkien operaattoreiden kanssa. Aloittaessasi verkkolaskujen käytön varmista ensimmäisten laskujen perille menenminen oikeassa muodossa. Lähetä palautetta havaitsemistasi virheistä osoitteeseen palaute@kitupiikki.info
