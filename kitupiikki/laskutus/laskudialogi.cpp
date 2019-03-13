@@ -142,8 +142,14 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     ui->saajaEdit->setText( model->laskunsaajanNimi() );
     if( !model->osoite().isEmpty())
         ui->osoiteEdit->setPlainText( model->osoite());
+
+    // Jotta tulisi käyttöön heti kun osoite on haettu
+    connect( ui->emailEdit, SIGNAL(textChanged(QString)), this, SLOT(onkoPostiKaytossa()));
+
     if( !model->email().isEmpty())
+    {
         ui->emailEdit->setText( model->email());
+    }
     if( !model->ytunnus().isEmpty())
         ui->ytunnus->setText( model->ytunnus());
 
@@ -263,7 +269,6 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
 
     connect( ui->tuotelistaView, SIGNAL(clicked(QModelIndex)), this, SLOT(lisaaTuote(QModelIndex)));
     connect( ui->tuotelistaView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(tuotteidenKonteksiValikko(QPoint)));
-    connect( ui->emailEdit, SIGNAL(textChanged(QString)), this, SLOT(onkoPostiKaytossa()));
 
     connect( ui->asiakasLista, &QListView::clicked, this, &LaskuDialogi::lisaaAsiakasListalta);
     connect( ui->lisaaRyhmaanNappi, &QPushButton::clicked, this, &LaskuDialogi::lisaaAsiakas);

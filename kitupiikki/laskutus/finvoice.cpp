@@ -161,7 +161,7 @@ QByteArray Finvoice::lasku(LaskuModel *model)
     writer.writeStartElement("MessageTransmissionDetails");
 
     writer.writeStartElement("MessageSenderDetails");
-    writer.writeTextElement("FromIndentifier", lahettajanVerkkolasku);
+    writer.writeTextElement("FromIdentifier", lahettajanVerkkolasku);
     writer.writeTextElement("FromIntermediator", lahettajanValittaja);
     writer.writeEndElement();
 
@@ -184,22 +184,22 @@ QByteArray Finvoice::lasku(LaskuModel *model)
     if( kp()->asetukset()->onko("AlvVelvollinen"))
         writer.writeTextElement("SellerOrganisationTaxCode", alvtunnus );
 
-    HajoitettuOsoite myyjanOsoite = hajoitaOsoite( kp()->asetukset()->asetus("osoite") );
+    HajoitettuOsoite myyjanOsoite = hajoitaOsoite( kp()->asetukset()->asetus("Osoite") );
     writer.writeStartElement("SellerPostalAddressDetails");
     writer.writeTextElement("SellerStreetName", myyjanOsoite.lahiosoite);
     writer.writeTextElement("SellerTownName", myyjanOsoite.postitoimipaikka);
     writer.writeTextElement("SellerPostCodeIdentifier", myyjanOsoite.postinumero);
-    writer.writeTextElement("CountryCode", myyjanOsoite.maakoodi);
     writer.writeEndElement();    
 
     writer.writeEndElement();
 
     writer.writeStartElement("SellerInformationDetails");
 
-    if( kp()->asetukset()->onko("Sahkoposti"))
-        writer.writeTextElement("SellerCommonEmailaddressIdentifier", kp()->asetukset()->asetus("Sahkoposti"));
     if( kp()->asetukset()->onko("Puhelin"))
         writer.writeTextElement("SellerPhoneNumber", kp()->asetukset()->asetus("Puhelin"));
+
+    if( kp()->asetukset()->onko("Sahkoposti"))
+        writer.writeTextElement("SellerCommonEmailaddressIdentifier", kp()->asetukset()->asetus("Sahkoposti"));
 
     writer.writeStartElement("SellerAccountDetails");
 
@@ -278,6 +278,8 @@ QByteArray Finvoice::lasku(LaskuModel *model)
         writer.writeCharacters( QString("%1").arg( alv.netto() / 100.0 , 0, 'f', 2).replace('.',',') );
         writer.writeEndElement();
 
+        writer.writeTextElement("VatCode", vatCode(alv.alvKoodi()) );
+
         if( alv.vero() > 1e-5)
             writer.writeTextElement("VatRatePercent", QString("%1,0").arg( alv.alvProsentti() ) );
 
@@ -286,7 +288,6 @@ QByteArray Finvoice::lasku(LaskuModel *model)
         writer.writeCharacters( QString("%1").arg( alv.vero() / 100.0 , 0, 'f', 2).replace('.',',') );
         writer.writeEndElement();
 
-        writer.writeTextElement("VatCode", vatCode(alv.alvKoodi()) );
         QString vatTeksti = vatFree( alv.alvKoodi() );
         if( !vatTeksti.isEmpty())
             writer.writeTextElement("VatFreeText", vatTeksti);
@@ -348,7 +349,11 @@ QByteArray Finvoice::lasku(LaskuModel *model)
         double verosnt = model->data( model->index(i, LaskuModel::NIMIKE), LaskuModel::VeroRooli ).toDouble();
 
         writer.writeTextElement("RowPositionIdentifier", QString::number( i + 1));
+
         writer.writeTextElement("RowVatRatePercent",  QString("%1,0").arg(indeksi.data(LaskuModel::AlvProsenttiRooli).toInt()));
+
+        int alvkoodi = indeksi.data(LaskuModel::AlvKoodiRooli).toInt();
+        writer.writeTextElement("RowVatCode", vatCode( alvkoodi ) );
 
         writer.writeStartElement("RowVatAmount");
         writer.writeAttribute("AmountCurrencyIdentifier","EUR");
@@ -360,9 +365,6 @@ QByteArray Finvoice::lasku(LaskuModel *model)
         writer.writeCharacters( QString("%1").arg( indeksi.data(LaskuModel::BruttoRooli).toLongLong() / 100.0 , 0, 'f', 2).replace('.',','));
         writer.writeEndElement();
 
-
-        int alvkoodi = indeksi.data(LaskuModel::AlvKoodiRooli).toInt();
-        writer.writeTextElement("RowVatCode", vatCode( alvkoodi ) );
 
         writer.writeEndElement();
     }
@@ -381,7 +383,7 @@ QByteArray Finvoice::lasku(LaskuModel *model)
     writer.writeStartElement("EpiPartyDetails");
     writer.writeStartElement("EpiBfiPartyDetails");
     writer.writeStartElement("EpiBfiIdentifier");
-    writer.writeAttribute("IdentificationsSchemeName", "BIC");
+    writer.writeAttribute("IdentificationSchemeName", "BIC");
     writer.writeCharacters( LaskutModel::bicIbanilla(iban) );
     writer.writeEndElement();
     writer.writeEndElement();
@@ -390,12 +392,13 @@ QByteArray Finvoice::lasku(LaskuModel *model)
     writer.writeTextElement("EpiNameAddressDetails", kp()->asetukset()->asetus("Nimi"));
     writer.writeTextElement("EpiBei", alvtunnus.mid(2));
     writer.writeStartElement("EpiAccountID");
-    writer.writeAttribute("IdentificationsSchemeName","IBAN");
+    writer.writeAttribute("IdentificationSchemeName","IBAN");
     writer.writeCharacters(iban );
-    writer.writeEndElement();
-    writer.writeEndElement();
+    writer.writeEndElement();   // EpiAccountID
+    writer.writeEndElement();   // EpiBeneficiaryPartyDetails
+    writer.writeEndElement();   // EpiPartyDetails
 
-    writer.writeStartElement("EpiPaymentInstructionDetails");                              
+    writer.writeStartElement("EpiPaymentInstructionDetails");
     writer.writeStartElement("EpiRemittanceInfoIdentifier");
 
     if( kp()->asetukset()->onko("LaskuRF"))
@@ -403,7 +406,7 @@ QByteArray Finvoice::lasku(LaskuModel *model)
         // RF-muotoinen viite
         QString rf= "RF00" + model->viitenumero();
         int tarkiste = 98 - IbanValidator::ibanModulo( rf );
-        writer.writeAttribute("IdentificationsSchemeName", "ISO");
+        writer.writeAttribute("IdentificationSchemeName", "ISO");
         writer.writeCharacters( QString("RF%1%2").arg(tarkiste,2,10,QChar('0')).arg(rf.mid(4)) );
 
     }
@@ -413,7 +416,7 @@ QByteArray Finvoice::lasku(LaskuModel *model)
         writer.writeCharacters( model->viitenumero() );
 
     }
-    writer.writeEndElement();
+    writer.writeEndElement();   // EpiRemittanceInfoIdentifier
 
     writer.writeStartElement("EpiInstructedAmount");
     writer.writeAttribute("AmountCurrencyIdentifier","EUR");
@@ -429,8 +432,8 @@ QByteArray Finvoice::lasku(LaskuModel *model)
     writer.writeCharacters( model->erapaiva().toString("yyyyMMdd") );
     writer.writeEndElement();
 
-    writer.writeEndElement();
-    writer.writeEndElement();
+    writer.writeEndElement();   // EpiPaymentInstructionDetails
+    writer.writeEndElement();   // EpiDetails
 
     writer.writeEndDocument();
 
