@@ -18,6 +18,7 @@
 #include <QDebug>
 #include <QTimer>
 #include <QSettings>
+#include <QShortcut>
 #include <cmath>
 #include "kohdennusproxymodel.h"
 #include "kirjausapuridialog.h"
@@ -178,6 +179,9 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
 
     if( kp()->settings()->contains("ApuriDlg"))
         restoreGeometry( kp()->settings()->value("ApuriDlg").toByteArray());
+
+    QShortcut* pikanappain = new QShortcut(QKeySequence("F12"), this);
+    connect( pikanappain, &QShortcut::activated, this, &KirjausApuriDialog::accept);
 }
 
 KirjausApuriDialog::~KirjausApuriDialog()
@@ -864,7 +868,7 @@ void KirjausApuriDialog::viiteTarkastus(const QString& txt)
 
 void KirjausApuriDialog::accept()
 {
-    if(merkkauksessa)   // Suojataan merkkausvalikon enteriltä
+    if(merkkauksessa || !ui->buttonBox->button( QDialogButtonBox::Ok )->isEnabled())   // Suojataan merkkausvalikon enteriltä sekä disabloinnilta
         return;
 
     ehdota();
