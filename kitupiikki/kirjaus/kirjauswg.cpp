@@ -709,6 +709,9 @@ void KirjausWg::lataaTosite(int id)
 
     if( model_->liiteModel()->rowCount(QModelIndex()))
         ui->liiteView->setCurrentIndex( model_->liiteModel()->index(0) );
+    else
+        emit liiteValittu(QByteArray());
+
 
     // Jos tositteella yksikin lukittu vienti, ei voi poistaa
     poistaAktio_->setEnabled(model()->muokkausSallittu() &&
