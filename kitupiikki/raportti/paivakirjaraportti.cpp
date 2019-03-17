@@ -156,7 +156,7 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
                               .arg(jarjestys).arg(kohdennuksella));
         else
             kysymys.append(QString("FROM vienti,tosite "
-                              "WHERE vienti.pvm BETWEEN \"%1\" AND \"%2\" AND vienti.tosite=tosite.id AND kohdennusId=%4 ORDER BY %3")
+                              "WHERE vienti.pvm BETWEEN \"%1\" AND \"%2\" AND vienti.tosite=tosite.id AND kohdennus=%4 ORDER BY %3")
                               .arg(mista.toString(Qt::ISODate) )
                               .arg( mihin.toString(Qt::ISODate))
                               .arg(jarjestys).arg(kohdennuksella));

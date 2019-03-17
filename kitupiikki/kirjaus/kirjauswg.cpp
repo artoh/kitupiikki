@@ -710,7 +710,7 @@ void KirjausWg::lataaTosite(int id)
     if( model_->liiteModel()->rowCount(QModelIndex()))
         ui->liiteView->setCurrentIndex( model_->liiteModel()->index(0) );
     else
-        emit liiteValittu(QByteArray());
+        liiteValinta(QModelIndex());
 
 
     // Jos tositteella yksikin lukittu vienti, ei voi poistaa
@@ -727,7 +727,7 @@ void KirjausWg::lataaTosite(int id)
     }
 
     paivitaLiiteNapit();
-    edellinenSeuraava_->paivita();
+    edellinenSeuraava_->paivita();    
 
 }
 

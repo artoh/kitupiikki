@@ -147,7 +147,7 @@ bool Verotarkastaja::tarkasta(VientiModel *model)
             return false;
     }
 
-    if( laskennallinenpalautus + mahdollinenpalautus - riveja < palautus)
+    if( qAbs(palautus - laskennallinenpalautus - mahdollinenpalautus) > riveja)
     {
         if( QMessageBox::critical(nullptr, tr("Arvonlisäveron kirjaus virheellinen"),
            tr("Arvonlisäveron palautus on suurempi kuin perusteena oleva määrä oikeuttaa.\n"
