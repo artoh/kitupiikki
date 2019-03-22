@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>301</height>
+    <height>461</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -93,6 +93,10 @@
         <property name="text">
          <string>Kaikentyyppisiä kirjauksia</string>
         </property>
+        <property name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/pic/tyhja.png</normaloff>:/pic/tyhja.png</iconset>
+        </property>
         <property name="checked">
          <bool>true</bool>
         </property>
@@ -103,12 +107,20 @@
         <property name="text">
          <string>Vain ostolaskuja (menotilit)</string>
         </property>
+        <property name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/pic/poista.png</normaloff>:/pic/poista.png</iconset>
+        </property>
        </widget>
       </item>
       <item>
        <widget class="QRadioButton" name="myyntiRadio">
         <property name="text">
          <string>Vain myyntilaskuja (tulotilit)</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
         </property>
        </widget>
       </item>
@@ -119,6 +131,10 @@
         </property>
         <property name="text">
          <string>Tiliotteita</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/pic/tekstisivu.png</normaloff>:/pic/tekstisivu.png</iconset>
         </property>
        </widget>
       </item>
@@ -154,7 +170,9 @@
   <tabstop>myyntiRadio</tabstop>
   <tabstop>tilioteRadio</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

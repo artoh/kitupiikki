@@ -106,6 +106,30 @@ QVariant TositelajiModel::data(const QModelIndex &index, int role) const
     {
         return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
     }
+    else if( role == Qt::DecorationRole && index.column() == NIMI)
+    {
+        if( laji.id()==0)
+            return QIcon(":/pic/Possu64.png");
+
+        switch ( laji.json()->luku("Kirjaustyyppi")) {
+            case OSTOLASKUT : return QIcon(":/pic/poista.png");
+            case MYYNTILASKUT: return QIcon(":/pic/lisaa.png");
+        }
+        int tilinro = laji.json()->luku("Vastatili");
+        if( tilinro)
+        {
+            Tili tili = kp()->tilit()->tiliNumerolla(tilinro);
+            if( tili.onko(TiliLaji::KATEINEN))
+                return QIcon(":/pic/rahaa.png");
+            else if(tili.onko(TiliLaji::PANKKITILI) && laji.json()->luku("Kirjaustyyppi")==TILIOTE)
+                return QIcon(":/pic/tekstisivu.png");
+        }
+
+
+
+        return QIcon(":/pic/tyhja.png");
+    }
+
     return QVariant();
 }
 
