@@ -31,6 +31,20 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
+       <widget class="QRadioButton" name="lajeittainRadio">
+        <property name="text">
+         <string>Numeroi jokainen tositelaji omaan numerosarjaansa</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/pic/arkisto64.png</normaloff>:/pic/arkisto64.png</iconset>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QRadioButton" name="samaanRadio">
         <property name="text">
          <string>Numeroi kaikki tositteet samaan juoksevaan numerosarjaan</string>
@@ -40,18 +54,7 @@
           <normaloff>:/pic/123.png</normaloff>:/pic/123.png</iconset>
         </property>
         <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="lajeittainRadio">
-        <property name="text">
-         <string>Numeroi jokainen tositelaji omaan numerosarjaansa</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../pic/pic.qrc">
-          <normaloff>:/pic/arkisto64.png</normaloff>:/pic/arkisto64.png</iconset>
+         <bool>false</bool>
         </property>
        </widget>
       </item>
