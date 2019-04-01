@@ -178,21 +178,21 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
                                      "vienti.tili=tili.id AND tili.ysiluku > 300000000 AND "
                                      "pvm BETWEEN \"%1\" AND \"%2\" GROUP BY nro")
                     .arg(alkupaiva.toString(Qt::ISODate))
-                    .arg(mista.toString(Qt::ISODate))
+                    .arg(mista.addDays(-1).toString(Qt::ISODate))
                     .arg(kohdennuksella);
         else if( kohdennuksella > -1)
             kysymys = QString("SELECT ysiluku, SUM(debetsnt), SUM(kreditsnt) "
                                      "FROM vienti, tili WHERE vienti.tili=tili.id AND tili.ysiluku > 300000000 AND "
                                      "pvm BETWEEN \"%1\" AND \"%2\" AND vienti.kohdennus=%3 GROUP BY nro")
                     .arg(alkupaiva.toString(Qt::ISODate))
-                    .arg(mista.toString(Qt::ISODate))
+                    .arg(mista.addDays(-1).toString(Qt::ISODate))
                     .arg(kohdennuksella);
         else
             kysymys = QString("SELECT ysiluku, SUM(debetsnt), SUM(kreditsnt) "
                                      "FROM vienti, tili WHERE vienti.tili=tili.id AND tili.ysiluku > 300000000 AND "
                                      "pvm BETWEEN \"%1\" AND \"%2\" GROUP BY nro")
                     .arg(alkupaiva.toString(Qt::ISODate))
-                    .arg(mista.toString(Qt::ISODate));
+                    .arg(mista.addDays(-1).toString(Qt::ISODate));
 
         kysely.exec(kysymys);
         while( kysely.next())
