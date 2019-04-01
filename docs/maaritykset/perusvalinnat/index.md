@@ -20,3 +20,5 @@ Tätä varten Kitupiikki ottaa internet-yhteyden palvelimelle.
 
 !!! note ""
     Päivitystä tarkastettaessa Kitupiikin verkkosivu [tilastoi](http://kitupiikki.arkku.net//tilasto) anonyymin tiedon ohjelman versiosta sekä tietokoneen käyttöjärjestelmästä ja käytössä olevan tilikartan tyypistä.
+
+**Poista käytöstä pdf-toiminnot** poistaa Kitupiikin sisäänrakennetun pdf-esikatselun sekä tiedon tuomisen pdf-tositteista. Käytä ainoastaan, jos pdf-tiedostojen käsittely aiheuttaa ongelmia.
