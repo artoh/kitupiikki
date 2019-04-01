@@ -348,7 +348,9 @@ void KirjausApuriDialog::vastaTiliMuuttui()
     ui->yhdistaCheck->setChecked(yhdistettavissa && !model->tiliotetili() );
     yhdistaminenMuuttui( ui->yhdistaCheck->isChecked());
 
-    if( vastatili.onko(TiliLaji::OSTOVELKA) && ui->valintaTab->currentIndex() == MENO )
+    if( ui->yhdistaCheck->isChecked())
+        ui->ostoBox->setVisible(false);
+    else if( vastatili.onko(TiliLaji::OSTOVELKA) && ui->valintaTab->currentIndex() == MENO )
     {
         ui->ostoBox->setVisible(true);
         ui->ostoBox->setTitle(tr("Ostolaskun lisätiedot"));
@@ -382,6 +384,8 @@ void KirjausApuriDialog::vastaTiliMuuttui()
 void KirjausApuriDialog::yhdistaminenMuuttui(bool yhdistetaanko)
 {
     Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliEdit->valittuTilinumero());
+    ui->vastatiliLabel->setVisible(!yhdistetaanko);
+    ui->vastatiliEdit->setVisible(!yhdistetaanko);
     ui->vastaTaseEraLabel->setVisible( vastatili.eritellaankoTase() && !yhdistetaanko );
     ui->vastaTaseEraCombo->setVisible( vastatili.eritellaankoTase() && !yhdistetaanko );
 }
