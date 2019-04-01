@@ -105,7 +105,7 @@ bool Perusvalinnat::nollaa()
 
 
     ui->paivitysCheck->setChecked( kp()->settings()->value("NaytaPaivitykset", true).toBool() );
-    ui->eipdfCheck->setChecked(kp()->settings()->value("PopplerPois", true).toBool());
+    ui->eipdfCheck->setChecked(kp()->settings()->value("PopplerPois", false).toBool());
 
     uusilogo = QImage();
 
