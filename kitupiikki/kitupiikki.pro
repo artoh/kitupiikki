@@ -187,7 +187,9 @@ SOURCES += main.cpp \
     kirjaus/viennitview.cpp \
     kirjaus/edellinenseuraavatieto.cpp \
     uusikp/numerointisivu.cpp \
-    kirjaus/verotarkastaja.cpp
+    kirjaus/verotarkastaja.cpp \
+    db/kpyhteys.cpp \
+    db/kpkysely.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -352,7 +354,9 @@ HEADERS += \
     kirjaus/viennitview.h \
     kirjaus/edellinenseuraavatieto.h \
     uusikp/numerointisivu.h \
-    kirjaus/verotarkastaja.h
+    kirjaus/verotarkastaja.h \
+    db/kpyhteys.h \
+    db/kpkysely.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

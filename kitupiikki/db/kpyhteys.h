@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2018 Arto Hyvättinen
+   Copyright (C) 2019 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,19 +14,32 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef VERSIO_H
-#define VERSIO_H
+#ifndef KPYHTEYS_H
+#define KPYHTEYS_H
 
+#include <QObject>
+
+class KpKysely;
+class Kirjanpito;
 
 /**
-  @file Kitupiikin version määrittely
+ * @brief Taustayhteyksien kantaluokka
+ * @since 2.0
+ */
+class KpYhteys : public QObject
+{
+    Q_OBJECT
+public:
+    KpYhteys(Kirjanpito *parent);
 
-  Kitupiikin versio määritellään tässä tiedostossa. Tiedosto voidaan myös generoida käännösaikaisesti.
-*/
+    void kasitteleKysely(KpKysely* kysely);
 
-#define KITUPIIKKI_VERSIO "2.0-devel"
-#define KITUPIIKKI_BUILD  "A" // "PORTABLE" //
+protected:
 
-#define KITUPIIKKI_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
 
-#endif // VERSIO_H
+signals:
+
+public slots:
+};
+
+#endif // KPYHTEYS_H
