@@ -345,7 +345,7 @@ void KirjausWg::vientiValittu()
 {
     QModelIndex index = ui->viennitView->selectionModel()->currentIndex();
     QDate vientiPvm = index.data(VientiModel::PvmRooli).toDate();
-    ui->poistariviNappi->setEnabled( index.isValid() && vientiPvm > kp()->tilitpaatetty());
+    ui->poistariviNappi->setEnabled( index.isValid() &&  ( vientiPvm > kp()->tilitpaatetty() || vientiPvm.isNull() ));
 }
 
 void KirjausWg::uusiPohjalta()
