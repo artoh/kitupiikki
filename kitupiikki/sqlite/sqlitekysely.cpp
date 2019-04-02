@@ -23,6 +23,7 @@
 #include <QDateTime>
 #include <QMessageBox>
 #include <QSqlError>
+#include <QJsonDocument>
 
 SQLiteKysely::SQLiteKysely(SQLiteYhteys *parent, KpKysely::Metodi metodi, QString polku)
     : KpKysely (parent, metodi, polku)
@@ -46,6 +47,11 @@ QSqlDatabase SQLiteKysely::tietokanta()
 void SQLiteKysely::alustusKysely()
 {
     vastaus_.insert("asetukset", asetukset());
+    vastaus_.insert("tilit", tilit());
+
+
+    QJsonDocument json = QJsonDocument::fromVariant(vastaus_);
+    qDebug() << json.toJson();
 
     vastaa();
 }
@@ -65,8 +71,39 @@ QVariantList SQLiteKysely::asetukset()
         lista.append(item);
     }
 
-    qDebug() << lista;
+    return lista;
+}
 
+QVariantList SQLiteKysely::tilit()
+{
+    QVariantList lista;
+    QSqlQuery kysely( tietokanta() );
+
+    kysely.exec("SELECT id, nro, nimi, tyyppi, tila, json, ysiluku, muokattu "
+                " FROM tili ORDER BY ysiluku");
+
+
+    while(kysely.next())
+    {
+        QJsonDocument json = QJsonDocument::fromJson( kysely.value("json").toByteArray() );
+
+        QVariantMap map = json.toVariant().toMap();
+
+        map.insert("id", kysely.value("id"));
+        map.insert("nro", kysely.value("nro"));
+
+        QVariantMap kieliMap;
+        kieliMap.insert("fi", kysely.value("nimi"));
+
+        map.insert("nimi", kieliMap);
+
+        map.insert("tyyppi", kysely.value("tyyppi"));
+        map.insert("tila", kysely.value("tila"));
+
+        map.insert("muokattu", kysely.value("muokattu"));
+
+        lista.append(map);
+    }
     return lista;
 }
 

@@ -37,6 +37,7 @@ protected:
 
     void alustusKysely();
     QVariantList asetukset();
+    QVariantList tilit();
     void teeAsetus(const QVariantMap &params);
 };
 
