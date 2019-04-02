@@ -90,6 +90,7 @@ public:
     bool onkoMuokattu() const;
 
     void lataa();
+    void lataa(QVariantList lista);
     bool tallenna(bool tietokantaaLuodaan = false);
 
 protected:

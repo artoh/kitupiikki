@@ -440,7 +440,7 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto, bool ilmoitaVirheesta)
                    ");");
 
     tositelajiModel_->lataa();
-    tiliModel_->lataa();
+//    tiliModel_->lataa();
     tilikaudetModel_->lataa();
     kohdennukset_->lataa();
     tuotteet_->lataa();

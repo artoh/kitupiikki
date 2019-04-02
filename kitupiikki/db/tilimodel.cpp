@@ -343,6 +343,67 @@ void TiliModel::lataa()
     endResetModel();
 }
 
+void TiliModel::lataa(QVariantList lista)
+{
+    beginResetModel();
+    tilit_.clear();
+
+
+    QVector<Tili> otsikot(10);
+
+    for( QVariant variant : lista)
+    {
+        QVariantMap map = variant.toMap();
+
+        int otsikkotaso = 0;
+        QString tyyppikoodi = map.value("tyyppi").toString();
+        if( tyyppikoodi.startsWith('H'))    // Tyyppikoodi H1 tarkoittaa 1-tason otsikkoa jne.
+            otsikkotaso = tyyppikoodi.midRef(1).toInt();
+
+        int id = map.take("id").toInt();
+        int otsikkoIdTalle = 0; // Nykytilille merkittävä otsikkotaso
+        int ysiluku = map.take("ysiluku").toInt();
+        int nro = map.take("nro").toInt();
+
+
+        // Etsitään otsikkotasoa tasojen lopusta alkaen
+        for(int i=9; i >= 0; i--)
+        {
+            int asti = otsikot[i].json()->luku("Asti") ? Tili::ysiluku( otsikot[i].json()->luku("Asti"),true) : Tili::ysiluku( otsikot[i].numero(), true);
+            if( otsikot.at(i).onkoValidi() && otsikot.at(i).ysivertailuluku() <= ysiluku && asti >= ysiluku )
+            {
+                otsikkoIdTalle = otsikot.at(i).id();
+                break;
+            }
+        }
+
+        Tili uusi( id,     // id
+                   nro,     // nro
+                   map.take("nimi").toMap().value("fi").toString(),  // nimi
+                   tyyppikoodi,  // tyyppi
+                   map.take("tila").toInt(),     // tila
+                   otsikkoIdTalle,    // Tätä tiliä/otsikkoa ylemmän otsikon id
+                   map.take("muokattu").toDateTime()     // Muokattu viimeksi
+                   );
+
+        QMapIterator<QString, QVariant> iter(map);
+        while( iter.hasNext())
+        {
+            iter.next();
+            uusi.json()->setVar(iter.key(), iter.value());
+        }
+
+        uusi.nollaaMuokattu();
+        tilit_.append(uusi);
+
+        if( otsikkotaso )
+            otsikot[otsikkotaso] = uusi;
+
+    }
+
+    endResetModel();
+}
+
 bool TiliModel::tallenna(bool tietokantaaLuodaan)
 {
     tietokanta_->transaction();

@@ -91,6 +91,7 @@ QVariantList SQLiteKysely::tilit()
 
         map.insert("id", kysely.value("id"));
         map.insert("nro", kysely.value("nro"));
+        map.insert("ysiluku", kysely.value("ysiluku"));
 
         QVariantMap kieliMap;
         kieliMap.insert("fi", kysely.value("nimi"));

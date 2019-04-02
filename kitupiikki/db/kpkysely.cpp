@@ -53,6 +53,8 @@ void KpKysely::vastaa(KpKysely::Tila tila)
             emit vastaus( iter.value().toMap(), tila );
         else if( avain == "asetukset")
             kp()->asetukset()->lataa( iter.value().toList() );
+        else if( avain == "tilit")
+            kp()->tilit()->lataa( iter.value().toList() );
 
     }
 
