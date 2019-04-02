@@ -59,7 +59,7 @@ public:
     Tila tila() const { return tila_;}
 
 signals:
-    void vastaus(QVariantMap reply, Tila tila);
+    void vastaus(QVariantMap* reply, int tila);
 
 public slots:
     virtual void kysy(const QVariant& data = QVariant()) = 0;

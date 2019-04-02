@@ -43,6 +43,7 @@ protected:
     QVariantList tilikaudet();
 
     void teeAsetus(const QVariantMap &params);
+    void lataaLiite();
 };
 
 #endif // SQLITEKYSELY_H

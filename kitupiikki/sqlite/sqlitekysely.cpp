@@ -37,6 +37,8 @@ void SQLiteKysely::kysy(const QVariant &data)
         alustusKysely();
     if( metodi() == PATCH && polku() == "asetukset")
         teeAsetus(data.toMap());
+    if( metodi() == GET && polku() == "liite")
+        lataaLiite();
 }
 
 QSqlDatabase SQLiteKysely::tietokanta()
@@ -193,4 +195,22 @@ void SQLiteKysely::teeAsetus(const QVariantMap& params)
                               tr("Asetuksen tallentaminen epäonnistui seuraavan virheen takia:%1")
                               .arg(tietokanta().lastError().text()));
 
+}
+
+void SQLiteKysely::lataaLiite()
+{
+    qDebug() << "Liitteen lataus ";
+
+    QSqlQuery query( tietokanta());
+    query.exec( QString("SELECT data FROM liite WHERE tosite IS NULL AND otsikko=\"%1\"").arg( attribuutti("otsikko")));
+
+    qDebug() << query.lastQuery();
+    qDebug() << query.lastError().text();
+
+    while( query.next())
+    {
+        qDebug() << "Liite "<< query.value("data").toByteArray().length();
+        vastaus_.insert("liite",query.value("data"));
+        vastaa();
+    }
 }

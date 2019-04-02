@@ -342,6 +342,8 @@ public slots:
      */
     void asetaHarjoitteluPvm(const QDate& pvm);
 
+    void logoSaapui(QVariantMap* reply, int tila);
+
 
 protected:
     QString polkuTiedostoon_;

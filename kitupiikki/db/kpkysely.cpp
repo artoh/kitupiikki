@@ -61,6 +61,6 @@ void KpKysely::vastaa(KpKysely::Tila tila)
             kp()->tilikaudet()->lataa( iter.value().toList() );
     }
 
-    emit vastaus( vastaus_.value("data").toMap(), tila );
+    emit vastaus( &vastaus_, tila );
 
 }

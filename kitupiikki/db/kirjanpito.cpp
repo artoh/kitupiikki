@@ -464,9 +464,13 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto, bool ilmoitaVirheesta)
     }
 
     // Ladataan logo    
-    liitteet_ = new LiiteModel(nullptr, this);
-    logo_ = QImage::fromData( liitteet_->liite("logo") , "PNG" );
+    // liitteet_ = new LiiteModel(nullptr, this);
+    // logo_ = QImage::fromData( liitteet_->liite("logo") , "PNG" );
 
+    KpKysely* logokysely = yhteys()->kysely("liite");
+    logokysely->lisaaAttribuutti("otsikko","logo");
+    connect( logokysely, &KpKysely::vastaus, this, &Kirjanpito::logoSaapui );
+    logokysely->kysy();
 
     // Ilmoitetaan, että tietokanta on vaihtunut
     emit tietokantaVaihtui();
@@ -482,6 +486,19 @@ bool Kirjanpito::lataaUudelleen()
 void Kirjanpito::asetaHarjoitteluPvm(const QDate &pvm)
 {
     harjoitusPvm = pvm;
+}
+
+void Kirjanpito::logoSaapui(QVariantMap *reply, int tila)
+{
+    qDebug() << "Logo saapui " << reply;
+
+    {
+        QByteArray ba = reply->value("liite").toByteArray();
+        qDebug() << "koko " << ba.size();
+
+        logo_ = QImage::fromData( ba );
+    }
+    sender()->deleteLater();
 }
 
 
