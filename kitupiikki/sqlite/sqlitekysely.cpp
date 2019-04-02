@@ -48,7 +48,9 @@ void SQLiteKysely::alustusKysely()
 {
     vastaus_.insert("asetukset", asetukset());
     vastaus_.insert("tilit", tilit());
-
+    vastaus_.insert("kohdennukset", kohdennukset());
+    vastaus_.insert("tositelajit", tositelajit());
+    vastaus_.insert("tilikaudet", tilikaudet());
 
     QJsonDocument json = QJsonDocument::fromVariant(vastaus_);
     qDebug() << json.toJson();
@@ -102,6 +104,65 @@ QVariantList SQLiteKysely::tilit()
         map.insert("tila", kysely.value("tila"));
 
         map.insert("muokattu", kysely.value("muokattu"));
+
+        lista.append(map);
+    }
+    return lista;
+}
+
+QVariantList SQLiteKysely::kohdennukset()
+{
+    QVariantList lista;
+    QSqlQuery kysely( tietokanta());
+
+    kysely.exec("SELECT id, tyyppi, nimi, alkaa, loppuu FROM kohdennus");
+    while( kysely.next() )
+    {
+        QVariantMap map;
+        map.insert("id", kysely.value("id"));
+        map.insert("tyyppi", kysely.value("tyyppi"));
+        map.insert("nimi", kysely.value("nimi"));
+        map.insert("alkaa", kysely.value("alkaa"));
+        map.insert("loppuu", kysely.value("loppuu"));
+        lista.append(map);
+    }
+    return lista;
+}
+
+QVariantList SQLiteKysely::tositelajit()
+{
+    QVariantList lista;
+    QSqlQuery kysely( tietokanta());
+
+    kysely.exec("SELECT id, tunnus, nimi, json FROM tositelaji ORDER BY id");
+
+    while( kysely.next())
+    {
+        QJsonDocument json = QJsonDocument::fromJson( kysely.value("json").toByteArray() );
+        QVariantMap map = json.toVariant().toMap();
+
+        map.insert("id", kysely.value("id"));
+        map.insert("tunnus", kysely.value("tunnus"));
+        map.insert("nimi", kysely.value("nimi"));
+
+        lista.append(map);
+    }
+    return lista;
+}
+
+QVariantList SQLiteKysely::tilikaudet()
+{
+    QVariantList lista;
+    QSqlQuery kysely( tietokanta());
+
+    kysely.exec("SELECT alkaa, loppuu, json FROM tilikausi ORDER BY alkaa");
+    while( kysely.next())
+    {
+        QJsonDocument json = QJsonDocument::fromJson( kysely.value("json").toByteArray() );
+        QVariantMap map = json.toVariant().toMap();
+
+        map.insert("alkaa", kysely.value("alkaa"));
+        map.insert("loppuu", kysely.value("loppuu"));
 
         lista.append(map);
     }

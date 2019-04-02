@@ -16,6 +16,7 @@
 */
 
 #include <QSqlQuery>
+#include <QJsonDocument>
 
 #include "tilikausimodel.h"
 #include "kirjanpito.h"
@@ -254,6 +255,24 @@ bool TilikausiModel::onkoBudjetteja() const
             return true;
     }
     return false;
+}
+
+void TilikausiModel::lataa(const QVariantList &lista)
+{
+    beginResetModel();
+    kaudet_.clear();
+
+    for(QVariant item : lista )
+    {
+        QVariantMap map = item.toMap();
+        QDate alkaa = map.take("alkaa").toDate();
+        QDate loppuu = map.take("loppuu").toDate();
+
+        QJsonDocument doc = QJsonDocument::fromVariant(map);
+
+        kaudet_.append( Tilikausi(alkaa, loppuu, doc.toJson()) );
+    }
+    endResetModel();
 }
 
 void TilikausiModel::lataa()

@@ -49,13 +49,18 @@ void KpKysely::vastaa(KpKysely::Tila tila)
         iter.next();
         QString avain = iter.key();
 
-        if( avain == "data")
-            emit vastaus( iter.value().toMap(), tila );
-        else if( avain == "asetukset")
+        if( avain == "asetukset")
             kp()->asetukset()->lataa( iter.value().toList() );
         else if( avain == "tilit")
             kp()->tilit()->lataa( iter.value().toList() );
-
+        else if( avain == "kohdennukset")
+            kp()->kohdennukset()->lataa( iter.value().toList() );
+        else if( avain == "tositelajit")
+            kp()->tositelajit()->lataa( iter.value().toList() );
+        else if( avain == "tilikaudet")
+            kp()->tilikaudet()->lataa( iter.value().toList() );
     }
+
+    emit vastaus( vastaus_.value("data").toMap(), tila );
 
 }

@@ -19,6 +19,7 @@
 #include "db/kirjanpito.h"
 
 #include <QSqlQuery>
+#include <QJsonDocument>
 
 #include <QDebug>
 #include <QSqlError>
@@ -224,6 +225,28 @@ QModelIndex TositelajiModel::lisaaRivi()
     endInsertRows();
     return index( lajit_.count()-1, 0);
 
+}
+
+void TositelajiModel::lataa(const QVariantList &lista)
+{
+    beginResetModel();
+    lajit_.clear();
+
+    for(QVariant item : lista )
+    {
+        QVariantMap map = item.toMap();
+        int id = map.take("id").toInt();
+        QString tunnus = map.take("tunnus").toString();
+        QString nimi = map.take("nimi").toString();
+
+        QJsonDocument doc = QJsonDocument::fromVariant(map);
+
+        lajit_.append( Tositelaji(id, tunnus, nimi, doc.toJson()) );
+    }
+
+    qDebug() << "Ladattu " << lista.count() << " tositelajia ";
+
+    endResetModel();
 }
 
 void TositelajiModel::lataa()

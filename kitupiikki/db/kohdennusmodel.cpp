@@ -208,6 +208,22 @@ bool KohdennusModel::onkoMuokattu() const
     return false;
 }
 
+void KohdennusModel::lataa(QVariantList lista)
+{
+    beginResetModel();
+    kohdennukset_.clear();
+    for( QVariant item : lista )
+    {
+        QVariantMap map = item.toMap();
+        kohdennukset_.append( Kohdennus( map.value("id").toInt(),
+                                         map.value("tyyppi").toInt(),
+                                         map.value("nimi").toString(),
+                                         map.value("alkaa").toDate(),
+                                         map.value("loppuuu").toDate()));
+    }
+    endResetModel();
+}
+
 void KohdennusModel::lataa()
 {
     beginResetModel();

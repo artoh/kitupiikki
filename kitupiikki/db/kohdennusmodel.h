@@ -84,8 +84,10 @@ public:
 
     bool onkoMuokattu() const;
 
+    void lataa(QVariantList lista);
+
 public slots:
-    void lataa();
+    void lataa();    
     void lisaaUusi(const Kohdennus &uusi);
     void tallenna();
 

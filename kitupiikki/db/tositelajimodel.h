@@ -75,6 +75,7 @@ public:
 
     QModelIndex lisaaRivi();
 
+    void lataa(const QVariantList& lista);
 
 public slots:
     void lataa();

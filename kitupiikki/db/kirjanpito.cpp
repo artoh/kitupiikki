@@ -439,10 +439,10 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto, bool ilmoitaVirheesta)
                        "                                                 ON UPDATE CASCADE"
                    ");");
 
-    tositelajiModel_->lataa();
+//    tositelajiModel_->lataa();
 //    tiliModel_->lataa();
-    tilikaudetModel_->lataa();
-    kohdennukset_->lataa();
+//    tilikaudetModel_->lataa();
+//    kohdennukset_->lataa();
     tuotteet_->lataa();
 
     // Tilapäishakemiston luominen

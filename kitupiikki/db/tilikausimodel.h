@@ -90,6 +90,8 @@ public:
 
     bool onkoBudjetteja() const;
 
+    void lataa(const QVariantList& lista);
+
 public slots:
     void lataa();
 

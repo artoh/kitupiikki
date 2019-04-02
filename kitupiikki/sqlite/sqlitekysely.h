@@ -38,6 +38,10 @@ protected:
     void alustusKysely();
     QVariantList asetukset();
     QVariantList tilit();
+    QVariantList kohdennukset();
+    QVariantList tositelajit();
+    QVariantList tilikaudet();
+
     void teeAsetus(const QVariantMap &params);
 };
 
