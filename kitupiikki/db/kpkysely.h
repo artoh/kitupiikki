@@ -32,7 +32,6 @@ class KpKysely : public QObject
 {
     Q_OBJECT
 public:
-    KpKysely(KpYhteys *parent);
 
     enum Metodi {
         GET,
@@ -45,6 +44,9 @@ public:
         OK,
         VIRHE
     };
+
+    KpKysely(KpYhteys *parent, Metodi metodi = GET, QString polku = QString());
+
 
     QString polku() const { return polku_;}
 
@@ -59,7 +61,7 @@ signals:
     void vastaus(QVariant* reply, Tila tila);
 
 public slots:
-    void kysy();
+    virtual void kysy() = 0;
 
 protected:
     void vastaa(QVariant arvo, Tila tila = OK);
@@ -70,8 +72,6 @@ protected:
     QUrlQuery kysely_;
     QVariant vastaus_;
     Tila tila_;
-
-    KpYhteys* yhteys() const;
 
 };
 

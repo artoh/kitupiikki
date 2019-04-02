@@ -189,7 +189,9 @@ SOURCES += main.cpp \
     uusikp/numerointisivu.cpp \
     kirjaus/verotarkastaja.cpp \
     db/kpyhteys.cpp \
-    db/kpkysely.cpp
+    db/kpkysely.cpp \
+    sqlite/sqlitekysely.cpp \
+    sqlite/sqliteyhteys.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -356,7 +358,9 @@ HEADERS += \
     uusikp/numerointisivu.h \
     kirjaus/verotarkastaja.h \
     db/kpyhteys.h \
-    db/kpkysely.h
+    db/kpkysely.h \
+    sqlite/sqlitekysely.h \
+    sqlite/sqliteyhteys.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
