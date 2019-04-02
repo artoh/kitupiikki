@@ -17,9 +17,11 @@
 #ifndef KPYHTEYS_H
 #define KPYHTEYS_H
 
-#include <QObject>
 
-class KpKysely;
+#include "kpkysely.h"
+#include <QObject>
+#include <QUrl>
+
 class Kirjanpito;
 
 /**
@@ -30,9 +32,12 @@ class KpYhteys : public QObject
 {
     Q_OBJECT
 public:
-    KpYhteys(Kirjanpito *parent);
+    KpYhteys(Kirjanpito *parent, const QUrl& url);
 
-    void kasitteleKysely(KpKysely* kysely);
+    virtual bool avaaYhteys() = 0;
+    virtual KpKysely* kysely(QString polku = QString(), KpKysely::Metodi metodi = KpKysely::GET ) = 0;
+
+    QUrl url() const { return url_; }
 
 protected:
 
@@ -40,6 +45,10 @@ protected:
 signals:
 
 public slots:
+
+private:
+    QUrl url_;
+
 };
 
 #endif // KPYHTEYS_H

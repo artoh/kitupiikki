@@ -88,6 +88,9 @@ public:
     void tilikarttaMoodiin(bool onko);
 
     void lataa();
+
+    void lataa(const QVariantList& lista);
+
     void tyhjenna() { asetukset_.clear(); }
 
 signals:

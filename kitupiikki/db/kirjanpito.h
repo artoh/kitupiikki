@@ -48,6 +48,8 @@
 
 #include "laskutus/tuotemodel.h"
 
+class KpYhteys;
+
 class QPrinter;
 class QSettings;
 
@@ -257,6 +259,12 @@ public:
      */
     void lokiin(const QSqlQuery &kysely);
 
+    /**
+     * @brief Yhteys taustajärjestelmään
+     * @return
+     */
+    KpYhteys* yhteys() { return yhteys_; }
+
 signals:
     /**
      * @brief Tietokanta on avattu
@@ -320,6 +328,8 @@ public slots:
      */
     bool avaaTietokanta(const QString& tiedosto, bool ilmoitaVirheesta = true);
 
+
+
     /**
      * @brief Lataa tietokannan uudelleen rakenteen muutoksen jälkeen
      * @return tosi, jos onnistui
@@ -357,6 +367,8 @@ protected:
     QString portableDir_;      // Portable-ohjelman käynnistyshakemisto
 
     QStringList virheloki_;
+
+    KpYhteys* yhteys_;
 
 public:
     /**
@@ -416,6 +428,8 @@ private:
  * @return
  */
 Kirjanpito* kp();
+
+
 
 
 #endif // KIRJANPITO_H

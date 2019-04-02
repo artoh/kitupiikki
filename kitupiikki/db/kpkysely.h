@@ -36,6 +36,7 @@ public:
     enum Metodi {
         GET,
         POST,
+        PATCH,
         DELETE
     };
 
@@ -58,19 +59,19 @@ public:
     Tila tila() const { return tila_;}
 
 signals:
-    void vastaus(QVariant* reply, Tila tila);
+    void vastaus(QVariantMap reply, Tila tila);
 
 public slots:
-    virtual void kysy() = 0;
+    virtual void kysy(const QVariant& data = QVariant()) = 0;
 
 protected:
-    void vastaa(QVariant arvo, Tila tila = OK);
+    void vastaa(Tila tila = OK);
 
 protected:
     Metodi metodi_;
     QString polku_;
     QUrlQuery kysely_;
-    QVariant vastaus_;
+    QVariantMap vastaus_;
     Tila tila_;
 
 };

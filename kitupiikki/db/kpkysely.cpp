@@ -16,11 +16,12 @@
 */
 #include "kpkysely.h"
 #include "kpyhteys.h"
+#include "db/kirjanpito.h"
 
 #include <QDate>
 
-KpKysely::KpKysely(KpYhteys *parent)
- : QObject (parent), metodi_(GET), tila_(ALUSTUS)
+KpKysely::KpKysely(KpYhteys *parent, KpKysely::Metodi metodi, QString polku) :
+    QObject (parent), metodi_(metodi), polku_(polku)
 {
 
 }
@@ -40,18 +41,19 @@ QString KpKysely::attribuutti(const QString &avain) const
     return kysely_.queryItemValue(avain);
 }
 
-void KpKysely::kysy()
-{
-    yhteys()->kasitteleKysely(this);
-}
 
-void KpKysely::vastaa(QVariant arvo, KpKysely::Tila tila)
+void KpKysely::vastaa(KpKysely::Tila tila)
 {
-    vastaus_.setValue(arvo);
-    emit vastaus(&vastaus_, tila);
-}
+    QMapIterator<QString, QVariant> iter( vastaus_ );
+    while (iter.hasNext()) {
+        iter.next();
+        QString avain = iter.key();
 
-KpYhteys *KpKysely::yhteys() const
-{
-    return static_cast<KpYhteys*>( parent() );
+        if( avain == "data")
+            emit vastaus( iter.value().toMap(), tila );
+        else if( avain == "asetukset")
+            kp()->asetukset()->lataa( iter.value().toList() );
+
+    }
+
 }

@@ -38,8 +38,11 @@
 #include "kirjanpito.h"
 #include "naytin/naytinikkuna.h"
 
+#include "sqlite/sqliteyhteys.h"
+
 Kirjanpito::Kirjanpito(const QString& portableDir) : QObject(nullptr),
-    harjoitusPvm( QDate::currentDate()), tempDir_(nullptr), portableDir_(portableDir)
+    harjoitusPvm( QDate::currentDate()), tempDir_(nullptr), portableDir_(portableDir),
+    yhteys_(nullptr)
 {
     if( portableDir.isEmpty())
         settings_ = new QSettings(this);
@@ -197,6 +200,27 @@ void Kirjanpito::lokiin(const QSqlQuery &kysely)
 
 bool Kirjanpito::avaaTietokanta(const QString &tiedosto, bool ilmoitaVirheesta)
 {
+    //
+    // Uudessa muodossa urliton menee tiedostomuunnokseen, ja vasta urlillinen menee avaukseen
+    // Tässä kuitenkin suoraan sqlite-kokeilu
+    //
+
+    QUrl url = QUrl::fromLocalFile(tiedosto);
+    KpYhteys* uusiyhteys = new SQLiteYhteys(this, url);
+    if( uusiyhteys->avaaYhteys() )
+    {
+        if( yhteys_)
+            yhteys_->deleteLater();
+        yhteys_ = uusiyhteys;
+    }
+    else
+    {
+        uusiyhteys->deleteLater();
+        return false;
+    }
+
+
+
     tietokanta_.setDatabaseName(tiedosto);
     polkuTiedostoon_ = tiedosto;
 
@@ -217,9 +241,9 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto, bool ilmoitaVirheesta)
     // Tehostetaan tietokannan nopeutta määrittelemällä, että tietokanta on vain tämän yhden
     // yhteyden käytössä.
 
-    tietokanta()->exec("PRAGMA LOCKING_MODE = EXCLUSIVE");
+//    tietokanta()->exec("PRAGMA LOCKING_MODE = EXCLUSIVE");
 
-    tietokanta()->exec("PRAGMA JOURNAL_MODE = PERSIST");
+//    tietokanta()->exec("PRAGMA JOURNAL_MODE = PERSIST");
 
     if( tietokanta()->lastError().isValid())
     {
@@ -248,7 +272,12 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto, bool ilmoitaVirheesta)
 
 
     // Ladataankin asetukset yms modelista
-    asetusModel_->lataa();
+    // asetusModel_->lataa();
+
+    // Ladataan yhteyden kautta!
+
+    KpKysely* alustusKysely = yhteys()->kysely("aloita");
+    alustusKysely->kysy();
 
 
     if( asetusModel_->asetus("Nimi").isEmpty() || !asetusModel_->luku("KpVersio"))
@@ -502,3 +531,4 @@ void Kirjanpito::paivita(int versioon)
 Kirjanpito* Kirjanpito::instanssi__ = nullptr;
 
 Kirjanpito *kp()  { return Kirjanpito::db(); }
+

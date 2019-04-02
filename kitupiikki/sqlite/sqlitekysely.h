@@ -17,11 +17,27 @@
 #ifndef SQLITEKYSELY_H
 #define SQLITEKYSELY_H
 
+#include "db/kpkysely.h"
+
+#include <QSqlDatabase>
+
+class SQLiteYhteys;
 
 class SQLiteKysely : public KpKysely
 {
+    Q_OBJECT
 public:
-    SQLiteKysely();
+    SQLiteKysely(SQLiteYhteys* parent, Metodi metodi=GET, QString polku = QString());
+
+public slots:
+    void kysy(const QVariant& data = QVariant()) override;
+
+protected:
+    QSqlDatabase tietokanta();
+
+    void alustusKysely();
+    QVariantList asetukset();
+    void teeAsetus(const QVariantMap &params);
 };
 
 #endif // SQLITEKYSELY_H

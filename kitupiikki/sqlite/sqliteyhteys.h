@@ -17,11 +17,28 @@
 #ifndef SQLITEYHTEYS_H
 #define SQLITEYHTEYS_H
 
+#include "db/kpyhteys.h"
+#include "sqlitekysely.h"
+
+#include <QSqlDatabase>
+
+class Kirjanpito;
 
 class SQLiteYhteys : public KpYhteys
 {
 public:
-    SQLiteYhteys();
+    SQLiteYhteys(Kirjanpito* parent, const QUrl& url);
+
+    bool avaaYhteys() override;
+
+    SQLiteKysely* kysely(QString polku = QString(), KpKysely::Metodi metodi = KpKysely::GET) override;
+
+    QSqlDatabase tietokanta() const { return tietokanta_;}
+
+protected:
+    QSqlDatabase tietokanta_;
+
+
 };
 
 #endif // SQLITEYHTEYS_H

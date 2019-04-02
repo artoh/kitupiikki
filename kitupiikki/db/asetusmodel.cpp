@@ -16,6 +16,7 @@
 */
 
 #include <QSqlQuery>
+#include <QDebug>
 
 #include <QDate>
 #include <QString>
@@ -26,7 +27,9 @@
 
 #include "asetusmodel.h"
 
-
+#include "kpkysely.h"
+#include "kirjanpito.h"
+#include "kpyhteys.h"
 
 AsetusModel::AsetusModel(QSqlDatabase *tietokanta, QObject *parent, bool uusikirjanpito)
     :   QObject(parent), tietokanta_(tietokanta), alustetaanTietokantaa_(uusikirjanpito)
@@ -38,6 +41,17 @@ void AsetusModel::aseta(const QString &avain, const QString &arvo)
 {
     QSqlQuery query(*tietokanta_);
     QDateTime nykyinen;
+
+    asetukset_[avain] = arvo;
+    muokatut_[avain] = nykyinen;
+
+    KpKysely* paivitys = kp()->yhteys()->kysely("asetukset", KpKysely::PATCH);
+    QVariantMap params;
+    params.insert("avain", avain);
+    params.insert("arvo", arvo);
+    paivitys->kysy(params);
+
+    return;
 
     if( !alustetaanTietokantaa_)
         nykyinen = QDateTime::currentDateTime();
@@ -213,4 +227,22 @@ void AsetusModel::lataa()
             muokatut_[ query.value(0).toString()] = query.value(2).toDateTime();
     }
 
+}
+
+void AsetusModel::lataa(const QVariantList &lista)
+{
+    asetukset_.clear();
+    for( QVariant item : lista) {
+        QVariantMap map = item.toMap();
+
+        QString avain = map.value("avain").toString();
+        QString arvo = map.value("arvo").toString();
+        QDateTime muokkausaika = map.value("muokattu").toDateTime();
+
+        asetukset_.insert( avain, arvo );
+        if( muokkausaika.isValid())
+            muokatut_.insert( avain, muokkausaika );
+    }
+
+    qDebug() << "Ladattu " << lista.count() << " asetusta ";
 }

@@ -16,7 +16,32 @@
 */
 #include "sqliteyhteys.h"
 
-SQLiteYhteys::SQLiteYhteys()
-{
+#include <QDebug>
+#include <QSqlError>
 
+SQLiteYhteys::SQLiteYhteys(Kirjanpito *parent, const QUrl &url) :
+    KpYhteys (parent, url)
+{
+    tietokanta_ = QSqlDatabase::addDatabase("QSQLITE", "TOINEN");
+}
+
+bool SQLiteYhteys::avaaYhteys()
+{
+    tietokanta_.setDatabaseName( url().toLocalFile() );
+
+    qDebug() << "SQLiteYhteys: Avataan tietokanta " << url();
+
+    if( !tietokanta_.open())
+    {
+        qDebug() << "SQLiteYhteys: Tietokannan avaaminen epäonnistui : " << tietokanta_.lastError().text();
+        return false;
+    }
+
+
+    return true;
+}
+
+SQLiteKysely *SQLiteYhteys::kysely(QString polku, KpKysely::Metodi metodi)
+{
+    return new SQLiteKysely( this, metodi, polku);
 }

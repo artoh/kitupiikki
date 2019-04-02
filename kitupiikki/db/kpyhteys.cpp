@@ -18,7 +18,8 @@
 
 #include "kirjanpito.h"
 
-KpYhteys::KpYhteys(Kirjanpito *parent) : QObject(parent)
+KpYhteys::KpYhteys(Kirjanpito *parent, const QUrl &url)
+    : QObject(parent), url_(url)
 {
 
 }
