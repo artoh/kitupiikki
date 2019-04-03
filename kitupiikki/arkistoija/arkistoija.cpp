@@ -126,7 +126,7 @@ void Arkistoija::arkistoiTositteet()
         if( kysely.value(1).toInt())
         {
             TilioteTieto otetieto;
-            otetieto.tilinumero = kp()->tilit()->tiliIdlla( kysely.value(1).toInt() ).numero();
+            otetieto.tilinumero = kp()->tilit()->tiliIdllaVanha( kysely.value(1).toInt() ).numero();
             if( otetieto.tilinumero )
             {
                 tosite->lataa( kysely.value(0).toInt());
@@ -290,7 +290,7 @@ void Arkistoija::arkistoiTositteet()
 
                 bool taseEraSeurannassa = false;
 
-                Tili tili = kp()->tilit()->tiliIdlla( index.data(VientiModel::TiliIdRooli).toInt() );
+                Tili tili = kp()->tilit()->tiliIdllaVanha( index.data(VientiModel::TiliIdRooli).toInt() );
 
                 while( eraKysely.next() && tili.eritellaankoTase() )
                 {

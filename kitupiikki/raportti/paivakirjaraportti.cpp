@@ -221,7 +221,7 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
                           QString("%1%2/%3").arg( laji.tunnus() ).arg(kysely.value("tunniste").toInt())
                           .arg( kp()->tilikaudet()->tilikausiPaivalle(pvm).kausitunnus() ));
 
-        Tili tili = kp()->tilit()->tiliIdlla( kysely.value("tili").toInt() );
+        Tili tili = kp()->tilit()->tiliIdllaVanha( kysely.value("tili").toInt() );
         if( !tili.onkoValidi())
             continue;   // Maksuperusteisen laskun valvontarivi
 

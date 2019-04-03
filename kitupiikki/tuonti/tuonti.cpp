@@ -134,7 +134,7 @@ void Tuonti::tuoLasku(qlonglong sentit, QDate laskupvm, QDate toimituspvm, QDate
     {
         kirjausWg()->gui()->tositetyyppiCombo->setCurrentIndex(
                     kirjausWg()->gui()->tositetyyppiCombo->findData( kp()->asetukset()->luku("TuontiOstolaskuTositelaji"), TositelajiModel::IdRooli ) );
-        rivi.tili = kp()->tilit()->tiliNumerolla( kp()->asetukset()->luku("TuontiOstolaskuTili") );
+        rivi.tili = kp()->tilit()->tiliNumerollaVanha( kp()->asetukset()->luku("TuontiOstolaskuTili") );
         rivi.kreditSnt = sentit;
     }
 
@@ -245,7 +245,7 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, const QString& iban, QString v
                 QSqlQuery tilikysely( QString("SELECT tili, selite, kohdennus FROM vienti WHERE id=%1").arg(era.eraId));
                 if( tilikysely.next() && tilikysely.value("tili").toInt())
                 {
-                    vastarivi.tili = kp()->tilit()->tiliIdlla( tilikysely.value("tili").toInt() );
+                    vastarivi.tili = kp()->tilit()->tiliIdllaVanha( tilikysely.value("tili").toInt() );
                     vastarivi.kohdennus = kp()->kohdennukset()->kohdennus( tilikysely.value("kohdennus").toInt() );
                     vastarivi.selite = tilikysely.value("kohdennus").toString();
                     vastarivi.eraId = era.eraId;
@@ -301,7 +301,7 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, const QString& iban, QString v
 
             if( era.saldoSnt == sentit )
             {
-                vastarivi.tili = kp()->tilit()->tiliIdlla( kysely.value("tili").toInt() );
+                vastarivi.tili = kp()->tilit()->tiliIdllaVanha( kysely.value("tili").toInt() );
                 vastarivi.eraId = era.eraId;
                 selite = kysely.value("selite").toString();
 

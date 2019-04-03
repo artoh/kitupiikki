@@ -34,7 +34,7 @@ int SelausModel::rowCount(const QModelIndex & /* parent */) const
 
 int SelausModel::columnCount(const QModelIndex & /* parent */) const
 {
-    return 1;
+    return 7;
 }
 
 QVariant SelausModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -74,15 +74,9 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
 
     QVariantMap map = lista_.at( index.row()).toMap();
 
-
-    if( index.row() == lista_.count()-1 && index.column() == 0 && role == Qt::DisplayRole)
-            qDebug() << QDateTime::currentDateTime() << " EE ";
-    if( index.row() == lista_.count()-1 && index.column() == 0 && role == Qt::DecorationRole)
-            qDebug() << QDateTime::currentDateTime() << " EF ";
-
     if( role == Qt::DisplayRole || role == Qt::EditRole)
     {
-        Tili tili = kp()->tilit()->tiliIdlla( map.value("tili").toInt() );
+        Tili *tili = kp()->tilit()->tiliIdlla( map.value("tili").toInt() );
         switch (index.column())
         {
             case TOSITE:
@@ -102,9 +96,9 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
 
             case TILI:
                 if( role == Qt::EditRole)
-                    return tili.numero();
-                else if( tili.numero())
-                    return QVariant( QString("%1 %2").arg(tili.numero()).arg(tili.nimi()) );
+                    return tili->numero();
+                else if( tili->numero())
+                    return QVariant( QString("%1 %2").arg(tili->numero()).arg(tili->nimi()) );
                 else
                     return QVariant();
 
@@ -232,7 +226,7 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
         SelausRivi rivi;
         rivi.tositeId = query.value(0).toInt();
         rivi.pvm = query.value(1).toDate();
-        rivi.tili = kp()->tilit()->tiliIdlla( query.value(2).toInt());
+        rivi.tili = kp()->tilit()->tiliIdllaVanha( query.value(2).toInt());
         rivi.debetSnt = query.value(3).toLongLong();
         rivi.kreditSnt = query.value(4).toLongLong();
         rivi.selite = query.value(5).toString();
@@ -303,7 +297,7 @@ void SelausModel::tietoSaapuu(QVariantMap *map, int /* status */)
     for(auto rivi : lista_)
     {
         int tiliId = rivi.toMap().value("tili").toInt();
-        Tili tili = kp()->tilit()->tiliIdlla(tiliId);
+        Tili tili = kp()->tilit()->tiliIdllaVanha(tiliId);
         QString tilistr = QString("%1 %2")
                     .arg(tili.numero())
                     .arg(tili.nimi());

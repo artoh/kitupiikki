@@ -223,7 +223,7 @@ RaportinKirjoittaja TositeluetteloRaportti::kirjoitaRaportti(QDate mista, QDate 
                 RaporttiRivi vientirivi;
                 vientirivi.lisaa("");
                 vientirivi.lisaa( lisakysely.value("pvm").toDate() );
-                Tili tili = kp()->tilit()->tiliIdlla( lisakysely.value("tili").toInt());
+                Tili tili = kp()->tilit()->tiliIdllaVanha( lisakysely.value("tili").toInt());
                 vientirivi.lisaaLinkilla(RaporttiRiviSarake::TILI_NRO, tili.numero(), QString("%1 %2").arg(tili.numero()).arg(tili.nimi()));
 
                 if( tulostakohdennukset  )

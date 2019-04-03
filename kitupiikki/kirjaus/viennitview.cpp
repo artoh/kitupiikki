@@ -64,7 +64,7 @@ void ViennitView::seuraavaSarake()
     else if( index.column() == VientiModel::TILI)
     {
         // Jos tili on tulotili tai vastattavaa, hypätään suoraan Kreditiin
-        Tili tili = kp()->tilit()->tiliIdlla( currentIndex().data(VientiModel::TiliIdRooli).toInt() );
+        Tili tili = kp()->tilit()->tiliIdllaVanha( currentIndex().data(VientiModel::TiliIdRooli).toInt() );
         if( tili.onko(TiliLaji::TULO) || tili.onko(TiliLaji::VASTATTAVAA))
             setCurrentIndex( model()->index( index.row(), VientiModel::KREDIT ) );
         else

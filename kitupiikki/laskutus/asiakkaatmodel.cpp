@@ -126,7 +126,7 @@ void AsiakkaatModel::paivita(bool toimittajat)
            if( avoinsnt > sentit)
                avoinsnt = sentit;
 
-            if( !toimittajat_ ||  kp()->tilit()->tiliIdlla( summaquery.value("tili").toInt() ).onko(TiliLaji::OSTOVELKA))
+            if( !toimittajat_ ||  kp()->tilit()->tiliIdllaVanha( summaquery.value("tili").toInt() ).onko(TiliLaji::OSTOVELKA))
             {
                 avoimet += avoinsnt;
                 QDate erapvm = summaquery.value("erapvm").toDate();

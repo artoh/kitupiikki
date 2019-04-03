@@ -57,7 +57,7 @@ void KantaTilinvalintaLine::valitseTiliNumerolla(int tilinumero)
 {
     if( tilinumero )
     {
-        Tili tili = kp()->tilit()->tiliNumerolla(tilinumero);
+        Tili tili = kp()->tilit()->tiliNumerollaVanha(tilinumero);
         valitseTili(tili);
     }
 
@@ -65,7 +65,7 @@ void KantaTilinvalintaLine::valitseTiliNumerolla(int tilinumero)
 
 void KantaTilinvalintaLine::valitseTiliIdlla(int tiliId)
 {
-    Tili tili = kp()->tilit()->tiliIdlla(tiliId);
+    Tili tili = kp()->tilit()->tiliIdllaVanha(tiliId);
     valitseTili(tili);
 }
 

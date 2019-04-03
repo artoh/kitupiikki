@@ -24,26 +24,32 @@
 #include "jsonkentta.h"
 #include "tilityyppimodel.h"
 
+#include "kantavariantti.h"
+
 /**
  * @brief Tilin tai otsikon tiedot
  *
  */
-class Tili
+class Tili : KantaVariantti
 {
 public:
     Tili();
-    Tili(int id, int numero, const QString& nimi, const QString& tyyppiKoodi, int tila,
-         int ylaotsikkoid = 0, const QDateTime muokkausaika = QDateTime());
+
+    Tili(const QVariantMap& data);
 
     int id() const { return id_; }
     int numero() const { return numero_; }
-    QString nimi() const { return nimi_; }
+
+    QString nimi(const QString& kieli = "fi") const;
+
     TiliTyyppi tyyppi() const { return tyyppi_;}
     QString tyyppiKoodi() const { return tyyppi().koodi(); }
     int tila() const { return tila_; }
     int otsikkotaso() const { return tyyppi().otsikkotaso(); }
+
     bool muokattu() const { return muokattu_ || json_.onkoMuokattu() || tilamuokattu_; }
     bool muokattuMuutakinKuinTilaa() const { return muokattu_ || json_.onkoMuokattu(); }
+
     QDateTime muokkausaika() const { return muokkausAika_; }
 
     /**
@@ -63,7 +69,7 @@ public:
 
     void asetaId(int id) { id_ = id; }
     void asetaNumero(int numero);
-    void asetaNimi(const QString& nimi) { nimi_ = nimi; muokattu_ = true; }
+    void asetaNimi(const QString& nimi) { muokattu_ = true; }
     void asetaTyyppi(const QString& tyyppikoodi);
     void asetaTila(int tila) { tila_ = tila; tilamuokattu_ = true; }
 
@@ -183,7 +189,7 @@ protected:
 protected:
     int id_;
     int numero_;
-    QString nimi_;
+
     TiliTyyppi tyyppi_;
     int tila_;
     JsonKentta json_;
@@ -191,6 +197,8 @@ protected:
     bool muokattu_;
     bool tilamuokattu_;
     QDateTime muokkausAika_;
+
+    QMap<QString,QString> nimi_;
 
 };
 

@@ -77,7 +77,7 @@ TilinValintaDialogi::~TilinValintaDialogi()
 Tili TilinValintaDialogi::valittu() const
 {
     int tiliId = ui->view->currentIndex().data(TiliModel::IdRooli).toInt();
-    return kp()->tilit()->tiliIdlla(tiliId);
+    return kp()->tilit()->tiliIdllaVanha(tiliId);
 }
 
 void TilinValintaDialogi::suodata(const QString &alku)
@@ -138,7 +138,7 @@ void TilinValintaDialogi::valintaMuuttui(const QModelIndex &index)
 
 void TilinValintaDialogi::naytaOhje(int tiliId)
 {
-    Tili tili = tiliModel->tiliIdlla(tiliId);
+    Tili tili = tiliModel->tiliIdllaVanha(tiliId);
     QString txt = tili.json()->str("Taydentava");
 
     if( !tili.json()->str("Kirjausohje").isEmpty() )

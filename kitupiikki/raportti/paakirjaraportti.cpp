@@ -361,7 +361,7 @@ void PaakirjaRaportti::haeTilitComboon()
 
     while( kysely.next())
     {
-        const Tili& tili = kp()->tilit()->tiliIdlla( kysely.value(0).toInt());
+        const Tili& tili = kp()->tilit()->tiliIdllaVanha( kysely.value(0).toInt());
         ui->tiliCombo->addItem( QString("%1 %2").arg(tili.numero()).arg(tili.nimi()), tili.numero() );
     }
     ui->tiliCombo->model()->sort(0);

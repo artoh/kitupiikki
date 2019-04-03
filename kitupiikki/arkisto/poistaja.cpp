@@ -85,7 +85,7 @@ bool Poistaja::sumupoistaja(Tilikausi kausi)
         if( !saldo)
             continue;
 
-        if( !kp()->tilit()->tiliNumerolla( tili.json()->luku("Poistotili") ).onkoValidi() )
+        if( !kp()->tilit()->tiliNumerollaVanha( tili.json()->luku("Poistotili") ).onkoValidi() )
         {
             QMessageBox::critical(nullptr, tr("Kitupiikin virhe"),
                                   tr("Poistoja ei voi kirjata, koska tilille %1 ei ole määritelty "
@@ -150,7 +150,7 @@ bool Poistaja::sumupoistaja(Tilikausi kausi)
 
                     VientiRivi poistotilille;
                     poistotilille.pvm = kausi.paattyy();
-                    poistotilille.tili = kp()->tilit()->tiliNumerolla( tili.json()->luku("Poistotili") );
+                    poistotilille.tili = kp()->tilit()->tiliNumerollaVanha( tili.json()->luku("Poistotili") );
                     poistotilille.debetSnt = kohdpoisto;
                     poistotilille.kohdennus = kohdennus;
                     poistotilille.selite = tr("Tilin %1 %2 %3 menojäännöspoisto")
@@ -178,7 +178,7 @@ bool Poistaja::sumupoistaja(Tilikausi kausi)
 
                 VientiRivi poistotilille;
                 poistotilille.pvm = kausi.paattyy();
-                poistotilille.tili = kp()->tilit()->tiliNumerolla( tili.json()->luku("Poistotili") );
+                poistotilille.tili = kp()->tilit()->tiliNumerollaVanha( tili.json()->luku("Poistotili") );
                 poistotilille.debetSnt = poisto;
                 poistotilille.selite = tr("Tilin %1 %2 menojäännöspoisto")
                         .arg(tili.numero())
@@ -267,7 +267,7 @@ bool Poistaja::sumupoistaja(Tilikausi kausi)
 
                 VientiRivi poistotilille;
                 poistotilille.pvm = kausi.paattyy();
-                poistotilille.tili = kp()->tilit()->tiliNumerolla( tili.json()->luku("Poistotili") );
+                poistotilille.tili = kp()->tilit()->tiliNumerollaVanha( tili.json()->luku("Poistotili") );
                 poistotilille.debetSnt = eraPoisto;
                 poistotilille.selite = tr("Tasaeräpoisto %3 tilillä %1 %2")
                         .arg(tili.numero())

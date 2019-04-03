@@ -83,7 +83,7 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
                     while( iter.hasNext() )
                     {
                         iter.next();
-                        Tili tili = Kirjanpito::db()->tilit()->tiliNumerolla( iter.key());
+                        Tili tili = Kirjanpito::db()->tilit()->tiliNumerollaVanha( iter.key());
                         if( tili.onko(TiliLaji::TULO) )
                             tulos += iter.value();
                         else if( tili.onko(TiliLaji::MENO) )
@@ -216,7 +216,7 @@ void TilinavausModel::lataa()
 
     while(kysely.next())
     {
-        Tili tili = Kirjanpito::db()->tilit()->tiliIdlla( kysely.value("tili").toInt() );
+        Tili tili = Kirjanpito::db()->tilit()->tiliIdllaVanha( kysely.value("tili").toInt() );
         int debet = kysely.value("debetsnt").toInt();
         int kredit = kysely.value("kreditsnt").toInt();
 
@@ -257,7 +257,7 @@ bool TilinavausModel::tallenna()
     while( iter.hasNext())
     {
         iter.next();
-        Tili tili = Kirjanpito::db()->tilit()->tiliNumerolla(iter.key() );
+        Tili tili = Kirjanpito::db()->tilit()->tiliNumerollaVanha(iter.key() );
         kysely.bindValue(":pvm", avauspaiva);
         kysely.bindValue(":tili", tili.id());
         kysely.bindValue(":vientirivi", vientirivi);
@@ -290,7 +290,7 @@ void TilinavausModel::paivitaInfo()
     while( iter.hasNext() )
     {
         iter.next();
-        Tili tili = Kirjanpito::db()->tilit()->tiliNumerolla( iter.key());
+        Tili tili = Kirjanpito::db()->tilit()->tiliNumerollaVanha( iter.key());
         if( tili.onko(TiliLaji::VASTAAVAA)  )
             tasevastaavaa += iter.value();
         else if( tili.onko(TiliLaji::VASTATTAVAA) )

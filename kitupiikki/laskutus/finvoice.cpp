@@ -102,7 +102,7 @@ QByteArray Finvoice::lasku(LaskuModel *model)
     QString aikaleima = QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss");
     QString alvtunnus = QString("FI%1").arg(kp()->asetukset()->asetus("Ytunnus"));
     alvtunnus.remove('-');
-    QString iban = kp()->tilit()->tiliNumerolla( kp()->asetukset()->luku("LaskuTili")).json()->str("IBAN");
+    QString iban = kp()->tilit()->tiliNumerollaVanha( kp()->asetukset()->luku("LaskuTili")).json()->str("IBAN");
 
     if( kp()->asetukset()->onko("VerkkolaskuSOAP") )  // Kirjoita SOAP
     {

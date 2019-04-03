@@ -67,7 +67,10 @@ public:
     void lisaaTili(const Tili &uusi);
     void poistaRivi( int riviIndeksi );
 
-    Tili tiliIdlla(int id) const;
+    Tili tiliIdllaVanha(int id) const;
+
+    Tili *tiliIdlla(int id) const;
+
     Tili tiliIndeksilla(int i) const { return tilit_.value(i); }
     Tili tiliNumerolla(int numero, int otsikkotaso = 0) const;
     Tili tiliYsiluvulla(int ysiluku) const;
@@ -94,10 +97,16 @@ public:
     bool tallenna(bool tietokantaaLuodaan = false);
 
 protected:
+    void tyhjenna();
+
+protected:
     QSqlDatabase *tietokanta_;
 
     QList<Tili> tilit_;
     QList<int> poistetutIdt_;
+
+    QList<Tili*> tiliLista_;
+    QHash<int,Tili*> idHash_;
 
 };
 

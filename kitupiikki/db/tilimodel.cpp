@@ -212,7 +212,7 @@ void TiliModel::poistaRivi(int riviIndeksi)
 
 }
 
-Tili TiliModel::tiliIdlla(int id) const
+Tili TiliModel::tiliIdllaVanha(int id) const
 {
     foreach (Tili tili, tilit_)
     {
@@ -220,6 +220,12 @@ Tili TiliModel::tiliIdlla(int id) const
             return tili;
     }
     return Tili();
+}
+
+Tili *TiliModel::tiliIdlla(int id) const
+{
+    qDebug() << "id" << id << " Tili " << idHash_.value(id);
+    return idHash_.value(id);
 }
 
 Tili TiliModel::tiliNumerolla(int numero, int otsikkotaso) const
@@ -289,6 +295,8 @@ bool TiliModel::onkoMuokattu() const
 
 void TiliModel::lataa()
 {
+    /*
+
     beginResetModel();
     tilit_.clear();
 
@@ -341,6 +349,7 @@ void TiliModel::lataa()
     }
 
     endResetModel();
+    */
 }
 
 void TiliModel::lataa(QVariantList lista)
@@ -360,10 +369,10 @@ void TiliModel::lataa(QVariantList lista)
         if( tyyppikoodi.startsWith('H'))    // Tyyppikoodi H1 tarkoittaa 1-tason otsikkoa jne.
             otsikkotaso = tyyppikoodi.midRef(1).toInt();
 
-        int id = map.take("id").toInt();
+        int id = map.value("id").toInt();
         int otsikkoIdTalle = 0; // Nykytilille merkittävä otsikkotaso
-        int ysiluku = map.take("ysiluku").toInt();
-        int nro = map.take("nro").toInt();
+        int ysiluku = map.value("ysiluku").toInt();
+        int nro = map.value("nro").toInt();
 
 
         // Etsitään otsikkotasoa tasojen lopusta alkaen
@@ -377,24 +386,16 @@ void TiliModel::lataa(QVariantList lista)
             }
         }
 
-        Tili uusi( id,     // id
-                   nro,     // nro
-                   map.take("nimi").toMap().value("fi").toString(),  // nimi
-                   tyyppikoodi,  // tyyppi
-                   map.take("tila").toInt(),     // tila
-                   otsikkoIdTalle,    // Tätä tiliä/otsikkoa ylemmän otsikon id
-                   map.take("muokattu").toDateTime()     // Muokattu viimeksi
-                   );
+        Tili uusi( map );
 
-        QMapIterator<QString, QVariant> iter(map);
-        while( iter.hasNext())
-        {
-            iter.next();
-            uusi.json()->setVar(iter.key(), iter.value());
-        }
-
-        uusi.nollaaMuokattu();
         tilit_.append(uusi);
+
+        Tili *tili = new Tili( map );
+
+        tiliLista_.append( tili );
+        idHash_.insert(id, tili);
+
+        qDebug() << id << " --- " << tili->nimi();
 
         if( otsikkotaso )
             otsikot[otsikkotaso] = uusi;
@@ -406,6 +407,8 @@ void TiliModel::lataa(QVariantList lista)
 
 bool TiliModel::tallenna(bool tietokantaaLuodaan)
 {
+    return false;   // Poissa käytöstä
+
     tietokanta_->transaction();
     QDateTime nykyaika = QDateTime::currentDateTime();
 
@@ -470,5 +473,14 @@ bool TiliModel::tallenna(bool tietokantaaLuodaan)
     }
 
     return true;
+}
+
+void TiliModel::tyhjenna()
+{
+    for(Tili *tili : tiliLista_)
+        delete tili;
+
+    tiliLista_.clear();
+    idHash_.clear();
 }
 

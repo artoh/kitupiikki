@@ -97,7 +97,7 @@ QVariant TositelajiModel::data(const QModelIndex &index, int role) const
                 int tilinro = laji.json()->luku("Vastatili");
                 if( tilinro)
                 {
-                    Tili tili = kp()->tilit()->tiliNumerolla(tilinro);
+                    Tili tili = kp()->tilit()->tiliNumerollaVanha(tilinro);
                     return QVariant( QString("%1 %2").arg(tili.numero()).arg(tili.nimi()) );
                 }
                 return QVariant();
@@ -119,7 +119,7 @@ QVariant TositelajiModel::data(const QModelIndex &index, int role) const
         int tilinro = laji.json()->luku("Vastatili");
         if( tilinro)
         {
-            Tili tili = kp()->tilit()->tiliNumerolla(tilinro);
+            Tili tili = kp()->tilit()->tiliNumerollaVanha(tilinro);
             if( tili.onko(TiliLaji::KATEINEN))
                 return QIcon(":/pic/rahaa.png");
             else if(tili.onko(TiliLaji::PANKKITILI) && laji.json()->luku("Kirjaustyyppi")==TILIOTE)

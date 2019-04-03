@@ -93,7 +93,7 @@ void PalkkaFiTuonti::tuoRivi(const QString &rivi)
     else
         vienti.selite = otsikko_ + " " + kentat.value(2);
 
-    vienti.tili = kp()->tilit()->tiliNumerolla( muunto_.value( tilinumero, tilinumero ) );
+    vienti.tili = kp()->tilit()->tiliNumerollaVanha( muunto_.value( tilinumero, tilinumero ) );
 
     if( eurot > 0 )
         vienti.debetSnt = eurot * 100 + sentit;

@@ -89,7 +89,7 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
 
     foreach (int tiliId, tiliIdt)
     {
-        Tili tili = kp()->tilit()->tiliIdlla(tiliId);
+        Tili tili = kp()->tilit()->tiliIdllaVanha(tiliId);
 
         // Ohitetaan tyhjät/tapahtumattomat tilit
         if( !tili.saldoPaivalle(mihin))

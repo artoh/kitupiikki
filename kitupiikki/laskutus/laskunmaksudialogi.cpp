@@ -117,7 +117,7 @@ void LaskunMaksuDialogi::kirjaa()
     rahaRivi.debetSnt = ostolasku ? 0 : qRound( ui->euroSpin->value() * 100 );
     rahaRivi.kreditSnt = ostolasku ? qRound( ui->euroSpin->value() * 100 ) : 0;
     rahaRivi.selite = selite;
-    rahaRivi.tili = kp()->tilit()->tiliNumerolla( ui->tiliEdit->valittuTilinumero() );
+    rahaRivi.tili = kp()->tilit()->tiliNumerollaVanha( ui->tiliEdit->valittuTilinumero() );
 
     if( rahaRivi.tili.json()->luku("Kohdennuksella"))
         rahaRivi.kohdennus = kp()->kohdennukset()->kohdennus( index.data(LaskutModel::KohdennusIdRooli).toInt() );
@@ -177,7 +177,7 @@ void LaskunMaksuDialogi::kirjaa()
         EhdotusModel ehdotus;
 
         VientiRivi saatavaRivi;
-        saatavaRivi.tili = kp()->tilit()->tiliIdlla( index.data(LaskutModel::TiliIdRooli).toInt() );
+        saatavaRivi.tili = kp()->tilit()->tiliIdllaVanha( index.data(LaskutModel::TiliIdRooli).toInt() );
 
         saatavaRivi.kreditSnt = rahaRivi.debetSnt;
         saatavaRivi.debetSnt = rahaRivi.kreditSnt;

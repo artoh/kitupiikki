@@ -109,7 +109,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
     while( query.next() && query.value("alvprosentti").toInt())
     {
 
-        Tili tili = kp()->tilit()->tiliIdlla( query.value("tili").toInt() );
+        Tili tili = kp()->tilit()->tiliIdllaVanha( query.value("tili").toInt() );
         int alvprosentti = query.value("alvprosentti").toInt();
         qlonglong saldoSnt =  query.value("kreditit").toInt() - query.value("debetit").toLongLong();
 
@@ -195,7 +195,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
 
         tilirivi.pvm = loppupvm;
         tilirivi.alvprosentti = kanta;
-        tilirivi.tili = kp()->tilit()->tiliIdlla( query.value("tili").toInt() );
+        tilirivi.tili = kp()->tilit()->tiliIdllaVanha( query.value("tili").toInt() );
         tilirivi.alvkoodi = AlvKoodi::TILITYS;
 
         verorivi.pvm = loppupvm;
@@ -506,7 +506,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
             }
 
             VientiRivi huojennusKredit;
-            huojennusKredit.tili = kp()->tilit()->tiliNumerolla( kp()->asetukset()->luku("AlvHuojennusTili") );
+            huojennusKredit.tili = kp()->tilit()->tiliNumerollaVanha( kp()->asetukset()->luku("AlvHuojennusTili") );
             huojennusKredit.kreditSnt = huojennus;
             huojennusKredit.pvm = loppupvm;
             huojennusKredit.selite = tr("Arvonlisäveron alarajahuojennus");

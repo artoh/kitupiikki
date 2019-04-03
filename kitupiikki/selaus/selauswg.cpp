@@ -173,7 +173,7 @@ void SelausWg::paivitaSummat()
         // Tili on valittuna
         QString valittuTekstina = ui->tiliCombo->currentText();
         int valittunro = valittuTekstina.leftRef( valittuTekstina.indexOf(' ') ).toInt();
-        Tili valittutili = Kirjanpito::db()->tilit()->tiliNumerolla(valittunro);
+        Tili valittutili = Kirjanpito::db()->tilit()->tiliNumerollaVanha(valittunro);
 
         qlonglong saldo = valittutili.saldoPaivalle( ui->loppuEdit->date());
         qlonglong muutos = kreditSumma - debetSumma;
@@ -207,7 +207,7 @@ void SelausWg::selaa(int tilinumero, const Tilikausi& tilikausi)
 
     paivita();
 
-    Tili selattava = Kirjanpito::db()->tilit()->tiliNumerolla(tilinumero);
+    Tili selattava = Kirjanpito::db()->tilit()->tiliNumerollaVanha(tilinumero);
 
     ui->tiliCombo->setCurrentText(QString("%1 %2").arg(selattava.numero() ).arg(selattava.nimi()));
 

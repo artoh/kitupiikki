@@ -408,9 +408,14 @@ void SQLiteKysely::vientilista()
     {
         QVariantMap map;
         int id = kysely.value("vienti.id").toInt();
+        int tili = kysely.value("tili").toInt();
+
+        if( !tili )
+            continue;
+
         map.insert("id", id);
         map.insert("pvm", kysely.value("vienti.pvm"));
-        map.insert("tili", kysely.value("tili"));
+        map.insert("tili", tili );
         if( !kysely.value("debetsnt").isNull())
             map.insert("debetsnt", kysely.value("debetsnt"));
         if( !kysely.value("kreditsnt").isNull())

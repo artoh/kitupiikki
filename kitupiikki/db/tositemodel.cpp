@@ -481,7 +481,7 @@ RaportinKirjoittaja TositeModel::selvittelyTuloste()
 
             if( avain == "tili")
             {
-                Tili tili = kp()->tilit()->tiliIdlla( arvo.toInt() );
+                Tili tili = kp()->tilit()->tiliIdllaVanha( arvo.toInt() );
                 if( tili.onkoValidi())
                     arvo.append(QString(" [%1 %2 %3]").arg(tili.numero()).arg(tili.nimi()).arg( tili.tyyppiKoodi() ) );
             }

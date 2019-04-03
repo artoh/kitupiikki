@@ -27,12 +27,39 @@ Tili::Tili() : id_(0), numero_(0), tila_(1),ylaotsikkoId_(0), muokattu_(false), 
 
 }
 
-Tili::Tili(int id, int numero, const QString &nimi, const QString &tyyppi, int tila, int ylaotsikkoid, const QDateTime muokkausaika) :
-    id_(id), numero_(numero), nimi_(nimi), ylaotsikkoId_(ylaotsikkoid), muokattu_(false), tilamuokattu_(false), muokkausAika_(muokkausaika)
 
+Tili::Tili(const QVariantMap &data) :
+    KantaVariantti (data)
 {
-    asetaTila(tila);
-    tyyppi_ = kp()->tiliTyypit()->tyyppiKoodilla(tyyppi);
+    // Siirretään nimet omaan taulukkoon
+    QVariantMap nimiMap = data_.value("nimi").toMap();
+    QMapIterator<QString,QVariant> nimiIter(nimiMap);
+
+    while( nimiIter.hasNext())
+    {
+        nimiIter.next();
+        nimi_.insert( nimiIter.key(), nimiIter.value().toString() );
+    }
+
+
+    id_ = data_.value("id").toInt();
+    numero_ = data_.value("nro").toInt();
+    tyyppi_ = kp()->tiliTyypit()->tyyppiKoodilla( data_.value("tyyppi").toString() );
+    tila_= data_.value("tila").toInt();
+    muokkausAika_ = data_.value("muokattu").toDateTime();
+
+    qDebug() << "Lisätty " << id() << " : " << nimi();
+}
+
+QString Tili::nimi(const QString &kieli) const
+{
+    if( nimi_.contains(kieli))
+        return nimi_.value(kieli);
+
+    if( !nimi_.isEmpty())
+        return nimi_.first();
+
+    return QString();
 }
 
 void Tili::asetaNumero(int numero)

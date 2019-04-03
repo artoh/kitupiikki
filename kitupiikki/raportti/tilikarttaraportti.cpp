@@ -116,7 +116,7 @@ RaportinKirjoittaja TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::Kar
         while( tiliId)
         {
             tiliIdtKaytossa.insert( tiliId);    // Merkitään, että on käytössä
-            Tili tili = kp()->tilit()->tiliIdlla( tiliId );
+            Tili tili = kp()->tilit()->tiliIdllaVanha( tiliId );
             tiliId = tili.ylaotsikkoId();       // Haetaan seuraavaksi tämän ylätili
         }
     }
@@ -133,7 +133,7 @@ RaportinKirjoittaja TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::Kar
             while( tiliId)
             {
                 ehtoTaytetty.insert(tiliId);
-                Tili tili = kp()->tilit()->tiliIdlla(tiliId);
+                Tili tili = kp()->tilit()->tiliIdllaVanha(tiliId);
                 tiliId = tili.ylaotsikkoId();
             }
         }

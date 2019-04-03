@@ -183,5 +183,5 @@ void LaskuValintaWidget::ilmoitaMuokattu()
 
 void LaskuValintaWidget::tiliIlmoitus()
 {
-    ui->syotaIbanLabel->setVisible( kp()->tilit()->tiliNumerolla( ui->tiliCombo->currentData().toInt() ).json()->str("IBAN").isEmpty() );
+    ui->syotaIbanLabel->setVisible( kp()->tilit()->tiliNumerollaVanha( ui->tiliCombo->currentData().toInt() ).json()->str("IBAN").isEmpty() );
 }

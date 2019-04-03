@@ -196,15 +196,15 @@ bool CsvTuonti::tuo(const QByteArray &data)
                         if( nro )
                         {
                             if( muuntotaulukko.isEmpty())
-                                rivi.tili = kp()->tilit()->tiliNumerolla( nro );
+                                rivi.tili = kp()->tilit()->tiliNumerollaVanha( nro );
                             else
-                                rivi.tili = kp()->tilit()->tiliNumerolla(  muuntotaulukko.value( QString::number(nro) ) );
+                                rivi.tili = kp()->tilit()->tiliNumerollaVanha(  muuntotaulukko.value( QString::number(nro) ) );
                         }
                     }
                     else if( tuonti == TILINIMI)
                     {
                         if( !rivi.tili.onkoValidi())
-                            rivi.tili = kp()->tilit()->tiliNumerolla( muuntotaulukko.value(tieto) );
+                            rivi.tili = kp()->tilit()->tiliNumerollaVanha( muuntotaulukko.value(tieto) );
                     }
                     else if( tuonti == DEBETEURO)
                         rivi.debetSnt = sentit;

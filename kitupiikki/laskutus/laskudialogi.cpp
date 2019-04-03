@@ -483,7 +483,7 @@ void LaskuDialogi::accept()
 
     int rahatilinro = ui->rahaTiliEdit->valittuTilinumero();
 
-    if( model->tallenna(kp()->tilit()->tiliNumerolla( rahatilinro )) )
+    if( model->tallenna(kp()->tilit()->tiliNumerollaVanha( rahatilinro )) )
         QDialog::accept();
     else
         QMessageBox::critical(this, tr("Virhe laskun tallentamisessa"), tr("Laskun tallentaminen epäonnistui"));

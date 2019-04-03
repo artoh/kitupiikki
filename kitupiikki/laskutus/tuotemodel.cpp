@@ -157,7 +157,7 @@ void TuoteModel::lataa()
         tuote.ahintaSnt = kysely.value("hintaSnt").toDouble();
         tuote.alvKoodi = kysely.value("alvkoodi").toInt();
         tuote.alvProsentti = kysely.value("alvprosentti").toInt();
-        tuote.myyntiTili = kp()->tilit()->tiliIdlla( kysely.value("tili").toInt() );
+        tuote.myyntiTili = kp()->tilit()->tiliIdllaVanha( kysely.value("tili").toInt() );
         tuote.kohdennus = kp()->kohdennukset()->kohdennus( kysely.value("kohdennus").toInt() );
         tuotteet_.append(tuote);
     }

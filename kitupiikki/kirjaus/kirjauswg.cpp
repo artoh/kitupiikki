@@ -594,7 +594,7 @@ bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
             else if( ui->viennitView->currentIndex().column() == VientiModel::TILI )
             {
                 ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().sibling( ui->viennitView->currentIndex().row(), VientiModel::DEBET) );
-                Tili tili = kp()->tilit()->tiliIdlla( ui->viennitView->currentIndex().data(VientiModel::TiliIdRooli).toInt() );
+                Tili tili = kp()->tilit()->tiliIdllaVanha( ui->viennitView->currentIndex().data(VientiModel::TiliIdRooli).toInt() );
                 if( tili.onko(TiliLaji::TULO) || tili.onko(TiliLaji::VASTATTAVAA))
                     ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().sibling( ui->viennitView->currentIndex().row(),VientiModel::KREDIT) );
                 return true;
@@ -897,7 +897,7 @@ void KirjausWg::vaihdaTositeTyyppi()
     // Jos tositelaji kirjaa tiliotteita, aktivoidaan tiliotteen kirjaaminen
     if( model_->tositelaji().json()->luku("Kirjaustyyppi") == TositelajiModel::TILIOTE)
     {
-        Tili otetili = kp()->tilit()->tiliNumerolla( model_->tositelaji().json()->luku("Vastatili") );
+        Tili otetili = kp()->tilit()->tiliNumerollaVanha( model_->tositelaji().json()->luku("Vastatili") );
         ui->tiliotetiliCombo->setCurrentIndex( ui->tiliotetiliCombo->findData(otetili.id(), TiliModel::IdRooli)  );
         model_->asetaTiliotetili( otetili.id() );
         ui->tilioteBox->setChecked(true);
