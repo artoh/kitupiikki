@@ -244,4 +244,6 @@ void TositeSelausModel::tietoSaapuu(QVariantMap *map, int /* status */)
     }
     kaytetytLajinimet.sort();
     endResetModel();
+
+    sender()->deleteLater();
 }

@@ -276,7 +276,7 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto, bool ilmoitaVirheesta)
 
     // Ladataan yhteyden kautta!
 
-    KpKysely* alustusKysely = yhteys()->kysely("aloita");
+    KpKysely* alustusKysely = yhteys()->kysely();
     alustusKysely->kysy();
 
 

@@ -33,23 +33,22 @@ SQLiteKysely::SQLiteKysely(SQLiteYhteys *parent, KpKysely::Metodi metodi, QStrin
 
 void SQLiteKysely::kysy(const QVariant &data)
 {
-    QString sana = polku();
-    if( sana.contains('/'))
-        sana = sana.left( sana.indexOf('/') );
-    qDebug() << "Kysely " << sana;
-
-    if( metodi() == GET && sana == "aloita")
+    if( polku().isEmpty()) {
         alustusKysely();
-    if( metodi() == PATCH && sana == "asetukset")
+        return;
+    }
+
+    sanat_ = polku().split('/');
+
+    if( metodi() == PATCH && sanat_.first() == "asetukset")
         teeAsetus(data.toMap());
-    if( metodi() == GET && sana == "liitteet")
+    if( metodi() == GET && sanat_.first() == "liitteet")
         lataaLiite();
-    if( metodi() == GET && sana == "tositteet" )
+    if( metodi() == GET && sanat_.first() == "tositteet" )
     {
-        QStringList sanat = polku().split('/');
-        if( sanat.count() == 2)
+        if( sanat_.count() == 2)
         {
-            vastaus_.insert("data", tosite( sanat.at(1).toInt() ));
+            vastaus_.insert("data", tosite( sanat_.at(1).toInt() ));
             vastaa();
         }
         else
@@ -57,6 +56,8 @@ void SQLiteKysely::kysy(const QVariant &data)
             tositelista();
         }
     }
+    if( metodi() == GET && sanat_.first() == "viennit")
+        vientilista();
 }
 
 QSqlDatabase SQLiteKysely::tietokanta()
@@ -373,4 +374,93 @@ void SQLiteKysely::tositelista()
     }
     vastaus_.insert("tositteet", lista);
     vastaa();
+}
+
+void SQLiteKysely::vientilista()
+{
+
+    QStringList ehdot;
+    if( kysely_.hasQueryItem("alkupvm"))
+        ehdot.append( QString("vienti.pvm >= '%1'").arg( attribuutti("alkupvm") ) );
+    if( kysely_.hasQueryItem("loppupvm"))
+        ehdot.append( QString("vienti.pvm <= '%1'").arg( attribuutti("loppupvm") ) );
+
+    QString ehtolause;
+    if( ehdot.count())
+        ehtolause = "WHERE " + ehdot.join(" AND ");
+
+    QString kysymys = QString("SELECT vienti.id, vienti.pvm, tili, debetsnt, "
+                              "kreditsnt, selite, kohdennus, eraid, tosite.laji, "
+                              "tosite.tunniste, vienti.id, tosite.pvm, tosite.id, count(liite.id) as liitteita "
+                              "FROM vienti JOIN tosite ON vienti.tosite=tosite.id "
+                              "LEFT JOIN liite ON tosite.id=liite.tosite "
+                              " %1 "
+                              "GROUP BY vienti.id "
+                              "ORDER BY vienti.pvm, vienti.id").arg(ehtolause);
+    QSqlQuery kysely( tietokanta());
+    kysely.exec(kysymys);
+
+    qDebug() << kysymys;
+    qDebug() << kysely.lastError().text();
+
+    QVariantList lista;
+    while( kysely.next() )
+    {
+        QVariantMap map;
+        int id = kysely.value("vienti.id").toInt();
+        map.insert("id", id);
+        map.insert("pvm", kysely.value("vienti.pvm"));
+        map.insert("tili", kysely.value("tili"));
+        if( !kysely.value("debetsnt").isNull())
+            map.insert("debetsnt", kysely.value("debetsnt"));
+        if( !kysely.value("kreditsnt").isNull())
+            map.insert("kreditsnt", kysely.value("kreditsnt"));
+        map.insert("kohdennus", kysely.value("kohdennus"));
+        map.insert("liitteita", kysely.value("liitteita"));
+        map.insert("selite", kysely.value("selite"));
+
+        QVariantMap tositeMap;
+        tositeMap.insert("id", kysely.value("tosite.id"));
+        tositeMap.insert("tositelaji", kysely.value("tosite.laji"));
+        tositeMap.insert("tunniste", kysely.value("tosite.tunniste"));
+        tositeMap.insert("pvm", kysely.value("tosite.pvm"));
+
+        map.insert("tosite", tositeMap);
+
+        // TODO: Erän käsittely
+        int eraid = kysely.value("eraid").toInt();
+        if (eraid )
+        {
+            QVariantMap eramap;
+            eramap.insert("id", eraid);
+            if( eraid != id)
+            {
+                // Tähän erän tunnistetiedot
+                QSqlQuery tunnistekysely( QString("SELECT laji, tosite.pvm, tunniste "
+                                                  "FROM vienti JOIN tosite ON vienti.tosite=tosite.id "
+                                                  "WHERE vienti.id=%1").arg(eraid));
+                tunnistekysely.exec();
+                if( tunnistekysely.next())
+                {
+                    eramap.insert("pvm", tunnistekysely.value("tosite.pvm"));
+                    eramap.insert("tunniste", tunnistekysely.value("tunniste"));
+                    eramap.insert("tositelaji", tunnistekysely.value("laji"));
+                }
+            }
+            QSqlQuery eraKysely( QString("SELECT SUM(debetsnt), SUM(kreditsnt) FROM vienti WHERE eraid=%1")
+                                 .arg(eraid));
+            eraKysely.exec();
+
+            if( eraKysely.next())
+                eramap.insert("saldo", eraKysely.value(0).toLongLong() - eraKysely.value(1).toLongLong());
+            map.insert("era", eramap);
+        }
+
+
+        lista.append( map );
+    }
+
+    vastaus_.insert("viennit", lista);
+    vastaa();
+
 }

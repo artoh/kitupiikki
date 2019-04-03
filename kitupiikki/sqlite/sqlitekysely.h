@@ -47,6 +47,10 @@ protected:
 
     QVariantMap tosite(int id);
     void tositelista();
+
+    void vientilista();
+
+    QStringList sanat_;
 };
 
 #endif // SQLITEKYSELY_H
