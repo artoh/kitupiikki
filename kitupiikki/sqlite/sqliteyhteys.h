@@ -31,7 +31,7 @@ public:
 
     bool avaaYhteys() override;
 
-    SQLiteKysely* kysely(QString polku = QString(), KpKysely::Metodi metodi = KpKysely::GET) override;
+    SQLiteKysely* kysely(const QString& polku = QString(), KpKysely::Metodi metodi = KpKysely::GET) override;
 
     QSqlDatabase tietokanta() const { return tietokanta_;}
 

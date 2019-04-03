@@ -548,3 +548,10 @@ Kirjanpito* Kirjanpito::instanssi__ = nullptr;
 
 Kirjanpito *kp()  { return Kirjanpito::db(); }
 
+
+KpKysely *kpk(const QString &polku, KpKysely::Metodi metodi)
+{
+    if( kp()->yhteys() )
+        return kp()->yhteys()->kysely(polku, metodi);
+    return nullptr;
+}

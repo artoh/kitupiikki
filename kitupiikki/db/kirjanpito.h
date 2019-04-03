@@ -48,6 +48,8 @@
 
 #include "laskutus/tuotemodel.h"
 
+#include "kpkysely.h"
+
 class KpYhteys;
 
 class QPrinter;
@@ -431,7 +433,13 @@ private:
  */
 Kirjanpito* kp();
 
-
+/**
+ * @brief Globaali funktion kyselyn luomiseksi
+ * @param polku
+ * @param metodi
+ * @return
+ */
+KpKysely *kpk(const QString& polku = QString(), KpKysely::Metodi metodi = KpKysely::GET);
 
 
 #endif // KIRJANPITO_H

@@ -29,7 +29,7 @@ SelausModel::SelausModel()
 
 int SelausModel::rowCount(const QModelIndex & /* parent */) const
 {
-    return rivit.count();
+    return lista_.count();
 }
 
 int SelausModel::columnCount(const QModelIndex & /* parent */) const
@@ -72,7 +72,8 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
     if( !index.isValid())
         return QVariant();
 
-    SelausRivi rivi = rivit.at( index.row());
+    QVariantMap map = lista_.at( index.row()).toMap();
+    Tili tili = kp()->tilit()->tiliIdlla( map.value("tili").toInt() );
 
     if( role == Qt::DisplayRole || role == Qt::EditRole)
     {
@@ -81,56 +82,78 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
         {
             case TOSITE:
                 if( role == Qt::EditRole)
-                    return rivi.lajiteltavaTositetunniste;
-                return QVariant( rivi.tositetunniste);
+                {
+                    return QString("%1%2/%3")
+                            .arg( kp()->tositelajit()->tositelaji( map.value("tosite").toMap().value("tositelaji").toInt() ).tunnus() )
+                            .arg( map.value("tosite").toMap().value("tunniste").toInt(),8,10,QChar('0'))
+                            .arg( kp()->tilikaudet()->tilikausiPaivalle( map.value("tosite").toMap().value("pvm").toDate() ).kausitunnus());
+                }
+                return QString("%1 %2/%3")
+                        .arg( kp()->tositelajit()->tositelaji( map.value("tosite").toMap().value("tositelaji").toInt()  ).tunnus() )
+                        .arg( map.value("tosite").toMap().value("tunniste").toInt()  )
+                        .arg( kp()->tilikaudet()->tilikausiPaivalle( map.value("tosite").toMap().value("pvm").toDate() ).kausitunnus() );
 
-            case PVM: return QVariant( rivi.pvm );
+            case PVM: return QVariant( map.value("pvm").toDate() );
 
             case TILI:
                 if( role == Qt::EditRole)
-                    return rivi.tili.numero();
-                else if( rivi.tili.numero())
-                    return QVariant( QString("%1 %2").arg(rivi.tili.numero()).arg(rivi.tili.nimi()) );
+                    return tili.numero();
+                else if( tili.numero())
+                    return QVariant( QString("%1 %2").arg(tili.numero()).arg(tili.nimi()) );
                 else
                     return QVariant();
 
             case DEBET:
+            {
+                qlonglong debetsnt = map.value("debetsnt").toLongLong();
                 if( role == Qt::EditRole)
-                    return QVariant( rivi.debetSnt);
-                else if( rivi.debetSnt )
-                    return QVariant( QString("%L1 €").arg(rivi.debetSnt / 100.0,0,'f',2));
+                    return QVariant( debetsnt );
+                else if( debetsnt )
+                    return QVariant( QString("%L1 €").arg( debetsnt / 100.0,0,'f',2));
                 else
                     return QVariant();
+            }
 
             case KREDIT:
+            {
+                qlonglong kreditsnt = map.value("kreditsnt").toLongLong();
+
                 if( role == Qt::EditRole)
-                    return QVariant( rivi.kreditSnt);
-                else if( rivi.kreditSnt )
-                    return QVariant( QString("%L1 €").arg(rivi.kreditSnt / 100.0,0,'f',2));
+                    return QVariant( kreditsnt);
+                else if( kreditsnt )
+                    return QVariant( QString("%L1 €").arg(kreditsnt / 100.0,0,'f',2));
                 else
                     return QVariant();
-
-            case SELITE: return QVariant( rivi.selite );
+            }
+            case SELITE: return map.value("selite");
 
             case KOHDENNUS :
                 QString txt;
+                Kohdennus kohdennus = kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt() );
+                if( kohdennus.tyyppi() != Kohdennus::EIKOHDENNETA)
+                    txt = kohdennus.nimi();
 
-                if( rivi.kohdennus.tyyppi() != Kohdennus::EIKOHDENNETA)
-                    txt = rivi.kohdennus.nimi();
-
-                if( rivi.taseEra.eraId && rivi.taseEra.eraId != rivi.vientiId)
+                if( map.value("era").toMap().contains("tunniste") )
                 {
-                    if( !txt.isEmpty())
-                        txt.append(" \n");
-                    txt.append( rivi.taseEra.tositteenTunniste() );
+                    txt.append( QString("%1%2/%3")
+                            .arg( kp()->tositelajit()->tositelaji( map.value("era").toMap().value("tositelaji").toInt() ).tunnus() )
+                            .arg( map.value("era").toMap().value("tunniste").toInt())
+                            .arg( kp()->tilikaudet()->tilikausiPaivalle( map.value("era").toMap().value("pvm").toDate() ).kausitunnus()) );
                 }
 
-                if( rivi.tagit.count())
+                if( map.contains("merkkaukset") )
                 {
+                    QStringList tagilista;
+                    for( auto kohdennusVar : map.value("merkkaukset").toList())
+                    {
+                        int kohdennusId = kohdennusVar.toInt();
+                        tagilista.append( kp()->kohdennukset()->kohdennus(kohdennusId).nimi() );
+                    }
                     if( !txt.isEmpty())
                         txt.append(" \n");
-                    txt.append(  rivi.tagit.join(", ") );
+                    txt.append(  tagilista.join(", ") );
                 }
+
                 return txt;
 
         }
@@ -146,17 +169,17 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
     else if( role == Qt::UserRole)
     {
         // UserRolena on tositeid, jotta selauksesta pääsee helposti tositteeseen
-        return QVariant( rivi.tositeId );
+        return QVariant( map.value("tosite").toMap().value("id").toInt() );
     }
     else if( role == Qt::DecorationRole && index.column() == KOHDENNUS )
     {
-        if( rivi.eraMaksettu)
+        if( map.contains("era") && map.value("era").toMap().value("saldo") == 0 )
             return QIcon(":/pic/ok.png");
-        return rivi.kohdennus.tyyppiKuvake();
+        // return rivi.kohdennus.tyyppiKuvake();
     }
     else if( role == Qt::DecorationRole && index.column() == TOSITE)
     {
-        if( rivi.liitteita )
+        if( map.value("tosite").toMap().value("liitteita").toInt() )
             return QIcon(":/pic/liite.png");
         else
             return QIcon(":/pic/tyhja.png");
@@ -168,6 +191,15 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
 
 void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
 {
+    KpKysely *kysely = kpk("viennit");
+    kysely->lisaaAttribuutti("alkupvm", alkaa);
+    kysely->lisaaAttribuutti("loppupvm", loppuu);
+    connect( kysely, &KpKysely::vastaus, this, &SelausModel::tietoSaapuu);
+    kysely->kysy();
+
+    return;
+
+
     QString kysymys = QString("SELECT vienti.tosite, vienti.pvm, tili, debetsnt, kreditsnt, selite, kohdennus, eraid, "
                               "tosite.laji, tosite.tunniste, vienti.id, liite.id "
                               "FROM vienti, tosite LEFT OUTER JOIN liite ON tosite.id=liite.tosite "
@@ -246,5 +278,26 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
     }
 
     tileilla.sort();
+    endResetModel();
+}
+
+void SelausModel::tietoSaapuu(QVariantMap *map, int /* status */)
+{
+    beginResetModel();
+    tileilla.clear();
+
+    lista_ = map->value("viennit").toList();
+
+    for(auto rivi : lista_)
+    {
+        int tiliId = rivi.toMap().value("tili").toInt();
+        Tili tili = kp()->tilit()->tiliIdlla(tiliId);
+        QString tilistr = QString("%1 %2")
+                    .arg(tili.numero())
+                    .arg(tili.nimi());
+        if( !tileilla.contains(tilistr))
+            tileilla.append(tilistr);
+    }
+
     endResetModel();
 }

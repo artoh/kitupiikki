@@ -289,7 +289,7 @@ QVariantMap SQLiteKysely::tosite(int id)
             {
                 kohdennuslista.append( kohdennysKysely.value("kohdennus") );
             }
-            vienti.insert("kohdennukset", kohdennuslista);
+            vienti.insert("merkkaukset", kohdennuslista);
 
             viennit.append(vienti);
         }
@@ -455,6 +455,18 @@ void SQLiteKysely::vientilista()
                 eramap.insert("saldo", eraKysely.value(0).toLongLong() - eraKysely.value(1).toLongLong());
             map.insert("era", eramap);
         }
+
+        QSqlQuery kohdennysKysely( tietokanta() );
+        QVariantList kohdennuslista;
+
+        kohdennysKysely.exec( QString("SELECT kohdennus FROM merkkaus WHERE vienti=%1").arg( id ) );
+        while( kohdennysKysely.next())
+        {
+            kohdennuslista.append( kohdennysKysely.value("kohdennus") );
+        }
+        if( !kohdennuslista.isEmpty())
+            map.insert("merkkaukset", kohdennuslista);
+
 
 
         lista.append( map );

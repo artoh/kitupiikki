@@ -41,7 +41,7 @@ bool SQLiteYhteys::avaaYhteys()
     return true;
 }
 
-SQLiteKysely *SQLiteYhteys::kysely(QString polku, KpKysely::Metodi metodi)
+SQLiteKysely *SQLiteYhteys::kysely(const QString& polku, KpKysely::Metodi metodi)
 {
     return new SQLiteKysely( this, metodi, polku);
 }

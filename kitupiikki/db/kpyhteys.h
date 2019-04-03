@@ -35,7 +35,7 @@ public:
     KpYhteys(Kirjanpito *parent, const QUrl& url);
 
     virtual bool avaaYhteys() = 0;
-    virtual KpKysely* kysely(QString polku = QString(), KpKysely::Metodi metodi = KpKysely::GET ) = 0;
+    virtual KpKysely* kysely(const QString& polku = QString(), KpKysely::Metodi metodi = KpKysely::GET ) = 0;
 
     QUrl url() const { return url_; }
 
