@@ -467,8 +467,7 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto, bool ilmoitaVirheesta)
     // liitteet_ = new LiiteModel(nullptr, this);
     // logo_ = QImage::fromData( liitteet_->liite("logo") , "PNG" );
 
-    KpKysely* logokysely = yhteys()->kysely("liite");
-    logokysely->lisaaAttribuutti("otsikko","logo");
+    KpKysely* logokysely = yhteys()->kysely("liitteet/logo");
     connect( logokysely, &KpKysely::vastaus, this, &Kirjanpito::logoSaapui );
     logokysely->kysy();
 

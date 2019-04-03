@@ -34,7 +34,7 @@ class DevTool : public QDialog
     Q_OBJECT
 
 public:
-    explicit DevTool(QWidget *parent = 0);
+    explicit DevTool(QWidget *parent = nullptr);
     ~DevTool();
 
 protected slots:
@@ -42,6 +42,9 @@ protected slots:
     void tallennaAsetus();
     void poistaAsetus();
     void tabMuuttui(int tab);
+
+    void kysely();
+    void vastausSaapui(QVariantMap *vastaus, int status);
 
     void uusiPeli();
     void peliNapautus(int ruutu);

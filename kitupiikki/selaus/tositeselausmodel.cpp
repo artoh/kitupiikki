@@ -23,6 +23,9 @@
 #include "tositeselausmodel.h"
 #include "db/kirjanpito.h"
 
+#include "db/kpkysely.h"
+#include "db/kpyhteys.h"
+
 TositeSelausModel::TositeSelausModel()
 {
 
@@ -145,6 +148,18 @@ QVariant TositeSelausModel::data(const QModelIndex &index, int role) const
 
 void TositeSelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
 {
+    if( kp()->yhteys())
+    {
+        KpKysely *kysely = kp()->yhteys()->kysely("tositteet");
+        kysely->lisaaAttribuutti("alkupvm", alkaa);
+        kysely->lisaaAttribuutti("loppupvm", loppuu);
+        connect( kysely, &KpKysely::vastaus, this, &TositeSelausModel::tietoSaapuu);
+        kysely->kysy();
+    }
+
+    return;
+
+
     QString kysymys = QString("SELECT tosite.id, tosite.pvm, tosite.otsikko, laji, tunniste, liite.id "
                               "FROM tosite LEFT OUTER JOIN liite ON tosite.id=liite.tosite "
                               "WHERE tosite.pvm BETWEEN \"%1\" AND \"%2\" "
@@ -201,4 +216,32 @@ void TositeSelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
     kaytetytLajinimet.sort();
     endResetModel();
 
+}
+
+void TositeSelausModel::tietoSaapuu(QVariantMap *map, int /* status */)
+{
+    beginResetModel();
+    rivit.clear();
+    kaytetytLajinimet.clear();
+
+    for(QVariant item : map->value("tositteet").toList())
+    {
+        QVariantMap tosite = item.toMap();
+        TositeSelausRivi rivi;
+        rivi.tositeId = tosite.value("id").toInt();
+        rivi.pvm = tosite.value("pvm").toDate();
+        rivi.otsikko = tosite.value("otsikko").toString();
+        rivi.tositeLaji = tosite.value("tositelaji").toInt();
+        rivi.tositeTunniste = tosite.value("tunniste").toInt();
+        rivi.liitteita = tosite.value("liitteita").toInt() > 0;
+        rivi.summa = tosite.value("summa").toLongLong();
+
+        QString tositelajinimi = kp()->tositelajit()->tositelaji( rivi.tositeLaji ).nimi();
+        if( !kaytetytLajinimet.contains(tositelajinimi))
+            kaytetytLajinimet.append(tositelajinimi);
+
+        rivit.append(rivi);
+    }
+    kaytetytLajinimet.sort();
+    endResetModel();
 }

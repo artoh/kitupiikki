@@ -33,12 +33,30 @@ SQLiteKysely::SQLiteKysely(SQLiteYhteys *parent, KpKysely::Metodi metodi, QStrin
 
 void SQLiteKysely::kysy(const QVariant &data)
 {
-    if( metodi() == GET && polku() == "aloita")
+    QString sana = polku();
+    if( sana.contains('/'))
+        sana = sana.left( sana.indexOf('/') );
+    qDebug() << "Kysely " << sana;
+
+    if( metodi() == GET && sana == "aloita")
         alustusKysely();
-    if( metodi() == PATCH && polku() == "asetukset")
+    if( metodi() == PATCH && sana == "asetukset")
         teeAsetus(data.toMap());
-    if( metodi() == GET && polku() == "liite")
+    if( metodi() == GET && sana == "liitteet")
         lataaLiite();
+    if( metodi() == GET && sana == "tositteet" )
+    {
+        QStringList sanat = polku().split('/');
+        if( sanat.count() == 2)
+        {
+            vastaus_.insert("data", tosite( sanat.at(1).toInt() ));
+            vastaa();
+        }
+        else
+        {
+            tositelista();
+        }
+    }
 }
 
 QSqlDatabase SQLiteKysely::tietokanta()
@@ -199,18 +217,160 @@ void SQLiteKysely::teeAsetus(const QVariantMap& params)
 
 void SQLiteKysely::lataaLiite()
 {
-    qDebug() << "Liitteen lataus ";
+    qDebug() << "Liitteen lataus " << polku();
+    QStringList sanat = polku().split('/');
+
+    if( sanat.count() < 2)
+        return;
+
+    bool ok;
+    sanat.at(1).toInt(&ok);
 
     QSqlQuery query( tietokanta());
-    query.exec( QString("SELECT data FROM liite WHERE tosite IS NULL AND otsikko=\"%1\"").arg( attribuutti("otsikko")));
 
-    qDebug() << query.lastQuery();
-    qDebug() << query.lastError().text();
+    if( !ok )
+        query.exec( QString("SELECT data, otsikko FROM liite WHERE tosite IS NULL AND otsikko=\"%1\"").arg( sanat.at(1)  ));
 
-    while( query.next())
+
+    if( query.next())
     {
         qDebug() << "Liite "<< query.value("data").toByteArray().length();
         vastaus_.insert("liite",query.value("data"));
+        vastaus_.insert("otsikko", query.value("otsikko"));
         vastaa();
     }
+}
+
+QVariantMap SQLiteKysely::tosite(int id)
+{
+    QSqlQuery kysely( tietokanta());
+    kysely.exec( QString("SELECT pvm, otsikko, kommentti, tunniste, laji, "
+                         "tiliote, json, luotu, muokattu FROM tosite "
+                         "WHERE id=%1").arg(id) );
+
+    if( kysely.next() )
+    {
+        QJsonDocument json = QJsonDocument::fromJson( kysely.value("json").toByteArray() );
+
+        QVariantMap map = json.toVariant().toMap();
+        map.insert("id", id);
+        map.insert("pvm", kysely.value("pvm"));
+        map.insert("otsikko", kysely.value("otsikko"));
+        map.insert("kommentti", kysely.value("kommentti"));
+        map.insert("tunniste", kysely.value("tunniste"));
+        map.insert("tositelaji",kysely.value("laji"));
+        map.insert("tiliotetili", kysely.value("tiliote"));
+        map.insert("luotu", kysely.value("luotu"));
+        map.insert("muokattu", kysely.value("muokattu"));
+
+        QSqlQuery vientikysely( tietokanta());
+        QVariantList viennit;
+
+        // TÄSTÄ PUUTTUU VIELÄ TAVARAA
+        vientikysely.exec( QString("SELECT id, pvm, tili, debetsnt, kreditsnt, selite, json "
+                                   "FROM vienti WHERE tosite=%1 "
+                                   "ORDER BY vientirivi ").arg(id));
+        while(vientikysely.next())
+        {
+            QVariantMap vienti = QJsonDocument::fromJson( vientikysely.value("json").toByteArray() ).toVariant().toMap();
+            vienti.insert("id", vientikysely.value("id"));
+            vienti.insert("pvm", vientikysely.value("pvm"));
+            vienti.insert("tili", vientikysely.value("tili"));
+            vienti.insert("debetsnt", vientikysely.value("debetsnt"));
+            vienti.insert("kreditsnt", vientikysely.value("kreditsnt"));
+            vienti.insert("selite", vientikysely.value("selite"));
+
+            QSqlQuery kohdennysKysely( tietokanta() );
+            QVariantList kohdennuslista;
+
+            kohdennysKysely.exec( QString("SELECT kohdennus FROM merkkaus WHERE vienti=%1").arg( vientikysely.value("id").toInt() ));
+            while( kohdennysKysely.next())
+            {
+                kohdennuslista.append( kohdennysKysely.value("kohdennus") );
+            }
+            vienti.insert("kohdennukset", kohdennuslista);
+
+            viennit.append(vienti);
+        }
+        map.insert("viennit", viennit);
+
+        QSqlQuery liitekysely( tietokanta());
+        liitekysely.exec( QString("SELECT id, liiteno, otsikko, sha "
+                                  "FROM liite WHERE tosite=%1 ORDER BY liiteno").arg( id ));
+        QVariantList liitteet;
+        while( liitekysely.next())
+        {
+            QVariantMap liite;
+            liite.insert("id", liitekysely.value("id"));
+            liite.insert("liiteno", liitekysely.value("liiteno"));
+            liite.insert("otsikko", liitekysely.value("otsikko"));
+            liite.insert("sha", liitekysely.value("sha"));
+            liitteet.append(liite);
+        }
+        map.insert("liitteet", liitteet);
+
+        return map;
+    }
+    return QVariantMap();
+}
+
+void SQLiteKysely::tositelista()
+{
+    QSqlQuery kysely(tietokanta());
+
+    QStringList ehdot;
+    if( kysely_.hasQueryItem("alkupvm"))
+        ehdot.append( QString("pvm >= '%1'").arg( attribuutti("alkupvm") ) );
+    if( kysely_.hasQueryItem("loppupvm"))
+        ehdot.append( QString("pvm <= '%1'").arg( attribuutti("loppupvm") ) );
+
+    QString ehtolause;
+    if( ehdot.count())
+        ehtolause = "WHERE " + ehdot.join(" AND ");
+
+    QString kysymys = QString("SELECT id, pvm, otsikko, laji, tunniste "
+                              "FROM tosite %1"
+                              "ORDER BY tosite.pvm, tosite.id").arg(ehtolause);
+
+    qDebug() << kysymys;
+
+    kysely.exec(kysymys);
+
+    QVariantList lista;
+
+    while(kysely.next())
+    {
+        QVariantMap map;
+        int id = kysely.value("id").toInt();
+        map.insert("id", id);
+        map.insert("pvm", kysely.value("pvm"));
+        map.insert("otsikko", kysely.value("otsikko"));
+        map.insert("tunniste", kysely.value("tunniste"));
+        map.insert("tositelaji", kysely.value("laji"));
+
+        QSqlQuery summakysely( QString("SELECT sum(debetsnt), sum(kreditsnt) FROM vienti "
+                                       "WHERE tosite=%1").arg( id ));
+
+        if( summakysely.next())
+        {
+            qlonglong debet = summakysely.value(0).toLongLong();
+            qlonglong kredit = summakysely.value(1).toLongLong();
+
+            // Yleensä kreditin ja debetin pitäisi täsmätä ;)
+            if( debet > kredit)
+                map.insert("summa", debet);
+            else
+                map.insert("summa", kredit);
+        }
+
+        QSqlQuery liitekysely( QString("SELECT count(id) FROM liite WHERE tosite=%1").arg(id));
+        if( liitekysely.next())
+        {
+            map.insert("liitteita", liitekysely.value(0));
+        }
+
+        lista.append(map);
+    }
+    vastaus_.insert("tositteet", lista);
+    vastaa();
 }

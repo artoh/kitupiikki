@@ -272,6 +272,7 @@ void TilikausiModel::lataa(const QVariantList &lista)
 
         kaudet_.append( Tilikausi(alkaa, loppuu, doc.toJson()) );
     }
+    paivitaKausitunnukset();
     endResetModel();
 }
 

@@ -48,6 +48,7 @@ public:
 
     KpKysely(KpYhteys *parent, Metodi metodi = GET, QString polku = QString());
 
+    void asetaKysely(const QString& kysely);
 
     QString polku() const { return polku_;}
 

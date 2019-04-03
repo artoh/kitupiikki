@@ -16,11 +16,17 @@
 */
 
 #include <QSettings>
+#include <QJsonDocument>
+#include <QVariant>
 
 #include "devtool.h"
 #include "ui_devtool.h"
 
 #include "db/kirjanpito.h"
+
+#include "db/kpkysely.h"
+#include "db/kpyhteys.h"
+
 #include "uusikp/skripti.h"
 
 DevTool::DevTool(QWidget *parent) :
@@ -41,6 +47,8 @@ DevTool::DevTool(QWidget *parent) :
     connect( ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(tabMuuttui(int)));
 
     connect( kp(), &Kirjanpito::tietokantavirhe, [this]() { this->ui->lokiBrowser->setPlainText( kp()->virheloki().join('\n') ); } );
+
+    connect( ui->kyselyLine, &QLineEdit::returnPressed, this, &DevTool::kysely);
 
     ui->avainLista->setCurrentRow(0);
     ui->keksiLabel->setText( kp()->settings()->value("Keksi").toString());
@@ -109,6 +117,23 @@ void DevTool::tabMuuttui(int tab)
         ui->avainLista->clear();
         ui->avainLista->addItems( kp()->asetukset()->avaimet() );
     }
+}
+
+void DevTool::kysely()
+{
+    if( !kp()->yhteys() )
+        return;
+
+    KpKysely *kysely = kp()->yhteys()->kysely( );
+    kysely->asetaKysely(ui->kyselyLine->text());
+    connect( kysely, &KpKysely::vastaus, this, &DevTool::vastausSaapui);
+    kysely->kysy();
+}
+
+void DevTool::vastausSaapui(QVariantMap *vastaus, int /* status */ )
+{
+    ui->kyselyBrowser->setPlainText(  QString::fromUtf8( QJsonDocument::fromVariant(*vastaus).toJson(QJsonDocument::Indented) ) );
+    sender()->deleteLater();
 }
 
 void DevTool::uusiPeli()

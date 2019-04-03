@@ -26,6 +26,13 @@ KpKysely::KpKysely(KpYhteys *parent, KpKysely::Metodi metodi, QString polku) :
 
 }
 
+void KpKysely::asetaKysely(const QString &kysely)
+{
+    QUrl url(kysely);
+    polku_ = url.path();
+    kysely_ = QUrlQuery( url );
+}
+
 void KpKysely::lisaaAttribuutti(const QString &avain, const QString &arvo)
 {
     kysely_.addQueryItem(avain, arvo);

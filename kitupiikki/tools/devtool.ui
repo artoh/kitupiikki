@@ -235,6 +235,27 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="kyselyTab">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/vasara.png</normaloff>:/pic/vasara.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Kysely</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_6">
+       <item>
+        <widget class="QLineEdit" name="kyselyLine">
+         <property name="placeholderText">
+          <string>Kirjoita polku ja paina Enter</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTextBrowser" name="kyselyBrowser"/>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="icon">
        <iconset resource="../pic/pic.qrc">

@@ -44,6 +44,9 @@ protected:
 
     void teeAsetus(const QVariantMap &params);
     void lataaLiite();
+
+    QVariantMap tosite(int id);
+    void tositelista();
 };
 
 #endif // SQLITEKYSELY_H
