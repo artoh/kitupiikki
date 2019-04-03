@@ -48,7 +48,6 @@ Tili::Tili(const QVariantMap &data) :
     tila_= data_.value("tila").toInt();
     muokkausAika_ = data_.value("muokattu").toDateTime();
 
-    qDebug() << "Lisätty " << id() << " : " << nimi();
 }
 
 QString Tili::nimi(const QString &kieli) const

@@ -76,7 +76,7 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
 
     if( role == Qt::DisplayRole || role == Qt::EditRole)
     {
-        Tili *tili = kp()->tilit()->tiliIdlla( map.value("tili").toInt() );
+        Tili *tili = kp()->tilit()->tiliNumerolla( map.value("tili").toInt() );
         switch (index.column())
         {
             case TOSITE:

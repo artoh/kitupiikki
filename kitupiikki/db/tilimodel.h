@@ -70,9 +70,10 @@ public:
     Tili tiliIdllaVanha(int id) const;
 
     Tili *tiliIdlla(int id) const;
+    Tili *tiliNumerolla(int numero) const;
 
     Tili tiliIndeksilla(int i) const { return tilit_.value(i); }
-    Tili tiliNumerolla(int numero, int otsikkotaso = 0) const;
+    Tili tiliNumerollaVanha(int numero, int otsikkotaso = 0) const;
     Tili tiliYsiluvulla(int ysiluku) const;
     Tili tiliIbanilla(const QString& iban) const;
     /**
@@ -106,7 +107,9 @@ protected:
     QList<int> poistetutIdt_;
 
     QList<Tili*> tiliLista_;
+
     QHash<int,Tili*> idHash_;
+    QHash<int,Tili*> nroHash_;
 
 };
 

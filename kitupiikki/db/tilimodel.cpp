@@ -224,11 +224,15 @@ Tili TiliModel::tiliIdllaVanha(int id) const
 
 Tili *TiliModel::tiliIdlla(int id) const
 {
-    qDebug() << "id" << id << " Tili " << idHash_.value(id);
     return idHash_.value(id);
 }
 
-Tili TiliModel::tiliNumerolla(int numero, int otsikkotaso) const
+Tili *TiliModel::tiliNumerolla(int numero) const
+{
+    return nroHash_.value(numero);
+}
+
+Tili TiliModel::tiliNumerollaVanha(int numero, int otsikkotaso) const
 {
     // Vertailu tehdään "ysiluvuilla" joten tilit 154 ja 15400 ovat samoja
     return tiliYsiluvulla( Tili::ysiluku(numero, otsikkotaso) );
@@ -355,7 +359,7 @@ void TiliModel::lataa()
 void TiliModel::lataa(QVariantList lista)
 {
     beginResetModel();
-    tilit_.clear();
+    tyhjenna();
 
 
     QVector<Tili> otsikot(10);
@@ -394,6 +398,9 @@ void TiliModel::lataa(QVariantList lista)
 
         tiliLista_.append( tili );
         idHash_.insert(id, tili);
+        if( !otsikkotaso && nro )
+            nroHash_.insert(nro, tili);
+
 
         qDebug() << id << " --- " << tili->nimi();
 
@@ -482,5 +489,6 @@ void TiliModel::tyhjenna()
 
     tiliLista_.clear();
     idHash_.clear();
+    nroHash_.clear();
 }
 

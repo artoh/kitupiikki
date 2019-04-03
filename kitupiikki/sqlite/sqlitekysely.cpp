@@ -389,11 +389,12 @@ void SQLiteKysely::vientilista()
     if( ehdot.count())
         ehtolause = "WHERE " + ehdot.join(" AND ");
 
-    QString kysymys = QString("SELECT vienti.id, vienti.pvm, tili, debetsnt, "
+    QString kysymys = QString("SELECT vienti.id, vienti.pvm, tili.nro, debetsnt, "
                               "kreditsnt, selite, kohdennus, eraid, tosite.laji, "
                               "tosite.tunniste, vienti.id, tosite.pvm, tosite.id, count(liite.id) as liitteita "
                               "FROM vienti JOIN tosite ON vienti.tosite=tosite.id "
                               "LEFT JOIN liite ON tosite.id=liite.tosite "
+                              "JOIN tili ON vienti.tili=tili.id"
                               " %1 "
                               "GROUP BY vienti.id "
                               "ORDER BY vienti.pvm, vienti.id").arg(ehtolause);
@@ -408,7 +409,7 @@ void SQLiteKysely::vientilista()
     {
         QVariantMap map;
         int id = kysely.value("vienti.id").toInt();
-        int tili = kysely.value("tili").toInt();
+        int tili = kysely.value("tili.nro").toInt();
 
         if( !tili )
             continue;
