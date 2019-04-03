@@ -34,7 +34,7 @@ int SelausModel::rowCount(const QModelIndex & /* parent */) const
 
 int SelausModel::columnCount(const QModelIndex & /* parent */) const
 {
-    return 7;
+    return 1;
 }
 
 QVariant SelausModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -73,11 +73,16 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
         return QVariant();
 
     QVariantMap map = lista_.at( index.row()).toMap();
-    Tili tili = kp()->tilit()->tiliIdlla( map.value("tili").toInt() );
+
+
+    if( index.row() == lista_.count()-1 && index.column() == 0 && role == Qt::DisplayRole)
+            qDebug() << QDateTime::currentDateTime() << " EE ";
+    if( index.row() == lista_.count()-1 && index.column() == 0 && role == Qt::DecorationRole)
+            qDebug() << QDateTime::currentDateTime() << " EF ";
 
     if( role == Qt::DisplayRole || role == Qt::EditRole)
     {
-
+        Tili tili = kp()->tilit()->tiliIdlla( map.value("tili").toInt() );
         switch (index.column())
         {
             case TOSITE:
@@ -195,7 +200,10 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
     kysely->lisaaAttribuutti("alkupvm", alkaa);
     kysely->lisaaAttribuutti("loppupvm", loppuu);
     connect( kysely, &KpKysely::vastaus, this, &SelausModel::tietoSaapuu);
+
+    qDebug() << QDateTime::currentDateTime() << " C1 ";
     kysely->kysy();
+    qDebug() << QDateTime::currentDateTime() << " C2 ";
 
     return;
 
@@ -283,10 +291,14 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
 
 void SelausModel::tietoSaapuu(QVariantMap *map, int /* status */)
 {
+
     beginResetModel();
     tileilla.clear();
 
+    qDebug() << QDateTime::currentDateTime() << " A1 ";
     lista_ = map->value("viennit").toList();
+
+    qDebug() << QDateTime::currentDateTime() << " A2 ";
 
     for(auto rivi : lista_)
     {
@@ -298,6 +310,8 @@ void SelausModel::tietoSaapuu(QVariantMap *map, int /* status */)
         if( !tileilla.contains(tilistr))
             tileilla.append(tilistr);
     }
+
+    qDebug() << QDateTime::currentDateTime() << " A3 ";
 
     endResetModel();
 }
