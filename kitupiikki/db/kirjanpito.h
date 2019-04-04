@@ -34,12 +34,10 @@
 #include <QImage>
 #include <QStringList>
 
-#include "tili.h"
 #include "tilikausi.h"
 
 #include "tositelajimodel.h"
 #include "asetusmodel.h"
-#include "tilimodel.h"
 #include "tilikausimodel.h"
 #include "tositemodel.h"
 #include "kohdennusmodel.h"
@@ -51,6 +49,9 @@
 #include "kpkysely.h"
 
 class KpYhteys;
+
+class Tili;
+class TiliModel;
 
 class QPrinter;
 class QSettings;

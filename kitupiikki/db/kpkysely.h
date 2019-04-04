@@ -37,6 +37,7 @@ public:
         GET,
         POST,
         PATCH,
+        PUT,
         DELETE
     };
 

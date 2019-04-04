@@ -54,7 +54,7 @@ public:
     };
 
 
-    TiliModel(QSqlDatabase *tietokanta, QObject *parent = 0);
+    TiliModel(QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
@@ -101,7 +101,6 @@ protected:
     void tyhjenna();
 
 protected:
-    QSqlDatabase *tietokanta_;
 
     QList<Tili> tilit_;
     QList<int> poistetutIdt_;

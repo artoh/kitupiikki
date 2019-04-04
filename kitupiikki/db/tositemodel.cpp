@@ -222,6 +222,9 @@ void TositeModel::tyhjaa()
 
 bool TositeModel::tallenna()
 {
+    return false;
+
+
     // Tallentaa tositteen
     tietokanta()->transaction();
 

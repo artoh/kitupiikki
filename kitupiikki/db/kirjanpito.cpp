@@ -40,6 +40,8 @@
 
 #include "sqlite/sqliteyhteys.h"
 
+#include "tilimodel.h"
+
 Kirjanpito::Kirjanpito(const QString& portableDir) : QObject(nullptr),
     harjoitusPvm( QDate::currentDate()), tempDir_(nullptr), portableDir_(portableDir),
     yhteys_(nullptr)
@@ -57,7 +59,9 @@ Kirjanpito::Kirjanpito(const QString& portableDir) : QObject(nullptr),
 
     asetusModel_ = new AsetusModel(&tietokanta_, this);
     tositelajiModel_ = new TositelajiModel(&tietokanta_, this);
-    tiliModel_ = new TiliModel( &tietokanta_, this);
+
+    tiliModel_ = new TiliModel( this);
+
     tilikaudetModel_ = new TilikausiModel(&tietokanta_, this);
     kohdennukset_ = new KohdennusModel(&tietokanta_, this);
     veroTyypit_ = new VerotyyppiModel(this);

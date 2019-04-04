@@ -31,8 +31,8 @@
 #include "tilityyppimodel.h"
 #include "kirjanpito.h"
 
-TiliModel::TiliModel(QSqlDatabase *tietokanta, QObject *parent) :
-    QAbstractTableModel(parent), tietokanta_(tietokanta)
+TiliModel::TiliModel(QObject *parent) :
+    QAbstractTableModel(parent)
 {
 
 }
@@ -416,6 +416,8 @@ bool TiliModel::tallenna(bool tietokantaaLuodaan)
 {
     return false;   // Poissa käytöstä
 
+    /*
+
     tietokanta_->transaction();
     QDateTime nykyaika = QDateTime::currentDateTime();
 
@@ -480,6 +482,7 @@ bool TiliModel::tallenna(bool tietokantaaLuodaan)
     }
 
     return true;
+    */
 }
 
 void TiliModel::tyhjenna()
