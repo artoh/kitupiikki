@@ -44,14 +44,14 @@
 #include "verotyyppimodel.h"
 #include "tilityyppimodel.h"
 
+#include "tilimodel.h"
+#include "tili.h"
+
 #include "laskutus/tuotemodel.h"
 
 #include "kpkysely.h"
 
 class KpYhteys;
-
-class Tili;
-class TiliModel;
 
 class QPrinter;
 class QSettings;

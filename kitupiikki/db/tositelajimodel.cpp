@@ -32,7 +32,7 @@ TositelajiModel::TositelajiModel(QSqlDatabase *tietokanta, QObject *parent)
 
 int TositelajiModel::rowCount(const QModelIndex & /* parent */ ) const
 {
-    return lajit_.count();
+    return lajitVanha_.count();
 
 }
 
@@ -65,7 +65,7 @@ QVariant TositelajiModel::data(const QModelIndex &index, int role) const
     if( !index.isValid())
         return QVariant();
 
-    Tositelaji laji = lajit_[index.row()];
+    Tositelaji laji = lajitVanha_[index.row()];
 
     if( role == IdRooli)
         return QVariant( laji.id() );
@@ -141,16 +141,16 @@ bool TositelajiModel::setData(const QModelIndex &index, const QVariant &value, i
     {
         switch (index.column()) {
         case TUNNUS:
-            lajit_[ index.row()].asetaTunnus( value.toString());
+            lajitVanha_[ index.row()].asetaTunnus( value.toString());
             return true;
         case NIMI:
-            lajit_[ index.row()].asetaNimi(value.toString());
+            lajitVanha_[ index.row()].asetaNimi(value.toString());
             return true;
         case VASTATILI:
             if( value.toInt())
-                lajit_[index.row()].json()->set("Vastatili", value.toInt());
+                lajitVanha_[index.row()].json()->set("Vastatili", value.toInt());
             else
-                lajit_[index.row()].json()->unset("Vastatili");
+                lajitVanha_[index.row()].json()->unset("Vastatili");
         default:
             ;
         }
@@ -158,24 +158,24 @@ bool TositelajiModel::setData(const QModelIndex &index, const QVariant &value, i
     else if( role == KirjausTyyppiRooli )
     {
         if( value.toInt())
-            lajit_[index.row()].json()->set("Kirjaustyyppi", value.toInt());
+            lajitVanha_[index.row()].json()->set("Kirjaustyyppi", value.toInt());
         else
-            lajit_[index.row()].json()->unset("Kirjaustyyppi");
+            lajitVanha_[index.row()].json()->unset("Kirjaustyyppi");
     }
     else if( role == OletustiliRooli)
-        lajit_[index.row()].json()->set("Oletustili", value.toInt());
+        lajitVanha_[index.row()].json()->set("Oletustili", value.toInt());
     else if( role == TunnusRooli )
-        lajit_[index.row()].asetaTunnus( value.toString());
+        lajitVanha_[index.row()].asetaTunnus( value.toString());
     else if( role == NimiRooli )
-        lajit_[index.row()].asetaNimi( value.toString());
+        lajitVanha_[index.row()].asetaNimi( value.toString());
     else if( role == JsonRooli )
-        lajit_[index.row()].json()->fromJson( value.toByteArray());
+        lajitVanha_[index.row()].json()->fromJson( value.toByteArray());
     else if( role == VastatiliNroRooli )
     {
         if( value.toInt())
-            lajit_[index.row()].json()->set("Vastatili", value.toInt());
+            lajitVanha_[index.row()].json()->set("Vastatili", value.toInt());
         else
-            lajit_[index.row()].json()->unset("Vastatili");
+            lajitVanha_[index.row()].json()->unset("Vastatili");
     }
 
     return false;
@@ -185,7 +185,7 @@ bool TositelajiModel::onkoMuokattu() const
 {
     if( poistetutIdt_.count())
         return true;
-    foreach (Tositelaji laji, lajit_)
+    foreach (Tositelaji laji, lajitVanha_)
     {
         if( laji.muokattu())
             return true;
@@ -195,7 +195,7 @@ bool TositelajiModel::onkoMuokattu() const
 
 void TositelajiModel::poistaRivi(int riviIndeksi)
 {
-    Tositelaji laji = lajit_[riviIndeksi];
+    Tositelaji laji = lajitVanha_[riviIndeksi];
 
     if( laji.montakoTositetta() || laji.id() < 2)
         return;     // Käytettyjä tai suojattuja ei voi poistaa!
@@ -203,14 +203,14 @@ void TositelajiModel::poistaRivi(int riviIndeksi)
     beginRemoveRows( QModelIndex(), riviIndeksi, riviIndeksi);
     if( laji.id())
         poistetutIdt_.append( laji.id());
-    lajit_.removeAt( riviIndeksi);
+    lajitVanha_.removeAt( riviIndeksi);
     endRemoveRows();
 }
 
-Tositelaji TositelajiModel::tositelaji(int id) const
+Tositelaji TositelajiModel::tositelajiVanha(int id) const
 {
 
-    foreach (Tositelaji laji, lajit_)
+    foreach (Tositelaji laji, lajitVanha_)
     {
         if( laji.id() == id)
             return laji;
@@ -218,19 +218,25 @@ Tositelaji TositelajiModel::tositelaji(int id) const
     return Tositelaji();
 }
 
+Tositelaji *TositelajiModel::tositeLaji(int id) const
+{
+    return idHash_.value(id);
+}
+
 QModelIndex TositelajiModel::lisaaRivi()
 {
-    beginInsertRows( QModelIndex(), lajit_.count(), lajit_.count() );
-    lajit_.append( Tositelaji() );
+    beginInsertRows( QModelIndex(), lajitVanha_.count(), lajitVanha_.count() );
+    lajitVanha_.append( Tositelaji() );
     endInsertRows();
-    return index( lajit_.count()-1, 0);
+    return index( lajitVanha_.count()-1, 0);
 
 }
 
 void TositelajiModel::lataa(const QVariantList &lista)
 {
     beginResetModel();
-    lajit_.clear();
+    lajitVanha_.clear();
+    idHash_.clear();
 
     for(QVariant item : lista )
     {
@@ -241,7 +247,9 @@ void TositelajiModel::lataa(const QVariantList &lista)
 
         QJsonDocument doc = QJsonDocument::fromVariant(map);
 
-        lajit_.append( Tositelaji(id, tunnus, nimi, doc.toJson()) );
+        lajitVanha_.append( Tositelaji(id, tunnus, nimi, doc.toJson()) );
+
+        idHash_.insert(id, new Tositelaji(id, tunnus, nimi, doc.toJson()));
     }
 
     qDebug() << "Ladattu " << lista.count() << " tositelajia ";
@@ -253,12 +261,12 @@ void TositelajiModel::lataa()
 {
     beginResetModel();
 
-    lajit_.clear();
+    lajitVanha_.clear();
     QSqlQuery kysely(*tietokanta_);
     kysely.exec("SELECT id,tunnus,nimi,json FROM tositelaji ORDER BY id");
     while( kysely.next())
     {
-        lajit_.append( Tositelaji(kysely.value(0).toInt(), kysely.value(1).toString(),
+        lajitVanha_.append( Tositelaji(kysely.value(0).toInt(), kysely.value(1).toString(),
                                       kysely.value(2).toString(), kysely.value(3).toByteArray() ));
     }
 
@@ -268,29 +276,29 @@ void TositelajiModel::lataa()
 bool TositelajiModel::tallenna()
 {
     QSqlQuery tallennus( *tietokanta_);
-    for(int i=0; i < lajit_.count(); i++)
+    for(int i=0; i < lajitVanha_.count(); i++)
     {
 
-        if( lajit_[i].muokattu() )
+        if( lajitVanha_[i].muokattu() )
         {
-            if( lajit_[i].id() )
+            if( lajitVanha_[i].id() )
             {
                 tallennus.prepare("UPDATE tositelaji SET tunnus=:tunnus, nimi=:nimi, json=:json WHERE _rowid_=:id");
-                tallennus.bindValue(":id", lajit_[i].id());
+                tallennus.bindValue(":id", lajitVanha_[i].id());
             }
             else
             {
                 tallennus.prepare("INSERT INTO tositelaji(tunnus,nimi,json) VALUES(:tunnus,:nimi,:json)");
             }
-            tallennus.bindValue(":tunnus", lajit_[i].tunnus() );
-            tallennus.bindValue(":nimi", lajit_[i].nimi() );
-            tallennus.bindValue(":json", lajit_[i].json()->toSqlJson() );
+            tallennus.bindValue(":tunnus", lajitVanha_[i].tunnus() );
+            tallennus.bindValue(":nimi", lajitVanha_[i].nimi() );
+            tallennus.bindValue(":json", lajitVanha_[i].json()->toSqlJson() );
 
             if(tallennus.exec())
-                lajit_[i].nollaaMuokattu();
+                lajitVanha_[i].nollaaMuokattu();
 
-            if( !lajit_[i].id())
-                lajit_[i].asetaId( tallennus.lastInsertId().toInt());
+            if( !lajitVanha_[i].id())
+                lajitVanha_[i].asetaId( tallennus.lastInsertId().toInt());
 
         }
 

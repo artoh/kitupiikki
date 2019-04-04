@@ -71,7 +71,8 @@ public:
 
     void poistaRivi(int riviIndeksi);
 
-    Tositelaji tositelaji(int id) const;
+    Tositelaji tositelajiVanha(int id) const;
+    Tositelaji *tositeLaji(int id) const;
 
     QModelIndex lisaaRivi();
 
@@ -82,7 +83,10 @@ public slots:
     bool tallenna();
 
 protected:
-    QList<Tositelaji> lajit_;
+    QList<Tositelaji> lajitVanha_;
+
+    QHash<int, Tositelaji*> idHash_;
+
     QSqlDatabase *tietokanta_;
     QList<int> poistetutIdt_;
 };

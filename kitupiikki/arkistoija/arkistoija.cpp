@@ -114,7 +114,7 @@ void Arkistoija::arkistoiTositteet()
     while(kysely.next())
     {
         // Lisätään tositteet tositetunnuksen mukaan
-        QString tunnus = QString("%1%2/%3").arg( kp()->tositelajit()->tositelaji( kysely.value("laji").toInt() ).tunnus() )
+        QString tunnus = QString("%1%2/%3").arg( kp()->tositelajit()->tositelajiVanha( kysely.value("laji").toInt() ).tunnus() )
                 .arg( kysely.value("tunniste").toInt(),8,10,QChar('0') )
                 .arg( tilikausi_.kausitunnus());
 
@@ -147,7 +147,7 @@ void Arkistoija::arkistoiTositteet()
 
     while( kysely.next())
     {
-        QString tunnus = QString("%1%2/%3").arg( kp()->tositelajit()->tositelaji( kysely.value("tosite.laji").toInt() ).tunnus() )
+        QString tunnus = QString("%1%2/%3").arg( kp()->tositelajit()->tositelajiVanha( kysely.value("tosite.laji").toInt() ).tunnus() )
                 .arg( kysely.value("tosite.tunniste").toInt(),8,10,QChar('0') )
                 .arg( kp()->tilikaudet()->tilikausiPaivalle( kysely.value("tosite.pvm").toDate() ).kausitunnus() );
 
@@ -161,7 +161,7 @@ void Arkistoija::arkistoiTositteet()
                         "AND vienti.id=%1").arg(taseEra)  );
             while( eraKysely.next())
             {
-                QString eratunnus = QString("%1%2/%3").arg( kp()->tositelajit()->tositelaji( eraKysely.value("tosite.laji").toInt() ).tunnus() )
+                QString eratunnus = QString("%1%2/%3").arg( kp()->tositelajit()->tositelajiVanha( eraKysely.value("tosite.laji").toInt() ).tunnus() )
                         .arg( eraKysely.value("tosite.tunniste").toInt(),8,10,QChar('0') )
                         .arg( kp()->tilikaudet()->tilikausiPaivalle( eraKysely.value("tosite.pvm").toDate() ).kausitunnus()  );
                 tositeLista.insert(eratunnus, eraKysely.value("tosite.id").toInt());
@@ -311,7 +311,7 @@ void Arkistoija::arkistoiTositteet()
 
 
                     eraLaatikko.append( QString("<tr><td class=tili><a href=%8.html>%1%2/%3</a></td><td class=pvm>%4</td><td class=selite>%5</td><td class=euro>%6</td><td class=euro>%7</td></tr>")
-                                        .arg( kp()->tositelajit()->tositelaji(eraKysely.value("tosite.laji").toInt()).tunnus() )
+                                        .arg( kp()->tositelajit()->tositelajiVanha(eraKysely.value("tosite.laji").toInt()).tunnus() )
                                         .arg( eraKysely.value("tosite.tunniste").toInt())
                                         .arg( kp()->tilikausiPaivalle( eraKysely.value("tosite.pvm").toDate()  ).kausitunnus())
                                         .arg( eraKysely.value("vienti.pvm").toDate().toString("dd.MM.yyyy"))

@@ -217,7 +217,7 @@ RaportinKirjoittaja AlvErittely::kirjoitaRaporti(QDate alkupvm, QDate loppupvm)
 
         RaporttiRivi rivi;
         rivi.lisaa( kysely.value("paiva").toDate() );
-        rivi.lisaa( QString("%1%2").arg( kp()->tositelajit()->tositelaji( kysely.value("laji").toInt() ).tunnus() )
+        rivi.lisaa( QString("%1%2").arg( kp()->tositelajit()->tositelajiVanha( kysely.value("laji").toInt() ).tunnus() )
                     .arg( kysely.value("tunniste").toInt() ));
         rivi.lisaa( kysely.value("selite").toString());
 

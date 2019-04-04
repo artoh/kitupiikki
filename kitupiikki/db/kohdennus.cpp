@@ -34,6 +34,16 @@ Kohdennus::Kohdennus(int id, int tyyppi, const QString& nimi, QDate alkaa, QDate
 
 }
 
+Kohdennus::Kohdennus(QVariantMap &data) :
+    KantaVariantti(data), muokattu_(false)
+{
+    id_ = data_.take("id").toInt();
+    tyyppi_ = data_.take("tyyppi").toInt();
+    nimi_ = data_.take("nimi").toString();
+    alkaa_ = data_.take("alkaa").toDate();
+    paattyy_ = data_.take("paattyy").toDate();
+}
+
 QIcon Kohdennus::tyyppiKuvake() const
 {
     if( tyyppi() == KUSTANNUSPAIKKA)

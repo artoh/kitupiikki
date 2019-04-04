@@ -48,7 +48,7 @@ void SQLiteKysely::kysy(const QVariant &data)
     {
         if( sanat_.count() == 2)
         {
-            vastaus_.insert("data", tosite( sanat_.at(1).toInt() ));
+            vastaus_.insert("tosite", tosite( sanat_.at(1).toInt() ));
             vastaa();
         }
         else

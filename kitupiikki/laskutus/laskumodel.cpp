@@ -966,7 +966,7 @@ QString LaskuModel::tositetunnus()
     }
     else
     {
-        Tositelaji laji = kp()->tositelajit()->tositelaji( kp()->asetukset()->luku("LaskuTositelaji") );
+        Tositelaji laji = kp()->tositelajit()->tositelajiVanha( kp()->asetukset()->luku("LaskuTositelaji") );
         int ryhmalisays = 0;
         if( tyyppi() == RYHMALASKU  )
             ryhmalisays = static_cast<int>(laskunNumero_ / 10 - kp()->asetukset()->isoluku("LaskuSeuraavaId") / 10);
@@ -1073,7 +1073,7 @@ LaskuRivi::LaskuRivi()
     else
         alvKoodi = AlvKoodi::EIALV;
 
-    Tositelaji laji = kp()->tositelajit()->tositelaji( kp()->asetukset()->luku("LaskuTositelaji") );
+    Tositelaji laji = kp()->tositelajit()->tositelajiVanha( kp()->asetukset()->luku("LaskuTositelaji") );
     myyntiTili = kp()->tilit()->tiliNumerollaVanha( laji.json()->luku("Oletustili") );
 }
 

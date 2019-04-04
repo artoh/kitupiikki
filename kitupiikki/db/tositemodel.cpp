@@ -32,7 +32,7 @@
 
 
 TositeModel::TositeModel(QSqlDatabase *tietokanta, QObject *parent)
-    : QObject(parent),
+    : QAbstractTableModel (parent),
       id_(-1), pvm_(kp()->paivamaara()), tositelaji_(1), tiliotetili_(0),
       tietokanta_(tietokanta),
       muokattu_(false)
@@ -45,9 +45,34 @@ TositeModel::TositeModel(QSqlDatabase *tietokanta, QObject *parent)
     connect( liiteModel(), &LiiteModel::liiteMuutettu, [this] { emit tositettaMuokattu(true);} );
 }
 
+int TositeModel::rowCount(const QModelIndex &parent) const
+{
+    return map_.value("viennit").toList().count();
+}
+
+int TositeModel::columnCount(const QModelIndex &parent) const
+{
+    return 2;
+}
+
+QVariant TositeModel::data(const QModelIndex &index, int role) const
+{
+    QVariantMap vienti = map_.value("viennit").toList().at(index.row()).toMap();
+
+    if( role == Qt::DisplayRole )
+    {
+        if( index.column() == 0)
+            return vienti.value("pvm").toDate();
+        else
+            return vienti.value("selite");
+    }
+
+    return QVariant();
+}
+
 Tositelaji TositeModel::tositelaji() const
 {
-    return kp()->tositelajit()->tositelaji( tositelaji_ );
+    return kp()->tositelajit()->tositelajiVanha(  map_.value("tositelaji").toInt() );
 }
 
 bool TositeModel::muokkausSallittu() const
@@ -167,6 +192,13 @@ void TositeModel::asetaTiliotetili(int tiliId)
 void TositeModel::lataa(int id)
 {
     // Lataa tositteen
+
+    KpKysely* kpkysely = kpk( QString("tositteet/%1").arg(id) );
+    connect( kpkysely, &KpKysely::vastaus, this, &TositeModel::lataaMapista);
+    kpkysely->kysy();
+
+    return;
+
 
     QSqlQuery kysely(*tietokanta_);
     kysely.exec( QString("SELECT pvm, otsikko, kommentti, tunniste,"
@@ -351,6 +383,17 @@ void TositeModel::uusiPohjalta(const QDate &pvm, const QString &otsikko)
 
 }
 
+void TositeModel::lataaMapista(QVariantMap *data, int status)
+{
+    beginResetModel();
+    map_ = data->value("tosite").toMap();
+    endResetModel();
+
+    qDebug() << "ladattu..." << status;
+
+    emit tyhjennetty();
+}
+
 RaportinKirjoittaja TositeModel::tuloste()
 {
     RaportinKirjoittaja rk;
@@ -460,7 +503,7 @@ RaportinKirjoittaja TositeModel::selvittelyTuloste()
 
             if( avain == "laji")
             {
-                Tositelaji laji = kp()->tositelajit()->tositelaji( arvo.toInt() );
+                Tositelaji laji = kp()->tositelajit()->tositelajiVanha( arvo.toInt() );
                 arvo.append(QString(" [%1 %2]").arg(laji.tunnus()).arg(laji.nimi()));
             }
 

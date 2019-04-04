@@ -30,7 +30,7 @@
  * @brief Tilin tai otsikon tiedot
  *
  */
-class Tili : KantaVariantti
+class Tili : protected KantaVariantti
 {
 public:
     Tili();

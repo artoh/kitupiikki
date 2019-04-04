@@ -71,7 +71,7 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     ui = new Ui::KirjausWg();
     ui->setupUi(this);
 
-    ui->viennitView->setModel( model_->vientiModel() );
+    ui->viennitView->setModel( model_ );
 
     connect( model_->vientiModel(), SIGNAL(muuttunut()), this, SLOT(naytaSummat()));
 

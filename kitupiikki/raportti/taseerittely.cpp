@@ -289,7 +289,7 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
 
                     RaporttiRivi nimirivi;
                     QString tunniste = QString("%1%2/%3")
-                            .arg( kp()->tositelajit()->tositelaji( kysely.value("laji").toInt() ).tunnus() )
+                            .arg( kp()->tositelajit()->tositelajiVanha( kysely.value("laji").toInt() ).tunnus() )
                             .arg( kysely.value("tunniste").toInt())
                             .arg( kp()->tilikaudet()->tilikausiPaivalle( kysely.value("vienti.pvm").toDate() ).kausitunnus()  );
 

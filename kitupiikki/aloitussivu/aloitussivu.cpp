@@ -466,7 +466,7 @@ QString AloitusSivu::vinkit()
         }
     }
 
-    // Tarkistetaan, että alv-tilit paikallaan
+    /* Tarkistetaan, että alv-tilit paikallaan
     if( kp()->asetukset()->onko("AlvVelvollinen") &&
         ( !kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).onkoValidi() ||
           !kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).onkoValidi() ||
@@ -476,7 +476,7 @@ QString AloitusSivu::vinkit()
                           "<h3><a href=ktp:/maaritys/Tilikartta>Tilikartta puutteellinen</a></h3>"
                           "<p>Tilikartassa pitää olla tilit alv-kirjauksille, alv-vähennyksille ja verovelalle.</td></tr></table>") );
 
-    }
+    } */
 
     // Viimeisenä muistiinpanot
     if( kp()->asetukset()->onko("Muistiinpanot") )

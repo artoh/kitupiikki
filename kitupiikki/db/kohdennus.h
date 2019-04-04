@@ -22,11 +22,13 @@
 #include <QDate>
 #include <QIcon>
 
+#include "kantavariantti.h"
+
 /**
  * @brief Kirjauksen kohdennus kustannuspaikalle tai projektiin
  */
 
-class Kohdennus
+class Kohdennus : protected KantaVariantti
 {
 public:
 
@@ -40,6 +42,7 @@ public:
 
     Kohdennus(int tyyppi = EIKOHDENNETA, const QString& nimi = QString());
     Kohdennus(int id, int tyyppi, const QString &nimi, QDate alkaa = QDate(), QDate paattyy = QDate());
+    Kohdennus( QVariantMap& data);
 
     int id() const { return id_; }
     QString nimi() const { return nimi_; }

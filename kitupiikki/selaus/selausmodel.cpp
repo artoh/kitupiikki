@@ -83,12 +83,12 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
                 if( role == Qt::EditRole)
                 {
                     return QString("%1%2/%3")
-                            .arg( kp()->tositelajit()->tositelaji( map.value("tosite").toMap().value("tositelaji").toInt() ).tunnus() )
+                            .arg( kp()->tositelajit()->tositelajiVanha( map.value("tosite").toMap().value("tositelaji").toInt() ).tunnus() )
                             .arg( map.value("tosite").toMap().value("tunniste").toInt(),8,10,QChar('0'))
                             .arg( kp()->tilikaudet()->tilikausiPaivalle( map.value("tosite").toMap().value("pvm").toDate() ).kausitunnus());
                 }
                 return QString("%1 %2/%3")
-                        .arg( kp()->tositelajit()->tositelaji( map.value("tosite").toMap().value("tositelaji").toInt()  ).tunnus() )
+                        .arg( kp()->tositelajit()->tositelajiVanha( map.value("tosite").toMap().value("tositelaji").toInt()  ).tunnus() )
                         .arg( map.value("tosite").toMap().value("tunniste").toInt()  )
                         .arg( kp()->tilikaudet()->tilikausiPaivalle( map.value("tosite").toMap().value("pvm").toDate() ).kausitunnus() );
 
@@ -135,7 +135,7 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
                 if( map.value("era").toMap().contains("tunniste") )
                 {
                     txt.append( QString("%1%2/%3")
-                            .arg( kp()->tositelajit()->tositelaji( map.value("era").toMap().value("tositelaji").toInt() ).tunnus() )
+                            .arg( kp()->tositelajit()->tositelajiVanha( map.value("era").toMap().value("tositelaji").toInt() ).tunnus() )
                             .arg( map.value("era").toMap().value("tunniste").toInt())
                             .arg( kp()->tilikaudet()->tilikausiPaivalle( map.value("era").toMap().value("pvm").toDate() ).kausitunnus()) );
                 }
@@ -243,12 +243,12 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
                                            .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() );
         } else {
             rivi.tositetunniste = QString("%1 %2/%3")
-                                           .arg( kp()->tositelajit()->tositelaji( query.value(8).toInt()  ).tunnus() )
+                                           .arg( kp()->tositelajit()->tositelajiVanha( query.value(8).toInt()  ).tunnus() )
                                            .arg( query.value(9).toInt()  )
                                            .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() );
 
             rivi.lajiteltavaTositetunniste = QString("%1%2/%3")
-                                       .arg( kp()->tositelajit()->tositelaji( query.value(8).toInt()  ).tunnus() )
+                                       .arg( kp()->tositelajit()->tositelajiVanha( query.value(8).toInt()  ).tunnus() )
                                        .arg( query.value(9).toInt(),8,10,QChar('0'))
                                        .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() );
         }

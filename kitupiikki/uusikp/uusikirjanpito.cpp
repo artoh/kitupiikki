@@ -141,6 +141,8 @@ void UusiKirjanpito::naytaOhje()
 
 bool UusiKirjanpito::alustaKirjanpito()
 {
+    /*
+
     // Ladataan karttatiedosto
     QMap<QString,QStringList> kartta = lueKtkTiedosto( field("tilikartta").toString() );
 
@@ -387,5 +389,7 @@ bool UusiKirjanpito::alustaKirjanpito()
     QSqlDatabase::removeDatabase("luonti");
 
     return true;
+
+    */
 
 }

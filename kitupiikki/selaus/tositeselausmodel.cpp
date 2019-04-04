@@ -86,7 +86,7 @@ QVariant TositeSelausModel::data(const QModelIndex &index, int role) const
                            .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() ));
                 else
                      return QVariant(QString("%1%2/%3")
-                            .arg( kp()->tositelajit()->tositelaji( rivi.tositeLaji ).tunnus() )
+                            .arg( kp()->tositelajit()->tositelajiVanha( rivi.tositeLaji ).tunnus() )
                             .arg( rivi.tositeTunniste,8,10,QChar('0'))
                             .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() ));
              }
@@ -96,14 +96,14 @@ QVariant TositeSelausModel::data(const QModelIndex &index, int role) const
                     .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() ));
             else
                 return QVariant(QString("%1 %2/%3")
-                    .arg( kp()->tositelajit()->tositelaji( rivi.tositeLaji ).tunnus() )
+                    .arg( kp()->tositelajit()->tositelajiVanha( rivi.tositeLaji ).tunnus() )
                     .arg( rivi.tositeTunniste)
                     .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() ));
         case PVM:
             return QVariant( rivi.pvm );
 
         case TOSITELAJI:
-            return kp()->tositelajit()->tositelaji( rivi.tositeLaji ).nimi();
+            return kp()->tositelajit()->tositelajiVanha( rivi.tositeLaji ).nimi();
 
         case OTSIKKO:
             return QVariant( rivi.otsikko );
@@ -207,7 +207,7 @@ void TositeSelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
         rivit.append(rivi);
 
         // Listalla käytettyjen lajien tunnukset
-        QString tositelajinimi = kp()->tositelajit()->tositelaji( rivi.tositeLaji ).nimi();
+        QString tositelajinimi = kp()->tositelajit()->tositelajiVanha( rivi.tositeLaji ).nimi();
         if( !kaytetytLajinimet.contains(tositelajinimi))
             kaytetytLajinimet.append(tositelajinimi);
 
@@ -236,7 +236,7 @@ void TositeSelausModel::tietoSaapuu(QVariantMap *map, int /* status */)
         rivi.liitteita = tosite.value("liitteita").toInt() > 0;
         rivi.summa = tosite.value("summa").toLongLong();
 
-        QString tositelajinimi = kp()->tositelajit()->tositelaji( rivi.tositeLaji ).nimi();
+        QString tositelajinimi = kp()->tositelajit()->tositelajiVanha( rivi.tositeLaji ).nimi();
         if( !kaytetytLajinimet.contains(tositelajinimi))
             kaytetytLajinimet.append(tositelajinimi);
 

@@ -18,7 +18,7 @@
 #ifndef TOSITEMODEL_H
 #define TOSITEMODEL_H
 
-#include <QObject>
+#include <QAbstractTableModel>
 #include <QDate>
 #include <QSqlDatabase>
 #include <QTextDocument>
@@ -34,25 +34,30 @@
 /**
  * @brief Tositteen tiedot
  */
-class TositeModel : public QObject
+class TositeModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
     TositeModel(QSqlDatabase *tietokanta, QObject *parent = nullptr);
 
+
+    int rowCount(const QModelIndex &parent) const;
+    int columnCount(const QModelIndex &parent) const;
+    QVariant data(const QModelIndex &index, int role) const;
+
     /**
      * @brief Tositteen id
      * @return -1 tarkoittaa, ettei tositetta vielä tallennettu
      */
-    int id() const { return id_; }
-    QDate pvm() const { return pvm_; }
-    QString otsikko() const { return otsikko_; }
-    QString kommentti() const { return kommentti_; }
+    int id() const { return map_.value("id").toInt(); }
+    QDate pvm() const { return map_.value("pvm").toDate(); }
+    QString otsikko() const { return map_.value("otsikko").toString(); }
+    QString kommentti() const { return map_.value("kommentti").toString(); }
 
-    QDateTime luontiAika() const { return luotu_; }
-    QDateTime muokattuAika() const { return muokattuAika_; }
+    QDateTime luontiAika() const { return map_.value("luotu").toDateTime(); }
+    QDateTime muokattuAika() const { return map_.value("muokattu").toDateTime(); }
 
-    int tunniste() const { return tunniste_; }
+    int tunniste() const { return map_.value("tunniste").toInt(); }
     Tositelaji tositelaji() const;
 
     /**
@@ -125,6 +130,8 @@ public slots:
      */
     void uusiPohjalta(const QDate& pvm, const QString& otsikko);
 
+    void lataaMapista(QVariantMap* data, int status);
+
 public:
     /**
      * @brief Tulostettava tosite
@@ -160,6 +167,9 @@ protected:
 
     VientiModel* vientiModel_;
     LiiteModel* liiteModel_;
+
+    QVariantMap map_;
+
 };
 
 #endif // TOSITEMODEL_H

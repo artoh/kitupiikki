@@ -34,7 +34,7 @@ TilikarttaMuokkaus::TilikarttaMuokkaus(QWidget *parent)
     ui->setupUi(this);
 
 
-    model = new TiliModel( kp()->tietokanta(), this);
+    model = new TiliModel( this);
 
     naytaProxy = new QSortFilterProxyModel(this);
     naytaProxy->setSourceModel(model);

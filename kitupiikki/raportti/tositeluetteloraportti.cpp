@@ -129,7 +129,7 @@ RaportinKirjoittaja TositeluetteloRaportti::kirjoitaRaportti(QDate mista, QDate 
         QDate tositePvm = kysely.value("pvm").toDate();
         QString otsikko = kysely.value("otsikko").toString();
         int tunniste = kysely.value("tunniste").toInt();
-        Tositelaji laji = kp()->tositelajit()->tositelaji( kysely.value("laji").toInt());
+        Tositelaji laji = kp()->tositelajit()->tositelajiVanha( kysely.value("laji").toInt());
 
         if( ryhmittelelajeittain && edellinenTositelajiId != laji.id())
         {

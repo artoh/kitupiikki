@@ -196,7 +196,7 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
 
             // Ryhmittely tositelajeittain: Tulostetaan tositelajien otsikot
             edellinenTositelajiId = kysely.value("tositelajiId").toInt();
-            Tositelaji laji = kp()->tositelajit()->tositelaji( edellinenTositelajiId );
+            Tositelaji laji = kp()->tositelajit()->tositelajiVanha( edellinenTositelajiId );
             RaporttiRivi rr;
             kirjoittaja.lisaaRivi(rr);  // Lisätään ensin tyhjä rivi
             rr.lisaa( laji.nimi() , 3);
@@ -211,7 +211,7 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
         rivi.lisaa( pvm );
         csvRivi.lisaa(pvm);
 
-        Tositelaji laji = kp()->tositelajit()->tositelaji( kysely.value("tositelajiId").toInt() );
+        Tositelaji laji = kp()->tositelajit()->tositelajiVanha( kysely.value("tositelajiId").toInt() );
 
         rivi.lisaaLinkilla( RaporttiRiviSarake::TOSITE_ID, kysely.value("tositeId").toInt() ,
                           QString("%1%2/%3").arg( laji.tunnus() ).arg(kysely.value("tunniste").toInt())
