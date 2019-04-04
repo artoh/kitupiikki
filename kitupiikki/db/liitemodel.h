@@ -65,7 +65,7 @@ public:
      * @param tositemodel Tosite, jonka liitteitä käsitellään: jos 0, käsitellään liitteitä tositteella NULL
      * @param parent
      */
-    LiiteModel(TositeModel *tositemodel, QObject *parent = nullptr);
+    LiiteModel(TositeModel *tositemodel = nullptr, QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent) const override;
     QVariant data(const QModelIndex &index, int role) const override;
@@ -103,9 +103,14 @@ public:
     bool canDropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex &parent) const override;
     bool dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex &parent) override;
 
+    void lataa(int tositeid, const QVariantList& lista );
+
 public slots:
     void lataa();
     void tyhjaa();
+
+    void liiteSaapuu(QVariantMap* data, int status);
+
     /**
      * @brief Tallentaa liitteet
      * @return tosi, jos onnistui

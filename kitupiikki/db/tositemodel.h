@@ -55,6 +55,10 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
     QVariant data(const QModelIndex &index, int role) const override;
 
+    bool setData(const QModelIndex &index, const QVariant &value, int role);
+    Qt::ItemFlags flags(const QModelIndex &index) const;
+
+
     /**
      * @brief Tositteen id
      * @return -1 tarkoittaa, ettei tositetta vielä tallennettu
@@ -83,7 +87,7 @@ public:
 
     bool muokkausSallittu() const;
     VientiModel *vientiModel() { return vientiModel_; }
-    LiiteModel* liiteModel() { return liiteModel_; }
+    LiiteModel* liiteModel() { return &liitteet_; }
 
     QSqlDatabase *tietokanta() { return tietokanta_; }
 
@@ -174,6 +178,8 @@ protected:
 
     bool muokattu_;
 
+
+    LiiteModel liitteet_;
 
     VientiModel* vientiModel_;
     LiiteModel* liiteModel_;

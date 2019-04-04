@@ -218,20 +218,14 @@ void SQLiteKysely::teeAsetus(const QVariantMap& params)
 
 void SQLiteKysely::lataaLiite()
 {
-    qDebug() << "Liitteen lataus " << polku();
-    QStringList sanat = polku().split('/');
-
-    if( sanat.count() < 2)
-        return;
-
-    bool ok;
-    sanat.at(1).toInt(&ok);
 
     QSqlQuery query( tietokanta());
 
-    if( !ok )
-        query.exec( QString("SELECT data, otsikko FROM liite WHERE tosite IS NULL AND otsikko=\"%1\"").arg( sanat.at(1)  ));
-
+    if( sanat_.count() == 2)
+        query.exec( QString("SELECT data, otsikko FROM liite WHERE tosite IS NULL AND otsikko=\"%1\"").arg( sanat_.at(1)  ));
+    else if( sanat_.count() == 3)
+        query.exec( QString("SELECT data, otsikko FROM liite WHERE tosite=%1 AND liiteno=%2").arg( sanat_.at(1)  ).arg(sanat_.at(2)));
+    qDebug() << query.lastQuery() << " " << query.lastError().text();
 
     if( query.next())
     {
@@ -276,7 +270,8 @@ QVariantMap SQLiteKysely::tosite(int id)
         QVariantList viennit;
 
         // TÄSTÄ PUUTTUU VIELÄ TAVARAA
-        vientikysely.exec( QString("SELECT vienti.id, pvm, tili.nro, debetsnt, kreditsnt, selite, vienti.json "
+        vientikysely.exec( QString("SELECT vienti.id, pvm, tili.nro, debetsnt, kreditsnt, selite, vienti.json, "
+                                   "alvkoodi, alvprosentti "
                                    "FROM vienti JOIN tili ON vienti.tili=tili.id "
                                    "WHERE tosite=%1 "
                                    "ORDER BY vientirivi ").arg(id));
@@ -289,9 +284,18 @@ QVariantMap SQLiteKysely::tosite(int id)
             vienti.insert("id", vientikysely.value("vienti.id"));
             vienti.insert("pvm", vientikysely.value("pvm"));
             vienti.insert("tili", vientikysely.value("tili.nro"));
-            vienti.insert("debetsnt", vientikysely.value("debetsnt"));
-            vienti.insert("kreditsnt", vientikysely.value("kreditsnt"));
+
+            if( !vientikysely.value("debetsnt").isNull())
+                vienti.insert("debetsnt", vientikysely.value("debetsnt"));
+            if( !vientikysely.value("kreditsnt").isNull())
+                vienti.insert("kreditsnt", vientikysely.value("kreditsnt"));
+
             vienti.insert("selite", vientikysely.value("selite"));
+
+            if( !vientikysely.value("alvkoodi").isNull())
+                vienti.insert("alvkoodi", vientikysely.value("alvkoodi"));
+            if( !vientikysely.value("alvprosentti").isNull())
+            vienti.insert("alvprosentti", vientikysely.value("alvprosentti"));
 
             QSqlQuery kohdennysKysely( tietokanta() );
             QVariantList kohdennuslista;

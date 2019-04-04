@@ -293,6 +293,23 @@ bool LiiteModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int 
     return false;
 }
 
+void LiiteModel::lataa(int tositeid, const QVariantList &lista)
+{
+    beginResetModel();
+    liitteet_.clear();
+
+    for(QVariant var : lista)
+    {
+        QVariantMap map = var.toMap();
+
+        KpKysely *kysely = kpk( QString("liitteet/%1/%2").arg(tositeid).arg(map.value("liiteno").toInt()) );
+        connect( kysely, &KpKysely::vastaus, this, &LiiteModel::liiteSaapuu );
+        kysely->kysy();
+    }
+
+    endResetModel();
+}
+
 
 void LiiteModel::lataa()
 {
@@ -331,6 +348,18 @@ void LiiteModel::tyhjaa()
     liitteet_.clear();
     endResetModel();
     muokattu_ = false;
+}
+
+void LiiteModel::liiteSaapuu(QVariantMap *data, int status)
+{
+    beginResetModel();
+    Liite liite;
+    liite.pdf = data->value("liite").toByteArray();
+    liite.liiteno = static_cast<KpKysely*>(sender())->polku().split('/').last().toInt();
+    liite.otsikko = data->value("otsikko").toString();
+    liitteet_.append(liite);
+    endResetModel();
+    sender()->deleteLater();
 }
 
 bool LiiteModel::tallenna()

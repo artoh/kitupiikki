@@ -117,11 +117,40 @@ QVariant TositeModel::data(const QModelIndex &index, int role) const
              return QVariant();
         }
         case ALV:
-            return QVariant();  // TODO
+        {
+            int alvkoodi = vienti.value("alvkoodi").toInt();
+            if( alvkoodi == AlvKoodi::EIALV )
+                return QVariant();
+            else
+            {
+                if( alvkoodi == AlvKoodi::MAKSETTAVAALV)
+                    return tr("VERO");
+                else if(alvkoodi == AlvKoodi::TILITYS)
+                    return QString();
+                else
+                    return QVariant( QString("%1 %").arg( vienti.value("alvprosentti").toInt() ));
+            }
+        }
         case SELITE:
             return vienti.value("selite");
         case KOHDENNUS:
-            return QVariant();  // TODO
+            return QVariant();
+
+        }
+
+    }
+    else if( role == Qt::EditRole )
+    {
+        switch ( index.column())
+        {
+        case PVM:
+            return vienti.value("pvm").toDate();
+        case TILI:
+            return vienti.value("tili").toInt();
+        case DEBET:
+            return vienti.value("debetsnt").toLongLong() / 100.0 ;
+        case KREDIT:
+            return vienti.value("kreditsnt").toLongLong() / 100.0;
         }
     }
     else if( role == Qt::TextAlignmentRole)
@@ -134,6 +163,36 @@ QVariant TositeModel::data(const QModelIndex &index, int role) const
     }
 
     return QVariant();
+}
+
+bool TositeModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if( role == Qt::EditRole)
+    {
+        switch ( index.column()) {
+        case PVM:
+            viennit_[ index.row() ].insert("pvm", value.toDate() );
+            break;
+        case DEBET:
+            viennit_[index.row()].insert("debetsnt", value.toLongLong());
+            viennit_[index.row()].remove("kreditsnt");
+            break;
+        case KREDIT:
+            viennit_[index.row()].insert("kreditsnt", value.toLongLong() );
+            viennit_[index.row()].remove("debetsnt");
+            break;
+        case SELITE:
+            viennit_[index.row() ].insert("selite", value);
+        }
+        return true;
+
+    }
+    return false;
+}
+
+Qt::ItemFlags TositeModel::flags(const QModelIndex &index) const
+{
+    return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
 }
 
 Tositelaji TositeModel::tositelaji() const
@@ -459,6 +518,9 @@ void TositeModel::lataaMapista(QVariantMap *data, int status)
     QVariant vientiVar = map_.take("viennit");
     for( QVariant var : vientiVar.toList())
         viennit_.append( var.toMap() );
+
+    QVariant liiteVar = map_.take("liitteet");
+    liitteet_.lataa( id(), liiteVar.toList() );
 
     endResetModel();
 
