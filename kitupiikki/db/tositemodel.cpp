@@ -47,24 +47,90 @@ TositeModel::TositeModel(QSqlDatabase *tietokanta, QObject *parent)
 
 int TositeModel::rowCount(const QModelIndex &parent) const
 {
-    return map_.value("viennit").toList().count();
+    return viennit_.count();
 }
 
 int TositeModel::columnCount(const QModelIndex &parent) const
 {
-    return 2;
+    return 7;
+}
+
+QVariant TositeModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if( role == Qt::TextAlignmentRole)
+        return QVariant( Qt::AlignCenter | Qt::AlignVCenter);
+    else if( role != Qt::DisplayRole )
+        return QVariant();
+    else if( orientation == Qt::Horizontal)
+    {
+        switch (section)
+        {
+            case PVM:
+                return QVariant("Pvm");
+            case TILI:
+                return QVariant("Tili");
+            case DEBET :
+                return QVariant("Debet");
+            case KREDIT:
+                return QVariant("Kredit");
+            case ALV:
+                return QVariant("Alv");
+            case SELITE:
+                return QVariant("Selite");
+            case KOHDENNUS :
+                return QVariant("Kohdennus");
+
+        }
+
+    }
+    return QVariant( section + 1);
 }
 
 QVariant TositeModel::data(const QModelIndex &index, int role) const
 {
-    QVariantMap vienti = map_.value("viennit").toList().at(index.row()).toMap();
+    QVariantMap vienti = viennit_.at(index.row());
 
     if( role == Qt::DisplayRole )
     {
-        if( index.column() == 0)
+        switch ( index.column()) {
+        case PVM:
             return vienti.value("pvm").toDate();
-        else
+        case TILI:
+        {
+            Tili *tili = kp()->tilit()->tiliNumerolla( vienti.value("tili").toInt() );
+            if( tili )
+                return QString("%1 %2").arg(tili->numero()).arg(tili->nimi());
+            return QVariant();
+        }
+        case DEBET:
+        {
+             qlonglong debetsnt = vienti.value("debetsnt").toLongLong();
+             if( debetsnt )
+                return QVariant( QString("%L1 €").arg(debetsnt / 100.0,0,'f',2));
+             return QVariant();
+        }
+        case KREDIT:
+        {
+            qlonglong kreditsnt = vienti.value("kreditsnt").toLongLong();
+            if( kreditsnt )
+                return QVariant( QString("%L1 €").arg(kreditsnt / 100.0,0,'f',2));
+             return QVariant();
+        }
+        case ALV:
+            return QVariant();  // TODO
+        case SELITE:
             return vienti.value("selite");
+        case KOHDENNUS:
+            return QVariant();  // TODO
+        }
+    }
+    else if( role == Qt::TextAlignmentRole)
+    {
+        if( index.column()==KREDIT || index.column() == DEBET || index.column() == ALV)
+            return QVariant(Qt::AlignRight | Qt::AlignVCenter);
+        else
+            return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
+
     }
 
     return QVariant();
@@ -387,6 +453,13 @@ void TositeModel::lataaMapista(QVariantMap *data, int status)
 {
     beginResetModel();
     map_ = data->value("tosite").toMap();
+    viennit_.clear();
+
+
+    QVariant vientiVar = map_.take("viennit");
+    for( QVariant var : vientiVar.toList())
+        viennit_.append( var.toMap() );
+
     endResetModel();
 
     qDebug() << "ladattu..." << status;

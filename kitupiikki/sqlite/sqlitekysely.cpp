@@ -260,7 +260,15 @@ QVariantMap SQLiteKysely::tosite(int id)
         map.insert("kommentti", kysely.value("kommentti"));
         map.insert("tunniste", kysely.value("tunniste"));
         map.insert("tositelaji",kysely.value("laji"));
-        map.insert("tiliotetili", kysely.value("tiliote"));
+
+        int tiliotetiliId = kysely.value("tiliote").toInt();
+        if( tiliotetiliId ) {
+            QSqlQuery otetilikysely( tietokanta() );
+            otetilikysely.exec(QString("SELECT nro FROM tili WHERE id=%1 ").arg(tiliotetiliId));
+            if( otetilikysely.next())
+                map.insert("tiliotetili", otetilikysely.value("nro"));
+        }
+
         map.insert("luotu", kysely.value("luotu"));
         map.insert("muokattu", kysely.value("muokattu"));
 
@@ -268,15 +276,19 @@ QVariantMap SQLiteKysely::tosite(int id)
         QVariantList viennit;
 
         // TÄSTÄ PUUTTUU VIELÄ TAVARAA
-        vientikysely.exec( QString("SELECT id, pvm, tili, debetsnt, kreditsnt, selite, json "
-                                   "FROM vienti WHERE tosite=%1 "
+        vientikysely.exec( QString("SELECT vienti.id, pvm, tili.nro, debetsnt, kreditsnt, selite, vienti.json "
+                                   "FROM vienti JOIN tili ON vienti.tili=tili.id "
+                                   "WHERE tosite=%1 "
                                    "ORDER BY vientirivi ").arg(id));
+
+        qDebug() << vientikysely.lastError().text();
+
         while(vientikysely.next())
         {
-            QVariantMap vienti = QJsonDocument::fromJson( vientikysely.value("json").toByteArray() ).toVariant().toMap();
-            vienti.insert("id", vientikysely.value("id"));
+            QVariantMap vienti = QJsonDocument::fromJson( vientikysely.value("vienti.json").toByteArray() ).toVariant().toMap();
+            vienti.insert("id", vientikysely.value("vienti.id"));
             vienti.insert("pvm", vientikysely.value("pvm"));
-            vienti.insert("tili", vientikysely.value("tili"));
+            vienti.insert("tili", vientikysely.value("tili.nro"));
             vienti.insert("debetsnt", vientikysely.value("debetsnt"));
             vienti.insert("kreditsnt", vientikysely.value("kreditsnt"));
             vienti.insert("selite", vientikysely.value("selite"));

@@ -844,7 +844,9 @@ void KirjausWg::tiedotModelista()
     // Tiliotetilin yhdistämiset!
     if( model_->tiliotetili())
     {
-        ui->tiliotetiliCombo->setCurrentIndex( ui->tiliotetiliCombo->findData( QVariant(model_->tiliotetili()) ,TiliModel::IdRooli ) );
+        qDebug() << "Etsitään tilotetili " << model()->tiliotetili();
+
+        ui->tiliotetiliCombo->setCurrentIndex( ui->tiliotetiliCombo->findData( model_->tiliotetili(), TiliModel::NroRooli ) );
         ui->tiliotealkaenEdit->setDate( model_->json()->date("TilioteAlkaa") );
         ui->tilioteloppuenEdit->setDate( model_->json()->date("TilioteLoppuu"));
     }

@@ -23,6 +23,7 @@
 #include <QSqlDatabase>
 #include <QTextDocument>
 
+
 #include "db/vientimodel.h"
 #include "db/tositelaji.h"
 #include "db/jsonkentta.h"
@@ -38,12 +39,21 @@ class TositeModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
+
+
+    enum VientiSarake
+    {
+        PVM, TILI, DEBET, KREDIT, KOHDENNUS, ALV, SELITE
+    };
+
+
     TositeModel(QSqlDatabase *tietokanta, QObject *parent = nullptr);
 
 
-    int rowCount(const QModelIndex &parent) const;
-    int columnCount(const QModelIndex &parent) const;
-    QVariant data(const QModelIndex &index, int role) const;
+    int rowCount(const QModelIndex &parent) const override;
+    int columnCount(const QModelIndex &parent) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
+    QVariant data(const QModelIndex &index, int role) const override;
 
     /**
      * @brief Tositteen id
@@ -68,7 +78,7 @@ public:
      *
      * @return
      */
-    int tiliotetili() const { return tiliotetili_; }
+    int tiliotetili() const { return map_.value("tiliotetili").toInt(); }
 
 
     bool muokkausSallittu() const;
@@ -169,6 +179,8 @@ protected:
     LiiteModel* liiteModel_;
 
     QVariantMap map_;
+
+    QList<QVariantMap> viennit_;
 
 };
 
