@@ -65,7 +65,7 @@ public slots:
     /**
      * @brief Pdf-raportin esikatselu
      */
-    void esikatsele();
+    virtual void esikatsele();
 
 
 

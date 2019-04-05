@@ -192,7 +192,8 @@ SOURCES += main.cpp \
     db/kpkysely.cpp \
     sqlite/sqlitekysely.cpp \
     sqlite/sqliteyhteys.cpp \
-    db/kantavariantti.cpp
+    db/kantavariantti.cpp \
+    raportti/paivakirja.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -362,7 +363,8 @@ HEADERS += \
     db/kpkysely.h \
     sqlite/sqlitekysely.h \
     sqlite/sqliteyhteys.h \
-    db/kantavariantti.h
+    db/kantavariantti.h \
+    raportti/paivakirja.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

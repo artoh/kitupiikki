@@ -57,6 +57,11 @@ protected:
     static void kirjoitaSummaRivi(RaportinKirjoittaja &rk, qlonglong debet, qlonglong kredit, int sarakeleveys);
 
     Ui::Paivakirja *ui;
+
+public slots:
+    virtual void esikatsele();
+
+    virtual void nayta(RaportinKirjoittaja rk);
 };
 
 #endif // PAIVAKIRJARAPORTTI_H

@@ -268,6 +268,17 @@ public:
      */
     KpYhteys* yhteys() { return yhteys_; }
 
+
+    /**
+     * @brief Palauttaa tositetunnuksen muodossa OL 1/19
+     * @param tositelaji
+     * @param tunniste
+     * @param pvm
+     * @return
+     */
+    QString tositeTunnus(int tositelaji, int tunniste, const QDate& pvm, bool vertailu = false ) const;
+
+
 signals:
     /**
      * @brief Tietokanta on avattu

@@ -26,6 +26,10 @@
 
 #include "raportinkirjoittaja.h"
 
+#include "paivakirja.h"
+
+#include "naytin/naytinikkuna.h"
+
 #include <QDebug>
 #include <QSqlError>
 
@@ -297,4 +301,17 @@ void PaivakirjaRaportti::kirjoitaSummaRivi(RaportinKirjoittaja &rk, qlonglong de
     rivi.lisaa( kredit );
     rivi.viivaYlle(true);
     rk.lisaaRivi(rivi);
+}
+
+void PaivakirjaRaportti::esikatsele()
+{
+    Paivakirja *kirja = new Paivakirja(this);
+    connect( kirja, &Paivakirja::valmis, this, &PaivakirjaRaportti::nayta );
+    kirja->kirjoita( ui->alkupvm->date(), ui->loppupvm->date() );
+}
+
+void PaivakirjaRaportti::nayta(RaportinKirjoittaja rk)
+{
+    NaytinIkkuna::naytaRaportti( rk );
+    sender()->deleteLater();
 }

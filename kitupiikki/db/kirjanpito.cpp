@@ -200,6 +200,29 @@ void Kirjanpito::lokiin(const QSqlQuery &kysely)
     emit tietokantavirhe(ilmoitus);
 }
 
+QString Kirjanpito::tositeTunnus(int tositelaji, int tunniste, const QDate &pvm, bool vertailu) const
+{
+    QString lajitunnus;
+    QString vuositunnus = tilikaudetModel_->tilikausiPaivalle(pvm).kausitunnus();
+
+    // Tässä voidaan siivota pois laji jos ollaan yhdessä sarjassa
+
+    Tositelaji *laji = tositelajiModel_->tositeLaji(tositelaji);
+    if( laji && !asetusModel_->onko("Samaansarjaan"))
+        lajitunnus = laji->tunnus() + " ";
+
+    if( vertailu )
+        return QString("%1%2/%3")
+                .arg( lajitunnus)
+                .arg( tunniste, 8, 10, QChar('0') )
+                .arg( vuositunnus );
+
+    return QString("%1%2/%3")
+            .arg(lajitunnus)
+            .arg(tunniste)
+            .arg(vuositunnus);
+}
+
 
 
 bool Kirjanpito::avaaTietokanta(const QString &tiedosto, bool ilmoitaVirheesta)
