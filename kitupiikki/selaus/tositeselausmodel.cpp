@@ -234,7 +234,7 @@ void TositeSelausModel::tietoSaapuu(QVariantMap *map, int /* status */)
         rivi.tositeLaji = tosite.value("tositelaji").toInt();
         rivi.tositeTunniste = tosite.value("tunniste").toInt();
         rivi.liitteita = tosite.value("liitteita").toInt() > 0;
-        rivi.summa = tosite.value("summa").toLongLong();
+        rivi.summa = qRound( tosite.value("summa").toDouble() * 100.0 );
 
         QString tositelajinimi = kp()->tositelajit()->tositelajiVanha( rivi.tositeLaji ).nimi();
         if( !kaytetytLajinimet.contains(tositelajinimi))

@@ -286,9 +286,9 @@ QVariantMap SQLiteKysely::tosite(int id)
             vienti.insert("tili", vientikysely.value("tili.nro"));
 
             if( !vientikysely.value("debetsnt").isNull())
-                vienti.insert("debetsnt", vientikysely.value("debetsnt"));
+                vienti.insert("debet", vientikysely.value("debetsnt").toDouble() / 100.0);
             if( !vientikysely.value("kreditsnt").isNull())
-                vienti.insert("kreditsnt", vientikysely.value("kreditsnt"));
+                vienti.insert("kredit", vientikysely.value("kreditsnt").toDouble() / 100.0 );
 
             vienti.insert("selite", vientikysely.value("selite"));
 
@@ -312,7 +312,7 @@ QVariantMap SQLiteKysely::tosite(int id)
         map.insert("viennit", viennit);
 
         QSqlQuery liitekysely( tietokanta());
-        liitekysely.exec( QString("SELECT id, liiteno, otsikko, sha "
+        liitekysely.exec( QString("SELECT id, liiteno, otsikko, sha, data "
                                   "FROM liite WHERE tosite=%1 ORDER BY liiteno").arg( id ));
         QVariantList liitteet;
         while( liitekysely.next())
@@ -322,6 +322,7 @@ QVariantMap SQLiteKysely::tosite(int id)
             liite.insert("liiteno", liitekysely.value("liiteno"));
             liite.insert("otsikko", liitekysely.value("otsikko"));
             liite.insert("sha", liitekysely.value("sha"));
+            liite.insert("liite", liitekysely.value("data").toByteArray().toBase64());
             liitteet.append(liite);
         }
         map.insert("liitteet", liitteet);
@@ -375,9 +376,9 @@ void SQLiteKysely::tositelista()
 
             // Yleensä kreditin ja debetin pitäisi täsmätä ;)
             if( debet > kredit)
-                map.insert("summa", debet);
+                map.insert("summa", debet / 100.0);
             else
-                map.insert("summa", kredit);
+                map.insert("summa", kredit / 100.0);
         }
 
         QSqlQuery liitekysely( QString("SELECT count(id) FROM liite WHERE tosite=%1").arg(id));
@@ -434,9 +435,9 @@ void SQLiteKysely::vientilista()
         map.insert("pvm", kysely.value("vienti.pvm"));
         map.insert("tili", tili );
         if( !kysely.value("debetsnt").isNull())
-            map.insert("debetsnt", kysely.value("debetsnt"));
+            map.insert("debet", kysely.value("debetsnt").toDouble() / 100.0);
         if( !kysely.value("kreditsnt").isNull())
-            map.insert("kreditsnt", kysely.value("kreditsnt"));
+            map.insert("kredit", kysely.value("kreditsnt").toDouble() / 100.0);
         map.insert("kohdennus", kysely.value("kohdennus"));
         map.insert("liitteita", kysely.value("liitteita"));
         map.insert("selite", kysely.value("selite"));
@@ -474,7 +475,7 @@ void SQLiteKysely::vientilista()
             eraKysely.exec();
 
             if( eraKysely.next())
-                eramap.insert("saldo", eraKysely.value(0).toLongLong() - eraKysely.value(1).toLongLong());
+                eramap.insert("saldo", (eraKysely.value(0).toDouble() - eraKysely.value(1).toDouble()) / 100.0);
             map.insert("era", eramap);
         }
 

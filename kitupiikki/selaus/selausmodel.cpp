@@ -104,23 +104,23 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
 
             case DEBET:
             {
-                qlonglong debetsnt = map.value("debetsnt").toLongLong();
+                double debet = map.value("debet").toDouble();
                 if( role == Qt::EditRole)
-                    return QVariant( debetsnt );
-                else if( debetsnt )
-                    return QVariant( QString("%L1 €").arg( debetsnt / 100.0,0,'f',2));
+                    return QVariant( debet );
+                else if( qAbs(debet) > 1e-5 )
+                    return QVariant( QString("%L1 €").arg( debet ,0,'f',2));
                 else
                     return QVariant();
             }
 
             case KREDIT:
             {
-                qlonglong kreditsnt = map.value("kreditsnt").toLongLong();
+                double kredit = map.value("kredit").toDouble();
 
                 if( role == Qt::EditRole)
-                    return QVariant( kreditsnt);
-                else if( kreditsnt )
-                    return QVariant( QString("%L1 €").arg(kreditsnt / 100.0,0,'f',2));
+                    return QVariant( kredit);
+                else if( qAbs(kredit) > 1e-5 )
+                    return QVariant( QString("%L1 €").arg(kredit,0,'f',2));
                 else
                     return QVariant();
             }

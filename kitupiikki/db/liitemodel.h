@@ -105,6 +105,8 @@ public:
 
     void lataa(int tositeid, const QVariantList& lista );
 
+    QVariantList tallennettavat() const;
+
 public slots:
     void lataa();
     void tyhjaa();

@@ -27,6 +27,8 @@
 #include <QMessageBox>
 #include <QSqlRecord>
 
+#include <QJsonDocument>
+
 #include "aloitussivu/aloitussivu.h"
 #include "versio.h"
 
@@ -104,16 +106,16 @@ QVariant TositeModel::data(const QModelIndex &index, int role) const
         }
         case DEBET:
         {
-             qlonglong debetsnt = vienti.value("debetsnt").toLongLong();
-             if( debetsnt )
-                return QVariant( QString("%L1 €").arg(debetsnt / 100.0,0,'f',2));
+            double debet = vienti.value("debet").toDouble();
+             if( debet > 1e-5 )
+                return QVariant( QString("%L1 €").arg(debet,0,'f',2));
              return QVariant();
         }
         case KREDIT:
         {
-            qlonglong kreditsnt = vienti.value("kreditsnt").toLongLong();
-            if( kreditsnt )
-                return QVariant( QString("%L1 €").arg(kreditsnt / 100.0,0,'f',2));
+            double kredit = vienti.value("kredit").toDouble();
+            if( kredit > 1e-5)
+                return QVariant( QString("%L1 €").arg(kredit,0,'f',2));
              return QVariant();
         }
         case ALV:
@@ -174,12 +176,12 @@ bool TositeModel::setData(const QModelIndex &index, const QVariant &value, int r
             viennit_[ index.row() ].insert("pvm", value.toDate() );
             break;
         case DEBET:
-            viennit_[index.row()].insert("debetsnt", value.toLongLong());
-            viennit_[index.row()].remove("kreditsnt");
+            viennit_[index.row()].insert("debet", value.toDouble() );
+            viennit_[index.row()].remove("kredit");
             break;
         case KREDIT:
-            viennit_[index.row()].insert("kreditsnt", value.toLongLong() );
-            viennit_[index.row()].remove("debetsnt");
+            viennit_[index.row()].insert("kredit", value.toDouble() );
+            viennit_[index.row()].remove("debet");
             break;
         case SELITE:
             viennit_[index.row() ].insert("selite", value);
@@ -379,6 +381,19 @@ void TositeModel::tyhjaa()
 
 bool TositeModel::tallenna()
 {
+    QVariantMap map(map_);
+
+    QVariantList viennit;
+    for(auto vienti : viennit_)
+        viennit.append(vienti);
+
+    map.insert("viennit", viennit);
+
+    map.insert("liitteet", liitteet_.tallennettavat());
+
+
+    qDebug() << QJsonDocument::fromVariant( map ).toJson();
+
     return false;
 
 

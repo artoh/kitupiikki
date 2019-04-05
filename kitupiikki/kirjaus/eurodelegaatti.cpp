@@ -42,6 +42,6 @@ void EuroDelegaatti::setEditorData(QWidget *editor, const QModelIndex &index) co
 void EuroDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
     QDoubleSpinBox *sbox = qobject_cast<QDoubleSpinBox*>(editor);
-    model->setData(index, sbox->value() * 100.0 );
+    model->setData(index, sbox->value() );
 
 }

@@ -302,12 +302,42 @@ void LiiteModel::lataa(int tositeid, const QVariantList &lista)
     {
         QVariantMap map = var.toMap();
 
+        Liite liite;
+        liite.pdf = QByteArray::fromBase64( map.value("liite").toByteArray() );
+        liite.liiteno = map.value("liiteno").toInt();
+        liite.otsikko = map.value("otsikko").toString();
+        liite.id = map.value("id").toInt();
+        liitteet_.append(liite);
+
+
+        /*
         KpKysely *kysely = kpk( QString("liitteet/%1/%2").arg(tositeid).arg(map.value("liiteno").toInt()) );
         connect( kysely, &KpKysely::vastaus, this, &LiiteModel::liiteSaapuu );
         kysely->kysy();
+        */
     }
 
     endResetModel();
+}
+
+QVariantList LiiteModel::tallennettavat() const
+{
+    QVariantList lista;
+
+    for( Liite liite : liitteet_) {
+        if( !liite.id ) {
+            QVariantMap uusi;
+            uusi.insert("otsikko", liite.otsikko);
+            uusi.insert("liite", liite.pdf.toBase64());
+            lista.append(uusi);
+        }
+    }
+    for(int poistoid : poistetutIdt_) {
+        QVariantMap poisto;
+        poisto.insert("poista",poistoid);
+        lista.append(poisto);
+    }
+    return lista;
 }
 
 
