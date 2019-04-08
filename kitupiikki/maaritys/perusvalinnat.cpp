@@ -55,6 +55,7 @@ Perusvalinnat::Perusvalinnat() :
     connect( ui->avaaArkistoNappi, &QPushButton::clicked, [] { kp()->avaaUrl( kp()->arkistopolku() ); } );    
     connect( ui->poistaLogoNappi, &QPushButton::clicked, [this] { poistalogo=true; ui->logoLabel->clear(); ilmoitaMuokattu(); });
     connect( ui->eipdfCheck, SIGNAL(toggled(bool)), this, SLOT(ilmoitaMuokattu()));
+    connect( ui->pienennaJpg, SIGNAL(toggled(bool)), this, SLOT(ilmoitaMuokattu()));
 
     ui->ytunnusEdit->setValidator(new YTunnusValidator());
 
@@ -83,7 +84,7 @@ bool Perusvalinnat::nollaa()
     ui->puhelinEdit->setText( kp()->asetus("Puhelin"));
     ui->logossaNimiBox->setChecked( kp()->asetukset()->onko("LogossaNimi") );
     ui->sahkopostiEdit->setText( kp()->asetukset()->asetus("Sahkoposti"));
-    ui->poistaLogoNappi->setEnabled( !kp()->logo().isNull() );    
+    ui->poistaLogoNappi->setEnabled( !kp()->logo().isNull() );
 
     // Haetaan muodot
 
@@ -106,6 +107,7 @@ bool Perusvalinnat::nollaa()
 
     ui->paivitysCheck->setChecked( kp()->settings()->value("NaytaPaivitykset", true).toBool() );
     ui->eipdfCheck->setChecked(kp()->settings()->value("PopplerPois", false).toBool());
+    ui->pienennaJpg->setChecked( !kp()->asetukset()->onko("SailytaJpgKoko"));
 
     uusilogo = QImage();
 
@@ -163,7 +165,8 @@ bool Perusvalinnat::onkoMuokattu()
             ui->eipdfCheck->isChecked() != kp()->settings()->value("PopplerPois",true).toBool() ||
             ui->logossaNimiBox->isChecked() != kp()->asetukset()->onko("LogossaNimi") ||
             poistalogo ||
-            ( ui->muotoCombo->currentText() != kp()->asetukset()->asetus("Muoto"));
+            ( ui->muotoCombo->currentText() != kp()->asetukset()->asetus("Muoto")) ||
+            ui->pienennaJpg->isChecked() == kp()->asetukset()->onko("SailytaJpgKoko");
 }
 
 bool Perusvalinnat::tallenna()
@@ -181,6 +184,7 @@ bool Perusvalinnat::tallenna()
     kp()->asetukset()->aseta("Puhelin", ui->puhelinEdit->text());
     kp()->asetukset()->aseta("Sahkoposti", ui->sahkopostiEdit->text());
     kp()->asetukset()->aseta("LogossaNimi", ui->logossaNimiBox->isChecked());
+    kp()->asetukset()->aseta("SailytaJpgKoko", !ui->pienennaJpg->isChecked());
 
     if( poistalogo )
     {

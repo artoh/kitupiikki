@@ -577,9 +577,9 @@ void LaskuDialogi::lahetaSahkopostilla()
     connect( smtp, SIGNAL(status(QString)), this, SLOT(smtpViesti(QString)));
 
 
-    QString kenelta = QString("=?utf-8?Q?%1?= <%2>").arg(kp()->asetukset()->asetus("EmailNimi"))
+    QString kenelta = QString("=?utf-8?B?%1?= <%2>").arg( QString(kp()->asetukset()->asetus("EmailNimi").toUtf8().toBase64())  )
                                                 .arg(kp()->asetukset()->asetus("EmailOsoite"));
-    QString kenelle = QString("=?utf-8?Q?%1?= <%2>").arg( ui->saajaEdit->text() )
+    QString kenelle = QString("=?utf-8?B?%1?= <%2>").arg( QString( ui->saajaEdit->text().toUtf8().toBase64()) )
                                             .arg(ui->emailEdit->text() );
 
     smtp->lahetaLiitteella(kenelta, kenelle, tr("%3 %1 - %2").arg( model->viitenumero() ).arg( kp()->asetukset()->asetus("Nimi") ).arg(model->t("laskuotsikko")) ,
@@ -617,9 +617,9 @@ void LaskuDialogi::lahetaRyhmanSeuraava(const QString &viesti)
         connect( smtp, &Smtp::status, this, &LaskuDialogi::lahetaRyhmanSeuraava);
 
 
-        QString kenelta = QString("=?utf-8?Q?%1?= <%2>").arg(kp()->asetukset()->asetus("EmailNimi"))
+        QString kenelta = QString("=?utf-8?B?%1?= <%2>").arg( QString(kp()->asetukset()->asetus("EmailNimi").toUtf8().toBase64()) )
                                                     .arg(kp()->asetukset()->asetus("EmailOsoite"));
-        QString kenelle = QString("=?utf-8?Q?%1?= <%2>").arg( model->laskunsaajanNimi() )
+        QString kenelle = QString("=?utf-8?B?%1?= <%2>").arg( QString( model->laskunsaajanNimi().toUtf8().toBase64()) )
                                                 .arg(model->email() );
 
         smtp->lahetaLiitteella(kenelta, kenelle, tr("%3 %1 - %2").arg( model->viitenumero() ).arg( kp()->asetukset()->asetus("Nimi")).arg(model->t("laskuotsikko") ),

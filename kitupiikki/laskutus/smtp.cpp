@@ -48,7 +48,7 @@ void Smtp::lahetaLiitteella(const QString &from, const QString &to, const QStrin
 
     message = "To: " + to + "\n";
     message.append("From: " + from + "\n");
-    message.append("Subject: =?utf-8?Q?" + subject + "?=\n");
+    message.append("Subject: =?utf-8?B?" +  subject.toUtf8().toBase64() + "?=\n");
     QString osoite = kp()->asetukset()->asetus("EmailOsoite");
     QString domain = osoite.mid( osoite.indexOf('@') );
 

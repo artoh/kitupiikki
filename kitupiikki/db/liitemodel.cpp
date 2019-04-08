@@ -170,6 +170,18 @@ int LiiteModel::lisaaLiite(const QByteArray &liite, const QString &otsikko, cons
             QBuffer buffer(&uusi.thumbnail);
             buffer.open(QIODevice::WriteOnly);
             peukkukuva.save(&buffer, "PNG");
+
+            if( kuva.width() * 2 < kuva.height() && kuva.width() > 1200)
+                kuva = kuva.scaledToWidth(1200, Qt::SmoothTransformation);
+            else if( kuva.width() > 1800)
+                kuva = kuva.scaledToWidth(1800, Qt::SmoothTransformation);
+
+            if( !kuva.isGrayscale())
+                kuva = kuva.convertToFormat( QImage::Format_Grayscale8 );
+
+            uusi.pdf.clear();
+            QBuffer tallennus(&uusi.pdf);
+            kuva.save(&tallennus, "JPG", 40);
         }
     }
 
