@@ -103,12 +103,14 @@ bool Verotarkastaja::tarkasta(VientiModel *model)
             Tili tili = kp()->tilit()->tiliNumerolla( indeksi.data(VientiModel::TiliNumeroRooli).toInt() );
             if( tili.onko(TiliLaji::ALVSAATAVA) || tili.onko(TiliLaji::ALVVELKA))
             {
-                QMessageBox::critical(nullptr, tr("Arvonlisäverokoodi puuttuu"),
+                if( QMessageBox::warning(nullptr, tr("Arvonlisäverokoodi puuttuu"),
                                       tr("Tilille %1 %2 on tehty kirjaus, jossa ei ole määritelty arvonlisäveron ohjaustietoja.\n\n"
                                          "Arvonlisäveroon liittyvät kirjaukset on aina määriteltävä oikeilla verokoodeilla, "
-                                         "jotta kausiveroilmoitukseen saadaan oikeat tiedot.\n\n"
-                                         "Käyttämällä Kirjausapuria saat automaattisesti oikeat arvonlisäveron ohjaustiedot." )
-                                      .arg(tili.numero()).arg(tili.nimi()));
+                                         "jotta kausiveroilmoitukseen saadaan oikeat tiedot. "
+                                         "Käyttämällä Kirjausapuria saat automaattisesti oikeat arvonlisäveron ohjaustiedot.\n\n"
+                                         "Haluatko varmasti hyväksyä kirjauksen puutteellisilla ohjaustiedoilla?")
+                                      .arg(tili.numero()).arg(tili.nimi()),
+                                     QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) != QMessageBox::Yes)
                 return false;
             }
         }
