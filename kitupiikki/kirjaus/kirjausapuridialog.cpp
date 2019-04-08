@@ -139,7 +139,6 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
     if( model->tiliotetili())
     {
         ui->vastatiliEdit->valitseTiliIdlla( model->tiliotetili());
-        ui->vastatiliEdit->setEnabled(false);
     }
     else
     {
@@ -797,6 +796,11 @@ void KirjausApuriDialog::valilehtiVaihtui(int indeksi)
     ui->vaihdaNappi->setVisible(indeksi == SIIRTO );
 
     bool verot = kp()->asetukset()->onko("AlvVelvollinen") && indeksi != SIIRTO;
+
+    // Tiliotteelta kirjataan tiliote vastatilinä
+    ui->vastatiliEdit->setEnabled( indeksi == SIIRTO || !model->tiliotetili() );
+    if( model->tiliotetili() && indeksi != SIIRTO)
+        ui->vastatiliEdit->valitseTiliIdlla( model->tiliotetili());
 
     ui->alvlajiLabel->setVisible(verot);
     ui->alvCombo->setVisible(verot);

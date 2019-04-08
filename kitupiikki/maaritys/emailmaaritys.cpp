@@ -116,7 +116,7 @@ void EmailMaaritys::ilmoitaMuokattu()
 void EmailMaaritys::kokeile()
 {
     ui->tulosLabel->clear();
-    QString osoite = QString("=?utf-8?Q?%1?= <%2>").arg(ui->nimiEdit->text()).arg(ui->emailEdit->text());
+    QString osoite = QString("=?utf-8?B?%1?= <%2>").arg( QString(ui->nimiEdit->text().toUtf8().toBase64()) ).arg(ui->emailEdit->text());
 
     Smtp *smtp = new Smtp( ui->kayttajaEdit->text(), ui->salasanaEdit->text(), ui->palvelinEdit->text(), ui->porttiSpin->value());
     connect( smtp, SIGNAL(status(QString)), ui->tulosLabel, SLOT(setText(QString)));
