@@ -38,9 +38,6 @@ markdown_extensions:
   - meta
   - toc:
         permalink: true
-google_analytics:
-  - 'UA-92837430-1'
-  - 'auto'
 pages:
   - Kitupiikki: 'index.md'
   - Esittely:
@@ -78,7 +75,7 @@ pages:
     - Maksumuistutukset: 'laskutus/muistutus/index.md'
     - Ryhmälasku : 'laskutus/ryhma/index.md'
   - Tulosteet: 'tulosteet/index.md'
-  - Arvonlisävero: 
+  - Arvonlisävero:
     - Arvolisävero: 'alv/index.md'
     - Mallikirjaukset: 'alv/mallikirjaukset/index.md'
     - Alv-ilmoitus: 'alv/tilitys/index.md'

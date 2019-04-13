@@ -45,18 +45,22 @@ Tukee OS X versiota 10.11 ja uudempia. <span class="fa fa-exclamation-triangle">
 Macintosh-julkaisua ylläpitää Petri Aarnio [mac@kitupiikki.info](mailto:mac@kitupiikki.info)
 
 
-## Kitupiikki 1.4 BETA
+## Kitupiikki 1.4 RC
 
-!!! warning "Beta-versiota ei ole vielä testattu kattavasti"
+Julkaisuehdokas-versiossa on kaikki ominaisuudet valmiina. Ohjelma on vielä hetken aikaa testattavana ennen lopullisen version julkaisua.
 
-    <span class="fa fa-windows"></span> [Kitupiikki 1.4 BETA Windows suoritettava ohjelma (14 MB)](https://github.com/artoh/kitupiikki/releases/download/1.4-beta/kitupiikki-1.4-beta.exe) <i class="fa fa-briefcase"></i>
+!!! note ""
 
-    <span class="fa fa-linux"></span> [Kitupiikki 1.4 BETA Linux AppImage (34 MB)](https://github.com/artoh/kitupiikki/releases/download/1.4-beta/Kitupiikki-1.4-beta-x86_64.AppImage)    
+    <span class="fa fa-windows"></span> [Kitupiikki 1.4 RC Windows suoritettava ohjelma (14 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.4-rc/kitupiikki-1.4-rc.exe) <i class="fa fa-briefcase"></i>
+
+    <span class="fa fa-linux"></span> [Kitupiikki 1.4 RC Linux AppImage (34 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.4-rc/Kitupiikki-1.4-rc-x86_64.AppImage)    
 
 - Mahdollisuus juoksevaan tositenumerointiin (kaikki tositelajit yhdessä numerosarjassa)
 - Tositteesta toiseen siirtyminen
 - Alv-kirjausten tarkastaminen tositetta tallennettaessa
 - Tilikauden tositteiden uudelleennumerointi aikajärjestykseen
+- Tositelajien kuvakkeet
+- Jpg-liitteiden tallennuskoon pienennys
 
 
 
