@@ -33,12 +33,12 @@ SQLiteKysely::SQLiteKysely(SQLiteYhteys *parent, KpKysely::Metodi metodi, QStrin
 
 void SQLiteKysely::kysy(const QVariant &data)
 {
-    if( polku().isEmpty()) {
+    if( polku() == "/init") {
         alustusKysely();
         return;
     }
 
-    sanat_ = polku().split('/');
+    sanat_ = polku().mid(1).split('/');
 
     if( metodi() == PATCH && sanat_.first() == "asetukset")
         teeAsetus(data.toMap());

@@ -196,7 +196,8 @@ SOURCES += main.cpp \
     raportti/paivakirja.cpp \
     pilvi/pilviyhteys.cpp \
     pilvi/pilvikysely.cpp \
-    pilvi/pilvimodel.cpp
+    pilvi/pilvimodel.cpp \
+    pilvi/pilvilogindlg.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -370,7 +371,8 @@ HEADERS += \
     raportti/paivakirja.h \
     pilvi/pilviyhteys.h \
     pilvi/pilvikysely.h \
-    pilvi/pilvimodel.h
+    pilvi/pilvimodel.h \
+    pilvi/pilvilogindlg.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -453,7 +455,8 @@ FORMS += \
     raportti/budjettivertailu.ui \
     alv/alvilmoitusdialog.ui \
     alv/arvonlisavero.ui \
-    uusikp/numerointi.ui
+    uusikp/numerointi.ui \
+    pilvi/pilvilogindlg.ui
 
 DISTFILES += \
     uusikp/luo.sql \

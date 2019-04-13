@@ -19,26 +19,30 @@
 #include <QDebug>
 #include <QSqlError>
 
-SQLiteYhteys::SQLiteYhteys(Kirjanpito *parent, const QUrl &url) :
-    KpYhteys (parent, url)
+SQLiteYhteys::SQLiteYhteys(QObject *parent, const QString &tietokanta) :
+    KpYhteys (parent)
 {
     tietokanta_ = QSqlDatabase::addDatabase("QSQLITE", "TOINEN");
+    tietokanta_.setDatabaseName( tietokanta );
 }
 
-bool SQLiteYhteys::avaaYhteys()
+void SQLiteYhteys::alustaYhteys()
 {
-    tietokanta_.setDatabaseName( url().toLocalFile() );
-
-    qDebug() << "SQLiteYhteys: Avataan tietokanta " << url();
 
     if( !tietokanta_.open())
     {
         qDebug() << "SQLiteYhteys: Tietokannan avaaminen epäonnistui : " << tietokanta_.lastError().text();
-        return false;
+        emit yhteysAvattu(false);
     }
 
+    SQLiteKysely *alustusKysely = kysely();
+    connect( alustusKysely, &SQLiteKysely::vastaus, this, &SQLiteYhteys::initSaapui)
 
-    return true;
+}
+
+void SQLiteYhteys::initSaapui(QVariantMap *reply, int tila)
+{
+    emit yhteysAvattu(true);
 }
 
 SQLiteKysely *SQLiteYhteys::kysely(const QString& polku, KpKysely::Metodi metodi)

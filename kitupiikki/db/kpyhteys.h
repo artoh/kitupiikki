@@ -32,22 +32,17 @@ class KpYhteys : public QObject
 {
     Q_OBJECT
 public:
-    KpYhteys(Kirjanpito *parent, const QUrl& url);
+    KpYhteys(QObject *parent);
 
-    virtual bool avaaYhteys() = 0;
     virtual KpKysely* kysely(const QString& polku = QString(), KpKysely::Metodi metodi = KpKysely::GET ) = 0;
-
-    QUrl url() const { return url_; }
-
-protected:
 
 
 signals:
+    void yhteysAvattu(bool onnistuiko);
 
 public slots:
+    virtual void alustaYhteys() = 0;
 
-private:
-    QUrl url_;
 
 };
 

@@ -16,8 +16,8 @@
 */
 #include "pilviyhteys.h"
 
-PilviYhteys::PilviYhteys(Kirjanpito *parent, const QUrl &url) :
-    KpYhteys (parent, url)
+PilviYhteys::PilviYhteys(QObject *parent, int pilviId, QString osoite, QString token) :
+    KpYhteys (parent ), pilviId_(pilviId), pilviosoite_(osoite), token_(token)
 {
 
 }

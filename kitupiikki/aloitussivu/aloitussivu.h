@@ -72,6 +72,9 @@ public slots:
 
     static QDate buildDate();
 
+    void pilviLogin();
+    void kirjauduttu();
+
 signals:
     void selaus(int tilinumero, Tilikausi tilikausi);
     void ktpkasky(QString kasky);

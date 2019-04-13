@@ -14,33 +14,32 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef PILVIYHTEYS_H
-#define PILVIYHTEYS_H
+#ifndef PILVILOGINDLG_H
+#define PILVILOGINDLG_H
 
-#include "db/kpyhteys.h"
-#include "pilvikysely.h"
+#include <QDialog>
 
-class PilviYhteys : public KpYhteys
+namespace Ui {
+class PilviLoginDlg;
+}
+
+class PilviLoginDlg : public QDialog
 {
     Q_OBJECT
+
 public:
-    PilviYhteys(QObject* parent, int pilviId, QString osoite, QString token);
-
-    PilviKysely *kysely(const QString& polku = QString(), KpKysely::Metodi metodi = KpKysely::GET) override;
-
-    QString pilviosoite() const { return pilviosoite_;}
-    QString token() const { return token_;}
+    explicit PilviLoginDlg(QWidget *parent = nullptr);
+    virtual ~PilviLoginDlg() override;
 
 public slots:
-    void alustaYhteys() override;
+    virtual void accept() override;
 
-protected slots:
-    void initSaapui(QVariantMap *reply, int tila);
+private slots:
+    void validoi();
+    void lahetetty();
 
-protected:
-    int pilviId_;
-    QString pilviosoite_;
-    QString token_;
+private:
+    Ui::PilviLoginDlg *ui;
 };
 
-#endif // PILVIYHTEYS_H
+#endif // PILVILOGINDLG_H

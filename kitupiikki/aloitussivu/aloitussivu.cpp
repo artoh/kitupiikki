@@ -50,6 +50,7 @@
 
 #include "versio.h"
 #include "pilvi/pilvimodel.h"
+#include "pilvi/pilvilogindlg.h"
 
 AloitusSivu::AloitusSivu() :
     KitupiikkiSivu(nullptr)
@@ -74,6 +75,8 @@ AloitusSivu::AloitusSivu() :
     connect( kp(), SIGNAL(tietokantaVaihtui()), this, SLOT(kirjanpitoVaihtui()));
     connect( kp(), SIGNAL( perusAsetusMuuttui()), this, SLOT(kirjanpitoVaihtui()));
 
+    connect( ui->loginButton, &QPushButton::clicked, this, &AloitusSivu::pilviLogin);
+    connect( kp()->pilvi(), &PilviModel::kirjauduttu, this, &AloitusSivu::kirjauduttu);
 
     paivitaTiedostoLista();
 
@@ -375,6 +378,20 @@ QDate AloitusSivu::buildDate()
 {
     QString koostepaiva(__DATE__);      // Tämä päivittyy aina versio.h:ta muutettaessa
     return QDate::fromString( koostepaiva.mid(4,3) + koostepaiva.left(3) + koostepaiva.mid(6), Qt::RFC2822Date);
+}
+
+void AloitusSivu::pilviLogin()
+{
+    PilviLoginDlg *dlg = new PilviLoginDlg(this);
+    dlg->exec();
+}
+
+void AloitusSivu::kirjauduttu()
+{
+    ui->kayttajaLabel->setVisible( !kp()->pilvi()->kayttajaNimi().isEmpty());
+    ui->kayttajaLabel->setText( kp()->pilvi()->kayttajaNimi() );
+    ui->loginButton->setVisible( !kp()->pilvi()->kayttajaPilvessa());
+    ui->logoutButton->setVisible( kp()->pilvi()->kayttajaPilvessa());
 }
 
 QString AloitusSivu::vinkit()

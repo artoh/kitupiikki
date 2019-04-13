@@ -154,6 +154,7 @@
         <file>etsitili.png</file>
         <file>laptop.png</file>
         <file>cloud.png</file>
+        <file>sadepilvi.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

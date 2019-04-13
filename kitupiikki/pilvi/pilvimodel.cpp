@@ -16,12 +16,14 @@
 */
 #include "pilvimodel.h"
 #include "db/kirjanpito.h"
+#include "pilviyhteys.h"
 
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QSettings>
 
 PilviModel::PilviModel(QObject *parent) :
     QAbstractListModel (parent)
@@ -36,24 +38,45 @@ int PilviModel::rowCount(const QModelIndex & /* parent */) const
 
 QVariant PilviModel::data(const QModelIndex &index, int role) const
 {
-    if( role == Qt::DisplayRole)
-    {
-        QVariantMap map = pilvet_.at( index.row() );
+    QVariantMap map = pilvet_.at( index.row() );
+    if( role == Qt::DisplayRole || role == NimiRooli)
+    {        
         return map.value("nimi").toString();
+    } else if( role == IdRooli ) {
+        return map.value("id").toInt();
     }
 
     return QVariant();
 }
 
+PilviYhteys *PilviModel::yhteys(int pilviId)
+{
+    for( auto map : pilvet_) {
+        if( map.value("id").toInt() == pilviId) {
+            return new PilviYhteys(this, pilviId, map.value("osoite").toString(),
+                                   map.value("token").toString());
+        }
+    }
+    return nullptr;
+}
+
+QString PilviModel::pilviLoginOsoite()
+{
+    return "http://localhost:4002";
+}
+
 void PilviModel::kirjaudu()
 {
     QVariantMap map;
-    map.insert("email","arto.hyvattinen@gmail.com");
+    if( kp()->settings()->contains("CloudEmail") ) {
+        map.insert("email", kp()->settings()->value("CloudEmail") );
+        map.insert("avain", kp()->settings()->value("CloudKey"));
+    }
 
     QNetworkAccessManager *mng = kp()->networkManager();
 
     // Tähän pilviosoite!
-    QNetworkRequest request(QUrl("http://localhost:4002/login") );
+    QNetworkRequest request(QUrl( pilviLoginOsoite() + "/login") );
 
 
     request.setRawHeader("Content-Type","application/json");
@@ -82,4 +105,6 @@ void PilviModel::kirjautuminenValmis()
         pilvet_.append( item.toMap() );
     }
     endResetModel();
+
+    emit kirjauduttu();
 }

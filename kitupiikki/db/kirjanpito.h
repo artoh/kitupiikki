@@ -346,6 +346,8 @@ public slots:
      */
     bool avaaTietokanta(const QString& tiedosto, bool ilmoitaVirheesta = true);
 
+    bool avaaPilvesta(int pilviId);
+
 
 
     /**

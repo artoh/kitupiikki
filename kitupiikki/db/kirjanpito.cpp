@@ -45,6 +45,7 @@
 #include "tilimodel.h"
 
 #include "pilvi/pilvimodel.h"
+#include "pilvi/pilviyhteys.h"
 
 Kirjanpito::Kirjanpito(const QString& portableDir) : QObject(nullptr),
     harjoitusPvm( QDate::currentDate()), tempDir_(nullptr), portableDir_(portableDir),
@@ -236,14 +237,16 @@ QString Kirjanpito::tositeTunnus(int tositelaji, int tunniste, const QDate &pvm,
 
 bool Kirjanpito::avaaTietokanta(const QString &tiedosto, bool ilmoitaVirheesta)
 {
-    //
-    // Uudessa muodossa urliton menee tiedostomuunnokseen, ja vasta urlillinen menee avaukseen
-    // Tässä kuitenkin suoraan sqlite-kokeilu
-    //
 
-    QUrl url = QUrl::fromLocalFile(tiedosto);
-    KpYhteys* uusiyhteys = new SQLiteYhteys(this, url);
-    if( uusiyhteys->avaaYhteys() )
+    SQLiteYhteys* uusiyhteys = new SQLiteYhteys(this, tiedosto);
+    connect( uusiyhteys, &SQLiteYhteys::yhteysAvattu, this, &Kirjanpito::yhteysAvattu);
+    uusiyhteys->alustaYhteys();
+
+    return true;
+
+    // TODO: Tämä pitää muuttaa kokonaan asynkroniseksi
+
+    if( uusiyhteys->alustaYhteys() )
     {
         if( yhteys_)
             yhteys_->deleteLater();
@@ -511,6 +514,27 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto, bool ilmoitaVirheesta)
     emit tietokantaVaihtui();
 
     return true;
+}
+
+bool Kirjanpito::avaaPilvesta(int pilviId)
+{
+    PilviYhteys *uusiyhteys = pilvi()->yhteys(pilviId);
+    connect( uusiyhteys, &PilviYhteys::yhteysAvattu, this, &Kirjanpito::yhteysAvattu);
+    uusiyhteys->alustaYhteys();
+}
+
+void Kirjanpito::yhteysAvattu(bool onnistuiko)
+{
+    KpYhteys *uusiyhteys = qobject_cast<KpYhteys*>( sender() );
+    if( onnistuiko ) {
+
+        yhteys_ = uusiyhteys;
+        emit tietokantaVaihtui();
+
+    } else {
+        sender()->deleteLater();
+    }
+
 }
 
 bool Kirjanpito::lataaUudelleen()

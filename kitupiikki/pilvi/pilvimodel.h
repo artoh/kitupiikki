@@ -19,6 +19,7 @@
 
 #include <QAbstractListModel>
 
+class PilviYhteys;
 
 /**
  * @brief Pilvessä olevien kirjanpitojen luettelo
@@ -28,13 +29,25 @@
  */
 class PilviModel : public QAbstractListModel
 {
+    Q_OBJECT
 public:
     PilviModel(QObject *parent = nullptr);
+
+    enum {
+        IdRooli = Qt::UserRole + 1,
+        NimiRooli = Qt::UserRole + 2
+    };
+
 
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
 
     QString kayttajaNimi() const { return kayttajaNimi_;}
+    int kayttajaPilvessa() const { return kayttajaId_ != 0;}
+
+    PilviYhteys* yhteys(int pilviId);
+
+    static QString pilviLoginOsoite();
 
 public slots:
     void kirjaudu();
