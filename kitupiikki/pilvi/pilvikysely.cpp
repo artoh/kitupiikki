@@ -16,6 +16,11 @@
 */
 #include "pilvikysely.h"
 #include "pilviyhteys.h"
+#include "db/kirjanpito.h"
+
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QJsonDocument>
 
 PilviKysely::PilviKysely(PilviYhteys *parent, KpKysely::Metodi metodi, QString polku)
     : KpKysely (parent, metodi, polku)
@@ -25,5 +30,44 @@ PilviKysely::PilviKysely(PilviYhteys *parent, KpKysely::Metodi metodi, QString p
 
 void PilviKysely::kysy(const QVariant &data)
 {
+    PilviYhteys *yhteys = qobject_cast<PilviYhteys*>( parent() );
+    QNetworkRequest request( QUrl( yhteys->pilviosoite() + polku() ) );
 
+    request.setRawHeader("Authentication", QString("bearer %1").arg( yhteys->token() ).toLatin1());
+    request.setRawHeader("User-Agent","Kitupiikki");
+
+    QNetworkReply *reply = nullptr;
+
+    if( metodi() == GET)    {
+        reply = kp()->networkManager()->get( request );
+    } else if(metodi() == DELETE) {
+        reply = kp()->networkManager()->deleteResource( request );
+    } else  {
+        request.setRawHeader("Content-Type","application/json");
+        QByteArray ba = QJsonDocument::fromVariant(data).toJson(QJsonDocument::Compact);
+
+        if( metodi() == POST )
+            reply = kp()->networkManager()->post(request, ba);
+        else if( metodi() == PATCH)
+            reply = kp()->networkManager()->sendCustomRequest(request, "PATCH", ba);
+        else if( metodi() == PUT)
+            reply = kp()->networkManager()->put(request, ba);
+    }
+
+    connect( reply, &QNetworkReply::finished, this, &PilviKysely::vastausSaapuu );
+
+}
+
+void PilviKysely::vastausSaapuu()
+{
+    QNetworkReply *reply = qobject_cast<QNetworkReply*>( sender());
+    if( reply->error()) {
+        vastaus_.insert("verkkovirhe", reply->error());
+        vastaa( VIRHE );
+        return;
+    } else {
+        QByteArray vastaus = reply->readAll();
+        vastaus_ = QJsonDocument::fromJson( vastaus ).toVariant().toMap();
+        vastaa( OK );
+    }
 }

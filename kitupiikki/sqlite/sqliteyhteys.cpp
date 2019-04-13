@@ -35,14 +35,15 @@ void SQLiteYhteys::alustaYhteys()
         emit yhteysAvattu(false);
     }
 
-    SQLiteKysely *alustusKysely = kysely();
-    connect( alustusKysely, &SQLiteKysely::vastaus, this, &SQLiteYhteys::initSaapui)
-
+    SQLiteKysely *alustusKysely = kysely("/init");
+    connect( alustusKysely, &SQLiteKysely::vastaus, this, &SQLiteYhteys::initSaapui);
+    alustusKysely->kysy();
 }
 
 void SQLiteYhteys::initSaapui(QVariantMap *reply, int tila)
 {
-    emit yhteysAvattu(true);
+    emit yhteysAvattu(tila == SQLiteKysely::OK);
+    sender()->deleteLater();
 }
 
 SQLiteKysely *SQLiteYhteys::kysely(const QString& polku, KpKysely::Metodi metodi)

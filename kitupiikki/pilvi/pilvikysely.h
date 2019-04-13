@@ -30,6 +30,8 @@ public:
 public slots:
     void kysy(const QVariant& data = QVariant()) override;
 
+protected slots:
+    void vastausSaapuu();
 };
 
 #endif // PILVIKYSELY_H

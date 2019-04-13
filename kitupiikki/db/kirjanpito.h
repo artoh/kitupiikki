@@ -348,6 +348,8 @@ public slots:
 
     bool avaaPilvesta(int pilviId);
 
+    void yhteysAvattu(bool onnistuiko);
+
 
 
     /**

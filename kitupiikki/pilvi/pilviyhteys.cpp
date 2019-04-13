@@ -26,3 +26,16 @@ PilviKysely* PilviYhteys::kysely(const QString &polku, KpKysely::Metodi metodi)
 {
     return new PilviKysely(this, metodi, polku);
 }
+
+void PilviYhteys::alustaYhteys()
+{
+    PilviKysely *alustusKysely = kysely("/init");
+    connect( alustusKysely, &PilviKysely::vastaus, this, &PilviYhteys::initSaapui );
+    alustusKysely->kysy();
+}
+
+void PilviYhteys::initSaapui(QVariantMap *reply, int tila)
+{
+    emit yhteysAvattu( tila == PilviKysely::OK );
+    sender()->deleteLater();
+}
