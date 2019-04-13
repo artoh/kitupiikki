@@ -152,6 +152,8 @@
         <file>edellinen.png</file>
         <file>seuraava.png</file>
         <file>etsitili.png</file>
+        <file>laptop.png</file>
+        <file>cloud.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

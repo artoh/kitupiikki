@@ -193,7 +193,10 @@ SOURCES += main.cpp \
     sqlite/sqlitekysely.cpp \
     sqlite/sqliteyhteys.cpp \
     db/kantavariantti.cpp \
-    raportti/paivakirja.cpp
+    raportti/paivakirja.cpp \
+    pilvi/pilviyhteys.cpp \
+    pilvi/pilvikysely.cpp \
+    pilvi/pilvimodel.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -364,7 +367,10 @@ HEADERS += \
     sqlite/sqlitekysely.h \
     sqlite/sqliteyhteys.h \
     db/kantavariantti.h \
-    raportti/paivakirja.h
+    raportti/paivakirja.h \
+    pilvi/pilviyhteys.h \
+    pilvi/pilvikysely.h \
+    pilvi/pilvimodel.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

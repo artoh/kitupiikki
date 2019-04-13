@@ -56,6 +56,10 @@ class KpYhteys;
 class QPrinter;
 class QSettings;
 
+class PilviModel;
+
+class QNetworkAccessManager;
+
 /**
  * @brief Kirjanpidon käsittely
  *
@@ -385,6 +389,8 @@ protected:
     QStringList virheloki_;
 
     KpYhteys* yhteys_;
+    QNetworkAccessManager* networkManager_;
+    PilviModel *pilviModel_;
 
 public:
     /**
@@ -425,6 +431,14 @@ public:
      * @return Tyhjä, jos ei portable
      */
     QString portableDir() const { return portableDir_;}
+
+    /**
+     * @brief QNetworkAccessManager verkkoyhteyksiä varten
+     * @return
+     */
+    QNetworkAccessManager* networkManager() { return networkManager_; }
+
+    PilviModel* pilvi() { return pilviModel_; }
 
 private:
     static Kirjanpito *instanssi__;

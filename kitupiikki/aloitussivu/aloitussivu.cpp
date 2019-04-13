@@ -49,6 +49,7 @@
 #include "uusikp/paivitakirjanpito.h"
 
 #include "versio.h"
+#include "pilvi/pilvimodel.h"
 
 AloitusSivu::AloitusSivu() :
     KitupiikkiSivu(nullptr)
@@ -75,6 +76,9 @@ AloitusSivu::AloitusSivu() :
 
 
     paivitaTiedostoLista();
+
+    ui->pilviView->setModel( kp()->pilvi() );
+    kp()->pilvi()->kirjaudu();
 }
 
 AloitusSivu::~AloitusSivu()

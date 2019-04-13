@@ -35,12 +35,16 @@
 
 #include <ctime>
 
+#include <QNetworkAccessManager>
+
 #include "kirjanpito.h"
 #include "naytin/naytinikkuna.h"
 
 #include "sqlite/sqliteyhteys.h"
 
 #include "tilimodel.h"
+
+#include "pilvi/pilvimodel.h"
 
 Kirjanpito::Kirjanpito(const QString& portableDir) : QObject(nullptr),
     harjoitusPvm( QDate::currentDate()), tempDir_(nullptr), portableDir_(portableDir),
@@ -54,6 +58,8 @@ Kirjanpito::Kirjanpito(const QString& portableDir) : QObject(nullptr),
         QDir portable(portableDir);
         settings_ = new QSettings(portable.absoluteFilePath("kitupiikki.ini"),QSettings::IniFormat, this);
     }
+
+    networkManager_ = new QNetworkAccessManager(this);
 
     tietokanta_ = QSqlDatabase::addDatabase("QSQLITE");
 
@@ -79,6 +85,9 @@ Kirjanpito::Kirjanpito(const QString& portableDir) : QObject(nullptr),
 
     printer_->setPaperSize(QPrinter::A4);
     printer_->setPageMargins(10,5,5,5, QPrinter::Millimeter);
+
+    // Testi: kirjaudutaan heti!
+    pilviModel_ = new PilviModel(this);
 }
 
 Kirjanpito::~Kirjanpito()
