@@ -28,6 +28,8 @@ class PilviLoginDlg : public QDialog
     Q_OBJECT
 
 public:
+    enum { VALINNAT = 0, ODOTA = 1, REKISTEROINTI =2, VAHVISTUS=3 };
+
     explicit PilviLoginDlg(QWidget *parent = nullptr);
     virtual ~PilviLoginDlg() override;
 
@@ -37,6 +39,7 @@ public slots:
 private slots:
     void validoi();
     void lahetetty();
+    void salatietosaapuu();
 
 private:
     Ui::PilviLoginDlg *ui;

@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>718</width>
+    <width>739</width>
     <height>465</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Kirjaudu</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
@@ -27,48 +27,107 @@
       </widget>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Kirjaudu tai luo tunnus&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Kitupiikki Cloud -käyttäjätunnusta tarvitaan pilvessä oleviin kirjanpitoihin ja Kitupiikin lisätoimintoihin. Käyttäjätunnuksen luominen on ilmaista, mutta osa lisätoiminnoista on maksullisia.&lt;/p&gt;&lt;p&gt;Saat sähköpostiisi linkin, jolla voit vahvistaa käyttäjätunnuksen luomisen tai yhdistämisen tähän koneeseen.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
+      <widget class="QStackedWidget" name="pino">
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="kirjaudu">
         <layout class="QFormLayout" name="formLayout">
-         <item row="0" column="0">
+         <item row="0" column="0" colspan="2">
           <widget class="QLabel" name="label_3">
            <property name="text">
-            <string>Nimesi</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Kirjaudu tai luo tunnus&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Kitupiikki Cloud -käyttäjätunnusta tarvitaan pilvessä oleviin kirjanpitoihin ja Kitupiikin lisätoimintoihin. Käyttäjätunnuksen luominen on ilmaista, mutta osa lisätoiminnoista on maksullisia.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
-           <property name="buddy">
-            <cstring>nimiEdit</cstring>
+           <property name="wordWrap">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="nimiEdit"/>
-         </item>
          <item row="1" column="0">
-          <widget class="QLabel" name="label_4">
+          <widget class="QLabel" name="label_5">
            <property name="text">
             <string>Sähköpostiosoitteesi</string>
-           </property>
-           <property name="buddy">
-            <cstring>emailEdit</cstring>
            </property>
           </widget>
          </item>
          <item row="1" column="1">
           <widget class="QLineEdit" name="emailEdit"/>
          </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="salaLabel">
+           <property name="text">
+            <string>Salasana</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="salaEdit">
+           <property name="echoMode">
+            <enum>QLineEdit::Password</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QCheckBox" name="muistaCheck">
+           <property name="text">
+            <string>Muista kirjautuminen</string>
+           </property>
+          </widget>
+         </item>
         </layout>
-       </item>
-      </layout>
+       </widget>
+       <widget class="QWidget" name="odotaSivu">
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Odota, rekisteröitymistä käsitellään palvelimella...&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="page">
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Vahvistusviesti on lähetetty sähköpostiisi&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Käy viimeistelemässä rekisteröityminen sähköpostissasi olevan linkin kautta.&lt;/p&gt;&lt;p&gt;Valitse vasta sen jälkeen OK jatkaaksesi kirjautuneena.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="vahvistus">
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Vahvistusviesti on lähetetty sähköpostiisi&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Viimeistele kirjatuminen sähköpostissasi olevan linkin kautta.&lt;/p&gt;&lt;p&gt;Valitse vasta sen jälkeen OK jatkaaksesi kirjautuneena.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
      </item>
     </layout>
    </item>

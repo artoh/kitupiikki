@@ -245,7 +245,7 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto, bool ilmoitaVirheesta)
     return true;
 
     // TODO: Tämä pitää muuttaa kokonaan asynkroniseksi
-
+    /*
     if( uusiyhteys->alustaYhteys() )
     {
         if( yhteys_)
@@ -514,6 +514,7 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto, bool ilmoitaVirheesta)
     emit tietokantaVaihtui();
 
     return true;
+    */
 }
 
 bool Kirjanpito::avaaPilvesta(int pilviId)

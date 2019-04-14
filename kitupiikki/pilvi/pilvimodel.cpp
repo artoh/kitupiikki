@@ -65,10 +65,13 @@ QString PilviModel::pilviLoginOsoite()
     return "http://localhost:4002";
 }
 
-void PilviModel::kirjaudu()
+void PilviModel::kirjaudu(const QString sahkoposti, const QString &salasana)
 {
     QVariantMap map;
-    if( kp()->settings()->contains("CloudEmail") ) {
+    if( !salasana.isEmpty()) {
+        map.insert("email", sahkoposti);
+        map.insert("salasana", salasana);
+    } else if( kp()->settings()->contains("CloudEmail") ) {
         map.insert("email", kp()->settings()->value("CloudEmail") );
         map.insert("avain", kp()->settings()->value("CloudKey"));
     }
@@ -85,6 +88,20 @@ void PilviModel::kirjaudu()
     QNetworkReply *reply = mng->post( request, QJsonDocument::fromVariant(map).toJson(QJsonDocument::Compact) );
     connect( reply, &QNetworkReply::finished, this, &PilviModel::kirjautuminenValmis);
 
+}
+
+void PilviModel::kirjauduUlos()
+{
+    beginResetModel();
+    pilvet_.clear();
+    kp()->settings()->remove("CloudEmail");
+    kp()->settings()->remove("CloudKey");
+
+    kayttajaId_ = 0;
+    kayttajaNimi_.clear();
+
+    endResetModel();
+    emit kirjauduttu();
 }
 
 void PilviModel::kirjautuminenValmis()

@@ -40,8 +40,12 @@ PilviLoginDlg::PilviLoginDlg(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->buttonBox->button( QDialogButtonBox::Ok )->setEnabled(false);
+    ui->salaLabel->setVisible(false);
+    ui->salaEdit->setVisible(false);
+    ui->muistaCheck->setVisible(false);
 
-    connect( ui->nimiEdit, &QLineEdit::textChanged, this, &PilviLoginDlg::validoi);
+    ui->pino->setCurrentIndex(VALINNAT);
+
     connect( ui->emailEdit, &QLineEdit::textChanged, this, &PilviLoginDlg::validoi);
 }
 
@@ -52,30 +56,53 @@ PilviLoginDlg::~PilviLoginDlg()
 
 void PilviLoginDlg::accept()
 {
-    QVariantMap map;
-    map.insert("nimi", ui->nimiEdit->text());
-    map.insert("email", ui->emailEdit->text());
+    if( ui->pino->currentIndex() == VALINNAT)
+    {
+        QVariantMap map;
 
-    QNetworkAccessManager *mng = kp()->networkManager();
+        if( ui->salaEdit->isVisible() &&  !ui->salaEdit->text().isEmpty() ) {
+            map.insert("salasana", ui->salaEdit->text());
+            if( !ui->muistaCheck->isChecked()) {
+                kp()->pilvi()->kirjaudu( ui->emailEdit->text(), ui->salaEdit->text() );
+                QDialog::accept();
+                return;
+            }
+        }
 
-    // Tähän pilviosoite!
-    QNetworkRequest request(QUrl( kp()->pilvi()->pilviLoginOsoite() + "/users") );
+        map.insert("email", ui->emailEdit->text());
+        QNetworkAccessManager *mng = kp()->networkManager();
 
-    request.setRawHeader("Content-Type","application/json");
-    request.setRawHeader("User-Agent", QString(qApp->applicationName() + " " + qApp->applicationVersion()).toUtf8());
+        // Tähän pilviosoite!
+        QNetworkRequest request(QUrl( kp()->pilvi()->pilviLoginOsoite() + "/users") );
 
-    QNetworkReply *reply = mng->post( request, QJsonDocument::fromVariant(map).toJson(QJsonDocument::Compact) );
-    connect( reply, &QNetworkReply::finished, this, &PilviLoginDlg::lahetetty);
+        request.setRawHeader("Content-Type","application/json");
+        request.setRawHeader("User-Agent", QString(qApp->applicationName() + " " + qApp->applicationVersion()).toUtf8());
 
-    QDialog::accept();
+        QNetworkReply *reply = mng->post( request, QJsonDocument::fromVariant(map).toJson(QJsonDocument::Compact) );
+        connect( reply, &QNetworkReply::finished, this, &PilviLoginDlg::lahetetty);
 
+        ui->pino->setCurrentIndex( ODOTA);
+        ui->buttonBox->button( QDialogButtonBox::Ok )->setEnabled(false);
+
+    } else {
+        QDialog::accept();
+        kp()->pilvi()->kirjaudu();
+    }
 }
 
 void PilviLoginDlg::validoi()
 {
-    QRegularExpression emailRe(R"(^(\w*(\.\w+)?)+@(\w+\.\w+)(\.\w+)*$)");
-    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled( emailRe.match( ui->emailEdit->text()).hasMatch()
-                                                             && ui->nimiEdit->text().length() > 3);
+    QRegularExpression emailRe(R"(^([\w-]*(\.[\w-]+)?)+@(\w+\.\w+)(\.\w+)*$)");
+    bool kelpo = emailRe.match( ui->emailEdit->text()).hasMatch();
+    QString email = ui->emailEdit->text().toLower();
+
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled( kelpo );
+    if( kelpo ) {
+        QNetworkRequest request(QUrl( kp()->pilvi()->pilviLoginOsoite() + "/users/" + email ));
+        request.setRawHeader("User-Agent", QString(qApp->applicationName() + " " + qApp->applicationVersion()).toUtf8());
+        QNetworkReply *reply =  kp()->networkManager()->get(request);
+        connect( reply, &QNetworkReply::finished, this, &PilviLoginDlg::salatietosaapuu);
+    }
 }
 
 void PilviLoginDlg::lahetetty()
@@ -86,7 +113,7 @@ void PilviLoginDlg::lahetetty()
             tr("Rekisteröinnin lähettäminen palvelimelle epäonnistui "
                "tietoliikennevirheen %1 takia.\n\n"
                "Yritä myöhemmin uudelleen").arg( reply->error() ));
-        deleteLater();
+        reject();
         return;
     }
 
@@ -95,14 +122,35 @@ void PilviLoginDlg::lahetetty()
 
     QString email = doc.object().value("email").toString();
     QString avain = doc.object().value("avain").toString();
+    bool rekisteroity = doc.object().value("rekisteroity").toBool();
+    bool vahvistettu = doc.object().value("vahvistettu").toBool();
 
     kp()->settings()->setValue("CloudEmail", email);
     kp()->settings()->setValue("CloudKey", avain);
 
-    QMessageBox::information(this, tr("Vahvistusviesti lähetetty"),
-        tr("Vahvistusviesti on lähetetty sähköpostiisi.\n"
-           "Napsauta saamassasi viestissä olevaa linkkiä ja käynnistä sen jälkeen "
-           "Kitupiikki uudelleen."));
+    ui->buttonBox->button( QDialogButtonBox::Ok )->setEnabled(true);
+    ui->buttonBox->button( QDialogButtonBox::Cancel )->setEnabled(false);
+    if( vahvistettu )
+        accept();
+    else if( rekisteroity )
+        ui->pino->setCurrentIndex( VAHVISTUS );
+    else
+        ui->pino->setCurrentIndex( REKISTEROINTI );
 
-    deleteLater();
+}
+
+void PilviLoginDlg::salatietosaapuu()
+{
+    QNetworkReply *reply = qobject_cast<QNetworkReply*>( sender());
+    QByteArray vastaus = reply->readAll();
+    QJsonDocument doc = QJsonDocument::fromJson( vastaus );
+
+qDebug() << doc.toJson();
+
+    bool salasanattu = doc.object().value("salasanalla").toBool();
+
+    ui->salaLabel->setVisible( salasanattu );
+    ui->salaEdit->setVisible( salasanattu );
+    ui->muistaCheck->setVisible( salasanattu );
+
 }

@@ -50,7 +50,8 @@ public:
     static QString pilviLoginOsoite();
 
 public slots:
-    void kirjaudu();
+    void kirjaudu(const QString sahkoposti = QString(), const QString& salasana = QString());
+    void kirjauduUlos();
 
 private slots:
     void kirjautuminenValmis();
