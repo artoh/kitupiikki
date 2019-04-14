@@ -53,6 +53,8 @@ Julkaisuehdokas-versiossa on kaikki ominaisuudet valmiina. Ohjelma on vielä het
 
     <span class="fa fa-windows"></span> [Kitupiikki 1.4 RC Windows suoritettava ohjelma (14 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.4-rc/kitupiikki-1.4-rc.exe) <i class="fa fa-briefcase"></i>
 
+    <span class="fa fa-apple"></span> [Kitupiikki 1.4 RC macOS asennuspaketti (17 MB) ](https://github.com/petriaarnio/kitupiikki/releases/download/v1.4-rc%2B13/Kitupiikki-1.4-rc.dmg)      
+
     <span class="fa fa-linux"></span> [Kitupiikki 1.4 RC Linux AppImage (34 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.4-rc/Kitupiikki-1.4-rc-x86_64.AppImage)    
 
 - Mahdollisuus juoksevaan tositenumerointiin (kaikki tositelajit yhdessä numerosarjassa)

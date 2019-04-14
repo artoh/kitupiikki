@@ -93,9 +93,9 @@ Kirjanpitotiedoston lisäksi samaan hakemistoon luodaan myöhemmin .arkisto-pä�
 
 !!! tip "Kirjanpito pilvessä"
     Voit tallettaa kirjanpidon sellaiseen hakemistoon, joka synkronoidaan
-    automaattisesti pilvipalveluun, kuten Dropbox. Näin tiedostot ovat aina
-    turvassa tietokoneesi rikkoutumiselta. Varminta on kuitenkin, jos tiedot
-    varmuuskopioidaan säännöllisesti myös muulle tietovälineelle.
+    automaattisesti pilvipalveluun. Muista kuitenkin, että mikäli esimerkiksi asiakasrekisterissä on GDPR:n mukaisia henkilötietoja,  
+    niin niiden sijoittaminen EU:n ulkopuolella sijaitsevalla palvelimella voi olla ongelmallista.
+
 
 ## Valmista tuli!
 
