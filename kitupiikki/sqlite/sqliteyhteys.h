@@ -26,23 +26,25 @@ class Kirjanpito;
 
 class SQLiteYhteys : public KpYhteys
 {
+    Q_OBJECT
 public:
     SQLiteYhteys(QObject* parent, const QString& tietokanta);
-
 
 
     SQLiteKysely* kysely(const QString& polku = QString(), KpKysely::Metodi metodi = KpKysely::GET) override;
 
     QSqlDatabase tietokanta() const { return tietokanta_;}
 
-public slots:
-    void alustaYhteys() override;
+    bool alustaYhteys(bool ilmoitaVirheestaAvattauessa = true);
+
+    QString tiedostopolku() const { return tiedostoPolku_; }
 
 protected slots:
     void initSaapui(QVariantMap *reply, int tila);
 
 protected:
     QSqlDatabase tietokanta_;
+    QString tiedostoPolku_;
 
 
 };

@@ -51,6 +51,7 @@
 #include "versio.h"
 #include "pilvi/pilvimodel.h"
 #include "pilvi/pilvilogindlg.h"
+#include "sqlite/sqlitemodel.h"
 
 AloitusSivu::AloitusSivu() :
     KitupiikkiSivu(nullptr)
@@ -64,7 +65,7 @@ AloitusSivu::AloitusSivu() :
     connect( ui->uusiNappi, SIGNAL(clicked(bool)), this, SLOT(uusiTietokanta()));
     connect( ui->avaaNappi, SIGNAL(clicked(bool)), this, SLOT(avaaTietokanta()));
     connect( ui->tietojaNappi, SIGNAL(clicked(bool)), this, SLOT(abouttiarallaa()));
-    connect( ui->viimeiset, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(viimeisinTietokanta(QListWidgetItem*)));
+//    connect( ui->viimeiset, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(viimeisinTietokanta(QListWidgetItem*)));
     connect( ui->tilikausiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(siirrySivulle()));
     connect(ui->varmistaNappi, &QPushButton::clicked, this, &AloitusSivu::varmuuskopioi);
     connect(ui->muistiinpanotNappi, &QPushButton::clicked, this, &AloitusSivu::muistiinpanot);
@@ -79,10 +80,16 @@ AloitusSivu::AloitusSivu() :
     connect( kp()->pilvi(), &PilviModel::kirjauduttu, this, &AloitusSivu::kirjauduttu);
     connect( ui->logoutButton, &QPushButton::clicked, kp()->pilvi(), &PilviModel::kirjauduUlos );
 
+    connect( ui->viimeisetView, &QListView::clicked,
+             [] (const QModelIndex& index) { kp()->sqlite()->avaaTiedosto( index.data(SQLiteModel::PolkuRooli).toString() );} );
+
+    connect( ui->pilviView, &QListView::clicked,
+             [](const QModelIndex& index) { kp()->pilvi()->avaaPilvesta( index.data(PilviModel::IdRooli).toInt() ); } );
+
     paivitaTiedostoLista();
 
+    ui->viimeisetView->setModel( kp()->sqlite() );
     ui->pilviView->setModel( kp()->pilvi() );
-    kp()->pilvi()->kirjaudu();
 }
 
 AloitusSivu::~AloitusSivu()
@@ -234,10 +241,11 @@ void AloitusSivu::avaaTietokanta()
     QString polku = QFileDialog::getOpenFileName(this, "Avaa kirjanpito",
                                                  QDir::homePath(),"Kirjanpito (*.kitupiikki kitupiikki.sqlite)");
     if( !polku.isEmpty())
-        Kirjanpito::db()->avaaTietokanta(polku);
+        kp()->sqlite()->avaaTiedosto( polku );
 
 }
 
+/*
 void AloitusSivu::viimeisinTietokanta(QListWidgetItem *item)
 {
     QString polku = item->data(Qt::UserRole).toString();
@@ -249,6 +257,8 @@ void AloitusSivu::viimeisinTietokanta(QListWidgetItem *item)
 
     Kirjanpito::db()->avaaTietokanta( polku );
 }
+*/
+
 
 void AloitusSivu::abouttiarallaa()
 {
@@ -605,7 +615,7 @@ QPair<QString, qlonglong> AloitusSivu::summa(const QString &otsikko, const QStri
 
 
 void AloitusSivu::paivitaTiedostoLista()
-{
+{ /*
     QVariantMap kirjanpidot = kp()->settings()->value("Tietokannat").toMap();   
 
     QDir portableDir( kp()->portableDir() );
@@ -674,4 +684,6 @@ void AloitusSivu::paivitaTiedostoLista()
     }
 
     kp()->settings()->setValue("Tietokannat", kirjanpidot );
+    */
 }
+

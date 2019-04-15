@@ -36,14 +36,8 @@ public:
 
     virtual KpKysely* kysely(const QString& polku = QString(), KpKysely::Metodi metodi = KpKysely::GET ) = 0;
 
-
 signals:
     void yhteysAvattu(bool onnistuiko);
-
-public slots:
-    virtual void alustaYhteys() = 0;
-
-
 };
 
 #endif // KPYHTEYS_H

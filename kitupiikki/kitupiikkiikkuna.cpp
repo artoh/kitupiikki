@@ -61,6 +61,9 @@
 
 #include "tools/inboxlista.h"
 
+#include "sqlite/sqlitemodel.h"
+#include "pilvi/pilvimodel.h"
+
 KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     nykysivu(nullptr)
 {
@@ -93,9 +96,10 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 
     restoreGeometry( kp()->settings()->value("geometry").toByteArray());
     // Ladataan viimeksi avoinna ollut kirjanpito
-    if( kp()->settings()->contains("viimeisin"))
+    if( kp()->settings()->contains("Viimeisin") && kp()->settings()->value("Viimeisin").toInt() == 0 )
     {
-        QString viimeisin = kp()->settings()->value("viimeisin").toString();
+        QString viimeisin = kp()->settings()->value("Viimeisin").toString();
+
         // Portable-käsittely
         if( !kp()->portableDir().isEmpty())
         {
@@ -104,7 +108,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
         }
         // #78 Varmistetaan, että kirjanpito edelleen olemassa (0.7 8.3.2018)
         if( QFile::exists( viimeisin ) )
-            Kirjanpito::db()->avaaTietokanta(viimeisin, false);
+            kp()->sqlite()->avaaTiedosto(viimeisin, false);
         else
             aloitussivu->kirjanpitoVaihtui();
     }

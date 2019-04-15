@@ -46,10 +46,11 @@
 
 #include "pilvi/pilvimodel.h"
 #include "pilvi/pilviyhteys.h"
+#include "sqlite/sqlitemodel.h"
 
 Kirjanpito::Kirjanpito(const QString& portableDir) : QObject(nullptr),
     harjoitusPvm( QDate::currentDate()), tempDir_(nullptr), portableDir_(portableDir),
-    yhteys_(nullptr)
+    yhteys_(nullptr), pilviModel_(new PilviModel(this)), sqliteModel_( new SQLiteModel(this))
 {
     if( portableDir.isEmpty())
         settings_ = new QSettings(this);
@@ -86,9 +87,6 @@ Kirjanpito::Kirjanpito(const QString& portableDir) : QObject(nullptr),
 
     printer_->setPaperSize(QPrinter::A4);
     printer_->setPageMargins(10,5,5,5, QPrinter::Millimeter);
-
-    // Testi: kirjaudutaan heti!
-    pilviModel_ = new PilviModel(this);
 }
 
 Kirjanpito::~Kirjanpito()
@@ -517,18 +515,12 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto, bool ilmoitaVirheesta)
     */
 }
 
-bool Kirjanpito::avaaPilvesta(int pilviId)
-{
-    PilviYhteys *uusiyhteys = pilvi()->yhteys(pilviId);
-    connect( uusiyhteys, &PilviYhteys::yhteysAvattu, this, &Kirjanpito::yhteysAvattu);
-    uusiyhteys->alustaYhteys();
-}
 
 void Kirjanpito::yhteysAvattu(bool onnistuiko)
 {
     KpYhteys *uusiyhteys = qobject_cast<KpYhteys*>( sender() );
     if( onnistuiko ) {
-
+        yhteys_->deleteLater();
         yhteys_ = uusiyhteys;
         emit tietokantaVaihtui();
 
@@ -570,6 +562,8 @@ Kirjanpito *Kirjanpito::db()
 void Kirjanpito::asetaInstanssi(Kirjanpito *kp)
 {
     instanssi__ = kp;
+    kp->pilvi()->kirjaudu();
+    kp->sqlite()->lataaViimeiset();
 }
 
 

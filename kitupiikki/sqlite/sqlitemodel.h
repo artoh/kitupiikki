@@ -14,34 +14,31 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef PILVIYHTEYS_H
-#define PILVIYHTEYS_H
+#ifndef SQLITEMODEL_H
+#define SQLITEMODEL_H
 
-#include "db/kpyhteys.h"
-#include "pilvikysely.h"
+#include <QAbstractListModel>
 
-class PilviYhteys : public KpYhteys
+class SQLiteModel : public QAbstractListModel
 {
     Q_OBJECT
+
 public:
-    PilviYhteys(QObject* parent, int pilviId, QString osoite, QString token);
+    enum { PolkuRooli = Qt::UserRole, NimiRooli = Qt::UserRole + 2};
 
-    PilviKysely *kysely(const QString& polku = QString(), KpKysely::Metodi metodi = KpKysely::GET) override;
+    SQLiteModel(QObject *parent = nullptr);
 
-    QString pilviosoite() const { return pilviosoite_;}
-    QString token() const { return token_;}
-    int pilviId() const { return pilviId_; }
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-public slots:
-    void alustaYhteys();
+    bool avaaTiedosto(const QString& polku, bool ilmoitavirheestaAvattaessa = true);
+    void lataaViimeiset();
 
-protected slots:
-    void initSaapui(QVariantMap *reply, int tila);    
+private slots:
+    void lisaaViimeisiin(bool onnistuiko);
 
-protected:
-    int pilviId_;
-    QString pilviosoite_;
-    QString token_;
+private:
+    QVariantList viimeiset_;
 };
 
-#endif // PILVIYHTEYS_H
+#endif // SQLITEMODEL_H

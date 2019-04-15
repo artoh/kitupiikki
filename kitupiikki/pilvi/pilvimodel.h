@@ -1,4 +1,4 @@
-/*
+    void avaaPilvesta(int pilviId);/*
    Copyright (C) 2019 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
@@ -45,13 +45,15 @@ public:
     QString kayttajaNimi() const { return kayttajaNimi_;}
     int kayttajaPilvessa() const { return kayttajaId_ != 0;}
 
-    PilviYhteys* yhteys(int pilviId);
-
     static QString pilviLoginOsoite();
+
+    bool avaaPilvesta(int pilviId);
 
 public slots:
     void kirjaudu(const QString sahkoposti = QString(), const QString& salasana = QString());
     void kirjauduUlos();
+
+
 
 private slots:
     void kirjautuminenValmis();

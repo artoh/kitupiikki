@@ -197,7 +197,8 @@ SOURCES += main.cpp \
     pilvi/pilviyhteys.cpp \
     pilvi/pilvikysely.cpp \
     pilvi/pilvimodel.cpp \
-    pilvi/pilvilogindlg.cpp
+    pilvi/pilvilogindlg.cpp \
+    sqlite/sqlitemodel.cpp
 
 HEADERS += \
     uusikp/uusikirjanpito.h \
@@ -372,7 +373,8 @@ HEADERS += \
     pilvi/pilviyhteys.h \
     pilvi/pilvikysely.h \
     pilvi/pilvimodel.h \
-    pilvi/pilvilogindlg.h
+    pilvi/pilvilogindlg.h \
+    sqlite/sqlitemodel.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

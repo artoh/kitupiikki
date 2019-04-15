@@ -16,6 +16,9 @@
 */
 #include "pilviyhteys.h"
 
+#include "db/kirjanpito.h"
+#include <QSettings>
+
 PilviYhteys::PilviYhteys(QObject *parent, int pilviId, QString osoite, QString token) :
     KpYhteys (parent ), pilviId_(pilviId), pilviosoite_(osoite), token_(token)
 {
@@ -34,8 +37,10 @@ void PilviYhteys::alustaYhteys()
     alustusKysely->kysy();
 }
 
-void PilviYhteys::initSaapui(QVariantMap *reply, int tila)
+void PilviYhteys::initSaapui(QVariantMap * /* reply */, int tila)
 {
     emit yhteysAvattu( tila == PilviKysely::OK );
+    if( tila == PilviKysely::OK)
+        kp()->settings()->setValue("Viimeisin", pilviId());
     sender()->deleteLater();
 }

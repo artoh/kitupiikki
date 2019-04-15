@@ -57,6 +57,7 @@ class QPrinter;
 class QSettings;
 
 class PilviModel;
+class SQLiteModel;
 
 class QNetworkAccessManager;
 
@@ -346,7 +347,6 @@ public slots:
      */
     bool avaaTietokanta(const QString& tiedosto, bool ilmoitaVirheesta = true);
 
-    bool avaaPilvesta(int pilviId);
 
     void yhteysAvattu(bool onnistuiko);
 
@@ -395,6 +395,7 @@ protected:
     KpYhteys* yhteys_;
     QNetworkAccessManager* networkManager_;
     PilviModel *pilviModel_;
+    SQLiteModel *sqliteModel_;
 
 public:
     /**
@@ -443,6 +444,7 @@ public:
     QNetworkAccessManager* networkManager() { return networkManager_; }
 
     PilviModel* pilvi() { return pilviModel_; }
+    SQLiteModel* sqlite() { return sqliteModel_; }
 
 private:
     static Kirjanpito *instanssi__;

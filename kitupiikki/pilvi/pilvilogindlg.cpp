@@ -145,8 +145,6 @@ void PilviLoginDlg::salatietosaapuu()
     QByteArray vastaus = reply->readAll();
     QJsonDocument doc = QJsonDocument::fromJson( vastaus );
 
-qDebug() << doc.toJson();
-
     bool salasanattu = doc.object().value("salasanalla").toBool();
 
     ui->salaLabel->setVisible( salasanattu );

@@ -49,20 +49,24 @@ QVariant PilviModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-PilviYhteys *PilviModel::yhteys(int pilviId)
-{
-    for( auto map : pilvet_) {
-        if( map.value("id").toInt() == pilviId) {
-            return new PilviYhteys(this, pilviId, map.value("osoite").toString(),
-                                   map.value("token").toString());
-        }
-    }
-    return nullptr;
-}
 
 QString PilviModel::pilviLoginOsoite()
 {
     return "http://localhost:4002";
+}
+
+bool PilviModel::avaaPilvesta(int pilviId)
+{
+    for( auto map : pilvet_) {
+        if( map.value("id").toInt() == pilviId) {
+            PilviYhteys *yhteys = new PilviYhteys(this, pilviId, map.value("osoite").toString(),
+                                   map.value("token").toString());
+            connect( yhteys, &PilviYhteys::yhteysAvattu, kp(), &Kirjanpito::yhteysAvattu);
+            yhteys->alustaYhteys();
+            return true;
+        }
+    }
+    return false;
 }
 
 void PilviModel::kirjaudu(const QString sahkoposti, const QString &salasana)
@@ -104,6 +108,8 @@ void PilviModel::kirjauduUlos()
     emit kirjauduttu();
 }
 
+
+
 void PilviModel::kirjautuminenValmis()
 {
     QNetworkReply* reply = qobject_cast<QNetworkReply*>( sender() );
@@ -122,6 +128,9 @@ void PilviModel::kirjautuminenValmis()
         pilvet_.append( item.toMap() );
     }
     endResetModel();
+
+    if( kp()->settings()->value("Viimeisin").toInt() > 0)
+        avaaPilvesta( kp()->settings()->value("Viimeisin").toInt() );
 
     emit kirjauduttu();
 }

@@ -25,6 +25,8 @@
 #include <QFontDatabase>
 
 #include "db/kirjanpito.h"
+#include "sqlite/sqlitemodel.h"
+
 #include "kitupiikkiikkuna.h"
 #include "versio.h"
 
@@ -149,7 +151,7 @@ int main(int argc, char *argv[])
 
     // Avaa argumenttina olevan tiedostonnimen
     if( argumentit.length() > 1 && QFile(argumentit.at(1)).exists())
-        kirjanpito.avaaTietokanta( argumentit.at(1));
+        kirjanpito.sqlite()->avaaTiedosto( argumentit.at(1) );
 
     splash->finish( &ikkuna );
 

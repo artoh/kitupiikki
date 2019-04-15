@@ -150,7 +150,7 @@ void TositeSelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
 {
     if( kp()->yhteys())
     {
-        KpKysely *kysely = kp()->yhteys()->kysely("tositteet");
+        KpKysely *kysely = kp()->yhteys()->kysely("/tositteet");
         kysely->lisaaAttribuutti("alkupvm", alkaa);
         kysely->lisaaAttribuutti("loppupvm", loppuu);
         connect( kysely, &KpKysely::vastaus, this, &TositeSelausModel::tietoSaapuu);
