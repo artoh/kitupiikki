@@ -54,8 +54,6 @@ public slots:
 
     void uusiTietokanta();
     void avaaTietokanta();
-//    void viimeisinTietokanta(QListWidgetItem* item);
-
 
     void abouttiarallaa();
 

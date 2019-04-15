@@ -93,6 +93,25 @@ void SQLiteModel::lataaViimeiset()
 
 }
 
+void SQLiteModel::poistaListalta(const QString &polku)
+{
+
+    QDir portableDir( kp()->portableDir() );
+    QString poistettava = kp()->portableDir().isEmpty() ? polku : portableDir.relativeFilePath(polku);
+
+    QMutableListIterator<QVariant> iter( viimeiset_ );
+    while( iter.hasNext())
+    {
+        QString tamanpolku = iter.next().toMap().value("polku").toString();
+        if( poistettava == tamanpolku )
+            iter.remove();
+    }
+    kp()->settings()->setValue("ViimeTiedostot", viimeiset_);
+    endResetModel();
+
+}
+
+
 void SQLiteModel::lisaaViimeisiin(bool onnistuiko)
 {
     if( onnistuiko ) {

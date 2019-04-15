@@ -34,6 +34,8 @@ public:
     bool avaaTiedosto(const QString& polku, bool ilmoitavirheestaAvattaessa = true);
     void lataaViimeiset();
 
+    void poistaListalta(const QString& polku);
+
 private slots:
     void lisaaViimeisiin(bool onnistuiko);
 

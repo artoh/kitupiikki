@@ -52,6 +52,7 @@
 #include "pilvi/pilvimodel.h"
 #include "pilvi/pilvilogindlg.h"
 #include "sqlite/sqlitemodel.h"
+#include "sqlite/sqliteyhteys.h"
 
 AloitusSivu::AloitusSivu() :
     KitupiikkiSivu(nullptr)
@@ -85,8 +86,6 @@ AloitusSivu::AloitusSivu() :
 
     connect( ui->pilviView, &QListView::clicked,
              [](const QModelIndex& index) { kp()->pilvi()->avaaPilvesta( index.data(PilviModel::IdRooli).toInt() ); } );
-
-    paivitaTiedostoLista();
 
     ui->viimeisetView->setModel( kp()->sqlite() );
     ui->pilviView->setModel( kp()->pilvi() );
@@ -190,8 +189,6 @@ void AloitusSivu::kirjanpitoVaihtui()
     {
         ui->logoLabel->hide();
     }
-
-    paivitaTiedostoLista();
 
     if( paivitysInfo.isEmpty())
         pyydaInfo();
@@ -331,26 +328,17 @@ void AloitusSivu::muistiinpanot()
 
 void AloitusSivu::poistaListalta()
 {
+    SQLiteYhteys* yhteys = qobject_cast<SQLiteYhteys*>( kp()->yhteys() );
+    if( !yhteys )
+        return;
+
     if( QMessageBox::question(this, tr("Poista kirjanpito luettelosta"),
                               tr("Haluatko poistaa tämän kirjanpidon viimeisten kirjanpitojen luettelosta?\n"
                                  "Kirjanpitoa ei poisteta levyltä."),
                               QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes)
         return;
 
-
-    QVariantMap kirjanpidot = kp()->settings()->value("Tietokannat").toMap();
-    QDir portableDir( kp()->portableDir() );
-
-    QString polku = kp()->tiedostopolku();
-    if( !kp()->portableDir().isEmpty())
-        polku = QDir::cleanPath(portableDir.absoluteFilePath(polku));
-
-    kirjanpidot.remove(polku);
-    kp()->avaaTietokanta(QString());
-
-    kp()->settings()->setValue("Tietokannat", kirjanpidot );
-    paivitaTiedostoLista();
-
+    kp()->sqlite()->poistaListalta( yhteys->tiedostopolku() );
 }
 
 void AloitusSivu::pyydaInfo()
@@ -612,78 +600,4 @@ QPair<QString, qlonglong> AloitusSivu::summa(const QString &otsikko, const QStri
     return qMakePair(txt, saldosumma);
 }
 
-
-
-void AloitusSivu::paivitaTiedostoLista()
-{ /*
-    QVariantMap kirjanpidot = kp()->settings()->value("Tietokannat").toMap();   
-
-    QDir portableDir( kp()->portableDir() );
-
-    // Poistetaan ne, joita ei löydy
-    for(QString polku : kirjanpidot.keys())
-    {        
-        if( !kp()->portableDir().isEmpty())
-            polku = QDir::cleanPath(portableDir.absoluteFilePath(polku));
-        if( !QFile::exists(polku))
-            kirjanpidot.remove(polku);
-    }
-
-    // Nykyinen
-    if( kp()->asetukset()->onko("Nimi"))
-    {
-        QString polku = kp()->tiedostopolku();
-        if( !kp()->portableDir().isEmpty())
-            polku = portableDir.relativeFilePath(polku);
-
-        QString nimi = kp()->asetukset()->asetus("Nimi");
-        if( kp()->onkoHarjoitus())
-            nimi.append(tr(" (harjoitus)"));
-
-        QByteArray logoBa;
-        QBuffer buff(&logoBa);
-        buff.open(QIODevice::WriteOnly);
-
-        if( !kp()->logo().isNull() )
-            kp()->logo().scaled(32,32).save(&buff, "PNG");
-        buff.close();
-
-        QVariantList nama;
-        nama.append(nimi);
-        nama.append(logoBa);
-
-        kirjanpidot.insert(polku, nama);
-
-        // Tallennetaan tilastointia varten tieto vakiotilikartasta
-        QString vakiotilikartta = kp()->asetukset()->asetus("VakioTilikartta");
-        kp()->settings()->setValue("Tilikartta", vakiotilikartta.left(vakiotilikartta.indexOf('.')));
-    }
-
-
-    // Näytölle
-
-    ui->viimeiset->clear();
-    QMapIterator<QString,QVariant> iter(kirjanpidot);
-    while( iter.hasNext())
-    {
-        iter.next();
-        QString polku = iter.key();
-        QVariantList lista = iter.value().toList();
-        QString nimi = lista.at(0).toString();
-        QByteArray logo = lista.at(1).toByteArray();
-
-        QListWidgetItem *item = new QListWidgetItem(nimi, ui->viimeiset);
-        item->setData(Qt::UserRole, polku );
-        if( nimi.endsWith(tr("(harjoitus)")))
-            item->setForeground(QBrush(Qt::darkGreen));
-
-        QPixmap kuva;
-        kuva.loadFromData(logo, "PNG");
-
-        item->setIcon( QIcon( kuva ));
-    }
-
-    kp()->settings()->setValue("Tietokannat", kirjanpidot );
-    */
-}
 
