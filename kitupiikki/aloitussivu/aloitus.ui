@@ -17,7 +17,7 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
-      <layout class="QHBoxLayout" name="kpLeiska" stretch="0,2,1">
+      <layout class="QHBoxLayout" name="kpLeiska" stretch="0,2,0,1">
        <item>
         <widget class="QLabel" name="logoLabel">
          <property name="sizePolicy">
@@ -62,6 +62,16 @@
         </widget>
        </item>
        <item>
+        <widget class="QLabel" name="pilviKuva">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap resource="../pic/pic.qrc">:/pic/cloud.png</pixmap>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QComboBox" name="tilikausiCombo">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -90,7 +100,7 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_4">
      <item>
-      <widget class="QTabWidget" name="tabWidget">
+      <widget class="QTabWidget" name="tkpilviTab">
        <property name="currentIndex">
         <number>0</number>
        </property>

@@ -51,6 +51,7 @@
 #include "versio.h"
 #include "pilvi/pilvimodel.h"
 #include "pilvi/pilvilogindlg.h"
+#include "pilvi/pilviyhteys.h"
 #include "sqlite/sqlitemodel.h"
 #include "sqlite/sqliteyhteys.h"
 
@@ -89,10 +90,12 @@ AloitusSivu::AloitusSivu() :
 
     ui->viimeisetView->setModel( kp()->sqlite() );
     ui->pilviView->setModel( kp()->pilvi() );
+    ui->tkpilviTab->setCurrentIndex( kp()->settings()->value("TietokonePilviValilehti").toInt() );
 }
 
 AloitusSivu::~AloitusSivu()
 {
+    kp()->settings()->setValue("TietokonePilviValilehti", ui->tkpilviTab->currentIndex() );
     delete ui;
 }
 
@@ -192,6 +195,8 @@ void AloitusSivu::kirjanpitoVaihtui()
 
     if( paivitysInfo.isEmpty())
         pyydaInfo();
+
+    ui->pilviKuva->setVisible( qobject_cast<PilviYhteys*>( kp()->yhteys() ) );
 
     siirrySivulle();
 }
