@@ -339,6 +339,7 @@ void AloitusSivu::poistaListalta()
         return;
 
     kp()->sqlite()->poistaListalta( yhteys->tiedostopolku() );
+    ui->poistaNappi->hide();
 }
 
 void AloitusSivu::pyydaInfo()

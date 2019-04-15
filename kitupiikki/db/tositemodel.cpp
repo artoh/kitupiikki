@@ -320,7 +320,7 @@ void TositeModel::lataa(int id)
 {
     // Lataa tositteen
 
-    KpKysely* kpkysely = kpk( QString("tositteet/%1").arg(id) );
+    KpKysely* kpkysely = kpk( QString("/tositteet/%1").arg(id) );
     connect( kpkysely, &KpKysely::vastaus, this, &TositeModel::lataaMapista);
     kpkysely->kysy();
 
