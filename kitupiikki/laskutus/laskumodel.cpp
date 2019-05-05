@@ -176,6 +176,7 @@ LaskuModel *LaskuModel::haeLasku(int vientiId)
         rivi.alvKoodi = map.value("Alvkoodi").toInt();
         rivi.alvProsentti = map.value("Alvprosentti").toInt();
         rivi.myyntiTili = kp()->tilit()->tiliNumerolla( map.value("Tili").toInt() );
+        rivi.aleProsentti = map.value("AleProsentti").toInt();
         rivi.kohdennus = kp()->kohdennukset()->kohdennus( map.value("Kohdennus").toInt() );
         rivi.tuoteKoodi = map.value("Tuotekoodi").toInt();
         rivi.voittoMarginaaliMenettely = map.value("Voittomarginaalimenettely",0).toInt();
@@ -760,7 +761,7 @@ bool LaskuModel::tallenna(Tili rahatili)
             riviTalteen["Tuotekoodi"] = rivi.tuoteKoodi;
         riviTalteen["YksikkohintaSnt"] = rivi.ahintaSnt;
         riviTalteen["Kohdennus"] = rivi.kohdennus.id();
-        riviTalteen["AlennusProsentti"] = rivi.aleProsentti;
+        riviTalteen["AleProsentti"] = rivi.aleProsentti;
 
         qlonglong nettoSnt = rivi.nettoSnt();
         qlonglong bruttoSnt =  rivi.yhteensaSnt() ;
