@@ -753,8 +753,9 @@ bool LaskuModel::tallenna(Tili rahatili)
             riviTalteen["Tuotekoodi"] = rivi.tuoteKoodi;
         riviTalteen["YksikkohintaSnt"] = rivi.ahintaSnt;
         riviTalteen["Kohdennus"] = rivi.kohdennus.id();
+        riviTalteen["AlennusProsentti"] = rivi.aleProsentti;
 
-        qlonglong nettoSnt = qRound( rivi.ahintaSnt * rivi.maara );
+        qlonglong nettoSnt = rivi.nettoSnt();
         qlonglong bruttoSnt =  rivi.yhteensaSnt() ;
         qlonglong veroSnt = bruttoSnt - nettoSnt;
 
