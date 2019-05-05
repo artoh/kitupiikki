@@ -1090,8 +1090,6 @@ qlonglong LaskuRivi::yhteensaSnt() const
     if( alvKoodi == AlvKoodi::MYYNNIT_MARGINAALI)
         return qRound( maara * ahintaSnt * (100 - aleProsentti) / 100);
 
-    std::cerr << " " << maara << " x " << ahintaSnt << "\n ";
-
     return  qRound(maara *  (100 - aleProsentti) *  ahintaSnt * (100 + alvProsentti ) / 10000 ) ;
 }
 
