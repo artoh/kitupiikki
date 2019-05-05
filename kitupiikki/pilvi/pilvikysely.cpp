@@ -21,6 +21,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QJsonDocument>
+#include <QApplication>
 
 PilviKysely::PilviKysely(PilviYhteys *parent, KpKysely::Metodi metodi, QString polku)
     : KpKysely (parent, metodi, polku)
@@ -33,8 +34,8 @@ void PilviKysely::kysy(const QVariant &data)
     PilviYhteys *yhteys = qobject_cast<PilviYhteys*>( parent() );
     QNetworkRequest request( QUrl( yhteys->pilviosoite() + polku() ) );
 
-    request.setRawHeader("Authentication", QString("bearer %1").arg( yhteys->token() ).toLatin1());
-    request.setRawHeader("User-Agent","Kitupiikki");
+    request.setRawHeader("Authorization", QString("bearer %1").arg( yhteys->token() ).toLatin1());
+    request.setRawHeader("User-Agent", QString(qApp->applicationName() + " " + qApp->applicationVersion() ).toLatin1()  );
 
     QNetworkReply *reply = nullptr;
 

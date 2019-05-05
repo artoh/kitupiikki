@@ -55,8 +55,8 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
     QVariant data(const QModelIndex &index, int role) const override;
 
-    bool setData(const QModelIndex &index, const QVariant &value, int role);
-    Qt::ItemFlags flags(const QModelIndex &index) const;
+    bool setData(const QModelIndex &index, const QVariant &value, int role) override;
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
 
 
     /**
@@ -124,7 +124,7 @@ public slots:
 
     void asetaTunniste(int tunniste);
     void asetaTositelaji(int tositelajiId);
-    void asetaTiliotetili(int tiliId);
+    void asetaTiliotetili(int tiliNumero);
 
     void lataa(int id);
 
@@ -185,6 +185,7 @@ protected:
     LiiteModel* liiteModel_;
 
     QVariantMap map_;
+    QVariantMap muokkaamaton_;
 
     QList<QVariantMap> viennit_;
 

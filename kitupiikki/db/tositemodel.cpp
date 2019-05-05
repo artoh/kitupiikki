@@ -234,86 +234,65 @@ bool TositeModel::kelpaakoTunniste(int tunnistenumero) const
 
 bool TositeModel::muokattu()
 {
+    QVariantMap vertailu = map_;
+    QVariantList viennit;
+    for(auto vienti : viennit_)
+        viennit.append(vienti);
 
-    return muokattu_ || vientiModel()->muokattu() || json()->onkoMuokattu() || liiteModel()->muokattu();
+    vertailu.insert("viennit", viennit);
+
+    qDebug() << vertailu << " ?? " << muokkaamaton_;
+    return vertailu != muokkaamaton_;
+
 }
 
 void TositeModel::asetaPvm(const QDate &pvm)
 {
-    if( pvm == pvm_ )
-        return;
-
-   pvm_ = pvm;
-
-   if( id_ > -1)
-   {
-        // Pelkkä uuden tositteen päivämäärän muuttaminen
-        // ei tarkoita tositteen muokkaamista
-        muokattu_ = true;
-        emit tositettaMuokattu(true);
-   }
-
+    map_.insert("pvm", pvm);
+    emit tositettaMuokattu(muokattu());
 }
 
 void TositeModel::asetaOtsikko(const QString &otsikko)
 {
-    if( otsikko != otsikko_)
-    {
-        otsikko_ = otsikko;
-        muokattu_ = true;
-        emit tositettaMuokattu(true);
-    }
+    map_.insert("otsikko", otsikko);
+    emit tositettaMuokattu(muokattu());
 }
 
 void TositeModel::asetaKommentti(const QString &kommentti)
 {
-    if( kommentti != kommentti_)
-    {
-        kommentti_ = kommentti;
-        muokattu_ = true;
-        emit tositettaMuokattu(true);
-    }
+    if( kommentti.isEmpty())
+        map_.remove("kommentti");
+    else
+        map_.insert("kommentti", kommentti);
+    emit tositettaMuokattu(muokattu());
 }
 
 void TositeModel::asetaTunniste(int tunniste)
 {
+    // Tunniste tullaan käsittelemään tyystin toisella tavalla...
+
     if( tunniste != tunniste_)
     {
         tunniste_ = tunniste;
         muokattu_ = true;
         emit tositettaMuokattu(true);
     }
+    emit tositettaMuokattu(muokattu());
 }
 
 void TositeModel::asetaTositelaji(int tositelajiId)
 {
-    if( tositelajiId != tositelaji_)
-    {
-        tositelaji_ = tositelajiId;
-        // Vaihdetaan sopiva tunniste
-        tunniste_ = seuraavaTunnistenumero();
-
-        // Pelkkä tositelajin muutos ei merkitse uutta
-        // tositetta muokatuksi
-        if( id_ > -1)
-        {
-            muokattu_ = true;
-            emit tositettaMuokattu(true);
-        }
-    }
-    if( tositelajiId < 0)
-        tunniste_ = 0;
-
+    map_.insert("tositelaji", tositelajiId);
+    map_.insert("tunniste", QVariant());
 }
 
-void TositeModel::asetaTiliotetili(int tiliId)
+void TositeModel::asetaTiliotetili(int tiliNumero)
 {
-    if( tiliId != tiliotetili_)
-    {
-        tiliotetili_ = tiliId;
-        muokattu_ = true;
-        emit tositettaMuokattu(true);
-    }
+    if( tiliNumero)
+        map_.insert("tiliotetili", tiliNumero);
+    else
+        map_.remove("tilinumero");
+    emit tositettaMuokattu(muokattu());
 }
 
 void TositeModel::lataa(int id)
@@ -355,6 +334,14 @@ void TositeModel::lataa(int id)
 
 void TositeModel::tyhjaa()
 {
+    QDate paiva = pvm();
+    int laji = tositelaji().id();
+    map_.clear();
+    asetaPvm(paiva);
+    asetaTositelaji(laji);
+    map_.insert("viennit", QVariantList());
+    muokkaamaton_ = map_;
+
     // Tyhjentää tositteen
     id_ = -1;
 
@@ -528,6 +515,8 @@ void TositeModel::lataaMapista(QVariantMap *data, int status)
     beginResetModel();
     map_ = data->value("tosite").toMap();
     viennit_.clear();
+
+    muokkaamaton_ = map_;
 
 
     QVariant vientiVar = map_.take("viennit");

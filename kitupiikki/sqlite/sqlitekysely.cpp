@@ -113,7 +113,7 @@ QVariantList SQLiteKysely::tilit()
         QVariantMap map = json.toVariant().toMap();
 
         map.insert("id", kysely.value("id"));
-        map.insert("nro", kysely.value("nro"));
+        map.insert("numero", kysely.value("nro"));
         map.insert("ysiluku", kysely.value("ysiluku"));
 
         QVariantMap kieliMap;

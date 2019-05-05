@@ -76,7 +76,6 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
 
     if( role == Qt::DisplayRole || role == Qt::EditRole)
     {
-        Tili *tili = kp()->tilit()->tiliNumerolla( map.value("tili").toInt() );
         switch (index.column())
         {
             case TOSITE:
@@ -95,12 +94,17 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
             case PVM: return QVariant( map.value("pvm").toDate() );
 
             case TILI:
+            {
+                Tili *tili = kp()->tilit()->tiliNumerolla( map.value("tili").toInt() );
+                if( !tili )
+                    return QVariant();
                 if( role == Qt::EditRole)
                     return tili->numero();
                 else if( tili->numero())
                     return QVariant( QString("%1 %2").arg(tili->numero()).arg(tili->nimi()) );
                 else
                     return QVariant();
+            }
 
             case DEBET:
             {

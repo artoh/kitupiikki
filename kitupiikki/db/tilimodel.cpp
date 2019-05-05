@@ -376,7 +376,7 @@ void TiliModel::lataa(QVariantList lista)
         int id = map.value("id").toInt();
         int otsikkoIdTalle = 0; // Nykytilille merkittävä otsikkotaso
         int ysiluku = map.value("ysiluku").toInt();
-        int nro = map.value("nro").toInt();
+        int nro = map.value("numero").toInt();
 
 
         // Etsitään otsikkotasoa tasojen lopusta alkaen
@@ -402,7 +402,7 @@ void TiliModel::lataa(QVariantList lista)
             nroHash_.insert(nro, tili);
 
 
-        qDebug() << id << " --- " << tili->nimi();
+        qDebug() << id << " - " << tili->numero() << "-- " << tili->nimi();
 
         if( otsikkotaso )
             otsikot[otsikkotaso] = uusi;

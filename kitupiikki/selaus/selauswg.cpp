@@ -74,6 +74,8 @@ SelausWg::SelausWg() :
     connect( ui->alkuEdit, SIGNAL(dateChanged(QDate)), this, SLOT(alkuPvmMuuttui()));
     connect( kp(), &Kirjanpito::tilikausiAvattu, this, &SelausWg::alusta);
 
+    connect( proxyModel, &QSortFilterProxyModel::modelReset, ui->selausView, &QTableView::resizeColumnsToContents);
+
     ui->selausView->installEventFilter(this);
 
     paivitettava = true;
