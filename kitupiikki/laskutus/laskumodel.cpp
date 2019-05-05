@@ -40,6 +40,8 @@
 #include <QSqlError>
 #include <QJsonDocument>
 
+#include <iostream>
+
 LaskuModel::LaskuModel(QObject *parent) :
     QAbstractTableModel( parent ), kieli_("FI")
 {
@@ -419,6 +421,7 @@ bool LaskuModel::setData(const QModelIndex &index, const QVariant &value, int ro
         case MAARA:
             rivit_[rivi].maara = value.toDouble();
             // Uusi summa
+
             paivitaSumma(rivi);
             return true;
 
@@ -596,10 +599,14 @@ int LaskuModel::kplDesimaalit() const
     {
         int tamanDesim = 0;
         qreal luku = rivi.maara;
-        while( luku - static_cast<int>(luku) > 1e-7)
+
+        while( qAbs( luku - qRound(luku) ) > 1e-7)
         {
             luku *= 10;
             tamanDesim++;
+
+            if( tamanDesim > 5)
+                break;
         }
         if( tamanDesim > desim)
             desim = tamanDesim;
@@ -1082,6 +1089,8 @@ qlonglong LaskuRivi::yhteensaSnt() const
 {
     if( alvKoodi == AlvKoodi::MYYNNIT_MARGINAALI)
         return qRound( maara * ahintaSnt * (100 - aleProsentti) / 100);
+
+    std::cerr << " " << maara << " x " << ahintaSnt << "\n ";
 
     return  qRound(maara *  (100 - aleProsentti) *  ahintaSnt * (100 + alvProsentti ) / 10000 ) ;
 }

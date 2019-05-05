@@ -71,7 +71,7 @@ struct LaskuRivi
     QString nimike;
     double maara = 1.00;
     QString yksikko;
-    double ahintaSnt = 0.00;
+    qreal ahintaSnt = 0.00;
     int alvKoodi;
     int alvProsentti = 0;
     int aleProsentti = 0;
