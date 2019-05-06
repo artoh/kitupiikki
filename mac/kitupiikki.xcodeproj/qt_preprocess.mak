@@ -298,9 +298,7 @@ compiler_moc_header_clean:
 	-$(DEL_FILE) moc_uusikirjanpito.cpp moc_nimisivu.cpp moc_tilikarttasivu.cpp moc_sijaintisivu.cpp moc_tilikausisivu.cpp moc_kitupiikkiikkuna.cpp moc_aloitussivu.cpp moc_kirjanpito.cpp moc_perusvalinnat.cpp moc_maarityssivu.cpp moc_kirjauswg.cpp moc_kirjaussivu.cpp moc_tilidelegaatti.cpp moc_eurodelegaatti.cpp moc_selauswg.cpp moc_selausmodel.cpp moc_raporttisivu.cpp moc_raportti.cpp moc_paivakirjaraportti.cpp moc_tilinavaus.cpp moc_tilinavausmodel.cpp moc_pvmdelegaatti.cpp moc_tositelajit.cpp moc_tositelajimodel.cpp moc_asetusmodel.cpp moc_tilimodel.cpp moc_kohdennusmodel.cpp moc_tilikausimodel.cpp moc_maarityswidget.cpp moc_kitupiikkisivu.cpp moc_tositemodel.cpp moc_vientimodel.cpp moc_liitemodel.cpp moc_naytaliitewg.cpp moc_tilikarttamuokkaus.cpp moc_tilinvalintaline.cpp moc_tilinvalintadialogi.cpp moc_tilinmuokkausdialog.cpp moc_kohdennusmuokkaus.cpp moc_kohdennusdialog.cpp moc_tositelajidialogi.cpp moc_kirjausapuridialog.cpp moc_verotyyppimodel.cpp moc_kohdennusdelegaatti.cpp moc_raporttimuokkaus.cpp moc_raportinkorostin.cpp moc_muokattavaraportti.cpp moc_ktpintro.cpp moc_ktpperustiedot.cpp moc_ktpkuvaus.cpp moc_ktpaloitusteksti.cpp moc_onniwidget.cpp moc_raportoija.cpp moc_paakirjaraportti.cpp moc_tilikarttaraportti.cpp moc_arkistoija.cpp moc_tositeluetteloraportti.cpp moc_tilinpaatoseditori.cpp moc_liitetietokaavamuokkaus.cpp moc_tpaloitus.cpp moc_mrichtextedit.cpp moc_mtextedit.cpp moc_arkistosivu.cpp moc_ehdotusmodel.cpp moc_eranvalintamodel.cpp moc_verodialogi.cpp moc_tilityyppimodel.cpp moc_taseeravalintadialogi.cpp moc_laskumodel.cpp moc_laskudialogi.cpp moc_laskuntulostaja.cpp moc_laskuvalintawidget.cpp moc_tuotemodel.cpp moc_smtp.cpp moc_emailmaaritys.cpp moc_laskunmaksudialogi.cpp moc_laskutmodel.cpp moc_taseerittely.cpp moc_tilinpaattaja.cpp moc_poistaja.cpp moc_kaavankorostin.cpp moc_tilikarttaohje.cpp moc_viitevalidator.cpp moc_ibanvalidator.cpp moc_laskuraportti.cpp moc_tuontimaarityswidget.cpp moc_csvtuonti.cpp moc_tuontisarakedelegaatti.cpp moc_devtool.cpp moc_lisaikkuna.cpp
 	-$(DEL_FILE) moc_apurivinkki.cpp moc_siirrydlg.cpp moc_ostolaskutmodel.cpp moc_kpdateedit.cpp moc_alverittely.cpp moc_yhteystietowidget.cpp moc_naytinview.cpp moc_naytinikkuna.cpp moc_inboxlista.cpp moc_budjettimodel.cpp moc_budjettidlg.cpp moc_budjettikohdennusproxy.cpp moc_laskuryhmamodel.cpp moc_ryhmaasiakasproxy.cpp moc_ryhmantuontidlg.cpp moc_ryhmantuontimodel.cpp moc_finvoice.cpp moc_finvoicemaaritys.cpp moc_budjettivertailu.cpp moc_alvilmoitusdialog.cpp moc_alvilmoitustenmodel.cpp moc_alvsivu.cpp moc_abstraktinaytin.cpp moc_printpreviewnaytin.cpp moc_raporttinaytin.cpp moc_viennitview.cpp moc_edellinenseuraavatieto.cpp moc_verotarkastaja.cpp
 moc_uusikirjanpito.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWizard \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwizard.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		ui_intro.h \
 		../kitupiikki/uusikp/uusikirjanpito.h \
 		moc_predefs.h \
@@ -308,7 +306,6 @@ moc_uusikirjanpito.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Head
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/uusikp/uusikirjanpito.h -o moc_uusikirjanpito.cpp
 
 moc_nimisivu.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWizardPage \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwizard.h \
 		ui_nimi.h \
 		../kitupiikki/uusikp/nimisivu.h \
 		moc_predefs.h \
@@ -316,7 +313,6 @@ moc_nimisivu.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QW
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/uusikp/nimisivu.h -o moc_nimisivu.cpp
 
 moc_tilikarttasivu.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWizardPage \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwizard.h \
 		ui_tilikartta.h \
 		../kitupiikki/uusikp/tilikarttasivu.h \
 		moc_predefs.h \
@@ -324,7 +320,6 @@ moc_tilikarttasivu.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Head
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/uusikp/tilikarttasivu.h -o moc_tilikarttasivu.cpp
 
 moc_sijaintisivu.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWizardPage \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwizard.h \
 		ui_sijainti.h \
 		../kitupiikki/uusikp/sijaintisivu.h \
 		moc_predefs.h \
@@ -332,7 +327,6 @@ moc_sijaintisivu.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Header
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/uusikp/sijaintisivu.h -o moc_sijaintisivu.cpp
 
 moc_tilikausisivu.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWizardPage \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwizard.h \
 		ui_tilikausi.h \
 		../kitupiikki/uusikp/tilikausisivu.h \
 		moc_predefs.h \
@@ -340,44 +334,31 @@ moc_tilikausisivu.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Heade
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/uusikp/tilikausisivu.h -o moc_tilikausisivu.cpp
 
 moc_kitupiikkiikkuna.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QMainWindow \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qmainwindow.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVector \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvector.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QStack \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstack.h \
 		../kitupiikki/db/tilikausi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/kitupiikkisivu.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../kitupiikki/kitupiikkiikkuna.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/kitupiikkiikkuna.h -o moc_kitupiikkiikkuna.cpp
 
 moc_aloitussivu.cpp: ../../../Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers/QNetworkAccessManager \
-		../../../Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers/qnetworkaccessmanager.h \
 		../../../Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers/QNetworkReply \
-		../../../Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers/qnetworkreply.h \
 		../kitupiikki/db/tilikausi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/kitupiikkisivu.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		ui_aloitus.h \
 		../kitupiikki/aloitussivu/aloitussivu.h \
 		moc_predefs.h \
@@ -385,32 +366,20 @@ moc_aloitussivu.cpp: ../../../Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/aloitussivu/aloitussivu.h -o moc_aloitussivu.cpp
 
 moc_kirjanpito.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QTemporaryDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qtemporarydir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QStringList \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstringlist.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/tilikausi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
 		../kitupiikki/db/tositelajimodel.h \
@@ -418,21 +387,17 @@ moc_kirjanpito.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QOb
 		../kitupiikki/db/tositelaji.h \
 		../kitupiikki/db/asetusmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QHash \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qhash.h \
 		../kitupiikki/db/tilimodel.h \
 		../kitupiikki/db/tilikausimodel.h \
 		../kitupiikki/db/tositemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QTextDocument \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qtextdocument.h \
 		../kitupiikki/db/vientimodel.h \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/verotyyppimodel.h \
 		../kitupiikki/db/eranvalintamodel.h \
 		../kitupiikki/db/liitemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QBuffer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbuffer.h \
 		../kitupiikki/db/kirjanpito.h \
 		../kitupiikki/db/kohdennusmodel.h \
 		../kitupiikki/laskutus/tuotemodel.h \
@@ -440,7 +405,6 @@ moc_kirjanpito.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QOb
 		../kitupiikki/laskutus/laskutmodel.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../kitupiikki/db/kirjanpito.h \
 		moc_predefs.h \
@@ -448,9 +412,7 @@ moc_kirjanpito.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QOb
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/db/kirjanpito.h -o moc_kirjanpito.cpp
 
 moc_perusvalinnat.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
 		../kitupiikki/maaritys/maarityswidget.h \
 		../kitupiikki/maaritys/perusvalinnat.h \
 		moc_predefs.h \
@@ -458,9 +420,7 @@ moc_perusvalinnat.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Heade
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/maaritys/perusvalinnat.h -o moc_perusvalinnat.cpp
 
 moc_maarityssivu.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/maaritys/maarityswidget.h \
 		../kitupiikki/kitupiikkisivu.h \
 		../kitupiikki/maaritys/maarityssivu.h \
@@ -469,68 +429,43 @@ moc_maarityssivu.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Header
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/maaritys/maarityssivu.h -o moc_maarityssivu.cpp
 
 moc_kirjauswg.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QSortFilterProxyModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qsortfilterproxymodel.h \
 		ui_kirjaus.h \
-		../kitupiikki/tools/kpdateedit.h \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QLineEdit \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qlineedit.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
-		../kitupiikki/kirjaus/viennitview.h \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QTableView \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qtableview.h \
 		../kitupiikki/kirjaus/naytaliitewg.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QStackedWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qstackedwidget.h \
 		ui_tositewg.h \
 		../kitupiikki/db/tositemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
+		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QTextDocument \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qtextdocument.h \
 		../kitupiikki/db/vientimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/verotyyppimodel.h \
 		../kitupiikki/db/eranvalintamodel.h \
 		../kitupiikki/db/tositelaji.h \
 		../kitupiikki/db/liitemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QBuffer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbuffer.h \
 		../kitupiikki/db/kirjanpito.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QTemporaryDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qtemporarydir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QStringList \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstringlist.h \
 		../kitupiikki/db/tilikausi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
 		../kitupiikki/db/tositelajimodel.h \
 		../kitupiikki/db/asetusmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QHash \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qhash.h \
 		../kitupiikki/db/tilimodel.h \
 		../kitupiikki/db/tilikausimodel.h \
 		../kitupiikki/db/kohdennusmodel.h \
@@ -539,7 +474,6 @@ moc_kirjauswg.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/Q
 		../kitupiikki/laskutus/laskutmodel.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../kitupiikki/kirjaus/kirjauswg.h \
 		moc_predefs.h \
@@ -547,56 +481,39 @@ moc_kirjauswg.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/Q
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/kirjaus/kirjauswg.h -o moc_kirjauswg.cpp
 
 moc_kirjaussivu.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../kitupiikki/kitupiikkisivu.h \
 		../kitupiikki/db/tositemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QTextDocument \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qtextdocument.h \
 		../kitupiikki/db/vientimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/verotyyppimodel.h \
 		../kitupiikki/db/eranvalintamodel.h \
 		../kitupiikki/db/tositelaji.h \
 		../kitupiikki/db/liitemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QBuffer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbuffer.h \
 		../kitupiikki/db/kirjanpito.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QTemporaryDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qtemporarydir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QStringList \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstringlist.h \
 		../kitupiikki/db/tilikausi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
 		../kitupiikki/db/tositelajimodel.h \
 		../kitupiikki/db/asetusmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QHash \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qhash.h \
 		../kitupiikki/db/tilimodel.h \
 		../kitupiikki/db/tilikausimodel.h \
 		../kitupiikki/db/kohdennusmodel.h \
@@ -605,7 +522,6 @@ moc_kirjaussivu.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers
 		../kitupiikki/laskutus/laskutmodel.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../kitupiikki/kirjaus/kirjaussivu.h \
 		moc_predefs.h \
@@ -613,27 +529,19 @@ moc_kirjaussivu.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/kirjaus/kirjaussivu.h -o moc_kirjaussivu.cpp
 
 moc_tilidelegaatti.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QItemDelegate \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qitemdelegate.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/vientimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/verotyyppimodel.h \
 		../kitupiikki/db/eranvalintamodel.h \
 		../kitupiikki/kirjaus/tilidelegaatti.h \
@@ -642,24 +550,19 @@ moc_tilidelegaatti.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Head
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/kirjaus/tilidelegaatti.h -o moc_tilidelegaatti.cpp
 
 moc_eurodelegaatti.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QItemDelegate \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qitemdelegate.h \
 		../kitupiikki/kirjaus/eurodelegaatti.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/kirjaus/eurodelegaatti.h -o moc_eurodelegaatti.cpp
 
 moc_selauswg.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		ui_selauswg.h \
 		../kitupiikki/db/tilikausi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/kitupiikkisivu.h \
 		../kitupiikki/selaus/selauswg.h \
 		moc_predefs.h \
@@ -667,24 +570,17 @@ moc_selauswg.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QW
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/selaus/selauswg.h -o moc_selauswg.cpp
 
 moc_selausmodel.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/eranvalintamodel.h \
 		../kitupiikki/selaus/selausmodel.h \
 		moc_predefs.h \
@@ -692,24 +588,16 @@ moc_selausmodel.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QA
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/selaus/selausmodel.h -o moc_selausmodel.cpp
 
 moc_raporttisivu.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../kitupiikki/raportti/raportti.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QPainter \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qpainter.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/kitupiikkisivu.h \
 		../kitupiikki/raportti/raporttisivu.h \
 		moc_predefs.h \
@@ -717,23 +605,15 @@ moc_raporttisivu.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Header
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/raportti/raporttisivu.h -o moc_raporttisivu.cpp
 
 moc_raportti.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QPainter \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qpainter.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/raportti/raportti.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
@@ -741,23 +621,15 @@ moc_raportti.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObje
 
 moc_paivakirjaraportti.cpp: ../kitupiikki/raportti/raportti.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QPainter \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qpainter.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		ui_paivakirja.h \
 		../kitupiikki/raportti/paivakirjaraportti.h \
 		moc_predefs.h \
@@ -765,36 +637,23 @@ moc_paivakirjaraportti.cpp: ../kitupiikki/raportti/raportti.h \
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/raportti/paivakirjaraportti.h -o moc_paivakirjaraportti.cpp
 
 moc_tilinavaus.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		ui_tilinavaus.h \
 		../kitupiikki/maaritys/tilinavausmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../kitupiikki/db/kirjanpito.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QTemporaryDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qtemporarydir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QStringList \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstringlist.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
 		../kitupiikki/db/tilikausi.h \
@@ -803,24 +662,19 @@ moc_tilinavaus.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/
 		../kitupiikki/db/tositelaji.h \
 		../kitupiikki/db/asetusmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QHash \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qhash.h \
 		../kitupiikki/db/tilimodel.h \
 		../kitupiikki/db/tilikausimodel.h \
 		../kitupiikki/db/tositemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QTextDocument \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qtextdocument.h \
 		../kitupiikki/db/vientimodel.h \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/verotyyppimodel.h \
 		../kitupiikki/db/eranvalintamodel.h \
 		../kitupiikki/db/liitemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QBuffer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbuffer.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../kitupiikki/db/kohdennusmodel.h \
 		../kitupiikki/laskutus/tuotemodel.h \
@@ -833,32 +687,20 @@ moc_tilinavaus.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/maaritys/tilinavaus.h -o moc_tilinavaus.cpp
 
 moc_tilinavausmodel.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../kitupiikki/db/kirjanpito.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QTemporaryDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qtemporarydir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QStringList \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstringlist.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
 		../kitupiikki/db/tilikausi.h \
@@ -867,24 +709,19 @@ moc_tilinavausmodel.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Header
 		../kitupiikki/db/tositelaji.h \
 		../kitupiikki/db/asetusmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QHash \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qhash.h \
 		../kitupiikki/db/tilimodel.h \
 		../kitupiikki/db/tilikausimodel.h \
 		../kitupiikki/db/tositemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QTextDocument \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qtextdocument.h \
 		../kitupiikki/db/vientimodel.h \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/verotyyppimodel.h \
 		../kitupiikki/db/eranvalintamodel.h \
 		../kitupiikki/db/liitemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QBuffer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbuffer.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../kitupiikki/db/kohdennusmodel.h \
 		../kitupiikki/laskutus/tuotemodel.h \
@@ -896,32 +733,23 @@ moc_tilinavausmodel.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Header
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/maaritys/tilinavausmodel.h -o moc_tilinavausmodel.cpp
 
 moc_pvmdelegaatti.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QItemDelegate \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qitemdelegate.h \
 		../kitupiikki/kirjaus/pvmdelegaatti.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/kirjaus/pvmdelegaatti.h -o moc_pvmdelegaatti.cpp
 
 moc_tositelajit.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QSortFilterProxyModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qsortfilterproxymodel.h \
 		ui_tositelajit.h \
 		../kitupiikki/db/tositelajimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../kitupiikki/db/tositelaji.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/maaritys/maarityswidget.h \
 		../kitupiikki/maaritys/tositelajit.h \
 		moc_predefs.h \
@@ -929,53 +757,36 @@ moc_tositelajit.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/maaritys/tositelajit.h -o moc_tositelajit.cpp
 
 moc_tositelajimodel.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../kitupiikki/db/tositelaji.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tositelajimodel.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/db/tositelajimodel.h -o moc_tositelajimodel.cpp
 
 moc_asetusmodel.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QHash \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qhash.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/db/asetusmodel.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/db/asetusmodel.h -o moc_asetusmodel.cpp
 
 moc_tilimodel.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
 		../kitupiikki/db/tilimodel.h \
@@ -984,108 +795,78 @@ moc_tilimodel.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbs
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/db/tilimodel.h -o moc_tilimodel.cpp
 
 moc_kohdennusmodel.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/kohdennusmodel.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/db/kohdennusmodel.h -o moc_kohdennusmodel.cpp
 
 moc_tilikausimodel.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../kitupiikki/db/tilikausi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilikausimodel.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/db/tilikausimodel.h -o moc_tilikausimodel.cpp
 
 moc_maarityswidget.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../kitupiikki/maaritys/maarityswidget.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/maaritys/maarityswidget.h -o moc_maarityswidget.cpp
 
 moc_kitupiikkisivu.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../kitupiikki/kitupiikkisivu.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/kitupiikkisivu.h -o moc_kitupiikkisivu.cpp
 
 moc_tositemodel.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QTextDocument \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qtextdocument.h \
 		../kitupiikki/db/vientimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/verotyyppimodel.h \
 		../kitupiikki/db/eranvalintamodel.h \
 		../kitupiikki/db/tositelaji.h \
 		../kitupiikki/db/liitemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QBuffer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbuffer.h \
 		../kitupiikki/db/kirjanpito.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QTemporaryDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qtemporarydir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QStringList \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstringlist.h \
 		../kitupiikki/db/tilikausi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
 		../kitupiikki/db/tositelajimodel.h \
 		../kitupiikki/db/asetusmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QHash \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qhash.h \
 		../kitupiikki/db/tilimodel.h \
 		../kitupiikki/db/tilikausimodel.h \
 		../kitupiikki/db/tositemodel.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../kitupiikki/db/kohdennusmodel.h \
 		../kitupiikki/laskutus/tuotemodel.h \
@@ -1097,24 +878,17 @@ moc_tositemodel.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QO
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/db/tositemodel.h -o moc_tositemodel.cpp
 
 moc_vientimodel.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/verotyyppimodel.h \
 		../kitupiikki/db/eranvalintamodel.h \
 		../kitupiikki/db/vientimodel.h \
@@ -1123,20 +897,15 @@ moc_vientimodel.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QA
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/db/vientimodel.h -o moc_vientimodel.cpp
 
 moc_liitemodel.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QBuffer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbuffer.h \
 		../kitupiikki/db/liitemodel.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/db/liitemodel.h -o moc_liitemodel.cpp
 
 moc_naytaliitewg.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QStackedWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qstackedwidget.h \
 		ui_tositewg.h \
 		../kitupiikki/kirjaus/naytaliitewg.h \
 		moc_predefs.h \
@@ -1144,28 +913,19 @@ moc_naytaliitewg.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Header
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/kirjaus/naytaliitewg.h -o moc_naytaliitewg.cpp
 
 moc_tilikarttamuokkaus.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QSortFilterProxyModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qsortfilterproxymodel.h \
 		ui_tilikarttamuokkaus.h \
 		../kitupiikki/maaritys/maarityswidget.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../kitupiikki/db/tilimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
 		../kitupiikki/maaritys/tilikarttamuokkaus.h \
@@ -1174,38 +934,24 @@ moc_tilikarttamuokkaus.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Hea
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/maaritys/tilikarttamuokkaus.h -o moc_tilikarttamuokkaus.cpp
 
 moc_tilinvalintaline.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QLineEdit \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qlineedit.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QModelIndex \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QSortFilterProxyModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qsortfilterproxymodel.h \
 		../kitupiikki/db/kirjanpito.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QTemporaryDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qtemporarydir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QStringList \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstringlist.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/tilikausi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
 		../kitupiikki/db/tositelajimodel.h \
@@ -1213,24 +959,19 @@ moc_tilinvalintaline.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/He
 		../kitupiikki/db/tositelaji.h \
 		../kitupiikki/db/asetusmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QHash \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qhash.h \
 		../kitupiikki/db/tilimodel.h \
 		../kitupiikki/db/tilikausimodel.h \
 		../kitupiikki/db/tositemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QTextDocument \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qtextdocument.h \
 		../kitupiikki/db/vientimodel.h \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/verotyyppimodel.h \
 		../kitupiikki/db/eranvalintamodel.h \
 		../kitupiikki/db/liitemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QBuffer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbuffer.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../kitupiikki/db/kohdennusmodel.h \
 		../kitupiikki/laskutus/tuotemodel.h \
@@ -1242,170 +983,87 @@ moc_tilinvalintaline.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/He
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/db/tilinvalintaline.h -o moc_tilinvalintaline.cpp
 
 moc_tilinvalintadialogi.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QDialog \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QSortFilterProxyModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qsortfilterproxymodel.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/tilimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../kitupiikki/db/tilinvalintadialogi.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/db/tilinvalintadialogi.h -o moc_tilinvalintadialogi.cpp
 
 moc_tilinmuokkausdialog.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QDialog \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QSortFilterProxyModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qsortfilterproxymodel.h \
 		ui_tilinmuokkaus.h \
-		../kitupiikki/db/tilinvalintaline.h \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QLineEdit \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qlineedit.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QModelIndex \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
-		../kitupiikki/db/kirjanpito.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdir.h \
+		../kitupiikki/db/tilimodel.h \
+		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QTemporaryDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qtemporarydir.h \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QStringList \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstringlist.h \
+		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
+		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
 		../kitupiikki/db/jsonkentta.h \
+		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
-		../kitupiikki/db/tilikausi.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
-		../kitupiikki/db/tositelajimodel.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
-		../kitupiikki/db/tositelaji.h \
-		../kitupiikki/db/asetusmodel.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QHash \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qhash.h \
-		../kitupiikki/db/tilimodel.h \
-		../kitupiikki/db/tilikausimodel.h \
-		../kitupiikki/db/tositemodel.h \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QTextDocument \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qtextdocument.h \
-		../kitupiikki/db/vientimodel.h \
-		../kitupiikki/db/kohdennus.h \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
-		../kitupiikki/db/verotyyppimodel.h \
-		../kitupiikki/db/eranvalintamodel.h \
-		../kitupiikki/db/liitemodel.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QBuffer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbuffer.h \
-		../kitupiikki/raportti/raportinkirjoittaja.h \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
-		../kitupiikki/raportti/raporttirivi.h \
-		../kitupiikki/db/kohdennusmodel.h \
-		../kitupiikki/laskutus/tuotemodel.h \
-		../kitupiikki/laskutus/laskumodel.h \
-		../kitupiikki/laskutus/laskutmodel.h \
 		../kitupiikki/maaritys/tilinmuokkausdialog.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/maaritys/tilinmuokkausdialog.h -o moc_tilinmuokkausdialog.cpp
 
 moc_kohdennusmuokkaus.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QSortFilterProxyModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qsortfilterproxymodel.h \
 		../kitupiikki/maaritys/maarityswidget.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		ui_kohdennukset.h \
 		../kitupiikki/db/kohdennusmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/maaritys/kohdennusmuokkaus.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/maaritys/kohdennusmuokkaus.h -o moc_kohdennusmuokkaus.cpp
 
 moc_kohdennusdialog.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QDialog \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QModelIndex \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../kitupiikki/db/kohdennusmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/maaritys/kohdennusdialog.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/maaritys/kohdennusdialog.h -o moc_kohdennusdialog.cpp
 
 moc_tositelajidialogi.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QDialog \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QModelIndex \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../kitupiikki/db/tositelajimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../kitupiikki/db/tositelaji.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/maaritys/tositelajidialogi.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
@@ -1413,52 +1071,36 @@ moc_tositelajidialogi.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/H
 
 moc_kirjausapuridialog.cpp: ../kitupiikki/db/tositemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QTextDocument \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qtextdocument.h \
 		../kitupiikki/db/vientimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/verotyyppimodel.h \
 		../kitupiikki/db/eranvalintamodel.h \
 		../kitupiikki/db/tositelaji.h \
 		../kitupiikki/db/liitemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QBuffer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbuffer.h \
 		../kitupiikki/db/kirjanpito.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QTemporaryDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qtemporarydir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QStringList \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstringlist.h \
 		../kitupiikki/db/tilikausi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
 		../kitupiikki/db/tositelajimodel.h \
 		../kitupiikki/db/asetusmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QHash \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qhash.h \
 		../kitupiikki/db/tilimodel.h \
 		../kitupiikki/db/tilikausimodel.h \
 		../kitupiikki/db/kohdennusmodel.h \
@@ -1467,39 +1109,29 @@ moc_kirjausapuridialog.cpp: ../kitupiikki/db/tositemodel.h \
 		../kitupiikki/laskutus/laskutmodel.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../kitupiikki/kirjaus/ehdotusmodel.h \
 		../kitupiikki/kirjaus/kohdennusproxymodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QSortFilterProxyModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qsortfilterproxymodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QCursor \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qcursor.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QDialog \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
 		../kitupiikki/kirjaus/kirjausapuridialog.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/kirjaus/kirjausapuridialog.h -o moc_kirjausapuridialog.cpp
 
 moc_verotyyppimodel.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/verotyyppimodel.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/db/verotyyppimodel.h -o moc_verotyyppimodel.cpp
 
 moc_kohdennusdelegaatti.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QItemDelegate \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qitemdelegate.h \
 		../kitupiikki/kirjaus/kohdennusproxymodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QSortFilterProxyModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qsortfilterproxymodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QCursor \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qcursor.h \
 		../kitupiikki/kirjaus/kohdennusdelegaatti.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
@@ -1507,7 +1139,6 @@ moc_kohdennusdelegaatti.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework
 
 moc_raporttimuokkaus.cpp: ../kitupiikki/maaritys/maarityswidget.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		ui_raportinmuokkaus.h \
 		../kitupiikki/maaritys/raporttimuokkaus.h \
 		moc_predefs.h \
@@ -1515,9 +1146,7 @@ moc_raporttimuokkaus.cpp: ../kitupiikki/maaritys/maarityswidget.h \
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/maaritys/raporttimuokkaus.h -o moc_raporttimuokkaus.cpp
 
 moc_raportinkorostin.cpp: ../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QSyntaxHighlighter \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qsyntaxhighlighter.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QRegularExpression \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qregularexpression.h \
 		../kitupiikki/maaritys/raportinkorostin.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
@@ -1525,36 +1154,25 @@ moc_raportinkorostin.cpp: ../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Header
 
 moc_muokattavaraportti.cpp: ../kitupiikki/raportti/raportti.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QPainter \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qpainter.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		ui_muokattavaraportti.h \
 		../kitupiikki/raportti/raportoija.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVector \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvector.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../kitupiikki/raportti/muokattavaraportti.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/raportti/muokattavaraportti.h -o moc_muokattavaraportti.cpp
 
 moc_ktpintro.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWizardPage \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwizard.h \
 		ui_ktpintro.h \
 		../kitupiikki/ktpvienti/ktpintro.h \
 		moc_predefs.h \
@@ -1562,7 +1180,6 @@ moc_ktpintro.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QW
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/ktpvienti/ktpintro.h -o moc_ktpintro.cpp
 
 moc_ktpperustiedot.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWizardPage \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwizard.h \
 		ui_ktpperustiedot.h \
 		../kitupiikki/ktpvienti/ktpperustiedot.h \
 		moc_predefs.h \
@@ -1570,21 +1187,18 @@ moc_ktpperustiedot.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Head
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/ktpvienti/ktpperustiedot.h -o moc_ktpperustiedot.cpp
 
 moc_ktpkuvaus.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWizardPage \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwizard.h \
 		../kitupiikki/ktpvienti/ktpkuvaus.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/ktpvienti/ktpkuvaus.h -o moc_ktpkuvaus.cpp
 
 moc_ktpaloitusteksti.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWizardPage \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwizard.h \
 		../kitupiikki/ktpvienti/ktpaloitusteksti.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/ktpvienti/ktpaloitusteksti.h -o moc_ktpaloitusteksti.cpp
 
 moc_onniwidget.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		ui_onniwidget.h \
 		../kitupiikki/onniwidget.h \
 		moc_predefs.h \
@@ -1592,20 +1206,13 @@ moc_onniwidget.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/onniwidget.h -o moc_onniwidget.cpp
 
 moc_raportoija.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVector \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvector.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../kitupiikki/raportti/raportoija.h \
 		moc_predefs.h \
@@ -1614,23 +1221,15 @@ moc_raportoija.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDa
 
 moc_paakirjaraportti.cpp: ../kitupiikki/raportti/raportti.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QPainter \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qpainter.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		ui_paivakirja.h \
 		../kitupiikki/raportti/paakirjaraportti.h \
 		moc_predefs.h \
@@ -1640,43 +1239,27 @@ moc_paakirjaraportti.cpp: ../kitupiikki/raportti/raportti.h \
 moc_tilikarttaraportti.cpp: ui_tilikarttaraportti.h \
 		../kitupiikki/raportti/raportti.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QPainter \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qpainter.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/db/kirjanpito.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QTemporaryDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qtemporarydir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QStringList \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstringlist.h \
 		../kitupiikki/db/tili.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../kitupiikki/db/tilikausi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
 		../kitupiikki/db/tositelajimodel.h \
@@ -1684,19 +1267,16 @@ moc_tilikarttaraportti.cpp: ui_tilikarttaraportti.h \
 		../kitupiikki/db/tositelaji.h \
 		../kitupiikki/db/asetusmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QHash \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qhash.h \
 		../kitupiikki/db/tilimodel.h \
 		../kitupiikki/db/tilikausimodel.h \
 		../kitupiikki/db/tositemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QTextDocument \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qtextdocument.h \
 		../kitupiikki/db/vientimodel.h \
 		../kitupiikki/db/kohdennus.h \
 		../kitupiikki/db/verotyyppimodel.h \
 		../kitupiikki/db/eranvalintamodel.h \
 		../kitupiikki/db/liitemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QBuffer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbuffer.h \
 		../kitupiikki/db/kohdennusmodel.h \
 		../kitupiikki/laskutus/tuotemodel.h \
 		../kitupiikki/laskutus/laskumodel.h \
@@ -1707,39 +1287,24 @@ moc_tilikarttaraportti.cpp: ui_tilikarttaraportti.h \
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/raportti/tilikarttaraportti.h -o moc_tilikarttaraportti.cpp
 
 moc_arkistoija.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QByteArray \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbytearray.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QTextStream \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qtextstream.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QBuffer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbuffer.h \
 		../kitupiikki/db/kirjanpito.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QTemporaryDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qtemporarydir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QStringList \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstringlist.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/tilikausi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
 		../kitupiikki/db/tositelajimodel.h \
@@ -1747,22 +1312,18 @@ moc_arkistoija.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QOb
 		../kitupiikki/db/tositelaji.h \
 		../kitupiikki/db/asetusmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QHash \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qhash.h \
 		../kitupiikki/db/tilimodel.h \
 		../kitupiikki/db/tilikausimodel.h \
 		../kitupiikki/db/tositemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QTextDocument \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qtextdocument.h \
 		../kitupiikki/db/vientimodel.h \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/verotyyppimodel.h \
 		../kitupiikki/db/eranvalintamodel.h \
 		../kitupiikki/db/liitemodel.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../kitupiikki/db/kohdennusmodel.h \
 		../kitupiikki/laskutus/tuotemodel.h \
@@ -1775,23 +1336,15 @@ moc_arkistoija.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QOb
 
 moc_tositeluetteloraportti.cpp: ../kitupiikki/raportti/raportti.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QPainter \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qpainter.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		ui_paivakirja.h \
 		../kitupiikki/raportti/tositeluetteloraportti.h \
 		moc_predefs.h \
@@ -1799,36 +1352,21 @@ moc_tositeluetteloraportti.cpp: ../kitupiikki/raportti/raportti.h \
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/raportti/tositeluetteloraportti.h -o moc_tositeluetteloraportti.cpp
 
 moc_tilinpaatoseditori.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QMainWindow \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qmainwindow.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QTextEdit \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qtextedit.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QAction \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qaction.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QToolBar \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qtoolbar.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../kitupiikki/db/tilikausi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/tilinpaatoseditori/mrichtexteditor/mrichtextedit.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QPointer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qpointer.h \
 		ui_mrichtextedit.h \
-		../kitupiikki/tilinpaatoseditori/mrichtexteditor/mtextedit.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMimeData \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmimedata.h \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
 		../kitupiikki/naytin/esikatseltava.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../kitupiikki/tilinpaatoseditori/tilinpaatoseditori.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
@@ -1836,7 +1374,6 @@ moc_tilinpaatoseditori.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/
 
 moc_liitetietokaavamuokkaus.cpp: ../kitupiikki/maaritys/maarityswidget.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		ui_kaavaeditori.h \
 		../kitupiikki/maaritys/liitetietokaavamuokkaus.h \
 		moc_predefs.h \
@@ -1844,44 +1381,28 @@ moc_liitetietokaavamuokkaus.cpp: ../kitupiikki/maaritys/maarityswidget.h \
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/maaritys/liitetietokaavamuokkaus.h -o moc_liitetietokaavamuokkaus.cpp
 
 moc_tpaloitus.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QDialog \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QStandardItemModel \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qstandarditemmodel.h \
 		../kitupiikki/db/tilikausi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/tilinpaatoseditori/tpaloitus.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/tilinpaatoseditori/tpaloitus.h -o moc_tpaloitus.cpp
 
 moc_mrichtextedit.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QPointer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qpointer.h \
 		ui_mrichtextedit.h \
-		../kitupiikki/tilinpaatoseditori/mrichtexteditor/mtextedit.h \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QTextEdit \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qtextedit.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMimeData \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmimedata.h \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
 		../kitupiikki/tilinpaatoseditori/mrichtexteditor/mrichtextedit.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/tilinpaatoseditori/mrichtexteditor/mrichtextedit.h -o moc_mrichtextedit.cpp
 
 moc_mtextedit.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QTextEdit \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qtextedit.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMimeData \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmimedata.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
 		../kitupiikki/tilinpaatoseditori/mrichtexteditor/mtextedit.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
@@ -1889,42 +1410,31 @@ moc_mtextedit.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/Q
 
 moc_arkistosivu.cpp: ../kitupiikki/kitupiikkisivu.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		ui_arkisto.h \
 		../kitupiikki/db/tilikausi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/arkisto/arkistosivu.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/arkisto/arkistosivu.h -o moc_arkistosivu.cpp
 
 moc_ehdotusmodel.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/vientimodel.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/verotyyppimodel.h \
 		../kitupiikki/db/eranvalintamodel.h \
 		../kitupiikki/kirjaus/ehdotusmodel.h \
@@ -1933,19 +1443,13 @@ moc_ehdotusmodel.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/Q
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/kirjaus/ehdotusmodel.h -o moc_ehdotusmodel.cpp
 
 moc_eranvalintamodel.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../kitupiikki/db/eranvalintamodel.h \
 		moc_predefs.h \
@@ -1953,46 +1457,34 @@ moc_eranvalintamodel.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Heade
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/db/eranvalintamodel.h -o moc_eranvalintamodel.cpp
 
 moc_verodialogi.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QDialog \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
 		../kitupiikki/kirjaus/verodialogi.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/kirjaus/verodialogi.h -o moc_verodialogi.cpp
 
 moc_tilityyppimodel.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/db/tilityyppimodel.h -o moc_tilityyppimodel.cpp
 
 moc_taseeravalintadialogi.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QDialog \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QSortFilterProxyModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qsortfilterproxymodel.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/eranvalintamodel.h \
 		../kitupiikki/db/vientimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/verotyyppimodel.h \
 		../kitupiikki/kirjaus/taseeravalintadialogi.h \
 		moc_predefs.h \
@@ -2001,22 +1493,15 @@ moc_taseeravalintadialogi.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framewo
 
 moc_laskumodel.cpp: ../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/tositelaji.h \
 		../kitupiikki/laskutus/laskutmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
@@ -2026,50 +1511,33 @@ moc_laskumodel.cpp: ../kitupiikki/db/tili.h \
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/laskutus/laskumodel.h -o moc_laskumodel.cpp
 
 moc_laskudialogi.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QDialog \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QSortFilterProxyModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qsortfilterproxymodel.h \
 		../kitupiikki/laskutus/laskumodel.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/tositelaji.h \
 		../kitupiikki/laskutus/laskutmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
 		../kitupiikki/laskutus/tuotemodel.h \
 		../kitupiikki/laskutus/laskuntulostaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QPainter \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qpainter.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QFile \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qfile.h \
 		../kitupiikki/laskutus/smtp.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QTextStream \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qtextstream.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDebug \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdebug.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QByteArray \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbytearray.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QFileInfo \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qfileinfo.h \
 		../kitupiikki/naytin/esikatseltava.h \
 		../kitupiikki/laskutus/laskudialogi.h \
 		moc_predefs.h \
@@ -2077,32 +1545,21 @@ moc_laskudialogi.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Header
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/laskutus/laskudialogi.h -o moc_laskudialogi.cpp
 
 moc_laskuntulostaja.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QPainter \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qpainter.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QFile \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qfile.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../kitupiikki/laskutus/laskumodel.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/tositelaji.h \
 		../kitupiikki/laskutus/laskutmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
@@ -2113,72 +1570,7 @@ moc_laskuntulostaja.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Header
 
 moc_laskuvalintawidget.cpp: ../kitupiikki/maaritys/maarityswidget.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		ui_laskumaaritys.h \
-		../kitupiikki/db/tilinvalintaline.h \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QLineEdit \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qlineedit.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QModelIndex \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QSortFilterProxyModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qsortfilterproxymodel.h \
-		../kitupiikki/db/kirjanpito.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdir.h \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QTemporaryDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qtemporarydir.h \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QStringList \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstringlist.h \
-		../kitupiikki/db/tili.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
-		../kitupiikki/db/jsonkentta.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
-		../kitupiikki/db/tilityyppimodel.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
-		../kitupiikki/db/tilikausi.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
-		../kitupiikki/db/tositelajimodel.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
-		../kitupiikki/db/tositelaji.h \
-		../kitupiikki/db/asetusmodel.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QHash \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qhash.h \
-		../kitupiikki/db/tilimodel.h \
-		../kitupiikki/db/tilikausimodel.h \
-		../kitupiikki/db/tositemodel.h \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QTextDocument \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qtextdocument.h \
-		../kitupiikki/db/vientimodel.h \
-		../kitupiikki/db/kohdennus.h \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
-		../kitupiikki/db/verotyyppimodel.h \
-		../kitupiikki/db/eranvalintamodel.h \
-		../kitupiikki/db/liitemodel.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QBuffer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbuffer.h \
-		../kitupiikki/raportti/raportinkirjoittaja.h \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
-		../kitupiikki/raportti/raporttirivi.h \
-		../kitupiikki/db/kohdennusmodel.h \
-		../kitupiikki/laskutus/tuotemodel.h \
-		../kitupiikki/laskutus/laskumodel.h \
-		../kitupiikki/laskutus/laskutmodel.h \
 		../kitupiikki/maaritys/laskuvalintawidget.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
@@ -2187,22 +1579,15 @@ moc_laskuvalintawidget.cpp: ../kitupiikki/maaritys/maarityswidget.h \
 moc_tuotemodel.cpp: ../kitupiikki/laskutus/laskumodel.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/tositelaji.h \
 		../kitupiikki/laskutus/laskutmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
@@ -2212,17 +1597,11 @@ moc_tuotemodel.cpp: ../kitupiikki/laskutus/laskumodel.h \
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/laskutus/tuotemodel.h -o moc_tuotemodel.cpp
 
 moc_smtp.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QTextStream \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qtextstream.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDebug \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdebug.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QByteArray \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbytearray.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QFile \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qfile.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QFileInfo \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qfileinfo.h \
 		../kitupiikki/laskutus/smtp.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
@@ -2230,7 +1609,6 @@ moc_smtp.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
 
 moc_emailmaaritys.cpp: ../kitupiikki/maaritys/maarityswidget.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		ui_emailmaaritys.h \
 		../kitupiikki/maaritys/emailmaaritys.h \
 		moc_predefs.h \
@@ -2238,73 +1616,47 @@ moc_emailmaaritys.cpp: ../kitupiikki/maaritys/maarityswidget.h \
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/maaritys/emailmaaritys.h -o moc_emailmaaritys.cpp
 
 moc_laskunmaksudialogi.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QDialog \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QSortFilterProxyModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qsortfilterproxymodel.h \
 		../kitupiikki/laskutus/laskutmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/laskutus/ostolaskutmodel.h \
 		../kitupiikki/kirjaus/kirjauswg.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		ui_kirjaus.h \
-		../kitupiikki/tools/kpdateedit.h \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QLineEdit \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qlineedit.h \
-		../kitupiikki/kirjaus/viennitview.h \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QTableView \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qtableview.h \
 		../kitupiikki/kirjaus/naytaliitewg.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QStackedWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qstackedwidget.h \
 		ui_tositewg.h \
 		../kitupiikki/db/tositemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QTextDocument \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qtextdocument.h \
 		../kitupiikki/db/vientimodel.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/verotyyppimodel.h \
 		../kitupiikki/db/eranvalintamodel.h \
 		../kitupiikki/db/tositelaji.h \
 		../kitupiikki/db/liitemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QBuffer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbuffer.h \
 		../kitupiikki/db/kirjanpito.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QTemporaryDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qtemporarydir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QStringList \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstringlist.h \
 		../kitupiikki/db/tilikausi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
 		../kitupiikki/db/tositelajimodel.h \
 		../kitupiikki/db/asetusmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QHash \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qhash.h \
 		../kitupiikki/db/tilimodel.h \
 		../kitupiikki/db/tilikausimodel.h \
 		../kitupiikki/db/kohdennusmodel.h \
@@ -2312,7 +1664,6 @@ moc_laskunmaksudialogi.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/
 		../kitupiikki/laskutus/laskumodel.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../kitupiikki/laskutus/laskunmaksudialogi.h \
 		moc_predefs.h \
@@ -2320,16 +1671,11 @@ moc_laskunmaksudialogi.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/laskutus/laskunmaksudialogi.h -o moc_laskunmaksudialogi.cpp
 
 moc_laskutmodel.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/laskutus/laskutmodel.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
@@ -2338,43 +1684,27 @@ moc_laskutmodel.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QA
 moc_taseerittely.cpp: ui_taseerittely.h \
 		../kitupiikki/raportti/raportti.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QPainter \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qpainter.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/db/kirjanpito.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QTemporaryDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qtemporarydir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QStringList \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstringlist.h \
 		../kitupiikki/db/tili.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../kitupiikki/db/tilikausi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
 		../kitupiikki/db/tositelajimodel.h \
@@ -2382,19 +1712,16 @@ moc_taseerittely.cpp: ui_taseerittely.h \
 		../kitupiikki/db/tositelaji.h \
 		../kitupiikki/db/asetusmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QHash \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qhash.h \
 		../kitupiikki/db/tilimodel.h \
 		../kitupiikki/db/tilikausimodel.h \
 		../kitupiikki/db/tositemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QTextDocument \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qtextdocument.h \
 		../kitupiikki/db/vientimodel.h \
 		../kitupiikki/db/kohdennus.h \
 		../kitupiikki/db/verotyyppimodel.h \
 		../kitupiikki/db/eranvalintamodel.h \
 		../kitupiikki/db/liitemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QBuffer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbuffer.h \
 		../kitupiikki/db/kohdennusmodel.h \
 		../kitupiikki/laskutus/tuotemodel.h \
 		../kitupiikki/laskutus/laskumodel.h \
@@ -2405,51 +1732,34 @@ moc_taseerittely.cpp: ui_taseerittely.h \
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/raportti/taseerittely.h -o moc_taseerittely.cpp
 
 moc_tilinpaattaja.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QDialog \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
 		../kitupiikki/db/tilikausi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/arkisto/tilinpaattaja.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/arkisto/tilinpaattaja.h -o moc_tilinpaattaja.cpp
 
 moc_poistaja.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QDialog \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
 		../kitupiikki/db/kirjanpito.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QTemporaryDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qtemporarydir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QStringList \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstringlist.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/tilikausi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
 		../kitupiikki/db/tositelajimodel.h \
@@ -2457,24 +1767,19 @@ moc_poistaja.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QD
 		../kitupiikki/db/tositelaji.h \
 		../kitupiikki/db/asetusmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QHash \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qhash.h \
 		../kitupiikki/db/tilimodel.h \
 		../kitupiikki/db/tilikausimodel.h \
 		../kitupiikki/db/tositemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QTextDocument \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qtextdocument.h \
 		../kitupiikki/db/vientimodel.h \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/verotyyppimodel.h \
 		../kitupiikki/db/eranvalintamodel.h \
 		../kitupiikki/db/liitemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QBuffer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbuffer.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../kitupiikki/db/kohdennusmodel.h \
 		../kitupiikki/laskutus/tuotemodel.h \
@@ -2486,9 +1791,7 @@ moc_poistaja.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QD
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/arkisto/poistaja.h -o moc_poistaja.cpp
 
 moc_kaavankorostin.cpp: ../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QSyntaxHighlighter \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qsyntaxhighlighter.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QRegularExpression \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qregularexpression.h \
 		../kitupiikki/maaritys/kaavankorostin.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
@@ -2496,21 +1799,18 @@ moc_kaavankorostin.cpp: ../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/
 
 moc_tilikarttaohje.cpp: ../kitupiikki/maaritys/maarityswidget.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../kitupiikki/maaritys/tilikarttaohje.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/maaritys/tilikarttaohje.h -o moc_tilikarttaohje.cpp
 
 moc_viitevalidator.cpp: ../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QValidator \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qvalidator.h \
 		../kitupiikki/validator/viitevalidator.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/validator/viitevalidator.h -o moc_viitevalidator.cpp
 
 moc_ibanvalidator.cpp: ../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QValidator \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qvalidator.h \
 		../kitupiikki/validator/ibanvalidator.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
@@ -2518,23 +1818,15 @@ moc_ibanvalidator.cpp: ../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/Q
 
 moc_laskuraportti.cpp: ../kitupiikki/raportti/raportti.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QPainter \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qpainter.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		ui_laskuraportti.h \
 		../kitupiikki/raportti/laskuraportti.h \
 		moc_predefs.h \
@@ -2543,264 +1835,87 @@ moc_laskuraportti.cpp: ../kitupiikki/raportti/raportti.h \
 
 moc_tuontimaarityswidget.cpp: ../kitupiikki/maaritys/maarityswidget.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		ui_tuontimaaritys.h \
-		../kitupiikki/db/tilinvalintaline.h \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QLineEdit \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qlineedit.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QModelIndex \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QSortFilterProxyModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qsortfilterproxymodel.h \
-		../kitupiikki/db/kirjanpito.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdir.h \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QTemporaryDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qtemporarydir.h \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QStringList \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstringlist.h \
-		../kitupiikki/db/tili.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
-		../kitupiikki/db/jsonkentta.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
-		../kitupiikki/db/tilityyppimodel.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
-		../kitupiikki/db/tilikausi.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
-		../kitupiikki/db/tositelajimodel.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
-		../kitupiikki/db/tositelaji.h \
-		../kitupiikki/db/asetusmodel.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QHash \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qhash.h \
-		../kitupiikki/db/tilimodel.h \
-		../kitupiikki/db/tilikausimodel.h \
-		../kitupiikki/db/tositemodel.h \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QTextDocument \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qtextdocument.h \
-		../kitupiikki/db/vientimodel.h \
-		../kitupiikki/db/kohdennus.h \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
-		../kitupiikki/db/verotyyppimodel.h \
-		../kitupiikki/db/eranvalintamodel.h \
-		../kitupiikki/db/liitemodel.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QBuffer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbuffer.h \
-		../kitupiikki/raportti/raportinkirjoittaja.h \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
-		../kitupiikki/raportti/raporttirivi.h \
-		../kitupiikki/db/kohdennusmodel.h \
-		../kitupiikki/laskutus/tuotemodel.h \
-		../kitupiikki/laskutus/laskumodel.h \
-		../kitupiikki/laskutus/laskutmodel.h \
 		../kitupiikki/maaritys/tuontimaarityswidget.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/maaritys/tuontimaarityswidget.h -o moc_tuontimaarityswidget.cpp
 
 moc_csvtuonti.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QStringList \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstringlist.h \
 		../kitupiikki/tuonti/tuonti.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../kitupiikki/db/tositelajimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../kitupiikki/db/tositelaji.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tili.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		ui_csvtuontidlg.h \
-		../kitupiikki/db/tilinvalintaline.h \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QLineEdit \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qlineedit.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QModelIndex \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QSortFilterProxyModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qsortfilterproxymodel.h \
-		../kitupiikki/db/kirjanpito.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdir.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QTemporaryDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qtemporarydir.h \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
-		../kitupiikki/db/tilikausi.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
-		../kitupiikki/db/asetusmodel.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QHash \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qhash.h \
-		../kitupiikki/db/tilimodel.h \
-		../kitupiikki/db/tilikausimodel.h \
-		../kitupiikki/db/tositemodel.h \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QTextDocument \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qtextdocument.h \
-		../kitupiikki/db/vientimodel.h \
-		../kitupiikki/db/kohdennus.h \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
-		../kitupiikki/db/verotyyppimodel.h \
-		../kitupiikki/db/eranvalintamodel.h \
-		../kitupiikki/db/liitemodel.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QBuffer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbuffer.h \
-		../kitupiikki/raportti/raportinkirjoittaja.h \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
-		../kitupiikki/raportti/raporttirivi.h \
-		../kitupiikki/db/kohdennusmodel.h \
-		../kitupiikki/laskutus/tuotemodel.h \
-		../kitupiikki/laskutus/laskumodel.h \
-		../kitupiikki/laskutus/laskutmodel.h \
 		../kitupiikki/tuonti/csvtuonti.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/tuonti/csvtuonti.h -o moc_csvtuonti.cpp
 
 moc_tuontisarakedelegaatti.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QItemDelegate \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qitemdelegate.h \
 		../kitupiikki/tuonti/csvtuonti.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QStringList \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstringlist.h \
 		../kitupiikki/tuonti/tuonti.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../kitupiikki/db/tositelajimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../kitupiikki/db/tositelaji.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tili.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		ui_csvtuontidlg.h \
-		../kitupiikki/db/tilinvalintaline.h \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QLineEdit \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qlineedit.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QModelIndex \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QSortFilterProxyModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qsortfilterproxymodel.h \
-		../kitupiikki/db/kirjanpito.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdir.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QTemporaryDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qtemporarydir.h \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
-		../kitupiikki/db/tilikausi.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
-		../kitupiikki/db/asetusmodel.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QHash \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qhash.h \
-		../kitupiikki/db/tilimodel.h \
-		../kitupiikki/db/tilikausimodel.h \
-		../kitupiikki/db/tositemodel.h \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QTextDocument \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qtextdocument.h \
-		../kitupiikki/db/vientimodel.h \
-		../kitupiikki/db/kohdennus.h \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
-		../kitupiikki/db/verotyyppimodel.h \
-		../kitupiikki/db/eranvalintamodel.h \
-		../kitupiikki/db/liitemodel.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QBuffer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbuffer.h \
-		../kitupiikki/raportti/raportinkirjoittaja.h \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
-		../kitupiikki/raportti/raporttirivi.h \
-		../kitupiikki/db/kohdennusmodel.h \
-		../kitupiikki/laskutus/tuotemodel.h \
-		../kitupiikki/laskutus/laskumodel.h \
-		../kitupiikki/laskutus/laskutmodel.h \
 		../kitupiikki/tuonti/tuontisarakedelegaatti.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/tuonti/tuontisarakedelegaatti.h -o moc_tuontisarakedelegaatti.cpp
 
 moc_devtool.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QDialog \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../kitupiikki/tools/devtool.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/tools/devtool.h -o moc_devtool.cpp
 
 moc_lisaikkuna.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QMainWindow \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qmainwindow.h \
 		../kitupiikki/kitupiikkiikkuna.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVector \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvector.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QStack \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstack.h \
 		../kitupiikki/db/tilikausi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/kitupiikkisivu.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../kitupiikki/lisaikkuna.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/lisaikkuna.h -o moc_lisaikkuna.cpp
 
 moc_apurivinkki.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../kitupiikki/kirjaus/apurivinkki.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/kirjaus/apurivinkki.h -o moc_apurivinkki.cpp
 
 moc_siirrydlg.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QDialog \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
 		ui_siirry.h \
 		../kitupiikki/kirjaus/siirrydlg.h \
 		moc_predefs.h \
@@ -2809,25 +1924,18 @@ moc_siirrydlg.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/Q
 
 moc_ostolaskutmodel.cpp: ../kitupiikki/laskutus/laskutmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/laskutus/ostolaskutmodel.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/laskutus/ostolaskutmodel.h -o moc_ostolaskutmodel.cpp
 
 moc_kpdateedit.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QLineEdit \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qlineedit.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/tools/kpdateedit.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
@@ -2835,47 +1943,33 @@ moc_kpdateedit.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/
 
 moc_alverittely.cpp: ../kitupiikki/raportti/raportti.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QPainter \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qpainter.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/raportti/alverittely.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/raportti/alverittely.h -o moc_alverittely.cpp
 
 moc_yhteystietowidget.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../kitupiikki/laskutus/yhteystietowidget.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/laskutus/yhteystietowidget.h -o moc_yhteystietowidget.cpp
 
 moc_naytinview.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/naytin/naytinview.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
@@ -2883,50 +1977,38 @@ moc_naytinview.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/
 
 moc_naytinikkuna.cpp: ../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QMainWindow \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qmainwindow.h \
 		../kitupiikki/naytin/naytinikkuna.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/naytin/naytinikkuna.h -o moc_naytinikkuna.cpp
 
 moc_inboxlista.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QListWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qlistwidget.h \
 		../kitupiikki/tools/inboxlista.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/tools/inboxlista.h -o moc_inboxlista.cpp
 
 moc_budjettimodel.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/arkisto/budjettimodel.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/arkisto/budjettimodel.h -o moc_budjettimodel.cpp
 
 moc_budjettidlg.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QDialog \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
 		../kitupiikki/arkisto/budjettidlg.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/arkisto/budjettidlg.h -o moc_budjettidlg.cpp
 
 moc_budjettikohdennusproxy.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QSortFilterProxyModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qsortfilterproxymodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/arkisto/budjettikohdennusproxy.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
@@ -2935,22 +2017,15 @@ moc_budjettikohdennusproxy.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework
 moc_laskuryhmamodel.cpp: ../kitupiikki/laskutus/laskumodel.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/tositelaji.h \
 		../kitupiikki/laskutus/laskutmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
@@ -2960,35 +2035,28 @@ moc_laskuryhmamodel.cpp: ../kitupiikki/laskutus/laskumodel.h \
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/laskutus/laskuryhmamodel.h -o moc_laskuryhmamodel.cpp
 
 moc_ryhmaasiakasproxy.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QSortFilterProxyModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qsortfilterproxymodel.h \
 		../kitupiikki/laskutus/ryhmaasiakasproxy.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/laskutus/ryhmaasiakasproxy.h -o moc_ryhmaasiakasproxy.cpp
 
 moc_ryhmantuontidlg.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QDialog \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QItemSelection \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qitemselectionmodel.h \
 		../kitupiikki/laskutus/ryhmantuontidlg.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/laskutus/ryhmantuontidlg.h -o moc_ryhmantuontidlg.cpp
 
 moc_ryhmantuontimodel.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../kitupiikki/laskutus/ryhmantuontimodel.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/laskutus/ryhmantuontimodel.h -o moc_ryhmantuontimodel.cpp
 
 moc_finvoice.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../kitupiikki/db/verotyyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/laskutus/finvoice.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
@@ -2997,9 +2065,7 @@ moc_finvoice.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObje
 moc_finvoicemaaritys.cpp: ../kitupiikki/maaritys/tallentavamaarityswidget.h \
 		../kitupiikki/maaritys/maarityswidget.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/maaritys/finvoicemaaritys.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
@@ -3007,23 +2073,15 @@ moc_finvoicemaaritys.cpp: ../kitupiikki/maaritys/tallentavamaarityswidget.h \
 
 moc_budjettivertailu.cpp: ../kitupiikki/raportti/raportti.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QPainter \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qpainter.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		ui_budjettivertailu.h \
 		../kitupiikki/raportti/budjettivertailu.h \
 		moc_predefs.h \
@@ -3031,50 +2089,37 @@ moc_budjettivertailu.cpp: ../kitupiikki/raportti/raportti.h \
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/raportti/budjettivertailu.h -o moc_budjettivertailu.cpp
 
 moc_alvilmoitusdialog.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QDialog \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/alv/alvilmoitusdialog.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/alv/alvilmoitusdialog.h -o moc_alvilmoitusdialog.cpp
 
 moc_alvilmoitustenmodel.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/alv/alvilmoitustenmodel.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/alv/alvilmoitustenmodel.h -o moc_alvilmoitustenmodel.cpp
 
 moc_alvsivu.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/kitupiikkisivu.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../kitupiikki/alv/alvilmoitustenmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractTableModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/alv/alvsivu.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/alv/alvsivu.h -o moc_alvsivu.cpp
 
 moc_abstraktinaytin.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../kitupiikki/naytin/abstraktinaytin.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
@@ -3082,7 +2127,6 @@ moc_abstraktinaytin.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Hea
 
 moc_printpreviewnaytin.cpp: ../kitupiikki/naytin/abstraktinaytin.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../kitupiikki/naytin/printpreviewnaytin.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
@@ -3091,38 +2135,30 @@ moc_printpreviewnaytin.cpp: ../kitupiikki/naytin/abstraktinaytin.h \
 moc_raporttinaytin.cpp: ../kitupiikki/naytin/printpreviewnaytin.h \
 		../kitupiikki/naytin/abstraktinaytin.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QWidget \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../kitupiikki/naytin/raporttinaytin.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/naytin/raporttinaytin.h -o moc_raporttinaytin.cpp
 
 moc_viennitview.cpp: ../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QTableView \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qtableview.h \
 		../kitupiikki/kirjaus/viennitview.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/kirjaus/viennitview.h -o moc_viennitview.cpp
 
 moc_edellinenseuraavatieto.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../kitupiikki/kirjaus/edellinenseuraavatieto.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
 	/Users/petri/Qt/5.11.0/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/petri/Qt/5.11.0/clang_64/mkspecs/macx-clang -I/Users/petri/git/kitupiikki/kitupiikki -I/usr/local/include -I/Users/petri/Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSvg.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtGui.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtSql.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtNetwork.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtXml.framework/Headers -I/Users/petri/Qt/5.11.0/clang_64/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include -F/Users/petri/Qt/5.11.0/clang_64/lib ../kitupiikki/kirjaus/edellinenseuraavatieto.h -o moc_edellinenseuraavatieto.cpp
 
 moc_verotarkastaja.cpp: ../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../kitupiikki/kirjaus/verotarkastaja.h \
 		moc_predefs.h \
 		../../../Qt/5.11.0/clang_64/bin/moc
@@ -3164,11 +2200,8 @@ ui_kirjaus.h: ../kitupiikki/kirjaus/kirjaus.ui \
 		../kitupiikki/tools/kpdateedit.h \
 		../kitupiikki/kirjaus/viennitview.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QLineEdit \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qlineedit.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QTableView \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qtableview.h
+		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QTableView
 	/Users/petri/Qt/5.11.0/clang_64/bin/uic ../kitupiikki/kirjaus/kirjaus.ui -o ui_kirjaus.h
 
 ui_tositewg.h: ../kitupiikki/kirjaus/tositewg.ui \
@@ -3200,38 +2233,24 @@ ui_tilinmuokkaus.h: ../kitupiikki/maaritys/tilinmuokkaus.ui \
 		../../../Qt/5.11.0/clang_64/bin/uic \
 		../kitupiikki/db/tilinvalintaline.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QLineEdit \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qlineedit.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QModelIndex \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QSortFilterProxyModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qsortfilterproxymodel.h \
 		../kitupiikki/db/kirjanpito.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QTemporaryDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qtemporarydir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QStringList \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstringlist.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/tilikausi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
 		../kitupiikki/db/tositelajimodel.h \
@@ -3239,24 +2258,19 @@ ui_tilinmuokkaus.h: ../kitupiikki/maaritys/tilinmuokkaus.ui \
 		../kitupiikki/db/tositelaji.h \
 		../kitupiikki/db/asetusmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QHash \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qhash.h \
 		../kitupiikki/db/tilimodel.h \
 		../kitupiikki/db/tilikausimodel.h \
 		../kitupiikki/db/tositemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QTextDocument \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qtextdocument.h \
 		../kitupiikki/db/vientimodel.h \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/verotyyppimodel.h \
 		../kitupiikki/db/eranvalintamodel.h \
 		../kitupiikki/db/liitemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QBuffer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbuffer.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../kitupiikki/db/kohdennusmodel.h \
 		../kitupiikki/laskutus/tuotemodel.h \
@@ -3280,38 +2294,24 @@ ui_tositelajidialogi.h: ../kitupiikki/maaritys/tositelajidialogi.ui \
 		../../../Qt/5.11.0/clang_64/bin/uic \
 		../kitupiikki/db/tilinvalintaline.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QLineEdit \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qlineedit.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QModelIndex \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QSortFilterProxyModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qsortfilterproxymodel.h \
 		../kitupiikki/db/kirjanpito.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QTemporaryDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qtemporarydir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QStringList \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstringlist.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/tilikausi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
 		../kitupiikki/db/tositelajimodel.h \
@@ -3319,24 +2319,19 @@ ui_tositelajidialogi.h: ../kitupiikki/maaritys/tositelajidialogi.ui \
 		../kitupiikki/db/tositelaji.h \
 		../kitupiikki/db/asetusmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QHash \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qhash.h \
 		../kitupiikki/db/tilimodel.h \
 		../kitupiikki/db/tilikausimodel.h \
 		../kitupiikki/db/tositemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QTextDocument \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qtextdocument.h \
 		../kitupiikki/db/vientimodel.h \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/verotyyppimodel.h \
 		../kitupiikki/db/eranvalintamodel.h \
 		../kitupiikki/db/liitemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QBuffer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbuffer.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../kitupiikki/db/kohdennusmodel.h \
 		../kitupiikki/laskutus/tuotemodel.h \
@@ -3350,38 +2345,24 @@ ui_kirjausapuridialog.h: ../kitupiikki/kirjaus/kirjausapuridialog.ui \
 		../kitupiikki/db/tilinvalintaline.h \
 		../kitupiikki/tools/kpdateedit.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QLineEdit \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qlineedit.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QModelIndex \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QSortFilterProxyModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qsortfilterproxymodel.h \
 		../kitupiikki/db/kirjanpito.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QTemporaryDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qtemporarydir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QStringList \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstringlist.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/tilikausi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
 		../kitupiikki/db/tositelajimodel.h \
@@ -3389,33 +2370,26 @@ ui_kirjausapuridialog.h: ../kitupiikki/kirjaus/kirjausapuridialog.ui \
 		../kitupiikki/db/tositelaji.h \
 		../kitupiikki/db/asetusmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QHash \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qhash.h \
 		../kitupiikki/db/tilimodel.h \
 		../kitupiikki/db/tilikausimodel.h \
 		../kitupiikki/db/tositemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QTextDocument \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qtextdocument.h \
 		../kitupiikki/db/vientimodel.h \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/verotyyppimodel.h \
 		../kitupiikki/db/eranvalintamodel.h \
 		../kitupiikki/db/liitemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QBuffer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbuffer.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../kitupiikki/db/kohdennusmodel.h \
 		../kitupiikki/laskutus/tuotemodel.h \
 		../kitupiikki/laskutus/laskumodel.h \
 		../kitupiikki/laskutus/laskutmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QLineEdit \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qlineedit.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h
+		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate
 	/Users/petri/Qt/5.11.0/clang_64/bin/uic ../kitupiikki/kirjaus/kirjausapuridialog.ui -o ui_kirjausapuridialog.h
 
 ui_raportinmuokkaus.h: ../kitupiikki/maaritys/raportinmuokkaus.ui \
@@ -3438,30 +2412,14 @@ ui_ktpkuvaus.h: ../kitupiikki/ktpvienti/ktpkuvaus.ui \
 		../../../Qt/5.11.0/clang_64/bin/uic \
 		../kitupiikki/tilinpaatoseditori/mrichtexteditor/mrichtextedit.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QPointer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qpointer.h \
-		ui_mrichtextedit.h \
-		../kitupiikki/tilinpaatoseditori/mrichtexteditor/mtextedit.h \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QTextEdit \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qtextedit.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMimeData \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmimedata.h \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h
+		ui_mrichtextedit.h
 	/Users/petri/Qt/5.11.0/clang_64/bin/uic ../kitupiikki/ktpvienti/ktpkuvaus.ui -o ui_ktpkuvaus.h
 
 ui_ktpaloitusteksti.h: ../kitupiikki/ktpvienti/ktpaloitusteksti.ui \
 		../../../Qt/5.11.0/clang_64/bin/uic \
 		../kitupiikki/tilinpaatoseditori/mrichtexteditor/mrichtextedit.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QPointer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qpointer.h \
-		ui_mrichtextedit.h \
-		../kitupiikki/tilinpaatoseditori/mrichtexteditor/mtextedit.h \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QTextEdit \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qtextedit.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMimeData \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmimedata.h \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h
+		ui_mrichtextedit.h
 	/Users/petri/Qt/5.11.0/clang_64/bin/uic ../kitupiikki/ktpvienti/ktpaloitusteksti.ui -o ui_ktpaloitusteksti.h
 
 ui_onniwidget.h: ../kitupiikki/onniwidget.ui \
@@ -3484,11 +2442,8 @@ ui_mrichtextedit.h: ../kitupiikki/tilinpaatoseditori/mrichtexteditor/mrichtexted
 		../../../Qt/5.11.0/clang_64/bin/uic \
 		../kitupiikki/tilinpaatoseditori/mrichtexteditor/mtextedit.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QTextEdit \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qtextedit.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMimeData \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmimedata.h \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h
+		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage
 	/Users/petri/Qt/5.11.0/clang_64/bin/uic ../kitupiikki/tilinpaatoseditori/mrichtexteditor/mrichtextedit.ui -o ui_mrichtextedit.h
 
 ui_aloitus.h: ../kitupiikki/aloitussivu/aloitus.ui \
@@ -3519,38 +2474,24 @@ ui_laskudialogi.h: ../kitupiikki/laskutus/laskudialogi.ui \
 		../../../Qt/5.11.0/clang_64/bin/uic \
 		../kitupiikki/db/tilinvalintaline.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QLineEdit \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qlineedit.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QModelIndex \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QSortFilterProxyModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qsortfilterproxymodel.h \
 		../kitupiikki/db/kirjanpito.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QTemporaryDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qtemporarydir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QStringList \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstringlist.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/tilikausi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
 		../kitupiikki/db/tositelajimodel.h \
@@ -3558,24 +2499,19 @@ ui_laskudialogi.h: ../kitupiikki/laskutus/laskudialogi.ui \
 		../kitupiikki/db/tositelaji.h \
 		../kitupiikki/db/asetusmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QHash \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qhash.h \
 		../kitupiikki/db/tilimodel.h \
 		../kitupiikki/db/tilikausimodel.h \
 		../kitupiikki/db/tositemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QTextDocument \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qtextdocument.h \
 		../kitupiikki/db/vientimodel.h \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/verotyyppimodel.h \
 		../kitupiikki/db/eranvalintamodel.h \
 		../kitupiikki/db/liitemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QBuffer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbuffer.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../kitupiikki/db/kohdennusmodel.h \
 		../kitupiikki/laskutus/tuotemodel.h \
@@ -3587,38 +2523,24 @@ ui_laskumaaritys.h: ../kitupiikki/maaritys/laskumaaritys.ui \
 		../../../Qt/5.11.0/clang_64/bin/uic \
 		../kitupiikki/db/tilinvalintaline.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QLineEdit \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qlineedit.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QModelIndex \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QSortFilterProxyModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qsortfilterproxymodel.h \
 		../kitupiikki/db/kirjanpito.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QTemporaryDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qtemporarydir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QStringList \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstringlist.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/tilikausi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
 		../kitupiikki/db/tositelajimodel.h \
@@ -3626,24 +2548,19 @@ ui_laskumaaritys.h: ../kitupiikki/maaritys/laskumaaritys.ui \
 		../kitupiikki/db/tositelaji.h \
 		../kitupiikki/db/asetusmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QHash \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qhash.h \
 		../kitupiikki/db/tilimodel.h \
 		../kitupiikki/db/tilikausimodel.h \
 		../kitupiikki/db/tositemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QTextDocument \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qtextdocument.h \
 		../kitupiikki/db/vientimodel.h \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/verotyyppimodel.h \
 		../kitupiikki/db/eranvalintamodel.h \
 		../kitupiikki/db/liitemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QBuffer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbuffer.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../kitupiikki/db/kohdennusmodel.h \
 		../kitupiikki/laskutus/tuotemodel.h \
@@ -3661,38 +2578,24 @@ ui_laskunmaksudialogi.h: ../kitupiikki/laskutus/laskunmaksudialogi.ui \
 		../kitupiikki/db/tilinvalintaline.h \
 		../kitupiikki/tools/kpdateedit.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QLineEdit \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qlineedit.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QModelIndex \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QSortFilterProxyModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qsortfilterproxymodel.h \
 		../kitupiikki/db/kirjanpito.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QTemporaryDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qtemporarydir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QStringList \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstringlist.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/tilikausi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
 		../kitupiikki/db/tositelajimodel.h \
@@ -3700,33 +2603,26 @@ ui_laskunmaksudialogi.h: ../kitupiikki/laskutus/laskunmaksudialogi.ui \
 		../kitupiikki/db/tositelaji.h \
 		../kitupiikki/db/asetusmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QHash \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qhash.h \
 		../kitupiikki/db/tilimodel.h \
 		../kitupiikki/db/tilikausimodel.h \
 		../kitupiikki/db/tositemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QTextDocument \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qtextdocument.h \
 		../kitupiikki/db/vientimodel.h \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/verotyyppimodel.h \
 		../kitupiikki/db/eranvalintamodel.h \
 		../kitupiikki/db/liitemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QBuffer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbuffer.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../kitupiikki/db/kohdennusmodel.h \
 		../kitupiikki/laskutus/tuotemodel.h \
 		../kitupiikki/laskutus/laskumodel.h \
 		../kitupiikki/laskutus/laskutmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QLineEdit \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qlineedit.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h
+		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate
 	/Users/petri/Qt/5.11.0/clang_64/bin/uic ../kitupiikki/laskutus/laskunmaksudialogi.ui -o ui_laskunmaksudialogi.h
 
 ui_taseerittely.h: ../kitupiikki/raportti/taseerittely.ui \
@@ -3757,15 +2653,7 @@ ui_tilikarttaohje.h: ../kitupiikki/maaritys/tilikarttaohje.ui \
 		../../../Qt/5.11.0/clang_64/bin/uic \
 		../kitupiikki/tilinpaatoseditori/mrichtexteditor/mrichtextedit.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QPointer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qpointer.h \
-		ui_mrichtextedit.h \
-		../kitupiikki/tilinpaatoseditori/mrichtexteditor/mtextedit.h \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QTextEdit \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qtextedit.h \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMimeData \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmimedata.h \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h
+		ui_mrichtextedit.h
 	/Users/petri/Qt/5.11.0/clang_64/bin/uic ../kitupiikki/maaritys/tilikarttaohje.ui -o ui_tilikarttaohje.h
 
 ui_tervetuloa.h: ../kitupiikki/aloitussivu/tervetuloa.ui \
@@ -3796,38 +2684,24 @@ ui_tuontimaaritys.h: ../kitupiikki/maaritys/tuontimaaritys.ui \
 		../../../Qt/5.11.0/clang_64/bin/uic \
 		../kitupiikki/db/tilinvalintaline.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QLineEdit \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qlineedit.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QModelIndex \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QSortFilterProxyModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qsortfilterproxymodel.h \
 		../kitupiikki/db/kirjanpito.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QTemporaryDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qtemporarydir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QStringList \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstringlist.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/tilikausi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
 		../kitupiikki/db/tositelajimodel.h \
@@ -3835,24 +2709,19 @@ ui_tuontimaaritys.h: ../kitupiikki/maaritys/tuontimaaritys.ui \
 		../kitupiikki/db/tositelaji.h \
 		../kitupiikki/db/asetusmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QHash \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qhash.h \
 		../kitupiikki/db/tilimodel.h \
 		../kitupiikki/db/tilikausimodel.h \
 		../kitupiikki/db/tositemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QTextDocument \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qtextdocument.h \
 		../kitupiikki/db/vientimodel.h \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/verotyyppimodel.h \
 		../kitupiikki/db/eranvalintamodel.h \
 		../kitupiikki/db/liitemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QBuffer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbuffer.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../kitupiikki/db/kohdennusmodel.h \
 		../kitupiikki/laskutus/tuotemodel.h \
@@ -3864,38 +2733,24 @@ ui_csvtuontidlg.h: ../kitupiikki/tuonti/csvtuontidlg.ui \
 		../../../Qt/5.11.0/clang_64/bin/uic \
 		../kitupiikki/db/tilinvalintaline.h \
 		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/QLineEdit \
-		../../../Qt/5.11.0/clang_64/lib/QtWidgets.framework/Headers/qlineedit.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QModelIndex \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qabstractitemmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QSortFilterProxyModel \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qsortfilterproxymodel.h \
 		../kitupiikki/db/kirjanpito.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QMap \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qmap.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/QSqlDatabase \
-		../../../Qt/5.11.0/clang_64/lib/QtSql.framework/Headers/qsqldatabase.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDate \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qdatetime.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QTemporaryDir \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qtemporarydir.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QImage \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qimage.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QStringList \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstringlist.h \
 		../kitupiikki/db/tili.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../kitupiikki/db/jsonkentta.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QVariant \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qvariant.h \
 		../kitupiikki/db/tilityyppimodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QAbstractListModel \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QList \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qevent.h \
 		../kitupiikki/db/tilikausi.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QDateTime \
 		../kitupiikki/db/tositelajimodel.h \
@@ -3903,24 +2758,19 @@ ui_csvtuontidlg.h: ../kitupiikki/tuonti/csvtuontidlg.ui \
 		../kitupiikki/db/tositelaji.h \
 		../kitupiikki/db/asetusmodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QHash \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qhash.h \
 		../kitupiikki/db/tilimodel.h \
 		../kitupiikki/db/tilikausimodel.h \
 		../kitupiikki/db/tositemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QTextDocument \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qtextdocument.h \
 		../kitupiikki/db/vientimodel.h \
 		../kitupiikki/db/kohdennus.h \
 		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/QIcon \
-		../../../Qt/5.11.0/clang_64/lib/QtGui.framework/Headers/qicon.h \
 		../kitupiikki/db/verotyyppimodel.h \
 		../kitupiikki/db/eranvalintamodel.h \
 		../kitupiikki/db/liitemodel.h \
 		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/QBuffer \
-		../../../Qt/5.11.0/clang_64/lib/QtCore.framework/Headers/qbuffer.h \
 		../kitupiikki/raportti/raportinkirjoittaja.h \
 		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/QPrinter \
-		../../../Qt/5.11.0/clang_64/lib/QtPrintSupport.framework/Headers/qprinter.h \
 		../kitupiikki/raportti/raporttirivi.h \
 		../kitupiikki/db/kohdennusmodel.h \
 		../kitupiikki/laskutus/tuotemodel.h \
