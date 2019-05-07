@@ -17,6 +17,9 @@
 #include "tuontiapu.h"
 
 #include <QString>
+#include <QRegularExpression>
+
+#include <QDebug>
 
 TuontiApu::TuontiApu()
 {
@@ -34,9 +37,11 @@ qlonglong TuontiApu::sentteina(QString merkkijono)
     // 1,5-
     // 10
 
+    QRegularExpression poistaja("[^,\\.\\w]");
+
     bool miinus = merkkijono.contains('-');
     qlonglong sentit = 0;
-    merkkijono.remove('-').remove('+').remove(' ');
+    merkkijono.remove(  poistaja) ;
 
     int pilkkuindeksi = merkkijono.lastIndexOf(',');
     int pisteindeksi = merkkijono.lastIndexOf('.');
