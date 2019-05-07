@@ -29,7 +29,7 @@ Voit muokata tilikartat ja raportit mieleisiksesi. Muokatun tilikartan voit tall
 
 
 ## Arvonlisäveron käsittely ohjaustiedoilla
-![](alv/alvvalinta.png)
+![](alv/mallikirjaukset/alvvalinta.png)
 
 Tilejä ei tarvitse eritellä verokannoittain, koska arvonlisävero määritetään viennin tietoihin.  Kitupiikki tukee kaikkia alv-ilmoituksen verotyyppejä, myös maksuperusteisesti tilitettävää arvonlisäveroa. Alv-kauden päätyttyä saat Kitupiikistä suoraan alv-ilmoitukseen tarvittavat tiedot.
 

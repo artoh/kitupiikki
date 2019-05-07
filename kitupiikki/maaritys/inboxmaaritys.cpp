@@ -57,6 +57,8 @@ void InboxMaaritys::valitseKansio()
                                                        QDir::homePath());
     if( !kansio.isEmpty())
         ui_->kansioEdit->setText(kansio);
+
+    ui_->kopioRadio->setEnabled(!kp()->asetukset()->asetus("KirjattavienKansio").isEmpty() );
 }
 
 void InboxMaaritys::valitseKopioKansio()

@@ -76,6 +76,17 @@ Osalla tilikarttoja voit valita pääasiallisen [kirjaamisperusteen](/kirjanpito
 !!! note "Suoriteperuste on ensisijainen"
     Mikroyhdistyksiä ja -säätiöitä lukuun ottamatta kirjanpito on oikaistava tilinpäätöstä varten aina suoritusperusteiseksi.
 
+## Tositteiden numerointi
+
+![](numerointi.png)
+
+Kitupiikin tositteet on jaettu useampaan tositesarjaan. Valitse, haluatko
+
+- numeroida jokaisen tositelajin **omaan numerosarjaansa**.
+  Esimerkiksi: Myyntilaskut ML1, ML2; Ostolaskut OL1, OL2 ...
+
+- numeroida tilikauden kaikki tositteet aikajärjestyksessä **samaan numerosarjaan** 1, 2, 3 ...
+
 ## Tiedostojen sijainti
 
 ![](sijainti6.png)
