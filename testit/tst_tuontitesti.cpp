@@ -75,10 +75,13 @@ void TuontiTesti::senttiTesti()
     QCOMPARE( TuontiApu::sentteina("15,23"), 1523 );
     QCOMPARE( TuontiApu::sentteina("1 234,56"), 123456 );
     QCOMPARE( TuontiApu::sentteina("1\uc2a0234,56"), 123456);
+    QCOMPARE( TuontiApu::sentteina("-1\uc2a0234,56"), -123456);
+
 
     QCOMPARE( TuontiApu::sentteina("-12,34"), -1234 );
     QCOMPARE( TuontiApu::sentteina("-1,4"), -140 );
     QCOMPARE( TuontiApu::sentteina("1,234.56-"), -123456 );
+    QCOMPARE( TuontiApu::sentteina("1.234,56-"), -123456 );
     QCOMPARE( TuontiApu::sentteina("70+"), 7000 );
     QCOMPARE( TuontiApu::sentteina("8"), 800 );
     QCOMPARE( TuontiApu::sentteina("98,0"), 9800 );
