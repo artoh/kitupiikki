@@ -9,9 +9,9 @@
 Tuetut Windowsin versiot: Windows 7, 8 ja 10.
 
 !!! note ""
-    <span class="fa fa-windows"></span> [Kitupiikki 1.3.3 Windows asennusohjelma (11 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.3.3/kitupiikki-1.3.3-asennus.exe) <i class="fa fa-laptop"></i> Lataa ja suorita asennusohjelma. <i class="fa fa-user"></i> Vaatii pääkäyttäjän oikeudet.
+    <span class="fa fa-windows"></span> [Kitupiikki 1.4 Windows asennusohjelma (11 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.4/kitupiikki-1.4-asennus.exe) <i class="fa fa-laptop"></i> Lataa ja suorita asennusohjelma. <i class="fa fa-user"></i> Vaatii pääkäyttäjän oikeudet.
 
-     <span class="fa fa-windows"></span> [Kitupiikki 1.3.3 Windows suoritettava ohjelma (14 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.3.3/kitupiikki-1.3.3.exe) <i class="fa fa-briefcase"></i> Käynnistettävissä ilman asennusta esim. USB-muistilta.
+     <span class="fa fa-windows"></span> [Kitupiikki 1.4 Windows suoritettava ohjelma (14 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.4/kitupiikki-1.4.exe) <i class="fa fa-briefcase"></i> Käynnistettävissä ilman asennusta esim. USB-muistilta.
 
 
 ## <span class="fa fa-linux"></span> Linux
@@ -19,7 +19,7 @@ Tuetut Windowsin versiot: Windows 7, 8 ja 10.
 Toimii 64-bittisissä Linux-jakeluissa joissa graafinen työpöytä (esim. Ubuntu 16.04 ja uudemmat)
 
 !!! note ""
-    <span class="fa fa-linux"></span> [Kitupiikki 1.3.3 Linux AppImage (34 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.3.3/Kitupiikki-1.3.3-x86_64.AppImage)
+    <span class="fa fa-linux"></span> [Kitupiikki 1.4 Linux AppImage (34 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.4/Kitupiikki-1.4-x86_64.AppImage)
 
     <span class="fa fa-linux"></span> [Kitupiikki 1.0 Linux AppImage (30 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.0/Kitupiikki-1.0-x86_64.AppImage). Tarkoitettu vanhemmille linux-järjestelmille (esim. Ubuntu 14.04)
 
@@ -51,19 +51,8 @@ Julkaisuehdokas-versiossa on kaikki ominaisuudet valmiina. Ohjelma on vielä het
 
 !!! note ""
 
-    <span class="fa fa-windows"></span> [Kitupiikki 1.4 RC2 Windows suoritettava ohjelma (14 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.4-rc2/kitupiikki-1.4-rc2.exe) <i class="fa fa-briefcase"></i>
-
     <span class="fa fa-apple"></span> [Kitupiikki 1.4 RC2 macOS asennuspaketti (17 MB) ](https://github.com/petriaarnio/kitupiikki/releases/download/mac-v1.4-rc2/Kitupiikki-1.4-rc2.dmg)      
 
-    <span class="fa fa-linux"></span> [Kitupiikki 1.4 RC2 Linux AppImage (34 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.4-rc2/Kitupiikki-1.4-rc2-x86_64.AppImage)    
-
-- Laskutuksen alennuksiin liittyviä korjauksia **RC2**
-- Mahdollisuus juoksevaan tositenumerointiin (kaikki tositelajit yhdessä numerosarjassa)
-- Tositteesta toiseen siirtyminen
-- Alv-kirjausten tarkastaminen tositetta tallennettaessa
-- Tilikauden tositteiden uudelleennumerointi aikajärjestykseen
-- Tositelajien kuvakkeet
-- Jpg-liitteiden tallennuskoon pienennys
 
 
 
