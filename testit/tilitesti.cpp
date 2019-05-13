@@ -33,12 +33,12 @@ TiliTesti::~TiliTesti()
 
 void TiliTesti::initTestCase()
 {
-
+    Kirjanpito::asetaInstanssi(new Kirjanpito);
 }
 
 void TiliTesti::cleanupTestCase()
 {
-
+    kp()->deleteLater();
 }
 
 void TiliTesti::lueTili()
