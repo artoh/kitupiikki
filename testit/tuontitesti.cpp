@@ -14,29 +14,15 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#include <QtTest>
-#include <QCoreApplication>
 
-// add necessary includes here
+
+#include "tuontitesti.h"
+
 
 #include "../kitupiikki/validator/ibanvalidator.h"
 #include "../kitupiikki/tuonti/tuontiapu.h"
 
-class TuontiTesti : public QObject
-{
-    Q_OBJECT
 
-public:
-    TuontiTesti();
-    ~TuontiTesti();
-
-private slots:
-    void initTestCase();
-    void cleanupTestCase();
-    void ibanTesti();
-    void senttiTesti();
-
-};
 
 TuontiTesti::TuontiTesti()
 {
@@ -82,7 +68,3 @@ void TuontiTesti::senttiTesti()
     QCOMPARE( TuontiApu::sentteina("98,0"), 9800 );
     QCOMPARE( TuontiApu::sentteina("0,02-"), -2 );
 }
-
-QTEST_MAIN(TuontiTesti)
-
-#include "tst_tuontitesti.moc"
