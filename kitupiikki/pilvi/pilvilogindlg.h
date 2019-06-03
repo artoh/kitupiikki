@@ -28,7 +28,7 @@ class PilviLoginDlg : public QDialog
     Q_OBJECT
 
 public:
-    enum { VALINNAT = 0, ODOTA = 1, REKISTEROINTI =2, VAHVISTUS=3 };
+    enum { VALINNAT = 0, ODOTA = 1, REKISTEROINTI =2, SALASANA=3 };
 
     explicit PilviLoginDlg(QWidget *parent = nullptr);
     virtual ~PilviLoginDlg() override;

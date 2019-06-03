@@ -197,7 +197,7 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
     KpKysely *kysely = kpk("/viennit");
     kysely->lisaaAttribuutti("alkupvm", alkaa);
     kysely->lisaaAttribuutti("loppupvm", loppuu);
-    connect( kysely, &KpKysely::vastaus, this, &SelausModel::tietoSaapuu);
+    // connect( kysely, &KpKysely::vastaus, this, &SelausModel::tietoSaapuu);
 
     qDebug() << QDateTime::currentDateTime() << " C1 ";
     kysely->kysy();

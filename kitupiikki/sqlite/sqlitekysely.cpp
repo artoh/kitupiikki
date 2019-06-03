@@ -48,7 +48,7 @@ void SQLiteKysely::kysy(const QVariant &data)
     {
         if( sanat_.count() == 2)
         {
-            vastaus_.insert("tosite", tosite( sanat_.at(1).toInt() ));
+            vastaus_ = tosite( sanat_.at(1).toInt() );
             vastaa();
         }
         else
@@ -67,11 +67,13 @@ QSqlDatabase SQLiteKysely::tietokanta()
 
 void SQLiteKysely::alustusKysely()
 {
-    vastaus_.insert("asetukset", asetukset());
-    vastaus_.insert("tilit", tilit());
-    vastaus_.insert("kohdennukset", kohdennukset());
-    vastaus_.insert("tositelajit", tositelajit());
-    vastaus_.insert("tilikaudet", tilikaudet());
+    QVariantMap vastaus;
+    vastaus.insert("asetukset", asetukset());
+    vastaus.insert("tilit", tilit());
+    vastaus.insert("kohdennukset", kohdennukset());
+    vastaus.insert("tositelajit", tositelajit());
+    vastaus.insert("tilikaudet", tilikaudet());
+    vastaus_ = vastaus;
 
     QJsonDocument json = QJsonDocument::fromVariant(vastaus_);
     qDebug() << json.toJson();
@@ -230,8 +232,6 @@ void SQLiteKysely::lataaLiite()
     if( query.next())
     {
         qDebug() << "Liite "<< query.value("data").toByteArray().length();
-        vastaus_.insert("liite",query.value("data"));
-        vastaus_.insert("otsikko", query.value("otsikko"));
         vastaa();
     }
 }
@@ -389,7 +389,7 @@ void SQLiteKysely::tositelista()
 
         lista.append(map);
     }
-    vastaus_.insert("tositteet", lista);
+    vastaus_ = lista;
     vastaa();
 }
 
@@ -495,7 +495,7 @@ void SQLiteKysely::vientilista()
         lista.append( map );
     }
 
-    vastaus_.insert("viennit", lista);
+    vastaus_ = lista;
     vastaa();
 
 }

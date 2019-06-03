@@ -153,7 +153,7 @@ void TositeSelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
         KpKysely *kysely = kp()->yhteys()->kysely("/tositteet");
         kysely->lisaaAttribuutti("alkupvm", alkaa);
         kysely->lisaaAttribuutti("loppupvm", loppuu);
-        connect( kysely, &KpKysely::vastaus, this, &TositeSelausModel::tietoSaapuu);
+        // connect( kysely, &KpKysely::vastaus, this, &TositeSelausModel::tietoSaapuu);
         kysely->kysy();
     }
 

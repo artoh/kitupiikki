@@ -73,6 +73,12 @@ public slots:
 
     void pilviLogin();
     void kirjauduttu();
+    void loginVirhe();
+    void validoiLoginTiedot();
+    void emailTarkastettu();
+    void rekisteroi();
+    void rekisterointiLahti();
+    void pilviLogout();
 
 signals:
     void selaus(int tilinumero, Tilikausi tilikausi);
@@ -93,6 +99,8 @@ protected:
      * @since 0.2
      */
     QString paivitysInfo;
+
+    enum PilviPino { KIRJAUDU, LISTA };
 
 protected:
     Ui::Aloitus *ui;

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1126</width>
-    <height>806</height>
+    <width>1568</width>
+    <height>1038</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -102,7 +102,7 @@
      <item>
       <widget class="QTabWidget" name="tkpilviTab">
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="tab">
         <attribute name="icon">
@@ -160,37 +160,172 @@
         <attribute name="title">
          <string>Pilvi</string>
         </attribute>
-        <layout class="QVBoxLayout" name="verticalLayout_3">
+        <layout class="QVBoxLayout" name="verticalLayout_5">
          <item>
-          <widget class="QLabel" name="kayttajaLabel">
-           <property name="text">
-            <string>TextLabel</string>
+          <widget class="QStackedWidget" name="pilviPino">
+           <property name="currentIndex">
+            <number>0</number>
            </property>
+           <widget class="QWidget" name="page">
+            <layout class="QVBoxLayout" name="verticalLayout_6">
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_2">
+               <item>
+                <widget class="QLabel" name="label_2">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="pixmap">
+                  <pixmap resource="../pic/pic.qrc">:/pic/sadepilvi.png</pixmap>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label">
+                 <property name="text">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Kirjaudu tai luo tunnus&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Kitupiikki Cloud -käyttäjätunnusta tarvitaan pilvessä oleviin kirjanpitoihin ja Kitupiikin lisätoimintoihin.&lt;/p&gt;&lt;p&gt;Käyttäjätunnuksen luominen on ilmaista, mutta osa lisätoiminnoista on maksullisia.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="pixmap">
+                  <pixmap resource="../pic/pic.qrc">:/pic/sadepilvi.png</pixmap>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QLabel" name="vaaraSalasana">
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Salasana on virheellinen&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="emailLabel">
+               <property name="text">
+                <string>Sähköposti</string>
+               </property>
+               <property name="buddy">
+                <cstring>emailEdit</cstring>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="emailEdit">
+               <property name="placeholderText">
+                <string>Kirjoita ensin osoite</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="salaLabel">
+               <property name="text">
+                <string>Salasana</string>
+               </property>
+               <property name="buddy">
+                <cstring>salaEdit</cstring>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="salaEdit">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="echoMode">
+                <enum>QLineEdit::Password</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="muistaCheck">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>Muista minut</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="loginButton">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>Kirjaudu</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="rekisteroiButton">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>Luo käyttäjätunnus</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="salasanaButton">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>Unohdin salasanan</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="page_2">
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <item>
+              <widget class="QLabel" name="kayttajaLabel">
+               <property name="text">
+                <string>TextLabel</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="logoutButton">
+               <property name="text">
+                <string>Kirjaudu ulos</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="uusiPilviButton">
+               <property name="text">
+                <string>Uusi kirjanpito</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QListView" name="pilviView"/>
+             </item>
+            </layout>
+           </widget>
           </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="loginButton">
-           <property name="text">
-            <string>Kirjaudu</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="logoutButton">
-           <property name="text">
-            <string>Kirjaudu ulos</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="uusiPilviButton">
-           <property name="text">
-            <string>Uusi kirjanpito</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QListView" name="pilviView"/>
          </item>
         </layout>
        </widget>

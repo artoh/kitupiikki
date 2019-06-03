@@ -35,7 +35,7 @@ signals:
 public slots:
 
 private slots:
-    void dataSaapuu(QVariantMap *data, int status);
+    void dataSaapuu(QVariant *data, int status);
 
 protected:
     RaportinKirjoittaja kirjoittaja;

@@ -44,7 +44,7 @@ protected slots:
     void tabMuuttui(int tab);
 
     void kysely();
-    void vastausSaapui(QVariantMap *vastaus, int status);
+    void vastausSaapui(QVariant *vastaus, int status);
 
     void uusiPeli();
     void peliNapautus(int ruutu);

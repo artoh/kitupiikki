@@ -51,7 +51,7 @@ QString KpKysely::attribuutti(const QString &avain) const
 
 void KpKysely::vastaa(KpKysely::Tila tila)
 {
-    QMapIterator<QString, QVariant> iter( vastaus_ );
+    QMapIterator<QString, QVariant> iter( vastaus_.toMap() );
     while (iter.hasNext()) {
         iter.next();
         QString avain = iter.key();

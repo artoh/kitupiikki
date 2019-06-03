@@ -45,6 +45,7 @@ PilviLoginDlg::PilviLoginDlg(QWidget *parent) :
     ui->muistaCheck->setVisible(false);
 
     ui->pino->setCurrentIndex(VALINNAT);
+    ui->unohtuiNappi->setVisible(false);
 
     connect( ui->emailEdit, &QLineEdit::textChanged, this, &PilviLoginDlg::validoi);
 }
@@ -58,15 +59,13 @@ void PilviLoginDlg::accept()
 {
     if( ui->pino->currentIndex() == VALINNAT)
     {
+        ui->unohtuiNappi->setVisible(false);
         QVariantMap map;
 
         if( ui->salaEdit->isVisible() &&  !ui->salaEdit->text().isEmpty() ) {
-            map.insert("salasana", ui->salaEdit->text());
-            if( !ui->muistaCheck->isChecked()) {
-                kp()->pilvi()->kirjaudu( ui->emailEdit->text(), ui->salaEdit->text() );
-                QDialog::accept();
-                return;
-            }
+            kp()->pilvi()->kirjaudu( ui->emailEdit->text(), ui->salaEdit->text(), ui->muistaCheck->isChecked() );
+            QDialog::accept();
+            return;
         }
 
         map.insert("email", ui->emailEdit->text());
@@ -121,19 +120,16 @@ void PilviLoginDlg::lahetetty()
     QJsonDocument doc = QJsonDocument::fromJson( vastaus );
 
     QString email = doc.object().value("email").toString();
-    QString avain = doc.object().value("avain").toString();
-    bool rekisteroity = doc.object().value("rekisteroity").toBool();
-    bool vahvistettu = doc.object().value("vahvistettu").toBool();
+    QString avain = doc.object().value("key").toString();
 
     kp()->settings()->setValue("CloudEmail", email);
     kp()->settings()->setValue("CloudKey", avain);
 
     ui->buttonBox->button( QDialogButtonBox::Ok )->setEnabled(true);
     ui->buttonBox->button( QDialogButtonBox::Cancel )->setEnabled(false);
-    if( vahvistettu )
-        accept();
-    else if( rekisteroity )
-        ui->pino->setCurrentIndex( VAHVISTUS );
+
+    if( ui->salaLabel->isVisible() )
+        ui->pino->setCurrentIndex( SALASANA );
     else
         ui->pino->setCurrentIndex( REKISTEROINTI );
 
@@ -142,13 +138,11 @@ void PilviLoginDlg::lahetetty()
 void PilviLoginDlg::salatietosaapuu()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>( sender());
-    QByteArray vastaus = reply->readAll();
-    QJsonDocument doc = QJsonDocument::fromJson( vastaus );
+    bool olemassa =  reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200 ;
 
-    bool salasanattu = doc.object().value("salasanalla").toBool();
-
-    ui->salaLabel->setVisible( salasanattu );
-    ui->salaEdit->setVisible( salasanattu );
-    ui->muistaCheck->setVisible( salasanattu );
+    ui->salaLabel->setVisible( olemassa );
+    ui->salaEdit->setVisible( olemassa );
+    ui->muistaCheck->setVisible( olemassa );
+    ui->unohtuiNappi->setVisible( olemassa );
 
 }

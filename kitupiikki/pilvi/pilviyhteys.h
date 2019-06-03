@@ -36,7 +36,7 @@ public slots:
     void alustaYhteys();
 
 protected slots:
-    void initSaapui(QVariantMap *reply, int tila);    
+    void initSaapui(QVariant *reply, int tila);
 
 protected:
     int pilviId_;

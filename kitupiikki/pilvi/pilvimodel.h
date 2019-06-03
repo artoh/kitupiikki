@@ -50,7 +50,7 @@ public:
     bool avaaPilvesta(int pilviId);
 
 public slots:
-    void kirjaudu(const QString sahkoposti = QString(), const QString& salasana = QString());
+    void kirjaudu(const QString sahkoposti = QString(), const QString& salasana = QString(), bool pyydaAvain = false);
     void kirjauduUlos();
 
 
@@ -60,6 +60,7 @@ private slots:
 
 signals:
     void kirjauduttu();
+    void loginvirhe();
 
 
 

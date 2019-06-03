@@ -41,7 +41,7 @@ QVariant PilviModel::data(const QModelIndex &index, int role) const
     QVariantMap map = pilvet_.at( index.row() );
     if( role == Qt::DisplayRole || role == NimiRooli)
     {        
-        return map.value("nimi").toString();
+        return map.value("name").toString();
     } else if( role == IdRooli ) {
         return map.value("id").toInt();
     }
@@ -52,14 +52,14 @@ QVariant PilviModel::data(const QModelIndex &index, int role) const
 
 QString PilviModel::pilviLoginOsoite()
 {
-    return "http://localhost:4002";
+    return "http://localhost:5665/api";
 }
 
 bool PilviModel::avaaPilvesta(int pilviId)
 {
     for( auto map : pilvet_) {
         if( map.value("id").toInt() == pilviId) {
-            PilviYhteys *yhteys = new PilviYhteys(this, pilviId, map.value("osoite").toString(),
+            PilviYhteys *yhteys = new PilviYhteys(this, pilviId, map.value("url").toString(),
                                    map.value("token").toString());
             connect( yhteys, &PilviYhteys::yhteysAvattu, kp(), &Kirjanpito::yhteysAvattu);
             yhteys->alustaYhteys();
@@ -69,15 +69,17 @@ bool PilviModel::avaaPilvesta(int pilviId)
     return false;
 }
 
-void PilviModel::kirjaudu(const QString sahkoposti, const QString &salasana)
+void PilviModel::kirjaudu(const QString sahkoposti, const QString &salasana, bool pyydaAvain)
 {
     QVariantMap map;
     if( !salasana.isEmpty()) {
         map.insert("email", sahkoposti);
-        map.insert("salasana", salasana);
-    } else if( kp()->settings()->contains("CloudEmail") ) {
+        map.insert("password", salasana);
+        if( pyydaAvain )
+            map.insert("requestKey",true);
+    } else if( kp()->settings()->contains("CloudKey") ) {
         map.insert("email", kp()->settings()->value("CloudEmail") );
-        map.insert("avain", kp()->settings()->value("CloudKey"));
+        map.insert("key", kp()->settings()->value("CloudKey"));
     }
 
     QNetworkAccessManager *mng = kp()->networkManager();
@@ -105,7 +107,6 @@ void PilviModel::kirjauduUlos()
     kayttajaNimi_.clear();
 
     endResetModel();
-    emit kirjauduttu();
 }
 
 
@@ -113,17 +114,29 @@ void PilviModel::kirjauduUlos()
 void PilviModel::kirjautuminenValmis()
 {
     QNetworkReply* reply = qobject_cast<QNetworkReply*>( sender() );
+
+    if( reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() != 200) {
+        emit loginvirhe();
+        return;
+    }
+
     QByteArray vastaus = reply->readAll();
 
-    QJsonDocument doc = QJsonDocument::fromJson( vastaus );
-    QVariant var = doc.toVariant();
 
-    kayttajaId_ = doc.object().value("kayttaja").toInt();
-    kayttajaNimi_ = doc.object().value("nimi").toString();
+    QJsonDocument doc = QJsonDocument::fromJson( vastaus );
+
+    kayttajaId_ = doc.object().value("id").toInt();
+    kayttajaNimi_ = doc.object().value("name").toString();
+
+    if( doc.object().contains("key"))
+    {
+        kp()->settings()->setValue("CloudKey", doc.object().value("key").toString());
+        kp()->settings()->setValue("CloudEmail", doc.object().value("email").toString());
+    }
 
     beginResetModel();
     pilvet_.clear();
-    QVariantList lista = doc.object().value("pilvet").toVariant().toList();
+    QVariantList lista = doc.object().value("clouds").toVariant().toList();
     for( auto item: lista ){
         pilvet_.append( item.toMap() );
     }

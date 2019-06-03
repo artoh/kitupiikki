@@ -40,7 +40,7 @@ public:
     QString tiedostopolku() const { return tiedostoPolku_; }
 
 protected slots:
-    void initSaapui(QVariantMap *reply, int tila);
+    void initSaapui(QVariant *reply, int tila);
 
 protected:
     QSqlDatabase tietokanta_;

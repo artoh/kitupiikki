@@ -37,7 +37,7 @@ void PilviYhteys::alustaYhteys()
     alustusKysely->kysy();
 }
 
-void PilviYhteys::initSaapui(QVariantMap * /* reply */, int tila)
+void PilviYhteys::initSaapui(QVariant * /* reply */, int tila)
 {
     emit yhteysAvattu( tila == PilviKysely::OK );
     if( tila == PilviKysely::OK)

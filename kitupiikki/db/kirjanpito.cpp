@@ -520,7 +520,8 @@ void Kirjanpito::yhteysAvattu(bool onnistuiko)
 {
     KpYhteys *uusiyhteys = qobject_cast<KpYhteys*>( sender() );
     if( onnistuiko ) {
-        yhteys_->deleteLater();
+        if( yhteys_)
+            yhteys_->deleteLater();
         yhteys_ = uusiyhteys;
         emit tietokantaVaihtui();
 

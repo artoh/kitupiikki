@@ -48,7 +48,7 @@ bool SQLiteYhteys::alustaYhteys(bool ilmoitaVirheestaAvattauessa)
     return true;
 }
 
-void SQLiteYhteys::initSaapui(QVariantMap * /* reply */, int tila)
+void SQLiteYhteys::initSaapui(QVariant * /* reply */, int tila)
 {
     emit yhteysAvattu( tila == SQLiteKysely::OK );
     if( tila == SQLiteKysely::OK)

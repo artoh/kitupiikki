@@ -61,7 +61,7 @@ public:
     Tila tila() const { return tila_;}
 
 signals:
-    void vastaus(QVariantMap* reply, int tila);
+    void vastaus(QVariant* reply, int tila);
 
 public slots:
     virtual void kysy(const QVariant& data = QVariant()) = 0;
@@ -73,7 +73,7 @@ protected:
     Metodi metodi_;
     QString polku_;
     QUrlQuery kysely_;
-    QVariantMap vastaus_;
+    QVariant vastaus_;
     Tila tila_;
 
 };

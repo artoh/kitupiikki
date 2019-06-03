@@ -58,9 +58,10 @@ void Paivakirja::kirjoita(QDate mista, QDate mihin)
     kysely->kysy();
 }
 
-void Paivakirja::dataSaapuu(QVariantMap *data, int status)
+void Paivakirja::dataSaapuu(QVariant *data, int status)
 {
-    QVariantList lista = data->value("viennit").toList();
+    QVariantList lista = data->toMap().value("viennit").toList();
+
 
     for(auto item : lista) {
         QVariantMap map = item.toMap();

@@ -63,7 +63,6 @@ void PilviKysely::vastausSaapuu()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>( sender());
     if( reply->error()) {
-        vastaus_.insert("verkkovirhe", reply->error());
         vastaa( VIRHE );
         return;
     } else {

@@ -55,6 +55,9 @@
 #include "sqlite/sqlitemodel.h"
 #include "sqlite/sqliteyhteys.h"
 
+#include <QJsonDocument>
+#include <QTimer>
+
 AloitusSivu::AloitusSivu() :
     KitupiikkiSivu(nullptr)
 {
@@ -80,7 +83,10 @@ AloitusSivu::AloitusSivu() :
 
     connect( ui->loginButton, &QPushButton::clicked, this, &AloitusSivu::pilviLogin);
     connect( kp()->pilvi(), &PilviModel::kirjauduttu, this, &AloitusSivu::kirjauduttu);
-    connect( ui->logoutButton, &QPushButton::clicked, kp()->pilvi(), &PilviModel::kirjauduUlos );
+    connect( kp()->pilvi(), &PilviModel::loginvirhe, this, &AloitusSivu::loginVirhe);
+    connect( ui->logoutButton, &QPushButton::clicked, this, &AloitusSivu::pilviLogout );
+    connect( ui->rekisteroiButton, &QPushButton::clicked, this, &AloitusSivu::rekisteroi);
+    connect(ui->salasanaButton, &QPushButton::clicked, this, &AloitusSivu::rekisteroi);
 
     connect( ui->viimeisetView, &QListView::clicked,
              [] (const QModelIndex& index) { kp()->sqlite()->avaaTiedosto( index.data(SQLiteModel::PolkuRooli).toString() );} );
@@ -88,9 +94,16 @@ AloitusSivu::AloitusSivu() :
     connect( ui->pilviView, &QListView::clicked,
              [](const QModelIndex& index) { kp()->pilvi()->avaaPilvesta( index.data(PilviModel::IdRooli).toInt() ); } );
 
+    connect( ui->emailEdit, &QLineEdit::textChanged, this, &AloitusSivu::validoiLoginTiedot );
+    connect( ui->salaEdit, &QLineEdit::textChanged, this, &AloitusSivu::validoiLoginTiedot);
+
     ui->viimeisetView->setModel( kp()->sqlite() );
     ui->pilviView->setModel( kp()->pilvi() );
     ui->tkpilviTab->setCurrentIndex( kp()->settings()->value("TietokonePilviValilehti").toInt() );
+    ui->vaaraSalasana->setVisible(false);
+
+    if( kp()->settings()->contains("CloudKey"))
+        QTimer::singleShot(250, [](){ kp()->pilvi()->kirjaudu(); });
 }
 
 AloitusSivu::~AloitusSivu()
@@ -387,16 +400,95 @@ QDate AloitusSivu::buildDate()
 
 void AloitusSivu::pilviLogin()
 {
-    PilviLoginDlg *dlg = new PilviLoginDlg(this);
-    dlg->exec();
+    kp()->pilvi()->kirjaudu( ui->emailEdit->text(), ui->salaEdit->text(), ui->muistaCheck->isChecked() );
 }
 
 void AloitusSivu::kirjauduttu()
 {
-    ui->kayttajaLabel->setVisible( !kp()->pilvi()->kayttajaNimi().isEmpty());
+    ui->salaEdit->clear();
+    ui->pilviPino->setCurrentIndex(LISTA);
     ui->kayttajaLabel->setText( kp()->pilvi()->kayttajaNimi() );
-    ui->loginButton->setVisible( !kp()->pilvi()->kayttajaPilvessa());
-    ui->logoutButton->setVisible( kp()->pilvi()->kayttajaPilvessa());
+}
+
+void AloitusSivu::loginVirhe()
+{
+    ui->vaaraSalasana->setVisible(!ui->salaEdit->text().isEmpty());
+    ui->salaEdit->clear();
+}
+
+void AloitusSivu::validoiLoginTiedot()
+{
+    QRegularExpression emailRe(R"(^([\w-]*(\.[\w-]+)?)+@(\w+\.\w+)(\.\w+)*$)");
+    if( emailRe.match( ui->emailEdit->text()).hasMatch() ) {
+        // Tarkistetaan sähköposti ja toimitaan sen mukaan
+        QNetworkRequest request(QUrl( kp()->pilvi()->pilviLoginOsoite() + "/users/" + ui->emailEdit->text() ));
+        request.setRawHeader("User-Agent", QString(qApp->applicationName() + " " + qApp->applicationVersion()).toUtf8());
+        QNetworkReply *reply =  kp()->networkManager()->get(request);
+        connect( reply, &QNetworkReply::finished, this, &AloitusSivu::emailTarkastettu);
+
+    } else {
+        ui->loginButton->setEnabled(false);
+        ui->salasanaButton->setEnabled(false);
+        ui->rekisteroiButton->setEnabled(false);
+    }
+
+}
+
+void AloitusSivu::emailTarkastettu()
+{
+    QNetworkReply *reply = qobject_cast<QNetworkReply*>( sender());
+    bool olemassa =  reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200 ;
+
+    ui->loginButton->setEnabled(olemassa && ui->salaEdit->text().length() > 4);
+    ui->salaEdit->setEnabled(olemassa);
+    ui->muistaCheck->setEnabled(olemassa && ui->salaEdit->text().length() > 4);
+    ui->salasanaButton->setEnabled(olemassa);
+    ui->rekisteroiButton->setEnabled(!olemassa);
+
+}
+
+void AloitusSivu::rekisteroi()
+{
+    QVariantMap map;
+
+    map.insert("email", ui->emailEdit->text());
+    QNetworkAccessManager *mng = kp()->networkManager();
+
+    QNetworkRequest request(QUrl( kp()->pilvi()->pilviLoginOsoite() + "/users") );
+
+    request.setRawHeader("Content-Type","application/json");
+    request.setRawHeader("User-Agent", QString(qApp->applicationName() + " " + qApp->applicationVersion()).toUtf8());
+
+    QNetworkReply *reply = mng->post( request, QJsonDocument::fromVariant(map).toJson(QJsonDocument::Compact) );
+    connect( reply, &QNetworkReply::finished, this, &AloitusSivu::rekisterointiLahti);
+}
+
+void AloitusSivu::rekisterointiLahti()
+{
+    QNetworkReply *reply = qobject_cast<QNetworkReply*>( sender());
+    if( reply->error()) {
+        QMessageBox::critical(this, tr("Rekisteröityminen epäonnistui"),
+            tr("Rekisteröinnin lähettäminen palvelimelle epäonnistui "
+               "tietoliikennevirheen %1 takia.\n\n"
+               "Yritä myöhemmin uudelleen").arg( reply->error() ));
+        return;
+    }
+    if( ui->rekisteroiButton->isEnabled()) {
+        QMessageBox::information(this, tr("Rekisteröintiviesti lähetetty"),
+                                 tr("Viimeistele rekisteröityminen sähköpostiisi "
+                                    "lähetetyn linkin avulla."));
+        ui->salaEdit->setEnabled(true);
+        ui->rekisteroiButton->setEnabled(false);
+    } else
+        QMessageBox::information(this, tr("Salasanan palauttaminen"),
+                                 tr("Sähköpostiisi on lähetetty linkki, jonka avulla "
+                                    "voit vaihtaa salasanan."));
+}
+
+void AloitusSivu::pilviLogout()
+{
+    kp()->pilvi()->kirjauduUlos();
+    ui->pilviPino->setCurrentIndex(KIRJAUDU);
 }
 
 QString AloitusSivu::vinkit()
