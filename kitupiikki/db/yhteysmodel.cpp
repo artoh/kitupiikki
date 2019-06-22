@@ -14,12 +14,9 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#include "kpyhteys.h"
+#include "yhteysmodel.h"
 
-#include "kirjanpito.h"
-
-KpYhteys::KpYhteys(QObject *parent)
-    : QObject(parent)
+YhteysModel::YhteysModel()
 {
 
 }

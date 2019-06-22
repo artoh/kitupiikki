@@ -14,30 +14,14 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef KPYHTEYS_H
-#define KPYHTEYS_H
+#ifndef YHTEYSMODEL_H
+#define YHTEYSMODEL_H
 
 
-#include "kpkysely.h"
-#include <QObject>
-#include <QUrl>
-
-class Kirjanpito;
-
-/**
- * @brief Taustayhteyksien kantaluokka
- * @since 2.0
- */
-class KpYhteys : public QObject
+class YhteysModel : public QAbstractListModel
 {
-    Q_OBJECT
 public:
-    KpYhteys(QObject *parent);
-
-    virtual KpKysely* kysely(const QString& polku = QString(), KpKysely::Metodi metodi = KpKysely::GET ) = 0;
-
-signals:
-    void yhteysAvattu(bool onnistuiko);
+    YhteysModel();
 };
 
-#endif // KPYHTEYS_H
+#endif // YHTEYSMODEL_H
