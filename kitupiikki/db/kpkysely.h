@@ -23,7 +23,7 @@
 #include <QUrlQuery>
 
 
-class KpYhteys;
+class YhteysModel;
 
 /**
  * @brief Taustajärjestelmälle tehtävät kyselyt
@@ -47,7 +47,7 @@ public:
         VIRHE
     };
 
-    KpKysely(KpYhteys *parent, Metodi metodi = GET, QString polku = QString());
+    KpKysely(YhteysModel *parent, Metodi metodi = GET, QString polku = QString());
 
     void asetaKysely(const QString& kysely);
 

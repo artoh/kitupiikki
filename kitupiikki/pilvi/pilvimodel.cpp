@@ -16,7 +16,7 @@
 */
 #include "pilvimodel.h"
 #include "db/kirjanpito.h"
-#include "pilviyhteys.h"
+#include "pilvikysely.h"
 
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -25,8 +25,11 @@
 #include <QJsonObject>
 #include <QSettings>
 
+#include <QDebug>
+
+
 PilviModel::PilviModel(QObject *parent) :
-    QAbstractListModel (parent)
+    YhteysModel (parent)
 {
 
 }
@@ -59,14 +62,28 @@ bool PilviModel::avaaPilvesta(int pilviId)
 {
     for( auto map : pilvet_) {
         if( map.value("id").toInt() == pilviId) {
-            PilviYhteys *yhteys = new PilviYhteys(this, pilviId, map.value("url").toString(),
-                                   map.value("token").toString());
-            connect( yhteys, &PilviYhteys::yhteysAvattu, kp(), &Kirjanpito::yhteysAvattu);
-            yhteys->alustaYhteys();
+            pilviId_ = pilviId;
+            osoite_ = map.value("url").toString();
+            token_ = map.value("token").toString();
+
+            alusta();
+
             return true;
         }
     }
     return false;
+}
+
+KpKysely *PilviModel::kysely(const QString &polku, KpKysely::Metodi metodi)
+{
+    return new PilviKysely( this, metodi, polku);
+}
+
+void PilviModel::sulje()
+{
+    pilviId_ = 0;
+    osoite_.clear();
+    token_.clear();
 }
 
 void PilviModel::kirjaudu(const QString sahkoposti, const QString &salasana, bool pyydaAvain)
@@ -122,11 +139,15 @@ void PilviModel::kirjautuminenValmis()
 
     QByteArray vastaus = reply->readAll();
 
+    qDebug() << vastaus;
 
     QJsonDocument doc = QJsonDocument::fromJson( vastaus );
 
+    bool ensiKirjaus = kayttajaId_ == 0;
+
     kayttajaId_ = doc.object().value("id").toInt();
     kayttajaNimi_ = doc.object().value("name").toString();
+    kayttajaToken_ = doc.object().value("token").toString();
 
     if( doc.object().contains("key"))
     {
@@ -145,5 +166,15 @@ void PilviModel::kirjautuminenValmis()
     if( kp()->settings()->value("Viimeisin").toInt() > 0)
         avaaPilvesta( kp()->settings()->value("Viimeisin").toInt() );
 
-    emit kirjauduttu();
+    if( ensiKirjaus)
+        emit kirjauduttu();
+    else {
+        // Tallennetaan uusi token
+        for( auto map : pilvet_) {
+            if( map.value("id").toInt() == pilviId() ) {
+                osoite_ = map.value("url").toString();
+                token_ = map.value("token").toString();
+            }
+        }
+    }
 }

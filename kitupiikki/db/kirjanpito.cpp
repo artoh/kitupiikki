@@ -40,17 +40,14 @@
 #include "kirjanpito.h"
 #include "naytin/naytinikkuna.h"
 
-#include "sqlite/sqliteyhteys.h"
-
 #include "tilimodel.h"
 
 #include "pilvi/pilvimodel.h"
-#include "pilvi/pilviyhteys.h"
 #include "sqlite/sqlitemodel.h"
 
 Kirjanpito::Kirjanpito(const QString& portableDir) : QObject(nullptr),
     harjoitusPvm( QDate::currentDate()), tempDir_(nullptr), portableDir_(portableDir),
-    yhteys_(nullptr), pilviModel_(new PilviModel(this)), sqliteModel_( new SQLiteModel(this))
+    yhteysModel_(nullptr), pilviModel_(new PilviModel(this)), sqliteModel_( new SQLiteModel(this))
 {
     if( portableDir.isEmpty())
         settings_ = new QSettings(this);
@@ -236,12 +233,14 @@ QString Kirjanpito::tositeTunnus(int tositelaji, int tunniste, const QDate &pvm,
 bool Kirjanpito::avaaTietokanta(const QString &tiedosto, bool ilmoitaVirheesta)
 {
 
+    sqlite()->avaaTiedosto(tiedosto, ilmoitaVirheesta);
+    /*
     SQLiteYhteys* uusiyhteys = new SQLiteYhteys(this, tiedosto);
     connect( uusiyhteys, &SQLiteYhteys::yhteysAvattu, this, &Kirjanpito::yhteysAvattu);
     uusiyhteys->alustaYhteys();
 
     return true;
-
+    */
     // TODO: Tämä pitää muuttaa kokonaan asynkroniseksi
     /*
     if( uusiyhteys->alustaYhteys() )
@@ -516,19 +515,14 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto, bool ilmoitaVirheesta)
 }
 
 
-void Kirjanpito::yhteysAvattu(bool onnistuiko)
+
+void Kirjanpito::yhteysAvattu(YhteysModel *model)
 {
-    KpYhteys *uusiyhteys = qobject_cast<KpYhteys*>( sender() );
-    if( onnistuiko ) {
-        if( yhteys_)
-            yhteys_->deleteLater();
-        yhteys_ = uusiyhteys;
-        emit tietokantaVaihtui();
-
-    } else {
-        sender()->deleteLater();
+    if( yhteysModel_ && model != yhteysModel_ ) {
+        yhteysModel_->sulje();
     }
-
+    yhteysModel_ = model;
+    emit tietokantaVaihtui();
 }
 
 bool Kirjanpito::lataaUudelleen()
@@ -607,7 +601,7 @@ Kirjanpito *kp()  { return Kirjanpito::db(); }
 
 KpKysely *kpk(const QString &polku, KpKysely::Metodi metodi)
 {
-    if( kp()->yhteys() )
-        return kp()->yhteys()->kysely(polku, metodi);
+    if( kp()->yhteysModel() )
+        return kp()->yhteysModel()->kysely(polku, metodi);
     return nullptr;
 }

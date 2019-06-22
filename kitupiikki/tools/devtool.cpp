@@ -25,7 +25,6 @@
 #include "db/kirjanpito.h"
 
 #include "db/kpkysely.h"
-#include "db/kpyhteys.h"
 
 #include "uusikp/skripti.h"
 
@@ -121,10 +120,10 @@ void DevTool::tabMuuttui(int tab)
 
 void DevTool::kysely()
 {
-    if( !kp()->yhteys() )
+    if( !kp()->yhteysModel() )
         return;
 
-    KpKysely *kysely = kp()->yhteys()->kysely( );
+    KpKysely *kysely = kpk();
     kysely->asetaKysely(ui->kyselyLine->text());
     connect( kysely, &KpKysely::vastaus, this, &DevTool::vastausSaapui);
     kysely->kysy();

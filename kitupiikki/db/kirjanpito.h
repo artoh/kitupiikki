@@ -51,13 +51,12 @@
 
 #include "kpkysely.h"
 
-class KpYhteys;
-
 class QPrinter;
 class QSettings;
 
 class PilviModel;
 class SQLiteModel;
+class YhteysModel;
 
 class QNetworkAccessManager;
 
@@ -271,7 +270,7 @@ public:
      * @brief Yhteys taustajärjestelmään
      * @return
      */
-    KpYhteys* yhteys() { return yhteys_; }
+    YhteysModel* yhteysModel() { return yhteysModel_; }
 
 
     /**
@@ -283,6 +282,14 @@ public:
      */
     QString tositeTunnus(int tositelaji, int tunniste, const QDate& pvm, bool vertailu = false ) const;
 
+
+    /**
+     * @brief Kirjanpito on avattu
+     * @param model
+     *
+     * Vaihtaa avatun kirjanpidon näkymään
+     */
+    void yhteysAvattu(YhteysModel *model);
 
 signals:
     /**
@@ -337,7 +344,7 @@ signals:
      * @brief Tietokantavirhe on tapahtunut
      * @param virheilmoitus
      */
-    void tietokantavirhe(QString virheilmoitus);
+    void tietokantavirhe(QString virheilmoitus);  
 
 public slots:
     /**
@@ -346,11 +353,6 @@ public slots:
      * @return tosi, jos onnistuu
      */
     bool avaaTietokanta(const QString& tiedosto, bool ilmoitaVirheesta = true);
-
-
-    void yhteysAvattu(bool onnistuiko);
-
-
 
     /**
      * @brief Lataa tietokannan uudelleen rakenteen muutoksen jälkeen
@@ -392,10 +394,13 @@ protected:
 
     QStringList virheloki_;
 
-    KpYhteys* yhteys_;
     QNetworkAccessManager* networkManager_;
+
     PilviModel *pilviModel_;
     SQLiteModel *sqliteModel_;
+
+    YhteysModel *yhteysModel_;
+
 
 public:
     /**

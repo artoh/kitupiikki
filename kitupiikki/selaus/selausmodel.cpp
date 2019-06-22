@@ -197,7 +197,7 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
     KpKysely *kysely = kpk("/viennit");
     kysely->lisaaAttribuutti("alkupvm", alkaa);
     kysely->lisaaAttribuutti("loppupvm", loppuu);
-    // connect( kysely, &KpKysely::vastaus, this, &SelausModel::tietoSaapuu);
+    connect( kysely, &KpKysely::vastaus, this, &SelausModel::tietoSaapuu);
 
     qDebug() << QDateTime::currentDateTime() << " C1 ";
     kysely->kysy();
@@ -287,24 +287,28 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
     endResetModel();
 }
 
-void SelausModel::tietoSaapuu(QVariantMap *map, int /* status */)
+void SelausModel::tietoSaapuu(QVariant *var, int /* status */)
 {
 
     beginResetModel();
     tileilla.clear();
 
+    qDebug() << var;
+
     qDebug() << QDateTime::currentDateTime() << " A1 ";
-    lista_ = map->value("viennit").toList();
+    lista_ = var->toList();
+
+    qDebug() << lista_;
 
     qDebug() << QDateTime::currentDateTime() << " A2 ";
 
     for(auto rivi : lista_)
     {
         int tiliId = rivi.toMap().value("tili").toInt();
-        Tili tili = kp()->tilit()->tiliIdllaVanha(tiliId);
+        Tili* tili = kp()->tilit()->tiliNumerolla(tiliId);
         QString tilistr = QString("%1 %2")
-                    .arg(tili.numero())
-                    .arg(tili.nimi());
+                    .arg(tili->numero())
+                    .arg(tili->nimi());
         if( !tileilla.contains(tilistr))
             tileilla.append(tilistr);
     }

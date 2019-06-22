@@ -18,14 +18,15 @@
 #define PILVIKYSELY_H
 
 #include "db/kpkysely.h"
+#include "pilvimodel.h"
 
-class PilviYhteys;
+class YhteysModel;
 
 class PilviKysely : public KpKysely
 {
     Q_OBJECT
 public:
-    PilviKysely(PilviYhteys* parent, Metodi metodi=GET, QString polku = QString());
+    PilviKysely(PilviModel* parent, Metodi metodi=GET, QString polku = QString());
 
 public slots:
     void kysy(const QVariant& data = QVariant()) override;

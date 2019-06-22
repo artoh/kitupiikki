@@ -89,7 +89,7 @@ public:
 
     void lataa();
 
-    void lataa(const QVariantList& lista);
+    void lataa(const QVariantMap &lista);
 
     void tyhjenna() { asetukset_.clear(); }
 

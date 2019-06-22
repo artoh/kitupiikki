@@ -15,12 +15,12 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "kpkysely.h"
-#include "kpyhteys.h"
 #include "db/kirjanpito.h"
+#include "yhteysmodel.h"
 
 #include <QDate>
 
-KpKysely::KpKysely(KpYhteys *parent, KpKysely::Metodi metodi, QString polku) :
+KpKysely::KpKysely(YhteysModel *parent, KpKysely::Metodi metodi, QString polku) :
     QObject (parent), metodi_(metodi), polku_(polku)
 {
 
@@ -51,23 +51,5 @@ QString KpKysely::attribuutti(const QString &avain) const
 
 void KpKysely::vastaa(KpKysely::Tila tila)
 {
-    QMapIterator<QString, QVariant> iter( vastaus_.toMap() );
-    while (iter.hasNext()) {
-        iter.next();
-        QString avain = iter.key();
-
-        if( avain == "asetukset")
-            kp()->asetukset()->lataa( iter.value().toList() );
-        else if( avain == "tilit")
-            kp()->tilit()->lataa( iter.value().toList() );
-        else if( avain == "kohdennukset")
-            kp()->kohdennukset()->lataa( iter.value().toList() );
-        else if( avain == "tositelajit")
-            kp()->tositelajit()->lataa( iter.value().toList() );
-        else if( avain == "tilikaudet")
-            kp()->tilikaudet()->lataa( iter.value().toList() );
-    }
-
     emit vastaus( &vastaus_, tila );
-
 }

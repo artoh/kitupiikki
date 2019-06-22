@@ -24,7 +24,6 @@
 #include "db/kirjanpito.h"
 
 #include "db/kpkysely.h"
-#include "db/kpyhteys.h"
 
 TositeSelausModel::TositeSelausModel()
 {
@@ -148,9 +147,9 @@ QVariant TositeSelausModel::data(const QModelIndex &index, int role) const
 
 void TositeSelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
 {
-    if( kp()->yhteys())
+    if( kp()->yhteysModel())
     {
-        KpKysely *kysely = kp()->yhteys()->kysely("/tositteet");
+        KpKysely *kysely = kpk("/tositteet");
         kysely->lisaaAttribuutti("alkupvm", alkaa);
         kysely->lisaaAttribuutti("loppupvm", loppuu);
         // connect( kysely, &KpKysely::vastaus, this, &TositeSelausModel::tietoSaapuu);

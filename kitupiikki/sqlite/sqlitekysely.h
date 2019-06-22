@@ -21,13 +21,13 @@
 
 #include <QSqlDatabase>
 
-class SQLiteYhteys;
+class SQLiteModel;
 
 class SQLiteKysely : public KpKysely
 {
     Q_OBJECT
 public:
-    SQLiteKysely(SQLiteYhteys* parent, Metodi metodi=GET, QString polku = QString());
+    SQLiteKysely(SQLiteModel* parent, Metodi metodi=GET, QString polku = QString());
 
 public slots:
     void kysy(const QVariant& data = QVariant()) override;

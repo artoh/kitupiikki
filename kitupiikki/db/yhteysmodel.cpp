@@ -16,7 +16,47 @@
 */
 #include "yhteysmodel.h"
 
-YhteysModel::YhteysModel()
+#include "db/kpkysely.h"
+#include "db/kirjanpito.h"
+
+#include <QDebug>
+
+YhteysModel::YhteysModel(QObject *parent)
 {
 
+}
+
+void YhteysModel::alusta()
+{
+    KpKysely *initkysely = kysely("/init");
+    connect( initkysely, &KpKysely::vastaus, this, &YhteysModel::initSaapuu );
+    initkysely->kysy();
+}
+
+void YhteysModel::lataaInit(QVariant *reply)
+{
+    QMapIterator<QString, QVariant> iter( reply->toMap() );
+    while (iter.hasNext()) {
+        iter.next();
+        QString avain = iter.key();
+
+        if( avain == "asetukset")
+            kp()->asetukset()->lataa( iter.value().toMap() );
+        else if( avain == "tilit")
+            kp()->tilit()->lataa( iter.value().toList() );
+        else if( avain == "kohdennukset")
+            kp()->kohdennukset()->lataa( iter.value().toList() );
+        else if( avain == "tositelajit")
+            kp()->tositelajit()->lataa( iter.value().toList() );
+        else if( avain == "tilikaudet")
+            kp()->tilikaudet()->lataa( iter.value().toList() );
+    }
+}
+
+void YhteysModel::initSaapuu(QVariant *reply, int tila)
+{
+    qDebug() << "INIT " << tila << ":" << reply;
+
+    lataaInit( reply );
+    kp()->yhteysAvattu(this);
 }

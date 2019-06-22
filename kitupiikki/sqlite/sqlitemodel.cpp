@@ -16,14 +16,16 @@
 */
 #include "sqlitemodel.h"
 #include "db/kirjanpito.h"
-
-#include "sqliteyhteys.h"
+#include "sqlitekysely.h"
 
 #include <QSettings>
 #include <QImage>
+#include <QMessageBox>
+#include <QDebug>
+#include <QSqlError>
 
 SQLiteModel::SQLiteModel(QObject *parent)
-    : QAbstractListModel(parent)
+    : YhteysModel(parent)
 {
 
 }
@@ -64,11 +66,23 @@ QVariant SQLiteModel::data(const QModelIndex &index, int role) const
 
 bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvattaessa)
 {
-    SQLiteYhteys* yhteys = new SQLiteYhteys(this, polku);
-    connect( yhteys, &SQLiteYhteys::yhteysAvattu, kp(), &Kirjanpito::yhteysAvattu);
-    connect( yhteys, &SQLiteYhteys::yhteysAvattu, this, &SQLiteModel::lisaaViimeisiin);
+    tietokanta_ = QSqlDatabase::addDatabase("QSQLITE", "TOINEN");
+    tietokanta_.setDatabaseName( polku );
 
-    return yhteys->alustaYhteys(ilmoitavirheestaAvattaessa);
+    if( !tietokanta_.open())
+    {
+        if( ilmoitavirheestaAvattaessa ) {
+            QMessageBox::critical(nullptr, tr("Tietokannan avaaminen epäonnistui"),
+                                  tr("Tietokannan %1 avaaminen epäonnistui tietokantavirheen %2 takia")
+                                  .arg( tiedostopolku() ).arg( tietokanta().lastError().text() ) );
+        }
+        qDebug() << "SQLiteYhteys: Tietokannan avaaminen epäonnistui : " << tietokanta_.lastError().text();
+        return false;
+    }
+    tiedostoPolku_ = polku;
+
+    alusta();
+    return true;
 }
 
 void SQLiteModel::lataaViimeiset()
@@ -111,11 +125,20 @@ void SQLiteModel::poistaListalta(const QString &polku)
 
 }
 
+KpKysely *SQLiteModel::kysely(const QString &polku, KpKysely::Metodi metodi)
+{
+    return new SQLiteKysely(this, metodi, polku);
+}
+
+void SQLiteModel::sulje()
+{
+
+}
+
 
 void SQLiteModel::lisaaViimeisiin(bool onnistuiko)
 {
     if( onnistuiko ) {
-        SQLiteYhteys* yhteys = qobject_cast<SQLiteYhteys*>(sender());
         // Viimeisin poistetaan listalta, ja lisätään ensimmäiseksi
 
         beginResetModel();
@@ -123,7 +146,7 @@ void SQLiteModel::lisaaViimeisiin(bool onnistuiko)
         while( iter.hasNext())
         {
             QString polku = iter.next().toMap().value("polku").toString();
-            if( polku == yhteys->tiedostopolku())
+            if( polku == tiedostopolku())
                 iter.remove();
         }
 
@@ -131,12 +154,12 @@ void SQLiteModel::lisaaViimeisiin(bool onnistuiko)
 
         // PORTABLE polut tallennetaan suhteessa portable-hakemistoon
         QDir portableDir( kp()->portableDir() );
-        QString polku = yhteys->tiedostopolku();
+        QString polku = tiedostopolku();
 
         if( !kp()->portableDir().isEmpty())
             polku = portableDir.relativeFilePath(polku);
 
-        map.insert("polku", yhteys->tiedostopolku() );
+        map.insert("polku", tiedostopolku() );
         map.insert("nimi", kp()->asetukset()->asetus("Nimi") );
 
         viimeiset_.insert(0, map);

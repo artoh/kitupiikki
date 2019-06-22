@@ -51,9 +51,7 @@
 #include "versio.h"
 #include "pilvi/pilvimodel.h"
 #include "pilvi/pilvilogindlg.h"
-#include "pilvi/pilviyhteys.h"
 #include "sqlite/sqlitemodel.h"
-#include "sqlite/sqliteyhteys.h"
 
 #include <QJsonDocument>
 #include <QTimer>
@@ -209,7 +207,7 @@ void AloitusSivu::kirjanpitoVaihtui()
     if( paivitysInfo.isEmpty())
         pyydaInfo();
 
-    ui->pilviKuva->setVisible( qobject_cast<PilviYhteys*>( kp()->yhteys() ) );
+    ui->pilviKuva->setVisible( qobject_cast<PilviModel*>( kp()->yhteysModel()  ) );
 
     siirrySivulle();
 }
@@ -346,9 +344,6 @@ void AloitusSivu::muistiinpanot()
 
 void AloitusSivu::poistaListalta()
 {
-    SQLiteYhteys* yhteys = qobject_cast<SQLiteYhteys*>( kp()->yhteys() );
-    if( !yhteys )
-        return;
 
     if( QMessageBox::question(this, tr("Poista kirjanpito luettelosta"),
                               tr("Haluatko poistaa tämän kirjanpidon viimeisten kirjanpitojen luettelosta?\n"
@@ -356,7 +351,6 @@ void AloitusSivu::poistaListalta()
                               QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes)
         return;
 
-    kp()->sqlite()->poistaListalta( yhteys->tiedostopolku() );
     ui->poistaNappi->hide();
 }
 

@@ -15,7 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "sqlitekysely.h"
-#include "sqliteyhteys.h"
+#include "sqlitemodel.h"
 
 #include <QSqlQuery>
 
@@ -25,7 +25,7 @@
 #include <QSqlError>
 #include <QJsonDocument>
 
-SQLiteKysely::SQLiteKysely(SQLiteYhteys *parent, KpKysely::Metodi metodi, QString polku)
+SQLiteKysely::SQLiteKysely(SQLiteModel *parent, KpKysely::Metodi metodi, QString polku)
     : KpKysely (parent, metodi, polku)
 {
 
@@ -62,7 +62,7 @@ void SQLiteKysely::kysy(const QVariant &data)
 
 QSqlDatabase SQLiteKysely::tietokanta()
 {
-    return static_cast<SQLiteYhteys*>( parent() )->tietokanta();
+    return qobject_cast<SQLiteModel*>( parent() )->tietokanta();
 }
 
 void SQLiteKysely::alustusKysely()

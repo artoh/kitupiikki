@@ -1,4 +1,4 @@
-    void avaaPilvesta(int pilviId);/*
+/*
    Copyright (C) 2019 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
@@ -17,7 +17,7 @@
 #ifndef PILVIMODEL_H
 #define PILVIMODEL_H
 
-#include <QAbstractListModel>
+#include "db/yhteysmodel.h"
 
 class PilviYhteys;
 
@@ -27,7 +27,7 @@ class PilviYhteys;
  * Kirjautuminen Kitupiikin pilveen ja kirjanpitojen luettelo
  *
  */
-class PilviModel : public QAbstractListModel
+class PilviModel : public YhteysModel
 {
     Q_OBJECT
 public:
@@ -39,8 +39,8 @@ public:
     };
 
 
-    int rowCount(const QModelIndex &parent) const;
-    QVariant data(const QModelIndex &index, int role) const;
+    int rowCount(const QModelIndex &parent) const override;
+    QVariant data(const QModelIndex &index, int role) const override;
 
     QString kayttajaNimi() const { return kayttajaNimi_;}
     int kayttajaPilvessa() const { return kayttajaId_ != 0;}
@@ -48,6 +48,16 @@ public:
     static QString pilviLoginOsoite();
 
     bool avaaPilvesta(int pilviId);
+
+    KpKysely* kysely(const QString& polku = QString(),
+                     KpKysely::Metodi metodi = KpKysely::GET) override;
+
+    void sulje() override;
+
+
+    int pilviId() const { return pilviId_;}
+    QString pilviosoite() const { return osoite_;}
+    QString token() const { return token_; };
 
 public slots:
     void kirjaudu(const QString sahkoposti = QString(), const QString& salasana = QString(), bool pyydaAvain = false);
@@ -67,6 +77,10 @@ signals:
 private:
     int kayttajaId_ = 0;
     QString kayttajaNimi_;
+    QString kayttajaToken_;
+    int pilviId_ = 0;
+    QString osoite_;
+    QString token_;
 
     QList<QVariantMap> pilvet_;
 };

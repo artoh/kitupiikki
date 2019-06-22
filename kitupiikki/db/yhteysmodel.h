@@ -17,11 +17,32 @@
 #ifndef YHTEYSMODEL_H
 #define YHTEYSMODEL_H
 
+#include <QAbstractListModel>
+#include "kpkysely.h"
 
+/**
+ * @brief Tietokantayhteyksien kantaluokka
+ *
+ * YhteysModel sisältää listan yhteyden takana aktiivisena olevista kirjanpidoista.
+ * Lisäksi sen kautta luodaan kyselyt
+ *
+ */
 class YhteysModel : public QAbstractListModel
 {
 public:
-    YhteysModel();
+    YhteysModel(QObject *parent = nullptr);
+
+    virtual KpKysely* kysely(const QString& polku = QString(),
+                             KpKysely::Metodi metodi = KpKysely::GET) = 0;
+
+    virtual void sulje() = 0;
+
+    void alusta();
+
+    void lataaInit(QVariant* reply);
+
+private slots:
+    void initSaapuu(QVariant* reply, int tila);
 };
 
 #endif // YHTEYSMODEL_H

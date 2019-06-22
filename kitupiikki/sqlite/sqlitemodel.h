@@ -17,9 +17,11 @@
 #ifndef SQLITEMODEL_H
 #define SQLITEMODEL_H
 
-#include <QAbstractListModel>
+#include "db/yhteysmodel.h"
 
-class SQLiteModel : public QAbstractListModel
+#include <QSqlDatabase>
+
+class SQLiteModel : public YhteysModel
 {
     Q_OBJECT
 
@@ -36,11 +38,24 @@ public:
 
     void poistaListalta(const QString& polku);
 
+
+    KpKysely* kysely(const QString& polku = QString(),
+                     KpKysely::Metodi metodi = KpKysely::GET) override;
+
+    void sulje() override;
+
+    QString tiedostopolku() const { return tiedostoPolku_; }
+    QSqlDatabase tietokanta() const { return tietokanta_; }
+
 private slots:
     void lisaaViimeisiin(bool onnistuiko);
 
 private:
     QVariantList viimeiset_;
+
+protected:
+    QSqlDatabase tietokanta_;
+    QString tiedostoPolku_;
 };
 
 #endif // SQLITEMODEL_H

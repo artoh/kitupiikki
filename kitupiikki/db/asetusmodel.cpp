@@ -29,7 +29,6 @@
 
 #include "kpkysely.h"
 #include "kirjanpito.h"
-#include "kpyhteys.h"
 
 AsetusModel::AsetusModel(QSqlDatabase *tietokanta, QObject *parent, bool uusikirjanpito)
     :   QObject(parent), tietokanta_(tietokanta), alustetaanTietokantaa_(uusikirjanpito)
@@ -45,7 +44,7 @@ void AsetusModel::aseta(const QString &avain, const QString &arvo)
     asetukset_[avain] = arvo;
     muokatut_[avain] = nykyinen;
 
-    KpKysely* paivitys = kp()->yhteys()->kysely("asetukset", KpKysely::PATCH);
+    KpKysely* paivitys = kpk("asetukset", KpKysely::PATCH);
     QVariantMap params;
     params.insert("avain", avain);
     params.insert("arvo", arvo);
@@ -229,19 +228,13 @@ void AsetusModel::lataa()
 
 }
 
-void AsetusModel::lataa(const QVariantList &lista)
+void AsetusModel::lataa(const QVariantMap &lista)
 {
     asetukset_.clear();
-    for( QVariant item : lista) {
-        QVariantMap map = item.toMap();
-
-        QString avain = map.value("avain").toString();
-        QString arvo = map.value("arvo").toString();
-        QDateTime muokkausaika = map.value("muokattu").toDateTime();
-
-        asetukset_.insert( avain, arvo );
-        if( muokkausaika.isValid())
-            muokatut_.insert( avain, muokkausaika );
+    QMapIterator<QString,QVariant> iter(lista);
+    while( iter.hasNext()) {
+        iter.next();
+        asetukset_.insert( iter.key(), iter.value().toString() );
     }
 
     qDebug() << "Ladattu " << lista.count() << " asetusta ";

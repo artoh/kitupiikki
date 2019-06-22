@@ -1,4 +1,5 @@
 SOURCES += uusikp/uusikirjanpito.cpp \
+    $$PWD/db/yhteysmodel.cpp \
     uusikp/introsivu.cpp \
     uusikp/nimisivu.cpp \
     uusikp/tilikarttasivu.cpp \
@@ -160,19 +161,17 @@ SOURCES += uusikp/uusikirjanpito.cpp \
     kirjaus/edellinenseuraavatieto.cpp \
     uusikp/numerointisivu.cpp \
     kirjaus/verotarkastaja.cpp \
-    db/kpyhteys.cpp \
     db/kpkysely.cpp \
     sqlite/sqlitekysely.cpp \
-    sqlite/sqliteyhteys.cpp \
     db/kantavariantti.cpp \
     raportti/paivakirja.cpp \
-    pilvi/pilviyhteys.cpp \
     pilvi/pilvikysely.cpp \
     pilvi/pilvimodel.cpp \
     pilvi/pilvilogindlg.cpp \
     sqlite/sqlitemodel.cpp
 
 HEADERS += \
+    $$PWD/db/yhteysmodel.h \
     uusikp/uusikirjanpito.h \
     uusikp/introsivu.h \
     uusikp/nimisivu.h \
@@ -336,13 +335,10 @@ HEADERS += \
     kirjaus/edellinenseuraavatieto.h \
     uusikp/numerointisivu.h \
     kirjaus/verotarkastaja.h \
-    db/kpyhteys.h \
     db/kpkysely.h \
     sqlite/sqlitekysely.h \
-    sqlite/sqliteyhteys.h \
     db/kantavariantti.h \
     raportti/paivakirja.h \
-    pilvi/pilviyhteys.h \
     pilvi/pilvikysely.h \
     pilvi/pilvimodel.h \
     pilvi/pilvilogindlg.h \
