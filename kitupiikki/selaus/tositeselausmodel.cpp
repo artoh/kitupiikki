@@ -25,6 +25,10 @@
 
 #include "db/kpkysely.h"
 
+#include "db/tositetyyppimodel.h"
+
+#include <algorithm>
+
 TositeSelausModel::TositeSelausModel()
 {
 
@@ -32,7 +36,7 @@ TositeSelausModel::TositeSelausModel()
 
 int TositeSelausModel::rowCount(const QModelIndex & /* parent */) const
 {
-    return rivit.count();
+    return lista_.count();
 }
 
 int TositeSelausModel::columnCount(const QModelIndex & /* parent */) const
@@ -53,8 +57,8 @@ QVariant TositeSelausModel::headerData(int section, Qt::Orientation orientation,
             return QVariant("Tosite");
         case PVM:
             return QVariant("Pvm");
-        case TOSITELAJI:
-            return QVariant("Tositelaji");
+        case TOSITETYYPPI:
+            return QVariant("Laji");
         case SUMMA:
             return QVariant("Summa");
         case OTSIKKO:
@@ -69,7 +73,7 @@ QVariant TositeSelausModel::data(const QModelIndex &index, int role) const
     if( !index.isValid())
         return QVariant();
 
-    TositeSelausRivi rivi = rivit.at( index.row());
+    QVariantMap map = lista_.at( index.row() ).toMap();
 
     if( role == Qt::DisplayRole || role == Qt::EditRole)
     {
@@ -77,41 +81,30 @@ QVariant TositeSelausModel::data(const QModelIndex &index, int role) const
         {
 
         case TUNNISTE:
-            if( role == Qt::EditRole) {
+            if( role == Qt::EditRole)
                 // Lajittelua varten tasaleveä kenttä
-                if( kp()->asetukset()->onko("Samaansarjaan"))
-                    return QVariant(QString("%1/%2")
-                           .arg( rivi.tositeTunniste,8,10,QChar('0'))
-                           .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() ));
-                else
-                     return QVariant(QString("%1%2/%3")
-                            .arg( kp()->tositelajit()->tositelajiVanha( rivi.tositeLaji ).tunnus() )
-                            .arg( rivi.tositeTunniste,8,10,QChar('0'))
-                            .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() ));
-             }
-            if( kp()->asetukset()->onko("Samaansarjaan"))
+                return QVariant(QString("%2 %1")
+                       .arg( map.value("tunniste").toInt() ,8,10,QChar('0'))
+                       .arg( kp()->tilikaudet()->tilikausiPaivalle( map.value("pvm").toDate() ).kausitunnus() ));
+             else
                 return QVariant(QString("%1/%2")
-                    .arg( rivi.tositeTunniste)
-                    .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() ));
-            else
-                return QVariant(QString("%1 %2/%3")
-                    .arg( kp()->tositelajit()->tositelajiVanha( rivi.tositeLaji ).tunnus() )
-                    .arg( rivi.tositeTunniste)
-                    .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() ));
+                    .arg( map.value("tunniste").toInt() )
+                    .arg( kp()->tilikaudet()->tilikausiPaivalle( map.value("tunniste").toDate()  ).kausitunnus() ));
         case PVM:
-            return QVariant( rivi.pvm );
+            return QVariant( map.value("pvm").toDate() );
 
-        case TOSITELAJI:
-            return kp()->tositelajit()->tositelajiVanha( rivi.tositeLaji ).nimi();
+        case TOSITETYYPPI:
+            return kp()->tositeTyypit()->nimi( map.value("tyyppi").toInt() ) ;   // TODO: Tyyppikoodien käsittely
 
         case OTSIKKO:
-            return QVariant( rivi.otsikko );
+            return map.value("otsikko");
 
         case SUMMA:
+            double summa = map.value("summa").toDouble();
             if( role == Qt::EditRole)
-                return QVariant( rivi.summa);
-            else if( rivi.summa )
-                return QVariant( QString("%L1 €").arg(rivi.summa / 100.0,0,'f',2));
+                return summa;
+            else if( summa > 1e-5 )
+                return QVariant( QString("%L1 €").arg(summa,0,'f',2));
             else
                 return QVariant();
         }
@@ -127,20 +120,29 @@ QVariant TositeSelausModel::data(const QModelIndex &index, int role) const
     else if( role == Qt::UserRole )
     {
         // UserRolessa on id
-        return rivi.tositeId;
+        return map.value("id");
     }
     else if( role == Qt::DecorationRole && index.column()==TUNNISTE )
     {
-        if( rivi.liitteita )
+        if(  map.value("liitteita").toInt() )
             return QIcon(":/pic/liite.png");
         else
             return QIcon(":/pic/tyhja.png");
     }
-    else if( role == TositeLajiIdRooli)
+    else if( role == Qt::DecorationRole && index.column() == TOSITETYYPPI )
+        return kp()->tositeTyypit()->kuvake( map.value("tyyppi").toInt() );
+    else if( role == TositeTyyppiRooli)
     {
-        return QVariant( rivi.tositeLaji );
+        return map.value("tyyppi").toInt();
     }
     return QVariant();
+}
+
+QList<int> TositeSelausModel::tyyppiLista() const
+{
+    QList<int> lista = kaytetytTyypit_.toList();
+    std::sort( lista.begin(), lista.end() );
+    return lista;
 }
 
 
@@ -152,12 +154,12 @@ void TositeSelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
         KpKysely *kysely = kpk("/tositteet");
         kysely->lisaaAttribuutti("alkupvm", alkaa);
         kysely->lisaaAttribuutti("loppupvm", loppuu);
-        // connect( kysely, &KpKysely::vastaus, this, &TositeSelausModel::tietoSaapuu);
+        connect( kysely, &KpKysely::vastaus, this, &TositeSelausModel::tietoSaapuu);
         kysely->kysy();
     }
 
     return;
-
+    /*
 
     QString kysymys = QString("SELECT tosite.id, tosite.pvm, tosite.otsikko, laji, tunniste, liite.id "
                               "FROM tosite LEFT OUTER JOIN liite ON tosite.id=liite.tosite "
@@ -214,13 +216,21 @@ void TositeSelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
 
     kaytetytLajinimet.sort();
     endResetModel();
-
+    */
 }
 
-void TositeSelausModel::tietoSaapuu(QVariantMap *map, int /* status */)
+void TositeSelausModel::tietoSaapuu(QVariant *var, int /* status */)
 {
     beginResetModel();
-    rivit.clear();
+    kaytetytTyypit_.clear();
+    lista_ = var->toList();
+
+    for( QVariant item : lista_ ) {
+        kaytetytTyypit_.insert( item.toMap().value("tyyppi").toInt() );
+    }
+
+
+    /*
     kaytetytLajinimet.clear();
 
     for(QVariant item : map->value("tositteet").toList())
@@ -242,7 +252,7 @@ void TositeSelausModel::tietoSaapuu(QVariantMap *map, int /* status */)
         rivit.append(rivi);
     }
     kaytetytLajinimet.sort();
-    endResetModel();
+    */
 
-    sender()->deleteLater();
+    endResetModel();
 }

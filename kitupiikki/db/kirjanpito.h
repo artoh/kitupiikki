@@ -58,6 +58,8 @@ class PilviModel;
 class SQLiteModel;
 class YhteysModel;
 
+class TositeTyyppiModel;
+
 class QNetworkAccessManager;
 
 /**
@@ -157,6 +159,12 @@ public:
      * @return
      */
     VerotyyppiModel *alvTyypit() const { return veroTyypit_; }
+
+    /**
+     * @brief Tositteiden tyyppien model
+     * @return
+     */
+    TositeTyyppiModel *tositeTyypit() const { return  tositeTyypit_;}
 
     /**
      * @brief Palauttaa tilityypit sisältävän modelin
@@ -400,6 +408,7 @@ protected:
     SQLiteModel *sqliteModel_;
 
     YhteysModel *yhteysModel_;
+    TositeTyyppiModel *tositeTyypit_;
 
 
 public:

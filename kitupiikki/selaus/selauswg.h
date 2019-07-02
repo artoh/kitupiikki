@@ -46,6 +46,11 @@ class SelausWg : public KitupiikkiSivu
     Q_OBJECT
 
 public:
+    enum {
+        TOSITTEET = 0,
+        VIENNIT = 1
+    };
+
     SelausWg();
     ~SelausWg() override;
 
@@ -53,6 +58,7 @@ public slots:
     void alusta();
     void paivita();
     void suodata();
+    void paivitaSuodattimet();
     void paivitaSummat();
     void naytaTositeRivilta(QModelIndex index);
 

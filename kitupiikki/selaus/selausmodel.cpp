@@ -81,13 +81,11 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
             case TOSITE:
                 if( role == Qt::EditRole)
                 {
-                    return QString("%1%2/%3")
-                            .arg( kp()->tositelajit()->tositelajiVanha( map.value("tosite").toMap().value("tositelaji").toInt() ).tunnus() )
+                    return QString("%2 %1")
                             .arg( map.value("tosite").toMap().value("tunniste").toInt(),8,10,QChar('0'))
                             .arg( kp()->tilikaudet()->tilikausiPaivalle( map.value("tosite").toMap().value("pvm").toDate() ).kausitunnus());
                 }
-                return QString("%1 %2/%3")
-                        .arg( kp()->tositelajit()->tositelajiVanha( map.value("tosite").toMap().value("tositelaji").toInt()  ).tunnus() )
+                return QString("%1/%2")
                         .arg( map.value("tosite").toMap().value("tunniste").toInt()  )
                         .arg( kp()->tilikaudet()->tilikausiPaivalle( map.value("tosite").toMap().value("pvm").toDate() ).kausitunnus() );
 
@@ -138,8 +136,7 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
 
                 if( map.value("era").toMap().contains("tunniste") )
                 {
-                    txt.append( QString("%1%2/%3")
-                            .arg( kp()->tositelajit()->tositelajiVanha( map.value("era").toMap().value("tositelaji").toInt() ).tunnus() )
+                    txt.append( QString("%1/%2")
                             .arg( map.value("era").toMap().value("tunniste").toInt())
                             .arg( kp()->tilikaudet()->tilikausiPaivalle( map.value("era").toMap().value("pvm").toDate() ).kausitunnus()) );
                 }
@@ -204,7 +201,7 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
     qDebug() << QDateTime::currentDateTime() << " C2 ";
 
     return;
-
+    /*
 
     QString kysymys = QString("SELECT vienti.tosite, vienti.pvm, tili, debetsnt, kreditsnt, selite, kohdennus, eraid, "
                               "tosite.laji, tosite.tunniste, vienti.id, liite.id "
@@ -285,6 +282,7 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
 
     tileilla.sort();
     endResetModel();
+    */
 }
 
 void SelausModel::tietoSaapuu(QVariant *var, int /* status */)
@@ -292,15 +290,8 @@ void SelausModel::tietoSaapuu(QVariant *var, int /* status */)
 
     beginResetModel();
     tileilla.clear();
-
-    qDebug() << var;
-
-    qDebug() << QDateTime::currentDateTime() << " A1 ";
     lista_ = var->toList();
 
-    qDebug() << lista_;
-
-    qDebug() << QDateTime::currentDateTime() << " A2 ";
 
     for(auto rivi : lista_)
     {
@@ -313,7 +304,6 @@ void SelausModel::tietoSaapuu(QVariant *var, int /* status */)
             tileilla.append(tilistr);
     }
 
-    qDebug() << QDateTime::currentDateTime() << " A3 ";
 
     endResetModel();
 }

@@ -47,13 +47,13 @@ class TositeSelausModel : public QAbstractTableModel
 public:
     enum Sarake
     {
-        TUNNISTE, PVM, TOSITELAJI, SUMMA, OTSIKKO
+        TUNNISTE, PVM, TOSITETYYPPI, SUMMA, OTSIKKO
     };
 
     enum
     {
         TositeIdRooli = Qt::UserRole,
-        TositeLajiIdRooli = Qt::UserRole + 1,
+        TositeTyyppiRooli = Qt::UserRole + 1,
     };
 
     TositeSelausModel();
@@ -64,15 +64,20 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     QVariant data(const QModelIndex &index, int role) const;
 
+    QList<int> tyyppiLista() const;
+
     QStringList lajiLista() const { return kaytetytLajinimet; }
 
 public slots:
     void lataa(const QDate& alkaa, const QDate& loppuu);
-    void tietoSaapuu(QVariantMap *map, int status);
+    void tietoSaapuu(QVariant *var, int status);
 
 protected:
     QList<TositeSelausRivi> rivit;
     QStringList kaytetytLajinimet;
+
+    QVariantList lista_;
+    QSet<int> kaytetytTyypit_;
 
 };
 

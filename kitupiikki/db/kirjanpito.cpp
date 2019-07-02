@@ -44,10 +44,12 @@
 
 #include "pilvi/pilvimodel.h"
 #include "sqlite/sqlitemodel.h"
+#include "tositetyyppimodel.h"
 
 Kirjanpito::Kirjanpito(const QString& portableDir) : QObject(nullptr),
     harjoitusPvm( QDate::currentDate()), tempDir_(nullptr), portableDir_(portableDir),
-    yhteysModel_(nullptr), pilviModel_(new PilviModel(this)), sqliteModel_( new SQLiteModel(this))
+    yhteysModel_(nullptr), pilviModel_(new PilviModel(this)), sqliteModel_( new SQLiteModel(this)),
+    tositeTyypit_( new TositeTyyppiModel())
 {
     if( portableDir.isEmpty())
         settings_ = new QSettings(this);
