@@ -27,12 +27,13 @@ TositeTyyppiTietue::TositeTyyppiTietue(TositeTyyppi::Tyyppi uKoodi, const QStrin
 TositeTyyppiModel::TositeTyyppiModel(QObject *parent)
     : QAbstractListModel (parent)
 {
-    lisaa(TositeTyyppi::MUU, tr("Muu"), "tyhja");
     lisaa(TositeTyyppi::MENO, tr("Meno"), "poista");
     lisaa(TositeTyyppi::TULO, tr("Tulo"), "lisaa");
     lisaa(TositeTyyppi::SIIRTO, tr("Siirto"), "siirra");
     lisaa(TositeTyyppi::TILIOTE, tr("Tiliote"), "tekstisivu");
     lisaa(TositeTyyppi::PALKKA, tr("Palkka"), "yrittaja");
+    lisaa(TositeTyyppi::MUU, tr("Muu"), "tyhja");
+
     lisaa(TositeTyyppi::TILINAVAUS, tr("Tilinavaus"), "rahaa");
     lisaa(TositeTyyppi::ALVLASKELMA, tr("Alv-laskelma"), "verotilitys");
     lisaa(TositeTyyppi::POISTOLASKELMA, tr("Poistolaskelma"), "kirjalaatikko");
@@ -52,6 +53,8 @@ QVariant TositeTyyppiModel::data(const QModelIndex &index, int role) const
         return tietue.nimi;
     else if( role == KoodiRooli )
         return tietue.koodi;
+    else if( role == Qt::DecorationRole)
+        return tietue.kuvake;
 
     return QVariant();
 }

@@ -147,6 +147,8 @@ Kohdennus KohdennusModel::kohdennus(const int id) const
         if( projekti.id() == id)
             return projekti;
     }
+
+    qDebug() << "Kohdennusta ei löydy " << id;
     return Kohdennus();
 }
 
@@ -215,13 +217,11 @@ void KohdennusModel::lataa(QVariantList lista)
     for( QVariant item : lista )
     {
         QVariantMap map = item.toMap();
-        kohdennukset_.append( Kohdennus( map.value("id").toInt(),
-                                         map.value("tyyppi").toInt(),
-                                         map.value("nimi").toString(),
-                                         map.value("alkaa").toDate(),
-                                         map.value("loppuuu").toDate()));
+        kohdennukset_.append( Kohdennus( map ));
     }
     endResetModel();
+
+    qDebug() << "Ladattu " << kohdennukset_.count() << " kohdennusta ";
 }
 
 void KohdennusModel::lataa()

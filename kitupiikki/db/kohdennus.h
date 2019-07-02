@@ -23,6 +23,7 @@
 #include <QIcon>
 
 #include "kantavariantti.h"
+#include "kielikentta.h"
 
 /**
  * @brief Kirjauksen kohdennus kustannuspaikalle tai projektiin
@@ -45,7 +46,7 @@ public:
     Kohdennus( QVariantMap& data);
 
     int id() const { return id_; }
-    QString nimi() const { return nimi_; }
+    QString nimi(const QString& kieli = "fi") const { return nimi_.teksti(kieli); }
     QDate alkaa() const { return alkaa_; }
     QDate paattyy() const { return paattyy_; }
     int tyyppi() const { return tyyppi_; }
@@ -69,7 +70,7 @@ public:
 protected:
     int id_;
     int tyyppi_;
-    QString nimi_;
+    KieliKentta nimi_;
     QDate alkaa_;
     QDate paattyy_;
 

@@ -17,6 +17,7 @@
 
 #include <QSqlQuery>
 #include <QVariant>
+#include <QDebug>
 
 #include "kohdennus.h"
 
@@ -37,9 +38,22 @@ Kohdennus::Kohdennus(int id, int tyyppi, const QString& nimi, QDate alkaa, QDate
 Kohdennus::Kohdennus(QVariantMap &data) :
     KantaVariantti(data), muokattu_(false)
 {
+    qDebug() << "Kohdennus " << data;
+
     id_ = data_.take("id").toInt();
-    tyyppi_ = data_.take("tyyppi").toInt();
-    nimi_ = data_.take("nimi").toString();
+
+    QString tyyppiteksti = data_.take("tyyppi").toString();
+
+    if( tyyppiteksti == "kustannuspaikka")
+        tyyppi_ = KUSTANNUSPAIKKA;
+    else if( tyyppiteksti == "projekti")
+        tyyppi_ = PROJEKTI;
+    else if( tyyppiteksti == "merkkaus")
+        tyyppi_ = MERKKAUS;
+    else if( tyyppiteksti == "oletus")
+        tyyppi_ = EIKOHDENNETA;
+
+    nimi_.aseta( data_.take("nimi"));
     alkaa_ = data_.take("alkaa").toDate();
     paattyy_ = data_.take("paattyy").toDate();
 }
@@ -74,7 +88,7 @@ void Kohdennus::asetaId(int id)
 
 void Kohdennus::asetaNimi(const QString &nimi)
 {
-    nimi_ = nimi;
+    nimi_.aseta( nimi );
     muokattu_ = true;
 }
 

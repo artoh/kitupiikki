@@ -45,7 +45,7 @@ Tili::Tili(const QVariantMap &data) :
     id_ = data_.value("id").toInt();
     numero_ = data_.value("numero").toInt();
     tyyppi_ = kp()->tiliTyypit()->tyyppiKoodilla( data_.value("tyyppi").toString() );
-    tila_= data_.value("tila").toInt();
+    tila_= data_.contains("tila") ? data_.value("tila").toInt() : 1;
     muokkausAika_ = data_.value("muokattu").toDateTime();
 
 }

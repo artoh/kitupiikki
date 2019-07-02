@@ -130,16 +130,12 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
 
             case KOHDENNUS :
                 QString txt;
+
+                qDebug() << " KohdId " << map.value("kohdennus").toInt() << " - " << kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt() ).nimi();
+
                 Kohdennus kohdennus = kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt() );
                 if( kohdennus.tyyppi() != Kohdennus::EIKOHDENNETA)
                     txt = kohdennus.nimi();
-
-                if( map.value("era").toMap().contains("tunniste") )
-                {
-                    txt.append( QString("%1/%2")
-                            .arg( map.value("era").toMap().value("tunniste").toInt())
-                            .arg( kp()->tilikaudet()->tilikausiPaivalle( map.value("era").toMap().value("pvm").toDate() ).kausitunnus()) );
-                }
 
                 if( map.contains("merkkaukset") )
                 {
@@ -150,8 +146,20 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
                         tagilista.append( kp()->kohdennukset()->kohdennus(kohdennusId).nimi() );
                     }
                     if( !txt.isEmpty())
-                        txt.append(" \n");
+                        txt.append(" ");
                     txt.append(  tagilista.join(", ") );
+                }
+
+                if( map.value("era").toMap().contains("tunniste")  )
+                {
+                    if( map.value("era").toMap().value("tunniste") != map.value("tosite").toMap().value("tunniste") ||
+                        map.value("era").toMap().value("pvm") != map.value("tosite").toMap().value("pvm")) {
+                        if( !txt.isEmpty())
+                            txt.append(" ");
+                        txt.append( QString("%1/%2")
+                                .arg( map.value("era").toMap().value("tunniste").toInt() )
+                                .arg( kp()->tilikaudet()->tilikausiPaivalle( map.value("era").toMap().value("pvm").toDate() ).kausitunnus()) );
+                    }
                 }
 
                 return txt;
@@ -175,7 +183,12 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
     {
         if( map.contains("era") && map.value("era").toMap().value("saldo") == 0 )
             return QIcon(":/pic/ok.png");
-        // return rivi.kohdennus.tyyppiKuvake();
+        Kohdennus kohdennus = kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt() );
+        if(kohdennus.tyyppi())
+            return kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt()).tyyppiKuvake();
+        else
+            return QIcon(":/pic/tyhja.png");
+
     }
     else if( role == Qt::DecorationRole && index.column() == TOSITE)
     {

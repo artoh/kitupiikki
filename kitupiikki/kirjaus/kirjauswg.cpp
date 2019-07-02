@@ -62,6 +62,7 @@
 
 #include "edellinenseuraavatieto.h"
 #include "verotarkastaja.h"
+#include "db/tositetyyppimodel.h"
 
 
 KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
@@ -91,11 +92,14 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( ui->siiraNumerotBtn, SIGNAL(clicked(bool)), this, SLOT(numeroSiirto()));
 
     tyyppiProxy_ = new QSortFilterProxyModel(this);
-    tyyppiProxy_->setSourceModel( kp()->tositelajit() );
-    tyyppiProxy_->setSortRole(TositelajiModel::NimiRooli);
-    tyyppiProxy_->setFilterRole(TositelajiModel::IdRooli);
+    tyyppiProxy_->setSourceModel( kp()->tositeTyypit() );
+    tyyppiProxy_->setFilterRole( TositeTyyppiModel::KoodiRooli);
+    tyyppiProxy_->setFilterRegularExpression("^[^9]");
+
+    qDebug() << "tyyppiProxy " << tyyppiProxy_->rowCount(QModelIndex()) << " -- " << kp()->tositeTyypit()->rowCount(QModelIndex());
+
+
     ui->tositetyyppiCombo->setModel( tyyppiProxy_ );
-    ui->tositetyyppiCombo->setModelColumn( TositelajiModel::NIMI);    
 
     connect( ui->tilioteBox, &QCheckBox::stateChanged, this, &KirjausWg::paivitaTilioteIcon);
 
@@ -265,9 +269,6 @@ void KirjausWg::tyhjenna()
     naytaSummat();
     ui->tabWidget->setCurrentIndex(0);
     ui->selvittelyNappi->setEnabled(false);
-
-    tyyppiProxy_->setFilterRegExp("[1-9].*");
-
 
 }
 
@@ -832,14 +833,6 @@ void KirjausWg::tiedotModelista()
     ui->tunnisteEdit->setText( QString::number(model_->tunniste()));
     ui->selvittelyNappi->setEnabled( model()->id() );
 
-    int tositelaji = model_->tositelaji().id();
-    if( tositelaji)
-        tyyppiProxy_->setFilterRegExp("[1-9].*");
-    else
-        tyyppiProxy_->setFilterRegExp("0");
-
-
-    ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( tositelaji, TositelajiModel::IdRooli ) );
     ui->kausiLabel->setText(QString("/ %1").arg( kp()->tilikaudet()->tilikausiPaivalle(model_->pvm()).kausitunnus() ));
 
     // Tiliotetilin yhdistämiset!

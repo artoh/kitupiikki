@@ -1,4 +1,5 @@
 SOURCES += uusikp/uusikirjanpito.cpp \
+    $$PWD/db/kielikentta.cpp \
     $$PWD/db/tositetyyppimodel.cpp \
     $$PWD/db/yhteysmodel.cpp \
     uusikp/introsivu.cpp \
@@ -172,6 +173,7 @@ SOURCES += uusikp/uusikirjanpito.cpp \
     sqlite/sqlitemodel.cpp
 
 HEADERS += \
+    $$PWD/db/kielikentta.h \
     $$PWD/db/tositetyyppimodel.h \
     $$PWD/db/yhteysmodel.h \
     uusikp/uusikirjanpito.h \
