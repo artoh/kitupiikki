@@ -2,6 +2,7 @@ SOURCES += uusikp/uusikirjanpito.cpp \
     $$PWD/db/kielikentta.cpp \
     $$PWD/db/tositetyyppimodel.cpp \
     $$PWD/db/yhteysmodel.cpp \
+    $$PWD/tools/kpeuroedit.cpp \
     uusikp/introsivu.cpp \
     uusikp/nimisivu.cpp \
     uusikp/tilikarttasivu.cpp \
@@ -176,6 +177,7 @@ HEADERS += \
     $$PWD/db/kielikentta.h \
     $$PWD/db/tositetyyppimodel.h \
     $$PWD/db/yhteysmodel.h \
+    $$PWD/tools/kpeuroedit.h \
     uusikp/uusikirjanpito.h \
     uusikp/introsivu.h \
     uusikp/nimisivu.h \

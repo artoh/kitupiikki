@@ -292,7 +292,7 @@ void KpDateEdit::paintEvent(QPaintEvent *event)
     painter.drawPixmap( width()-20, height() / 2 - 8,  16, 16, QPixmap(":/pic/kalenteri16.png") );
     if( nullMahdollinen_ )
     {
-        painter.drawPixmap( width()-40, height() / 2 - 8,  16, 16, QPixmap(":/pic/close16.png") );
+        painter.drawPixmap( width()-40, height() / 2 - 8,  16, 16, QPixmap(":/pic/clear16.png") );
     }
 
 
