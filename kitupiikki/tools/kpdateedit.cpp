@@ -35,13 +35,15 @@
 KpDateEdit::KpDateEdit(QWidget *parent) :
     QLineEdit(parent),
     kalenteri_(nullptr),
-    popupKaytossa_(false),
+    nullMahdollinen_(false),
     suljettu_(0)
 {
     setDateRange( kp()->tilitpaatetty().addDays(1) , kp()->tilikaudet()->kirjanpitoLoppuu()  );
 
     setInputMask("00.00.2\\000");
     setDate( kp()->paivamaara() );
+    setDefaultDate( date() );
+    setPlaceholderText( tr("pp.kk.vvvv") );
 
     connect( this, SIGNAL(textEdited(QString)), this, SLOT(editMuuttui(QString)));
 }
@@ -73,9 +75,15 @@ void KpDateEdit::setDateRange(const QDate &min, const QDate &max)
     maxDate_ = max;
 }
 
-void KpDateEdit::setCalendarPopup(bool enable)
+void KpDateEdit::setNullable(bool enable)
 {
-    popupKaytossa_ = enable;    
+    nullMahdollinen_ = enable;
+}
+
+void KpDateEdit::setDefaultDate(const QDate &date)
+{
+    oletuspaiva_ = date;
+    setNullable( date.isValid() );
 }
 
 void KpDateEdit::kalenteri()
@@ -107,6 +115,11 @@ void KpDateEdit::setDate(QDate date)
         // Jos päivämäärä on minimiä pienempi, laitetaan ensin vuosi lisää. Tämä siksi, että tavanomaisessa
         // tilanteessa muokataan vuoden viimeistä päivämäärää eteenpäin
 
+        if( date_.isNull() )
+        {
+            setInputMask("00.00.2\\000");
+        }
+
         date_ = date;
         int pos = cursorPosition();
         setText( date.toString("dd.MM.yyyy") );
@@ -119,6 +132,15 @@ void KpDateEdit::setDate(QDate date)
 
         emit dateChanged( date );
     }
+    else if( isNullable() )
+    {
+        if( date_.isValid())
+            oletuspaiva_ = date_;
+        date_ = QDate();
+        setInputMask(QString());
+        setText(QString());
+    }
+
 
     // Kalenteri piilotetaan
     if( kalenteri_)
@@ -139,6 +161,17 @@ void KpDateEdit::setDateFromPopUp(const QDate &date)
 
 void KpDateEdit::editMuuttui(const QString& uusi)
 {
+    if( isNullable() && !date().isValid() )
+    {
+        if( !uusi.isEmpty() && uusi.at(0).isDigit())
+        {
+            setDate( oletuspaiva_ );
+            editMuuttui( uusi + text().mid(1));
+            cursorForward(false,1);
+        }
+        return;
+    }
+
    // Hyödynnetään tietoa siitä, mikä luku on muuttunut
 
     int pp = uusi.midRef(0,2).toInt();
@@ -255,8 +288,14 @@ void KpDateEdit::paintEvent(QPaintEvent *event)
     QLineEdit::paintEvent(event);
     QPainter painter(this);
 
-    if( popupKaytossa_)
-        painter.drawPixmap( width() - 20, height() / 2 - 8,  16, 16, QPixmap(":/pic/kalenteri16.png") );
+
+    painter.drawPixmap( width()-20, height() / 2 - 8,  16, 16, QPixmap(":/pic/kalenteri16.png") );
+    if( nullMahdollinen_ )
+    {
+        painter.drawPixmap( width()-40, height() / 2 - 8,  16, 16, QPixmap(":/pic/close16.png") );
+    }
+
+
 }
 
 void KpDateEdit::focusInEvent(QFocusEvent * event)
@@ -270,18 +309,24 @@ void KpDateEdit::mousePressEvent(QMouseEvent *event)
     // suljettu_ -ehdolla varmistetaan, ettei kyse ole saman napsautuksen
     // aiheuttamasta eventistä, jolla yritettiin sulkea ikkuna
 
-    if( event->pos().x() > width() - 22 && popupKaytossa_ && !kalenteri_ &&
+    if( event->pos().x() > width() - 20 && !kalenteri_ &&
             QDateTime::currentMSecsSinceEpoch() - suljettu_ > 10)
     {
             kalenteri();
     }
+    else if( event->pos().x() < width()-20 && event->pos().x() > width()-40 && isNullable() )
+    {
+        // Arvoksi tulee null
+        setDate( QDate() );
+    }
+
     else
         QLineEdit::mousePressEvent(event);
 }
 
 void KpDateEdit::mouseMoveEvent(QMouseEvent *event)
 {
-    if( event->pos().x() > width() - 22 && popupKaytossa_ )
+    if( event->pos().x() > width() - 20 || ( event->pos().x() > width() - 40 && nullMahdollinen_ ))
         setCursor( Qt::ArrowCursor );
     else
         setCursor( Qt::IBeamCursor);

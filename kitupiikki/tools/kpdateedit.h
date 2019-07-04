@@ -69,9 +69,9 @@ public:
      */
     QDate maximumDate() const { return maxDate_; }
 
-    void setCalendarPopup(bool enable);
-
-    bool calendarPopup() const { return popupKaytossa_; }    
+    void setNullable(bool enable);
+    bool isNullable() const { return nullMahdollinen_; }
+    void setDefaultDate(const QDate& date);
 
 signals:
     /**
@@ -115,8 +115,10 @@ protected:
     QDate date_;
     QDate minDate_;
     QDate maxDate_;
-    bool popupKaytossa_;
-    quint64 suljettu_;
+    bool nullMahdollinen_;
+    qint64 suljettu_;
+    QDate oletuspaiva_;
+
 
 };
 

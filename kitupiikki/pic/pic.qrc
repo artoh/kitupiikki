@@ -155,6 +155,7 @@
         <file>laptop.png</file>
         <file>cloud.png</file>
         <file>sadepilvi.png</file>
+        <file>close16.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

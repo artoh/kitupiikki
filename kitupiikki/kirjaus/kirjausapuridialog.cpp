@@ -112,7 +112,10 @@ KirjausApuriDialog::KirjausApuriDialog(TositeModel *tositeModel, QWidget *parent
 
     // Hakee tositteen tiedoista esitäytöt
     QDate pvm = model->pvm();
-    ui->pvmDate->setDate( pvm );
+    //ui->pvmDate->setDate( pvm );
+    ui->pvmDate->setDefaultDate(pvm);
+    ui->pvmDate->setNullable(true);
+
     ui->pvmDate->setDateRange( kp()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );
 
     // #345 Haetaan oletusselite

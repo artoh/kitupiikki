@@ -168,8 +168,6 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     // ui->viennitView->installEventFilter(this);
     ui->viennitView->setFocusPolicy(Qt::StrongFocus);
 
-    ui->tositePvmEdit->setCalendarPopup(true);
-
     QCompleter *otsikonTaydentaja = new QCompleter(taydennysSql_, this);
     otsikonTaydentaja->setModelSorting(QCompleter::CaseSensitivelySortedModel);
     ui->otsikkoEdit->setCompleter(otsikonTaydentaja);
@@ -828,6 +826,7 @@ void KirjausWg::tiedotModelista()
     salliMuokkaus( model_->muokkausSallittu() );
 
     ui->tositePvmEdit->setDate( model_->pvm() );
+
     ui->otsikkoEdit->setText( model_->otsikko() );
     ui->kommentitEdit->setPlainText( model_->kommentti());
     ui->tunnisteEdit->setText( QString::number(model_->tunniste()));
