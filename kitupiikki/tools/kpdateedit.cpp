@@ -63,10 +63,10 @@ QSize KpDateEdit::sizeHint() const
 
 QDate KpDateEdit::date() const
 {
-    if( date_.isValid() && date_ >= minDate_ && date_ <= maxDate_)
-        return date_;
-    else
+    if( !date_.isValid() || ( date_ < minDate_ && minDate_.isValid()) || ( date_ > maxDate_ && maxDate_.isValid()) )
         return QDate();
+    else
+        return date_;
 }
 
 void KpDateEdit::setDateRange(const QDate &min, const QDate &max)
@@ -78,6 +78,15 @@ void KpDateEdit::setDateRange(const QDate &min, const QDate &max)
 void KpDateEdit::setNullable(bool enable)
 {
     nullMahdollinen_ = enable;
+}
+
+void KpDateEdit::setNull()
+{
+    nullMahdollinen_ = true;
+    if( !oletuspaiva_.isValid() )
+        oletuspaiva_ = kp()->paivamaara();
+    if( oletuspaiva_.isValid())
+        setDate( QDate());
 }
 
 void KpDateEdit::setDefaultDate(const QDate &date)
@@ -112,8 +121,6 @@ void KpDateEdit::setDate(QDate date)
 {
     if( date.isValid())
     {
-        // Jos päivämäärä on minimiä pienempi, laitetaan ensin vuosi lisää. Tämä siksi, että tavanomaisessa
-        // tilanteessa muokataan vuoden viimeistä päivämäärää eteenpäin
 
         if( date_.isNull() )
         {
@@ -125,7 +132,7 @@ void KpDateEdit::setDate(QDate date)
         setText( date.toString("dd.MM.yyyy") );
         setCursorPosition(pos);
 
-        if( date < minimumDate() || date > maximumDate())
+        if( (date < minimumDate() && minimumDate().isValid()) || (date > maximumDate() && maximumDate().isValid()))
             setStyleSheet("color: red;");
         else
             setStyleSheet("");
@@ -139,6 +146,7 @@ void KpDateEdit::setDate(QDate date)
         date_ = QDate();
         setInputMask(QString());
         setText(QString());
+        setStyleSheet("");
     }
 
 
@@ -161,7 +169,7 @@ void KpDateEdit::setDateFromPopUp(const QDate &date)
 
 void KpDateEdit::editMuuttui(const QString& uusi)
 {
-    if( isNullable() && !date().isValid() )
+    if( isNullable() && !date_.isValid() )
     {
         if( !uusi.isEmpty() && uusi.at(0).isDigit())
         {

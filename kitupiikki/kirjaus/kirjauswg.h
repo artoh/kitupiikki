@@ -35,6 +35,9 @@ class QAction;
 class QSqlQueryModel;
 class EdellinenSeuraavaTieto;
 
+class Tosite;
+class ApuriWidget;
+
 /**
  * @brief Kirjausten muokkaus
  *
@@ -231,6 +234,9 @@ protected:
     QSortFilterProxyModel *tyyppiProxy_;
 
     EdellinenSeuraavaTieto *edellinenSeuraava_;
+
+    Tosite* tosite_;
+    ApuriWidget* apuri_;
 
 
 };

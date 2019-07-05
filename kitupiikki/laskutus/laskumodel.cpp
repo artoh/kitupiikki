@@ -175,7 +175,7 @@ LaskuModel *LaskuModel::haeLasku(int vientiId)
         rivi.ahintaSnt = map.value("YksikkohintaSnt").toDouble();
         rivi.alvKoodi = map.value("Alvkoodi").toInt();
         rivi.alvProsentti = map.value("Alvprosentti").toInt();
-        rivi.myyntiTili = kp()->tilit()->tiliNumerolla( map.value("Tili").toInt() );
+        rivi.myyntiTili = *kp()->tilit()->tiliNumerolla( map.value("Tili").toInt() );
         rivi.aleProsentti = map.value("AleProsentti").toInt();
         rivi.kohdennus = kp()->kohdennukset()->kohdennus( map.value("Kohdennus").toInt() );
         rivi.tuoteKoodi = map.value("Tuotekoodi").toInt();

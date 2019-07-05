@@ -29,6 +29,8 @@ namespace TositeTyyppi {
         SIIRTO = 300,
         TILIOTE = 400,
         PALKKA = 500,
+        MUISTIO = 700,
+        LIITETIETO = 800,
         TILINAVAUS = 901,
         ALVLASKELMA = 910,
         POISTOLASKELMA = 991,

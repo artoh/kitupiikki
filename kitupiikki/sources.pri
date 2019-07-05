@@ -1,7 +1,10 @@
 SOURCES += uusikp/uusikirjanpito.cpp \
+    $$PWD/apuri/apuriwidget.cpp \
+    $$PWD/apuri/tulomenoapuri.cpp \
     $$PWD/db/kielikentta.cpp \
     $$PWD/db/tositetyyppimodel.cpp \
     $$PWD/db/yhteysmodel.cpp \
+    $$PWD/model/tosite.cpp \
     $$PWD/tools/kpeuroedit.cpp \
     uusikp/introsivu.cpp \
     uusikp/nimisivu.cpp \
@@ -174,9 +177,12 @@ SOURCES += uusikp/uusikirjanpito.cpp \
     sqlite/sqlitemodel.cpp
 
 HEADERS += \
+    $$PWD/apuri/apuriwidget.h \
+    $$PWD/apuri/tulomenoapuri.h \
     $$PWD/db/kielikentta.h \
     $$PWD/db/tositetyyppimodel.h \
     $$PWD/db/yhteysmodel.h \
+    $$PWD/model/tosite.h \
     $$PWD/tools/kpeuroedit.h \
     uusikp/uusikirjanpito.h \
     uusikp/introsivu.h \
@@ -359,6 +365,7 @@ RESOURCES += \
     laskutus/lasku.qrc
 
 FORMS += \
+    $$PWD/apuri/tulomenoapuri.ui \
     uusikp/intro.ui \
     uusikp/nimi.ui \
     uusikp/tilikartta.ui \

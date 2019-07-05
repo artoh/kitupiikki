@@ -38,6 +38,11 @@ class AsetusModel : public QObject
 public:
     explicit AsetusModel(QSqlDatabase *tietokanta, QObject *parent = 0, bool uusikirjanpito=false);
 
+    enum Asetukset {
+        ALV /** AlvVelvollinen - Maksaa arvonlisäveroa */
+    };
+
+
     /**
      * @brief Palauttaa asetuksen annetulla avaimella
      * @param avain Haettava avain
@@ -55,6 +60,7 @@ public:
     void aseta(const QString &avain, const QDate& pvm);
 
     bool onko(const QString& avain) const;
+    bool onko(int tunnus) const;
     void aseta(const QString& avain, bool totuusarvo);
 
     void asetaVar(const QString& avain, const QVariant& arvo);
@@ -104,6 +110,8 @@ protected:
     QSqlDatabase *tietokanta_;
 
     bool alustetaanTietokantaa_;    /** tosi, jos tietokantaa vasta luodaan */
+
+    static std::map<int,QString> avaimet__;
 
 };
 

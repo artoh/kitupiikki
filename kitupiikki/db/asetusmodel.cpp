@@ -112,6 +112,11 @@ bool AsetusModel::onko(const QString &avain) const
         return true;
 }
 
+bool AsetusModel::onko(int tunnus) const
+{
+    return onko( avaimet__.at(tunnus));
+}
+
 void AsetusModel::aseta(const QString &avain, bool totuusarvo)
 {
     if( totuusarvo )
@@ -239,3 +244,7 @@ void AsetusModel::lataa(const QVariantMap &lista)
 
     qDebug() << "Ladattu " << lista.count() << " asetusta ";
 }
+
+std::map<int,QString> AsetusModel::avaimet__ = {
+    { ALV, "AlvVelvollinen" }
+};

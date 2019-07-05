@@ -490,6 +490,7 @@ void TiliModel::tyhjenna()
     for(Tili *tili : tiliLista_)
         delete tili;
 
+    tilit_.clear();
     tiliLista_.clear();
     idHash_.clear();
     nroHash_.clear();

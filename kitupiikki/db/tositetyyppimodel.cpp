@@ -27,11 +27,14 @@ TositeTyyppiTietue::TositeTyyppiTietue(TositeTyyppi::Tyyppi uKoodi, const QStrin
 TositeTyyppiModel::TositeTyyppiModel(QObject *parent)
     : QAbstractListModel (parent)
 {
-    lisaa(TositeTyyppi::MENO, tr("Meno"), "poista");
-    lisaa(TositeTyyppi::TULO, tr("Tulo"), "lisaa");
-    lisaa(TositeTyyppi::SIIRTO, tr("Siirto"), "siirra");
+    lisaa(TositeTyyppi::MENO, tr("Menotosite"), "poista");
+    lisaa(TositeTyyppi::TULO, tr("Tulotosite"), "lisaa");
+    lisaa(TositeTyyppi::SIIRTO, tr("Rahoitustapahtuma"), "siirra");
     lisaa(TositeTyyppi::TILIOTE, tr("Tiliote"), "tekstisivu");
-    lisaa(TositeTyyppi::PALKKA, tr("Palkka"), "yrittaja");
+    lisaa(TositeTyyppi::PALKKA, tr("Palkanmaksu"), "yrittaja");
+    lisaa(TositeTyyppi::MUISTIO, tr("Muistiotosite"),"kommentti");
+    lisaa(TositeTyyppi::LIITETIETO, tr("Liitetietotosite"), "liite");
+
     lisaa(TositeTyyppi::MUU, tr("Muu"), "tyhja");
 
     lisaa(TositeTyyppi::TILINAVAUS, tr("Tilinavaus"), "rahaa");

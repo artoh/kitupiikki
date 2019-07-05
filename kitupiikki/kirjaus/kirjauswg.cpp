@@ -64,10 +64,13 @@
 #include "verotarkastaja.h"
 #include "db/tositetyyppimodel.h"
 
+#include "apuri/tulomenoapuri.h"
+#include "model/tosite.h"
+
 
 KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     : QWidget(parent), model_(tositeModel), laskuDlg_(nullptr), apurivinkki_(nullptr),
-      taydennysSql_( new QSqlQueryModel )
+      taydennysSql_( new QSqlQueryModel ), apuri_(nullptr)
 {
     ui = new Ui::KirjausWg();
     ui->setupUi(this);
@@ -182,6 +185,11 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
 
     connect( kp(), &Kirjanpito::tietokantaVaihtui, [this] () { this->ui->tyyppiLabel->setVisible( !kp()->asetukset()->onko("Samaansarjaan") ); });
     connect( model(), &TositeModel::modelReset, this, &KirjausWg::tiedotModelista);
+
+    tosite_ = new Tosite();
+
+    ui->tabWidget->insertTab(0, apuri_, QIcon(":/pic/apuri64.png"), tr("Kirjaa"));
+
 }
 
 KirjausWg::~KirjausWg()
@@ -909,6 +917,26 @@ void KirjausWg::vaihdaTositeTyyppi()
         ui->tilioteBox->setChecked(false);
     }
 
+    int tyyppiKoodi = ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt() ;
+
+    tosite_->setData(Tosite::TYYPPI, tyyppiKoodi);
+
+    // Tässä voisi laittaa muutenkin apurit paikalleen
+    if( apuri_ )
+    {
+        ui->tabWidget->removeTab( ui->tabWidget->indexOf( apuri_) );
+        apuri_->deleteLater();
+    }
+    apuri_ = nullptr;
+    if( tyyppiKoodi == TositeTyyppi::TULO || tyyppiKoodi == TositeTyyppi::MENO)
+    {
+        apuri_ = new TuloMenoApuri(this, tosite_);
+    }
+    if( apuri_)
+    {
+        ui->tabWidget->insertTab(0, apuri_, QIcon(":/pic/apuri64.png"), tr("Kirjaa"));
+        ui->tabWidget->setCurrentIndex(0);
+    }
 }
 
 void KirjausWg::liiteValinta(const QModelIndex &valittu)

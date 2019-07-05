@@ -300,7 +300,7 @@ void TositeModel::lataa(int id)
     // Lataa tositteen
 
     KpKysely* kpkysely = kpk( QString("/tositteet/%1").arg(id) );
-    // connect( kpkysely, &KpKysely::vastaus, this, &TositeModel::lataaMapista);
+    connect( kpkysely, &KpKysely::vastaus, this, &TositeModel::lataaMapista);
     kpkysely->kysy();
 
     return;
@@ -510,10 +510,10 @@ void TositeModel::uusiPohjalta(const QDate &pvm, const QString &otsikko)
 
 }
 
-void TositeModel::lataaMapista(QVariantMap *data, int status)
+void TositeModel::lataaMapista(QVariant *variant, int status)
 {
     beginResetModel();
-    map_ = data->value("tosite").toMap();
+    map_ = variant->toMap();
     viennit_.clear();
 
     muokkaamaton_ = map_;

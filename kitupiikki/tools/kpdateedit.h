@@ -67,6 +67,7 @@ public:
     QDate maximumDate() const { return maxDate_; }
 
     void setNullable(bool enable);
+    void setNull();
     bool isNullable() const { return nullMahdollinen_; }
     void setDefaultDate(const QDate& date);
 
