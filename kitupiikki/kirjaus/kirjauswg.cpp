@@ -928,9 +928,14 @@ void KirjausWg::vaihdaTositeTyyppi()
         apuri_->deleteLater();
     }
     apuri_ = nullptr;
+    ui->tabWidget->setTabEnabled(0, tyyppiKoodi != TositeTyyppi::LIITETIETO);
+
     if( tyyppiKoodi == TositeTyyppi::TULO || tyyppiKoodi == TositeTyyppi::MENO)
     {
         apuri_ = new TuloMenoApuri(this, tosite_);
+    } else if( tyyppiKoodi == TositeTyyppi::LIITETIETO)
+    {
+        ui->tabWidget->setCurrentIndex(1);
     }
     if( apuri_)
     {
