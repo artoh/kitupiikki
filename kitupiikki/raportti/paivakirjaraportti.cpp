@@ -289,6 +289,9 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
         kirjoittaja.lisaaRivi( summarivi );
     }
 
+    if( kirjoittaja.tyhja())
+        kirjoittaja.lisaaRivi();
+
     return kirjoittaja;
 }
 

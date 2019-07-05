@@ -2,9 +2,11 @@
 
 ![](tositelajit.png)
 
-Tositteet voi jakaa omiksi sarjoikseen eli tositelajeiksi, jotka numeroidaan erikseen. Kitupiikissä tositelajit tunnistetaan alussa olevasta yhden tai useamman kirjaimen tunnisteesta, esim. ML myyntilaskuille.
+Tositteet voi jakaa omiksi sarjoikseen eli tositelajeiksi. Kitupiikissä tositelajit tunnistetaan alussa olevasta yhden tai useamman kirjaimen tunnisteesta, esim. ML myyntilaskuille.
 
 Omia tositelajeja voi tehdä esimerkiksi ostolaskuille, myyntilaskuille, pankkitilin tiliotteille, muistiotositteille, käteistositteille jne.
+
+Valinnalla **numeroi samaan sarjaan** määritellään, että tilivuoden kaikki tositteet numeroidaan samaan juoksevaan sarjaan (esimerkiksi ML1, OL2, ML3, OL4 ...). Oletuksena jokainen tositelaji numeroidaan erikseen (esimerkiksi ML1, ML2, OL1, OL2 ...).
 
 ![](muokkaus.png)
 

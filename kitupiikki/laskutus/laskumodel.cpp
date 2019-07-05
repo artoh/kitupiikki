@@ -40,6 +40,8 @@
 #include <QSqlError>
 #include <QJsonDocument>
 
+#include <iostream>
+
 LaskuModel::LaskuModel(QObject *parent) :
     QAbstractTableModel( parent ), kieli_("FI")
 {
@@ -173,7 +175,8 @@ LaskuModel *LaskuModel::haeLasku(int vientiId)
         rivi.ahintaSnt = map.value("YksikkohintaSnt").toDouble();
         rivi.alvKoodi = map.value("Alvkoodi").toInt();
         rivi.alvProsentti = map.value("Alvprosentti").toInt();
-        rivi.myyntiTili = kp()->tilit()->tiliNumerollaVanha( map.value("Tili").toInt() );
+        rivi.myyntiTili = kp()->tilit()->tiliNumerolla( map.value("Tili").toInt() );
+        rivi.aleProsentti = map.value("AleProsentti").toInt();
         rivi.kohdennus = kp()->kohdennukset()->kohdennus( map.value("Kohdennus").toInt() );
         rivi.tuoteKoodi = map.value("Tuotekoodi").toInt();
         rivi.voittoMarginaaliMenettely = map.value("Voittomarginaalimenettely",0).toInt();
@@ -419,6 +422,7 @@ bool LaskuModel::setData(const QModelIndex &index, const QVariant &value, int ro
         case MAARA:
             rivit_[rivi].maara = value.toDouble();
             // Uusi summa
+
             paivitaSumma(rivi);
             return true;
 
@@ -596,10 +600,14 @@ int LaskuModel::kplDesimaalit() const
     {
         int tamanDesim = 0;
         qreal luku = rivi.maara;
-        while( luku - static_cast<int>(luku) > 1e-7)
+
+        while( qAbs( luku - qRound(luku) ) > 1e-7)
         {
             luku *= 10;
             tamanDesim++;
+
+            if( tamanDesim > 5)
+                break;
         }
         if( tamanDesim > desim)
             desim = tamanDesim;
@@ -753,8 +761,9 @@ bool LaskuModel::tallenna(Tili rahatili)
             riviTalteen["Tuotekoodi"] = rivi.tuoteKoodi;
         riviTalteen["YksikkohintaSnt"] = rivi.ahintaSnt;
         riviTalteen["Kohdennus"] = rivi.kohdennus.id();
+        riviTalteen["AleProsentti"] = rivi.aleProsentti;
 
-        qlonglong nettoSnt = qRound( rivi.ahintaSnt * rivi.maara );
+        qlonglong nettoSnt = rivi.nettoSnt();
         qlonglong bruttoSnt =  rivi.yhteensaSnt() ;
         qlonglong veroSnt = bruttoSnt - nettoSnt;
 

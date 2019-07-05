@@ -76,6 +76,17 @@ Osalla tilikarttoja voit valita pääasiallisen [kirjaamisperusteen](/kirjanpito
 !!! note "Suoriteperuste on ensisijainen"
     Mikroyhdistyksiä ja -säätiöitä lukuun ottamatta kirjanpito on oikaistava tilinpäätöstä varten aina suoritusperusteiseksi.
 
+## Tositteiden numerointi
+
+![](numerointi.png)
+
+Kitupiikin tositteet on jaettu useampaan tositesarjaan. Valitse, haluatko
+
+- numeroida jokaisen tositelajin **omaan numerosarjaansa**.
+  Esimerkiksi: Myyntilaskut ML1, ML2; Ostolaskut OL1, OL2 ...
+
+- numeroida tilikauden kaikki tositteet aikajärjestyksessä **samaan numerosarjaan** 1, 2, 3 ...
+
 ## Tiedostojen sijainti
 
 ![](sijainti6.png)
@@ -93,9 +104,9 @@ Kirjanpitotiedoston lisäksi samaan hakemistoon luodaan myöhemmin .arkisto-pä�
 
 !!! tip "Kirjanpito pilvessä"
     Voit tallettaa kirjanpidon sellaiseen hakemistoon, joka synkronoidaan
-    automaattisesti pilvipalveluun, kuten Dropbox. Näin tiedostot ovat aina
-    turvassa tietokoneesi rikkoutumiselta. Varminta on kuitenkin, jos tiedot
-    varmuuskopioidaan säännöllisesti myös muulle tietovälineelle.
+    automaattisesti pilvipalveluun. Muista kuitenkin, että mikäli esimerkiksi asiakasrekisterissä on GDPR:n mukaisia henkilötietoja,  
+    niin niiden sijoittaminen EU:n ulkopuolella sijaitsevalla palvelimella voi olla ongelmallista.
+
 
 ## Valmista tuli!
 

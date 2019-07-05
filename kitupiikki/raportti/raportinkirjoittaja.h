@@ -160,6 +160,8 @@ public:
 
     void tulostaYlatunniste(QPainter *painter, int sivu) const;
 
+    bool tyhja() const { return rivit_.isEmpty(); }
+
 signals:
 
 public slots:
