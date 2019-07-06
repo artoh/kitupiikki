@@ -157,6 +157,9 @@
         <file>sadepilvi.png</file>
         <file>close16.png</file>
         <file>clear16.png</file>
+        <file>siirtonuoli.png</file>
+        <file>pankki.png</file>
+        <file>luottokortti.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

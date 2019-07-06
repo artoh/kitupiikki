@@ -217,7 +217,6 @@ protected:
      */
     bool eventFilter(QObject *watched, QEvent *event);
     void paivitaLiiteNapit();
-    void paivitaTilioteIcon();
 
 
 protected:

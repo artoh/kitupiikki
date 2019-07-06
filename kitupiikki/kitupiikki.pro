@@ -39,3 +39,4 @@ DISTFILES += \
 RC_ICONS = kitupiikki.ico
 
 
+

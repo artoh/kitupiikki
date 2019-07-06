@@ -65,6 +65,8 @@
 #include "db/tositetyyppimodel.h"
 
 #include "apuri/tulomenoapuri.h"
+#include "apuri/siirtoapuri.h"
+#include "apuri/tilioteapuri.h"
 #include "model/tosite.h"
 
 
@@ -104,7 +106,6 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
 
     ui->tositetyyppiCombo->setModel( tyyppiProxy_ );
 
-    connect( ui->tilioteBox, &QCheckBox::stateChanged, this, &KirjausWg::paivitaTilioteIcon);
 
     // Kun tositteen päivää vaihdetaan, vaihtuu myös tiliotepäivät.
     // Siksi tosipäivä ladattava aina ennen tiliotepäiviä!
@@ -141,9 +142,6 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( ui->tulostaLiiteNappi, &QPushButton::clicked, this, &KirjausWg::tulostaLiite);
     connect( ui->poistaLiiteNappi, SIGNAL(clicked(bool)), this, SLOT(poistaLiite()));
 
-    connect( ui->tiliotealkaenEdit, SIGNAL(editingFinished()), this, SLOT(tiedotModeliin()));
-    connect( ui->tilioteloppuenEdit, SIGNAL(editingFinished()), this, SLOT(tiedotModeliin()));
-    connect( ui->tilioteBox, SIGNAL(clicked(bool)), this, SLOT(tiedotModeliin()));
     connect( ui->tiliotetiliCombo, SIGNAL(activated(int)), this, SLOT(tiedotModeliin()));
     connect( ui->selvittelyNappi, &QPushButton::clicked, this, &KirjausWg::naytaSelvitys);
 
@@ -519,8 +517,6 @@ void KirjausWg::paivitaOtsikonTaydennys(const QString &teksti)
 
 int KirjausWg::tiliotetiliId()
 {
-    if( !ui->tilioteBox->isChecked())
-        return 0;
     return ui->tiliotetiliCombo->currentData(TiliModel::IdRooli).toInt();
 }
 
@@ -648,19 +644,6 @@ void KirjausWg::paivitaLiiteNapit()
         ui->tabWidget->setTabIcon(LIITTEET, QIcon(":/pic/liite"));
 }
 
-void KirjausWg::paivitaTilioteIcon()
-{
-    bool tiliote = ui->tilioteBox->isChecked();
-
-    if( tiliote)
-        ui->tabWidget->setTabIcon(TILIOTE, QIcon(":/pic/tekstisivu-aktiivinen.png"));
-    else
-        ui->tabWidget->setTabIcon(TILIOTE, QIcon(":/pic/tekstisivu.png"));
-
-    ui->tiliotetiliCombo->setEnabled(tiliote);
-    ui->tiliotealkaenEdit->setEnabled(tiliote);
-    ui->tilioteloppuenEdit->setEnabled(tiliote);
-}
 
 void KirjausWg::naytaSummat()
 {
@@ -814,18 +797,6 @@ void KirjausWg::tiedotModeliin()
 
     model_->asetaKommentti( ui->kommentitEdit->toPlainText() );
 
-    if( ui->tilioteBox->isChecked())
-    {
-        model_->asetaTiliotetili( ui->tiliotetiliCombo->currentData(TiliModel::IdRooli).toInt() );
-        model_->json()->set("TilioteAlkaa", ui->tiliotealkaenEdit->date());
-        model_->json()->set("TilioteLoppuu", ui->tilioteloppuenEdit->date());
-    }
-    else
-    {
-        model_->asetaTiliotetili(0);
-        model_->json()->unset("TilioteAlkaa");
-        model_->json()->unset("TilioteLoppuu");
-    }
     paivitaTallennaPoistaNapit();
 }
 
@@ -842,16 +813,6 @@ void KirjausWg::tiedotModelista()
 
     ui->kausiLabel->setText(QString("/ %1").arg( kp()->tilikaudet()->tilikausiPaivalle(model_->pvm()).kausitunnus() ));
 
-    // Tiliotetilin yhdistämiset!
-    if( model_->tiliotetili())
-    {
-        qDebug() << "Etsitään tilotetili " << model()->tiliotetili();
-
-        ui->tiliotetiliCombo->setCurrentIndex( ui->tiliotetiliCombo->findData( model_->tiliotetili(), TiliModel::NroRooli ) );
-        ui->tiliotealkaenEdit->setDate( model_->json()->date("TilioteAlkaa") );
-        ui->tilioteloppuenEdit->setDate( model_->json()->date("TilioteLoppuu"));
-    }
-    ui->tilioteBox->setChecked( model_->tiliotetili() );
     paivitaVaroitukset();
 
     if( model()->id() > 0)
@@ -894,28 +855,6 @@ void KirjausWg::vaihdaTositeTyyppi()
     model_->asetaTositelaji( ui->tositetyyppiCombo->currentData(TositelajiModel::IdRooli).toInt() );
     ui->tyyppiLabel->setText( model_->tositelaji().tunnus());
 
-    // Päivitetään tositenumero modelista ;)
-    ui->tunnisteEdit->setText( QString::number(model_->tunniste() ));
-
-    // Jos tositelaji kirjaa tiliotteita, aktivoidaan tiliotteen kirjaaminen
-    if( model_->tositelaji().json()->luku("Kirjaustyyppi") == TositelajiModel::TILIOTE)
-    {
-        Tili otetili = kp()->tilit()->tiliNumerollaVanha( model_->tositelaji().json()->luku("Vastatili") );
-        ui->tiliotetiliCombo->setCurrentIndex( ui->tiliotetiliCombo->findData(otetili.id(), TiliModel::IdRooli)  );
-        model_->asetaTiliotetili( otetili.id() );
-        ui->tilioteBox->setChecked(true);
-        if( ui->otsikkoEdit->text().isEmpty())
-            ui->otsikkoEdit->setText( QString("Tiliote %1 ajalta %2 - %3")
-                    .arg(otetili.nimi()).arg(ui->tiliotealkaenEdit->date().toString("dd.MM.yyyy"))
-                    .arg( ui->tilioteloppuenEdit->date().toString("dd.MM.yyyy")));
-        if( !model_->tiliotetili())
-            tiedotModeliin();
-    }
-    else
-    {
-        model_->asetaTiliotetili(0);
-        ui->tilioteBox->setChecked(false);
-    }
 
     int tyyppiKoodi = ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt() ;
 
@@ -929,19 +868,30 @@ void KirjausWg::vaihdaTositeTyyppi()
     }
     apuri_ = nullptr;
     ui->tabWidget->setTabEnabled(0, tyyppiKoodi != TositeTyyppi::LIITETIETO);
+    ui->tiliotetiliCombo->setVisible( tyyppiKoodi == TositeTyyppi::TILIOTE );
 
     if( tyyppiKoodi == TositeTyyppi::TULO || tyyppiKoodi == TositeTyyppi::MENO)
     {
         apuri_ = new TuloMenoApuri(this, tosite_);
-    } else if( tyyppiKoodi == TositeTyyppi::LIITETIETO)
-    {
-        ui->tabWidget->setCurrentIndex(1);
+    } else if( tyyppiKoodi == TositeTyyppi::SIIRTO) {
+        apuri_ = new SiirtoApuri(this, tosite_);
+    } else if( tyyppiKoodi == TositeTyyppi::TILIOTE ) {
+        apuri_ = new TilioteApuri(this, tosite_);
     }
+
+
+
     if( apuri_)
     {
         ui->tabWidget->insertTab(0, apuri_, QIcon(":/pic/apuri64.png"), tr("Kirjaa"));
         ui->tabWidget->setCurrentIndex(0);
     }
+
+    if( tyyppiKoodi == TositeTyyppi::LIITETIETO)
+        ui->tabWidget->setCurrentIndex(1);
+    else
+        ui->tabWidget->setCurrentIndex(0);
+
 }
 
 void KirjausWg::liiteValinta(const QModelIndex &valittu)
@@ -982,12 +932,6 @@ void KirjausWg::pvmVaihtuu()
     QDate vanhaPaiva = model_->pvm();
 
     model_->asetaPvm(paiva);
-
-    // Tiliotepäiväyksen kirjauksen kuukauden alkuun ja loppuun
-    QDate alkupaiva = paiva.addDays( 1 - paiva.day() );   // Siirretään kuukauden alkuun
-    ui->tiliotealkaenEdit->setDate( alkupaiva );
-    QDate loppupaiva = alkupaiva.addMonths(1).addDays(-1); // Siirrytään kuukauden loppuun
-    ui->tilioteloppuenEdit->setDate(loppupaiva);
 
     if( kp()->tilikaudet()->tilikausiPaivalle(paiva).alkaa() != kp()->tilikaudet()->tilikausiPaivalle(vanhaPaiva).alkaa())
     {

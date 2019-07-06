@@ -189,12 +189,9 @@ bool Tuonti::tiliote(Tili tili, QDate mista, QDate mihin)
 
     kirjausWg()->gui()->tiliotetiliCombo->setCurrentIndex(
                 kirjausWg()->gui()->tiliotetiliCombo->findData( tiliotetili().id(), TiliModel::IdRooli ));
-    kirjausWg()->gui()->tilioteBox->setChecked(true);
 
     if( mista.isValid() && mihin.isValid())
     {
-        kirjausWg()->gui()->tiliotealkaenEdit->setDate(mista);
-        kirjausWg()->gui()->tilioteloppuenEdit->setDate(mihin);
         kirjausWg()->gui()->otsikkoEdit->setText( kp()->tr("Tiliote %1 - %2")
                                               .arg(mista.toString("dd.MM.yyyy")).arg(mihin.toString("dd.MM.yyyy")));
     }

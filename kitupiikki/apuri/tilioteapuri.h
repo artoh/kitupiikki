@@ -14,36 +14,26 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef TULOMENOAPURI_H
-#define TULOMENOAPURI_H
+#ifndef TILIOTEAPURI_H
+#define TILIOTEAPURI_H
 
 #include "apuriwidget.h"
 
-class QSortFilterProxyModel;
-
 namespace Ui {
-class TuloMenoApuri;
+class TilioteApuri;
 }
 
-class TuloMenoApuri : public ApuriWidget
-{
-    Q_OBJECT
 
+class TilioteApuri : public ApuriWidget
+{
 public:
-    TuloMenoApuri(QWidget *parent = nullptr, Tosite* tosite = nullptr);
-    virtual ~TuloMenoApuri() override;
+    TilioteApuri(QWidget *parent = nullptr, Tosite* tosite = nullptr);
+    virtual ~TilioteApuri() override;
 
     void reset() override;
 
-
-protected:
-    void alusta(bool meno);
-
 private:
-    Ui::TuloMenoApuri *ui;
-
-    QSortFilterProxyModel* veroFiltteri_;
-
+    Ui::TilioteApuri *ui;
 };
 
-#endif // TULOMENOAPURI_H
+#endif // TILIOTEAPURI_H
