@@ -68,6 +68,7 @@
 #include "apuri/siirtoapuri.h"
 #include "apuri/tilioteapuri.h"
 #include "model/tosite.h"
+#include "model/tositeviennit.h"
 
 
 KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
@@ -77,7 +78,7 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     ui = new Ui::KirjausWg();
     ui->setupUi(this);
 
-    ui->viennitView->setModel( model_ );
+//    ui->viennitView->setModel( model_ );
 
     connect( model_->vientiModel(), SIGNAL(muuttunut()), this, SLOT(naytaSummat()));
 
@@ -185,6 +186,7 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( model(), &TositeModel::modelReset, this, &KirjausWg::tiedotModelista);
 
     tosite_ = new Tosite();
+    ui->viennitView->setModel( tosite_->viennit() );
 
     ui->tabWidget->insertTab(0, apuri_, QIcon(":/pic/apuri64.png"), tr("Kirjaa"));
 
@@ -513,6 +515,7 @@ void KirjausWg::paivitaOtsikonTaydennys(const QString &teksti)
         taydennysSql_->clear();
 
     model()->asetaOtsikko(teksti);
+    tosite_->setData(Tosite::OTSIKKO, teksti);
 }
 
 int KirjausWg::tiliotetiliId()
@@ -932,6 +935,7 @@ void KirjausWg::pvmVaihtuu()
     QDate vanhaPaiva = model_->pvm();
 
     model_->asetaPvm(paiva);
+    tosite_->setData(Tosite::PVM, paiva);
 
     if( kp()->tilikaudet()->tilikausiPaivalle(paiva).alkaa() != kp()->tilikaudet()->tilikausiPaivalle(vanhaPaiva).alkaa())
     {

@@ -38,6 +38,8 @@ signals:
 
 public slots:
 
+    virtual bool tositteelle() {return false;}
+
 protected:
     Tosite* pTosite_;
 

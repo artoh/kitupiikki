@@ -20,6 +20,11 @@
 #include "db/kirjanpito.h"
 #include "db/kohdennusmodel.h"
 
+#include "model/tosite.h"
+#include "model/tositeviennit.h"
+
+#include <QDebug>
+
 SiirtoApuri::SiirtoApuri(QWidget *parent, Tosite *tosite) :
     ApuriWidget (parent, tosite),
     ui(new Ui::SiirtoApuri)
@@ -32,6 +37,7 @@ SiirtoApuri::SiirtoApuri(QWidget *parent, Tosite *tosite) :
 
     connect( ui->tililtaEdit, &TilinvalintaLine::textChanged, this, &SiirtoApuri::tililtaMuuttui);
     connect( ui->tililleEdit, &TilinvalintaLine::textChanged, this, &SiirtoApuri::tililleMuuttui);
+    connect( ui->euroEdit, &KpEuroEdit::textChanged, this, &SiirtoApuri::tositteelle);
 
     reset();
 }
@@ -39,6 +45,37 @@ SiirtoApuri::SiirtoApuri(QWidget *parent, Tosite *tosite) :
 SiirtoApuri::~SiirtoApuri()
 {
     delete ui;
+}
+
+bool SiirtoApuri::tositteelle()
+{
+    QDate pvm = tosite()->data(Tosite::PVM).toDate();
+    double euroa = ui->euroEdit->value();
+    QVariant otsikko = tosite()->data(Tosite::OTSIKKO);
+
+    qDebug() << euroa << " € = " << ui->euroEdit->asCents() << " snt = " << ui->euroEdit->text();
+
+    QVariantList viennit;
+
+    QVariantMap debet;
+    debet.insert("pvm", pvm );
+    debet.insert("tili", ui->tililleEdit->valittuTilinumero());
+    debet.insert("debet", euroa);
+    debet.insert("selite", otsikko);
+    viennit.append(debet);
+
+    QVariantMap kredit;
+    kredit.insert("pvm", pvm );
+    kredit.insert("tili", ui->tililtaEdit->valittuTilinumero());
+    kredit.insert("kredit", euroa);
+    kredit.insert("selite", otsikko);
+    viennit.append(kredit);
+
+    tosite()->viennit()->asetaViennit(viennit);
+
+
+    return true;
+
 }
 
 void SiirtoApuri::reset()
@@ -59,6 +96,8 @@ void SiirtoApuri::tililtaMuuttui()
 
     ui->tililtaEraLabel->setVisible(erat);
     ui->tililtaEraCombo->setVisible(erat);
+
+    tositteelle();
 }
 
 void SiirtoApuri::tililleMuuttui()
@@ -73,4 +112,6 @@ void SiirtoApuri::tililleMuuttui()
 
     ui->tililleEraLabel->setVisible(erat);
     ui->tililleEraCombo->setVisible(erat);
+
+    tositteelle();
 }

@@ -22,7 +22,7 @@
 #include <QDebug>
 
 KpEuroEdit::KpEuroEdit(QWidget *parent) :
-    QLineEdit (parent), cents_(0)
+    QLineEdit (parent), cents_(0l)
 {
     setAlignment(Qt::AlignRight);
     setText("0,00 €");
@@ -73,7 +73,7 @@ void KpEuroEdit::edited(const QString &newtext)
     if( sentit < 10 && sentosa.length() == 1)
         sentit *= 10;
 
-    qlonglong cents_ = eurosa.toLongLong() * 100 + sentit;
+    cents_ = eurosa.toLongLong() * 100 + sentit;
     if(miinus && !cents_)
         return; // -0
     if(miinus)
@@ -157,7 +157,7 @@ void KpEuroEdit::keyPressEvent(QKeyEvent *event)
                 return;
             }
         }
-        else if( !kursorinpaikka  && !asCents()) {
+        else if( !kursorinpaikka  && text() == "0,00 €" ) {
             setText( event->text() + ",00 €");
             setCursorPosition(1);
             return;

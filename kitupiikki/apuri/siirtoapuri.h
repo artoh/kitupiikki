@@ -33,7 +33,10 @@ public:
 
     void reset() override;
 
+
 private slots:
+    bool tositteelle() override;
+
     void tililtaMuuttui();
     void tililleMuuttui();
 

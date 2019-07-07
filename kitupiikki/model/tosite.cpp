@@ -16,7 +16,11 @@
 */
 #include "tosite.h"
 
-Tosite::Tosite(QObject *parent) : QObject(parent)
+#include "tositeviennit.h"
+
+Tosite::Tosite(QObject *parent) :
+    QObject(parent),
+    viennit_(new TositeViennit(this))
 {
 
 }
@@ -32,6 +36,13 @@ void Tosite::setData(int kentta, QVariant arvo)
         data_.remove( avaimet__.at(kentta) );
     else
         data_.insert( avaimet__.at(kentta), arvo );
+}
+
+void Tosite::lataa(QVariant *variant)
+{
+    data_ = variant->toMap();
+
+    viennit()->asetaViennit( data_.take("viennit").toList() );
 }
 
 

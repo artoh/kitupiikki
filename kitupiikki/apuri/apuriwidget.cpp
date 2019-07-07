@@ -25,3 +25,4 @@ void ApuriWidget::asetaTosite(Tosite *pTosite)
 {
     pTosite_ = pTosite;
 }
+

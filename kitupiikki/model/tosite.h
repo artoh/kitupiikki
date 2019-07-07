@@ -22,6 +22,8 @@
 #include <QVariant>
 #include <map>
 
+class TositeViennit;
+
 /**
  * @brief Kirjanpitotosite
  */
@@ -48,12 +50,16 @@ public:
     QVariant data(int kentta) const;
     void setData(int kentta, QVariant arvo);
 
+    TositeViennit* viennit() { return viennit_; }
+
 signals:
 
 public slots:
+    void lataa(QVariant *variant);
 
 private:
     QVariantMap data_;
+    TositeViennit* viennit_;
 
     static std::map<int,QString> avaimet__;
 };
