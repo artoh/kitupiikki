@@ -1,6 +1,7 @@
 SOURCES += uusikp/uusikirjanpito.cpp \
     $$PWD/apuri/apuriwidget.cpp \
     $$PWD/apuri/tilioteapuri.cpp \
+    $$PWD/apuri/tmrivit.cpp \
     $$PWD/apuri/tulomenoapuri.cpp \
     $$PWD/apuri/siirtoapuri.cpp \
     $$PWD/db/kielikentta.cpp \
@@ -182,6 +183,7 @@ SOURCES += uusikp/uusikirjanpito.cpp \
 HEADERS += \
     $$PWD/apuri/apuriwidget.h \
     $$PWD/apuri/tilioteapuri.h \
+    $$PWD/apuri/tmrivit.h \
     $$PWD/apuri/tulomenoapuri.h \
     $$PWD/apuri/siirtoapuri.h \
     $$PWD/db/kielikentta.h \

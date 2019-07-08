@@ -69,6 +69,8 @@ public:
 
     Tili tiliIdllaVanha(int id) const;
 
+    Tili *tili(const QString& tilinumero) const;
+
     Tili *tiliIdlla(int id) const;
     Tili *tiliNumerolla(int numero) const;
 

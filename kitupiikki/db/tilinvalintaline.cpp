@@ -85,6 +85,14 @@ void KantaTilinvalintaLine::valitseTili(const Tili& tili)
 
 }
 
+void KantaTilinvalintaLine::valitseTili(const Tili *tili)
+{
+    if( tili)
+        valitseTiliNumerolla(tili->numero());
+    else
+        setText("");
+}
+
 void KantaTilinvalintaLine::suodataTyypilla(const QString &regexp)
 {
     proxyTyyppi_->setFilterRegExp(regexp);
@@ -140,6 +148,11 @@ Tili KantaTilinvalintaLine::valittuTili() const
         }
     }
     return Tili();
+}
+
+Tili *KantaTilinvalintaLine::tili() const
+{
+    return kp()->tilit()->tiliNumerolla( valittuTilinumero() );
 }
 
 

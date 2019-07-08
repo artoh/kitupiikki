@@ -16,17 +16,20 @@
 */
 #include "tulomenoapuri.h"
 #include "ui_tulomenoapuri.h"
+#include "tmrivit.h"
 
 #include "db/kirjanpito.h"
 #include "model/tosite.h"
 #include "db/tositetyyppimodel.h"
+#include "kirjaus/kohdennusproxymodel.h"
 
 #include <QSortFilterProxyModel>
 
 
 TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     ApuriWidget (parent, tosite),
-    ui(new Ui::TuloMenoApuri)
+    ui(new Ui::TuloMenoApuri),
+    rivit_(new TmRivit)
 {
     ui->setupUi(this);
 
@@ -35,16 +38,28 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     veroFiltteri_->setSourceModel( kp()->alvTyypit());
     ui->alvCombo->setModel(veroFiltteri_);
 
+    ui->kohdennusCombo->setModel(new KohdennusProxyModel(this));
+    ui->kohdennusCombo->setModelColumn( KohdennusModel::NIMI);
+    ui->kohdennusCombo->setCurrentIndex( ui->kohdennusCombo->findData(0, KohdennusModel::IdRooli ));
+
+
     ui->alkuEdit->setNull();
     ui->loppuEdit->setNull();
     ui->erapaivaEdit->setNull();
 
     ui->vastatiliEdit->suodataTyypilla("[AB].*");
 
-    ui->tilellaView->setVisible(false);
+    ui->tilellaView->setModel( rivit_);
+    ui->tilellaView->horizontalHeader()->setSectionResizeMode(TmRivit::TILI, QHeaderView::Stretch);
+
 
     if( tosite )
         reset();
+
+    connect( ui->tiliEdit, &TilinvalintaLine::textChanged, this, &TuloMenoApuri::tiliMuuttui );
+    connect( ui->maaraEdit, &KpEuroEdit::textChanged, this, &TuloMenoApuri::maaraMuuttui);
+    connect( ui->lisaaRiviNappi, &QPushButton::clicked, this, &TuloMenoApuri::lisaaRivi);
+    connect( ui->tilellaView->selectionModel(), &QItemSelectionModel::currentRowChanged , this, &TuloMenoApuri::haeRivi);
 }
 
 TuloMenoApuri::~TuloMenoApuri()
@@ -57,6 +72,41 @@ void TuloMenoApuri::reset()
     // Haetaan tietoja mallista ;)
 
     alusta( tosite()->data(Tosite::TYYPPI).toInt() == TositeTyyppi::MENO );
+
+    // Haetaan rivien tiedot
+    ui->tilellaView->setVisible( rivit_->rowCount() > 1 );
+    ui->tilellaView->selectRow(0);
+
+}
+
+void TuloMenoApuri::lisaaRivi()
+{
+    ui->tilellaView->setVisible(true);
+    ui->tilellaView->selectRow( rivit_->lisaaRivi() );
+}
+
+void TuloMenoApuri::tiliMuuttui()
+{
+    Tili tili = ui->tiliEdit->valittuTili();
+    rivit_->setTili( rivilla(), tili );
+
+    bool tasapoisto = tili.onko(TiliLaji::TASAERAPOISTO);
+    ui->poistoLabel->setVisible(tasapoisto);
+    ui->poistoSpin->setVisible(tasapoisto);
+
+    // TODO: Vero-oletusten hakeminen
+}
+
+void TuloMenoApuri::maaraMuuttui()
+{
+    rivit_->setMaara( rivilla(), ui->maaraEdit->asCents());
+}
+
+void TuloMenoApuri::haeRivi(const QModelIndex &index)
+{
+    int rivi = index.row();
+    ui->tiliEdit->valitseTili( rivit_->tili(rivi));
+    ui->maaraEdit->setCents( rivit_->maara(rivi) );
 }
 
 void TuloMenoApuri::alusta(bool meno)
@@ -81,4 +131,17 @@ void TuloMenoApuri::alusta(bool meno)
     ui->verotonLabel->setVisible(alv);
     ui->verotonEdit->setVisible(alv);
     ui->vahennysCheck->setVisible(alv);
+
+    bool kohdennuksia = kp()->kohdennukset()->kohdennuksia();
+    ui->kohdennusLabel->setVisible(kohdennuksia);
+    ui->kohdennusCombo->setVisible(kohdennuksia);
+
+    bool merkkauksia = kp()->kohdennukset()->merkkauksia();
+    ui->merkkauksetLabel->setVisible(merkkauksia);
+    ui->merkkauksetEdit->setVisible(merkkauksia);
+}
+
+int TuloMenoApuri::rivilla() const
+{
+    return ui->tilellaView->currentIndex().row();
 }

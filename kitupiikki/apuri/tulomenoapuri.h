@@ -20,6 +20,7 @@
 #include "apuriwidget.h"
 
 class QSortFilterProxyModel;
+class TmRivit;
 
 namespace Ui {
 class TuloMenoApuri;
@@ -35,15 +36,22 @@ public:
 
     void reset() override;
 
+protected slots:
+    void lisaaRivi();
+    void tiliMuuttui();
+    void maaraMuuttui();
+
+    void haeRivi(const QModelIndex& index);
 
 protected:
     void alusta(bool meno);
+    int rivilla() const;
 
 private:
     Ui::TuloMenoApuri *ui;
+    TmRivit* rivit_;
 
     QSortFilterProxyModel* veroFiltteri_;
-
 };
 
 #endif // TULOMENOAPURI_H

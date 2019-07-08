@@ -222,6 +222,11 @@ Tili TiliModel::tiliIdllaVanha(int id) const
     return Tili();
 }
 
+Tili *TiliModel::tili(const QString &tilinumero) const
+{
+    return tiliNumerolla( tilinumero.toInt());
+}
+
 Tili *TiliModel::tiliIdlla(int id) const
 {
     return idHash_.value(id);

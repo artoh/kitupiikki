@@ -38,12 +38,14 @@ public:
 
     int valittuTilinumero() const;
     Tili valittuTili() const;
+    Tili* tili() const;
 
 
 public slots:
     void valitseTiliNumerolla(int tilinumero);
     void valitseTiliIdlla(int tiliId);
     void valitseTili(const Tili &tili);
+    void valitseTili(const Tili* tili);
 
     void suodataTyypilla(const QString& regexp);
 
