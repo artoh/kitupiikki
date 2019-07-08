@@ -41,7 +41,7 @@ QVariant TmRivit::headerData(int section, Qt::Orientation orientation, int role)
                 return tr("€");
         }
     }
-    return QVariant( section + 1);
+    return QVariant();
 }
 
 int TmRivit::rowCount(const QModelIndex &parent) const
