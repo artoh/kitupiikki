@@ -48,8 +48,3 @@ QString KpKysely::attribuutti(const QString &avain) const
     return kysely_.queryItemValue(avain);
 }
 
-
-void KpKysely::vastaa(KpKysely::Tila tila)
-{
-    emit vastaus( &vastaus_, tila );
-}

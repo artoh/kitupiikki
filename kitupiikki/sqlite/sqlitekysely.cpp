@@ -499,3 +499,8 @@ void SQLiteKysely::vientilista()
     vastaa();
 
 }
+
+void SQLiteKysely::vastaa()
+{
+    emit vastaus(&vastaus_);
+}

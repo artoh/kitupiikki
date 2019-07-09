@@ -144,7 +144,7 @@ public slots:
      */
     void uusiPohjalta(const QDate& pvm, const QString& otsikko);
 
-    void lataaMapista(QVariant* variant, int status);
+    void lataaMapista(QVariant* variant);
 
 public:
     /**

@@ -42,7 +42,7 @@ public:
     void lataaInit(QVariant* reply);
 
 private slots:
-    void initSaapuu(QVariant* reply, int tila);
+    void initSaapuu(QVariant* reply);
 };
 
 #endif // YHTEYSMODEL_H

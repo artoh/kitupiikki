@@ -219,7 +219,7 @@ void TositeSelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
     */
 }
 
-void TositeSelausModel::tietoSaapuu(QVariant *var, int /* status */)
+void TositeSelausModel::tietoSaapuu(QVariant *var)
 {
     beginResetModel();
     kaytetytTyypit_.clear();

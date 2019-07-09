@@ -298,7 +298,7 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
     */
 }
 
-void SelausModel::tietoSaapuu(QVariant *var, int /* status */)
+void SelausModel::tietoSaapuu(QVariant *var)
 {
 
     beginResetModel();

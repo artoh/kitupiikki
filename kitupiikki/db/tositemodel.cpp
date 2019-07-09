@@ -510,7 +510,7 @@ void TositeModel::uusiPohjalta(const QDate &pvm, const QString &otsikko)
 
 }
 
-void TositeModel::lataaMapista(QVariant *variant, int status)
+void TositeModel::lataaMapista(QVariant *variant)
 {
     beginResetModel();
     map_ = variant->toMap();
@@ -528,7 +528,6 @@ void TositeModel::lataaMapista(QVariant *variant, int status)
 
     endResetModel();
 
-    qDebug() << "ladattu..." << status;
 
     emit tyhjennetty();
 }

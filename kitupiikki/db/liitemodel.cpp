@@ -392,7 +392,7 @@ void LiiteModel::tyhjaa()
     muokattu_ = false;
 }
 
-void LiiteModel::liiteSaapuu(QVariantMap *data, int status)
+void LiiteModel::liiteSaapuu(QVariantMap *data)
 {
     beginResetModel();
     Liite liite;

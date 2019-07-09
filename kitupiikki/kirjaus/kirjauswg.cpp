@@ -281,6 +281,8 @@ void KirjausWg::tyhjenna()
 void KirjausWg::tallenna()
 {
 
+    tosite_->tallenna();
+    return;
 
     // Ellei yhtään vientiä, näytetään varoitus
     if( model_->vientiModel()->debetSumma() == 0 && model_->vientiModel()->kreditSumma() == 0)

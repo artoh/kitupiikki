@@ -129,7 +129,7 @@ void DevTool::kysely()
     kysely->kysy();
 }
 
-void DevTool::vastausSaapui(QVariant *vastaus, int /* status */ )
+void DevTool::vastausSaapui(QVariant *vastaus)
 {
     ui->kyselyBrowser->setPlainText(  QString::fromUtf8( QJsonDocument::fromVariant(*vastaus).toJson(QJsonDocument::Indented) ) );
     sender()->deleteLater();

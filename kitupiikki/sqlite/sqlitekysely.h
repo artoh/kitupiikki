@@ -51,6 +51,8 @@ protected:
     void vientilista();
 
     QStringList sanat_;
+
+    void vastaa();
 };
 
 #endif // SQLITEKYSELY_H

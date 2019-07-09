@@ -54,6 +54,7 @@ public:
 
 
     void asetaViennit(QVariantList viennit);
+    QVariant viennit() const { return viennit_;}
 
 
 private:

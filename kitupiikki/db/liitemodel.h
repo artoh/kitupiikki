@@ -111,7 +111,7 @@ public slots:
     void lataa();
     void tyhjaa();
 
-    void liiteSaapuu(QVariantMap* data, int status);
+    void liiteSaapuu(QVariantMap* data);
 
     /**
      * @brief Tallentaa liitteet

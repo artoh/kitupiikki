@@ -139,9 +139,9 @@ QVariant TositeViennit::data(const QModelIndex &index, int role) const
         case TILI:
             return vienti.value("tili").toInt();
         case DEBET:
-            return vienti.value("debetsnt").toLongLong() / 100.0 ;
+            return vienti.value("debet").toDouble();
         case KREDIT:
-            return vienti.value("kreditsnt").toLongLong() / 100.0;
+            return vienti.value("kredit").toDouble();
         }
     }
     else if( role == Qt::TextAlignmentRole)
@@ -196,6 +196,7 @@ void TositeViennit::asetaViennit(QVariantList viennit)
 {
     beginResetModel();
     viennit_ = viennit;
+    // Erätietojen siivoaminen ja sijoittaminen välimuistiin
     endResetModel();
 
     qDebug() << viennit_;

@@ -70,7 +70,7 @@ public:
 
 public slots:
     void lataa(const QDate& alkaa, const QDate& loppuu);
-    void tietoSaapuu(QVariant *var, int status);
+    void tietoSaapuu(QVariant *var);
 
 protected:
     QList<TositeSelausRivi> rivit;

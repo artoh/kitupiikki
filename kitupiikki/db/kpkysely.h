@@ -61,13 +61,12 @@ public:
     Tila tila() const { return tila_;}
 
 signals:
-    void vastaus(QVariant* reply, int tila);
+    void vastaus(QVariant* reply);
+    void virhe(int virhe);
 
 public slots:
     virtual void kysy(const QVariant& data = QVariant()) = 0;
 
-protected:
-    void vastaa(Tila tila = OK);
 
 protected:
     Metodi metodi_;

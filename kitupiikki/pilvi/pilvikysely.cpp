@@ -65,14 +65,18 @@ void PilviKysely::vastausSaapuu()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>( sender());
     if( reply->error()) {
-        vastaa( VIRHE );
-        qDebug() << " (VIRHE!) " << reply->error() << " " << reply->request().url().toString();
+        QByteArray vastaus = reply->readAll();
+        qDebug() << " (VIRHE!) " << reply->error() << " " << reply->request().url().toString();                        
+        qDebug() << vastaus;
+
+        emit virhe( reply->error());
+
         return;
     } else {
-        QByteArray vastaus = reply->readAll();
-        vastaus_ = QJsonDocument::fromJson( vastaus ).toVariant();
-        vastaa( OK );
-        qDebug() << " (OK) " << vastaus.left(20);
+        QByteArray luettu = reply->readAll();
+        vastaus_ = QJsonDocument::fromJson( luettu ).toVariant();
+        emit vastaus( &vastaus_ );
+        qDebug() << " (OK) " << luettu.left(35);
     }
     this->deleteLater();
 }

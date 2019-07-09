@@ -53,8 +53,6 @@ bool SiirtoApuri::tositteelle()
     double euroa = ui->euroEdit->value();
     QVariant otsikko = tosite()->data(Tosite::OTSIKKO);
 
-    qDebug() << euroa << " € = " << ui->euroEdit->asCents() << " snt = " << ui->euroEdit->text();
-
     QVariantList viennit;
 
     QVariantMap debet;
@@ -80,8 +78,16 @@ bool SiirtoApuri::tositteelle()
 
 void SiirtoApuri::reset()
 {
-    tililtaMuuttui();
-    tililleMuuttui();
+    QVariantList vientilista = tosite()->viennit()->viennit().toList();
+    if( vientilista.count() == 2 )
+    {
+        ui->tililleEdit->valitseTiliNumerolla( vientilista.at(0).toMap().value("tili").toInt() );
+        ui->euroEdit->setValue( vientilista.at(0).toMap().value("debet").toDouble() );
+        ui->tililtaEdit->valitseTiliNumerolla( vientilista.at(1).toMap().value("tili").toInt() );
+    } else {
+        tililtaMuuttui();
+        tililleMuuttui();
+    }
 }
 
 void SiirtoApuri::tililtaMuuttui()

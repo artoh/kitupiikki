@@ -74,7 +74,7 @@ public:
 public slots:
     void lataa(const QDate& alkaa, const QDate& loppuu);
 
-    void tietoSaapuu(QVariant *map, int status);
+    void tietoSaapuu(QVariant *map);
 
 protected:
     QList<SelausRivi> rivit;

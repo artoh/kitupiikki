@@ -26,6 +26,9 @@ class TositeViennit;
 
 /**
  * @brief Kirjanpitotosite
+ *
+ * @author Arto Hyvättinen
+ * @since 2.0
  */
 class Tosite : public QObject
 {
@@ -45,6 +48,15 @@ public:
         INFO
     };
 
+    enum Virheet {
+        PVMPUUTTUU      = 0b1,
+        PVMLUKITTU      = 0b10,
+        PVMALV          = 0b100,
+        EITASMAA        = 0b1000,
+        NOLLA           = 0b10000,
+        TILIPUUTTUU     = 0b100000
+    };
+
     explicit Tosite(QObject *parent = nullptr);
 
     QVariant data(int kentta) const;
@@ -53,13 +65,34 @@ public:
     TositeViennit* viennit() { return viennit_; }
 
 signals:
+    void ladattu();
+    void talletettu(int id, int tunniste, const QDate& pvm);
+    void tallennusvirhe(int virhe);
+    void tila(bool muokattu, int virheet, double debet, double kredit);
 
 public slots:
-    void lataa(QVariant *variant);
+    void lataa(int tositeid);
+    void lataaData(QVariant *variant);
+    void tallenna();
+    void tarkasta();
+    void nollaa(const QDate& pvm, int tyyppi);
+
+protected slots:
+    void tallennusValmis(QVariant *variant);
+    void tallennuksessaVirhe(int virhe);
+
+private:
+    /**
+     * @brief Tiedot tallennettavassa muodossa
+     * @return
+     */
+    QVariantMap tallennettava();
 
 private:
     QVariantMap data_;
+    QVariantMap tallennettu_;
     TositeViennit* viennit_;
+    bool tallennuskesken_ = false;
 
     static std::map<int,QString> avaimet__;
 };
