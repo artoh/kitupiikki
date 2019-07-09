@@ -38,8 +38,6 @@ SiirtoApuri::SiirtoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->tililtaEdit, &TilinvalintaLine::textChanged, this, &SiirtoApuri::tililtaMuuttui);
     connect( ui->tililleEdit, &TilinvalintaLine::textChanged, this, &SiirtoApuri::tililleMuuttui);
     connect( ui->euroEdit, &KpEuroEdit::textChanged, this, &SiirtoApuri::tositteelle);
-
-    reset();
 }
 
 SiirtoApuri::~SiirtoApuri()

@@ -171,9 +171,10 @@ Qt::ItemFlags TositeViennit::flags(const QModelIndex &index) const
     if (!index.isValid())
         return Qt::NoItemFlags;
 
+    if( muokattavissa_ )
+        return Qt::ItemIsEditable; // FIXME: Implement me!
+
     return Qt::NoItemFlags;
-    // Tämä vain jos voi muokata suoraan ;)
-    return Qt::ItemIsEditable; // FIXME: Implement me!
 }
 
 bool TositeViennit::insertRows(int row, int count, const QModelIndex &parent)
@@ -200,4 +201,9 @@ void TositeViennit::asetaViennit(QVariantList viennit)
     endResetModel();
 
     qDebug() << viennit_;
+}
+
+void TositeViennit::asetaMuokattavissa(bool muokattavissa)
+{
+    muokattavissa_ = muokattavissa;
 }

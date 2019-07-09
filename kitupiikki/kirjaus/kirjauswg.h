@@ -53,9 +53,7 @@ public:
     KirjausWg(TositeModel *tositeModel, QWidget *parent=nullptr);
     ~KirjausWg();
 
-    QDate tositePvm() const;
-
-    enum Valilehdet { VIENNIT, KOMMENTIT, LIITTEET, TILIOTE, LISATIEDOT } ;
+    enum Valilehdet { VIENNIT, KOMMENTIT, LIITTEET, LISATIEDOT } ;
 
     TositeModel *model() { return model_;}
 
@@ -77,7 +75,6 @@ public slots:
     /**
      * @brief Päivittää debet- ja kredit summat ja jos ei täsmää ei tallennusnappi käytössä
      */
-    void naytaSummat();
     void lataaTosite(int id);
 
     void paivitaKommenttiMerkki();
@@ -118,10 +115,7 @@ public slots:
      */
     void liiteValinta(const QModelIndex& valittu);
 
-    /**
-     * @brief Näyttää kirjausapurin
-     */
-    void kirjausApuri();
+
 
     void pvmVaihtuu();
 
@@ -140,10 +134,6 @@ public slots:
 
     void paivitaTallennaPoistaNapit();
 
-    /**
-     * @brief Päivittää lukituksen ja alvin varoitukset
-     */
-    void paivitaVaroitukset() const;
 
     /**
      * @brief Siirtää tositteiden numeroita eteenpäin

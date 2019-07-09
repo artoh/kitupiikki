@@ -45,7 +45,7 @@ public:
         ERAPVM,
         TOIMITTAJA,
         ASIAKAS,
-        INFO
+        KOMMENTIT
     };
 
     enum Virheet {

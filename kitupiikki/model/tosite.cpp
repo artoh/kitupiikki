@@ -134,6 +134,10 @@ void Tosite::tallennusValmis(QVariant *variant)
     lataaData(variant);
     emit talletettu( data(ID).toInt(), data(TUNNISTE).toInt(), tallennettu_.value( avaimet__.at(PVM) ).toDate() );
     tarkasta();
+
+    // Tämä pitää oikaista vielä huomioimaan tilinavauksen sikäli jos sitä tositteen kautta käsitellään ;)
+    if( !kp()->asetukset()->onko("EkaTositeKirjattu"))
+        kp()->asetukset()->aseta("EkaTositeKirjattu", true);
 }
 
 void Tosite::tallennuksessaVirhe(int virhe)
@@ -160,5 +164,5 @@ std::map<int,QString> Tosite::avaimet__ = {
     { ERAPVM, "erapvm"},
     { TOIMITTAJA, "toimittaja" },
     { ASIAKAS, "asiakas" },
-    { INFO, "info"}
+    { KOMMENTIT, "info"}
 };

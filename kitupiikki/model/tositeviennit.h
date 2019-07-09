@@ -55,10 +55,12 @@ public:
 
     void asetaViennit(QVariantList viennit);
     QVariant viennit() const { return viennit_;}
+    void asetaMuokattavissa(bool muokattavissa);
 
 
 private:
     QVariantList viennit_;
+    bool muokattavissa_ = false;
 
 };
 
