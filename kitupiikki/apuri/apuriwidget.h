@@ -31,6 +31,7 @@ public:
 
     Tosite* tosite() { return pTosite_;}
     virtual void reset() = 0;
+    virtual void otaFokus() {;}
 
 signals:
 

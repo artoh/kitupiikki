@@ -96,6 +96,11 @@ void SiirtoApuri::reset()
     resetointiKaynnissa_ = false;
 }
 
+void SiirtoApuri::otaFokus()
+{
+    ui->tililtaEdit->setFocus(Qt::TabFocusReason);
+}
+
 void SiirtoApuri::tililtaMuuttui()
 {
     Tili tili = ui->tililtaEdit->valittuTili();

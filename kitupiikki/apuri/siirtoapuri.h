@@ -33,6 +33,7 @@ public:
 
     void reset() override;
 
+    void otaFokus() override;
 
 private slots:
     bool tositteelle() override;

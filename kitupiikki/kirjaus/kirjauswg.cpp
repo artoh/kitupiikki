@@ -75,7 +75,7 @@
 KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     : QWidget(parent), model_(tositeModel), laskuDlg_(nullptr), apurivinkki_(nullptr),
       taydennysSql_( new QSqlQueryModel ), apuri_(nullptr),
-      tallennettuWidget_( new TallennettuWidget() )
+      tallennettuWidget_( new TallennettuWidget(this) )
 {
     ui = new Ui::KirjausWg();
     ui->setupUi(this);
@@ -231,9 +231,10 @@ void KirjausWg::tyhjenna()
 {
     tosite_->nollaa( ui->tositePvmEdit->date(), ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt() );
     tiedotModelista();
-
+    ui->tallennaButton->setVisible(true);
     ui->tositePvmEdit->setFocus();
     ui->tabWidget->setCurrentIndex(0);
+    ui->tositePvmEdit->setFocus();
 
 }
 
@@ -436,8 +437,8 @@ void KirjausWg::tallennettu(int /* id */, int tunniste, const QDate &pvm)
     if( tunniste ) {
             tallennettuWidget_->nayta(tunniste, pvm);
 
-            tallennettuWidget_->move( mapToGlobal( QPoint( width() / 2 - tallennettuWidget_->width() / 2,
-                                                           height() - tallennettuWidget_->height() ) ) ) ;
+            tallennettuWidget_->move( width() / 2 - tallennettuWidget_->width() / 2,
+                                                           height() - tallennettuWidget_->height() );
         tyhjenna();
     }
 }
@@ -494,9 +495,13 @@ bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
                 return true;
             }
             // Tositetyypistä pääsee tabulaattorilla uudelle riville
-            else if( keyEvent->key() == Qt::Key_Tab && watched == ui->tositetyyppiCombo
-                     && !apuri_)
+            else if( keyEvent->key() == Qt::Key_Tab && watched == ui->tositetyyppiCombo)
             {
+                if( apuri_) {
+                    apuri_->otaFokus();
+                    return true;
+                }
+
                 if( !model()->vientiModel()->rowCount(QModelIndex()))
                     lisaaRivi();
                 ui->viennitView->setFocus(Qt::TabFocusReason);

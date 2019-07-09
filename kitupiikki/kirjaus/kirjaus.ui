@@ -56,6 +56,9 @@
    </item>
    <item>
     <widget class="QTabWidget" name="tabWidget">
+     <property name="focusPolicy">
+      <enum>Qt::TabFocus</enum>
+     </property>
      <property name="currentIndex">
       <number>3</number>
      </property>
@@ -439,6 +442,29 @@
    <header>kirjaus/viennitview.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>tositePvmEdit</tabstop>
+  <tabstop>otsikkoEdit</tabstop>
+  <tabstop>tositetyyppiCombo</tabstop>
+  <tabstop>tiliotetiliCombo</tabstop>
+  <tabstop>viennitView</tabstop>
+  <tabstop>lisaaRiviNappi</tabstop>
+  <tabstop>poistariviNappi</tabstop>
+  <tabstop>edellinenButton</tabstop>
+  <tabstop>seuraavaButton</tabstop>
+  <tabstop>tallennaButton</tabstop>
+  <tabstop>valmisNappi</tabstop>
+  <tabstop>hylkaaNappi</tabstop>
+  <tabstop>valikkoNappi</tabstop>
+  <tabstop>kommentitEdit</tabstop>
+  <tabstop>avaaNappi</tabstop>
+  <tabstop>tulostaLiiteNappi</tabstop>
+  <tabstop>lisaaliiteNappi</tabstop>
+  <tabstop>poistaLiiteNappi</tabstop>
+  <tabstop>lokiView</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>liiteView</tabstop>
+ </tabstops>
  <resources>
   <include location="../pic/pic.qrc"/>
  </resources>

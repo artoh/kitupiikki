@@ -28,7 +28,7 @@ TallennettuWidget::TallennettuWidget(QWidget *parent) :
     ui->setupUi(this);
     setVisible(false);
 
-    setWindowFlags( Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+    setWindowFlags( Qt::FramelessWindowHint);
 
     timer_ = new QTimer(this);
     timer_->setSingleShot(true);
