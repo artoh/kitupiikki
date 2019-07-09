@@ -15,14 +15,11 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "apuriwidget.h"
+#include "model/tosite.h"
 
 ApuriWidget::ApuriWidget(QWidget *parent, Tosite *pTosite) : QWidget(parent), pTosite_(pTosite)
 {
-
+    connect( pTosite, &Tosite::ladattu, this, &ApuriWidget::reset);
 }
 
-void ApuriWidget::asetaTosite(Tosite *pTosite)
-{
-    pTosite_ = pTosite;
-}
 

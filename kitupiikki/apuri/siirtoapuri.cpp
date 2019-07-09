@@ -49,8 +49,11 @@ SiirtoApuri::~SiirtoApuri()
 
 bool SiirtoApuri::tositteelle()
 {
-    QDate pvm = tosite()->data(Tosite::PVM).toDate();
+    if( resetointiKaynnissa_ )
+        return false;
+
     double euroa = ui->euroEdit->value();
+    QDate pvm = tosite()->data(Tosite::PVM).toDate();    
     QVariant otsikko = tosite()->data(Tosite::OTSIKKO);
 
     QVariantList viennit;
@@ -78,6 +81,7 @@ bool SiirtoApuri::tositteelle()
 
 void SiirtoApuri::reset()
 {
+    resetointiKaynnissa_ = true;
     QVariantList vientilista = tosite()->viennit()->viennit().toList();
     if( vientilista.count() == 2 )
     {
@@ -85,9 +89,13 @@ void SiirtoApuri::reset()
         ui->euroEdit->setValue( vientilista.at(0).toMap().value("debet").toDouble() );
         ui->tililtaEdit->valitseTiliNumerolla( vientilista.at(1).toMap().value("tili").toInt() );
     } else {
+        ui->euroEdit->setCents(0);
+        ui->tililleEdit->clear();
+        ui->tililtaEdit->clear();
         tililtaMuuttui();
         tililleMuuttui();
     }
+    resetointiKaynnissa_ = false;
 }
 
 void SiirtoApuri::tililtaMuuttui()
@@ -107,7 +115,7 @@ void SiirtoApuri::tililtaMuuttui()
 }
 
 void SiirtoApuri::tililleMuuttui()
-{
+{    
     Tili tili = ui->tililleEdit->valittuTili();
     bool kohdennukset = kp()->kohdennukset()->kohdennuksia() &&
             tili.onko(TiliLaji::TULOS); // Tai kohdennettava tasetili;

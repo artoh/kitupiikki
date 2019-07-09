@@ -69,16 +69,16 @@
 #include "apuri/tilioteapuri.h"
 #include "model/tosite.h"
 #include "model/tositeviennit.h"
+#include "tallennettuwidget.h"
 
 
 KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     : QWidget(parent), model_(tositeModel), laskuDlg_(nullptr), apurivinkki_(nullptr),
-      taydennysSql_( new QSqlQueryModel ), apuri_(nullptr)
+      taydennysSql_( new QSqlQueryModel ), apuri_(nullptr),
+      tallennettuWidget_( new TallennettuWidget() )
 {
     ui = new Ui::KirjausWg();
     ui->setupUi(this);
-
-//    ui->viennitView->setModel( model_ );
 
     connect( model_->vientiModel(), SIGNAL(muuttunut()), this, SLOT(naytaSummat()));
 
@@ -86,16 +86,13 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     ui->viennitView->setItemDelegateForColumn( VientiModel::PVM, new PvmDelegaatti(ui->tositePvmEdit));
 
 
-    ui->tunnisteEdit->setValidator( new QIntValidator(1,99999999) );
 
     connect( ui->lisaaRiviNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaRivi()));
     connect( ui->poistariviNappi, SIGNAL(clicked(bool)), this, SLOT(poistaRivi()));
     connect( ui->tallennaButton, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
+    connect( ui->valmisNappi, &QPushButton::clicked, this, &KirjausWg::valmis);
     connect( ui->hylkaaNappi, SIGNAL(clicked(bool)), this, SLOT(hylkaa()));
     connect( ui->kommentitEdit, SIGNAL(textChanged()), this, SLOT(paivitaKommenttiMerkki()));
-    connect( ui->apuriNappi, SIGNAL(clicked(bool)), this, SLOT(kirjausApuri()));
-    connect( ui->laskuNappi, SIGNAL(clicked(bool)), this, SLOT(kirjaaLaskunmaksu()));
-    connect( ui->siiraNumerotBtn, SIGNAL(clicked(bool)), this, SLOT(numeroSiirto()));
 
     tyyppiProxy_ = new QSortFilterProxyModel(this);
     tyyppiProxy_->setSourceModel( kp()->tositeTyypit() );
@@ -113,7 +110,6 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( ui->tositePvmEdit, SIGNAL(editingFinished()), this, SLOT(pvmVaihtuu()));
 
     connect( ui->tositetyyppiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(vaihdaTositeTyyppi()));
-    connect( ui->tunnisteEdit, SIGNAL(textChanged(QString)), this, SLOT(paivitaTunnisteVari()));
     connect( ui->viennitView, SIGNAL(activated(QModelIndex)), this, SLOT( vientivwAktivoitu(QModelIndex)));
     connect( ui->viennitView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(vientiValittu()));
 
@@ -144,7 +140,6 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( ui->poistaLiiteNappi, SIGNAL(clicked(bool)), this, SLOT(poistaLiite()));
 
     connect( ui->tiliotetiliCombo, SIGNAL(activated(int)), this, SLOT(tiedotModeliin()));
-    connect( ui->selvittelyNappi, &QPushButton::clicked, this, &KirjausWg::naytaSelvitys);
 
     connect( model(), SIGNAL(tositettaMuokattu(bool)), this, SLOT(paivitaTallennaPoistaNapit()));
 
@@ -182,11 +177,15 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( ui->edellinenButton, &QPushButton::clicked, [this] () { this->lataaTosite(this->edellinenSeuraava_->edellinenId()); });
     connect( ui->seuraavaButton, &QPushButton::clicked, [this] () { this -> lataaTosite(this->edellinenSeuraava_->seuraavaId()); });
 
-    connect( kp(), &Kirjanpito::tietokantaVaihtui, [this] () { this->ui->tyyppiLabel->setVisible( !kp()->asetukset()->onko("Samaansarjaan") ); });
     connect( model(), &TositeModel::modelReset, this, &KirjausWg::tiedotModelista);
 
     tosite_ = new Tosite();
     ui->viennitView->setModel( tosite_->viennit() );
+
+    connect( tosite_, &Tosite::tila, this, &KirjausWg::paivita);
+    connect( tosite_, &Tosite::talletettu, this, &KirjausWg::tallennettu);
+    connect( tosite_, &Tosite::tallennusvirhe, this, &KirjausWg::tallennusEpaonnistui);
+    connect( tosite_, &Tosite::ladattu, this, &KirjausWg::tiedotModelista);
 
     ui->tabWidget->insertTab(0, apuri_, QIcon(":/pic/apuri64.png"), tr("Kirjaa"));
 
@@ -235,46 +234,11 @@ void KirjausWg::poistaRivi()
 
 void KirjausWg::tyhjenna()
 {
-    // Tunnisteen väri mustaksi
-    ui->tunnisteEdit->setStyleSheet("color: black;");
-    // Tyhjennetään ensin model
-    model_->tyhjaa();
-    edellinenSeuraava_->paivita();
-    // ja sitten päivitetään lomakkeen tiedot modelista
+    tosite_->nollaa( ui->tositePvmEdit->date(), ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt() );
     tiedotModelista();
-    // Ei voi tallentaa eikä poistaa kun ei ole mitään...
-    ui->tallennaButton->setEnabled(false);
-    poistaAktio_->setEnabled(false);
-    tyhjennaViennitAktio_->setEnabled(false);
 
-    paivitaLiiteNapit();
-    pvmVaihtuu();
-    // Verosarake näytetään vain, jos alv-toiminnot käytössä
-    ui->viennitView->setColumnHidden( VientiModel::ALV, !kp()->asetukset()->onko("AlvVelvollinen") );
-    // Tyhjennetään tositemodel
-    emit liiteValittu(QByteArray());
-    // Tyhjennetään laskudialogi
-    if( laskuDlg_)
-    {
-        laskuDlg_->deleteLater();
-        laskuDlg_ = nullptr;
-    }
     ui->tositePvmEdit->setFocus();
-
-    // Apurivinkit alkuun
-    // Ensimmäisillä kerroilla näytetään erityinen vinkki Apurin käytöstä
-    if( kp()->settings()->value("ApuriVinkki", 1).toInt() > 0)
-    {
-        if( !apurivinkki_)
-            apurivinkki_ = new ApuriVinkki(this);
-
-        apurivinkki_->show();
-        apurivinkki_->move( (width() - apurivinkki_->width()) / 2 ,
-                            ui->apuriNappi->y() - apurivinkki_->height() - ui->apuriNappi->height() / 2 );
-    }
-    naytaSummat();
     ui->tabWidget->setCurrentIndex(0);
-    ui->selvittelyNappi->setEnabled(false);
 
 }
 
@@ -300,7 +264,6 @@ void KirjausWg::tallenna()
 
     // Tallennus
 
-    tiedotModeliin();
 
     if( !model_->tallenna() )
     {
@@ -323,7 +286,6 @@ void KirjausWg::tallenna()
     if( !kp()->asetukset()->onko("EkaTositeKirjattu"))
         kp()->asetukset()->aseta("EkaTositeKirjattu", true);
 
-    ui->selvittelyNappi->setEnabled(true);
 
     emit tositeKasitelty();
 }
@@ -423,25 +385,7 @@ void KirjausWg::paivitaTallennaPoistaNapit()
 
 void KirjausWg::paivitaVaroitukset() const
 {
-    // Yhdistetty varoitusten näyttäjä
-    ui->varoKuva->setPixmap(QPixmap());
-    ui->varoTeksti->clear();
 
-    if( kp()->tilitpaatetty() >= kp()->tilikaudet()->kirjanpitoLoppuu() )
-    {
-        ui->varoKuva->setPixmap(QPixmap(":/pic/stop.png"));
-        ui->varoTeksti->setText( tr("Kirjanpidossa ei ole\navointa tilikautta."));
-    }
-    else if( kp()->tilitpaatetty() >= ui->tositePvmEdit->date() )
-    {
-        ui->varoKuva->setPixmap( QPixmap(":/pic/lukittu.png"));
-        ui->varoTeksti->setText( tr("Kirjanpito lukittu\n%1 saakka").arg(kp()->tilitpaatetty().toString("dd.MM.yyyy")));
-    }
-    else if( kp()->asetukset()->onko("AlvVelvollinen") && ui->tositePvmEdit->date() <= kp()->asetukset()->pvm("AlvIlmoitus") )
-    {
-        ui->varoTeksti->setText( tr("Alv-ilmoitus annettu\n%1 saakka").arg(kp()->asetukset()->pvm("AlvIlmoitus").toString("dd.MM.yyyy")));
-        ui->varoKuva->setPixmap( QPixmap(":/pic/vero.png"));
-    }
 }
 
 void KirjausWg::numeroSiirto()
@@ -455,7 +399,6 @@ void KirjausWg::numeroSiirto()
     dui.tilikausiLabel->setText( kausi.kausivaliTekstina() );
     dui.lajiLabel->setText( ui->tositetyyppiCombo->currentText() );
     dui.alkuSpin->setMaximum( model_->seuraavaTunnistenumero() );
-    dui.alkuSpin->setValue( ui->tunnisteEdit->text().toInt() );
 
     if( dlg.exec() == QDialog::Accepted )
     {
@@ -490,6 +433,69 @@ void KirjausWg::naytaSelvitys()
 {
     NaytinIkkuna *naytin = new NaytinIkkuna();
     naytin->naytaRaportti( model()->selvittelyTuloste() );
+}
+
+void KirjausWg::valmis()
+{
+    tosite_->setData(Tosite::TILA, 100);
+    tallenna();
+}
+
+void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
+{
+    // Yhdistetty varoitusten näyttäjä
+    ui->varoKuva->setPixmap(QPixmap());
+    ui->varoTeksti->clear();
+
+    if( kp()->tilitpaatetty() >= kp()->tilikaudet()->kirjanpitoLoppuu() )
+    {
+        ui->varoKuva->setPixmap(QPixmap(":/pic/stop.png"));
+        ui->varoTeksti->setText( tr("Kirjanpidossa ei ole\navointa tilikautta."));
+    }
+    else if( virheet & Tosite::PVMLUKITTU || kp()->tilitpaatetty() >= ui->tositePvmEdit->date())
+    {
+        ui->varoKuva->setPixmap( QPixmap(":/pic/lukittu.png"));
+        ui->varoTeksti->setText( tr("Kirjanpito lukittu\n%1 saakka").arg(kp()->tilitpaatetty().toString("dd.MM.yyyy")));
+    }
+    else if( virheet & Tosite::PVMALV )
+    {
+        ui->varoTeksti->setText( tr("Alv-ilmoitus annettu\n%1 saakka").arg(kp()->asetukset()->pvm("AlvIlmoitus").toString("dd.MM.yyyy")));
+        ui->varoKuva->setPixmap( QPixmap(":/pic/vero.png"));
+    } else if( virheet & Tosite::EITASMAA) {
+        ui->varoTeksti->setText( tr("Debet %L1 €    Kredit %L2 €    <b>Erotus %L3 €</b>")
+                     .arg(debet,0,'f',2)
+                     .arg(kredit,0,'f',2)
+                     .arg(qAbs(debet-kredit),0,'f',2) );
+    } else if( qAbs(debet) > 1e-5) {
+        ui->varoTeksti->setText( tr("Summa %L1 €").arg(debet,0,'f',2) );
+    }
+
+    // Nappien enablointi
+    // Täällä pitäisi olla jossain myös oikeuksien tarkastus ;)
+    ui->tallennaButton->setEnabled( muokattu );
+    ui->valmisNappi->setEnabled(muokattu && !virheet);
+
+    salliMuokkaus( !( virheet & Tosite::PVMALV || virheet & Tosite::PVMLUKITTU  ) || !tosite_->data(Tosite::ID).toInt() );
+    if( muokattu )
+        tallennettuWidget_->piiloon();
+
+}
+
+void KirjausWg::tallennettu(int /* id */, int tunniste, const QDate &pvm)
+{
+
+    if( tunniste ) {
+            tallennettuWidget_->nayta(tunniste, pvm);
+
+            tallennettuWidget_->move( mapToGlobal( QPoint( width() / 2 - tallennettuWidget_->width() / 2,
+                                                           height() - tallennettuWidget_->height() ) ) ) ;
+        tyhjenna();
+    }
+}
+
+void KirjausWg::tallennusEpaonnistui(int virhe)
+{
+    QMessageBox::critical(this, tr("Tallennus epäonnistui"), tr("Tositteen tallentaminen epäonnistui (Virhe %1)").arg(virhe));
 }
 
 void KirjausWg::siirryTositteeseen()
@@ -667,10 +673,6 @@ void KirjausWg::naytaSummat()
                                  .arg((1.0 * debet )/100.0 ,0,'f',2)
                                  .arg((1.0 * kredit ) / 100.0 ,0,'f',2));
 
-    // #39: Debet- ja kredit-kirjausten on täsmättävä
-    ui->tallennaButton->setEnabled( !erotus && model()->muokattu() && model()->muokkausSallittu() &&
-                                    model()->kelpaakoTunniste( ui->tunnisteEdit->text().toInt() ) &&
-                                    ui->tositePvmEdit->date().isValid());
 
     // Tilien joilla kirjauksia oltava valideja
     for(int i=0; i < model_->vientiModel()->rowCount(QModelIndex()); i++)
@@ -696,6 +698,10 @@ void KirjausWg::naytaSummat()
 
 void KirjausWg::lataaTosite(int id)
 {
+    tosite_->lataa(id);
+    return;
+
+
     model_->lataa(id);
 
     tiedotModelista();
@@ -743,18 +749,6 @@ void KirjausWg::paivitaKommenttiMerkki()
 
 void KirjausWg::paivitaTunnisteVari()
 {
-    bool kelpaako = model_->kelpaakoTunniste( ui->tunnisteEdit->text().toInt()) ;
-
-    if( kelpaako)
-    {
-        ui->tunnisteEdit->setStyleSheet("color: black;");
-        model()->asetaTunniste(ui->tunnisteEdit->text().toInt());
-    }
-    else
-        ui->tunnisteEdit->setStyleSheet("color: red;");
-
-    ui->siiraNumerotBtn->setVisible( !kelpaako );
-
     paivitaTallennaPoistaNapit();
 }
 
@@ -793,46 +787,37 @@ void KirjausWg::lisaaLiiteDatasta(const QByteArray &data, const QString &nimi)
 }
 
 
-void KirjausWg::tiedotModeliin()
-{
-    model_->asetaPvm( ui->tositePvmEdit->date());
-    model_->asetaOtsikko( ui->otsikkoEdit->text());
-    model_->asetaTunniste( ui->tunnisteEdit->text().toInt());
-    model_->asetaTositelaji( ui->tositetyyppiCombo->currentData( TositelajiModel::IdRooli).toInt() );
-
-    model_->asetaKommentti( ui->kommentitEdit->toPlainText() );
-
-    paivitaTallennaPoistaNapit();
-}
-
 void KirjausWg::tiedotModelista()
 {
     salliMuokkaus( model_->muokkausSallittu() );
 
-    ui->tositePvmEdit->setDate( model_->pvm() );
+    QDate tositepvm = tosite_->data(Tosite::PVM).toDate();
 
-    ui->otsikkoEdit->setText( model_->otsikko() );
-    ui->kommentitEdit->setPlainText( model_->kommentti());
-    ui->tunnisteEdit->setText( QString::number(model_->tunniste()));
-    ui->selvittelyNappi->setEnabled( model()->id() );
+    ui->tositePvmEdit->setDate( tositepvm );
+    ui->otsikkoEdit->setText( tosite_->data(Tosite::OTSIKKO).toString() );
+    ui->kommentitEdit->setPlainText( tosite_->data(Tosite::INFO).toString());
 
-    ui->kausiLabel->setText(QString("/ %1").arg( kp()->tilikaudet()->tilikausiPaivalle(model_->pvm()).kausitunnus() ));
+    int tunniste = tosite_->data(Tosite::TUNNISTE).toInt();
 
-    paivitaVaroitukset();
+    if( tunniste ) {
+        ui->tunnisteLabel->setVisible(true);
+        ui->edellinenButton->setVisible(true);
+        ui->seuraavaButton->setVisible(true);
+        ui->tallennaButton->setVisible(false);
 
-    if( model()->id() > 0)
-    {
-        ui->tunnisteLabel->setText( QString("%1").arg( model_->id(), 8, 10, QChar('0') ) );
-        ui->luotuLabel->setText( model_->luontiAika().toString("dd.MM.yyyy hh.mm.ss") );
-        ui->muokattuLabel->setText( model_->muokattuAika().toString("dd.MM.yyyy hh.mm.ss"));
-
+        ui->tunnisteLabel->setText( QString("%1 / %2")
+                                    .arg( tunniste )
+                                    .arg( kp()->tilikaudet()->tilikausiPaivalle(tositepvm).kausitunnus() ));
+    } else {
+        ui->edellinenButton->setVisible(false);
+        ui->tunnisteLabel->setVisible(false);
+        ui->seuraavaButton->setVisible(false);
     }
-    else
-    {
-        ui->tunnisteLabel->setText( tr("Uusi tosite"));
-        ui->luotuLabel->clear();
-        ui->muokattuLabel->clear();
-    }
+
+    ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( tosite_->data(Tosite::TYYPPI).toInt(), TositeTyyppiModel::KoodiRooli ) );
+
+    if( apuri_ )
+        apuri_->reset();
 
 
 }
@@ -842,7 +827,6 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
     ui->tositePvmEdit->setEnabled(sallitaanko);
     ui->tositetyyppiCombo->setEnabled(sallitaanko);
     ui->kommentitEdit->setEnabled(sallitaanko);
-    ui->tunnisteEdit->setEnabled(sallitaanko);
     ui->otsikkoEdit->setEnabled(sallitaanko);
     ui->lisaaliiteNappi->setEnabled(sallitaanko);
     ui->poistaLiiteNappi->setEnabled(sallitaanko);
@@ -858,8 +842,6 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
 void KirjausWg::vaihdaTositeTyyppi()
 {
     model_->asetaTositelaji( ui->tositetyyppiCombo->currentData(TositelajiModel::IdRooli).toInt() );
-    ui->tyyppiLabel->setText( model_->tositelaji().tunnus());
-
 
     int tyyppiKoodi = ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt() ;
 
@@ -943,8 +925,6 @@ void KirjausWg::pvmVaihtuu()
     {
         // Siirrytty toiselle tilikaudelle, vaihdetaan numerointia
         model_->asetaTunniste( model_->seuraavaTunnistenumero());
-        ui->tunnisteEdit->setText( QString::number(model_->tunniste() ));
-        ui->kausiLabel->setText( QString("/ %1").arg(kp()->tilikaudet()->tilikausiPaivalle(paiva).kausitunnus() ));
     }
     paivitaVaroitukset();
 }

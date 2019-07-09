@@ -14,33 +14,37 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef APURIWIDGET_H
-#define APURIWIDGET_H
+#ifndef TALLENNETTUWIDGET_H
+#define TALLENNETTUWIDGET_H
 
 #include <QWidget>
 
-class QSortFilterProxyModel;
+class QTimer;
 
-class Tosite;
+namespace Ui {
+class TallennettuWidget;
+}
 
-class ApuriWidget : public QWidget
+class TallennettuWidget : public QWidget
 {
     Q_OBJECT
+
 public:
-    explicit ApuriWidget(QWidget *parent, Tosite *pTosite);
+    explicit TallennettuWidget(QWidget *parent = nullptr);
+    ~TallennettuWidget() override;
 
-    Tosite* tosite() { return pTosite_;}
-    virtual void reset() = 0;
 
-signals:
+    void nayta(int tunnus, const QDate& paiva);
 
 public slots:
+    void piiloon();
 
-    virtual bool tositteelle() {return false;}
+private:
+    Ui::TallennettuWidget *ui;
 
-protected:
-    Tosite* pTosite_;
+    void mousePressEvent(QMouseEvent* event) override;
 
+    QTimer* timer_;
 };
 
-#endif // APURIWIDGET_H
+#endif // TALLENNETTUWIDGET_H

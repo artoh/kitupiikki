@@ -92,7 +92,8 @@ private:
     QVariantMap data_;
     QVariantMap tallennettu_;
     TositeViennit* viennit_;
-    bool tallennuskesken_ = false;
+
+    bool resetointiKaynnissa_ = false;
 
     static std::map<int,QString> avaimet__;
 };

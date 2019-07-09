@@ -7,6 +7,7 @@ SOURCES += uusikp/uusikirjanpito.cpp \
     $$PWD/db/kielikentta.cpp \
     $$PWD/db/tositetyyppimodel.cpp \
     $$PWD/db/yhteysmodel.cpp \
+    $$PWD/kirjaus/tallennettuwidget.cpp \
     $$PWD/model/tosite.cpp \
     $$PWD/model/tositeviennit.cpp \
     $$PWD/tools/kpeuroedit.cpp \
@@ -189,6 +190,7 @@ HEADERS += \
     $$PWD/db/kielikentta.h \
     $$PWD/db/tositetyyppimodel.h \
     $$PWD/db/yhteysmodel.h \
+    $$PWD/kirjaus/tallennettuwidget.h \
     $$PWD/model/tosite.h \
     $$PWD/model/tositeviennit.h \
     $$PWD/tools/kpeuroedit.h \
@@ -376,6 +378,7 @@ FORMS += \
     $$PWD/apuri/tilioteapuri.ui \
     $$PWD/apuri/tulomenoapuri.ui \
     $$PWD/apuri/siirtoapuri.ui \
+    $$PWD/kirjaus/tallennettuwidget.ui \
     uusikp/intro.ui \
     uusikp/nimi.ui \
     uusikp/tilikartta.ui \

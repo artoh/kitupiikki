@@ -37,6 +37,7 @@ class EdellinenSeuraavaTieto;
 
 class Tosite;
 class ApuriWidget;
+class TallennettuWidget;
 
 /**
  * @brief Kirjausten muokkaus
@@ -94,10 +95,6 @@ public slots:
     void lisaaLiiteDatasta(const QByteArray& data, const QString& nimi);
 
 
-    /**
-     * @brief Siirtää lomakkeen tiedot modeliin
-     */
-    void tiedotModeliin();
     /**
      * @brief Hakee tiedot modelista lomakkeeseen;
      */
@@ -173,6 +170,12 @@ public slots:
 
     void naytaSelvitys();    
 
+private slots:
+    void valmis();
+
+    void paivita(bool muokattu, int virheet, double debet, double kredit);
+    void tallennettu(int id, int tunniste, const QDate& pvm);
+    void tallennusEpaonnistui(int virhe);
 
 public:
     /**
@@ -236,7 +239,7 @@ protected:
 
     Tosite* tosite_;
     ApuriWidget* apuri_;
-
+    TallennettuWidget* tallennettuWidget_;
 
 };
 

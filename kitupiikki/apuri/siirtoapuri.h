@@ -42,6 +42,8 @@ private slots:
 
 private:
     Ui::SiirtoApuri *ui;
+
+    bool resetointiKaynnissa_ = false;
 };
 
 #endif // SIIRTOAPURI_H

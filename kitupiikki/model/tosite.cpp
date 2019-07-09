@@ -48,26 +48,27 @@ void Tosite::lataa(int tositeid)
 {
     KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tositeid));
     connect(kysely, &KpKysely::vastaus, this, &Tosite::lataaData);
+    kysely->kysy();
 }
 
 void Tosite::lataaData(QVariant *variant)
 {
+    resetointiKaynnissa_ = true;
     data_ = variant->toMap();
-    tallennettu_ = data_;
 
     viennit()->asetaViennit( data_.take("viennit").toList() );
 
+
     // toimittaja/asiakastiedot, liitteet ja loki
 
+    tallennettu_ = tallennettava();
     emit ladattu();
+    resetointiKaynnissa_ = false;
+    tarkasta();
 }
 
 void Tosite::tallenna()
 {
-    if( tallennuskesken_)
-        return;
-
-    tallennuskesken_ = true;
     KpKysely* kysely;
     if( data(ID).isNull())
         kysely = kpk( "/tositteet/", KpKysely::POST);
@@ -85,6 +86,9 @@ void Tosite::tallenna()
 
 void Tosite::tarkasta()
 {
+    if( resetointiKaynnissa_)
+        return;
+
     bool muutettu = tallennettu_ != tallennettava();
 
     int virheet = 0;
@@ -112,24 +116,28 @@ void Tosite::tarkasta()
 
 void Tosite::nollaa(const QDate &pvm, int tyyppi)
 {
+    resetointiKaynnissa_ = true;
     data_.clear();
+    viennit_->asetaViennit(QVariantList());
     data_.insert( avaimet__.at(PVM), pvm );
     data_.insert( avaimet__.at(TYYPPI), tyyppi);
-    tallennettu_ = data_;
+    tallennettu_ = tallennettava();
+    qDebug() << "Nollattu " << (tallennettu_ == tallennettava());
+    emit ladattu();
+    resetointiKaynnissa_ = false;
+    tarkasta();
+
 }
 
 void Tosite::tallennusValmis(QVariant *variant)
 {
     lataaData(variant);
-    tallennuskesken_ = false;
-
     emit talletettu( data(ID).toInt(), data(TUNNISTE).toInt(), tallennettu_.value( avaimet__.at(PVM) ).toDate() );
     tarkasta();
 }
 
 void Tosite::tallennuksessaVirhe(int virhe)
 {
-    tallennuskesken_ = false;
     emit tallennusvirhe(virhe);
 }
 

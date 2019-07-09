@@ -160,6 +160,7 @@
         <file>siirtonuoli.png</file>
         <file>pankki.png</file>
         <file>luottokortti.png</file>
+        <file>ok-128.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

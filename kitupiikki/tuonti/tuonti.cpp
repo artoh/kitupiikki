@@ -149,7 +149,6 @@ void Tuonti::tuoLasku(qlonglong sentit, QDate laskupvm, QDate toimituspvm, QDate
     rivi.laskupvm = laskupvm;
 
     kirjausWg()->model()->vientiModel()->lisaaVienti(rivi);
-    kirjausWg()->tiedotModeliin();
 
 }
 
