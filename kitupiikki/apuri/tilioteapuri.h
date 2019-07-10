@@ -30,7 +30,9 @@ public:
     TilioteApuri(QWidget *parent = nullptr, Tosite* tosite = nullptr);
     virtual ~TilioteApuri() override;
 
-    void reset() override;
+protected:
+    bool teeTositteelle() override;
+    void teeReset() override;
 
 private:
     Ui::TilioteApuri *ui;

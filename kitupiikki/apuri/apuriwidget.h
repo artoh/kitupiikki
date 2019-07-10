@@ -30,17 +30,24 @@ public:
     explicit ApuriWidget(QWidget *parent, Tosite *pTosite);
 
     Tosite* tosite() { return pTosite_;}
-    virtual void reset() = 0;
     virtual void otaFokus() {;}
 
 signals:
 
 public slots:
+    virtual void reset();
+    virtual bool tositteelle();
 
-    virtual bool tositteelle() {return false;}
+protected:
+    virtual void teeReset() = 0;
+    virtual bool teeTositteelle() = 0;
+
 
 protected:
     Tosite* pTosite_;
+
+private:
+    bool resetointiKaynnissa_ = false;
 
 };
 

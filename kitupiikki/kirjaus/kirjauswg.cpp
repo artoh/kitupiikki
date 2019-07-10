@@ -187,8 +187,7 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( tosite_, &Tosite::tallennusvirhe, this, &KirjausWg::tallennusEpaonnistui);
     connect( tosite_, &Tosite::ladattu, this, &KirjausWg::tiedotModelista);
 
-    ui->tabWidget->insertTab(0, apuri_, QIcon(":/pic/apuri64.png"), tr("Kirjaa"));
-
+    vaihdaTositeTyyppi();
 }
 
 KirjausWg::~KirjausWg()
@@ -235,7 +234,6 @@ void KirjausWg::tyhjenna()
     ui->tositePvmEdit->setFocus();
     ui->tabWidget->setCurrentIndex(0);
     ui->tositePvmEdit->setFocus();
-
 }
 
 void KirjausWg::tallenna()

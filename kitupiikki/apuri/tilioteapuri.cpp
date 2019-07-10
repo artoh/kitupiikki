@@ -29,7 +29,13 @@ TilioteApuri::~TilioteApuri()
 
 }
 
-void TilioteApuri::reset()
+bool TilioteApuri::teeTositteelle()
+{
+    return false;
+}
+
+void TilioteApuri::teeReset()
 {
 
 }
+

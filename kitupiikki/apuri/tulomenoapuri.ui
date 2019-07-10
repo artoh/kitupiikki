@@ -285,6 +285,15 @@
             <normaloff>:/pic/poista.png</normaloff>:/pic/poista.png</iconset>
           </property>
          </item>
+         <item>
+          <property name="text">
+           <string>Aiempi ennakkolasku</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../pic/pic.qrc">
+            <normaloff>:/pic/lasku.png</normaloff>:/pic/lasku.png</iconset>
+          </property>
+         </item>
         </widget>
        </item>
        <item row="1" column="0">
@@ -313,7 +322,7 @@
         </layout>
        </item>
        <item row="2" column="0">
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="viiteLabel">
          <property name="text">
           <string>Viite</string>
          </property>

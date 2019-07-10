@@ -45,11 +45,6 @@ KantaTilinvalintaLine::KantaTilinvalintaLine(QWidget *parent)
 
     taydennin->setCompletionMode( QCompleter::UnfilteredPopupCompletion);
     setCompleter(taydennin);
-
-
-    qDebug() << "Tilinvalinta: TiliModelin rivit " << kp()->tilit()->rowCount(QModelIndex());
-    qDebug() << "TilaProxystä " << proxyTila_->rowCount(QModelIndex()) << " TyyppiProxystä " << proxyTyyppi_->rowCount(QModelIndex());
-
 }
 
 int KantaTilinvalintaLine::valittuTilinumero() const

@@ -22,4 +22,18 @@ ApuriWidget::ApuriWidget(QWidget *parent, Tosite *pTosite) : QWidget(parent), pT
     connect( pTosite, &Tosite::ladattu, this, &ApuriWidget::reset);
 }
 
+void ApuriWidget::reset()
+{
+    resetointiKaynnissa_ = true;
+    teeReset();
+    resetointiKaynnissa_ = false;
+}
+
+bool ApuriWidget::tositteelle()
+{
+    if( resetointiKaynnissa_)
+        return false;
+    return teeTositteelle();
+}
+
 

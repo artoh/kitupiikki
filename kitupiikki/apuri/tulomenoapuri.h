@@ -28,22 +28,29 @@ class TuloMenoApuri;
 
 class TuloMenoApuri : public ApuriWidget
 {
-    Q_OBJECT
+    Q_OBJECT    
 
 public:
+    enum Maksutapa { LASKU, PANKKI, LUOTTO, KATEINEN, HYVITYS, ENNAKKO };
+
     TuloMenoApuri(QWidget *parent = nullptr, Tosite* tosite = nullptr);
     virtual ~TuloMenoApuri() override;
 
-    void reset() override;
+    void otaFokus() override;
 
 protected slots:
     void lisaaRivi();
     void tiliMuuttui();
     void maaraMuuttui();
+    void seliteMuuttui();
+    void maksutapaMuuttui();
 
     void haeRivi(const QModelIndex& index);
 
 protected:
+    void teeReset() override;
+    bool teeTositteelle() override;
+
     void alusta(bool meno);
     int rivilla() const;
 

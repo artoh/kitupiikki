@@ -31,20 +31,21 @@ public:
     explicit SiirtoApuri(QWidget *parent = nullptr, Tosite* tosite = nullptr);
     virtual ~SiirtoApuri() override;
 
-    void reset() override;
 
     void otaFokus() override;
 
 private slots:
-    bool tositteelle() override;
 
     void tililtaMuuttui();
     void tililleMuuttui();
 
+protected:
+    bool teeTositteelle() override;
+    void teeReset() override;
+
 private:
     Ui::SiirtoApuri *ui;
 
-    bool resetointiKaynnissa_ = false;
 };
 
 #endif // SIIRTOAPURI_H

@@ -26,6 +26,7 @@ namespace {
     struct Rivi {
         Tili tili;
         qlonglong maara;
+        QString selite;
     };
 }
 
@@ -51,11 +52,16 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
 
+    void clear();
+
     void setTili(int rivi, Tili tili);
     Tili tili(int rivi) const;
 
     void setMaara(int rivi,qlonglong senttia);
     qlonglong maara(int rivi) const;
+
+    void setSelite(int rivi, const QString& selite);
+    QString selite(int rivi);
 
     int lisaaRivi();
 

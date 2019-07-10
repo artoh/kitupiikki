@@ -87,6 +87,13 @@ QVariant TmRivit::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
+void TmRivit::clear()
+{
+    beginResetModel();
+    rivit_.clear();
+    endResetModel();
+}
+
 void TmRivit::setTili(int rivi, Tili tili)
 {
     rivit_[rivi].tili = tili;
@@ -107,6 +114,17 @@ void TmRivit::setMaara(int rivi, qlonglong senttia)
 qlonglong TmRivit::maara(int rivi) const
 {
     return rivit_.at(rivi).maara;
+}
+
+void TmRivit::setSelite(int rivi, const QString &selite)
+{
+    rivit_[rivi].selite = selite;
+
+}
+
+QString TmRivit::selite(int rivi)
+{
+    return rivit_.at(rivi).selite;
 }
 
 int TmRivit::lisaaRivi()

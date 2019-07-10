@@ -45,10 +45,8 @@ SiirtoApuri::~SiirtoApuri()
     delete ui;
 }
 
-bool SiirtoApuri::tositteelle()
+bool SiirtoApuri::teeTositteelle()
 {
-    if( resetointiKaynnissa_ )
-        return false;
 
     double euroa = ui->euroEdit->value();
     QDate pvm = tosite()->data(Tosite::PVM).toDate();    
@@ -77,9 +75,8 @@ bool SiirtoApuri::tositteelle()
 
 }
 
-void SiirtoApuri::reset()
+void SiirtoApuri::teeReset()
 {
-    resetointiKaynnissa_ = true;
     QVariantList vientilista = tosite()->viennit()->viennit().toList();
     if( vientilista.count() == 2 )
     {
@@ -93,7 +90,7 @@ void SiirtoApuri::reset()
         tililtaMuuttui();
         tililleMuuttui();
     }
-    resetointiKaynnissa_ = false;
+
 }
 
 void SiirtoApuri::otaFokus()
