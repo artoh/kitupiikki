@@ -44,6 +44,7 @@ void ApuriWidget::aloitaResetointi()
 void ApuriWidget::lopetaResetointi()
 {
     resetointiKaynnissa_ = false;
+    tositteelle();
 }
 
 

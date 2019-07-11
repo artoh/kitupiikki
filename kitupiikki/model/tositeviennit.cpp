@@ -79,7 +79,7 @@ QVariant TositeViennit::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    QVariantMap vienti = viennit_.at(index.row()).toMap();
+    TositeVienti vienti = viennit_.at(index.row()).toMap();
 
     if( role == Qt::DisplayRole )
     {
@@ -152,6 +152,13 @@ QVariant TositeViennit::data(const QModelIndex &index, int role) const
             return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
 
     }
+    else if( role == Qt::DecorationRole)
+    {
+        if( index.column() == ALV )
+        {
+            return kp()->alvTyypit()->kuvakeKoodilla( vienti.data(TositeVienti::ALVKOODI).toInt() );
+        }
+    }
 
     return QVariant();
 }
@@ -174,7 +181,7 @@ Qt::ItemFlags TositeViennit::flags(const QModelIndex &index) const
     if( muokattavissa_ )
         return Qt::ItemIsEditable; // FIXME: Implement me!
 
-    return Qt::NoItemFlags;
+    return Qt::ItemIsEnabled;
 }
 
 bool TositeViennit::insertRows(int row, int count, const QModelIndex &parent)

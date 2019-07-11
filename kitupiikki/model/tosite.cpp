@@ -61,10 +61,11 @@ void Tosite::lataaData(QVariant *variant)
 
     // toimittaja/asiakastiedot, liitteet ja loki
 
-    tallennettu_ = tallennettava();
     emit ladattu();
+    tallennettu_ = tallennettava();
     resetointiKaynnissa_ = false;
     tarkasta();
+
 }
 
 void Tosite::tallenna()
