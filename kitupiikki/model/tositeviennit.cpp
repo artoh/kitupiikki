@@ -192,6 +192,18 @@ bool TositeViennit::removeRows(int row, int count, const QModelIndex &parent)
     endRemoveRows();
 }
 
+TositeVienti TositeViennit::vienti(int indeksi) const
+{
+    return TositeVienti( viennit_.at(indeksi).toMap() );
+}
+
+void TositeViennit::lisaa(const TositeVienti &vienti)
+{
+    beginInsertRows(QModelIndex(), viennit_.count(), viennit_.count()+1);
+    viennit_.append(vienti);
+    endInsertRows();
+}
+
 
 void TositeViennit::asetaViennit(QVariantList viennit)
 {

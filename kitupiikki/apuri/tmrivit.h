@@ -24,9 +24,13 @@
 namespace {
 
     struct Rivi {
-        Tili tili;
-        qlonglong maara;
+        int tilinumero;
+        qlonglong maara = 0;
+        qlonglong netto = 0;
         QString selite;
+        int verokoodi = 0;
+        double veroprosentti = 0.0;
+        bool eivahennysta = false;
     };
 }
 
@@ -54,14 +58,26 @@ public:
 
     void clear();
 
-    void setTili(int rivi, Tili tili);
+    void setTili(int rivi, int tili);
     Tili tili(int rivi) const;
 
     void setMaara(int rivi,qlonglong senttia);
     qlonglong maara(int rivi) const;
 
+    void setNetto(int rivi, qlonglong senttia);
+    qlonglong netto(int rivi) const;
+
+    void setAlvKoodi(int rivi, int koodi);
+    int alvkoodi(int rivi) const;
+
+    void setAlvProsentti(int rivi, double prosentti);
+    double alvProsentti(int rivi) const;
+
     void setSelite(int rivi, const QString& selite);
-    QString selite(int rivi);
+    QString selite(int rivi) const;
+
+    void setEiVahennysta(int rivi, bool eivahennysta);
+    bool eiVahennysta(int rivi) const;
 
     int lisaaRivi();
 

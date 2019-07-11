@@ -14,43 +14,33 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef APURIWIDGET_H
-#define APURIWIDGET_H
+#ifndef TILICOMBO_H
+#define TILICOMBO_H
 
-#include <QWidget>
+#include <QComboBox>
 
 class QSortFilterProxyModel;
 
-class Tosite;
-
-class ApuriWidget : public QWidget
+class TiliCombo : public QComboBox
 {
     Q_OBJECT
 public:
-    explicit ApuriWidget(QWidget *parent, Tosite *pTosite);
+    TiliCombo(QWidget *parent = nullptr);
 
-    Tosite* tosite() { return pTosite_;}
-    virtual void otaFokus() {;}
+    QSortFilterProxyModel *proxyTyyppi_;
+    QSortFilterProxyModel *proxyTila_;
+
+    void suodataTyypilla(const QString& regexp);
+
+    int valittuTilinumero() const;
+    void valitseTili(int tilinumero);
+
+private slots:
+    void vaihtui();
+    void valitseEka();
 
 signals:
-
-public slots:
-    virtual void reset();
-    virtual bool tositteelle();
-
-protected:
-    virtual void teeReset() = 0;
-    virtual bool teeTositteelle() = 0;
-
-    void aloitaResetointi();
-    void lopetaResetointi();
-
-protected:
-    Tosite* pTosite_;
-
-private:
-    bool resetointiKaynnissa_ = false;
-
+    void tiliValittu(int tilinumero);
 };
 
-#endif // APURIWIDGET_H
+#endif // TILICOMBO_H

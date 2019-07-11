@@ -54,18 +54,18 @@ bool SiirtoApuri::teeTositteelle()
 
     QVariantList viennit;
 
-    QVariantMap debet;
-    debet.insert("pvm", pvm );
-    debet.insert("tili", ui->tililleEdit->valittuTilinumero());
-    debet.insert("debet", euroa);
-    debet.insert("selite", otsikko);
+    TositeVienti debet;
+    debet.setPvm( pvm);
+    debet.setTili( ui->tililleEdit->valittuTilinumero());
+    debet.setDebet( euroa);
+    debet.set(TositeVienti::SELITE, otsikko);
     viennit.append(debet);
 
-    QVariantMap kredit;
-    kredit.insert("pvm", pvm );
-    kredit.insert("tili", ui->tililtaEdit->valittuTilinumero());
-    kredit.insert("kredit", euroa);
-    kredit.insert("selite", otsikko);
+    TositeVienti kredit;
+    kredit.setPvm( pvm );
+    kredit.setTili( ui->tililtaEdit->valittuTilinumero());
+    kredit.setKredit( euroa);
+    kredit.set( TositeVienti::SELITE, otsikko);
     viennit.append(kredit);
 
     tosite()->viennit()->asetaViennit(viennit);

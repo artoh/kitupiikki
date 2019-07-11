@@ -67,8 +67,9 @@ QVariant TmRivit::data(const QModelIndex &index, int role) const
 
     if( role == Qt::DisplayRole) {
         if( index.column() == TILI) {
-            if( rivit_.at( index.row() ).tili.onkoValidi() )
-                return  rivit_.at(index.row()).tili.nimi() ;
+            Tili tili = kp()->tilit()->tiliNumerollaVanha( rivit_.at( index.row() ).tilinumero );
+            if( tili.onkoValidi() )
+                return  tili.nimi() ;
         } else if( index.column() == EUROA)
         {
             qlonglong sentit = rivit_.at( index.row() ).maara;
@@ -94,15 +95,15 @@ void TmRivit::clear()
     endResetModel();
 }
 
-void TmRivit::setTili(int rivi, Tili tili)
+void TmRivit::setTili(int rivi, int tilinumero)
 {
-    rivit_[rivi].tili = tili;
+    rivit_[rivi].tilinumero = tilinumero;
     emit dataChanged(index(rivi,TILI),index(rivi,TILI));
 }
 
 Tili TmRivit::tili(int rivi) const
 {
-    return rivit_.at(rivi).tili;
+    return kp()->tilit()->tiliNumerollaVanha( rivit_.at(rivi).tilinumero );
 }
 
 void TmRivit::setMaara(int rivi, qlonglong senttia)
@@ -116,13 +117,53 @@ qlonglong TmRivit::maara(int rivi) const
     return rivit_.at(rivi).maara;
 }
 
+void TmRivit::setNetto(int rivi, qlonglong senttia)
+{
+    rivit_[rivi].netto = senttia;
+}
+
+qlonglong TmRivit::netto(int rivi) const
+{
+    return rivit_.at(rivi).netto;
+}
+
+void TmRivit::setAlvKoodi(int rivi, int koodi)
+{
+    rivit_[rivi].verokoodi = koodi;
+}
+
+int TmRivit::alvkoodi(int rivi) const
+{
+    return rivit_.at(rivi).verokoodi;
+}
+
+void TmRivit::setAlvProsentti(int rivi, double prosentti)
+{
+    rivit_[rivi].veroprosentti = prosentti;
+}
+
+double TmRivit::alvProsentti(int rivi) const
+{
+    return rivit_.at(rivi).veroprosentti;
+}
+
 void TmRivit::setSelite(int rivi, const QString &selite)
 {
     rivit_[rivi].selite = selite;
 
 }
 
-QString TmRivit::selite(int rivi)
+void TmRivit::setEiVahennysta(int rivi, bool eivahennysta)
+{
+    rivit_[rivi].eivahennysta = eivahennysta;
+}
+
+bool TmRivit::eiVahennysta(int rivi) const
+{
+    return rivit_.at(rivi).eivahennysta;
+}
+
+QString TmRivit::selite(int rivi) const
 {
     return rivit_.at(rivi).selite;
 }

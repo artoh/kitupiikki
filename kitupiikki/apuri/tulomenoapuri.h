@@ -41,7 +41,11 @@ public:
 protected slots:
     void lisaaRivi();
     void tiliMuuttui();
+    void verolajiMuuttui();
     void maaraMuuttui();
+    void verotonMuuttui();
+    void veroprossaMuuttui();
+    void alvVahennettavaMuuttui();
     void seliteMuuttui();
     void maksutapaMuuttui();
 
@@ -57,6 +61,10 @@ protected:
 private:
     Ui::TuloMenoApuri *ui;
     TmRivit* rivit_;
+
+    qlonglong bruttoSnt_ = 0;
+    qlonglong nettoSnt_ = 0;
+
 
     QSortFilterProxyModel* veroFiltteri_;
 };

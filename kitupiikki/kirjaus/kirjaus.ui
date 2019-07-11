@@ -46,9 +46,9 @@
       <widget class="QComboBox" name="tositetyyppiCombo"/>
      </item>
      <item>
-      <widget class="QComboBox" name="tiliotetiliCombo">
+      <widget class="TiliCombo" name="tiliotetiliCombo">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -435,6 +435,11 @@
    <class>KpDateEdit</class>
    <extends>QLineEdit</extends>
    <header location="global">tools/kpdateedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>TiliCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">tools/tilicombo.h</header>
   </customwidget>
   <customwidget>
    <class>ViennitView</class>

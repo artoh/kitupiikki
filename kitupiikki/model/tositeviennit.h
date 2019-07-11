@@ -19,6 +19,8 @@
 
 #include <QAbstractTableModel>
 
+#include "tositevienti.h"
+
 class TositeViennit : public QAbstractTableModel
 {
     Q_OBJECT
@@ -52,6 +54,9 @@ public:
     // Remove data:
     bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
 
+
+    TositeVienti vienti(int indeksi) const;
+    void lisaa(const TositeVienti& vienti);
 
     void asetaViennit(QVariantList viennit);
     QVariant viennit() const { return viennit_;}

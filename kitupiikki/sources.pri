@@ -10,7 +10,9 @@ SOURCES += uusikp/uusikirjanpito.cpp \
     $$PWD/kirjaus/tallennettuwidget.cpp \
     $$PWD/model/tosite.cpp \
     $$PWD/model/tositeviennit.cpp \
+    $$PWD/model/tositevienti.cpp \
     $$PWD/tools/kpeuroedit.cpp \
+    $$PWD/tools/tilicombo.cpp \
     uusikp/introsivu.cpp \
     uusikp/nimisivu.cpp \
     uusikp/tilikarttasivu.cpp \
@@ -193,7 +195,9 @@ HEADERS += \
     $$PWD/kirjaus/tallennettuwidget.h \
     $$PWD/model/tosite.h \
     $$PWD/model/tositeviennit.h \
+    $$PWD/model/tositevienti.h \
     $$PWD/tools/kpeuroedit.h \
+    $$PWD/tools/tilicombo.h \
     uusikp/uusikirjanpito.h \
     uusikp/introsivu.h \
     uusikp/nimisivu.h \

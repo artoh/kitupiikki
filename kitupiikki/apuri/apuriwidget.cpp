@@ -36,4 +36,14 @@ bool ApuriWidget::tositteelle()
     return teeTositteelle();
 }
 
+void ApuriWidget::aloitaResetointi()
+{
+    resetointiKaynnissa_ = true;
+}
+
+void ApuriWidget::lopetaResetointi()
+{
+    resetointiKaynnissa_ = false;
+}
+
 
