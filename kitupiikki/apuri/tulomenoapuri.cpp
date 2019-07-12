@@ -173,6 +173,12 @@ void TuloMenoApuri::teeReset()
         haeRivi( rivit_->index(0,0) );
     ui->tilellaView->selectRow(0);
 
+    // Lisätään tässä testimerkkaus ja tehdään myöhemmin fiksusta
+    ui->merkkauksetCC->clear();
+    ui->merkkauksetCC->addItem("Testimerkkaus",1);
+    ui->merkkauksetCC->addItem("Toinen",3,Qt::Checked);
+    ui->merkkauksetCC->addItem("Kolmas",5);
+
 }
 
 bool TuloMenoApuri::teeTositteelle()
@@ -515,7 +521,8 @@ void TuloMenoApuri::alusta(bool meno)
 
     bool merkkauksia = kp()->kohdennukset()->merkkauksia();
     ui->merkkauksetLabel->setVisible(merkkauksia);
-    ui->merkkauksetEdit->setVisible(merkkauksia);
+    ui->merkkauksetCC->setVisible(merkkauksia);
+
 }
 
 int TuloMenoApuri::rivilla() const

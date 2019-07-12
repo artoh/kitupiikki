@@ -11,6 +11,7 @@ SOURCES += uusikp/uusikirjanpito.cpp \
     $$PWD/model/tosite.cpp \
     $$PWD/model/tositeviennit.cpp \
     $$PWD/model/tositevienti.cpp \
+    $$PWD/tools/checkcombo.cpp \
     $$PWD/tools/kpeuroedit.cpp \
     $$PWD/tools/tilicombo.cpp \
     uusikp/introsivu.cpp \
@@ -196,6 +197,7 @@ HEADERS += \
     $$PWD/model/tosite.h \
     $$PWD/model/tositeviennit.h \
     $$PWD/model/tositevienti.h \
+    $$PWD/tools/checkcombo.h \
     $$PWD/tools/kpeuroedit.h \
     $$PWD/tools/tilicombo.h \
     uusikp/uusikirjanpito.h \

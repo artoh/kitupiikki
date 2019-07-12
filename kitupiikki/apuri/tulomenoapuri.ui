@@ -103,13 +103,6 @@
          </property>
         </widget>
        </item>
-       <item row="6" column="1">
-        <widget class="QLineEdit" name="merkkauksetEdit">
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
        <item row="7" column="0">
         <widget class="QLabel" name="jaksotusLabel">
          <property name="text">
@@ -164,6 +157,13 @@
        <item row="9" column="1">
         <widget class="QLineEdit" name="seliteEdit"/>
        </item>
+       <item row="6" column="1">
+        <widget class="CheckCombo" name="merkkauksetCC">
+         <property name="focusPolicy">
+          <enum>Qt::StrongFocus</enum>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
      <item>
@@ -196,6 +196,9 @@
        </item>
        <item>
         <widget class="QPushButton" name="lisaaRiviNappi">
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
          <property name="text">
           <string>Lisää rivi</string>
          </property>
@@ -207,6 +210,9 @@
        </item>
        <item>
         <widget class="QPushButton" name="poistaRiviNappi">
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
          <property name="text">
           <string>Poista rivi</string>
          </property>
@@ -310,6 +316,9 @@
          </item>
          <item>
           <widget class="QPushButton" name="toimittajaButton">
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
            <property name="text">
             <string/>
            </property>
@@ -401,7 +410,36 @@
    <extends>QComboBox</extends>
    <header location="global">tools/tilicombo.h</header>
   </customwidget>
+  <customwidget>
+   <class>CheckCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">tools/checkcombo.h</header>
+  </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>tilellaView</tabstop>
+  <tabstop>tiliEdit</tabstop>
+  <tabstop>maaraEdit</tabstop>
+  <tabstop>verotonEdit</tabstop>
+  <tabstop>alvCombo</tabstop>
+  <tabstop>alvSpin</tabstop>
+  <tabstop>vahennysCheck</tabstop>
+  <tabstop>kohdennusCombo</tabstop>
+  <tabstop>merkkauksetCC</tabstop>
+  <tabstop>alkuEdit</tabstop>
+  <tabstop>loppuEdit</tabstop>
+  <tabstop>poistoSpin</tabstop>
+  <tabstop>seliteEdit</tabstop>
+  <tabstop>maksutapaCombo</tabstop>
+  <tabstop>toimittajaEdit</tabstop>
+  <tabstop>viiteEdit</tabstop>
+  <tabstop>erapaivaEdit</tabstop>
+  <tabstop>vastatiliCombo</tabstop>
+  <tabstop>eraCombo</tabstop>
+  <tabstop>toimittajaButton</tabstop>
+  <tabstop>poistaRiviNappi</tabstop>
+  <tabstop>lisaaRiviNappi</tabstop>
+ </tabstops>
  <resources>
   <include location="../pic/pic.qrc"/>
  </resources>
