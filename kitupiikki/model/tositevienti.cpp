@@ -80,6 +80,21 @@ void TositeVienti::setAlvProsentti(double prosentti)
     set( ALVPROSENTTI, prosentti);
 }
 
+void TositeVienti::setKohdennus(int kohdennus)
+{
+    set( KOHDENNUS, kohdennus);
+}
+
+void TositeVienti::setMerkkaukset(QVariantList merkkaukset)
+{
+    if( merkkaukset.isEmpty())
+        remove( avaimet__.at(MERKKAUKSET));
+    else
+        insert( avaimet__.at(MERKKAUKSET), merkkaukset);
+}
+
+
+
 
 
 
@@ -91,5 +106,7 @@ std::map<int,QString> TositeVienti::avaimet__ = {
     { KREDIT, "kredit"},
     { SELITE, "selite"},
     { ALVKOODI, "alvkoodi"},
-    { ALVPROSENTTI, "alvprosentti"}
+    { ALVPROSENTTI, "alvprosentti"},
+    { KOHDENNUS, "kohdennus"},
+    { MERKKAUKSET, "merkkaukset"}
 };

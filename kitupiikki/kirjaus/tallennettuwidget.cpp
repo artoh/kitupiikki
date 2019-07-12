@@ -21,16 +21,17 @@
 
 #include <QTimer>
 
+
 TallennettuWidget::TallennettuWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::TallennettuWidget)
+    ui(new Ui::TallennettuWidget),
+    timer_(new QTimer(this))
 {
     ui->setupUi(this);
     setVisible(false);
 
-    setWindowFlags( Qt::FramelessWindowHint);
+    setWindowFlags( Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
 
-    timer_ = new QTimer(this);
     timer_->setSingleShot(true);
     connect( timer_, &QTimer::timeout, this, &TallennettuWidget::hide );
 }
@@ -42,12 +43,12 @@ TallennettuWidget::~TallennettuWidget()
 
 void TallennettuWidget::nayta(int tunnus, const QDate &paiva)
 {
+    timer_->start(60000);
     ui->tunnisteLabel->setText( QString("%1 / %2")
                                 .arg(tunnus)
                                 .arg( kp()->tilikausiPaivalle(paiva).kausitunnus() ));
     setVisible(true);
     raise();
-    timer_->start(60000);
 
 }
 

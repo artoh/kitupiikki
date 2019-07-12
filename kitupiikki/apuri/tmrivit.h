@@ -31,6 +31,8 @@ namespace {
         int verokoodi = 0;
         double veroprosentti = 0.0;
         bool eivahennysta = false;
+        int kohdennus = 0;
+        QVariantList merkkaukset;
     };
 }
 
@@ -79,7 +81,14 @@ public:
     void setEiVahennysta(int rivi, bool eivahennysta);
     bool eiVahennysta(int rivi) const;
 
+    void setKohdennus(int rivi, int kohdennus);
+    int kohdennus(int rivi) const;
+
+    void setMerkkaukset(int rivi, QVariantList);
+    QVariantList merkkaukset(int rivi) const;
+
     int lisaaRivi();
+    void poistaRivi(int rivi);
 
 private:
     QList<Rivi> rivit_;

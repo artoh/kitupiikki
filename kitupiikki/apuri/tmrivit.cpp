@@ -163,6 +163,26 @@ bool TmRivit::eiVahennysta(int rivi) const
     return rivit_.at(rivi).eivahennysta;
 }
 
+void TmRivit::setKohdennus(int rivi, int kohdennus)
+{
+    rivit_[rivi].kohdennus = kohdennus;
+}
+
+int TmRivit::kohdennus(int rivi) const
+{
+    return rivit_.at(rivi).kohdennus;
+}
+
+void TmRivit::setMerkkaukset(int rivi, QVariantList merkkaukset)
+{
+    rivit_[rivi].merkkaukset = merkkaukset;
+}
+
+QVariantList TmRivit::merkkaukset(int rivi) const
+{
+    return  rivit_.at(rivi).merkkaukset;
+}
+
 QString TmRivit::selite(int rivi) const
 {
     return rivit_.at(rivi).selite;
@@ -174,4 +194,11 @@ int TmRivit::lisaaRivi()
     rivit_.append( Rivi() );
     endInsertRows();
     return rivit_.count()-1;
+}
+
+void TmRivit::poistaRivi(int rivi)
+{
+    beginInsertRows( QModelIndex(), rivi, rivi);
+    rivit_.removeAt(rivi);
+    endRemoveRows();
 }

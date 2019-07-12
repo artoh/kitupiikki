@@ -31,7 +31,9 @@ public:
         KREDIT,
         SELITE,
         ALVKOODI,
-        ALVPROSENTTI
+        ALVPROSENTTI,
+        KOHDENNUS,
+        MERKKAUKSET
     };
 
 
@@ -49,6 +51,8 @@ public:
     void setSelite(const QString& selite);
     void setAlvKoodi(int koodi);
     void setAlvProsentti(double prosentti);
+    void setKohdennus(int kohdennus);
+    void setMerkkaukset( QVariantList merkkaukset);
 
 private:
     static std::map<int,QString> avaimet__;

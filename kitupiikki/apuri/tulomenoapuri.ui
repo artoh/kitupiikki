@@ -31,7 +31,10 @@
        <item row="0" column="0">
         <widget class="QLabel" name="tiliLabel">
          <property name="text">
-          <string>Tili</string>
+          <string>&amp;Tili</string>
+         </property>
+         <property name="buddy">
+          <cstring>tiliEdit</cstring>
          </property>
         </widget>
        </item>
@@ -41,7 +44,10 @@
        <item row="1" column="0">
         <widget class="QLabel" name="maaraLabel">
          <property name="text">
-          <string>Määrä</string>
+          <string>Mää&amp;rä</string>
+         </property>
+         <property name="buddy">
+          <cstring>maaraEdit</cstring>
          </property>
         </widget>
        </item>
@@ -51,7 +57,10 @@
        <item row="2" column="0">
         <widget class="QLabel" name="verotonLabel">
          <property name="text">
-          <string>Veroton</string>
+          <string>V&amp;eroton</string>
+         </property>
+         <property name="buddy">
+          <cstring>verotonEdit</cstring>
          </property>
         </widget>
        </item>
@@ -61,7 +70,10 @@
        <item row="3" column="0">
         <widget class="QLabel" name="alvLabel">
          <property name="text">
-          <string>Alv</string>
+          <string>&amp;Alv</string>
+         </property>
+         <property name="buddy">
+          <cstring>alvCombo</cstring>
          </property>
         </widget>
        </item>
@@ -82,14 +94,17 @@
        <item row="4" column="1">
         <widget class="QCheckBox" name="vahennysCheck">
          <property name="text">
-          <string>Ei oikeuta alv-vähennykseen</string>
+          <string>&amp;Ei oikeuta alv-vähennykseen</string>
          </property>
         </widget>
        </item>
        <item row="5" column="0">
         <widget class="QLabel" name="kohdennusLabel">
          <property name="text">
-          <string>Kohdennus</string>
+          <string>&amp;Kohdennus</string>
+         </property>
+         <property name="buddy">
+          <cstring>kohdennusCombo</cstring>
          </property>
         </widget>
        </item>
@@ -99,14 +114,20 @@
        <item row="6" column="0">
         <widget class="QLabel" name="merkkauksetLabel">
          <property name="text">
-          <string>Merkkaukset</string>
+          <string>&amp;Merkkaukset</string>
+         </property>
+         <property name="buddy">
+          <cstring>merkkauksetCC</cstring>
          </property>
         </widget>
        </item>
        <item row="7" column="0">
         <widget class="QLabel" name="jaksotusLabel">
          <property name="text">
-          <string>Jaksotus</string>
+          <string>&amp;Jaksotus</string>
+         </property>
+         <property name="buddy">
+          <cstring>alkuEdit</cstring>
          </property>
         </widget>
        </item>
@@ -130,7 +151,10 @@
        <item row="8" column="0">
         <widget class="QLabel" name="poistoLabel">
          <property name="text">
-          <string>Poistoaika</string>
+          <string>&amp;Poistoaika</string>
+         </property>
+         <property name="buddy">
+          <cstring>poistoSpin</cstring>
          </property>
         </widget>
        </item>
@@ -150,7 +174,10 @@
        <item row="9" column="0">
         <widget class="QLabel" name="seliteLabel">
          <property name="text">
-          <string>Selite</string>
+          <string>&amp;Selite</string>
+         </property>
+         <property name="buddy">
+          <cstring>seliteEdit</cstring>
          </property>
         </widget>
        </item>
@@ -240,7 +267,10 @@
        <item row="0" column="0">
         <widget class="QLabel" name="maksutapaLabel">
          <property name="text">
-          <string>Maksutapa</string>
+          <string>M&amp;aksutapa</string>
+         </property>
+         <property name="buddy">
+          <cstring>maksutapaCombo</cstring>
          </property>
         </widget>
        </item>
@@ -305,7 +335,10 @@
        <item row="1" column="0">
         <widget class="QLabel" name="toimittajaLabel">
          <property name="text">
-          <string>Toimittaja</string>
+          <string>T&amp;oimittaja</string>
+         </property>
+         <property name="buddy">
+          <cstring>toimittajaEdit</cstring>
          </property>
         </widget>
        </item>
@@ -333,7 +366,10 @@
        <item row="2" column="0">
         <widget class="QLabel" name="viiteLabel">
          <property name="text">
-          <string>Viite</string>
+          <string>&amp;Viite</string>
+         </property>
+         <property name="buddy">
+          <cstring>viiteEdit</cstring>
          </property>
         </widget>
        </item>
@@ -343,7 +379,10 @@
        <item row="3" column="0">
         <widget class="QLabel" name="erapaivaLabel">
          <property name="text">
-          <string>Eräpäivä</string>
+          <string>E&amp;räpäivä</string>
+         </property>
+         <property name="buddy">
+          <cstring>erapaivaEdit</cstring>
          </property>
         </widget>
        </item>
@@ -353,7 +392,10 @@
        <item row="4" column="0">
         <widget class="QLabel" name="vastatiliLabel">
          <property name="text">
-          <string>Vastatili</string>
+          <string>Vastat&amp;ili</string>
+         </property>
+         <property name="buddy">
+          <cstring>vastatiliCombo</cstring>
          </property>
         </widget>
        </item>
@@ -361,6 +403,9 @@
         <widget class="QLabel" name="eraLabel">
          <property name="text">
           <string>Tase-erä</string>
+         </property>
+         <property name="buddy">
+          <cstring>eraCombo</cstring>
          </property>
         </widget>
        </item>

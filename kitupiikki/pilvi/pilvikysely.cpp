@@ -66,7 +66,7 @@ void PilviKysely::vastausSaapuu()
     QNetworkReply *reply = qobject_cast<QNetworkReply*>( sender());
     if( reply->error()) {
         QByteArray vastaus = reply->readAll();
-        qDebug() << " (VIRHE!) " << reply->error() << " " << reply->request().url().toString();                        
+        qDebug() << " (VIRHE!) " << reply->error() << " " << reply->request().url().toString() ;
         qDebug() << vastaus;
 
         emit virhe( reply->error());

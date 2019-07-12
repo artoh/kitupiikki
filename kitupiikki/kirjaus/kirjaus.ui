@@ -328,7 +328,7 @@
          <normaloff>:/pic/tiedostoon.png</normaloff>:/pic/tiedostoon.png</iconset>
        </property>
        <property name="shortcut">
-        <string>F12</string>
+        <string>Ctrl+S</string>
        </property>
        <property name="default">
         <bool>false</bool>
@@ -386,6 +386,9 @@
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/ok.png</normaloff>:/pic/ok.png</iconset>
+       </property>
+       <property name="shortcut">
+        <string>F12</string>
        </property>
        <property name="autoDefault">
         <bool>true</bool>

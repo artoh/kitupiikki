@@ -69,6 +69,7 @@ signals:
     void talletettu(int id, int tunniste, const QDate& pvm);
     void tallennusvirhe(int virhe);
     void tila(bool muokattu, int virheet, double debet, double kredit);
+    void pvmMuuttui(const QDate& pvm);
 
 public slots:
     void lataa(int tositeid);

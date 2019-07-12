@@ -125,7 +125,14 @@ QVariant TositeViennit::data(const QModelIndex &index, int role) const
         case SELITE:
             return vienti.value("selite");
         case KOHDENNUS:
-            return QVariant();
+            QString txt;
+            int kohdennus = vienti.value("kohdennus").toInt();
+            if( kohdennus )
+                txt.append( kp()->kohdennukset()->kohdennus(kohdennus).nimi() + " " );
+            QVariantList merkkaukset = vienti.value("merkkaukset").toList();
+            for( auto merkkaus : merkkaukset)
+                txt.append( kp()->kohdennukset()->kohdennus( merkkaus.toInt() ).nimi() + " " );
+            return txt;
 
         }
 

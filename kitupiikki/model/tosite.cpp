@@ -41,6 +41,10 @@ void Tosite::setData(int kentta, QVariant arvo)
         data_.remove( avaimet__.at(kentta) );
     else
         data_.insert( avaimet__.at(kentta), arvo );
+
+    if( kentta == PVM)
+        emit pvmMuuttui( arvo.toDate() );
+
     tarkasta();
 }
 
@@ -122,9 +126,9 @@ void Tosite::nollaa(const QDate &pvm, int tyyppi)
     viennit_->asetaViennit(QVariantList());
     data_.insert( avaimet__.at(PVM), pvm );
     data_.insert( avaimet__.at(TYYPPI), tyyppi);
-    tallennettu_ = tallennettava();
-    qDebug() << "Nollattu " << (tallennettu_ == tallennettava());
     emit ladattu();
+
+    tallennettu_ = tallennettava();
     resetointiKaynnissa_ = false;
     tarkasta();
 

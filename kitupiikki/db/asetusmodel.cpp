@@ -44,7 +44,7 @@ void AsetusModel::aseta(const QString &avain, const QString &arvo)
     asetukset_[avain] = arvo;
     muokatut_[avain] = nykyinen;
 
-    KpKysely* paivitys = kpk("asetukset", KpKysely::PATCH);
+    KpKysely* paivitys = kpk("/init", KpKysely::PATCH);
     QVariantMap params;
     params.insert("avain", avain);
     params.insert("arvo", arvo);

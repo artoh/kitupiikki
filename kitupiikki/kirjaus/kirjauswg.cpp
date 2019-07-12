@@ -423,8 +423,12 @@ void KirjausWg::tallennettu(int /* id */, int tunniste, const QDate &pvm)
     if( tunniste ) {
             tallennettuWidget_->nayta(tunniste, pvm);
 
+//            tallennettuWidget_->move( mapToGlobal( QPoint(width() / 2 - tallennettuWidget_->width() / 2,
+//                                                   height() - tallennettuWidget_->height() ) )  );
+
+
             tallennettuWidget_->move( width() / 2 - tallennettuWidget_->width() / 2,
-                                                           height() - tallennettuWidget_->height() );
+                                     height() - tallennettuWidget_->height() );
         tyhjenna();
     }
 }

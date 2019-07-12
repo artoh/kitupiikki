@@ -21,6 +21,7 @@
 
 class QSortFilterProxyModel;
 class TmRivit;
+class KohdennusProxyModel;
 
 namespace Ui {
 class TuloMenoApuri;
@@ -40,6 +41,8 @@ public:
 
 protected slots:
     void lisaaRivi();
+    void poistaRivi();
+
     void tiliMuuttui();
     void verolajiMuuttui();
     void maaraMuuttui();
@@ -48,8 +51,11 @@ protected slots:
     void alvVahennettavaMuuttui();
     void seliteMuuttui();
     void maksutapaMuuttui();
+    void kohdennusMuuttui();
+    void merkkausMuuttui();
 
     void haeRivi(const QModelIndex& index);
+    void haeKohdennukset();
 
 protected:
     void teeReset() override;
@@ -57,6 +63,7 @@ protected:
 
     void alusta(bool meno);
     int rivilla() const;
+
 
 private:
     Ui::TuloMenoApuri *ui;
@@ -67,6 +74,7 @@ private:
 
 
     QSortFilterProxyModel* veroFiltteri_;
+    KohdennusProxyModel* kohdennusProxy_;
 };
 
 #endif // TULOMENOAPURI_H

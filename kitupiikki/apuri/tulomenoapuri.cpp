@@ -25,12 +25,13 @@
 #include "kirjaus/kohdennusproxymodel.h"
 
 #include <QSortFilterProxyModel>
-
+#include <QDebug>
 
 TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     ApuriWidget (parent, tosite),
     ui(new Ui::TuloMenoApuri),
-    rivit_(new TmRivit)
+    rivit_(new TmRivit),
+    kohdennusProxy_( new KohdennusProxyModel(this))
 {
     ui->setupUi(this);
 
@@ -39,10 +40,8 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     veroFiltteri_->setSourceModel( kp()->alvTyypit());
     ui->alvCombo->setModel(veroFiltteri_);
 
-    ui->kohdennusCombo->setModel(new KohdennusProxyModel(this));
+    ui->kohdennusCombo->setModel(kohdennusProxy_);
     ui->kohdennusCombo->setModelColumn( KohdennusModel::NIMI);
-    ui->kohdennusCombo->setCurrentIndex( ui->kohdennusCombo->findData(0, KohdennusModel::IdRooli ));
-
 
     ui->alkuEdit->setNull();
     ui->loppuEdit->setNull();
@@ -58,13 +57,20 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->alvSpin, SIGNAL( valueChanged(double) ), this, SLOT( veroprossaMuuttui()) );
 
     connect( ui->lisaaRiviNappi, &QPushButton::clicked, this, &TuloMenoApuri::lisaaRivi);
+    connect( ui->poistaRiviNappi, &QPushButton::clicked, this, &TuloMenoApuri::poistaRivi);
+
     connect( ui->tilellaView->selectionModel(), &QItemSelectionModel::currentRowChanged , this, &TuloMenoApuri::haeRivi);
     connect( ui->seliteEdit, &QLineEdit::textChanged, this, &TuloMenoApuri::seliteMuuttui);
     connect( ui->alvCombo, &QComboBox::currentTextChanged, this, &TuloMenoApuri::verolajiMuuttui);
     connect( ui->vahennysCheck, &QCheckBox::stateChanged, this, &TuloMenoApuri::alvVahennettavaMuuttui);
 
+    connect( ui->kohdennusCombo, &QComboBox::currentTextChanged, this, &TuloMenoApuri::kohdennusMuuttui);
+    connect( ui->merkkauksetCC, &CheckCombo::currentTextChanged, this, &TuloMenoApuri::merkkausMuuttui );
+
     connect( ui->maksutapaCombo, &QComboBox::currentTextChanged, this, &TuloMenoApuri::maksutapaMuuttui);
     connect( ui->vastatiliCombo, &TiliCombo::tiliValittu, this, &TuloMenoApuri::tositteelle);
+
+    connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::haeKohdennukset );
 }
 
 TuloMenoApuri::~TuloMenoApuri()
@@ -113,6 +119,10 @@ void TuloMenoApuri::teeReset()
         rivit_->lisaaRivi();
         rivit_->setTili( rivi,  map.value("tili").toInt() );
         rivit_->setSelite(rivi, map.value("selite").toString());
+        rivit_->setKohdennus(rivi, map.value("kohdennus").toInt());
+
+        rivit_->setMerkkaukset(rivi, map.value("merkkaukset").toList() );
+
 
         qlonglong maara = menoa ? qRound( map.value("debet").toDouble() * 100.0 ) :
                                   qRound( map.value("kredit").toDouble() * 100.0 );
@@ -168,16 +178,11 @@ void TuloMenoApuri::teeReset()
         tiliMuuttui();
         maksutapaMuuttui();
         verolajiMuuttui();
+        haeKohdennukset();
     }
     else if( ui->tilellaView->selectionModel()->currentIndex().row() == 0)
         haeRivi( rivit_->index(0,0) );
     ui->tilellaView->selectRow(0);
-
-    // Lisätään tässä testimerkkaus ja tehdään myöhemmin fiksusta
-    ui->merkkauksetCC->clear();
-    ui->merkkauksetCC->addItem("Testimerkkaus",1);
-    ui->merkkauksetCC->addItem("Toinen",3,Qt::Checked);
-    ui->merkkauksetCC->addItem("Kolmas",5);
 
 }
 
@@ -233,6 +238,9 @@ bool TuloMenoApuri::teeTositteelle()
         vienti.setAlvProsentti( veroprosentti);
         vienti.setAlvKoodi( verokoodi );
 
+        vienti.setKohdennus( rivit_->kohdennus(i) );
+        vienti.setMerkkaukset( rivit_->merkkaukset(i));
+        qDebug() << "%" << rivit_->merkkaukset(i) << " - " << vienti;
 
         viennit.append(vienti);
 
@@ -320,6 +328,12 @@ void TuloMenoApuri::lisaaRivi()
 {
     ui->tilellaView->setVisible(true);
     ui->tilellaView->selectRow( rivit_->lisaaRivi() );
+}
+
+void TuloMenoApuri::poistaRivi()
+{
+    rivit_->poistaRivi( rivilla() );
+    ui->poistaRiviNappi->setEnabled( rivit_->rowCount() > 1 );
 }
 
 void TuloMenoApuri::tiliMuuttui()
@@ -476,6 +490,21 @@ void TuloMenoApuri::maksutapaMuuttui()
     ui->vastatiliCombo->setVisible( ui->vastatiliCombo->model()->rowCount() > 1 );
 }
 
+void TuloMenoApuri::kohdennusMuuttui()
+{
+    rivit_->setKohdennus( rivilla(), ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
+    tositteelle();    
+}
+
+void TuloMenoApuri::merkkausMuuttui()
+{
+
+    rivit_->setMerkkaukset( rivilla(), ui->merkkauksetCC->selectedDatas());
+    tositteelle();
+
+    qDebug() << "!" << rivit_->merkkaukset( rivilla() );
+}
+
 void TuloMenoApuri::haeRivi(const QModelIndex &index)
 {
     aloitaResetointi();
@@ -492,11 +521,43 @@ void TuloMenoApuri::haeRivi(const QModelIndex &index)
 
     ui->seliteEdit->setText( rivit_->selite(rivi));
 
+    haeKohdennukset();
     lopetaResetointi();
+}
+
+void TuloMenoApuri::haeKohdennukset()
+{
+    int nykyinenKohdennus = rivit_->rowCount() ? rivit_->kohdennus( rivilla() ) : 0 ;
+    QVariantList merkatut =  rivit_->rowCount() ?  rivit_->merkkaukset( rivilla()) : QVariantList();
+    QDate pvm = tosite()->data(Tosite::PVM).toDate();
+
+    kohdennusProxy_->asetaKohdennus( nykyinenKohdennus );
+    kohdennusProxy_->asetaPaiva( pvm );
+
+    ui->kohdennusLabel->setVisible( kohdennusProxy_->rowCount() > 1);
+    ui->kohdennusCombo->setVisible( kohdennusProxy_->rowCount() > 1);
+
+    ui->kohdennusCombo->setCurrentIndex( ui->kohdennusCombo->findData(nykyinenKohdennus, KohdennusModel::IdRooli ));
+
+    KohdennusProxyModel merkkausproxy(this, pvm, -1, KohdennusProxyModel::MERKKKAUKSET );
+    ui->merkkauksetCC->clear();
+
+    ui->merkkauksetLabel->setVisible( merkkausproxy.rowCount());
+    ui->merkkauksetCC->setVisible( merkkausproxy.rowCount());
+
+    for(int i=0; i < merkkausproxy.rowCount(); i++) {
+        int koodi = merkkausproxy.data( merkkausproxy.index(i,0), KohdennusModel::IdRooli ).toInt();
+        QString nimi = merkkausproxy.data( merkkausproxy.index(i,0), KohdennusModel::NimiRooli ).toString();
+
+        Qt::CheckState state = merkatut.contains( koodi ) ? Qt::Checked : Qt::Unchecked;
+        ui->merkkauksetCC->addItem(nimi, koodi, state);
+    }
+
 }
 
 void TuloMenoApuri::alusta(bool meno)
 {
+
     if(meno) {
         ui->tiliLabel->setText( tr("Menotili") );
         ui->tiliEdit->suodataTyypilla("(AP|D).*");
@@ -513,16 +574,6 @@ void TuloMenoApuri::alusta(bool meno)
     bool alv = kp()->asetukset()->onko( AsetusModel::ALV );
     ui->alvLabel->setVisible(alv);
     ui->alvCombo->setVisible(alv);
-
-
-    bool kohdennuksia = kp()->kohdennukset()->kohdennuksia();
-    ui->kohdennusLabel->setVisible(kohdennuksia);
-    ui->kohdennusCombo->setVisible(kohdennuksia);
-
-    bool merkkauksia = kp()->kohdennukset()->merkkauksia();
-    ui->merkkauksetLabel->setVisible(merkkauksia);
-    ui->merkkauksetCC->setVisible(merkkauksia);
-
 }
 
 int TuloMenoApuri::rivilla() const
