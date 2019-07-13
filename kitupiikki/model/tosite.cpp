@@ -17,6 +17,7 @@
 #include "tosite.h"
 
 #include "tositeviennit.h"
+#include "tositeliitteet.h"
 #include "tositeloki.h"
 #include "db/kirjanpito.h"
 
@@ -26,6 +27,7 @@
 Tosite::Tosite(QObject *parent) :
     QObject(parent),
     viennit_(new TositeViennit(this)),
+    liitteet_(new TositeLiitteet(this)),
     loki_( new TositeLoki(this))
 {
     connect( viennit_, &TositeViennit::dataChanged, this, &Tosite::tarkasta );
@@ -64,7 +66,7 @@ void Tosite::lataaData(QVariant *variant)
 
     viennit()->asetaViennit( data_.take("viennit").toList() );
     loki()->lataa( data_.take("loki").toList());
-
+    liitteet()->lataa( data_.take("liitteet").toList());
 
     // toimittaja/asiakastiedot, liitteet ja loki
 

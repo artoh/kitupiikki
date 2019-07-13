@@ -61,6 +61,26 @@ void PilviKysely::kysy(const QVariant &data)
 
 }
 
+void PilviKysely::lahetaTiedosto(const QByteArray &ba, const QString &tiedostonimi)
+{
+    PilviModel *model = qobject_cast<PilviModel*>( parent() );
+    QNetworkRequest request( QUrl( model->pilviosoite() + polku() ) );
+
+    request.setRawHeader("Authorization", QString("bearer %1").arg( model->token() ).toLatin1());
+    request.setRawHeader("User-Agent", QString(qApp->applicationName() + " " + qApp->applicationVersion() ).toLatin1()  );
+
+    // Tässä vaiheessa tiedostotyyppi nimestä ...
+    QString tyyppi = "image/jpeg";
+    if( tiedostonimi.toLower().endsWith(".pdf"))
+        tyyppi = "application/pdf";
+
+    request.setRawHeader("Content-type", tyyppi.toLatin1());
+    request.setRawHeader("Content-Disposition", "attachment; filename=" + tiedostonimi.toUtf8());
+
+    QNetworkReply *reply = kp()->networkManager()->post(request, ba);
+    connect( reply, &QNetworkReply::finished, this, &PilviKysely::vastausSaapuu);
+}
+
 void PilviKysely::vastausSaapuu()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>( sender());

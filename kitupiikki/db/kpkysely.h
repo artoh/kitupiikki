@@ -66,6 +66,7 @@ signals:
 
 public slots:
     virtual void kysy(const QVariant& data = QVariant()) = 0;
+    virtual void lahetaTiedosto(const QByteArray& ba, const QString& tiedostonimi) = 0;
 
 
 protected:

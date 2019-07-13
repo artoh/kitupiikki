@@ -68,6 +68,7 @@
 #include "apuri/siirtoapuri.h"
 #include "apuri/tilioteapuri.h"
 #include "model/tosite.h"
+#include "model/tositeliitteet.h"
 #include "model/tositeviennit.h"
 #include "model/tositeloki.h"
 #include "tallennettuwidget.h"
@@ -117,9 +118,7 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
 
     ui->tiliotetiliCombo->suodataTyypilla("ARP");
 
-    ui->liiteView->setModel( model_->liiteModel() );
-    ui->liiteView->setAcceptDrops(true);
-    ui->liiteView->setDropIndicatorShown(true);
+
 
     connect( ui->liiteView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
              this, SLOT(liiteValinta(QModelIndex)));
@@ -176,10 +175,15 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     ui->lokiView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     ui->lokiView->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
 
+    ui->liiteView->setModel( tosite_->liitteet() );
+    ui->liiteView->setDropIndicatorShown(true);
+
     connect( tosite_, &Tosite::tila, this, &KirjausWg::paivita);
     connect( tosite_, &Tosite::talletettu, this, &KirjausWg::tallennettu);
     connect( tosite_, &Tosite::tallennusvirhe, this, &KirjausWg::tallennusEpaonnistui);
     connect( tosite_, &Tosite::ladattu, this, &KirjausWg::tiedotModelista);
+
+
 
     vaihdaTositeTyyppi();
 }
