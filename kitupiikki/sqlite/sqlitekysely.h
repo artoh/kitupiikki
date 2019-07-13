@@ -31,6 +31,7 @@ public:
 
 public slots:
     void kysy(const QVariant& data = QVariant()) override;
+    virtual void lahetaTiedosto(const QByteArray& ba, const QString& tiedostonimi) override;
 
 protected:
     QSqlDatabase tietokanta();

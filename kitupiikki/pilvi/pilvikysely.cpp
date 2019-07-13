@@ -70,6 +70,8 @@ void PilviKysely::lahetaTiedosto(const QByteArray &ba, const QString &tiedostoni
     request.setRawHeader("User-Agent", QString(qApp->applicationName() + " " + qApp->applicationVersion() ).toLatin1()  );
 
     // Tässä vaiheessa tiedostotyyppi nimestä ...
+    // TODO: Tiedostotyyppi sisällön perusteella
+
     QString tyyppi = "image/jpeg";
     if( tiedostonimi.toLower().endsWith(".pdf"))
         tyyppi = "application/pdf";
@@ -94,9 +96,15 @@ void PilviKysely::vastausSaapuu()
         return;
     } else {
         QByteArray luettu = reply->readAll();
-        vastaus_ = QJsonDocument::fromJson( luettu ).toVariant();
+
+        if( reply->header(QNetworkRequest::ContentTypeHeader).toString().startsWith("application/json") ) {
+            vastaus_ = QJsonDocument::fromJson(luettu).toVariant();
+        } else {
+            vastaus_ = luettu;
+        }
+
         emit vastaus( &vastaus_ );
-        qDebug() << " (OK) " << luettu.left(35);
+        qDebug() << " (OK) " << luettu.left(35) << " " << reply->header(QNetworkRequest::ContentTypeHeader).toString();
     }
     this->deleteLater();
 }

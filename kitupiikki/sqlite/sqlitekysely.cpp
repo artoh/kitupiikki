@@ -60,6 +60,11 @@ void SQLiteKysely::kysy(const QVariant &data)
         vientilista();
 }
 
+void SQLiteKysely::lahetaTiedosto(const QByteArray &ba, const QString &tiedostonimi)
+{
+
+}
+
 QSqlDatabase SQLiteKysely::tietokanta()
 {
     return qobject_cast<SQLiteModel*>( parent() )->tietokanta();

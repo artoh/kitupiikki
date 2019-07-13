@@ -86,6 +86,7 @@ public slots:
 protected slots:
     void tallennusValmis(QVariant *variant);
     void tallennuksessaVirhe(int virhe);
+    void liitteetTallennettu();
 
 private:
     /**

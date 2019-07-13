@@ -15,6 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "tositeliitteet.h"
+#include "db/kirjanpito.h"
 
 #include <QIcon>
 #include <QFile>
@@ -74,6 +75,13 @@ void TositeLiitteet::lataa(QVariantList data)
         liitteet_.append( TositeLiite( map.value("id").toInt(),
                                        map.value("nimi").toString()) );
     }
+    endResetModel();
+}
+
+void TositeLiitteet::clear()
+{
+    beginResetModel();
+    liitteet_.clear();
     endResetModel();
 }
 
@@ -162,6 +170,61 @@ int TositeLiitteet::tallennettaviaLiitteita() const
     return maara;
 }
 
+void TositeLiitteet::tallennaLiitteet(int tositeId)
+{
+    tositeId_ = tositeId;
+    tallennuksessa_ = -1;
+    tallennaSeuraava();
+}
+
+void TositeLiitteet::nayta(int indeksi)
+{
+    QByteArray sisalto = liitteet_.at(indeksi).getSisalto();
+    if(sisalto.isEmpty()) {
+        KpKysely* kysely = kpk(QString("/liitteet/%1").arg( liitteet_.at(indeksi).getLiiteId() ));
+        connect( kysely, &KpKysely::vastaus, this, &TositeLiitteet::liitesaapuu);
+        kysely->kysy();
+    } else {
+        emit ( naytaliite(sisalto) );
+    }
+
+}
+
+void TositeLiitteet::tallennaSeuraava()
+{
+    while( tallennuksessa_ < liitteet_.count() - 1)
+    {
+        tallennuksessa_++;
+        if( !liitteet_.at(tallennuksessa_).getLiiteId())
+        {
+            KpKysely* tallennus = kpk( QString("/liitteet/%1").arg(tositeId_), KpKysely::POST );
+            connect( tallennus, &KpKysely::vastaus, this, &TositeLiitteet::tallennaSeuraava);
+            tallennus->lahetaTiedosto( liitteet_.at(tallennuksessa_).getSisalto(), liitteet_.at(tallennuksessa_).getNimi() );
+            return;
+        }
+    }
+    // Kun tänne tullaan, on kaikki jo tallennettu
+    // Jos on poistettavia, poistetaan ne
+
+    if( poistetut_.count() )
+    {
+        KpKysely* poisto = kpk( QString("/liitteet/%1").arg( poistetut_.takeFirst() ), KpKysely::DELETE);
+        connect( poisto, &KpKysely::vastaus, this, &TositeLiitteet::tallennaSeuraava);
+        poisto->kysy();
+        return;
+    }
+
+    // Koko tallennus valmis
+
+    emit liitteetTallennettu();
+}
+
+void TositeLiitteet::liitesaapuu(QVariant *data)
+{
+    // Tässä voisi myös laittaa liitteen muistiin ;)
+    emit naytaliite( data->toByteArray() );
+}
+
 // ************************************ TOSITELIITE **********************************
 
 TositeLiitteet::TositeLiite::TositeLiite(int id, const QString &nimi, const QByteArray &sisalto) :
@@ -190,4 +253,9 @@ QString TositeLiitteet::TositeLiite::getNimi() const
 void TositeLiitteet::TositeLiite::setNimi(const QString &value)
 {
     nimi_ = value;
+}
+
+QByteArray TositeLiitteet::TositeLiite::getSisalto() const
+{
+    return sisalto_;
 }

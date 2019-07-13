@@ -120,8 +120,7 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
 
 
 
-    connect( ui->liiteView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
-             this, SLOT(liiteValinta(QModelIndex)));
+
     connect( ui->lisaaliiteNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaLiite()));
     connect( ui->avaaNappi, &QPushButton::clicked, this, &KirjausWg::avaaLiite);
     connect( ui->tulostaLiiteNappi, &QPushButton::clicked, this, &KirjausWg::tulostaLiite);
@@ -183,9 +182,12 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     connect( tosite_, &Tosite::tallennusvirhe, this, &KirjausWg::tallennusEpaonnistui);
     connect( tosite_, &Tosite::ladattu, this, &KirjausWg::tiedotModelista);
 
-
+    connect( tosite_->liitteet(), &TositeLiitteet::naytaliite, this, &KirjausWg::liiteValittu);
 
     vaihdaTositeTyyppi();
+
+    connect( ui->liiteView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
+             this, SLOT(liiteValinta(QModelIndex)));
 }
 
 KirjausWg::~KirjausWg()
@@ -427,19 +429,17 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
 
 }
 
-void KirjausWg::tallennettu(int /* id */, int tunniste, const QDate &pvm)
+void KirjausWg::tallennettu(int  id, int tunniste, const QDate &pvm)
 {
 
     if( tunniste ) {
             tallennettuWidget_->nayta(tunniste, pvm);
 
-//            tallennettuWidget_->move( mapToGlobal( QPoint(width() / 2 - tallennettuWidget_->width() / 2,
-//                                                   height() - tallennettuWidget_->height() ) )  );
-
-
             tallennettuWidget_->move( width() / 2 - tallennettuWidget_->width() / 2,
                                      height() - tallennettuWidget_->height() );
         tyhjenna();
+    } else {
+        lataaTosite(id);
     }
 }
 
@@ -775,7 +775,9 @@ void KirjausWg::liiteValinta(const QModelIndex &valittu)
     else
     {
         ui->poistaLiiteNappi->setEnabled(true);
-        emit liiteValittu( valittu.data(LiiteModel::PdfRooli).toByteArray() );
+        tosite_->liitteet()->nayta( valittu.row() );
+
+        // emit liiteValittu( valittu.data(LiiteModel::PdfRooli).toByteArray() );
     }
 }
 

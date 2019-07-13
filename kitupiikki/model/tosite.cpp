@@ -31,7 +31,8 @@ Tosite::Tosite(QObject *parent) :
     loki_( new TositeLoki(this))
 {
     connect( viennit_, &TositeViennit::dataChanged, this, &Tosite::tarkasta );
-    connect( viennit_, &TositeViennit::modelReset, this, &Tosite::tarkasta );
+    connect( viennit_, &TositeViennit::modelReset, this, &Tosite::tarkasta );    
+    connect( liitteet(), &TositeLiitteet::liitteetTallennettu, this, &Tosite::liitteetTallennettu);
 }
 
 QVariant Tosite::data(int kentta) const
@@ -129,6 +130,7 @@ void Tosite::nollaa(const QDate &pvm, int tyyppi)
     resetointiKaynnissa_ = true;
     data_.clear();
     viennit_->asetaViennit(QVariantList());
+    liitteet()->clear();
     data_.insert( avaimet__.at(PVM), pvm );
     data_.insert( avaimet__.at(TYYPPI), tyyppi);
     emit ladattu();
@@ -141,9 +143,14 @@ void Tosite::nollaa(const QDate &pvm, int tyyppi)
 
 void Tosite::tallennusValmis(QVariant *variant)
 {
-    lataaData(variant);
-    emit talletettu( data(ID).toInt(), data(TUNNISTE).toInt(), tallennettu_.value( avaimet__.at(PVM) ).toDate() );
-    tarkasta();
+    QVariantMap map = variant->toMap();
+    setData(ID, map.value( avaimet__.at(ID) ).toInt() );
+    setData(TUNNISTE, map.value( avaimet__.at(TUNNISTE)).toInt());
+
+    if( liitteet()->tallennettaviaLiitteita())
+        liitteet()->tallennaLiitteet( data(TUNNISTE).toInt() );
+    else
+        emit talletettu( data(ID).toInt(), data(TUNNISTE).toInt(), tallennettu_.value( avaimet__.at(PVM) ).toDate() );
 
     // Tämä pitää oikaista vielä huomioimaan tilinavauksen sikäli jos sitä tositteen kautta käsitellään ;)
     if( !kp()->asetukset()->onko("EkaTositeKirjattu"))
@@ -153,6 +160,11 @@ void Tosite::tallennusValmis(QVariant *variant)
 void Tosite::tallennuksessaVirhe(int virhe)
 {
     emit tallennusvirhe(virhe);
+}
+
+void Tosite::liitteetTallennettu()
+{
+    emit talletettu( data(ID).toInt(), data(TUNNISTE).toInt(), tallennettu_.value( avaimet__.at(PVM) ).toDate() );
 }
 
 QVariantMap Tosite::tallennettava()

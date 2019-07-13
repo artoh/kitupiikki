@@ -35,6 +35,7 @@ protected:
 
         QString getNimi() const;
         void setNimi(const QString &value);
+        QByteArray getSisalto() const;
 
     protected:
         int liiteId_ = 0;
@@ -51,6 +52,7 @@ public:
     Qt::ItemFlags flags(const QModelIndex &index) const override;
 
     void lataa(QVariantList data);
+    void clear();
 
     bool lisaa(const QByteArray& liite, const QString& nimi);
     bool lisaaTiedosto(const QString& polku);
@@ -59,11 +61,25 @@ public:
     bool dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex &parent) override;
 
     int tallennettaviaLiitteita() const;
+    void tallennaLiitteet(int tositeId);
+
+public slots:
+    void nayta(int indeksi);
+
+signals:
+    void liitteetTallennettu();
+    void naytaliite(const QByteArray& data);
+
+private slots:
+    void tallennaSeuraava();
+    void liitesaapuu(QVariant* data);
+
 
 private:
     QList<TositeLiite> liitteet_;
     QList<int> poistetut_;
 
+    int tositeId_ = -1;
     int tallennuksessa_ = -1;
 
 };
