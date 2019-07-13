@@ -144,7 +144,11 @@
           </widget>
          </item>
          <item>
-          <widget class="KpDateEdit" name="loppuEdit"/>
+          <widget class="KpDateEdit" name="loppuEdit">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>

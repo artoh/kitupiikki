@@ -93,6 +93,16 @@ void TositeVienti::setMerkkaukset(QVariantList merkkaukset)
         insert( avaimet__.at(MERKKAUKSET), merkkaukset);
 }
 
+void TositeVienti::setJaksoalkaa(const QDate &pvm)
+{
+    set( JAKSOALKAA, pvm);
+}
+
+void TositeVienti::setJaksoloppuu(const QDate &pvm)
+{
+    set( JAKSOLOPPUU, pvm );
+}
+
 
 
 
@@ -108,5 +118,7 @@ std::map<int,QString> TositeVienti::avaimet__ = {
     { ALVKOODI, "alvkoodi"},
     { ALVPROSENTTI, "alvprosentti"},
     { KOHDENNUS, "kohdennus"},
-    { MERKKAUKSET, "merkkaukset"}
+    { MERKKAUKSET, "merkkaukset"},
+    { JAKSOALKAA, "jaksoalkaa"},
+    { JAKSOLOPPUU, "jaksoloppuu"}
 };

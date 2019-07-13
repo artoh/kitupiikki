@@ -33,7 +33,9 @@ public:
         ALVKOODI,
         ALVPROSENTTI,
         KOHDENNUS,
-        MERKKAUKSET
+        MERKKAUKSET,
+        JAKSOALKAA,
+        JAKSOLOPPUU
     };
 
 
@@ -53,6 +55,8 @@ public:
     void setAlvProsentti(double prosentti);
     void setKohdennus(int kohdennus);
     void setMerkkaukset( QVariantList merkkaukset);
+    void setJaksoalkaa( const QDate& pvm);
+    void setJaksoloppuu( const QDate& pvm );
 
 private:
     static std::map<int,QString> avaimet__;

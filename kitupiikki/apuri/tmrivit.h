@@ -33,6 +33,8 @@ namespace {
         bool eivahennysta = false;
         int kohdennus = 0;
         QVariantList merkkaukset;
+        QDate jaksoalkaa;
+        QDate jaksoloppuu;
     };
 }
 
@@ -87,8 +89,17 @@ public:
     void setMerkkaukset(int rivi, QVariantList);
     QVariantList merkkaukset(int rivi) const;
 
+    void setJaksoalkaa(int rivi, const QDate& pvm);
+    QDate jaksoalkaa(int rivi) const;
+
+    void setJaksoloppuu(int rivi, const QDate& pvm);
+    QDate jaksoloppuu(int rivi) const;
+
+
     int lisaaRivi();
     void poistaRivi(int rivi);
+
+
 
 private:
     QList<Rivi> rivit_;

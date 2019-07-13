@@ -67,8 +67,14 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->kohdennusCombo, &QComboBox::currentTextChanged, this, &TuloMenoApuri::kohdennusMuuttui);
     connect( ui->merkkauksetCC, &CheckCombo::currentTextChanged, this, &TuloMenoApuri::merkkausMuuttui );
 
+    connect( ui->alkuEdit, &KpDateEdit::dateChanged, this, &TuloMenoApuri::jaksoAlkaaMuuttui);
+    connect( ui->loppuEdit, &KpDateEdit::dateChanged, this, &TuloMenoApuri::jaksoLoppuuMuuttui);
+
     connect( ui->maksutapaCombo, &QComboBox::currentTextChanged, this, &TuloMenoApuri::maksutapaMuuttui);
     connect( ui->vastatiliCombo, &TiliCombo::tiliValittu, this, &TuloMenoApuri::tositteelle);
+
+    connect( ui->viiteEdit, &QLineEdit::textChanged, [this] (const QString& text) {this->tosite()->setData(Tosite::VIITE, text);});
+    connect( ui->erapaivaEdit, &KpDateEdit::dateChanged, [this] (const QDate& date) {this->tosite()->setData(Tosite::ERAPVM, date);});
 
     connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::haeKohdennukset );
 }
@@ -89,6 +95,10 @@ void TuloMenoApuri::teeReset()
     bool menoa = tosite()->data(Tosite::TYYPPI).toInt() == TositeTyyppi::MENO;
     alusta( menoa );
 
+    ui->viiteEdit->setText( tosite()->data(Tosite::VIITE).toString() );
+    ui->erapaivaEdit->setDate( tosite()->data(Tosite::ERAPVM).toDate());
+
+
     // Haetaan rivien tiedot
 
     QVariantList vientiLista = tosite()->viennit()->viennit().toList();
@@ -105,6 +115,7 @@ void TuloMenoApuri::teeReset()
 
             ui->vastatiliCombo->valitseTili( vastatili->numero() );
         }
+        maksutapaMuuttui();
     }
     rivit_->clear();
     int rivi = 0;
@@ -131,6 +142,10 @@ void TuloMenoApuri::teeReset()
         int verokoodi = map.data(TositeVienti::ALVKOODI).toInt();
         rivit_->setAlvKoodi( rivi, verokoodi );
         rivit_->setAlvProsentti( rivi, map.data(TositeVienti::ALVPROSENTTI).toDouble() );
+
+        rivit_->setJaksoalkaa( rivi, map.data(TositeVienti::JAKSOALKAA).toDate());
+        rivit_->setJaksoloppuu( rivi, map.data(TositeVienti::JAKSOLOPPUU).toDate() );
+
         i++;
 
         if( verokoodi == AlvKoodi::EIALV || verokoodi == AlvKoodi::ALV0 || verokoodi == AlvKoodi::MYYNNIT_MARGINAALI ||
@@ -240,7 +255,16 @@ bool TuloMenoApuri::teeTositteelle()
 
         vienti.setKohdennus( rivit_->kohdennus(i) );
         vienti.setMerkkaukset( rivit_->merkkaukset(i));
-        qDebug() << "%" << rivit_->merkkaukset(i) << " - " << vienti;
+
+        QDate alkupvm = rivit_->jaksoalkaa(i);
+        if( alkupvm.isValid())
+        {
+            vienti.setJaksoalkaa( pvm );
+            QDate loppupvm = rivit_->jaksoloppuu(i);
+            if( loppupvm.isValid() )
+                vienti.setJaksoloppuu( loppupvm );
+        }
+
 
         viennit.append(vienti);
 
@@ -505,6 +529,20 @@ void TuloMenoApuri::merkkausMuuttui()
     qDebug() << "!" << rivit_->merkkaukset( rivilla() );
 }
 
+void TuloMenoApuri::jaksoAlkaaMuuttui()
+{
+    QDate alkupvm = ui->alkuEdit->date();
+    rivit_->setJaksoalkaa( rivilla(), alkupvm);
+    ui->loppuEdit->setEnabled( alkupvm.isValid() );
+    tositteelle();
+}
+
+void TuloMenoApuri::jaksoLoppuuMuuttui()
+{
+    rivit_->setJaksoloppuu( rivilla(), ui->loppuEdit->date());
+    tositteelle();
+}
+
 void TuloMenoApuri::haeRivi(const QModelIndex &index)
 {
     aloitaResetointi();
@@ -515,6 +553,10 @@ void TuloMenoApuri::haeRivi(const QModelIndex &index)
     ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( rivit_->alvkoodi(rivi), VerotyyppiModel::KoodiRooli ) );
     ui->alvSpin->setValue( rivit_->alvProsentti(rivi) );
     ui->vahennysCheck->setChecked( rivit_->eiVahennysta(rivi) );
+
+    ui->alkuEdit->setDate( rivit_->jaksoalkaa(rivi) );
+    ui->loppuEdit->setEnabled( rivit_->jaksoalkaa(rivi).isValid());
+    ui->loppuEdit->setDate( rivit_->jaksoloppuu(rivi));
 
     bruttoSnt_ = rivit_->maara(rivi);
     nettoSnt_ = 0;
@@ -574,6 +616,9 @@ void TuloMenoApuri::alusta(bool meno)
     bool alv = kp()->asetukset()->onko( AsetusModel::ALV );
     ui->alvLabel->setVisible(alv);
     ui->alvCombo->setVisible(alv);
+
+    ui->erapaivaEdit->setDateRange(QDate(), QDate());
+    ui->loppuEdit->setDateRange( kp()->tilitpaatetty().addDays(1), QDate() );
 }
 
 int TuloMenoApuri::rivilla() const

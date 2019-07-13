@@ -9,6 +9,7 @@ SOURCES += uusikp/uusikirjanpito.cpp \
     $$PWD/db/yhteysmodel.cpp \
     $$PWD/kirjaus/tallennettuwidget.cpp \
     $$PWD/model/tosite.cpp \
+    $$PWD/model/tositeloki.cpp \
     $$PWD/model/tositeviennit.cpp \
     $$PWD/model/tositevienti.cpp \
     $$PWD/tools/checkcombo.cpp \
@@ -195,6 +196,7 @@ HEADERS += \
     $$PWD/db/yhteysmodel.h \
     $$PWD/kirjaus/tallennettuwidget.h \
     $$PWD/model/tosite.h \
+    $$PWD/model/tositeloki.h \
     $$PWD/model/tositeviennit.h \
     $$PWD/model/tositevienti.h \
     $$PWD/tools/checkcombo.h \

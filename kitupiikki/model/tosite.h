@@ -23,6 +23,7 @@
 #include <map>
 
 class TositeViennit;
+class TositeLoki;
 
 /**
  * @brief Kirjanpitotosite
@@ -63,6 +64,7 @@ public:
     void setData(int kentta, QVariant arvo);
 
     TositeViennit* viennit() { return viennit_; }
+    TositeLoki* loki() { return loki_;}
 
 signals:
     void ladattu();
@@ -92,7 +94,9 @@ private:
 private:
     QVariantMap data_;
     QVariantMap tallennettu_;
+
     TositeViennit* viennit_;
+    TositeLoki* loki_;
 
     bool resetointiKaynnissa_ = false;
 

@@ -69,6 +69,7 @@
 #include "apuri/tilioteapuri.h"
 #include "model/tosite.h"
 #include "model/tositeviennit.h"
+#include "model/tositeloki.h"
 #include "tallennettuwidget.h"
 
 
@@ -167,8 +168,13 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
 
     connect( model(), &TositeModel::modelReset, this, &KirjausWg::tiedotModelista);
 
+    // ---- tästä alkaen uutta ------
+
     tosite_ = new Tosite();
     ui->viennitView->setModel( tosite_->viennit() );
+    ui->lokiView->setModel( tosite_->loki() );
+    ui->lokiView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+    ui->lokiView->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
 
     connect( tosite_, &Tosite::tila, this, &KirjausWg::paivita);
     connect( tosite_, &Tosite::talletettu, this, &KirjausWg::tallennettu);

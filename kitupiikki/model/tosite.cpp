@@ -17,6 +17,7 @@
 #include "tosite.h"
 
 #include "tositeviennit.h"
+#include "tositeloki.h"
 #include "db/kirjanpito.h"
 
 #include <QJsonDocument>
@@ -24,7 +25,8 @@
 
 Tosite::Tosite(QObject *parent) :
     QObject(parent),
-    viennit_(new TositeViennit(this))
+    viennit_(new TositeViennit(this)),
+    loki_( new TositeLoki(this))
 {
     connect( viennit_, &TositeViennit::dataChanged, this, &Tosite::tarkasta );
     connect( viennit_, &TositeViennit::modelReset, this, &Tosite::tarkasta );
@@ -61,6 +63,7 @@ void Tosite::lataaData(QVariant *variant)
     data_ = variant->toMap();
 
     viennit()->asetaViennit( data_.take("viennit").toList() );
+    loki()->lataa( data_.take("loki").toList());
 
 
     // toimittaja/asiakastiedot, liitteet ja loki

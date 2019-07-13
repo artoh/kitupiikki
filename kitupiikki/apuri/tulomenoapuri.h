@@ -53,6 +53,8 @@ protected slots:
     void maksutapaMuuttui();
     void kohdennusMuuttui();
     void merkkausMuuttui();
+    void jaksoAlkaaMuuttui();
+    void jaksoLoppuuMuuttui();
 
     void haeRivi(const QModelIndex& index);
     void haeKohdennukset();

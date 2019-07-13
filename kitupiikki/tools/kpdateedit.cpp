@@ -63,10 +63,7 @@ QSize KpDateEdit::sizeHint() const
 
 QDate KpDateEdit::date() const
 {
-    if( !date_.isValid() || ( date_ < minDate_ && minDate_.isValid()) || ( date_ > maxDate_ && maxDate_.isValid()) )
-        return QDate();
-    else
-        return date_;
+    return date_;
 }
 
 void KpDateEdit::setDateRange(const QDate &min, const QDate &max)
@@ -119,36 +116,54 @@ void KpDateEdit::kalenteri()
 
 void KpDateEdit::setDate(QDate date)
 {
-    if( date.isValid())
-    {
-
-        if( date_.isNull() )
-        {
-            setInputMask("00.00.2\\000");
-        }
-
+    if( date.isValid()) {
         date_ = date;
+        dateInEditor_ = date;
+
         int pos = cursorPosition();
         setText( date.toString("dd.MM.yyyy") );
         setCursorPosition(pos);
-
-        if( (date < minimumDate() && minimumDate().isValid()) || (date > maximumDate() && maximumDate().isValid()))
-            setStyleSheet("color: red;");
-        else
-            setStyleSheet("");
-
-        emit dateChanged( date );
     }
     else if( isNullable() )
     {
         if( date_.isValid())
             oletuspaiva_ = date_;
+
         date_ = QDate();
+        dateInEditor_ = QDate();
+
         setInputMask(QString());
         setText(QString());
         setStyleSheet("");
     }
 
+    emit dateChanged( date );
+
+}
+
+void KpDateEdit::setDateInternal(const QDate &date)
+{
+    if( date.isValid())
+    {
+
+        int pos = cursorPosition();
+        if( dateInEditor_.isNull() )
+        {
+            setInputMask("00.00.2\\000");
+        }
+
+        dateInEditor_ = date;
+        setText( date.toString("dd.MM.yyyy") );
+
+        setCursorPosition(pos);
+
+        if( (date < minimumDate() && minimumDate().isValid()) || (date > maximumDate() && maximumDate().isValid()))
+            setStyleSheet("color: red;");
+        else {
+            setStyleSheet("");
+            setDate( date );
+        }
+    }
 
     // Kalenteri piilotetaan
     if( kalenteri_)
@@ -156,7 +171,6 @@ void KpDateEdit::setDate(QDate date)
         kalenteri_->deleteLater();
         kalenteri_ = nullptr;
     }
-
 }
 
 void KpDateEdit::setDateFromPopUp(const QDate &date)
@@ -173,9 +187,8 @@ void KpDateEdit::editMuuttui(const QString& uusi)
     {
         if( !uusi.isEmpty() && uusi.at(0).isDigit())
         {
-            setDate( oletuspaiva_ );
-            editMuuttui( uusi + text().mid(1));
-            cursorForward(false,1);
+            setDateInternal( oletuspaiva_ );
+            editMuuttui( uusi + text().mid(1));            
         }
         return;
     }
@@ -243,7 +256,7 @@ void KpDateEdit::editMuuttui(const QString& uusi)
 
     if( pvm.isValid())
     {
-        setDate(pvm);
+        setDateInternal(pvm);
     }
 
 }

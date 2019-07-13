@@ -95,10 +95,11 @@ public slots:
      */
     void setDate(QDate date);
 
+protected:
+    void setDateInternal(const QDate& date);
+
+protected slots:    
     void setDateFromPopUp(const QDate& date);
-
-
-protected slots:
     void editMuuttui(const QString &uusi);
 
 protected:
@@ -114,6 +115,8 @@ protected:
     QDate date_;
     QDate minDate_;
     QDate maxDate_;
+    QDate dateInEditor_;
+
     bool nullMahdollinen_;
     qint64 suljettu_;
     QDate oletuspaiva_;

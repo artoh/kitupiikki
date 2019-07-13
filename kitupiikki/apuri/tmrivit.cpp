@@ -183,6 +183,26 @@ QVariantList TmRivit::merkkaukset(int rivi) const
     return  rivit_.at(rivi).merkkaukset;
 }
 
+void TmRivit::setJaksoalkaa(int rivi, const QDate &pvm)
+{
+    rivit_[rivi].jaksoalkaa = pvm;
+}
+
+QDate TmRivit::jaksoalkaa(int rivi) const
+{
+    return rivit_.at(rivi).jaksoalkaa;
+}
+
+void TmRivit::setJaksoloppuu(int rivi, const QDate &pvm)
+{
+    rivit_[rivi].jaksoloppuu = pvm;
+}
+
+QDate TmRivit::jaksoloppuu(int rivi) const
+{
+    return rivit_.at(rivi).jaksoloppuu;
+}
+
 QString TmRivit::selite(int rivi) const
 {
     return rivit_.at(rivi).selite;

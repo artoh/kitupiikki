@@ -60,7 +60,7 @@
       <enum>Qt::TabFocus</enum>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>4</number>
      </property>
      <widget class="QWidget" name="viennit">
       <attribute name="icon">
@@ -252,6 +252,11 @@
         </layout>
        </item>
       </layout>
+     </widget>
+     <widget class="QWidget" name="varastoTab">
+      <attribute name="title">
+       <string>Varasto</string>
+      </attribute>
      </widget>
      <widget class="QWidget" name="lisatab">
       <attribute name="icon">
