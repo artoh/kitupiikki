@@ -36,6 +36,7 @@ SelausWg::SelausWg() :
     ui->setupUi(this);
 
     ui->valintaTab->addTab(QIcon(":/pic/tekstisivu.png"),tr("&Tositteet"));
+    ui->valintaTab->addTab(QIcon(":/pic/harmaa.png"), tr("&Luonnokset"));
     ui->valintaTab->addTab(QIcon(":/pic/vientilista.png"),tr("&Viennit"));
 
     model = new SelausModel();
@@ -117,9 +118,11 @@ void SelausWg::paivita()
     {
         model->lataa( ui->alkuEdit->date(), ui->loppuEdit->date());
     }
-    else
+    else if( ui->valintaTab->currentIndex() == TOSITTEET )
     {
         tositeModel->lataa( ui->alkuEdit->date(), ui->loppuEdit->date());
+    } else {
+        tositeModel->lataa( ui->alkuEdit->date(), ui->loppuEdit->date(), true);
     }
 
     if( lopussa )
@@ -250,7 +253,7 @@ void SelausWg::alkuPvmMuuttui()
 
 void SelausWg::selaa(int kumpi)
 {
-    if( kumpi == 0)
+    if( kumpi == TOSITTEET || kumpi == LUONNOKSET)
         selaaTositteita();
     else
         selaaVienteja();

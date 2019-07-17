@@ -60,6 +60,12 @@ public:
         TILIPUUTTUU     = 0b100000
     };
 
+    enum Tila {
+        POISTETTU       = 0,
+        LUONNOS         = 50,
+        KIRJANPIDOSSA   = 100
+    };
+
     explicit Tosite(QObject *parent = nullptr);
 
     QVariant data(int kentta) const;
@@ -79,7 +85,7 @@ signals:
 public slots:
     void lataa(int tositeid);
     void lataaData(QVariant *variant);
-    void tallenna();
+    void tallenna(int tilaan = Tosite::KIRJANPIDOSSA);
     void tarkasta();
     void nollaa(const QDate& pvm, int tyyppi);
 

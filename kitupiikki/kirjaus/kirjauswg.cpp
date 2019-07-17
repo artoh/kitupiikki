@@ -91,8 +91,9 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
 
     connect( ui->lisaaRiviNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaRivi()));
     connect( ui->poistariviNappi, SIGNAL(clicked(bool)), this, SLOT(poistaRivi()));
-    connect( ui->tallennaButton, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
-    connect( ui->valmisNappi, &QPushButton::clicked, this, &KirjausWg::valmis);
+    connect( ui->tallennaButton, &QPushButton::clicked, [this] { this->tosite_->tallenna(Tosite::LUONNOS); } );
+    connect( ui->valmisNappi, &QPushButton::clicked, [this] { this->tosite_->tallenna(Tosite::KIRJANPIDOSSA);} );
+
     connect( ui->hylkaaNappi, SIGNAL(clicked(bool)), this, SLOT(hylkaa()));
     connect( ui->kommentitEdit, SIGNAL(textChanged()), this, SLOT(paivitaKommenttiMerkki()));
 
@@ -238,7 +239,7 @@ void KirjausWg::tyhjenna()
 
 void KirjausWg::tallenna()
 {
-
+    // Luonnokselle tehtävä oma slottinsa??? Tai sitten vähän lamdbaa peliin ;)
     tosite_->tallenna();
     return;
 }
@@ -429,18 +430,15 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
 
 }
 
-void KirjausWg::tallennettu(int  id, int tunniste, const QDate &pvm)
+void KirjausWg::tallennettu(int /* id */, int tunniste, const QDate &pvm)
 {
 
-    if( tunniste ) {
-            tallennettuWidget_->nayta(tunniste, pvm);
+    tallennettuWidget_->nayta(tunniste, pvm);
 
-            tallennettuWidget_->move( width() / 2 - tallennettuWidget_->width() / 2,
-                                     height() - tallennettuWidget_->height() );
-        tyhjenna();
-    } else {
-        lataaTosite(id);
-    }
+    tallennettuWidget_->move( width() / 2 - tallennettuWidget_->width() / 2,
+                             height() - tallennettuWidget_->height() );
+    tyhjenna();
+
 }
 
 void KirjausWg::tallennusEpaonnistui(int virhe)

@@ -78,8 +78,9 @@ void Tosite::lataaData(QVariant *variant)
 
 }
 
-void Tosite::tallenna()
+void Tosite::tallenna(int tilaan)
 {
+    setData( TILA, tilaan );
     KpKysely* kysely;
     if( data(ID).isNull())
         kysely = kpk( "/tositteet/", KpKysely::POST);

@@ -124,7 +124,7 @@ void DevTool::kysely()
         return;
 
     KpKysely *kysely = kpk();
-    kysely->asetaKysely(ui->kyselyLine->text());
+    kysely->asetaUrl(ui->kyselyLine->text());
     connect( kysely, &KpKysely::vastaus, this, &DevTool::vastausSaapui);
     kysely->kysy();
 }

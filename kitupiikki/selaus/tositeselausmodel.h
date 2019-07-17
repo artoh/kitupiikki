@@ -69,7 +69,7 @@ public:
     QStringList lajiLista() const { return kaytetytLajinimet; }
 
 public slots:
-    void lataa(const QDate& alkaa, const QDate& loppuu);
+    void lataa(const QDate& alkaa, const QDate& loppuu, bool luonnokset = false);
     void tietoSaapuu(QVariant *var);
 
 protected:
@@ -78,6 +78,8 @@ protected:
 
     QVariantList lista_;
     QSet<int> kaytetytTyypit_;
+
+    bool luonnokset_ = false;
 
 };
 

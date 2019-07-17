@@ -48,7 +48,8 @@ class SelausWg : public KitupiikkiSivu
 public:
     enum {
         TOSITTEET = 0,
-        VIENNIT = 1
+        LUONNOKSET = 1,
+        VIENNIT = 2
     };
 
     SelausWg();

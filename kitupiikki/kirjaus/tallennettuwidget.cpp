@@ -44,9 +44,17 @@ TallennettuWidget::~TallennettuWidget()
 void TallennettuWidget::nayta(int tunnus, const QDate &paiva)
 {
     timer_->start(60000);
-    ui->tunnisteLabel->setText( QString("%1 / %2")
+
+    ui->tunnisteellaLabel->setVisible( tunnus );
+    ui->tunnisteLabel->setVisible( tunnus );
+    ui->luonnosLabel->setVisible( !tunnus );
+
+    if( tunnus ) {
+        ui->tunnisteLabel->setText( QString("%1 / %2")
                                 .arg(tunnus)
                                 .arg( kp()->tilikausiPaivalle(paiva).kausitunnus() ));
+    }
+
     setVisible(true);
     raise();
 

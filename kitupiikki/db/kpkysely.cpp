@@ -26,7 +26,7 @@ KpKysely::KpKysely(YhteysModel *parent, KpKysely::Metodi metodi, QString polku) 
 
 }
 
-void KpKysely::asetaKysely(const QString &kysely)
+void KpKysely::asetaUrl(const QString &kysely)
 {
     QUrl url(kysely);
     polku_ = url.path();

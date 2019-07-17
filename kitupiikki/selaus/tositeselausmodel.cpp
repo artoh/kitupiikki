@@ -54,15 +54,18 @@ QVariant TositeSelausModel::headerData(int section, Qt::Orientation orientation,
     {
         switch (section) {
         case TUNNISTE:
-            return QVariant("Tosite");
+            if( luonnokset_)
+                return tr("Tila");
+            else
+                return tr("Tosite");
         case PVM:
-            return QVariant("Pvm");
+            return tr("Pvm");
         case TOSITETYYPPI:
-            return QVariant("Laji");
+            return tr("Laji");
         case SUMMA:
-            return QVariant("Summa");
+            return tr("Summa");
         case OTSIKKO:
-            return QVariant("Otsikko");
+            return tr("Otsikko");
         }
     }
     return QVariant( section + 1);
@@ -81,6 +84,9 @@ QVariant TositeSelausModel::data(const QModelIndex &index, int role) const
         {
 
         case TUNNISTE:
+            if( luonnokset_)
+                return map.value("tila");   // TODO Tilojen nimet
+
             if( role == Qt::EditRole)
                 // Lajittelua varten tasaleveä kenttä
                 return QVariant(QString("%2 %1")
@@ -147,13 +153,17 @@ QList<int> TositeSelausModel::tyyppiLista() const
 
 
 
-void TositeSelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
+void TositeSelausModel::lataa(const QDate &alkaa, const QDate &loppuu, bool luonnokset)
 {
+    luonnokset_ = luonnokset;
+
     if( kp()->yhteysModel())
     {
         KpKysely *kysely = kpk("/tositteet");
         kysely->lisaaAttribuutti("alkupvm", alkaa);
         kysely->lisaaAttribuutti("loppupvm", loppuu);
+        if( luonnokset )
+            kysely->lisaaAttribuutti("luonnos", QString());
         connect( kysely, &KpKysely::vastaus, this, &TositeSelausModel::tietoSaapuu);
         kysely->kysy();
     }

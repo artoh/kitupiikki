@@ -49,7 +49,7 @@ public:
 
     KpKysely(YhteysModel *parent, Metodi metodi = GET, QString polku = QString());
 
-    void asetaKysely(const QString& kysely);
+    void asetaUrl(const QString& kysely);
 
     QString polku() const { return polku_;}
 
@@ -59,6 +59,7 @@ public:
     QString attribuutti(const QString& avain) const;
     Metodi metodi() const { return metodi_;}
     Tila tila() const { return tila_;}
+    QUrlQuery urlKysely() const { return kysely_;}
 
 signals:
     void vastaus(QVariant* reply);

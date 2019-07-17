@@ -34,7 +34,10 @@ PilviKysely::PilviKysely(PilviModel *parent, KpKysely::Metodi metodi, QString po
 void PilviKysely::kysy(const QVariant &data)
 {
     PilviModel *model = qobject_cast<PilviModel*>( parent() );
-    QNetworkRequest request( QUrl( model->pilviosoite() + polku() ) );
+    QUrl url(model->pilviosoite() + polku());
+    url.setQuery( urlKysely() );
+
+    QNetworkRequest request( url );
 
     request.setRawHeader("Authorization", QString("bearer %1").arg( model->token() ).toLatin1());
     request.setRawHeader("User-Agent", QString(qApp->applicationName() + " " + qApp->applicationVersion() ).toLatin1()  );
