@@ -318,6 +318,15 @@
          </item>
          <item>
           <property name="text">
+           <string>Yksityissijoitus</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../pic/pic.qrc">
+            <normaloff>:/pic/rahaa.png</normaloff>:/pic/rahaa.png</iconset>
+          </property>
+         </item>
+         <item>
+          <property name="text">
            <string>Hyvitys</string>
           </property>
           <property name="icon">

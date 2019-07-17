@@ -53,6 +53,16 @@ void Tosite::setData(int kentta, QVariant arvo)
     tarkasta();
 }
 
+QString Tosite::tilateksti(int tila)
+{
+    switch (tila) {
+    case POISTETTU: return tr("Poistettu");
+    case LUONNOS: return tr("Luonnos");
+    case KIRJANPIDOSSA: return tr("Kirjanpidossa");
+    }
+    return QString();
+}
+
 void Tosite::lataa(int tositeid)
 {
     KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tositeid));

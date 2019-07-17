@@ -91,8 +91,8 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
 
     connect( ui->lisaaRiviNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaRivi()));
     connect( ui->poistariviNappi, SIGNAL(clicked(bool)), this, SLOT(poistaRivi()));
-    connect( ui->tallennaButton, &QPushButton::clicked, [this] { this->tosite_->tallenna(Tosite::LUONNOS); } );
-    connect( ui->valmisNappi, &QPushButton::clicked, [this] { this->tosite_->tallenna(Tosite::KIRJANPIDOSSA);} );
+    connect( ui->tallennaButton, &QPushButton::clicked, [this] {  if(apuri_) apuri_->tositteelle(); this->tosite_->tallenna(Tosite::LUONNOS); } );
+    connect( ui->valmisNappi, &QPushButton::clicked, [this] { if(apuri_) apuri_->tositteelle(); this->tosite_->tallenna(Tosite::KIRJANPIDOSSA);} );
 
     connect( ui->hylkaaNappi, SIGNAL(clicked(bool)), this, SLOT(hylkaa()));
     connect( ui->kommentitEdit, SIGNAL(textChanged()), this, SLOT(paivitaKommenttiMerkki()));
@@ -422,7 +422,7 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
     // Nappien enablointi
     // Täällä pitäisi olla jossain myös oikeuksien tarkastus ;)
     ui->tallennaButton->setEnabled( muokattu );
-    ui->valmisNappi->setEnabled(muokattu && !virheet);
+    ui->valmisNappi->setEnabled( (muokattu || tosite_->data(Tosite::TILA).toInt() < Tosite::KIRJANPIDOSSA  ) && !virheet);
 
     salliMuokkaus( !( virheet & Tosite::PVMALV || virheet & Tosite::PVMLUKITTU  ) || !tosite_->data(Tosite::ID).toInt() );
     if( muokattu )

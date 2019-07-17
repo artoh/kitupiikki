@@ -75,6 +75,8 @@ public:
     TositeLiitteet* liitteet() { return liitteet_;}
     TositeLoki* loki() { return loki_;}
 
+    static QString tilateksti(int tila);
+
 signals:
     void ladattu();
     void talletettu(int id, int tunniste, const QDate& pvm);

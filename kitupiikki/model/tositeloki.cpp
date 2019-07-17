@@ -15,6 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "tositeloki.h"
+#include "model/tosite.h"
 #include <QDateTime>
 
 TositeLoki::TositeLoki(QObject *parent)
@@ -77,7 +78,7 @@ QVariant TositeLoki::data(const QModelIndex &index, int role) const
         case KAYTTAJA:
             return map.value("nimi").toString();
         case TILA:
-            return map.value("tila").toInt();
+            return Tosite::tilateksti( map.value("tila").toInt() );
         }
     }
     return QVariant();

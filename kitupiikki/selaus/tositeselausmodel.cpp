@@ -24,8 +24,9 @@
 #include "db/kirjanpito.h"
 
 #include "db/kpkysely.h"
-
 #include "db/tositetyyppimodel.h"
+
+#include "model/tosite.h"
 
 #include <algorithm>
 
@@ -84,8 +85,8 @@ QVariant TositeSelausModel::data(const QModelIndex &index, int role) const
         {
 
         case TUNNISTE:
-            if( luonnokset_)
-                return map.value("tila");   // TODO Tilojen nimet
+            if( luonnokset_)    // Tila
+                return Tosite::tilateksti( map.value("tila").toInt() );   // TODO Tilojen nimet
 
             if( role == Qt::EditRole)
                 // Lajittelua varten tasaleveä kenttä
