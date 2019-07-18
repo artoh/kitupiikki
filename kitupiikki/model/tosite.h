@@ -25,7 +25,7 @@
 class TositeViennit;
 class TositeLiitteet;
 class TositeLoki;
-
+class Asiakas;
 
 /**
  * @brief Kirjanpitotosite
@@ -66,14 +66,18 @@ public:
         KIRJANPIDOSSA   = 100
     };
 
+
     explicit Tosite(QObject *parent = nullptr);
 
     QVariant data(int kentta) const;
     void setData(int kentta, QVariant arvo);
 
+    int tyyppi() const { return data(TYYPPI).toInt();}
+
     TositeViennit* viennit() { return viennit_; }
     TositeLiitteet* liitteet() { return liitteet_;}
     TositeLoki* loki() { return loki_;}
+    Asiakas* asiakas() { return  asiakas_;}
 
     static QString tilateksti(int tila);
 
@@ -92,6 +96,7 @@ public slots:
     void nollaa(const QDate& pvm, int tyyppi);
 
 protected slots:
+    void asiakasTallennettu();
     void tallennusValmis(QVariant *variant);
     void tallennuksessaVirhe(int virhe);
     void liitteetTallennettu();
@@ -110,6 +115,7 @@ private:
     TositeViennit* viennit_;
     TositeLiitteet* liitteet_;
     TositeLoki* loki_;
+    Asiakas* asiakas_;
 
     bool resetointiKaynnissa_ = false;
 

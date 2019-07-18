@@ -22,6 +22,7 @@
 class QSortFilterProxyModel;
 class TmRivit;
 class KohdennusProxyModel;
+class QCompleter;
 
 namespace Ui {
 class TuloMenoApuri;
@@ -59,6 +60,8 @@ protected slots:
     void haeRivi(const QModelIndex& index);
     void haeKohdennukset();
 
+    void muokkaaAsiakasta();
+
 protected:
     void teeReset() override;
     bool teeTositteelle() override;
@@ -77,6 +80,8 @@ private:
 
     QSortFilterProxyModel* veroFiltteri_;
     KohdennusProxyModel* kohdennusProxy_;
+
+    QCompleter* asiakasTaydentaja_;
 };
 
 #endif // TULOMENOAPURI_H

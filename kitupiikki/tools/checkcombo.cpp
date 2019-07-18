@@ -35,7 +35,7 @@ CheckCombo::CheckCombo(QWidget *parent) :
     view()->installEventFilter(this);
 
     connect( lineEdit(), &QLineEdit::selectionChanged, lineEdit(), &QLineEdit::deselect);
-    connect(view(), SIGNAL(pressed(QModelIndex)), this, SLOT(on_itemPressed(QModelIndex)));
+    connect(view(), SIGNAL(pressed(QModelIndex)), this, SLOT(onItemPressed(QModelIndex)));
     connect(model_, SIGNAL(dataChanged(QModelIndex, QModelIndex, QVector<int>)), this, SLOT(updateText()));
 
     setModel( model_);

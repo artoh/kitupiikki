@@ -74,7 +74,7 @@ QVariant TositeLoki::data(const QModelIndex &index, int role) const
         QVariantMap map = data_.at(index.row()).toMap();
         switch (index.column()) {
         case AIKA:
-            return map.value("aika").toDateTime();
+            return map.value("aika").toDateTime().toLocalTime();
         case KAYTTAJA:
             return map.value("nimi").toString();
         case TILA:

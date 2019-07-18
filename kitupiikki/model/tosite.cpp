@@ -19,7 +19,9 @@
 #include "tositeviennit.h"
 #include "tositeliitteet.h"
 #include "tositeloki.h"
+#include "asiakas.h"
 #include "db/kirjanpito.h"
+#include "db/tositetyyppimodel.h"
 
 #include <QJsonDocument>
 #include <QDebug>
@@ -28,11 +30,14 @@ Tosite::Tosite(QObject *parent) :
     QObject(parent),
     viennit_(new TositeViennit(this)),
     liitteet_(new TositeLiitteet(this)),
-    loki_( new TositeLoki(this))
+    loki_( new TositeLoki(this)),
+    asiakas_( new Asiakas(this))
 {
     connect( viennit_, &TositeViennit::dataChanged, this, &Tosite::tarkasta );
     connect( viennit_, &TositeViennit::modelReset, this, &Tosite::tarkasta );    
     connect( liitteet(), &TositeLiitteet::liitteetTallennettu, this, &Tosite::liitteetTallennettu);
+
+    connect( asiakas(), &Asiakas::tallennettu, this, &Tosite::asiakasTallennettu);
 }
 
 QVariant Tosite::data(int kentta) const
@@ -79,6 +84,9 @@ void Tosite::lataaData(QVariant *variant)
     loki()->lataa( data_.take("loki").toList());
     liitteet()->lataa( data_.take("liitteet").toList());
 
+    asiakas()->lataa( data_.take("asiakas").toMap());
+
+
     // toimittaja/asiakastiedot, liitteet ja loki
 
     emit ladattu();
@@ -91,19 +99,14 @@ void Tosite::lataaData(QVariant *variant)
 void Tosite::tallenna(int tilaan)
 {
     setData( TILA, tilaan );
-    KpKysely* kysely;
-    if( data(ID).isNull())
-        kysely = kpk( "/tositteet/", KpKysely::POST);
-    else
-        kysely = kpk( QString("/tositteet/%1").arg( data(ID).toInt() ), KpKysely::PUT);
 
+    // Ensimmäisenä tallennetaan mahdollisesti muokattu asiakas / toimittaja
 
-    qDebug() << QJsonDocument::fromVariant(tallennettava() );
-
-    connect(kysely, &KpKysely::vastaus, this, &Tosite::tallennusValmis  );
-    connect(kysely, &KpKysely::virhe, this, &Tosite::tallennuksessaVirhe);
-
-    kysely->kysy( tallennettava() );
+    if( data(TYYPPI).toInt() == TositeTyyppi::TULO && asiakas()->muokattu()) {
+        asiakas()->tallenna(true);
+    } else {
+        asiakasTallennettu();
+    }
 }
 
 void Tosite::tarkasta()
@@ -142,6 +145,7 @@ void Tosite::nollaa(const QDate &pvm, int tyyppi)
     data_.clear();
     viennit_->asetaViennit(QVariantList());
     liitteet()->clear();
+    asiakas()->clear();
     data_.insert( avaimet__.at(PVM), pvm );
     data_.insert( avaimet__.at(TYYPPI), tyyppi);
     emit ladattu();
@@ -149,6 +153,25 @@ void Tosite::nollaa(const QDate &pvm, int tyyppi)
     tallennettu_ = tallennettava();
     resetointiKaynnissa_ = false;
     tarkasta();
+
+}
+
+void Tosite::asiakasTallennettu()
+{
+
+    KpKysely* kysely;
+    if( data(ID).isNull())
+        kysely = kpk( "/tositteet/", KpKysely::POST);
+    else
+        kysely = kpk( QString("/tositteet/%1").arg( data(ID).toInt() ), KpKysely::PUT);
+
+
+    qDebug() << QJsonDocument::fromVariant(tallennettava() );
+
+    connect(kysely, &KpKysely::vastaus, this, &Tosite::tallennusValmis  );
+    connect(kysely, &KpKysely::virhe, this, &Tosite::tallennuksessaVirhe);
+
+    kysely->kysy( tallennettava() );
 
 }
 
@@ -182,6 +205,9 @@ QVariantMap Tosite::tallennettava()
 {
     QVariantMap map(data_);
     map.insert("viennit", viennit()->viennit());
+    if( data(TYYPPI).toInt() == TositeTyyppi::TULO &&  asiakas()->id() )
+        map.insert( avaimet__.at(ASIAKAS), asiakas()->id() );
+    // Jos sitten onkin uusi asiakas, niin mitähän sitten tehdään?
     return map;
 }
 

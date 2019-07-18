@@ -60,7 +60,7 @@
       <enum>Qt::TabFocus</enum>
      </property>
      <property name="currentIndex">
-      <number>4</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="viennit">
       <attribute name="icon">
@@ -254,6 +254,10 @@
       </layout>
      </widget>
      <widget class="QWidget" name="varastoTab">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/varasto-mv.png</normaloff>:/pic/varasto-mv.png</iconset>
+      </attribute>
       <attribute name="title">
        <string>Varasto</string>
       </attribute>
@@ -274,6 +278,12 @@
          </property>
          <property name="defaultDropAction">
           <enum>Qt::CopyAction</enum>
+         </property>
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::NoSelection</enum>
          </property>
         </widget>
        </item>

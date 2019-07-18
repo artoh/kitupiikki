@@ -21,17 +21,23 @@
 #include "db/kirjanpito.h"
 #include "model/tosite.h"
 #include "model/tositeviennit.h"
+#include "model/asiakas.h"
+#include "model/asiakastoimittajataydentaja.h"
 #include "db/tositetyyppimodel.h"
 #include "kirjaus/kohdennusproxymodel.h"
+#include "rekisteri/asiakasdlg.h"
+#include "rekisteri/toimittajadlg.h"
 
 #include <QSortFilterProxyModel>
 #include <QDebug>
+#include <QCompleter>
 
 TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     ApuriWidget (parent, tosite),
     ui(new Ui::TuloMenoApuri),
     rivit_(new TmRivit),
-    kohdennusProxy_( new KohdennusProxyModel(this))
+    kohdennusProxy_( new KohdennusProxyModel(this)),
+    asiakasTaydentaja_( new QCompleter(this))
 {
     ui->setupUi(this);
 
@@ -46,6 +52,10 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     ui->alkuEdit->setNull();
     ui->loppuEdit->setNull();
     ui->erapaivaEdit->setNull();
+
+    asiakasTaydentaja_->setCaseSensitivity(Qt::CaseInsensitive);
+    ui->toimittajaEdit->setCompleter( asiakasTaydentaja_ );
+
 
     ui->tilellaView->setModel( rivit_);
     ui->tilellaView->horizontalHeader()->setSectionResizeMode(TmRivit::TILI, QHeaderView::Stretch);
@@ -76,7 +86,10 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->viiteEdit, &QLineEdit::textChanged, [this] (const QString& text) {this->tosite()->setData(Tosite::VIITE, text);});
     connect( ui->erapaivaEdit, &KpDateEdit::dateChanged, [this] (const QDate& date) {this->tosite()->setData(Tosite::ERAPVM, date);});
 
+    connect( ui->toimittajaEdit, &QLineEdit::editingFinished, [this] { this->tosite()->asiakas()->valitse( this->ui->toimittajaEdit->text() ); this->tositteelle(); });
+
     connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::haeKohdennukset );
+    connect( ui->toimittajaButton, &QPushButton::clicked, this, &TuloMenoApuri::muokkaaAsiakasta);
 }
 
 TuloMenoApuri::~TuloMenoApuri()
@@ -98,6 +111,11 @@ void TuloMenoApuri::teeReset()
     ui->viiteEdit->setText( tosite()->data(Tosite::VIITE).toString() );
     ui->erapaivaEdit->setDate( tosite()->data(Tosite::ERAPVM).toDate());
 
+    if( menoa ) {
+
+    } else {
+        ui->toimittajaEdit->setText( tosite()->asiakas()->nimi() );
+    }
 
     // Haetaan rivien tiedot
 
@@ -342,6 +360,8 @@ bool TuloMenoApuri::teeTositteelle()
         viennit.insert(0, vasta);
     }
 
+    if( tosite()->asiakas()->id())
+        tosite()->setData(Tosite::ASIAKAS, tosite()->asiakas()->id());
 
     tosite()->viennit()->asetaViennit(viennit);
 
@@ -597,6 +617,19 @@ void TuloMenoApuri::haeKohdennukset()
 
 }
 
+void TuloMenoApuri::muokkaaAsiakasta()
+{
+    if( tosite()->tyyppi() == TositeTyyppi::TULO) {
+
+        AsiakasDlg dlg(this, tosite()->asiakas());
+        if( dlg.exec() == QDialog::Accepted )
+            ui->toimittajaEdit->setText( tosite()->asiakas()->nimi() );
+    } else if ( tosite()->tyyppi() == TositeTyyppi::MENO) {
+        ToimittajaDlg dlg(this);
+        dlg.exec();
+    }
+}
+
 void TuloMenoApuri::alusta(bool meno)
 {
 
@@ -610,6 +643,9 @@ void TuloMenoApuri::alusta(bool meno)
         ui->tiliEdit->suodataTyypilla("(AP|C).*");
         veroFiltteri_->setFilterRegExp("^(0|1[1-79])");
         ui->toimittajaLabel->setText( tr("Asiakas"));
+        asiakasTaydentaja_->setModel( tosite()->asiakas()->taydentaja() );
+
+        qDebug() << " --- " << tosite()->asiakas()->taydentaja()->rowCount();
     }
 
 

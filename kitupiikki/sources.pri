@@ -8,11 +8,16 @@ SOURCES += uusikp/uusikirjanpito.cpp \
     $$PWD/db/tositetyyppimodel.cpp \
     $$PWD/db/yhteysmodel.cpp \
     $$PWD/kirjaus/tallennettuwidget.cpp \
+    $$PWD/model/asiakas.cpp \
+    $$PWD/model/asiakastoimittajataydentaja.cpp \
     $$PWD/model/tosite.cpp \
     $$PWD/model/tositeliitteet.cpp \
     $$PWD/model/tositeloki.cpp \
     $$PWD/model/tositeviennit.cpp \
     $$PWD/model/tositevienti.cpp \
+    $$PWD/rekisteri/maamodel.cpp \
+    $$PWD/rekisteri/postinumerot.cpp \
+    $$PWD/rekisteri/toimittajadlg.cpp \
     $$PWD/tools/checkcombo.cpp \
     $$PWD/tools/kpeuroedit.cpp \
     $$PWD/tools/tilicombo.cpp \
@@ -184,7 +189,8 @@ SOURCES += uusikp/uusikirjanpito.cpp \
     pilvi/pilvikysely.cpp \
     pilvi/pilvimodel.cpp \
     pilvi/pilvilogindlg.cpp \
-    sqlite/sqlitemodel.cpp
+    sqlite/sqlitemodel.cpp \
+    rekisteri/asiakasdlg.cpp
 
 HEADERS += \
     $$PWD/apuri/apuriwidget.h \
@@ -196,11 +202,16 @@ HEADERS += \
     $$PWD/db/tositetyyppimodel.h \
     $$PWD/db/yhteysmodel.h \
     $$PWD/kirjaus/tallennettuwidget.h \
+    $$PWD/model/asiakas.h \
+    $$PWD/model/asiakastoimittajataydentaja.h \
     $$PWD/model/tosite.h \
     $$PWD/model/tositeliitteet.h \
     $$PWD/model/tositeloki.h \
     $$PWD/model/tositeviennit.h \
     $$PWD/model/tositevienti.h \
+    $$PWD/rekisteri/maamodel.h \
+    $$PWD/rekisteri/postinumerot.h \
+    $$PWD/rekisteri/toimittajadlg.h \
     $$PWD/tools/checkcombo.h \
     $$PWD/tools/kpeuroedit.h \
     $$PWD/tools/tilicombo.h \
@@ -374,7 +385,8 @@ HEADERS += \
     pilvi/pilvikysely.h \
     pilvi/pilvimodel.h \
     pilvi/pilvilogindlg.h \
-    sqlite/sqlitemodel.h
+    sqlite/sqlitemodel.h \
+    rekisteri/asiakasdlg.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -389,6 +401,7 @@ FORMS += \
     $$PWD/apuri/tulomenoapuri.ui \
     $$PWD/apuri/siirtoapuri.ui \
     $$PWD/kirjaus/tallennettuwidget.ui \
+    $$PWD/rekisteri/toimittajadlg.ui \
     uusikp/intro.ui \
     uusikp/nimi.ui \
     uusikp/tilikartta.ui \
@@ -462,4 +475,5 @@ FORMS += \
     alv/alvilmoitusdialog.ui \
     alv/arvonlisavero.ui \
     uusikp/numerointi.ui \
-    pilvi/pilvilogindlg.ui
+    pilvi/pilvilogindlg.ui \
+    rekisteri/asiakasdlg.ui
