@@ -37,7 +37,9 @@ public slots:
     void accept() override;
 
 private slots:
+    void maaMuuttui();
     void haeToimipaikka();
+    void ymuuttui();
 
 private:
     Ui::AsiakasDlg *ui;

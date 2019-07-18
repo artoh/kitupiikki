@@ -35,6 +35,14 @@ QString Asiakas::ytunnus() const
     return tunnus;
 }
 
+QString Asiakas::maa() const
+{
+    QString maa = data_.value("maa").toString();
+    if( maa.isEmpty())
+        return "fi";
+    return maa;
+}
+
 void Asiakas::set(const QString &avain, const QString &arvo)
 {
     if( arvo.isEmpty())
@@ -44,9 +52,10 @@ void Asiakas::set(const QString &avain, const QString &arvo)
 
 }
 
-void Asiakas::setYTunnus(QString &tunnus)
-{
-    data_.insert( "alvtunnus", tunnus.remove('-').insert(0,"FI") );
+void Asiakas::setYTunnus(const QString &tunnus)
+{    
+    QString tunnari = tunnus;
+    data_.insert( "alvtunnus", tunnari.remove('-').insert(0,"FI") );
 }
 
 AsiakasToimittajaTaydentaja *Asiakas::taydentaja()

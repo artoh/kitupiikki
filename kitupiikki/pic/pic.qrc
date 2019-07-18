@@ -163,5 +163,33 @@
         <file>ok-128.png</file>
         <file>varasto-mv.png</file>
     </qresource>
-    <qresource prefix="/"/>
+    <qresource prefix="/">
+        <file>liput/at.png</file>
+        <file>liput/be.png</file>
+        <file>liput/bg.png</file>
+        <file>liput/cy.png</file>
+        <file>liput/cz.png</file>
+        <file>liput/de.png</file>
+        <file>liput/dk.png</file>
+        <file>liput/ee.png</file>
+        <file>liput/es.png</file>
+        <file>liput/fi.png</file>
+        <file>liput/fr.png</file>
+        <file>liput/hu.png</file>
+        <file>liput/ie.png</file>
+        <file>liput/lt.png</file>
+        <file>liput/lu.png</file>
+        <file>liput/lv.png</file>
+        <file>liput/nl.png</file>
+        <file>liput/pl.png</file>
+        <file>liput/pt.png</file>
+        <file>liput/ro.png</file>
+        <file>liput/se.png</file>
+        <file>liput/si.png</file>
+        <file>liput/sk.png</file>
+        <file>liput/el.png</file>
+        <file>liput/gb.png</file>
+        <file>liput/mt.png</file>
+        <file>liput/hr.png</file>
+    </qresource>
 </RCC>

@@ -33,16 +33,18 @@ public:
     QString postinumero() const { return data_.value("postinumero").toString();}
     QString kaupunki() const { return data_.value("kaupunki").toString();}
     QString ovt() const { return data_.value("ovt").toString();}
-    QString operaattori() const { return data_.value("opetaattori").toString();}
+    QString operaattori() const { return data_.value("operaattori").toString();}
 
     int id() const { return data_.value("id").toInt();}
 
     QString ytunnus() const;
+    QString alvtunnus() const { return data_.value("alvtunnus").toString();}
+    QString maa() const;
 
     bool muokattu() const { return muokattu_;}
 
     void set(const QString& avain, const QString& arvo);
-    void setYTunnus(QString& tunnus);
+    void setYTunnus(const QString &tunnus);
 
     AsiakasToimittajaTaydentaja* taydentaja();
 

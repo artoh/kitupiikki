@@ -15,18 +15,19 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "maamodel.h"
+#include <QIcon>
 
 MaaModel::MaaModel(QObject *parent)
     : QAbstractListModel(parent)
 {
     lisaa("fi","Suomi","FI\\d{8}");
     lisaa("be","Belgia","BE\\d{8}");
-    lisaa("bu","Bulgaria","BG\\d{9,10}");
+    lisaa("bg","Bulgaria","BG\\d{9,10}");
     lisaa("es","Espanja","ES\\w\\d{7}\\w");
     lisaa("nl","Hollanti","NL\\d{9}B\\d{2}");
     lisaa("ie","Irlanti","IE\\w{8,9}");
-    lisaa("gb","Iso-Britannia","\\w{5,12}");
-    lisaa("it","Italia","IT\\d{11}");
+    lisaa("gb","Iso-Britannia","GB\\w{5,12}");
+    lisaa("ie","Italia","IT\\d{11}");
     lisaa("at","Itävalta","ATU\\d{8}");
     lisaa("el","Kreikka","EL\\d{9}");
     lisaa("hr","Kroatia","HR\\d{11}");
@@ -71,6 +72,12 @@ QVariant MaaModel::data(const QModelIndex &index, int role) const
 
     if( role == Qt::DisplayRole)
         return maat_.at(index.row()).nimi();
+    else if( role == Qt::DecorationRole)
+        return maat_.at(index.row()).icon();
+    else if( role == KoodiRooli)
+        return maat_.at(index.row()).koodi();
+    else if( role == AlvRegExpRooli)
+        return maat_.at(index.row()).alvreg();
 
     // FIXME: Implement me!
     return QVariant();
@@ -84,7 +91,8 @@ void MaaModel::lisaa(const QString &koodi, const QString &nimi, const QString &r
 MaaModel::Maa::Maa(const QString &koodi, const QString &nimi, const QString &alvreg) :
     nimi_(nimi),
     koodi_(koodi),
-    alvreg_(alvreg)
+    alvreg_(alvreg),
+    icon_( QIcon(":/liput/" + koodi + ".png"))
 {
 
 }

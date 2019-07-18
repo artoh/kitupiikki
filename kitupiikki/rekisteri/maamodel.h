@@ -18,6 +18,7 @@
 #define MAAMODEL_H
 
 #include <QAbstractListModel>
+#include <QIcon>
 
 class MaaModel : public QAbstractListModel
 {
@@ -31,15 +32,22 @@ protected:
         QString koodi() const { return koodi_;}
         QString nimi() const { return nimi_;}
         QString alvreg() const { return alvreg_;}
+        QIcon icon() const { return icon_;}
 
     protected:
         QString nimi_;
         QString koodi_;
         QString alvreg_;
+        QIcon icon_;
     };
 
 public:
     explicit MaaModel(QObject *parent = nullptr);
+
+    enum {
+        KoodiRooli = Qt::UserRole,
+        AlvRegExpRooli = Qt::UserRole + 1
+    };
 
     // Basic functionality:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
