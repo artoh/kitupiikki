@@ -22,6 +22,7 @@
 #include "model/tosite.h"
 #include "model/tositeviennit.h"
 #include "model/asiakas.h"
+#include "model/toimittaja.h"
 #include "model/asiakastoimittajataydentaja.h"
 #include "db/tositetyyppimodel.h"
 #include "kirjaus/kohdennusproxymodel.h"
@@ -625,8 +626,9 @@ void TuloMenoApuri::muokkaaAsiakasta()
         if( dlg.exec() == QDialog::Accepted )
             ui->toimittajaEdit->setText( tosite()->asiakas()->nimi() );
     } else if ( tosite()->tyyppi() == TositeTyyppi::MENO) {
-        ToimittajaDlg dlg(this);
-        dlg.exec();
+        ToimittajaDlg dlg(this, tosite()->toimittaja());
+        if( dlg.exec() == QDialog::Accepted)
+            ui->toimittajaEdit->setText( tosite()->toimittaja()->nimi() );
     }
 }
 

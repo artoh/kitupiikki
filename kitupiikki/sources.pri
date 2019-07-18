@@ -10,11 +10,14 @@ SOURCES += uusikp/uusikirjanpito.cpp \
     $$PWD/kirjaus/tallennettuwidget.cpp \
     $$PWD/model/asiakas.cpp \
     $$PWD/model/asiakastoimittajataydentaja.cpp \
+    $$PWD/model/kantaasiakastoimittaja.cpp \
+    $$PWD/model/toimittaja.cpp \
     $$PWD/model/tosite.cpp \
     $$PWD/model/tositeliitteet.cpp \
     $$PWD/model/tositeloki.cpp \
     $$PWD/model/tositeviennit.cpp \
     $$PWD/model/tositevienti.cpp \
+    $$PWD/rekisteri/ibandelegaatti.cpp \
     $$PWD/rekisteri/maamodel.cpp \
     $$PWD/rekisteri/postinumerot.cpp \
     $$PWD/rekisteri/toimittajadlg.cpp \
@@ -204,11 +207,14 @@ HEADERS += \
     $$PWD/kirjaus/tallennettuwidget.h \
     $$PWD/model/asiakas.h \
     $$PWD/model/asiakastoimittajataydentaja.h \
+    $$PWD/model/kantaasiakastoimittaja.h \
+    $$PWD/model/toimittaja.h \
     $$PWD/model/tosite.h \
     $$PWD/model/tositeliitteet.h \
     $$PWD/model/tositeloki.h \
     $$PWD/model/tositeviennit.h \
     $$PWD/model/tositevienti.h \
+    $$PWD/rekisteri/ibandelegaatti.h \
     $$PWD/rekisteri/maamodel.h \
     $$PWD/rekisteri/postinumerot.h \
     $$PWD/rekisteri/toimittajadlg.h \

@@ -20,6 +20,7 @@
 #include "tositeliitteet.h"
 #include "tositeloki.h"
 #include "asiakas.h"
+#include "toimittaja.h"
 #include "db/kirjanpito.h"
 #include "db/tositetyyppimodel.h"
 
@@ -31,7 +32,8 @@ Tosite::Tosite(QObject *parent) :
     viennit_(new TositeViennit(this)),
     liitteet_(new TositeLiitteet(this)),
     loki_( new TositeLoki(this)),
-    asiakas_( new Asiakas(this))
+    asiakas_( new Asiakas(this)),
+    toimittaja_( new Toimittaja(this))
 {
     connect( viennit_, &TositeViennit::dataChanged, this, &Tosite::tarkasta );
     connect( viennit_, &TositeViennit::modelReset, this, &Tosite::tarkasta );    
@@ -85,6 +87,7 @@ void Tosite::lataaData(QVariant *variant)
     liitteet()->lataa( data_.take("liitteet").toList());
 
     asiakas()->lataa( data_.take("asiakas").toMap());
+    toimittaja_->lataa( data_.take("toimittaja").toMap());
 
 
     // toimittaja/asiakastiedot, liitteet ja loki

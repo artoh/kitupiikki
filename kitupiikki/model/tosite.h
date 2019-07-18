@@ -26,6 +26,7 @@ class TositeViennit;
 class TositeLiitteet;
 class TositeLoki;
 class Asiakas;
+class Toimittaja;
 
 /**
  * @brief Kirjanpitotosite
@@ -78,6 +79,7 @@ public:
     TositeLiitteet* liitteet() { return liitteet_;}
     TositeLoki* loki() { return loki_;}
     Asiakas* asiakas() { return  asiakas_;}
+    Toimittaja* toimittaja() { return toimittaja_;}
 
     static QString tilateksti(int tila);
 
@@ -116,6 +118,7 @@ private:
     TositeLiitteet* liitteet_;
     TositeLoki* loki_;
     Asiakas* asiakas_;
+    Toimittaja* toimittaja_;
 
     bool resetointiKaynnissa_ = false;
 

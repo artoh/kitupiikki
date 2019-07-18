@@ -14,36 +14,24 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef TOIMITTAJADLG_H
-#define TOIMITTAJADLG_H
+#ifndef IBANDELEGAATTI_H
+#define IBANDELEGAATTI_H
 
-#include <QDialog>
-#include <QStringList>
+#include <QItemDelegate>
 
-class Toimittaja;
-
-namespace Ui {
-class ToimittajaDlg;
-}
-
-class ToimittajaDlg : public QDialog
+class IbanDelegaatti : public QItemDelegate
 {
     Q_OBJECT
-
 public:
-    ToimittajaDlg(QWidget *parent, Toimittaja* toimittaja);
-    ~ToimittajaDlg() override;
+    IbanDelegaatti(QObject *parent = nullptr);
 
-private slots:
-    void tarkastaTilit();
-    void maaMuuttui();
-    void haeToimipaikka();
+    void paint(QPainter* painter, const QStyleOptionViewItem &option,
+               const QModelIndex& index) const override;
 
-    void accept() override;
+    QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+    void setEditorData(QWidget *editor, const QModelIndex &index) const override;
+    void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;
 
-private:
-    Ui::ToimittajaDlg *ui;
-    Toimittaja* toimittaja_;
 };
 
-#endif // TOIMITTAJADLG_H
+#endif // IBANDELEGAATTI_H

@@ -19,43 +19,9 @@
 
 #include "db/kirjanpito.h"
 
-Asiakas::Asiakas(QObject *parent) : QObject(parent)
+Asiakas::Asiakas(QObject *parent) : KantaAsiakasToimittaja (parent)
 {
 
-}
-
-QString Asiakas::ytunnus() const
-{
-    QString tunnus = data_.value("alvtunnus").toString();
-    if( !tunnus.startsWith("FI"))
-        return QString();
-
-    tunnus.remove(0,2);
-    tunnus.insert(7,'-');
-    return tunnus;
-}
-
-QString Asiakas::maa() const
-{
-    QString maa = data_.value("maa").toString();
-    if( maa.isEmpty())
-        return "fi";
-    return maa;
-}
-
-void Asiakas::set(const QString &avain, const QString &arvo)
-{
-    if( arvo.isEmpty())
-        data_.remove(avain);
-    else
-        data_.insert(avain, arvo);
-
-}
-
-void Asiakas::setYTunnus(const QString &tunnus)
-{    
-    QString tunnari = tunnus;
-    data_.insert( "alvtunnus", tunnari.remove('-').insert(0,"FI") );
 }
 
 AsiakasToimittajaTaydentaja *Asiakas::taydentaja()

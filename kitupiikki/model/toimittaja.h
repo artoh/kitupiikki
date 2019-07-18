@@ -14,41 +14,34 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef ASIAKAS_H
-#define ASIAKAS_H
+#ifndef TOIMITTAJA_H
+#define TOIMITTAJA_H
 
 #include "kantaasiakastoimittaja.h"
 
-class AsiakasToimittajaTaydentaja;
 
-class Asiakas : public KantaAsiakasToimittaja
+class Toimittaja : public KantaAsiakasToimittaja
 {
     Q_OBJECT
 public:
-    explicit Asiakas(QObject *parent = nullptr);
+    explicit Toimittaja(QObject *parent = nullptr);
 
-    QString ovt() const { return data_.value("ovt").toString();}
-    QString operaattori() const { return data_.value("operaattori").toString();}
 
-    int id() const { return data_.value("id").toInt();}
+    QStringList tilit() const { return tilit_;}
+    void setTilit(const QStringList& lista);
 
-    AsiakasToimittajaTaydentaja* taydentaja();
+    AsiakasToimittajaTaydentaja* taydentaja() override;
 
 signals:
-    void tallennettu();
 
 public slots:
     void lataa(QVariantMap data);
     void valitse(const QString& nimi);
-    void clear();
-    void tallenna(bool tositteentallennus = false);
-
-private slots:
-    void tallennusvalmis(QVariant* var);
-    void vaintallennusvalmis(QVariant* var);
+    void clear() { data_.clear(); tilit_.clear();}
 
 protected:
+    QStringList tilit_;
 
 };
 
-#endif // ASIAKAS_H
+#endif // TOIMITTAJA_H

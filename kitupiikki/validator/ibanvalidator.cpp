@@ -19,7 +19,8 @@
 
 #include <sstream>
 
-IbanValidator::IbanValidator()
+IbanValidator::IbanValidator(QObject *parent) :
+    QValidator (parent)
 {
 
 }
@@ -39,7 +40,7 @@ QValidator::State IbanValidator::kelpo(const QString &input)
         QChar ch = str.at(i);
         if( i < 2 && !ch.isUpper())
             return Invalid;
-        if( i > 1 && !ch.isDigit())
+        if( i > 1 && !ch.isDigit() && str.startsWith("FI"))
             return Invalid;
     }
     if( str.length() < 10)

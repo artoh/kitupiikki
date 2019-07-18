@@ -46,6 +46,7 @@ AsiakasDlg::AsiakasDlg(QWidget *parent, Asiakas *asiakas) :
 
     ui->ytunnusEdit->setValidator(new YTunnusValidator(false));
 
+    ui->emailEdit->setText( asiakas->email());
     ui->lahiEdit->setPlainText(asiakas->osoite());
     ui->postinumeroEdit->setText( asiakas->postinumero());
     ui->kaupunkiEdit->setText( asiakas->kaupunki());
@@ -74,6 +75,7 @@ void AsiakasDlg::accept()
     else
         asiakas_->set("alvtunnus", ui->alvEdit->text());
 
+    asiakas_->set("email", ui->emailEdit->text());
     asiakas_->set("osoite", ui->lahiEdit->toPlainText());
     asiakas_->set("postinumero", ui->postinumeroEdit->text());
     asiakas_->set("kaupunki", ui->kaupunkiEdit->text());

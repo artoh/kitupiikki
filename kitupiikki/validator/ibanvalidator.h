@@ -27,7 +27,7 @@ class IbanValidator : public QValidator
 {
     Q_OBJECT
 public:
-    IbanValidator();
+    IbanValidator(QObject *parent = nullptr);
 
     State validate(QString &input, int &pos) const override;
 
