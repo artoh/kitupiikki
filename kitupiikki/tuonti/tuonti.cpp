@@ -134,7 +134,7 @@ void Tuonti::tuoLasku(qlonglong sentit, QDate laskupvm, QDate toimituspvm, QDate
     {
         kirjausWg()->gui()->tositetyyppiCombo->setCurrentIndex(
                     kirjausWg()->gui()->tositetyyppiCombo->findData( kp()->asetukset()->luku("TuontiOstolaskuTositelaji"), TositelajiModel::IdRooli ) );
-        rivi.tili = kp()->tilit()->tiliNumerollaVanha( kp()->asetukset()->luku("TuontiOstolaskuTili") );
+        rivi.tili = kp()->tilit()->tiliNumerolla( kp()->asetukset()->luku("TuontiOstolaskuTili") );
         rivi.kreditSnt = sentit;
     }
 
@@ -148,7 +148,6 @@ void Tuonti::tuoLasku(qlonglong sentit, QDate laskupvm, QDate toimituspvm, QDate
     rivi.eraId = TaseEra::UUSIERA;
     rivi.laskupvm = laskupvm;
 
-    kirjausWg()->model()->vientiModel()->lisaaVienti(rivi);
 
 }
 
@@ -277,7 +276,6 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, const QString& iban, QString v
                 EhdotusModel veronkuittaus;
                 veronkuittaus.lisaaVienti(verodebet);
                 veronkuittaus.lisaaVienti(verokredit);
-                veronkuittaus.tallenna( kirjausWg()->model()->vientiModel() );
 
             }
         }
@@ -336,6 +334,6 @@ void Tuonti::oterivi(QDate pvm, qlonglong sentit, const QString& iban, QString v
     ehdotus.lisaaVienti(rivi);
     ehdotus.lisaaVienti(vastarivi);
     ehdotus.viimeisteleMaksuperusteinen();
-    ehdotus.tallenna( kirjausWg()->model()->vientiModel() );
+//    ehdotus.tallenna( kirjausWg()->model()->vientiModel() );
 
 }

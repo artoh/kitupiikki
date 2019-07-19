@@ -50,61 +50,33 @@ class KirjausWg : public QWidget
 {
     Q_OBJECT
 public:
-    KirjausWg(TositeModel *tositeModel, QWidget *parent=nullptr);
+    KirjausWg(QWidget *parent=nullptr);
     ~KirjausWg();
 
-    enum Valilehdet { VIENNIT, KOMMENTIT, LIITTEET, LISATIEDOT } ;
+    enum Valilehdet { VIENNIT, KOMMENTIT, LIITTEET, VARASTO, LOKI } ;
 
-    TositeModel *model() { return model_;}
+    Tosite* tosite() { return tosite_;}
 
 public slots:
+    void lataaTosite(int id);
+    void lisaaLiite(const QString &polku);
+    void lisaaLiite();
+    void lisaaLiiteDatasta(const QByteArray& data, const QString& nimi);
+    void tiedotModelista();
+    void tyhjenna();
+
+private slots:
+
     void lisaaRivi();
     void poistaRivi();
-    void tyhjenna();
+
     void tallenna();
     void hylkaa();
     void poistaTosite();
     void vientiValittu();
 
-    /**
-     * @brief Tekee uuden tositteen tämän pohjalta
-     */
     void uusiPohjalta();
-
-
-    /**
-     * @brief Päivittää debet- ja kredit summat ja jos ei täsmää ei tallennusnappi käytössä
-     */
-    void lataaTosite(int id);
-
     void paivitaKommenttiMerkki();
-    /**
-     * @brief Jos tunniste ei ole kelpo, värjätään se punaiseksi!
-     */
-    void paivitaTunnisteVari();
-
-    /**
-     * @brief Lisätään liite
-     * @param polku Polku liitetiedostoon.
-     */
-    void lisaaLiite(const QString &polku);
-    void lisaaLiite();
-    void lisaaLiiteDatasta(const QByteArray& data, const QString& nimi);
-
-
-    /**
-     * @brief Hakee tiedot modelista lomakkeeseen;
-     */
-    void tiedotModelista();
-
-
-    /**
-     * @brief Määrää saako tositetta muokata
-     *
-     * Järjestelmätositteiden sekä päätettyjen tilikausien tositteiden muokkaamista ei sallita
-     *
-     * @param sallitaanko
-     */
     void salliMuokkaus(bool sallitaanko);
 
     void vaihdaTositeTyyppi();
@@ -127,20 +99,6 @@ public slots:
      */
     void vientivwAktivoitu(QModelIndex indeksi);
 
-    /**
-     * @brief Näyttää laskun maksun valintadialogin ja kirjaa maksun
-     */
-    void kirjaaLaskunmaksu();
-
-    void paivitaTallennaPoistaNapit();
-
-
-    /**
-     * @brief Siirtää tositteiden numeroita eteenpäin
-     *
-     * #117
-     */
-    void numeroSiirto();
 
     /**
      * @brief Tositteen tulostaminen
@@ -151,12 +109,6 @@ public slots:
      * @brief Valikon siirry-toiminta
      */
     void siirryTositteeseen();
-
-    /**
-     * @brief Päivittää otsikon täydennyksen
-     * @param teksti
-     */
-    void paivitaOtsikonTaydennys(const QString& teksti);
 
     void naytaSelvitys();    
 
@@ -214,15 +166,11 @@ protected:
 
 protected:
     Ui::KirjausWg *ui;    
-    TositeModel *model_;
-    LaskunMaksuDialogi *laskuDlg_;
-    ApuriVinkki *apurivinkki_;
 
     QAction *poistaAktio_;
     QAction *uudeksiAktio_;
     QAction *tyhjennaViennitAktio_;
 
-    QSqlQueryModel *taydennysSql_;
     QSortFilterProxyModel *tyyppiProxy_;
 
     EdellinenSeuraavaTieto *edellinenSeuraava_;
@@ -230,6 +178,12 @@ protected:
     Tosite* tosite_;
     ApuriWidget* apuri_;
     TallennettuWidget* tallennettuWidget_;
+
+    QWidget* viennitTab_;
+    QWidget* kommentitTab_;
+    QWidget* liitteetTab_;
+    QWidget* varastoTab_;
+    QWidget* lokiTab_;
 
 };
 

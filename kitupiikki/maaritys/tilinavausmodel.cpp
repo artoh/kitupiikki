@@ -83,7 +83,7 @@ QVariant TilinavausModel::data(const QModelIndex &index, int role) const
                     while( iter.hasNext() )
                     {
                         iter.next();
-                        Tili tili = Kirjanpito::db()->tilit()->tiliNumerollaVanha( iter.key());
+                        Tili tili = Kirjanpito::db()->tilit()->tiliNumerolla( iter.key());
                         if( tili.onko(TiliLaji::TULO) )
                             tulos += iter.value();
                         else if( tili.onko(TiliLaji::MENO) )
@@ -257,7 +257,7 @@ bool TilinavausModel::tallenna()
     while( iter.hasNext())
     {
         iter.next();
-        Tili tili = Kirjanpito::db()->tilit()->tiliNumerollaVanha(iter.key() );
+        Tili tili = Kirjanpito::db()->tilit()->tiliNumerolla(iter.key() );
         kysely.bindValue(":pvm", avauspaiva);
         kysely.bindValue(":tili", tili.id());
         kysely.bindValue(":vientirivi", vientirivi);
@@ -290,7 +290,7 @@ void TilinavausModel::paivitaInfo()
     while( iter.hasNext() )
     {
         iter.next();
-        Tili tili = Kirjanpito::db()->tilit()->tiliNumerollaVanha( iter.key());
+        Tili tili = Kirjanpito::db()->tilit()->tiliNumerolla( iter.key());
         if( tili.onko(TiliLaji::VASTAAVAA)  )
             tasevastaavaa += iter.value();
         else if( tili.onko(TiliLaji::VASTATTAVAA) )

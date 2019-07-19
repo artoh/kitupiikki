@@ -107,7 +107,7 @@ QVariant TiliMuuntoModel::data(const QModelIndex &index, int role) const
             if( role == Qt::EditRole)
                 return rivi.muunnettuTilinumero;
 
-            Tili tili= kp()->tilit()->tiliNumerollaVanha( rivi.muunnettuTilinumero );
+            Tili tili= kp()->tilit()->tiliNumerolla( rivi.muunnettuTilinumero );
             if( tili.onkoValidi())
                 return QString("%1 %2").arg(tili.numero()).arg(tili.nimi());
         }

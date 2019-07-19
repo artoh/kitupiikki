@@ -212,7 +212,7 @@ void SelausWg::selaa(int tilinumero, const Tilikausi& tilikausi)
 
     paivita();
 
-    Tili selattava = Kirjanpito::db()->tilit()->tiliNumerollaVanha(tilinumero);
+    Tili selattava = Kirjanpito::db()->tilit()->tiliNumerolla(tilinumero);
 
     ui->tiliCombo->setCurrentText(QString("%1 %2").arg(selattava.numero() ).arg(selattava.nimi()));
 

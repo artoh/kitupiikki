@@ -111,7 +111,7 @@ void TositelajiDialogi::tarkasta()
 
 void TositelajiDialogi::vastatilivalittu()
 {
-    Tili tili = kp()->tilit()->tiliNumerollaVanha( ui->vastatiliEdit->valittuTilinumero() );
+    Tili tili = kp()->tilit()->tiliNumerolla( ui->vastatiliEdit->valittuTilinumero() );
 
     ui->tilioteRadio->setEnabled( tili.onko(TiliLaji::RAHAVARAT) );
 

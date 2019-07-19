@@ -63,7 +63,7 @@ TaseEraValintaDialogi::~TaseEraValintaDialogi()
 
 bool TaseEraValintaDialogi::nayta(VientiModel *model, QModelIndex &index)
 {
-    tili_ = kp()->tilit()->tiliNumerollaVanha( index.data(VientiModel::TiliNumeroRooli).toInt() );
+    tili_ = kp()->tilit()->tiliNumerolla( index.data(VientiModel::TiliNumeroRooli).toInt() );
     taseEra_ = index.data( VientiModel::EraIdRooli).toInt();
     vientiId_ = index.data( VientiModel::IdRooli).toInt();
 

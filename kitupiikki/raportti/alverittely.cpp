@@ -204,7 +204,7 @@ RaportinKirjoittaja AlvErittely::kirjoitaRaporti(QDate alkupvm, QDate loppupvm)
         if( tilinro != nTili )
         {
             RaporttiRivi tiliOtsikko;
-            tiliOtsikko.lisaa( tr("%1 %2").arg(tilinro).arg(kp()->tilit()->tiliNumerollaVanha(tilinro).nimi() ), 3);
+            tiliOtsikko.lisaa( tr("%1 %2").arg(tilinro).arg(kp()->tilit()->tiliNumerolla(tilinro).nimi() ), 3);
 
             if( alvkoodi == AlvKoodi::MAKSETTAVAALV)
                 tiliOtsikko.lisaa("");

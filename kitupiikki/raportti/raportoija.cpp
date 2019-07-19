@@ -343,7 +343,7 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt)
 
                             if( vainTulot || vainMenot)
                             {
-                                Tili tili = kp()->tilit()->tiliNumerollaVanha( iter.key() / 10);
+                                Tili tili = kp()->tilit()->tiliNumerolla( iter.key() / 10);
 
                                 // Ohitetaan, jos haluttu vain tulot ja menot eikä ole niitä
                                 if( (vainTulot && !tili.onko(TiliLaji::TULO) ) || (vainMenot && !tili.onko(TiliLaji::MENO) ))
@@ -365,7 +365,7 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt)
                         {
                             if( vainTulot || vainMenot)
                             {
-                                Tili tili = kp()->tilit()->tiliNumerollaVanha( budjettiIter.key() / 10);
+                                Tili tili = kp()->tilit()->tiliNumerolla( budjettiIter.key() / 10);
 
                                 // Ohitetaan, jos haluttu vain tulot ja menot eikä ole niitä
                                 if( (vainTulot && !tili.onko(TiliLaji::TULO) ) || (vainMenot && !tili.onko(TiliLaji::MENO) ))
@@ -480,7 +480,7 @@ void Raportoija::kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt)
                     if( iter.key() >= alku && iter.key() <= loppu )
                     {
                         RaporttiRivi rr;
-                        Tili tili = kp()->tilit()->tiliNumerollaVanha( iter.key() / 10);
+                        Tili tili = kp()->tilit()->tiliNumerolla( iter.key() / 10);
 
                         // Ohitetaan, jos haluttu vain tulot ja menot eikä ole niitä
                         if( (vainTulot && !tili.onko(TiliLaji::TULO) ) || (vainMenot && !tili.onko(TiliLaji::MENO)))

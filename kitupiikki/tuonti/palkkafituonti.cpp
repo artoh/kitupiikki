@@ -56,10 +56,10 @@ bool PalkkaFiTuonti::tuo(const QByteArray &data)
     otsikko_ = kp()->tr("Palkat %1 - %2").arg(ekarivi.at(5))
                                     .arg(ekarivi.at(6));
 
-    kirjausWg()->model()->asetaOtsikko( otsikko_ );
-    kirjausWg()->model()->asetaTositelaji(1);   // Muu tosite
-    kirjausWg()->model()->asetaKommentti( kp()->tr("Palkka.fi kirjanpitotosite %1")
-                                          .arg( ekarivi.at(3) ));
+//    kirjausWg()->model()->asetaOtsikko( otsikko_ );
+//    kirjausWg()->model()->asetaTositelaji(1);   // Muu tosite
+//    kirjausWg()->model()->asetaKommentti( kp()->tr("Palkka.fi kirjanpitotosite %1")
+//                                          .arg( ekarivi.at(3) ));
 
     while( rivit.length())
         tuoRivi( rivit.takeFirst() );
@@ -93,7 +93,7 @@ void PalkkaFiTuonti::tuoRivi(const QString &rivi)
     else
         vienti.selite = otsikko_ + " " + kentat.value(2);
 
-    vienti.tili = kp()->tilit()->tiliNumerollaVanha( muunto_.value( tilinumero, tilinumero ) );
+    vienti.tili = kp()->tilit()->tiliNumerolla( muunto_.value( tilinumero, tilinumero ) );
 
     if( eurot > 0 )
         vienti.debetSnt = eurot * 100 + sentit;
@@ -101,6 +101,6 @@ void PalkkaFiTuonti::tuoRivi(const QString &rivi)
         vienti.kreditSnt = 0 - eurot * 100 + sentit;
 
 
-    kirjausWg()->model()->vientiModel()->lisaaVienti(vienti);
+//    kirjausWg()->model()->vientiModel()->lisaaVienti(vienti);
 
 }

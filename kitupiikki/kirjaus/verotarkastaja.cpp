@@ -100,7 +100,7 @@ bool Verotarkastaja::tarkasta(VientiModel *model)
         // Estetään alv-tileille kirjaaminen ilman alv-koodia
         if( indeksi.data(VientiModel::AlvKoodiRooli).toInt() == 0)
         {
-            Tili tili = kp()->tilit()->tiliNumerollaVanha( indeksi.data(VientiModel::TiliNumeroRooli).toInt() );
+            Tili tili = kp()->tilit()->tiliNumerolla( indeksi.data(VientiModel::TiliNumeroRooli).toInt() );
             if( tili.onko(TiliLaji::ALVSAATAVA) || tili.onko(TiliLaji::ALVVELKA))
             {
                 if( QMessageBox::warning(nullptr, tr("Arvonlisäverokoodi puuttuu"),

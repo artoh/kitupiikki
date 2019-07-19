@@ -506,7 +506,7 @@ bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
             }
 
             VientiRivi huojennusKredit;
-            huojennusKredit.tili = kp()->tilit()->tiliNumerollaVanha( kp()->asetukset()->luku("AlvHuojennusTili") );
+            huojennusKredit.tili = kp()->tilit()->tiliNumerolla( kp()->asetukset()->luku("AlvHuojennusTili") );
             huojennusKredit.kreditSnt = huojennus;
             huojennusKredit.pvm = loppupvm;
             huojennusKredit.selite = tr("Arvonlisäveron alarajahuojennus");

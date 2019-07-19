@@ -99,7 +99,7 @@ QVariant TositeModel::data(const QModelIndex &index, int role) const
             return vienti.value("pvm").toDate();
         case TILI:
         {
-            Tili *tili = kp()->tilit()->tiliNumerolla( vienti.value("tili").toInt() );
+            Tili *tili = kp()->tilit()->tiliPNumerolla( vienti.value("tili").toInt() );
             if( tili )
                 return QString("%1 %2").arg(tili->numero()).arg(tili->nimi());
             return QVariant();

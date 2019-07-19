@@ -117,7 +117,7 @@ void LaskunMaksuDialogi::kirjaa()
     rahaRivi.debetSnt = ostolasku ? 0 : qRound( ui->euroSpin->value() * 100 );
     rahaRivi.kreditSnt = ostolasku ? qRound( ui->euroSpin->value() * 100 ) : 0;
     rahaRivi.selite = selite;
-    rahaRivi.tili = kp()->tilit()->tiliNumerollaVanha( ui->tiliEdit->valittuTilinumero() );
+    rahaRivi.tili = kp()->tilit()->tiliNumerolla( ui->tiliEdit->valittuTilinumero() );
 
     if( rahaRivi.tili.json()->luku("Kohdennuksella"))
         rahaRivi.kohdennus = kp()->kohdennukset()->kohdennus( index.data(LaskutModel::KohdennusIdRooli).toInt() );
@@ -131,7 +131,7 @@ void LaskunMaksuDialogi::kirjaa()
 
         int tositeNro = index.data(LaskutModel::TositeRooli).toInt() ;
 
-        if( kwg->model()->muokattu())
+/*        if( kwg->model()->muokattu())
         {
             // Tätä tositetta on muokattu, joten laskun maksu kirjataan uudessa ikkunassa
             LisaIkkuna* lisaIkkuna = new LisaIkkuna(nullptr);
@@ -153,7 +153,7 @@ void LaskunMaksuDialogi::kirjaa()
                 kwg->model()->vientiModel()->setData( kirjaajaindeksi, ui->pvmEdit->date(), VientiModel::PvmRooli );
         }
         kwg->model()->vientiModel()->lisaaVienti(rahaRivi);
-
+*/
         // Lisätään erärivi, jotta saadaan erä nollatuksi
         VientiRivi eraRivi;
         eraRivi.pvm = ui->pvmEdit->date();
@@ -162,7 +162,7 @@ void LaskunMaksuDialogi::kirjaa()
         eraRivi.tili = Tili();
         eraRivi.eraId = index.data(LaskutModel::EraIdRooli).toInt();
         eraRivi.json.set("Kirjausperuste", LaskuModel::MAKSUPERUSTE);
-        kwg->model()->vientiModel()->lisaaVienti(eraRivi);
+//        kwg->model()->vientiModel()->lisaaVienti(eraRivi);
         kwg->tiedotModelista();
 
         laskut->maksa(index.row(), qRound(ui->euroSpin->value() * 100));
@@ -193,7 +193,7 @@ void LaskunMaksuDialogi::kirjaa()
         ehdotus.lisaaVienti(rahaRivi);
         ehdotus.viimeisteleMaksuperusteinen();  // Tämä siksi, että maksuperusteisen lisärivit tulevat
 
-        ehdotus.tallenna( kirjaaja->model()->vientiModel() , 0, QDate(), kirjaaja->nykyinenRivi());
+//        ehdotus.tallenna( kirjaaja->model()->vientiModel() , 0, QDate(), kirjaaja->nykyinenRivi());
 
         if( ostolasku)
             ostolaskut->maksa( index.row(), qRound(ui->euroSpin->value() * 100 ));

@@ -35,6 +35,14 @@ void TositeVienti::set(int kentta, const QVariant &arvo)
         insert( avaimet__.at(kentta), arvo);
 }
 
+QList<int> TositeVienti::merkkaukset() const
+{
+    QList<int> lista;
+    for(auto merkkaus : data(MERKKAUKSET).toList())
+        lista.append( merkkaus.toInt());
+    return lista;
+}
+
 void TositeVienti::setPvm(const QDate &pvm)
 {
     set( PVM, pvm );
@@ -48,21 +56,25 @@ void TositeVienti::setTili(int tili)
 void TositeVienti::setDebet(double euroa)
 {
     set( DEBET, euroa);
+    if( qAbs(euroa) < 1e-5)
+        set(KREDIT, 0);
 }
 
 void TositeVienti::setDebet(qlonglong senttia)
 {
-    set( DEBET, senttia / 100.0);
+    setDebet( senttia / 100.0);
 }
 
 void TositeVienti::setKredit(double euroa)
 {
     set( KREDIT, euroa );
+    if( qAbs(euroa) > 1e-5)
+        set( DEBET, 0);
 }
 
 void TositeVienti::setKredit(qlonglong senttia)
 {
-    set( KREDIT, senttia / 100.0);
+    setKredit( senttia / 100.0);
 }
 
 void TositeVienti::setSelite(const QString &selite)
@@ -103,6 +115,11 @@ void TositeVienti::setJaksoloppuu(const QDate &pvm)
     set( JAKSOLOPPUU, pvm );
 }
 
+void TositeVienti::setEra(int era)
+{
+    set( ERAID, era);
+}
+
 
 
 
@@ -120,5 +137,6 @@ std::map<int,QString> TositeVienti::avaimet__ = {
     { KOHDENNUS, "kohdennus"},
     { MERKKAUKSET, "merkkaukset"},
     { JAKSOALKAA, "jaksoalkaa"},
-    { JAKSOLOPPUU, "jaksoloppuu"}
+    { JAKSOLOPPUU, "jaksoloppuu"},
+    { ERAID, "era"}
 };

@@ -196,7 +196,7 @@ KirjausApuriDialog::~KirjausApuriDialog()
 void KirjausApuriDialog::tiliTaytetty()
 {
     // Jos tilillä on vastatili, niin täytetään se
-    Tili tili = kp()->tilit()->tiliNumerollaVanha(  ui->tiliEdit->valittuTilinumero() );
+    Tili tili = kp()->tilit()->tiliNumerolla(  ui->tiliEdit->valittuTilinumero() );
 
     if( tili.onkoValidi() && tili.numero() && ui->tiliEdit->text().length() > 5)
     {
@@ -292,7 +292,7 @@ void KirjausApuriDialog::alvLajiMuuttui()
     else    
     {
         ui->alvSpin->setEnabled(true);
-        Tili tili = kp()->tilit()->tiliNumerollaVanha(  ui->tiliEdit->valittuTilinumero() );
+        Tili tili = kp()->tilit()->tiliNumerolla(  ui->tiliEdit->valittuTilinumero() );
         if( tili.json()->luku("AlvProsentti"))
             ui->alvSpin->setValue( tili.json()->luku("AlvProsentti"));
         else
@@ -320,7 +320,7 @@ void KirjausApuriDialog::alvLajiMuuttui()
 
 void KirjausApuriDialog::vastaTiliMuuttui()
 {
-    Tili vastatili = kp()->tilit()->tiliNumerollaVanha( ui->vastatiliEdit->valittuTilinumero());
+    Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliEdit->valittuTilinumero());
     ui->vastaTaseEraLabel->setVisible( vastatili.eritellaankoTase() );
     ui->vastaTaseEraCombo->setVisible( vastatili.eritellaankoTase() );
     if( vastatili.eritellaankoTase() )
@@ -385,7 +385,7 @@ void KirjausApuriDialog::vastaTiliMuuttui()
 
 void KirjausApuriDialog::yhdistaminenMuuttui(bool yhdistetaanko)
 {
-    Tili vastatili = kp()->tilit()->tiliNumerollaVanha( ui->vastatiliEdit->valittuTilinumero());
+    Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliEdit->valittuTilinumero());
     ui->vastatiliLabel->setVisible(!yhdistetaanko);
     ui->vastatiliEdit->setVisible(!yhdistetaanko);
     ui->vastaTaseEraLabel->setVisible( vastatili.eritellaankoTase() && !yhdistetaanko );
@@ -518,8 +518,8 @@ void KirjausApuriDialog::ehdota()
 {
     ehdotus.tyhjaa();
 
-    Tili tili = kp()->tilit()->tiliNumerollaVanha( ui->tiliEdit->valittuTilinumero() );
-    Tili vastatili = kp()->tilit()->tiliNumerollaVanha( ui->vastatiliEdit->valittuTilinumero());
+    Tili tili = kp()->tilit()->tiliNumerolla( ui->tiliEdit->valittuTilinumero() );
+    Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliEdit->valittuTilinumero());
     Kohdennus kohdennus = kp()->kohdennukset()->kohdennus(ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
 
 

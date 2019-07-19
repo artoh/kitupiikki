@@ -124,7 +124,7 @@ void TuloMenoApuri::teeReset()
     QVariantList vientiLista = tosite()->viennit()->viennit().toList();
     if( vientiLista.count())
     {
-        Tili* vastatili = kp()->tilit()->tiliNumerolla( vientiLista.at(0).toMap().value("tili").toInt() );
+        Tili* vastatili = kp()->tilit()->tiliPNumerolla( vientiLista.at(0).toMap().value("tili").toInt() );
         if( vastatili ) {
             if( vastatili->onko(TiliLaji::OSTOVELKA) || vastatili->onko(TiliLaji::MYYNTISAATAVA))
                 ui->maksutapaCombo->setCurrentIndex(LASKU);
@@ -207,7 +207,11 @@ void TuloMenoApuri::teeReset()
     if( !rivi )
     {
         rivit_->lisaaRivi();
-        ui->tiliEdit->clear();      // TODO: Oletustilin hakeminen
+        if(menoa)
+            ui->tiliEdit->valitseTili( kp()->tilit()->tiliTyypilla(TiliLaji::MENO ) );
+        else
+            ui->tiliEdit->valitseTili( kp()->tilit()->tiliTyypilla(TiliLaji::LVTULO));
+
         ui->maaraEdit->setCents(0);
         ui->seliteEdit->clear();
         tiliMuuttui();

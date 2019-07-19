@@ -196,15 +196,15 @@ bool CsvTuonti::tuo(const QByteArray &data)
                         if( nro )
                         {
                             if( muuntotaulukko.isEmpty())
-                                rivi.tili = kp()->tilit()->tiliNumerollaVanha( nro );
+                                rivi.tili = kp()->tilit()->tiliNumerolla( nro );
                             else
-                                rivi.tili = kp()->tilit()->tiliNumerollaVanha(  muuntotaulukko.value( QString::number(nro) ) );
+                                rivi.tili = kp()->tilit()->tiliNumerolla(  muuntotaulukko.value( QString::number(nro) ) );
                         }
                     }
                     else if( tuonti == TILINIMI)
                     {
                         if( !rivi.tili.onkoValidi())
-                            rivi.tili = kp()->tilit()->tiliNumerollaVanha( muuntotaulukko.value(tieto) );
+                            rivi.tili = kp()->tilit()->tiliNumerolla( muuntotaulukko.value(tieto) );
                     }
                     else if( tuonti == DEBETEURO)
                         rivi.debetSnt = sentit;
@@ -242,7 +242,7 @@ bool CsvTuonti::tuo(const QByteArray &data)
                         rivi.alvkoodi = AlvKoodi::MYYNNIT_BRUTTO;
                 }
 
-                kirjausWg()->model()->vientiModel()->lisaaVienti(rivi);
+//                kirjausWg()->model()->vientiModel()->lisaaVienti(rivi);
             }
 
         }

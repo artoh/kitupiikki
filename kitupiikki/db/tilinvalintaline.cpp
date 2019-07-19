@@ -56,7 +56,7 @@ void KantaTilinvalintaLine::valitseTiliNumerolla(int tilinumero)
 {
     if( tilinumero )
     {
-        Tili tili = kp()->tilit()->tiliNumerollaVanha(tilinumero);
+        Tili tili = kp()->tilit()->tiliNumerolla(tilinumero);
         valitseTili(tili);
     }
 
@@ -147,7 +147,7 @@ Tili KantaTilinvalintaLine::valittuTili() const
 
 Tili *KantaTilinvalintaLine::tili() const
 {
-    return kp()->tilit()->tiliNumerolla( valittuTilinumero() );
+    return kp()->tilit()->tiliPNumerolla( valittuTilinumero() );
 }
 
 

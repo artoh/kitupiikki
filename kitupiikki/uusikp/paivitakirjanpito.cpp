@@ -205,7 +205,7 @@ bool PaivitaKirjanpito::lataaPaivitys(const QString &tiedosto)
             if( tyyppi.startsWith('H') && tyyppi.length()==2)
                 otsikkotaso = tyyppi.midRef(1).toInt();
 
-            if( !kp()->tilit()->tiliNumerollaVanha(numero, otsikkotaso).onkoValidi())
+            if( !kp()->tilit()->tiliNumerolla(numero, otsikkotaso).onkoValidi())
             {
                 Tili tili;
                 tili.asetaTyyppi( mats.captured("tyyppi"));
@@ -229,7 +229,7 @@ bool PaivitaKirjanpito::lataaPaivitys(const QString &tiedosto)
             else
             {
                 // Ei muuteta käyttäjän muokkaamia tilejä
-                if( kp()->tilit()->tiliNumerollaVanha(numero, otsikkotaso).muokkausaika().isValid() )
+                if( kp()->tilit()->tiliNumerolla(numero, otsikkotaso).muokkausaika().isValid() )
                     continue;
 
                 int ysiluku = Tili::ysiluku(numero, otsikkotaso);

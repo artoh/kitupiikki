@@ -72,10 +72,10 @@ public:
     Tili *tili(const QString& tilinumero) const;
 
     Tili *tiliIdlla(int id) const;
-    Tili *tiliNumerolla(int numero) const;
+    Tili *tiliPNumerolla(int numero) const;
 
     Tili tiliIndeksilla(int i) const { return tilit_.value(i); }
-    Tili tiliNumerollaVanha(int numero, int otsikkotaso = 0) const;
+    Tili tiliNumerolla(int numero, int otsikkotaso = 0) const;
     Tili tiliYsiluvulla(int ysiluku) const;
     Tili tiliIbanilla(const QString& iban) const;
     /**

@@ -20,6 +20,8 @@
 #include "db/tili.h"
 #include "db/verotyyppimodel.h"
 #include "db/kirjanpito.h"
+#include "db/tilinvalintadialogi.h"
+#include "tosite.h"
 
 #include <QDebug>
 
@@ -79,37 +81,37 @@ QVariant TositeViennit::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    TositeVienti vienti = viennit_.at(index.row()).toMap();
+    TositeVienti rivi = vienti(index.row());
 
-    if( role == Qt::DisplayRole )
-    {
+    switch (role) {
+    case Qt::DisplayRole :
         switch ( index.column()) {
         case PVM:
-            return vienti.value("pvm").toDate();
+            return rivi.value("pvm").toDate();
         case TILI:
         {
-            Tili *tili = kp()->tilit()->tiliNumerolla( vienti.value("tili").toInt() );
+            Tili *tili = kp()->tilit()->tiliPNumerolla( rivi.value("tili").toInt() );
             if( tili )
                 return QString("%1 %2").arg(tili->numero()).arg(tili->nimi());
             return QVariant();
         }
         case DEBET:
         {
-            double debet = vienti.value("debet").toDouble();
+            double debet = rivi.value("debet").toDouble();
              if( debet > 1e-5 )
                 return QVariant( QString("%L1 €").arg(debet,0,'f',2));
              return QVariant();
         }
         case KREDIT:
         {
-            double kredit = vienti.value("kredit").toDouble();
+            double kredit = rivi.value("kredit").toDouble();
             if( kredit > 1e-5)
                 return QVariant( QString("%L1 €").arg(kredit,0,'f',2));
              return QVariant();
         }
         case ALV:
         {
-            int alvkoodi = vienti.value("alvkoodi").toInt();
+            int alvkoodi = rivi.value("alvkoodi").toInt();
             if( alvkoodi == AlvKoodi::EIALV )
                 return QVariant();
             else
@@ -119,52 +121,109 @@ QVariant TositeViennit::data(const QModelIndex &index, int role) const
                 else if(alvkoodi == AlvKoodi::TILITYS)
                     return QString();
                 else
-                    return QVariant( QString("%1 %").arg( vienti.value("alvprosentti").toInt() ));
+                    return QVariant( QString("%1 %").arg( rivi.value("alvprosentti").toInt() ));
             }
         }
         case SELITE:
-            return vienti.value("selite");
+            return rivi.value("selite");
         case KOHDENNUS:
             QString txt;
-            int kohdennus = vienti.value("kohdennus").toInt();
+            int kohdennus = rivi.value("kohdennus").toInt();
             if( kohdennus )
                 txt.append( kp()->kohdennukset()->kohdennus(kohdennus).nimi() + " " );
-            QVariantList merkkaukset = vienti.value("merkkaukset").toList();
+            QVariantList merkkaukset = rivi.value("merkkaukset").toList();
             for( auto merkkaus : merkkaukset)
                 txt.append( kp()->kohdennukset()->kohdennus( merkkaus.toInt() ).nimi() + " " );
+
+            if( rivi.value("era").toMap().contains("tunniste")  )
+            {
+                if( rivi.value("era").toMap().value("tunniste") != rivi.value("tosite").toMap().value("tunniste") ||
+                    rivi.value("era").toMap().value("pvm") != rivi.value("tosite").toMap().value("pvm")) {
+                    if( !txt.isEmpty())
+                        txt.append(" ");
+                    txt.append( QString("%1/%2")
+                            .arg( rivi.value("era").toMap().value("tunniste").toInt() )
+                            .arg( kp()->tilikaudet()->tilikausiPaivalle( rivi.value("era").toMap().value("pvm").toDate() ).kausitunnus()) );
+                }
+            }
             return txt;
 
         }
-
-    }
-    else if( role == Qt::EditRole )
-    {
+        break;
+    case Qt::EditRole :
         switch ( index.column())
         {
         case PVM:
-            return vienti.value("pvm").toDate();
+            return rivi.value("pvm").toDate();
         case TILI:
-            return vienti.value("tili").toInt();
+            return rivi.value("tili").toInt();
         case DEBET:
-            return vienti.value("debet").toDouble();
+            return rivi.value("debet").toDouble();
         case KREDIT:
-            return vienti.value("kredit").toDouble();
+            return rivi.value("kredit").toDouble();
         }
-    }
-    else if( role == Qt::TextAlignmentRole)
-    {
+        break;
+    case Qt::TextAlignmentRole:
         if( index.column()==KREDIT || index.column() == DEBET || index.column() == ALV)
             return QVariant(Qt::AlignRight | Qt::AlignVCenter);
         else
             return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
 
-    }
-    else if( role == Qt::DecorationRole)
-    {
+    case Qt::DecorationRole:
         if( index.column() == ALV )
         {
-            return kp()->alvTyypit()->kuvakeKoodilla( vienti.data(TositeVienti::ALVKOODI).toInt() );
+            return kp()->alvTyypit()->kuvakeKoodilla( rivi.data(TositeVienti::ALVKOODI).toInt() );
+        } else if( index.column() == KOHDENNUS ) {
+            if( rivi.contains("era") && rivi.value("era").toMap().value("saldo") == 0 )
+                return QIcon(":/pic/ok.png");
+            Kohdennus kohdennus = kp()->kohdennukset()->kohdennus( rivi.value("kohdennus").toInt() );
+            if(kohdennus.tyyppi())
+                return kp()->kohdennukset()->kohdennus( rivi.value("kohdennus").toInt()).tyyppiKuvake();
+            else
+                return QIcon(":/pic/tyhja.png");
+        } else if( index.column() == PVM)
+        {
+            // Väärät päivät
+            QDate pvm = rivi.pvm();
+            if( pvm.isValid() )
+                return QVariant();
+            else if( rivi.id() && pvm <= kp()->tilitpaatetty())
+                return QIcon(":/pic/lukittu.png");
+            else if( pvm <= kp()->tilitpaatetty() || pvm > kp()->tilikaudet()->kirjanpitoLoppuu() )
+                return QIcon(":/pic/varoitus.png");
+            else if( kp()->asetukset()->pvm("AlvIlmoitus") >= pvm && rivi.alvkoodi() )
+                return QIcon(":/pic/vero.png");
         }
+        break;
+    case IdRooli:
+        return rivi.id();
+    case PvmRooli:
+        return rivi.pvm();
+    case TiliNumeroRooli:
+        return rivi.tili();
+    case DebetRooli:
+        return rivi.debet();
+    case KreditRooli:
+        return rivi.kredit();
+    case AlvKoodiRooli:
+        return rivi.alvKoodi();
+    case AlvProsenttiRooli:
+        return rivi.alvProsentti();
+    case KohdennusRooli:
+        return rivi.kohdennus();
+    case SeliteRooli:
+        return rivi.selite();
+    case EraIdRooli:
+        return rivi.eraId();
+    case TaseErittelyssaRooli:
+    {
+        Tili tili = kp()->tilit()->tiliNumerolla( rivi.tili() );
+        return tili.eritellaankoTase();
+    }
+    case TagiIdListaRooli:
+        return rivi.data(TositeVienti::MERKKAUKSET);
+
+
     }
 
     return QVariant();
@@ -173,7 +232,53 @@ QVariant TositeViennit::data(const QModelIndex &index, int role) const
 bool TositeViennit::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (data(index, role) != value) {
-        // FIXME: Implement me!
+        if( role == Qt::EditRole) {
+
+            TositeVienti rivi = vienti(index.row());
+
+            switch (index.column()) {
+
+
+
+            case PVM:
+                rivi.setPvm( value.toDate() );
+                break;
+            case TILI:
+                {
+                    Tili uusitili;
+                    if( value.toInt())
+                        uusitili = kp()->tilit()->tiliNumerolla( value.toInt());
+                    else if(!value.toString().isEmpty() && value.toString() != " ")
+                        uusitili = TilinValintaDialogi::valitseTili(value.toString());
+                    else
+                        uusitili = TilinValintaDialogi::valitseTili( QString());
+
+                    rivi.setTili( uusitili.numero());
+                    if( uusitili.eritellaankoTase())
+                        rivi.setEra( TaseEra::UUSIERA);
+                    else
+                        rivi.setEra( TaseEra::EIERAA);
+                    break;
+                }
+            case SELITE:
+                rivi.setSelite( value.toString());
+                break;
+            case DEBET:
+                rivi.setDebet( value.toDouble() );
+                break;
+            case KREDIT:
+                rivi.setKredit( value.toDouble() );
+                break;
+            case KOHDENNUS:
+                rivi.setKohdennus( value.toInt() );
+                break;
+            default:
+                return false;
+
+            }
+
+            viennit_[index.row()] = rivi;
+        }
         emit dataChanged(index, index, QVector<int>() << role);
         return true;
     }
@@ -186,24 +291,39 @@ Qt::ItemFlags TositeViennit::flags(const QModelIndex &index) const
         return Qt::NoItemFlags;
 
     if( muokattavissa_ )
-        return Qt::ItemIsEditable; // FIXME: Implement me!
+        return Qt::ItemIsEditable | Qt::ItemIsEnabled; // FIXME: Implement me!
 
     return Qt::ItemIsEnabled;
 }
 
-bool TositeViennit::insertRows(int row, int count, const QModelIndex &parent)
+bool TositeViennit::insertRows(int row, int count, const QModelIndex & /* parent */)
 {
-    beginInsertRows(parent, row, row + count - 1);
-    // FIXME: Implement me!
-    endInsertRows();    
+    for(int i=0; i < count; i++)
+        lisaaVienti(row);
+    return true;
 }
 
 
 bool TositeViennit::removeRows(int row, int count, const QModelIndex &parent)
 {
     beginRemoveRows(parent, row, row + count - 1);
-    // FIXME: Implement me!
+    for(int i=0; i < count; i++)
+        viennit_.removeAt(row);
     endRemoveRows();
+    return true;
+}
+
+QModelIndex TositeViennit::lisaaVienti(int indeksi)
+{
+    TositeVienti uusi;
+
+    Tosite* tosite = qobject_cast<Tosite*>(parent());
+    uusi.setPvm( tosite->data(Tosite::PVM).toDate() );
+
+    beginInsertRows( QModelIndex(), indeksi, indeksi);
+    viennit_.insert(indeksi, uusi);
+    endInsertRows();
+    return index(indeksi, 0);
 }
 
 TositeVienti TositeViennit::vienti(int indeksi) const

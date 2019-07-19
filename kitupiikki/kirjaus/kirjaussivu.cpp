@@ -37,10 +37,9 @@
 KirjausSivu::KirjausSivu(KitupiikkiIkkuna *ikkuna) :
     KitupiikkiSivu(nullptr), ikkuna_(ikkuna)
 {
-    model = kp()->tositemodel();
 
     liitewg = new NaytaliiteWg();
-    kirjauswg = new KirjausWg(model);
+    kirjauswg = new KirjausWg(this);
 
     splitter = new QSplitter(Qt::Vertical);
     splitter->addWidget(liitewg);
@@ -77,7 +76,7 @@ void KirjausSivu::siirrySivulle()
 
 bool KirjausSivu::poistuSivulta(int minne)
 {
-    if( model->muokattu() && model->vientiModel()->debetSumma() && model->muokkausSallittu())
+/*    if( model->muokattu() && model->vientiModel()->debetSumma() && model->muokkausSallittu())
     {
         if( minne == KitupiikkiIkkuna::SELAUSSIVU && ikkuna_ )
         {
@@ -90,7 +89,7 @@ bool KirjausSivu::poistuSivulta(int minne)
         {
             return false;
         }
-    }
+    } */
     return true;
 }
 

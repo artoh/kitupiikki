@@ -72,7 +72,7 @@ void Paivakirja::dataSaapuu(QVariant *data)
         rivi.lisaa( kp()->tositeTunnus(  map.value("tosite").toMap().value("tositelaji").toInt(),
                                          map.value("tosite").toMap().value("tunniste").toInt() ,
                                          map.value("tosite").toMap().value("pvm").toDate() ) );
-        Tili* tili = kp()->tilit()->tiliNumerolla( map.value("tili").toInt() );
+        Tili* tili = kp()->tilit()->tiliPNumerolla( map.value("tili").toInt() );
         if( tili )
             rivi.lisaa( QString("%1 %2").arg( tili->numero()).arg(tili->nimi()) );
         else

@@ -18,6 +18,7 @@
 #define TOSITEVIENTI_H
 
 #include <QVariant>
+#include <QDate>
 #include <map>
 
 class TositeVienti : public QVariantMap
@@ -35,7 +36,8 @@ public:
         KOHDENNUS,
         MERKKAUKSET,
         JAKSOALKAA,
-        JAKSOLOPPUU
+        JAKSOLOPPUU,
+        ERAID
     };
 
 
@@ -43,6 +45,19 @@ public:
 
     QVariant data(int kentta) const;
     void set(int kentta, const QVariant& arvo);
+
+    int id() const { return data(ID).toInt();}
+    QDate pvm() const { return  data(PVM).toDate();}
+    int alvkoodi() const { return data(ALVKOODI).toInt();}
+    int tili() const { return data(TILI).toInt();}
+    double debet() const { return data(DEBET).toDouble();}
+    double kredit() const { return data(KREDIT).toDouble();}
+    int alvKoodi() const { return data(ALVKOODI).toInt();}
+    double alvProsentti() const { return data(ALVPROSENTTI).toDouble();}
+    int kohdennus() const { return  data(KOHDENNUS).toInt();}
+    QString selite() const { return data(SELITE).toString();}
+    int eraId() const { return data(ERAID).toInt();}
+    QList<int> merkkaukset() const;
 
     void setPvm(const QDate& pvm);
     void setTili(int tili);
@@ -57,6 +72,7 @@ public:
     void setMerkkaukset( QVariantList merkkaukset);
     void setJaksoalkaa( const QDate& pvm);
     void setJaksoloppuu( const QDate& pvm );
+    void setEra(int era);
 
 private:
     static std::map<int,QString> avaimet__;

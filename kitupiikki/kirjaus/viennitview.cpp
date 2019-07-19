@@ -16,7 +16,7 @@
 */
 #include "viennitview.h"
 
-#include "db/vientimodel.h"
+#include "model/tositeviennit.h"
 #include "db/kirjanpito.h"
 
 #include "tilidelegaatti.h"
@@ -53,8 +53,8 @@ void ViennitView::seuraavaSarake()
         index.column() == model()->columnCount() -1)
     {
         // Lisätään uusi rivi
-        VientiModel *vientiModel = qobject_cast<VientiModel*>( model() );
-        vientiModel->lisaaVienti();
+        TositeViennit *vientiModel = qobject_cast<TositeViennit*>( model() );
+        vientiModel->lisaaVienti( model()->rowCount() );
         setCurrentIndex( vientiModel->index( model()->rowCount() - 1, VientiModel::TILI ) );
     }
     else if( index.column() == model()->columnCount() - 1 )

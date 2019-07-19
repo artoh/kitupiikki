@@ -74,20 +74,24 @@
 #include "tallennettuwidget.h"
 
 
-KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
-    : QWidget(parent), model_(tositeModel), laskuDlg_(nullptr), apurivinkki_(nullptr),
-      taydennysSql_( new QSqlQueryModel ), apuri_(nullptr),
+KirjausWg::KirjausWg( QWidget *parent)
+    : QWidget(parent),
+      tosite_( new Tosite(this)),
+      apuri_(nullptr),
       tallennettuWidget_( new TallennettuWidget(this) )
 {
     ui = new Ui::KirjausWg();
     ui->setupUi(this);
 
-    connect( model_->vientiModel(), SIGNAL(muuttunut()), this, SLOT(naytaSummat()));
+    viennitTab_ = ui->tabWidget->widget(VIENNIT);
+    kommentitTab_ = ui->tabWidget->widget(KOMMENTIT);
+    liitteetTab_ = ui->tabWidget->widget(LIITTEET);
+    varastoTab_ = ui->tabWidget->widget(VARASTO);
+    lokiTab_ = ui->tabWidget->widget(LOKI);
+
 
     // Tämä pitää säilyttää, jotta saadaan päivämäärä paikalleen
     ui->viennitView->setItemDelegateForColumn( VientiModel::PVM, new PvmDelegaatti(ui->tositePvmEdit));
-
-
 
     connect( ui->lisaaRiviNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaRivi()));
     connect( ui->poistariviNappi, SIGNAL(clicked(bool)), this, SLOT(poistaRivi()));
@@ -101,20 +105,13 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     tyyppiProxy_->setSourceModel( kp()->tositeTyypit() );
     tyyppiProxy_->setFilterRole( TositeTyyppiModel::KoodiRooli);
     tyyppiProxy_->setFilterRegularExpression("^[^9]");
-
-    qDebug() << "tyyppiProxy " << tyyppiProxy_->rowCount(QModelIndex()) << " -- " << kp()->tositeTyypit()->rowCount(QModelIndex());
-
-
     ui->tositetyyppiCombo->setModel( tyyppiProxy_ );
 
 
-    // Kun tositteen päivää vaihdetaan, vaihtuu myös tiliotepäivät.
-    // Siksi tosipäivä ladattava aina ennen tiliotepäiviä!
     connect( ui->tositePvmEdit, SIGNAL(editingFinished()), this, SLOT(pvmVaihtuu()));
-
     connect( ui->tositetyyppiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(vaihdaTositeTyyppi()));
-    connect( ui->viennitView, SIGNAL(activated(QModelIndex)), this, SLOT( vientivwAktivoitu(QModelIndex)));
-    connect( ui->viennitView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(vientiValittu()));
+
+
 
 
     ui->tiliotetiliCombo->suodataTyypilla("ARP");
@@ -129,15 +126,13 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
 
     connect( ui->tiliotetiliCombo, SIGNAL(activated(int)), this, SLOT(tiedotModeliin()));
 
-    connect( model(), SIGNAL(tositettaMuokattu(bool)), this, SLOT(paivitaTallennaPoistaNapit()));
-
     // Lisätoimintojen valikko
     QMenu *valikko = new QMenu(this);
     valikko->addAction(QIcon(":/pic/etsi.png"), tr("Siirry tositteeseen\tCtrl+G"), this, SLOT(siirryTositteeseen()));
     valikko->addAction(QIcon(":/pic/tulosta.png"), tr("Tulosta tosite\tCtrl+P"), this, SLOT(tulostaTosite()), QKeySequence("Ctrl+P"));
     uudeksiAktio_ = valikko->addAction(QIcon(":/pic/kopioi.png"), tr("Kopioi uuden pohjaksi\tCtrl+T"), this, SLOT(uusiPohjalta()), QKeySequence("Ctrl+T"));
     poistaAktio_ = valikko->addAction(QIcon(":/pic/roskis.png"),tr("Poista tosite"),this, SLOT(poistaTosite()));
-    tyhjennaViennitAktio_ = valikko->addAction(QIcon(":/pic/edit-clear.png"),tr("Tyhjennä viennit"), model_->vientiModel(), &VientiModel::tyhjaa);
+//    tyhjennaViennitAktio_ = valikko->addAction(QIcon(":/pic/edit-clear.png"),tr("Tyhjennä viennit"), model_->vientiModel(), &VientiModel::tyhjaa);
 
     ui->valikkoNappi->setMenu( valikko );
 
@@ -147,25 +142,10 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
     ui->otsikkoEdit->installEventFilter(this);
     ui->tositetyyppiCombo->installEventFilter(this);
 
-    // Tagivalikko
-    ui->viennitView->viewport()->installEventFilter(this);
-
-    // ui->viennitView->installEventFilter(this);
-    ui->viennitView->setFocusPolicy(Qt::StrongFocus);
-
-    QCompleter *otsikonTaydentaja = new QCompleter(taydennysSql_, this);
-    otsikonTaydentaja->setModelSorting(QCompleter::CaseSensitivelySortedModel);
-    ui->otsikkoEdit->setCompleter(otsikonTaydentaja);
-    connect( ui->otsikkoEdit, SIGNAL(textChanged(QString)), this, SLOT(paivitaOtsikonTaydennys(QString)));
-
-    edellinenSeuraava_ = new EdellinenSeuraavaTieto( model(), this );
-    connect( edellinenSeuraava_, &EdellinenSeuraavaTieto::edellinenOlemassa, ui->edellinenButton, &QPushButton::setEnabled );
-    connect( edellinenSeuraava_, &EdellinenSeuraavaTieto::seuraavaOlemassa, ui->seuraavaButton, &QPushButton::setEnabled );
 
     connect( ui->edellinenButton, &QPushButton::clicked, [this] () { this->lataaTosite(this->edellinenSeuraava_->edellinenId()); });
     connect( ui->seuraavaButton, &QPushButton::clicked, [this] () { this -> lataaTosite(this->edellinenSeuraava_->seuraavaId()); });
 
-    connect( model(), &TositeModel::modelReset, this, &KirjausWg::tiedotModelista);
 
     // ---- tästä alkaen uutta ------
 
@@ -189,6 +169,13 @@ KirjausWg::KirjausWg(TositeModel *tositeModel, QWidget *parent)
 
     connect( ui->liiteView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
              this, SLOT(liiteValinta(QModelIndex)));
+    connect( ui->viennitView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
+             this, SLOT(vientiValittu()));
+
+    // Tagivalikko
+    ui->viennitView->viewport()->installEventFilter(this);
+    ui->viennitView->setFocusPolicy(Qt::StrongFocus);
+
 }
 
 KirjausWg::~KirjausWg()
@@ -200,20 +187,14 @@ KirjausWg::~KirjausWg()
 
     kp()->settings()->setValue("KirjausWgRuudukko", leveysLista);
 
-    delete ui;
-    delete model_;
 }
 
 void KirjausWg::lisaaRivi()
 {   
-    if( apurivinkki_ )
-        apurivinkki_->hide();
-
     // Lisätään valinnan jälkeen
-    QModelIndex indeksi = model_->vientiModel()->lisaaVienti(ui->viennitView->currentIndex().isValid() ? ui->viennitView->currentIndex().row() + 1 : -1);
+    QModelIndex indeksi = tosite_->viennit()->lisaaVienti(ui->viennitView->currentIndex().isValid() ? ui->viennitView->currentIndex().row() + 1 : 0);
 
-    ui->viennitView->setFocus();
-
+    ui->viennitView->setFocus(Qt::TabFocusReason);
     ui->viennitView->setCurrentIndex( indeksi.sibling( indeksi.row(), VientiModel::TILI )  );
 
 }
@@ -223,7 +204,7 @@ void KirjausWg::poistaRivi()
     QModelIndex nykyinen = ui->viennitView->currentIndex();
     if( nykyinen.isValid() && nykyinen.sibling(nykyinen.row(), VientiModel::SELITE).flags() & Qt::ItemIsEditable)
     {
-        model_->vientiModel()->poistaRivi( nykyinen.row());
+        tosite_->viennit()->removeRows( nykyinen.row(), 1 );
     }
 }
 
@@ -256,7 +237,7 @@ void KirjausWg::poistaTosite()
                               tr("Haluatko todella poistaa tämän tositteen?"),
                               QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) == QMessageBox::Yes)
     {
-        if( model()->poista())
+        if( 1 )
         {
             tyhjenna();
             emit tositeKasitelty();
@@ -270,8 +251,9 @@ void KirjausWg::poistaTosite()
 void KirjausWg::vientiValittu()
 {
     QModelIndex index = ui->viennitView->selectionModel()->currentIndex();
-    QDate vientiPvm = index.data(VientiModel::PvmRooli).toDate();
-    ui->poistariviNappi->setEnabled( index.isValid() &&  ( vientiPvm > kp()->tilitpaatetty() || vientiPvm.isNull() ));
+    ui->poistariviNappi->setEnabled( index.isValid() );
+
+    qDebug() << index.row() << " ---- valittu ---";
 }
 
 void KirjausWg::uusiPohjalta()
@@ -286,9 +268,8 @@ void KirjausWg::uusiPohjalta()
 
     if( dlg.exec() == QDialog::Accepted)
     {
-        model_->uusiPohjalta( kui.pvmEdit->date(), kui.otsikkoEdit->text() );
+//        model_->uusiPohjalta( kui.pvmEdit->date(), kui.otsikkoEdit->text() );
         tiedotModelista();
-        paivitaTallennaPoistaNapit();
         emit liiteValittu(QByteArray());
     }
 
@@ -297,7 +278,7 @@ void KirjausWg::uusiPohjalta()
 void KirjausWg::vientivwAktivoitu(QModelIndex indeksi)
 {
     // Tehdään alv-kirjaus
-    if( model()->muokkausSallittu() )
+    if( 1 )     // Tarkastettava vielä, onko sallittu
     {
 
         if(indeksi.column() == VientiModel::ALV )
@@ -305,67 +286,18 @@ void KirjausWg::vientivwAktivoitu(QModelIndex indeksi)
             VeroDialogi verodlg(this);
             if( verodlg.nayta( indeksi.data(VientiModel::AlvKoodiRooli).toInt(), indeksi.data(VientiModel::AlvProsenttiRooli).toInt() ))
             {
-                model_->vientiModel()->setData(indeksi, verodlg.alvKoodi() , VientiModel::AlvKoodiRooli);
-                model_->vientiModel()->setData(indeksi, verodlg.alvProsentti() , VientiModel::AlvProsenttiRooli);
+                tosite()->viennit()->setData(indeksi, verodlg.alvKoodi() , VientiModel::AlvKoodiRooli);
+                tosite()->viennit()->setData(indeksi, verodlg.alvProsentti() , VientiModel::AlvProsenttiRooli);
             }
         }
         else if(indeksi.column() == VientiModel::KOHDENNUS && indeksi.data(VientiModel::TaseErittelyssaRooli).toBool())
         {
             TaseEraValintaDialogi dlg(this);
-            dlg.nayta( model_->vientiModel(), indeksi );
+//            dlg.nayta( model_->vientiModel(), indeksi );
         }
     }
 }
 
-void KirjausWg::kirjaaLaskunmaksu()
-{
-    if( !laskuDlg_ )
-        laskuDlg_ = new LaskunMaksuDialogi(this);
-
-    laskuDlg_->show();
-    // connect( laskuDlg_, SIGNAL(finished(int)), this, SLOT(tiedotModelista()));
-
-}
-
-void KirjausWg::paivitaTallennaPoistaNapit()
-{
-    poistaAktio_->setEnabled( model()->muokattu() && model_->id() > -1 && model()->muokkausSallittu());
-    tyhjennaViennitAktio_->setEnabled(model()->muokattu() && model_->id() > -1 && model()->muokkausSallittu() );
-    uudeksiAktio_->setEnabled( !model()->muokattu() );
-
-
-}
-
-
-void KirjausWg::numeroSiirto()
-{
-    QDialog dlg;
-    Ui::NumeroSiirtoDialog dui;
-    dui.setupUi(&dlg);
-
-    Tilikausi kausi = kp()->tilikaudet()->tilikausiPaivalle( ui->tositePvmEdit->date());
-
-    dui.tilikausiLabel->setText( kausi.kausivaliTekstina() );
-    dui.lajiLabel->setText( ui->tositetyyppiCombo->currentText() );
-    dui.alkuSpin->setMaximum( model_->seuraavaTunnistenumero() );
-
-    if( dlg.exec() == QDialog::Accepted )
-    {
-        // Siirretään tunnistenumeroita eteenpäin
-
-        QString kasky = QString("UPDATE tosite SET tunniste = tunniste + %1 WHERE laji = %2 AND tunniste >= %3 AND pvm BETWEEN '%4' AND '%5'")
-                .arg( dui.lisaaSpin->value() )
-                .arg( ui->tositetyyppiCombo->currentData(TositelajiModel::IdRooli).toInt() )
-                .arg( dui.alkuSpin->value())
-                .arg( kausi.alkaa().toString(Qt::ISODate) )
-                .arg( kausi.paattyy().toString(Qt::ISODate));
-
-        QSqlQuery kysely(kasky);
-
-        paivitaTunnisteVari();
-    }
-
-}
 
 void KirjausWg::tulostaTosite()
 {
@@ -373,7 +305,7 @@ void KirjausWg::tulostaTosite()
     if( printDialog.exec() )
     {
         QPainter painter( kp()->printer() );
-        model()->tuloste().tulosta( kp()->printer(), &painter );
+//        model()->tuloste().tulosta( kp()->printer(), &painter );
         painter.end();
     }
 }
@@ -381,7 +313,7 @@ void KirjausWg::tulostaTosite()
 void KirjausWg::naytaSelvitys()
 {
     NaytinIkkuna *naytin = new NaytinIkkuna();
-    naytin->naytaRaportti( model()->selvittelyTuloste() );
+//    naytin->naytaRaportti( model()->selvittelyTuloste() );
 }
 
 void KirjausWg::valmis()
@@ -452,7 +384,7 @@ void KirjausWg::siirryTositteeseen()
 
     if( id )
     {
-        if( model_->muokattu())
+        if( ui->tallennaButton->isEnabled() )
         {
             if( QMessageBox::question(this, tr("Kitupiikki"), tr("Nykyistä kirjausta on muokattu. Siirrytkö toiseen tositteeseen tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
             {
@@ -463,16 +395,6 @@ void KirjausWg::siirryTositteeseen()
     }
 }
 
-void KirjausWg::paivitaOtsikonTaydennys(const QString &teksti)
-{
-    if( teksti.length() > 2 && !teksti.contains(QChar('\'')))
-        taydennysSql_->setQuery(QString("SELECT otsikko FROM tosite WHERE otsikko LIKE '%1%' order by otsikko").arg(teksti));
-    else
-        taydennysSql_->clear();
-
-    model()->asetaOtsikko(teksti);
-    tosite_->setData(Tosite::OTSIKKO, teksti);
-}
 
 int KirjausWg::tiliotetiliId()
 {
@@ -500,7 +422,7 @@ bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
                     return true;
                 }
 
-                if( !model()->vientiModel()->rowCount(QModelIndex()))
+                if( !tosite_->viennit()->rowCount() )
                     lisaaRivi();
                 ui->viennitView->setFocus(Qt::TabFocusReason);
                 ui->viennitView->setCurrentIndex( ui->viennitView->model()->index(0,VientiModel::TILI));
@@ -521,7 +443,7 @@ bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
                 if( index.column() == VientiModel::KOHDENNUS && index.data(VientiModel::PvmRooli).toDate().isValid() )
                 {
 
-                    model_->vientiModel()->setData(index, KohdennusProxyModel::tagiValikko( index.data(VientiModel::PvmRooli).toDate(),
+                    tosite()->viennit()->setData(index, KohdennusProxyModel::tagiValikko( index.data(VientiModel::PvmRooli).toDate(),
                                                                                             index.data(VientiModel::TagiIdListaRooli).toList()) ,
                                                    VientiModel::TagiIdListaRooli);
                     return false;
@@ -541,18 +463,16 @@ bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
         {
 
             // Insertillä suoraan uusi rivi
-            if( ( keyEvent->key() == Qt::Key_Insert )
-                    && ui->viennitView->currentIndex().row() == model()->vientiModel()->rowCount(QModelIndex()) - 1 )
+            if(  keyEvent->key() == Qt::Key_Insert )
             {
                 lisaaRivi();
-                ui->viennitView->setCurrentIndex( model()->vientiModel()->index( model()->vientiModel()->rowCount(QModelIndex())-1, VientiModel::TILI ) );
             }
 
             if( ui->viennitView->currentIndex().column() == VientiModel::SELITE &&
-                ui->viennitView->currentIndex().row() == model()->vientiModel()->rowCount(QModelIndex()) - 1 )
+                ui->viennitView->currentIndex().row() == tosite()->viennit()->rowCount() - 1 )
             {
                 lisaaRivi();
-                ui->viennitView->setCurrentIndex( model()->vientiModel()->index( model()->vientiModel()->rowCount(QModelIndex())-1, VientiModel::TILI ) );
+                ui->viennitView->setCurrentIndex( tosite()->viennit()->index( tosite()->viennit()->rowCount(QModelIndex())-1, VientiModel::TILI ) );
                 return true;
             }
 
@@ -594,7 +514,7 @@ bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
 
 void KirjausWg::paivitaLiiteNapit()
 {
-    bool liitteita = model()->liiteModel()->rowCount(QModelIndex());
+    bool liitteita = tosite()->liitteet()->rowCount(QModelIndex());
 
     ui->poistaLiiteNappi->setEnabled(liitteita);
     ui->avaaNappi->setEnabled(liitteita);
@@ -630,11 +550,6 @@ void KirjausWg::paivitaKommenttiMerkki()
 
 }
 
-void KirjausWg::paivitaTunnisteVari()
-{
-    paivitaTallennaPoistaNapit();
-}
-
 void KirjausWg::lisaaLiite(const QString& polku)
 {
     if( !polku.isEmpty())
@@ -643,13 +558,13 @@ void KirjausWg::lisaaLiite(const QString& polku)
         // PDF-tiedosto tuodaan kuitenkin vain tyhjälle tositteelle
         // Tämä siksi, että pdf-tiliote voidaan tuoda csv-tilitietojen tositteeksi
         if( !(polku.endsWith(".pdf",Qt::CaseInsensitive)
-             && model()->vientiModel()->rowCount(QModelIndex()) ) &&  !Tuonti::tuo(polku, this))
+             && tosite()->liitteet()->rowCount() ) &&  !Tuonti::tuo(polku, this))
             return;
 
         QFileInfo info(polku);
-        model_->liiteModel()->lisaaTiedosto(polku, info.fileName());
+        tosite()->liitteet()->lisaaTiedosto(polku);
         // Valitsee lisätyn liitteen
-        ui->liiteView->setCurrentIndex( model_->liiteModel()->index( model_->liiteModel()->rowCount(QModelIndex()) - 1 ) );
+        ui->liiteView->setCurrentIndex( tosite()->liitteet()->index( tosite()->liitteet()->rowCount() - 1 ) );
         paivitaLiiteNapit();
     }
 
@@ -662,10 +577,9 @@ void KirjausWg::lisaaLiite()
 
 void KirjausWg::lisaaLiiteDatasta(const QByteArray &data, const QString &nimi)
 {
-    model_->liiteModel()->lisaaLiite( data, nimi );
-    // Valitsee lisätyn liitteen
-    ui->liiteView->setCurrentIndex( model_->liiteModel()->index( model_->liiteModel()->rowCount(QModelIndex()) - 1 ) );
-    paivitaLiiteNapit();
+      tosite()->liitteet()->lisaa(data, nimi);
+      ui->liiteView->setCurrentIndex( tosite()->liitteet()->index( tosite()->liitteet()->rowCount() - 1 ) );
+     paivitaLiiteNapit();
 
 }
 
@@ -724,7 +638,6 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
 
 void KirjausWg::vaihdaTositeTyyppi()
 {
-    model_->asetaTositelaji( ui->tositetyyppiCombo->currentData(TositelajiModel::IdRooli).toInt() );
 
     int tyyppiKoodi = ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt() ;
 
@@ -781,8 +694,6 @@ void KirjausWg::liiteValinta(const QModelIndex &valittu)
 
 void KirjausWg::pvmVaihtuu()
 {
-    if( !model_->muokkausSallittu() )
-        return;
 
     QDate paiva = ui->tositePvmEdit->date();
     QDate vanhaPaiva = tosite_->data(Tosite::PVM).toDate();
@@ -800,6 +711,7 @@ void KirjausWg::pvmVaihtuu()
 
 void KirjausWg::poistaLiite()
 {
+    /*
     if( ui->liiteView->currentIndex().isValid() && model_->muokkausSallittu() )
     {
         if( QMessageBox::question(this, tr("Poista liite"),
@@ -810,5 +722,6 @@ void KirjausWg::poistaLiite()
         }
     }
     ui->poistaLiiteNappi->setEnabled( model()->liiteModel()->rowCount(QModelIndex()) );
+    */
 }
 

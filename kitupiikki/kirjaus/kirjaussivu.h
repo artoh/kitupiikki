@@ -82,7 +82,6 @@ protected:
     NaytaliiteWg *liitewg;
     QSplitter *splitter;
 
-    TositeModel *model;
 
     /**
      * @brief Palataanko tämän tositteen käsittelyn jälkeen takaisin edelliseen

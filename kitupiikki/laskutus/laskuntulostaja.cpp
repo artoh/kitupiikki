@@ -35,7 +35,7 @@
 LaskunTulostaja::LaskunTulostaja(LaskuModel *model) : QObject(model), model_(model)
 {
     // Hakee laskulle tulostuvan IBAN-numeron
-    iban = kp()->tilit()->tiliNumerollaVanha( kp()->asetukset()->luku("LaskuTili")).json()->str("IBAN");
+    iban = kp()->tilit()->tiliNumerolla( kp()->asetukset()->luku("LaskuTili")).json()->str("IBAN");
 }
 
 bool LaskunTulostaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, bool kaytaIkkunakuorta)

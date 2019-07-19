@@ -67,7 +67,7 @@ QVariant TmRivit::data(const QModelIndex &index, int role) const
 
     if( role == Qt::DisplayRole) {
         if( index.column() == TILI) {
-            Tili tili = kp()->tilit()->tiliNumerollaVanha( rivit_.at( index.row() ).tilinumero );
+            Tili tili = kp()->tilit()->tiliNumerolla( rivit_.at( index.row() ).tilinumero );
             if( tili.onkoValidi() )
                 return  tili.nimi() ;
         } else if( index.column() == EUROA)
@@ -103,7 +103,7 @@ void TmRivit::setTili(int rivi, int tilinumero)
 
 Tili TmRivit::tili(int rivi) const
 {
-    return kp()->tilit()->tiliNumerollaVanha( rivit_.at(rivi).tilinumero );
+    return kp()->tilit()->tiliNumerolla( rivit_.at(rivi).tilinumero );
 }
 
 void TmRivit::setMaara(int rivi, qlonglong senttia)

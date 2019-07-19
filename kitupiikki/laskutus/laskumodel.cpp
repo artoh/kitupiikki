@@ -175,7 +175,7 @@ LaskuModel *LaskuModel::haeLasku(int vientiId)
         rivi.ahintaSnt = map.value("YksikkohintaSnt").toDouble();
         rivi.alvKoodi = map.value("Alvkoodi").toInt();
         rivi.alvProsentti = map.value("Alvprosentti").toInt();
-        rivi.myyntiTili = *kp()->tilit()->tiliNumerolla( map.value("Tili").toInt() );
+        rivi.myyntiTili = *kp()->tilit()->tiliPNumerolla( map.value("Tili").toInt() );
         rivi.aleProsentti = map.value("AleProsentti").toInt();
         rivi.kohdennus = kp()->kohdennukset()->kohdennus( map.value("Kohdennus").toInt() );
         rivi.tuoteKoodi = map.value("Tuotekoodi").toInt();
@@ -454,7 +454,7 @@ bool LaskuModel::setData(const QModelIndex &index, const QVariant &value, int ro
             // Tili asetetaan numerolla!
             Tili uusitili;
             if( value.toInt() )
-                uusitili = kp()->tilit()->tiliNumerollaVanha( value.toInt());
+                uusitili = kp()->tilit()->tiliNumerolla( value.toInt());
             else if(!value.toString().isEmpty() && value.toString() != " " && value.toString() != "0")
                 uusitili = TilinValintaDialogi::valitseTili(value.toString());
             else if( value.toString()==" " || !rivit_[rivi].myyntiTili.onkoValidi())
@@ -1083,7 +1083,7 @@ LaskuRivi::LaskuRivi()
         alvKoodi = AlvKoodi::EIALV;
 
     Tositelaji laji = kp()->tositelajit()->tositelajiVanha( kp()->asetukset()->luku("LaskuTositelaji") );
-    myyntiTili = kp()->tilit()->tiliNumerollaVanha( laji.json()->luku("Oletustili") );
+    myyntiTili = kp()->tilit()->tiliNumerolla( laji.json()->luku("Oletustili") );
 }
 
 qlonglong LaskuRivi::yhteensaSnt() const

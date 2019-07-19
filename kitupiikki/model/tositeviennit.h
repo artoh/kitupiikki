@@ -33,6 +33,23 @@ public:
         PVM, TILI, DEBET, KREDIT, KOHDENNUS, ALV, SELITE
     };
 
+    enum
+    {
+        IdRooli = Qt::UserRole + 1,
+        PvmRooli = Qt::UserRole + 2,
+        TiliNumeroRooli = Qt::UserRole + 3,
+        DebetRooli = Qt::UserRole + 4,
+        KreditRooli = Qt::UserRole + 5,
+        AlvKoodiRooli = Qt::UserRole + 6,
+        AlvProsenttiRooli = Qt::UserRole + 7,
+        KohdennusRooli = Qt::UserRole + 8,
+        SeliteRooli = Qt::UserRole + 9,
+        EraIdRooli = Qt::UserRole + 13,
+        PoistoKkRooli = Qt::UserRole + 14,
+        TaseErittelyssaRooli = Qt::UserRole + 15,
+        TagiIdListaRooli = Qt::UserRole + 22
+    };
+
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
@@ -54,6 +71,7 @@ public:
     // Remove data:
     bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
 
+    QModelIndex lisaaVienti(int indeksi);
 
     TositeVienti vienti(int indeksi) const;
     void lisaa(const TositeVienti& vienti);
@@ -65,7 +83,7 @@ public:
 
 private:
     QVariantList viennit_;
-    bool muokattavissa_ = false;
+    bool muokattavissa_ = true;
 
 };
 

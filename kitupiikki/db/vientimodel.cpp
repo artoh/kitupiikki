@@ -326,7 +326,7 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
             // Tili asetetaan numerolla!
             Tili uusitili;
             if( value.toInt())
-                uusitili = kp()->tilit()->tiliNumerollaVanha( value.toInt());
+                uusitili = kp()->tilit()->tiliNumerolla( value.toInt());
             else if(!value.toString().isEmpty() && value.toString() != " ")
                 uusitili = TilinValintaDialogi::valitseTili(value.toString());
             else
@@ -392,7 +392,7 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
     if( role == PvmRooli)
         viennit_[rivi].pvm = value.toDate();
     else if( role == TiliNumeroRooli)
-        viennit_[rivi].tili = kp()->tilit()->tiliNumerollaVanha( value.toInt() );
+        viennit_[rivi].tili = kp()->tilit()->tiliNumerolla( value.toInt() );
     else if( role == SeliteRooli)
         viennit_[rivi].selite = value.toString();
     else if( role == DebetRooli)
@@ -539,7 +539,7 @@ QModelIndex VientiModel::lisaaVienti(int indeksi)
     {
         // Tositelajin oletustili
         int oletustili = tositeModel_->tositelaji().json()->luku("Oletustili");
-        uusirivi.tili = kp()->tilit()->tiliNumerollaVanha(oletustili);
+        uusirivi.tili = kp()->tilit()->tiliNumerolla(oletustili);
         uusirivi.alvkoodi = uusirivi.tili.json()->luku("AlvLaji");
 
         // Kuitenkin käsin kirjattaessa käytetään bruttokirjauksia (#37)
@@ -560,7 +560,7 @@ QModelIndex VientiModel::lisaaVienti(int indeksi)
         {
             vastatili = viennit_.last().tili.json()->luku("Vastatili");
         }
-        uusirivi.tili = kp()->tilit()->tiliNumerollaVanha( vastatili);
+        uusirivi.tili = kp()->tilit()->tiliNumerolla( vastatili);
     }
 
     uusirivi.eraId = uusirivi.tili.eritellaankoTase() ? TaseEra::UUSIERA : TaseEra::EIERAA;

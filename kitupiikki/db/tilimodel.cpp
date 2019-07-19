@@ -224,7 +224,7 @@ Tili TiliModel::tiliIdllaVanha(int id) const
 
 Tili *TiliModel::tili(const QString &tilinumero) const
 {
-    return tiliNumerolla( tilinumero.toInt());
+    return tiliPNumerolla( tilinumero.toInt());
 }
 
 Tili *TiliModel::tiliIdlla(int id) const
@@ -232,12 +232,12 @@ Tili *TiliModel::tiliIdlla(int id) const
     return idHash_.value(id);
 }
 
-Tili *TiliModel::tiliNumerolla(int numero) const
+Tili *TiliModel::tiliPNumerolla(int numero) const
 {
     return nroHash_.value(numero);
 }
 
-Tili TiliModel::tiliNumerollaVanha(int numero, int otsikkotaso) const
+Tili TiliModel::tiliNumerolla(int numero, int otsikkotaso) const
 {
     // Vertailu tehdään "ysiluvuilla" joten tilit 154 ja 15400 ovat samoja
     return tiliYsiluvulla( Tili::ysiluku(numero, otsikkotaso) );
