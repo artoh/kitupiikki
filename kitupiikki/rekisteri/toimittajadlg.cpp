@@ -22,6 +22,7 @@
 #include "postinumerot.h"
 
 #include "ibandelegaatti.h"
+#include "validator/ytunnusvalidator.h"
 
 #include <QListWidgetItem>
 
@@ -37,6 +38,8 @@ ToimittajaDlg::ToimittajaDlg(QWidget *parent, Toimittaja *toimittaja) :
     QString maa = toimittaja->maa();
 
     ui->maaCombo->setCurrentIndex( ui->maaCombo->findData(maa, MaaModel::KoodiRooli));
+
+    ui->yEdit->setValidator(new YTunnusValidator(false));
 
     if( maa == "fi")
         ui->yEdit->setText( toimittaja->ytunnus());
@@ -119,6 +122,8 @@ void ToimittajaDlg::accept()
         if( !ui->tilitLista->item(i)->data(Qt::EditRole).toString().isEmpty())
             tililista.append( ui->tilitLista->item(i)->data(Qt::EditRole).toString() );
     toimittaja_->setTilit(tililista);
+
+    toimittaja_->tallenna(false);
 
     QDialog::accept();
 

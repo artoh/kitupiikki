@@ -82,6 +82,8 @@ void AsiakasDlg::accept()
     asiakas_->set("ovt", ui->verkkolaskuEdit->text());
     asiakas_->set("operaattori", ui->valittajaEdit->text());
 
+    asiakas_->tallenna(false);
+
     QDialog::accept();
 }
 

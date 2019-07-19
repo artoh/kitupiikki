@@ -60,6 +60,7 @@ protected slots:
     void haeRivi(const QModelIndex& index);
     void haeKohdennukset();
 
+    void valitseAsiakas();
     void muokkaaAsiakasta();
 
 protected:

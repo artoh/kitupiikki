@@ -21,7 +21,6 @@
 
 Asiakas::Asiakas(QObject *parent) : KantaAsiakasToimittaja (parent)
 {
-
 }
 
 AsiakasToimittajaTaydentaja *Asiakas::taydentaja()
@@ -61,14 +60,17 @@ void Asiakas::valitse(const QString &nimi)
 void Asiakas::clear()
 {
     data_.clear();
+    taydentaja_->deleteLater();
+    taydentaja_ = nullptr;
 }
 
 void Asiakas::tallenna(bool tositteentallennus)
 {
     KpKysely* kysely;
-    if( id() < 1)
+    if( id() < 1) {
         kysely = kpk( "/asiakkaat/", KpKysely::POST);
-    else
+        data_.remove("id");
+    } else
         kysely = kpk( QString("/asiakkaat/%1").arg( id() ), KpKysely::PUT);
 
     if( tositteentallennus )
@@ -78,15 +80,3 @@ void Asiakas::tallenna(bool tositteentallennus)
     kysely->kysy( data_ );
 }
 
-void Asiakas::tallennusvalmis(QVariant *var)
-{
-    vaintallennusvalmis( var );
-    emit tallennettu();
-}
-
-void Asiakas::vaintallennusvalmis(QVariant *var)
-{
-    QVariantMap map = var->toMap();
-    data_.insert("id", map.value("id").toInt());
-    muokattu_ = false;
-}

@@ -87,7 +87,8 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->viiteEdit, &QLineEdit::textChanged, [this] (const QString& text) {this->tosite()->setData(Tosite::VIITE, text);});
     connect( ui->erapaivaEdit, &KpDateEdit::dateChanged, [this] (const QDate& date) {this->tosite()->setData(Tosite::ERAPVM, date);});
 
-    connect( ui->toimittajaEdit, &QLineEdit::editingFinished, [this] { this->tosite()->asiakas()->valitse( this->ui->toimittajaEdit->text() ); this->tositteelle(); });
+    connect( ui->toimittajaEdit, &QLineEdit::textEdited, this, &TuloMenoApuri::valitseAsiakas);
+    connect( ui->toimittajaEdit, &QLineEdit::editingFinished, this, &TuloMenoApuri::valitseAsiakas);
 
     connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::haeKohdennukset );
     connect( ui->toimittajaButton, &QPushButton::clicked, this, &TuloMenoApuri::muokkaaAsiakasta);
@@ -113,7 +114,7 @@ void TuloMenoApuri::teeReset()
     ui->erapaivaEdit->setDate( tosite()->data(Tosite::ERAPVM).toDate());
 
     if( menoa ) {
-
+        ui->toimittajaEdit->setText( tosite()->toimittaja()->nimi() );
     } else {
         ui->toimittajaEdit->setText( tosite()->asiakas()->nimi() );
     }
@@ -154,8 +155,8 @@ void TuloMenoApuri::teeReset()
         rivit_->setMerkkaukset(rivi, map.value("merkkaukset").toList() );
 
 
-        qlonglong maara = menoa ? qRound( map.value("debet").toDouble() * 100.0 ) :
-                                  qRound( map.value("kredit").toDouble() * 100.0 );
+        qlonglong maara = menoa ? qRound( map.value("debet").toDouble() * 100.0 ) - qRound( map.value("kredit").toDouble() * 100.0 )  :
+                                  qRound( map.value("kredit").toDouble() * 100.0 ) - qRound( map.value("debet").toDouble() * 100.0 ) ;
 
 
         int verokoodi = map.data(TositeVienti::ALVKOODI).toInt();
@@ -184,9 +185,9 @@ void TuloMenoApuri::teeReset()
                     break;
                 if( vkoodi / 100 == AlvKoodi::ALVVAHENNYS / 100 || vkoodi == AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_OSTO) {
                     vahennyksia = true;
-                    veroa = qRound( vmap.data(TositeVienti::DEBET).toDouble() * 100.0 );
+                    veroa = qRound( vmap.data(TositeVienti::DEBET).toDouble() * 100.0 - vmap.data(TositeVienti::KREDIT).toDouble() * 100.0);
                 } else if( vkoodi / 100 == AlvKoodi::ALVKIRJAUS / 100 || vkoodi == AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_MYYNTI) {
-                    veroa = qRound( vmap.data(TositeVienti::KREDIT).toDouble() * 100.0 );
+                    veroa = qRound( vmap.data(TositeVienti::KREDIT).toDouble() * 100.0 -  vmap.data(TositeVienti::DEBET).toDouble() * 100.0)  ;
                 } else if( vkoodi == AlvKoodi::MAAHANTUONTI_VERO)
                     rivit_->setAlvKoodi( rivi, AlvKoodi::MAAHANTUONTI_VERO);
                 i++;
@@ -259,10 +260,17 @@ bool TuloMenoApuri::teeTositteelle()
 
         vienti.insert("pvm", pvm);
         vienti.insert("tili", rivit_->tili(i).numero());
-        if( menoa )
-            vienti.insert("debet", kirjattava);
-        else
-           vienti.insert("kredit", kirjattava);
+        if( menoa ) {
+            if( kirjattava > 0)
+                vienti.insert("debet", kirjattava);
+            else
+                vienti.insert("kredit", 0 - kirjattava);
+        } else {
+            if( kirjattava > 0)
+                vienti.insert("kredit", kirjattava);
+            else
+                vienti.insert("debet", 0 - kirjattava);
+        }
         QString selite = rivit_->selite(i);
         if( selite.isEmpty())
             vienti.insert("selite", otsikko);
@@ -303,8 +311,11 @@ bool TuloMenoApuri::teeTositteelle()
                 palautus.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).numero());
                 palautus.setAlvKoodi( AlvKoodi::ALVVAHENNYS + verokoodi );
             }
+            if( vero > 0)
+                palautus.setDebet( vero );
+            else
+                palautus.setKredit( 0 - vero);
 
-            palautus.setDebet( vero );
             palautus.setAlvProsentti( veroprosentti );
             palautus.setSelite( otsikko );
             viennit.append(palautus);
@@ -324,7 +335,12 @@ bool TuloMenoApuri::teeTositteelle()
                 verorivi.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).numero());
                 verorivi.setAlvKoodi( AlvKoodi::ALVKIRJAUS + verokoodi);
             }
-            verorivi.setKredit( vero );
+
+            if( vero > 0)
+                verorivi.setKredit( vero );
+            else
+                verorivi.setDebet( 0 - vero);
+
             verorivi.setAlvProsentti( veroprosentti);
             verorivi.setSelite(otsikko);
             viennit.append(verorivi);
@@ -335,7 +351,11 @@ bool TuloMenoApuri::teeTositteelle()
             TositeVienti tuonti;
             tuonti.setPvm(pvm);
             tuonti.setTili(rivit_->tili(i).numero());
-            tuonti.setKredit(netto);
+            if( netto > 0)
+                tuonti.setKredit(netto);
+            else
+                tuonti.setDebet( 0 - netto);
+
             tuonti.setSelite(otsikko);
             tuonti.setAlvKoodi(AlvKoodi::MAAHANTUONTI_VERO);
             viennit.append(tuonti);
@@ -353,10 +373,17 @@ bool TuloMenoApuri::teeTositteelle()
         QVariantMap vasta;
         vasta.insert("pvm", pvm);
         vasta.insert("tili", ui->vastatiliCombo->valittuTilinumero() );
-        if( menoa )
-            vasta.insert("kredit", summa / 100.0);
-        else
-            vasta.insert("debet", summa / 100.0);
+        if( menoa ) {
+            if( summa > 0)
+                vasta.insert("kredit", summa / 100.0);
+            else
+                vasta.insert("debet", 0 - summa / 100.0);
+        } else {
+            if( summa > 0)
+                vasta.insert("debet", summa / 100.0);
+            else
+                vasta.insert("kredit", 0 - summa / 100.0);
+        }
         vasta.insert("selite", otsikko);
         viennit.insert(0, vasta);
     }
@@ -618,6 +645,16 @@ void TuloMenoApuri::haeKohdennukset()
 
 }
 
+void TuloMenoApuri::valitseAsiakas()
+{
+    if( tosite()->tyyppi() == TositeTyyppi::TULO )
+        tosite()->asiakas()->valitse( ui->toimittajaEdit->text() );
+    else if( tosite()->tyyppi() == TositeTyyppi::MENO)
+        tosite()->toimittaja()->valitse( ui->toimittajaEdit->text() );
+
+    this->tositteelle();
+}
+
 void TuloMenoApuri::muokkaaAsiakasta()
 {
     if( tosite()->tyyppi() == TositeTyyppi::TULO) {
@@ -640,6 +677,7 @@ void TuloMenoApuri::alusta(bool meno)
         ui->tiliEdit->suodataTyypilla("(AP|D).*");
         veroFiltteri_->setFilterRegExp("^(0|2[1-79]|927)");
         ui->toimittajaLabel->setText( tr("Toimittaja"));
+        asiakasTaydentaja_->setModel( tosite()->toimittaja()->taydentaja());
     } else {
         ui->tiliLabel->setText( tr("Tulotili"));
         ui->tiliEdit->suodataTyypilla("(AP|C).*");
@@ -647,7 +685,6 @@ void TuloMenoApuri::alusta(bool meno)
         ui->toimittajaLabel->setText( tr("Asiakas"));
         asiakasTaydentaja_->setModel( tosite()->asiakas()->taydentaja() );
 
-        qDebug() << " --- " << tosite()->asiakas()->taydentaja()->rowCount();
     }
 
 

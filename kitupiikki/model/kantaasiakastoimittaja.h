@@ -28,6 +28,7 @@ class KantaAsiakasToimittaja : public QObject
 public:
     explicit KantaAsiakasToimittaja(QObject *parent = nullptr);
 
+    int id() const { return data_.value("id").toInt();}
     QString nimi() const { return data_.value("nimi").toString();}
     QString osoite() const { return data_.value("osoite").toString();}
     QString postinumero() const { return data_.value("postinumero").toString();}
@@ -46,8 +47,13 @@ public:
     virtual AsiakasToimittajaTaydentaja* taydentaja() = 0;
 
 signals:
+    void tallennettu();
 
 public slots:
+
+protected slots:
+    void tallennusvalmis(QVariant* var);
+    void vaintallennusvalmis(QVariant* var);
 
 protected:
     AsiakasToimittajaTaydentaja *taydentaja_ = nullptr;

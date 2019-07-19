@@ -40,6 +40,7 @@ Tosite::Tosite(QObject *parent) :
     connect( liitteet(), &TositeLiitteet::liitteetTallennettu, this, &Tosite::liitteetTallennettu);
 
     connect( asiakas(), &Asiakas::tallennettu, this, &Tosite::asiakasTallennettu);
+    connect( toimittaja(), &Toimittaja::tallennettu, this, &Tosite::asiakasTallennettu);
 }
 
 QVariant Tosite::data(int kentta) const
@@ -105,8 +106,10 @@ void Tosite::tallenna(int tilaan)
 
     // Ensimmäisenä tallennetaan mahdollisesti muokattu asiakas / toimittaja
 
-    if( data(TYYPPI).toInt() == TositeTyyppi::TULO && asiakas()->muokattu()) {
+    if( tyyppi() == TositeTyyppi::TULO && asiakas()->muokattu()) {
         asiakas()->tallenna(true);
+    } else if( tyyppi() == TositeTyyppi::MENO && toimittaja()->muokattu() ) {
+        toimittaja()->tallenna(true);
     } else {
         asiakasTallennettu();
     }
@@ -149,6 +152,7 @@ void Tosite::nollaa(const QDate &pvm, int tyyppi)
     viennit_->asetaViennit(QVariantList());
     liitteet()->clear();
     asiakas()->clear();
+    toimittaja()->clear();
     data_.insert( avaimet__.at(PVM), pvm );
     data_.insert( avaimet__.at(TYYPPI), tyyppi);
     emit ladattu();
@@ -208,9 +212,11 @@ QVariantMap Tosite::tallennettava()
 {
     QVariantMap map(data_);
     map.insert("viennit", viennit()->viennit());
-    if( data(TYYPPI).toInt() == TositeTyyppi::TULO &&  asiakas()->id() )
+    if( tyyppi() == TositeTyyppi::TULO &&  asiakas()->id() )
         map.insert( avaimet__.at(ASIAKAS), asiakas()->id() );
-    // Jos sitten onkin uusi asiakas, niin mitähän sitten tehdään?
+    else if( tyyppi() == TositeTyyppi::MENO && toimittaja()->id())
+        map.insert( avaimet__.at(TOIMITTAJA), toimittaja()->id());
+
     return map;
 }
 

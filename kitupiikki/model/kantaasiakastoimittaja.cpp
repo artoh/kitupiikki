@@ -53,5 +53,19 @@ void KantaAsiakasToimittaja::set(const QString &avain, const QString &arvo)
 void KantaAsiakasToimittaja::setYTunnus(const QString &tunnus)
 {
     QString tunnari = tunnus;
-    data_.insert( "alvtunnus", tunnari.remove('-').insert(0,"FI") );
+    if( !tunnari.isEmpty())
+        data_.insert( "alvtunnus", tunnari.remove('-').insert(0,"FI") );
+}
+
+void KantaAsiakasToimittaja::tallennusvalmis(QVariant *var)
+{
+    vaintallennusvalmis( var );
+    emit tallennettu();
+}
+
+void KantaAsiakasToimittaja::vaintallennusvalmis(QVariant *var)
+{
+    QVariantMap map = var->toMap();
+    data_.insert("id", map.value("id").toInt());
+    muokattu_ = false;
 }

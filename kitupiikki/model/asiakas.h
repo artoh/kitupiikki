@@ -30,22 +30,16 @@ public:
     QString ovt() const { return data_.value("ovt").toString();}
     QString operaattori() const { return data_.value("operaattori").toString();}
 
-    int id() const { return data_.value("id").toInt();}
-
     AsiakasToimittajaTaydentaja* taydentaja();
 
 signals:
-    void tallennettu();
+
 
 public slots:
     void lataa(QVariantMap data);
     void valitse(const QString& nimi);
     void clear();
     void tallenna(bool tositteentallennus = false);
-
-private slots:
-    void tallennusvalmis(QVariant* var);
-    void vaintallennusvalmis(QVariant* var);
 
 protected:
 

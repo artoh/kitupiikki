@@ -37,10 +37,11 @@ signals:
 public slots:
     void lataa(QVariantMap data);
     void valitse(const QString& nimi);
-    void clear() { data_.clear(); tilit_.clear();}
+    void clear();
+    void tallenna(bool tositteentallennus = false);
 
 protected:
-    QStringList tilit_;
+    QStringList tilit_;    
 
 };
 

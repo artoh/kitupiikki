@@ -66,7 +66,7 @@ void AsiakasToimittajaTaydentaja::lataa(AsiakasToimittajaTaydentaja::AsiakasVaiT
     KpKysely* kysely = nullptr;
     if( avt == TOIMITTAJAT )
         kysely = kpk("/toimittajat");
-    else
+    else if( avt == ASIAKKAAT)
         kysely = kpk("/asiakkaat");
 
     if( !kysely )
@@ -85,6 +85,8 @@ void AsiakasToimittajaTaydentaja::saapuu(QVariant *variant)
         QVariantMap map = item.toMap();
         data_.append( qMakePair( map.value("nimi").toString(), map.value("id").toInt()) );
     }
+
+    qDebug() << " --täydentäjä-- " << data_.count();
 
     endResetModel();
 }

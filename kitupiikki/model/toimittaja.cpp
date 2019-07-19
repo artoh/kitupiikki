@@ -22,7 +22,6 @@
 
 Toimittaja::Toimittaja(QObject *parent) : KantaAsiakasToimittaja (parent)
 {
-
 }
 
 void Toimittaja::lataa(QVariantMap data)
@@ -71,4 +70,30 @@ void Toimittaja::valitse(const QString &nimi)
     } else {
         muokattu_ = id == -1;
     }
+}
+
+void Toimittaja::clear()
+{
+    data_.clear();
+    tilit_.clear();
+    taydentaja_->deleteLater();
+    taydentaja_ = nullptr;
+}
+
+void Toimittaja::tallenna(bool tositteentallennus)
+{
+    KpKysely* kysely;
+    if( id() < 1) {
+        kysely = kpk( "/toimittajat/", KpKysely::POST);
+        data_.remove("id");
+    } else
+        kysely = kpk( QString("/toimittajat/%1").arg( id() ), KpKysely::PUT);
+
+    if( tositteentallennus )
+        connect(kysely, &KpKysely::vastaus, this, &Toimittaja::tallennusvalmis  );
+    else
+        connect(kysely, &KpKysely::vastaus, this, &Toimittaja::vaintallennusvalmis  );
+    data_.insert("iban", tilit_);
+
+    kysely->kysy( data_ );
 }
