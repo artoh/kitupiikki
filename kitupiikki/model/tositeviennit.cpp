@@ -290,6 +290,17 @@ Qt::ItemFlags TositeViennit::flags(const QModelIndex &index) const
     if (!index.isValid())
         return Qt::NoItemFlags;
 
+    if( index.column() == ALV)
+        return Qt::ItemIsEnabled;
+    else if( index.column() == KOHDENNUS )
+    {
+        TositeVienti rivi = vienti(index.row());
+        Tili tili = kp()->tilit()->tiliNumerolla(rivi.tili());
+        if( !tili.onko(TiliLaji::TULOS))
+            return Qt::ItemIsEnabled;
+    }
+
+
     if( muokattavissa_ )
         return Qt::ItemIsEditable | Qt::ItemIsEnabled; // FIXME: Implement me!
 

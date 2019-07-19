@@ -171,6 +171,7 @@ KirjausWg::KirjausWg( QWidget *parent)
              this, SLOT(liiteValinta(QModelIndex)));
     connect( ui->viennitView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
              this, SLOT(vientiValittu()));
+    connect( ui->viennitView, SIGNAL(activated(QModelIndex)), this, SLOT( vientivwAktivoitu(QModelIndex)));
 
     // Tagivalikko
     ui->viennitView->viewport()->installEventFilter(this);
