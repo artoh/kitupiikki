@@ -14,35 +14,34 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef TILIOTEAPURI_H
-#define TILIOTEAPURI_H
+#ifndef TILIOTEKIRJAAJA_H
+#define TILIOTEKIRJAAJA_H
 
-#include "apuriwidget.h"
-
-class TilioteModel;
+#include <QDialog>
 
 namespace Ui {
-class TilioteApuri;
+class TilioteKirjaaja;
 }
 
-
-class TilioteApuri : public ApuriWidget
+class TilioteKirjaaja : public QDialog
 {
-    Q_OBJECT
+    Q_OBJECT    
 public:
-    TilioteApuri(QWidget *parent = nullptr, Tosite* tosite = nullptr);
-    virtual ~TilioteApuri() override;
+    enum AlaTab { MAKSU, TULOMENO, SIIRTO, PIILOSSA };
 
-protected:
-    bool teeTositteelle() override;
-    void teeReset() override;
+    explicit TilioteKirjaaja(QWidget *parent = nullptr);
+    ~TilioteKirjaaja();
 
-protected slots:
-    void lisaaRivi();
+    void asetaPvm(const QDate& pvm);
+
+private slots:
+    void alaTabMuuttui(int tab);
+    void euroMuuttuu();
 
 private:
-    Ui::TilioteApuri *ui;
-    TilioteModel *model_;
+    Ui::TilioteKirjaaja *ui;
+
+    int menoa_ = false;
 };
 
-#endif // TILIOTEAPURI_H
+#endif // TILIOTEKIRJAAJA_H

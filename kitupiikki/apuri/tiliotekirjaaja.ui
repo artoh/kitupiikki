@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TilioteKirjaaja</class>
+ <widget class="QDialog" name="TilioteKirjaaja">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>762</width>
+    <height>699</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Tilitapahtuma</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Päivämäärä</string>
+       </property>
+       <property name="buddy">
+        <cstring>pvmEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="KpDateEdit" name="pvmEdit"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Euroa</string>
+       </property>
+       <property name="buddy">
+        <cstring>euroEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="KpEuroEdit" name="euroEdit">
+       <property name="toolTip">
+        <string>Kirjaa tililtä otto miinusmerkkisenä</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Selite</string>
+       </property>
+       <property name="buddy">
+        <cstring>seliteEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="seliteEdit"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTabBar" name="alaTabs" native="true"/>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="suodatusEdit">
+     <property name="placeholderText">
+      <string>Etsi maksajalla tai viitenumerolla</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTableView" name="maksuView">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>10</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QFormLayout" name="formLayout_2">
+     <item row="0" column="0">
+      <widget class="QLabel" name="tiliLabel">
+       <property name="text">
+        <string>Tiliöinti</string>
+       </property>
+       <property name="buddy">
+        <cstring>tiliEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="TilinvalintaLine" name="tiliEdit"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="kohdennusLabel">
+       <property name="text">
+        <string>Kohdennus</string>
+       </property>
+       <property name="buddy">
+        <cstring>kohdennusCombo</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QComboBox" name="kohdennusCombo"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="merkkausLabel">
+       <property name="text">
+        <string>Merkkaukset</string>
+       </property>
+       <property name="buddy">
+        <cstring>merkkausCC</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="CheckCombo" name="merkkausCC"/>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="asiakasLabel">
+       <property name="text">
+        <string>Asiakas</string>
+       </property>
+       <property name="buddy">
+        <cstring>asiakasEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLineEdit" name="asiakasEdit"/>
+       </item>
+       <item>
+        <widget class="QPushButton" name="asiakasBtn">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="../pic/pic.qrc">
+           <normaloff>:/pic/yrittaja.png</normaloff>:/pic/yrittaja.png</iconset>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="ohjeLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>10</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Tililtäotossa syötä euromäärä miinusmerkkisenä.</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>17</width>
+       <height>13</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QTabBar</class>
+   <extends>QWidget</extends>
+   <header>QTabBar</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>KpDateEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">tools/kpdateedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KpEuroEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">tools/kpeuroedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>CheckCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">tools/checkcombo.h</header>
+  </customwidget>
+  <customwidget>
+   <class>TilinvalintaLine</class>
+   <extends>QLineEdit</extends>
+   <header>db/tilinvalintaline.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>TilioteKirjaaja</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>TilioteKirjaaja</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

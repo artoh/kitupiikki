@@ -1,6 +1,7 @@
 SOURCES += uusikp/uusikirjanpito.cpp \
     $$PWD/apuri/apuriwidget.cpp \
     $$PWD/apuri/tilioteapuri.cpp \
+    $$PWD/apuri/tiliotemodel.cpp \
     $$PWD/apuri/tmrivit.cpp \
     $$PWD/apuri/tulomenoapuri.cpp \
     $$PWD/apuri/siirtoapuri.cpp \
@@ -193,11 +194,13 @@ SOURCES += uusikp/uusikirjanpito.cpp \
     pilvi/pilvimodel.cpp \
     pilvi/pilvilogindlg.cpp \
     sqlite/sqlitemodel.cpp \
-    rekisteri/asiakasdlg.cpp
+    rekisteri/asiakasdlg.cpp\
+    apuri/tiliotekirjaaja.cpp
 
 HEADERS += \
     $$PWD/apuri/apuriwidget.h \
     $$PWD/apuri/tilioteapuri.h \
+    $$PWD/apuri/tiliotemodel.h \
     $$PWD/apuri/tmrivit.h \
     $$PWD/apuri/tulomenoapuri.h \
     $$PWD/apuri/siirtoapuri.h \
@@ -392,7 +395,8 @@ HEADERS += \
     pilvi/pilvimodel.h \
     pilvi/pilvilogindlg.h \
     sqlite/sqlitemodel.h \
-    rekisteri/asiakasdlg.h
+    rekisteri/asiakasdlg.h \
+    apuri/tiliotekirjaaja.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \
@@ -482,4 +486,5 @@ FORMS += \
     alv/arvonlisavero.ui \
     uusikp/numerointi.ui \
     pilvi/pilvilogindlg.ui \
-    rekisteri/asiakasdlg.ui
+    rekisteri/asiakasdlg.ui\
+    apuri/tiliotekirjaaja.ui

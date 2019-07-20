@@ -16,12 +16,23 @@
 */
 #include "tilioteapuri.h"
 #include "ui_tilioteapuri.h"
+#include "tiliotemodel.h"
+
+#include "tiliotekirjaaja.h"
+#include "model/tosite.h"
+
+#include <QDate>
 
 TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     : ApuriWidget (parent,tosite),
-      ui( new Ui::TilioteApuri)
+      ui( new Ui::TilioteApuri),
+      model_(new TilioteModel(this))
 {
     ui->setupUi(this);
+    ui->oteView->setModel(model_);
+
+
+    connect( ui->lisaaRiviNappi, &QPushButton::clicked, this, &TilioteApuri::lisaaRivi);
 }
 
 TilioteApuri::~TilioteApuri()
@@ -37,5 +48,12 @@ bool TilioteApuri::teeTositteelle()
 void TilioteApuri::teeReset()
 {
 
+}
+
+void TilioteApuri::lisaaRivi()
+{
+    TilioteKirjaaja dlg(this);
+    dlg.asetaPvm( tosite()->data(Tosite::PVM).toDate() );
+    dlg.exec();
 }
 

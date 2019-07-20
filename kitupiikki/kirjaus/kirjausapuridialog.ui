@@ -437,14 +437,14 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>TilinvalintaLine</class>
-   <extends>QLineEdit</extends>
-   <header>db/tilinvalintaline.h</header>
-  </customwidget>
-  <customwidget>
    <class>KpDateEdit</class>
    <extends>QLineEdit</extends>
    <header location="global">tools/kpdateedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>TilinvalintaLine</class>
+   <extends>QLineEdit</extends>
+   <header>db/tilinvalintaline.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
