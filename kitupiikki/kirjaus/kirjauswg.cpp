@@ -124,7 +124,6 @@ KirjausWg::KirjausWg( QWidget *parent)
     connect( ui->tulostaLiiteNappi, &QPushButton::clicked, this, &KirjausWg::tulostaLiite);
     connect( ui->poistaLiiteNappi, SIGNAL(clicked(bool)), this, SLOT(poistaLiite()));
 
-    connect( ui->tiliotetiliCombo, SIGNAL(activated(int)), this, SLOT(tiedotModeliin()));
 
     // Lisätoimintojen valikko
     QMenu *valikko = new QMenu(this);
@@ -172,6 +171,7 @@ KirjausWg::KirjausWg( QWidget *parent)
     connect( ui->viennitView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
              this, SLOT(vientiValittu()));
     connect( ui->viennitView, SIGNAL(activated(QModelIndex)), this, SLOT( vientivwAktivoitu(QModelIndex)));
+    connect( ui->otsikkoEdit, &QLineEdit::textChanged, [this] { this->tosite()->setData(Tosite::OTSIKKO, ui->otsikkoEdit->text()); });
 
     // Tagivalikko
     ui->viennitView->viewport()->installEventFilter(this);
@@ -397,9 +397,9 @@ void KirjausWg::siirryTositteeseen()
 }
 
 
-int KirjausWg::tiliotetiliId()
+int KirjausWg::tiliotetiliNumero()
 {
-    return ui->tiliotetiliCombo->currentData(TiliModel::IdRooli).toInt();
+    return ui->tiliotetiliCombo->currentData(TiliModel::NroRooli).toInt();
 }
 
 bool KirjausWg::eventFilter(QObject *watched, QEvent *event)

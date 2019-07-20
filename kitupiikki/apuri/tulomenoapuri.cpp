@@ -246,6 +246,9 @@ bool TuloMenoApuri::teeTositteelle()
         double veroprosentti = rivit_->alvProsentti(i);
         int verokoodi = rivit_->alvkoodi(i);
 
+        if( qAbs(maara) < 1e-5 || !rivit_->tili(i).onkoValidi() )
+            continue;
+
         bool maahantuonninvero = false;
         if( verokoodi == AlvKoodi::MAAHANTUONTI_VERO) {
             maahantuonninvero = true;

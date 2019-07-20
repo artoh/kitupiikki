@@ -32,8 +32,8 @@ class KpEuroEdit : public QLineEdit
 public:
     KpEuroEdit(QWidget* parent = nullptr);
 
-    qlonglong asCents() { return cents_; }
-    double value() { return cents_ / 100.0; }
+    qlonglong asCents() { return miinus_ ? 0 - cents_ : cents_; }
+    double value() { return asCents() / 100.0; }
 
 public slots:
     void setCents(qlonglong cents);
@@ -46,6 +46,7 @@ protected:
     void keyPressEvent(QKeyEvent* event) override;
 
     qlonglong cents_;
+    bool miinus_ = false;
 
 
 

@@ -121,13 +121,11 @@ private slots:
 
 public:
     /**
-     * @brief Jos kirjataan tiliotetta, tiliotetilin id
+     * @brief Jos kirjataan tiliotetta, tiliotetilin numero
      *
-     * Tätä käytetään laskunmaksussa, jotta lasku tulisi kohdistetuksi tiliotteen tilille
-     *
-     * @return tiliotetilin id tai 0
+     * @return tiliotetilin numero tai 0
      */
-    int tiliotetiliId();
+    int tiliotetiliNumero();
 
     Ui::KirjausWg* gui() { return ui;}
 

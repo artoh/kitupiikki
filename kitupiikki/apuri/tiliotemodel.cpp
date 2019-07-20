@@ -15,6 +15,10 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "tiliotemodel.h"
+#include "db/kirjanpito.h"
+#include "db/tilinvalintadialogi.h"
+
+#include "model/tositevienti.h"
 
 TilioteModel::TilioteModel(QObject *parent)
     : QAbstractTableModel(parent)
@@ -34,8 +38,6 @@ QVariant TilioteModel::headerData(int section, Qt::Orientation orientation, int 
             return tr("Euro");
         case TILI:
             return tr("Tili");
-        case SAAJAMAKSAJA:
-            return tr("Saaja/Maksaja");
         case KOHDENNUS:
             return tr("Kohdennus");
         case SELITE:
@@ -62,7 +64,7 @@ int TilioteModel::rowCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    // FIXME: Implement me!
+    return rivit_.count();
 }
 
 int TilioteModel::columnCount(const QModelIndex &parent) const
@@ -70,7 +72,7 @@ int TilioteModel::columnCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    return 6;
+    return 5;
 }
 
 QVariant TilioteModel::data(const QModelIndex &index, int role) const
@@ -78,14 +80,93 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    // FIXME: Implement me!
+    Tilioterivi rivi = rivit_.at(index.row());
+
+
+    switch ( role ) {
+    case Qt::DisplayRole :
+        switch (index.column()) {
+        case PVM:
+            return rivi.pvm;
+        case EURO:
+            if( qAbs(rivi.euro) > 1e-5)
+                return QString("%L1 €").arg( rivi.euro ,0,'f',2);
+            return QString();
+        case TILI:
+            return kp()->tilit()->tiliNumerolla( rivi.tili ).nimiNumero();
+        case KOHDENNUS:
+        {
+            if( rivi.eraId)
+                return rivi.eraTunnus;
+            QString txt;
+            if( rivi.kohdennus )
+                txt = kp()->kohdennukset()->kohdennus(rivi.kohdennus).nimi() + " ";
+            QStringList merkkausList;
+            for(auto mid : rivi.merkkaukset)
+                merkkausList.append( kp()->kohdennukset()->kohdennus(mid).nimi() );
+            txt.append( merkkausList.join(", ") );
+            return txt;
+        }
+        case SELITE:
+            return  rivi.selite;
+        }
+
+    case Qt::EditRole :
+        switch ( index.column())
+        {
+        case PVM:
+            return rivi.pvm;
+        case TILI:
+            return rivi.tili;
+        case EURO:
+            return qRound( rivi.euro * 100 );
+        case KOHDENNUS:
+            return rivi.kohdennus;
+        case SELITE:
+            return rivi.selite;
+        }
+
+    case Qt::TextAlignmentRole:
+        if( index.column()==EURO)
+            return QVariant(Qt::AlignRight | Qt::AlignVCenter);
+        else
+            return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
+
+    }
     return QVariant();
 }
 
 bool TilioteModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (data(index, role) != value) {
-        // FIXME: Implement me!
+
+        if( role == Qt::EditRole) {
+            switch (index.column()) {
+                case PVM :
+                    rivit_[index.row()].pvm = value.toDate();
+                break;
+            case TILI: {
+                Tili uusitili;
+                if( value.toInt())
+                    uusitili = kp()->tilit()->tiliNumerolla( value.toInt());
+                else if(!value.toString().isEmpty() && value.toString() != " ")
+                    uusitili = TilinValintaDialogi::valitseTili(value.toString());
+                else
+                    uusitili = TilinValintaDialogi::valitseTili( QString());
+                rivit_[ index.row()].tili = uusitili.numero();
+                break;
+                }
+            case EURO:
+                rivit_[ index.row()].euro = value.toDouble() ;
+                break;
+            case KOHDENNUS:
+                rivit_[ index.row()].kohdennus = value.toInt();
+                break;
+            case SELITE:
+                rivit_[index.row()].selite = value.toString();
+            }
+        }
+
         emit dataChanged(index, index, QVector<int>() << role);
         return true;
     }
@@ -97,33 +178,94 @@ Qt::ItemFlags TilioteModel::flags(const QModelIndex &index) const
     if (!index.isValid())
         return Qt::NoItemFlags;
 
-    return Qt::ItemIsEditable; // FIXME: Implement me!
+    if( index.column() == KOHDENNUS )
+    {
+        Tili tili = kp()->tilit()->tiliNumerolla( rivit_.at(index.row()).tili );
+        if( !tili.onko(TiliLaji::TULOS))
+            return Qt::ItemIsEnabled;
+    }
+
+    return Qt::ItemIsEditable | Qt::ItemIsEnabled; // FIXME: Implement me!
 }
 
-bool TilioteModel::insertRows(int row, int count, const QModelIndex &parent)
+void TilioteModel::lisaaRivi(const TilioteModel::Tilioterivi &rivi)
 {
-    beginInsertRows(parent, row, row + count - 1);
-    // FIXME: Implement me!
+    beginInsertRows( QModelIndex(), rowCount(), rowCount());
+    rivit_.append(rivi);
     endInsertRows();
 }
 
-bool TilioteModel::insertColumns(int column, int count, const QModelIndex &parent)
+void TilioteModel::poistaRivi(int rivi)
 {
-    beginInsertColumns(parent, column, column + count - 1);
-    // FIXME: Implement me!
-    endInsertColumns();
-}
-
-bool TilioteModel::removeRows(int row, int count, const QModelIndex &parent)
-{
-    beginRemoveRows(parent, row, row + count - 1);
-    // FIXME: Implement me!
+    beginRemoveRows(QModelIndex(), rivi, rivi);
+    rivit_.removeAt(rivi);
     endRemoveRows();
 }
 
-bool TilioteModel::removeColumns(int column, int count, const QModelIndex &parent)
+void TilioteModel::muokkaaRivi(int rivi, const TilioteModel::Tilioterivi &data)
 {
-    beginRemoveColumns(parent, column, column + count - 1);
-    // FIXME: Implement me!
-    endRemoveColumns();
+    rivit_[rivi] = data;
+    emit dataChanged( index(rivi,PVM), index(rivi,SELITE) );
 }
+
+QVariantList TilioteModel::viennit(int tilinumero) const
+{
+    QVariantList lista;
+
+    for(auto rivi : rivit_) {
+        if( qAbs( rivi.euro ) > 1e-5 && rivi.tili ) {
+            TositeVienti pankki;
+            TositeVienti tili;
+
+            pankki.setPvm( rivi.pvm );
+            tili.setPvm( rivi.pvm );
+
+            pankki.setTili(tilinumero);
+            tili.setTili( rivi.tili );
+
+            if( rivi.euro > 0.0) {
+                pankki.setDebet( rivi.euro);
+                tili.setKredit( rivi.euro);
+            } else {
+                pankki.setKredit( 0.0 - rivi.euro);
+                tili.setDebet( 0.0 - rivi.euro);
+            }
+
+            tili.setKohdennus( rivi.kohdennus);
+            tili.setEra( rivi.eraId );
+
+            pankki.setSelite( rivi.selite );
+            tili.setSelite( rivi.selite );
+
+            // TODO: Arkistotunnus, tilinumero, viite yms. metatieto
+
+            lista.append(pankki);
+            lista.append(tili);
+        }
+    }
+    return lista;
+}
+
+void TilioteModel::lataa(QVariantList lista)
+{
+    beginResetModel();
+    rivit_.clear();
+    // Haetaan ainoastaan joka toinen rivi eli vientirivit, kaikki muuthan koskeekin pankkitiliä
+    for(int i=1; i < lista.count(); i+=2)
+    {
+        TositeVienti vienti = lista.at(i).toMap();
+        Tilioterivi rivi;
+
+        rivi.pvm = vienti.pvm();
+        rivi.euro = vienti.kredit() > 0 ? vienti.kredit() : 0 - vienti.debet();
+        rivi.tili = vienti.tili();
+        rivi.kohdennus = vienti.kohdennus();
+        rivi.merkkaukset = vienti.merkkaukset();
+        rivi.eraId = vienti.eraId();
+        rivi.selite = vienti.selite();
+
+        rivit_.append(rivi);
+    }
+    endResetModel();
+}
+

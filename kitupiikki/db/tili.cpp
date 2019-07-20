@@ -61,6 +61,14 @@ QString Tili::nimi(const QString &kieli) const
     return QString();
 }
 
+QString Tili::nimiNumero(const QString &kieli) const
+{
+    if( onkoValidi())
+        return QString("%1 %2").arg(numero()).arg(nimi(kieli));
+    else
+        return QString();
+}
+
 void Tili::asetaNumero(int numero)
 {
     numero_ = numero;

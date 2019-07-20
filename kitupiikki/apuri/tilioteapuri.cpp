@@ -20,19 +20,49 @@
 
 #include "tiliotekirjaaja.h"
 #include "model/tosite.h"
+#include "model/tositeviennit.h"
 
 #include <QDate>
+#include <QSortFilterProxyModel>
+
+#include "kirjaus/tilidelegaatti.h"
+#include "kirjaus/eurodelegaatti.h"
+#include "kirjaus/kohdennusdelegaatti.h"
+
+#include "kirjaus/kirjauswg.h"
+
 
 TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     : ApuriWidget (parent,tosite),
       ui( new Ui::TilioteApuri),
-      model_(new TilioteModel(this))
+      model_(new TilioteModel(this)),
+      kwg_( qobject_cast<KirjausWg*>(parent))
 {
-    ui->setupUi(this);
-    ui->oteView->setModel(model_);
 
+    ui->setupUi(this);
+
+    ui->oteView->setItemDelegateForColumn( TilioteModel::TILI, new TiliDelegaatti() );
+    ui->oteView->setItemDelegateForColumn( TilioteModel::EURO, new EuroDelegaatti() );
+    ui->oteView->setItemDelegateForColumn( TilioteModel::KOHDENNUS, new KohdennusDelegaatti() );
+
+    QSortFilterProxyModel *proxy = new QSortFilterProxyModel(this);
+    proxy->setSourceModel( model_ );
+
+    ui->oteView->setModel(proxy);
+    ui->oteView->sortByColumn(TilioteModel::PVM, Qt::AscendingOrder);
+    ui->oteView->installEventFilter(this);
 
     connect( ui->lisaaRiviNappi, &QPushButton::clicked, this, &TilioteApuri::lisaaRivi);
+    connect( ui->lisaaTyhjaBtn, &QPushButton::clicked, this, &TilioteApuri::lisaaTyhjaRivi );
+    connect( ui->oteView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
+             this, SLOT(riviValittu()));
+    connect(ui->muokkaaNappi, &QPushButton::clicked, this, &TilioteApuri::muokkaa);
+    connect(ui->poistaNappi, &QPushButton::clicked, this, &TilioteApuri::poista);
+
+    connect( model_, &TilioteModel::dataChanged, this, &TilioteApuri::tositteelle);
+    connect( model_, &TilioteModel::rowsInserted, this, &TilioteApuri::tositteelle);
+    connect( model_, &TilioteModel::rowsRemoved, this, &TilioteApuri::tositteelle);
+    connect( model_, &TilioteModel::modelReset, this, &TilioteApuri::tositteelle);
 }
 
 TilioteApuri::~TilioteApuri()
@@ -42,11 +72,21 @@ TilioteApuri::~TilioteApuri()
 
 bool TilioteApuri::teeTositteelle()
 {
-    return false;
+    tosite()->viennit()->asetaViennit( model_->viennit(  kwg_->gui()->tiliotetiliCombo->valittuTilinumero() )  );
+    if( tosite()->data(Tosite::OTSIKKO).toString().isEmpty())
+        tosite()->setData(Tosite::OTSIKKO, tr("Tiliote %1").arg(tosite()->data(Tosite::PVM).toDate().toString("dd.MM.yyyy")));
+    return true;
 }
 
 void TilioteApuri::teeReset()
 {
+    QVariantList viennit = tosite()->viennit()->viennit().toList();
+    if( viennit.count() > 1) {
+        TositeVienti ekarivi = viennit.first().toMap();
+        kwg_->gui()->tiliotetiliCombo->valitseTili( ekarivi.tili() );
+    }
+    model_->lataa(viennit);
+
 
 }
 
@@ -54,6 +94,63 @@ void TilioteApuri::lisaaRivi()
 {
     TilioteKirjaaja dlg(this);
     dlg.asetaPvm( tosite()->data(Tosite::PVM).toDate() );
-    dlg.exec();
+    if( dlg.exec() == QDialog::Accepted)
+        model_->lisaaRivi( dlg.rivi() );
+}
+
+void TilioteApuri::lisaaTyhjaRivi()
+{
+    TilioteModel::Tilioterivi rivi;
+    rivi.pvm = tosite()->data(Tosite::PVM).toDate();
+    model_->lisaaRivi(rivi);
+}
+
+void TilioteApuri::riviValittu()
+{
+    ui->muokkaaNappi->setEnabled( ui->oteView->currentIndex().isValid() );
+    ui->poistaNappi->setEnabled( ui->oteView->currentIndex().isValid());
+}
+
+void TilioteApuri::muokkaa()
+{
+    TilioteKirjaaja dlg(this, model_->rivi( ui->oteView->currentIndex().row() ));
+    if( dlg.exec() == QDialog::Accepted)
+        model_->muokkaaRivi( ui->oteView->currentIndex().row(), dlg.rivi() );
+}
+
+void TilioteApuri::poista()
+{
+    model_->poistaRivi(ui->oteView->currentIndex().row() );
+}
+
+bool TilioteApuri::eventFilter(QObject *watched, QEvent *event)
+{
+
+    if( watched == ui->oteView && event->type() == QEvent::KeyPress)
+    {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        if( ( keyEvent->key() == Qt::Key_Enter ||
+            keyEvent->key() == Qt::Key_Return ||
+            keyEvent->key() == Qt::Key_Insert ||
+            keyEvent->key() == Qt::Key_Tab) &&
+                keyEvent->modifiers() == Qt::NoModifier )
+        {
+
+            // Insertillä suoraan uusi rivi
+            if(  keyEvent->key() == Qt::Key_Insert )
+            {
+                lisaaTyhjaRivi();
+            }
+
+            if( ui->oteView->currentIndex().column() == TilioteModel::SELITE &&
+                ui->oteView->currentIndex().row() == model_->rowCount() - 1 )
+            {
+                lisaaTyhjaRivi();
+                ui->oteView->setCurrentIndex( model_->index( model_->rowCount(QModelIndex())-1, TilioteModel::PVM ) );
+                return true;
+            }
+
+        }
+    }
 }
 

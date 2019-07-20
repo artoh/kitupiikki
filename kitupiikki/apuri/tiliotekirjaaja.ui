@@ -122,34 +122,6 @@
      <item row="2" column="1">
       <widget class="CheckCombo" name="merkkausCC"/>
      </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="asiakasLabel">
-       <property name="text">
-        <string>Asiakas</string>
-       </property>
-       <property name="buddy">
-        <cstring>asiakasEdit</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QLineEdit" name="asiakasEdit"/>
-       </item>
-       <item>
-        <widget class="QPushButton" name="asiakasBtn">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset resource="../pic/pic.qrc">
-           <normaloff>:/pic/yrittaja.png</normaloff>:/pic/yrittaja.png</iconset>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
     </layout>
    </item>
    <item>
@@ -161,7 +133,7 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string>Tililtäotossa syötä euromäärä miinusmerkkisenä.</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kirjaa tilellepano plusmerkkisenä&lt;br/&gt;ja tililtäotto miinusmerkkisenä.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -221,9 +193,7 @@
    <header>db/tilinvalintaline.h</header>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="../pic/pic.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>

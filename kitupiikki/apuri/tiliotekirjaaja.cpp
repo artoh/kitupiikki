@@ -17,9 +17,13 @@
 #include "tiliotekirjaaja.h"
 #include "ui_tiliotekirjaaja.h"
 
-TilioteKirjaaja::TilioteKirjaaja(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::TilioteKirjaaja)
+#include "kirjaus/kohdennusproxymodel.h"
+
+TilioteKirjaaja::TilioteKirjaaja(QWidget *parent, TilioteModel::Tilioterivi rivi) :
+    QDialog(parent),    
+    ui(new Ui::TilioteKirjaaja),
+    rivi_(rivi),
+    kohdennusProxy_(new KohdennusProxyModel(this, rivi.pvm, rivi.kohdennus) )
 {
     ui->setupUi(this);
 
@@ -27,13 +31,36 @@ TilioteKirjaaja::TilioteKirjaaja(QWidget *parent) :
     ui->alaTabs->addTab(QIcon(":/pic/lisaa.png"), tr("Tulo"));
     ui->alaTabs->addTab(QIcon(":/pic/siirra.png"), tr("Siirto"));
 
+    ui->kohdennusCombo->setModel(kohdennusProxy_);
+    ui->kohdennusCombo->setModelColumn(KohdennusModel::NIMI);
+    ui->kohdennusCombo->setCurrentIndex( ui->kohdennusCombo->findData( rivi.kohdennus, KohdennusModel::IdRooli) );
+
     alaTabMuuttui(0);
 
     connect( ui->euroEdit, &KpEuroEdit::textChanged, this, &TilioteKirjaaja::euroMuuttuu);
     connect( ui->alaTabs, &QTabBar::currentChanged, this, &TilioteKirjaaja::alaTabMuuttui);
 
-    ui->alaTabs->setVisible(false);
-    alaTabMuuttui(PIILOSSA);
+    if( qAbs(rivi.euro) > 1e-5)
+    {
+        ui->euroEdit->setValue( rivi.euro );
+        euroMuuttuu();
+        Tili tili = kp()->tilit()->tiliNumerolla( rivi.tili );
+        ui->tiliEdit->valitseTili(tili);
+
+        if( rivi_.eraId )
+            ui->alaTabs->setCurrentIndex(MAKSU);
+        else if( tili.onko(TiliLaji::TULOS))
+            ui->alaTabs->setCurrentIndex(TULOMENO);
+        else
+            ui->alaTabs->setCurrentIndex(SIIRTO);
+
+
+        // Vielä erän valitseminen
+
+    } else {
+        ui->alaTabs->setVisible(false);
+        alaTabMuuttui(PIILOSSA);
+    }
 }
 
 TilioteKirjaaja::~TilioteKirjaaja()
@@ -44,6 +71,22 @@ TilioteKirjaaja::~TilioteKirjaaja()
 void TilioteKirjaaja::asetaPvm(const QDate &pvm)
 {
     ui->pvmEdit->setDate(pvm);
+}
+
+TilioteModel::Tilioterivi TilioteKirjaaja::rivi()
+{
+    rivi_.pvm = ui->pvmEdit->date();
+    rivi_.euro = ui->euroEdit->value();
+
+    rivi_.selite = ui->seliteEdit->text();
+    rivi_.tili = ui->tiliEdit->valittuTilinumero();
+    rivi_.kohdennus = ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt();
+    rivi_.merkkaukset.clear();
+    for(auto var : ui->merkkausCC->selectedDatas())
+        rivi_.merkkaukset.append( var.toInt() );
+
+
+    return rivi_;
 }
 
 
@@ -62,15 +105,23 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
     ui->merkkausLabel->setVisible(  tab == TULOMENO && kp()->kohdennukset()->merkkauksia() );
     ui->merkkausCC->setVisible(  tab == TULOMENO && kp()->kohdennukset()->merkkauksia() );
 
-    ui->asiakasLabel->setVisible( tab == TULOMENO);
-    ui->asiakasEdit->setVisible(tab == TULOMENO);
-    ui->asiakasBtn->setVisible( tab == TULOMENO);
-
     if( tab == MAKSU ) {
+        // Kohdennukset
+        kohdennusProxy_->asetaPaiva(ui->pvmEdit->date());
+
+        KohdennusProxyModel merkkausproxy(this, ui->pvmEdit->date(), -1, KohdennusProxyModel::MERKKKAUKSET );
+        ui->merkkausCC->clear();
+
+        for(int i=0; i < merkkausproxy.rowCount(); i++) {
+            int koodi = merkkausproxy.data( merkkausproxy.index(i,0), KohdennusModel::IdRooli ).toInt();
+            QString nimi = merkkausproxy.data( merkkausproxy.index(i,0), KohdennusModel::NimiRooli ).toString();
+
+            Qt::CheckState state = rivi_.merkkaukset.contains( koodi ) ? Qt::Checked : Qt::Unchecked;
+            ui->merkkausCC->addItem(nimi, koodi, state);
+        }
 
     } else if( tab == TULOMENO ) {
         ui->tiliLabel->setText( menoa_ ? tr("Menotili") : tr("Tulotili"));
-        ui->asiakasLabel->setText( menoa_ ? tr("Saaja") : tr("Maksaja"));
         ui->tiliEdit->suodataTyypilla( menoa_ ? "D.*" : "C.*");
 
     } else if ( tab == SIIRTO ) {
@@ -86,6 +137,8 @@ void TilioteKirjaaja::euroMuuttuu()
         ui->ohjeLabel->hide();
         ui->alaTabs->setVisible(true);
         alaTabMuuttui( ui->alaTabs->currentIndex() );
+
+
     }
 
 

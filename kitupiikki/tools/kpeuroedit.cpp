@@ -61,8 +61,6 @@ void KpEuroEdit::edited(const QString &newtext)
         if( teksti.at(i).isSpace())
             oikaistaanvalit++;
 
-
-    bool miinus = teksti.contains("−");
     QString eurosa = teksti.left(pilkunpaikka);
     QString sentosa = teksti.mid(pilkunpaikka);
     eurosa.remove(QRegularExpression("\\D"));
@@ -74,14 +72,12 @@ void KpEuroEdit::edited(const QString &newtext)
         sentit *= 10;
 
     cents_ = eurosa.toLongLong() * 100 + sentit;
-    if(miinus && !cents_)
-        return; // -0
-    if(miinus)
-        cents_ *= -1;
 
     setClearButtonEnabled(cents_);
 
-    setText(QString("%L1 €").arg( cents_ / 100.0 ,0,'f',2));
+
+    QString etumerkki = miinus_ ? "−" : "" ;
+    setText(QString("%2 %L1 €").arg( cents_ / 100.0 ,0,'f',2).arg(etumerkki) );
 
     int uusipilkunpaikka = text().indexOf(',');
     if( uusipilkunpaikka == -1)
@@ -101,7 +97,11 @@ void KpEuroEdit::edited(const QString &newtext)
 void KpEuroEdit::keyPressEvent(QKeyEvent *event)
 {
     int kursorinpaikka = cursorPosition();
+
+
     int pilkunpaikka = text().indexOf(',');
+    if( kursorinpaikka == text().length())
+        kursorinpaikka = pilkunpaikka;
 
     if( event->key() == Qt::Key_Comma)
     {
@@ -112,16 +112,18 @@ void KpEuroEdit::keyPressEvent(QKeyEvent *event)
             return;
         }
     }
-    else if( event->key() == Qt::Key_Minus && !hasSelectedText())
+    else if( event->key() == Qt::Key_Minus )
     {
-        if( text().startsWith("−"))
+        miinus_ = !miinus_;
+        QString etumerkki = miinus_ ? "−" : "" ;
+        setText(QString("%2 %L1 €").arg( cents_ / 100.0 ,0,'f',2).arg(etumerkki) );
+
+        if( text().startsWith("−") && !miinus_)
         {
-            setText( text().mid(1) );
             setCursorPosition(kursorinpaikka-1);
         }
-        else
+        else if( !text().startsWith('-') && miinus_)
         {
-            setText( "−" + text());
             setCursorPosition(kursorinpaikka+1);
         }
         return;
@@ -157,9 +159,9 @@ void KpEuroEdit::keyPressEvent(QKeyEvent *event)
                 return;
             }
         }
-        else if( !kursorinpaikka  && text() == "0,00 €" ) {
+        else if( !cents_ ) {
             setText( event->text() + ",00 €");
-            setCursorPosition(1);
+            setCursorPosition(text().indexOf(','));
             return;
         }
     }

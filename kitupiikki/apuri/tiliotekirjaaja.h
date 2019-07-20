@@ -19,6 +19,10 @@
 
 #include <QDialog>
 
+#include "tiliotemodel.h"
+
+class KohdennusProxyModel;
+
 namespace Ui {
 class TilioteKirjaaja;
 }
@@ -29,10 +33,12 @@ class TilioteKirjaaja : public QDialog
 public:
     enum AlaTab { MAKSU, TULOMENO, SIIRTO, PIILOSSA };
 
-    explicit TilioteKirjaaja(QWidget *parent = nullptr);
+    TilioteKirjaaja(  QWidget *parent = nullptr, TilioteModel::Tilioterivi rivi = TilioteModel::Tilioterivi());
     ~TilioteKirjaaja();
 
     void asetaPvm(const QDate& pvm);
+
+    TilioteModel::Tilioterivi rivi();
 
 private slots:
     void alaTabMuuttui(int tab);
@@ -42,6 +48,9 @@ private:
     Ui::TilioteKirjaaja *ui;
 
     int menoa_ = false;
+
+    TilioteModel::Tilioterivi rivi_;
+    KohdennusProxyModel* kohdennusProxy_;
 };
 
 #endif // TILIOTEKIRJAAJA_H

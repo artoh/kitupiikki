@@ -19,15 +19,35 @@
 
 #include <QAbstractTableModel>
 
+#include <QDate>
+
 class TilioteModel : public QAbstractTableModel
 {
     Q_OBJECT
 
 public:
+
+    struct Tilioterivi {
+
+        QDate pvm;
+        double euro = 0;
+        int tili = 0;
+        int kohdennus = 0;
+        QString selite;
+        QList<int> merkkaukset;
+        QString saajamaksaja;
+        QString arkistotunnus;
+        QString tilinumero;
+        QString viite;
+        int eraId = 0;
+        QString eraTunnus;
+    };
+
+public:
     explicit TilioteModel(QObject *parent = nullptr);
 
     enum Sarakkeet {
-        PVM, EURO, TILI,  SAAJAMAKSAJA, KOHDENNUS, SELITE
+        PVM, EURO, TILI, KOHDENNUS, SELITE
     };
 
     // Header:
@@ -47,15 +67,18 @@ public:
 
     Qt::ItemFlags flags(const QModelIndex& index) const override;
 
-    // Add data:
-    bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
-    bool insertColumns(int column, int count, const QModelIndex &parent = QModelIndex()) override;
+    void lisaaRivi( const Tilioterivi& rivi);
+    void poistaRivi( int rivi);
+    void muokkaaRivi( int rivi, const Tilioterivi& data);
 
-    // Remove data:
-    bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
-    bool removeColumns(int column, int count, const QModelIndex &parent = QModelIndex()) override;
+    Tilioterivi rivi(int rivi) const { return rivit_.at(rivi); }
+
+    QVariantList viennit(int tilinumero) const;
+    void lataa(QVariantList lista);
 
 private:
+
+    QList<Tilioterivi> rivit_;
 };
 
 #endif // TILIOTEMODEL_H

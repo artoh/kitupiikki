@@ -25,6 +25,7 @@ namespace Ui {
 class TilioteApuri;
 }
 
+class KirjausWg;
 
 class TilioteApuri : public ApuriWidget
 {
@@ -33,16 +34,25 @@ public:
     TilioteApuri(QWidget *parent = nullptr, Tosite* tosite = nullptr);
     virtual ~TilioteApuri() override;
 
+
 protected:
     bool teeTositteelle() override;
     void teeReset() override;
 
 protected slots:
     void lisaaRivi();
+    void lisaaTyhjaRivi();
+    void riviValittu();
+    void muokkaa();
+    void poista();
 
+
+protected:
+    bool eventFilter(QObject *watched, QEvent *event) override;
 private:
     Ui::TilioteApuri *ui;
     TilioteModel *model_;
+    KirjausWg *kwg_;
 };
 
 #endif // TILIOTEAPURI_H

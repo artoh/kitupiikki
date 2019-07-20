@@ -41,6 +41,7 @@ public:
     int numero() const { return numero_; }
 
     QString nimi(const QString& kieli = "fi") const;
+    QString nimiNumero(const QString& kieli = "fi") const;
 
     TiliTyyppi tyyppi() const { return tyyppi_;}
     QString tyyppiKoodi() const { return tyyppi().koodi(); }
