@@ -238,6 +238,7 @@ QVariantList TilioteModel::viennit(int tilinumero) const
             tili.setSelite( rivi.selite );
 
             // TODO: Arkistotunnus, tilinumero, viite yms. metatieto
+            pankki.setArkistotunnus( rivi.arkistotunnus );
 
             lista.append(pankki);
             lista.append(tili);
@@ -254,6 +255,7 @@ void TilioteModel::lataa(QVariantList lista)
     for(int i=1; i < lista.count(); i+=2)
     {
         TositeVienti vienti = lista.at(i).toMap();
+        TositeVienti pankki = lista.at(i-1).toMap();
         Tilioterivi rivi;
 
         rivi.pvm = vienti.pvm();
@@ -263,6 +265,7 @@ void TilioteModel::lataa(QVariantList lista)
         rivi.merkkaukset = vienti.merkkaukset();
         rivi.eraId = vienti.eraId();
         rivi.selite = vienti.selite();
+        rivi.arkistotunnus = pankki.arkistotunnus();
 
         rivit_.append(rivi);
     }

@@ -120,6 +120,11 @@ void TositeVienti::setEra(int era)
     set( ERAID, era);
 }
 
+void TositeVienti::setArkistotunnus(const QString &tunnus)
+{
+    set( ARKISTOTUNNUS, tunnus);
+}
+
 
 
 
@@ -138,5 +143,6 @@ std::map<int,QString> TositeVienti::avaimet__ = {
     { MERKKAUKSET, "merkkaukset"},
     { JAKSOALKAA, "jaksoalkaa"},
     { JAKSOLOPPUU, "jaksoloppuu"},
-    { ERAID, "era"}
+    { ERAID, "era"},
+    { ARKISTOTUNNUS, "arkistotunnus"}
 };

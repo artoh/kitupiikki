@@ -37,7 +37,8 @@ public:
         MERKKAUKSET,
         JAKSOALKAA,
         JAKSOLOPPUU,
-        ERAID
+        ERAID,
+        ARKISTOTUNNUS
     };
 
 
@@ -58,6 +59,7 @@ public:
     QString selite() const { return data(SELITE).toString();}
     int eraId() const { return data(ERAID).toInt();}
     QList<int> merkkaukset() const;
+    QString arkistotunnus() const { return data(ARKISTOTUNNUS).toString();}
 
     void setPvm(const QDate& pvm);
     void setTili(int tili);
@@ -73,6 +75,7 @@ public:
     void setJaksoalkaa( const QDate& pvm);
     void setJaksoloppuu( const QDate& pvm );
     void setEra(int era);
+    void setArkistotunnus(const QString& tunnus);
 
 private:
     static std::map<int,QString> avaimet__;
