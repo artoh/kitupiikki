@@ -521,9 +521,9 @@ void KirjausWg::paivitaLiiteNapit()
     ui->avaaNappi->setEnabled(liitteita);
 
     if( liitteita )
-        ui->tabWidget->setTabIcon(LIITTEET, QIcon(":/pic/liite-aktiivinen.png"));
+        ui->tabWidget->setTabIcon( ui->tabWidget->indexOf(liitteetTab_) , QIcon(":/pic/liite-aktiivinen.png"));
     else
-        ui->tabWidget->setTabIcon(LIITTEET, QIcon(":/pic/liite"));
+        ui->tabWidget->setTabIcon( ui->tabWidget->indexOf(liitteetTab_), QIcon(":/pic/liite"));
 }
 
 
@@ -536,7 +536,7 @@ void KirjausWg::lataaTosite(int id)
 
 void KirjausWg::paivitaKommenttiMerkki()
 {
-    int kommenttiIndeksi = apuri_ ? KOMMENTIT + 1 : KOMMENTIT;
+    int kommenttiIndeksi = ui->tabWidget->indexOf(kommentitTab_);
 
     if( ui->kommentitEdit->document()->toPlainText().isEmpty())
     {
@@ -649,7 +649,8 @@ void KirjausWg::vaihdaTositeTyyppi()
         apuri_->deleteLater();
     }
     apuri_ = nullptr;
-    ui->tabWidget->setTabEnabled(0, tyyppiKoodi != TositeTyyppi::LIITETIETO);
+    ui->tabWidget->setTabEnabled( ui->tabWidget->indexOf(viennitTab_) , tyyppiKoodi != TositeTyyppi::LIITETIETO);
+    ui->tabWidget->setTabEnabled( ui->tabWidget->indexOf(varastoTab_), tyyppiKoodi != TositeTyyppi::LIITETIETO);
     ui->tiliotetiliCombo->setVisible( tyyppiKoodi == TositeTyyppi::TILIOTE );
 
     if( tyyppiKoodi == TositeTyyppi::TULO || tyyppiKoodi == TositeTyyppi::MENO)
