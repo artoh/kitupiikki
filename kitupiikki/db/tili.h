@@ -148,7 +148,7 @@ public:
      * @brief Millä tasolla tase-erittely laaditaan
      * @return TaseErittelyTapa
      */
-    int taseErittelyTapa() { return json()->luku("Taseerittely"); }
+    int taseErittelyTapa() { return arvo("erittely").toInt(); }
 
     /**
      * @brief Pidetäänkö tase-eristä kirjaa

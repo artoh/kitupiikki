@@ -143,6 +143,6 @@ std::map<int,QString> TositeVienti::avaimet__ = {
     { MERKKAUKSET, "merkkaukset"},
     { JAKSOALKAA, "jaksoalkaa"},
     { JAKSOLOPPUU, "jaksoloppuu"},
-    { ERAID, "era"},
+    { ERAID, "eraid"},
     { ARKISTOTUNNUS, "arkistotunnus"}
 };

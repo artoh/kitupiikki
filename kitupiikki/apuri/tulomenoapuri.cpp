@@ -377,9 +377,13 @@ bool TuloMenoApuri::teeTositteelle()
     }
 
     if( summa ) {
-        QVariantMap vasta;
+        TositeVienti vasta;
         vasta.insert("pvm", pvm);
-        vasta.insert("tili", ui->vastatiliCombo->valittuTilinumero() );
+        Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliCombo->valittuTilinumero() );
+        vasta.insert("tili", vastatili.numero() );
+        if( vastatili.eritellaankoTase())
+            vasta.setEra(-1);
+
         if( menoa ) {
             if( summa > 0)
                 vasta.insert("kredit", summa / 100.0);
