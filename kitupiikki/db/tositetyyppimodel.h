@@ -31,10 +31,10 @@ namespace TositeTyyppi {
         PALKKA = 500,
         MUISTIO = 700,
         LIITETIETO = 800,
-        TILINAVAUS = 901,
-        ALVLASKELMA = 910,
-        POISTOLASKELMA = 991,
-        JAKSOTUS = 992
+        TILINAVAUS = 9010,
+        ALVLASKELMA = 9100,
+        POISTOLASKELMA = 9910,
+        JAKSOTUS = 9920
     };
 }
 

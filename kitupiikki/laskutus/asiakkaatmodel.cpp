@@ -12,7 +12,7 @@ AsiakkaatModel::AsiakkaatModel(QObject *parent, bool toimittajat)
 
 int AsiakkaatModel::rowCount(const QModelIndex &/*parent*/) const
 {
-    return rivit_.count();
+    return lista_.count();
 }
 
 int AsiakkaatModel::columnCount(const QModelIndex &/*parent*/) const
@@ -26,22 +26,26 @@ QVariant AsiakkaatModel::data(const QModelIndex &index, int role) const
         return QVariant();
 
     AsiakasRivi rivi = rivit_.value(index.row());
+    QVariantMap map = lista_.at(index.row()).toMap();
+
     if( role == Qt::DisplayRole || role == Qt::EditRole)
     {
         switch (index.column()) {
         case NIMI:
-            return rivi.nimi;
+            return map.value("nimi");
         case YHTEENSA:
-            if( rivi.yhteensa)
-                return QString("%L1 €").arg(rivi.yhteensa / 100.0,0,'f',2);
+            qDebug() << map.value("summa");
+
+            if( map.value("summa").toDouble() > 1e-5 )
+                return QString("%L1 €").arg( map.value("summa").toDouble() ,0,'f',2);
             break;
         case AVOINNA:
-            if( rivi.avoinna)
-                return QString("%L1 €").arg(rivi.avoinna / 100.0,0,'f',2);
+            if( map.value("avoin").toDouble() > 1e-5 )
+                return QString("%L1 €").arg(  map.value("avoin").toDouble() ,0,'f',2);
             break;
         case ERAANTYNYT:
-            if( rivi.eraantynyt)
-                return QString("%L1 €").arg(rivi.eraantynyt / 100.0,0,'f',2);
+            if( map.value("eraantynyt").toDouble() > 1e-5 )
+                return QString("%L1 €").arg( map.value("eraantynyt").toDouble() ,0,'f',2);
         }
     }
     else if( role == Qt::TextAlignmentRole)
@@ -54,7 +58,7 @@ QVariant AsiakkaatModel::data(const QModelIndex &index, int role) const
     else if( role == Qt::TextColorRole && index.column() == ERAANTYNYT)
         return QColor(Qt::red);
     else if( role == NimiRooli)
-        return rivi.nimi;
+        return map.value("nimi");
     return QVariant();
 }
 
@@ -80,6 +84,18 @@ QVariant AsiakkaatModel::headerData(int section, Qt::Orientation orientation, in
 void AsiakkaatModel::paivita(bool toimittajat)
 {
     toimittajat_ = toimittajat;
+    KpKysely *utelu = nullptr;
+
+    if( toimittajat )
+        utelu = kpk("/toimittajat");
+    else
+        utelu = kpk("/asiakkaat");
+    utelu->lisaaAttribuutti("tilasto");
+    connect( utelu, &KpKysely::vastaus, this, &AsiakkaatModel::tietoSaapuu);
+    utelu->kysy();
+    return;
+
+
 
     QString kysely = "select distinct asiakas from vienti where iban is ";
 
@@ -141,6 +157,13 @@ void AsiakkaatModel::paivita(bool toimittajat)
         rivit_.append(rivi);
 
     }
+    endResetModel();
+}
+
+void AsiakkaatModel::tietoSaapuu(QVariant *var)
+{
+    beginResetModel();
+    lista_ = var->toList();
     endResetModel();
 }
 

@@ -53,7 +53,7 @@ public:
 
     QString polku() const { return polku_;}
 
-    void lisaaAttribuutti(const QString& avain, const QString& arvo);
+    void lisaaAttribuutti(const QString& avain, const QString& arvo = QString());
     void lisaaAttribuutti(const QString& avain, const QDate& paiva);
 
     QString attribuutti(const QString& avain) const;

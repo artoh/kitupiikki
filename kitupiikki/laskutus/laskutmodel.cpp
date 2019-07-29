@@ -30,12 +30,12 @@ LaskutModel::LaskutModel(QObject *parent) :
 
 int LaskutModel::rowCount(const QModelIndex & /* parent */) const
 {
-    return laskut.count();
+    return lista_.count();
 }
 
 int LaskutModel::columnCount(const QModelIndex & /* parent */) const
 {
-    return 6;
+    return 7;
 }
 
 QVariant LaskutModel::data(const QModelIndex &item, int role) const
@@ -43,7 +43,8 @@ QVariant LaskutModel::data(const QModelIndex &item, int role) const
     if( !item.isValid())
         return QVariant();
 
-    AvoinLasku lasku = laskut.value(item.row());
+    // AvoinLasku lasku = laskut.value(item.row());
+    QVariantMap map = lista_.at(item.row()).toMap();
 
     if( role == Qt::DisplayRole || role == Qt::EditRole)
     {
@@ -51,35 +52,39 @@ QVariant LaskutModel::data(const QModelIndex &item, int role) const
         switch (item.column())
         {
         case NUMERO:
-            return lasku.viite;
+            return map.value("viite");
         case PVM:
-            return lasku.pvm;
+            return map.value("pvm").toDate();
         case ERAPVM:
-            if( lasku.kirjausperuste == LaskuModel::KATEISLASKU ||  lasku.json.luku("Hyvityslasku"))
-                return QString();
-            return lasku.erapvm;
+//            if( lasku.kirjausperuste == LaskuModel::KATEISLASKU ||  lasku.json.luku("Hyvityslasku"))
+//                return QString();
+            return map.value("erapvm").toDate();
         case SUMMA:
             if( role == Qt::DisplayRole)
             {
-                if( lasku.summaSnt)
-                    return QString("%L1 €").arg(lasku.summaSnt / 100.0,0,'f',2);
+                double summa = map.value("summa").toDouble();
+                if( summa > 1e-5)
+                    return QString("%L1 €").arg(summa,0,'f',2);
                 else
                     return QVariant();  // Nollalle tyhjää
             }
             else
-               return lasku.summaSnt;
+               return map.value("summa").toDouble();
         case MAKSAMATTA:
             if( role == Qt::DisplayRole)
             {
-                if( lasku.avoinSnt)
-                    return QString("%L1 €").arg(lasku.avoinSnt / 100.0,0,'f',2);
+                double avoin = map.value("avoin").toDouble();
+                if( avoin > 1e-5)
+                    return QString("%L1 €").arg( avoin ,0,'f',2);
                 else
                     return QVariant();  // Nollalle tyhjää
             }
             else
-                return lasku.avoinSnt;
+                return map.value("avoin").toDouble();
         case ASIAKAS:
-            return lasku.asiakas;
+            return map.value("asiakas").toString();
+        case OTSIKKO:
+            return map.value("otsikko").toString();
         }
     }
     else if( role == Qt::TextAlignmentRole)
@@ -89,10 +94,14 @@ QVariant LaskutModel::data(const QModelIndex &item, int role) const
     }
     else if( role == Qt::TextColorRole && item.column() == ERAPVM)
     {
-        if( kp()->paivamaara().daysTo( lasku.erapvm) < 0 && lasku.avoinSnt )
+        if( kp()->paivamaara().daysTo( map.value("erapvm").toDate() ) < 0 && map.value("avoin") > 0 )
             return QColor(Qt::red);
     }
-    else if( role == Qt::DecorationRole && item.column() == PVM)
+
+
+/*
+
+    if( role == Qt::DecorationRole && item.column() == PVM)
     {
         if( lasku.json.isoluku("Hyvityslasku") )
             return QIcon(":/pic/poista.png");
@@ -108,6 +117,8 @@ QVariant LaskutModel::data(const QModelIndex &item, int role) const
             return QIcon(":/pic/euro.png");
         case LaskuModel::KATEISLASKU :
             return QIcon(":/pic/kateinen.png");
+
+
 
         }
     }
@@ -162,7 +173,7 @@ QVariant LaskutModel::data(const QModelIndex &item, int role) const
         return lasku.summaSnt;
     else if( role == MuistutettuRooli)
         return lasku.muistutettu;
-
+*/
     return QVariant();
 }
 
@@ -179,6 +190,7 @@ QVariant LaskutModel::headerData(int section, Qt::Orientation orientation, int r
         case SUMMA: return tr("Summa");
         case MAKSAMATTA: return tr("Maksamatta");
         case ASIAKAS: return tr("Asiakas");
+        case OTSIKKO: return tr("Otsikko");
         }
     }
     return QVariant();
@@ -196,6 +208,17 @@ void LaskutModel::lataaAvoimet()
 
 void LaskutModel::paivita(int valinta, QDate mista, QDate mihin)
 {
+    KpKysely *kysely = kpk("/myyntilaskut");
+    kysely->lisaaAttribuutti("alkupvm", mista);
+    kysely->lisaaAttribuutti("loppupvm", mihin);
+    if( valinta == AVOIMET)
+        kysely->lisaaAttribuutti("avoin",QString());
+    else if( valinta == ERAANTYNEET)
+        kysely->lisaaAttribuutti("eraantynyt",QString());
+    connect( kysely, &KpKysely::vastaus, this, &LaskutModel::tietoSaapuu);
+    kysely->kysy();
+    return;
+    /*
     QString kysely = QString("SELECT vienti.id, pvm, tili, debetsnt, kreditsnt, eraid, viite, erapvm, vienti.json, tosite, asiakas, laskupvm, kohdennus, tyyppi, selite "
                              "FROM vienti LEFT OUTER JOIN tili ON vienti.tili=tili.id "
                              "WHERE ((viite IS NOT NULL AND iban IS NULL) OR (tyyppi='AO' and vienti.id=vienti.eraid)) ");
@@ -257,6 +280,7 @@ void LaskutModel::paivita(int valinta, QDate mista, QDate mihin)
         laskut.append(lasku);
     }
     endResetModel();
+    */
 }
 
 void LaskutModel::maksa(int indeksi, int senttia)
@@ -315,6 +339,13 @@ QString LaskutModel::bicIbanilla(const QString &iban)
 
     // Tuntematon pankkikoodi
     return QString();
+}
+
+void LaskutModel::tietoSaapuu(QVariant *var)
+{
+    beginResetModel();
+    lista_ = var->toList();
+    endResetModel();
 }
 
 void AvoinLasku::haeLasku(int vientiid)

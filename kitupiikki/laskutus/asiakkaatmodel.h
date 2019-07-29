@@ -39,8 +39,14 @@ public:
 public slots:
     void paivita(bool toimittajat = false);
 
+protected slots:
+    void tietoSaapuu(QVariant* var);
+
 protected:
     QList<AsiakasRivi> rivit_;
+
+    QVariantList lista_;
+
     bool toimittajat_ = false;  /** Näyttää toimittajien tiedot */
 
 

@@ -62,7 +62,7 @@ public:
 
 
     enum Laskuvalinta { KAIKKI, AVOIMET, ERAANTYNEET };
-    enum AvoinLaskuSarake { NUMERO, PVM, ERAPVM, SUMMA, MAKSAMATTA, ASIAKAS };
+    enum AvoinLaskuSarake { NUMERO, PVM, ERAPVM, SUMMA, MAKSAMATTA, ASIAKAS, OTSIKKO };
     enum { TositeRooli = Qt::UserRole + 1 ,
            AvoinnaRooli = Qt::UserRole + 3,
            ViiteRooli = Qt::UserRole + 4,
@@ -107,8 +107,13 @@ public:
      */
     static QString bicIbanilla(const QString& iban);
 
+protected slots:
+    void tietoSaapuu(QVariant* var);
+
 protected:
     QList<AvoinLasku> laskut;
+
+    QVariantList lista_;
 
 };
 

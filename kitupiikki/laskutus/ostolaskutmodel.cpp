@@ -32,7 +32,7 @@ OstolaskutModel::OstolaskutModel(QObject *parent)
 QVariant OstolaskutModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if( role == Qt::DisplayRole && orientation == Qt::Horizontal && section == ASIAKAS)
-        return tr("Laskuttaja Selite");
+        return tr("Laskuttaja");
     return LaskutModel::headerData(section, orientation, role);
 }
 
@@ -40,6 +40,8 @@ QVariant OstolaskutModel::data(const QModelIndex &index, int role) const
 {
     if( role == TyyppiRooli)
         return LaskuModel::OSTOLASKU;
+    if( role == Qt::DisplayRole && index.column() == ASIAKAS)
+        return lista_.at(index.row()).toMap().value("toimittaja");
 
     return LaskutModel::data(index, role);
 }
@@ -51,6 +53,18 @@ void OstolaskutModel::lataaAvoimet()
 
 void OstolaskutModel::paivita(int valinta, QDate mista, QDate mihin)
 {
+
+    KpKysely *kysely = kpk("/ostolaskut");
+    kysely->lisaaAttribuutti("alkupvm", mista);
+    kysely->lisaaAttribuutti("loppupvm", mihin);
+    if( valinta == AVOIMET)
+        kysely->lisaaAttribuutti("avoin",QString());
+    else if( valinta == ERAANTYNEET)
+        kysely->lisaaAttribuutti("eraantynyt",QString());
+    connect( kysely, &KpKysely::vastaus, this, &OstolaskutModel::tietoSaapuu);
+    kysely->kysy();
+    return;
+/*
     QString kysely = QString("SELECT vienti.id, pvm, tili, debetsnt, kreditsnt, eraid, viite, erapvm, vienti.json as json, tosite, asiakas, laskupvm, kohdennus, selite FROM vienti,tili "
                      "WHERE vienti.tili=tili.id AND tili.tyyppi='BO' AND eraid=vienti.id ");
 
@@ -96,6 +110,7 @@ void OstolaskutModel::paivita(int valinta, QDate mista, QDate mihin)
         laskut.append(lasku);
     }
     endResetModel();
+*/
 }
 
 
