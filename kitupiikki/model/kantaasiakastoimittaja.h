@@ -20,7 +20,6 @@
 #include <QObject>
 #include <QVariant>
 
-class AsiakasToimittajaTaydentaja;
 
 class KantaAsiakasToimittaja : public QObject
 {
@@ -42,23 +41,19 @@ public:
     void set(const QString& avain, const QString& arvo);
     void setYTunnus(const QString &tunnus);
 
-    bool muokattu() const { return muokattu_;}
-
-    virtual AsiakasToimittajaTaydentaja* taydentaja() = 0;
 
 signals:
-    void tallennettu();
+    void ladattu();
+    void tallennettu(int id);
 
 public slots:
 
 protected slots:
     void tallennusvalmis(QVariant* var);
-    void vaintallennusvalmis(QVariant* var);
 
 protected:
-    AsiakasToimittajaTaydentaja *taydentaja_ = nullptr;
     QVariantMap data_;
-    bool muokattu_ = false;
+
 };
 
 #endif // KANTAASIAKASTOIMITTAJA_H

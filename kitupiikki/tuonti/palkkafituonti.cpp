@@ -25,7 +25,7 @@
 
 
 PalkkaFiTuonti::PalkkaFiTuonti(KirjausWg *wg)
-    : Tuonti(wg)
+    : VanhaTuonti(wg)
 {
     // Haetaan muuntotaulukko
     QStringList muunnot = kp()->asetukset()->lista("PalkkaFiTuonti");

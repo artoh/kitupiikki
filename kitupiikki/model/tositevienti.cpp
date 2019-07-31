@@ -35,6 +35,36 @@ void TositeVienti::set(int kentta, const QVariant &arvo)
         insert( avaimet__.at(kentta), arvo);
 }
 
+QVariant TositeVienti::tallennettava() const
+{
+    // Tallennettavassa tietoalkioiden (era, toimittaja, asiakas) tilalla on kyseiset id:t
+
+    QVariantMap ulos(*this);
+
+    if( ulos.contains("era"))
+        ulos.insert("eraid", value("era").toMap().value("id").toInt());
+    ulos.remove("era");
+
+    if( ulos.contains("asiakas") && ulos.value("asiakas").toMap().contains("id"))
+        ulos.insert("asiakas", ulos.value("asiakas").toMap().value("id"));
+
+    if( ulos.contains("toimittaja") && ulos.value("toimittaja").toMap().contains("id"))
+        ulos.insert("toimittaja", ulos.value("toimittaja").toMap().value("id"));
+
+
+    return ulos;
+}
+
+int TositeVienti::eraId() const
+{
+    return value("era").toMap().value("id").toInt();
+}
+
+int TositeVienti::asiakasId() const
+{
+    return value("asiakas").toMap().value("id").toInt();
+}
+
 QList<int> TositeVienti::merkkaukset() const
 {
     QList<int> lista;
@@ -125,6 +155,16 @@ void TositeVienti::setArkistotunnus(const QString &tunnus)
     set( ARKISTOTUNNUS, tunnus);
 }
 
+void TositeVienti::setViite(const QString &viite)
+{
+    set( VIITE, viite);
+}
+
+void TositeVienti::setErapaiva(const QDate &erapvm)
+{
+    set( ERAPAIVA, erapvm);
+}
+
 
 
 
@@ -144,5 +184,9 @@ std::map<int,QString> TositeVienti::avaimet__ = {
     { JAKSOALKAA, "jaksoalkaa"},
     { JAKSOLOPPUU, "jaksoloppuu"},
     { ERAID, "eraid"},
-    { ARKISTOTUNNUS, "arkistotunnus"}
+    { ARKISTOTUNNUS, "arkistotunnus"},
+    { VIITE, "viite"},
+    { ERAPAIVA, "erapvm"},
+    { ASIAKAS, "asiakas"},
+    { TOIMITTAJA, "toimittaja"}
 };

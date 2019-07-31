@@ -23,7 +23,6 @@
 #include "model/tositeviennit.h"
 #include "model/asiakas.h"
 #include "model/toimittaja.h"
-#include "model/asiakastoimittajataydentaja.h"
 #include "db/tositetyyppimodel.h"
 #include "kirjaus/kohdennusproxymodel.h"
 #include "rekisteri/asiakasdlg.h"
@@ -31,14 +30,13 @@
 
 #include <QSortFilterProxyModel>
 #include <QDebug>
-#include <QCompleter>
 
 TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     ApuriWidget (parent, tosite),
     ui(new Ui::TuloMenoApuri),
     rivit_(new TmRivit),
-    kohdennusProxy_( new KohdennusProxyModel(this)),
-    asiakasTaydentaja_( new QCompleter(this))
+    kohdennusProxy_( new KohdennusProxyModel(this))
+
 {
     ui->setupUi(this);
 
@@ -53,9 +51,6 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     ui->alkuEdit->setNull();
     ui->loppuEdit->setNull();
     ui->erapaivaEdit->setNull();
-
-    asiakasTaydentaja_->setCaseSensitivity(Qt::CaseInsensitive);
-    ui->toimittajaEdit->setCompleter( asiakasTaydentaja_ );
 
 
     ui->tilellaView->setModel( rivit_);
@@ -87,11 +82,9 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->viiteEdit, &QLineEdit::textChanged, [this] (const QString& text) {this->tosite()->setData(Tosite::VIITE, text);});
     connect( ui->erapaivaEdit, &KpDateEdit::dateChanged, [this] (const QDate& date) {this->tosite()->setData(Tosite::ERAPVM, date);});
 
-    connect( ui->toimittajaEdit, &QLineEdit::textEdited, this, &TuloMenoApuri::valitseAsiakas);
-    connect( ui->toimittajaEdit, &QLineEdit::editingFinished, this, &TuloMenoApuri::valitseAsiakas);
 
     connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::haeKohdennukset );
-    connect( ui->toimittajaButton, &QPushButton::clicked, this, &TuloMenoApuri::muokkaaAsiakasta);
+
 }
 
 TuloMenoApuri::~TuloMenoApuri()
@@ -110,21 +103,14 @@ void TuloMenoApuri::teeReset()
     bool menoa = tosite()->data(Tosite::TYYPPI).toInt() == TositeTyyppi::MENO;
     alusta( menoa );
 
-    ui->viiteEdit->setText( tosite()->data(Tosite::VIITE).toString() );
-    ui->erapaivaEdit->setDate( tosite()->data(Tosite::ERAPVM).toDate());
-
-    if( menoa ) {
-        ui->toimittajaEdit->setText( tosite()->toimittaja()->nimi() );
-    } else {
-        ui->toimittajaEdit->setText( tosite()->asiakas()->nimi() );
-    }
-
     // Haetaan rivien tiedot
 
     QVariantList vientiLista = tosite()->viennit()->viennit().toList();
     if( vientiLista.count())
     {
-        Tili* vastatili = kp()->tilit()->tiliPNumerolla( vientiLista.at(0).toMap().value("tili").toInt() );
+        TositeVienti vastavienti(vientiLista.at(0).toMap());
+
+        Tili* vastatili = kp()->tilit()->tiliPNumerolla( vastavienti.tili());
         if( vastatili ) {
             if( vastatili->onko(TiliLaji::OSTOVELKA) || vastatili->onko(TiliLaji::MYYNTISAATAVA))
                 ui->maksutapaCombo->setCurrentIndex(LASKU);
@@ -132,10 +118,25 @@ void TuloMenoApuri::teeReset()
                 ui->maksutapaCombo->setCurrentIndex(PANKKI);
             else if( vastatili->onko(TiliLaji::KATEINEN))
                 ui->maksutapaCombo->setCurrentIndex(KATEINEN);
-
-            ui->vastatiliCombo->valitseTili( vastatili->numero() );
         }
+        ui->vastatiliCombo->valitseTili( vastatili->numero() );
+
+        ui->viiteEdit->setText( vastavienti.viite());
+        ui->erapaivaEdit->setDate( vastavienti.erapaiva());
+
+        if( menoa )
+            ui->asiakasToimittaja->set( vastavienti.value("toimittaja").toMap().value("id").toInt(),
+                                    vastavienti.value("toimittaja").toMap().value("nimi").toString(), true);
+        else
+            ui->asiakasToimittaja->set( vastavienti.value("asiakas").toMap().value("id").toInt(),
+                                    vastavienti.value("asiakas").toMap().value("nimi").toString());
+
         maksutapaMuuttui();
+    } else {
+        ui->viiteEdit->clear();
+        ui->erapaivaEdit->clear();
+        ui->asiakasToimittaja->clear();
+
     }
     rivit_->clear();
     int rivi = 0;
@@ -226,7 +227,7 @@ void TuloMenoApuri::teeReset()
 }
 
 bool TuloMenoApuri::teeTositteelle()
-{
+{        
     // Lasketaan ensin summa
     qlonglong summa = 0l;
     int riveja = rivit_->rowCount();
@@ -396,11 +397,31 @@ bool TuloMenoApuri::teeTositteelle()
                 vasta.insert("kredit", 0 - summa / 100.0);
         }
         vasta.insert("selite", otsikko);
+
+        if( !ui->viiteEdit->text().isEmpty())
+            vasta.setViite( ui->viiteEdit->text());
+        if( ui->erapaivaEdit->date().isValid())
+            vasta.setErapaiva( ui->erapaivaEdit->date());
+
+        // Asiakas tai toimittaja
+        if( menoa )
+        {
+            if( ui->asiakasToimittaja->id() > 0)
+                vasta.set( TositeVienti::TOIMITTAJA, ui->asiakasToimittaja->id() );
+            else if( ui->asiakasToimittaja->id() == -1 && !ui->asiakasToimittaja->nimi().isEmpty())
+                vasta.insert("uusitoimittaja", ui->asiakasToimittaja->nimi() );
+        } else {
+
+            if( ui->asiakasToimittaja->id() > 0)
+                vasta.set( TositeVienti::ASIAKAS, ui->asiakasToimittaja->id() );
+            else if( ui->asiakasToimittaja->id() == -1 &&  !ui->asiakasToimittaja->nimi().isEmpty())
+                vasta.insert("uusiasiakas", ui->asiakasToimittaja->nimi() );
+        }
+
+        qDebug() << vasta;
+
         viennit.insert(0, vasta);
     }
-
-    if( tosite()->asiakas()->id())
-        tosite()->setData(Tosite::ASIAKAS, tosite()->asiakas()->id());
 
     tosite()->viennit()->asetaViennit(viennit);
 
@@ -585,7 +606,6 @@ void TuloMenoApuri::merkkausMuuttui()
     rivit_->setMerkkaukset( rivilla(), ui->merkkauksetCC->selectedDatas());
     tositteelle();
 
-    qDebug() << "!" << rivit_->merkkaukset( rivilla() );
 }
 
 void TuloMenoApuri::jaksoAlkaaMuuttui()
@@ -656,29 +676,6 @@ void TuloMenoApuri::haeKohdennukset()
 
 }
 
-void TuloMenoApuri::valitseAsiakas()
-{
-    if( tosite()->tyyppi() == TositeTyyppi::TULO )
-        tosite()->asiakas()->valitse( ui->toimittajaEdit->text() );
-    else if( tosite()->tyyppi() == TositeTyyppi::MENO)
-        tosite()->toimittaja()->valitse( ui->toimittajaEdit->text() );
-
-    this->tositteelle();
-}
-
-void TuloMenoApuri::muokkaaAsiakasta()
-{
-    if( tosite()->tyyppi() == TositeTyyppi::TULO) {
-
-        AsiakasDlg dlg(this, tosite()->asiakas());
-        if( dlg.exec() == QDialog::Accepted )
-            ui->toimittajaEdit->setText( tosite()->asiakas()->nimi() );
-    } else if ( tosite()->tyyppi() == TositeTyyppi::MENO) {
-        ToimittajaDlg dlg(this, tosite()->toimittaja());
-        if( dlg.exec() == QDialog::Accepted)
-            ui->toimittajaEdit->setText( tosite()->toimittaja()->nimi() );
-    }
-}
 
 void TuloMenoApuri::alusta(bool meno)
 {
@@ -687,15 +684,12 @@ void TuloMenoApuri::alusta(bool meno)
         ui->tiliLabel->setText( tr("Menotili") );
         ui->tiliEdit->suodataTyypilla("(AP|D).*");
         veroFiltteri_->setFilterRegExp("^(0|2[1-79]|927)");
-        ui->toimittajaLabel->setText( tr("Toimittaja"));
-        asiakasTaydentaja_->setModel( tosite()->toimittaja()->taydentaja());
+        ui->toimittajaLabel->setText( tr("Toimittaja"));        
     } else {
         ui->tiliLabel->setText( tr("Tulotili"));
         ui->tiliEdit->suodataTyypilla("(AP|C).*");
         veroFiltteri_->setFilterRegExp("^(0|1[1-79])");
         ui->toimittajaLabel->setText( tr("Asiakas"));
-        asiakasTaydentaja_->setModel( tosite()->asiakas()->taydentaja() );
-
     }
 
 
@@ -705,6 +699,8 @@ void TuloMenoApuri::alusta(bool meno)
 
     ui->erapaivaEdit->setDateRange(QDate(), QDate());
     ui->loppuEdit->setDateRange( kp()->tilitpaatetty().addDays(1), QDate() );
+
+    ui->asiakasToimittaja->alusta(meno);
 }
 
 int TuloMenoApuri::rivilla() const

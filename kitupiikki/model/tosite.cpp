@@ -31,16 +31,12 @@ Tosite::Tosite(QObject *parent) :
     QObject(parent),
     viennit_(new TositeViennit(this)),
     liitteet_(new TositeLiitteet(this)),
-    loki_( new TositeLoki(this)),
-    asiakas_( new Asiakas(this)),
-    toimittaja_( new Toimittaja(this))
+    loki_( new TositeLoki(this))
 {
     connect( viennit_, &TositeViennit::dataChanged, this, &Tosite::tarkasta );
     connect( viennit_, &TositeViennit::modelReset, this, &Tosite::tarkasta );    
     connect( liitteet(), &TositeLiitteet::liitteetTallennettu, this, &Tosite::liitteetTallennettu);
 
-    connect( asiakas(), &Asiakas::tallennettu, this, &Tosite::asiakasTallennettu);
-    connect( toimittaja(), &Toimittaja::tallennettu, this, &Tosite::asiakasTallennettu);
 }
 
 QVariant Tosite::data(int kentta) const
@@ -80,6 +76,9 @@ void Tosite::lataa(int tositeid)
 
 void Tosite::lataaData(QVariant *variant)
 {
+
+    qDebug() << "LATAAN" << *variant;
+
     resetointiKaynnissa_ = true;
     data_ = variant->toMap();
 
@@ -87,38 +86,40 @@ void Tosite::lataaData(QVariant *variant)
     loki()->lataa( data_.take("loki").toList());
     liitteet()->lataa( data_.take("liitteet").toList());
 
-    asiakas()->lataa( data_.take("asiakas").toMap());
-    toimittaja_->lataa( data_.take("toimittaja").toMap());
-
-
-    // toimittaja/asiakastiedot, liitteet ja loki
-
     emit ladattu();
     tallennettu_ = tallennettava();
     resetointiKaynnissa_ = false;
+
+    qDebug() << "Tarkastetaan..";
+
     tarkasta();
 
+    qDebug() << "LADATTU";
 }
 
 void Tosite::tallenna(int tilaan)
 {
     setData( TILA, tilaan );
 
-    // Ensimmäisenä tallennetaan mahdollisesti muokattu asiakas / toimittaja
+    KpKysely* kysely;
+    if( data(ID).isNull())
+        kysely = kpk( "/tositteet/", KpKysely::POST);
+    else
+        kysely = kpk( QString("/tositteet/%1").arg( data(ID).toInt() ), KpKysely::PUT);
 
-    if( tyyppi() == TositeTyyppi::TULO && asiakas()->muokattu()) {
-        asiakas()->tallenna(true);
-    } else if( tyyppi() == TositeTyyppi::MENO && toimittaja()->muokattu() ) {
-        toimittaja()->tallenna(true);
-    } else {
-        asiakasTallennettu();
-    }
+
+    connect(kysely, &KpKysely::vastaus, this, &Tosite::tallennusValmis  );
+    connect(kysely, &KpKysely::virhe, this, &Tosite::tallennuksessaVirhe);
+
+    kysely->kysy( tallennettava() );
+
 }
 
 void Tosite::tarkasta()
 {
     if( resetointiKaynnissa_)
         return;
+
 
     bool muutettu = tallennettu_ != tallennettava();
 
@@ -151,8 +152,6 @@ void Tosite::nollaa(const QDate &pvm, int tyyppi)
     data_.clear();
     viennit_->asetaViennit(QVariantList());
     liitteet()->clear();
-    asiakas()->clear();
-    toimittaja()->clear();
     data_.insert( avaimet__.at(PVM), pvm );
     data_.insert( avaimet__.at(TYYPPI), tyyppi);
     emit ladattu();
@@ -160,25 +159,6 @@ void Tosite::nollaa(const QDate &pvm, int tyyppi)
     tallennettu_ = tallennettava();
     resetointiKaynnissa_ = false;
     tarkasta();
-
-}
-
-void Tosite::asiakasTallennettu()
-{
-
-    KpKysely* kysely;
-    if( data(ID).isNull())
-        kysely = kpk( "/tositteet/", KpKysely::POST);
-    else
-        kysely = kpk( QString("/tositteet/%1").arg( data(ID).toInt() ), KpKysely::PUT);
-
-
-    qDebug() << QJsonDocument::fromVariant(tallennettava() );
-
-    connect(kysely, &KpKysely::vastaus, this, &Tosite::tallennusValmis  );
-    connect(kysely, &KpKysely::virhe, this, &Tosite::tallennuksessaVirhe);
-
-    kysely->kysy( tallennettava() );
 
 }
 
@@ -208,14 +188,10 @@ void Tosite::liitteetTallennettu()
     emit talletettu( data(ID).toInt(), data(TUNNISTE).toInt(), tallennettu_.value( avaimet__.at(PVM) ).toDate() );
 }
 
-QVariantMap Tosite::tallennettava()
+QVariantMap Tosite::tallennettava() const
 {
     QVariantMap map(data_);
-    map.insert("viennit", viennit()->viennit());
-    if( tyyppi() == TositeTyyppi::TULO &&  asiakas()->id() )
-        map.insert( avaimet__.at(ASIAKAS), asiakas()->id() );
-    else if( tyyppi() == TositeTyyppi::MENO && toimittaja()->id())
-        map.insert( avaimet__.at(TOIMITTAJA), toimittaja()->id());
+    map.insert("viennit", viennit_->tallennettavat());
 
     return map;
 }

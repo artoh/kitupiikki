@@ -24,43 +24,31 @@
 #include "ibandelegaatti.h"
 #include "validator/ytunnusvalidator.h"
 
+#include "db/kirjanpito.h"
+
 #include <QListWidgetItem>
 
-ToimittajaDlg::ToimittajaDlg(QWidget *parent, Toimittaja *toimittaja) :
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QJsonDocument>
+
+ToimittajaDlg::ToimittajaDlg(QWidget *parent) :
     QDialog (parent),
     ui(new Ui::ToimittajaDlg),
-    toimittaja_(toimittaja)
+    toimittaja_(new Toimittaja(this))
 {
     ui->setupUi(this);
-
-    ui->nimiEdit->setText( toimittaja->nimi());
-    ui->maaCombo->setModel( new MaaModel(this));
-    QString maa = toimittaja->maa();
-
-    ui->maaCombo->setCurrentIndex( ui->maaCombo->findData(maa, MaaModel::KoodiRooli));
-
     ui->yEdit->setValidator(new YTunnusValidator(false));
-
-    if( maa == "fi")
-        ui->yEdit->setText( toimittaja->ytunnus());
-    else
-        ui->alvEdit->setText(toimittaja->alvtunnus());
-
-    ui->emailEdit->setText( toimittaja->email());
-    ui->osoiteEdit->setPlainText( toimittaja->osoite());
-    ui->postinumeroEdit->setText( toimittaja->postinumero());
-    ui->kaupunkiEdit->setText( toimittaja->kaupunki());
-
-    ui->tilitLista->setItemDelegate( new IbanDelegaatti() );
-
-    for(auto tili : toimittaja->tilit()) {
-        QListWidgetItem* item = new QListWidgetItem(tili, ui->tilitLista);
-        item->setFlags( item->flags() | Qt::ItemIsEditable );
-    }
 
     connect( ui->postinumeroEdit, &QLineEdit::textChanged, this, &ToimittajaDlg::haeToimipaikka);
     connect( ui->maaCombo, &QComboBox::currentTextChanged, this, &ToimittajaDlg::maaMuuttui);
     connect( ui->tilitLista, &QListWidget::itemChanged, this, &ToimittajaDlg::tarkastaTilit);
+
+    connect( ui->yEdit, &QLineEdit::textEdited, this, &ToimittajaDlg::haeYTunnarilla);
+    connect( ui->yEdit, &QLineEdit::editingFinished, this, &ToimittajaDlg::haeYTunnarilla);
+
+    connect( toimittaja_, &Toimittaja::ladattu, this, &ToimittajaDlg::toimittajaLadattu);
+    connect( toimittaja_, &Toimittaja::tallennettu, this, &ToimittajaDlg::tallennettu);
 
     maaMuuttui();
     tarkastaTilit();
@@ -69,6 +57,18 @@ ToimittajaDlg::ToimittajaDlg(QWidget *parent, Toimittaja *toimittaja) :
 ToimittajaDlg::~ToimittajaDlg()
 {
     delete ui;
+}
+
+void ToimittajaDlg::muokkaa(int id)
+{
+    toimittaja_->lataa(id);
+}
+
+void ToimittajaDlg::uusi(const QString &nimi)
+{
+    toimittaja_->clear();
+    toimittaja_->set("nimi",nimi);
+    toimittajaLadattu();
 }
 
 void ToimittajaDlg::tarkastaTilit()
@@ -103,6 +103,7 @@ void ToimittajaDlg::haeToimipaikka()
 
 void ToimittajaDlg::accept()
 {
+
     toimittaja_->set("nimi", ui->nimiEdit->text());
     QString maa = ui->maaCombo->currentData(MaaModel::KoodiRooli).toString();
     toimittaja_->set("maa", maa);
@@ -123,8 +124,69 @@ void ToimittajaDlg::accept()
             tililista.append( ui->tilitLista->item(i)->data(Qt::EditRole).toString() );
     toimittaja_->setTilit(tililista);
 
-    toimittaja_->tallenna(false);
+    toimittaja_->tallenna();
 
+}
+
+void ToimittajaDlg::toimittajaLadattu()
+{
+    ui->nimiEdit->setText( toimittaja_->nimi());
+    ui->maaCombo->setModel( new MaaModel(this));
+    QString maa = toimittaja_->maa();
+
+    ui->maaCombo->setCurrentIndex( ui->maaCombo->findData(maa, MaaModel::KoodiRooli));
+
+    if( maa == "fi")
+        ui->yEdit->setText( toimittaja_->ytunnus());
+    else
+        ui->alvEdit->setText(toimittaja_->alvtunnus());
+
+    ui->emailEdit->setText( toimittaja_->email());
+    ui->osoiteEdit->setPlainText( toimittaja_->osoite());
+    ui->postinumeroEdit->setText( toimittaja_->postinumero());
+    ui->kaupunkiEdit->setText( toimittaja_->kaupunki());
+
+    ui->tilitLista->setItemDelegate( new IbanDelegaatti() );
+
+    for(auto tili : toimittaja_->tilit()) {
+        QListWidgetItem* item = new QListWidgetItem(tili, ui->tilitLista);
+        item->setFlags( item->flags() | Qt::ItemIsEditable );
+    }
+
+    exec();
+
+}
+
+void ToimittajaDlg::tallennettu(int id)
+{
     QDialog::accept();
+    emit toimittajaTallennettu(id, ui->nimiEdit->text());
+}
+
+void ToimittajaDlg::haeYTunnarilla()
+{
+    if( ui->yEdit->hasAcceptableInput() ) {
+        QNetworkRequest request( QUrl("http://avoindata.prh.fi/bis/v1/" + ui->yEdit->text()));
+        QNetworkReply *reply = kp()->networkManager()->get(request);
+        connect( reply, &QNetworkReply::finished, this, &ToimittajaDlg::yTietoSaapuu);
+    }
+}
+
+void ToimittajaDlg::yTietoSaapuu()
+{
+    QNetworkReply *reply = qobject_cast<QNetworkReply*>( sender());
+    QVariant var = QJsonDocument::fromJson( reply->readAll() ).toVariant();
+    if( var.toMap().value("results").toList().isEmpty())
+        return;
+
+    QVariantMap tieto = var.toMap().value("results").toList().first().toMap();
+
+
+    ui->nimiEdit->setText( tieto.value("name").toString() );
+    QVariantMap osoite = tieto.value("addresses").toList().first().toMap();
+    ui->osoiteEdit->setPlainText( osoite.value("street").toString() );
+    ui->postinumeroEdit->setText( osoite.value("postCode").toString() );
+    ui->kaupunkiEdit->setText( osoite.value("city").toString());
+
 
 }

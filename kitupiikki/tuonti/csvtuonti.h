@@ -20,13 +20,13 @@
 
 #include <QStringList>
 
-#include "tuonti.h"
+#include "vanhatuonti.h"
 #include "ui_csvtuontidlg.h"
 
 /**
  * @brief csv-tiedoston tuominen
  */
-class CsvTuonti : public QDialog, Tuonti
+class CsvTuonti : public QDialog, VanhaTuonti
 {
     Q_OBJECT
 public:

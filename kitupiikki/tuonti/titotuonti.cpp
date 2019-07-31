@@ -19,7 +19,7 @@
 
 
 TitoTuonti::TitoTuonti(KirjausWg *wg) :
-    Tuonti( wg )
+    VanhaTuonti( wg )
 {
 
 }

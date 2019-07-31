@@ -19,7 +19,6 @@
 
 #include "kantaasiakastoimittaja.h"
 
-class AsiakasToimittajaTaydentaja;
 
 class Asiakas : public KantaAsiakasToimittaja
 {
@@ -30,16 +29,12 @@ public:
     QString ovt() const { return data_.value("ovt").toString();}
     QString operaattori() const { return data_.value("operaattori").toString();}
 
-    AsiakasToimittajaTaydentaja* taydentaja();
-
-signals:
 
 
 public slots:
-    void lataa(QVariantMap data);
-    void valitse(const QString& nimi);
+    void lataa(int id);
     void clear();
-    void tallenna(bool tositteentallennus = false);
+    void tallenna();
 
 protected:
 

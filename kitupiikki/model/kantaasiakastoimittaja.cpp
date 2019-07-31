@@ -58,14 +58,9 @@ void KantaAsiakasToimittaja::setYTunnus(const QString &tunnus)
 }
 
 void KantaAsiakasToimittaja::tallennusvalmis(QVariant *var)
-{
-    vaintallennusvalmis( var );
-    emit tallennettu();
-}
-
-void KantaAsiakasToimittaja::vaintallennusvalmis(QVariant *var)
-{
+{    
     QVariantMap map = var->toMap();
-    data_.insert("id", map.value("id").toInt());
-    muokattu_ = false;
+    int id = map.value("id").toInt();
+    data_.insert("id", id);
+    emit tallennettu( id );
 }

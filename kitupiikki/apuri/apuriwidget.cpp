@@ -19,19 +19,21 @@
 
 ApuriWidget::ApuriWidget(QWidget *parent, Tosite *pTosite) : QWidget(parent), pTosite_(pTosite)
 {
-    connect( pTosite, &Tosite::ladattu, this, &ApuriWidget::reset);
+   // connect( pTosite, &Tosite::ladattu, this, &ApuriWidget::reset);
 }
 
 void ApuriWidget::reset()
 {
-    resetointiKaynnissa_ = true;
-    teeReset();
-    resetointiKaynnissa_ = false;
+    if(!resetointiKaynnissa_) {
+        resetointiKaynnissa_ = true;
+        teeReset();
+        resetointiKaynnissa_ = false;
+    }
 }
 
 bool ApuriWidget::tositteelle()
 {
-    if( resetointiKaynnissa_)
+    if( resetointiKaynnissa_ || tosite()->resetoidaanko())
         return false;
     return teeTositteelle();
 }

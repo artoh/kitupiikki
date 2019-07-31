@@ -43,7 +43,7 @@ protected:
     virtual bool teeTositteelle() = 0;
 
     void aloitaResetointi();
-    void lopetaResetointi();
+    void lopetaResetointi();    
 
 protected:
     Tosite* pTosite_;

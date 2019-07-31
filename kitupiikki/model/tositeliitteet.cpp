@@ -17,6 +17,8 @@
 #include "tositeliitteet.h"
 #include "db/kirjanpito.h"
 
+#include "tuonti/tuonti.h"
+
 #include <QIcon>
 #include <QFile>
 #include <QMessageBox>
@@ -90,6 +92,9 @@ bool TositeLiitteet::lisaa(const QByteArray &sisalto, const QString &nimi)
     beginInsertRows( QModelIndex(), liitteet_.count(), liitteet_.count() );
     liitteet_.append( TositeLiite(0, nimi, sisalto) );
     endInsertRows();
+
+    // Käsitellään tuonti
+    qDebug() << "*Tuonti*:" << Tuonti::tuo(sisalto);
 
     return true;
 }

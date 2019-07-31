@@ -10,7 +10,6 @@ SOURCES += uusikp/uusikirjanpito.cpp \
     $$PWD/db/yhteysmodel.cpp \
     $$PWD/kirjaus/tallennettuwidget.cpp \
     $$PWD/model/asiakas.cpp \
-    $$PWD/model/asiakastoimittajataydentaja.cpp \
     $$PWD/model/kantaasiakastoimittaja.cpp \
     $$PWD/model/toimittaja.cpp \
     $$PWD/model/tosite.cpp \
@@ -18,6 +17,7 @@ SOURCES += uusikp/uusikirjanpito.cpp \
     $$PWD/model/tositeloki.cpp \
     $$PWD/model/tositeviennit.cpp \
     $$PWD/model/tositevienti.cpp \
+    $$PWD/rekisteri/asiakastoimittajataydentaja.cpp \
     $$PWD/rekisteri/ibandelegaatti.cpp \
     $$PWD/rekisteri/maamodel.cpp \
     $$PWD/rekisteri/postinumerot.cpp \
@@ -25,6 +25,8 @@ SOURCES += uusikp/uusikirjanpito.cpp \
     $$PWD/tools/checkcombo.cpp \
     $$PWD/tools/kpeuroedit.cpp \
     $$PWD/tools/tilicombo.cpp \
+    $$PWD/tuonti/tuonti.cpp \
+    $$PWD/tuonti/vanhatuonti.cpp \
     uusikp/introsivu.cpp \
     uusikp/nimisivu.cpp \
     uusikp/tilikarttasivu.cpp \
@@ -122,7 +124,6 @@ SOURCES += uusikp/uusikirjanpito.cpp \
     maaritys/tilikarttaohje.cpp \
     uusikp/paivitakirjanpito.cpp \
     arkisto/tararkisto.cpp \
-    tuonti/tuonti.cpp \
     tuonti/pdftuonti.cpp \
     validator/viitevalidator.cpp \
     validator/ibanvalidator.cpp \
@@ -195,7 +196,8 @@ SOURCES += uusikp/uusikirjanpito.cpp \
     pilvi/pilvilogindlg.cpp \
     sqlite/sqlitemodel.cpp \
     rekisteri/asiakasdlg.cpp\
-    apuri/tiliotekirjaaja.cpp
+    apuri/tiliotekirjaaja.cpp\
+    rekisteri/asiakastoimittajavalinta.cpp
 
 HEADERS += \
     $$PWD/apuri/apuriwidget.h \
@@ -209,7 +211,6 @@ HEADERS += \
     $$PWD/db/yhteysmodel.h \
     $$PWD/kirjaus/tallennettuwidget.h \
     $$PWD/model/asiakas.h \
-    $$PWD/model/asiakastoimittajataydentaja.h \
     $$PWD/model/kantaasiakastoimittaja.h \
     $$PWD/model/toimittaja.h \
     $$PWD/model/tosite.h \
@@ -217,6 +218,7 @@ HEADERS += \
     $$PWD/model/tositeloki.h \
     $$PWD/model/tositeviennit.h \
     $$PWD/model/tositevienti.h \
+    $$PWD/rekisteri/asiakastoimittajataydentaja.h \
     $$PWD/rekisteri/ibandelegaatti.h \
     $$PWD/rekisteri/maamodel.h \
     $$PWD/rekisteri/postinumerot.h \
@@ -224,6 +226,8 @@ HEADERS += \
     $$PWD/tools/checkcombo.h \
     $$PWD/tools/kpeuroedit.h \
     $$PWD/tools/tilicombo.h \
+    $$PWD/tuonti/tuonti.h \
+    $$PWD/tuonti/vanhatuonti.h \
     uusikp/uusikirjanpito.h \
     uusikp/introsivu.h \
     uusikp/nimisivu.h \
@@ -323,7 +327,6 @@ HEADERS += \
     uusikp/paivitakirjanpito.h \
     arkisto/tararkisto.h \
     tuonti/pdftuonti.h \
-    tuonti/tuonti.h \
     validator/viitevalidator.h \
     validator/ibanvalidator.h \
     raportti/laskuraportti.h \
@@ -396,7 +399,8 @@ HEADERS += \
     pilvi/pilvilogindlg.h \
     sqlite/sqlitemodel.h \
     rekisteri/asiakasdlg.h \
-    apuri/tiliotekirjaaja.h
+    apuri/tiliotekirjaaja.h \
+    rekisteri/asiakastoimittajavalinta.h
 
 RESOURCES += \
     tilikartat/tilikartat.qrc \

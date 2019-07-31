@@ -60,9 +60,6 @@ protected slots:
     void haeRivi(const QModelIndex& index);
     void haeKohdennukset();
 
-    void valitseAsiakas();
-    void muokkaaAsiakasta();
-
 protected:
     void teeReset() override;
     bool teeTositteelle() override;
@@ -82,7 +79,6 @@ private:
     QSortFilterProxyModel* veroFiltteri_;
     KohdennusProxyModel* kohdennusProxy_;
 
-    QCompleter* asiakasTaydentaja_;
 };
 
 #endif // TULOMENOAPURI_H

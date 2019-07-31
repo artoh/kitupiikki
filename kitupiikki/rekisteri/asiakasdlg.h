@@ -30,11 +30,21 @@ class AsiakasDlg : public QDialog
     Q_OBJECT
 
 public:
-    AsiakasDlg(QWidget *parent, Asiakas* asiakas);
+    AsiakasDlg(QWidget *parent);
     ~AsiakasDlg() override;
 
+
 public slots:
+    void muokkaa(int id);
+    void uusi(const QString& nimi);
+
+signals:
+    void asiakasTallennettu(int id, const QString& nimi);
+
+private slots:
     void accept() override;
+    void asiakasLadattu();
+    void tallennettu(int id);
 
 private slots:
     void maaMuuttui();
@@ -44,6 +54,7 @@ private slots:
 private:
     Ui::AsiakasDlg *ui;
     Asiakas* asiakas_;
+
 };
 
 #endif // ASIAKASDLG_H

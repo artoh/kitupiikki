@@ -78,8 +78,8 @@ public:
     TositeViennit* viennit() { return viennit_; }
     TositeLiitteet* liitteet() { return liitteet_;}
     TositeLoki* loki() { return loki_;}
-    Asiakas* asiakas() { return  asiakas_;}
-    Toimittaja* toimittaja() { return toimittaja_;}
+
+    bool resetoidaanko() const { return resetointiKaynnissa_; }
 
     static QString tilateksti(int tila);
 
@@ -98,7 +98,6 @@ public slots:
     void nollaa(const QDate& pvm, int tyyppi);
 
 protected slots:
-    void asiakasTallennettu();
     void tallennusValmis(QVariant *variant);
     void tallennuksessaVirhe(int virhe);
     void liitteetTallennettu();
@@ -108,7 +107,7 @@ private:
      * @brief Tiedot tallennettavassa muodossa
      * @return
      */
-    QVariantMap tallennettava();
+    QVariantMap tallennettava() const;
 
 private:
     QVariantMap data_;
@@ -117,8 +116,6 @@ private:
     TositeViennit* viennit_;
     TositeLiitteet* liitteet_;
     TositeLoki* loki_;
-    Asiakas* asiakas_;
-    Toimittaja* toimittaja_;
 
     bool resetointiKaynnissa_ = false;
 

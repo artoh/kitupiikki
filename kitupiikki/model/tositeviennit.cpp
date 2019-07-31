@@ -360,6 +360,16 @@ void TositeViennit::asetaViennit(QVariantList viennit)
     qDebug() << viennit_;
 }
 
+QVariant TositeViennit::tallennettavat() const
+{
+    QVariantList ulos;
+    for( auto vienti : viennit_) {
+        TositeVienti tv(vienti.toMap());
+        ulos.append( tv.tallennettava());
+    }
+    return ulos;
+}
+
 void TositeViennit::asetaMuokattavissa(bool muokattavissa)
 {
     muokattavissa_ = muokattavissa;

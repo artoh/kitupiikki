@@ -33,49 +33,49 @@
 
 #include "validator/ibanvalidator.h"
 #include "validator/viitevalidator.h"
+#include "validator/ytunnusvalidator.h"
 #include "tuontiapu.h"
 
 #include "db/kirjanpito.h"
+#include "db/tositetyyppimodel.h"
 
-PdfTuonti::PdfTuonti(KirjausWg *wg) :
-    Tuonti( wg )
+namespace Tuonti {
+
+
+
+PdfTuonti::PdfTuonti()
 {
 
 }
 
-bool PdfTuonti::tuo(const QByteArray &data)
+QVariantMap PdfTuonti::tuo(const QByteArray &data)
 {
 
     Poppler::Document *pdfDoc = Poppler::Document::loadFromData( data );
+    PdfTuonti tuonti;
 
     if( pdfDoc )
     {
-        haeTekstit(pdfDoc);
+        tuonti.haeTekstit(pdfDoc);
 
-        if( etsi("hyvityslasku",0,30))
+        if( tuonti.etsi("hyvityslasku",0,30))
             {;}    // Hyvityslaskulle ei automaattista käsittelyä
-        else if( etsi("lasku",0,30) && kp()->asetukset()->luku("TuontiOstolaskuPeruste"))
-            tuoPdfLasku();
-        else if( etsi("tiliote",0,30) )
-            tuoPdfTiliote();
+        else if( tuonti.etsi("lasku",0,30) /* && kp()->asetukset()->luku("TuontiOstolaskuPeruste") */)
+            return tuonti.tuoPdfLasku();
+        else if( tuonti.etsi("tiliote",0,30) )
+            return tuonti.tuoPdfTiliote();
 
     }
 
     delete pdfDoc;
-    return true;
+    return QVariantMap();
 }
 
-void PdfTuonti::tuoPdfLasku()
+QVariantMap PdfTuonti::tuoPdfLasku()
 {
-
-    QString tilinro;
-    QString saaja;
-    QString viite;
-    QDate erapvm;
-    qlonglong sentit = 0;
-    QDate laskupvm;
-    QDate toimituspvm;
-
+    QVariantMap data;
+    data.insert("tyyppi", TositeTyyppi::MENO );
+    QSet<QString> ibanit;
 
     // Tutkitaan, onko tässä tilisiirtolomaketta
     if( etsi("Saajan", 125, 150, 0, 15) &&
@@ -95,9 +95,9 @@ void PdfTuonti::tuoPdfLasku()
             if( ibanRe.match(t).hasMatch())
             {
                 QString poimittu = ibanRe.match(t).captured(0);
-                if( tilinro.isEmpty() &&  IbanValidator::kelpaako(poimittu) )
+                if( !data.contains("tilinumero")  &&  IbanValidator::kelpaako(poimittu) )
                 {
-                    tilinro = poimittu.remove(QRegularExpression("\\s"));
+                    ibanit.insert( poimittu.remove(QRegularExpression("\\s")));
                     break;
                 }
             }
@@ -107,7 +107,7 @@ void PdfTuonti::tuoPdfLasku()
         {
             if( t.length() > 5 && !t.contains(ibanRe))
             {
-                saaja = t;
+                data.insert("toimittajanimi", t);
                 break;
             }
         }
@@ -117,9 +117,9 @@ void PdfTuonti::tuoPdfLasku()
 
         for( QString t : haeLahelta( viitesijainti / 100, viitesijainti % 100, 20, 60) )
         {
-            if( viite.isEmpty() && ViiteValidator::kelpaako(t) )
+            if(  !data.contains("viite")  && ViiteValidator::kelpaako(t) )
             {
-                viite = t.remove(QRegularExpression("\\s"));
+                data.insert("viite", t.remove(QRegularExpression("\\s")));
                 break;
             }
         }
@@ -130,7 +130,7 @@ void PdfTuonti::tuoPdfLasku()
             QDate pvm = QDate::fromString(t,"dd.M.yyyy");
             if( pvm.isValid())
             {
-                erapvm = pvm;
+                data.insert("erapvm", pvm);
                 break;
             }
         }
@@ -140,7 +140,7 @@ void PdfTuonti::tuoPdfLasku()
         {
             if( TuontiApu::sentteina(t))
             {
-                sentit = TuontiApu::sentteina(t);
+                data.insert("summa", TuontiApu::sentteina(t) / 100.0);
                 break;
             }
         }
@@ -157,7 +157,7 @@ void PdfTuonti::tuoPdfLasku()
             QDate pvm = QDate::fromString(t,"dd.M.yyyy");
             if( pvm.isValid())
             {
-                toimituspvm = pvm;
+                data.insert("toimituspvm", pvm);
                 break;
             }
         }
@@ -170,13 +170,13 @@ void PdfTuonti::tuoPdfLasku()
             QDate pvm = QDate::fromString(t,"dd.M.yyyy");
             if( pvm.isValid())
             {
-                laskupvm = pvm;
+                data.insert("laskupvm", pvm);
                 break;
             }
         }
     }
 
-    if( !erapvm.isValid() && etsi("Eräp"))
+    if( !data.contains("erapvm") && etsi("Eräp"))
     {
         int erapvmsijainti = etsi("Eräp");
         for( const QString& t : haeLahelta( erapvmsijainti / 100, erapvmsijainti % 100, 10, 60) )
@@ -184,24 +184,24 @@ void PdfTuonti::tuoPdfLasku()
             QDate pvm = QDate::fromString(t,"dd.M.yyyy");
             if( pvm.isValid())
             {
-                erapvm = pvm;
+                data.insert("erapvm", pvm);
                 break;
             }
         }
     }
-    if( viite.isEmpty() && etsi("viite"))
+    if( !data.contains("viite")  && etsi("viite"))
     {
         int viitesijainti = etsi("viite");        
         for( QString t : haeLahelta( viitesijainti / 100, viitesijainti % 100, 10, 60) )
         {
             if( ViiteValidator::kelpaako(t) )
             {
-                viite = t.remove(QRegularExpression("\\s"));
+                data.insert("viite", t.remove(QRegularExpression("\\s")));
                 break;
             }
         }
     }
-    if( tilinro.isEmpty() && etsi("IBAN"))
+    if( etsi("IBAN"))
     {
         int ibansijainti = etsi("IBAN");
 
@@ -214,17 +214,16 @@ void PdfTuonti::tuoPdfLasku()
                 QString tilinro = ibanRe.match(t).captured(0);
                 if( IbanValidator::kelpaako(t))
                 {
-                    tilinro = t.remove("\\s");
-                    break;
+                    ibanit.insert( t.remove("\\s"));
                 }
             }
         }
     }
-    if( saaja.isEmpty() && tekstit_.isEmpty())
+    if( !data.contains("toimittajanimi") && tekstit_.isEmpty())
     {
-        saaja = tekstit_.values().first();
+        data.insert("toimittajanimi",  tekstit_.values().first());
     }
-    if( !sentit )
+    if( !data.contains("summa") )
     {
         QRegularExpression rahaRe("^\\d{1,10}[,.]\\d{2}$");
         // Etsitään isoin senttiluku
@@ -232,19 +231,47 @@ void PdfTuonti::tuoPdfLasku()
         {
             if( rahaRe.match(teksti).hasMatch())
             {
-                qlonglong rahaa = TuontiApu::sentteina( rahaRe.match(teksti).captured(0) );
-                if( rahaa > sentit)
-                    sentit = rahaa;
+                double rahaa = TuontiApu::sentteina( rahaRe.match(teksti).captured(0) ) / 100.0;
+                if( rahaa > data.value("summa").toDouble() )
+                    data.insert("summa", rahaa);
             }
         }
     }
 
-    tuoLasku( sentit, laskupvm, toimituspvm, erapvm, viite, tilinro, saaja);
+    // Etsitään vielä y-tunnus
+    QRegularExpression ytunnusRe("\\d{7}-\\d");
+    for(auto teksti : tekstit_.values())
+    {
+        if( ytunnusRe.match(teksti).hasMatch())
+        {
+            QString tunnari = ytunnusRe.match(teksti).capturedTexts().first();
+            if( YTunnusValidator::kelpaako(tunnari) &&
+                    tunnari != kp()->asetukset()->asetus("Ytunnus"))
+            {
+                data.insert("toimittajaytunnus", tunnari);
+                break;
+            }
+        }
+    }
+
+    if( !ibanit.isEmpty()) {
+        QVariantList ibanlista;
+        for(QString str : ibanit.toList())
+            ibanlista << str;
+        data.insert("iban", ibanlista);
+    }
+
+    return data;
+
+
 
 }
 
-void PdfTuonti::tuoPdfTiliote()
+QVariantMap PdfTuonti::tuoPdfTiliote()
 {
+    return QVariantMap();
+    /*
+
     // Ensin etsitään tilinumero ja tilikausi
     QString tilinumero;
     QDate mista;
@@ -299,7 +326,7 @@ void PdfTuonti::tuoPdfTiliote()
     kirjausPvmRe.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
 
     tuoTiliTapahtumat( kokoteksti.contains( kirjausPvmRe) , mihin.year());
-
+    */
 }
 
 void PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuosiluku = QDate::currentDate().year())
@@ -402,8 +429,8 @@ void PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuosiluku = 
             if( (teksti.contains(kirjausPvmRe) || teksti.contains(rahaRe) ) &&
                 maara && !arkistotunnus.isEmpty())
             {
-                if( kirjauspvm.isValid())
-                    oterivi(kirjauspvm, maara, iban, viite, arkistotunnus, selite);
+//                if( kirjauspvm.isValid())
+//                    oterivi(kirjauspvm, maara, iban, viite, arkistotunnus, selite);
 
                 maara = 0;
                 iban.clear();
@@ -639,4 +666,4 @@ int PdfTuonti::etsi(const QString& teksti, int alkukorkeus, int loppukorkeus, in
     return 0;
 }
 
-
+}

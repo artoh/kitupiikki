@@ -30,15 +30,12 @@ public:
     QStringList tilit() const { return tilit_;}
     void setTilit(const QStringList& lista);
 
-    AsiakasToimittajaTaydentaja* taydentaja() override;
-
 signals:
 
 public slots:
-    void lataa(QVariantMap data);
-    void valitse(const QString& nimi);
+    void lataa(int id);
     void clear();
-    void tallenna(bool tositteentallennus = false);
+    void tallenna();
 
 protected:
     QStringList tilit_;    

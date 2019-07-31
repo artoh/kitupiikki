@@ -54,7 +54,7 @@
 #include "db/kirjanpito.h"
 #include "laskutus/laskunmaksudialogi.h"
 
-#include "tuonti/tuonti.h"
+#include "tuonti/vanhatuonti.h"
 #include "apurivinkki.h"
 #include "ui_numerosiirto.h"
 #include "naytin/naytinikkuna.h"
@@ -559,7 +559,7 @@ void KirjausWg::lisaaLiite(const QString& polku)
         // PDF-tiedosto tuodaan kuitenkin vain tyhjälle tositteelle
         // Tämä siksi, että pdf-tiliote voidaan tuoda csv-tilitietojen tositteeksi
         if( !(polku.endsWith(".pdf",Qt::CaseInsensitive)
-             && tosite()->liitteet()->rowCount() ) &&  !Tuonti::tuo(polku, this))
+             && tosite()->liitteet()->rowCount() ) &&  !VanhaTuonti::tuo(polku, this))
             return;
 
         QFileInfo info(polku);
@@ -588,6 +588,11 @@ void KirjausWg::lisaaLiiteDatasta(const QByteArray &data, const QString &nimi)
 void KirjausWg::tiedotModelista()
 {
 
+    qDebug() << "TM" ;
+    ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( tosite_->data(Tosite::TYYPPI).toInt(), TositeTyyppiModel::KoodiRooli ) );
+    qDebug() << "TM2" ;
+
+
     QDate tositepvm = tosite_->data(Tosite::PVM).toDate();
 
     ui->tositePvmEdit->setDate( tositepvm );
@@ -611,10 +616,10 @@ void KirjausWg::tiedotModelista()
         ui->seuraavaButton->setVisible(false);
     }
 
-    ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( tosite_->data(Tosite::TYYPPI).toInt(), TositeTyyppiModel::KoodiRooli ) );
 
     if( apuri_ )
         apuri_->reset();
+
 
 }
 
@@ -649,6 +654,8 @@ void KirjausWg::vaihdaTositeTyyppi()
         apuri_->deleteLater();
     }
     apuri_ = nullptr;
+
+
     ui->tabWidget->setTabEnabled( ui->tabWidget->indexOf(viennitTab_) , tyyppiKoodi != TositeTyyppi::LIITETIETO);
     ui->tabWidget->setTabEnabled( ui->tabWidget->indexOf(varastoTab_), tyyppiKoodi != TositeTyyppi::LIITETIETO);
     ui->tiliotetiliCombo->setVisible( tyyppiKoodi == TositeTyyppi::TILIOTE );

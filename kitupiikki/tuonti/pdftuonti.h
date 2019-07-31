@@ -20,21 +20,25 @@
 
 #include <QMap>
 
-#include "tuonti.h"
+#include "vanhatuonti.h"
 
 namespace Poppler {
   class Document;
 }
 
+namespace Tuonti {
+
+
+
 /**
  * @brief Pdf-tiedoston tietojen poiminta
  */
-class PdfTuonti : public Tuonti
+class PdfTuonti
 {
 public:
-    PdfTuonti(KirjausWg *wg);
+    PdfTuonti();
 
-    bool tuo(const QByteArray &data) override;
+    static QVariantMap tuo(const QByteArray &data);
 
 protected:
     /**
@@ -50,12 +54,12 @@ protected:
     /**
      * @brief Tuo pdf-muodossa olevan laskun
      */
-    void tuoPdfLasku();
+    QVariantMap tuoPdfLasku();
 
     /**
      * @brief Tuo pdf-muodossa olevan tiliotteen
      */
-    void tuoPdfTiliote();
+    QVariantMap tuoPdfTiliote();
 
     void tuoTiliTapahtumat(bool kirjausPvmRivit, int vuosiluku);
 
@@ -100,4 +104,5 @@ protected:
     int etsi(const QString &teksti, int alkukorkeus=0, int loppukorkeus=0, int alkusarake = 0, int loppusarake = 100);
 };
 
+}
 #endif // PDFTUONTI_H

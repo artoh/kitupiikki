@@ -25,43 +25,38 @@
 
 #include <QRegularExpressionValidator>
 
-AsiakasDlg::AsiakasDlg(QWidget *parent, Asiakas *asiakas) :
+AsiakasDlg::AsiakasDlg(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AsiakasDlg),
-    asiakas_(asiakas)
+    asiakas_(new Asiakas(this))
+
 {
     ui->setupUi(this);
-    QString maa = asiakas->maa();
-
-    ui->nimiEdit->setText( asiakas->nimi());
-
-    ui->maaCombo->setModel( new MaaModel(this));
-    ui->maaCombo->setCurrentIndex( ui->maaCombo->findData(maa, MaaModel::KoodiRooli) );
-
-    if( maa == "fi")
-        ui->ytunnusEdit->setText( asiakas->ytunnus());
-    else
-        ui->alvEdit->setText( asiakas->alvtunnus());
-    maaMuuttui();
-
     ui->ytunnusEdit->setValidator(new YTunnusValidator(false));
 
-    ui->emailEdit->setText( asiakas->email());
-    ui->lahiEdit->setPlainText(asiakas->osoite());
-    ui->postinumeroEdit->setText( asiakas->postinumero());
-    ui->kaupunkiEdit->setText( asiakas->kaupunki());
-
-    ui->verkkolaskuEdit->setText( asiakas->ovt());
-    ui->valittajaEdit->setText( asiakas->operaattori());
 
     connect( ui->postinumeroEdit, &QLineEdit::textChanged, this, &AsiakasDlg::haeToimipaikka);
     connect( ui->maaCombo, &QComboBox::currentTextChanged, this, &AsiakasDlg::maaMuuttui);
     connect( ui->ytunnusEdit, &QLineEdit::editingFinished, this, &AsiakasDlg::ymuuttui);
+    connect( asiakas_, &Asiakas::ladattu, this, &AsiakasDlg::asiakasLadattu);
+    connect( asiakas_, &Asiakas::tallennettu, this, &AsiakasDlg::tallennettu);
 }
 
 AsiakasDlg::~AsiakasDlg()
 {
     delete ui;
+}
+
+void AsiakasDlg::muokkaa(int id)
+{
+    asiakas_->lataa(id);
+}
+
+void AsiakasDlg::uusi(const QString &nimi)
+{
+    asiakas_->clear();
+    asiakas_->set("nimi", nimi);
+    asiakasLadattu();
 }
 
 void AsiakasDlg::accept()
@@ -82,9 +77,40 @@ void AsiakasDlg::accept()
     asiakas_->set("ovt", ui->verkkolaskuEdit->text());
     asiakas_->set("operaattori", ui->valittajaEdit->text());
 
-    asiakas_->tallenna(false);
+    asiakas_->tallenna();
+}
 
+void AsiakasDlg::asiakasLadattu()
+{
+    QString maa = asiakas_->maa();
+
+    ui->nimiEdit->setText( asiakas_->nimi());
+
+    ui->maaCombo->setModel( new MaaModel(this));
+    ui->maaCombo->setCurrentIndex( ui->maaCombo->findData(maa, MaaModel::KoodiRooli) );
+
+    if( maa == "fi")
+        ui->ytunnusEdit->setText( asiakas_->ytunnus());
+    else
+        ui->alvEdit->setText( asiakas_->alvtunnus());
+    maaMuuttui();
+
+
+    ui->emailEdit->setText( asiakas_->email());
+    ui->lahiEdit->setPlainText(asiakas_->osoite());
+    ui->postinumeroEdit->setText( asiakas_->postinumero());
+    ui->kaupunkiEdit->setText( asiakas_->kaupunki());
+
+    ui->verkkolaskuEdit->setText( asiakas_->ovt());
+    ui->valittajaEdit->setText( asiakas_->operaattori());
+
+    exec();
+}
+
+void AsiakasDlg::tallennettu(int id)
+{
     QDialog::accept();
+    emit asiakasTallennettu(id, ui->nimiEdit->text());
 }
 
 void AsiakasDlg::maaMuuttui()

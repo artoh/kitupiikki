@@ -350,29 +350,12 @@
          <property name="text">
           <string>T&amp;oimittaja</string>
          </property>
-         <property name="buddy">
-          <cstring>toimittajaEdit</cstring>
-         </property>
         </widget>
        </item>
        <item row="1" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
-          <widget class="QLineEdit" name="toimittajaEdit"/>
-         </item>
-         <item>
-          <widget class="QPushButton" name="toimittajaButton">
-           <property name="focusPolicy">
-            <enum>Qt::NoFocus</enum>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="icon">
-            <iconset resource="../pic/pic.qrc">
-             <normaloff>:/pic/yrittaja.png</normaloff>:/pic/yrittaja.png</iconset>
-           </property>
-          </widget>
+          <widget class="AsiakasToimittajaValinta" name="asiakasToimittaja" native="true"/>
          </item>
         </layout>
        </item>
@@ -473,6 +456,12 @@
    <extends>QComboBox</extends>
    <header location="global">tools/checkcombo.h</header>
   </customwidget>
+  <customwidget>
+   <class>AsiakasToimittajaValinta</class>
+   <extends>QWidget</extends>
+   <header location="global">rekisteri/asiakastoimittajavalinta.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>tilellaView</tabstop>
@@ -489,12 +478,10 @@
   <tabstop>poistoSpin</tabstop>
   <tabstop>seliteEdit</tabstop>
   <tabstop>maksutapaCombo</tabstop>
-  <tabstop>toimittajaEdit</tabstop>
   <tabstop>viiteEdit</tabstop>
   <tabstop>erapaivaEdit</tabstop>
   <tabstop>vastatiliCombo</tabstop>
   <tabstop>eraCombo</tabstop>
-  <tabstop>toimittajaButton</tabstop>
   <tabstop>poistaRiviNappi</tabstop>
   <tabstop>lisaaRiviNappi</tabstop>
  </tabstops>

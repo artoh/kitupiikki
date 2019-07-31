@@ -20,7 +20,7 @@
 
 #include <QDate>
 #include <QMap>
-#include "tuonti.h"
+#include "vanhatuonti.h"
 
 
 /**
@@ -32,7 +32,7 @@
  * erotettuna ensin palkka.fi-tilinumero ja sitten Kitupiikissä käytettävä tilinumero
  *
  */
-class PalkkaFiTuonti : public Tuonti
+class PalkkaFiTuonti : public VanhaTuonti
 {
 public:
     PalkkaFiTuonti(KirjausWg *wg);

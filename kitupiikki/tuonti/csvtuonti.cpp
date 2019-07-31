@@ -34,7 +34,7 @@
 #include "ui_tilimuuntodlg.h"
 
 CsvTuonti::CsvTuonti(KirjausWg *wg)
-    : Tuonti( wg ), ui( new Ui::CsvTuonti)
+    : VanhaTuonti( wg ), ui( new Ui::CsvTuonti)
 {
     ui->setupUi(this);
 }

@@ -15,56 +15,27 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "asiakas.h"
-#include "asiakastoimittajataydentaja.h"
-
 #include "db/kirjanpito.h"
 
 Asiakas::Asiakas(QObject *parent) : KantaAsiakasToimittaja (parent)
 {
 }
 
-AsiakasToimittajaTaydentaja *Asiakas::taydentaja()
-{
-    if( !taydentaja_ ) {
-        taydentaja_ = new AsiakasToimittajaTaydentaja(this);
-        taydentaja_->lataa(AsiakasToimittajaTaydentaja::ASIAKKAAT);
-    }
-    return taydentaja_;
-}
 
-void Asiakas::lataa(QVariantMap data)
+void Asiakas::lataa(int id)
 {
-    data_ = data;
-    muokattu_ = false;
-}
-
-void Asiakas::valitse(const QString &nimi)
-{
-    int id = taydentaja()->haeNimella(nimi);
-    data_.clear();
-    data_.insert("id", id);
-    data_.insert("nimi", nimi);
-
-    if( id > 0 ) {
-        // Jos valitaan olemassa oleva, niin haetaan samalla
-        // muutkin asiakkaan tiedot siltä varalta, että kohta
-        // avataan valintaikkuna
-        KpKysely* haku = kpk( QString("/asiakkaat/%1").arg(id));
-        connect( haku, &KpKysely::vastaus,  [this] (QVariant* var) {this->lataa(var->toMap()); });
-        haku->kysy();
-    } else {
-        muokattu_ = id == -1;
-    }
+    KpKysely* haku = kpk( QString("/asiakkaat/%1").arg(id));
+    connect( haku, &KpKysely::vastaus,  [this] (QVariant* var) {this->data_ = var->toMap(); emit this->ladattu(); });
+    haku->kysy();
 }
 
 void Asiakas::clear()
 {
     data_.clear();
-    taydentaja_->deleteLater();
-    taydentaja_ = nullptr;
+
 }
 
-void Asiakas::tallenna(bool tositteentallennus)
+void Asiakas::tallenna()
 {
     KpKysely* kysely;
     if( id() < 1) {
@@ -73,10 +44,8 @@ void Asiakas::tallenna(bool tositteentallennus)
     } else
         kysely = kpk( QString("/asiakkaat/%1").arg( id() ), KpKysely::PUT);
 
-    if( tositteentallennus )
-        connect(kysely, &KpKysely::vastaus, this, &Asiakas::tallennusvalmis  );
-    else
-        connect(kysely, &KpKysely::vastaus, this, &Asiakas::vaintallennusvalmis  );
+    connect(kysely, &KpKysely::vastaus, this, &Asiakas::tallennusvalmis  );
+
     kysely->kysy( data_ );
 }
 

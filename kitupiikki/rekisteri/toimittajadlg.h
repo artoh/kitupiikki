@@ -31,15 +31,26 @@ class ToimittajaDlg : public QDialog
     Q_OBJECT
 
 public:
-    ToimittajaDlg(QWidget *parent, Toimittaja* toimittaja);
+    ToimittajaDlg(QWidget *parent);
     ~ToimittajaDlg() override;
 
-private slots:
+public slots:
+    void muokkaa(int id);
+    void uusi(const QString& nimi);
+
+signals:
+    void toimittajaTallennettu(int id, const QString& nimi);
+
+private slots:    
     void tarkastaTilit();
     void maaMuuttui();
     void haeToimipaikka();
 
     void accept() override;
+    void toimittajaLadattu();
+    void tallennettu(int id);
+    void haeYTunnarilla();
+    void yTietoSaapuu();
 
 private:
     Ui::ToimittajaDlg *ui;

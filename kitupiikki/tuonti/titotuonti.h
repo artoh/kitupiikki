@@ -18,12 +18,12 @@
 #ifndef TITOTUONTI_H
 #define TITOTUONTI_H
 
-#include "tuonti.h"
+#include "vanhatuonti.h"
 
 /**
  * @brief The Konekielisen TITO-tiliotteen tuominen
  */
-class TitoTuonti : public Tuonti
+class TitoTuonti : public VanhaTuonti
 {
 public:
     TitoTuonti(KirjausWg *wg);

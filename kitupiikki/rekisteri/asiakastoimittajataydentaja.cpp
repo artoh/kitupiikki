@@ -79,14 +79,13 @@ void AsiakasToimittajaTaydentaja::lataa(AsiakasToimittajaTaydentaja::AsiakasVaiT
 void AsiakasToimittajaTaydentaja::saapuu(QVariant *variant)
 {
     beginResetModel();
+    data_.clear();
     QVariantList lista = variant->toList();
 
     for( auto item : lista) {
         QVariantMap map = item.toMap();
         data_.append( qMakePair( map.value("nimi").toString(), map.value("id").toInt()) );
     }
-
-    qDebug() << " --täydentäjä-- " << data_.count();
 
     endResetModel();
 }

@@ -38,7 +38,11 @@ public:
         JAKSOALKAA,
         JAKSOLOPPUU,
         ERAID,
-        ARKISTOTUNNUS
+        ARKISTOTUNNUS,
+        VIITE,
+        ERAPAIVA,
+        ASIAKAS,
+        TOIMITTAJA
     };
 
 
@@ -46,6 +50,7 @@ public:
 
     QVariant data(int kentta) const;
     void set(int kentta, const QVariant& arvo);
+    QVariant tallennettava() const;
 
     int id() const { return data(ID).toInt();}
     QDate pvm() const { return  data(PVM).toDate();}
@@ -57,9 +62,12 @@ public:
     double alvProsentti() const { return data(ALVPROSENTTI).toDouble();}
     int kohdennus() const { return  data(KOHDENNUS).toInt();}
     QString selite() const { return data(SELITE).toString();}
-    int eraId() const { return data(ERAID).toInt();}
+    int eraId() const;
+    int asiakasId() const;
     QList<int> merkkaukset() const;
     QString arkistotunnus() const { return data(ARKISTOTUNNUS).toString();}
+    QString viite() const { return data(VIITE).toString();}
+    QDate erapaiva() const { return data(ERAPAIVA).toDate();}
 
     void setPvm(const QDate& pvm);
     void setTili(int tili);
@@ -76,6 +84,8 @@ public:
     void setJaksoloppuu( const QDate& pvm );
     void setEra(int era);
     void setArkistotunnus(const QString& tunnus);
+    void setViite(const QString& viite);
+    void setErapaiva(const QDate& erapvm);
 
 private:
     static std::map<int,QString> avaimet__;
