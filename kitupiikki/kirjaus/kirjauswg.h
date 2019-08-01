@@ -119,6 +119,8 @@ private slots:
     void tallennettu(int id, int tunniste, const QDate& pvm);
     void tallennusEpaonnistui(int virhe);
 
+    void tuonti(QVariant* data);
+
 public:
     /**
      * @brief Jos kirjataan tiliotetta, tiliotetilin numero

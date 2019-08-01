@@ -94,7 +94,13 @@ bool TositeLiitteet::lisaa(const QByteArray &sisalto, const QString &nimi)
     endInsertRows();
 
     // Käsitellään tuonti
-    qDebug() << "*Tuonti*:" << Tuonti::tuo(sisalto);
+    QVariant tuonnit = Tuonti::tuo(sisalto);
+    qDebug() << tuonnit;
+
+
+    KpKysely* kysely = kpk("/tuontitulkki", KpKysely::POST);
+    connect( kysely, &KpKysely::vastaus, [this] (QVariant *data)  { emit this->tuonti(data); });
+    kysely->kysy( tuonnit) ;
 
     return true;
 }

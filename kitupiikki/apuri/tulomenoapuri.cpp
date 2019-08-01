@@ -97,6 +97,16 @@ void TuloMenoApuri::otaFokus()
     ui->tiliEdit->setFocus();
 }
 
+void TuloMenoApuri::tuo(QVariantMap map)
+{
+    ui->maaraEdit->setValue( map.value("summa").toDouble());
+    ui->viiteEdit->setText( map.value("viite").toString() );
+    ui->asiakasToimittaja->set(map.value("toimittajaid").toInt(),
+                               map.value("toimittajanimi").toString(),
+                               tosite()->data(Tosite::TYYPPI).toInt() == TositeTyyppi::MENO);
+    ui->erapaivaEdit->setDate( map.value("erapvm").toDate());
+}
+
 void TuloMenoApuri::teeReset()
 {
     // Haetaan tietoja mallista ;)

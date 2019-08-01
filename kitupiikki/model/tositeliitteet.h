@@ -69,6 +69,7 @@ public slots:
 signals:
     void liitteetTallennettu();
     void naytaliite(const QByteArray& data);
+    void tuonti(QVariant *data);
 
 private slots:
     void tallennaSeuraava();

@@ -170,7 +170,7 @@ QVariantMap PdfTuonti::tuoPdfLasku()
             QDate pvm = QDate::fromString(t,"dd.M.yyyy");
             if( pvm.isValid())
             {
-                data.insert("laskupvm", pvm);
+                data.insert("tositepvm", pvm);
                 break;
             }
         }

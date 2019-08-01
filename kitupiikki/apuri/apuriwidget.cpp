@@ -38,6 +38,11 @@ bool ApuriWidget::tositteelle()
     return teeTositteelle();
 }
 
+void ApuriWidget::tuo(QVariantMap /*map*/)
+{
+
+}
+
 void ApuriWidget::aloitaResetointi()
 {
     resetointiKaynnissa_ = true;

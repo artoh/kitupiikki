@@ -39,6 +39,7 @@ public:
     virtual ~TuloMenoApuri() override;
 
     void otaFokus() override;
+    void tuo(QVariantMap map) override;
 
 protected slots:
     void lisaaRivi();

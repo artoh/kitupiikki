@@ -111,13 +111,7 @@ KirjausWg::KirjausWg( QWidget *parent)
     connect( ui->tositePvmEdit, SIGNAL(editingFinished()), this, SLOT(pvmVaihtuu()));
     connect( ui->tositetyyppiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(vaihdaTositeTyyppi()));
 
-
-
-
     ui->tiliotetiliCombo->suodataTyypilla("ARP");
-
-
-
 
     connect( ui->lisaaliiteNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaLiite()));
     connect( ui->avaaNappi, &QPushButton::clicked, this, &KirjausWg::avaaLiite);
@@ -176,6 +170,8 @@ KirjausWg::KirjausWg( QWidget *parent)
     // Tagivalikko
     ui->viennitView->viewport()->installEventFilter(this);
     ui->viennitView->setFocusPolicy(Qt::StrongFocus);
+
+    connect( tosite()->liitteet(), &TositeLiitteet::tuonti, this, &KirjausWg::tuonti);
 
 }
 
@@ -377,6 +373,16 @@ void KirjausWg::tallennettu(int /* id */, int tunniste, const QDate &pvm)
 void KirjausWg::tallennusEpaonnistui(int virhe)
 {
     QMessageBox::critical(this, tr("Tallennus epäonnistui"), tr("Tositteen tallentaminen epäonnistui (Virhe %1)").arg(virhe));
+}
+
+void KirjausWg::tuonti(QVariant *data)
+{
+    QVariantMap map = data->toMap();
+    if( map.contains("tyyppi"))
+        ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( map.value("tyyppi") ) );
+    ui->tositePvmEdit->setDate( map.value("tositepvm").toDate() );
+    if( apuri_)
+        apuri_->tuo(map);
 }
 
 void KirjausWg::siirryTositteeseen()

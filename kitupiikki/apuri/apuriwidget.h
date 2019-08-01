@@ -32,6 +32,8 @@ public:
     Tosite* tosite() { return pTosite_;}
     virtual void otaFokus() {;}
 
+    virtual void tuo(QVariantMap map);
+
 signals:
 
 public slots:
@@ -41,6 +43,7 @@ public slots:
 protected:
     virtual void teeReset() = 0;
     virtual bool teeTositteelle() = 0;
+
 
     void aloitaResetointi();
     void lopetaResetointi();    
