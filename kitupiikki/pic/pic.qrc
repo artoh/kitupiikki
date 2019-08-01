@@ -162,6 +162,7 @@
         <file>luottokortti.png</file>
         <file>ok-128.png</file>
         <file>varasto-mv.png</file>
+        <file>muokkaaasiakas.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

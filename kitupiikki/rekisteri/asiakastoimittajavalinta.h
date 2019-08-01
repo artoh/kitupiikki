@@ -21,11 +21,11 @@
 
 class QLineEdit;
 class QPushButton;
-class AsiakasToimittajaTaydentaja;
-class QCompleter;
+class AsiakasToimittajaListaModel;
 
-class AsiakasDlg;
-class ToimittajaDlg;
+class QComboBox;
+
+class AsiakasToimittajaDlg;
 
 class AsiakasToimittajaValinta : public QWidget
 {
@@ -39,28 +39,34 @@ public:
 signals:
 
 public slots:
-    void set(int id, const QString& nimi, bool toimittaja = false);
+    void set(int id, const QString& nimi = QString());
     void clear();
     void alusta(bool toimittaja);
 
 
 private slots:
     void valitseAsiakas();
+    void nimiMuuttui();
+    void syotettyNimi();
     void muokkaa();
     void talletettu(int id, const QString &nimi);
+    void modelLadattu();
+
 
 protected:
-    QLineEdit* edit_;
+    void setId(int id);
+    bool eventFilter(QObject *watched, QEvent *event);
+
+    QComboBox* combo_;
     QPushButton* button_;
+
     bool toimittaja_ = false;
-    AsiakasToimittajaTaydentaja* taydentajaModel_;
-    QCompleter *completer_;
+    AsiakasToimittajaListaModel* model_;
 
-    AsiakasDlg *asiakasDlg_ = nullptr;
-    ToimittajaDlg *toimittajaDlg_ = nullptr;
-
+    AsiakasToimittajaDlg *dlg_;
 
     int id_=0;
+    int ladattu_=0;
 };
 
 #endif // ASIAKASTOIMITTAJAVALINTA_H

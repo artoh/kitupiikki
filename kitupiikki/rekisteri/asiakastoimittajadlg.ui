@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ToimittajaDlg</class>
- <widget class="QDialog" name="ToimittajaDlg">
+ <class>AsiakasToimittajaDlg</class>
+ <widget class="QDialog" name="AsiakasToimittajaDlg">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -114,14 +114,14 @@
      </item>
     </layout>
    </item>
-   <item row="7" column="0">
-    <widget class="QLabel" name="label_7">
+   <item row="9" column="0">
+    <widget class="QLabel" name="tilitLabel">
      <property name="text">
       <string>Pankkitilit</string>
      </property>
     </widget>
    </item>
-   <item row="8" column="1">
+   <item row="10" column="1">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -134,7 +134,7 @@
      </property>
     </spacer>
    </item>
-   <item row="9" column="1">
+   <item row="11" column="1">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -144,7 +144,7 @@
      </property>
     </widget>
    </item>
-   <item row="7" column="1">
+   <item row="9" column="1">
     <widget class="QListWidget" name="tilitLista">
      <property name="editTriggers">
       <set>QAbstractItemView::AllEditTriggers</set>
@@ -154,6 +154,26 @@
      </property>
     </widget>
    </item>
+   <item row="7" column="0">
+    <widget class="QLabel" name="ovtLabel">
+     <property name="text">
+      <string>Verkkolaskuosoite</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0">
+    <widget class="QLabel" name="valittajaLabel">
+     <property name="text">
+      <string>Välittäjätunnus</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1">
+    <widget class="QLineEdit" name="ovtEdit"/>
+   </item>
+   <item row="8" column="1">
+    <widget class="QLineEdit" name="valittajaEdit"/>
+   </item>
   </layout>
  </widget>
  <resources/>
@@ -161,7 +181,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>ToimittajaDlg</receiver>
+   <receiver>AsiakasToimittajaDlg</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -177,7 +197,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>ToimittajaDlg</receiver>
+   <receiver>AsiakasToimittajaDlg</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

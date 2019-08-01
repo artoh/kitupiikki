@@ -17,11 +17,12 @@ SOURCES += uusikp/uusikirjanpito.cpp \
     $$PWD/model/tositeloki.cpp \
     $$PWD/model/tositeviennit.cpp \
     $$PWD/model/tositevienti.cpp \
+    $$PWD/rekisteri/asiakastoimittajadlg.cpp \
+    $$PWD/rekisteri/asiakastoimittajalistamodel.cpp \
     $$PWD/rekisteri/asiakastoimittajataydentaja.cpp \
     $$PWD/rekisteri/ibandelegaatti.cpp \
     $$PWD/rekisteri/maamodel.cpp \
     $$PWD/rekisteri/postinumerot.cpp \
-    $$PWD/rekisteri/toimittajadlg.cpp \
     $$PWD/tools/checkcombo.cpp \
     $$PWD/tools/kpeuroedit.cpp \
     $$PWD/tools/tilicombo.cpp \
@@ -218,11 +219,12 @@ HEADERS += \
     $$PWD/model/tositeloki.h \
     $$PWD/model/tositeviennit.h \
     $$PWD/model/tositevienti.h \
+    $$PWD/rekisteri/asiakastoimittajadlg.h \
+    $$PWD/rekisteri/asiakastoimittajalistamodel.h \
     $$PWD/rekisteri/asiakastoimittajataydentaja.h \
     $$PWD/rekisteri/ibandelegaatti.h \
     $$PWD/rekisteri/maamodel.h \
     $$PWD/rekisteri/postinumerot.h \
-    $$PWD/rekisteri/toimittajadlg.h \
     $$PWD/tools/checkcombo.h \
     $$PWD/tools/kpeuroedit.h \
     $$PWD/tools/tilicombo.h \
@@ -415,7 +417,7 @@ FORMS += \
     $$PWD/apuri/tulomenoapuri.ui \
     $$PWD/apuri/siirtoapuri.ui \
     $$PWD/kirjaus/tallennettuwidget.ui \
-    $$PWD/rekisteri/toimittajadlg.ui \
+    $$PWD/rekisteri/asiakastoimittajadlg.ui \
     uusikp/intro.ui \
     uusikp/nimi.ui \
     uusikp/tilikartta.ui \

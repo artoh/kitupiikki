@@ -26,7 +26,7 @@
 #include "db/tositetyyppimodel.h"
 #include "kirjaus/kohdennusproxymodel.h"
 #include "rekisteri/asiakasdlg.h"
-#include "rekisteri/toimittajadlg.h"
+#include "rekisteri/asiakastoimittajadlg.h"
 
 #include <QSortFilterProxyModel>
 #include <QDebug>
@@ -102,8 +102,7 @@ void TuloMenoApuri::tuo(QVariantMap map)
     ui->maaraEdit->setValue( map.value("summa").toDouble());
     ui->viiteEdit->setText( map.value("viite").toString() );
     ui->asiakasToimittaja->set(map.value("toimittajaid").toInt(),
-                               map.value("toimittajanimi").toString(),
-                               tosite()->data(Tosite::TYYPPI).toInt() == TositeTyyppi::MENO);
+                               map.value("toimittajanimi").toString());
     ui->erapaivaEdit->setDate( map.value("erapvm").toDate());
 }
 
@@ -136,7 +135,7 @@ void TuloMenoApuri::teeReset()
 
         if( menoa )
             ui->asiakasToimittaja->set( vastavienti.value("toimittaja").toMap().value("id").toInt(),
-                                    vastavienti.value("toimittaja").toMap().value("nimi").toString(), true);
+                                    vastavienti.value("toimittaja").toMap().value("nimi").toString());
         else
             ui->asiakasToimittaja->set( vastavienti.value("asiakas").toMap().value("id").toInt(),
                                     vastavienti.value("asiakas").toMap().value("nimi").toString());

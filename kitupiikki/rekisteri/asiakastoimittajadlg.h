@@ -19,27 +19,34 @@
 
 #include <QDialog>
 #include <QStringList>
-
-class Toimittaja;
+#include <QVariantMap>
 
 namespace Ui {
-class ToimittajaDlg;
+class AsiakasToimittajaDlg;
 }
 
-class ToimittajaDlg : public QDialog
+class AsiakasToimittajaDlg : public QDialog
 {
     Q_OBJECT
 
 public:
-    ToimittajaDlg(QWidget *parent);
-    ~ToimittajaDlg() override;
+    AsiakasToimittajaDlg(QWidget *parent);
+    ~AsiakasToimittajaDlg() override;
+
+    static QString yToAlv(QString ytunnus);
+    static QString alvToY(QString alvtunnus);
 
 public slots:
-    void muokkaa(int id);
-    void uusi(const QString& nimi);
+    void muokkaa(int id, bool toimittaja);
+    void uusi(const QString& nimi, bool toimittaja);
+    void ytunnuksella(const QString& ytunnus, bool toimittaja);
 
 signals:
-    void toimittajaTallennettu(int id, const QString& nimi);
+    void tallennettu(int id, const QString& nimi);
+
+protected:
+    void lataa(int id);
+    void tauluun(QVariantMap map = QVariantMap());
 
 private slots:    
     void tarkastaTilit();
@@ -47,14 +54,17 @@ private slots:
     void haeToimipaikka();
 
     void accept() override;
-    void toimittajaLadattu();
-    void tallennettu(int id);
+    void dataSaapuu(QVariant* data);
+
     void haeYTunnarilla();
     void yTietoSaapuu();
+    void tallennusValmis(QVariant* data);
+
 
 private:
-    Ui::ToimittajaDlg *ui;
-    Toimittaja* toimittaja_;
+    Ui::AsiakasToimittajaDlg *ui;
+    bool toimittaja_ = false;
+    int id_ = 0;
 };
 
 #endif // TOIMITTAJADLG_H
