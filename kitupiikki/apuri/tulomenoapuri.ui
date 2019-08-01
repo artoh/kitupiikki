@@ -482,8 +482,6 @@
   <tabstop>erapaivaEdit</tabstop>
   <tabstop>vastatiliCombo</tabstop>
   <tabstop>eraCombo</tabstop>
-  <tabstop>poistaRiviNappi</tabstop>
-  <tabstop>lisaaRiviNappi</tabstop>
  </tabstops>
  <resources>
   <include location="../pic/pic.qrc"/>

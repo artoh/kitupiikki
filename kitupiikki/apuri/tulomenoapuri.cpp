@@ -21,11 +21,8 @@
 #include "db/kirjanpito.h"
 #include "model/tosite.h"
 #include "model/tositeviennit.h"
-#include "model/asiakas.h"
-#include "model/toimittaja.h"
 #include "db/tositetyyppimodel.h"
 #include "kirjaus/kohdennusproxymodel.h"
-#include "rekisteri/asiakasdlg.h"
 #include "rekisteri/asiakastoimittajadlg.h"
 
 #include <QSortFilterProxyModel>

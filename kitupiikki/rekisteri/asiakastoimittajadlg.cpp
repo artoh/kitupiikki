@@ -18,7 +18,6 @@
 #include "ui_asiakastoimittajadlg.h"
 
 #include "maamodel.h"
-#include "model/toimittaja.h"
 #include "postinumerot.h"
 
 #include "ibandelegaatti.h"
@@ -187,8 +186,8 @@ void AsiakasToimittajaDlg::accept()
     map.insert("maa", maa);
 
     if( maa == "fi") {
-        if( !ui->alvEdit->text().isEmpty())
-            map.insert("alvtunnus", yToAlv( ui->alvEdit->text() ));
+        if( !ui->yEdit->text().isEmpty())
+            map.insert("alvtunnus", yToAlv( ui->yEdit->text() ));
     } else {
         if( !ui->alvEdit->text().isEmpty())
             map.insert("alvtunnus", ui->alvEdit->text());
@@ -226,6 +225,8 @@ void AsiakasToimittajaDlg::accept()
         kysely = id_ ? kpk( QString("/asiakkaat/%1").arg(id_) , KpKysely::PUT ) :
                        kpk( "/asiakkaat", KpKysely::POST);
     }
+
+    qDebug() << map;
 
     connect(kysely, &KpKysely::vastaus, this, &AsiakasToimittajaDlg::tallennusValmis  );
     kysely->kysy(map);

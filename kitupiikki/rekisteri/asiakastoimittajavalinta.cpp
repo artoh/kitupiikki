@@ -116,8 +116,7 @@ void AsiakasToimittajaValinta::nimiMuuttui()
 
 void AsiakasToimittajaValinta::syotettyNimi()
 {
-    qDebug() << "Sn " << combo_->currentText();
-    if( !id_ && !combo_->currentText().isEmpty())
+    if( !id_ && !combo_->currentText().isEmpty() && !YTunnusValidator::kelpaako( combo_->currentText() ))
         muokkaa();
 }
 

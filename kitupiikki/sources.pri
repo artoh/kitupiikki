@@ -9,9 +9,6 @@ SOURCES += uusikp/uusikirjanpito.cpp \
     $$PWD/db/tositetyyppimodel.cpp \
     $$PWD/db/yhteysmodel.cpp \
     $$PWD/kirjaus/tallennettuwidget.cpp \
-    $$PWD/model/asiakas.cpp \
-    $$PWD/model/kantaasiakastoimittaja.cpp \
-    $$PWD/model/toimittaja.cpp \
     $$PWD/model/tosite.cpp \
     $$PWD/model/tositeliitteet.cpp \
     $$PWD/model/tositeloki.cpp \
@@ -196,7 +193,6 @@ SOURCES += uusikp/uusikirjanpito.cpp \
     pilvi/pilvimodel.cpp \
     pilvi/pilvilogindlg.cpp \
     sqlite/sqlitemodel.cpp \
-    rekisteri/asiakasdlg.cpp\
     apuri/tiliotekirjaaja.cpp\
     rekisteri/asiakastoimittajavalinta.cpp
 
@@ -211,9 +207,6 @@ HEADERS += \
     $$PWD/db/tositetyyppimodel.h \
     $$PWD/db/yhteysmodel.h \
     $$PWD/kirjaus/tallennettuwidget.h \
-    $$PWD/model/asiakas.h \
-    $$PWD/model/kantaasiakastoimittaja.h \
-    $$PWD/model/toimittaja.h \
     $$PWD/model/tosite.h \
     $$PWD/model/tositeliitteet.h \
     $$PWD/model/tositeloki.h \
@@ -400,7 +393,6 @@ HEADERS += \
     pilvi/pilvimodel.h \
     pilvi/pilvilogindlg.h \
     sqlite/sqlitemodel.h \
-    rekisteri/asiakasdlg.h \
     apuri/tiliotekirjaaja.h \
     rekisteri/asiakastoimittajavalinta.h
 
@@ -492,5 +484,4 @@ FORMS += \
     alv/arvonlisavero.ui \
     uusikp/numerointi.ui \
     pilvi/pilvilogindlg.ui \
-    rekisteri/asiakasdlg.ui\
     apuri/tiliotekirjaaja.ui
