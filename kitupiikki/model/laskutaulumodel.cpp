@@ -105,7 +105,8 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
                 else
                     return map.value("avoin").toDouble();
             case ASIAKASTOIMITTAJA:
-                return map.value("asiakas").toString();
+                return ostoja_ ?
+                            map.value("toimittaja") : map.value("asiakas");
             case OTSIKKO:
                 return map.value("otsikko").toString();
             }
@@ -131,6 +132,10 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
         return map.value("tili");
     case ViiteRooli :
         return map.value("viite");
+    case OtsikkoRooli:
+        return map.value("otsikko");
+    case AsiakasToimittajaIdRooli:
+        return ostoja_ ? map.value("toimittajaid") : map.value("asiakasid");
     }
     return QVariant();
 }

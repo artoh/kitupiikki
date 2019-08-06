@@ -87,7 +87,7 @@ void TositeVienti::setDebet(double euroa)
 {
     set( DEBET, euroa);
     if( qAbs(euroa) < 1e-5)
-        set(KREDIT, 0);
+        remove( avaimet__.at(KREDIT) );
 }
 
 void TositeVienti::setDebet(qlonglong senttia)
@@ -99,7 +99,7 @@ void TositeVienti::setKredit(double euroa)
 {
     set( KREDIT, euroa );
     if( qAbs(euroa) > 1e-5)
-        set( DEBET, 0);
+        remove( avaimet__.at(DEBET) );
 }
 
 void TositeVienti::setKredit(qlonglong senttia)
@@ -148,6 +148,7 @@ void TositeVienti::setJaksoloppuu(const QDate &pvm)
 void TositeVienti::setEra(int era)
 {
     set( ERAID, era);
+
 }
 
 void TositeVienti::setArkistotunnus(const QString &tunnus)

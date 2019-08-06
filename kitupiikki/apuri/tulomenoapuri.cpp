@@ -168,6 +168,7 @@ void TuloMenoApuri::teeReset()
 
         int verokoodi = map.data(TositeVienti::ALVKOODI).toInt();
         rivit_->setAlvKoodi( rivi, verokoodi );
+
         rivit_->setAlvProsentti( rivi, map.data(TositeVienti::ALVPROSENTTI).toDouble() );
 
         rivit_->setJaksoalkaa( rivi, map.data(TositeVienti::JAKSOALKAA).toDate());
@@ -292,7 +293,9 @@ bool TuloMenoApuri::teeTositteelle()
             vienti.insert("selite", selite);
 
         vienti.setAlvProsentti( veroprosentti);
-        vienti.setAlvKoodi( verokoodi );
+
+        if( !kp()->alvTyypit()->nollaTyyppi(verokoodi))
+            vienti.setAlvKoodi( verokoodi );
 
         vienti.setKohdennus( rivit_->kohdennus(i) );
         vienti.setMerkkaukset( rivit_->merkkaukset(i));
@@ -306,6 +309,17 @@ bool TuloMenoApuri::teeTositteelle()
                 vienti.setJaksoloppuu( loppupvm );
         }
 
+        // Kirjataan asiakas- ja toimittajatiedot myös vienteihin, jotta voidaan ehdottaa
+        // tiliä aiempien kirjausten perusteella
+        if( menoa )
+        {
+            if( ui->asiakasToimittaja->id() > 0)
+                vienti.set( TositeVienti::TOIMITTAJA, ui->asiakasToimittaja->id() );
+        } else {
+
+            if( ui->asiakasToimittaja->id() > 0)
+                vienti.set( TositeVienti::ASIAKAS, ui->asiakasToimittaja->id() );
+        }
 
         viennit.append(vienti);
 

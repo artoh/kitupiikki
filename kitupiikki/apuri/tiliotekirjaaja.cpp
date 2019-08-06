@@ -102,17 +102,19 @@ TilioteModel::Tilioterivi TilioteKirjaaja::rivi()
         QModelIndex index = ui->maksuView->currentIndex();
 
         rivi_.saajamaksaja = index.data(LaskuTauluModel::AsiakasToimittajaNimiRooli).toString();
+        rivi_.saajamaksajaId = index.data(LaskuTauluModel::AsiakasToimittajaIdRooli).toInt();
         rivi_.eraId = index.data(LaskuTauluModel::EraIdRooli).toInt();
         rivi_.laskupvm = index.data(LaskuTauluModel::LaskuPvmRooli).toDate();
         rivi_.tili = index.data(LaskuTauluModel::TiliRooli).toInt();
         if( rivi_.selite.isEmpty())
-            rivi_.selite = QString("%1 [%2]")
-                    .arg(index.data(LaskuTauluModel::AsiakasToimittajaNimiRooli).toString())
-                    .arg(index.data(LaskuTauluModel::ViiteRooli).toString());
+            rivi_.selite = index.data(LaskuTauluModel::OtsikkoRooli).toString();
 
     } else if( ui->alaTabs->currentIndex() == TULOMENO ) {
         rivi_.saajamaksajaId = ui->asiakastoimittaja->id();
         rivi_.saajamaksaja = ui->asiakastoimittaja->nimi();
+
+        if( rivi_.selite.isEmpty())
+            rivi_.selite = rivi_.saajamaksaja;
     }
 
     return rivi_;
@@ -137,7 +139,8 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
     ui->asiakasLabel->setVisible( tab == TULOMENO);
     ui->asiakastoimittaja->setVisible( tab == TULOMENO );
 
-    ui->seliteEdit->setVisible( tab != PIILOSSA);
+    ui->seliteLabel->setVisible(tab != MAKSU);
+    ui->seliteEdit->setVisible( tab != MAKSU);
 
     if( tab == MAKSU ) {
         // Kohdennukset

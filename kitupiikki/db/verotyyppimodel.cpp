@@ -99,3 +99,13 @@ QIcon VerotyyppiModel::kuvakeKoodilla(int koodi) const
     return QIcon();
 }
 
+bool VerotyyppiModel::nollaTyyppi(int koodi) const
+{
+    foreach (VeroTyyppi tyyppi, tyypit)
+    {
+        if( tyyppi.koodi == koodi)
+            return tyyppi.nollalaji;
+    }
+    return false;
+}
+

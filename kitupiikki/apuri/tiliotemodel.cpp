@@ -247,13 +247,26 @@ QVariantList TilioteModel::viennit(int tilinumero) const
             }
 
             tili.setKohdennus( rivi.kohdennus);
-            tili.setEra( rivi.eraId );
+
+            if( rivi.eraId)
+                tili.setEra( rivi.eraId );
 
             pankki.setSelite( rivi.selite );
             tili.setSelite( rivi.selite );
 
             // TODO: Arkistotunnus, tilinumero, viite yms. metatieto
             pankki.setArkistotunnus( rivi.arkistotunnus );
+
+            if( rivi.saajamaksajaId)
+                {
+                if( rivi.euro > 0.0) {
+                    pankki.set(TositeVienti::ASIAKAS, rivi.saajamaksajaId);
+                    tili.set(TositeVienti::ASIAKAS, rivi.saajamaksajaId);
+                } else {
+                    pankki.set(TositeVienti::TOIMITTAJA, rivi.saajamaksajaId);
+                    tili.set(TositeVienti::TOIMITTAJA, rivi.saajamaksajaId);
+                }
+            }
 
             lista.append(pankki);
             lista.append(tili);
@@ -273,12 +286,27 @@ void TilioteModel::lataa(QVariantList lista)
         TositeVienti pankki = lista.at(i-1).toMap();
         Tilioterivi rivi;
 
+        bool meno = pankki.kredit() > 0;
+
         rivi.pvm = vienti.pvm();
-        rivi.euro = vienti.kredit() > 0 ? vienti.kredit() : 0 - vienti.debet();
+        rivi.euro = meno ? pankki.kredit() : pankki.debet();
         rivi.tili = vienti.tili();
         rivi.kohdennus = vienti.kohdennus();
         rivi.merkkaukset = vienti.merkkaukset();
         rivi.eraId = vienti.eraId();
+
+        if( vienti.eraId() ) {
+            rivi.laskupvm = vienti.value("era").toMap().value("pvm").toDate();
+        }
+
+        if( meno && pankki.contains("toimittaja")) {
+            rivi.saajamaksajaId = pankki.value("toimittaja").toMap().value("id").toInt();
+            rivi.saajamaksaja = pankki.value("toimittaja").toMap().value("nimi").toString();
+        } else if( !meno && pankki.contains("asiakas")) {
+            rivi.saajamaksajaId = pankki.value("asiakas").toMap().value("id").toInt();
+            rivi.saajamaksaja = pankki.value("asiakas").toMap().value("nimi").toString();
+        }
+
         rivi.selite = vienti.selite();
         rivi.arkistotunnus = pankki.arkistotunnus();
 

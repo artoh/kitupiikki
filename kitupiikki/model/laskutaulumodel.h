@@ -34,7 +34,9 @@ public:
          LaskuPvmRooli = Qt::UserRole + 3,
          AsiakasToimittajaNimiRooli = Qt::UserRole + 4,
          TiliRooli = Qt::UserRole + 5,
-         ViiteRooli = Qt::UserRole + 6};
+         ViiteRooli = Qt::UserRole + 6,
+         OtsikkoRooli = Qt::UserRole + 7,
+         AsiakasToimittajaIdRooli = Qt::UserRole + 8};
 
     explicit LaskuTauluModel(QObject *parent = nullptr);
 

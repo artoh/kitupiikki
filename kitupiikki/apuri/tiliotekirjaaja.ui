@@ -18,48 +18,6 @@
     <widget class="QTabBar" name="ylaTab" native="true"/>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <layout class="QFormLayout" name="formLayout">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Päivämäärä</string>
-         </property>
-         <property name="buddy">
-          <cstring>pvmEdit</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="KpDateEdit" name="pvmEdit"/>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QFormLayout" name="formLayout_3">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Euroa</string>
-         </property>
-         <property name="buddy">
-          <cstring>euroEdit</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="KpEuroEdit" name="euroEdit">
-         <property name="toolTip">
-          <string>Kirjaa tililtä otto miinusmerkkisenä</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </item>
-   <item>
     <widget class="QTabBar" name="alaTabs" native="true"/>
    </item>
    <item>
@@ -93,7 +51,13 @@
    </item>
    <item>
     <layout class="QFormLayout" name="formLayout_2">
-     <item row="0" column="0">
+     <property name="horizontalSpacing">
+      <number>8</number>
+     </property>
+     <property name="verticalSpacing">
+      <number>8</number>
+     </property>
+     <item row="2" column="0">
       <widget class="QLabel" name="tiliLabel">
        <property name="text">
         <string>Tiliöinti</string>
@@ -103,10 +67,10 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
+     <item row="2" column="1">
       <widget class="TilinvalintaLine" name="tiliEdit"/>
      </item>
-     <item row="1" column="0">
+     <item row="3" column="0">
       <widget class="QLabel" name="kohdennusLabel">
        <property name="text">
         <string>Kohdennus</string>
@@ -116,10 +80,10 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
+     <item row="3" column="1">
       <widget class="QComboBox" name="kohdennusCombo"/>
      </item>
-     <item row="2" column="0">
+     <item row="4" column="0">
       <widget class="QLabel" name="merkkausLabel">
        <property name="text">
         <string>Merkkaukset</string>
@@ -129,20 +93,20 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
+     <item row="4" column="1">
       <widget class="CheckCombo" name="merkkausCC"/>
      </item>
-     <item row="3" column="0">
+     <item row="5" column="0">
       <widget class="QLabel" name="asiakasLabel">
        <property name="text">
         <string>Asiakas</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="1">
+     <item row="5" column="1">
       <widget class="AsiakasToimittajaValinta" name="asiakastoimittaja" native="true"/>
      </item>
-     <item row="4" column="0">
+     <item row="6" column="0">
       <widget class="QLabel" name="seliteLabel">
        <property name="text">
         <string>Selite</string>
@@ -152,8 +116,38 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
+     <item row="6" column="1">
       <widget class="QLineEdit" name="seliteEdit"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Euroa</string>
+       </property>
+       <property name="buddy">
+        <cstring>euroEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="KpEuroEdit" name="euroEdit">
+       <property name="toolTip">
+        <string>Kirjaa tililtä otto miinusmerkkisenä</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Päivämäärä</string>
+       </property>
+       <property name="buddy">
+        <cstring>pvmEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="KpDateEdit" name="pvmEdit"/>
      </item>
     </layout>
    </item>

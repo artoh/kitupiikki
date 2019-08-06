@@ -93,6 +93,7 @@ public:
 
     QString seliteKoodilla(int koodi) const;
     QIcon kuvakeKoodilla(int koodi) const;
+    bool nollaTyyppi(int koodi) const;
 
     static int oletusAlvProsentti() { return 24; }
 
