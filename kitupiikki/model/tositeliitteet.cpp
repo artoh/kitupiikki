@@ -69,7 +69,7 @@ Qt::ItemFlags TositeLiitteet::flags(const QModelIndex &index) const
 void TositeLiitteet::lataa(QVariantList data)
 {
     beginResetModel();
-    liitteet_.clear();
+    liitteet_.clear();    
 
     for( QVariant item : data) {
         QVariantMap map = item.toMap();
@@ -78,6 +78,11 @@ void TositeLiitteet::lataa(QVariantList data)
                                        map.value("nimi").toString()) );
     }
     endResetModel();
+
+    if( liitteet_.count())
+        nayta(0);
+    else
+        emit naytaliite(QByteArray());
 }
 
 void TositeLiitteet::clear()
@@ -85,6 +90,7 @@ void TositeLiitteet::clear()
     beginResetModel();
     liitteet_.clear();
     endResetModel();
+    emit naytaliite(QByteArray());
 }
 
 bool TositeLiitteet::lisaa(const QByteArray &sisalto, const QString &nimi)

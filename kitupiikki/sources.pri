@@ -9,6 +9,7 @@ SOURCES += uusikp/uusikirjanpito.cpp \
     $$PWD/db/tositetyyppimodel.cpp \
     $$PWD/db/yhteysmodel.cpp \
     $$PWD/kirjaus/tallennettuwidget.cpp \
+    $$PWD/model/laskutaulumodel.cpp \
     $$PWD/model/tosite.cpp \
     $$PWD/model/tositeliitteet.cpp \
     $$PWD/model/tositeloki.cpp \
@@ -21,6 +22,7 @@ SOURCES += uusikp/uusikirjanpito.cpp \
     $$PWD/rekisteri/maamodel.cpp \
     $$PWD/rekisteri/postinumerot.cpp \
     $$PWD/tools/checkcombo.cpp \
+    $$PWD/tools/eracombo.cpp \
     $$PWD/tools/kpeuroedit.cpp \
     $$PWD/tools/tilicombo.cpp \
     $$PWD/tuonti/tuonti.cpp \
@@ -207,6 +209,7 @@ HEADERS += \
     $$PWD/db/tositetyyppimodel.h \
     $$PWD/db/yhteysmodel.h \
     $$PWD/kirjaus/tallennettuwidget.h \
+    $$PWD/model/laskutaulumodel.h \
     $$PWD/model/tosite.h \
     $$PWD/model/tositeliitteet.h \
     $$PWD/model/tositeloki.h \
@@ -219,6 +222,7 @@ HEADERS += \
     $$PWD/rekisteri/maamodel.h \
     $$PWD/rekisteri/postinumerot.h \
     $$PWD/tools/checkcombo.h \
+    $$PWD/tools/eracombo.h \
     $$PWD/tools/kpeuroedit.h \
     $$PWD/tools/tilicombo.h \
     $$PWD/tuonti/tuonti.h \

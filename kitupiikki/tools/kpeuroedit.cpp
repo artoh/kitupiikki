@@ -38,14 +38,26 @@ KpEuroEdit::KpEuroEdit(QWidget *parent) :
 
 void KpEuroEdit::setCents(qlonglong cents)
 {
-    cents_ = cents;
-    setText(QString("%L1 €").arg( cents_ / 100.0 ,0,'f',2));
+    cents_ = qAbs(cents);
+    miinus_ = cents < 0;
+
+    QString etumerkki = miinus_ ? "−" : "" ;
+    setText(QString("%2 %L1 €").arg( cents_ / 100.0 ,0,'f',2).arg(etumerkki) );
+
     setClearButtonEnabled( cents );
 }
 
 void KpEuroEdit::setValue(double euros)
 {
     setCents(qRound( euros * 100.0 ));
+}
+
+void KpEuroEdit::setMiinus(bool miinus)
+{
+    miinus_ = miinus;
+
+    QString etumerkki = miinus_ ? "−" : "" ;
+    setText(QString("%2 %L1 €").arg( cents_ / 100.0 ,0,'f',2).arg(etumerkki) );
 }
 
 void KpEuroEdit::edited(const QString &newtext)

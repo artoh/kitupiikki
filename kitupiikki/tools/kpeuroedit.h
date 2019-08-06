@@ -35,9 +35,12 @@ public:
     qlonglong asCents() { return miinus_ ? 0 - cents_ : cents_; }
     double value() { return asCents() / 100.0; }
 
+    bool miinus() { return miinus_;}
+
 public slots:
     void setCents(qlonglong cents);
     void setValue(double euros);
+    void setMiinus(bool miinus);
 
 protected slots:
     void edited(const QString& newtext);

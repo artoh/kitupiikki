@@ -32,12 +32,15 @@ SiirtoApuri::SiirtoApuri(QWidget *parent, Tosite *tosite) :
     ui->setupUi(this);
 
     bool merkkauksia = kp()->kohdennukset()->merkkauksia();
-    ui->merkkausEdit->setVisible(merkkauksia);
+    ui->merkkausCC->setVisible(merkkauksia);
     ui->merkkausLabel->setVisible(merkkauksia);
 
     connect( ui->tililtaEdit, &TilinvalintaLine::textChanged, this, &SiirtoApuri::tililtaMuuttui);
     connect( ui->tililleEdit, &TilinvalintaLine::textChanged, this, &SiirtoApuri::tililleMuuttui);
     connect( ui->euroEdit, &KpEuroEdit::textChanged, this, &SiirtoApuri::tositteelle);
+
+    connect( ui->tililtaEraCombo, &EraCombo::valittu, this, &SiirtoApuri::eraValittu);
+    connect( ui->tililleEraCombo, &EraCombo::valittu, this, &SiirtoApuri::eraValittu);
 }
 
 SiirtoApuri::~SiirtoApuri()
@@ -112,6 +115,8 @@ void SiirtoApuri::tililtaMuuttui()
 
     ui->tililtaEraLabel->setVisible(erat);
     ui->tililtaEraCombo->setVisible(erat);
+    if( erat )
+        ui->tililtaEraCombo->lataa( tili.numero() );
 
     tositteelle();
 }
@@ -128,6 +133,16 @@ void SiirtoApuri::tililleMuuttui()
 
     ui->tililleEraLabel->setVisible(erat);
     ui->tililleEraCombo->setVisible(erat);
+    if( erat )
+        ui->tililleEraCombo->lataa(tili.numero());
+
+    tositteelle();
+}
+
+void SiirtoApuri::eraValittu(int /* eraId */, double avoinna)
+{
+    if( !ui->euroEdit->asCents() && avoinna > 1e-5)
+        ui->euroEdit->setValue(avoinna);
 
     tositteelle();
 }

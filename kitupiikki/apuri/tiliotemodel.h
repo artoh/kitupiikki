@@ -35,19 +35,21 @@ public:
         int kohdennus = 0;
         QString selite;
         QList<int> merkkaukset;
+        int saajamaksajaId;
         QString saajamaksaja;
         QString arkistotunnus;
         QString tilinumero;
         QString viite;
         int eraId = 0;
         QString eraTunnus;
+        QDate laskupvm;
     };
 
 public:
     explicit TilioteModel(QObject *parent = nullptr);
 
     enum Sarakkeet {
-        PVM, EURO, TILI, KOHDENNUS, SELITE
+        PVM, EURO, TILI, KOHDENNUS, SAAJAMAKSAJA, SELITE
     };
 
     // Header:

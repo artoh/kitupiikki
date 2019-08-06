@@ -22,6 +22,9 @@
 #include "tiliotemodel.h"
 
 class KohdennusProxyModel;
+class LaskuTauluModel;
+
+class QSortFilterProxyModel;
 
 namespace Ui {
 class TilioteKirjaaja;
@@ -43,6 +46,10 @@ public:
 private slots:
     void alaTabMuuttui(int tab);
     void euroMuuttuu();
+    void ylaTabMuuttui(int tab);
+
+    void valitseLasku();
+    void suodata(const QString& teksti);
 
 private:
     Ui::TilioteKirjaaja *ui;
@@ -51,6 +58,9 @@ private:
 
     TilioteModel::Tilioterivi rivi_;
     KohdennusProxyModel* kohdennusProxy_;
+    QSortFilterProxyModel* maksuProxy_;
+
+    LaskuTauluModel *laskut_;
 };
 
 #endif // TILIOTEKIRJAAJA_H

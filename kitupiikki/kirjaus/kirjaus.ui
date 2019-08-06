@@ -312,6 +312,13 @@
      </item>
      <item>
       <widget class="QLabel" name="tunnisteLabel">
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -331,6 +338,13 @@
        </property>
        <property name="shortcut">
         <string>Alt+Right</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="vuosiLabel">
+       <property name="text">
+        <string/>
        </property>
       </widget>
      </item>

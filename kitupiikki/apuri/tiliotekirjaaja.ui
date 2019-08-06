@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>762</width>
+    <width>1215</width>
     <height>699</height>
    </rect>
   </property>
@@ -15,49 +15,47 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QFormLayout" name="formLayout">
-     <item row="0" column="0">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Päivämäärä</string>
-       </property>
-       <property name="buddy">
-        <cstring>pvmEdit</cstring>
-       </property>
-      </widget>
+    <widget class="QTabBar" name="ylaTab" native="true"/>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <layout class="QFormLayout" name="formLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Päivämäärä</string>
+         </property>
+         <property name="buddy">
+          <cstring>pvmEdit</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="KpDateEdit" name="pvmEdit"/>
+       </item>
+      </layout>
      </item>
-     <item row="0" column="1">
-      <widget class="KpDateEdit" name="pvmEdit"/>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Euroa</string>
-       </property>
-       <property name="buddy">
-        <cstring>euroEdit</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="KpEuroEdit" name="euroEdit">
-       <property name="toolTip">
-        <string>Kirjaa tililtä otto miinusmerkkisenä</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Selite</string>
-       </property>
-       <property name="buddy">
-        <cstring>seliteEdit</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLineEdit" name="seliteEdit"/>
+     <item>
+      <layout class="QFormLayout" name="formLayout_3">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Euroa</string>
+         </property>
+         <property name="buddy">
+          <cstring>euroEdit</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="KpEuroEdit" name="euroEdit">
+         <property name="toolTip">
+          <string>Kirjaa tililtä otto miinusmerkkisenä</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>
@@ -79,6 +77,18 @@
        <verstretch>10</verstretch>
       </sizepolicy>
      </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+     <attribute name="horizontalHeaderStretchLastSection">
+      <bool>true</bool>
+     </attribute>
     </widget>
    </item>
    <item>
@@ -122,23 +132,30 @@
      <item row="2" column="1">
       <widget class="CheckCombo" name="merkkausCC"/>
      </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="asiakasLabel">
+       <property name="text">
+        <string>Asiakas</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="AsiakasToimittajaValinta" name="asiakastoimittaja" native="true"/>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="seliteLabel">
+       <property name="text">
+        <string>Selite</string>
+       </property>
+       <property name="buddy">
+        <cstring>seliteEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="seliteEdit"/>
+     </item>
     </layout>
-   </item>
-   <item>
-    <widget class="QLabel" name="ohjeLabel">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>10</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kirjaa tilellepano plusmerkkisenä&lt;br/&gt;ja tililtäotto miinusmerkkisenä.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
    </item>
    <item>
     <spacer name="verticalSpacer">
@@ -159,7 +176,7 @@
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
@@ -191,6 +208,12 @@
    <class>TilinvalintaLine</class>
    <extends>QLineEdit</extends>
    <header>db/tilinvalintaline.h</header>
+  </customwidget>
+  <customwidget>
+   <class>AsiakasToimittajaValinta</class>
+   <extends>QWidget</extends>
+   <header location="global">rekisteri/asiakastoimittajavalinta.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

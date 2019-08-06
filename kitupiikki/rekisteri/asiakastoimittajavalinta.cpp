@@ -143,7 +143,6 @@ void AsiakasToimittajaValinta::modelLadattu()
     {
         setId(ladattu_);
         int indeksi = combo_->findData( id_ );
-        qDebug() << "ML id " << id_ << " ind " << indeksi;
         combo_->setCurrentIndex(indeksi);
     }
 }

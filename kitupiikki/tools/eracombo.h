@@ -14,39 +14,34 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef SIIRTOAPURI_H
-#define SIIRTOAPURI_H
+#ifndef ERACOMBO_H
+#define ERACOMBO_H
 
-#include "apuriwidget.h"
+#include <QComboBox>
 
-namespace Ui {
-class SiirtoApuri;
-}
-
-class SiirtoApuri : public ApuriWidget
+class EraCombo : public QComboBox
 {
     Q_OBJECT
-
 public:
-    explicit SiirtoApuri(QWidget *parent = nullptr, Tosite* tosite = nullptr);
-    virtual ~SiirtoApuri() override;
+    EraCombo(QWidget *parent = nullptr);
 
+    enum {
+        AvoinnaRooli = Qt::UserRole + 1
+    };
 
-    void otaFokus() override;
+public slots:
+    void lataa(int tili);
+    void valitse(int eraid);
+
+signals:
+    void valittu(int eraid, double avoinna);
 
 private slots:
-
-    void tililtaMuuttui();
-    void tililleMuuttui();
-    void eraValittu(int eraId, double avoinna);
-
-protected:
-    bool teeTositteelle() override;
-    void teeReset() override;
+    void dataSaapuu(QVariant* data);
+    void valintaMuuttui();
 
 private:
-    Ui::SiirtoApuri *ui;
-
+    int valittuna_;
 };
 
-#endif // SIIRTOAPURI_H
+#endif // ERACOMBO_H

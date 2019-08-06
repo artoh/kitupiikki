@@ -320,7 +320,7 @@ void TilikausiModel::paivitaKausitunnukset()
 
     for(int i=0; i < kaudet_.count(); i++)
     {
-        QString vuositxt = kaudet_.at(i).paattyy().toString("yy");
+        QString vuositxt = kaudet_.at(i).paattyy().toString("yyyy");
         if( vuositxt != edellinenvuosi)
         {
             samoja = 0;

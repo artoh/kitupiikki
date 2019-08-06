@@ -19,8 +19,6 @@
 #include "tositeviennit.h"
 #include "tositeliitteet.h"
 #include "tositeloki.h"
-#include "asiakas.h"
-#include "toimittaja.h"
 #include "db/kirjanpito.h"
 #include "db/tositetyyppimodel.h"
 
@@ -169,7 +167,7 @@ void Tosite::tallennusValmis(QVariant *variant)
     setData(TUNNISTE, map.value( avaimet__.at(TUNNISTE)).toInt());
 
     if( liitteet()->tallennettaviaLiitteita())
-        liitteet()->tallennaLiitteet( data(TUNNISTE).toInt() );
+        liitteet()->tallennaLiitteet( data(ID).toInt() );
     else
         emit talletettu( data(ID).toInt(), data(TUNNISTE).toInt(), tallennettu_.value( avaimet__.at(PVM) ).toDate() );
 

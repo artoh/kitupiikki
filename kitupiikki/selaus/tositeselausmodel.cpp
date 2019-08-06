@@ -96,7 +96,7 @@ QVariant TositeSelausModel::data(const QModelIndex &index, int role) const
              else
                 return QVariant(QString("%1/%2")
                     .arg( map.value("tunniste").toInt() )
-                    .arg( kp()->tilikaudet()->tilikausiPaivalle( map.value("tunniste").toDate()  ).kausitunnus() ));
+                    .arg( kp()->tilikaudet()->tilikausiPaivalle( map.value("pvm").toDate()  ).kausitunnus() ));
         case PVM:
             return QVariant( map.value("pvm").toDate() );
 

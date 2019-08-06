@@ -125,7 +125,8 @@ public:
      * @brief Tilikauden lyhyt tunnus esim. 17, 17B
      * @return
      */
-    QString kausitunnus() const { return kausitunnus_;}
+    QString kausitunnus() const { return kausitunnus_.mid(2);}
+    QString pitkakausitunnus() const { return kausitunnus_; }
 
     void asetaKausitunnus(const QString& kausitunnus);
 

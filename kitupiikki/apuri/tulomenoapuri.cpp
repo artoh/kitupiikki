@@ -414,14 +414,10 @@ bool TuloMenoApuri::teeTositteelle()
         {
             if( ui->asiakasToimittaja->id() > 0)
                 vasta.set( TositeVienti::TOIMITTAJA, ui->asiakasToimittaja->id() );
-            else if( ui->asiakasToimittaja->id() == -1 && !ui->asiakasToimittaja->nimi().isEmpty())
-                vasta.insert("uusitoimittaja", ui->asiakasToimittaja->nimi() );
         } else {
 
             if( ui->asiakasToimittaja->id() > 0)
                 vasta.set( TositeVienti::ASIAKAS, ui->asiakasToimittaja->id() );
-            else if( ui->asiakasToimittaja->id() == -1 &&  !ui->asiakasToimittaja->nimi().isEmpty())
-                vasta.insert("uusiasiakas", ui->asiakasToimittaja->nimi() );
         }
 
         qDebug() << vasta;

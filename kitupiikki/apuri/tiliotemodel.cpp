@@ -40,6 +40,8 @@ QVariant TilioteModel::headerData(int section, Qt::Orientation orientation, int 
             return tr("Tili");
         case KOHDENNUS:
             return tr("Kohdennus");
+        case SAAJAMAKSAJA:
+            return tr("Saaja/Maksaja");
         case SELITE:
             return tr("Selite");
 
@@ -72,7 +74,7 @@ int TilioteModel::columnCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    return 5;
+    return 6;
 }
 
 QVariant TilioteModel::data(const QModelIndex &index, int role) const
@@ -96,8 +98,11 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
             return kp()->tilit()->tiliNumerolla( rivi.tili ).nimiNumero();
         case KOHDENNUS:
         {
-            if( rivi.eraId)
+            if( rivi.eraId) {
+                if( rivi.laskupvm.isValid())
+                    return rivi.laskupvm;
                 return rivi.eraTunnus;
+            }
             QString txt;
             if( rivi.kohdennus )
                 txt = kp()->kohdennukset()->kohdennus(rivi.kohdennus).nimi() + " ";
@@ -107,6 +112,8 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
             txt.append( merkkausList.join(", ") );
             return txt;
         }
+        case SAAJAMAKSAJA:
+            return rivi.saajamaksaja;
         case SELITE:
             return  rivi.selite;
         }
@@ -122,6 +129,8 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
             return qRound( rivi.euro * 100 );
         case KOHDENNUS:
             return rivi.kohdennus;
+        case SAAJAMAKSAJA:
+            return rivi.saajamaksajaId;
         case SELITE:
             return rivi.selite;
         }
@@ -131,6 +140,12 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
             return QVariant(Qt::AlignRight | Qt::AlignVCenter);
         else
             return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
+
+    case Qt::DecorationRole:
+        if( index.column() == KOHDENNUS) {
+            if( rivi.laskupvm.isValid())
+                return QIcon(":/pic/lasku.png");
+        }
 
     }
     return QVariant();

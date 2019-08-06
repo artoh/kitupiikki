@@ -609,17 +609,18 @@ void KirjausWg::tiedotModelista()
 
     if( tunniste ) {
         ui->tunnisteLabel->setVisible(true);
+        ui->vuosiLabel->setVisible(true);
         ui->edellinenButton->setVisible(true);
         ui->seuraavaButton->setVisible(true);
         ui->tallennaButton->setVisible(false);
 
-        ui->tunnisteLabel->setText( QString("%1 / %2")
-                                    .arg( tunniste )
-                                    .arg( kp()->tilikaudet()->tilikausiPaivalle(tositepvm).kausitunnus() ));
+        ui->tunnisteLabel->setText( QString::number( tunniste ) );
+        ui->vuosiLabel->setText( kp()->tilikaudet()->tilikausiPaivalle(tositepvm).pitkakausitunnus() );
     } else {
         ui->edellinenButton->setVisible(false);
         ui->tunnisteLabel->setVisible(false);
         ui->seuraavaButton->setVisible(false);
+        ui->vuosiLabel->setVisible(false);
     }
 
 
