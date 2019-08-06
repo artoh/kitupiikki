@@ -45,6 +45,7 @@ pages:
     - Videot: 'videot.md'
     - Käyttöliittymä: 'ui.md'
     - Tuki: 'tuki.md'
+    - Uutta kohti: 'v2/index.md'
   - Kirjanpidosta lyhyesti: 'kirjanpito/index.md'
   - Asennus: 'asennus.md'
   - Kirjanpidon aloittaminen: 'aloitus/index.md'
