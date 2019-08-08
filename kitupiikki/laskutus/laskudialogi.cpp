@@ -101,8 +101,10 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     tuoteProxy->setSortLocaleAware(true);
     connect( ui->tuotehakuEdit, SIGNAL(textChanged(QString)), tuoteProxy, SLOT(setFilterFixedString(QString)) );
 
-    ui->nroLabel->setText( QString::number(model->laskunro()));
-    ui->ytunnus->setValidator( new YTunnusValidator(true));
+//    ui->nroLabel->setText( QString::number(model->laskunro()));
+//    ui->ytunnus->setValidator( new YTunnusValidator(true));
+
+    ui->asiakas->alusta(false);
 
     ui->rivitView->setModel(model);
     ui->rivitView->setItemDelegateForColumn(LaskuModel::AHINTA, new EuroDelegaatti());
@@ -129,7 +131,7 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     sqlmalli->setQuery("select distinct asiakas from vienti order by asiakas");
     nimiTaydentaja->setModel(sqlmalli);
     nimiTaydentaja->setModelSorting(QCompleter::CaseSensitivelySortedModel);
-    ui->saajaEdit->setCompleter(nimiTaydentaja);
+//    ui->saajaEdit->setCompleter(nimiTaydentaja);
 
 
     ui->rivitView->horizontalHeader()->setSectionResizeMode(LaskuModel::NIMIKE, QHeaderView::Stretch);
@@ -139,22 +141,22 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     ui->perusteCombo->setCurrentIndex( model->kirjausperuste() );
 
     ui->perusteCombo->setEnabled( model->tyyppi() == LaskuModel::LASKU || model->tyyppi() == LaskuModel::RYHMALASKU);
-    ui->saajaEdit->setText( model->laskunsaajanNimi() );
+//    ui->saajaEdit->setText( model->laskunsaajanNimi() );
     if( !model->osoite().isEmpty())
         ui->osoiteEdit->setPlainText( model->osoite());
 
     // Jotta tulisi käyttöön heti kun osoite on haettu
-    connect( ui->emailEdit, SIGNAL(textChanged(QString)), this, SLOT(onkoPostiKaytossa()));
+//    connect( ui->emailEdit, SIGNAL(textChanged(QString)), this, SLOT(onkoPostiKaytossa()));
 
     if( !model->email().isEmpty())
     {
-        ui->emailEdit->setText( model->email());
+//        ui->emailEdit->setText( model->email());
     }
-    if( !model->ytunnus().isEmpty())
-        ui->ytunnus->setText( model->ytunnus());
+//    if( !model->ytunnus().isEmpty())
+//        ui->ytunnus->setText( model->ytunnus());
 
-    ui->eraDate->setDate( model->erapaiva() );
-    ui->eraDate->setEnabled( model->tyyppi() != LaskuModel::HYVITYSLASKU );
+//    ui->eraDate->setDate( model->erapaiva() );
+//    ui->eraDate->setEnabled( model->tyyppi() != LaskuModel::HYVITYSLASKU );
     ui->toimitusDate->setDate( model->toimituspaiva());
     ui->perusteCombo->setCurrentIndex( ui->perusteCombo->findData( model->kirjausperuste() ));
     ui->lisatietoEdit->setPlainText( model->lisatieto() );
@@ -169,23 +171,23 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     {
         setWindowTitle( tr("Hyvityslasku"));
         ui->toimituspvmLabel->setText( tr("Hyvityspvm"));
-        ui->rahaTiliEdit->valitseTiliIdlla( model->viittausLasku().tiliid );
-        ui->rahaTiliEdit->setEnabled(false);
+//        ui->rahaTiliEdit->valitseTiliIdlla( model->viittausLasku().tiliid );
+//        ui->rahaTiliEdit->setEnabled(false);
         ui->verkkolaskuNappi->setVisible(false);
         connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("laskutus/uusi#hyvityslasku");});
     }
     else if( model->tyyppi() == LaskuModel::MAKSUMUISTUTUS)
     {
         setWindowTitle( tr("Maksumuistutus"));
-        ui->rahaTiliEdit->valitseTiliIdlla( model->viittausLasku().tiliid );
-        ui->rahaTiliEdit->setEnabled(false);
+//        ui->rahaTiliEdit->valitseTiliIdlla( model->viittausLasku().tiliid );
+//        ui->rahaTiliEdit->setEnabled(false);
         ui->verkkolaskuNappi->setVisible(false);
         connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("laskutus/muistutus");});
 
     }
     else if( model->tyyppi() == LaskuModel::LASKU || model->tyyppi() == LaskuModel::RYHMALASKU)
     {
-        ui->eraDate->setMinimumDate( kp()->paivamaara() );
+//        ui->eraDate->setMinimumDate( kp()->paivamaara() );
         perusteVaihtuu();
         ui->verkkolaskuNappi->setVisible( kp()->asetukset()->onko("VerkkolaskuKaytossa") );
 
@@ -218,12 +220,12 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
         ui->asiakasLista->setModel( ryhmaAsiakasProxy );
         connect( ui->assuodatusEdit, &QLineEdit::textChanged, [ryhmaAsiakasProxy] (const QString& teksti) { ryhmaAsiakasProxy->setFilterFixedString(teksti); });
 
-        ui->saajaEdit->hide();
+//        ui->saajaEdit->hide();
         ui->osoiteEdit->hide();
-        ui->emailEdit->hide();
-        ui->ytunnus->hide();
-        ui->viiteLabel->hide();
-        ui->nroLabel->hide();
+//        ui->emailEdit->hide();
+//        ui->ytunnus->hide();
+//        ui->viiteLabel->hide();
+//        ui->nroLabel->hide();
         ui->asViiteEdit->hide();
 
         ui->esikatseluNappi->setEnabled(false);
@@ -262,7 +264,7 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
 
     ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( model->kieli() ) );
 
-    connect( ui->saajaEdit, SIGNAL(textChanged(QString)), this, SLOT(haeOsoite()));
+//    connect( ui->saajaEdit, SIGNAL(textChanged(QString)), this, SLOT(haeOsoite()));
     connect( ui->rivitView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(rivienKontekstiValikko(QPoint)));
 
 
@@ -273,20 +275,20 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     connect( ui->asiakasLista, &QListView::clicked, this, &LaskuDialogi::lisaaAsiakasListalta);
     connect( ui->lisaaRyhmaanNappi, &QPushButton::clicked, this, &LaskuDialogi::lisaaAsiakas);
 
-    connect( ui->ytunnus, &QLineEdit::textChanged, this, &LaskuDialogi::ytunnusSyotetty);
+//    connect( ui->ytunnus, &QLineEdit::textChanged, this, &LaskuDialogi::ytunnusSyotetty);
     connect( ui->verkkoOsoiteEdit, &QLineEdit::textChanged, this, &LaskuDialogi::verkkolaskuKayttoon);
     connect( ui->verkkoValittajaEdit, &QLineEdit::textChanged, this, &LaskuDialogi::verkkolaskuKayttoon);
     connect( ui->verkkolaskuNappi, &QPushButton::clicked, this, &LaskuDialogi::finvoice);
 
     connect( ui->toimitusDate, SIGNAL(dateChanged(QDate)), model, SLOT(asetaToimituspaiva(QDate)));
-    connect(ui->eraDate, SIGNAL(dateChanged(QDate)), model, SLOT(asetaErapaiva(QDate)));
+//    connect(ui->eraDate, SIGNAL(dateChanged(QDate)), model, SLOT(asetaErapaiva(QDate)));
     connect( model, &LaskuModel::laskuaMuokattu, ui->tallennaNappi, &QPushButton::setEnabled );
 
-    connect( ui->eraDate, &QDateEdit::dateChanged, model, &LaskuModel::asetaErapaiva);
+//    connect( ui->eraDate, &QDateEdit::dateChanged, model, &LaskuModel::asetaErapaiva);
     connect( ui->lisatietoEdit, &QPlainTextEdit::textChanged, this, &LaskuDialogi::vieMalliin);
     connect( ui->osoiteEdit, &QPlainTextEdit::textChanged, this, &LaskuDialogi::vieMalliin );
-    connect( ui->toimitusDate, &QDateEdit::dateChanged, model, &LaskuModel::asetaToimituspaiva);
-    connect( ui->emailEdit, &QLineEdit::textChanged, model, &LaskuModel::asetaEmail);
+//    connect( ui->toimitusDate, &QDateEdit::dateChanged, model, &LaskuModel::asetaToimituspaiva);
+//    connect( ui->emailEdit, &QLineEdit::textChanged, model, &LaskuModel::asetaEmail);
     connect( ui->asViiteEdit, &QLineEdit::textChanged, model, &LaskuModel::asetaAsiakkaanViite);
     connect( ui->verkkoOsoiteEdit, &QLineEdit::textChanged, model, &LaskuModel::asetaVerkkolaskuOsoite);
     connect( ui->verkkoValittajaEdit, &QLineEdit::textChanged, model, &LaskuModel::asetaVerkkolaskuValittaja);
@@ -309,7 +311,7 @@ LaskuDialogi::~LaskuDialogi()
 
 void LaskuDialogi::paivitaSumma(qlonglong summa)
 {
-    ui->summaLabel->setText( QString("%L1 €").arg(summa / 100.0,0,'f',2) );
+//    ui->summaLabel->setText( QString("%L1 €").arg(summa / 100.0,0,'f',2) );
 }
 
 void LaskuDialogi::esikatselu()
@@ -385,13 +387,13 @@ void LaskuDialogi::perusteVaihtuu()
 {
     int peruste = ui->perusteCombo->currentData().toInt();
 
-    ui->rahaTiliEdit->setVisible( peruste != LaskuModel::MAKSUPERUSTE );
-    ui->rahatiliLabel->setVisible( peruste != LaskuModel::MAKSUPERUSTE );
+//    ui->rahaTiliEdit->setVisible( peruste != LaskuModel::MAKSUPERUSTE );
+//    ui->rahatiliLabel->setVisible( peruste != LaskuModel::MAKSUPERUSTE );
 
     ui->viivkorkoLabel->setVisible( peruste != LaskuModel::KATEISLASKU);
     ui->viivkorkoSpin->setVisible( peruste != LaskuModel::KATEISLASKU);
     ui->eraLabel->setVisible( peruste != LaskuModel::KATEISLASKU);
-    ui->eraDate->setVisible( peruste != LaskuModel::KATEISLASKU);
+/*    ui->eraDate->setVisible( peruste != LaskuModel::KATEISLASKU);
 
     if( peruste == LaskuModel::MAKSUPERUSTE || peruste == LaskuModel::LASKUTUSPERUSTE)
         ui->toimitusDate->setMinimumDate( kp()->tilitpaatetty().addYears(-1));
@@ -411,12 +413,12 @@ void LaskuDialogi::perusteVaihtuu()
         ui->rahaTiliEdit->valitseTiliNumerolla( kp()->asetus("LaskuKateistili").toInt());
     }
     model->asetaKirjausperuste(peruste);
-
+*/
 }
 
 void LaskuDialogi::haeOsoite()
 {
-    QSqlQuery kysely;
+/*    QSqlQuery kysely;
     QString nimistr = ui->saajaEdit->text();
     nimistr.remove(QRegExp("['\"]"));
 
@@ -444,11 +446,11 @@ void LaskuDialogi::haeOsoite()
     }
     // Osoitetta ei tiedossa, kirjoitetaan nimi
     ui->osoiteEdit->setPlainText( nimistr + "\n" );
-    vieMalliin();
+    vieMalliin(); */
 }
 
 void LaskuDialogi::vieMalliin()
-{
+{ /*
     if( model->laskunSumma() > 0 && ui->perusteCombo->currentData().toInt() != LaskuModel::KATEISLASKU )
         model->asetaErapaiva( ui->eraDate->date());
 
@@ -466,7 +468,7 @@ void LaskuDialogi::vieMalliin()
     if( ui->ytunnus->hasAcceptableInput())
         model->asetaYTunnus( ui->ytunnus->text());
     else
-        model->asetaYTunnus(QString());
+        model->asetaYTunnus(QString()); */
 }
 
 void LaskuDialogi::accept()
@@ -481,13 +483,13 @@ void LaskuDialogi::accept()
         return;
     }
 
-    int rahatilinro = ui->rahaTiliEdit->valittuTilinumero();
+/*    int rahatilinro = ui->rahaTiliEdit->valittuTilinumero();
 
     if( model->tallenna(kp()->tilit()->tiliNumerolla( rahatilinro )) )
         QDialog::accept();
     else
         QMessageBox::critical(this, tr("Virhe laskun tallentamisessa"), tr("Laskun tallentaminen epäonnistui"));
-
+*/
 }
 
 void LaskuDialogi::rivienKontekstiValikko(QPoint pos)
@@ -545,8 +547,8 @@ void LaskuDialogi::paivitaTuoteluetteloon()
 void LaskuDialogi::onkoPostiKaytossa()
 {
     // Sähköpostin lähettäminen edellyttää smtp-asetusten laittamista
-    ui->spostiNappi->setEnabled( !kp()->settings()->value("SmtpServer").toString().isEmpty()
-                                 && ui->emailEdit->text().contains(QRegularExpression(".+@.+\\.\\w+")));
+//    ui->spostiNappi->setEnabled( !kp()->settings()->value("SmtpServer").toString().isEmpty()
+//                                 && ui->emailEdit->text().contains(QRegularExpression(".+@.+\\.\\w+")));
 }
 
 void LaskuDialogi::lahetaSahkopostilla()
@@ -579,11 +581,11 @@ void LaskuDialogi::lahetaSahkopostilla()
 
     QString kenelta = QString("=?utf-8?B?%1?= <%2>").arg( QString(kp()->asetukset()->asetus("EmailNimi").toUtf8().toBase64())  )
                                                 .arg(kp()->asetukset()->asetus("EmailOsoite"));
-    QString kenelle = QString("=?utf-8?B?%1?= <%2>").arg( QString( ui->saajaEdit->text().toUtf8().toBase64()) )
-                                            .arg(ui->emailEdit->text() );
+//    QString kenelle = QString("=?utf-8?B?%1?= <%2>").arg( QString( ui->saajaEdit->text().toUtf8().toBase64()) )
+//                                            .arg(ui->emailEdit->text() );
 
-    smtp->lahetaLiitteella(kenelta, kenelle, tr("%3 %1 - %2").arg( model->viitenumero() ).arg( kp()->asetukset()->asetus("Nimi") ).arg(model->t("laskuotsikko")) ,
-                           tulostaja->html(), tr("lasku%1.pdf").arg( model->viitenumero()), tulostaja->pdf(false));
+//    smtp->lahetaLiitteella(kenelta, kenelle, tr("%3 %1 - %2").arg( model->viitenumero() ).arg( kp()->asetukset()->asetus("Nimi") ).arg(model->t("laskuotsikko")) ,
+//                           tulostaja->html(), tr("lasku%1.pdf").arg( model->viitenumero()), tulostaja->pdf(false));
 
 
     if( kp()->asetukset()->onko("EmailKopio") )
