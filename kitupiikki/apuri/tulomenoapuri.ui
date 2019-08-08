@@ -107,7 +107,7 @@
          <item>
           <widget class="AsiakasToimittajaValinta" name="asiakasToimittaja" native="true">
            <property name="focusPolicy">
-            <enum>Qt::TabFocus</enum>
+            <enum>Qt::StrongFocus</enum>
            </property>
           </widget>
          </item>

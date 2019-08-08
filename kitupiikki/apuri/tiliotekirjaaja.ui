@@ -74,7 +74,7 @@
      <item row="1" column="1">
       <widget class="AsiakasToimittajaValinta" name="asiakastoimittaja" native="true">
        <property name="focusPolicy">
-        <enum>Qt::TabFocus</enum>
+        <enum>Qt::StrongFocus</enum>
        </property>
       </widget>
      </item>
@@ -176,12 +176,6 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QTabBar</class>
-   <extends>QWidget</extends>
-   <header>QTabBar</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>KpDateEdit</class>
    <extends>QLineEdit</extends>
    <header location="global">tools/kpdateedit.h</header>
@@ -205,6 +199,12 @@
    <class>AsiakasToimittajaValinta</class>
    <extends>QWidget</extends>
    <header location="global">rekisteri/asiakastoimittajavalinta.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>QTabBar</class>
+   <extends>QWidget</extends>
+   <header>QTabBar</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
