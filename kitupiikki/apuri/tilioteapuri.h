@@ -45,6 +45,7 @@ protected slots:
     void riviValittu();
     void muokkaa();
     void poista();
+    void naytaSummat();
 
 
 protected:

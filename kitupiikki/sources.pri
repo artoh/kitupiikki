@@ -15,6 +15,7 @@ SOURCES += uusikp/uusikirjanpito.cpp \
     $$PWD/model/tositeloki.cpp \
     $$PWD/model/tositeviennit.cpp \
     $$PWD/model/tositevienti.cpp \
+    $$PWD/raportti/paakirja.cpp \
     $$PWD/rekisteri/asiakastoimittajadlg.cpp \
     $$PWD/rekisteri/asiakastoimittajalistamodel.cpp \
     $$PWD/rekisteri/asiakastoimittajataydentaja.cpp \
@@ -215,6 +216,7 @@ HEADERS += \
     $$PWD/model/tositeloki.h \
     $$PWD/model/tositeviennit.h \
     $$PWD/model/tositevienti.h \
+    $$PWD/raportti/paakirja.h \
     $$PWD/rekisteri/asiakastoimittajadlg.h \
     $$PWD/rekisteri/asiakastoimittajalistamodel.h \
     $$PWD/rekisteri/asiakastoimittajataydentaja.h \

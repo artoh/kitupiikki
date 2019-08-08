@@ -146,3 +146,4 @@ void SiirtoApuri::eraValittu(int /* eraId */, double avoinna)
 
     tositteelle();
 }
+

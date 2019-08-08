@@ -30,7 +30,7 @@ class PaakirjaRaportti : public Raportti
 public:
     PaakirjaRaportti();
 
-    RaportinKirjoittaja raportti();
+    RaportinKirjoittaja raportti() override;
 
     static RaportinKirjoittaja kirjoitaRaportti( QDate mista, QDate mihin, int kohdennuksella = -1,
                                                  bool tulostakohdennus = false,
@@ -38,6 +38,8 @@ public:
                                                  int tililta = 0);
 public slots:
     void haeTilitComboon();
+
+    void esikatsele() override;
 protected:
     Ui::Paivakirja *ui;
 };

@@ -426,7 +426,7 @@ void KitupiikkiIkkuna::lisaaSivut()
     lisaaSivu("Uusi\ntosite",":/pic/uusitosite.png","Kirjaa uusi tosite","F2", KIRJAUSSIVU, kirjaussivu);
     lisaaSivu("Selaa",":/pic/Paivakirja64.png","Selaa kirjauksia aikajärjestyksessä","F3", SELAUSSIVU, selaussivu);
     lisaaSivu("Laskut",":/pic/lasku.png","Laskuta ja selaa laskuja","F4",LASKUTUSSIVU, laskutussivu);
-    lisaaSivu("Tulosteet",":/pic/print.png","Tulosta erilaisia raportteja","F5", TULOSTESIVU, raporttisivu);
+    lisaaSivu("Raportit",":/pic/print.png","Tulosta erilaisia raportteja","F5", TULOSTESIVU, raporttisivu);
     lisaaSivu("Tilikaudet",":/pic/kirja64.png","Tilinpäätös ja arkistot","F6", ARKISTOSIVU, arkistosivu);
     lisaaSivu("ALV", ":/pic/vero64.png", "Arvonlisäveron ilmoittaminen", "Shift+F7",ALVSIVU, alvsivu );
     lisaaSivu("Määritykset",":/pic/ratas.png","Kirjanpitoon liittyvät määritykset","F7", MAARITYSSIVU, maarityssivu);

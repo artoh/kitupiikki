@@ -63,6 +63,7 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     connect( model_, &TilioteModel::rowsInserted, this, &TilioteApuri::tositteelle);
     connect( model_, &TilioteModel::rowsRemoved, this, &TilioteApuri::tositteelle);
     connect( model_, &TilioteModel::modelReset, this, &TilioteApuri::tositteelle);
+
 }
 
 TilioteApuri::~TilioteApuri()
@@ -75,6 +76,9 @@ bool TilioteApuri::teeTositteelle()
     tosite()->viennit()->asetaViennit( model_->viennit(  kwg_->gui()->tiliotetiliCombo->valittuTilinumero() )  );
     if( tosite()->data(Tosite::OTSIKKO).toString().isEmpty())
         tosite()->setData(Tosite::OTSIKKO, tr("Tiliote %1").arg(tosite()->data(Tosite::PVM).toDate().toString("dd.MM.yyyy")));
+
+    naytaSummat();
+
     return true;
 }
 
@@ -121,6 +125,21 @@ void TilioteApuri::muokkaa()
 void TilioteApuri::poista()
 {
     model_->poistaRivi(ui->oteView->currentIndex().row() );
+}
+
+void TilioteApuri::naytaSummat()
+{
+    qlonglong panot = 0l;
+    qlonglong otot = 0l;
+
+    for(int i=0; i < model_->rowCount(); i++) {
+        qlonglong sentit = qRound( model_->data( model_->index(i, TilioteModel::EURO), Qt::EditRole ).toDouble() * 100.0 );
+        if( sentit > 0)
+            panot += sentit;
+        else
+            otot += qAbs(sentit);
+    }
+    ui->infoLabel->setText(tr("Panot %L1 € \tOtot %L2 €").arg((panot / 100.0), 0, 'f', 2).arg((otot / 100.0), 0, 'f', 2));
 }
 
 bool TilioteApuri::eventFilter(QObject *watched, QEvent *event)

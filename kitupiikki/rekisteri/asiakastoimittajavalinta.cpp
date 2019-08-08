@@ -30,6 +30,7 @@
 
 #include <QDebug>
 #include <QKeyEvent>
+#include <QFocusEvent>
 
 AsiakasToimittajaValinta::AsiakasToimittajaValinta(QWidget *parent) :
     QWidget(parent),
@@ -65,6 +66,9 @@ AsiakasToimittajaValinta::AsiakasToimittajaValinta(QWidget *parent) :
 
     combo_->lineEdit()->setPlaceholderText(tr("Y-tunnus tai nimi"));
     combo_->installEventFilter(this);
+
+    setFocusProxy( combo_ );
+    button_->setFocusPolicy(Qt::ClickFocus);
 }
 
 QString AsiakasToimittajaValinta::nimi() const
@@ -170,4 +174,5 @@ bool AsiakasToimittajaValinta::eventFilter(QObject *watched, QEvent *event)
     }
     return QWidget::eventFilter(watched, event);
 }
+
 

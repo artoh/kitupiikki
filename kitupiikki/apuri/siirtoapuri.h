@@ -35,7 +35,6 @@ public:
     void otaFokus() override;
 
 private slots:
-
     void tililtaMuuttui();
     void tililleMuuttui();
     void eraValittu(int eraId, double avoinna);

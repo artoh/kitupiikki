@@ -25,7 +25,7 @@ Paivakirja::Paivakirja(QObject *parent) : QObject(parent)
 
 void Paivakirja::kirjoita(QDate mista, QDate mihin)
 {
-    kirjoittaja.asetaOtsikko("PÄIVÄKIRJA");
+    kirjoittaja.asetaOtsikko(tr("PÄIVÄKIRJA"));
 
 
     kirjoittaja.asetaKausiteksti(QString("%1 - %2").arg( mista.toString("dd.MM.yyyy") )
@@ -49,7 +49,7 @@ void Paivakirja::kirjoita(QDate mista, QDate mihin)
         kirjoittaja.lisaaOtsake(otsikko);
     }
 
-    KpKysely *kysely = kpk("viennit");
+    KpKysely *kysely = kpk("/viennit");
     kysely->lisaaAttribuutti("alkupvm", mista);
     kysely->lisaaAttribuutti("loppupvm", mihin);
 
@@ -60,7 +60,7 @@ void Paivakirja::kirjoita(QDate mista, QDate mihin)
 
 void Paivakirja::dataSaapuu(QVariant *data)
 {
-    QVariantList lista = data->toMap().value("viennit").toList();
+    QVariantList lista = data->toList();
 
 
     for(auto item : lista) {

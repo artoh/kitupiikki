@@ -76,3 +76,9 @@ void Raportti::esikatsele()
 {
     NaytinIkkuna::naytaRaportti( raportti() );
 }
+
+void Raportti::nayta(RaportinKirjoittaja rk)
+{
+    NaytinIkkuna::naytaRaportti( rk );
+    sender()->deleteLater();
+}

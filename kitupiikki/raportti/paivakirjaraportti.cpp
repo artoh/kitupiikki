@@ -309,12 +309,8 @@ void PaivakirjaRaportti::kirjoitaSummaRivi(RaportinKirjoittaja &rk, qlonglong de
 void PaivakirjaRaportti::esikatsele()
 {
     Paivakirja *kirja = new Paivakirja(this);
-    connect( kirja, &Paivakirja::valmis, this, &PaivakirjaRaportti::nayta );
+    connect( kirja, &Paivakirja::valmis, this, &Raportti::nayta );
     kirja->kirjoita( ui->alkupvm->date(), ui->loppupvm->date() );
 }
 
-void PaivakirjaRaportti::nayta(RaportinKirjoittaja rk)
-{
-    NaytinIkkuna::naytaRaportti( rk );
-    sender()->deleteLater();
-}
+

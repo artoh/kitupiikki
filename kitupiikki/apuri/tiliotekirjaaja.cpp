@@ -161,6 +161,7 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
 
     } else if( tab == TULOMENO ) {
         ui->tiliLabel->setText( menoa_ ? tr("Menotili") : tr("Tulotili"));
+        ui->asiakasLabel->setText( menoa_ ? tr("Toimittaja") : tr("Asiakas"));
         ui->tiliEdit->suodataTyypilla( menoa_ ? "D.*" : "C.*");
         ui->asiakastoimittaja->alusta(menoa_);
 
@@ -172,26 +173,24 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
 
 void TilioteKirjaaja::euroMuuttuu()
 {
-   bool menoa = ui->euroEdit->miinus();
-
-    if( menoa != menoa_) {
-        menoa_ = menoa;
-        if( menoa ) {
-            ui->alaTabs->setTabText(MAKSU, tr("Maksettu lasku"));
-            ui->alaTabs->setTabIcon(TULOMENO, QIcon(":/pic/poista.png") ) ;
-            ui->alaTabs->setTabText(TULOMENO, tr("Meno"));
-        } else {
-            ui->alaTabs->setTabText(MAKSU, tr("Saapuva maksu"));
-            ui->alaTabs->setTabIcon(TULOMENO, QIcon(":/pic/lisaa.png") ) ;
-            ui->alaTabs->setTabText(TULOMENO, tr("Tulo"));
-        }
-        alaTabMuuttui( ui->alaTabs->currentIndex() );
-    }
-
+   ui->ylaTab->setCurrentIndex( ui->euroEdit->miinus() ? 1 : 0 );
 }
 
 void TilioteKirjaaja::ylaTabMuuttui(int tab)
 {
+    menoa_ = tab;
+    if( menoa_ ) {
+        ui->alaTabs->setTabText(MAKSU, tr("Maksettu lasku"));
+        ui->alaTabs->setTabIcon(TULOMENO, QIcon(":/pic/poista.png") ) ;
+        ui->alaTabs->setTabText(TULOMENO, tr("Meno"));
+    } else {
+        ui->alaTabs->setTabText(MAKSU, tr("Saapuva maksu"));
+        ui->alaTabs->setTabIcon(TULOMENO, QIcon(":/pic/lisaa.png") ) ;
+        ui->alaTabs->setTabText(TULOMENO, tr("Tulo"));
+    }
+    alaTabMuuttui( ui->alaTabs->currentIndex() );
+
+
     ui->euroEdit->setMiinus( tab );
 }
 

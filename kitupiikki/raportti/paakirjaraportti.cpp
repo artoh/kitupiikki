@@ -24,6 +24,8 @@
 
 #include "raportinkirjoittaja.h"
 
+#include "paakirja.h"
+
 PaakirjaRaportti::PaakirjaRaportti()
     : Raportti(nullptr)
 {
@@ -365,4 +367,22 @@ void PaakirjaRaportti::haeTilitComboon()
         ui->tiliCombo->addItem( QString("%1 %2").arg(tili.numero()).arg(tili.nimi()), tili.numero() );
     }
     ui->tiliCombo->model()->sort(0);
+}
+
+void PaakirjaRaportti::esikatsele()
+{
+    Paakirja *kirja = new Paakirja(this);
+    connect( kirja, &Paakirja::valmis, this, &Raportti::nayta);
+
+    int kohdennuksella = -1;
+    if( ui->kohdennusCheck->isChecked())
+        kohdennuksella = ui->kohdennusCombo->currentData( KohdennusModel::IdRooli).toInt();
+    int tililta = 0;
+    if( ui->tiliBox->isChecked())
+        tililta = ui->tiliCombo->currentData().toInt();
+
+    kirja->kirjoita(ui->alkupvm->date(), ui->loppupvm->date(), kohdennuksella,
+                            ui->tulostakohdennuksetCheck->isChecked(),
+                            ui->tulostasummat->isChecked(),
+                            tililta);
 }

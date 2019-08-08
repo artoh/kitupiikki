@@ -31,9 +31,9 @@ class PaivakirjaRaportti : public Raportti
     Q_OBJECT
 public:
     PaivakirjaRaportti();
-    ~PaivakirjaRaportti();
+    ~PaivakirjaRaportti() override;
 
-    RaportinKirjoittaja raportti();
+    RaportinKirjoittaja raportti() override;
 
 
     /**
@@ -59,9 +59,8 @@ protected:
     Ui::Paivakirja *ui;
 
 public slots:
-    virtual void esikatsele();
+    virtual void esikatsele() override;
 
-    virtual void nayta(RaportinKirjoittaja rk);
 };
 
 #endif // PAIVAKIRJARAPORTTI_H

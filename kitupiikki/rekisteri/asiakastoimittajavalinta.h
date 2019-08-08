@@ -55,7 +55,7 @@ private slots:
 
 protected:
     void setId(int id);
-    bool eventFilter(QObject *watched, QEvent *event);
+    bool eventFilter(QObject *watched, QEvent *event) override;
 
     QComboBox* combo_;
     QPushButton* button_;

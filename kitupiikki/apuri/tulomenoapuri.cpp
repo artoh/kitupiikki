@@ -91,7 +91,7 @@ TuloMenoApuri::~TuloMenoApuri()
 
 void TuloMenoApuri::otaFokus()
 {
-    ui->tiliEdit->setFocus();
+    ui->maksutapaCombo->setFocus();
 }
 
 void TuloMenoApuri::tuo(QVariantMap map)
@@ -697,12 +697,12 @@ void TuloMenoApuri::alusta(bool meno)
 {
 
     if(meno) {
-        ui->tiliLabel->setText( tr("Menotili") );
+        ui->tiliLabel->setText( tr("Meno&tili") );
         ui->tiliEdit->suodataTyypilla("(AP|D).*");
         veroFiltteri_->setFilterRegExp("^(0|2[1-79]|927)");
         ui->toimittajaLabel->setText( tr("Toimittaja"));        
     } else {
-        ui->tiliLabel->setText( tr("Tulotili"));
+        ui->tiliLabel->setText( tr("Tulo&tili"));
         ui->tiliEdit->suodataTyypilla("(AP|C).*");
         veroFiltteri_->setFilterRegExp("^(0|1[1-79])");
         ui->toimittajaLabel->setText( tr("Asiakas"));
