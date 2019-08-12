@@ -19,15 +19,19 @@
 #include "db/verotyyppimodel.h"
 #include "db/kohdennus.h"
 #include "db/kirjanpito.h"
+#include "db/tilinvalintadialogi.h"
+
+#include "model/tositevienti.h"
 
 LaskuRivitModel::LaskuRivitModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
+    lisaaRivi();
 }
 
 QVariant LaskuRivitModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    // FIXME: Implement me!
+
     if( role == Qt::DisplayRole)
     {
         if( orientation == Qt::Horizontal)
@@ -103,7 +107,7 @@ QVariant LaskuRivitModel::data(const QModelIndex &index, int role) const
             return QString("%L1 €").arg(map.value("ahinta").toDouble(),0,'f',2);
         case ALE:
             if(map.contains("aleprosentti"))
-                return QString("%1 %").arg(map.value("alvprosentti").toDouble());
+                return QString("%1 %").arg(map.value("aleprosentti").toDouble());
             else
                 return QString();
         case ALV:
@@ -134,7 +138,31 @@ QVariant LaskuRivitModel::data(const QModelIndex &index, int role) const
         case BRUTTOSUMMA:
            return QString("%L1 €").arg(  riviSumma(map) ,0,'f',2);
         }
-    }
+    } else if( role == Qt::EditRole) {
+        switch (index.column()) {
+        case NIMIKE:
+            return map.value("nimike").toString();
+        case MAARA:
+            return map.value("myyntikpl").toDouble();
+        case YKSIKKO:
+            return map.value("yksikko").toString();
+        case AHINTA:
+            return map.value("ahinta").toDouble();
+        case ALE:
+            return map.value("aleprosentti").toDouble();
+        case KOHDENNUS:
+            return map.value("kohdennus").toInt();
+        case TILI:
+            return map.value("tili").toInt();
+        case BRUTTOSUMMA:
+            return riviSumma(map);
+        }
+    } else if( role == AlvProsenttiRooli)
+        return map.value("alvprosentti").toDouble();
+    else if( role == AlvKoodiRooli)
+        return map.value("alvkoodi").toInt();
+    else if( role == TiliNumeroRooli )
+        return map.value("tili").toInt();
 
     // FIXME: Implement me!
     return QVariant();
@@ -143,8 +171,72 @@ QVariant LaskuRivitModel::data(const QModelIndex &index, int role) const
 bool LaskuRivitModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (data(index, role) != value) {
-        // FIXME: Implement me!
-        emit dataChanged(index, index, QVector<int>() << role);
+        QVariantMap map = rivit_.at(index.row()).toMap();
+
+        if( role == Qt::EditRole) {
+            switch (index.column()) {
+            case NIMIKE:
+                map.insert("nimike", value.toString());
+                break;
+            case MAARA:
+                map.insert("myyntikpl", value.toDouble());
+                break;
+            case YKSIKKO:
+                map.insert("yksikko", value.toString());
+                break;
+            case AHINTA:
+                map.insert("ahinta", value.toDouble());
+                break;
+            case ALE:
+                map.insert("aleprosentti", value.toDouble());
+                break;
+            case KOHDENNUS:
+                map.insert("kohdennus", value.toInt());
+                break;
+            case TILI:
+            {
+                // Tili asetetaan numerolla!
+                Tili uusitili;
+                if( value.toInt() )
+                    uusitili = kp()->tilit()->tiliNumerolla( value.toInt());
+                else if(!value.toString().isEmpty() && value.toString() != " " && value.toString() != "0")
+                    uusitili = TilinValintaDialogi::valitseTili(value.toString());
+                else if( value.toString()==" " || map.value("rivi").toInt())
+                    uusitili = TilinValintaDialogi::valitseTili( QString());
+
+                if( uusitili.onkoValidi())
+                    map.insert("tili", uusitili.numero());
+            }
+                break;
+            case BRUTTOSUMMA:
+                if( map.value("myyntikpl").toDouble() < 1e-5)
+                    return false;
+                // Tässä ei huomioitu marginaalimenettelyä
+                double ahinta = 10000 * value.toDouble() / map.value("myyntikpl").toDouble() /
+                        (100.0 + map.value("alvprosentti").toDouble()) /
+                         (100.0 - map.value("aleprosentti").toDouble());
+                map.insert("ahinta", ahinta);
+            }
+        } else if( role == AlvKoodiRooli) {
+            map.insert("alvkoodi", value.toDouble());
+        } else if( role == AlvProsenttiRooli) {
+            map.insert("alvprosentti", value.toDouble());
+        }
+
+        rivit_[index.row()] = map;
+
+        if( index.column() == AHINTA || index.column() == MAARA || index.column() == ALE
+                || index.column() == BRUTTOSUMMA )
+            // Summa muuttui
+            emit dataChanged(index.sibling(index.row(), MAARA),
+                             index.sibling(index.row(), BRUTTOSUMMA),
+                             QVector<int>() << role);
+        else
+            emit dataChanged(index, index, QVector<int>() << role);
+
+        if( index.row() == rowCount() - 1 && map.value("ahinta").toDouble() > 1e-5)
+            lisaaRivi();
+
         return true;
     }
     return false;
@@ -155,18 +247,134 @@ Qt::ItemFlags LaskuRivitModel::flags(const QModelIndex &index) const
     if (!index.isValid())
         return Qt::NoItemFlags;
 
-    return Qt::ItemIsEditable; // FIXME: Implement me!
+    return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
 }
 
-void LaskuRivitModel::lisaaTuote(QVariantMap tuote)
+QVariantList LaskuRivitModel::rivit() const
 {
-    if( !tuote.contains("myyntikpl"))
-        tuote.insert("myyntikpl", 1.0);
+    QVariantList ulos;
+    for(auto rivi : rivit_)
+    {
+        QVariantMap map = rivi.toMap();
+        if( qAbs(map.value("ahinta").toDouble()) > 1e-5 && qAbs(map.value("myyntikpl").toDouble()) > 1e-5 )
+            ulos.append(rivi);
+    }
+    return ulos;
+}
+
+double LaskuRivitModel::yhteensa() const
+{
+    double summa = 0;
+    for(auto rivi : rivit_)
+        summa += qRound(riviSumma( rivi.toMap() ) * 100.0 );
+    return summa / 100.0;
+}
+
+QVariantList LaskuRivitModel::viennit(const QDate& pvm) const
+{
+    QVariantList lista;
+
+    for(auto rivi : rivit()) {
+        QVariantMap map = rivi.toMap();
+        bool vanhaan = false;
+
+        for(int i=0; i < lista.count(); i++) {
+            QVariantMap vmap = lista.at(i).toMap();
+
+            if( map.value("tili") == vmap.value("tili") &&
+                map.value("kohdennus",0) == vmap.value("kohdennus",0) &&
+                map.value("alvprosentti",0) == vmap.value("alvprosentti",0) &&
+                map.value("alvkoodi",0) == vmap.value("alvkoodi",0))
+            {
+                double brutto = riviSumma( map);
+                double vanhasumma = vmap.value("kredit",0).toDouble() - vmap.value("debet",0).toDouble();
+                double uusisumma = vanhasumma + brutto;
+
+                if( uusisumma > 0.0) {
+                    vmap.insert("kredit", uusisumma);
+                    vmap.remove("debet");
+                } else {
+                    vmap.insert("debet", 0 - uusisumma);
+                    vmap.remove("kredit");
+                }
+                lista[i] = vmap;
+                vanhaan = true;
+                break;
+            }
+        }
+        if( !vanhaan ) {
+            TositeVienti vienti;
+            vienti.setTili( map.value("tili").toInt() );
+            vienti.setKohdennus( map.value("kohdennus").toInt());
+            vienti.setAlvKoodi( map.value("alvkoodi").toInt());
+            vienti.setAlvProsentti( map.value("alvprosentti").toInt());
+            vienti.setPvm(pvm);
+
+            double summa = riviSumma(map);
+            if( summa > 0)
+                vienti.setKredit( summa );
+            else
+                vienti.setDebet( 0 - summa);
+            lista.append(vienti);
+        }
+    }
+
+    // Nyt vienteihin pitäisi vielä täydentään kotimaan alv:n alv-velkarivit
+
+    QVariantList ulos;
+    for(auto rivi: lista) {
+        QVariantMap map = rivi.toMap();
+        if( map.value("alvkoodi").toInt() == AlvKoodi::MYYNNIT_NETTO) {
+            double brutto = map.value("kredit",0).toDouble() - map.value("debet",0).toDouble();
+            double netto = qRound( brutto * 10000 / ( 100 + map.value("alvprosentti").toDouble() ) ) / 100.0;
+            double vero = brutto - netto;
+
+            if( netto > 0)
+                map.insert("kredit", netto);
+            else
+                map.insert("debet", 0 - netto);
+
+            ulos.append(map);
+
+            TositeVienti verorivi;
+            verorivi.setPvm(pvm);
+            verorivi.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).numero() );
+            if( vero > 0)
+                verorivi.setKredit(vero);
+            else
+                verorivi.setDebet(vero);
+            verorivi.setAlvProsentti( map.value("alvprosentti").toInt() );
+            verorivi.setAlvKoodi( map.value("alvkoodi").toInt() + AlvKoodi::ALVKIRJAUS );
+            ulos.append(verorivi);
+        } else {
+            ulos.append(map);
+        }
+    }
+    return ulos;
+}
+
+void LaskuRivitModel::lisaaRivi(QVariantMap rivi)
+{
+    if( !rivi.contains("myyntikpl"))
+        rivi.insert("myyntikpl", 1.0);
+    if( !rivi.contains("tili"))
+        rivi.insert("tili", 3000);  // Tähän fiksu oletus!
+
+    int rivia = rivit_.count();
+    if( rivia && qAbs( rivit_.last().toMap().value("ahinta").toDouble() < 1e-5 ))
+    {
+        rivit_[rivia-1] = rivi;
+        emit dataChanged( index(rivia-1, 0), index(rivia-1, columnCount()) );
+        return lisaaRivi();
+    }
 
     beginInsertRows( QModelIndex(), rivit_.count(), rivit_.count() );
-    rivit_.append(tuote);
+    rivit_.append(rivi);
     endInsertRows();
 }
+
+
+
 
 double LaskuRivitModel::riviSumma(QVariantMap map)
 {
@@ -175,8 +383,10 @@ double LaskuRivitModel::riviSumma(QVariantMap map)
     double alennus = map.value("aleprosentti",0).toDouble();
     double alvprossa = map.value("alvprosentti").toDouble();
 
-    return map.value("alvkoodi").toInt() == AlvKoodi::MYYNNIT_MARGINAALI ?
+    double brutto = map.value("alvkoodi").toInt() == AlvKoodi::MYYNNIT_MARGINAALI ?
                 maara * ahinta * ( 100 - alennus) / 100 :
                 maara * ahinta * ( 100 - alennus) * (100 + alvprossa) / 10000;
+
+    return qRound( brutto * 100 ) / 100.0;
 
 }

@@ -19,6 +19,7 @@
 
 #include <QAbstractTableModel>
 #include <QVariantList>
+#include <QDate>
 
 class LaskuRivitModel : public QAbstractTableModel
 {
@@ -28,6 +29,19 @@ public:
     enum LaskuSarake
     {
         NIMIKE, MAARA, YKSIKKO, AHINTA, ALE, ALV, TILI, KOHDENNUS, BRUTTOSUMMA
+    };
+
+    enum
+    {
+        TiliNumeroRooli = Qt::UserRole + 3,
+        AlvKoodiRooli = Qt::UserRole + 5,
+        AlvProsenttiRooli = Qt::UserRole + 6
+    };
+
+    enum Voittomarginaalisyy {
+        Kaytetyt = 310024,
+        Taide = 320024,
+        KerailyAntiikki = 330024
     };
 
     explicit LaskuRivitModel(QObject *parent = nullptr);
@@ -48,11 +62,17 @@ public:
 
     Qt::ItemFlags flags(const QModelIndex& index) const override;
 
+    QVariantList rivit() const;
+
+    double yhteensa() const;
+    QVariantList viennit(const QDate& pvm = QDate::currentDate()) const;
+
 public slots:
-    void lisaaTuote(QVariantMap tuote);
+    void lisaaRivi(QVariantMap rivi = QVariantMap());
 
 protected:
     static double riviSumma(QVariantMap map);
+    static double riviVero(QVariantMap map);
 
 
 private:

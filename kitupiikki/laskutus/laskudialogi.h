@@ -35,6 +35,7 @@ class LaskuDialogi;
 }
 
 class KohdennusDelegaatti;
+class LaskuRivitModel;
 
 /**
  * @brief Laskun laatimisen dialogi
@@ -52,7 +53,7 @@ public:
     static int laskuIkkunoita();
 
 private slots:
-    void paivitaSumma(qlonglong paivitaSumma);
+    void paivitaSumma();
     void esikatselu();
     /**
      * @brief Tulostuksen toteutus
@@ -75,14 +76,10 @@ private slots:
     void vieMalliin();
 
     void rivienKontekstiValikko(QPoint pos);
-    void lisaaTuoteluetteloon();
 
-    void lisaaTuote(const QModelIndex& index);
     void poistaLaskuRivi();
 
     void tuotteidenKonteksiValikko(QPoint pos);
-    void poistaTuote();
-    void paivitaTuoteluetteloon();
 
     void onkoPostiKaytossa();
     void lahetaSahkopostilla();
@@ -106,12 +103,13 @@ private slots:
     void paivitaLaskutustavat();
     void laskutusTapaMuuttui();
 
+    QVariantMap data() const;
+
 
 private:
     void lisaaRiviTab();
+    QVariantMap vastakirjaus() const;
 
-
-    static int laskuIkkunoita__;
 
 public slots:
     void accept() override;
@@ -119,15 +117,12 @@ public slots:
 
     void haeOsoite();
 
-private:    
-    LaskuModel *model;
-    TuoteModel *tuotteet;
+private:
+    LaskuRivitModel *rivit_;
     Ui::LaskuDialogi *ui;
     
     LaskunTulostaja *tulostaja;
-    
-    QSortFilterProxyModel *tuoteProxy;
-
+        
     QModelIndex kontekstiIndeksi;
     KohdennusDelegaatti *kohdennusDelegaatti;
 

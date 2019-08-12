@@ -17,7 +17,8 @@
 
 #include "eurodelegaatti.h"
 
-#include <QDoubleSpinBox>
+
+#include "tools/kpeuroedit.h"
 
 EuroDelegaatti::EuroDelegaatti()
 {
@@ -26,22 +27,19 @@ EuroDelegaatti::EuroDelegaatti()
 
 QWidget *EuroDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem & /* option */, const QModelIndex & /* index */) const
 {
-    QDoubleSpinBox *sbox = new QDoubleSpinBox(parent);
-    sbox->setSuffix("€");
-    sbox->setDecimals(2);
-    sbox->setRange(-999999999.99,999999999.99);
-    return sbox;
+    KpEuroEdit *edit = new KpEuroEdit(parent);
+    return edit;
 }
 
 void EuroDelegaatti::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    QDoubleSpinBox *sbox = qobject_cast<QDoubleSpinBox*>(editor);
-    sbox->setValue( index.data(Qt::EditRole).toDouble() / 100.0 );
+    KpEuroEdit *edit = qobject_cast<KpEuroEdit*>(editor);
+    edit->setValue( index.data(Qt::EditRole).toDouble()  );
 }
 
 void EuroDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
-    QDoubleSpinBox *sbox = qobject_cast<QDoubleSpinBox*>(editor);
-    model->setData(index, sbox->value() );
+    KpEuroEdit *edit = qobject_cast<KpEuroEdit*>(editor);
+    model->setData(index, edit->value() );
 
 }
