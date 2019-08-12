@@ -355,7 +355,7 @@ void AloitusSivu::pyydaInfo()
                 .arg( qApp->applicationVersion() )
                 .arg( QSysInfo::prettyProductName())
                 .arg( asetukset.value("Keksi").toString() )
-                .arg(KITUPIIKKI_BUILD)
+                .arg(asetukset.value("Omituisuudet").toString())
                 .arg( buildDate().toString(Qt::ISODate) )
                 .arg( asetukset.value("Tilikartta").toString());
 
@@ -409,7 +409,7 @@ QString AloitusSivu::vinkit()
     if(  kp()->asetukset()->onko("AlvVelvollinen") )
     {
         QDate kausialkaa = kp()->asetukset()->pvm("AlvIlmoitus").addDays(1);
-        QDate kausipaattyy = kp()->asetukset()->pvm("AlvIlmoitus").addMonths( kp()->asetukset()->luku("AlvKausi")).addDays(-1);
+        QDate kausipaattyy = kp()->asetukset()->pvm("AlvIlmoitus").addDays(1).addMonths( kp()->asetukset()->luku("AlvKausi")).addDays(-1);
         QDate erapaiva = AlvSivu::erapaiva(kausipaattyy);
 
         qlonglong paivaaIlmoitukseen = kp()->paivamaara().daysTo( erapaiva );
@@ -625,6 +625,29 @@ void AloitusSivu::paivitaTiedostoLista()
         // Tallennetaan tilastointia varten tieto vakiotilikartasta
         QString vakiotilikartta = kp()->asetukset()->asetus("VakioTilikartta");
         kp()->settings()->setValue("Tilikartta", vakiotilikartta.left(vakiotilikartta.indexOf('.')));
+
+        // Tilastoidaan tiettyjä ominaisuuksia, jotta tiedetään, kuinka laajasti ovat käytössä
+        QStringList omituisuudet;
+        if( !kp()->asetukset()->asetus("MaksuAlvAlkaa").isEmpty() )
+            omituisuudet.append("mAlv");
+        if( !kp()->asetukset()->asetus("KirjattavienKansio").isEmpty())
+            omituisuudet.append("ib");
+        if( kp()->asetukset()->asetus("LaskuKirjausperuste").toInt() == LaskuModel::MAKSUPERUSTE )
+            omituisuudet.append("lp");
+        if( !kp()->asetukset()->onko("Samaansarjaan"))
+            omituisuudet.append("tl");
+        for(int ti=0; ti < kp()->tilit()->rowCount(QModelIndex()); ti++) {
+            if( kp()->tilit()->tiliIndeksilla(ti).json()->luku("Kohdennukset") ) {
+                omituisuudet.append("tk");
+                break;
+            }
+        }
+        if( !kp()->asetukset()->asetus("VerkkolaskuValittaja").isEmpty() )
+            omituisuudet.append("vl");
+        if( !kp()->settings()->value("SmtpServer").toString().isEmpty())
+            omituisuudet.append("@");
+
+        kp()->settings()->setValue("Omituisuudet", omituisuudet.join(' '));
     }
 
 

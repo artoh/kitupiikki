@@ -69,7 +69,7 @@ bool Verotarkastaja::tarkasta(VientiModel *model)
         {
             laskennallinenpalautus += (debet - kredit) * alvprosentti / 100;
         }
-        else if( alvkoodi == AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
+        if( alvkoodi == AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
                  alvkoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT ||
                  alvkoodi == AlvKoodi::RAKENNUSPALVELU_OSTO ||
                  alvkoodi == AlvKoodi::MAAHANTUONTI)
@@ -77,7 +77,7 @@ bool Verotarkastaja::tarkasta(VientiModel *model)
             mahdollinenpalautus += (debet - kredit) * alvprosentti / 100;
         }
 
-        else if( alvkoodi == AlvKoodi::ALVKIRJAUS + AlvKoodi::MYYNNIT_NETTO ||
+        if( alvkoodi == AlvKoodi::ALVKIRJAUS + AlvKoodi::MYYNNIT_NETTO ||
             alvkoodi == AlvKoodi::ALVKIRJAUS + AlvKoodi::RAKENNUSPALVELU_OSTO ||
             alvkoodi == AlvKoodi::ALVKIRJAUS + AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
             alvkoodi == AlvKoodi::ALVKIRJAUS + AlvKoodi::YHTEISOHANKINNAT_PALVELUT ||
@@ -92,10 +92,13 @@ bool Verotarkastaja::tarkasta(VientiModel *model)
                  alvkoodi == AlvKoodi::ALVVAHENNYS + AlvKoodi::YHTEISOMYYNTI_TAVARAT ||
                  alvkoodi == AlvKoodi::ALVVAHENNYS + AlvKoodi::YHTEISOHANKINNAT_PALVELUT ||
                  alvkoodi == AlvKoodi::ALVVAHENNYS + AlvKoodi::MAAHANTUONTI ||
-                 alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_OSTO)
+                 alvkoodi == AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_OSTO ||
+                 alvkoodi == AlvKoodi::ALVVAHENNYS + AlvKoodi::YHTEISOHANKINNAT_TAVARAT  ||
+                 alvkoodi == AlvKoodi::ALVVAHENNYS + AlvKoodi::YHTEISOMYYNTI_PALVELUT)
         {
             palautus += debet - kredit;
         }
+
 
         // Estetään alv-tileille kirjaaminen ilman alv-koodia
         if( indeksi.data(VientiModel::AlvKoodiRooli).toInt() == 0)
@@ -129,6 +132,13 @@ bool Verotarkastaja::tarkasta(VientiModel *model)
 
     }
 
+    qDebug() << "---------------------------";
+    qDebug() << "laskennallinen palautus: " << laskennallinenpalautus;
+    qDebug() << "mahdollinen palautus: " << mahdollinenpalautus;
+    qDebug() << "laskennallinen vero: " << laskennallinenvero;
+    qDebug() << "palautus: " << palautus;
+    qDebug() << "vero: " << vero;
+
     // Nyt tarkistetaan, täsmääkö
 
     if( qAbs( laskennallinenvero - vero) > riveja)
@@ -149,7 +159,7 @@ bool Verotarkastaja::tarkasta(VientiModel *model)
             return false;
     }
 
-    if( qAbs(palautus - laskennallinenpalautus - mahdollinenpalautus) > riveja)
+    if( palautus - laskennallinenpalautus - mahdollinenpalautus > riveja)
     {
         if( QMessageBox::critical(nullptr, tr("Arvonlisäveron kirjaus virheellinen"),
            tr("Arvonlisäveron palautus on suurempi kuin perusteena oleva määrä oikeuttaa.\n"

@@ -325,6 +325,9 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter,
 
     double leveys = painter->window().width();
 
+    if( !kp()->asetukset()->onko("LaskuIkkuna"))
+        kaytaIkkunakuorta = false;
+
     // Kuoren ikkuna
     QRectF ikkuna;
     double keskiviiva = leveys / 2;
@@ -346,7 +349,7 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter,
     QRectF lahettajaAlue = QRectF( 0, 0, keskiviiva, rk * 2.2);
 
     // Jos käytössä on isoikkunakuori, tulostetaan myös lähettäjän nimi ja osoite sinne
-    if( kp()->asetukset()->luku("LaskuIkkunaKorkeus", 35) > 55 )
+    if( kp()->asetukset()->luku("LaskuIkkunaKorkeus", 35) > 55 && kaytaIkkunakuorta)
     {
         lahettajaAlue = QRectF( ikkuna.x(), ikkuna.y(), ikkuna.width(), 30 * mm);
         ikkuna = QRectF( ikkuna.x(), ikkuna.y() + 30 * mm, ikkuna.width(), ikkuna.height() - 30 * mm);

@@ -649,7 +649,7 @@ void KirjausApuriDialog::ehdota()
         if( tili.onko(TiliLaji::MENO) || tili.onko(TiliLaji::POISTETTAVA)  )
         {
             VientiRivi menorivi = uusiEhdotusRivi(tili);
-            if( alvkoodi == AlvKoodi::OSTOT_BRUTTO ||  alvkoodi == AlvKoodi::OSTOT_MARGINAALI || (ui->eiVahennaCheck->isChecked() && ui->eiVahennaCheck->isVisible()))
+            if( alvkoodi == AlvKoodi::OSTOT_BRUTTO ||  alvkoodi == AlvKoodi::OSTOT_MARGINAALI )
                 menorivi.debetSnt = bruttoSnt;
             else
                 menorivi.debetSnt = nettoSnt;
@@ -675,7 +675,7 @@ void KirjausApuriDialog::ehdota()
         {
             if( !(ui->eiVahennaCheck->isChecked() && ui->eiVahennaCheck->isVisible()))
             {
-                VientiRivi vahennysrivi = uusiEhdotusRivi( kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA) );
+                VientiRivi vahennysrivi = uusiEhdotusRivi( kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA) );                                
 
                 vahennysrivi.debetSnt = bruttoSnt - nettoSnt;
                 vahennysrivi.alvprosentti = alvprosentti;
@@ -691,6 +691,11 @@ void KirjausApuriDialog::ehdota()
                     vahennysrivi.alvkoodi = AlvKoodi::ALVVAHENNYS + alvkoodi;
 
                 ehdotus.lisaaVienti(vahennysrivi);
+            }
+            else {
+                VientiRivi veronOsuus = uusiEhdotusRivi( tili );
+                veronOsuus.debetSnt = bruttoSnt - nettoSnt;
+                ehdotus.lisaaVienti( veronOsuus );
             }
 
             if( (alvkoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT || alvkoodi==AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
