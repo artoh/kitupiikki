@@ -43,6 +43,8 @@
 
 #include "validator/ytunnusvalidator.h"
 
+#include "laskurivitmodel.h"
+
 #include <QDebug>
 
 #include <QPrinter>
@@ -63,9 +65,10 @@
 
 #include <QMessageBox>
 #include <QPdfWriter>
+#include <QSplitter>
 
-
-
+#include <QTableView>
+#include <QHeaderView>
 
 LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     model(laskumodel), ui( new Ui::LaskuDialogi)
@@ -82,11 +85,6 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     resize(800,600);
     restoreGeometry( kp()->settings()->value("LaskuDialogi").toByteArray());
 
-    ui->perusteCombo->addItem(QIcon(":/pic/suorite.png"), tr("Suoriteperusteinen"), LaskuModel::SUORITEPERUSTE);
-    ui->perusteCombo->addItem(QIcon(":/pic/kirje.png"), tr("Laskutusperusteinen"), LaskuModel::LASKUTUSPERUSTE);
-    ui->perusteCombo->addItem(QIcon(":/pic/euro.png"), tr("Maksuperusteinen"), LaskuModel::MAKSUPERUSTE);
-    ui->perusteCombo->addItem(QIcon(":/pic/kateinen.png"), tr("Käteiskuitti"), LaskuModel::KATEISLASKU);
-
     ui->kieliCombo->addItem(QIcon(":/pic/fi.png"), tr("Suomi"), "FI");
     ui->kieliCombo->addItem(QIcon(":/pic/se.png"), tr("Ruotsi"), "SE");
     ui->kieliCombo->addItem(QIcon(":/pic/en.png"), tr("Englanti"), "EN");
@@ -96,73 +94,20 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     tuotteet = kp()->tuotteet();
     tuoteProxy = new QSortFilterProxyModel(this);
     tuoteProxy->setSourceModel(tuotteet);
-    ui->tuotelistaView->setModel(tuoteProxy);
-    ui->tuotelistaView->sortByColumn(TuoteModel::NIMIKE, Qt::AscendingOrder);
     tuoteProxy->setSortLocaleAware(true);
-    connect( ui->tuotehakuEdit, SIGNAL(textChanged(QString)), tuoteProxy, SLOT(setFilterFixedString(QString)) );
 
 //    ui->nroLabel->setText( QString::number(model->laskunro()));
 //    ui->ytunnus->setValidator( new YTunnusValidator(true));
 
     ui->asiakas->alusta(false);
 
-    ui->rivitView->setModel(model);
-    ui->rivitView->setItemDelegateForColumn(LaskuModel::AHINTA, new EuroDelegaatti());
-    ui->rivitView->setItemDelegateForColumn(LaskuModel::TILI, new TiliDelegaatti());
-
-    kohdennusDelegaatti = new KohdennusDelegaatti();
-    ui->rivitView->setItemDelegateForColumn(LaskuModel::KOHDENNUS, kohdennusDelegaatti );
-    connect( ui->toimitusDate, SIGNAL(dateChanged(QDate)), kohdennusDelegaatti, SLOT(asetaKohdennusPaiva(QDate)));
 
 
-    ui->rivitView->setItemDelegateForColumn(LaskuModel::BRUTTOSUMMA, new EuroDelegaatti());
-    ui->rivitView->setItemDelegateForColumn(LaskuModel::ALV, new LaskutusVeroDelegaatti());
-
-    ui->rivitView->setColumnHidden( LaskuModel::ALV, !kp()->asetukset()->onko("AlvVelvollinen") );
-    ui->rivitView->setColumnHidden( LaskuModel::KOHDENNUS, kp()->kohdennukset()->rowCount(QModelIndex()) < 2);
-
-    ui->naytaNappi->setChecked( kp()->asetukset()->onko("LaskuNaytaTuotteet") );
-    ui->tabWidget->setTabEnabled(VERKKOLASKU, false);
-
-
-    // Laitetaan täydentäjä nimen syöttöön
-    QCompleter *nimiTaydentaja = new QCompleter(this);
-    QSqlQueryModel *sqlmalli = new QSqlQueryModel(this);
-    sqlmalli->setQuery("select distinct asiakas from vienti order by asiakas");
-    nimiTaydentaja->setModel(sqlmalli);
-    nimiTaydentaja->setModelSorting(QCompleter::CaseSensitivelySortedModel);
-//    ui->saajaEdit->setCompleter(nimiTaydentaja);
-
-
-    ui->rivitView->horizontalHeader()->setSectionResizeMode(LaskuModel::NIMIKE, QHeaderView::Stretch);
-    ui->tuotelistaView->horizontalHeader()->setSectionResizeMode(TuoteModel::NIMIKE, QHeaderView::Stretch);
-    ui->ryhmaView->setSelectionBehavior(QTableView::SelectRows);
-
-    ui->perusteCombo->setCurrentIndex( model->kirjausperuste() );
-
-    ui->perusteCombo->setEnabled( model->tyyppi() == LaskuModel::LASKU || model->tyyppi() == LaskuModel::RYHMALASKU);
-//    ui->saajaEdit->setText( model->laskunsaajanNimi() );
-    if( !model->osoite().isEmpty())
-        ui->osoiteEdit->setPlainText( model->osoite());
-
-    // Jotta tulisi käyttöön heti kun osoite on haettu
-//    connect( ui->emailEdit, SIGNAL(textChanged(QString)), this, SLOT(onkoPostiKaytossa()));
-
-    if( !model->email().isEmpty())
-    {
-//        ui->emailEdit->setText( model->email());
-    }
-//    if( !model->ytunnus().isEmpty())
-//        ui->ytunnus->setText( model->ytunnus());
-
-//    ui->eraDate->setDate( model->erapaiva() );
-//    ui->eraDate->setEnabled( model->tyyppi() != LaskuModel::HYVITYSLASKU );
+    ui->eraDate->setDate( model->erapaiva() );
+    ui->eraDate->setEnabled( model->tyyppi() != LaskuModel::HYVITYSLASKU );
     ui->toimitusDate->setDate( model->toimituspaiva());
-    ui->perusteCombo->setCurrentIndex( ui->perusteCombo->findData( model->kirjausperuste() ));
     ui->lisatietoEdit->setPlainText( model->lisatieto() );
     ui->asViiteEdit->setText( model->asiakkaanViite());
-    ui->verkkoOsoiteEdit->setText( model->verkkolaskuOsoite());
-    ui->verkkoValittajaEdit->setText( model->verkkolaskuValittaja());
     ui->viivkorkoSpin->setValue( model->viivastysKorko() );
 
     ui->tallennaNappi->setEnabled( model->muokattu() );
@@ -171,25 +116,17 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     {
         setWindowTitle( tr("Hyvityslasku"));
         ui->toimituspvmLabel->setText( tr("Hyvityspvm"));
-//        ui->rahaTiliEdit->valitseTiliIdlla( model->viittausLasku().tiliid );
-//        ui->rahaTiliEdit->setEnabled(false);
-        ui->verkkolaskuNappi->setVisible(false);
         connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("laskutus/uusi#hyvityslasku");});
     }
     else if( model->tyyppi() == LaskuModel::MAKSUMUISTUTUS)
     {
         setWindowTitle( tr("Maksumuistutus"));
-//        ui->rahaTiliEdit->valitseTiliIdlla( model->viittausLasku().tiliid );
-//        ui->rahaTiliEdit->setEnabled(false);
-        ui->verkkolaskuNappi->setVisible(false);
         connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("laskutus/muistutus");});
 
     }
     else if( model->tyyppi() == LaskuModel::LASKU || model->tyyppi() == LaskuModel::RYHMALASKU)
     {
-//        ui->eraDate->setMinimumDate( kp()->paivamaara() );
         perusteVaihtuu();
-        ui->verkkolaskuNappi->setVisible( kp()->asetukset()->onko("VerkkolaskuKaytossa") );
 
         if( model->tyyppi() == LaskuModel::LASKU)
             connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("laskutus/uusi");});
@@ -199,14 +136,11 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
 
     if( model->tyyppi() == LaskuModel::RYHMALASKU)
     {
-        ui->tabWidget->removeTab(VERKKOLASKU);
 
         setWindowTitle("Ryhmän laskutus");
 
         ryhmaProxy_ = new QSortFilterProxyModel(this);
         ryhmaProxy_->setSourceModel( model->ryhmaModel());
-        ui->ryhmaView->setModel( ryhmaProxy_ );
-        ui->ryhmaView->setSortingEnabled(true);
 
         AsiakkaatModel *asiakkaat = new AsiakkaatModel(model);
         asiakkaat->paivita();
@@ -217,8 +151,6 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
         ryhmaAsiakasProxy->setSourceModel(asiakkaat);
         ryhmaAsiakasProxy->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
-        ui->asiakasLista->setModel( ryhmaAsiakasProxy );
-        connect( ui->assuodatusEdit, &QLineEdit::textChanged, [ryhmaAsiakasProxy] (const QString& teksti) { ryhmaAsiakasProxy->setFilterFixedString(teksti); });
 
 //        ui->saajaEdit->hide();
         ui->osoiteEdit->hide();
@@ -229,16 +161,10 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
         ui->asViiteEdit->hide();
 
         ui->esikatseluNappi->setEnabled(false);
-        ui->tulostaNappi->setEnabled(false);
-        ui->spostiNappi->setEnabled(false);
         ui->tallennaNappi->setEnabled(false);
 
-        connect( ui->ryhmaView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &LaskuDialogi::ryhmaNapit);
-        connect( ui->poistaRyhmastaNappi, &QPushButton::clicked, this, &LaskuDialogi::poistaValitutAsiakkaat);
-        connect( ui->tuoRyhmaanNappi, &QPushButton::clicked, this, &LaskuDialogi::tuoAsiakkaitaTiedostosta);
 
         connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("laskutus/ryhma");});
-        ui->ryhmaView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
         connect( model->ryhmaModel(), &LaskuRyhmaModel::rowsInserted, this, &LaskuDialogi::paivitaRyhmanTallennusNappi);
         connect( model->ryhmaModel(), &LaskuRyhmaModel::rowsRemoved, this, &LaskuDialogi::paivitaRyhmanTallennusNappi);
@@ -252,52 +178,37 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
 
     }
 
-    connect( ui->lisaaNappi, SIGNAL(clicked(bool)), model, SLOT(lisaaRivi()));
-    connect( ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poistaLaskuRivi()));
-    connect( ui->tulostaNappi, SIGNAL(clicked(bool)), this, SLOT(tulostaLasku()));
     connect( ui->esikatseluNappi, SIGNAL(clicked(bool)), this, SLOT(esikatselu()));
-    connect( ui->spostiNappi, SIGNAL(clicked(bool)), this, SLOT(lahetaSahkopostilla()));
 
     connect( model, &LaskuModel::summaMuuttunut, this, &LaskuDialogi::paivitaSumma);
-    connect( ui->perusteCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(perusteVaihtuu()));
     connect( ui->kieliCombo, &QComboBox::currentTextChanged, [this]() { this->model->asetaKieli( this->ui->kieliCombo->currentData().toString()); } );
 
     ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( model->kieli() ) );
 
-//    connect( ui->saajaEdit, SIGNAL(textChanged(QString)), this, SLOT(haeOsoite()));
-    connect( ui->rivitView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(rivienKontekstiValikko(QPoint)));
-
-
-
-    connect( ui->tuotelistaView, SIGNAL(clicked(QModelIndex)), this, SLOT(lisaaTuote(QModelIndex)));
-    connect( ui->tuotelistaView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(tuotteidenKonteksiValikko(QPoint)));
-
-    connect( ui->asiakasLista, &QListView::clicked, this, &LaskuDialogi::lisaaAsiakasListalta);
-    connect( ui->lisaaRyhmaanNappi, &QPushButton::clicked, this, &LaskuDialogi::lisaaAsiakas);
-
-//    connect( ui->ytunnus, &QLineEdit::textChanged, this, &LaskuDialogi::ytunnusSyotetty);
-    connect( ui->verkkoOsoiteEdit, &QLineEdit::textChanged, this, &LaskuDialogi::verkkolaskuKayttoon);
-    connect( ui->verkkoValittajaEdit, &QLineEdit::textChanged, this, &LaskuDialogi::verkkolaskuKayttoon);
-    connect( ui->verkkolaskuNappi, &QPushButton::clicked, this, &LaskuDialogi::finvoice);
 
     connect( ui->toimitusDate, SIGNAL(dateChanged(QDate)), model, SLOT(asetaToimituspaiva(QDate)));
-//    connect(ui->eraDate, SIGNAL(dateChanged(QDate)), model, SLOT(asetaErapaiva(QDate)));
     connect( model, &LaskuModel::laskuaMuokattu, ui->tallennaNappi, &QPushButton::setEnabled );
 
-//    connect( ui->eraDate, &QDateEdit::dateChanged, model, &LaskuModel::asetaErapaiva);
+    connect( ui->eraDate, &KpDateEdit::dateChanged, model, &LaskuModel::asetaErapaiva);
     connect( ui->lisatietoEdit, &QPlainTextEdit::textChanged, this, &LaskuDialogi::vieMalliin);
     connect( ui->osoiteEdit, &QPlainTextEdit::textChanged, this, &LaskuDialogi::vieMalliin );
-//    connect( ui->toimitusDate, &QDateEdit::dateChanged, model, &LaskuModel::asetaToimituspaiva);
-//    connect( ui->emailEdit, &QLineEdit::textChanged, model, &LaskuModel::asetaEmail);
+    connect( ui->toimitusDate, &KpDateEdit::dateChanged, model, &LaskuModel::asetaToimituspaiva);
+    connect( ui->email, &QLineEdit::textChanged, model, &LaskuModel::asetaEmail);
     connect( ui->asViiteEdit, &QLineEdit::textChanged, model, &LaskuModel::asetaAsiakkaanViite);
-    connect( ui->verkkoOsoiteEdit, &QLineEdit::textChanged, model, &LaskuModel::asetaVerkkolaskuOsoite);
-    connect( ui->verkkoValittajaEdit, &QLineEdit::textChanged, model, &LaskuModel::asetaVerkkolaskuValittaja);
     connect( ui->viivkorkoSpin, SIGNAL( valueChanged(double) ), model, SLOT(asetaViivastyskorko(double)) );
 
 
 
-    paivitaTuoteluettelonNaytto();
     paivitaSumma( model->laskunSumma() );
+
+    // UUTTA
+    lisaaRiviTab();
+    connect( ui->asiakas, &AsiakasToimittajaValinta::valittu, this, &LaskuDialogi::asiakasValittu);
+    connect( ui->email, &QLineEdit::textChanged, this, &LaskuDialogi::paivitaLaskutustavat);
+    connect( ui->laskutusCombo, &QComboBox::currentTextChanged, this, &LaskuDialogi::laskutusTapaMuuttui);
+
+    paivitaLaskutustavat();
+    ui->jaksoDate->setNull();
 }
 
 
@@ -311,7 +222,7 @@ LaskuDialogi::~LaskuDialogi()
 
 void LaskuDialogi::paivitaSumma(qlonglong summa)
 {
-//    ui->summaLabel->setText( QString("%L1 €").arg(summa / 100.0,0,'f',2) );
+    ui->summaLabel->setText( QString("%L1 €").arg(summa / 100.0,0,'f',2) );
 }
 
 void LaskuDialogi::esikatselu()
@@ -326,21 +237,6 @@ void LaskuDialogi::esikatselu()
 void LaskuDialogi::tulosta(QPagedPaintDevice *printer) const
 {
     QPainter painter( printer);
-    if( model->tyyppi() == LaskuModel::RYHMALASKU)
-    {
-
-        bool sivunvaihto = false;
-        for(const QModelIndex& indeksi : ui->ryhmaView->selectionModel()->selectedRows() )
-        {
-            if( sivunvaihto )
-                printer->newPage();
-            model->haeRyhmasta( ryhmaProxy_->mapToSource( indeksi).row());
-
-            tulostaja->tulosta( printer , &painter);
-            sivunvaihto = true;
-        }
-    }
-    else
     {
         tulostaja->tulosta( printer, &painter );
     }
@@ -355,37 +251,12 @@ QString LaskuDialogi::otsikko() const
 
 void LaskuDialogi::finvoice()
 {
-    vieMalliin();
-    if( model->tyyppi() == LaskuModel::RYHMALASKU )
-    {
-        for(const QModelIndex& indeksi : ui->ryhmaView->selectionModel()->selectedRows() )
-        {
-            model->haeRyhmasta( ryhmaProxy_->mapToSource( indeksi ).row());
-            if( model->verkkolaskuOsoite().isEmpty() || model->verkkolaskuValittaja().isEmpty())
-                continue;
 
-            if(Finvoice::muodostaFinvoice(model))
-                model->ryhmaModel()->finvoiceMuodostettu( ryhmaProxy_->mapToSource( indeksi).row() );
-        }
-    }
-    else
-    {
-        if( Finvoice::muodostaFinvoice(model))
-        {
-            ui->onniLabel->setText( tr("Verkkolasku muodostettu") );
-            ui->onniLabel->setStyleSheet("color: green;");
-        }
-        else
-        {
-            ui->onniLabel->setText( tr("Verkkolaskun muodostaminen epäonnistui") );
-            ui->onniLabel->setStyleSheet("color: red;");
-        }
-    }
 }
 
 void LaskuDialogi::perusteVaihtuu()
 {
-    int peruste = ui->perusteCombo->currentData().toInt();
+/*    int peruste = ui->perusteCombo->currentData().toInt();
 
 //    ui->rahaTiliEdit->setVisible( peruste != LaskuModel::MAKSUPERUSTE );
 //    ui->rahatiliLabel->setVisible( peruste != LaskuModel::MAKSUPERUSTE );
@@ -393,7 +264,7 @@ void LaskuDialogi::perusteVaihtuu()
     ui->viivkorkoLabel->setVisible( peruste != LaskuModel::KATEISLASKU);
     ui->viivkorkoSpin->setVisible( peruste != LaskuModel::KATEISLASKU);
     ui->eraLabel->setVisible( peruste != LaskuModel::KATEISLASKU);
-/*    ui->eraDate->setVisible( peruste != LaskuModel::KATEISLASKU);
+    ui->eraDate->setVisible( peruste != LaskuModel::KATEISLASKU);
 
     if( peruste == LaskuModel::MAKSUPERUSTE || peruste == LaskuModel::LASKUTUSPERUSTE)
         ui->toimitusDate->setMinimumDate( kp()->tilitpaatetty().addYears(-1));
@@ -474,7 +345,6 @@ void LaskuDialogi::vieMalliin()
 void LaskuDialogi::accept()
 {
     vieMalliin();
-    kp()->asetukset()->aseta("LaskuNaytaTuotteet", ui->naytaNappi->isChecked());
 
     if( model->pvm().isValid() && ( model->pvm() <= kp()->tilitpaatetty() || model->pvm() > kp()->tilikaudet()->kirjanpitoLoppuu() ))
     {
@@ -494,14 +364,14 @@ void LaskuDialogi::accept()
 
 void LaskuDialogi::rivienKontekstiValikko(QPoint pos)
 {
-    kontekstiIndeksi=ui->rivitView->indexAt(pos);
+/*    kontekstiIndeksi=ui->rivitView->indexAt(pos);
 
     QMenu *menu=new QMenu(this);
     if( kontekstiIndeksi.data(LaskuModel::TuoteKoodiRooli).toInt() )
         menu->addAction(QIcon(":/pic/kitupiikki32.png"), tr("Päivitä tuoteluetteloon"), this, SLOT(paivitaTuoteluetteloon()) );
     else
         menu->addAction(QIcon(":/pic/lisaa.png"), tr("Lisää tuoteluetteloon"), this, SLOT(lisaaTuoteluetteloon()));
-    menu->popup(ui->rivitView->viewport()->mapToGlobal(pos));
+    menu->popup(ui->rivitView->viewport()->mapToGlobal(pos));*/
 }
 
 void LaskuDialogi::lisaaTuoteluetteloon()
@@ -509,7 +379,6 @@ void LaskuDialogi::lisaaTuoteluetteloon()
     int tuotekoodi = tuotteet->lisaaTuote( model->rivi( kontekstiIndeksi.row() ) );
     model->setData(kontekstiIndeksi, tuotekoodi, LaskuModel::TuoteKoodiRooli);
 
-    paivitaTuoteluettelonNaytto();
 }
 
 void LaskuDialogi::lisaaTuote(const QModelIndex &index)
@@ -520,18 +389,18 @@ void LaskuDialogi::lisaaTuote(const QModelIndex &index)
 
 void LaskuDialogi::poistaLaskuRivi()
 {
-    int indeksi = ui->rivitView->currentIndex().row();
+/*    int indeksi = ui->rivitView->currentIndex().row();
     if( indeksi > -1)
-        model->poistaRivi(indeksi);
+        model->poistaRivi(indeksi);*/
 }
 
 void LaskuDialogi::tuotteidenKonteksiValikko(QPoint pos)
 {
-    kontekstiIndeksi = tuoteProxy->mapToSource( ui->tuotelistaView->indexAt(pos) );
+/*    kontekstiIndeksi = tuoteProxy->mapToSource( ui->tuotelistaView->indexAt(pos) );
 
     QMenu *menu = new QMenu(this);
     menu->addAction(QIcon(":/pic/poistarivi.png"), tr("Poista tuoteluettelosta"), this, SLOT(poistaTuote()));
-    menu->popup( ui->tuotelistaView->viewport()->mapToGlobal(pos));
+    menu->popup( ui->tuotelistaView->viewport()->mapToGlobal(pos)); */
 }
 
 void LaskuDialogi::poistaTuote()
@@ -558,20 +427,6 @@ void LaskuDialogi::lahetaSahkopostilla()
     if( !model->tarkastaAlvLukko())
         return;
 
-    if( model->tyyppi() == LaskuModel::RYHMALASKU)
-    {
-        ryhmaLahetys_.append(-1);
-        if( !ui->ryhmaView->selectionModel()->hasSelection())
-            ui->ryhmaView->selectAll();
-
-        for( const QModelIndex& indeksi : ui->ryhmaView->selectionModel()->selectedRows())
-        {
-            if( !indeksi.data(LaskuRyhmaModel::SahkopostiRooli).toString().isEmpty())
-                ryhmaLahetys_.append( ryhmaProxy_->mapToSource(indeksi).row() );
-        }
-        lahetaRyhmanSeuraava();
-        return;
-    }
 
 
     Smtp *smtp = new Smtp( kp()->settings()->value("SmtpUser").toString(), kp()->settings()->value("SmtpPassword").toString(),
@@ -641,14 +496,6 @@ void LaskuDialogi::lahetaRyhmanSeuraava(const QString &viesti)
 
 void LaskuDialogi::smtpViesti(const QString &viesti)
 {
-    ui->onniLabel->setText( viesti );
-
-    if( viesti == tr( "Sähköposti lähetetty" ) )    
-        ui->onniLabel->setStyleSheet("color: green;");        
-    else if(viesti == tr( "Sähköpostin lähetys epäonnistui" )  )
-        ui->onniLabel->setStyleSheet("color: red;");
-    else
-        ui->onniLabel->setStyleSheet("color: black;");
 
 }
 
@@ -675,12 +522,8 @@ void LaskuDialogi::tulostaLasku()
 
 void LaskuDialogi::ryhmaNapit(const QItemSelection &valinta)
 {
-    ui->tulostaNappi->setEnabled( valinta.size());
     ui->esikatseluNappi->setEnabled( valinta.size());
-    ui->verkkolaskuNappi->setEnabled( valinta.size());
-    ui->poistaRyhmastaNappi->setEnabled( valinta.size());
 
-    ui->spostiNappi->setEnabled(!kp()->settings()->value("SmtpServer").toString().isEmpty() && valinta.size());
 }
 
 void LaskuDialogi::lisaaAsiakasListalta(const QModelIndex &indeksi)
@@ -750,7 +593,7 @@ void LaskuDialogi::tuoAsiakkaitaTiedostosta()
 
 void LaskuDialogi::poistaValitutAsiakkaat()
 {
-    QList<int> indeksit;
+/*    QList<int> indeksit;
     for(const QModelIndex &indeksi : ui->ryhmaView->selectionModel()->selectedRows())
         indeksit.append( ryhmaProxy_->mapToSource(indeksi).row() );
 
@@ -762,7 +605,7 @@ void LaskuDialogi::poistaValitutAsiakkaat()
     {
         model->ryhmaModel()->poista( indeksit.last() );
         indeksit.removeLast();
-    }
+    }*/
 }
 
 void LaskuDialogi::paivitaRyhmanTallennusNappi()
@@ -772,27 +615,132 @@ void LaskuDialogi::paivitaRyhmanTallennusNappi()
 
 void LaskuDialogi::verkkolaskuKayttoon()
 {
-    ui->verkkolaskuNappi->setEnabled( !ui->verkkoOsoiteEdit->text().isEmpty() && !ui->verkkoValittajaEdit->text().isEmpty() );
+//    ui->verkkolaskuNappi->setEnabled( !ui->verkkoOsoiteEdit->text().isEmpty() && !ui->verkkoValittajaEdit->text().isEmpty() );
 }
 
-void LaskuDialogi::ytunnusSyotetty(const QString& ytunnus)
+void LaskuDialogi::asiakasValittu(int asiakasId)
 {
-    bool kelpotunnus =  YTunnusValidator::kelpaako(ytunnus, true);
-    ui->tabWidget->setTabEnabled(2, kelpotunnus);
-    if( kelpotunnus && ui->verkkoOsoiteEdit->text().isEmpty())
+    KpKysely *kysely = kpk( QString("/asiakkaat/%1").arg(asiakasId) );
+    connect( kysely, &KpKysely::vastaus, this, &LaskuDialogi::taytaAsiakasTiedot);
+    kysely->kysy();
+}
+
+void LaskuDialogi::taytaAsiakasTiedot(QVariant *data)
+{
+    QVariantMap map = data->toMap();
+    ui->osoiteEdit->setPlainText( map.value("nimi").toString() + "\n" +
+                                  map.value("osoite").toString() + "\n" +
+                                  map.value("postinumero").toString() + " " + map.value("kaupunki").toString());
+    ui->email->setText( map.value("email").toString());
+
+    // TODO: Mahdolliset toimitustavat
+}
+
+void LaskuDialogi::paivitaLaskutustavat()
+{
+    int nykyinen = ui->laskutusCombo->currentData().toInt();
+    ui->laskutusCombo->clear();
+
+    ui->laskutusCombo->addItem( QIcon(":/pic/tulosta.png"), tr("Tulosta lasku"), LaskuModel::TULOSTA);
+
+    QRegularExpression emailRe(R"(^([\w-]*(\.[\w-]+)?)+@(\w+\.\w+)(\.\w+)*$)");
+    if( emailRe.match( ui->email->text()).hasMatch() )
+            ui->laskutusCombo->addItem(QIcon(":/pic/email.png"), tr("Lähetä sähköpostilla"), LaskuModel::SAHKOPOSTI);
+
+    ui->laskutusCombo->addItem( QIcon(":/pic/kateinen.png"), tr("Tulosta käteiskuitti"), LaskuModel::KATEISLASKU);
+
+    ui->laskutusCombo->setCurrentIndex(  ui->laskutusCombo->findData(nykyinen) );
+    if( ui->laskutusCombo->currentIndex() < 0)
+        ui->laskutusCombo->setCurrentIndex(0);
+}
+
+void LaskuDialogi::laskutusTapaMuuttui()
+{
+    int laskutustapa = ui->laskutusCombo->currentData().toInt();
+    if( laskutustapa == LaskuModel::SAHKOPOSTI)
     {
-        QString osoite = QString("0037%1").arg(ytunnus);
-        osoite.remove('-');
-        ui->verkkoOsoiteEdit->setText(osoite);
+        ui->valmisNappi->setText( tr("Tallenna ja lähetä sähköpostilla"));
+        ui->valmisNappi->setIcon(QIcon(":/pic/email.png"));
+    } else {
+        ui->valmisNappi->setText( tr("Tallenna ja tulosta"));
+        ui->valmisNappi->setIcon(QIcon(":/pic/email.png"));
     }
+
+    ui->eraLabel->setVisible( laskutustapa != LaskuModel::KATEISLASKU );
+    ui->eraDate->setVisible( laskutustapa != LaskuModel::KATEISLASKU );
+    ui->viivkorkoLabel->setVisible( laskutustapa != LaskuModel::KATEISLASKU );
+    ui->viivkorkoSpin->setVisible( laskutustapa != LaskuModel::KATEISLASKU );
 }
 
 
-void LaskuDialogi::paivitaTuoteluettelonNaytto()
+
+void LaskuDialogi::lisaaRiviTab()
 {
-    int tuotteita = tuotteet->rowCount( QModelIndex());
-    ui->tuotelistaView->setVisible( tuotteita );
-    ui->tuotelistaOhje->setVisible( !tuotteita );
+    QSplitter* split = new QSplitter(Qt::Horizontal,this);
+
+
+    TuoteModel* tuoteModel = new TuoteModel(this);
+    tuoteModel->lataa();
+
+    QLineEdit* tuoteFiltterinEditori = new QLineEdit();
+    tuoteFiltterinEditori->setPlaceholderText("Etsi tuotetta nimellä");
+
+    QVBoxLayout *leiska = new QVBoxLayout;
+    leiska->addWidget(tuoteFiltterinEditori);
+
+    QSortFilterProxyModel *proxy = new QSortFilterProxyModel(this);
+    proxy->setSourceModel(tuoteModel);
+
+    QTableView* tuoteView = new QTableView();
+    leiska->addWidget(tuoteView);
+    tuoteView->setModel(proxy);
+    tuoteView->setSelectionBehavior(QTableView::SelectRows);
+    tuoteView->setSelectionMode(QTableView::SingleSelection);
+
+    proxy->setSortLocaleAware(true);
+    tuoteView->sortByColumn(TuoteModel::NIMIKE, Qt::AscendingOrder);
+    tuoteView->horizontalHeader()->setSectionResizeMode(TuoteModel::NIMIKE, QHeaderView::Stretch);
+
+    QWidget *tuoteWg = new QWidget();
+    tuoteWg->setLayout(leiska);
+    split->addWidget(tuoteWg);
+
+
+    QTableView* rivitView = new QTableView(this);
+    split->addWidget(rivitView);
+
+    LaskuRivitModel *lrivit = new LaskuRivitModel(this);
+
+    rivitView->setModel(lrivit);
+
+    rivitView->horizontalHeader()->setSectionResizeMode(LaskuModel::NIMIKE, QHeaderView::Stretch);
+    rivitView->setItemDelegateForColumn(LaskuModel::AHINTA, new EuroDelegaatti());
+    rivitView->setItemDelegateForColumn(LaskuModel::TILI, new TiliDelegaatti());
+    rivitView->setSelectionMode(QTableView::SingleSelection);
+
+
+    KohdennusDelegaatti *kohdennusDelegaatti = new KohdennusDelegaatti();
+    rivitView->setItemDelegateForColumn(LaskuModel::KOHDENNUS, kohdennusDelegaatti );
+
+    connect( ui->toimitusDate , SIGNAL(dateChanged(QDate)), kohdennusDelegaatti, SLOT(asetaKohdennusPaiva(QDate)));
+    connect( tuoteFiltterinEditori, &QLineEdit::textChanged, proxy, &QSortFilterProxyModel::setFilterFixedString);
+
+
+    rivitView->setItemDelegateForColumn(LaskuModel::BRUTTOSUMMA, new EuroDelegaatti());
+    rivitView->setItemDelegateForColumn(LaskuModel::ALV, new LaskutusVeroDelegaatti());
+
+    rivitView->setColumnHidden( LaskuModel::ALV, !kp()->asetukset()->onko("AlvVelvollinen") );
+    rivitView->setColumnHidden( LaskuModel::KOHDENNUS, !kp()->kohdennukset()->kohdennuksia());
+
+    split->setStretchFactor(0,1);
+    split->setStretchFactor(1,3);
+
+    ui->tabWidget->insertTab(0, split, QIcon(":/pic/vientilista.png"),"Rivit");
+    ui->tabWidget->setCurrentWidget(split);
+
+    connect( tuoteView, &QTableView::clicked, [lrivit, proxy, tuoteModel] (const QModelIndex& index)
+        { lrivit->lisaaTuote( tuoteModel->tuoteMap( proxy->mapToSource(index).row()) ); }  );
+
 }
 
 int LaskuDialogi::laskuIkkunoita()
@@ -803,7 +751,6 @@ int LaskuDialogi::laskuIkkunoita()
 void LaskuDialogi::reject()
 {
     vieMalliin();
-    kp()->asetukset()->aseta("LaskuNaytaTuotteet", ui->naytaNappi->isChecked());
 
     if( !model->muokattu())
         QDialog::reject();

@@ -33,7 +33,7 @@ class TuoteModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    TuoteModel(QObject *parent = 0);
+    TuoteModel(QObject *parent = nullptr);
 
     enum TuoteSarake { NIMIKE, HINTA };
     
@@ -54,14 +54,21 @@ public:
      */
     LaskuRivi tuote(int indeksi) const;
 
+    QVariantMap tuoteMap(int indeksi) const;
+
 public slots:
     /**
      * @brief Lataa tuoteluettelon tietokannasta
      */
     void lataa();
+
+private slots:
+    void dataSaapuu(QVariant* data);
     
 private:
     QList<LaskuRivi> tuotteet_;
+
+    QVariantList lista_;
     
 };
 

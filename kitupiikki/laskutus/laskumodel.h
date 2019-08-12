@@ -73,8 +73,8 @@ struct LaskuRivi
     QString yksikko;
     qreal ahintaSnt = 0.00;
     int alvKoodi;
-    int alvProsentti = 0;
-    int aleProsentti = 0;
+    double alvProsentti = 0;
+    double aleProsentti = 0;
     Tili myyntiTili;
     Kohdennus kohdennus;
     int tuoteKoodi = 0;
@@ -109,8 +109,10 @@ public:
         NIMIKE, MAARA, YKSIKKO, AHINTA, ALE, ALV, TILI, KOHDENNUS, BRUTTOSUMMA
     };
 
-    enum Kirjausperuste { SUORITEPERUSTE, LASKUTUSPERUSTE, MAKSUPERUSTE, KATEISLASKU};
+    enum Kirjausperuste { SUORITEPERUSTE, LASKUTUSPERUSTE, MAKSUPERUSTE};
     enum Laskutyppi { TUOTULASKU, LASKU, HYVITYSLASKU, MAKSUMUISTUTUS, OSTOLASKU, RYHMALASKU};
+
+    enum Laskutus { TULOSTA, SAHKOPOSTI, VERKKOLASKU, KATEISLASKU };
 
 
     enum
@@ -212,6 +214,7 @@ public slots:
     void asetaVerkkolaskuValittaja(const QString& valittaja) { if(verkkolaskuValittaja() != valittaja) ilmoitaMuokattu(); verkkolaskuValittaja_ = valittaja;}
     void asetaKieli(const QString& kieli) { if(kieli != kieli_) ilmoitaMuokattu(); kieli_ = kieli; }
     void asetaViivastyskorko(double viivastyskorko) { if(qAbs(viivastyskorko - viivkorko_)>1e-5) ilmoitaMuokattu(); viivkorko_ = viivastyskorko;}
+    void asetaAsiakas(int asiakasId) { if(asiakasId != asiakas_) ilmoitaMuokattu(); asiakas_ = asiakasId;}
 
 public:
 
@@ -248,6 +251,8 @@ public:
 
     bool tarkastaAlvLukko();
 
+    QVariantMap data();
+
 public slots:
     void lisaaRivi(LaskuRivi rivi = LaskuRivi());
     void poistaRivi(int indeksi);
@@ -270,16 +275,22 @@ private:
     int kirjausperuste_;
     QString email_;
     QString ytunnus_;
+
     AvoinLasku viittausLasku_;
     Laskutyppi tyyppi_ = LASKU;
+
     int tositeId_ = 0;
     qulonglong laskunNumero_ = 0;
     int vientiId_ = 0;
     qlonglong avoinSaldo_ = 0;
+
     bool muokattu_ = false;
     QString asiakkaanViite_;
     QString verkkolaskuOsoite_;
     QString verkkolaskuValittaja_;
+
+    int asiakas_;
+
     QString kieli_;
     double viivkorko_;
 

@@ -53,7 +53,7 @@ public:
     ~LaskuSivu() override;
 
     enum PaaLehdet { MYYNTI, OSTO, ASIAKAS, TOIMITTAJA };
-    enum LajiLehdet { KAIKKI, AVOIMET, ERAANTYNEET, TIEDOT };
+    enum LajiLehdet { LUONNOKSET, LAHETETTAVAT, KAIKKI, AVOIMET, ERAANTYNEET, TIEDOT };
 
     void siirrySivulle() override;
     QString ohjeSivunNimi() override { return "laskutus"; }

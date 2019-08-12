@@ -25,11 +25,13 @@
 TuoteModel::TuoteModel(QObject *parent) :
     QAbstractTableModel(parent)
 {
-    
+
 }
 
 int TuoteModel::rowCount(const QModelIndex & /* parent */) const
 {
+    return lista_.count();
+
     return tuotteet_.count();    
 }
 
@@ -57,6 +59,24 @@ QVariant TuoteModel::data(const QModelIndex &index, int role) const
     if( !index.isValid())
         return QVariant();
     
+    QVariantMap map = lista_.at(index.row()).toMap();
+    if( role == Qt::DisplayRole)
+    {
+        if( index.column() == NIMIKE )
+            return map.value("nimike");
+        else if(index.column() == HINTA)
+        {
+            double netto = map.value("ahinta").toDouble();
+            double alvprossa = map.value("alvprosentti").toDouble();
+
+            double brutto = netto * (100 + alvprossa) / 100.0;
+
+            return QString("%L1 €").arg( brutto ,0,'f',2);
+        }
+    }
+
+    return QVariant();
+
     LaskuRivi rivi = tuotteet_.value(index.row());
     
     if( role == Qt::DisplayRole)
@@ -139,11 +159,37 @@ void TuoteModel::paivitaTuote(LaskuRivi tuote)
 
 LaskuRivi TuoteModel::tuote(int indeksi) const
 {
+    QVariantMap map = lista_.at(indeksi).toMap();
+
+    LaskuRivi tuote;
+    tuote.tuoteKoodi = map.value("id").toInt();
+    tuote.nimike = map.value("nimike").toString();
+    tuote.yksikko = map.value("yksikko").toString();
+    tuote.ahintaSnt = qRound( map.value("hinta").toDouble() * 100.0 );
+    tuote.alvKoodi = map.value("alvkoodi").toInt();
+    tuote.alvProsentti = map.value("alvprosentti").toDouble();
+    tuote.myyntiTili = kp()->tilit()->tiliNumerolla( map.value("tili").toInt() );
+    tuote.kohdennus= kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt() );
+
+    return tuote;
+
     return tuotteet_.value(indeksi);
+}
+
+QVariantMap TuoteModel::tuoteMap(int indeksi) const
+{
+    return lista_.at(indeksi).toMap();
 }
 
 void TuoteModel::lataa()
 {
+    KpKysely *kys = kpk("/tuotteet");
+    connect( kys, &KpKysely::vastaus, this, &TuoteModel::dataSaapuu);
+    kys->kysy();
+
+    return;
+
+
     beginResetModel();
     tuotteet_.clear();
     QSqlQuery kysely;
@@ -163,4 +209,11 @@ void TuoteModel::lataa()
     }
     endResetModel();
 
+}
+
+void TuoteModel::dataSaapuu(QVariant *data)
+{
+    beginResetModel();
+    lista_ = data->toList();
+    endResetModel();
 }

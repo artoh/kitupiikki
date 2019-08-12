@@ -99,13 +99,17 @@ private slots:
     void paivitaRyhmanTallennusNappi();
 
     void verkkolaskuKayttoon();
-    void ytunnusSyotetty(const QString &ytunnus);
+
+    /////// UUTTA ///////
+    void asiakasValittu(int asiakasId);
+    void taytaAsiakasTiedot(QVariant* data);
+    void paivitaLaskutustavat();
+    void laskutusTapaMuuttui();
+
 
 private:
-    /**
-     * @brief Näyttäää tuoteluettelon jos tuotteita, muuten ohjeen
-     */
-    void paivitaTuoteluettelonNaytto();
+    void lisaaRiviTab();
+
 
     static int laskuIkkunoita__;
 

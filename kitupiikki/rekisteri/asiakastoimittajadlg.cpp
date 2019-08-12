@@ -74,6 +74,11 @@ void AsiakasToimittajaDlg::muokkaa(int id, bool toimittaja)
 {
     toimittaja_ = toimittaja;
     lataa(id);
+
+    if(toimittaja)
+        setWindowTitle(tr("Muokkaa toimittajan tietoja"));
+    else
+        setWindowTitle(tr("Muokkaa asiakkaan tietoja"));
 }
 
 void AsiakasToimittajaDlg::uusi(const QString &nimi, bool toimittaja)
@@ -81,6 +86,12 @@ void AsiakasToimittajaDlg::uusi(const QString &nimi, bool toimittaja)
     toimittaja_ = toimittaja;
     tauluun();
     ui->nimiEdit->setText(nimi);
+
+    if( toimittaja)
+        setWindowTitle(tr("Uusi toimittaja"));
+    else
+        setWindowTitle(tr("Uusi asiakas"));
+
     exec();
 }
 
@@ -201,6 +212,9 @@ void AsiakasToimittajaDlg::accept()
 
     if( !ui->kaupunkiEdit->text().isEmpty())
         map.insert("kaupunki", ui->kaupunkiEdit->text());
+
+    if( !ui->emailEdit->text().isEmpty())
+        map.insert("email", ui->emailEdit->text());
 
     if( toimittaja_ && ui->tilitLista->count())
     {

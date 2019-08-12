@@ -107,15 +107,6 @@ void LaskuSivu::paaTab(int indeksi)
 {
     asiakasView_->setVisible( indeksi >= ASIAKAS );
 
-    if( indeksi == ASIAKAS && lajiTab_->count() < 4)
-    {
-        lajiTab_->addTab(QIcon(":/pic/yhteystiedot"),tr("&Yhteystiedot"));
-        lajiTab_->setTabEnabled(TIEDOT, false);
-    }
-    else if(indeksi != ASIAKAS && lajiTab_->count() == 4)
-        lajiTab_->removeTab(TIEDOT);
-    uusiAsiakasNappi_->setVisible(indeksi == ASIAKAS);
-
     if( indeksi ==  ASIAKAS)
         asiakasmodel_->paivita(false);
     else if( indeksi == TOIMITTAJA)
@@ -372,7 +363,9 @@ void LaskuSivu::luoUi()
     asiakasView_->setAlternatingRowColors(true);
 
     lajiTab_ = new QTabBar();
-    lajiTab_->addTab(QIcon(":/pic/harmaa.png"),tr("&Kaikki"));
+    lajiTab_->addTab(tr("Luonnokset"));
+    lajiTab_->addTab(tr("Lähetettävät"));
+    lajiTab_->addTab(QIcon(":/pic/harmaa.png"),tr("&Lähetetyt"));
     lajiTab_->addTab(QIcon(":/pic/keltainen.png"),tr("&Avoimet"));
     lajiTab_->addTab(QIcon(":/pic/punainen.png"),tr("&Erääntyneet"));
 

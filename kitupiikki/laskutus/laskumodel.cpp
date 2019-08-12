@@ -1015,6 +1015,21 @@ bool LaskuModel::tarkastaAlvLukko()
     return true;
 }
 
+QVariantMap LaskuModel::data()
+{
+    QVariantMap map;
+
+    if( asiakas_)
+        map.insert("asiakas", asiakas_);
+
+    map.insert("pvm", pvm());
+    map.insert("erapvm", erapaiva());
+
+    // etc ...
+
+
+}
+
 void LaskuModel::lisaaRivi(LaskuRivi rivi)
 {
     int rivia = rivit_.count();
