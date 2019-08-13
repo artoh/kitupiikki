@@ -40,7 +40,7 @@ class TilinValintaDialogi : public QDialog
     Q_OBJECT
 
 public:
-    explicit TilinValintaDialogi(QWidget *parent = 0);
+    explicit TilinValintaDialogi(QWidget *parent = nullptr);
     ~TilinValintaDialogi();
 
     Tili valittu() const;
@@ -50,6 +50,7 @@ public slots:
     void suodataTyyppi(const QString& regexp);
     void suodataSuosikit(bool suodatetaanko);
     void asetaModel(TiliModel *model);
+    void valitse(int tilinumero);
 
 protected slots:
     void klikattu(const QModelIndex& index);
@@ -80,10 +81,8 @@ private:
 public:
     /**
      * @brief Näyttää dialogin, josta voi valita tilin
-     * @param alku
-     * @return
      */
-    static Tili valitseTili(const QString& alku, const QString& tyyppiSuodatin = QString("[ABCDH]"), TiliModel *model = 0);
+    static Tili valitseTili(const QString& alku, const QString& tyyppiSuodatin = QString("[ABCDH]"), TiliModel *model = nullptr);
 
 };
 

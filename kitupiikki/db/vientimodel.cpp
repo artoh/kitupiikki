@@ -327,7 +327,7 @@ bool VientiModel::setData(const QModelIndex &index, const QVariant &value, int  
             Tili uusitili;
             if( value.toInt())
                 uusitili = kp()->tilit()->tiliNumerolla( value.toInt());
-            else if(!value.toString().isEmpty() && value.toString() != " ")
+            else if(!value.toString().isEmpty() && value.toString() != " " )
                 uusitili = TilinValintaDialogi::valitseTili(value.toString());
             else
                 uusitili = TilinValintaDialogi::valitseTili( QString());

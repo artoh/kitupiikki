@@ -104,19 +104,6 @@ void KantaTilinvalintaLine::mouseMoveEvent(QMouseEvent *event)
     QLineEdit::mouseMoveEvent( event);
 }
 
-void KantaTilinvalintaLine::mousePressEvent(QMouseEvent *event)
-{
-    if( event->pos().x() > width() - 22)
-    {
-        Tili valittu = TilinValintaDialogi::valitseTili( QString(), proxyTyyppi_->filterRegExp().pattern(), kp()->tilit() );
-        if( valittu.id())
-        {
-            valitseTili( valittu);
-        }
-    }
-}
-
-
 Tili KantaTilinvalintaLine::valittuTili() const
 {
     QString sana = text().left( text().indexOf(' '));
@@ -152,6 +139,11 @@ void TilinvalintaLineDelegaatille::keyPressEvent(QKeyEvent *event)
             || event->key() == Qt::Key_Space)
     {
         alku_ = event->text();
+
+        QString sana = text().left( text().indexOf(' '));
+        if( !sana.isEmpty() && sana.at(0).isDigit() && ( alku_.isEmpty() || !alku_.at(0).isNumber()) )
+            alku_ = "*" + sana;   // Tähän mekanismi saada dialogi, jossa valittuna (esim * alkuun)
+
         qobject_cast<QWidget*>(parent())->setFocus();
     }
     else
@@ -172,9 +164,24 @@ TilinvalintaLine::TilinvalintaLine(QWidget *parent)
 
 void TilinvalintaLine::asetaModel(TiliModel *model)
 {
-    proxyTyyppi_->setSourceModel( model );
     model_ = model;
+    proxyTyyppi_->setSourceModel( model );
 }
+
+void TilinvalintaLineDelegaatille::mousePressEvent(QMouseEvent *event)
+{
+    if( event->pos().x() > width() - 22)
+    {
+        QString sana = text().left( text().indexOf(' '));
+        if( !sana.isEmpty() && sana.at(0).isDigit() )
+            alku_ = "*" + sana;   // Tähän mekanismi saada dialogi, jossa valittuna (esim * alkuun)
+        else
+            alku_ = " ";
+
+        qobject_cast<QWidget*>(parent())->setFocus();
+    }
+}
+
 
 void TilinvalintaLine::keyPressEvent(QKeyEvent *event)
 {
@@ -184,9 +191,14 @@ void TilinvalintaLine::keyPressEvent(QKeyEvent *event)
     {
         Tili valittu;
 
-        if( event->key() == Qt::Key_Space)
-            valittu = TilinValintaDialogi::valitseTili(QString(), proxyTyyppi_->filterRegExp().pattern(), model_ );
-        else
+        if( event->key() == Qt::Key_Space) {
+            QString alku;
+            QString sana = text().left( text().indexOf(' '));
+            if( !sana.isEmpty() && sana.at(0).isDigit() )
+                alku = "*" + sana;
+
+            valittu = TilinValintaDialogi::valitseTili(alku, proxyTyyppi_->filterRegExp().pattern(), model_ );
+        } else
             valittu = TilinValintaDialogi::valitseTili( event->text(), proxyTyyppi_->filterRegExp().pattern(), model_ );
         if( valittu.id())
         {
@@ -202,4 +214,22 @@ void TilinvalintaLine::keyPressEvent(QKeyEvent *event)
         KantaTilinvalintaLine::keyPressEvent(event);
     }
 
+}
+
+void TilinvalintaLine::mousePressEvent(QMouseEvent *event)
+{
+    if( event->pos().x() > width() - 22)
+    {
+        QString alku;
+        QString sana = text().left( text().indexOf(' '));
+
+        if( !sana.isEmpty() && sana.at(0).isDigit() )
+            alku = "*" + sana;   // Tähän mekanismi saada dialogi, jossa valittuna (esim * alkuun)
+
+        Tili valittu = TilinValintaDialogi::valitseTili( alku, proxyTyyppi_->filterRegExp().pattern(), kp()->tilit() );
+        if( valittu.id())
+        {
+            valitseTili( valittu);
+        }
+    }
 }
