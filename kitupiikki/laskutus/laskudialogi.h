@@ -27,6 +27,7 @@
 #include "laskutmodel.h"
 
 #include "smtp.h"
+#include "model/tosite.h"
 
 #include "naytin/esikatseltava.h"
 
@@ -52,9 +53,14 @@ public:
 
     static int laskuIkkunoita();
 
+
+
 private slots:
     void paivitaSumma();
     void esikatselu();
+
+    void paivitaNapit();
+
     /**
      * @brief Tulostuksen toteutus
      *
@@ -105,6 +111,8 @@ private slots:
 
     QVariantMap data() const;
 
+    void tallenna(Tosite::Tila moodi);
+    void tallennusValmis(QVariant* vastaus);
 
 private:
     void lisaaRiviTab();
@@ -112,9 +120,7 @@ private:
 
 
 public slots:
-    void accept() override;
     void reject() override;
-
     void haeOsoite();
 
 private:
@@ -129,6 +135,11 @@ private:
     QSortFilterProxyModel *ryhmaProxy_;
 
     QList<int> ryhmaLahetys_;
+
+    QVariantMap tallennettu_;
+
+
+    Tosite::Tila tallennusTila_ = Tosite::POISTETTU;
     
 };
 

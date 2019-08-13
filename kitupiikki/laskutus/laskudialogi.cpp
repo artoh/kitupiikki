@@ -46,6 +46,11 @@
 #include "laskurivitmodel.h"
 #include "model/tositevienti.h"
 
+#include "myyntilaskuntulostaja.h"
+#include "model/tosite.h"
+
+#include "db/tositetyyppimodel.h"
+
 #include <QDebug>
 
 #include <QPrinter>
@@ -98,6 +103,10 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
     connect( ui->email, &QLineEdit::textChanged, this, &LaskuDialogi::paivitaLaskutustavat);
     connect( ui->laskutusCombo, &QComboBox::currentTextChanged, this, &LaskuDialogi::laskutusTapaMuuttui);
 
+    connect( ui->luonnosNappi, &QPushButton::clicked, [this] () { this->tallenna(Tosite::LUONNOS); });
+    connect( ui->tallennaNappi, &QPushButton::clicked, [this] () { this->tallenna(Tosite::VALMISLASKU);});
+    connect( ui->valmisNappi, &QPushButton::clicked, [this] () { this->tallenna(Tosite::KIRJANPIDOSSA);});
+
     paivitaLaskutustavat();
     ui->jaksoDate->setNull();
 }
@@ -111,10 +120,8 @@ LaskuDialogi::~LaskuDialogi()
 
 void LaskuDialogi::paivitaSumma()
 {
-    qDebug() << "-------------- " << rivit_->yhteensa();
-    qDebug() << data();
-
     ui->summaLabel->setText( QString("%L1 €").arg( rivit_->yhteensa() ,0,'f',2) );
+    paivitaNapit();
 }
 
 void LaskuDialogi::esikatselu()
@@ -122,12 +129,20 @@ void LaskuDialogi::esikatselu()
     esikatsele();
 }
 
+void LaskuDialogi::paivitaNapit()
+{
+    bool tallennettavaa = !rivit_->onkoTyhja() && data() != tallennettu_;
+
+    ui->luonnosNappi->setEnabled( data() != tallennettu_);
+    ui->tallennaNappi->setEnabled( tallennettavaa );
+    ui->valmisNappi->setEnabled( tallennettavaa );
+}
+
 void LaskuDialogi::tulosta(QPagedPaintDevice *printer) const
 {
     QPainter painter( printer);
-    {
-        tulostaja->tulosta( printer, &painter );
-    }
+
+    MyyntiLaskunTulostaja::tulosta( data(), printer, &painter, true );
 
     painter.end();
 }
@@ -230,25 +245,6 @@ void LaskuDialogi::vieMalliin()
         model->asetaYTunnus(QString()); */
 }
 
-void LaskuDialogi::accept()
-{
-    vieMalliin();
-/*
-    if( model->pvm().isValid() && ( model->pvm() <= kp()->tilitpaatetty() || model->pvm() > kp()->tilikaudet()->kirjanpitoLoppuu() ))
-    {
-        QMessageBox::critical(this, tr("Kirjanpito on lukittu"),
-                              tr("Laskun päivämäärälle %1 ei ole avointa tilikautta. Laskua ei voi tallentaa.").arg( model->pvm().toString("dd.MM.yyyy") ));
-        return;
-    }
-
-    int rahatilinro = ui->rahaTiliEdit->valittuTilinumero();
-
-    if( model->tallenna(kp()->tilit()->tiliNumerolla( rahatilinro )) )
-        QDialog::accept();
-    else
-        QMessageBox::critical(this, tr("Virhe laskun tallentamisessa"), tr("Laskun tallentaminen epäonnistui"));
-*/
-}
 
 void LaskuDialogi::rivienKontekstiValikko(QPoint pos)
 {
@@ -528,27 +524,36 @@ QVariantMap LaskuDialogi::data() const
 
     map.insert("pvm", kp()->paivamaara() );
     map.insert("otsikko", ui->asiakas->nimi());
-
+    map.insert("tyyppi",  TositeTyyppi::TULO);
     map.insert("rivit", rivit_->rivit());
-    if( !ui->asViiteEdit->text().isEmpty())
-        map.insert("asviite", ui->asViiteEdit->text());
 
-    if( !ui->email->text().isEmpty())
-        map.insert("email", ui->email->text());
-    if( !ui->osoiteEdit->toPlainText().isEmpty())
-        map.insert("osoite", ui->osoiteEdit->toPlainText());
     if( !ui->lisatietoEdit->toPlainText().isEmpty())
         map.insert("info", ui->lisatietoEdit->toPlainText());
 
-    map.insert("kieli", ui->kieliCombo->currentData());
-    map.insert("viivkorko", ui->viivkorkoSpin->value());
-    map.insert("laskutapa", ui->laskutusCombo->currentData());
+    QVariantMap lasku;
+
+    if( !ui->email->text().isEmpty())
+        lasku.insert("email", ui->email->text());
+    if( !ui->osoiteEdit->toPlainText().isEmpty())
+        lasku.insert("osoite", ui->osoiteEdit->toPlainText());
+
+    if( !ui->asViiteEdit->text().isEmpty())
+        lasku.insert("asviite", ui->asViiteEdit->text());
+
+    lasku.insert("kieli", ui->kieliCombo->currentData());
+    lasku.insert("viivkorko", ui->viivkorkoSpin->value());
+    lasku.insert("laskutapa", ui->laskutusCombo->currentData());
+    lasku.insert("toimituspvm", ui->toimitusDate->date());
+    lasku.insert("erapvm", ui->eraDate->date());
+
+    map.insert("lasku", lasku);
 
 
     // Sitten pitäisi arpoa viennit
     QVariantList viennit;
     viennit.append( vastakirjaus() );
     viennit.append( rivit_->viennit() );
+
     map.insert("viennit", viennit);
 
 
@@ -630,7 +635,9 @@ QVariantMap LaskuDialogi::vastakirjaus() const
 
     vienti.setPvm( QDate::currentDate() );
     vienti.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::MYYNTISAATAVA).numero() );
-    vienti.setEra( -1 );
+
+    if( tallennusTila_ == Tosite::KIRJANPIDOSSA)
+        vienti.setEra( -1 );
 
     vienti.setErapaiva( ui->eraDate->date() );
 
@@ -644,6 +651,39 @@ QVariantMap LaskuDialogi::vastakirjaus() const
         vienti.setKredit(0-summa);
 
     return std::move(vienti);
+}
+
+void LaskuDialogi::tallenna(Tosite::Tila moodi)
+{
+
+
+    tallennusTila_ = moodi;
+
+    QVariantMap map = data();
+    if( moodi == Tosite::LUONNOS )
+        map.insert("tila", Tosite::LUONNOS);
+    else if( map.value("tila").toInt() < Tosite::VALMISLASKU )
+        map.insert("tila", Tosite::VALMISLASKU);
+
+    qDebug() << "Tallenna " << moodi << " " << map;
+
+    KpKysely *kysely;
+    if( map.value("id").isNull())
+        kysely = kpk("/tositteet/", KpKysely::POST);
+    else
+        kysely = kpk( QString("/tositteet/%1").arg(map.value("id").toInt()));
+
+    connect( kysely, &KpKysely::vastaus, this, &LaskuDialogi::tallennusValmis);
+    kysely->kysy( map );
+}
+
+void LaskuDialogi::tallennusValmis(QVariant *vastaus)
+{
+    // Tässä tulisi tallettaa myös liite - sitä varten tarvittaisiin liite PUT
+
+    // Laskun toimittamista varten voisi olla ehkä jopa oma olio, koska sitä harrastetaan muuallakin
+
+    QDialog::accept();
 }
 
 int LaskuDialogi::laskuIkkunoita()

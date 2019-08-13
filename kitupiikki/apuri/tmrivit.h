@@ -21,23 +21,6 @@
 
 #include "db/tili.h"
 
-namespace {
-
-    struct Rivi {
-        int tilinumero;
-        qlonglong maara = 0;
-        qlonglong netto = 0;
-        QString selite;
-        int verokoodi = 0;
-        double veroprosentti = 0.0;
-        bool eivahennysta = false;
-        int kohdennus = 0;
-        QVariantList merkkaukset;
-        QDate jaksoalkaa;
-        QDate jaksoloppuu;
-    };
-}
-
 
 class TmRivit : public QAbstractTableModel
 {
@@ -102,6 +85,21 @@ public:
 
 
 private:
+
+    struct Rivi {
+        int tilinumero;
+        qlonglong maara = 0;
+        qlonglong netto = 0;
+        QString selite;
+        int verokoodi = 0;
+        double veroprosentti = 0.0;
+        bool eivahennysta = false;
+        int kohdennus = 0;
+        QVariantList merkkaukset;
+        QDate jaksoalkaa;
+        QDate jaksoloppuu;
+    };
+
     QList<Rivi> rivit_;
 };
 

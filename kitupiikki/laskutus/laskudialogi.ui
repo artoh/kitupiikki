@@ -286,7 +286,7 @@ osoite</string>
      <item>
       <widget class="QLabel" name="viiteLabel">
        <property name="text">
-        <string>  </string>
+        <string/>
        </property>
       </widget>
      </item>
@@ -306,7 +306,7 @@ osoite</string>
      <item>
       <widget class="QLabel" name="summaLabel">
        <property name="text">
-        <string>  </string>
+        <string/>
        </property>
       </widget>
      </item>
@@ -402,28 +402,12 @@ osoite</string>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1660</x>
-     <y>1348</y>
+     <x>1587</x>
+     <y>808</y>
     </hint>
     <hint type="destinationlabel">
-     <x>903</x>
-     <y>621</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>tallennaNappi</sender>
-   <signal>clicked()</signal>
-   <receiver>LaskuDialogi</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>1572</x>
-     <y>1348</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>828</x>
-     <y>606</y>
+     <x>1629</x>
+     <y>274</y>
     </hint>
    </hints>
   </connection>

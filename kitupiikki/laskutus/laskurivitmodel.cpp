@@ -23,8 +23,9 @@
 
 #include "model/tositevienti.h"
 
-LaskuRivitModel::LaskuRivitModel(QObject *parent)
-    : QAbstractTableModel(parent)
+LaskuRivitModel::LaskuRivitModel(QObject *parent, const QVariantList& data)
+    : QAbstractTableModel(parent),
+      rivit_(data)
 {
     lisaaRivi();
 }
@@ -351,6 +352,18 @@ QVariantList LaskuRivitModel::viennit(const QDate& pvm) const
         }
     }
     return ulos;
+}
+
+bool LaskuRivitModel::onkoTyhja() const
+{
+    for( auto rivi : rivit_)
+    {
+        QVariantMap map = rivi.toMap();
+        if( qAbs(map.value("ahinta").toDouble()) > 1e-5 &&
+            qAbs(map.value("myyntikpl").toDouble() > 1e-5))
+            return false;
+    }
+    return true;
 }
 
 void LaskuRivitModel::lisaaRivi(QVariantMap rivi)

@@ -178,7 +178,11 @@ LaskuRivi TuoteModel::tuote(int indeksi) const
 
 QVariantMap TuoteModel::tuoteMap(int indeksi) const
 {
-    return lista_.at(indeksi).toMap();
+    QVariantMap tuote = lista_.at(indeksi).toMap();
+    tuote.insert("tuote", tuote.value("id"));
+    tuote.remove("id");
+    return tuote;
+
 }
 
 void TuoteModel::lataa()

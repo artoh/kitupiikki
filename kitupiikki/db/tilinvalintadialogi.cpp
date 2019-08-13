@@ -211,8 +211,6 @@ bool TilinValintaDialogi::eventFilter(QObject *object, QEvent *event)
 
 Tili TilinValintaDialogi::valitseTili(const QString &alku, const QString &tyyppiSuodatin, TiliModel *model)
 {
-    qDebug() << "TV " << alku;
-
 
     TilinValintaDialogi dlg;
     if( model )

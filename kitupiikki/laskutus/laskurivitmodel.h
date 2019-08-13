@@ -44,7 +44,7 @@ public:
         KerailyAntiikki = 330024
     };
 
-    explicit LaskuRivitModel(QObject *parent = nullptr);
+    explicit LaskuRivitModel(QObject *parent = nullptr, const QVariantList& data = QVariantList());
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
@@ -66,6 +66,8 @@ public:
 
     double yhteensa() const;
     QVariantList viennit(const QDate& pvm = QDate::currentDate()) const;
+
+    bool onkoTyhja() const;
 
 public slots:
     void lisaaRivi(QVariantMap rivi = QVariantMap());
