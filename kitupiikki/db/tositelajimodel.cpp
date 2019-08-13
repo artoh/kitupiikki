@@ -305,7 +305,7 @@ bool TositelajiModel::tallenna()
     }
     foreach (int id, poistetutIdt_)
     {
-        tallennus.exec( QString("DELETE tositelaji WHERE id=%1").arg(id));
+        tallennus.exec( QString("DELETE FROM tositelaji WHERE id=%1").arg(id));
     }
     poistetutIdt_.clear();
 

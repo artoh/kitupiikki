@@ -374,7 +374,7 @@ void AloitusSivu::pyydaInfo()
                 .arg( qApp->applicationVersion() )
                 .arg( QSysInfo::prettyProductName())
                 .arg( asetukset.value("Keksi").toString() )
-                .arg(KITUPIIKKI_BUILD)
+                .arg(asetukset.value("Omituisuudet").toString())
                 .arg( buildDate().toString(Qt::ISODate) )
                 .arg( asetukset.value("Tilikartta").toString());
 
@@ -521,7 +521,7 @@ QString AloitusSivu::vinkit()
     if(  kp()->asetukset()->onko("AlvVelvollinen") )
     {
         QDate kausialkaa = kp()->asetukset()->pvm("AlvIlmoitus").addDays(1);
-        QDate kausipaattyy = kp()->asetukset()->pvm("AlvIlmoitus").addMonths( kp()->asetukset()->luku("AlvKausi")).addDays(-1);
+        QDate kausipaattyy = kp()->asetukset()->pvm("AlvIlmoitus").addDays(1).addMonths( kp()->asetukset()->luku("AlvKausi")).addDays(-1);
         QDate erapaiva = AlvSivu::erapaiva(kausipaattyy);
 
         qlonglong paivaaIlmoitukseen = kp()->paivamaara().daysTo( erapaiva );

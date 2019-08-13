@@ -121,6 +121,18 @@ void TilinValintaDialogi::asetaModel(TiliModel *model)
     proxyNimi->setSourceModel( model );
 }
 
+void TilinValintaDialogi::valitse(int tilinumero)
+{
+    for(int i=0; i < ui->view->model()->rowCount(); i++)
+    {
+        if( ui->view->model()->data( ui->view->model()->index(i,0), TiliModel::NroRooli ).toInt() == tilinumero) {
+
+            ui->view->selectRow(i);
+            break;
+        }
+    }
+}
+
 void TilinValintaDialogi::klikattu(const QModelIndex &index)
 {
     if(index.data(TiliModel::OtsikkotasoRooli) == 0)
@@ -199,16 +211,27 @@ bool TilinValintaDialogi::eventFilter(QObject *object, QEvent *event)
 
 Tili TilinValintaDialogi::valitseTili(const QString &alku, const QString &tyyppiSuodatin, TiliModel *model)
 {
+    qDebug() << "TV " << alku;
+
+
     TilinValintaDialogi dlg;
     if( model )
         dlg.asetaModel( model );
 
-    dlg.ui->suodatusEdit->setText(alku);
-    dlg.suodataTyyppi(tyyppiSuodatin);
+    if( alku.left(1) == '*')
+    {
+        // Jos alku on * + numero, etsitään tili kyseisellä numerolla
+        dlg.valitse( alku.mid(1).toInt());
+    } else {
+        dlg.ui->suodatusEdit->setText(alku);
+        dlg.suodataTyyppi(tyyppiSuodatin);
+    }
 
     if( dlg.exec())
     {
         return dlg.valittu();
+    } else if(alku.left(1) == "*"  ){
+        return model ? model->tiliNumerolla( alku.mid(1).toInt() ) : kp()->tilit()->tiliNumerolla( alku.mid(1).toInt()) ;
     }
     return Tili();
 }
