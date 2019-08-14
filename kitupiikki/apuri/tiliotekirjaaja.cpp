@@ -107,7 +107,7 @@ TilioteModel::Tilioterivi TilioteKirjaaja::rivi()
         rivi_.laskupvm = index.data(LaskuTauluModel::LaskuPvmRooli).toDate();
         rivi_.tili = index.data(LaskuTauluModel::TiliRooli).toInt();
         if( rivi_.selite.isEmpty())
-            rivi_.selite = index.data(LaskuTauluModel::OtsikkoRooli).toString();
+            rivi_.selite = index.data(LaskuTauluModel::AsiakasToimittajaNimiRooli ).toString();
 
     } else if( ui->alaTabs->currentIndex() == TULOMENO ) {
         rivi_.saajamaksajaId = ui->asiakastoimittaja->id();
@@ -163,7 +163,7 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
         ui->tiliLabel->setText( menoa_ ? tr("Menotili") : tr("Tulotili"));
         ui->asiakasLabel->setText( menoa_ ? tr("Toimittaja") : tr("Asiakas"));
         ui->tiliEdit->suodataTyypilla( menoa_ ? "D.*" : "C.*");
-        ui->asiakastoimittaja->alusta(menoa_);
+        ui->asiakastoimittaja->alusta();
 
     } else if ( tab == SIIRTO ) {
         ui->tiliLabel->setText( menoa_ ? tr("Tilille") : tr("Tililtä")  );

@@ -78,6 +78,8 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
 
     connect( ui->viiteEdit, &QLineEdit::textChanged, [this] (const QString& text) {this->tosite()->setData(Tosite::VIITE, text);});
     connect( ui->erapaivaEdit, &KpDateEdit::dateChanged, [this] (const QDate& date) {this->tosite()->setData(Tosite::ERAPVM, date);});
+    connect( ui->asiakasToimittaja, &AsiakasToimittajaValinta::valittu, [this] { this->tosite()->setData(Tosite::KUMPPANI, this->ui->asiakasToimittaja->id()); });
+
 
 
     connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::haeKohdennukset );
@@ -130,12 +132,9 @@ void TuloMenoApuri::teeReset()
         ui->viiteEdit->setText( vastavienti.viite());
         ui->erapaivaEdit->setDate( vastavienti.erapaiva());
 
-        if( menoa )
-            ui->asiakasToimittaja->set( vastavienti.value("toimittaja").toMap().value("id").toInt(),
-                                    vastavienti.value("toimittaja").toMap().value("nimi").toString());
-        else
-            ui->asiakasToimittaja->set( vastavienti.value("asiakas").toMap().value("id").toInt(),
-                                    vastavienti.value("asiakas").toMap().value("nimi").toString());
+        ui->asiakasToimittaja->set( vastavienti.value("kumppani").toMap().value("id").toInt(),
+                                vastavienti.value("kumppani").toMap().value("nimi").toString());
+
 
         maksutapaMuuttui();
     } else {
@@ -311,15 +310,8 @@ bool TuloMenoApuri::teeTositteelle()
 
         // Kirjataan asiakas- ja toimittajatiedot myös vienteihin, jotta voidaan ehdottaa
         // tiliä aiempien kirjausten perusteella
-        if( menoa )
-        {
-            if( ui->asiakasToimittaja->id() > 0)
-                vienti.set( TositeVienti::TOIMITTAJA, ui->asiakasToimittaja->id() );
-        } else {
-
-            if( ui->asiakasToimittaja->id() > 0)
-                vienti.set( TositeVienti::ASIAKAS, ui->asiakasToimittaja->id() );
-        }
+        if( ui->asiakasToimittaja->id() > 0)
+            vienti.setKumppani( ui->asiakasToimittaja->id() );
 
         viennit.append(vienti);
 
@@ -424,15 +416,8 @@ bool TuloMenoApuri::teeTositteelle()
             vasta.setErapaiva( ui->erapaivaEdit->date());
 
         // Asiakas tai toimittaja
-        if( menoa )
-        {
-            if( ui->asiakasToimittaja->id() > 0)
-                vasta.set( TositeVienti::TOIMITTAJA, ui->asiakasToimittaja->id() );
-        } else {
-
-            if( ui->asiakasToimittaja->id() > 0)
-                vasta.set( TositeVienti::ASIAKAS, ui->asiakasToimittaja->id() );
-        }
+        if( ui->asiakasToimittaja->id() > 0)
+            vasta.setKumppani( ui->asiakasToimittaja->id() );
 
         qDebug() << vasta;
 
@@ -716,7 +701,7 @@ void TuloMenoApuri::alusta(bool meno)
     ui->erapaivaEdit->setDateRange(QDate(), QDate());
     ui->loppuEdit->setDateRange( kp()->tilitpaatetty().addDays(1), QDate() );
 
-    ui->asiakasToimittaja->alusta(meno);
+    ui->asiakasToimittaja->alusta();
 }
 
 int TuloMenoApuri::rivilla() const

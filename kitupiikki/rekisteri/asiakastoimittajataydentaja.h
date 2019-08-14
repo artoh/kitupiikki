@@ -31,15 +31,10 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-    enum AsiakasVaiToimittaja {
-        TOIMITTAJAT = 0,
-        ASIAKKAAT = 1
-    };
-
     int haeNimella(const QString& nimi) const;
 
 public slots:
-    void lataa(AsiakasVaiToimittaja avt);
+    void lataa();
 
 private slots:
     void saapuu(QVariant* variant);

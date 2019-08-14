@@ -92,7 +92,7 @@ LaskuDialogi::LaskuDialogi( const QVariantMap& data) :
     ui->kieliCombo->addItem(QIcon(":/pic/se.png"), tr("Ruotsi"), "SE");
     ui->kieliCombo->addItem(QIcon(":/pic/en.png"), tr("Englanti"), "EN");
 
-    ui->asiakas->alusta(false);
+    ui->asiakas->alusta();
 
     connect( ui->esikatseluNappi, SIGNAL(clicked(bool)), this, SLOT(esikatselu()));
 
@@ -444,7 +444,7 @@ void LaskuDialogi::verkkolaskuKayttoon()
 
 void LaskuDialogi::asiakasValittu(int asiakasId)
 {
-    KpKysely *kysely = kpk( QString("/asiakkaat/%1").arg(asiakasId) );
+    KpKysely *kysely = kpk( QString("/kumppanit/%1").arg(asiakasId) );
     connect( kysely, &KpKysely::vastaus, this, &LaskuDialogi::taytaAsiakasTiedot);
     kysely->kysy();
 }
@@ -509,9 +509,10 @@ QVariantMap LaskuDialogi::data() const
         map.insert("id", tositeId_);
     if( tunniste_)
         map.insert("tunniste", tunniste_);
+    if( ui->asiakas->id())
+        map.insert("kumppani", ui->asiakas->id());
 
     map.insert("pvm", kp()->paivamaara() );
-    map.insert("otsikko", ui->otsikkoEdit->text());
     map.insert("tyyppi",  TositeTyyppi::MYYNTILASKU);
     map.insert("rivit", rivit_->rivit());
 
@@ -530,7 +531,6 @@ QVariantMap LaskuDialogi::data() const
         lasku.insert("email", ui->email->text());
     if( !ui->osoiteEdit->toPlainText().isEmpty())
         lasku.insert("osoite", ui->osoiteEdit->toPlainText());
-
     if( !ui->asViiteEdit->text().isEmpty())
         lasku.insert("asviite", ui->asViiteEdit->text());
 
@@ -637,7 +637,7 @@ QVariantMap LaskuDialogi::vastakirjaus() const
     vienti.setErapaiva( ui->eraDate->date() );
 
     if( ui->asiakas->id())
-        vienti.insert("asiakas", ui->asiakas->id());
+        vienti.insert("kumppani", ui->asiakas->id());
 
     double summa = rivit_->yhteensa();
     if( summa > 0)
@@ -718,13 +718,12 @@ void LaskuDialogi::lataa(const QVariantMap &map)
     tyyppi_ = map.value("tyyppi").toInt();
     alustaMaksutavat();
 
-    ui->asiakas->set( vienti.value("asiakas").toMap().value("id").toInt(),
-                      vienti.value("asiakas").toMap().value("nimi").toString());
+    ui->asiakas->set( map.value("kumppani").toMap().value("id").toInt(),
+                      map.value("kumppani").toMap().value("nimi").toString());
 
     QVariantMap lasku = map.value("lasku").toMap();
     ui->osoiteEdit->setPlainText( lasku.value("osoite").toString());
     ui->email->setText( lasku.value("email").toString() );
-    ui->otsikkoEdit->setText( map.value("otsikko").toString());
     ui->asViiteEdit->setText( lasku.value("asviite").toString() );
     ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( lasku.value("kieli").toString() ) );
     ui->laskutusCombo->setCurrentIndex( ui->laskutusCombo->findData( lasku.value("laskutapa").toInt() ));

@@ -47,8 +47,7 @@ public:
         OTSIKKO,
         VIITE,
         ERAPVM,
-        TOIMITTAJA,
-        ASIAKAS,
+        KUMPPANI,
         KOMMENTIT
     };
 

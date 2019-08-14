@@ -18,8 +18,6 @@
 #include "laskusivu.h"
 
 #include "asiakkaatmodel.h"
-#include "laskutmodel.h"
-#include "ostolaskutmodel.h"
 #include "laskudialogi.h"
 #include "db/kirjanpito.h"
 #include "db/tositemodel.h"
@@ -49,7 +47,7 @@ LaskuSivu::LaskuSivu()
 {
     luoUi();
     paaTab_->setCurrentIndex(MYYNTI);
-    lajiTab_->setCurrentIndex(LaskutModel::AVOIMET);
+    lajiTab_->setCurrentIndex(AVOIMET);
 
     connect( paaTab_, &QTabBar::currentChanged, this, &LaskuSivu::paaTab );
     connect( lajiTab_, &QTabBar::currentChanged, this, &LaskuSivu::paivitaLaskulista);
@@ -67,7 +65,8 @@ LaskuSivu::LaskuSivu()
     asiakasView_->setSortingEnabled(true);
 
     laskuAsiakasProxy_ = new QSortFilterProxyModel(this);
-    laskuAsiakasProxy_->setFilterKeyColumn(LaskutModel::ASIAKAS);
+    laskuAsiakasProxy_->setFilterKeyColumn(LaskuTauluModel::ASIAKASTOIMITTAJA);
+    laskuAsiakasProxy_->setSourceModel(laskumodel_);
     laskuViiteProxy_ = new QSortFilterProxyModel(this);
     laskuAsiakasProxy_->setFilterCaseSensitivity(Qt::CaseInsensitive);
     laskuViiteProxy_->setSourceModel(laskuAsiakasProxy_);
@@ -115,8 +114,21 @@ void LaskuSivu::paaTab(int indeksi)
     else if( indeksi == TOIMITTAJA)
         asiakasmodel_->paivita(true);
 
+    if( indeksi == MYYNTI || indeksi == ASIAKAS) {
+        if( lajiTab_->count() < 5) {
+            lajiTab_->insertTab(LUONNOKSET,tr("Luonnokset"));
+            lajiTab_->insertTab(LAHETETTAVAT,tr("Lähetettävät"));
+            lajiTab_->setTabText(KAIKKI, tr("Lähetetyt"));
+        }
+    } else {
+        if( lajiTab_->count() == 5) {
+            lajiTab_->setTabText(KAIKKI, tr("Kaikki"));
+            lajiTab_->removeTab(LAHETETTAVAT);
+            lajiTab_->removeTab(LUONNOKSET);
+        }
+    }
+
     paivitaLaskulista();
-    laskuAsiakasProxy_->setSourceModel(laskumodel_);
     paivitaAsiakasSuodatus();
 
 }
@@ -135,32 +147,20 @@ void LaskuSivu::paivitaAsiakasSuodatus()
 
 void LaskuSivu::paivitaLaskulista()
 {
-    laskuView_->setVisible( lajiTab_->currentIndex() != TIEDOT);
-    yhteystiedot_->setVisible( lajiTab_->currentIndex() == TIEDOT);
+    int laji = lajiTab_->count() == 5 ? lajiTab_->currentIndex() : lajiTab_->currentIndex() + 2;
 
-    asiakasSuodatusEdit_->setEnabled( lajiTab_->currentIndex() != TIEDOT);
-    mistaEdit_->setEnabled( lajiTab_->currentIndex() != TIEDOT );
-    mihinEdit_->setEnabled( lajiTab_->currentIndex() != TIEDOT );
+    laskuView_->setColumnHidden( LaskuTauluModel::NUMERO,  laji == LUONNOKSET);
+    laskuView_->setColumnHidden( LaskuTauluModel::MAKSAMATTA, laji < KAIKKI);
+    laskuView_->setColumnHidden( LaskuTauluModel::LAHETYSTAPA, laji >= KAIKKI );
 
-    if( lajiTab_->currentIndex() < TIEDOT && laskumodel_)
-    {
-        laskumodel_->paivita( paaTab_->currentIndex() == OSTO,lajiTab_->currentIndex(), mistaEdit_->date(), mihinEdit_->date() );
-        laskuValintaMuuttuu();
-    }
-    else
-    {
-        yhteystiedot_->haeTiedot( asiakasView_->currentIndex().data(AsiakkaatModel::NimiRooli).toString() );
-    }
+    laskumodel_->paivita( paaTab_->currentIndex() == OSTO || paaTab_->currentIndex() == TOIMITTAJA,
+                          laji, mistaEdit_->date(), mihinEdit_->date() );
+    laskuValintaMuuttuu();
 }
 
 void LaskuSivu::asiakasValintaMuuttuu()
 {
     laskuAsiakasProxy_->setFilterFixedString( asiakasView_->currentIndex().data(AsiakkaatModel::NimiRooli).toString() );
-    if( paaTab_->currentIndex() == ASIAKAS )
-        lajiTab_->setTabEnabled(TIEDOT, !asiakasView_->currentIndex().data(AsiakkaatModel::NimiRooli).toString().isEmpty() );
-    if( lajiTab_->currentIndex() == TIEDOT)
-        yhteystiedot_->haeTiedot( asiakasView_->currentIndex().data(AsiakkaatModel::NimiRooli).toString() );
-
 }
 
 void LaskuSivu::laskuValintaMuuttuu()
@@ -173,8 +173,6 @@ void LaskuSivu::laskuValintaMuuttuu()
 
         QSqlQuery liitekysely( QString("SELECT id FROM liite WHERE tosite=%1 AND liiteno=%2").arg(tosite).arg(liite));
         naytaNappi_->setEnabled( liitekysely.next());
-
-        tositeNappi_->setEnabled( index.data(LaskutModel::KirjausPerusteRooli).toInt() != LaskuModel::MAKSUPERUSTE );
 
         // Tarkistetaan, onko muokkaaminen sallittu
         TositeModel tositeModel( kp()->tietokanta());
@@ -201,7 +199,6 @@ void LaskuSivu::laskuValintaMuuttuu()
     {
         naytaNappi_->setDisabled(true);
         muokkaaNappi_->setDisabled(true);
-        tositeNappi_->setDisabled(true);
         poistaNappi_->setDisabled(true);
         hyvitysNappi_->setDisabled(true);
         kopioiNappi_->setDisabled(true);
@@ -215,18 +212,6 @@ void LaskuSivu::uusiLasku()
     dlg->show();
 }
 
-void LaskuSivu::uusiAsiakas()
-{
-    asiakasView_->selectRow(-1);
-    lajiTab_->setCurrentIndex(TIEDOT);
-    yhteystiedot_->haeTiedot();
-}
-
-void LaskuSivu::naytaTosite()
-{
-    LisaIkkuna *ikkuna = new LisaIkkuna();
-    ikkuna->kirjaa( laskuView_->currentIndex().data(LaskutModel::TositeRooli).toInt() );
-}
 
 void LaskuSivu::naytaLasku()
 {
@@ -235,19 +220,6 @@ void LaskuSivu::naytaLasku()
                            index.data(LaskutModel::LiiteRooli).toInt());
 
 
-}
-
-void LaskuSivu::asiakasLisatty(const QString &nimi)
-{
-    asiakasmodel_->paivita(false);
-    for(int i=0; i < asiakasView_->model()->rowCount(QModelIndex()); i++)
-    {
-        if( asiakasView_->model()->index(i,AsiakkaatModel::NIMI).data().toString() == nimi )
-        {
-            asiakasView_->selectRow(i);
-            return;
-        }
-    }
 }
 
 void LaskuSivu::hyvityslasku()
@@ -271,9 +243,17 @@ void LaskuSivu::muokkaaLaskua()
 {
     // Hakee laskun tiedot ja näyttää dialogin
     int tositeId = laskuView_->currentIndex().data(LaskuTauluModel::TositeIdRooli).toInt();
-    KpKysely *kysely = kpk( QString("/tositteet/%1").arg(tositeId));
-    connect( kysely, &KpKysely::vastaus, this, &LaskuSivu::naytaLaskuDlg);
-    kysely->kysy();
+    int tyyppi = laskuView_->currentIndex().data(LaskuTauluModel::TyyppiRooli).toInt();
+
+    if( tyyppi >= TositeTyyppi::MYYNTILASKU && tyyppi <= TositeTyyppi::MAKSUMUISTUTUS) {
+        KpKysely *kysely = kpk( QString("/tositteet/%1").arg(tositeId));
+        connect( kysely, &KpKysely::vastaus, this, &LaskuSivu::naytaLaskuDlg);
+        kysely->kysy();
+    } else {
+        LisaIkkuna *lisa = new LisaIkkuna(this);
+        lisa->naytaTosite(tositeId);
+    }
+
 }
 
 void LaskuSivu::maksumuistutus()
@@ -288,17 +268,6 @@ void LaskuSivu::maksumuistutus()
     }
 }
 
-void LaskuSivu::ryhmaLasku()
-{
-    if( LaskuDialogi::laskuIkkunoita())
-    {
-        QMessageBox::information(this, tr("Uutta ryhmälaskua ei voi luoda"),
-                             tr("Päällekkäisten viitenumeroiden välttämiseksi voit tehdä vain "
-                                "yhden laskun kerrallaan.\n"
-                                "Sulje avoinna oleva laskuikkuna ennen uuden laskun luomista."));
-        return;
-    }
-}
 
 void LaskuSivu::poistaLasku()
 {
@@ -374,9 +343,6 @@ void LaskuSivu::luoUi()
     laskuView_ = new QTableView;
     laskuView_->setAlternatingRowColors(true);
     alaruutuleiska->addWidget(laskuView_);
-    yhteystiedot_ = new YhteystietoWidget;
-    alaruutuleiska->addWidget(yhteystiedot_);
-    connect(yhteystiedot_, &YhteystietoWidget::uusiAsiakas, this, &LaskuSivu::asiakasLisatty );
 
 
     QWidget *alaWidget = new QWidget();
@@ -391,9 +357,7 @@ void LaskuSivu::luoUi()
     muokkaaNappi_ = new QPushButton( QIcon(":/pic/muokkaa.png"), tr("&Muokkaa"));
     connect( muokkaaNappi_, &QPushButton::clicked, this, &LaskuSivu::muokkaaLaskua);
     nappileiska->addWidget(muokkaaNappi_);
-    tositeNappi_ = new QPushButton(QIcon(":/pic/tekstisivu.png"), tr("&Tosite"));
-    connect( tositeNappi_, &QPushButton::clicked, this, &LaskuSivu::naytaTosite );
-    nappileiska->addWidget(tositeNappi_);
+
 
     nappileiska->addSpacing(64);
 
@@ -414,17 +378,10 @@ void LaskuSivu::luoUi()
     nappileiska->addWidget(muistutusNappi_);
 
     nappileiska->addStretch();
-    uusiAsiakasNappi_ = new QPushButton(QIcon(":/pic/yrittaja.png"), tr("Uusi &asiakas"));
-    connect( uusiAsiakasNappi_, &QPushButton::clicked, this, &LaskuSivu::uusiAsiakas);
-    nappileiska->addWidget(uusiAsiakasNappi_);
 
     QPushButton *uusiNappi = new QPushButton(QIcon(":/pic/uusitiedosto.png"), tr("&Uusi lasku"));
     nappileiska->addWidget(uusiNappi);
     connect( uusiNappi, &QPushButton::clicked, this, &LaskuSivu::uusiLasku);
-
-    QPushButton *ryhmaNappi = new QPushButton(QIcon(":/pic/dokumentti.png"), tr("&Ryhmälasku"));
-    nappileiska->addWidget(ryhmaNappi);
-    connect(ryhmaNappi, &QPushButton::clicked, this, &LaskuSivu::ryhmaLasku);
 
 
     QVBoxLayout *paaLeiska = new QVBoxLayout;

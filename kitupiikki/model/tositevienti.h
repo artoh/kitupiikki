@@ -41,8 +41,7 @@ public:
         ARKISTOTUNNUS,
         VIITE,
         ERAPAIVA,
-        ASIAKAS,
-        TOIMITTAJA
+        KUMPPANI
     };
 
 
@@ -63,7 +62,7 @@ public:
     int kohdennus() const { return  data(KOHDENNUS).toInt();}
     QString selite() const { return data(SELITE).toString();}
     int eraId() const;
-    int asiakasId() const;
+    int kumppaniId() const;
     QList<int> merkkaukset() const;
     QString arkistotunnus() const { return data(ARKISTOTUNNUS).toString();}
     QString viite() const { return data(VIITE).toString();}
@@ -86,6 +85,7 @@ public:
     void setArkistotunnus(const QString& tunnus);
     void setViite(const QString& viite);
     void setErapaiva(const QDate& erapvm);
+    void setKumppani(int kumppaniId);
 
 private:
     static std::map<int,QString> avaimet__;

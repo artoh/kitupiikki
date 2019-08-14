@@ -37,9 +37,9 @@ public:
     static QString alvToY(QString alvtunnus);
 
 public slots:
-    void muokkaa(int id, bool toimittaja);
-    void uusi(const QString& nimi, bool toimittaja);
-    void ytunnuksella(const QString& ytunnus, bool toimittaja);
+    void muokkaa(int id);
+    void uusi(const QString& nimi);
+    void ytunnuksella(const QString& ytunnus);
 
 signals:
     void tallennettu(int id, const QString& nimi);
@@ -63,7 +63,6 @@ private slots:
 
 private:
     Ui::AsiakasToimittajaDlg *ui;
-    bool toimittaja_ = false;
     int id_ = 0;
 };
 

@@ -90,12 +90,10 @@ void AsiakasToimittajaValinta::clear()
 
 }
 
-void AsiakasToimittajaValinta::alusta(bool toimittaja)
+void AsiakasToimittajaValinta::alusta()
 {
-
-    toimittaja_ = toimittaja;
     if( isEnabled() )
-        model_->lataa(toimittaja);
+        model_->lataa();
 }
 
 void AsiakasToimittajaValinta::valitseAsiakas()
@@ -114,7 +112,7 @@ void AsiakasToimittajaValinta::nimiMuuttui()
         if( hakuId )
             combo_->setCurrentIndex( combo_->findData(hakuId) );
         else
-            dlg_->ytunnuksella( combo_->currentText(), toimittaja_ );
+            dlg_->ytunnuksella( combo_->currentText());
     }
 }
 
@@ -128,16 +126,16 @@ void AsiakasToimittajaValinta::muokkaa()
 {
 
     if( id_ )
-        dlg_->muokkaa(id_, toimittaja_);
+        dlg_->muokkaa(id_);
     else
-        dlg_->uusi( combo_->currentText() , toimittaja_);
+        dlg_->uusi( combo_->currentText());
 
 }
 
 void AsiakasToimittajaValinta::talletettu(int id, const QString& nimi)
 {
     ladattu_ = id;
-    model_->lataa( toimittaja_ );
+    model_->lataa();
 
 }
 

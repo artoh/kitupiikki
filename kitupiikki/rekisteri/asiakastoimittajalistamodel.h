@@ -48,7 +48,7 @@ public:
     int idAlvTunnuksella(const QString tunnus) const;
 
 public slots:
-    void lataa(bool toimittajia = false);
+    void lataa();
 
 private slots:
     void saapuu(QVariant* variant);

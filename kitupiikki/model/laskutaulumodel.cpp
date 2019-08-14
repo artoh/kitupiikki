@@ -17,6 +17,7 @@
 #include "laskutaulumodel.h"
 
 #include "db/kirjanpito.h"
+#include "laskutus/laskudialogi.h"
 
 LaskuTauluModel::LaskuTauluModel(QObject *parent)
     : QAbstractTableModel(parent)
@@ -34,12 +35,12 @@ QVariant LaskuTauluModel::headerData(int section, Qt::Orientation orientation, i
         case PVM: return tr("Laskun pvm");
         case ERAPVM: return tr("Eräpvm");
         case SUMMA: return tr("Summa");
+        case LAHETYSTAPA: return tr("Lähetystapa");
         case MAKSAMATTA: return tr("Maksamatta");
         case ASIAKASTOIMITTAJA:
             if( ostoja_)
                 return tr("Toimittaja");
             return tr("Asiakas");
-        case OTSIKKO: return tr("Otsikko");
         }
     }
     return QVariant();
@@ -95,7 +96,7 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
                    return map.value("summa").toDouble();
             case MAKSAMATTA:
                 if( role == Qt::DisplayRole)
-                {
+                {                                     
                     double avoin = map.value("avoin").toDouble();
                     if( avoin > 1e-5)
                         return QString("%L1 €").arg( avoin ,0,'f',2);
@@ -104,6 +105,17 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
                 }
                 else
                     return map.value("avoin").toDouble();
+            case LAHETYSTAPA:
+            {
+                switch (map.value("laskutapa").toInt()) {
+                case LaskuDialogi::TULOSTETTAVA:
+                    return tr("Tuloste");
+                case LaskuDialogi::SAHKOPOSTI:
+                    return tr("Sähköposti");
+                default:
+                    return QVariant();
+                }
+            }
             case ASIAKASTOIMITTAJA:
                 return ostoja_ ?
                             map.value("toimittaja") : map.value("asiakas");
@@ -132,12 +144,12 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
         return map.value("tili");
     case ViiteRooli :
         return map.value("viite");
-    case OtsikkoRooli:
-        return map.value("otsikko");
     case AsiakasToimittajaIdRooli:
-        return ostoja_ ? map.value("toimittajaid") : map.value("asiakasid");
+        return ostoja_ ? map.value("kumppani") : map.value("asiakasid");
     case TositeIdRooli:
         return map.value("tosite");
+    case TyyppiRooli:
+        return map.value("tyyppi");
     }
     return QVariant();
 }

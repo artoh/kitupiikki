@@ -57,19 +57,13 @@ int AsiakasToimittajaListaModel::idAlvTunnuksella(const QString tunnus) const
     return 0;
 }
 
-void AsiakasToimittajaListaModel::lataa(bool toimittajia)
+void AsiakasToimittajaListaModel::lataa()
 {
-    KpKysely* kysely = nullptr;
-    if( toimittajia )
-        kysely = kpk("/toimittajat");
-    else
-        kysely = kpk("/asiakkaat");
-
-    if( !kysely )
-        return;
-
-    connect( kysely, &KpKysely::vastaus, this, &AsiakasToimittajaListaModel::saapuu);
-    kysely->kysy();
+    KpKysely* kysely = kpk("/kumppanit");
+    if( kysely ) {
+        connect( kysely, &KpKysely::vastaus, this, &AsiakasToimittajaListaModel::saapuu);
+        kysely->kysy();
+    }
 }
 
 void AsiakasToimittajaListaModel::saapuu(QVariant *variant)

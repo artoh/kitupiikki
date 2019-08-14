@@ -206,7 +206,6 @@ std::map<int,QString> Tosite::avaimet__ = {
     { OTSIKKO, "otsikko"},
     { VIITE, "viite"},
     { ERAPVM, "erapvm"},
-    { TOIMITTAJA, "toimittaja" },
-    { ASIAKAS, "asiakas" },
+    { KUMPPANI, "kumppani" },
     { KOMMENTIT, "info"}
 };

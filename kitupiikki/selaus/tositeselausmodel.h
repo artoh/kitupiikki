@@ -47,7 +47,7 @@ class TositeSelausModel : public QAbstractTableModel
 public:
     enum Sarake
     {
-        TUNNISTE, PVM, TOSITETYYPPI, SUMMA, OTSIKKO
+        TUNNISTE, PVM, TOSITETYYPPI, SUMMA, ASIAKASTOIMITTAJA, OTSIKKO
     };
 
     enum

@@ -70,34 +70,21 @@ QString AsiakasToimittajaDlg::alvToY(QString alvtunnus)
     return alvtunnus;
 }
 
-void AsiakasToimittajaDlg::muokkaa(int id, bool toimittaja)
+void AsiakasToimittajaDlg::muokkaa(int id)
 {
-    toimittaja_ = toimittaja;
     lataa(id);
-
-    if(toimittaja)
-        setWindowTitle(tr("Muokkaa toimittajan tietoja"));
-    else
-        setWindowTitle(tr("Muokkaa asiakkaan tietoja"));
 }
 
-void AsiakasToimittajaDlg::uusi(const QString &nimi, bool toimittaja)
+void AsiakasToimittajaDlg::uusi(const QString &nimi)
 {
-    toimittaja_ = toimittaja;
     tauluun();
     ui->nimiEdit->setText(nimi);
-
-    if( toimittaja)
-        setWindowTitle(tr("Uusi toimittaja"));
-    else
-        setWindowTitle(tr("Uusi asiakas"));
 
     exec();
 }
 
-void AsiakasToimittajaDlg::ytunnuksella(const QString &ytunnus, bool toimittaja)
+void AsiakasToimittajaDlg::ytunnuksella(const QString &ytunnus)
 {
-    toimittaja_ = toimittaja;
     tauluun();
     ui->yEdit->setText(ytunnus);
     haeYTunnarilla();
@@ -106,7 +93,7 @@ void AsiakasToimittajaDlg::ytunnuksella(const QString &ytunnus, bool toimittaja)
 
 void AsiakasToimittajaDlg::lataa(int id)
 {
-    KpKysely* haku = toimittaja_ ? kpk( QString("/toimittajat/%1").arg(id)) : kpk( QString("/asiakkaat/%1").arg(id));
+    KpKysely* haku = kpk( QString("/kumppanit/%1").arg(id));
     connect( haku, &KpKysely::vastaus,  this, &AsiakasToimittajaDlg::dataSaapuu);
     haku->kysy();
 }
@@ -131,26 +118,13 @@ void AsiakasToimittajaDlg::tauluun(QVariantMap map)
     ui->postinumeroEdit->setText( map.value("postinumero").toString());
     ui->kaupunkiEdit->setText( map.value("kaupunki").toString());
 
+    ui->ovtEdit->setText( map.value("ovt").toString());
+    ui->valittajaEdit->setText(map.value("operaattori").toString());
 
-    ui->tilitLabel->setVisible( toimittaja_ );
-    ui->tilitLista->setVisible( toimittaja_);
-
-    ui->ovtLabel->setVisible( !toimittaja_ );
-    ui->ovtEdit->setVisible( !toimittaja_);
-
-    ui->valittajaLabel->setVisible( !toimittaja_);
-    ui->valittajaEdit->setVisible( !toimittaja_ );
-
-    if( toimittaja_ )
-    {
-        ui->tilitLista->clear();
-        for(auto tili : map.value("iban").toList() ) {
-            QListWidgetItem* item = new QListWidgetItem(tili.toString(), ui->tilitLista);
-            item->setFlags( item->flags() | Qt::ItemIsEditable );
-        }
-    } else {
-        ui->ovtEdit->setText( map.value("ovt").toString());
-        ui->valittajaEdit->setText(map.value("operaattori").toString());
+    ui->tilitLista->clear();
+    for(auto tili : map.value("iban").toList() ) {
+        QListWidgetItem* item = new QListWidgetItem(tili.toString(), ui->tilitLista);
+        item->setFlags( item->flags() | Qt::ItemIsEditable );
     }
 
     maaMuuttui();
@@ -216,29 +190,21 @@ void AsiakasToimittajaDlg::accept()
     if( !ui->emailEdit->text().isEmpty())
         map.insert("email", ui->emailEdit->text());
 
-    if( toimittaja_ && ui->tilitLista->count())
-    {
-        QVariantList tililista;
-        for(int i=0; i<ui->tilitLista->count(); i++)
-            if( !ui->tilitLista->item(i)->data(Qt::EditRole).toString().isEmpty())
-                tililista.append( ui->tilitLista->item(i)->data(Qt::EditRole) );
+    QVariantList tililista;
+    for(int i=0; i<ui->tilitLista->count(); i++)
+        if( !ui->tilitLista->item(i)->data(Qt::EditRole).toString().isEmpty())
+            tililista.append( ui->tilitLista->item(i)->data(Qt::EditRole) );
 
-        map.insert("iban", tililista);
-    } else {
-        if( !ui->ovtEdit->text().isEmpty() )
-            map.insert("ovt", ui->ovtEdit->text());
-        if( !ui->valittajaEdit->text().isEmpty())
-            map.insert("operaattori", ui->valittajaEdit->text());
-    }
+    map.insert("iban", tililista);
 
-    KpKysely* kysely = nullptr;
-    if( toimittaja_ ) {
-        kysely = id_ ? kpk( QString("/toimittajat/%1").arg(id_) , KpKysely::PUT ) :
-                       kpk( "/toimittajat", KpKysely::POST);
-    } else {
-        kysely = id_ ? kpk( QString("/asiakkaat/%1").arg(id_) , KpKysely::PUT ) :
-                       kpk( "/asiakkaat", KpKysely::POST);
-    }
+    if( !ui->ovtEdit->text().isEmpty() )
+        map.insert("ovt", ui->ovtEdit->text());
+    if( !ui->valittajaEdit->text().isEmpty())
+        map.insert("operaattori", ui->valittajaEdit->text());
+
+    KpKysely* kysely = nullptr;    
+        kysely = id_ ? kpk( QString("/kumppanit/%1").arg(id_) , KpKysely::PUT ) :
+                       kpk( "/kumppanit", KpKysely::POST);
 
     qDebug() << map;
 

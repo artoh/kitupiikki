@@ -55,7 +55,7 @@ public:
     ~LaskuSivu() override;
 
     enum PaaLehdet { MYYNTI, OSTO, ASIAKAS, TOIMITTAJA };
-    enum LajiLehdet { LUONNOKSET, LAHETETTAVAT, KAIKKI, AVOIMET, ERAANTYNEET, TIEDOT };
+    enum LajiLehdet { LUONNOKSET, LAHETETTAVAT, KAIKKI, AVOIMET, ERAANTYNEET };
 
     void siirrySivulle() override;
     QString ohjeSivunNimi() override { return "laskutus"; }
@@ -68,16 +68,12 @@ public slots:
     void laskuValintaMuuttuu();
 
     void uusiLasku();
-    void uusiAsiakas();
-    void naytaTosite();
     void naytaLasku();
-    void asiakasLisatty(const QString& nimi);
 
     void hyvityslasku();
     void kopioiLasku();
     void muokkaaLaskua();
     void maksumuistutus();
-    void ryhmaLasku();
     void poistaLasku();
 
 private slots:
@@ -86,8 +82,9 @@ private slots:
 private:
     void luoUi();
 
-    AsiakkaatModel* asiakasmodel_;
     LaskuTauluModel* laskumodel_ = nullptr;
+    AsiakkaatModel* asiakasmodel_;
+
 
     QSortFilterProxyModel* asiakasProxy_ = nullptr;
     QSortFilterProxyModel* laskuAsiakasProxy_;
@@ -109,14 +106,10 @@ private:
 
     QPushButton* naytaNappi_;
     QPushButton* muokkaaNappi_;
-    QPushButton* tositeNappi_;
     QPushButton* poistaNappi_;
     QPushButton* kopioiNappi_;
     QPushButton* hyvitysNappi_;
     QPushButton* muistutusNappi_;
-    QPushButton* uusiAsiakasNappi_;
-
-    YhteystietoWidget* yhteystiedot_;
 
 
 

@@ -42,7 +42,7 @@ int TositeSelausModel::rowCount(const QModelIndex & /* parent */) const
 
 int TositeSelausModel::columnCount(const QModelIndex & /* parent */) const
 {
-    return 5;
+    return 6;
 }
 
 QVariant TositeSelausModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -65,6 +65,8 @@ QVariant TositeSelausModel::headerData(int section, Qt::Orientation orientation,
             return tr("Laji");
         case SUMMA:
             return tr("Summa");
+        case ASIAKASTOIMITTAJA:
+            return tr("Asiakas/Toimittaja");
         case OTSIKKO:
             return tr("Otsikko");
         }
@@ -102,6 +104,9 @@ QVariant TositeSelausModel::data(const QModelIndex &index, int role) const
 
         case TOSITETYYPPI:
             return kp()->tositeTyypit()->nimi( map.value("tyyppi").toInt() ) ;   // TODO: Tyyppikoodien käsittely
+
+        case ASIAKASTOIMITTAJA:
+            return map.value("kumppani");
 
         case OTSIKKO:
             return map.value("otsikko");

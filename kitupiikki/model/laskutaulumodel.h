@@ -26,7 +26,7 @@ class LaskuTauluModel : public QAbstractTableModel
 
 public:
     enum LaskuValinta { LUONNOS, LAHETETTAVA, KAIKKI, AVOIMET, ERAANTYNEET };
-    enum LaskuSarake { NUMERO, PVM, ERAPVM, SUMMA, MAKSAMATTA, ASIAKASTOIMITTAJA, OTSIKKO };
+    enum LaskuSarake { NUMERO, PVM, ERAPVM, SUMMA, LAHETYSTAPA, MAKSAMATTA, ASIAKASTOIMITTAJA, OTSIKKO };
 
 
     enum { AvoinnaRooli = Qt::UserRole + 1,
@@ -35,9 +35,9 @@ public:
          AsiakasToimittajaNimiRooli = Qt::UserRole + 4,
          TiliRooli = Qt::UserRole + 5,
          ViiteRooli = Qt::UserRole + 6,
-         OtsikkoRooli = Qt::UserRole + 7,
          AsiakasToimittajaIdRooli = Qt::UserRole + 8,
-         TositeIdRooli = Qt::UserRole + 10};
+         TositeIdRooli = Qt::UserRole + 10,
+         TyyppiRooli = Qt::UserRole + 11};
 
     explicit LaskuTauluModel(QObject *parent = nullptr);
 

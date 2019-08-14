@@ -257,15 +257,9 @@ QVariantList TilioteModel::viennit(int tilinumero) const
             // TODO: Arkistotunnus, tilinumero, viite yms. metatieto
             pankki.setArkistotunnus( rivi.arkistotunnus );
 
-            if( rivi.saajamaksajaId)
-                {
-                if( rivi.euro > 0.0) {
-                    pankki.set(TositeVienti::ASIAKAS, rivi.saajamaksajaId);
-                    tili.set(TositeVienti::ASIAKAS, rivi.saajamaksajaId);
-                } else {
-                    pankki.set(TositeVienti::TOIMITTAJA, rivi.saajamaksajaId);
-                    tili.set(TositeVienti::TOIMITTAJA, rivi.saajamaksajaId);
-                }
+            if( rivi.saajamaksajaId){
+                pankki.set(TositeVienti::KUMPPANI, rivi.saajamaksajaId);
+                tili.set(TositeVienti::KUMPPANI, rivi.saajamaksajaId);
             }
 
             lista.append(pankki);

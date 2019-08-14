@@ -60,9 +60,9 @@ int TositeVienti::eraId() const
     return value("era").toMap().value("id").toInt();
 }
 
-int TositeVienti::asiakasId() const
+int TositeVienti::kumppaniId() const
 {
-    return value("asiakas").toMap().value("id").toInt();
+    return value("kumppani").toMap().value("id").toInt();
 }
 
 QList<int> TositeVienti::merkkaukset() const
@@ -166,6 +166,11 @@ void TositeVienti::setErapaiva(const QDate &erapvm)
     set( ERAPAIVA, erapvm);
 }
 
+void TositeVienti::setKumppani(int kumppaniId)
+{
+    set( KUMPPANI, kumppaniId );
+}
+
 
 
 
@@ -188,6 +193,5 @@ std::map<int,QString> TositeVienti::avaimet__ = {
     { ARKISTOTUNNUS, "arkistotunnus"},
     { VIITE, "viite"},
     { ERAPAIVA, "erapvm"},
-    { ASIAKAS, "asiakas"},
-    { TOIMITTAJA, "toimittaja"}
+    { KUMPPANI, "kumppani"}
 };

@@ -71,7 +71,7 @@ QVariant AsiakkaatModel::headerData(int section, Qt::Orientation orientation, in
         switch (section) {
         case NIMI: return tr("Nimi");
         case YHTEENSA:
-            return toimittajat_ ? tr("Ostot yhteensä") : tr("Myynti yhteensä");
+            return tr("Yhteensä");
         case AVOINNA:
             return tr("Avoinna");
         case ERAANTYNYT:
@@ -90,7 +90,6 @@ void AsiakkaatModel::paivita(bool toimittajat)
         utelu = kpk("/toimittajat");
     else
         utelu = kpk("/asiakkaat");
-    utelu->lisaaAttribuutti("tilasto");
     connect( utelu, &KpKysely::vastaus, this, &AsiakkaatModel::tietoSaapuu);
     utelu->kysy();
     return;

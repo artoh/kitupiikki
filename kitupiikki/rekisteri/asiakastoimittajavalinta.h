@@ -42,7 +42,7 @@ signals:
 public slots:
     void set(int id, const QString& nimi = QString());
     void clear();
-    void alusta(bool toimittaja);
+    void alusta();
 
 
 private slots:
@@ -61,7 +61,6 @@ protected:
     QComboBox* combo_;
     QPushButton* button_;
 
-    bool toimittaja_ = false;
     AsiakasToimittajaListaModel* model_;
 
     AsiakasToimittajaDlg *dlg_;
