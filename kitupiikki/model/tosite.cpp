@@ -62,6 +62,7 @@ QString Tosite::tilateksti(int tila)
     case LUONNOS: return tr("Luonnos");
     case VALMISLASKU: return tr("Lähettämättä");
     case KIRJANPIDOSSA: return tr("Kirjanpidossa");
+    case LAHETETTYLASKU: return tr("Lähetetty");
     }
     return QString();
 }

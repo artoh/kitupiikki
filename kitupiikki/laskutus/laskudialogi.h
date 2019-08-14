@@ -30,6 +30,7 @@
 #include "model/tosite.h"
 
 #include "naytin/esikatseltava.h"
+#include "db/tositetyyppimodel.h"
 
 namespace Ui {
 class LaskuDialogi;
@@ -49,8 +50,9 @@ public:
     LaskuDialogi(const QVariantMap& data = QVariantMap());
     ~LaskuDialogi() override;
 
-    enum Tabs { RIVIT, LISATIEDOT, RYHMAT, VERKKOLASKU};
-    enum Tapa { TULOSTETTAVA, SAHKOPOSTI, KATEISLASKU };
+    enum Tabs { RIVIT, LISATIEDOT, RYHMAT};
+    enum Lahetys { TULOSTETTAVA, SAHKOPOSTI, VERKKOLASKU };
+    enum Maksutapa { LASKU, KATEINEN };
 
     static int laskuIkkunoita();
 
@@ -74,7 +76,6 @@ private slots:
     /**
      * @brief Finvoice-verkkolaskun muodostaminen
      */
-    void finvoice();
     void perusteVaihtuu();
 
     /**
@@ -109,6 +110,7 @@ private slots:
     void taytaAsiakasTiedot(QVariant* data);
     void paivitaLaskutustavat();
     void laskutusTapaMuuttui();
+    void maksuTapaMuuttui();
 
     QVariantMap data() const;
 
@@ -121,10 +123,10 @@ private:
     void lisaaRiviTab();
     QVariantMap vastakirjaus() const;
 
+    void alustaMaksutavat();
+
 
 public slots:
-    void reject() override;
-    void haeOsoite();
 
 private:
     LaskuRivitModel *rivit_;
@@ -144,8 +146,10 @@ private:
     int tositeId_ = 0;
     qlonglong laskunnumero_ = 0l;
     QString viite_;
+    int tunniste_ = 0;
+    int era_ = 0;
 
-
+    int tyyppi_ = TositeTyyppi::MYYNTILASKU;
     Tosite::Tila tallennusTila_ = Tosite::POISTETTU;
     
 };

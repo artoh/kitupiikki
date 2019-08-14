@@ -17,11 +17,11 @@
    <iconset resource="../pic/pic.qrc">
     <normaloff>:/pic/lasku.png</normaloff>:/pic/lasku.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_5" stretch="0,2,0">
+  <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,2,0">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="4,3">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <layout class="QFormLayout" name="formLayout_3">
+      <layout class="QFormLayout" name="formLayout_2">
        <item row="0" column="0">
         <widget class="QLabel" name="label_6">
          <property name="text">
@@ -84,7 +84,17 @@ osoite</string>
        <item row="2" column="1">
         <widget class="QLineEdit" name="email"/>
        </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Otsikko</string>
+         </property>
+        </widget>
+       </item>
        <item row="3" column="1">
+        <widget class="QLineEdit" name="otsikkoEdit"/>
+       </item>
+       <item row="4" column="1">
         <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -92,7 +102,7 @@ osoite</string>
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>5</height>
+           <height>13</height>
           </size>
          </property>
         </spacer>
@@ -100,7 +110,7 @@ osoite</string>
       </layout>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
         <layout class="QFormLayout" name="formLayout">
          <item row="0" column="0">
@@ -114,7 +124,14 @@ osoite</string>
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QComboBox" name="laskutusCombo"/>
+          <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <item>
+            <widget class="QComboBox" name="laskutusCombo"/>
+           </item>
+           <item>
+            <widget class="QComboBox" name="maksuCombo"/>
+           </item>
+          </layout>
          </item>
          <item row="1" column="0">
           <widget class="QLabel" name="toimituspvmLabel">
@@ -182,6 +199,13 @@ osoite</string>
          <item row="4" column="1">
           <widget class="QComboBox" name="kieliCombo"/>
          </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="viivkorkoLabel">
+           <property name="text">
+            <string>Viivästyskorko</string>
+           </property>
+          </widget>
+         </item>
          <item row="5" column="1">
           <widget class="QDoubleSpinBox" name="viivkorkoSpin">
            <property name="suffix">
@@ -192,12 +216,52 @@ osoite</string>
            </property>
           </widget>
          </item>
-         <item row="5" column="0">
-          <widget class="QLabel" name="viivkorkoLabel">
+         <item row="6" column="0">
+          <widget class="QLabel" name="viiteLabel">
            <property name="text">
-            <string>Viivästyskorko</string>
+            <string>Viite</string>
            </property>
           </widget>
+         </item>
+         <item row="6" column="1">
+          <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0,2">
+           <item>
+            <widget class="QLabel" name="viiteText">
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>00000</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="maksettuCheck">
+             <property name="maximumSize">
+              <size>
+               <width>32</width>
+               <height>32</height>
+              </size>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="pixmap">
+              <pixmap resource="../pic/pic.qrc">:/pic/ok.png</pixmap>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="infoLabel">
+             <property name="text">
+              <string>Lähetetty 12.2.2019</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </item>
@@ -209,7 +273,7 @@ osoite</string>
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>5</height>
+           <height>13</height>
           </size>
          </property>
         </spacer>
@@ -280,13 +344,6 @@ osoite</string>
        </property>
        <property name="shortcut">
         <string>F10</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="viiteLabel">
-       <property name="text">
-        <string/>
        </property>
       </widget>
      </item>

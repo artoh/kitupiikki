@@ -211,23 +211,8 @@ void LaskuSivu::laskuValintaMuuttuu()
 
 void LaskuSivu::uusiLasku()
 {
-    if( LaskuDialogi::laskuIkkunoita())
-    {
-        QMessageBox::information(this, tr("Uutta laskua ei voi luoda"),
-                             tr("Päällekkäisten viitenumeroiden välttämiseksi voit tehdä vain "
-                                "yhden laskun kerrallaan.\n"
-                                "Sulje avoinna oleva laskuikkuna ennen uuden laskun luomista."));
-        return;
-    }
-
-    LaskuModel *uusi = new LaskuModel();
-    if( paaTab_->currentIndex() == ASIAKAS )    
-        uusi->asetaLaskunsaajannimi( asiakasView_->currentIndex().data(AsiakkaatModel::NimiRooli).toString() );
-
     LaskuDialogi* dlg = new LaskuDialogi();
     dlg->show();
-    if( paaTab_->currentIndex() == ASIAKAS )
-        dlg->haeOsoite();
 }
 
 void LaskuSivu::uusiAsiakas()

@@ -65,7 +65,8 @@ public:
         POISTETTU       = 0,
         LUONNOS         = 50,
         VALMISLASKU     = 80,
-        KIRJANPIDOSSA   = 100
+        KIRJANPIDOSSA   = 100,
+        LAHETETTYLASKU  = 110
     };
 
 

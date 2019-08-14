@@ -112,10 +112,18 @@ LaskuDialogi::LaskuDialogi( const QVariantMap& data) :
     paivitaLaskutustavat();
     ui->jaksoDate->setNull();
 
+    ui->viiteLabel->hide();
+    ui->viiteText->hide();
+    ui->maksettuCheck->hide();
+    ui->infoLabel->hide();
+
     if( !data.isEmpty())
         lataa(data);
-    else
+    else {
         ui->eraDate->setDate( kp()->paivamaara().addDays(14) );
+        alustaMaksutavat();
+    }
+
 }
 
 
@@ -138,9 +146,9 @@ void LaskuDialogi::esikatselu()
 
 void LaskuDialogi::paivitaNapit()
 {
-    bool tallennettavaa = !rivit_->onkoTyhja() && data() != tallennettu_;
+    bool tallennettavaa = !rivit_->onkoTyhja();
 
-    ui->luonnosNappi->setEnabled( data() != tallennettu_);
+    ui->luonnosNappi->setEnabled( tallennettavaa );
     ui->tallennaNappi->setEnabled( tallennettavaa );
     ui->valmisNappi->setEnabled( tallennettavaa );
 }
@@ -157,11 +165,6 @@ void LaskuDialogi::tulosta(QPagedPaintDevice *printer) const
 QString LaskuDialogi::otsikko() const
 {
     return tr("Lasku");
-}
-
-void LaskuDialogi::finvoice()
-{
-
 }
 
 void LaskuDialogi::perusteVaihtuu()
@@ -197,38 +200,6 @@ void LaskuDialogi::perusteVaihtuu()
 */
 }
 
-void LaskuDialogi::haeOsoite()
-{
-/*    QSqlQuery kysely;
-    QString nimistr = ui->saajaEdit->text();
-    nimistr.remove(QRegExp("['\"]"));
-
-    kysely.exec( QString("SELECT json FROM vienti WHERE asiakas='%1' AND iban is null ORDER BY muokattu DESC").arg( nimistr)) ;
-
-    if( kysely.next() )
-    {
-        JsonKentta json;
-        json.fromJson( kysely.value(0).toByteArray() );
-        ui->emailEdit->setText( json.str("Email"));
-        ui->ytunnus->setText( json.str("YTunnus"));
-        ui->verkkoOsoiteEdit->setText( json.str("VerkkolaskuOsoite"));
-        ui->verkkoValittajaEdit->setText( json.str("VerkkolaskuValittaja"));
-
-        qDebug() << "Kieli:" << json.str("Kieli");
-        if( !json.str("Kieli").isEmpty())
-            ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( json.str("Kieli") ));
-
-        if( !json.str("Osoite").isEmpty())
-        {
-            // Haetaan aiempi osoite
-            ui->osoiteEdit->setPlainText( json.str("Osoite"));
-            return;
-        }
-    }
-    // Osoitetta ei tiedossa, kirjoitetaan nimi
-    ui->osoiteEdit->setPlainText( nimistr + "\n" );
-    vieMalliin(); */
-}
 
 void LaskuDialogi::vieMalliin()
 { /*
@@ -500,8 +471,6 @@ void LaskuDialogi::paivitaLaskutustavat()
     if( emailRe.match( ui->email->text()).hasMatch() )
             ui->laskutusCombo->addItem(QIcon(":/pic/email.png"), tr("Lähetä sähköpostilla"), SAHKOPOSTI);
 
-    ui->laskutusCombo->addItem( QIcon(":/pic/kateinen.png"), tr("Tulosta käteiskuitti"), KATEISLASKU);
-
     ui->laskutusCombo->setCurrentIndex(  ui->laskutusCombo->findData(nykyinen) );
     if( ui->laskutusCombo->currentIndex() < 0)
         ui->laskutusCombo->setCurrentIndex(0);
@@ -519,10 +488,17 @@ void LaskuDialogi::laskutusTapaMuuttui()
         ui->valmisNappi->setIcon(QIcon(":/pic/tulosta.png"));
     }
 
-    ui->eraLabel->setVisible( laskutustapa != KATEISLASKU );
-    ui->eraDate->setVisible( laskutustapa != KATEISLASKU );
-    ui->viivkorkoLabel->setVisible( laskutustapa != KATEISLASKU );
-    ui->viivkorkoSpin->setVisible( laskutustapa != KATEISLASKU );
+}
+
+void LaskuDialogi::maksuTapaMuuttui()
+{
+    int maksutapa = ui->maksuCombo->currentData().toInt();
+
+    ui->eraLabel->setVisible( maksutapa != KATEINEN );
+    ui->eraDate->setVisible( maksutapa != KATEINEN );
+    ui->viivkorkoLabel->setVisible( maksutapa != KATEINEN );
+    ui->viivkorkoSpin->setVisible( maksutapa != KATEINEN );
+
 }
 
 QVariantMap LaskuDialogi::data() const
@@ -531,9 +507,11 @@ QVariantMap LaskuDialogi::data() const
 
     if( tositeId_ )
         map.insert("id", tositeId_);
+    if( tunniste_)
+        map.insert("tunniste", tunniste_);
 
     map.insert("pvm", kp()->paivamaara() );
-    map.insert("otsikko", ui->asiakas->nimi());
+    map.insert("otsikko", ui->otsikkoEdit->text());
     map.insert("tyyppi",  TositeTyyppi::MYYNTILASKU);
     map.insert("rivit", rivit_->rivit());
 
@@ -561,6 +539,7 @@ QVariantMap LaskuDialogi::data() const
     lasku.insert("laskutapa", ui->laskutusCombo->currentData());
     lasku.insert("toimituspvm", ui->toimitusDate->date());
     lasku.insert("erapvm", ui->eraDate->date());
+    lasku.insert("maksutapa", ui->maksuCombo->currentData());
 
     map.insert("lasku", lasku);
 
@@ -669,28 +648,40 @@ QVariantMap LaskuDialogi::vastakirjaus() const
     if( !viite_.isEmpty())
         vienti.setViite( viite_ );
 
+    if( era_ ) {
+        vienti.insert("id", era_);
+        vienti.setEra(era_);
+    }
+
     return std::move(vienti);
+}
+
+void LaskuDialogi::alustaMaksutavat()
+{
+    ui->maksuCombo->addItem(QIcon(":/pic/lasku.png"), tr("Lasku"), LASKU);
+    if( tyyppi_ == TositeTyyppi::MYYNTILASKU)
+        ui->maksuCombo->addItem(QIcon(":/pic/kateinen.png"), tr("Käteinen"), KATEINEN);
 }
 
 void LaskuDialogi::tallenna(Tosite::Tila moodi)
 {
-
-
     tallennusTila_ = moodi;
 
     QVariantMap map = data();
     if( moodi == Tosite::LUONNOS )
         map.insert("tila", Tosite::LUONNOS);
-    else if( map.value("tila").toInt() < Tosite::VALMISLASKU )
+    else if( map.value("tila").toInt() < Tosite::KIRJANPIDOSSA )
         map.insert("tila", Tosite::VALMISLASKU);
+    else
+        map.insert("tila", Tosite::KIRJANPIDOSSA);
 
     qDebug() << "Tallenna " << moodi << " " << map;
 
     KpKysely *kysely;
-    if( map.value("id").isNull())
+    if( !tositeId_ )
         kysely = kpk("/tositteet/", KpKysely::POST);
     else
-        kysely = kpk( QString("/tositteet/%1").arg(map.value("id").toInt()), KpKysely::PUT);
+        kysely = kpk( QString("/tositteet/%1").arg(tositeId_), KpKysely::PUT);
 
     connect( kysely, &KpKysely::vastaus, this, &LaskuDialogi::tallennusValmis);
     kysely->kysy( map );
@@ -724,8 +715,8 @@ void LaskuDialogi::lataa(const QVariantMap &map)
 {
 
     QVariantMap vienti = map.value("viennit").toList().value(0).toMap();
-
-    qDebug() << vienti;
+    tyyppi_ = map.value("tyyppi").toInt();
+    alustaMaksutavat();
 
     ui->asiakas->set( vienti.value("asiakas").toMap().value("id").toInt(),
                       vienti.value("asiakas").toMap().value("nimi").toString());
@@ -733,9 +724,11 @@ void LaskuDialogi::lataa(const QVariantMap &map)
     QVariantMap lasku = map.value("lasku").toMap();
     ui->osoiteEdit->setPlainText( lasku.value("osoite").toString());
     ui->email->setText( lasku.value("email").toString() );
+    ui->otsikkoEdit->setText( map.value("otsikko").toString());
     ui->asViiteEdit->setText( lasku.value("asviite").toString() );
     ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( lasku.value("kieli").toString() ) );
     ui->laskutusCombo->setCurrentIndex( ui->laskutusCombo->findData( lasku.value("laskutapa").toInt() ));
+    ui->maksuCombo->setCurrentIndex( ui->maksuCombo->findData( lasku.value("maksutapa").toInt() ));
     ui->toimitusDate->setDate( lasku.value("toimituspvm").toDate() );
     ui->eraDate->setDate( lasku.value("erapvm").toDate());
 
@@ -745,11 +738,40 @@ void LaskuDialogi::lataa(const QVariantMap &map)
     tositeId_ = map.value("id").toInt();
     laskunnumero_ = lasku.value("numero").toLongLong();
     viite_ = lasku.value("viite").toString();
+    tunniste_ = map.value("tunniste").toInt();
+    era_ = vienti.value("id").toInt();
 
     tallennettu_ = data();
     paivitaSumma();
 
     setWindowTitle(tr("Lasku %1").arg(laskunnumero_));
+
+    if( !viite_.isEmpty()) {
+        ui->viiteLabel->show();
+        ui->viiteText->show();
+        ui->viiteText->setText(viite_);
+        ui->infoLabel->show();
+        ui->infoLabel->setText( tr("Laskua ei lähetetty"));
+
+        QVariantList loki = map.value("loki").toList();
+        for(auto lokirivi : loki) {
+            QVariantMap lokimap = lokirivi.toMap();
+            if( lokimap.value("tila").toInt() == Tosite::LAHETETTYLASKU)
+            {
+                ui->infoLabel->setText( tr("Lähetetty %1").arg( lokimap.value("aika").toDateTime().toString("dd.MM.yyyy hh.mm") ));
+                break;
+            }
+        }
+        if( vienti.contains("era") &&
+                qAbs(vienti.value("era").toMap().value("saldo").toDouble()) < 1e-5) {
+            ui->maksettuCheck->show();
+            ui->infoLabel->setText( tr("Maksettu "));
+            ui->infoLabel->setStyleSheet("color: green;");
+        }
+
+    }
+    paivitaNapit();
+
 }
 
 int LaskuDialogi::laskuIkkunoita()
@@ -757,15 +779,4 @@ int LaskuDialogi::laskuIkkunoita()
     return 0;
 }
 
-void LaskuDialogi::reject()
-{
-    vieMalliin();
-
-
-        QDialog::reject();
-
-    if( QMessageBox::question(this, tr("Hylkää lasku"),
-                              tr("Hylkäätkö laskun tallentamatta sitä kirjanpitoon?"))==QMessageBox::Yes)
-        QDialog::reject();
-}
 

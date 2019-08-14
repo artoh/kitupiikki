@@ -36,7 +36,7 @@ bool MyyntiLaskujenToimittaja::toimitaLaskut(const QList<QVariantMap> &laskut)
     for( QVariantMap lasku : laskut)
     {
         int toimitustapa = lasku.value("lasku").toMap().value("laskutapa").toInt();
-        if( toimitustapa == LaskuDialogi::TULOSTETTAVA || toimitustapa == LaskuDialogi::KATEISLASKU)
+        if( toimitustapa == LaskuDialogi::TULOSTETTAVA)
             tulostettavat_.append(lasku);
     }
 
@@ -83,7 +83,7 @@ void MyyntiLaskujenToimittaja::merkkaaToimitetuksi(int tositeId)
 {
         KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tositeId), KpKysely::PATCH);
         QVariantMap map;
-        map.insert("tila", Tosite::KIRJANPIDOSSA);
+        map.insert("tila", Tosite::LAHETETTYLASKU);
         connect( kysely, &KpKysely::vastaus, this, &MyyntiLaskujenToimittaja::toimitettu);
         kysely->kysy(map);
 }
