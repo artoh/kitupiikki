@@ -34,6 +34,8 @@ public:
                  QPainter *painter,
                  bool kuoreen = true);
 
+    static QByteArray pdf(const QVariantMap& lasku, bool ikkunakuoreen = false);
+
 
     static QString valeilla(const QString& teksti);
 signals:

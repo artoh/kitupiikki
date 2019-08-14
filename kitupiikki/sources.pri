@@ -10,6 +10,7 @@ SOURCES += uusikp/uusikirjanpito.cpp \
     $$PWD/db/yhteysmodel.cpp \
     $$PWD/kirjaus/tallennettuwidget.cpp \
     $$PWD/laskutus/laskurivitmodel.cpp \
+    $$PWD/laskutus/myyntilaskujentoimittaja.cpp \
     $$PWD/laskutus/myyntilaskuntulostaja.cpp \
     $$PWD/model/laskutaulumodel.cpp \
     $$PWD/model/tosite.cpp \
@@ -213,6 +214,7 @@ HEADERS += \
     $$PWD/db/yhteysmodel.h \
     $$PWD/kirjaus/tallennettuwidget.h \
     $$PWD/laskutus/laskurivitmodel.h \
+    $$PWD/laskutus/myyntilaskujentoimittaja.h \
     $$PWD/laskutus/myyntilaskuntulostaja.h \
     $$PWD/model/laskutaulumodel.h \
     $$PWD/model/tosite.h \

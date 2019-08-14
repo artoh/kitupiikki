@@ -28,6 +28,9 @@
 #include <QPainter>
 #include <QPagedPaintDevice>
 
+#include <QPdfWriter>
+#include <QBuffer>
+#include <QApplication>
 
 
 bool MyyntiLaskunTulostaja::tulosta(const QVariantMap &lasku, QPagedPaintDevice *printer, QPainter *painter, bool kuoreen)
@@ -53,6 +56,25 @@ bool MyyntiLaskunTulostaja::tulosta(const QVariantMap &lasku, QPagedPaintDevice 
 
     tulostaja->deleteLater();
     return true;
+}
+
+QByteArray MyyntiLaskunTulostaja::pdf(const QVariantMap &lasku, bool ikkunakuoreen)
+{
+    QByteArray array;
+    QBuffer buffer(&array);
+    buffer.open(QIODevice::WriteOnly);
+
+    QPdfWriter writer(&buffer);
+    QPainter painter(&writer);
+
+    writer.setCreator(QString("%1 %2").arg( qApp->applicationName() ).arg( qApp->applicationVersion() ));
+    writer.setTitle( tr("Lasku %1").arg( lasku.value("lasku").toMap().value("numero").toInt()) );
+    tulosta(lasku, &writer, &painter, ikkunakuoreen);
+    painter.end();
+
+    buffer.close();
+
+    return array;
 }
 
 QString MyyntiLaskunTulostaja::valeilla(const QString &teksti)

@@ -51,6 +51,8 @@
 
 #include "db/tositetyyppimodel.h"
 
+#include "myyntilaskujentoimittaja.h"
+
 #include <QDebug>
 
 #include <QPrinter>
@@ -76,8 +78,8 @@
 #include <QTableView>
 #include <QHeaderView>
 
-LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :    
-    rivit_(new LaskuRivitModel(this)),
+LaskuDialogi::LaskuDialogi( const QVariantMap& data) :
+    rivit_(new LaskuRivitModel(this, data.value("rivit").toList())),
     ui( new Ui::LaskuDialogi)
 {
     ui->setupUi(this);
@@ -109,6 +111,11 @@ LaskuDialogi::LaskuDialogi(LaskuModel *laskumodel) :
 
     paivitaLaskutustavat();
     ui->jaksoDate->setNull();
+
+    if( !data.isEmpty())
+        lataa(data);
+    else
+        ui->eraDate->setDate( kp()->paivamaara().addDays(14) );
 }
 
 
@@ -487,13 +494,13 @@ void LaskuDialogi::paivitaLaskutustavat()
     int nykyinen = ui->laskutusCombo->currentData().toInt();
     ui->laskutusCombo->clear();
 
-    ui->laskutusCombo->addItem( QIcon(":/pic/tulosta.png"), tr("Tulosta lasku"), LaskuModel::TULOSTA);
+    ui->laskutusCombo->addItem( QIcon(":/pic/tulosta.png"), tr("Tulosta lasku"), TULOSTETTAVA);
 
     QRegularExpression emailRe(R"(^([\w-]*(\.[\w-]+)?)+@(\w+\.\w+)(\.\w+)*$)");
     if( emailRe.match( ui->email->text()).hasMatch() )
-            ui->laskutusCombo->addItem(QIcon(":/pic/email.png"), tr("Lähetä sähköpostilla"), LaskuModel::SAHKOPOSTI);
+            ui->laskutusCombo->addItem(QIcon(":/pic/email.png"), tr("Lähetä sähköpostilla"), SAHKOPOSTI);
 
-    ui->laskutusCombo->addItem( QIcon(":/pic/kateinen.png"), tr("Tulosta käteiskuitti"), LaskuModel::KATEISLASKU);
+    ui->laskutusCombo->addItem( QIcon(":/pic/kateinen.png"), tr("Tulosta käteiskuitti"), KATEISLASKU);
 
     ui->laskutusCombo->setCurrentIndex(  ui->laskutusCombo->findData(nykyinen) );
     if( ui->laskutusCombo->currentIndex() < 0)
@@ -503,34 +510,43 @@ void LaskuDialogi::paivitaLaskutustavat()
 void LaskuDialogi::laskutusTapaMuuttui()
 {
     int laskutustapa = ui->laskutusCombo->currentData().toInt();
-    if( laskutustapa == LaskuModel::SAHKOPOSTI)
+    if( laskutustapa == SAHKOPOSTI)
     {
         ui->valmisNappi->setText( tr("Tallenna ja lähetä sähköpostilla"));
         ui->valmisNappi->setIcon(QIcon(":/pic/email.png"));
     } else {
         ui->valmisNappi->setText( tr("Tallenna ja tulosta"));
-        ui->valmisNappi->setIcon(QIcon(":/pic/email.png"));
+        ui->valmisNappi->setIcon(QIcon(":/pic/tulosta.png"));
     }
 
-    ui->eraLabel->setVisible( laskutustapa != LaskuModel::KATEISLASKU );
-    ui->eraDate->setVisible( laskutustapa != LaskuModel::KATEISLASKU );
-    ui->viivkorkoLabel->setVisible( laskutustapa != LaskuModel::KATEISLASKU );
-    ui->viivkorkoSpin->setVisible( laskutustapa != LaskuModel::KATEISLASKU );
+    ui->eraLabel->setVisible( laskutustapa != KATEISLASKU );
+    ui->eraDate->setVisible( laskutustapa != KATEISLASKU );
+    ui->viivkorkoLabel->setVisible( laskutustapa != KATEISLASKU );
+    ui->viivkorkoSpin->setVisible( laskutustapa != KATEISLASKU );
 }
 
 QVariantMap LaskuDialogi::data() const
 {
     QVariantMap map;
 
+    if( tositeId_ )
+        map.insert("id", tositeId_);
+
     map.insert("pvm", kp()->paivamaara() );
     map.insert("otsikko", ui->asiakas->nimi());
-    map.insert("tyyppi",  TositeTyyppi::TULO);
+    map.insert("tyyppi",  TositeTyyppi::MYYNTILASKU);
     map.insert("rivit", rivit_->rivit());
 
     if( !ui->lisatietoEdit->toPlainText().isEmpty())
         map.insert("info", ui->lisatietoEdit->toPlainText());
 
     QVariantMap lasku;
+
+    if( laskunnumero_) {
+        lasku.insert("numero", laskunnumero_);
+        lasku.insert("viite", viite_);
+    }
+
 
     if( !ui->email->text().isEmpty())
         lasku.insert("email", ui->email->text());
@@ -650,6 +666,9 @@ QVariantMap LaskuDialogi::vastakirjaus() const
     else
         vienti.setKredit(0-summa);
 
+    if( !viite_.isEmpty())
+        vienti.setViite( viite_ );
+
     return std::move(vienti);
 }
 
@@ -671,7 +690,7 @@ void LaskuDialogi::tallenna(Tosite::Tila moodi)
     if( map.value("id").isNull())
         kysely = kpk("/tositteet/", KpKysely::POST);
     else
-        kysely = kpk( QString("/tositteet/%1").arg(map.value("id").toInt()));
+        kysely = kpk( QString("/tositteet/%1").arg(map.value("id").toInt()), KpKysely::PUT);
 
     connect( kysely, &KpKysely::vastaus, this, &LaskuDialogi::tallennusValmis);
     kysely->kysy( map );
@@ -679,11 +698,58 @@ void LaskuDialogi::tallenna(Tosite::Tila moodi)
 
 void LaskuDialogi::tallennusValmis(QVariant *vastaus)
 {
-    // Tässä tulisi tallettaa myös liite - sitä varten tarvittaisiin liite PUT
+    // Tallennetaan ensin liite
+    QVariantMap map = vastaus->toMap();
 
-    // Laskun toimittamista varten voisi olla ehkä jopa oma olio, koska sitä harrastetaan muuallakin
+    QByteArray liite = MyyntiLaskunTulostaja::pdf( map );
+    KpKysely *liitetallennus = kpk( QString("/liitteet/%1").arg(map.value("id").toInt()), KpKysely::POST);
+    liitetallennus->lahetaTiedosto(liite, QString("lasku%1.pdf").arg( map.value("lasku").toMap().value("numero").toInt() ));
 
-    QDialog::accept();
+    // Mahdollinen laskun toimittaminen
+
+    if( tallennusTila_ == Tosite::KIRJANPIDOSSA) {
+
+        MyyntiLaskujenToimittaja *toimittaja = new MyyntiLaskujenToimittaja(this);
+        QList<QVariantMap> lista;
+        lista.append(vastaus->toMap());
+
+        connect( toimittaja, &MyyntiLaskujenToimittaja::laskutToimitettu, this, &QDialog::accept);
+        toimittaja->toimitaLaskut(lista);
+    } else
+        QDialog::accept();
+
+}
+
+void LaskuDialogi::lataa(const QVariantMap &map)
+{
+
+    QVariantMap vienti = map.value("viennit").toList().value(0).toMap();
+
+    qDebug() << vienti;
+
+    ui->asiakas->set( vienti.value("asiakas").toMap().value("id").toInt(),
+                      vienti.value("asiakas").toMap().value("nimi").toString());
+
+    QVariantMap lasku = map.value("lasku").toMap();
+    ui->osoiteEdit->setPlainText( lasku.value("osoite").toString());
+    ui->email->setText( lasku.value("email").toString() );
+    ui->asViiteEdit->setText( lasku.value("asviite").toString() );
+    ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( lasku.value("kieli").toString() ) );
+    ui->laskutusCombo->setCurrentIndex( ui->laskutusCombo->findData( lasku.value("laskutapa").toInt() ));
+    ui->toimitusDate->setDate( lasku.value("toimituspvm").toDate() );
+    ui->eraDate->setDate( lasku.value("erapvm").toDate());
+
+    if( map.value("tila").toInt() > Tosite::LUONNOS)
+        ui->luonnosNappi->hide();
+
+    tositeId_ = map.value("id").toInt();
+    laskunnumero_ = lasku.value("numero").toLongLong();
+    viite_ = lasku.value("viite").toString();
+
+    tallennettu_ = data();
+    paivitaSumma();
+
+    setWindowTitle(tr("Lasku %1").arg(laskunnumero_));
 }
 
 int LaskuDialogi::laskuIkkunoita()

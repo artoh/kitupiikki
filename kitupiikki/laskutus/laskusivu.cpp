@@ -27,6 +27,8 @@
 #include "naytin/naytinikkuna.h"
 #include "yhteystietowidget.h"
 
+#include "model/laskutaulumodel.h"
+
 #include <QTabBar>
 #include <QSplitter>
 #include <QTableView>
@@ -42,7 +44,8 @@
 #include <QSortFilterProxyModel>
 
 LaskuSivu::LaskuSivu()
-    : asiakasmodel_(new AsiakkaatModel(this))
+    : laskumodel_( new LaskuTauluModel(this)),
+      asiakasmodel_(new AsiakkaatModel(this))
 {
     luoUi();
     paaTab_->setCurrentIndex(MYYNTI);
@@ -112,13 +115,6 @@ void LaskuSivu::paaTab(int indeksi)
     else if( indeksi == TOIMITTAJA)
         asiakasmodel_->paivita(true);
 
-    delete laskumodel_;
-
-    if( indeksi == MYYNTI || indeksi == ASIAKAS )
-        laskumodel_ = new LaskutModel(this);
-    else
-        laskumodel_ = new OstolaskutModel(this);
-
     paivitaLaskulista();
     laskuAsiakasProxy_->setSourceModel(laskumodel_);
     paivitaAsiakasSuodatus();
@@ -148,7 +144,7 @@ void LaskuSivu::paivitaLaskulista()
 
     if( lajiTab_->currentIndex() < TIEDOT && laskumodel_)
     {
-        laskumodel_->paivita( lajiTab_->currentIndex(), mistaEdit_->date(), mihinEdit_->date() );
+        laskumodel_->paivita( paaTab_->currentIndex() == OSTO,lajiTab_->currentIndex(), mistaEdit_->date(), mihinEdit_->date() );
         laskuValintaMuuttuu();
     }
     else
@@ -228,7 +224,7 @@ void LaskuSivu::uusiLasku()
     if( paaTab_->currentIndex() == ASIAKAS )    
         uusi->asetaLaskunsaajannimi( asiakasView_->currentIndex().data(AsiakkaatModel::NimiRooli).toString() );
 
-    LaskuDialogi* dlg = new LaskuDialogi(uusi);
+    LaskuDialogi* dlg = new LaskuDialogi();
     dlg->show();
     if( paaTab_->currentIndex() == ASIAKAS )
         dlg->haeOsoite();
@@ -252,6 +248,8 @@ void LaskuSivu::naytaLasku()
     QModelIndex index = laskuView_->currentIndex();
     NaytinIkkuna::naytaLiite( index.data(LaskutModel::TositeRooli).toInt(),
                            index.data(LaskutModel::LiiteRooli).toInt());
+
+
 }
 
 void LaskuSivu::asiakasLisatty(const QString &nimi)
@@ -278,20 +276,19 @@ void LaskuSivu::hyvityslasku()
         return;
     }
 
-    LaskuDialogi *dlg = new LaskuDialogi( LaskuModel::teeHyvityslasku(  laskuView_->currentIndex().data(LaskutModel::VientiIdRooli).toInt() ));
-    dlg->show();
 }
 
 void LaskuSivu::kopioiLasku()
 {
-    LaskuDialogi *dlg = new LaskuDialogi( LaskuModel::kopioiLasku( laskuView_->currentIndex().data(LaskutModel::VientiIdRooli).toInt() ) );
-    dlg->show();
 }
 
 void LaskuSivu::muokkaaLaskua()
 {
-    LaskuDialogi *dlg = new LaskuDialogi( LaskuModel::haeLasku( laskuView_->currentIndex().data(LaskutModel::VientiIdRooli).toInt() ) );
-    dlg->show();
+    // Hakee laskun tiedot ja näyttää dialogin
+    int tositeId = laskuView_->currentIndex().data(LaskuTauluModel::TositeIdRooli).toInt();
+    KpKysely *kysely = kpk( QString("/tositteet/%1").arg(tositeId));
+    connect( kysely, &KpKysely::vastaus, this, &LaskuSivu::naytaLaskuDlg);
+    kysely->kysy();
 }
 
 void LaskuSivu::maksumuistutus()
@@ -304,8 +301,6 @@ void LaskuSivu::maksumuistutus()
                                 "Sulje avoinna oleva laskuikkuna ennen uuden laskun luomista."));
         return;
     }
-    LaskuDialogi *dlg = new LaskuDialogi( LaskuModel::teeMaksumuistutus( laskuView_->currentIndex().data(LaskutModel::VientiIdRooli).toInt() ));
-    dlg->show();
 }
 
 void LaskuSivu::ryhmaLasku()
@@ -318,8 +313,6 @@ void LaskuSivu::ryhmaLasku()
                                 "Sulje avoinna oleva laskuikkuna ennen uuden laskun luomista."));
         return;
     }
-    auto *dlg = new LaskuDialogi( LaskuModel::ryhmaLasku());
-    dlg->show();
 }
 
 void LaskuSivu::poistaLasku()
@@ -338,6 +331,12 @@ void LaskuSivu::poistaLasku()
         return;
 
     tosite.poista();
+}
+
+void LaskuSivu::naytaLaskuDlg(QVariant *data)
+{
+    LaskuDialogi* dlg = new LaskuDialogi(data->toMap());
+    dlg->show();
 }
 
 void LaskuSivu::luoUi()

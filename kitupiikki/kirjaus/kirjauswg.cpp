@@ -103,8 +103,8 @@ KirjausWg::KirjausWg( QWidget *parent)
 
     tyyppiProxy_ = new QSortFilterProxyModel(this);
     tyyppiProxy_->setSourceModel( kp()->tositeTyypit() );
-    tyyppiProxy_->setFilterRole( TositeTyyppiModel::KoodiRooli);
-    tyyppiProxy_->setFilterRegularExpression("^[^9]");
+    tyyppiProxy_->setFilterRole( TositeTyyppiModel::LisattavissaRooli);
+    tyyppiProxy_->setFilterFixedString("K");
     ui->tositetyyppiCombo->setModel( tyyppiProxy_ );
 
 

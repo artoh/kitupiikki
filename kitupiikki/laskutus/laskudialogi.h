@@ -46,10 +46,11 @@ class LaskuDialogi : public QDialog, public Esikatseltava
     Q_OBJECT
 public:
 
-    LaskuDialogi(LaskuModel *laskumodel = nullptr);
+    LaskuDialogi(const QVariantMap& data = QVariantMap());
     ~LaskuDialogi() override;
 
     enum Tabs { RIVIT, LISATIEDOT, RYHMAT, VERKKOLASKU};
+    enum Tapa { TULOSTETTAVA, SAHKOPOSTI, KATEISLASKU };
 
     static int laskuIkkunoita();
 
@@ -114,7 +115,9 @@ private slots:
     void tallenna(Tosite::Tila moodi);
     void tallennusValmis(QVariant* vastaus);
 
+
 private:
+    void lataa(const QVariantMap& map);
     void lisaaRiviTab();
     QVariantMap vastakirjaus() const;
 
@@ -137,6 +140,10 @@ private:
     QList<int> ryhmaLahetys_;
 
     QVariantMap tallennettu_;
+
+    int tositeId_ = 0;
+    qlonglong laskunnumero_ = 0l;
+    QString viite_;
 
 
     Tosite::Tila tallennusTila_ = Tosite::POISTETTU;

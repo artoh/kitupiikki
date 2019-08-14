@@ -16,8 +16,8 @@
 */
 #include "tositetyyppimodel.h"
 
-TositeTyyppiTietue::TositeTyyppiTietue(TositeTyyppi::Tyyppi uKoodi, const QString &uNimi, const QString &uKuvake) :
-    koodi(uKoodi), nimi( uNimi ), kuvake( QIcon( uKuvake ))
+TositeTyyppiTietue::TositeTyyppiTietue(TositeTyyppi::Tyyppi uKoodi, const QString &uNimi, const QString &uKuvake, bool uLisattavissa) :
+    koodi(uKoodi), nimi( uNimi ), kuvake( QIcon( uKuvake )), lisattavissa( uLisattavissa)
 {
 
 }
@@ -29,6 +29,12 @@ TositeTyyppiModel::TositeTyyppiModel(QObject *parent)
 {
     lisaa(TositeTyyppi::MENO, tr("Menotosite"), "poista");
     lisaa(TositeTyyppi::TULO, tr("Tulotosite"), "lisaa");
+
+    lisaa(TositeTyyppi::MYYNTILASKU, tr("Myyntilasku"), "lasku", false);
+    lisaa(TositeTyyppi::HYVITYSLASKU, tr("Hyvityslasku"), "lasku", false);
+    lisaa(TositeTyyppi::MAKSUMUISTUTUS, tr("Maksumuistutus"), "lasku", false);
+
+
     lisaa(TositeTyyppi::SIIRTO, tr("Rahoitustapahtuma"), "siirra");
     lisaa(TositeTyyppi::TILIOTE, tr("Tiliote"), "tekstisivu");
     lisaa(TositeTyyppi::PALKKA, tr("Palkanmaksu"), "yrittaja");
@@ -37,10 +43,10 @@ TositeTyyppiModel::TositeTyyppiModel(QObject *parent)
 
     lisaa(TositeTyyppi::MUU, tr("Muu"), "tyhja");
 
-    lisaa(TositeTyyppi::TILINAVAUS, tr("Tilinavaus"), "rahaa");
-    lisaa(TositeTyyppi::ALVLASKELMA, tr("Alv-laskelma"), "verotilitys");
-    lisaa(TositeTyyppi::POISTOLASKELMA, tr("Poistolaskelma"), "kirjalaatikko");
-    lisaa(TositeTyyppi::JAKSOTUS, tr("Jaksotus"), "ratas");
+    lisaa(TositeTyyppi::TILINAVAUS, tr("Tilinavaus"), "rahaa", false);
+    lisaa(TositeTyyppi::ALVLASKELMA, tr("Alv-laskelma"), "verotilitys", false);
+    lisaa(TositeTyyppi::POISTOLASKELMA, tr("Poistolaskelma"), "kirjalaatikko", false);
+    lisaa(TositeTyyppi::JAKSOTUS, tr("Jaksotus"), "ratas", false);
 }
 
 int TositeTyyppiModel::rowCount(const QModelIndex & /* parent */) const
@@ -58,6 +64,8 @@ QVariant TositeTyyppiModel::data(const QModelIndex &index, int role) const
         return tietue.koodi;
     else if( role == Qt::DecorationRole)
         return tietue.kuvake;
+    else if( role == LisattavissaRooli)
+        return tietue.lisattavissa ? "K" : "E" ;
 
     return QVariant();
 }
@@ -74,9 +82,9 @@ QIcon TositeTyyppiModel::kuvake(int koodi) const
 
 
 
-void TositeTyyppiModel::lisaa(TositeTyyppi::Tyyppi koodi, const QString &nimi, const QString &kuvake)
+void TositeTyyppiModel::lisaa(TositeTyyppi::Tyyppi koodi, const QString &nimi, const QString &kuvake, bool lisattavissa)
 {
-    TositeTyyppiTietue tietue(koodi, nimi, ":/pic/" + kuvake + ".png");
+    TositeTyyppiTietue tietue(koodi, nimi, ":/pic/" + kuvake + ".png", lisattavissa);
     tyypit_.append( tietue );
     map_.insert(koodi, tietue);
 }

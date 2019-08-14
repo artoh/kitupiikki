@@ -37,6 +37,8 @@ class AsiakkaatModel;
 class LaskutModel;
 class YhteystietoWidget;
 
+class LaskuTauluModel;
+
 /**
  * @brief Laskusivu
  *
@@ -78,11 +80,14 @@ public slots:
     void ryhmaLasku();
     void poistaLasku();
 
+private slots:
+    void naytaLaskuDlg(QVariant* data);
+
 private:
     void luoUi();
 
     AsiakkaatModel* asiakasmodel_;
-    LaskutModel* laskumodel_ = nullptr;
+    LaskuTauluModel* laskumodel_ = nullptr;
 
     QSortFilterProxyModel* asiakasProxy_ = nullptr;
     QSortFilterProxyModel* laskuAsiakasProxy_;

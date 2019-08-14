@@ -136,6 +136,8 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
         return map.value("otsikko");
     case AsiakasToimittajaIdRooli:
         return ostoja_ ? map.value("toimittajaid") : map.value("asiakasid");
+    case TositeIdRooli:
+        return map.value("tosite");
     }
     return QVariant();
 }
@@ -165,6 +167,10 @@ void LaskuTauluModel::paivita(bool ostoja, int valinta, QDate mista, QDate mihin
         kysely->lisaaAttribuutti("avoin",QString());
     else if( valinta == ERAANTYNEET)
         kysely->lisaaAttribuutti("eraantynyt",QString());
+    else if( valinta == LUONNOS)
+        kysely->lisaaAttribuutti("luonnos");
+    else if( valinta == LAHETETTAVA)
+        kysely->lisaaAttribuutti("lahetettava");
 
     connect( kysely, &KpKysely::vastaus, this, &LaskuTauluModel::tietoSaapuu);
     kysely->kysy();

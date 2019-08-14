@@ -44,7 +44,7 @@ public:
         KerailyAntiikki = 330024
     };
 
-    explicit LaskuRivitModel(QObject *parent = nullptr, const QVariantList& data = QVariantList());
+    LaskuRivitModel(QObject *parent = nullptr, const QVariantList& data = QVariantList());
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;

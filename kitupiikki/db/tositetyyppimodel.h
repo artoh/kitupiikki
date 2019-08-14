@@ -26,6 +26,9 @@ namespace TositeTyyppi {
         MUU = 0,
         MENO = 100,
         TULO = 200,
+        MYYNTILASKU = 210,
+        HYVITYSLASKU = 214,
+        MAKSUMUISTUTUS = 216,
         SIIRTO = 300,
         TILIOTE = 400,
         PALKKA = 500,
@@ -42,11 +45,12 @@ namespace TositeTyyppi {
 struct TositeTyyppiTietue
 {
     TositeTyyppiTietue() {;}
-    TositeTyyppiTietue(TositeTyyppi::Tyyppi uKoodi, const QString& uNimi, const QString& uKuvake = QString());
+    TositeTyyppiTietue(TositeTyyppi::Tyyppi uKoodi, const QString& uNimi, const QString& uKuvake = QString(), bool uLisattavissa = false);
 
     TositeTyyppi::Tyyppi koodi;
     QString nimi;
     QIcon kuvake;
+    bool lisattavissa;
 };
 
 class TositeTyyppiModel : public QAbstractListModel
@@ -56,7 +60,8 @@ public:
 
     enum {
         KoodiRooli = Qt::UserRole,
-        NimiRooli = Qt::DisplayRole
+        NimiRooli = Qt::DisplayRole,
+        LisattavissaRooli = Qt::UserRole + 1
     };
 
     int rowCount(const QModelIndex &parent) const override;
@@ -66,7 +71,7 @@ public:
     QIcon kuvake(int koodi) const;
 
 protected:
-    void lisaa(TositeTyyppi::Tyyppi koodi, const QString& nimi, const QString& kuvake);
+    void lisaa(TositeTyyppi::Tyyppi koodi, const QString& nimi, const QString& kuvake, bool lisattavissa = true);
 
     QList<TositeTyyppiTietue> tyypit_;
     QMap<int,TositeTyyppiTietue> map_;
