@@ -204,11 +204,11 @@ QByteArray Finvoice::lasku(LaskuModel *model)
     writer.writeStartElement("SellerAccountDetails");
 
     writer.writeStartElement("SellerAccountID");
-    writer.writeAttribute("IdentificationsSchemeName","IBAN");
+    writer.writeAttribute("IdentificationSchemeName","IBAN");
     writer.writeCharacters(iban );
     writer.writeEndElement();
     writer.writeStartElement("SellerBic");
-    writer.writeAttribute("IdentificationsSchemeName", "BIC");
+    writer.writeAttribute("IdentificationSchemeName", "BIC");
     writer.writeCharacters( LaskutModel::bicIbanilla(iban) );
     writer.writeEndElement();
 
@@ -217,7 +217,7 @@ QByteArray Finvoice::lasku(LaskuModel *model)
 
     writer.writeStartElement("BuyerPartyDetails");
     if( !model->ytunnus().isEmpty() && model->ytunnus().at(0).isDigit())
-        writer.writeTextElement("ByerPartyIdentifier", model->ytunnus());
+        writer.writeTextElement("BuyerPartyIdentifier", model->ytunnus());
     writer.writeTextElement("BuyerOrganisationName", model->laskunsaajanNimi());
 
     if( !model->ytunnus().isEmpty() && model->ytunnus().at(0).isLetter())
@@ -280,13 +280,14 @@ QByteArray Finvoice::lasku(LaskuModel *model)
 
         writer.writeTextElement("VatCode", vatCode(alv.alvKoodi()) );
 
-        if( alv.vero() > 1e-5)
-            writer.writeTextElement("VatRatePercent", QString("%1,0").arg( alv.alvProsentti() ) );
-
         writer.writeStartElement("VatRateAmount");
         writer.writeAttribute("AmountCurrencyIdentifier","EUR");
         writer.writeCharacters( QString("%1").arg( alv.vero() / 100.0 , 0, 'f', 2).replace('.',',') );
         writer.writeEndElement();
+
+        if( alv.vero() > 1e-5)
+            writer.writeTextElement("VatRatePercent", QString("%1,0").arg( alv.alvProsentti() ) );
+
 
         QString vatTeksti = vatFree( alv.alvKoodi() );
         if( !vatTeksti.isEmpty())
@@ -412,7 +413,7 @@ QByteArray Finvoice::lasku(LaskuModel *model)
     }
     else
     {
-        writer.writeAttribute("IdentificationsSchemeName", "SPY");
+        writer.writeAttribute("IdentificationSchemeName", "SPY");
         writer.writeCharacters( model->viitenumero() );
 
     }
