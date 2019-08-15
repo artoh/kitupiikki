@@ -78,9 +78,9 @@ QString AsiakasToimittajaValinta::nimi() const
 
 void AsiakasToimittajaValinta::set(int id, const QString &nimi)
 {
-    combo_->setCurrentText(nimi);
+    combo_->lineEdit()->setText(nimi);
     ladattu_ = id;
-    modelLadattu();
+    model_->lataa();
 }
 
 

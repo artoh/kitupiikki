@@ -107,7 +107,7 @@ QVariantMap PdfTuonti::tuoPdfLasku()
         {
             if( t.length() > 5 && !t.contains(ibanRe))
             {
-                data.insert("toimittajanimi", t);
+                data.insert("kumppaninimi", t);
                 break;
             }
         }
@@ -219,9 +219,9 @@ QVariantMap PdfTuonti::tuoPdfLasku()
             }
         }
     }
-    if( !data.contains("toimittajanimi") && tekstit_.isEmpty())
+    if( !data.contains("kumppaninimi") && tekstit_.isEmpty())
     {
-        data.insert("toimittajanimi",  tekstit_.values().first());
+        data.insert("kumppaninimi",  tekstit_.values().first());
     }
     if( !data.contains("summa") )
     {
@@ -248,8 +248,7 @@ QVariantMap PdfTuonti::tuoPdfLasku()
             if( YTunnusValidator::kelpaako(tunnari) &&
                     tunnari != kp()->asetukset()->asetus("Ytunnus"))
             {
-                data.insert("toimittajaytunnus", tunnari);
-                break;
+                data.insert("kumppaniytunnus", tunnari);
             }
         }
     }
