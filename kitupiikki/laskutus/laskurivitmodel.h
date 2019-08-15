@@ -72,7 +72,7 @@ public:
 public slots:
     void lisaaRivi(QVariantMap rivi = QVariantMap());
 
-protected:
+public:
     static double riviSumma(QVariantMap map);
     static double riviVero(QVariantMap map);
 

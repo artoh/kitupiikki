@@ -283,6 +283,18 @@ Tili TiliModel::tiliTyypilla(TiliLaji::TiliLuonne tyyppi) const
     return Tili();
 }
 
+QStringList TiliModel::laskuTilit() const
+{
+    QStringList tilit;
+    for(Tili tili: tilit_) {
+        if( tili.luku("laskulle") == 1)
+            tilit.insert(0, tili.str("iban"));
+        else if( tili.luku("laskulle") == 2)
+            tilit.append( tili.str("iban"));
+    }
+    return tilit;
+}
+
 JsonKentta *TiliModel::jsonIndeksilla(int i)
 {
     return tilit_[i].json();

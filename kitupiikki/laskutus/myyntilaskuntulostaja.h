@@ -38,6 +38,8 @@ public:
 
 
     static QString valeilla(const QString& teksti);
+    QString t(const QString& avain) const;
+
 signals:
 
 public slots:
@@ -45,9 +47,14 @@ public slots:
 
 protected:
     MyyntiLaskunTulostaja(const QVariantMap& map, QObject *parent = nullptr);
+    void tulosta(QPagedPaintDevice *printer,
+                 QPainter *painter,
+                 bool kuoreen);
 
     void ylaruudukko(QPagedPaintDevice *printer, QPainter *painter, bool kaytaIkkunakuorta);
     void tilisiirto(QPagedPaintDevice *printer, QPainter *painter);
+    qreal alatunniste(QPagedPaintDevice *printer, QPainter *painter);
+
 
 
     QByteArray qrSvg() const;
@@ -57,7 +64,7 @@ protected:
 
 
 protected:
-    QString t(const QString& avain) const;
+
     void tekstiRivinLisays(const QString &rivi, const QString &kieli = QString());
     QChar code128c(int koodattava) const;
 
@@ -66,7 +73,9 @@ protected:
     QVariantMap map_;
     LaskuRivitModel rivit_;
     double laskunSumma_;
+
     QString iban_;
+    QStringList ibanit_;
 
 };
 

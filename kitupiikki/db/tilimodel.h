@@ -91,6 +91,8 @@ public:
      */
     Tili tiliTyypilla(TiliLaji::TiliLuonne tyyppi) const;
 
+    QStringList laskuTilit() const;
+
     JsonKentta *jsonIndeksilla(int i);
 
     bool onkoMuokattu() const;

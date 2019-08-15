@@ -457,6 +457,9 @@ void LaskuDialogi::taytaAsiakasTiedot(QVariant *data)
                                   map.value("postinumero").toString() + " " + map.value("kaupunki").toString());
     ui->email->setText( map.value("email").toString());
 
+    asAlvTunnus_ = map.value("alvtunnus").toString();
+
+
     // TODO: Mahdolliset toimitustavat
 }
 
@@ -525,7 +528,8 @@ QVariantMap LaskuDialogi::data() const
         lasku.insert("numero", laskunnumero_);
         lasku.insert("viite", viite_);
     }
-
+    if( !asAlvTunnus_.isEmpty())
+        lasku.insert("alvtunnus", asAlvTunnus_);
 
     if( !ui->email->text().isEmpty())
         lasku.insert("email", ui->email->text());
@@ -739,6 +743,7 @@ void LaskuDialogi::lataa(const QVariantMap &map)
     viite_ = lasku.value("viite").toString();
     tunniste_ = map.value("tunniste").toInt();
     era_ = vienti.value("id").toInt();
+    asAlvTunnus_ = lasku.value("alvtunnus").toString();
 
     tallennettu_ = data();
     paivitaSumma();

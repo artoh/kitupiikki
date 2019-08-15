@@ -28,9 +28,14 @@ QVariant KantaVariantti::arvo(const QString &avain) const
     return data_.value(avain);
 }
 
-QString KantaVariantti::string(const QString &avain) const
+QString KantaVariantti::str(const QString &avain) const
 {
     return arvo(avain).toString();
+}
+
+int KantaVariantti::luku(const QString &avain) const
+{
+    return arvo(avain).toInt();
 }
 
 QDate KantaVariantti::pvm(const QString &avain) const

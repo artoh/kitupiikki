@@ -28,7 +28,8 @@ public:
     KantaVariantti(const QVariantMap& data = QVariantMap());
 
     QVariant arvo(const QString& avain) const;
-    QString string(const QString& avain) const;
+    QString str(const QString& avain) const;
+    int luku(const QString& avain) const;
     QDate pvm(const QString& avain) const;
 
 

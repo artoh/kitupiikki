@@ -185,8 +185,8 @@ QString LaskunTulostaja::html()
 
     QList<AlvErittelyRivi> alvErittely = model_->alverittely();
 
-    ErittelyRuudukko erittely(model_, this);
-    txt.append( erittely.html());
+//    ErittelyRuudukko erittely(model_, this);
+//    txt.append( erittely.html());
 
     if( alv && model_->tyyppi() != LaskuModel::MAKSUMUISTUTUS)
     {
@@ -599,8 +599,8 @@ qreal LaskunTulostaja::alatunniste(QPagedPaintDevice *printer, QPainter *painter
 void LaskunTulostaja::erittely(LaskuModel *model, QPagedPaintDevice *printer, QPainter *painter, qreal marginaali)
 {
 
-    ErittelyRuudukko ruudukko(model, this);
-    ruudukko.tulostaErittely(printer, painter, marginaali);
+//    ErittelyRuudukko ruudukko(model, this);
+//    ruudukko.tulostaErittely(printer, painter, marginaali);
 
     // ALV-erittelyn tulostus
     qreal rk = painter->fontMetrics().height();

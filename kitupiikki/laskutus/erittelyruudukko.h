@@ -20,8 +20,11 @@
 #include <QList>
 #include <QPainter>
 
-#include "laskumodel.h"
-#include "laskuntulostaja.h"
+#include "laskurivitmodel.h"
+
+class MyyntiLaskunTulostaja;
+class QPagedPaintDevice;
+class QPainter;
 
 /**
  * @brief Laskussa oleva tuote-erittely
@@ -29,7 +32,7 @@
 class ErittelyRuudukko
 {
 public:
-    ErittelyRuudukko(LaskuModel *model, LaskunTulostaja *tulostaja);
+    ErittelyRuudukko(const QVariantList& rivit , MyyntiLaskunTulostaja *tulostaja);
 
     void tulostaErittely(QPagedPaintDevice *printer, QPainter *painter, qreal marginaali);
     QString html();
@@ -38,12 +41,17 @@ private:
     void lisaaSarake(const QString& otsikontekstinimi, Qt::AlignmentFlag tasaus = Qt::AlignLeft);
     void tulostaErittelyOtsikko(QPagedPaintDevice *printer, QPainter *painter, bool sivuntunniste = false);
 
+    QString veroteksti(int verokoodi) const;
+
     QList<QString> otsikot_;
     QList<QStringList> ruudut_;
     QList<qreal> leveydet_;
     QList<Qt::AlignmentFlag> tasaukset_;
+    QMap<int,qlonglong> verokannat_;
 
-    LaskunTulostaja *tulostaja_;
+    LaskuRivitModel model_;
+    MyyntiLaskunTulostaja *tulostaja_;
+
 
     enum { VALI = 5};
 };

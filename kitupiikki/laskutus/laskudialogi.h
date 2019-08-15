@@ -146,6 +146,7 @@ private:
     int tositeId_ = 0;
     qlonglong laskunnumero_ = 0l;
     QString viite_;
+    QString asAlvTunnus_;
     int tunniste_ = 0;
     int era_ = 0;
 
