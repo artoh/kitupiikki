@@ -20,7 +20,8 @@
 
 #include "tools/kpeuroedit.h"
 
-EuroDelegaatti::EuroDelegaatti()
+EuroDelegaatti::EuroDelegaatti(QObject *parent) :
+    QItemDelegate (parent)
 {
 
 }

@@ -41,7 +41,7 @@ int BudjettiModel::rowCount(const QModelIndex &parent) const
 
 int BudjettiModel::columnCount(const QModelIndex & /* parent */) const
 {
-    return 3;
+    return 4;
 }
 
 QVariant BudjettiModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -56,8 +56,10 @@ QVariant BudjettiModel::headerData(int section, Qt::Orientation orientation, int
             return QVariant("Numero");
         case NIMI:
             return QVariant("Tili");
-        case SENTIT :
-            return QVariant("Budjetti");
+        case EDELLINEN:
+            return QVariant("Ed. budjetti €");
+        case EUROT :
+            return QVariant("Uusi budjetti €");
         }
     }
     return QVariant();
@@ -78,14 +80,18 @@ QVariant BudjettiModel::data(const QModelIndex &index, int role) const
             case NIMI:
                 return proxy_->data( proxy_->index(index.row(), TiliModel::NIMI) ) ;
 
-            case SENTIT:
-                QString tilinumero = proxy_->data( proxy_->index(index.row(), TiliModel::NUMERO) ).toString();
-                qlonglong sentit = sentit_.value( tilinumero, "0").toLongLong() ;
-                if( role == Qt::EditRole)
-                    return QVariant(sentit / 100.0);
+            case EUROT:
+                if( proxy_->data( proxy_->index(index.row(), 0), TiliModel::OtsikkotasoRooli ).toInt() )
+                    return QVariant();
 
-                if( sentit )
-                    return QVariant( QString("%L1 €").arg( sentit / 100.0, 10,'f',2));
+                QString tilinumero = proxy_->data( proxy_->index(index.row(), TiliModel::NUMERO) ).toString();
+
+                double eurot = data_.value( QString::number(kohdennusid_) ).toMap().value( tilinumero ).toDouble();
+                if( role == Qt::EditRole)
+                    return eurot;
+
+                if( qAbs(eurot) > 1e-7 )
+                    return QVariant( QString("%L1 €").arg( eurot, 10,'f',2));
                 else
                     return QVariant();
 
@@ -93,7 +99,7 @@ QVariant BudjettiModel::data(const QModelIndex &index, int role) const
     }
     else if( role == Qt::TextAlignmentRole)
     {
-        if( index.column()==SENTIT)
+        if( index.column()==EUROT)
             return QVariant(Qt::AlignRight | Qt::AlignVCenter);
         else
             return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
@@ -122,7 +128,7 @@ QVariant BudjettiModel::data(const QModelIndex &index, int role) const
 Qt::ItemFlags BudjettiModel::flags(const QModelIndex &index) const
 {
 
-    if( index.column() == SENTIT && !proxy_->data( proxy_->index(index.row(),0), TiliModel::OtsikkotasoRooli ).toInt()  )
+    if( index.column() == EUROT && !proxy_->data( proxy_->index(index.row(),0), TiliModel::OtsikkotasoRooli ).toInt()  )
         return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
     else
         return QAbstractTableModel::flags(index);
@@ -132,68 +138,97 @@ bool BudjettiModel::setData(const QModelIndex &index, const QVariant &value, int
 {
     QString tilinumero = proxy_->data( proxy_->index(index.row(), TiliModel::NUMERO) ).toString();
 
-    if( value.toInt())
-        sentit_[tilinumero] = qRound(value.toDouble() * 100); // Delegaatti käsittelee senttejä
+    QVariantMap eurot = data_.value( QString::number(kohdennusid_) ).toMap();
+
+    if( qAbs( value.toDouble()) > 1e-5)
+        eurot[tilinumero] = value.toDouble();
     else
-        sentit_.remove(tilinumero);          // Ei jätetä nollia kirjauksiin
+        eurot.remove(tilinumero);          // Ei jätetä nollia kirjauksiin
+
+    data_.insert( QString::number(kohdennusid_), eurot );
 
     muokattu_ = true;
     laskeSumma();
     return true;
 }
 
-void BudjettiModel::lataa(const QDate &paivamaara, int kohdennusid)
+void BudjettiModel::lataa(const QDate &paivamaara)
 {
-    beginResetModel();
     paivamaara_ = paivamaara;
-    kohdennusid_ = kohdennusid;
 
-    QVariantMap varmap = kp()->tilikaudet()->json(paivamaara_)->variant("Budjetti").toMap();
-    sentit_ = varmap.value( QString::number(kohdennusid_) ).toMap();
+    KpKysely *kysely = kpk(QString("/budjetti/%1").arg(paivamaara.toString(Qt::ISODate)));
+    kysely->lisaaAttribuutti("kohdennukset");
+    connect( kysely, &KpKysely::vastaus, this, &BudjettiModel::dataSaapuu);
+    kysely->kysy();
+
+    QDate edellisenPvm = kp()->tilikaudet()->tilikausiPaivalle( paivamaara_.addDays(-1) ).alkaa();
+    KpKysely *edkysely = kpk(QString("/budjetti/%1").arg(edellisenPvm.toString(Qt::ISODate)));
+    edkysely->lisaaAttribuutti("kohdennukset");
+    connect( edkysely, &KpKysely::vastaus, this, &BudjettiModel::edellinenSaapuu);
+    edkysely->kysy();
+}
+
+void BudjettiModel::nayta(int kohdennus)
+{
+    kohdennusid_ = kohdennus;
+    emit dataChanged( index(0, EDELLINEN), index( rowCount(), EUROT ) );
     laskeSumma();
-
-    endResetModel();
 }
 
 void BudjettiModel::tallenna()
 {
-    JsonKentta *json = kp()->tilikaudet()->json(paivamaara_);
 
-    QVariantMap varmap = json->variant("Budjetti").toMap();
+    KpKysely *kysely = kpk(QString("/budjetti/%1").arg(paivamaara_.toString(Qt::ISODate)), KpKysely::PUT);
+    kysely->connect( kysely, &KpKysely::vastaus, this, &BudjettiModel::tallennettu);
+    kysely->kysy( data_ );
 
-    if( sentit_.isEmpty())
-        varmap.remove(QString::number(kohdennusid_) );
-    else
-        varmap.insert( QString::number(kohdennusid_), sentit_ );
-
-    json->setVar("Budjetti", varmap);
-    kp()->tilikaudet()->tallennaJSON();
-
-    muokattu_ = false;
-    laskeSumma();
 }
 
 void BudjettiModel::laskeSumma()
 {
     qlonglong summa = 0;
-    for( const QVariant& var : sentit_.values() )
-        summa += var.toLongLong();
+    QVariantMap eurot = data_.value( QString::number(kohdennusid_) ).toMap();
 
-    emit summaMuuttui(summa);
+    for( const QVariant& var : eurot.values() )
+        summa += qRound( var.toDouble() * 100.0 );
+
+    qlonglong kokosumma = 0;
+
+    QMapIterator<QString,QVariant> iter(data_);
+    while( iter.hasNext()) {
+        iter.next();
+        QVariantMap map = iter.value().toMap();
+        for( auto var : map.values())
+            kokosumma += qRound( var.toDouble() * 100.0);
+    }
+
+    emit summaMuuttui(summa, kokosumma);
 
 }
 
 void BudjettiModel::kopioiEdellinen()
 {
-    QDate pvm = kp()->tilikaudet()->tilikausiPaivalle( paivamaara_.addDays(-1) ).alkaa();
+    data_ = edellinen_;
+    emit dataChanged( index(0, EUROT), index( rowCount(), EUROT ) );
+}
 
-    beginResetModel();
-    QVariantMap varmap = kp()->tilikaudet()->json(pvm)->variant("Budjetti").toMap();
-    sentit_ = varmap.value( QString::number(kohdennusid_) ).toMap();
-    muokattu_ = true;
+void BudjettiModel::dataSaapuu(QVariant *saapuva)
+{
+    data_ = saapuva->toMap();
+    emit dataChanged( index(0, EUROT), index( rowCount(), EUROT ) );
     laskeSumma();
+}
 
-    endResetModel();
+void BudjettiModel::edellinenSaapuu(QVariant *saapuva)
+{
+    edellinen_ = saapuva->toMap();
+    emit dataChanged( index(0, EDELLINEN), index( rowCount(), EDELLINEN ) );
+}
+
+void BudjettiModel::tallennettu()
+{
+    this->muokattu_=false;
+    this->laskeSumma();
 }
 
 

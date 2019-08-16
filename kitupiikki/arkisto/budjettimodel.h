@@ -42,12 +42,12 @@ class BudjettiModel : public QAbstractTableModel
 public:
     enum Sarake
     {
-        NRO, NIMI, SENTIT
+        NRO, NIMI, EDELLINEN, EUROT
     };
 
     BudjettiModel(QObject *parent = nullptr);
 
-    int rowCount(const QModelIndex &parent) const override;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex& parent) const override;
 
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
@@ -59,7 +59,9 @@ public:
     bool onkoMuokattu() const { return muokattu_; }
 
 public slots:
-    void lataa(const QDate& paivamaara, int kohdennusid);
+    void lataa(const QDate& paivamaara);
+    void nayta(int kohdennus);
+
     void tallenna();
     void laskeSumma();
 
@@ -68,15 +70,22 @@ public slots:
      */
     void kopioiEdellinen();
 
+private slots:
+    void dataSaapuu(QVariant* saapuva);
+    void edellinenSaapuu(QVariant* saapuva);
+    void tallennettu();
+
 signals:
-    void summaMuuttui(qlonglong summa);
+    void summaMuuttui(qlonglong summa, qlonglong kokosumma);
 
 protected:
     QSortFilterProxyModel *proxy_;
-    QVariantMap sentit_;
+    QVariantMap data_;
+    QVariantMap edellinen_;
 
-    QDate paivamaara_;
+    QDate paivamaara_;    
     int kohdennusid_ = 0;
+
     bool muokattu_ = false;
 
 

@@ -44,8 +44,8 @@ public:
 public slots:
     void lataa(const QString &kausi);
     void kausivaihtuu();
-    void paivita();
-    void muokattu(qlonglong summa);
+    void kohdennusVaihtuu();
+    void muokattu(qlonglong summa, qlonglong kokosumma);
 
     void kysyTallennus();
 

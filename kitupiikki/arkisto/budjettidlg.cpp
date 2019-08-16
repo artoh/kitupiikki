@@ -20,6 +20,7 @@
 #include "db/kirjanpito.h"
 #include "budjettimodel.h"
 #include "budjettikohdennusproxy.h"
+#include "kirjaus/eurodelegaatti.h"
 
 #include <QMessageBox>
 
@@ -36,9 +37,11 @@ BudjettiDlg::BudjettiDlg(QWidget *parent) :
     ui->kohdennusCombo->setModel( kohdennukset_);
     ui->view->setModel( model_ );
 
+    ui->view->setItemDelegateForRow( BudjettiModel::EUROT, new EuroDelegaatti(this) );
+
     connect( ui->tallennaNappi, &QPushButton::clicked, model_, &BudjettiModel::tallenna );
     connect( ui->tilikausiCombo, &QComboBox::currentTextChanged, this, &BudjettiDlg::kausivaihtuu);
-    connect( ui->kohdennusCombo, &QComboBox::currentTextChanged, this, &BudjettiDlg::paivita);
+    connect( ui->kohdennusCombo, &QComboBox::currentTextChanged, this, &BudjettiDlg::kohdennusVaihtuu);
     connect( model_, &BudjettiModel::summaMuuttui, this, &BudjettiDlg::muokattu);
     connect( ui->kopioiNappi, &QPushButton::clicked, model_, &BudjettiModel::kopioiEdellinen);
     connect( ui->peruNappi, &QPushButton::clicked, this, &BudjettiDlg::close );
@@ -56,26 +59,30 @@ void BudjettiDlg::lataa(const QString &kausi)
 {
     ui->tilikausiCombo->setCurrentIndex( ui->tilikausiCombo->findData( kausi, TilikausiModel::LyhenneRooli ));
     ui->kohdennusCombo->setCurrentIndex( ui->kohdennusCombo->findData(0, KohdennusModel::IdRooli) );
-    paivita();
+    model_->lataa( ui->tilikausiCombo->currentData(TilikausiModel::AlkaaRooli).toDate() );
 }
 
 void BudjettiDlg::kausivaihtuu()
 {
     kohdennukset_->asetaKausi( ui->tilikausiCombo->currentData(TilikausiModel::AlkaaRooli).toDate(),
                                ui->tilikausiCombo->currentData(TilikausiModel::PaattyyRooli).toDate());
-    paivita();
-}
-
-void BudjettiDlg::paivita()
-{
     kysyTallennus();
-    model_->lataa( ui->tilikausiCombo->currentData(TilikausiModel::AlkaaRooli).toDate(),
-                   ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt() );
+    model_->lataa( ui->tilikausiCombo->currentData(TilikausiModel::AlkaaRooli).toDate() );
 }
 
-void BudjettiDlg::muokattu(qlonglong summa)
+void BudjettiDlg::kohdennusVaihtuu()
 {
-    ui->summaLabel->setText( QString("Budjetoitu tulos %L1 €").arg( summa / 100.0, 10,'f',2));
+    model_->nayta( ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt() );
+}
+
+void BudjettiDlg::muokattu(qlonglong summa, qlonglong kokosumma)
+{
+    if( summa == kokosumma)
+        ui->summaLabel->setText( QString("Budjetoitu tulos %L1 €").arg( summa / 100.0, 10,'f',2));
+    else
+        ui->summaLabel->setText( QString("Budjetoitu tulos %L1 € ( Yhteensä %L2 € )").arg( summa / 100.0, 10,'f',2)
+                                 .arg(kokosumma/100.0, 0, 'f', 2));
+
     ui->tallennaNappi->setEnabled( model_->onkoMuokattu() );
     ui->kopioiNappi->setEnabled( ui->tilikausiCombo->currentIndex() > 0 );
 }
