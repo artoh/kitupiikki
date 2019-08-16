@@ -289,6 +289,7 @@ public:
      * @return
      */
     QString tositeTunnus(int tositelaji, int tunniste, const QDate& pvm, bool vertailu = false ) const;
+    QString tositeTunnus(int tunniste, const QDate& pvm, bool vertailu = false);
 
 
     /**

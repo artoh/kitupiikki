@@ -308,9 +308,24 @@ void PaivakirjaRaportti::kirjoitaSummaRivi(RaportinKirjoittaja &rk, qlonglong de
 
 void PaivakirjaRaportti::esikatsele()
 {
+    int kohdennuksella = -1;
+    if( ui->kohdennusCheck->isChecked())
+        kohdennuksella = ui->kohdennusCombo->currentData( KohdennusModel::IdRooli).toInt();
+    int optiot = 0;
+
+    if( ui->tositejarjestysRadio->isChecked() )
+        optiot |= Paivakirja::TositeJarjestyksessa;
+    if( ui->ryhmittelelajeittainCheck->isChecked() )
+        optiot |= Paivakirja::RyhmitteleLajeittain;
+    if( ui->tulostakohdennuksetCheck->isChecked() )
+        optiot |= Paivakirja::TulostaKohdennukset;
+    if( ui->tulostasummat->isChecked() )
+        optiot |= Paivakirja::TulostaSummat;
+
     Paivakirja *kirja = new Paivakirja(this);
     connect( kirja, &Paivakirja::valmis, this, &Raportti::nayta );
-    kirja->kirjoita( ui->alkupvm->date(), ui->loppupvm->date() );
+    kirja->kirjoita( ui->alkupvm->date(), ui->loppupvm->date(),
+                     optiot, kohdennuksella);
 }
 
 

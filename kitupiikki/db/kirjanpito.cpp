@@ -230,6 +230,22 @@ QString Kirjanpito::tositeTunnus(int tositelaji, int tunniste, const QDate &pvm,
             .arg(vuositunnus);
 }
 
+QString Kirjanpito::tositeTunnus(int tunniste, const QDate &pvm, bool vertailu)
+{
+    QString vuositunnus = tilikaudetModel_->tilikausiPaivalle(pvm).kausitunnus();
+
+    // Tässä voidaan siivota pois laji jos ollaan yhdessä sarjassa
+
+    if( vertailu )
+        return QString("%1/%2")
+                .arg( tunniste, 8, 10, QChar('0') )
+                .arg( vuositunnus );
+
+    return QString("%1/%2")
+            .arg(tunniste)
+            .arg(vuositunnus);
+}
+
 
 
 bool Kirjanpito::avaaTietokanta(const QString &tiedosto, bool ilmoitaVirheesta)

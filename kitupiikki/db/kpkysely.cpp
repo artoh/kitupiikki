@@ -43,6 +43,11 @@ void KpKysely::lisaaAttribuutti(const QString &avain, const QDate &paiva)
     lisaaAttribuutti(avain, paiva.toString(Qt::ISODate));
 }
 
+void KpKysely::lisaaAttribuutti(const QString &avain, int arvo)
+{
+    lisaaAttribuutti(avain, QString::number(arvo));
+}
+
 QString KpKysely::attribuutti(const QString &avain) const
 {
     return kysely_.queryItemValue(avain);

@@ -17,41 +17,67 @@
 #include "paivakirja.h"
 
 #include "db/kirjanpito.h"
+#include "db/tositetyyppimodel.h"
 
-Paivakirja::Paivakirja(QObject *parent) : QObject(parent)
+Paivakirja::Paivakirja(QObject *parent) : Raportteri(parent)
 {
 
 }
 
-void Paivakirja::kirjoita(QDate mista, QDate mihin)
+void Paivakirja::kirjoita(QDate mista, QDate mihin, int optiot, int kohdennuksella)
 {
-    kirjoittaja.asetaOtsikko(tr("PÄIVÄKIRJA"));
+    if( kp()->tilikausiPaivalle(mista).alkaa() == kp()->tilikausiPaivalle(mihin).alkaa())
+        oletustilikausi_ = kp()->tilikausiPaivalle(mista);
+
+    optiot_ = optiot;
+
+    if( kohdennuksella > -1 ) {
+        // Tulostetaan vain yhdestä kohdennuksesta
+        optiot_ |= Kohdennuksella;
+        rk.asetaOtsikko( QString("PÄIVÄKIRJA (%1)").arg( kp()->kohdennukset()->kohdennus(kohdennuksella).nimi() ) );
+    } else
+    rk.asetaOtsikko(tr("PÄIVÄKIRJA"));
 
 
-    kirjoittaja.asetaKausiteksti(QString("%1 - %2").arg( mista.toString("dd.MM.yyyy") )
+    rk.asetaKausiteksti(QString("%1 - %2").arg( mista.toString("dd.MM.yyyy") )
                                              .arg( mihin.toString("dd.MM.yyyy") ) );
 
-    kirjoittaja.lisaaPvmSarake();
-    kirjoittaja.lisaaSarake("ABC1234/99 ");
-    kirjoittaja.lisaaSarake("999999 Tilinimi tarkeinteilla");
-    kirjoittaja.lisaaVenyvaSarake();
-    kirjoittaja.lisaaEurosarake();
-    kirjoittaja.lisaaEurosarake();
+    rk.lisaaPvmSarake();
+    rk.lisaaSarake("ABC1234/99 ");
+    rk.lisaaSarake("999999 Tilinimi tarkeinteilla");
+    if( optiot_ & TulostaKohdennukset)
+        rk.lisaaSarake("Kohdennusnimi");
+    rk.lisaaVenyvaSarake();
+    rk.lisaaEurosarake();
+    rk.lisaaEurosarake();
 
     {
         RaporttiRivi otsikko(RaporttiRivi::EICSV);
         otsikko.lisaa("Pvm");
         otsikko.lisaa("Tosite");
         otsikko.lisaa("Tili");
+        if( optiot_ & TulostaKohdennukset)
+            otsikko.lisaa("Kohdennus");
         otsikko.lisaa("Selite");
         otsikko.lisaa("Debet €", 1, true);
         otsikko.lisaa("Kredit €", 1, true);
-        kirjoittaja.lisaaOtsake(otsikko);
+        rk.lisaaOtsake(otsikko);
     }
 
     KpKysely *kysely = kpk("/viennit");
     kysely->lisaaAttribuutti("alkupvm", mista);
     kysely->lisaaAttribuutti("loppupvm", mihin);
+
+    if( optiot_ & TositeJarjestyksessa ) {
+        if( optiot_ & RyhmitteleLajeittain)
+            kysely->lisaaAttribuutti("jarjestys","laji,tosite");
+        else
+            kysely->lisaaAttribuutti("jarjestys","tosite");
+    } else if( optiot_ & RyhmitteleLajeittain)
+        kysely->lisaaAttribuutti("jarjestys","laji");
+
+    if( kohdennuksella > -1)
+        kysely->lisaaAttribuutti("kohdennus", kohdennuksella);
 
     connect( kysely, &KpKysely::vastaus, this, &Paivakirja::dataSaapuu);
 
@@ -62,34 +88,103 @@ void Paivakirja::dataSaapuu(QVariant *data)
 {
     QVariantList lista = data->toList();
 
+    int edellinentyyppi = 0;
+
+    qlonglong debetsumma = 0;
+    qlonglong kreditsumma = 0;
+
+    qlonglong debetvalisumma = 0;
+    qlonglong kreditvalisumma = 0;
 
     for(auto item : lista) {
         QVariantMap map = item.toMap();
 
-        RaporttiRivi rivi;
+        int tositetyyppi = map.value("tosite").toMap().value("tyyppi").toInt();
+        if( optiot_ & RyhmitteleLajeittain && edellinentyyppi != tositetyyppi ) {
+            if( optiot_ & TulostaSummat && edellinentyyppi) {
+                RaporttiRivi valisumma(RaporttiRivi::EICSV);
+                valisumma.lisaa("Yhteensä", optiot_ & TulostaKohdennukset ? 5 : 4  );
+                valisumma.lisaa( debetvalisumma);
+                valisumma.lisaa(kreditvalisumma);
+                valisumma.viivaYlle();
+                rk.lisaaRivi(valisumma);
 
-        rivi.lisaa( map.value("pvm").toDate() );
-        rivi.lisaa( kp()->tositeTunnus(  map.value("tosite").toMap().value("tositelaji").toInt(),
-                                         map.value("tosite").toMap().value("tunniste").toInt() ,
-                                         map.value("tosite").toMap().value("pvm").toDate() ) );
+                debetvalisumma = 0l;
+                kreditvalisumma = 0l;
+            }
+
+
+            rk.lisaaTyhjaRivi();
+            RaporttiRivi ryhma(RaporttiRivi::EICSV);
+            ryhma.lisaa( kp()->tositeTyypit()->nimi(tositetyyppi),4 );
+            ryhma.lihavoi();
+            rk.lisaaRivi(ryhma);
+
+            edellinentyyppi = tositetyyppi;
+        }
+
+
+        RaporttiRivi rivi;
+        QDate pvm = map.value("pvm").toDate();
+
+        rivi.lisaa( pvm );
+
+        // Ei toisteta turhaan tilikauden tunnusta
+        if( kp()->tilikausiPaivalle(pvm).alkaa() == oletustilikausi_.alkaa())
+            rivi.lisaa(map.value("tosite").toMap().value("tunniste").toString() );
+        else
+            rivi.lisaa( kp()->tositeTunnus(  map.value("tosite").toMap().value("tunniste").toInt(), pvm ) );
+
         Tili* tili = kp()->tilit()->tiliPNumerolla( map.value("tili").toInt() );
         if( tili )
             rivi.lisaa( QString("%1 %2").arg( tili->numero()).arg(tili->nimi()) );
         else
             continue;   // ei kelvollista tiliä!
 
+        if( optiot_ & TulostaKohdennukset )
+            rivi.lisaa( kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt() ).nimi() );
+
         rivi.lisaa( map.value("selite").toString() );
 
         qlonglong debetsnt = qRound( map.value("debet").toDouble() * 100 );
         qlonglong kreditsnt = qRound( map.value("kredit").toDouble() * 100);
 
+        debetsumma += debetsnt;
+        debetvalisumma += debetsnt;
+
+        if( optiot_ & RyhmitteleLajeittain && optiot_ & TulostaSummat) {
+            kreditsumma += kreditsnt;
+            kreditvalisumma += kreditsnt;
+        }
+
         rivi.lisaa( debetsnt );
         rivi.lisaa( kreditsnt );
 
-        kirjoittaja.lisaaRivi(rivi);
+        rk.lisaaRivi(rivi);
 
     }
-    emit valmis( kirjoittaja );
+
+    if( optiot_ & TulostaSummat && edellinentyyppi) {
+        RaporttiRivi valisumma(RaporttiRivi::EICSV);
+        valisumma.lisaa("Yhteensä", optiot_ & TulostaKohdennukset ? 5 : 4  );
+        valisumma.lisaa( debetvalisumma);
+        valisumma.lisaa(kreditvalisumma);
+        valisumma.viivaYlle();
+        rk.lisaaRivi(valisumma);
+    }
+
+    if( optiot_ & TulostaSummat) {
+        rk.lisaaTyhjaRivi();
+        RaporttiRivi summarivi(RaporttiRivi::EICSV);
+        summarivi.lisaa("Yhteensä", optiot_ & TulostaKohdennukset ? 5 : 4  );
+        summarivi.lisaa( debetsumma);
+        summarivi.lisaa(kreditsumma);
+        summarivi.viivaYlle();
+        summarivi.lihavoi();
+        rk.lisaaRivi(summarivi);
+    }
+
+    emit valmis( rk );
 }
 
 

@@ -55,6 +55,7 @@ public:
 
     void lisaaAttribuutti(const QString& avain, const QString& arvo = QString());
     void lisaaAttribuutti(const QString& avain, const QDate& paiva);
+    void lisaaAttribuutti(const QString& avain, int arvo);
 
     QString attribuutti(const QString& avain) const;
     Metodi metodi() const { return metodi_;}

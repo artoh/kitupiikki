@@ -14,38 +14,26 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef PAIVAKIRJA_H
-#define PAIVAKIRJA_H
+#ifndef RAPORTTERI_H
+#define RAPORTTERI_H
 
-#include "raportteri.h"
+#include <QObject>
+
 #include "raportinkirjoittaja.h"
-#include "db/tilikausi.h"
 
-class Paivakirja : public Raportteri
+class Raportteri : public QObject
 {
     Q_OBJECT
 public:
-    explicit Paivakirja(QObject *parent = nullptr);
+    explicit Raportteri(QObject *parent = nullptr);
 
-    void kirjoita(QDate mista, QDate mihin,
-                  int optiot = 0, int kohdennuksella = -1);
-
-    enum { TositeJarjestyksessa = 0b00001 ,
-           RyhmitteleLajeittain = 0b00010 ,
-           TulostaKohdennukset  = 0b00100 ,
-           TulostaSummat        = 0b01000 ,
-           Kohdennuksella       = 0b10000
-         };
+signals:
+    void valmis(RaportinKirjoittaja raportinKirjoittaja);
 
 public slots:
 
-private slots:
-    void dataSaapuu(QVariant *data);
-
-private:
-    int optiot_ = 0;
-    Tilikausi oletustilikausi_;
-
+protected:
+    RaportinKirjoittaja rk;
 };
 
-#endif // PAIVAKIRJA_H
+#endif // RAPORTTERI_H
