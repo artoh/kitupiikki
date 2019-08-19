@@ -27,6 +27,6 @@
 #define KITUPIIKKI_VERSIO "1.4.1"
 #define KITUPIIKKI_BUILD  "" // "PORTABLE" //
 
-#define KITUPIIKKI_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
+// #define KITUPIIKKI_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
 
 #endif // VERSIO_H

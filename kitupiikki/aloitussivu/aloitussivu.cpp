@@ -631,14 +631,14 @@ void AloitusSivu::paivitaTiedostoLista()
         if( !kp()->asetukset()->asetus("MaksuAlvAlkaa").isEmpty() )
             omituisuudet.append("mAlv");
         if( !kp()->asetukset()->asetus("KirjattavienKansio").isEmpty())
-            omituisuudet.append("ib");
+            omituisuudet.append("inbox");
         if( kp()->asetukset()->asetus("LaskuKirjausperuste").toInt() == LaskuModel::MAKSUPERUSTE )
-            omituisuudet.append("lp");
+            omituisuudet.append("laskuper");
         if( !kp()->asetukset()->onko("Samaansarjaan"))
-            omituisuudet.append("tl");
+            omituisuudet.append("toslajit");
         for(int ti=0; ti < kp()->tilit()->rowCount(QModelIndex()); ti++) {
             if( kp()->tilit()->tiliIndeksilla(ti).json()->luku("Kohdennukset") ) {
-                omituisuudet.append("tk");
+                omituisuudet.append("tasekohd");
                 break;
             }
         }
@@ -646,6 +646,17 @@ void AloitusSivu::paivitaTiedostoLista()
             omituisuudet.append("vl");
         if( !kp()->settings()->value("SmtpServer").toString().isEmpty())
             omituisuudet.append("@");
+        if( kp()->onkoHarjoitus())
+            omituisuudet.append("H");
+        omituisuudet.append( kp()->asetukset()->asetus("Muoto") );
+
+        QSqlQuery kysely;
+        kysely.exec("SELECT COUNT(id) FROM liite");
+        if( kysely.next())
+            omituisuudet.append( QString("l%1").arg( kysely.value(0).toInt(),4,10,QChar('0') ) );
+        kysely.exec("SELECT COUNT(id) FROM tosite");
+        if( kysely.next())
+            omituisuudet.append( QString("t%1").arg( kysely.value(0).toInt(),4,10,QChar('0') ) );
 
         kp()->settings()->setValue("Omituisuudet", omituisuudet.join(' '));
     }
