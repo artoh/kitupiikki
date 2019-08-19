@@ -61,7 +61,6 @@ PaivakirjaRaportti::PaivakirjaRaportti()
     ui->tiliBox->hide();
     ui->tiliCombo->hide();
 
-    ui->tulostaviennitCheck->hide();
 }
 
 PaivakirjaRaportti::~PaivakirjaRaportti()

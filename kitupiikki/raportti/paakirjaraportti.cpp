@@ -16,6 +16,7 @@
 */
 
 #include <QSqlQuery>
+#include <QDebug>
 
 #include "paakirjaraportti.h"
 
@@ -53,7 +54,6 @@ PaakirjaRaportti::PaakirjaRaportti()
 
     ui->jarjestysRyhma->hide();
     ui->ryhmittelelajeittainCheck->hide();
-    ui->tulostaviennitCheck->hide();
 
     connect( ui->alkupvm, &QDateEdit::dateChanged, this, &PaakirjaRaportti::haeTilitComboon);
     connect( ui->loppupvm, &QDateEdit::dateChanged, this, &PaakirjaRaportti::haeTilitComboon);
@@ -357,16 +357,14 @@ RaportinKirjoittaja PaakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihin,
 
 void PaakirjaRaportti::haeTilitComboon()
 {
-    QString kysymys = QString(R"(SELECT DISTINCT tili FROM vienti WHERE pvm BETWEEN "%1" AND "%2")").arg(ui->alkupvm->date().toString(Qt::ISODate)).arg(ui->loppupvm->date().toString(Qt::ISODate));
-    QSqlQuery kysely(kysymys);
-    ui->tiliCombo->clear();
 
-    while( kysely.next())
-    {
-        const Tili& tili = kp()->tilit()->tiliIdllaVanha( kysely.value(0).toInt());
-        ui->tiliCombo->addItem( QString("%1 %2").arg(tili.numero()).arg(tili.nimi()), tili.numero() );
-    }
-    ui->tiliCombo->model()->sort(0);
+    // Tässä pitäisi ehkä sittenkin käyttää summia ;)
+    KpKysely *kysely = kpk("/saldot");
+    kysely->lisaaAttribuutti("alkupvm", ui->alkupvm->date());
+    kysely->lisaaAttribuutti("pvm", ui->loppupvm->date());
+    connect(kysely, &KpKysely::vastaus, this, &PaakirjaRaportti::tiliListaSaapuu);
+    kysely->kysy();
+
 }
 
 void PaakirjaRaportti::esikatsele()
@@ -381,8 +379,28 @@ void PaakirjaRaportti::esikatsele()
     if( ui->tiliBox->isChecked())
         tililta = ui->tiliCombo->currentData().toInt();
 
-    kirja->kirjoita(ui->alkupvm->date(), ui->loppupvm->date(), kohdennuksella,
-                            ui->tulostakohdennuksetCheck->isChecked(),
-                            ui->tulostasummat->isChecked(),
-                            tililta);
+    int optiot = 0;
+    if( ui->tulostakohdennuksetCheck->isChecked() )
+        optiot |= Paakirja::TulostaKohdennukset;
+    if( ui->tulostasummat->isChecked() )
+        optiot |= Paakirja::TulostaSummat;
+
+
+    kirja->kirjoita(ui->alkupvm->date(), ui->loppupvm->date(), optiot,
+                    kohdennuksella, tililta);
+
+}
+
+void PaakirjaRaportti::tiliListaSaapuu(QVariant *data)
+{
+    QVariantMap map = data->toMap();
+
+    qDebug() << map;
+
+    ui->tiliCombo->clear();
+    for( QString tiliStr : map.keys()) {
+        const Tili& tili = kp()->tilit()->tiliNumerolla( tiliStr.toInt() );
+        ui->tiliCombo->addItem( tili.nimiNumero(), tili.numero() );
+    }
+    ui->tiliCombo->model()->sort(0);
 }

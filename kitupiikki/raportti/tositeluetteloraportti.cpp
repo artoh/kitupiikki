@@ -19,6 +19,7 @@
 #include "db/kirjanpito.h"
 
 #include "tositeluetteloraportti.h"
+#include "tositeluettelo.h"
 
 TositeluetteloRaportti::TositeluetteloRaportti()
     : Raportti(nullptr)
@@ -35,13 +36,14 @@ TositeluetteloRaportti::TositeluetteloRaportti()
 
     ui->kohdennusCheck->hide();
     ui->kohdennusCombo->hide();
+    ui->tulostakohdennuksetCheck->hide();
+
     ui->tiliBox->hide();
     ui->tiliCombo->hide();
 
     ui->ryhmittelelajeittainCheck->setChecked(true);
     ui->tositejarjestysRadio->setChecked(true);
     ui->tulostakohdennuksetCheck->setEnabled(false);
-    connect( ui->tulostaviennitCheck, SIGNAL(toggled(bool)), ui->tulostakohdennuksetCheck, SLOT(setEnabled(bool)));
 
 
 }
@@ -51,8 +53,8 @@ RaportinKirjoittaja TositeluetteloRaportti::raportti()
     return kirjoitaRaportti( ui->alkupvm->date(), ui->loppupvm->date(),
                              ui->tositejarjestysRadio->isChecked(),
                              ui->ryhmittelelajeittainCheck->isChecked() ,
-                             ui->tulostakohdennuksetCheck->isChecked() && ui->tulostaviennitCheck->isChecked(),
-                             ui->tulostaviennitCheck->isChecked(),
+                             false,
+                             false,
                              ui->tulostasummat->isChecked() );
 }
 
@@ -262,6 +264,23 @@ RaportinKirjoittaja TositeluetteloRaportti::kirjoitaRaportti(QDate mista, QDate 
 
     return kirjoittaja;
 
+}
+
+void TositeluetteloRaportti::esikatsele()
+{
+    int optiot = 0;
+    if( ui->tositejarjestysRadio->isChecked())
+        optiot |= TositeLuettelo::TositeJarjestyksessa;
+    if( ui->ryhmittelelajeittainCheck->isChecked())
+      optiot |= TositeLuettelo::RyhmitteleLajeittain;
+    if( ui->tulostasummat->isChecked())
+        optiot |= TositeLuettelo::TulostaSummat;
+
+    TositeLuettelo *luettelo = new TositeLuettelo(this);
+    connect( luettelo, &TositeLuettelo::valmis, this, &Raportti::nayta);
+    luettelo->kirjoita(ui->alkupvm->date(),
+                       ui->loppupvm->date(),
+                       optiot);
 }
 
 void TositeluetteloRaportti::kirjoitaSummaRivi(RaportinKirjoittaja &rk, qlonglong debet, qlonglong kredit, int sarakeleveys)

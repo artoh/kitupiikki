@@ -24,7 +24,7 @@ Paivakirja::Paivakirja(QObject *parent) : Raportteri(parent)
 
 }
 
-void Paivakirja::kirjoita(QDate mista, QDate mihin, int optiot, int kohdennuksella)
+void Paivakirja::kirjoita(const QDate &mista, const QDate &mihin, int optiot, int kohdennuksella)
 {
     if( kp()->tilikausiPaivalle(mista).alkaa() == kp()->tilikausiPaivalle(mihin).alkaa())
         oletustilikausi_ = kp()->tilikausiPaivalle(mista);
@@ -52,7 +52,7 @@ void Paivakirja::kirjoita(QDate mista, QDate mihin, int optiot, int kohdennuksel
     rk.lisaaEurosarake();
 
     {
-        RaporttiRivi otsikko(RaporttiRivi::EICSV);
+        RaporttiRivi otsikko;
         otsikko.lisaa("Pvm");
         otsikko.lisaa("Tosite");
         otsikko.lisaa("Tili");
@@ -113,8 +113,9 @@ void Paivakirja::dataSaapuu(QVariant *data)
                 kreditvalisumma = 0l;
             }
 
+            if( edellinentyyppi)
+                rk.lisaaTyhjaRivi();
 
-            rk.lisaaTyhjaRivi();
             RaporttiRivi ryhma(RaporttiRivi::EICSV);
             ryhma.lisaa( kp()->tositeTyypit()->nimi(tositetyyppi),4 );
             ryhma.lihavoi();

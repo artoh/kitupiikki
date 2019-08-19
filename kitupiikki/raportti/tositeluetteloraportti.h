@@ -38,6 +38,9 @@ public:
                                                  bool tulostakohdennukset=true, bool tulostaviennit=true,
                                                  bool tulostasummat=false);
 
+public slots:
+    void esikatsele() override;
+
 protected:
     static void kirjoitaSummaRivi(RaportinKirjoittaja &rk, qlonglong debet, qlonglong kredit, int sarakeleveys);
 

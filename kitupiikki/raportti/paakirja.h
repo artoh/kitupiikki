@@ -21,6 +21,7 @@
 
 #include "raportinkirjoittaja.h"
 #include "db/tili.h"
+#include "db/tilikausi.h"
 
 class Paakirja : public QObject
 {
@@ -28,11 +29,14 @@ class Paakirja : public QObject
 public:
     explicit Paakirja(QObject *parent = nullptr);
 
-    void kirjoita(const QDate& mista, const QDate& mihin,
+    void kirjoita(const QDate& mista, const QDate& mihin, int optiot = 0,
                   int kohdennuksella = -1,
-                  bool tulostakohdennus = false,
-                  bool tulostaSummarivi = true,
                   int tililta = 0);
+
+    enum { TulostaKohdennukset  = 0b00100 ,
+           TulostaSummat        = 0b01000 ,
+           SamaTilikausi        = 0b10000
+         };
 
 signals:
     void valmis(RaportinKirjoittaja rk);
@@ -55,7 +59,6 @@ protected:
     QVariantList viennit_;
 
     int saapuneet_ = 0;
-    bool summarivit_;
 
     Tili nykytili_ ;
     qlonglong debetSumma_ = 0l;
@@ -63,6 +66,9 @@ protected:
     qlonglong kaikkiDebet_ = 0l;
     qlonglong kaikkiKredit_ = 0l;
     qlonglong saldo_ = 0l;
+
+    int optiot_;
+    Tilikausi oletustilikausi_;
 };
 
 #endif // PAAKIRJA_H

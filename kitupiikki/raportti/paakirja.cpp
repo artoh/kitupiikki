@@ -25,17 +25,20 @@ Paakirja::Paakirja(QObject *parent) : QObject(parent)
 
 }
 
-void Paakirja::kirjoita(const QDate &mista, const QDate &mihin,int kohdennuksella,
-                        bool tulostakohdennus,
-                        bool tulostaSummarivi,
+void Paakirja::kirjoita(const QDate &mista, const QDate &mihin, int optiot, int kohdennuksella,
                         int tililta)
 {
     saapuneet_ = 0;
-    summarivit_ = tulostaSummarivi;
+    optiot_ = optiot;
 
     KpKysely *saldokysely = kpk("/saldot");
     saldokysely->lisaaAttribuutti("pvm",mista);
     saldokysely->lisaaAttribuutti("alkusaldot");
+    if( kohdennuksella > -1)
+        saldokysely->lisaaAttribuutti("kohdennus", kohdennuksella);
+    if( tililta )
+        saldokysely->lisaaAttribuutti("tili", tililta);
+
     connect( saldokysely, &KpKysely::vastaus, this, &Paakirja::saldotSaapuu);
     saldokysely->kysy();
 
@@ -43,15 +46,18 @@ void Paakirja::kirjoita(const QDate &mista, const QDate &mihin,int kohdennuksell
     vientikysely->lisaaAttribuutti("alkupvm", mista);
     vientikysely->lisaaAttribuutti("loppupvm", mihin);
     vientikysely->lisaaAttribuutti("jarjestys","tili");
+
+    if( kohdennuksella > -1)
+        vientikysely->lisaaAttribuutti("kohdennus", kohdennuksella);
+    if( tililta )
+        vientikysely->lisaaAttribuutti("tili", tililta);
+
     connect( vientikysely, &KpKysely::vastaus, this, &Paakirja::viennitSaapuu);
     vientikysely->kysy();
 
-    Kohdennus kohdennus = kp()->kohdennukset()->kohdennus(kohdennuksella);
-
-
     if( kohdennuksella > -1 )
         // Tulostetaan vain yhdestä kohdennuksesta
-        rk.asetaOtsikko( tr("PÄÄKIRJAN OTE \n%1").arg( kohdennus.nimi()));
+        rk.asetaOtsikko( tr("PÄÄKIRJAN OTE \n%1").arg( kp()->kohdennukset()->kohdennus(kohdennuksella).nimi()) ) ;
     else if( tililta)
         rk.asetaOtsikko( tr("PÄÄKIRJAN OTE"));
     else
@@ -63,7 +69,7 @@ void Paakirja::kirjoita(const QDate &mista, const QDate &mihin,int kohdennuksell
     rk.lisaaPvmSarake();        // Pvm
     rk.lisaaSarake("ABC1234/99 "); // Tosite
     rk.lisaaVenyvaSarake();     // Selite
-    if( tulostakohdennus)
+    if( optiot & TulostaKohdennukset)
         rk.lisaaSarake("Kohdennusnimi"); // Kohdennus
     rk.lisaaEurosarake();   // Debet
     rk.lisaaEurosarake();   // Kredit
@@ -73,7 +79,7 @@ void Paakirja::kirjoita(const QDate &mista, const QDate &mihin,int kohdennuksell
     otsikko.lisaa("Pvm");
     otsikko.lisaa("Tosite");
     otsikko.lisaa("Selite");
-    if( tulostakohdennus )
+    if( optiot & TulostaKohdennukset )
         otsikko.lisaa("Kohdennus");
     otsikko.lisaa("Debet €",1,true);
     otsikko.lisaa("Kredit €",1,true);
@@ -124,7 +130,7 @@ void Paakirja::kirjoitaDatasta()
 
     aloitaTili(); // Jotta tulee viimeisteltyä
 
-    if( summarivit_ ) {
+    if( optiot_ & TulostaSummat ) {
         RaporttiRivi summa;
         summa.viivaYlle();
         summa.lihavoi();
@@ -142,7 +148,7 @@ void Paakirja::kirjoitaDatasta()
 
 void Paakirja::aloitaTili(int tilinumero)
 {
-    if( (debetSumma_ || kreditSumma_) && summarivit_  ) {
+    if( (debetSumma_ || kreditSumma_) && optiot_ & TulostaSummat  ) {
         RaporttiRivi summa;
         summa.viivaYlle();
         summa.lihavoi();
@@ -191,6 +197,10 @@ void Paakirja::kirjoitaVienti(QVariantMap map)
     rr.lisaa( map.value("pvm").toDate() );
     rr.lisaa( map.value("tosite").toMap().value("id").toString());
     rr.lisaa( map.value("selite").toString());
+
+    if( optiot_ & TulostaKohdennukset)
+        rr.lisaa(kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt() ).nimi() );
+
     rr.lisaa( qRound( map.value("debet").toDouble() * 100 ));
     rr.lisaa( qRound( map.value("kredit").toDouble() * 100 ));
 

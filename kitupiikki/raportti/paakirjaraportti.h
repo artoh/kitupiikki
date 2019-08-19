@@ -40,6 +40,9 @@ public slots:
     void haeTilitComboon();
 
     void esikatsele() override;
+
+private slots:
+    void tiliListaSaapuu(QVariant* data);
 protected:
     Ui::Paivakirja *ui;
 };

@@ -123,17 +123,6 @@
     </widget>
    </item>
    <item>
-    <widget class="QCheckBox" name="tulostaviennitCheck">
-     <property name="text">
-      <string>Tulosta viennit</string>
-     </property>
-     <property name="icon">
-      <iconset resource="../pic/pic.qrc">
-       <normaloff>:/pic/vientilista.png</normaloff>:/pic/vientilista.png</iconset>
-     </property>
-    </widget>
-   </item>
-   <item>
     <widget class="QCheckBox" name="tulostakohdennuksetCheck">
      <property name="text">
       <string>Tulosta kohdennukset</string>
@@ -190,7 +179,6 @@
   <tabstop>tiliBox</tabstop>
   <tabstop>aikajarjestysRadio</tabstop>
   <tabstop>tositejarjestysRadio</tabstop>
-  <tabstop>tulostaviennitCheck</tabstop>
   <tabstop>tulostakohdennuksetCheck</tabstop>
   <tabstop>ryhmittelelajeittainCheck</tabstop>
   <tabstop>tulostasummat</tabstop>
