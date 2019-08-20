@@ -40,6 +40,8 @@
 #include "tilikarttaraportti.h"
 #include "budjettivertailu.h"
 
+#include "tasetulosraportti.h"
+
 RaporttiSivu::RaporttiSivu(QWidget *parent) : KitupiikkiSivu(parent),
     nykyinen(nullptr)
 {
@@ -65,6 +67,8 @@ void RaporttiSivu::siirrySivulle()
     lisaaRaportti("Päiväkirja","Päiväkirja",":/pic/Paivakirja64.png");
     lisaaRaportti("Pääkirja","Pääkirja",":/pic/Diary64.png");
     lisaaRaportti("Tositeluettelo","Tositeluettelo",":/pic/dokumentti.png");
+    lisaaRaportti(tr("Tase"), "Tase", ":/pic/tekstisivu.png");
+    lisaaRaportti(tr("Tuloslaskelma"), "Tuloslaskelma", ":/pic/tekstisivu.png");
 
     // Lisätään muokattavat raportit
     QStringList raporttilista;
@@ -149,6 +153,10 @@ void RaporttiSivu::raporttiValittu(QListWidgetItem *item)
         nykyinen = new MyyntiRaportti;
     else if( raporttinimi == "Budjettivertailu")
         nykyinen = new Budjettivertailu;
+    else if( raporttinimi == "Tase")
+        nykyinen = new TaseTulosRaportti(Raportoija::TASE);
+    else if( raporttinimi == "Tuloslaskelma")
+        nykyinen = new TaseTulosRaportti(Raportoija::TULOSLASKELMA);
 
 
     if( nykyinen )

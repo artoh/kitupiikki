@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2017 Arto Hyvättinen
+   Copyright (C) 2019 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,41 +14,38 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-
-#include "muokattavaraportti.h"
+#include "tasetulosraportti.h"
 #include "db/kirjanpito.h"
-#include "db/tilikausi.h"
 
-#include <QSqlQuery>
+#include <QJsonDocument>
 #include <QStringListModel>
 #include <QDebug>
 
+TaseTulosRaportti::TaseTulosRaportti(Raportoija::RaportinTyyppi raportinTyyppi, QWidget *parent) :
+    Raportti (parent),
+    ui( new Ui::MuokattavaRaportti ),
+    tyyppi_(raportinTyyppi)
 
-MuokattavaRaportti::MuokattavaRaportti(const QString &raporttinimi)
-    : Raportti(nullptr), raporttiNimi(raporttinimi)
 {
-    ui = new Ui::MuokattavaRaportti;
     ui->setupUi( raporttiWidget );
 
-    QStringList muodot = kp()->asetukset()->avaimet(raporttinimi + '/');
+    QStringList muodot;
+    if(tyyppi() == Raportoija::TASE )
+        muodot = kp()->asetukset()->avaimet("tase/");
+    else if( tyyppi() == Raportoija::TULOSLASKELMA)
+             muodot = kp()->asetukset()->avaimet("tulos/");
 
-    monimuoto = muodot.count();
+    connect( ui->muotoCombo, &QComboBox::currentTextChanged, this, &TaseTulosRaportti::paivitaKielet);
 
-    ui->muotoCombo->setVisible( monimuoto);
-    ui->muotoLabel->setVisible( monimuoto);
-
-    if( monimuoto)
-    {
-        for( const QString& muoto : muodot)
-        {
-            ui->muotoCombo->addItem( muoto.mid(muoto.lastIndexOf(QChar('/'))+1) , muoto );
-        }
-        ui->muotoCombo->setCurrentIndex(0);
-
-        connect( ui->muotoCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(paivitaUi()));
+    for( auto muoto : muodot ) {
+        QString kaava = kp()->asetukset()->asetus(muoto);
+        QJsonDocument doc = QJsonDocument::fromJson( kaava.toUtf8() );
+        QVariantMap map = doc.toVariant().toMap().value("muoto").toMap();
+        QString muotonimi = map.value("fi").toString();
+        ui->muotoCombo->addItem( muotonimi, muoto );
     }
 
-    if( kp()->kohdennukset()->kohdennuksia())
+    if( tyyppi()==Raportoija::TULOSLASKELMA && kp()->kohdennukset()->kohdennuksia())
     {
         ui->kohdennusCombo->setModel( kp()->kohdennukset());
         ui->kohdennusCombo->setModelColumn( KohdennusModel::NIMI);
@@ -76,69 +73,78 @@ MuokattavaRaportti::MuokattavaRaportti(const QString &raporttinimi)
     connect( ui->alkaa4Date, &QDateEdit::dateChanged, [this](const QDate& date){  if( kp()->tilikaudet()->tilikausiPaivalle(date).alkaa() == date) this->ui->loppuu4Date->setDate( kp()->tilikaudet()->tilikausiPaivalle(date).paattyy() );  });
 
     paivitaUi();
-
 }
 
-MuokattavaRaportti::~MuokattavaRaportti()
+void TaseTulosRaportti::esikatsele()
 {
-    delete ui;
-
-}
-
-RaportinKirjoittaja MuokattavaRaportti::raportti()
-{    
-    Raportoija raportoija( raporttiNimi );
+    Raportoija *raportoija = new Raportoija( ui->muotoCombo->currentData().toString(),
+                                             ui->kieliCombo->currentData().toString(),
+                                             this);
 
     if( ui->kohdennusCheck->isChecked())
-        raportoija.lisaaKohdennus( ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt() );
+        raportoija->lisaaKohdennus( ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt() );
 
-    if( raportoija.onkoKausiraportti())
+    if( raportoija->onkoKausiraportti())
     {
-        raportoija.lisaaKausi( ui->alkaa1Date->date(), ui->loppuu1Date->date(), ui->tyyppi1->currentIndex());
+        raportoija->lisaaKausi( ui->alkaa1Date->date(), ui->loppuu1Date->date(), ui->tyyppi1->currentIndex());
         if( ui->sarake2Box->isChecked())
-            raportoija.lisaaKausi( ui->alkaa2Date->date(), ui->loppuu2Date->date(), ui->tyyppi2->currentIndex());
+            raportoija->lisaaKausi( ui->alkaa2Date->date(), ui->loppuu2Date->date(), ui->tyyppi2->currentIndex());
         if( ui->sarake3Box->isChecked())
-            raportoija.lisaaKausi( ui->alkaa3Date->date(), ui->loppuu3Date->date(), ui->tyyppi3->currentIndex());
+            raportoija->lisaaKausi( ui->alkaa3Date->date(), ui->loppuu3Date->date(), ui->tyyppi3->currentIndex());
         if( ui->sarake4Box->isChecked())
-            raportoija.lisaaKausi( ui->alkaa4Date->date(), ui->loppuu4Date->date(), ui->tyyppi4->currentIndex());
+            raportoija->lisaaKausi( ui->alkaa4Date->date(), ui->loppuu4Date->date(), ui->tyyppi4->currentIndex());
     }
     else
     {
-        raportoija.lisaaTasepaiva( ui->loppuu1Date->date());
+        raportoija->lisaaTasepaiva( ui->loppuu1Date->date());
         if( ui->sarake2Box->isChecked())
-            raportoija.lisaaTasepaiva( ui->loppuu2Date->date());
+            raportoija->lisaaTasepaiva( ui->loppuu2Date->date());
         if( ui->sarake3Box->isChecked())
-            raportoija.lisaaTasepaiva( ui->loppuu3Date->date());
+            raportoija->lisaaTasepaiva( ui->loppuu3Date->date());
         if( ui->sarake4Box->isChecked())
-            raportoija.lisaaTasepaiva( ui->loppuu4Date->date());
+            raportoija->lisaaTasepaiva( ui->loppuu4Date->date());
     }
 
-    if( raportoija.tyyppi() == Raportoija::KOHDENNUSLASKELMA && !ui->kohdennusCheck->isChecked())
-        raportoija.etsiKohdennukset();
+//    if( raportoija->tyyppi() == Raportoija::KOHDENNUSLASKELMA && !ui->kohdennusCheck->isChecked())
+//        raportoija.etsiKohdennukset();
 
-    return raportoija.raportti( ui->erittelyCheck->isChecked());
+    connect( raportoija, &Raportoija::valmis, this, &Raportti::nayta);
+    raportoija->kirjoita( ui->erittelyCheck->isChecked() );
+
 }
 
-void MuokattavaRaportti::paivitaUi()
+void TaseTulosRaportti::paivitaKielet()
 {
-    if( monimuoto)
-        raporttiNimi = ui->muotoCombo->currentData(Qt::UserRole).toString();
+    QString raportti = ui->muotoCombo->currentData().toString();
+    QString kaava = kp()->asetukset()->asetus(raportti);
+    QJsonDocument doc = QJsonDocument::fromJson( kaava.toUtf8() );
+    QVariantMap nimet = doc.toVariant().toMap().value("nimi").toMap();
 
+    ui->kieliCombo->clear();
 
-    Raportoija raportoija(raporttiNimi);
+    for(auto kieli : nimet.keys()) {
+        if( kieli == "fi")
+            ui->kieliCombo->addItem( QIcon(":/liput/fi.png"), tr("Suomi"), "fi");
+        else if( kieli == "sv")
+            ui->kieliCombo->addItem( QIcon(":/liput/se.png"), tr("Ruotsi"), "sv");
+    }
 
-    // Jos tehdään taselaskelmaa, piilotetaan turhat tiedot!
-    ui->alkaa1Date->setVisible( raportoija.onkoKausiraportti() );
-    ui->alkaa2Date->setVisible( raportoija.onkoKausiraportti() );
-    ui->alkaa3Date->setVisible( raportoija.onkoKausiraportti() );
-    ui->alkaa4Date->setVisible( raportoija.onkoKausiraportti() );
-    ui->alkaaLabel->setVisible( raportoija.onkoKausiraportti() );
-    ui->paattyyLabel->setVisible( raportoija.onkoKausiraportti() );
+}
 
-    ui->tyyppi1->setVisible( raportoija.onkoKausiraportti());
-    ui->tyyppi2->setVisible( raportoija.onkoKausiraportti());
-    ui->tyyppi3->setVisible( raportoija.onkoKausiraportti());
-    ui->tyyppi4->setVisible( raportoija.onkoKausiraportti());
+void TaseTulosRaportti::paivitaUi()
+{
+    // Jos tehdään Raportoija::TASElaskelmaa, piilotetaan turhat tiedot!
+    ui->alkaa1Date->setVisible( tyyppi() != Raportoija::TASE );
+    ui->alkaa2Date->setVisible( tyyppi() != Raportoija::TASE );
+    ui->alkaa3Date->setVisible( tyyppi() != Raportoija::TASE );
+    ui->alkaa4Date->setVisible( tyyppi() != Raportoija::TASE );
+    ui->alkaaLabel->setVisible( tyyppi() != Raportoija::TASE );
+    ui->paattyyLabel->setVisible( tyyppi() != Raportoija::TASE );
+
+    ui->tyyppi1->setVisible( tyyppi() != Raportoija::TASE);
+    ui->tyyppi2->setVisible( tyyppi() != Raportoija::TASE);
+    ui->tyyppi3->setVisible( tyyppi() != Raportoija::TASE);
+    ui->tyyppi4->setVisible( tyyppi() != Raportoija::TASE);
 
 
     // Sitten laitetaan valmiiksi tilikausia nykyisestä taaksepäin
@@ -188,7 +194,4 @@ void MuokattavaRaportti::paivitaUi()
         ui->loppuu4Date->setDate( kp()->tilikaudet()->tilikausiIndeksilla(tilikausiIndeksi).paattyy() );
     }
     ui->sarake4Box->setChecked(false);
-
-
 }
-

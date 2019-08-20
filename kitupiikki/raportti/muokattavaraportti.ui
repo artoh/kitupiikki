@@ -178,7 +178,7 @@
      <item row="0" column="1">
       <widget class="QComboBox" name="muotoCombo"/>
      </item>
-     <item row="1" column="0">
+     <item row="2" column="0">
       <widget class="QCheckBox" name="kohdennusCheck">
        <property name="text">
         <string>Kohdennuksella</string>
@@ -189,12 +189,22 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
+     <item row="2" column="1">
       <widget class="QComboBox" name="kohdennusCombo">
        <property name="enabled">
         <bool>false</bool>
        </property>
       </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Kieli</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QComboBox" name="kieliCombo"/>
      </item>
     </layout>
    </item>

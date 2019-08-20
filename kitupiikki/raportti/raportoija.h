@@ -22,8 +22,8 @@
 #include <QDate>
 #include <QVector>
 #include <QMap>
-#include <QObject>
 
+#include "raportteri.h"
 #include "raportinkirjoittaja.h"
 
 
@@ -45,7 +45,7 @@
  * Eli siis uusi raportti uuteen Raportoijaan!
  *
  */
-class Raportoija : public QObject
+class Raportoija : public Raportteri
 {       
     Q_OBJECT
 public:
@@ -70,7 +70,9 @@ public:
      * @brief Alustaa raportoijan muokattavalle raportille
      * @param raportinNimi Asetuksissa oleva raportin nimi
      */
-    Raportoija(const QString& raportinNimi);
+    Raportoija(const QString& raportinNimi,
+               const QString& kieli = "fi",
+               QObject* parent = nullptr);
 
     /**
      * @brief Lisää raporttikauden (sarakkeen)
@@ -125,6 +127,8 @@ public:
     void lisaaKohdennus(int kohdennusId);
 
 
+    void kirjoita(bool tulostaErittelyt = false);
+
     /**
      * @brief Kirjoittaa raportin tehdyillä valinnoilla
      * @param tulostaErittelyt Tulostetaanko *-rivien jälkeen tilikohtaiset erittelyt
@@ -134,13 +138,17 @@ public:
     RaportinKirjoittaja raportti(bool tulostaErittelyt = true);
 
 protected:
+    void dataSaapuu(int sarake, QVariant* variant);
+
+
+protected:
     enum RivinTyyppi
     {
         OLETUS, SUMMA, OTSIKKO, ERITTELY
     };
 
-    void kirjoitaYlatunnisteet(RaportinKirjoittaja &rk);
-    void kirjoitaDatasta(RaportinKirjoittaja &rk, bool tulostaErittelyt);
+    void kirjoitaYlatunnisteet();
+    void kirjoitaDatasta();
 
     /**
      * @brief Sijoittaa tulostilien kyselyn dataan
@@ -165,7 +173,12 @@ protected:
 
 
 protected:
+    QVariantMap kmap_;
+    QString kieli_;
+    bool erittelyt_;
+
     QString otsikko_;
+
     QStringList kaava_;
     QString optiorivi_;
 
@@ -180,6 +193,7 @@ protected:
     QMap<int,bool> tilitKaytossa_;           // ysiluku
     std::list<int> kohdennusKaytossa_;       // kohdennusId
 
+    int tilausLaskuri_ = 0;
 
 };
 

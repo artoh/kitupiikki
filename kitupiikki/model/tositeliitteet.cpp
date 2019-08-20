@@ -99,6 +99,18 @@ bool TositeLiitteet::lisaa(const QByteArray &sisalto, const QString &nimi)
     liitteet_.append( TositeLiite(0, nimi, sisalto) );
     endInsertRows();
 
+    if( liitteet_.count() > 1)
+        return true;    // Vain eka liite tuodaan
+
+    // Toistaikseksi jpg nimellä
+    if( nimi.endsWith(".jpg") )
+    {
+        KpKysely* liitekysely = kpk("/liitteet", KpKysely::POST);
+        connect( liitekysely, &KpKysely::vastaus, [this] (QVariant *data)  { emit this->tuonti(data); });
+        liitekysely->lahetaTiedosto(sisalto, nimi);
+        return true;
+    }
+
     // Käsitellään tuonti
     QVariant tuonnit = Tuonti::tuo(sisalto);
     qDebug() << tuonnit;

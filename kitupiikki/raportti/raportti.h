@@ -56,7 +56,7 @@ public:
      * @arg csvmuoto Kirjoitetaan csv, eli ilman mitään väliotsikoita sun muita
      * @return RaportinKirjoittaja, jonne raportti on kirjoitettu
      */
-    virtual RaportinKirjoittaja raportti() = 0;
+    virtual RaportinKirjoittaja raportti() { return RaportinKirjoittaja();}
 
 
 signals:
