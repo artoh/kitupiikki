@@ -112,7 +112,7 @@ public:
      */
     bool onkoTaseraportti() const { return tyyppi_ == TASE;  }
 
-    void kirjoita(bool tulostaErittelyt = false);
+    void kirjoita(bool tulostaErittelyt = false, int kohdennuksella = 1);
 
 protected:
     void dataSaapuu(int sarake, QVariant* variant);

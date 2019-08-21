@@ -321,6 +321,8 @@ void Raportoija::kirjoitaDatasta()
                 switch (sarakeTyypit_.at(sarake)) {
 
                 case TOTEUTUNUT :
+                    rr.lisaa( summa[taulukkoindeksi], true);
+                    break;
                 case BUDJETTI:
                     rr.lisaa( summa[taulukkoindeksi], false);
                     break;
@@ -350,7 +352,7 @@ void Raportoija::kirjoitaDatasta()
 
             for( int tiliNumero : rivinTilit) {
                 RaporttiRivi er;
-                er.lisaa( eriSisennysStr + kp()->tilit()->tiliNumerolla(tiliNumero).nimiNumero() );
+                er.lisaa( eriSisennysStr + kp()->tilit()->tiliNumerolla(tiliNumero).nimiNumero( kieli_ ) );
 
                 int taulukkoindeksi = 0;
                 // Sitten kirjoitetaan summat riville
@@ -359,8 +361,10 @@ void Raportoija::kirjoitaDatasta()
                     switch (sarakeTyypit_.at(sarake)) {
 
                     case TOTEUTUNUT:
-                    case BUDJETTI :
                         er.lisaa( snt_.value(tiliNumero).value(taulukkoindeksi), true );
+                        break;
+                    case BUDJETTI :
+                        er.lisaa( snt_.value(tiliNumero).value(taulukkoindeksi), false );
                         break;
                     case BUDJETTIERO:
                         er.lisaa( snt_.value(tiliNumero).value(taulukkoindeksi) - snt_.value(tiliNumero).value(taulukkoindeksi+1), true );
@@ -402,10 +406,13 @@ QString Raportoija::sarakeTyyppiTeksti(int sarake)
 }
 
 
-void Raportoija::kirjoita(bool tulostaErittelyt)
+void Raportoija::kirjoita(bool tulostaErittelyt, int kohdennuksella)
 {
     erittelyt_ = tulostaErittelyt;
     kirjoitaYlatunnisteet();
+
+    if( kohdennuksella > -1)
+        rk.asetaOtsikko( rk.otsikko() + " (" + kp()->kohdennukset()->kohdennus(kohdennuksella).nimi(kieli_) + ")" );
 
 
     // Sitten tilataan tarvittava data
@@ -430,6 +437,8 @@ void Raportoija::kirjoita(bool tulostaErittelyt)
                 kysely->lisaaAttribuutti("alkupvm", alkuPaivat_.value(i));
                 kysely->lisaaAttribuutti("pvm", loppuPaivat_.value(i));
                 kysely->lisaaAttribuutti("tuloslaskelma");
+                if( kohdennuksella > -1)
+                    kysely->lisaaAttribuutti("kohdennus", kohdennuksella);
                 int sarake = ++sarakemaara_ -1;
                 connect(kysely, &KpKysely::vastaus,
                         [this,sarake] (QVariant* vastaus) { this->dataSaapuu(sarake, vastaus); });
@@ -439,6 +448,8 @@ void Raportoija::kirjoita(bool tulostaErittelyt)
             {
                 tilausLaskuri_++;
                 KpKysely* kysely = kpk( QString("/budjetti/%1").arg( loppuPaivat_.value(i).toString(Qt::ISODate) ));
+                if( kohdennuksella > -1)
+                    kysely->lisaaAttribuutti("kohdennus", kohdennuksella);
                 int sarake = ++sarakemaara_ -1;
                 connect(kysely, &KpKysely::vastaus,
                         [this,sarake] (QVariant* vastaus) { this->dataSaapuu(sarake, vastaus); });

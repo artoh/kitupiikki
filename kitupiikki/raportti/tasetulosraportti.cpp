@@ -79,10 +79,8 @@ void TaseTulosRaportti::esikatsele()
 {
     Raportoija *raportoija = new Raportoija( ui->muotoCombo->currentData().toString(),
                                              ui->kieliCombo->currentData().toString(),
-                                             this);
+                                             this);     
 
-//    if( ui->kohdennusCheck->isChecked())
-//        raportoija->lisaaKohdennus( ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt() );
 
     if( raportoija->onkoKausiraportti())
     {
@@ -109,7 +107,8 @@ void TaseTulosRaportti::esikatsele()
 //        raportoija.etsiKohdennukset();
 
     connect( raportoija, &Raportoija::valmis, this, &Raportti::nayta);
-    raportoija->kirjoita( ui->erittelyCheck->isChecked() );
+    raportoija->kirjoita( ui->erittelyCheck->isChecked(),
+                          ui->kohdennusCheck->isChecked() ? ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt() : -1);
 
 }
 
