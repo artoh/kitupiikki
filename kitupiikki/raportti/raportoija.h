@@ -33,7 +33,7 @@
  * Tätä luokkaa käytetään kirjoitettaessa muokattavia raportteja.
  *
  * @code
- * Raportoija r("Tuloslaskelma");
+ * Raportoija r("tase/PMA");
  * r.lisaaKausi(QDate(2017,1,1), QDate(2017,31,12));
  * r.lisaaKausi(QDate(2016,1,1), QDate(2016,31,12));
  *
@@ -73,6 +73,7 @@ public:
     Raportoija(const QString& raportinNimi,
                const QString& kieli = "fi",
                QObject* parent = nullptr);
+    ~Raportoija() override;
 
     /**
      * @brief Lisää raporttikauden (sarakkeen)
@@ -111,34 +112,11 @@ public:
      */
     bool onkoTaseraportti() const { return tyyppi_ == TASE;  }
 
-    /**
-     * @brief Etsii Kustannuslaskelmaan näissä kausissa käytetyt kohdennukset.
-     *
-     * Ennen kustannuslaskelmaa pitää joko hakea kohdennukset etsimällä
-     * tai lisätä ne itse
-     *
-     */
-    void etsiKohdennukset();
-
-    /**
-     * @brief Lisää kohdennuksen laskentaan
-     * @param kohdennusId Kohdennuksen id
-     */
-    void lisaaKohdennus(int kohdennusId);
-
-
     void kirjoita(bool tulostaErittelyt = false);
-
-    /**
-     * @brief Kirjoittaa raportin tehdyillä valinnoilla
-     * @param tulostaErittelyt Tulostetaanko *-rivien jälkeen tilikohtaiset erittelyt
-     * @param csvmuoto Muotoillaanko csv-tulostusta varten
-     * @return
-     */
-    RaportinKirjoittaja raportti(bool tulostaErittelyt = true);
 
 protected:
     void dataSaapuu(int sarake, QVariant* variant);
+    void dataSaapunut();
 
 
 protected:
@@ -150,25 +128,7 @@ protected:
     void kirjoitaYlatunnisteet();
     void kirjoitaDatasta();
 
-    /**
-     * @brief Sijoittaa tulostilien kyselyn dataan
-     * @param kysymys Sql-kysely tekstinä
-     */
-    void sijoitaTulosKyselyData(const QString& kysymys, int i);
-
-    void laskeTulosData();
-    void laskeTaseDate();
-
-    /**
-     * @brief Laskee kohdennusten datan
-     * @param kohdennusId Kohdennuksen id
-     * @param poiminnassa tosi, jos tulostetaan tasemuodossa
-     */
-    void laskeKohdennusData(int kohdennusId, bool poiminnassa=false);
-
     QString sarakeTyyppiTeksti(int sarake);
-
-    void sijoitaBudjetti(int kohdennus = -1);
 
 
 
@@ -177,23 +137,17 @@ protected:
     QString kieli_;
     bool erittelyt_;
 
-    QString otsikko_;
-
-    QStringList kaava_;
-    QString optiorivi_;
-
     RaportinTyyppi tyyppi_;
 
     QVector<QDate> alkuPaivat_;
     QVector<QDate> loppuPaivat_;
     QVector<int> sarakeTyypit_;
 
-    QVector< QMap< int, qlonglong> > data_;    // ysiluku, sentit
-    QVector< QMap< int, qlonglong> > budjetti_; // ysiluku, sentit
-    QMap<int,bool> tilitKaytossa_;           // ysiluku
-    std::list<int> kohdennusKaytossa_;       // kohdennusId
+    QHash<int, QVector<qlonglong> > snt_;   // tili -> sentit  (tot,tot,tot,bud,bud,bud)
+    QStringList tilit_;
 
     int tilausLaskuri_ = 0;
+    int sarakemaara_ = 0;
 
 };
 

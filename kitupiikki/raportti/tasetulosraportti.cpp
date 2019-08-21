@@ -81,8 +81,8 @@ void TaseTulosRaportti::esikatsele()
                                              ui->kieliCombo->currentData().toString(),
                                              this);
 
-    if( ui->kohdennusCheck->isChecked())
-        raportoija->lisaaKohdennus( ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt() );
+//    if( ui->kohdennusCheck->isChecked())
+//        raportoija->lisaaKohdennus( ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt() );
 
     if( raportoija->onkoKausiraportti())
     {

@@ -27,6 +27,7 @@
 /**
  * @brief Muokattavien Tase/Tulosraporttien tulostaminen
  *
+ * @todo Budjettiin valittaviksi tilikaudet
  */
 class MuokattavaRaportti : public Raportti
 {
@@ -34,8 +35,6 @@ class MuokattavaRaportti : public Raportti
 public:
     MuokattavaRaportti(const QString& raporttinimi);
     ~MuokattavaRaportti() override;
-
-    RaportinKirjoittaja raportti() override;
 
 
 public slots:

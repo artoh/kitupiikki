@@ -72,6 +72,7 @@ Raportti::Raportti(QWidget *parent) : QWidget(parent)
 }
 
 
+
 void Raportti::esikatsele()
 {
     NaytinIkkuna::naytaRaportti( raportti() );

@@ -96,7 +96,7 @@ RaportinKirjoittaja Budjettivertailu::raportti()
     raportoija.lisaaKausi( kausi.alkaa(), kausi.paattyy(),  Raportoija::BUDJETTIERO );
     raportoija.lisaaKausi( kausi.alkaa(), kausi.paattyy(),  Raportoija::TOTEUMAPROSENTTI );
 
-    return  raportoija.raportti( ui_->erittelyCheck->isChecked());
+    return RaportinKirjoittaja(); // raportoija.raportti( ui_->erittelyCheck->isChecked());
 
 }
 

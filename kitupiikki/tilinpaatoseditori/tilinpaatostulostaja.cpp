@@ -88,8 +88,8 @@ void TilinpaatosTulostaja::tulostaTilinpaatos(QPagedPaintDevice *writer, Tilikau
 
             }
 
-            if( raportoija.tyyppi() == Raportoija::KOHDENNUSLASKELMA)
-                raportoija.etsiKohdennukset();
+//            if( raportoija.tyyppi() == Raportoija::KOHDENNUSLASKELMA)
+//                raportoija.etsiKohdennukset();
         }
         else
         {
@@ -101,10 +101,10 @@ void TilinpaatosTulostaja::tulostaTilinpaatos(QPagedPaintDevice *writer, Tilikau
 
         writer->newPage();
 
-        RaportinKirjoittaja kirjoittaja = raportoija.raportti( mats.captured("erotin") == "*" );
-        kirjoittaja.asetaOtsikko( otsikko );
-        kirjoittaja.asetaKausiteksti( tilikausi.kausivaliTekstina() );
-        sivulla += kirjoittaja.tulosta(writer, &painter, false, sivulla);
+//        RaportinKirjoittaja kirjoittaja = raportoija.raportti( mats.captured("erotin") == "*" );
+//        kirjoittaja.asetaOtsikko( otsikko );
+//        kirjoittaja.asetaKausiteksti( tilikausi.kausivaliTekstina() );
+//        sivulla += kirjoittaja.tulosta(writer, &painter, false, sivulla);
     }
 
     // Liitetiedot, allekirjoitukset yms

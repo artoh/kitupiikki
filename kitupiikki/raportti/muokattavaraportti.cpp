@@ -85,40 +85,6 @@ MuokattavaRaportti::~MuokattavaRaportti()
 
 }
 
-RaportinKirjoittaja MuokattavaRaportti::raportti()
-{    
-    Raportoija raportoija( raporttiNimi );
-
-    if( ui->kohdennusCheck->isChecked())
-        raportoija.lisaaKohdennus( ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt() );
-
-    if( raportoija.onkoKausiraportti())
-    {
-        raportoija.lisaaKausi( ui->alkaa1Date->date(), ui->loppuu1Date->date(), ui->tyyppi1->currentIndex());
-        if( ui->sarake2Box->isChecked())
-            raportoija.lisaaKausi( ui->alkaa2Date->date(), ui->loppuu2Date->date(), ui->tyyppi2->currentIndex());
-        if( ui->sarake3Box->isChecked())
-            raportoija.lisaaKausi( ui->alkaa3Date->date(), ui->loppuu3Date->date(), ui->tyyppi3->currentIndex());
-        if( ui->sarake4Box->isChecked())
-            raportoija.lisaaKausi( ui->alkaa4Date->date(), ui->loppuu4Date->date(), ui->tyyppi4->currentIndex());
-    }
-    else
-    {
-        raportoija.lisaaTasepaiva( ui->loppuu1Date->date());
-        if( ui->sarake2Box->isChecked())
-            raportoija.lisaaTasepaiva( ui->loppuu2Date->date());
-        if( ui->sarake3Box->isChecked())
-            raportoija.lisaaTasepaiva( ui->loppuu3Date->date());
-        if( ui->sarake4Box->isChecked())
-            raportoija.lisaaTasepaiva( ui->loppuu4Date->date());
-    }
-
-    if( raportoija.tyyppi() == Raportoija::KOHDENNUSLASKELMA && !ui->kohdennusCheck->isChecked())
-        raportoija.etsiKohdennukset();
-
-    return raportoija.raportti( ui->erittelyCheck->isChecked());
-}
-
 void MuokattavaRaportti::paivitaUi()
 {
     if( monimuoto)

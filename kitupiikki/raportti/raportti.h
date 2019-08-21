@@ -48,7 +48,7 @@ class Raportti : public QWidget
 {
     Q_OBJECT
 public:
-    Raportti(QWidget *parent = nullptr);
+    Raportti(QWidget *parent = nullptr);    
 
 
     /**

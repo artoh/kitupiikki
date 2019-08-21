@@ -520,8 +520,8 @@ void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
                         raportoija.lisaaKausi( edellinenkausi.alkaa(), edellinenkausi.paattyy());
                 }
 
-                if( raportoija.tyyppi() == Raportoija::KOHDENNUSLASKELMA)
-                    raportoija.etsiKohdennukset();
+//                if( raportoija.tyyppi() == Raportoija::KOHDENNUSLASKELMA)
+//                    raportoija.etsiKohdennukset();
             }
             else
             {
@@ -531,7 +531,7 @@ void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
                     raportoija.lisaaTasepaiva(edellinenkausi.paattyy());
             }
 
-            arkistoiTiedosto( tiedostonnimi, raportoija.raportti().html(true) );
+//            arkistoiTiedosto( tiedostonnimi, raportoija.raportti().html(true) );
 
             if( raportti.contains(QChar('/')))
                     raportti.truncate( raportti.indexOf(QChar('/')) );
