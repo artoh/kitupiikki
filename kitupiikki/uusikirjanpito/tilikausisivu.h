@@ -21,6 +21,8 @@
 #include <QWizardPage>
 #include "ui_tilikausi.h"
 
+class UusiVelho;
+
 /**
  * @brief Uuden kirjanpidon velhon sivu, jossa määritellään nykyinen ja edellinen tilikausi
  */
@@ -32,15 +34,18 @@ protected:
     Ui::TilikausiSivu *ui;
 
 public:
-    TilikausiSivu();
-    ~TilikausiSivu();
+    TilikausiSivu(UusiVelho *wizard);
+    ~TilikausiSivu() override;
 
-    int nextId() const override;
     bool isComplete() const override;
+    bool validatePage() override;
 
 public slots:
     void alkuPaivaMuuttui(const QDate& date);
     void loppuPaivaMuuttui();
+
+private:
+    UusiVelho *velho;
 
 };
 

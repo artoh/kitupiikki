@@ -34,7 +34,7 @@ PilviKysely::PilviKysely(PilviModel *parent, KpKysely::Metodi metodi, QString po
 void PilviKysely::kysy(const QVariant &data)
 {
     PilviModel *model = qobject_cast<PilviModel*>( parent() );
-    QUrl url(model->pilviosoite() + polku());
+    QUrl url( polku().contains("//") ? polku() :  model->pilviosoite() + polku());
     url.setQuery( urlKysely() );
 
     QNetworkRequest request( url );

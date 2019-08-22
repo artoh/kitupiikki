@@ -15,15 +15,16 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "uusikirjanpito.h"
+#include "uusivelho.h"
 #include "tilikausisivu.h"
 #include <QDate>
 
-TilikausiSivu::TilikausiSivu()
+TilikausiSivu::TilikausiSivu(UusiVelho* wizard) :
+    ui( new Ui::TilikausiSivu),
+    velho( wizard)
 {
     setTitle("Tilikauden tiedot");
 
-    ui = new Ui::TilikausiSivu;
     ui->setupUi(this);
 
     int tamavuosi = QDate::currentDate().year();
@@ -38,12 +39,6 @@ TilikausiSivu::TilikausiSivu()
              this, SLOT(alkuPaivaMuuttui(QDate)));
 
     connect( ui->ekaPaattyy, &QDateEdit::dateChanged, this, &TilikausiSivu::loppuPaivaMuuttui);
-
-    registerField("alkaa", ui->ekaAlkaa);
-    registerField("paattyy", ui->ekaPaattyy);
-    registerField("onekakausi",ui->aloittavaTilikausiCheck);
-    registerField("edalkoi", ui->edellinenAlkoi);
-    registerField("edpaattyi", ui->edellinenPaattyi);
 }
 
 TilikausiSivu::~TilikausiSivu()
@@ -51,23 +46,31 @@ TilikausiSivu::~TilikausiSivu()
     delete ui;
 }
 
-int TilikausiSivu::nextId() const
-{
-    // Jos käytössä ei ole kirjausperusteskriptejä, hypätään
-    // suoraan sijaintisivulle
-
-    QString polku = field("tilikartta").toString();
-    QMap<QString,QStringList> ktk = UusiKirjanpito::lueKtkTiedosto(polku);
-
-    if( ktk.keys().contains("Kirjaamisperuste/Maksuperuste"))
-        return UusiKirjanpito::KIRJAUSPERUSTESIVU;
-    else
-        return UusiKirjanpito::NUMEROINTISIVU;
-}
-
 bool TilikausiSivu::isComplete() const
 {
     return( ui->ekaAlkaa->date() < ui->ekaPaattyy->date() && ui->ekaPaattyy->date() < ui->ekaAlkaa->date().addMonths(18)  );
+}
+
+bool TilikausiSivu::validatePage()
+{
+    velho->tilikaudet_.clear();
+
+    if( !ui->aloittavaTilikausiCheck->isChecked())
+    {
+        QVariantMap vanha;
+        vanha.insert("alkaa", ui->edellinenAlkoi->date().toString(Qt::ISODate));
+        vanha.insert("loppuu", ui->edellinenPaattyi->date().toString(Qt::ISODate));
+        velho->tilikaudet_.append(vanha);
+    }
+    QVariantMap uusi;
+    uusi.insert("alkaa", ui->ekaAlkaa->date().toString(Qt::ISODate));
+    uusi.insert("loppuu", ui->ekaAlkaa->date().toString(Qt::ISODate));
+    velho->tilikaudet_.append(uusi);
+
+    velho->asetukset_.insert("TilitPaatetty",
+                             ui->ekaAlkaa->date().addDays(-1).toString(Qt::ISODate));
+
+    return true;
 }
 
 void TilikausiSivu::alkuPaivaMuuttui(const QDate &date)

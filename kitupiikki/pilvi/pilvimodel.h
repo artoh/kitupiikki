@@ -20,6 +20,7 @@
 #include "db/yhteysmodel.h"
 
 class PilviYhteys;
+class QTimer;
 
 /**
  * @brief Pilvessä olevien kirjanpitojen luettelo
@@ -42,10 +43,17 @@ public:
     int rowCount(const QModelIndex &parent) const override;
     QVariant data(const QModelIndex &index, int role) const override;
 
-    QString kayttajaNimi() const { return kayttajaNimi_;}
-    int kayttajaPilvessa() const { return kayttajaId_ != 0;}
+    QString kayttajaNimi() const { return data_.value("name").toString();}
+    int kayttajaPilvessa() const { return kayttajaId_; }
+    int plan() const { return data_.value("plan").toInt();}
+    QString planname() const { return data_.value("planname").toString();}
+    int omatPilvet() const;
+    int pilviMax() const { return data_.value("cloudsmax").toInt();}
+    QString oikeudet() const { return oikeudet_;}
 
     static QString pilviLoginOsoite();
+
+    void uusiPilvi(const QVariant& initials);
 
     bool avaaPilvesta(int pilviId);
 
@@ -57,16 +65,19 @@ public:
 
     int pilviId() const { return pilviId_;}
     QString pilviosoite() const { return osoite_;}
-    QString token() const { return token_; };
+    QString token() const { return token_; }
 
 public slots:
     void kirjaudu(const QString sahkoposti = QString(), const QString& salasana = QString(), bool pyydaAvain = false);
     void kirjauduUlos();
+    void paivitaLista();
 
 
 
 private slots:
     void kirjautuminenValmis();
+    void paivitysValmis(QVariant* paluu);
+    void pilviLisatty(QVariant* paluu);
 
 signals:
     void kirjauduttu();
@@ -76,13 +87,14 @@ signals:
 
 private:
     int kayttajaId_ = 0;
-    QString kayttajaNimi_;
-    QString kayttajaToken_;
     int pilviId_ = 0;
+    int avaaPilvi_ = 0;
     QString osoite_;
     QString token_;
+    QString oikeudet_;
 
-    QList<QVariantMap> pilvet_;
+    QVariantMap data_;
+    QTimer *timer_;
 };
 
 #endif // PILVIMODEL_H

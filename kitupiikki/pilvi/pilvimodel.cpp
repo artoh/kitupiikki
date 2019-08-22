@@ -26,22 +26,24 @@
 #include <QSettings>
 
 #include <QDebug>
-
+#include <QTimer>
+#include <QFile>
 
 PilviModel::PilviModel(QObject *parent) :
     YhteysModel (parent)
 {
-
+    timer_ = new QTimer();
+    connect(timer_, &QTimer::timeout, this, &PilviModel::paivitaLista);
 }
 
 int PilviModel::rowCount(const QModelIndex & /* parent */) const
 {
-    return pilvet_.count();
+    return data_.value("clouds").toList().count();
 }
 
 QVariant PilviModel::data(const QModelIndex &index, int role) const
 {
-    QVariantMap map = pilvet_.at( index.row() );
+    QVariantMap map = data_.value("clouds").toList().at(index.row()).toMap();
     if( role == Qt::DisplayRole || role == NimiRooli)
     {        
         return map.value("name").toString();
@@ -52,22 +54,48 @@ QVariant PilviModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
+int PilviModel::omatPilvet() const
+{
+    int omia = 0;
+    for( auto pilvi : data_.value("clouds").toList())
+        if( pilvi.toMap().value("right").toString() == "owner")
+            omia++;
+
+    return omia;
+}
+
 
 QString PilviModel::pilviLoginOsoite()
 {
     return "http://localhost:5665/api";
 }
 
+void PilviModel::uusiPilvi(const QVariant &initials)
+{
+    PilviKysely* kysely = new PilviKysely(this, KpKysely::POST, pilviLoginOsoite() + "/clouds");
+    connect( kysely, &PilviKysely::vastaus, this, &PilviModel::pilviLisatty);
+    kysely->kysy(initials);
+
+    QJsonDocument doc( QJsonDocument::fromVariant(initials));
+    QFile out("/tmp/ulos.json");
+    out.open(QIODevice::WriteOnly | QIODevice::Truncate);
+    out.write( doc.toJson());
+}
+
+
+
 bool PilviModel::avaaPilvesta(int pilviId)
 {
-    for( auto map : pilvet_) {
+    for( auto var : data_.value("clouds").toList()) {
+        QVariantMap map = var.toMap();
         if( map.value("id").toInt() == pilviId) {
             pilviId_ = pilviId;
             osoite_ = map.value("url").toString();
             token_ = map.value("token").toString();
-
+            oikeudet_ = map.value("right").toString();
             alusta();
 
+            emit kirjauduttu();
             return true;
         }
     }
@@ -111,19 +139,29 @@ void PilviModel::kirjaudu(const QString sahkoposti, const QString &salasana, boo
     QNetworkReply *reply = mng->post( request, QJsonDocument::fromVariant(map).toJson(QJsonDocument::Compact) );
     connect( reply, &QNetworkReply::finished, this, &PilviModel::kirjautuminenValmis);
 
+
 }
 
 void PilviModel::kirjauduUlos()
 {
     beginResetModel();
-    pilvet_.clear();
+    data_.clear();
+
     kp()->settings()->remove("CloudEmail");
     kp()->settings()->remove("CloudKey");
-
     kayttajaId_ = 0;
-    kayttajaNimi_.clear();
+    timer_->stop();
 
     endResetModel();
+}
+
+void PilviModel::paivitaLista()
+{
+    // Päivitetään lista
+    PilviKysely *kysely = new PilviKysely(this, KpKysely::GET,
+                                          pilviLoginOsoite() + "/login");
+    connect( kysely, &KpKysely::vastaus, this, &PilviModel::paivitysValmis);
+    kysely->kysy();
 }
 
 
@@ -138,43 +176,59 @@ void PilviModel::kirjautuminenValmis()
     }
 
     QByteArray vastaus = reply->readAll();
-
-    qDebug() << vastaus;
-
     QJsonDocument doc = QJsonDocument::fromJson( vastaus );
-
-    bool ensiKirjaus = kayttajaId_ == 0;
-
-    kayttajaId_ = doc.object().value("id").toInt();
-    kayttajaNimi_ = doc.object().value("name").toString();
-    kayttajaToken_ = doc.object().value("token").toString();
-
-    if( doc.object().contains("key"))
-    {
-        kp()->settings()->setValue("CloudKey", doc.object().value("key").toString());
-        kp()->settings()->setValue("CloudEmail", doc.object().value("email").toString());
-    }
-
-    beginResetModel();
-    pilvet_.clear();
-    QVariantList lista = doc.object().value("clouds").toVariant().toList();
-    for( auto item: lista ){
-        pilvet_.append( item.toMap() );
-    }
-    endResetModel();
+    QVariant var = doc.toVariant();
+    paivitysValmis( &var );
 
     if( kp()->settings()->value("Viimeisin").toInt() > 0)
         avaaPilvesta( kp()->settings()->value("Viimeisin").toInt() );
 
+}
+
+void PilviModel::paivitysValmis(QVariant *paluu)
+{
+    beginResetModel();
+    data_ = paluu->toMap();
+    endResetModel();
+
+    bool ensiKirjaus = kayttajaId_ == 0;
+    kayttajaId_ = data_.value("userId").toInt();
+    token_ = data_.value("token").toString();
+
+    if( data_.contains("key"))
+    {
+        kp()->settings()->setValue("CloudKey", data_.value("key").toString());
+        kp()->settings()->setValue("CloudEmail", data_.value("email").toString());
+    }
+
     if( ensiKirjaus)
+    {
         emit kirjauduttu();
+        // Varmuuden vuoksi uusitaan token joka toinen tunti
+        timer_->start(1000 * 60 * 60 * 2);
+    }
     else {
         // Tallennetaan uusi token
-        for( auto map : pilvet_) {
+        for( QVariant variant : data_.value("clouds").toList()) {
+        QVariantMap map = variant.toMap();
             if( map.value("id").toInt() == pilviId() ) {
                 osoite_ = map.value("url").toString();
                 token_ = map.value("token").toString();
+                oikeudet_ = map.value("right").toString();
             }
         }
     }
+    // Uuden pilven avaaminen, kun lista on päivittynyt
+    if( avaaPilvi_ )
+        avaaPilvesta( avaaPilvi_);
+    avaaPilvi_ = 0;
+}
+
+void PilviModel::pilviLisatty(QVariant *paluu)
+{
+    QVariantMap map = paluu->toMap();
+    avaaPilvi_ = map.value("id").toInt();
+    alusta();
+    paivitaLista();
+
 }

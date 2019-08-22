@@ -1,4 +1,4 @@
-SOURCES += uusikp/uusikirjanpito.cpp \
+SOURCES += \
     $$PWD/apuri/apuriwidget.cpp \
     $$PWD/apuri/tilioteapuri.cpp \
     $$PWD/apuri/tiliotemodel.cpp \
@@ -34,12 +34,10 @@ SOURCES += uusikp/uusikirjanpito.cpp \
     $$PWD/tools/tilicombo.cpp \
     $$PWD/tuonti/tuonti.cpp \
     $$PWD/tuonti/vanhatuonti.cpp \
-    uusikp/introsivu.cpp \
-    uusikp/nimisivu.cpp \
-    uusikp/tilikarttasivu.cpp \
-    uusikp/loppusivu.cpp \
-    uusikp/sijaintisivu.cpp \
-    uusikp/tilikausisivu.cpp \
+    $$PWD/uusikirjanpito/sijaintisivu.cpp \
+    $$PWD/uusikirjanpito/tilikausisivu.cpp \
+    $$PWD/uusikirjanpito/uusialkusivu.cpp \
+    $$PWD/uusikirjanpito/uusivelho.cpp \
     kitupiikkiikkuna.cpp \
     aloitussivu/aloitussivu.cpp \
     db/kirjanpito.cpp \
@@ -150,7 +148,6 @@ SOURCES += uusikp/uusikirjanpito.cpp \
     kirjaus/siirrydlg.cpp \
     laskutus/ostolaskutmodel.cpp \
     tools/kpdateedit.cpp \
-    uusikp/kirjausperustesivu.cpp \
     tuonti/palkkafituonti.cpp \
     raportti/alverittely.cpp \
     raportti/myyntiraportti.cpp \
@@ -192,7 +189,6 @@ SOURCES += uusikp/uusikirjanpito.cpp \
     tuonti/tuontiapu.cpp \
     kirjaus/viennitview.cpp \
     kirjaus/edellinenseuraavatieto.cpp \
-    uusikp/numerointisivu.cpp \
     kirjaus/verotarkastaja.cpp \
     db/kpkysely.cpp \
     sqlite/sqlitekysely.cpp \
@@ -241,13 +237,10 @@ HEADERS += \
     $$PWD/tools/tilicombo.h \
     $$PWD/tuonti/tuonti.h \
     $$PWD/tuonti/vanhatuonti.h \
-    uusikp/uusikirjanpito.h \
-    uusikp/introsivu.h \
-    uusikp/nimisivu.h \
-    uusikp/tilikarttasivu.h \
-    uusikp/loppusivu.h \
-    uusikp/sijaintisivu.h \
-    uusikp/tilikausisivu.h \
+    $$PWD/uusikirjanpito/sijaintisivu.h \
+    $$PWD/uusikirjanpito/tilikausisivu.h \
+    $$PWD/uusikirjanpito/uusialkusivu.h \
+    $$PWD/uusikirjanpito/uusivelho.h \
     kitupiikkiikkuna.h \
     aloitussivu/aloitussivu.h \
     db/kirjanpito.h \
@@ -358,7 +351,6 @@ HEADERS += \
     kirjaus/siirrydlg.h \
     laskutus/ostolaskutmodel.h \
     tools/kpdateedit.h \
-    uusikp/kirjausperustesivu.h \
     tuonti/palkkafituonti.h \
     raportti/alverittely.h \
     raportti/myyntiraportti.h \
@@ -401,7 +393,6 @@ HEADERS += \
     tuonti/tuontiapu.h \
     kirjaus/viennitview.h \
     kirjaus/edellinenseuraavatieto.h \
-    uusikp/numerointisivu.h \
     kirjaus/verotarkastaja.h \
     db/kpkysely.h \
     sqlite/sqlitekysely.h \
@@ -428,11 +419,13 @@ FORMS += \
     $$PWD/apuri/siirtoapuri.ui \
     $$PWD/kirjaus/tallennettuwidget.ui \
     $$PWD/rekisteri/asiakastoimittajadlg.ui \
-    uusikp/intro.ui \
-    uusikp/nimi.ui \
-    uusikp/tilikartta.ui \
-    uusikp/sijainti.ui \
-    uusikp/tilikausi.ui \
+    $$PWD/uusikirjanpito/sijainti.ui \
+    $$PWD/uusikirjanpito/tilikausi.ui \
+    $$PWD/uusikirjanpito/uusialoitus.ui \
+    $$PWD/uusikirjanpito/uusiloppu.ui \
+    $$PWD/uusikirjanpito/uusisijainti.ui \
+    $$PWD/uusikirjanpito/uusitiedot.ui \
+    $$PWD/uusikirjanpito/uusitilikartta.ui \
     maaritys/perusvalinnat.ui \
     kirjaus/kirjaus.ui \
     kirjaus/tositewg.ui \
@@ -490,7 +483,6 @@ FORMS += \
     kirjaus/numerosiirto.ui \
     kirjaus/siirry.ui \
     kirjaus/kopioitosite.ui \
-    uusikp/kirjausperuste.ui \
     laskutus/yhteystiedot.ui \
     maaritys/inboxmaaritys.ui \
     arkisto/budjettidlg.ui \
@@ -500,6 +492,6 @@ FORMS += \
     raportti/budjettivertailu.ui \
     alv/alvilmoitusdialog.ui \
     alv/arvonlisavero.ui \
-    uusikp/numerointi.ui \
     pilvi/pilvilogindlg.ui \
-    apuri/tiliotekirjaaja.ui
+    apuri/tiliotekirjaaja.ui \
+    uusikirjanpito/uusiharjoitus.ui

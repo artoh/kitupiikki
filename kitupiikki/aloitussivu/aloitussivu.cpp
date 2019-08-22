@@ -53,6 +53,8 @@
 #include "pilvi/pilvilogindlg.h"
 #include "sqlite/sqlitemodel.h"
 
+#include "uusikirjanpito/uusivelho.h"
+
 #include <QJsonDocument>
 #include <QTimer>
 
@@ -65,8 +67,8 @@ AloitusSivu::AloitusSivu() :
 
     ui->selain->setOpenLinks(false);
 
-    connect( ui->uusiNappi, SIGNAL(clicked(bool)), this, SLOT(uusiTietokanta()));
-    connect( ui->avaaNappi, SIGNAL(clicked(bool)), this, SLOT(avaaTietokanta()));
+    connect( ui->uusiNappi, &QPushButton::clicked, this, &AloitusSivu::uusiTietokanta);
+    connect( ui->avaaNappi, &QPushButton::clicked, this, &AloitusSivu::avaaTietokanta);
     connect( ui->tietojaNappi, SIGNAL(clicked(bool)), this, SLOT(abouttiarallaa()));
 //    connect( ui->viimeiset, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(viimeisinTietokanta(QListWidgetItem*)));
     connect( ui->tilikausiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(siirrySivulle()));
@@ -92,7 +94,7 @@ AloitusSivu::AloitusSivu() :
     connect( ui->pilviView, &QListView::clicked,
              [](const QModelIndex& index) { kp()->pilvi()->avaaPilvesta( index.data(PilviModel::IdRooli).toInt() ); } );
 
-    connect( ui->emailEdit, &QLineEdit::textChanged, this, &AloitusSivu::validoiLoginTiedot );
+    connect( ui->emailEdit, &QLineEdit::textChanged, this, &AloitusSivu::validoiEmail );
     connect( ui->salaEdit, &QLineEdit::textChanged, this, &AloitusSivu::validoiLoginTiedot);
 
     ui->viimeisetView->setModel( kp()->sqlite() );
@@ -244,9 +246,11 @@ void AloitusSivu::linkki(const QUrl &linkki)
 
 void AloitusSivu::uusiTietokanta()
 {
-    QString uusitiedosto = UusiKirjanpito::aloitaUusiKirjanpito();
-    if( !uusitiedosto.isEmpty())
-        Kirjanpito::db()->avaaTietokanta(uusitiedosto);
+    UusiVelho velho;
+    if( velho.exec() )
+        qDebug() << velho.data();
+    if( velho.field("pilveen").toBool())
+        kp()->pilvi()->uusiPilvi(velho.data());
 }
 
 void AloitusSivu::avaaTietokanta()
@@ -402,6 +406,19 @@ void AloitusSivu::kirjauduttu()
     ui->salaEdit->clear();
     ui->pilviPino->setCurrentIndex(LISTA);
     ui->kayttajaLabel->setText( kp()->pilvi()->kayttajaNimi() );
+
+    int pilvia = kp()->pilvi()->omatPilvet();
+    int pilvetmax = kp()->pilvi()->pilviMax();
+
+    ui->planLabel->setText(  tr("%1\n%2/%3 kirjanpitoa")
+                            .arg( kp()->pilvi()->planname())
+                            .arg( pilvia )
+                            .arg( pilvetmax ));
+
+    ui->oikeudetButton->setVisible( kp()->pilvi()->oikeudet() == "owner" );
+    ui->pilviPoistaButton->setVisible( kp()->pilvi()->oikeudet() == "owner" );
+
+    ui->tilausButton->setText( kp()->pilvi()->plan() ? tr("Tilaukseni") : tr("Tilaa pilvipalvelut!") );
 }
 
 void AloitusSivu::loginVirhe()
@@ -412,6 +429,18 @@ void AloitusSivu::loginVirhe()
 
 void AloitusSivu::validoiLoginTiedot()
 {
+    ui->loginButton->setEnabled(kelpoEmail_ && ui->salaEdit->text().length() > 4);
+    ui->salaEdit->setEnabled(kelpoEmail_);
+    ui->muistaCheck->setEnabled(kelpoEmail_ && ui->salaEdit->text().length() > 4);
+    ui->salasanaButton->setEnabled(kelpoEmail_);
+    ui->rekisteroiButton->setEnabled(!kelpoEmail_);
+}
+
+void AloitusSivu::validoiEmail()
+{
+    kelpoEmail_ = false;
+    validoiLoginTiedot();
+
     QRegularExpression emailRe(R"(^([\w-]*(\.[\w-]+)?)+@(\w+\.\w+)(\.\w+)*$)");
     if( emailRe.match( ui->emailEdit->text()).hasMatch() ) {
         // Tarkistetaan sähköposti ja toimitaan sen mukaan
@@ -421,24 +450,16 @@ void AloitusSivu::validoiLoginTiedot()
         connect( reply, &QNetworkReply::finished, this, &AloitusSivu::emailTarkastettu);
 
     } else {
-        ui->loginButton->setEnabled(false);
-        ui->salasanaButton->setEnabled(false);
-        ui->rekisteroiButton->setEnabled(false);
+     validoiLoginTiedot();
     }
-
 }
+
 
 void AloitusSivu::emailTarkastettu()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>( sender());
-    bool olemassa =  reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200 ;
-
-    ui->loginButton->setEnabled(olemassa && ui->salaEdit->text().length() > 4);
-    ui->salaEdit->setEnabled(olemassa);
-    ui->muistaCheck->setEnabled(olemassa && ui->salaEdit->text().length() > 4);
-    ui->salasanaButton->setEnabled(olemassa);
-    ui->rekisteroiButton->setEnabled(!olemassa);
-
+    kelpoEmail_ =  reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() == 200 ;
+    validoiLoginTiedot();
 }
 
 void AloitusSivu::rekisteroi()

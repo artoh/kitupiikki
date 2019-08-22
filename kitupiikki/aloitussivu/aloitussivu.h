@@ -45,6 +45,7 @@ public:
     ~AloitusSivu() override;
 
     bool poistuSivulta(int minne) override;
+    static QDate buildDate();
 
 public slots:
     void siirrySivulle() override;
@@ -69,12 +70,12 @@ public slots:
      */
     void pyydaInfo();
 
-    static QDate buildDate();
-
+private slots:
     void pilviLogin();
     void kirjauduttu();
     void loginVirhe();
     void validoiLoginTiedot();
+    void validoiEmail();
     void emailTarkastettu();
     void rekisteroi();
     void rekisterointiLahti();
@@ -105,6 +106,7 @@ protected:
 protected:
     Ui::Aloitus *ui;
     bool sivulla = false;
+    bool kelpoEmail_=false;
 };
 
 #endif // ALOITUSSIVU_H

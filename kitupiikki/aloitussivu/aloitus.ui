@@ -131,24 +131,35 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="uusiNappi">
-           <property name="toolTip">
-            <string>Aloita uusi kirjanpito   Ctrl+N</string>
+          <widget class="QListView" name="viimeisetView"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="varmistaNappi">
+           <property name="enabled">
+            <bool>false</bool>
            </property>
            <property name="text">
-            <string>Uusi kirjanpito</string>
+            <string>Varmuuskopioi</string>
            </property>
            <property name="icon">
             <iconset resource="../pic/pic.qrc">
-             <normaloff>:/pic/uusitiedosto.png</normaloff>:/pic/uusitiedosto.png</iconset>
-           </property>
-           <property name="shortcut">
-            <string>Ctrl+N</string>
+             <normaloff>:/pic/talleta.png</normaloff>:/pic/talleta.png</iconset>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QListView" name="viimeisetView"/>
+          <widget class="QPushButton" name="poistaNappi">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>Poista luettelosta</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../pic/pic.qrc">
+             <normaloff>:/pic/sulje.png</normaloff>:/pic/sulje.png</iconset>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -169,34 +180,14 @@
            <widget class="QWidget" name="page">
             <layout class="QVBoxLayout" name="verticalLayout_6">
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_2">
-               <item>
-                <widget class="QLabel" name="label_2">
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="pixmap">
-                  <pixmap resource="../pic/pic.qrc">:/pic/sadepilvi.png</pixmap>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label">
-                 <property name="text">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Kirjaudu tai luo tunnus&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Kitupiikki Cloud -käyttäjätunnusta tarvitaan pilvessä oleviin kirjanpitoihin ja Kitupiikin lisätoimintoihin.&lt;/p&gt;&lt;p&gt;Käyttäjätunnuksen luominen on ilmaista, mutta osa lisätoiminnoista on maksullisia.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                 </property>
-                 <property name="pixmap">
-                  <pixmap resource="../pic/pic.qrc">:/pic/sadepilvi.png</pixmap>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                 <property name="wordWrap">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-              </layout>
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Luomalla käyttäjätunnuksen käyttämään myös pilvessä olevia toimintoja.&lt;/p&gt;&lt;p&gt;Osaan näistä toiminnoista tarvitset maksullisen tilauksen.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="wordWrap">
+                <bool>true</bool>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QLabel" name="vaaraSalasana">
@@ -307,6 +298,13 @@
               </widget>
              </item>
              <item>
+              <widget class="QLabel" name="planLabel">
+               <property name="text">
+                <string>TextLabel</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QPushButton" name="logoutButton">
                <property name="text">
                 <string>Kirjaudu ulos</string>
@@ -314,14 +312,28 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="uusiPilviButton">
+              <widget class="QPushButton" name="tilausButton">
                <property name="text">
-                <string>Uusi kirjanpito</string>
+                <string>Tilaa lisäpalvelut!</string>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QListView" name="pilviView"/>
+             </item>
+             <item>
+              <widget class="QPushButton" name="oikeudetButton">
+               <property name="text">
+                <string>Käyttöoikeudet</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pilviPoistaButton">
+               <property name="text">
+                <string>Poista kirjanpito</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -332,30 +344,19 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="varmistaNappi">
-       <property name="enabled">
-        <bool>false</bool>
+      <widget class="QPushButton" name="uusiNappi">
+       <property name="toolTip">
+        <string>Aloita uusi kirjanpito   Ctrl+N</string>
        </property>
        <property name="text">
-        <string>Varmuuskopioi</string>
+        <string>Uusi kirjanpito</string>
        </property>
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
-         <normaloff>:/pic/talleta.png</normaloff>:/pic/talleta.png</iconset>
+         <normaloff>:/pic/uusitiedosto.png</normaloff>:/pic/uusitiedosto.png</iconset>
        </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="poistaNappi">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="text">
-        <string>Poista luettelosta</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../pic/pic.qrc">
-         <normaloff>:/pic/sulje.png</normaloff>:/pic/sulje.png</iconset>
+       <property name="shortcut">
+        <string>Ctrl+N</string>
        </property>
       </widget>
      </item>

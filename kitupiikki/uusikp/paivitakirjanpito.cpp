@@ -47,14 +47,15 @@ QString PaivitaKirjanpito::sisainenPaivitys()
 
     if( tiedostonnimi.isEmpty())
         return QString();
-
+/*
     QMap<QString, QStringList> ktk = UusiKirjanpito::lueKtkTiedosto(":/tilikartat/" + tiedostonnimi);
     QDate paivays = QDate::fromString(ktk.value("TilikarttaPvm").join(""), Qt::ISODate );
     if( !paivays.isValid() || paivays <= kp()->asetukset()->pvm("TilikarttaPvm"))
         return QString();
 
     return ktk.value("TilikarttaNimi").join("") + " " +
-            paivays.toString("dd.MM.yyyy");
+            paivays.toString("dd.MM.yyyy"); */
+    return QString();
 }
 
 bool PaivitaKirjanpito::paivitaTilikartta()
@@ -95,7 +96,7 @@ bool PaivitaKirjanpito::paivitaTilikartta()
 
 bool PaivitaKirjanpito::lataaPaivitys(const QString &tiedosto)
 {
-    QMap<QString,QStringList> ktk = UusiKirjanpito::lueKtkTiedosto(tiedosto);
+/*    QMap<QString,QStringList> ktk = UusiKirjanpito::lueKtkTiedosto(tiedosto);
 
     QString vakiokartta = ktk.value("VakioTilikartta").join("");
     if( vakiokartta != kp()->asetukset()->asetus("VakioTilikartta"))
@@ -263,6 +264,6 @@ bool PaivitaKirjanpito::lataaPaivitys(const QString &tiedosto)
 
         QMessageBox::information(nullptr, tr("Kitupiikki"),tr("Tilikartta päivitetty") );
         return true;
-    }
+    } */
     return false;
 }
