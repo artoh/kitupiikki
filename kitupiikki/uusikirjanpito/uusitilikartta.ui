@@ -43,7 +43,7 @@
         </property>
         <property name="icon">
          <iconset resource="../pic/pic.qrc">
-          <normaloff>:/pic/euro.png</normaloff>:/pic/euro.png</iconset>
+          <normaloff>:/flat/coins.png</normaloff>:/flat/coins.png</iconset>
         </property>
         <property name="checked">
          <bool>true</bool>
@@ -73,7 +73,7 @@
         </property>
         <property name="icon">
          <iconset resource="../pic/pic.qrc">
-          <normaloff>:/pic/asiakkaat.png</normaloff>:/pic/asiakkaat.png</iconset>
+          <normaloff>:/flat/teamwork.png</normaloff>:/flat/teamwork.png</iconset>
         </property>
        </widget>
       </item>
@@ -87,6 +87,10 @@
         </property>
         <property name="text">
          <string>Asunto-osakeyhtiö</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../pic/pic.qrc">
+          <normaloff>:/flat/house.png</normaloff>:/flat/house.png</iconset>
         </property>
        </widget>
       </item>

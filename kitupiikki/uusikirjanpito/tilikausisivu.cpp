@@ -64,7 +64,7 @@ bool TilikausiSivu::validatePage()
     }
     QVariantMap uusi;
     uusi.insert("alkaa", ui->ekaAlkaa->date().toString(Qt::ISODate));
-    uusi.insert("loppuu", ui->ekaAlkaa->date().toString(Qt::ISODate));
+    uusi.insert("loppuu", ui->ekaPaattyy->date().toString(Qt::ISODate));
     velho->tilikaudet_.append(uusi);
 
     velho->asetukset_.insert("TilitPaatetty",

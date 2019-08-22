@@ -192,5 +192,14 @@
         <file>liput/gb.png</file>
         <file>liput/mt.png</file>
         <file>liput/hr.png</file>
+        <file>flat/admin.png</file>
+        <file>flat/coins.png</file>
+        <file>flat/edit.png</file>
+        <file>flat/eye.png</file>
+        <file>flat/house.png</file>
+        <file>flat/key.png</file>
+        <file>flat/teamwork.png</file>
+        <file>flat/big-school-pen.png</file>
     </qresource>
+    <qresource prefix="/flat"/>
 </RCC>

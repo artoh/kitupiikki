@@ -51,6 +51,20 @@ QVariant PilviModel::data(const QModelIndex &index, int role) const
         return map.value("id").toInt();
     }
 
+    if( role == Qt::DecorationRole) {
+        QString right = map.value("right").toString();
+        if( right == "read")
+            return QIcon(":/flat/eye.png");
+        else if( right == "draft")
+            return QIcon(":/flat/edit.png");
+        else if( right == "edit")
+            return QIcon(":/flat/big-school-pen.png");
+        else if( right == "admin")
+            return QIcon(":/flat/admin.png");
+        else if( right == "owner")
+            return QIcon(":/flat/key.png");
+    }
+
     return QVariant();
 }
 
@@ -86,6 +100,8 @@ void PilviModel::uusiPilvi(const QVariant &initials)
 
 bool PilviModel::avaaPilvesta(int pilviId)
 {
+    qDebug() << "Avaa pilvi " << pilviId;
+
     for( auto var : data_.value("clouds").toList()) {
         QVariantMap map = var.toMap();
         if( map.value("id").toInt() == pilviId) {
@@ -109,6 +125,8 @@ KpKysely *PilviModel::kysely(const QString &polku, KpKysely::Metodi metodi)
 
 void PilviModel::sulje()
 {
+    qDebug() << "** sulje **";
+
     pilviId_ = 0;
     osoite_.clear();
     token_.clear();
@@ -228,7 +246,6 @@ void PilviModel::pilviLisatty(QVariant *paluu)
 {
     QVariantMap map = paluu->toMap();
     avaaPilvi_ = map.value("id").toInt();
-    alusta();
     paivitaLista();
 
 }
