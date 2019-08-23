@@ -14,26 +14,34 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef UUSIALKUSIVU_H
-#define UUSIALKUSIVU_H
+#ifndef TILAUSVALINTASIVU_H
+#define TILAUSVALINTASIVU_H
 
 #include <QWizardPage>
 
 namespace Ui {
-    class UusiAloitus;
+    class TilausValinta;
 }
 
-class UusiAlkuSivu : public QWizardPage
-{
-public:
-    UusiAlkuSivu();
+class PlanModel;
 
-protected slots:
-    void paivitaKirjautuminen();
+class TilausValintaSivu : public QWizardPage
+{
+Q_OBJECT
+public:
+    TilausValintaSivu(PlanModel *model);
+    void alusta(int nykyinen, bool kuukausittain, double palautus);
+
+
+    QVariant tilaus(int rooli) const;
+
+    bool isComplete() const override;
+    void initializePage() override;
 
 protected:
-    void initializePage() override;
-    Ui::UusiAloitus *ui;
+    Ui::TilausValinta *ui;
+    int alkuperainenPlan_;
+    bool alunperinKuukaudet_;
 };
 
-#endif // UUSIALKUSIVU_H
+#endif // TILAUSVALINTASIVU_H

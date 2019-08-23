@@ -28,6 +28,9 @@ SOURCES += \
     $$PWD/rekisteri/ibandelegaatti.cpp \
     $$PWD/rekisteri/maamodel.cpp \
     $$PWD/rekisteri/postinumerot.cpp \
+    $$PWD/tilaus/planmodel.cpp \
+    $$PWD/tilaus/tilausvalintasivu.cpp \
+    $$PWD/tilaus/tilauswizard.cpp \
     $$PWD/tools/checkcombo.cpp \
     $$PWD/tools/eracombo.cpp \
     $$PWD/tools/kpeuroedit.cpp \
@@ -231,6 +234,9 @@ HEADERS += \
     $$PWD/rekisteri/ibandelegaatti.h \
     $$PWD/rekisteri/maamodel.h \
     $$PWD/rekisteri/postinumerot.h \
+    $$PWD/tilaus/planmodel.h \
+    $$PWD/tilaus/tilausvalintasivu.h \
+    $$PWD/tilaus/tilauswizard.h \
     $$PWD/tools/checkcombo.h \
     $$PWD/tools/eracombo.h \
     $$PWD/tools/kpeuroedit.h \
@@ -419,6 +425,9 @@ FORMS += \
     $$PWD/apuri/siirtoapuri.ui \
     $$PWD/kirjaus/tallennettuwidget.ui \
     $$PWD/rekisteri/asiakastoimittajadlg.ui \
+    $$PWD/tilaus/tilausvahvistus.ui \
+    $$PWD/tilaus/tilausvalinta.ui \
+    $$PWD/tilaus/tilausyhteys.ui \
     $$PWD/uusikirjanpito/sijainti.ui \
     $$PWD/uusikirjanpito/tilikausi.ui \
     $$PWD/uusikirjanpito/uusialoitus.ui \

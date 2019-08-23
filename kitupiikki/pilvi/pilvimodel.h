@@ -44,6 +44,7 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
 
     QString kayttajaNimi() const { return data_.value("name").toString();}
+    QString kayttajaEmail() const { return data_.value("email").toString();}
     int kayttajaPilvessa() const { return kayttajaId_; }
     int plan() const { return data_.value("plan").toInt();}
     QString planname() const { return data_.value("planname").toString();}

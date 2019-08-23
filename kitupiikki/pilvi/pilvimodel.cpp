@@ -209,7 +209,6 @@ void PilviModel::paivitysValmis(QVariant *paluu)
     data_ = paluu->toMap();
     endResetModel();
 
-    bool ensiKirjaus = kayttajaId_ == 0;
     kayttajaId_ = data_.value("userId").toInt();
     token_ = data_.value("token").toString();
 
@@ -219,27 +218,22 @@ void PilviModel::paivitysValmis(QVariant *paluu)
         kp()->settings()->setValue("CloudEmail", data_.value("email").toString());
     }
 
-    if( ensiKirjaus)
-    {
-        emit kirjauduttu();
-        // Varmuuden vuoksi uusitaan token joka toinen tunti
-        timer_->start(1000 * 60 * 60 * 2);
-    }
-    else {
-        // Tallennetaan uusi token
-        for( QVariant variant : data_.value("clouds").toList()) {
-        QVariantMap map = variant.toMap();
-            if( map.value("id").toInt() == pilviId() ) {
-                osoite_ = map.value("url").toString();
-                token_ = map.value("token").toString();
-                oikeudet_ = map.value("right").toString();
-            }
+    // Tallennetaan uusi token
+    for( QVariant variant : data_.value("clouds").toList()) {
+    QVariantMap map = variant.toMap();
+        if( map.value("id").toInt() == pilviId_ ) {
+            osoite_ = map.value("url").toString();
+            token_ = map.value("token").toString();
+            oikeudet_ = map.value("right").toString();
+            break;
         }
     }
     // Uuden pilven avaaminen, kun lista on päivittynyt
     if( avaaPilvi_ )
         avaaPilvesta( avaaPilvi_);
     avaaPilvi_ = 0;
+
+    emit kirjauduttu();
 }
 
 void PilviModel::pilviLisatty(QVariant *paluu)

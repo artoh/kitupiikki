@@ -19,9 +19,13 @@
 #define TILIKAUSISIVU_H
 
 #include <QWizardPage>
-#include "ui_tilikausi.h"
+
 
 class UusiVelho;
+
+namespace Ui {
+    class TilikausiSivu;
+}
 
 /**
  * @brief Uuden kirjanpidon velhon sivu, jossa määritellään nykyinen ja edellinen tilikausi

@@ -37,6 +37,9 @@
 #include "validator/ibanvalidator.h"
 #include "validator/ytunnusvalidator.h"
 
+#include "db/kirjanpito.h"
+#include "pilvi/pilvimodel.h"
+
 UusiVelho::UusiVelho()
 {
     setPixmap( QWizard::LogoPixmap, QPixmap(":/pic/possu64.png")  );
@@ -54,6 +57,7 @@ UusiVelho::UusiVelho()
     loppuUi->setupUi(loppusivu);
     loppusivu->setTitle( tr("Valmis"));
     addPage( loppusivu );
+
 }
 
 void UusiVelho::lataaKartta(const QString &polku)

@@ -58,6 +58,8 @@
 #include <QJsonDocument>
 #include <QTimer>
 
+#include "tilaus/tilauswizard.h"
+
 AloitusSivu::AloitusSivu() :
     KitupiikkiSivu(nullptr)
 {
@@ -96,6 +98,9 @@ AloitusSivu::AloitusSivu() :
 
     connect( ui->emailEdit, &QLineEdit::textChanged, this, &AloitusSivu::validoiEmail );
     connect( ui->salaEdit, &QLineEdit::textChanged, this, &AloitusSivu::validoiLoginTiedot);
+
+    connect( ui->tilausButton, &QPushButton::clicked,
+             [] () { TilausWizard *tilaus = new TilausWizard(); tilaus->nayta(); });
 
     ui->viimeisetView->setModel( kp()->sqlite() );
     ui->pilviView->setModel( kp()->pilvi() );
@@ -403,6 +408,8 @@ void AloitusSivu::pilviLogin()
 
 void AloitusSivu::kirjauduttu()
 {
+    qDebug() << " Kirjauduttu " << kp()->pilvi()->kayttajaNimi();
+
     ui->salaEdit->clear();
     ui->pilviPino->setCurrentIndex(LISTA);
     ui->kayttajaLabel->setText( kp()->pilvi()->kayttajaNimi() );
@@ -502,6 +509,7 @@ void AloitusSivu::rekisterointiLahti()
 
 void AloitusSivu::pilviLogout()
 {
+    ui->salaEdit->clear();
     kp()->pilvi()->kirjauduUlos();
     ui->pilviPino->setCurrentIndex(KIRJAUDU);
 }

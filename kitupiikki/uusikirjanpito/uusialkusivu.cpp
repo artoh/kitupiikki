@@ -20,6 +20,8 @@
 #include "db/kirjanpito.h"
 #include "pilvi/pilvimodel.h"
 
+#include "tilaus/tilauswizard.h"
+
 UusiAlkuSivu::UusiAlkuSivu() :
     ui( new Ui::UusiAloitus)
 {
@@ -27,6 +29,25 @@ UusiAlkuSivu::UusiAlkuSivu() :
 
     setTitle( tr("Tervetuloa!"));
 
+    registerField("pilveen", ui->pilveenRadio);
+
+    connect( kp()->pilvi(), &PilviModel::kirjauduttu,
+             this, &UusiAlkuSivu::paivitaKirjautuminen);
+
+    connect( ui->tilausNappi, &QPushButton::clicked,
+             []() { TilausWizard *tilaus = new TilausWizard();
+                    tilaus->nayta();} );
+
+}
+
+void UusiAlkuSivu::paivitaKirjautuminen()
+{
+    if( wizard()->currentPage() == this && wizard()->isVisible())
+        initializePage();
+}
+
+void UusiAlkuSivu::initializePage()
+{
     // Voidaanko tallentaa pilveen
     ui->pilveenRadio->setEnabled( kp()->pilvi()->kayttajaPilvessa() &&
                                   kp()->pilvi()->omatPilvet() < kp()->pilvi()->pilviMax());
@@ -50,7 +71,4 @@ UusiAlkuSivu::UusiAlkuSivu() :
         ui->koneelleRadio->setChecked(true);
 
     ui->tilausNappi->setVisible( kp()->pilvi()->kayttajaPilvessa() );
-
-
-    registerField("pilveen", ui->pilveenRadio);
 }
