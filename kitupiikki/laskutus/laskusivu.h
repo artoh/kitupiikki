@@ -32,12 +32,14 @@ class QPushButton;
 class QLineEdit;
 class QSortFilterProxyModel;
 class QDateEdit;
+class QLabel;
 
 class AsiakkaatModel;
 class LaskutModel;
 class YhteystietoWidget;
 
 class LaskuTauluModel;
+class TuoteModel;
 
 /**
  * @brief Laskusivu
@@ -54,7 +56,7 @@ public:
     LaskuSivu();
     ~LaskuSivu() override;
 
-    enum PaaLehdet { MYYNTI, OSTO, ASIAKAS, TOIMITTAJA };
+    enum PaaLehdet { MYYNTI, OSTO, ASIAKAS, TOIMITTAJA, TUOTTEET };
     enum LajiLehdet { LUONNOKSET, LAHETETTAVAT, KAIKKI, AVOIMET, ERAANTYNEET };
 
     void siirrySivulle() override;
@@ -84,11 +86,13 @@ private:
 
     LaskuTauluModel* laskumodel_ = nullptr;
     AsiakkaatModel* asiakasmodel_;
+    TuoteModel* tuotemodel_;
 
 
     QSortFilterProxyModel* asiakasProxy_ = nullptr;
     QSortFilterProxyModel* laskuAsiakasProxy_;
     QSortFilterProxyModel* laskuViiteProxy_;
+    QSortFilterProxyModel* tuoteProxy_;
 
     QTabBar *paaTab_;
     QTabBar *lajiTab_;
@@ -97,11 +101,13 @@ private:
 
     QTableView* asiakasView_;
     QTableView* laskuView_;
+    QTableView* tuoteView_;
 
     QLineEdit* asiakasSuodatusEdit_;
     QLineEdit* viiteSuodatusEdit_;
 
     QDateEdit* mistaEdit_;
+    QLabel* viivaLabel_;
     QDateEdit* mihinEdit_;
 
     QPushButton* naytaNappi_;

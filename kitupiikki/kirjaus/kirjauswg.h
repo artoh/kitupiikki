@@ -122,13 +122,6 @@ private slots:
     void tuonti(QVariant* data);
 
 public:
-    /**
-     * @brief Jos kirjataan tiliotetta, tiliotetilin numero
-     *
-     * @return tiliotetilin numero tai 0
-     */
-    int tiliotetiliNumero();
-
     Ui::KirjausWg* gui() { return ui;}
 
     /**

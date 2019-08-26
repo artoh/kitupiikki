@@ -111,8 +111,6 @@ KirjausWg::KirjausWg( QWidget *parent)
     connect( ui->tositePvmEdit, SIGNAL(editingFinished()), this, SLOT(pvmVaihtuu()));
     connect( ui->tositetyyppiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(vaihdaTositeTyyppi()));
 
-    ui->tiliotetiliCombo->suodataTyypilla("ARP");
-
     connect( ui->lisaaliiteNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaLiite()));
     connect( ui->avaaNappi, &QPushButton::clicked, this, &KirjausWg::avaaLiite);
     connect( ui->tulostaLiiteNappi, &QPushButton::clicked, this, &KirjausWg::tulostaLiite);
@@ -403,10 +401,6 @@ void KirjausWg::siirryTositteeseen()
 }
 
 
-int KirjausWg::tiliotetiliNumero()
-{
-    return ui->tiliotetiliCombo->currentData(TiliModel::NroRooli).toInt();
-}
 
 bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
 {
@@ -665,7 +659,6 @@ void KirjausWg::vaihdaTositeTyyppi()
 
     ui->tabWidget->setTabEnabled( ui->tabWidget->indexOf(viennitTab_) , tyyppiKoodi != TositeTyyppi::LIITETIETO);
     ui->tabWidget->setTabEnabled( ui->tabWidget->indexOf(varastoTab_), tyyppiKoodi != TositeTyyppi::LIITETIETO);
-    ui->tiliotetiliCombo->setVisible( tyyppiKoodi == TositeTyyppi::TILIOTE );
 
     if( tyyppiKoodi == TositeTyyppi::TULO || tyyppiKoodi == TositeTyyppi::MENO)
     {

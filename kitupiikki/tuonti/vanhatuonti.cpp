@@ -184,8 +184,8 @@ bool VanhaTuonti::tiliote(Tili tili, QDate mista, QDate mihin)
     }
 
 
-    kirjausWg()->gui()->tiliotetiliCombo->setCurrentIndex(
-                kirjausWg()->gui()->tiliotetiliCombo->findData( tiliotetili().id(), TiliModel::IdRooli ));
+//    kirjausWg()->gui()->tiliotetiliCombo->setCurrentIndex(
+//                kirjausWg()->gui()->tiliotetiliCombo->findData( tiliotetili().id(), TiliModel::IdRooli ));
 
     if( mista.isValid() && mihin.isValid())
     {

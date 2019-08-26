@@ -64,6 +64,11 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     connect( model_, &TilioteModel::rowsRemoved, this, &TilioteApuri::tositteelle);
     connect( model_, &TilioteModel::modelReset, this, &TilioteApuri::tositteelle);
 
+    ui->tiliCombo->suodataTyypilla("ARP");
+
+    QDate paivays = tosite->data(Tosite::PVM).toDate();
+    ui->loppuDate->setDate(paivays);
+    ui->alkuDate->setDate( paivays.addDays(1).addMonths(-1) );
 }
 
 TilioteApuri::~TilioteApuri()
@@ -73,7 +78,7 @@ TilioteApuri::~TilioteApuri()
 
 bool TilioteApuri::teeTositteelle()
 {
-    tosite()->viennit()->asetaViennit( model_->viennit(  kwg_->gui()->tiliotetiliCombo->valittuTilinumero() )  );
+    tosite()->viennit()->asetaViennit( model_->viennit(  ui->tiliCombo->valittuTilinumero() ) );
     if( tosite()->data(Tosite::OTSIKKO).toString().isEmpty())
         tosite()->setData(Tosite::OTSIKKO, tr("Tiliote %1").arg(tosite()->data(Tosite::PVM).toDate().toString("dd.MM.yyyy")));
 
@@ -87,7 +92,7 @@ void TilioteApuri::teeReset()
     QVariantList viennit = tosite()->viennit()->viennit().toList();
     if( viennit.count() > 1) {
         TositeVienti ekarivi = viennit.first().toMap();
-        kwg_->gui()->tiliotetiliCombo->valitseTili( ekarivi.tili() );
+        ui->tiliCombo->valitseTili(ekarivi.tili());
     }
     model_->lataa(viennit);
 

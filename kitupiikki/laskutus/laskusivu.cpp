@@ -43,7 +43,8 @@
 
 LaskuSivu::LaskuSivu()
     : laskumodel_( new LaskuTauluModel(this)),
-      asiakasmodel_(new AsiakkaatModel(this))
+      asiakasmodel_(new AsiakkaatModel(this)),
+      tuotemodel_(new TuoteModel(this))
 {
     luoUi();
     paaTab_->setCurrentIndex(MYYNTI);
@@ -79,6 +80,16 @@ LaskuSivu::LaskuSivu()
     laskuView_->setSortingEnabled(true);
     laskuView_->horizontalHeader()->setStretchLastSection(true);
 
+    tuoteProxy_ = new QSortFilterProxyModel;
+    tuoteProxy_->setSourceModel(tuotemodel_);
+    tuoteProxy_->setDynamicSortFilter(true);
+
+    tuoteView_->setModel(tuoteProxy_);
+    tuoteView_->setSelectionBehavior(QTableView::SelectRows);
+    tuoteView_->setSelectionMode(QTableView::SingleSelection);
+    tuoteView_->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    tuoteView_->setSortingEnabled(true);
+
     connect( viiteSuodatusEdit_, &QLineEdit::textChanged,
              laskuViiteProxy_, &QSortFilterProxyModel::setFilterFixedString);
     connect( asiakasSuodatusEdit_, &QLineEdit::textChanged,
@@ -107,30 +118,38 @@ void LaskuSivu::siirrySivulle()
 
 void LaskuSivu::paaTab(int indeksi)
 {
-    asiakasView_->setVisible( indeksi >= ASIAKAS );
+    tuoteView_->setVisible(false);
+    asiakasView_->setVisible( indeksi >= ASIAKAS);
 
-    if( indeksi ==  ASIAKAS)
-        asiakasmodel_->paivita(false);
-    else if( indeksi == TOIMITTAJA)
-        asiakasmodel_->paivita(true);
+    if( indeksi == TUOTTEET) {
+        asiakasView_->setModel(tuoteProxy_);
 
-    if( indeksi == MYYNTI || indeksi == ASIAKAS) {
-        if( lajiTab_->count() < 5) {
-            lajiTab_->insertTab(LUONNOKSET,tr("Luonnokset"));
-            lajiTab_->insertTab(LAHETETTAVAT,tr("Lähetettävät"));
-            lajiTab_->setTabText(KAIKKI, tr("Lähetetyt"));
-        }
+        tuotemodel_->lataa();
     } else {
-        if( lajiTab_->count() == 5) {
-            lajiTab_->setTabText(KAIKKI, tr("Kaikki"));
-            lajiTab_->removeTab(LAHETETTAVAT);
-            lajiTab_->removeTab(LUONNOKSET);
+        asiakasView_->setModel(asiakasProxy_);
+
+        if( indeksi ==  ASIAKAS)
+            asiakasmodel_->paivita(false);
+        else if( indeksi == TOIMITTAJA)
+            asiakasmodel_->paivita(true);
+
+        if( indeksi == MYYNTI || indeksi == ASIAKAS) {
+            if( lajiTab_->count() < 5) {
+                lajiTab_->insertTab(LUONNOKSET,tr("Luonnokset"));
+                lajiTab_->insertTab(LAHETETTAVAT,tr("Lähetettävät"));
+                lajiTab_->setTabText(KAIKKI, tr("Lähetetyt"));
+            }
+        } else {
+            if( lajiTab_->count() == 5) {
+                lajiTab_->setTabText(KAIKKI, tr("Kaikki"));
+                lajiTab_->removeTab(LAHETETTAVAT);
+                lajiTab_->removeTab(LUONNOKSET);
+            }
         }
+
+        paivitaLaskulista();
+        paivitaAsiakasSuodatus();
     }
-
-    paivitaLaskulista();
-    paivitaAsiakasSuodatus();
-
 }
 
 void LaskuSivu::paivitaAsiakasSuodatus()
@@ -301,6 +320,7 @@ void LaskuSivu::luoUi()
     paaTab_->addTab(QIcon(":/pic/poista.png"),tr("&Ostolaskut") );
     paaTab_->addTab(QIcon(":/pic/asiakkaat.png"),("&Asiakkaat"));
     paaTab_->addTab(QIcon(":/pic/yrittaja.png"),tr("&Toimittajat"));
+    paaTab_->addTab(QIcon(":/pic/kirjalaatikko.png"),tr("T&uotteet"));
 
     asiakasSuodatusEdit_ = new QLineEdit();
     asiakasSuodatusEdit_->setPlaceholderText( tr("Etsi asiakkaan nimellä") );
@@ -332,7 +352,8 @@ void LaskuSivu::luoUi()
     mistaEdit_ = new QDateEdit();
     mihinEdit_ = new QDateEdit();
     keskirivi->addWidget(mistaEdit_);
-    keskirivi->addWidget(new QLabel(" - "));
+    viivaLabel_ = new QLabel(" - ");
+    keskirivi->addWidget(viivaLabel_);
     keskirivi->addWidget(mihinEdit_);
 
     keskirivi->addWidget(viiteSuodatusEdit_);
@@ -344,6 +365,10 @@ void LaskuSivu::luoUi()
     laskuView_->setAlternatingRowColors(true);
     alaruutuleiska->addWidget(laskuView_);
 
+
+    tuoteView_ = new QTableView;
+    tuoteView_->setAlternatingRowColors(true);
+    alaruutuleiska->addWidget(tuoteView_);
 
     QWidget *alaWidget = new QWidget();
     alaWidget->setLayout(alaruutuleiska);

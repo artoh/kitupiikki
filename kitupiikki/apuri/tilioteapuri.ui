@@ -15,6 +15,39 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="TiliCombo" name="tiliCombo"/>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="KpDateEdit" name="alkuDate"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>-</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KpDateEdit" name="loppuDate"/>
+     </item>
+    </layout>
+   </item>
+   <item>
     <widget class="QTableView" name="oteView">
      <property name="alternatingRowColors">
       <bool>true</bool>
@@ -38,7 +71,7 @@
      <item>
       <widget class="QLabel" name="infoLabel">
        <property name="text">
-        <string>  </string>
+        <string/>
        </property>
       </widget>
      </item>
@@ -109,6 +142,18 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KpDateEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">tools/kpdateedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>TiliCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">tools/tilicombo.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../pic/pic.qrc"/>
  </resources>

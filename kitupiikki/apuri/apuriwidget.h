@@ -27,7 +27,7 @@ class ApuriWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ApuriWidget(QWidget *parent, Tosite *pTosite);
+    ApuriWidget(QWidget *parent, Tosite *pTosite);
 
     Tosite* tosite() { return pTosite_;}
     virtual void otaFokus() {;}
