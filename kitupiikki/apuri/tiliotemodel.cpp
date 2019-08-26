@@ -17,6 +17,7 @@
 #include "tiliotemodel.h"
 #include "db/kirjanpito.h"
 #include "db/tilinvalintadialogi.h"
+#include "db/tositetyyppimodel.h"
 
 #include "model/tositevienti.h"
 
@@ -193,6 +194,9 @@ Qt::ItemFlags TilioteModel::flags(const QModelIndex &index) const
     if (!index.isValid())
         return Qt::NoItemFlags;
 
+    if( rivit_.at(index.row()).harmaa)
+        return Qt::NoItemFlags;
+
     if( index.column() == KOHDENNUS )
     {
         Tili tili = kp()->tilit()->tiliNumerolla( rivit_.at(index.row()).tili );
@@ -306,6 +310,52 @@ void TilioteModel::lataa(QVariantList lista)
 
         rivit_.append(rivi);
     }
+    endResetModel();
+}
+
+void TilioteModel::lataaHarmaat(int tili, const QDate &mista, const QDate &mihin)
+{
+    KpKysely *kysely = kpk("/viennit");
+    kysely->lisaaAttribuutti("tili", tili);
+    kysely->lisaaAttribuutti("alkupvm", mista);
+    kysely->lisaaAttribuutti("loppupvm", mihin);
+
+    connect( kysely, &KpKysely::vastaus, this, &TilioteModel::harmaatSaapuu);
+    kysely->kysy();
+}
+
+void TilioteModel::harmaatSaapuu(QVariant *data)
+{
+    beginResetModel();
+
+    // Poistetaan kaikki vanhat harmaat
+    for(int i=rivit_.count()-1; i>-1; i--) {
+        if( rivit_.at(i).harmaa )
+            rivit_.removeAt(i);
+    }
+
+    // Sijoitetaan uudet harmaat loppuun
+    QVariantList lista = data->toList();
+
+    for(auto listalla : lista) {
+        QVariantMap map = listalla.toMap();
+
+        if( map.value("tosite").toMap().value("tyyppi").toInt() == TositeTyyppi::TILIOTE )
+            continue;       // On jo tiliotteelta
+
+        Tilioterivi rivi;
+        rivi.pvm = map.value("pvm").toDate();
+        if( map.value("debet").toDouble() > 1e-5)
+            rivi.euro = map.value("debet").toDouble();
+        else
+            rivi.euro = 0 - map.value("kredit").toDouble();
+
+        rivi.selite = map.value("selite").toString();
+        rivi.harmaa = true;
+
+        rivit_.append(rivi);
+    }
+
     endResetModel();
 }
 

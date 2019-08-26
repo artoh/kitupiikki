@@ -15,7 +15,20 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0,0,1,0">
+    <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0,0,0,0,1">
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Tositet&amp;yyppi</string>
+       </property>
+       <property name="buddy">
+        <cstring>tositetyyppiCombo</cstring>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="tositetyyppiCombo"/>
+     </item>
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
@@ -41,9 +54,6 @@
      </item>
      <item>
       <widget class="QLineEdit" name="otsikkoEdit"/>
-     </item>
-     <item>
-      <widget class="QComboBox" name="tositetyyppiCombo"/>
      </item>
     </layout>
    </item>
@@ -477,7 +487,6 @@
  <tabstops>
   <tabstop>tositePvmEdit</tabstop>
   <tabstop>otsikkoEdit</tabstop>
-  <tabstop>tositetyyppiCombo</tabstop>
   <tabstop>viennitView</tabstop>
   <tabstop>lisaaRiviNappi</tabstop>
   <tabstop>poistariviNappi</tabstop>

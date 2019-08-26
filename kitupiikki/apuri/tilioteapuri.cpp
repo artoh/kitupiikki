@@ -31,6 +31,7 @@
 
 #include "kirjaus/kirjauswg.h"
 
+#include <QDebug>
 
 TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     : ApuriWidget (parent,tosite),
@@ -45,10 +46,10 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     ui->oteView->setItemDelegateForColumn( TilioteModel::EURO, new EuroDelegaatti() );
     ui->oteView->setItemDelegateForColumn( TilioteModel::KOHDENNUS, new KohdennusDelegaatti() );
 
-    QSortFilterProxyModel *proxy = new QSortFilterProxyModel(this);
-    proxy->setSourceModel( model_ );
+    proxy_ = new QSortFilterProxyModel(this);
+    proxy_->setSourceModel( model_ );
 
-    ui->oteView->setModel(proxy);
+    ui->oteView->setModel(proxy_);
     ui->oteView->sortByColumn(TilioteModel::PVM, Qt::AscendingOrder);
     ui->oteView->installEventFilter(this);
 
@@ -63,6 +64,9 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     connect( model_, &TilioteModel::rowsInserted, this, &TilioteApuri::tositteelle);
     connect( model_, &TilioteModel::rowsRemoved, this, &TilioteApuri::tositteelle);
     connect( model_, &TilioteModel::modelReset, this, &TilioteApuri::tositteelle);
+
+    connect( ui->alkuDate, &KpDateEdit::dateChanged, this, &TilioteApuri::tiliPvmMuutos);
+    connect( ui->loppuDate, &KpDateEdit::dateChanged, this, &TilioteApuri::tiliPvmMuutos);
 
     ui->tiliCombo->suodataTyypilla("ARP");
 
@@ -122,14 +126,14 @@ void TilioteApuri::riviValittu()
 
 void TilioteApuri::muokkaa()
 {
-    TilioteKirjaaja dlg(this, model_->rivi( ui->oteView->currentIndex().row() ));
+    TilioteKirjaaja dlg(this, model_->rivi( proxy_->mapToSource( ui->oteView->currentIndex()).row() ));
     if( dlg.exec() == QDialog::Accepted)
-        model_->muokkaaRivi( ui->oteView->currentIndex().row(), dlg.rivi() );
+        model_->muokkaaRivi( proxy_->mapToSource( ui->oteView->currentIndex()).row()  , dlg.rivi() );
 }
 
 void TilioteApuri::poista()
 {
-    model_->poistaRivi(ui->oteView->currentIndex().row() );
+    model_->poistaRivi( proxy_->mapToSource( ui->oteView->currentIndex()).row() );
 }
 
 void TilioteApuri::naytaSummat()
@@ -145,6 +149,20 @@ void TilioteApuri::naytaSummat()
             otot += qAbs(sentit);
     }
     ui->infoLabel->setText(tr("Panot %L1 € \tOtot %L2 €").arg((panot / 100.0), 0, 'f', 2).arg((otot / 100.0), 0, 'f', 2));
+}
+
+void TilioteApuri::tiliPvmMuutos()
+{
+    qDebug() << "TiliPvmMuutos";
+    // Otsikon päivittäminen
+    lataaHarmaat();
+}
+
+void TilioteApuri::lataaHarmaat()
+{
+    model_->lataaHarmaat( ui->tiliCombo->valittuTilinumero(),
+                          ui->alkuDate->date(),
+                          ui->loppuDate->date());
 }
 
 bool TilioteApuri::eventFilter(QObject *watched, QEvent *event)

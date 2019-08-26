@@ -47,6 +47,9 @@ protected slots:
     void poista();
     void naytaSummat();
 
+    void tiliPvmMuutos();
+    void lataaHarmaat();
+
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
@@ -54,6 +57,8 @@ private:
     Ui::TilioteApuri *ui;
     TilioteModel *model_;
     KirjausWg *kwg_;
+
+    QSortFilterProxyModel *proxy_;
 };
 
 #endif // TILIOTEAPURI_H

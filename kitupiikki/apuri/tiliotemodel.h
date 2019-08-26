@@ -43,6 +43,7 @@ public:
         int eraId = 0;
         QString eraTunnus;
         QDate laskupvm;
+        bool harmaa = false;
     };
 
 public:
@@ -77,6 +78,12 @@ public:
 
     QVariantList viennit(int tilinumero) const;
     void lataa(QVariantList lista);
+
+public slots:
+    void lataaHarmaat(int tili, const QDate& mista, const QDate& mihin);
+
+protected slots:
+    void harmaatSaapuu(QVariant* data);
 
 private:
 
