@@ -31,20 +31,22 @@
 
 #include "kirjaus/kirjauswg.h"
 
+#include "tiliotekirjaaja.h"
+
 #include <QDebug>
 
 TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     : ApuriWidget (parent,tosite),
       ui( new Ui::TilioteApuri),
       model_(new TilioteModel(this)),
-      kwg_( qobject_cast<KirjausWg*>(parent))
+      kirjaaja_(new TilioteKirjaaja(this))
 {
 
     ui->setupUi(this);
 
     ui->oteView->setItemDelegateForColumn( TilioteModel::TILI, new TiliDelegaatti() );
     ui->oteView->setItemDelegateForColumn( TilioteModel::EURO, new EuroDelegaatti() );
-    ui->oteView->setItemDelegateForColumn( TilioteModel::KOHDENNUS, new KohdennusDelegaatti() );
+    ui->oteView->setItemDelegateForColumn( TilioteModel::KOHDENNUS, new KohdennusDelegaatti() );    
 
     proxy_ = new QSortFilterProxyModel(this);
     proxy_->setSourceModel( model_ );
@@ -52,6 +54,8 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     ui->oteView->setModel(proxy_);
     ui->oteView->sortByColumn(TilioteModel::PVM, Qt::AscendingOrder);
     ui->oteView->installEventFilter(this);
+
+    laitaPaivat( tosite->data(Tosite::PVM).toDate() );
 
     connect( ui->lisaaRiviNappi, &QPushButton::clicked, this, &TilioteApuri::lisaaRivi);
     connect( ui->lisaaTyhjaBtn, &QPushButton::clicked, this, &TilioteApuri::lisaaTyhjaRivi );
@@ -68,11 +72,11 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     connect( ui->alkuDate, &KpDateEdit::dateChanged, this, &TilioteApuri::tiliPvmMuutos);
     connect( ui->loppuDate, &KpDateEdit::dateChanged, this, &TilioteApuri::tiliPvmMuutos);
 
+    connect( tosite, &Tosite::pvmMuuttui, this, &TilioteApuri::laitaPaivat);
+
     ui->tiliCombo->suodataTyypilla("ARP");
 
-    QDate paivays = tosite->data(Tosite::PVM).toDate();
-    ui->loppuDate->setDate(paivays);
-    ui->alkuDate->setDate( paivays.addDays(1).addMonths(-1) );
+    ui->oteView->horizontalHeader()->setSectionResizeMode( TilioteModel::SELITE, QHeaderView::Stretch );
 }
 
 TilioteApuri::~TilioteApuri()
@@ -86,8 +90,7 @@ bool TilioteApuri::teeTositteelle()
     if( tosite()->data(Tosite::OTSIKKO).toString().isEmpty())
         tosite()->setData(Tosite::OTSIKKO, tr("Tiliote %1").arg(tosite()->data(Tosite::PVM).toDate().toString("dd.MM.yyyy")));
 
-    naytaSummat();
-
+    naytaSummat();    
     return true;
 }
 
@@ -99,16 +102,12 @@ void TilioteApuri::teeReset()
         ui->tiliCombo->valitseTili(ekarivi.tili());
     }
     model_->lataa(viennit);
-
-
+    lataaHarmaat();
 }
 
 void TilioteApuri::lisaaRivi()
 {
-    TilioteKirjaaja dlg(this);
-    dlg.asetaPvm( tosite()->data(Tosite::PVM).toDate() );
-    if( dlg.exec() == QDialog::Accepted)
-        model_->lisaaRivi( dlg.rivi() );
+    kirjaaja_->show();
 }
 
 void TilioteApuri::lisaaTyhjaRivi()
@@ -126,9 +125,8 @@ void TilioteApuri::riviValittu()
 
 void TilioteApuri::muokkaa()
 {
-    TilioteKirjaaja dlg(this, model_->rivi( proxy_->mapToSource( ui->oteView->currentIndex()).row() ));
-    if( dlg.exec() == QDialog::Accepted)
-        model_->muokkaaRivi( proxy_->mapToSource( ui->oteView->currentIndex()).row()  , dlg.rivi() );
+    kirjaaja_->show();
+    kirjaaja_->muokkaaRivia( proxy_->mapToSource( ui->oteView->currentIndex()).row()  );
 }
 
 void TilioteApuri::poista()
@@ -156,6 +154,16 @@ void TilioteApuri::tiliPvmMuutos()
     qDebug() << "TiliPvmMuutos";
     // Otsikon päivittäminen
     lataaHarmaat();
+
+    Tili tili = kp()->tilit()->tiliNumerolla( ui->tiliCombo->valittuTilinumero() );
+    QString iban = tili.str("iban");
+
+    tosite()->setData( Tosite::OTSIKKO,
+                       tr("Tiliote %1 - %2 %3")
+                       .arg( ui->alkuDate->date().toString("dd.MM.yyyy") )
+                       .arg( ui->loppuDate->date().toString("dd.MM.yyyy"))
+                       .arg(iban));
+
 }
 
 void TilioteApuri::lataaHarmaat()
@@ -163,6 +171,13 @@ void TilioteApuri::lataaHarmaat()
     model_->lataaHarmaat( ui->tiliCombo->valittuTilinumero(),
                           ui->alkuDate->date(),
                           ui->loppuDate->date());
+}
+
+void TilioteApuri::laitaPaivat(const QDate &pvm)
+{
+    ui->loppuDate->setDate(pvm);
+    ui->alkuDate->setDate( pvm.addDays(1).addMonths(-1) );
+    tiliPvmMuutos();
 }
 
 bool TilioteApuri::eventFilter(QObject *watched, QEvent *event)

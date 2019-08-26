@@ -20,13 +20,15 @@
 #include "kirjaus/kohdennusproxymodel.h"
 #include "model/laskutaulumodel.h"
 
+#include <QPushButton>
 #include <QSortFilterProxyModel>
+#include "tilioteapuri.h"
+#include "model/tosite.h"
 
-TilioteKirjaaja::TilioteKirjaaja(QWidget *parent, TilioteModel::Tilioterivi rivi) :
-    QDialog(parent),    
+TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
+    QDialog(apuri),
     ui(new Ui::TilioteKirjaaja),
-    rivi_(rivi),
-    kohdennusProxy_(new KohdennusProxyModel(this, rivi.pvm, rivi.kohdennus) ),
+    kohdennusProxy_(new KohdennusProxyModel(this) ),
     maksuProxy_(new QSortFilterProxyModel(this)),
     laskut_( new LaskuTauluModel(this))
 {
@@ -41,7 +43,6 @@ TilioteKirjaaja::TilioteKirjaaja(QWidget *parent, TilioteModel::Tilioterivi rivi
 
     ui->kohdennusCombo->setModel(kohdennusProxy_);
     ui->kohdennusCombo->setModelColumn(KohdennusModel::NIMI);
-    ui->kohdennusCombo->setCurrentIndex( ui->kohdennusCombo->findData( rivi.kohdennus, KohdennusModel::IdRooli) );
 
     alaTabMuuttui(0);
 
@@ -49,30 +50,22 @@ TilioteKirjaaja::TilioteKirjaaja(QWidget *parent, TilioteModel::Tilioterivi rivi
     connect( ui->alaTabs, &QTabBar::currentChanged, this, &TilioteKirjaaja::alaTabMuuttui);
     connect( ui->ylaTab, &QTabBar::currentChanged, this, &TilioteKirjaaja::ylaTabMuuttui);
 
-    if( qAbs(rivi.euro) > 1e-5)
-    {
-        ui->euroEdit->setValue( rivi.euro );
-        euroMuuttuu();
-        Tili tili = kp()->tilit()->tiliNumerolla( rivi.tili );
-        ui->tiliEdit->valitseTili(tili);
-
-        if( rivi_.eraId )
-            ui->alaTabs->setCurrentIndex(MAKSU);
-        else if( tili.onko(TiliLaji::TULOS))
-            ui->alaTabs->setCurrentIndex(TULOMENO);
-        else
-            ui->alaTabs->setCurrentIndex(SIIRTO);
-
-
-        // Vielä erän valitseminen
-    }
-
     maksuProxy_->setSourceModel(laskut_);
 
     ui->maksuView->setModel(maksuProxy_);
     connect( ui->maksuView->selectionModel(), &QItemSelectionModel::currentRowChanged , this, &TilioteKirjaaja::valitseLasku);
     connect( ui->suodatusEdit, &QLineEdit::textEdited, this, &TilioteKirjaaja::suodata);
 
+    connect( ui->buttonBox->button( QDialogButtonBox::Discard), &QPushButton::clicked,
+             this, &TilioteKirjaaja::tyhjenna);
+
+    ui->pvmEdit->setDate( apuri->tosite()->data(Tosite::PVM).toDate() );
+    tyhjenna();
+
+    connect( ui->euroEdit, &KpEuroEdit::textChanged, this, &TilioteKirjaaja::tarkastaTallennus);
+    connect( ui->pvmEdit, &KpDateEdit::dateChanged, this, &TilioteKirjaaja::tarkastaTallennus);
+    connect( ui->tiliEdit, &TilinvalintaLine::textChanged, this, &TilioteKirjaaja::tarkastaTallennus);
+    connect( ui->maksuView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &TilioteKirjaaja::tarkastaTallennus);
 }
 
 TilioteKirjaaja::~TilioteKirjaaja()
@@ -87,37 +80,85 @@ void TilioteKirjaaja::asetaPvm(const QDate &pvm)
 
 TilioteModel::Tilioterivi TilioteKirjaaja::rivi()
 {
-    rivi_.pvm = ui->pvmEdit->date();
-    rivi_.euro = ui->euroEdit->value();
+    TilioteModel::Tilioterivi rivi;
+    rivi.pvm = ui->pvmEdit->date();
+    rivi.euro = ui->euroEdit->value();
 
-    rivi_.selite = ui->seliteEdit->text();
-    rivi_.tili = ui->tiliEdit->valittuTilinumero();
-    rivi_.kohdennus = ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt();
-    rivi_.merkkaukset.clear();
+    rivi.selite = ui->seliteEdit->text();
+    rivi.tili = ui->tiliEdit->valittuTilinumero();
+    rivi.kohdennus = ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt();
+    rivi.merkkaukset.clear();
     for(auto var : ui->merkkausCC->selectedDatas())
-        rivi_.merkkaukset.append( var.toInt() );
+        rivi.merkkaukset.append( var.toInt() );
 
 
     if( ui->alaTabs->currentIndex() == MAKSU) {
         QModelIndex index = ui->maksuView->currentIndex();
 
-        rivi_.saajamaksaja = index.data(LaskuTauluModel::AsiakasToimittajaNimiRooli).toString();
-        rivi_.saajamaksajaId = index.data(LaskuTauluModel::AsiakasToimittajaIdRooli).toInt();
-        rivi_.eraId = index.data(LaskuTauluModel::EraIdRooli).toInt();
-        rivi_.laskupvm = index.data(LaskuTauluModel::LaskuPvmRooli).toDate();
-        rivi_.tili = index.data(LaskuTauluModel::TiliRooli).toInt();
-        if( rivi_.selite.isEmpty())
-            rivi_.selite = index.data(LaskuTauluModel::AsiakasToimittajaNimiRooli ).toString();
+        rivi.saajamaksaja = index.data(LaskuTauluModel::AsiakasToimittajaNimiRooli).toString();
+        rivi.saajamaksajaId = index.data(LaskuTauluModel::AsiakasToimittajaIdRooli).toInt();
+        rivi.eraId = index.data(LaskuTauluModel::EraIdRooli).toInt();
+        rivi.laskupvm = index.data(LaskuTauluModel::LaskuPvmRooli).toDate();
+        rivi.tili = index.data(LaskuTauluModel::TiliRooli).toInt();
+        if( rivi.selite.isEmpty())
+            rivi.selite = index.data(LaskuTauluModel::AsiakasToimittajaNimiRooli ).toString();
 
     } else if( ui->alaTabs->currentIndex() == TULOMENO ) {
-        rivi_.saajamaksajaId = ui->asiakastoimittaja->id();
-        rivi_.saajamaksaja = ui->asiakastoimittaja->nimi();
+        rivi.saajamaksajaId = ui->asiakastoimittaja->id();
+        rivi.saajamaksaja = ui->asiakastoimittaja->nimi();
 
-        if( rivi_.selite.isEmpty())
-            rivi_.selite = rivi_.saajamaksaja;
+        if( rivi.selite.isEmpty())
+            rivi.selite = rivi.saajamaksaja;
     }
 
-    return rivi_;
+    return rivi;
+}
+
+void TilioteKirjaaja::accept()
+{
+    if( muokattavaRivi_) {
+        apuri()->model()->muokkaaRivi( muokattavaRivi_, rivi());
+        muokattavaRivi_ = 0;
+    } else {
+        apuri()->model()->lisaaRivi( rivi());
+    }
+
+    tyhjenna();
+}
+
+void TilioteKirjaaja::muokkaaRivia(int riviNro)
+{
+    muokattavaRivi_ = riviNro;
+    TilioteModel::Tilioterivi rivi = apuri()->model()->rivi(riviNro);
+
+    ui->ylaTab->setCurrentIndex( rivi.euro < 0 );
+    if( rivi.eraId )
+        ui->alaTabs->setCurrentIndex( MAKSU );
+    else if( QString::number(rivi.tili).startsWith('1') ||
+             QString::number(rivi.tili).startsWith('2'))
+        ui->alaTabs->setCurrentIndex( SIIRTO );
+    else
+        ui->alaTabs->setCurrentIndex( TULOMENO );
+
+    ui->pvmEdit->setDate( rivi.pvm );
+    ui->euroEdit->setValue( rivi.euro );
+    ui->seliteEdit->setText( rivi.selite );
+    ui->tiliEdit->valitseTiliNumerolla( rivi.tili );
+    ui->kohdennusCombo->setCurrentIndex(
+                ui->kohdennusCombo->findData( rivi.kohdennus, KohdennusModel::IdRooli));
+
+    // Etsitään valittava rivi
+    for(int i=0; i < maksuProxy_->rowCount(); i++) {
+        if( maksuProxy_->data( maksuProxy_->index(i,0), LaskuTauluModel::EraIdRooli ).toInt() == rivi.eraId) {
+            ui->maksuView->selectRow(i);
+            break;
+        }
+    }
+
+    // MerkkausCC
+    lataaMerkkaukset( rivi.merkkaukset);
+    ui->asiakastoimittaja->set( rivi.saajamaksajaId,
+                                rivi.saajamaksaja);
 }
 
 
@@ -143,20 +184,6 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
     ui->seliteEdit->setVisible( tab != MAKSU);
 
     if( tab == MAKSU ) {
-        // Kohdennukset
-        kohdennusProxy_->asetaPaiva(ui->pvmEdit->date());
-
-        KohdennusProxyModel merkkausproxy(this, ui->pvmEdit->date(), -1, KohdennusProxyModel::MERKKKAUKSET );
-        ui->merkkausCC->clear();
-
-        for(int i=0; i < merkkausproxy.rowCount(); i++) {
-            int koodi = merkkausproxy.data( merkkausproxy.index(i,0), KohdennusModel::IdRooli ).toInt();
-            QString nimi = merkkausproxy.data( merkkausproxy.index(i,0), KohdennusModel::NimiRooli ).toString();
-
-            Qt::CheckState state = rivi_.merkkaukset.contains( koodi ) ? Qt::Checked : Qt::Unchecked;
-            ui->merkkausCC->addItem(nimi, koodi, state);
-        }
-
         laskut_->lataaAvoimet( menoa_ );
 
     } else if( tab == TULOMENO ) {
@@ -215,6 +242,48 @@ void TilioteKirjaaja::suodata(const QString &teksti)
         maksuProxy_->setFilterCaseSensitivity(Qt::CaseInsensitive);
         maksuProxy_->setFilterFixedString( teksti );
     }
+}
 
+void TilioteKirjaaja::tyhjenna()
+{       
+    ui->asiakastoimittaja->clear();
+    ui->euroEdit->clear();
+    ui->merkkausCC->clear();
+    ui->seliteEdit->clear();
+    ui->maksuView->clearSelection();
+    ui->pvmEdit->setFocus();
+    ui->kohdennusCombo->setCurrentIndex(
+                ui->kohdennusCombo->findData(0, KohdennusModel::IdRooli));
+    lataaMerkkaukset();
+    tarkastaTallennus();
+}
 
+void TilioteKirjaaja::tarkastaTallennus()
+{
+    ui->buttonBox->button(QDialogButtonBox::Save)->setEnabled(
+                qAbs(ui->euroEdit->value()) > 1e-5 &&
+                ( ui->tiliEdit->valittuTilinumero() ||
+                  !ui->maksuView->selectionModel()->selectedRows().isEmpty() ));
+}
+
+void TilioteKirjaaja::lataaMerkkaukset(QList<int> merkatut)
+{
+    // Kohdennukset
+    kohdennusProxy_->asetaPaiva(ui->pvmEdit->date());
+
+    KohdennusProxyModel merkkausproxy(this, ui->pvmEdit->date(), -1, KohdennusProxyModel::MERKKKAUKSET );
+    ui->merkkausCC->clear();
+
+    for(int i=0; i < merkkausproxy.rowCount(); i++) {
+        int koodi = merkkausproxy.data( merkkausproxy.index(i,0), KohdennusModel::IdRooli ).toInt();
+        QString nimi = merkkausproxy.data( merkkausproxy.index(i,0), KohdennusModel::NimiRooli ).toString();
+
+            Qt::CheckState state = merkatut.contains( koodi ) ? Qt::Checked : Qt::Unchecked;
+            ui->merkkausCC->addItem(nimi, koodi, state);
+    }
+}
+
+TilioteApuri *TilioteKirjaaja::apuri()
+{
+    return qobject_cast<TilioteApuri*>( parent() );
 }

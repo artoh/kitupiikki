@@ -168,7 +168,7 @@ bool AsiakasToimittajaValinta::eventFilter(QObject *watched, QEvent *event)
         if( keyEvent->key() == Qt::Key_Enter ||
                 keyEvent->key() == Qt::Key_Return) {
             syotettyNimi();
-            qDebug() << " EEVEE";
+            return true;
         }
     }
     return QWidget::eventFilter(watched, event);

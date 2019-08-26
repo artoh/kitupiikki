@@ -50,7 +50,7 @@ public:
     explicit TilioteModel(QObject *parent = nullptr);
 
     enum Sarakkeet {
-        PVM, EURO, TILI, KOHDENNUS, SAAJAMAKSAJA, SELITE
+        PVM, SAAJAMAKSAJA, SELITE, TILI, KOHDENNUS, EURO
     };
 
     // Header:

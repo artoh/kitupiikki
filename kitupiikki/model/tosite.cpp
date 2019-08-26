@@ -51,6 +51,8 @@ void Tosite::setData(int kentta, QVariant arvo)
 
     if( kentta == PVM)
         emit pvmMuuttui( arvo.toDate() );
+    else if( kentta == OTSIKKO )
+        emit otsikkoMuuttui( arvo.toString() );
 
     tarkasta();
 }

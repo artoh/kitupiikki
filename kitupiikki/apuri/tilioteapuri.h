@@ -25,7 +25,7 @@ namespace Ui {
 class TilioteApuri;
 }
 
-class KirjausWg;
+class TilioteKirjaaja;
 
 class TilioteApuri : public ApuriWidget
 {
@@ -34,6 +34,7 @@ public:
     TilioteApuri(QWidget *parent = nullptr, Tosite* tosite = nullptr);
     virtual ~TilioteApuri() override;
 
+    TilioteModel* model() { return model_;}
 
 protected:
     bool teeTositteelle() override;
@@ -49,6 +50,7 @@ protected slots:
 
     void tiliPvmMuutos();
     void lataaHarmaat();
+    void laitaPaivat(const QDate& pvm);
 
 
 protected:
@@ -56,7 +58,7 @@ protected:
 private:
     Ui::TilioteApuri *ui;
     TilioteModel *model_;
-    KirjausWg *kwg_;
+    TilioteKirjaaja *kirjaaja_;
 
     QSortFilterProxyModel *proxy_;
 };

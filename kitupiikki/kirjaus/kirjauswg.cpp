@@ -165,6 +165,8 @@ KirjausWg::KirjausWg( QWidget *parent)
     connect( ui->viennitView, SIGNAL(activated(QModelIndex)), this, SLOT( vientivwAktivoitu(QModelIndex)));
     connect( ui->otsikkoEdit, &QLineEdit::textChanged, [this] { this->tosite()->setData(Tosite::OTSIKKO, ui->otsikkoEdit->text()); });
 
+    connect( tosite_, &Tosite::otsikkoMuuttui, [this] (const QString& otsikko) { if( otsikko != ui->otsikkoEdit->text()) this->ui->otsikkoEdit->setText(otsikko); });
+
     // Tagivalikko
     ui->viennitView->viewport()->installEventFilter(this);
     ui->viennitView->setFocusPolicy(Qt::StrongFocus);

@@ -90,6 +90,7 @@ signals:
     void tallennusvirhe(int virhe);
     void tila(bool muokattu, int virheet, double debet, double kredit);
     void pvmMuuttui(const QDate& pvm);
+    void otsikkoMuuttui(const QString& otsikko);
 
 public slots:
     void lataa(int tositeid);

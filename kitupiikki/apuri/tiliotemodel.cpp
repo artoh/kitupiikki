@@ -292,17 +292,11 @@ void TilioteModel::lataa(QVariantList lista)
         rivi.kohdennus = vienti.kohdennus();
         rivi.merkkaukset = vienti.merkkaukset();
         rivi.eraId = vienti.eraId();
+        rivi.saajamaksaja = vienti.value("kumppani").toMap().value("nimi").toString();
+        rivi.saajamaksajaId = vienti.value("kumppani").toMap().value("id").toInt();
 
         if( vienti.eraId() ) {
             rivi.laskupvm = vienti.value("era").toMap().value("pvm").toDate();
-        }
-
-        if( meno && pankki.contains("toimittaja")) {
-            rivi.saajamaksajaId = pankki.value("toimittaja").toMap().value("id").toInt();
-            rivi.saajamaksaja = pankki.value("toimittaja").toMap().value("nimi").toString();
-        } else if( !meno && pankki.contains("asiakas")) {
-            rivi.saajamaksajaId = pankki.value("asiakas").toMap().value("id").toInt();
-            rivi.saajamaksaja = pankki.value("asiakas").toMap().value("nimi").toString();
         }
 
         rivi.selite = vienti.selite();
@@ -351,6 +345,8 @@ void TilioteModel::harmaatSaapuu(QVariant *data)
             rivi.euro = 0 - map.value("kredit").toDouble();
 
         rivi.selite = map.value("selite").toString();
+        rivi.saajamaksaja = map.value("kumppani").toMap().value("nimi").toString();
+        rivi.saajamaksajaId = map.value("kumppani").toMap().value("id").toInt();
         rivi.harmaa = true;
 
         rivit_.append(rivi);

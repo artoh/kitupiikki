@@ -23,6 +23,7 @@
 
 class KohdennusProxyModel;
 class LaskuTauluModel;
+class TilioteApuri;
 
 class QSortFilterProxyModel;
 
@@ -36,12 +37,16 @@ class TilioteKirjaaja : public QDialog
 public:
     enum AlaTab { MAKSU, TULOMENO, SIIRTO, PIILOSSA };
 
-    TilioteKirjaaja(  QWidget *parent = nullptr, TilioteModel::Tilioterivi rivi = TilioteModel::Tilioterivi());
-    ~TilioteKirjaaja();
+    TilioteKirjaaja( TilioteApuri* apuri );
+    ~TilioteKirjaaja() override;
 
     void asetaPvm(const QDate& pvm);
 
     TilioteModel::Tilioterivi rivi();
+
+public slots:
+    void accept() override;
+    void muokkaaRivia(int riviNro);
 
 private slots:
     void alaTabMuuttui(int tab);
@@ -51,16 +56,24 @@ private slots:
     void valitseLasku();
     void suodata(const QString& teksti);
 
+    void tyhjenna();
+    void tarkastaTallennus();
+    void lataaMerkkaukset( QList<int> merkatut = QList<int>());
+
+private:
+    TilioteApuri* apuri();
+
 private:
     Ui::TilioteKirjaaja *ui;
 
     int menoa_ = false;
 
-    TilioteModel::Tilioterivi rivi_;
     KohdennusProxyModel* kohdennusProxy_;
     QSortFilterProxyModel* maksuProxy_;
 
     LaskuTauluModel *laskut_;
+
+    int muokattavaRivi_ = 0;
 };
 
 #endif // TILIOTEKIRJAAJA_H
