@@ -10,6 +10,8 @@ SOURCES += \
     $$PWD/db/tositetyyppimodel.cpp \
     $$PWD/db/yhteysmodel.cpp \
     $$PWD/kirjaus/tallennettuwidget.cpp \
+    $$PWD/laskutus/kumppanituotewidget.cpp \
+    $$PWD/laskutus/laskulistawidget.cpp \
     $$PWD/laskutus/laskurivitmodel.cpp \
     $$PWD/laskutus/myyntilaskujentoimittaja.cpp \
     $$PWD/laskutus/myyntilaskuntulostaja.cpp \
@@ -217,6 +219,8 @@ HEADERS += \
     $$PWD/db/tositetyyppimodel.h \
     $$PWD/db/yhteysmodel.h \
     $$PWD/kirjaus/tallennettuwidget.h \
+    $$PWD/laskutus/kumppanituotewidget.h \
+    $$PWD/laskutus/laskulistawidget.h \
     $$PWD/laskutus/laskurivitmodel.h \
     $$PWD/laskutus/myyntilaskujentoimittaja.h \
     $$PWD/laskutus/myyntilaskuntulostaja.h \
@@ -426,6 +430,8 @@ FORMS += \
     $$PWD/apuri/tulomenoapuri.ui \
     $$PWD/apuri/siirtoapuri.ui \
     $$PWD/kirjaus/tallennettuwidget.ui \
+    $$PWD/laskutus/kumppanituotewidget.ui \
+    $$PWD/laskutus/laskulistawidget.ui \
     $$PWD/rekisteri/asiakastoimittajadlg.ui \
     $$PWD/tilaus/tilausvahvistus.ui \
     $$PWD/tilaus/tilausvalinta.ui \

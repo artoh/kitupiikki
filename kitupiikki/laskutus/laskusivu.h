@@ -27,19 +27,10 @@
 
 class QTabBar;
 class QSplitter;
-class QTableView;
-class QPushButton;
 class QLineEdit;
-class QSortFilterProxyModel;
-class QDateEdit;
-class QLabel;
 
-class AsiakkaatModel;
-class LaskutModel;
-class YhteystietoWidget;
-
-class LaskuTauluModel;
-class TuoteModel;
+class KumppaniTuoteWidget;
+class LaskulistaWidget;
 
 /**
  * @brief Laskusivu
@@ -64,7 +55,7 @@ public:
 
 public slots:
     void paaTab(int indeksi);
-    void paivitaAsiakasSuodatus();
+/*    void paivitaAsiakasSuodatus();
     void paivitaLaskulista();
     void asiakasValintaMuuttuu();
     void laskuValintaMuuttuu();
@@ -80,43 +71,17 @@ public slots:
 
 private slots:
     void naytaLaskuDlg(QVariant* data);
+*/
 
 private:
     void luoUi();
 
-    LaskuTauluModel* laskumodel_ = nullptr;
-    AsiakkaatModel* asiakasmodel_;
-    TuoteModel* tuotemodel_;
-
-
-    QSortFilterProxyModel* asiakasProxy_ = nullptr;
-    QSortFilterProxyModel* laskuAsiakasProxy_;
-    QSortFilterProxyModel* laskuViiteProxy_;
-    QSortFilterProxyModel* tuoteProxy_;
-
     QTabBar *paaTab_;
-    QTabBar *lajiTab_;
-
     QSplitter *splitter_;
-
-    QTableView* asiakasView_;
-    QTableView* laskuView_;
-    QTableView* tuoteView_;
-
     QLineEdit* asiakasSuodatusEdit_;
-    QLineEdit* viiteSuodatusEdit_;
 
-    QDateEdit* mistaEdit_;
-    QLabel* viivaLabel_;
-    QDateEdit* mihinEdit_;
-
-    QPushButton* naytaNappi_;
-    QPushButton* muokkaaNappi_;
-    QPushButton* poistaNappi_;
-    QPushButton* kopioiNappi_;
-    QPushButton* hyvitysNappi_;
-    QPushButton* muistutusNappi_;
-
+    KumppaniTuoteWidget* kumppaniTuoteWidget_;
+    LaskulistaWidget *laskuWidget_;
 
 
 };

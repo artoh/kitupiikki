@@ -27,6 +27,9 @@
 
 #include "model/laskutaulumodel.h"
 
+#include "kumppanituotewidget.h"
+#include "laskulistawidget.h"
+
 #include <QTabBar>
 #include <QSplitter>
 #include <QTableView>
@@ -41,66 +44,20 @@
 #include <QHeaderView>
 #include <QSortFilterProxyModel>
 
-LaskuSivu::LaskuSivu()
-    : laskumodel_( new LaskuTauluModel(this)),
-      asiakasmodel_(new AsiakkaatModel(this)),
-      tuotemodel_(new TuoteModel(this))
+LaskuSivu::LaskuSivu() :
+    KitupiikkiSivu () ,
+    kumppaniTuoteWidget_( new KumppaniTuoteWidget(this)),
+    laskuWidget_( new LaskulistaWidget(this))
+
 {
     luoUi();
     paaTab_->setCurrentIndex(MYYNTI);
-    lajiTab_->setCurrentIndex(AVOIMET);
 
     connect( paaTab_, &QTabBar::currentChanged, this, &LaskuSivu::paaTab );
-    connect( lajiTab_, &QTabBar::currentChanged, this, &LaskuSivu::paivitaLaskulista);
 
-    asiakasProxy_ = new QSortFilterProxyModel(this);
-    asiakasProxy_->setSourceModel(asiakasmodel_);
-    asiakasProxy_->setFilterKeyColumn(AsiakkaatModel::NIMI);
-    asiakasProxy_->setDynamicSortFilter(true);
-    asiakasProxy_->setFilterCaseSensitivity(Qt::CaseInsensitive);
-
-    asiakasView_->setModel(asiakasProxy_);
-    asiakasView_->horizontalHeader()->setSectionResizeMode(AsiakkaatModel::NIMI, QHeaderView::Stretch);
-    asiakasView_->setSelectionBehavior(QTableView::SelectRows);
-    asiakasView_->setSelectionMode(QTableView::SingleSelection);
-    asiakasView_->setSortingEnabled(true);
-
-    laskuAsiakasProxy_ = new QSortFilterProxyModel(this);
-    laskuAsiakasProxy_->setFilterKeyColumn(LaskuTauluModel::ASIAKASTOIMITTAJA);
-    laskuAsiakasProxy_->setSourceModel(laskumodel_);
-    laskuViiteProxy_ = new QSortFilterProxyModel(this);
-    laskuAsiakasProxy_->setFilterCaseSensitivity(Qt::CaseInsensitive);
-    laskuViiteProxy_->setSourceModel(laskuAsiakasProxy_);
-    laskuViiteProxy_->setFilterRole(LaskutModel::ViiteRooli);
-    laskuViiteProxy_->setDynamicSortFilter(true);
-
-    laskuView_->setModel(laskuViiteProxy_);
-    laskuView_->setSelectionBehavior(QTableView::SelectRows);
-    laskuView_->setSelectionMode(QTableView::SingleSelection);
-    laskuView_->setSortingEnabled(true);
-    laskuView_->horizontalHeader()->setStretchLastSection(true);
-
-    tuoteProxy_ = new QSortFilterProxyModel;
-    tuoteProxy_->setSourceModel(tuotemodel_);
-    tuoteProxy_->setDynamicSortFilter(true);
-
-    tuoteView_->setModel(tuoteProxy_);
-    tuoteView_->setSelectionBehavior(QTableView::SelectRows);
-    tuoteView_->setSelectionMode(QTableView::SingleSelection);
-    tuoteView_->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
-    tuoteView_->setSortingEnabled(true);
-
-    connect( viiteSuodatusEdit_, &QLineEdit::textChanged,
-             laskuViiteProxy_, &QSortFilterProxyModel::setFilterFixedString);
-    connect( asiakasSuodatusEdit_, &QLineEdit::textChanged,
-             this, &LaskuSivu::paivitaAsiakasSuodatus);
-    connect( asiakasView_->selectionModel(), &QItemSelectionModel::currentChanged,
-             this, &LaskuSivu::asiakasValintaMuuttuu);
-    connect( mistaEdit_, &QDateEdit::dateChanged, this, &LaskuSivu::paivitaLaskulista);
-    connect( mihinEdit_, &QDateEdit::dateChanged, this, &LaskuSivu::paivitaLaskulista);
-    connect( kp(), &Kirjanpito::kirjanpitoaMuokattu, this, &LaskuSivu::paivitaLaskulista);
-    connect( laskuView_->selectionModel(), &QItemSelectionModel::selectionChanged,
-             this, &LaskuSivu::laskuValintaMuuttuu);
+    connect( asiakasSuodatusEdit_, &QLineEdit::textEdited, kumppaniTuoteWidget_, &KumppaniTuoteWidget::suodata);
+    connect( asiakasSuodatusEdit_, &QLineEdit::textEdited, laskuWidget_, &LaskulistaWidget::suodataAsiakas);
+    connect( kumppaniTuoteWidget_, &KumppaniTuoteWidget::kumppaniValittu, laskuWidget_, &LaskulistaWidget::suodataAsiakas);
 
 }
 
@@ -111,47 +68,23 @@ LaskuSivu::~LaskuSivu()
 
 void LaskuSivu::siirrySivulle()
 {
-    mistaEdit_->setDate(kp()->tilikaudet()->kirjanpitoAlkaa());
-    mihinEdit_->setDate(kp()->tilikaudet()->kirjanpitoLoppuu());
     paaTab( paaTab_->currentIndex() );
 }
 
 void LaskuSivu::paaTab(int indeksi)
 {
-    tuoteView_->setVisible(false);
-    asiakasView_->setVisible( indeksi >= ASIAKAS);
+    kumppaniTuoteWidget_->setVisible( indeksi >= ASIAKAS);
+    laskuWidget_->setVisible( indeksi != TUOTTEET );
 
-    if( indeksi == TUOTTEET) {
-        asiakasView_->setModel(tuoteProxy_);
+    if( indeksi >= ASIAKAS )
+        kumppaniTuoteWidget_->nayta( indeksi - 2);
+    else
+        kumppaniTuoteWidget_->nayta( indeksi );
 
-        tuotemodel_->lataa();
-    } else {
-        asiakasView_->setModel(asiakasProxy_);
-
-        if( indeksi ==  ASIAKAS)
-            asiakasmodel_->paivita(false);
-        else if( indeksi == TOIMITTAJA)
-            asiakasmodel_->paivita(true);
-
-        if( indeksi == MYYNTI || indeksi == ASIAKAS) {
-            if( lajiTab_->count() < 5) {
-                lajiTab_->insertTab(LUONNOKSET,tr("Luonnokset"));
-                lajiTab_->insertTab(LAHETETTAVAT,tr("Lähetettävät"));
-                lajiTab_->setTabText(KAIKKI, tr("Lähetetyt"));
-            }
-        } else {
-            if( lajiTab_->count() == 5) {
-                lajiTab_->setTabText(KAIKKI, tr("Kaikki"));
-                lajiTab_->removeTab(LAHETETTAVAT);
-                lajiTab_->removeTab(LUONNOKSET);
-            }
-        }
-
-        paivitaLaskulista();
-        paivitaAsiakasSuodatus();
-    }
+    if( indeksi != TUOTTEET)
+        laskuWidget_->nayta( indeksi );
 }
-
+/*
 void LaskuSivu::paivitaAsiakasSuodatus()
 {
     if( paaTab_->currentIndex() >= ASIAKAS)
@@ -311,7 +244,7 @@ void LaskuSivu::naytaLaskuDlg(QVariant *data)
     LaskuDialogi* dlg = new LaskuDialogi(data->toMap());
     dlg->show();
 }
-
+*/
 void LaskuSivu::luoUi()
 {
     paaTab_ = new QTabBar();
@@ -331,88 +264,13 @@ void LaskuSivu::luoUi()
 
     splitter_ = new QSplitter(Qt::Vertical);
 
-    asiakasView_ = new QTableView();
-    splitter_->addWidget(asiakasView_);
-    asiakasView_->setAlternatingRowColors(true);
+    splitter_->addWidget( kumppaniTuoteWidget_ );
 
-    lajiTab_ = new QTabBar();
-    lajiTab_->addTab(tr("Luonnokset"));
-    lajiTab_->addTab(tr("Lähetettävät"));
-    lajiTab_->addTab(QIcon(":/pic/harmaa.png"),tr("&Lähetetyt"));
-    lajiTab_->addTab(QIcon(":/pic/keltainen.png"),tr("&Avoimet"));
-    lajiTab_->addTab(QIcon(":/pic/punainen.png"),tr("&Erääntyneet"));
-
-    viiteSuodatusEdit_ = new QLineEdit();
-    viiteSuodatusEdit_->setPlaceholderText(tr("Etsi viitenumerolla"));
-    viiteSuodatusEdit_->setValidator(new QRegularExpressionValidator(QRegularExpression("\\d*")));
-
-    QHBoxLayout *keskirivi = new QHBoxLayout;
-    keskirivi->addWidget(lajiTab_);
-
-    mistaEdit_ = new QDateEdit();
-    mihinEdit_ = new QDateEdit();
-    keskirivi->addWidget(mistaEdit_);
-    viivaLabel_ = new QLabel(" - ");
-    keskirivi->addWidget(viivaLabel_);
-    keskirivi->addWidget(mihinEdit_);
-
-    keskirivi->addWidget(viiteSuodatusEdit_);
-
-    QVBoxLayout *alaruutuleiska = new QVBoxLayout;
-    alaruutuleiska->addLayout(keskirivi);
-
-    laskuView_ = new QTableView;
-    laskuView_->setAlternatingRowColors(true);
-    alaruutuleiska->addWidget(laskuView_);
-
-
-    tuoteView_ = new QTableView;
-    tuoteView_->setAlternatingRowColors(true);
-    alaruutuleiska->addWidget(tuoteView_);
-
-    QWidget *alaWidget = new QWidget();
-    alaWidget->setLayout(alaruutuleiska);
-    splitter_->addWidget(alaWidget);
-
-    QHBoxLayout *nappileiska = new QHBoxLayout;
-
-    naytaNappi_ = new QPushButton(QIcon(":/pic/print.png"), tr("&Näytä"));
-    connect( naytaNappi_, &QPushButton::clicked, this, &LaskuSivu::naytaLasku );
-    nappileiska->addWidget(naytaNappi_);
-    muokkaaNappi_ = new QPushButton( QIcon(":/pic/muokkaa.png"), tr("&Muokkaa"));
-    connect( muokkaaNappi_, &QPushButton::clicked, this, &LaskuSivu::muokkaaLaskua);
-    nappileiska->addWidget(muokkaaNappi_);
-
-
-    nappileiska->addSpacing(64);
-
-    kopioiNappi_ = new QPushButton( QIcon(":/pic/kopioilasku.png"), tr("&Kopioi"));
-    nappileiska->addWidget( kopioiNappi_ );
-    connect( kopioiNappi_, &QPushButton::clicked, this, &LaskuSivu::kopioiLasku);
-    poistaNappi_ = new QPushButton(QIcon(":/pic/roskis.png"), tr("Poista"));
-    nappileiska->addWidget(poistaNappi_);
-    connect( poistaNappi_, &QPushButton::clicked, this, &LaskuSivu::poistaLasku);
-
-    nappileiska->addSpacing(64);
-
-    hyvitysNappi_ = new QPushButton(QIcon(":/pic/poista.png"), tr("&Hyvityslasku"));
-    connect( hyvitysNappi_, &QPushButton::clicked, this, &LaskuSivu::hyvityslasku);
-    nappileiska->addWidget(hyvitysNappi_);
-    muistutusNappi_ = new QPushButton(QIcon(":/pic/varoitus.png"), tr("Maksumuistutus"));
-    connect( muistutusNappi_, &QPushButton::clicked, this, &LaskuSivu::maksumuistutus);
-    nappileiska->addWidget(muistutusNappi_);
-
-    nappileiska->addStretch();
-
-    QPushButton *uusiNappi = new QPushButton(QIcon(":/pic/uusitiedosto.png"), tr("&Uusi lasku"));
-    nappileiska->addWidget(uusiNappi);
-    connect( uusiNappi, &QPushButton::clicked, this, &LaskuSivu::uusiLasku);
-
+    splitter_->addWidget(laskuWidget_);
 
     QVBoxLayout *paaLeiska = new QVBoxLayout;
     paaLeiska->addLayout(ylarivi);
     paaLeiska->addWidget(splitter_);
-    paaLeiska->addLayout(nappileiska);
 
     setLayout(paaLeiska);
 

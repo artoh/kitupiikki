@@ -25,7 +25,7 @@ struct AsiakasRivi
 class AsiakkaatModel : public QAbstractTableModel
 {
 public:
-    AsiakkaatModel(QObject *parent = 0, bool toimittajat = false);
+    AsiakkaatModel(QObject *parent = nullptr, bool toimittajat = false);
 
     enum AsiakasSarake { NIMI, YHTEENSA, AVOINNA, ERAANTYNYT };
     enum { NimiRooli = Qt::UserRole + 1 };
