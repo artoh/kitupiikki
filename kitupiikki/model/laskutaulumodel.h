@@ -57,7 +57,7 @@ public slots:
 private slots:
     void tietoSaapuu(QVariant* var);
 
-private:
+protected:
     QVariantList lista_;
     bool ostoja_ = false;
 

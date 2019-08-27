@@ -1,5 +1,6 @@
 SOURCES += \
     $$PWD/apuri/apuriwidget.cpp \
+    $$PWD/apuri/laskutaulutilioteproxylla.cpp \
     $$PWD/apuri/tilioteapuri.cpp \
     $$PWD/apuri/tiliotemodel.cpp \
     $$PWD/apuri/tmrivit.cpp \
@@ -206,6 +207,7 @@ SOURCES += \
 
 HEADERS += \
     $$PWD/apuri/apuriwidget.h \
+    $$PWD/apuri/laskutaulutilioteproxylla.h \
     $$PWD/apuri/tilioteapuri.h \
     $$PWD/apuri/tiliotemodel.h \
     $$PWD/apuri/tmrivit.h \

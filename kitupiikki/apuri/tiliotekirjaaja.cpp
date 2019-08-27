@@ -18,7 +18,7 @@
 #include "ui_tiliotekirjaaja.h"
 
 #include "kirjaus/kohdennusproxymodel.h"
-#include "model/laskutaulumodel.h"
+#include "laskutaulutilioteproxylla.h"
 
 #include <QPushButton>
 #include <QSortFilterProxyModel>
@@ -30,7 +30,7 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
     ui(new Ui::TilioteKirjaaja),
     kohdennusProxy_(new KohdennusProxyModel(this) ),
     maksuProxy_(new QSortFilterProxyModel(this)),
-    laskut_( new LaskuTauluModel(this))
+    laskut_( new LaskuTauluTilioteProxylla(this, apuri->model()))
 {
     ui->setupUi(this);
 
@@ -53,6 +53,7 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
     maksuProxy_->setSourceModel(laskut_);
 
     ui->maksuView->setModel(maksuProxy_);
+    ui->maksuView->hideColumn( LaskuTauluModel::LAHETYSTAPA );
     connect( ui->maksuView->selectionModel(), &QItemSelectionModel::currentRowChanged , this, &TilioteKirjaaja::valitseLasku);
     connect( ui->suodatusEdit, &QLineEdit::textEdited, this, &TilioteKirjaaja::suodata);
 

@@ -63,7 +63,7 @@
       <enum>Qt::TabFocus</enum>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>4</number>
      </property>
      <widget class="QWidget" name="viennit">
       <attribute name="icon">
@@ -485,25 +485,26 @@
   </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>tositetyyppiCombo</tabstop>
   <tabstop>tositePvmEdit</tabstop>
   <tabstop>otsikkoEdit</tabstop>
+  <tabstop>tabWidget</tabstop>
   <tabstop>viennitView</tabstop>
-  <tabstop>lisaaRiviNappi</tabstop>
-  <tabstop>poistariviNappi</tabstop>
+  <tabstop>kommentitEdit</tabstop>
+  <tabstop>liiteView</tabstop>
+  <tabstop>avaaNappi</tabstop>
+  <tabstop>tulostaLiiteNappi</tabstop>
+  <tabstop>lisaaliiteNappi</tabstop>
+  <tabstop>poistaLiiteNappi</tabstop>
+  <tabstop>lokiView</tabstop>
   <tabstop>edellinenButton</tabstop>
   <tabstop>seuraavaButton</tabstop>
   <tabstop>tallennaButton</tabstop>
   <tabstop>valmisNappi</tabstop>
   <tabstop>hylkaaNappi</tabstop>
   <tabstop>valikkoNappi</tabstop>
-  <tabstop>kommentitEdit</tabstop>
-  <tabstop>avaaNappi</tabstop>
-  <tabstop>tulostaLiiteNappi</tabstop>
-  <tabstop>lisaaliiteNappi</tabstop>
-  <tabstop>poistaLiiteNappi</tabstop>
-  <tabstop>lokiView</tabstop>
-  <tabstop>tabWidget</tabstop>
-  <tabstop>liiteView</tabstop>
+  <tabstop>lisaaRiviNappi</tabstop>
+  <tabstop>poistariviNappi</tabstop>
  </tabstops>
  <resources>
   <include location="../pic/pic.qrc"/>

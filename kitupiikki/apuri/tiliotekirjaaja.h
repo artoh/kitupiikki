@@ -22,7 +22,7 @@
 #include "tiliotemodel.h"
 
 class KohdennusProxyModel;
-class LaskuTauluModel;
+class LaskuTauluTilioteProxylla;
 class TilioteApuri;
 
 class QSortFilterProxyModel;
@@ -71,7 +71,7 @@ private:
     KohdennusProxyModel* kohdennusProxy_;
     QSortFilterProxyModel* maksuProxy_;
 
-    LaskuTauluModel *laskut_;
+    LaskuTauluTilioteProxylla *laskut_;
 
     int muokattavaRivi_ = 0;
 };

@@ -210,9 +210,8 @@ void KirjausWg::tyhjenna()
     tosite_->nollaa( ui->tositePvmEdit->date(), ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt() );
     tiedotModelista();
     ui->tallennaButton->setVisible(true);
-    ui->tositePvmEdit->setFocus();
     ui->tabWidget->setCurrentIndex(0);
-    ui->tositePvmEdit->setFocus();
+    ui->tositetyyppiCombo->setFocus();
 }
 
 void KirjausWg::tallenna()
@@ -361,12 +360,15 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
 
 void KirjausWg::tallennettu(int /* id */, int tunniste, const QDate &pvm)
 {
+    if( ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli) == TositeTyyppi::TILIOTE)
+        ui->tositetyyppiCombo->setCurrentIndex(0);
 
     tallennettuWidget_->nayta(tunniste, pvm);
 
     tallennettuWidget_->move( width() / 2 - tallennettuWidget_->width() / 2,
                              height() - tallennettuWidget_->height() );
     tyhjenna();
+
 
 }
 
@@ -417,8 +419,8 @@ bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
                 focusNextChild();
                 return true;
             }
-            // Tositetyypistä pääsee tabulaattorilla uudelle riville
-            else if( keyEvent->key() == Qt::Key_Tab && watched == ui->tositetyyppiCombo)
+            // Otsikosta pääsee tabulaattorilla uudelle riville
+            else if( keyEvent->key() == Qt::Key_Tab && watched == ui->otsikkoEdit )
             {
                 if( apuri_) {
                     apuri_->otaFokus();

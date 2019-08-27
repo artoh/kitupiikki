@@ -96,13 +96,14 @@ bool TilioteApuri::teeTositteelle()
 
 void TilioteApuri::teeReset()
 {
+    kirjaaja_->close();
     QVariantList viennit = tosite()->viennit()->viennit().toList();
     if( viennit.count() > 1) {
         TositeVienti ekarivi = viennit.first().toMap();
         ui->tiliCombo->valitseTili(ekarivi.tili());
     }
     model_->lataa(viennit);
-    lataaHarmaat();
+    lataaHarmaat();    
 }
 
 void TilioteApuri::lisaaRivi()
