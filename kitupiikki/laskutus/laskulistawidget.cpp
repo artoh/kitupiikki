@@ -21,6 +21,10 @@
 #include <QSortFilterProxyModel>
 
 #include "db/kirjanpito.h"
+#include "laskudialogi.h"
+#include "lisaikkuna.h"
+
+#include <QDebug>
 
 LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
     QWidget(parent),
@@ -51,6 +55,9 @@ LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
     nayta( MYYNTI );
 
     connect( kp(), &Kirjanpito::tietokantaVaihtui, this, &LaskulistaWidget::alusta );
+
+    connect( ui->uusiNappi, &QPushButton::clicked, this, &LaskulistaWidget::uusilasku);
+    connect( ui->muokkaaNappi, &QPushButton::clicked, this, &LaskulistaWidget::muokkaa);
 }
 
 LaskulistaWidget::~LaskulistaWidget()
@@ -92,6 +99,7 @@ void LaskulistaWidget::paivita()
 void LaskulistaWidget::suodataAsiakas(const QString &nimi)
 {
     laskuAsiakasProxy_->setFilterFixedString(nimi);
+    qDebug() << " s " << nimi;
 }
 
 void LaskulistaWidget::alusta()
@@ -99,3 +107,32 @@ void LaskulistaWidget::alusta()
     ui->alkupvm->setDate(kp()->tilikaudet()->kirjanpitoAlkaa());
     ui->loppupvm->setDate(kp()->tilikaudet()->kirjanpitoLoppuu());
 }
+
+void LaskulistaWidget::uusilasku()
+{
+    LaskuDialogi *dlg = new LaskuDialogi();
+    dlg->show();
+}
+
+void LaskulistaWidget::muokkaa()
+{
+    // Hakee laskun tiedot ja näyttää dialogin
+    int tositeId = ui->view->currentIndex().data(LaskuTauluModel::TositeIdRooli).toInt();
+    int tyyppi = ui->view->currentIndex().data(LaskuTauluModel::TyyppiRooli).toInt();
+
+    if( tyyppi >= TositeTyyppi::MYYNTILASKU && tyyppi <= TositeTyyppi::MAKSUMUISTUTUS) {
+        KpKysely *kysely = kpk( QString("/tositteet/%1").arg(tositeId));
+        connect( kysely, &KpKysely::vastaus, this, &LaskulistaWidget::naytaDialogi);
+        kysely->kysy();
+    } else {
+        LisaIkkuna *lisa = new LisaIkkuna(this);
+        lisa->naytaTosite(tositeId);
+    }
+}
+
+void LaskulistaWidget::naytaDialogi(QVariant *data)
+{
+    LaskuDialogi* dlg = new LaskuDialogi(data->toMap());
+    dlg->show();
+}
+

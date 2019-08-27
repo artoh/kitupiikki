@@ -7,11 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>564</width>
-    <height>554</height>
+    <height>629</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Toimittajan tiedot</string>
+   <string>Asiakkaan / toimittajan tiedot</string>
   </property>
   <layout class="QFormLayout" name="formLayout">
    <item row="0" column="0">
@@ -185,8 +185,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>432</x>
+     <y>615</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -201,8 +201,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>500</x>
+     <y>615</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

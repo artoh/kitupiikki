@@ -44,6 +44,12 @@ public slots:
 
     void alusta();
 
+    void uusilasku();
+
+private slots:
+    void muokkaa();
+    void naytaDialogi(QVariant* data);
+
 
 private:
     Ui::LaskulistaWidget *ui;

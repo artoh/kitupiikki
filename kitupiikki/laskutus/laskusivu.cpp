@@ -82,7 +82,19 @@ void LaskuSivu::paaTab(int indeksi)
         kumppaniTuoteWidget_->nayta( indeksi );
 
     if( indeksi != TUOTTEET)
+    {
+        laskuWidget_->suodataAsiakas( asiakasSuodatusEdit_->text() );
         laskuWidget_->nayta( indeksi );
+    }
+
+    if( indeksi == ASIAKAS || indeksi == MYYNTI)
+        asiakasSuodatusEdit_->setPlaceholderText(tr("Suodata asiakkaan nimellä"));
+    else if( indeksi == TOIMITTAJA || indeksi == OSTO)
+        asiakasSuodatusEdit_->setPlaceholderText(tr("Suodata toimittajan nimellä"));
+    else
+        asiakasSuodatusEdit_->setPlaceholderText(tr("Suodata tuotteen nimellä"));
+
+
 }
 /*
 void LaskuSivu::paivitaAsiakasSuodatus()

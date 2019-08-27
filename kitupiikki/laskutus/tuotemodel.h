@@ -35,7 +35,7 @@ class TuoteModel : public QAbstractTableModel
 public:
     TuoteModel(QObject *parent = nullptr);
 
-    enum TuoteSarake { NIMIKE, HINTA };
+    enum TuoteSarake { NIMIKE, NETTO, BRUTTO };
     
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;

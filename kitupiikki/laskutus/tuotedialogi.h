@@ -14,49 +14,33 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef KUMPPANITUOTEWIDGET_H
-#define KUMPPANITUOTEWIDGET_H
+#ifndef TUOTEDIALOGI_H
+#define TUOTEDIALOGI_H
 
-#include <QWidget>
+#include <QDialog>
 
 namespace Ui {
-class KumppaniTuoteWidget;
+class TuoteDialogi;
 }
 
-class AsiakkaatModel;
-class TuoteModel;
-class QSortFilterProxyModel;
-
-class KumppaniTuoteWidget : public QWidget
+class TuoteDialogi : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit KumppaniTuoteWidget(QWidget *parent = nullptr);
-    ~KumppaniTuoteWidget();
-
-    enum { ASIAKKAAT, TOIMITTAJAT, TUOTTEET };
+    explicit TuoteDialogi(QWidget *parent = nullptr);
+    ~TuoteDialogi();
 
 public slots:
-    void nayta(int valilehti);
-    void suodata(const QString& suodatus);
+    void muokkaa(int id);
+    void uusi();
 
 private slots:
-    void ilmoitaValinta();
-    void uusi();
-    void paivita();
-
-signals:
-    void kumppaniValittu(const QString& nimi);
+    void laskeBrutto();
+    void laskeNetto();
 
 private:
-    Ui::KumppaniTuoteWidget *ui;
-
-    QSortFilterProxyModel *proxy_;
-    AsiakkaatModel* asiakkaat_;
-    TuoteModel* tuotteet_;
-
-    int valilehti_;
+    Ui::TuoteDialogi *ui;
 };
 
-#endif // KUMPPANITUOTEWIDGET_H
+#endif // TUOTEDIALOGI_H

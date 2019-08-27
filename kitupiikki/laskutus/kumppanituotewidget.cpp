@@ -21,6 +21,11 @@
 #include "tuotemodel.h"
 #include <QSortFilterProxyModel>
 
+#include "rekisteri/asiakastoimittajadlg.h"
+#include "tuotedialogi.h"
+
+#include <QDebug>
+
 KumppaniTuoteWidget::KumppaniTuoteWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::KumppaniTuoteWidget),
@@ -37,6 +42,8 @@ KumppaniTuoteWidget::KumppaniTuoteWidget(QWidget *parent) :
 
     connect( ui->view->selectionModel(), &QItemSelectionModel::selectionChanged,
              this, &KumppaniTuoteWidget::ilmoitaValinta);
+
+    connect( ui->uusiNappi, &QPushButton::clicked, this, &KumppaniTuoteWidget::uusi);
 }
 
 KumppaniTuoteWidget::~KumppaniTuoteWidget()
@@ -46,19 +53,8 @@ KumppaniTuoteWidget::~KumppaniTuoteWidget()
 
 void KumppaniTuoteWidget::nayta(int valilehti)
 {
-   if( valilehti == TUOTTEET)
-       proxy_->setSourceModel( tuotteet_ );
-   else
-       proxy_->setSourceModel( asiakkaat_);
-
-   if( valilehti == ASIAKKAAT )
-       asiakkaat_->paivita(false);
-   else if( valilehti == TOIMITTAJAT)
-       asiakkaat_->paivita(true);
-   else if( valilehti == TUOTTEET)
-       tuotteet_->lataa();
-
-   ui->view->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    valilehti_ = valilehti;
+    paivita();
 }
 
 void KumppaniTuoteWidget::suodata(const QString &suodatus)
@@ -68,6 +64,36 @@ void KumppaniTuoteWidget::suodata(const QString &suodatus)
 
 void KumppaniTuoteWidget::ilmoitaValinta()
 {
-    if( !ui->view->selectionModel()->selectedRows(0).isEmpty() )
-        emit ui->view->selectionModel()->selectedRows(0).value(0).data().toString();
+    if( ui->view->selectionModel()->selectedRows(0).count() )
+        emit kumppaniValittu(  ui->view->selectionModel()->selectedRows(0).value(0).data().toString() );
 }
+
+void KumppaniTuoteWidget::uusi()
+{
+    if( valilehti_ == TUOTTEET ) {
+        TuoteDialogi *dlg = new TuoteDialogi(this);
+        dlg->uusi();
+    } else {
+        AsiakasToimittajaDlg *dlg = new AsiakasToimittajaDlg(this);
+        connect( dlg, &AsiakasToimittajaDlg::tallennettu, this, &KumppaniTuoteWidget::paivita);
+        dlg->uusi();
+    }
+}
+
+void KumppaniTuoteWidget::paivita()
+{
+    if( valilehti_ == TUOTTEET)
+        proxy_->setSourceModel( tuotteet_ );
+    else
+        proxy_->setSourceModel( asiakkaat_);
+
+    if( valilehti_ == ASIAKKAAT )
+        asiakkaat_->paivita(false);
+    else if( valilehti_ == TOIMITTAJAT)
+        asiakkaat_->paivita(true);
+    else if( valilehti_ == TUOTTEET)
+        tuotteet_->lataa();
+
+    ui->view->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+ }
+

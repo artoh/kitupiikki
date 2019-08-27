@@ -37,7 +37,7 @@ int TuoteModel::rowCount(const QModelIndex & /* parent */) const
 
 int TuoteModel::columnCount(const QModelIndex & /* parent */) const
 {
-    return 2;
+    return 3;
 }
 
 QVariant TuoteModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -48,8 +48,10 @@ QVariant TuoteModel::headerData(int section, Qt::Orientation orientation, int ro
     {
         if( section == NIMIKE )
             return tr("Nimike");
-        else if(section == HINTA)
-            return tr("Hinta");
+        else if( section == NETTO)
+            return tr("Nettohinta");
+        else if(section == BRUTTO)
+            return tr("Bruttohinta");
     }
     return QVariant();
 }
@@ -64,32 +66,25 @@ QVariant TuoteModel::data(const QModelIndex &index, int role) const
     {
         if( index.column() == NIMIKE )
             return map.value("nimike");
-        else if(index.column() == HINTA)
+        else if( index.column() == NETTO)
         {
             double netto = map.value("ahinta").toDouble();
-            double alvprossa = map.value("alvprosentti").toDouble();
+            return QString("%L1 €").arg( netto ,0,'f',2);
+        }
+        else if(index.column() == BRUTTO)
+        {
+            double netto = map.value("ahinta").toDouble();
+
+            double alvprossa = map.value("alvkoodi").toInt() == AlvKoodi::MYYNNIT_NETTO ?
+                    map.value("alvprosentti").toDouble() : 0.0;
 
             double brutto = netto * (100 + alvprossa) / 100.0;
 
             return QString("%L1 €").arg( brutto ,0,'f',2);
         }
     }
-
     return QVariant();
-
-    LaskuRivi rivi = tuotteet_.value(index.row());
     
-    if( role == Qt::DisplayRole)
-    {
-        if( index.column() == NIMIKE )
-            return rivi.nimike;
-        else if(index.column() == HINTA)
-        {
-            double bruttohinta = (100.0 + rivi.alvProsentti) * rivi.ahintaSnt / 100.0;
-            return QString("%L1 €").arg(bruttohinta / 100.0,0,'f',2);
-        }
-    }
-    return QVariant();
 }
 
 int TuoteModel::lisaaTuote(LaskuRivi tuote)

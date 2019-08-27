@@ -21,6 +21,7 @@
 #include "db/verotyyppimodel.h"
 #include "laskumodel.h"
 #include "db/kirjanpito.h"
+#include "laskualvcombo.h"
 
 LaskutusVeroDelegaatti::LaskutusVeroDelegaatti()
 {
@@ -29,24 +30,7 @@ LaskutusVeroDelegaatti::LaskutusVeroDelegaatti()
 
 QWidget *LaskutusVeroDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem &/*option*/, const QModelIndex &/*index*/) const
 {
-    QComboBox *cbox = new QComboBox(parent);
-
-    cbox->addItem(QIcon(":/pic/0pros.png"),"0%", QVariant(AlvKoodi::ALV0));
-    cbox->addItem(QIcon(":/pic/netto.png"),"10%", QVariant(AlvKoodi::MYYNNIT_NETTO + 10 * 100 ));
-    cbox->addItem(QIcon(":/pic/netto.png"),"14%", QVariant(AlvKoodi::MYYNNIT_NETTO + 14 * 100));
-    cbox->addItem(QIcon(":/pic/netto.png"),"24%", QVariant(AlvKoodi::MYYNNIT_NETTO + 24 * 100 ));
-    cbox->addItem(QIcon(":/pic/tyhja.png"),"Veroton", QVariant(AlvKoodi::EIALV ));
-    cbox->addItem(QIcon(":/pic/vasara.png"), tr("Rakennuspalvelut"), QVariant( AlvKoodi::RAKENNUSPALVELU_MYYNTI ));
-    cbox->addItem(QIcon(":/pic/eu.png"), tr("Tavaramyynti"), QVariant( AlvKoodi::YHTEISOMYYNTI_TAVARAT ));
-    cbox->addItem(QIcon(":/pic/eu.png"), tr("Palvelumyynti"), QVariant( AlvKoodi::YHTEISOMYYNTI_PALVELUT ));
-
-    if( !kp()->onkoMaksuperusteinenAlv(kp()->paivamaara()))
-    {
-        cbox->addItem(QIcon(":/pic/marginaali.png"),"Voittomarginaalimenettely - käytetyt tavarat", QVariant(LaskuModel::Kaytetyt));
-        cbox->addItem(QIcon(":/pic/marginaali.png"),"Voittomarginaalimenettely - taide-esineet", QVariant(LaskuModel::Taide));
-        cbox->addItem(QIcon(":/pic/marginaali.png"),"Voittomarginaalimenettely - keräily- ja antiikkiesineet", QVariant(LaskuModel::KerailyAntiikki));
-    }
-
+    QComboBox *cbox = new LaskuAlvCombo(parent);
     return cbox;
 }
 
@@ -56,13 +40,13 @@ void LaskutusVeroDelegaatti::setEditorData(QWidget *editor, const QModelIndex &i
     if( index.data(LaskuModel::VoittomarginaaliRooli).toInt())
         koodi = index.data(LaskuModel::VoittomarginaaliRooli).toInt();
 
-    QComboBox *cbox = qobject_cast<QComboBox*>(editor);
+    LaskuAlvCombo *cbox = qobject_cast<LaskuAlvCombo*>(editor);
     cbox->setCurrentIndex( cbox->findData(koodi) );
 }
 
 void LaskutusVeroDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
-    QComboBox *cbox = qobject_cast<QComboBox*>(editor);
+    LaskuAlvCombo *cbox = qobject_cast<LaskuAlvCombo*>(editor);
     int koodi = cbox->currentData().toInt();
 
     if( koodi >= LaskuModel::Kaytetyt)

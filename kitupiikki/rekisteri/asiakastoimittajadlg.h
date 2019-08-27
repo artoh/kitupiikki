@@ -38,7 +38,7 @@ public:
 
 public slots:
     void muokkaa(int id);
-    void uusi(const QString& nimi);
+    void uusi(const QString& nimi = QString());
     void ytunnuksella(const QString& ytunnus);
 
 signals:
