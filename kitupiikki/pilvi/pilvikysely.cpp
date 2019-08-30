@@ -25,6 +25,8 @@
 
 #include <QDebug>
 
+#include "tuonti/csvtuonti.h"
+
 PilviKysely::PilviKysely(PilviModel *parent, KpKysely::Metodi metodi, QString polku)
     : KpKysely (parent, metodi, polku)
 {
@@ -72,15 +74,37 @@ void PilviKysely::lahetaTiedosto(const QByteArray &ba, const QString &tiedostoni
     request.setRawHeader("Authorization", QString("bearer %1").arg( model->token() ).toLatin1());
     request.setRawHeader("User-Agent", QString(qApp->applicationName() + " " + qApp->applicationVersion() ).toLatin1()  );
 
-    // Tässä vaiheessa tiedostotyyppi nimestä ...
-    // TODO: Tiedostotyyppi sisällön perusteella
+    // Tiedostotyyppi sisällön perusteella
 
-    QString tyyppi = "image/jpeg";
-    if( tiedostonimi.toLower().endsWith(".pdf"))
+    QString tyyppi = "";
+
+    QByteArray png ;
+    png.resize(4);
+    png[0] = static_cast<char>( 0x89 );
+    png[1] = 0x50;
+    png[2] = 0x4e;
+    png[3] = 0x47;
+
+    QByteArray jpg;
+    jpg.resize(3);
+    jpg[0] =  static_cast<char>( 0xff );
+    jpg[1] = static_cast<char>( 0xd8 );
+    jpg[2] = static_cast<char>( 0xff );
+
+    if( ba.startsWith("%PDF"))
         tyyppi = "application/pdf";
+    else if(  ba.startsWith(png) )
+        tyyppi = "image/png";
+    else if( ba.startsWith(jpg))
+        tyyppi = "image/jpeg";
+    else if( CsvTuonti::onkoCsv(ba))
+        tyyppi = "text/csv";
+
 
     request.setRawHeader("Content-type", tyyppi.toLatin1());
-    request.setRawHeader("Content-Disposition", "attachment; filename=" + tiedostonimi.toUtf8());
+
+    if( !tiedostonimi.isEmpty())
+        request.setRawHeader("Filename", tiedostonimi.toUtf8());
 
     QNetworkReply *reply = kp()->networkManager()->post(request, ba);
     connect( reply, &QNetworkReply::finished, this, &PilviKysely::vastausSaapuu);

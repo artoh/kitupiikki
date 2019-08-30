@@ -54,7 +54,7 @@ public:
     void lataa(QVariantList data);
     void clear();
 
-    bool lisaa(const QByteArray& liite, const QString& nimi);
+    bool lisaa(const QByteArray& liite, const QString& tiedostonnimi);
     bool lisaaTiedosto(const QString& polku);
 
     bool canDropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex &parent) const override;

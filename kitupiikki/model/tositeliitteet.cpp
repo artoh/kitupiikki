@@ -93,8 +93,23 @@ void TositeLiitteet::clear()
     emit naytaliite(QByteArray());
 }
 
-bool TositeLiitteet::lisaa(const QByteArray &sisalto, const QString &nimi)
+bool TositeLiitteet::lisaa(const QByteArray &sisalto, const QString& tiedostonnimi)
 {
+    QString nimi = tiedostonnimi;
+    int lisa = 0;
+    for(int i=0; i < liitteet_.count(); i++) {
+        if( nimi == liitteet_.at(i).getNimi()) {
+            lisa++;
+            int piste = tiedostonnimi.lastIndexOf('.');
+            if( piste < 0)
+                nimi = tiedostonnimi + QString::number(lisa);
+            else
+                nimi = tiedostonnimi.left(piste) + QString::number(lisa) + tiedostonnimi.mid(piste);
+            i=0;
+        }
+    }
+
+
     beginInsertRows( QModelIndex(), liitteet_.count(), liitteet_.count() );
     liitteet_.append( TositeLiite(0, nimi, sisalto) );
     endInsertRows();
