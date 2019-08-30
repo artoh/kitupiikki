@@ -88,6 +88,8 @@ void Tosite::lataaData(QVariant *variant)
     loki()->lataa( data_.take("loki").toList());
     liitteet()->lataa( data_.take("liitteet").toList());
 
+    data_.insert("kumppani", data_.value("kumppani").toMap().value("id").toInt());
+
     emit ladattu();
     tallennettu_ = tallennettava();
     resetointiKaynnissa_ = false;

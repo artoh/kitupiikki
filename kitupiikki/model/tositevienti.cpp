@@ -171,6 +171,11 @@ void TositeVienti::setKumppani(int kumppaniId)
     set( KUMPPANI, kumppaniId );
 }
 
+void TositeVienti::setTyyppi(int tyyppi)
+{
+    set( TYYPPI, tyyppi);
+}
+
 
 
 
@@ -193,5 +198,6 @@ std::map<int,QString> TositeVienti::avaimet__ = {
     { ARKISTOTUNNUS, "arkistotunnus"},
     { VIITE, "viite"},
     { ERAPAIVA, "erapvm"},
-    { KUMPPANI, "kumppani"}
+    { KUMPPANI, "kumppani"},
+    { TYYPPI, "tyyppi"}
 };

@@ -60,6 +60,10 @@ private slots:
     void tarkastaTallennus();
     void lataaMerkkaukset( QList<int> merkatut = QList<int>());
 
+    void kumppaniValittu(int kumppaniId);
+    void kumppaniTiedot(QVariant* data);
+
+
 private:
     TilioteApuri* apuri();
 

@@ -78,12 +78,26 @@ QVariant VerotyyppiModel::data(const QModelIndex &index, int role) const
 
 QString VerotyyppiModel::seliteKoodilla(int koodi) const
 {
+    QString alku;
+
     foreach (VeroTyyppi tyyppi, tyypit)
     {
         if( tyyppi.koodi == koodi)
-            return tyyppi.selite;
+            return alku + tyyppi.selite;
     }
     return QString();
+}
+
+QString VerotyyppiModel::yhdistelmaSeliteKoodilla(int koodi) const
+{
+    if( koodi / 100 == 1)
+        return tr("VERON MÄÄRÄ %1").arg( seliteKoodilla(koodi % 100) );
+    else if( koodi / 100 == 2)
+        return tr("VÄHENNYKSEN MÄÄRÄ %1").arg( seliteKoodilla(koodi % 100));
+    else if( koodi / 100 == 300)
+        return tr("KOHDENTAMATON MAKSUPERUSTEINEN %1").arg(seliteKoodilla(koodi % 100));
+    else
+        return seliteKoodilla( koodi );
 }
 
 QIcon VerotyyppiModel::kuvakeKoodilla(int koodi) const

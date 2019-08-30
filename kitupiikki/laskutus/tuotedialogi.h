@@ -29,18 +29,25 @@ class TuoteDialogi : public QDialog
 
 public:
     explicit TuoteDialogi(QWidget *parent = nullptr);
-    ~TuoteDialogi();
+    ~TuoteDialogi() override;
 
 public slots:
-    void muokkaa(int id);
+    void muokkaa(const QVariantMap& map);
     void uusi();
+
+    void accept() override;
 
 private slots:
     void laskeBrutto();
     void laskeNetto();
+    void tallennettu(QVariant* vastaus);
+
+signals:
+    void tuoteTallennettu(int tuoteId);
 
 private:
     Ui::TuoteDialogi *ui;
+    int muokattavanaId_ = 0;
 };
 
 #endif // TUOTEDIALOGI_H

@@ -261,8 +261,8 @@ void LaskuSivu::luoUi()
 {
     paaTab_ = new QTabBar();
 
-    paaTab_->addTab(QIcon(":/pic/lisaa.png"),tr("&Myyntilaskut"));
-    paaTab_->addTab(QIcon(":/pic/poista.png"),tr("&Ostolaskut") );
+    paaTab_->addTab(QIcon(":/pic/lisaa.png"),tr("&Myynnit"));
+    paaTab_->addTab(QIcon(":/pic/poista.png"),tr("&Ostot") );
     paaTab_->addTab(QIcon(":/pic/asiakkaat.png"),("&Asiakkaat"));
     paaTab_->addTab(QIcon(":/pic/yrittaja.png"),tr("&Toimittajat"));
     paaTab_->addTab(QIcon(":/pic/kirjalaatikko.png"),tr("T&uotteet"));

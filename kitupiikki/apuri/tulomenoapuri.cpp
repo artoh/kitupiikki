@@ -83,7 +83,7 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
 
 
     connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::haeKohdennukset );
-
+    connect( ui->asiakasToimittaja, &AsiakasToimittajaValinta::valittu, this, &TuloMenoApuri::kumppaniValittu);
 }
 
 TuloMenoApuri::~TuloMenoApuri()
@@ -264,6 +264,7 @@ bool TuloMenoApuri::teeTositteelle()
 
 
         TositeVienti vienti;
+        vienti.setTyyppi( (menoa ? TositeVienti::OSTO : TositeVienti::MYYNTI) + TositeVienti::KIRJAUS );
 
         // Kirjataanko nettoa vai bruttoa?
         double kirjattava = ( verokoodi == AlvKoodi::MYYNNIT_NETTO  || verokoodi == AlvKoodi::OSTOT_NETTO ||
@@ -323,6 +324,8 @@ bool TuloMenoApuri::teeTositteelle()
                && !rivit_->eiVahennysta(i)) ) {
 
             TositeVienti palautus;
+            palautus.setTyyppi( TositeVienti::OSTO + TositeVienti::ALVKIRJAUS );
+
             palautus.setPvm(pvm);
             if( verokoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO) {
                 palautus.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVSAATAVA).numero() );
@@ -347,6 +350,7 @@ bool TuloMenoApuri::teeTositteelle()
                 verokoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT || verokoodi == AlvKoodi::MAAHANTUONTI )
         {
             TositeVienti verorivi;
+            verorivi.setTyyppi( TositeVienti::MYYNTI + TositeVienti::ALVKIRJAUS );
             verorivi.setPvm(pvm);
             if( verokoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI) {
                 verorivi.setTili( kp()->tilit()->tiliTyypilla( TiliLaji::KOHDENTAMATONALVVELKA ).numero() );
@@ -369,6 +373,7 @@ bool TuloMenoApuri::teeTositteelle()
         // Mahdollinen maahantuonnin veron kirjaamisen vastakirjaaminen
         if( maahantuonninvero ) {
             TositeVienti tuonti;
+            tuonti.setTyyppi(TositeVienti::OSTO + TositeVienti::MAAHANTUONTIVASTAKIRJAUS);
             tuonti.setPvm(pvm);
             tuonti.setTili(rivit_->tili(i).numero());
             if( netto > 0)
@@ -391,6 +396,7 @@ bool TuloMenoApuri::teeTositteelle()
 
     if( summa ) {
         TositeVienti vasta;
+        vasta.setTyyppi( (menoa ? TositeVienti::OSTO : TositeVienti::MYYNTI) + TositeVienti::VASTAKIRJAUS );
         vasta.insert("pvm", pvm);
         Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliCombo->valittuTilinumero() );
         vasta.insert("tili", vastatili.numero() );
@@ -680,6 +686,7 @@ void TuloMenoApuri::haeKohdennukset()
 
 void TuloMenoApuri::alusta(bool meno)
 {
+    menoa_ = meno;
 
     if(meno) {
         ui->tiliLabel->setText( tr("Meno&tili") );
@@ -710,4 +717,24 @@ int TuloMenoApuri::rivilla() const
         return 0;
     return ui->tilellaView->currentIndex().row();
 
+}
+
+void TuloMenoApuri::kumppaniValittu(int kumppaniId)
+{
+    KpKysely *kysely = kpk(QString("/kumppanit/%1").arg(kumppaniId));
+    connect(kysely, &KpKysely::vastaus, this, &TuloMenoApuri::kumppaniTiedot);
+    kysely->kysy();
+}
+
+void TuloMenoApuri::kumppaniTiedot(QVariant *data)
+{
+    QVariantMap map = data->toMap();
+
+    if(menoa_  ) {
+        if( map.contains("menotili"))
+            ui->tiliEdit->valitseTiliNumerolla( map.value("menotili").toInt() );
+    } else {
+        if( map.contains("tulotili"))
+            ui->tiliEdit->valitseTiliNumerolla( map.value("tulotili").toInt());
+    }
 }

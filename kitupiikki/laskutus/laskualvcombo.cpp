@@ -46,7 +46,7 @@ LaskuAlvCombo::LaskuAlvCombo(QWidget *parent) :
 }
 
 int LaskuAlvCombo::veroKoodi()
-{
+{   
     return currentData().toInt() % 100;
 }
 

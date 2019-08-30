@@ -52,7 +52,7 @@ QVariant TuoteModel::headerData(int section, Qt::Orientation orientation, int ro
             return tr("Nettohinta");
         else if(section == BRUTTO)
             return tr("Bruttohinta");
-    }
+    }        
     return QVariant();
 }
 
@@ -83,6 +83,10 @@ QVariant TuoteModel::data(const QModelIndex &index, int role) const
             return QString("%L1 €").arg( brutto ,0,'f',2);
         }
     }
+    else if( role == IdRooli)
+        return map.value("id");
+    else if( role == MapRooli)
+        return map;
     return QVariant();
     
 }

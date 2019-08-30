@@ -81,5 +81,4 @@ void Raportti::esikatsele()
 void Raportti::nayta(RaportinKirjoittaja rk)
 {
     NaytinIkkuna::naytaRaportti( rk );
-    sender()->deleteLater();
 }

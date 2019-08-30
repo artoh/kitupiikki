@@ -33,6 +33,8 @@
 
 #include "marginaalilaskelma.h"
 
+#include "alvlaskelma.h"
+
 
 AlvIlmoitusDialog::AlvIlmoitusDialog(QWidget *parent) :
     QDialog(parent),
@@ -48,6 +50,11 @@ AlvIlmoitusDialog::~AlvIlmoitusDialog()
 
 QDate AlvIlmoitusDialog::teeAlvIlmoitus(QDate alkupvm, QDate loppupvm)
 {
+    // Kokeillaan uutta
+    AlvLaskelma uusilaskelma;
+    uusilaskelma.hae(alkupvm, loppupvm);
+
+
     // Tarkistetaan, että tarvittavat tilit löytyy
 
     if( !kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).onkoValidi() ||

@@ -92,6 +92,7 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
 
     QString seliteKoodilla(int koodi) const;
+    QString yhdistelmaSeliteKoodilla(int koodi) const;
     QIcon kuvakeKoodilla(int koodi) const;
     bool nollaTyyppi(int koodi) const;
 

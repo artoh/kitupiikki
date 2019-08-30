@@ -24,6 +24,8 @@
 
 #include "alv/marginaalilaskelma.h"
 
+#include "alv/alvlaskelma.h"
+
 AlvErittely::AlvErittely()
  : Raportti(nullptr)
 {
@@ -339,4 +341,13 @@ RaportinKirjoittaja AlvErittely::kirjoitaRaporti(QDate alkupvm, QDate loppupvm)
 
 
     return kirjoittaja;
+}
+
+void AlvErittely::esikatsele()
+{
+    AlvLaskelma *laskelma = new AlvLaskelma();
+    connect( laskelma, &AlvLaskelma::valmis,
+             this, &Raportti::nayta);
+    laskelma->hae( ui->alkaa->date(),
+                   ui->paattyy->date());
 }

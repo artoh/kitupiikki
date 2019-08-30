@@ -252,6 +252,19 @@ QVariantList TilioteModel::viennit(int tilinumero) const
 
             tili.setKohdennus( rivi.kohdennus);
 
+            if( rivi.kohdennus ) {
+                pankki.setTyyppi( TositeVienti::SUORITUS + TositeVienti::VASTAKIRJAUS );
+                tili.setTyyppi( TositeVienti::SUORITUS + TositeVienti::KIRJAUS);
+
+            } else if( rivi.euro > 0.0 ) {
+                pankki.setTyyppi( TositeVienti::MYYNTI + TositeVienti::VASTAKIRJAUS );
+                tili.setTyyppi( TositeVienti::MYYNTI + TositeVienti::KIRJAUS);
+            } else {
+                pankki.setTyyppi( TositeVienti::OSTO + TositeVienti::VASTAKIRJAUS);
+                tili.setTyyppi( TositeVienti::OSTO + TositeVienti::KIRJAUS);
+            }
+
+
             if( rivi.eraId)
                 tili.setEra( rivi.eraId );
 
@@ -287,7 +300,7 @@ void TilioteModel::lataa(QVariantList lista)
         bool meno = pankki.kredit() > 0;
 
         rivi.pvm = vienti.pvm();
-        rivi.euro = meno ? pankki.kredit() : pankki.debet();
+        rivi.euro = meno ? 0 - pankki.kredit() : pankki.debet();
         rivi.tili = vienti.tili();
         rivi.kohdennus = vienti.kohdennus();
         rivi.merkkaukset = vienti.merkkaukset();

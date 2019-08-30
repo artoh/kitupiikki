@@ -41,7 +41,18 @@ public:
         ARKISTOTUNNUS,
         VIITE,
         ERAPAIVA,
-        KUMPPANI
+        KUMPPANI,
+        TYYPPI
+    };
+
+    enum VientiTyyppi {
+        KIRJAUS = 1,
+        VASTAKIRJAUS = 2,
+        ALVKIRJAUS = 3,
+        MAAHANTUONTIVASTAKIRJAUS = 31,
+        OSTO = 100,
+        MYYNTI = 200,
+        SUORITUS = 300
     };
 
 
@@ -67,6 +78,7 @@ public:
     QString arkistotunnus() const { return data(ARKISTOTUNNUS).toString();}
     QString viite() const { return data(VIITE).toString();}
     QDate erapaiva() const { return data(ERAPAIVA).toDate();}
+    int tyyppi() const { return data(TYYPPI).toInt(); }
 
     void setPvm(const QDate& pvm);
     void setTili(int tili);
@@ -86,6 +98,7 @@ public:
     void setViite(const QString& viite);
     void setErapaiva(const QDate& erapvm);
     void setKumppani(int kumppaniId);
+    void setTyyppi(int tyyppi);
 
 private:
     static std::map<int,QString> avaimet__;

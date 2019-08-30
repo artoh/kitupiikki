@@ -36,6 +36,7 @@ public:
     TuoteModel(QObject *parent = nullptr);
 
     enum TuoteSarake { NIMIKE, NETTO, BRUTTO };
+    enum { IdRooli = Qt::UserRole , MapRooli = Qt::UserRole + 2};
     
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;

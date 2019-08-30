@@ -25,6 +25,8 @@
 #include "tilioteapuri.h"
 #include "model/tosite.h"
 
+#include <QShortcut>
+
 TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
     QDialog(apuri),
     ui(new Ui::TilioteKirjaaja),
@@ -67,6 +69,11 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
     connect( ui->pvmEdit, &KpDateEdit::dateChanged, this, &TilioteKirjaaja::tarkastaTallennus);
     connect( ui->tiliEdit, &TilinvalintaLine::textChanged, this, &TilioteKirjaaja::tarkastaTallennus);
     connect( ui->maksuView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &TilioteKirjaaja::tarkastaTallennus);
+
+    connect( ui->asiakastoimittaja, &AsiakasToimittajaValinta::valittu, this, &TilioteKirjaaja::kumppaniValittu);
+
+    connect( new QShortcut(QKeySequence("F12"), this), &QShortcut::activated, this, &TilioteKirjaaja::accept);
+
 }
 
 TilioteKirjaaja::~TilioteKirjaaja()
@@ -192,10 +199,12 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
         ui->asiakasLabel->setText( menoa_ ? tr("Toimittaja") : tr("Asiakas"));
         ui->tiliEdit->suodataTyypilla( menoa_ ? "D.*" : "C.*");
         ui->asiakastoimittaja->alusta();
+        ui->tiliEdit->valitseTiliNumerolla(  menoa_ ? 4000 : 3000 );    // TODO: Tod. oletukset
 
     } else if ( tab == SIIRTO ) {
         ui->tiliLabel->setText( menoa_ ? tr("Tilille") : tr("Tililtä")  );
         ui->tiliEdit->suodataTyypilla( "[AB].*");
+        ui->tiliEdit->clear();
     }
 }
 
@@ -281,6 +290,25 @@ void TilioteKirjaaja::lataaMerkkaukset(QList<int> merkatut)
 
             Qt::CheckState state = merkatut.contains( koodi ) ? Qt::Checked : Qt::Unchecked;
             ui->merkkausCC->addItem(nimi, koodi, state);
+    }
+}
+
+void TilioteKirjaaja::kumppaniValittu(int kumppaniId)
+{
+    KpKysely *kysely = kpk(QString("/kumppanit/%1").arg(kumppaniId));
+    connect(kysely, &KpKysely::vastaus, this, &TilioteKirjaaja::kumppaniTiedot);
+    kysely->kysy();
+}
+
+void TilioteKirjaaja::kumppaniTiedot(QVariant *data)
+{
+    QVariantMap map = data->toMap();
+    if( menoa_ ) {
+        if( map.contains("menotili"))
+            ui->tiliEdit->valitseTiliNumerolla( map.value("menotili").toInt() );
+    } else {
+        if( map.contains("tulotili"))
+            ui->tiliEdit->valitseTiliNumerolla( map.value("tulotili").toInt());
     }
 }
 

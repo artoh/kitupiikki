@@ -18,7 +18,7 @@
 #include "ui_tuotedialogi.h"
 
 #include "kirjaus/kohdennusproxymodel.h"
-
+#include "db/kirjanpito.h"
 
 TuoteDialogi::TuoteDialogi(QWidget *parent) :
     QDialog(parent),
@@ -48,9 +48,20 @@ TuoteDialogi::~TuoteDialogi()
     delete ui;
 }
 
-void TuoteDialogi::muokkaa(int id)
+void TuoteDialogi::muokkaa(const QVariantMap &map)
 {
-
+    muokattavanaId_ = map.value("id").toInt();
+    ui->nimikeEdit->setText( map.value("nimike").toString() );
+    ui->yksikkoEdit->setText( map.value("yksikko").toString());
+    ui->nettoEdit->setValue( map.value("ahinta").toDouble());
+    ui->alvCombo->setCurrentIndex(
+                ui->alvCombo->findData( map.value("alvkoodi").toInt() +
+                                        map.value("alvprosentti").toInt() * 100));
+    laskeBrutto();
+    ui->tiliEdit->valitseTiliNumerolla( map.value("tili").toInt() );
+    ui->kohdennusCombo->setCurrentIndex(
+                ui->kohdennusCombo->findData( map.value("kohdennus") ));
+    show();
 }
 
 void TuoteDialogi::uusi()
@@ -62,6 +73,29 @@ void TuoteDialogi::uusi()
     ui->tiliEdit->valitseTiliNumerolla(3000);
 
     show();
+}
+
+void TuoteDialogi::accept()
+{
+    QVariantMap map;
+    map.insert("nimike", ui->nimikeEdit->text());
+    map.insert("yksikko", ui->yksikkoEdit->text());
+    map.insert("ahinta", ui->nettoEdit->value());
+    map.insert("alvkoodi", ui->alvCombo->veroKoodi());
+    map.insert("alvprosentti", ui->alvCombo->currentData().toInt() / 100);
+    map.insert("alvkoodi", ui->alvCombo->veroKoodi());
+    map.insert("tili", ui->tiliEdit->valittuTilinumero());
+    map.insert("kohdennus", ui->kohdennusCombo->currentData(KohdennusModel::IdRooli));
+
+    KpKysely *kysely = nullptr;
+
+    if( muokattavanaId_ )
+        kysely = kpk( QString("/tuotteet/%1").arg(muokattavanaId_), KpKysely::PUT );
+    else
+        kysely = kpk("/tuotteet", KpKysely::POST);
+    connect( kysely, &KpKysely::vastaus, this, &TuoteDialogi::tallennettu);
+    kysely->kysy(map);
+
 }
 
 void TuoteDialogi::laskeBrutto()
@@ -82,3 +116,11 @@ void TuoteDialogi::laskeNetto()
     if( qRound(netto*100) != ui->nettoEdit->asCents())
         ui->nettoEdit->setValue(netto);
 }
+
+void TuoteDialogi::tallennettu(QVariant *vastaus)
+{
+    QVariantMap map = vastaus->toMap();
+    emit tuoteTallennettu( map.value("id").toInt() );
+    QDialog::accept();
+}
+

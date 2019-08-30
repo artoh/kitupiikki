@@ -28,7 +28,7 @@ public:
     AsiakkaatModel(QObject *parent = nullptr, bool toimittajat = false);
 
     enum AsiakasSarake { NIMI, YHTEENSA, AVOINNA, ERAANTYNYT };
-    enum { NimiRooli = Qt::UserRole + 1 };
+    enum { IdRooli = Qt::UserRole, NimiRooli = Qt::UserRole + 1 };
 
     int rowCount(const QModelIndex &parent) const override;
     int columnCount(const QModelIndex &parent) const override;

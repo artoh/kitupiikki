@@ -687,6 +687,9 @@ void KirjausWg::vaihdaTositeTyyppi()
     else
         ui->tabWidget->setCurrentIndex(0);
 
+    if( ui->otsikkoEdit->text().startsWith("Tiliote") && tyyppiKoodi != TositeTyyppi::TILIOTE)
+        ui->otsikkoEdit->clear();
+
 }
 
 void KirjausWg::liiteValinta(const QModelIndex &valittu)

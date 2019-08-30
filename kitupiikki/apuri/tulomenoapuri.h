@@ -61,6 +61,9 @@ protected slots:
     void haeRivi(const QModelIndex& index);
     void haeKohdennukset();
 
+    void kumppaniValittu(int kumppaniId);
+    void kumppaniTiedot(QVariant* data);
+
 protected:
     void teeReset() override;
     bool teeTositteelle() override;
@@ -76,6 +79,7 @@ private:
     qlonglong bruttoSnt_ = 0;
     qlonglong nettoSnt_ = 0;
 
+    bool menoa_ = false;
 
     QSortFilterProxyModel* veroFiltteri_;
     KohdennusProxyModel* kohdennusProxy_;

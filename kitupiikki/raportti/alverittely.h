@@ -41,6 +41,9 @@ public:
 
     static RaportinKirjoittaja kirjoitaRaporti(QDate alkupvm, QDate loppupvm);
 
+public slots:
+    void esikatsele() override;
+
 protected:
     Ui::TaseErittely *ui;
 

@@ -44,6 +44,7 @@ KumppaniTuoteWidget::KumppaniTuoteWidget(QWidget *parent) :
              this, &KumppaniTuoteWidget::ilmoitaValinta);
 
     connect( ui->uusiNappi, &QPushButton::clicked, this, &KumppaniTuoteWidget::uusi);
+    connect( ui->muokkaaNappi, &QPushButton::clicked, this, &KumppaniTuoteWidget::muokkaa);
 }
 
 KumppaniTuoteWidget::~KumppaniTuoteWidget()
@@ -72,11 +73,25 @@ void KumppaniTuoteWidget::uusi()
 {
     if( valilehti_ == TUOTTEET ) {
         TuoteDialogi *dlg = new TuoteDialogi(this);
+        connect( dlg, &TuoteDialogi::tuoteTallennettu, this, &KumppaniTuoteWidget::paivita);
         dlg->uusi();
     } else {
         AsiakasToimittajaDlg *dlg = new AsiakasToimittajaDlg(this);
         connect( dlg, &AsiakasToimittajaDlg::tallennettu, this, &KumppaniTuoteWidget::paivita);
         dlg->uusi();
+    }
+}
+
+void KumppaniTuoteWidget::muokkaa()
+{
+    if( valilehti_ == TUOTTEET) {
+        TuoteDialogi *dlg = new TuoteDialogi(this);
+        dlg->muokkaa( ui->view->currentIndex().data(TuoteModel::MapRooli).toMap()  );
+        connect( dlg, &TuoteDialogi::tuoteTallennettu, this, &KumppaniTuoteWidget::paivita);
+    } else {
+        AsiakasToimittajaDlg *dlg = new AsiakasToimittajaDlg(this);
+        dlg->muokkaa( ui->view->currentIndex().data(AsiakkaatModel::IdRooli).toInt() );
+        connect( dlg, &AsiakasToimittajaDlg::tallennettu, this, &KumppaniTuoteWidget::paivita);
     }
 }
 

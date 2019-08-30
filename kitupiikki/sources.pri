@@ -1,4 +1,5 @@
 SOURCES += \
+    $$PWD/alv/alvlaskelma.cpp \
     $$PWD/apuri/apuriwidget.cpp \
     $$PWD/apuri/laskutaulutilioteproxylla.cpp \
     $$PWD/apuri/tilioteapuri.cpp \
@@ -210,6 +211,7 @@ SOURCES += \
     rekisteri/asiakastoimittajavalinta.cpp
 
 HEADERS += \
+    $$PWD/alv/alvlaskelma.h \
     $$PWD/apuri/apuriwidget.h \
     $$PWD/apuri/laskutaulutilioteproxylla.h \
     $$PWD/apuri/tilioteapuri.h \

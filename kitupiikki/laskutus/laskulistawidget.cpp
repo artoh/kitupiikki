@@ -110,8 +110,13 @@ void LaskulistaWidget::alusta()
 
 void LaskulistaWidget::uusilasku()
 {
-    LaskuDialogi *dlg = new LaskuDialogi();
-    dlg->show();
+    if( paalehti_ == MYYNTI || paalehti_ == ASIAKAS) {
+        LaskuDialogi *dlg = new LaskuDialogi();
+        dlg->show();
+    } else {
+        LisaIkkuna *lisa = new LisaIkkuna(this);
+        lisa->kirjaa();
+    }
 }
 
 void LaskulistaWidget::muokkaa()
