@@ -61,9 +61,22 @@ void AlvLaskelma::kirjoitaYhteenveto()
 {
 
     RaporttiRivi otsikko;
-    otsikko.lisaa(tr("Arvonlisäveroilmoitus"),4);
+    otsikko.lisaa(tr("Arvonlisäveroilmoituksen tiedot"),4);
     otsikko.lihavoi();
     rk.lisaaRivi(otsikko);
+
+    qlonglong huojennus = 0;
+    if( suhteutuskuukaudet_ ) {
+        if( liikevaihto_ < 1000000)
+            huojennus = verohuojennukseen_;
+        else {
+            huojennus = verohuojennukseen_ - ( (liikevaihto_ - 1000000) * verohuojennukseen_ ) / 2000000;
+        }
+        if( huojennus > verohuojennukseen_)
+            huojennus = verohuojennukseen_;
+        if( huojennus < 0)
+            huojennus = 0;
+    }
 
     // Kotimaan myynti
     yvRivi(301, tr("Suoritettava 24%:n vero kotimaan myynnistä"), kotimaanmyyntivero(2400) );
@@ -78,11 +91,6 @@ void AlvLaskelma::kirjoitaYhteenveto()
 
     rk.lisaaTyhjaRivi();
 
-    yvRivi(307, tr("Verokauden vähennettävä vero"), taulu_.summa(200,299));
-    yvRivi(308,tr("Maksettava vero"),taulu_.summa(100,199) - taulu_.summa(200,299));
-
-    rk.lisaaTyhjaRivi();
-
     yvRivi(309, tr("0-verokannan alainen liikevaihto"), taulu_.summa(AlvKoodi::ALV0));
     yvRivi(310, tr("Tavaroiden maahantuonnit EU:n ulkopuolelta"), taulu_.summa(AlvKoodi::MAAHANTUONTI));
     yvRivi(311, tr("Tavaroiden myynnit muihin EU-maihin"), taulu_.summa(AlvKoodi::YHTEISOMYYNTI_TAVARAT));
@@ -90,13 +98,21 @@ void AlvLaskelma::kirjoitaYhteenveto()
     yvRivi(313, tr("Tavaraostot muista EU-maista"), taulu_.summa(AlvKoodi::YHTEISOHANKINNAT_TAVARAT));
     yvRivi(314, tr("Palveluostot muista EU-maista"), taulu_.summa(AlvKoodi::YHTEISOHANKINNAT_PALVELUT));
 
-    // Ajarajahuojennustiedot puuttuvat vielä ;)
-
     yvRivi(318, tr("Vero rakentamispalveluiden ja metalliromun ostoista"), taulu_.summa(AlvKoodi::RAKENNUSPALVELU_OSTO + AlvKoodi::ALVKIRJAUS));
     yvRivi(319, tr("Rakentamispalveluiden ja metaalliromun myynnit"), taulu_.summa(AlvKoodi::RAKENNUSPALVELU_MYYNTI));
     yvRivi(320, tr("Rakentamispalveluiden ja metalliromun ostot"), taulu_.summa(AlvKoodi::RAKENNUSPALVELU_OSTO));
 
+    yvRivi(315, tr("Alarajahuojennukseen oikeuttava liikevaihto"), liikevaihto_ );
+    yvRivi(316, tr("Alarajahuojennukseen oikeuttava vero"), verohuojennukseen_);
+    yvRivi(317, tr("Alarajahuojennuksen määrä"), huojennus);
+
     rk.lisaaTyhjaRivi();
+
+    yvRivi(307, tr("Verokauden vähennettävä vero"), taulu_.summa(200,299));
+    yvRivi(308,tr("Maksettava/Palautettava vero"),taulu_.summa(100,199) - taulu_.summa(200,299) - huojennus);
+
+    rk.lisaaTyhjaRivi();
+
 }
 
 void AlvLaskelma::kirjoitaErittely()
@@ -177,16 +193,52 @@ qlonglong AlvLaskelma::kotimaanmyyntivero(int prosentinsadasosa)
             taulu_.koodit.value(AlvKoodi::MYYNNIT_BRUTTO + AlvKoodi::ALVKIRJAUS).kannat.value(prosentinsadasosa).summa();
 }
 
-void AlvLaskelma::hae(const QDate &alkupvm, const QDate &loppupvm)
+void AlvLaskelma::hae()
+{
+    KpKysely* kysely = kpk("/viennit");
+    kysely->lisaaAttribuutti("alkupvm", alkupvm_);
+    kysely->lisaaAttribuutti("loppupvm", loppupvm_);
+    connect( kysely, &KpKysely::vastaus, this, &AlvLaskelma::viennitSaapuu);
+    kysely->kysy();
+}
+
+void AlvLaskelma::laske(const QDate &alkupvm, const QDate &loppupvm)
 {
     alkupvm_ = alkupvm;
     loppupvm_ = loppupvm;
 
-    KpKysely* kysely = kpk("/viennit");
-    kysely->lisaaAttribuutti("alkupvm", alkupvm);
-    kysely->lisaaAttribuutti("loppupvm", loppupvm);
-    connect( kysely, &KpKysely::vastaus, this, &AlvLaskelma::viennitSaapuu);
-    kysely->kysy();
+    QDate huojennusalku;
+    QDate huojennusloppu;
+
+    // Tässä huomioidaan ensin alarajahuojennus
+    // TODO: Muu verokausi kuin kuukausi
+
+    if( loppupvm == kp()->tilikaudet()->tilikausiPaivalle(loppupvm).paattyy() ) {
+        huojennusalku = kp()->tilikaudet()->tilikausiPaivalle(loppupvm).alkaa();
+        huojennusloppu = loppupvm;
+    }
+
+    if( huojennusalku.isValid()) {
+        if( huojennusalku.day() == 1)
+            suhteutuskuukaudet_ = 1;
+        else
+            suhteutuskuukaudet_ = 0;
+        for( QDate pvm = huojennusalku.addMonths(1); pvm < loppupvm; pvm = pvm.addMonths(1))
+            suhteutuskuukaudet_++;
+
+        if( loppupvm.addDays(1).day() != 1)
+            suhteutuskuukaudet_--;
+
+        qDebug() << " Suhteutus " << huojennusalku << " - " << loppupvm << " " << suhteutuskuukaudet_;
+
+        // Sitten tehdään huojennushaku
+        KpKysely* kysely = kpk("/viennit");
+        kysely->lisaaAttribuutti("alkupvm", huojennusalku);
+        kysely->lisaaAttribuutti("loppupvm", huojennusloppu);
+        connect( kysely, &KpKysely::vastaus, this, &AlvLaskelma::laskeHuojennus);
+        kysely->kysy();
+    } else
+        hae();
 }
 
 void AlvLaskelma::viennitSaapuu(QVariant *viennit)
@@ -214,6 +266,57 @@ void AlvLaskelma::viennitSaapuu(QVariant *viennit)
     kirjoitaLaskelma();
 
     emit valmis( rk );
+}
+
+void AlvLaskelma::laskeHuojennus(QVariant *viennit)
+{
+    liikevaihto_ = 0;
+    verohuojennukseen_ = 0;
+
+    for( QVariant var : viennit->toList() ) {
+        TositeVienti vienti = var.toMap();
+
+        if( vienti.tyyppi() == TositeVienti::BRUTTOOIKAISU)
+            continue;
+
+        int alvkoodi = vienti.alvKoodi();
+        qlonglong debet = qRound( vienti.debet() * 100);
+        qlonglong kredit = qRound( vienti.kredit() * 100);
+
+        if( alvkoodi > 0 && alvkoodi < 100) {
+            // Tämä on veron tai vähennyksen peruste
+            if( alvkoodi == AlvKoodi::MYYNNIT_NETTO ||
+                    alvkoodi == AlvKoodi::YHTEISOMYYNTI_TAVARAT ||
+                    alvkoodi == AlvKoodi::ALV0 ||
+                    alvkoodi == AlvKoodi::RAKENNUSPALVELU_MYYNTI) {
+                liikevaihto_ += kredit - debet;
+                qDebug() << " Liikevaihtoon " << kredit - debet;
+            } else if( alvkoodi == AlvKoodi::MYYNNIT_BRUTTO) {
+                qlonglong brutto = kredit - debet;
+                qlonglong netto = qRound( ( 100 * brutto / (100 + vienti.alvProsentti()) )) ;
+                qDebug() << " bruttomyynti " << brutto << " n " << netto;
+                liikevaihto_ += netto;
+                verohuojennukseen_ += brutto - netto;
+            } else if( alvkoodi == AlvKoodi::OSTOT_BRUTTO) {
+                qlonglong brutto = debet - kredit;
+                qlonglong netto = qRound( ( 100 * brutto / (100 + vienti.alvProsentti()) )) ;
+                verohuojennukseen_ -= brutto - netto;
+            }
+        } else if( alvkoodi > 100 && alvkoodi < 200) {
+            // Tämä on maksettava vero
+            if( alvkoodi == AlvKoodi::MYYNNIT_NETTO + AlvKoodi::ALVKIRJAUS) {
+                verohuojennukseen_ += kredit - debet;
+                qDebug() << "Veroa " << kredit - debet;
+            }
+        } else if( alvkoodi > 200 && alvkoodi < 300) {
+            verohuojennukseen_ -= debet - kredit;
+            qDebug() << " Vähennys " << debet - kredit;
+        }
+    }
+
+    liikevaihto_ = liikevaihto_ * 12 / suhteutuskuukaudet_;
+    hae();
+
 }
 
 void AlvLaskelma::lisaaKirjausVienti(TositeVienti vienti)
@@ -289,6 +392,7 @@ void AlvLaskelma::oikaiseBruttoKirjaukset()
             pois.setAlvKoodi( AlvKoodi::OSTOT_BRUTTO );
             pois.setAlvProsentti( sadasosaprosentti / 100.0 );
             pois.setSelite(selite);
+            pois.setTyyppi( TositeVienti::BRUTTOOIKAISU );
             lisaaKirjausVienti( pois );
 
             TositeVienti veroon;
@@ -297,6 +401,7 @@ void AlvLaskelma::oikaiseBruttoKirjaukset()
             veroon.setAlvKoodi( AlvKoodi::ALVKIRJAUS + AlvKoodi::OSTOT_BRUTTO);
             veroon.setAlvProsentti( sadasosaprosentti / 100.0);
             veroon.setSelite(selite);
+            veroon.setTyyppi( TositeVienti::BRUTTOOIKAISU );
             lisaaKirjausVienti( veroon );
         }
     }

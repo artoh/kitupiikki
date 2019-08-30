@@ -67,12 +67,14 @@ public:
 signals:
 
 public slots:
-    void hae(const QDate& alkupvm, const QDate& loppupvm);
+    void laske(const QDate& alkupvm, const QDate& loppupvm);
 
 protected slots:
     void viennitSaapuu(QVariant* viennit);
+    void laskeHuojennus(QVariant* viennit);
 
 protected:
+    void hae();
     void lisaaKirjausVienti(TositeVienti vienti);
 
     void oikaiseBruttoKirjaukset();
@@ -89,6 +91,10 @@ protected:
 
     AlvTaulu taulu_;
     QMap<int,qlonglong> koodattu_;
+
+    qlonglong liikevaihto_ = 0l;
+    qlonglong verohuojennukseen_ = 0l;
+    int suhteutuskuukaudet_ = 12;
 
 
 public:

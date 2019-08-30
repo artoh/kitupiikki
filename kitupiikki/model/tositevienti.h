@@ -52,7 +52,8 @@ public:
         MAAHANTUONTIVASTAKIRJAUS = 31,
         OSTO = 100,
         MYYNTI = 200,
-        SUORITUS = 300
+        SUORITUS = 300,
+        BRUTTOOIKAISU = 91091
     };
 
 

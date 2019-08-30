@@ -348,6 +348,6 @@ void AlvErittely::esikatsele()
     AlvLaskelma *laskelma = new AlvLaskelma();
     connect( laskelma, &AlvLaskelma::valmis,
              this, &Raportti::nayta);
-    laskelma->hae( ui->alkaa->date(),
+    laskelma->laske( ui->alkaa->date(),
                    ui->paattyy->date());
 }

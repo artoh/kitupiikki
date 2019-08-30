@@ -50,10 +50,6 @@ AlvIlmoitusDialog::~AlvIlmoitusDialog()
 
 QDate AlvIlmoitusDialog::teeAlvIlmoitus(QDate alkupvm, QDate loppupvm)
 {
-    // Kokeillaan uutta
-    AlvLaskelma uusilaskelma;
-    uusilaskelma.hae(alkupvm, loppupvm);
-
 
     // Tarkistetaan, että tarvittavat tilit löytyy
 
