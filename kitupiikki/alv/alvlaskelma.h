@@ -23,6 +23,7 @@
 #include <QMap>
 #include <QVariantMap>
 
+class Tosite;
 
 class AlvLaskelma : public Raportteri
 {               
@@ -63,15 +64,21 @@ public:
 
     void kirjoitaLaskelma();
 
+    qlonglong maksettava() const { return maksettava_;}
+    qlonglong huojennus() const { return huojennus_;}
 
 signals:
+    void tallennettu();
 
 public slots:
     void laske(const QDate& alkupvm, const QDate& loppupvm);
+    void kirjaaHuojennus();
+    void tallenna();
 
 protected slots:
     void viennitSaapuu(QVariant* viennit);
     void laskeHuojennus(QVariant* viennit);
+    void tallennusValmis();
 
 protected:
     void hae();
@@ -81,6 +88,7 @@ protected:
 
     void kirjoitaOtsikot();
     void kirjoitaYhteenveto();
+    void kirjaaVerot();
     void kirjoitaErittely();
     void yvRivi(int koodi, const QString& selite, qlonglong sentit);
     qlonglong kotimaanmyyntivero(int prosentinsadasosa);
@@ -92,9 +100,14 @@ protected:
     AlvTaulu taulu_;
     QMap<int,qlonglong> koodattu_;
 
+    qlonglong maksettava_ = 0l;
+
     qlonglong liikevaihto_ = 0l;
     qlonglong verohuojennukseen_ = 0l;
     int suhteutuskuukaudet_ = 12;
+    qlonglong huojennus_ = 0;
+
+    Tosite* tosite_;
 
 
 public:

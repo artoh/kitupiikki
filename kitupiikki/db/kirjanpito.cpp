@@ -540,7 +540,13 @@ void Kirjanpito::yhteysAvattu(YhteysModel *model)
         yhteysModel_->sulje();
     }
     yhteysModel_ = model;
+    logo_ = QImage();
+
     emit tietokantaVaihtui();
+
+    KpKysely *logokysely = kpk("/liitteet/0/logo.png");
+    connect( logokysely, &KpKysely::vastaus, this, &Kirjanpito::logoSaapui);
+    logokysely->kysy();
 }
 
 bool Kirjanpito::lataaUudelleen()
@@ -553,17 +559,13 @@ void Kirjanpito::asetaHarjoitteluPvm(const QDate &pvm)
     harjoitusPvm = pvm;
 }
 
-void Kirjanpito::logoSaapui(QVariantMap *reply, int tila)
+void Kirjanpito::logoSaapui(QVariant *reply)
 {
-    qDebug() << "Logo saapui " << reply;
+    QByteArray ba = reply->toByteArray();
+    qDebug() << "koko " << ba.size();
 
-    {
-        QByteArray ba = reply->value("liite").toByteArray();
-        qDebug() << "koko " << ba.size();
-
-        logo_ = QImage::fromData( ba );
-    }
-    sender()->deleteLater();
+    logo_ = QImage::fromData( ba );
+    emit logoMuuttui();
 }
 
 

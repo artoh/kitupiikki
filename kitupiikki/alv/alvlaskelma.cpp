@@ -17,11 +17,17 @@
 #include "alvlaskelma.h"
 #include "db/kirjanpito.h"
 #include "db/verotyyppimodel.h"
+#include "model/tosite.h"
+#include "model/tositeviennit.h"
+#include "db/tositetyyppimodel.h"
+#include "model/tositeliitteet.h"
+#include "alvsivu.h"
 
 #include <QDebug>
 
 AlvLaskelma::AlvLaskelma(QObject *parent) :
-  Raportteri (parent)
+  Raportteri (parent),
+  tosite_( new Tosite(this))
 {
 
 }
@@ -64,18 +70,18 @@ void AlvLaskelma::kirjoitaYhteenveto()
     otsikko.lisaa(tr("Arvonlisäveroilmoituksen tiedot"),4);
     otsikko.lihavoi();
     rk.lisaaRivi(otsikko);
+    rk.lisaaTyhjaRivi();
 
-    qlonglong huojennus = 0;
     if( suhteutuskuukaudet_ ) {
         if( liikevaihto_ < 1000000)
-            huojennus = verohuojennukseen_;
+            huojennus_ = verohuojennukseen_;
         else {
-            huojennus = verohuojennukseen_ - ( (liikevaihto_ - 1000000) * verohuojennukseen_ ) / 2000000;
+            huojennus_ = verohuojennukseen_ - ( (liikevaihto_ - 1000000) * verohuojennukseen_ ) / 2000000;
         }
-        if( huojennus > verohuojennukseen_)
-            huojennus = verohuojennukseen_;
-        if( huojennus < 0)
-            huojennus = 0;
+        if( huojennus_ > verohuojennukseen_)
+            huojennus_ = verohuojennukseen_;
+        if( huojennus_ < 0)
+            huojennus_ = 0;
     }
 
     // Kotimaan myynti
@@ -104,15 +110,61 @@ void AlvLaskelma::kirjoitaYhteenveto()
 
     yvRivi(315, tr("Alarajahuojennukseen oikeuttava liikevaihto"), liikevaihto_ );
     yvRivi(316, tr("Alarajahuojennukseen oikeuttava vero"), verohuojennukseen_);
-    yvRivi(317, tr("Alarajahuojennuksen määrä"), huojennus);
+    yvRivi(317, tr("Alarajahuojennuksen määrä"), huojennus());
 
     rk.lisaaTyhjaRivi();
 
     yvRivi(307, tr("Verokauden vähennettävä vero"), taulu_.summa(200,299));
-    yvRivi(308,tr("Maksettava/Palautettava vero"),taulu_.summa(100,199) - taulu_.summa(200,299) - huojennus);
+    maksettava_ = taulu_.summa(100,199) - taulu_.summa(200,299) - huojennus();
+    if( maksettava_ > 0)
+        yvRivi(308,tr("Maksettava vero"),maksettava_);
+    else
+        yvRivi(308, tr("Palautettava vero"), maksettava_);
 
     rk.lisaaTyhjaRivi();
 
+}
+
+void AlvLaskelma::kirjaaVerot()
+{
+    qlonglong vero = taulu_.summa(100,199);
+    qlonglong vahennys = taulu_.summa(200,299);
+
+    QString selite = tr("Arvonlisävero %1 - %2")
+            .arg( alkupvm_.toString("dd.MM.yyyy") )
+            .arg( loppupvm_.toString("dd.MM.yyyy"));
+
+    if( vero ) {
+        TositeVienti verot;
+        verot.setSelite(selite);
+        verot.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).numero() );
+        verot.setDebet( vero / 100.0 );
+        verot.setAlvKoodi( AlvKoodi::TILITYS );
+
+        lisaaKirjausVienti(verot);
+    }
+    if( vahennys )
+    {
+        TositeVienti vahennysRivi;
+        vahennysRivi.setSelite(selite);
+        vahennysRivi.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).numero() );
+        vahennysRivi.setKredit( vahennys / 100.0  );
+        vahennysRivi.setAlvKoodi( AlvKoodi::TILITYS);
+
+        lisaaKirjausVienti( vahennysRivi );
+    }
+    if( vero != vahennys) {
+        TositeVienti maksu;
+        maksu.setSelite( selite );
+        maksu.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA).numero() );
+        maksu.setAlvKoodi( AlvKoodi::TILITYS );
+        if( vero > vahennys )
+            maksu.setKredit( ( vero - vahennys) / 100.0 );
+        else
+            maksu.setDebet( ( vero - vahennys) / 100.0 );
+
+        lisaaKirjausVienti( maksu );
+    }
 }
 
 void AlvLaskelma::kirjoitaErittely()
@@ -183,8 +235,8 @@ void AlvLaskelma::yvRivi(int koodi, const QString &selite, qlonglong sentit)
         rivi.lisaa( sentit);
         rk.lisaaRivi(rivi);
     }
-//    if( koodi && sentit)
-//        koodattu_.insert(koodi, sentit);
+    if( koodi && sentit)
+        koodattu_.insert(koodi, sentit);
 }
 
 qlonglong AlvLaskelma::kotimaanmyyntivero(int prosentinsadasosa)
@@ -255,15 +307,11 @@ void AlvLaskelma::viennitSaapuu(QVariant *viennit)
     }
 
     // Valmistelutoimet pitäisi tehdän vain jos ilmoitusta ei annettu
-
-    qDebug() << "Saapunut";
-
     oikaiseBruttoKirjaukset();
 
-    qDebug() << "Vero " << taulu_.summa(100,199);
-    qDebug() << "Vähennys " << taulu_.summa(200,299);
-
     kirjoitaLaskelma();
+
+    kirjaaVerot();
 
     emit valmis( rk );
 }
@@ -319,11 +367,67 @@ void AlvLaskelma::laskeHuojennus(QVariant *viennit)
 
 }
 
+void AlvLaskelma::tallennusValmis()
+{
+    kp()->asetukset()->aseta("AlvIlmoitus", loppupvm_);
+    emit tallennettu();
+}
+
+void AlvLaskelma::kirjaaHuojennus()
+{
+    if( !huojennus() || !kp()->asetukset()->luku("AlvHuojennusTili"))
+        return;
+
+    QString selite = tr("Arvonlisäveron alarajahuojennus");
+
+    TositeVienti huojennettava;
+    huojennettava.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::VEROVELKA).numero() );
+    huojennettava.setSelite( selite );
+    huojennettava.setDebet( huojennus() / 100.0 );
+    lisaaKirjausVienti( huojennettava );
+
+    TositeVienti huojentaja;
+    huojentaja.setTili( kp()->asetukset()->luku("AlvHuojennusTili") );
+    huojentaja.setSelite( selite );
+    huojentaja.setKredit( huojennus() / 100.0);
+    lisaaKirjausVienti( huojentaja );
+}
+
+void AlvLaskelma::tallenna()
+{
+    tosite_->setData( Tosite::PVM, loppupvm_ );
+    tosite_->setData( Tosite::OTSIKKO, tr("Arvonlisäveroilmoitus %1 - %2")
+                     .arg(alkupvm_.toString("dd.MM.yyyy"))
+                     .arg(loppupvm_.toString("dd.MM.yyyy")));
+    tosite_->setData( Tosite::TYYPPI, TositeTyyppi::ALVLASKELMA  );
+
+    tosite_->liitteet()->lisaa( rk.pdf(), "alv.pdf" );
+
+    QVariantMap lisat;
+    QVariantMap koodit;
+    QMapIterator<int,qlonglong> iter(koodattu_);
+    while( iter.hasNext()) {
+        iter.next();
+        koodit.insert( QString::number( iter.key() ), iter.value() / 100.0 );
+    }
+    lisat.insert("koodit", koodit);
+    lisat.insert("kausialkaa", alkupvm_);
+    lisat.insert("kausipaattyy", loppupvm_);
+    lisat.insert("erapvm", AlvSivu::erapaiva(loppupvm_));
+    lisat.insert("maksettava", maksettava() / 100.0);
+    tosite_->setData( Tosite::ALV, lisat);
+
+
+    connect( tosite_, &Tosite::talletettu, this, &AlvLaskelma::tallennusValmis);
+    tosite_->tallenna();
+}
+
 void AlvLaskelma::lisaaKirjausVienti(TositeVienti vienti)
 {
     vienti.setPvm( loppupvm_ );
     taulu_.lisaa(vienti);
-    // TODO: Lisätään myös tositteelle liitettäviin
+
+    tosite_->viennit()->lisaa(vienti);
 }
 
 void AlvLaskelma::oikaiseBruttoKirjaukset()

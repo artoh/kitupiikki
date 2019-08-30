@@ -19,16 +19,8 @@
 
 #include "alvilmoitustenmodel.h"
 #include "db/kirjanpito.h"
-#include "db/jsonkentta.h"
 
-
-QDate AlvIlmoitusTieto::erapvm()
-{
-    // Jos verokautena koko vuosi, eräpäivänä helmikuun viimeinen
-    if( kp()->asetukset()->luku("AlvKausi") == 12 )
-        return loppuPvm.addMonths(2);
-    return loppuPvm.addDays(1).addMonths(1).addDays(11);
-}
+#include "alvsivu.h"
 
 AlvIlmoitustenModel::AlvIlmoitustenModel(QObject *parent)
     : QAbstractTableModel(parent)
@@ -61,7 +53,7 @@ QVariant AlvIlmoitustenModel::headerData(int section, Qt::Orientation orientatio
             return tr("Päättyy");
         case ERAPVM:
             return tr("Eräpäivä");
-        case VEROSNT:
+        case VERO:
             return tr("Maksettava vero");
         }
     }
@@ -75,35 +67,36 @@ QVariant AlvIlmoitustenModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    AlvIlmoitusTieto tieto = tiedot_.value(index.row());
+
+    QVariantMap map = tiedot_.at( index.row() ).toMap();
 
     if( role == Qt::DisplayRole )
     {
         switch (index.column()) {
         case ALKAA:
-            return tieto.alkuPvm;
+            return map.value("kausialkaa").toDate();
         case PAATTYY:
-            return tieto.loppuPvm;
+            return map.value("kausipaattyy").toDate();
         case ERAPVM:
-            return tieto.erapvm();
-        case VEROSNT:
-            return QString("%L1 €").arg( tieto.maksettavaVeroSnt / 100.0 , 0,'f',2);
+            return AlvSivu::erapaiva( map.value("kausipaattyy").toDate() );
+        case VERO:
+            return QString("%L1 €").arg( map.value("maksettava").toDouble() , 0,'f',2);
         }
     }
     else if( role == Qt::TextAlignmentRole)
     {
-        if( index.column()==VEROSNT)
+        if( index.column()==VERO)
             return QVariant(Qt::AlignRight | Qt::AlignVCenter);
         else
             return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
 
     }
     else if( role == TositeIdRooli )
-        return tieto.tositeId;
+        return map.value("id");
     else if( role == PaattyyRooli)
-        return  tieto.loppuPvm;
+        return  map.value("kausipaattyy");
     else if( role == EraPvmRooli)
-        return tieto.erapvm();
+        return AlvSivu::erapaiva( map.value("kausipaattyy").toDate() );
 
     return QVariant();
 
@@ -111,6 +104,14 @@ QVariant AlvIlmoitustenModel::data(const QModelIndex &index, int role) const
 
 void AlvIlmoitustenModel::lataa()
 {
+    KpKysely *kysely = kpk("/alv");
+    if( !kysely)
+        return;
+
+    connect( kysely, &KpKysely::vastaus, this, &AlvIlmoitustenModel::dataSaapuu);
+    kysely->kysy();
+
+    /*
     beginResetModel();
     tiedot_.clear();
 
@@ -129,6 +130,15 @@ void AlvIlmoitustenModel::lataa()
             tiedot_.append(ilmoitus);
         }
     }
+    endResetModel();
+    */
+}
+
+void AlvIlmoitustenModel::dataSaapuu(QVariant *data)
+{
+    beginResetModel();
+    tiedot_.clear();
+    tiedot_ = data->toList();
     endResetModel();
 }
 

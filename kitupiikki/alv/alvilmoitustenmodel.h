@@ -23,20 +23,6 @@
 #include <QList>
 
 /**
- * @brief Yhden alv-ilmoituksen tiedot
- */
-struct AlvIlmoitusTieto
-{
-    AlvIlmoitusTieto() {}
-    int tositeId;
-    QDate alkuPvm;
-    QDate loppuPvm;
-    int maksettavaVeroSnt;
-
-    QDate erapvm();
-};
-
-/**
  * @brief Tehtyjen arvonlisäilmoitusten model
  */
 class AlvIlmoitustenModel : public QAbstractTableModel
@@ -45,7 +31,7 @@ class AlvIlmoitustenModel : public QAbstractTableModel
 public:
     enum Sarake
     {
-        ALKAA, PAATTYY, ERAPVM, VEROSNT
+        ALKAA, PAATTYY, ERAPVM, VERO
     };
     enum
     {
@@ -64,9 +50,10 @@ public:
 
 public slots:
     void lataa();
+    void dataSaapuu(QVariant* data);
 
 protected:
-    QList<AlvIlmoitusTieto> tiedot_;
+    QVariantList tiedot_;
 
 };
 

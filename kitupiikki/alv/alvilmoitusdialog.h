@@ -36,7 +36,7 @@ class AlvIlmoitusDialog : public QDialog
 {
     Q_OBJECT
 
-protected:
+public:
     explicit AlvIlmoitusDialog(QWidget *parent = nullptr);
     ~AlvIlmoitusDialog();
 
@@ -79,6 +79,9 @@ private:
      * @return false, jos peruttiin
      */
     bool maksuperusteisenTilitys(const QDate& paivayksesta, const QDate &tilityspvm);
+
+public slots:
+    void naytaLaskelma(RaportinKirjoittaja rk);
 
 };
 

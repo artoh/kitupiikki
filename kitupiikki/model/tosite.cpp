@@ -44,7 +44,8 @@ QVariant Tosite::data(int kentta) const
 
 void Tosite::setData(int kentta, QVariant arvo)
 {
-    if( arvo.toString().isEmpty() )
+
+    if( arvo.isNull() && arvo.type() != QVariant::Map )
         data_.remove( avaimet__.at(kentta) );
     else
         data_.insert( avaimet__.at(kentta), arvo );
@@ -116,6 +117,8 @@ void Tosite::tallenna(int tilaan)
     connect(kysely, &KpKysely::virhe, this, &Tosite::tallennuksessaVirhe);
 
     kysely->kysy( tallennettava() );
+
+    qDebug() << tallennettava();
 
 }
 
@@ -194,6 +197,7 @@ void Tosite::liitteetTallennettu()
 
 QVariantMap Tosite::tallennettava() const
 {
+
     QVariantMap map(data_);
     map.insert("viennit", viennit_->tallennettavat());
 
@@ -211,5 +215,6 @@ std::map<int,QString> Tosite::avaimet__ = {
     { VIITE, "viite"},
     { ERAPVM, "erapvm"},
     { KUMPPANI, "kumppani" },
-    { KOMMENTIT, "info"}
+    { KOMMENTIT, "info"},
+    { ALV, "alv"}
 };

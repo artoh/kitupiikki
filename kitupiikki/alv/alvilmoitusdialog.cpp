@@ -50,6 +50,14 @@ AlvIlmoitusDialog::~AlvIlmoitusDialog()
 
 QDate AlvIlmoitusDialog::teeAlvIlmoitus(QDate alkupvm, QDate loppupvm)
 {
+    AlvIlmoitusDialog *dlg = new AlvIlmoitusDialog();
+    AlvLaskelma *laskelma = new AlvLaskelma(dlg);
+
+    connect(laskelma, &AlvLaskelma::valmis, dlg, &AlvIlmoitusDialog::naytaLaskelma);
+    laskelma->laske(alkupvm, loppupvm);
+
+    return QDate();
+    /*
 
     // Tarkistetaan, että tarvittavat tilit löytyy
 
@@ -84,6 +92,7 @@ QDate AlvIlmoitusDialog::teeAlvIlmoitus(QDate alkupvm, QDate loppupvm)
         return loppupvm;
     else
         return QDate();
+    */
 }
 
 bool AlvIlmoitusDialog::alvIlmoitus(QDate alkupvm, QDate loppupvm)
@@ -663,5 +672,17 @@ bool AlvIlmoitusDialog::maksuperusteisenTilitys(const QDate &paivayksesta, const
 
     return true;
 
+}
+
+void AlvIlmoitusDialog::naytaLaskelma(RaportinKirjoittaja rk)
+{
+    AlvLaskelma *laskelma = qobject_cast<AlvLaskelma*>( sender() );
+    ui->ilmoitusBrowser->setHtml( rk.html() );
+    ui->huojennusCheck->setVisible( laskelma->huojennus() && kp()->asetukset()->onko("AlvHuojennusTili") );
+    if( exec() ) {
+        if( ui->huojennusCheck->isChecked())
+            laskelma->kirjaaHuojennus();
+        laskelma->tallenna();
+    }
 }
 

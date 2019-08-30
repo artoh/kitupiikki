@@ -355,6 +355,8 @@ signals:
      */
     void tietokantavirhe(QString virheilmoitus);  
 
+    void logoMuuttui();
+
 public slots:
     /**
      * @brief Avaa kirjanpitotietokannan
@@ -375,7 +377,7 @@ public slots:
      */
     void asetaHarjoitteluPvm(const QDate& pvm);
 
-    void logoSaapui(QVariantMap* reply, int tila);
+    void logoSaapui(QVariant *reply);
 
 
 protected:

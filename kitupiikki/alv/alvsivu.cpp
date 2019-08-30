@@ -25,6 +25,8 @@
 #include "db/tositemodel.h"
 
 #include "alvilmoitusdialog.h"
+#include "alvlaskelma.h"
+
 #include "ui_maksuperusteinen.h"
 
 #include "naytin/naytinikkuna.h"
@@ -105,13 +107,13 @@ void AlvSivu::paivitaSeuraavat()
 
 void AlvSivu::ilmoita()
 {
-    QDate ilmoitettu = AlvIlmoitusDialog::teeAlvIlmoitus(seuraavaAlkaa, seuraavaLoppuu);
-    if( ilmoitettu.isValid())
-    {
-        kp()->asetukset()->aseta("AlvIlmoitus", ilmoitettu);
-        ui->viimeisinEdit->setDate(ilmoitettu);
-        model->lataa();
-    }
+    AlvIlmoitusDialog *dlg = new AlvIlmoitusDialog();
+    AlvLaskelma *laskelma = new AlvLaskelma(dlg);
+
+    connect(laskelma, &AlvLaskelma::valmis, dlg, &AlvIlmoitusDialog::naytaLaskelma);
+    connect(laskelma, &AlvLaskelma::tallennettu, this, &AlvSivu::siirrySivulle);
+    laskelma->laske(seuraavaAlkaa, seuraavaLoppuu);
+
 }
 
 void AlvSivu::naytaIlmoitus()
@@ -233,9 +235,15 @@ void AlvSivu::paivitaMaksuAlvTieto()
 
 QDate AlvSivu::erapaiva(const QDate &loppupaiva)
 {
-    if( kp()->asetukset()->luku("AlvKausi") == 12 )
-        return loppupaiva.addMonths(2);
+    QDate erapvm = loppupaiva.addDays(1).addMonths(1).addDays(11);
 
-    return loppupaiva.addDays(1).addMonths(1).addDays(11);
+    if( kp()->asetukset()->luku("AlvKausi") == 12 )
+        erapvm = loppupaiva.addMonths(2);
+
+    // Ei eräpäivää viikonloppuun
+    while( erapvm.dayOfWeek() > 5)
+        erapvm = erapvm.addDays(1);
+
+    return erapvm;
 }
 

@@ -80,6 +80,7 @@ private slots:
     void rekisteroi();
     void rekisterointiLahti();
     void pilviLogout();
+    void logoMuuttui();
 
 signals:
     void selaus(int tilinumero, Tilikausi tilikausi);

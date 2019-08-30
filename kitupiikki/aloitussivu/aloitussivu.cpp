@@ -102,6 +102,9 @@ AloitusSivu::AloitusSivu() :
     connect( ui->tilausButton, &QPushButton::clicked,
              [] () { TilausWizard *tilaus = new TilausWizard(); tilaus->nayta(); });
 
+
+    connect( kp(), &Kirjanpito::logoMuuttui, this, &AloitusSivu::logoMuuttui);
+
     ui->viimeisetView->setModel( kp()->sqlite() );
     ui->pilviView->setModel( kp()->pilvi() );
     ui->tkpilviTab->setCurrentIndex( kp()->settings()->value("TietokonePilviValilehti").toInt() );
@@ -109,6 +112,8 @@ AloitusSivu::AloitusSivu() :
 
     if( kp()->settings()->contains("CloudKey"))
         QTimer::singleShot(250, [](){ kp()->pilvi()->kirjaudu(); });
+
+
 }
 
 AloitusSivu::~AloitusSivu()
@@ -181,16 +186,9 @@ void AloitusSivu::kirjanpitoVaihtui()
 
         if( kp()->logo().isNull())
             ui->logoLabel->hide();
-        else
-        {
-            ui->logoLabel->show();
-            double skaala = (1.0 * kp()->logo().width() ) / kp()->logo().height();
-            ui->logoLabel->setPixmap( QPixmap::fromImage( kp()->logo().scaled( qRound( 64 * skaala),64,Qt::KeepAspectRatio) ) );
-        }
 
         ui->tilikausiCombo->setModel( kp()->tilikaudet() );
         ui->tilikausiCombo->setModelColumn( 0 );
-
 
         // Valitaan nykyinen tilikausi
         // Pohjalle kuitenkin viimeinen tilikausi, jotta joku on aina valittuna
@@ -512,6 +510,13 @@ void AloitusSivu::pilviLogout()
     ui->salaEdit->clear();
     kp()->pilvi()->kirjauduUlos();
     ui->pilviPino->setCurrentIndex(KIRJAUDU);
+}
+
+void AloitusSivu::logoMuuttui()
+{
+    double skaala = (1.0 * kp()->logo().width() ) / kp()->logo().height();
+    ui->logoLabel->setPixmap( QPixmap::fromImage( kp()->logo().scaled( qRound( 64 * skaala),64,Qt::KeepAspectRatio) ) );
+    ui->logoLabel->show();
 }
 
 QString AloitusSivu::vinkit()

@@ -48,7 +48,8 @@ public:
         VIITE,
         ERAPVM,
         KUMPPANI,
-        KOMMENTIT
+        KOMMENTIT,
+        ALV
     };
 
     enum Virheet {
