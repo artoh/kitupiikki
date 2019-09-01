@@ -140,6 +140,11 @@ void KpEuroEdit::keyPressEvent(QKeyEvent *event)
         }
         return;
     }
+    else if( event->key() == Qt::Key_Plus && miinus()) {
+        miinus_ = false;
+        setText(QString(" %L1 €").arg( cents_ / 100.0 ,0,'f',2) );
+        setCursorPosition( kursorinpaikka - 1);
+    }
     else if( event->key() == Qt::Key_Left && kursorinpaikka > 1 && text().at(kursorinpaikka-1).isSpace() )
     {
         cursorBackward(false,1);

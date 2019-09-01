@@ -25,6 +25,7 @@ namespace TositeTyyppi {
     {
         MUU = 0,
         MENO = 100,
+        KULULASKU = 120,
         TULO = 200,
         MYYNTILASKU = 210,
         HYVITYSLASKU = 214,

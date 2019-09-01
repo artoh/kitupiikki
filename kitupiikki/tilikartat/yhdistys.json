@@ -10,12 +10,22 @@
 		"laajuudet": {
 			"1" : { 
 				"fi": "Suppea",
-				"se": "Liten"
 			},
+			"2" : { 
+				"fi" : "Tavallinen, ei palkkoja",
+			},			
 			"3" : { 
-				"fi" : "Tavanomainen",
-				"se" : "Normal"
-			}			
+				"fi" : "Tavallinen, palkat",
+			},
+			"4" : { 
+				"fi" : "Laaja, kiinteää tai sijoitusomaisuutta",
+			},
+			"5" : { 
+				"fi" : "Elinkeinotoimintaa",
+			},
+			"6" : { 
+				"fi" : "Kaikki tilit, myös konserni",
+			},
 		},
 		"tulos/yhdistys":{
 			"nimi":{
@@ -352,112 +362,2702 @@
 			}
 	},
 	"tilit" : [
-		{
-			"numero" : 1,
-			"nimi" : {"fi":"Vastaavaa"},
-			"tyyppi":"H1"
-		},
-		{
-			"numero" : 15,
-			"nimi" : {"fi" : "Vaihtuvat vastaavat" },
-			"tyyppi" : "H2"
-		},
-		{
-			"numero" : 1700,
-			"nimi" : {"fi" : "Myyntisaamiset" },
-			"tyyppi" : "AO",
-			"erittely" : 2
-		},
-		{
-			"numero" : 1770,
-			"nimi" : {"fi" : "Siirtosaamiset" },
-			"tyyppi" : "AO",
-			"erittely" : 2
-		},			
-		{
-			"numero" : 1900,
-			"nimi" : {
-				"fi" : "Käteisvarat",
-				"en" : "Cash"
-			},
-			"tyyppi" : "ARK"
-		},
-		{
-			"numero" : 1910,
-			"nimi" : { "fi" : "Pankkitili" },
-			"tyyppi" : "ARP",
-			"iban" : "FI9741076665000023",
-			"laskulle" : 1
-		},
-		{
-			"numero" : 1911,
-			"nimi" : { "fi" : "Toinen pankkitili" },
-			"tyyppi" : "ARP",
-			"iban" : "FI7543286757000686",
-			"laskulle" : 2
-		},
-		{
-			"numero" : 2450,
-			"nimi" : { "fi" : "Edellisten tilikausien ylijäämä" },
-			"tyyppi" : "BE"
-		},
-		{
-			"numero" : 2460,
-			"nimi" : { "fi" : "Tilikauden ylijäämä/alijäämä",
-			"sv":"Räkenskapsperiodens vinst/förlust" },
-			"tyyppi" : "T"
-		},
-		{
-			"numero" : 2960,
-			"nimi" : {"fi" : "Ostovelat" },
-			"tyyppi" : "BO",
-			"erittely" : 2
-		},
-		{
-			"numero" : 3,
-			"nimi" : {"fi" : "Tuloslaskelma"},
-			"tyyppi" : "H1"
-		},
-		{
-			"numero" : 3,
-			"nimi" : {"fi" : "Varsinainen toiminta" },
-			"tyyppi" : "H2"
-		},
-		{
-			"numero" : 3,
-			"nimi" : {"fi" : "Varsinaisen toiminnan tulot" },
-			"tyyppi" : "H3"
-		},			
-		{
-			"numero" : 3000,
-			"nimi" : { "fi" : "Osallistumismaksut" },
-			"tyyppi" : "CL"
-		},
-		{
-			"numero" : 3800,
-			"nimi" : { "fi" : "Saadut avustukset"},
-			"tyyppi" : "CL"
-		},
-		{
-			"numero" : 7310,
-			"nimi" : { "fi" : "Jäsenmaksutulot" },
-			"tyyppi":"CL"
-		},	
-		{
-		
-			"numero" : 4,
-			"nimi" : {"fi" : "Varsinaisen toiminnan menot" },
-			"tyyppi" : "H3"
-		},						
-		{
-			"numero" : 4000,
-			"nimi" : { "fi" : "Tavaraostot varsinainen toiminta" },
-			"tyyppi" : "D"
-		},
-					{
-			"numero" : 4921,
-			"nimi" : { "fi" : "Rahaliikenteen kulut" },
-			"tyyppi" : "D"
-		}
-	]
+ {
+  "numero": 1,
+  "tyyppi": "H1",
+  "nimi": {
+   "fi:": "VASTAAVAA"
+  }
+ },
+ {
+  "numero": 10,
+  "tyyppi": "H2",
+  "nimi": {
+   "fi:": "Pysyvät vastaavat"
+  },
+  "mihin": 147
+ },
+ {
+  "numero": 10,
+  "tyyppi": "H3",
+  "nimi": {
+   "fi:": "Aineettomat hyödykkeet"
+  }
+ },
+ {
+  "numero": 102,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Kehittämismenot"
+  }
+ },
+ {
+  "numero": 1020,
+  "tyyppi": "APT",
+  "nimi": {
+   "fi:": "Kehittämismenot"
+  },
+  "poistotili": 6000,
+  "tasaerapoisto": 120,
+  "erittely": 3,
+  "laajuus": 5
+ },
+ {
+  "numero": 103,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Aineettomat oikeudet"
+  }
+ },
+ {
+  "numero": 1030,
+  "tyyppi": "APT",
+  "nimi": {
+   "fi:": "Aineettomat oikeudet"
+  },
+  "poistotili": 6000,
+  "tasaerapoisto": 120,
+  "erittely": 3,
+  "laajuus": 5
+ },
+ {
+  "numero": 104,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Liikearvo"
+  }
+ },
+ {
+  "numero": 1040,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Liikearvo"
+  },
+  "erittely": 1,
+  "laajuus": 5
+ },
+ {
+  "numero": 106,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Muut pitkävaikutteiset menot"
+  }
+ },
+ {
+  "numero": 1062,
+  "tyyppi": "APT",
+  "nimi": {
+   "fi:": "IT-ohjelmistot"
+  },
+  "poistotili": 6000,
+  "tasaerapoisto": 120,
+  "erittely": 3,
+  "laajuus": 2
+ },
+ {
+  "numero": 1069,
+  "tyyppi": "APT",
+  "nimi": {
+   "fi:": "Muut pitkävaikutteiset menot; poistokelpoiset"
+  },
+  "poistotili": 6000,
+  "tasaerapoisto": 120,
+  "erittely": 3,
+  "laajuus": 6
+ },
+ {
+  "numero": 107,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Ennakkomaksut"
+  }
+ },
+ {
+  "numero": 1070,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Ennakkomaksut; pysyvät vastaavat"
+  },
+  "erittely": 2,
+  "laajuus": 6
+ },
+ {
+  "numero": 11,
+  "tyyppi": "H3",
+  "nimi": {
+   "fi:": "Aineelliset hyödykkeet"
+  }
+ },
+ {
+  "numero": 110,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Maa- ja vesialueet"
+  }
+ },
+ {
+  "numero": 1100,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Maa- ja vesialueet"
+  },
+  "erittely": 3,
+  "laajuus": 4
+ },
+ {
+  "numero": 1101,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Maa- ja vesialueiden vuokraoikeudet"
+  },
+  "erittely": 3,
+  "laajuus": 4
+ },
+ {
+  "numero": 111,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Rakennukset ja rakennelmat"
+  }
+ },
+ {
+  "numero": 1110,
+  "tyyppi": "APM",
+  "nimi": {
+   "fi:": "Rakennukset ja rakennelmat 7%"
+  },
+  "poistotili": 6001,
+  "erittely": 1,
+  "menojaannospoisto": 7,
+  "laajuus": 4
+ },
+ {
+  "numero": 1112,
+  "tyyppi": "APM",
+  "nimi": {
+   "fi:": "Rakennukset ja rakennelmat 4%"
+  },
+  "poistotili": 6001,
+  "erittely": 1,
+  "menojaannospoisto": 4,
+  "laajuus": 4
+ },
+ {
+  "numero": 1114,
+  "tyyppi": "APM",
+  "nimi": {
+   "fi:": "Rakennelmat 20%"
+  },
+  "poistotili": 6001,
+  "erittely": 1,
+  "menojaannospoisto": 20,
+  "laajuus": 4
+ },
+ {
+  "numero": 1140,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Rakennusten vuokraoikeudet"
+  },
+  "erittely": 3,
+  "laajuus": 4
+ },
+ {
+  "numero": 116,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Koneet ja kalusto"
+  }
+ },
+ {
+  "numero": 1160,
+  "tyyppi": "APM",
+  "nimi": {
+   "fi:": "Koneet ja kalusto 25%"
+  },
+  "poistotili": 6002,
+  "erittely": 1,
+  "menojaannospoisto": 25,
+  "laajuus": 1
+ },
+ {
+  "numero": 1167,
+  "tyyppi": "APM",
+  "nimi": {
+   "fi:": "Elinkeinotoiminnan koneet ja kalusto 25%"
+  },
+  "poistotili": 70602,
+  "erittely": 1,
+  "menojaannospoisto": 25,
+  "alvlaji": 21,
+  "alvprosentti": 24,
+  "laajuus": 5
+ },
+ {
+  "numero": 117,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Muut aineelliset hyödykkeet"
+  }
+ },
+ {
+  "numero": 1170,
+  "tyyppi": "APT",
+  "nimi": {
+   "fi:": "Muuta aineelliset hyödykkeet"
+  },
+  "poistotili": 6003,
+  "laajuus": 4
+ },
+ {
+  "numero": 118,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Ennakkomaksut ja Keskeneräiset hankinnat"
+  }
+ },
+ {
+  "numero": 1180,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Ennakkomaksut, rakennukset"
+  },
+  "erittely": 2,
+  "laajuus": 4
+ },
+ {
+  "numero": 1181,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Ennakkomaksut, kalusto"
+  },
+  "erittely": 2,
+  "laajuus": 4
+ },
+ {
+  "numero": 1182,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Ennakkomaksut, muut"
+  },
+  "erittely": 2,
+  "laajuus": 4
+ },
+ {
+  "numero": 14,
+  "tyyppi": "H3",
+  "nimi": {
+   "fi:": "Sijoitukset"
+  }
+ },
+ {
+  "numero": 141,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Osuuden saman konsernin yrityksissä"
+  }
+ },
+ {
+  "numero": 1410,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Osuuden saman konsernin yrityksissä"
+  },
+  "erittely": 3,
+  "laajuus": 6
+ },
+ {
+  "numero": 142,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Saamiset saman konsernin yrityksiltä"
+  }
+ },
+ {
+  "numero": 1420,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Saamiset saman konsernin yrityksiltä"
+  },
+  "erittely": 2,
+  "laajuus": 6
+ },
+ {
+  "numero": 143,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Osuudet omistusyhteysyrityksissä"
+  }
+ },
+ {
+  "numero": 1430,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Osuudet omistusyhteysyrityksissä"
+  },
+  "erittely": 3,
+  "laajuus": 6
+ },
+ {
+  "numero": 144,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Saamiset omistusyhteysyrityksiltä"
+  }
+ },
+ {
+  "numero": 1440,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Saamiset omistusyhteysyrityksiltä"
+  },
+  "erittely": 2,
+  "laajuus": 6
+ },
+ {
+  "numero": 145,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Osakkeet ja osuudet; sijoitukset"
+  }
+ },
+ {
+  "numero": 1450,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Osakkeet ja osuudet; sijoitukset"
+  },
+  "erittely": 3,
+  "laajuus": 4
+ },
+ {
+  "numero": 146,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Muut saamiset; sijoitukset"
+  }
+ },
+ {
+  "numero": 1460,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Muut saamiset; sijoitukset"
+  },
+  "erittely": 2,
+  "laajuus": 4
+ },
+ {
+  "numero": 147,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Sijoituskiinteistöt"
+  }
+ },
+ {
+  "numero": 1470,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Sijoituskiinteistöt"
+  },
+  "erittely": 3,
+  "laajuus": 4
+ },
+ {
+  "numero": 148,
+  "tyyppi": "H2",
+  "nimi": {
+   "fi:": "Omakatteisten rahastojen varat"
+  }
+ },
+ {
+  "numero": 1485,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Osakkeet ja osuudet; omakatteiset rahastot"
+  },
+  "erittely": 3,
+  "laajuus": 4
+ },
+ {
+  "numero": 1486,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Muut saamiset; omakatteiset rahastot"
+  },
+  "erittely": 2,
+  "laajuus": 4
+ },
+ {
+  "numero": 1489,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Rahavarat; omakatteiset rahastot"
+  },
+  "erittely": 1,
+  "laajuus": 4
+ },
+ {
+  "numero": 15,
+  "tyyppi": "H2",
+  "nimi": {
+   "fi:": "Vaihtuvat vastaavat"
+  },
+  "mihin": 19
+ },
+ {
+  "numero": 15,
+  "tyyppi": "H3",
+  "nimi": {
+   "fi:": "Vaihto-omaisuus"
+  }
+ },
+ {
+  "numero": 151,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Aineet ja tarvikkeet"
+  }
+ },
+ {
+  "numero": 1510,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Raaka-aineet"
+  },
+  "erittely": 1,
+  "laajuus": 4
+ },
+ {
+  "numero": 152,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Keskeneräiset tuotteet"
+  }
+ },
+ {
+  "numero": 1520,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Keskeneräiset tuotteet"
+  },
+  "erittely": 1,
+  "laajuus": 4
+ },
+ {
+  "numero": 153,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Valmiit tuotteet"
+  }
+ },
+ {
+  "numero": 1530,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Valmiit tuotteet; itse valmistetut"
+  },
+  "erittely": 1,
+  "laajuus": 4
+ },
+ {
+  "numero": 1531,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Ostetut kauppatavarat"
+  },
+  "erittely": 1,
+  "laajuus": 4
+ },
+ {
+  "numero": 154,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Muu vaihto-omaisuus"
+  }
+ },
+ {
+  "numero": 1549,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Muu vaihto-omaisuus"
+  },
+  "erittely": 1,
+  "laajuus": 4
+ },
+ {
+  "numero": 155,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Ennakkomaksut"
+  }
+ },
+ {
+  "numero": 1550,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Ennakkomaksut"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 16,
+  "tyyppi": "H3",
+  "nimi": {
+   "fi:": "Pitkäaikaiset saamiset"
+  }
+ },
+ {
+  "numero": 160,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Myyntisaamiset"
+  }
+ },
+ {
+  "numero": 1600,
+  "tyyppi": "AS",
+  "nimi": {
+   "fi:": "Myyntisaamiset; pitkäaikaiset"
+  },
+  "erittely": 2,
+  "laajuus": 4
+ },
+ {
+  "numero": 161,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Saamiset saman konsernin yrityksiltä"
+  }
+ },
+ {
+  "numero": 1610,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Saamiset saman konsernin yrityksiltä; pitkäaikaiset"
+  },
+  "erittely": 2,
+  "laajuus": 6
+ },
+ {
+  "numero": 163,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Saamiset omistusyhteysyrityksiltä"
+  }
+ },
+ {
+  "numero": 1630,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Saamiset omistusyhteysyrityksiltä; pitkäaikaiset"
+  },
+  "erittely": 2,
+  "laajuus": 6
+ },
+ {
+  "numero": 164,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Lainasaamiset"
+  }
+ },
+ {
+  "numero": 1640,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Lainasaamiset; pitkäaikaiset"
+  },
+  "erittely": 2,
+  "laajuus": 4
+ },
+ {
+  "numero": 166,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Muut saamiset"
+  }
+ },
+ {
+  "numero": 1660,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Muut saamiset; pitkäaikaiset"
+  },
+  "erittely": 2,
+  "laajuus": 4
+ },
+ {
+  "numero": 167,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Siirtosaamiset"
+  }
+ },
+ {
+  "numero": 1670,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Siirtosaamiset; pitkäaikaiset"
+  },
+  "erittely": 2,
+  "laajuus": 4
+ },
+ {
+  "numero": 17,
+  "tyyppi": "H3",
+  "nimi": {
+   "fi:": "Lyhytaikaiset saamiset"
+  }
+ },
+ {
+  "numero": 170,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Myyntisaamiset"
+  }
+ },
+ {
+  "numero": 1700,
+  "tyyppi": "AO",
+  "nimi": {
+   "fi:": "Myyntisaamiset"
+  },
+  "erittely": 2,
+  "laajuus": 1,
+  "maksutapa": "LMT"
+ },
+ {
+  "numero": 171,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Saamiset saman konsernin yrityksilta"
+  }
+ },
+ {
+  "numero": 1710,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Saamiset saman konsernin yrityksiltä"
+  },
+  "erittely": 2,
+  "laajuus": 6
+ },
+ {
+  "numero": 173,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Saamiset omistusyhteysyrityksiltä"
+  }
+ },
+ {
+  "numero": 1730,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Saamiset omistusyhteysyrityksiltä"
+  },
+  "erittely": 2,
+  "laajuus": 6
+ },
+ {
+  "numero": 174,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Lainasaamiset"
+  }
+ },
+ {
+  "numero": 1740,
+  "tyyppi": "AS",
+  "nimi": {
+   "fi:": "Lainasaamiset"
+  },
+  "erittely": 2,
+  "laajuus": 2
+ },
+ {
+  "numero": 176,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Muut saamiset"
+  }
+ },
+ {
+  "numero": 1760,
+  "tyyppi": "AS",
+  "nimi": {
+   "fi:": "Muut saamiset"
+  },
+  "erittely": 2,
+  "laajuus": 2
+ },
+ {
+  "numero": 1761,
+  "tyyppi": "AV",
+  "nimi": {
+   "fi:": "Verosaamiset"
+  },
+  "erittely": 1,
+  "laajuus": 5
+ },
+ {
+  "numero": 1762,
+  "tyyppi": "AL",
+  "nimi": {
+   "fi:": "Arvonlisäverosaamiset"
+  },
+  "laajuus": 5
+ },
+ {
+  "numero": 1763,
+  "tyyppi": "ALM",
+  "nimi": {
+   "fi:": "Maksuperusteinen arvonlisäverosaaminen"
+  },
+  "laajuus": 5
+ },
+ {
+  "numero": 177,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Siirtosaamiset"
+  }
+ },
+ {
+  "numero": 1770,
+  "tyyppi": "AS",
+  "nimi": {
+   "fi:": "Siirtosaamiset"
+  },
+  "erittely": 2,
+  "laajuus": 1
+ },
+ {
+  "numero": 18,
+  "tyyppi": "H3",
+  "nimi": {
+   "fi:": "Rahoitusarvopaperit"
+  }
+ },
+ {
+  "numero": 181,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Osuudet saman konsernin yrityksissä"
+  }
+ },
+ {
+  "numero": 1810,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Osuudet saman konsernin yrityksissä; rahoitusarvopaperit"
+  },
+  "erittely": 3,
+  "laajuus": 6
+ },
+ {
+  "numero": 182,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Muut osakkeet ja osuudet"
+  }
+ },
+ {
+  "numero": 1820,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Osakkeet ja osuudet; rahoitusarvopaperit"
+  },
+  "erittely": 3,
+  "laajuus": 4
+ },
+ {
+  "numero": 183,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Muut arvopaperit"
+  }
+ },
+ {
+  "numero": 1830,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Joukkovelkakirjat      "
+  },
+  "erittely": 3,
+  "laajuus": 4
+ },
+ {
+  "numero": 1831,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Rahamarkkinainstrumentit"
+  },
+  "erittely": 3,
+  "laajuus": 4
+ },
+ {
+  "numero": 1839,
+  "tyyppi": "A",
+  "nimi": {
+   "fi:": "Muut rahoitusarvopaperit"
+  },
+  "erittely": 3,
+  "laajuus": 4
+ },
+ {
+  "numero": 19,
+  "tyyppi": "H3",
+  "nimi": {
+   "fi:": "Rahat ja pankkisaamiset"
+  }
+ },
+ {
+  "numero": 1900,
+  "tyyppi": "ARK",
+  "nimi": {
+   "fi:": "Käteisvarat"
+  },
+  "laajuus": 1,
+  "maksutapa": "KA"
+ },
+ {
+  "numero": 1910,
+  "tyyppi": "ARP",
+  "nimi": {
+   "fi:": "Pankkitili"
+  },
+  "laajuus": 1,
+  "maksutapa" : "PA"
+ },
+ {
+  "numero": 2,
+  "tyyppi": "H1",
+  "nimi": {
+   "fi:": "VASTATTAVAA"
+  }
+ },
+ {
+  "numero": 20,
+  "tyyppi": "H2",
+  "nimi": {
+   "fi:": "Oma pääoma"
+  },
+  "mihin": 24
+ },
+ {
+  "numero": 201,
+  "tyyppi": "H3",
+  "nimi": {
+   "fi:": "Sidotut rahastot"
+  },
+  "mihin": 202
+ },
+ {
+  "numero": 201,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Omakatteiset rahastot"
+  }
+ },
+ {
+  "numero": 2011,
+  "tyyppi": "B",
+  "nimi": {
+   "fi:": "Omakatteinen rahasto "
+  },
+  "erittely": 3,
+  "laajuus": 4
+ },
+ {
+  "numero": 202,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Muut sidotut rahastot     "
+  }
+ },
+ {
+  "numero": 2021,
+  "tyyppi": "B",
+  "nimi": {
+   "fi:": "Muu sidottu rahasto"
+  },
+  "erittely": 3,
+  "laajuus": 4
+ },
+ {
+  "numero": 204,
+  "tyyppi": "H3",
+  "nimi": {
+   "fi:": "Vapaat rahastot"
+  }
+ },
+ {
+  "numero": 2041,
+  "tyyppi": "B",
+  "nimi": {
+   "fi:": "Vapaa rahasto"
+  },
+  "erittely": 3,
+  "laajuus": 4
+ },
+ {
+  "numero": 24,
+  "tyyppi": "H3",
+  "nimi": {
+   "fi:": "Tulos"
+  }
+ },
+ {
+  "numero": 2450,
+  "tyyppi": "BE",
+  "nimi": {
+   "fi:": "Edellisten tilikausien voitto/tappio"
+  },
+  "laajuus": 1
+ },
+ {
+  "numero": 2460,
+  "tyyppi": "T",
+  "nimi": {
+   "fi:": "Tilikauden tulos"
+  },
+  "laajuus": 1
+ },
+ {
+  "numero": 25,
+  "tyyppi": "H2",
+  "nimi": {
+   "fi:": "Tilinpäätössiirtojen kertymä"
+  }
+ },
+ {
+  "numero": 250,
+  "tyyppi": "H3",
+  "nimi": {
+   "fi:": "Poistoero"
+  }
+ },
+ {
+  "numero": 2501,
+  "tyyppi": "B",
+  "nimi": {
+   "fi:": "Poistoero"
+  },
+  "laajuus": 6
+ },
+ {
+  "numero": 251,
+  "tyyppi": "H3",
+  "nimi": {
+   "fi:": "Verotusperusteiset varaukset"
+  }
+ },
+ {
+  "numero": 2510,
+  "tyyppi": "B",
+  "nimi": {
+   "fi:": "Verotusperusteiset varaukset"
+  },
+  "laajuus": 6
+ },
+ {
+  "numero": 26,
+  "tyyppi": "H2",
+  "nimi": {
+   "fi:": "Pakolliset varaukset"
+  }
+ },
+ {
+  "numero": 260,
+  "tyyppi": "H3",
+  "nimi": {
+   "fi:": "Eläkevaraukset"
+  }
+ },
+ {
+  "numero": 2600,
+  "tyyppi": "B",
+  "nimi": {
+   "fi:": "Eläkevaraukset"
+  },
+  "erittely": 1,
+  "laajuus": 6
+ },
+ {
+  "numero": 261,
+  "tyyppi": "H3",
+  "nimi": {
+   "fi:": "Verovaraukset"
+  }
+ },
+ {
+  "numero": 2610,
+  "tyyppi": "B",
+  "nimi": {
+   "fi:": "Verovaraukset"
+  },
+  "erittely": 1,
+  "laajuus": 6
+ },
+ {
+  "numero": 269,
+  "tyyppi": "H3",
+  "nimi": {
+   "fi:": "Muut pakolliset varaukset"
+  }
+ },
+ {
+  "numero": 2690,
+  "tyyppi": "B",
+  "nimi": {
+   "fi:": "Muut pakolliset varaukset"
+  },
+  "erittely": 1,
+  "laajuus": 6
+ },
+ {
+  "numero": 28,
+  "tyyppi": "H2",
+  "nimi": {
+   "fi:": "Vieras pääoma"
+  },
+  "mihin": 29
+ },
+ {
+  "numero": 28,
+  "tyyppi": "H3",
+  "nimi": {
+   "fi:": "Pitkäaikainen vieras pääoma"
+  }
+ },
+ {
+  "numero": 281,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Joukkovelkakirjalainat"
+  }
+ },
+ {
+  "numero": 2810,
+  "tyyppi": "B",
+  "nimi": {
+   "fi:": "Joukkovelkakirjalainat, pitkäaikaiset"
+  },
+  "erittely": 3,
+  "laajuus": 6
+ },
+ {
+  "numero": 282,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Vaihtovelkakirjalainat"
+  }
+ },
+ {
+  "numero": 2820,
+  "tyyppi": "B",
+  "nimi": {
+   "fi:": "Vaihtovelkakirjalainat, pitkäaikaiset"
+  },
+  "erittely": 3,
+  "laajuus": 6
+ },
+ {
+  "numero": 283,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Lainat rahoituslaitoksilta"
+  }
+ },
+ {
+  "numero": 2830,
+  "tyyppi": "BS",
+  "nimi": {
+   "fi:": "Lainat rahoituslaitoksilta; pitkäaikaiset"
+  },
+  "erittely": 3,
+  "laajuus": 4
+ },
+ {
+  "numero": 284,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Takaisinlainat työeläkevakuutuslaitoksilta"
+  }
+ },
+ {
+  "numero": 2840,
+  "tyyppi": "B",
+  "nimi": {
+   "fi:": "Eläkelainat; pitkäaikaiset"
+  },
+  "erittely": 1,
+  "laajuus": 6
+ },
+ {
+  "numero": 285,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Saadut ennakot"
+  }
+ },
+ {
+  "numero": 2850,
+  "tyyppi": "B",
+  "nimi": {
+   "fi:": "Saadut ennakot; pitkäaikaiset"
+  },
+  "erittely": 2,
+  "laajuus": 4
+ },
+ {
+  "numero": 286,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Ostovelat"
+  }
+ },
+ {
+  "numero": 2860,
+  "tyyppi": "BS",
+  "nimi": {
+   "fi:": "Ostovelat; pitkäaikaiset"
+  },
+  "erittely": 3,
+  "laajuus": 4
+ },
+ {
+  "numero": 2870,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Velat saman konsernin yrityksille"
+  },
+  "mihin": 2874
+ },
+ {
+  "numero": 2870,
+  "tyyppi": "BS",
+  "nimi": {
+   "fi:": "Velat saman konsernin yrityksille; pitkäaikaiset"
+  },
+  "erittely": 2,
+  "laajuus": 6
+ },
+ {
+  "numero": 2875,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Velat omistusyhteysyrityksille"
+  },
+  "mihin": 2879
+ },
+ {
+  "numero": 2875,
+  "tyyppi": "BS",
+  "nimi": {
+   "fi:": "Velat omistusyhteysyrityksille; pitkäaikaiset"
+  },
+  "erittely": 2,
+  "laajuus": 6
+ },
+ {
+  "numero": 288,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Muut velat"
+  }
+ },
+ {
+  "numero": 2880,
+  "tyyppi": "BS",
+  "nimi": {
+   "fi:": "Muut velat; pitkäaikaiset"
+  },
+  "erittely": 2,
+  "laajuus": 4
+ },
+ {
+  "numero": 289,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Siirtovelat"
+  }
+ },
+ {
+  "numero": 2890,
+  "tyyppi": "B",
+  "nimi": {
+   "fi:": "Siirtovelat; pitkäaikaiset"
+  },
+  "erittely": 2,
+  "laajuus": 4
+ },
+ {
+  "numero": 29,
+  "tyyppi": "H3",
+  "nimi": {
+   "fi:": "Lyhytaikainen vieras pääoma"
+  }
+ },
+ {
+  "numero": 291,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Joukkovelkakirjalainat"
+  }
+ },
+ {
+  "numero": 2910,
+  "tyyppi": "B",
+  "nimi": {
+   "fi:": "Joukkovelkakirjalainat, lyhytaikaiset"
+  },
+  "erittely": 2,
+  "laajuus": 6
+ },
+ {
+  "numero": 292,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Vaihtovelkakirjalainat"
+  }
+ },
+ {
+  "numero": 2920,
+  "tyyppi": "B",
+  "nimi": {
+   "fi:": "Vaihtovelkakirjalainat, lyhytaikaiset"
+  },
+  "erittely": 2,
+  "laajuus": 6
+ },
+ {
+  "numero": 293,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Lainat rahoituslaitoksilta"
+  }
+ },
+ {
+  "numero": 2930,
+  "tyyppi": "BS",
+  "nimi": {
+   "fi:": "Lainat rahoituslaitoksilta; lyhytaikaiset"
+  },
+  "erittely": 3,
+  "laajuus": 4
+ },
+ {
+  "numero": 294,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Takaisinlainat työeläkevakuutuslaitoksilta"
+  }
+ },
+ {
+  "numero": 2940,
+  "tyyppi": "B",
+  "nimi": {
+   "fi:": "Eläkelainat; Lyhytaikaiset"
+  },
+  "erittely": 2,
+  "laajuus": 4
+ },
+ {
+  "numero": 295,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Saadut ennakot"
+  }
+ },
+ {
+  "numero": 2950,
+  "tyyppi": "B",
+  "nimi": {
+   "fi:": "Saadut ennakot"
+  },
+  "erittely": 2,
+  "laajuus": 2
+ },
+ {
+  "numero": 296,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Ostovelat"
+  }
+ },
+ {
+  "numero": 2960,
+  "tyyppi": "BO",
+  "nimi": {
+   "fi:": "Ostovelat"
+  },
+  "erittely": 2,
+  "laajuus": 1,
+  "maksutapa": "LMM"
+ },
+  {
+  "numero": 2963,
+  "tyyppi": "BO",
+  "nimi": {
+   "fi:": "Ostovelat luottokortilla"
+  },
+  "laajuus": 4,
+  "maksutapa": "LKM"
+ },
+ {
+  "numero": 2970,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Velat saman konsernin yrityksille"
+  },
+  "mihin": 2974
+ },
+ {
+  "numero": 2970,
+  "tyyppi": "BS",
+  "nimi": {
+   "fi:": "Velat saman konsernin yrityksille; lyhytaikaiset"
+  },
+  "erittely": 2,
+  "laajuus": 6
+ },
+ {
+  "numero": 2975,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Velat omistusyhteysyrityksille"
+  },
+  "mihin": 2979
+ },
+ {
+  "numero": 2975,
+  "tyyppi": "BS",
+  "nimi": {
+   "fi:": "Velat omistusyhteysyrityksille; lyhytaikaiset"
+  },
+  "erittely": 2,
+  "laajuus": 6
+ },
+ {
+  "numero": 298,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Muut velat"
+  }
+ },
+ {
+  "numero": 2984,
+  "tyyppi": "BL",
+  "nimi": {
+   "fi:": "Arvonlisäverovelka"
+  },
+  "laajuus": 5
+ },
+ {
+  "numero": 2985,
+  "tyyppi": "BLM",
+  "nimi": {
+   "fi:": "Maksuperusteinen arvonlisäverovelka"
+  },
+  "laajuus": 5
+ },
+ {
+  "numero": 2986,
+  "tyyppi": "BV",
+  "nimi": {
+   "fi:": "Verovelka (Omavero-tili)"
+  },
+  "laajuus": 5
+ },
+ {
+  "numero": 2989,
+  "tyyppi": "BS",
+  "nimi": {
+   "fi:": "Muut velat"
+  },
+  "erittely": 2,
+  "laajuus": 1
+ },
+ {
+  "numero": 299,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Siirtovelat"
+  }
+ },
+ {
+  "numero": 2990,
+  "tyyppi": "BS",
+  "nimi": {
+   "fi:": "Siirtovelat"
+  },
+  "erittely": 2,
+  "laajuus": 1
+ },
+ {
+  "numero": 3,
+  "tyyppi": "H1",
+  "nimi": {
+   "fi:": "TULOSLASKELMA"
+  },
+  "mihin": 9
+ },
+ {
+  "numero": 3,
+  "tyyppi": "H2",
+  "nimi": {
+   "fi:": "Varsinainen toiminta"
+  },
+  "mihin": 6
+ },
+ {
+  "numero": 3,
+  "tyyppi": "H3",
+  "nimi": {
+   "fi:": "Varsinaisen toiminnan tulot"
+  }
+ },
+ {
+  "numero": 3000,
+  "tyyppi": "CL",
+  "nimi": {
+   "fi:": "Osallistumismaksut"
+  },
+  "laajuus": 1
+ },
+ {
+  "numero": 3700,
+  "tyyppi": "CL",
+  "nimi": {
+   "fi:": "Saadut lahjoitukset"
+  },
+  "laajuus": 1
+ },
+ {
+  "numero": 3800,
+  "tyyppi": "CL",
+  "nimi": {
+   "fi:": "Saadut avustukset"
+  },
+  "laajuus": 1,
+  "ohje" : "Tähän kirjataan nimettyä toimintaa tai tapahtumaa varten annetut avustukset. Kaikkea yhdistyksen toimintaa varten annetut avustukset kirjataan tilille 8800 Yleisavustukset."
+ },
+ {
+  "numero": 3900,
+  "tyyppi": "C",
+  "nimi": {
+   "fi:": "Muut varsinaisen toiminnan tulot"
+  },
+  "laajuus": 1
+ },
+ {
+  "numero": 4,
+  "tyyppi": "H3",
+  "nimi": {
+   "fi:": "Varsinaisen toiminnan menot"
+  }
+ },
+ {
+  "numero": 40,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Ostot"
+  },
+  "mihin": 42
+ },
+ {
+  "numero": 40,
+  "tyyppi": "H5",
+  "nimi": {
+   "fi:": "Tavaroiden ostot"
+  }
+ },
+ {
+  "numero": 4000,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Tavaraostot, varsinainen toiminta"
+  },
+  "laajuus": 1
+ },
+ {
+  "numero": 41,
+  "tyyppi": "H5",
+  "nimi": {
+   "fi:": "Palveluiden ostot"
+  }
+ },
+ {
+  "numero": 4100,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Palveluosostot, varsinainen toiminta"
+  },
+  "laajuus": 1
+ },
+ {
+  "numero": 42,
+  "tyyppi": "H5",
+  "nimi": {
+   "fi:": "Vuokrat ja käyttömaksut"
+  }
+ },
+ {
+  "numero": 4200,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Vuokrat ja käyttömaksut, varsinainen toiminta"
+  },
+  "laajuus": 1
+ },
+ {
+  "numero": 43,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Jäsenmaksut"
+  }
+ },
+ {
+  "numero": 4310,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Maksetut jäsenmaksut"
+  },
+  "laajuus": 1
+ },
+ {
+  "numero": 44,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Toimitilakulut"
+  }
+ },
+ {
+  "numero": 4401,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Toimitilavuokrat"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4411,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Sähkö"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4413,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Lämmitys"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4415,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Vesi ja jätevesi"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4421,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Rakennusten korjaus"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4423,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Ulkoalueiden huolto"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4431,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Siivous- ja puhtaanapito"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4433,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Jätehuolto"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4441,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Kiinteistövakuutukset"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4451,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Kiinteistövero"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4461,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Vartiointi- ja turvallisuuskulut"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4491,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Muut toimitilakulut"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 450,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Vapaaehtoiset henkilösivukulut"
+  }
+ },
+ {
+  "numero": 4500,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Vapaaehtoiset henkilösivukulut"
+  },
+  "laajuus": 3
+ },
+ {
+  "numero": 455,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Ajoneuvokulut"
+  }
+ },
+ {
+  "numero": 4550,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Ajoneuvovuokrat"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4551,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Ajoneuvojen polttoaine"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4552,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Ajoneuvojen huolto ja korjaus"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4553,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Ajoneuvojen julkiset maksut"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4554,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Ajoneuvovakuutukset"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 458,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Markkinointikulut"
+  }
+ },
+ {
+  "numero": 4580,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Mainoskulut"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4581,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Messut ja näyttelyt"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4589,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Muut markkinointikulut"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 459,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Edustuskulut"
+  }
+ },
+ {
+  "numero": 4590,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Edustuskulut"
+  },
+  "laajuus": 1
+ },
+ {
+  "numero": 46,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Kone- ja kalustokulut"
+  }
+ },
+ {
+  "numero": 4601,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Kone- ja kalustohankinnat"
+  },
+  "laajuus": 1
+ },
+ {
+  "numero": 4611,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Kone- ja kalustovuokrat"
+  },
+  "laajuus": 1
+ },
+ {
+  "numero": 4621,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Koneiden ja kaluston korjaus"
+  },
+  "laajuus": 1
+ },
+ {
+  "numero": 4631,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Koneiden ja kaluston vakuutukset"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 47,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Matkakulut"
+  }
+ },
+ {
+  "numero": 4701,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Matkaliput"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4711,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Taksikulut"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4731,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Matkavakuutukset"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4741,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Kilometrikorvaukset"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4751,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Päivärahat"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4761,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Ateriakorvaukset"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4791,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Muut matkakulut"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 48,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Annetut avustukset"
+  }
+ },
+ {
+  "numero": 4800,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Annetut avustukset"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 49,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Hallintokulut"
+  },
+  "mihin": 4998
+ },
+ {
+  "numero": 4911,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Puhelinkulut"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4913,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Datasiirtokulut"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4915,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Postikulut"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4921,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Rahaliikenteen kulut"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4931,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Vastuuvakuutukset"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4933,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Esinevakuutukset"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4935,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Muut vakuutukset"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4941,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Toimistotarvikkeet"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4951,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Hallinnon kokous- ja neuvottelukulut"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4971,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Viranomaismaksut"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4985,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Taloushallinnon palvelut"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4986,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Tilintarkastuspalvelut"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4987,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Laki- ja konsultointipalvelut"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4989,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Muut hallintopalvelut"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 4991,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Muut hallintokulut"
+  },
+  "laajuus": 1
+ },
+ {
+  "numero": 4999,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Erittelemättömät toimintakulut"
+  }
+ },
+ {
+  "numero": 4999,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Muut varsinaiset toiminnan menot"
+  },
+  "laajuus": 1
+ },
+ {
+  "numero": 5,
+  "tyyppi": "H3",
+  "nimi": {
+   "fi:": "Henkilöstökulut"
+  }
+ },
+ {
+  "numero": 50,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Palkat ja palkkiot"
+  }
+ },
+ {
+  "numero": 5000,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Palkat"
+  },
+  "laajuus": 3
+ },
+ {
+  "numero": 5001,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Lähdeveron alaiset palkat"
+  },
+  "laajuus": 6
+ },
+ {
+  "numero": 5002,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Lisät ja korvaukset"
+  },
+  "laajuus": 3
+ },
+ {
+  "numero": 5003,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Palkkiot"
+  },
+  "laajuus": 3
+ },
+ {
+  "numero": 5004,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Loma-ajan ja sosiaalipalkat"
+  },
+  "laajuus": 3
+ },
+ {
+  "numero": 5005,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Luontoisedut"
+  },
+  "laajuus": 4
+ },
+ {
+  "numero": 5040,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Luontoisetujen vastatili"
+  },
+  "laajuus": 4
+ },
+ {
+  "numero": 51,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Henkilöstösivukulut"
+  }
+ },
+ {
+  "numero": 5100,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Eläkevakuutusmaksut"
+  },
+  "laajuus": 3
+ },
+ {
+  "numero": 5113,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Vapaaehtoiset eläkevakuutusmaksut"
+  },
+  "laajuus": 4
+ },
+ {
+  "numero": 5120,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Sosiaaliturvamaksut"
+  },
+  "laajuus": 3
+ },
+ {
+  "numero": 5121,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Pakolliset vakuutusmaksut"
+  },
+  "laajuus": 3
+ },
+ {
+  "numero": 5122,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Muut henkilöstön vakuutusmaksut"
+  },
+  "laajuus": 4
+ },
+ {
+  "numero": 6,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Poistot ja arvonalentumat"
+  }
+ },
+ {
+  "numero": 6000,
+  "tyyppi": "DP",
+  "nimi": {
+   "fi:": "Poistot aineettomista hyödykkeistä"
+  },
+  "laajuus": 6
+ },
+ {
+  "numero": 6001,
+  "tyyppi": "DP",
+  "nimi": {
+   "fi:": "Poistot rakennuksista"
+  },
+  "laajuus": 4
+ },
+ {
+  "numero": 6002,
+  "tyyppi": "DP",
+  "nimi": {
+   "fi:": "Poistot koneista ja kalustosta"
+  },
+  "laajuus": 1
+ },
+ {
+  "numero": 6003,
+  "tyyppi": "DP",
+  "nimi": {
+   "fi:": "Poistot muista pitkäaikaisista menoista"
+  },
+  "laajuus": 6
+ },
+ {
+  "numero": 6020,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Arvonalentumat pysyvien vastaavien hyödykkeistä"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 6030,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Vaihtuvien vastaavien poikkeukselliset arvonalentumiset"
+  },
+  "laajuus": 2
+ },
+ {
+  "numero": 6034,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Varaston arvonalennus"
+  },
+  "laajuus": 4
+ },
+ {
+  "numero": 7,
+  "tyyppi": "H2",
+  "nimi": {
+   "fi:": "Varainhankinta"
+  }
+ },
+ {
+  "numero": 70,
+  "tyyppi": "H3",
+  "nimi": {
+   "fi:": "Elinkeinotoiminta"
+  }
+ },
+ {
+  "numero": 703,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Elinkeinotoiminnan tulot"
+  }
+ },
+ {
+  "numero": 7030,
+  "tyyppi": "C",
+  "nimi": {
+   "fi:": "Elinkeinotoiminnan tulot"
+  },
+  "alvlaji": 11,
+  "alvprosentti": 24,
+  "laajuus": 5
+ },
+ {
+  "numero": 704,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Elinkeinotoiminnan kulut"
+  }
+ },
+ {
+  "numero": 7040,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Elinkeinotoiminnan ostot"
+  },
+  "alvlaji": 21,
+  "alvprosentti": 24,
+  "laajuus": 5
+ },
+ {
+  "numero": 7045,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Elinkeinotoiminnan muut kulut"
+  },
+  "alvlaji": 21,
+  "alvprosentti": 24,
+  "laajuus": 5
+ },
+ {
+  "numero": 705,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Elinkeinotoiminnan henkilökulut"
+  }
+ },
+ {
+  "numero": 70500,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Elinkeinotoiminnan palkat"
+  },
+  "laajuus": 5
+ },
+ {
+  "numero": 70502,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Elinkeinotoiminnan lisät ja korvaukset"
+  },
+  "laajuus": 5
+ },
+ {
+  "numero": 70503,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Elinkeinotoiminnan palkkiot"
+  },
+  "laajuus": 5
+ },
+ {
+  "numero": 70504,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Elinkeinotoiminnan loma-ajan ja sosiaalipalkat"
+  },
+  "laajuus": 5
+ },
+ {
+  "numero": 70510,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Elinkeinotoiminnan eläkevakuutusmaksut"
+  },
+  "laajuus": 5
+ },
+ {
+  "numero": 70513,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Elinkeinotoiminnan vapaaehtoiset eläkevakuutusmaksut"
+  },
+  "laajuus": 5
+ },
+ {
+  "numero": 70520,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Elinkeinotoiminnan sosiaaliturvamaksut"
+  },
+  "laajuus": 5
+ },
+ {
+  "numero": 70521,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Elinkeinotoiminnan pakolliset vakuutusmaksut"
+  },
+  "laajuus": 5
+ },
+ {
+  "numero": 70522,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Elinkeinotoiminnan muut henkilöstön vakuutusmaksut"
+  },
+  "laajuus": 5
+ },
+ {
+  "numero": 706,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Elinkeinotoiminnan poistot"
+  }
+ },
+ {
+  "numero": 70602,
+  "tyyppi": "DP",
+  "nimi": {
+   "fi:": "Poistot liiketoiminnan koneista ja kalustosta"
+  },
+  "laajuus": 5
+ },
+ {
+  "numero": 73,
+  "tyyppi": "H3",
+  "nimi": {
+   "fi:": "Muu varainhankinta"
+  },
+  "mihin": 79
+ },
+ {
+  "numero": 73,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Varainhankinnan tulot"
+  }
+ },
+ {
+  "numero": 7300,
+  "tyyppi": "C",
+  "nimi": {
+   "fi:": "Myyntitulot, varainhankinta"
+  },
+  "laajuus": 1
+ },
+ {
+  "numero": 7310,
+  "tyyppi": "C",
+  "nimi": {
+   "fi:": "Jäsenmaksutulot"
+  },
+  "laajuus": 1
+ },
+ {
+  "numero": 7390,
+  "tyyppi": "C",
+  "nimi": {
+   "fi:": "Muut varainhankinnan tulot"
+  },
+  "laajuus": 1
+ },
+ {
+  "numero": 74,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Varainhankinnan menot"
+  },
+  "mihin": 79
+ },
+ {
+  "numero": 7400,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Ostot, myytävät tuotteet"
+  },
+  "laajuus": 1
+ },
+ {
+  "numero": 7410,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Jäsenmaksukulut"
+  },
+  "laajuus": 1
+ },
+ {
+  "numero": 7490,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Muut varainhankinnan kulut"
+  },
+  "laajuus": 1
+ },
+ {
+  "numero": 75,
+  "tyyppi": "H4",
+  "nimi": {
+   "fi:": "Varainhankinnan henkilöstökulut"
+  }
+ },
+ {
+  "numero": 7500,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Varainhankinnan palkat"
+  },
+  "laajuus": 3
+ },
+ {
+  "numero": 7502,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Varainhankinnan lisät ja korvaukset"
+  },
+  "laajuus": 3
+ },
+ {
+  "numero": 7503,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Varainhankinnan palkkiot"
+  },
+  "laajuus": 3
+ },
+ {
+  "numero": 7504,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Varainhankinnan loma-ajan ja sosiaalipalkat"
+  },
+  "laajuus": 3
+ },
+ {
+  "numero": 7510,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Varainhankinnan eläkevakuutusmaksut"
+  },
+  "laajuus": 3
+ },
+ {
+  "numero": 7511,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Varainhankinnan työntekijöiltä perityt eläkevakuutusmaksut"
+  },
+  "laajuus": 3
+ },
+ {
+  "numero": 7513,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Varainhankinnan vapaaehtoiset eläkevakuutusmaksut"
+  },
+  "laajuus": 3
+ },
+ {
+  "numero": 7520,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Varainhankinnan sosiaaliturvamaksut"
+  },
+  "laajuus": 3
+ },
+ {
+  "numero": 7521,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Varainhankinnan pakolliset vakuutusmaksut"
+  },
+  "laajuus": 3
+ },
+ {
+  "numero": 7522,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Varainhankinnan muut henkilöstön vakuutusmaksut"
+  },
+  "laajuus": 3
+ },
+ {
+  "numero": 88,
+  "tyyppi": "H2",
+  "nimi": {
+   "fi:": "Yleisavustukset"
+  }
+ },
+ {
+  "numero": 8800,
+  "tyyppi": "CL",
+  "nimi": {
+   "fi:": "Saadut yleisavustukset "
+  },
+  "laajuus": 1
+ },
+ {
+  "numero": 90,
+  "tyyppi": "H2",
+  "nimi": {
+   "fi:": "Rahoitustuotot ja -kulut"
+  },
+  "mihin": 91
+ },
+ {
+  "numero": 90,
+  "tyyppi": "H3",
+  "nimi": {
+   "fi:": "Rahoitustuotot"
+  }
+ },
+ {
+  "numero": 9040,
+  "tyyppi": "C",
+  "nimi": {
+   "fi:": "Sijoitustuotot pysyvien vastaavien sijoituksista"
+  },
+  "laajuus": 4
+ },
+ {
+  "numero": 9041,
+  "tyyppi": "C",
+  "nimi": {
+   "fi:": "Osinkotuotot"
+  },
+  "laajuus": 4
+ },
+ {
+  "numero": 9050,
+  "tyyppi": "C",
+  "nimi": {
+   "fi:": "Korkotuotot"
+  },
+  "laajuus": 1
+ },
+ {
+  "numero": 9090,
+  "tyyppi": "C",
+  "nimi": {
+   "fi:": "Muut rahoitustulot"
+  },
+  "laajuus": 4
+ },
+ {
+  "numero": 91,
+  "tyyppi": "H3",
+  "nimi": {
+   "fi:": "Rahoituskulut"
+  }
+ },
+ {
+  "numero": 9140,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Kulut pysyvien vastaavien sijoituksista"
+  },
+  "laajuus": 4
+ },
+ {
+  "numero": 9150,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Korkokulut"
+  },
+  "laajuus": 1
+ },
+ {
+  "numero": 9190,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Muut rahoituskulut"
+  },
+  "laajuus": 4
+ },
+ {
+  "numero": 95,
+  "tyyppi": "H2",
+  "nimi": {
+   "fi:": "Tilinpäätössiirrot"
+  }
+ },
+ {
+  "numero": 9500,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Poistoeron muutos aineettomat"
+  },
+  "laajuus": 6
+ },
+ {
+  "numero": 9501,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Poistoeron muutos rakennukset"
+  },
+  "laajuus": 6
+ },
+ {
+  "numero": 9502,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Poistoeron muutos koneet"
+  },
+  "laajuus": 6
+ },
+ {
+  "numero": 9503,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Poistoeron muutos pitkävaikutteisista menoista"
+  },
+  "laajuus": 6
+ },
+ {
+  "numero": 9509,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Poistoeron muutos vähennyskelvottomista hyödykkeistä ja sijoituksista"
+  },
+  "laajuus": 6
+ },
+ {
+  "numero": 9510,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Verotusperusteisten varausten muutos"
+  },
+  "laajuus": 6
+ },
+ {
+  "numero": 9585,
+  "tyyppi": "C",
+  "nimi": {
+   "fi:": "Saadut konserniavustukset"
+  },
+  "laajuus": 6
+ },
+ {
+  "numero": 9586,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Annetut konserniavustukset"
+  },
+  "laajuus": 6
+ },
+ {
+  "numero": 9590,
+  "tyyppi": "D",
+  "nimi": {
+   "fi:": "Muut tilinpäätössiirrot "
+  },
+  "laajuus": 6
+ }
+]
 }

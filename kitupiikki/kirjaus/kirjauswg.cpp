@@ -664,7 +664,7 @@ void KirjausWg::vaihdaTositeTyyppi()
     ui->tabWidget->setTabEnabled( ui->tabWidget->indexOf(viennitTab_) , tyyppiKoodi != TositeTyyppi::LIITETIETO);
     ui->tabWidget->setTabEnabled( ui->tabWidget->indexOf(varastoTab_), tyyppiKoodi != TositeTyyppi::LIITETIETO);
 
-    if( tyyppiKoodi == TositeTyyppi::TULO || tyyppiKoodi == TositeTyyppi::MENO)
+    if( tyyppiKoodi == TositeTyyppi::TULO || tyyppiKoodi == TositeTyyppi::MENO || tyyppiKoodi == TositeTyyppi::KULULASKU )
     {
         apuri_ = new TuloMenoApuri(this, tosite_);
     } else if( tyyppiKoodi == TositeTyyppi::SIIRTO) {

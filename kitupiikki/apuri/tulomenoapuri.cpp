@@ -107,9 +107,13 @@ void TuloMenoApuri::tuo(QVariantMap map)
 
 void TuloMenoApuri::teeReset()
 {
+
     // Haetaan tietoja mallista ;)
-    bool menoa = tosite()->data(Tosite::TYYPPI).toInt() == TositeTyyppi::MENO;
+    bool menoa = tosite()->tyyppi() == TositeTyyppi::MENO ||
+                 tosite()->tyyppi() == TositeTyyppi::KULULASKU;
     alusta( menoa );
+
+    qDebug() << " Tyyppi " << tosite()->tyyppi() << "menoa " << menoa;
 
     // Haetaan rivien tiedot
 
@@ -239,7 +243,8 @@ bool TuloMenoApuri::teeTositteelle()
     int riveja = rivit_->rowCount();
 
 
-    bool menoa = tosite()->data(Tosite::TYYPPI).toInt() == TositeTyyppi::MENO;
+    bool menoa = tosite()->tyyppi() == TositeTyyppi::MENO ||
+                 tosite()->tyyppi() == TositeTyyppi::KULULASKU;
     QDate pvm = tosite()->data(Tosite::PVM).toDate();
     QString otsikko = tosite()->data(Tosite::OTSIKKO).toString();
 
@@ -692,7 +697,9 @@ void TuloMenoApuri::alusta(bool meno)
         ui->tiliLabel->setText( tr("Meno&tili") );
         ui->tiliEdit->suodataTyypilla("(AP|D).*");
         veroFiltteri_->setFilterRegExp("^(0|2[1-79]|927)");
-        ui->toimittajaLabel->setText( tr("Toimittaja"));        
+        ui->toimittajaLabel->setText( tr("Toimittaja"));
+        if( tosite()->tyyppi() == TositeTyyppi::KULULASKU )
+            ui->toimittajaLabel->setText( tr("Laskuttaja"));
     } else {
         ui->tiliLabel->setText( tr("Tulo&tili"));
         ui->tiliEdit->suodataTyypilla("(AP|C).*");

@@ -45,7 +45,8 @@ QVariant Tosite::data(int kentta) const
 void Tosite::setData(int kentta, QVariant arvo)
 {
 
-    if( arvo.isNull() && arvo.type() != QVariant::Map )
+    if( (arvo.toString().isEmpty() && arvo.type() != QVariant::Map) ||
+        ( arvo.type() == QVariant::Int && arvo.toInt() == 0) )
         data_.remove( avaimet__.at(kentta) );
     else
         data_.insert( avaimet__.at(kentta), arvo );
@@ -89,7 +90,9 @@ void Tosite::lataaData(QVariant *variant)
     loki()->lataa( data_.take("loki").toList());
     liitteet()->lataa( data_.take("liitteet").toList());
 
-    data_.insert("kumppani", data_.value("kumppani").toMap().value("id").toInt());
+    int kumppani = data_.value("kumppani").toMap().value("id").toInt();
+    if( kumppani )
+        data_.insert("kumppani", kumppani);
 
     emit ladattu();
     tallennettu_ = tallennettava();

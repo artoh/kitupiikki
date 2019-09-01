@@ -30,6 +30,8 @@ TositeTyyppiModel::TositeTyyppiModel(QObject *parent)
     lisaa(TositeTyyppi::MENO, tr("Menotosite"), "poista");
     lisaa(TositeTyyppi::TULO, tr("Tulotosite"), "lisaa");
 
+    lisaa(TositeTyyppi::KULULASKU, tr("Kululasku"), "tekstisivu", true);
+
     lisaa(TositeTyyppi::MYYNTILASKU, tr("Myyntilasku"), "lasku", false);
     lisaa(TositeTyyppi::HYVITYSLASKU, tr("Hyvityslasku"), "lasku", false);
     lisaa(TositeTyyppi::MAKSUMUISTUTUS, tr("Maksumuistutus"), "lasku", false);
