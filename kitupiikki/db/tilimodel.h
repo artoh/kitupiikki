@@ -38,7 +38,7 @@ public:
 
     enum Sarake
     {
-        NRONIMI, NUMERO, NIMI, TYYPPI, ALV
+        NRONIMI, NUMERO, NIMI, TYYPPI, ALV, SALDO
     };
 
     enum
@@ -50,13 +50,14 @@ public:
         OtsikkotasoRooli = Qt::UserRole + 5,
         TyyppiRooli = Qt::UserRole + 6,
         YsiRooli = Qt::UserRole + 7,
-        TilaRooli = Qt::UserRole + 8
+        TilaRooli = Qt::UserRole + 8,
+        OhjeRooli = Qt::UserRole + 9
     };
 
 
     TiliModel(QObject *parent = nullptr);
 
-    int rowCount(const QModelIndex &parent) const;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent) const;
 
     bool setData(const QModelIndex &index, const QVariant &value, int role);
@@ -71,7 +72,6 @@ public:
 
     Tili *tili(const QString& tilinumero) const;
 
-    Tili *tiliIdlla(int id) const;
     Tili *tiliPNumerolla(int numero) const;
 
     Tili tiliIndeksilla(int i) const { return tilit_.value(i); }
@@ -101,10 +101,17 @@ public:
     void lataa(QVariantList lista);
     bool tallenna(bool tietokantaaLuodaan = false);
 
-protected:
-    void tyhjenna();
+public slots:
+    void haeSaldot();
+
+private slots:
+    void saldotSaapuu(QVariant* saldot);
 
 protected:
+    void tyhjenna();
+    void paivitaTilat();
+
+protected:    
 
     QList<Tili> tilit_;
     QList<int> poistetutIdt_;
@@ -113,6 +120,12 @@ protected:
 
     QHash<int,Tili*> idHash_;
     QHash<int,Tili*> nroHash_;
+
+    int laajuus_ = 2;
+    QString muoto_;
+    QSet<int> piilotetut_;
+    QSet<int> suosikit_;
+    QHash<int,double> saldot_;
 
 };
 

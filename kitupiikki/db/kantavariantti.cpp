@@ -38,8 +38,23 @@ int KantaVariantti::luku(const QString &avain) const
     return arvo(avain).toInt();
 }
 
+double KantaVariantti::dbl(const QString &avain) const
+{
+    return arvo(avain).toDouble();
+}
+
 QDate KantaVariantti::pvm(const QString &avain) const
 {
     return arvo(avain).toDate();
+}
+
+void KantaVariantti::clear()
+{
+    data_.clear();
+}
+
+void KantaVariantti::set(const QString &avain, const QVariant &arvo)
+{
+    data_.insert(avain, arvo);
 }
 

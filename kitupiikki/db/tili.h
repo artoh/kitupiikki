@@ -37,7 +37,7 @@ public:
 
     Tili(const QVariantMap& data);
 
-    int id() const { return id_; }
+    int id() const;
     int numero() const { return numero_; }
 
     QString nimi(const QString& kieli = "fi") const;
@@ -53,11 +53,15 @@ public:
 
     QDateTime muokkausaika() const { return muokkausAika_; }
 
+    int laajuus() const { return laajuus_;}
+
     /**
      * @brief Palauttaa tämän tilin tai otsikon yllä olevan otsikon id:n
      * @return
      */
     int ylaotsikkoId() const { return ylaotsikkoId_; }
+
+
     /**
      * @brief Palauttaa json-tiedot
      *
@@ -68,13 +72,15 @@ public:
      */
     JsonKentta *json()  { return &json_; }
 
-    void asetaId(int id) { id_ = id; }
     void asetaNumero(int numero);
     void asetaNimi(const QString& nimi) { muokattu_ = true; }
     void asetaTyyppi(const QString& tyyppikoodi);
     void asetaTila(int tila) { tila_ = tila; tilamuokattu_ = true; }
 
     void nollaaMuokattu() { muokattu_ = false; tilamuokattu_=false;}
+
+    Tili* tamanOtsikko() { return tamanOtsikko_; }
+    void asetaOtsikko(Tili* otsikko);
 
     /**
      * @brief Onko tilillä tarvittavat tiedot, että voi tallettaa
@@ -188,7 +194,6 @@ protected:
     static int laskeysiluku(int luku, bool loppuu = false);
 
 protected:
-    int id_;
     int numero_;
 
     TiliTyyppi tyyppi_;
@@ -200,6 +205,9 @@ protected:
     QDateTime muokkausAika_;
 
     QMap<QString,QString> nimi_;
+    int laajuus_ = 0;
+
+    Tili* tamanOtsikko_ = nullptr;
 
 };
 

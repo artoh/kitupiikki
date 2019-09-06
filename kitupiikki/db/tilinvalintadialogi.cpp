@@ -34,7 +34,6 @@ TilinValintaDialogi::TilinValintaDialogi(QWidget *parent) :
     asetaModel( kp()->tilit());
     proxyNimi->setFilterRole( TiliModel::NimiRooli);
     proxyNimi->setFilterCaseSensitivity(Qt::CaseInsensitive);
-    proxyNimi->setSortRole(TiliModel::YsiRooli);
 
     proxyTyyppi = new QSortFilterProxyModel(this);
     proxyTyyppi->setSourceModel(proxyNimi);
@@ -48,24 +47,32 @@ TilinValintaDialogi::TilinValintaDialogi(QWidget *parent) :
     ui->view->setModel(proxyTila);
     ui->view->setColumnHidden(TiliModel::NRONIMI, true);
 
-    ui->view->resizeColumnsToContents();
+    ui->view->setColumnHidden(TiliModel::ALV, ! kp()->asetukset()->onko("AlvVelvollinen"));
+
+    ui->view->horizontalHeader()->setSectionResizeMode(TiliModel::NIMI, QHeaderView::Stretch);
 
     ui->infoMerkki->setVisible(false);
     ui->ohjeLabel->setVisible(false);
 
-    connect( ui->suosikitNappi, SIGNAL(toggled(bool)),
-             this, SLOT(suodataSuosikit(bool)));
+    connect( ui->suosikitNappi, &QPushButton::clicked,
+             this, &TilinValintaDialogi::suodataSuosikit);
+    connect( ui->kaikkiNappi, &QPushButton::clicked,
+             this, &TilinValintaDialogi::naytaKaikki);
     connect( ui->suodatusEdit, SIGNAL(textChanged(QString)),
              this, SLOT(suodata(QString)));
     connect( ui->view, SIGNAL(clicked(QModelIndex)),
              this, SLOT(klikattu(QModelIndex)));
     connect( ui->view->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
              this, SLOT(valintaMuuttui(QModelIndex)));
+    connect( ui->view, &QTableView::entered,
+             this, &TilinValintaDialogi::naytaOhje);
+
+    ui->view->setMouseTracking(true);
 
     ui->suodatusEdit->installEventFilter(this);
     restoreGeometry( kp()->settings()->value("TilinValintaDlg").toByteArray());
 
-
+    kp()->tilit()->haeSaldot();
 }
 
 TilinValintaDialogi::~TilinValintaDialogi()
@@ -76,13 +83,23 @@ TilinValintaDialogi::~TilinValintaDialogi()
 
 Tili TilinValintaDialogi::valittu() const
 {
-    int tiliId = ui->view->currentIndex().data(TiliModel::IdRooli).toInt();
-    return kp()->tilit()->tiliIdllaVanha(tiliId);
+    int tiliNumero = ui->view->currentIndex().data(TiliModel::NroRooli).toInt();
+    return kp()->tilit()->tiliNumerolla(tiliNumero);
 }
 
 void TilinValintaDialogi::suodata(const QString &alku)
 {
-    proxyNimi->setFilterFixedString(alku);
+    if( alku.toInt() > 0) {
+        proxyNimi->setFilterRole(TiliModel::NroRooli);
+        proxyNimi->setFilterRegExp( "^" + alku  );
+    }
+    else
+    {
+        proxyNimi->setFilterRole(TiliModel::NimiRooli);
+        proxyNimi->setFilterFixedString(alku);
+    }
+
+
 
     if( tyyppiSuodatin.isEmpty())
     {
@@ -110,8 +127,20 @@ void TilinValintaDialogi::suodataTyyppi(const QString &regexp)
 void TilinValintaDialogi::suodataSuosikit(bool suodatetaanko)
 {
     if( suodatetaanko)
+    {
+        ui->kaikkiNappi->setChecked(false);
         proxyTila->setFilterFixedString("2");
+    }
     else
+        proxyTila->setFilterRegExp("[12]");
+}
+
+void TilinValintaDialogi::naytaKaikki(bool naytetaanko)
+{
+    if( naytetaanko) {
+        ui->suosikitNappi->setChecked(false);
+        proxyTila->setFilterFixedString("");
+    } else
         proxyTila->setFilterRegExp("[12]");
 }
 
@@ -135,7 +164,7 @@ void TilinValintaDialogi::valitse(int tilinumero)
 
 void TilinValintaDialogi::klikattu(const QModelIndex &index)
 {
-    if(index.data(TiliModel::OtsikkotasoRooli) == 0)
+    if(index.data(TiliModel::OtsikkotasoRooli).toInt() == 0 && index.data(TiliModel::TyyppiRooli).toString() != "T")
     {
         // Valittu tili eikä otsikkoa
         accept();
@@ -144,26 +173,18 @@ void TilinValintaDialogi::klikattu(const QModelIndex &index)
 
 void TilinValintaDialogi::valintaMuuttui(const QModelIndex &index)
 {
-    ui->valitseNappi->setEnabled( index.isValid() && index.data( TiliModel::OtsikkotasoRooli ).toInt() == 0 );
-    naytaOhje( index.data(TiliModel::IdRooli).toInt());
+    ui->valitseNappi->setEnabled( index.isValid() && index.data( TiliModel::OtsikkotasoRooli ).toInt() == 0
+                                  && index.data(TiliModel::TyyppiRooli).toString() != "T");
+    naytaOhje( index );
 }
 
-void TilinValintaDialogi::naytaOhje(int tiliId)
+void TilinValintaDialogi::naytaOhje(const QModelIndex &index)
 {
-    Tili tili = tiliModel->tiliIdllaVanha(tiliId);
-    QString txt = tili.json()->str("Taydentava");
+    QString ohje = index.data(TiliModel::OhjeRooli).toString();
 
-    if( !tili.json()->str("Kirjausohje").isEmpty() )
-    {
-        if( !txt.isEmpty())
-            txt.append("\n");
-        txt.append( tili.json()->str("Kirjausohje"));
-    }
-
-    ui->infoMerkki->setVisible( !txt.isEmpty() );
-    ui->ohjeLabel->setVisible( !txt.isEmpty() );
-
-    ui->ohjeLabel->setText( txt );
+    ui->infoMerkki->setVisible( !ohje.isEmpty() );
+    ui->ohjeLabel->setVisible( !ohje.isEmpty() );
+    ui->ohjeLabel->setText( ohje );
 }
 
 void TilinValintaDialogi::alaValitseOtsikoita(int suunta)
@@ -171,13 +192,15 @@ void TilinValintaDialogi::alaValitseOtsikoita(int suunta)
     if( suunta > 0 )
     {
         while( ui->view->currentIndex().row() < ui->view->model()->rowCount(QModelIndex()) - 1 &&
-               ui->view->currentIndex().data( TiliModel::OtsikkotasoRooli).toInt() > 0)
+               ( ui->view->currentIndex().data( TiliModel::OtsikkotasoRooli).toInt() > 0
+                || ui->view->currentIndex().data(TiliModel::TyyppiRooli).toString() == "T" ) )
             ui->view->selectRow( ui->view->currentIndex().row() + 1 );
     }
     else
     {
         while( ui->view->currentIndex().row() > 1 &&
-               ui->view->currentIndex().data( TiliModel::OtsikkotasoRooli).toInt() > 0)
+               ( ui->view->currentIndex().data( TiliModel::OtsikkotasoRooli).toInt() > 0
+               || ui->view->currentIndex().data(TiliModel::TyyppiRooli).toString() == "T" ))
             ui->view->selectRow( ui->view->currentIndex().row() - 1 );
     }
 }

@@ -161,6 +161,9 @@ void LaskuTauluModel::lataaAvoimet(bool ostoja)
 
 void LaskuTauluModel::paivita(bool ostoja, int valinta, QDate mista, QDate mihin)
 {
+    if( !kp()->yhteysModel())
+        return;
+
     ostoja_ = ostoja;
     KpKysely *kysely = nullptr;
 

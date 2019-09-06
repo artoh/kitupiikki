@@ -21,12 +21,14 @@
 #include <QDate>
 #include <QDateTime>
 
+#include "kantavariantti.h"
+
 #include "jsonkentta.h"
 
 /**
  * @brief Yhden tilikauden tiedot
  */
-class Tilikausi
+class Tilikausi : public KantaVariantti
 {
 public:
 
@@ -45,11 +47,15 @@ public:
         MIKROYRITYS = 4
     };
 
-    Tilikausi();
+    Tilikausi();    
+
+    Tilikausi(const QVariantMap& data);
+
     Tilikausi(QDate tkalkaa, QDate tkpaattyy, const QByteArray &json = QByteArray());
 
-    QDate alkaa() const { return alkaa_; }
-    QDate paattyy() const { return paattyy_; }
+
+    QDate alkaa() const { return pvm("alkaa"); }
+    QDate paattyy() const { return pvm("loppuu"); }
 
     /**
      * @brief Milloin tämä tilikausi on viimeksi arkistoitu

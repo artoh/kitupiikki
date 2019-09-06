@@ -79,15 +79,11 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
         switch (index.column())
         {
             case TOSITE:
-                if( role == Qt::EditRole)
-                {
-                    return QString("%2 %1")
-                            .arg( map.value("tosite").toMap().value("tunniste").toInt(),8,10,QChar('0'))
-                            .arg( kp()->tilikaudet()->tilikausiPaivalle( map.value("tosite").toMap().value("pvm").toDate() ).kausitunnus());
-                }
-                return QString("%1/%2")
-                        .arg( map.value("tosite").toMap().value("tunniste").toInt()  )
-                        .arg( kp()->tilikaudet()->tilikausiPaivalle( map.value("tosite").toMap().value("pvm").toDate() ).kausitunnus() );
+                return kp()->tositeTunnus( map.value("tosite").toMap().value("tunniste").toInt(),
+                                           map.value("tosite").toMap().value("pvm").toDate(),
+                                           map.value("tosite").toMap().value("sarja").toString(),
+                                           samakausi_,
+                                           role == Qt::EditRole );
 
             case PVM: return QVariant( map.value("pvm").toDate() );
 
@@ -204,6 +200,8 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
 
 void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
 {
+    samakausi_ = kp()->tilikausiPaivalle(alkaa).alkaa() == kp()->tilikausiPaivalle(loppuu).alkaa();
+
     KpKysely *kysely = kpk("/viennit");
     kysely->lisaaAttribuutti("alkupvm", alkaa);
     kysely->lisaaAttribuutti("loppupvm", loppuu);
@@ -316,7 +314,7 @@ void SelausModel::tietoSaapuu(QVariant *var)
         if( !tileilla.contains(tilistr))
             tileilla.append(tilistr);
     }
-
+    tileilla.sort();
 
     endResetModel();
 }

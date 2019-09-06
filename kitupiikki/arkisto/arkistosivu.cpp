@@ -70,6 +70,8 @@ ArkistoSivu::~ArkistoSivu()
 
 void ArkistoSivu::siirrySivulle()
 {
+    kp()->tilikaudet()->paivita();
+
     ui->view->setModel( kp()->tilikaudet() );
     ui->view->hideColumn(TilikausiModel::LYHENNE);
     ui->view->resizeColumnsToContents();

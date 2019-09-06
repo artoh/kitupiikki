@@ -5,27 +5,26 @@
 				"fi" : "Yhdistys",
 				"se" : "Förening"
 			}
-			
 		},
 		"laajuudet": {
-			"1" : { 
-				"fi": "Suppea",
+			"1" : {
+				"fi": "Suppea"
 			},
-			"2" : { 
-				"fi" : "Tavallinen, ei palkkoja",
-			},			
-			"3" : { 
-				"fi" : "Tavallinen, palkat",
+			"2" : {
+				"fi" : "Tavallinen, ei palkkoja"
 			},
-			"4" : { 
-				"fi" : "Laaja, kiinteää tai sijoitusomaisuutta",
+			"3" : {
+				"fi" : "Tavallinen, palkat"
 			},
-			"5" : { 
-				"fi" : "Elinkeinotoimintaa",
+			"4" : {
+				"fi" : "Laaja, kiinteää tai sijoitusomaisuutta"
 			},
-			"6" : { 
-				"fi" : "Kaikki tilit, myös konserni",
+			"5" : {
+				"fi" : "Elinkeinotoimintaa"
 			},
+			"6" : {
+				"fi" : "Kaikki tilit, myös konserni"
+			}
 		},
 		"tulos/yhdistys":{
 			"nimi":{
@@ -181,9 +180,9 @@
 				"M" : "bold",
 				"V" : 1
 				}
-		
+
 			]
-		
+
 			},
 			"tase/PMA" : {
 			"nimi" : {

@@ -49,6 +49,7 @@ public slots:
     void suodata(const QString& alku);
     void suodataTyyppi(const QString& regexp);
     void suodataSuosikit(bool suodatetaanko);
+    void naytaKaikki(bool naytetaanko);
     void asetaModel(TiliModel *model);
     void valitse(int tilinumero);
 
@@ -59,7 +60,7 @@ protected slots:
      * @brief Näyttää tilin kirjausohjeen
      * @param tiliId
      */
-    void naytaOhje(int tiliId);
+    void naytaOhje(const QModelIndex& index);
 
     /**
      * @brief Korjaa valinnan niin, ettei otsikko tulisi valituksi

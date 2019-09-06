@@ -70,7 +70,7 @@ void KantaTilinvalintaLine::valitseTiliIdlla(int tiliId)
 
 void KantaTilinvalintaLine::valitseTili(const Tili& tili)
 {
-    if( tili.id())
+    if( tili.onkoValidi())
     {
         setText( tr("%1 %2").arg(tili.numero()).arg(tili.nimi()));
         setCursorPosition(0);
@@ -239,7 +239,7 @@ void TilinvalintaLine::mousePressEvent(QMouseEvent *event)
             alku = "*" + sana;   // Tähän mekanismi saada dialogi, jossa valittuna (esim * alkuun)
 
         Tili valittu = TilinValintaDialogi::valitseTili( alku, proxyTyyppi_->filterRegExp().pattern(), kp()->tilit() );
-        if( valittu.id())
+        if( valittu.onkoValidi())
         {
             valitseTili( valittu);
         }

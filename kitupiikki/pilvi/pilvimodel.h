@@ -68,6 +68,8 @@ public:
     QString pilviosoite() const { return osoite_;}
     QString token() const { return token_; }
 
+    bool onkoOikeutta(Oikeus oikeus) const override;
+
 public slots:
     void kirjaudu(const QString sahkoposti = QString(), const QString& salasana = QString(), bool pyydaAvain = false);
     void kirjauduUlos();

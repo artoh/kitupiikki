@@ -81,6 +81,7 @@ protected:
     QStringList tileilla;
 
     QVariantList lista_;
+    bool samakausi_ = false;
 
 };
 

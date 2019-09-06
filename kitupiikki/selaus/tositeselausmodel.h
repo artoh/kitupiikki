@@ -80,6 +80,7 @@ protected:
     QSet<int> kaytetytTyypit_;
 
     bool luonnokset_ = false;
+    bool samakausi_ = false;
 
 };
 

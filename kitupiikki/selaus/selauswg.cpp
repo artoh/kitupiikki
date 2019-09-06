@@ -155,6 +155,7 @@ void SelausWg::paivitaSuodattimet()
         for( int tyyppikoodi : tositeModel->tyyppiLista() ) {
             ui->tiliCombo->addItem( kp()->tositeTyypit()->kuvake(tyyppikoodi), kp()->tositeTyypit()->nimi(tyyppikoodi) );
         }
+
         ui->tiliCombo->setCurrentText(valittu);
     }
 }

@@ -135,6 +135,11 @@ void SQLiteModel::sulje()
 
 }
 
+bool SQLiteModel::onkoOikeutta(YhteysModel::Oikeus oikeus) const
+{
+    return oikeus != OMISTUSOIKEUS;
+}
+
 
 void SQLiteModel::lisaaViimeisiin(bool onnistuiko)
 {

@@ -191,7 +191,7 @@ void KitupiikkiIkkuna::valitseSivu(int mikasivu, bool paluu)
 
 void KitupiikkiIkkuna::kirjanpitoLadattu()
 {
-    if( !Kirjanpito::db()->asetus("Nimi").isEmpty())
+    if( kp()->yhteysModel() )
     {
         if( Kirjanpito::db()->onkoHarjoitus())
             setWindowTitle( tr("%1 - Kitupiikki %2 [Harjoittelu]").arg(Kirjanpito::db()->asetus("Nimi")).arg( qApp->applicationVersion() ));
@@ -202,6 +202,12 @@ void KitupiikkiIkkuna::kirjanpitoLadattu()
 
         for(int i=KIRJAUSSIVU; i<SIVUT_LOPPU;i++)
             sivuaktiot[i]->setEnabled(true);
+
+        sivuaktiot[KIRJAUSSIVU]->setEnabled( kp()->yhteysModel()->onkoOikeutta( YhteysModel::LUONNOSOIKEUS ) );
+        sivuaktiot[MAARITYSSIVU]->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::HALLINTAOIKEUS) );
+    } else {
+        for(int i=KIRJAUSSIVU; i < SIVUT_LOPPU; i++ )
+            sivuaktiot[i]->setEnabled(false);
     }
 
     edellisetIndeksit.clear();  // Tyhjennetään "selaushistoria"

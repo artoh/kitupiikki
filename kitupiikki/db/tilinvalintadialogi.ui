@@ -16,6 +16,9 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QTableView" name="view">
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
      <property name="selectionMode">
       <enum>QAbstractItemView::SingleSelection</enum>
      </property>
@@ -61,6 +64,20 @@
        <property name="icon">
         <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/tahti.png</normaloff>:/pic/tahti.png</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="kaikkiNappi">
+       <property name="text">
+        <string>&amp;Kaikki</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/kaikkitilit.png</normaloff>:/pic/kaikkitilit.png</iconset>
        </property>
        <property name="checkable">
         <bool>true</bool>

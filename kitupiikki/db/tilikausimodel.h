@@ -27,8 +27,7 @@
  * @brief Tilikaudet
  *
  * Model tilikausien selaamiseen ja muokkaamiseen.
- * Tilikausien lisäykset ja poistot tallentuvat suoraan tietokantaan,
- * json-kenttien muokkaamisen jälkeen on vielä erikseen valittava tallenna()
+ * Tilikausien lisäykset ja poistot tallentuvat suoraan tietokantaan
  *
  */
 class TilikausiModel : public QAbstractTableModel
@@ -38,8 +37,8 @@ public:
     enum Sarake
     {
         KAUSI,
-        LIIKEVAIHTO,
         TASE,
+        LIIKEVAIHTO,
         TULOS,
         ARKISTOITU,
         TILINPAATOS,
@@ -94,6 +93,7 @@ public:
 
 public slots:
     void lataa();
+    void paivita();
 
     /**
      * @brief tallenna Tallentaa muutetut json-kentät
@@ -101,6 +101,9 @@ public slots:
     void tallennaJSON();
 
     void paivitaKausitunnukset();
+
+protected slots:
+    void lataaData(const QVariant* lista);
 
 protected:
     QSqlDatabase *tietokanta_;

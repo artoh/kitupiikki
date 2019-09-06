@@ -132,6 +132,24 @@ void PilviModel::sulje()
     token_.clear();
 }
 
+bool PilviModel::onkoOikeutta(YhteysModel::Oikeus oikeus) const
+{
+    switch (oikeus) {
+    case LUKUOIKEUS:
+        return true;
+    case LUONNOSOIKEUS:
+        return oikeudet()!="read";
+    case MUOKKAUSOIKEUS:
+        return oikeudet()!="read" && oikeudet()!="draft";
+    case HALLINTAOIKEUS:
+        return oikeudet() == "admin" || oikeudet()=="owner";
+    case OMISTUSOIKEUS:
+        return oikeudet() == "owner";
+    case PAIKALLINENOIKEUS:
+        return false;
+    }
+}
+
 void PilviModel::kirjaudu(const QString sahkoposti, const QString &salasana, bool pyydaAvain)
 {
     QVariantMap map;
@@ -171,6 +189,8 @@ void PilviModel::kirjauduUlos()
     timer_->stop();
 
     endResetModel();
+
+    kp()->yhteysAvattu(nullptr);
 }
 
 void PilviModel::paivitaLista()

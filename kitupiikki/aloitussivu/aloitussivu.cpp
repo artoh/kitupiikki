@@ -132,7 +132,7 @@ void AloitusSivu::siirrySivulle()
     }
 
     // Päivitetään aloitussivua
-    if( kp()->asetukset()->onko("Nimi"))
+    if( kp()->yhteysModel() )
     {
         QString txt("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:/aloitus/aloitus.css\"></head><body>");
         txt.append( paivitysInfo );
@@ -170,7 +170,7 @@ bool AloitusSivu::poistuSivulta(int /* minne */)
 
 void AloitusSivu::kirjanpitoVaihtui()
 {
-    bool avoinna = kp()->asetukset()->onko("Nimi");
+    bool avoinna = kp()->yhteysModel();
 
     ui->nimiLabel->setVisible(avoinna);
     ui->tilikausiCombo->setVisible(avoinna);

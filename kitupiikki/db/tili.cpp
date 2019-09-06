@@ -22,7 +22,7 @@
 
 #include "kirjanpito.h"
 
-Tili::Tili() : id_(0), numero_(0), tila_(1),ylaotsikkoId_(0), muokattu_(false), tilamuokattu_(false), muokkausAika_(QDateTime())
+Tili::Tili() : numero_(0), tila_(1),ylaotsikkoId_(0), muokattu_(false), tilamuokattu_(false), muokkausAika_(QDateTime())
 {
 
 }
@@ -42,12 +42,18 @@ Tili::Tili(const QVariantMap &data) :
     }
 
 
-    id_ = data_.value("id").toInt();
     numero_ = data_.value("numero").toInt();
     tyyppi_ = kp()->tiliTyypit()->tyyppiKoodilla( data_.value("tyyppi").toString() );
     tila_= data_.contains("tila") ? data_.value("tila").toInt() : 1;
     muokkausAika_ = data_.value("muokattu").toDateTime();
 
+    laajuus_ = data_.value("laajuus").toInt();
+
+}
+
+int Tili::id() const
+{
+    throw QString("Yritetään saada tilin id %1").arg( nimiNumero() );
 }
 
 QString Tili::nimi(const QString &kieli) const
@@ -81,9 +87,14 @@ void Tili::asetaTyyppi(const QString &tyyppikoodi)
     muokattu_ = true;
 }
 
+void Tili::asetaOtsikko(Tili *otsikko)
+{
+    tamanOtsikko_ = otsikko;
+}
+
 bool Tili::onkoValidi() const
 {
-    return numero() > 0 && !nimi().isEmpty();
+    return numero() > 0 ;
 }
 
 int Tili::ysivertailuluku() const

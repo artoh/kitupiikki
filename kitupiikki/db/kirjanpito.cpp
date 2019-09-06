@@ -246,6 +246,26 @@ QString Kirjanpito::tositeTunnus(int tunniste, const QDate &pvm, bool vertailu)
             .arg(vuositunnus);
 }
 
+QString Kirjanpito::tositeTunnus(int tunniste, const QDate &pvm, const QString &sarja, bool samakausi, bool vertailu)
+{
+
+    if( vertailu)
+        return QString("%1 %2 %3")
+                .arg(sarja)
+                .arg( tilikaudet()->tilikausiPaivalle(pvm).pitkakausitunnus() )
+                .arg( tunniste, 8, 10, QChar('0')  );
+
+    if( samakausi )
+        return QString("%1%2")
+                .arg(sarja)
+                .arg(tunniste);
+
+    return QString("%1%2/%3")
+            .arg(sarja)
+            .arg(tunniste)
+            .arg( tilikaudet()->tilikausiPaivalle(pvm).kausitunnus() );
+}
+
 
 
 bool Kirjanpito::avaaTietokanta(const QString &tiedosto, bool ilmoitaVirheesta)
@@ -544,9 +564,11 @@ void Kirjanpito::yhteysAvattu(YhteysModel *model)
 
     emit tietokantaVaihtui();
 
-    KpKysely *logokysely = kpk("/liitteet/0/logo.png");
-    connect( logokysely, &KpKysely::vastaus, this, &Kirjanpito::logoSaapui);
-    logokysely->kysy();
+    if( yhteysModel() ) {
+        KpKysely *logokysely = kpk("/liitteet/0/logo.png");
+        connect( logokysely, &KpKysely::vastaus, this, &Kirjanpito::logoSaapui);
+        logokysely->kysy();
+    }
 }
 
 bool Kirjanpito::lataaUudelleen()

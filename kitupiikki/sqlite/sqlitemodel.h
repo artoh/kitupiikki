@@ -47,6 +47,8 @@ public:
     QString tiedostopolku() const { return tiedostoPolku_; }
     QSqlDatabase tietokanta() const { return tietokanta_; }
 
+    bool onkoOikeutta(Oikeus oikeus) const override;
+
 private slots:
     void lisaaViimeisiin(bool onnistuiko);
 

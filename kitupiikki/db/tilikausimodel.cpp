@@ -119,7 +119,7 @@ QVariant TilikausiModel::data(const QModelIndex &index, int role) const
         return  kausi.kausitunnus();
     else if( role == Qt::TextAlignmentRole)
     {
-        if( index.column()==TULOS )
+        if( index.column()>=TASE && index.column() <= TULOS )
             return QVariant(Qt::AlignRight | Qt::AlignVCenter);
         else
             return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
@@ -265,19 +265,16 @@ void TilikausiModel::lataa(const QVariantList &lista)
     for(QVariant item : lista )
     {
         QVariantMap map = item.toMap();
-        QDate alkaa = map.take("alkaa").toDate();
-        QDate loppuu = map.take("loppuu").toDate();
-
-        QJsonDocument doc = QJsonDocument::fromVariant(map);
-
-        kaudet_.append( Tilikausi(alkaa, loppuu, doc.toJson()) );
+        kaudet_.append( Tilikausi(map) );
     }
     paivitaKausitunnukset();
     endResetModel();
 }
 
 void TilikausiModel::lataa()
-{
+{    
+
+
     beginResetModel();
     kaudet_.clear();
 
@@ -290,6 +287,13 @@ void TilikausiModel::lataa()
     }
     paivitaKausitunnukset();
     endResetModel();
+}
+
+void TilikausiModel::paivita()
+{
+    KpKysely *kysely = kpk("/tilikaudet");
+    connect( kysely, &KpKysely::vastaus, this, &TilikausiModel::lataaData );
+    kysely->kysy();
 }
 
 void TilikausiModel::tallennaJSON()
@@ -334,4 +338,9 @@ void TilikausiModel::paivitaKausitunnukset()
         }
 
     }
+}
+
+void TilikausiModel::lataaData(const QVariant *lista)
+{
+    lataa( lista->toList() );
 }

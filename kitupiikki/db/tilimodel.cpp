@@ -39,12 +39,12 @@ TiliModel::TiliModel(QObject *parent) :
 
 int TiliModel::rowCount(const QModelIndex & /* parent */) const
 {
-    return tilit_.count();
+    return tiliLista_.count();
 }
 
 int TiliModel::columnCount(const QModelIndex & /* parent */) const
 {
-    return 5;
+    return 6;
 }
 
 bool TiliModel::setData(const QModelIndex &index, const QVariant &value, int role)
@@ -86,15 +86,17 @@ QVariant TiliModel::headerData(int section, Qt::Orientation orientation, int rol
         switch (section)
         {
         case NRONIMI :
-            return QVariant("Numero ja nimi");
+            return tr("Numero ja nimi");
         case NUMERO:
-            return QVariant("Numero");
+            return tr("Numero");
         case NIMI :
-            return QVariant("Nimi");
+            return tr("Nimi");
         case TYYPPI:
-            return QVariant("Tilityyppi");
+            return tr("Tilityyppi");
         case ALV:
-            return QVariant("Alv");
+            return tr("Alv");
+        case SALDO:
+            return tr("Saldo");
         }
     }
     return QVariant();
@@ -106,82 +108,82 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
     if( !index.isValid())     
         return QVariant();
 
-    Tili tili = tilit_.value(index.row());
+    Tili* tili = tiliLista_.value(index.row());
 
-    if( role == IdRooli )
-        return QVariant( tili.id());
-    else if( role == NroRooli )
-        return QVariant( tili.numero());
+    if( role == IdRooli ) {
+        qDebug() << " --- id --- "  << tili->nimiNumero();
+        return QVariant( tili->id());
+    } else if( role == NroRooli )
+        return QVariant( tili->numero());
     else if( role == NimiRooli )
-        return QVariant( tili.nimi());
+        return QVariant( tili->nimi());
     else if( role == NroNimiRooli)
-        return QVariant( QString("%1 %2").arg(tili.numero()).arg(tili.nimi()));
+        return tili->nimiNumero();
     else if( role == OtsikkotasoRooli)
-        return QVariant( tili.otsikkotaso());
+        return tili->otsikkotaso();
     else if( role == TyyppiRooli )
-        return QVariant( tili.tyyppiKoodi());
+        return QVariant( tili->tyyppiKoodi());
     else if( role == YsiRooli)
-        return QVariant( tili.ysivertailuluku());
+        return QVariant( tili->ysivertailuluku());
     else if( role == TilaRooli)
-        return QVariant( tili.tila());
+        return tili->tila();
+    else if( role == OhjeRooli)
+        return tili->str("ohje");
 
     else if( role == Qt::DisplayRole || role == Qt::EditRole)
     {
         switch (index.column())
         {
         case NRONIMI :
-            return QVariant( QString("%1 %2").arg(tili.numero()).arg(tili.nimi()));
+            return tili->nimiNumero();
         case NUMERO:
-            return QVariant( tili.numero());
-        case NIMI :
-            return QVariant( tili.nimi());
+            if( tili->otsikkotaso())
+                return QString();
+            return QVariant( tili->numero());
+        case NIMI : {
+            QString sisennys;
+            for(int i=0; i < tili->otsikkotaso() - 1; i++)
+                sisennys += "  ";
+            return sisennys + tili->nimi();
+        }
         case TYYPPI:
-            if( tili.otsikkotaso() )
-            {
-                // Otsikoiden tyyppitekstinä on tieto otsikon tasosta sisennettynä
-                QString otsikkotxt;
-                for(int i=0; i<tili.otsikkotaso() - 1; i++)
-                    otsikkotxt += " ";
-                otsikkotxt += tr("Otsikko %1").arg(tili.otsikkotaso());
-                return QVariant( otsikkotxt );
-            }
-            return QVariant( kp()->tiliTyypit()->tyyppiKoodilla( tili.tyyppiKoodi() ).kuvaus() );
-        case ALV:
-            int vero = tili.json()->luku("AlvProsentti");
+            if( tili->otsikkotaso() )
+                return QString();
+            return QVariant( kp()->tiliTyypit()->tyyppiKoodilla( tili->tyyppiKoodi() ).kuvaus() );
+        case ALV: {
+            int vero = tili->luku("alvprosentti");
             if(vero)
                 return QVariant( QString("%1 %").arg(vero));
             return QVariant();
         }
+        case SALDO:
+            if( saldot_.contains( tili->numero() ))
+                return QString("%L1").arg( saldot_.value( tili->numero() ), 0, 'f', 2 );
+            return QString();
+        }
     }
 
-    else if( role == Qt::TextColorRole)
-    {
-        if( tili.tila() == 0 )
-            return QColor(Qt::darkGray);
-        else
-            return QColor(Qt::black);
-    }
     else if( role == Qt::DecorationRole && index.column() == NIMI)
     {
-        if( tili.tila() == 0)
+        if( tili->tila() == 0)
             return QIcon(":/pic/eikaytossa.png");
-        else if( tili.tila() == 2)
+        else if( tili->tila() == 2)
             return QIcon(":/pic/tahti.png");
     }
     else if( role == Qt::DecorationRole && index.column() == ALV)
     {
-        return kp()->alvTyypit()->kuvakeKoodilla( tili.json()->luku("AlvLaji") );
+        return kp()->alvTyypit()->kuvakeKoodilla( tili->luku("alvlaji") );
     }
     else if( role == Qt::DecorationRole && index.column() == NUMERO )
     {
-        if( !tili.json()->str("Kirjausohje").isEmpty())
+        if( !tili->str("ohje").isEmpty())
             return QIcon(":/pic/info.png");     // Tiliin on olemassa kirjausohje
     }
 
     else if( role == Qt::FontRole)
     {
         QFont fontti;
-        if( tili.otsikkotaso())
+        if( tili->otsikkotaso())
             fontti.setBold(true);
         return QVariant( fontti );
     }
@@ -214,22 +216,14 @@ void TiliModel::poistaRivi(int riviIndeksi)
 
 Tili TiliModel::tiliIdllaVanha(int id) const
 {
-    foreach (Tili tili, tilit_)
-    {
-        if( tili.id() == id)
-            return tili;
-    }
-    return Tili();
+    qDebug() << " -------idhaku----- " << id;
+    throw tr("Yritetään hakea tiliä %1").arg(id);
+
 }
 
 Tili *TiliModel::tili(const QString &tilinumero) const
 {
     return tiliPNumerolla( tilinumero.toInt());
-}
-
-Tili *TiliModel::tiliIdlla(int id) const
-{
-    return idHash_.value(id);
 }
 
 Tili *TiliModel::tiliPNumerolla(int numero) const
@@ -257,7 +251,7 @@ Tili TiliModel::tiliIbanilla(const QString &iban) const
 {
     for(Tili tili: tilit_)
     {
-        if( tili.json()->str("IBAN") == iban)
+        if( tili.json()->str("iban") == iban)
             return tili;
     }
     return Tili();
@@ -379,52 +373,46 @@ void TiliModel::lataa(QVariantList lista)
     tyhjenna();
 
 
-    QVector<Tili> otsikot(10);
+    QVector<Tili*> otsikot(10);
+    otsikot.fill(nullptr);
+    int ylinotsikkotaso = 0;
 
     for( QVariant variant : lista)
     {
         QVariantMap map = variant.toMap();
 
         int otsikkotaso = 0;
-        QString tyyppikoodi = map.value("tyyppi").toString();
-        if( tyyppikoodi.startsWith('H'))    // Tyyppikoodi H1 tarkoittaa 1-tason otsikkoa jne.
-            otsikkotaso = tyyppikoodi.midRef(1).toInt();
-
-        int id = map.value("id").toInt();
-        int otsikkoIdTalle = 0; // Nykytilille merkittävä otsikkotaso
-        int ysiluku = map.value("ysiluku").toInt();
+        Tili *tili = new Tili( map );
         int nro = map.value("numero").toInt();
 
-
-        // Etsitään otsikkotasoa tasojen lopusta alkaen
-        for(int i=9; i >= 0; i--)
-        {
-            int asti = otsikot[i].json()->luku("Asti") ? Tili::ysiluku( otsikot[i].json()->luku("Asti"),true) : Tili::ysiluku( otsikot[i].numero(), true);
-            if( otsikot.at(i).onkoValidi() && otsikot.at(i).ysivertailuluku() <= ysiluku && asti >= ysiluku )
-            {
-                otsikkoIdTalle = otsikot.at(i).id();
-                break;
-            }
+        QString tyyppikoodi = map.value("tyyppi").toString();
+        if( tyyppikoodi.startsWith('H')) {   // Tyyppikoodi H1 tarkoittaa 1-tason otsikkoa jne.
+            otsikkotaso = tyyppikoodi.midRef(1).toInt();
+            otsikot[otsikkotaso] = tili;
+            tili->asetaOtsikko( otsikot.at(otsikkotaso - 1) );
+            ylinotsikkotaso = otsikkotaso;
+        } else {
+            tili->asetaOtsikko( otsikot.at(ylinotsikkotaso) );
+            nroHash_.insert( nro, tili );
         }
 
         Tili uusi( map );
-
         tilit_.append(uusi);
 
-        Tili *tili = new Tili( map );
-
         tiliLista_.append( tili );
-        idHash_.insert(id, tili);
-        if( !otsikkotaso && nro )
-            nroHash_.insert(nro, tili);
 
-
-        qDebug() << id << " - " << tili->numero() << "-- " << tili->nimi();
-
-        if( otsikkotaso )
-            otsikot[otsikkotaso] = uusi;
+        qDebug() << " - " << tili->numero() << "-- " << tili->nimi();
+        if( tili->tamanOtsikko() )
+            qDebug() << " Otsikko " << tili->tamanOtsikko()->nimiNumero();
 
     }
+    laajuus_ = kp()->asetukset()->luku("laajuus",3);
+
+    paivitaTilat();
+
+    qDebug() << " Listalla " << tiliLista_.count() << " tiliä ";
+    for(Tili* pointteri : tiliLista_)
+        qDebug() <<  pointteri->tila() << "   " << pointteri->tyyppiKoodi() << "   " << pointteri->nimiNumero();
 
     endResetModel();
 }
@@ -502,6 +490,27 @@ bool TiliModel::tallenna(bool tietokantaaLuodaan)
     */
 }
 
+void TiliModel::haeSaldot()
+{
+    KpKysely *saldokysely = kpk("/saldot");
+    saldokysely->lisaaAttribuutti("pvm", kp()->paivamaara());
+    connect( saldokysely, &KpKysely::vastaus, this, &TiliModel::saldotSaapuu);
+    saldokysely->kysy();
+}
+
+void TiliModel::saldotSaapuu(QVariant *saldot)
+{
+    QVariantMap map = saldot->toMap();
+    QMapIterator<QString,QVariant> iter(map);
+    saldot_.clear();
+
+    while( iter.hasNext()) {
+        iter.next();
+        saldot_.insert( iter.key().toInt(), iter.value().toDouble() );
+    }
+    emit dataChanged( index(0, SALDO), index( rowCount()-1, SALDO )  );
+}
+
 void TiliModel::tyhjenna()
 {
     for(Tili *tili : tiliLista_)
@@ -511,5 +520,46 @@ void TiliModel::tyhjenna()
     tiliLista_.clear();
     idHash_.clear();
     nroHash_.clear();
+}
+
+void TiliModel::paivitaTilat()
+{
+    qDebug() << " Laajuus " << laajuus_;
+
+    for(Tili* tili : tiliLista_) {
+        if( tili->otsikkotaso()) {
+            tili->asetaTila(Tili::TILI_PIILOSSA);
+            continue;
+        }
+        int numero = tili->numero();
+
+        if( suosikit_.contains(numero)  )
+            tili->asetaTila(Tili::TILI_SUOSIKKI);
+        else if( piilotetut_.contains(numero))
+            tili->asetaTila(Tili::TILI_PIILOSSA);
+        else if( tili->laajuus() > laajuus_)
+            tili->asetaTila(Tili::TILI_PIILOSSA);
+        else
+            tili->asetaTila(Tili::TILI_KAYTOSSA);
+
+        qDebug() << tili->nimiNumero() << " tilassa " << tili->tila()
+                 << " l " << tili->laajuus();
+
+        // Asetetaan kaikki otsikkotasot käyttöön
+        if( tili->tila() != Tili::TILI_PIILOSSA) {
+            Tili *otsikko = tili->tamanOtsikko();
+            while( otsikko ) {
+                if( otsikko->tila() == Tili::TILI_KAYTOSSA)
+                    break;
+                otsikko->asetaTila(Tili::TILI_KAYTOSSA);
+
+                otsikko = otsikko->tamanOtsikko();
+
+            }
+        }
+
+    }
+
+
 }
 

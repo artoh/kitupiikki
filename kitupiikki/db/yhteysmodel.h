@@ -30,6 +30,16 @@
 class YhteysModel : public QAbstractListModel
 {
 public:
+    enum Oikeus {
+        LUKUOIKEUS,
+        LUONNOSOIKEUS,
+        MUOKKAUSOIKEUS,
+        HALLINTAOIKEUS,
+        OMISTUSOIKEUS,
+        PAIKALLINENOIKEUS
+    };
+
+
     YhteysModel(QObject *parent = nullptr);
 
     virtual KpKysely* kysely(const QString& polku = QString(),
@@ -40,6 +50,8 @@ public:
     void alusta();
 
     void lataaInit(QVariant* reply);
+
+    virtual bool onkoOikeutta(Oikeus oikeus) const = 0;
 
 private slots:
     void initSaapuu(QVariant* reply);

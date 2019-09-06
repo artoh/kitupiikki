@@ -67,10 +67,14 @@ void UusiVelho::lataaKartta(const QString &polku)
         QByteArray ba = tiedosto.readAll();
         QJsonDocument doc( QJsonDocument::fromJson(ba) );
 
+        qDebug() << ba;
+        qDebug() << doc.toJson();
+
         asetukset_ = doc.object().value("asetukset").toVariant().toMap();
         tilit_ = doc.object().value("tilit").toVariant().toList();
     }
 
+    qDebug() << " Kartta " << polku << " Asetuksia " << asetukset_.count() << " Tilejä " << tilit_.count();
 }
 
 QVariant UusiVelho::data() const

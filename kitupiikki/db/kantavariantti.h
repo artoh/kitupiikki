@@ -30,7 +30,10 @@ public:
     QVariant arvo(const QString& avain) const;
     QString str(const QString& avain) const;
     int luku(const QString& avain) const;
+    double dbl(const QString& avain) const;
     QDate pvm(const QString& avain) const;
+    void clear();
+    void set(const QString& avain, const QVariant& arvo);
 
 
 protected:

@@ -288,8 +288,11 @@ public:
      * @param pvm
      * @return
      */
-    QString tositeTunnus(int tositelaji, int tunniste, const QDate& pvm, bool vertailu = false ) const;
-    QString tositeTunnus(int tunniste, const QDate& pvm, bool vertailu = false);
+    [[deprecated]] QString tositeTunnus(int tositelaji, int tunniste, const QDate& pvm, bool vertailu = false ) const;
+    [[deprecated]]  QString tositeTunnus(int tunniste, const QDate& pvm, bool vertailu = false);
+
+    QString tositeTunnus(int tunniste, const QDate& pvm, const QString& sarja, bool samakausi = false, bool vertailu = false);
+
 
 
     /**

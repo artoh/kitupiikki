@@ -89,16 +89,12 @@ QVariant TositeSelausModel::data(const QModelIndex &index, int role) const
         case TUNNISTE:
             if( luonnokset_)    // Tila
                 return Tosite::tilateksti( map.value("tila").toInt() );   // TODO Tilojen nimet
+            return kp()->tositeTunnus( map.value("tunniste").toInt(),
+                                       map.value("pvm").toDate(),
+                                       map.value("sarja").toString(),
+                                       samakausi_,
+                                       role == Qt::EditRole);
 
-            if( role == Qt::EditRole)
-                // Lajittelua varten tasaleveä kenttä
-                return QVariant(QString("%2 %1")
-                       .arg( map.value("tunniste").toInt() ,8,10,QChar('0'))
-                       .arg( kp()->tilikaudet()->tilikausiPaivalle( map.value("pvm").toDate() ).kausitunnus() ));
-             else
-                return QVariant(QString("%1/%2")
-                    .arg( map.value("tunniste").toInt() )
-                    .arg( kp()->tilikaudet()->tilikausiPaivalle( map.value("pvm").toDate()  ).kausitunnus() ));
         case PVM:
             return QVariant( map.value("pvm").toDate() );
 
@@ -161,7 +157,8 @@ QList<int> TositeSelausModel::tyyppiLista() const
 
 void TositeSelausModel::lataa(const QDate &alkaa, const QDate &loppuu, bool luonnokset)
 {
-    luonnokset_ = luonnokset;
+    luonnokset_ = luonnokset;    
+    samakausi_ = kp()->tilikausiPaivalle(alkaa).alkaa() == kp()->tilikausiPaivalle(loppuu).alkaa();
 
     if( kp()->yhteysModel())
     {

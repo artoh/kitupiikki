@@ -28,6 +28,12 @@ Tilikausi::Tilikausi()
 
 }
 
+Tilikausi::Tilikausi(const QVariantMap &data) :
+    KantaVariantti (data)
+{
+
+}
+
 Tilikausi::Tilikausi(QDate tkalkaa, QDate tkpaattyy, const QByteArray& json) :
     alkaa_(tkalkaa),
     paattyy_(tkpaattyy),
@@ -76,46 +82,17 @@ Tilikausi::TilinpaatosTila Tilikausi::tilinpaatoksenTila()
 
 qlonglong Tilikausi::tulos() const
 {
-    QSqlQuery kysely(  QString("SELECT SUM(kreditsnt), SUM(debetsnt) "
-                               "FROM vienti, tili WHERE "
-                               "pvm BETWEEN \"%1\" AND \"%2\" "
-                               "AND vienti.tili=tili.id AND "
-                               "tili.ysiluku > 300000000")
-                       .arg(alkaa().toString(Qt::ISODate))
-                       .arg(paattyy().toString(Qt::ISODate)));
-    if( kysely.next())
-        return kysely.value(0).toLongLong() - kysely.value(1).toLongLong();
-    else
-        return 0;
+    return qRound( dbl("tulos") * 100);
 }
 
 qlonglong Tilikausi::liikevaihto() const
 {
-    QSqlQuery kysely(  QString("SELECT SUM(kreditsnt), SUM(debetsnt) "
-                               "FROM vienti, tili WHERE "
-                               "pvm BETWEEN \"%1\" AND \"%2\" "
-                               "AND vienti.tili=tili.id AND "
-                               "(tili.tyyppi = \"CL\" OR tili.tyyppi = \"CLX\") ")
-                       .arg(alkaa().toString(Qt::ISODate))
-                       .arg(paattyy().toString(Qt::ISODate)));
-    if( kysely.next())
-        return kysely.value(0).toLongLong() - kysely.value(1).toLongLong();
-    else
-        return 0;
+    return qRound( dbl("liikevaihto") * 100);
 }
 
 qlonglong Tilikausi::tase() const
 {
-    QSqlQuery kysely(  QString("SELECT SUM(kreditsnt), SUM(debetsnt) "
-                               "FROM vienti, tili WHERE "
-                               "pvm <= \"%1\" "
-                               "AND vienti.tili=tili.id AND "
-                               "tili.ysiluku < 200000000")
-                       .arg(paattyy().toString(Qt::ISODate)));
-    if( kysely.next())
-        return kysely.value(1).toLongLong() - kysely.value(0).toLongLong();
-    else
-        return 0;
+    return qRound( dbl("tase") * 100 );
 }
 
 int Tilikausi::henkilosto()
