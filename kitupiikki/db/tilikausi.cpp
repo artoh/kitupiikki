@@ -34,6 +34,12 @@ Tilikausi::Tilikausi(const QVariantMap &data) :
 
 }
 
+Tilikausi::Tilikausi(const QDate &alkaa, const QDate &paattyy)
+{
+    set("alkaa", alkaa);
+    set("loppuu", paattyy);
+}
+
 Tilikausi::Tilikausi(QDate tkalkaa, QDate tkpaattyy, const QByteArray& json) :
     alkaa_(tkalkaa),
     paattyy_(tkpaattyy),
@@ -44,7 +50,7 @@ Tilikausi::Tilikausi(QDate tkalkaa, QDate tkpaattyy, const QByteArray& json) :
 
 QDateTime Tilikausi::arkistoitu()
 {
-    QString arkistoituna = json()->str("Arkisto");
+    QString arkistoituna = str("arkisto");
     if( arkistoituna.isEmpty())
         return QDateTime();
     else
@@ -71,9 +77,9 @@ Tilikausi::TilinpaatosTila Tilikausi::tilinpaatoksenTila()
     if( paattyy() == kp()->asetukset()->pvm("TilinavausPvm") )
         return EILAADITATILINAVAUKSELLE;
 
-    if( json()->date("Vahvistettu").isValid())
+    if( pvm("vahvistettu").isValid())
         return VAHVISTETTU;
-    else if( !json()->str("TilinpaatosTeksti").isEmpty())
+    else if( !str("tilinpaatosteksti").isEmpty())
         return KESKEN;
     else
         return ALOITTAMATTA;
@@ -97,7 +103,7 @@ qlonglong Tilikausi::tase() const
 
 int Tilikausi::henkilosto()
 {
-    return json()->luku("Henkilosto");
+    return luku("henkilosto");
 }
 
 QString Tilikausi::arkistoHakemistoNimi() const
@@ -160,5 +166,20 @@ void Tilikausi::asetaKausitunnus(const QString &kausitunnus)
 bool Tilikausi::onkoBudjettia()
 {
     return !json_.variant("Budjetti").toMap().isEmpty();
+}
+
+void Tilikausi::tallenna()
+{
+    KpKysely* kysely = kpk(QString("/tilikaudet/%1").arg( alkaa().toString(Qt::ISODate)), KpKysely::PUT );
+    QObject::connect(kysely, &KpKysely::vastaus, kp()->tilikaudet(), &TilikausiModel::paivita);
+    kysely->kysy( data() );
+}
+
+void Tilikausi::poista()
+{
+    KpKysely *poisto = kpk(QString("/tilikaudet/%1").arg(alkaa().toString(Qt::ISODate)), KpKysely::DELETE);
+    QObject::connect(poisto, &KpKysely::vastaus, kp()->tilikaudet(), &TilikausiModel::paivita);
+    poisto->kysy();
+
 }
 

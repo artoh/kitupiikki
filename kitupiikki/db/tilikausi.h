@@ -50,8 +50,9 @@ public:
     Tilikausi();    
 
     Tilikausi(const QVariantMap& data);
+    Tilikausi(const QDate& alkaa, const QDate& paattyy);
 
-    Tilikausi(QDate tkalkaa, QDate tkpaattyy, const QByteArray &json = QByteArray());
+    [[deprecated]] Tilikausi(QDate tkalkaa, QDate tkpaattyy, const QByteArray &json );
 
 
     QDate alkaa() const { return pvm("alkaa"); }
@@ -71,7 +72,7 @@ public:
 
     QString kausivaliTekstina() const;
 
-    JsonKentta *json() { return &json_; }
+    [[deprecated]] JsonKentta *json() { return &json_; }
 
     /**
      * @brief Tilinpäätöksen laadinnan tila
@@ -141,6 +142,9 @@ public:
      * @return
      */
     bool onkoBudjettia();
+
+    void tallenna();
+    void poista();
 
 protected:
     QDate alkaa_;

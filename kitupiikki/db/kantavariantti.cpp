@@ -58,3 +58,8 @@ void KantaVariantti::set(const QString &avain, const QVariant &arvo)
     data_.insert(avain, arvo);
 }
 
+void KantaVariantti::unset(const QString &avain)
+{
+    data_.remove(avain);
+}
+

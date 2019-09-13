@@ -100,9 +100,8 @@ void ArkistoSivu::uusiTilikausi()
 
     if( dlg.exec() )
     {
-        Tilikausi uusitilikausi( dlgUi.alkaaEdit->date(), dlgUi.paattyyEdit->date() );
-        kp()->tilikaudet()->lisaaTilikausi( uusitilikausi );
-        kp()->tilikaudet()->tallennaJSON();        
+        Tilikausi uusi( dlgUi.alkaaEdit->date(), dlgUi.paattyyEdit->date() );
+        uusi.tallenna();
     }
 
 }
@@ -327,30 +326,15 @@ void ArkistoSivu::muokkaa()
     Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla(ui->view->currentIndex().row() );
 
     // Selvitetään, mikä on viimeisin kirjaus
-    QDate viimepaiva = kp()->tilitpaatetty();
-    QSqlQuery kysely("SELECT MAX(pvm) from vienti");
-    if( kysely.next())
-    {
-        QDate viimevienti = kysely.value(0).toDate();
-        if( viimevienti > viimepaiva)
-            viimepaiva = viimevienti;
-    }
-
-    kysely.exec("SELECT MAX(pvm) from tosite");
-    if( kysely.next())
-    {
-        QDate viimevienti = kysely.value(0).toDate();
-        if( viimevienti > viimepaiva)
-            viimepaiva = viimevienti;
-    }
+    QDate viimepaiva = kausi.pvm("viimeinen");
 
     // Saa poistaa vain, ellei yhtään kirjausta
-    dlgUi.poistaRadio->setEnabled( viimepaiva < kausi.alkaa() && kausi.paattyy() == kp()->tilikaudet()->kirjanpitoLoppuu() );
+    dlgUi.poistaRadio->setEnabled( viimepaiva.isNull() && kausi.paattyy() == kp()->tilikaudet()->kirjanpitoLoppuu() );
     dlgUi.paattyyRadio->setEnabled( kausi.paattyy() == kp()->tilikaudet()->kirjanpitoLoppuu() );
     dlgUi.peruLukko->setEnabled( kp()->tilitpaatetty() >= kausi.alkaa() );
     dlgUi.peruLukko->setChecked( kausi.paattyy() != kp()->tilikaudet()->kirjanpitoLoppuu() );
 
-    if( viimepaiva < kausi.alkaa() )
+    if( !viimepaiva.isValid() )
         viimepaiva = kausi.alkaa().addDays(1);
 
     dlgUi.paattyyDate->setDateRange( viimepaiva, kausi.alkaa().addMonths(19).addDays(-1) );
@@ -358,10 +342,12 @@ void ArkistoSivu::muokkaa()
 
     if( dlg.exec())
     {
-        if( dlgUi.poistaRadio->isChecked())
-            kp()->tilikaudet()->muokkaaViimeinenTilikausi( QDate());
-        else if( dlgUi.paattyyRadio->isChecked())
-            kp()->tilikaudet()->muokkaaViimeinenTilikausi( dlgUi.paattyyDate->date() );
+        if( dlgUi.poistaRadio->isChecked()) {
+            kausi.poista();
+        } else if( dlgUi.paattyyRadio->isChecked()) {
+            kausi.set("loppuu", dlgUi.paattyyDate->date());
+            kausi.tallenna();
+        }
         else if( dlgUi.peruLukko->isChecked())
         {
             if( QMessageBox::warning(this, tr("Tilikauden lukitsemisen peruminen"),
@@ -373,11 +359,9 @@ void ArkistoSivu::muokkaa()
                                         "tilinpäätöksen laatimisen jälkeen."), QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel ) != QMessageBox::Yes)
                 return;
 
-            JsonKentta *json = kp()->tilikaudet()->json( kausi );
-            json->unset("Vahvistettu");
-            kp()->tilikaudet()->tallennaJSON();
             kp()->asetukset()->aseta("TilitPaatetty", kausi.alkaa().addDays(-1));
-
+            kausi.unset("vahvistettu");
+            kausi.tallenna();
         }
     }
 

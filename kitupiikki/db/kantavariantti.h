@@ -34,7 +34,9 @@ public:
     QDate pvm(const QString& avain) const;
     void clear();
     void set(const QString& avain, const QVariant& arvo);
+    void unset(const QString& avain);
 
+    QVariantMap data() const { return data_;}
 
 protected:
      QVariantMap data_;
