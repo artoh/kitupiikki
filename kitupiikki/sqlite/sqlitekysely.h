@@ -28,32 +28,12 @@ class SQLiteKysely : public KpKysely
     Q_OBJECT
 public:
     SQLiteKysely(SQLiteModel* parent, Metodi metodi=GET, QString polku = QString());
+    void vastaa(const QVariant& tulos);
 
 public slots:
     void kysy(const QVariant& data = QVariant()) override;
-    virtual void lahetaTiedosto(const QByteArray& ba, const QString& tiedostonimi) override;
+    virtual void lahetaTiedosto(const QByteArray& ba, const QString& tiedostonimi) override;   
 
-protected:
-    QSqlDatabase tietokanta();
-
-    void alustusKysely();
-    QVariantList asetukset();
-    QVariantList tilit();
-    QVariantList kohdennukset();
-    QVariantList tositelajit();
-    QVariantList tilikaudet();
-
-    void teeAsetus(const QVariantMap &params);
-    void lataaLiite();
-
-    QVariantMap tosite(int id);
-    void tositelista();
-
-    void vientilista();
-
-    QStringList sanat_;
-
-    void vastaa();
 };
 
 #endif // SQLITEKYSELY_H

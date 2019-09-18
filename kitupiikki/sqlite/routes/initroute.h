@@ -14,14 +14,17 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef SQLITEINIT_H
-#define SQLITEINIT_H
+#ifndef INITROUTE_H
+#define INITROUTE_H
 
+#include "../sqliteroute.h"
 
-class SqliteInit
+class InitRoute : public SQLiteRoute
 {
 public:
-    SqliteInit();
+    InitRoute(SQLiteModel *model);
+
+    QVariant get(const QString &polku) override;
 };
 
-#endif // SQLITEINIT_H
+#endif // INITROUTE_H

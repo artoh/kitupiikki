@@ -14,9 +14,29 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#include "sqliteinit.h"
+#include "initroute.h"
+#include <QSqlQuery>
 
-SqliteInit::SqliteInit()
+InitRoute::InitRoute(SQLiteModel *model) :
+    SQLiteRoute(model,"/init")
 {
 
+}
+
+QVariant InitRoute::get(const QString & /*polku*/)
+{
+    QVariantMap map;
+    // Asetukset
+    QSqlQuery kysely(db());
+    kysely.exec("SELECT avain,arvo FROM Asetus");
+
+    QVariantMap asetukset;
+
+    while( kysely.next()) {
+        asetukset.insert( kysely.value(0).toString(),
+                          kysely.value(1).toString());
+    }
+    map.insert("asetukset", asetukset);
+
+    return asetukset;
 }

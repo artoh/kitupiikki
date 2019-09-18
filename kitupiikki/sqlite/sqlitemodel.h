@@ -18,8 +18,11 @@
 #define SQLITEMODEL_H
 
 #include "db/yhteysmodel.h"
+#include "sqlitekysely.h"
 
 #include <QSqlDatabase>
+
+class SQLiteRoute;
 
 class SQLiteModel : public YhteysModel
 {
@@ -29,6 +32,7 @@ public:
     enum { PolkuRooli = Qt::UserRole, NimiRooli = Qt::UserRole + 2};
 
     SQLiteModel(QObject *parent = nullptr);
+    ~SQLiteModel() override;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
@@ -51,8 +55,14 @@ public:
 
     bool uusiKirjanpito(const QString& polku, const QVariantMap& initials);
 
+    void reitita(SQLiteKysely *reititettavakysely, const QVariant& data);
+    void byteArray(SQLiteKysely* reititettavaKysely, const QByteArray &ba, const QVariantMap meta);
+
 private slots:
     void lisaaViimeisiin(bool onnistuiko);
+
+protected:
+    void lisaaRoute(SQLiteRoute *route);
 
 private:
     QVariantList viimeiset_;
@@ -60,6 +70,7 @@ private:
 protected:
     QSqlDatabase tietokanta_;
     QString tiedostoPolku_;
+    QList<SQLiteRoute*> routes_;
 };
 
 #endif // SQLITEMODEL_H

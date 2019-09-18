@@ -28,10 +28,18 @@
 #include <QSqlQuery>
 #include <QApplication>
 
+#include "routes/initroute.h"
+
 SQLiteModel::SQLiteModel(QObject *parent)
     : YhteysModel(parent)
 {
+    lisaaRoute(new InitRoute(this));
+}
 
+SQLiteModel::~SQLiteModel()
+{
+    for( auto route : routes_)
+        delete route;
 }
 
 
@@ -149,6 +157,17 @@ bool SQLiteModel::uusiKirjanpito(const QString &polku, const QVariantMap &initia
     return SqliteAlustaja::luoKirjanpito(polku, initials);
 }
 
+void SQLiteModel::reitita(SQLiteKysely* reititettavakysely, const QVariant &data)
+{
+    for( SQLiteRoute* route : routes_) {
+        if( reititettavakysely->polku().startsWith( route->polku() ) ) {
+            reititettavakysely->vastaa(route->route( reititettavakysely, data));
+            return;
+        }
+    }
+    emit reititettavakysely->virhe(404);
+}
+
 
 void SQLiteModel::lisaaViimeisiin(bool onnistuiko)
 {
@@ -181,4 +200,9 @@ void SQLiteModel::lisaaViimeisiin(bool onnistuiko)
         kp()->settings()->setValue("ViimeTiedostot", viimeiset_);
         endResetModel();
     }
+}
+
+void SQLiteModel::lisaaRoute(SQLiteRoute *route)
+{
+    routes_.append(route);
 }
