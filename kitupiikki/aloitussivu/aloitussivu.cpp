@@ -250,10 +250,12 @@ void AloitusSivu::linkki(const QUrl &linkki)
 void AloitusSivu::uusiTietokanta()
 {
     UusiVelho velho;
-    if( velho.exec() )
-        qDebug() << velho.data();
-    if( velho.field("pilveen").toBool())
-        kp()->pilvi()->uusiPilvi(velho.data());
+    if( velho.exec() ) {
+        if( velho.field("pilveen").toBool())
+            kp()->pilvi()->uusiPilvi(velho.data());
+        else
+            kp()->sqlite()->uusiKirjanpito(velho.polku(), velho.data());
+    }
 }
 
 void AloitusSivu::avaaTietokanta()

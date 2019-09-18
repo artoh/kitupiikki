@@ -36,7 +36,8 @@ public:
     enum Sivut { ALOITUS, HARJOITUS, TILIKARTTA, TIEDOT, TILIKAUSI, SIJAINTI, LOPPU };
     void lataaKartta(const QString& polku);
 
-    QVariant data() const;
+    QVariantMap data() const;
+    QString polku() const;
 
     int nextId() const override;
 

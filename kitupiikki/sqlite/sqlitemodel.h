@@ -49,6 +49,8 @@ public:
 
     bool onkoOikeutta(Oikeus oikeus) const override;
 
+    bool uusiKirjanpito(const QString& polku, const QVariantMap& initials);
+
 private slots:
     void lisaaViimeisiin(bool onnistuiko);
 

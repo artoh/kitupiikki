@@ -77,7 +77,7 @@ void UusiVelho::lataaKartta(const QString &polku)
     qDebug() << " Kartta " << polku << " Asetuksia " << asetukset_.count() << " Tilejä " << tilit_.count();
 }
 
-QVariant UusiVelho::data() const
+QVariantMap UusiVelho::data() const
 {
     QVariantMap map;
     QVariantMap initMap;
@@ -89,6 +89,13 @@ QVariant UusiVelho::data() const
     map.insert("init", initMap);
 
     return  map;
+}
+
+QString UusiVelho::polku() const
+{
+    if( field("pilveen").toBool())
+        return QString();
+    return field("sijainti").toString()+"/"+field("tiedosto").toString();
 }
 
 int UusiVelho::nextId() const

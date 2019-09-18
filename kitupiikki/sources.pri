@@ -34,6 +34,8 @@ SOURCES += \
     $$PWD/rekisteri/ibandelegaatti.cpp \
     $$PWD/rekisteri/maamodel.cpp \
     $$PWD/rekisteri/postinumerot.cpp \
+    $$PWD/sqlite/sqlitealustaja.cpp \
+    $$PWD/sqlite/sqliteinit.cpp \
     $$PWD/tilaus/planmodel.cpp \
     $$PWD/tilaus/tilausvalintasivu.cpp \
     $$PWD/tilaus/tilauswizard.cpp \
@@ -246,6 +248,8 @@ HEADERS += \
     $$PWD/rekisteri/ibandelegaatti.h \
     $$PWD/rekisteri/maamodel.h \
     $$PWD/rekisteri/postinumerot.h \
+    $$PWD/sqlite/sqlitealustaja.h \
+    $$PWD/sqlite/sqliteinit.h \
     $$PWD/tilaus/planmodel.h \
     $$PWD/tilaus/tilausvalintasivu.h \
     $$PWD/tilaus/tilauswizard.h \
@@ -424,6 +428,7 @@ HEADERS += \
     rekisteri/asiakastoimittajavalinta.h
 
 RESOURCES += \
+    $$PWD/sqlite/sqlite.qrc \
     tilikartat/tilikartat.qrc \
     pic/pic.qrc \
     uusikp/sql.qrc \

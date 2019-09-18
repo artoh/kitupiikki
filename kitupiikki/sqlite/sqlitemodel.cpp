@@ -18,11 +18,15 @@
 #include "db/kirjanpito.h"
 #include "sqlitekysely.h"
 
+#include "sqlitealustaja.h"
+
 #include <QSettings>
 #include <QImage>
 #include <QMessageBox>
 #include <QDebug>
 #include <QSqlError>
+#include <QSqlQuery>
+#include <QApplication>
 
 SQLiteModel::SQLiteModel(QObject *parent)
     : YhteysModel(parent)
@@ -138,6 +142,11 @@ void SQLiteModel::sulje()
 bool SQLiteModel::onkoOikeutta(YhteysModel::Oikeus oikeus) const
 {
     return oikeus != OMISTUSOIKEUS;
+}
+
+bool SQLiteModel::uusiKirjanpito(const QString &polku, const QVariantMap &initials)
+{
+    return SqliteAlustaja::luoKirjanpito(polku, initials);
 }
 
 
