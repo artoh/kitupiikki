@@ -103,7 +103,7 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
     QVariantList rivit = map.take("rivit").toList();
     int kumppani = map.take("kumppani").toInt();
     QVariantList liita = map.take("liita").toList();
-    bool onkosarjaa =  !map.value("sarja", QVariant()).isNull();
+    bool onkosarjaa =  map.value("sarja", QVariant()).isNull();
     QString sarja = map.take("sarja").toString();
     int tunniste = map.take("tunniste").toInt();
 
@@ -112,7 +112,7 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
 
     Tilikausi kausi = kp()->tilikaudet()->tilikausiPaivalle(pvm);
 
-    if( tunniste ) {
+    if( !tunniste ) {
         // Tarkistetaan, pitääkö tunniste hakea uudelleen
         kysely.exec( QString("SELECT sarja, alkaa FROM Tosite JOIN Tilikausi ON Tosite.pvm BETWEEN Tilikausi.alkaa AND Tilikausi.loppuu "
                              "WHERE Tosite.id=%1").arg(tositeid) );
@@ -132,6 +132,8 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
                          .arg(kausi.alkaa().toString(Qt::ISODate)).arg(kausi.paattyy().toString(Qt::ISODate)).arg(sarja));
         if( kysely.next())
             tunniste = kysely.value("tunniste").toInt() + 1;
+
+        qDebug() << kysely.lastQuery() << " -- sarja " << sarja << "tosite  " << tunniste;
     }
     // TODO Laskun numero ja viite
 
@@ -164,6 +166,82 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
 
     qDebug() << " Kysely " << tositelisays.lastQuery()
              << " virhe " << tositelisays.lastError().text();
+
+    // Lisätään viennit
+    QList<int> vanhatviennit;
+    if( tositeid) {
+        kysely.exec( QString("SELECT id FROM Vienti WHERE tosite=%1").arg(tositeid));
+        while(kysely.next())
+            vanhatviennit.append(kysely.value(0).toInt());
+    }
+
+    int rivinumero = 0;
+    for( QVariant vientivar : viennit ) {
+        QVariantMap vientimap = vientivar.toMap();
+
+        int vientiid = vientimap.take("id").toInt();
+        QDate vientipvm = vientimap.take("pvm").toDate();
+        int tili = vientimap.take("tili").toInt();
+        int kohdennus = vientimap.take("kohdennus").toInt();
+        QString selite = vientimap.take("selite").toString();
+        double debet = vientimap.take("debet").toDouble();
+        double kredit = vientimap.take("kredit").toDouble();
+        QVariantList merkkaukset = vientimap.take("merkkaukset").toList();
+        int kumppani = vientimap.take("kumppani").toInt();
+        QDate jaksoalkaa = vientimap.take("jaksoalkaa").toDate();
+        QDate jaksoloppuu = vientimap.take("jaksoloppuu").toDate();
+        int vientityyppi = vientimap.take("tyyppi").toInt();
+        double alvprosentti = vientimap.value("alvprosentti",0.0).toDouble();
+        vientimap.take("alvprosentti");
+        int alvkoodi = vientimap.take("alvkoodi").toInt();
+        int eraid = vientimap.take("eraid").toInt();
+
+        rivinumero++;
+
+        if( vientiid ) {
+
+        } else {
+            kysely.prepare("INSERT INTO Vienti (tosite, pvm, tili, kohdennus, selite, debet, kredit, eraid, json, alvkoodi, alvprosentti, rivi, kumppani, jaksoalkaa, jaksoloppuu, tyyppi) "
+                           "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ");
+        }
+        kysely.addBindValue(tositeid);
+        kysely.addBindValue(pvm);
+        kysely.addBindValue(tili);
+        kysely.addBindValue(kohdennus);
+        kysely.addBindValue(selite);
+
+        kysely.addBindValue( qAbs(debet) > 1e-5 ? QString::number(debet,'f',2) : QVariant());
+        kysely.addBindValue( qAbs(kredit) > 1e-5 ? QString::number(kredit,'f',2) : QVariant());
+
+        kysely.addBindValue( eraid > 0 ? eraid : QVariant());
+        kysely.addBindValue( mapToJson(vientimap) );
+        kysely.addBindValue( alvkoodi );
+        kysely.addBindValue( alvkoodi ? QString::number(alvprosentti,'f',2) : QVariant());
+        kysely.addBindValue( rivinumero );
+        kysely.addBindValue( kumppani ? kumppani : QVariant());
+        kysely.addBindValue( jaksoalkaa );
+        kysely.addBindValue( jaksoloppuu );
+        kysely.addBindValue( vientityyppi );
+
+        kysely.exec();
+
+        qDebug() << kysely.lastQuery() << "  v> " << kysely.lastError().text();
+
+        // Poistettujen poistamiset
+
+        // Kohdennukset
+
+    }
+
+    // Lisätään liitteet
+
+    // Lisätään rivit
+
+    // Lisätään lokitieto
+    kysely.prepare("INSERT INTO Tositeloki (tosite, tila, data) VALUES (?,?,?)");
+    kysely.addBindValue(tositeid);
+    kysely.addBindValue(tila);
+    kysely.addBindValue(lokiin);
 
 
     db().commit();

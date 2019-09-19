@@ -239,7 +239,7 @@ void TuloMenoApuri::teeReset()
 bool TuloMenoApuri::teeTositteelle()
 {        
     // Lasketaan ensin summa
-    qlonglong summa = 0l;
+    qint64 summa = 0l;
     int riveja = rivit_->rowCount();
 
 
@@ -393,9 +393,9 @@ bool TuloMenoApuri::teeTositteelle()
         } else {
             if( verokoodi == AlvKoodi::RAKENNUSPALVELU_OSTO || verokoodi == AlvKoodi::YHTEISOHANKINNAT_TAVARAT ||
                     verokoodi == AlvKoodi::YHTEISOHANKINNAT_PALVELUT || verokoodi == AlvKoodi::MAAHANTUONTI )
-                summa += qRound(netto * 100.0);
+                summa += qRound64(netto * 100.0);
             else
-                summa += qRound(maara * 100.0);
+                summa += qRound64(maara * 100.0);
         }
     }
 
@@ -430,7 +430,7 @@ bool TuloMenoApuri::teeTositteelle()
         if( ui->asiakasToimittaja->id() > 0)
             vasta.setKumppani( ui->asiakasToimittaja->id() );
 
-        qDebug() << vasta;
+        qDebug() << "*" << summa << "**" << vasta;
 
         viennit.insert(0, vasta);
     }

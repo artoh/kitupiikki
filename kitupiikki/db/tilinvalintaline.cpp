@@ -212,9 +212,9 @@ void TilinvalintaLine::keyPressEvent(QKeyEvent *event)
             valittu = TilinValintaDialogi::valitseTili(alku, proxyTyyppi_->filterRegExp().pattern(), model_ );
         } else
             valittu = TilinValintaDialogi::valitseTili( event->text(), proxyTyyppi_->filterRegExp().pattern(), model_ );
-        if( valittu.id())
+        if( valittu.numero())
         {
-            valitseTili( valittu);
+            valitseTiliNumerolla( valittu.numero() );
             emit editingFinished();
         }
 
