@@ -23,7 +23,7 @@ InitRoute::InitRoute(SQLiteModel *model) :
 
 }
 
-QVariant InitRoute::get(const QString & /*polku*/)
+QVariant InitRoute::get(const QString & /*polku*/, const QUrlQuery& /*urlquery*/)
 {
     QVariantMap map;
     // Asetukset
@@ -38,5 +38,21 @@ QVariant InitRoute::get(const QString & /*polku*/)
     }
     map.insert("asetukset", asetukset);
 
-    return asetukset;
+
+    // Tilit
+
+    kysely.exec( "select numero,tyyppi,json from ( select  cast(numero as text) as numero,'H'||taso as tyyppi,json,taso from otsikko "
+                 " union select cast (numero as text),tyyppi,json,null from tili order by numero,taso) as sub");
+    map.insert("tilit", resultList(kysely));
+
+
+    // Kohdennukset
+    kysely.exec("select * from Kohdennus");
+    map.insert("kohdennukset", resultList(kysely));
+
+    // Tilikaudet
+    kysely.exec("select * from Tilikausi order by alkaa");
+    map.insert("tilikaudet", resultList(kysely));
+
+    return map;
 }

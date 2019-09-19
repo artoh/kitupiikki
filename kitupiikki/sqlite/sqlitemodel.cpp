@@ -29,11 +29,15 @@
 #include <QApplication>
 
 #include "routes/initroute.h"
+#include "routes/tositeroute.h"
 
 SQLiteModel::SQLiteModel(QObject *parent)
     : YhteysModel(parent)
 {
+    tietokanta_ = QSqlDatabase::addDatabase("QSQLITE", "KIRJANPITO");
+    lisaaRoute(new TositeRoute(this));
     lisaaRoute(new InitRoute(this));
+
 }
 
 SQLiteModel::~SQLiteModel()
@@ -78,7 +82,7 @@ QVariant SQLiteModel::data(const QModelIndex &index, int role) const
 
 bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvattaessa)
 {
-    tietokanta_ = QSqlDatabase::addDatabase("QSQLITE", "TOINEN");
+
     tietokanta_.setDatabaseName( polku );
 
     if( !tietokanta_.open())
@@ -89,11 +93,13 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
                                   .arg( tiedostopolku() ).arg( tietokanta().lastError().text() ) );
         }
         qDebug() << "SQLiteYhteys: Tietokannan avaaminen epäonnistui : " << tietokanta_.lastError().text();
+        tiedostoPolku_.clear();
         return false;
     }
     tiedostoPolku_ = polku;
 
     alusta();
+    lisaaViimeisiin();
     return true;
 }
 
@@ -169,37 +175,37 @@ void SQLiteModel::reitita(SQLiteKysely* reititettavakysely, const QVariant &data
 }
 
 
-void SQLiteModel::lisaaViimeisiin(bool onnistuiko)
+void SQLiteModel::lisaaViimeisiin()
 {
-    if( onnistuiko ) {
-        // Viimeisin poistetaan listalta, ja lisätään ensimmäiseksi
 
-        beginResetModel();
-        QMutableListIterator<QVariant> iter( viimeiset_ );
-        while( iter.hasNext())
-        {
-            QString polku = iter.next().toMap().value("polku").toString();
-            if( polku == tiedostopolku())
-                iter.remove();
-        }
+    // Viimeisin poistetaan listalta, ja lisätään ensimmäiseksi
 
-        QVariantMap map;
-
-        // PORTABLE polut tallennetaan suhteessa portable-hakemistoon
-        QDir portableDir( kp()->portableDir() );
-        QString polku = tiedostopolku();
-
-        if( !kp()->portableDir().isEmpty())
-            polku = portableDir.relativeFilePath(polku);
-
-        map.insert("polku", tiedostopolku() );
-        map.insert("nimi", kp()->asetukset()->asetus("Nimi") );
-
-        viimeiset_.insert(0, map);
-
-        kp()->settings()->setValue("ViimeTiedostot", viimeiset_);
-        endResetModel();
+    beginResetModel();
+    QMutableListIterator<QVariant> iter( viimeiset_ );
+    while( iter.hasNext())
+    {
+        QString polku = iter.next().toMap().value("polku").toString();
+        if( polku == tiedostopolku())
+            iter.remove();
     }
+
+    QVariantMap map;
+
+    // PORTABLE polut tallennetaan suhteessa portable-hakemistoon
+    QDir portableDir( kp()->portableDir() );
+    QString polku = tiedostopolku();
+
+    if( !kp()->portableDir().isEmpty())
+        polku = portableDir.relativeFilePath(polku);
+
+    map.insert("polku", tiedostopolku() );
+    map.insert("nimi", kp()->asetukset()->asetus("Nimi") );
+
+    viimeiset_.insert(0, map);
+
+    kp()->settings()->setValue("ViimeTiedostot", viimeiset_);
+    endResetModel();
+
 }
 
 void SQLiteModel::lisaaRoute(SQLiteRoute *route)

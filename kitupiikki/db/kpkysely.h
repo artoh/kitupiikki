@@ -64,7 +64,7 @@ public:
 
 signals:
     void vastaus(QVariant* reply);
-    void virhe(int virhe);
+    void virhe(int virhe, const QString& selitys = QString());
 
 public slots:
     virtual void kysy(const QVariant& data = QVariant()) = 0;

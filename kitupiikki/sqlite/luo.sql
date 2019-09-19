@@ -65,7 +65,7 @@ CREATE TABLE KumppaniIban
 
 CREATE TABLE Tosite
 (
-	id serial PRIMARY KEY NOT NULL,
+	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 	pvm date,
 	tyyppi integer,
 	tila integer DEFAULT 100,
@@ -82,7 +82,7 @@ CREATE INDEX tosite_tila ON Tosite (tila);
 
 CREATE TABLE Tositeloki
 (
-	id serial PRIMARY KEY NOT NULL,
+	id integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	tosite integer REFERENCES Tosite(id),
 	aika timestamp DEFAULT current_timestamp,
 	data jsonb,
@@ -94,7 +94,7 @@ CREATE INDEX tositeloki_tosite ON Tositeloki (tosite);
 
 CREATE TABLE Vienti
 (
-	id serial PRIMARY KEY NOT NULL,
+	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 	rivi integer NOT NULL,
 	tosite integer REFERENCES Tosite(id) ON DELETE CASCADE,
 	tyyppi integer DEFAULT (0),
@@ -123,7 +123,7 @@ CREATE INDEX vienti_kohdennus ON Vienti (kohdennus);
 
 CREATE TABLE Liite
 (
-	id serial PRIMARY KEY NOT NULL,
+	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 	tosite integer REFERENCES Tosite (id) ON DELETE CASCADE,
 	nimi text,
 	tyyppi text,
@@ -138,7 +138,7 @@ CREATE INDEX liite_tosite ON Liite (tosite);
 
 CREATE TABLE Tuote
 (
-	id serial PRIMARY KEY NOT NULL,
+	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 	nimike VARCHAR(255),
 	json text
 );

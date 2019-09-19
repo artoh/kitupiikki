@@ -22,7 +22,8 @@
 #include <QNetworkReply>
 #include <QJsonDocument>
 #include <QApplication>
-
+#include <QJsonObject>
+#include <QJsonValue>
 #include <QDebug>
 
 #include "tuonti/csvtuonti.h"
@@ -118,7 +119,9 @@ void PilviKysely::vastausSaapuu()
         qDebug() << " (VIRHE!) " << reply->error() << " " << reply->request().url().toString() ;
         qDebug() << vastaus;
 
-        emit virhe( reply->error());
+        QString selite = QJsonDocument::fromJson(vastaus).object().value("virhe").toString();
+
+        emit virhe( reply->error(), selite);
 
         return;
     } else {

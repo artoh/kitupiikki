@@ -21,6 +21,9 @@
 #include "sqlitekysely.h"
 
 #include <QSqlDatabase>
+#include <QSqlQuery>
+
+#include <exception>
 
 class SQLiteRoute
 {
@@ -33,12 +36,17 @@ public:
 
     QString polku() const { return polku_;}
 
-    virtual QVariant get(const QString& polku);
+protected:
+
+    virtual QVariant get(const QString& polku, const QUrlQuery& urlquery = QUrlQuery());
     virtual QVariant put(const QString& polku, const QVariant& data);
     virtual QVariant post(const QString& polku, const QVariant& data);
     virtual QVariant patch(const QString& polku, const QVariant& data);
     virtual QVariant doDelete(const QString& polku);
 
+    QVariantList resultList(QSqlQuery& kysely);
+    QVariantMap resultMap(QSqlQuery& kysely);
+    QByteArray mapToJson(const QVariantMap& map);
 
 protected:
     QSqlDatabase db();

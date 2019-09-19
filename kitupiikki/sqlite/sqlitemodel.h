@@ -59,7 +59,7 @@ public:
     void byteArray(SQLiteKysely* reititettavaKysely, const QByteArray &ba, const QVariantMap meta);
 
 private slots:
-    void lisaaViimeisiin(bool onnistuiko);
+    void lisaaViimeisiin();
 
 protected:
     void lisaaRoute(SQLiteRoute *route);

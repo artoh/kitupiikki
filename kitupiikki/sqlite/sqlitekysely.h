@@ -20,6 +20,19 @@
 #include "db/kpkysely.h"
 
 #include <QSqlDatabase>
+#include <exception>
+
+
+class SQLiteVirhe : public std::exception
+{
+public:
+    SQLiteVirhe(const QString& selitys = QString(), int virhekoodi = 400);
+    QString selitys() const;
+    int koodi() const;
+private:
+    QString selitys_;
+    int koodi_;
+};
 
 class SQLiteModel;
 

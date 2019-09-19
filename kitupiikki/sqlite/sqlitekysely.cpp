@@ -24,6 +24,7 @@
 #include <QMessageBox>
 #include <QSqlError>
 #include <QJsonDocument>
+#include <QDebug>
 
 SQLiteKysely::SQLiteKysely(SQLiteModel *parent, KpKysely::Metodi metodi, QString polku)
     : KpKysely (parent, metodi, polku)
@@ -33,8 +34,13 @@ SQLiteKysely::SQLiteKysely(SQLiteModel *parent, KpKysely::Metodi metodi, QString
 
 void SQLiteKysely::kysy(const QVariant &data)
 {
-    SQLiteModel* model = qobject_cast<SQLiteModel*>( parent() );
-    model->reitita(this, data);
+    try {
+        SQLiteModel* model = qobject_cast<SQLiteModel*>( parent() );
+        model->reitita(this, data);
+    } catch ( SQLiteVirhe &e ) {
+        emit virhe( e.koodi(), e.selitys() );
+        qDebug() << "[" << e.koodi() << " " << polku() << "] " << e.selitys();
+    }
 }
 
 void SQLiteKysely::lahetaTiedosto(const QByteArray &ba, const QString &tiedostonimi)
@@ -48,3 +54,21 @@ void SQLiteKysely::vastaa(const QVariant &tulos)
     vastaus_ = tulos;
     emit vastaus(&vastaus_);
 }
+
+SQLiteVirhe::SQLiteVirhe(const QString &selitys, int virhekoodi) :
+    selitys_(selitys), koodi_(virhekoodi)
+{
+
+}
+
+QString SQLiteVirhe::selitys() const
+{
+    return selitys_;
+}
+
+int SQLiteVirhe::koodi() const
+{
+    return koodi_;
+}
+
+

@@ -35,6 +35,7 @@ SOURCES += \
     $$PWD/rekisteri/maamodel.cpp \
     $$PWD/rekisteri/postinumerot.cpp \
     $$PWD/sqlite/routes/initroute.cpp \
+    $$PWD/sqlite/routes/tositeroute.cpp \
     $$PWD/sqlite/sqlitealustaja.cpp \
     $$PWD/sqlite/sqliteroute.cpp \
     $$PWD/tilaus/planmodel.cpp \
@@ -250,6 +251,7 @@ HEADERS += \
     $$PWD/rekisteri/maamodel.h \
     $$PWD/rekisteri/postinumerot.h \
     $$PWD/sqlite/routes/initroute.h \
+    $$PWD/sqlite/routes/tositeroute.h \
     $$PWD/sqlite/sqlitealustaja.h \
     $$PWD/sqlite/sqliteroute.h \
     $$PWD/tilaus/planmodel.h \
