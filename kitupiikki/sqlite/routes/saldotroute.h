@@ -14,20 +14,16 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef TILIKAUDETROUTE_H
-#define TILIKAUDETROUTE_H
+#ifndef SALDOTROUTE_H
+#define SALDOTROUTE_H
 
 #include "../sqliteroute.h"
 
-class TilikaudetRoute : public SQLiteRoute
+class SaldotRoute : public SQLiteRoute
 {
 public:
-    TilikaudetRoute(SQLiteModel *model);
-
+    SaldotRoute(SQLiteModel* model);
     QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
-    QVariant put(const QString &polku, const QVariant &data) override;
-    QVariant doDelete(const QString &polku) override;
-
 };
 
-#endif // TILIKAUDETROUTE_H
+#endif // SALDOTROUTE_H

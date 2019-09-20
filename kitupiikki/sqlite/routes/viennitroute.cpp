@@ -40,7 +40,15 @@ QVariant ViennitRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
     // TODO Kohdennus ja merkkaus
 
     QString jarjestys;
-    // TODO Järjestys
+    if( urlquery.queryItemValue("jarjestys")=="tili")
+        jarjestys = "Vienti.tili,";
+    else if( urlquery.queryItemValue("jarjestys") == "tosite")
+        jarjestys = "Tosite.sarja,Tosite.tunniste,";
+    else if( urlquery.queryItemValue("jarjestys") == "laji")
+        jarjestys = "Tosite.tyyppi,";
+    else if( urlquery.queryItemValue("jarjestys")=="laji,tosite")
+        jarjestys = "Tosite.tyyppi,Tosite.sarja,Tosite.tunniste,";
+
 
     QString kysymys("SELECT vienti.id AS id, vienti.pvm as pvm, vienti.tili as tili, debet, kredit, alvkoodi, alvprosentti, "
                     "selite, vienti.kohdennus as kohdennus, eraid as era_id, vienti.tosite as tosite_id, tosite.pvm as tosite_pvm, tosite.tunniste as tosite_tunniste,"

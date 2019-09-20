@@ -35,6 +35,7 @@
 #include "routes/liitteetroute.h"
 #include "routes/asetuksetroute.h"
 #include "routes/tilikaudetroute.h"
+#include "routes/saldotroute.h"
 
 
 SQLiteModel::SQLiteModel(QObject *parent)
@@ -46,6 +47,7 @@ SQLiteModel::SQLiteModel(QObject *parent)
     lisaaRoute(new KumppanitRoute(this));
     lisaaRoute(new LiitteetRoute(this));
     lisaaRoute(new InitRoute(this));
+    lisaaRoute(new SaldotRoute(this));
     lisaaRoute(new TilikaudetRoute(this));
     lisaaRoute(new AsetuksetRoute(this));
 }

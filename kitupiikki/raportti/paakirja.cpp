@@ -40,7 +40,7 @@ void Paakirja::kirjoita(const QDate &mista, const QDate &mihin, int optiot, int 
         saldokysely->lisaaAttribuutti("tili", tililta);
 
     connect( saldokysely, &KpKysely::vastaus, this, &Paakirja::saldotSaapuu);
-    saldokysely->kysy();
+
 
     KpKysely *vientikysely = kpk("/viennit");
     vientikysely->lisaaAttribuutti("alkupvm", mista);
@@ -53,7 +53,7 @@ void Paakirja::kirjoita(const QDate &mista, const QDate &mihin, int optiot, int 
         vientikysely->lisaaAttribuutti("tili", tililta);
 
     connect( vientikysely, &KpKysely::vastaus, this, &Paakirja::viennitSaapuu);
-    vientikysely->kysy();
+
 
     if( kohdennuksella > -1 )
         // Tulostetaan vain yhdestä kohdennuksesta
@@ -86,6 +86,9 @@ void Paakirja::kirjoita(const QDate &mista, const QDate &mihin, int optiot, int 
     otsikko.lisaa("Saldo €",1, true);
     rk.lisaaOtsake(otsikko);
 
+    saldokysely->kysy();
+    vientikysely->kysy();
+
 }
 
 void Paakirja::saldotSaapuu(QVariant *data)
@@ -113,7 +116,7 @@ void Paakirja::kirjoitaDatasta()
 
         while( !saldotilit.isEmpty() && QString::number(tili) <= saldotilit.first())
         {
-            aloitaTili( saldotilit.first().toInt()  );
+            aloitaTili( saldotilit.takeFirst().toInt()  );
         }
 
         if( tili != nykytili_.numero()) {
@@ -125,7 +128,7 @@ void Paakirja::kirjoitaDatasta()
 
     while( !saldotilit.isEmpty() )
     {
-        aloitaTili(saldotilit.first().toInt());
+        aloitaTili(saldotilit.takeFirst().toInt());
     }
 
     aloitaTili(); // Jotta tulee viimeisteltyä
@@ -153,6 +156,10 @@ void Paakirja::aloitaTili(int tilinumero)
         summa.viivaYlle();
         summa.lihavoi();
         summa.lisaa("",2);
+
+        if( optiot_ & TulostaKohdennukset)
+            summa.lisaa("");
+
         qlonglong muutos = nykytili_.onko(TiliLaji::VASTAAVAA) ?
                 debetSumma_ - kreditSumma_ : kreditSumma_ - debetSumma_;
         summa.lisaa(muutos,false, true);

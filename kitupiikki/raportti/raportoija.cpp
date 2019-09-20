@@ -72,6 +72,9 @@ void Raportoija::lisaaTasepaiva(const QDate &pvm)
 void Raportoija::dataSaapuu(int sarake, QVariant *variant)
 {
     QVariantMap map = variant->toMap();
+
+    qDebug() << " -- Sarakkeelle " << sarake << "  "  << map.count() << "  tiliä ";
+
     QMapIterator<QString,QVariant> iter(map);
     while( iter.hasNext()) {
         iter.next();
@@ -87,7 +90,7 @@ void Raportoija::dataSaapuu(int sarake, QVariant *variant)
     tilausLaskuri_--;
 
     // Jos ollaan nollassa, niin sitten päästään kirjoittamaan ;)
-    if( !tilausLaskuri_)
+    if( !tilausLaskuri_ && !snt_.isEmpty())
     {
         dataSaapunut();
         kirjoitaDatasta();
@@ -414,7 +417,7 @@ void Raportoija::kirjoita(bool tulostaErittelyt, int kohdennuksella)
     if( kohdennuksella > -1)
         rk.asetaOtsikko( rk.otsikko() + " (" + kp()->kohdennukset()->kohdennus(kohdennuksella).nimi(kieli_) + ")" );
 
-
+    QList<KpKysely*> kyselyt;
     // Sitten tilataan tarvittava data
     if( tyyppi() == TASE ) {
         for(int i=0; i < loppuPaivat_.count(); i++) {
@@ -425,7 +428,7 @@ void Raportoija::kirjoita(bool tulostaErittelyt, int kohdennuksella)
             int sarake = ++sarakemaara_ -1;
             connect(kysely, &KpKysely::vastaus,
                     [this,sarake] (QVariant* vastaus) { this->dataSaapuu(sarake, vastaus); });
-            kysely->kysy();
+            kyselyt.append(kysely);
         }
     } else if( tyyppi() == TULOSLASKELMA) {
         for( int i=0; i < loppuPaivat_.count(); i++) {
@@ -442,7 +445,7 @@ void Raportoija::kirjoita(bool tulostaErittelyt, int kohdennuksella)
                 int sarake = ++sarakemaara_ -1;
                 connect(kysely, &KpKysely::vastaus,
                         [this,sarake] (QVariant* vastaus) { this->dataSaapuu(sarake, vastaus); });
-                kysely->kysy();
+                kyselyt.append(kysely);
             }
             if( sarakeTyypit_[i] != TOTEUTUNUT)
             {
@@ -453,8 +456,10 @@ void Raportoija::kirjoita(bool tulostaErittelyt, int kohdennuksella)
                 int sarake = ++sarakemaara_ -1;
                 connect(kysely, &KpKysely::vastaus,
                         [this,sarake] (QVariant* vastaus) { this->dataSaapuu(sarake, vastaus); });
-                kysely->kysy();
+                kyselyt.append(kysely);
             }
         }
     }
+    for(auto kysely : kyselyt)
+        kysely->kysy();
 }

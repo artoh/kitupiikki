@@ -15,6 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "tilikaudetroute.h"
+#include <QDate>
 
 TilikaudetRoute::TilikaudetRoute(SQLiteModel *model) :
     SQLiteRoute(model, "/tilikaudet")
@@ -66,4 +67,29 @@ QVariant TilikaudetRoute::get(const QString &/*polku*/, const QUrlQuery &/*urlqu
     }
 
     return list;
+}
+
+QVariant TilikaudetRoute::put(const QString &polku, const QVariant &data)
+{
+    QVariantMap map = data.toMap();
+    QDate alkaa = QDate::fromString(polku, Qt::ISODate);
+    QDate loppuu = map.take("loppuu").toDate();
+    map.remove("alkaa");
+
+    QSqlQuery kysely(db());
+    kysely.prepare("INSERT INTO Tilikausi (alkaa,loppuu,json) VALUES (?,?,?) "
+                   "ON CONFLICT (alkaa) DO UPDATE SET loppuu=EXCLUDED.loppuu, json=EXCLUDED.json");
+    kysely.addBindValue(alkaa);
+    kysely.addBindValue(loppuu);
+    kysely.addBindValue( mapToJson(map) );
+    kysely.exec();
+
+    return QVariant();
+}
+
+QVariant TilikaudetRoute::doDelete(const QString &polku)
+{
+    QDate alkaa = QDate::fromString(polku, Qt::ISODate);
+    db().exec(QString("DELETE FROM Tilikausi WHERE alkaa='%1'").arg(alkaa.toString(Qt::ISODate)));
+    return QVariant();
 }

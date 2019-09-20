@@ -39,7 +39,8 @@ QVariant SQLiteRoute::route(SQLiteKysely *kysely, const QVariant &data)
         loppu = loppu.mid(1);
 
     qDebug() << "* route " << kysely->metodi() <<  " " << polku() << "  " << loppu << " "
-             << QJsonDocument::fromVariant(data).toJson(QJsonDocument::Compact).left(30);
+             << QJsonDocument::fromVariant(data).toJson(QJsonDocument::Compact).left(30)
+             << " " << kysely->urlKysely().toString();
 
     switch (kysely->metodi()) {
     case KpKysely::GET:
