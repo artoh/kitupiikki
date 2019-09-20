@@ -61,6 +61,12 @@ SQLiteVirhe::SQLiteVirhe(const QString &selitys, int virhekoodi) :
 
 }
 
+SQLiteVirhe::SQLiteVirhe(const QSqlQuery &kysely)
+{
+    selitys_ = kysely.lastError().text();
+    koodi_ = 500;
+}
+
 QString SQLiteVirhe::selitys() const
 {
     return selitys_;

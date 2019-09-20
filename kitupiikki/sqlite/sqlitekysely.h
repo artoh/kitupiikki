@@ -27,6 +27,8 @@ class SQLiteVirhe : public std::exception
 {
 public:
     SQLiteVirhe(const QString& selitys = QString(), int virhekoodi = 400);
+    SQLiteVirhe(const QSqlQuery& kysely);
+
     QString selitys() const;
     int koodi() const;
 private:

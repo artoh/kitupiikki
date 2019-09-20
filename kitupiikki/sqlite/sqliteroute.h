@@ -48,6 +48,8 @@ protected:
     QVariantMap resultMap(QSqlQuery& kysely);
     QByteArray mapToJson(const QVariantMap& map);
 
+    void taydennaErat(QVariantList& vientilista);
+
 protected:
     QSqlDatabase db();
     SQLiteModel *model_;

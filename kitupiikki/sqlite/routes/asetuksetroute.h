@@ -14,25 +14,14 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef TOSITEROUTE_H
-#define TOSITEROUTE_H
+#ifndef ASETUKSETROUTE_H
+#define ASETUKSETROUTE_H
 
-#include "../sqliteroute.h"
 
-class TositeRoute : public SQLiteRoute
+class AsetuksetRoute : public SQLiteRoute
 {
 public:
-    TositeRoute(SQLiteModel *model);
-
-    QVariant get(const QString &polku, const QUrlQuery &urlquery) override;
-    QVariant post(const QString &polku, const QVariant &data) override;
-    QVariant put(const QString &polku, const QVariant &data) override;
-
-
-protected:
-    int lisaaTaiPaivita(const QVariant pyynto, int tositeid = 0);
-
-    QVariant hae(int tositeId);
+    AsetuksetRoute();
 };
 
-#endif // TOSITEROUTE_H
+#endif // ASETUKSETROUTE_H

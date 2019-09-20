@@ -34,8 +34,11 @@ SOURCES += \
     $$PWD/rekisteri/ibandelegaatti.cpp \
     $$PWD/rekisteri/maamodel.cpp \
     $$PWD/rekisteri/postinumerot.cpp \
+    $$PWD/sqlite/routes/asetuksetroute.cpp \
     $$PWD/sqlite/routes/initroute.cpp \
+    $$PWD/sqlite/routes/kumppanitroute.cpp \
     $$PWD/sqlite/routes/tositeroute.cpp \
+    $$PWD/sqlite/routes/viennitroute.cpp \
     $$PWD/sqlite/sqlitealustaja.cpp \
     $$PWD/sqlite/sqliteroute.cpp \
     $$PWD/tilaus/planmodel.cpp \
@@ -250,8 +253,11 @@ HEADERS += \
     $$PWD/rekisteri/ibandelegaatti.h \
     $$PWD/rekisteri/maamodel.h \
     $$PWD/rekisteri/postinumerot.h \
+    $$PWD/sqlite/routes/asetuksetroute.h \
     $$PWD/sqlite/routes/initroute.h \
+    $$PWD/sqlite/routes/kumppanitroute.h \
     $$PWD/sqlite/routes/tositeroute.h \
+    $$PWD/sqlite/routes/viennitroute.h \
     $$PWD/sqlite/sqlitealustaja.h \
     $$PWD/sqlite/sqliteroute.h \
     $$PWD/tilaus/planmodel.h \

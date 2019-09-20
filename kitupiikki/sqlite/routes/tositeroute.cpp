@@ -35,8 +35,8 @@ QVariant TositeRoute::get(const QString &polku, const QUrlQuery &urlquery)
 {
      qDebug() << " tosite get " << polku << " " << urlquery.toString();
 
-    if( polku.length() > 1)
-        return hae( polku.mid(1).toInt() );
+    if( !polku.isEmpty())
+        return hae( polku.toInt() );
 
     // Muuten tositteiden lista
     QStringList ehdot;
@@ -103,7 +103,6 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
     QVariantList rivit = map.take("rivit").toList();
     int kumppani = map.take("kumppani").toInt();
     QVariantList liita = map.take("liita").toList();
-    bool onkosarjaa =  map.value("sarja", QVariant()).isNull();
     QString sarja = map.take("sarja").toString();
     int tunniste = map.take("tunniste").toInt();
 
@@ -124,7 +123,7 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
 
     // Tunnisteen hakeminen
     if( !tunniste && tila >= Tosite::KIRJANPIDOSSA) {
-        if( onkosarjaa )
+        if( sarja.isNull() )
             kysely.exec( QString("SELECT MAX(tunniste) as tunniste FROM Tosite WHERE pvm BETWEEN '%1' AND '%2' AND sarja IS NULL")
                          .arg(kausi.alkaa().toString(Qt::ISODate)).arg(kausi.paattyy().toString(Qt::ISODate)));
         else
@@ -156,7 +155,7 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
     tositelisays.addBindValue(tila);
     tositelisays.addBindValue(tunniste);
     tositelisays.addBindValue(otsikko);
-    tositelisays.addBindValue(kumppani);
+    tositelisays.addBindValue(kumppani ? kumppani : QVariant());
     tositelisays.addBindValue(sarja);
     tositelisays.addBindValue( mapToJson(map) );
     tositelisays.exec();
@@ -205,7 +204,7 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ");
         }
         kysely.addBindValue(tositeid);
-        kysely.addBindValue(pvm);
+        kysely.addBindValue(vientipvm);
         kysely.addBindValue(tili);
         kysely.addBindValue(kohdennus);
         kysely.addBindValue(selite);
@@ -229,7 +228,8 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
 
         // Poistettujen poistamiset
 
-        // Kohdennukset
+        // Merkkaukset
+
 
     }
 
@@ -242,6 +242,7 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
     kysely.addBindValue(tositeid);
     kysely.addBindValue(tila);
     kysely.addBindValue(lokiin);
+    kysely.exec();
 
 
     db().commit();
@@ -251,12 +252,37 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
 QVariant TositeRoute::hae(int tositeId)
 {
     QSqlQuery kysely(db());
-    kysely.exec(QString("SELECT * FROM Tosite WHERE id=%1").arg(tositeId));
+    kysely.exec(QString("SELECT tosite.id as id, pvm, tyyppi, tila, tunniste, sarja, otsikko, tosite.json as json, "
+                        "kumppani.id as kumppani_id, kumppani.nimi as kumppani_nimi FROM Tosite "
+                        " LEFT OUTER JOIN kumppani ON tosite.kumppani=kumppani.id "
+                        "WHERE tosite.id=%1").arg(tositeId));
+
+    qDebug() << kysely.lastQuery() << " **t** " << kysely.lastError().text();
+
     QVariantMap tosite = resultMap(kysely);
 
-    qDebug() << " Tosite " << tositeId << " Sisältö " << QJsonDocument::fromVariant(tosite).toJson(QJsonDocument::Compact);
+    // Viennit
+    kysely.exec(QString("SELECT vienti.id as id, tyyppi, pvm, tili, kohdennus, selite, debet, kredit, eraid as era_id, alvprosentti, alvkoodi, "
+                "kumppani.id as kumppani_id, kumppani.nimi as kumppani_nimi, jaksoalkaa, jaksoloppuu, vienti.json as json FROM Vienti "
+                "LEFT OUTER JOIN kumppani ON vienti.kumppani=kumppani.id "
+                "WHERE tosite=%1 ORDER BY rivi").arg(tositeId) );
+    QVariantList viennit = resultList(kysely);
+    taydennaErat(viennit);
+    tosite.insert("viennit", viennit);
 
-    // Sitten vielä aika paljon täydennettävää
+    // Liitteet
+    kysely.exec(QString("SELECT id, nimi, json FROM Liite WHERE tosite=%1").arg(tositeId));
+    tosite.insert("liitteet", resultList(kysely));
+
+    // Rivit
+    kysely.exec(QString("SELECT tuote, myyntikpl, ostokpl, ahinta, json FROM Rivi WHERE tosite=%1")
+                .arg(tositeId));
+    tosite.insert("rivit", resultList(kysely));
+
+    // Loki
+    kysely.exec(QString("SELECT aika, tila FROM Tositeloki WHERE tosite=%1 ORDER BY aika DESC")
+                .arg(tositeId));
+    tosite.insert("loki", resultList(kysely));
 
     return tosite;
 }

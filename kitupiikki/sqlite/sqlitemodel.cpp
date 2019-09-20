@@ -30,12 +30,16 @@
 
 #include "routes/initroute.h"
 #include "routes/tositeroute.h"
+#include "routes/viennitroute.h"
+#include "routes/kumppanitroute.h"
 
 SQLiteModel::SQLiteModel(QObject *parent)
     : YhteysModel(parent)
 {
     tietokanta_ = QSqlDatabase::addDatabase("QSQLITE", "KIRJANPITO");
     lisaaRoute(new TositeRoute(this));
+    lisaaRoute(new ViennitRoute(this));
+    lisaaRoute(new KumppanitRoute(this));
     lisaaRoute(new InitRoute(this));
 
 }
