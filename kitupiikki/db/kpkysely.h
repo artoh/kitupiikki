@@ -62,13 +62,15 @@ public:
     Tila tila() const { return tila_;}
     QUrlQuery urlKysely() const { return kysely_;}
 
+    static QString tiedostotyyppi(const QByteArray& ba);
+
 signals:
     void vastaus(QVariant* reply);
     void virhe(int virhe, const QString& selitys = QString());
 
 public slots:
     virtual void kysy(const QVariant& data = QVariant()) = 0;
-    virtual void lahetaTiedosto(const QByteArray& ba, const QString& tiedostonimi) = 0;
+    virtual void lahetaTiedosto(const QByteArray& ba, const QMap<QString,QString> &meta = QMap<QString,QString>()) = 0;
 
 
 protected:

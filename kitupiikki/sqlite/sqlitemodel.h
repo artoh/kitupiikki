@@ -56,7 +56,7 @@ public:
     bool uusiKirjanpito(const QString& polku, const QVariantMap& initials);
 
     void reitita(SQLiteKysely *reititettavakysely, const QVariant& data);
-    void byteArray(SQLiteKysely* reititettavaKysely, const QByteArray &ba, const QVariantMap meta);
+    void reitita(SQLiteKysely* reititettavakysely, const QByteArray &ba, const QMap<QString,QString> &meta);
 
 private slots:
     void lisaaViimeisiin();

@@ -32,6 +32,9 @@
 #include "routes/tositeroute.h"
 #include "routes/viennitroute.h"
 #include "routes/kumppanitroute.h"
+#include "routes/liitteetroute.h"
+#include "routes/asetuksetroute.h"
+
 
 SQLiteModel::SQLiteModel(QObject *parent)
     : YhteysModel(parent)
@@ -40,8 +43,9 @@ SQLiteModel::SQLiteModel(QObject *parent)
     lisaaRoute(new TositeRoute(this));
     lisaaRoute(new ViennitRoute(this));
     lisaaRoute(new KumppanitRoute(this));
+    lisaaRoute(new LiitteetRoute(this));
     lisaaRoute(new InitRoute(this));
-
+    lisaaRoute(new AsetuksetRoute(this));
 }
 
 SQLiteModel::~SQLiteModel()
@@ -172,6 +176,17 @@ void SQLiteModel::reitita(SQLiteKysely* reititettavakysely, const QVariant &data
     for( SQLiteRoute* route : routes_) {
         if( reititettavakysely->polku().startsWith( route->polku() ) ) {
             reititettavakysely->vastaa(route->route( reititettavakysely, data));
+            return;
+        }
+    }
+    emit reititettavakysely->virhe(404);
+}
+
+void SQLiteModel::reitita(SQLiteKysely *reititettavakysely, const QByteArray &ba, const QMap<QString, QString> &meta)
+{
+    for( SQLiteRoute* route : routes_) {
+        if( reititettavakysely->polku().startsWith( route->polku() ) ) {
+            reititettavakysely->vastaa( route->byteArray(reititettavakysely, ba, meta) );
             return;
         }
     }

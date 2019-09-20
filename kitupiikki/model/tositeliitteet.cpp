@@ -122,7 +122,9 @@ bool TositeLiitteet::lisaa(const QByteArray &sisalto, const QString& tiedostonni
     {
         KpKysely* liitekysely = kpk("/liitteet", KpKysely::POST);
         connect( liitekysely, &KpKysely::vastaus, [this] (QVariant *data)  { emit this->tuonti(data); });
-        liitekysely->lahetaTiedosto(sisalto, nimi);
+        QMap<QString,QString> meta;
+        meta.insert("Filename", nimi);
+        liitekysely->lahetaTiedosto(sisalto, meta);
         return true;
     }
 
@@ -243,7 +245,9 @@ void TositeLiitteet::tallennaSeuraava()
         {
             KpKysely* tallennus = kpk( QString("/liitteet/%1").arg(tositeId_), KpKysely::POST );
             connect( tallennus, &KpKysely::vastaus, this, &TositeLiitteet::tallennaSeuraava);
-            tallennus->lahetaTiedosto( liitteet_.at(tallennuksessa_).getSisalto(), liitteet_.at(tallennuksessa_).getNimi() );
+            QMap<QString,QString> meta;
+            meta.insert("Filename", liitteet_.at(tallennuksessa_).getNimi());
+            tallennus->lahetaTiedosto( liitteet_.at(tallennuksessa_).getSisalto(), meta );
             return;
         }
     }

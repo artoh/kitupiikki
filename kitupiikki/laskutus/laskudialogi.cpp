@@ -698,7 +698,9 @@ void LaskuDialogi::tallennusValmis(QVariant *vastaus)
 
     QByteArray liite = MyyntiLaskunTulostaja::pdf( map );
     KpKysely *liitetallennus = kpk( QString("/liitteet/%1").arg(map.value("id").toInt()), KpKysely::POST);
-    liitetallennus->lahetaTiedosto(liite, QString("lasku%1.pdf").arg( map.value("lasku").toMap().value("numero").toInt() ));
+    QMap<QString,QString> meta;
+    meta.insert("Filename", QString("lasku%1.pdf").arg( map.value("lasku").toMap().value("numero").toInt() ) );
+    liitetallennus->lahetaTiedosto(liite, meta);
 
     // Mahdollinen laskun toimittaminen
 

@@ -14,26 +14,21 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef PILVIKYSELY_H
-#define PILVIKYSELY_H
+#ifndef LIITTEETROUTE_H
+#define LIITTEETROUTE_H
 
-#include "db/kpkysely.h"
-#include "pilvimodel.h"
+#include "../sqliteroute.h"
 
-class YhteysModel;
-
-class PilviKysely : public KpKysely
+class LiitteetRoute : public SQLiteRoute
 {
-    Q_OBJECT
 public:
-    PilviKysely(PilviModel* parent, Metodi metodi=GET, QString polku = QString());
+    LiitteetRoute(SQLiteModel *model);
 
-public slots:
-    void kysy(const QVariant& data = QVariant()) override;
-    virtual void lahetaTiedosto(const QByteArray& ba, const QMap<QString,QString>& meta = QMap<QString,QString>()) override;
+    QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
 
-protected slots:
-    void vastausSaapuu();
+    QVariant byteArray(SQLiteKysely *kysely, const QByteArray &ba, const QMap<QString,QString> &meta) override;
+
+    static QByteArray hash(const QByteArray& ba);
 };
 
-#endif // PILVIKYSELY_H
+#endif // LIITTEETROUTE_H

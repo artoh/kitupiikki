@@ -17,6 +17,7 @@
 #include "kpkysely.h"
 #include "db/kirjanpito.h"
 #include "yhteysmodel.h"
+#include "tuonti/csvtuonti.h"
 
 #include <QDate>
 
@@ -51,5 +52,32 @@ void KpKysely::lisaaAttribuutti(const QString &avain, int arvo)
 QString KpKysely::attribuutti(const QString &avain) const
 {
     return kysely_.queryItemValue(avain);
+}
+
+QString KpKysely::tiedostotyyppi(const QByteArray &ba)
+{
+    QByteArray png ;
+    png.resize(4);
+    png[0] = static_cast<char>( 0x89 );
+    png[1] = 0x50;
+    png[2] = 0x4e;
+    png[3] = 0x47;
+
+    QByteArray jpg;
+    jpg.resize(3);
+    jpg[0] =  static_cast<char>( 0xff );
+    jpg[1] = static_cast<char>( 0xd8 );
+    jpg[2] = static_cast<char>( 0xff );
+
+    if( ba.startsWith("%PDF"))
+        return ("application/pdf");
+    else if(  ba.startsWith(png) )
+        return("image/png");
+    else if( ba.startsWith(jpg))
+        return("image/jpeg");
+    else if( CsvTuonti::onkoCsv(ba))
+        return("text/csv");
+
+    return QString();
 }
 

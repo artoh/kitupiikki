@@ -57,7 +57,7 @@ QVariant SQLiteRoute::route(SQLiteKysely *kysely, const QVariant &data)
     qDebug() << " ***** Ei reititetty ******** " << kysely->polku();
 }
 
-QVariant SQLiteRoute::byteArray(SQLiteKysely * /*reititettavaKysely*/, const QByteArray & /*ba*/, const QVariantMap& /*meta*/)
+QVariant SQLiteRoute::byteArray(SQLiteKysely * /*reititettavaKysely*/, const QByteArray & /*ba*/, const QMap<QString, QString> & /*meta*/)
 {
     return QVariant();
 }

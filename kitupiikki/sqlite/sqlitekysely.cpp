@@ -43,11 +43,23 @@ void SQLiteKysely::kysy(const QVariant &data)
     }
 }
 
-void SQLiteKysely::lahetaTiedosto(const QByteArray &ba, const QString &tiedostonimi)
+void SQLiteKysely::lahetaTiedosto(const QByteArray &ba, const QMap<QString, QString> &meta)
 {
-    SQLiteModel* model = qobject_cast<SQLiteModel*>( parent() );
-    // Tehdään tämä myöhemmin !!!!
+    try {
+        SQLiteModel* model = qobject_cast<SQLiteModel*>( parent() );
+        QMap<QString,QString> omameta(meta);
+        if( !omameta.contains("Content-type")) {
+            QString arvattu = tiedostotyyppi(ba);
+            if( !arvattu.isNull())
+                omameta.insert("Content-type", arvattu);
+        }
+        model->reitita(this, ba, omameta);
+    } catch ( SQLiteVirhe &e ) {
+        emit virhe( e.koodi(), e.selitys() );
+        qDebug() << "[" << e.koodi() << " " << polku() << "] " << e.selitys();
+    }
 }
+
 
 void SQLiteKysely::vastaa(const QVariant &tulos)
 {
@@ -63,7 +75,7 @@ SQLiteVirhe::SQLiteVirhe(const QString &selitys, int virhekoodi) :
 
 SQLiteVirhe::SQLiteVirhe(const QSqlQuery &kysely)
 {
-    selitys_ = kysely.lastError().text();
+    selitys_ = kysely.lastError().text() + " : " + kysely.lastQuery();
     koodi_ = 500;
 }
 

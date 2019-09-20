@@ -17,11 +17,15 @@
 #ifndef ASETUKSETROUTE_H
 #define ASETUKSETROUTE_H
 
+#include "../sqliteroute.h"
 
 class AsetuksetRoute : public SQLiteRoute
 {
 public:
-    AsetuksetRoute();
+    AsetuksetRoute(SQLiteModel *model);
+
+    QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
+    QVariant patch(const QString &polku, const QVariant &data) override;
 };
 
 #endif // ASETUKSETROUTE_H

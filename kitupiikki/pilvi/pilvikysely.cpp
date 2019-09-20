@@ -67,7 +67,7 @@ void PilviKysely::kysy(const QVariant &data)
 
 }
 
-void PilviKysely::lahetaTiedosto(const QByteArray &ba, const QString &tiedostonimi)
+void PilviKysely::lahetaTiedosto(const QByteArray &ba, const QMap<QString,QString>& meta)
 {
     PilviModel *model = qobject_cast<PilviModel*>( parent() );
     QNetworkRequest request( QUrl( model->pilviosoite() + polku() ) );
@@ -75,37 +75,16 @@ void PilviKysely::lahetaTiedosto(const QByteArray &ba, const QString &tiedostoni
     request.setRawHeader("Authorization", QString("bearer %1").arg( model->token() ).toLatin1());
     request.setRawHeader("User-Agent", QString(qApp->applicationName() + " " + qApp->applicationVersion() ).toLatin1()  );
 
-    // Tiedostotyyppi sisällön perusteella
-
-    QString tyyppi = "";
-
-    QByteArray png ;
-    png.resize(4);
-    png[0] = static_cast<char>( 0x89 );
-    png[1] = 0x50;
-    png[2] = 0x4e;
-    png[3] = 0x47;
-
-    QByteArray jpg;
-    jpg.resize(3);
-    jpg[0] =  static_cast<char>( 0xff );
-    jpg[1] = static_cast<char>( 0xd8 );
-    jpg[2] = static_cast<char>( 0xff );
-
-    if( ba.startsWith("%PDF"))
-        tyyppi = "application/pdf";
-    else if(  ba.startsWith(png) )
-        tyyppi = "image/png";
-    else if( ba.startsWith(jpg))
-        tyyppi = "image/jpeg";
-    else if( CsvTuonti::onkoCsv(ba))
-        tyyppi = "text/csv";
-
-
-    request.setRawHeader("Content-type", tyyppi.toLatin1());
-
-    if( !tiedostonimi.isEmpty())
-        request.setRawHeader("Filename", tiedostonimi.toUtf8());
+    if( !meta.contains("Content-type")) {
+        QString tunnistettutyyppi = tiedostotyyppi(ba);
+        if( !tunnistettutyyppi.isNull())
+            request.setRawHeader("Content-type", tunnistettutyyppi.toLatin1());
+    }
+    QMapIterator<QString,QString> iter(meta);
+    while( iter.hasNext()) {
+        iter.next();
+        request.setRawHeader(iter.key().toLatin1(), iter.value().toLatin1());
+    }
 
     QNetworkReply *reply = kp()->networkManager()->post(request, ba);
     connect( reply, &QNetworkReply::finished, this, &PilviKysely::vastausSaapuu);
