@@ -31,7 +31,8 @@ bool SqliteAlustaja::luoKirjanpito(const QString &polku, const QVariantMap &init
     QVariantMap initMap = initials.value("init").toMap();
 
     return( alustaja.alustaTietokanta(polku) &&
-            alustaja.teeInit(initMap));
+            alustaja.teeInit(initMap) &&
+            alustaja.lopputoimet());
 
 }
 
@@ -101,6 +102,15 @@ void SqliteAlustaja::aseta(const QString &avain, const QVariant &arvo)
         asetusKysely.addBindValue(arvo);
     }
     asetusKysely.exec();
+}
+
+bool SqliteAlustaja::lopputoimet()
+{
+    aseta("LaskuSeuraavaId",100);
+    db.exec("PRAGMA SYNCHRONOUS = NORMAL");
+    db.exec("PRAGMA JOURNAL_MODE = WAL");
+
+    return true;
 }
 
 bool SqliteAlustaja::teeInit(const QVariantMap &initMap)

@@ -135,6 +135,18 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
         qDebug() << kysely.lastQuery() << " -- sarja " << sarja << "tosite  " << tunniste;
     }
     // TODO Laskun numero ja viite
+    if( map.contains("lasku") && !map.value("lasku").toMap().contains("numero") && tila >= Tosite::VALMISLASKU &&
+            viennit.count()) {
+        qulonglong laskunumero = kp()->asetukset()->asetus("LaskuSeuraavaId").toULongLong();
+        QVariantMap laskumap = map.value("lasku").toMap();
+        kp()->asetukset()->aseta("LaskuSeuraavaId", laskunumero + 1);
+        laskumap.insert("numero", laskunumero);
+        map.insert("lasku", laskumap);
+
+        QVariantMap vmap = viennit.at(0).toMap();
+        vmap.insert("viite", viite(QString::number(laskunumero)));
+        viennit[0] = vmap;
+    }
 
     // Lisätään itse tosite
     QSqlQuery tositelisays(db());
@@ -319,4 +331,26 @@ QVariant TositeRoute::hae(int tositeId)
     tosite.insert("loki", resultList(kysely));
 
     return tosite;
+}
+
+QString TositeRoute::viite(const QString &numero)
+{
+    int summa = 0;
+    int indeksi = 0;
+
+    for( int i = numero.length() - 1; i > -1; i--) {
+        QChar ch = numero.at(i);
+        int numero = ch.digitValue();
+
+        if( indeksi % 3 == 0)
+            summa += 7 * numero;
+        else if( indeksi % 3 == 1)
+            summa += 3 * numero;
+        else
+            summa += numero;
+
+        indeksi++;
+    }
+    int tarkaste = ( 10 - summa % 10) % 10;
+    return numero + QString::number(tarkaste);
 }
