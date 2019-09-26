@@ -47,7 +47,7 @@ public:
     LaskuSivu();
     ~LaskuSivu() override;
 
-    enum PaaLehdet { MYYNTI, OSTO, ASIAKAS, TOIMITTAJA, TUOTTEET };
+    enum PaaLehdet { MYYNTI, OSTO, REKISTERI, ASIAKAS, TOIMITTAJA, TUOTTEET };
     enum LajiLehdet { LUONNOKSET, LAHETETTAVAT, KAIKKI, AVOIMET, ERAANTYNEET };
 
     void siirrySivulle() override;

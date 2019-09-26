@@ -73,15 +73,15 @@ void LaskuSivu::siirrySivulle()
 
 void LaskuSivu::paaTab(int indeksi)
 {
-    kumppaniTuoteWidget_->setVisible( indeksi >= ASIAKAS);
-    laskuWidget_->setVisible( indeksi != TUOTTEET );
+    kumppaniTuoteWidget_->setVisible( indeksi >= REKISTERI);
+    laskuWidget_->setVisible( indeksi != TUOTTEET && indeksi != REKISTERI);
 
-    if( indeksi >= ASIAKAS )
-        kumppaniTuoteWidget_->nayta( indeksi - 2);
+    if( indeksi >= REKISTERI )
+        kumppaniTuoteWidget_->nayta( indeksi - 3);
     else
         kumppaniTuoteWidget_->nayta( indeksi );
 
-    if( indeksi != TUOTTEET)
+    if( indeksi != TUOTTEET && indeksi != REKISTERI)
     {
         laskuWidget_->suodataAsiakas( asiakasSuodatusEdit_->text() );
         laskuWidget_->nayta( indeksi );
@@ -263,8 +263,9 @@ void LaskuSivu::luoUi()
 
     paaTab_->addTab(QIcon(":/pic/lisaa.png"),tr("&Myynnit"));
     paaTab_->addTab(QIcon(":/pic/poista.png"),tr("&Ostot") );
+    paaTab_->addTab(QIcon(":/pic/asiakkaat.png"),tr("&Rekisteri"));
     paaTab_->addTab(QIcon(":/pic/asiakkaat.png"),("&Asiakkaat"));
-    paaTab_->addTab(QIcon(":/pic/yrittaja.png"),tr("&Toimittajat"));
+    paaTab_->addTab(QIcon(":/pic/yrittaja.png"),tr("&Toimittajat"));    
     paaTab_->addTab(QIcon(":/pic/kirjalaatikko.png"),tr("T&uotteet"));
 
     asiakasSuodatusEdit_ = new QLineEdit();
