@@ -111,6 +111,8 @@ CREATE TABLE Vienti
 	kumppani integer REFERENCES Kumppani(id),
 	jaksoalkaa DATE,
 	jaksoloppuu DATE,
+	erapvm DATE,
+	viite varchar(64),
 	json text,
 	CHECK (debet > 0 OR kredit > 0),
 	CHECK (debet = 0 OR kredit = 0)

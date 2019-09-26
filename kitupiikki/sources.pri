@@ -35,9 +35,14 @@ SOURCES += \
     $$PWD/rekisteri/maamodel.cpp \
     $$PWD/rekisteri/postinumerot.cpp \
     $$PWD/sqlite/routes/asetuksetroute.cpp \
+    $$PWD/sqlite/routes/asiakkaatroute.cpp \
+    $$PWD/sqlite/routes/budjettiroute.cpp \
+    $$PWD/sqlite/routes/eraroute.cpp \
     $$PWD/sqlite/routes/initroute.cpp \
     $$PWD/sqlite/routes/kumppanitroute.cpp \
     $$PWD/sqlite/routes/liitteetroute.cpp \
+    $$PWD/sqlite/routes/myyntilaskutroute.cpp \
+    $$PWD/sqlite/routes/ostolaskutroute.cpp \
     $$PWD/sqlite/routes/saldotroute.cpp \
     $$PWD/sqlite/routes/tilikaudetroute.cpp \
     $$PWD/sqlite/routes/tositeroute.cpp \
@@ -257,9 +262,14 @@ HEADERS += \
     $$PWD/rekisteri/maamodel.h \
     $$PWD/rekisteri/postinumerot.h \
     $$PWD/sqlite/routes/asetuksetroute.h \
+    $$PWD/sqlite/routes/asiakkaatroute.h \
+    $$PWD/sqlite/routes/budjettiroute.h \
+    $$PWD/sqlite/routes/eraroute.h \
     $$PWD/sqlite/routes/initroute.h \
     $$PWD/sqlite/routes/kumppanitroute.h \
     $$PWD/sqlite/routes/liitteetroute.h \
+    $$PWD/sqlite/routes/myyntilaskutroute.h \
+    $$PWD/sqlite/routes/ostolaskutroute.h \
     $$PWD/sqlite/routes/saldotroute.h \
     $$PWD/sqlite/routes/tilikaudetroute.h \
     $$PWD/sqlite/routes/tositeroute.h \

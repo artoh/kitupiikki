@@ -41,7 +41,7 @@ QVariant TositeRoute::get(const QString &polku, const QUrlQuery &urlquery)
     // Muuten tositteiden lista
     QStringList ehdot;
     if( urlquery.hasQueryItem("luonnos") )
-        ehdot.append( QString("( tosite.tila > %1 and tosite.tila < %2").arg(Tosite::POISTETTU).arg(Tosite::KIRJANPIDOSSA) );
+        ehdot.append( QString("( tosite.tila > %1 and tosite.tila < %2 )").arg(Tosite::POISTETTU).arg(Tosite::KIRJANPIDOSSA) );
     else
         ehdot.append( QString("tosite.tila >= %1").arg(Tosite::KIRJANPIDOSSA));
 
@@ -194,14 +194,16 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
         vientimap.take("alvprosentti");
         int alvkoodi = vientimap.take("alvkoodi").toInt();
         int eraid = vientimap.take("eraid").toInt();
+        QDate erapvm = vientimap.take("erapvm").toDate();
+        QString viite = vientimap.take("viite").toString();
 
         rivinumero++;
 
         if( vientiid ) {
 
         } else {
-            kysely.prepare("INSERT INTO Vienti (tosite, pvm, tili, kohdennus, selite, debet, kredit, eraid, json, alvkoodi, alvprosentti, rivi, kumppani, jaksoalkaa, jaksoloppuu, tyyppi) "
-                           "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ");
+            kysely.prepare("INSERT INTO Vienti (tosite, pvm, tili, kohdennus, selite, debet, kredit, eraid, json, alvkoodi, alvprosentti, rivi, kumppani, jaksoalkaa, jaksoloppuu, tyyppi, erapvm, viite) "
+                           "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ");
         }
         kysely.addBindValue(tositeid);
         kysely.addBindValue(vientipvm);
@@ -221,6 +223,8 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
         kysely.addBindValue( jaksoalkaa );
         kysely.addBindValue( jaksoloppuu );
         kysely.addBindValue( vientityyppi );
+        kysely.addBindValue( erapvm );
+        kysely.addBindValue( viite );
 
         kysely.exec();
 
