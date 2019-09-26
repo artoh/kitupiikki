@@ -25,10 +25,22 @@ AsiakkaatRoute::AsiakkaatRoute(SQLiteModel *model) :
 QVariant AsiakkaatRoute::get(const QString &/*polku*/, const QUrlQuery &/*urlquery*/)
 {
         QSqlQuery kysely(db());
-        kysely.exec("select kumppani.id, kumppani.nimi, sum(summa.debet) as sud, sum(avoin.sd) as avd, sum(avoin.sk) as avk, sum(vanha.sd) as vad, sum(vanha.sk) as vak from "
-                "Kumppani LEFT OUTER JOIN ( select debet, vienti.kumppani, vienti.id as vienti FROM "
+        kysely.exec("select kumppani.id, kumppani.nimi, sum(summa.debet) as summa, sum(avoin.sd) as avd, sum(avoin.sk) as avk, sum(vanha.sd) as vad, sum(vanha.sk) as vak from "
+                "Kumppani JOIN ( select debet, vienti.kumppani, vienti.id as vienti FROM "
                 "Vienti JOIN Tosite ON vienti.tosite=tosite.id WHERE vienti.tyyppi=202 AND tosite.tila > 0) as summa ON summa.kumppani = kumppani.id "
                 "LEFT OUTER JOIN ( select eraid,sum(debet) as sd, SUM(kredit) AS sk FROM Vienti GROUP BY eraid) AS avoin ON avoin.eraid = summa.vienti LEFT OUTER JOIN ( SELECT a.eraid as eraid, SUM(a.kredit) AS sk, SUM(a.debet) as sd FROM "
                 "Vienti as a JOIN Vienti as b ON a.eraid=b.id WHERE b.erapvm < current_date GROUP BY a.eraid) AS vanha ON vanha.eraid = summa.vienti group by kumppani.id order by kumppani.nimi ");
-        return resultList(kysely);
+        QVariantList lista = resultList(kysely);
+
+        for(int i=0; i < lista.count(); i++) {
+            QVariantMap map = lista.at(i).toMap();
+            double avd = map.take("avd").toDouble();
+            double avk = map.take("avk").toDouble();
+            map.insert("avoin", avd - avk);
+            double evd = map.take("vad").toDouble();
+            double evk = map.take("vak").toDouble();
+            map.insert("eraantynyt", evd - evk);
+            lista[i] = map;
+        }
+        return lista;
 }

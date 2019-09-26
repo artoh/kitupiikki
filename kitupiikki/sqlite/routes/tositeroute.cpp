@@ -232,7 +232,18 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
 
         // Poistettujen poistamiset
 
+
+        if( vientiid )
+            kysely.exec(QString("DELETE FROM Merkkaus WHERE vienti=%1").arg(vientiid));
+        else
+            vientiid = kysely.lastInsertId().toInt();
+
         // Merkkaukset
+        for(auto merkkaus : merkkaukset) {
+            kysely.exec(QString("INSERT INTO Merkkaus(vienti,kohdennus) VALUES (%1,%2)")
+                        .arg(vientiid)
+                        .arg(merkkaus.toInt()));
+        }
 
 
     }
@@ -261,8 +272,6 @@ QVariant TositeRoute::hae(int tositeId)
                         " LEFT OUTER JOIN kumppani ON tosite.kumppani=kumppani.id "
                         "WHERE tosite.id=%1").arg(tositeId));
 
-    qDebug() << kysely.lastQuery() << " **t** " << kysely.lastError().text();
-
     QVariantMap tosite = resultMap(kysely);
 
     // Viennit
@@ -271,7 +280,7 @@ QVariant TositeRoute::hae(int tositeId)
                 "LEFT OUTER JOIN kumppani ON vienti.kumppani=kumppani.id "
                 "WHERE tosite=%1 ORDER BY rivi").arg(tositeId) );
     QVariantList viennit = resultList(kysely);
-    taydennaErat(viennit);
+    taydennaEratJaMerkkaukset(viennit);
     tosite.insert("viennit", viennit);
 
     // Liitteet

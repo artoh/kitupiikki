@@ -60,6 +60,7 @@
 #include "kirjaus/siirrydlg.h"
 
 #include "tools/inboxlista.h"
+#include "tools/devtool.h"
 
 #include "sqlite/sqlitemodel.h"
 #include "pilvi/pilvimodel.h"
@@ -143,6 +144,8 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 
     new QShortcut(QKeySequence("Ctrl+G"), this, SLOT(siirryTositteeseen()), nullptr, Qt::ApplicationShortcut);
     new QShortcut(QKeySequence(Qt::Key_F8), this, SLOT(kirjaaKirjattavienKansiosta()), nullptr, Qt::ApplicationShortcut  );
+
+    connect( new QShortcut(QKeySequence("Ctrl+D"), this), &QShortcut::activated, [] () { DevTool *dev = new DevTool(); dev->show(); } );
 
 
     toolbar->installEventFilter(this);

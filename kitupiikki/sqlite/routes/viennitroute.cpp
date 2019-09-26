@@ -65,7 +65,7 @@ QVariant ViennitRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
     kysely.exec(kysymys);
 
     QVariantList viennit = resultList(kysely);
-    taydennaErat(viennit);
+    taydennaEratJaMerkkaukset(viennit);
     return viennit;
 
 }

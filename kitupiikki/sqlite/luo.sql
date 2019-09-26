@@ -101,7 +101,6 @@ CREATE TABLE Vienti
 	pvm date,
 	tili integer REFERENCES Tili(numero) ON DELETE RESTRICT,
 	kohdennus integer DEFAULT(0) REFERENCES Kohdennus(id) ON DELETE RESTRICT,
-	merkkaukset integer[],
 	selite text,
 	debet numeric(10,2),
 	kredit numeric(10,2),
@@ -116,6 +115,13 @@ CREATE TABLE Vienti
 	json text,
 	CHECK (debet > 0 OR kredit > 0),
 	CHECK (debet = 0 OR kredit = 0)
+);
+
+CREATE TABLE Merkkaus
+(
+	vienti INTEGER REFERENCES Vienti(id) ON DELETE CASCADE,
+	kohdennus INTEGER REFERENCES Kohdennus(id) ON DELETE CASCADE,
+	PRIMARY KEY (vienti, kohdennus)
 );
 
 CREATE INDEX vienti_tosite ON Vienti (tosite);

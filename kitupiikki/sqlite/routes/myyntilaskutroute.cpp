@@ -20,6 +20,7 @@
 #include "model/tosite.h"
 
 #include <QJsonDocument>
+#include <QDebug>
 
 MyyntilaskutRoute::MyyntilaskutRoute(SQLiteModel *model)
     : SQLiteRoute(model, "/myyntilaskut")
@@ -41,7 +42,7 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
 
     kysymys.append("JOIN (select eraid, sum(debet) as ds, sum(kredit) as ks FROM Vienti GROUP BY eraid ");
     if( urlquery.hasQueryItem("avoin"))
-        kysymys.append("HAVING SUM(kredit) <> SUM(debit) OR sum(kredit) IS NULL ");
+        kysymys.append("HAVING SUM(kredit) <> SUM(debet) OR sum(kredit) IS NULL ");
 
     kysymys.append(QString(") as q ON vienti.eraid=q.eraid LEFT OUTER JOIN "
             "Kumppani ON vienti.kumppani=kumppani.id WHERE vienti.tyyppi = %1"
@@ -57,10 +58,10 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
     if( urlquery.hasQueryItem("eraantynyt"))
         kysymys.append("AND vienti.erapvm < current_date ");
     if( urlquery.hasQueryItem("alkupvm"))
-        kysymys.append(QString(" AND tosite.pvm >= %1")
+        kysymys.append(QString(" AND tosite.pvm >= '%1' ")
                        .arg(urlquery.queryItemValue("alkupvm")));
     if( urlquery.hasQueryItem("loppupvm"))
-        kysymys.append(QString(" AND tosite.pvm <= %1")
+        kysymys.append(QString(" AND tosite.pvm <= '%1' ")
                        .arg(urlquery.queryItemValue("loppupvm")));
 
     kysymys.append(" ORDER BY vienti.pvm, vienti.viite");
@@ -83,5 +84,9 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
         map.insert("avoin", ds - ks);
         lista[i] = map;
     }
+
+    qDebug() << kysymys;
+    qDebug() << lista;
+
     return lista;
 }

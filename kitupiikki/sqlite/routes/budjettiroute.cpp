@@ -16,6 +16,8 @@
 */
 #include "budjettiroute.h"
 
+#include <QDebug>
+
 BudjettiRoute::BudjettiRoute(SQLiteModel *model)
     : SQLiteRoute(model, "/budjetti")
 {
@@ -34,8 +36,8 @@ QVariant BudjettiRoute::get(const QString &polku, const QUrlQuery &urlquery)
         while( kysely.next())
             vastaus.insert( kysely.value(0).toString(), kysely.value(1).toDouble() );
     } else if( urlquery.hasQueryItem("kohdennukset")) {
-        kysely.exec(QString("SELECT kohdennus, tili, euro FROM Budjetti WHERE tilikausi='%1"
-                            "ORDER BY CAST(tili AS text")
+        kysely.exec(QString("SELECT kohdennus, tili, euro FROM Budjetti WHERE tilikausi='%1' "
+                            "ORDER BY CAST(tili AS text) ")
                     .arg(polku));
         while( kysely.next() ) {
             QString kohdennus = kysely.value(0).toString();
@@ -53,7 +55,7 @@ QVariant BudjettiRoute::get(const QString &polku, const QUrlQuery &urlquery)
     return vastaus;
 }
 
-QVariant BudjettiRoute::post(const QString &polku, const QVariant &data)
+QVariant BudjettiRoute::put(const QString &polku, const QVariant &data)
 {
     QSqlQuery kysely(db());
     db().transaction();
@@ -66,6 +68,7 @@ QVariant BudjettiRoute::post(const QString &polku, const QVariant &data)
     QVariantMap map = data.toMap();
     QMapIterator<QString,QVariant> paaIter(map);
 
+    qDebug() << map;
 
     while( paaIter.hasNext()) {
         paaIter.next();
@@ -74,8 +77,8 @@ QVariant BudjettiRoute::post(const QString &polku, const QVariant &data)
         while( aliIter.hasNext()) {
             aliIter.next();
             kysely.addBindValue(polku);
-            kysely.addBindValue(paaIter.key());
-            kysely.addBindValue(aliIter.key());
+            kysely.addBindValue(paaIter.key().toInt());
+            kysely.addBindValue(aliIter.key().toInt());
             kysely.addBindValue(aliIter.value().toDouble());
             if( !kysely.exec() ) {
                 db().rollback();

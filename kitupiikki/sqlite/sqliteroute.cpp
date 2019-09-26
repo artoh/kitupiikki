@@ -55,7 +55,6 @@ QVariant SQLiteRoute::route(SQLiteKysely *kysely, const QVariant &data)
         return doDelete(loppu);
     }
 
-    qDebug() << " ***** Ei reititetty ******** " << kysely->polku();
 }
 
 QVariant SQLiteRoute::byteArray(SQLiteKysely * /*reititettavaKysely*/, const QByteArray & /*ba*/, const QMap<QString, QString> & /*meta*/)
@@ -63,8 +62,9 @@ QVariant SQLiteRoute::byteArray(SQLiteKysely * /*reititettavaKysely*/, const QBy
     return QVariant();
 }
 
-QVariant SQLiteRoute::get(const QString & /*polku*/, const QUrlQuery& /*urlquery*/)
+QVariant SQLiteRoute::get(const QString & polku, const QUrlQuery& /*urlquery*/)
 {
+    qDebug() << "* Ei reititetty: GET " << polku ;
     return QVariant();
 }
 
@@ -144,7 +144,7 @@ QSqlDatabase SQLiteRoute::db()
 }
 
 
-void SQLiteRoute::taydennaErat(QVariantList &vientilista)
+void SQLiteRoute::taydennaEratJaMerkkaukset(QVariantList &vientilista)
 {
     QSqlQuery kysely(db());
 
@@ -165,6 +165,15 @@ void SQLiteRoute::taydennaErat(QVariantList &vientilista)
                 map.insert("era", eramap);
                 vientilista[i] = map;
             }
+        }
+
+        QVariantList merkkaukset;
+        kysely.exec(QString("SELECT kohdennus FROM Merkkaukset WHERE vienti=%1").arg(map.value("id").toInt()));
+        while( kysely.next() )
+            merkkaukset.append( kysely.value(0).toInt() );
+        if( merkkaukset.count()) {
+            map.insert("merkkaukset", merkkaukset);
+            vientilista[i] = map;
         }
     }
 }

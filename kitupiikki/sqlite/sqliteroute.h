@@ -48,7 +48,7 @@ protected:
     QVariantMap resultMap(QSqlQuery& kysely);
     QByteArray mapToJson(const QVariantMap& map);
 
-    void taydennaErat(QVariantList& vientilista);
+    void taydennaEratJaMerkkaukset(QVariantList& vientilista);
 
 protected:
     QSqlDatabase db();

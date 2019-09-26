@@ -14,17 +14,16 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef BUDJETTIROUTE_H
-#define BUDJETTIROUTE_H
+#ifndef TOIMITTAJATROUTE_H
+#define TOIMITTAJATROUTE_H
 
 #include "../sqliteroute.h"
 
-class BudjettiRoute : public SQLiteRoute
+class ToimittajatRoute : public SQLiteRoute
 {
 public:
-    BudjettiRoute(SQLiteModel *model);
+    ToimittajatRoute(SQLiteModel *model);
     QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
-    QVariant put(const QString &polku, const QVariant &data) override;
 };
 
-#endif // BUDJETTIROUTE_H
+#endif // TOIMITTAJATROUTE_H
