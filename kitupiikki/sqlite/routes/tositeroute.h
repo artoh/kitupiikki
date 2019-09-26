@@ -33,6 +33,8 @@ protected:
     int lisaaTaiPaivita(const QVariant pyynto, int tositeid = 0);
 
     QVariant hae(int tositeId);
+
+    static QString viite(const QString& numero);
 };
 
 #endif // TOSITEROUTE_H

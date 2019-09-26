@@ -17,11 +17,16 @@
 #ifndef TUOTTEETROUTE_H
 #define TUOTTEETROUTE_H
 
+#include "../sqliteroute.h"
 
 class TuotteetRoute : public SQLiteRoute
 {
 public:
-    TuotteetRoute();
+    TuotteetRoute(SQLiteModel* model);
+
+    QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
+    QVariant post(const QString &polku, const QVariant &data) override;
+    QVariant put(const QString &polku, const QVariant &data) override;
 };
 
 #endif // TUOTTEETROUTE_H

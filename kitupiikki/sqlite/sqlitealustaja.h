@@ -35,6 +35,7 @@ protected:
 
     bool alustaTietokanta(const QString& polku);
     void aseta(const QString& avain, const QVariant& arvo);
+    bool lopputoimet();
 
     bool teeInit(const QVariantMap& initMap);
     void kirjoitaAsetukset(const QVariantMap& asetukset);
