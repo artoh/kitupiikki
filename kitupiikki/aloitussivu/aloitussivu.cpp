@@ -253,8 +253,10 @@ void AloitusSivu::uusiTietokanta()
     if( velho.exec() ) {
         if( velho.field("pilveen").toBool())
             kp()->pilvi()->uusiPilvi(velho.data());
-        else
-            kp()->sqlite()->uusiKirjanpito(velho.polku(), velho.data());
+        else {
+            if(kp()->sqlite()->uusiKirjanpito(velho.polku(), velho.data()))
+                kp()->sqlite()->avaaTiedosto(velho.polku());
+        }
     }
 }
 

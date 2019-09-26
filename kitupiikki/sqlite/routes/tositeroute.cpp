@@ -167,11 +167,11 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
              << " virhe " << tositelisays.lastError().text();
 
     // Lisätään viennit
-    QList<int> vanhatviennit;
+    QSet<int> vanhatviennit;
     if( tositeid) {
         kysely.exec( QString("SELECT id FROM Vienti WHERE tosite=%1").arg(tositeid));
         while(kysely.next())
-            vanhatviennit.append(kysely.value(0).toInt());
+            vanhatviennit.insert(kysely.value(0).toInt());
     }
 
     int rivinumero = 0;
@@ -200,6 +200,7 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
         rivinumero++;
 
         if( vientiid ) {
+            vanhatviennit.remove(vientiid);
 
         } else {
             kysely.prepare("INSERT INTO Vienti (tosite, pvm, tili, kohdennus, selite, debet, kredit, eraid, json, alvkoodi, alvprosentti, rivi, kumppani, jaksoalkaa, jaksoloppuu, tyyppi, erapvm, viite) "
@@ -230,8 +231,6 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
 
         qDebug() << kysely.lastQuery() << "  v> " << kysely.lastError().text();
 
-        // Poistettujen poistamiset
-
 
         if( vientiid )
             kysely.exec(QString("DELETE FROM Merkkaus WHERE vienti=%1").arg(vientiid));
@@ -248,9 +247,31 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
 
     }
 
-    // Lisätään liitteet
+    // Kiinnitetään esilähetetyt liitteet
+    for(auto liite : liita)
+        kysely.exec(QString("UPDATE Liite SET tosite=%1 WHERE id=%2")
+                    .arg(tositeid).arg(liite.toInt()) );
 
-    // Lisätään rivit
+
+    kysely.prepare("INSERT INTO Rivi(tosite,rivi,tuote,myyntikpl,ostokpl, ahinta, json) VALUES (?,?,?,?,?,?,?");
+    for(int rivi=0; rivi < rivit.count(); rivi++)
+    {
+        QVariantMap rmap = rivit.at(rivi).toMap();
+        kysely.addBindValue(tositeid);
+        kysely.addBindValue(rivi + 1);
+        kysely.addBindValue(rmap.take("tuote").toString());
+        kysely.addBindValue(rmap.take("myyntikpl").toDouble());
+        kysely.addBindValue(rmap.take("ostokpl").toDouble());
+        kysely.addBindValue(rmap.take("ahinta").toDouble());
+        kysely.addBindValue( mapToJson(rmap) );
+        kysely.exec();
+    }
+
+
+    // Poistettujen poistamiset
+    for(int poistoid : vanhatviennit.toList())
+        kysely.exec(QString("DELETE FROM Vienti WHERE id=%1").arg(poistoid));
+
 
     // Lisätään lokitieto
     kysely.prepare("INSERT INTO Tositeloki (tosite, tila, data) VALUES (?,?,?)");

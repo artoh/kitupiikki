@@ -39,6 +39,7 @@ SOURCES += \
     $$PWD/sqlite/routes/budjettiroute.cpp \
     $$PWD/sqlite/routes/eraroute.cpp \
     $$PWD/sqlite/routes/initroute.cpp \
+    $$PWD/sqlite/routes/kohdennusroute.cpp \
     $$PWD/sqlite/routes/kumppanitroute.cpp \
     $$PWD/sqlite/routes/liitteetroute.cpp \
     $$PWD/sqlite/routes/myyntilaskutroute.cpp \
@@ -267,6 +268,7 @@ HEADERS += \
     $$PWD/sqlite/routes/budjettiroute.h \
     $$PWD/sqlite/routes/eraroute.h \
     $$PWD/sqlite/routes/initroute.h \
+    $$PWD/sqlite/routes/kohdennusroute.h \
     $$PWD/sqlite/routes/kumppanitroute.h \
     $$PWD/sqlite/routes/liitteetroute.h \
     $$PWD/sqlite/routes/myyntilaskutroute.h \
