@@ -20,7 +20,7 @@
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="../pic/pic.qrc">:/pic/aboutpossu.png</pixmap>
+      <pixmap resource="../pic/pic.qrc">:/pic/splash.png</pixmap>
      </property>
      <property name="alignment">
       <set>Qt::AlignJustify|Qt::AlignVCenter</set>

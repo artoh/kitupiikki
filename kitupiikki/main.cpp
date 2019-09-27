@@ -76,11 +76,11 @@ int main(int argc, char *argv[])
     a.setAttribute(Qt::AA_DontUseNativeDialogs);
 #endif
     
-    a.setApplicationName("Kitupiikki");
+    a.setApplicationName("Kitsas");
     a.setApplicationVersion(KITUPIIKKI_VERSIO);
-    a.setOrganizationDomain("kitupiikki.info");
+    a.setOrganizationDomain("kitsas.fi");
     
-    a.setOrganizationName("Kitupiikki Kirjanpito");
+    a.setOrganizationName("Kitsas");
 #ifndef Q_OS_MACX
     a.setWindowIcon( QIcon(":/pic/Possu64.png"));
 #endif
