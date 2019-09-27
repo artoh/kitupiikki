@@ -552,7 +552,7 @@ qreal MyyntiLaskunTulostaja::alatunniste(QPagedPaintDevice *printer, QPainter *p
 
 
     // Viivakoodi
-    if( !kp()->asetukset()->onko("LaskuEiViivakoodi") && kp()->asetukset()->onko("LaskuEiTilisiirto") && laskunSumma_ > 0 && map_.value("lasku").toMap().value("maksutapa").toInt() != LaskuModel::KATEISLASKU)
+    if( !kp()->asetukset()->onko("LaskuEiViivakoodi") && kp()->asetukset()->onko("LaskuEiTilisiirto") && laskunSumma_ > 0 /* && map_.value("lasku").toMap().value("maksutapa").toInt() != LaskuModel::KATEISLASKU */)
     {
         QFont koodifontti( "code128_XL", 36);
         koodifontti.setLetterSpacing(QFont::AbsoluteSpacing, 0.0);

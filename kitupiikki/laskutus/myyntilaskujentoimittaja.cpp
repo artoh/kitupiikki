@@ -26,7 +26,7 @@
 
 #include <QPrintDialog>
 #include <QPageLayout>
-
+#include <QPainter>
 
 bool MyyntiLaskujenToimittaja::toimitaLaskut(const QList<QVariantMap> &laskut)
 {

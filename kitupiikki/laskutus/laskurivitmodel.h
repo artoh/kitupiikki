@@ -35,7 +35,8 @@ public:
     {
         TiliNumeroRooli = Qt::UserRole + 3,
         AlvKoodiRooli = Qt::UserRole + 5,
-        AlvProsenttiRooli = Qt::UserRole + 6
+        AlvProsenttiRooli = Qt::UserRole + 6,
+        VoittomarginaaliRooli = Qt::UserRole + 10
     };
 
     enum Voittomarginaalisyy {

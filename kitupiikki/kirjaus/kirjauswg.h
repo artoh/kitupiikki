@@ -29,7 +29,6 @@
 
 
 class Kirjanpito;
-class LaskunMaksuDialogi;
 class ApuriVinkki;
 class QAction;
 class QSqlQueryModel;

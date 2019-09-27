@@ -21,9 +21,7 @@
 #include <QDialog>
 #include <QSortFilterProxyModel>
 
-#include "laskumodel.h"
 #include "tuotemodel.h"
-#include "laskuntulostaja.h"
 #include "laskutmodel.h"
 
 #include "smtp.h"
@@ -131,9 +129,7 @@ public slots:
 private:
     LaskuRivitModel *rivit_;
     Ui::LaskuDialogi *ui;
-    
-    LaskunTulostaja *tulostaja;
-        
+            
     QModelIndex kontekstiIndeksi;
     KohdennusDelegaatti *kohdennusDelegaatti;
 

@@ -18,8 +18,6 @@
 #include "laskuvalintawidget.h"
 #include "db/tositelajimodel.h"
 
-#include "laskutus/laskumodel.h"
-
 #include <QDebug>
 
 LaskuValintaWidget::LaskuValintaWidget()
@@ -32,11 +30,12 @@ LaskuValintaWidget::LaskuValintaWidget()
     ui->saatavatiliEdit->suodataTyypilla("AO");
     ui->kateistiliEdit->suodataTyypilla("ARK");
 
-    ui->perusteCombo->addItem(QIcon(":/pic/suorite.png"), tr("Suoriteperusteinen"), LaskuModel::SUORITEPERUSTE);
+    /*
+    ui->perusteCombo->addItem(QIcon(":/pic/suorite.png"), tr("Suoriteperusteinen"), LaskuRivitModel::SUORITEPERUSTE);
     ui->perusteCombo->addItem(QIcon(":/pic/kirje.png"), tr("Laskutusperusteinen"), LaskuModel::LASKUTUSPERUSTE);
     ui->perusteCombo->addItem(QIcon(":/pic/euro.png"), tr("Maksuperusteinen"), LaskuModel::MAKSUPERUSTE);
     ui->perusteCombo->addItem(QIcon(":/pic/kateinen.png"), tr("Käteiskuitti"), LaskuModel::KATEISLASKU);
-
+*/
 
     connect( ui->tositelajiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(ilmoitaMuokattu()));
     connect(ui->perusteCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(ilmoitaMuokattu()));
@@ -72,8 +71,9 @@ LaskuValintaWidget::~LaskuValintaWidget()
 
 bool LaskuValintaWidget::nollaa()
 {
+
     ui->tositelajiCombo->setCurrentIndex( ui->tositelajiCombo->findData( kp()->asetukset()->luku("LaskuTositelaji") ) );
-    ui->perusteCombo->setCurrentIndex( ui->perusteCombo->findData( kp()->asetukset()->luku("LaskuKirjausperuste", LaskuModel::SUORITEPERUSTE)));
+//    ui->perusteCombo->setCurrentIndex( ui->perusteCombo->findData( kp()->asetukset()->luku("LaskuKirjausperuste", LaskuModel::SUORITEPERUSTE)));
     ui->saatavatiliEdit->valitseTiliNumerolla( kp()->asetukset()->luku("LaskuSaatavatili"));
     ui->kateistiliEdit->valitseTiliNumerolla( kp()->asetukset()->luku("LaskuKateistili"));
     ui->maksuaikaSpin->setValue( kp()->asetukset()->luku("LaskuMaksuaika", 14) );

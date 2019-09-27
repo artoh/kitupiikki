@@ -138,15 +138,12 @@ SOURCES += \
     kirjaus/verodialogi.cpp \
     db/tilityyppimodel.cpp \
     kirjaus/taseeravalintadialogi.cpp \
-    laskutus/laskumodel.cpp \
     laskutus/laskudialogi.cpp \
-    laskutus/laskuntulostaja.cpp \
     laskutus/laskutusverodelegaatti.cpp \
     maaritys/laskuvalintawidget.cpp \
     laskutus/tuotemodel.cpp \
     laskutus/smtp.cpp \
     maaritys/emailmaaritys.cpp \
-    laskutus/laskunmaksudialogi.cpp \
     laskutus/laskutmodel.cpp \
     raportti/taseerittely.cpp \
     arkisto/tilinpaattaja.cpp \
@@ -190,11 +187,6 @@ SOURCES += \
     arkisto/budjettimodel.cpp \
     arkisto/budjettidlg.cpp \
     arkisto/budjettikohdennusproxy.cpp \
-    laskutus/laskuryhmamodel.cpp \
-    laskutus/ryhmaasiakasproxy.cpp \
-    laskutus/ryhmantuontidlg.cpp \
-    laskutus/ryhmantuontimodel.cpp \
-    laskutus/finvoice.cpp \
     maaritys/finvoicemaaritys.cpp \
     raportti/budjettivertailu.cpp \
     alv/alvilmoitusdialog.cpp \
@@ -368,15 +360,12 @@ HEADERS += \
     kirjaus/verodialogi.h \
     db/tilityyppimodel.h \
     kirjaus/taseeravalintadialogi.h \
-    laskutus/laskumodel.h \
     laskutus/laskudialogi.h \
-    laskutus/laskuntulostaja.h \
     laskutus/laskutusverodelegaatti.h \
     maaritys/laskuvalintawidget.h \
     laskutus/tuotemodel.h \
     laskutus/smtp.h \
     maaritys/emailmaaritys.h \
-    laskutus/laskunmaksudialogi.h \
     laskutus/laskutmodel.h \
     raportti/taseerittely.h \
     arkisto/tilinpaattaja.h \
@@ -420,11 +409,6 @@ HEADERS += \
     arkisto/budjettimodel.h \
     arkisto/budjettidlg.h \
     arkisto/budjettikohdennusproxy.h \
-    laskutus/laskuryhmamodel.h \
-    laskutus/ryhmaasiakasproxy.h \
-    laskutus/ryhmantuontidlg.h \
-    laskutus/ryhmantuontimodel.h \
-    laskutus/finvoice.h \
     maaritys/finvoicemaaritys.h \
     versio.h \
     raportti/budjettivertailu.h \

@@ -31,7 +31,6 @@
 #include "kirjaus/kirjauswg.h"
 #include "db/tili.h"
 #include "db/eranvalintamodel.h"
-#include "laskutus/laskumodel.h"
 #include "kirjaus/ehdotusmodel.h"
 
 VanhaTuonti::VanhaTuonti(KirjausWg *wg)

@@ -38,8 +38,8 @@ QVariant OstolaskutModel::headerData(int section, Qt::Orientation orientation, i
 
 QVariant OstolaskutModel::data(const QModelIndex &index, int role) const
 {
-    if( role == TyyppiRooli)
-        return LaskuModel::OSTOLASKU;
+//    if( role == TyyppiRooli)
+//        return LaskuModel::OSTOLASKU;
     if( role == Qt::DisplayRole && index.column() == ASIAKAS)
         return lista_.at(index.row()).toMap().value("toimittaja");
 

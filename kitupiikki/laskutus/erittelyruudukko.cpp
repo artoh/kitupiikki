@@ -302,12 +302,12 @@ QString ErittelyRuudukko::veroteksti(int verokoodi) const
         return tulostaja_->t("palmy");
     case AlvKoodi::RAKENNUSPALVELU_MYYNTI:
         return tulostaja_->t("rakmy");
-    case LaskuModel::Kaytetyt:
+/*    case LaskuModel::Kaytetyt:
         return tulostaja_->t("vmkt");
     case LaskuModel::Taide:
         return tulostaja_->t("vmte");
     case LaskuModel::KerailyAntiikki:
-        return tulostaja_->t("vmka");
+        return tulostaja_->t("vmka"); */
     }
     return "!" + QString::number(verokoodi);
 }

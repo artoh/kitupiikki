@@ -20,11 +20,8 @@
 
 #include "laskudialogi.h"
 #include "ui_laskudialogi.h"
-#include "laskuntulostaja.h"
 #include "laskutusverodelegaatti.h"
-#include "laskuryhmamodel.h"
 #include "ryhmantuontidlg.h"
-#include "ryhmantuontimodel.h"
 
 #include "kirjaus/eurodelegaatti.h"
 #include "kirjaus/kohdennusdelegaatti.h"
@@ -35,9 +32,6 @@
 #include "naytin/naytinview.h"
 #include "validator/ytunnusvalidator.h"
 #include "asiakkaatmodel.h"
-#include "ryhmaasiakasproxy.h"
-
-#include "finvoice.h"
 
 #include "ui_yhteystiedot.h"
 
@@ -77,6 +71,7 @@
 
 #include <QTableView>
 #include <QHeaderView>
+#include <QPainter>
 
 LaskuDialogi::LaskuDialogi( const QVariantMap& data) :
     rivit_(new LaskuRivitModel(this, data.value("rivit").toList())),
@@ -598,24 +593,24 @@ void LaskuDialogi::lisaaRiviTab()
 
     rivitView->setModel(rivit_);
 
-    rivitView->horizontalHeader()->setSectionResizeMode(LaskuModel::NIMIKE, QHeaderView::Stretch);
-    rivitView->setItemDelegateForColumn(LaskuModel::AHINTA, new EuroDelegaatti());
-    rivitView->setItemDelegateForColumn(LaskuModel::TILI, new TiliDelegaatti());
+    rivitView->horizontalHeader()->setSectionResizeMode(LaskuRivitModel::NIMIKE, QHeaderView::Stretch);
+    rivitView->setItemDelegateForColumn(LaskuRivitModel::AHINTA, new EuroDelegaatti());
+    rivitView->setItemDelegateForColumn(LaskuRivitModel::TILI, new TiliDelegaatti());
     rivitView->setSelectionMode(QTableView::SingleSelection);
 
 
     KohdennusDelegaatti *kohdennusDelegaatti = new KohdennusDelegaatti();
-    rivitView->setItemDelegateForColumn(LaskuModel::KOHDENNUS, kohdennusDelegaatti );
+    rivitView->setItemDelegateForColumn(LaskuRivitModel::KOHDENNUS, kohdennusDelegaatti );
 
     connect( ui->toimitusDate , SIGNAL(dateChanged(QDate)), kohdennusDelegaatti, SLOT(asetaKohdennusPaiva(QDate)));
     connect( tuoteFiltterinEditori, &QLineEdit::textChanged, proxy, &QSortFilterProxyModel::setFilterFixedString);
 
 
-    rivitView->setItemDelegateForColumn(LaskuModel::BRUTTOSUMMA, new EuroDelegaatti());
-    rivitView->setItemDelegateForColumn(LaskuModel::ALV, new LaskutusVeroDelegaatti());
+    rivitView->setItemDelegateForColumn(LaskuRivitModel::BRUTTOSUMMA, new EuroDelegaatti());
+    rivitView->setItemDelegateForColumn(LaskuRivitModel::ALV, new LaskutusVeroDelegaatti());
 
-    rivitView->setColumnHidden( LaskuModel::ALV, !kp()->asetukset()->onko("AlvVelvollinen") );
-    rivitView->setColumnHidden( LaskuModel::KOHDENNUS, !kp()->kohdennukset()->kohdennuksia());
+    rivitView->setColumnHidden( LaskuRivitModel::ALV, !kp()->asetukset()->onko("AlvVelvollinen") );
+    rivitView->setColumnHidden( LaskuRivitModel::KOHDENNUS, !kp()->kohdennukset()->kohdennuksia());
 
     split->setStretchFactor(0,1);
     split->setStretchFactor(1,3);

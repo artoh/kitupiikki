@@ -52,7 +52,6 @@
 #include "siirrydlg.h"
 
 #include "db/kirjanpito.h"
-#include "laskutus/laskunmaksudialogi.h"
 
 #include "tuonti/vanhatuonti.h"
 #include "apurivinkki.h"
