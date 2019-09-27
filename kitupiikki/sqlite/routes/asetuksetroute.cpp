@@ -35,7 +35,8 @@ QVariant AsetuksetRoute::get(const QString &/*polku*/, const QUrlQuery &/*urlque
 QVariant AsetuksetRoute::patch(const QString &/*polku*/, const QVariant &data)
 {
     QSqlQuery lisaaja(db());
-    lisaaja.prepare("INSERT INTO Asetus (avain,arvo) VALUES (?,?) ON CONFLICT (avain) DO UPDATE SET arvo = EXCLUDED.arvo");
+    lisaaja.prepare("INSERT INTO Asetus (avain,arvo,muokattu) VALUES (?,?,current_timestamp) "
+                    "ON CONFLICT (avain) DO UPDATE SET arvo = EXCLUDED.arvo, muokattu=current_timestamp ");
     QSqlQuery poistaja(db());
 
     QVariantMap map = data.toMap();

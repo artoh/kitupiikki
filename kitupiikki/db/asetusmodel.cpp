@@ -39,50 +39,16 @@ AsetusModel::AsetusModel(QSqlDatabase *tietokanta, QObject *parent, bool uusikir
 void AsetusModel::aseta(const QString &avain, const QString &arvo)
 {
     QSqlQuery query(*tietokanta_);
-    QDateTime nykyinen;
 
     asetukset_[avain] = arvo;
-    muokatut_[avain] = nykyinen;
 
-    KpKysely* paivitys = kpk("/init", KpKysely::PATCH);
+    KpKysely* paivitys = kpk("/asetukset", KpKysely::PATCH);
 
     QVariantMap asetus;
     asetus.insert(avain, arvo);
 
-    QVariantMap params;
-    params.insert("asetukset", asetus);
-    paivitys->kysy(params);
+    paivitys->kysy(asetus);
 
-    return;
-
-    if( !alustetaanTietokantaa_)
-        nykyinen = QDateTime::currentDateTime();
-    // Jos tietokantaa vasta alustetaan, tulee muokkausajaksi NULL
-
-    if( asetukset_.contains(avain))
-    {
-        // Asetus on jo, se vain päivitetään
-        query.prepare("UPDATE asetus SET arvo=:arvo, muokattu=:aika where avain=:avain");
-    }
-    else
-    {
-        // Luodaan uusi asetus
-        query.prepare("INSERT INTO asetus(avain,arvo,muokattu) VALUES(:avain,:arvo,:aika)");
-    }
-    query.bindValue(":avain", avain);
-    query.bindValue(":arvo",arvo);
-    query.bindValue(":aika",nykyinen);
-    if( query.exec() )
-    {
-        asetukset_[avain] = arvo;
-        muokatut_[avain] = nykyinen;
-    }
-    else
-    {
-        QMessageBox::critical(nullptr, tr("Tietokantavirhe"),
-                              tr("Asetuksen tallentaminen epäonnistui seuraavan virheen takia:%1")
-                              .arg(tietokanta_->lastError().text()));
-    }
 }
 
 void AsetusModel::poista(const QString &avain)
@@ -176,7 +142,7 @@ int AsetusModel::luku(const QString &avain, int oletusarvo) const
 qulonglong AsetusModel::isoluku(const QString &avain, qulonglong oletusarvo) const
 {
     if( asetukset_.contains(avain))
-        return asetukset_.value(avain).toInt();
+        return asetukset_.value(avain).toULongLong();
     else
         return oletusarvo;
 

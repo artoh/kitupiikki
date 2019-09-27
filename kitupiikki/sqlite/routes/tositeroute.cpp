@@ -189,6 +189,7 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
         QVariantMap laskumap = map.value("lasku").toMap();
         kp()->asetukset()->aseta("LaskuSeuraavaId", laskunumero + 1);
         laskumap.insert("numero", laskunumero);
+        laskumap.insert("viite", viite(QString::number(laskunumero)) );
         map.insert("lasku", laskumap);
 
         QVariantMap vmap = viennit.at(0).toMap();
