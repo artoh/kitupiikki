@@ -17,10 +17,8 @@
 
 #include "laskusivu.h"
 
-#include "asiakkaatmodel.h"
 #include "laskudialogi.h"
 #include "db/kirjanpito.h"
-#include "db/tositemodel.h"
 #include "lisaikkuna.h"
 #include "naytin/naytinikkuna.h"
 #include "yhteystietowidget.h"

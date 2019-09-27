@@ -25,7 +25,6 @@
 #include <QApplication>
 
 #include "arkistoija.h"
-#include "db/tositemodel.h"
 
 #include "raportti/raportoija.h"
 #include "raportti/paivakirjaraportti.h"
@@ -90,7 +89,7 @@ struct TilioteTieto
 
 void Arkistoija::arkistoiTositteet()
 {
-
+/*
     TositeModel *tosite = kp()->tositemodel();
     LiiteModel liitteet(tosite);
     VientiModel viennit(tosite);
@@ -426,7 +425,7 @@ void Arkistoija::arkistoiTositteet()
 
 
     }
-
+*/
 }
 
 void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
@@ -482,8 +481,8 @@ void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
             if( budjettivertailu )
             {
                 raportti.truncate( raportti.length() -1 );
-                if( !tilikausi_.onkoBudjettia())
-                    continue;   // Budjettivertailua ei tulosteta, jos ei budjettia ;)
+//                if( !tilikausi_.onkoBudjettia())
+//                    continue;   // Budjettivertailua ei tulosteta, jos ei budjettia ;)
             }
 
             Raportoija raportoija(raportti);
@@ -562,14 +561,14 @@ void Arkistoija::kirjoitaIndeksiJaArkistoiRaportit()
     out << "</body></html>";
 
     // Jos löytyy tilinpäätös, kirjoitetaan se
-    QByteArray ba = kp()->liitteet()->liite( tilikausi_.alkaa().toString(Qt::ISODate) );
+/*    QByteArray ba = kp()->liitteet()->liite( tilikausi_.alkaa().toString(Qt::ISODate) );
     if( !ba.isEmpty())
     {
         QFile tilinpaatos( hakemisto_.absoluteFilePath( "tilinpaatos.pdf" ) );
         tilinpaatos.open(QIODevice::WriteOnly);
         tilinpaatos.write(ba);
         tilinpaatos.close();
-    }
+    }*/
 }
 
 

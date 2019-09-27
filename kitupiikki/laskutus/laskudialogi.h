@@ -22,7 +22,6 @@
 #include <QSortFilterProxyModel>
 
 #include "tuotemodel.h"
-#include "laskutmodel.h"
 
 #include "smtp.h"
 #include "model/tosite.h"

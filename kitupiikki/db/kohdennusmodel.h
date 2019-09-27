@@ -51,7 +51,7 @@ public:
         VientejaRooli = Qt::UserRole + 6
     };
 
-    KohdennusModel(QSqlDatabase *tietokanta, QObject *parent = 0);
+    KohdennusModel(QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
@@ -87,13 +87,10 @@ public:
     void lataa(QVariantList lista);
 
 public slots:
-    void lataa();    
     void lisaaUusi(const Kohdennus &uusi);
-    void tallenna();
 
 
 protected:
-    QSqlDatabase *tietokanta_;
     QList<Kohdennus> kohdennukset_;
     QList<int> poistetutIdt_;
 

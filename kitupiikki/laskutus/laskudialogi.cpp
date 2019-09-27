@@ -712,6 +712,8 @@ void LaskuDialogi::tallennusValmis(QVariant *vastaus)
     } else
         QDialog::accept();
 
+    emit kp()->kirjanpitoaMuokattu();
+
 }
 
 void LaskuDialogi::lataa(const QVariantMap &map)

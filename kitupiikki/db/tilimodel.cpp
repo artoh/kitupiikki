@@ -27,7 +27,6 @@
 
 #include "tilimodel.h"
 #include "tili.h"
-#include "vientimodel.h"
 #include "tilityyppimodel.h"
 #include "kirjanpito.h"
 

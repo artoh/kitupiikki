@@ -54,7 +54,7 @@ public:
     };
 
 
-    TilikausiModel(QSqlDatabase *tietokanta, QObject *parent = nullptr);
+    TilikausiModel(QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
@@ -63,50 +63,24 @@ public:
 
     QVariant data(const QModelIndex &index, int role) const;
 
-    void lisaaTilikausi(const Tilikausi &tilikausi);
-
-    /**
-     * @brief Muuttaa viimeisen tilikauden päätöspäivän tai poistaa sen
-     * @param paattyy Uusi päättymispäivä tai QDate() jos poistetaan
-     */
-    void muokkaaViimeinenTilikausi(const QDate& paattyy);
 
     Tilikausi tilikausiPaivalle(const QDate &paiva) const;
     int indeksiPaivalle(const QDate &paiva) const;
     Tilikausi tilikausiIndeksilla(int indeksi) const;
 
-    /**
-     * @brief Tilikauden json-kentät
-     * @param indeksi
-     * @return Osoitin Json-kenttiin
-     */
-    JsonKentta* json(int indeksi);
-    JsonKentta *json(const Tilikausi &tilikausi);
-    JsonKentta* json(const QDate &paiva);
-
     QDate kirjanpitoAlkaa() const;
     QDate kirjanpitoLoppuu() const;
-
-    bool onkoBudjetteja() const;
 
     void lataa(const QVariantList& lista);
 
 public slots:
-    void lataa();
     void paivita();
-
-    /**
-     * @brief tallenna Tallentaa muutetut json-kentät
-     */
-    void tallennaJSON();
-
     void paivitaKausitunnukset();
 
 protected slots:
     void lataaData(const QVariant* lista);
 
 protected:
-    QSqlDatabase *tietokanta_;
     QList<Tilikausi> kaudet_;
 };
 

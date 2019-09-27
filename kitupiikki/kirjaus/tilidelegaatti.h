@@ -21,7 +21,6 @@
 #include <QItemDelegate>
 
 #include "db/tili.h"
-#include "db/vientimodel.h"
 
 /**
  * @brief Delegaatti tilin valitsemiseen täydennyksen avulla
@@ -36,9 +35,6 @@ public:
     QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
     void setEditorData(QWidget *editor, const QModelIndex &index) const;
     void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
-
-protected:
-    VientiModel *model_;
 
 
 

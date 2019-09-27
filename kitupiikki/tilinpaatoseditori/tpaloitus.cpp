@@ -103,8 +103,8 @@ void TpAloitus::lataaTiedosto()
                                   .arg(luku.errorString()));
 
 
-        kp()->liitteet()->asetaLiite( luku.readAll(), tilikausi.alkaa().toString(Qt::ISODate) );
-        kp()->liitteet()->tallenna();
+//        kp()->liitteet()->asetaLiite( luku.readAll(), tilikausi.alkaa().toString(Qt::ISODate) );
+//        kp()->liitteet()->tallenna();
 
         reject();
     }
@@ -117,10 +117,10 @@ void TpAloitus::ohje()
 
 void TpAloitus::tallennaHenkilosto(int maara)
 {
-    kp()->tilikaudet()->json(tilikausi)->set("Henkilosto", maara);
-    tilikausi.json()->set("Henkilosto",maara);
+//    kp()->tilikaudet()->json(tilikausi)->set("Henkilosto", maara);
+//    tilikausi.json()->set("Henkilosto",maara);
 
-    kp()->tilikaudet()->tallennaJSON();
+//    kp()->tilikaudet()->tallennaJSON();
     tarkistaPMA();
 }
 

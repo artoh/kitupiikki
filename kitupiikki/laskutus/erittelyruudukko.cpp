@@ -21,6 +21,7 @@
 #include "myyntilaskuntulostaja.h"
 
 #include <QDebug>
+#include <QPagedPaintDevice>
 
 ErittelyRuudukko::ErittelyRuudukko(const QVariantList& rivit , MyyntiLaskunTulostaja *tulostaja)
     : model_(nullptr, rivit),

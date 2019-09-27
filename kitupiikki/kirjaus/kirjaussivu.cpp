@@ -32,7 +32,6 @@
 #include "naytin/naytinview.h"
 
 #include "db/kirjanpito.h"
-#include "db/tositemodel.h"
 
 KirjausSivu::KirjausSivu(KitupiikkiIkkuna *ikkuna) :
     KitupiikkiSivu(nullptr), ikkuna_(ikkuna)

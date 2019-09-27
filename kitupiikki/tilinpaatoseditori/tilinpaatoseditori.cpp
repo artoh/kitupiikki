@@ -149,7 +149,7 @@ void TilinpaatosEditori::uusiTp()
         {
             // Näillä tulostetaan erityisiä kenttiä
             if( rivi == "@sha@")
-                teksti.append( tilikausi_.json()->str("ArkistoSHA"));
+                ; //teksti.append( tilikausi_.json()->str("ArkistoSHA"));
             else if( rivi == "@henkilosto@")
                 teksti.append( henkilostotaulukko());
             else if( rivi == "@tositelajit@")
@@ -173,7 +173,7 @@ void TilinpaatosEditori::uusiTp()
 
 void TilinpaatosEditori::lataa()
 {
-    QString data = tilikausi_.json()->str("TilinpaatosTeksti");
+    QString data = tilikausi_.str("TilinpaatosTeksti");
     if( data.isEmpty())
     {
         if(!aloitaAlusta())
@@ -192,7 +192,7 @@ void TilinpaatosEditori::lataa()
 void TilinpaatosEditori::closeEvent(QCloseEvent *event)
 {
     QString teksti = raportit_ + "\n" + editori_->toHtml();
-    if( teksti != kp()->tilikaudet()->json(tilikausi_)->str("TilinpaatosTeksti"))
+    if( teksti != tilikausi_.str("TilinpaatosTeksti"))
     {
         QMessageBox::StandardButton vastaus =
                 QMessageBox::question(this, tr("Tilinpäätöstä muokattu"),
@@ -267,13 +267,12 @@ bool TilinpaatosEditori::aloitaAlusta()
 void TilinpaatosEditori::tallenna()
 {
     QString teksti = raportit_ + "\n" + editori_->toHtml();
-    kp()->tilikaudet()->json(tilikausi_)->set("TilinpaatosTeksti", teksti);
-    kp()->tilikaudet()->tallennaJSON();
+    tilikausi_.set("TilinpaatosTeksti", teksti);
 
     QByteArray pdfa = pdf();
 
-    kp()->liitteet()->asetaLiite( pdfa, tilikausi_.alkaa().toString(Qt::ISODate) );
-    kp()->liitteet()->tallenna();
+//    kp()->liitteet()->asetaLiite( pdfa, tilikausi_.alkaa().toString(Qt::ISODate) );
+//    kp()->liitteet()->tallenna();
 
     // Tallennetaan myös Arkistoon
     QFile out(kp()->arkistopolku()  + "/" + tilikausi_.arkistoHakemistoNimi() + "/tilinpaatos.pdf");

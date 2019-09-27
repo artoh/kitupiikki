@@ -77,8 +77,8 @@ void TilinpaatosTulostaja::tulostaTilinpaatos(QPagedPaintDevice *writer, Tilikau
             }
             else
             {
-                if( !tilikausi.onkoBudjettia())
-                    continue;   // Ei budjettivertailua, jos ei budjettia!
+//                if( !tilikausi.onkoBudjettia())
+//                    continue;   // Ei budjettivertailua, jos ei budjettia!
 
                 // Budjettivertailu
                 raportoija.lisaaKausi( tilikausi.alkaa(), tilikausi.paattyy(), Raportoija::TOTEUTUNUT);

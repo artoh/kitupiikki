@@ -30,17 +30,23 @@
 #include "kpkysely.h"
 #include "kirjanpito.h"
 
-AsetusModel::AsetusModel(QSqlDatabase *tietokanta, QObject *parent, bool uusikirjanpito)
-    :   QObject(parent), tietokanta_(tietokanta), alustetaanTietokantaa_(uusikirjanpito)
+AsetusModel::AsetusModel(QObject *parent)
+    :   QObject(parent)
 {
 
 }
 
+QString AsetusModel::asetus(int avain, const QString &oletus) const
+{
+    return asetus( avaimet__.at(avain), oletus);
+}
+
 void AsetusModel::aseta(const QString &avain, const QString &arvo)
 {
-    QSqlQuery query(*tietokanta_);
-
-    asetukset_[avain] = arvo;
+    if( arvo.isNull())
+        asetukset_.remove(avain);
+    else
+        asetukset_[avain] = arvo;
 
     KpKysely* paivitys = kpk("/asetukset", KpKysely::PATCH);
 
@@ -51,14 +57,14 @@ void AsetusModel::aseta(const QString &avain, const QString &arvo)
 
 }
 
+void AsetusModel::aseta(int tunnus, const QString &arvo)
+{
+    aseta( avaimet__.at(tunnus), arvo );
+}
+
 void AsetusModel::poista(const QString &avain)
 {
-    if( asetukset_.contains(avain))
-    {
-        QSqlQuery query(*tietokanta_);
-        query.exec( QString("DELETE from asetus WHERE avain=\"%1\"").arg(avain));
-        asetukset_.remove(avain);
-    }
+    aseta(avain, QString());
 }
 
 QDate AsetusModel::pvm(const QString &avain, const QDate oletus) const
@@ -175,31 +181,6 @@ QStringList AsetusModel::avaimet(const QString &avaimenAlku) const
             vastaus.append( avain);
     }
     return vastaus;
-}
-
-QDateTime AsetusModel::muokattu(const QString &avain) const
-{
-    return muokatut_.value(avain, QDateTime());
-}
-
-void AsetusModel::tilikarttaMoodiin(bool onko)
-{
-    alustetaanTietokantaa_ = onko;
-}
-
-void AsetusModel::lataa()
-{
-    asetukset_.clear();
-    muokatut_.clear();
-    QSqlQuery query(*tietokanta_);
-    query.exec("SELECT avain,arvo,muokattu FROM asetus");
-    while( query.next())
-    {
-        asetukset_[query.value(0).toString()] = query.value(1).toString();
-        if( query.value(2).toDateTime().isValid())
-            muokatut_[ query.value(0).toString()] = query.value(2).toDateTime();
-    }
-
 }
 
 void AsetusModel::lataa(const QVariantMap &lista)

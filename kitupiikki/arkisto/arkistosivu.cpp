@@ -248,7 +248,7 @@ void ArkistoSivu::tilinpaatos()
         if( kausi.tilinpaatoksenTila() == Tilikausi::VAHVISTETTU )
         {
             // Avataan tilinpäätös
-            NaytinIkkuna::nayta( kp()->liitteet()->liite( kausi.alkaa().toString(Qt::ISODate) ) );
+            // NaytinIkkuna::nayta( kp()->liitteet()->liite( kausi.alkaa().toString(Qt::ISODate) ) );
         }
         else
         {
@@ -306,9 +306,9 @@ void ArkistoSivu::teeArkisto(Tilikausi kausi)
 
     // Merkitsee arkistoiduksi
 
-    kp()->tilikaudet()->json(kausi)->set("Arkisto", QDateTime::currentDateTime().toString(Qt::ISODate) );
-    kp()->tilikaudet()->json(kausi)->set("ArkistoSHA", sha);
-    kp()->tilikaudet()->tallennaJSON();
+//    kp()->tilikaudet()->json(kausi)->set("Arkisto", QDateTime::currentDateTime().toString(Qt::ISODate) );
+//    kp()->tilikaudet()->json(kausi)->set("ArkistoSHA", sha);
+//    kp()->tilikaudet()->tallennaJSON();
 
     QModelIndex indeksi = kp()->tilikaudet()->index( kp()->tilikaudet()->indeksiPaivalle(kausi.paattyy()) , TilikausiModel::ARKISTOITU );
     emit kp()->tilikaudet()->dataChanged( indeksi, indeksi );

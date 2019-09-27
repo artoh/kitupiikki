@@ -197,9 +197,9 @@ void KitupiikkiIkkuna::kirjanpitoLadattu()
     if( kp()->yhteysModel() )
     {
         if( Kirjanpito::db()->onkoHarjoitus())
-            setWindowTitle( tr("%1 - Kitupiikki %2 [Harjoittelu]").arg(Kirjanpito::db()->asetus("Nimi")).arg( qApp->applicationVersion() ));
+            setWindowTitle( tr("%1 - Kitsas %2 [Harjoittelu]").arg(Kirjanpito::db()->asetus("Nimi")).arg( qApp->applicationVersion() ));
         else
-            setWindowTitle( tr("%1 - Kitupiikki %2").arg(Kirjanpito::db()->asetus("Nimi")).arg(qApp->applicationVersion()));
+            setWindowTitle( tr("%1 - Kitsas %2").arg(Kirjanpito::db()->asetus("Nimi")).arg(qApp->applicationVersion()));
 
         harjoitusDock->setVisible( Kirjanpito::db()->onkoHarjoitus());
 
@@ -243,19 +243,8 @@ void KitupiikkiIkkuna::uusiSelausIkkuna()
 
 void KitupiikkiIkkuna::uusiLasku()
 {
-    if( !LaskuDialogi::laskuIkkunoita() )
-    {
-        // Ei salli useampaa laskuikkunaa!
-        LaskuDialogi *dlg = new LaskuDialogi();
-        dlg->show();
-    }
-    else
-    {
-        QMessageBox::information(this, tr("Uutta laskua ei voi luoda"),
-                                 tr("Päällekkäisten viitenumeroiden välttämiseksi voit tehdä vain "
-                                    "yhden laskun kerrallaan.\n"
-                                    "Sulje avoinna oleva laskuikkuna ennen uuden laskun luomista."));
-    }
+    LaskuDialogi *dlg = new LaskuDialogi();
+    dlg->show();
 }
 
 void KitupiikkiIkkuna::aktivoiSivu(QAction *aktio)

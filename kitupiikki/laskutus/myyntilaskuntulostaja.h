@@ -38,7 +38,10 @@ public:
 
 
     static QString valeilla(const QString& teksti);
+    static QString bicIbanilla(const QString& iban);
     QString t(const QString& avain) const;
+
+
 
 signals:
 

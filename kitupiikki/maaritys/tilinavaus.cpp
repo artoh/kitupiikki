@@ -83,7 +83,7 @@ void Tilinavaus::naytaPiilotetut(bool naytetaanko)
 bool Tilinavaus::nollaa()
 {
     model->lataa();
-    ui->henkilostoSpin->setValue(kp()->tilikaudet()->tilikausiIndeksilla(0).json()->luku("Henkilosto"));
+//    ui->henkilostoSpin->setValue(kp()->tilikaudet()->tilikausiIndeksilla(0).json()->luku("Henkilosto"));
     ui->tositeNappi->setEnabled(true);
     emit tallennaKaytossa(onkoMuokattu());
     return true;
@@ -95,8 +95,8 @@ bool Tilinavaus::tallenna()
     if( model->onkoMuokattu())
         model->tallenna();
 
-    kp()->tilikaudet()->json(0)->set("Henkilosto", ui->henkilostoSpin->value());
-    kp()->tilikaudet()->tallennaJSON();
+//    kp()->tilikaudet()->json(0)->set("Henkilosto", ui->henkilostoSpin->value());
+//    kp()->tilikaudet()->tallennaJSON();
 
     emit tallennaKaytossa(onkoMuokattu());
 
@@ -108,5 +108,5 @@ bool Tilinavaus::tallenna()
 
 bool Tilinavaus::onkoMuokattu()
 {
-    return model->onkoMuokattu() || kp()->tilikaudet()->tilikausiIndeksilla(0).json()->luku("Henkilosto") != ui->henkilostoSpin->value();
+    return model->onkoMuokattu() ;
 }

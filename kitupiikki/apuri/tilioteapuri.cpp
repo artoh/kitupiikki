@@ -32,6 +32,7 @@
 #include "kirjaus/kirjauswg.h"
 
 #include "tiliotekirjaaja.h"
+#include "db/kirjanpito.h"
 
 #include <QDebug>
 

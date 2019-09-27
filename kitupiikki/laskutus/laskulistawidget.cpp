@@ -55,6 +55,7 @@ LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
     nayta( MYYNTI );
 
     connect( kp(), &Kirjanpito::tietokantaVaihtui, this, &LaskulistaWidget::alusta );
+    connect( kp(), &Kirjanpito::kirjanpitoaMuokattu, this, &LaskulistaWidget::paivita );
 
     connect( ui->uusiNappi, &QPushButton::clicked, this, &LaskulistaWidget::uusilasku);
     connect( ui->muokkaaNappi, &QPushButton::clicked, this, &LaskulistaWidget::muokkaa);

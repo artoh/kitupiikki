@@ -36,7 +36,7 @@ class AsetusModel : public QObject
 {
     Q_OBJECT
 public:
-    explicit AsetusModel(QSqlDatabase *tietokanta, QObject *parent = 0, bool uusikirjanpito=false);
+    explicit AsetusModel(QObject *parent);
 
     enum Asetukset {
         ALV /** AlvVelvollinen - Maksaa arvonlisäveroa */
@@ -49,7 +49,10 @@ public:
      * @return asetus, tai String() jos asetusta ei ole
      */
     QString asetus(const QString& avain, const QString oletus = QString()) const { return asetukset_.value(avain, oletus); }
+    QString asetus(int avain, const QString& oletus) const;
+
     void aseta(const QString& avain, const QString& arvo);
+    void aseta(int tunnus, const QString& arvo);
     /**
      * @brief Poistaa asetuksen annetulla avaimella
      * @param avain
@@ -80,23 +83,8 @@ public:
      */
     QStringList avaimet(const QString& avaimenAlku = QString()) const;
 
-    /**
-     * @brief Koska tätä asetusta on muokattu
-     * @param avain
-     * @return null, jos peräisin ktp-tiedostosta
-     */
-    QDateTime muokattu(const QString& avain) const;
-
-    /**
-     * @brief Siirtää modelin moodiin, jossa muutospäiväykseksi merkitään null
-     * @param onko
-     */
-    void tilikarttaMoodiin(bool onko);
-
-    void lataa();
 
     void lataa(const QVariantMap &lista);
-
     void tyhjenna() { asetukset_.clear(); }
 
 signals:
@@ -105,11 +93,6 @@ signals:
 
 protected:
     QHash<QString,QString> asetukset_;
-    QHash<QString,QDateTime> muokatut_;
-
-    QSqlDatabase *tietokanta_;
-
-    bool alustetaanTietokantaa_;    /** tosi, jos tietokantaa vasta luodaan */
 
     static std::map<int,QString> avaimet__;
 

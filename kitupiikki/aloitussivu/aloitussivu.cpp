@@ -125,6 +125,12 @@ AloitusSivu::~AloitusSivu()
 
 void AloitusSivu::siirrySivulle()
 {
+
+    if( ui->tilikausiCombo->currentIndex() < 0)
+        ui->tilikausiCombo->setCurrentIndex( kp()->tilikaudet()->indeksiPaivalle( QDate::currentDate() ) );
+    if( ui->tilikausiCombo->currentIndex() < 0)
+        ui->tilikausiCombo->setCurrentIndex( ui->tilikausiCombo->count()-1 );
+
     if( !sivulla )
     {
         connect( kp(), &Kirjanpito::kirjanpitoaMuokattu, this, &AloitusSivu::siirrySivulle);
@@ -263,26 +269,11 @@ void AloitusSivu::uusiTietokanta()
 void AloitusSivu::avaaTietokanta()
 {
     QString polku = QFileDialog::getOpenFileName(this, "Avaa kirjanpito",
-                                                 QDir::homePath(),"Kirjanpito (*.kitupiikki kitupiikki.sqlite)");
+                                                 QDir::homePath(),"Kirjanpito (*.kitsas)");
     if( !polku.isEmpty())
         kp()->sqlite()->avaaTiedosto( polku );
 
 }
-
-/*
-void AloitusSivu::viimeisinTietokanta(QListWidgetItem *item)
-{
-    QString polku = item->data(Qt::UserRole).toString();
-    if( !kp()->portableDir().isEmpty())
-    {
-        QDir portableDir( kp()->portableDir());
-        polku = QDir::cleanPath( portableDir.absoluteFilePath(polku) );
-    }
-
-    Kirjanpito::db()->avaaTietokanta( polku );
-}
-*/
-
 
 void AloitusSivu::abouttiarallaa()
 {
@@ -319,12 +310,12 @@ void AloitusSivu::infoSaapui(QNetworkReply *reply)
 void AloitusSivu::varmuuskopioi()
 {
     QFileInfo info(kp()->tiedostopolku());
-    QString polku = QString("%1/%2-%3.kitupiikki")
+    QString polku = QString("%1/%2-%3.kitsas")
             .arg(QDir::homePath())
             .arg(info.baseName())
             .arg( QDate::currentDate().toString("yyMMdd"));
 
-    QString tiedostoon = QFileDialog::getSaveFileName(this, tr("Varmuuskopioi kirjanpito"), polku, tr("Kirjanpito (*.kitupiikki)") );
+    QString tiedostoon = QFileDialog::getSaveFileName(this, tr("Varmuuskopioi kirjanpito"), polku, tr("Kirjanpito (*.kitsas)") );
     if( tiedostoon == kp()->tiedostopolku())
     {
         QMessageBox::critical(this, tr("Virhe"), tr("Tiedostoa ei saa kopioida itsensä päälle!"));

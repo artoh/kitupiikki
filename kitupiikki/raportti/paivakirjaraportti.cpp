@@ -199,10 +199,8 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
 
             // Ryhmittely tositelajeittain: Tulostetaan tositelajien otsikot
             edellinenTositelajiId = kysely.value("tositelajiId").toInt();
-            Tositelaji laji = kp()->tositelajit()->tositelajiVanha( edellinenTositelajiId );
             RaporttiRivi rr;
             kirjoittaja.lisaaRivi(rr);  // Lisätään ensin tyhjä rivi
-            rr.lisaa( laji.nimi() , 3);
             rr.lihavoi( true );
             kirjoittaja.lisaaRivi( rr );
         }
@@ -214,8 +212,7 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
         rivi.lisaa( pvm );
         csvRivi.lisaa(pvm);
 
-        Tositelaji laji = kp()->tositelajit()->tositelajiVanha( kysely.value("tositelajiId").toInt() );
-
+/*
         rivi.lisaaLinkilla( RaporttiRiviSarake::TOSITE_ID, kysely.value("tositeId").toInt() ,
                           QString("%1%2/%3").arg( laji.tunnus() ).arg(kysely.value("tunniste").toInt())
                           .arg( kp()->tilikaudet()->tilikausiPaivalle(pvm).kausitunnus() ));
@@ -223,7 +220,7 @@ RaportinKirjoittaja PaivakirjaRaportti::kirjoitaRaportti(QDate mista, QDate mihi
         csvRivi.lisaaLinkilla( RaporttiRiviSarake::TOSITE_ID, kysely.value("tositeId").toInt() ,
                           QString("%1%2/%3").arg( laji.tunnus() ).arg(kysely.value("tunniste").toInt())
                           .arg( kp()->tilikaudet()->tilikausiPaivalle(pvm).kausitunnus() ));
-
+*/
         Tili tili = kp()->tilit()->tiliIdllaVanha( kysely.value("tili").toInt() );
         if( !tili.onkoValidi())
             continue;   // Maksuperusteisen laskun valvontarivi

@@ -31,7 +31,6 @@
 #include "kirjaus/kirjauswg.h"
 #include "db/tili.h"
 #include "db/eranvalintamodel.h"
-#include "kirjaus/ehdotusmodel.h"
 
 VanhaTuonti::VanhaTuonti(KirjausWg *wg)
     :  kirjausWg_(wg)
@@ -104,7 +103,7 @@ bool VanhaTuonti::tuo(const QString &tiedostonnimi, KirjausWg *wg)
 
 void VanhaTuonti::tuoLasku(qlonglong sentit, QDate laskupvm, QDate toimituspvm, QDate erapvm, QString viite, const QString& tilinumero, const QString& saajanNimi)
 {
-    QDate pvm = toimituspvm;
+/*    QDate pvm = toimituspvm;
     if( !pvm.isValid() || kp()->asetukset()->luku("TuontiOstolaskuPeruste") == LASKUPERUSTEINEN)
         pvm = laskupvm;
     if( !pvm.isValid() || kp()->asetukset()->luku("TuontiOstolaskuPeruste") == MAKSUPERUSTEINEN )
@@ -123,15 +122,15 @@ void VanhaTuonti::tuoLasku(qlonglong sentit, QDate laskupvm, QDate toimituspvm, 
     {
         // Oma tili eli onkin myyntilasku
         // Tositelajiksi myyntilaskut, mutta toistaiseksi ei muuten kirjaudu
-        kirjausWg()->gui()->tositetyyppiCombo->setCurrentIndex(
-                    kirjausWg()->gui()->tositetyyppiCombo->findData(TositelajiModel::MYYNTILASKUT, TositelajiModel::KirjausTyyppiRooli) );
+        // kirjausWg()->gui()->tositetyyppiCombo->setCurrentIndex(
+        //            kirjausWg()->gui()->tositetyyppiCombo->findData(TositelajiModel::MYYNTILASKUT, TositelajiModel::KirjausTyyppiRooli) );
 
         rivi.debetSnt = sentit;
     }
     else
     {
-        kirjausWg()->gui()->tositetyyppiCombo->setCurrentIndex(
-                    kirjausWg()->gui()->tositetyyppiCombo->findData( kp()->asetukset()->luku("TuontiOstolaskuTositelaji"), TositelajiModel::IdRooli ) );
+        //kirjausWg()->gui()->tositetyyppiCombo->setCurrentIndex(
+        //            kirjausWg()->gui()->tositetyyppiCombo->findData( kp()->asetukset()->luku("TuontiOstolaskuTositelaji"), TositelajiModel::IdRooli ) );
         rivi.tili = kp()->tilit()->tiliNumerolla( kp()->asetukset()->luku("TuontiOstolaskuTili") );
         rivi.kreditSnt = sentit;
     }
@@ -146,7 +145,7 @@ void VanhaTuonti::tuoLasku(qlonglong sentit, QDate laskupvm, QDate toimituspvm, 
     rivi.eraId = TaseEra::UUSIERA;
     rivi.laskupvm = laskupvm;
 
-
+*/
 }
 
 bool VanhaTuonti::tiliote(const QString& iban, QDate mista, QDate mihin)
@@ -168,7 +167,7 @@ bool VanhaTuonti::tiliote(Tili tili, QDate mista, QDate mihin)
         mihin = mista;
         mista = apu;
     }
-
+/*
     for(int i=0; i < kp()->tositelajit()->rowCount(QModelIndex()); i++)
     {
         QModelIndex index = kp()->tositelajit()->index(i,0);
@@ -182,7 +181,7 @@ bool VanhaTuonti::tiliote(Tili tili, QDate mista, QDate mihin)
         }
     }
 
-
+*/
 //    kirjausWg()->gui()->tiliotetiliCombo->setCurrentIndex(
 //                kirjausWg()->gui()->tiliotetiliCombo->findData( tiliotetili().id(), TiliModel::IdRooli ));
 
@@ -201,6 +200,7 @@ bool VanhaTuonti::tiliote(Tili tili, QDate mista, QDate mihin)
 
 void VanhaTuonti::oterivi(QDate pvm, qlonglong sentit, const QString& iban, QString viite, const QString& arkistotunnus, QString selite)
 {
+    /*
     // RF-viitteen muunto kansalliseksi, koska laskunnumerona on kansallinen viite
     if( viite.startsWith("RF"))
         viite = viite.mid(4);
@@ -333,5 +333,5 @@ void VanhaTuonti::oterivi(QDate pvm, qlonglong sentit, const QString& iban, QStr
     ehdotus.lisaaVienti(vastarivi);
     ehdotus.viimeisteleMaksuperusteinen();
 //    ehdotus.tallenna( kirjausWg()->model()->vientiModel() );
-
+*/
 }

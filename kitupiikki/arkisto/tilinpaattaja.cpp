@@ -85,7 +85,7 @@ void TilinPaattaja::paivitaDialogi()
 
 
     // Poistorivin nappien käytössä oleminen
-    bool poistotkirjattu = tilikausi.json()->luku("Poistokirjaus");
+    bool poistotkirjattu = tilikausi.luku("Poistokirjaus");
     bool poistettavaa = Poistaja::onkoPoistoja(tilikausi);
 
     ui->poistoTehty->setVisible(poistotkirjattu);
@@ -161,7 +161,7 @@ void TilinPaattaja::muokkaa()
 void TilinPaattaja::esikatsele()
 {
     // Avataan tilinpäätös
-    NaytinIkkuna::nayta( kp()->liitteet()->liite( tilikausi.alkaa().toString(Qt::ISODate) ) );
+//    NaytinIkkuna::nayta( kp()->liitteet()->liite( tilikausi.alkaa().toString(Qt::ISODate) ) );
 }
 
 void TilinPaattaja::vahvista()
@@ -171,8 +171,8 @@ void TilinPaattaja::vahvista()
                                  "Vahvistettua tilinpäätöstä ei voi enää muokata.")) != QMessageBox::Yes)
         return;
 
-    kp()->tilikaudet()->json(tilikausi)->set("Vahvistettu", kp()->paivamaara());
-    kp()->tilikaudet()->tallennaJSON();
+    tilikausi.set("Vahvistettu", kp()->paivamaara());
+    tilikausi.tallenna();
     emit kp()->onni("Tilinpäätös merkitty valmiiksi");
     emit vahvistettu();
     close();

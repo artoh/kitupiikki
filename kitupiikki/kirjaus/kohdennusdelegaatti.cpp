@@ -22,6 +22,7 @@
 
 #include "kohdennusdelegaatti.h"
 #include "kohdennusproxymodel.h"
+#include "model/tositeviennit.h"
 
 KohdennusDelegaatti::KohdennusDelegaatti(QObject *parent) :
     QItemDelegate(parent),
@@ -46,7 +47,7 @@ void KohdennusDelegaatti::setEditorData(QWidget *editor, const QModelIndex &inde
     if( kohdennusPaiva.isValid())
         model->asetaPaiva( kohdennusPaiva);
     else
-        model->asetaPaiva( index.data( VientiModel::PvmRooli ).toDate() );
+        model->asetaPaiva( index.data( TositeViennit::PvmRooli ).toDate() );
 
     cbox->setCurrentIndex( cbox->findData( index.data( Qt::EditRole).toInt(), KohdennusModel::IdRooli ));
 }

@@ -61,7 +61,7 @@ RaportinKirjoittaja TositeluetteloRaportti::raportti()
 RaportinKirjoittaja TositeluetteloRaportti::kirjoitaRaportti(QDate mista, QDate mihin, bool tositejarjestys, bool ryhmittelelajeittain, bool tulostakohdennukset, bool tulostaviennit, bool tulostasummat)
 {
     RaportinKirjoittaja kirjoittaja;
-
+/*
     if( tulostaviennit)
         kirjoittaja.asetaOtsikko("TOSITEPÄIVÄKIRJA");
     else
@@ -131,7 +131,6 @@ RaportinKirjoittaja TositeluetteloRaportti::kirjoitaRaportti(QDate mista, QDate 
         QDate tositePvm = kysely.value("pvm").toDate();
         QString otsikko = kysely.value("otsikko").toString();
         int tunniste = kysely.value("tunniste").toInt();
-        Tositelaji laji = kp()->tositelajit()->tositelajiVanha( kysely.value("laji").toInt());
 
         if( ryhmittelelajeittain && edellinenTositelajiId != laji.id())
         {
@@ -261,7 +260,7 @@ RaportinKirjoittaja TositeluetteloRaportti::kirjoitaRaportti(QDate mista, QDate 
         kirjoittaja.lisaaRivi( summarivi );
     }
 
-
+*/
     return kirjoittaja;
 
 }

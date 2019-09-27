@@ -27,7 +27,7 @@ KohdennusMuokkaus::KohdennusMuokkaus(QWidget *parent) :
     ui = new Ui::Kohdennukset;
     ui->setupUi(this);
 
-    model = new KohdennusModel( kp()->tietokanta(), this);
+    model = new KohdennusModel( this);
     proxy = new QSortFilterProxyModel(this);
     proxy->setSourceModel(model);
     proxy->setSortRole(KohdennusModel::NimiRooli);
@@ -55,8 +55,6 @@ KohdennusMuokkaus::~KohdennusMuokkaus()
 
 bool KohdennusMuokkaus::nollaa()
 {
-    model->lataa();
-    proxy->sort(0);
 
     // Sarakkeiden leveydet
     ui->view->setColumnWidth(0, (ui->view->width()-10)/2 );
@@ -69,8 +67,6 @@ bool KohdennusMuokkaus::nollaa()
 
 bool KohdennusMuokkaus::tallenna()
 {
-    model->tallenna();
-    kp()->kohdennukset()->lataa();
 
     return true;
 }

@@ -16,7 +16,6 @@
 */
 
 #include "laskuvalintawidget.h"
-#include "db/tositelajimodel.h"
 
 #include <QDebug>
 
@@ -26,7 +25,7 @@ LaskuValintaWidget::LaskuValintaWidget()
 {
     ui->setupUi(this);
 
-    ui->tositelajiCombo->setModel( kp()->tositelajit() );
+//    ui->tositelajiCombo->setModel( kp()->tositelajit() );
     ui->saatavatiliEdit->suodataTyypilla("AO");
     ui->kateistiliEdit->suodataTyypilla("ARK");
 

@@ -43,9 +43,7 @@
 #include "tilidelegaatti.h"
 #include "eurodelegaatti.h"
 #include "pvmdelegaatti.h"
-#include "kirjausapuridialog.h"
 #include "kohdennusdelegaatti.h"
-#include "taseeravalintadialogi.h"
 
 #include "verodialogi.h"
 
@@ -54,13 +52,10 @@
 #include "db/kirjanpito.h"
 
 #include "tuonti/vanhatuonti.h"
-#include "apurivinkki.h"
 #include "ui_numerosiirto.h"
 #include "naytin/naytinikkuna.h"
 #include "ui_kopioitosite.h"
 
-#include "edellinenseuraavatieto.h"
-#include "verotarkastaja.h"
 #include "db/tositetyyppimodel.h"
 
 #include "apuri/tulomenoapuri.h"
@@ -90,7 +85,7 @@ KirjausWg::KirjausWg( QWidget *parent)
 
 
     // Tämä pitää säilyttää, jotta saadaan päivämäärä paikalleen
-    ui->viennitView->setItemDelegateForColumn( VientiModel::PVM, new PvmDelegaatti(ui->tositePvmEdit));
+    ui->viennitView->setItemDelegateForColumn( TositeViennit::PVM, new PvmDelegaatti(ui->tositePvmEdit));
 
     connect( ui->lisaaRiviNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaRivi()));
     connect( ui->poistariviNappi, SIGNAL(clicked(bool)), this, SLOT(poistaRivi()));
@@ -131,10 +126,6 @@ KirjausWg::KirjausWg( QWidget *parent)
     ui->tositePvmEdit->installEventFilter(this);
     ui->otsikkoEdit->installEventFilter(this);
     ui->tositetyyppiCombo->installEventFilter(this);
-
-
-    connect( ui->edellinenButton, &QPushButton::clicked, [this] () { this->lataaTosite(this->edellinenSeuraava_->edellinenId()); });
-    connect( ui->seuraavaButton, &QPushButton::clicked, [this] () { this -> lataaTosite(this->edellinenSeuraava_->seuraavaId()); });
 
 
     // ---- tästä alkaen uutta ------
@@ -191,14 +182,14 @@ void KirjausWg::lisaaRivi()
     QModelIndex indeksi = tosite_->viennit()->lisaaVienti(ui->viennitView->currentIndex().isValid() ? ui->viennitView->currentIndex().row() + 1 : 0);
 
     ui->viennitView->setFocus(Qt::TabFocusReason);
-    ui->viennitView->setCurrentIndex( indeksi.sibling( indeksi.row(), VientiModel::TILI )  );
+    ui->viennitView->setCurrentIndex( indeksi.sibling( indeksi.row(), TositeViennit::TILI )  );
 
 }
 
 void KirjausWg::poistaRivi()
 {
     QModelIndex nykyinen = ui->viennitView->currentIndex();
-    if( nykyinen.isValid() && nykyinen.sibling(nykyinen.row(), VientiModel::SELITE).flags() & Qt::ItemIsEditable)
+    if( nykyinen.isValid() && nykyinen.sibling(nykyinen.row(), TositeViennit::SELITE).flags() & Qt::ItemIsEditable)
     {
         tosite_->viennit()->removeRows( nykyinen.row(), 1 );
     }
@@ -276,18 +267,18 @@ void KirjausWg::vientivwAktivoitu(QModelIndex indeksi)
     if( 1 )     // Tarkastettava vielä, onko sallittu
     {
 
-        if(indeksi.column() == VientiModel::ALV )
+        if(indeksi.column() == TositeViennit::ALV )
         {
             VeroDialogi verodlg(this);
-            if( verodlg.nayta( indeksi.data(VientiModel::AlvKoodiRooli).toInt(), indeksi.data(VientiModel::AlvProsenttiRooli).toInt() ))
+            if( verodlg.nayta( indeksi.data(TositeViennit::AlvKoodiRooli).toInt(), indeksi.data(TositeViennit::AlvProsenttiRooli).toInt() ))
             {
-                tosite()->viennit()->setData(indeksi, verodlg.alvKoodi() , VientiModel::AlvKoodiRooli);
-                tosite()->viennit()->setData(indeksi, verodlg.alvProsentti() , VientiModel::AlvProsenttiRooli);
+                tosite()->viennit()->setData(indeksi, verodlg.alvKoodi() , TositeViennit::AlvKoodiRooli);
+                tosite()->viennit()->setData(indeksi, verodlg.alvProsentti() , TositeViennit::AlvProsenttiRooli);
             }
         }
-        else if(indeksi.column() == VientiModel::KOHDENNUS && indeksi.data(VientiModel::TaseErittelyssaRooli).toBool())
+        else if(indeksi.column() == TositeViennit::KOHDENNUS && indeksi.data(TositeViennit::TaseErittelyssaRooli).toBool())
         {
-            TaseEraValintaDialogi dlg(this);
+//            TaseEraValintaDialogi dlg(this);
 //            dlg.nayta( model_->vientiModel(), indeksi );
         }
     }
@@ -388,7 +379,7 @@ void KirjausWg::tuonti(QVariant *data)
 
 void KirjausWg::siirryTositteeseen()
 {
-    int id = SiirryDlg::tositeId( ui->tositePvmEdit->date(), ui->tositetyyppiCombo->currentData(TositelajiModel::TunnusRooli).toString()  );
+    int id = SiirryDlg::tositeId( ui->tositePvmEdit->date(), QString() );
 
     if( id )
     {
@@ -429,7 +420,7 @@ bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
                 if( !tosite_->viennit()->rowCount() )
                     lisaaRivi();
                 ui->viennitView->setFocus(Qt::TabFocusReason);
-                ui->viennitView->setCurrentIndex( ui->viennitView->model()->index(0,VientiModel::TILI));
+                ui->viennitView->setCurrentIndex( ui->viennitView->model()->index(0,TositeViennit::TILI));
                 return true;
             }
         }
@@ -444,12 +435,12 @@ bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
             if( mouseEvent->button() == Qt::RightButton)
             {
                 QModelIndex index = ui->viennitView->indexAt( mouseEvent->pos() );
-                if( index.column() == VientiModel::KOHDENNUS && index.data(VientiModel::PvmRooli).toDate().isValid() )
+                if( index.column() == TositeViennit::KOHDENNUS && index.data(TositeViennit::PvmRooli).toDate().isValid() )
                 {
 
-                    tosite()->viennit()->setData(index, KohdennusProxyModel::tagiValikko( index.data(VientiModel::PvmRooli).toDate(),
-                                                                                            index.data(VientiModel::TagiIdListaRooli).toList()) ,
-                                                   VientiModel::TagiIdListaRooli);
+                    tosite()->viennit()->setData(index, KohdennusProxyModel::tagiValikko( index.data(TositeViennit::PvmRooli).toDate(),
+                                                                                            index.data(TositeViennit::TagiIdListaRooli).toList()) ,
+                                                   TositeViennit::TagiIdListaRooli);
                     return false;
                 }
             }
@@ -472,36 +463,35 @@ bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
                 lisaaRivi();
             }
 
-            if( ui->viennitView->currentIndex().column() == VientiModel::SELITE &&
+            if( ui->viennitView->currentIndex().column() == TositeViennit::SELITE &&
                 ui->viennitView->currentIndex().row() == tosite()->viennit()->rowCount() - 1 )
             {
                 lisaaRivi();
-                ui->viennitView->setCurrentIndex( tosite()->viennit()->index( tosite()->viennit()->rowCount(QModelIndex())-1, VientiModel::TILI ) );
+                ui->viennitView->setCurrentIndex( tosite()->viennit()->index( tosite()->viennit()->rowCount(QModelIndex())-1, TositeViennit::TILI ) );
                 return true;
             }
 
-            else if( ui->viennitView->currentIndex().column() == VientiModel::TILI )
+            else if( ui->viennitView->currentIndex().column() == TositeViennit::TILI )
             {
-                ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().sibling( ui->viennitView->currentIndex().row(), VientiModel::DEBET) );
-                Tili tili = kp()->tilit()->tiliIdllaVanha( ui->viennitView->currentIndex().data(VientiModel::TiliIdRooli).toInt() );
-                if( tili.onko(TiliLaji::TULO) || tili.onko(TiliLaji::VASTATTAVAA))
-                    ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().sibling( ui->viennitView->currentIndex().row(),VientiModel::KREDIT) );
+                ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().sibling( ui->viennitView->currentIndex().row(), TositeViennit::DEBET) );
+                Tili tili = kp()->tilit()->tiliNumerolla( ui->viennitView->currentIndex().data(TositeViennit::TiliNumeroRooli).toInt() );                if( tili.onko(TiliLaji::TULO) || tili.onko(TiliLaji::VASTATTAVAA))
+                    ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().sibling( ui->viennitView->currentIndex().row(),TositeViennit::KREDIT) );
                 return true;
             }
 
-            else if( ui->viennitView->currentIndex().column() == VientiModel::DEBET)
+            else if( ui->viennitView->currentIndex().column() == TositeViennit::DEBET)
             {
-                ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().sibling( ui->viennitView->currentIndex().row(),VientiModel::KREDIT) );
+                ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().sibling( ui->viennitView->currentIndex().row(),TositeViennit::KREDIT) );
                 qApp->processEvents();
 
-                if( ui->viennitView->currentIndex().data(VientiModel::DebetRooli).toInt()  )
+                if( ui->viennitView->currentIndex().data(TositeViennit::DebetRooli).toInt()  )
                 {
-                    ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().sibling( ui->viennitView->currentIndex().row(),VientiModel::KOHDENNUS) );
+                    ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().sibling( ui->viennitView->currentIndex().row(),TositeViennit::KOHDENNUS) );
 
                 }
                 return true;
             }
-            else if( ui->viennitView->currentIndex().column() < VientiModel::ALV)
+            else if( ui->viennitView->currentIndex().column() < TositeViennit::ALV)
             {
                 // Enterillä pääsee suoraan seuraavalle riville
                 ui->viennitView->setCurrentIndex( ui->viennitView->currentIndex().sibling( ui->viennitView->currentIndex().row(), ui->viennitView->currentIndex().column()+1)  );

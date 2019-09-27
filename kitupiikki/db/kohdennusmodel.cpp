@@ -28,8 +28,8 @@
 
 
 
-KohdennusModel::KohdennusModel(QSqlDatabase *tietokanta, QObject *parent) :
-    QAbstractTableModel(parent), tietokanta_(tietokanta)
+KohdennusModel::KohdennusModel(QObject *parent) :
+    QAbstractTableModel(parent)
 {
 
 }
@@ -224,73 +224,12 @@ void KohdennusModel::lataa(QVariantList lista)
     qDebug() << "Ladattu " << kohdennukset_.count() << " kohdennusta ";
 }
 
-void KohdennusModel::lataa()
-{
-    beginResetModel();
-    kohdennukset_.clear();
-    QSqlQuery kysely(*tietokanta_);
-
-    kysely.exec("select id, tyyppi, nimi, alkaa, loppuu FROM kohdennus");
-    while( kysely.next() )
-    {
-        kohdennukset_.append( Kohdennus( kysely.value(0).toInt(),
-                                     kysely.value(1).toInt(),
-                                     kysely.value(2).toString(),
-                                     kysely.value(3).toDate(),
-                                     kysely.value(4).toDate()));
-    }
-    endResetModel();
-}
 
 void KohdennusModel::lisaaUusi(const Kohdennus& uusi)
 {
     beginInsertRows(QModelIndex(), kohdennukset_.count(), kohdennukset_.count());
     kohdennukset_.append( uusi );
     endInsertRows();
-}
-
-void KohdennusModel::tallenna()
-{
-    tietokanta_->transaction();
-    QSqlQuery kysely(*tietokanta_);
-
-    for(int i=0; i < kohdennukset_.count(); i++)
-    {
-        Kohdennus kohdennus = kohdennukset_[i];
-        if( kohdennus.muokattu())
-        {
-            if( kohdennus.id() > 0)
-            {
-                // Muokkaus
-                kysely.prepare("UPDATE kohdennus SET nimi=:nimi, tyyppi=:tyyppi,"
-                               "alkaa=:alkaa, loppuu=:loppuu WHERE id=:id");
-                kysely.bindValue(":id", kohdennus.id());
-            }
-            else
-            {
-                kysely.prepare("INSERT INTO kohdennus(tyyppi, nimi, alkaa, loppuu) "
-                               "VALUES(:tyyppi, :nimi, :alkaa, :loppuu) ");
-            }
-            kysely.bindValue(":nimi", kohdennus.nimi());
-            kysely.bindValue(":tyyppi", kohdennus.tyyppi());
-            kysely.bindValue(":alkaa", kohdennus.alkaa());
-            kysely.bindValue(":loppuu", kohdennus.paattyy());
-
-            if( kysely.exec() )
-                kohdennukset_[i].nollaaMuokattu();
-
-            if( !kohdennus.id() )
-                kohdennukset_[i].asetaId( kysely.lastInsertId().toInt());
-
-        }
-    }
-    foreach (int id, poistetutIdt_)
-    {
-        kysely.exec( QString("DELETE FROM kohdennus WHERE id=%1").arg(id));
-    }
-    poistetutIdt_.clear();
-
-    tietokanta_->commit();
 }
 
 

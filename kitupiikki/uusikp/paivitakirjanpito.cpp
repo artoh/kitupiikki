@@ -34,7 +34,6 @@
 #include "ui_tkpaivitys.h"
 #include "ui_paivityskorvaa.h"
 
-#include "skripti.h"
 
 
 QString PaivitaKirjanpito::sisainenPaivitys()

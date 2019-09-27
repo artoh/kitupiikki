@@ -22,6 +22,7 @@
 #include <QPixmap>
 #include <QSettings>
 #include <QApplication>
+#include <QBuffer>
 #include "raportinkirjoittaja.h"
 
 #include <QPdfWriter>

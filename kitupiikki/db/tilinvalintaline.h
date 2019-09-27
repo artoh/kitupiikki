@@ -23,7 +23,6 @@
 #include <QSortFilterProxyModel>
 
 #include "kirjanpito.h"
-#include "vientimodel.h"
 
 
 /**

@@ -285,7 +285,7 @@ void Raportoija::kirjoitaDatasta()
                     continue;
             }
             for(int i=0; i < sarakemaara_; i++)
-                summa[i] += snt_.value(tili)[i];
+                summa[i] += snt_.value(tili,QVector<qlonglong>(sarakemaara_))[i];
         }
 
         if( laskevalisummaan )  {

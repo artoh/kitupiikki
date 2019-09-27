@@ -24,7 +24,6 @@
 
 #include <QString>
 
-#include "db/tositelajimodel.h"
 #include "db/tili.h"
 
 class KirjausWg;

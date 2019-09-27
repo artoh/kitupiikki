@@ -20,7 +20,6 @@
 #include "poistaja.h"
 #include "ui_poistaja.h"
 
-#include "kirjaus/ehdotusmodel.h"
 #include "raportti/raportinkirjoittaja.h"
 
 #include <QSqlQuery>
@@ -51,7 +50,7 @@ bool Poistaja::teeSumuPoistot(Tilikausi kausi)
 
 bool Poistaja::sumupoistaja(Tilikausi kausi)
 {
-    EhdotusModel ehdotus;
+/*    EhdotusModel ehdotus;
     RaportinKirjoittaja kirjoittaja;
 
     kirjoittaja.asetaOtsikko("POISTOLASKELMA");
@@ -313,8 +312,8 @@ bool Poistaja::sumupoistaja(Tilikausi kausi)
 
         if( tosite.tallenna() )
         {
-            kp()->tilikaudet()->json( kausi.paattyy() )->set("Poistokirjaus", tosite.id());
-            kp()->tilikaudet()->tallennaJSON();
+//            kp()->tilikaudet()->json( kausi.paattyy() )->set("Poistokirjaus", tosite.id());
+//            kp()->tilikaudet()->tallennaJSON();
 
             return true;
         }
@@ -322,7 +321,7 @@ bool Poistaja::sumupoistaja(Tilikausi kausi)
             QMessageBox::critical(this, tr("Virhe poistotositteen tallentamisessa"),
                                   tr("Poistojen tallentuminen epäonnistui seuraavan "
                                      "tietokantavirheen takia: %1").arg( kp()->viimeVirhe() ));
-    }
+    }*/
     return false;
 }
 

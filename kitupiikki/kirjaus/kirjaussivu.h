@@ -26,7 +26,6 @@
 #include <QWidget>
 
 #include "kitupiikkisivu.h"
-#include "db/tositemodel.h"
 
 class KirjausWg;
 class NaytaliiteWg;

@@ -26,7 +26,6 @@
 #include "ui_perusvalinnat.h"
 
 #include "db/kirjanpito.h"
-#include "uusikp/skripti.h"
 
 #include "validator/ytunnusvalidator.h"
 
@@ -208,9 +207,7 @@ bool Perusvalinnat::tallenna()
                                   QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) == QMessageBox::Yes)
         {
             // Suorittaa muodon vaihtoon liittyvät skriptit
-            Skripti::suorita("MuotoPois/" + kp()->asetukset()->asetus("Muoto") );
             kp()->asetukset()->aseta("Muoto", ui->muotoCombo->currentText());
-            Skripti::suorita("MuotoOn/" + ui->muotoCombo->currentText());
             nollaa();
         }
 

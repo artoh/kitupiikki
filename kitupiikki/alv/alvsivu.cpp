@@ -22,7 +22,6 @@
 #include "alvsivu.h"
 #include "ui_arvonlisavero.h"
 #include "db/kirjanpito.h"
-#include "db/tositemodel.h"
 
 #include "alvilmoitusdialog.h"
 #include "alvlaskelma.h"
@@ -137,16 +136,12 @@ void AlvSivu::poistaIlmoitus()
 {
     int tositeId = model->data( ui->ilmoituksetView->selectionModel()->currentIndex() , AlvIlmoitustenModel::TositeIdRooli ).toInt();
 
-    TositeModel tosite(kp()->tietokanta());
 
     if( QMessageBox::question(this, tr("Alv-ilmoituksen poistaminen"), tr("Haluatko todellakin poistaa viimeisimmän alv-ilmoituksen?\n"
                                                                           "Poistamisen jälkeen sinun on laadittava uusi alv-ilmoitus."),
                               QMessageBox::Yes | QMessageBox::Cancel) == QMessageBox::Yes   )
     {
-        tosite.lataa( tositeId );
-        tosite.poista();
-        model->lataa();
-        siirrySivulle();
+        ;
     }
 }
 

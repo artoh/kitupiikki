@@ -24,7 +24,6 @@
 #include "ui_kirjaus.h"
 #include "naytaliitewg.h"
 
-#include "db/tositemodel.h"
 
 
 

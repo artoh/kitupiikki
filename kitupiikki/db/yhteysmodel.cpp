@@ -46,8 +46,6 @@ void YhteysModel::lataaInit(QVariant *reply)
             kp()->tilit()->lataa( iter.value().toList() );
         else if( avain == "kohdennukset")
             kp()->kohdennukset()->lataa( iter.value().toList() );
-        else if( avain == "tositelajit")
-            kp()->tositelajit()->lataa( iter.value().toList() );
         else if( avain == "tilikaudet")
             kp()->tilikaudet()->lataa( iter.value().toList() );
     }

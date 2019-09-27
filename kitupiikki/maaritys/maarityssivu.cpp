@@ -27,7 +27,6 @@
 
 #include "perusvalinnat.h"
 #include "tilinavaus.h"
-#include "tositelajit.h"
 #include "tilikarttamuokkaus.h"
 #include "kohdennusmuokkaus.h"
 #include "raporttimuokkaus.h"
@@ -39,7 +38,6 @@
 #include "inboxmaaritys.h"
 #include "finvoicemaaritys.h"
 
-#include "ktpvienti/ktpvienti.h"
 
 #include "uusikp/paivitakirjanpito.h"
 
@@ -53,7 +51,6 @@ MaaritysSivu::MaaritysSivu() :
 
     lisaaSivu("Perusvalinnat", PERUSVALINNAT, QIcon(":/pic/asetusloota.png"));
     lisaaSivu("Tilikartta", TILIKARTTA, QIcon(":/pic/valilehdet.png"));
-    lisaaSivu("Tositelajit", TOSITELAJIT, QIcon(":/pic/kansiot.png"));
     lisaaSivu("Kohdennukset", KOHDENNUS, QIcon(":/pic/kohdennus.png"));
     lisaaSivu("Tilinavaus", TILINAVAUS, QIcon(":/pic/rahaa.png"));
     lisaaSivu("Laskutus", LASKUTUS, QIcon(":/pic/lasku.png"));
@@ -195,8 +192,6 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         nykyinen = new Perusvalinnat;
     else if( sivu == TILINAVAUS)
         nykyinen = new Tilinavaus;
-    else if( sivu == TOSITELAJIT)
-        nykyinen = new Tositelajit;
     else if( sivu == TILIKARTTA)
         nykyinen = new TilikarttaMuokkaus;
     else if( sivu == KOHDENNUS)
@@ -263,10 +258,6 @@ void MaaritysSivu::paivitaNakyvat()
 
 }
 
-void MaaritysSivu::vieTilikartta()
-{
-    KtpVienti::vieKtp();
-}
 
 void MaaritysSivu::paivitaTilikartta()
 {

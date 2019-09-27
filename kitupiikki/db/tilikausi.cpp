@@ -40,13 +40,6 @@ Tilikausi::Tilikausi(const QDate &alkaa, const QDate &paattyy)
     set("loppuu", paattyy);
 }
 
-Tilikausi::Tilikausi(QDate tkalkaa, QDate tkpaattyy, const QByteArray& json) :
-    alkaa_(tkalkaa),
-    paattyy_(tkpaattyy),
-    json_(json)
-{
-
-}
 
 QDateTime Tilikausi::arkistoitu()
 {
@@ -161,11 +154,6 @@ int Tilikausi::pieniElinkeinonharjoittaja()
 void Tilikausi::asetaKausitunnus(const QString &kausitunnus)
 {
     kausitunnus_ = kausitunnus;
-}
-
-bool Tilikausi::onkoBudjettia()
-{
-    return !json_.variant("Budjetti").toMap().isEmpty();
 }
 
 void Tilikausi::tallenna()

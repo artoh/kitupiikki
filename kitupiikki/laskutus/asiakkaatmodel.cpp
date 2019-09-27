@@ -94,71 +94,7 @@ void AsiakkaatModel::paivita(bool toimittajat)
         utelu = kpk("/asiakkaat");
     connect( utelu, &KpKysely::vastaus, this, &AsiakkaatModel::tietoSaapuu);
     utelu->kysy();
-    return;
 
-
-
-    QString kysely = "select distinct asiakas from vienti where iban is ";
-
-    if( toimittajat_ )
-        kysely.append("not");
-
-    kysely.append(" null order by asiakas");
-
-    beginResetModel();
-    rivit_.clear();
-    QSqlQuery query( kysely );
-
-    while( query.next())
-    {
-        AsiakasRivi rivi;
-        rivi.nimi = query.value(0).toString();
-
-        if( rivi.nimi.isEmpty())
-            continue;
-
-        // Summien laskeminen eri kyselyllä
-        QString summakysely = QString("SELECT id, pvm, debetsnt, kreditsnt, erapvm, eraid, tili FROM vienti "
-                                      "WHERE asiakas=\"%1\" and iban is ").arg(rivi.nimi.replace("\"","\\\""));
-        if( toimittajat_)
-            summakysely.append("not ");
-        summakysely.append("null");
-
-        qlonglong summa=0;
-        qlonglong eraantyneet=0;
-        qlonglong avoimet = 0;
-
-
-        QSqlQuery summaquery( summakysely );
-        while( summaquery.next())
-        {
-
-           qlonglong sentit = toimittajat_ ? summaquery.value("kreditsnt").toLongLong() - summaquery.value("debetsnt").toLongLong()  :  summaquery.value("debetsnt").toLongLong() - summaquery.value("kreditsnt").toLongLong();
-           summa += sentit;
-
-           int eraId = summaquery.value("eraid").toInt();
-           TaseEra era( eraId );
-
-           qlonglong avoinsnt = toimittajat_ ? 0 - era.saldoSnt : era.saldoSnt;
-           if( avoinsnt > sentit)
-               avoinsnt = sentit;
-
-            if( !toimittajat_ ||  kp()->tilit()->tiliIdllaVanha( summaquery.value("tili").toInt() ).onko(TiliLaji::OSTOVELKA))
-            {
-                avoimet += avoinsnt;
-                QDate erapvm = summaquery.value("erapvm").toDate();
-                if( erapvm.isValid() && erapvm < kp()->paivamaara())
-                    eraantyneet += avoinsnt;
-            }
-        }
-        rivi.yhteensa = summa;
-        rivi.avoinna = avoimet;
-        rivi.eraantynyt = eraantyneet;
-
-        rivit_.append(rivi);
-
-    }
-    endResetModel();
 }
 
 void AsiakkaatModel::tietoSaapuu(QVariant *var)
