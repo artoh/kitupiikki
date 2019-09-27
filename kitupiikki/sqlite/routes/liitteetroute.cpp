@@ -36,7 +36,7 @@ QVariant LiitteetRoute::get(const QString &polku, const QUrlQuery &/*urlquery*/)
     } else {
         QRegularExpression re(R"((\d+)/(\S+))");
         QRegularExpressionMatch match = re.match(polku);
-        kysely.exec(QString("SELECT data FROM Liite WHERE tosite=%1 AND nimi='%2'")
+        kysely.exec(QString("SELECT data FROM Liite WHERE tosite=%1 AND roolinimi='%2'")
                     .arg(match.captured(1).toInt())
                     .arg(match.captured(2)) );
     }
@@ -66,13 +66,16 @@ QVariant LiitteetRoute::byteArray(SQLiteKysely *kysely, const QByteArray &ba, co
         }
     } else if( kysely->metodi() == KpKysely::PUT)
     {
-        query.prepare("INSERT INTO Liite (tosite,nimi,data,tyyppi,sha) VALUES(?,?,?,?,?) "
-                      " ON CONFLICT (tosite,nimi) DO UPDATE SET data=EXCLUDED.data, sha=EXCLUDED.sha, luotu=current_datetime");
-        query.addBindValue( match.captured(1).toInt() );
-        query.addBindValue( match.captured(2) );
-        query.addBindValue( ba );
-        query.addBindValue( meta.value("Content-type", QString()));
-        query.addBindValue( hash(ba));
+        query.prepare("INSERT INTO Liite (tosite,nimi,data,tyyppi,sha,roolinimi) VALUES (:tosite, :nimi, :data, :tyyppi, :sha, :roolinimi) "
+                      " ON CONFLICT (tosite,roolinimi) DO UPDATE SET nimi=EXCLUDED.nimi, data=EXCLUDED.data, tyyppi=EXCLUDED.tyyppi, sha=EXCLUDED.sha, "
+                      " roolinimi=EXCLUDED.roolinimi, luotu=current_timestamp"  );
+
+        query.bindValue(":tosite", match.captured(1).toInt());
+        query.bindValue(":nimi", meta.value("Filename", QString()) );
+        query.bindValue(":data", ba);
+        query.bindValue(":tyyppi", meta.value("Content-type", QString()) );
+        query.bindValue(":sha", hash(ba));
+        query.bindValue(":roolinimi", match.captured(2));
 
     }
     if( !query.exec() )

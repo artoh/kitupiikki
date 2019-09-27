@@ -657,6 +657,8 @@ QVariantMap LaskuDialogi::vastakirjaus() const
         vienti.setEra(era_);
     }
 
+    vienti.setTyyppi(TositeVienti::MYYNTI + TositeVienti::VASTAKIRJAUS);
+
     return std::move(vienti);
 }
 
@@ -697,7 +699,7 @@ void LaskuDialogi::tallennusValmis(QVariant *vastaus)
     QVariantMap map = vastaus->toMap();
 
     QByteArray liite = MyyntiLaskunTulostaja::pdf( map );
-    KpKysely *liitetallennus = kpk( QString("/liitteet/%1").arg(map.value("id").toInt()), KpKysely::POST);
+    KpKysely *liitetallennus = kpk( QString("/liitteet/%1/lasku").arg(map.value("id").toInt()), KpKysely::PUT);
     QMap<QString,QString> meta;
     meta.insert("Filename", QString("lasku%1.pdf").arg( map.value("lasku").toMap().value("numero").toInt() ) );
     liitetallennus->lahetaTiedosto(liite, meta);

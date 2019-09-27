@@ -19,6 +19,7 @@
 
 #include <QSqlQuery>
 #include "db/kirjanpito.h"
+#include "db/tositetyyppimodel.h"
 
 #include <QDebug>
 
@@ -193,7 +194,11 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
         else
             return QIcon(":/pic/tyhja.png");
     }
-
+    else if( role == Qt::DecorationRole && index.column() == PVM)
+    {
+        int tyyppi = map.value("tosite").toMap().value("tyyppi").toInt();
+        return kp()->tositeTyypit()->kuvake(tyyppi);
+    }
 
     return QVariant();
 }

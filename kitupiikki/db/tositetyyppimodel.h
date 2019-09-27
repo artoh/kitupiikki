@@ -70,6 +70,7 @@ public:
 
     QString nimi(int koodi) const;
     QIcon kuvake(int koodi) const;
+    bool onkolisattavissa(int koodi) const;
 
 protected:
     void lisaa(TositeTyyppi::Tyyppi koodi, const QString& nimi, const QString& kuvake, bool lisattavissa = true);

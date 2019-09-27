@@ -134,12 +134,13 @@ CREATE TABLE Liite
 	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 	tosite integer REFERENCES Tosite (id) ON DELETE CASCADE,
 	nimi text,
+	roolinimi varchar(16),
 	tyyppi text,
 	sha text,
 	data bytea,
 	luotu timestamp DEFAULT current_timestamp,
 	json text,
-	UNIQUE(tosite,nimi)
+	UNIQUE(tosite,roolinimi)
 );
 
 CREATE INDEX liite_tosite ON Liite (tosite);

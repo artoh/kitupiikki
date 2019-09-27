@@ -27,7 +27,7 @@ public:
     QVariant get(const QString &polku, const QUrlQuery &urlquery) override;
     QVariant post(const QString &polku, const QVariant &data) override;
     QVariant put(const QString &polku, const QVariant &data) override;
-
+    QVariant patch(const QString &polku, const QVariant &data) override;
 
 protected:
     int lisaaTaiPaivita(const QVariant pyynto, int tositeid = 0);

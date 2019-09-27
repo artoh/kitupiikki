@@ -90,6 +90,54 @@ QVariant TositeRoute::put(const QString &polku, const QVariant &data)
     return hae( lisaaTaiPaivita(data, polku.mid(1).toInt()));
 }
 
+QVariant TositeRoute::patch(const QString &polku, const QVariant &data)
+{
+    QVariantMap map = data.toMap();
+    int tositeid = polku.toInt();
+    int tila = map.value("tila").toInt();
+
+    // Haetaan tunniste
+    db().transaction();
+    QSqlQuery kysely(db());
+    int tunniste = 0;
+
+    kysely.exec(QString("SELECT tunniste, pvm, sarja FROM Tosite WHERE id=%1").arg(tositeid));
+    if( kysely.next() ) {
+        if( kysely.value(0).toInt())
+            tunniste = kysely.value(0).toInt();
+        else if( tila >= Tosite::KIRJANPIDOSSA) {
+            Tilikausi kausi = kp()->tilikaudet()->tilikausiPaivalle(kysely.value(1).toDate());
+            QString sarja = kysely.value(2).toString();
+            if( sarja.isNull()) {
+                kysely.exec(QString("SELECT MAX(tunniste) FROM Tosite WHERE pvm BETWEEN '%1' AND '%2' ANS sarja IS NULL")
+                            .arg(kausi.alkaa().toString(Qt::ISODate).arg(kausi.paattyy().toString(Qt::ISODate))));
+            } else {
+                kysely.exec(QString("SELECT MAX(tunniste) FROM Tosite WHERE pvm BETWEEN '%1' AND '%2' ANS sarja = '%3'")
+                            .arg(kausi.alkaa().toString(Qt::ISODate).arg(kausi.paattyy().toString(Qt::ISODate))).arg(sarja));
+            }
+            if( kysely.next()) {
+                tunniste = kysely.value(0).toInt() + 1;
+            }
+        }
+    }
+
+    // Päivitetään
+    if(!kysely.exec(QString("UPDATE Tosite SET tila=%1, tunniste=%2 WHERE id=%3")
+                .arg(tila).arg(tunniste).arg(tositeid)))
+        throw SQLiteVirhe(kysely);
+
+    // Lisätään tositelokiin
+    kysely.prepare("INSERT INTO Tositeloki (tosite, tila, data) VALUES (?,?,?) ");
+    kysely.addBindValue(tositeid);
+    kysely.addBindValue(tila);
+    kysely.addBindValue(mapToJson(map));
+    kysely.exec();
+
+    db().commit();
+    return QVariant();
+
+}
+
 int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
 {
     QVariantMap map = pyynto.toMap();
@@ -265,7 +313,7 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
                     .arg(tositeid).arg(liite.toInt()) );
 
 
-    kysely.prepare("INSERT INTO Rivi(tosite,rivi,tuote,myyntikpl,ostokpl, ahinta, json) VALUES (?,?,?,?,?,?,?");
+    kysely.prepare("INSERT INTO Rivi(tosite,rivi,tuote,myyntikpl,ostokpl, ahinta, json) VALUES (?,?,?,?,?,?,?) ");
     for(int rivi=0; rivi < rivit.count(); rivi++)
     {
         QVariantMap rmap = rivit.at(rivi).toMap();

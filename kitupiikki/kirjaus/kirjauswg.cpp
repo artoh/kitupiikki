@@ -592,9 +592,15 @@ void KirjausWg::lisaaLiiteDatasta(const QByteArray &data, const QString &nimi)
 void KirjausWg::tiedotModelista()
 {
 
-    qDebug() << "TM" ;
-    ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( tosite_->data(Tosite::TYYPPI).toInt(), TositeTyyppiModel::KoodiRooli ) );
-    qDebug() << "TM2" ;
+    int tyyppi = tosite_->data(Tosite::TYYPPI).toInt();
+    bool lisattavatyyppi = kp()->tositeTyypit()->onkolisattavissa(tyyppi);
+
+    if( lisattavatyyppi )
+        ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( tosite_->data(Tosite::TYYPPI).toInt(), TositeTyyppiModel::KoodiRooli ) );
+    else
+        ui->tositetyyppiLabel->setText( kp()->tositeTyypit()->nimi(tyyppi) );
+    ui->tositetyyppiCombo->setVisible( lisattavatyyppi );
+    ui->tositetyyppiLabel->setVisible( !lisattavatyyppi );
 
 
     QDate tositepvm = tosite_->data(Tosite::PVM).toDate();

@@ -298,6 +298,8 @@ QVariantList LaskuRivitModel::viennit(const QDate& pvm) const
                     vmap.insert("debet", 0 - uusisumma);
                     vmap.remove("kredit");
                 }
+                vmap.insert("tyyppi", TositeVienti::MYYNTI + TositeVienti::KIRJAUS);
+
                 lista[i] = vmap;
                 vanhaan = true;
                 break;
@@ -346,6 +348,7 @@ QVariantList LaskuRivitModel::viennit(const QDate& pvm) const
                 verorivi.setDebet(vero);
             verorivi.setAlvProsentti( map.value("alvprosentti").toInt() );
             verorivi.setAlvKoodi( map.value("alvkoodi").toInt() + AlvKoodi::ALVKIRJAUS );
+            verorivi.setTyyppi( TositeVienti::ALVKIRJAUS + TositeVienti::MYYNTI );
             ulos.append(verorivi);
         } else {
             ulos.append(map);

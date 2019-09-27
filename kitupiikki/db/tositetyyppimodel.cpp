@@ -82,6 +82,11 @@ QIcon TositeTyyppiModel::kuvake(int koodi) const
     return map_.value(koodi).kuvake;
 }
 
+bool TositeTyyppiModel::onkolisattavissa(int koodi) const
+{
+    return map_.value(koodi).lisattavissa;
+}
+
 
 
 void TositeTyyppiModel::lisaa(TositeTyyppi::Tyyppi koodi, const QString &nimi, const QString &kuvake, bool lisattavissa)
