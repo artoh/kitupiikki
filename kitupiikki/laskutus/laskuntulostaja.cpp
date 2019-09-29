@@ -785,6 +785,15 @@ void LaskunTulostaja::tilisiirto(QPagedPaintDevice *printer, QPainter *painter)
 
         painter->restore();
     }
+   
+    //Jos on validi virtuaaliviivakoodi niin tulostetaan se viivakoodin alapuolelle
+    QString virtViivakoodi = virtuaaliviivakoodi();
+    if( virtViivakoodi.length() == 54)
+    {
+        painter->setFont(QFont("Sans", 8));
+        painter->drawText( QRectF( mm*22, mm * 78, mm * 150, mm * 25), Qt::AlignCenter, t("virtviiv") + ": " + virtViivakoodi  );
+    }
+
 }
 
 QString LaskunTulostaja::code128() const
