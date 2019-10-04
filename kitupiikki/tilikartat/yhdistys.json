@@ -2930,7 +2930,10 @@
   "numero": 8800,
   "tyyppi": "CL",
   "nimi": {
-   "fi:": "Saadut yleisavustukset "
+   "fi:": "Saadut yleisavustukset ",
+	 {
+ 		"fi":	"Tähän kirjataan yhdistyksen kaikkea toimintaa varten myönnetyt avustukset. Tiettyä toimintaa tai tapahtumaa varten myönnetyt avustukset kirjataan tilille 3800 Saadut avustukset."
+ 		}
   },
   "laajuus": 1
  },

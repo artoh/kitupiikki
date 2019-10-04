@@ -84,6 +84,7 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->asiakasToimittaja, &AsiakasToimittajaValinta::valittu, this, &TuloMenoApuri::kumppaniValittu);
 
     connect( ui->vastatiliCombo, &TiliCombo::tiliValittu, this, &TuloMenoApuri::vastatiliMuuttui);
+    connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::teeTositteelle);
 }
 
 TuloMenoApuri::~TuloMenoApuri()
@@ -585,25 +586,25 @@ void TuloMenoApuri::maksutapaMuuttui()
         if(menoa)
             ui->vastatiliCombo->suodataMaksutapa("LA(-)?$");
         else
-            ui->vastatiliCombo->suodataMaksutapa("LA(+)?$");
+            ui->vastatiliCombo->suodataMaksutapa("LA[+]?$");
         break;
     case PANKKI:
         if(menoa)
             ui->vastatiliCombo->suodataMaksutapa("PA(-)?$");
         else
-            ui->vastatiliCombo->suodataMaksutapa("PA(+)?$");
+            ui->vastatiliCombo->suodataMaksutapa("PA[+]?$");
         break;
     case KATEINEN:
         if(menoa)
             ui->vastatiliCombo->suodataMaksutapa("KA(-)?$");
         else
-            ui->vastatiliCombo->suodataMaksutapa("KA(+)?$");
+            ui->vastatiliCombo->suodataMaksutapa("KA[+]?$");
         break;
     case LUOTTO:
         if(menoa)
             ui->vastatiliCombo->suodataMaksutapa("LU(-)?$");
         else
-            ui->vastatiliCombo->suodataMaksutapa("LU(+)?$");
+            ui->vastatiliCombo->suodataMaksutapa("LU[+]?$");
         break;
     default:
         ui->vastatiliCombo->suodataTyypilla("[AB].*");
@@ -612,6 +613,11 @@ void TuloMenoApuri::maksutapaMuuttui()
     // Vastatilivalintaa ei tartte näyttää jos vaihtoehtoja on vain yksi
     ui->vastatiliLabel->setVisible( ui->vastatiliCombo->model()->rowCount() > 1 );
     ui->vastatiliCombo->setVisible( ui->vastatiliCombo->model()->rowCount() > 1 );
+
+    qDebug() << " MAKSUTAPAAN SOPII " << ui->vastatiliCombo->model()->rowCount();
+    qDebug() << " Ni " << ui->vastatiliCombo->currentIndex();
+    qDebug() << " Nn " << ui->vastatiliCombo->currentData(TiliModel::NroRooli);
+
 
     emit tosite()->tarkastaSarja(maksutapa == KATEINEN);
 }
