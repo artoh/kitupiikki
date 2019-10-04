@@ -227,14 +227,15 @@ void KirjausWg::poistaTosite()
                               tr("Haluatko todella poistaa tämän tositteen?"),
                               QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) == QMessageBox::Yes)
     {
-        if( 1 )
-        {
-            tyhjenna();
-            emit tositeKasitelty();
-        }
-        else
-            QMessageBox::critical(this, tr("Tietokantavirhe"),
-                                  tr("Tietokantavirhe tositetta poistettaessa\n\n%1").arg( kp()->viimeVirhe() ));
+        KpKysely* kysely = kpk(QString("/tositteet/%1").arg( tosite()->data(Tosite::ID).toInt() ), KpKysely::PATCH );
+        QVariantMap map;
+        map.insert("tila", Tosite::POISTETTU);
+
+        connect(kysely, &KpKysely::virhe, [this] (int /* virhe */, QString selitys) {QMessageBox::critical(this, tr("Tietokantavirhe"),
+                                                                        tr("Tietokantavirhe tositetta poistettaessa\n\n%1").arg( selitys ));});
+        connect(kysely, &KpKysely::vastaus, [this] {this->tyhjenna(); emit this->tositeKasitelty();});
+
+        kysely->kysy(map);
     }
 }
 

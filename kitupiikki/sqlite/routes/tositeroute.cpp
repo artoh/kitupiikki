@@ -87,7 +87,7 @@ QVariant TositeRoute::post(const QString & /*polku*/, const QVariant &data)
 
 QVariant TositeRoute::put(const QString &polku, const QVariant &data)
 {
-    return hae( lisaaTaiPaivita(data, polku.mid(1).toInt()));
+    return hae( lisaaTaiPaivita(data, polku.toInt() ) );
 }
 
 QVariant TositeRoute::patch(const QString &polku, const QVariant &data)
@@ -203,6 +203,7 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
     if( tositeid ) {
         tositelisays.prepare("INSERT INTO Tosite (id, pvm, tyyppi, tila, tunniste, otsikko, kumppani, sarja, json) "
                              "VALUES (?,?,?,?,?,?,?,?,?) "
+                             "ON CONFLICT(id) DO UPDATE "
                              "SET pvm=EXCLUDED.pvm, tyyppi=EXCLUDED.tyyppi, tila=EXCLUDED.tila, tunniste=EXCLUDED.tunniste, otsikko=EXCLUDED.otsikko, "
                              "kumppani=EXCLUDED.kumppani, sarja=EXCLUDED.sarja, json=EXCLUDED.json");
 
