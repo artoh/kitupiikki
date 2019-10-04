@@ -51,7 +51,8 @@ public:
         TyyppiRooli = Qt::UserRole + 6,
         YsiRooli = Qt::UserRole + 7,
         TilaRooli = Qt::UserRole + 8,
-        OhjeRooli = Qt::UserRole + 9
+        OhjeRooli = Qt::UserRole + 9,
+        MaksutapaRooli = Qt::UserRole + 10
     };
 
 

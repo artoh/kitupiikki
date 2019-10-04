@@ -80,10 +80,10 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->erapaivaEdit, &KpDateEdit::dateChanged, [this] (const QDate& date) {this->tosite()->setData(Tosite::ERAPVM, date);});
     connect( ui->asiakasToimittaja, &AsiakasToimittajaValinta::valittu, [this] { this->tosite()->setData(Tosite::KUMPPANI, this->ui->asiakasToimittaja->id()); });
 
-
-
     connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::haeKohdennukset );
     connect( ui->asiakasToimittaja, &AsiakasToimittajaValinta::valittu, this, &TuloMenoApuri::kumppaniValittu);
+
+    connect( ui->vastatiliCombo, &TiliCombo::tiliValittu, this, &TuloMenoApuri::vastatiliMuuttui);
 }
 
 TuloMenoApuri::~TuloMenoApuri()
@@ -113,7 +113,6 @@ void TuloMenoApuri::teeReset()
                  tosite()->tyyppi() == TositeTyyppi::KULULASKU;
     alusta( menoa );
 
-    qDebug() << " Tyyppi " << tosite()->tyyppi() << "menoa " << menoa;
 
     // Haetaan rivien tiedot
 
@@ -465,8 +464,8 @@ void TuloMenoApuri::tiliMuuttui()
 
     if( kp()->asetukset()->onko(AsetusModel::ALV))
     {
-        ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( tili.json()->luku("AlvLaji"), VerotyyppiModel::KoodiRooli ) );
-        ui->alvSpin->setValue( tili.json()->variant("AlvProsentti").toDouble() );
+        ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( tili.luku("alvlaji"), VerotyyppiModel::KoodiRooli ) );
+        ui->alvSpin->setValue( tili.str("alvprosentti").toDouble() );
     }
 
     tositteelle();
@@ -579,23 +578,32 @@ void TuloMenoApuri::maksutapaMuuttui()
     ui->erapaivaLabel->setVisible( maksutapa == LASKU);
     ui->erapaivaEdit->setVisible( maksutapa == LASKU);
 
-    ui->eraLabel->setVisible( maksutapa == HYVITYS || maksutapa == ENNAKKO);
-    ui->eraCombo->setVisible(maksutapa == HYVITYS || maksutapa == ENNAKKO);
-
     // TODO: Tilien valinnat järkevämmin ;)
 
     switch (maksutapa) {
     case LASKU:
         if(menoa)
-            ui->vastatiliCombo->suodataTyypilla("BO");
+            ui->vastatiliCombo->suodataMaksutapa("LA(-)?$");
         else
-            ui->vastatiliCombo->suodataTyypilla("AO");
+            ui->vastatiliCombo->suodataMaksutapa("LA(+)?$");
         break;
     case PANKKI:
-        ui->vastatiliCombo->suodataTyypilla("ARP");
+        if(menoa)
+            ui->vastatiliCombo->suodataMaksutapa("PA(-)?$");
+        else
+            ui->vastatiliCombo->suodataMaksutapa("PA(+)?$");
         break;
     case KATEINEN:
-        ui->vastatiliCombo->suodataTyypilla("ARK");
+        if(menoa)
+            ui->vastatiliCombo->suodataMaksutapa("KA(-)?$");
+        else
+            ui->vastatiliCombo->suodataMaksutapa("KA(+)?$");
+        break;
+    case LUOTTO:
+        if(menoa)
+            ui->vastatiliCombo->suodataMaksutapa("LU(-)?$");
+        else
+            ui->vastatiliCombo->suodataMaksutapa("LU(+)?$");
         break;
     default:
         ui->vastatiliCombo->suodataTyypilla("[AB].*");
@@ -604,6 +612,18 @@ void TuloMenoApuri::maksutapaMuuttui()
     // Vastatilivalintaa ei tartte näyttää jos vaihtoehtoja on vain yksi
     ui->vastatiliLabel->setVisible( ui->vastatiliCombo->model()->rowCount() > 1 );
     ui->vastatiliCombo->setVisible( ui->vastatiliCombo->model()->rowCount() > 1 );
+
+    emit tosite()->tarkastaSarja(maksutapa == KATEINEN);
+}
+
+void TuloMenoApuri::vastatiliMuuttui()
+{
+    int maksutapa = ui->maksutapaCombo->currentIndex();
+    Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliCombo->valittuTilinumero() );
+
+    ui->eraLabel->setVisible( maksutapa == KAIKKI && vastatili.eritellaankoTase());
+    ui->eraCombo->setVisible(maksutapa == KAIKKI && vastatili.eritellaankoTase());
+
 }
 
 void TuloMenoApuri::kohdennusMuuttui()

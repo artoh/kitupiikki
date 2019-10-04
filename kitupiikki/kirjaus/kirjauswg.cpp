@@ -154,6 +154,7 @@ KirjausWg::KirjausWg( QWidget *parent)
              this, SLOT(vientiValittu()));
     connect( ui->viennitView, SIGNAL(activated(QModelIndex)), this, SLOT( vientivwAktivoitu(QModelIndex)));
     connect( ui->otsikkoEdit, &QLineEdit::textChanged, [this] { this->tosite()->setData(Tosite::OTSIKKO, ui->otsikkoEdit->text()); });
+    connect( ui->sarjaEdit, &QLineEdit::textChanged, [this] { this->tosite()->setData(Tosite::SARJA, ui->sarjaEdit->text()); });
 
     connect( tosite_, &Tosite::otsikkoMuuttui, [this] (const QString& otsikko) { if( otsikko != ui->otsikkoEdit->text()) this->ui->otsikkoEdit->setText(otsikko); });
 
@@ -163,6 +164,7 @@ KirjausWg::KirjausWg( QWidget *parent)
 
     connect( tosite()->liitteet(), &TositeLiitteet::tuonti, this, &KirjausWg::tuonti);
 
+    connect( tosite_, &Tosite::tarkastaSarja, this, &KirjausWg::paivitaSarja);
 }
 
 KirjausWg::~KirjausWg()
@@ -202,6 +204,8 @@ void KirjausWg::tyhjenna()
     ui->tallennaButton->setVisible(true);
     ui->tabWidget->setCurrentIndex(0);
     ui->tositetyyppiCombo->setFocus();
+    ui->sarjaEdit->setVisible( kp()->asetus("sarjaan").toInt() );
+    ui->sarjaLabel->setVisible( kp()->asetus("sarjaan").toInt() );
 }
 
 void KirjausWg::tallenna()
@@ -348,12 +352,12 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
 
 }
 
-void KirjausWg::tallennettu(int /* id */, int tunniste, const QDate &pvm)
+void KirjausWg::tallennettu(int /* id */, int tunniste, const QDate &pvm, const QString& sarja)
 {
     if( ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli) == TositeTyyppi::TILIOTE)
         ui->tositetyyppiCombo->setCurrentIndex(0);
 
-    tallennettuWidget_->nayta(tunniste, pvm);
+    tallennettuWidget_->nayta(tunniste, pvm, sarja);
 
     tallennettuWidget_->move( width() / 2 - tallennettuWidget_->width() / 2,
                              height() - tallennettuWidget_->height() );
@@ -598,7 +602,10 @@ void KirjausWg::tiedotModelista()
     ui->otsikkoEdit->setText( tosite_->data(Tosite::OTSIKKO).toString() );
     ui->kommentitEdit->setPlainText( tosite_->data(Tosite::KOMMENTIT).toString());
 
+    ui->sarjaEdit->setText( tosite_->data(Tosite::SARJA).toString() );
+
     int tunniste = tosite_->data(Tosite::TUNNISTE).toInt();
+    ui->sarjaLabel->setVisible( kp()->asetus("sarjaan").toInt() && !tunniste );
 
     if( tunniste ) {
         ui->tunnisteLabel->setVisible(true);
@@ -644,7 +651,7 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
 
 void KirjausWg::vaihdaTositeTyyppi()
 {
-
+    paivitaSarja();
     int tyyppiKoodi = ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt() ;
 
     // Tässä voisi laittaa muutenkin apurit paikalleen
@@ -683,8 +690,13 @@ void KirjausWg::vaihdaTositeTyyppi()
         ui->tabWidget->setCurrentIndex(0);
 
     if( ui->otsikkoEdit->text().startsWith("Tiliote") && tyyppiKoodi != TositeTyyppi::TILIOTE)
-        ui->otsikkoEdit->clear();
+        ui->otsikkoEdit->clear();    
+}
 
+void KirjausWg::paivitaSarja(bool kateinen)
+{
+    if( kp()->asetukset()->asetus("sarjaan").toInt())
+        ui->sarjaEdit->setText( kp()->tositeTyypit()->sarja( ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt() , kateinen ) ) ;
 }
 
 void KirjausWg::liiteValinta(const QModelIndex &valittu)

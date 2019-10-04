@@ -33,7 +33,7 @@ class TuloMenoApuri : public ApuriWidget
     Q_OBJECT    
 
 public:
-    enum Maksutapa { LASKU, PANKKI, LUOTTO, KATEINEN, HYVITYS, ENNAKKO };
+    enum Maksutapa { LASKU, PANKKI, LUOTTO, KATEINEN, KAIKKI };
 
     TuloMenoApuri(QWidget *parent = nullptr, Tosite* tosite = nullptr);
     virtual ~TuloMenoApuri() override;
@@ -53,6 +53,7 @@ protected slots:
     void alvVahennettavaMuuttui();
     void seliteMuuttui();
     void maksutapaMuuttui();
+    void vastatiliMuuttui();
     void kohdennusMuuttui();
     void merkkausMuuttui();
     void jaksoAlkaaMuuttui();

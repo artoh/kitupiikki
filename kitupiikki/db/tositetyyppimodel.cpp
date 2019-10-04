@@ -15,6 +15,9 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "tositetyyppimodel.h"
+#include "db/kirjanpito.h"
+
+#include <QJsonDocument>
 
 TositeTyyppiTietue::TositeTyyppiTietue(TositeTyyppi::Tyyppi uKoodi, const QString &uNimi, const QString &uKuvake, bool uLisattavissa) :
     koodi(uKoodi), nimi( uNimi ), kuvake( QIcon( uKuvake )), lisattavissa( uLisattavissa)
@@ -85,6 +88,23 @@ QIcon TositeTyyppiModel::kuvake(int koodi) const
 bool TositeTyyppiModel::onkolisattavissa(int koodi) const
 {
     return map_.value(koodi).lisattavissa;
+}
+
+QString TositeTyyppiModel::sarja(int koodi, bool kateinen) const
+{
+    int sarjavalinta = kp()->asetukset()->asetus("sarjaan").toInt();
+    if( !sarjavalinta )
+        return QString();
+
+    QVariantMap sarjamap = QJsonDocument::fromJson( kp()->asetukset()->asetus("tositesarjat").toUtf8() ).toVariant().toMap();
+
+    if( kateinen && sarjavalinta == KATEISSARJA)
+        return sarjamap.value("K","K").toString();
+
+    if( koodi >= 1000)
+        return sarjamap.value("*","JT").toString();
+
+    return sarjamap.value( QString::number(koodi), "X" ).toString();
 }
 
 

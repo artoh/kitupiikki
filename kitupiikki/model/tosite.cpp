@@ -181,7 +181,8 @@ void Tosite::tallennusValmis(QVariant *variant)
     if( liitteet()->tallennettaviaLiitteita())
         liitteet()->tallennaLiitteet( data(ID).toInt() );
     else
-        emit talletettu( data(ID).toInt(), data(TUNNISTE).toInt(), tallennettu_.value( avaimet__.at(PVM) ).toDate() );
+        emit talletettu( data(ID).toInt(), data(TUNNISTE).toInt(), tallennettu_.value( avaimet__.at(PVM) ).toDate(),
+                         tallennettu_.value(avaimet__.at(SARJA)).toString());
 
     // Tämä pitää oikaista vielä huomioimaan tilinavauksen sikäli jos sitä tositteen kautta käsitellään ;)
     if( !kp()->asetukset()->onko("EkaTositeKirjattu"))
@@ -195,7 +196,8 @@ void Tosite::tallennuksessaVirhe(int virhe)
 
 void Tosite::liitteetTallennettu()
 {
-    emit talletettu( data(ID).toInt(), data(TUNNISTE).toInt(), tallennettu_.value( avaimet__.at(PVM) ).toDate() );
+    emit talletettu( data(ID).toInt(), data(TUNNISTE).toInt(), tallennettu_.value( avaimet__.at(PVM) ).toDate(),
+                     tallennettu_.value(avaimet__.at(SARJA)).toString());
 }
 
 QVariantMap Tosite::tallennettava() const
@@ -219,5 +221,6 @@ std::map<int,QString> Tosite::avaimet__ = {
     { ERAPVM, "erapvm"},
     { KUMPPANI, "kumppani" },
     { KOMMENTIT, "info"},
-    { ALV, "alv"}
+    { ALV, "alv"},
+    { SARJA, "sarja"}
 };

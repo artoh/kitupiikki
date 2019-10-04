@@ -29,6 +29,7 @@
 #include "tili.h"
 #include "tilityyppimodel.h"
 #include "kirjanpito.h"
+#include "kielikentta.h"
 
 TiliModel::TiliModel(QObject *parent) :
     QAbstractTableModel(parent)
@@ -126,9 +127,10 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
         return QVariant( tili->ysivertailuluku());
     else if( role == TilaRooli)
         return tili->tila();
-    else if( role == OhjeRooli)
-        return tili->str("ohje");
-
+    else if( role == OhjeRooli) {
+        return tili->ohje();
+    } else if( role == MaksutapaRooli )
+        return tili->str("maksutapa");
     else if( role == Qt::DisplayRole || role == Qt::EditRole)
     {
         switch (index.column())
@@ -168,6 +170,8 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
             return QIcon(":/pic/eikaytossa.png");
         else if( tili->tila() == 2)
             return QIcon(":/pic/tahti.png");
+        else
+            return QIcon(":/pic/tyhja.png");
     }
     else if( role == Qt::DecorationRole && index.column() == ALV)
     {
@@ -175,8 +179,10 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
     }
     else if( role == Qt::DecorationRole && index.column() == NUMERO )
     {
-        if( !tili->str("ohje").isEmpty())
+        if( !tili->ohje().isEmpty())
             return QIcon(":/pic/info.png");     // Tiliin on olemassa kirjausohje
+        else
+            return QIcon(":/pic/tyhja.png");
     }
 
     else if( role == Qt::FontRole)
@@ -250,7 +256,7 @@ Tili TiliModel::tiliIbanilla(const QString &iban) const
 {
     for(Tili tili: tilit_)
     {
-        if( tili.json()->str("iban") == iban)
+        if( tili.str("iban") == iban)
             return tili;
     }
     return Tili();

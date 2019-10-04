@@ -26,6 +26,24 @@
 				"fi" : "Kaikki tilit, myös konserni"
 			}
 		},
+		"alvlaajuus": 5
+		,
+		"tositesarjat": {
+				"0" : "X",
+				"100": "OL",
+				"120": "KL",
+				"200": "ML",
+				"210": "ML",
+				"214": "ML",
+				"216": "ML",
+				"300": "X",
+				"400": "T",
+				"500": "P",
+				"700": "MT",
+				"800": "LT",
+				"*": "JT",
+				"K": "K"
+		},
 		"tulos/yhdistys":{
 			"nimi":{
 				"fi":"Tuloslaskelma",
@@ -1023,7 +1041,7 @@
   },
   "erittely": 2,
   "laajuus": 1,
-  "maksutapa": "LMT"
+  "maksutapa": "LA+"
  },
  {
   "numero": 171,
@@ -1271,7 +1289,7 @@
   "numero": 202,
   "tyyppi": "H4",
   "nimi": {
-   "fi:": "Muut sidotut rahastot     "
+   "fi:": "Muut sidotut rahastot"
   }
  },
  {
@@ -1693,7 +1711,7 @@
   },
   "erittely": 2,
   "laajuus": 1,
-  "maksutapa": "LMM"
+  "maksutapa": "LA-"
  },
   {
   "numero": 2963,
@@ -1702,7 +1720,7 @@
    "fi:": "Ostovelat luottokortilla"
   },
   "laajuus": 4,
-  "maksutapa": "LKM"
+  "maksutapa": "LU-"
  },
  {
   "numero": 2970,
@@ -1840,7 +1858,9 @@
    "fi:": "Saadut avustukset"
   },
   "laajuus": 1,
-  "ohje" : "Tähän kirjataan nimettyä toimintaa tai tapahtumaa varten annetut avustukset. Kaikkea yhdistyksen toimintaa varten annetut avustukset kirjataan tilille 8800 Yleisavustukset."
+  "ohje" : {
+		"fi":	"Tähän kirjataan nimettyä toimintaa tai tapahtumaa varten annetut avustukset. Kaikkea yhdistyksen toimintaa varten annetut avustukset kirjataan tilille 8800 Yleisavustukset."
+		}
  },
  {
   "numero": 3900,
@@ -1908,7 +1928,10 @@
   "nimi": {
    "fi:": "Vuokrat ja käyttömaksut, varsinainen toiminta"
   },
-  "laajuus": 1
+  "laajuus": 1,
+	"ohje" : {
+		"fi":	"Tähän kirjataan yhdistyksen toimintaan tilapäisesti vuokrattujen tilojen ja kaluston vuokramaksut. Jos yhdistys vuokraa itselleen toimiston tai toimitilan, kirjataan sen kulut toimitilakuluiksi 4401."
+		}
  },
  {
   "numero": 43,
@@ -1923,7 +1946,10 @@
   "nimi": {
    "fi:": "Maksetut jäsenmaksut"
   },
-  "laajuus": 1
+  "laajuus": 1,
+	"ohje" : {
+		"fi":	"Tähän kirjataan yhdistyksen maksamat jäsenmaksut. Kuitenkin jos yhdistyksen jäseneltä keräämään jäsenmaksuun sisältyy keskusjärjestön jäsenmaksu, jonka yhdistys tilittää eteenpäin, on se läpimenoerä ja maksetaan saatujen jäsenmaksujen 7310 vähennyksenä."
+		}
  },
  {
   "numero": 44,
@@ -1938,7 +1964,10 @@
   "nimi": {
    "fi:": "Toimitilavuokrat"
   },
-  "laajuus": 2
+  "laajuus": 2,
+	"ohje" : {
+		"fi":	"Tähän kirjataan yhdistyksen omassa käytössä olevien toimitilojen vuokrat. Jos yhdistys vuokraa tilan yksittäistä tapahtumaa varten, kirjataan se varsinaisen toiminnan vuokramenoihin 4200."
+		}
  },
  {
   "numero": 4411,
@@ -2149,7 +2178,10 @@
   "nimi": {
    "fi:": "Kone- ja kalustohankinnat"
   },
-  "laajuus": 1
+  "laajuus": 1,
+	"ohje" : {
+		"fi":	"Tähän kirjataan ne kone- ja kalustohankinnat, joita ei aktivoida taseeseen tilille 1160 Koneet ja kalusto."
+		}
  },
  {
   "numero": 4611,
@@ -2157,6 +2189,9 @@
   "nimi": {
    "fi:": "Kone- ja kalustovuokrat"
   },
+	"ohje" : {
+		"fi":	"Tähän kirjataan yhdistyksen käyttöön pitkäaikaisesti vuokrattujen koneiden ja kaluston vuokramaksut. Jos kalustoa vuokrataan vain yksittäistä tilaisuutta varten, kirjataan se tilille 4200 Varsinaisen toiminnan vuokramaksut."
+	},
   "laajuus": 1
  },
  {
@@ -2291,7 +2326,10 @@
   "nimi": {
    "fi:": "Rahaliikenteen kulut"
   },
-  "laajuus": 2
+  "laajuus": 2,
+	"ohje" : {
+		"fi":	"Tähän kirjataan pankkien palvelumaksut ja muut rahaliikenteen kulut."
+		}
  },
  {
   "numero": 4931,
@@ -2386,7 +2424,10 @@
   "tyyppi": "H4",
   "nimi": {
    "fi:": "Erittelemättömät toimintakulut"
-  }
+ },
+ "ohje" : {
+	"fi":	"Jos yhdistyksessä ei haluta eritellä toiminnan kuluja sen tarkemmin, kuin tuloslaskelman pohjalta on pakollista, voidaan tälle tilille kirjata kaikki varsinaisen toiminnan kulut, jotka eivät ole poistoja eivätkä henkilöstökuluja."
+	}
  },
  {
   "numero": 4999,
@@ -2417,14 +2458,6 @@
    "fi:": "Palkat"
   },
   "laajuus": 3
- },
- {
-  "numero": 5001,
-  "tyyppi": "D",
-  "nimi": {
-   "fi:": "Lähdeveron alaiset palkat"
-  },
-  "laajuus": 6
  },
  {
   "numero": 5002,

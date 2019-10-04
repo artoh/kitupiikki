@@ -31,16 +31,9 @@ Tili::Tili() : numero_(0), tila_(1),ylaotsikkoId_(0), muokattu_(false), tilamuok
 Tili::Tili(const QVariantMap &data) :
     KantaVariantti (data)
 {
-    // Siirretään nimet omaan taulukkoon
-    QVariantMap nimiMap = data_.value("nimi").toMap();
-    QMapIterator<QString,QVariant> nimiIter(nimiMap);
 
-    while( nimiIter.hasNext())
-    {
-        nimiIter.next();
-        nimi_.insert( nimiIter.key(), nimiIter.value().toString() );
-    }
-
+    nimi_ = data_.take("nimi");
+    ohje_ = data_.take("ohje");
 
     numero_ = data_.value("numero").toInt();
     tyyppi_ = kp()->tiliTyypit()->tyyppiKoodilla( data_.value("tyyppi").toString() );
@@ -58,13 +51,7 @@ int Tili::id() const
 
 QString Tili::nimi(const QString &kieli) const
 {
-    if( nimi_.contains(kieli))
-        return nimi_.value(kieli);
-
-    if( !nimi_.isEmpty())
-        return nimi_.first();
-
-    return QString();
+    return nimi_.teksti(kieli);
 }
 
 QString Tili::nimiNumero(const QString &kieli) const
@@ -73,6 +60,11 @@ QString Tili::nimiNumero(const QString &kieli) const
         return QString("%1 %2").arg(numero()).arg(nimi(kieli));
     else
         return QString();
+}
+
+QString Tili::ohje(const QString &kieli) const
+{
+    return ohje_.teksti(kieli);
 }
 
 void Tili::asetaNumero(int numero)

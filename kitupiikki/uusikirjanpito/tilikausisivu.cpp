@@ -69,6 +69,7 @@ bool TilikausiSivu::validatePage()
 
     velho->asetukset_.insert("TilitPaatetty",
                              ui->ekaAlkaa->date().addDays(-1).toString(Qt::ISODate));
+    velho->asetukset_.insert("AlvIlmoitus", ui->ekaAlkaa->date().addDays(-1).toString(Qt::ISODate));
 
     return true;
 }

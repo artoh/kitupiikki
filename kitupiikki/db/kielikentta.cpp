@@ -17,6 +17,7 @@
 #include "kielikentta.h"
 
 #include <QDebug>
+#include <QJsonDocument>
 
 KieliKentta::KieliKentta()
 {
@@ -26,6 +27,12 @@ KieliKentta::KieliKentta()
 KieliKentta::KieliKentta(const QVariant &var)
 {
     aseta( var );
+}
+
+KieliKentta::KieliKentta(const QString &var)
+{
+    QJsonDocument doc = QJsonDocument::fromJson( var.toUtf8() );
+    aseta( doc.toVariant());
 }
 
 void KieliKentta::aseta(const QVariant &var)

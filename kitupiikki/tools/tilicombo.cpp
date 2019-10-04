@@ -41,7 +41,16 @@ TiliCombo::TiliCombo(QWidget *parent) :
 
 void TiliCombo::suodataTyypilla(const QString &regexp)
 {
+    proxyTyyppi_->setFilterRole(TiliModel::TyyppiRooli);
     proxyTyyppi_->setFilterRegularExpression(regexp);
+    if( currentIndex() < 0 )
+        setCurrentIndex(0);
+}
+
+void TiliCombo::suodataMaksutapa(const QString &regexp)
+{
+    proxyTyyppi_->setFilterRole(TiliModel::MaksutapaRooli);
+    proxyTyyppi_->setFilterRegExp(regexp);
     if( currentIndex() < 0 )
         setCurrentIndex(0);
 }

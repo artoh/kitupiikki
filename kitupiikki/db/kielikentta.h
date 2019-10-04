@@ -25,9 +25,10 @@ class KieliKentta
 public:
     KieliKentta();
     KieliKentta(const QVariant& var);
+    KieliKentta(const QString& var);
 
     void aseta(const QVariant& var);
-    QString teksti(const QString& kieli = "fi") const;
+    QString teksti(const QString& kieli = QString()) const;
 
 protected:
     QMap<QString,QString> tekstit_;

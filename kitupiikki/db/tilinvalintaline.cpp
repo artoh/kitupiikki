@@ -90,6 +90,7 @@ void KantaTilinvalintaLine::valitseTili(const Tili *tili)
 
 void KantaTilinvalintaLine::suodataTyypilla(const QString &regexp)
 {
+    proxyTyyppi_->setFilterRole(TiliModel::TyyppiRooli);
     proxyTyyppi_->setFilterRegExp(regexp);
 }
 

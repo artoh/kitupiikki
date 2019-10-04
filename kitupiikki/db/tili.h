@@ -25,6 +25,7 @@
 #include "tilityyppimodel.h"
 
 #include "kantavariantti.h"
+#include "kielikentta.h"
 
 /**
  * @brief Tilin tai otsikon tiedot
@@ -40,16 +41,18 @@ public:
     int id() const;
     int numero() const { return numero_; }
 
-    QString nimi(const QString& kieli = "fi") const;
-    QString nimiNumero(const QString& kieli = "fi") const;
+    QString nimi(const QString& kieli = QString()) const;
+    QString nimiNumero(const QString& kieli = QString()) const;
+
+    QString ohje(const QString& kieli=QString()) const;
 
     TiliTyyppi tyyppi() const { return tyyppi_;}
     QString tyyppiKoodi() const { return tyyppi().koodi(); }
     int tila() const { return tila_; }
     int otsikkotaso() const { return tyyppi().otsikkotaso(); }
 
-    bool muokattu() const { return muokattu_ || json_.onkoMuokattu() || tilamuokattu_; }
-    bool muokattuMuutakinKuinTilaa() const { return muokattu_ || json_.onkoMuokattu(); }
+    bool muokattu() const { return muokattu_ ;}
+    bool muokattuMuutakinKuinTilaa() const { return muokattu_ ; }
 
     QDateTime muokkausaika() const { return muokkausAika_; }
 
@@ -70,7 +73,7 @@ public:
      *
      * @return
      */
-    JsonKentta *json()  { return &json_; }
+    [[deprecated]] JsonKentta *json()  { throw QString("JSONkenttä ei tuettu"); }
 
     void asetaNumero(int numero);
     void asetaNimi(const QString& nimi) { muokattu_ = true; }
@@ -198,13 +201,13 @@ protected:
 
     TiliTyyppi tyyppi_;
     int tila_;
-    JsonKentta json_;
     int ylaotsikkoId_;
     bool muokattu_;
     bool tilamuokattu_;
     QDateTime muokkausAika_;
 
-    QMap<QString,QString> nimi_;
+    KieliKentta nimi_;
+    KieliKentta ohje_;
     int laajuus_ = 0;
 
     Tili* tamanOtsikko_ = nullptr;

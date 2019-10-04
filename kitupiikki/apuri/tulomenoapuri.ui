@@ -68,29 +68,11 @@
          </item>
          <item>
           <property name="text">
-           <string>Yksityissijoitus</string>
+           <string>Kaikki maksutavat</string>
           </property>
           <property name="icon">
            <iconset resource="../pic/pic.qrc">
-            <normaloff>:/pic/rahaa.png</normaloff>:/pic/rahaa.png</iconset>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Hyvitys</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../pic/pic.qrc">
-            <normaloff>:/pic/poista.png</normaloff>:/pic/poista.png</iconset>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Aiempi ennakkolasku</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../pic/pic.qrc">
-            <normaloff>:/pic/lasku.png</normaloff>:/pic/lasku.png</iconset>
+            <normaloff>:/pic/tyhja.png</normaloff>:/pic/tyhja.png</iconset>
           </property>
          </item>
         </widget>

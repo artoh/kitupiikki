@@ -98,6 +98,16 @@ void SiirtoApuri::teeReset()
 
 }
 
+void SiirtoApuri::paivitaKateislaji()
+{
+    Tili tililta = ui->tililtaEdit->valittuTili();
+    Tili tilille = ui->tililleEdit->valittuTili();
+
+    emit tosite()->tarkastaSarja( tililta.onko(TiliLaji::KATEINEN) ||
+                                tilille.onko(TiliLaji::KATEINEN));
+
+}
+
 void SiirtoApuri::otaFokus()
 {
     ui->tililtaEdit->setFocus(Qt::TabFocusReason);
@@ -119,6 +129,7 @@ void SiirtoApuri::tililtaMuuttui()
         ui->tililtaEraCombo->lataa( tili.numero() );
 
     tositteelle();
+    paivitaKateislaji();
 }
 
 void SiirtoApuri::tililleMuuttui()
@@ -137,6 +148,7 @@ void SiirtoApuri::tililleMuuttui()
         ui->tililleEraCombo->lataa(tili.numero());
 
     tositteelle();
+    paivitaKateislaji();
 }
 
 void SiirtoApuri::eraValittu(int /* eraId */, double avoinna)

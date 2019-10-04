@@ -53,7 +53,11 @@
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QLineEdit" name="tiliLine"/>
+      <widget class="QLineEdit" name="tiliLine">
+       <property name="text">
+        <string>FI</string>
+       </property>
+      </widget>
      </item>
      <item row="3" column="0">
       <widget class="QLabel" name="muotoLabel">

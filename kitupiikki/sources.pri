@@ -420,6 +420,7 @@ FORMS += \
     $$PWD/tilaus/tilausvahvistus.ui \
     $$PWD/tilaus/tilausvalinta.ui \
     $$PWD/tilaus/tilausyhteys.ui \
+    $$PWD/uusikirjanpito/numerointi.ui \
     $$PWD/uusikirjanpito/sijainti.ui \
     $$PWD/uusikirjanpito/tilikausi.ui \
     $$PWD/uusikirjanpito/uusialoitus.ui \

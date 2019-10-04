@@ -20,6 +20,7 @@
 #include "ui_uusitilikartta.h"
 #include "ui_uusitiedot.h"
 #include "ui_uusiloppu.h"
+#include "ui_numerointi.h"
 
 #include "db/kielikentta.h"
 
@@ -40,6 +41,8 @@
 #include "db/kirjanpito.h"
 #include "pilvi/pilvimodel.h"
 
+#include "db/tositetyyppimodel.h"
+
 UusiVelho::UusiVelho()
 {
     setPixmap( QWizard::LogoPixmap, QPixmap(":/pic/possu64.png")  );
@@ -50,6 +53,7 @@ UusiVelho::UusiVelho()
     addPage( new Tilikarttasivu(this) );
     addPage( new TiedotSivu(this));
     addPage( new TilikausiSivu(this) );
+    addPage( new NumerointiSivu );
     addPage( new SijaintiSivu );
 
     QWizardPage *loppusivu = new QWizardPage;
@@ -80,9 +84,20 @@ void UusiVelho::lataaKartta(const QString &polku)
 QVariantMap UusiVelho::data() const
 {
     QVariantMap map;
+    QVariantMap asetusMap(asetukset_);
     QVariantMap initMap;
 
-    initMap.insert("asetukset", asetukset_);
+    if( field("harjoitus").toBool())
+        asetusMap.insert("harjoitus", true);
+
+    if( field("erisarjaan").toBool()) {
+        if( field("kateissarjaan").toBool())
+            asetusMap.insert("sarjaan",TositeTyyppiModel::KATEISSARJA);
+        else
+            asetusMap.insert("sarjaan",TositeTyyppiModel::TOSITELAJIT);
+    }
+
+    initMap.insert("asetukset", asetusMap);
     initMap.insert("tilit", tilit_);
     initMap.insert("tilikaudet", tilikaudet_);
     map.insert("name", asetukset_.value("Nimi"));
@@ -100,10 +115,8 @@ QString UusiVelho::polku() const
 
 int UusiVelho::nextId() const
 {
-    qDebug() << "n " << currentId() << " p " << field("pilveen") << " -> "
-             << QWizard::nextId();
 
-    if( currentId() == TILIKAUSI &&
+    if( currentId() == NUMEROINTI &&
             field("pilveen").toBool())
         return LOPPU;
 
@@ -187,6 +200,10 @@ bool UusiVelho::TiedotSivu::validatePage()
     velho->asetukset_.insert("muoto", ui->muotoList->currentItem()->data(Qt::UserRole).toString());
     velho->asetukset_.insert("laajuus", ui->laajuusList->currentItem()->data(Qt::UserRole).toString());
 
+    if( velho->asetukset_.value("laajuus").toInt() >= velho->asetukset_.value("alvlaajuus").toInt()) {
+        velho->asetukset_.insert("AlvVelvollinen",true);
+    }
+
     if( !ui->tiliLine->text().isEmpty())
         for(int i=0; i < velho->tilit_.count(); i++) {
             if( velho->tilit_.at(i).toMap().value("tyyppi") == "ARP") {
@@ -202,3 +219,11 @@ bool UusiVelho::TiedotSivu::validatePage()
 }
 
 
+UusiVelho::NumerointiSivu::NumerointiSivu()
+    : ui(new Ui::UusiNumerointi)
+{
+    ui->setupUi(this);
+    setTitle(tr("Tositteiden numerointi"));
+    registerField("erisarjaan", ui->erisarjaan);
+    registerField("kateissarjaan", ui->kateissarjaan);
+}

@@ -49,7 +49,8 @@ public:
         ERAPVM,
         KUMPPANI,
         KOMMENTIT,
-        ALV
+        ALV,
+        SARJA
     };
 
     enum Virheet {
@@ -87,11 +88,13 @@ public:
 
 signals:
     void ladattu();
-    void talletettu(int id, int tunniste, const QDate& pvm);
+    void talletettu(int id, int tunniste, const QDate& pvm, const QString& sarja);
     void tallennusvirhe(int virhe);
     void tila(bool muokattu, int virheet, double debet, double kredit);
     void pvmMuuttui(const QDate& pvm);
     void otsikkoMuuttui(const QString& otsikko);
+
+    void tarkastaSarja(bool kateinen);
 
 public slots:
     void lataa(int tositeid);

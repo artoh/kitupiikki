@@ -42,6 +42,7 @@ private slots:
 protected:
     bool teeTositteelle() override;
     void teeReset() override;
+    void paivitaKateislaji();
 
 private:
     Ui::SiirtoApuri *ui;
