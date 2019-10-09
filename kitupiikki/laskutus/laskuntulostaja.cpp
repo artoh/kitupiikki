@@ -720,6 +720,15 @@ void LaskunTulostaja::tilisiirto(QPagedPaintDevice *printer, QPainter *painter)
         }
     }
 
+    //Jos on validi virtuaaliviivakoodi niin tulostetaan se QR koodin alapuolelle vapaaseen tilaan
+    QString virtViivakoodi = virtuaaliviivakoodi();
+    if( virtViivakoodi.length() == 54)
+    {
+        painter->setFont(QFont("Sans", 7));
+        painter->drawText( QRectF( mm * 112.5, mm * 43.5, mm * 30,  mm * 8.5), Qt::AlignLeft, t("virtviiv") + ":");
+        painter->drawText( QRectF( mm * 112.5, mm * 46.5, mm * 110, mm * 8.5), Qt::AlignLeft, virtViivakoodi);
+    }
+
     painter->drawText( QRectF(0,0,mm*19,mm*16.9), Qt::AlignRight | Qt::AlignHCenter, t("bst"));
     painter->drawText( QRectF(0, mm*18, mm*19, mm*14.8), Qt::AlignRight | Qt::AlignHCenter, t("bsa"));
     painter->drawText( QRectF(0, mm*32.7, mm*19, mm*20), Qt::AlignRight | Qt::AlignTop, t("bmo"));
@@ -785,6 +794,7 @@ void LaskunTulostaja::tilisiirto(QPagedPaintDevice *printer, QPainter *painter)
 
         painter->restore();
     }
+
 }
 
 QString LaskunTulostaja::code128() const
