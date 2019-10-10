@@ -523,7 +523,6 @@ void TiliModel::tyhjenna()
 
     tilit_.clear();
     tiliLista_.clear();
-    idHash_.clear();
     nroHash_.clear();
 }
 
@@ -564,7 +563,5 @@ void TiliModel::paivitaTilat()
         }
 
     }
-
-
 }
 

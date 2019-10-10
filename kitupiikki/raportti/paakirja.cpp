@@ -202,7 +202,7 @@ void Paakirja::kirjoitaVienti(QVariantMap map)
 {
     RaporttiRivi rr;
     rr.lisaa( map.value("pvm").toDate() );
-    rr.lisaa( map.value("tosite").toMap().value("id").toString());
+    rr.lisaa( map.value("tosite").toMap().value("sarja").toString() + map.value("tosite").toMap().value("id").toString());
     rr.lisaa( map.value("selite").toString());
 
     if( optiot_ & TulostaKohdennukset)

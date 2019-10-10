@@ -161,7 +161,8 @@ void SQLiteRoute::taydennaEratJaMerkkaukset(QVariantList &vientilista)
                 eramap = resultMap(kysely);
 
                 kysely.exec(QString("SELECT SUM(debet) as debetit, SUM(kredit) as kreditit FROM Vienti WHERE eraid=%1").arg(eraid));
-                eramap.insert("saldo", kysely.value(0).toDouble() - kysely.value(1).toDouble());
+                if( kysely.next())
+                    eramap.insert("saldo", kysely.value(0).toDouble() - kysely.value(1).toDouble());
                 map.insert("era", eramap);
                 vientilista[i] = map;
             }

@@ -24,7 +24,6 @@
 namespace Ui {
     class UusiHarjoitus;
     class UusiTilikartta;
-    class UusiTiedot;
     class UusiTilikausi;
     class UusiNumerointi;
 }
@@ -61,16 +60,6 @@ protected:
         bool validatePage() override;
     protected:
         Ui::UusiTilikartta *ui;
-        UusiVelho *velho;
-    };
-
-    class TiedotSivu : public QWizardPage {
-    public:
-        TiedotSivu(UusiVelho *wizard);
-        void initializePage() override;
-        bool validatePage() override;
-    protected:
-        Ui::UusiTiedot *ui;
         UusiVelho *velho;
     };
 

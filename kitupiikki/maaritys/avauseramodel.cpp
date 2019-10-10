@@ -16,57 +16,72 @@
 */
 #include "avauseramodel.h"
 
-AvausEraModel::AvausEraModel(QObject *parent)
-    : QAbstractTableModel(parent)
+AvausEraModel::AvausEraModel(QList<AvausEra> erat, QObject *parent)
+    : AvausEraKantaModel(erat, parent)
 {
+    if( erat_.isEmpty()) {
+        erat_.append(AvausEra());
+    }
 }
 
 QVariant AvausEraModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    // FIXME: Implement me!
-}
-
-bool AvausEraModel::setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role)
-{
-    if (value != headerData(section, orientation, role)) {
-        // FIXME: Implement me!
-        emit headerDataChanged(orientation, section, section);
-        return true;
+    if( role == Qt::DisplayRole && orientation == Qt::Horizontal) {
+        if(section == NIMI)
+            return tr("Erän nimi");
+        else
+            return tr("Saldo");
     }
-    return false;
-}
 
+    return QVariant();
+}
 
 int AvausEraModel::rowCount(const QModelIndex &parent) const
 {
-    if (parent.isValid())
+    if( parent.isValid() )
         return 0;
 
-    // FIXME: Implement me!
+    return erat_.count();
 }
 
-int AvausEraModel::columnCount(const QModelIndex &parent) const
-{
-    if (parent.isValid())
-        return 0;
-
-    // FIXME: Implement me!
-}
 
 QVariant AvausEraModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid())
         return QVariant();
 
-    // FIXME: Implement me!
+    AvausEra era = erat_.at(index.row());
+
+    if( role == Qt::DisplayRole || role == Qt::EditRole) {
+        if( index.column() == NIMI)
+            return era.eranimi();
+        else if( role == Qt::DisplayRole)
+            return QString("%L1 €").arg( era.saldo() / 100.0, 10,'f',2);
+        else
+            return era.saldo() / 100.0;
+    }
+
+
     return QVariant();
 }
 
 bool AvausEraModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (data(index, role) != value) {
-        // FIXME: Implement me!
+        AvausEra era = erat_.at(index.row());
+
+        if( index.column() == NIMI) {
+            era.asetaNimi( value.toString() );
+        } else {
+            era.asetaSaldo( qRound64( value.toDouble() * 100) );
+        }
+        erat_[index.row()] = era;
         emit dataChanged(index, index, QVector<int>() << role);
+
+        if( index.column() == SALDO && index.row() == rowCount() - 1) {
+
+        }
+
         return true;
     }
     return false;
@@ -75,7 +90,15 @@ bool AvausEraModel::setData(const QModelIndex &index, const QVariant &value, int
 Qt::ItemFlags AvausEraModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid())
-        return Qt::NoItemFlags;
+        return Qt::NoItemFlags;    
 
-    return Qt::ItemIsEditable; // FIXME: Implement me!
+    return Qt::ItemIsEditable | Qt::ItemIsEnabled; // FIXME: Implement me!
 }
+
+void AvausEraModel::lisaaRivi()
+{
+    beginInsertRows(QModelIndex(),rowCount()-1, rowCount()-1);
+    erat_.append(AvausEra());
+    endInsertRows();
+}
+

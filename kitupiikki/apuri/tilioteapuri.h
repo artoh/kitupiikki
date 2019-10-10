@@ -52,6 +52,9 @@ protected slots:
     void lataaHarmaat();
     void laitaPaivat(const QDate& pvm);
 
+    void kysyAlkusumma();
+    void alkusummaSaapuu(QVariant *data);
+
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
@@ -61,6 +64,7 @@ private:
     TilioteKirjaaja *kirjaaja_;
 
     QSortFilterProxyModel *proxy_;
+    double alkusaldo_;
 };
 
 #endif // TILIOTEAPURI_H

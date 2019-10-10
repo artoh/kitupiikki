@@ -74,6 +74,7 @@ TilioteApuri::TilioteApuri(QWidget *parent, Tosite *tosite)
     connect( ui->loppuDate, &KpDateEdit::dateChanged, this, &TilioteApuri::tiliPvmMuutos);
 
     connect( tosite, &Tosite::pvmMuuttui, this, &TilioteApuri::laitaPaivat);
+    connect( model_, &TilioteModel::modelReset, this, &TilioteApuri::naytaSummat);
 
     ui->tiliCombo->suodataTyypilla("ARP");
 
@@ -148,7 +149,9 @@ void TilioteApuri::naytaSummat()
         else
             otot += qAbs(sentit);
     }
-    ui->infoLabel->setText(tr("Panot %L1 € \tOtot %L2 €").arg((panot / 100.0), 0, 'f', 2).arg((otot / 100.0), 0, 'f', 2));
+    double loppusaldo = alkusaldo_ + (panot - otot) / 100.0;
+    ui->infoLabel->setText(tr("Alkusaldo %L3 € \tPanot %L1 € \tOtot %L2 € \tLoppusaldo %L4 €").arg((panot / 100.0), 0, 'f', 2).arg((otot / 100.0), 0, 'f', 2)
+                           .arg(alkusaldo_,0,'f',2).arg(loppusaldo,0,'f',2));
 }
 
 void TilioteApuri::tiliPvmMuutos()
@@ -165,7 +168,7 @@ void TilioteApuri::tiliPvmMuutos()
                        .arg( ui->alkuDate->date().toString("dd.MM.yyyy") )
                        .arg( ui->loppuDate->date().toString("dd.MM.yyyy"))
                        .arg(iban));
-
+    kysyAlkusumma();
 }
 
 void TilioteApuri::lataaHarmaat()
@@ -180,6 +183,28 @@ void TilioteApuri::laitaPaivat(const QDate &pvm)
     ui->loppuDate->setDate(pvm);
     ui->alkuDate->setDate( pvm.addDays(1).addMonths(-1) );
     tiliPvmMuutos();
+}
+
+void TilioteApuri::kysyAlkusumma()
+{
+    int tilinumero = ui->tiliCombo->valittuTilinumero();
+    QDate alkupvm = ui->alkuDate->date();
+    KpKysely *kysely = kpk("/saldot");
+    kysely->lisaaAttribuutti("tili", tilinumero);
+    kysely->lisaaAttribuutti("pvm", alkupvm);
+    kysely->lisaaAttribuutti("tase");
+    kysely->lisaaAttribuutti("alkusaldot");
+    connect(kysely, &KpKysely::vastaus, this, &TilioteApuri::alkusummaSaapuu);
+    kysely->kysy();
+}
+
+void TilioteApuri::alkusummaSaapuu(QVariant* data)
+{
+    QVariantMap map = data->toMap();
+    qDebug() << map;
+    int tilinumero = ui->tiliCombo->valittuTilinumero();
+    alkusaldo_ = map.value(QString::number(tilinumero)).toDouble();
+    naytaSummat();
 }
 
 bool TilioteApuri::eventFilter(QObject *watched, QEvent *event)
@@ -211,5 +236,6 @@ bool TilioteApuri::eventFilter(QObject *watched, QEvent *event)
 
         }
     }
+    return false;
 }
 

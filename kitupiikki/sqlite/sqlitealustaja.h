@@ -41,6 +41,7 @@ protected:
     void kirjoitaAsetukset(const QVariantMap& asetukset);
     void kirjoitaTilit(const QVariantList& tililista);
     void kirjoitaTilikaudet(const QVariantList& kausilista);
+    void kirjoitaAvausTosite(const QDate& tilinavauspaiva);
 
 protected:
     QSqlDatabase db;

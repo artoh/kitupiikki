@@ -19,6 +19,9 @@ SOURCES += \
     $$PWD/laskutus/myyntilaskujentoimittaja.cpp \
     $$PWD/laskutus/myyntilaskuntulostaja.cpp \
     $$PWD/laskutus/tuotedialogi.cpp \
+    $$PWD/maaritys/avauserakantamodel.cpp \
+    $$PWD/maaritys/avauseramodel.cpp \
+    $$PWD/maaritys/avauskohdennusmodel.cpp \
     $$PWD/model/laskutaulumodel.cpp \
     $$PWD/model/tosite.cpp \
     $$PWD/model/tositeliitteet.cpp \
@@ -63,6 +66,7 @@ SOURCES += \
     $$PWD/tuonti/tuonti.cpp \
     $$PWD/tuonti/vanhatuonti.cpp \
     $$PWD/uusikirjanpito/sijaintisivu.cpp \
+    $$PWD/uusikirjanpito/tiedotsivu.cpp \
     $$PWD/uusikirjanpito/tilikausisivu.cpp \
     $$PWD/uusikirjanpito/uusialkusivu.cpp \
     $$PWD/uusikirjanpito/uusivelho.cpp \
@@ -196,7 +200,8 @@ SOURCES += \
     pilvi/pilvilogindlg.cpp \
     sqlite/sqlitemodel.cpp \
     apuri/tiliotekirjaaja.cpp\
-    rekisteri/asiakastoimittajavalinta.cpp
+    rekisteri/asiakastoimittajavalinta.cpp \
+    maaritys/avauseradlg.cpp
 
 HEADERS += \
     $$PWD/alv/alvlaskelma.h \
@@ -219,6 +224,9 @@ HEADERS += \
     $$PWD/laskutus/myyntilaskujentoimittaja.h \
     $$PWD/laskutus/myyntilaskuntulostaja.h \
     $$PWD/laskutus/tuotedialogi.h \
+    $$PWD/maaritys/avauserakantamodel.h \
+    $$PWD/maaritys/avauseramodel.h \
+    $$PWD/maaritys/avauskohdennusmodel.h \
     $$PWD/model/laskutaulumodel.h \
     $$PWD/model/tosite.h \
     $$PWD/model/tositeliitteet.h \
@@ -263,6 +271,7 @@ HEADERS += \
     $$PWD/tuonti/tuonti.h \
     $$PWD/tuonti/vanhatuonti.h \
     $$PWD/uusikirjanpito/sijaintisivu.h \
+    $$PWD/uusikirjanpito/tiedotsivu.h \
     $$PWD/uusikirjanpito/tilikausisivu.h \
     $$PWD/uusikirjanpito/uusialkusivu.h \
     $$PWD/uusikirjanpito/uusivelho.h \
@@ -397,7 +406,8 @@ HEADERS += \
     pilvi/pilvilogindlg.h \
     sqlite/sqlitemodel.h \
     apuri/tiliotekirjaaja.h \
-    rekisteri/asiakastoimittajavalinta.h
+    rekisteri/asiakastoimittajavalinta.h \
+    maaritys/avauseradlg.h
 
 RESOURCES += \
     $$PWD/sqlite/sqlite.qrc \
@@ -491,4 +501,5 @@ FORMS += \
     alv/arvonlisavero.ui \
     pilvi/pilvilogindlg.ui \
     apuri/tiliotekirjaaja.ui \
-    uusikirjanpito/uusiharjoitus.ui
+    uusikirjanpito/uusiharjoitus.ui \
+    maaritys/avauseradlg.ui

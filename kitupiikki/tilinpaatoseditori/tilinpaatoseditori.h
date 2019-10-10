@@ -41,14 +41,14 @@
  * sitten TilinpaatosEditori:lla muokataan tekstiosa
  *
  */
-class TilinpaatosEditori : public QMainWindow, public Esikatseltava
+class TilinpaatosEditori : public QMainWindow
 {
     Q_OBJECT
 public:
     explicit TilinpaatosEditori(const Tilikausi &tilikausi, QWidget *parent=nullptr);
 
-    void tulosta(QPagedPaintDevice* printer) const override;
-    QString otsikko() const override;
+    void tulosta(QPagedPaintDevice* printer) const;
+    QString otsikko() const;
 
 signals:
 
@@ -94,7 +94,7 @@ protected:
 
     QToolBar *tilinpaatosTb_;
 
-    QString raportit_;
+    QStringList raportit_;
 };
 
 #endif // TILINPAATOSEDITORI_H

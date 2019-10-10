@@ -167,6 +167,17 @@ QList<Kohdennus> KohdennusModel::kohdennukset() const
     return kohdennukset_;
 }
 
+QList<Kohdennus> KohdennusModel::vainKohdennukset(const QDate &pvm) const
+{
+    QList<Kohdennus> k;
+    for( const Kohdennus& kohdennus : kohdennukset_)
+        if( kohdennus.tyyppi() != Kohdennus::MERKKAUS &&
+            !(kohdennus.alkaa() > pvm) &&
+            !(kohdennus.paattyy() < pvm) )
+            k.append(kohdennus);
+    return k;
+}
+
 bool KohdennusModel::kohdennuksia() const
 {
     for( const Kohdennus& kohdennus : kohdennukset_)

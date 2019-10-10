@@ -42,6 +42,8 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
             kysymys += QString(" AND tili=%1 ").arg(urlquery.queryItemValue("tili").toInt());
         kysymys += " AND CAST(tili as text) < 3 GROUP BY tili ORDER BY tili ";
 
+        qDebug() << kysymys;
+
         kysely.exec(kysymys);
         while (kysely.next()) {
             QString tilistr = kysely.value(0).toString();
@@ -61,7 +63,7 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
                 saldot[edtili] = saldo;
         }
         // Nykyisen tulos
-        if( !urlquery.hasQueryItem("alkusaldot") ) {
+        if( !urlquery.hasQueryItem("alkusaldot") && !urlquery.hasQueryItem("tili") ) {
             kysely.exec(QString("SELECT sum(kredit), sum(debet) FROM Vienti WHERE CAST(tili as text) >= '3' "
                                 "AND pvm BETWEEN '%1' AND '%2'")
                         .arg(kausi.alkaa().toString(Qt::ISODate))
@@ -84,7 +86,6 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
         else
             kysymys += "<=";
         kysymys += QString(" '%1' ").arg(pvm.toString(Qt::ISODate));
-        if( urlquery.hasQueryItem("alkupvm"))
         if( urlquery.hasQueryItem("tili"))
             kysymys += QString(" AND tili=%1 ").arg(urlquery.queryItemValue("tili"));
         if( urlquery.hasQueryItem("kohdennus"))

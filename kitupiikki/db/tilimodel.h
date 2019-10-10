@@ -75,7 +75,7 @@ public:
 
     Tili *tiliPNumerolla(int numero) const;
 
-    Tili tiliIndeksilla(int i) const { return tilit_.value(i); }
+    Tili tiliIndeksilla(int i) const { return *tiliLista_.at(i); }
     Tili tiliNumerolla(int numero, int otsikkotaso = 0) const;
     Tili tiliYsiluvulla(int ysiluku) const;
     Tili tiliIbanilla(const QString& iban) const;
@@ -94,7 +94,7 @@ public:
 
     QStringList laskuTilit() const;
 
-    JsonKentta *jsonIndeksilla(int i);
+    [[deprecated]] JsonKentta *jsonIndeksilla(int i);
 
     bool onkoMuokattu() const;
 
@@ -118,8 +118,6 @@ protected:
     QList<int> poistetutIdt_;
 
     QList<Tili*> tiliLista_;
-
-    QHash<int,Tili*> idHash_;
     QHash<int,Tili*> nroHash_;
 
     int laajuus_ = 2;

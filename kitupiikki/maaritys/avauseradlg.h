@@ -19,6 +19,8 @@
 
 #include <QDialog>
 
+#include "avauserakantamodel.h"
+
 namespace Ui {
 class AvausEraDlg;
 }
@@ -28,11 +30,19 @@ class AvausEraDlg : public QDialog
     Q_OBJECT
 
 public:
-    explicit AvausEraDlg(QWidget *parent = nullptr);
+    explicit AvausEraDlg(int tili, bool kohdennukset = false,
+                         QList<AvausEra> erat = QList<AvausEra>(), QWidget *parent = nullptr);
     ~AvausEraDlg();
+
+    QList<AvausEra> erat() const;
+
+protected slots:
+    void paivitaSumma();
+    void lisaaTarvittaessa();
 
 private:
     Ui::AvausEraDlg *ui;
+    AvausEraKantaModel *model;
 };
 
 #endif // AVAUSERADLG_H

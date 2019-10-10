@@ -64,6 +64,7 @@ public:
     Kohdennus kohdennus(const int id) const;
     Kohdennus kohdennus(const QString& nimi) const;
     QList<Kohdennus> kohdennukset() const;
+    QList<Kohdennus> vainKohdennukset(const QDate &pvm) const;
 
     /**
      * @brief Onko määritelty kustannuspaikkoja tai projekteja

@@ -136,7 +136,7 @@ void TilinPaattaja::lukitse()
     // Lukitaan tilikausi!
     kp()->asetukset()->aseta("TilitPaatetty", tilikausi.paattyy());
     // Laaditaan arkisto
-    arkistosivu->teeArkisto(tilikausi);
+    // arkistosivu->teeArkisto(tilikausi);
 
     paivitaDialogi();
 }

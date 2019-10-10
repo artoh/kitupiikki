@@ -238,9 +238,9 @@ void Raportoija::kirjoitaDatasta()
             // Sitten etsitään tilit listalle
             int alkumerkit = alku.length();
 
-            int alaraja = 0;
+            int alaraja = 1;
             int ylaraja = tilit_.length() - 1;
-            int indeksi = ylaraja / 2;
+            int indeksi = 1 + (ylaraja-1) / 2;
 
             while( indeksi && ylaraja != alaraja) {
 
@@ -354,6 +354,14 @@ void Raportoija::kirjoitaDatasta()
                 eriSisennysStr.append(' ');
 
             for( int tiliNumero : rivinTilit) {
+
+                if( vainmenot || vaintulot) {
+                    const Tili& tamaTili = kp()->tilit()->tiliNumerolla(tiliNumero);
+                    if( (vainmenot && !tamaTili.onko(TiliLaji::MENO))  ||
+                        (vaintulot && !tamaTili.onko(TiliLaji::TULO)) )
+                        continue;
+                }
+
                 RaporttiRivi er;
                 er.lisaa( eriSisennysStr + kp()->tilit()->tiliNumerolla(tiliNumero).nimiNumero( kieli_ ) );
 
@@ -462,4 +470,6 @@ void Raportoija::kirjoita(bool tulostaErittelyt, int kohdennuksella)
     }
     for(auto kysely : kyselyt)
         kysely->kysy();
+
+    qDebug() << "Lähetetty " << kyselyt.count() << "kyselyä ";
 }

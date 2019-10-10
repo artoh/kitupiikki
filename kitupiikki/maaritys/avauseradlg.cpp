@@ -17,14 +17,52 @@
 #include "avauseradlg.h"
 #include "ui_avauseradlg.h"
 
-AvausEraDlg::AvausEraDlg(QWidget *parent) :
+#include "avauseramodel.h"
+#include "avauskohdennusmodel.h"
+
+AvausEraDlg::AvausEraDlg(int tili, bool kohdennukset, QList<AvausEra> erat, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AvausEraDlg)
 {
     ui->setupUi(this);
+
+    ui->tiliLabel->setText( kp()->tilit()->tiliNumerolla(tili).nimiNumero() );
+
+    ui->eraLabel->setVisible(!kohdennukset);
+    ui->kohdennusOhje->setVisible(kohdennukset);
+
+    if( kohdennukset )
+        model = new AvausKohdennusModel(erat, this);
+    else
+        model = new AvausEraModel(erat, this);
+    ui->view->setModel(model);
+    ui->view->horizontalHeader()->setSectionResizeMode( AvausEraKantaModel::NIMI, QHeaderView::Stretch);
+
+    connect( model, &AvausEraKantaModel::dataChanged, this, &AvausEraDlg::paivitaSumma);
+    connect( model, &AvausEraKantaModel::dataChanged, this, &AvausEraDlg::lisaaTarvittaessa);
 }
 
 AvausEraDlg::~AvausEraDlg()
 {
     delete ui;
+}
+
+QList<AvausEra> AvausEraDlg::erat() const
+{
+    return model->erat();
+}
+
+void AvausEraDlg::paivitaSumma()
+{
+    ui->summaLabel->setText(tr("Yhteensä %L1 €").arg( model->summa() / 100.0, 10, 'f', 2  ));
+}
+
+void AvausEraDlg::lisaaTarvittaessa()
+{
+    AvausEraModel* avaus = qobject_cast<AvausEraModel*>(model);
+    if( avaus && ui->view->currentIndex().row() == model->rowCount() - 1) {
+        QModelIndex current = ui->view->currentIndex();
+        avaus->lisaaRivi();
+        ui->view->setCurrentIndex(current.sibling(current.row(), 1));
+    }
 }

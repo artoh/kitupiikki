@@ -21,17 +21,41 @@
 #include <QTextDocument>
 #include <QPagedPaintDevice>
 #include "db/tilikausi.h"
+#include "raportti/raportinkirjoittaja.h"
+#include "naytin/esikatseltava.h"
 
+#include <QVector>
+#include <QPagedPaintDevice>
 /**
  * @brief Tilinpäätöksen tulostus
 */
-class TilinpaatosTulostaja
+class TilinpaatosTulostaja : public QObject, public Esikatseltava
 {
+    Q_OBJECT
 public:
+    TilinpaatosTulostaja(Tilikausi tilikausi, const QString& teksti, const QStringList& raportit, bool tallenna=false, QObject* parent = nullptr);
+    virtual ~TilinpaatosTulostaja() override;
 
-    static void tulostaTilinpaatos(QPagedPaintDevice* writer,Tilikausi tilikausi, const QString &teksti);
+    virtual void tulosta(QPagedPaintDevice *writer) const override;
+    virtual QString otsikko() const override;
+
 private:
-    static void tulostaKansilehti(Tilikausi tilikausi, QPainter *painter);
+    void tulostaKansilehti(QPainter *painter) const;
+
+protected:
+    void tilaaRaportti(const QString& raportinnimi);
+
+protected slots:
+    void raporttiSaapuu(int raportti, RaportinKirjoittaja rk);
+    void kirjoita();
+
+protected:
+    Tilikausi tilikausi_;
+    QVector<RaportinKirjoittaja> kirjoittajat_;
+    int tilattuja_;
+    QString teksti_;
+    QStringList raportit_;
+    bool tallenna_;
 
 };
 

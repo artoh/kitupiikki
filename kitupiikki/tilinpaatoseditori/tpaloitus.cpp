@@ -33,6 +33,10 @@
 #include <QDebug>
 #include <QDesktopServices>
 
+#include <QJsonDocument>
+#include <QJsonParseError>
+#include <QVariant>
+
 TpAloitus::TpAloitus(Tilikausi kausi, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::TpAloitus),
@@ -159,7 +163,16 @@ void TpAloitus::lataa()
 
     model = new QStandardItemModel;
 
-    QStringList kaava = kp()->asetukset()->lista("TilinpaatosPohja");
+    QString pohja = kp()->asetus("tilinpaatospohja");
+    QJsonParseError error;
+    QVariant kaavavar = QJsonDocument::fromJson( pohja.toUtf8() , &error).toVariant();
+//    QVariantList lista = kaavavar.toMap().value("fi").toList();
+    QStringList kaava;
+
+//    for(auto rivi : lista)
+//        kaava.append(rivi.toString());
+
+    kaava = kaavavar.toMap().value("fi").toStringList();
 
     QRegularExpression valintaRe("#(?<tunnus>\\w+)(?<pois>(\\s-\\w+)*)\\s(?<naytto>.+)");
     valintaRe.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);

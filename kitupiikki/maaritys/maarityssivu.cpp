@@ -88,7 +88,6 @@ MaaritysSivu::MaaritysSivu() :
 
     setLayout(leiska);
 
-    connect( vienappi, SIGNAL(clicked(bool)), this, SLOT(vieTilikartta()));
     connect( paivitaNappi, SIGNAL(clicked(bool)), this, SLOT(paivitaTilikartta()));
     connect( perunappi, SIGNAL(clicked(bool)), this, SLOT(peru()));
     connect( tallennanappi, SIGNAL(clicked(bool)), this, SLOT(tallenna()));

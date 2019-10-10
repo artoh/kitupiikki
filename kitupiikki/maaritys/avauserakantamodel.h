@@ -19,20 +19,27 @@
 
 #include <QAbstractTableModel>
 
+#include "tilinavausmodel.h"
+
 class AvausEraKantaModel : public QAbstractTableModel
 {
     Q_OBJECT
 
 public:
-    explicit AvausEraKantaModel(QObject *parent = nullptr);
+    enum { NIMI, SALDO };
+
+    AvausEraKantaModel(QList<AvausEra> erat = QList<AvausEra>(),
+                                QObject *parent = nullptr);
 
     // Basic functionality:
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    QList<AvausEra> erat() const;
+    qlonglong summa() const;
 
-private:
+protected:
+    QList<AvausEra> erat_;
+
 };
 
 #endif // AVAUSERAKANTAMODEL_H

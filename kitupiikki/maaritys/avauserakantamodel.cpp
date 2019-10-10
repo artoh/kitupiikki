@@ -16,17 +16,9 @@
 */
 #include "avauserakantamodel.h"
 
-AvausEraKantaModel::AvausEraKantaModel(QObject *parent)
-    : QAbstractTableModel(parent)
+AvausEraKantaModel::AvausEraKantaModel(QList<AvausEra> erat, QObject *parent) :
+    QAbstractTableModel(parent), erat_(erat)
 {
-}
-
-int AvausEraKantaModel::rowCount(const QModelIndex &parent) const
-{
-    if (parent.isValid())
-        return 0;
-
-    // FIXME: Implement me!
 }
 
 int AvausEraKantaModel::columnCount(const QModelIndex &parent) const
@@ -34,14 +26,23 @@ int AvausEraKantaModel::columnCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    // FIXME: Implement me!
+    return 2;
 }
 
-QVariant AvausEraKantaModel::data(const QModelIndex &index, int role) const
+QList<AvausEra> AvausEraKantaModel::erat() const
 {
-    if (!index.isValid())
-        return QVariant();
-
-    // FIXME: Implement me!
-    return QVariant();
+    QList<AvausEra> erat;
+    for( auto era : erat_)
+        if( era.saldo())
+            erat.append(era);
+    return erat;
 }
+
+qlonglong AvausEraKantaModel::summa() const
+{
+    qlonglong s = 0l;
+    for( auto era : erat_)
+        s += era.saldo();
+    return s;
+}
+

@@ -291,7 +291,10 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
 
         kysely.exec();
 
-        qDebug() << kysely.lastQuery() << "  v> " << kysely.lastError().text();
+        vientiid = kysely.lastInsertId().toInt();
+        // Uusi erä käyttöön
+        if( eraid < 0)
+            kysely.exec(QString("UPDATE Vienti SET eraid=%1 WHERE id=%1").arg(vientiid) );
 
 
         if( vientiid )
@@ -305,7 +308,6 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
                         .arg(vientiid)
                         .arg(merkkaus.toInt()));
         }
-
 
     }
 

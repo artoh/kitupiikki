@@ -17,11 +17,26 @@
 #ifndef TIEDOTSIVU_H
 #define TIEDOTSIVU_H
 
+#include "uusivelho.h"
+#include <QWizardPage>
 
-class TiedotSivu : public QWizardPage
-{
+namespace Ui {
+    class UusiTiedot;
+}
+
+class TiedotSivu : public QWizardPage {
 public:
-    TiedotSivu();
+    TiedotSivu(UusiVelho *wizard);
+    void initializePage() override;
+    bool validatePage() override;
+
+protected slots:
+    void haeytunnarilla();
+    void yTietoSaapuu();
+
+protected:
+    Ui::UusiTiedot *ui;
+    UusiVelho *velho;
 };
 
 #endif // TIEDOTSIVU_H

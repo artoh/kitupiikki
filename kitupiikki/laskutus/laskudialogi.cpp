@@ -630,7 +630,7 @@ QVariantMap LaskuDialogi::vastakirjaus() const
     vienti.setPvm( QDate::currentDate() );
     vienti.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::MYYNTISAATAVA).numero() );
 
-    if( tallennusTila_ == Tosite::KIRJANPIDOSSA)
+    if( tallennusTila_ >= Tosite::VALMISLASKU)
         vienti.setEra( -1 );
 
     vienti.setErapaiva( ui->eraDate->date() );
