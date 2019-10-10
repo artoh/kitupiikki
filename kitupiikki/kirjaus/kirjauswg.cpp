@@ -586,6 +586,11 @@ void KirjausWg::lisaaLiiteDatasta(const QByteArray &data, const QString &nimi)
 void KirjausWg::tiedotModelista()
 {
 
+    if( apuri_ ) {
+        delete apuri_;
+        apuri_ = nullptr;
+    }
+
     int tyyppi = tosite_->data(Tosite::TYYPPI).toInt();
     bool lisattavatyyppi = kp()->tositeTyypit()->onkolisattavissa(tyyppi);
 
@@ -623,11 +628,6 @@ void KirjausWg::tiedotModelista()
         ui->seuraavaButton->setVisible(false);
         ui->vuosiLabel->setVisible(false);
     }
-
-
-    if( apuri_ )
-        apuri_->reset();
-
 
 }
 

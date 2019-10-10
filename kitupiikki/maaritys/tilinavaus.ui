@@ -15,18 +15,46 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Tilinavaus&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Syötä tilien loppusaldot edellisestä tilinpäätöksestä.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Tilinavaus&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Syötä tilien loppusaldot edellisestä tilinpäätöksestä.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,1,3,0,0">
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Siirry tiliin </string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="siirryEdit">
+       <property name="maxLength">
+        <number>10</number>
+       </property>
+       <property name="placeholderText">
+        <string>Tilinumero</string>
+       </property>
+      </widget>
+     </item>
      <item>
       <widget class="QLineEdit" name="etsiEdit">
        <property name="placeholderText">
-        <string>Etsi tili numerolla tai nimellä</string>
+        <string>Suodata tilin numerolla tai nimellä</string>
        </property>
       </widget>
      </item>

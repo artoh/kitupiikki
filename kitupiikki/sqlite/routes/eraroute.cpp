@@ -15,6 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "eraroute.h"
+#include <QDate>
 
 EraRoute::EraRoute(SQLiteModel *model) :
     SQLiteRoute(model, "/erat")
@@ -38,7 +39,7 @@ QVariant EraRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
 
     kysely.exec(kysymys);
     while( kysely.next()) {
-        QString tili = kysely.value(0).toString();
+        QString tili = kysely.value("tili").toString();
         double debet = kysely.value(1).toDouble();
         double kredit = kysely.value(2).toDouble();
         double avoin = tili.startsWith('1') ?
@@ -48,6 +49,8 @@ QVariant EraRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
         QVariantMap map;
         map.insert("tili", tili);
         map.insert("avoin", avoin);
+        map.insert("selite", kysely.value("selite"));
+        map.insert("pvm", kysely.value("pvm").toDate());
         lista.append(map);
     }
     return lista;

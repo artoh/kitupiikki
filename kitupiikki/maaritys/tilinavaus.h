@@ -51,6 +51,7 @@ public slots:
     void erittely(const QModelIndex& index);
 
     void info(qlonglong vastaavaa, qlonglong vastattavaa, qlonglong tulos);
+    void siirry(const QString& minne);
 
 public:
     bool nollaa() override;

@@ -71,6 +71,11 @@ QString Tosite::tilateksti(int tila)
     return QString();
 }
 
+QDate Tosite::pvm() const
+{
+    return data(PVM).toDate();
+}
+
 void Tosite::lataa(int tositeid)
 {
     KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tositeid));

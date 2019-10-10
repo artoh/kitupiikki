@@ -77,6 +77,8 @@ public:
     void lisaa(const TositeVienti& vienti);
 
     void asetaViennit(QVariantList viennit);
+    void tyhjenna();
+
     QVariant viennit() const { return viennit_;}
 
     QVariant tallennettavat() const;

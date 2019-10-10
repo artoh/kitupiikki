@@ -360,6 +360,11 @@ void TositeViennit::asetaViennit(QVariantList viennit)
     qDebug() << viennit_;
 }
 
+void TositeViennit::tyhjenna()
+{
+    asetaViennit(QVariantList());
+}
+
 QVariant TositeViennit::tallennettavat() const
 {
     QVariantList ulos;

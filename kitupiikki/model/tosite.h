@@ -86,6 +86,8 @@ public:
 
     static QString tilateksti(int tila);
 
+    QDate pvm() const;
+
 signals:
     void ladattu();
     void talletettu(int id, int tunniste, const QDate& pvm, const QString& sarja);

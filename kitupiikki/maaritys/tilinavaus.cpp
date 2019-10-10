@@ -16,6 +16,7 @@
 */
 
 #include <QSortFilterProxyModel>
+#include <QScrollBar>
 
 #include "tilinavaus.h"
 #include "tilinavausmodel.h"
@@ -39,6 +40,7 @@ Tilinavaus::Tilinavaus(QWidget *parent) : MaaritysWidget(parent)
     suodatus->setSourceModel(proxy);
 
     ui->tiliView->setModel(suodatus);
+    ui->siirryEdit->setValidator(new QIntValidator(this));
 
     ui->tiliView->setItemDelegateForColumn( TilinavausModel::SALDO, new EuroDelegaatti);
 
@@ -52,6 +54,7 @@ Tilinavaus::Tilinavaus(QWidget *parent) : MaaritysWidget(parent)
     connect( ui->etsiEdit, &QLineEdit::textEdited, this, &Tilinavaus::suodata);
     connect( ui->tiliView, &QTableView::activated, this, &Tilinavaus::erittely);
     connect( ui->tiliView, &QTableView::clicked, this, &Tilinavaus::erittely);
+    connect( ui->siirryEdit, &QLineEdit::textEdited, this, &Tilinavaus::siirry);
 
     connect( model, &TilinavausModel::tilasto, this, &Tilinavaus::info);
 }
@@ -126,10 +129,29 @@ void Tilinavaus::info(qlonglong vastaavaa, qlonglong vastattavaa, qlonglong tulo
         ui->poikkeusLabel->setText(QString("%L1 €").arg( ( qAbs(vastaavaa-vastattavaa) / 100.0 ), 10,'f',2));
 }
 
+void Tilinavaus::siirry(const QString &minne)
+{
+    if( !minne.isEmpty()) {
+        for(int i=0; i < ui->tiliView->model()->rowCount(); i++) {
+            QModelIndex index = ui->tiliView->model()->index(i,0);
+
+            if( QString::number(index.data(TiliModel::NroRooli).toInt()).startsWith(minne) ||
+                index.data(TiliModel::NimiRooli).toString().startsWith(minne))
+            {
+                // Valitsee tämän rivin
+                ui->tiliView->setCurrentIndex(index);
+                // Ja scrollaa rivin näkyviin
+                ui->tiliView->verticalScrollBar()->setSliderPosition(i);
+                return;
+            }
+        }
+    }
+}
+
 bool Tilinavaus::nollaa()
 {
     model->lataa();
-//    ui->henkilostoSpin->setValue(kp()->tilikaudet()->tilikausiIndeksilla(0).json()->luku("Henkilosto"));
+    ui->henkilostoSpin->setValue(kp()->tilikaudet()->tilikausiIndeksilla(0).luku("Henkilosto"));
     emit tallennaKaytossa(onkoMuokattu());
     return true;
 }
@@ -140,8 +162,8 @@ bool Tilinavaus::tallenna()
     if( model->onkoMuokattu())
         model->tallenna();
 
-//    kp()->tilikaudet()->json(0)->set("Henkilosto", ui->henkilostoSpin->value());
-//    kp()->tilikaudet()->tallennaJSON();
+    kp()->tilikaudet()->viiteIndeksilla(0).set("Henkilosto", ui->henkilostoSpin->value());
+    kp()->tilikaudet()->viiteIndeksilla(0).tallenna();
 
     emit tallennaKaytossa(onkoMuokattu());
 
@@ -150,5 +172,6 @@ bool Tilinavaus::tallenna()
 
 bool Tilinavaus::onkoMuokattu()
 {
-    return model->onkoMuokattu() ;
+    return model->onkoMuokattu() ||
+          ui->henkilostoSpin->value() != kp()->tilikaudet()->viiteIndeksilla(0).luku("Henkilosto");
 }

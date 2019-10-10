@@ -185,6 +185,11 @@ Tilikausi TilikausiModel::tilikausiIndeksilla(int indeksi) const
     return kaudet_.value(indeksi, Tilikausi());
 }
 
+Tilikausi &TilikausiModel::viiteIndeksilla(int indeksi)
+{
+    return kaudet_[indeksi];
+}
+
 QDate TilikausiModel::kirjanpitoAlkaa() const
 {
     if( kaudet_.count())

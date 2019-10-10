@@ -23,17 +23,19 @@
 #include <QMap>
 
 #include "db/kirjanpito.h"
+#include "model/tosite.h"
 
 /**
  * @brief Tilinavauksessa oleva yksi erä
  */
 class AvausEra {
 public:
-    AvausEra(qlonglong saldo = 0l, const QString& eranimi=QString(), int kohdennus=0 );
+    AvausEra(qlonglong saldo = 0l, const QString& eranimi=QString(), int kohdennus=0, int vienti=0 );
 
     QString eranimi() const { return eranimi_; }
     int kohdennus() const { return kohdennus_;}
     qlonglong saldo() const { return saldo_; }
+    int vienti() const { return vienti_;}
 
     void asetaNimi(const QString& nimi) { eranimi_ = nimi;}
     void asetaKohdennus(int kohdennus) { kohdennus_ = kohdennus; }
@@ -43,6 +45,7 @@ protected:
     QString eranimi_;
     int kohdennus_ = 0;
     qlonglong saldo_ = 0l;
+    int vienti_ = 0;
 };
 
 /**
@@ -93,10 +96,12 @@ public:
     QList<AvausEra> erat(int tili) const;
 
 public slots:
-    void lataa();
     bool tallenna();
+    void lataa();
 
     void paivitaInfo();
+
+    void ladattu();
 
 protected:
     static qlonglong erasumma(const QList<AvausEra>& erat);
@@ -105,8 +110,8 @@ signals:
     void tilasto(qlonglong vastaava, qlonglong vastattava, qlonglong tulos);
 
 protected:
-    QMap<int,qlonglong> saldot;
     QMap<int, QList<AvausEra>> erat_;
+    Tosite *tosite_;
 
     bool muokattu_;
     int kaudenTulosIndeksi_ = 0;

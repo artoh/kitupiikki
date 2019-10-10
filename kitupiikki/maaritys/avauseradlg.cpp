@@ -20,6 +20,8 @@
 #include "avauseramodel.h"
 #include "avauskohdennusmodel.h"
 
+#include "kirjaus/eurodelegaatti.h"
+
 AvausEraDlg::AvausEraDlg(int tili, bool kohdennukset, QList<AvausEra> erat, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AvausEraDlg)
@@ -37,6 +39,7 @@ AvausEraDlg::AvausEraDlg(int tili, bool kohdennukset, QList<AvausEra> erat, QWid
         model = new AvausEraModel(erat, this);
     ui->view->setModel(model);
     ui->view->horizontalHeader()->setSectionResizeMode( AvausEraKantaModel::NIMI, QHeaderView::Stretch);
+    ui->view->setItemDelegateForColumn( TilinavausModel::SALDO, new EuroDelegaatti);
 
     connect( model, &AvausEraKantaModel::dataChanged, this, &AvausEraDlg::paivitaSumma);
     connect( model, &AvausEraKantaModel::dataChanged, this, &AvausEraDlg::lisaaTarvittaessa);

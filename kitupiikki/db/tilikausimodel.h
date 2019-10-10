@@ -67,6 +67,7 @@ public:
     Tilikausi tilikausiPaivalle(const QDate &paiva) const;
     int indeksiPaivalle(const QDate &paiva) const;
     Tilikausi tilikausiIndeksilla(int indeksi) const;
+    Tilikausi& viiteIndeksilla(int indeksi);
 
     QDate kirjanpitoAlkaa() const;
     QDate kirjanpitoLoppuu() const;
