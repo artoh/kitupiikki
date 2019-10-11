@@ -29,6 +29,8 @@ public:
         AvoinnaRooli = Qt::UserRole + 1
     };
 
+    int valittuEra() const { return valittuna_;}
+
 public slots:
     void lataa(int tili);
     void valitse(int eraid);

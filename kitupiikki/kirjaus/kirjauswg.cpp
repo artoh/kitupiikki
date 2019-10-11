@@ -586,11 +586,6 @@ void KirjausWg::lisaaLiiteDatasta(const QByteArray &data, const QString &nimi)
 void KirjausWg::tiedotModelista()
 {
 
-    if( apuri_ ) {
-        delete apuri_;
-        apuri_ = nullptr;
-    }
-
     int tyyppi = tosite_->data(Tosite::TYYPPI).toInt();
     bool lisattavatyyppi = kp()->tositeTyypit()->onkolisattavissa(tyyppi);
 
@@ -600,7 +595,7 @@ void KirjausWg::tiedotModelista()
         ui->tositetyyppiLabel->setText( kp()->tositeTyypit()->nimi(tyyppi) );
     ui->tositetyyppiCombo->setVisible( lisattavatyyppi );
     ui->tositetyyppiLabel->setVisible( !lisattavatyyppi );
-
+    vaihdaTositeTyyppi();
 
     QDate tositepvm = tosite_->data(Tosite::PVM).toDate();
 

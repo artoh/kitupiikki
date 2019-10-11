@@ -68,11 +68,14 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
     connect( ui->euroEdit, &KpEuroEdit::textChanged, this, &TilioteKirjaaja::tarkastaTallennus);
     connect( ui->pvmEdit, &KpDateEdit::dateChanged, this, &TilioteKirjaaja::tarkastaTallennus);
     connect( ui->tiliEdit, &TilinvalintaLine::textChanged, this, &TilioteKirjaaja::tarkastaTallennus);
+    connect( ui->tiliEdit, &TilinvalintaLine::textChanged, this, &TilioteKirjaaja::tiliMuuttuu);
     connect( ui->maksuView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &TilioteKirjaaja::tarkastaTallennus);
+    connect( ui->eraCombo, &EraCombo::valittu, this, &TilioteKirjaaja::eraValittu);
 
     connect( ui->asiakastoimittaja, &AsiakasToimittajaValinta::valittu, this, &TilioteKirjaaja::kumppaniValittu);
 
     connect( new QShortcut(QKeySequence("F12"), this), &QShortcut::activated, this, &TilioteKirjaaja::accept);
+
 
 }
 
@@ -114,6 +117,7 @@ TilioteModel::Tilioterivi TilioteKirjaaja::rivi()
     } else if( ui->alaTabs->currentIndex() == TULOMENO ) {
         rivi.saajamaksajaId = ui->asiakastoimittaja->id();
         rivi.saajamaksaja = ui->asiakastoimittaja->nimi();
+        rivi.eraId = ui->eraCombo->valittuEra();
 
         if( rivi.selite.isEmpty())
             rivi.selite = rivi.saajamaksaja;
@@ -154,6 +158,7 @@ void TilioteKirjaaja::muokkaaRivia(int riviNro)
     ui->tiliEdit->valitseTiliNumerolla( rivi.tili );
     ui->kohdennusCombo->setCurrentIndex(
                 ui->kohdennusCombo->findData( rivi.kohdennus, KohdennusModel::IdRooli));
+    ui->eraCombo->valitse( rivi.eraId );
 
     // Etsitään valittava rivi
     for(int i=0; i < maksuProxy_->rowCount(); i++) {
@@ -206,6 +211,8 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
         ui->tiliEdit->suodataTyypilla( "[AB].*");
         ui->tiliEdit->clear();
     }
+
+    tiliMuuttuu();
 }
 
 void TilioteKirjaaja::euroMuuttuu()
@@ -229,6 +236,24 @@ void TilioteKirjaaja::ylaTabMuuttui(int tab)
 
 
     ui->euroEdit->setMiinus( tab );
+}
+
+void TilioteKirjaaja::tiliMuuttuu()
+{
+    Tili tili = ui->tiliEdit->valittuTili();
+
+    bool erat = tili.eritellaankoTase();
+    ui->eraLabel->setVisible(erat);
+    ui->eraCombo->setVisible(erat);
+    if( erat ) {
+        ui->eraCombo->lataa(tili.numero());
+    }
+}
+
+void TilioteKirjaaja::eraValittu(int /* eraId */, double avoinna)
+{
+    if( !ui->euroEdit->asCents() && avoinna > 1e-5)
+        ui->euroEdit->setValue(avoinna);
 }
 
 void TilioteKirjaaja::valitseLasku()
