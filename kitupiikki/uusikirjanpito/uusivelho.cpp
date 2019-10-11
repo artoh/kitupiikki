@@ -89,7 +89,7 @@ QVariantMap UusiVelho::data() const
     QVariantMap initMap;
 
     if( field("harjoitus").toBool())
-        asetusMap.insert("harjoitus", true);
+        asetusMap.insert("Harjoitus", true);
 
     if( field("erisarjaan").toBool()) {
         if( field("kateissarjaan").toBool())

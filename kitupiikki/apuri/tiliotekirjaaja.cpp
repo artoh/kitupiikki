@@ -190,8 +190,8 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
     ui->merkkausLabel->setVisible(  tab == TULOMENO && kp()->kohdennukset()->merkkauksia() );
     ui->merkkausCC->setVisible(  tab == TULOMENO && kp()->kohdennukset()->merkkauksia() );
 
-    ui->asiakasLabel->setVisible( tab == TULOMENO);
-    ui->asiakastoimittaja->setVisible( tab == TULOMENO );
+    ui->asiakasLabel->setVisible( tab == TULOMENO || tab==SIIRTO);
+    ui->asiakastoimittaja->setVisible( tab == TULOMENO || tab==SIIRTO);
 
     ui->seliteLabel->setVisible(tab != MAKSU);
     ui->seliteEdit->setVisible( tab != MAKSU);
@@ -208,6 +208,7 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
 
     } else if ( tab == SIIRTO ) {
         ui->tiliLabel->setText( menoa_ ? tr("Tilille") : tr("Tililtä")  );
+        ui->asiakasLabel->setText( menoa_ ? tr("Saaja") : tr("Maksaja"));
         ui->tiliEdit->suodataTyypilla( "[AB].*");
         ui->tiliEdit->clear();
     }
@@ -253,7 +254,8 @@ void TilioteKirjaaja::tiliMuuttuu()
 void TilioteKirjaaja::eraValittu(int /* eraId */, double avoinna)
 {
     if( !ui->euroEdit->asCents() && avoinna > 1e-5)
-        ui->euroEdit->setValue(avoinna);
+        ui->euroEdit->setValue(menoa_ ? 0 - avoinna : avoinna);
+
 }
 
 void TilioteKirjaaja::valitseLasku()
@@ -289,6 +291,7 @@ void TilioteKirjaaja::tyhjenna()
     ui->pvmEdit->setFocus();
     ui->kohdennusCombo->setCurrentIndex(
                 ui->kohdennusCombo->findData(0, KohdennusModel::IdRooli));
+    ui->eraCombo->valitse(0);
     lataaMerkkaukset();
     tarkastaTallennus();
 }

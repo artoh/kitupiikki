@@ -53,17 +53,17 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
                 saldot.insert( tilistr, kysely.value(2).toDouble() - kysely.value(1).toDouble() );
         }
 
-        // Edellisten tulos
-        kysely.exec(QString("SELECT sum(kredit), sum(debet) FROM Vienti WHERE CAST(tili as text) >= '3' "
-                            "AND pvm<'%1'").arg(kausi.alkaa().toString(Qt::ISODate)));
-        if( kysely.next()) {
-            QString edtili = QString::number( kp()->tilit()->tiliTyypilla(TiliLaji::EDELLISTENTULOS).numero() ) ;
-            double saldo = saldot.value(edtili).toDouble() + kysely.value(0).toDouble() - kysely.value(1).toDouble();
-            if( qAbs(saldo) > 1e-5)
-                saldot[edtili] = saldo;
-        }
-        // Nykyisen tulos
         if( !urlquery.hasQueryItem("alkusaldot") && !urlquery.hasQueryItem("tili") ) {
+            // Edellisten tulos
+            kysely.exec(QString("SELECT sum(kredit), sum(debet) FROM Vienti WHERE CAST(tili as text) >= '3' "
+                                "AND pvm<'%1'").arg(kausi.alkaa().toString(Qt::ISODate)));
+            if( kysely.next()) {
+                QString edtili = QString::number( kp()->tilit()->tiliTyypilla(TiliLaji::EDELLISTENTULOS).numero() ) ;
+                double saldo = saldot.value(edtili).toDouble() + kysely.value(0).toDouble() - kysely.value(1).toDouble();
+                if( qAbs(saldo) > 1e-5)
+                    saldot[edtili] = saldo;
+            }
+            // Nykyisen tulos
             kysely.exec(QString("SELECT sum(kredit), sum(debet) FROM Vienti WHERE CAST(tili as text) >= '3' "
                                 "AND pvm BETWEEN '%1' AND '%2'")
                         .arg(kausi.alkaa().toString(Qt::ISODate))

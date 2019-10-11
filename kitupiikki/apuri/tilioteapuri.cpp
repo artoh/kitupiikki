@@ -168,7 +168,6 @@ void TilioteApuri::tiliPvmMuutos()
                        .arg( ui->alkuDate->date().toString("dd.MM.yyyy") )
                        .arg( ui->loppuDate->date().toString("dd.MM.yyyy"))
                        .arg(iban));
-    kysyAlkusumma();
 }
 
 void TilioteApuri::lataaHarmaat()
@@ -176,6 +175,7 @@ void TilioteApuri::lataaHarmaat()
     model_->lataaHarmaat( ui->tiliCombo->valittuTilinumero(),
                           ui->alkuDate->date(),
                           ui->loppuDate->date());
+    kysyAlkusumma();
 }
 
 void TilioteApuri::laitaPaivat(const QDate &pvm)

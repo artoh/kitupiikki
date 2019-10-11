@@ -203,8 +203,10 @@ Qt::ItemFlags TilioteModel::flags(const QModelIndex &index) const
         if( !tili.onko(TiliLaji::TULOS))
             return Qt::ItemIsEnabled;
     }
+    if( index.column() == SAAJAMAKSAJA)
+        return Qt::ItemIsEnabled;
 
-    return Qt::ItemIsEditable | Qt::ItemIsEnabled; // FIXME: Implement me!
+    return Qt::ItemIsEditable | Qt::ItemIsEnabled;
 }
 
 void TilioteModel::lisaaRivi(const TilioteModel::Tilioterivi &rivi)
