@@ -29,41 +29,18 @@
 
 #include "validator/ytunnusvalidator.h"
 
-
 Perusvalinnat::Perusvalinnat() :
-    MaaritysWidget(nullptr),
+    TallentavaMaaritysWidget(nullptr),
     ui(new Ui::Perusvalinnat)
 {
     ui->setupUi(this);
 
     connect(ui->vaihdaLogoNappi, SIGNAL(clicked(bool)), this, SLOT(vaihdaLogo()));
-
-    connect( ui->organisaatioEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
-    connect( ui->ytunnusEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
-    connect( ui->alvCheck, SIGNAL(clicked(bool)), this, SLOT(ilmoitaMuokattu()));
-    connect( ui->edistyneetCheck, SIGNAL(clicked(bool)), this, SLOT(ilmoitaMuokattu()));
-    connect( ui->osoiteEdit, SIGNAL(textChanged()), this, SLOT(ilmoitaMuokattu()));
-    connect( ui->kotipaikkaEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
-    connect( ui->puhelinEdit, SIGNAL(textChanged(QString)), this, SLOT(ilmoitaMuokattu()));
-    connect( ui->paivitysCheck, SIGNAL(clicked(bool)), this, SLOT(ilmoitaMuokattu()));
-    connect( ui->muotoCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(ilmoitaMuokattu()));
-    connect( ui->logossaNimiBox, SIGNAL(toggled(bool)), this, SLOT(ilmoitaMuokattu()));
-    connect( ui->sahkopostiEdit, &QLineEdit::textChanged, this, &Perusvalinnat::ilmoitaMuokattu);
-
     connect( ui->hakemistoNappi, SIGNAL(clicked(bool)), this, SLOT(avaaHakemisto()));
     connect( ui->avaaArkistoNappi, &QPushButton::clicked, [] { kp()->avaaUrl( kp()->arkistopolku() ); } );    
     connect( ui->poistaLogoNappi, &QPushButton::clicked, [this] { poistalogo=true; ui->logoLabel->clear(); ilmoitaMuokattu(); });
-    connect( ui->eipdfCheck, SIGNAL(toggled(bool)), this, SLOT(ilmoitaMuokattu()));
-    connect( ui->pienennaJpg, SIGNAL(toggled(bool)), this, SLOT(ilmoitaMuokattu()));
 
     ui->ytunnusEdit->setValidator(new YTunnusValidator());
-
-#ifndef QT_WS_MAC
-    // Mahdollisuus pdf-toimintojen käytöstä poistamiseen vain maceille, koska niillä joskus ongelmia..
-    // ui->eipdfCheck->hide();
-#endif
-
-
 
 }
 
@@ -74,73 +51,15 @@ Perusvalinnat::~Perusvalinnat()
 
 bool Perusvalinnat::nollaa()
 {
-    ui->organisaatioEdit->setText( Kirjanpito::db()->asetus("Nimi") );
-    ui->ytunnusEdit->setText( Kirjanpito::db()->asetus("Ytunnus"));
-    ui->alvCheck->setChecked( kp()->asetukset()->onko("AlvVelvollinen"));
-    ui->edistyneetCheck->setChecked( kp()->asetukset()->onko("NaytaEdistyneet"));
-    ui->osoiteEdit->setText( kp()->asetukset()->asetus("Osoite"));
-    ui->kotipaikkaEdit->setText( kp()->asetukset()->asetus("Kotipaikka"));
-    ui->puhelinEdit->setText( kp()->asetus("Puhelin"));
-    ui->logossaNimiBox->setChecked( kp()->asetukset()->onko("LogossaNimi") );
-    ui->sahkopostiEdit->setText( kp()->asetukset()->asetus("Sahkoposti"));
-    ui->poistaLogoNappi->setEnabled( !kp()->logo().isNull() );
 
-    // Haetaan muodot
-
-    QStringList muodot = kp()->asetukset()->avaimet("MuotoOn/");
-    if( muodot.count())
-    {
-        for(const QString& muoto : muodot)
-        {
-            ui->muotoCombo->addItem( muoto.mid(8));
-        }
-        ui->muotoCombo->setCurrentIndex( ui->muotoCombo->findText( kp()->asetukset()->asetus("Muoto") ));
-        ui->muotoLabel->setText( kp()->asetukset()->asetus("MuotoTeksti"));
-    }
-    else
-    {
-        ui->muotoLabel->hide();
-        ui->muotoCombo->hide();
-    }
-
-
-    ui->paivitysCheck->setChecked( kp()->settings()->value("NaytaPaivitykset", true).toBool() );
-    ui->eipdfCheck->setChecked(kp()->settings()->value("PopplerPois", false).toBool());
-    ui->pienennaJpg->setChecked( !kp()->asetukset()->onko("SailytaJpgKoko"));
-
-    uusilogo = QImage();
-
-    // Jos logotiedosto, merkitään se
-    if( !kp()->logo().isNull())
-        ui->logoLabel->setPixmap( QPixmap::fromImage( kp()->logo().scaled(64, 64, Qt::KeepAspectRatio) ) );
-
-    ui->sijaintiLabel->setText( kp()->tiedostopolku() );
-
-    bool arkistoloytyy =  QDir(kp()->arkistopolku()).exists();
-    ui->avaaArkistoNappi->setEnabled(arkistoloytyy);
-    if( arkistoloytyy )
-        ui->arkistoEdit->setText( kp()->arkistopolku());
-    else
-        ui->arkistoEdit->setText(QString());
-
-    return true;
+    TallentavaMaaritysWidget::nollaa();
 }
 
 void Perusvalinnat::vaihdaLogo()
 {
-    QString tiedostopolku = QFileDialog::getOpenFileName(this,"Valitse logo", QDir::homePath(),"Kuvatiedostot (*.png *.jpg)" );
-    if( !tiedostopolku.isEmpty())
-    {
-        uusilogo.load( tiedostopolku );
-        ui->logoLabel->setPixmap( QPixmap::fromImage( uusilogo.scaled(64, 64, Qt::KeepAspectRatio) ) );
-    }
-    ilmoitaMuokattu();
+
 }
 
-void Perusvalinnat::ilmoitaMuokattu()
-{
-    emit tallennaKaytossa( onkoMuokattu());
-}
 
 void Perusvalinnat::avaaHakemisto()
 {
@@ -148,54 +67,10 @@ void Perusvalinnat::avaaHakemisto()
     kp()->avaaUrl( QUrl::fromLocalFile( info.absoluteDir().absolutePath() ) );
 }
 
-bool Perusvalinnat::onkoMuokattu()
-{
-
-    return  ui->organisaatioEdit->text() != kp()->asetus("Nimi")  ||
-            ui->ytunnusEdit->text() != kp()->asetus("Ytunnus") ||
-            ui->alvCheck->isChecked() != kp()->asetukset()->onko("AlvVelvollinen") ||
-            ui->edistyneetCheck->isChecked() != kp()->asetukset()->onko("NaytaEdistyneet") ||
-            !uusilogo.isNull() ||
-            ui->osoiteEdit->toPlainText() != kp()->asetukset()->asetus("Osoite") ||
-            ui->kotipaikkaEdit->text() != kp()->asetukset()->asetus("Kotipaikka") ||
-            ui->puhelinEdit->text() != kp()->asetukset()->asetus("Puhelin") ||
-            ui->sahkopostiEdit->text() != kp()->asetukset()->asetus("Sahkoposti") ||
-            ui->paivitysCheck->isChecked() != kp()->settings()->value("NaytaPaivitykset",true).toBool() ||
-            ui->eipdfCheck->isChecked() != kp()->settings()->value("PopplerPois",true).toBool() ||
-            ui->logossaNimiBox->isChecked() != kp()->asetukset()->onko("LogossaNimi") ||
-            poistalogo ||
-            ( ui->muotoCombo->currentText() != kp()->asetukset()->asetus("Muoto")) ||
-            ui->pienennaJpg->isChecked() == kp()->asetukset()->onko("SailytaJpgKoko");
-}
 
 bool Perusvalinnat::tallenna()
 {
 
-    kp()->settings()->setValue("NaytaPaivitykset", ui->paivitysCheck->isChecked());
-    kp()->settings()->setValue("PopplerPois", ui->eipdfCheck->isChecked());
-
-    kp()->asetukset()->aseta("Nimi", ui->organisaatioEdit->text());
-    kp()->asetukset()->aseta("Ytunnus", ui->ytunnusEdit->text());
-    kp()->asetukset()->aseta("AlvVelvollinen", ui->alvCheck->isChecked());
-    kp()->asetukset()->aseta("NaytaEdistyneet", ui->edistyneetCheck->isChecked());
-    kp()->asetukset()->aseta("Osoite", ui->osoiteEdit->toPlainText());
-    kp()->asetukset()->aseta("Kotipaikka", ui->kotipaikkaEdit->text());
-    kp()->asetukset()->aseta("Puhelin", ui->puhelinEdit->text());
-    kp()->asetukset()->aseta("Sahkoposti", ui->sahkopostiEdit->text());
-    kp()->asetukset()->aseta("LogossaNimi", ui->logossaNimiBox->isChecked());
-    kp()->asetukset()->aseta("SailytaJpgKoko", !ui->pienennaJpg->isChecked());
-
-    if( poistalogo )
-    {
-        kp()->asetaLogo( QImage() );
-        poistalogo = false;
-    }
-    else if( !uusilogo.isNull())
-    {
-        kp()->asetaLogo(uusilogo );
-    }
-
-    uusilogo = QImage();
 
     if( ui->muotoCombo->currentText() != kp()->asetukset()->asetus("Muoto"))
     {

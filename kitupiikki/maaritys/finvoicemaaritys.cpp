@@ -25,12 +25,6 @@ FinvoiceMaaritys::FinvoiceMaaritys(QWidget *parent)
       ui_(new Ui::VerkkolaskuMaaritys)
 {
     ui_->setupUi(this);
-    rekisteroi( ui_->osoiteEdit, "VerkkolaskuOsoite");
-    rekisteroi( ui_->valittajaEdit, "VerkkolaskuValittaja");
-    rekisteroi( ui_->kansioEdit, "VerkkolaskuKansio");
-    rekisteroi( ui_->soapBox, "VerkkolaskuSOAP");
-    rekisteroi( ui_->pdfBox, "VerkkolaskuPdf");
-    rekisteroi( ui_->zipBox, "VerkkolaskuZip");
 
     connect( ui_->kansioNappi, &QPushButton::clicked, this, &FinvoiceMaaritys::valitseKansio);
 }

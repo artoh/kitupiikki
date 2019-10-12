@@ -21,7 +21,7 @@
 #include <QWidget>
 #include <QImage>
 
-#include "maarityswidget.h"
+#include "tallentavamaarityswidget.h"
 
 namespace Ui {
 class Perusvalinnat;
@@ -30,25 +30,24 @@ class Perusvalinnat;
 /**
  * @brief Määrityswidget perusvalinnoille (nimi, y-tunnus, logo)
  */
-class Perusvalinnat : public MaaritysWidget
+class Perusvalinnat : public TallentavaMaaritysWidget
 {
     Q_OBJECT
 
 public:
     Perusvalinnat();
-    ~Perusvalinnat();
+    ~Perusvalinnat() override;
 
 public:
-    bool nollaa() override;
-    bool tallenna() override;
-    bool onkoMuokattu() override;
-
     QString ohjesivu() override { return "maaritykset/perusvalinnat";}
+
+    bool nollaa() override;
 
 public slots:
     void vaihdaLogo();
-    void ilmoitaMuokattu();
     void avaaHakemisto();
+
+    bool tallenna() override;
 
 private:
     Ui::Perusvalinnat *ui;

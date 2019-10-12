@@ -43,12 +43,6 @@ public:
 protected slots:
     void ilmoitaMuokattu();
 
-protected:
-    void rekisteroi(QWidget* widget, const QString& asetustunnus);
-
-private:
-    QList<QWidget*> widgetit_;
-
 
 };
 

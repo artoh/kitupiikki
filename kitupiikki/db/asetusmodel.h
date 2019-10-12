@@ -52,6 +52,8 @@ public:
     QString asetus(int avain, const QString& oletus) const;
 
     void aseta(const QString& avain, const QString& arvo);
+    void aseta(const QVariantMap& map);
+
     void aseta(int tunnus, const QString& arvo);
     /**
      * @brief Poistaa asetuksen annetulla avaimella

@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,0,0,0,0,0,1">
+  <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,0,1">
    <item>
     <widget class="QLabel" name="label_3">
      <property name="text">
@@ -34,7 +34,11 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="organisaatioEdit"/>
+      <widget class="QLineEdit" name="organisaatioEdit">
+       <property name="Asetus" stdset="0">
+        <string>Nimi</string>
+       </property>
+      </widget>
      </item>
      <item row="1" column="0">
       <widget class="QLabel" name="label_2">
@@ -47,7 +51,11 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLineEdit" name="ytunnusEdit"/>
+      <widget class="QLineEdit" name="ytunnusEdit">
+       <property name="Asetus" stdset="0">
+        <string>Ytunnus</string>
+       </property>
+      </widget>
      </item>
      <item row="2" column="0">
       <widget class="QLabel" name="label_4">
@@ -77,6 +85,9 @@ p, li { white-space: pre-wrap; }
        <property name="acceptRichText">
         <bool>false</bool>
        </property>
+       <property name="Asetus" stdset="0">
+        <string>Osoite</string>
+       </property>
       </widget>
      </item>
      <item row="3" column="0">
@@ -90,7 +101,11 @@ p, li { white-space: pre-wrap; }
       </widget>
      </item>
      <item row="3" column="1">
-      <widget class="QLineEdit" name="kotipaikkaEdit"/>
+      <widget class="QLineEdit" name="kotipaikkaEdit">
+       <property name="Asetus" stdset="0">
+        <string>Kotipaikka</string>
+       </property>
+      </widget>
      </item>
      <item row="4" column="0">
       <widget class="QLabel" name="label_6">
@@ -103,7 +118,11 @@ p, li { white-space: pre-wrap; }
       </widget>
      </item>
      <item row="4" column="1">
-      <widget class="QLineEdit" name="puhelinEdit"/>
+      <widget class="QLineEdit" name="puhelinEdit">
+       <property name="Asetus" stdset="0">
+        <string>Puhelin</string>
+       </property>
+      </widget>
      </item>
      <item row="5" column="0">
       <widget class="QLabel" name="label_9">
@@ -113,7 +132,11 @@ p, li { white-space: pre-wrap; }
       </widget>
      </item>
      <item row="5" column="1">
-      <widget class="QLineEdit" name="sahkopostiEdit"/>
+      <widget class="QLineEdit" name="sahkopostiEdit">
+       <property name="Asetus" stdset="0">
+        <string>Email</string>
+       </property>
+      </widget>
      </item>
      <item row="6" column="0">
       <widget class="QLabel" name="muotoLabel">
@@ -123,7 +146,31 @@ p, li { white-space: pre-wrap; }
       </widget>
      </item>
      <item row="6" column="1">
-      <widget class="QComboBox" name="muotoCombo"/>
+      <widget class="QComboBox" name="muotoCombo">
+       <property name="Asetus" stdset="0">
+        <string>muoto</string>
+       </property>
+       <property name="Vaihtoehdot" stdset="0">
+        <string>muodot</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="0">
+      <widget class="QLabel" name="label_10">
+       <property name="text">
+        <string>Laajuus</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="QComboBox" name="laajuusCombo">
+       <property name="Asetus" stdset="0">
+        <string>laajuus</string>
+       </property>
+       <property name="Vaihtoehdot" stdset="0">
+        <string>laajuudet</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -138,7 +185,7 @@ p, li { white-space: pre-wrap; }
         <item>
          <widget class="QLabel" name="logoLabel">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -202,6 +249,9 @@ p, li { white-space: pre-wrap; }
         <property name="icon">
          <iconset resource="../pic/pic.qrc">
           <normaloff>:/pic/teksti.png</normaloff>:/pic/teksti.png</iconset>
+        </property>
+        <property name="Asetus" stdset="0">
+         <string>LogossaNimi</string>
         </property>
        </widget>
       </item>
@@ -294,49 +344,8 @@ p, li { white-space: pre-wrap; }
       <iconset resource="../pic/pic.qrc">
        <normaloff>:/pic/vero.png</normaloff>:/pic/vero.png</iconset>
      </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="edistyneetCheck">
-     <property name="text">
-      <string>Näytä tulosteiden muokkauksen työkalut</string>
-     </property>
-     <property name="icon">
-      <iconset resource="../pic/pic.qrc">
-       <normaloff>:/pic/ratas.png</normaloff>:/pic/ratas.png</iconset>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="paivitysCheck">
-     <property name="text">
-      <string>Näytä ilmoitus saatavilla olevista päivityksistä</string>
-     </property>
-     <property name="icon">
-      <iconset resource="../pic/pic.qrc">
-       <normaloff>:/pic/paivita.png</normaloff>:/pic/paivita.png</iconset>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="eipdfCheck">
-     <property name="text">
-      <string>Poista käytöstä pdf-toiminnot</string>
-     </property>
-     <property name="icon">
-      <iconset resource="../pic/pic.qrc">
-       <normaloff>:/pic/pdf.png</normaloff>:/pic/pdf.png</iconset>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="pienennaJpg">
-     <property name="text">
-      <string>Pienennä jpg-liitteiden kokoa</string>
-     </property>
-     <property name="icon">
-      <iconset resource="../pic/pic.qrc">
-       <normaloff>:/pic/kuva2.png</normaloff>:/pic/kuva2.png</iconset>
+     <property name="Asetus" stdset="0">
+      <string>AlvVelvollinen</string>
      </property>
     </widget>
    </item>
@@ -368,8 +377,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>vaihdaLogoNappi</tabstop>
   <tabstop>hakemistoNappi</tabstop>
   <tabstop>alvCheck</tabstop>
-  <tabstop>edistyneetCheck</tabstop>
-  <tabstop>paivitysCheck</tabstop>
   <tabstop>sijaintiLabel</tabstop>
  </tabstops>
  <resources>

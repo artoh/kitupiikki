@@ -57,6 +57,19 @@ void AsetusModel::aseta(const QString &avain, const QString &arvo)
 
 }
 
+void AsetusModel::aseta(const QVariantMap &map)
+{
+    QMapIterator<QString,QVariant> iter(map);
+    while(iter.hasNext()) {
+        if( iter.value().isNull())
+            asetukset_.remove( iter.key() );
+        else
+            asetukset_.insert( iter.key(), iter.value().toString());
+    }
+    KpKysely* paivitys = kpk("/asetukset", KpKysely::PATCH);
+    paivitys->kysy(map);
+}
+
 void AsetusModel::aseta(int tunnus, const QString &arvo)
 {
     aseta( avaimet__.at(tunnus), arvo );
