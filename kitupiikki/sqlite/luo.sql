@@ -51,7 +51,6 @@ CREATE TABLE Kumppani
 	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 	nimi VARCHAR(255),
 	alvtunnus VARCHAR(20),
-	ryhmat integer[],
 	json text
 );
 
@@ -62,6 +61,10 @@ CREATE TABLE KumppaniIban
 	iban VARCHAR(30) PRIMARY KEY NOT NULL,
 	kumppani INTEGER REFERENCES Kumppani(id) ON DELETE CASCADE
 );
+
+INSERT INTO Kumppani(nimi,alvtunnus,json)
+	VALUES ('Verohallinto','FI02454583','{"osoite":"PL 325","postinumero":"00510","kaupunki":"VERO"}');
+
 
 CREATE TABLE Ryhma
 (

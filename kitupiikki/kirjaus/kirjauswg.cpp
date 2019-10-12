@@ -166,6 +166,11 @@ KirjausWg::KirjausWg( QWidget *parent)
     connect( tosite()->liitteet(), &TositeLiitteet::tuonti, this, &KirjausWg::tuonti);
 
     connect( tosite_, &Tosite::tarkastaSarja, this, &KirjausWg::paivitaSarja);
+
+
+    // Tilapäisesti poistetaan Varasto
+    // Voitaisiin tehdä niinkin, että poistetaan ja lisätään tarvittaessa ;)
+    ui->tabWidget->removeTab( ui->tabWidget->indexOf( varastoTab_ ) );
 }
 
 KirjausWg::~KirjausWg()
@@ -660,8 +665,11 @@ void KirjausWg::vaihdaTositeTyyppi()
     apuri_ = nullptr;
 
 
+    // Liitetiedoilla ei ole vientejä
     ui->tabWidget->setTabEnabled( ui->tabWidget->indexOf(viennitTab_) , tyyppiKoodi != TositeTyyppi::LIITETIETO);
-    ui->tabWidget->setTabEnabled( ui->tabWidget->indexOf(varastoTab_), tyyppiKoodi != TositeTyyppi::LIITETIETO);
+
+    // Varasto ei toistaiseksi käytössä
+    // ui->tabWidget->setTabEnabled( ui->tabWidget->indexOf(varastoTab_), false);
 
     if( tyyppiKoodi == TositeTyyppi::TULO || tyyppiKoodi == TositeTyyppi::MENO || tyyppiKoodi == TositeTyyppi::KULULASKU )
     {

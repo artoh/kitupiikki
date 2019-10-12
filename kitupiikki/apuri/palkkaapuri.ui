@@ -6,14 +6,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1188</width>
-    <height>506</height>
+    <width>904</width>
+    <height>591</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout">
+  <layout class="QHBoxLayout" name="horizontalLayout" stretch="2,2">
+   <property name="sizeConstraint">
+    <enum>QLayout::SetNoConstraint</enum>
+   </property>
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
@@ -237,19 +240,6 @@ sosiaalipalkat</string>
         <item row="0" column="1">
          <widget class="KpEuroEdit" name="svedit"/>
         </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string>Eläkevakuutusmaksut</string>
-          </property>
-          <property name="buddy">
-           <cstring>tyeledit</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="KpEuroEdit" name="tyeledit"/>
-        </item>
        </layout>
       </widget>
      </item>
@@ -265,9 +255,6 @@ sosiaalipalkat</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="TiliCombo" name="tiliCombo"/>
-       </item>
        <item row="1" column="0">
         <widget class="QLabel" name="label_16">
          <property name="text">
@@ -282,6 +269,16 @@ sosiaalipalkat</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="TiliCombo" name="tiliCombo">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
          </property>
         </widget>
        </item>
@@ -330,7 +327,6 @@ sosiaalipalkat</string>
   <tabstop>tvredit</tabstop>
   <tabstop>ayedit</tabstop>
   <tabstop>svedit</tabstop>
-  <tabstop>tyeledit</tabstop>
   <tabstop>tiliCombo</tabstop>
  </tabstops>
  <resources/>

@@ -71,7 +71,6 @@ void PalkkaApuri::teeReset()
     ui->tvredit->setValue(eurot.value("TV"));
     ui->ayedit->setValue(eurot.value("AY"));
     ui->svedit->setValue(eurot.value("SV"));
-    ui->tyeledit->setValue(eurot.value("EV"));
     ui->nettoLabel->setText(QString("%L1 €").arg(eurot.value("MP"),10,'f',2));
 
 }
@@ -118,9 +117,6 @@ bool PalkkaApuri::teeTositteelle()
 
     kirjaa( viennit, "SV", ui->svedit->value(), 0, "Sairausvakuutusmaksu");
     kirjaa( viennit, "VV", 0, ui->svedit->value(), "Sairausvakuutusmaksu");
-
-    kirjaa( viennit, "EL", ui->tyeledit->value(), 0, "Eläkemaksut","EV");
-    kirjaa( viennit, "EV", 0, ui->tyeledit->value(), "Eläkemaksut");
 
     tosite()->viennit()->asetaViennit(viennit);
 
