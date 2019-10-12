@@ -47,7 +47,7 @@ QVariant LiitteetRoute::get(const QString &polku, const QUrlQuery &/*urlquery*/)
 
 QVariant LiitteetRoute::byteArray(SQLiteKysely *kysely, const QByteArray &ba, const QMap<QString, QString> &meta)
 {
-    QRegularExpression re(R"(/liitteet/(\d+)(/\S+)?)");
+    QRegularExpression re(R"(/liitteet/(\d+)/(\S+)?)");
     QRegularExpressionMatch match = re.match(kysely->polku());
     QSqlQuery query(db());
     QVariantMap palautus;

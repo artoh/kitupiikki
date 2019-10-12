@@ -94,18 +94,6 @@ bool LaskuValintaWidget::nollaa()
     ui->apunimiEdit->setText( kp()->asetukset()->asetus("LaskuAputoiminimi"));
     ui->rfCheck->setChecked( kp()->asetukset()->onko("LaskuRF"));
 
-    for(int i=0; i < kp()->tilit()->rowCount(QModelIndex()); i++)
-    {
-        Tili tili = kp()->tilit()->tiliIndeksilla(i);
-        if( tili.onko(TiliLaji::PANKKITILI) && !tili.json()->str("IBAN").isEmpty())
-        {
-            ui->tiliCombo->addItem( tr("%1 %2 (IBAN %3)")
-                                       .arg(tili.numero())
-                                       .arg(tili.nimi())
-                                       .arg(tili.json()->str("IBAN")),
-                                       QVariant( tili.numero()));
-        }
-    }
     if( kp()->asetukset()->luku("LaskuTili"))
         ui->tiliCombo->setCurrentIndex( ui->tiliCombo->findData( kp()->asetukset()->luku("LaskuTili") ) );
     tiliIlmoitus();
@@ -182,5 +170,4 @@ void LaskuValintaWidget::ilmoitaMuokattu()
 
 void LaskuValintaWidget::tiliIlmoitus()
 {
-    ui->syotaIbanLabel->setVisible( kp()->tilit()->tiliNumerolla( ui->tiliCombo->currentData().toInt() ).json()->str("IBAN").isEmpty() );
 }

@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,0,1">
+  <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,0,0,1">
    <item>
     <widget class="QLabel" name="label_3">
      <property name="text">
@@ -74,6 +74,9 @@
          <width>16777215</width>
          <height>60</height>
         </size>
+       </property>
+       <property name="tabChangesFocus">
+        <bool>true</bool>
        </property>
        <property name="html">
         <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -172,6 +175,26 @@ p, li { white-space: pre-wrap; }
        </property>
       </widget>
      </item>
+     <item row="8" column="0">
+      <widget class="QLabel" name="label_11">
+       <property name="text">
+        <string>Kieli</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="1">
+      <widget class="QComboBox" name="kieliCombo">
+       <property name="Asetus" stdset="0">
+        <string>kieli</string>
+       </property>
+       <property name="Vaihtoehdot" stdset="0">
+        <string>kielet</string>
+       </property>
+       <property name="Liput" stdset="0">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>
@@ -179,9 +202,9 @@ p, li { white-space: pre-wrap; }
      <property name="title">
       <string>Logo</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
+     <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
+       <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
          <widget class="QLabel" name="logoLabel">
           <property name="sizePolicy">
@@ -192,27 +215,48 @@ p, li { white-space: pre-wrap; }
           </property>
           <property name="minimumSize">
            <size>
-            <width>64</width>
-            <height>64</height>
+            <width>128</width>
+            <height>128</height>
            </size>
           </property>
           <property name="frameShape">
-           <enum>QFrame::Box</enum>
+           <enum>QFrame::NoFrame</enum>
           </property>
           <property name="text">
            <string/>
           </property>
+          <property name="scaledContents">
+           <bool>false</bool>
+          </property>
          </widget>
         </item>
         <item>
-         <spacer name="horizontalSpacer">
+         <widget class="QCheckBox" name="logossaNimiBox">
+          <property name="text">
+           <string>Logossa organisaation nimi</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../pic/pic.qrc">
+            <normaloff>:/pic/teksti.png</normaloff>:/pic/teksti.png</iconset>
+          </property>
+          <property name="Asetus" stdset="0">
+           <string>LogossaNimi</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <spacer name="verticalSpacer_2">
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Vertical</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
-            <width>199</width>
-            <height>20</height>
+            <width>20</width>
+            <height>40</height>
            </size>
           </property>
          </spacer>
@@ -239,21 +283,20 @@ p, li { white-space: pre-wrap; }
           </property>
          </widget>
         </item>
+        <item>
+         <spacer name="verticalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
        </layout>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="logossaNimiBox">
-        <property name="text">
-         <string>Logossa organisaation nimi</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../pic/pic.qrc">
-          <normaloff>:/pic/teksti.png</normaloff>:/pic/teksti.png</iconset>
-        </property>
-        <property name="Asetus" stdset="0">
-         <string>LogossaNimi</string>
-        </property>
-       </widget>
       </item>
      </layout>
     </widget>
@@ -261,7 +304,7 @@ p, li { white-space: pre-wrap; }
    <item>
     <layout class="QFormLayout" name="formLayout_2">
      <item row="0" column="0">
-      <widget class="QLabel" name="label_7">
+      <widget class="QLabel" name="tsLabel">
        <property name="text">
         <string>Tiedoston sijainti</string>
        </property>
@@ -301,37 +344,8 @@ p, li { white-space: pre-wrap; }
        </item>
       </layout>
      </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_8">
-       <property name="text">
-        <string>Arkiston sijainti</string>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
-       <item>
-        <widget class="QLineEdit" name="arkistoEdit">
-         <property name="frame">
-          <bool>false</bool>
-         </property>
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="avaaArkistoNappi">
-         <property name="text">
-          <string>Avaa hakemisto</string>
-         </property>
-         <property name="icon">
-          <iconset resource="../pic/pic.qrc">
-           <normaloff>:/pic/folder.png</normaloff>:/pic/folder.png</iconset>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <layout class="QHBoxLayout" name="horizontalLayout_3"/>
      </item>
     </layout>
    </item>
@@ -346,6 +360,20 @@ p, li { white-space: pre-wrap; }
      </property>
      <property name="Asetus" stdset="0">
       <string>AlvVelvollinen</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="checkBox">
+     <property name="text">
+      <string>Harjoituskirjanpito</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../pic/pic.qrc">
+       <normaloff>:/pic/muokkaa.png</normaloff>:/pic/muokkaa.png</iconset>
+     </property>
+     <property name="Asetus" stdset="0">
+      <string>Harjoitus</string>
      </property>
     </widget>
    </item>

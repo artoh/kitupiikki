@@ -61,6 +61,7 @@ void AsetusModel::aseta(const QVariantMap &map)
 {
     QMapIterator<QString,QVariant> iter(map);
     while(iter.hasNext()) {
+        iter.next();
         if( iter.value().isNull())
             asetukset_.remove( iter.key() );
         else

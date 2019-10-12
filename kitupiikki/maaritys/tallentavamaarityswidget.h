@@ -39,6 +39,7 @@ public:
     bool nollaa() override;
     bool tallenna() override;
     bool onkoMuokattu() override;
+    bool alustettu_ = false;
 
 protected slots:
     void ilmoitaMuokattu();

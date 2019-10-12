@@ -28,7 +28,7 @@ public:
     KieliKentta(const QString& var);
 
     void aseta(const QVariant& var);
-    QString teksti(const QString& kieli = QString()) const;
+    QString teksti(QString kieli = QString()) const;
 
 protected:
     QMap<QString,QString> tekstit_;

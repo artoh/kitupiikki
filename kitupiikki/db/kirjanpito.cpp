@@ -170,7 +170,6 @@ bool Kirjanpito::onkoMaksuperusteinenAlv(const QDate &paiva) const
 
 void Kirjanpito::asetaLogo(const QImage &logo)
 {
-
     logo_ = logo;
 
     QByteArray ba;
@@ -182,15 +181,19 @@ void Kirjanpito::asetaLogo(const QImage &logo)
 
     KpKysely *kysely = kpk("/liitteet/0/logo", KpKysely::PUT);
     kysely->lahetaTiedosto(ba);
+
+    emit logoMuuttui();
 }
 
-QString Kirjanpito::arkistopolku() const
+QString Kirjanpito::arkistopolku()
 {
-    if( tiedostopolku().endsWith(".kitupiikki"))
-        return tiedostopolku().replace(".kitupiikki",".arkisto");
-
-    QFileInfo info(tiedostopolku());
-    return info.dir().absoluteFilePath("arkisto");
+    SQLiteModel *sqlite = qobject_cast<SQLiteModel*>( yhteysModel() );
+    if( sqlite ) {
+        QString polku = sqlite->tiedostopolku();
+        if( polku.endsWith(".kitsas"))
+         return polku.replace(".kitsas","-arkisto");
+    }
+    return "";
 }
 
 QString Kirjanpito::viimeVirhe() const

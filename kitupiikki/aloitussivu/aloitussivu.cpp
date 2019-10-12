@@ -178,20 +178,17 @@ void AloitusSivu::kirjanpitoVaihtui()
 {
     bool avoinna = kp()->yhteysModel();
 
-    ui->nimiLabel->setVisible(avoinna);
-    ui->tilikausiCombo->setVisible(avoinna);
+    ui->nimiLabel->setVisible(avoinna && !kp()->asetukset()->onko("LogossaNimi") );
+    ui->tilikausiCombo->setVisible(avoinna );
+    ui->logoLabel->setVisible( avoinna && !kp()->logo().isNull());
     ui->varmistaNappi->setEnabled(avoinna);
     ui->muistiinpanotNappi->setEnabled(avoinna);
-    ui->poistaNappi->setVisible( kp()->onkoHarjoitus() );
-    ui->poistaNappi->setEnabled( kp()->onkoHarjoitus() );
+    ui->poistaNappi->setVisible( avoinna );
 
     if( avoinna )
     {
         // Kirjanpito avattu
         ui->nimiLabel->setText( kp()->asetukset()->asetus("Nimi"));
-
-        if( kp()->logo().isNull())
-            ui->logoLabel->hide();
 
         ui->tilikausiCombo->setModel( kp()->tilikaudet() );
         ui->tilikausiCombo->setModelColumn( 0 );
@@ -209,10 +206,6 @@ void AloitusSivu::kirjanpitoVaihtui()
                 break;
             }
         }
-    }
-    else
-    {
-        ui->logoLabel->hide();
     }
 
     if( paivitysInfo.isEmpty())

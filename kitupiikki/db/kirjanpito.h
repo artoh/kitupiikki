@@ -92,7 +92,7 @@ public:
      * @brief Polku kirjanpitotiedostoon
      * @return
      */
-    QString tiedostopolku() const { return polkuTiedostoon_;}
+    [[deprecated]] QString tiedostopolku() const { return polkuTiedostoon_;}
 
     /**
      * @brief Käytetäänkö harjoittelutilassa
@@ -175,7 +175,7 @@ public:
      *
      * @return
      */
-    QSqlDatabase *tietokanta()  { return &tietokanta_; }
+    [[deprecated]] QSqlDatabase *tietokanta()  { return &tietokanta_; }
 
     /**
      * @brief QPrinter kaikenlaiseen tulosteluun
@@ -229,7 +229,7 @@ public:
      * @brief Arkistohakemiston polku
      * @return
      */
-    QString arkistopolku() const;
+    QString arkistopolku();
 
     /**
      * @brief QSettings käyttäjäkohtaisille asetuksille
@@ -420,7 +420,7 @@ public:
      *
      * Jos yritetään avata uudempaa, tulee virhe
      */
-    static const int TIETOKANTAVERSIO = 10;
+    static const int TIETOKANTAVERSIO = 20;
 
     /**
      * @brief Palauttaa satunnaismerkkijonon

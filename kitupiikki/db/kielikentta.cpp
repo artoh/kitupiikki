@@ -15,7 +15,7 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "kielikentta.h"
-
+#include "db/kirjanpito.h"
 #include <QDebug>
 #include <QJsonDocument>
 
@@ -49,8 +49,10 @@ void KieliKentta::aseta(const QVariant &var)
     }
 }
 
-QString KieliKentta::teksti(const QString &kieli) const
+QString KieliKentta::teksti( QString kieli) const
 {
+    if( kieli.isEmpty())
+        kieli = kp()->asetus("kieli");
     if( tekstit_.contains(kieli))
         return tekstit_.value(kieli);
     if( tekstit_.contains("fi"))

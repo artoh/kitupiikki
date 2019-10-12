@@ -45,9 +45,12 @@ public:
 
 public slots:
     void vaihdaLogo();
-    void avaaHakemisto();
+    void poistaLogo();
 
     bool tallenna() override;
+    void alvilaajuudesta();
+
+    void naytaLogo();
 
 private:
     Ui::Perusvalinnat *ui;

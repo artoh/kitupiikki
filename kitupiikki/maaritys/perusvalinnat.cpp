@@ -26,7 +26,7 @@
 #include "ui_perusvalinnat.h"
 
 #include "db/kirjanpito.h"
-
+#include "sqlite/sqlitemodel.h"
 #include "validator/ytunnusvalidator.h"
 
 Perusvalinnat::Perusvalinnat() :
@@ -36,8 +36,7 @@ Perusvalinnat::Perusvalinnat() :
     ui->setupUi(this);
 
     connect(ui->vaihdaLogoNappi, SIGNAL(clicked(bool)), this, SLOT(vaihdaLogo()));
-    connect( ui->hakemistoNappi, SIGNAL(clicked(bool)), this, SLOT(avaaHakemisto()));
-    connect( ui->avaaArkistoNappi, &QPushButton::clicked, [] { kp()->avaaUrl( kp()->arkistopolku() ); } );    
+    connect( ui->hakemistoNappi, &QPushButton::clicked, [this] { kp()->avaaUrl( this->ui->sijaintiLabel->text() );  } );
     connect( ui->poistaLogoNappi, &QPushButton::clicked, [this] { poistalogo=true; ui->logoLabel->clear(); ilmoitaMuokattu(); });
 
     ui->ytunnusEdit->setValidator(new YTunnusValidator());
@@ -51,47 +50,68 @@ Perusvalinnat::~Perusvalinnat()
 
 bool Perusvalinnat::nollaa()
 {
-
     TallentavaMaaritysWidget::nollaa();
+    naytaLogo();
+    connect( ui->laajuusCombo, &QComboBox::currentTextChanged, this, &Perusvalinnat::alvilaajuudesta);
+
+    SQLiteModel *sqlite = qobject_cast<SQLiteModel*>( kp()->yhteysModel() );
+    if( sqlite ) {
+        ui->sijaintiLabel->setText( sqlite->tiedostopolku() );
+    } else {
+        ui->sijaintiLabel->hide();
+        ui->hakemistoNappi->hide();
+        ui->tsLabel->hide();
+    }
+
+    return true;
 }
 
 void Perusvalinnat::vaihdaLogo()
 {
+    QString tiedostopolku = QFileDialog::getOpenFileName(this,"Valitse logo", QDir::homePath(),"Kuvatiedostot (*.png *.jpg)" );
+    if( !tiedostopolku.isEmpty())
+    {
+        QImage uusilogo;
+        uusilogo.load( tiedostopolku );
+        kp()->asetaLogo(uusilogo);
+        naytaLogo();
+    }
 
 }
 
-
-void Perusvalinnat::avaaHakemisto()
+void Perusvalinnat::poistaLogo()
 {
-    QFileInfo info( kp()->tiedostopolku());
-    kp()->avaaUrl( QUrl::fromLocalFile( info.absoluteDir().absolutePath() ) );
+    kp()->asetaLogo(QImage());
+    ui->poistaLogoNappi->setEnabled( false );
+    naytaLogo();
 }
 
 
 bool Perusvalinnat::tallenna()
 {
-
-
-    if( ui->muotoCombo->currentText() != kp()->asetukset()->asetus("Muoto"))
-    {
-        // Muodon vaihto pitää vielä varmistaa
-        if( QMessageBox::question(nullptr, tr("Vahvista muutos"),
-                                  tr("Haluatko todella tehdä muutoksen\n"
-                                     "%1: %2").arg( kp()->asetukset()->asetus("MuotoTeksti") )
-                                              .arg( ui->muotoCombo->currentText()),
-                                  QMessageBox::Yes | QMessageBox::Cancel, QMessageBox::Cancel) == QMessageBox::Yes)
-        {
-            // Suorittaa muodon vaihtoon liittyvät skriptit
-            kp()->asetukset()->aseta("Muoto", ui->muotoCombo->currentText());
-            nollaa();
-        }
-
-    }
-    else
-        emit kp()->onni("Asetukset tallennettu");
-
+    // Jos muoto tai laajuus vaihtuu, vaikuttaa se tilikarttaan ja ehkä myös alviin
+    TallentavaMaaritysWidget::tallenna();
     emit kp()->perusAsetusMuuttui();     // Uusi lataus, koska nimi tai kuva saattoi vaihtua!
     ui->poistaLogoNappi->setEnabled( !kp()->logo().isNull() );
 
     return true;
+}
+
+void Perusvalinnat::alvilaajuudesta()
+{
+    int laajuus = ui->laajuusCombo->currentData().toInt();
+    int alvlaajuus = kp()->asetukset()->luku("alvlaajuus");
+    ui->alvCheck->setChecked( laajuus >= alvlaajuus );
+}
+
+void Perusvalinnat::naytaLogo()
+{
+    QImage logo = kp()->logo().scaledToHeight(128);
+    if( logo.isNull()) {
+        ui->logoLabel->clear();
+    } else {
+        ui->logoLabel->setPixmap( QPixmap::fromImage(logo));
+    }
+
+    ui->poistaLogoNappi->setEnabled( logo.isNull() );
 }
