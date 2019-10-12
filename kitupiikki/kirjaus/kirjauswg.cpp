@@ -61,6 +61,7 @@
 #include "apuri/tulomenoapuri.h"
 #include "apuri/siirtoapuri.h"
 #include "apuri/tilioteapuri.h"
+#include "apuri/palkkaapuri.h"
 #include "model/tosite.h"
 #include "model/tositeliitteet.h"
 #include "model/tositeviennit.h"
@@ -669,6 +670,8 @@ void KirjausWg::vaihdaTositeTyyppi()
         apuri_ = new SiirtoApuri(this, tosite_);
     } else if( tyyppiKoodi == TositeTyyppi::TILIOTE ) {
         apuri_ = new TilioteApuri(this, tosite_);
+    } else if( tyyppiKoodi == TositeTyyppi::PALKKA) {
+        apuri_ = new PalkkaApuri(this, tosite_);
     }
 
     tosite_->setData(Tosite::TYYPPI, tyyppiKoodi);

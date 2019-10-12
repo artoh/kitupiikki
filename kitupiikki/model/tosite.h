@@ -87,6 +87,7 @@ public:
     static QString tilateksti(int tila);
 
     QDate pvm() const;
+    QString otsikko() const { return data(OTSIKKO).toString();}
 
 signals:
     void ladattu();

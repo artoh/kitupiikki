@@ -1943,7 +1943,33 @@
       "nimi": {
         "fi:": "Verovelka (Omavero-tili)"
       },
-      "laajuus": 5
+      "laajuus": 3,
+      "ohje": {
+        "fi": "Tähän kirjataan oma-aloitteiset verot () ja työnantajan sairausvakuutusmaksu, joita ei ole vielä maksettu."
+      },
+      "palkkatili": "VV"
+    },
+    {
+      "numero": 2987,
+      "tyyppi": "BS",
+      "nimi" : {
+        "fi": "Eläkemaksuvelka"
+      },
+      "ohje": {
+        "fi": "Tähän kirjataan palkanmaksun yhteydessä työnantajan eläkemaksut, jotka suoritetaan myöhemmin."
+      },
+      "palkkatili" : "EV"
+    },
+    {
+      "numero": 2988,
+      "tyyppi": "BS",
+      "nimi" : {
+        "fi": "Ay-jäsenmaksuvelka"
+      },
+      "ohje": {
+        "fi": "Tähän kirjataan palkanmaksun yhteydessä palkasta pidätetyt AY-jäsenmaksut, jotka tilitetään myöhemmin."
+      },
+      "palkkatili" : "AY"
     },
     {
       "numero": 2989,
@@ -2405,7 +2431,8 @@
       "nimi": {
         "fi:": "Kilometrikorvaukset"
       },
-      "laajuus": 2
+      "laajuus": 2,
+      "palkkatili" : "KM"
     },
     {
       "numero": 4751,
@@ -2413,7 +2440,8 @@
       "nimi": {
         "fi:": "Päivärahat"
       },
-      "laajuus": 2
+      "laajuus": 2,
+      "palkkatili": "PR"
     },
     {
       "numero": 4761,
@@ -2421,7 +2449,8 @@
       "nimi": {
         "fi:": "Ateriakorvaukset"
       },
-      "laajuus": 2
+      "laajuus": 2,
+      "palkkatili": "AT"
     },
     {
       "numero": 4791,
@@ -2615,7 +2644,11 @@
       "nimi": {
         "fi:": "Palkat"
       },
-      "laajuus": 3
+      "laajuus": 3,
+      "palkkatili" : "PA",
+      "ohje": {
+        "fi": "Yhdistyksen maksamat bruttopalkat"
+      }
     },
     {
       "numero": 5002,
@@ -2623,7 +2656,11 @@
       "nimi": {
         "fi:": "Lisät ja korvaukset"
       },
-      "laajuus": 3
+      "laajuus": 3,
+      "palkkatili": "LK",
+      "ohje": {
+        "fi": "Työehtosopimuksen mukaiset lisät (ylityö-, ilta-, sunnuntailisät ...)"
+      }
     },
     {
       "numero": 5003,
@@ -2631,7 +2668,11 @@
       "nimi": {
         "fi:": "Palkkiot"
       },
-      "laajuus": 3
+      "laajuus": 3,
+      "palkkatili": "PI",
+      "ohje": {
+        "fi": "Palkkiot ja työkorvaukset, joita ei makseta työsuhteessa (kokous- ja luentopalkkiot)"
+      }
     },
     {
       "numero": 5004,
@@ -2639,7 +2680,11 @@
       "nimi": {
         "fi:": "Loma-ajan ja sosiaalipalkat"
       },
-      "laajuus": 3
+      "laajuus": 3,
+      "palkkatili": "LS",
+      "ohje": {
+        "fi": "Loma-ajan palkka, lomakorvaus, lomaltapaluuraha, sairaus ja vanhempainloma-ajan palkka ja muu korvaus palkallisesta poissaolosta."
+      }
     },
     {
       "numero": 5005,
@@ -2647,7 +2692,11 @@
       "nimi": {
         "fi:": "Luontoisedut"
       },
-      "laajuus": 4
+      "laajuus": 4,
+      "palkkatili": "LU",
+      "ohje": {
+        "fi": "Työntekijälle annettujen luontoisetujen verotusarvot."
+      }
     },
     {
       "numero": 5040,
@@ -2655,7 +2704,8 @@
       "nimi": {
         "fi:": "Luontoisetujen vastatili"
       },
-      "laajuus": 4
+      "laajuus": 4,
+      "palkkatili": "LV"
     },
     {
       "numero": 51,
@@ -2670,7 +2720,11 @@
       "nimi": {
         "fi:": "Eläkevakuutusmaksut"
       },
-      "laajuus": 3
+      "laajuus": 3,
+      "palkkatili": "EL",
+      "ohje": {
+        "fi": "TyEL, YEL tms. lakisääteinen eläkevakuutusmaksu."
+      }
     },
     {
       "numero": 5113,
@@ -2684,25 +2738,47 @@
       "numero": 5120,
       "tyyppi": "D",
       "nimi": {
-        "fi:": "Sosiaaliturvamaksut"
+        "fi:": "Sairausvakuutusmaksu"
       },
-      "laajuus": 3
-    },
-    {
-      "numero": 5121,
-      "tyyppi": "D",
-      "nimi": {
-        "fi:": "Pakolliset vakuutusmaksut"
-      },
-      "laajuus": 3
+      "laajuus": 3,
+      "palkkatili": "SV",
+      "ohje": {
+        "fi": "Työnantajan lakisääteinen sairausvakuutusmaksu."
+      }
     },
     {
       "numero": 5122,
       "tyyppi": "D",
       "nimi": {
+        "fi:": "Työttömyysvakuutusmaksu"
+      },
+      "laajuus": 3,
+      "palkkatili": "TV",
+      "ohje": {
+        "fi": "Lakisääteinen Työttömyysvakuutusrahaston maksu."
+      }
+    },
+    {
+      "numero": 5125,
+      "tyyppi": "D",
+      "nimi": {
+        "fi:": "Pakolliset vakuutusmaksut"
+      },
+      "laajuus": 3,
+      "ohje": {
+        "fi": "Lakisääteinen työtapaturma- ja ammattitautuvakuutus ja työsopimukseen perustuva pakollinen työntekijäin ryhmähenkivakuutus."
+      }
+    },
+    {
+      "numero": 5129,
+      "tyyppi": "D",
+      "nimi": {
         "fi:": "Muut henkilöstön vakuutusmaksut"
       },
-      "laajuus": 4
+      "laajuus": 4,
+      "ohje": {
+        "fi": "Työnantajan vapaaehtoisesti ottamat vakuutukset työntekijöille."
+      }
     },
     {
       "numero": 6,

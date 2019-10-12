@@ -406,9 +406,8 @@ void TiliModel::lataa(QVariantList lista)
 
         tiliLista_.append( tili );
 
-        qDebug() << " - " << tili->numero() << "-- " << tili->nimi();
-        if( tili->tamanOtsikko() )
-            qDebug() << " Otsikko " << tili->tamanOtsikko()->nimiNumero();
+        if( !tili->str("palkkatili").isEmpty() )
+            palkkatilit_.insert( tili->str("palkkatili"), tili->numero() );
 
     }
     laajuus_ = kp()->asetukset()->luku("laajuus",3);

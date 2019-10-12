@@ -93,7 +93,7 @@ QString SijaintiSivu::estaTuplaTiedosto(QString tiedosto)
         lisake = QString("-%1").arg(lisanumero);
     }
 
-    return tiedosto + lisake + ".kitupiikki";
+    return tiedosto + lisake + ".kitsas";
 }
 
 bool SijaintiSivu::validatePage()

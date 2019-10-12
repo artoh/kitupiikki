@@ -42,7 +42,8 @@ public:
         VIITE,
         ERAPAIVA,
         KUMPPANI,
-        TYYPPI
+        TYYPPI,
+        PALKKAKOODI
     };
 
     enum VientiTyyppi {
@@ -80,6 +81,7 @@ public:
     QString viite() const { return data(VIITE).toString();}
     QDate erapaiva() const { return data(ERAPAIVA).toDate();}
     int tyyppi() const { return data(TYYPPI).toInt(); }
+    QString palkkakoodi() const { return data(PALKKAKOODI).toString(); }
 
     void setPvm(const QDate& pvm);
     void setTili(int tili);
@@ -100,6 +102,7 @@ public:
     void setErapaiva(const QDate& erapvm);
     void setKumppani(int kumppaniId);
     void setTyyppi(int tyyppi);
+    void setPalkkakoodi(const QString& palkkakoodi);
 
 private:
     static std::map<int,QString> avaimet__;

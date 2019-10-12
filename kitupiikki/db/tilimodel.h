@@ -94,6 +94,13 @@ public:
 
     QStringList laskuTilit() const;
 
+    /**
+     * @brief Palauttaa annettua palkkatili-avainta vastaavan tilin numeron
+     * @param avain
+     * @return
+     */
+    int palkankirjaustili(const QString& avain) const { return palkkatilit_.value(avain); }
+
     [[deprecated]] JsonKentta *jsonIndeksilla(int i);
 
     bool onkoMuokattu() const;
@@ -119,6 +126,7 @@ protected:
 
     QList<Tili*> tiliLista_;
     QHash<int,Tili*> nroHash_;
+    QMap<QString,int> palkkatilit_;
 
     int laajuus_ = 2;
     QString muoto_;

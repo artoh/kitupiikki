@@ -2,6 +2,7 @@ SOURCES += \
     $$PWD/alv/alvlaskelma.cpp \
     $$PWD/apuri/apuriwidget.cpp \
     $$PWD/apuri/laskutaulutilioteproxylla.cpp \
+    $$PWD/apuri/palkkaapuri.cpp \
     $$PWD/apuri/tilioteapuri.cpp \
     $$PWD/apuri/tiliotemodel.cpp \
     $$PWD/apuri/tmrivit.cpp \
@@ -207,6 +208,7 @@ HEADERS += \
     $$PWD/alv/alvlaskelma.h \
     $$PWD/apuri/apuriwidget.h \
     $$PWD/apuri/laskutaulutilioteproxylla.h \
+    $$PWD/apuri/palkkaapuri.h \
     $$PWD/apuri/tilioteapuri.h \
     $$PWD/apuri/tiliotemodel.h \
     $$PWD/apuri/tmrivit.h \
@@ -419,6 +421,7 @@ RESOURCES += \
     laskutus/lasku.qrc
 
 FORMS += \
+    $$PWD/apuri/palkkaapuri.ui \
     $$PWD/apuri/tilioteapuri.ui \
     $$PWD/apuri/tulomenoapuri.ui \
     $$PWD/apuri/siirtoapuri.ui \
