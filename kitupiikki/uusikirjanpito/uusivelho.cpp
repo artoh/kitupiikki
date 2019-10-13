@@ -98,6 +98,9 @@ QVariantMap UusiVelho::data() const
             asetusMap.insert("sarjaan",TositeTyyppiModel::TOSITELAJIT);
     }
 
+    asetusMap.insert("KpVersio", Kirjanpito::TIETOKANTAVERSIO );
+    asetusMap.insert("LuotuVersiolla", qApp->applicationVersion());
+
     initMap.insert("asetukset", asetusMap);
     initMap.insert("tilit", tilit_);
     initMap.insert("tilikaudet", tilikaudet_);

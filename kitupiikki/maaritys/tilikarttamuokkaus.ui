@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>703</width>
-    <height>360</height>
+    <width>1134</width>
+    <height>567</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -45,7 +45,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../pic/pic.qrc">
+        <iconset>
          <normaloff>:/pic/kaikkitilit.png</normaloff>:/pic/kaikkitilit.png</iconset>
        </property>
        <property name="checkable">
@@ -65,7 +65,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../pic/pic.qrc">
+        <iconset>
          <normaloff>:/pic/kaytossa.png</normaloff>:/pic/kaytossa.png</iconset>
        </property>
        <property name="checkable">
@@ -82,7 +82,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="../pic/pic.qrc">
+        <iconset>
          <normaloff>:/pic/tahti.png</normaloff>:/pic/tahti.png</iconset>
        </property>
        <property name="checkable">
@@ -128,12 +128,15 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="uusiNappi">
+      <widget class="QPushButton" name="uusiOtsikkoNappi">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="text">
-        <string>&amp;Uusi...</string>
+        <string>Uusi &amp;otsikko...</string>
        </property>
        <property name="icon">
-        <iconset resource="../pic/pic.qrc">
+        <iconset>
          <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
        </property>
        <property name="shortcut">
@@ -142,15 +145,29 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="uusiTiliNappi">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="text">
+        <string>Uusi &amp;tili..</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="muokkaaNappi">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="text">
         <string>&amp;Muokkaa</string>
        </property>
        <property name="icon">
-        <iconset resource="../pic/pic.qrc">
+        <iconset>
          <normaloff>:/pic/muokkaa.png</normaloff>:/pic/muokkaa.png</iconset>
        </property>
       </widget>
@@ -158,13 +175,13 @@
      <item>
       <widget class="QPushButton" name="poistaNappi">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="text">
         <string>P&amp;oista</string>
        </property>
        <property name="icon">
-        <iconset resource="../pic/pic.qrc">
+        <iconset>
          <normaloff>:/pic/poista.png</normaloff>:/pic/poista.png</iconset>
        </property>
       </widget>
@@ -188,7 +205,7 @@
         <string>P&amp;iilota</string>
        </property>
        <property name="icon">
-        <iconset resource="../pic/pic.qrc">
+        <iconset>
          <normaloff>:/pic/eikaytossa.png</normaloff>:/pic/eikaytossa.png</iconset>
        </property>
        <property name="checkable">
@@ -205,7 +222,7 @@
         <string>&amp;Normaali</string>
        </property>
        <property name="icon">
-        <iconset resource="../pic/pic.qrc">
+        <iconset>
          <normaloff>:/pic/kaytossa.png</normaloff>:/pic/kaytossa.png</iconset>
        </property>
        <property name="checkable">
@@ -222,7 +239,7 @@
         <string>&amp;Suosikki</string>
        </property>
        <property name="icon">
-        <iconset resource="../pic/pic.qrc">
+        <iconset>
          <normaloff>:/pic/tahti.png</normaloff>:/pic/tahti.png</iconset>
        </property>
        <property name="checkable">
@@ -237,8 +254,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../pic/pic.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

@@ -38,16 +38,17 @@ public:
     bool tallenna() override;
     bool onkoMuokattu() override;
 
-    bool naytetaankoVienti() override { return true; }
+    bool naytetaankoTallennus() override { return false; }
 
     QString ohjesivu() override { return "maaritykset/tilikartta"; }
+
 
 public slots:
     void muutaTila(int tila);
 
     void riviValittu(const QModelIndex &index);
     void muokkaa();
-    void uusi();
+    void uusiTili();
     void poista();
     void suodataTila(int tila);
 

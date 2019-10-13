@@ -61,3 +61,8 @@ QString KieliKentta::teksti( QString kieli) const
         return tekstit_.first();
     return QString();
 }
+
+QString KieliKentta::kaannos(const QString &kieli) const
+{
+    return tekstit_.value(kieli);
+}

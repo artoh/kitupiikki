@@ -207,8 +207,6 @@ void TiliModel::lisaaTili(const Tili& uusi)
 void TiliModel::poistaRivi(int riviIndeksi)
 {
     Tili tili = tilit_[riviIndeksi];
-    if( tili.montakoVientia())
-        return;         // Ei voi poistaa, jos kirjauksia
 
     beginRemoveRows( QModelIndex(), riviIndeksi, riviIndeksi);
     if( tili.id() )
@@ -238,8 +236,10 @@ Tili *TiliModel::tiliPNumerolla(int numero) const
 
 Tili TiliModel::tiliNumerolla(int numero, int otsikkotaso) const
 {
-    // Vertailu tehdään "ysiluvuilla" joten tilit 154 ja 15400 ovat samoja
-    return tiliYsiluvulla( Tili::ysiluku(numero, otsikkotaso) );
+    for(auto tili : tiliLista_)
+        if( tili->numero()==numero && tili->otsikkotaso() == otsikkotaso)
+            return *tili;
+    return Tili();
 }
 
 Tili TiliModel::tiliYsiluvulla(int ysiluku) const
@@ -413,10 +413,6 @@ void TiliModel::lataa(QVariantList lista)
     laajuus_ = kp()->asetukset()->luku("laajuus",3);
 
     paivitaTilat();
-
-    qDebug() << " Listalla " << tiliLista_.count() << " tiliä ";
-    for(Tili* pointteri : tiliLista_)
-        qDebug() <<  pointteri->tila() << "   " << pointteri->tyyppiKoodi() << "   " << pointteri->nimiNumero();
 
     endResetModel();
 }

@@ -30,7 +30,7 @@ public:
     QSortFilterProxyModel *proxyTyyppi_;
     QSortFilterProxyModel *proxyTila_;
 
-    void suodataTyypilla(const QString& regexp);
+    void suodataTyypilla(const QString& regexp, bool naytaKaikki = false);
     void suodataMaksutapa(const QString& regexp);
 
     int valittuTilinumero() const;

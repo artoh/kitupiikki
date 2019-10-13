@@ -22,6 +22,7 @@
 #include <QHash>
 #include <QSqlDatabase>
 #include <QDateTime>
+#include <QVariant>
 
 /**
  * @brief Asetusten käsittely
@@ -85,6 +86,8 @@ public:
      */
     QStringList avaimet(const QString& avaimenAlku = QString()) const;
 
+    QStringList kielet() const { return kielet_; }
+    QString kieli(const QString& lyhenne) const;
 
     void lataa(const QVariantMap &lista);
     void tyhjenna() { asetukset_.clear(); }
@@ -95,6 +98,8 @@ signals:
 
 protected:
     QHash<QString,QString> asetukset_;
+    QStringList kielet_;
+    QVariantMap kieliMap_;
 
     static std::map<int,QString> avaimet__;
 

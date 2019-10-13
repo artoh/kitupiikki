@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>428</width>
-    <height>1164</height>
+    <width>925</width>
+    <height>1383</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,72 +15,22 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QRadioButton" name="tiliRadio">
-         <property name="text">
-          <string>Tili</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="otsikkoRadio">
-         <property name="text">
-          <string>Otsikko</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <widget class="QLabel" name="varoitusKuva">
-       <property name="maximumSize">
-        <size>
-         <width>32</width>
-         <height>32</height>
-        </size>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="pixmap">
-        <pixmap resource="../pic/pic.qrc">:/pic/varoitus.png</pixmap>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="varoitusLabel">
-       <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tilinumeron muuttaminen aiheuttaa muutoksia jo kirjatuissa vienneissä. Jos tili on valittu vastatiliksi, katoaa tämä valinta. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="wordWrap">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="uniikkiVaroitus">
-       <property name="styleSheet">
-        <string notr="true">color: red;</string>
-       </property>
-       <property name="text">
-        <string>Valittu tilityyppi on tarkoitettu käytettäväksi vain yhdellä tilikartan tilillä.</string>
-       </property>
-       <property name="wordWrap">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QFormLayout" name="formLayout">
+    <layout class="QFormLayout" name="leiska">
      <item row="0" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Kuuluu otsikolle</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="infoLabel">
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
       <widget class="QLabel" name="label">
        <property name="text">
         <string>Numero</string>
@@ -90,22 +40,8 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="numeroEdit"/>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_7">
-       <property name="text">
-        <string>Kuuluu otsikolle</string>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="1">
-      <widget class="QLabel" name="kuuluuLabel">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
+      <widget class="QLineEdit" name="numeroEdit"/>
      </item>
      <item row="2" column="0">
       <widget class="QLabel" name="label_2">
@@ -113,69 +49,22 @@
         <string>Nimi</string>
        </property>
        <property name="buddy">
-        <cstring>nimiEdit</cstring>
+        <cstring>nimiList</cstring>
        </property>
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QLineEdit" name="nimiEdit"/>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Täydentävä teksti</string>
+      <widget class="QListWidget" name="nimiList">
+       <property name="editTriggers">
+        <set>QAbstractItemView::AllEditTriggers</set>
+       </property>
+       <property name="tabKeyNavigation">
+        <bool>true</bool>
        </property>
       </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QLineEdit" name="taydentavaEdit"/>
      </item>
      <item row="4" column="0">
-      <widget class="QLabel" name="ibanLabel">
-       <property name="text">
-        <string>IBAN-tilinumero</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="QLineEdit" name="ibanLine">
-       <property name="placeholderText">
-        <string>FI00000000000000</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="tasoLabel">
-       <property name="text">
-        <string>Otsikkotaso</string>
-       </property>
-       <property name="buddy">
-        <cstring>tasoSpin</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="1">
-      <widget class="QSpinBox" name="tasoSpin">
-       <property name="minimum">
-        <number>1</number>
-       </property>
-       <property name="maximum">
-        <number>9</number>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="0">
-      <widget class="QLabel" name="valiastiLabel">
-       <property name="text">
-        <string>Otsikkoväli päättyy</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="1">
-      <widget class="QLineEdit" name="valiastiEdit"/>
-     </item>
-     <item row="7" column="0">
-      <widget class="QLabel" name="label_4">
+      <widget class="QLabel" name="tyyppiLabel">
        <property name="text">
         <string>Tilityyppi</string>
        </property>
@@ -184,23 +73,27 @@
        </property>
       </widget>
      </item>
-     <item row="7" column="1">
+     <item row="4" column="1">
       <widget class="QComboBox" name="tyyppiCombo"/>
      </item>
-     <item row="8" column="0">
-      <widget class="QLabel" name="label_5">
+     <item row="5" column="0">
+      <widget class="QLabel" name="ibanLabel">
        <property name="text">
-        <string>Vastatili</string>
+        <string>IBAN-tilinumero</string>
        </property>
        <property name="buddy">
-        <cstring>vastatiliEdit</cstring>
+        <cstring>ibanLine</cstring>
        </property>
       </widget>
      </item>
-     <item row="8" column="1">
-      <widget class="TilinvalintaLine" name="vastatiliEdit"/>
+     <item row="5" column="1">
+      <widget class="QLineEdit" name="ibanLine">
+       <property name="placeholderText">
+        <string>FI00000000000000</string>
+       </property>
+      </widget>
      </item>
-     <item row="9" column="0">
+     <item row="6" column="0">
       <widget class="QLabel" name="verolajiLabel">
        <property name="text">
         <string>Verolaji</string>
@@ -210,10 +103,10 @@
        </property>
       </widget>
      </item>
-     <item row="9" column="1">
+     <item row="6" column="1">
       <widget class="QComboBox" name="veroCombo"/>
      </item>
-     <item row="10" column="0">
+     <item row="7" column="0">
       <widget class="QLabel" name="veroprosenttiLabel">
        <property name="text">
         <string>Veroprosentti</string>
@@ -223,7 +116,7 @@
        </property>
       </widget>
      </item>
-     <item row="10" column="1">
+     <item row="7" column="1">
       <widget class="QSpinBox" name="veroSpin">
        <property name="suffix">
         <string>%</string>
@@ -233,10 +126,52 @@
        </property>
       </widget>
      </item>
+     <item row="8" column="0">
+      <widget class="QLabel" name="jaksotusLabel">
+       <property name="text">
+        <string>Jaksotustili</string>
+       </property>
+       <property name="buddy">
+        <cstring>jaksotiliCombo</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="1">
+      <widget class="TiliCombo" name="jaksotiliCombo"/>
+     </item>
+     <item row="9" column="0">
+      <widget class="QLabel" name="maksutapaLabel">
+       <property name="text">
+        <string>Maksutapana</string>
+       </property>
+       <property name="buddy">
+        <cstring>maksutapaCombo</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="1">
+      <widget class="QComboBox" name="maksutapaCombo"/>
+     </item>
+     <item row="10" column="0">
+      <widget class="QLabel" name="palkkaLabel">
+       <property name="text">
+        <string>Palkkakirjaus</string>
+       </property>
+       <property name="buddy">
+        <cstring>palkkaCombo</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="1">
+      <widget class="QComboBox" name="palkkaCombo"/>
+     </item>
      <item row="11" column="0">
       <widget class="QLabel" name="poistoaikaLabel">
        <property name="text">
         <string>Poistoaika</string>
+       </property>
+       <property name="buddy">
+        <cstring>poistoaikaSpin</cstring>
        </property>
       </widget>
      </item>
@@ -255,6 +190,9 @@
        <property name="text">
         <string>Menojäännöspoisto</string>
        </property>
+       <property name="buddy">
+        <cstring>poistoprossaSpin</cstring>
+       </property>
       </widget>
      </item>
      <item row="12" column="1">
@@ -269,52 +207,102 @@
        <property name="text">
         <string>Poistotili</string>
        </property>
+       <property name="buddy">
+        <cstring>poistotiliCombo</cstring>
+       </property>
       </widget>
      </item>
      <item row="13" column="1">
-      <widget class="TilinvalintaLine" name="poistotiliEdit"/>
+      <widget class="TiliCombo" name="poistotiliCombo"/>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="laajuusLabel">
+       <property name="text">
+        <string>Tilikartan laajuus</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QComboBox" name="laajuusCombo"/>
      </item>
     </layout>
    </item>
    <item>
-    <widget class="QGroupBox" name="teGroup">
-     <property name="title">
-      <string>Tase-erittely</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_3">
-      <item>
-       <widget class="QRadioButton" name="taseEratRadio">
-        <property name="text">
-         <string>Täysi erittely tase-erillä</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="taseEraLuettelo">
-        <property name="text">
-         <string>Tase-erien luettelo</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="teLiVaRadio">
-        <property name="text">
-         <string>Lisäykset ja vähennykset</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="teSaldoRadio">
-        <property name="text">
-         <string>Saldo</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QGroupBox" name="teGroup">
+       <property name="title">
+        <string>Tase-erittely</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QRadioButton" name="taseEratRadio">
+          <property name="text">
+           <string>Täysi erittely tase-erillä</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="taseEraLuettelo">
+          <property name="text">
+           <string>Tase-erien luettelo</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="teLiVaRadio">
+          <property name="text">
+           <string>Lisäykset ja vähennykset</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="teSaldoRadio">
+          <property name="text">
+           <string>Saldo</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="laskullaGroup">
+       <property name="title">
+        <string>Tilinumero laskulla</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QRadioButton" name="laskuEnsi">
+          <property name="text">
+           <string>Ensisijainen laskutustili</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="laskuTois">
+          <property name="text">
+           <string>Toissijainen laskutustili</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="laskuEi">
+          <property name="text">
+           <string>Älä näytä laskulla</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QCheckBox" name="kohdennusCheck">
@@ -328,14 +316,14 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="label_6">
+    <widget class="QLabel" name="ohjeLabel">
      <property name="text">
       <string>Kirjausohje</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QPlainTextEdit" name="kirjausohjeText"/>
+    <widget class="QTabWidget" name="ohjeTabs"/>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
@@ -343,7 +331,7 @@
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Save</set>
      </property>
     </widget>
    </item>
@@ -351,9 +339,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>TilinvalintaLine</class>
-   <extends>QLineEdit</extends>
-   <header>db/tilinvalintaline.h</header>
+   <class>TiliCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">tools/tilicombo.h</header>
   </customwidget>
  </customwidgets>
  <resources>
@@ -367,8 +355,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>245</x>
-     <y>643</y>
+     <x>258</x>
+     <y>1369</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -383,140 +371,12 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>313</x>
-     <y>643</y>
+     <x>285</x>
+     <y>1369</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>otsikkoRadio</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>tasoLabel</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>67</x>
-     <y>70</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>65</x>
-     <y>185</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>otsikkoRadio</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>tasoSpin</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>190</x>
-     <y>70</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>333</x>
-     <y>185</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>tiliRadio</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>tyyppiCombo</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>131</x>
-     <y>22</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>417</x>
-     <y>235</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>tiliRadio</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>label_4</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>30</x>
-     <y>28</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>48</x>
-     <y>235</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>tiliRadio</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>label_5</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>72</x>
-     <y>23</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>58</x>
-     <y>258</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>tiliRadio</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>vastatiliEdit</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>157</x>
-     <y>26</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>415</x>
-     <y>258</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>otsikkoRadio</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>valiastiEdit</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>92</x>
-     <y>64</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>223</x>
-     <y>202</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>otsikkoRadio</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>valiastiLabel</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>30</x>
-     <y>62</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>25</x>
-     <y>202</y>
     </hint>
    </hints>
   </connection>

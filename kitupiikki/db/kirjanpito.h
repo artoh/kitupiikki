@@ -472,4 +472,11 @@ Kirjanpito* kp();
 KpKysely *kpk(const QString& polku = QString(), KpKysely::Metodi metodi = KpKysely::GET);
 
 
+/**
+ * @brief Globaali funktio kielen/maan lippuun
+ * @param kielikoodi
+ * @return
+ */
+QIcon lippu(const QString& kielikoodi);
+
 #endif // KIRJANPITO_H

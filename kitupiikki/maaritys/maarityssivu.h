@@ -95,11 +95,6 @@ public slots:
      */
     void paivitaNakyvat();
 
-    /**
-     * @brief Tilikartan päivitystoiminto
-     */
-    void paivitaTilikartta();
-
     MaaritysWidget *nykyWidget() { return nykyinen; }
 
 protected:

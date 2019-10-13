@@ -294,7 +294,6 @@ void KitupiikkiIkkuna::ktpKasky(const QString& kasky)
     }
     else if( kasky == "paivitatilikartta")
     {
-        maarityssivu->paivitaTilikartta();
         aloitussivu->siirrySivulle();   // Päivitä aloitussivu, jotta päivitysinfo katoaa
     }
 }

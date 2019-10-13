@@ -55,12 +55,12 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu("Tilinavaus", TILINAVAUS, QIcon(":/pic/rahaa.png"));
     lisaaSivu("Laskutus", LASKUTUS, QIcon(":/pic/lasku.png"));
     lisaaSivu("Sähköpostin lähetys", SAHKOPOSTI, QIcon(":/pic/email.png"));
-    lisaaSivu("Verkkolasku", VERKKOLASKU, QIcon(":/pic/verkkolasku.png"));
+//    lisaaSivu("Verkkolasku", VERKKOLASKU, QIcon(":/pic/verkkolasku.png"));
     lisaaSivu("Tuonti", TUONTI, QIcon(":/pic/tuotiedosto.png"));
     lisaaSivu("Kirjattavien kansio", INBOX, QIcon(":/pic/inbox.png"));
-    lisaaSivu("Raportit", RAPORTIT, QIcon(":/pic/print.png"));
-    lisaaSivu("Tilinpäätöksen malli", LIITETIETOKAAVA, QIcon(":/pic/tekstisivu.png"));
-    lisaaSivu("Tilikartan ohje", TILIKARTTAOHJE, QIcon(":/pic/ohje.png"));
+//    lisaaSivu("Raportit", RAPORTIT, QIcon(":/pic/print.png"));
+//    lisaaSivu("Tilinpäätöksen malli", LIITETIETOKAAVA, QIcon(":/pic/tekstisivu.png"));
+//    lisaaSivu("Tilikartan ohje", TILIKARTTAOHJE, QIcon(":/pic/ohje.png"));
 
     connect( lista, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), this, SLOT(valitseSivu(QListWidgetItem*)));
 
@@ -70,16 +70,11 @@ MaaritysSivu::MaaritysSivu() :
     sivuleiska = new QVBoxLayout;
     leiska->addLayout(sivuleiska, 1);
 
-
-    vienappi = new QPushButton(QIcon(":/pic/salkkupossu.png"), tr("Vie tilikartta..."));
-    paivitaNappi = new QPushButton( QIcon(":/pic/paivita.png"), tr("Päivitä tilikartta..."));
     perunappi = new QPushButton(QIcon(":/pic/sulje.png"),tr("Peru"));
     tallennanappi = new QPushButton(QIcon(":/pic/ok.png"),  tr("Tallenna"));
     tallennanappi->setShortcut(QKeySequence(QKeySequence::Save));
 
     QHBoxLayout *nappiLeiska = new QHBoxLayout;
-    nappiLeiska->addWidget(vienappi);
-    nappiLeiska->addWidget(paivitaNappi);
     nappiLeiska->addStretch();
     nappiLeiska->addWidget(tallennanappi);
     nappiLeiska->addWidget(perunappi);
@@ -88,7 +83,6 @@ MaaritysSivu::MaaritysSivu() :
 
     setLayout(leiska);
 
-    connect( paivitaNappi, SIGNAL(clicked(bool)), this, SLOT(paivitaTilikartta()));
     connect( perunappi, SIGNAL(clicked(bool)), this, SLOT(peru()));
     connect( tallennanappi, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
     connect( kp(), SIGNAL(tilikausiPaatetty()), this, SLOT(paivitaNakyvat()));
@@ -221,9 +215,10 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
     item->setSelected(true);
     nykyItem = item;
 
-    vienappi->setVisible( nykyinen->naytetaankoVienti());
-    paivitaNappi->setVisible( nykyinen->naytetaankoVienti());
+    perunappi->setVisible( nykyinen->naytetaankoTallennus());
+    tallennanappi->setVisible( nykyinen->naytetaankoTallennus());
     tallennanappi->setEnabled( nykyinen->onkoMuokattu() );
+
     connect( nykyinen, SIGNAL(tallennaKaytossa(bool)), tallennanappi, SLOT(setEnabled(bool)));
 
 
@@ -250,18 +245,6 @@ void MaaritysSivu::paivitaNakyvat()
     QListWidgetItem *item = lista->item( TILINAVAUS );
     item->setHidden( kp()->asetukset()->luku("Tilinavaus") == 0 || kp()->tilitpaatetty() > kp()->asetukset()->pvm("TilinavausPvm") );
 
-    // Edistyneet toiminnot
-    bool naytaEdistyneet = kp()->asetukset()->onko("NaytaEdistyneet");
-    lista->item( RAPORTIT)->setHidden( !naytaEdistyneet );
-    lista->item( LIITETIETOKAAVA )->setHidden( !naytaEdistyneet );
-
-}
-
-
-void MaaritysSivu::paivitaTilikartta()
-{
-    if( PaivitaKirjanpito::paivitaTilikartta() )
-        valitseSivu("Tilikartan ohje");
 }
 
 

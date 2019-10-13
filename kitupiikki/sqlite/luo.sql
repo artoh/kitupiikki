@@ -9,7 +9,8 @@ CREATE TABLE Tili
 (
 	numero integer PRIMARY KEY NOT NULL,
 	tyyppi varchar(10) NOT NULL,
-	json text
+	json text,
+	muokattu TIMESTAMP
 );
 
 CREATE TABLE Otsikko

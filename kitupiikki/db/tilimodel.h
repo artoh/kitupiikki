@@ -69,15 +69,16 @@ public:
     void lisaaTili(const Tili &uusi);
     void poistaRivi( int riviIndeksi );
 
-    Tili tiliIdllaVanha(int id) const;
+    [[deprecated]] Tili tiliIdllaVanha(int id) const;
 
     Tili *tili(const QString& tilinumero) const;
 
     Tili *tiliPNumerolla(int numero) const;
-
     Tili tiliIndeksilla(int i) const { return *tiliLista_.at(i); }
+    Tili *tiliPIndeksilla(int i) const { return tiliLista_.at(i);}
+
     Tili tiliNumerolla(int numero, int otsikkotaso = 0) const;
-    Tili tiliYsiluvulla(int ysiluku) const;
+    [[deprecated]] Tili tiliYsiluvulla(int ysiluku) const;
     Tili tiliIbanilla(const QString& iban) const;
     /**
      * @brief Palauttaa tilin, jolle kirjataan edellisiltä tilikausilta kertynyt yli/alijäämä
@@ -105,9 +106,9 @@ public:
 
     bool onkoMuokattu() const;
 
-    void lataa();
+    [[deprecated]] void lataa();
     void lataa(QVariantList lista);
-    bool tallenna(bool tietokantaaLuodaan = false);
+    [[deprecated]] bool tallenna(bool tietokantaaLuodaan = false);
 
 public slots:
     void haeSaldot();

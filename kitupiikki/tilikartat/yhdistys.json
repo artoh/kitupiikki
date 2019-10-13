@@ -1,5 +1,8 @@
 {
   "asetukset": {
+    "TilikarttaNimi" : "Yhdistys",
+    "TilikarttaPvm" : "2019-10-10",
+    "TilikarttaTekija" : "kitsas@kitsas.fi",
     "kielet" : {
         "fi" : { "fi": "suomi", "sv" : "finska"},
         "sv" : { "fi": "ruotsi", "sv": "svenska"}
@@ -1303,7 +1306,7 @@
     },
     {
       "numero": 1770,
-      "tyyppi": "AS",
+      "tyyppi": "AJ",
       "nimi": {
         "fi:": "Siirtosaamiset"
       },
@@ -1360,7 +1363,7 @@
       "numero": 1830,
       "tyyppi": "A",
       "nimi": {
-        "fi:": "Joukkovelkakirjat      "
+        "fi:": "Joukkovelkakirjat"
       },
       "erittely": 3,
       "laajuus": 4
@@ -1878,7 +1881,7 @@
     },
     {
       "numero": 2963,
-      "tyyppi": "BO",
+      "tyyppi": "BS",
       "nimi": {
         "fi:": "Ostovelat luottokortilla"
       },
@@ -1994,7 +1997,7 @@
     },
     {
       "numero": 2990,
-      "tyyppi": "BS",
+      "tyyppi": "BJ",
       "nimi": {
         "fi:": "Siirtovelat"
       },

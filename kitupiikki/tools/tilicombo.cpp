@@ -39,8 +39,11 @@ TiliCombo::TiliCombo(QWidget *parent) :
     connect( proxyTyyppi_, &QSortFilterProxyModel::modelReset, this, &TiliCombo::valitseEka);
 }
 
-void TiliCombo::suodataTyypilla(const QString &regexp)
+void TiliCombo::suodataTyypilla(const QString &regexp, bool naytaKaikki)
 {
+    if(naytaKaikki)
+        proxyTila_->setFilterFixedString("");
+
     proxyTyyppi_->setFilterRole(TiliModel::TyyppiRooli);
     proxyTyyppi_->setFilterRegularExpression(regexp);
     if( currentIndex() < 0 )

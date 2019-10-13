@@ -15,7 +15,6 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QSqlQuery>
 #include <QDebug>
 
 #include <QDate>
@@ -23,12 +22,14 @@
 #include <QVariant>
 
 #include <QMessageBox>
-#include <QSqlError>
+
+#include <QJsonDocument>
 
 #include "asetusmodel.h"
 
 #include "kpkysely.h"
 #include "kirjanpito.h"
+#include "kielikentta.h"
 
 AsetusModel::AsetusModel(QObject *parent)
     :   QObject(parent)
@@ -197,6 +198,13 @@ QStringList AsetusModel::avaimet(const QString &avaimenAlku) const
     return vastaus;
 }
 
+QString AsetusModel::kieli(const QString &lyhenne) const
+{
+    KieliKentta kentta(kieliMap_.value(lyhenne));
+    return kentta.teksti();
+}
+
+
 void AsetusModel::lataa(const QVariantMap &lista)
 {
     asetukset_.clear();
@@ -206,7 +214,10 @@ void AsetusModel::lataa(const QVariantMap &lista)
         asetukset_.insert( iter.key(), iter.value().toString() );
     }
 
-    qDebug() << "Ladattu " << lista.count() << " asetusta ";
+    // Ladataan kielet
+    kieliMap_ = QJsonDocument::fromJson( asetus("kielet").toUtf8() ).toVariant().toMap();
+    kielet_ = kieliMap_.keys();
+
 }
 
 std::map<int,QString> AsetusModel::avaimet__ = {

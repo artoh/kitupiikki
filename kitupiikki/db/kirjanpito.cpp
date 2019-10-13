@@ -631,3 +631,8 @@ KpKysely *kpk(const QString &polku, KpKysely::Metodi metodi)
         return kp()->yhteysModel()->kysely(polku, metodi);
     return nullptr;
 }
+
+QIcon lippu(const QString &kielikoodi)
+{
+    return QIcon(":/liput/" + kielikoodi + ".png");
+}

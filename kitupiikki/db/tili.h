@@ -43,8 +43,10 @@ public:
 
     QString nimi(const QString& kieli = QString()) const;
     QString nimiNumero(const QString& kieli = QString()) const;
+    QString nimiKaannos(const QString& kieli) const { return nimi_.kaannos(kieli);}
 
     QString ohje(const QString& kieli=QString()) const;
+    QString ohjeKaannos(const QString& kieli) const { return ohje_.kaannos(kieli);}
 
     TiliTyyppi tyyppi() const { return tyyppi_;}
     QString tyyppiKoodi() const { return tyyppi().koodi(); }
@@ -115,16 +117,8 @@ public:
      * @param pvm Päivämäärä, jolle saldo lasketaan
      * @return Saldo sentteinä
      */
-    qlonglong saldoPaivalle(const QDate &pvm);
+    [[deprecated]] qlonglong saldoPaivalle(const QDate &pvm);
 
-    /**
-     * @brief Montako kirjausta tälle tilille
-     *
-     * Käytetään valvomaan sitä, ettei käytössä olevaa tiliä voi poistaa
-     *
-     * @return Kirjausten määrä
-     */
-    int montakoVientia() const;
 
     /**
      * @brief Onko tili kysyttyä tyyppiä
