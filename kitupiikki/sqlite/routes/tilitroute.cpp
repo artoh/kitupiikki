@@ -24,7 +24,7 @@ TilitRoute::TilitRoute(SQLiteModel *model) :
 
 }
 
-QVariant TilitRoute::put(const QString &polku, const QVariant &data)
+QVariant TilitRoute::put(const QString &, const QVariant &data)
 {
 
     QVariantMap map = data.toMap();
@@ -52,5 +52,18 @@ QVariant TilitRoute::put(const QString &polku, const QVariant &data)
     }
     query.exec();
 
+    return QVariant();
+}
+
+QVariant TilitRoute::doDelete(const QString &polku)
+{
+    QSqlQuery kysely( db() );
+    if( polku.contains('/')) {
+        kysely.exec( QString("DELETE FROM Otsikko WHERE numero=%1 AND taso=%2")
+                     .arg(polku.left(polku.indexOf('/')).toInt())
+                     .arg(polku.mid(polku.indexOf('/')+1).toInt()));
+    } else {
+        kysely.exec( QString("DELETE FROM Tili WHERE numero=%1").arg(polku.toInt()));
+    }
     return QVariant();
 }

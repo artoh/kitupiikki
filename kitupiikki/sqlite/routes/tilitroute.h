@@ -25,6 +25,7 @@ public:
     TilitRoute(SQLiteModel *model);
 
     QVariant put(const QString &polku, const QVariant &data) override;
+    QVariant doDelete(const QString &polku) override;
 };
 
 #endif // TILITROUTE_H

@@ -173,7 +173,7 @@ Tili *TiliModel::lisaaTili(int numero, int otsikkotaso)
         Tili* tili = tiliPIndeksilla(i);
         if( QString::number(tili->numero()) > nrostr || ( tili->numero() == numero && tili->otsikkotaso() > otsikkotaso)  )
             break;
-        if( tili->otsikkotaso() && tili->otsikkotaso() < otsikkotaso)
+        if( tili->otsikkotaso() && ( !otsikkotaso || tili->otsikkotaso() < otsikkotaso))
             edellinenotsikko = tili;
     }
     // Nyt indeksi kertoo, minne lisätään
@@ -213,11 +213,20 @@ void TiliModel::tallenna(Tili* tili)
 
 void TiliModel::poistaRivi(int riviIndeksi)
 {
-
     beginRemoveRows( QModelIndex(), riviIndeksi, riviIndeksi);
+    Tili* tili = tiliPIndeksilla(riviIndeksi);
+    if( !tili->otsikkotaso())
+        nroHash_.remove( tili->numero() );
+    tiliLista_.removeAt(riviIndeksi);
+
+    KpKysely* kysely = kpk( tili->otsikkotaso() ?
+                                QString("/tilit/%1/%2").arg(tili->numero()).arg(tili->otsikkotaso())
+                              : QString("/tilit/%1").arg(tili->numero()),
+                            KpKysely::DELETE);
+    kysely->kysy();
+    delete tili;
 
     endRemoveRows();
-
 }
 
 

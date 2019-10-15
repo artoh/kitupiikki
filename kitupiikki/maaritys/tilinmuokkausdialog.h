@@ -69,6 +69,7 @@ protected slots:
     void ibanCheck();
     void numeroCheck();
     void accept();
+    void poista();
 
     void viennitSaapuu(QVariant* data);
 
@@ -86,7 +87,7 @@ protected:
     QSortFilterProxyModel *proxy_;
     QSortFilterProxyModel *veroproxy_;
 
-    QPushButton *poistaNappi_;
+    QPushButton *poistaNappi_=nullptr;
 
     Tila tila_;
     Tili* vanhempi_ = nullptr;

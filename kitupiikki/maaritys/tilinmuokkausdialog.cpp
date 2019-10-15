@@ -33,7 +33,7 @@
 
 
 TilinMuokkausDialog::TilinMuokkausDialog(QWidget *parent, int indeksi, Tila tila)
-    : QDialog(parent), ui(new Ui::tilinmuokkausDialog), tila_(tila)
+    : QDialog(parent), ui(new Ui::tilinmuokkausDialog),  tila_(tila), indeksi_(indeksi)
 {
     ui->setupUi(this);
 
@@ -59,6 +59,10 @@ TilinMuokkausDialog::TilinMuokkausDialog(QWidget *parent, int indeksi, Tila tila
 
 
     if( tila == UUSITILI || tila == UUSIOTSIKKO ) {
+
+        // VANHEMMAN ETSIMINEN FOR-SILMUKALLA, JOTTA
+        // ONNISTUU VAIKKA TAMANOTSIKKO EI TOIMI !!!
+
         vanhempi_ = kp()->tilit()->tiliPIndeksilla(indeksi);
         if( !vanhempi_->otsikkotaso())
             vanhempi_ = vanhempi_->tamanOtsikko();
@@ -116,9 +120,10 @@ TilinMuokkausDialog::TilinMuokkausDialog(QWidget *parent, int indeksi, Tila tila
         else
             ui->infoLabel->hide();
 
-        QPushButton* poistaNappi_ = new QPushButton(QIcon(":/pic/roskis.png"), tr("Poista"));
+        poistaNappi_ = new QPushButton(QIcon(":/pic/roskis.png"), tr("Poista"));
         poistaNappi_->setEnabled(false);
         ui->buttonBox->addButton( poistaNappi_, QDialogButtonBox::DestructiveRole);
+        connect( poistaNappi_, &QPushButton::clicked, this, &TilinMuokkausDialog::poista );
 
         if( taso_) {
             // Otsikon saa poistaa, jos sillä ei ole alempia otsikoita
@@ -358,8 +363,21 @@ void TilinMuokkausDialog::accept()
     QDialog::accept();
 }
 
+void TilinMuokkausDialog::poista()
+{
+    if( QMessageBox::question(this, tr("Vahvista poisto"),
+                              tr("Haluatko varmasti poistaa tämän tilin? Tarpeeton tili on yleensä "
+                                 "suositeltavampaa piilottaa kuin poistaa.")) == QMessageBox::Yes)
+    {
+        kp()->tilit()->poistaRivi(indeksi_);
+        QDialog::accept();
+    }
+}
+
 void TilinMuokkausDialog::viennitSaapuu(QVariant *data)
 {
+    qDebug() << data->toList();
+    qDebug() << data->toList().count();
     poistaNappi_->setEnabled( data->toList().isEmpty() );
 }
 
