@@ -18,6 +18,7 @@ CREATE TABLE Otsikko
 	numero integer NOT NULL,
 	taso integer NOT NULL,
 	json text,
+	muokattu TIMESTAMP,
 	PRIMARY KEY (numero,taso)
 );
 
@@ -30,8 +31,9 @@ CREATE TABLE Tilikausi
 
 CREATE TABLE Kohdennus
 (
-	id serial PRIMARY KEY NOT NULL,
-	tyyppi kohdennustyyppi NOT NULL,
+	id SERIAL PRIMARY KEY NOT NULL,
+	tyyppi INTEGER NOT NULL,
+	kuuluu INTEGER REFERENCES Kohdennus(id) ON DELETE SET NULL,
 	json text
 );
 

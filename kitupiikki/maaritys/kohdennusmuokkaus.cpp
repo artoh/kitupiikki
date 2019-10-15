@@ -27,9 +27,8 @@ KohdennusMuokkaus::KohdennusMuokkaus(QWidget *parent) :
     ui = new Ui::Kohdennukset;
     ui->setupUi(this);
 
-    model = new KohdennusModel( this);
     proxy = new QSortFilterProxyModel(this);
-    proxy->setSourceModel(model);
+    proxy->setSourceModel( kp()->kohdennukset() );
     proxy->setSortRole(KohdennusModel::NimiRooli);
     proxy->sort(0);
 
@@ -65,37 +64,24 @@ bool KohdennusMuokkaus::nollaa()
     return true;
 }
 
-bool KohdennusMuokkaus::tallenna()
-{
-
-    return true;
-}
-
-bool KohdennusMuokkaus::onkoMuokattu()
-{
-    return model->onkoMuokattu();
-}
 
 void KohdennusMuokkaus::uusi()
 {
-    KohdennusDialog dlg(model);
+    KohdennusDialog dlg(kp()->kohdennukset());
     dlg.exec();
     proxy->sort(0);
-    emit tallennaKaytossa( onkoMuokattu() );
 }
 
 void KohdennusMuokkaus::muokkaa()
 {
-    KohdennusDialog dlg( model, proxy->mapToSource( ui->view->currentIndex()));
+    KohdennusDialog dlg( kp()->kohdennukset(), proxy->mapToSource( ui->view->currentIndex()));
     dlg.exec();
     proxy->sort(0);
-    emit tallennaKaytossa( onkoMuokattu() );
 }
 
 void KohdennusMuokkaus::poista()
 {
-    model->poistaRivi( proxy->mapToSource( ui->view->currentIndex()).row());
-    emit tallennaKaytossa( onkoMuokattu() );
+   kp()->kohdennukset()->poistaRivi( proxy->mapToSource( ui->view->currentIndex()).row());
 }
 
 
