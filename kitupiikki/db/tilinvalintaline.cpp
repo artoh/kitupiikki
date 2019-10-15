@@ -62,12 +62,6 @@ void KantaTilinvalintaLine::valitseTiliNumerolla(int tilinumero)
 
 }
 
-void KantaTilinvalintaLine::valitseTiliIdlla(int tiliId)
-{
-    Tili tili = kp()->tilit()->tiliIdllaVanha(tiliId);
-    valitseTili(tili);
-}
-
 void KantaTilinvalintaLine::valitseTili(const Tili& tili)
 {
     if( tili.onkoValidi())

@@ -19,6 +19,8 @@
 
 #include "apuriwidget.h"
 
+#include <QVariantMap>
+
 namespace Ui {
 class PalkkaApuri;
 }
@@ -41,6 +43,7 @@ protected:
 
 private:
     Ui::PalkkaApuri *ui;
+    QVariantMap palkkatilit_;
 };
 
 #endif // PALKKAAVUSTAJA_H

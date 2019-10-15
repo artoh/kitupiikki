@@ -44,6 +44,7 @@
 #include "routes/toimittajatroute.h"
 #include "routes/kohdennusroute.h"
 #include "routes/tuotteetroute.h"
+#include "routes/tilitroute.h"
 
 SQLiteModel::SQLiteModel(QObject *parent)
     : YhteysModel(parent)
@@ -65,6 +66,7 @@ SQLiteModel::SQLiteModel(QObject *parent)
     lisaaRoute(new ToimittajatRoute(this));
     lisaaRoute(new KohdennusRoute(this));
     lisaaRoute(new TuotteetRoute(this));
+    lisaaRoute(new TilitRoute(this));
 }
 
 SQLiteModel::~SQLiteModel()

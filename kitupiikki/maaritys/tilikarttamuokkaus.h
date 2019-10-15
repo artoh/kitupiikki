@@ -35,8 +35,6 @@ public:
     ~TilikarttaMuokkaus();
 
     bool nollaa() override;
-    bool tallenna() override;
-    bool onkoMuokattu() override;
 
     bool naytetaankoTallennus() override { return false; }
 
@@ -44,12 +42,13 @@ public:
 
 
 public slots:
-    void muutaTila(int tila);
+    void muutaTila(Tili::TiliTila tila);
 
     void riviValittu(const QModelIndex &index);
     void muokkaa();
     void uusiTili();
-    void poista();
+    void uusiOtsikko();
+
     void suodataTila(int tila);
 
     void suodata(const QString& teksti);

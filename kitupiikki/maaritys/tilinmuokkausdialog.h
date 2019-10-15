@@ -39,8 +39,7 @@ public:
      * @param uusi
      */
     enum Tila {
-        MUOKKAATILI,
-        MUOKKAAOTSIKKO,
+        MUOKKAA,
         UUSIOTSIKKO,
         UUSITILI
     };
@@ -71,28 +70,23 @@ protected slots:
     void numeroCheck();
     void accept();
 
+    void viennitSaapuu(QVariant* data);
+
 protected:
     void alustaNimet();
     void alustaOhjeet();
-
-    void maksutapaPaivitys();
-    void palkkalajiPaivitys();
     void alustalaajuus();
 
 
 protected:
-    /**
-     * @brief Hakee tilille tai otsikolle yläotsikon
-     * @param ysinro Haettavan tilin/otsikon ysiluku
-     * @return
-     */
-    Tili ylaotsikko(int ysinro);
 
     Ui::tilinmuokkausDialog *ui;
     TiliModel *model_;
     QModelIndex index_;
     QSortFilterProxyModel *proxy_;
     QSortFilterProxyModel *veroproxy_;
+
+    QPushButton *poistaNappi_;
 
     Tila tila_;
     Tili* vanhempi_ = nullptr;

@@ -42,7 +42,6 @@ TilikarttaMuokkaus::TilikarttaMuokkaus(QWidget *parent)
 
     proxy = new QSortFilterProxyModel(this);
     proxy->setSourceModel(naytaProxy);
-    proxy->setSortRole(TiliModel::YsiRooli);
     proxy->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
     ui->view->setModel(proxy);
@@ -56,13 +55,17 @@ TilikarttaMuokkaus::TilikarttaMuokkaus(QWidget *parent)
     connect( ui->kaytossaNappi, &QPushButton::clicked, [this]() {this->suodataTila(1);});
     connect( ui->suosikitNappi, &QPushButton::clicked, [this]() { this->suodataTila(2); });
 
+    connect( ui->piilotaNappi, &QPushButton::clicked, [this] () { this->muutaTila(Tili::TILI_PIILOSSA); } );
+    connect( ui->normaaliNappi, &QPushButton::clicked, [this] () { this->muutaTila(Tili::TILI_KAYTOSSA); } );
+    connect( ui->suosikkiNappi, &QPushButton::clicked, [this] () { this->muutaTila(Tili::TILI_SUOSIKKI); } );
+
     connect(ui->view->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
             this, SLOT(riviValittu(QModelIndex)));
 
     connect(ui->muokkaaNappi, SIGNAL(clicked(bool)), this, SLOT(muokkaa()));
-    connect( ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poista()));
 
     connect( ui->uusiTiliNappi, &QPushButton::clicked, this, &TilikarttaMuokkaus::uusiTili);
+    connect( ui->uusiOtsikkoNappi, &QPushButton::clicked, this, &TilikarttaMuokkaus::uusiOtsikko);
 
 
     connect( ui->view, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(muokkaa()));
@@ -79,75 +82,32 @@ TilikarttaMuokkaus::~TilikarttaMuokkaus()
 
 bool TilikarttaMuokkaus::nollaa()
 {
-    proxy->sort(0);
-
     ui->view->resizeColumnsToContents();
     ui->view->horizontalHeader()->stretchLastSection();
     ui->view->selectRow(0);
     return true;
 }
 
-bool TilikarttaMuokkaus::tallenna()
-{
-    kp()->onni(tr("Tilikartta tallennettu"));
-    return true;
-}
 
-bool TilikarttaMuokkaus::onkoMuokattu()
-{
-    return model->onkoMuokattu();
-}
 
-void TilikarttaMuokkaus::muutaTila(int tila)
+void TilikarttaMuokkaus::muutaTila(Tili::TiliTila tila)
 {
-    QModelIndex index = naytaProxy->mapToSource(  proxy->mapToSource( ui->view->currentIndex() ) );
-    if( index.isValid())
-    {
-        model->setData(index, tila, TiliModel::TilaRooli);
-        if( index.data(TiliModel::OtsikkotasoRooli).toInt())
-        {
-            // Otsikkotaso - tila muutetaan kaikkialle alle
-            int tamanotsikkotaso = index.data(TiliModel::OtsikkotasoRooli).toInt();
-            for( int r = index.row() + 1; r < model->rowCount(QModelIndex()); r++)
-            {
-                int otsikkotaso = model->index(r,0).data(TiliModel::OtsikkotasoRooli).toInt();
-                // Pitää olla otsikko, mutta taso enintään verrokki
-                // Eli jos muutetaan H2 niin myös H3,H4... muuttuu
-                if( (otsikkotaso > 0) && (otsikkotaso <= tamanotsikkotaso ))
-                    break;      // Löydetty seuraava samantasoinen otsikko
-                model->setData( model->index(r, 0) , tila, TiliModel::TilaRooli );
-            }
+    int indeksi = naytaProxy->mapToSource( proxy->mapToSource(ui->view->currentIndex())).row();
+    Tili* tili = kp()->tilit()->tiliPIndeksilla(indeksi);
+
+    if( tili->otsikkotaso()) {
+        // Muutetaan kaikki tilit tämän alapuolelta
+        for(int i=indeksi+1; i < kp()->tilit()->rowCount(); i++) {
+            Tili* tamatili = kp()->tilit()->tiliPIndeksilla(i);
+            if( tamatili->otsikkotaso() <= tili->otsikkotaso())
+                break;
+            if( !tamatili->otsikkotaso())
+                kp()->tilit()->asetaSuosio( tamatili->numero(), tila );
         }
-
-        if( tila )
-        {
-            // Jos tila muutettu näkyväksi, niin muutetaan myös otsikot tästä ylöspäin
-            int edtaso = index.data(TiliModel::OtsikkotasoRooli).toInt() ? index.data(TiliModel::OtsikkotasoRooli).toInt() : 10;            
-            bool muuttaa = true;
-
-            for(int r = index.row()-1; r > -1; r--)
-            {
-                int otsikkotaso = model->index(r,0).data(TiliModel::OtsikkotasoRooli).toInt();
-
-                if( otsikkotaso >= edtaso )
-                    muuttaa = false;
-                else if(otsikkotaso)
-                    muuttaa = true;
-
-                if( otsikkotaso && muuttaa )
-                {
-                    edtaso = otsikkotaso;
-                    if( model->index(r,0).data(TiliModel::TilaRooli).toInt() == 0)
-                        model->setData( model->index(r,0), 1, TiliModel::TilaRooli );
-                }
-
-                if( otsikkotaso == 1)
-                    break;
-            }
-        }
+    } else {
+        kp()->tilit()->asetaSuosio( tili->numero(), tila);
     }
-    riviValittu(index);
-    tallennaKaytossa( onkoMuokattu() );
+
 }
 
 void TilikarttaMuokkaus::riviValittu(const QModelIndex& index)
@@ -163,8 +123,8 @@ void TilikarttaMuokkaus::riviValittu(const QModelIndex& index)
 
 void TilikarttaMuokkaus::muokkaa()
 {
-
-
+    TilinMuokkausDialog dlg(this, naytaProxy->mapToSource( proxy->mapToSource(ui->view->currentIndex())).row(), TilinMuokkausDialog::MUOKKAA );
+    dlg.exec();
 }
 
 void TilikarttaMuokkaus::uusiTili()
@@ -173,11 +133,10 @@ void TilikarttaMuokkaus::uusiTili()
     dlg.exec();
 }
 
-void TilikarttaMuokkaus::poista()
+void TilikarttaMuokkaus::uusiOtsikko()
 {
-    if( ui->view->currentIndex().isValid())
-        model->poistaRivi(  proxy->mapToSource(ui->view->currentIndex()).row());
-    emit tallennaKaytossa( onkoMuokattu() );
+    TilinMuokkausDialog dlg(this, naytaProxy->mapToSource( proxy->mapToSource(ui->view->currentIndex())).row(), TilinMuokkausDialog::UUSIOTSIKKO );
+    dlg.exec();
 }
 
 void TilikarttaMuokkaus::suodataTila(int tila)

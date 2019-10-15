@@ -33,8 +33,6 @@ class TuloMenoApuri : public ApuriWidget
     Q_OBJECT    
 
 public:
-    enum Maksutapa { LASKU, PANKKI, LUOTTO, KATEINEN, KAIKKI };
-
     TuloMenoApuri(QWidget *parent = nullptr, Tosite* tosite = nullptr);
     virtual ~TuloMenoApuri() override;
 

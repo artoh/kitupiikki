@@ -22,25 +22,23 @@
 
 #include "kirjanpito.h"
 
-Tili::Tili() : numero_(0), tila_(1),ylaotsikkoId_(0), muokattu_(false), tilamuokattu_(false), muokkausAika_(QDateTime())
+Tili::Tili() : numero_(0), tila_(1),ylaotsikkoId_(0)
 {
 
 }
 
 
 Tili::Tili(const QVariantMap &data) :
-    KantaVariantti (data)
+    KantaVariantti (data), tila_(1), ylaotsikkoId_(0)
 {
 
     nimi_ = data_.take("nimi");
     ohje_ = data_.take("ohje");
 
     numero_ = data_.value("numero").toInt();
-    tyyppi_ = kp()->tiliTyypit()->tyyppiKoodilla( data_.value("tyyppi").toString() );
-    tila_= data_.contains("tila") ? data_.value("tila").toInt() : 1;
-    muokkausAika_ = data_.value("muokattu").toDateTime();
+    tyyppi_ = kp()->tiliTyypit()->tyyppiKoodilla( data_.take("tyyppi").toString() );
 
-    laajuus_ = data_.value("laajuus").toInt();
+    laajuus_ = data_.take("laajuus").toInt();
 
 }
 
@@ -70,13 +68,11 @@ QString Tili::ohje(const QString &kieli) const
 void Tili::asetaNumero(int numero)
 {
     numero_ = numero;
-    muokattu_ = true;
 }
 
 void Tili::asetaTyyppi(const QString &tyyppikoodi)
 {
     tyyppi_ = kp()->tiliTyypit()->tyyppiKoodilla(tyyppikoodi);
-    muokattu_ = true;
 }
 
 void Tili::asetaOtsikko(Tili *otsikko)
@@ -89,92 +85,22 @@ bool Tili::onkoValidi() const
     return numero() > 0 ;
 }
 
-int Tili::ysivertailuluku() const
-{
-    return ysiluku( numero(), otsikkotaso() );
-}
-
-
-qlonglong Tili::saldoPaivalle(const QDate &pvm)
-{
-    QString kysymys = QString("SELECT SUM(debetsnt), SUM(kreditsnt) FROM vienti WHERE tili=%1 ").arg(id());
-    if( onko(TiliLaji::TASE) )
-        kysymys.append( QString(" AND pvm <= \"%1\" ").arg(pvm.toString(Qt::ISODate)));
-    else
-        kysymys.append( QString(" AND pvm BETWEEN \"%1\" AND \"%2\" ")
-                        .arg( kp()->tilikaudet()->tilikausiPaivalle(pvm).alkaa().toString(Qt::ISODate) )
-                        .arg( pvm.toString(Qt::ISODate )));
-
-    QSqlQuery kysely(kysymys);
-    if( kysely.next())
-    {
-        qlonglong debet = kysely.value(0).toLongLong();
-        qlonglong kredit = kysely.value(1).toLongLong();
-
-        if( onko(TiliLaji::EDELLISTENTULOS) )
-        {
-            // Edellisten yli/alijaamaan pitää laskea vielä edellisten tulokset
-            QSqlQuery edelliskysely( QString("SELECT SUM(debetsnt), SUM(kreditsnt) FROM vienti, tili "
-                                             "WHERE vienti.tili = tili.id AND pvm < \"%1\" "
-                                             "AND ysiluku > 300000000 ")
-                                     .arg(kp()->tilikaudet()->tilikausiPaivalle(pvm).alkaa().toString(Qt::ISODate)));
-            if( edelliskysely.next())
-            {
-                return kredit + edelliskysely.value(1).toLongLong() - debet - edelliskysely.value(0).toLongLong();
-            }
-        }
-        else if( onko(TiliLaji::KAUDENTULOS))
-        {
-            // Tämän tilikauden yli/alijaamaan
-            QSqlQuery edelliskysely( QString("SELECT SUM(debetsnt), SUM(kreditsnt) FROM vienti, tili "
-                                             "WHERE vienti.tili = tili.id AND pvm BETWEEN \"%1\" and \"%2\" "
-                                             "AND ysiluku > 300000000 ")
-                                     .arg(kp()->tilikaudet()->tilikausiPaivalle(pvm).alkaa().toString(Qt::ISODate))
-                                     .arg(kp()->tilikaudet()->tilikausiPaivalle(pvm).paattyy().toString(Qt::ISODate)));
-            if( edelliskysely.next())
-            {
-                return kredit + edelliskysely.value(1).toLongLong() - debet - edelliskysely.value(0).toLongLong();
-            }
-        }
-        else if( onko(TiliLaji::VASTAAVAA) )
-            return debet - kredit;
-        else
-            return kredit - debet;
-    }
-    return 0;
-}
-
 
 bool Tili::onko(TiliLaji::TiliLuonne luonne) const
 {
     return tyyppi().onko(luonne);
 }
 
-int Tili::ysiluku(int luku, int taso)
+QVariantMap Tili::data() const
 {
-    if( !taso )
-        return ysiluku(luku) + 9;
-    else
-        return ysiluku(luku) + taso - 1;
-}
-
-int Tili::ysiluku(int luku, bool loppuu)
-{
-    return laskeysiluku(luku, loppuu);
-}
-
-int Tili::laskeysiluku(int luku, bool loppuu)
-{
-    if( !luku )     // Nolla on nolla eikä voi muuta olla!
-        return 0;
-
-    while( luku <= 99999999 )
-    {
-        luku = luku * 10;
-        if( loppuu )
-            luku = luku + 9;    // Loppuluku täytetään ysillä
-    }
-    return luku;
+    QVariantMap map( KantaVariantti::data() );
+    map.insert("nimi", nimi_.map());
+    map.insert("numero", numero());
+    map.insert("tyyppi", tyyppiKoodi());
+    map.insert("laajuus", laajuus());
+    if( !ohje_.map().isEmpty())
+        map.insert("ohje", ohje_.map());
+    return map;
 }
 
 

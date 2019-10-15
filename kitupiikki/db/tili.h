@@ -50,13 +50,9 @@ public:
 
     TiliTyyppi tyyppi() const { return tyyppi_;}
     QString tyyppiKoodi() const { return tyyppi().koodi(); }
+
     int tila() const { return tila_; }
     int otsikkotaso() const { return tyyppi().otsikkotaso(); }
-
-    bool muokattu() const { return muokattu_ ;}
-    bool muokattuMuutakinKuinTilaa() const { return muokattu_ ; }
-
-    QDateTime muokkausaika() const { return muokkausAika_; }
 
     int laajuus() const { return laajuus_;}
 
@@ -67,22 +63,12 @@ public:
     int ylaotsikkoId() const { return ylaotsikkoId_; }
 
 
-    /**
-     * @brief Palauttaa json-tiedot
-     *
-     * JsonKentta-oliossa on mahdollisuus säilöä erilaista tietoa, jonka lisääminen
-     * ei edellytä tietokannan muutoksia.
-     *
-     * @return
-     */
-    [[deprecated]] JsonKentta *json()  { throw QString("JSONkenttä ei tuettu"); }
-
     void asetaNumero(int numero);
-    void asetaNimi(const QString& nimi) { muokattu_ = true; }
+    void asetaNimi(const QString& nimi, const QString& kieli) { nimi_.aseta(nimi, kieli);}
     void asetaTyyppi(const QString& tyyppikoodi);
-    void asetaTila(int tila) { tila_ = tila; tilamuokattu_ = true; }
-
-    void nollaaMuokattu() { muokattu_ = false; tilamuokattu_=false;}
+    void asetaTila(int tila) { tila_ = tila; }
+    void asetaOhje(const QString& ohje, const QString& kieli) { ohje_.aseta(ohje, kieli);}
+    void asetaLaajuus(int laajuus) { laajuus_ = laajuus;}
 
     Tili* tamanOtsikko() { return tamanOtsikko_; }
     void asetaOtsikko(Tili* otsikko);
@@ -92,33 +78,6 @@ public:
      * @return
      */
     bool onkoValidi() const;
-
-    /**
-     * @brief Yhdeksännumeroinen tilinumeron vertailuluku, jonka avulla
-     * tilit saadaan oikeaan järjestykseen.
-     *
-     * Viimeinen numero kertoo otsikkotason - 1, tileillä se on 9
-     * Otsikkotasoja saa olla siis enintään yhdeksän
-     *
-     * tili 1234 -> 123400009
-     * 2. tason otsikko 1230 -> 123000001
-     *
-     * @return
-     */
-    int ysivertailuluku() const;
-
-
-    /**
-     * @brief Laskee tilin saldon päivämäärälle
-     *
-     * Tasetilin saldo lasketaan kirjanpidon alusta ja tulostilin saldo
-     * tilikauden alusta
-     *
-     * @param pvm Päivämäärä, jolle saldo lasketaan
-     * @return Saldo sentteinä
-     */
-    [[deprecated]] qlonglong saldoPaivalle(const QDate &pvm);
-
 
     /**
      * @brief Onko tili kysyttyä tyyppiä
@@ -163,32 +122,8 @@ public:
     bool eritellaankoTase()  { return taseErittelyTapa() == TASEERITTELY_TAYSI ||
                                   taseErittelyTapa() == TASEERITTELY_LISTA;  }
 
-    /**
-     * @brief Laskee yhdeksännumeroisen vertailuluvun
-     *
-     * Näiden vertailulukujen avulla tilit saadaan järjestykseen ja voidaan vertailla, kuuluuko
-     * tili jollekin välille. Ysiluku saadaan pidentämällä numero yhdeksännumeroiseksi niin,
-     * että 1234 -> 123400000 mutta lopussa 1234 -> 123499999
-     *
-     * @param luku Pidennettävä tililuku
-     * @param loppuu Tosi, jos halutaan loppukasiluku
-     * @return Yhdeksännnumeroiseksi pidennetty tilinumero
-     */
-    static int ysiluku(int luku, bool loppuu = false);
-    /**
-     * @brief Laskee yhdeksännumeroisen vertailuluvun
-     *
-     * Pidennyksen viimeinen numero on tileillä 9, otsikoilla (taso-1)
-     * Näin tätä lukua voidaan käyttää tilien lajitteluun
-     *
-     * @param luku Pidennettävä tililuku
-     * @param taso Tasonumero
-     * @return
-     */
-    static int ysiluku(int luku, int taso);
+    QVariantMap data() const;
 
-protected:
-    static int laskeysiluku(int luku, bool loppuu = false);
 
 protected:
     int numero_;
@@ -196,9 +131,6 @@ protected:
     TiliTyyppi tyyppi_;
     int tila_;
     int ylaotsikkoId_;
-    bool muokattu_;
-    bool tilamuokattu_;
-    QDateTime muokkausAika_;
 
     KieliKentta nimi_;
     KieliKentta ohje_;

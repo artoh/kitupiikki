@@ -67,19 +67,48 @@ UusiVelho::UusiVelho()
 
 void UusiVelho::lataaKartta(const QString &polku)
 {
-    QFile tiedosto(polku);
-    if( tiedosto.open(QIODevice::ReadOnly)) {
-        QByteArray ba = tiedosto.readAll();
-        QJsonDocument doc( QJsonDocument::fromJson(ba) );
+    // json asetuksille
+    {
+        QFile asetukset(polku + "/asetukset.json");
+        if( asetukset.open(QIODevice::ReadOnly))
+            asetukset_ = QJsonDocument::fromJson( asetukset.readAll() ).toVariant().toMap();
+    }
+    // json-tiedosto raporteille
+    {
+        QFile raportit(polku + "/raportit.json");
+        if( raportit.open(QIODevice::ReadOnly))
+            asetukset_.unite( QJsonDocument::fromJson( raportit.readAll()).toVariant().toMap() );
+    }
+    // Tilit oma json-tiedosto
+    {
+        QFile tilit(polku + "/tilit.json");
+        if( tilit.open(QIODevice::ReadOnly) )
+            tilit_ = QJsonDocument::fromJson( tilit.readAll() ).toVariant().toList();
+    }
 
-        asetukset_ = doc.object().value("asetukset").toVariant().toMap();
-        tilit_ = doc.object().value("tilit").toVariant().toList();
+    // Tilinpäätöksen pohja on tekstitiedosto, jossa kielet on merkattu []-tageilla
+    // Luetaan osaksi asetuksia
+    {
+        QFile pohja(polku + "/tilinpaatos.txt");
+        QString kieli;
+        QStringList rivit;
+        if( pohja.open(QIODevice::ReadOnly)) {
+            QTextStream luku(&pohja);
+            luku.setCodec("utd-8");
+            while(!luku.atEnd()) {
+                QString rivi = luku.readLine();
+                if( rivi.startsWith("[") && rivi.endsWith("]")) {
+                    if( rivit.count() )
+                        asetukset_.insert("tppohja/" + kieli, rivit);
+                    rivit.clear();
+                    kieli=rivi.mid(1, rivi.length()-2);
+                } else
+                    rivit.append(rivi);
+            }
+            asetukset_.insert("tppohja/" + kieli, rivit.join("\n"));
+        }
+    }
 
-        qDebug() << " Kartta " << polku << " Asetuksia " << asetukset_.count() << " Tilejä " << tilit_.count();
-        if( !asetukset_.count())
-            qDebug() << doc.object().value("asetukset").toVariant().toMap();
-    } else
-        qDebug() << "Tiedostoa " << polku << " ei voi avata";
 }
 
 QVariantMap UusiVelho::data() const
@@ -148,7 +177,7 @@ UusiVelho::Tilikarttasivu::Tilikarttasivu(UusiVelho *wizard) :
 bool UusiVelho::Tilikarttasivu::validatePage()
 {
     if( ui->yhdistysButton->isChecked() )
-        velho->lataaKartta(":/tilikartat/yhdistys.json");
+        velho->lataaKartta(":/tilikartat/yhdistys");
     else
         return false;   // Tilapäisesti kun ei vielä muita karttoja
 

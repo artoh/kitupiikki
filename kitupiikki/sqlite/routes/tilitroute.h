@@ -14,29 +14,17 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef KIELIKENTTA_H
-#define KIELIKENTTA_H
+#ifndef TILITROUTE_H
+#define TILITROUTE_H
 
-#include <QVariant>
-#include <QMap>
-#include <QVariantMap>
+#include "../sqliteroute.h"
 
-class KieliKentta
+class TilitRoute : public SQLiteRoute
 {
 public:
-    KieliKentta();
-    KieliKentta(const QVariant& var);
-    KieliKentta(const QString& var);
+    TilitRoute(SQLiteModel *model);
 
-    void aseta(const QVariant& var);
-    void aseta(const QString& nimi, const QString& kieli);
-    QString teksti(QString kieli = QString()) const;
-    QString kaannos(const QString& kieli) const;
-
-    QVariantMap map() const;
-
-protected:
-    QMap<QString,QString> tekstit_;
+    QVariant put(const QString &polku, const QVariant &data) override;
 };
 
-#endif // KIELIKENTTA_H
+#endif // TILITROUTE_H

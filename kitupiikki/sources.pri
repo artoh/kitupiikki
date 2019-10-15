@@ -51,6 +51,7 @@ SOURCES += \
     $$PWD/sqlite/routes/ostolaskutroute.cpp \
     $$PWD/sqlite/routes/saldotroute.cpp \
     $$PWD/sqlite/routes/tilikaudetroute.cpp \
+    $$PWD/sqlite/routes/tilitroute.cpp \
     $$PWD/sqlite/routes/toimittajatroute.cpp \
     $$PWD/sqlite/routes/tositeroute.cpp \
     $$PWD/sqlite/routes/tuotteetroute.cpp \
@@ -257,6 +258,7 @@ HEADERS += \
     $$PWD/sqlite/routes/ostolaskutroute.h \
     $$PWD/sqlite/routes/saldotroute.h \
     $$PWD/sqlite/routes/tilikaudetroute.h \
+    $$PWD/sqlite/routes/tilitroute.h \
     $$PWD/sqlite/routes/toimittajatroute.h \
     $$PWD/sqlite/routes/tositeroute.h \
     $$PWD/sqlite/routes/tuotteetroute.h \

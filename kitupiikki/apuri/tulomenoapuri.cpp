@@ -27,6 +27,7 @@
 
 #include <QSortFilterProxyModel>
 #include <QDebug>
+#include <QJsonDocument>
 
 TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     ApuriWidget (parent, tosite),
@@ -115,6 +116,7 @@ void TuloMenoApuri::teeReset()
     alusta( menoa );
 
 
+
     // Haetaan rivien tiedot
 
     QVariantList vientiLista = tosite()->viennit()->viennit().toList();
@@ -124,14 +126,17 @@ void TuloMenoApuri::teeReset()
 
         Tili* vastatili = kp()->tilit()->tiliPNumerolla( vastavienti.tili());
         if( vastatili ) {
-            if( vastatili->onko(TiliLaji::OSTOVELKA) || vastatili->onko(TiliLaji::MYYNTISAATAVA))
-                ui->maksutapaCombo->setCurrentIndex(LASKU);
-            else if( vastatili->onko(TiliLaji::PANKKITILI))
-                ui->maksutapaCombo->setCurrentIndex(PANKKI);
-            else if( vastatili->onko(TiliLaji::KATEINEN))
-                ui->maksutapaCombo->setCurrentIndex(KATEINEN);
+
         }
         ui->vastatiliCombo->valitseTili( vastatili->numero() );
+
+        for(int i=0; i < ui->maksutapaCombo->count(); i++) {
+            if( ui->maksutapaCombo->itemData(i).toInt() == vastatili->numero() ) {
+                ui->maksutapaCombo->setCurrentIndex(i);
+                break;
+            }
+
+        }
 
         ui->viiteEdit->setText( vastavienti.viite());
         ui->erapaivaEdit->setDate( vastavienti.erapaiva());
@@ -570,65 +575,32 @@ void TuloMenoApuri::seliteMuuttui()
 
 void TuloMenoApuri::maksutapaMuuttui()
 {
-    int maksutapa = ui->maksutapaCombo->currentIndex();
-    bool menoa = tosite()->data(Tosite::TYYPPI).toInt() == TositeTyyppi::MENO;
+    int maksutapatili = ui->maksutapaCombo->currentData().toInt();
 
-    ui->viiteLabel->setVisible( maksutapa == LASKU);
-    ui->viiteEdit->setVisible( maksutapa == LASKU);
+    if( maksutapatili)
+        ui->vastatiliCombo->valitseTili(maksutapatili);
 
-    ui->erapaivaLabel->setVisible( maksutapa == LASKU);
-    ui->erapaivaEdit->setVisible( maksutapa == LASKU);
+    ui->vastatiliLabel->setVisible( !maksutapatili );
+    ui->vastatiliCombo->setVisible( !maksutapatili );
 
-    // TODO: Tilien valinnat järkevämmin ;)
-
-    switch (maksutapa) {
-    case LASKU:
-        if(menoa)
-            ui->vastatiliCombo->suodataMaksutapa("LA(-)?$");
-        else
-            ui->vastatiliCombo->suodataMaksutapa("LA[+]?$");
-        break;
-    case PANKKI:
-        if(menoa)
-            ui->vastatiliCombo->suodataMaksutapa("PA(-)?$");
-        else
-            ui->vastatiliCombo->suodataMaksutapa("PA[+]?$");
-        break;
-    case KATEINEN:
-        if(menoa)
-            ui->vastatiliCombo->suodataMaksutapa("KA(-)?$");
-        else
-            ui->vastatiliCombo->suodataMaksutapa("KA[+]?$");
-        break;
-    case LUOTTO:
-        if(menoa)
-            ui->vastatiliCombo->suodataMaksutapa("LU(-)?$");
-        else
-            ui->vastatiliCombo->suodataMaksutapa("LU[+]?$");
-        break;
-    default:
-        ui->vastatiliCombo->suodataTyypilla("[AB].*");
-
-    }
-    // Vastatilivalintaa ei tartte näyttää jos vaihtoehtoja on vain yksi
-    ui->vastatiliLabel->setVisible( ui->vastatiliCombo->model()->rowCount() > 1 );
-    ui->vastatiliCombo->setVisible( ui->vastatiliCombo->model()->rowCount() > 1 );
-
-    qDebug() << " MAKSUTAPAAN SOPII " << ui->vastatiliCombo->model()->rowCount();
-    qDebug() << " Ni " << ui->vastatiliCombo->currentIndex();
-    qDebug() << " Nn " << ui->vastatiliCombo->currentData(TiliModel::NroRooli);
-
-
-    emit tosite()->tarkastaSarja(maksutapa == KATEINEN);
 }
 
 void TuloMenoApuri::vastatiliMuuttui()
 {
-    int maksutapa = ui->maksutapaCombo->currentIndex();
     Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliCombo->valittuTilinumero() );
 
-    ui->eraLabel->setVisible( maksutapa == KAIKKI && vastatili.eritellaankoTase());
-    ui->eraCombo->setVisible(maksutapa == KAIKKI && vastatili.eritellaankoTase());
+    ui->eraLabel->setVisible( vastatili.eritellaankoTase());
+    ui->eraCombo->setVisible( vastatili.eritellaankoTase());
+
+
+    bool laskulle = vastatili.onko(TiliLaji::OSTOVELKA) || vastatili.onko(TiliLaji::MYYNTISAATAVA);
+    ui->viiteLabel->setVisible( laskulle );
+    ui->viiteEdit->setVisible( laskulle );
+
+    ui->erapaivaLabel->setVisible( laskulle );
+    ui->erapaivaEdit->setVisible( laskulle );
+
+    emit tosite()->tarkastaSarja( vastatili.onko(TiliLaji::KATEINEN));
 
 }
 
@@ -733,6 +705,18 @@ void TuloMenoApuri::alusta(bool meno)
         ui->toimittajaLabel->setText( tr("Asiakas"));
     }
 
+    // Alustetaan maksutapacombo
+
+    ui->maksutapaCombo->clear();
+    for(QVariant mtapa : QJsonDocument::fromJson( kp()->asetukset()->asetus( meno ? "maksutavat-" : "maksutavat+" ).toUtf8() ).toVariant().toList()  ) {
+        QVariantMap map( mtapa.toMap());
+        KieliKentta kk( map );
+        ui->maksutapaCombo->addItem( QIcon( map.contains("KUVA") ? ":/pic/" + map.value("KUVA").toString() + ".png" : ":/pic/tyhja.png"),
+                                     kk.teksti(),
+                                     map.value("TILI").toInt());
+    }
+    ui->maksutapaCombo->addItem( QIcon(":/pic/tyhja.png"), tr("Kaikki vastatilit"), 0 );
+    ui->vastatiliCombo->suodataTyypilla("[AB]");
 
     bool alv = kp()->asetukset()->onko( AsetusModel::ALV );
     ui->alvLabel->setVisible(alv);

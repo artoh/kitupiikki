@@ -50,14 +50,6 @@ void TiliCombo::suodataTyypilla(const QString &regexp, bool naytaKaikki)
         setCurrentIndex(0);
 }
 
-void TiliCombo::suodataMaksutapa(const QString &regexp)
-{
-    proxyTyyppi_->setFilterRole(TiliModel::MaksutapaRooli);
-    proxyTyyppi_->setFilterRegExp(regexp);
-    if( currentIndex() < 0 )
-        setCurrentIndex(0);
-}
-
 int TiliCombo::valittuTilinumero() const
 {
     return currentData(TiliModel::NroRooli).toInt();

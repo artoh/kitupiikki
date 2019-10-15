@@ -49,6 +49,14 @@ void KieliKentta::aseta(const QVariant &var)
     }
 }
 
+void KieliKentta::aseta(const QString &nimi, const QString &kieli)
+{
+    if( nimi.isEmpty())
+        tekstit_.remove(kieli);
+    else
+        tekstit_.insert(kieli, nimi);
+}
+
 QString KieliKentta::teksti( QString kieli) const
 {
     if( kieli.isEmpty())
@@ -65,4 +73,15 @@ QString KieliKentta::teksti( QString kieli) const
 QString KieliKentta::kaannos(const QString &kieli) const
 {
     return tekstit_.value(kieli);
+}
+
+QVariantMap KieliKentta::map() const
+{
+    QVariantMap out;
+    QMapIterator<QString,QString> iter(tekstit_);
+    while( iter.hasNext()) {
+        iter.next();
+        out.insert( iter.key(), iter.value());
+    }
+    return out;
 }

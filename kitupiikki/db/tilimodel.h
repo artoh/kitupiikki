@@ -48,11 +48,9 @@ public:
         NimiRooli = Qt::UserRole + 3,
         NroNimiRooli = Qt::UserRole + 4,
         OtsikkotasoRooli = Qt::UserRole + 5,
-        TyyppiRooli = Qt::UserRole + 6,
-        YsiRooli = Qt::UserRole + 7,
+        TyyppiRooli = Qt::UserRole + 6,        
         TilaRooli = Qt::UserRole + 8,
-        OhjeRooli = Qt::UserRole + 9,
-        MaksutapaRooli = Qt::UserRole + 10
+        OhjeRooli = Qt::UserRole + 9
     };
 
 
@@ -61,15 +59,13 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent) const;
 
-    bool setData(const QModelIndex &index, const QVariant &value, int role);
-
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     QVariant data(const QModelIndex &index, int role) const;
 
-    void lisaaTili(const Tili &uusi);
-    void poistaRivi( int riviIndeksi );
+    Tili* lisaaTili(int numero, int otsikkotaso);
+    void tallenna(Tili *tili);
 
-    [[deprecated]] Tili tiliIdllaVanha(int id) const;
+    void poistaRivi( int riviIndeksi );
 
     Tili *tili(const QString& tilinumero) const;
 
@@ -78,13 +74,7 @@ public:
     Tili *tiliPIndeksilla(int i) const { return tiliLista_.at(i);}
 
     Tili tiliNumerolla(int numero, int otsikkotaso = 0) const;
-    [[deprecated]] Tili tiliYsiluvulla(int ysiluku) const;
     Tili tiliIbanilla(const QString& iban) const;
-    /**
-     * @brief Palauttaa tilin, jolle kirjataan edellisiltä tilikausilta kertynyt yli/alijäämä
-     * @return
-     */
-    Tili edellistenYlijaamaTili() const;
 
     /**
      * @brief Palauttaa ensimmäisen halutun tyyppisen tilin
@@ -93,41 +83,25 @@ public:
      */
     Tili tiliTyypilla(TiliLaji::TiliLuonne tyyppi) const;
 
-    QStringList laskuTilit() const;
+    [[deprecated]] QStringList laskuTilit() const;
 
-    /**
-     * @brief Palauttaa annettua palkkatili-avainta vastaavan tilin numeron
-     * @param avain
-     * @return
-     */
-    int palkankirjaustili(const QString& avain) const { return palkkatilit_.value(avain); }
-
-    [[deprecated]] JsonKentta *jsonIndeksilla(int i);
-
-    bool onkoMuokattu() const;
-
-    [[deprecated]] void lataa();
     void lataa(QVariantList lista);
-    [[deprecated]] bool tallenna(bool tietokantaaLuodaan = false);
+
+    void asetaSuosio(int tili, Tili::TiliTila tila);
 
 public slots:
     void haeSaldot();
 
 private slots:
-    void saldotSaapuu(QVariant* saldot);
+    void saldotSaapuu(QVariant* saldot);    
 
 protected:
     void tyhjenna();
     void paivitaTilat();
 
 protected:    
-
-    QList<Tili> tilit_;
-    QList<int> poistetutIdt_;
-
     QList<Tili*> tiliLista_;
     QHash<int,Tili*> nroHash_;
-    QMap<QString,int> palkkatilit_;
 
     int laajuus_ = 2;
     QString muoto_;

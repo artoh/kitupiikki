@@ -21,6 +21,9 @@
 #include "model/tositeviennit.h"
 #include "model/tosite.h"
 
+#include <QJsonDocument>
+#include <QVariant>
+
 PalkkaApuri::PalkkaApuri(QWidget *parent, Tosite *tosite) :
     ApuriWidget(parent, tosite),
     ui(new Ui::PalkkaApuri)
@@ -33,6 +36,9 @@ PalkkaApuri::PalkkaApuri(QWidget *parent, Tosite *tosite) :
     connect( tosite, &Tosite::otsikkoMuuttui, this, &PalkkaApuri::tositteelle);
     connect( tosite, &Tosite::pvmMuuttui, this, &PalkkaApuri::tositteelle);
 
+
+    // Luetaan palkkakoodit
+    palkkatilit_ = QJsonDocument::fromJson( kp()->asetus("palkkatilit").toUtf8() ).toVariant().toMap();
 }
 
 PalkkaApuri::~PalkkaApuri()
@@ -42,7 +48,7 @@ PalkkaApuri::~PalkkaApuri()
 
 void PalkkaApuri::teeReset()
 {
-    ui->tiliCombo->suodataMaksutapa("PA(-)?$");
+    ui->tiliCombo->suodataTyypilla("ARP");
 
     QVariantList vientilista = tosite()->viennit()->viennit().toList();
 
@@ -54,7 +60,6 @@ void PalkkaApuri::teeReset()
         eurot.insert(vienti.palkkakoodi(), vienti.debet() > 1e-5 ? vienti.debet() : vienti.kredit());
         if( vienti.palkkakoodi() == "MP" )
             ui->tiliCombo->valitseTili( vienti.tili() );
-
 
     }
 
@@ -116,7 +121,7 @@ bool PalkkaApuri::teeTositteelle()
     kirjaa( viennit, "AY", 0, ui->ayedit->value(), "Ay-jäsenmaksut");
 
     kirjaa( viennit, "SV", ui->svedit->value(), 0, "Sairausvakuutusmaksu");
-    kirjaa( viennit, "VV", 0, ui->svedit->value(), "Sairausvakuutusmaksu");
+    kirjaa( viennit, "SB", 0, ui->svedit->value(), "Sairausvakuutusmaksu");
 
     tosite()->viennit()->asetaViennit(viennit);
 
@@ -133,7 +138,7 @@ void PalkkaApuri::kirjaa(QVariantList &lista, const QString &palkkakoodi, double
         if( palkkakoodi.isNull())
             vienti.setTili( ui->tiliCombo->valittuTilinumero() );
         else
-            vienti.setTili( kp()->tilit()->palkankirjaustili(palkkakoodi) );
+            vienti.setTili( palkkatilit_.value(palkkakoodi).toInt() );
         if( debet > 1e-5 )
             vienti.setDebet( debet );
         else if( kredit > 1e-5)

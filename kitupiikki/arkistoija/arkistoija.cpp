@@ -655,11 +655,11 @@ QString Arkistoija::arkistoi(Tilikausi &tilikausi)
 
     arkistoija.arkistoiTiedosto("taseerittely.html",
                                  TaseErittely::kirjoitaRaportti( tilikausi.alkaa(), tilikausi.paattyy()).html(true) );
-    arkistoija.arkistoiTiedosto("paivakirja.html",
+/*    arkistoija.arkistoiTiedosto("paivakirja.html",
                                 PaivakirjaRaportti::kirjoitaRaportti( tilikausi.alkaa(), tilikausi.paattyy(), -1, false, false, true, true).html(true) );
     arkistoija.arkistoiTiedosto("paakirja.html",
                                 PaakirjaRaportti::kirjoitaRaportti( tilikausi.alkaa(), tilikausi.paattyy(), -1, true, true).html(true));
-    arkistoija.arkistoiTiedosto("tililuettelo.html",
+*/    arkistoija.arkistoiTiedosto("tililuettelo.html",
                                 TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::KAYTOSSA_TILIT, tilikausi, true, false, tilikausi.paattyy(),true).html(true));
     arkistoija.arkistoiTiedosto("tositeluettelo.html",
                                 TositeluetteloRaportti::kirjoitaRaportti( tilikausi.alkaa(), tilikausi.paattyy(), true, true, false, false, true).html(true) );

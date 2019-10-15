@@ -27,7 +27,6 @@
 #include "raporttisivu.h"
 
 #include "paivakirjaraportti.h"
-#include "paakirjaraportti.h"
 #include "tositeluetteloraportti.h"
 #include "taseerittely.h"
 #include "laskuraportti.h"
@@ -38,7 +37,7 @@
 #include "muokattavaraportti.h"
 #include "tilikarttaraportti.h"
 #include "budjettivertailu.h"
-
+#include "paakirjaraportti.h"
 #include "tasetulosraportti.h"
 
 RaporttiSivu::RaporttiSivu(QWidget *parent) : KitupiikkiSivu(parent),

@@ -47,35 +47,6 @@ int TiliModel::columnCount(const QModelIndex & /* parent */) const
     return 6;
 }
 
-bool TiliModel::setData(const QModelIndex &index, const QVariant &value, int role)
-{
-
-    if( role == TiliModel::TilaRooli)
-    {
-        tilit_[index.row()].asetaTila(value.toInt());
-
-        emit dataChanged(index.sibling(index.row(), 0 ), index.sibling(index.row(), columnCount(QModelIndex())) );
-    }
-    else if( role == TiliModel::NroRooli)
-    {
-        tilit_[ index.row()].asetaNumero( value.toInt());
-    }
-    else if( role == TiliModel::NimiRooli)
-    {
-        tilit_[index.row()].asetaNimi( value.toString());
-    }
-    else if( role == TiliModel::TyyppiRooli)
-    {
-        tilit_[index.row()].asetaTyyppi( value.toString());
-    }
-    else
-        return false;
-
-    emit dataChanged( index.sibling(index.row(), 0), index.sibling(index.row(), 4));
-
-    return false;
-}
-
 QVariant TiliModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
 
@@ -123,14 +94,10 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
         return tili->otsikkotaso();
     else if( role == TyyppiRooli )
         return QVariant( tili->tyyppiKoodi());
-    else if( role == YsiRooli)
-        return QVariant( tili->ysivertailuluku());
     else if( role == TilaRooli)
         return tili->tila();
-    else if( role == OhjeRooli) {
+    else if( role == OhjeRooli)
         return tili->ohje();
-    } else if( role == MaksutapaRooli )
-        return tili->str("maksutapa");
     else if( role == Qt::DisplayRole || role == Qt::EditRole)
     {
         switch (index.column())
@@ -196,33 +163,63 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void TiliModel::lisaaTili(const Tili& uusi)
+Tili *TiliModel::lisaaTili(int numero, int otsikkotaso)
 {
-    beginInsertRows( QModelIndex(), tilit_.count(), tilit_.count()  );
-    tilit_.append(uusi);
-    // TODO - lisätään oikeaan paikkaan kasiluvun mukaan
+    // Etsitään tilille paikka
+    int i;
+    QString nrostr = QString::number(numero);
+    Tili *edellinenotsikko = nullptr;
+    for(i=0; i<rowCount()-1; i++) {
+        Tili* tili = tiliPIndeksilla(i);
+        if( QString::number(tili->numero()) > nrostr || ( tili->numero() == numero && tili->otsikkotaso() > otsikkotaso)  )
+            break;
+        if( tili->otsikkotaso() && tili->otsikkotaso() < otsikkotaso)
+            edellinenotsikko = tili;
+    }
+    // Nyt indeksi kertoo, minne lisätään
+    Tili* tili = new Tili();
+    tili->asetaNumero(numero);
+    tili->asetaOtsikko(edellinenotsikko);
+    if( otsikkotaso)
+        tili->asetaTyyppi(QString("H%1").arg(otsikkotaso));
+
+    beginInsertRows(QModelIndex(), i, i);
+    tiliLista_.insert(i, tili);
+
+    if( !otsikkotaso)
+        nroHash_.insert(numero, tili);
+
     endInsertRows();
+    return tili;
 }
+
+void TiliModel::tallenna(Tili* tili)
+{
+    int indeksi = tiliLista_.indexOf(tili);
+
+    KpKysely* kysely = kpk( tili->otsikkotaso() ?
+                                QString("/tilit/%1/%2").arg(tili->numero()).arg(tili->otsikkotaso())
+                              : QString("/tilit/%1").arg(tili->numero()),
+                            KpKysely::PUT);
+    connect( kysely, &KpKysely::vastaus,
+             [this,indeksi] () { emit this->dataChanged(this->index(indeksi,0), this->index(indeksi,SALDO)); });
+    connect( kysely, &KpKysely::virhe,
+             [](int, const QString& selitys) { QMessageBox::critical(nullptr,tr("Virhe tallentamisessa"), tr("Tilin tallentaminen epäonnistui.\n%1").arg(selitys)); } );
+
+    kysely->kysy( tili->data() );
+
+}
+
 
 void TiliModel::poistaRivi(int riviIndeksi)
 {
-    Tili tili = tilit_[riviIndeksi];
 
     beginRemoveRows( QModelIndex(), riviIndeksi, riviIndeksi);
-    if( tili.id() )
-        poistetutIdt_.append( tili.id());
 
-    tilit_.removeAt(riviIndeksi);
     endRemoveRows();
 
 }
 
-Tili TiliModel::tiliIdllaVanha(int id) const
-{
-    qDebug() << " -------idhaku----- " << id;
-    throw tr("Yritetään hakea tiliä %1").arg(id);
-
-}
 
 Tili *TiliModel::tili(const QString &tilinumero) const
 {
@@ -242,32 +239,12 @@ Tili TiliModel::tiliNumerolla(int numero, int otsikkotaso) const
     return Tili();
 }
 
-Tili TiliModel::tiliYsiluvulla(int ysiluku) const
-{
-    foreach (Tili tili, tilit_)
-    {
-        if( tili.ysivertailuluku() == ysiluku )
-            return tili;
-    }
-    return Tili();
-}
-
 Tili TiliModel::tiliIbanilla(const QString &iban) const
 {
-    for(Tili tili: tilit_)
+    for(Tili* tili: tiliLista_)
     {
-        if( tili.str("iban") == iban)
-            return tili;
-    }
-    return Tili();
-}
-
-Tili TiliModel::edellistenYlijaamaTili() const
-{
-    foreach (Tili tili, tilit_)
-    {
-        if( tili.onko(TiliLaji::EDELLISTENTULOS) )
-            return tili;
+        if( tili->str("iban") == iban)
+            return *tili;
     }
     return Tili();
 }
@@ -275,102 +252,19 @@ Tili TiliModel::edellistenYlijaamaTili() const
 
 Tili TiliModel::tiliTyypilla(TiliLaji::TiliLuonne tyyppi) const
 {
-    foreach (Tili tili, tilit_) {
-        if( tili.tyyppi().luonne() == tyyppi)
-            return tili;
+    foreach (Tili* tili, tiliLista_) {
+        if( tili->tyyppi().luonne() == tyyppi)
+            return *tili;
     }
     return Tili();
 }
 
 QStringList TiliModel::laskuTilit() const
 {
-    QStringList tilit;
-    for(Tili tili: tilit_) {
-        if( tili.luku("laskulle") == 1)
-            tilit.insert(0, tili.str("iban"));
-        else if( tili.luku("laskulle") == 2)
-            tilit.append( tili.str("iban"));
-    }
-    return tilit;
+    // Tämä siirtyy toisaalle
+    return QStringList();
 }
 
-JsonKentta *TiliModel::jsonIndeksilla(int i)
-{
-    return tilit_[i].json();
-}
-
-bool TiliModel::onkoMuokattu() const
-{
-    if( poistetutIdt_.count())  // Tallennettuja rivejä poistettu
-        return true;
-
-    foreach (Tili tili, tilit_)
-    {
-        if( tili.muokattu())
-            return true;        // Tosi, jos yhtäkin tiliä muokattu
-    }
-    return false;
-}
-
-
-void TiliModel::lataa()
-{
-    /*
-
-    beginResetModel();
-    tilit_.clear();
-
-    QSqlQuery kysely( *tietokanta_ );
-    kysely.exec("SELECT id, nro, nimi, tyyppi, tila, json, ysiluku, muokattu "
-                " FROM tili ORDER BY ysiluku");
-
-
-    QVector<Tili> otsikot(10);
-
-    while(kysely.next())
-    {
-        int otsikkotaso = 0;
-        QString tyyppikoodi = kysely.value(3).toString();
-        if( tyyppikoodi.startsWith('H'))    // Tyyppikoodi H1 tarkoittaa 1-tason otsikkoa jne.
-            otsikkotaso = tyyppikoodi.midRef(1).toInt();
-
-        int id = kysely.value(0).toInt();
-        int otsikkoIdTalle = 0; // Nykytilille merkittävä otsikkotaso
-        int ysiluku = kysely.value(6).toInt();
-        int nro = kysely.value(1).toInt();
-
-
-        // Etsitään otsikkotasoa tasojen lopusta alkaen
-        for(int i=9; i >= 0; i--)
-        {
-            int asti = otsikot[i].json()->luku("Asti") ? Tili::ysiluku( otsikot[i].json()->luku("Asti"),true) : Tili::ysiluku( otsikot[i].numero(), true);
-            if( otsikot.at(i).onkoValidi() && otsikot.at(i).ysivertailuluku() <= ysiluku && asti >= ysiluku )
-            {
-                otsikkoIdTalle = otsikot.at(i).id();
-                break;
-            }
-        }
-
-        Tili uusi( id,     // id
-                   nro,     // nro
-                   kysely.value(2).toString(),  // nimi
-                   tyyppikoodi,  // tyyppi
-                   kysely.value(4).toInt(),     // tila
-                   otsikkoIdTalle,    // Tätä tiliä/otsikkoa ylemmän otsikon id
-                   kysely.value(7).toDateTime()     // Muokattu viimeksi
-                   );
-        uusi.json()->fromJson( kysely.value(5).toByteArray());  // Luetaan json-kentät
-        uusi.nollaaMuokattu();
-        tilit_.append(uusi);
-
-        if( otsikkotaso )
-            otsikot[otsikkotaso] = uusi;
-
-    }
-
-    endResetModel();
-    */
-}
 
 void TiliModel::lataa(QVariantList lista)
 {
@@ -401,93 +295,54 @@ void TiliModel::lataa(QVariantList lista)
             nroHash_.insert( nro, tili );
         }
 
-        Tili uusi( map );
-        tilit_.append(uusi);
-
         tiliLista_.append( tili );
-
-        if( !tili->str("palkkatili").isEmpty() )
-            palkkatilit_.insert( tili->str("palkkatili"), tili->numero() );
 
     }
     laajuus_ = kp()->asetukset()->luku("laajuus",3);
+
+    piilotetut_.clear();
+    suosikit_.clear();
+
+    // Samalla ladataan piilotukset ja suosikit
+    for(auto piilo: kp()->asetus("piilotilit").split(","))
+        piilotetut_.insert(piilo.toInt());
+    for(auto suosikki: kp()->asetus("suosikkitilit").split(","))
+        suosikit_.insert(suosikki.toInt());
+
 
     paivitaTilat();
 
     endResetModel();
 }
 
-bool TiliModel::tallenna(bool tietokantaaLuodaan)
+
+void TiliModel::asetaSuosio(int tili, Tili::TiliTila tila)
 {
-    return false;   // Poissa käytöstä
+    if( tila == Tili::TILI_PIILOSSA)
+        piilotetut_.insert(tili);
+    else
+        piilotetut_.remove(tili);
+    if( tila == Tili::TILI_SUOSIKKI)
+        suosikit_.insert(tili);
+    else
+        suosikit_.remove(tili);
 
-    /*
-
-    tietokanta_->transaction();
-    QDateTime nykyaika = QDateTime::currentDateTime();
-
-    for( int i=0; i < tilit_.count() ; i++)
-    {
-        Tili tili = tilit_[i];
-        if( tili.onkoValidi() && tili.muokattu() )
-        {
-            QSqlQuery kysely(*tietokanta_);
-            if( tili.id())
-            {
-                // Muokkaus
-                kysely.prepare("UPDATE tili SET nro=:nro, nimi=:nimi, tyyppi=:tyyppi, "
-                               "tila=:tila, ysiluku=:ysiluku, json=:json, muokattu=:aika "
-                               "WHERE id=:id");
-                kysely.bindValue(":id", tili.id());
-            }
-            else
-            {
-                // Tallennus
-                kysely.prepare("INSERT INTO tili(nro, nimi, tyyppi, tila, ysiluku, json, muokattu) "
-                               "VALUES(:nro, :nimi, :tyyppi, :tila, :ysiluku, :json, :aika) ");
-
-            }
-            kysely.bindValue(":nro", tili.numero());
-            kysely.bindValue(":nimi", tili.nimi());
-            kysely.bindValue(":tyyppi", tili.tyyppiKoodi());
-            kysely.bindValue(":tila", tili.tila());
-            kysely.bindValue(":ysiluku", tili.ysivertailuluku());
-            kysely.bindValue(":json", tilit_[i].json()->toSqlJson());
-
-            if( !tietokantaaLuodaan && tili.muokattuMuutakinKuinTilaa() )
-                // Pelkkä tilan vaihtaminen ei merkitse tietokantaan muokatuksi.
-                kysely.bindValue(":aika", nykyaika );
-            else
-                kysely.bindValue(":aika", tili.muokkausaika() );
-            if( kysely.exec() )
-                tilit_[i].nollaaMuokattu();
-            else
-                kp()->lokiin(kysely);
-
-            if( !tili.id())
-                tilit_[i].asetaId( kysely.lastInsertId().toInt() );
-
-        }
+    // Tallennetaan suosiot
+    QStringList piilolista;
+    for( int piilossa : piilotetut_) {
+        piilolista.append( QString::number(piilossa) );
     }
+    kp()->asetukset()->aseta("piilotilit", piilolista.join(","));
 
-    foreach (int id, poistetutIdt_)
-    {
-        QSqlQuery kysely(*tietokanta_);
-        kysely.exec( QString("DELETE FROM tili WHERE id=%1").arg(id) );
+    QStringList suosikkilista;
+    for( int suosiossa : suosikit_) {
+        suosikkilista.append( QString::number(suosiossa) );
     }
+    kp()->asetukset()->aseta("suosikkitilit", suosikkilista.join(","));
 
-    tietokanta_->commit();
 
-    if( tietokanta_->lastError().isValid() )
-    {
-        QMessageBox::critical(nullptr, tr("Tietokantavirhe"),
-                          tr("Tallentaminen epäonnistui seuraavan virheen takia: %1")
-                          .arg( tietokanta_->lastError().text() ));
-        return false;
-    }
-
-    return true;
-    */
+    paivitaTilat();
+    emit dataChanged( index(0,0), index(rowCount()-1, SALDO), QVector<int>() << TilaRooli );
 }
 
 void TiliModel::haeSaldot()
@@ -516,7 +371,6 @@ void TiliModel::tyhjenna()
     for(Tili *tili : tiliLista_)
         delete tili;
 
-    tilit_.clear();
     tiliLista_.clear();
     nroHash_.clear();
 }

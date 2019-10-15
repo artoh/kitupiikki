@@ -45,7 +45,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/kaikkitilit.png</normaloff>:/pic/kaikkitilit.png</iconset>
        </property>
        <property name="checkable">
@@ -65,7 +65,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/kaytossa.png</normaloff>:/pic/kaytossa.png</iconset>
        </property>
        <property name="checkable">
@@ -82,7 +82,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/tahti.png</normaloff>:/pic/tahti.png</iconset>
        </property>
        <property name="checkable">
@@ -136,7 +136,7 @@
         <string>Uusi &amp;otsikko...</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
        </property>
        <property name="shortcut">
@@ -153,7 +153,7 @@
         <string>Uusi &amp;tili..</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/lisaa.png</normaloff>:/pic/lisaa.png</iconset>
        </property>
       </widget>
@@ -167,22 +167,8 @@
         <string>&amp;Muokkaa</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/muokkaa.png</normaloff>:/pic/muokkaa.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="poistaNappi">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-       <property name="text">
-        <string>P&amp;oista</string>
-       </property>
-       <property name="icon">
-        <iconset>
-         <normaloff>:/pic/poista.png</normaloff>:/pic/poista.png</iconset>
        </property>
       </widget>
      </item>
@@ -205,7 +191,7 @@
         <string>P&amp;iilota</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/eikaytossa.png</normaloff>:/pic/eikaytossa.png</iconset>
        </property>
        <property name="checkable">
@@ -222,7 +208,7 @@
         <string>&amp;Normaali</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/kaytossa.png</normaloff>:/pic/kaytossa.png</iconset>
        </property>
        <property name="checkable">
@@ -239,7 +225,7 @@
         <string>&amp;Suosikki</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../pic/pic.qrc">
          <normaloff>:/pic/tahti.png</normaloff>:/pic/tahti.png</iconset>
        </property>
        <property name="checkable">
@@ -254,6 +240,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
  <connections/>
 </ui>

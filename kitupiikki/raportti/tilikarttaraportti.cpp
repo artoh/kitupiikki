@@ -63,6 +63,7 @@ RaportinKirjoittaja TilikarttaRaportti::raportti()
 RaportinKirjoittaja TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::KarttaValinta valinta, const Tilikausi& tilikaudelta, bool otsikot, bool tulostatyyppi, QDate saldopvm,
                                                          bool kirjausohjeet)
 {
+
     RaportinKirjoittaja rk;
     rk.asetaOtsikko("TILILUETTELO");
     rk.asetaKausiteksti( tilikaudelta.kausivaliTekstina() );
@@ -78,6 +79,7 @@ RaportinKirjoittaja TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::Kar
     csvOtsikko.lisaa("Nimi");
     otsikko.lisaa(" ",3);
 
+    /*
     if( tulostatyyppi )
     {
         rk.lisaaSarake("Tyyppiteksti pidennyksellä");
@@ -229,7 +231,7 @@ RaportinKirjoittaja TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::Kar
         rk.lisaaRivi(csvr);
     }
 
-
+    */
     return rk;
 }
 

@@ -42,7 +42,6 @@ public:
 
 public slots:
     void valitseTiliNumerolla(int tilinumero);
-    void valitseTiliIdlla(int tiliId);
     void valitseTili(const Tili &tili);
     void valitseTili(const Tili* tili);
 

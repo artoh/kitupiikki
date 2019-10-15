@@ -1,0 +1,112 @@
+{
+  "TilikarttaNimi" : "Yhdistys",
+  "TilikarttaPvm" : "2019-10-10",
+  "TilikarttaTekija" : "kitsas@kitsas.fi",
+  "kielet" : {
+      "fi" : { "fi": "suomi", "sv" : "finska"},
+      "sv" : { "fi": "ruotsi", "sv": "svenska"}
+  },
+  "kieli": "fi",
+  "muodot": {
+    "ry": {
+      "fi": "Yhdistys",
+      "sv": "Förening"
+    }
+  },
+  "laajuudet": {
+    "1": {
+      "fi": "Suppea"
+    },
+    "2": {
+      "fi": "Tavallinen, ei palkkoja"
+    },
+    "3": {
+      "fi": "Tavallinen, palkat"
+    },
+    "4": {
+      "fi": "Laaja, kiinteää tai sijoitusomaisuutta"
+    },
+    "5": {
+      "fi": "Elinkeinotoimintaa"
+    },
+    "6": {
+      "fi": "Kaikki tilit, myös konserni"
+    }
+  },
+  "laajuus": "3",
+  "alvlaajuus": "5",
+  "tositesarjat": {
+    "0": "X",
+    "100": "OL",
+    "120": "KL",
+    "200": "ML",
+    "210": "ML",
+    "214": "ML",
+    "216": "ML",
+    "300": "X",
+    "400": "T",
+    "500": "P",
+    "700": "MT",
+    "800": "LT",
+    "*": "JT",
+    "K": "K"
+  },
+  "palkkatilit": {
+    "EP" : 2986,
+    "SB" : 2986,
+    "AY" : 2988,
+    "KM" : 4741,
+    "PR" : 4751,
+    "AT" : 4761,
+    "PA" : 5000,
+    "LK" : 5002,
+    "PI" : 5003,
+    "LS" : 5004,
+    "LU" : 5005,
+    "LV" : 5040,
+    "EL" : 5100,
+    "SV" : 5120,
+    "TV" : 5122
+  },
+  "maksutavat+": [
+    {
+      "fi" : "Lasku",
+      "TILI" : 1700,
+      "KUVA" : "lasku"
+    },
+    {
+      "fi" : "Käteinen",
+      "TILI" : 1900,
+      "KUVA" : "kateinen"
+    },
+    {
+      "fi" : "Pankkitili",
+      "TILI" : 1910,
+      "KUVA" : "pankki"
+    }
+
+  ],
+  "maksutavat-": [
+    {
+      "fi" : "Lasku",
+      "TILI" : 2960,
+      "KUVA" : "lasku"
+    },
+    {
+      "fi" : "Käteinen",
+      "TILI" : 1900,
+      "KUVA" : "kateinen"
+    },
+    {
+      "fi" : "Pankkitili",
+      "TILI" : 1910,
+      "KUVA" : "pankki"
+    },
+    {
+      "fi" : "Luottokortti",
+      "TILI" : 2963,
+      "KUVA" : "luottokortti"
+    }
+  ],
+  "LaskuTilit" : [1910]
+}
