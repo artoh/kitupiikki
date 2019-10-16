@@ -31,6 +31,7 @@ SOURCES += \
     $$PWD/model/tositevienti.cpp \
     $$PWD/raportti/paakirja.cpp \
     $$PWD/raportti/raportteri.cpp \
+    $$PWD/raportti/taseerittelija.cpp \
     $$PWD/raportti/tasetulosraportti.cpp \
     $$PWD/raportti/tositeluettelo.cpp \
     $$PWD/rekisteri/asiakastoimittajadlg.cpp \
@@ -238,6 +239,7 @@ HEADERS += \
     $$PWD/model/tositevienti.h \
     $$PWD/raportti/paakirja.h \
     $$PWD/raportti/raportteri.h \
+    $$PWD/raportti/taseerittelija.h \
     $$PWD/raportti/tasetulosraportti.h \
     $$PWD/raportti/tositeluettelo.h \
     $$PWD/rekisteri/asiakastoimittajadlg.h \

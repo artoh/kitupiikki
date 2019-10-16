@@ -124,7 +124,7 @@ void TuloMenoApuri::teeReset()
     {
         TositeVienti vastavienti(vientiLista.at(0).toMap());
 
-        Tili* vastatili = kp()->tilit()->tiliPNumerolla( vastavienti.tili());
+        Tili* vastatili = kp()->tilit()->tili( vastavienti.tili());
         if( vastatili ) {
 
         }

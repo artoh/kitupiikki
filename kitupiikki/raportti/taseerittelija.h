@@ -14,19 +14,32 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef ERAROUTE_H
-#define ERAROUTE_H
+#ifndef TASEERITTELIJA_H
+#define TASEERITTELIJA_H
 
-#include "../sqliteroute.h"
+#include "raportinkirjoittaja.h"
 
-class EraRoute : public SQLiteRoute
+#include <QObject>
+
+class TaseErittelija : public QObject
 {
+    Q_OBJECT
 public:
-    EraRoute(SQLiteModel *model);
-    QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
+    explicit TaseErittelija(QObject *parent = nullptr);
+
+    void kirjoita(const QDate &mista, const QDate& mihin);
+
+signals:
+    void valmis(RaportinKirjoittaja rk);
+
+public slots:
+
+protected slots:
+    void dataSaapuu(QVariant *data);
 
 protected:
-    QVariant erittely(const QDate& mista, const QDate& pvm);
+    QDate mista_;
+    QDate mihin_;
 };
 
-#endif // ERAROUTE_H
+#endif // TASEERITTELIJA_H

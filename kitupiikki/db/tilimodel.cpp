@@ -232,10 +232,10 @@ void TiliModel::poistaRivi(int riviIndeksi)
 
 Tili *TiliModel::tili(const QString &tilinumero) const
 {
-    return tiliPNumerolla( tilinumero.toInt());
+    return tili( tilinumero.toInt());
 }
 
-Tili *TiliModel::tiliPNumerolla(int numero) const
+Tili *TiliModel::tili(int numero) const
 {
     return nroHash_.value(numero);
 }

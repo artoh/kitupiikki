@@ -129,7 +129,7 @@ Tili KantaTilinvalintaLine::valittuTili() const
 
 Tili *KantaTilinvalintaLine::tili() const
 {
-    return kp()->tilit()->tiliPNumerolla( valittuTilinumero() );
+    return kp()->tilit()->tili( valittuTilinumero() );
 }
 
 

@@ -69,7 +69,7 @@ public:
 
     Tili *tili(const QString& tilinumero) const;
 
-    Tili *tiliPNumerolla(int numero) const;
+    Tili *tili(int numero) const;
     Tili tiliIndeksilla(int i) const { return *tiliLista_.at(i); }
     Tili *tiliPIndeksilla(int i) const { return tiliLista_.at(i);}
 

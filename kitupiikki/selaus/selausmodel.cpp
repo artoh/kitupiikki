@@ -90,7 +90,7 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
 
             case TILI:
             {
-                Tili *tili = kp()->tilit()->tiliPNumerolla( map.value("tili").toInt() );
+                Tili *tili = kp()->tilit()->tili( map.value("tili").toInt() );
                 if( !tili )
                     return QVariant();
                 if( role == Qt::EditRole)
@@ -312,7 +312,7 @@ void SelausModel::tietoSaapuu(QVariant *var)
     for(auto rivi : lista_)
     {
         int tiliId = rivi.toMap().value("tili").toInt();
-        Tili* tili = kp()->tilit()->tiliPNumerolla(tiliId);
+        Tili* tili = kp()->tilit()->tili(tiliId);
         QString tilistr = QString("%1 %2")
                     .arg(tili->numero())
                     .arg(tili->nimi());

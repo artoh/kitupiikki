@@ -31,11 +31,11 @@ class TaseErittely : public Raportti
     Q_OBJECT
 public:
     TaseErittely();
-    ~TaseErittely();
+    ~TaseErittely() override;
 
-    RaportinKirjoittaja raportti();
+public slots:
+    void esikatsele() override;
 
-    static RaportinKirjoittaja kirjoitaRaportti(QDate mista, QDate mihin);
 
 protected:
     Ui::TaseErittely *ui;
