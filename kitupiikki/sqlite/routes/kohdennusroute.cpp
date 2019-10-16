@@ -28,7 +28,7 @@ QVariant KohdennusRoute::get(const QString &/*polku*/, const QUrlQuery &/*urlque
 {
     QSqlQuery kysely( db() );
 
-    kysely.exec("SELECT id, tyyppi, json, kuuluu, kt.lkm + b.lkm as lkm FROM Kohdennus "
+    kysely.exec("SELECT id, tyyppi, json, kuuluu, kt.lkm as lkm, b.lkm as mlkm FROM Kohdennus "
                 "LEFT OUTER JOIN (SELECT kohdennus, COUNT(id) as lkm FROM "
                 "Vienti GROUP BY kohdennus) AS kt ON kt.kohdennus=id "
                 "LEFT OUTER JOIN ( SELECT kohdennus, COUNT(vienti) as lkm FROM Merkkaus GROUP BY kohdennus) AS b ON b.kohdennus=id"

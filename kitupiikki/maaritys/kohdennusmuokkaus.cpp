@@ -53,6 +53,7 @@ KohdennusMuokkaus::~KohdennusMuokkaus()
 
 bool KohdennusMuokkaus::nollaa()
 {
+    kp()->kohdennukset()->paivita();
 
     // Sarakkeiden leveydet
     ui->view->setColumnWidth(0, (ui->view->width()-10)/2 );

@@ -40,6 +40,7 @@ Kohdennus::Kohdennus(QVariantMap &data) :
     nimi_.aseta( data_.take("nimi"));
     kuuluu_ = data.take("kuuluu").toInt();
     vienteja_ = data.take("lkm").toInt();
+    vienteja_ += data.take("mlkm").toInt();
 }
 
 QIcon Kohdennus::tyyppiKuvake() const
