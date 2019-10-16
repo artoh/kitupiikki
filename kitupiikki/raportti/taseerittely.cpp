@@ -17,6 +17,7 @@
 
 #include "taseerittely.h"
 #include "db/eranvalintamodel.h"
+#include "taseerittelija.h"
 #include <QSqlQuery>
 
 #include <QDebug>
@@ -37,6 +38,13 @@ TaseErittely::TaseErittely() :
 TaseErittely::~TaseErittely()
 {
     delete ui;
+}
+
+void TaseErittely::esikatsele()
+{
+    TaseErittelija* erittelija = new TaseErittelija(this);
+    connect( erittelija, &TaseErittelija::valmis, this, &TaseErittely::nayta);
+    erittelija->kirjoita( ui->alkaa->date(), ui->paattyy->date() );
 }
 
 

@@ -97,7 +97,7 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
 
             // Tase-erät
             QSqlQuery erakysely(db());
-            erakysely.exec(QString("select vienti.eraid, vienti.debet, vienti.kredit, vienti.selite, Tosite.pvm, Tosite.sarja, Tosite.tunniste "
+            erakysely.exec(QString("select vienti.eraid, vienti.debet, vienti.kredit, vienti.selite, Tosite.pvm, Tosite.sarja, Tosite.tunniste, tosite.id "
                                    "FROM Vienti  JOIN Tosite ON Vienti.tosite = Tosite.id  WHERE Vienti.tili=%1 AND Vienti.id=Vienti.eraid "
                                    "AND Vienti.pvm <= '%2' ORDER BY tosite.pvm")
                            .arg( tili->numero() ).arg(pvm.toString(Qt::ISODate)));
@@ -119,7 +119,7 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
                                 qRound64( apukysely.value(0).toDouble() * 100.0 ) - qRound64( apukysely.value(1).toDouble()) :
                                 qRound64( apukysely.value(1).toDouble() * 100.0 ) - qRound64( apukysely.value(0).toDouble()) ;
 
-                apukysely.exec(QString("select vienti.debet, vienti.kredit, vienti.selite, Tosite.pvm, Tosite.sarja, Tosite.tunniste "
+                apukysely.exec(QString("select vienti.debet, vienti.kredit, vienti.selite, Tosite.pvm, Tosite.sarja, Tosite.tunniste, tosite.id "
                                        "FROM Vienti  JOIN Tosite ON Vienti.tosite = Tosite.id  WHERE Vienti.eraid=%1 AND Vienti.id<>Vienti.eraid "
                                        "AND Vienti.pvm BETWEEN '%2' AND '%3' ORDER BY tosite.pvm")
                                .arg(eraid)
@@ -138,6 +138,7 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
                     map.insert("pvm", apukysely.value(3).toDate());
                     map.insert("sarja", apukysely.value(4));
                     map.insert("tunniste", apukysely.value(5));
+                    map.insert("id", apukysely.value(6).toInt());
                     map.insert("selite", apukysely.value(2).toDate());
                     map.insert("eur", summa / 100.0);
                     muutosyht += summa;
@@ -146,6 +147,7 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
                 if( !muutosyht && !alkusaldo )
                     continue;
                 QVariantMap era;
+                era.insert("id", erakysely.value(7).toInt());
                 era.insert("pvm", erakysely.value(4).toDate());
                 era.insert("sarja",erakysely.value(5));
                 era.insert("tunniste", erakysely.value(6));
@@ -173,14 +175,15 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
                                    ).arg(tili->numero()).arg(pvm.toString(Qt::ISODate)));
             while( apukysely.next()) {
                 QVariantMap era;
+                era.insert("id", apukysely.value(0).toInt());
                 era.insert("pvm", apukysely.value(4).toDate() );
                 era.insert("sarja", apukysely.value(5));
                 era.insert("tunniste", apukysely.value(6));
                 era.insert("selite", apukysely.value(3));
                 qlonglong summa = tili->onko(TiliLaji::VASTAAVAA) ?
-                            qRound64( apukysely.value(0).toDouble() * 100.0 ) - qRound64( apukysely.value(1).toDouble() * 100.0) :
-                            qRound64( apukysely.value(1).toDouble() * 100.0 ) - qRound64( apukysely.value(0).toDouble()* 100.0) ;
-                era.insert("eur", summa);
+                            qRound64( apukysely.value(1).toDouble() * 100.0 ) - qRound64( apukysely.value(2).toDouble() * 100.0) :
+                            qRound64( apukysely.value(2).toDouble() * 100.0 ) - qRound64( apukysely.value(1).toDouble()* 100.0) ;
+                era.insert("eur", summa / 100.0);
                 erat.append(era);
             }
             QVariantMap emap;
@@ -192,7 +195,7 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
 
             QSqlQuery apukysely( db());
             apukysely.exec(QString("select vienti.debet, vienti.kredit, vienti.selite, Tosite.pvm, Tosite.sarja, Tosite.tunniste "
-                                   "FROM Vienti JOIN Tosite ON Vienti.tosite = Tosite.id  WHERE Vienti.tili=%1 AND Vienti.id<>Vienti.eraid "
+                                   "FROM Vienti JOIN Tosite ON Vienti.tosite = Tosite.id  WHERE Vienti.tili=%1 "
                                    "AND Vienti.pvm BETWEEN '%2' AND '%3' ORDER BY tosite.pvm")
                            .arg(tili->numero())
                            .arg(mista.toString(Qt::ISODate))
@@ -216,8 +219,9 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
                 muutokset.append(map);
             }
             QVariantMap map;
-            map.insert("saldo", loppusaldo);
+            map.insert("saldo", loppusaldo / 100.0);
             map.insert("kausi", muutokset);
+            map.insert("ennnen", (loppusaldo - muutosyht) / 100.0);
             ulos.insert(QString("%1M").arg(tili->numero()), map);
 
         } else {

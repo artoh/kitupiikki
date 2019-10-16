@@ -65,8 +65,8 @@ Raportti::Raportti(QWidget *parent) : QWidget(parent)
 
         QVBoxLayout *paaLeiska = new QVBoxLayout;
         paaLeiska->addWidget(raporttiWidget);
-        paaLeiska->addLayout(nappiLeiska);
         paaLeiska->addStretch();
+        paaLeiska->addLayout(nappiLeiska);
 
         setLayout(paaLeiska);
 }
