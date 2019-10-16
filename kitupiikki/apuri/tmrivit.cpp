@@ -208,10 +208,10 @@ QString TmRivit::selite(int rivi) const
     return rivit_.at(rivi).selite;
 }
 
-int TmRivit::lisaaRivi()
+int TmRivit::lisaaRivi(int vientiid)
 {
     beginInsertRows(QModelIndex(), rivit_.count(), rivit_.count());
-    rivit_.append( Rivi() );
+    rivit_.append( Rivi(vientiid) );
     endInsertRows();
     return rivit_.count()-1;
 }
@@ -221,4 +221,15 @@ void TmRivit::poistaRivi(int rivi)
     beginInsertRows( QModelIndex(), rivi, rivi);
     rivit_.removeAt(rivi);
     endRemoveRows();
+}
+
+int TmRivit::vientiId(int rivi) const
+{
+    return rivit_.at(rivi).vientiid;
+}
+
+TmRivit::Rivi::Rivi(int id) :
+    vientiid(id)
+{
+
 }

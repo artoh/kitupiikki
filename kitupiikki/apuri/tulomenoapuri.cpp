@@ -125,10 +125,10 @@ void TuloMenoApuri::teeReset()
         TositeVienti vastavienti(vientiLista.at(0).toMap());
 
         Tili* vastatili = kp()->tilit()->tili( vastavienti.tili());
-        if( vastatili ) {
 
-        }
         ui->vastatiliCombo->valitseTili( vastatili->numero() );
+        if( vastatili->eritellaankoTase())
+            ui->eraCombo->valitse( vastavienti.eraId() );
 
         for(int i=0; i < ui->maksutapaCombo->count(); i++) {
             if( ui->maksutapaCombo->itemData(i).toInt() == vastatili->numero() ) {
@@ -162,7 +162,7 @@ void TuloMenoApuri::teeReset()
     while( i < vientiLista.count())
     {
         TositeVienti map = vientiLista.at(i).toMap();
-        rivit_->lisaaRivi();
+        rivit_->lisaaRivi( map.id() );
         rivit_->setTili( rivi,  map.value("tili").toInt() );
         rivit_->setSelite(rivi, map.value("selite").toString());
         rivit_->setKohdennus(rivi, map.value("kohdennus").toInt());
@@ -275,6 +275,7 @@ bool TuloMenoApuri::teeTositteelle()
 
         TositeVienti vienti;
         vienti.setTyyppi( (menoa ? TositeVienti::OSTO : TositeVienti::MYYNTI) + TositeVienti::KIRJAUS );
+        vienti.insert("id", rivit_->vientiId(i));
 
         // Kirjataanko nettoa vai bruttoa?
         double kirjattava = ( verokoodi == AlvKoodi::MYYNNIT_NETTO  || verokoodi == AlvKoodi::OSTOT_NETTO ||
@@ -318,6 +319,9 @@ bool TuloMenoApuri::teeTositteelle()
             if( loppupvm.isValid() )
                 vienti.setJaksoloppuu( loppupvm );
         }
+
+        if( rivit_->tili(i).eritellaankoTase() )
+            vienti.setEra( vienti.id() ? vienti.id() : -1  );
 
         // Kirjataan asiakas- ja toimittajatiedot myös vienteihin, jotta voidaan ehdottaa
         // tiliä aiempien kirjausten perusteella
@@ -410,8 +414,9 @@ bool TuloMenoApuri::teeTositteelle()
         vasta.insert("pvm", pvm);
         Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliCombo->valittuTilinumero() );
         vasta.insert("tili", vastatili.numero() );
+
         if( vastatili.eritellaankoTase())
-            vasta.setEra(-1);
+            vasta.setEra( ui->eraCombo->valittuEra() );
 
         if( menoa ) {
             if( summa > 0)
@@ -583,14 +588,19 @@ void TuloMenoApuri::maksutapaMuuttui()
     ui->vastatiliLabel->setVisible( !maksutapatili );
     ui->vastatiliCombo->setVisible( !maksutapatili );
 
+    vastatiliMuuttui();
+
 }
 
 void TuloMenoApuri::vastatiliMuuttui()
 {
     Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliCombo->valittuTilinumero() );
 
-    ui->eraLabel->setVisible( vastatili.eritellaankoTase());
-    ui->eraCombo->setVisible( vastatili.eritellaankoTase());
+    ui->eraLabel->setVisible( vastatili.eritellaankoTase() && !ui->maksutapaCombo->currentData().toInt());
+    ui->eraCombo->setVisible( vastatili.eritellaankoTase() && !ui->maksutapaCombo->currentData().toInt());
+    ui->eraCombo->lataa( vastatili.numero() );
+    if( vastatili.eritellaankoTase() )
+        ui->eraCombo->valitse(-1);
 
 
     bool laskulle = vastatili.onko(TiliLaji::OSTOVELKA) || vastatili.onko(TiliLaji::MYYNTISAATAVA);
@@ -754,4 +764,7 @@ void TuloMenoApuri::kumppaniTiedot(QVariant *data)
         if( map.contains("tulotili"))
             ui->tiliEdit->valitseTiliNumerolla( map.value("tulotili").toInt());
     }
+
+    if( tosite()->tyyppi() == TositeTyyppi::KULULASKU && tosite()->otsikko().isEmpty() )
+        tosite()->asetaOtsikko( tr("Kululasku %1").arg(map.value("nimi").toString()) );
 }

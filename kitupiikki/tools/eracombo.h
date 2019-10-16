@@ -29,7 +29,7 @@ public:
         AvoinnaRooli = Qt::UserRole + 1
     };
 
-    int valittuEra() const { return valittuna_;}
+    int valittuEra() const;
 
 public slots:
     void lataa(int tili);

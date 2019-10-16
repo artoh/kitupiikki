@@ -57,6 +57,7 @@ QVariant EraRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
                     kredit - debet;
 
         QVariantMap map;
+        map.insert("eraid", kysely.value(0).toInt());
         map.insert("tili", tili);
         map.insert("avoin", avoin);
         map.insert("selite", kysely.value("selite"));

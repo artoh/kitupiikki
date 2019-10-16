@@ -89,6 +89,8 @@ public:
     QDate pvm() const;
     QString otsikko() const { return data(OTSIKKO).toString();}
 
+    void asetaOtsikko(const QString& otsikko);
+
 signals:
     void ladattu();
     void talletettu(int id, int tunniste, const QDate& pvm, const QString& sarja);

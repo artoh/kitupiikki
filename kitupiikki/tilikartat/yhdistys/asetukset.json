@@ -72,8 +72,7 @@
     {
       "fi" : "Lasku",
       "TILI" : 1700,
-      "KUVA" : "lasku",
-      "ERA" : -1
+      "KUVA" : "lasku"
     },
     {
       "fi" : "Käteinen",
@@ -91,8 +90,7 @@
     {
       "fi" : "Lasku",
       "TILI" : 2960,
-      "KUVA" : "lasku",
-      "ERA" : -1
+      "KUVA" : "lasku"
     },
     {
       "fi" : "Käteinen",

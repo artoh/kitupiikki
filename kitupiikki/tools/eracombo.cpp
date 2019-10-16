@@ -25,15 +25,22 @@ EraCombo::EraCombo(QWidget *parent) :
     connect( this, &QComboBox::currentTextChanged, this, &EraCombo::valintaMuuttui);
 }
 
+int EraCombo::valittuEra() const
+{
+    return currentData().toInt();
+}
+
 void EraCombo::lataa(int tili)
 {
     if( tili )
     {
         KpKysely* kysely = kpk("/erat");
-        kysely->lisaaAttribuutti("tili", QString::number(tili));
+        if( kysely ) {
+            kysely->lisaaAttribuutti("tili", QString::number(tili));
 
-        connect(kysely, &KpKysely::vastaus, this, &EraCombo::dataSaapuu);
-        kysely->kysy();
+            connect(kysely, &KpKysely::vastaus, this, &EraCombo::dataSaapuu);
+            kysely->kysy();
+        }
     }
 }
 
