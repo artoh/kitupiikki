@@ -15,6 +15,8 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "kohdennusroute.h"
+#include "db/kohdennus.h"
+
 
 KohdennusRoute::KohdennusRoute(SQLiteModel *model)
     : SQLiteRoute(model, "/kohdennukset")
@@ -26,7 +28,7 @@ QVariant KohdennusRoute::get(const QString &/*polku*/, const QUrlQuery &/*urlque
 {
     QSqlQuery kysely( db() );
 
-    kysely.exec("SELECT id, tyyppi, json, kt.lkm + b.lkm as lkm FROM Kohdennus "
+    kysely.exec("SELECT id, tyyppi, json, kuuluu, kt.lkm + b.lkm as lkm FROM Kohdennus "
                 "LEFT OUTER JOIN (SELECT kohdennus, COUNT(id) as lkm FROM "
                 "Vienti GROUP BY kohdennus) AS kt ON kt.kohdennus=id "
                 "LEFT OUTER JOIN ( SELECT kohdennus, COUNT(vienti) as lkm FROM Merkkaus GROUP BY kohdennus) AS b ON b.kohdennus=id"
@@ -41,10 +43,17 @@ QVariant KohdennusRoute::post(const QString &/*polku*/, const QVariant &data)
     QVariantMap map = data.toMap();
     QVariantMap jemma = map;
 
-    kysely.prepare("INSERT INTO Kohdennus (tyyppi,json) VALUES (?,?)");
-    kysely.addBindValue( map.take("tyyppi").toString() );
+    kysely.prepare("INSERT INTO Kohdennus (kuuluu,tyyppi,json) VALUES (?,?,?)");
+    if( map.value("tyyppi").toInt() == Kohdennus::PROJEKTI)
+        kysely.addBindValue( map.take("kuuluu").toInt() );
+    else
+        kysely.addBindValue( QVariant() );
+    kysely.addBindValue( map.take("tyyppi").toInt() );
     kysely.addBindValue( mapToJson(map) );
-    kysely.exec();
+
+    if( !kysely.exec() )
+        throw SQLiteVirhe(kysely);
+
 
     jemma.insert("id", kysely.lastInsertId().toInt());
     return jemma;
@@ -56,8 +65,12 @@ QVariant KohdennusRoute::put(const QString &polku, const QVariant &data)
     QVariantMap map = data.toMap();
     QVariantMap jemma = map;
 
-    kysely.prepare("UPDATE Kohdennus SET tyyppi=?, json=? WHERE id=?");
-    kysely.addBindValue( map.take("tyyppi").toString() );
+    kysely.prepare("UPDATE Kohdennus SET kuuluu=?, tyyppi=?, json=? WHERE id=?");
+    if( map.value("tyyppi").toInt() == Kohdennus::PROJEKTI)
+        kysely.addBindValue( map.take("kuuluu").toInt() );
+    else
+        kysely.addBindValue( QVariant() );
+    kysely.addBindValue( map.take("tyyppi").toInt() );
     kysely.addBindValue( mapToJson(map) );
     kysely.addBindValue(polku.toInt());
     kysely.exec();

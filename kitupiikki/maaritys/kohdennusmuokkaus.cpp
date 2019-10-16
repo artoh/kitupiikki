@@ -32,8 +32,8 @@ KohdennusMuokkaus::KohdennusMuokkaus(QWidget *parent) :
     proxy->setSortRole(KohdennusModel::NimiRooli);
     proxy->sort(0);
 
-    proxy->setFilterRole(KohdennusModel::IdRooli);
-    proxy->setFilterRegExp("^[^0].*");
+    proxy->setFilterRole(KohdennusModel::TyyppiRooli);
+    proxy->setFilterRegExp("[123]");
     // Ei näytetä tässä luettelossa Yleistä ei id 0
 
     ui->view->setModel(proxy);
@@ -43,7 +43,6 @@ KohdennusMuokkaus::KohdennusMuokkaus(QWidget *parent) :
     connect( ui->lisaaNappi, SIGNAL(clicked(bool)), this, SLOT(uusi()));
     connect( ui->muokkaaNappi, SIGNAL(clicked(bool)), this, SLOT(muokkaa()));
     connect(ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poista()));
-    connect( ui->view, SIGNAL(clicked(QModelIndex)), this, SLOT(muokkaa()));
 
 }
 
@@ -67,16 +66,14 @@ bool KohdennusMuokkaus::nollaa()
 
 void KohdennusMuokkaus::uusi()
 {
-    KohdennusDialog dlg(kp()->kohdennukset());
+    KohdennusDialog dlg(-1, this);
     dlg.exec();
-    proxy->sort(0);
 }
 
 void KohdennusMuokkaus::muokkaa()
 {
-    KohdennusDialog dlg( kp()->kohdennukset(), proxy->mapToSource( ui->view->currentIndex()));
+    KohdennusDialog dlg( proxy->mapToSource( ui->view->currentIndex()).row(), this);
     dlg.exec();
-    proxy->sort(0);
 }
 
 void KohdennusMuokkaus::poista()

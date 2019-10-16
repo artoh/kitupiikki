@@ -42,17 +42,19 @@ QVariant SQLiteRoute::route(SQLiteKysely *kysely, const QVariant &data)
              << QJsonDocument::fromVariant(data).toJson(QJsonDocument::Compact).left(30)
              << " " << kysely->urlKysely().toString();
 
+    QVariant paluu;
+
     switch (kysely->metodi()) {
     case KpKysely::GET:
         return get(loppu, kysely->urlKysely());
     case KpKysely::POST:
         return post(loppu, data);
     case KpKysely::PUT:
-        return put(loppu, data);
+        return  put(loppu, data);
     case KpKysely::PATCH:
         return patch(loppu, data);
     case KpKysely::DELETE:
-        return doDelete(loppu);
+        return  doDelete(loppu);
     }
 
 }

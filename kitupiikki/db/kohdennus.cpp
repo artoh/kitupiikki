@@ -22,40 +22,24 @@
 #include "kohdennus.h"
 
 
-Kohdennus::Kohdennus(int tyyppi, const QString &nimi) :
-    id_(0), tyyppi_(tyyppi), nimi_(nimi), muokattu_(true)
-{
 
-}
-
-Kohdennus::Kohdennus(int id, int tyyppi, const QString& nimi, QDate alkaa, QDate paattyy)
-    : id_(id), tyyppi_(tyyppi), nimi_(nimi), alkaa_(alkaa), paattyy_(paattyy),
-      muokattu_(false)
+Kohdennus::Kohdennus(int tyyppi)
+    : KantaVariantti(), tyyppi_(tyyppi)
 {
 
 }
 
 Kohdennus::Kohdennus(QVariantMap &data) :
-    KantaVariantti(data), muokattu_(false)
+    KantaVariantti(data)
 {
     qDebug() << "Kohdennus " << data;
 
     id_ = data_.take("id").toInt();
 
-    QString tyyppiteksti = data_.take("tyyppi").toString();
-
-    if( tyyppiteksti == "kustannuspaikka")
-        tyyppi_ = KUSTANNUSPAIKKA;
-    else if( tyyppiteksti == "projekti")
-        tyyppi_ = PROJEKTI;
-    else if( tyyppiteksti == "merkkaus")
-        tyyppi_ = MERKKAUS;
-    else if( tyyppiteksti == "oletus")
-        tyyppi_ = EIKOHDENNETA;
-
+    tyyppi_ = data_.take("tyyppi").toInt();
     nimi_.aseta( data_.take("nimi"));
-    alkaa_ = data_.take("alkaa").toDate();
-    paattyy_ = data_.take("paattyy").toDate();
+    kuuluu_ = data.take("kuuluu").toInt();
+    vienteja_ = data.take("lkm").toInt();
 }
 
 QIcon Kohdennus::tyyppiKuvake() const
@@ -70,47 +54,37 @@ QIcon Kohdennus::tyyppiKuvake() const
         return QIcon();
 }
 
-int Kohdennus::montakoVientia() const
-{
-    if( id() < 0)
-        return 0;   // Uudella kohdennuksella ei vielä vientejä
-
-    QSqlQuery kysely( QString("SELECT sum(id) FROM vienti WHERE kohdennus=%1").arg(id()) );
-    if( kysely.next())
-        return kysely.value(0).toInt();
-    return 0;
-}
 
 void Kohdennus::asetaId(int id)
 {
     id_ = id;
 }
 
-void Kohdennus::asetaNimi(const QString &nimi)
+void Kohdennus::asetaNimi(const QString &nimi, const QString &kieli)
 {
-    nimi_.aseta( nimi );
-    muokattu_ = true;
-}
-
-void Kohdennus::asetaAlkaa(const QDate &alkaa)
-{
-    alkaa_ = alkaa;
-    muokattu_ = true;
-}
-
-void Kohdennus::asetaPaattyy(const QDate &paattyy)
-{
-    paattyy_ = paattyy;
-    muokattu_ = true;
+    nimi_.aseta(nimi, kieli);
 }
 
 void Kohdennus::asetaTyyppi(Kohdennus::KohdennusTyyppi tyyppi)
 {
     tyyppi_ = tyyppi;
-    muokattu_ = true;
+    if( tyyppi != PROJEKTI)
+        kuuluu_ = 0;
 }
 
-void Kohdennus::nollaaMuokattu()
+void Kohdennus::asetaKuuluu(int kohdennusid)
 {
-    muokattu_ = false;
+    kuuluu_ = kohdennusid;
 }
+
+QVariantMap Kohdennus::data() const
+{
+    QVariantMap map(KantaVariantti::data());
+    map.insert("id", id());
+    map.insert("nimi", nimi_.map());
+    map.insert("tyyppi", tyyppi());
+    if( tyyppi() == PROJEKTI)
+        map.insert("kuuluu", kuuluu());
+    return map;
+}
+

@@ -19,6 +19,7 @@
 #include <QIcon>
 
 #include <QDebug>
+#include <QMessageBox>
 #include <QSqlError>
 
 #include "kohdennusmodel.h"
@@ -106,34 +107,6 @@ QVariant KohdennusModel::data(const QModelIndex &index, int role) const
 }
 
 
-bool KohdennusModel::setData(const QModelIndex &index, const QVariant &value, int role)
-{
-    if( role == TyyppiRooli)
-    {
-        if( value.toInt() == Kohdennus::PROJEKTI)
-            kohdennukset_[index.row()].asetaTyyppi( Kohdennus::PROJEKTI);
-        else if( value.toInt() == Kohdennus::KUSTANNUSPAIKKA)
-            kohdennukset_[index.row()].asetaTyyppi( Kohdennus::KUSTANNUSPAIKKA);
-        else if( value.toInt() == Kohdennus::MERKKAUS)
-            kohdennukset_[index.row()].asetaTyyppi( Kohdennus::MERKKAUS);
-    }
-    else if( role == NimiRooli)
-    {
-        kohdennukset_[ index.row()].asetaNimi( value.toString());
-    }
-    else if( role == AlkaaRooli)
-    {
-        kohdennukset_[index.row()].asetaAlkaa( value.toDate());
-    }
-    else if( role == PaattyyRooli)
-    {
-        kohdennukset_[index.row()].asetaPaattyy( value.toDate());
-    }
-    else
-        return false;
-
-    return true;
-}
 
 QString KohdennusModel::nimi(int id) const
 {
@@ -202,24 +175,14 @@ void KohdennusModel::poistaRivi(int riviIndeksi)
         return;         // Ei voi poistaa, jos kirjauksia
 
     beginRemoveRows( QModelIndex(), riviIndeksi, riviIndeksi);
-    if( kohdennus.id() )
-        poistetutIdt_.append( kohdennus.id());
 
+    KpKysely *kysely = kpk(QString("/kohdennukset/%1").arg(kohdennus.id()), KpKysely::DELETE);
+    kysely->kysy();
     kohdennukset_.removeAt(riviIndeksi);
+
     endRemoveRows();
 }
 
-bool KohdennusModel::onkoMuokattu() const
-{
-    if( poistetutIdt_.count())
-        return true;
-    foreach (Kohdennus kohdennus, kohdennukset_)
-    {
-        if( kohdennus.muokattu())
-            return true;
-    }
-    return false;
-}
 
 void KohdennusModel::lataa(QVariantList lista)
 {
@@ -235,12 +198,48 @@ void KohdennusModel::lataa(QVariantList lista)
     qDebug() << "Ladattu " << kohdennukset_.count() << " kohdennusta ";
 }
 
-
-void KohdennusModel::lisaaUusi(const Kohdennus& uusi)
+Kohdennus *KohdennusModel::lisaa(int tyyppi)
 {
     beginInsertRows(QModelIndex(), kohdennukset_.count(), kohdennukset_.count());
-    kohdennukset_.append( uusi );
+    kohdennukset_.append(Kohdennus(tyyppi));
     endInsertRows();
+    return &kohdennukset_[ kohdennukset_.count()-1 ];
+}
+
+void KohdennusModel::tallenna(int indeksi)
+{
+    KpKysely *kysely = nullptr;
+    const Kohdennus& kohdennus = kohdennukset_.at(indeksi);
+    if( kohdennus.id())
+        kysely = kpk( QString("/kohdennukset/%1").arg(kohdennus.id()), KpKysely::PUT);
+    else
+        kysely = kpk( "/kohdennukset", KpKysely::POST);
+    connect( kysely, &KpKysely::vastaus,
+             [this, indeksi] (QVariant* data) { this->tallennettu(indeksi, data);} );
+    connect( kysely, &KpKysely::virhe,
+             [](int, const QString& selitys) { QMessageBox::critical(nullptr,tr("Virhe tallentamisessa"), tr("Kohdennuksen tallentaminen epäonnistui.\n%1").arg(selitys)); } );
+    kysely->kysy( kohdennus.data());
+}
+
+
+void KohdennusModel::paivita()
+{
+    KpKysely *kysely = kpk("/kohdennukset");
+    connect( kysely, &KpKysely::vastaus, this, &KohdennusModel::lataaData );
+    kysely->kysy();
+}
+
+void KohdennusModel::lataaData(const QVariant *lista)
+{
+    lataa(lista->toList());
+}
+
+void KohdennusModel::tallennettu(int indeksi, QVariant *data)
+{
+    if( !kohdennukset_.at(indeksi).id() ) {
+        kohdennukset_[indeksi].asetaId( data->toMap().value("id").toInt() );
+    }
+    emit dataChanged( index(indeksi,0), index(indeksi,PAATTYY) );
 }
 
 

@@ -48,19 +48,22 @@ public:
         NimiRooli = Qt::UserRole + 3,
         AlkaaRooli = Qt::UserRole + 4,
         PaattyyRooli = Qt::UserRole + 5,
-        VientejaRooli = Qt::UserRole + 6
+        VientejaRooli = Qt::UserRole + 6,
+        KuuluuRooli = Qt::UserRole + 7
     };
 
     KohdennusModel(QObject *parent = nullptr);
 
-    int rowCount(const QModelIndex &parent) const;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     QVariant data(const QModelIndex &index, int role) const;
 
-    bool setData(const QModelIndex &index, const QVariant &value, int role);
 
     QString nimi(int id) const;
+
+    Kohdennus* pkohdennus(int indeksi) { return &kohdennukset_[indeksi];}
+
     Kohdennus kohdennus(const int id) const;
     Kohdennus kohdennus(const QString& nimi) const;
     QList<Kohdennus> kohdennukset() const;
@@ -87,9 +90,15 @@ public:
 
     void lataa(QVariantList lista);
 
-public slots:
-    void lisaaUusi(const Kohdennus &uusi);
+    Kohdennus* lisaa(int tyyppi);
+    void tallenna(int indeksi);
 
+public slots:
+    void paivita();
+
+protected slots:
+    void lataaData(const QVariant* lista);
+    void tallennettu(int indeksi, QVariant* data);
 
 protected:
     QList<Kohdennus> kohdennukset_;

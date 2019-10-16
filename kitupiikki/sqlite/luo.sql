@@ -31,14 +31,15 @@ CREATE TABLE Tilikausi
 
 CREATE TABLE Kohdennus
 (
-	id SERIAL PRIMARY KEY NOT NULL,
+	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 	tyyppi INTEGER NOT NULL,
-	kuuluu INTEGER REFERENCES Kohdennus(id) ON DELETE SET NULL,
-	json text
+	kuuluu INTEGER REFERENCES Kohdennus(id) ON DELETE RESTRICT,
+	json text,
+	CHECK (tyyppi IN (0,1,2,3))
 );
 
 INSERT INTO Kohdennus (id, tyyppi, json ) VALUES
-( 0, 'oletus', '{"nimi":{"fi":"Yleinen","se":"Allmän", "en":"General"}}' );
+( 0, 0, '{"nimi":{"fi":"Yleinen","se":"Allmän", "en":"General"}}' );
 
 CREATE TABLE Budjetti
 (

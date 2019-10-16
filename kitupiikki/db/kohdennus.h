@@ -41,40 +41,35 @@ public:
         MERKKAUS = 3
     };
 
-    Kohdennus(int tyyppi = EIKOHDENNETA, const QString& nimi = QString());
-    Kohdennus(int id, int tyyppi, const QString &nimi, QDate alkaa = QDate(), QDate paattyy = QDate());
+    Kohdennus( int tyyppi = EIKOHDENNETA);
     Kohdennus( QVariantMap& data);
 
     int id() const { return id_; }
-    QString nimi(const QString& kieli = "fi") const { return nimi_.teksti(kieli); }
-    QDate alkaa() const { return alkaa_; }
-    QDate paattyy() const { return paattyy_; }
+    QString nimi(const QString& kieli = QString()) const { return nimi_.teksti(kieli); }
+    QString kaannos(const QString& kieli) const { return nimi_.kaannos(kieli); }
+    QDate alkaa() const { return pvm("alkaa"); }
+    QDate paattyy() const { return pvm("paattyy"); }
     int tyyppi() const { return tyyppi_; }
+    int kuuluu() const { return kuuluu_; }
+    int montakoVientia() const { return vienteja_; }
     QIcon tyyppiKuvake() const;
 
-    bool muokattu() const { return muokattu_; }
-
-    /**
-     * @brief Montako kirjausta tälle kohdennukselle
-     * @return
-     */
-    int montakoVientia() const;
 
     void asetaId(int id);
-    void asetaNimi(const QString& nimi);
-    void asetaAlkaa(const QDate& alkaa);
-    void asetaPaattyy(const QDate& paattyy);
+    void asetaNimi( const QString& nimi, const QString& kieli );
     void asetaTyyppi(KohdennusTyyppi tyyppi);
-    void nollaaMuokattu();
+    void asetaKuuluu(int kohdennusid);
+    void asetaAlkaa(const QDate& pvm) { set("alkaa", pvm); }
+    void asetaPaattyy(const QDate& pvm) { set("paattyy", pvm);}
+
+    QVariantMap data() const;
 
 protected:
-    int id_;
-    int tyyppi_;
+    int id_=0;
+    int tyyppi_=0;
     KieliKentta nimi_;
-    QDate alkaa_;
-    QDate paattyy_;
-
-    bool muokattu_;
+    int kuuluu_=0;
+    int vienteja_=0;
 };
 
 #endif // KOHDENNUS_H
