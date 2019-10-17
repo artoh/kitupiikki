@@ -263,7 +263,9 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
 
         if( vientiid ) {
             vanhatviennit.remove(vientiid);
-
+            kysely.prepare(QString("UPDATE Vienti SET tosite=?, pvm=?, tili=?, kohdennus=?, selite=?, debet=?, kredit=?, eraid=?, "
+                                   "json=?, alvkoodi=?, alvprosentti=?, rivi=?, kumppani=?, jaksoalkaa=?, jaksoloppuu=?, tyyppi=?, erapvm=?, viite=? "
+                                   "WHERE id=%1").arg(vientiid));
         } else {
             kysely.prepare("INSERT INTO Vienti (tosite, pvm, tili, kohdennus, selite, debet, kredit, eraid, json, alvkoodi, alvprosentti, rivi, kumppani, jaksoalkaa, jaksoloppuu, tyyppi, erapvm, viite) "
                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ");

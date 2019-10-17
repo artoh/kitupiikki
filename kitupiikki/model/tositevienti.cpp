@@ -181,6 +181,11 @@ void TositeVienti::setPalkkakoodi(const QString &palkkakoodi)
     set( PALKKAKOODI, palkkakoodi);
 }
 
+void TositeVienti::setTasaerapoisto(int kuukautta)
+{
+    set( TASAERAPOISTO, kuukautta);
+}
+
 
 
 
@@ -205,5 +210,6 @@ std::map<int,QString> TositeVienti::avaimet__ = {
     { ERAPAIVA, "erapvm"},
     { KUMPPANI, "kumppani"},
     { TYYPPI, "tyyppi"},
-    { PALKKAKOODI, "palkkakoodi"}
+    { PALKKAKOODI, "palkkakoodi"},
+    { TASAERAPOISTO, "tasaerapoisto"}
 };

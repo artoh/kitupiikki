@@ -56,6 +56,7 @@ protected slots:
     void merkkausMuuttui();
     void jaksoAlkaaMuuttui();
     void jaksoLoppuuMuuttui();
+    void poistoAikaMuuttuu();
 
     void haeRivi(const QModelIndex& index);
     void haeKohdennukset();

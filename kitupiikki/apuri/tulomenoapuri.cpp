@@ -168,6 +168,7 @@ void TuloMenoApuri::teeReset()
         rivit_->setKohdennus(rivi, map.value("kohdennus").toInt());
 
         rivit_->setMerkkaukset(rivi, map.value("merkkaukset").toList() );
+        rivit_->setPoistoaika( rivi, map.tasaerapoisto() );
 
 
         qlonglong maara = menoa ? qRound( map.value("debet").toDouble() * 100.0 ) - qRound( map.value("kredit").toDouble() * 100.0 )  :
@@ -314,7 +315,7 @@ bool TuloMenoApuri::teeTositteelle()
         QDate alkupvm = rivit_->jaksoalkaa(i);
         if( alkupvm.isValid())
         {
-            vienti.setJaksoalkaa( pvm );
+            vienti.setJaksoalkaa( alkupvm );
             QDate loppupvm = rivit_->jaksoloppuu(i);
             if( loppupvm.isValid() )
                 vienti.setJaksoloppuu( loppupvm );
@@ -322,6 +323,9 @@ bool TuloMenoApuri::teeTositteelle()
 
         if( rivit_->tili(i).eritellaankoTase() )
             vienti.setEra( vienti.id() ? vienti.id() : -1  );
+
+        if( rivit_->tili(i).onko(TiliLaji::TASAERAPOISTO) )
+            vienti.setTasaerapoisto( ui->poistoSpin->value() );
 
         // Kirjataan asiakas- ja toimittajatiedot myös vienteihin, jotta voidaan ehdottaa
         // tiliä aiempien kirjausten perusteella
@@ -470,6 +474,7 @@ void TuloMenoApuri::tiliMuuttui()
     bool tasapoisto = tili.onko(TiliLaji::TASAERAPOISTO);
     ui->poistoLabel->setVisible(tasapoisto);
     ui->poistoSpin->setVisible(tasapoisto);
+    ui->poistoSpin->setValue( tili.luku("tasaerapoisto") / 12 );
 
     // TODO: Vero-oletusten hakeminen
 
@@ -642,6 +647,12 @@ void TuloMenoApuri::jaksoLoppuuMuuttui()
     tositteelle();
 }
 
+void TuloMenoApuri::poistoAikaMuuttuu()
+{
+    rivit_->setPoistoaika( rivilla(), ui->poistoSpin->value() * 12);
+    tositteelle();
+}
+
 void TuloMenoApuri::haeRivi(const QModelIndex &index)
 {
     aloitaResetointi();
@@ -652,6 +663,7 @@ void TuloMenoApuri::haeRivi(const QModelIndex &index)
     ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( rivit_->alvkoodi(rivi), VerotyyppiModel::KoodiRooli ) );
     ui->alvSpin->setValue( rivit_->alvProsentti(rivi) );
     ui->vahennysCheck->setChecked( rivit_->eiVahennysta(rivi) );
+    ui->poistoSpin->setValue( rivit_->poistoaika(rivi) / 12 );
 
     ui->alkuEdit->setDate( rivit_->jaksoalkaa(rivi) );
     ui->loppuEdit->setEnabled( rivit_->jaksoalkaa(rivi).isValid());

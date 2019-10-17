@@ -228,6 +228,16 @@ int TmRivit::vientiId(int rivi) const
     return rivit_.at(rivi).vientiid;
 }
 
+int TmRivit::poistoaika(int rivi) const
+{
+    return rivit_.at(rivi).poistoaika;
+}
+
+void TmRivit::setPoistoaika(int rivi, int kuukautta)
+{
+    rivit_[rivi].poistoaika = kuukautta;
+}
+
 TmRivit::Rivi::Rivi(int id) :
     vientiid(id)
 {

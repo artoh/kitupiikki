@@ -15,7 +15,12 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "tilikaudetroute.h"
+#include "db/kirjanpito.h"
+#include "db/tositetyyppimodel.h"
 #include <QDate>
+#include <QJsonDocument>
+#include <QVariant>
+#include <QDebug>
 
 TilikaudetRoute::TilikaudetRoute(SQLiteModel *model) :
     SQLiteRoute(model, "/tilikaudet")
@@ -23,8 +28,11 @@ TilikaudetRoute::TilikaudetRoute(SQLiteModel *model) :
 
 }
 
-QVariant TilikaudetRoute::get(const QString &/*polku*/, const QUrlQuery &/*urlquery*/)
+QVariant TilikaudetRoute::get(const QString &polku, const QUrlQuery &/*urlquery*/)
 {
+    if( QDate::fromString(polku, Qt::ISODate).isValid() )
+        return laskelma( kp()->tilikaudet()->tilikausiPaivalle( QDate::fromString(polku, Qt::ISODate) ) );
+
     QSqlQuery kysely(db());
     kysely.exec("SELECT alkaa,loppuu,json FROM Tilikausi ORDER BY alkaa");
 
@@ -92,4 +100,141 @@ QVariant TilikaudetRoute::doDelete(const QString &polku)
     QDate alkaa = QDate::fromString(polku, Qt::ISODate);
     db().exec(QString("DELETE FROM Tilikausi WHERE alkaa='%1'").arg(alkaa.toString(Qt::ISODate)));
     return QVariant();
+}
+
+QVariant TilikaudetRoute::laskelma(const Tilikausi &kausi)
+{
+    QSqlQuery kysely( db() );
+    QVariantMap ulos;
+
+
+    // Laaditaan poisto- ja jaksotuslaskelmat
+
+    // Tarkistetaan, onko poistoja jo kirjattu
+    kysely.exec(QString("SELECT id FROM Tosite WHERE pvm = '%1' "
+                        "AND tyyppi=%2 LIMIT 1")
+                .arg(kausi.paattyy().toString(Qt::ISODate))
+                .arg( TositeTyyppi::POISTOLASKELMA ));
+    if( kysely.next() ) {
+        ulos.insert("poistot","kirjattu");
+    } else {
+        QVariantList poistot;
+
+        // Poistolaskelmaa ei ole vielä kirjattu, joten lasketaan poistot
+
+        // Ensin menojäännöspoistot
+
+        kysely.exec( QString("select tili.numero, sum(debet), sum(kredit), kohdennus from vienti join tili on vienti.tili=tili.numero where tili.tyyppi='APM' and vienti.pvm <= '2019-12-31' group by tili.numero, kohdennus order by tili.numero, kohdennus"));
+        while( kysely.next()) {
+            Tili* tili = kp()->tilit()->tili(kysely.value(0).toInt());
+            if( !tili)
+                continue;
+
+            qlonglong summa = qRound64( kysely.value(1).toDouble() * 100.0 ) - qRound64( kysely.value(2).toDouble() * 100.0 );
+            int poistoprosentti = tili->luku("menojaannospoisto");
+            qlonglong poisto = poistoprosentti * summa / 100;
+
+            QVariantMap map;
+            map.insert("tili", tili->numero());
+            map.insert("ennen", summa / 100.0);
+            map.insert("poisto", poisto / 100.0);
+            map.insert("kohdennus", kysely.value(3).toInt());
+            poistot.append(map);
+
+        }
+        // Laaditaan laskelma APT-eristä
+        // Ladataan avoimet erät
+        QSqlQuery apukysely( db() );
+        kysely.exec(QString("select tili.numero, vienti.eraid, sum(debet), sum(kredit) from vienti "
+                            "join tili on vienti.tili=tili.numero where tili.tyyppi='APT' and vienti.pvm <= '%1' group by tili.numero "
+                            "order by tili.numero, vienti.eraid").arg(kausi.paattyy().toString(Qt::ISODate)) );
+
+        while(kysely.next()) {
+            int eraid = kysely.value(1).toInt();
+            apukysely.exec(QString("select debet,kredit,selite,json,pvm, kohdennus from vienti where id=%1").arg(eraid));
+            if( apukysely.next()) {
+                QVariantMap jsonmap = QJsonDocument::fromJson( apukysely.value(3).toByteArray() ).toVariant().toMap();
+                qDebug() << jsonmap;
+                qlonglong alkusumma = qRound64( apukysely.value(0).toDouble() * 100) - qRound64( apukysely.value(1).toDouble() * 100);
+                int poistokk = jsonmap.value("tasaerapoisto").toInt();
+                qlonglong saldo = qRound64( kysely.value(2).toDouble() * 100) - qRound64( kysely.value(3).toDouble() * 100);
+                QDate hankintapaiva = apukysely.value(4).toDate();
+
+                int kuukauttaKulunut = kausi.paattyy().year() * 12 + kausi.paattyy().month() -
+                                       hankintapaiva.year() * 12 - hankintapaiva.month() + 1;
+                qlonglong laskennallinenpoisto = poistokk ? alkusumma * kuukauttaKulunut / poistokk : 0;
+                if( laskennallinenpoisto > saldo)
+                    laskennallinenpoisto = saldo;
+                qlonglong poisto = alkusumma - saldo + laskennallinenpoisto;
+                if( poisto > 0) {
+                    QVariantMap map;
+                    map.insert("eraid", eraid);
+                    map.insert("tili", kysely.value(0).toInt());
+                    map.insert("nimike", apukysely.value(2).toString());
+                    map.insert("pvm", hankintapaiva);
+                    map.insert("ennen", saldo / 100.0);
+                    map.insert("poisto", poisto / 100.0);
+                    map.insert("poistoaika", poistokk / 12);
+                    map.insert("kohdennus", apukysely.value(5).toInt());
+                    poistot.append(map);
+                }
+            }
+
+        }
+        ulos.insert("poistot", poistot);
+    }
+
+
+    // Tarkistetaan, onko jaksotukset jo kirjattu
+    // Tarkistetaan, onko poistoja jo kirjattu
+    kysely.exec(QString("SELECT id FROM Tosite WHERE pvm = '%1' "
+                        "AND tyyppi=%2 LIMIT 1")
+                .arg(kausi.paattyy().toString(Qt::ISODate))
+                .arg( TositeTyyppi::JAKSOTUS ));
+    if( kysely.next()) {
+        ulos.insert("jaksotukset","kirjattu");
+    } else {
+        QVariantList jaksotukset;
+        // Haetaan jaksotettavat viennit
+        kysely.exec(QString("select debet,kredit,tili,selite,jaksoalkaa,jaksoloppuu, kohdennus from vienti where jaksoalkaa is not null "
+                            "AND pvm BETWEEN '%1' AND '%2' ORDER BY tili, id")
+                    .arg(kausi.alkaa().toString(Qt::ISODate)).arg(kausi.paattyy().toString(Qt::ISODate)));
+        while( kysely.next()) {
+            qlonglong debet = qRound64( kysely.value(0).toDouble() * 100);
+            qlonglong kredit = qRound64( kysely.value(1).toDouble() * 100);
+            int tili = kysely.value(2).toInt();
+            QString selite = kysely.value(3).toString();
+            QDate alkaa = kysely.value(4).toDate();
+            QDate loppuu = kysely.value(5).toDate();
+
+            if( ( loppuu.isValid() && loppuu <= kausi.paattyy()) || (!loppuu.isValid() && alkaa <= kausi.paattyy() ) )
+                continue;   // Kokonaan tämän vuoden puolella
+
+            double jaksotettavaa = 1.0;
+            if( loppuu.isValid() && alkaa <= kausi.paattyy()) {
+                qlonglong ennen = alkaa.daysTo( kausi.paattyy() );
+                qlonglong jalkeen = kausi.paattyy().daysTo( loppuu );
+                jaksotettavaa = 1.00 * jalkeen / (ennen + jalkeen);
+            }
+
+            qlonglong jaksodebet = qRound64( jaksotettavaa * debet );
+            qlonglong jaksokredit = qRound64( jaksotettavaa * kredit );
+
+            QVariantMap map;
+            map.insert("tili", tili);
+            if( qAbs(jaksodebet) > 1e-5)
+                map.insert("debet", jaksodebet / 100.0);
+            if( qAbs(jaksokredit) > 1e-5)
+                map.insert("kredit", jaksokredit / 100.0);
+            map.insert("selite", selite);
+            map.insert("jaksoalkaa", alkaa <= kausi.paattyy() ? kausi.paattyy().addDays(1) : alkaa);
+            if( loppuu.isValid())
+                map.insert("jaksoloppuu", loppuu);
+            map.insert("kohdennus", kysely.value(6).toInt());
+            jaksotukset.append(map);
+        }
+        ulos.insert("jaksotukset", jaksotukset);
+    }
+
+    return ulos;
 }

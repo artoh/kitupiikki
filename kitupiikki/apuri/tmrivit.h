@@ -84,6 +84,9 @@ public:
 
     int vientiId(int rivi) const;
 
+    int poistoaika(int rivi) const;
+    void setPoistoaika(int rivi, int kuukautta);
+
 
 private:
 
@@ -102,6 +105,7 @@ private:
         QDate jaksoalkaa;
         QDate jaksoloppuu;
         int vientiid = 0;
+        int poistoaika = 0;
     };
 
     QList<Rivi> rivit_;
