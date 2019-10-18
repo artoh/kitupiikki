@@ -41,13 +41,12 @@ QVariant TilikaudetRoute::get(const QString &polku, const QUrlQuery &/*urlquery*
         QVariantMap map = list.at(i).toMap();
 
         // Tase
-        kysely.exec( QString("SELECT sum(debet), sum(kredit) FROM vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE pvm BETWEEN '%1' AND '%2' AND CAST(tili as text) < '3' AND Tosite.tila >= 100 ")
-                     .arg(map.value("alkaa").toString())
+        kysely.exec( QString("SELECT sum(debet), sum(kredit) FROM vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE vienti.pvm < '%1' AND CAST(tili as text) < '3' AND Tosite.tila >= 100 ")
                      .arg(map.value("loppuu").toString()) );
         if( kysely.next())
             map.insert("tase", qMax( kysely.value(0).toDouble(), kysely.value(1).toDouble()));
         // Tulos
-        kysely.exec( QString("SELECT sum(kredit), sum(debet) FROM vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE vienti.pvm BETWEEN '%1' AND '%2' AND Tosite.tila >= 100 AND CAST(tili as text) >= '3'")
+        kysely.exec( QString("SELECT sum(kredit), sum(debet) FROM vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE vienti.pvm BETWEEN '%1' AND '%2' AND Tosite.tila >= 100 AND CAST(tili as text) >= '3' ")
                      .arg(map.value("alkaa").toString())
                      .arg(map.value("loppuu").toString()) );
         if( kysely.next())
@@ -55,7 +54,7 @@ QVariant TilikaudetRoute::get(const QString &polku, const QUrlQuery &/*urlquery*
 
         // Liikevaihto
         kysely.exec( QString("SELECT sum(kredit), sum(debet) FROM vienti "
-                             "JOIN Tili ON Vienti.tili=Tili.numero JOIN Tosite ON vienti.tosite=tosite.id"
+                             "JOIN Tili ON Vienti.tili=Tili.numero JOIN Tosite ON vienti.tosite=tosite.id "
                              "WHERE vienti.pvm BETWEEN '%1' AND '%2' AND CAST(tili as text) >= '3' AND Tosite.tila >= 100 "
                              "AND (tili.tyyppi='CL' OR tili.tyyppi='CLX')")
                      .arg(map.value("alkaa").toString())

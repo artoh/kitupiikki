@@ -195,6 +195,7 @@ void Jaksottaja::kirjaaTilinavaukseen(QVariant *data, const QDate &pvm)
         else
             uusi.setTyyppi( TositeVienti::JAKSOTUS_TA + TositeVienti::VASTAKIRJAUS);
 
+        uusi.setSelite( vienti.selite());
         uusi.setTili( vienti.tili());
         uusi.setKohdennus( vienti.kohdennus() );
         uusi.setEra( vienti.eraId());

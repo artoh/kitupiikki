@@ -39,10 +39,10 @@ QVariant EraRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
     QVariantList lista;
 
     QString kysymys("select vienti.eraid as eraid, sum(vienti.debet) as sd, sum(vienti.kredit) as sk, a.selite as selite, a.pvm as pvm, a.tili as tili from  Vienti "
-                    "join Vienti as a on vienti.eraid = a.id ");
+                    "join Vienti as a on vienti.eraid = a.id JOIN Tosite ON Vienti.Tosite=Tosite.id  WHERE Tosite.tila >= 100 ");
 
     if( urlquery.hasQueryItem("tili"))
-        kysymys.append(QString("WHERE vienti.tili=%1 ").arg(urlquery.queryItemValue("tili")));
+        kysymys.append(QString("AND vienti.tili=%1 ").arg(urlquery.queryItemValue("tili")));
 
     kysymys.append("GROUP BY vienti.eraid, a.selite, a.pvm, a.tili "
                    "HAVING sum(vienti.debet) <> sum(vienti.kredit) OR sum(vienti.debet) IS NULL OR sum(vienti.kredit) IS NULL");
@@ -74,7 +74,8 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
 
 
     QSqlQuery kysely( db() );
-    kysely.exec( QString("SELECT tili, sum(debet), sum(kredit) FROM vienti where pvm<='%1' "
+    kysely.exec( QString("SELECT tili, sum(debet), sum(kredit) FROM vienti JOIN Tosite ON Vienti.tosite = Tosite.id "
+                         "WHERE Vienti.pvm<='%1' AND Tosite.tila >= 100 "
                          "AND CAST (tili AS text) < 3 GROUP BY tili ORDER BY CAST(tili AS text)")
                  .arg(pvm.toString(Qt::ISODate)));
 
@@ -99,8 +100,8 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
             // Tase-erät
             QSqlQuery erakysely(db());
             erakysely.exec(QString("select vienti.eraid, vienti.debet, vienti.kredit, vienti.selite, Tosite.pvm, Tosite.sarja, Tosite.tunniste, tosite.id "
-                                   "FROM Vienti  JOIN Tosite ON Vienti.tosite = Tosite.id  WHERE Vienti.tili=%1 AND Vienti.id=Vienti.eraid "
-                                   "AND Vienti.pvm <= '%2' ORDER BY tosite.pvm")
+                                   "FROM Vienti JOIN Tosite ON Vienti.tosite = Tosite.id  WHERE Vienti.tili=%1 AND Vienti.id=Vienti.eraid "
+                                   "AND Vienti.pvm <= '%2' AND Tosite.tila >= 100 ORDER BY tosite.pvm")
                            .arg( tili->numero() ).arg(pvm.toString(Qt::ISODate)));
 
             qDebug() << erakysely.lastQuery();
@@ -113,7 +114,7 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
 
                 QSqlQuery apukysely( db() );
                 qlonglong alkusaldo = 0l;
-                apukysely.exec(QString("SELECT sum(debet), sum(kredit) FROM Viennit WHERE eraid=%1 AND pvm<%2")
+                apukysely.exec(QString("SELECT sum(debet), sum(kredit) FROM Viennit JOIN Tosite ON Vienti.tosite=Tosite.id WHERE eraid=%1 AND pvm<%2 AND Tosite.tila >= 100 ")
                                .arg(eraid).arg(mista.toString(Qt::ISODate)));
                 if( apukysely.next())
                     alkusaldo = tili->onko(TiliLaji::VASTAAVAA) ?
@@ -122,7 +123,7 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
 
                 apukysely.exec(QString("select vienti.debet, vienti.kredit, vienti.selite, Tosite.pvm, Tosite.sarja, Tosite.tunniste, tosite.id "
                                        "FROM Vienti  JOIN Tosite ON Vienti.tosite = Tosite.id  WHERE Vienti.eraid=%1 AND Vienti.id<>Vienti.eraid "
-                                       "AND Vienti.pvm BETWEEN '%2' AND '%3' ORDER BY tosite.pvm")
+                                       "AND Vienti.pvm BETWEEN '%2' AND '%3' AND Tosite.tila >= 100 ORDER BY tosite.pvm")
                                .arg(eraid)
                                .arg(mista.toString(Qt::ISODate))
                                .arg(pvm.toString(Qt::ISODate)));
@@ -171,7 +172,7 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
             apukysely.exec(QString("select vienti.eraid, sum(vienti.debet) as sd, sum(vienti.kredit) as sk, a.selite, tosite.pvm, tosite.sarja, tosite.tunniste  from  Vienti "
                                    "join Vienti as a on vienti.eraid = a.id "
                                    "join Tosite on a.tosite=tosite.id "
-                                   "WHERE vienti.tili=%1 AND vienti.pvm <= '%2'  GROUP BY vienti.eraid, a.selite, a.pvm, a.tili "
+                                   "WHERE vienti.tili=%1 AND vienti.pvm <= '%2'  AND Tosite.tila >= 100 GROUP BY vienti.eraid, a.selite, a.pvm, a.tili "
                                    "HAVING sum(vienti.debet) <> sum(vienti.kredit) OR sum(vienti.debet) IS NULL OR sum(vienti.kredit) IS NULL;"
                                    ).arg(tili->numero()).arg(pvm.toString(Qt::ISODate)));
             while( apukysely.next()) {
@@ -192,12 +193,12 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
 
         } else if( erittelytapa == Tili::TASEERITTELY_MUUTOKSET) {
 
-            // TODO: Edellisten tilikausien voitto/tappio: Edellisen voiton/tappion lisääminen
+            // TODO: Edellisten tilikausien voitto/tappio: Edellisen voiton/tappion lisääminen jos halutaan (KPA ei vaadi ;)
 
             QSqlQuery apukysely( db());
             apukysely.exec(QString("select vienti.debet, vienti.kredit, vienti.selite, Tosite.pvm, Tosite.sarja, Tosite.tunniste "
                                    "FROM Vienti JOIN Tosite ON Vienti.tosite = Tosite.id  WHERE Vienti.tili=%1 "
-                                   "AND Vienti.pvm BETWEEN '%2' AND '%3' ORDER BY tosite.pvm")
+                                   "AND Vienti.pvm BETWEEN '%2' AND '%3' AND Tosite.tila >= 100 ORDER BY tosite.pvm")
                            .arg(tili->numero())
                            .arg(mista.toString(Qt::ISODate))
                            .arg(pvm.toString(Qt::ISODate)));
