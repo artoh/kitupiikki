@@ -90,6 +90,14 @@ public:
     QString otsikko() const { return data(OTSIKKO).toString();}
 
     void asetaOtsikko(const QString& otsikko);
+    void asetaTyyppi(int tyyppi);
+    void asetaPvm(const QDate& pvm);
+
+    /**
+     * @brief Tiedot tallennettavassa muodossa
+     * @return
+     */
+    QVariantMap tallennettava() const;
 
 signals:
     void ladattu();
@@ -114,11 +122,7 @@ protected slots:
     void liitteetTallennettu();
 
 private:
-    /**
-     * @brief Tiedot tallennettavassa muodossa
-     * @return
-     */
-    QVariantMap tallennettava() const;
+
 
 private:
     QVariantMap data_;

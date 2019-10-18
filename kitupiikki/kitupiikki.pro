@@ -21,7 +21,7 @@ macx {
 
 CONFIG += c++14
 
-TARGET = kitupiikki
+TARGET = kitsas
 
 TEMPLATE = app
 

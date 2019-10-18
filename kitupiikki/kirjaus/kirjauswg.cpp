@@ -559,15 +559,8 @@ void KirjausWg::lisaaLiite(const QString& polku)
 {
     if( !polku.isEmpty())
     {
-        // Pyritään ensin tuomaan
-        // PDF-tiedosto tuodaan kuitenkin vain tyhjälle tositteelle
-        // Tämä siksi, että pdf-tiliote voidaan tuoda csv-tilitietojen tositteeksi
-        if( !(polku.endsWith(".pdf",Qt::CaseInsensitive)
-             && tosite()->liitteet()->rowCount() ) &&  !VanhaTuonti::tuo(polku, this))
-            return;
-
         QFileInfo info(polku);
-        tosite()->liitteet()->lisaaTiedosto(polku);
+        tosite()->liitteet()->lisaaHetiTiedosto(polku);
         // Valitsee lisätyn liitteen
         ui->liiteView->setCurrentIndex( tosite()->liitteet()->index( tosite()->liitteet()->rowCount() - 1 ) );
         paivitaLiiteNapit();
@@ -653,8 +646,9 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
 
 void KirjausWg::vaihdaTositeTyyppi()
 {
-    paivitaSarja();
-    int tyyppiKoodi = ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt() ;
+    int tyyppiKoodi = tosite_->tyyppi();
+    if( kp()->tositeTyypit()->onkolisattavissa(tyyppiKoodi))
+        tyyppiKoodi = ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt() ;
 
     // Tässä voisi laittaa muutenkin apurit paikalleen
     if( apuri_ )
@@ -683,6 +677,7 @@ void KirjausWg::vaihdaTositeTyyppi()
     }
 
     tosite_->setData(Tosite::TYYPPI, tyyppiKoodi);
+    paivitaSarja();
 
     if( apuri_)
     {
@@ -703,7 +698,7 @@ void KirjausWg::vaihdaTositeTyyppi()
 void KirjausWg::paivitaSarja(bool kateinen)
 {
     if( kp()->asetukset()->asetus("sarjaan").toInt())
-        ui->sarjaEdit->setText( kp()->tositeTyypit()->sarja( ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt() , kateinen ) ) ;
+        ui->sarjaEdit->setText( kp()->tositeTyypit()->sarja( tosite_->tyyppi() , kateinen ) ) ;
 }
 
 void KirjausWg::liiteValinta(const QModelIndex &valittu)

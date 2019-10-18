@@ -81,6 +81,17 @@ void Tosite::asetaOtsikko(const QString &otsikko)
     setData(OTSIKKO, otsikko);
 }
 
+void Tosite::asetaTyyppi(int tyyppi)
+{
+    setData(TYYPPI, tyyppi);
+    setData(SARJA, kp()->tositeTyypit()->sarja( tyyppi ));
+}
+
+void Tosite::asetaPvm(const QDate &pvm)
+{
+    setData(PVM, pvm);
+}
+
 void Tosite::lataa(int tositeid)
 {
     KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tositeid));

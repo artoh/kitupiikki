@@ -1521,8 +1521,7 @@
     "tyyppi": "H4",
     "nimi": {
       "fi": "Ostot"
-    },
-    "mihin": 42
+    }
   },
   {
     "numero": 40,
@@ -1638,7 +1637,7 @@
     "nimi": {
       "fi": "Rakennusten korjaus"
     },
-    "laajuus": 2
+    "laajuus": 4
   },
   {
     "numero": 4423,
@@ -1646,7 +1645,7 @@
     "nimi": {
       "fi": "Ulkoalueiden huolto"
     },
-    "laajuus": 2
+    "laajuus": 4
   },
   {
     "numero": 4431,
@@ -1662,7 +1661,7 @@
     "nimi": {
       "fi": "Jätehuolto"
     },
-    "laajuus": 2
+    "laajuus": 4
   },
   {
     "numero": 4441,
@@ -1670,7 +1669,7 @@
     "nimi": {
       "fi": "Kiinteistövakuutukset"
     },
-    "laajuus": 2
+    "laajuus": 4
   },
   {
     "numero": 4451,
@@ -1678,7 +1677,7 @@
     "nimi": {
       "fi": "Kiinteistövero"
     },
-    "laajuus": 2
+    "laajuus": 4
   },
   {
     "numero": 4461,
@@ -1686,7 +1685,7 @@
     "nimi": {
       "fi": "Vartiointi- ja turvallisuuskulut"
     },
-    "laajuus": 2
+    "laajuus": 4
   },
   {
     "numero": 4491,
@@ -2063,9 +2062,6 @@
     "tyyppi": "H4",
     "nimi": {
       "fi": "Erittelemättömät toimintakulut"
-    },
-    "ohje": {
-      "fi": "Jos yhdistyksessä ei haluta eritellä toiminnan kuluja sen tarkemmin, kuin tuloslaskelman pohjalta on pakollista, voidaan tälle tilille kirjata kaikki varsinaisen toiminnan kulut, jotka eivät ole poistoja eivätkä henkilöstökuluja."
     }
   },
   {
@@ -2073,6 +2069,9 @@
     "tyyppi": "D",
     "nimi": {
       "fi": "Muut varsinaiset toiminnan menot"
+    },
+    "ohje": {
+      "fi": "Jos yhdistyksessä ei haluta eritellä toiminnan kuluja sen tarkemmin, kuin tuloslaskelman pohjalta on pakollista, voidaan tälle tilille kirjata kaikki varsinaisen toiminnan kulut, jotka eivät ole poistoja eivätkä henkilöstökuluja."
     },
     "laajuus": 1
   },
@@ -2522,7 +2521,7 @@
     "nimi": {
       "fi": "Varainhankinnan palkat"
     },
-    "laajuus": 3
+    "laajuus": 5
   },
   {
     "numero": 7502,
@@ -2530,7 +2529,7 @@
     "nimi": {
       "fi": "Varainhankinnan lisät ja korvaukset"
     },
-    "laajuus": 3
+    "laajuus": 5
   },
   {
     "numero": 7503,
@@ -2538,7 +2537,7 @@
     "nimi": {
       "fi": "Varainhankinnan palkkiot"
     },
-    "laajuus": 3
+    "laajuus": 5
   },
   {
     "numero": 7504,
@@ -2546,7 +2545,7 @@
     "nimi": {
       "fi": "Varainhankinnan loma-ajan ja sosiaalipalkat"
     },
-    "laajuus": 3
+    "laajuus": 5
   },
   {
     "numero": 7510,
@@ -2554,15 +2553,15 @@
     "nimi": {
       "fi": "Varainhankinnan eläkevakuutusmaksut"
     },
-    "laajuus": 3
+    "laajuus": 5
   },
   {
     "numero": 7511,
     "tyyppi": "D",
     "nimi": {
-      "fi": "Varainhankinnan työntekijöiltä perityt eläkevakuutusmaksut"
+      "fi": "Varainhankinnan eläkevakuutusmaksut"
     },
-    "laajuus": 3
+    "laajuus": 5
   },
   {
     "numero": 7513,
@@ -2570,7 +2569,7 @@
     "nimi": {
       "fi": "Varainhankinnan vapaaehtoiset eläkevakuutusmaksut"
     },
-    "laajuus": 3
+    "laajuus": 5
   },
   {
     "numero": 7520,
@@ -2578,7 +2577,7 @@
     "nimi": {
       "fi": "Varainhankinnan sosiaaliturvamaksut"
     },
-    "laajuus": 3
+    "laajuus": 5
   },
   {
     "numero": 7521,
@@ -2586,7 +2585,7 @@
     "nimi": {
       "fi": "Varainhankinnan pakolliset vakuutusmaksut"
     },
-    "laajuus": 3
+    "laajuus": 5
   },
   {
     "numero": 7522,
@@ -2594,7 +2593,7 @@
     "nimi": {
       "fi": "Varainhankinnan muut henkilöstön vakuutusmaksut"
     },
-    "laajuus": 3
+    "laajuus": 5
   },
   {
     "numero": 88,
@@ -2612,7 +2611,8 @@
     "ohje": {
       "fi": "Tähän kirjataan yhdistyksen kaikkea toimintaa varten myönnetyt avustukset. Tiettyä toimintaa tai tapahtumaa varten myönnetyt avustukset kirjataan tilille 3800 Saadut avustukset."
     },
-    "laajuus": 1
+    "laajuus": 1,
+    "jaksotustili": 2990
   },
   {
     "numero": 90,

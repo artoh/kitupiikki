@@ -88,6 +88,8 @@ public:
     int tyyppi() const { return data(TYYPPI).toInt(); }
     QString palkkakoodi() const { return data(PALKKAKOODI).toString(); }
     int tasaerapoisto() const { return data(TASAERAPOISTO).toInt();}
+    QDate jaksoalkaa() const { return data(JAKSOALKAA).toDate();}
+    QDate jaksoloppuu() const { return data(JAKSOLOPPUU).toDate();}
 
     void setPvm(const QDate& pvm);
     void setTili(int tili);

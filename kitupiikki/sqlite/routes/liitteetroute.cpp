@@ -20,6 +20,7 @@
 #include <QRegularExpressionMatch>
 
 #include <QCryptographicHash>
+#include <QDebug>
 
 LiitteetRoute::LiitteetRoute(SQLiteModel *model) :
     SQLiteRoute(model, "/liitteet")
@@ -47,10 +48,13 @@ QVariant LiitteetRoute::get(const QString &polku, const QUrlQuery &/*urlquery*/)
 
 QVariant LiitteetRoute::byteArray(SQLiteKysely *kysely, const QByteArray &ba, const QMap<QString, QString> &meta)
 {
-    QRegularExpression re(R"(/liitteet/(\d+)/(\S+)?)");
-    QRegularExpressionMatch match = re.match(kysely->polku());
+    QString loppu = kysely->polku().mid( polku().length()+1 );
+    QRegularExpression re(R"((\d+)/(\S+)?)");
+    QRegularExpressionMatch match = re.match(loppu);
     QSqlQuery query(db());
     QVariantMap palautus;
+
+    qDebug() << loppu;
 
     if( kysely->metodi() == KpKysely::POST) {
         query.prepare("INSERT INTO Liite(nimi,data,tyyppi,sha,tosite) VALUES (?,?,?,?,?)");
@@ -58,8 +62,8 @@ QVariant LiitteetRoute::byteArray(SQLiteKysely *kysely, const QByteArray &ba, co
         query.addBindValue( ba );
         query.addBindValue( meta.value("Content-type", QString()));
         query.addBindValue( hash( ba) );
-        if( match.hasMatch()) {
-            query.addBindValue( match.captured(1).toInt() );
+        if( loppu.toInt()) {
+            query.addBindValue( loppu.toInt() );
         } else {
             // Liite odottamaan tositetta
             query.addBindValue( QVariant());

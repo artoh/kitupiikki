@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2017 Arto Hyvättinen
+   Copyright (C) 2019 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,43 +14,39 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
+#ifndef JAKSOTTAJA_H
+#define JAKSOTTAJA_H
 
-#ifndef POISTAJA_H
-#define POISTAJA_H
+#include "db/tilikausi.h"
+#include "raportti/raportinkirjoittaja.h"
 
 #include <QDialog>
 
-#include "db/kirjanpito.h"
-#include "raportti/raportinkirjoittaja.h"
-
 namespace Ui {
-class Poistaja;
+    class Poistaja;
 }
 
-/**
- * @brief Suunnitelman mukaisten poistojen tekeminen
- *
- * Näyttää dialogin, jossa voi esikatsella poistoja, ja käyttäjän vahvistaessa
- * kirjaa poistot tositteella, jonka liitteeksi tulee poistolaskelma
- */
-class Poistaja : public QDialog
+class Jaksottaja : public QDialog
 {
     Q_OBJECT
-
 public:
-    explicit Poistaja(QWidget *parent = nullptr);
-    ~Poistaja();
+    Jaksottaja(QWidget *parent = nullptr);
+    ~Jaksottaja();
 
-    bool teepoistot(const Tilikausi& kausi, const QVariantList& poistot);
+    bool teeJaksotukset(const Tilikausi& kausi, const QVariantList& jaksotukset);
 
 signals:
-    void poistettu();
+    void jaksotettu();
 
 private:
-    RaportinKirjoittaja poistoehdotus(const Tilikausi& kausi, const QVariantList& poistot);
+    void kirjaaTilinpaatokseen(const QDate& pvm, const QVariantList& jaksotukset);
+    RaportinKirjoittaja jaksotusSelvitys(const Tilikausi& kausi, const QVariantList& jaksotukset);
 
+protected slots:
+    void kirjaaTilinavaukseen(QVariant* data, const QDate& pvm);
 
+protected:
     Ui::Poistaja *ui;
 };
 
-#endif // POISTAJA_H
+#endif // JAKSOTTAJA_H

@@ -21,7 +21,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tervetuloTab">
       <attribute name="icon">
@@ -179,62 +179,6 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="skriptiTab">
-      <attribute name="icon">
-       <iconset resource="../pic/pic.qrc">
-        <normaloff>:/pic/ratas.png</normaloff>:/pic/ratas.png</iconset>
-      </attribute>
-      <attribute name="title">
-       <string>Skripti</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_4">
-       <item>
-        <widget class="QPlainTextEdit" name="skriptiEdit"/>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_4">
-         <item>
-          <spacer name="horizontalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QPushButton" name="tyhjennaNappi">
-           <property name="text">
-            <string>Tyhjennä</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../pic/pic.qrc">
-             <normaloff>:/pic/sulje.png</normaloff>:/pic/sulje.png</iconset>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="suoritaNappi">
-           <property name="text">
-            <string>Suorita</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../pic/pic.qrc">
-             <normaloff>:/pic/ratas.png</normaloff>:/pic/ratas.png</iconset>
-           </property>
-           <property name="shortcut">
-            <string>F5</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
      <widget class="QWidget" name="kyselyTab">
       <attribute name="icon">
        <iconset resource="../pic/pic.qrc">
@@ -383,22 +327,6 @@
     <hint type="destinationlabel">
      <x>395</x>
      <y>57</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>tyhjennaNappi</sender>
-   <signal>clicked()</signal>
-   <receiver>skriptiEdit</receiver>
-   <slot>clear()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>441</x>
-     <y>422</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>296</x>
-     <y>384</y>
     </hint>
    </hints>
   </connection>

@@ -72,6 +72,7 @@ SelausWg::SelausWg() :
     connect( ui->valintaTab, SIGNAL(currentChanged(int)), this, SLOT(selaa(int)));
 
     connect( Kirjanpito::db(), SIGNAL(kirjanpitoaMuokattu()), this, SLOT(paivita()));
+    connect( kp(), &Kirjanpito::tilikausiAvattu, this, &SelausWg::alusta);
     connect( kp(), SIGNAL(tietokantaVaihtui()), this, SLOT(alusta()));
 
     connect( ui->alkuEdit, SIGNAL(dateChanged(QDate)), this, SLOT(alkuPvmMuuttui()));

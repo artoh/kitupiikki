@@ -95,7 +95,7 @@ public:
      * @param tulostaplus Tulostetaanko + positiivisen eteen (oletuksena ei)
      */
     void lisaa(qlonglong sentit, bool tulostanollat = false, bool tulostaplus = false);
-
+    void lisaa(double eurot, bool tulostanollat = false, bool tulostaplus = false);
     /**
      * @brief Lisää päivämäärän
      * @param pvm Päivämäärä QDate:na

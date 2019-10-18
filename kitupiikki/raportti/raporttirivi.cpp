@@ -57,6 +57,11 @@ void RaporttiRivi::lisaa(qlonglong sentit, bool tulostanollat, bool tulostaplus)
     sarakkeet_.append( uusi );
 }
 
+void RaporttiRivi::lisaa(double eurot, bool tulostanollat, bool tulostaplus)
+{
+    lisaa( qRound64( eurot * 100.0), tulostanollat, tulostaplus);
+}
+
 void RaporttiRivi::lisaa(const QDate &pvm)
 {
     lisaa( pvm.toString("dd.MM.yyyy"), 1, false);

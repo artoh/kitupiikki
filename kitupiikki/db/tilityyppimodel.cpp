@@ -47,7 +47,7 @@ TilityyppiModel::TilityyppiModel(QObject *parent)
     lisaa(TiliTyyppi("APT","Poistokelpoinen omaisuus tasapoistolla",TiliLaji::TASAERAPOISTO));
     lisaa(TiliTyyppi("AS","Saatavaa",TiliLaji::SAATAVA));
     lisaa(TiliTyyppi("AO","Myyntisaatavat",TiliLaji::MYYNTISAATAVA));
-    lisaa(TiliTyyppi("AJ","Siirtosaamiset",TiliLaji::SAATAVA));
+    lisaa(TiliTyyppi("AJ","Siirtosaamiset",TiliLaji::SIIRTOSAATAVA));
     lisaa(TiliTyyppi("AL","Arvonlisäverosaatava", TiliLaji::ALVSAATAVA, true));
     lisaa(TiliTyyppi("ALM","Maksuperusteisen alv:n kohdentamaton saatava", TiliLaji::KOHDENTAMATONALVSAATAVA, true));
     lisaa(TiliTyyppi("AV","Verosaatava",TiliLaji::VEROSAATAVA, true));
@@ -59,7 +59,7 @@ TilityyppiModel::TilityyppiModel(QObject *parent)
     lisaa(TiliTyyppi("T","Tilikauden tulos", TiliLaji::KAUDENTULOS, true));
     lisaa(TiliTyyppi("BS","Velat",TiliLaji::VELKA));
     lisaa(TiliTyyppi("BO","Ostovelat", TiliLaji::OSTOVELKA));
-    lisaa(TiliTyyppi("BJ","Siirtovelat",TiliLaji::VELKA));
+    lisaa(TiliTyyppi("BJ","Siirtovelat",TiliLaji::SIIRTOVELKA));
     lisaa(TiliTyyppi("BL","Arvonlisäverovelka",TiliLaji::ALVVELKA, true));
     lisaa(TiliTyyppi("BLM","Maksuperusteisen alv:n kohdentamaton velka", TiliLaji::KOHDENTAMATONALVVELKA, true));
     lisaa(TiliTyyppi("BV","Verovelka",TiliLaji::VEROVELKA, true));

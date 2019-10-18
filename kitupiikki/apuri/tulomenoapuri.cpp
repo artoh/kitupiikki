@@ -590,7 +590,7 @@ void TuloMenoApuri::maksutapaMuuttui()
     if( maksutapatili)
         ui->vastatiliCombo->valitseTili(maksutapatili);
 
-    ui->vastatiliLabel->setVisible( !maksutapatili );
+    ui->vastatiliLabel->setVisible( !maksutapatili  );
     ui->vastatiliCombo->setVisible( !maksutapatili );
 
     vastatiliMuuttui();
@@ -601,11 +601,14 @@ void TuloMenoApuri::vastatiliMuuttui()
 {
     Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliCombo->valittuTilinumero() );
 
-    ui->eraLabel->setVisible( vastatili.eritellaankoTase() && !ui->maksutapaCombo->currentData().toInt());
-    ui->eraCombo->setVisible( vastatili.eritellaankoTase() && !ui->maksutapaCombo->currentData().toInt());
+    bool eritellankotaso = vastatili.eritellaankoTase() && !ui->maksutapaCombo->currentData(Qt::UserRole+1).isValid();
+
+    ui->eraLabel->setVisible( eritellankotaso);
+    ui->eraCombo->setVisible( eritellankotaso);
     ui->eraCombo->lataa( vastatili.numero() );
-    if( vastatili.eritellaankoTase() )
-        ui->eraCombo->valitse(-1);
+    if( vastatili.eritellaankoTase() ) {
+        ui->eraCombo->valitse( ui->maksutapaCombo->currentData(Qt::UserRole+1).toInt() );
+    }
 
 
     bool laskulle = vastatili.onko(TiliLaji::OSTOVELKA) || vastatili.onko(TiliLaji::MYYNTISAATAVA);
@@ -736,6 +739,8 @@ void TuloMenoApuri::alusta(bool meno)
         ui->maksutapaCombo->addItem( QIcon( map.contains("KUVA") ? ":/pic/" + map.value("KUVA").toString() + ".png" : ":/pic/tyhja.png"),
                                      kk.teksti(),
                                      map.value("TILI").toInt());
+        if( map.contains("ERA"))
+            ui->maksutapaCombo->setItemData( ui->maksutapaCombo->count()-1, map.value("ERA").toInt(), Qt::UserRole + 1 );
     }
     ui->maksutapaCombo->addItem( QIcon(":/pic/tyhja.png"), tr("Kaikki vastatilit"), 0 );
     ui->vastatiliCombo->suodataTyypilla("[AB]");

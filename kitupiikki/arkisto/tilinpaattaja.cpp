@@ -29,6 +29,7 @@
 
 #include "arkistosivu.h"
 #include "poistaja.h"
+#include "jaksottaja.h"
 
 #include "arkisto/arkistosivu.h"
 
@@ -45,6 +46,7 @@ TilinPaattaja::TilinPaattaja(Tilikausi kausi,ArkistoSivu *arkisto , QWidget *par
 
     connect( ui->lukitseNappi, SIGNAL(clicked(bool)), this, SLOT(lukitse()));
     connect( ui->poistoNappi, SIGNAL(clicked(bool)), this, SLOT(teePoistot()));
+    connect( ui->jaksotusNappi, &QPushButton::clicked, this, &TilinPaattaja::teeJaksotukset);
     connect( ui->tilinpaatosNappi, SIGNAL(clicked(bool)), this, SLOT(muokkaa()));
     connect( ui->tulostaNappi, SIGNAL(clicked(bool)), this, SLOT(esikatsele()));
     connect( ui->vahvistaNappi, SIGNAL(clicked(bool)), this, SLOT(vahvista()));
@@ -84,17 +86,6 @@ void TilinPaattaja::paivitaDialogi()
     ui->vahvistaNappi->setEnabled( tilinpaatosolemassa );
 
 
-    // Poistorivin nappien käytössä oleminen
-    bool poistotkirjattu = tilikausi.luku("Poistokirjaus");
-    bool poistettavaa = Poistaja::onkoPoistoja(tilikausi);
-
-    ui->poistoTehty->setVisible(poistotkirjattu);
-    ui->poistotKirjattuLabel->setVisible(poistotkirjattu);
-
-    ui->poistoNappi->setVisible( !poistotkirjattu && poistettavaa );
-    ui->eiPoistettavaaLabel->setVisible( !poistotkirjattu && !poistettavaa);
-    ui->poistoLabel->setEnabled(poistettavaa);
-
 
     if( kp()->paivamaara() < tilikausi.paattyy() )
     {
@@ -112,6 +103,12 @@ void TilinPaattaja::paivitaDialogi()
 
     ui->varoKuvake->setVisible( !varoitukset.isEmpty() );
     ui->varoLabel->setText(varoitukset);
+
+    KpKysely *kysely = kpk(QString("/tilikaudet/%1").arg(tilikausi.paattyy().toString(Qt::ISODate)));
+    connect( kysely, &KpKysely::vastaus, this, &TilinPaattaja::dataSaapuu);
+    kysely->kysy();
+
+    kp()->tilikaudet()->paivita();
 }
 
 void TilinPaattaja::lukitse()
@@ -143,8 +140,16 @@ void TilinPaattaja::lukitse()
 
 void TilinPaattaja::teePoistot()
 {
-    Poistaja::teeSumuPoistot(tilikausi);
-    paivitaDialogi();
+    Poistaja *poistaja = new Poistaja(this);
+    connect( poistaja, &Poistaja::poistettu, this, &TilinPaattaja::paivitaDialogi);
+    poistaja->teepoistot(tilikausi, data_.value("poistot").toList());
+}
+
+void TilinPaattaja::teeJaksotukset()
+{
+    Jaksottaja *jaksottaja = new Jaksottaja(this);
+    connect( jaksottaja, &Jaksottaja::jaksotettu, this, &TilinPaattaja::paivitaDialogi);
+    jaksottaja->teeJaksotukset(tilikausi, data_.value("jaksotukset").toList());
 }
 
 void TilinPaattaja::muokkaa()
@@ -176,4 +181,27 @@ void TilinPaattaja::vahvista()
     emit kp()->onni("Tilinpäätös merkitty valmiiksi");
     emit vahvistettu();
     close();
+}
+
+void TilinPaattaja::dataSaapuu(QVariant *data)
+{
+    data_ = data->toMap();
+
+    bool poistotkirjattu = data_.value("poistot").toString() == "kirjattu";
+    bool eipoistoja = data_.value("poistot").toList().isEmpty();
+
+    ui->eiPoistettavaaLabel->setVisible(eipoistoja && !poistotkirjattu);
+    ui->poistoTehty->setVisible( poistotkirjattu );
+    ui->poistotKirjattuLabel->setVisible( poistotkirjattu );
+
+    ui->poistoNappi->setVisible(!poistotkirjattu && !eipoistoja);
+
+    bool jaksotuksetkirjattu = data_.value("jaksotukset").toString() == "kirjattu";
+    bool eijaksotuksia = data_.value("jaksotukset").toList().isEmpty();
+
+    ui->eiJaksotettavaaLabel->setVisible( !jaksotuksetkirjattu && eijaksotuksia);
+    ui->jaksotTehty->setVisible( jaksotuksetkirjattu );
+    ui->jaksotKirjattuLabel->setVisible( jaksotuksetkirjattu );
+    ui->jaksotusNappi->setVisible(!jaksotuksetkirjattu && !eijaksotuksia);
+
 }

@@ -72,7 +72,8 @@
     {
       "fi" : "Lasku",
       "TILI" : 1700,
-      "KUVA" : "lasku"
+      "KUVA" : "lasku",
+      "ERA" : -1
     },
     {
       "fi" : "Käteinen",
@@ -83,6 +84,12 @@
       "fi" : "Pankkitili",
       "TILI" : 1910,
       "KUVA" : "pankki"
+    },
+    {
+      "fi" : "Siirtosaaminen",
+      "TILI" : 1770,
+      "KUVA" : "siirto",
+      "ERA" : -1
     }
 
   ],
@@ -90,7 +97,8 @@
     {
       "fi" : "Lasku",
       "TILI" : 2960,
-      "KUVA" : "lasku"
+      "KUVA" : "lasku",
+      "ERA": -1
     },
     {
       "fi" : "Käteinen",
@@ -106,6 +114,17 @@
       "fi" : "Luottokortti",
       "TILI" : 2963,
       "KUVA" : "luottokortti"
+    },
+    {
+      "fi" : "Hyvityslasku",
+      "TILI" : 2960,
+      "KUVA" : "poista"
+    },
+    {
+      "fi" : "Siirtovelka",
+      "TILI" : 2990,
+      "KUVA" : "siirto",
+      "ERA" : -1
     }
   ],
   "LaskuTilit" : [1910]

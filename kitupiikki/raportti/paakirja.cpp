@@ -208,8 +208,8 @@ void Paakirja::kirjoitaVienti(QVariantMap map)
     if( optiot_ & TulostaKohdennukset)
         rr.lisaa(kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt() ).nimi() );
 
-    rr.lisaa( qRound( map.value("debet").toDouble() * 100 ));
-    rr.lisaa( qRound( map.value("kredit").toDouble() * 100 ));
+    rr.lisaa(  map.value("debet").toDouble() * 100 );
+    rr.lisaa(  map.value("kredit").toDouble() * 100 );
 
     debetSumma_ += qRound( map.value("debet").toDouble() * 100 );
     kreditSumma_ += qRound( map.value("kredit").toDouble() * 100 );
