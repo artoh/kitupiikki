@@ -1,15 +1,15 @@
 [fi]
 ## Raportit
 #MIKRO
-@Tase/PMA!TASE (TILINPÄÄTÖS)@
+@tase/PMA!TASE (TILINPÄÄTÖS)@
 #PIEN
-@Tase/PMA!TASE (TILINPÄÄTÖS)@
+@tase/PMA!TASE (TILINPÄÄTÖS)@
 #ISO
-@Tase/Yleinen!TASE (TILINPÄÄTÖS)@
+@tase/PMA!TASE (TILINPÄÄTÖS)@
 #
-@Tuloslaskelma!TULOSLASKELMA (TILINPÄÄTÖS)@
+@tulos/yhdistys!TULOSLASKELMA (TILINPÄÄTÖS)@
 #toiminnanalat Toiminnanalojen erittely
-@Toiminnanalat!TOIMINNANALAT (TILINPÄÄTÖS)@
+(Toiminnanalojen erittely ei vielä saatavilla...)
 <h2>Tilinpäätöksen laatimisperusteet</h2>
 #MIKRO
 <p>Tilinpäätöksen laatimisessa on noudatettu pien- ja mikroyrityksen tilinpäätöksessä esitettävistä tiedoista
@@ -119,19 +119,11 @@ mahdollisen esinevakuuslakin mukaisiin määriin</p>
 ##Kirjanpito
 #sahko Sähköinen kirjanpito ja arkistointi
 <h2>Kirjanpitoaineisto</h2>
-<p>Kirjanpito on järjestetty Kitupiikki-ohjelmistolla. Tilinpäätös, tase-erittelyt, tilikartta, pää- ja päiväkirjat sekä pdf-muodossa olevat tositteet on arkistoitu html-muotoiseksi sähköiseksi arkistoksi, jonka muuttumattomuus on varmistettu sha256-tiivisteellä &nbsp;<tt>
-@sha@
-</tt>.</p>
-<p>Kirjanpidossa on tositteita eri tositelajeissa <br>
-@tositelajit@
+<p>Kirjanpito on järjestetty Kitsas-ohjelmistolla. Tilinpäätös, tase-erittelyt, tilikartta, pää- ja päiväkirjat sekä pdf-muodossa olevat tositteet on arkistoitu html-muotoiseksi sähköiseksi arkistoksi, jonka muuttumattomuus on varmistettu sha256-tiivisteellä.
 </p>
 #-sahko
 <h2>Kirjanpitoaineisto</h2>
 <p>Selvitys kirjanpitoaineistosta ja sen säilyttämisestä</p>
-
-<p>Kirjanpidossa on tositteita eri tositelajeissa <br>
-@tositelajit@
-</p>
 #
 <h2>Allekirjoitukset</h2>
 <p> __________________ssa XX.XX.20XX</p>

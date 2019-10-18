@@ -42,9 +42,9 @@ public:
 
     enum Saannosto
     {
-        YRITYS = 1,
-        PIENYRITYS = 2,
-        MIKROYRITYS = 4
+        MIKROYRITYS,
+        PIENYRITYS,
+        YRITYS
     };
 
     Tilikausi();    
@@ -80,19 +80,19 @@ public:
      * @brief Tilikauden yli/alijäämä
      * @return Tulos sentteinä
      */
-    qlonglong tulos() const;
+    qlonglong tulos() const { return qRound64(tulos_ * 100); }
 
     /**
      * @brief Tilikauden liikevaihto (CL-kirjaukset)
      * @return Liikevaihto sentteinä
      */
-    qlonglong liikevaihto() const;
+    qlonglong liikevaihto() const { return qRound64(liikevaihto_ * 100); }
 
     /**
      * @brief Tilikauden päättävä tase
      * @return Tase sentteinä
      */
-    qlonglong tase() const;
+    qlonglong tase() const { return qRound64(tase_ * 100); }
 
     /**
      * @brief Tilikauden keskimääräinen henkilöstö
@@ -139,6 +139,11 @@ public:
 protected:
     QDate alkaa_;
     QDate paattyy_;
+
+    double tase_ = 0;
+    double liikevaihto_ = 0;
+    double tulos_ = 0;
+
 
     QString kausitunnus_;
 };

@@ -127,5 +127,6 @@
       "ERA" : -1
     }
   ],
-  "LaskuTilit" : [1910]
+  "LaskuTilit" : [1910],
+  "tilinpaatosvalinnat" : "toiminnantarkastus"
 }

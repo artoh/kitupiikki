@@ -79,21 +79,6 @@ Tilikausi::TilinpaatosTila Tilikausi::tilinpaatoksenTila()
 }
 
 
-qlonglong Tilikausi::tulos() const
-{
-    return qRound( dbl("tulos") * 100);
-}
-
-qlonglong Tilikausi::liikevaihto() const
-{
-    return qRound( dbl("liikevaihto") * 100);
-}
-
-qlonglong Tilikausi::tase() const
-{
-    return qRound( dbl("tase") * 100 );
-}
-
 int Tilikausi::henkilosto()
 {
     return luku("henkilosto");

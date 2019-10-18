@@ -124,7 +124,7 @@ void TilinPaattaja::lukitse()
             return;
     }
     // Sitten kirjanpidon lukitseminen ja siihen liittyvä varoitus
-    QDialog dlg;
+    QDialog dlg(this);
     Ui::LukitseTilikausi ui;
     ui.setupUi( &dlg );
     if( dlg.exec() != QDialog::Accepted)

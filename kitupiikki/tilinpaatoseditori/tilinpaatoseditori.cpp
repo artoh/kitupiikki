@@ -97,10 +97,9 @@ void TilinpaatosEditori::luoPalkit()
 
 void TilinpaatosEditori::uusiTp()
 {
-    QStringList pohja =  QJsonDocument::fromJson( kp()->asetus("tilinpaatospohja").toUtf8())
-            .toVariant().toMap().value("fi").toStringList() ;
+    QStringList pohja =  kp()->asetukset()->lista("tppohja/" + kp()->asetus("kieli"));
 
-    QStringList valinnat = kp()->asetukset()->lista("TilinpaatosValinnat");
+    QStringList valinnat = kp()->asetukset()->asetus("tilinpaatosvalinnat").split(",");
     QRegularExpression tunnisteRe("#(?<tunniste>-?\\w+)(?<pois>(\\s-\\w+)*).*");
     tunnisteRe.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);
     QRegularExpression raporttiRe("@(?<raportti>.+)[\\*!](?<otsikko>.+)@");
@@ -177,7 +176,7 @@ void TilinpaatosEditori::uusiTp()
 
 void TilinpaatosEditori::lataa()
 {
-    QString data = tilikausi_.str("TilinpaatosTeksti");
+    QString data = tilikausi_.str("tilinpaatosteksti");
     if( data.isEmpty())
     {
         if(!aloitaAlusta())
@@ -196,7 +195,7 @@ void TilinpaatosEditori::lataa()
 void TilinpaatosEditori::closeEvent(QCloseEvent *event)
 {
     QString teksti = raportit_.join(" ") + "\n" + editori_->toHtml();
-    if( teksti != tilikausi_.str("TilinpaatosTeksti"))
+    if( teksti != tilikausi_.str("tilinpaatosteksti"))
     {
         QMessageBox::StandardButton vastaus =
                 QMessageBox::question(this, tr("Tilinpäätöstä muokattu"),
@@ -271,7 +270,8 @@ bool TilinpaatosEditori::aloitaAlusta()
 void TilinpaatosEditori::tallenna()
 {
     QString teksti = raportit_.join(" ") + "\n" + editori_->toHtml();
-    tilikausi_.set("TilinpaatosTeksti", teksti);
+    tilikausi_.set("tilinpaatosteksti", teksti);
+    tilikausi_.tallenna();
 
 //    QByteArray pdfa = pdf();
 

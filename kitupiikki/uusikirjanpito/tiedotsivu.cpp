@@ -76,6 +76,8 @@ bool TiedotSivu::validatePage()
 
     if( !ui->osoiteEdit->toPlainText().isEmpty())
         velho->asetukset_.insert("Osoite", ui->osoiteEdit->toPlainText());
+    if( !ui->kotipaikkaEdit->text().isEmpty())
+        velho->asetukset_.insert("Kotipaikka", ui->kotipaikkaEdit->text());
 
     velho->asetukset_.insert("muoto", ui->muotoList->currentItem()->data(Qt::UserRole).toString());
     velho->asetukset_.insert("laajuus", ui->laajuusList->currentItem()->data(Qt::UserRole).toString());
@@ -114,10 +116,11 @@ void TiedotSivu::yTietoSaapuu()
     if( var.toMap().value("results").toList().isEmpty())
         return;
 
-    QVariantMap tieto = var.toMap().value("results").toList().first().toMap();
+    QVariantMap tieto = var.toMap().value("results").toList().value(0).toMap();
     ui->nimiEdit->setText( tieto.value("name").toString() );
-    QVariantMap osoite = tieto.value("addresses").toList().first().toMap();
+    QVariantMap osoite = tieto.value("addresses").toList().value(0).toMap();
     ui->osoiteEdit->setPlainText( osoite.value("street").toString() + "\n" +
         osoite.value("postCode").toString() + " " +  osoite.value("city").toString() );
+    ui->kotipaikkaEdit->setText( tieto.value("registedOffices").toList().value(0).toMap().value("name").toString() );
 
 }
