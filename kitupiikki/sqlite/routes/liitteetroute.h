@@ -29,6 +29,8 @@ public:
     QVariant byteArray(SQLiteKysely *kysely, const QByteArray &ba, const QMap<QString,QString> &meta) override;
 
     static QByteArray hash(const QByteArray& ba);
+
+    void taydennaTuontia( QVariantMap& map);
 };
 
 #endif // LIITTEETROUTE_H

@@ -40,6 +40,7 @@ public slots:
     void muokkaa(int id);
     void uusi(const QString& nimi = QString());
     void ytunnuksella(const QString& ytunnus);
+    void tuonti(const QVariantMap& map);
 
 signals:
     void tallennettu(int id, const QString& nimi);
@@ -47,6 +48,7 @@ signals:
 protected:
     void lataa(int id);
     void tauluun(QVariantMap map = QVariantMap());
+
 
 private slots:    
     void tarkastaTilit();

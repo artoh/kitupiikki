@@ -121,10 +121,12 @@ bool TositeLiitteet::lisaaHeti(const QByteArray &liite, const QString &tiedoston
     liitteet_.append( TositeLiite(0, tiedostonnimi, liite) );
     endInsertRows();
 
+    emit naytaliite( liite );
+
     KpKysely* liitekysely = kpk("/liitteet", KpKysely::POST);
 
     // Ensimmäisestä liitteestä tuodaan tiedot
-    if( liitteet_.isEmpty())
+    if( liitteet_.count() == 1)
         connect( liitekysely, &KpKysely::vastaus, [this] (QVariant *data)  { emit this->tuonti(data); });
 
     QMap<QString,QString> meta;

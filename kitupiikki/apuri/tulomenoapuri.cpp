@@ -100,11 +100,15 @@ void TuloMenoApuri::otaFokus()
 
 void TuloMenoApuri::tuo(QVariantMap map)
 {
-    ui->maaraEdit->setValue( map.value("summa").toDouble());
-    ui->viiteEdit->setText( map.value("viite").toString() );
-    ui->asiakasToimittaja->set(map.value("kumppaniid").toInt(),
-                               map.value("kumppaninimi").toString());
-    ui->erapaivaEdit->setDate( map.value("erapvm").toDate());
+    if( qAbs(map.value("summa").toDouble()) > 1e-5)
+        ui->maaraEdit->setValue( map.value("summa").toDouble());
+    if( !map.value("viite").toString().isEmpty())
+        ui->viiteEdit->setText( map.value("viite").toString() );
+
+    ui->asiakasToimittaja->tuonti( map );
+
+    if( map.value("erapvm").isValid())
+        ui->erapaivaEdit->setDate( map.value("erapvm").toDate());
 }
 
 void TuloMenoApuri::teeReset()
@@ -253,6 +257,7 @@ bool TuloMenoApuri::teeTositteelle()
                  tosite()->tyyppi() == TositeTyyppi::KULULASKU;
     QDate pvm = tosite()->data(Tosite::PVM).toDate();
     QString otsikko = tosite()->data(Tosite::OTSIKKO).toString();
+        otsikko = ui->asiakasToimittaja->nimi();
 
     QVariantList viennit;
 

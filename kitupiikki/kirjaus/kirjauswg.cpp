@@ -212,6 +212,7 @@ void KirjausWg::tyhjenna()
     ui->tositetyyppiCombo->setFocus();
     ui->sarjaEdit->setVisible( kp()->asetus("sarjaan").toInt() );
     ui->sarjaLabel->setVisible( kp()->asetus("sarjaan").toInt() );
+    paivitaLiiteNapit();
 }
 
 void KirjausWg::tallenna()

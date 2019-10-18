@@ -131,6 +131,17 @@ void AsiakasToimittajaDlg::tauluun(QVariantMap map)
     tarkastaTilit();
 }
 
+void AsiakasToimittajaDlg::tuonti(const QVariantMap &map)
+{
+    QVariantMap uusi;
+    uusi.insert("nimi", map.value("kumppaninimi"));
+    uusi.insert("iban", map.value("iban"));
+    tauluun( uusi );
+    ui->yEdit->setText( map.value("kumppaniytunnus").toString());
+    haeYTunnarilla();
+    exec();
+}
+
 void AsiakasToimittajaDlg::tarkastaTilit()
 {
     bool tyhjat = false;

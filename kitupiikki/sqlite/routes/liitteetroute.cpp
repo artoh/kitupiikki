@@ -22,6 +22,8 @@
 #include <QCryptographicHash>
 #include <QDebug>
 
+#include "tuonti/tuonti.h"
+
 LiitteetRoute::LiitteetRoute(SQLiteModel *model) :
     SQLiteRoute(model, "/liitteet")
 {
@@ -67,6 +69,8 @@ QVariant LiitteetRoute::byteArray(SQLiteKysely *kysely, const QByteArray &ba, co
         } else {
             // Liite odottamaan tositetta
             query.addBindValue( QVariant());
+            palautus = Tuonti::tuo( ba );
+            taydennaTuontia( palautus );
         }
     } else if( kysely->metodi() == KpKysely::PUT)
     {
@@ -98,4 +102,9 @@ QByteArray LiitteetRoute::hash(const QByteArray &ba)
     QCryptographicHash laskin(QCryptographicHash::Sha256);
     laskin.addData(ba);
     return laskin.result().toHex();
+}
+
+void LiitteetRoute::taydennaTuontia(QVariantMap &map)
+{
+    // Tähän tulee jotain...
 }

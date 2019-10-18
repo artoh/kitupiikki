@@ -227,6 +227,9 @@ QVariantMap Tosite::tallennettava() const
     QVariantMap map(data_);
     map.insert("viennit", viennit_->tallennettavat());
 
+    if( map.value("otsikko").toString().isEmpty() && viennit_->rowCount())
+        map.insert("otsikko", viennit_->vienti(0).selite());
+
     return map;
 }
 
