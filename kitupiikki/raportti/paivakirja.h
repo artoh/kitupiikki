@@ -34,7 +34,8 @@ public:
            RyhmitteleLajeittain = 0b00010 ,
            TulostaKohdennukset  = 0b00100 ,
            TulostaSummat        = 0b01000 ,
-           Kohdennuksella       = 0b10000
+           Kohdennuksella       = 0b10000 ,
+           SamaTilikausi       = 0b100000
          };
 
 public slots:
@@ -44,7 +45,6 @@ private slots:
 
 private:
     int optiot_ = 0;
-    Tilikausi oletustilikausi_;
 
 };
 

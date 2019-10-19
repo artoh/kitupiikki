@@ -184,7 +184,7 @@ void Paakirja::aloitaTili(int tilinumero)
 
         RaporttiRivi rivi;
         rivi.lihavoi();
-        rivi.lisaaLinkilla( RaporttiRiviSarake::TILI_NRO, nykytili_.numero(),
+        rivi.lisaaLinkilla( RaporttiRiviSarake::TILI_LINKKI, nykytili_.numero(),
                             nykytili_.nimiNumero(), 5);
 
         saldo_ = qRound( saldot_.value( QString::number(nykytili_.numero()) ).toDouble() *100);
@@ -202,25 +202,29 @@ void Paakirja::kirjoitaVienti(QVariantMap map)
 {
     RaporttiRivi rr;
     rr.lisaa( map.value("pvm").toDate() );
-    rr.lisaa( map.value("tosite").toMap().value("sarja").toString() + map.value("tosite").toMap().value("id").toString());
+
+    QVariantMap tositeMap = map.value("tosite").toMap();
+
+    rr.lisaaTositeTunnus( tositeMap.value("pvm").toDate(), tositeMap.value("sarja").toString(), tositeMap.value("tunniste").toInt(),
+                          optiot_ & SamaTilikausi);
     rr.lisaa( map.value("selite").toString());
 
     if( optiot_ & TulostaKohdennukset)
         rr.lisaa(kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt() ).nimi() );
 
-    rr.lisaa(  map.value("debet").toDouble() * 100 );
-    rr.lisaa(  map.value("kredit").toDouble() * 100 );
+    rr.lisaa(  map.value("debet").toDouble()  );
+    rr.lisaa(  map.value("kredit").toDouble()  );
 
-    debetSumma_ += qRound( map.value("debet").toDouble() * 100 );
-    kreditSumma_ += qRound( map.value("kredit").toDouble() * 100 );
+    debetSumma_ += qRound64( map.value("debet").toDouble() * 100 );
+    kreditSumma_ += qRound64( map.value("kredit").toDouble() * 100 );
 
     if( nykytili_.onko(TiliLaji::VASTAAVAA))
     {
-        saldo_ += qRound( map.value("debet").toDouble() * 100 );
-        saldo_ -= qRound( map.value("kredit").toDouble() * 100 );
+        saldo_ += qRound64( map.value("debet").toDouble() * 100 );
+        saldo_ -= qRound64( map.value("kredit").toDouble() * 100 );
     } else {
-        saldo_ -= qRound( map.value("debet").toDouble() * 100 );
-        saldo_ += qRound( map.value("kredit").toDouble() * 100 );
+        saldo_ -= qRound64( map.value("debet").toDouble() * 100 );
+        saldo_ += qRound64( map.value("kredit").toDouble() * 100 );
     }
 
     rr.lisaa( saldo_);

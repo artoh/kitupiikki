@@ -382,7 +382,7 @@ QString RaportinKirjoittaja::html(bool linkit) const
                 if( rivi.sarake(i).linkkityyppi == RaporttiRiviSarake::TOSITE_ID)
                 {
                     // Linkki tositteeseen
-                    txt.append( QString("<a href=\"%1.html\">").arg( rivi.sarake(i).linkkidata , 8, 10 , QChar('0') ) );
+                    txt.append( QString("<a href=\"tositteet/%1.html\">").arg( rivi.sarake(i).linkkidata));
                 }
                 else if( rivi.sarake(i).linkkityyppi == RaporttiRiviSarake::TILI_NRO)
                 {

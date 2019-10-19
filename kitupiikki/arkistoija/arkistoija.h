@@ -86,6 +86,7 @@ private:
     QList<JonoTosite> tositeJono_;
     QHash<int,QString> liiteNimet_;
     QQueue<int> liiteJono_;
+    QList<QPair<QString,QString>> raporttiNimet_;
 
     int arkistoitavaTosite_ = 0;
     bool logo_ = false;

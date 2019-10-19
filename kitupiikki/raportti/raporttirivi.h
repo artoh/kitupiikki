@@ -44,7 +44,8 @@ struct RaporttiRiviSarake
     int leveysSaraketta = 1;
 
     Linkki linkkityyppi = EI_LINKKIA;
-    int linkkidata = 0;
+
+    QString linkkidata;
 
 };
 
@@ -88,6 +89,8 @@ public:
      */
     void lisaaLinkilla(RaporttiRiviSarake::Linkki linkkityyppi, int linkkitieto,
                        const QString& teksti, int sarakkeet = 1);
+
+    void lisaaTositeTunnus(const QDate& pvm, const QString& sarja, int tunniste, bool samakausi = false);
     /**
      * @brief Lisää rahamäärän
      * @param sentit Rahamäärä sentteinä

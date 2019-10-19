@@ -363,7 +363,13 @@ void Raportoija::kirjoitaDatasta()
                 }
 
                 RaporttiRivi er;
-                er.lisaa( eriSisennysStr + kp()->tilit()->tiliNumerolla(tiliNumero).nimiNumero( kieli_ ) );
+                Tili* tili = kp()->tilit()->tili(tiliNumero);
+                if( !tili )
+                    continue;
+
+                er.lisaaLinkilla( RaporttiRiviSarake::TILI_NRO, tili->numero(),
+                                  eriSisennysStr + tili->nimiNumero( kieli_ ));
+
 
                 int taulukkoindeksi = 0;
                 // Sitten kirjoitetaan summat riville
@@ -472,4 +478,9 @@ void Raportoija::kirjoita(bool tulostaErittelyt, int kohdennuksella)
         kysely->kysy();
 
     qDebug() << "Lähetetty " << kyselyt.count() << "kyselyä ";
+}
+
+QString Raportoija::nimi() const
+{
+    return kmap_.value("nimi").toMap().value(kieli_).toString();
 }

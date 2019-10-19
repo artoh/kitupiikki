@@ -26,10 +26,12 @@ Paivakirja::Paivakirja(QObject *parent) : Raportteri(parent)
 
 void Paivakirja::kirjoita(const QDate &mista, const QDate &mihin, int optiot, int kohdennuksella)
 {
-    if( kp()->tilikausiPaivalle(mista).alkaa() == kp()->tilikausiPaivalle(mihin).alkaa())
-        oletustilikausi_ = kp()->tilikausiPaivalle(mista);
-
     optiot_ = optiot;
+
+    if( kp()->tilikausiPaivalle(mista).alkaa() == kp()->tilikausiPaivalle(mihin).alkaa())
+        optiot_ |= SamaTilikausi;
+
+
 
     if( kohdennuksella > -1 ) {
         // Tulostetaan vain yhdestä kohdennuksesta
@@ -131,14 +133,11 @@ void Paivakirja::dataSaapuu(QVariant *data)
         rivi.lisaa( pvm );
 
         // Ei toisteta turhaan tilikauden tunnusta
-        if( kp()->tilikausiPaivalle(pvm).alkaa() == oletustilikausi_.alkaa())
-            rivi.lisaa(map.value("tosite").toMap().value("tunniste").toString() );
-        else
-            rivi.lisaa( kp()->tositeTunnus(  map.value("tosite").toMap().value("tunniste").toInt(), pvm ) );
+        rivi.lisaaTositeTunnus( map.value("pvm").toDate(), map.value("sarja").toString(), map.value("tunniste").toInt(), optiot_ & SamaTilikausi );
 
         Tili* tili = kp()->tilit()->tili( map.value("tili").toInt() );
         if( tili )
-            rivi.lisaa( QString("%1 %2").arg( tili->numero()).arg(tili->nimi()) );
+            rivi.lisaaLinkilla(RaporttiRiviSarake::TILI_NRO, tili->numero(), tili->nimiNumero());
         else
             continue;   // ei kelvollista tiliä!
 

@@ -29,6 +29,7 @@
 
 #include <QDebug>
 #include <QApplication>
+#include <QRegularExpression>
 
 Arkistoija::Arkistoija(const Tilikausi &tilikausi, QObject *parent)
     : QObject(parent), tilikausi_(tilikausi)
@@ -66,6 +67,7 @@ void Arkistoija::luoHakemistot()
 
     hakemisto_.mkdir("tositteet");
     hakemisto_.mkdir("liitteet");
+    hakemisto_.mkdir("static");
 
     if( !kp()->logo().isNull() )
     {
@@ -75,10 +77,10 @@ void Arkistoija::luoHakemistot()
 
 
     // Kopioidaan vakitiedostot
-    QFile::copy( ":/arkisto/arkisto.css", hakemisto_.absoluteFilePath("arkisto.css"));
-    QFile::copy( ":/arkisto/jquery.js", hakemisto_.absoluteFilePath("jquery.js"));
-    QFile::copy( ":/arkisto/ohje.html", hakemisto_.absoluteFilePath("ohje.html"));
-    QFile::copy( ":/pic/aboutpossu.png", hakemisto_.absoluteFilePath("kitupiikki.png"));
+    QFile::copy( ":/arkisto/arkisto.css", hakemisto_.absoluteFilePath("static/arkisto.css"));
+    QFile::copy( ":/arkisto/jquery.js", hakemisto_.absoluteFilePath("static/jquery.js"));
+//    QFile::copy( ":/arkisto/ohje.html", hakemisto_.absoluteFilePath("ohje.html"));
+//    QFile::copy( ":/pic/aboutpossu.png", hakemisto_.absoluteFilePath("statickitupiikki.png"));
 
 }
 
@@ -95,7 +97,7 @@ void Arkistoija::arkistoiTositteet()
 
 void Arkistoija::arkistoiRaportit()
 {
-    raporttilaskuri_ = 5;
+    raporttilaskuri_ = 3;
     Paivakirja* paivakirja = new Paivakirja(this);
     connect( paivakirja, &Paivakirja::valmis,
              [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"paivakirja.html"); } );
@@ -111,17 +113,28 @@ void Arkistoija::arkistoiRaportit()
              [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"taseerittely.html"); } );
     erittelija->kirjoita(tilikausi_.alkaa(), tilikausi_.paattyy());
 
-    Raportoija* tase = new Raportoija("tase/PMA","fi",this);
-    connect( tase, &Raportoija::valmis,
-             [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"tase.html"); } );
-    tase->lisaaTasepaiva(tilikausi_.paattyy());
-    tase->kirjoita(true, -1);
+    Tilikausi edellinen = kp()->tilikaudet()->tilikausiPaivalle( tilikausi_.alkaa().addDays(-1) );
 
-    Raportoija* tulos = new Raportoija("tulos/yhdistys","fi",this);
-    connect( tulos, &Raportoija::valmis,
-             [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"tuloslaskelma.html"); } );
-    tulos->lisaaKausi(tilikausi_.alkaa(), tilikausi_.paattyy());
-    tulos->kirjoita(true, -1);
+    QStringList raportit = kp()->asetukset()->asetus("arkistoraportit").split(",");
+    for( auto raportti : raportit) {
+        raporttilaskuri_++;
+        QString raporttinimi(raportti);
+        raporttinimi = raporttinimi.replace(QRegularExpression("\\W"),"").toLower().append(".html");
+        Raportoija *raportoija = new Raportoija( raportti, kp()->asetus("kieli"), this);
+        connect( raportoija, &Raportoija::valmis,
+                 [this, raporttinimi] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk, raporttinimi); } );
+        if( raportoija->onkoTaseraportti()) {
+            raportoija->lisaaTasepaiva( tilikausi_.paattyy() );
+            if( !edellinen.kausitunnus().isEmpty())
+                raportoija->lisaaTasepaiva( edellinen.paattyy());
+        } else {
+            raportoija->lisaaKausi( tilikausi_.alkaa(), tilikausi_.paattyy());
+            if( !edellinen.kausitunnus().isEmpty())
+                raportoija->lisaaKausi( edellinen.alkaa(), edellinen.paattyy());
+        }
+        raporttiNimet_.append( qMakePair(raporttinimi, raportoija->nimi()) );
+        raportoija->kirjoita(true, -1);
+    }
 
 }
 
@@ -211,8 +224,8 @@ void Arkistoija::arkistoiLiite(QVariant *data, const QString tiedosto)
 
 void Arkistoija::arkistoiRaportti(RaportinKirjoittaja rk, const QString &tiedosto)
 {
-    QString txt = rk.html();
-    txt.insert( txt.indexOf("</head>"), "<link rel='stylesheet' type='text/css' href='arkisto.css'>");
+    QString txt = rk.html(true);
+    txt.insert( txt.indexOf("</head>"), "<link rel='stylesheet' type='text/css' href='static/arkisto.css'>");
     txt.insert( txt.indexOf("<body>") + 6, navipalkki( ));
 
     arkistoiByteArray( tiedosto, txt.toUtf8() );
@@ -230,7 +243,7 @@ void Arkistoija::viimeistele()
 
     out << "<html><meta charset=\"UTF-8\"><head><title>";
     out << kp()->asetus("Nimi") + " arkisto";
-    out << "</title><link rel='stylesheet' type='text/css' href='arkisto.css'></head><body>";
+    out << "</title><link rel='stylesheet' type='text/css' href='static/arkisto.css'></head><body>";
 
     out << navipalkki();
 
@@ -243,10 +256,9 @@ void Arkistoija::viimeistele()
     out << "</h2>";
 
     // Jos tilit on päätetty (tilikausi lukittu), tulee linkki myös tilinpäätökseen (pdf)
-    if( tilikausi_.paattyy() <= kp()->tilitpaatetty() )
-        out << "<h3>" << tr("Tilinpäätös") << "</h3>"
-            << "<ul><li><a href=tilinpaatos.pdf>" << tr("Tilinpäätös") << "</a></li>"
-            << "<li><a href=taseerittely.html>" << tr("Tase-erittely") << "</a></li></ul>";
+    out << "<h3>" << tr("Tilinpäätös") << "</h3>"
+        << "<ul><li><a href=tilinpaatos.pdf>" << tr("Tilinpäätös") << "</a></li>"
+        << "<li><a href=taseerittely.html>" << tr("Tase-erittely") << "</a></li></ul>";
 
 
     out << "<h3>Kirjanpito</h3>";
@@ -258,6 +270,10 @@ void Arkistoija::viimeistele()
     out << "</ul><h3>Raportit</h3><ul>";
 
 
+    for( auto rnimi : raporttiNimet_)
+        out << "<li><a href='" << rnimi.first << "'>" << rnimi.second << "</a></li>";
+
+    out << "</ul>";
 
     out << tr("<p class=info>Tämä kirjanpidon sähköinen arkisto on luotu %1 <a href=https://kitupiikki.info>Kitupiikki-ohjelman</a> versiolla %2 <br>")
            .arg(QDate::currentDate().toString(Qt::SystemLocaleDate))
@@ -277,7 +293,7 @@ QByteArray Arkistoija::tosite(const QVariantMap& tosite, int indeksi)
     out.setCodec("utf-8");
 
     out << "<html><meta charset=\"UTF-8\"><head><title>" << tosite.value("otsikko").toString() << "</title>";
-    out << "<link rel='stylesheet' type='text/css' href='../arkisto.css'></head><body>";
+    out << "<link rel='stylesheet' type='text/css' href='../static/arkisto.css'></head><body>";
 
     out << navipalkki(indeksi);
 

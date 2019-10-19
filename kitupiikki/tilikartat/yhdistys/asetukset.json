@@ -128,5 +128,6 @@
     }
   ],
   "LaskuTilit" : [1910],
-  "tilinpaatosvalinnat" : "toiminnantarkastus"
+  "tilinpaatosvalinnat" : "toiminnantarkastus",
+  "arkistoraportit" : "tase/PMA,tulos/yhdistys"
 }
