@@ -23,8 +23,6 @@
 
 #include "kantavariantti.h"
 
-#include "jsonkentta.h"
-
 /**
  * @brief Yhden tilikauden tiedot
  */
@@ -49,7 +47,7 @@ public:
 
     Tilikausi();    
 
-    Tilikausi(const QVariantMap& data);
+    Tilikausi(QVariantMap data);
     Tilikausi(const QDate& alkaa, const QDate& paattyy);
 
     QDate alkaa() const { return pvm("alkaa"); }

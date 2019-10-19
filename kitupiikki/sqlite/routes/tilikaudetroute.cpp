@@ -44,7 +44,7 @@ QVariant TilikaudetRoute::get(const QString &polku, const QUrlQuery &/*urlquery*
         kysely.exec( QString("SELECT sum(debet), sum(kredit) FROM vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE vienti.pvm < '%1' AND CAST(tili as text) < '3' AND Tosite.tila >= 100 ")
                      .arg(map.value("loppuu").toString()) );
         if( kysely.next())
-            map.insert("tase", qMax( kysely.value(0).toDouble(), kysely.value(1).toDouble()));
+            map.insert("tase", QString::number(qMax( kysely.value(0).toDouble(), kysely.value(1).toDouble()),'f',2));
         // Tulos
         kysely.exec( QString("SELECT sum(kredit), sum(debet) FROM vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE vienti.pvm BETWEEN '%1' AND '%2' AND Tosite.tila >= 100 AND CAST(tili as text) >= '3' ")
                      .arg(map.value("alkaa").toString())

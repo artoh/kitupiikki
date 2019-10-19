@@ -9,6 +9,8 @@ SOURCES += \
     $$PWD/apuri/tulomenoapuri.cpp \
     $$PWD/apuri/siirtoapuri.cpp \
     $$PWD/arkisto/jaksottaja.cpp \
+    $$PWD/arkistoija/arkistoija.cpp \
+    $$PWD/arkistoija/vanhaarkistoija.cpp \
     $$PWD/db/kielikentta.cpp \
     $$PWD/db/tositetyyppimodel.cpp \
     $$PWD/db/yhteysmodel.cpp \
@@ -119,7 +121,6 @@ SOURCES += \
     raportti/paakirjaraportti.cpp \
     raportti/tilikarttaraportti.cpp \
     selaus/tositeselausmodel.cpp \
-    arkistoija/arkistoija.cpp \
     raportti/tositeluetteloraportti.cpp \
     tilinpaatoseditori/tilinpaatoseditori.cpp \
     tilinpaatoseditori/tilinpaatostulostaja.cpp \
@@ -218,6 +219,8 @@ HEADERS += \
     $$PWD/apuri/tulomenoapuri.h \
     $$PWD/apuri/siirtoapuri.h \
     $$PWD/arkisto/jaksottaja.h \
+    $$PWD/arkistoija/arkistoija.h \
+    $$PWD/arkistoija/vanhaarkistoija.h \
     $$PWD/db/kielikentta.h \
     $$PWD/db/tositetyyppimodel.h \
     $$PWD/db/yhteysmodel.h \
@@ -329,7 +332,6 @@ HEADERS += \
     raportti/paakirjaraportti.h \
     raportti/tilikarttaraportti.h \
     selaus/tositeselausmodel.h \
-    arkistoija/arkistoija.h \
     raportti/tositeluetteloraportti.h \
     tilinpaatoseditori/tilinpaatoseditori.h \
     tilinpaatoseditori/tilinpaatostulostaja.h \

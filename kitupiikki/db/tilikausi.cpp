@@ -28,10 +28,12 @@ Tilikausi::Tilikausi()
 
 }
 
-Tilikausi::Tilikausi(const QVariantMap &data) :
+Tilikausi::Tilikausi(QVariantMap data) :
     KantaVariantti (data)
 {
-
+    tulos_ = data.take("tulos").toDouble();
+    liikevaihto_ = data.take("liikevaihto").toDouble();
+    tase_ = data.take("tase").toDouble();
 }
 
 Tilikausi::Tilikausi(const QDate &alkaa, const QDate &paattyy)

@@ -52,7 +52,7 @@ QVariant TositeRoute::get(const QString &polku, const QUrlQuery &urlquery)
 
     QString jarjestys = "pvm";
     if( urlquery.queryItemValue("jarjestys") == "tyyppi,tosite")
-        jarjestys = "tyyppi,sarja,tosite";
+        jarjestys = "tyyppi,sarja,tunniste";
     else if( urlquery.queryItemValue("jarjestys") == "tosite")
         jarjestys = "sarja,tunniste";
     else if( urlquery.queryItemValue("jarjestys") == "tyyppi,pvm")

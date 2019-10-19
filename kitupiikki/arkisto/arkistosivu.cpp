@@ -36,6 +36,7 @@
 #include "ui_arkistonvienti.h"
 
 #include "arkistoija/arkistoija.h"
+#include "arkistoija/vanhaarkistoija.h"
 #include "tilinpaatoseditori/tilinpaatoseditori.h"
 #include "tilinpaatoseditori/tpaloitus.h"
 
@@ -45,6 +46,7 @@
 #include "naytin/naytinikkuna.h"
 
 #include "budjettidlg.h"
+
 
 #include <zip.h>
 
@@ -299,10 +301,13 @@ void ArkistoSivu::nykyinenVaihtuuPaivitaNapit()
 void ArkistoSivu::teeArkisto(Tilikausi kausi)
 {
 
-    QProgressDialog odota(tr("Muodostetaan arkistoa"), QString(), 0, 100, this);
-    odota.setMinimumDuration(250);
+//    QProgressDialog odota(tr("Muodostetaan arkistoa"), QString(), 0, 100, this);
+//    odota.setMinimumDuration(250);
 
-    QString sha = Arkistoija::arkistoi(kausi);
+    Arkistoija* arkistoija = new Arkistoija(kausi, this);
+    arkistoija->arkistoi();
+
+    // QString sha = VanhaArkistoija::arkistoi(kausi);
 
     // Merkitsee arkistoiduksi
 
@@ -313,7 +318,7 @@ void ArkistoSivu::teeArkisto(Tilikausi kausi)
     QModelIndex indeksi = kp()->tilikaudet()->index( kp()->tilikaudet()->indeksiPaivalle(kausi.paattyy()) , TilikausiModel::ARKISTOITU );
     emit kp()->tilikaudet()->dataChanged( indeksi, indeksi );
 
-    odota.setValue(100);
+ //   odota.setValue(100);
 
 }
 
