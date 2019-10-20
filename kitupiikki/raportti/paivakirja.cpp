@@ -133,7 +133,8 @@ void Paivakirja::dataSaapuu(QVariant *data)
         rivi.lisaa( pvm );
 
         // Ei toisteta turhaan tilikauden tunnusta
-        rivi.lisaaTositeTunnus( map.value("pvm").toDate(), map.value("sarja").toString(), map.value("tunniste").toInt(), optiot_ & SamaTilikausi );
+        QVariantMap tositemap = map.value("tosite").toMap();
+        rivi.lisaaTositeTunnus( tositemap.value("pvm").toDate(), tositemap.value("sarja").toString(), tositemap.value("tunniste").toInt(), optiot_ & SamaTilikausi );
 
         Tili* tili = kp()->tilit()->tili( map.value("tili").toInt() );
         if( tili )

@@ -22,6 +22,7 @@
 #include "raportti/paakirja.h"
 #include "raportti/paivakirja.h"
 #include "raportti/taseerittelija.h"
+#include "raportti/tilikarttalistaaja.h"
 
 #include <QFile>
 #include <QTextStream>
@@ -97,7 +98,7 @@ void Arkistoija::arkistoiTositteet()
 
 void Arkistoija::arkistoiRaportit()
 {
-    raporttilaskuri_ = 3;
+    raporttilaskuri_ = 4;
     Paivakirja* paivakirja = new Paivakirja(this);
     connect( paivakirja, &Paivakirja::valmis,
              [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"paivakirja.html"); } );
@@ -112,6 +113,12 @@ void Arkistoija::arkistoiRaportit()
     connect( erittelija, &TaseErittelija::valmis,
              [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"taseerittely.html"); } );
     erittelija->kirjoita(tilikausi_.alkaa(), tilikausi_.paattyy());
+
+    TiliKarttaListaaja* tililuettelo = new TiliKarttaListaaja(this);
+    connect( tililuettelo, &TiliKarttaListaaja::valmis,
+             [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"tililuettelo.html"); } );
+    tililuettelo->kirjoita(TiliKarttaListaaja::KAYTOSSA_TILIT, tilikausi_,
+                           true, true, tilikausi_.paattyy(), false);
 
     Tilikausi edellinen = kp()->tilikaudet()->tilikausiPaivalle( tilikausi_.alkaa().addDays(-1) );
 
@@ -266,7 +273,7 @@ void Arkistoija::viimeistele()
     out << "<li><a href=paivakirja.html>" << tr("Päiväkirja") << "</a></li>";
 //    out << "<li><a href=tositeluettelo.html>Tositeluettelo</a></li>";
 //    out << "<li><a href=tositepaivakirja.html>" << tr("Tositepäiväkirja") << "</a></li>";
-//    out << "<li><a href=tililuettelo.html>Tililuettelo</a></li>";
+    out << "<li><a href=tililuettelo.html>Tililuettelo</a></li>";
     out << "</ul><h3>Raportit</h3><ul>";
 
 

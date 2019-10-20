@@ -36,6 +36,7 @@ SOURCES += \
     $$PWD/raportti/raportteri.cpp \
     $$PWD/raportti/taseerittelija.cpp \
     $$PWD/raportti/tasetulosraportti.cpp \
+    $$PWD/raportti/tilikarttalistaaja.cpp \
     $$PWD/raportti/tositeluettelo.cpp \
     $$PWD/rekisteri/asiakastoimittajadlg.cpp \
     $$PWD/rekisteri/asiakastoimittajalistamodel.cpp \
@@ -246,6 +247,7 @@ HEADERS += \
     $$PWD/raportti/raportteri.h \
     $$PWD/raportti/taseerittelija.h \
     $$PWD/raportti/tasetulosraportti.h \
+    $$PWD/raportti/tilikarttalistaaja.h \
     $$PWD/raportti/tositeluettelo.h \
     $$PWD/rekisteri/asiakastoimittajadlg.h \
     $$PWD/rekisteri/asiakastoimittajalistamodel.h \

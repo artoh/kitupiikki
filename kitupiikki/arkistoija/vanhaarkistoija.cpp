@@ -659,13 +659,13 @@ QString VanhaArkistoija::arkistoi(Tilikausi &tilikausi)
                                 PaivakirjaRaportti::kirjoitaRaportti( tilikausi.alkaa(), tilikausi.paattyy(), -1, false, false, true, true).html(true) );
     arkistoija.arkistoiTiedosto("paakirja.html",
                                 PaakirjaRaportti::kirjoitaRaportti( tilikausi.alkaa(), tilikausi.paattyy(), -1, true, true).html(true));
-*/    arkistoija.arkistoiTiedosto("tililuettelo.html",
+    arkistoija.arkistoiTiedosto("tililuettelo.html",
                                 TilikarttaRaportti::kirjoitaRaportti(TilikarttaRaportti::KAYTOSSA_TILIT, tilikausi, true, false, tilikausi.paattyy(),true).html(true));
     arkistoija.arkistoiTiedosto("tositeluettelo.html",
                                 TositeluetteloRaportti::kirjoitaRaportti( tilikausi.alkaa(), tilikausi.paattyy(), true, true, false, false, true).html(true) );
     arkistoija.arkistoiTiedosto("tositepaivakirja.html",
                                 TositeluetteloRaportti::kirjoitaRaportti( tilikausi.alkaa(), tilikausi.paattyy(), true, true, true, true, true).html(true));
-
+*/
     // Tämän pitää tulla lopuksi jotta hash toimii !!!
     arkistoija.kirjoitaIndeksiJaArkistoiRaportit();
 
