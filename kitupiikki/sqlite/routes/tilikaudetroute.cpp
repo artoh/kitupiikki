@@ -62,11 +62,17 @@ QVariant TilikaudetRoute::get(const QString &polku, const QUrlQuery &/*urlquery*
         if( kysely.next())
             map.insert("liikevaihto", QString::number(kysely.value(0).toDouble() - kysely.value(1).toDouble(), 'f', 2));
 
-        // Viimeiselle kaudelle viimeinen tosite
+        // Kauden viimeinen tosite
         kysely.exec(QString("SELECT MAX(pvm) FROM Tosite WHERE pvm BETWEEN '%1' AND '%2'")
                     .arg(map.value("alkaa").toString()).arg(map.value("paattyy").toString()) );
         if( kysely.next())
             map.insert("viimeinen", kysely.value(0));
+
+        // Tilikauden päivitys
+        kysely.exec(QString("SELECT MAX(aika) FROM Tositeloki JOIN Tosite ON Tositeloki.tosite=Tosite.id "
+                            "WHERE Tosite.pvm BETWEEN '%1' AND '%2'").arg(map.value("alkaa").toString()).arg(map.value("paattyy").toString()) );
+        if( kysely.next())
+            map.insert("paivitetty", kysely.value(0));
 
         list[i] = map;
     }

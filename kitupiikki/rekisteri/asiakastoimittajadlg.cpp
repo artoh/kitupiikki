@@ -139,7 +139,11 @@ void AsiakasToimittajaDlg::tuonti(const QVariantMap &map)
     tauluun( uusi );
     ui->yEdit->setText( map.value("kumppaniytunnus").toString());
     haeYTunnarilla();
-    exec();
+
+    if( ui->nimiEdit->text().isEmpty() || ui->yEdit->text().isEmpty())
+        exec();
+    else
+        accept();
 }
 
 void AsiakasToimittajaDlg::tarkastaTilit()

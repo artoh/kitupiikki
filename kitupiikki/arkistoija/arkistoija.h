@@ -45,6 +45,7 @@ protected:
     void arkistoiRaportit();
     void arkistoiTilinpaatos();
     void arkistoiByteArray(const QString& tiedostonnimi, const QByteArray& array);
+    void kirjoitaHash() const;
 
 protected slots:
     void tositeLuetteloSaapuu(QVariant* data);
@@ -89,6 +90,8 @@ private:
     QHash<int,QString> liiteNimet_;
     QQueue<int> liiteJono_;
     QList<QPair<QString,QString>> raporttiNimet_;
+
+    QByteArray shaBytes;
 
     int arkistoitavaTosite_ = 0;
     bool logo_ = false;

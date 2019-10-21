@@ -229,7 +229,7 @@ void SelausWg::selaa(int tilinumero, const Tilikausi& tilikausi)
     ui->alkuEdit->setDate( tilikausi.alkaa());
     ui->loppuEdit->setDate( tilikausi.paattyy());
 
-    ui->valintaTab->setCurrentIndex(1);
+    ui->valintaTab->setCurrentIndex(2);
 
 
     paivita();

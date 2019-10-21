@@ -72,6 +72,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="kopioiNappi">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Kopioi</string>
        </property>
@@ -107,6 +110,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="hyvitysNappi">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Hyvityslasku</string>
        </property>
@@ -118,6 +124,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="muistutusNappi">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Maksumuistutus</string>
        </property>

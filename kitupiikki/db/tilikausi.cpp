@@ -51,10 +51,12 @@ QDateTime Tilikausi::arkistoitu()
 
 QDateTime Tilikausi::viimeinenPaivitys() const
 {
-    QSqlQuery kysely( QString(R"(SELECT max(muokattu) FROM vienti WHERE pvm BETWEEN "%1" AND "%2" )").arg(alkaa().toString(Qt::ISODate)).arg(paattyy().toString(Qt::ISODate)));
-    if( kysely.next() )
-        return kysely.value(0).toDateTime();
-    return QDateTime();
+    QDateTime tositteet = arvo("paivitetty").toDateTime();
+    QDateTime tpaatos = arvo("tilinpaatos").toDateTime();
+
+    if( tpaatos > tositteet)
+        return tpaatos;
+    return tositteet;
 }
 
 QString Tilikausi::kausivaliTekstina() const

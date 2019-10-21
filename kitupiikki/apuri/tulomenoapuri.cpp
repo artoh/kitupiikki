@@ -105,7 +105,8 @@ void TuloMenoApuri::tuo(QVariantMap map)
     if( !map.value("viite").toString().isEmpty())
         ui->viiteEdit->setText( map.value("viite").toString() );
 
-    ui->asiakasToimittaja->tuonti( map );
+    if( !map.value("kumppaninimi").toString().isEmpty() || !map.value("kumppaniytunnus").toString().isEmpty())
+        ui->asiakasToimittaja->tuonti( map );
 
     if( map.value("erapvm").isValid())
         ui->erapaivaEdit->setDate( map.value("erapvm").toDate());

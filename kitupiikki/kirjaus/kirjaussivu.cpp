@@ -75,7 +75,7 @@ void KirjausSivu::siirrySivulle()
 
 bool KirjausSivu::poistuSivulta(int minne)
 {
-/*    if( model->muokattu() && model->vientiModel()->debetSumma() && model->muokkausSallittu())
+    if( kirjausWg()->gui()->tallennaButton->isEnabled()  )
     {
         if( minne == KitupiikkiIkkuna::SELAUSSIVU && ikkuna_ )
         {
@@ -84,11 +84,11 @@ bool KirjausSivu::poistuSivulta(int minne)
             return false;
         }
 
-        if( QMessageBox::question(this, tr("Kitupiikki"), tr("Nykyistä kirjausta on muokattu. Poistutko sivulta tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
+        if( QMessageBox::question(this, tr("Kitsas"), tr("Nykyistä kirjausta on muokattu. Poistutko sivulta tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
         {
             return false;
         }
-    } */
+    }
     return true;
 }
 

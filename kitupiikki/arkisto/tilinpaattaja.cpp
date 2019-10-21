@@ -133,7 +133,7 @@ void TilinPaattaja::lukitse()
     // Lukitaan tilikausi!
     kp()->asetukset()->aseta("TilitPaatetty", tilikausi.paattyy());
     // Laaditaan arkisto
-    // arkistosivu->teeArkisto(tilikausi);
+    arkistosivu->teeArkisto(tilikausi);
 
     paivitaDialogi();
 }
@@ -176,7 +176,7 @@ void TilinPaattaja::vahvista()
                                  "Vahvistettua tilinpäätöstä ei voi enää muokata.")) != QMessageBox::Yes)
         return;
 
-    tilikausi.set("Vahvistettu", kp()->paivamaara());
+    tilikausi.set("vahvistettu", kp()->paivamaara());
     tilikausi.tallenna();
     emit kp()->onni("Tilinpäätös merkitty valmiiksi");
     emit vahvistettu();

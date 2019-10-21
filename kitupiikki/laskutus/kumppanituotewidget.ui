@@ -34,6 +34,9 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QPushButton" name="tuoNappi">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Tuo</string>
        </property>
@@ -45,6 +48,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="VieNappi">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Vie</string>
        </property>

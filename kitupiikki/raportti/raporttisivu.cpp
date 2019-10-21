@@ -64,7 +64,7 @@ void RaporttiSivu::siirrySivulle()
 
     lisaaRaportti("Päiväkirja","Päiväkirja",":/pic/Paivakirja64.png");
     lisaaRaportti("Pääkirja","Pääkirja",":/pic/Diary64.png");
-    lisaaRaportti("Tositeluettelo","Tositeluettelo",":/pic/dokumentti.png");
+//    lisaaRaportti("Tositeluettelo","Tositeluettelo",":/pic/dokumentti.png");
     lisaaRaportti(tr("Tase"), "Tase", ":/pic/tekstisivu.png");
     lisaaRaportti(tr("Tuloslaskelma"), "Tuloslaskelma", ":/pic/tekstisivu.png");
 
@@ -95,8 +95,8 @@ void RaporttiSivu::siirrySivulle()
 
     lisaaRaportti("Tase-erittely","TaseErittely",":/pic/valilehdet.png");
     lisaaRaportti("Tililuettelo","Tilikartta",":/pic/valilehdet.png");
-    lisaaRaportti("Laskut", "Laskut", ":/pic/lasku.png");
-    lisaaRaportti("Myynti","Myynti",":/pic/suorite.png");
+//    lisaaRaportti("Laskut", "Laskut", ":/pic/lasku.png");
+//    lisaaRaportti("Myynti","Myynti",":/pic/suorite.png");
 
     if( kp()->asetukset()->onko("AlvVelvollinen") )
         lisaaRaportti("Arvonlisäveron erittely", "AlvErittely", ":/pic/vero.png");

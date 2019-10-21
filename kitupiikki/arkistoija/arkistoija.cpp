@@ -31,6 +31,8 @@
 #include <QDebug>
 #include <QApplication>
 #include <QRegularExpression>
+#include <QCryptographicHash>
+#include <QJsonDocument>
 
 Arkistoija::Arkistoija(const Tilikausi &tilikausi, QObject *parent)
     : QObject(parent), tilikausi_(tilikausi)
@@ -163,6 +165,19 @@ void Arkistoija::arkistoiByteArray(const QString &tiedostonnimi, const QByteArra
     tiedosto.open( QIODevice::WriteOnly);
     tiedosto.write( array );
     tiedosto.close();
+
+    shaBytes.append(QCryptographicHash::hash( array, QCryptographicHash::Sha256).toHex());
+    shaBytes.append(" ");
+    shaBytes.append(tiedostonnimi.toLatin1());
+    shaBytes.append("\n");
+}
+
+void Arkistoija::kirjoitaHash() const
+{
+    QFile tiedosto( hakemisto_.absoluteFilePath( "arkisto.sha256" ));
+    tiedosto.open( QIODevice::WriteOnly );
+    tiedosto.write( shaBytes );
+    tiedosto.close();
 }
 
 void Arkistoija::tositeLuetteloSaapuu(QVariant *data)
@@ -212,7 +227,9 @@ void Arkistoija::arkistoiTosite(QVariant *data, int indeksi)
 
     QString nimi = "tositteet/" + tositeJono_.value(indeksi).tiedostonnimi();
 
-    arkistoiByteArray( nimi, tosite(map, indeksi) );
+    arkistoiByteArray( nimi + ".html", tosite(map, indeksi) );
+    arkistoiByteArray(nimi + ".json", QJsonDocument::fromVariant(map).toJson(QJsonDocument::Indented));
+
 
     if( arkistoitavaTosite_ < tositeJono_.count())
         arkistoiSeuraavaTosite();
@@ -255,6 +272,8 @@ void Arkistoija::arkistoiRaportti(RaportinKirjoittaja rk, const QString &tiedost
 
 void Arkistoija::viimeistele()
 {
+    kirjoitaHash();
+
     QFile tiedosto( hakemisto_.absoluteFilePath("index.html"));
     tiedosto.open( QIODevice::WriteOnly);
     QTextStream out( &tiedosto );
@@ -274,7 +293,7 @@ void Arkistoija::viimeistele()
     out << tilikausi_.kausivaliTekstina();
     out << "</h2>";
 
-    // Jos tilit on päätetty (tilikausi lukittu), tulee linkki myös tilinpäätökseen (pdf)
+    // Jos tilit on päätetty, tulee linkki myös tilinpäätökseen (pdf)
     out << "<h3>" << tr("Tilinpäätös") << "</h3>";
 
     if( QFile::exists( hakemisto_.absoluteFilePath("tilinpaatos.pdf")  ))
@@ -297,12 +316,14 @@ void Arkistoija::viimeistele()
 
     out << "</ul>";
 
-    out << tr("<p class=info>Tämä kirjanpidon sähköinen arkisto on luotu %1 <a href=https://kitupiikki.info>Kitupiikki-ohjelman</a> versiolla %2 <br>")
+
+    out << tr("<p class=info>Tämä kirjanpidon sähköinen arkisto on luotu %1 <a href=https://kitsas.fi>Kitsas-ohjelman</a> versiolla %2 <br>")
            .arg(QDate::currentDate().toString(Qt::SystemLocaleDate))
            .arg(qApp->applicationVersion());
-
+    out << tr("Arkiston muuttumattomuus voidaan valvoa sha256-tiivisteellä <code>%1</code> </p>").arg( QString(QCryptographicHash::hash( shaBytes, QCryptographicHash::Sha256).toHex()) );
     if( tilikausi_.paattyy() > kp()->tilitpaatetty() )
         out << "Kirjanpito on viel&auml; keskener&auml;inen.";
+
 
     out << "</body></html>";
     emit arkistoValmis( hakemisto_.absolutePath() );
@@ -393,6 +414,7 @@ QByteArray Arkistoija::tosite(const QVariantMap& tosite, int indeksi)
     }
 
     out << "<p class=info>Kirjanpito arkistoitu " << QDate::currentDate().toString(Qt::SystemLocaleDate);
+    out << "<br><a href=" << tositeJono_.value(indeksi).tiedostonnimi() << ".json>Tositteen t&auml;ydet tiedot</a>";
     out << "<script src='../jquery.js'></script>";
     out << "</body></html>";
 
@@ -403,7 +425,7 @@ QByteArray Arkistoija::tosite(const QVariantMap& tosite, int indeksi)
 
 QString Arkistoija::tiedostonnimi(const QDate &pvm, const QString &sarja, int tunniste)
 {
-    return QString("%1-%2-%3.html")
+    return QString("%1-%2-%3")
             .arg( kp()->tilikaudet()->tilikausiPaivalle(pvm).pitkakausitunnus() )
             .arg( sarja )
             .arg( tunniste, 8, 10, QChar('0'));

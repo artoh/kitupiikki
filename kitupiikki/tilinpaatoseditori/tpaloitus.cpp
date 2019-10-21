@@ -106,11 +106,11 @@ void TpAloitus::lataaTiedosto()
                                   .arg(tiedosto)
                                   .arg(luku.errorString()));
 
-
-//        kp()->liitteet()->asetaLiite( luku.readAll(), tilikausi.alkaa().toString(Qt::ISODate) );
-//        kp()->liitteet()->tallenna();
-
-        reject();
+        QMap<QString,QString> meta;
+        meta.insert("Filename",tiedosto);
+        KpKysely* kysely = kpk(QString("/liitteet/0/TP_%1").arg(tilikausi.paattyy().toString(Qt::ISODate)), KpKysely::PUT);
+        connect( kysely, &KpKysely::vastaus, this, &TpAloitus::reject);
+        kysely->lahetaTiedosto( luku.readAll() , meta);
     }
 }
 

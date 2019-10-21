@@ -267,6 +267,9 @@ void ArkistoSivu::teeArkisto(Tilikausi kausi)
 //    kp()->tilikaudet()->json(kausi)->set("ArkistoSHA", sha);
 //    kp()->tilikaudet()->tallennaJSON();
 
+    kausi.set("arkisto", QDateTime::currentDateTime());
+    kausi.tallenna();
+
     QModelIndex indeksi = kp()->tilikaudet()->index( kp()->tilikaudet()->indeksiPaivalle(kausi.paattyy()) , TilikausiModel::ARKISTOITU );
     emit kp()->tilikaudet()->dataChanged( indeksi, indeksi );
 

@@ -114,9 +114,9 @@ KirjausWg::KirjausWg( QWidget *parent)
 
     // Lisätoimintojen valikko
     QMenu *valikko = new QMenu(this);
-    valikko->addAction(QIcon(":/pic/etsi.png"), tr("Siirry tositteeseen\tCtrl+G"), this, SLOT(siirryTositteeseen()));
-    valikko->addAction(QIcon(":/pic/tulosta.png"), tr("Tulosta tosite\tCtrl+P"), this, SLOT(tulostaTosite()), QKeySequence("Ctrl+P"));
-    uudeksiAktio_ = valikko->addAction(QIcon(":/pic/kopioi.png"), tr("Kopioi uuden pohjaksi\tCtrl+T"), this, SLOT(uusiPohjalta()), QKeySequence("Ctrl+T"));
+//    valikko->addAction(QIcon(":/pic/etsi.png"), tr("Siirry tositteeseen\tCtrl+G"), this, SLOT(siirryTositteeseen()));
+//    valikko->addAction(QIcon(":/pic/tulosta.png"), tr("Tulosta tosite\tCtrl+P"), this, SLOT(tulostaTosite()), QKeySequence("Ctrl+P"));
+//    uudeksiAktio_ = valikko->addAction(QIcon(":/pic/kopioi.png"), tr("Kopioi uuden pohjaksi\tCtrl+T"), this, SLOT(uusiPohjalta()), QKeySequence("Ctrl+T"));
     poistaAktio_ = valikko->addAction(QIcon(":/pic/roskis.png"),tr("Poista tosite"),this, SLOT(poistaTosite()));
 //    tyhjennaViennitAktio_ = valikko->addAction(QIcon(":/pic/edit-clear.png"),tr("Tyhjennä viennit"), model_->vientiModel(), &VientiModel::tyhjaa);
 
@@ -330,11 +330,14 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
     {
         ui->varoKuva->setPixmap(QPixmap(":/pic/stop.png"));
         ui->varoTeksti->setText( tr("Kirjanpidossa ei ole\navointa tilikautta."));
+        virheet |= Tosite::EIAVOINTAKUTTA;
+
     }
     else if( virheet & Tosite::PVMLUKITTU || kp()->tilitpaatetty() >= ui->tositePvmEdit->date())
     {
         ui->varoKuva->setPixmap( QPixmap(":/pic/lukittu.png"));
         ui->varoTeksti->setText( tr("Kirjanpito lukittu\n%1 saakka").arg(kp()->tilitpaatetty().toString("dd.MM.yyyy")));
+        virheet |= Tosite::PVMLUKITTU;
     }
     else if( virheet & Tosite::PVMALV )
     {
@@ -397,7 +400,7 @@ void KirjausWg::siirryTositteeseen()
     {
         if( ui->tallennaButton->isEnabled() )
         {
-            if( QMessageBox::question(this, tr("Kitupiikki"), tr("Nykyistä kirjausta on muokattu. Siirrytkö toiseen tositteeseen tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
+            if( QMessageBox::question(this, tr("Kitsas"), tr("Nykyistä kirjausta on muokattu. Siirrytkö toiseen tositteeseen tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
             {
                 return;
             }
@@ -611,8 +614,8 @@ void KirjausWg::tiedotModelista()
     if( tunniste ) {
         ui->tunnisteLabel->setVisible(true);
         ui->vuosiLabel->setVisible(true);
-        ui->edellinenButton->setVisible(true);
-        ui->seuraavaButton->setVisible(true);
+        ui->edellinenButton->setVisible(false);  // Tilapäisesti
+        ui->seuraavaButton->setVisible(false);   // Selaus ei käytössä !!!
         ui->tallennaButton->setVisible(false);
 
         ui->tunnisteLabel->setText( QString::number( tunniste ) );

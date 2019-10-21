@@ -412,7 +412,7 @@ QString RaportinKirjoittaja::html(bool linkit) const
     txt.append("</table>");
     txt.append("<p class=tulostettu>Tulostettu " + QDate::currentDate().toString("dd.MM.yyyy"));
     if( kp()->onkoHarjoitus())
-        txt.append("<br><span class=treeni>Kirjanpito on laadittu Kitupiikki-ohjelman harjoittelutilassa</span>");
+        txt.append("<br><span class=treeni>Kirjanpito on laadittu Kitsas-ohjelman harjoittelutilassa</span>");
 
     txt.append("</p></body></html>\n");
 
