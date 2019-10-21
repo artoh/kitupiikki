@@ -34,7 +34,7 @@
 #include <QSqlError>
 
 PaivakirjaRaportti::PaivakirjaRaportti()
-    : Raportti(nullptr)
+    : RaporttiWidget(nullptr)
 {
     ui = new Ui::Paivakirja;
     ui->setupUi( raporttiWidget );
@@ -95,7 +95,7 @@ void PaivakirjaRaportti::esikatsele()
         optiot |= Paivakirja::TulostaSummat;
 
     Paivakirja *kirja = new Paivakirja(this);
-    connect( kirja, &Paivakirja::valmis, this, &Raportti::nayta );
+    connect( kirja, &Paivakirja::valmis, this, &RaporttiWidget::nayta );
     kirja->kirjoita( ui->alkupvm->date(), ui->loppupvm->date(),
                      optiot, kohdennuksella);
 }

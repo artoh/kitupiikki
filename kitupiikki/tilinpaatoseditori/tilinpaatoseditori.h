@@ -47,9 +47,6 @@ class TilinpaatosEditori : public QMainWindow
 public:
     explicit TilinpaatosEditori(const Tilikausi &tilikausi, QWidget *parent=nullptr);
 
-    void tulosta(QPagedPaintDevice* printer) const;
-    QString otsikko() const;
-
 signals:
 
 public slots:

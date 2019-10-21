@@ -18,6 +18,8 @@
 #ifndef TILINPAATOSTULOSTAJA_H
 #define TILINPAATOSTULOSTAJA_H
 
+#include "raportti/raportti.h"
+
 #include <QTextDocument>
 #include <QPagedPaintDevice>
 #include "db/tilikausi.h"
@@ -33,13 +35,20 @@ class TilinpaatosTulostaja : public QObject, public Esikatseltava
 {
     Q_OBJECT
 public:
-    TilinpaatosTulostaja(Tilikausi tilikausi, const QString& teksti, const QStringList& raportit, bool tallenna=false, QObject* parent = nullptr);
+    TilinpaatosTulostaja(Tilikausi tilikausi, const QString& teksti, const QStringList& raportit, QObject* parent = nullptr);
     virtual ~TilinpaatosTulostaja() override;
+
+    void nayta();
+    void tallenna();
 
     virtual void tulosta(QPagedPaintDevice *writer) const override;
     virtual QString otsikko() const override;
 
+signals:
+    void tallennettu();
+
 private:
+    void tilaaRaportit();
     void tulostaKansilehti(QPainter *painter) const;
 
 protected:

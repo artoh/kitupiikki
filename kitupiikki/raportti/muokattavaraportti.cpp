@@ -25,7 +25,7 @@
 
 
 MuokattavaRaportti::MuokattavaRaportti(const QString &raporttinimi)
-    : Raportti(nullptr), raporttiNimi(raporttinimi)
+    : RaporttiWidget(nullptr), raporttiNimi(raporttinimi)
 {
     ui = new Ui::MuokattavaRaportti;
     ui->setupUi( raporttiWidget );

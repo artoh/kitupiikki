@@ -18,7 +18,7 @@
 #ifndef PAIVAKIRJARAPORTTI_H
 #define PAIVAKIRJARAPORTTI_H
 
-#include "raportti.h"
+#include "raporttiwidget.h"
 #include "ui_paivakirja.h"
 
 /**
@@ -26,7 +26,7 @@
  *
  * Päiväkirjassa on halutun päivämäärävälin viennit aikajärjestyksessä
  */
-class PaivakirjaRaportti : public Raportti
+class PaivakirjaRaportti : public RaporttiWidget
 {
     Q_OBJECT
 public:

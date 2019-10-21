@@ -38,18 +38,27 @@
 
 #include <cmath>
 
-TilinpaatosTulostaja::TilinpaatosTulostaja(Tilikausi tilikausi, const QString& teksti, const QStringList &raportit, bool tallenna, QObject *parent)
-    : QObject(parent), tilikausi_(tilikausi), teksti_(teksti), raportit_(raportit), tallenna_(tallenna)
+TilinpaatosTulostaja::TilinpaatosTulostaja(Tilikausi tilikausi, const QString& teksti, const QStringList &raportit, QObject *parent)
+    : QObject(parent), tilikausi_(tilikausi), teksti_(teksti), raportit_(raportit)
 {
-    // Tilaa halutut raportit, jotta ne saadaan käyttöön
-    tilattuja_ = raportit.count();
-    for(QString raportti : raportit)
-        tilaaRaportti(raportti);
+
 }
 
 TilinpaatosTulostaja::~TilinpaatosTulostaja()
 {
 
+}
+
+void TilinpaatosTulostaja::nayta()
+{
+    tallenna_ = false;
+    tilaaRaportit();
+}
+
+void TilinpaatosTulostaja::tallenna()
+{
+    tallenna_ = true;
+    tilaaRaportit();
 }
 
 void TilinpaatosTulostaja::tulosta(QPagedPaintDevice *writer) const
@@ -109,6 +118,14 @@ void TilinpaatosTulostaja::tulosta(QPagedPaintDevice *writer) const
 QString TilinpaatosTulostaja::otsikko() const
 {
     return tr("Tilinpäätös %1").arg(tilikausi_.kausivaliTekstina());
+}
+
+void TilinpaatosTulostaja::tilaaRaportit()
+{
+    // Tilaa halutut raportit, jotta ne saadaan käyttöön
+    tilattuja_ = raportit_.count();
+    for(QString raportti : raportit_)
+        tilaaRaportti(raportti);
 }
 
 
@@ -176,7 +193,14 @@ void TilinpaatosTulostaja::raporttiSaapuu(int raportti, RaportinKirjoittaja rk)
     qDebug() << "Raportti saapui " << raportti << " Odotetaan " << tilattuja_;
     if( !tilattuja_) {
         if( tallenna_) {
-            // Määritteen raportin tallentamisesta
+            QMap<QString,QString> meta;
+            meta.insert("Filename",tr("Tilinpäätös %1.pdf").arg(tilikausi_.pitkakausitunnus()));
+            meta.insert("Content-type","application/pdf");
+
+            KpKysely* kysely = kpk(QString("/liitteet/0/TP_%1").arg(tilikausi_.paattyy().toString(Qt::ISODate)), KpKysely::PUT);
+            connect( kysely, &KpKysely::vastaus, this, &TilinpaatosTulostaja::tallennettu);
+            kysely->lahetaTiedosto(pdf(), meta);
+
         } else
             esikatsele();
     }

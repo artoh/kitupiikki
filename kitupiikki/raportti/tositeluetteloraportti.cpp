@@ -22,7 +22,7 @@
 #include "tositeluettelo.h"
 
 TositeluetteloRaportti::TositeluetteloRaportti()
-    : Raportti(nullptr)
+    : RaporttiWidget(nullptr)
 {
     ui = new Ui::Paivakirja;
     ui->setupUi(raporttiWidget);
@@ -276,7 +276,7 @@ void TositeluetteloRaportti::esikatsele()
         optiot |= TositeLuettelo::TulostaSummat;
 
     TositeLuettelo *luettelo = new TositeLuettelo(this);
-    connect( luettelo, &TositeLuettelo::valmis, this, &Raportti::nayta);
+    connect( luettelo, &TositeLuettelo::valmis, this, &RaporttiWidget::nayta);
     luettelo->kirjoita(ui->alkupvm->date(),
                        ui->loppupvm->date(),
                        optiot);

@@ -17,13 +17,13 @@
 #ifndef BUDJETTIVERTAILU_H
 #define BUDJETTIVERTAILU_H
 
-#include "raportti.h"
+#include "raporttiwidget.h"
 #include "ui_budjettivertailu.h"
 
 /**
  * @brief Budjettivertailujen tulostaminen tulosraporteista
  */
-class Budjettivertailu : public Raportti
+class Budjettivertailu : public RaporttiWidget
 {
     Q_OBJECT
 public:

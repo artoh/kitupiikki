@@ -23,7 +23,7 @@
 #include <QDebug>
 
 TaseErittely::TaseErittely() :
-    Raportti(nullptr)
+    RaporttiWidget(nullptr)
 {
     ui = new Ui::TaseErittely;
     ui->setupUi( raporttiWidget);

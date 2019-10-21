@@ -37,11 +37,13 @@ public:
     void arkistoi();
 
 signals:
+    void arkistoValmis(QString hakemisto);
 
 protected:
     void luoHakemistot();
     void arkistoiTositteet();
     void arkistoiRaportit();
+    void arkistoiTilinpaatos();
     void arkistoiByteArray(const QString& tiedostonnimi, const QByteArray& array);
 
 protected slots:

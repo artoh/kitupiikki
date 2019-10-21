@@ -20,7 +20,7 @@
 
 #include "ui_tilikarttaraportti.h"
 
-#include "raportti.h"
+#include "raporttiwidget.h"
 #include "raportinkirjoittaja.h"
 
 #include "db/kirjanpito.h"
@@ -28,7 +28,7 @@
 /**
  * @brief Tilikartan tulostava raportti
  */
-class TilikarttaRaportti : public Raportti
+class TilikarttaRaportti : public RaporttiWidget
 {
     Q_OBJECT
 public:

@@ -23,6 +23,7 @@
 #include <QSqlQuery>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QDirIterator>
 
 #include <fstream>
 #include <iostream>
@@ -187,56 +188,6 @@ void ArkistoSivu::vieArkisto()
 
 
     }
-    else if( dlgUi.tarRadio->isChecked())
-    {
-        // Muodostetaan tar-arkisto
-        // Tässä käytetään Pierre Lindenbaumin Tar-luokkaa http://plindenbaum.blogspot.fi/2010/08/creating-tar-file-in-c.html
-
-        QDir mista( kp()->arkistopolku() + "/" + kausi.arkistoHakemistoNimi() );
-        QStringList tiedostot = mista.entryList(QDir::Files);
-        QString arkistotiedosto = QDir::root().absoluteFilePath( QString("%1-%2.tar").arg( kp()->tiedostopolku().replace(QRegularExpression(".kitupiikki$"),""), kausi.arkistoHakemistoNimi()) );
-        QString arkisto = QFileDialog::getSaveFileName(this, tr("Vie arkisto"), arkistotiedosto, tr("Tar-arkisto (*.tar)") );
-
-
-        if( !arkisto.isEmpty() )
-        {
-            TarArkisto tar( arkisto );
-            if( !tar.aloita())
-            {
-                QMessageBox::critical(this, tr("Arkiston vienti epäonnistui"),
-                                      tr("Tiedostoon %1 kirjoittaminen epäonnistui").arg(arkisto));
-                return;
-            }
-
-            QProgressDialog odota(tr("Kopioidaan arkistoa"), tr("Peruuta"),0, tiedostot.count(),this);
-            int kopioitu = 0;
-
-            for( const QString& tiedosto : tiedostot)
-            {
-                if( odota.wasCanceled())
-                    break;
-
-                if( !tar.lisaaTiedosto( mista.absoluteFilePath(tiedosto) ) )
-                {
-                    tar.lopeta();
-
-                    QFile::remove( arkisto );
-
-                    QMessageBox::critical(this, tr("Arkiston viennissä virhe"),
-                                          tr("Arkiston vienti epäonnistui kopioitaessa tiedostoa %1")
-                                          .arg(tiedosto));
-                    return;
-                }
-
-                odota.setValue(++kopioitu);
-            }
-
-            QMessageBox::information(this, tr("Arkisto vienti valmis"),
-                                 tr("Arkisto viety tiedostoon %1").arg(arkisto));
-
-        }
-
-    }
 
 }
 
@@ -275,13 +226,14 @@ void ArkistoSivu::nykyinenVaihtuuPaivitaNapit()
         Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->view->currentIndex().row() );
         // Tilikaudelle voi tehdä tilinpäätöksen, jos se ei ole tilinavaus
         ui->tilinpaatosNappi->setEnabled( kausi.tilinpaatoksenTila() != Tilikausi::EILAADITATILINAVAUKSELLE );
+
         // Tilikauden voi arkistoida, jos tilikautta ei ole lukittu - arkiston voi näyttää aina
-        bool arkistoitavissa = ( kausi.paattyy() > kp()->tilitpaatetty() || kausi.arkistoitu().isValid() )
-                && kausi.tilinpaatoksenTila() != Tilikausi::EILAADITATILINAVAUKSELLE;
+        // bool arkistoitavissa = ( kausi.paattyy() > kp()->tilitpaatetty() || kausi.arkistoitu().isValid() )
+        //        && kausi.tilinpaatoksenTila() != Tilikausi::EILAADITATILINAVAUKSELLE;
 
 
-        ui->arkistoNappi->setEnabled( arkistoitavissa );
-        ui->vieNappi->setEnabled( arkistoitavissa );
+        ui->arkistoNappi->setEnabled( true );
+        ui->vieNappi->setEnabled( true );
 
 
         // Muokata voidaan vain viimeistä tilikautta tai poistaa lukitus
@@ -450,10 +402,21 @@ void ArkistoSivu::uudellenNumerointi()
 
 bool ArkistoSivu::teeZip(const Tilikausi &kausi)
 {
-    QDir mista( kp()->arkistopolku() + "/" + kausi.arkistoHakemistoNimi() );
-    QStringList tiedostot = mista.entryList(QDir::Files);
+    QDirIterator iter( kp()->arkistopolku() + "/" + kausi.arkistoHakemistoNimi(),
+                       QDir::Files,
+                       QDirIterator::Subdirectories);
+    QStringList tiedostot;
 
-    QString arkistotiedosto = QDir::root().absoluteFilePath( QString("%1-%2.zip").arg( kp()->tiedostopolku().replace(QRegularExpression(".kitupiikki$"),""), kausi.arkistoHakemistoNimi()) );
+    while( iter.hasNext()) {
+        tiedostot.append( iter.next());
+    }
+
+
+      QDir mista( kp()->arkistopolku() + "/" + kausi.arkistoHakemistoNimi() );
+//    QStringList tiedostot = mista.entryList(QDir::Files);
+
+
+    QString arkistotiedosto = QDir::root().absoluteFilePath( QString("%1.zip").arg(kausi.arkistoHakemistoNimi()) );
     QString arkisto = QFileDialog::getSaveFileName(this, tr("Vie arkisto"), arkistotiedosto, tr("Zip-arkisto (*.zip)") );
 
 
@@ -479,7 +442,7 @@ bool ArkistoSivu::teeZip(const Tilikausi &kausi)
                                                   0,-1);
             if( !lahde)
                 return false;
-            if( zip_file_add(paketti, info.fileName().toStdString().c_str(),
+            if( zip_file_add(paketti, mista.relativeFilePath(tiedosto).toStdString().c_str(),
                              lahde, 0) < 0)
                 return false;
 

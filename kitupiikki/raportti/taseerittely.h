@@ -20,13 +20,13 @@
 
 #include "ui_taseerittely.h"
 
-#include "raportti.h"
+#include "raporttiwidget.h"
 #include "db/kirjanpito.h"
 
 /**
  * @brief Tase-erittelyn tulostaminen
  */
-class TaseErittely : public Raportti
+class TaseErittely : public RaporttiWidget
 {
     Q_OBJECT
 public:

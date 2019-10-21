@@ -28,7 +28,7 @@
 #include "paakirja.h"
 
 PaakirjaRaportti::PaakirjaRaportti()
-    : Raportti(nullptr)
+    : RaporttiWidget(nullptr)
 {
     ui = new Ui::Paivakirja;
     ui->setupUi( raporttiWidget );
@@ -76,7 +76,7 @@ void PaakirjaRaportti::haeTilitComboon()
 void PaakirjaRaportti::esikatsele()
 {
     Paakirja *kirja = new Paakirja(this);
-    connect( kirja, &Paakirja::valmis, this, &Raportti::nayta);
+    connect( kirja, &Paakirja::valmis, this, &RaporttiWidget::nayta);
 
     int kohdennuksella = -1;
     if( ui->kohdennusCheck->isChecked())

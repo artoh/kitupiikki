@@ -22,7 +22,7 @@
 #include "raportoija.h"
 
 Budjettivertailu::Budjettivertailu() :
-    Raportti(nullptr)
+    RaporttiWidget(nullptr)
 {
     ui_ = new Ui::Budjettivertailu;
     ui_->setupUi(raporttiWidget);

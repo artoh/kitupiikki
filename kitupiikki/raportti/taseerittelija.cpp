@@ -24,6 +24,9 @@ TaseErittelija::TaseErittelija(QObject *parent) : QObject(parent)
 
 void TaseErittelija::kirjoita(const QDate& mista, const QDate &mihin)
 {
+    mista_ = mista;
+    mihin_ = mihin;
+
     KpKysely* kysely = kpk("/erat");
     kysely->lisaaAttribuutti("erittely");
     kysely->lisaaAttribuutti("alkaa", mista);

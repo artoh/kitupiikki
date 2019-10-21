@@ -20,7 +20,7 @@
 
 #include <QDebug>
 
-Paakirja::Paakirja(QObject *parent) : QObject(parent)
+Paakirja::Paakirja(QObject *parent) : Raportti(parent)
 {
 
 }

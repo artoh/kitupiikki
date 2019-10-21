@@ -18,13 +18,13 @@
 #ifndef TOSITELUETTELORAPORTTI_H
 #define TOSITELUETTELORAPORTTI_H
 
-#include "raportti.h"
+#include "raporttiwidget.h"
 #include "ui_paivakirja.h"
 
 /**
  * @brief Tositeluettelon tulostava raportti
  */
-class TositeluetteloRaportti : public Raportti
+class TositeluetteloRaportti : public RaporttiWidget
 {
     Q_OBJECT
 public:

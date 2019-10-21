@@ -34,6 +34,8 @@ SOURCES += \
     $$PWD/model/tositevienti.cpp \
     $$PWD/raportti/paakirja.cpp \
     $$PWD/raportti/raportteri.cpp \
+    $$PWD/raportti/raportti.cpp \
+    $$PWD/raportti/raporttiwidget.cpp \
     $$PWD/raportti/taseerittelija.cpp \
     $$PWD/raportti/tasetulosraportti.cpp \
     $$PWD/raportti/tilikarttalistaaja.cpp \
@@ -91,7 +93,6 @@ SOURCES += \
     db/tilikausi.cpp \
     selaus/selausmodel.cpp \
     raportti/raporttisivu.cpp \
-    raportti/raportti.cpp \
     raportti/paivakirjaraportti.cpp \
     maaritys/tilinavaus.cpp \
     maaritys/tilinavausmodel.cpp \
@@ -245,6 +246,8 @@ HEADERS += \
     $$PWD/model/tositevienti.h \
     $$PWD/raportti/paakirja.h \
     $$PWD/raportti/raportteri.h \
+    $$PWD/raportti/raportti.h \
+    $$PWD/raportti/raporttiwidget.h \
     $$PWD/raportti/taseerittelija.h \
     $$PWD/raportti/tasetulosraportti.h \
     $$PWD/raportti/tilikarttalistaaja.h \
@@ -302,7 +305,6 @@ HEADERS += \
     db/tilikausi.h \
     selaus/selausmodel.h \
     raportti/raporttisivu.h \
-    raportti/raportti.h \
     raportti/paivakirjaraportti.h \
     maaritys/tilinavaus.h \
     maaritys/tilinavausmodel.h \

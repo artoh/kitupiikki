@@ -19,7 +19,7 @@
 #define MUOKATTAVARAPORTTI_H
 
 
-#include "raportti.h"
+#include "raporttiwidget.h"
 #include "ui_muokattavaraportti.h"
 
 #include "raportoija.h"
@@ -29,7 +29,7 @@
  *
  * @todo Budjettiin valittaviksi tilikaudet
  */
-class MuokattavaRaportti : public Raportti
+class MuokattavaRaportti : public RaporttiWidget
 {
     Q_OBJECT
 public:

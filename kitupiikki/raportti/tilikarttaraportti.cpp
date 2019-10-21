@@ -21,7 +21,7 @@
 #include "tilikarttalistaaja.h"
 
 TilikarttaRaportti::TilikarttaRaportti()
-    : Raportti(nullptr)
+    : RaporttiWidget(nullptr)
 {
     ui = new Ui::TilikarttaRaportti;
     ui->setupUi( raporttiWidget);
@@ -45,7 +45,7 @@ void TilikarttaRaportti::esikatsele()
 {
     TiliKarttaListaaja *listaaja = new TiliKarttaListaaja(this);
     connect( listaaja, &TiliKarttaListaaja::valmis,
-             this, &Raportti::nayta);
+             this, &RaporttiWidget::nayta);
 
     Tilikausi kausi = kp()->tilikaudet()->tilikausiPaivalle( ui->tilikaudeltaCombo->currentData( TilikausiModel::PaattyyRooli ).toDate() );
 

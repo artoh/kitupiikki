@@ -37,7 +37,7 @@ QVariant LiitteetRoute::get(const QString &polku, const QUrlQuery &/*urlquery*/)
         if(!kysely.exec(QString("SELECT data FROM Liite WHERE id=%1").arg(polku.toInt()) ) )
             throw SQLiteVirhe(kysely);
     } else {
-        QRegularExpression re(R"((\d+)/(\S+))");
+        QRegularExpression re(R"((\d+)\/(\S+))");
         QRegularExpressionMatch match = re.match(polku);
         kysely.exec(QString("SELECT data FROM Liite WHERE tosite=%1 AND roolinimi='%2'")
                     .arg(match.captured(1).toInt())
@@ -45,6 +45,9 @@ QVariant LiitteetRoute::get(const QString &polku, const QUrlQuery &/*urlquery*/)
     }
     if( kysely.next())
         return kysely.value(0).toByteArray();
+
+    qDebug() << kysely.lastQuery();
+
     throw SQLiteVirhe("Liitettä ei löydy",404);
 }
 

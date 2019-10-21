@@ -48,24 +48,11 @@ TilinpaatosEditori::TilinpaatosEditori(const Tilikausi& tilikausi, QWidget *pare
     lataa();
 }
 
-void TilinpaatosEditori::tulosta(QPagedPaintDevice *printer) const
-{
-//    QString teksti = raportit_ + "\n" + editori_->toHtml();
-
-//    TilinpaatosTulostaja::tulostaTilinpaatos( printer, tilikausi_, teksti);
-}
-
-QString TilinpaatosEditori::otsikko() const
-{
-    return tr("Tilinpäätös %1 - %2")
-            .arg(tilikausi_.alkaa().toString("dd.MM.yyyy"))
-            .arg(tilikausi_.paattyy().toString("dd.MM.yyyy"));
-
-}
 
 void TilinpaatosEditori::esikatselu()
 {    
-    new TilinpaatosTulostaja(tilikausi_, editori_->toHtml(), raportit_, false, this);
+    TilinpaatosTulostaja *tp = new TilinpaatosTulostaja(tilikausi_, editori_->toHtml(), raportit_, this);
+    tp->nayta();
 }
 
 void TilinpaatosEditori::luoAktiot()
@@ -271,20 +258,13 @@ void TilinpaatosEditori::tallenna()
 {
     QString teksti = raportit_.join(" ") + "\n" + editori_->toHtml();
     tilikausi_.set("tilinpaatosteksti", teksti);
+    tilikausi_.set("tilinpaatos", QDateTime::currentDateTime());
     tilikausi_.tallenna();
 
-//    QByteArray pdfa = pdf();
+    TilinpaatosTulostaja *tp = new TilinpaatosTulostaja(tilikausi_, editori_->toHtml(), raportit_, this);
+    connect( tp, &TilinpaatosTulostaja::tallennettu, this, &TilinpaatosEditori::tallennettu);
+    tp->tallenna();
 
-//    kp()->liitteet()->asetaLiite( pdfa, tilikausi_.alkaa().toString(Qt::ISODate) );
-//    kp()->liitteet()->tallenna();
-
-    // Tallennetaan myös Arkistoon
-//    QFile out(kp()->arkistopolku()  + "/" + tilikausi_.arkistoHakemistoNimi() + "/tilinpaatos.pdf");
-//    out.open(QIODevice::WriteOnly);
-//    out.write( pdfa );
-//    out.close();
-
-//    emit tallennettu();
 }
 
 

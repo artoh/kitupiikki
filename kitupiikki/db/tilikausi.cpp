@@ -31,9 +31,6 @@ Tilikausi::Tilikausi()
 Tilikausi::Tilikausi(QVariantMap data) :
     KantaVariantti (data)
 {
-    tulos_ = data.take("tulos").toDouble();
-    liikevaihto_ = data.take("liikevaihto").toDouble();
-    tase_ = data.take("tase").toDouble();
 }
 
 Tilikausi::Tilikausi(const QDate &alkaa, const QDate &paattyy)
@@ -145,9 +142,15 @@ void Tilikausi::asetaKausitunnus(const QString &kausitunnus)
 
 void Tilikausi::tallenna()
 {
+    QVariantMap map = data();
+    map.remove("tase");
+    map.remove("tulos");
+    map.remove("liikevaihto");
+    map.remove("viimeinen");
+
     KpKysely* kysely = kpk(QString("/tilikaudet/%1").arg( alkaa().toString(Qt::ISODate)), KpKysely::PUT );
     QObject::connect(kysely, &KpKysely::vastaus, kp()->tilikaudet(), &TilikausiModel::paivita);
-    kysely->kysy( data() );
+    kysely->kysy( map );
 }
 
 void Tilikausi::poista()

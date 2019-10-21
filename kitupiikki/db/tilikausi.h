@@ -78,19 +78,19 @@ public:
      * @brief Tilikauden yli/alijäämä
      * @return Tulos sentteinä
      */
-    qlonglong tulos() const { return qRound64(tulos_ * 100); }
+    qlonglong tulos() const { return qRound64( dbl("tase") * 100); }
 
     /**
      * @brief Tilikauden liikevaihto (CL-kirjaukset)
      * @return Liikevaihto sentteinä
      */
-    qlonglong liikevaihto() const { return qRound64(liikevaihto_ * 100); }
+    qlonglong liikevaihto() const { return qRound64( dbl("liikevaihto") * 100); }
 
     /**
      * @brief Tilikauden päättävä tase
      * @return Tase sentteinä
      */
-    qlonglong tase() const { return qRound64(tase_ * 100); }
+    qlonglong tase() const { return qRound64( dbl("tase") * 100); }
 
     /**
      * @brief Tilikauden keskimääräinen henkilöstö
@@ -137,10 +137,6 @@ public:
 protected:
     QDate alkaa_;
     QDate paattyy_;
-
-    double tase_ = 0;
-    double liikevaihto_ = 0;
-    double tulos_ = 0;
 
 
     QString kausitunnus_;

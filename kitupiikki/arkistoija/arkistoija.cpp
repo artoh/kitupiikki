@@ -98,7 +98,7 @@ void Arkistoija::arkistoiTositteet()
 
 void Arkistoija::arkistoiRaportit()
 {
-    raporttilaskuri_ = 4;
+    raporttilaskuri_ = 5;
     Paivakirja* paivakirja = new Paivakirja(this);
     connect( paivakirja, &Paivakirja::valmis,
              [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"paivakirja.html"); } );
@@ -142,7 +142,19 @@ void Arkistoija::arkistoiRaportit()
         raporttiNimet_.append( qMakePair(raporttinimi, raportoija->nimi()) );
         raportoija->kirjoita(true, -1);
     }
+    arkistoiTilinpaatos();
 
+}
+
+void Arkistoija::arkistoiTilinpaatos()
+{
+    KpKysely *kysely = kpk( QString("/liitteet/0/TP_%1").arg(tilikausi_.paattyy().toString(Qt::ISODate)) );
+
+    connect( kysely, &KpKysely::vastaus, [this] (QVariant* data)
+        { this->arkistoiByteArray("tilinpaatos.pdf", data->toByteArray());  this->raporttilaskuri_--; });
+    connect( kysely, &KpKysely::virhe, [this] () { this->raporttilaskuri_--; });
+
+    kysely->kysy();
 }
 
 void Arkistoija::arkistoiByteArray(const QString &tiedostonnimi, const QByteArray &array)
@@ -225,7 +237,7 @@ void Arkistoija::arkistoiLiite(QVariant *data, const QString tiedosto)
     arkistoiByteArray("liitteet/" + tiedosto, data->toByteArray());
     if( !liiteJono_.isEmpty())
         arkistoiSeuraavaLiite();
-    else if( !raporttilaskuri_ )
+    else if( !raporttilaskuri_  && arkistoitavaTosite_ >= tositeJono_.count())
         viimeistele();
 }
 
@@ -263,9 +275,12 @@ void Arkistoija::viimeistele()
     out << "</h2>";
 
     // Jos tilit on päätetty (tilikausi lukittu), tulee linkki myös tilinpäätökseen (pdf)
-    out << "<h3>" << tr("Tilinpäätös") << "</h3>"
-        << "<ul><li><a href=tilinpaatos.pdf>" << tr("Tilinpäätös") << "</a></li>"
-        << "<li><a href=taseerittely.html>" << tr("Tase-erittely") << "</a></li></ul>";
+    out << "<h3>" << tr("Tilinpäätös") << "</h3>";
+
+    if( QFile::exists( hakemisto_.absoluteFilePath("tilinpaatos.pdf")  ))
+           out << "<ul><li><a href=tilinpaatos.pdf>" << tr("Tilinpäätös") << "</a></li>";
+
+    out   << "<li><a href=taseerittely.html>" << tr("Tase-erittely") << "</a></li></ul>";
 
 
     out << "<h3>Kirjanpito</h3>";
@@ -290,7 +305,7 @@ void Arkistoija::viimeistele()
         out << "Kirjanpito on viel&auml; keskener&auml;inen.";
 
     out << "</body></html>";
-
+    emit arkistoValmis( hakemisto_.absolutePath() );
 }
 
 QByteArray Arkistoija::tosite(const QVariantMap& tosite, int indeksi)
@@ -383,6 +398,7 @@ QByteArray Arkistoija::tosite(const QVariantMap& tosite, int indeksi)
 
     out.flush();
     return ba;
+
 }
 
 QString Arkistoija::tiedostonnimi(const QDate &pvm, const QString &sarja, int tunniste)

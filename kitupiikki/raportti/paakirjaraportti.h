@@ -18,13 +18,13 @@
 #ifndef PAAKIRJARAPORTTI_H
 #define PAAKIRJARAPORTTI_H
 
-#include "raportti.h"
+#include "raporttiwidget.h"
 #include "ui_paivakirja.h"
 
 /**
  * @brief Pääkirjan tulostava raportti
  */
-class PaakirjaRaportti : public Raportti
+class PaakirjaRaportti : public RaporttiWidget
 {
     Q_OBJECT
 public:

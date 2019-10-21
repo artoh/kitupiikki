@@ -302,21 +302,22 @@ void AloitusSivu::infoSaapui(QNetworkReply *reply)
 
 void AloitusSivu::varmuuskopioi()
 {
-    QFileInfo info(kp()->tiedostopolku());
+    QString tiedosto = kp()->sqlite()->tiedostopolku();
+    QFileInfo info(tiedosto);
     QString polku = QString("%1/%2-%3.kitsas")
             .arg(QDir::homePath())
             .arg(info.baseName())
             .arg( QDate::currentDate().toString("yyMMdd"));
 
     QString tiedostoon = QFileDialog::getSaveFileName(this, tr("Varmuuskopioi kirjanpito"), polku, tr("Kirjanpito (*.kitsas)") );
-    if( tiedostoon == kp()->tiedostopolku())
+    if( tiedostoon == tiedosto)
     {
         QMessageBox::critical(this, tr("Virhe"), tr("Tiedostoa ei saa kopioida itsensä päälle!"));
         return;
     }
     if( !tiedostoon.isEmpty() )
     {
-        QFile kirjanpito( kp()->tiedostopolku());
+        QFile kirjanpito( tiedosto);
         if( kirjanpito.copy(tiedostoon) )
             QMessageBox::information(this, kp()->asetukset()->asetus("Nimi"), tr("Kirjanpidon varmuuskopiointi onnistui."));
         else
