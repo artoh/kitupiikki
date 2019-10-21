@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>587</width>
-    <height>1101</height>
+    <height>1104</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -34,58 +34,20 @@
      </property>
      <layout class="QFormLayout" name="formLayout">
       <item row="0" column="0">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>Tositelaji</string>
-        </property>
-        <property name="buddy">
-         <cstring>tositelajiCombo</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QComboBox" name="tositelajiCombo"/>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Kirjausperuste</string>
-        </property>
-        <property name="buddy">
-         <cstring>perusteCombo</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QComboBox" name="perusteCombo"/>
-      </item>
-      <item row="2" column="0">
        <widget class="QLabel" name="label_4">
         <property name="text">
          <string>Saatavatili</string>
         </property>
-        <property name="buddy">
-         <cstring>saatavatiliEdit</cstring>
-        </property>
        </widget>
       </item>
-      <item row="2" column="1">
-       <widget class="TilinvalintaLine" name="saatavatiliEdit"/>
-      </item>
-      <item row="3" column="0">
+      <item row="1" column="0">
        <widget class="QLabel" name="label_5">
         <property name="text">
          <string>Käteistili</string>
         </property>
-        <property name="buddy">
-         <cstring>kateistiliEdit</cstring>
-        </property>
        </widget>
       </item>
-      <item row="3" column="1">
-       <widget class="TilinvalintaLine" name="kateistiliEdit"/>
-      </item>
-      <item row="4" column="0">
+      <item row="2" column="0">
        <widget class="QLabel" name="label_6">
         <property name="text">
          <string>Maksuaika</string>
@@ -95,14 +57,17 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
+      <item row="2" column="1">
        <widget class="QSpinBox" name="maksuaikaSpin">
         <property name="suffix">
          <string> vrk</string>
         </property>
+        <property name="Asetus" stdset="0">
+         <string>LaskuMaksuaika</string>
+        </property>
        </widget>
       </item>
-      <item row="5" column="0">
+      <item row="3" column="0">
        <widget class="QLabel" name="label_7">
         <property name="text">
          <string>Huomautusaika</string>
@@ -112,27 +77,44 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="1">
-       <widget class="QLineEdit" name="huomautusaikaEdit"/>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="huomautusaikaEdit">
+        <property name="Asetus" stdset="0">
+         <string>LaskuHuomautusaika</string>
+        </property>
+       </widget>
       </item>
-      <item row="6" column="0">
+      <item row="4" column="0">
        <widget class="QLabel" name="label_8">
         <property name="text">
          <string>Viivästyskorko</string>
         </property>
        </widget>
       </item>
-      <item row="7" column="0">
+      <item row="4" column="1">
+       <widget class="QDoubleSpinBox" name="viivkorkoSpin">
+        <property name="suffix">
+         <string> %</string>
+        </property>
+        <property name="decimals">
+         <number>1</number>
+        </property>
+        <property name="Asetus" stdset="0">
+         <string>LaskuViivastyskorko</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
        <widget class="QLabel" name="label_9">
         <property name="text">
-         <string>Seuraava viitenumero</string>
+         <string>Seuraava laskun numero</string>
         </property>
         <property name="buddy">
          <cstring>seuraavaLasku</cstring>
         </property>
        </widget>
       </item>
-      <item row="7" column="1">
+      <item row="5" column="1">
        <widget class="QSpinBox" name="seuraavaLasku">
         <property name="minimum">
          <number>1000</number>
@@ -140,15 +122,28 @@
         <property name="maximum">
          <number>999999999</number>
         </property>
+        <property name="Asetus" stdset="0">
+         <string>LaskuSeuraavaId</string>
+        </property>
        </widget>
       </item>
-      <item row="6" column="1">
-       <widget class="QDoubleSpinBox" name="viivkorkoSpin">
-        <property name="suffix">
-         <string> %</string>
+      <item row="0" column="1">
+       <widget class="TiliCombo" name="saatavaCombo">
+        <property name="Asetus" stdset="0">
+         <string>LaskuSaatavatili</string>
         </property>
-        <property name="decimals">
-         <number>1</number>
+        <property name="Tilit" stdset="0">
+         <string>AO</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="TiliCombo" name="kateistili">
+        <property name="Asetus" stdset="0">
+         <string>LaskuKateistili</string>
+        </property>
+        <property name="Tilit" stdset="0">
+         <string>ARK</string>
         </property>
        </widget>
       </item>
@@ -169,7 +164,14 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QComboBox" name="tiliCombo"/>
+       <widget class="TiliCombo" name="tiliCombo">
+        <property name="Asetus" stdset="0">
+         <string>LaskuTilit</string>
+        </property>
+        <property name="Tilit" stdset="0">
+         <string>ARP</string>
+        </property>
+       </widget>
       </item>
       <item row="2" column="1">
        <widget class="QLabel" name="syotaIbanLabel">
@@ -190,6 +192,9 @@
       <iconset resource="../pic/pic.qrc">
        <normaloff>:/pic/lasku.png</normaloff>:/pic/lasku.png</iconset>
      </property>
+     <property name="Asetus" stdset="0">
+      <string>LaskuTilisiirto</string>
+     </property>
     </widget>
    </item>
    <item>
@@ -200,6 +205,9 @@
      <property name="icon">
       <iconset resource="../pic/pic.qrc">
        <normaloff>:/pic/viivakoodi.png</normaloff>:/pic/viivakoodi.png</iconset>
+     </property>
+     <property name="Asetus" stdset="0">
+      <string>LaskuViivakoodi</string>
      </property>
     </widget>
    </item>
@@ -212,6 +220,9 @@
       <iconset resource="../pic/pic.qrc">
        <normaloff>:/pic/rf.png</normaloff>:/pic/rf.png</iconset>
      </property>
+     <property name="Asetus" stdset="0">
+      <string>LaskuRF</string>
+     </property>
     </widget>
    </item>
    <item>
@@ -223,6 +234,9 @@
       <iconset resource="../pic/pic.qrc">
        <normaloff>:/pic/qr.png</normaloff>:/pic/qr.png</iconset>
      </property>
+     <property name="Asetus" stdset="0">
+      <string>LaskuQR</string>
+     </property>
     </widget>
    </item>
    <item>
@@ -233,6 +247,9 @@
      <property name="icon">
       <iconset resource="../pic/pic.qrc">
        <normaloff>:/pic/format-list-unordered.png</normaloff>:/pic/format-list-unordered.png</iconset>
+     </property>
+     <property name="Asetus" stdset="0">
+      <string>LaskuLyhyetRivit</string>
      </property>
     </widget>
    </item>
@@ -246,6 +263,9 @@
      </property>
      <property name="checked">
       <bool>false</bool>
+     </property>
+     <property name="Asetus" stdset="0">
+      <string>LaskuIkkuna</string>
      </property>
      <layout class="QGridLayout" name="gridLayout" columnstretch="1,2">
       <item row="0" column="1">
@@ -274,6 +294,9 @@
           <property name="value">
            <number>40</number>
           </property>
+          <property name="Asetus" stdset="0">
+           <string>LaskuIkkunaY</string>
+          </property>
          </widget>
         </item>
        </layout>
@@ -297,6 +320,9 @@
           </property>
           <property name="value">
            <number>18</number>
+          </property>
+          <property name="Asetus" stdset="0">
+           <string>LaskuIkkunaX</string>
           </property>
          </widget>
         </item>
@@ -332,6 +358,9 @@
            <property name="value">
             <number>95</number>
            </property>
+           <property name="Asetus" stdset="0">
+            <string>LaskuIkkunaLeveys</string>
+           </property>
           </widget>
          </item>
          <item row="1" column="0">
@@ -355,6 +384,9 @@
            <property name="value">
             <number>35</number>
            </property>
+           <property name="Asetus" stdset="0">
+            <string>LaskuIkkunaKorkeus</string>
+           </property>
           </widget>
          </item>
         </layout>
@@ -376,7 +408,11 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLineEdit" name="apunimiEdit"/>
+      <widget class="QLineEdit" name="apunimiEdit">
+       <property name="Asetus" stdset="0">
+        <string>LaskuAputoiminimi</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -397,9 +433,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>TilinvalintaLine</class>
-   <extends>QLineEdit</extends>
-   <header>db/tilinvalintaline.h</header>
+   <class>TiliCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">tools/tilicombo.h</header>
   </customwidget>
  </customwidgets>
  <resources>

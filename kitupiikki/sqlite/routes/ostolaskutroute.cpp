@@ -28,7 +28,8 @@ OstolaskutRoute::OstolaskutRoute(SQLiteModel *model)
 QVariant OstolaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
 {
     QString kysymys("select tosite.id as tosite, vienti.viite as viite,vienti.pvm as pvm, vienti.erapvm as erapvm, "
-                    "kredit as summa, ds, ks, kumppani.nimi as toimittaja, kumppani.id as toimittajaid, vienti.eraid as eraid, vienti.tili as tili "
+                    "kredit as summa, ds, ks, kumppani.nimi as toimittaja, kumppani.id as toimittajaid, vienti.eraid as eraid, vienti.tili as tili, "
+                    "vienti.selite as selite "
                     "from Tosite JOIN "
                     "Vienti ON vienti.tosite=tosite.id ");
 

@@ -221,5 +221,7 @@ void AsetusModel::lataa(const QVariantMap &lista)
 }
 
 std::map<int,QString> AsetusModel::avaimet__ = {
-    { ALV, "AlvVelvollinen" }
+    { ALV, "AlvVelvollinen" },
+    { ERISARJAAN, "erisarjaan"},
+    { KATEISSARJAAN, "kateissarjaan"}
 };

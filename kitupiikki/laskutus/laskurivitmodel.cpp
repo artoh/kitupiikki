@@ -271,7 +271,7 @@ double LaskuRivitModel::yhteensa() const
     return summa / 100.0;
 }
 
-QVariantList LaskuRivitModel::viennit(const QDate& pvm) const
+QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa, const QDate &jaksopaattyy) const
 {
     QVariantList lista;
 
@@ -312,6 +312,10 @@ QVariantList LaskuRivitModel::viennit(const QDate& pvm) const
             vienti.setAlvKoodi( map.value("alvkoodi").toInt());
             vienti.setAlvProsentti( map.value("alvprosentti").toInt());
             vienti.setPvm(pvm);
+            if( jaksoalkaa.isValid())
+                vienti.setJaksoalkaa(jaksoalkaa);
+            if( jaksopaattyy.isValid())
+                vienti.setJaksoloppuu(jaksopaattyy);
 
             double summa = riviSumma(map);
             if( summa > 0)

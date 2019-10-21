@@ -257,7 +257,9 @@ bool TuloMenoApuri::teeTositteelle()
     bool menoa = tosite()->tyyppi() == TositeTyyppi::MENO ||
                  tosite()->tyyppi() == TositeTyyppi::KULULASKU;
     QDate pvm = tosite()->data(Tosite::PVM).toDate();
+
     QString otsikko = tosite()->data(Tosite::OTSIKKO).toString();
+    if( otsikko.isEmpty())
         otsikko = ui->asiakasToimittaja->nimi();
 
     QVariantList viennit;
@@ -457,6 +459,9 @@ bool TuloMenoApuri::teeTositteelle()
 
     tosite()->viennit()->asetaViennit(viennit);
 
+    if(summa)
+        viimeMaksutapa__ = ui->maksutapaCombo->currentText();
+
     return true;
 }
 
@@ -601,6 +606,7 @@ void TuloMenoApuri::maksutapaMuuttui()
 
     vastatiliMuuttui();
 
+    emit tosite()->tarkastaSarja( kp()->tilit()->tiliNumerolla(maksutapatili).onko(TiliLaji::KATEINEN) );
 }
 
 void TuloMenoApuri::vastatiliMuuttui()
@@ -748,7 +754,14 @@ void TuloMenoApuri::alusta(bool meno)
         if( map.contains("ERA"))
             ui->maksutapaCombo->setItemData( ui->maksutapaCombo->count()-1, map.value("ERA").toInt(), Qt::UserRole + 1 );
     }
-    ui->maksutapaCombo->addItem( QIcon(":/pic/tyhja.png"), tr("Kaikki vastatilit"), 0 );
+    ui->maksutapaCombo->addItem( QIcon(":/pic/tyhja.png"), tr("Kaikki vastatilit"), 0 );        
+
+    if( viimeMaksutapa__.length())
+        ui->maksutapaCombo->setCurrentIndex( ui->maksutapaCombo->findText( viimeMaksutapa__ ));
+    if( ui->maksutapaCombo->currentIndex() < 0)
+        ui->maksutapaCombo->setCurrentIndex(0);
+
+
     ui->vastatiliCombo->suodataTyypilla("[AB]");
 
     bool alv = kp()->asetukset()->onko( AsetusModel::ALV );
@@ -791,3 +804,5 @@ void TuloMenoApuri::kumppaniTiedot(QVariant *data)
     if( tosite()->tyyppi() == TositeTyyppi::KULULASKU && tosite()->otsikko().isEmpty() )
         tosite()->asetaOtsikko( tr("Kululasku %1").arg(map.value("nimi").toString()) );
 }
+
+QString TuloMenoApuri::viimeMaksutapa__ = QString();

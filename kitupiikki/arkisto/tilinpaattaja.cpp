@@ -80,7 +80,7 @@ void TilinPaattaja::paivitaDialogi()
     ui->lukittuLabel->setVisible(lukittu);
     ui->tilinpaatosNappi->setEnabled(lukittu);
 
-    bool tilinpaatosolemassa = QFile::exists( kp()->arkistopolku() + "/" + tilikausi.arkistoHakemistoNimi() + "/tilinpaatos.pdf"  );
+    bool tilinpaatosolemassa = !tilikausi.str("tilinpaatos").isEmpty();
 
     ui->tulostaNappi->setEnabled( tilinpaatosolemassa );
     ui->vahvistaNappi->setEnabled( tilinpaatosolemassa );
@@ -166,7 +166,7 @@ void TilinPaattaja::muokkaa()
 void TilinPaattaja::esikatsele()
 {
     // Avataan tilinpäätös
-//    NaytinIkkuna::nayta( kp()->liitteet()->liite( tilikausi.alkaa().toString(Qt::ISODate) ) );
+    NaytinIkkuna::naytaLiite(0, QString("TP_%1").arg(tilikausi.paattyy().toString(Qt::ISODate)) );
 }
 
 void TilinPaattaja::vahvista()

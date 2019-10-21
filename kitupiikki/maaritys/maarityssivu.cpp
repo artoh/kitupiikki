@@ -31,12 +31,13 @@
 #include "kohdennusmuokkaus.h"
 #include "raporttimuokkaus.h"
 #include "liitetietokaavamuokkaus.h"
-#include "laskuvalintawidget.h"
 #include "emailmaaritys.h"
 #include "tuontimaarityswidget.h"
 #include "tilikarttaohje.h"
 #include "inboxmaaritys.h"
 #include "finvoicemaaritys.h"
+
+#include "ui_laskumaaritys.h"
 
 
 #include "uusikp/paivitakirjanpito.h"
@@ -193,8 +194,11 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         nykyinen = new RaporttiMuokkaus;
     else if( sivu == LIITETIETOKAAVA)
         nykyinen = new LiitetietokaavaMuokkaus;
-    else if( sivu == LASKUTUS)
-        nykyinen = new LaskuValintaWidget;
+    else if( sivu == LASKUTUS) {
+        nykyinen = new TallentavaMaaritysWidget;
+        Ui::LaskuValinnat *ui = new Ui::LaskuValinnat;
+        ui->setupUi(nykyinen);
+    }
     else if( sivu == TUONTI)
         nykyinen = new TuontiMaaritysWidget;
     else if(sivu == SAHKOPOSTI)

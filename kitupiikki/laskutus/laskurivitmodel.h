@@ -66,7 +66,7 @@ public:
     QVariantList rivit() const;
 
     double yhteensa() const;
-    QVariantList viennit(const QDate& pvm = QDate::currentDate()) const;
+    QVariantList viennit(const QDate& pvm = QDate::currentDate(), const QDate& jaksoalkaa = QDate(), const QDate& jaksopaattyy = QDate()) const;
 
     bool onkoTyhja() const;
 

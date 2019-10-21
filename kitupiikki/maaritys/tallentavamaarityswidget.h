@@ -33,7 +33,7 @@
 class TallentavaMaaritysWidget : public MaaritysWidget
 {
 public:
-    TallentavaMaaritysWidget(QWidget *parent = nullptr);
+    TallentavaMaaritysWidget(const QString& ohjesivu = QString(), QWidget *parent = nullptr);
 
 public:
     bool nollaa() override;
@@ -41,8 +41,13 @@ public:
     bool onkoMuokattu() override;
     bool alustettu_ = false;
 
-protected slots:
+    QString ohjesivu() override { return ohjesivu_; }
+
+public slots:
     void ilmoitaMuokattu();
+
+protected:
+    QString ohjesivu_;
 
 
 };

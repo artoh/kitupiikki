@@ -78,21 +78,24 @@ void NaytinIkkuna::naytaTiedosto(const QString &tiedostonnimi)
 
 }
 
-void NaytinIkkuna::naytaLiite(const int tositeId, const int liiteId)
+void NaytinIkkuna::naytaLiite(const int liiteId)
 {
-    QSqlQuery kysely( QString("SELECT data FROM liite WHERE tosite=%1 AND liiteno=%2")
-                      .arg(tositeId).arg(liiteId));
-    if( kysely.next() )
-    {
-        QByteArray data = kysely.value("data").toByteArray();
-        nayta(data);
-    }
-    else
-    {
-        QMessageBox::critical(nullptr, tr("Virhe liitteen näyttämisessä"),
-                              tr("Liitettä %1-%2 ei löydy").arg(tositeId).arg(liiteId));
-    }
+    naytaLiite( QString::number(liiteId));
+}
 
+void NaytinIkkuna::naytaLiite(const int tositeId, const QString &rooli)
+{
+    naytaLiite( QString("%1/%2").arg(tositeId).arg(rooli));
+}
+
+void NaytinIkkuna::naytaLiite(const QString &hakulauseke)
+{
+    NaytinIkkuna *ikkuna = new NaytinIkkuna;
+
+    KpKysely *kysely = kpk("/liitteet/" + hakulauseke);
+    connect( kysely, &KpKysely::vastaus, [ikkuna] (QVariant* data)
+        { ikkuna->show(); ikkuna->view()->nayta( data->toByteArray() ); } );
+    kysely->kysy();
 }
 
 void NaytinIkkuna::sisaltoMuuttui()

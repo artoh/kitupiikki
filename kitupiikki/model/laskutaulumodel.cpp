@@ -39,8 +39,8 @@ QVariant LaskuTauluModel::headerData(int section, Qt::Orientation orientation, i
         case MAKSAMATTA: return tr("Maksamatta");
         case ASIAKASTOIMITTAJA:
             if( ostoja_)
-                return tr("Toimittaja");
-            return tr("Asiakas");
+                return tr("Toimittaja/Selite");
+            return tr("Asiakas/Selite");
         }
     }
     return QVariant();
@@ -116,9 +116,11 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
                     return QVariant();
                 }
             }
-            case ASIAKASTOIMITTAJA:
-                return ostoja_ ?
-                            map.value("toimittaja") : map.value("asiakas");
+            case ASIAKASTOIMITTAJA: {
+                QString kumppani = ostoja_ ?
+                            map.value("toimittaja").toString() : map.value("asiakas").toString();
+                return kumppani.isEmpty() ? map.value("selite") : kumppani;
+            }
             case OTSIKKO:
                 return map.value("otsikko").toString();
             }

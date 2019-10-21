@@ -109,10 +109,10 @@ QVariant TositeRoute::patch(const QString &polku, const QVariant &data)
             Tilikausi kausi = kp()->tilikaudet()->tilikausiPaivalle(kysely.value(1).toDate());
             QString sarja = kysely.value(2).toString();
             if( sarja.isNull()) {
-                kysely.exec(QString("SELECT MAX(tunniste) FROM Tosite WHERE pvm BETWEEN '%1' AND '%2' ANS sarja IS NULL")
+                kysely.exec(QString("SELECT MAX(tunniste) FROM Tosite WHERE pvm BETWEEN '%1' AND '%2' AND sarja IS NULL")
                             .arg(kausi.alkaa().toString(Qt::ISODate).arg(kausi.paattyy().toString(Qt::ISODate))));
             } else {
-                kysely.exec(QString("SELECT MAX(tunniste) FROM Tosite WHERE pvm BETWEEN '%1' AND '%2' ANS sarja = '%3'")
+                kysely.exec(QString("SELECT MAX(tunniste) FROM Tosite WHERE pvm BETWEEN '%1' AND '%2' AND sarja = '%3'")
                             .arg(kausi.alkaa().toString(Qt::ISODate).arg(kausi.paattyy().toString(Qt::ISODate))).arg(sarja));
             }
             if( kysely.next()) {

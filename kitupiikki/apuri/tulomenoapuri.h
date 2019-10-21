@@ -84,6 +84,8 @@ private:
     QSortFilterProxyModel* veroFiltteri_;
     KohdennusProxyModel* kohdennusProxy_;
 
+    static QString viimeMaksutapa__;
+
 };
 
 #endif // TULOMENOAPURI_H

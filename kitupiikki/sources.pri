@@ -137,7 +137,6 @@ SOURCES += \
     db/tilityyppimodel.cpp \
     laskutus/laskudialogi.cpp \
     laskutus/laskutusverodelegaatti.cpp \
-    maaritys/laskuvalintawidget.cpp \
     laskutus/tuotemodel.cpp \
     laskutus/smtp.cpp \
     maaritys/emailmaaritys.cpp \
@@ -349,7 +348,6 @@ HEADERS += \
     db/tilityyppimodel.h \
     laskutus/laskudialogi.h \
     laskutus/laskutusverodelegaatti.h \
-    maaritys/laskuvalintawidget.h \
     laskutus/tuotemodel.h \
     laskutus/smtp.h \
     maaritys/emailmaaritys.h \

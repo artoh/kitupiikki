@@ -546,7 +546,7 @@ QVariantMap LaskuDialogi::data() const
     // Sitten pitäisi arpoa viennit
     QVariantList viennit;
     viennit.append( vastakirjaus() );
-    viennit.append( rivit_->viennit() );
+    viennit.append( rivit_->viennit( kp()->paivamaara(), ui->toimitusDate->date(), ui->jaksoDate->date() ) );
 
     map.insert("viennit", viennit);
 
@@ -627,8 +627,11 @@ QVariantMap LaskuDialogi::vastakirjaus() const
 {
     TositeVienti vienti;
 
-    vienti.setPvm( QDate::currentDate() );
-    vienti.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::MYYNTISAATAVA).numero() );
+    vienti.setPvm( kp()->paivamaara() );
+    if( ui->maksuCombo->currentData().toInt() == KATEINEN)
+        vienti.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::KATEINEN).numero());
+    else
+        vienti.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::MYYNTISAATAVA).numero() );
 
     if( tallennusTila_ >= Tosite::VALMISLASKU)
         vienti.setEra( -1 );

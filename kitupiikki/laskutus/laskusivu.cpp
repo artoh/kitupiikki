@@ -75,9 +75,7 @@ void LaskuSivu::paaTab(int indeksi)
     laskuWidget_->setVisible( indeksi != TUOTTEET && indeksi != REKISTERI);
 
     if( indeksi >= REKISTERI )
-        kumppaniTuoteWidget_->nayta( indeksi - 3);
-    else
-        kumppaniTuoteWidget_->nayta( indeksi );
+        kumppaniTuoteWidget_->nayta( indeksi - 2);
 
     if( indeksi != TUOTTEET && indeksi != REKISTERI)
     {

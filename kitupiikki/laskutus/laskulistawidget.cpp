@@ -111,12 +111,18 @@ void LaskulistaWidget::alusta()
 
 void LaskulistaWidget::uusilasku()
 {
+    if( kp()->paivamaara() <= kp()->tilitpaatetty() ||
+        kp()->paivamaara() > kp()->tilikaudet()->kirjanpitoLoppuu()) {
+        QMessageBox::critical(this, tr("Laskua ei voi luoda"), tr("Et voi luoda uutta laskua, koska nykyiselle päivälle ei ole avoinna olevaa tilikautta"));
+        return;
+    }
+
     if( paalehti_ == MYYNTI || paalehti_ == ASIAKAS) {
         LaskuDialogi *dlg = new LaskuDialogi();
         dlg->show();
     } else {
         LisaIkkuna *lisa = new LisaIkkuna(this);
-        lisa->kirjaa();
+        lisa->kirjaa(-1, TositeTyyppi::TULO);
     }
 }
 

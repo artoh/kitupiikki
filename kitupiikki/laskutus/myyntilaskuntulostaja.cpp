@@ -137,16 +137,14 @@ MyyntiLaskunTulostaja::MyyntiLaskunTulostaja(const QVariantMap& map, QObject *pa
 
     while( !in.atEnd())
         tekstiRivinLisays(in.readLine(), kieli);
-    for( QString rivi : kp()->asetukset()->lista("LaskuTekstit"))
+    for( QString rivi : kp()->asetukset()->lista("LaskuTilit"))
         tekstiRivinLisays( rivi, kieli);
 
-    QStringList ibanit = kp()->tilit()->laskuTilit();
-    if( !ibanit.isEmpty()) {
-        iban_ = ibanit.first();
-        for( auto iban : ibanit)
-            ibanit_.append( valeilla(iban) );
-    }
 
+
+    QStringList tilit = kp()->asetus("LaskuTilit").split(",");
+    for(auto tili : tilit)
+        ibanit_.append(  kp()->tilit()->tiliNumerolla( tili.toInt() ).str("IBAN")  );
 }
 
 void MyyntiLaskunTulostaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, bool kuoreen)
@@ -497,7 +495,12 @@ void MyyntiLaskunTulostaja::tilisiirto(QPagedPaintDevice *printer, QPainter *pai
     painter->drawText( QRectF(mm*165, mm*62.3, mm*30, mm*7.5), Qt::AlignRight | Qt::AlignBottom, QString("%L1").arg( laskunSumma_ ,0,'f',2) );
 
     painter->drawText( QRectF(mm*22, mm*17, mm*90, mm*13), Qt::AlignTop | Qt::TextWordWrap, kp()->asetus("Nimi") + "\n" + kp()->asetus("Osoite")  );
-    painter->drawText( QRectF(mm*22, 0, mm*90, mm*17), Qt::AlignVCenter ,  ibanit_.join('\n')  );
+
+    QString tilinumerot;
+    for(auto iban : ibanit_)
+        tilinumerot.append(valeilla(iban) + '\n');
+
+    painter->drawText( QRectF(mm*22, 0, mm*90, mm*17), Qt::AlignVCenter ,  tilinumerot  );
 
 
     painter->save();
@@ -566,7 +569,7 @@ qreal MyyntiLaskunTulostaja::alatunniste(QPagedPaintDevice *printer, QPainter *p
 
             painter->setFont( QFont("Sans", 11));
             painter->drawText(QRectF(leveys * 2 / 5, 0, leveys / 5-mm, rk * 2), Qt::AlignBottom | Qt::AlignRight,  muotoiltuViite() );
-            painter->drawText(QRectF(0, 0, leveys * 2 / 5 -mm, rk * 2), Qt::AlignBottom | Qt::AlignRight, valeilla(iban_) );
+            painter->drawText(QRectF(0, 0, leveys * 2 / 5 -mm, rk * 2), Qt::AlignBottom | Qt::AlignRight, valeilla(ibanit_.value(0)) );
         }
     }
 
@@ -628,7 +631,7 @@ QByteArray MyyntiLaskunTulostaja::qrSvg() const
         return QByteArray();
     data.append(bic + "\n");
     data.append(kp()->asetukset()->asetus("Nimi") + "\n");
-    data.append(iban_ + "\n");
+    data.append(ibanit_.value(0) + "\n");
     data.append( QString("EUR%1\n\n").arg( laskunSumma_, 0, 'f', 2 ));
     data.append(muotoiltuViite().remove(QChar(' ')) + "\n\n");
     data.append( QString("ReqdExctnDt/%1").arg( map_.value("lasku").toMap().value("erapvm").toDate().toString(Qt::ISODate) ));
@@ -687,14 +690,14 @@ QString MyyntiLaskunTulostaja::virtuaaliviivakoodi() const
 
     QString koodi = kp()->asetukset()->onko("LaskuRF") ?
          QString("5 %1 %2 %3 %4 %5")
-                .arg(iban_.mid(2,16))    // Numeerinen tilinumero
+                .arg(ibanit_.value(0).mid(2,16))    // Numeerinen tilinumero
                 .arg(summa, 8, 10, QChar('0'))
                 .arg(muotoiltuViite().mid(2,2) )
                 .arg(muotoiltuViite().remove(' ').mid(4),21,QChar('0'))
                 .arg( map_.value("lasku").toMap().value("erapvm").toDate().toString("yyMMdd"))
         :
         QString("4 %1 %2 000 %3 %4")
-            .arg( iban_.mid(2,16) )  // Tilinumeron numeerinen osuus
+            .arg( ibanit_.value(0).mid(2,16) )  // Tilinumeron numeerinen osuus
             .arg( summa, 8, 10, QChar('0') )  // Rahamäärä
             .arg( map_.value("lasku").toMap().value("viite").toString(), 20, QChar('0'))
             .arg( map_.value("lasku").toMap().value("erapvm").toDate().toString("yyMMdd"));

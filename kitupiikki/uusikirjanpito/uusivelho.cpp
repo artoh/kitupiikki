@@ -120,12 +120,13 @@ QVariantMap UusiVelho::data() const
     if( field("harjoitus").toBool())
         asetusMap.insert("Harjoitus", true);
 
-    if( field("erisarjaan").toBool()) {
-        if( field("kateissarjaan").toBool())
-            asetusMap.insert("sarjaan",TositeTyyppiModel::KATEISSARJA);
-        else
-            asetusMap.insert("sarjaan",TositeTyyppiModel::TOSITELAJIT);
-    }
+
+
+    if( field("erisarjaan").toBool())
+        asetusMap.insert("erisarjaan", true);
+
+    if( field("kateissarjaan").toBool())
+            asetusMap.insert("kateissarjaan", true);
 
     asetusMap.insert("KpVersio", Kirjanpito::TIETOKANTAVERSIO );
     asetusMap.insert("LuotuVersiolla", qApp->applicationVersion());

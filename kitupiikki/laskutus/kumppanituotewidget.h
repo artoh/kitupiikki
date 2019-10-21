@@ -45,6 +45,7 @@ private slots:
     void ilmoitaValinta();
     void uusi();
     void muokkaa();
+    void poista();
     void paivita();
 
 signals:

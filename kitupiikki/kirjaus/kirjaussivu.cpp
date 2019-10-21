@@ -30,6 +30,7 @@
 #include "kirjauswg.h"
 #include "naytaliitewg.h"
 #include "naytin/naytinview.h"
+#include "model/tosite.h"
 
 #include "db/kirjanpito.h"
 
@@ -92,7 +93,7 @@ bool KirjausSivu::poistuSivulta(int minne)
     return true;
 }
 
-void KirjausSivu::naytaTosite(int tositeId)
+void KirjausSivu::naytaTosite(int tositeId, int tositetyyppi)
 {
     palataanTakaisin_ = true;
 
@@ -102,6 +103,10 @@ void KirjausSivu::naytaTosite(int tositeId)
 
     if( tositeId > -1)
         kirjauswg->lataaTosite(tositeId);
+    if( tositetyyppi > -1) {
+        kirjauswg->tosite()->asetaTyyppi(tositetyyppi);
+        kirjauswg->tiedotModelista();
+    }
 }
 
 void KirjausSivu::tositeKasitelty()

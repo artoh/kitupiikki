@@ -100,7 +100,7 @@
    <item>
     <widget class="QLabel" name="label_3">
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt; color:#ff0000;&quot;&gt;Tässä esiversiossa voit käyttää ainoastaan yhdistystilikarttaa.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Muut tilikartat tulevat käyttöön viimeistään vuoden 2020 alussa. Ne löytyvät myös ohjelman vanhemmista versioista, jotka on julkaista &lt;/span&gt;&lt;a href=&quot;https://kitupiikki.info&quot;&gt;&lt;span style=&quot; font-size:11pt; text-decoration: underline; color:#2980b9;&quot;&gt;Kitupiikki&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;-nimellä.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt; color:#ff0000;&quot;&gt;Tässä esiversiossa voit käyttää ainoastaan yhdistystilikarttaa.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Muut tilikartat tulevat käyttöön viimeistään vuoden 2020 alussa. Ne löytyvät myös ohjelman vanhemmista versioista, jotka on julkaistu &lt;/span&gt;&lt;a href=&quot;https://kitupiikki.info&quot;&gt;&lt;span style=&quot; font-size:11pt; text-decoration: underline; color:#2980b9;&quot;&gt;Kitupiikki&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;-nimellä.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>

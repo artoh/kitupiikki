@@ -67,12 +67,14 @@ AloitusSivu::AloitusSivu() :
     ui = new Ui::Aloitus;
     ui->setupUi(this);
 
+    // Tässä julkaisussa pilvi ei käytössä
+    ui->tkpilviTab->setTabEnabled(1, false);
+
     ui->selain->setOpenLinks(false);
 
     connect( ui->uusiNappi, &QPushButton::clicked, this, &AloitusSivu::uusiTietokanta);
     connect( ui->avaaNappi, &QPushButton::clicked, this, &AloitusSivu::avaaTietokanta);
     connect( ui->tietojaNappi, SIGNAL(clicked(bool)), this, SLOT(abouttiarallaa()));
-//    connect( ui->viimeiset, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(viimeisinTietokanta(QListWidgetItem*)));
     connect( ui->tilikausiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(siirrySivulle()));
     connect(ui->varmistaNappi, &QPushButton::clicked, this, &AloitusSivu::varmuuskopioi);
     connect(ui->muistiinpanotNappi, &QPushButton::clicked, this, &AloitusSivu::muistiinpanot);
@@ -185,7 +187,7 @@ void AloitusSivu::kirjanpitoVaihtui()
     ui->logoLabel->setVisible( avoinna && !kp()->logo().isNull());
     ui->varmistaNappi->setEnabled(avoinna);
     ui->muistiinpanotNappi->setEnabled(avoinna);
-    ui->poistaNappi->setVisible( avoinna );
+    ui->poistaNappi->setEnabled( avoinna );
 
     if( avoinna )
     {
@@ -349,7 +351,7 @@ void AloitusSivu::poistaListalta()
                               QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes)
         return;
 
-    ui->poistaNappi->hide();
+    kp()->sqlite()->poistaListalta( kp()->sqlite()->tiedostopolku() );
 }
 
 void AloitusSivu::pyydaInfo()

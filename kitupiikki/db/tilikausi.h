@@ -78,7 +78,7 @@ public:
      * @brief Tilikauden yli/alijäämä
      * @return Tulos sentteinä
      */
-    qlonglong tulos() const { return qRound64( dbl("tase") * 100); }
+    qlonglong tulos() const { return qRound64( dbl("tulos") * 100); }
 
     /**
      * @brief Tilikauden liikevaihto (CL-kirjaukset)

@@ -41,7 +41,11 @@ public:
     static void naytaRaportti(const RaportinKirjoittaja &raportti);
     static void nayta(const QByteArray &data);
     static void naytaTiedosto(const QString& tiedostonnimi);
-    static void naytaLiite(const int tositeId, const int liiteId);
+    static void naytaLiite(const int liiteId);
+    static void naytaLiite(const int tositeId, const QString& rooli);
+
+protected:
+    static void naytaLiite(const QString& hakulauseke);
 
 private slots:
     void sisaltoMuuttui();

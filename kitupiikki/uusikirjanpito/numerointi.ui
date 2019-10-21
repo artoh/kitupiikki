@@ -58,7 +58,7 @@
       <item>
        <widget class="QCheckBox" name="kateissarjaan">
         <property name="enabled">
-         <bool>false</bool>
+         <bool>true</bool>
         </property>
         <property name="text">
          <string>Käytä käteistositteille omaa numerosarjaa</string>
@@ -90,22 +90,5 @@
  <resources>
   <include location="../pic/pic.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>erisarjaan</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>kateissarjaan</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>311</x>
-     <y>232</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>303</x>
-     <y>284</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

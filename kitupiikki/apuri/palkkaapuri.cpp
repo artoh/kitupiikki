@@ -115,7 +115,7 @@ bool PalkkaApuri::teeTositteelle()
     kirjaa( viennit, "PR", ui->paivarahaEdit->value(), 0, "Päivärahat");
     kirjaa( viennit, "AT", ui->ateriaEdit->value(), 0, "Ateriakorvaukset");
 
-    kirjaa( viennit, "VV", 0, ui->pidatysEdit->value(), "Ennakonpidätys","EP");
+    kirjaa( viennit, "EP", 0, ui->pidatysEdit->value(), "Ennakonpidätys");
     kirjaa( viennit, "EL", 0, ui->elakeEdit->value(), "Työntekijöiden eläkevakuutusmaksut");
     kirjaa( viennit, "TV", 0, ui->tvredit->value(), "Työntekijöiden TVR-maksut");
     kirjaa( viennit, "AY", 0, ui->ayedit->value(), "Ay-jäsenmaksut");

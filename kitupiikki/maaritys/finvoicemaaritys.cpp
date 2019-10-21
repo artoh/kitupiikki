@@ -21,7 +21,7 @@
 #include <QFileDialog>
 
 FinvoiceMaaritys::FinvoiceMaaritys(QWidget *parent)
-    : TallentavaMaaritysWidget (parent),
+    : TallentavaMaaritysWidget ("maaritys/finvoice", parent),
       ui_(new Ui::VerkkolaskuMaaritys)
 {
     ui_->setupUi(this);

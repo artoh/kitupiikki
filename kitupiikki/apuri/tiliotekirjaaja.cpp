@@ -52,7 +52,11 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
     connect( ui->alaTabs, &QTabBar::currentChanged, this, &TilioteKirjaaja::alaTabMuuttui);
     connect( ui->ylaTab, &QTabBar::currentChanged, this, &TilioteKirjaaja::ylaTabMuuttui);
 
-    maksuProxy_->setSourceModel(laskut_);
+    QSortFilterProxyModel* avoinProxy = new QSortFilterProxyModel(this);
+    avoinProxy->setSourceModel(laskut_);
+    avoinProxy->setFilterRole( LaskuTauluModel::AvoinnaRooli );
+    avoinProxy->setFilterRegExp("\\d+");
+    maksuProxy_->setSourceModel( avoinProxy );
 
     ui->maksuView->setModel(maksuProxy_);
     ui->maksuView->hideColumn( LaskuTauluModel::LAHETYSTAPA );

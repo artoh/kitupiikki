@@ -40,7 +40,9 @@ public:
     explicit AsetusModel(QObject *parent);
 
     enum Asetukset {
-        ALV /** AlvVelvollinen - Maksaa arvonlisäveroa */
+        ALV /** AlvVelvollinen - Maksaa arvonlisäveroa */,
+        ERISARJAAN /** Tositteet numeroidaan sarjoittain */,
+        KATEISSARJAAN /** Käteistositteet omaan sarjaansa */
     };
 
 

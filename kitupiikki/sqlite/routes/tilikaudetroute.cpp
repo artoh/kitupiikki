@@ -41,7 +41,7 @@ QVariant TilikaudetRoute::get(const QString &polku, const QUrlQuery &/*urlquery*
         QVariantMap map = list.at(i).toMap();
 
         // Tase
-        kysely.exec( QString("SELECT sum(debet), sum(kredit) FROM vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE vienti.pvm < '%1' AND CAST(tili as text) < '3' AND Tosite.tila >= 100 ")
+        kysely.exec( QString("SELECT sum(debet), sum(kredit) FROM vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE vienti.pvm <= '%1' AND CAST(tili as text) < '3' AND Tosite.tila >= 100 ")
                      .arg(map.value("loppuu").toString()) );
         if( kysely.next())
             map.insert("tase", QString::number(qMax( kysely.value(0).toDouble(), kysely.value(1).toDouble()),'f',2));
@@ -64,13 +64,13 @@ QVariant TilikaudetRoute::get(const QString &polku, const QUrlQuery &/*urlquery*
 
         // Kauden viimeinen tosite
         kysely.exec(QString("SELECT MAX(pvm) FROM Tosite WHERE pvm BETWEEN '%1' AND '%2'")
-                    .arg(map.value("alkaa").toString()).arg(map.value("paattyy").toString()) );
+                    .arg(map.value("alkaa").toString()).arg(map.value("loppuu").toString()) );
         if( kysely.next())
             map.insert("viimeinen", kysely.value(0));
 
         // Tilikauden päivitys
         kysely.exec(QString("SELECT MAX(aika) FROM Tositeloki JOIN Tosite ON Tositeloki.tosite=Tosite.id "
-                            "WHERE Tosite.pvm BETWEEN '%1' AND '%2'").arg(map.value("alkaa").toString()).arg(map.value("paattyy").toString()) );
+                            "WHERE Tosite.pvm BETWEEN '%1' AND '%2'").arg(map.value("alkaa").toString()).arg(map.value("loppuu").toString()) );
         if( kysely.next())
             map.insert("paivitetty", kysely.value(0));
 

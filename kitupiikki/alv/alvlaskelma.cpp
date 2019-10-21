@@ -401,7 +401,7 @@ void AlvLaskelma::tallenna()
                      .arg(loppupvm_.toString("dd.MM.yyyy")));
     tosite_->setData( Tosite::TYYPPI, TositeTyyppi::ALVLASKELMA  );
 
-    tosite_->liitteet()->lisaa( rk.pdf(), "alv.pdf" );
+    tosite_->liitteet()->lisaa( rk.pdf(), "alv" );
 
     QVariantMap lisat;
     QVariantMap koodit;

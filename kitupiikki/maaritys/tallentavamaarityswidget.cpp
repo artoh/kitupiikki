@@ -22,6 +22,8 @@
 #include <QComboBox>
 #include <QSpinBox>
 #include <QTextEdit>
+#include <QDoubleSpinBox>
+#include "tools/tilicombo.h"
 
 #include "db/kielikentta.h"
 #include <QJsonDocument>
@@ -29,8 +31,8 @@
 
 #include <QDebug>
 
-TallentavaMaaritysWidget::TallentavaMaaritysWidget(QWidget *parent)
-    : MaaritysWidget (parent)
+TallentavaMaaritysWidget::TallentavaMaaritysWidget(const QString &ohjesivu, QWidget *parent)
+    : MaaritysWidget (parent), ohjesivu_(ohjesivu)
 {
 
 }
@@ -54,6 +56,15 @@ bool TallentavaMaaritysWidget::nollaa()
         if( box ) {
             box->setChecked( kp()->asetukset()->onko(asetusavain) );
             connect( box, &QAbstractButton::clicked, this, &TallentavaMaaritysWidget::ilmoitaMuokattu);
+        }
+
+        TiliCombo *tcombo = qobject_cast<TiliCombo*>(widget);
+        if( tcombo ) {
+            QString tilisuodatin = widget->property("Tilit").toString();
+            tcombo->suodataTyypilla(tilisuodatin);
+            tcombo->valitseTili( kp()->asetukset()->luku(asetusavain) );
+            connect( tcombo, &TiliCombo::tiliValittu, this, &TallentavaMaaritysWidget::ilmoitaMuokattu);
+            continue;
         }
 
         QComboBox *combo = qobject_cast<QComboBox*>(widget);
@@ -88,10 +99,18 @@ bool TallentavaMaaritysWidget::nollaa()
             continue;
         }
 
+        QDoubleSpinBox *dspin = qobject_cast<QDoubleSpinBox*>(widget);
+        if( dspin ) {
+            dspin->setValue( kp()->asetukset()->asetus(asetusavain).toDouble() );
+            connect( spin, SIGNAL(valueChanged(double)), this, SLOT(ilmoitaMuokattu()));
+            continue;
+        }
+
         QTextEdit *tedit = qobject_cast<QTextEdit*>(widget);
         if( tedit ) {
             tedit->setPlainText( kp()->asetukset()->asetus(asetusavain) );
             connect( tedit, &QTextEdit::textChanged, this, &TallentavaMaaritysWidget::ilmoitaMuokattu);
+            continue;
         }
 
     }
@@ -125,6 +144,12 @@ bool TallentavaMaaritysWidget::tallenna()
             continue;
         }
 
+        TiliCombo *tcombo = qobject_cast<TiliCombo*>(widget);
+        if( tcombo ) {
+            asetukset.insert(asetusavain, tcombo->valittuTilinumero());
+            continue;
+        }
+
         QComboBox *combo = qobject_cast<QComboBox*>(widget);
         if( combo ) {
             asetukset.insert(asetusavain, combo->currentData());
@@ -140,9 +165,14 @@ bool TallentavaMaaritysWidget::tallenna()
         QTextEdit *tedit = qobject_cast<QTextEdit*>(widget);
         if( tedit ) {
             asetukset.insert( asetusavain, tedit->toPlainText());
+            continue;
         }
 
-
+        QDoubleSpinBox *dspin = qobject_cast<QDoubleSpinBox*>(widget);
+        if( dspin ) {
+            asetukset.insert(asetusavain, QString::number( dspin->value(),'f',2 ));
+            continue;
+        }
 
     }
     kp()->asetukset()->aseta(asetukset);
@@ -180,6 +210,13 @@ bool TallentavaMaaritysWidget::onkoMuokattu()
             continue;
         }
 
+        TiliCombo *tcombo = qobject_cast<TiliCombo*>(widget);
+        if( tcombo ) {
+            if( tcombo->valittuTilinumero() != kp()->asetukset()->luku(asetusavain))
+                return true;
+            continue;
+        }
+
         QComboBox *combo = qobject_cast<QComboBox*>(widget);
         if( combo ) {
             if( kp()->asetukset()->asetus(asetusavain) != combo->currentData().toString())
@@ -197,6 +234,13 @@ bool TallentavaMaaritysWidget::onkoMuokattu()
         QTextEdit *tedit = qobject_cast<QTextEdit*>(widget);
         if( tedit ) {
             if( kp()->asetukset()->asetus(asetusavain) != tedit->toPlainText() )
+                return true;
+            continue;
+        }
+
+        QDoubleSpinBox *dspin = qobject_cast<QDoubleSpinBox*>(widget);
+        if( dspin ) {
+            if( qAbs(kp()->asetus(asetusavain).toDouble() - dspin->value() ) > 1e-3 )
                 return true;
             continue;
         }

@@ -24,7 +24,7 @@
   Kitupiikin versio määritellään tässä tiedostossa. Tiedosto voidaan myös generoida käännösaikaisesti.
 */
 
-#define KITUPIIKKI_VERSIO "2.0-devel"
+#define KITUPIIKKI_VERSIO "2.0-pre1"
 #define KITUPIIKKI_BUILD  "A" // "PORTABLE" //
 
 #define KITUPIIKKI_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)

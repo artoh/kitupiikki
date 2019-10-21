@@ -210,8 +210,8 @@ void KirjausWg::tyhjenna()
     ui->tallennaButton->setVisible(true);
     ui->tabWidget->setCurrentIndex(0);
     ui->tositetyyppiCombo->setFocus();
-    ui->sarjaEdit->setVisible( kp()->asetus("sarjaan").toInt() );
-    ui->sarjaLabel->setVisible( kp()->asetus("sarjaan").toInt() );
+    ui->sarjaEdit->setVisible( kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN) );
+    ui->sarjaLabel->setVisible( kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN) );
     paivitaLiiteNapit();
 }
 
@@ -607,7 +607,7 @@ void KirjausWg::tiedotModelista()
     ui->sarjaEdit->setText( tosite_->data(Tosite::SARJA).toString() );
 
     int tunniste = tosite_->data(Tosite::TUNNISTE).toInt();
-    ui->sarjaLabel->setVisible( kp()->asetus("sarjaan").toInt() && !tunniste );
+    ui->sarjaLabel->setVisible( (kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN)) && !tunniste );
 
     if( tunniste ) {
         ui->tunnisteLabel->setVisible(true);
@@ -678,6 +678,7 @@ void KirjausWg::vaihdaTositeTyyppi()
         apuri_ = new PalkkaApuri(this, tosite_);
     }
 
+
     tosite_->setData(Tosite::TYYPPI, tyyppiKoodi);
     paivitaSarja();
 
@@ -685,7 +686,7 @@ void KirjausWg::vaihdaTositeTyyppi()
     {
         ui->tabWidget->insertTab(0, apuri_, QIcon(":/pic/apuri64.png"), tr("Kirjaa"));
         ui->tabWidget->setCurrentIndex(0);
-        apuri_->reset();
+        apuri_->reset();                
     }
 
     if( tyyppiKoodi == TositeTyyppi::LIITETIETO)
@@ -699,7 +700,8 @@ void KirjausWg::vaihdaTositeTyyppi()
 
 void KirjausWg::paivitaSarja(bool kateinen)
 {
-    if( kp()->asetukset()->asetus("sarjaan").toInt())
+    if( kp()->asetukset()->onko(AsetusModel::ERISARJAAN) ||
+        kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN))
         ui->sarjaEdit->setText( kp()->tositeTyypit()->sarja( tosite_->tyyppi() , kateinen ) ) ;
 }
 

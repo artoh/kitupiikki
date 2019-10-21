@@ -57,7 +57,8 @@ int TiliCombo::valittuTilinumero() const
 
 void TiliCombo::valitseTili(int tilinumero)
 {
-    setCurrentIndex( findData(tilinumero, TiliModel::NroRooli) );
+    int indeksi = findData(tilinumero, TiliModel::NroRooli);
+    setCurrentIndex( indeksi );
 }
 
 void TiliCombo::vaihtui()

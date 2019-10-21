@@ -27,6 +27,7 @@
 #include "kantavariantti.h"
 #include "kielikentta.h"
 
+
 /**
  * @brief Tilin tai otsikon tiedot
  *
