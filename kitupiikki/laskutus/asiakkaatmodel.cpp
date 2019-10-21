@@ -4,8 +4,8 @@
 
 #include <QDebug>
 
-AsiakkaatModel::AsiakkaatModel(QObject *parent, bool toimittajat)
-    : QAbstractTableModel(parent), toimittajat_(toimittajat)
+AsiakkaatModel::AsiakkaatModel(QObject *parent, KumppaniValinta valinta)
+    : QAbstractTableModel(parent), valinta_(valinta)
 {
 
 }
@@ -17,6 +17,8 @@ int AsiakkaatModel::rowCount(const QModelIndex &/*parent*/) const
 
 int AsiakkaatModel::columnCount(const QModelIndex &/*parent*/) const
 {
+    if( valinta_ == REKISTERI)
+        return 1;
     return 4;
 }
 
@@ -83,15 +85,18 @@ QVariant AsiakkaatModel::headerData(int section, Qt::Orientation orientation, in
     return QVariant();
 }
 
-void AsiakkaatModel::paivita(bool toimittajat)
+void AsiakkaatModel::paivita(int valinta)
 {
-    toimittajat_ = toimittajat;
+    valinta_ = valinta;
     KpKysely *utelu = nullptr;
 
-    if( toimittajat )
+    if( valinta == TOIMITTAJAT)
         utelu = kpk("/toimittajat");
-    else
+    else if(valinta == ASIAKKAAT)
         utelu = kpk("/asiakkaat");
+    else
+        utelu = kpk("/kumppanit");
+
     connect( utelu, &KpKysely::vastaus, this, &AsiakkaatModel::tietoSaapuu);
     utelu->kysy();
 

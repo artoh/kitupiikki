@@ -163,6 +163,8 @@
         <file>ok-128.png</file>
         <file>varasto-mv.png</file>
         <file>muokkaaasiakas.png</file>
+        <file>mies.png</file>
+        <file>kitsas64.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

@@ -326,14 +326,7 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
     ui->varoKuva->setPixmap(QPixmap());
     ui->varoTeksti->clear();
 
-    if( kp()->tilitpaatetty() >= kp()->tilikaudet()->kirjanpitoLoppuu() )
-    {
-        ui->varoKuva->setPixmap(QPixmap(":/pic/stop.png"));
-        ui->varoTeksti->setText( tr("Kirjanpidossa ei ole\navointa tilikautta."));
-        virheet |= Tosite::EIAVOINTAKUTTA;
-
-    }
-    else if( virheet & Tosite::PVMLUKITTU || kp()->tilitpaatetty() >= ui->tositePvmEdit->date())
+    if( virheet & Tosite::PVMLUKITTU || kp()->tilitpaatetty() >= ui->tositePvmEdit->date())
     {
         ui->varoKuva->setPixmap( QPixmap(":/pic/lukittu.png"));
         ui->varoTeksti->setText( tr("Kirjanpito lukittu\n%1 saakka").arg(kp()->tilitpaatetty().toString("dd.MM.yyyy")));
@@ -348,9 +341,14 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
                      .arg(debet,0,'f',2)
                      .arg(kredit,0,'f',2)
                      .arg(qAbs(debet-kredit),0,'f',2) );
-    } else if( qAbs(debet) > 1e-5) {
+    } else if( kp()->tilitpaatetty() >= kp()->tilikaudet()->kirjanpitoLoppuu() )
+    {
+        ui->varoKuva->setPixmap(QPixmap(":/pic/stop.png"));
+        ui->varoTeksti->setText( tr("Kirjanpidossa ei ole\navointa tilikautta."));
+    }  else if( qAbs(debet) > 1e-5) {
         ui->varoTeksti->setText( tr("Summa %L1 €").arg(debet,0,'f',2) );
     }
+
 
     // Nappien enablointi
     // Täällä pitäisi olla jossain myös oikeuksien tarkastus ;)

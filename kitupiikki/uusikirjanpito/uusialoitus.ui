@@ -77,7 +77,7 @@
       <item>
        <widget class="QLabel" name="pilviLabel">
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kirjanpito tallennetaan XX Oy:n suomalaiselle palvelimelle. Kirjanpitoa voi käyttää useampi käyttäjä, ja kirjanpidon varmuuskopioinnista huolehditaan sinun puolestasi. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tässä esiversiossa ei ole mahdollisuutta kirjanpidon pilveen tallentamiseen. Ominaisuus on tulossa vuoden 2020 alussa.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>

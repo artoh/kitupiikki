@@ -54,10 +54,10 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu("Kohdennukset", KOHDENNUS, QIcon(":/pic/kohdennus.png"));
     lisaaSivu("Tilinavaus", TILINAVAUS, QIcon(":/pic/rahaa.png"));
     lisaaSivu("Laskutus", LASKUTUS, QIcon(":/pic/lasku.png"));
-    lisaaSivu("Sähköpostin lähetys", SAHKOPOSTI, QIcon(":/pic/email.png"));
+//    lisaaSivu("Sähköpostin lähetys", SAHKOPOSTI, QIcon(":/pic/email.png"));
 //    lisaaSivu("Verkkolasku", VERKKOLASKU, QIcon(":/pic/verkkolasku.png"));
-    lisaaSivu("Tuonti", TUONTI, QIcon(":/pic/tuotiedosto.png"));
-    lisaaSivu("Kirjattavien kansio", INBOX, QIcon(":/pic/inbox.png"));
+//    lisaaSivu("Tuonti", TUONTI, QIcon(":/pic/tuotiedosto.png"));
+//    lisaaSivu("Kirjattavien kansio", INBOX, QIcon(":/pic/inbox.png"));
 //    lisaaSivu("Raportit", RAPORTIT, QIcon(":/pic/print.png"));
 //    lisaaSivu("Tilinpäätöksen malli", LIITETIETOKAAVA, QIcon(":/pic/tekstisivu.png"));
 //    lisaaSivu("Tilikartan ohje", TILIKARTTAOHJE, QIcon(":/pic/ohje.png"));

@@ -25,7 +25,9 @@ struct AsiakasRivi
 class AsiakkaatModel : public QAbstractTableModel
 {
 public:
-    AsiakkaatModel(QObject *parent = nullptr, bool toimittajat = false);
+    enum KumppaniValinta { REKISTERI, ASIAKKAAT, TOIMITTAJAT};
+
+    AsiakkaatModel(QObject *parent = nullptr,KumppaniValinta valinta = REKISTERI);
 
     enum AsiakasSarake { NIMI, YHTEENSA, AVOINNA, ERAANTYNYT };
     enum { IdRooli = Qt::UserRole, NimiRooli = Qt::UserRole + 1 };
@@ -36,8 +38,10 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
+
+
 public slots:
-    void paivita(bool toimittajat = false);
+    void paivita(int valinta);
 
 protected slots:
     void tietoSaapuu(QVariant* var);
@@ -47,7 +51,7 @@ protected:
 
     QVariantList lista_;
 
-    bool toimittajat_ = false;  /** Näyttää toimittajien tiedot */
+    int valinta_;
 
 
 

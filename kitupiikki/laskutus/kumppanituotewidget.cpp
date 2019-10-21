@@ -24,6 +24,8 @@
 #include "rekisteri/asiakastoimittajadlg.h"
 #include "tuotedialogi.h"
 
+#include "db/kirjanpito.h"
+
 #include <QDebug>
 
 KumppaniTuoteWidget::KumppaniTuoteWidget(QWidget *parent) :
@@ -45,6 +47,7 @@ KumppaniTuoteWidget::KumppaniTuoteWidget(QWidget *parent) :
 
     connect( ui->uusiNappi, &QPushButton::clicked, this, &KumppaniTuoteWidget::uusi);
     connect( ui->muokkaaNappi, &QPushButton::clicked, this, &KumppaniTuoteWidget::muokkaa);
+    connect( ui->poistaNappi, &QPushButton::clicked, this, &KumppaniTuoteWidget::poista);
 }
 
 KumppaniTuoteWidget::~KumppaniTuoteWidget()
@@ -95,6 +98,25 @@ void KumppaniTuoteWidget::muokkaa()
     }
 }
 
+void KumppaniTuoteWidget::poista()
+{
+    if( valilehti_ == TUOTTEET) {
+        int tuoteid = ui->view->currentIndex().data(TuoteModel::IdRooli).toInt();
+        if( tuoteid ) {
+            KpKysely *kysely = kpk(QString("/tuotteet/%1").arg(tuoteid), KpKysely::DELETE );
+            connect( kysely, &KpKysely::vastaus, this, &KumppaniTuoteWidget::paivita);
+            kysely->kysy();
+        }
+    } else {
+        int kid = ui->view->currentIndex().data(AsiakkaatModel::IdRooli).toInt();
+        if( kid ) {
+            KpKysely *kysely = kpk(QString("/kumppanit/%1").arg(kid), KpKysely::DELETE );
+            connect( kysely, &KpKysely::vastaus, this, &KumppaniTuoteWidget::paivita);
+            kysely->kysy();
+        }
+    }
+}
+
 void KumppaniTuoteWidget::paivita()
 {
     if( valilehti_ == TUOTTEET)
@@ -102,10 +124,12 @@ void KumppaniTuoteWidget::paivita()
     else
         proxy_->setSourceModel( asiakkaat_);
 
-    if( valilehti_ == ASIAKKAAT )
-        asiakkaat_->paivita(false);
+    if( valilehti_ == REKISTERI)
+        asiakkaat_->paivita(AsiakkaatModel::REKISTERI);
+    else if( valilehti_ == ASIAKKAAT )
+        asiakkaat_->paivita(AsiakkaatModel::ASIAKKAAT);
     else if( valilehti_ == TOIMITTAJAT)
-        asiakkaat_->paivita(true);
+        asiakkaat_->paivita(AsiakkaatModel::TOIMITTAJAT);
     else if( valilehti_ == TUOTTEET)
         tuotteet_->lataa();
 

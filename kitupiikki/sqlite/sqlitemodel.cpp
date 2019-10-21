@@ -245,6 +245,7 @@ void SQLiteModel::lisaaViimeisiin()
     viimeiset_.insert(0, map);
 
     kp()->settings()->setValue("ViimeTiedostot", viimeiset_);
+    kp()->settings()->setValue("Viimeisin", tiedostopolku());
     endResetModel();
 
 }
