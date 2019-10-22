@@ -182,7 +182,7 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
 
         qDebug() << kysely.lastQuery() << " -- sarja " << sarja << "tosite  " << tunniste;
     }
-    // TODO Laskun numero ja viite
+    // Laskun numero ja viite
     if( map.contains("lasku") && !map.value("lasku").toMap().contains("numero") && tila >= Tosite::VALMISLASKU &&
             viennit.count()) {
         qulonglong laskunumero = kp()->asetukset()->asetus("LaskuSeuraavaId").toULongLong();

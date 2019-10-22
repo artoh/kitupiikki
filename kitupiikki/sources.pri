@@ -34,7 +34,6 @@ SOURCES += \
     $$PWD/model/tositevienti.cpp \
     $$PWD/raportti/paakirja.cpp \
     $$PWD/raportti/raportteri.cpp \
-    $$PWD/raportti/raportti.cpp \
     $$PWD/raportti/raporttiwidget.cpp \
     $$PWD/raportti/taseerittelija.cpp \
     $$PWD/raportti/tasetulosraportti.cpp \
@@ -245,7 +244,6 @@ HEADERS += \
     $$PWD/model/tositevienti.h \
     $$PWD/raportti/paakirja.h \
     $$PWD/raportti/raportteri.h \
-    $$PWD/raportti/raportti.h \
     $$PWD/raportti/raporttiwidget.h \
     $$PWD/raportti/taseerittelija.h \
     $$PWD/raportti/tasetulosraportti.h \

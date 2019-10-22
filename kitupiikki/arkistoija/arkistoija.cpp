@@ -23,6 +23,7 @@
 #include "raportti/paivakirja.h"
 #include "raportti/taseerittelija.h"
 #include "raportti/tilikarttalistaaja.h"
+#include "raportti/tositeluettelo.h"
 
 #include <QFile>
 #include <QTextStream>
@@ -100,7 +101,7 @@ void Arkistoija::arkistoiTositteet()
 
 void Arkistoija::arkistoiRaportit()
 {
-    raporttilaskuri_ = 5;
+    raporttilaskuri_ = 6;
     Paivakirja* paivakirja = new Paivakirja(this);
     connect( paivakirja, &Paivakirja::valmis,
              [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"paivakirja.html"); } );
@@ -121,6 +122,14 @@ void Arkistoija::arkistoiRaportit()
              [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"tililuettelo.html"); } );
     tililuettelo->kirjoita(TiliKarttaListaaja::KAYTOSSA_TILIT, tilikausi_,
                            true, true, tilikausi_.paattyy(), false);
+
+    TositeLuettelo* tositeluettelo = new TositeLuettelo(this);
+    connect( tositeluettelo, &TositeLuettelo::valmis,
+             [this] (RaportinKirjoittaja rk) { this->arkistoiRaportti(rk,"tositeluettelo.html"); } );
+    tositeluettelo->kirjoita(tilikausi_.alkaa(), tilikausi_.paattyy(),
+                             TositeLuettelo::TositeJarjestyksessa | TositeLuettelo::TulostaKohdennukset
+                             | TositeLuettelo::SamaTilikausi | TositeLuettelo::TulostaSummat );
+
 
     Tilikausi edellinen = kp()->tilikaudet()->tilikausiPaivalle( tilikausi_.alkaa().addDays(-1) );
 
@@ -294,10 +303,10 @@ void Arkistoija::viimeistele()
     out << "</h2>";
 
     // Jos tilit on päätetty, tulee linkki myös tilinpäätökseen (pdf)
-    out << "<h3>" << tr("Tilinpäätös") << "</h3>";
+    out << "<h3>" << tr("Tilinpäätös") << "</h3><ul>";
 
     if( QFile::exists( hakemisto_.absoluteFilePath("tilinpaatos.pdf")  ))
-           out << "<ul><li><a href=tilinpaatos.pdf>" << tr("Tilinpäätös") << "</a></li>";
+           out << "<li><a href=tilinpaatos.pdf>" << tr("Tilinpäätös") << "</a></li>";
 
     out   << "<li><a href=taseerittely.html>" << tr("Tase-erittely") << "</a></li></ul>";
 
@@ -305,7 +314,7 @@ void Arkistoija::viimeistele()
     out << "<h3>Kirjanpito</h3>";
     out << "<ul><li><a href=paakirja.html>" << tr("Pääkirja") << "</a></li>";
     out << "<li><a href=paivakirja.html>" << tr("Päiväkirja") << "</a></li>";
-//    out << "<li><a href=tositeluettelo.html>Tositeluettelo</a></li>";
+    out << "<li><a href=tositeluettelo.html>Tositeluettelo</a></li>";
 //    out << "<li><a href=tositepaivakirja.html>" << tr("Tositepäiväkirja") << "</a></li>";
     out << "<li><a href=tililuettelo.html>Tililuettelo</a></li>";
     out << "</ul><h3>Raportit</h3><ul>";

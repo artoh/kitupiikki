@@ -64,7 +64,7 @@ void RaporttiSivu::siirrySivulle()
 
     lisaaRaportti("Päiväkirja","Päiväkirja",":/pic/Paivakirja64.png");
     lisaaRaportti("Pääkirja","Pääkirja",":/pic/Diary64.png");
-//    lisaaRaportti("Tositeluettelo","Tositeluettelo",":/pic/dokumentti.png");
+    lisaaRaportti("Tositeluettelo","Tositeluettelo",":/pic/dokumentti.png");
     lisaaRaportti(tr("Tase"), "Tase", ":/pic/tekstisivu.png");
     lisaaRaportti(tr("Tuloslaskelma"), "Tuloslaskelma", ":/pic/tekstisivu.png");
 

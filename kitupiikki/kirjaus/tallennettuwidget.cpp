@@ -63,8 +63,10 @@ void TallennettuWidget::nayta(int tunnus, const QDate &paiva, const QString &sar
 
 void TallennettuWidget::piiloon()
 {
-    timer_->stop();
-    hide();
+    if( timer_->remainingTime() < 59500) {
+        timer_->stop();
+        hide();
+    }
 }
 
 
