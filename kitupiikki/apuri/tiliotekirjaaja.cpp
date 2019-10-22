@@ -50,15 +50,21 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
 
     connect( ui->euroEdit, &KpEuroEdit::textChanged, this, &TilioteKirjaaja::euroMuuttuu);
     connect( ui->alaTabs, &QTabBar::currentChanged, this, &TilioteKirjaaja::alaTabMuuttui);
-    connect( ui->ylaTab, &QTabBar::currentChanged, this, &TilioteKirjaaja::ylaTabMuuttui);
+    connect( ui->ylaTab, &QTabBar::currentChanged, this, &TilioteKirjaaja::ylaTabMuuttui);    
+
+    maksuProxy_->setSourceModel( laskut_ );
 
     QSortFilterProxyModel* avoinProxy = new QSortFilterProxyModel(this);
-    avoinProxy->setSourceModel(laskut_);
-    avoinProxy->setFilterRole( LaskuTauluModel::AvoinnaRooli );
-    avoinProxy->setFilterRegExp("\\d+");
-    maksuProxy_->setSourceModel( avoinProxy );
 
-    ui->maksuView->setModel(maksuProxy_);
+    avoinProxy->setSourceModel(maksuProxy_);
+    avoinProxy->setFilterRole(Qt::DisplayRole);
+    avoinProxy->setFilterKeyColumn(LaskuTauluModel::MAKSAMATTA);
+    avoinProxy->setFilterFixedString("€");
+
+
+    ui->maksuView->setModel(avoinProxy);
+    ui->maksuView->setSortingEnabled(true);
+    avoinProxy->setDynamicSortFilter(true);
     ui->maksuView->hideColumn( LaskuTauluModel::LAHETYSTAPA );
     connect( ui->maksuView->selectionModel(), &QItemSelectionModel::currentRowChanged , this, &TilioteKirjaaja::valitseLasku);
     connect( ui->suodatusEdit, &QLineEdit::textEdited, this, &TilioteKirjaaja::suodata);

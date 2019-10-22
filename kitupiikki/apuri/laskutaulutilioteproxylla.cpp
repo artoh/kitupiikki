@@ -28,10 +28,10 @@ LaskuTauluTilioteProxylla::LaskuTauluTilioteProxylla(QObject *parent, TilioteMod
 
 QVariant LaskuTauluTilioteProxylla::data(const QModelIndex &index, int role) const
 {
-    if( ( role == Qt::DisplayRole || role == Qt::EditRole) && index.column() == MAKSAMATTA) {
+    if( ( role == Qt::DisplayRole || role == Qt::EditRole) && index.column() == MAKSAMATTA)  {
         double avoinna = LaskuTauluModel::data(index, Qt::EditRole).toDouble();
         avoinna -= suoritukset_.value( LaskuTauluModel::data(index, EraIdRooli).toInt() );
-        if( role == Qt::EditRole)
+        if( role != Qt::DisplayRole)
             return avoinna;
         else if( avoinna > 1e-5)
             return QString("%L1 €").arg( avoinna ,0,'f',2);

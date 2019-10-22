@@ -106,15 +106,17 @@ QVariant TositeRoute::patch(const QString &polku, const QVariant &data)
         if( kysely.value(0).toInt())
             tunniste = kysely.value(0).toInt();
         else if( tila >= Tosite::KIRJANPIDOSSA) {
-            Tilikausi kausi = kp()->tilikaudet()->tilikausiPaivalle(kysely.value(1).toDate());
+            QDate pvm = kysely.value(1).toDate();
+            Tilikausi kausi = kp()->tilikaudet()->tilikausiPaivalle(pvm);
             QString sarja = kysely.value(2).toString();
-            if( sarja.isNull()) {
+            if( sarja.isEmpty()) {
                 kysely.exec(QString("SELECT MAX(tunniste) FROM Tosite WHERE pvm BETWEEN '%1' AND '%2' AND sarja IS NULL")
-                            .arg(kausi.alkaa().toString(Qt::ISODate).arg(kausi.paattyy().toString(Qt::ISODate))));
+                            .arg( kausi.alkaa().toString(Qt::ISODate) ).arg( kausi.paattyy().toString( Qt::ISODate )) );
             } else {
                 kysely.exec(QString("SELECT MAX(tunniste) FROM Tosite WHERE pvm BETWEEN '%1' AND '%2' AND sarja = '%3'")
-                            .arg(kausi.alkaa().toString(Qt::ISODate).arg(kausi.paattyy().toString(Qt::ISODate))).arg(sarja));
+                            .arg(kausi.alkaa().toString(Qt::ISODate)).arg(kausi.paattyy().toString(Qt::ISODate)).arg(sarja));
             }
+            qDebug() << kysely.lastQuery();
             if( kysely.next()) {
                 tunniste = kysely.value(0).toInt() + 1;
             }

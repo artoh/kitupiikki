@@ -23,7 +23,7 @@
 #include "db/kirjanpito.h"
 #include "laskudialogi.h"
 #include "lisaikkuna.h"
-
+#include "naytin/naytinikkuna.h"
 #include <QDebug>
 
 LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
@@ -56,6 +56,8 @@ LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
 
     connect( kp(), &Kirjanpito::tietokantaVaihtui, this, &LaskulistaWidget::alusta );
     connect( kp(), &Kirjanpito::kirjanpitoaMuokattu, this, &LaskulistaWidget::paivita );
+
+    connect( ui->naytaNappi, &QPushButton::clicked, this, &LaskulistaWidget::naytaLasku);
 
     connect( ui->uusiNappi, &QPushButton::clicked, this, &LaskulistaWidget::uusilasku);
     connect( ui->muokkaaNappi, &QPushButton::clicked, this, &LaskulistaWidget::muokkaa);
@@ -139,6 +141,14 @@ void LaskulistaWidget::muokkaa()
     } else {
         LisaIkkuna *lisa = new LisaIkkuna(this);
         lisa->naytaTosite(tositeId);
+    }
+}
+
+void LaskulistaWidget::naytaLasku()
+{
+    int tositeId = ui->view->currentIndex().data(LaskuTauluModel::TositeIdRooli).toInt();
+    if( tositeId) {
+        NaytinIkkuna::naytaLiite(tositeId,"lasku");
     }
 }
 

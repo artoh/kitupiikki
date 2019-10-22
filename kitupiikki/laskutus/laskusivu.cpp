@@ -81,6 +81,7 @@ void LaskuSivu::paaTab(int indeksi)
     {
         laskuWidget_->suodataAsiakas( asiakasSuodatusEdit_->text() );
         laskuWidget_->nayta( indeksi );
+        laskuWidget_->paivita();
     }
 
     if( indeksi == ASIAKAS || indeksi == MYYNTI)

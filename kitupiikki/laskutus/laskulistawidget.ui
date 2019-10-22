@@ -86,6 +86,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="lahetaNappi">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Lähetä</string>
        </property>

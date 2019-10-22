@@ -135,8 +135,6 @@ public:
     void poista();
 
 protected:
-    QDate alkaa_;
-    QDate paattyy_;
 
 
     QString kausitunnus_;

@@ -48,6 +48,7 @@ public slots:
 
 private slots:
     void muokkaa();
+    void naytaLasku();
     void naytaDialogi(QVariant* data);
 
 

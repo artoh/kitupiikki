@@ -507,8 +507,13 @@ QVariantMap LaskuDialogi::data() const
         map.insert("id", tositeId_);
     if( tunniste_)
         map.insert("tunniste", tunniste_);
-    if( ui->asiakas->id())
+
+    if( ui->asiakas->id()) {
         map.insert("kumppani", ui->asiakas->id());
+        map.insert("otsikko", ui->asiakas->nimi());
+    } else {
+        map.insert("otsikko", ui->osoiteEdit->toPlainText().split('\n').value(0) );
+    }
 
     map.insert("pvm", kp()->paivamaara() );
     map.insert("tyyppi",  TositeTyyppi::MYYNTILASKU);

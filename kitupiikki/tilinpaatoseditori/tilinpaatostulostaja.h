@@ -18,8 +18,6 @@
 #ifndef TILINPAATOSTULOSTAJA_H
 #define TILINPAATOSTULOSTAJA_H
 
-#include "raportti/raportti.h"
-
 #include <QTextDocument>
 #include <QPagedPaintDevice>
 #include "db/tilikausi.h"
