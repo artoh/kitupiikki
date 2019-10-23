@@ -47,7 +47,6 @@
 #include "selaus/selauswg.h"
 #include "raportti/raporttisivu.h"
 #include "arkisto/arkistosivu.h"
-#include "uusikp/uusikirjanpito.h"
 #include "laskutus/laskusivu.h"
 #include "alv/alvsivu.h"
 

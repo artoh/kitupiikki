@@ -1,8 +1,8 @@
 [Desktop Entry]
 Type=Application
-Name=Kitupiikki
-Exec=kitupiikki %F
-Icon=kitupiikki
+Name=Kitsas
+Exec=kitsas %F
+Icon=kitsas
 Comment=Avoimen lähdekoodin kirjanpitäjä
 Terminal=false
 Categories=Office;Finance;Qt;

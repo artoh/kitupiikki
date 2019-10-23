@@ -151,7 +151,7 @@ void AsiakasToimittajaValinta::muokkaa()
 
 }
 
-void AsiakasToimittajaValinta::talletettu(int id, const QString& nimi)
+void AsiakasToimittajaValinta::talletettu(int id, const QString& /*nimi*/)
 {
     ladattu_ = id;
     model_->lataa();

@@ -62,8 +62,6 @@ void EraCombo::dataSaapuu(QVariant *data)
     for(auto item : lista) {
         QVariantMap map = item.toMap();
 
-        qDebug() << map;
-
         addItem( QString("%1 %2 (%3)")
                  .arg(map.value("pvm").toDate().toString("dd.MM.yyyy"))
                  .arg(map.value("selite").toString())

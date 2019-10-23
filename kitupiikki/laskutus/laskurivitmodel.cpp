@@ -367,7 +367,7 @@ bool LaskuRivitModel::onkoTyhja() const
     {
         QVariantMap map = rivi.toMap();
         if( qAbs(map.value("ahinta").toDouble()) > 1e-5 &&
-            qAbs(map.value("myyntikpl").toDouble() > 1e-5))
+            qAbs(map.value("myyntikpl").toDouble()) > 1e-5)
             return false;
     }
     return true;

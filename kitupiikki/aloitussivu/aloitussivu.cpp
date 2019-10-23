@@ -43,11 +43,7 @@
 
 #include "aloitussivu.h"
 #include "db/kirjanpito.h"
-#include "uusikp/uusikirjanpito.h"
 #include "alv/alvsivu.h"
-
-#include "uusikp/paivitakirjanpito.h"
-
 #include "versio.h"
 #include "pilvi/pilvimodel.h"
 #include "pilvi/pilvilogindlg.h"
@@ -531,7 +527,7 @@ void AloitusSivu::haeSaldot()
 QString AloitusSivu::vinkit()
 {
     QString vinkki;
-
+/*
     QString tkpaivitys = PaivitaKirjanpito::sisainenPaivitys();
     if( !tkpaivitys.isEmpty())
     {
@@ -539,7 +535,7 @@ QString AloitusSivu::vinkit()
                          "</td></tr></table>").arg(tkpaivitys) );
 
     }
-
+*/
 
     // Ensin tietokannan alkutoimiin
     if( !kp()->asetukset()->onko("EkaTositeKirjattu") )

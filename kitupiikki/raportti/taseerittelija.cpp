@@ -61,7 +61,6 @@ void TaseErittelija::dataSaapuu(QVariant *data)
         rk.lisaaRivi();
     }
 
-    qlonglong summa = 0;
     bool vastattavaa = false;
     RaporttiRivi otsikkoRivi;
     otsikkoRivi.lisaa("VASTAAVAA",3);
@@ -80,7 +79,6 @@ void TaseErittelija::dataSaapuu(QVariant *data)
             otsikkoRivi.asetaKoko(14);
             rk.lisaaRivi(otsikkoRivi);
             vastattavaa = true;
-            summa = 0;
         }
 
         QChar tyyppi = iter.key().at( iter.key().length()-1 );

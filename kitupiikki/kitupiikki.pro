@@ -11,6 +11,8 @@ QT += xml
 LIBS += -lpoppler-qt5
 LIBS += -lpoppler
 LIBS += -lzip
+LIBS += -lopenjp2
+LIBS += -lbcrypt
 
 
 macx {

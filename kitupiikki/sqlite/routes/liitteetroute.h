@@ -30,7 +30,6 @@ public:
 
     static QByteArray hash(const QByteArray& ba);
 
-    void taydennaTuontia( QVariantMap& map);
 };
 
 #endif // LIITTEETROUTE_H

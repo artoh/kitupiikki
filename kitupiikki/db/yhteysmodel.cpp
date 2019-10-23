@@ -21,7 +21,8 @@
 
 #include <QDebug>
 
-YhteysModel::YhteysModel(QObject *parent)
+YhteysModel::YhteysModel(QObject *parent) :
+    QAbstractListModel(parent)
 {
 
 }

@@ -123,6 +123,8 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
             }
             case OTSIKKO:
                 return map.value("otsikko").toString();
+            default:
+                return QVariant();
             }
         }
     case Qt::TextAlignmentRole:

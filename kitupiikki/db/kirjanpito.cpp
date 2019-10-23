@@ -531,9 +531,9 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto, bool ilmoitaVirheesta)
 
     // Ilmoitetaan, että tietokanta on vaihtunut
     emit tietokantaVaihtui();
-
-    return true;
     */
+    return true;
+
 }
 
 

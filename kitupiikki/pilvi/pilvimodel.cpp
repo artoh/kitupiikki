@@ -148,6 +148,7 @@ bool PilviModel::onkoOikeutta(YhteysModel::Oikeus oikeus) const
     case PAIKALLINENOIKEUS:
         return false;
     }
+    return false;
 }
 
 void PilviModel::kirjaudu(const QString sahkoposti, const QString &salasana, bool pyydaAvain)

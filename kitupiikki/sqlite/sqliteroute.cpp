@@ -56,7 +56,7 @@ QVariant SQLiteRoute::route(SQLiteKysely *kysely, const QVariant &data)
     case KpKysely::DELETE:
         return  doDelete(loppu);
     }
-
+    throw SQLiteVirhe("Tuntematon metodi",405);
 }
 
 QVariant SQLiteRoute::byteArray(SQLiteKysely * /*reititettavaKysely*/, const QByteArray & /*ba*/, const QMap<QString, QString> & /*meta*/)

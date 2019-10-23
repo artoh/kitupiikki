@@ -73,7 +73,6 @@ QVariant LiitteetRoute::byteArray(SQLiteKysely *kysely, const QByteArray &ba, co
             // Liite odottamaan tositetta
             query.addBindValue( QVariant());
             palautus = Tuonti::tuo( ba );
-            taydennaTuontia( palautus );
         }
     } else if( kysely->metodi() == KpKysely::PUT)
     {
@@ -107,7 +106,3 @@ QByteArray LiitteetRoute::hash(const QByteArray &ba)
     return laskin.result().toHex();
 }
 
-void LiitteetRoute::taydennaTuontia(QVariantMap &map)
-{
-    // Tähän tulee jotain...
-}

@@ -147,7 +147,7 @@ TilinMuokkausDialog::TilinMuokkausDialog(QWidget *parent, int indeksi, Tila tila
     if( minNumero_.startsWith("1"))
         proxy_->setFilterFixedString("A");
     else if( minNumero_.startsWith("2"))
-        proxy_->setFilterRegularExpression("[BT]");
+        proxy_->setFilterRegExp("[BT]");
     else
         proxy_->setFilterRegExp("[CD]");
 

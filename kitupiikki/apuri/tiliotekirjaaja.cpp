@@ -283,7 +283,7 @@ void TilioteKirjaaja::suodata(const QString &teksti)
     if( teksti.startsWith("RF") || teksti.contains(  QRegularExpression("^\\d+$")))
     {
         maksuProxy_->setFilterKeyColumn( LaskuTauluModel::NUMERO );
-        maksuProxy_->setFilterRegularExpression(QRegularExpression("^" + teksti));
+        maksuProxy_->setFilterRegExp("^" + teksti);
     } else {
         maksuProxy_->setFilterKeyColumn( LaskuTauluModel::ASIAKASTOIMITTAJA);
         maksuProxy_->setFilterCaseSensitivity(Qt::CaseInsensitive);

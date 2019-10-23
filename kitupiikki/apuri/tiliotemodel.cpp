@@ -99,7 +99,7 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
             return kp()->tilit()->tiliNumerolla( rivi.tili ).nimiNumero();
         case KOHDENNUS:
         {
-            if( rivi.eraId) {
+           if( rivi.eraId) {
                 if( rivi.laskupvm.isValid())
                     return rivi.laskupvm;
                 return rivi.eraTunnus;
@@ -117,8 +117,9 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
             return rivi.saajamaksaja;
         case SELITE:
             return  rivi.selite;
+        default:
+            return QVariant();
         }
-
     case Qt::EditRole :
         switch ( index.column())
         {
