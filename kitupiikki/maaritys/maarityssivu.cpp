@@ -25,6 +25,7 @@
 
 #include "maarityssivu.h"
 
+#include "ulkoasumaaritys.h"
 #include "perusvalinnat.h"
 #include "tilinavaus.h"
 #include "tilikarttamuokkaus.h"
@@ -50,6 +51,7 @@ MaaritysSivu::MaaritysSivu() :
 
     lista = new QListWidget;
 
+    lisaaSivu("Näyttöfontti", ULKOASU, QIcon(":/pic/teksti.png"));
     lisaaSivu("Perusvalinnat", PERUSVALINNAT, QIcon(":/pic/asetusloota.png"));
     lisaaSivu("Tilikartta", TILIKARTTA, QIcon(":/pic/valilehdet.png"));
     lisaaSivu("Kohdennukset", KOHDENNUS, QIcon(":/pic/kohdennus.png"));
@@ -181,8 +183,9 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
 
     int sivu = item->data(Qt::UserRole).toInt();
 
-
-    if( sivu == PERUSVALINNAT)
+    if( sivu == ULKOASU)
+        nykyinen = new UlkoasuMaaritys;
+    else if( sivu == PERUSVALINNAT)
         nykyinen = new Perusvalinnat;
     else if( sivu == TILINAVAUS)
         nykyinen = new Tilinavaus;

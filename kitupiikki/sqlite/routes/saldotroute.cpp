@@ -42,8 +42,6 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
             kysymys += QString(" AND tili=%1 ").arg(urlquery.queryItemValue("tili").toInt());
         kysymys += " AND CAST(tili as text) < 3 AND Tosite.tila >= 100 GROUP BY tili ORDER BY tili ";
 
-        qDebug() << kysymys;
-
         kysely.exec(kysymys);
         while (kysely.next()) {
             QString tilistr = kysely.value(0).toString();
@@ -94,9 +92,6 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
                 .arg(kaudenalku.toString(Qt::ISODate));
         if( !kysely.exec(kysymys) )
             throw SQLiteVirhe(kysely);
-
-        qDebug() << kysymys;
-
 
         while( kysely.next()) {
             saldot.insert( kysely.value(0).toString(), kysely.value(1).toDouble() - kysely.value(2).toDouble() );

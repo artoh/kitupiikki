@@ -23,6 +23,7 @@
 #include <QIcon>
 #include <QTranslator>
 #include <QFontDatabase>
+#include <QFont>
 
 #include "db/kirjanpito.h"
 #include "sqlite/sqlitemodel.h"
@@ -40,23 +41,24 @@
 #include <QFileInfo>
 
 #include "ui_tervetuloa.h"
+#include "maaritys/ulkoasumaaritys.h"
 
 
 void lisaaLinuxinKaynnistysValikkoon()
 {
     // Poistetaan vanha, jotta päivittyisi
-    QFile::remove( QDir::home().absoluteFilePath(".local/share/applications/Kitupiikki.desktop") );
+    QFile::remove( QDir::home().absoluteFilePath(".local/share/applications/Kitsas.desktop") );
     // Kopioidaan kuvake
     QDir::home().mkpath( ".local/share/icons" );
-    QFile::copy(":/pic/Possu64.png", QDir::home().absoluteFilePath(".local/share/icons/Kitupiikki.png"));
+    QFile::copy(":/pic/Possu64.png", QDir::home().absoluteFilePath(".local/share/icons/Kitsas.png"));
     // Lisätään työpöytätiedosto
-    QFile desktop( QDir::home().absoluteFilePath(".local/share/applications/Kitupiikki.desktop") );
+    QFile desktop( QDir::home().absoluteFilePath(".local/share/applications/Kitsas.desktop") );
     desktop.open(QIODevice::WriteOnly | QIODevice::Truncate);
     QTextStream out(&desktop);
     out.setCodec("UTF-8");
 
-    out << "[Desktop Entry]\nVersion=1.0\nType=Application\nName=Kitupiikki " << qApp->applicationVersion() << "\n";
-    out << "Icon=" << QDir::home().absoluteFilePath(".local/share/icons/Kitupiikki.png") << "\n";
+    out << "[Desktop Entry]\nVersion=1.0\nType=Application\nName=Kitsas " << qApp->applicationVersion() << "\n";
+    out << "Icon=" << QDir::home().absoluteFilePath(".local/share/icons/Kitsas.png") << "\n";
     out << "Exec=" << qApp->applicationFilePath() << "\n";
     out << "TryExec=" << qApp->applicationFilePath() << "\n";
     out << "GenericName=Kirjanpito\n";
@@ -80,7 +82,7 @@ int main(int argc, char *argv[])
     a.setApplicationVersion(KITUPIIKKI_VERSIO);
     a.setOrganizationDomain("kitsas.fi");
     
-    a.setOrganizationName("Kitsas");
+    a.setOrganizationName("Kitsas oy");
 #ifndef Q_OS_MACX
     a.setWindowIcon( QIcon(":/pic/Possu64.png"));
 #endif
@@ -89,6 +91,7 @@ int main(int argc, char *argv[])
 
     // Qt:n vakioiden kääntämiseksi
     // Käytetään ohjelmaan upotettua käännöstiedostoa, jotta varmasti mukana  
+
     QTranslator translator;
     translator.load("fi.qm",":/aloitus/");
 
@@ -111,6 +114,15 @@ int main(int argc, char *argv[])
 
     Kirjanpito::asetaInstanssi(&kirjanpito);
 
+    QFontDatabase::addApplicationFont(":/aloitus/FreeSans.ttf");
+    QFontDatabase::addApplicationFont(":/lasku/code128_XL.ttf");
+
+    // Fonttimääritykset
+    UlkoasuMaaritys::oletusfontti__ = a.font();
+    QString fonttinimi = kp()->settings()->value("Fontti").toString();
+    if( !fonttinimi.isEmpty()) {
+        a.setFont( QFont( fonttinimi, kp()->settings()->value("FonttiKoko").toInt()) );
+    }
 
     // Jos versio on muuttunut, näytetään tervetulodialogi    
     if( kp()->settings()->value("ViimeksiVersiolla").toString() != a.applicationVersion()  )
@@ -142,11 +154,8 @@ int main(int argc, char *argv[])
     splash->setPixmap( QPixmap(":/pic/splash.png"));
     splash->show();
 
-    // Viivakoodifontti
-    QFontDatabase::addApplicationFont(":/lasku/code128_XL.ttf");
 
     KitupiikkiIkkuna ikkuna;
-
     ikkuna.show();
 
     // Avaa argumenttina olevan tiedostonnimen

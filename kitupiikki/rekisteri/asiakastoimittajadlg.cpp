@@ -221,8 +221,6 @@ void AsiakasToimittajaDlg::accept()
         kysely = id_ ? kpk( QString("/kumppanit/%1").arg(id_) , KpKysely::PUT ) :
                        kpk( "/kumppanit", KpKysely::POST);
 
-    qDebug() << map;
-
     connect(kysely, &KpKysely::vastaus, this, &AsiakasToimittajaDlg::tallennusValmis  );
     kysely->kysy(map);
 
@@ -270,8 +268,6 @@ void AsiakasToimittajaDlg::tallennusValmis(QVariant *data)
     QString nimi = map.value("nimi").toString();
 
     QDialog::accept();
-
-    qDebug() << "Tallennettu " << id << " - " << nimi;
 
     emit tallennettu(id, nimi);
 }

@@ -156,7 +156,6 @@ void TilioteApuri::naytaSummat()
 
 void TilioteApuri::tiliPvmMuutos()
 {
-    qDebug() << "TiliPvmMuutos";
     // Otsikon päivittäminen
     lataaHarmaat();
 
@@ -201,7 +200,6 @@ void TilioteApuri::kysyAlkusumma()
 void TilioteApuri::alkusummaSaapuu(QVariant* data)
 {
     QVariantMap map = data->toMap();
-    qDebug() << map;
     int tilinumero = ui->tiliCombo->valittuTilinumero();
     alkusaldo_ = map.value(QString::number(tilinumero)).toDouble();
     naytaSummat();

@@ -102,7 +102,6 @@ void LaskulistaWidget::paivita()
 void LaskulistaWidget::suodataAsiakas(const QString &nimi)
 {
     laskuAsiakasProxy_->setFilterFixedString(nimi);
-    qDebug() << " s " << nimi;
 }
 
 void LaskulistaWidget::alusta()

@@ -182,15 +182,12 @@ void TilinpaatosTulostaja::tilaaRaportti(const QString &raportinnimi)
 
     connect( raportoija, &Raportoija::valmis, [this,indeksi] (RaportinKirjoittaja rk) { this->raporttiSaapuu(indeksi, rk); } );
     raportoija->kirjoita(false,-1);
-
-    qDebug() << "Tilattu raportti " + raportinnimi;
 }
 
 void TilinpaatosTulostaja::raporttiSaapuu(int raportti, RaportinKirjoittaja rk)
 {
     kirjoittajat_[raportti] = rk;
     tilattuja_--;
-    qDebug() << "Raportti saapui " << raportti << " Odotetaan " << tilattuja_;
     if( !tilattuja_) {
         if( tallenna_) {
             QMap<QString,QString> meta;

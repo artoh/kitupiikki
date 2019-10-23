@@ -40,8 +40,6 @@ ErittelyRuudukko::ErittelyRuudukko(const QVariantList& rivit , MyyntiLaskunTulos
         qlonglong brutto = qRound( LaskuRivitModel::riviSumma( map ) * 100);
         int avain = verokoodi * 10000 + veroprossa;
 
-        qDebug() << avain << " -> " << brutto;
-
         verokannat_.insert( avain, verokannat_.value(avain, 0) + brutto );
     }
 

@@ -568,7 +568,6 @@ void Kirjanpito::asetaHarjoitteluPvm(const QDate &pvm)
 void Kirjanpito::logoSaapui(QVariant *reply)
 {
     QByteArray ba = reply->toByteArray();
-    qDebug() << "koko " << ba.size();
 
     logo_ = QImage::fromData( ba );
     emit logoMuuttui();

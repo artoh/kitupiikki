@@ -376,8 +376,6 @@ void TilinMuokkausDialog::poista()
 
 void TilinMuokkausDialog::viennitSaapuu(QVariant *data)
 {
-    qDebug() << data->toList();
-    qDebug() << data->toList().count();
     poistaNappi_->setEnabled( data->toList().isEmpty() );
 }
 

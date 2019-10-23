@@ -102,7 +102,6 @@ void Tosite::lataa(int tositeid)
 void Tosite::lataaData(QVariant *variant)
 {
 
-    qDebug() << "LATAAN" << *variant;
 
     resetointiKaynnissa_ = true;
     data_ = variant->toMap();
@@ -119,11 +118,8 @@ void Tosite::lataaData(QVariant *variant)
     tallennettu_ = tallennettava();
     resetointiKaynnissa_ = false;
 
-    qDebug() << "Tarkastetaan..";
-
     tarkasta();
 
-    qDebug() << "LADATTU";
 }
 
 void Tosite::tallenna(int tilaan)
@@ -141,8 +137,6 @@ void Tosite::tallenna(int tilaan)
     connect(kysely, &KpKysely::virhe, this, &Tosite::tallennuksessaVirhe);
 
     kysely->kysy( tallennettava() );
-
-    qDebug() << tallennettava();
 
 }
 
@@ -173,8 +167,6 @@ void Tosite::tarkasta()
 
     emit tila(muutettu, virheet, debet, kredit);
 
-    qDebug() << " M " << muutettu << " V " << virheet
-             << "Debet " << debet << " Kredit " << kredit;
 }
 
 void Tosite::nollaa(const QDate &pvm, int tyyppi)

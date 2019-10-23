@@ -113,7 +113,6 @@ void PilviKysely::vastausSaapuu()
         }
 
         emit vastaus( &vastaus_ );
-        qDebug() << " (OK) " << luettu.left(35) << " " << reply->header(QNetworkRequest::ContentTypeHeader).toString();
     }
     this->deleteLater();
 }

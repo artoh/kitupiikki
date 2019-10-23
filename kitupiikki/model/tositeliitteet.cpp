@@ -144,8 +144,6 @@ bool TositeLiitteet::lisaaHetiTiedosto(const QString &polku)
 
 bool TositeLiitteet::canDropMimeData(const QMimeData *data, Qt::DropAction /*action*/, int /* row */, int /*column*/, const QModelIndex &/*parent*/) const
 {
-    qDebug() << "f" << data->formats() << " u " << data->hasUrls();
-
     return data->hasUrls() || data->formats().contains("image/jpg") || data->formats().contains("image/png");
 }
 

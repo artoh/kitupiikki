@@ -46,8 +46,6 @@ QVariant LiitteetRoute::get(const QString &polku, const QUrlQuery &/*urlquery*/)
     if( kysely.next())
         return kysely.value(0).toByteArray();
 
-    qDebug() << kysely.lastQuery();
-
     throw SQLiteVirhe("Liitettä ei löydy",404);
 }
 
@@ -58,8 +56,6 @@ QVariant LiitteetRoute::byteArray(SQLiteKysely *kysely, const QByteArray &ba, co
     QRegularExpressionMatch match = re.match(loppu);
     QSqlQuery query(db());
     QVariantMap palautus;
-
-    qDebug() << loppu;
 
     if( kysely->metodi() == KpKysely::POST) {
         query.prepare("INSERT INTO Liite(nimi,data,tyyppi,sha,tosite) VALUES (?,?,?,?,?)");

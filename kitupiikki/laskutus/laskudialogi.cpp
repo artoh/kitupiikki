@@ -684,7 +684,6 @@ void LaskuDialogi::tallenna(Tosite::Tila moodi)
     else
         map.insert("tila", Tosite::KIRJANPIDOSSA);
 
-    qDebug() << "Tallenna " << moodi << " " << map;
 
     KpKysely *kysely;
     if( !tositeId_ )

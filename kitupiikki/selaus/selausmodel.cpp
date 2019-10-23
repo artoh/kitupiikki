@@ -128,8 +128,6 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
             case KOHDENNUS :
                 QString txt;
 
-                qDebug() << " KohdId " << map.value("kohdennus").toInt() << " - " << kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt() ).nimi();
-
                 Kohdennus kohdennus = kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt() );
                 if( kohdennus.tyyppi() != Kohdennus::EIKOHDENNETA)
                     txt = kohdennus.nimi();
@@ -212,9 +210,7 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
     kysely->lisaaAttribuutti("loppupvm", loppuu);
     connect( kysely, &KpKysely::vastaus, this, &SelausModel::tietoSaapuu);
 
-    qDebug() << QDateTime::currentDateTime() << " C1 ";
     kysely->kysy();
-    qDebug() << QDateTime::currentDateTime() << " C2 ";
 
     return;
 }

@@ -193,8 +193,6 @@ bool TallentavaMaaritysWidget::onkoMuokattu()
         if( asetusavain.isEmpty())
             continue;
 
-        qDebug() << asetusavain;
-
 
         QLineEdit *edit = qobject_cast<QLineEdit*>(widget);
         if( edit ) {

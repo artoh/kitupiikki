@@ -32,8 +32,6 @@ Kohdennus::Kohdennus(int tyyppi)
 Kohdennus::Kohdennus(QVariantMap &data) :
     KantaVariantti(data)
 {
-    qDebug() << "Kohdennus " << data;
-
     id_ = data_.take("id").toInt();
 
     tyyppi_ = data_.take("tyyppi").toInt();

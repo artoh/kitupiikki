@@ -84,7 +84,6 @@ QVariant TiliModel::data(const QModelIndex &index, int role) const
     Tili* tili = tiliLista_.value(index.row());
 
     if( role == IdRooli ) {
-        qDebug() << " --- id --- "  << tili->nimiNumero();
         return QVariant( tili->id());
     } else if( role == NroRooli )
         return QVariant( tili->numero());
@@ -390,7 +389,6 @@ void TiliModel::tyhjenna()
 
 void TiliModel::paivitaTilat()
 {
-    qDebug() << " Laajuus " << laajuus_;
 
     for(Tili* tili : tiliLista_) {
         if( tili->otsikkotaso()) {
@@ -408,8 +406,6 @@ void TiliModel::paivitaTilat()
         else
             tili->asetaTila(Tili::TILI_KAYTOSSA);
 
-        qDebug() << tili->nimiNumero() << " tilassa " << tili->tila()
-                 << " l " << tili->laajuus();
 
         // Asetetaan kaikki otsikkotasot käyttöön
         if( tili->tila() != Tili::TILI_PIILOSSA) {

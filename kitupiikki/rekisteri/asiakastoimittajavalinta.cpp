@@ -183,7 +183,6 @@ bool AsiakasToimittajaValinta::eventFilter(QObject *watched, QEvent *event)
     if( watched == combo_ && event->type()==QEvent::KeyPress)
     {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-        qDebug() << keyEvent->key();
         if( keyEvent->key() == Qt::Key_Enter ||
                 keyEvent->key() == Qt::Key_Return) {
             syotettyNimi();

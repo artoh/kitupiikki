@@ -36,7 +36,6 @@ QVariant AsiakkaatModel::data(const QModelIndex &index, int role) const
         case NIMI:
             return map.value("nimi");
         case YHTEENSA:
-            qDebug() << map.value("summa");
 
             if( map.value("summa").toDouble() > 1e-5 )
                 return QString("%L1 €").arg( map.value("summa").toDouble() ,0,'f',2);

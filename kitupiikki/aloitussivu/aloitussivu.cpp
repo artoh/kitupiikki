@@ -149,7 +149,7 @@ void AloitusSivu::siirrySivulle()
         if( kp()->asetukset()->onko("EkaTositeKirjattu") )
             txt.append(summat());
         else
-            txt.append("<p><img src=qrc:/pic/aboutpossu.png></p>");
+            txt.append("<p><img src=qrc:/pic/kitsas150.png></p>");
 
         ui->selain->setHtml(txt);
     }
@@ -402,7 +402,6 @@ void AloitusSivu::pilviLogin()
 
 void AloitusSivu::kirjauduttu()
 {
-    qDebug() << " Kirjauduttu " << kp()->pilvi()->kayttajaNimi();
 
     ui->salaEdit->clear();
     ui->pilviPino->setCurrentIndex(LISTA);

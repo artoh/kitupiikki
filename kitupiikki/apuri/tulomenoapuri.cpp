@@ -452,7 +452,6 @@ bool TuloMenoApuri::teeTositteelle()
         if( ui->asiakasToimittaja->id() > 0)
             vasta.setKumppani( ui->asiakasToimittaja->id() );
 
-        qDebug() << "*" << summa << "**" << vasta;
 
         viennit.insert(0, vasta);
     }

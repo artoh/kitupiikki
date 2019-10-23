@@ -73,8 +73,6 @@ void Raportoija::dataSaapuu(int sarake, QVariant *variant)
 {
     QVariantMap map = variant->toMap();
 
-    qDebug() << " -- Sarakkeelle " << sarake << "  "  << map.count() << "  tiliä ";
-
     QMapIterator<QString,QVariant> iter(map);
     while( iter.hasNext()) {
         iter.next();
@@ -108,7 +106,6 @@ void Raportoija::dataSaapunut()
     }
     tilit_.sort();
 
-    qDebug() << tilit_;
 }
 
 
@@ -186,8 +183,6 @@ void Raportoija::kirjoitaDatasta()
 
         for(int i=0; i < map.value("V").toInt(); i++)
             rk.lisaaTyhjaRivi();
-
-        qDebug() << "*" << kaava << "  |  " << teksti;
 
         RaporttiRivi rr;
 
@@ -477,7 +472,6 @@ void Raportoija::kirjoita(bool tulostaErittelyt, int kohdennuksella)
     for(auto kysely : kyselyt)
         kysely->kysy();
 
-    qDebug() << "Lähetetty " << kyselyt.count() << "kyselyä ";
 }
 
 QString Raportoija::nimi() const

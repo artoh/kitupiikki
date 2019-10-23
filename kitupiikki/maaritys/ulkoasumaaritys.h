@@ -14,34 +14,35 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#include "postinumerot.h"
+#ifndef ULKOASUMAARITYS_H
+#define ULKOASUMAARITYS_H
 
-#include <QFile>
-#include <QJsonDocument>
-#include <QJsonObject>
+#include "maarityswidget.h"
+#include "ui_tuontimaaritys.h"
 
-#include <QDebug>
+#include <QFont>
 
-Postinumerot::Postinumerot()
-{
+namespace Ui {
+    class Ulkoasu;
 }
 
-QString Postinumerot::toimipaikka(const QString &postinumero)
+class UlkoasuMaaritys : public MaaritysWidget
 {
-    if( numerot__.toimipaikat_.isEmpty())
-        numerot__.alusta();
+    Q_OBJECT
+public:
+    UlkoasuMaaritys();
+    ~UlkoasuMaaritys() override;
 
-    return numerot__.toimipaikat_.value(postinumero);
-}
+    bool nollaa() override;
+    bool naytetaankoTallennus() override { return false; }
 
-void Postinumerot::alusta()
-{
-    QFile in(":/lasku/postcode.json");
-    in.open(QFile::ReadOnly | QFile::Text);
+protected slots:
+    void asetaFontti();
 
-    QJsonDocument doc = QJsonDocument::fromJson( in.readAll() );
-    for( auto i = doc.object().constBegin(); i != doc.object().constEnd(); ++i  )
-        toimipaikat_.insert( i.key(), i.value().toString() );
-}
+private:
+    Ui::Ulkoasu *ui;
+public:
+    static QFont oletusfontti__;
+};
 
-Postinumerot Postinumerot::numerot__;
+#endif // ULKOASUMAARITYS_H

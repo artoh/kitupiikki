@@ -46,6 +46,7 @@ public:
 
     enum Sivut
     {
+        ULKOASU,
         PERUSVALINNAT,
         TILIKARTTA,
         KOHDENNUS,

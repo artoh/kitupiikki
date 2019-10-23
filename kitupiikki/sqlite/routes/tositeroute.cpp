@@ -33,8 +33,6 @@ TositeRoute::TositeRoute(SQLiteModel *model) :
 
 QVariant TositeRoute::get(const QString &polku, const QUrlQuery &urlquery)
 {
-     qDebug() << " tosite get " << polku << " " << urlquery.toString();
-
     if( !polku.isEmpty())
         return hae( polku.toInt() );
 
@@ -65,7 +63,6 @@ QVariant TositeRoute::get(const QString &polku, const QUrlQuery &urlquery)
 
     QSqlQuery kysely( db());
     kysely.exec(kysymys);
-    qDebug() << kysely.lastQuery() << " - " << kysely.lastError().text();
 
     QVariantList tositteet = resultList(kysely);
 
@@ -116,7 +113,6 @@ QVariant TositeRoute::patch(const QString &polku, const QVariant &data)
                 kysely.exec(QString("SELECT MAX(tunniste) FROM Tosite WHERE pvm BETWEEN '%1' AND '%2' AND sarja = '%3'")
                             .arg(kausi.alkaa().toString(Qt::ISODate)).arg(kausi.paattyy().toString(Qt::ISODate)).arg(sarja));
             }
-            qDebug() << kysely.lastQuery();
             if( kysely.next()) {
                 tunniste = kysely.value(0).toInt() + 1;
             }
@@ -181,8 +177,6 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
                          .arg(kausi.alkaa().toString(Qt::ISODate)).arg(kausi.paattyy().toString(Qt::ISODate)).arg(sarja));
         if( kysely.next())
             tunniste = kysely.value("tunniste").toInt() + 1;
-
-        qDebug() << kysely.lastQuery() << " -- sarja " << sarja << "tosite  " << tunniste;
     }
     // Laskun numero ja viite
     if( map.contains("lasku") && !map.value("lasku").toMap().contains("numero") && tila >= Tosite::VALMISLASKU &&
@@ -226,9 +220,6 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
 
     if( !tositeid)
         tositeid = tositelisays.lastInsertId().toInt();
-
-    qDebug() << " Kysely " << tositelisays.lastQuery()
-             << " virhe " << tositelisays.lastError().text();
 
     // Lisätään viennit
     QSet<int> vanhatviennit;

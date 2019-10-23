@@ -46,7 +46,6 @@
         <file>splash.png</file>
         <file>lukittu.png</file>
         <file>lukitsematta.png</file>
-        <file>aboutpossu.png</file>
         <file>arkisto64.png</file>
         <file>kirja64.png</file>
         <file>siirra.png</file>
@@ -166,6 +165,7 @@
         <file>mies.png</file>
         <file>kitsas64.png</file>
         <file>kitsas350.png</file>
+        <file>kitsas150.png</file>
     </qresource>
     <qresource prefix="/">
         <file>liput/at.png</file>

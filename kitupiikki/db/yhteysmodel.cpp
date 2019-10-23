@@ -55,8 +55,6 @@ void YhteysModel::lataaInit(QVariant *reply)
 
 void YhteysModel::initSaapuu(QVariant *reply)
 {
-    qDebug() << "INIT " << reply;
-
     lataaInit( reply );
     kp()->yhteysAvattu(this);
 }

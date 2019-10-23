@@ -104,8 +104,6 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
                                    "AND Vienti.pvm <= '%2' AND Tosite.tila >= 100 ORDER BY tosite.pvm")
                            .arg( tili->numero() ).arg(pvm.toString(Qt::ISODate)));
 
-            qDebug() << erakysely.lastQuery();
-
             while( erakysely.next()) {
                 int eraid = erakysely.value(0).toInt();
                 qlonglong alkusentit = tili->onko(TiliLaji::VASTAAVAA) ?

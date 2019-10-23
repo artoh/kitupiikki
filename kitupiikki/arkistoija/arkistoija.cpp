@@ -84,7 +84,7 @@ void Arkistoija::luoHakemistot()
     QFile::copy( ":/arkisto/arkisto.css", hakemisto_.absoluteFilePath("static/arkisto.css"));
     QFile::copy( ":/arkisto/jquery.js", hakemisto_.absoluteFilePath("static/jquery.js"));
 //    QFile::copy( ":/arkisto/ohje.html", hakemisto_.absoluteFilePath("ohje.html"));
-//    QFile::copy( ":/pic/aboutpossu.png", hakemisto_.absoluteFilePath("statickitupiikki.png"));
+//    QFile::copy( ":/pic/kitsas150.png", hakemisto_.absoluteFilePath("statickitupiikki.png"));
 
 }
 
@@ -232,7 +232,6 @@ void Arkistoija::arkistoiTosite(QVariant *data, int indeksi)
         liiteJono_.enqueue( liiteid );
     }
 
-    qDebug() << "Arkistoon " << indeksi << " id " << map.value("id").toInt() << " < " << tositeJono_.count();
 
     QString nimi = "tositteet/" + tositeJono_.value(indeksi).tiedostonnimi();
 

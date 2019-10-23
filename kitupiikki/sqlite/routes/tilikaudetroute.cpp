@@ -160,7 +160,6 @@ QVariant TilikaudetRoute::laskelma(const Tilikausi &kausi)
             apukysely.exec(QString("select debet,kredit,selite,json,pvm, kohdennus from vienti where id=%1").arg(eraid));
             if( apukysely.next()) {
                 QVariantMap jsonmap = QJsonDocument::fromJson( apukysely.value(3).toByteArray() ).toVariant().toMap();
-                qDebug() << jsonmap;
                 qlonglong alkusumma = qRound64( apukysely.value(0).toDouble() * 100) - qRound64( apukysely.value(1).toDouble() * 100);
                 int poistokk = jsonmap.value("tasaerapoisto").toInt();
                 qlonglong saldo = qRound64( kysely.value(2).toDouble() * 100) - qRound64( kysely.value(3).toDouble() * 100);

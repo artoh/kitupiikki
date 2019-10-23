@@ -110,7 +110,6 @@ void Jaksottaja::kirjaaTilinpaatokseen(const QDate &pvm, const QVariantList &jak
         tosite->viennit()->lisaa(vasta);
         tosite->viennit()->lisaa(vienti);
     }
-    qDebug() << QJsonDocument::fromVariant( tosite->tallennettava() ).toJson();
 
 
     KpKysely *kysely = kpk("/tositteet", KpKysely::POST);

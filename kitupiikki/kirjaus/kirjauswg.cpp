@@ -251,7 +251,6 @@ void KirjausWg::vientiValittu()
     QModelIndex index = ui->viennitView->selectionModel()->currentIndex();
     ui->poistariviNappi->setEnabled( index.isValid() );
 
-    qDebug() << index.row() << " ---- valittu ---";
 }
 
 void KirjausWg::uusiPohjalta()

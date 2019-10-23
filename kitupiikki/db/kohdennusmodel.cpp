@@ -121,7 +121,6 @@ Kohdennus KohdennusModel::kohdennus(const int id) const
             return projekti;
     }
 
-    qDebug() << "Kohdennusta ei löydy " << id;
     return Kohdennus();
 }
 
@@ -194,8 +193,6 @@ void KohdennusModel::lataa(QVariantList lista)
         kohdennukset_.append( Kohdennus( map ));
     }
     endResetModel();
-
-    qDebug() << "Ladattu " << kohdennukset_.count() << " kohdennusta ";
 }
 
 Kohdennus *KohdennusModel::lisaa(int tyyppi)

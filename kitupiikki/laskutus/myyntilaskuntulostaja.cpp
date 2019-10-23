@@ -276,7 +276,6 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
         ytunnus.remove(0,2);
         ytunnus.insert(7,'-');
     }
-    qDebug() << "Ytunnus " << ytunnus;
 
     painter->drawLine( QLineF(keskiviiva, pv-rk, leveys, pv-rk ));
     if( !ytunnus.isEmpty())
@@ -701,8 +700,6 @@ QString MyyntiLaskunTulostaja::virtuaaliviivakoodi() const
             .arg( summa, 8, 10, QChar('0') )  // Rahamäärä
             .arg( map_.value("lasku").toMap().value("viite").toString(), 20, QChar('0'))
             .arg( map_.value("lasku").toMap().value("erapvm").toDate().toString("yyMMdd"));
-
-    qDebug() << koodi;
 
     return koodi.remove(QChar(' '));
 }

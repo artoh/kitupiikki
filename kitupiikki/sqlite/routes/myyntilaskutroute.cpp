@@ -85,8 +85,5 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
         lista[i] = map;
     }
 
-    qDebug() << kysymys;
-    qDebug() << lista;
-
     return lista;
 }

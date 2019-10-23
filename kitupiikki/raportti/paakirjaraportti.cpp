@@ -101,8 +101,6 @@ void PaakirjaRaportti::tiliListaSaapuu(QVariant *data)
 {
     QVariantMap map = data->toMap();
 
-    qDebug() << map;
-
     ui->tiliCombo->clear();
     for( QString tiliStr : map.keys()) {
         const Tili& tili = kp()->tilit()->tiliNumerolla( tiliStr.toInt() );

@@ -357,7 +357,6 @@ void TositeViennit::asetaViennit(QVariantList viennit)
     // Erätietojen siivoaminen ja sijoittaminen välimuistiin
     endResetModel();
 
-    qDebug() << viennit_;
 }
 
 void TositeViennit::tyhjenna()
