@@ -114,6 +114,8 @@ public:
 
     void kirjoita(bool tulostaErittelyt = false, int kohdennuksella = 1);
 
+    QString nimi() const;
+
 protected:
     void dataSaapuu(int sarake, QVariant* variant);
     void dataSaapunut();

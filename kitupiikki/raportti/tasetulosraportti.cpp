@@ -22,7 +22,7 @@
 #include <QDebug>
 
 TaseTulosRaportti::TaseTulosRaportti(Raportoija::RaportinTyyppi raportinTyyppi, QWidget *parent) :
-    Raportti (parent),
+    RaporttiWidget (parent),
     ui( new Ui::MuokattavaRaportti ),
     tyyppi_(raportinTyyppi)
 
@@ -106,7 +106,7 @@ void TaseTulosRaportti::esikatsele()
 //    if( raportoija->tyyppi() == Raportoija::KOHDENNUSLASKELMA && !ui->kohdennusCheck->isChecked())
 //        raportoija.etsiKohdennukset();
 
-    connect( raportoija, &Raportoija::valmis, this, &Raportti::nayta);
+    connect( raportoija, &Raportoija::valmis, this, &RaporttiWidget::nayta);
     raportoija->kirjoita( ui->erittelyCheck->isChecked(),
                           ui->kohdennusCheck->isChecked() ? ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt() : -1);
 

@@ -60,7 +60,7 @@ public slots:
     void paivita();
     void suodata();
     void paivitaSuodattimet();
-    void paivitaSummat();
+    void paivitaSummat(QVariant* data = nullptr);
     void naytaTositeRivilta(QModelIndex index);
 
     void selaa(int tilinumero, const Tilikausi &tilikausi);

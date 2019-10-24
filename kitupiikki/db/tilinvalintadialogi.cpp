@@ -245,8 +245,8 @@ Tili TilinValintaDialogi::valitseTili(const QString &alku, const QString &tyyppi
         dlg.valitse( alku.mid(1).toInt());
     } else {
         dlg.ui->suodatusEdit->setText(alku);
-        dlg.suodataTyyppi(tyyppiSuodatin);
     }
+    dlg.suodataTyyppi(tyyppiSuodatin);
 
     if( dlg.exec())
     {

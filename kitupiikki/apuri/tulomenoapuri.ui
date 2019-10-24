@@ -29,71 +29,7 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QComboBox" name="maksutapaCombo">
-         <item>
-          <property name="text">
-           <string>Lasku</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../pic/pic.qrc">
-            <normaloff>:/pic/lasku.png</normaloff>:/pic/lasku.png</iconset>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Pankkitili</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../pic/pic.qrc">
-            <normaloff>:/pic/pankki.png</normaloff>:/pic/pankki.png</iconset>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Luottokortti</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../pic/pic.qrc">
-            <normaloff>:/pic/luottokortti.png</normaloff>:/pic/luottokortti.png</iconset>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Käteinen</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../pic/pic.qrc">
-            <normaloff>:/pic/kateinen.png</normaloff>:/pic/kateinen.png</iconset>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Yksityissijoitus</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../pic/pic.qrc">
-            <normaloff>:/pic/rahaa.png</normaloff>:/pic/rahaa.png</iconset>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Hyvitys</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../pic/pic.qrc">
-            <normaloff>:/pic/poista.png</normaloff>:/pic/poista.png</iconset>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Aiempi ennakkolasku</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../pic/pic.qrc">
-            <normaloff>:/pic/lasku.png</normaloff>:/pic/lasku.png</iconset>
-          </property>
-         </item>
-        </widget>
+        <widget class="QComboBox" name="maksutapaCombo"/>
        </item>
        <item row="1" column="0">
         <widget class="QLabel" name="toimittajaLabel">
@@ -160,7 +96,7 @@
         </widget>
        </item>
        <item row="5" column="1">
-        <widget class="QComboBox" name="eraCombo"/>
+        <widget class="EraCombo" name="eraCombo"/>
        </item>
        <item row="4" column="1">
         <widget class="TiliCombo" name="vastatiliCombo"/>
@@ -465,6 +401,11 @@
    <class>TiliCombo</class>
    <extends>QComboBox</extends>
    <header location="global">tools/tilicombo.h</header>
+  </customwidget>
+  <customwidget>
+   <class>EraCombo</class>
+   <extends>QComboBox</extends>
+   <header>tools/eracombo.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

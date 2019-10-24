@@ -27,6 +27,7 @@
 
 #include <QSortFilterProxyModel>
 #include <QDebug>
+#include <QJsonDocument>
 
 TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     ApuriWidget (parent, tosite),
@@ -80,10 +81,11 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->erapaivaEdit, &KpDateEdit::dateChanged, [this] (const QDate& date) {this->tosite()->setData(Tosite::ERAPVM, date);});
     connect( ui->asiakasToimittaja, &AsiakasToimittajaValinta::valittu, [this] { this->tosite()->setData(Tosite::KUMPPANI, this->ui->asiakasToimittaja->id()); });
 
-
-
     connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::haeKohdennukset );
     connect( ui->asiakasToimittaja, &AsiakasToimittajaValinta::valittu, this, &TuloMenoApuri::kumppaniValittu);
+
+    connect( ui->vastatiliCombo, &TiliCombo::tiliValittu, this, &TuloMenoApuri::vastatiliMuuttui);
+    connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::teeTositteelle);
 }
 
 TuloMenoApuri::~TuloMenoApuri()
@@ -98,11 +100,16 @@ void TuloMenoApuri::otaFokus()
 
 void TuloMenoApuri::tuo(QVariantMap map)
 {
-    ui->maaraEdit->setValue( map.value("summa").toDouble());
-    ui->viiteEdit->setText( map.value("viite").toString() );
-    ui->asiakasToimittaja->set(map.value("kumppaniid").toInt(),
-                               map.value("kumppaninimi").toString());
-    ui->erapaivaEdit->setDate( map.value("erapvm").toDate());
+    if( qAbs(map.value("summa").toDouble()) > 1e-5)
+        ui->maaraEdit->setValue( map.value("summa").toDouble());
+    if( !map.value("viite").toString().isEmpty())
+        ui->viiteEdit->setText( map.value("viite").toString() );
+
+    if( !map.value("kumppaninimi").toString().isEmpty() || !map.value("kumppaniytunnus").toString().isEmpty())
+        ui->asiakasToimittaja->tuonti( map );
+
+    if( map.value("erapvm").isValid())
+        ui->erapaivaEdit->setDate( map.value("erapvm").toDate());
 }
 
 void TuloMenoApuri::teeReset()
@@ -113,7 +120,7 @@ void TuloMenoApuri::teeReset()
                  tosite()->tyyppi() == TositeTyyppi::KULULASKU;
     alusta( menoa );
 
-    qDebug() << " Tyyppi " << tosite()->tyyppi() << "menoa " << menoa;
+
 
     // Haetaan rivien tiedot
 
@@ -122,16 +129,19 @@ void TuloMenoApuri::teeReset()
     {
         TositeVienti vastavienti(vientiLista.at(0).toMap());
 
-        Tili* vastatili = kp()->tilit()->tiliPNumerolla( vastavienti.tili());
-        if( vastatili ) {
-            if( vastatili->onko(TiliLaji::OSTOVELKA) || vastatili->onko(TiliLaji::MYYNTISAATAVA))
-                ui->maksutapaCombo->setCurrentIndex(LASKU);
-            else if( vastatili->onko(TiliLaji::PANKKITILI))
-                ui->maksutapaCombo->setCurrentIndex(PANKKI);
-            else if( vastatili->onko(TiliLaji::KATEINEN))
-                ui->maksutapaCombo->setCurrentIndex(KATEINEN);
-        }
+        Tili* vastatili = kp()->tilit()->tili( vastavienti.tili());
+
         ui->vastatiliCombo->valitseTili( vastatili->numero() );
+        if( vastatili->eritellaankoTase())
+            ui->eraCombo->valitse( vastavienti.eraId() );
+
+        for(int i=0; i < ui->maksutapaCombo->count(); i++) {
+            if( ui->maksutapaCombo->itemData(i).toInt() == vastatili->numero() ) {
+                ui->maksutapaCombo->setCurrentIndex(i);
+                break;
+            }
+
+        }
 
         ui->viiteEdit->setText( vastavienti.viite());
         ui->erapaivaEdit->setDate( vastavienti.erapaiva());
@@ -157,12 +167,13 @@ void TuloMenoApuri::teeReset()
     while( i < vientiLista.count())
     {
         TositeVienti map = vientiLista.at(i).toMap();
-        rivit_->lisaaRivi();
+        rivit_->lisaaRivi( map.id() );
         rivit_->setTili( rivi,  map.value("tili").toInt() );
         rivit_->setSelite(rivi, map.value("selite").toString());
         rivit_->setKohdennus(rivi, map.value("kohdennus").toInt());
 
         rivit_->setMerkkaukset(rivi, map.value("merkkaukset").toList() );
+        rivit_->setPoistoaika( rivi, map.tasaerapoisto() );
 
 
         qlonglong maara = menoa ? qRound( map.value("debet").toDouble() * 100.0 ) - qRound( map.value("kredit").toDouble() * 100.0 )  :
@@ -246,7 +257,10 @@ bool TuloMenoApuri::teeTositteelle()
     bool menoa = tosite()->tyyppi() == TositeTyyppi::MENO ||
                  tosite()->tyyppi() == TositeTyyppi::KULULASKU;
     QDate pvm = tosite()->data(Tosite::PVM).toDate();
+
     QString otsikko = tosite()->data(Tosite::OTSIKKO).toString();
+    if( otsikko.isEmpty())
+        otsikko = ui->asiakasToimittaja->nimi();
 
     QVariantList viennit;
 
@@ -270,6 +284,7 @@ bool TuloMenoApuri::teeTositteelle()
 
         TositeVienti vienti;
         vienti.setTyyppi( (menoa ? TositeVienti::OSTO : TositeVienti::MYYNTI) + TositeVienti::KIRJAUS );
+        vienti.insert("id", rivit_->vientiId(i));
 
         // Kirjataanko nettoa vai bruttoa?
         double kirjattava = ( verokoodi == AlvKoodi::MYYNNIT_NETTO  || verokoodi == AlvKoodi::OSTOT_NETTO ||
@@ -308,11 +323,17 @@ bool TuloMenoApuri::teeTositteelle()
         QDate alkupvm = rivit_->jaksoalkaa(i);
         if( alkupvm.isValid())
         {
-            vienti.setJaksoalkaa( pvm );
+            vienti.setJaksoalkaa( alkupvm );
             QDate loppupvm = rivit_->jaksoloppuu(i);
             if( loppupvm.isValid() )
                 vienti.setJaksoloppuu( loppupvm );
         }
+
+        if( rivit_->tili(i).eritellaankoTase() )
+            vienti.setEra( vienti.id() ? vienti.id() : -1  );
+
+        if( rivit_->tili(i).onko(TiliLaji::TASAERAPOISTO) )
+            vienti.setTasaerapoisto( ui->poistoSpin->value() );
 
         // Kirjataan asiakas- ja toimittajatiedot myös vienteihin, jotta voidaan ehdottaa
         // tiliä aiempien kirjausten perusteella
@@ -405,8 +426,9 @@ bool TuloMenoApuri::teeTositteelle()
         vasta.insert("pvm", pvm);
         Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliCombo->valittuTilinumero() );
         vasta.insert("tili", vastatili.numero() );
+
         if( vastatili.eritellaankoTase())
-            vasta.setEra(-1);
+            vasta.setEra( ui->eraCombo->valittuEra() );
 
         if( menoa ) {
             if( summa > 0)
@@ -430,12 +452,14 @@ bool TuloMenoApuri::teeTositteelle()
         if( ui->asiakasToimittaja->id() > 0)
             vasta.setKumppani( ui->asiakasToimittaja->id() );
 
-        qDebug() << "*" << summa << "**" << vasta;
 
         viennit.insert(0, vasta);
     }
 
     tosite()->viennit()->asetaViennit(viennit);
+
+    if(summa)
+        viimeMaksutapa__ = ui->maksutapaCombo->currentText();
 
     return true;
 }
@@ -460,13 +484,14 @@ void TuloMenoApuri::tiliMuuttui()
     bool tasapoisto = tili.onko(TiliLaji::TASAERAPOISTO);
     ui->poistoLabel->setVisible(tasapoisto);
     ui->poistoSpin->setVisible(tasapoisto);
+    ui->poistoSpin->setValue( tili.luku("tasaerapoisto") / 12 );
 
     // TODO: Vero-oletusten hakeminen
 
     if( kp()->asetukset()->onko(AsetusModel::ALV))
     {
-        ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( tili.json()->luku("AlvLaji"), VerotyyppiModel::KoodiRooli ) );
-        ui->alvSpin->setValue( tili.json()->variant("AlvProsentti").toDouble() );
+        ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( tili.luku("alvlaji"), VerotyyppiModel::KoodiRooli ) );
+        ui->alvSpin->setValue( tili.str("alvprosentti").toDouble() );
     }
 
     tositteelle();
@@ -570,40 +595,42 @@ void TuloMenoApuri::seliteMuuttui()
 
 void TuloMenoApuri::maksutapaMuuttui()
 {
-    int maksutapa = ui->maksutapaCombo->currentIndex();
-    bool menoa = tosite()->data(Tosite::TYYPPI).toInt() == TositeTyyppi::MENO;
+    int maksutapatili = ui->maksutapaCombo->currentData().toInt();
 
-    ui->viiteLabel->setVisible( maksutapa == LASKU);
-    ui->viiteEdit->setVisible( maksutapa == LASKU);
+    if( maksutapatili)
+        ui->vastatiliCombo->valitseTili(maksutapatili);
 
-    ui->erapaivaLabel->setVisible( maksutapa == LASKU);
-    ui->erapaivaEdit->setVisible( maksutapa == LASKU);
+    ui->vastatiliLabel->setVisible( !maksutapatili  );
+    ui->vastatiliCombo->setVisible( !maksutapatili );
 
-    ui->eraLabel->setVisible( maksutapa == HYVITYS || maksutapa == ENNAKKO);
-    ui->eraCombo->setVisible(maksutapa == HYVITYS || maksutapa == ENNAKKO);
+    vastatiliMuuttui();
 
-    // TODO: Tilien valinnat järkevämmin ;)
+    emit tosite()->tarkastaSarja( kp()->tilit()->tiliNumerolla(maksutapatili).onko(TiliLaji::KATEINEN) );
+}
 
-    switch (maksutapa) {
-    case LASKU:
-        if(menoa)
-            ui->vastatiliCombo->suodataTyypilla("BO");
-        else
-            ui->vastatiliCombo->suodataTyypilla("AO");
-        break;
-    case PANKKI:
-        ui->vastatiliCombo->suodataTyypilla("ARP");
-        break;
-    case KATEINEN:
-        ui->vastatiliCombo->suodataTyypilla("ARK");
-        break;
-    default:
-        ui->vastatiliCombo->suodataTyypilla("[AB].*");
+void TuloMenoApuri::vastatiliMuuttui()
+{
+    Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliCombo->valittuTilinumero() );
 
+    bool eritellankotaso = vastatili.eritellaankoTase() && !ui->maksutapaCombo->currentData(Qt::UserRole+1).isValid();
+
+    ui->eraLabel->setVisible( eritellankotaso);
+    ui->eraCombo->setVisible( eritellankotaso);
+    ui->eraCombo->lataa( vastatili.numero() );
+    if( vastatili.eritellaankoTase() ) {
+        ui->eraCombo->valitse( ui->maksutapaCombo->currentData(Qt::UserRole+1).toInt() );
     }
-    // Vastatilivalintaa ei tartte näyttää jos vaihtoehtoja on vain yksi
-    ui->vastatiliLabel->setVisible( ui->vastatiliCombo->model()->rowCount() > 1 );
-    ui->vastatiliCombo->setVisible( ui->vastatiliCombo->model()->rowCount() > 1 );
+
+
+    bool laskulle = vastatili.onko(TiliLaji::OSTOVELKA) || vastatili.onko(TiliLaji::MYYNTISAATAVA);
+    ui->viiteLabel->setVisible( laskulle );
+    ui->viiteEdit->setVisible( laskulle );
+
+    ui->erapaivaLabel->setVisible( laskulle );
+    ui->erapaivaEdit->setVisible( laskulle );
+
+    emit tosite()->tarkastaSarja( vastatili.onko(TiliLaji::KATEINEN));
+
 }
 
 void TuloMenoApuri::kohdennusMuuttui()
@@ -634,6 +661,12 @@ void TuloMenoApuri::jaksoLoppuuMuuttui()
     tositteelle();
 }
 
+void TuloMenoApuri::poistoAikaMuuttuu()
+{
+    rivit_->setPoistoaika( rivilla(), ui->poistoSpin->value() * 12);
+    tositteelle();
+}
+
 void TuloMenoApuri::haeRivi(const QModelIndex &index)
 {
     aloitaResetointi();
@@ -644,6 +677,7 @@ void TuloMenoApuri::haeRivi(const QModelIndex &index)
     ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( rivit_->alvkoodi(rivi), VerotyyppiModel::KoodiRooli ) );
     ui->alvSpin->setValue( rivit_->alvProsentti(rivi) );
     ui->vahennysCheck->setChecked( rivit_->eiVahennysta(rivi) );
+    ui->poistoSpin->setValue( rivit_->poistoaika(rivi) / 12 );
 
     ui->alkuEdit->setDate( rivit_->jaksoalkaa(rivi) );
     ui->loppuEdit->setEnabled( rivit_->jaksoalkaa(rivi).isValid());
@@ -707,6 +741,27 @@ void TuloMenoApuri::alusta(bool meno)
         ui->toimittajaLabel->setText( tr("Asiakas"));
     }
 
+    // Alustetaan maksutapacombo
+
+    ui->maksutapaCombo->clear();
+    for(QVariant mtapa : QJsonDocument::fromJson( kp()->asetukset()->asetus( meno ? "maksutavat-" : "maksutavat+" ).toUtf8() ).toVariant().toList()  ) {
+        QVariantMap map( mtapa.toMap());
+        KieliKentta kk( map );
+        ui->maksutapaCombo->addItem( QIcon( map.contains("KUVA") ? ":/pic/" + map.value("KUVA").toString() + ".png" : ":/pic/tyhja.png"),
+                                     kk.teksti(),
+                                     map.value("TILI").toInt());
+        if( map.contains("ERA"))
+            ui->maksutapaCombo->setItemData( ui->maksutapaCombo->count()-1, map.value("ERA").toInt(), Qt::UserRole + 1 );
+    }
+    ui->maksutapaCombo->addItem( QIcon(":/pic/tyhja.png"), tr("Kaikki vastatilit"), 0 );        
+
+    if( viimeMaksutapa__.length())
+        ui->maksutapaCombo->setCurrentIndex( ui->maksutapaCombo->findText( viimeMaksutapa__ ));
+    if( ui->maksutapaCombo->currentIndex() < 0)
+        ui->maksutapaCombo->setCurrentIndex(0);
+
+
+    ui->vastatiliCombo->suodataTyypilla("[AB]");
 
     bool alv = kp()->asetukset()->onko( AsetusModel::ALV );
     ui->alvLabel->setVisible(alv);
@@ -744,4 +799,9 @@ void TuloMenoApuri::kumppaniTiedot(QVariant *data)
         if( map.contains("tulotili"))
             ui->tiliEdit->valitseTiliNumerolla( map.value("tulotili").toInt());
     }
+
+    if( tosite()->tyyppi() == TositeTyyppi::KULULASKU && tosite()->otsikko().isEmpty() )
+        tosite()->asetaOtsikko( tr("Kululasku %1").arg(map.value("nimi").toString()) );
 }
+
+QString TuloMenoApuri::viimeMaksutapa__ = QString();

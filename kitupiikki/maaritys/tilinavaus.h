@@ -38,16 +38,20 @@ class Tilinavaus : public MaaritysWidget
 {
     Q_OBJECT
 public:
-    explicit Tilinavaus(QWidget *parent = 0);
-    ~Tilinavaus();
+    explicit Tilinavaus(QWidget *parent = nullptr);
+    ~Tilinavaus() override;
 
 signals:
 
 public slots:
-    void naytaInfo(const QString &info);
     void hlostoMuutos();
-    void tosite();
     void naytaPiilotetut(bool naytetaanko);
+    void naytaVainKirjaukset(bool naytetaanko);
+    void suodata(const QString& suodatusteksti);
+    void erittely(const QModelIndex& index);
+
+    void info(qlonglong vastaavaa, qlonglong vastattavaa, qlonglong tulos);
+    void siirry(const QString& minne);
 
 public:
     bool nollaa() override;
@@ -61,6 +65,7 @@ private:
     TilinavausModel *model;
 
     QSortFilterProxyModel *proxy;
+    QSortFilterProxyModel *suodatus;
 };
 
 #endif // TILINAVAUS_H

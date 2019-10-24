@@ -26,12 +26,12 @@ TiliCombo::TiliCombo(QWidget *parent) :
     proxyTila_ = new QSortFilterProxyModel(this);
     proxyTila_->setSourceModel( kp()->tilit() );
     proxyTila_->setFilterRole(TiliModel::TilaRooli);
-    proxyTila_->setFilterRegularExpression("[12]");
+    proxyTila_->setFilterRegExp("[12]");
 
     proxyTyyppi_ = new QSortFilterProxyModel(this);
     proxyTyyppi_->setSourceModel( proxyTila_);
     proxyTyyppi_->setFilterRole(TiliModel::TyyppiRooli);
-    proxyTyyppi_->setFilterRegularExpression("[ABCD].*");
+    proxyTyyppi_->setFilterRegExp("[ABCD].*");
 
     setModel( proxyTyyppi_ );
 
@@ -39,9 +39,13 @@ TiliCombo::TiliCombo(QWidget *parent) :
     connect( proxyTyyppi_, &QSortFilterProxyModel::modelReset, this, &TiliCombo::valitseEka);
 }
 
-void TiliCombo::suodataTyypilla(const QString &regexp)
+void TiliCombo::suodataTyypilla(const QString &regexp, bool naytaKaikki)
 {
-    proxyTyyppi_->setFilterRegularExpression(regexp);
+    if(naytaKaikki)
+        proxyTila_->setFilterFixedString("");
+
+    proxyTyyppi_->setFilterRole(TiliModel::TyyppiRooli);
+    proxyTyyppi_->setFilterRegExp(regexp);
     if( currentIndex() < 0 )
         setCurrentIndex(0);
 }
@@ -53,7 +57,8 @@ int TiliCombo::valittuTilinumero() const
 
 void TiliCombo::valitseTili(int tilinumero)
 {
-    setCurrentIndex( findData(tilinumero, TiliModel::NroRooli) );
+    int indeksi = findData(tilinumero, TiliModel::NroRooli);
+    setCurrentIndex( indeksi );
 }
 
 void TiliCombo::vaihtui()

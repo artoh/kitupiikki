@@ -38,9 +38,7 @@ QVariant SQLiteRoute::route(SQLiteKysely *kysely, const QVariant &data)
     if( loppu.startsWith(QChar('/')) )
         loppu = loppu.mid(1);
 
-    qDebug() << "* route " << kysely->metodi() <<  " " << polku() << "  " << loppu << " "
-             << QJsonDocument::fromVariant(data).toJson(QJsonDocument::Compact).left(30)
-             << " " << kysely->urlKysely().toString();
+    QVariant paluu;
 
     switch (kysely->metodi()) {
     case KpKysely::GET:
@@ -48,13 +46,13 @@ QVariant SQLiteRoute::route(SQLiteKysely *kysely, const QVariant &data)
     case KpKysely::POST:
         return post(loppu, data);
     case KpKysely::PUT:
-        return put(loppu, data);
+        return  put(loppu, data);
     case KpKysely::PATCH:
         return patch(loppu, data);
     case KpKysely::DELETE:
-        return doDelete(loppu);
+        return  doDelete(loppu);
     }
-
+    throw SQLiteVirhe("Tuntematon metodi",405);
 }
 
 QVariant SQLiteRoute::byteArray(SQLiteKysely * /*reititettavaKysely*/, const QByteArray & /*ba*/, const QMap<QString, QString> & /*meta*/)
@@ -161,7 +159,8 @@ void SQLiteRoute::taydennaEratJaMerkkaukset(QVariantList &vientilista)
                 eramap = resultMap(kysely);
 
                 kysely.exec(QString("SELECT SUM(debet) as debetit, SUM(kredit) as kreditit FROM Vienti WHERE eraid=%1").arg(eraid));
-                eramap.insert("saldo", kysely.value(0).toDouble() - kysely.value(1).toDouble());
+                if( kysely.next())
+                    eramap.insert("saldo", kysely.value(0).toDouble() - kysely.value(1).toDouble());
                 map.insert("era", eramap);
                 vientilista[i] = map;
             }

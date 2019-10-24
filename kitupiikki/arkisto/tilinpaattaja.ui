@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>645</width>
-    <height>462</height>
+    <width>863</width>
+    <height>673</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -131,17 +131,75 @@
         </item>
        </layout>
       </item>
-      <item row="2" column="0" colspan="2">
-       <widget class="QLabel" name="label_3">
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_2">
         <property name="text">
-         <string>3. Tee tarvittavat tilinpäätöskirjaukset (siirtokirjaukset, jaksotukset)</string>
+         <string>3. Tee jaksotukset</string>
         </property>
        </widget>
       </item>
+      <item row="2" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QPushButton" name="jaksotusNappi">
+          <property name="text">
+           <string>Kirjaa &amp;jaksotukset</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../pic/pic.qrc">
+            <normaloff>:/pic/siirra.png</normaloff>:/pic/siirra.png</iconset>
+          </property>
+          <property name="autoDefault">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="jaksotTehty">
+          <property name="maximumSize">
+           <size>
+            <width>32</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap resource="../pic/pic.qrc">:/pic/ok.png</pixmap>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="eiJaksotettavaaLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Ei jaksotettavaa</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="jaksotKirjattuLabel">
+          <property name="text">
+           <string>Jaksotukset kirjattu</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
       <item row="3" column="0" colspan="2">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>4. Tee muut tarvittavat tilinpäätöskirjaukset</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0" colspan="2">
        <widget class="QLabel" name="label_4">
         <property name="text">
-         <string>4. Tarkasta raportteja tutkimalla, että kaikki kirjaukset on tehty</string>
+         <string>5. Tarkasta raportteja tutkimalla, että kaikki kirjaukset on tehty</string>
         </property>
        </widget>
       </item>
@@ -157,7 +215,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="label_5">
         <property name="text">
-         <string>5. Lukitse kirjanpito ja muodosta arkisto</string>
+         <string>6. Lukitse kirjanpito ja muodosta arkisto</string>
         </property>
        </widget>
       </item>
@@ -205,7 +263,7 @@
       <item row="1" column="0">
        <widget class="QLabel" name="label_6">
         <property name="text">
-         <string>6. Muodosta tilinpäätös ja kirjoita liitetiedot</string>
+         <string>7. Muodosta tilinpäätös ja kirjoita liitetiedot</string>
         </property>
        </widget>
       </item>
@@ -226,7 +284,7 @@
       <item row="2" column="0">
        <widget class="QLabel" name="label_7">
         <property name="text">
-         <string>7. Tulosta tilinpäätös</string>
+         <string>8. Tulosta tilinpäätös</string>
         </property>
        </widget>
       </item>
@@ -247,7 +305,7 @@
       <item row="3" column="0">
        <widget class="QLabel" name="label_8">
         <property name="text">
-         <string>8. Vahvista tilinpäätös</string>
+         <string>9. Vahvista tilinpäätös</string>
         </property>
        </widget>
       </item>

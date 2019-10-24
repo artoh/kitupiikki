@@ -23,7 +23,7 @@
 #include "eurodelegaatti.h"
 #include "pvmdelegaatti.h"
 #include "kohdennusdelegaatti.h"
-
+#include "model/tositeviennit.h"
 
 
 #include <QHeaderView>
@@ -32,10 +32,10 @@
 ViennitView::ViennitView(QWidget *parent)
     : QTableView (parent)
 {
-    setItemDelegateForColumn( VientiModel::TILI, new TiliDelegaatti( ) );
-    setItemDelegateForColumn( VientiModel::DEBET, new EuroDelegaatti);
-    setItemDelegateForColumn( VientiModel::KREDIT, new EuroDelegaatti);
-    setItemDelegateForColumn( VientiModel::KOHDENNUS, new KohdennusDelegaatti);
+    setItemDelegateForColumn( TositeViennit::TILI, new TiliDelegaatti( ) );
+    setItemDelegateForColumn( TositeViennit::DEBET, new EuroDelegaatti);
+    setItemDelegateForColumn( TositeViennit::KREDIT, new EuroDelegaatti);
+    setItemDelegateForColumn( TositeViennit::KOHDENNUS, new KohdennusDelegaatti);
 
     horizontalHeader()->setStretchLastSection(true);
 
@@ -55,20 +55,20 @@ void ViennitView::seuraavaSarake()
         // Lisätään uusi rivi
         TositeViennit *vientiModel = qobject_cast<TositeViennit*>( model() );
         vientiModel->lisaaVienti( model()->rowCount() );
-        setCurrentIndex( vientiModel->index( model()->rowCount() - 1, VientiModel::TILI ) );
+        setCurrentIndex( vientiModel->index( model()->rowCount() - 1, TositeViennit::TILI ) );
     }
     else if( index.column() == model()->columnCount() - 1 )
     {
-        setCurrentIndex( model()->index(  index.row()+1 , VientiModel::PVM ) );
+        setCurrentIndex( model()->index(  index.row()+1 , TositeViennit::PVM ) );
     }
-    else if( index.column() == VientiModel::TILI)
+    else if( index.column() == TositeViennit::TILI)
     {
         // Jos tili on tulotili tai vastattavaa, hypätään suoraan Kreditiin
-        Tili tili = kp()->tilit()->tiliIdllaVanha( currentIndex().data(VientiModel::TiliIdRooli).toInt() );
+        Tili tili = kp()->tilit()->tiliNumerolla( currentIndex().data(TositeViennit::TiliNumeroRooli).toInt() );
         if( tili.onko(TiliLaji::TULO) || tili.onko(TiliLaji::VASTATTAVAA))
-            setCurrentIndex( model()->index( index.row(), VientiModel::KREDIT ) );
+            setCurrentIndex( model()->index( index.row(), TositeViennit::KREDIT ) );
         else
-            setCurrentIndex( model()->index( index.row(), VientiModel::DEBET ) );
+            setCurrentIndex( model()->index( index.row(), TositeViennit::DEBET ) );
     }
     else
     {

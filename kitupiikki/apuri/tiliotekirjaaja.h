@@ -52,6 +52,8 @@ private slots:
     void alaTabMuuttui(int tab);
     void euroMuuttuu();
     void ylaTabMuuttui(int tab);
+    void tiliMuuttuu();
+    void eraValittu(int eraId, double avoinna);
 
     void valitseLasku();
     void suodata(const QString& teksti);
@@ -73,7 +75,7 @@ private:
     int menoa_ = false;
 
     KohdennusProxyModel* kohdennusProxy_;
-    QSortFilterProxyModel* maksuProxy_;
+    QSortFilterProxyModel* maksuProxy_;    
 
     LaskuTauluTilioteProxylla *laskut_;
 

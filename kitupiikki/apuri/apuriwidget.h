@@ -34,8 +34,6 @@ public:
 
     virtual void tuo(QVariantMap map);
 
-signals:
-
 public slots:
     virtual void reset();
     virtual bool tositteelle();

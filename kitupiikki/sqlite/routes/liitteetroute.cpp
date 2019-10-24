@@ -20,6 +20,9 @@
 #include <QRegularExpressionMatch>
 
 #include <QCryptographicHash>
+#include <QDebug>
+
+#include "tuonti/tuonti.h"
 
 LiitteetRoute::LiitteetRoute(SQLiteModel *model) :
     SQLiteRoute(model, "/liitteet")
@@ -34,7 +37,7 @@ QVariant LiitteetRoute::get(const QString &polku, const QUrlQuery &/*urlquery*/)
         if(!kysely.exec(QString("SELECT data FROM Liite WHERE id=%1").arg(polku.toInt()) ) )
             throw SQLiteVirhe(kysely);
     } else {
-        QRegularExpression re(R"((\d+)/(\S+))");
+        QRegularExpression re(R"((\d+)\/(\S+))");
         QRegularExpressionMatch match = re.match(polku);
         kysely.exec(QString("SELECT data FROM Liite WHERE tosite=%1 AND roolinimi='%2'")
                     .arg(match.captured(1).toInt())
@@ -42,13 +45,15 @@ QVariant LiitteetRoute::get(const QString &polku, const QUrlQuery &/*urlquery*/)
     }
     if( kysely.next())
         return kysely.value(0).toByteArray();
+
     throw SQLiteVirhe("Liitettä ei löydy",404);
 }
 
 QVariant LiitteetRoute::byteArray(SQLiteKysely *kysely, const QByteArray &ba, const QMap<QString, QString> &meta)
 {
-    QRegularExpression re(R"(/liitteet/(\d+)(/\S+)?)");
-    QRegularExpressionMatch match = re.match(kysely->polku());
+    QString loppu = kysely->polku().mid( polku().length()+1 );
+    QRegularExpression re(R"((\d+)/(\S+)?)");
+    QRegularExpressionMatch match = re.match(loppu);
     QSqlQuery query(db());
     QVariantMap palautus;
 
@@ -58,11 +63,12 @@ QVariant LiitteetRoute::byteArray(SQLiteKysely *kysely, const QByteArray &ba, co
         query.addBindValue( ba );
         query.addBindValue( meta.value("Content-type", QString()));
         query.addBindValue( hash( ba) );
-        if( match.hasMatch()) {
-            query.addBindValue( match.captured(1).toInt() );
+        if( loppu.toInt()) {
+            query.addBindValue( loppu.toInt() );
         } else {
             // Liite odottamaan tositetta
             query.addBindValue( QVariant());
+            palautus = Tuonti::tuo( ba );
         }
     } else if( kysely->metodi() == KpKysely::PUT)
     {
@@ -95,3 +101,4 @@ QByteArray LiitteetRoute::hash(const QByteArray &ba)
     laskin.addData(ba);
     return laskin.result().toHex();
 }
+

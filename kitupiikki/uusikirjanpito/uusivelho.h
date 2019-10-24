@@ -24,8 +24,8 @@
 namespace Ui {
     class UusiHarjoitus;
     class UusiTilikartta;
-    class UusiTiedot;
     class UusiTilikausi;
+    class UusiNumerointi;
 }
 
 class UusiVelho : public QWizard
@@ -33,7 +33,7 @@ class UusiVelho : public QWizard
     Q_OBJECT
 public:
     UusiVelho();
-    enum Sivut { ALOITUS, HARJOITUS, TILIKARTTA, TIEDOT, TILIKAUSI, SIJAINTI, LOPPU };
+    enum Sivut { ALOITUS, HARJOITUS, TILIKARTTA, TIEDOT, TILIKAUSI, NUMEROINTI, SIJAINTI, LOPPU };
     void lataaKartta(const QString& polku);
 
     QVariantMap data() const;
@@ -63,14 +63,11 @@ protected:
         UusiVelho *velho;
     };
 
-    class TiedotSivu : public QWizardPage {
+    class NumerointiSivu : public QWizardPage {
     public:
-        TiedotSivu(UusiVelho *wizard);
-        void initializePage() override;
-        bool validatePage() override;
+        NumerointiSivu();
     protected:
-        Ui::UusiTiedot *ui;
-        UusiVelho *velho;
+        Ui::UusiNumerointi *ui;
     };
 
 };

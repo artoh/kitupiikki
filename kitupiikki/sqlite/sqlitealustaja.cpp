@@ -15,6 +15,9 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "sqlitealustaja.h"
+#include "db/tositetyyppimodel.h"
+#include "model/tosite.h"
+
 #include <QSqlQuery>
 #include <QFile>
 #include <QTextStream>
@@ -154,6 +157,9 @@ void SqliteAlustaja::kirjoitaTilit(const QVariantList &tililista)
 
 void SqliteAlustaja::kirjoitaTilikaudet(const QVariantList &kausilista)
 {
+    if( kausilista.count() > 1)
+        kirjoitaAvausTosite( kausilista.first().toMap().value("loppuu").toDate() );
+
     for( QVariant var : kausilista) {
         QVariantMap map = var.toMap();
         tilikausiKysely.addBindValue( map.take("alkaa").toDate() );
@@ -161,4 +167,15 @@ void SqliteAlustaja::kirjoitaTilikaudet(const QVariantList &kausilista)
         tilikausiKysely.addBindValue( json(map) );
         tilikausiKysely.exec();
     }
+}
+
+void SqliteAlustaja::kirjoitaAvausTosite(const QDate &tilinavauspaiva)
+{
+    QSqlQuery avauskysely = QSqlQuery( db );
+    avauskysely.prepare("INSERT INTO Tosite (pvm,tyyppi,tila,tunniste,otsikko) "
+                        "VALUES (?,?,?,1,'Tilinavaus') ");
+    avauskysely.addBindValue(tilinavauspaiva);
+    avauskysely.addBindValue(TositeTyyppi::TILINAVAUS);
+    avauskysely.addBindValue(Tosite::KIRJANPIDOSSA);
+    avauskysely.exec();
 }

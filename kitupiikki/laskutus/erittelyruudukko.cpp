@@ -21,6 +21,7 @@
 #include "myyntilaskuntulostaja.h"
 
 #include <QDebug>
+#include <QPagedPaintDevice>
 
 ErittelyRuudukko::ErittelyRuudukko(const QVariantList& rivit , MyyntiLaskunTulostaja *tulostaja)
     : model_(nullptr, rivit),
@@ -38,8 +39,6 @@ ErittelyRuudukko::ErittelyRuudukko(const QVariantList& rivit , MyyntiLaskunTulos
         int verokoodi = map.value("alvkoodi").toInt();
         qlonglong brutto = qRound( LaskuRivitModel::riviSumma( map ) * 100);
         int avain = verokoodi * 10000 + veroprossa;
-
-        qDebug() << avain << " -> " << brutto;
 
         verokannat_.insert( avain, verokannat_.value(avain, 0) + brutto );
     }
@@ -302,12 +301,12 @@ QString ErittelyRuudukko::veroteksti(int verokoodi) const
         return tulostaja_->t("palmy");
     case AlvKoodi::RAKENNUSPALVELU_MYYNTI:
         return tulostaja_->t("rakmy");
-    case LaskuModel::Kaytetyt:
+/*    case LaskuModel::Kaytetyt:
         return tulostaja_->t("vmkt");
     case LaskuModel::Taide:
         return tulostaja_->t("vmte");
     case LaskuModel::KerailyAntiikki:
-        return tulostaja_->t("vmka");
+        return tulostaja_->t("vmka"); */
     }
     return "!" + QString::number(verokoodi);
 }

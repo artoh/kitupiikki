@@ -100,7 +100,6 @@ void PilviModel::uusiPilvi(const QVariant &initials)
 
 bool PilviModel::avaaPilvesta(int pilviId)
 {
-    qDebug() << "Avaa pilvi " << pilviId;
 
     for( auto var : data_.value("clouds").toList()) {
         QVariantMap map = var.toMap();
@@ -125,8 +124,6 @@ KpKysely *PilviModel::kysely(const QString &polku, KpKysely::Metodi metodi)
 
 void PilviModel::sulje()
 {
-    qDebug() << "** sulje **";
-
     pilviId_ = 0;
     osoite_.clear();
     token_.clear();
@@ -148,6 +145,7 @@ bool PilviModel::onkoOikeutta(YhteysModel::Oikeus oikeus) const
     case PAIKALLINENOIKEUS:
         return false;
     }
+    return false;
 }
 
 void PilviModel::kirjaudu(const QString sahkoposti, const QString &salasana, bool pyydaAvain)

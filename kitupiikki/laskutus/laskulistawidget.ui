@@ -49,6 +49,9 @@
      <property name="selectionBehavior">
       <enum>QAbstractItemView::SelectRows</enum>
      </property>
+     <property name="sortingEnabled">
+      <bool>true</bool>
+     </property>
      <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
       <bool>true</bool>
      </attribute>
@@ -72,6 +75,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="kopioiNappi">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Kopioi</string>
        </property>
@@ -83,6 +89,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="lahetaNappi">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Lähetä</string>
        </property>
@@ -107,6 +116,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="hyvitysNappi">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Hyvityslasku</string>
        </property>
@@ -118,6 +130,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="muistutusNappi">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Maksumuistutus</string>
        </property>

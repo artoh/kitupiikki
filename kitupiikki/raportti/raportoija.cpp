@@ -73,8 +73,6 @@ void Raportoija::dataSaapuu(int sarake, QVariant *variant)
 {
     QVariantMap map = variant->toMap();
 
-    qDebug() << " -- Sarakkeelle " << sarake << "  "  << map.count() << "  tiliä ";
-
     QMapIterator<QString,QVariant> iter(map);
     while( iter.hasNext()) {
         iter.next();
@@ -108,7 +106,6 @@ void Raportoija::dataSaapunut()
     }
     tilit_.sort();
 
-    qDebug() << tilit_;
 }
 
 
@@ -187,8 +184,6 @@ void Raportoija::kirjoitaDatasta()
         for(int i=0; i < map.value("V").toInt(); i++)
             rk.lisaaTyhjaRivi();
 
-        qDebug() << "*" << kaava << "  |  " << teksti;
-
         RaporttiRivi rr;
 
         if( kaava.isEmpty() )
@@ -238,9 +233,9 @@ void Raportoija::kirjoitaDatasta()
             // Sitten etsitään tilit listalle
             int alkumerkit = alku.length();
 
-            int alaraja = 0;
+            int alaraja = 1;
             int ylaraja = tilit_.length() - 1;
-            int indeksi = ylaraja / 2;
+            int indeksi = 1 + (ylaraja-1) / 2;
 
             while( indeksi && ylaraja != alaraja) {
 
@@ -285,7 +280,7 @@ void Raportoija::kirjoitaDatasta()
                     continue;
             }
             for(int i=0; i < sarakemaara_; i++)
-                summa[i] += snt_.value(tili)[i];
+                summa[i] += snt_.value(tili,QVector<qlonglong>(sarakemaara_))[i];
         }
 
         if( laskevalisummaan )  {
@@ -354,8 +349,22 @@ void Raportoija::kirjoitaDatasta()
                 eriSisennysStr.append(' ');
 
             for( int tiliNumero : rivinTilit) {
+
+                if( vainmenot || vaintulot) {
+                    const Tili& tamaTili = kp()->tilit()->tiliNumerolla(tiliNumero);
+                    if( (vainmenot && !tamaTili.onko(TiliLaji::MENO))  ||
+                        (vaintulot && !tamaTili.onko(TiliLaji::TULO)) )
+                        continue;
+                }
+
                 RaporttiRivi er;
-                er.lisaa( eriSisennysStr + kp()->tilit()->tiliNumerolla(tiliNumero).nimiNumero( kieli_ ) );
+                Tili* tili = kp()->tilit()->tili(tiliNumero);
+                if( !tili )
+                    continue;
+
+                er.lisaaLinkilla( RaporttiRiviSarake::TILI_NRO, tili->numero(),
+                                  eriSisennysStr + tili->nimiNumero( kieli_ ));
+
 
                 int taulukkoindeksi = 0;
                 // Sitten kirjoitetaan summat riville
@@ -462,4 +471,10 @@ void Raportoija::kirjoita(bool tulostaErittelyt, int kohdennuksella)
     }
     for(auto kysely : kyselyt)
         kysely->kysy();
+
+}
+
+QString Raportoija::nimi() const
+{
+    return kmap_.value("nimi").toMap().value(kieli_).toString();
 }

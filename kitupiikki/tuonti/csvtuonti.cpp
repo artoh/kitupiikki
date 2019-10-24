@@ -46,6 +46,7 @@ CsvTuonti::~CsvTuonti()
 
 bool CsvTuonti::tuo(const QByteArray &data)
 {
+    /*
     tuoListaan( data );
     if( csv_.count() < 2)
         return false;
@@ -318,7 +319,7 @@ bool CsvTuonti::tuo(const QByteArray &data)
             tiliote(ui->tiliEdit->valittuTili(), alkaa, loppuu);
         }
     }
-
+    */
 
     return true;   // CSV-tiedosto tallennetaan tositteeksi siinä missä muutkin
 }

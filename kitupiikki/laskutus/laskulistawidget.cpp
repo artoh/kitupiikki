@@ -23,7 +23,7 @@
 #include "db/kirjanpito.h"
 #include "laskudialogi.h"
 #include "lisaikkuna.h"
-
+#include "naytin/naytinikkuna.h"
 #include <QDebug>
 
 LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
@@ -55,6 +55,9 @@ LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
     nayta( MYYNTI );
 
     connect( kp(), &Kirjanpito::tietokantaVaihtui, this, &LaskulistaWidget::alusta );
+    connect( kp(), &Kirjanpito::kirjanpitoaMuokattu, this, &LaskulistaWidget::paivita );
+
+    connect( ui->naytaNappi, &QPushButton::clicked, this, &LaskulistaWidget::naytaLasku);
 
     connect( ui->uusiNappi, &QPushButton::clicked, this, &LaskulistaWidget::uusilasku);
     connect( ui->muokkaaNappi, &QPushButton::clicked, this, &LaskulistaWidget::muokkaa);
@@ -99,7 +102,6 @@ void LaskulistaWidget::paivita()
 void LaskulistaWidget::suodataAsiakas(const QString &nimi)
 {
     laskuAsiakasProxy_->setFilterFixedString(nimi);
-    qDebug() << " s " << nimi;
 }
 
 void LaskulistaWidget::alusta()
@@ -110,12 +112,18 @@ void LaskulistaWidget::alusta()
 
 void LaskulistaWidget::uusilasku()
 {
+    if( kp()->paivamaara() <= kp()->tilitpaatetty() ||
+        kp()->paivamaara() > kp()->tilikaudet()->kirjanpitoLoppuu()) {
+        QMessageBox::critical(this, tr("Laskua ei voi luoda"), tr("Et voi luoda uutta laskua, koska nykyiselle päivälle ei ole avoinna olevaa tilikautta"));
+        return;
+    }
+
     if( paalehti_ == MYYNTI || paalehti_ == ASIAKAS) {
         LaskuDialogi *dlg = new LaskuDialogi();
         dlg->show();
     } else {
         LisaIkkuna *lisa = new LisaIkkuna(this);
-        lisa->kirjaa();
+        lisa->kirjaa(-1, TositeTyyppi::TULO);
     }
 }
 
@@ -132,6 +140,14 @@ void LaskulistaWidget::muokkaa()
     } else {
         LisaIkkuna *lisa = new LisaIkkuna(this);
         lisa->naytaTosite(tositeId);
+    }
+}
+
+void LaskulistaWidget::naytaLasku()
+{
+    int tositeId = ui->view->currentIndex().data(LaskuTauluModel::TositeIdRooli).toInt();
+    if( tositeId) {
+        NaytinIkkuna::naytaLiite(tositeId,"lasku");
     }
 }
 

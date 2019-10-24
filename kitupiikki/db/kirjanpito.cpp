@@ -46,9 +46,21 @@
 #include "sqlite/sqlitemodel.h"
 #include "tositetyyppimodel.h"
 
-Kirjanpito::Kirjanpito(const QString& portableDir) : QObject(nullptr),
-    harjoitusPvm( QDate::currentDate()), tempDir_(nullptr), portableDir_(portableDir),
-    yhteysModel_(nullptr), pilviModel_(new PilviModel(this)), sqliteModel_( new SQLiteModel(this)),
+Kirjanpito::Kirjanpito(const QString& portableDir) :
+    QObject(nullptr),
+    harjoitusPvm( QDate::currentDate()),
+    asetusModel_(new AsetusModel(this)),
+    tiliModel_( new TiliModel(this)),
+    tilikaudetModel_(new TilikausiModel( this)),
+    kohdennukset_(new KohdennusModel(this)),
+    veroTyypit_( new VerotyyppiModel(this)),
+    tiliTyypit_( new TilityyppiModel(this)),
+    tuotteet_( new TuoteModel(this)),
+    tempDir_(nullptr),
+    portableDir_(portableDir),
+    pilviModel_(new PilviModel(this)),
+    sqliteModel_( new SQLiteModel(this)),
+    yhteysModel_(nullptr),
     tositeTyypit_( new TositeTyyppiModel())
 {
     if( portableDir.isEmpty())
@@ -62,20 +74,6 @@ Kirjanpito::Kirjanpito(const QString& portableDir) : QObject(nullptr),
 
     networkManager_ = new QNetworkAccessManager(this);
 
-    tietokanta_ = QSqlDatabase::addDatabase("QSQLITE");
-
-    asetusModel_ = new AsetusModel(&tietokanta_, this);
-    tositelajiModel_ = new TositelajiModel(&tietokanta_, this);
-
-    tiliModel_ = new TiliModel( this);
-
-    tilikaudetModel_ = new TilikausiModel(&tietokanta_, this);
-    kohdennukset_ = new KohdennusModel(&tietokanta_, this);
-    veroTyypit_ = new VerotyyppiModel(this);
-    tiliTyypit_ = new TilityyppiModel(this);
-    tuotteet_ = new TuoteModel(this);
-    liitteet_ = nullptr;
-
     printer_ = new QPrinter(QPrinter::HighResolution);
 
     // Jos järjestelmässä ei ole yhtään tulostinta, otetaan käyttöön pdf-tulostus jotte
@@ -86,6 +84,18 @@ Kirjanpito::Kirjanpito(const QString& portableDir) : QObject(nullptr),
 
     printer_->setPaperSize(QPrinter::A4);
     printer_->setPageMargins(10,5,5,5, QPrinter::Millimeter);
+
+
+    tempDir_ = new QTemporaryDir(QDir::temp().absoluteFilePath("kitsas-XXXXXX"));
+    if( !tempDir_->isValid())
+    {
+        delete tempDir_;
+
+        tempDir_ = new QTemporaryDir( QDir::home().absoluteFilePath("kitsas-XXXXXX")  );
+        if( !tempDir_->isValid())
+            QMessageBox::critical(nullptr, tr("Tilapäishakemiston luominen epäonnistui"),
+                                  tr("Kitupiikki ei onnistunut luomaan tilapäishakemistoa. Raporttien ja laskujen esikatselu ei toimi."));
+    }
 }
 
 Kirjanpito::~Kirjanpito()
@@ -112,11 +122,6 @@ QDate Kirjanpito::paivamaara() const
 Tilikausi Kirjanpito::tilikausiPaivalle(const QDate &paiva) const
 {
     return tilikaudet()->tilikausiPaivalle(paiva);
-}
-
-TositeModel *Kirjanpito::tositemodel(QObject *parent)
-{
-    return new TositeModel( &tietokanta_ , parent);
 }
 
 void Kirjanpito::ohje(const QString &ohjesivu)
@@ -165,29 +170,30 @@ bool Kirjanpito::onkoMaksuperusteinenAlv(const QDate &paiva) const
 
 void Kirjanpito::asetaLogo(const QImage &logo)
 {
-
     logo_ = logo;
 
     QByteArray ba;
 
     QBuffer buffer(&ba);
     buffer.open(QIODevice::WriteOnly);
-
     logo_.save(&buffer, "PNG");
     buffer.close();
 
-    // Tallennetaan NULL-liitteeksi
-    liitteet_->asetaLiite( ba, "logo" );
-    liitteet_->tallenna();
+    KpKysely *kysely = kpk("/liitteet/0/logo", KpKysely::PUT);
+    kysely->lahetaTiedosto(ba);
+
+    emit logoMuuttui();
 }
 
-QString Kirjanpito::arkistopolku() const
+QString Kirjanpito::arkistopolku()
 {
-    if( tiedostopolku().endsWith(".kitupiikki"))
-        return tiedostopolku().replace(".kitupiikki",".arkisto");
-
-    QFileInfo info(tiedostopolku());
-    return info.dir().absoluteFilePath("arkisto");
+    SQLiteModel *sqlite = qobject_cast<SQLiteModel*>( yhteysModel() );
+    if( sqlite ) {
+        QString polku = sqlite->tiedostopolku();
+        if( polku.endsWith(".kitsas"))
+         return polku.replace(".kitsas","-arkisto");
+    }
+    return "";
 }
 
 QString Kirjanpito::viimeVirhe() const
@@ -207,28 +213,6 @@ void Kirjanpito::lokiin(const QSqlQuery &kysely)
     emit tietokantavirhe(ilmoitus);
 }
 
-QString Kirjanpito::tositeTunnus(int tositelaji, int tunniste, const QDate &pvm, bool vertailu) const
-{
-    QString lajitunnus;
-    QString vuositunnus = tilikaudetModel_->tilikausiPaivalle(pvm).kausitunnus();
-
-    // Tässä voidaan siivota pois laji jos ollaan yhdessä sarjassa
-
-    Tositelaji *laji = tositelajiModel_->tositeLaji(tositelaji);
-    if( laji && !asetusModel_->onko("Samaansarjaan"))
-        lajitunnus = laji->tunnus() + " ";
-
-    if( vertailu )
-        return QString("%1%2/%3")
-                .arg( lajitunnus)
-                .arg( tunniste, 8, 10, QChar('0') )
-                .arg( vuositunnus );
-
-    return QString("%1%2/%3")
-            .arg(lajitunnus)
-            .arg(tunniste)
-            .arg(vuositunnus);
-}
 
 QString Kirjanpito::tositeTunnus(int tunniste, const QDate &pvm, bool vertailu)
 {
@@ -547,9 +531,9 @@ bool Kirjanpito::avaaTietokanta(const QString &tiedosto, bool ilmoitaVirheesta)
 
     // Ilmoitetaan, että tietokanta on vaihtunut
     emit tietokantaVaihtui();
-
-    return true;
     */
+    return true;
+
 }
 
 
@@ -565,7 +549,7 @@ void Kirjanpito::yhteysAvattu(YhteysModel *model)
     emit tietokantaVaihtui();
 
     if( yhteysModel() ) {
-        KpKysely *logokysely = kpk("/liitteet/0/logo.png");
+        KpKysely *logokysely = kpk("/liitteet/0/logo");
         connect( logokysely, &KpKysely::vastaus, this, &Kirjanpito::logoSaapui);
         logokysely->kysy();
     }
@@ -584,7 +568,6 @@ void Kirjanpito::asetaHarjoitteluPvm(const QDate &pvm)
 void Kirjanpito::logoSaapui(QVariant *reply)
 {
     QByteArray ba = reply->toByteArray();
-    qDebug() << "koko " << ba.size();
 
     logo_ = QImage::fromData( ba );
     emit logoMuuttui();
@@ -646,4 +629,9 @@ KpKysely *kpk(const QString &polku, KpKysely::Metodi metodi)
     if( kp()->yhteysModel() )
         return kp()->yhteysModel()->kysely(polku, metodi);
     return nullptr;
+}
+
+QIcon lippu(const QString &kielikoodi)
+{
+    return QIcon(":/liput/" + kielikoodi + ".png");
 }

@@ -34,7 +34,7 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
 
     QString kysymys("select tosite.id as tosite, vienti.pvm as pvm, vienti.erapvm as erapvm, vienti.viite, vienti.json as json, "
                         "debet as summa, ds, ks, kumppani.nimi as asiakas, kumppani.id as asiakasid, vienti.eraid as eraid, vienti.tili as tili,"
-                        "tosite.tyyppi as tyyppi  from "
+                        "tosite.tyyppi as tyyppi, vienti.selite as selite  from "
                         "Tosite JOIN Vienti ON vienti.tosite=tosite.id ");
 
     if( !urlquery.hasQueryItem("avoin") && !urlquery.hasQueryItem("eraantynyt"))
@@ -84,9 +84,6 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
         map.insert("avoin", ds - ks);
         lista[i] = map;
     }
-
-    qDebug() << kysymys;
-    qDebug() << lista;
 
     return lista;
 }

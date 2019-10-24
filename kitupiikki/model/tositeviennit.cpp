@@ -90,7 +90,7 @@ QVariant TositeViennit::data(const QModelIndex &index, int role) const
             return rivi.value("pvm").toDate();
         case TILI:
         {
-            Tili *tili = kp()->tilit()->tiliPNumerolla( rivi.value("tili").toInt() );
+            Tili *tili = kp()->tilit()->tili( rivi.value("tili").toInt() );
             if( tili )
                 return QString("%1 %2").arg(tili->numero()).arg(tili->nimi());
             return QVariant();
@@ -255,9 +255,9 @@ bool TositeViennit::setData(const QModelIndex &index, const QVariant &value, int
 
                     rivi.setTili( uusitili.numero());
                     if( uusitili.eritellaankoTase())
-                        rivi.setEra( TaseEra::UUSIERA);
+                        rivi.setEra( -1 );
                     else
-                        rivi.setEra( TaseEra::EIERAA);
+                        rivi.setEra( 0);
                     break;
                 }
             case SELITE:
@@ -357,7 +357,11 @@ void TositeViennit::asetaViennit(QVariantList viennit)
     // Erätietojen siivoaminen ja sijoittaminen välimuistiin
     endResetModel();
 
-    qDebug() << viennit_;
+}
+
+void TositeViennit::tyhjenna()
+{
+    asetaViennit(QVariantList());
 }
 
 QVariant TositeViennit::tallennettavat() const

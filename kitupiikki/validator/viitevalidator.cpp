@@ -16,8 +16,6 @@
 */
 
 #include "viitevalidator.h"
-#include "laskutus/laskumodel.h"
-
 #include "ibanvalidator.h"
 
 ViiteValidator::ViiteValidator()

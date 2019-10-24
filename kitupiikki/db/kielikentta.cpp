@@ -15,8 +15,9 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "kielikentta.h"
-
+#include "db/kirjanpito.h"
 #include <QDebug>
+#include <QJsonDocument>
 
 KieliKentta::KieliKentta()
 {
@@ -26,6 +27,12 @@ KieliKentta::KieliKentta()
 KieliKentta::KieliKentta(const QVariant &var)
 {
     aseta( var );
+}
+
+KieliKentta::KieliKentta(const QString &var)
+{
+    QJsonDocument doc = QJsonDocument::fromJson( var.toUtf8() );
+    aseta( doc.toVariant());
 }
 
 void KieliKentta::aseta(const QVariant &var)
@@ -42,8 +49,18 @@ void KieliKentta::aseta(const QVariant &var)
     }
 }
 
-QString KieliKentta::teksti(const QString &kieli) const
+void KieliKentta::aseta(const QString &nimi, const QString &kieli)
 {
+    if( nimi.isEmpty())
+        tekstit_.remove(kieli);
+    else
+        tekstit_.insert(kieli, nimi);
+}
+
+QString KieliKentta::teksti( QString kieli) const
+{
+    if( kieli.isEmpty())
+        kieli = kp()->asetus("kieli");
     if( tekstit_.contains(kieli))
         return tekstit_.value(kieli);
     if( tekstit_.contains("fi"))
@@ -51,4 +68,20 @@ QString KieliKentta::teksti(const QString &kieli) const
     if( !tekstit_.isEmpty())
         return tekstit_.first();
     return QString();
+}
+
+QString KieliKentta::kaannos(const QString &kieli) const
+{
+    return tekstit_.value(kieli);
+}
+
+QVariantMap KieliKentta::map() const
+{
+    QVariantMap out;
+    QMapIterator<QString,QString> iter(tekstit_);
+    while( iter.hasNext()) {
+        iter.next();
+        out.insert( iter.key(), iter.value());
+    }
+    return out;
 }

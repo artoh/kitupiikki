@@ -12,6 +12,11 @@ LIBS += -lpoppler-qt5
 LIBS += -lpoppler
 LIBS += -lzip
 
+windows {
+    LIBS += -lopenjp2
+    LIBS += -lbcrypt
+}
+
 
 macx {
     LIBS += -L/usr/local/opt/poppler/lib -lpoppler-qt5
@@ -21,7 +26,7 @@ macx {
 
 CONFIG += c++14
 
-TARGET = kitupiikki
+TARGET = kitsas
 
 TEMPLATE = app
 
@@ -37,6 +42,12 @@ DISTFILES += \
 
 
 RC_ICONS = kitupiikki.ico
+
+
+
+
+
+
 
 
 

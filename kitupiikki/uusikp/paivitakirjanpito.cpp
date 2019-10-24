@@ -29,12 +29,10 @@
 
 #include "db/kirjanpito.h"
 #include "db/tili.h"
-#include "uusikirjanpito.h"
 
 #include "ui_tkpaivitys.h"
 #include "ui_paivityskorvaa.h"
 
-#include "skripti.h"
 
 
 QString PaivitaKirjanpito::sisainenPaivitys()

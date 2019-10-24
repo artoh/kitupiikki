@@ -21,6 +21,7 @@
 #include <QDialog>
 
 #include "db/kirjanpito.h"
+#include "raportti/raportinkirjoittaja.h"
 
 namespace Ui {
 class Poistaja;
@@ -37,29 +38,16 @@ class Poistaja : public QDialog
     Q_OBJECT
 
 public:
-    explicit Poistaja(QWidget *parent = 0);
+    explicit Poistaja(QWidget *parent = nullptr);
     ~Poistaja();
 
-    /**
-     * @brief Tee kaudelle kuuluvat sumu-poistot
-     * @param kausi
-     * @return Tehtiinkö poistot
-     */
-    static bool teeSumuPoistot(Tilikausi kausi);
+    bool teepoistot(const Tilikausi& kausi, const QVariantList& poistot);
 
-    /**
-     * @brief Voiko tälle kaudelle tehdä sumu-poistoja
-     *
-     * Kaudelle voi tehdä poistoja, jos niitä ei ole vielä tehty ja
-     * jollain poistotilillä on vielä saldoa jäljellä
-     *
-     * @param kausi
-     * @return Tosi, jos poistoja voi tehdä
-     */
-    bool static onkoPoistoja(const Tilikausi &kausi);
+signals:
+    void poistettu();
 
 private:
-    bool sumupoistaja(Tilikausi kausi);
+    RaportinKirjoittaja poistoehdotus(const Tilikausi& kausi, const QVariantList& poistot);
 
 
     Ui::Poistaja *ui;

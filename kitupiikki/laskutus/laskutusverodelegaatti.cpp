@@ -19,9 +19,9 @@
 
 #include <QComboBox>
 #include "db/verotyyppimodel.h"
-#include "laskumodel.h"
 #include "db/kirjanpito.h"
 #include "laskualvcombo.h"
+#include "laskurivitmodel.h"
 
 LaskutusVeroDelegaatti::LaskutusVeroDelegaatti()
 {
@@ -36,9 +36,9 @@ QWidget *LaskutusVeroDelegaatti::createEditor(QWidget *parent, const QStyleOptio
 
 void LaskutusVeroDelegaatti::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    int koodi = index.data(LaskuModel::AlvProsenttiRooli).toInt() * 100 + index.data(LaskuModel::AlvKoodiRooli).toInt();
-    if( index.data(LaskuModel::VoittomarginaaliRooli).toInt())
-        koodi = index.data(LaskuModel::VoittomarginaaliRooli).toInt();
+    int koodi = index.data(LaskuRivitModel::AlvProsenttiRooli).toInt() * 100 + index.data(LaskuRivitModel::AlvKoodiRooli).toInt();
+    if( index.data(LaskuRivitModel::VoittomarginaaliRooli).toInt())
+        koodi = index.data(LaskuRivitModel::VoittomarginaaliRooli).toInt();
 
     LaskuAlvCombo *cbox = qobject_cast<LaskuAlvCombo*>(editor);
     cbox->setCurrentIndex( cbox->findData(koodi) );
@@ -49,14 +49,14 @@ void LaskutusVeroDelegaatti::setModelData(QWidget *editor, QAbstractItemModel *m
     LaskuAlvCombo *cbox = qobject_cast<LaskuAlvCombo*>(editor);
     int koodi = cbox->currentData().toInt();
 
-    if( koodi >= LaskuModel::Kaytetyt)
+    if( koodi >= LaskuRivitModel::Kaytetyt)
     {
-        model->setData(index, koodi, LaskuModel::VoittomarginaaliRooli);
+        model->setData(index, koodi, LaskuRivitModel::VoittomarginaaliRooli);
     }
     else
     {
-        model->setData(index, koodi / 100, LaskuModel::AlvProsenttiRooli);
-        model->setData(index, koodi % 100, LaskuModel::AlvKoodiRooli);
+        model->setData(index, koodi / 100, LaskuRivitModel::AlvProsenttiRooli);
+        model->setData(index, koodi % 100, LaskuRivitModel::AlvKoodiRooli);
     }
 
 }

@@ -131,6 +131,21 @@ void AsiakasToimittajaDlg::tauluun(QVariantMap map)
     tarkastaTilit();
 }
 
+void AsiakasToimittajaDlg::tuonti(const QVariantMap &map)
+{
+    QVariantMap uusi;
+    uusi.insert("nimi", map.value("kumppaninimi"));
+    uusi.insert("iban", map.value("iban"));
+    tauluun( uusi );
+    ui->yEdit->setText( map.value("kumppaniytunnus").toString());
+    haeYTunnarilla();
+
+    if( ui->nimiEdit->text().isEmpty() || ui->yEdit->text().isEmpty())
+        exec();
+    else
+        accept();
+}
+
 void AsiakasToimittajaDlg::tarkastaTilit()
 {
     bool tyhjat = false;
@@ -206,8 +221,6 @@ void AsiakasToimittajaDlg::accept()
         kysely = id_ ? kpk( QString("/kumppanit/%1").arg(id_) , KpKysely::PUT ) :
                        kpk( "/kumppanit", KpKysely::POST);
 
-    qDebug() << map;
-
     connect(kysely, &KpKysely::vastaus, this, &AsiakasToimittajaDlg::tallennusValmis  );
     kysely->kysy(map);
 
@@ -255,8 +268,6 @@ void AsiakasToimittajaDlg::tallennusValmis(QVariant *data)
     QString nimi = map.value("nimi").toString();
 
     QDialog::accept();
-
-    qDebug() << "Tallennettu " << id << " - " << nimi;
 
     emit tallennettu(id, nimi);
 }

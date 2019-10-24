@@ -1,8 +1,12 @@
 <RCC>
     <qresource prefix="/tilikartat">
         <file>tilitin.kpk</file>
-        <file>yhdistys-1.kpk</file>
         <file>asoy.kpk</file>
         <file>yhdistys.json</file>
+        <file>yhdistys/asetukset.json</file>
+        <file>yhdistys/raportit.json</file>
+        <file>yhdistys/tilinpaatos.txt</file>
+        <file>yhdistys/tilit.json</file>
+        <file>yhdistys/tilikartta.json</file>
     </qresource>
 </RCC>

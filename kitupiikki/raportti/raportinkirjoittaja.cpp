@@ -22,6 +22,7 @@
 #include <QPixmap>
 #include <QSettings>
 #include <QApplication>
+#include <QBuffer>
 #include "raportinkirjoittaja.h"
 
 #include <QPdfWriter>
@@ -381,7 +382,7 @@ QString RaportinKirjoittaja::html(bool linkit) const
                 if( rivi.sarake(i).linkkityyppi == RaporttiRiviSarake::TOSITE_ID)
                 {
                     // Linkki tositteeseen
-                    txt.append( QString("<a href=\"%1.html\">").arg( rivi.sarake(i).linkkidata , 8, 10 , QChar('0') ) );
+                    txt.append( QString("<a href=\"tositteet/%1.html\">").arg( rivi.sarake(i).linkkidata));
                 }
                 else if( rivi.sarake(i).linkkityyppi == RaporttiRiviSarake::TILI_NRO)
                 {
@@ -411,7 +412,7 @@ QString RaportinKirjoittaja::html(bool linkit) const
     txt.append("</table>");
     txt.append("<p class=tulostettu>Tulostettu " + QDate::currentDate().toString("dd.MM.yyyy"));
     if( kp()->onkoHarjoitus())
-        txt.append("<br><span class=treeni>Kirjanpito on laadittu Kitupiikki-ohjelman harjoittelutilassa</span>");
+        txt.append("<br><span class=treeni>Kirjanpito on laadittu Kitsas-ohjelman harjoittelutilassa</span>");
 
     txt.append("</p></body></html>\n");
 

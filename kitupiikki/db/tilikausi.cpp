@@ -28,10 +28,9 @@ Tilikausi::Tilikausi()
 
 }
 
-Tilikausi::Tilikausi(const QVariantMap &data) :
+Tilikausi::Tilikausi(QVariantMap data) :
     KantaVariantti (data)
 {
-
 }
 
 Tilikausi::Tilikausi(const QDate &alkaa, const QDate &paattyy)
@@ -40,13 +39,6 @@ Tilikausi::Tilikausi(const QDate &alkaa, const QDate &paattyy)
     set("loppuu", paattyy);
 }
 
-Tilikausi::Tilikausi(QDate tkalkaa, QDate tkpaattyy, const QByteArray& json) :
-    alkaa_(tkalkaa),
-    paattyy_(tkpaattyy),
-    json_(json)
-{
-
-}
 
 QDateTime Tilikausi::arkistoitu()
 {
@@ -59,10 +51,12 @@ QDateTime Tilikausi::arkistoitu()
 
 QDateTime Tilikausi::viimeinenPaivitys() const
 {
-    QSqlQuery kysely( QString(R"(SELECT max(muokattu) FROM vienti WHERE pvm BETWEEN "%1" AND "%2" )").arg(alkaa().toString(Qt::ISODate)).arg(paattyy().toString(Qt::ISODate)));
-    if( kysely.next() )
-        return kysely.value(0).toDateTime();
-    return QDateTime();
+    QDateTime tositteet = arvo("paivitetty").toDateTime();
+    QDateTime tpaatos = arvo("tilinpaatos").toDateTime();
+
+    if( tpaatos > tositteet)
+        return tpaatos;
+    return tositteet;
 }
 
 QString Tilikausi::kausivaliTekstina() const
@@ -85,21 +79,6 @@ Tilikausi::TilinpaatosTila Tilikausi::tilinpaatoksenTila()
         return ALOITTAMATTA;
 }
 
-
-qlonglong Tilikausi::tulos() const
-{
-    return qRound( dbl("tulos") * 100);
-}
-
-qlonglong Tilikausi::liikevaihto() const
-{
-    return qRound( dbl("liikevaihto") * 100);
-}
-
-qlonglong Tilikausi::tase() const
-{
-    return qRound( dbl("tase") * 100 );
-}
 
 int Tilikausi::henkilosto()
 {
@@ -163,16 +142,17 @@ void Tilikausi::asetaKausitunnus(const QString &kausitunnus)
     kausitunnus_ = kausitunnus;
 }
 
-bool Tilikausi::onkoBudjettia()
-{
-    return !json_.variant("Budjetti").toMap().isEmpty();
-}
-
 void Tilikausi::tallenna()
 {
+    QVariantMap map = data();
+    map.remove("tase");
+    map.remove("tulos");
+    map.remove("liikevaihto");
+    map.remove("viimeinen");
+
     KpKysely* kysely = kpk(QString("/tilikaudet/%1").arg( alkaa().toString(Qt::ISODate)), KpKysely::PUT );
     QObject::connect(kysely, &KpKysely::vastaus, kp()->tilikaudet(), &TilikausiModel::paivita);
-    kysely->kysy( data() );
+    kysely->kysy( map );
 }
 
 void Tilikausi::poista()

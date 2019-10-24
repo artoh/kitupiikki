@@ -108,7 +108,7 @@
      <item row="3" column="1">
       <widget class="TilinvalintaLine" name="tiliEdit"/>
      </item>
-     <item row="4" column="0">
+     <item row="5" column="0">
       <widget class="QLabel" name="kohdennusLabel">
        <property name="text">
         <string>Kohdennus</string>
@@ -118,10 +118,10 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
+     <item row="5" column="1">
       <widget class="QComboBox" name="kohdennusCombo"/>
      </item>
-     <item row="5" column="0">
+     <item row="6" column="0">
       <widget class="QLabel" name="merkkausLabel">
        <property name="text">
         <string>Merkkaukset</string>
@@ -131,10 +131,10 @@
        </property>
       </widget>
      </item>
-     <item row="5" column="1">
+     <item row="6" column="1">
       <widget class="CheckCombo" name="merkkausCC"/>
      </item>
-     <item row="6" column="0">
+     <item row="7" column="0">
       <widget class="QLabel" name="seliteLabel">
        <property name="text">
         <string>Selite</string>
@@ -144,8 +144,18 @@
        </property>
       </widget>
      </item>
-     <item row="6" column="1">
+     <item row="7" column="1">
       <widget class="QLineEdit" name="seliteEdit"/>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="eraLabel">
+       <property name="text">
+        <string>Tase-erä</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="EraCombo" name="eraCombo"/>
      </item>
     </layout>
    </item>
@@ -176,9 +186,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KpDateEdit</class>
+   <class>TilinvalintaLine</class>
    <extends>QLineEdit</extends>
-   <header location="global">tools/kpdateedit.h</header>
+   <header location="global">db/tilinvalintaline.h</header>
   </customwidget>
   <customwidget>
    <class>KpEuroEdit</class>
@@ -186,14 +196,19 @@
    <header location="global">tools/kpeuroedit.h</header>
   </customwidget>
   <customwidget>
+   <class>EraCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">tools/eracombo.h</header>
+  </customwidget>
+  <customwidget>
    <class>CheckCombo</class>
    <extends>QComboBox</extends>
    <header location="global">tools/checkcombo.h</header>
   </customwidget>
   <customwidget>
-   <class>TilinvalintaLine</class>
+   <class>KpDateEdit</class>
    <extends>QLineEdit</extends>
-   <header>db/tilinvalintaline.h</header>
+   <header location="global">tools/kpdateedit.h</header>
   </customwidget>
   <customwidget>
    <class>AsiakasToimittajaValinta</class>

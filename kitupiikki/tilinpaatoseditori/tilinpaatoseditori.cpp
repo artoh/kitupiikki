@@ -21,6 +21,8 @@
 #include <QMessageBox>
 #include <QCloseEvent>
 #include <QSqlQuery>
+#include <QJsonDocument>
+#include <QVariant>
 
 #include "tilinpaatoseditori.h"
 #include "tilinpaatostulostaja.h"
@@ -46,24 +48,11 @@ TilinpaatosEditori::TilinpaatosEditori(const Tilikausi& tilikausi, QWidget *pare
     lataa();
 }
 
-void TilinpaatosEditori::tulosta(QPagedPaintDevice *printer) const
-{
-    QString teksti = raportit_ + "\n" + editori_->toHtml();
-
-    TilinpaatosTulostaja::tulostaTilinpaatos( printer, tilikausi_, teksti);
-}
-
-QString TilinpaatosEditori::otsikko() const
-{
-    return tr("Tilinpäätös %1 - %2")
-            .arg(tilikausi_.alkaa().toString("dd.MM.yyyy"))
-            .arg(tilikausi_.paattyy().toString("dd.MM.yyyy"));
-
-}
 
 void TilinpaatosEditori::esikatselu()
 {    
-    esikatsele();
+    TilinpaatosTulostaja *tp = new TilinpaatosTulostaja(tilikausi_, editori_->toHtml(), raportit_, this);
+    tp->nayta();
 }
 
 void TilinpaatosEditori::luoAktiot()
@@ -95,8 +84,9 @@ void TilinpaatosEditori::luoPalkit()
 
 void TilinpaatosEditori::uusiTp()
 {
-    QStringList pohja = kp()->asetukset()->lista("TilinpaatosPohja");
-    QStringList valinnat = kp()->asetukset()->lista("TilinpaatosValinnat");
+    QStringList pohja =  kp()->asetukset()->lista("tppohja/" + kp()->asetus("kieli"));
+
+    QStringList valinnat = kp()->asetukset()->asetus("tilinpaatosvalinnat").split(",");
     QRegularExpression tunnisteRe("#(?<tunniste>-?\\w+)(?<pois>(\\s-\\w+)*).*");
     tunnisteRe.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);
     QRegularExpression raporttiRe("@(?<raportti>.+)[\\*!](?<otsikko>.+)@");
@@ -149,19 +139,19 @@ void TilinpaatosEditori::uusiTp()
         {
             // Näillä tulostetaan erityisiä kenttiä
             if( rivi == "@sha@")
-                teksti.append( tilikausi_.json()->str("ArkistoSHA"));
+                ; //teksti.append( tilikausi_.json()->str("ArkistoSHA"));
             else if( rivi == "@henkilosto@")
                 teksti.append( henkilostotaulukko());
             else if( rivi == "@tositelajit@")
                 teksti.append( tositelajitaulukko() );
             else if( rivi == "@tulos@")
-                teksti.append( QString(" %L1 € ").arg(kp()->tilit()->tiliTyypilla(TiliLaji::KAUDENTULOS).saldoPaivalle( tilikausi_.paattyy() ) / 100.0 , 0, 'f', 2 ) );
+                teksti.append( QString(" %L1 € ").arg( tilikausi_.tulos() ) );
             else
             {
                 QRegularExpressionMatch rmats = raporttiRe.match(rivi);
                 if( rmats.hasMatch())
                 {
-                    raportit_.append( rivi + " " );
+                    raportit_.append( rmats.captured("raportti") );
                 }
             }
         }
@@ -173,7 +163,7 @@ void TilinpaatosEditori::uusiTp()
 
 void TilinpaatosEditori::lataa()
 {
-    QString data = tilikausi_.json()->str("TilinpaatosTeksti");
+    QString data = tilikausi_.str("tilinpaatosteksti");
     if( data.isEmpty())
     {
         if(!aloitaAlusta())
@@ -184,15 +174,15 @@ void TilinpaatosEditori::lataa()
     }
     else
     {
-        raportit_ = data.left( data.indexOf("\n"));
+        raportit_ = data.left( data.indexOf("\n")).split(" ");
         editori_->setText( data.mid(data.indexOf("\n")+1));
     }
 }
 
 void TilinpaatosEditori::closeEvent(QCloseEvent *event)
 {
-    QString teksti = raportit_ + "\n" + editori_->toHtml();
-    if( teksti != kp()->tilikaudet()->json(tilikausi_)->str("TilinpaatosTeksti"))
+    QString teksti = raportit_.join(" ") + "\n" + editori_->toHtml();
+    if( teksti != tilikausi_.str("tilinpaatosteksti"))
     {
         QMessageBox::StandardButton vastaus =
                 QMessageBox::question(this, tr("Tilinpäätöstä muokattu"),
@@ -266,22 +256,15 @@ bool TilinpaatosEditori::aloitaAlusta()
 
 void TilinpaatosEditori::tallenna()
 {
-    QString teksti = raportit_ + "\n" + editori_->toHtml();
-    kp()->tilikaudet()->json(tilikausi_)->set("TilinpaatosTeksti", teksti);
-    kp()->tilikaudet()->tallennaJSON();
+    QString teksti = raportit_.join(" ") + "\n" + editori_->toHtml();
+    tilikausi_.set("tilinpaatosteksti", teksti);
+    tilikausi_.set("tilinpaatos", QDateTime::currentDateTime());
+    tilikausi_.tallenna();
 
-    QByteArray pdfa = pdf();
+    TilinpaatosTulostaja *tp = new TilinpaatosTulostaja(tilikausi_, editori_->toHtml(), raportit_, this);
+    connect( tp, &TilinpaatosTulostaja::tallennettu, this, &TilinpaatosEditori::tallennettu);
+    tp->tallenna();
 
-    kp()->liitteet()->asetaLiite( pdfa, tilikausi_.alkaa().toString(Qt::ISODate) );
-    kp()->liitteet()->tallenna();
-
-    // Tallennetaan myös Arkistoon
-    QFile out(kp()->arkistopolku()  + "/" + tilikausi_.arkistoHakemistoNimi() + "/tilinpaatos.pdf");
-    out.open(QIODevice::WriteOnly);
-    out.write( pdfa );
-    out.close();
-
-    emit tallennettu();
 }
 
 

@@ -49,7 +49,8 @@ public:
         ERAPVM,
         KUMPPANI,
         KOMMENTIT,
-        ALV
+        ALV,
+        SARJA
     };
 
     enum Virheet {
@@ -58,7 +59,8 @@ public:
         PVMALV          = 0b100,
         EITASMAA        = 0b1000,
         NOLLA           = 0b10000,
-        TILIPUUTTUU     = 0b100000
+        TILIPUUTTUU     = 0b100000,
+        EIAVOINTAKUTTA  = 0b1000000
     };
 
     enum Tila {
@@ -85,13 +87,28 @@ public:
 
     static QString tilateksti(int tila);
 
+    QDate pvm() const;
+    QString otsikko() const { return data(OTSIKKO).toString();}
+
+    void asetaOtsikko(const QString& otsikko);
+    void asetaTyyppi(int tyyppi);
+    void asetaPvm(const QDate& pvm);
+
+    /**
+     * @brief Tiedot tallennettavassa muodossa
+     * @return
+     */
+    QVariantMap tallennettava() const;
+
 signals:
     void ladattu();
-    void talletettu(int id, int tunniste, const QDate& pvm);
+    void talletettu(int id, int tunniste, const QDate& pvm, const QString& sarja);
     void tallennusvirhe(int virhe);
     void tila(bool muokattu, int virheet, double debet, double kredit);
     void pvmMuuttui(const QDate& pvm);
     void otsikkoMuuttui(const QString& otsikko);
+
+    void tarkastaSarja(bool kateinen);
 
 public slots:
     void lataa(int tositeid);
@@ -106,11 +123,7 @@ protected slots:
     void liitteetTallennettu();
 
 private:
-    /**
-     * @brief Tiedot tallennettavassa muodossa
-     * @return
-     */
-    QVariantMap tallennettava() const;
+
 
 private:
     QVariantMap data_;

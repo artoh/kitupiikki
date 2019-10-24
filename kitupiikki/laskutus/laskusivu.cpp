@@ -17,10 +17,8 @@
 
 #include "laskusivu.h"
 
-#include "asiakkaatmodel.h"
 #include "laskudialogi.h"
 #include "db/kirjanpito.h"
-#include "db/tositemodel.h"
 #include "lisaikkuna.h"
 #include "naytin/naytinikkuna.h"
 #include "yhteystietowidget.h"
@@ -77,14 +75,13 @@ void LaskuSivu::paaTab(int indeksi)
     laskuWidget_->setVisible( indeksi != TUOTTEET && indeksi != REKISTERI);
 
     if( indeksi >= REKISTERI )
-        kumppaniTuoteWidget_->nayta( indeksi - 3);
-    else
-        kumppaniTuoteWidget_->nayta( indeksi );
+        kumppaniTuoteWidget_->nayta( indeksi - 2);
 
     if( indeksi != TUOTTEET && indeksi != REKISTERI)
     {
         laskuWidget_->suodataAsiakas( asiakasSuodatusEdit_->text() );
         laskuWidget_->nayta( indeksi );
+        laskuWidget_->paivita();
     }
 
     if( indeksi == ASIAKAS || indeksi == MYYNTI)
@@ -264,7 +261,7 @@ void LaskuSivu::luoUi()
     paaTab_->addTab(QIcon(":/pic/lisaa.png"),tr("&Myynnit"));
     paaTab_->addTab(QIcon(":/pic/poista.png"),tr("&Ostot") );
     paaTab_->addTab(QIcon(":/pic/asiakkaat.png"),tr("&Rekisteri"));
-    paaTab_->addTab(QIcon(":/pic/asiakkaat.png"),("&Asiakkaat"));
+    paaTab_->addTab(QIcon(":/pic/mies.png"),("&Asiakkaat"));
     paaTab_->addTab(QIcon(":/pic/yrittaja.png"),tr("&Toimittajat"));    
     paaTab_->addTab(QIcon(":/pic/kirjalaatikko.png"),tr("T&uotteet"));
 

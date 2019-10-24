@@ -17,13 +17,13 @@
 #ifndef PAAKIRJA_H
 #define PAAKIRJA_H
 
-#include <QObject>
+#include "raportteri.h"
 
 #include "raportinkirjoittaja.h"
 #include "db/tili.h"
 #include "db/tilikausi.h"
 
-class Paakirja : public QObject
+class Paakirja : public Raportteri
 {
     Q_OBJECT
 public:
@@ -38,8 +38,6 @@ public:
            SamaTilikausi        = 0b10000
          };
 
-signals:
-    void valmis(RaportinKirjoittaja rk);
 
 public slots:
 
@@ -53,8 +51,6 @@ protected:
     void kirjoitaVienti(QVariantMap map);
 
 protected:
-    RaportinKirjoittaja rk;
-
     QVariantMap saldot_;
     QVariantList viennit_;
 

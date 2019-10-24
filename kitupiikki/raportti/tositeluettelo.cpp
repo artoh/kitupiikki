@@ -96,14 +96,15 @@ void TositeLuettelo::dataSaapuu(QVariant *data)
 
         RaporttiRivi rivi;
 
-        if( optiot_ & SamaTilikausi)
-            rivi.lisaa( map.value("tunniste").toString() );
-        else
-            rivi.lisaa( kp()->tositeTunnus(  map.value("tunniste").toInt(), map.value("pvm").toDate() ) );
+        rivi.lisaaTositeTunnus( map.value("pvm").toDate(), map.value("sarja").toString(),
+                                map.value("tunniste").toInt(), optiot_ & SamaTilikausi);
 
         rivi.lisaa( map.value("pvm").toDate() );
-        rivi.lisaa( map.value("otsikko").toString());
-        rivi.lisaa( tr("%1 kpl").arg( map.value("liitteita").toInt() ));
+        rivi.lisaa( map.value("otsikko").toString());        
+        if( map.value("liitteita").toInt())
+            rivi.lisaa( tr("%1 kpl").arg( map.value("liitteita").toInt() ));
+        else
+            rivi.lisaa("");
         qlonglong euro = qRound( map.value("summa").toDouble() * 100.0 );
         rivi.lisaa( euro );
 

@@ -18,8 +18,7 @@
 #ifndef TUOTEMODEL_H
 #define TUOTEMODEL_H
 
-#include "laskumodel.h"
-
+#include <QAbstractTableModel>
 /**
  * @brief Laskutuksessa käytettävät tuotteet
  * 
@@ -43,32 +42,15 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     QVariant data(const QModelIndex &index, int role) const;    
     
-    int lisaaTuote(LaskuRivi tuote);
-    void poistaTuote(int indeksi);
-    void paivitaTuote(LaskuRivi tuote);
-    /**
-     * @brief Palauttaa tuotteen
-     * @param indeksi Rivin indeksi
-     * @return
-     *
-     * Tällä saadaan tuotteen sisältävä LaskuRivi, joka voidaan lisätä laskuun
-     */
-    LaskuRivi tuote(int indeksi) const;
-
     QVariantMap tuoteMap(int indeksi) const;
 
 public slots:
-    /**
-     * @brief Lataa tuoteluettelon tietokannasta
-     */
     void lataa();
 
 private slots:
     void dataSaapuu(QVariant* data);
     
 private:
-    QList<LaskuRivi> tuotteet_;
-
     QVariantList lista_;
     
 };

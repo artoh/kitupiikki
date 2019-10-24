@@ -35,20 +35,20 @@ public:
     ~TilikarttaMuokkaus();
 
     bool nollaa() override;
-    bool tallenna() override;
-    bool onkoMuokattu() override;
 
-    bool naytetaankoVienti() override { return true; }
+    bool naytetaankoTallennus() override { return false; }
 
     QString ohjesivu() override { return "maaritykset/tilikartta"; }
 
+
 public slots:
-    void muutaTila(int tila);
+    void muutaTila(Tili::TiliTila tila);
 
     void riviValittu(const QModelIndex &index);
     void muokkaa();
-    void uusi();
-    void poista();
+    void uusiTili();
+    void uusiOtsikko();
+
     void suodataTila(int tila);
 
     void suodata(const QString& teksti);

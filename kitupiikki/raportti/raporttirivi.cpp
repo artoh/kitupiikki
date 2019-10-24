@@ -42,7 +42,19 @@ void RaporttiRivi::lisaaLinkilla(RaporttiRiviSarake::Linkki linkkityyppi, int li
 
     uusi.leveysSaraketta = sarakkeet;
     uusi.linkkityyppi = linkkityyppi;
-    uusi.linkkidata = linkkitieto;
+    uusi.linkkidata = QString::number(linkkitieto);
+    sarakkeet_.append(uusi);
+}
+
+void RaporttiRivi::lisaaTositeTunnus(const QDate &pvm, const QString &sarja, int tunniste, bool samakausi)
+{
+    RaporttiRiviSarake uusi;
+    uusi.arvo = kp()->tositeTunnus(tunniste,pvm,sarja,samakausi);
+    uusi.linkkityyppi = RaporttiRiviSarake::TOSITE_ID;
+    uusi.linkkidata = QString("%1-%2-%3")
+            .arg( kp()->tilikaudet()->tilikausiPaivalle(pvm).pitkakausitunnus() )
+            .arg( sarja )
+            .arg( tunniste, 8, 10, QChar('0'));
     sarakkeet_.append(uusi);
 }
 
@@ -55,6 +67,11 @@ void RaporttiRivi::lisaa(qlonglong sentit, bool tulostanollat, bool tulostaplus)
     uusi.tasaaOikealle = true;
     uusi.tulostaPlus = tulostaplus;
     sarakkeet_.append( uusi );
+}
+
+void RaporttiRivi::lisaa(double eurot, bool tulostanollat, bool tulostaplus)
+{
+    lisaa( qRound64( eurot * 100.0), tulostanollat, tulostaplus);
 }
 
 void RaporttiRivi::lisaa(const QDate &pvm)

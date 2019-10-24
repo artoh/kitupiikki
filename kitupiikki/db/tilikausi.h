@@ -23,8 +23,6 @@
 
 #include "kantavariantti.h"
 
-#include "jsonkentta.h"
-
 /**
  * @brief Yhden tilikauden tiedot
  */
@@ -42,18 +40,15 @@ public:
 
     enum Saannosto
     {
-        YRITYS = 1,
-        PIENYRITYS = 2,
-        MIKROYRITYS = 4
+        MIKROYRITYS,
+        PIENYRITYS,
+        YRITYS
     };
 
     Tilikausi();    
 
-    Tilikausi(const QVariantMap& data);
+    Tilikausi(QVariantMap data);
     Tilikausi(const QDate& alkaa, const QDate& paattyy);
-
-    [[deprecated]] Tilikausi(QDate tkalkaa, QDate tkpaattyy, const QByteArray &json );
-
 
     QDate alkaa() const { return pvm("alkaa"); }
     QDate paattyy() const { return pvm("loppuu"); }
@@ -72,8 +67,6 @@ public:
 
     QString kausivaliTekstina() const;
 
-    [[deprecated]] JsonKentta *json() { return &json_; }
-
     /**
      * @brief Tilinpäätöksen laadinnan tila
      * @return
@@ -85,19 +78,19 @@ public:
      * @brief Tilikauden yli/alijäämä
      * @return Tulos sentteinä
      */
-    qlonglong tulos() const;
+    qlonglong tulos() const { return qRound64( dbl("tulos") * 100); }
 
     /**
      * @brief Tilikauden liikevaihto (CL-kirjaukset)
      * @return Liikevaihto sentteinä
      */
-    qlonglong liikevaihto() const;
+    qlonglong liikevaihto() const { return qRound64( dbl("liikevaihto") * 100); }
 
     /**
      * @brief Tilikauden päättävä tase
      * @return Tase sentteinä
      */
-    qlonglong tase() const;
+    qlonglong tase() const { return qRound64( dbl("tase") * 100); }
 
     /**
      * @brief Tilikauden keskimääräinen henkilöstö
@@ -137,20 +130,12 @@ public:
 
     void asetaKausitunnus(const QString& kausitunnus);
 
-    /**
-     * @brief Onko tälle kaudelle laadittu budjettia
-     * @return
-     */
-    bool onkoBudjettia();
 
     void tallenna();
     void poista();
 
 protected:
-    QDate alkaa_;
-    QDate paattyy_;
 
-    JsonKentta json_;
 
     QString kausitunnus_;
 };

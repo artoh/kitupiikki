@@ -84,23 +84,6 @@ Hakemistoon kopioidaan lukuisia tiedostoja, joten arkistoa varten on suositeltav
     </widget>
    </item>
    <item>
-    <widget class="QRadioButton" name="tarRadio">
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>Vie tar-tiedostona</string>
-     </property>
-     <property name="icon">
-      <iconset resource="../pic/pic.qrc">
-       <normaloff>:/pic/paketti.png</normaloff>:/pic/paketti.png</iconset>
-     </property>
-    </widget>
-   </item>
-   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>

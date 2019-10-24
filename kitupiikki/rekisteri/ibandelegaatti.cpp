@@ -41,7 +41,7 @@ void IbanDelegaatti::paint(QPainter *painter, const QStyleOptionViewItem &option
     }
 }
 
-QWidget *IbanDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
+QWidget *IbanDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewItem & /*option*/, const QModelIndex & /*index*/) const
 {
     QLineEdit *edit = new QLineEdit(parent);
     IbanValidator *validator = new IbanValidator(parent);

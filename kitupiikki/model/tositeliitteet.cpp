@@ -93,77 +93,57 @@ void TositeLiitteet::clear()
     emit naytaliite(QByteArray());
 }
 
-bool TositeLiitteet::lisaa(const QByteArray &sisalto, const QString& tiedostonnimi)
+bool TositeLiitteet::lisaa(const QByteArray &sisalto, const QString& tiedostonnimi, const QString& rooli)
 {
-    QString nimi = tiedostonnimi;
-    int lisa = 0;
-    for(int i=0; i < liitteet_.count(); i++) {
-        if( nimi == liitteet_.at(i).getNimi()) {
-            lisa++;
-            int piste = tiedostonnimi.lastIndexOf('.');
-            if( piste < 0)
-                nimi = tiedostonnimi + QString::number(lisa);
-            else
-                nimi = tiedostonnimi.left(piste) + QString::number(lisa) + tiedostonnimi.mid(piste);
-            i=0;
-        }
-    }
+    if( sisalto.isNull())
+        return false;
 
+    QString nimi = tiedostonnimi;
 
     beginInsertRows( QModelIndex(), liitteet_.count(), liitteet_.count() );
-    liitteet_.append( TositeLiite(0, nimi, sisalto) );
+    liitteet_.append( TositeLiite(0, nimi, sisalto, rooli) );
     endInsertRows();
-
-    if( liitteet_.count() > 1)
-        return true;    // Vain eka liite tuodaan
-
-    // Toistaikseksi jpg nimellä
-    if( nimi.endsWith(".jpg") )
-    {
-        KpKysely* liitekysely = kpk("/liitteet", KpKysely::POST);
-        connect( liitekysely, &KpKysely::vastaus, [this] (QVariant *data)  { emit this->tuonti(data); });
-        QMap<QString,QString> meta;
-        meta.insert("Filename", nimi);
-        liitekysely->lahetaTiedosto(sisalto, meta);
-        return true;
-    }
-
-    // Käsitellään tuonti
-    QVariant tuonnit = Tuonti::tuo(sisalto);
-    qDebug() << tuonnit;
-
-
-    KpKysely* kysely = kpk("/tuontitulkki", KpKysely::POST);
-    connect( kysely, &KpKysely::vastaus, [this] (QVariant *data)  { emit this->tuonti(data); });
-    kysely->kysy( tuonnit) ;
 
     return true;
 }
 
 bool TositeLiitteet::lisaaTiedosto(const QString &polku)
 {
-    QByteArray ba;
-    QFile tiedosto(polku);
-    if( !tiedosto.open(QIODevice::ReadOnly) )
-    {
-        QMessageBox::critical(nullptr, tr("Tiedostovirhe"),
-                              tr("Tiedoston %1 avaaminen epäonnistui \n%2").arg(polku).arg(tiedosto.errorString()));
+    return lisaa( lueTiedosto(polku), QFileInfo(polku).fileName());
+}
+
+bool TositeLiitteet::lisaaHeti(const QByteArray &liite, const QString &tiedostonnimi)
+{
+    if( liite.isNull())
         return false;
-    }
 
-    ba = tiedosto.readAll();
-    tiedosto.close();
+    beginInsertRows( QModelIndex(), liitteet_.count(), liitteet_.count() );
+    liitteet_.append( TositeLiite(0, tiedostonnimi, liite) );
+    endInsertRows();
 
-    QFileInfo info(polku);
+    emit naytaliite( liite );
 
-    return lisaa( ba, info.fileName() );
+    KpKysely* liitekysely = kpk("/liitteet", KpKysely::POST);
+
+    // Ensimmäisestä liitteestä tuodaan tiedot
+    if( liitteet_.count() == 1)
+        connect( liitekysely, &KpKysely::vastaus, [this] (QVariant *data)  { emit this->tuonti(data); });
+
+    QMap<QString,QString> meta;
+    meta.insert("Filename", tiedostonnimi);
+    liitekysely->lahetaTiedosto(liite, meta);
+    return true;
+
+}
+
+bool TositeLiitteet::lisaaHetiTiedosto(const QString &polku)
+{
+    return lisaaHeti( lueTiedosto(polku), QFileInfo(polku).fileName() );
 }
 
 
 bool TositeLiitteet::canDropMimeData(const QMimeData *data, Qt::DropAction /*action*/, int /* row */, int /*column*/, const QModelIndex &/*parent*/) const
 {
-    qDebug() << "f" << data->formats() << " u " << data->hasUrls();
-
     return data->hasUrls() || data->formats().contains("image/jpg") || data->formats().contains("image/png");
 }
 
@@ -184,7 +164,7 @@ bool TositeLiitteet::dropMimeData(const QMimeData *data, Qt::DropAction action, 
                 QFileInfo info( url.toLocalFile());
                 QString polku = info.absoluteFilePath();
 
-                lisaaTiedosto(info.absoluteFilePath());
+                lisaaHetiTiedosto(info.absoluteFilePath());
                 lisatty++;
             }
         }
@@ -243,7 +223,12 @@ void TositeLiitteet::tallennaSeuraava()
         tallennuksessa_++;
         if( !liitteet_.at(tallennuksessa_).getLiiteId())
         {
-            KpKysely* tallennus = kpk( QString("/liitteet/%1").arg(tositeId_), KpKysely::POST );
+            KpKysely* tallennus = nullptr;
+            if( liitteet_.at(tallennuksessa_).getRooli().isEmpty())
+                tallennus = kpk( QString("/liitteet/%1").arg(tositeId_), KpKysely::POST );
+            else
+                tallennus = kpk( QString("/liitteet/%1/%2").arg(tositeId_).arg(liitteet_.at(tallennuksessa_).getRooli()), KpKysely::PUT);
+
             connect( tallennus, &KpKysely::vastaus, this, &TositeLiitteet::tallennaSeuraava);
             QMap<QString,QString> meta;
             meta.insert("Filename", liitteet_.at(tallennuksessa_).getNimi());
@@ -273,12 +258,29 @@ void TositeLiitteet::liitesaapuu(QVariant *data)
     emit naytaliite( data->toByteArray() );
 }
 
+QByteArray TositeLiitteet::lueTiedosto(const QString &polku)
+{
+    QByteArray ba;
+    QFile tiedosto(polku);
+    if( !tiedosto.open(QIODevice::ReadOnly) )
+    {
+        QMessageBox::critical(nullptr, tr("Tiedostovirhe"),
+                              tr("Tiedoston %1 avaaminen epäonnistui \n%2").arg(polku).arg(tiedosto.errorString()));
+        return QByteArray();
+    }
+
+    ba = tiedosto.readAll();
+    tiedosto.close();
+    return ba;
+}
+
 // ************************************ TOSITELIITE **********************************
 
-TositeLiitteet::TositeLiite::TositeLiite(int id, const QString &nimi, const QByteArray &sisalto) :
+TositeLiitteet::TositeLiite::TositeLiite(int id, const QString &nimi, const QByteArray &sisalto, const QString &rooli) :
     liiteId_(id),
     nimi_(nimi),
-    sisalto_(sisalto)
+    sisalto_(sisalto),
+    rooli_(rooli)
 {
 
 }
@@ -306,4 +308,14 @@ void TositeLiitteet::TositeLiite::setNimi(const QString &value)
 QByteArray TositeLiitteet::TositeLiite::getSisalto() const
 {
     return sisalto_;
+}
+
+QString TositeLiitteet::TositeLiite::getRooli() const
+{
+    return rooli_;
+}
+
+void TositeLiitteet::TositeLiite::setRooli(const QString &rooli)
+{
+    rooli_ = rooli;
 }

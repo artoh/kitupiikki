@@ -18,7 +18,7 @@
 #ifndef PAIVAKIRJARAPORTTI_H
 #define PAIVAKIRJARAPORTTI_H
 
-#include "raportti.h"
+#include "raporttiwidget.h"
 #include "ui_paivakirja.h"
 
 /**
@@ -26,32 +26,12 @@
  *
  * Päiväkirjassa on halutun päivämäärävälin viennit aikajärjestyksessä
  */
-class PaivakirjaRaportti : public Raportti
+class PaivakirjaRaportti : public RaporttiWidget
 {
     Q_OBJECT
 public:
     PaivakirjaRaportti();
     ~PaivakirjaRaportti() override;
-
-    RaportinKirjoittaja raportti() override;
-
-
-    /**
-     * @brief Päiväkirjaraportin kirjoittaminen
-     *
-     * Staattinen funktio, jotta raportti voidaan kirjoittaa myös ilman käyttöliittymää
-     *
-     * @param kohdennuksella Tulostaa vain yhden kohdennuksen osalta: kohdennuksen Id, -1 jos kaikki
-     * @param tositejarjestys Tulostaa tositejärjestyksessä, muuten päivämääräjärjestyksessä
-     * @param ryhmitalajeittain Ryhmittelee toisitelajeittain
-     * @param tulostakohdennukset Tulostaa kohdennussarakkeen
-     * @param tulostasummat Tulostaa summarivit
-     * @return Raportinkirjoittaja, jonne raportti kirjoitettu
-     */
-    static RaportinKirjoittaja kirjoitaRaportti( QDate mista, QDate mihin,
-                                 int kohdennuksella = -1, bool tositejarjestys = false,
-                                 bool ryhmitalajeittain = false, bool tulostakohdennukset = false,
-                                 bool tulostasummat = false);
 
 protected:
     static void kirjoitaSummaRivi(RaportinKirjoittaja &rk, qlonglong debet, qlonglong kredit, int sarakeleveys);

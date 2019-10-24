@@ -42,8 +42,6 @@ void Postinumerot::alusta()
     QJsonDocument doc = QJsonDocument::fromJson( in.readAll() );
     for( auto i = doc.object().constBegin(); i != doc.object().constEnd(); ++i  )
         toimipaikat_.insert( i.key(), i.value().toString() );
-
-    qDebug() << toimipaikat_.count() << " Toimipaikkaa ";
 }
 
 Postinumerot Postinumerot::numerot__;

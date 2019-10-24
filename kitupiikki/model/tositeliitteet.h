@@ -28,19 +28,24 @@ protected:
     {
     public:
         TositeLiite(int id=0, const QString& nimi = QString(),
-                    const QByteArray& sisalto = QByteArray());
+                    const QByteArray& sisalto = QByteArray(), const QString& rooli = QString());
 
         int getLiiteId() const;
         void setLiiteId(int value);
+
 
         QString getNimi() const;
         void setNimi(const QString &value);
         QByteArray getSisalto() const;
 
+        QString getRooli() const;
+        void setRooli(const QString &rooli);
+
     protected:
         int liiteId_ = 0;
         QString nimi_;
         QByteArray sisalto_;
+        QString rooli_;
     };
 
 public:
@@ -54,8 +59,11 @@ public:
     void lataa(QVariantList data);
     void clear();
 
-    bool lisaa(const QByteArray& liite, const QString& tiedostonnimi);
+    bool lisaa(const QByteArray& liite, const QString& tiedostonnimi, const QString& rooli=QString());
     bool lisaaTiedosto(const QString& polku);
+
+    bool lisaaHeti(const QByteArray& liite, const QString& tiedostonnimi);
+    bool lisaaHetiTiedosto(const QString& polku);
 
     bool canDropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex &parent) const override;
     bool dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex &parent) override;
@@ -75,6 +83,8 @@ private slots:
     void tallennaSeuraava();
     void liitesaapuu(QVariant* data);
 
+protected:
+    static QByteArray lueTiedosto(const QString &polku);
 
 private:
     QList<TositeLiite> liitteet_;

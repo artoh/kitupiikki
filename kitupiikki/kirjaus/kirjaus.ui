@@ -35,7 +35,7 @@
         </font>
        </property>
        <property name="text">
-        <string> </string>
+        <string/>
        </property>
       </widget>
      </item>
@@ -76,7 +76,7 @@
       <enum>Qt::TabFocus</enum>
      </property>
      <property name="currentIndex">
-      <number>4</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="viennit">
       <attribute name="icon">
@@ -323,6 +323,26 @@
        </property>
        <property name="shortcut">
         <string>Alt+Left</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="sarjaLabel">
+       <property name="text">
+        <string>Tositesarja</string>
+       </property>
+       <property name="buddy">
+        <cstring>sarjaEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="sarjaEdit">
+       <property name="maximumSize">
+        <size>
+         <width>60</width>
+         <height>16777215</height>
+        </size>
        </property>
       </widget>
      </item>

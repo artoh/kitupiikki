@@ -25,15 +25,22 @@ EraCombo::EraCombo(QWidget *parent) :
     connect( this, &QComboBox::currentTextChanged, this, &EraCombo::valintaMuuttui);
 }
 
+int EraCombo::valittuEra() const
+{
+    return currentData().toInt();
+}
+
 void EraCombo::lataa(int tili)
 {
     if( tili )
     {
         KpKysely* kysely = kpk("/erat");
-        kysely->lisaaAttribuutti("tili", QString::number(tili));
+        if( kysely ) {
+            kysely->lisaaAttribuutti("tili", QString::number(tili));
 
-        connect(kysely, &KpKysely::vastaus, this, &EraCombo::dataSaapuu);
-        kysely->kysy();
+            connect(kysely, &KpKysely::vastaus, this, &EraCombo::dataSaapuu);
+            kysely->kysy();
+        }
     }
 }
 
@@ -54,8 +61,6 @@ void EraCombo::dataSaapuu(QVariant *data)
     QVariantList lista = data->toList();
     for(auto item : lista) {
         QVariantMap map = item.toMap();
-
-        qDebug() << map;
 
         addItem( QString("%1 %2 (%3)")
                  .arg(map.value("pvm").toDate().toString("dd.MM.yyyy"))

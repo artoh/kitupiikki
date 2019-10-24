@@ -20,6 +20,7 @@
 #include "ui_uusitilikartta.h"
 #include "ui_uusitiedot.h"
 #include "ui_uusiloppu.h"
+#include "ui_numerointi.h"
 
 #include "db/kielikentta.h"
 
@@ -33,12 +34,15 @@
 #include "uusialkusivu.h"
 #include "tilikausisivu.h"
 #include "sijaintisivu.h"
+#include "tiedotsivu.h"
 
 #include "validator/ibanvalidator.h"
 #include "validator/ytunnusvalidator.h"
 
 #include "db/kirjanpito.h"
 #include "pilvi/pilvimodel.h"
+
+#include "db/tositetyyppimodel.h"
 
 UusiVelho::UusiVelho()
 {
@@ -50,6 +54,7 @@ UusiVelho::UusiVelho()
     addPage( new Tilikarttasivu(this) );
     addPage( new TiedotSivu(this));
     addPage( new TilikausiSivu(this) );
+    addPage( new NumerointiSivu );
     addPage( new SijaintiSivu );
 
     QWizardPage *loppusivu = new QWizardPage;
@@ -62,27 +67,76 @@ UusiVelho::UusiVelho()
 
 void UusiVelho::lataaKartta(const QString &polku)
 {
-    QFile tiedosto(polku);
-    if( tiedosto.open(QIODevice::ReadOnly)) {
-        QByteArray ba = tiedosto.readAll();
-        QJsonDocument doc( QJsonDocument::fromJson(ba) );
+    // tilikartan tiedot
+    QFile asetukset(polku + "/tilikartta.json");
+    if( asetukset.open(QIODevice::ReadOnly))
+        asetukset_ = QJsonDocument::fromJson( asetukset.readAll() ).toVariant().toMap();
 
-        qDebug() << ba;
-        qDebug() << doc.toJson();
-
-        asetukset_ = doc.object().value("asetukset").toVariant().toMap();
-        tilit_ = doc.object().value("tilit").toVariant().toList();
+    // json asetuksille
+    {
+        QFile asetukset(polku + "/asetukset.json");
+        if( asetukset.open(QIODevice::ReadOnly))
+            asetukset_.unite(QJsonDocument::fromJson( asetukset.readAll() ).toVariant().toMap());
+    }
+    // json-tiedosto raporteille
+    {
+        QFile raportit(polku + "/raportit.json");
+        if( raportit.open(QIODevice::ReadOnly))
+            asetukset_.unite( QJsonDocument::fromJson( raportit.readAll()).toVariant().toMap() );
+    }
+    // Tilit oma json-tiedosto
+    {
+        QFile tilit(polku + "/tilit.json");
+        if( tilit.open(QIODevice::ReadOnly) )
+            tilit_ = QJsonDocument::fromJson( tilit.readAll() ).toVariant().toList();
     }
 
-    qDebug() << " Kartta " << polku << " Asetuksia " << asetukset_.count() << " Tilejä " << tilit_.count();
+    // Tilinpäätöksen pohja on tekstitiedosto, jossa kielet on merkattu []-tageilla
+    // Luetaan osaksi asetuksia
+    {
+        QFile pohja(polku + "/tilinpaatos.txt");
+        QString kieli;
+        QStringList rivit;
+        if( pohja.open(QIODevice::ReadOnly)) {
+            QTextStream luku(&pohja);
+            luku.setCodec("utd-8");
+            while(!luku.atEnd()) {
+                QString rivi = luku.readLine();
+                if( rivi.startsWith("[") && rivi.endsWith("]")) {
+                    if( rivit.count() )
+                        asetukset_.insert("tppohja/" + kieli, rivit);
+                    rivit.clear();
+                    kieli=rivi.mid(1, rivi.length()-2);
+                } else
+                    rivit.append(rivi);
+            }
+            asetukset_.insert("tppohja/" + kieli, rivit.join("\n"));
+        }
+    }
+
 }
 
 QVariantMap UusiVelho::data() const
 {
     QVariantMap map;
+    QVariantMap asetusMap(asetukset_);
     QVariantMap initMap;
 
-    initMap.insert("asetukset", asetukset_);
+    if( field("harjoitus").toBool())
+        asetusMap.insert("Harjoitus", true);
+
+
+
+    if( field("erisarjaan").toBool())
+        asetusMap.insert("erisarjaan", true);
+
+    if( field("kateissarjaan").toBool())
+            asetusMap.insert("kateissarjaan", true);
+
+    asetusMap.insert("KpVersio", Kirjanpito::TIETOKANTAVERSIO );
+    asetusMap.insert("LuotuVersiolla", qApp->applicationVersion());
+
+    initMap.insert("asetukset", asetusMap);
     initMap.insert("tilit", tilit_);
     initMap.insert("tilikaudet", tilikaudet_);
     map.insert("name", asetukset_.value("Nimi"));
@@ -100,10 +154,8 @@ QString UusiVelho::polku() const
 
 int UusiVelho::nextId() const
 {
-    qDebug() << "n " << currentId() << " p " << field("pilveen") << " -> "
-             << QWizard::nextId();
 
-    if( currentId() == TILIKAUSI &&
+    if( currentId() == NUMEROINTI &&
             field("pilveen").toBool())
         return LOPPU;
 
@@ -131,74 +183,19 @@ UusiVelho::Tilikarttasivu::Tilikarttasivu(UusiVelho *wizard) :
 bool UusiVelho::Tilikarttasivu::validatePage()
 {
     if( ui->yhdistysButton->isChecked() )
-        velho->lataaKartta(":/tilikartat/yhdistys.json");
+        velho->lataaKartta(":/tilikartat/yhdistys");
     else
         return false;   // Tilapäisesti kun ei vielä muita karttoja
 
     return true;
 }
 
-UusiVelho::TiedotSivu::TiedotSivu(UusiVelho *wizard) :
-    ui( new Ui::UusiTiedot),
-    velho( wizard )
+
+UusiVelho::NumerointiSivu::NumerointiSivu()
+    : ui(new Ui::UusiNumerointi)
 {
     ui->setupUi(this);
-
-    setTitle(tr("Organisaation tiedot"));
-    ui->tiliLine->setValidator( new IbanValidator );
-    ui->ytunnusEdit->setValidator( new YTunnusValidator);
-
-    registerField("nimi*", ui->nimiEdit);
-    registerField("tili", ui->tiliLine);
-    registerField("ytunnus", ui->ytunnusEdit);
+    setTitle(tr("Tositteiden numerointi"));
+    registerField("erisarjaan", ui->erisarjaan);
+    registerField("kateissarjaan", ui->kateissarjaan);
 }
-
-void UusiVelho::TiedotSivu::initializePage()
-{
-    // Haetaan muodot
-    QVariantMap muotoMap = velho->asetukset_.value("muodot").toMap();
-    QMapIterator<QString,QVariant> muotoIter(muotoMap);
-    while( muotoIter.hasNext()) {
-        muotoIter.next();
-        KieliKentta kk( muotoIter.value() );
-        QListWidgetItem *item = new QListWidgetItem(kk.teksti(), ui->muotoList);
-        item->setData(Qt::UserRole, muotoIter.key());
-    }
-    ui->muotoList->setCurrentRow(0);
-
-    // Haetaan laajuudet
-    QVariantMap laajuusMap = velho->asetukset_.value("laajuudet").toMap();
-    QMapIterator<QString,QVariant> laajuusIter(laajuusMap);
-    while( laajuusIter.hasNext()) {
-        laajuusIter.next();
-        KieliKentta kk( laajuusIter.value() );
-        QListWidgetItem *item = new QListWidgetItem(kk.teksti(), ui->laajuusList);
-        item->setData(Qt::UserRole, laajuusIter.key());
-    }
-    ui->laajuusList->setCurrentRow( ui->laajuusList->model()->rowCount() / 2 );
-}
-
-bool UusiVelho::TiedotSivu::validatePage()
-{
-    velho->asetukset_.insert("Nimi", ui->nimiEdit->text());
-    if( !ui->ytunnusEdit->text().isEmpty())
-        velho->asetukset_.insert("Ytunnus", ui->ytunnusEdit->text());
-
-    velho->asetukset_.insert("muoto", ui->muotoList->currentItem()->data(Qt::UserRole).toString());
-    velho->asetukset_.insert("laajuus", ui->laajuusList->currentItem()->data(Qt::UserRole).toString());
-
-    if( !ui->tiliLine->text().isEmpty())
-        for(int i=0; i < velho->tilit_.count(); i++) {
-            if( velho->tilit_.at(i).toMap().value("tyyppi") == "ARP") {
-                QVariantMap map = velho->tilit_.at(i).toMap();
-                map.insert("IBAN", ui->tiliLine->text());
-                velho->tilit_[i] = map;
-                break;
-            }
-    }
-
-    return true;
-
-}
-
-

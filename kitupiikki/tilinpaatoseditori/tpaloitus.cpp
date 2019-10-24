@@ -33,6 +33,10 @@
 #include <QDebug>
 #include <QDesktopServices>
 
+#include <QJsonDocument>
+#include <QJsonParseError>
+#include <QVariant>
+
 TpAloitus::TpAloitus(Tilikausi kausi, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::TpAloitus),
@@ -102,11 +106,11 @@ void TpAloitus::lataaTiedosto()
                                   .arg(tiedosto)
                                   .arg(luku.errorString()));
 
-
-        kp()->liitteet()->asetaLiite( luku.readAll(), tilikausi.alkaa().toString(Qt::ISODate) );
-        kp()->liitteet()->tallenna();
-
-        reject();
+        QMap<QString,QString> meta;
+        meta.insert("Filename",tiedosto);
+        KpKysely* kysely = kpk(QString("/liitteet/0/TP_%1").arg(tilikausi.paattyy().toString(Qt::ISODate)), KpKysely::PUT);
+        connect( kysely, &KpKysely::vastaus, this, &TpAloitus::reject);
+        kysely->lahetaTiedosto( luku.readAll() , meta);
     }
 }
 
@@ -117,29 +121,30 @@ void TpAloitus::ohje()
 
 void TpAloitus::tallennaHenkilosto(int maara)
 {
-    kp()->tilikaudet()->json(tilikausi)->set("Henkilosto", maara);
-    tilikausi.json()->set("Henkilosto",maara);
-
-    kp()->tilikaudet()->tallennaJSON();
+    tilikausi.set("henkilosto", maara);
+    tilikausi.tallenna();
     tarkistaPMA();
 }
 
 void TpAloitus::tarkistaPMA()
 {
-    if( kp()->asetukset()->onko("Elinkeinonharjoittaja"))
+    Tilikausi edellinen = kp()->tilikaudet()->tilikausiPaivalle( tilikausi.alkaa().addDays(-1) );
+
+
+    if( kp()->asetukset()->asetus("muoto") == "tmi" )
     {
         // Elinkeinonharjoittajalla vähän toisenlainen
         ui->saantoGroup->setVisible(false);
-        ui->vapaaehtoisLabel->setVisible( tilikausi.pieniElinkeinonharjoittaja() < 2  );
+        ui->vapaaehtoisLabel->setVisible( tilikausi.pieniElinkeinonharjoittaja() < 2 &&
+                                          edellinen.pieniElinkeinonharjoittaja() < 2);
     }
     else
     {
         ui->vapaaehtoisLabel->setVisible(false);
 
         int pienuus = tilikausi.pienuus();
-        if( kp()->tilikaudet()->indeksiPaivalle(tilikausi.paattyy()) &&
-                kp()->tilikaudet()->tilikausiIndeksilla( kp()->tilikaudet()->indeksiPaivalle(tilikausi.paattyy()) -1).pienuus() < pienuus )
-            pienuus = kp()->tilikaudet()->tilikausiIndeksilla( kp()->tilikaudet()->indeksiPaivalle(tilikausi.paattyy()) -1).pienuus() ;
+        if( edellinen.pienuus() > pienuus)
+            pienuus = edellinen.pienuus();
 
         ui->mikroRadio->setEnabled( pienuus == Tilikausi::MIKROYRITYS );
         ui->pienRadio->setEnabled( pienuus == Tilikausi::PIENYRITYS || pienuus == Tilikausi::MIKROYRITYS);
@@ -158,8 +163,7 @@ void TpAloitus::lataa()
         delete model;
 
     model = new QStandardItemModel;
-
-    QStringList kaava = kp()->asetukset()->lista("TilinpaatosPohja");
+    QStringList kaava = kp()->asetukset()->lista("tppohja/" + kp()->asetus("kieli"));
 
     QRegularExpression valintaRe("#(?<tunnus>\\w+)(?<pois>(\\s-\\w+)*)\\s(?<naytto>.+)");
     valintaRe.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);
@@ -238,7 +242,7 @@ void TpAloitus::lataa()
     ui->view->setModel( model );
 
     // Ladataan viimeiset tallennetut valinnat
-    QStringList valitut = kp()->asetukset()->lista("TilinpaatosValinnat");
+    QStringList valitut = kp()->asetukset()->asetus("tilinpaatosvalinnat").split(",");
     for(int i=0; i < model->rowCount(QModelIndex());i++)
     {
         if( model->item(i)->isCheckable() && valitut.contains(  model->item(i)->data(TunnusRooli).toString() ))
@@ -267,5 +271,5 @@ void TpAloitus::talleta()
         valitut.append("HENKILOSTO");
 
 
-    kp()->asetukset()->aseta("TilinpaatosValinnat",valitut);
+    kp()->asetukset()->aseta("tilinpaatosvalinnat",valitut.join(","));
 }

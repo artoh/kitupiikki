@@ -31,13 +31,13 @@ LaskuAlvCombo::LaskuAlvCombo(QWidget *parent) :
     addItem(QIcon(":/pic/eu.png"), tr("Tavaramyynti"), QVariant( AlvKoodi::YHTEISOMYYNTI_TAVARAT ));
     addItem(QIcon(":/pic/eu.png"), tr("Palvelumyynti"), QVariant( AlvKoodi::YHTEISOMYYNTI_PALVELUT ));
 
-    if( !kp()->onkoMaksuperusteinenAlv(kp()->paivamaara()))
+/*    if( !kp()->onkoMaksuperusteinenAlv(kp()->paivamaara()))
     {
         addItem(QIcon(":/pic/marginaali.png"),"Voittomarginaalimenettely - käytetyt tavarat", QVariant(LaskuModel::Kaytetyt));
         addItem(QIcon(":/pic/marginaali.png"),"Voittomarginaalimenettely - taide-esineet", QVariant(LaskuModel::Taide));
         addItem(QIcon(":/pic/marginaali.png"),"Voittomarginaalimenettely - keräily- ja antiikkiesineet", QVariant(LaskuModel::KerailyAntiikki));
     }
-
+*/
     if( kp()->asetukset()->onko("AlvVelvollinen") ) {
         setCurrentIndex(3); // Alv 24
     } else {

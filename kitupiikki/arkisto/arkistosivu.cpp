@@ -23,6 +23,7 @@
 #include <QSqlQuery>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QDirIterator>
 
 #include <fstream>
 #include <iostream>
@@ -36,6 +37,7 @@
 #include "ui_arkistonvienti.h"
 
 #include "arkistoija/arkistoija.h"
+#include "arkistoija/vanhaarkistoija.h"
 #include "tilinpaatoseditori/tilinpaatoseditori.h"
 #include "tilinpaatoseditori/tpaloitus.h"
 
@@ -45,6 +47,7 @@
 #include "naytin/naytinikkuna.h"
 
 #include "budjettidlg.h"
+
 
 #include <zip.h>
 
@@ -185,56 +188,6 @@ void ArkistoSivu::vieArkisto()
 
 
     }
-    else if( dlgUi.tarRadio->isChecked())
-    {
-        // Muodostetaan tar-arkisto
-        // Tässä käytetään Pierre Lindenbaumin Tar-luokkaa http://plindenbaum.blogspot.fi/2010/08/creating-tar-file-in-c.html
-
-        QDir mista( kp()->arkistopolku() + "/" + kausi.arkistoHakemistoNimi() );
-        QStringList tiedostot = mista.entryList(QDir::Files);
-        QString arkistotiedosto = QDir::root().absoluteFilePath( QString("%1-%2.tar").arg( kp()->tiedostopolku().replace(QRegularExpression(".kitupiikki$"),""), kausi.arkistoHakemistoNimi()) );
-        QString arkisto = QFileDialog::getSaveFileName(this, tr("Vie arkisto"), arkistotiedosto, tr("Tar-arkisto (*.tar)") );
-
-
-        if( !arkisto.isEmpty() )
-        {
-            TarArkisto tar( arkisto );
-            if( !tar.aloita())
-            {
-                QMessageBox::critical(this, tr("Arkiston vienti epäonnistui"),
-                                      tr("Tiedostoon %1 kirjoittaminen epäonnistui").arg(arkisto));
-                return;
-            }
-
-            QProgressDialog odota(tr("Kopioidaan arkistoa"), tr("Peruuta"),0, tiedostot.count(),this);
-            int kopioitu = 0;
-
-            for( const QString& tiedosto : tiedostot)
-            {
-                if( odota.wasCanceled())
-                    break;
-
-                if( !tar.lisaaTiedosto( mista.absoluteFilePath(tiedosto) ) )
-                {
-                    tar.lopeta();
-
-                    QFile::remove( arkisto );
-
-                    QMessageBox::critical(this, tr("Arkiston viennissä virhe"),
-                                          tr("Arkiston vienti epäonnistui kopioitaessa tiedostoa %1")
-                                          .arg(tiedosto));
-                    return;
-                }
-
-                odota.setValue(++kopioitu);
-            }
-
-            QMessageBox::information(this, tr("Arkisto vienti valmis"),
-                                 tr("Arkisto viety tiedostoon %1").arg(arkisto));
-
-        }
-
-    }
 
 }
 
@@ -246,9 +199,8 @@ void ArkistoSivu::tilinpaatos()
         Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->view->currentIndex().row() );
 
         if( kausi.tilinpaatoksenTila() == Tilikausi::VAHVISTETTU )
-        {
-            // Avataan tilinpäätös
-            NaytinIkkuna::nayta( kp()->liitteet()->liite( kausi.alkaa().toString(Qt::ISODate) ) );
+        {        
+            NaytinIkkuna::naytaLiite(0, QString("TP_%1").arg(kausi.paattyy().toString(Qt::ISODate)) );
         }
         else
         {
@@ -273,13 +225,14 @@ void ArkistoSivu::nykyinenVaihtuuPaivitaNapit()
         Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->view->currentIndex().row() );
         // Tilikaudelle voi tehdä tilinpäätöksen, jos se ei ole tilinavaus
         ui->tilinpaatosNappi->setEnabled( kausi.tilinpaatoksenTila() != Tilikausi::EILAADITATILINAVAUKSELLE );
+
         // Tilikauden voi arkistoida, jos tilikautta ei ole lukittu - arkiston voi näyttää aina
-        bool arkistoitavissa = ( kausi.paattyy() > kp()->tilitpaatetty() || kausi.arkistoitu().isValid() )
-                && kausi.tilinpaatoksenTila() != Tilikausi::EILAADITATILINAVAUKSELLE;
+        // bool arkistoitavissa = ( kausi.paattyy() > kp()->tilitpaatetty() || kausi.arkistoitu().isValid() )
+        //        && kausi.tilinpaatoksenTila() != Tilikausi::EILAADITATILINAVAUKSELLE;
 
 
-        ui->arkistoNappi->setEnabled( arkistoitavissa );
-        ui->vieNappi->setEnabled( arkistoitavissa );
+        ui->arkistoNappi->setEnabled( true );
+        ui->vieNappi->setEnabled( true );
 
 
         // Muokata voidaan vain viimeistä tilikautta tai poistaa lukitus
@@ -299,21 +252,27 @@ void ArkistoSivu::nykyinenVaihtuuPaivitaNapit()
 void ArkistoSivu::teeArkisto(Tilikausi kausi)
 {
 
-    QProgressDialog odota(tr("Muodostetaan arkistoa"), QString(), 0, 100, this);
-    odota.setMinimumDuration(250);
+//    QProgressDialog odota(tr("Muodostetaan arkistoa"), QString(), 0, 100, this);
+//    odota.setMinimumDuration(250);
 
-    QString sha = Arkistoija::arkistoi(kausi);
+    Arkistoija* arkistoija = new Arkistoija(kausi, this);
+    arkistoija->arkistoi();
+
+    // QString sha = VanhaArkistoija::arkistoi(kausi);
 
     // Merkitsee arkistoiduksi
 
-    kp()->tilikaudet()->json(kausi)->set("Arkisto", QDateTime::currentDateTime().toString(Qt::ISODate) );
-    kp()->tilikaudet()->json(kausi)->set("ArkistoSHA", sha);
-    kp()->tilikaudet()->tallennaJSON();
+//    kp()->tilikaudet()->json(kausi)->set("Arkisto", QDateTime::currentDateTime().toString(Qt::ISODate) );
+//    kp()->tilikaudet()->json(kausi)->set("ArkistoSHA", sha);
+//    kp()->tilikaudet()->tallennaJSON();
+
+    kausi.set("arkisto", QDateTime::currentDateTime());
+    kausi.tallenna();
 
     QModelIndex indeksi = kp()->tilikaudet()->index( kp()->tilikaudet()->indeksiPaivalle(kausi.paattyy()) , TilikausiModel::ARKISTOITU );
     emit kp()->tilikaudet()->dataChanged( indeksi, indeksi );
 
-    odota.setValue(100);
+ //   odota.setValue(100);
 
 }
 
@@ -377,78 +336,28 @@ void ArkistoSivu::budjetti()
 
 void ArkistoSivu::uudellenNumerointi()
 {
-    if( QMessageBox::question(this, tr("Tositteiden uudelleennumerointi"),
-                              tr("Toiminto numeroi kaikki tositteet uudelleen päivämäärän mukaiseen järjestykseen.\n"
-                                 "Kaikkien tositteiden numerointi muuttuu, ja paperisiin tositteisiin on merkittävä uudet numerot.\n\n"
-                                 "Oletko varma, että halut numeroida kaikki tositteet uudelleen?"),
-                              QMessageBox::Yes | QMessageBox::Cancel,
-                              QMessageBox::Cancel) != QMessageBox::Yes)
-        return;
 
-    Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla(ui->view->currentIndex().row() );
-
-    kp()->tietokanta()->transaction();
-
-    QSqlQuery kysely;
-    QSqlQuery paivitys;
-
-
-    paivitys.prepare("UPDATE Tosite SET tunniste=? WHERE id=?");
-
-    int uusinumero = 1;
-
-    if( kp()->asetukset()->onko("Samaansarjaan") )
-    {
-        kysely.exec( QString("SELECT id FROM tosite WHERE pvm BETWEEN '%1' and '%2' ORDER BY pvm")
-                     .arg( kausi.alkaa().toString(Qt::ISODate) ).arg( kausi.paattyy().toString(Qt::ISODate)) );
-        while( kysely.next() )
-        {
-            paivitys.bindValue(0, uusinumero);
-            paivitys.bindValue(1, kysely.value(0).toInt());
-            if( !paivitys.exec() )
-            {
-                kp()->tietokanta()->rollback();
-                return;
-            }
-            uusinumero++;
-        }
-    }
-    else
-    {
-        int laji = -1;
-
-        kysely.exec( QString("SELECT id, laji FROM tosite "
-                             "WHERE pvm BETWEEN '%1' AND '%2' "
-                             "ORDER BY laji, pvm")
-                     .arg( kausi.alkaa().toString(Qt::ISODate) ).arg( kausi.paattyy().toString(Qt::ISODate)) );
-        while( kysely.next() )
-        {
-            if( kysely.value(1).toInt() != laji)
-            {
-                laji = kysely.value(1).toInt();
-                uusinumero = 1;
-            }
-            paivitys.bindValue(0, uusinumero);
-            paivitys.bindValue(1, kysely.value(0).toInt());
-            if( !paivitys.exec() )
-            {
-                kp()->tietokanta()->rollback();
-                return;
-            }
-            uusinumero++;
-        }
-
-    }
-    kp()->tietokanta()->commit();
+        // TODO
 
 }
 
 bool ArkistoSivu::teeZip(const Tilikausi &kausi)
 {
-    QDir mista( kp()->arkistopolku() + "/" + kausi.arkistoHakemistoNimi() );
-    QStringList tiedostot = mista.entryList(QDir::Files);
+    QDirIterator iter( kp()->arkistopolku() + "/" + kausi.arkistoHakemistoNimi(),
+                       QDir::Files,
+                       QDirIterator::Subdirectories);
+    QStringList tiedostot;
 
-    QString arkistotiedosto = QDir::root().absoluteFilePath( QString("%1-%2.zip").arg( kp()->tiedostopolku().replace(QRegularExpression(".kitupiikki$"),""), kausi.arkistoHakemistoNimi()) );
+    while( iter.hasNext()) {
+        tiedostot.append( iter.next());
+    }
+
+
+      QDir mista( kp()->arkistopolku() + "/" + kausi.arkistoHakemistoNimi() );
+//    QStringList tiedostot = mista.entryList(QDir::Files);
+
+
+    QString arkistotiedosto = QDir::root().absoluteFilePath( QString("%1.zip").arg(kausi.arkistoHakemistoNimi()) );
     QString arkisto = QFileDialog::getSaveFileName(this, tr("Vie arkisto"), arkistotiedosto, tr("Zip-arkisto (*.zip)") );
 
 
@@ -474,7 +383,7 @@ bool ArkistoSivu::teeZip(const Tilikausi &kausi)
                                                   0,-1);
             if( !lahde)
                 return false;
-            if( zip_file_add(paketti, info.fileName().toStdString().c_str(),
+            if( zip_file_add(paketti, mista.relativeFilePath(tiedosto).toStdString().c_str(),
                              lahde, 0) < 0)
                 return false;
 

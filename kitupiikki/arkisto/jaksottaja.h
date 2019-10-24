@@ -1,0 +1,52 @@
+/*
+   Copyright (C) 2019 Arto Hyvättinen
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#ifndef JAKSOTTAJA_H
+#define JAKSOTTAJA_H
+
+#include "db/tilikausi.h"
+#include "raportti/raportinkirjoittaja.h"
+
+#include <QDialog>
+
+namespace Ui {
+    class Poistaja;
+}
+
+class Jaksottaja : public QDialog
+{
+    Q_OBJECT
+public:
+    Jaksottaja(QWidget *parent = nullptr);
+    ~Jaksottaja();
+
+    bool teeJaksotukset(const Tilikausi& kausi, const QVariantList& jaksotukset);
+
+signals:
+    void jaksotettu();
+
+private:
+    void kirjaaTilinpaatokseen(const QDate& pvm, const QVariantList& jaksotukset);
+    RaportinKirjoittaja jaksotusSelvitys(const Tilikausi& kausi, const QVariantList& jaksotukset);
+
+protected slots:
+    void kirjaaTilinavaukseen(QVariant* data, const QDate& pvm);
+
+protected:
+    Ui::Poistaja *ui;
+};
+
+#endif // JAKSOTTAJA_H

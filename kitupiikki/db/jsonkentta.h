@@ -29,7 +29,7 @@
  * json-muotoisia kenttiä, joita käsitellään tämän luokan kautta
  *
  */
-class JsonKentta
+class [[deprecated]] JsonKentta
 {
 public:
     JsonKentta();

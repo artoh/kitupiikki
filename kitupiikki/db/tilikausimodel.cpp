@@ -15,14 +15,13 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QSqlQuery>
 #include <QJsonDocument>
 
 #include "tilikausimodel.h"
 #include "kirjanpito.h"
 
-TilikausiModel::TilikausiModel(QSqlDatabase *tietokanta, QObject *parent) :
-    QAbstractTableModel(parent), tietokanta_(tietokanta)
+TilikausiModel::TilikausiModel(QObject *parent) :
+    QAbstractTableModel(parent)
 {
 
 }
@@ -114,7 +113,7 @@ QVariant TilikausiModel::data(const QModelIndex &index, int role) const
     else if( role == PaattyyRooli )
         return QVariant( kausi.paattyy());
     else if( role == HenkilostoRooli )
-        return kausi.json()->luku("Henkilosto");
+        return kausi.luku("Henkilosto");
     else if( role == LyhenneRooli)
         return  kausi.kausitunnus();
     else if( role == Qt::TextAlignmentRole)
@@ -157,38 +156,7 @@ QVariant TilikausiModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void TilikausiModel::lisaaTilikausi(const Tilikausi& tilikausi)
-{
-    beginInsertRows( QModelIndex(), kaudet_.count(), kaudet_.count());
 
-    kaudet_.append( tilikausi );
-    tietokanta_->exec( QString("INSERT INTO tilikausi(alkaa,loppuu) VALUES('%1','%2') ")
-                              .arg(tilikausi.alkaa().toString(Qt::ISODate))
-                              .arg(tilikausi.paattyy().toString(Qt::ISODate)));
-    paivitaKausitunnukset();
-    endInsertRows();
-    emit kp()->tilikausiAvattu();
-}
-
-void TilikausiModel::muokkaaViimeinenTilikausi(const QDate &paattyy)
-{
-    if( paattyy.isNull())
-    {
-        beginRemoveRows( QModelIndex(), kaudet_.count()-1, kaudet_.count()-1);
-        tietokanta_->exec(QString("DELETE FROM tilikausi WHERE alkaa='%1' ").arg( kaudet_.last().alkaa().toString(Qt::ISODate) ) );
-        kaudet_.removeLast();
-        endRemoveRows();
-    }
-    else
-    {
-        kaudet_[ kaudet_.count()-1 ].paattyy() = paattyy;
-        tietokanta_->exec(QString("UPDATE tilikausi SET loppuu='%1' WHERE alkaa='%2' ")
-                          .arg( paattyy.toString(Qt::ISODate) ).arg( kaudet_.last().alkaa().toString(Qt::ISODate)) );
-        emit dataChanged( index(kaudet_.count()-1, KAUSI), index(kaudet_.count()-1, KAUSI) );
-    }
-    paivitaKausitunnukset();
-    emit kp()->tilikausiAvattu();
-}
 
 Tilikausi TilikausiModel::tilikausiPaivalle(const QDate &paiva) const
 {
@@ -217,21 +185,10 @@ Tilikausi TilikausiModel::tilikausiIndeksilla(int indeksi) const
     return kaudet_.value(indeksi, Tilikausi());
 }
 
-JsonKentta *TilikausiModel::json(int indeksi)
-{    
-    return kaudet_[indeksi].json();
-}
-
-JsonKentta *TilikausiModel::json(const Tilikausi& tilikausi)
+Tilikausi &TilikausiModel::viiteIndeksilla(int indeksi)
 {
-    return json( tilikausi.paattyy() );
+    return kaudet_[indeksi];
 }
-
-JsonKentta *TilikausiModel::json(const QDate &paiva)
-{
-    return json( indeksiPaivalle( paiva) );
-}
-
 
 QDate TilikausiModel::kirjanpitoAlkaa() const
 {
@@ -247,15 +204,6 @@ QDate TilikausiModel::kirjanpitoLoppuu() const
     return {};
 }
 
-bool TilikausiModel::onkoBudjetteja() const
-{
-    for(auto kausi: kaudet_)
-    {
-        if( kausi.json()->avaimet().contains("Budjetti"))
-            return true;
-    }
-    return false;
-}
 
 void TilikausiModel::lataa(const QVariantList &lista)
 {
@@ -271,23 +219,6 @@ void TilikausiModel::lataa(const QVariantList &lista)
     endResetModel();
 }
 
-void TilikausiModel::lataa()
-{    
-
-
-    beginResetModel();
-    kaudet_.clear();
-
-    QSqlQuery kysely(*tietokanta_);
-
-    kysely.exec("SELECT alkaa, loppuu, json FROM tilikausi ORDER BY alkaa");
-    while( kysely.next())
-    {
-        kaudet_.append( Tilikausi(kysely.value(0).toDate(), kysely.value(1).toDate(), kysely.value(2).toByteArray()));
-    }
-    paivitaKausitunnukset();
-    endResetModel();
-}
 
 void TilikausiModel::paivita()
 {
@@ -296,24 +227,6 @@ void TilikausiModel::paivita()
     kysely->kysy();
 }
 
-void TilikausiModel::tallennaJSON()
-{
-    tietokanta_->transaction();
-
-    QSqlQuery kysely(*tietokanta_);
-    kysely.prepare("UPDATE tilikausi SET json=:json WHERE alkaa=:alku");
-    for(int i=0; i<kaudet_.count(); i++)
-    {
-        if( kaudet_[i].json()->onkoMuokattu())
-        {
-            kysely.bindValue(":json", kaudet_[i].json()->toSqlJson());
-            kysely.bindValue(":alku", kaudet_[i].alkaa());
-            kysely.exec();
-        }
-    }
-
-    tietokanta_->commit();
-}
 
 void TilikausiModel::paivitaKausitunnukset()
 {

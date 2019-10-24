@@ -45,7 +45,7 @@ class TpAloitus : public QDialog
     Q_OBJECT
 
 public:
-    explicit TpAloitus(Tilikausi kausi, QWidget *parent = 0);
+    explicit TpAloitus(Tilikausi kausi, QWidget *parent = nullptr);
     ~TpAloitus();
 
 private slots:

@@ -31,8 +31,6 @@ TuoteModel::TuoteModel(QObject *parent) :
 int TuoteModel::rowCount(const QModelIndex & /* parent */) const
 {
     return lista_.count();
-
-    return tuotteet_.count();    
 }
 
 int TuoteModel::columnCount(const QModelIndex & /* parent */) const
@@ -91,89 +89,6 @@ QVariant TuoteModel::data(const QModelIndex &index, int role) const
     
 }
 
-int TuoteModel::lisaaTuote(LaskuRivi tuote)
-{
-
-    QSqlQuery kysely;
-    kysely.prepare("INSERT INTO tuote(nimike, yksikko, hintaSnt, alvkoodi, alvprosentti, tili, kohdennus) "
-                   "VALUES(:nimike, :yksikko, :hinta, :alvkoodi, :alvprosentti, :tili, :kohdennus) ");
-    kysely.bindValue(":nimike", tuote.nimike);
-    kysely.bindValue(":yksikko", tuote.yksikko);
-    kysely.bindValue(":hinta", tuote.ahintaSnt);
-    kysely.bindValue(":alvkoodi", tuote.alvKoodi);
-    kysely.bindValue(":alvprosentti", tuote.alvProsentti);
-    kysely.bindValue(":tili", tuote.myyntiTili.id());
-    kysely.bindValue(":kohdennus", tuote.kohdennus.id());
-    kysely.exec();
-
-    tuote.tuoteKoodi = kysely.lastInsertId().toInt();
-    tuote.maara = 1.00;     // Tuoteluettelossa ei määrätietoa
-
-
-    beginInsertRows(QModelIndex(), tuotteet_.count(), tuotteet_.count() );
-    tuotteet_.append( tuote );
-    endInsertRows();
-
-
-    return tuote.tuoteKoodi;
-}
-
-void TuoteModel::poistaTuote(int indeksi)
-{
-    QSqlQuery kysely( QString("delete from tuote where id=%1 ").arg(tuotteet_.value(indeksi).tuoteKoodi) );
-    kysely.exec();
-
-    beginRemoveRows(QModelIndex(), indeksi, indeksi);
-    tuotteet_.removeAt(indeksi);
-    endRemoveRows();
-}
-
-void TuoteModel::paivitaTuote(LaskuRivi tuote)
-{
-    int indeksi = 0;
-    // Etsitään tuote koodilla
-    for(; indeksi < tuotteet_.count(); indeksi++)
-        if( tuotteet_.value(indeksi).tuoteKoodi == tuote.tuoteKoodi)
-            break;
-
-    tuote.maara = 1.00;
-    tuotteet_[indeksi] = tuote;
-
-    QSqlQuery kysely;
-    kysely.prepare("UPDATE tuote SET nimike=:nimike, yksikko=:yksikko, hintaSnt=:hinta, "
-                   "alvkoodi=:alvkoodi, alvprosentti=:alvprosentti, tili=:tili, kohdennus=:kohdennus "
-                   "WHERE id=:id");
-    kysely.bindValue(":id", tuote.tuoteKoodi);
-    kysely.bindValue(":nimike", tuote.nimike);
-    kysely.bindValue(":yksikko", tuote.yksikko);
-    kysely.bindValue(":hinta", tuote.ahintaSnt);
-    kysely.bindValue(":alvkoodi", tuote.alvKoodi);
-    kysely.bindValue(":alvprosentti", tuote.alvProsentti);
-    kysely.bindValue(":tili", tuote.myyntiTili.id());
-    kysely.bindValue(":kohdennus", tuote.kohdennus.id());
-    kysely.exec();
-
-    emit dataChanged(index(indeksi, 0), index(indeksi,1));
-}
-
-LaskuRivi TuoteModel::tuote(int indeksi) const
-{
-    QVariantMap map = lista_.at(indeksi).toMap();
-
-    LaskuRivi tuote;
-    tuote.tuoteKoodi = map.value("id").toInt();
-    tuote.nimike = map.value("nimike").toString();
-    tuote.yksikko = map.value("yksikko").toString();
-    tuote.ahintaSnt = qRound( map.value("hinta").toDouble() * 100.0 );
-    tuote.alvKoodi = map.value("alvkoodi").toInt();
-    tuote.alvProsentti = map.value("alvprosentti").toDouble();
-    tuote.myyntiTili = kp()->tilit()->tiliNumerolla( map.value("tili").toInt() );
-    tuote.kohdennus= kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt() );
-
-    return tuote;
-
-    return tuotteet_.value(indeksi);
-}
 
 QVariantMap TuoteModel::tuoteMap(int indeksi) const
 {
@@ -191,26 +106,6 @@ void TuoteModel::lataa()
     kys->kysy();
 
     return;
-
-
-    beginResetModel();
-    tuotteet_.clear();
-    QSqlQuery kysely;
-    kysely.exec("SELECT id,nimike,yksikko,hintaSnt,alvkoodi,alvprosentti,tili,kohdennus FROM tuote ORDER BY nimike");
-    while(kysely.next())
-    {
-        LaskuRivi tuote;
-        tuote.tuoteKoodi = kysely.value("id").toInt();
-        tuote.nimike = kysely.value("nimike").toString();
-        tuote.yksikko = kysely.value("yksikko").toString();
-        tuote.ahintaSnt = kysely.value("hintaSnt").toDouble();
-        tuote.alvKoodi = kysely.value("alvkoodi").toInt();
-        tuote.alvProsentti = kysely.value("alvprosentti").toInt();
-        tuote.myyntiTili = kp()->tilit()->tiliIdllaVanha( kysely.value("tili").toInt() );
-        tuote.kohdennus = kp()->kohdennukset()->kohdennus( kysely.value("kohdennus").toInt() );
-        tuotteet_.append(tuote);
-    }
-    endResetModel();
 
 }
 

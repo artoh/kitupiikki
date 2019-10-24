@@ -71,6 +71,27 @@ QString Tosite::tilateksti(int tila)
     return QString();
 }
 
+QDate Tosite::pvm() const
+{
+    return data(PVM).toDate();
+}
+
+void Tosite::asetaOtsikko(const QString &otsikko)
+{
+    setData(OTSIKKO, otsikko);
+}
+
+void Tosite::asetaTyyppi(int tyyppi)
+{
+    setData(TYYPPI, tyyppi);
+    setData(SARJA, kp()->tositeTyypit()->sarja( tyyppi ));
+}
+
+void Tosite::asetaPvm(const QDate &pvm)
+{
+    setData(PVM, pvm);
+}
+
 void Tosite::lataa(int tositeid)
 {
     KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tositeid));
@@ -81,7 +102,6 @@ void Tosite::lataa(int tositeid)
 void Tosite::lataaData(QVariant *variant)
 {
 
-    qDebug() << "LATAAN" << *variant;
 
     resetointiKaynnissa_ = true;
     data_ = variant->toMap();
@@ -98,11 +118,8 @@ void Tosite::lataaData(QVariant *variant)
     tallennettu_ = tallennettava();
     resetointiKaynnissa_ = false;
 
-    qDebug() << "Tarkastetaan..";
-
     tarkasta();
 
-    qDebug() << "LADATTU";
 }
 
 void Tosite::tallenna(int tilaan)
@@ -120,8 +137,6 @@ void Tosite::tallenna(int tilaan)
     connect(kysely, &KpKysely::virhe, this, &Tosite::tallennuksessaVirhe);
 
     kysely->kysy( tallennettava() );
-
-    qDebug() << tallennettava();
 
 }
 
@@ -152,8 +167,6 @@ void Tosite::tarkasta()
 
     emit tila(muutettu, virheet, debet, kredit);
 
-    qDebug() << " M " << muutettu << " V " << virheet
-             << "Debet " << debet << " Kredit " << kredit;
 }
 
 void Tosite::nollaa(const QDate &pvm, int tyyppi)
@@ -177,11 +190,13 @@ void Tosite::tallennusValmis(QVariant *variant)
     QVariantMap map = variant->toMap();
     setData(ID, map.value( avaimet__.at(ID) ).toInt() );
     setData(TUNNISTE, map.value( avaimet__.at(TUNNISTE)).toInt());
+    setData(SARJA, map.value(avaimet__.at(SARJA)).toString());
 
     if( liitteet()->tallennettaviaLiitteita())
         liitteet()->tallennaLiitteet( data(ID).toInt() );
     else
-        emit talletettu( data(ID).toInt(), data(TUNNISTE).toInt(), tallennettu_.value( avaimet__.at(PVM) ).toDate() );
+        emit talletettu( data(ID).toInt(), data(TUNNISTE).toInt(), tallennettu_.value( avaimet__.at(PVM) ).toDate(),
+                         data(SARJA).toString());
 
     // Tämä pitää oikaista vielä huomioimaan tilinavauksen sikäli jos sitä tositteen kautta käsitellään ;)
     if( !kp()->asetukset()->onko("EkaTositeKirjattu"))
@@ -195,7 +210,8 @@ void Tosite::tallennuksessaVirhe(int virhe)
 
 void Tosite::liitteetTallennettu()
 {
-    emit talletettu( data(ID).toInt(), data(TUNNISTE).toInt(), tallennettu_.value( avaimet__.at(PVM) ).toDate() );
+    emit talletettu( data(ID).toInt(), data(TUNNISTE).toInt(), tallennettu_.value( avaimet__.at(PVM) ).toDate(),
+                     data(SARJA).toString());
 }
 
 QVariantMap Tosite::tallennettava() const
@@ -203,6 +219,9 @@ QVariantMap Tosite::tallennettava() const
 
     QVariantMap map(data_);
     map.insert("viennit", viennit_->tallennettavat());
+
+    if( map.value("otsikko").toString().isEmpty() && viennit_->rowCount())
+        map.insert("otsikko", viennit_->vienti(0).selite());
 
     return map;
 }
@@ -219,5 +238,6 @@ std::map<int,QString> Tosite::avaimet__ = {
     { ERAPVM, "erapvm"},
     { KUMPPANI, "kumppani" },
     { KOMMENTIT, "info"},
-    { ALV, "alv"}
+    { ALV, "alv"},
+    { SARJA, "sarja"}
 };

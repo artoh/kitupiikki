@@ -17,7 +17,7 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
-      <layout class="QHBoxLayout" name="kpLeiska" stretch="0,2,0,1">
+      <layout class="QHBoxLayout" name="kpLeiska" stretch="0,2,0,0,1">
        <item>
         <widget class="QLabel" name="logoLabel">
          <property name="sizePolicy">
@@ -62,6 +62,19 @@
         </widget>
        </item>
        <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
         <widget class="QLabel" name="pilviKuva">
          <property name="text">
           <string/>
@@ -83,6 +96,12 @@
           <size>
            <width>200</width>
            <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>320</width>
+           <height>16777215</height>
           </size>
          </property>
          <property name="sizeAdjustPolicy">

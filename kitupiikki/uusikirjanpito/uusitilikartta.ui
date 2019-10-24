@@ -32,6 +32,9 @@
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
        <widget class="QRadioButton" name="elinkeinoRadio">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="font">
          <font>
           <weight>75</weight>
@@ -41,17 +44,16 @@
         <property name="text">
          <string>Elinkeinotoiminta</string>
         </property>
-        <property name="icon">
-         <iconset resource="../pic/pic.qrc">
-          <normaloff>:/flat/coins.png</normaloff>:/flat/coins.png</iconset>
-        </property>
         <property name="checked">
-         <bool>true</bool>
+         <bool>false</bool>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QLabel" name="label_2">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Osakeyhtiö, osuuskunta, kommandiittiyhtiö, avoin yhtiö sekä ammatin- ja elinkeinonharjoittaja (toiminimi).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
@@ -71,14 +73,16 @@
         <property name="text">
          <string>Aatteellinen yhdistys tai säätlö</string>
         </property>
-        <property name="icon">
-         <iconset resource="../pic/pic.qrc">
-          <normaloff>:/flat/teamwork.png</normaloff>:/flat/teamwork.png</iconset>
+        <property name="checked">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QRadioButton" name="asoy">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="font">
          <font>
           <weight>75</weight>
@@ -88,13 +92,19 @@
         <property name="text">
          <string>Asunto-osakeyhtiö</string>
         </property>
-        <property name="icon">
-         <iconset resource="../pic/pic.qrc">
-          <normaloff>:/flat/house.png</normaloff>:/flat/house.png</iconset>
-        </property>
        </widget>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt; color:#ff0000;&quot;&gt;Tässä esiversiossa voit käyttää ainoastaan yhdistystilikarttaa.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;Muut tilikartat tulevat käyttöön viimeistään vuoden 2020 alussa. Ne löytyvät myös ohjelman vanhemmista versioista, jotka on julkaistu &lt;/span&gt;&lt;a href=&quot;https://kitupiikki.info&quot;&gt;&lt;span style=&quot; font-size:11pt; text-decoration: underline; color:#2980b9;&quot;&gt;Kitupiikki&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;-nimellä.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
    <item>
@@ -112,8 +122,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../pic/pic.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

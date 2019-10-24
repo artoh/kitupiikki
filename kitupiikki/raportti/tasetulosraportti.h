@@ -17,11 +17,11 @@
 #ifndef TASETULOSRAPORTTI_H
 #define TASETULOSRAPORTTI_H
 
-#include "raportti.h"
+#include "raporttiwidget.h"
 #include "ui_muokattavaraportti.h"
 #include "raportoija.h"
 
-class TaseTulosRaportti : public Raportti
+class TaseTulosRaportti : public RaporttiWidget
 {
     Q_OBJECT
 public:

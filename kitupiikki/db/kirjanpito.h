@@ -36,13 +36,12 @@
 
 #include "tilikausi.h"
 
-#include "tositelajimodel.h"
 #include "asetusmodel.h"
 #include "tilikausimodel.h"
-#include "tositemodel.h"
 #include "kohdennusmodel.h"
 #include "verotyyppimodel.h"
 #include "tilityyppimodel.h"
+
 
 #include "tilimodel.h"
 #include "tili.h"
@@ -93,7 +92,7 @@ public:
      * @brief Polku kirjanpitotiedostoon
      * @return
      */
-    QString tiedostopolku() const { return polkuTiedostoon_;}
+    [[deprecated]] QString tiedostopolku() const { return polkuTiedostoon_;}
 
     /**
      * @brief Käytetäänkö harjoittelutilassa
@@ -119,12 +118,6 @@ public:
     Tilikausi tilikausiPaivalle(const QDate &paiva) const;
 
     /**
-     * @brief Tositelajien model
-     * @return
-     */
-    TositelajiModel *tositelajit() { return tositelajiModel_; }
-
-    /**
      * @brief Asetusten model
      * @return
      */
@@ -141,12 +134,6 @@ public:
      * @return
      */
     TilikausiModel *tilikaudet() const { return tilikaudetModel_; }
-
-    /**
-     * @brief Palauttaa TositeModel:in, jonka kautta pääsee tositteisiin
-     * @return
-     */
-    TositeModel *tositemodel(QObject *parent = nullptr);
 
     /**
      * @brief Kohdennusten eli kustannuspaikkojen ja projektien model
@@ -188,7 +175,7 @@ public:
      *
      * @return
      */
-    QSqlDatabase *tietokanta()  { return &tietokanta_; }
+    [[deprecated]] QSqlDatabase *tietokanta()  { return &tietokanta_; }
 
     /**
      * @brief QPrinter kaikenlaiseen tulosteluun
@@ -239,16 +226,10 @@ public:
     void asetaLogo(const QImage& logo);
 
     /**
-     * @brief Liitteet ilman tositetta (esim. logo, tilinpäätökset)
-     * @return
-     */
-    LiiteModel *liitteet() { return liitteet_;}
-
-    /**
      * @brief Arkistohakemiston polku
      * @return
      */
-    QString arkistopolku() const;
+    QString arkistopolku();
 
     /**
      * @brief QSettings käyttäjäkohtaisille asetuksille
@@ -288,7 +269,6 @@ public:
      * @param pvm
      * @return
      */
-    [[deprecated]] QString tositeTunnus(int tositelaji, int tunniste, const QDate& pvm, bool vertailu = false ) const;
     [[deprecated]]  QString tositeTunnus(int tunniste, const QDate& pvm, bool vertailu = false);
 
     QString tositeTunnus(int tunniste, const QDate& pvm, const QString& sarja, bool samakausi = false, bool vertailu = false);
@@ -389,7 +369,6 @@ protected:
     QMap<QString,QString> viimetiedostot;
     QDate harjoitusPvm;
 
-    TositelajiModel *tositelajiModel_;
     AsetusModel *asetusModel_;
     TiliModel *tiliModel_;
     TilikausiModel *tilikaudetModel_;
@@ -397,7 +376,6 @@ protected:
     VerotyyppiModel *veroTyypit_;
     TilityyppiModel *tiliTyypit_;
     TuoteModel *tuotteet_;
-    LiiteModel *liitteet_;
     QPrinter *printer_;
 
     QTemporaryDir *tempDir_;
@@ -442,7 +420,7 @@ public:
      *
      * Jos yritetään avata uudempaa, tulee virhe
      */
-    static const int TIETOKANTAVERSIO = 10;
+    static const int TIETOKANTAVERSIO = 20;
 
     /**
      * @brief Palauttaa satunnaismerkkijonon
@@ -493,5 +471,12 @@ Kirjanpito* kp();
  */
 KpKysely *kpk(const QString& polku = QString(), KpKysely::Metodi metodi = KpKysely::GET);
 
+
+/**
+ * @brief Globaali funktio kielen/maan lippuun
+ * @param kielikoodi
+ * @return
+ */
+QIcon lippu(const QString& kielikoodi);
 
 #endif // KIRJANPITO_H

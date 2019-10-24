@@ -21,7 +21,7 @@
 #include <QMainWindow>
 
 #include "kitupiikkiikkuna.h"
-
+#include "db/tositetyyppimodel.h"
 
 /**
  * @brief Toinen ikkuna selaamista tai kirjaamista varten
@@ -33,7 +33,7 @@ public:
     LisaIkkuna(QWidget *parent = nullptr);
     ~LisaIkkuna();
 
-    KirjausSivu *kirjaa(int tositeId = -1);
+    KirjausSivu *kirjaa(int tositeId = -1, int tyyppi = TositeTyyppi::TULO);
     void selaa();
 
 signals:

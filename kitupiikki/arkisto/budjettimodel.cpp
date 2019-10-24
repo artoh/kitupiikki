@@ -19,6 +19,7 @@
 
 #include <QSortFilterProxyModel>
 #include <QPalette>
+#include <QFont>
 
 BudjettiModel::BudjettiModel(QObject *parent)
     : QAbstractTableModel(parent)

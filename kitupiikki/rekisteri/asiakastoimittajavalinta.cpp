@@ -79,8 +79,10 @@ QString AsiakasToimittajaValinta::nimi() const
 void AsiakasToimittajaValinta::set(int id, const QString &nimi)
 {
     combo_->lineEdit()->setText(nimi);
-    ladattu_ = id;
-    model_->lataa();
+    if( id ) {
+        ladattu_ = id;
+        model_->lataa();
+    }
 }
 
 
@@ -94,6 +96,23 @@ void AsiakasToimittajaValinta::alusta()
 {
     if( isEnabled() )
         model_->lataa();
+}
+
+void AsiakasToimittajaValinta::tuonti(const QVariantMap &data)
+{
+    QString alvtunnari = "FI" + data.value("kumppaniytunnus").toString();
+    alvtunnari.remove('-');
+
+    if( model_->idAlvTunnuksella( alvtunnari) ) {
+        // Valitaan Y-tunnuksella
+        combo_->setCurrentIndex( combo_->findData( model_->idAlvTunnuksella(alvtunnari) ) );
+    } else if( combo_->findText( data.value("kumppaninimi").toString() ) > -1) {
+        // Valitaan nimellä
+        combo_->setCurrentIndex( combo_->findText( data.value("kumppaninimi").toString() ) );
+    } else {
+        // Siirrytään dialogiin
+        dlg_->tuonti(data);
+    }
 }
 
 void AsiakasToimittajaValinta::valitseAsiakas()
@@ -132,7 +151,7 @@ void AsiakasToimittajaValinta::muokkaa()
 
 }
 
-void AsiakasToimittajaValinta::talletettu(int id, const QString& nimi)
+void AsiakasToimittajaValinta::talletettu(int id, const QString& /*nimi*/)
 {
     ladattu_ = id;
     model_->lataa();
@@ -164,7 +183,6 @@ bool AsiakasToimittajaValinta::eventFilter(QObject *watched, QEvent *event)
     if( watched == combo_ && event->type()==QEvent::KeyPress)
     {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-        qDebug() << keyEvent->key();
         if( keyEvent->key() == Qt::Key_Enter ||
                 keyEvent->key() == Qt::Key_Return) {
             syotettyNimi();

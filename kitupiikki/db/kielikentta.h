@@ -19,15 +19,21 @@
 
 #include <QVariant>
 #include <QMap>
+#include <QVariantMap>
 
 class KieliKentta
 {
 public:
     KieliKentta();
     KieliKentta(const QVariant& var);
+    KieliKentta(const QString& var);
 
     void aseta(const QVariant& var);
-    QString teksti(const QString& kieli = "fi") const;
+    void aseta(const QString& nimi, const QString& kieli);
+    QString teksti(QString kieli = QString()) const;
+    QString kaannos(const QString& kieli) const;
+
+    QVariantMap map() const;
 
 protected:
     QMap<QString,QString> tekstit_;

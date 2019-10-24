@@ -46,9 +46,9 @@ public:
 
     enum Sivut
     {
+        ULKOASU,
         PERUSVALINNAT,
         TILIKARTTA,
-        TOSITELAJIT,
         KOHDENNUS,
         TILINAVAUS,
         LASKUTUS,
@@ -95,16 +95,6 @@ public slots:
      * @brief Päivittää määritysten mukaan sen, mitkä sivut näkyvät
      */
     void paivitaNakyvat();
-
-    /**
-     * @brief Käynnistää tilikartan vientivelhon
-     */
-    void vieTilikartta();
-
-    /**
-     * @brief Tilikartan päivitystoiminto
-     */
-    void paivitaTilikartta();
 
     MaaritysWidget *nykyWidget() { return nykyinen; }
 
