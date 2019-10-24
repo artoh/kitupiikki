@@ -30,9 +30,9 @@
 #include "kirjauswg.h"
 #include "naytaliitewg.h"
 #include "naytin/naytinview.h"
+#include "model/tosite.h"
 
 #include "db/kirjanpito.h"
-#include "db/tositemodel.h"
 
 KirjausSivu::KirjausSivu(KitupiikkiIkkuna *ikkuna) :
     KitupiikkiSivu(nullptr), ikkuna_(ikkuna)
@@ -76,7 +76,7 @@ void KirjausSivu::siirrySivulle()
 
 bool KirjausSivu::poistuSivulta(int minne)
 {
-/*    if( model->muokattu() && model->vientiModel()->debetSumma() && model->muokkausSallittu())
+    if( kirjausWg()->gui()->valmisNappi->isEnabled()  )
     {
         if( minne == KitupiikkiIkkuna::SELAUSSIVU && ikkuna_ )
         {
@@ -85,15 +85,15 @@ bool KirjausSivu::poistuSivulta(int minne)
             return false;
         }
 
-        if( QMessageBox::question(this, tr("Kitupiikki"), tr("Nykyistä kirjausta on muokattu. Poistutko sivulta tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
+        if( QMessageBox::question(this, tr("Kitsas"), tr("Nykyistä kirjausta on muokattu. Poistutko sivulta tallentamatta tekemiäsi muutoksia?")) != QMessageBox::Yes)
         {
             return false;
         }
-    } */
+    }
     return true;
 }
 
-void KirjausSivu::naytaTosite(int tositeId)
+void KirjausSivu::naytaTosite(int tositeId, int tositetyyppi)
 {
     palataanTakaisin_ = true;
 
@@ -103,6 +103,10 @@ void KirjausSivu::naytaTosite(int tositeId)
 
     if( tositeId > -1)
         kirjauswg->lataaTosite(tositeId);
+    if( tositetyyppi > -1) {
+        kirjauswg->tosite()->asetaTyyppi(tositetyyppi);
+        kirjauswg->tiedotModelista();
+    }
 }
 
 void KirjausSivu::tositeKasitelty()

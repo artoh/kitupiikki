@@ -26,7 +26,6 @@
 
 #include "db/kpkysely.h"
 
-#include "uusikp/skripti.h"
 
 DevTool::DevTool(QWidget *parent) :
     QDialog(parent),
@@ -39,9 +38,6 @@ DevTool::DevTool(QWidget *parent) :
 
     connect( ui->tallennaAsetusNappi, SIGNAL(clicked(bool)), this, SLOT(tallennaAsetus()));
     connect( ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poistaAsetus()));
-
-    connect( ui->suoritaNappi, &QPushButton::clicked,
-             [this] { Skripti::suorita( ui->skriptiEdit->toPlainText().split('\n') ); });
 
     connect( ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(tabMuuttui(int)));
 

@@ -27,14 +27,13 @@ KohdennusMuokkaus::KohdennusMuokkaus(QWidget *parent) :
     ui = new Ui::Kohdennukset;
     ui->setupUi(this);
 
-    model = new KohdennusModel( kp()->tietokanta(), this);
     proxy = new QSortFilterProxyModel(this);
-    proxy->setSourceModel(model);
+    proxy->setSourceModel( kp()->kohdennukset() );
     proxy->setSortRole(KohdennusModel::NimiRooli);
     proxy->sort(0);
 
-    proxy->setFilterRole(KohdennusModel::IdRooli);
-    proxy->setFilterRegExp("^[^0].*");
+    proxy->setFilterRole(KohdennusModel::TyyppiRooli);
+    proxy->setFilterRegExp("[123]");
     // Ei näytetä tässä luettelossa Yleistä ei id 0
 
     ui->view->setModel(proxy);
@@ -44,7 +43,6 @@ KohdennusMuokkaus::KohdennusMuokkaus(QWidget *parent) :
     connect( ui->lisaaNappi, SIGNAL(clicked(bool)), this, SLOT(uusi()));
     connect( ui->muokkaaNappi, SIGNAL(clicked(bool)), this, SLOT(muokkaa()));
     connect(ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poista()));
-    connect( ui->view, SIGNAL(clicked(QModelIndex)), this, SLOT(muokkaa()));
 
 }
 
@@ -55,8 +53,7 @@ KohdennusMuokkaus::~KohdennusMuokkaus()
 
 bool KohdennusMuokkaus::nollaa()
 {
-    model->lataa();
-    proxy->sort(0);
+    kp()->kohdennukset()->paivita();
 
     // Sarakkeiden leveydet
     ui->view->setColumnWidth(0, (ui->view->width()-10)/2 );
@@ -67,39 +64,22 @@ bool KohdennusMuokkaus::nollaa()
     return true;
 }
 
-bool KohdennusMuokkaus::tallenna()
-{
-    model->tallenna();
-    kp()->kohdennukset()->lataa();
-
-    return true;
-}
-
-bool KohdennusMuokkaus::onkoMuokattu()
-{
-    return model->onkoMuokattu();
-}
 
 void KohdennusMuokkaus::uusi()
 {
-    KohdennusDialog dlg(model);
+    KohdennusDialog dlg(-1, this);
     dlg.exec();
-    proxy->sort(0);
-    emit tallennaKaytossa( onkoMuokattu() );
 }
 
 void KohdennusMuokkaus::muokkaa()
 {
-    KohdennusDialog dlg( model, proxy->mapToSource( ui->view->currentIndex()));
+    KohdennusDialog dlg( proxy->mapToSource( ui->view->currentIndex()).row(), this);
     dlg.exec();
-    proxy->sort(0);
-    emit tallennaKaytossa( onkoMuokattu() );
 }
 
 void KohdennusMuokkaus::poista()
 {
-    model->poistaRivi( proxy->mapToSource( ui->view->currentIndex()).row());
-    emit tallennaKaytossa( onkoMuokattu() );
+   kp()->kohdennukset()->poistaRivi( proxy->mapToSource( ui->view->currentIndex()).row());
 }
 
 

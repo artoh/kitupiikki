@@ -16,10 +16,12 @@
 */
 
 #include <QSortFilterProxyModel>
+#include <QScrollBar>
 
 #include "tilinavaus.h"
 #include "tilinavausmodel.h"
 #include "kirjaus/eurodelegaatti.h"
+#include "avauseradlg.h"
 
 Tilinavaus::Tilinavaus(QWidget *parent) : MaaritysWidget(parent)
 {
@@ -33,17 +35,28 @@ Tilinavaus::Tilinavaus(QWidget *parent) : MaaritysWidget(parent)
     proxy->setFilterRole(TilinavausModel::KaytossaRooli);
     proxy->setFilterFixedString("1");
 
-    ui->tiliView->setModel(proxy);
+
+    suodatus = new QSortFilterProxyModel(this);
+    suodatus->setSourceModel(proxy);
+
+    ui->tiliView->setModel(suodatus);
+    ui->siirryEdit->setValidator(new QIntValidator(this));
 
     ui->tiliView->setItemDelegateForColumn( TilinavausModel::SALDO, new EuroDelegaatti);
 
-    ui->tiliView->resizeColumnsToContents();
+    ui->tiliView->horizontalHeader()->setSectionResizeMode(TilinavausModel::NIMI, QHeaderView::Stretch);
 
-    connect(model, SIGNAL(infoteksti(QString)), this, SLOT(naytaInfo(QString)));
     connect( ui->henkilostoSpin, SIGNAL(valueChanged(int)), this, SLOT(hlostoMuutos()));
-    connect(ui->piiloCheck, SIGNAL(toggled(bool)), this, SLOT(naytaPiilotetut(bool)));
-    connect(ui->tositeNappi, SIGNAL(clicked(bool)), this, SLOT(tosite()));
 
+    connect( ui->kaikkiNappi, &QPushButton::clicked, this, &Tilinavaus::naytaPiilotetut);
+    connect( ui->kirjauksetNappi, &QPushButton::clicked, this, &Tilinavaus::naytaVainKirjaukset);
+
+    connect( ui->etsiEdit, &QLineEdit::textEdited, this, &Tilinavaus::suodata);
+    connect( ui->tiliView, &QTableView::activated, this, &Tilinavaus::erittely);
+    connect( ui->tiliView, &QTableView::clicked, this, &Tilinavaus::erittely);
+    connect( ui->siirryEdit, &QLineEdit::textEdited, this, &Tilinavaus::siirry);
+
+    connect( model, &TilinavausModel::tilasto, this, &Tilinavaus::info);
 }
 
 Tilinavaus::~Tilinavaus()
@@ -51,40 +64,94 @@ Tilinavaus::~Tilinavaus()
     delete ui;
 }
 
-void Tilinavaus::naytaInfo(const QString& info)
-{
-    ui->infoLabel->setText(info);
-    emit tallennaKaytossa( onkoMuokattu());
-
-    // Tositetta voi käyttää vain, jos ei tallentamatonta!
-    ui->tositeNappi->setEnabled( !onkoMuokattu() );
-}
 
 void Tilinavaus::hlostoMuutos()
 {
     // Tositetta voi käyttää vain, jos ei tallentamatonta!
-    ui->tositeNappi->setEnabled( !onkoMuokattu() );
     emit tallennaKaytossa( onkoMuokattu());
 }
 
-void Tilinavaus::tosite()
-{
-    emit kp()->naytaTosite(0);
-}
 
 void Tilinavaus::naytaPiilotetut(bool naytetaanko)
 {
-    if( naytetaanko)
-        proxy->setFilterFixedString("");
-    else
+    if( naytetaanko) {
+        proxy->setFilterFixedString("0");
+        ui->kirjauksetNappi->setChecked(false);
+    } else
         proxy->setFilterFixedString("1");
+}
+
+void Tilinavaus::naytaVainKirjaukset(bool naytetaanko)
+{
+    if( naytetaanko ) {
+        ui->kaikkiNappi->setChecked(false);
+        proxy->setFilterFixedString("2");
+    } else {
+        proxy->setFilterFixedString("1");
+    }
+}
+
+void Tilinavaus::suodata(const QString &suodatusteksti)
+{
+    if( suodatusteksti.toInt())
+        suodatus->setFilterRole(TilinavausModel::NumeroRooli);
+    else
+        suodatus->setFilterRole(TilinavausModel::NimiRooli);
+    suodatus->setFilterFixedString(suodatusteksti);
+
+}
+
+void Tilinavaus::erittely(const QModelIndex &index)
+{
+    if( index.data(TilinavausModel::ErittelyRooli).toInt() != TilinavausModel::EI_ERITTELYA) {
+        int tili = index.data(TilinavausModel::NumeroRooli).toInt();
+        AvausEraDlg dlg(tili,
+                        index.data(TilinavausModel::ErittelyRooli).toInt() == TilinavausModel::KOHDENNUKSET,
+                        model->erat(tili),
+                        this
+                        );
+        if( dlg.exec() == QDialog::Accepted )
+            model->asetaErat(tili, dlg.erat());
+    }
+}
+
+void Tilinavaus::info(qlonglong vastaavaa, qlonglong vastattavaa, qlonglong tulos)
+{
+    emit tallennaKaytossa(onkoMuokattu());
+
+    ui->infoLabel->setText(QString("Vastaavaa \t%L1 € \t\tTulos\t %L2 € \nVastattavaa \t%L3 €")
+                           .arg( ( vastaavaa / 100.0 ), 10,'f',2)
+                           .arg( ( tulos / 100.0 ), 10,'f',2)
+                           .arg( ( vastattavaa / 100.0 ), 10,'f',2) );
+
+    ui->poikkeusLabel->clear();
+    if( vastaavaa != vastattavaa)
+        ui->poikkeusLabel->setText(QString("%L1 €").arg( ( qAbs(vastaavaa-vastattavaa) / 100.0 ), 10,'f',2));
+}
+
+void Tilinavaus::siirry(const QString &minne)
+{
+    if( !minne.isEmpty()) {
+        for(int i=0; i < ui->tiliView->model()->rowCount(); i++) {
+            QModelIndex index = ui->tiliView->model()->index(i,0);
+
+            if( QString::number(index.data(TiliModel::NroRooli).toInt()).startsWith(minne) ||
+                index.data(TiliModel::NimiRooli).toString().startsWith(minne))
+            {
+                // Valitsee tämän rivin
+                ui->tiliView->setCurrentIndex(index);
+                // Ja scrollaa rivin näkyviin
+                ui->tiliView->verticalScrollBar()->setSliderPosition(i);
+                return;
+            }
+        }
+    }
 }
 
 bool Tilinavaus::nollaa()
 {
     model->lataa();
-    ui->henkilostoSpin->setValue(kp()->tilikaudet()->tilikausiIndeksilla(0).json()->luku("Henkilosto"));
-    ui->tositeNappi->setEnabled(true);
+    ui->henkilostoSpin->setValue(kp()->tilikaudet()->tilikausiIndeksilla(0).luku("Henkilosto"));
     emit tallennaKaytossa(onkoMuokattu());
     return true;
 }
@@ -95,18 +162,16 @@ bool Tilinavaus::tallenna()
     if( model->onkoMuokattu())
         model->tallenna();
 
-    kp()->tilikaudet()->json(0)->set("Henkilosto", ui->henkilostoSpin->value());
-    kp()->tilikaudet()->tallennaJSON();
+    kp()->tilikaudet()->viiteIndeksilla(0).set("Henkilosto", ui->henkilostoSpin->value());
+    kp()->tilikaudet()->viiteIndeksilla(0).tallenna();
 
     emit tallennaKaytossa(onkoMuokattu());
-
-    // Tositetta voi käyttää vain, jos ei tallentamatonta!
-    ui->tositeNappi->setEnabled( !onkoMuokattu() );
 
     return true;
 }
 
 bool Tilinavaus::onkoMuokattu()
 {
-    return model->onkoMuokattu() || kp()->tilikaudet()->tilikausiIndeksilla(0).json()->luku("Henkilosto") != ui->henkilostoSpin->value();
+    return model->onkoMuokattu() ||
+          ui->henkilostoSpin->value() != kp()->tilikaudet()->viiteIndeksilla(0).luku("Henkilosto");
 }

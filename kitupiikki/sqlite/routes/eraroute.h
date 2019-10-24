@@ -24,6 +24,9 @@ class EraRoute : public SQLiteRoute
 public:
     EraRoute(SQLiteModel *model);
     QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
+
+protected:
+    QVariant erittely(const QDate& mista, const QDate& pvm);
 };
 
 #endif // ERAROUTE_H

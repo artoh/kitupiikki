@@ -39,7 +39,7 @@ namespace TositeTyyppi {
         ALVLASKELMA = 9100,
         POISTOLASKELMA = 9910,
         JAKSOTUS = 9920
-    };
+    };    
 }
 
 
@@ -65,12 +65,19 @@ public:
         LisattavissaRooli = Qt::UserRole + 1
     };
 
+    enum Sarjavalinta {
+        SAMAANSARJAAN = 0,
+        TOSITELAJIT = 1,
+        KATEISSARJA = 2
+    };
+
     int rowCount(const QModelIndex &parent) const override;
     QVariant data(const QModelIndex &index, int role) const override;
 
     QString nimi(int koodi) const;
     QIcon kuvake(int koodi) const;
     bool onkolisattavissa(int koodi) const;
+    QString sarja(int koodi, bool kateinen = false) const;
 
 protected:
     void lisaa(TositeTyyppi::Tyyppi koodi, const QString& nimi, const QString& kuvake, bool lisattavissa = true);

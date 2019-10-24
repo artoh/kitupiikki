@@ -24,12 +24,10 @@
 #include "ui_kirjaus.h"
 #include "naytaliitewg.h"
 
-#include "db/tositemodel.h"
 
 
 
 class Kirjanpito;
-class LaskunMaksuDialogi;
 class ApuriVinkki;
 class QAction;
 class QSqlQueryModel;
@@ -80,6 +78,7 @@ private slots:
     void salliMuokkaus(bool sallitaanko);
 
     void vaihdaTositeTyyppi();
+    void paivitaSarja(bool kateinen = false);
 
     /**
      * @brief Liitetiedosto valittu, näytetään se
@@ -116,7 +115,7 @@ private slots:
     void valmis();
 
     void paivita(bool muokattu, int virheet, double debet, double kredit);
-    void tallennettu(int id, int tunniste, const QDate& pvm);
+    void tallennettu(int id, int tunniste, const QDate& pvm, const QString& sarja = QString());
     void tallennusEpaonnistui(int virhe);
 
     void tuonti(QVariant* data);

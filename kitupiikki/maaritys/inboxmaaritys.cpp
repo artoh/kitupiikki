@@ -24,11 +24,6 @@ InboxMaaritys::InboxMaaritys() :
     ui_(new Ui::InboxMaaritys)
 {
     ui_->setupUi(this);
-    rekisteroi( ui_->kansioEdit, "KirjattavienKansio" );
-    connect( ui_->valitseNappi, &QPushButton::clicked, this, &InboxMaaritys::valitseKansio );
-    rekisteroi( ui_->kopioEdit, "KirjattavienSiirtokansio");
-    connect( ui_->kopioNappi, &QPushButton::clicked, this, &InboxMaaritys::valitseKopioKansio);
-    rekisteroi( ui_->kopioRadio, "KirjattavienKansioSiirto");
 
 }
 

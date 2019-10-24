@@ -17,7 +17,6 @@
 
 
 #include "palkkafituonti.h"
-#include "db/vientimodel.h"
 #include "db/kirjanpito.h"
 #include "kirjaus/kirjauswg.h"
 
@@ -71,7 +70,7 @@ bool PalkkaFiTuonti::tuo(const QByteArray &data)
 
 void PalkkaFiTuonti::tuoRivi(const QString &rivi)
 {
-    QStringList kentat = rivi.split(';');
+/*    QStringList kentat = rivi.split(';');
     if( kentat.length() < 5 || kentat.first() != "V")
         return;
 
@@ -102,5 +101,5 @@ void PalkkaFiTuonti::tuoRivi(const QString &rivi)
 
 
 //    kirjausWg()->model()->vientiModel()->lisaaVienti(vienti);
-
+*/
 }

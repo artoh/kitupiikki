@@ -1,4 +1,4 @@
-# Kitupiikki
+# Kitupiikki / Kitsas
 
 [![versio](https://img.shields.io/github/release/artoh/kitupiikki.svg?label=Julkaistu%20versio)](https://github.com/artoh/kitupiikki/releases)
 [![versio](https://img.shields.io/github/release/artoh/kitupiikki/all.svg?label=Esiversio)](https://github.com/artoh/kitupiikki/releases)
@@ -13,9 +13,12 @@ Comments, variable names, documentations and the software itself are, of course,
 
 **Suomalainen avoimen lähdekoodin kirjanpito-ohjelma**
 
+Versiosta 2 lähtien ohjelman nimenä on **Kitsas**. Katso [https://kitsas.fi](https://kitsas.info)
+
 Kotisivu ja käyttöohjeet [https://kitupiikki.info](https://kitupiikki.info)
 
-![Kitupiikki](https://raw.githubusercontent.com/artoh/kitupiikki/master/kitupiikki/pic/aboutpossu.png)
+
+
 
 ## Tavoitteet
 

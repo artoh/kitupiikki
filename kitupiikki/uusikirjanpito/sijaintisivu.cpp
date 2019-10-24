@@ -74,8 +74,8 @@ void SijaintiSivu::initializePage()
             .replace(QRegularExpression("[^a-zA-Z0-9]"),"");
 
     if( field("harjoitus").toBool() )
-        nimi += "-kokeilu";
-    nimi += ".kitupiikki";
+        nimi += "-harjoitus";
+    nimi += ".kitsas";
 
     ui->tiedostoEdit->setText(estaTuplaTiedosto( nimi ));
 }
@@ -83,17 +83,17 @@ void SijaintiSivu::initializePage()
 QString SijaintiSivu::estaTuplaTiedosto(QString tiedosto)
 {
     // Poistetaan lopussa mahdollisesti jo oleva lisäys
-    tiedosto.replace(QRegularExpression("-?\\d*.kitupiikki$"),"");
+    tiedosto.replace(QRegularExpression("-?\\d*.kitsas$"),"");
 
     QString lisake = "";
     int lisanumero = 0;
-    while( QFile(ui->sijaintiEdit->text() + "/" + tiedosto + lisake + ".kitupiikki").exists() )
+    while( QFile(ui->sijaintiEdit->text() + "/" + tiedosto + lisake + ".kitsas").exists() )
     {
         lisanumero++;
         lisake = QString("-%1").arg(lisanumero);
     }
 
-    return tiedosto + lisake + ".kitupiikki";
+    return tiedosto + lisake + ".kitsas";
 }
 
 bool SijaintiSivu::validatePage()

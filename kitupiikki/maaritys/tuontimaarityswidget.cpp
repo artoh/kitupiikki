@@ -25,7 +25,7 @@ TuontiMaaritysWidget::TuontiMaaritysWidget()
 {
     ui->setupUi( this );
 
-    ui->tositelajiCombo->setModel( kp()->tositelajit());
+    // ui->tositelajiCombo->setModel( kp()->tositelajit());
 
     ui->perusteCombo->addItem(QIcon(":/pic/suorite.png"), tr("Suoriteperusteinen"), VanhaTuonti::SUORITEPERUSTEINEN);
     ui->perusteCombo->addItem(QIcon(":/pic/kirje.png"), tr("Laskutusperusteinen"), VanhaTuonti::LASKUPERUSTEINEN);

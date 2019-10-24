@@ -15,7 +15,6 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QSqlQuery>
 #include <QDebug>
 
 #include <QDate>
@@ -23,24 +22,32 @@
 #include <QVariant>
 
 #include <QMessageBox>
-#include <QSqlError>
+
+#include <QJsonDocument>
 
 #include "asetusmodel.h"
 
 #include "kpkysely.h"
 #include "kirjanpito.h"
+#include "kielikentta.h"
 
-AsetusModel::AsetusModel(QSqlDatabase *tietokanta, QObject *parent, bool uusikirjanpito)
-    :   QObject(parent), tietokanta_(tietokanta), alustetaanTietokantaa_(uusikirjanpito)
+AsetusModel::AsetusModel(QObject *parent)
+    :   QObject(parent)
 {
 
 }
 
+QString AsetusModel::asetus(int avain, const QString &oletus) const
+{
+    return asetus( avaimet__.at(avain), oletus);
+}
+
 void AsetusModel::aseta(const QString &avain, const QString &arvo)
 {
-    QSqlQuery query(*tietokanta_);
-
-    asetukset_[avain] = arvo;
+    if( arvo.isNull())
+        asetukset_.remove(avain);
+    else
+        asetukset_[avain] = arvo;
 
     KpKysely* paivitys = kpk("/asetukset", KpKysely::PATCH);
 
@@ -51,14 +58,28 @@ void AsetusModel::aseta(const QString &avain, const QString &arvo)
 
 }
 
+void AsetusModel::aseta(const QVariantMap &map)
+{
+    QMapIterator<QString,QVariant> iter(map);
+    while(iter.hasNext()) {
+        iter.next();
+        if( iter.value().isNull())
+            asetukset_.remove( iter.key() );
+        else
+            asetukset_.insert( iter.key(), iter.value().toString());
+    }
+    KpKysely* paivitys = kpk("/asetukset", KpKysely::PATCH);
+    paivitys->kysy(map);
+}
+
+void AsetusModel::aseta(int tunnus, const QString &arvo)
+{
+    aseta( avaimet__.at(tunnus), arvo );
+}
+
 void AsetusModel::poista(const QString &avain)
 {
-    if( asetukset_.contains(avain))
-    {
-        QSqlQuery query(*tietokanta_);
-        query.exec( QString("DELETE from asetus WHERE avain=\"%1\"").arg(avain));
-        asetukset_.remove(avain);
-    }
+    aseta(avain, QString());
 }
 
 QDate AsetusModel::pvm(const QString &avain, const QDate oletus) const
@@ -177,30 +198,12 @@ QStringList AsetusModel::avaimet(const QString &avaimenAlku) const
     return vastaus;
 }
 
-QDateTime AsetusModel::muokattu(const QString &avain) const
+QString AsetusModel::kieli(const QString &lyhenne) const
 {
-    return muokatut_.value(avain, QDateTime());
+    KieliKentta kentta(kieliMap_.value(lyhenne));
+    return kentta.teksti();
 }
 
-void AsetusModel::tilikarttaMoodiin(bool onko)
-{
-    alustetaanTietokantaa_ = onko;
-}
-
-void AsetusModel::lataa()
-{
-    asetukset_.clear();
-    muokatut_.clear();
-    QSqlQuery query(*tietokanta_);
-    query.exec("SELECT avain,arvo,muokattu FROM asetus");
-    while( query.next())
-    {
-        asetukset_[query.value(0).toString()] = query.value(1).toString();
-        if( query.value(2).toDateTime().isValid())
-            muokatut_[ query.value(0).toString()] = query.value(2).toDateTime();
-    }
-
-}
 
 void AsetusModel::lataa(const QVariantMap &lista)
 {
@@ -211,9 +214,14 @@ void AsetusModel::lataa(const QVariantMap &lista)
         asetukset_.insert( iter.key(), iter.value().toString() );
     }
 
-    qDebug() << "Ladattu " << lista.count() << " asetusta ";
+    // Ladataan kielet
+    kieliMap_ = QJsonDocument::fromJson( asetus("kielet").toUtf8() ).toVariant().toMap();
+    kielet_ = kieliMap_.keys();
+
 }
 
 std::map<int,QString> AsetusModel::avaimet__ = {
-    { ALV, "AlvVelvollinen" }
+    { ALV, "AlvVelvollinen" },
+    { ERISARJAAN, "erisarjaan"},
+    { KATEISSARJAAN, "kateissarjaan"}
 };

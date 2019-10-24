@@ -43,11 +43,7 @@
 
 #include "aloitussivu.h"
 #include "db/kirjanpito.h"
-#include "uusikp/uusikirjanpito.h"
 #include "alv/alvsivu.h"
-
-#include "uusikp/paivitakirjanpito.h"
-
 #include "versio.h"
 #include "pilvi/pilvimodel.h"
 #include "pilvi/pilvilogindlg.h"
@@ -67,16 +63,20 @@ AloitusSivu::AloitusSivu() :
     ui = new Ui::Aloitus;
     ui->setupUi(this);
 
+    // Tässä julkaisussa pilvi ei käytössä
+    ui->tkpilviTab->setTabEnabled(1, false);
+
     ui->selain->setOpenLinks(false);
 
     connect( ui->uusiNappi, &QPushButton::clicked, this, &AloitusSivu::uusiTietokanta);
     connect( ui->avaaNappi, &QPushButton::clicked, this, &AloitusSivu::avaaTietokanta);
     connect( ui->tietojaNappi, SIGNAL(clicked(bool)), this, SLOT(abouttiarallaa()));
-//    connect( ui->viimeiset, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(viimeisinTietokanta(QListWidgetItem*)));
     connect( ui->tilikausiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(siirrySivulle()));
     connect(ui->varmistaNappi, &QPushButton::clicked, this, &AloitusSivu::varmuuskopioi);
     connect(ui->muistiinpanotNappi, &QPushButton::clicked, this, &AloitusSivu::muistiinpanot);
     connect(ui->poistaNappi, &QPushButton::clicked, this, &AloitusSivu::poistaListalta);
+
+    connect( ui->tilikausiCombo, &QComboBox::currentTextChanged, this, &AloitusSivu::haeSaldot);
 
     connect( ui->selain, SIGNAL(anchorClicked(QUrl)), this, SLOT(linkki(QUrl)));
 
@@ -125,6 +125,12 @@ AloitusSivu::~AloitusSivu()
 
 void AloitusSivu::siirrySivulle()
 {
+
+    if( ui->tilikausiCombo->currentIndex() < 0)
+        ui->tilikausiCombo->setCurrentIndex( kp()->tilikaudet()->indeksiPaivalle( QDate::currentDate() ) );
+    if( ui->tilikausiCombo->currentIndex() < 0)
+        ui->tilikausiCombo->setCurrentIndex( ui->tilikausiCombo->count()-1 );
+
     if( !sivulla )
     {
         connect( kp(), &Kirjanpito::kirjanpitoaMuokattu, this, &AloitusSivu::siirrySivulle);
@@ -143,7 +149,7 @@ void AloitusSivu::siirrySivulle()
         if( kp()->asetukset()->onko("EkaTositeKirjattu") )
             txt.append(summat());
         else
-            txt.append("<p><img src=qrc:/pic/aboutpossu.png></p>");
+            txt.append("<p><img src=qrc:/pic/kitsas150.png></p>");
 
         ui->selain->setHtml(txt);
     }
@@ -172,20 +178,17 @@ void AloitusSivu::kirjanpitoVaihtui()
 {
     bool avoinna = kp()->yhteysModel();
 
-    ui->nimiLabel->setVisible(avoinna);
-    ui->tilikausiCombo->setVisible(avoinna);
+    ui->nimiLabel->setVisible(avoinna && !kp()->asetukset()->onko("LogossaNimi") );
+    ui->tilikausiCombo->setVisible(avoinna );
+    ui->logoLabel->setVisible( avoinna && !kp()->logo().isNull());
     ui->varmistaNappi->setEnabled(avoinna);
     ui->muistiinpanotNappi->setEnabled(avoinna);
-    ui->poistaNappi->setVisible( kp()->onkoHarjoitus() );
-    ui->poistaNappi->setEnabled( kp()->onkoHarjoitus() );
+    ui->poistaNappi->setEnabled( avoinna );
 
     if( avoinna )
     {
         // Kirjanpito avattu
         ui->nimiLabel->setText( kp()->asetukset()->asetus("Nimi"));
-
-        if( kp()->logo().isNull())
-            ui->logoLabel->hide();
 
         ui->tilikausiCombo->setModel( kp()->tilikaudet() );
         ui->tilikausiCombo->setModelColumn( 0 );
@@ -203,10 +206,6 @@ void AloitusSivu::kirjanpitoVaihtui()
                 break;
             }
         }
-    }
-    else
-    {
-        ui->logoLabel->hide();
     }
 
     if( paivitysInfo.isEmpty())
@@ -263,26 +262,11 @@ void AloitusSivu::uusiTietokanta()
 void AloitusSivu::avaaTietokanta()
 {
     QString polku = QFileDialog::getOpenFileName(this, "Avaa kirjanpito",
-                                                 QDir::homePath(),"Kirjanpito (*.kitupiikki kitupiikki.sqlite)");
+                                                 QDir::homePath(),"Kirjanpito (*.kitsas)");
     if( !polku.isEmpty())
         kp()->sqlite()->avaaTiedosto( polku );
 
 }
-
-/*
-void AloitusSivu::viimeisinTietokanta(QListWidgetItem *item)
-{
-    QString polku = item->data(Qt::UserRole).toString();
-    if( !kp()->portableDir().isEmpty())
-    {
-        QDir portableDir( kp()->portableDir());
-        polku = QDir::cleanPath( portableDir.absoluteFilePath(polku) );
-    }
-
-    Kirjanpito::db()->avaaTietokanta( polku );
-}
-*/
-
 
 void AloitusSivu::abouttiarallaa()
 {
@@ -318,21 +302,22 @@ void AloitusSivu::infoSaapui(QNetworkReply *reply)
 
 void AloitusSivu::varmuuskopioi()
 {
-    QFileInfo info(kp()->tiedostopolku());
-    QString polku = QString("%1/%2-%3.kitupiikki")
+    QString tiedosto = kp()->sqlite()->tiedostopolku();
+    QFileInfo info(tiedosto);
+    QString polku = QString("%1/%2-%3.kitsas")
             .arg(QDir::homePath())
             .arg(info.baseName())
             .arg( QDate::currentDate().toString("yyMMdd"));
 
-    QString tiedostoon = QFileDialog::getSaveFileName(this, tr("Varmuuskopioi kirjanpito"), polku, tr("Kirjanpito (*.kitupiikki)") );
-    if( tiedostoon == kp()->tiedostopolku())
+    QString tiedostoon = QFileDialog::getSaveFileName(this, tr("Varmuuskopioi kirjanpito"), polku, tr("Kirjanpito (*.kitsas)") );
+    if( tiedostoon == tiedosto)
     {
         QMessageBox::critical(this, tr("Virhe"), tr("Tiedostoa ei saa kopioida itsensä päälle!"));
         return;
     }
     if( !tiedostoon.isEmpty() )
     {
-        QFile kirjanpito( kp()->tiedostopolku());
+        QFile kirjanpito( tiedosto);
         if( kirjanpito.copy(tiedostoon) )
             QMessageBox::information(this, kp()->asetukset()->asetus("Nimi"), tr("Kirjanpidon varmuuskopiointi onnistui."));
         else
@@ -362,7 +347,7 @@ void AloitusSivu::poistaListalta()
                               QMessageBox::Yes | QMessageBox::No, QMessageBox::No) != QMessageBox::Yes)
         return;
 
-    ui->poistaNappi->hide();
+    kp()->sqlite()->poistaListalta( kp()->sqlite()->tiedostopolku() );
 }
 
 void AloitusSivu::pyydaInfo()
@@ -397,6 +382,13 @@ void AloitusSivu::pyydaInfo()
         paivitysInfo.clear();
 }
 
+void AloitusSivu::saldotSaapuu(QVariant *data)
+{
+    saldot_ = data->toMap();
+    siirrySivulle();
+
+}
+
 QDate AloitusSivu::buildDate()
 {
     QString koostepaiva(__DATE__);      // Tämä päivittyy aina versio.h:ta muutettaessa
@@ -410,7 +402,6 @@ void AloitusSivu::pilviLogin()
 
 void AloitusSivu::kirjauduttu()
 {
-    qDebug() << " Kirjauduttu " << kp()->pilvi()->kayttajaNimi();
 
     ui->salaEdit->clear();
     ui->pilviPino->setCurrentIndex(LISTA);
@@ -523,10 +514,19 @@ void AloitusSivu::logoMuuttui()
     ui->logoLabel->show();
 }
 
+void AloitusSivu::haeSaldot()
+{
+    QDate saldopaiva = ui->tilikausiCombo->currentData(TilikausiModel::PaattyyRooli).toDate();
+    KpKysely *kysely = kpk("/saldot");
+    kysely->lisaaAttribuutti("pvm", saldopaiva);
+    connect( kysely, &KpKysely::vastaus, this, &AloitusSivu::saldotSaapuu);
+    kysely->kysy();
+}
+
 QString AloitusSivu::vinkit()
 {
     QString vinkki;
-
+/*
     QString tkpaivitys = PaivitaKirjanpito::sisainenPaivitys();
     if( !tkpaivitys.isEmpty())
     {
@@ -534,7 +534,7 @@ QString AloitusSivu::vinkit()
                          "</td></tr></table>").arg(tkpaivitys) );
 
     }
-
+*/
 
     // Ensin tietokannan alkutoimiin
     if( !kp()->asetukset()->onko("EkaTositeKirjattu") )
@@ -644,90 +644,31 @@ QString AloitusSivu::summat()
     QString txt;
 
     Tilikausi tilikausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->tilikausiCombo->currentIndex() );
-
     txt.append(tr("<p><h2 class=kausi>Tilikausi %1 - %2 </h1>").arg(tilikausi.alkaa().toString("dd.MM.yyyy"))
              .arg(tilikausi.paattyy().toString("dd.MM.yyyy")));
 
+
     txt.append("<table width=100%>");
 
-    QSqlQuery kysely;
+    QMapIterator<QString,QVariant> iter(saldot_);
+    while( iter.hasNext()) {
+        iter.next();
+        int tilinumero = iter.key().toInt();
+        double saldo = iter.value().toDouble();
+        Tili *tili = kp()->tilit()->tili( tilinumero );
+        if( !tili )
+            continue;
 
-    // Rahavara-tilien saldot
-    txt.append( summa(tr("Rahavarat"), R"(tili.tyyppi LIKE "AR%")", tilikausi, false  ).first );
+        txt.append( QString("<tr><td><a href=\"selaa:%1\">%2</a></td><td class=euro>%L3 €</td></tr>")
+                    .arg(tilinumero)
+                    .arg(tili->nimiNumero())
+                    .arg(saldo,0,'f',2) );
 
-    txt.append( summa(tr("Saatavat"), R"((tili.tyyppi="AS" OR tili.tyyppi="AO" or tili.tyyppi="AL" or tili.tyyppi="ALM" or tili.tyyppi="AV"))", tilikausi, false  ).first );
-
-    txt.append( summa(tr("Velat"), R"((tili.tyyppi="BS" OR tili.tyyppi="BO" or tili.tyyppi="BL" or tili.tyyppi="BLM" or tili.tyyppi="BV"))", tilikausi, true  ).first );
-
-
-    // Sitten tulot
-    QPair<QString,qlonglong> tulopari = summa( tr("Tulot"), R"(tili.tyyppi LIKE "C%")", tilikausi, true, true);
-    txt.append(tulopari.first);
-    qlonglong ylijaama = tulopari.second;
-
-
-    // ja menot
-    QPair<QString,qlonglong> menopari = summa( tr("Menot"), R"(tili.tyyppi LIKE "D%")", tilikausi, false, true);
-    txt.append(menopari.first);
-    ylijaama -= menopari.second;
-
-
-
-    // Yli/alijäämä
-    txt.append( tr("<tr class=kokosumma><td>Yli/alijäämä</td><td class=euro> %L1 €</td></tr></table>").arg(( (1.0 * ylijaama ) / 100), 0,'f',2 )) ;
-
-    txt.append("</table><p>&nbsp;</p><table width=100%>");
-
-    // Kohdennukset
-    txt.append("<tr><td class=otsikko>Kohdennukset</td><th>Tuloa</th><th>Menoa</th><th>Yli/alijäämä</th></tr>");
-
-    kysely.exec( QString("select kohdennus.nimi, sum(kreditsnt), sum(debetsnt) from vienti, kohdennus, tili "
-                         " where pvm between '%1' and '%2' and vienti.tili=tili.id and vienti.kohdennus=kohdennus.id and tili.ysiluku >= 300000000 "
-                         " group by kohdennus.id order by kohdennus.id")
-                 .arg(tilikausi.alkaa().toString(Qt::ISODate)  )
-                 .arg(tilikausi.paattyy().toString(Qt::ISODate)));
-
-    while(kysely.next())
-    {
-        txt.append(QString("<tr><td>%1</td><td class=euro>%L2 €</td><td class=euro>%L3 €</td><td class=euro>%L4 €</td></tr>")
-                   .arg( kysely.value(0).toString())
-                   .arg( (1.0 * kysely.value(1).toInt() ) / 100,0,'f',2 )
-                   .arg( (1.0 * kysely.value(2).toInt() ) / 100,0,'f',2 )
-                   .arg( (1.0 * (kysely.value(1).toInt() - kysely.value(2).toInt())) / 100,0,'f',2 ));
     }
     txt.append("</table>");
 
-
     return txt;
 
-}
-
-QPair<QString, qlonglong> AloitusSivu::summa(const QString &otsikko, const QString &tyyppikysely, const Tilikausi &tilikausi, bool kreditplus, bool vali)
-{
-    QString txt = "<tr><td colspan=2 class=otsikko>" + otsikko +"</td></tr>";
-    QSqlQuery kysely;
-
-    if( vali )
-        kysely.exec(QString("select nro, nimi, sum(debetsnt), sum(kreditsnt) from vienti,tili where vienti.tili=tili.id and %3 and vienti.pvm"
-                        " BETWEEN \"%1\" AND \"%2\" group by nro")
-                .arg(tilikausi.alkaa().toString(Qt::ISODate)).arg(tilikausi.paattyy().toString(Qt::ISODate)).arg(tyyppikysely));
-    else
-        kysely.exec(QString("select nro, nimi, sum(debetsnt), sum(kreditsnt) from vienti,tili where vienti.tili=tili.id and %2 and vienti.pvm"
-                        "<= \"%1\" group by nro")
-                .arg(tilikausi.paattyy().toString(Qt::ISODate)).arg(tyyppikysely));
-
-    qlonglong saldosumma = 0;
-    while( kysely.next())
-    {
-        qlonglong saldosnt =  kreditplus ?  kysely.value(3).toLongLong()-kysely.value(2).toLongLong() :  kysely.value(2).toLongLong() - kysely.value(3).toLongLong();
-        saldosumma += saldosnt;
-        txt.append( tr("<tr><td><a href=\"selaa:%1\">%1 %2</a></td><td class=euro>%L3 €</td></tr>").arg(kysely.value(0).toInt())
-                                                           .arg(kysely.value(1).toString())
-                                                           .arg( (1.0 *  saldosnt ) / 100,0,'f',2 ) );
-    }
-    txt.append( tr("<tr class=summa><td>%2 yhteensä</td><td class=euro>%L1 €</td></tr>").arg( (1.0 * saldosumma ) / 100,0,'f',2 ).arg(otsikko) );
-    txt.append("<tr><td colspan=2>&nbsp;</td></tr>");
-    return qMakePair(txt, saldosumma);
 }
 
 

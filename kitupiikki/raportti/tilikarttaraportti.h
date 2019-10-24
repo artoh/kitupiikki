@@ -20,7 +20,7 @@
 
 #include "ui_tilikarttaraportti.h"
 
-#include "raportti.h"
+#include "raporttiwidget.h"
 #include "raportinkirjoittaja.h"
 
 #include "db/kirjanpito.h"
@@ -28,27 +28,16 @@
 /**
  * @brief Tilikartan tulostava raportti
  */
-class TilikarttaRaportti : public Raportti
+class TilikarttaRaportti : public RaporttiWidget
 {
     Q_OBJECT
 public:
-    enum KarttaValinta
-    {
-        KAIKKI_TILIT,
-        KAYTOSSA_TILIT,
-        KIRJATUT_TILIT,
-        SUOSIKKI_TILIT
-    };
-
 
     TilikarttaRaportti();
-    ~TilikarttaRaportti();
+    ~TilikarttaRaportti() override;
 
-
-    RaportinKirjoittaja raportti();
-
-    static RaportinKirjoittaja kirjoitaRaportti(KarttaValinta valinta, const Tilikausi &tilikaudelta, bool otsikot,
-                             bool tulostatyypi, QDate saldopvm, bool kirjausohjeet);
+public slots:
+    void esikatsele() override;
 
 protected slots:
     /**

@@ -70,6 +70,9 @@ public slots:
      */
     void pyydaInfo();
 
+protected slots:
+    void saldotSaapuu(QVariant* data);
+
 private slots:
     void pilviLogin();
     void kirjauduttu();
@@ -81,6 +84,7 @@ private slots:
     void rekisterointiLahti();
     void pilviLogout();
     void logoMuuttui();
+    void haeSaldot();
 
 signals:
     void selaus(int tilinumero, Tilikausi tilikausi);
@@ -90,10 +94,7 @@ protected:
     QString vinkit();
     QString summat();
 
-    QPair<QString,qlonglong> summa(const QString& otsikko, const QString& tyyppikysely, const Tilikausi& tilikausi, bool kreditplus = false, bool vali=false);
 
-    void saldot();
-    void paivitaTiedostoLista();
 
     /**
      * @brief palvelimelta (kitupiikki.arkku.net) haettu tiedote uusista päivityksista tms.
@@ -108,6 +109,7 @@ protected:
     Ui::Aloitus *ui;
     bool sivulla = false;
     bool kelpoEmail_=false;
+    QVariantMap saldot_;
 };
 
 #endif // ALOITUSSIVU_H

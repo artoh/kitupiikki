@@ -18,24 +18,18 @@
 #ifndef PAAKIRJARAPORTTI_H
 #define PAAKIRJARAPORTTI_H
 
-#include "raportti.h"
+#include "raporttiwidget.h"
 #include "ui_paivakirja.h"
 
 /**
  * @brief Pääkirjan tulostava raportti
  */
-class PaakirjaRaportti : public Raportti
+class PaakirjaRaportti : public RaporttiWidget
 {
     Q_OBJECT
 public:
     PaakirjaRaportti();
 
-    RaportinKirjoittaja raportti() override;
-
-    static RaportinKirjoittaja kirjoitaRaportti( QDate mista, QDate mihin, int kohdennuksella = -1,
-                                                 bool tulostakohdennus = false,
-                                                 bool tulostaSummarivi = true,
-                                                 int tililta = 0);
 public slots:
     void haeTilitComboon();
 

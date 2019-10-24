@@ -68,8 +68,6 @@ QVariant BudjettiRoute::put(const QString &polku, const QVariant &data)
     QVariantMap map = data.toMap();
     QMapIterator<QString,QVariant> paaIter(map);
 
-    qDebug() << map;
-
     while( paaIter.hasNext()) {
         paaIter.next();
         QVariantMap alimap = paaIter.value().toMap();

@@ -18,6 +18,7 @@
 #define TILIKAUDETROUTE_H
 
 #include "../sqliteroute.h"
+#include "db/tilikausi.h"
 
 class TilikaudetRoute : public SQLiteRoute
 {
@@ -28,6 +29,8 @@ public:
     QVariant put(const QString &polku, const QVariant &data) override;
     QVariant doDelete(const QString &polku) override;
 
+protected:
+    QVariant laskelma(const Tilikausi& kausi);
 };
 
 #endif // TILIKAUDETROUTE_H

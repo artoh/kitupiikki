@@ -50,13 +50,6 @@ public:
     static QDate teeAlvIlmoitus(QDate alkupvm, QDate loppupvm);
 
 private:
-    /**
-     * @brief Varsinainen alv-ilmoituksen teko
-     * @param alkupvm
-     * @param loppupvm
-     * @return
-     */
-    bool alvIlmoitus(QDate alkupvm, QDate loppupvm);
 
     Ui::AlvIlmoitusDialog *ui;
     RaportinKirjoittaja *kirjoittaja;
@@ -73,12 +66,6 @@ private:
      */
     void luku(const QString& nimike, qlonglong senttia, bool viiva = false);
 
-    /**
-     * @brief Tekee erääntyneen maksuperusteisen alvin tilitykset
-     * @param paivayksesta Päiväys, jota vanhemmat erääntyneitä
-     * @return false, jos peruttiin
-     */
-    bool maksuperusteisenTilitys(const QDate& paivayksesta, const QDate &tilityspvm);
 
 public slots:
     void naytaLaskelma(RaportinKirjoittaja rk);

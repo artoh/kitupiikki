@@ -281,8 +281,6 @@ void AlvLaskelma::laske(const QDate &alkupvm, const QDate &loppupvm)
         if( loppupvm.addDays(1).day() != 1)
             suhteutuskuukaudet_--;
 
-        qDebug() << " Suhteutus " << huojennusalku << " - " << loppupvm << " " << suhteutuskuukaudet_;
-
         // Sitten tehdään huojennushaku
         KpKysely* kysely = kpk("/viennit");
         kysely->lisaaAttribuutti("alkupvm", huojennusalku);
@@ -295,7 +293,6 @@ void AlvLaskelma::laske(const QDate &alkupvm, const QDate &loppupvm)
 
 void AlvLaskelma::viennitSaapuu(QVariant *viennit)
 {
-    qDebug() << viennit->toList().count() << " vientiä ";
 
     taulu_.koodit.clear();
 
@@ -338,11 +335,9 @@ void AlvLaskelma::laskeHuojennus(QVariant *viennit)
                     alvkoodi == AlvKoodi::ALV0 ||
                     alvkoodi == AlvKoodi::RAKENNUSPALVELU_MYYNTI) {
                 liikevaihto_ += kredit - debet;
-                qDebug() << " Liikevaihtoon " << kredit - debet;
             } else if( alvkoodi == AlvKoodi::MYYNNIT_BRUTTO) {
                 qlonglong brutto = kredit - debet;
                 qlonglong netto = qRound( ( 100 * brutto / (100 + vienti.alvProsentti()) )) ;
-                qDebug() << " bruttomyynti " << brutto << " n " << netto;
                 liikevaihto_ += netto;
                 verohuojennukseen_ += brutto - netto;
             } else if( alvkoodi == AlvKoodi::OSTOT_BRUTTO) {
@@ -354,11 +349,9 @@ void AlvLaskelma::laskeHuojennus(QVariant *viennit)
             // Tämä on maksettava vero
             if( alvkoodi == AlvKoodi::MYYNNIT_NETTO + AlvKoodi::ALVKIRJAUS) {
                 verohuojennukseen_ += kredit - debet;
-                qDebug() << "Veroa " << kredit - debet;
             }
         } else if( alvkoodi > 200 && alvkoodi < 300) {
             verohuojennukseen_ -= debet - kredit;
-            qDebug() << " Vähennys " << debet - kredit;
         }
     }
 
@@ -401,7 +394,7 @@ void AlvLaskelma::tallenna()
                      .arg(loppupvm_.toString("dd.MM.yyyy")));
     tosite_->setData( Tosite::TYYPPI, TositeTyyppi::ALVLASKELMA  );
 
-    tosite_->liitteet()->lisaa( rk.pdf(), "alv.pdf" );
+    tosite_->liitteet()->lisaa( rk.pdf(), "alv" );
 
     QVariantMap lisat;
     QVariantMap koodit;

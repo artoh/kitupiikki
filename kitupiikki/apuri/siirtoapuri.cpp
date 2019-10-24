@@ -64,6 +64,7 @@ bool SiirtoApuri::teeTositteelle()
     debet.setTili( ui->tililleEdit->valittuTilinumero());
     debet.setDebet( senttia );
     debet.set(TositeVienti::SELITE, otsikko);
+    debet.setEra( ui->tililleEraCombo->valittuEra() );
     viennit.append(debet);
 
     TositeVienti kredit;
@@ -71,6 +72,7 @@ bool SiirtoApuri::teeTositteelle()
     kredit.setTili( ui->tililtaEdit->valittuTilinumero());
     kredit.setKredit( senttia );
     kredit.set( TositeVienti::SELITE, otsikko);
+    kredit.setEra( ui->tililtaEraCombo->valittuEra());
     viennit.append(kredit);
 
     tosite()->viennit()->asetaViennit(viennit);
@@ -88,6 +90,9 @@ void SiirtoApuri::teeReset()
         ui->tililleEdit->valitseTiliNumerolla( vientilista.at(0).toMap().value("tili").toInt() );
         ui->euroEdit->setValue( vientilista.at(0).toMap().value("debet").toDouble() );
         ui->tililtaEdit->valitseTiliNumerolla( vientilista.at(1).toMap().value("tili").toInt() );
+
+        ui->tililleEraCombo->valitse( vientilista.at(0).toMap().value("era").toMap().value("id").toInt() );
+        ui->tililtaEraCombo->valitse( vientilista.at(1).toMap().value("era").toMap().value("id").toInt() );
     } else {
         ui->euroEdit->setCents(0);
         ui->tililleEdit->clear();
@@ -95,6 +100,16 @@ void SiirtoApuri::teeReset()
         tililtaMuuttui();
         tililleMuuttui();
     }
+
+}
+
+void SiirtoApuri::paivitaKateislaji()
+{
+    Tili tililta = ui->tililtaEdit->valittuTili();
+    Tili tilille = ui->tililleEdit->valittuTili();
+
+    emit tosite()->tarkastaSarja( tililta.onko(TiliLaji::KATEINEN) ||
+                                tilille.onko(TiliLaji::KATEINEN));
 
 }
 
@@ -119,6 +134,7 @@ void SiirtoApuri::tililtaMuuttui()
         ui->tililtaEraCombo->lataa( tili.numero() );
 
     tositteelle();
+    paivitaKateislaji();
 }
 
 void SiirtoApuri::tililleMuuttui()
@@ -137,6 +153,7 @@ void SiirtoApuri::tililleMuuttui()
         ui->tililleEraCombo->lataa(tili.numero());
 
     tositteelle();
+    paivitaKateislaji();
 }
 
 void SiirtoApuri::eraValittu(int /* eraId */, double avoinna)

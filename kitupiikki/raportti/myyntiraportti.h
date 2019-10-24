@@ -19,7 +19,7 @@
 #define MYYNTIRAPORTTI_H
 
 
-#include "raportti.h"
+#include "raporttiwidget.h"
 
 namespace Ui {
     class TaseErittely;
@@ -28,7 +28,7 @@ namespace Ui {
 /**
  * @brief Myyntiraportin kirjoittaminen
  */
-class MyyntiRaportti : public Raportti
+class MyyntiRaportti : public RaporttiWidget
 {
 public:
     MyyntiRaportti();

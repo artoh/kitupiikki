@@ -79,14 +79,20 @@ public:
     QDate jaksoloppuu(int rivi) const;
 
 
-    int lisaaRivi();
+    int lisaaRivi(int vientiid = 0);
     void poistaRivi(int rivi);
 
+    int vientiId(int rivi) const;
+
+    int poistoaika(int rivi) const;
+    void setPoistoaika(int rivi, int kuukautta);
 
 
 private:
 
     struct Rivi {
+        Rivi(int id);
+
         int tilinumero;
         qlonglong maara = 0;
         qlonglong netto = 0;
@@ -98,6 +104,8 @@ private:
         QVariantList merkkaukset;
         QDate jaksoalkaa;
         QDate jaksoloppuu;
+        int vientiid = 0;
+        int poistoaika = 0;
     };
 
     QList<Rivi> rivit_;

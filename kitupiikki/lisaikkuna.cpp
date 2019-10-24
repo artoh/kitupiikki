@@ -40,7 +40,7 @@ LisaIkkuna::~LisaIkkuna()
     kp()->settings()->setValue("LisaIkkuna", saveGeometry());
 }
 
-KirjausSivu* LisaIkkuna::kirjaa(int tositeId)
+KirjausSivu* LisaIkkuna::kirjaa(int tositeId, int tyyppi)
 {
     KirjausSivu *sivu = new KirjausSivu(nullptr);
     setCentralWidget( sivu );

@@ -20,10 +20,13 @@
 
 #include "db/kirjanpito.h"
 
-KohdennusDialog::KohdennusDialog(KohdennusModel *model, QModelIndex index, QWidget *parent)
+#include <QListWidgetItem>
+
+#include <QSortFilterProxyModel>
+
+KohdennusDialog::KohdennusDialog(int index, QWidget *parent)
     : QDialog(parent),
      ui(new Ui::KohdennusDialog),
-     model_(model),
      index_(index)
 
 {
@@ -39,8 +42,28 @@ KohdennusDialog::KohdennusDialog(KohdennusModel *model, QModelIndex index, QWidg
 
     connect( ui->alkaaDate, SIGNAL(dateChanged(QDate)), this, SLOT(tarkennaLoppuMinimi()));
 
-    if( index.isValid())
+    if( index_ > -1)
         lataa();
+    else {
+        for(QString kieli : kp()->asetukset()->kielet() ) {
+            QListWidgetItem* item = new QListWidgetItem( lippu(kieli), "" , ui->nimiList);
+            item->setData(Qt::UserRole, kieli);
+            item->setFlags( Qt::ItemIsEnabled | Qt::ItemIsEditable);
+        }
+
+    }
+
+    QSortFilterProxyModel *proxy = new QSortFilterProxyModel(this);
+    proxy->setSourceModel(kp()->kohdennukset());
+    proxy->setFilterRole(KohdennusModel::TyyppiRooli);
+    proxy->setFilterRegExp("[01]");
+    proxy->setSortRole(KohdennusModel::NimiRooli);
+    ui->kustannuspaikkaCombo->setModel(proxy);
+
+    tyyppiMuuttuu();
+    connect( ui->kustannuspaikkaRadio, &QRadioButton::clicked, this, &KohdennusDialog::tyyppiMuuttuu );
+    connect( ui->projektiRadio, &QRadioButton::clicked, this, &KohdennusDialog::tyyppiMuuttuu );
+    connect( ui->tagRadio, &QRadioButton::clicked, this, &KohdennusDialog::tyyppiMuuttuu );
 }
 
 KohdennusDialog::~KohdennusDialog()
@@ -57,9 +80,14 @@ void KohdennusDialog::tarkennaLoppuMinimi()
     }
 }
 
+void KohdennusDialog::tyyppiMuuttuu()
+{
+    ui->kustannuspaikkaLabel->setVisible( ui->projektiRadio->isChecked() );
+    ui->kustannuspaikkaCombo->setVisible( ui->projektiRadio->isChecked() );
+}
+
 void KohdennusDialog::accept()
 {
-    if( !ui->nimiEdit->text().isEmpty())
     {
         tallenna();
         QDialog::accept();
@@ -68,15 +96,24 @@ void KohdennusDialog::accept()
 
 void KohdennusDialog::lataa()
 {
-    ui->kustannuspaikkaRadio->setChecked( index_.data(KohdennusModel::TyyppiRooli).toInt() == Kohdennus::KUSTANNUSPAIKKA);
-    ui->projektiRadio->setChecked(index_.data(KohdennusModel::TyyppiRooli).toInt() == Kohdennus::PROJEKTI );
-    ui->tagRadio->setChecked(index_.data(KohdennusModel::TyyppiRooli).toInt() == Kohdennus::MERKKAUS );
+    Kohdennus* kohdennus = kp()->kohdennukset()->pkohdennus(index_);
 
-    ui->nimiEdit->setText( index_.data(KohdennusModel::NimiRooli).toString());
+    ui->kustannuspaikkaRadio->setChecked( kohdennus->tyyppi() == Kohdennus::KUSTANNUSPAIKKA);
+    ui->projektiRadio->setChecked(kohdennus->tyyppi() == Kohdennus::PROJEKTI );
+    ui->tagRadio->setChecked(kohdennus->tyyppi() == Kohdennus::MERKKAUS );
 
-    ui->maaraaikainenCheck->setChecked( index_.data(KohdennusModel::AlkaaRooli ).toDate().isValid() );
-    ui->alkaaDate->setDate( index_.data(KohdennusModel::AlkaaRooli).toDate());
-    ui->paattyyDate->setDate( index_.data(KohdennusModel::PaattyyRooli).toDate());
+    for(QString kieli : kp()->asetukset()->kielet() ) {
+        QListWidgetItem* item = new QListWidgetItem( lippu(kieli), kohdennus->kaannos(kieli) , ui->nimiList );
+        item->setData(Qt::UserRole, kieli);
+        item->setFlags( Qt::ItemIsEnabled | Qt::ItemIsEditable);
+    }
+
+    ui->maaraaikainenCheck->setChecked( kohdennus->alkaa().isValid() );
+    ui->alkaaDate->setDate( kohdennus->alkaa());
+    ui->paattyyDate->setDate( kohdennus->paattyy());
+
+    if( ui->tagRadio->isChecked())
+        ui->kustannuspaikkaCombo->setCurrentIndex( ui->kustannuspaikkaCombo->findData( kohdennus->kuuluu(), KohdennusModel::IdRooli ) );
 }
 
 void KohdennusDialog::tallenna()
@@ -89,37 +126,19 @@ void KohdennusDialog::tallenna()
     else if( ui->tagRadio->isChecked())
         tyyppi = Kohdennus::MERKKAUS;
 
+    Kohdennus* kohdennus = index_ > 0 ? kp()->kohdennukset()->pkohdennus(index_) : kp()->kohdennukset()->lisaa( tyyppi );
 
-    if( index_.isValid())
-    {
-        // Päivitetään
-        model_->setData(index_, tyyppi, KohdennusModel::TyyppiRooli);
-        model_->setData(index_, ui->nimiEdit->text(), KohdennusModel::NimiRooli);
+    for(int i=0; i < ui->nimiList->count(); i++)
+        kohdennus->asetaNimi( ui->nimiList->item(i)->text(), ui->nimiList->item(i)->data(Qt::UserRole).toString() );
+    kohdennus->asetaTyyppi(tyyppi);
+    kohdennus->asetaAlkaa( ui->maaraaikainenCheck->isChecked() ? ui->alkaaDate->date() : QDate());
+    kohdennus->asetaPaattyy( ui->maaraaikainenCheck->isChecked() ? ui->paattyyDate->date() : QDate());
+    if( tyyppi == Kohdennus::PROJEKTI)
+        kohdennus->asetaKuuluu(ui->kustannuspaikkaCombo->currentData(KohdennusModel::IdRooli).toInt());
 
-        if( ui->maaraaikainenCheck->isChecked())
-        {
-            model_->setData(index_, ui->alkaaDate->date(), KohdennusModel::AlkaaRooli);
-            model_->setData(index_, ui->paattyyDate->date(), KohdennusModel::PaattyyRooli);
-        }
-        else
-        {
-            model_->setData(index_, QDate(), KohdennusModel::AlkaaRooli);
-            model_->setData(index_, QDate(), KohdennusModel::PaattyyRooli);
-        }
-    }
-    else
-    {
-        // Tallennetaan uusi
-        Kohdennus uusi(tyyppi, ui->nimiEdit->text());
-        uusi.asetaId(-1);   // Merkitään uusi kohdennus
-        if( ui->maaraaikainenCheck->isChecked())
-        {
-            uusi.asetaAlkaa( ui->alkaaDate->date());
-            uusi.asetaPaattyy( ui->paattyyDate->date());
-        }
-        model_->lisaaUusi(uusi);
+    kp()->kohdennukset()->tallenna( index_ > 0 ? index_ : kp()->kohdennukset()->rowCount()-1);
 
-    }
+    QDialog::accept();
 }
 
 

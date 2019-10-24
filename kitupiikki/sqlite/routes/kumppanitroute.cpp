@@ -51,13 +51,13 @@ QVariant KumppanitRoute::get(const QString &polku, const QUrlQuery &/*urlquery*/
 
     // Menotili
     kysely.exec(QString("SELECT tili FROM Vienti WHERE tyyppi=%1 AND kumppani=%2 GROUP BY tili ORDER BY count(tili) LIMIT 1")
-                .arg(TositeVienti::OSTO).arg(kumppaniid));
+                .arg(TositeVienti::OSTO + TositeVienti::KIRJAUS).arg(kumppaniid));
     if( kysely.next())
         kumppani.insert("menotili", kysely.value(0));
 
     // Tulotili
     kysely.exec(QString("SELECT tili FROM Vienti WHERE tyyppi=%1 AND kumppani=%2 GROUP BY tili ORDER BY count(tili) LIMIT 1")
-                .arg(TositeVienti::MYYNTI).arg(kumppaniid));
+                .arg(TositeVienti::MYYNTI + TositeVienti::KIRJAUS).arg(kumppaniid));
     if( kysely.next())
         kumppani.insert("tulotili", kysely.value(0));
 

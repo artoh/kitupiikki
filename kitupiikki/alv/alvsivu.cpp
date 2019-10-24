@@ -22,12 +22,12 @@
 #include "alvsivu.h"
 #include "ui_arvonlisavero.h"
 #include "db/kirjanpito.h"
-#include "db/tositemodel.h"
 
 #include "alvilmoitusdialog.h"
 #include "alvlaskelma.h"
 
 #include "ui_maksuperusteinen.h"
+#include "model/tosite.h"
 
 #include "naytin/naytinikkuna.h"
 
@@ -121,7 +121,7 @@ void AlvSivu::naytaIlmoitus()
     // Ilmoitus on tositteen ensimmäinen liite
     int tositeId = model->data( ui->ilmoituksetView->selectionModel()->currentIndex() , AlvIlmoitustenModel::TositeIdRooli ).toInt();
 
-    NaytinIkkuna::naytaLiite(tositeId, 1);
+    NaytinIkkuna::naytaLiite(tositeId, "alv");
 
 }
 
@@ -130,23 +130,18 @@ void AlvSivu::naytaErittely()
     // Erittely on tositteen toinen liite
     int tositeId = model->data( ui->ilmoituksetView->selectionModel()->currentIndex() , AlvIlmoitustenModel::TositeIdRooli ).toInt();
 
-    NaytinIkkuna::naytaLiite(tositeId, 2);
+    NaytinIkkuna::naytaLiite(tositeId, "alv");
 }
 
 void AlvSivu::poistaIlmoitus()
 {
     int tositeId = model->data( ui->ilmoituksetView->selectionModel()->currentIndex() , AlvIlmoitustenModel::TositeIdRooli ).toInt();
 
-    TositeModel tosite(kp()->tietokanta());
-
     if( QMessageBox::question(this, tr("Alv-ilmoituksen poistaminen"), tr("Haluatko todellakin poistaa viimeisimmän alv-ilmoituksen?\n"
                                                                           "Poistamisen jälkeen sinun on laadittava uusi alv-ilmoitus."),
                               QMessageBox::Yes | QMessageBox::Cancel) == QMessageBox::Yes   )
     {
-        tosite.lataa( tositeId );
-        tosite.poista();
-        model->lataa();
-        siirrySivulle();
+        ;       // TODO Tositteen poistaminen!!!
     }
 }
 

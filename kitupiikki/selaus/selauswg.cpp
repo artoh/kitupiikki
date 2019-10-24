@@ -72,6 +72,7 @@ SelausWg::SelausWg() :
     connect( ui->valintaTab, SIGNAL(currentChanged(int)), this, SLOT(selaa(int)));
 
     connect( Kirjanpito::db(), SIGNAL(kirjanpitoaMuokattu()), this, SLOT(paivita()));
+    connect( kp(), &Kirjanpito::tilikausiAvattu, this, &SelausWg::alusta);
     connect( kp(), SIGNAL(tietokantaVaihtui()), this, SLOT(alusta()));
 
     connect( ui->alkuEdit, SIGNAL(dateChanged(QDate)), this, SLOT(alkuPvmMuuttui()));
@@ -83,7 +84,7 @@ SelausWg::SelausWg() :
     ui->selausView->horizontalHeader()->setStretchLastSection(true);
 
     connect( etsiProxy, &QSortFilterProxyModel::modelReset , this, &SelausWg::paivitaSuodattimet );
-    connect( etsiProxy, &QSortFilterProxyModel::modelReset , this, &SelausWg::paivitaSummat );
+    connect( etsiProxy, &QSortFilterProxyModel::modelReset , [this] { this->paivitaSummat(); });
 
 }
 
@@ -134,8 +135,21 @@ void SelausWg::suodata()
     if( ui->tiliCombo->currentData().toString() == "*")
         proxyModel->setFilterFixedString(QString());
     else
-        proxyModel->setFilterFixedString( ui->tiliCombo->currentText());
+        proxyModel->setFilterFixedString( ui->tiliCombo->currentText());    
     paivitaSummat();
+
+
+    // Jos haetaan tilin tapahtumia, näytetään myös tilin loppusaldo
+    QString teksti = ui->tiliCombo->currentText();
+    int numero = teksti.left(teksti.indexOf(' ')).toInt();
+
+    if( ui->valintaTab->currentIndex() == VIENNIT && numero ) {
+        KpKysely *saldokysely = kpk("/saldot");
+        saldokysely->lisaaAttribuutti("pvm",ui->loppuEdit->date());
+        saldokysely->lisaaAttribuutti("tili", numero );
+        connect( saldokysely, &KpKysely::vastaus, this, &SelausWg::paivitaSummat);
+        saldokysely->kysy();
+    }
 }
 
 void SelausWg::paivitaSuodattimet()
@@ -147,7 +161,6 @@ void SelausWg::paivitaSuodattimet()
         ui->tiliCombo->insertItem(0, QIcon(":/pic/Possu64.png"),"Kaikki tilit", QVariant("*"));
         ui->tiliCombo->insertItems(1, model->kaytetytTilit());
         ui->tiliCombo->setCurrentText(valittu);
-
     } else {
         QString valittu = ui->tiliCombo->currentText();
         ui->tiliCombo->clear();
@@ -160,7 +173,7 @@ void SelausWg::paivitaSuodattimet()
     }
 }
 
-void SelausWg::paivitaSummat()
+void SelausWg::paivitaSummat(QVariant *data)
 {
     if( ui->valintaTab->currentIndex() == VIENNIT)
     {
@@ -173,13 +186,21 @@ void SelausWg::paivitaSummat()
             kreditSumma += proxyModel->index(i, SelausModel::KREDIT).data(Qt::EditRole).toDouble();
         }
 
-        QString teksti = tr("Debet %L1 €  Kredit %L2 €")
+        if( data && data->toMap().count()) {
+            double saldo = data->toMap().first().toDouble();
+            ui->summaLabel->setText( tr("Debet %L1 €  Kredit %L2 €\nLoppusaldo %L3 €")
+                    .arg( debetSumma,0,'f',2)
+                    .arg(kreditSumma,0,'f',2)
+                    .arg(saldo,0,'f',2));
+        } else
+
+        ui->summaLabel->setText( tr("Debet %L1 €\tKredit %L2 €")
                 .arg( debetSumma,0,'f',2)
-                .arg(kreditSumma,0,'f',2);
+                .arg(kreditSumma,0,'f',2) );
 
         // Alkusaldon ja loppusaldon käsittely vaatii vielä kyselyn ;)
 
-        ui->summaLabel->setText(teksti);
+
 
 
     } else {
@@ -208,7 +229,7 @@ void SelausWg::selaa(int tilinumero, const Tilikausi& tilikausi)
     ui->alkuEdit->setDate( tilikausi.alkaa());
     ui->loppuEdit->setDate( tilikausi.paattyy());
 
-    ui->valintaTab->setCurrentIndex(1);
+    ui->valintaTab->setCurrentIndex(2);
 
 
     paivita();

@@ -22,7 +22,6 @@
 
 #include "maarityswidget.h"
 #include "ui_kohdennukset.h"
-#include "kohdennusmuokkaus.h"
 
 #include "db/kohdennusmodel.h"
 
@@ -33,12 +32,11 @@ class KohdennusMuokkaus : public MaaritysWidget
 {
     Q_OBJECT
 public:
-    KohdennusMuokkaus(QWidget *parent = 0);
-    ~KohdennusMuokkaus();
+    KohdennusMuokkaus(QWidget *parent = nullptr);
+    ~KohdennusMuokkaus() override;
 
     bool nollaa() override;
-    bool tallenna() override;
-    bool onkoMuokattu() override;
+    bool naytetaankoTallennus() override { return false;}
 
 public slots:
     void uusi();
@@ -55,7 +53,6 @@ public slots:
 
 protected:
     Ui::Kohdennukset *ui;
-    KohdennusModel *model;
     QSortFilterProxyModel *proxy;
 
 };

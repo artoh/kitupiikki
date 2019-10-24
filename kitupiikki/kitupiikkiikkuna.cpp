@@ -47,7 +47,6 @@
 #include "selaus/selauswg.h"
 #include "raportti/raporttisivu.h"
 #include "arkisto/arkistosivu.h"
-#include "uusikp/uusikirjanpito.h"
 #include "laskutus/laskusivu.h"
 #include "alv/alvsivu.h"
 
@@ -73,7 +72,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     connect(kp(), SIGNAL(perusAsetusMuuttui()), this, SLOT(kirjanpitoLadattu()));
 
     setWindowIcon(QIcon(":/pic/Possu64.png"));
-    setWindowTitle( tr("Kitupiikki %1").arg(qApp->applicationVersion()));
+    setWindowTitle( tr("Kitsas %1").arg(qApp->applicationVersion()));
 
     aloitussivu = new AloitusSivu();
     kirjaussivu =  new KirjausSivu(this);
@@ -197,9 +196,9 @@ void KitupiikkiIkkuna::kirjanpitoLadattu()
     if( kp()->yhteysModel() )
     {
         if( Kirjanpito::db()->onkoHarjoitus())
-            setWindowTitle( tr("%1 - Kitupiikki %2 [Harjoittelu]").arg(Kirjanpito::db()->asetus("Nimi")).arg( qApp->applicationVersion() ));
+            setWindowTitle( tr("%1 - Kitsas %2 [Harjoittelu]").arg(Kirjanpito::db()->asetus("Nimi")).arg( qApp->applicationVersion() ));
         else
-            setWindowTitle( tr("%1 - Kitupiikki %2").arg(Kirjanpito::db()->asetus("Nimi")).arg(qApp->applicationVersion()));
+            setWindowTitle( tr("%1 - Kitsas %2").arg(Kirjanpito::db()->asetus("Nimi")).arg(qApp->applicationVersion()));
 
         harjoitusDock->setVisible( Kirjanpito::db()->onkoHarjoitus());
 
@@ -243,19 +242,8 @@ void KitupiikkiIkkuna::uusiSelausIkkuna()
 
 void KitupiikkiIkkuna::uusiLasku()
 {
-    if( !LaskuDialogi::laskuIkkunoita() )
-    {
-        // Ei salli useampaa laskuikkunaa!
-        LaskuDialogi *dlg = new LaskuDialogi();
-        dlg->show();
-    }
-    else
-    {
-        QMessageBox::information(this, tr("Uutta laskua ei voi luoda"),
-                                 tr("Päällekkäisten viitenumeroiden välttämiseksi voit tehdä vain "
-                                    "yhden laskun kerrallaan.\n"
-                                    "Sulje avoinna oleva laskuikkuna ennen uuden laskun luomista."));
-    }
+    LaskuDialogi *dlg = new LaskuDialogi();
+    dlg->show();
 }
 
 void KitupiikkiIkkuna::aktivoiSivu(QAction *aktio)
@@ -305,7 +293,6 @@ void KitupiikkiIkkuna::ktpKasky(const QString& kasky)
     }
     else if( kasky == "paivitatilikartta")
     {
-        maarityssivu->paivitaTilikartta();
         aloitussivu->siirrySivulle();   // Päivitä aloitussivu, jotta päivitysinfo katoaa
     }
 }
@@ -427,7 +414,7 @@ void KitupiikkiIkkuna::lisaaSivut()
     else
         toolbar->setIconSize(QSize(32,32));
 
-    toolbar->setStyleSheet("QToolBar {background-color: palette(mid); spacing: 5px; }  QToolBar::separator { border: none; margin-bottom: 16px; }  QToolButton { border: 0px solid lightgray; margin-right: 0px; font-size: 8pt; width: 90%; margin-left: 3px; margin-top: 0px; border-top-left-radius: 6px; border-bottom-left-radius: 6px}  QToolButton:checked {background-color: palette(window); } QToolButton:hover { font-size: 9pt; font-weight: bold; } ");
+    toolbar->setStyleSheet("QToolBar {background-color: palette(mid); spacing: 5px; }  QToolBar::separator { border: none; margin-bottom: 16px; }  QToolButton { border: 0px solid lightgray; margin-right: 0px; width: 90%; margin-left: 3px; margin-top: 0px; border-top-left-radius: 6px; border-bottom-left-radius: 6px}  QToolButton:checked {background-color: palette(window); } QToolButton:hover { font-weight: bold; } ");
     toolbar->setMovable(false);
 
     aktioryhma = new QActionGroup(this);
@@ -438,7 +425,7 @@ void KitupiikkiIkkuna::lisaaSivut()
     lisaaSivu("Raportit",":/pic/print.png","Tulosta erilaisia raportteja","F5", TULOSTESIVU, raporttisivu);
     lisaaSivu("Tilikaudet",":/pic/kirja64.png","Tilinpäätös ja arkistot","F6", ARKISTOSIVU, arkistosivu);
     lisaaSivu("ALV", ":/pic/vero64.png", "Arvonlisäveron ilmoittaminen", "Shift+F7",ALVSIVU, alvsivu );
-    lisaaSivu("Määritykset",":/pic/ratas.png","Kirjanpitoon liittyvät määritykset","F7", MAARITYSSIVU, maarityssivu);
+    lisaaSivu("Asetukset",":/pic/ratas.png","Kirjanpitoon liittyvät määritykset","F7", MAARITYSSIVU, maarityssivu);
 
     // Possulla on tonttulakki tuomaanpäivästä loppiaiseen ;)
     if( (QDate::currentDate().month() == 12 && QDate::currentDate().day() >= 21) ||

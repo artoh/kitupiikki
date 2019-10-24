@@ -24,6 +24,8 @@
 #include "ui_tilinmuokkaus.h"
 #include "db/tilimodel.h"
 
+#include "db/kielikentta.h"
+
 /**
  * @brief Yhtä tiliä muokkaava dialogi
  */
@@ -31,7 +33,19 @@ class TilinMuokkausDialog : public QDialog
 {
     Q_OBJECT
 public:    
-    TilinMuokkausDialog(TiliModel *model, QModelIndex index = QModelIndex());
+    /**
+     * @brief Dlg tilin muokkaamiseen
+     * @param indeksi jos uusi, otsikon indeksi: muuten muokattavan indeksi
+     * @param uusi
+     */
+    enum Tila {
+        MUOKKAA,
+        UUSIOTSIKKO,
+        UUSITILI
+    };
+
+    TilinMuokkausDialog(QWidget* parent, int indeksi, Tila tila);
+
     ~TilinMuokkausDialog();
 
 protected:
@@ -44,17 +58,8 @@ protected slots:
      */
     void naytettavienPaivitys();
 
-    /**
-     * @brief Muuttaa tyyppiä numeron mukaiseksi
-     *
-     * Kun tilin numeroa on muokattu, muutetaan tilityyppi:
-     * 1 -> Vastaavaa
-     * 2 -> Vastattavaa
-     * 3 -> Tulostili
-     *
-     * @param nroteksti
-     */
-    void nroMuuttaaTyyppia(const QString& nroteksti);
+
+
     /**
      * @brief Tarkistaa, ettei numero vain ole jo käytössä
      * @param nroTekstina
@@ -62,22 +67,35 @@ protected slots:
     void tarkasta();
 
     void ibanCheck();
-
+    void numeroCheck();
     void accept();
+    void poista();
+
+    void viennitSaapuu(QVariant* data);
 
 protected:
-    /**
-     * @brief Hakee tilille tai otsikolle yläotsikon
-     * @param ysinro Haettavan tilin/otsikon ysiluku
-     * @return
-     */
-    Tili ylaotsikko(int ysinro);
+    void alustaNimet();
+    void alustaOhjeet();
+    void alustalaajuus();
+
+
+protected:
 
     Ui::tilinmuokkausDialog *ui;
     TiliModel *model_;
     QModelIndex index_;
     QSortFilterProxyModel *proxy_;
     QSortFilterProxyModel *veroproxy_;
+
+    QPushButton *poistaNappi_=nullptr;
+
+    Tila tila_;
+    Tili* vanhempi_ = nullptr;
+    Tili* tili_ = nullptr;
+    QString minNumero_;
+    QString maxnumero_;
+    int indeksi_ = -1;
+    int taso_ = 0;
 
 
 };

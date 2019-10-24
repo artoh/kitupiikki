@@ -18,13 +18,13 @@
 #ifndef LASKURAPORTTI_H
 #define LASKURAPORTTI_H
 
-#include "raportti.h"
+#include "raporttiwidget.h"
 #include "ui_laskuraportti.h"
 
 /**
  * @brief Laskujen raportointi
  */
-class LaskuRaportti : public Raportti
+class LaskuRaportti : public RaporttiWidget
 {
     Q_OBJECT
 public:

@@ -2,15 +2,20 @@ SOURCES += \
     $$PWD/alv/alvlaskelma.cpp \
     $$PWD/apuri/apuriwidget.cpp \
     $$PWD/apuri/laskutaulutilioteproxylla.cpp \
+    $$PWD/apuri/palkkaapuri.cpp \
     $$PWD/apuri/tilioteapuri.cpp \
     $$PWD/apuri/tiliotemodel.cpp \
     $$PWD/apuri/tmrivit.cpp \
     $$PWD/apuri/tulomenoapuri.cpp \
     $$PWD/apuri/siirtoapuri.cpp \
+    $$PWD/arkisto/jaksottaja.cpp \
+    $$PWD/arkistoija/arkistoija.cpp \
+    $$PWD/arkistoija/vanhaarkistoija.cpp \
     $$PWD/db/kielikentta.cpp \
     $$PWD/db/tositetyyppimodel.cpp \
     $$PWD/db/yhteysmodel.cpp \
     $$PWD/kirjaus/tallennettuwidget.cpp \
+    $$PWD/laskutus/asiakkaatmodel.cpp \
     $$PWD/laskutus/kumppanituotewidget.cpp \
     $$PWD/laskutus/laskualvcombo.cpp \
     $$PWD/laskutus/laskulistawidget.cpp \
@@ -18,6 +23,10 @@ SOURCES += \
     $$PWD/laskutus/myyntilaskujentoimittaja.cpp \
     $$PWD/laskutus/myyntilaskuntulostaja.cpp \
     $$PWD/laskutus/tuotedialogi.cpp \
+    $$PWD/maaritys/avauserakantamodel.cpp \
+    $$PWD/maaritys/avauseramodel.cpp \
+    $$PWD/maaritys/avauskohdennusmodel.cpp \
+    $$PWD/maaritys/ulkoasumaaritys.cpp \
     $$PWD/model/laskutaulumodel.cpp \
     $$PWD/model/tosite.cpp \
     $$PWD/model/tositeliitteet.cpp \
@@ -26,7 +35,10 @@ SOURCES += \
     $$PWD/model/tositevienti.cpp \
     $$PWD/raportti/paakirja.cpp \
     $$PWD/raportti/raportteri.cpp \
+    $$PWD/raportti/raporttiwidget.cpp \
+    $$PWD/raportti/taseerittelija.cpp \
     $$PWD/raportti/tasetulosraportti.cpp \
+    $$PWD/raportti/tilikarttalistaaja.cpp \
     $$PWD/raportti/tositeluettelo.cpp \
     $$PWD/rekisteri/asiakastoimittajadlg.cpp \
     $$PWD/rekisteri/asiakastoimittajalistamodel.cpp \
@@ -46,6 +58,7 @@ SOURCES += \
     $$PWD/sqlite/routes/ostolaskutroute.cpp \
     $$PWD/sqlite/routes/saldotroute.cpp \
     $$PWD/sqlite/routes/tilikaudetroute.cpp \
+    $$PWD/sqlite/routes/tilitroute.cpp \
     $$PWD/sqlite/routes/toimittajatroute.cpp \
     $$PWD/sqlite/routes/tositeroute.cpp \
     $$PWD/sqlite/routes/tuotteetroute.cpp \
@@ -62,6 +75,7 @@ SOURCES += \
     $$PWD/tuonti/tuonti.cpp \
     $$PWD/tuonti/vanhatuonti.cpp \
     $$PWD/uusikirjanpito/sijaintisivu.cpp \
+    $$PWD/uusikirjanpito/tiedotsivu.cpp \
     $$PWD/uusikirjanpito/tilikausisivu.cpp \
     $$PWD/uusikirjanpito/uusialkusivu.cpp \
     $$PWD/uusikirjanpito/uusivelho.cpp \
@@ -79,25 +93,18 @@ SOURCES += \
     db/tilikausi.cpp \
     selaus/selausmodel.cpp \
     raportti/raporttisivu.cpp \
-    raportti/raportti.cpp \
     raportti/paivakirjaraportti.cpp \
     maaritys/tilinavaus.cpp \
     maaritys/tilinavausmodel.cpp \
     kirjaus/pvmdelegaatti.cpp \
-    maaritys/tositelajit.cpp \
-    db/tositelajimodel.cpp \
     db/asetusmodel.cpp \
     db/tilimodel.cpp \
     db/kohdennusmodel.cpp \
     db/kohdennus.cpp \
-    db/tositelaji.cpp \
     db/tilikausimodel.cpp \
     kitupiikkisivu.cpp \
     raportti/raportinkirjoittaja.cpp \
     raportti/raporttirivi.cpp \
-    db/tositemodel.cpp \
-    db/vientimodel.cpp \
-    db/liitemodel.cpp \
     db/jsonkentta.cpp \
     kirjaus/naytaliitewg.cpp \
     maaritys/tilikarttamuokkaus.cpp \
@@ -106,24 +113,16 @@ SOURCES += \
     maaritys/tilinmuokkausdialog.cpp \
     maaritys/kohdennusmuokkaus.cpp \
     maaritys/kohdennusdialog.cpp \
-    maaritys/tositelajidialogi.cpp \
-    kirjaus/kirjausapuridialog.cpp \
     db/verotyyppimodel.cpp \
     kirjaus/kohdennusdelegaatti.cpp \
     maaritys/raporttimuokkaus.cpp \
     maaritys/raportinkorostin.cpp \
     raportti/muokattavaraportti.cpp \
-    ktpvienti/ktpintro.cpp \
-    ktpvienti/ktpperustiedot.cpp \
-    ktpvienti/ktpkuvaus.cpp \
-    ktpvienti/ktpaloitusteksti.cpp \
-    ktpvienti/ktpvienti.cpp \
     onniwidget.cpp \
     raportti/raportoija.cpp \
     raportti/paakirjaraportti.cpp \
     raportti/tilikarttaraportti.cpp \
     selaus/tositeselausmodel.cpp \
-    arkistoija/arkistoija.cpp \
     raportti/tositeluetteloraportti.cpp \
     tilinpaatoseditori/tilinpaatoseditori.cpp \
     tilinpaatoseditori/tilinpaatostulostaja.cpp \
@@ -133,21 +132,14 @@ SOURCES += \
     tilinpaatoseditori/mrichtexteditor/mtextedit.cpp \
     arkisto/arkistosivu.cpp \
     maaritys/maarityswidget.cpp \
-    kirjaus/ehdotusmodel.cpp \
     db/eranvalintamodel.cpp \
     kirjaus/verodialogi.cpp \
     db/tilityyppimodel.cpp \
-    kirjaus/taseeravalintadialogi.cpp \
-    laskutus/laskumodel.cpp \
     laskutus/laskudialogi.cpp \
-    laskutus/laskuntulostaja.cpp \
     laskutus/laskutusverodelegaatti.cpp \
-    maaritys/laskuvalintawidget.cpp \
     laskutus/tuotemodel.cpp \
     laskutus/smtp.cpp \
     maaritys/emailmaaritys.cpp \
-    laskutus/laskunmaksudialogi.cpp \
-    laskutus/laskutmodel.cpp \
     raportti/taseerittely.cpp \
     arkisto/tilinpaattaja.cpp \
     arkisto/poistaja.cpp \
@@ -164,22 +156,17 @@ SOURCES += \
     tuonti/csvtuonti.cpp \
     tuonti/tuontisarakedelegaatti.cpp \
     tuonti/tilimuuntomodel.cpp \
-    uusikp/skripti.cpp \
     tools/devtool.cpp \
     lisaikkuna.cpp \
-    kirjaus/apurivinkki.cpp \
     laskutus/nayukiQR/BitBuffer.cpp \
     laskutus/nayukiQR/QrCode.cpp \
     laskutus/nayukiQR/QrSegment.cpp \
     tuonti/titotuonti.cpp \
     kirjaus/siirrydlg.cpp \
-    laskutus/ostolaskutmodel.cpp \
     tools/kpdateedit.cpp \
     tuonti/palkkafituonti.cpp \
-    raportti/alverittely.cpp \
     raportti/myyntiraportti.cpp \
     validator/ytunnusvalidator.cpp \
-    laskutus/asiakkaatmodel.cpp \
     laskutus/laskusivu.cpp \
     laskutus/yhteystietowidget.cpp \
     naytin/naytinview.cpp \
@@ -190,11 +177,6 @@ SOURCES += \
     arkisto/budjettimodel.cpp \
     arkisto/budjettidlg.cpp \
     arkisto/budjettikohdennusproxy.cpp \
-    laskutus/laskuryhmamodel.cpp \
-    laskutus/ryhmaasiakasproxy.cpp \
-    laskutus/ryhmantuontidlg.cpp \
-    laskutus/ryhmantuontimodel.cpp \
-    laskutus/finvoice.cpp \
     maaritys/finvoicemaaritys.cpp \
     raportti/budjettivertailu.cpp \
     alv/alvilmoitusdialog.cpp \
@@ -215,8 +197,6 @@ SOURCES += \
     naytin/eipdfnaytin.cpp \
     tuonti/tuontiapu.cpp \
     kirjaus/viennitview.cpp \
-    kirjaus/edellinenseuraavatieto.cpp \
-    kirjaus/verotarkastaja.cpp \
     db/kpkysely.cpp \
     sqlite/sqlitekysely.cpp \
     db/kantavariantti.cpp \
@@ -226,21 +206,27 @@ SOURCES += \
     pilvi/pilvilogindlg.cpp \
     sqlite/sqlitemodel.cpp \
     apuri/tiliotekirjaaja.cpp\
-    rekisteri/asiakastoimittajavalinta.cpp
+    rekisteri/asiakastoimittajavalinta.cpp \
+    maaritys/avauseradlg.cpp
 
 HEADERS += \
     $$PWD/alv/alvlaskelma.h \
     $$PWD/apuri/apuriwidget.h \
     $$PWD/apuri/laskutaulutilioteproxylla.h \
+    $$PWD/apuri/palkkaapuri.h \
     $$PWD/apuri/tilioteapuri.h \
     $$PWD/apuri/tiliotemodel.h \
     $$PWD/apuri/tmrivit.h \
     $$PWD/apuri/tulomenoapuri.h \
     $$PWD/apuri/siirtoapuri.h \
+    $$PWD/arkisto/jaksottaja.h \
+    $$PWD/arkistoija/arkistoija.h \
+    $$PWD/arkistoija/vanhaarkistoija.h \
     $$PWD/db/kielikentta.h \
     $$PWD/db/tositetyyppimodel.h \
     $$PWD/db/yhteysmodel.h \
     $$PWD/kirjaus/tallennettuwidget.h \
+    $$PWD/laskutus/asiakkaatmodel.h \
     $$PWD/laskutus/kumppanituotewidget.h \
     $$PWD/laskutus/laskualvcombo.h \
     $$PWD/laskutus/laskulistawidget.h \
@@ -248,6 +234,10 @@ HEADERS += \
     $$PWD/laskutus/myyntilaskujentoimittaja.h \
     $$PWD/laskutus/myyntilaskuntulostaja.h \
     $$PWD/laskutus/tuotedialogi.h \
+    $$PWD/maaritys/avauserakantamodel.h \
+    $$PWD/maaritys/avauseramodel.h \
+    $$PWD/maaritys/avauskohdennusmodel.h \
+    $$PWD/maaritys/ulkoasumaaritys.h \
     $$PWD/model/laskutaulumodel.h \
     $$PWD/model/tosite.h \
     $$PWD/model/tositeliitteet.h \
@@ -256,7 +246,10 @@ HEADERS += \
     $$PWD/model/tositevienti.h \
     $$PWD/raportti/paakirja.h \
     $$PWD/raportti/raportteri.h \
+    $$PWD/raportti/raporttiwidget.h \
+    $$PWD/raportti/taseerittelija.h \
     $$PWD/raportti/tasetulosraportti.h \
+    $$PWD/raportti/tilikarttalistaaja.h \
     $$PWD/raportti/tositeluettelo.h \
     $$PWD/rekisteri/asiakastoimittajadlg.h \
     $$PWD/rekisteri/asiakastoimittajalistamodel.h \
@@ -276,6 +269,7 @@ HEADERS += \
     $$PWD/sqlite/routes/ostolaskutroute.h \
     $$PWD/sqlite/routes/saldotroute.h \
     $$PWD/sqlite/routes/tilikaudetroute.h \
+    $$PWD/sqlite/routes/tilitroute.h \
     $$PWD/sqlite/routes/toimittajatroute.h \
     $$PWD/sqlite/routes/tositeroute.h \
     $$PWD/sqlite/routes/tuotteetroute.h \
@@ -292,6 +286,7 @@ HEADERS += \
     $$PWD/tuonti/tuonti.h \
     $$PWD/tuonti/vanhatuonti.h \
     $$PWD/uusikirjanpito/sijaintisivu.h \
+    $$PWD/uusikirjanpito/tiedotsivu.h \
     $$PWD/uusikirjanpito/tilikausisivu.h \
     $$PWD/uusikirjanpito/uusialkusivu.h \
     $$PWD/uusikirjanpito/uusivelho.h \
@@ -309,26 +304,19 @@ HEADERS += \
     db/tilikausi.h \
     selaus/selausmodel.h \
     raportti/raporttisivu.h \
-    raportti/raportti.h \
     raportti/paivakirjaraportti.h \
     maaritys/tilinavaus.h \
     maaritys/tilinavausmodel.h \
     kirjaus/pvmdelegaatti.h \
-    maaritys/tositelajit.h \
-    db/tositelajimodel.h \
     db/asetusmodel.h \
     db/tilimodel.h \
     db/kohdennusmodel.h \
     db/kohdennus.h \
-    db/tositelaji.h \
     db/tilikausimodel.h \
     maaritys/maarityswidget.h \
     kitupiikkisivu.h \
     raportti/raportinkirjoittaja.h \
     raportti/raporttirivi.h \
-    db/tositemodel.h \
-    db/vientimodel.h \
-    db/liitemodel.h \
     db/jsonkentta.h \
     kirjaus/naytaliitewg.h \
     maaritys/tilikarttamuokkaus.h \
@@ -337,24 +325,16 @@ HEADERS += \
     maaritys/tilinmuokkausdialog.h \
     maaritys/kohdennusmuokkaus.h \
     maaritys/kohdennusdialog.h \
-    maaritys/tositelajidialogi.h \
-    kirjaus/kirjausapuridialog.h \
     db/verotyyppimodel.h \
     kirjaus/kohdennusdelegaatti.h \
     maaritys/raporttimuokkaus.h \
     maaritys/raportinkorostin.h \
     raportti/muokattavaraportti.h \
-    ktpvienti/ktpintro.h \
-    ktpvienti/ktpperustiedot.h \
-    ktpvienti/ktpkuvaus.h \
-    ktpvienti/ktpaloitusteksti.h \
-    ktpvienti/ktpvienti.h \
     onniwidget.h \
     raportti/raportoija.h \
     raportti/paakirjaraportti.h \
     raportti/tilikarttaraportti.h \
     selaus/tositeselausmodel.h \
-    arkistoija/arkistoija.h \
     raportti/tositeluetteloraportti.h \
     tilinpaatoseditori/tilinpaatoseditori.h \
     tilinpaatoseditori/tilinpaatostulostaja.h \
@@ -363,21 +343,14 @@ HEADERS += \
     tilinpaatoseditori/mrichtexteditor/mrichtextedit.h \
     tilinpaatoseditori/mrichtexteditor/mtextedit.h \
     arkisto/arkistosivu.h \
-    kirjaus/ehdotusmodel.h \
     db/eranvalintamodel.h \
     kirjaus/verodialogi.h \
     db/tilityyppimodel.h \
-    kirjaus/taseeravalintadialogi.h \
-    laskutus/laskumodel.h \
     laskutus/laskudialogi.h \
-    laskutus/laskuntulostaja.h \
     laskutus/laskutusverodelegaatti.h \
-    maaritys/laskuvalintawidget.h \
     laskutus/tuotemodel.h \
     laskutus/smtp.h \
     maaritys/emailmaaritys.h \
-    laskutus/laskunmaksudialogi.h \
-    laskutus/laskutmodel.h \
     raportti/taseerittely.h \
     arkisto/tilinpaattaja.h \
     arkisto/poistaja.h \
@@ -394,22 +367,17 @@ HEADERS += \
     tuonti/csvtuonti.h \
     tuonti/tuontisarakedelegaatti.h \
     tuonti/tilimuuntomodel.h \
-    uusikp/skripti.h \
     tools/devtool.h \
     lisaikkuna.h \
-    kirjaus/apurivinkki.h \
     laskutus/nayukiQR/BitBuffer.hpp \
     laskutus/nayukiQR/QrCode.hpp \
     laskutus/nayukiQR/QrSegment.hpp \
     tuonti/titotuonti.h \
     kirjaus/siirrydlg.h \
-    laskutus/ostolaskutmodel.h \
     tools/kpdateedit.h \
     tuonti/palkkafituonti.h \
-    raportti/alverittely.h \
     raportti/myyntiraportti.h \
     validator/ytunnusvalidator.h \
-    laskutus/asiakkaatmodel.h \
     laskutus/laskusivu.h \
     laskutus/yhteystietowidget.h \
     naytin/naytinview.h \
@@ -420,11 +388,6 @@ HEADERS += \
     arkisto/budjettimodel.h \
     arkisto/budjettidlg.h \
     arkisto/budjettikohdennusproxy.h \
-    laskutus/laskuryhmamodel.h \
-    laskutus/ryhmaasiakasproxy.h \
-    laskutus/ryhmantuontidlg.h \
-    laskutus/ryhmantuontimodel.h \
-    laskutus/finvoice.h \
     maaritys/finvoicemaaritys.h \
     versio.h \
     raportti/budjettivertailu.h \
@@ -446,8 +409,6 @@ HEADERS += \
     naytin/eipdfnaytin.h \
     tuonti/tuontiapu.h \
     kirjaus/viennitview.h \
-    kirjaus/edellinenseuraavatieto.h \
-    kirjaus/verotarkastaja.h \
     db/kpkysely.h \
     sqlite/sqlitekysely.h \
     db/kantavariantti.h \
@@ -457,7 +418,8 @@ HEADERS += \
     pilvi/pilvilogindlg.h \
     sqlite/sqlitemodel.h \
     apuri/tiliotekirjaaja.h \
-    rekisteri/asiakastoimittajavalinta.h
+    rekisteri/asiakastoimittajavalinta.h \
+    maaritys/avauseradlg.h
 
 RESOURCES += \
     $$PWD/sqlite/sqlite.qrc \
@@ -469,6 +431,7 @@ RESOURCES += \
     laskutus/lasku.qrc
 
 FORMS += \
+    $$PWD/apuri/palkkaapuri.ui \
     $$PWD/apuri/tilioteapuri.ui \
     $$PWD/apuri/tulomenoapuri.ui \
     $$PWD/apuri/siirtoapuri.ui \
@@ -476,10 +439,12 @@ FORMS += \
     $$PWD/laskutus/kumppanituotewidget.ui \
     $$PWD/laskutus/laskulistawidget.ui \
     $$PWD/laskutus/tuotedialogi.ui \
+    $$PWD/maaritys/ulkoasumaaritys.ui \
     $$PWD/rekisteri/asiakastoimittajadlg.ui \
     $$PWD/tilaus/tilausvahvistus.ui \
     $$PWD/tilaus/tilausvalinta.ui \
     $$PWD/tilaus/tilausyhteys.ui \
+    $$PWD/uusikirjanpito/numerointi.ui \
     $$PWD/uusikirjanpito/sijainti.ui \
     $$PWD/uusikirjanpito/tilikausi.ui \
     $$PWD/uusikirjanpito/uusialoitus.ui \
@@ -499,14 +464,9 @@ FORMS += \
     db/tilinvalintadialogi.ui \
     maaritys/kohdennukset.ui \
     maaritys/kohdennusdialog.ui \
-    maaritys/tositelajidialogi.ui \
     kirjaus/kirjausapuridialog.ui \
     maaritys/raportinmuokkaus.ui \
     raportti/muokattavaraportti.ui \
-    ktpvienti/ktpintro.ui \
-    ktpvienti/ktpperustiedot.ui \
-    ktpvienti/ktpkuvaus.ui \
-    ktpvienti/ktpaloitusteksti.ui \
     onniwidget.ui \
     raportti/tilikarttaraportti.ui \
     aloitussivu/aboutdialog.ui \
@@ -555,4 +515,5 @@ FORMS += \
     alv/arvonlisavero.ui \
     pilvi/pilvilogindlg.ui \
     apuri/tiliotekirjaaja.ui \
-    uusikirjanpito/uusiharjoitus.ui
+    uusikirjanpito/uusiharjoitus.ui \
+    maaritys/avauseradlg.ui

@@ -43,6 +43,7 @@ public slots:
     void set(int id, const QString& nimi = QString());
     void clear();
     void alusta();
+    void tuonti(const QVariantMap &data);
 
 
 private slots:

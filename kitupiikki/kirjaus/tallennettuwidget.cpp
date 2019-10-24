@@ -41,7 +41,7 @@ TallennettuWidget::~TallennettuWidget()
     delete ui;
 }
 
-void TallennettuWidget::nayta(int tunnus, const QDate &paiva)
+void TallennettuWidget::nayta(int tunnus, const QDate &paiva, const QString &sarja)
 {
     timer_->start(60000);
 
@@ -50,9 +50,10 @@ void TallennettuWidget::nayta(int tunnus, const QDate &paiva)
     ui->luonnosLabel->setVisible( !tunnus );
 
     if( tunnus ) {
-        ui->tunnisteLabel->setText( QString("%1 / %2")
+        ui->tunnisteLabel->setText( QString("%3 %1 / %2")
                                 .arg(tunnus)
-                                .arg( kp()->tilikausiPaivalle(paiva).kausitunnus() ));
+                                .arg( kp()->tilikausiPaivalle(paiva).kausitunnus() )
+                                .arg(sarja));
     }
 
     setVisible(true);
@@ -62,8 +63,10 @@ void TallennettuWidget::nayta(int tunnus, const QDate &paiva)
 
 void TallennettuWidget::piiloon()
 {
-    timer_->stop();
-    hide();
+    if( timer_->remainingTime() < 59500) {
+        timer_->stop();
+        hide();
+    }
 }
 
 

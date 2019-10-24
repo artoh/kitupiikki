@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>712</width>
-    <height>723</height>
+    <width>776</width>
+    <height>510</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,11 +16,20 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QLabel" name="label">
+     <property name="minimumSize">
+      <size>
+       <width>394</width>
+       <height>150</height>
+      </size>
+     </property>
      <property name="text">
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap resource="../pic/pic.qrc">:/pic/aboutpossu.png</pixmap>
+      <pixmap resource="../pic/pic.qrc">:/pic/kitsas150.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>false</bool>
      </property>
      <property name="alignment">
       <set>Qt::AlignJustify|Qt::AlignVCenter</set>
@@ -43,7 +52,7 @@
    <item>
     <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Copyright © Arto Hyvättinen 2017 - 2019&lt;br/&gt;palaute@kitupiikki.info&lt;/p&gt;&lt;p&gt;Ohjelmaa saa käyttää, kopioida, levittää ja muokata maksutta GNU General Public License 3:n ehtojen mukaisesti, katso tarkemmin &lt;a href=&quot;https://kitupiikki.info/lisenssi&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;https://kitupiikki.info/lisenssi&lt;/span&gt;&lt;/a&gt;, jossa myös tiedot ohjelman käyttämien avoimen lähdekoodin komponenttien käyttöehdoista. &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ohjelmalla ei ole mitään takuuta!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Copyright © Arto Hyvättinen 2017 - 2019&lt;br/&gt;Copyright © Arto Hyvättinen ja Kitsas Oy 2019&lt;br/&gt;palaute@kitsas.fi&lt;/p&gt;&lt;p&gt;Ohjelmaa saa käyttää, kopioida, levittää ja muokata maksutta GNU General Public License 3:n ehtojen mukaisesti, katso tarkemmin &lt;a href=&quot;https://kitupiikki.info/lisenssi&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;https://kitupiikki.info/lisenssi&lt;/span&gt;&lt;/a&gt;, jossa myös tiedot ohjelman käyttämien avoimen lähdekoodin komponenttien käyttöehdoista. &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ohjelmalla ei ole mitään takuuta!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>

@@ -14,9 +14,9 @@ table.liiteluettelo { margin-top: 0px; border: 1px solid #505050; }
 table.liiteluettelo tr:hover { background-color: #ccc;}
 
 table.tositeotsikot { margin-top: 2em;}
-td.paiva { font-size: 16pt; width: 10em; }
-td.tositeotsikko { font-size: 16pt; }
-td.tositetunnus { font-size: 16pt; text-align: right;}
+td.paiva { width: 10em; }
+td.tositeotsikko {  }
+td.tositetunnus { text-align: right;}
 
 table.viennit { border: 1px solid #505050; }
 table.viennit th, table.viennit td { border-right: 1px solid #505050;}

@@ -15,6 +15,9 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "tositetyyppimodel.h"
+#include "db/kirjanpito.h"
+
+#include <QJsonDocument>
 
 TositeTyyppiTietue::TositeTyyppiTietue(TositeTyyppi::Tyyppi uKoodi, const QString &uNimi, const QString &uKuvake, bool uLisattavissa) :
     koodi(uKoodi), nimi( uNimi ), kuvake( QIcon( uKuvake )), lisattavissa( uLisattavissa)
@@ -27,8 +30,8 @@ TositeTyyppiTietue::TositeTyyppiTietue(TositeTyyppi::Tyyppi uKoodi, const QStrin
 TositeTyyppiModel::TositeTyyppiModel(QObject *parent)
     : QAbstractListModel (parent)
 {
-    lisaa(TositeTyyppi::MENO, tr("Menotosite"), "poista");
-    lisaa(TositeTyyppi::TULO, tr("Tulotosite"), "lisaa");
+    lisaa(TositeTyyppi::MENO, tr("Meno"), "poista");
+    lisaa(TositeTyyppi::TULO, tr("Tulo"), "lisaa");
 
     lisaa(TositeTyyppi::KULULASKU, tr("Kululasku"), "tekstisivu", true);
 
@@ -37,11 +40,11 @@ TositeTyyppiModel::TositeTyyppiModel(QObject *parent)
     lisaa(TositeTyyppi::MAKSUMUISTUTUS, tr("Maksumuistutus"), "lasku", false);
 
 
-    lisaa(TositeTyyppi::SIIRTO, tr("Rahoitustapahtuma"), "siirra");
+    lisaa(TositeTyyppi::SIIRTO, tr("Siirto"), "siirra");
     lisaa(TositeTyyppi::TILIOTE, tr("Tiliote"), "tekstisivu");
-    lisaa(TositeTyyppi::PALKKA, tr("Palkanmaksu"), "yrittaja");
-    lisaa(TositeTyyppi::MUISTIO, tr("Muistiotosite"),"kommentti");
-    lisaa(TositeTyyppi::LIITETIETO, tr("Liitetietotosite"), "liite");
+    lisaa(TositeTyyppi::PALKKA, tr("Palkka"), "yrittaja");
+    lisaa(TositeTyyppi::MUISTIO, tr("Muistio"),"kommentti");
+    lisaa(TositeTyyppi::LIITETIETO, tr("Liitetieto"), "liite");
 
     lisaa(TositeTyyppi::MUU, tr("Muu"), "tyhja");
 
@@ -85,6 +88,22 @@ QIcon TositeTyyppiModel::kuvake(int koodi) const
 bool TositeTyyppiModel::onkolisattavissa(int koodi) const
 {
     return map_.value(koodi).lisattavissa;
+}
+
+QString TositeTyyppiModel::sarja(int koodi, bool kateinen) const
+{
+    QVariantMap sarjamap = QJsonDocument::fromJson( kp()->asetukset()->asetus("tositesarjat").toUtf8() ).toVariant().toMap();
+
+    if( kateinen && kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN))
+        return sarjamap.value("K","K").toString();
+
+    if( !kp()->asetukset()->onko(AsetusModel::ERISARJAAN))
+        return QString();
+
+    if( koodi >= 1000)
+        return sarjamap.value("*","JT").toString();
+
+    return sarjamap.value( QString::number(koodi), "X" ).toString();
 }
 
 

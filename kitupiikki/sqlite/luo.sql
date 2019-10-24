@@ -9,7 +9,8 @@ CREATE TABLE Tili
 (
 	numero integer PRIMARY KEY NOT NULL,
 	tyyppi varchar(10) NOT NULL,
-	json text
+	json text,
+	muokattu TIMESTAMP
 );
 
 CREATE TABLE Otsikko
@@ -17,6 +18,7 @@ CREATE TABLE Otsikko
 	numero integer NOT NULL,
 	taso integer NOT NULL,
 	json text,
+	muokattu TIMESTAMP,
 	PRIMARY KEY (numero,taso)
 );
 
@@ -29,13 +31,15 @@ CREATE TABLE Tilikausi
 
 CREATE TABLE Kohdennus
 (
-	id serial PRIMARY KEY NOT NULL,
-	tyyppi kohdennustyyppi NOT NULL,
-	json text
+	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	tyyppi INTEGER NOT NULL,
+	kuuluu INTEGER REFERENCES Kohdennus(id) ON DELETE RESTRICT,
+	json text,
+	CHECK (tyyppi IN (0,1,2,3))
 );
 
 INSERT INTO Kohdennus (id, tyyppi, json ) VALUES
-( 0, 'oletus', '{"nimi":{"fi":"Yleinen","se":"Allmän", "en":"General"}}' );
+( 0, 0, '{"nimi":{"fi":"Yleinen","se":"Allmän", "en":"General"}}' );
 
 CREATE TABLE Budjetti
 (
@@ -51,7 +55,6 @@ CREATE TABLE Kumppani
 	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 	nimi VARCHAR(255),
 	alvtunnus VARCHAR(20),
-	ryhmat integer[],
 	json text
 );
 
@@ -61,6 +64,24 @@ CREATE TABLE KumppaniIban
 (
 	iban VARCHAR(30) PRIMARY KEY NOT NULL,
 	kumppani INTEGER REFERENCES Kumppani(id) ON DELETE CASCADE
+);
+
+INSERT INTO Kumppani(nimi,alvtunnus,json)
+	VALUES ('Verohallinto','FI02454583','{"osoite":"PL 325","postinumero":"00510","kaupunki":"VERO"}');
+
+
+CREATE TABLE Ryhma
+(
+	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	nimi VARCHAR(255),
+	json TEXT
+);
+
+CREATE TABLE KumppaniRyhmassa
+(
+	kumppani INTEGER REFERENCES Kumppani(id) ON DELETE CASCADE,
+	ryhma INTEGER REFERENCES Ryhma(id) ON DELETE CASCADE,
+	PRIMARY KEY(kumppani,ryhma)
 );
 
 CREATE TABLE Tosite

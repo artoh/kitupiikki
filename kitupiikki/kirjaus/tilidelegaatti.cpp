@@ -20,6 +20,7 @@
 #include "tilidelegaatti.h"
 
 #include "db/kirjanpito.h"
+#include "model/tositeviennit.h"
 
 TiliDelegaatti::TiliDelegaatti()
 {
@@ -35,7 +36,7 @@ QWidget *TiliDelegaatti::createEditor(QWidget *parent, const QStyleOptionViewIte
 void TiliDelegaatti::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
     TilinvalintaLineDelegaatille *tilinvalinta = qobject_cast<TilinvalintaLineDelegaatille*>(editor);
-    tilinvalinta->valitseTiliNumerolla( index.data(VientiModel::TiliNumeroRooli).toInt() );
+    tilinvalinta->valitseTiliNumerolla( index.data(TositeViennit::TiliNumeroRooli).toInt() );
 
 }
 

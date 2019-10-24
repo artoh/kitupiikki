@@ -49,9 +49,13 @@ public slots:
 private slots:
     void lukitse();
     void teePoistot();
+    void teeJaksotukset();
     void muokkaa();
     void esikatsele();
     void vahvista();
+
+protected slots:
+    void dataSaapuu(QVariant* data);
 
 signals:
     void lukittu(Tilikausi kausi);
@@ -61,6 +65,7 @@ private:
     Tilikausi tilikausi;
     ArkistoSivu *arkistosivu;
     Ui::TilinPaattaja *ui;
+    QVariantMap data_;
 };
 
 #endif // TILINPAATTAJA_H

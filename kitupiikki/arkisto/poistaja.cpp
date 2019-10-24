@@ -20,7 +20,11 @@
 #include "poistaja.h"
 #include "ui_poistaja.h"
 
-#include "kirjaus/ehdotusmodel.h"
+#include "model/tosite.h"
+#include "model/tositevienti.h"
+#include "model/tositeviennit.h"
+#include "model/tositeliitteet.h"
+#include "db/tositetyyppimodel.h"
 #include "raportti/raportinkirjoittaja.h"
 
 #include <QSqlQuery>
@@ -43,15 +47,75 @@ Poistaja::~Poistaja()
     delete ui;
 }
 
-bool Poistaja::teeSumuPoistot(Tilikausi kausi)
+bool Poistaja::teepoistot(const Tilikausi &kausi, const QVariantList &poistot)
 {
-    Poistaja poistoDlg;
-    return poistoDlg.sumupoistaja(kausi);
+    RaportinKirjoittaja ehdotus = poistoehdotus(kausi, poistot);
+    ui->browser->setHtml( ehdotus.html() );
+    if( exec() ) {
+        // Kirjaillaan poistoja tekemällä uusi tosite ja tallentamalla se
+
+        Tosite *poistotosite = new Tosite(this);
+        poistotosite->asetaPvm( kausi.paattyy() );
+        poistotosite->asetaTyyppi( TositeTyyppi::POISTOLASKELMA );
+        poistotosite->asetaOtsikko( tr("Suunnitelman mukaiset poistot %1").arg(kausi.kausivaliTekstina()));
+
+        poistotosite->liitteet()->lisaa( ehdotus.pdf(), "poistolaskelma.pdf", "poistolaskelma");
+
+        for( auto rivi : poistot) {
+            QVariantMap map = rivi.toMap();
+            TositeVienti tasevienti;
+            TositeVienti tulosvienti;
+
+            Tili* tili = kp()->tilit()->tili(map.value("tili").toInt());
+            if( !tili ) {
+                QMessageBox::critical(this, tr("Tilikarttavirhe"), tr("Tili %1 puuttuu").arg(map.value("tili").toInt()));
+                return false;
+            }
+            Tili* tulostili = kp()->tilit()->tili( tili->luku("poistotili") );
+            if( !tulostili) {
+                QMessageBox::critical(this, tr("Tilikarttavirhe"),
+                                      tr("Tilille %1 ei ole määritelty kelvollista poistotiliä. Poistojen automaattikirjaamista ei voi tehdä.")
+                                      .arg(tili->nimiNumero()));
+                return false;
+            }
+
+            tasevienti.setPvm( kausi.paattyy() );
+            tasevienti.setTyyppi( TositeVienti::POISTO + TositeVienti::VASTAKIRJAUS);
+            tasevienti.setTili( tili->numero());
+
+            tulosvienti.setPvm( kausi.paattyy() );
+            tulosvienti.setTyyppi( TositeVienti::POISTO);
+            tulosvienti.setTili( tulostili->numero());
+
+            tasevienti.setKredit( map.value("poisto").toDouble());
+            tulosvienti.setDebet( map.value("poisto").toDouble());
+
+            tasevienti.setKohdennus( map.value("kohdennus").toInt());
+            tulosvienti.setKohdennus( map.value("kohdennus").toInt());
+
+            QString selite = map.contains("eraid") ?
+                        tr("Tasaeräpoisto %1 ").arg( map.value("nimike").toString())
+                      : tr("Menojäännöspoisto %1").arg(tili->nimiNumero());
+
+            tasevienti.setSelite( selite );
+            tulosvienti.setSelite( selite );
+
+            poistotosite->viennit()->lisaa(tasevienti);
+            poistotosite->viennit()->lisaa(tulosvienti);
+
+        }
+        connect( poistotosite, &Tosite::talletettu, this, &Poistaja::poistettu);
+        poistotosite->tallenna();
+
+        return true;
+    }
+    return false;
 }
 
-bool Poistaja::sumupoistaja(Tilikausi kausi)
+
+
+RaportinKirjoittaja Poistaja::poistoehdotus(const Tilikausi &kausi, const QVariantList &poistot)
 {
-    EhdotusModel ehdotus;
     RaportinKirjoittaja kirjoittaja;
 
     kirjoittaja.asetaOtsikko("POISTOLASKELMA");
@@ -60,281 +124,60 @@ bool Poistaja::sumupoistaja(Tilikausi kausi)
     kirjoittaja.lisaaSarake("TUN123456/31.12.9999");
     kirjoittaja.lisaaVenyvaSarake();
     kirjoittaja.lisaaEurosarake();
-    kirjoittaja.lisaaSarake("Sääntö");
+    kirjoittaja.lisaaSarake("SääntöXX");
     kirjoittaja.lisaaEurosarake();
     kirjoittaja.lisaaEurosarake();
 
     RaporttiRivi otsikko;
     otsikko.lisaa("Tili/Pvm");
-    otsikko.lisaa("Nimike");
+    otsikko.lisaa("Nimike/Kohdennus");
     otsikko.lisaa("Saldo ennen",1, true);
-    otsikko.lisaa("Poistosääntö", 1, true);
+    otsikko.lisaa("Sääntö", 1, true);
     otsikko.lisaa("Poisto",1,true);
     otsikko.lisaa("Saldo jälkeen",1,true);
     kirjoittaja.lisaaOtsake(otsikko);
 
+    int edellinentili = 0;
 
-    for( int i=0; i < kp()->tilit()->rowCount(QModelIndex()); i++)
-    {
-        Tili tili = kp()->tilit()->tiliIndeksilla(i);
-        if( !tili.onko(TiliLaji::POISTETTAVA))
+    for(auto rivi : poistot) {
+        QVariantMap map = rivi.toMap();
+        Tili* tili = kp()->tilit()->tili( map.value("tili").toInt() );
+        if( !tili)
             continue;
 
-        qlonglong saldo = tili.saldoPaivalle( kausi.paattyy());
-
-        if( !saldo)
-            continue;
-
-        if( !kp()->tilit()->tiliNumerolla( tili.json()->luku("Poistotili") ).onkoValidi() )
-        {
-            QMessageBox::critical(nullptr, tr("Kitupiikin virhe"),
-                                  tr("Poistoja ei voi kirjata, koska tilille %1 ei ole määritelty "
-                                     "kelvollista poistojen kirjaustiliä.").arg(tili.numero()));
-            return false;
+        if( tili->numero() != edellinentili) {
+            kirjoittaja.lisaaRivi();
+            RaporttiRivi tilirivi;
+            tilirivi.lisaa( QString::number( tili->numero() ) );
+            tilirivi.lisaa( tili->nimi(),5);
+            tilirivi.lihavoi();
+            kirjoittaja.lisaaRivi(tilirivi);
+            edellinentili = tili->numero();
         }
 
-        if( tili.onko(TiliLaji::MENOJAANNOSPOISTO))
-        {
-            //  Menojäännöspoistossa poistetaan määrätty prosenttimäärä siihen asti olevasta saldosta
 
-            int poistoprosentti = tili.json()->luku("Menojaannospoisto");
-            qlonglong poisto = std::round( saldo * poistoprosentti / 100.0 );
-            qlonglong jalkeen = saldo - poisto;
-
+        if( map.contains("eraid")) {
+            // Tasaeräpoisto
             RaporttiRivi rr;
-            rr.lisaaLinkilla(RaporttiRiviSarake::TILI_LINKKI, tili.id(), QString::number(tili.numero()) );
-            rr.lisaa(tili.nimi());
-            rr.lisaa(saldo);
-            rr.lisaa( tr("%1 %").arg( poistoprosentti ), 1, true);
-            rr.lisaa( poisto );
-            rr.lisaa( jalkeen );
-            rr.lihavoi();
-
+            rr.lisaa( map.value("pvm").toDate());
+            rr.lisaa( map.value("nimike").toString() );
+            rr.lisaa( map.value("ennen").toDouble() );
+            rr.lisaa( QString("%1 v").arg(map.value("poistoaika").toInt() / 12));
+            rr.lisaa( map.value("poisto").toDouble());
+            rr.lisaa( map.value("ennen").toDouble() - map.value("poisto").toDouble());
             kirjoittaja.lisaaRivi(rr);
 
-            // #123: Jos poistotili käsitellään kohdennuksilla, kirjataan poistotkin vastaaviin kohdennuksiin
-            // jaettuina
-
-            if( tili.json()->luku("Kohdennukset"))
-            {
-                QSqlQuery kohkysely( QString("SELECT kohdennus, SUM(debetsnt), SUM(kreditsnt) FROM vienti WHERE "
-                                             "tili=%1 AND pvm < '%2' GROUP BY kohdennus ORDER BY kohdennus" )
-                                     .arg(tili.id()).arg(kausi.paattyy().toString(Qt::ISODate)) );
-                while( kohkysely.next())
-                {
-                    Kohdennus kohdennus = kp()->kohdennukset()->kohdennus(kohkysely.value(0).toInt());
-                    qlonglong kohdsaldo = kohkysely.value(1).toLongLong() - kohkysely.value(2).toLongLong();
-                    qlonglong kohdpoisto = std::round( kohdsaldo * poistoprosentti / 100.0 );
-                    qlonglong kohdjalkeen = kohdsaldo - kohdpoisto;
-
-                    RaporttiRivi kr;
-                    kr.lisaa("");
-                    kr.lisaa( kohdennus.nimi() );
-                    kr.lisaa( kohdsaldo );
-                    kr.lisaa( tr("%1 %").arg( poistoprosentti ), 1, true);
-                    kr.lisaa( kohdpoisto);
-                    kr.lisaa( kohdjalkeen);
-                    kirjoittaja.lisaaRivi( kr);
-
-                    VientiRivi rivi;
-                    rivi.pvm = kausi.paattyy();
-                    rivi.tili = tili;
-                    rivi.kreditSnt = kohdpoisto;
-                    rivi.selite = tr("Menojäännöspoisto %1 % %4 saldo ennen %L2 €, jälkeen %L3 €")
-                            .arg(poistoprosentti)
-                            .arg(kohdsaldo / 100.0,0, 'f',2)
-                            .arg(kohdjalkeen / 100.0,0, 'f',2)
-                            .arg( kohdennus.nimi());
-                    rivi.kohdennus = kohdennus;
-                    ehdotus.lisaaVienti(rivi);
-
-                    VientiRivi poistotilille;
-                    poistotilille.pvm = kausi.paattyy();
-                    poistotilille.tili = kp()->tilit()->tiliNumerolla( tili.json()->luku("Poistotili") );
-                    poistotilille.debetSnt = kohdpoisto;
-                    poistotilille.kohdennus = kohdennus;
-                    poistotilille.selite = tr("Tilin %1 %2 %3 menojäännöspoisto")
-                            .arg(tili.numero())
-                            .arg(tili.nimi())
-                            .arg(kohdennus.nimi());
-
-                    ehdotus.lisaaVienti(poistotilille);
-                }
-
-
-            }
-            else
-            {
-                // Tehdään kirjaus
-                VientiRivi vienti;
-                vienti.pvm = kausi.paattyy();
-                vienti.tili = tili;
-                vienti.kreditSnt = poisto;
-                vienti.selite = tr("Menojäännöspoisto %1 % saldo ennen %L2 €, jälkeen %L3 €")
-                        .arg(poistoprosentti)
-                        .arg(saldo / 100.0,0, 'f',2)
-                        .arg(jalkeen / 100.0,0, 'f',2);
-                ehdotus.lisaaVienti(vienti);
-
-                VientiRivi poistotilille;
-                poistotilille.pvm = kausi.paattyy();
-                poistotilille.tili = kp()->tilit()->tiliNumerolla( tili.json()->luku("Poistotili") );
-                poistotilille.debetSnt = poisto;
-                poistotilille.selite = tr("Tilin %1 %2 menojäännöspoisto")
-                        .arg(tili.numero())
-                        .arg(tili.nimi());
-
-                ehdotus.lisaaVienti(poistotilille);
-            }
-            kirjoittaja.lisaaRivi();
-
-
-        }
-        else if( tili.onko( TiliLaji::TASAERAPOISTO))
-        {
-            // Tasaeräpoistossa poistetaan tietty kuukausierä
-            // Nyt sitten haetaan tilin tase-erät ;)
-
-            RaporttiRivi tiliRivi;
-            tiliRivi.lisaaLinkilla(RaporttiRiviSarake::TILI_LINKKI, tili.id(), QString::number(tili.numero()) );
-            tiliRivi.lisaa( tili.nimi());
-            tiliRivi.lihavoi();
-            kirjoittaja.lisaaRivi(tiliRivi);
-
-            EranValintaModel emodel;
-            emodel.lataa(tili, false, kausi.paattyy());
-            for(int eI=1; eI < emodel.rowCount(QModelIndex()); eI++)
-            {
-                QModelIndex eInd = emodel.index(eI, 0);
-
-                int eranId = eInd.data(EranValintaModel::EraIdRooli).toInt();
-                int eraSaldo = eInd.data(EranValintaModel::SaldoRooli).toInt();
-                QDate eranPvm = eInd.data(EranValintaModel::PvmRooli).toDate();
-
-                int alkuSnt = 0;
-                int poistoKk = 0;
-
-                QSqlQuery alkuKysely;
-                alkuKysely.exec(QString("SELECT debetsnt, kreditsnt, json, kohdennus FROM vienti WHERE id=%1").arg(eranId) );
-                if( alkuKysely.next())
-                {
-                    alkuSnt = alkuKysely.value("debetsnt").toInt() - alkuKysely.value("kreditsnt").toInt();
-                    JsonKentta json( alkuKysely.value("json").toByteArray());
-                    poistoKk = json.luku("Tasaerapoisto");
-                }
-
-                if( !poistoKk)
-                    continue;
-
-                // Montako kuukautta on kulunut hankinnasta
-                int kuukauttaKulunut = kausi.paattyy().year() * 12 + kausi.paattyy().month() -
-                                       eranPvm.year() * 12 - eranPvm.month() + 1;
-
-
-
-                // Laskennallinen poisto: Paljonko tähän asti voitaisiin poistaa
-                int laskennallinenPoisto = alkuSnt * kuukauttaKulunut / poistoKk ;
-                if( laskennallinenPoisto > alkuSnt)
-                    laskennallinenPoisto = alkuSnt; // Poistetaan vain se, mitä on jäljellä ...
-
-
-                int eraPoisto = laskennallinenPoisto - alkuSnt + eraSaldo;
-
-                RaporttiRivi rr;
-                rr.lisaa( eranPvm );
-                rr.lisaa( eInd.data(EranValintaModel::SeliteRooli).toString());
-                rr.lisaa( eraSaldo );
-                if( poistoKk % 12)      // Poistoaika
-                    rr.lisaa( tr( "%1 v %2 kk").arg(poistoKk / 12).arg(poistoKk % 12), 1, true);
-                else
-                    rr.lisaa( tr("%1 v").arg(poistoKk / 12), 1, true);
-                rr.lisaa( eraPoisto);
-                rr.lisaa( eraSaldo - eraPoisto );
-
-                kirjoittaja.lisaaRivi(rr);
-
-
-                // Tehdään kirjaus
-                VientiRivi vienti;
-                vienti.pvm = kausi.paattyy();
-                vienti.tili = tili;
-                vienti.kreditSnt = eraPoisto;
-                vienti.eraId = eInd.data(EranValintaModel::EraIdRooli).toInt();
-                vienti.selite = tr("Tasaeräpoisto %1 ").arg( eInd.data(EranValintaModel::SeliteRooli).toString() );
-                // #123: Kohdennetaan poisto kirjauksen kohdennuksen mukaan
-                vienti.kohdennus = kp()->kohdennukset()->kohdennus( alkuKysely.value("kohdennus").toInt() );
-                ehdotus.lisaaVienti(vienti);
-
-                VientiRivi poistotilille;
-                poistotilille.pvm = kausi.paattyy();
-                poistotilille.tili = kp()->tilit()->tiliNumerolla( tili.json()->luku("Poistotili") );
-                poistotilille.debetSnt = eraPoisto;
-                poistotilille.selite = tr("Tasaeräpoisto %3 tilillä %1 %2")
-                        .arg(tili.numero())
-                        .arg(tili.nimi())
-                        .arg( eInd.data(EranValintaModel::SeliteRooli).toString());
-                ehdotus.lisaaVienti(poistotilille);
-
-            }
-            kirjoittaja.lisaaRivi();
-
+        } else {
+            RaporttiRivi rr;
+            rr.lisaa("");
+            rr.lisaa( kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt() ).nimi() );
+            rr.lisaa( map.value("ennen").toDouble() );
+            rr.lisaa( QString("%1 %").arg(tili->luku("menojaannospoisto")));
+            rr.lisaa( map.value("poisto").toDouble());
+            rr.lisaa( map.value("ennen").toDouble() - map.value("poisto").toDouble());
+            kirjoittaja.lisaaRivi(rr);
         }
     }
-
-    // Näytetään ehdotus
-
-
-
-    ui->browser->setHtml( kirjoittaja.html());
-    if( exec() )
-    {
-        TositeModel tosite( kp()->tietokanta() );
-        tosite.asetaPvm( kausi.paattyy() );
-        tosite.asetaTositelaji( 0 );
-        tosite.asetaOtsikko( tr("Suunnitelman mukaiset poistot %1 - %2")
-                             .arg(kausi.alkaa().toString("dd.MM.yyyy"))
-                             .arg(kausi.paattyy().toString("dd.MM.yyyy")));
-        tosite.json()->set("Sumupoistot", kausi.paattyy());
-        ehdotus.tallenna(tosite.vientiModel());
-
-        // Liitetään laskelma
-        QPrinter printer;
-
-        printer.setPageSize(QPrinter::A4);
-        QString tpnimi = kp()->tilapainen("sumu-XXXX.pdf");
-        printer.setOutputFileName( tpnimi );
-
-        QPainter painter(&printer);
-
-        kirjoittaja.tulosta(&printer, &painter);
-        painter.end();
-
-        tosite.liiteModel()->lisaaTiedosto( tpnimi, tr("Poistolaskelma"));
-
-        if( tosite.tallenna() )
-        {
-            kp()->tilikaudet()->json( kausi.paattyy() )->set("Poistokirjaus", tosite.id());
-            kp()->tilikaudet()->tallennaJSON();
-
-            return true;
-        }
-        else
-            QMessageBox::critical(this, tr("Virhe poistotositteen tallentamisessa"),
-                                  tr("Poistojen tallentuminen epäonnistui seuraavan "
-                                     "tietokantavirheen takia: %1").arg( kp()->viimeVirhe() ));
-    }
-    return false;
+    return kirjoittaja;
 }
 
-bool Poistaja::onkoPoistoja(const Tilikausi& kausi)
-{
-
-    QSqlQuery kysely;
-    kysely.exec( QString("SELECT sum(debetsnt) as db, sum(kreditsnt) as kr from vienti,tili where vienti.tili = tili.id and "
-                         "(tili.tyyppi=\"APM\" or tili.tyyppi=\"APT\") and pvm <= \"%1\" ").arg(kausi.paattyy().toString(Qt::ISODate)) );
-
-    if( kysely.next())
-        return kysely.value("db").toInt() != kysely.value("kr").toInt();
-
-    return false;
-}

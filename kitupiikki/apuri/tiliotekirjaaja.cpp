@@ -50,11 +50,21 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
 
     connect( ui->euroEdit, &KpEuroEdit::textChanged, this, &TilioteKirjaaja::euroMuuttuu);
     connect( ui->alaTabs, &QTabBar::currentChanged, this, &TilioteKirjaaja::alaTabMuuttui);
-    connect( ui->ylaTab, &QTabBar::currentChanged, this, &TilioteKirjaaja::ylaTabMuuttui);
+    connect( ui->ylaTab, &QTabBar::currentChanged, this, &TilioteKirjaaja::ylaTabMuuttui);    
 
-    maksuProxy_->setSourceModel(laskut_);
+    maksuProxy_->setSourceModel( laskut_ );
 
-    ui->maksuView->setModel(maksuProxy_);
+    QSortFilterProxyModel* avoinProxy = new QSortFilterProxyModel(this);
+
+    avoinProxy->setSourceModel(maksuProxy_);
+    avoinProxy->setFilterRole(Qt::DisplayRole);
+    avoinProxy->setFilterKeyColumn(LaskuTauluModel::MAKSAMATTA);
+    avoinProxy->setFilterFixedString("€");
+
+
+    ui->maksuView->setModel(avoinProxy);
+    ui->maksuView->setSortingEnabled(true);
+    avoinProxy->setDynamicSortFilter(true);
     ui->maksuView->hideColumn( LaskuTauluModel::LAHETYSTAPA );
     connect( ui->maksuView->selectionModel(), &QItemSelectionModel::currentRowChanged , this, &TilioteKirjaaja::valitseLasku);
     connect( ui->suodatusEdit, &QLineEdit::textEdited, this, &TilioteKirjaaja::suodata);
@@ -68,11 +78,14 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
     connect( ui->euroEdit, &KpEuroEdit::textChanged, this, &TilioteKirjaaja::tarkastaTallennus);
     connect( ui->pvmEdit, &KpDateEdit::dateChanged, this, &TilioteKirjaaja::tarkastaTallennus);
     connect( ui->tiliEdit, &TilinvalintaLine::textChanged, this, &TilioteKirjaaja::tarkastaTallennus);
+    connect( ui->tiliEdit, &TilinvalintaLine::textChanged, this, &TilioteKirjaaja::tiliMuuttuu);
     connect( ui->maksuView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &TilioteKirjaaja::tarkastaTallennus);
+    connect( ui->eraCombo, &EraCombo::valittu, this, &TilioteKirjaaja::eraValittu);
 
     connect( ui->asiakastoimittaja, &AsiakasToimittajaValinta::valittu, this, &TilioteKirjaaja::kumppaniValittu);
 
     connect( new QShortcut(QKeySequence("F12"), this), &QShortcut::activated, this, &TilioteKirjaaja::accept);
+
 
 }
 
@@ -114,6 +127,7 @@ TilioteModel::Tilioterivi TilioteKirjaaja::rivi()
     } else if( ui->alaTabs->currentIndex() == TULOMENO ) {
         rivi.saajamaksajaId = ui->asiakastoimittaja->id();
         rivi.saajamaksaja = ui->asiakastoimittaja->nimi();
+        rivi.eraId = ui->eraCombo->valittuEra();
 
         if( rivi.selite.isEmpty())
             rivi.selite = rivi.saajamaksaja;
@@ -154,6 +168,7 @@ void TilioteKirjaaja::muokkaaRivia(int riviNro)
     ui->tiliEdit->valitseTiliNumerolla( rivi.tili );
     ui->kohdennusCombo->setCurrentIndex(
                 ui->kohdennusCombo->findData( rivi.kohdennus, KohdennusModel::IdRooli));
+    ui->eraCombo->valitse( rivi.eraId );
 
     // Etsitään valittava rivi
     for(int i=0; i < maksuProxy_->rowCount(); i++) {
@@ -185,8 +200,8 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
     ui->merkkausLabel->setVisible(  tab == TULOMENO && kp()->kohdennukset()->merkkauksia() );
     ui->merkkausCC->setVisible(  tab == TULOMENO && kp()->kohdennukset()->merkkauksia() );
 
-    ui->asiakasLabel->setVisible( tab == TULOMENO);
-    ui->asiakastoimittaja->setVisible( tab == TULOMENO );
+    ui->asiakasLabel->setVisible( tab == TULOMENO || tab==SIIRTO);
+    ui->asiakastoimittaja->setVisible( tab == TULOMENO || tab==SIIRTO);
 
     ui->seliteLabel->setVisible(tab != MAKSU);
     ui->seliteEdit->setVisible( tab != MAKSU);
@@ -203,9 +218,12 @@ void TilioteKirjaaja::alaTabMuuttui(int tab)
 
     } else if ( tab == SIIRTO ) {
         ui->tiliLabel->setText( menoa_ ? tr("Tilille") : tr("Tililtä")  );
+        ui->asiakasLabel->setText( menoa_ ? tr("Saaja") : tr("Maksaja"));
         ui->tiliEdit->suodataTyypilla( "[AB].*");
         ui->tiliEdit->clear();
     }
+
+    tiliMuuttuu();
 }
 
 void TilioteKirjaaja::euroMuuttuu()
@@ -231,6 +249,25 @@ void TilioteKirjaaja::ylaTabMuuttui(int tab)
     ui->euroEdit->setMiinus( tab );
 }
 
+void TilioteKirjaaja::tiliMuuttuu()
+{
+    Tili tili = ui->tiliEdit->valittuTili();
+
+    bool erat = tili.eritellaankoTase();
+    ui->eraLabel->setVisible(erat);
+    ui->eraCombo->setVisible(erat);
+    if( erat ) {
+        ui->eraCombo->lataa(tili.numero());
+    }
+}
+
+void TilioteKirjaaja::eraValittu(int /* eraId */, double avoinna)
+{
+    if( !ui->euroEdit->asCents() && avoinna > 1e-5)
+        ui->euroEdit->setValue(menoa_ ? 0 - avoinna : avoinna);
+
+}
+
 void TilioteKirjaaja::valitseLasku()
 {
     QModelIndex index = ui->maksuView->currentIndex();
@@ -246,7 +283,7 @@ void TilioteKirjaaja::suodata(const QString &teksti)
     if( teksti.startsWith("RF") || teksti.contains(  QRegularExpression("^\\d+$")))
     {
         maksuProxy_->setFilterKeyColumn( LaskuTauluModel::NUMERO );
-        maksuProxy_->setFilterRegularExpression(QRegularExpression("^" + teksti));
+        maksuProxy_->setFilterRegExp("^" + teksti);
     } else {
         maksuProxy_->setFilterKeyColumn( LaskuTauluModel::ASIAKASTOIMITTAJA);
         maksuProxy_->setFilterCaseSensitivity(Qt::CaseInsensitive);
@@ -264,6 +301,7 @@ void TilioteKirjaaja::tyhjenna()
     ui->pvmEdit->setFocus();
     ui->kohdennusCombo->setCurrentIndex(
                 ui->kohdennusCombo->findData(0, KohdennusModel::IdRooli));
+    ui->eraCombo->valitse(0);
     lataaMerkkaukset();
     tarkastaTallennus();
 }

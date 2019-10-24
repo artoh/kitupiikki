@@ -90,7 +90,7 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
 
             case TILI:
             {
-                Tili *tili = kp()->tilit()->tiliPNumerolla( map.value("tili").toInt() );
+                Tili *tili = kp()->tilit()->tili( map.value("tili").toInt() );
                 if( !tili )
                     return QVariant();
                 if( role == Qt::EditRole)
@@ -127,8 +127,6 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
 
             case KOHDENNUS :
                 QString txt;
-
-                qDebug() << " KohdId " << map.value("kohdennus").toInt() << " - " << kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt() ).nimi();
 
                 Kohdennus kohdennus = kp()->kohdennukset()->kohdennus( map.value("kohdennus").toInt() );
                 if( kohdennus.tyyppi() != Kohdennus::EIKOHDENNETA)
@@ -212,93 +210,9 @@ void SelausModel::lataa(const QDate &alkaa, const QDate &loppuu)
     kysely->lisaaAttribuutti("loppupvm", loppuu);
     connect( kysely, &KpKysely::vastaus, this, &SelausModel::tietoSaapuu);
 
-    qDebug() << QDateTime::currentDateTime() << " C1 ";
     kysely->kysy();
-    qDebug() << QDateTime::currentDateTime() << " C2 ";
 
     return;
-    /*
-
-    QString kysymys = QString("SELECT vienti.tosite, vienti.pvm, tili, debetsnt, kreditsnt, selite, kohdennus, eraid, "
-                              "tosite.laji, tosite.tunniste, vienti.id, liite.id "
-                              "FROM vienti, tosite LEFT OUTER JOIN liite ON tosite.id=liite.tosite "
-                              "WHERE vienti.pvm BETWEEN \"%1\" AND \"%2\" "
-                              "AND vienti.tosite=tosite.id AND tili is not null ORDER BY vienti.pvm, vienti.id")
-                              .arg( alkaa.toString(Qt::ISODate ) )
-                              .arg( loppuu.toString(Qt::ISODate)) ;
-
-    beginResetModel();
-    rivit.clear();
-    tileilla.clear();
-
-    int edellinenVientiId = -1;
-
-    QSqlQuery query;
-    query.exec(kysymys);
-    while( query.next())
-    {
-        if( query.value("vienti.id").toInt() == edellinenVientiId)
-            continue;
-
-        SelausRivi rivi;
-        rivi.tositeId = query.value(0).toInt();
-        rivi.pvm = query.value(1).toDate();
-        rivi.tili = kp()->tilit()->tiliIdllaVanha( query.value(2).toInt());
-        rivi.debetSnt = query.value(3).toLongLong();
-        rivi.kreditSnt = query.value(4).toLongLong();
-        rivi.selite = query.value(5).toString();
-        rivi.kohdennus = kp()->kohdennukset()->kohdennus( query.value(6).toInt());
-        rivi.taseEra = TaseEra( query.value(7).toInt());
-        if( kp()->asetukset()->onko("Samaansarjaan"))
-        {
-            rivi.tositetunniste = QString("%1/%2")
-                                           .arg( query.value(9).toInt()  )
-                                           .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() );
-
-            rivi.lajiteltavaTositetunniste = QString("%1/%2")
-                                           .arg( query.value(9).toInt(),8,10,QChar('0'))
-                                           .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() );
-        } else {
-            rivi.tositetunniste = QString("%1 %2/%3")
-                                           .arg( kp()->tositelajit()->tositelajiVanha( query.value(8).toInt()  ).tunnus() )
-                                           .arg( query.value(9).toInt()  )
-                                           .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() );
-
-            rivi.lajiteltavaTositetunniste = QString("%1%2/%3")
-                                       .arg( kp()->tositelajit()->tositelajiVanha( query.value(8).toInt()  ).tunnus() )
-                                       .arg( query.value(9).toInt(),8,10,QChar('0'))
-                                       .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() );
-        }
-
-        rivi.vientiId = query.value("vienti.id").toInt();
-        rivi.liitteita = !query.value("liite.id").isNull();
-
-        edellinenVientiId = rivi.vientiId;
-
-        if( query.value("eraid").toInt() && rivi.tili.eritellaankoTase() )
-        {
-            TaseEra era( query.value("eraid").toInt() );
-            rivi.eraMaksettu = era.saldoSnt == 0 ;
-        }
-
-        QSqlQuery tagikysely( QString("SELECT kohdennus FROM merkkaus WHERE vienti=%1").arg( query.value("vienti.id").toInt() ));
-        while( tagikysely.next())
-        {
-            rivi.tagit.append( kp()->kohdennukset()->kohdennus( tagikysely.value(0).toInt() ).nimi() );
-        }
-
-        rivit.append(rivi);
-
-        QString tilistr = QString("%1 %2")
-                    .arg(rivi.tili.numero())
-                    .arg(rivi.tili.nimi());
-        if( !tileilla.contains(tilistr))
-            tileilla.append(tilistr);
-    }
-
-    tileilla.sort();
-    endResetModel();
-    */
 }
 
 void SelausModel::tietoSaapuu(QVariant *var)
@@ -312,7 +226,7 @@ void SelausModel::tietoSaapuu(QVariant *var)
     for(auto rivi : lista_)
     {
         int tiliId = rivi.toMap().value("tili").toInt();
-        Tili* tili = kp()->tilit()->tiliPNumerolla(tiliId);
+        Tili* tili = kp()->tilit()->tili(tiliId);
         QString tilistr = QString("%1 %2")
                     .arg(tili->numero())
                     .arg(tili->nimi());

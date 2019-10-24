@@ -26,7 +26,6 @@
 #include <QWidget>
 
 #include "kitupiikkisivu.h"
-#include "db/tositemodel.h"
 
 class KirjausWg;
 class NaytaliiteWg;
@@ -64,7 +63,7 @@ signals:
     void palaaEdelliselleSivulle();
 
 public slots:
-    void naytaTosite(int tositeId);
+    void naytaTosite(int tositeId, int tositetyyppi = -1);
     void tositeKasitelty();
     /**
      * @brief Kun splitteriä säädetään, talletaan asetus

@@ -17,12 +17,13 @@
 
 #include "taseerittely.h"
 #include "db/eranvalintamodel.h"
+#include "taseerittelija.h"
 #include <QSqlQuery>
 
 #include <QDebug>
 
 TaseErittely::TaseErittely() :
-    Raportti(nullptr)
+    RaporttiWidget(nullptr)
 {
     ui = new Ui::TaseErittely;
     ui->setupUi( raporttiWidget);
@@ -39,11 +40,16 @@ TaseErittely::~TaseErittely()
     delete ui;
 }
 
-RaportinKirjoittaja TaseErittely::raportti()
+void TaseErittely::esikatsele()
 {
-    return kirjoitaRaportti( ui->alkaa->date(), ui->paattyy->date() );
+    TaseErittelija* erittelija = new TaseErittelija(this);
+    connect( erittelija, &TaseErittelija::valmis, this, &TaseErittely::nayta);
+    erittelija->kirjoita( ui->alkaa->date(), ui->paattyy->date() );
 }
 
+
+
+/*
 RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
 {
     RaportinKirjoittaja rk(false);
@@ -289,7 +295,7 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
 
                     RaporttiRivi nimirivi;
                     QString tunniste = QString("%1%2/%3")
-                            .arg( kp()->tositelajit()->tositelajiVanha( kysely.value("laji").toInt() ).tunnus() )
+                            .arg( 0 )
                             .arg( kysely.value("tunniste").toInt())
                             .arg( kp()->tilikaudet()->tilikausiPaivalle( kysely.value("vienti.pvm").toDate() ).kausitunnus()  );
 
@@ -375,3 +381,4 @@ RaportinKirjoittaja TaseErittely::kirjoitaRaportti(QDate mista, QDate mihin)
 
     return rk;
 }
+*/

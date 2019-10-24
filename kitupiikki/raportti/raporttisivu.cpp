@@ -27,11 +27,9 @@
 #include "raporttisivu.h"
 
 #include "paivakirjaraportti.h"
-#include "paakirjaraportti.h"
 #include "tositeluetteloraportti.h"
 #include "taseerittely.h"
 #include "laskuraportti.h"
-#include "alverittely.h"
 #include "myyntiraportti.h"
 
 #include "db/kirjanpito.h"
@@ -39,7 +37,7 @@
 #include "muokattavaraportti.h"
 #include "tilikarttaraportti.h"
 #include "budjettivertailu.h"
-
+#include "paakirjaraportti.h"
 #include "tasetulosraportti.h"
 
 RaporttiSivu::RaporttiSivu(QWidget *parent) : KitupiikkiSivu(parent),
@@ -92,13 +90,13 @@ void RaporttiSivu::siirrySivulle()
         lisaaRaportti( nimi.mid(9), nimi, ":/pic/tekstisivu.png");
     }
 
-    if( kp()->tilikaudet()->onkoBudjetteja())
-        lisaaRaportti("Budjettivertailu","Budjettivertailu",":/pic/raha2.png");
+//    if( kp()->tilikaudet()->onkoBudjetteja())
+//        lisaaRaportti("Budjettivertailu","Budjettivertailu",":/pic/raha2.png");
 
     lisaaRaportti("Tase-erittely","TaseErittely",":/pic/valilehdet.png");
     lisaaRaportti("Tililuettelo","Tilikartta",":/pic/valilehdet.png");
-    lisaaRaportti("Laskut", "Laskut", ":/pic/lasku.png");
-    lisaaRaportti("Myynti","Myynti",":/pic/suorite.png");
+//    lisaaRaportti("Laskut", "Laskut", ":/pic/lasku.png");
+//    lisaaRaportti("Myynti","Myynti",":/pic/suorite.png");
 
     if( kp()->asetukset()->onko("AlvVelvollinen") )
         lisaaRaportti("Arvonlisäveron erittely", "AlvErittely", ":/pic/vero.png");
@@ -147,8 +145,6 @@ void RaporttiSivu::raporttiValittu(QListWidgetItem *item)
         nykyinen = new TaseErittely();
     else if( raporttinimi == "Laskut")
         nykyinen = new LaskuRaportti();
-    else if( raporttinimi == "AlvErittely")
-        nykyinen = new AlvErittely;
     else if( raporttinimi == "Myynti")
         nykyinen = new MyyntiRaportti;
     else if( raporttinimi == "Budjettivertailu")

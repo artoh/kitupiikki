@@ -35,7 +35,7 @@ class MaaritysWidget : public QWidget
 {
     Q_OBJECT
 public:
-    MaaritysWidget(QWidget *parent = 0);
+    MaaritysWidget(QWidget *parent = nullptr);
     ~MaaritysWidget();
 
 signals:
@@ -67,6 +67,12 @@ public:
      * @return
      */
     virtual bool naytetaankoVienti() { return false;}
+
+    /**
+     * @brief Näytetäänkö tällä sivulla Tallennus- ja Peru-napit
+     * @return
+     */
+    virtual bool naytetaankoTallennus() { return true; }
 
     /**
      * @brief Näytettävän ohjesivun nimi

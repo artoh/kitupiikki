@@ -35,7 +35,8 @@ public:
     {
         TiliNumeroRooli = Qt::UserRole + 3,
         AlvKoodiRooli = Qt::UserRole + 5,
-        AlvProsenttiRooli = Qt::UserRole + 6
+        AlvProsenttiRooli = Qt::UserRole + 6,
+        VoittomarginaaliRooli = Qt::UserRole + 10
     };
 
     enum Voittomarginaalisyy {
@@ -65,7 +66,7 @@ public:
     QVariantList rivit() const;
 
     double yhteensa() const;
-    QVariantList viennit(const QDate& pvm = QDate::currentDate()) const;
+    QVariantList viennit(const QDate& pvm = QDate::currentDate(), const QDate& jaksoalkaa = QDate(), const QDate& jaksopaattyy = QDate()) const;
 
     bool onkoTyhja() const;
 

@@ -35,7 +35,7 @@ public:
     explicit KumppaniTuoteWidget(QWidget *parent = nullptr);
     ~KumppaniTuoteWidget();
 
-    enum { ASIAKKAAT, TOIMITTAJAT, TUOTTEET };
+    enum { REKISTERI, ASIAKKAAT, TOIMITTAJAT, TUOTTEET };
 
 public slots:
     void nayta(int valilehti);
@@ -45,6 +45,7 @@ private slots:
     void ilmoitaValinta();
     void uusi();
     void muokkaa();
+    void poista();
     void paivita();
 
 signals:

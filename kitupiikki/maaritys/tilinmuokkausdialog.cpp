@@ -22,70 +22,142 @@
 #include <QPushButton>
 #include <QMessageBox>
 #include <QIntValidator>
+#include <QPlainTextEdit>
+#include <QJsonDocument>
+#include <QVariant>
 
 #include "tilinmuokkausdialog.h"
 #include "db/tilimodel.h"
 #include "db/tilinvalintaline.h"
 #include "validator/ibanvalidator.h"
 
-TilinMuokkausDialog::TilinMuokkausDialog(TiliModel *model, QModelIndex index) :
-    QDialog(nullptr), model_(model), index_(index)
+
+TilinMuokkausDialog::TilinMuokkausDialog(QWidget *parent, int indeksi, Tila tila)
+    : QDialog(parent), ui(new Ui::tilinmuokkausDialog),  tila_(tila), indeksi_(indeksi)
 {
-    ui = new Ui::tilinmuokkausDialog();
     ui->setupUi(this);
-
-    ui->numeroEdit->setValidator( new QIntValidator(0,999999999,this));
-    ui->valiastiEdit->setValidator( new QIntValidator(0,999999999,this));
-
-    ui->vastatiliEdit->asetaModel( model );
 
     proxy_ = new QSortFilterProxyModel(this);
     proxy_->setSourceModel( kp()->tiliTyypit() );
     proxy_->setFilterRole(TilityyppiModel::KoodiRooli);
     ui->tyyppiCombo->setModel( proxy_ );
-
-    // Laitetaa verotyypit paikalleen
-
+    ui->numeroEdit->setValidator( new QIntValidator(0,999999999,this));
     veroproxy_ = new QSortFilterProxyModel(this);
     veroproxy_->setSourceModel( kp()->alvTyypit());
     veroproxy_->setFilterRole( VerotyyppiModel::KoodiRooli);
     ui->veroCombo->setModel( veroproxy_ );
 
-    // Vain otsikkoon liittyvät piilotetaan
-    ui->tasoSpin->setVisible(false);
-    ui->tasoLabel->setVisible(false);
-    ui->valiastiLabel->setVisible(false);
-    ui->valiastiEdit->setVisible(false);
-
-    // Tilinumeron muutosvaroitus piiloon
-    ui->varoitusKuva->setVisible(false);
-    ui->varoitusLabel->setVisible(false);
-    ui->poistotiliEdit->asetaModel( model );
-    ui->poistotiliEdit->suodataTyypilla("DP");
-
-    ui->ibanLabel->hide();
-    ui->ibanLine->hide();
+    ui->poistotiliCombo->suodataTyypilla("DP", true);
     ui->ibanLine->setValidator(new IbanValidator());
 
-    connect( ui->veroCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(veroEnablePaivita()));
+    alustalaajuus();
 
-    connect( ui->nimiEdit, SIGNAL(textEdited(QString)), this, SLOT(tarkasta()));
-    connect( ui->numeroEdit, SIGNAL(textChanged(QString)), this, SLOT(nroMuuttaaTyyppia(QString)));
     connect( ui->tyyppiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(tarkasta()));
+    connect( ui->veroCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(veroEnablePaivita()));
     connect( ui->ibanLine, SIGNAL(textEdited(QString) ), this, SLOT( ibanCheck()) );
+    connect( ui->numeroEdit, &QLineEdit::textEdited, this, &TilinMuokkausDialog::numeroCheck);
 
-    connect( ui->otsikkoRadio, SIGNAL(clicked(bool)), this, SLOT(naytettavienPaivitys()));
-    connect( ui->tiliRadio, SIGNAL(clicked(bool)), this, SLOT(naytettavienPaivitys()));
 
-    connect( ui->valiastiEdit, SIGNAL(textChanged(QString)), this, SLOT(tarkasta()));
+    if( tila == UUSITILI || tila == UUSIOTSIKKO ) {
 
-    // Tallennusnappi ei käytössä ennen kuin tiedot kunnossa
-    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+        // VANHEMMAN ETSIMINEN FOR-SILMUKALLA, JOTTA
+        // ONNISTUU VAIKKA TAMANOTSIKKO EI TOIMI !!!
+
+        vanhempi_ = kp()->tilit()->tiliPIndeksilla(indeksi);
+        if( !vanhempi_->otsikkotaso())
+            vanhempi_ = vanhempi_->tamanOtsikko();
+
+        if( tila == UUSIOTSIKKO ) {
+            taso_ = vanhempi_->otsikkotaso() + 1;
+            setWindowTitle(tr("Uusi otsikko"));
+        } else {
+            setWindowTitle(tr("Uusi tili"));
+        }
+
+        minNumero_ = QString::number(vanhempi_->numero());
+        int oletusnumero = kp()->tilit()->tiliPIndeksilla(indeksi)->numero();
+
+        while( oletusnumero / 1000 < 1)
+            oletusnumero *= 10;
+
+        for(int i=indeksi; i < kp()->tilit()->rowCount(); i++) {
+            Tili* tamatili = kp()->tilit()->tiliPIndeksilla(i);
+            if( tamatili->numero() == oletusnumero )
+                oletusnumero++;
+            if( !tamatili->otsikkotaso())
+                ui->tyyppiCombo->setCurrentIndex( ui->tyyppiCombo->findData( tamatili->tyyppiKoodi() ) );
+            if( tamatili->otsikkotaso() && tamatili->otsikkotaso() <= vanhempi_->otsikkotaso()) {
+                maxnumero_ = QString::number(tamatili->numero());
+                break;
+            }
+        }
+
+        // Näytetään tilin numeroväli nelinumeroisena
+
+        int min = minNumero_.toInt();
+        while( min / 1000 < 1)
+            min*=10;
+        int max = maxnumero_.toInt();
+        if( !max)
+            max = 9999;
+        while( max / 1000 < 1)
+            max*=10;
+        max--;
+
+        ui->infoLabel->setText( QString("%1 [%2 .. %3]").arg(vanhempi_->nimi()).arg(min).arg(max));
+        ui->numeroEdit->setText( QString::number(oletusnumero) );
+        numeroCheck();
+    } else {
+        tili_ = kp()->tilit()->tiliPIndeksilla(indeksi);
+        minNumero_ = QString::number( tili_->numero());
+        taso_ = tili_->otsikkotaso();
+        ui->numeroEdit->setText( minNumero_ );
+        ui->numeroEdit->setReadOnly(true);
+        if( taso_)
+            setWindowTitle(tr("Otsikon muokkaus"));
+        if( tili_->tamanOtsikko())
+            ui->infoLabel->setText( tili_->tamanOtsikko()->nimi() );
+        else
+            ui->infoLabel->hide();
+
+        poistaNappi_ = new QPushButton(QIcon(":/pic/roskis.png"), tr("Poista"));
+        poistaNappi_->setEnabled(false);
+        ui->buttonBox->addButton( poistaNappi_, QDialogButtonBox::DestructiveRole);
+        connect( poistaNappi_, &QPushButton::clicked, this, &TilinMuokkausDialog::poista );
+
+        if( taso_) {
+            // Otsikon saa poistaa, jos sillä ei ole alempia otsikoita
+            if( taso_ > 1 &&
+                kp()->tilit()->tiliPIndeksilla(indeksi+1) &&
+                kp()->tilit()->tiliPIndeksilla(indeksi+1)->otsikkotaso() <= taso_)
+                poistaNappi_->setEnabled(true);
+        } else {
+            // Tilin saa poistaa, jos sillä ei ole vientejä
+            KpKysely *kysely = kpk("/viennit");
+            kysely->lisaaAttribuutti("tili", tili_->numero());
+            connect( kysely, &KpKysely::vastaus, this, &TilinMuokkausDialog::viennitSaapuu );
+            kysely->kysy();
+        }
+
+    }
+
+    // Nimitaulu
+    alustaNimet();
+
+    if( minNumero_.startsWith("1"))
+        proxy_->setFilterFixedString("A");
+    else if( minNumero_.startsWith("2"))
+        proxy_->setFilterRegExp("[BT]");
+    else
+        proxy_->setFilterRegExp("[CD]");
+
+    alustaOhjeet();
+
+    if( tila_ == MUOKKAA)
+        lataa();
 
     naytettavienPaivitys();
 
-    if( index.isValid())
-        lataa();
 
 }
 
@@ -96,63 +168,44 @@ TilinMuokkausDialog::~TilinMuokkausDialog()
 
 void TilinMuokkausDialog::lataa()
 {
-    Tili tili = model_->tiliIndeksilla( index_.row());
-
-    // Ei voi muuttaa otsikkoa tiliksi tai päin vastoin
-    ui->tiliRadio->setEnabled(false);
-    ui->otsikkoRadio->setEnabled(false);
-
-    ui->tiliRadio->setChecked( tili.otsikkotaso() == 0);
-    ui->otsikkoRadio->setChecked( tili.otsikkotaso() );
-
-    ui->nimiEdit->setText( tili.nimi());
-    ui->taydentavaEdit->setText( tili.json()->str("Taydentava"));
-    ui->numeroEdit->setText( QString::number( tili.numero()));
-    ui->tasoSpin->setValue( tili.otsikkotaso());
-
-    ui->valiastiEdit->setText( QString::number(tili.json()->luku("Asti")) );
-
-    ui->ibanLabel->setVisible( tili.onko(TiliLaji::PANKKITILI));
-    ui->ibanLine->setVisible( tili.onko(TiliLaji::PANKKITILI));
-    ui->ibanLine->setText(tili.json()->str("IBAN"));
-
     proxy_->setFilterRegExp("");
-    ui->tyyppiCombo->setCurrentIndex( ui->tyyppiCombo->findData( tili.tyyppiKoodi()) );
-    ui->vastatiliEdit->valitseTiliNumerolla(tili.json()->luku("Vastatili") );
+    ui->tyyppiCombo->setCurrentIndex( ui->tyyppiCombo->findData( tili_->tyyppiKoodi()) );
 
-    ui->veroSpin->setValue( tili.json()->luku("AlvProsentti"));
 
-    int alvlaji = tili.json()->luku("AlvLaji");
+    ui->ibanLine->setText(tili_->str("iban"));
+    ui->veroSpin->setValue( tili_->luku("alvprosentti"));
+
+    int alvlaji = tili_->luku("alvlaji");
     ui->veroCombo->setCurrentIndex( ui->veroCombo->findData( alvlaji , VerotyyppiModel::KoodiRooli) );
 
-    ui->poistoaikaSpin->setValue( tili.json()->luku("Tasaerapoisto") / 12);  // kk -> vuosi
-    ui->poistoprossaSpin->setValue( tili.json()->luku("Menojaannospoisto"));
-    ui->kirjausohjeText->setPlainText( tili.json()->str("Kirjausohje"));
-    ui->poistotiliEdit->valitseTiliNumerolla( tili.json()->luku("Poistotili"));
+    ui->poistoaikaSpin->setValue( tili_->luku("tasaerapoisto") / 12);  // kk -> vuosi
+    ui->poistoprossaSpin->setValue( tili_->luku("menojaannospoisto"));
+    ui->poistotiliCombo->valitseTili( tili_->luku("poistotili") );
+    ui->jaksotiliCombo->valitseTili( tili_->luku("jaksotustili"));
 
-    int taseEraValinta = tili.json()->luku("Taseerittely");
+    int taseEraValinta = tili_->luku("erittely");
     ui->taseEratRadio->setChecked( taseEraValinta == Tili::TASEERITTELY_TAYSI);
     ui->taseEraLuettelo->setChecked( taseEraValinta == Tili::TASEERITTELY_LISTA);
     ui->teLiVaRadio->setChecked( taseEraValinta == Tili::TASEERITTELY_MUUTOKSET);
     ui->teSaldoRadio->setChecked( taseEraValinta == Tili::TASEERITTELY_SALDOT);
 
-    ui->kohdennusCheck->setChecked( tili.json()->luku("Kohdennukset") );
+    ui->laajuusCombo->setCurrentIndex( ui->laajuusCombo->findData( tili_->laajuus() ) );
 
-
-    nroMuuttaaTyyppia(QString::number( tili.numero() ));
 
 }
 
 void TilinMuokkausDialog::veroEnablePaivita()
 {
     // Jos veroton, niin eipä silloin laiteta alv-prosenttia
-    if( ui->veroCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool() )
+    if( ui->veroCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool() || ui->veroCombo->isHidden())
     {
-        ui->veroSpin->setEnabled(false);
+       ui->veroSpin->setVisible(false);
+       ui->veroprosenttiLabel->setVisible(false);
     }
     else
     {
-        ui->veroSpin->setEnabled(true);
+        ui->veroSpin->setVisible(true);
+        ui->veroprosenttiLabel->setVisible(true);
         // Lisäksi laitetaan oletusvero jo nolla
         if( ui->veroSpin->value() == 0)
             ui->veroSpin->setValue( VerotyyppiModel::oletusAlvProsentti());
@@ -165,23 +218,31 @@ void TilinMuokkausDialog::naytettavienPaivitys()
 {
 
     TiliTyyppi tyyppi = kp()->tiliTyypit()->tyyppiKoodilla( ui->tyyppiCombo->currentData().toString() );
-    if( ui->otsikkoRadio->isChecked() )
-        tyyppi = TiliTyyppi();
+    if( taso_ )
+        tyyppi = TiliLaji::OTSIKKO;
+
+    ui->laajuusLabel->setVisible( !taso_ );
+    ui->laajuusCombo->setVisible( !taso_ );
+    ui->tyyppiCombo->setVisible( !taso_ );
+    ui->tyyppiLabel->setVisible( !taso_ );
+    ui->ohjeLabel->setVisible(!taso_);
+    ui->ohjeTabs->setVisible(!taso_);
 
     // Ellei alv-toimintoja käytettävissä, ne piilotetaan
-    bool alvKaytossa = kp()->asetukset()->onko("AlvVelvollinen") &&
-            ( tyyppi.onko(TiliLaji::TULOS) || tyyppi.onko(TiliLaji::POISTETTAVA));
+    bool alvKaytossa = ( tyyppi.onko(TiliLaji::TULOS) || tyyppi.onko(TiliLaji::POISTETTAVA));
 
     ui->verolajiLabel->setVisible( alvKaytossa );
     ui->veroCombo->setVisible( alvKaytossa );
     ui->veroprosenttiLabel->setVisible( alvKaytossa );
     ui->veroSpin->setVisible( alvKaytossa);
 
-    if( tyyppi.onko(TiliLaji::TULO))
-        veroproxy_->setFilterRegExp("(0|1.)");
-    else if( tyyppi.onko(TiliLaji::MENO))
-        veroproxy_->setFilterRegExp("(0|2.)");
-    else
+    if( tyyppi.onko(TiliLaji::TULO)) {
+        veroproxy_->setFilterRegExp("^(0|1[1-7].)$");
+        ui->jaksotiliCombo->suodataTyypilla("AJ", true);
+    } else if( tyyppi.onko(TiliLaji::MENO)) {
+        veroproxy_->setFilterRegExp("^(0|2[1-7])$");
+        ui->jaksotiliCombo->suodataTyypilla("BJ", true);
+    } else
         veroproxy_->setFilterRegExp("");
 
     ui->ibanLabel->setVisible( tyyppi.onko(TiliLaji::PANKKITILI));
@@ -194,140 +255,37 @@ void TilinMuokkausDialog::naytettavienPaivitys()
     ui->poistoprossaSpin->setVisible( tyyppi.onko(TiliLaji::MENOJAANNOSPOISTO ));
 
     ui->poistotiliLabel->setVisible( tyyppi.onko(TiliLaji::POISTETTAVA));
-    ui->poistotiliEdit->setVisible( tyyppi.onko(TiliLaji::POISTETTAVA));
+    ui->poistotiliCombo->setVisible( tyyppi.onko(TiliLaji::POISTETTAVA));
 
-    ui->kohdennusCheck->setVisible( tyyppi.onko(TiliLaji::TASE));
+    ui->jaksotusLabel->setVisible( tyyppi.onko(TiliLaji::TULOS) && !tyyppi.onko(TiliLaji::POISTO));
+    ui->jaksotiliCombo->setVisible( tyyppi.onko(TiliLaji::TULOS) && !tyyppi.onko(TiliLaji::POISTO));
 
     // #46 Alv-velka ja alv-saatava -tileille ei voi tehdä tase-erittelyä, koska tilit tyhjennetään aina
     // kuukauden lopussa alv-kirjauksella, joka ei huomioi tase-eriä
 
     ui->teGroup->setVisible( tyyppi.onko(TiliLaji::TASE) && !tyyppi.onko(TiliLaji::ALVSAATAVA) && !tyyppi.onko(TiliLaji::ALVVELKA));
 
+    veroEnablePaivita();
+
 }
 
-void TilinMuokkausDialog::nroMuuttaaTyyppia(const QString &nroteksti)
+
+void TilinMuokkausDialog::alustalaajuus()
 {
-    if( !nroteksti.isEmpty())
-    {
-        int ekanro = nroteksti.leftRef(1).toInt();
-        int nykyluonne = ui->tyyppiCombo->currentData(TilityyppiModel::LuonneRooli).toInt();
-
-        // Jos numero alkaa 1, pitää olla vastaavaa-tili
-        // 2 pitää olla vastattavaa
-        // 3-> pitää olla tulostili
-
-        if( ekanro == 1 )
-        {
-            proxy_->setFilterRegExp("A.*");
-            if(( nykyluonne & TiliLaji::VASTAAVAA ) != TiliLaji::VASTAAVAA )
-                ui->tyyppiCombo->setCurrentIndex( ui->tyyppiCombo->findText("Vastaavaa"));
-        }
-        else if( ekanro == 2)
-        {
-            proxy_->setFilterRegExp("(B.*|T)");
-            if(( nykyluonne & TiliLaji::VASTATTAVAA) != TiliLaji::VASTATTAVAA )
-                ui->tyyppiCombo->setCurrentIndex(ui->tyyppiCombo->findText("Vastattavaa"));
-        }
-        else if( ekanro > 2 )
-        {
-            proxy_->setFilterRegExp("[CD].*");
-            if(( nykyluonne & TiliLaji::TULOS) != TiliLaji::TULOS )
-            {
-                if( ekanro == 3)
-                    ui->tyyppiCombo->setCurrentIndex( ui->tyyppiCombo->findText("Liikevaihtotulo (myynti)"));
-                else
-                    ui->tyyppiCombo->setCurrentIndex( ui->tyyppiCombo->findText("Menot"));
-            }
-        }
-
-        int ysinro = Tili::ysiluku( nroteksti.toInt(), ui->otsikkoRadio->isChecked() ? ui->tasoSpin->value() : 0);
-        // Haetaan ylempi otsikkoteksti
-        Tili ylatili = ylaotsikko(ysinro);
-
-        ui->kuuluuLabel->setText( ylatili.nimi() );
-
-        // Vaikuttaa otsikon otsikkotasoon
-        ui->tasoSpin->setValue( ylatili.otsikkotaso() == 9 ? 9 : ylatili.otsikkotaso() + 1  );
-
-
+    QVariantMap laajamap = QJsonDocument::fromJson( kp()->asetus("laajuudet").toUtf8() ).toVariant().toMap();
+    QMapIterator<QString,QVariant> iter(laajamap);
+    while (iter.hasNext()) {
+        iter.next();
+        KieliKentta kk(iter.value());
+        ui->laajuusCombo->addItem( kk.teksti(), iter.key() );
     }
-    else
-        ui->kuuluuLabel->clear();
-
-    tarkasta(); // Lopuksi tarkastetaan kelpaako numero
-
+    ui->laajuusCombo->setCurrentIndex( ui->laajuusCombo->findData( kp()->asetus("laajuus") ) );
 }
+
+
 
 void TilinMuokkausDialog::tarkasta()
 {
-
-   int luku = ui->numeroEdit->text().toInt();
-
-   int taso = ui->tasoSpin->value();
-   if( ui->tiliRadio->isChecked())
-       taso = 0;
-
-   int ysina = Tili::ysiluku(luku, taso);   // Ysivertailunumero
-
-   if( ui->otsikkoRadio->isChecked() )
-   {
-       if( Tili::ysiluku( ui->valiastiEdit->text().toInt()) < ysina )
-           ui->valiastiEdit->setText( ui->numeroEdit->text() );
-   }
-
-   // Jos numero vaihtuu, näytetään siitä varoitus
-   // Tämä siksi, että monet määritykset liittyvät tilin numeroon
-   if( ui->tiliRadio->isChecked() &&
-           index_.data(TiliModel::IdRooli).toInt() > 0 &&
-           index_.data(TiliModel::NroRooli).toInt() != luku )
-   {
-       ui->varoitusKuva->setVisible(true);
-       ui->varoitusLabel->setVisible(true);
-   }
-   else
-   {
-       ui->varoitusKuva->setVisible(false);
-       ui->varoitusLabel->setVisible(false);
-   }
-
-
-   // Tarkastetaan, ettei numero ole tupla
-   if( ysina != Tili::ysiluku(index_.data(TiliModel::NroRooli).toInt(), taso) )
-   {
-       for( int i = 0; i < model_->rowCount(QModelIndex()); i++)
-           if( model_->tiliIndeksilla(i).ysivertailuluku() == ysina)
-           {
-               // Sama numero on jo käytössä, ei siis kelpaa!
-               ui->numeroEdit->setStyleSheet("color: red;");
-               ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-               return;
-           }
-   }
-   // Uniikkitarkastus
-   if( ui->tyyppiCombo->currentData(TilityyppiModel::UniikkiRooli).toBool())
-   {
-       for( int i = 0; i < model_->rowCount(QModelIndex()); i++)
-           if( model_->index(i,0).data(TiliModel::TyyppiRooli).toString() == ui->tyyppiCombo->currentData(TilityyppiModel::KoodiRooli)
-               && model_->index(i,0).data(TiliModel::NroRooli).toInt() != luku )
-           {
-               ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-               ui->uniikkiVaroitus->setVisible(true);
-               return;
-           }
-   }
-
-
-   // Ei löytynyt samaa
-   ui->uniikkiVaroitus->setVisible(false);
-   ui->numeroEdit->setStyleSheet("color: black;");
-   ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
-
-   // Nimen ja numeron pitää olla täytetty
-   if(  !luku || ui->nimiEdit->text().isEmpty() )
-   {
-        ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-        return;
-   }
 
    naytettavienPaivitys();
 
@@ -346,138 +304,101 @@ void TilinMuokkausDialog::ibanCheck()
         ui->ibanLine->setStyleSheet("color: black;");
         break;
     }
+
+}
+
+void TilinMuokkausDialog::numeroCheck()
+{
+    if( tila_ == UUSITILI || tila_ == UUSIOTSIKKO) {
+        QString numero = ui->numeroEdit->text();
+        bool numerokelpaa =  !kp()->tilit()->tiliNumerolla(numero.toInt(), taso_).onkoValidi() &&
+                numero >= minNumero_ &&
+                numero < maxnumero_;
+        ui->numeroEdit->setStyleSheet( numerokelpaa ? "color: black;" : "color: red;" );
+        ui->buttonBox->button(QDialogButtonBox::Save)->setEnabled(numerokelpaa);
+    }
+
 }
 
 void TilinMuokkausDialog::accept()
 {
-    ui->buttonBox->setFocus();
+    if( !tili_)
+        tili_ = kp()->tilit()->lisaaTili( ui->numeroEdit->text().toInt(), taso_ );
 
-    // Kaikki kunnossa eli voidaan tallentaa modeliin
-    QString tyyppikoodi = ui->tyyppiCombo->currentData().toString();
-    int taso = ui->tasoSpin->value();
+    if( !taso_) {
+        QString tyyppi = ui->tyyppiCombo->currentData().toString();
+        tili_->asetaTyyppi( tyyppi );
+        tili_->asetaLaajuus( ui->laajuusCombo->currentData().toInt());
 
-    if( ui->otsikkoRadio->isChecked())
-        tyyppikoodi = QString("H%1").arg(ui->tasoSpin->value());
-    else
-        taso = 0;
+        tili_->setInt("alvlaji", ui->veroCombo->currentData().toInt());
+        tili_->setInt("alvprosentti", ui->veroSpin->value());
+        tili_->setInt("tasaerapoisto", tyyppi == "APT" ? ui->poistoaikaSpin->value() * 12 : 0);
+        tili_->setInt("menojaannospoisto", tyyppi == "APM" ? ui->poistoprossaSpin->value() : 0);
+        tili_->setInt("poistotili", tyyppi.startsWith("AP") ?  ui->poistotiliCombo->valittuTilinumero() : 0);
 
-    TiliTyyppi tilityyppi = kp()->tiliTyypit()->tyyppiKoodilla(tyyppikoodi);
-
-    if( tilityyppi.onko(TiliLaji::POISTETTAVA) && !ui->poistotiliEdit->valittuTilinumero())
-    {
-        QMessageBox::critical(this, tr("Tiedot puutteelliset"), tr("Tilille on määriteltävä poistojen kirjaustili."));
-        return;
-    }
-
-    JsonKentta *json;
-    Tili uusitili;
-    if( !index_.isValid())
-    {
-        // Uusi tili
-        uusitili.asetaNumero(ui->numeroEdit->text().toInt());
-        uusitili.asetaNimi( ui->nimiEdit->text());
-        uusitili.asetaTyyppi( tyyppikoodi );
-        json = uusitili.json();
-
-    }
-    else
-    {
-        // Päivitetään tili modeliin
-        model_->setData(index_, ui->numeroEdit->text().toInt(), TiliModel::NroRooli);
-        model_->setData(index_, ui->nimiEdit->text(), TiliModel::NimiRooli);
-        model_->setData(index_, tyyppikoodi, TiliModel::TyyppiRooli);
-        json = model_->jsonIndeksilla( index_.row());
-    }
-
-    json->set("Taydentava", ui->taydentavaEdit->text());
-    json->set("Kirjausohje", ui->kirjausohjeText->toPlainText());
-
-    if( tilityyppi.onko(TiliLaji::PANKKITILI) && IbanValidator::kelpaako( ui->ibanLine->text() ) )
-        json->set("IBAN", ui->ibanLine->text().simplified().remove(' '));
-    else
-        json->unset("IBAN");
-
-
-    if( !taso )
-    {
-
-        // Tilistä kirjoitetaan json-kentät
-
-        if( ui->vastatiliEdit->valittuTilinumero() )
-            json->set("Vastatili", ui->vastatiliEdit->valittuTilinumero());
-        else
-            json->unset("Vastatili");
-
-        json->set("AlvLaji", ui->veroCombo->currentData(VerotyyppiModel::KoodiRooli).toInt());
-
-        if( ui->veroCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool())
-            json->unset("AlvProsentti");
-        else
-            json->set("AlvProsentti", ui->veroSpin->value());
-
-        if( tilityyppi.onko( TiliLaji::TASAERAPOISTO))
-            json->set("Tasaerapoisto", ui->poistoaikaSpin->value() * 12); // vuosi -> kk
-        else
-            json->unset("Tasaerapoisto");
-
-        if( tilityyppi.onko( TiliLaji::MENOJAANNOSPOISTO))
-            json->set("Menojaannospoisto", ui->poistoprossaSpin->value());
-        else
-            json->unset("Menojaannospoisto");
-
-        if( tilityyppi.onko( TiliLaji::POISTETTAVA))
-            json->set("Poistotili", ui->poistotiliEdit->valittuTilinumero());
-        else
-            json->unset("Poistotili");
-
-        if( tilityyppi.onko( TiliLaji::TASE))
-        {
-            if( ui->taseEraLuettelo->isChecked() )
-                json->set("Taseerittely", Tili::TASEERITTELY_LISTA);
-            else if( ui->taseEratRadio->isChecked() )
-                json->set("Taseerittely", Tili::TASEERITTELY_TAYSI);
+        if( tili_->onko(TiliLaji::TULOS)) {
+            tili_->setInt("jaksotustili", ui->jaksotiliCombo->valittuTilinumero());
+            tili_->unset("erittely");
+        } else {
+            if( ui->taseEratRadio->isChecked() )
+                tili_->setInt("erittely", Tili::TASEERITTELY_TAYSI);
+            else if( ui->taseEraLuettelo->isChecked())
+                tili_->setInt("erittely", Tili::TASEERITTELY_LISTA);
             else if( ui->teLiVaRadio->isChecked())
-                json->set("Taseerittely", Tili::TASEERITTELY_MUUTOKSET);
-            else
-                json->unset("Taseerittely");
+                tili_->setInt("erittely", Tili::TASEERITTELY_MUUTOKSET);
+            else if( ui->teSaldoRadio->isChecked())
+                tili_->setInt("erittely", Tili::TASEERITTELY_SALDOT);
         }
-        else
-            json->unset("Taseerittely");
-
-        if( ui->kohdennusCheck->isChecked() && tilityyppi.onko(TiliLaji::TASE))
-            json->set("Kohdennukset");
-        else
-            json->unset("Kohdennukset");
-
-
     }
 
-    if( taso && ui->valiastiEdit->text().toInt() != ui->numeroEdit->text().toInt() )
-        json->set("Asti",  ui->valiastiEdit->text().toInt() );
-    else
-        json->unset("Asti");
+    for(int i=0; i < ui->nimiList->count(); i++)
+        tili_->asetaNimi( ui->nimiList->item(i)->text(), ui->nimiList->item(i)->data(Qt::UserRole).toString() );
+    for(int i=0; i < ui->ohjeTabs->count(); i++) {
+        QPlainTextEdit *edit = qobject_cast<QPlainTextEdit*>( ui->ohjeTabs->widget(i) );
+        tili_->asetaOhje( edit->toPlainText(), edit->property("Kielikoodi").toString() );
+    }
 
-    if( uusitili.numero() )     // Lisätään uusi tili
-        model_->lisaaTili( uusitili );
-
+    kp()->tilit()->tallenna(tili_);
 
     QDialog::accept();
 }
 
-Tili TilinMuokkausDialog::ylaotsikko(int ysinro)
+void TilinMuokkausDialog::poista()
 {
-    Tili ylatili;
-
-    for( int i=0; i < model_->rowCount(QModelIndex()) ; i++)
+    if( QMessageBox::question(this, tr("Vahvista poisto"),
+                              tr("Haluatko varmasti poistaa tämän tilin? Tarpeeton tili on yleensä "
+                                 "suositeltavampaa piilottaa kuin poistaa.")) == QMessageBox::Yes)
     {
-       Tili tili = model_->tiliIndeksilla(i);
-       int asti = tili.json()->luku("Asti") ? tili.json()->luku("Asti") : tili.numero();
-       if( ysinro > tili.ysivertailuluku() && ysinro < Tili::ysiluku( asti, true )  )
-       {
-           if( tili.otsikkotaso() > ylatili.otsikkotaso() && tili.ysivertailuluku() != ysinro)
-               ylatili = tili;
-       }
+        kp()->tilit()->poistaRivi(indeksi_);
+        QDialog::accept();
     }
-    return ylatili;
 }
+
+void TilinMuokkausDialog::viennitSaapuu(QVariant *data)
+{
+    poistaNappi_->setEnabled( data->toList().isEmpty() );
+}
+
+
+void TilinMuokkausDialog::alustaNimet()
+{
+    for(QString kieli : kp()->asetukset()->kielet()) {
+        QListWidgetItem* item = new QListWidgetItem( lippu(kieli), tili_ ? tili_->nimiKaannos(kieli) : "", ui->nimiList  );
+        item->setData(Qt::UserRole, kieli);
+        item->setFlags( Qt::ItemIsEnabled | Qt::ItemIsEditable);
+    }
+}
+
+void TilinMuokkausDialog::alustaOhjeet()
+{
+    for( QString kieli : kp()->asetukset()->kielet()) {
+        QPlainTextEdit* edit = new QPlainTextEdit;
+        if( tili_ ) {
+            edit->setPlainText( tili_->ohjeKaannos(kieli) );
+            edit->setProperty("Kielikoodi", kieli);
+        }
+        ui->ohjeTabs->addTab(edit,lippu(kieli),kp()->asetukset()->kieli(kieli));
+    }
+}
+
 

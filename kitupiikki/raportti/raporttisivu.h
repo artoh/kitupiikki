@@ -26,7 +26,7 @@
 #include <QWidget>
 #include <QPrinter>
 
-#include "raportti.h"
+#include "raporttiwidget.h"
 
 #include "kitupiikkisivu.h"
 

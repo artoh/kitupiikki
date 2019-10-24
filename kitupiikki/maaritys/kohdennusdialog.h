@@ -36,9 +36,8 @@ class KohdennusDialog : public QDialog
     Q_OBJECT
 
 public:
-    KohdennusDialog(KohdennusModel *model,
-                    QModelIndex index = QModelIndex(),
-                    QWidget *parent = 0);
+    KohdennusDialog(int index = -1,
+                    QWidget *parent = nullptr);
     ~KohdennusDialog();
 
 protected slots:
@@ -46,6 +45,7 @@ protected slots:
      * @brief Huolehtii, ettei päättymispäivä ole alkupäivää aikaisempi
      */
     void tarkennaLoppuMinimi();
+    void tyyppiMuuttuu();
 
     void accept();
 
@@ -57,8 +57,7 @@ private:
     Ui::KohdennusDialog *ui;
 
 protected:
-    KohdennusModel *model_;
-    QModelIndex index_;
+    int index_;
 };
 
 #endif // KOHDENNUSDIALOG_H

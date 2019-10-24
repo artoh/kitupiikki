@@ -23,6 +23,30 @@
 #include <QMap>
 
 #include "db/kirjanpito.h"
+#include "model/tosite.h"
+
+/**
+ * @brief Tilinavauksessa oleva yksi erä
+ */
+class AvausEra {
+public:
+    AvausEra(qlonglong saldo = 0l, const QString& eranimi=QString(), int kohdennus=0, int vienti=0 );
+
+    QString eranimi() const { return eranimi_; }
+    int kohdennus() const { return kohdennus_;}
+    qlonglong saldo() const { return saldo_; }
+    int vienti() const { return vienti_;}
+
+    void asetaNimi(const QString& nimi) { eranimi_ = nimi;}
+    void asetaKohdennus(int kohdennus) { kohdennus_ = kohdennus; }
+    void asetaSaldo(qlonglong saldo) { saldo_= saldo;}
+
+protected:
+    QString eranimi_;
+    int kohdennus_ = 0;
+    qlonglong saldo_ = 0l;
+    int vienti_ = 0;
+};
 
 /**
  * @brief Tilinavaukset
@@ -34,21 +58,31 @@ class TilinavausModel : public QAbstractTableModel
 {
     Q_OBJECT
 
+
 public:
     enum Sarake
     {
-        NRO, NIMI, SALDO
+        NRO, NIMI, SALDO, ERITTELY
     };
 
     enum
     {
-        KaytossaRooli = Qt::UserRole + 1
+        KaytossaRooli = Qt::UserRole + 1,
+        NumeroRooli = Qt::UserRole + 2,
+        NimiRooli = Qt::UserRole + 3,
+        ErittelyRooli = Qt::UserRole + 4
+    };
+
+    enum Erittely {
+        EI_ERITTELYA,
+        TASEERAT,
+        KOHDENNUKSET
     };
 
     TilinavausModel();
 
-    int rowCount(const QModelIndex &parent) const override;
-    int columnCount(const QModelIndex &parent) const override;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
     QVariant data(const QModelIndex &index, int role) const override;
@@ -58,17 +92,27 @@ public:
 
     bool onkoMuokattu() const { return muokattu_; }
 
+    void asetaErat(int tili, QList<AvausEra> erat);
+    QList<AvausEra> erat(int tili) const;
+
 public slots:
-    void lataa();
     bool tallenna();
+    void lataa();
 
     void paivitaInfo();
 
-signals:
-    void infoteksti(QString teksti);
+    void ladattu();
 
 protected:
-    QMap<int,qlonglong> saldot;
+    static qlonglong erasumma(const QList<AvausEra>& erat);
+
+signals:
+    void tilasto(qlonglong vastaava, qlonglong vastattava, qlonglong tulos);
+
+protected:
+    QMap<int, QList<AvausEra>> erat_;
+    Tosite *tosite_;
+
     bool muokattu_;
     int kaudenTulosIndeksi_ = 0;
     bool alvVelkaVaroitus = false;

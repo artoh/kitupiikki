@@ -7,22 +7,28 @@
 
 # Käännös suoritetaan Ubuntu 14.04 virtuaalikoneessa
 
-BUILDIR=/home/arto/kitupiikki/build
-QTDIR=/opt/qt510
+BUILDIR=build
+QTDIR=/opt/qt512
 DISTDIR=/media/sf_virtuaali
 
+mkdir -p $BUILDIR 
 cd $BUILDIR
 
-$QTDIR/bin/qmake ../kitupiikki/kitupiikki.pro -spec linux-g++ "CONFIG+=release" && /usr/bin/make qmake_all
+$QTDIR/bin/qmake ../kitupiikki/kitupiikki.pro -spec linux-g++ "CONFIG+=release" && make qmake_all
+
+export LD_LIBRARY_PATH=$QTDIR/lib
+export ARCH=x86:64
+export VERSION=2.00-pre1
 
 make -j 6
 make clean
 
-cp ../kitupiikki.desktop .
-cp ../kitupiikki.png .
+cp ../kitsas.desktop .
+cp ../kitsas.png .
+ln -s kitsas AppRun
 
-/opt/linuxdeployqt-continuous-x86_64.AppImage kitupiikki.desktop -appimage -bundle-non-qt-libs -qmake=/$QTDIR/bin/qmake -verbose=2 -no-translations -no-copy-copyright-files
+../linuxdeployqt-6-x86_64.AppImage kitsas.desktop -appimage -bundle-non-qt-libs -qmake=/$QTDIR/bin/qmake -verbose=2 -no-translations -no-copy-copyright-files
 
-cp Kitupiikki-x86_64.AppImage ../$DIST_DIR/Kitupiikki-x.x-x86_64.AppImage
+cp Kitsas* ../$DIST_DIR
 
-cd ~
+cd ..

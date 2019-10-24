@@ -33,8 +33,6 @@ TositeRoute::TositeRoute(SQLiteModel *model) :
 
 QVariant TositeRoute::get(const QString &polku, const QUrlQuery &urlquery)
 {
-     qDebug() << " tosite get " << polku << " " << urlquery.toString();
-
     if( !polku.isEmpty())
         return hae( polku.toInt() );
 
@@ -52,7 +50,7 @@ QVariant TositeRoute::get(const QString &polku, const QUrlQuery &urlquery)
 
     QString jarjestys = "pvm";
     if( urlquery.queryItemValue("jarjestys") == "tyyppi,tosite")
-        jarjestys = "tyyppi,sarja,tosite";
+        jarjestys = "tyyppi,sarja,tunniste";
     else if( urlquery.queryItemValue("jarjestys") == "tosite")
         jarjestys = "sarja,tunniste";
     else if( urlquery.queryItemValue("jarjestys") == "tyyppi,pvm")
@@ -65,7 +63,6 @@ QVariant TositeRoute::get(const QString &polku, const QUrlQuery &urlquery)
 
     QSqlQuery kysely( db());
     kysely.exec(kysymys);
-    qDebug() << kysely.lastQuery() << " - " << kysely.lastError().text();
 
     QVariantList tositteet = resultList(kysely);
 
@@ -87,7 +84,7 @@ QVariant TositeRoute::post(const QString & /*polku*/, const QVariant &data)
 
 QVariant TositeRoute::put(const QString &polku, const QVariant &data)
 {
-    return hae( lisaaTaiPaivita(data, polku.mid(1).toInt()));
+    return hae( lisaaTaiPaivita(data, polku.toInt() ) );
 }
 
 QVariant TositeRoute::patch(const QString &polku, const QVariant &data)
@@ -106,14 +103,15 @@ QVariant TositeRoute::patch(const QString &polku, const QVariant &data)
         if( kysely.value(0).toInt())
             tunniste = kysely.value(0).toInt();
         else if( tila >= Tosite::KIRJANPIDOSSA) {
-            Tilikausi kausi = kp()->tilikaudet()->tilikausiPaivalle(kysely.value(1).toDate());
+            QDate pvm = kysely.value(1).toDate();
+            Tilikausi kausi = kp()->tilikaudet()->tilikausiPaivalle(pvm);
             QString sarja = kysely.value(2).toString();
-            if( sarja.isNull()) {
-                kysely.exec(QString("SELECT MAX(tunniste) FROM Tosite WHERE pvm BETWEEN '%1' AND '%2' ANS sarja IS NULL")
-                            .arg(kausi.alkaa().toString(Qt::ISODate).arg(kausi.paattyy().toString(Qt::ISODate))));
+            if( sarja.isEmpty()) {
+                kysely.exec(QString("SELECT MAX(tunniste) FROM Tosite WHERE pvm BETWEEN '%1' AND '%2' AND sarja IS NULL")
+                            .arg( kausi.alkaa().toString(Qt::ISODate) ).arg( kausi.paattyy().toString( Qt::ISODate )) );
             } else {
-                kysely.exec(QString("SELECT MAX(tunniste) FROM Tosite WHERE pvm BETWEEN '%1' AND '%2' ANS sarja = '%3'")
-                            .arg(kausi.alkaa().toString(Qt::ISODate).arg(kausi.paattyy().toString(Qt::ISODate))).arg(sarja));
+                kysely.exec(QString("SELECT MAX(tunniste) FROM Tosite WHERE pvm BETWEEN '%1' AND '%2' AND sarja = '%3'")
+                            .arg(kausi.alkaa().toString(Qt::ISODate)).arg(kausi.paattyy().toString(Qt::ISODate)).arg(sarja));
             }
             if( kysely.next()) {
                 tunniste = kysely.value(0).toInt() + 1;
@@ -179,10 +177,8 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
                          .arg(kausi.alkaa().toString(Qt::ISODate)).arg(kausi.paattyy().toString(Qt::ISODate)).arg(sarja));
         if( kysely.next())
             tunniste = kysely.value("tunniste").toInt() + 1;
-
-        qDebug() << kysely.lastQuery() << " -- sarja " << sarja << "tosite  " << tunniste;
     }
-    // TODO Laskun numero ja viite
+    // Laskun numero ja viite
     if( map.contains("lasku") && !map.value("lasku").toMap().contains("numero") && tila >= Tosite::VALMISLASKU &&
             viennit.count()) {
         qulonglong laskunumero = kp()->asetukset()->asetus("LaskuSeuraavaId").toULongLong();
@@ -203,6 +199,7 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
     if( tositeid ) {
         tositelisays.prepare("INSERT INTO Tosite (id, pvm, tyyppi, tila, tunniste, otsikko, kumppani, sarja, json) "
                              "VALUES (?,?,?,?,?,?,?,?,?) "
+                             "ON CONFLICT(id) DO UPDATE "
                              "SET pvm=EXCLUDED.pvm, tyyppi=EXCLUDED.tyyppi, tila=EXCLUDED.tila, tunniste=EXCLUDED.tunniste, otsikko=EXCLUDED.otsikko, "
                              "kumppani=EXCLUDED.kumppani, sarja=EXCLUDED.sarja, json=EXCLUDED.json");
 
@@ -223,9 +220,6 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
 
     if( !tositeid)
         tositeid = tositelisays.lastInsertId().toInt();
-
-    qDebug() << " Kysely " << tositelisays.lastQuery()
-             << " virhe " << tositelisays.lastError().text();
 
     // Lisätään viennit
     QSet<int> vanhatviennit;
@@ -262,7 +256,9 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
 
         if( vientiid ) {
             vanhatviennit.remove(vientiid);
-
+            kysely.prepare(QString("UPDATE Vienti SET tosite=?, pvm=?, tili=?, kohdennus=?, selite=?, debet=?, kredit=?, eraid=?, "
+                                   "json=?, alvkoodi=?, alvprosentti=?, rivi=?, kumppani=?, jaksoalkaa=?, jaksoloppuu=?, tyyppi=?, erapvm=?, viite=? "
+                                   "WHERE id=%1").arg(vientiid));
         } else {
             kysely.prepare("INSERT INTO Vienti (tosite, pvm, tili, kohdennus, selite, debet, kredit, eraid, json, alvkoodi, alvprosentti, rivi, kumppani, jaksoalkaa, jaksoloppuu, tyyppi, erapvm, viite) "
                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ");
@@ -290,7 +286,10 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
 
         kysely.exec();
 
-        qDebug() << kysely.lastQuery() << "  v> " << kysely.lastError().text();
+        vientiid = kysely.lastInsertId().toInt();
+        // Uusi erä käyttöön
+        if( eraid < 0)
+            kysely.exec(QString("UPDATE Vienti SET eraid=%1 WHERE id=%1").arg(vientiid) );
 
 
         if( vientiid )
@@ -304,7 +303,6 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
                         .arg(vientiid)
                         .arg(merkkaus.toInt()));
         }
-
 
     }
 
