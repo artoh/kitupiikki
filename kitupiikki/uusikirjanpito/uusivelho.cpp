@@ -67,11 +67,16 @@ UusiVelho::UusiVelho()
 
 void UusiVelho::lataaKartta(const QString &polku)
 {
+    // tilikartan tiedot
+    QFile asetukset(polku + "/tilikartta.json");
+    if( asetukset.open(QIODevice::ReadOnly))
+        asetukset_ = QJsonDocument::fromJson( asetukset.readAll() ).toVariant().toMap();
+
     // json asetuksille
     {
         QFile asetukset(polku + "/asetukset.json");
         if( asetukset.open(QIODevice::ReadOnly))
-            asetukset_ = QJsonDocument::fromJson( asetukset.readAll() ).toVariant().toMap();
+            asetukset_.unite(QJsonDocument::fromJson( asetukset.readAll() ).toVariant().toMap());
     }
     // json-tiedosto raporteille
     {

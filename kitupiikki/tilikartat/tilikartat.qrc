@@ -7,5 +7,6 @@
         <file>yhdistys/raportit.json</file>
         <file>yhdistys/tilinpaatos.txt</file>
         <file>yhdistys/tilit.json</file>
+        <file>yhdistys/tilikartta.json</file>
     </qresource>
 </RCC>

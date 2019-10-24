@@ -1,7 +1,4 @@
 {
-  "TilikarttaNimi" : "Yhdistys",
-  "TilikarttaPvm" : "2019-10-10",
-  "TilikarttaTekija" : "kitsas@kitsas.fi",
   "kielet" : {
       "fi" : { "fi": "suomi", "sv" : "finska"},
       "sv" : { "fi": "ruotsi", "sv": "svenska"}
