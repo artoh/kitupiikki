@@ -25,8 +25,9 @@
  */
 class YTunnusValidator : public QValidator
 {
+    Q_OBJECT
 public:
-    YTunnusValidator(bool alvtunnuksia = false);
+    YTunnusValidator(bool alvtunnuksia = false, QObject* parent = nullptr );
 
     State validate(QString &input, int &pos) const;
 

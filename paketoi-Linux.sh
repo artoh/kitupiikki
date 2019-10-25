@@ -11,12 +11,13 @@ BUILDIR=build
 QTDIR=/opt/qt512
 DISTDIR=/media/sf_virtuaali
 
+rm -R $BUILDIR
 mkdir -p $BUILDIR 
 cd $BUILDIR
 
 $QTDIR/bin/qmake ../kitupiikki/kitupiikki.pro -spec linux-g++ "CONFIG+=release" && make qmake_all
 
-export LD_LIBRARY_PATH=$QTDIR/lib
+export LD_LIBRARY_PATH=$QTDIR/lib:$LD_LIBRARY_PATH
 export ARCH=x86:64
 export VERSION=2.00-pre1
 
@@ -27,8 +28,8 @@ cp ../kitsas.desktop .
 cp ../kitsas.png .
 ln -s kitsas AppRun
 
-../linuxdeployqt-6-x86_64.AppImage kitsas.desktop -appimage -bundle-non-qt-libs -qmake=/$QTDIR/bin/qmake -verbose=2 -no-translations -no-copy-copyright-files
+~/linuxdeployqt-6-x86_64.AppImage kitsas.desktop -appimage -bundle-non-qt-libs -qmake=$QTDIR/bin/qmake -verbose=2 -no-translations -no-copy-copyright-files
 
-cp Kitsas* ../$DIST_DIR
+cp Kitsas* $DISTDIR
 
 cd ..

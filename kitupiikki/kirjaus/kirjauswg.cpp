@@ -384,7 +384,9 @@ void KirjausWg::tuonti(QVariant *data)
     QVariantMap map = data->toMap();
     if( map.contains("tyyppi"))
         ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( map.value("tyyppi") ) );
-    ui->tositePvmEdit->setDate( map.value("tositepvm").toDate() );
+    if( map.value("tositepvm").toDate().isValid())
+        ui->tositePvmEdit->setDate( map.value("tositepvm").toDate() );
+
     if( apuri_)
         apuri_->tuo(map);
 }

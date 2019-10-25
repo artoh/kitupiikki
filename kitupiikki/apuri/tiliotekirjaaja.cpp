@@ -81,6 +81,7 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
     connect( ui->tiliEdit, &TilinvalintaLine::textChanged, this, &TilioteKirjaaja::tiliMuuttuu);
     connect( ui->maksuView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &TilioteKirjaaja::tarkastaTallennus);
     connect( ui->eraCombo, &EraCombo::valittu, this, &TilioteKirjaaja::eraValittu);
+    connect( ui->jaksoAlkaaEdit, &KpDateEdit::dateChanged, this, &TilioteKirjaaja::jaksomuuttuu);
 
     connect( ui->asiakastoimittaja, &AsiakasToimittajaValinta::valittu, this, &TilioteKirjaaja::kumppaniValittu);
 
@@ -131,6 +132,8 @@ TilioteModel::Tilioterivi TilioteKirjaaja::rivi()
 
         if( rivi.selite.isEmpty())
             rivi.selite = rivi.saajamaksaja;
+        rivi.jaksoalkaa = ui->jaksoAlkaaEdit->date();
+        rivi.jaksoloppuu = ui->jaksoLoppuuEdit->date();
     }
 
     return rivi;
@@ -259,6 +262,12 @@ void TilioteKirjaaja::tiliMuuttuu()
     if( erat ) {
         ui->eraCombo->lataa(tili.numero());
     }
+
+    bool jakso = tili.onko(TiliLaji::TULOS);
+    ui->jaksotusLabel->setVisible(jakso);
+    ui->jaksoAlkaaEdit->setVisible(jakso);
+    ui->jaksoViivaLabel->setVisible(jakso);
+    ui->jaksoLoppuuEdit->setVisible(jakso);
 }
 
 void TilioteKirjaaja::eraValittu(int /* eraId */, double avoinna)
@@ -266,6 +275,14 @@ void TilioteKirjaaja::eraValittu(int /* eraId */, double avoinna)
     if( !ui->euroEdit->asCents() && avoinna > 1e-5)
         ui->euroEdit->setValue(menoa_ ? 0 - avoinna : avoinna);
 
+}
+
+void TilioteKirjaaja::jaksomuuttuu(const QDate &pvm)
+{
+    ui->jaksoLoppuuEdit->setEnabled( pvm.isValid() );
+    ui->jaksoLoppuuEdit->setDateRange( pvm, kp()->tilikaudet()->kirjanpitoLoppuu() );
+    if( !pvm.isValid())
+        ui->jaksoLoppuuEdit->setNull();
 }
 
 void TilioteKirjaaja::valitseLasku()
@@ -302,6 +319,8 @@ void TilioteKirjaaja::tyhjenna()
     ui->kohdennusCombo->setCurrentIndex(
                 ui->kohdennusCombo->findData(0, KohdennusModel::IdRooli));
     ui->eraCombo->valitse(0);
+    ui->jaksoAlkaaEdit->setNull();
+    ui->jaksoLoppuuEdit->setNull();
     lataaMerkkaukset();
     tarkastaTallennus();
 }

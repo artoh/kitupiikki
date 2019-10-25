@@ -64,7 +64,7 @@ AloitusSivu::AloitusSivu() :
     ui->setupUi(this);
 
     // Tässä julkaisussa pilvi ei käytössä
-    ui->tkpilviTab->setTabEnabled(1, false);
+    // ui->tkpilviTab->setTabEnabled(1, false);
 
     ui->selain->setOpenLinks(false);
 

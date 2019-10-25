@@ -17,8 +17,9 @@
 
 #include "ytunnusvalidator.h"
 
-YTunnusValidator::YTunnusValidator(bool alvtunnuksia)
-    : alvtunnuskelpaa(alvtunnuksia)
+YTunnusValidator::YTunnusValidator(bool alvtunnuksia, QObject *parent)
+    : QValidator(parent),
+      alvtunnuskelpaa(alvtunnuksia)
 {
 
 }

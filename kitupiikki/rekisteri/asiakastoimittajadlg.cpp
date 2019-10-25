@@ -36,7 +36,7 @@ AsiakasToimittajaDlg::AsiakasToimittajaDlg(QWidget *parent) :
     ui(new Ui::AsiakasToimittajaDlg)
 {
     ui->setupUi(this);
-    ui->yEdit->setValidator(new YTunnusValidator(false));
+    ui->yEdit->setValidator(new YTunnusValidator(false, this));
 
     connect( ui->postinumeroEdit, &QLineEdit::textChanged, this, &AsiakasToimittajaDlg::haeToimipaikka);
     connect( ui->maaCombo, &QComboBox::currentTextChanged, this, &AsiakasToimittajaDlg::maaMuuttui);
@@ -45,7 +45,7 @@ AsiakasToimittajaDlg::AsiakasToimittajaDlg(QWidget *parent) :
     connect( ui->yEdit, &QLineEdit::textEdited, this, &AsiakasToimittajaDlg::haeYTunnarilla);
     connect( ui->yEdit, &QLineEdit::editingFinished, this, &AsiakasToimittajaDlg::haeYTunnarilla);
 
-    ui->tilitLista->setItemDelegate( new IbanDelegaatti() );
+    ui->tilitLista->setItemDelegate( new IbanDelegaatti(this) );
 }
 
 AsiakasToimittajaDlg::~AsiakasToimittajaDlg()
