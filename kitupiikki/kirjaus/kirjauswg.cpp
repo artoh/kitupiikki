@@ -69,7 +69,7 @@
 #include "tallennettuwidget.h"
 
 #include "selaus/selauswg.h"
-
+#include "arkistoija/arkistoija.h"
 
 KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     : QWidget(parent),
@@ -121,7 +121,7 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     // Lisätoimintojen valikko
     QMenu *valikko = new QMenu(this);
 //    valikko->addAction(QIcon(":/pic/etsi.png"), tr("Siirry tositteeseen\tCtrl+G"), this, SLOT(siirryTositteeseen()));
-//    valikko->addAction(QIcon(":/pic/tulosta.png"), tr("Tulosta tosite\tCtrl+P"), this, SLOT(tulostaTosite()), QKeySequence("Ctrl+P"));
+    valikko->addAction(QIcon(":/pic/tulosta.png"), tr("Tulosta tosite\tCtrl+P"), this, SLOT(tulostaTosite()), QKeySequence("Ctrl+P"));
 //    uudeksiAktio_ = valikko->addAction(QIcon(":/pic/kopioi.png"), tr("Kopioi uuden pohjaksi\tCtrl+T"), this, SLOT(uusiPohjalta()), QKeySequence("Ctrl+T"));
     poistaAktio_ = valikko->addAction(QIcon(":/pic/roskis.png"),tr("Poista tosite"),this, SLOT(poistaTosite()));
 //    tyhjennaViennitAktio_ = valikko->addAction(QIcon(":/pic/edit-clear.png"),tr("Tyhjennä viennit"), model_->vientiModel(), &VientiModel::tyhjaa);
@@ -307,9 +307,14 @@ void KirjausWg::tulostaTosite()
     QPrintDialog printDialog( kp()->printer(), this);
     if( printDialog.exec() )
     {
-        QPainter painter( kp()->printer() );
-//        model()->tuloste().tulosta( kp()->printer(), &painter );
-        painter.end();
+        Arkistoija arkistoija(kp()->tilikaudet()->tilikausiPaivalle(tosite()->pvm()));
+        QByteArray ba = arkistoija.tosite( tosite()->tallennettava() , -1);
+        QTextDocument doc;
+        QFile css(":/arkisto/arkisto.css");
+        css.open(QIODevice::ReadOnly);
+        doc.setDefaultStyleSheet( QString::fromUtf8( css.readAll() ) );
+        doc.setHtml( QString::fromUtf8(ba) );
+        doc.print( kp()->printer());
     }
 }
 

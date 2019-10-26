@@ -35,6 +35,8 @@ public:
     explicit Arkistoija(const Tilikausi& tilikausi, QObject *parent = nullptr);
 
     void arkistoi();
+    QByteArray tosite(const QVariantMap &tosite, int indeksi);
+
 
 signals:
     void arkistoValmis(QString hakemisto);
@@ -57,7 +59,6 @@ protected slots:
     void viimeistele();
 
 protected:
-    QByteArray tosite(const QVariantMap &tosite, int indeksi);
     static QString tiedostonnimi(const QDate& pvm, const QString& sarja, int tunniste);
 
     QString navipalkki(int indeksi = -10) const;
