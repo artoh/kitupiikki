@@ -69,9 +69,9 @@ QVariant TositeRoute::get(const QString &polku, const QUrlQuery &urlquery)
     // Sitten tätä pitäisi vielä täydentää summalla
     for(int i=0; i<tositteet.count(); i++) {
         QVariantMap map = tositteet[i].toMap();
-        kysely.exec(QString("SELECT SUM(debet) FROM Vienti WHERE tosite=%1").arg(map.value("id").toInt()));
+        kysely.exec(QString("SELECT SUM(debetsnt) FROM Vienti WHERE tosite=%1").arg(map.value("id").toInt()));
         if( kysely.next() )
-            map.insert("summa", kysely.value(0).toDouble());
+            map.insert("summa", kysely.value(0).toLongLong() / 100.0);
         tositteet[i]=map;
     }
     return tositteet;
@@ -238,8 +238,8 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
         int tili = vientimap.take("tili").toInt();
         int kohdennus = vientimap.take("kohdennus").toInt();
         QString selite = vientimap.take("selite").toString();
-        double debet = vientimap.take("debet").toDouble();
-        double kredit = vientimap.take("kredit").toDouble();
+        qlonglong debet = qRound64( vientimap.take("debet").toDouble() * 100 );
+        qlonglong kredit =  qRound64( vientimap.take("kredit").toDouble() * 100);
         QVariantList merkkaukset = vientimap.take("merkkaukset").toList();
         int kumppani = vientimap.take("kumppani").toInt();
         QDate jaksoalkaa = vientimap.take("jaksoalkaa").toDate();
@@ -256,11 +256,11 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
 
         if( vientiid ) {
             vanhatviennit.remove(vientiid);
-            kysely.prepare(QString("UPDATE Vienti SET tosite=?, pvm=?, tili=?, kohdennus=?, selite=?, debet=?, kredit=?, eraid=?, "
+            kysely.prepare(QString("UPDATE Vienti SET tosite=?, pvm=?, tili=?, kohdennus=?, selite=?, debetsnt=?, kreditsnt=?, eraid=?, "
                                    "json=?, alvkoodi=?, alvprosentti=?, rivi=?, kumppani=?, jaksoalkaa=?, jaksoloppuu=?, tyyppi=?, erapvm=?, viite=? "
                                    "WHERE id=%1").arg(vientiid));
         } else {
-            kysely.prepare("INSERT INTO Vienti (tosite, pvm, tili, kohdennus, selite, debet, kredit, eraid, json, alvkoodi, alvprosentti, rivi, kumppani, jaksoalkaa, jaksoloppuu, tyyppi, erapvm, viite) "
+            kysely.prepare("INSERT INTO Vienti (tosite, pvm, tili, kohdennus, selite, debetsnt, kreditsnt, eraid, json, alvkoodi, alvprosentti, rivi, kumppani, jaksoalkaa, jaksoloppuu, tyyppi, erapvm, viite) "
                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ");
         }
         kysely.addBindValue(tositeid);
@@ -269,8 +269,8 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
         kysely.addBindValue(kohdennus);
         kysely.addBindValue(selite);
 
-        kysely.addBindValue( qAbs(debet) > 1e-5 ? QString::number(debet,'f',2) : QVariant());
-        kysely.addBindValue( qAbs(kredit) > 1e-5 ? QString::number(kredit,'f',2) : QVariant());
+        kysely.addBindValue( debet ? debet : QVariant());
+        kysely.addBindValue( kredit ? kredit : QVariant());
 
         kysely.addBindValue( eraid > 0 ? eraid : QVariant());
         kysely.addBindValue( mapToJson(vientimap) );
@@ -355,7 +355,7 @@ QVariant TositeRoute::hae(int tositeId)
     QVariantMap tosite = resultMap(kysely);
 
     // Viennit
-    kysely.exec(QString("SELECT vienti.id as id, tyyppi, pvm, tili, kohdennus, selite, debet, kredit, eraid as era_id, alvprosentti, alvkoodi, "
+    kysely.exec(QString("SELECT vienti.id as id, tyyppi, pvm, tili, kohdennus, selite, debetsnt, kreditsnt, eraid as era_id, alvprosentti, alvkoodi, "
                 "kumppani.id as kumppani_id, kumppani.nimi as kumppani_nimi, jaksoalkaa, jaksoloppuu, vienti.json as json FROM Vienti "
                 "LEFT OUTER JOIN kumppani ON vienti.kumppani=kumppani.id "
                 "WHERE tosite=%1 ORDER BY rivi").arg(tositeId) );

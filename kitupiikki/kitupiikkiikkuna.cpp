@@ -75,9 +75,9 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     setWindowTitle( tr("Kitsas %1").arg(qApp->applicationVersion()));
 
     aloitussivu = new AloitusSivu();
-    kirjaussivu =  new KirjausSivu(this);
-    laskutussivu = new LaskuSivu();
     selaussivu = new SelausWg();
+    kirjaussivu =  new KirjausSivu(this, selaussivu);
+    laskutussivu = new LaskuSivu();
     maarityssivu = new MaaritysSivu();
     raporttisivu = new RaporttiSivu();
     arkistosivu = new ArkistoSivu();

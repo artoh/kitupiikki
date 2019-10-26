@@ -28,7 +28,7 @@ OstolaskutRoute::OstolaskutRoute(SQLiteModel *model)
 QVariant OstolaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
 {
     QString kysymys("select tosite.id as tosite, vienti.viite as viite,vienti.pvm as pvm, vienti.erapvm as erapvm, "
-                    "kredit as summa, ds, ks, kumppani.nimi as toimittaja, kumppani.id as toimittajaid, vienti.eraid as eraid, vienti.tili as tili, "
+                    "kreditsnt as summasnt, ds, ks, kumppani.nimi as toimittaja, kumppani.id as toimittajaid, vienti.eraid as eraid, vienti.tili as tili, "
                     "vienti.selite as selite "
                     "from Tosite JOIN "
                     "Vienti ON vienti.tosite=tosite.id ");
@@ -36,10 +36,10 @@ QVariant OstolaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlquer
     if( !urlquery.hasQueryItem("avoin") && !urlquery.hasQueryItem("eraantynyt"))
         kysymys.append(" LEFT OUTER ");
 
-    kysymys.append("JOIN ( SELECT eraid, sum(debet) as ds, sum(kredit) as ks FROM Vienti GROUP BY eraid");
+    kysymys.append("JOIN ( SELECT eraid, sum(debetsnt) as ds, sum(kreditsnt) as ks FROM Vienti GROUP BY eraid");
 
     if( urlquery.hasQueryItem("avoin"))
-        kysymys.append(" HAVING sum(kredit) <> sum(debet) OR sum(debet) IS NULL ");
+        kysymys.append(" HAVING sum(kreditsnt) <> sum(debetsnt) OR sum(debetsnt) IS NULL ");
     kysymys.append(QString(")  AS q  ON vienti.eraid=q.eraid LEFT OUTER JOIN "
                            "Kumppani ON vienti.kumppani=kumppani.id "
                            "WHERE vienti.tyyppi=%1 AND tosite.tila >= %2")
@@ -57,9 +57,9 @@ QVariant OstolaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlquer
 
     for(int i=0; i < lista.count(); i++) {
         QVariantMap map = lista.at(i).toMap();
-        double ds = map.take("ds").toDouble();
-        double ks = map.take("ks").toDouble();
-        map.insert("avoin", ds - ks);
+        double ds = map.take("ds").toLongLong() / 100.0;
+        double ks = map.take("ks").toLongLong() / 100.0;
+        map.insert("avoin", ks - ds);
         lista[i] = map;
     }
 

@@ -146,8 +146,12 @@ void LaskulistaWidget::muokkaa()
 void LaskulistaWidget::naytaLasku()
 {
     int tositeId = ui->view->currentIndex().data(LaskuTauluModel::TositeIdRooli).toInt();
-    if( tositeId) {
+    int tyyppi = ui->view->currentIndex().data(LaskuTauluModel::TyyppiRooli).toInt();
+    if( tyyppi >= TositeTyyppi::MYYNTILASKU && tyyppi <= TositeTyyppi::MAKSUMUISTUTUS && tositeId) {
         NaytinIkkuna::naytaLiite(tositeId,"lasku");
+    } else if( tositeId) {
+        LisaIkkuna *lisa = new LisaIkkuna(this);
+        lisa->naytaTosite(tositeId);
     }
 }
 

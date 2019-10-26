@@ -97,7 +97,7 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
             case MAKSAMATTA:
                 if( role == Qt::DisplayRole)
                 {                                     
-                    double avoin = ostoja_ ? 0 - map.value("avoin").toDouble() : map.value("avoin").toDouble();
+                    double avoin = map.value("avoin").toDouble();
                     if( avoin > 1e-5)
                         return QString("%L1 €").arg( avoin ,0,'f',2);
                     else

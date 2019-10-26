@@ -41,26 +41,26 @@ QVariant TilikaudetRoute::get(const QString &polku, const QUrlQuery &/*urlquery*
         QVariantMap map = list.at(i).toMap();
 
         // Tase
-        kysely.exec( QString("SELECT sum(debet), sum(kredit) FROM vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE vienti.pvm <= '%1' AND CAST(tili as text) < '3' AND Tosite.tila >= 100 ")
+        kysely.exec( QString("SELECT sum(debetsnt), sum(kreditsnt) FROM vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE vienti.pvm <= '%1' AND CAST(tili as text) < '3' AND Tosite.tila >= 100 ")
                      .arg(map.value("loppuu").toString()) );
         if( kysely.next())
-            map.insert("tase", QString::number(qMax( kysely.value(0).toDouble(), kysely.value(1).toDouble()),'f',2));
+            map.insert("tase", QString::number(qMax( kysely.value(0).toLongLong(), kysely.value(1).toLongLong()) / 100.0,'f',2));
         // Tulos
-        kysely.exec( QString("SELECT sum(kredit), sum(debet) FROM vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE vienti.pvm BETWEEN '%1' AND '%2' AND Tosite.tila >= 100 AND CAST(tili as text) >= '3' ")
+        kysely.exec( QString("SELECT sum(kreditsnt), sum(debetsnt) FROM vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE vienti.pvm BETWEEN '%1' AND '%2' AND Tosite.tila >= 100 AND CAST(tili as text) >= '3' ")
                      .arg(map.value("alkaa").toString())
                      .arg(map.value("loppuu").toString()) );
         if( kysely.next())
-            map.insert("tulos", QString::number(kysely.value(0).toDouble() - kysely.value(1).toDouble(), 'f', 2));
+            map.insert("tulos", QString::number((kysely.value(0).toLongLong() - kysely.value(1).toLongLong()) / 100.0, 'f', 2));
 
         // Liikevaihto
-        kysely.exec( QString("SELECT sum(kredit), sum(debet) FROM vienti "
+        kysely.exec( QString("SELECT sum(kreditsnt), sum(debetsnt) FROM vienti "
                              "JOIN Tili ON Vienti.tili=Tili.numero JOIN Tosite ON vienti.tosite=tosite.id "
                              "WHERE vienti.pvm BETWEEN '%1' AND '%2' AND CAST(tili as text) >= '3' AND Tosite.tila >= 100 "
                              "AND (tili.tyyppi='CL' OR tili.tyyppi='CLX')")
                      .arg(map.value("alkaa").toString())
                      .arg(map.value("loppuu").toString()) );
         if( kysely.next())
-            map.insert("liikevaihto", QString::number(kysely.value(0).toDouble() - kysely.value(1).toDouble(), 'f', 2));
+            map.insert("liikevaihto", QString::number((kysely.value(0).toLongLong() - kysely.value(1).toLongLong()) / 100.0, 'f', 2));
 
         // Kauden viimeinen tosite
         kysely.exec(QString("SELECT MAX(pvm) FROM Tosite WHERE pvm BETWEEN '%1' AND '%2'")
@@ -127,7 +127,7 @@ QVariant TilikaudetRoute::laskelma(const Tilikausi &kausi)
 
         // Ensin menojäännöspoistot
 
-        kysely.exec( QString("select tili.numero, sum(debet), sum(kredit), kohdennus from vienti "
+        kysely.exec( QString("select tili.numero, sum(debetsnt), sum(kreditsnt), kohdennus from vienti "
                              "join tili on vienti.tili=tili.numero join tosite on vienti.tosite=tosite.id "
                              "where tili.tyyppi='APM' and vienti.pvm <= '2019-12-31' and tosite.tila >= 100 group by tili.numero, kohdennus order by tili.numero, kohdennus"));
         while( kysely.next()) {
@@ -135,7 +135,7 @@ QVariant TilikaudetRoute::laskelma(const Tilikausi &kausi)
             if( !tili)
                 continue;
 
-            qlonglong summa = qRound64( kysely.value(1).toDouble() * 100.0 ) - qRound64( kysely.value(2).toDouble() * 100.0 );
+            qlonglong summa = kysely.value(1).toLongLong() -  kysely.value(2).toLongLong();
             int poistoprosentti = tili->luku("menojaannospoisto");
             qlonglong poisto = poistoprosentti * summa / 100;
 
@@ -150,19 +150,19 @@ QVariant TilikaudetRoute::laskelma(const Tilikausi &kausi)
         // Laaditaan laskelma APT-eristä
         // Ladataan avoimet erät
         QSqlQuery apukysely( db() );
-        kysely.exec(QString("select tili.numero, vienti.eraid, sum(debet), sum(kredit) from vienti "
+        kysely.exec(QString("select tili.numero, vienti.eraid, sum(debetsnt), sum(kreditsnt) from vienti "
                             "join tili on vienti.tili=tili.numero join tosite on vienti.tosite=tosite.id"
                             " where tili.tyyppi='APT' and vienti.pvm <= '%1' and tosite.tila >= 100 group by tili.numero "
                             "order by tili.numero, vienti.eraid").arg(kausi.paattyy().toString(Qt::ISODate)) );
 
         while(kysely.next()) {
             int eraid = kysely.value(1).toInt();
-            apukysely.exec(QString("select debet,kredit,selite,json,pvm, kohdennus from vienti where id=%1").arg(eraid));
+            apukysely.exec(QString("select debetsnt,kreditsnt,selite,json,pvm, kohdennus from vienti where id=%1").arg(eraid));
             if( apukysely.next()) {
                 QVariantMap jsonmap = QJsonDocument::fromJson( apukysely.value(3).toByteArray() ).toVariant().toMap();
-                qlonglong alkusumma = qRound64( apukysely.value(0).toDouble() * 100) - qRound64( apukysely.value(1).toDouble() * 100);
+                qlonglong alkusumma = apukysely.value(0).toLongLong() - apukysely.value(1).toLongLong();
                 int poistokk = jsonmap.value("tasaerapoisto").toInt();
-                qlonglong saldo = qRound64( kysely.value(2).toDouble() * 100) - qRound64( kysely.value(3).toDouble() * 100);
+                qlonglong saldo = kysely.value(2).toLongLong() - kysely.value(3).toLongLong();
                 QDate hankintapaiva = apukysely.value(4).toDate();
 
                 int kuukauttaKulunut = kausi.paattyy().year() * 12 + kausi.paattyy().month() -
@@ -201,14 +201,14 @@ QVariant TilikaudetRoute::laskelma(const Tilikausi &kausi)
     } else {
         QVariantList jaksotukset;
         // Haetaan jaksotettavat viennit
-        kysely.exec(QString("select debet,kredit,tili,selite,jaksoalkaa,jaksoloppuu, kohdennus, tosite.pvm, tosite.sarja, tosite.tunniste, vienti.pvm from vienti "
+        kysely.exec(QString("select debetsnt,kreditsnt,tili,selite,jaksoalkaa,jaksoloppuu, kohdennus, tosite.pvm, tosite.sarja, tosite.tunniste, vienti.pvm from vienti "
                             "join tosite on vienti.tosite=tosite.id "
                             "where jaksoalkaa is not null and tosite.tila >= 100 "
                             "AND vienti.pvm >= '%1' ORDER BY tili, vienti.id")
                     .arg(kausi.alkaa().toString(Qt::ISODate)));
         while( kysely.next()) {
-            qlonglong debet = qRound64( kysely.value(0).toDouble() * 100);
-            qlonglong kredit = qRound64( kysely.value(1).toDouble() * 100);
+            qlonglong debet = kysely.value(0).toLongLong();
+            qlonglong kredit = kysely.value(1).toLongLong();
             int tili = kysely.value(2).toInt();
             QString selite = kysely.value(3).toString();
             QDate alkaa = kysely.value(4).toDate();

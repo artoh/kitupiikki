@@ -34,12 +34,12 @@
 
 #include "db/kirjanpito.h"
 
-KirjausSivu::KirjausSivu(KitupiikkiIkkuna *ikkuna) :
+KirjausSivu::KirjausSivu(KitupiikkiIkkuna *ikkuna, SelausWg *selaus) :
     KitupiikkiSivu(nullptr), ikkuna_(ikkuna)
 {
 
-    liitewg = new NaytaliiteWg();
-    kirjauswg = new KirjausWg(this);
+    liitewg = new NaytaliiteWg(this);
+    kirjauswg = new KirjausWg(this, selaus);
 
     splitter = new QSplitter(Qt::Vertical);
     splitter->addWidget(liitewg);

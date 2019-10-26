@@ -55,6 +55,8 @@ public:
     SelausWg();
     ~SelausWg() override;
 
+    QPair<int,int> edellinenSeuraava(int tositeId);
+
 public slots:
     void alusta();
     void paivita();

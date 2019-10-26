@@ -370,7 +370,7 @@ void AloitusSivu::pyydaInfo()
                 .arg( qApp->applicationVersion() )
                 .arg( QSysInfo::prettyProductName())
                 .arg( asetukset.value("Keksi").toString() )
-                .arg(asetukset.value("Omituisuudet").toString())
+                .arg( KITUPIIKKI_BUILD )
                 .arg( buildDate().toString(Qt::ISODate) )
                 .arg( asetukset.value("Tilikartta").toString());
 

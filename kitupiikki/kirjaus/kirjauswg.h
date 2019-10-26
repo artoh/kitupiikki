@@ -31,7 +31,7 @@ class Kirjanpito;
 class ApuriVinkki;
 class QAction;
 class QSqlQueryModel;
-class EdellinenSeuraavaTieto;
+class SelausWg;
 
 class Tosite;
 class ApuriWidget;
@@ -48,7 +48,7 @@ class KirjausWg : public QWidget
 {
     Q_OBJECT
 public:
-    KirjausWg(QWidget *parent=nullptr);
+    KirjausWg(QWidget *parent=nullptr, SelausWg* selaus = nullptr);
     ~KirjausWg();
 
     enum Valilehdet { VIENNIT, KOMMENTIT, LIITTEET, VARASTO, LOKI } ;
@@ -165,8 +165,6 @@ protected:
 
     QSortFilterProxyModel *tyyppiProxy_;
 
-    EdellinenSeuraavaTieto *edellinenSeuraava_;
-
     Tosite* tosite_;
     ApuriWidget* apuri_;
     TallennettuWidget* tallennettuWidget_;
@@ -177,6 +175,8 @@ protected:
     QWidget* varastoTab_;
     QWidget* lokiTab_;
 
+    SelausWg* selaus_;
+    QPair<int,int> edellinenSeuraava_;
 };
 
 #endif // KIRJAUSWG_H

@@ -68,12 +68,16 @@
 #include "model/tositeloki.h"
 #include "tallennettuwidget.h"
 
+#include "selaus/selauswg.h"
 
-KirjausWg::KirjausWg( QWidget *parent)
+
+KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     : QWidget(parent),
       tosite_( new Tosite(this)),
       apuri_(nullptr),
-      tallennettuWidget_( new TallennettuWidget(this) )
+      tallennettuWidget_( new TallennettuWidget(this) ),
+      selaus_(selaus),
+      edellinenSeuraava_( qMakePair(0,0))
 {
     ui = new Ui::KirjausWg();
     ui->setupUi(this);
@@ -111,6 +115,8 @@ KirjausWg::KirjausWg( QWidget *parent)
     connect( ui->tulostaLiiteNappi, &QPushButton::clicked, this, &KirjausWg::tulostaLiite);
     connect( ui->poistaLiiteNappi, SIGNAL(clicked(bool)), this, SLOT(poistaLiite()));
 
+    connect( ui->edellinenButton, &QPushButton::clicked, [this]() { lataaTosite(this->edellinenSeuraava_.first); });
+    connect( ui->seuraavaButton, &QPushButton::clicked, [this]() { lataaTosite(this->edellinenSeuraava_.second); });
 
     // Lisätoimintojen valikko
     QMenu *valikko = new QMenu(this);
@@ -610,15 +616,28 @@ void KirjausWg::tiedotModelista()
     int tunniste = tosite_->data(Tosite::TUNNISTE).toInt();
     ui->sarjaLabel->setVisible( (kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN)) && !tunniste );
 
+
+    if( selaus_ && tosite_->id())
+        edellinenSeuraava_ = selaus_->edellinenSeuraava( tosite_->id() );
+    else
+        edellinenSeuraava_ = qMakePair(0,0);
+
     if( tunniste ) {
         ui->tunnisteLabel->setVisible(true);
         ui->vuosiLabel->setVisible(true);
-        ui->edellinenButton->setVisible(false);  // Tilapäisesti
-        ui->seuraavaButton->setVisible(false);   // Selaus ei käytössä !!!
+        ui->edellinenButton->setVisible(true);
         ui->tallennaButton->setVisible(false);
 
         ui->tunnisteLabel->setText( QString::number( tunniste ) );
         ui->vuosiLabel->setText( kp()->tilikaudet()->tilikausiPaivalle(tositepvm).pitkakausitunnus() );
+
+        if( selaus_) {
+            ui->seuraavaButton->setVisible(true);
+            ui->tunnisteLabel->setVisible(true);
+            ui->edellinenButton->setEnabled( edellinenSeuraava_.first );
+            ui->seuraavaButton->setEnabled( edellinenSeuraava_.second );
+        }
+
     } else {
         ui->edellinenButton->setVisible(false);
         ui->tunnisteLabel->setVisible(false);
@@ -717,8 +736,6 @@ void KirjausWg::liiteValinta(const QModelIndex &valittu)
     {
         ui->poistaLiiteNappi->setEnabled(true);
         tosite_->liitteet()->nayta( valittu.row() );
-
-        // emit liiteValittu( valittu.data(LiiteModel::PdfRooli).toByteArray() );
     }
 }
 

@@ -33,16 +33,16 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
     // Viite ja Laskutapa on json:n sisällä !
 
     QString kysymys("select tosite.id as tosite, vienti.pvm as pvm, vienti.erapvm as erapvm, vienti.viite, vienti.json as json, "
-                        "debet as summa, ds, ks, kumppani.nimi as asiakas, kumppani.id as asiakasid, vienti.eraid as eraid, vienti.tili as tili,"
+                        "debetsnt as summasnt, ds, ks, kumppani.nimi as asiakas, kumppani.id as asiakasid, vienti.eraid as eraid, vienti.tili as tili,"
                         "tosite.tyyppi as tyyppi, vienti.selite as selite  from "
                         "Tosite JOIN Vienti ON vienti.tosite=tosite.id ");
 
     if( !urlquery.hasQueryItem("avoin") && !urlquery.hasQueryItem("eraantynyt"))
         kysymys.append("LEFT OUTER ");
 
-    kysymys.append("JOIN (select eraid, sum(debet) as ds, sum(kredit) as ks FROM Vienti GROUP BY eraid ");
+    kysymys.append("JOIN (select eraid, sum(debetsnt) as ds, sum(kreditsnt) as ks FROM Vienti GROUP BY eraid ");
     if( urlquery.hasQueryItem("avoin"))
-        kysymys.append("HAVING SUM(kredit) <> SUM(debet) OR sum(kredit) IS NULL ");
+        kysymys.append("HAVING SUM(kreditsnt) <> SUM(debetsnt) OR sum(kredit) IS NULL ");
 
     kysymys.append(QString(") as q ON vienti.eraid=q.eraid LEFT OUTER JOIN "
             "Kumppani ON vienti.kumppani=kumppani.id WHERE vienti.tyyppi = %1"
@@ -72,8 +72,8 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
     QVariantList lista = resultList(kysely);
     for(int i=0; i < lista.count(); i++) {
         QVariantMap map = lista.at(i).toMap();
-        double ds = map.take("ds").toDouble();
-        double ks = map.take("ks").toDouble();
+        double ds = map.take("ds").toLongLong() / 100.0;
+        double ks = map.take("ks").toLongLong() / 100.0;
 
         QByteArray ba = map.take("json").toByteArray();
         QVariant jsonvar = QJsonDocument::fromJson(ba).toVariant();
