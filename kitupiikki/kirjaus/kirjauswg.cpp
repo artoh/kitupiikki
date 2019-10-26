@@ -304,6 +304,9 @@ void KirjausWg::vientivwAktivoitu(QModelIndex indeksi)
 
 void KirjausWg::tulostaTosite()
 {
+    // Tilapäinen tositteen tulostus
+    // Tähän voisi tulla parempi ;)
+
     QPrintDialog printDialog( kp()->printer(), this);
     if( printDialog.exec() )
     {
