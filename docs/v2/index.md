@@ -1,35 +1,15 @@
-# Tulossa ...
+# Uutta kohti <small>Kitsas on uusi Kitupiikki</small>
 
-Nyt työn alla on ohjelman tähän mennessä suurin uudistus. Yhdistyksille uudistus tarkoittaa entistä helpompaa ja nopeampaa kirjanpitoa ja yrityksille entistä monipuolisempia toimintoja.
+Ohjelman päivittyessä kakkosversioon ohjelman nimi lyhenee ja Kitupiikki on jatkossa Kitsas. Yhdistyksille uudistus tarkoittaa entistä helpompaa ja nopeampaa kirjanpitoa ja yrityksille entistä monipuolisempia toimintoja.
+
+Kitsaasta on ladattavissa ensimmäinen esiversio (vain yhdistystilikartalla) osoitteessa [kitsas.fi](https://kitsas.fi)
 
 ## Kirjaaminen uudistuu
 
-Nykymuotoinen Kirjausapuri pääsee eläkkeelle, ja
-tilalle tulee eri tositetyypeille muokatut *Kirjaa*-välilehdet. Näin kirjausta pääsee myös muokkaamaan samalla tavalla.
+ <iframe width="600" height="338" src="https://www.youtube.com/embed/oo5AeNTQtrY"  frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen style="display: block; margin: auto;"></iframe>
 
-![](ostolasku.png)
+Video esittelee uuden Kirjaa-välilehden sekä tiliotteiden näppärän täsmäämisen.
 
-Kuvasta näkyy myös, että ohjelmaan tulee **Asiakas- ja toimittajarekisteri**. Tositteen pääsee tallentamaan myös luonnoksena. **Jaksotuksella** hallitaan meno- ja tuloeriä, jotka vaikuttavat vielä seuraavallekin tilikaudelle.
-
-Useamman samanaikaisen käyttäjän tuki tarkoittaa toisaalta sitä, että jatkossa tositenumero tulee näkyviin vasta, kun tosite on tallennettu.
-
-**Siirtojen** (rahoitustapahtumien) kirjausikkuna on simppeli. Tässä kirjataan siirtosaamisissa ollut erä maksetuksi:
-
-![](siirto.png)
-
-Oikealla näkyvät valittavissa olevat tositetyypit. Valinnalla **Muu** pääsee vanhaan malliin tekemään kirjausta suoraan vientinäkymään.
-
-## Yksinkertaisemmin kahdenkertaista
-
-Tiliotteiden kirjaamisnäkymä muistuttaa jatkossa entistä enemmän itse tiliotetta:
-
-![](tiliote.png)
-
-Tilitapahtumia csv-muodossa tuotaessa päästään jatkossa vielä suurempaan automaatioon, kun ohjelma tekee aiempien kirjausten perusteella valmiita tiliöintiehdotuksia.
-
-Tilitapahtumien kirjaamisessa käytettävä ikkuna tosin taitaa kaivata vielä pientä hiomista selkeyden ja käytettävyyden osalta...
-
-![](otekirjaaja.png)
 
 ## Pilvessä ja paikallisesti
 
@@ -43,4 +23,4 @@ Automaatiota on lisätty: esimerkiksi ostolaskuissa myyjän tiedot esihaetaan Yr
 
 Otan kiitollisena vastaan kommentteja ja ehdotuksia ohjelman kehittämisestä. Tavoitteena on päästä loppusyksystä uudistuksen testausvaiheeseen, jolloin uudistunut ohjelma kaipaa myös testikäyttäjiä.
 
-Osallistu keskusteluun sivun alalaidassa tai lähetä sähköposti palaute@kitupiikki.info
+Osallistu keskusteluun sivun alalaidassa tai lähetä sähköposti palaute@kitsas.fi
