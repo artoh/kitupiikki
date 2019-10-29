@@ -92,7 +92,7 @@ public:
      * @brief Polku kirjanpitotiedostoon
      * @return
      */
-    [[deprecated]] QString tiedostopolku() const { return polkuTiedostoon_;}
+    QString kirjanpitoPolku();
 
     /**
      * @brief Käytetäänkö harjoittelutilassa
@@ -237,23 +237,6 @@ public:
      */
     QSettings* settings() { return settings_;}
 
-    /**
-     * @brief Lista tietokantavirheistä
-     * @return
-     */
-    QStringList virheloki() const { return virheloki_;}
-
-    /**
-     * @brief Kolme viimeistä virhettä
-     * @return
-     */
-    QString viimeVirhe() const;
-
-    /**
-     * @brief Tietokantavirhe on tapahtunut
-     * @param kysely
-     */
-    void lokiin(const QSqlQuery &kysely);
 
     /**
      * @brief Yhteys taustajärjestelmään

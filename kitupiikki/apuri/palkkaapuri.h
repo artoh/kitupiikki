@@ -33,6 +33,8 @@ public:
     explicit PalkkaApuri(QWidget *parent = nullptr, Tosite* tosite = nullptr);
     virtual ~PalkkaApuri() override;
 
+    void otaFokus() override;
+
 protected:
     void teeReset() override;
     bool teeTositteelle() override;

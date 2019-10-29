@@ -91,17 +91,18 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     luoInboxDock();
 
     // Himmennetään ne valinnat, jotka mahdollisia vain kirjanpidon ollessa auki
-    for(int i=KIRJAUSSIVU; i<SIVUT_LOPPU;i++)
+    for(int i=KIRJAUSSIVU; i<MAARITYSSIVU;i++)
         sivuaktiot[i]->setEnabled(false);
 
     restoreGeometry( kp()->settings()->value("geometry").toByteArray());
     // Ladataan viimeksi avoinna ollut kirjanpito
+    // Vain sqlite
     if( kp()->settings()->contains("Viimeisin") && kp()->settings()->value("Viimeisin").toInt() == 0 )
     {
         QString viimeisin = kp()->settings()->value("Viimeisin").toString();
 
         // Portable-käsittely
-        if( !kp()->portableDir().isEmpty())
+        if( !kp()->portableDir().isEmpty() )
         {
             QDir portableDir( kp()->portableDir());
             viimeisin = QDir::cleanPath( portableDir.absoluteFilePath(viimeisin) );
@@ -157,13 +158,20 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
 KitupiikkiIkkuna::~KitupiikkiIkkuna()
 {
     kp()->settings()->setValue("geometry",saveGeometry());
-    if( !kp()->portableDir().isEmpty())
+
+
+    QString viimepolku = kp()->kirjanpitoPolku();
+    if( viimepolku.isEmpty())
+        kp()->settings()->remove("Viimeisin");
+    else if( viimepolku.toInt() )
+        kp()->settings()->setValue("Viimeisin",viimepolku);
+    else if( !kp()->portableDir().isEmpty())
     {
         QDir portableDir( kp()->portableDir());
-        kp()->settings()->setValue("viimeisin", QDir::cleanPath( portableDir.relativeFilePath( kp()->tiedostopolku() ) ));
+        kp()->settings()->setValue("Viimeisin", QDir::cleanPath( portableDir.relativeFilePath( kp()->kirjanpitoPolku() ) ));
     }
     else
-        kp()->settings()->setValue("viimeisin", kp()->tiedostopolku() );
+        kp()->settings()->setValue("Viimeisin", kp()->kirjanpitoPolku() );
 }
 
 void KitupiikkiIkkuna::valitseSivu(int mikasivu, bool paluu)
@@ -208,7 +216,7 @@ void KitupiikkiIkkuna::kirjanpitoLadattu()
         sivuaktiot[KIRJAUSSIVU]->setEnabled( kp()->yhteysModel()->onkoOikeutta( YhteysModel::LUONNOSOIKEUS ) );
         sivuaktiot[MAARITYSSIVU]->setEnabled( kp()->yhteysModel()->onkoOikeutta(YhteysModel::HALLINTAOIKEUS) );
     } else {
-        for(int i=KIRJAUSSIVU; i < SIVUT_LOPPU; i++ )
+        for(int i=KIRJAUSSIVU; i < MAARITYSSIVU; i++ )
             sivuaktiot[i]->setEnabled(false);
     }
 

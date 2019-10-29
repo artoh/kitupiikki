@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
 #endif
     
     a.setApplicationName("Kitsas");
-    a.setApplicationVersion(KITUPIIKKI_VERSIO);
+    a.setApplicationVersion(KITSAS_VERSIO);
     a.setOrganizationDomain("kitsas.fi");
     
     a.setOrganizationName("Kitsas oy");
@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
     // Windowsin asentamattomalla versiolla
     // asetukset kirjoitetaan kitupiikki.ini -tiedostoon
 
-#if defined  (Q_OS_WIN) && defined (KITUPIIKKI_PORTABLE)
+#if defined  (Q_OS_WIN) && defined (KITSAS_PORTABLE)
 
     QFileInfo info(argumentit.at(0));
     QString polku = info.absoluteDir().absolutePath();
@@ -133,7 +133,7 @@ int main(int argc, char *argv[])
         tervetuloUi.versioLabel->setText("Versio " + a.applicationVersion());
         tervetuloUi.esiKuva->setVisible( a.applicationVersion().contains('-'));
         tervetuloUi.esiVaro->setVisible( a.applicationVersion().contains('-'));
-        tervetuloUi.paivitysCheck->setChecked( kp()->settings()->value("NaytaPaivitykset",true).toBool());
+
 
 #ifndef Q_OS_LINUX
     tervetuloUi.valikkoonCheck->setVisible(false);
@@ -146,8 +146,6 @@ int main(int argc, char *argv[])
             lisaaLinuxinKaynnistysValikkoon();
 
 #endif
-
-        kp()->settings()->setValue("NaytaPaivitykset", tervetuloUi.paivitysCheck->isChecked());
         kp()->settings()->setValue("ViimeksiVersiolla", a.applicationVersion());
     }
     QSplashScreen *splash = new QSplashScreen;

@@ -55,6 +55,7 @@
 #include <QTimer>
 
 #include "tilaus/tilauswizard.h"
+#include "versio.h"
 
 AloitusSivu::AloitusSivu() :
     KitupiikkiSivu(nullptr)
@@ -64,7 +65,9 @@ AloitusSivu::AloitusSivu() :
     ui->setupUi(this);
 
     // Tässä julkaisussa pilvi ei käytössä
-    // ui->tkpilviTab->setTabEnabled(1, false);
+#ifndef KITSAS_DEVEL
+    ui->tkpilviTab->setTabEnabled(1, false);
+#endif
 
     ui->selain->setOpenLinks(false);
 
@@ -279,7 +282,7 @@ void AloitusSivu::abouttiarallaa()
             .arg( qApp->applicationVersion())
             .arg( buildDate().toString("dd.MM.yyyy"));
 
-    QString kooste(KITUPIIKKI_BUILD);
+    QString kooste(KITSAS_BUILD);
     if( !kooste.isEmpty())
         versioteksti.append("<br>Kooste " + kooste);
 
@@ -288,8 +291,10 @@ void AloitusSivu::abouttiarallaa()
     aboutDlg.exec();
 }
 
-void AloitusSivu::infoSaapui(QNetworkReply *reply)
+void AloitusSivu::infoSaapui()
 {
+    QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
+
     QString info = QString::fromUtf8( reply->readAll() );
     if( info.startsWith("KITUPIIKKI"))
     {
@@ -355,31 +360,24 @@ void AloitusSivu::pyydaInfo()
 
     // Päivitysten näyttäminen
     QSettings asetukset;
-    if( asetukset.value("NaytaPaivitykset", true).toBool())
+
+    if( !asetukset.contains("Keksi"))
     {
-        QNetworkAccessManager *manager = new QNetworkAccessManager(this);
-        connect( manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(infoSaapui(QNetworkReply*)));
-
-        if( !asetukset.contains("Keksi"))
-        {
-            asetukset.setValue("Keksi", Kirjanpito::satujono(10) );
-        }
-
-
-        QString kysely = QString("http://paivitysinfo.kitupiikki.info/?v=%1&os=%2&u=%3&b=%4&d=%5&k=%6")
-                .arg( qApp->applicationVersion() )
-                .arg( QSysInfo::prettyProductName())
-                .arg( asetukset.value("Keksi").toString() )
-                .arg( KITUPIIKKI_BUILD )
-                .arg( buildDate().toString(Qt::ISODate) )
-                .arg( asetukset.value("Tilikartta").toString());
-
-        QNetworkRequest pyynto = QNetworkRequest( QUrl(kysely));
-        pyynto.setAttribute( QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy  );
-        manager->get( pyynto );
+        asetukset.setValue("Keksi", Kirjanpito::satujono(10) );
     }
-    else
-        paivitysInfo.clear();
+
+    QString kysely = QString("http://paivitysinfo.kitupiikki.info/?v=%1&os=%2&u=%3&b=%4&d=%5&k=%6")
+            .arg( qApp->applicationVersion() )
+            .arg( QSysInfo::prettyProductName())
+            .arg( asetukset.value("Keksi").toString() )
+            .arg( KITSAS_BUILD )
+            .arg( buildDate().toString(Qt::ISODate) )
+            .arg( asetukset.value("Tilikartta").toString());
+
+    QNetworkRequest pyynto = QNetworkRequest( QUrl(kysely));
+    pyynto.setAttribute( QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy  );
+    QNetworkReply *reply = kp()->networkManager()->get( pyynto );
+    connect( reply, &QNetworkReply::finished, this, &AloitusSivu::infoSaapui);
 }
 
 void AloitusSivu::saldotSaapuu(QVariant *data)
@@ -518,9 +516,11 @@ void AloitusSivu::haeSaldot()
 {
     QDate saldopaiva = ui->tilikausiCombo->currentData(TilikausiModel::PaattyyRooli).toDate();
     KpKysely *kysely = kpk("/saldot");
-    kysely->lisaaAttribuutti("pvm", saldopaiva);
-    connect( kysely, &KpKysely::vastaus, this, &AloitusSivu::saldotSaapuu);
-    kysely->kysy();
+    if( kysely ) {
+        kysely->lisaaAttribuutti("pvm", saldopaiva);
+        connect( kysely, &KpKysely::vastaus, this, &AloitusSivu::saldotSaapuu);
+        kysely->kysy();
+    }
 }
 
 QString AloitusSivu::vinkit()

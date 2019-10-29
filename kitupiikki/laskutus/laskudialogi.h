@@ -48,7 +48,7 @@ public:
     ~LaskuDialogi() override;
 
     enum Tabs { RIVIT, LISATIEDOT, RYHMAT};
-    enum Lahetys { TULOSTETTAVA, SAHKOPOSTI, VERKKOLASKU };
+    enum Lahetys { TULOSTETTAVA, SAHKOPOSTI, VERKKOLASKU, PDF };
     enum Maksutapa { LASKU, KATEINEN };
 
     static int laskuIkkunoita();

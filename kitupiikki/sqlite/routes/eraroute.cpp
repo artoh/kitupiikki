@@ -45,7 +45,7 @@ QVariant EraRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
         kysymys.append(QString("AND vienti.tili=%1 ").arg(urlquery.queryItemValue("tili")));
 
     kysymys.append("GROUP BY vienti.eraid, a.selite, a.pvm, a.tili "
-                   "HAVING sum(vienti.debet) <> sum(vienti.kreditsnt) OR sum(vienti.debetsnt) IS NULL OR sum(vienti.kreditsnt) IS NULL");
+                   "HAVING sum(vienti.debetsnt) <> sum(vienti.kreditsnt) OR sum(vienti.debetsnt) IS NULL OR sum(vienti.kreditsnt) IS NULL");
 
     kysely.exec(kysymys);
     while( kysely.next()) {

@@ -85,7 +85,7 @@
     {
       "fi" : "Siirtosaaminen",
       "TILI" : 1770,
-      "KUVA" : "siirto",
+      "KUVA" : "siirra",
       "ERA" : -1
     }
 
@@ -120,7 +120,7 @@
     {
       "fi" : "Siirtovelka",
       "TILI" : 2990,
-      "KUVA" : "siirto",
+      "KUVA" : "siirra",
       "ERA" : -1
     }
   ],

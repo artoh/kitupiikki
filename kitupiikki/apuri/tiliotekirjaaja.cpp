@@ -69,7 +69,7 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
     connect( ui->maksuView->selectionModel(), &QItemSelectionModel::currentRowChanged , this, &TilioteKirjaaja::valitseLasku);
     connect( ui->suodatusEdit, &QLineEdit::textEdited, this, &TilioteKirjaaja::suodata);
 
-    connect( ui->buttonBox->button( QDialogButtonBox::Discard), &QPushButton::clicked,
+    connect( ui->suljeNappi, &QPushButton::clicked,
              this, &TilioteKirjaaja::tyhjenna);
 
     ui->pvmEdit->setDate( apuri->tosite()->data(Tosite::PVM).toDate() );
@@ -263,7 +263,8 @@ void TilioteKirjaaja::tiliMuuttuu()
         ui->eraCombo->lataa(tili.numero());
     }
 
-    bool jakso = tili.onko(TiliLaji::TULOS);
+    bool jakso = tili.onko(TiliLaji::TULOS) &&
+            ui->ylaTab->currentIndex() == TULOMENO;
     ui->jaksotusLabel->setVisible(jakso);
     ui->jaksoAlkaaEdit->setVisible(jakso);
     ui->jaksoViivaLabel->setVisible(jakso);
@@ -327,7 +328,7 @@ void TilioteKirjaaja::tyhjenna()
 
 void TilioteKirjaaja::tarkastaTallennus()
 {
-    ui->buttonBox->button(QDialogButtonBox::Save)->setEnabled(
+    ui->okNappi->setEnabled(
                 qAbs(ui->euroEdit->value()) > 1e-5 &&
                 ( ui->tiliEdit->valittuTilinumero() ||
                   !ui->maksuView->selectionModel()->selectedRows().isEmpty() ));

@@ -201,18 +201,86 @@
     </spacer>
    </item>
    <item>
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Close|QDialogButtonBox::Discard|QDialogButtonBox::Help|QDialogButtonBox::Save</set>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QPushButton" name="ohjeNappi">
+       <property name="text">
+        <string>Ohje</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/ohje.png</normaloff>:/pic/ohje.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="okNappi">
+       <property name="text">
+        <string>Kirjaa</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/ok.png</normaloff>:/pic/ok.png</iconset>
+       </property>
+       <property name="shortcut">
+        <string>F12</string>
+       </property>
+       <property name="default">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="tyhjaaNappi">
+       <property name="text">
+        <string>Tyhjennä</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/edit-clear.png</normaloff>:/pic/edit-clear.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="suljeNappi">
+       <property name="text">
+        <string>Sulje</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/sulje.png</normaloff>:/pic/sulje.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>AsiakasToimittajaValinta</class>
+   <extends>QWidget</extends>
+   <header location="global">rekisteri/asiakastoimittajavalinta.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>KpDateEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">tools/kpdateedit.h</header>
+  </customwidget>
   <customwidget>
    <class>TilinvalintaLine</class>
    <extends>QLineEdit</extends>
@@ -234,17 +302,6 @@
    <header location="global">tools/checkcombo.h</header>
   </customwidget>
   <customwidget>
-   <class>KpDateEdit</class>
-   <extends>QLineEdit</extends>
-   <header location="global">tools/kpdateedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>AsiakasToimittajaValinta</class>
-   <extends>QWidget</extends>
-   <header location="global">rekisteri/asiakastoimittajavalinta.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>QTabBar</class>
    <extends>QWidget</extends>
    <header>QTabBar</header>
@@ -262,37 +319,39 @@
   <tabstop>merkkausCC</tabstop>
   <tabstop>seliteEdit</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../pic/pic.qrc"/>
+ </resources>
  <connections>
   <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
+   <sender>okNappi</sender>
+   <signal>clicked()</signal>
    <receiver>TilioteKirjaaja</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>924</x>
+     <y>660</y>
     </hint>
     <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
+     <x>698</x>
+     <y>636</y>
     </hint>
    </hints>
   </connection>
   <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
+   <sender>suljeNappi</sender>
+   <signal>clicked()</signal>
    <receiver>TilioteKirjaaja</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>1175</x>
+     <y>657</y>
     </hint>
     <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
+     <x>815</x>
+     <y>657</y>
     </hint>
    </hints>
   </connection>

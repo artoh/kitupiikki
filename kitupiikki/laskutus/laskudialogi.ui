@@ -321,6 +321,29 @@ osoite</string>
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="tallennaNappi">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="toolTip">
+        <string>Tallenna lasku   F10</string>
+       </property>
+       <property name="text">
+        <string>T&amp;allenna valmiina</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/tiedostoon.png</normaloff>:/pic/tiedostoon.png</iconset>
+       </property>
+       <property name="shortcut">
+        <string>F12</string>
+       </property>
+       <property name="default">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="esikatseluNappi">
        <property name="toolTip">
         <string>Näytä lasku  F10</string>
@@ -369,29 +392,6 @@ osoite</string>
         </size>
        </property>
       </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="tallennaNappi">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="toolTip">
-        <string>Tallenna lasku   F10</string>
-       </property>
-       <property name="text">
-        <string>T&amp;allenna</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../pic/pic.qrc">
-         <normaloff>:/pic/ok.png</normaloff>:/pic/ok.png</iconset>
-       </property>
-       <property name="shortcut">
-        <string>F12</string>
-       </property>
-       <property name="default">
-        <bool>false</bool>
-       </property>
-      </widget>
      </item>
      <item>
       <widget class="QPushButton" name="valmisNappi">

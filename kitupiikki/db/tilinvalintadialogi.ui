@@ -16,6 +16,9 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QTableView" name="view">
+     <property name="styleSheet">
+      <string notr="true">selection-background-color: rgb(61, 174, 233);</string>
+     </property>
      <property name="alternatingRowColors">
       <bool>true</bool>
      </property>
