@@ -274,6 +274,9 @@ QVariantList TilioteModel::viennit(int tilinumero) const
             pankki.setSelite( rivi.selite );
             tili.setSelite( rivi.selite );
 
+            tili.setJaksoalkaa( rivi.jaksoalkaa );
+            tili.setJaksoloppuu( rivi.jaksoloppuu );
+
             // TODO: Arkistotunnus, tilinumero, viite yms. metatieto
             pankki.setArkistotunnus( rivi.arkistotunnus );
 

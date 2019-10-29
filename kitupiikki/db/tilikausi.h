@@ -50,8 +50,8 @@ public:
     Tilikausi(QVariantMap data);
     Tilikausi(const QDate& alkaa, const QDate& paattyy);
 
-    QDate alkaa() const { return pvm("alkaa"); }
-    QDate paattyy() const { return pvm("loppuu"); }
+    QDate alkaa() const { return alkaa_; }
+    QDate paattyy() const { return paattyy_; }
 
     /**
      * @brief Milloin tämä tilikausi on viimeksi arkistoitu
@@ -130,6 +130,8 @@ public:
 
     void asetaKausitunnus(const QString& kausitunnus);
 
+    QDate alkaa_;
+    QDate paattyy_;
 
     void tallenna();
     void poista();

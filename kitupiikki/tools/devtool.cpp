@@ -32,7 +32,6 @@ DevTool::DevTool(QWidget *parent) :
     ui(new Ui::DevTool)
 {
     ui->setupUi(this);
-    ui->lokiBrowser->setPlainText( kp()->virheloki().join("\n") );
 
     connect( ui->avainEdit, SIGNAL(textChanged(QString)), this, SLOT(haeAsetus(QString)));
 
@@ -40,9 +39,6 @@ DevTool::DevTool(QWidget *parent) :
     connect( ui->poistaNappi, SIGNAL(clicked(bool)), this, SLOT(poistaAsetus()));
 
     connect( ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(tabMuuttui(int)));
-
-    connect( kp(), &Kirjanpito::tietokantavirhe, [this]() { this->ui->lokiBrowser->setPlainText( kp()->virheloki().join('\n') ); } );
-
     connect( ui->kyselyLine, &QLineEdit::returnPressed, this, &DevTool::kysely);
 
     ui->avainLista->setCurrentRow(0);

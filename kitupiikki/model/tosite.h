@@ -87,6 +87,7 @@ public:
 
     static QString tilateksti(int tila);
 
+    int id() const { return data(ID).toInt();}
     QDate pvm() const;
     QString otsikko() const { return data(OTSIKKO).toString();}
 

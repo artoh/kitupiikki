@@ -46,7 +46,7 @@ CREATE TABLE Budjetti
 	tilikausi DATE REFERENCES Tilikausi(alkaa),
 	kohdennus INTEGER REFERENCES Kohdennus(id) ON DELETE CASCADE,
 	tili INTEGER REFERENCES Tili(numero) ON DELETE CASCADE,
-	euro NUMERIC (10,2),
+	sentti BIGINT,
 	PRIMARY KEY (tilikausi, kohdennus, tili)
 );
 
@@ -123,8 +123,8 @@ CREATE TABLE Vienti
 	tili integer REFERENCES Tili(numero) ON DELETE RESTRICT,
 	kohdennus integer DEFAULT(0) REFERENCES Kohdennus(id) ON DELETE RESTRICT,
 	selite text,
-	debet numeric(10,2),
-	kredit numeric(10,2),
+	debetsnt BIGINT,
+	kreditsnt BIGINT,
 	eraid integer,
 	alvprosentti numeric(5,2),
 	alvkoodi integer,
@@ -134,8 +134,8 @@ CREATE TABLE Vienti
 	erapvm DATE,
 	viite varchar(64),
 	json text,
-	CHECK (debet > 0 OR kredit > 0),
-	CHECK (debet = 0 OR kredit = 0)
+	CHECK (debetsnt > 0 OR kreditsnt > 0),
+	CHECK (debetsnt = 0 OR kreditsnt = 0)
 );
 
 CREATE TABLE Merkkaus

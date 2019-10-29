@@ -194,7 +194,7 @@ void TilinValintaDialogi::alaValitseOtsikoita(int suunta)
         while( ui->view->currentIndex().row() < ui->view->model()->rowCount(QModelIndex()) - 1 &&
                ( ui->view->currentIndex().data( TiliModel::OtsikkotasoRooli).toInt() > 0
                 || ui->view->currentIndex().data(TiliModel::TyyppiRooli).toString() == "T" ) )
-            ui->view->selectRow( ui->view->currentIndex().row() + 1 );
+            ui->view->selectRow( ui->view->currentIndex().row() + 1 );            
     }
     else
     {

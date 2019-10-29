@@ -27,6 +27,8 @@
 #include <QJsonDocument>
 #include <QDate>
 
+#include "versio.h"
+
 bool SqliteAlustaja::luoKirjanpito(const QString &polku, const QVariantMap &initials)
 {
     SqliteAlustaja alustaja;
@@ -111,7 +113,10 @@ bool SqliteAlustaja::lopputoimet()
 {
     aseta("LaskuSeuraavaId",100);
     db.exec("PRAGMA SYNCHRONOUS = NORMAL");
-    db.exec("PRAGMA JOURNAL_MODE = WAL");
+    db.exec("PRAGMA JOURNAL_MODE = DELETE");
+#ifndef KITSAS_DEVEL
+    db.exec("PRAGMA LOCKING_MODE = EXCLUSIVE");
+#endif
 
     return true;
 }

@@ -54,6 +54,7 @@ private slots:
     void ylaTabMuuttui(int tab);
     void tiliMuuttuu();
     void eraValittu(int eraId, double avoinna);
+    void jaksomuuttuu(const QDate& pvm);
 
     void valitseLasku();
     void suodata(const QString& teksti);

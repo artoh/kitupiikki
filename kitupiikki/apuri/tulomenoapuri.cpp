@@ -32,7 +32,7 @@
 TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     ApuriWidget (parent, tosite),
     ui(new Ui::TuloMenoApuri),
-    rivit_(new TmRivit),
+    rivit_(new TmRivit(this)),
     kohdennusProxy_( new KohdennusProxyModel(this))
 
 {

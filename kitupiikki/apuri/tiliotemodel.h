@@ -44,6 +44,8 @@ public:
         QString eraTunnus;
         QDate laskupvm;
         bool harmaa = false;
+        QDate jaksoalkaa;
+        QDate jaksoloppuu;
     };
 
 public:

@@ -41,11 +41,15 @@ protected:
         QString getRooli() const;
         void setRooli(const QString &rooli);
 
+        bool getLiitettava() const;
+        void setLiitettava(int id);
+
     protected:
         int liiteId_ = 0;
         QString nimi_;
         QByteArray sisalto_;
         QString rooli_;
+        bool liitettava_ = false;
     };
 
 public:
@@ -70,6 +74,7 @@ public:
 
     int tallennettaviaLiitteita() const;
     void tallennaLiitteet(int tositeId);
+    QVariantList liitettavat() const;
 
 public slots:
     void nayta(int indeksi);

@@ -93,6 +93,22 @@ SelausWg::~SelausWg()
     delete ui;
 }
 
+QPair<int, int> SelausWg::edellinenSeuraava(int tositeId)
+{
+    for(int i=0; i < proxyModel->rowCount(); i++) {
+        if( proxyModel->index(i,0).data(Qt::UserRole).toInt() == tositeId ) {
+            int edellinen = 0;
+            int seuraava = 0;
+            if( i > 0)
+                edellinen = proxyModel->index(i-1,0).data(Qt::UserRole).toInt();
+            if( i < proxyModel->rowCount()-1)
+                seuraava = proxyModel->index(i+1,0).data(Qt::UserRole).toInt();
+            return qMakePair(edellinen, seuraava);
+        }
+    }
+    return qMakePair(0,0);
+}
+
 void SelausWg::alusta()
 {
     QDate alku = Kirjanpito::db()->tilikaudet()->kirjanpitoAlkaa();

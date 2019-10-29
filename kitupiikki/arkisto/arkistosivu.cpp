@@ -238,7 +238,7 @@ void ArkistoSivu::nykyinenVaihtuuPaivitaNapit()
         // Muokata voidaan vain viimeistä tilikautta tai poistaa lukitus
         ui->muokkaaNappi->setEnabled( kausi.paattyy() == kp()->tilikaudet()->kirjanpitoLoppuu()  ||
                                      kp()->tilitpaatetty() >= kausi.alkaa() );
-        ui->numeroiButton->setEnabled( kausi.alkaa() > kp()->tilitpaatetty() );
+        // ui->numeroiButton->setEnabled( kausi.alkaa() > kp()->tilitpaatetty() );
     }
     else
     {

@@ -247,6 +247,9 @@ void MaaritysSivu::valitseSivu(const QString& otsikko)
 
 void MaaritysSivu::paivitaNakyvat()
 {
+    for(int i=1; i < lista->count(); i++)
+        lista->item(i)->setHidden( !kp()->yhteysModel() );
+
     // Tilinavaus
     // Jos tilit avattavissa eikä avaustilikautta ole vielä päätetty
     QListWidgetItem *item = lista->item( TILINAVAUS );

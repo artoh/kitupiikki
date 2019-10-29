@@ -68,12 +68,16 @@
 #include "model/tositeloki.h"
 #include "tallennettuwidget.h"
 
+#include "selaus/selauswg.h"
+#include "arkistoija/arkistoija.h"
 
-KirjausWg::KirjausWg( QWidget *parent)
+KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     : QWidget(parent),
       tosite_( new Tosite(this)),
       apuri_(nullptr),
-      tallennettuWidget_( new TallennettuWidget(this) )
+      tallennettuWidget_( new TallennettuWidget(this) ),
+      selaus_(selaus),
+      edellinenSeuraava_( qMakePair(0,0))
 {
     ui = new Ui::KirjausWg();
     ui->setupUi(this);
@@ -111,11 +115,13 @@ KirjausWg::KirjausWg( QWidget *parent)
     connect( ui->tulostaLiiteNappi, &QPushButton::clicked, this, &KirjausWg::tulostaLiite);
     connect( ui->poistaLiiteNappi, SIGNAL(clicked(bool)), this, SLOT(poistaLiite()));
 
+    connect( ui->edellinenButton, &QPushButton::clicked, [this]() { lataaTosite(this->edellinenSeuraava_.first); });
+    connect( ui->seuraavaButton, &QPushButton::clicked, [this]() { lataaTosite(this->edellinenSeuraava_.second); });
 
     // Lisätoimintojen valikko
     QMenu *valikko = new QMenu(this);
 //    valikko->addAction(QIcon(":/pic/etsi.png"), tr("Siirry tositteeseen\tCtrl+G"), this, SLOT(siirryTositteeseen()));
-//    valikko->addAction(QIcon(":/pic/tulosta.png"), tr("Tulosta tosite\tCtrl+P"), this, SLOT(tulostaTosite()), QKeySequence("Ctrl+P"));
+    valikko->addAction(QIcon(":/pic/tulosta.png"), tr("Tulosta tosite\tCtrl+P"), this, SLOT(tulostaTosite()), QKeySequence("Ctrl+P"));
 //    uudeksiAktio_ = valikko->addAction(QIcon(":/pic/kopioi.png"), tr("Kopioi uuden pohjaksi\tCtrl+T"), this, SLOT(uusiPohjalta()), QKeySequence("Ctrl+T"));
     poistaAktio_ = valikko->addAction(QIcon(":/pic/roskis.png"),tr("Poista tosite"),this, SLOT(poistaTosite()));
 //    tyhjennaViennitAktio_ = valikko->addAction(QIcon(":/pic/edit-clear.png"),tr("Tyhjennä viennit"), model_->vientiModel(), &VientiModel::tyhjaa);
@@ -298,12 +304,20 @@ void KirjausWg::vientivwAktivoitu(QModelIndex indeksi)
 
 void KirjausWg::tulostaTosite()
 {
+    // Tilapäinen tositteen tulostus
+    // Tähän voisi tulla parempi ;)
+
     QPrintDialog printDialog( kp()->printer(), this);
     if( printDialog.exec() )
     {
-        QPainter painter( kp()->printer() );
-//        model()->tuloste().tulosta( kp()->printer(), &painter );
-        painter.end();
+        Arkistoija arkistoija(kp()->tilikaudet()->tilikausiPaivalle(tosite()->pvm()));
+        QByteArray ba = arkistoija.tosite( tosite()->tallennettava() , -1);
+        QTextDocument doc;
+        QFile css(":/arkisto/arkisto.css");
+        css.open(QIODevice::ReadOnly);
+        doc.setDefaultStyleSheet( QString::fromUtf8( css.readAll() ) );
+        doc.setHtml( QString::fromUtf8(ba) );
+        doc.print( kp()->printer());
     }
 }
 
@@ -384,7 +398,9 @@ void KirjausWg::tuonti(QVariant *data)
     QVariantMap map = data->toMap();
     if( map.contains("tyyppi"))
         ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( map.value("tyyppi") ) );
-    ui->tositePvmEdit->setDate( map.value("tositepvm").toDate() );
+    if( map.value("tositepvm").toDate().isValid())
+        ui->tositePvmEdit->setDate( map.value("tositepvm").toDate() );
+
     if( apuri_)
         apuri_->tuo(map);
 }
@@ -608,15 +624,28 @@ void KirjausWg::tiedotModelista()
     int tunniste = tosite_->data(Tosite::TUNNISTE).toInt();
     ui->sarjaLabel->setVisible( (kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN)) && !tunniste );
 
+
+    if( selaus_ && tosite_->id())
+        edellinenSeuraava_ = selaus_->edellinenSeuraava( tosite_->id() );
+    else
+        edellinenSeuraava_ = qMakePair(0,0);
+
     if( tunniste ) {
         ui->tunnisteLabel->setVisible(true);
         ui->vuosiLabel->setVisible(true);
-        ui->edellinenButton->setVisible(false);  // Tilapäisesti
-        ui->seuraavaButton->setVisible(false);   // Selaus ei käytössä !!!
+        ui->edellinenButton->setVisible(true);
         ui->tallennaButton->setVisible(false);
 
         ui->tunnisteLabel->setText( QString::number( tunniste ) );
         ui->vuosiLabel->setText( kp()->tilikaudet()->tilikausiPaivalle(tositepvm).pitkakausitunnus() );
+
+        if( selaus_) {
+            ui->seuraavaButton->setVisible(true);
+            ui->tunnisteLabel->setVisible(true);
+            ui->edellinenButton->setEnabled( edellinenSeuraava_.first );
+            ui->seuraavaButton->setEnabled( edellinenSeuraava_.second );
+        }
+
     } else {
         ui->edellinenButton->setVisible(false);
         ui->tunnisteLabel->setVisible(false);
@@ -715,8 +744,6 @@ void KirjausWg::liiteValinta(const QModelIndex &valittu)
     {
         ui->poistaLiiteNappi->setEnabled(true);
         tosite_->liitteet()->nayta( valittu.row() );
-
-        // emit liiteValittu( valittu.data(LiiteModel::PdfRooli).toByteArray() );
     }
 }
 

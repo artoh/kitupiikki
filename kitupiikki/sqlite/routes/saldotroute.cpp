@@ -35,7 +35,7 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
     QSqlQuery kysely(db());
 
     if( !urlquery.hasQueryItem("tuloslaskelma")) {
-        QString kysymys = "SELECT tili, sum(debet), sum(kredit) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE vienti.pvm ";
+        QString kysymys = "SELECT tili, sum(debetsnt), sum(kreditsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE vienti.pvm ";
         kysymys += urlquery.hasQueryItem("alkusaldot") ? "<" : "<=";
         kysymys += QString("'%1' ").arg(pvm.toString(Qt::ISODate));
         if( urlquery.hasQueryItem("tili"))
@@ -46,29 +46,29 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
         while (kysely.next()) {
             QString tilistr = kysely.value(0).toString();
             if( tilistr.startsWith(QChar('1')))
-                saldot.insert( tilistr, kysely.value(1).toDouble() - kysely.value(2).toDouble() );
+                saldot.insert( tilistr, kysely.value(1).toLongLong() / 100.0 - kysely.value(2).toLongLong() / 100.0 );
             else
-                saldot.insert( tilistr, kysely.value(2).toDouble() - kysely.value(1).toDouble() );
+                saldot.insert( tilistr, kysely.value(2).toLongLong() / 100.0 - kysely.value(1).toLongLong() / 100.0 );
         }
 
         if( !urlquery.hasQueryItem("alkusaldot") && !urlquery.hasQueryItem("tili") ) {
             // Edellisten tulos
-            kysely.exec(QString("SELECT sum(kredit), sum(debet) FROM Vienti Join Tosite ON Vienti.tosite=Tosite.id WHERE CAST(tili as text) >= '3' "
+            kysely.exec(QString("SELECT sum(kreditsnt), sum(debetsnt) FROM Vienti Join Tosite ON Vienti.tosite=Tosite.id WHERE CAST(tili as text) >= '3' "
                                 "AND vienti.pvm<'%1' AND Tosite.tila >= 100").arg(kausi.alkaa().toString(Qt::ISODate)));
             if( kysely.next()) {
                 QString edtili = QString::number( kp()->tilit()->tiliTyypilla(TiliLaji::EDELLISTENTULOS).numero() ) ;
-                double saldo = saldot.value(edtili).toDouble() + kysely.value(0).toDouble() - kysely.value(1).toDouble();
+                double saldo = saldot.value(edtili).toDouble() + kysely.value(0).toLongLong() / 100.0 - kysely.value(1).toLongLong() / 100.0;
                 if( qAbs(saldo) > 1e-5)
                     saldot[edtili] = saldo;
             }
             // Nykyisen tulos
-            kysely.exec(QString("SELECT sum(kredit), sum(debet) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE CAST(tili as text) >= '3' "
+            kysely.exec(QString("SELECT sum(kreditsnt), sum(debetsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE CAST(tili as text) >= '3' "
                                 "AND vienti.pvm BETWEEN '%1' AND '%2' AND Tosite.tila >= 100")
                         .arg(kausi.alkaa().toString(Qt::ISODate))
                         .arg(pvm.toString(Qt::ISODate)));
             if( kysely.next()) {
                 QString tulostili = QString::number( kp()->tilit()->tiliTyypilla(TiliLaji::KAUDENTULOS).numero() ) ;
-                saldot.insert(tulostili, kysely.value(0).toDouble() - kysely.value(1).toDouble());
+                saldot.insert(tulostili, kysely.value(0).toLongLong() / 100.0 - kysely.value(1).toLongLong() / 100.0);
             }
         }
     }
@@ -78,7 +78,7 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
         if( urlquery.hasQueryItem("alkupvm"))
             kaudenalku = QDate::fromString( urlquery.queryItemValue("alkupvm"), Qt::ISODate );
 
-        QString kysymys("SELECT tili, SUM(kredit), SUM(debet) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE vienti.pvm ");
+        QString kysymys("SELECT tili, SUM(kreditsnt), SUM(debetsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE vienti.pvm ");
         if( urlquery.hasQueryItem("alkusaldot"))
             kysymys += "<";
         else
@@ -94,7 +94,7 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
             throw SQLiteVirhe(kysely);
 
         while( kysely.next()) {
-            saldot.insert( kysely.value(0).toString(), kysely.value(1).toDouble() - kysely.value(2).toDouble() );
+            saldot.insert( kysely.value(0).toString(), kysely.value(1).toLongLong() / 100.0 - kysely.value(2).toLongLong() / 100.0 );
         }
     }
     return saldot;

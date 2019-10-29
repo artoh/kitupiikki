@@ -119,11 +119,17 @@ bool TositeLiitteet::lisaaHeti(const QByteArray &liite, const QString &tiedoston
 
     beginInsertRows( QModelIndex(), liitteet_.count(), liitteet_.count() );
     liitteet_.append( TositeLiite(0, tiedostonnimi, liite) );
+    int liiteIndeksi = liitteet_.count() - 1;
     endInsertRows();
 
     emit naytaliite( liite );
 
     KpKysely* liitekysely = kpk("/liitteet", KpKysely::POST);
+    connect( liitekysely, &KpKysely::vastaus, [this, liiteIndeksi] (QVariant* data) {
+            QVariantMap map = data->toMap();
+            this->liitteet_[liiteIndeksi].setLiitettava(map.value("liite").toInt());
+        });
+
 
     // Ensimmäisestä liitteestä tuodaan tiedot
     if( liitteet_.count() == 1)
@@ -174,12 +180,12 @@ bool TositeLiitteet::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 
     if( !lisatty && data->formats().contains("image/jpg"))
     {
-        lisaa( data->data("image/jpg"), tr("liite.jpg") );
+        lisaaHeti( data->data("image/jpg"), tr("liite.jpg") );
         return true;
     }
     else if(!lisatty && data->formats().contains("image/png"))
     {
-        lisaa( data->data("image/png"), tr("liite.png") );
+        lisaaHeti( data->data("image/png"), tr("liite.png") );
         return true;
     }
 
@@ -190,7 +196,7 @@ int TositeLiitteet::tallennettaviaLiitteita() const
 {
     int maara = poistetut_.count();
     for(auto liite : liitteet_)
-        if( !liite.getLiiteId() )
+        if( !liite.getLiiteId() && !liite.getLiitettava())
             maara++;
 
     return maara;
@@ -201,6 +207,15 @@ void TositeLiitteet::tallennaLiitteet(int tositeId)
     tositeId_ = tositeId;
     tallennuksessa_ = -1;
     tallennaSeuraava();
+}
+
+QVariantList TositeLiitteet::liitettavat() const
+{
+    QVariantList lista;
+    for( auto liite: liitteet_)
+        if( liite.getLiitettava())
+            lista.append(liite.getLiiteId());
+    return lista;
 }
 
 void TositeLiitteet::nayta(int indeksi)
@@ -221,7 +236,7 @@ void TositeLiitteet::tallennaSeuraava()
     while( tallennuksessa_ < liitteet_.count() - 1)
     {
         tallennuksessa_++;
-        if( !liitteet_.at(tallennuksessa_).getLiiteId())
+        if( !liitteet_.at(tallennuksessa_).getLiiteId() && !liitteet_.at(tallennuksessa_).getLiitettava())
         {
             KpKysely* tallennus = nullptr;
             if( liitteet_.at(tallennuksessa_).getRooli().isEmpty())
@@ -318,4 +333,15 @@ QString TositeLiitteet::TositeLiite::getRooli() const
 void TositeLiitteet::TositeLiite::setRooli(const QString &rooli)
 {
     rooli_ = rooli;
+}
+
+bool TositeLiitteet::TositeLiite::getLiitettava() const
+{
+    return liitettava_;
+}
+
+void TositeLiitteet::TositeLiite::setLiitettava(int id)
+{
+    liitettava_ = true;
+    liiteId_ = id;
 }

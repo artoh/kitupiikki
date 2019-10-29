@@ -39,7 +39,7 @@ KantaTilinvalintaLine::KantaTilinvalintaLine(QWidget *parent)
     proxyTila_->setFilterRole(TiliModel::TilaRooli);
     proxyTila_->setFilterRegExp("[12]");
 
-    QCompleter *taydennin = new QCompleter() ;
+    QCompleter *taydennin = new QCompleter(this) ;
     taydennin->setCompletionColumn( TiliModel::NRONIMI);
     taydennin->setModel( proxyTila_ );
 

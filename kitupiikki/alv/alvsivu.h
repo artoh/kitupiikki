@@ -60,7 +60,7 @@ private:
     Ui::AlvSivu *ui;
     QDate seuraavaAlkaa;
     QDate seuraavaLoppuu;
-    AlvIlmoitustenModel *model = new AlvIlmoitustenModel;
+    AlvIlmoitustenModel *model = new AlvIlmoitustenModel(this);
 };
 
 #endif // ALVMAARITYS_H
