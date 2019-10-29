@@ -354,10 +354,12 @@ QByteArray Arkistoija::tosite(const QVariantMap& tosite, int indeksi)
 
     if( liitteet.count() )
     {
-        // Liitteen laatikko, johon nykyinen liite ladataan
-        out << "<iframe width='100%' height='50%' class='liite' id='liite' src='../liitteet/";
-        out << liiteNimet_.value( liitteet.value(0).toMap().value("id").toInt() );
-        out <<  "'></iframe>";
+        if( indeksi > -1) {
+            // Liitteen laatikko, johon nykyinen liite ladataan
+            out << "<iframe width='100%' height='50%' class='liite' id='liite' src='../liitteet/";
+            out << liiteNimet_.value( liitteet.value(0).toMap().value("id").toInt() );
+            out <<  "'></iframe>";
+        }
 
         out << "<table class='liiteluettelo'>";
 
@@ -421,9 +423,11 @@ QByteArray Arkistoija::tosite(const QVariantMap& tosite, int indeksi)
         out << "</p>";
     }
 
-    out << "<p class=info>Kirjanpito arkistoitu " << QDate::currentDate().toString(Qt::SystemLocaleDate);
-    out << "<br><a href=" << tositeJono_.value(indeksi).tiedostonnimi() << ".json>Tositteen t&auml;ydet tiedot</a>";
-    out << "<script src='../jquery.js'></script>";
+    if( indeksi > -1) {
+        out << "<p class=info>Kirjanpito arkistoitu " << QDate::currentDate().toString(Qt::SystemLocaleDate);
+        out << "<br><a href=" << tositeJono_.value(indeksi).tiedostonnimi() << ".json>Tositteen t&auml;ydet tiedot</a>";
+        out << "<script src='../jquery.js'></script>";
+    }
     out << "</body></html>";
 
     out.flush();

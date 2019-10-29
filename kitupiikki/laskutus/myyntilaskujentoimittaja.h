@@ -36,10 +36,12 @@ protected slots:
 
 protected:
     bool tulosta();
+    bool tallenna();
     void merkkaaToimitetuksi(int tositeId);
 
 protected:
     QList<QVariantMap> tulostettavat_;
+    QList<QVariantMap> tallennettavat_;
     int toimitetut_ = 0;
     int laskuja_ = 0;
 };

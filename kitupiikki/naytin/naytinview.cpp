@@ -110,6 +110,7 @@ void NaytinView::nayta(const QByteArray &data)
 void NaytinView::nayta(const RaportinKirjoittaja& raportti)
 {
     vaihdaNaytin( new Naytin::RaporttiNaytin(raportti ) );
+    zoomFit();
 }
 
 Naytin::EsikatseluNaytin* NaytinView::esikatsele(Esikatseltava *katseltava)

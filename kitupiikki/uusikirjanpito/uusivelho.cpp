@@ -99,12 +99,12 @@ void UusiVelho::lataaKartta(const QString &polku)
         QStringList rivit;
         if( pohja.open(QIODevice::ReadOnly)) {
             QTextStream luku(&pohja);
-            luku.setCodec("utd-8");
+            luku.setCodec("utf-8");
             while(!luku.atEnd()) {
                 QString rivi = luku.readLine();
                 if( rivi.startsWith("[") && rivi.endsWith("]")) {
                     if( rivit.count() )
-                        asetukset_.insert("tppohja/" + kieli, rivit);
+                        asetukset_.insert("tppohja/" + kieli, rivit.join("\n"));
                     rivit.clear();
                     kieli=rivi.mid(1, rivi.length()-2);
                 } else

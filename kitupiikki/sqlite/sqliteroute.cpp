@@ -113,8 +113,11 @@ QVariantList SQLiteRoute::resultList(QSqlQuery &kysely)
                 rmap.insert(alakentta, tietue.value(i));
                 map.insert(ryhma, rmap);
             }
+            else if( kenttanimi.endsWith("snt")) {
+                map.insert( kenttanimi.left( kenttanimi.length() - 3 ), tietue.value(i).toInt() / 100.0 );
+            }
             else if( kenttanimi != "json")
-                map.insert( tietue.fieldName(i), tietue.value(i) );
+                map.insert( kenttanimi, tietue.value(i) );
         }
         lista.append(map);
     }

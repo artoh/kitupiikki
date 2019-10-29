@@ -31,12 +31,14 @@ Tilikausi::Tilikausi()
 Tilikausi::Tilikausi(QVariantMap data) :
     KantaVariantti (data)
 {
+    alkaa_ = data.take("alkaa").toDate();
+    paattyy_ = data.take("loppuu").toDate();
 }
 
 Tilikausi::Tilikausi(const QDate &alkaa, const QDate &paattyy)
 {
-    set("alkaa", alkaa);
-    set("loppuu", paattyy);
+    alkaa_ = alkaa;
+    paattyy_ = paattyy;
 }
 
 

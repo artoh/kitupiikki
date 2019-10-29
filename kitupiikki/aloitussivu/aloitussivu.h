@@ -58,7 +58,7 @@ public slots:
 
     void abouttiarallaa();
 
-    void infoSaapui(QNetworkReply* reply);
+    void infoSaapui();
     void varmuuskopioi();
 
     void muistiinpanot();

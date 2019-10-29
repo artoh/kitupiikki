@@ -465,9 +465,12 @@ void LaskuDialogi::paivitaLaskutustavat()
 
     ui->laskutusCombo->addItem( QIcon(":/pic/tulosta.png"), tr("Tulosta lasku"), TULOSTETTAVA);
 
+/*  TÄLLÄ SAADAAN SÄHKÖPOSTIN LÄHETYS KÄYTTÖÖN
     QRegularExpression emailRe(R"(^([\w-]*(\.[\w-]+)?)+@(\w+\.\w+)(\.\w+)*$)");
     if( emailRe.match( ui->email->text()).hasMatch() )
             ui->laskutusCombo->addItem(QIcon(":/pic/email.png"), tr("Lähetä sähköpostilla"), SAHKOPOSTI);
+*/
+    ui->laskutusCombo->addItem( QIcon(":/pic/pdf.png"), tr("Tallenna pdf-tiedostoon"), PDF);
 
     ui->laskutusCombo->setCurrentIndex(  ui->laskutusCombo->findData(nykyinen) );
     if( ui->laskutusCombo->currentIndex() < 0)
@@ -481,6 +484,10 @@ void LaskuDialogi::laskutusTapaMuuttui()
     {
         ui->valmisNappi->setText( tr("Tallenna ja lähetä sähköpostilla"));
         ui->valmisNappi->setIcon(QIcon(":/pic/email.png"));
+
+    } else if( laskutustapa == PDF) {
+        ui->valmisNappi->setText( tr("Tallenna ja toimita"));
+        ui->valmisNappi->setIcon(QIcon(":/pic/pdf.png"));
     } else {
         ui->valmisNappi->setText( tr("Tallenna ja tulosta"));
         ui->valmisNappi->setIcon(QIcon(":/pic/tulosta.png"));

@@ -21,7 +21,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tervetuloTab">
       <attribute name="icon">
@@ -200,20 +200,6 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_2">
-      <attribute name="icon">
-       <iconset resource="../pic/pic.qrc">
-        <normaloff>:/pic/bug.png</normaloff>:/pic/bug.png</iconset>
-      </attribute>
-      <attribute name="title">
-       <string>Virheloki</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_5">
-       <item>
-        <widget class="QTextBrowser" name="lokiBrowser"/>
-       </item>
-      </layout>
-     </widget>
      <widget class="QWidget" name="tab">
       <attribute name="icon">
        <iconset resource="../pic/pic.qrc">
@@ -315,22 +301,6 @@
  </resources>
  <connections>
   <connection>
-   <sender>peruNappi</sender>
-   <signal>clicked()</signal>
-   <receiver>avainEdit</receiver>
-   <slot>clear()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>366</x>
-     <y>421</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>395</x>
-     <y>57</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>avainLista</sender>
    <signal>currentTextChanged(QString)</signal>
    <receiver>avainEdit</receiver>
@@ -343,6 +313,22 @@
     <hint type="destinationlabel">
      <x>330</x>
      <y>62</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>peruNappi</sender>
+   <signal>clicked()</signal>
+   <receiver>avainEdit</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>366</x>
+     <y>421</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>395</x>
+     <y>57</y>
     </hint>
    </hints>
   </connection>

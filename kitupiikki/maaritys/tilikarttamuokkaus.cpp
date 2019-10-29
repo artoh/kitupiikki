@@ -82,8 +82,7 @@ TilikarttaMuokkaus::~TilikarttaMuokkaus()
 
 bool TilikarttaMuokkaus::nollaa()
 {
-    ui->view->resizeColumnsToContents();
-    ui->view->horizontalHeader()->stretchLastSection();
+    ui->view->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
     ui->view->selectRow(0);
     return true;
 }

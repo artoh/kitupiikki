@@ -28,6 +28,7 @@
 #include <QPageLayout>
 #include <QPainter>
 #include <QPrinter>
+#include <QFileDialog>
 
 bool MyyntiLaskujenToimittaja::toimitaLaskut(const QList<QVariantMap> &laskut)
 {
@@ -39,10 +40,14 @@ bool MyyntiLaskujenToimittaja::toimitaLaskut(const QList<QVariantMap> &laskut)
         int toimitustapa = lasku.value("lasku").toMap().value("laskutapa").toInt();
         if( toimitustapa == LaskuDialogi::TULOSTETTAVA)
             tulostettavat_.append(lasku);
+        else if( toimitustapa == LaskuDialogi::PDF)
+            tallennettavat_.append(lasku);
     }
 
     if( !tulostettavat_.isEmpty())
         tulosta();
+    if( !tallennettavat_.isEmpty())
+        tallenna();
 
     return true;
 
@@ -77,6 +82,23 @@ bool MyyntiLaskujenToimittaja::tulosta()
     }
 
     kp()->printer()->setPageLayout(vanhaleiska);
+    return true;
+}
+
+bool MyyntiLaskujenToimittaja::tallenna()
+{
+    QString hakemistopolku = QFileDialog::getExistingDirectory(nullptr, tr("Tallennettavien laskujen kansio"));
+    if( !hakemistopolku.isEmpty()) {
+        QDir hakemisto( hakemistopolku );
+        for( QVariantMap tallennettava : tallennettavat_) {
+            int laskunumero = tallennettava.value("lasku").toMap().value("numero").toInt();
+            QFile ulos( hakemisto.filePath( QString("lasku%1.pdf").arg(laskunumero,8,10,QChar('0'))) );
+            if( ulos.open(QIODevice::WriteOnly) ) {
+                ulos.write( MyyntiLaskunTulostaja::pdf(tallennettava) );
+                merkkaaToimitetuksi( tallennettava.value("id").toInt() );
+            }
+        }
+    }
     return true;
 }
 

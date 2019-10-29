@@ -30,19 +30,19 @@ QVariant BudjettiRoute::get(const QString &polku, const QUrlQuery &urlquery)
     QVariantMap vastaus;
 
     if( urlquery.hasQueryItem("kohdennus")) {
-        kysely.exec(QString("SELECT tili,euro FROM Budjetti WHERE tilikausi='%1' AND kohdennus=%2 "
+        kysely.exec(QString("SELECT tili,sentti FROM Budjetti WHERE tilikausi='%1' AND kohdennus=%2 "
                             "ORDER BY CAST(tili AS text)")
                     .arg(polku).arg(urlquery.queryItemValue("kohdennus")));
         while( kysely.next())
-            vastaus.insert( kysely.value(0).toString(), kysely.value(1).toDouble() );
+            vastaus.insert( kysely.value(0).toString(), kysely.value(1).toInt() / 100.0 );
     } else if( urlquery.hasQueryItem("kohdennukset")) {
-        kysely.exec(QString("SELECT kohdennus, tili, euro FROM Budjetti WHERE tilikausi='%1' "
+        kysely.exec(QString("SELECT kohdennus, tili, sentti FROM Budjetti WHERE tilikausi='%1' "
                             "ORDER BY CAST(tili AS text) ")
                     .arg(polku));
         while( kysely.next() ) {
             QString kohdennus = kysely.value(0).toString();
             QVariantMap kmap = vastaus.value(kohdennus, QVariantMap()).toMap();
-            kmap.insert(kysely.value(1).toString(), kysely.value(2).toDouble());
+            kmap.insert(kysely.value(1).toString(), kysely.value(2).toInt() / 100.0 );
             vastaus.insert(kohdennus, kmap);
         }
     } else {
@@ -63,7 +63,7 @@ QVariant BudjettiRoute::put(const QString &polku, const QVariant &data)
     kysely.exec(QString("DELETE FROM Budjetti WHERE tilikausi='%1'")
                 .arg(polku));
 
-    kysely.prepare("INSERT INTO Budjetti(tilikausi,kohdennus,tili, euro) VALUES(?,?,?,?)");
+    kysely.prepare("INSERT INTO Budjetti(tilikausi,kohdennus,tili, sentti) VALUES(?,?,?,?)");
 
     QVariantMap map = data.toMap();
     QMapIterator<QString,QVariant> paaIter(map);
@@ -77,7 +77,7 @@ QVariant BudjettiRoute::put(const QString &polku, const QVariant &data)
             kysely.addBindValue(polku);
             kysely.addBindValue(paaIter.key().toInt());
             kysely.addBindValue(aliIter.key().toInt());
-            kysely.addBindValue(aliIter.value().toDouble());
+            kysely.addBindValue(qRound64(aliIter.value().toDouble()*100));
             if( !kysely.exec() ) {
                 db().rollback();
                 throw SQLiteVirhe(kysely);

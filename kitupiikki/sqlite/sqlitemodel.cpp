@@ -46,6 +46,8 @@
 #include "routes/tuotteetroute.h"
 #include "routes/tilitroute.h"
 
+#include "versio.h"
+
 SQLiteModel::SQLiteModel(QObject *parent)
     : YhteysModel(parent)
 {
@@ -113,18 +115,74 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
 {
 
     tietokanta_.setDatabaseName( polku );
+    tiedostoPolku_.clear();
 
     if( !tietokanta_.open())
     {
         if( ilmoitavirheestaAvattaessa ) {
             QMessageBox::critical(nullptr, tr("Tietokannan avaaminen epäonnistui"),
                                   tr("Tietokannan %1 avaaminen epäonnistui tietokantavirheen %2 takia")
-                                  .arg( tiedostopolku() ).arg( tietokanta().lastError().text() ) );
+                                  .arg( polku ).arg( tietokanta().lastError().text() ) );
         }
         qDebug() << "SQLiteYhteys: Tietokannan avaaminen epäonnistui : " << tietokanta_.lastError().text();
-        tiedostoPolku_.clear();
+        emit kp()->yhteysAvattu(nullptr);
         return false;
     }
+
+    // Lukitaan tietokanta, jotta käyttäminen on varmasti turvallista
+#ifndef KITSAS_DEVEL
+    tietokanta_.exec("PRAGMA LOCKING_MODE = EXCLUSIVE");
+#endif
+
+    if( tietokanta_.lastError().isValid())
+    {
+        // Tietokanta on jo käytössä
+        if( ilmoitavirheestaAvattaessa )
+        {
+            if( tietokanta_.lastError().text().contains("locked"))
+            {
+                QMessageBox::critical(nullptr, tr("Kitsas"),
+                                      tr("Kirjanpitotiedosto on jo käytössä.\n\n%1\n\n"
+                                         "Sulje kaikki Kitsas-ohjelman ikkunat ja yritä uudelleen.\n"
+                                         "Ellei tämä auta, käynnistä tietokoneesi uudelleen.").arg(polku));
+            }
+            else
+            {
+                QMessageBox::critical(nullptr, tr("Tiedostoa %1 ei voi avata").arg(polku),
+                                  tr("Sql-virhe: %1").arg(tietokanta_.lastError().text()));
+            }
+        }
+        tietokanta_.close();
+        emit kp()->yhteysAvattu(nullptr);
+        return false;
+    }
+    // Tarkastetaan versio
+    QSqlQuery query( tietokanta_ );
+    query.exec("SELECT arvo FROM Asetus WHERE avain='KpVersio'");
+    if( query.next()) {
+        if( query.value(0).toInt() > Kirjanpito::TIETOKANTAVERSIO) {
+            QMessageBox::critical(nullptr, tr("Kirjanpitoa %1 ei voi avata").arg(polku),
+                                  tr("Kirjanpito on luotu uudemmalla Kitsaan versiolla, eikä käytössäsi oleva versio %1 pysty avaamaan sitä.\n\n"
+                                     "Voidaksesi avata tiedoston, sinun on asennettava uudempi versio Kitupiikistä. Lataa ohjelma "
+                                     "osoitteesta https://kitsas.fi")
+                                  .arg( qApp->applicationVersion() ));
+            tietokanta_.close();
+            emit kp()->yhteysAvattu(nullptr);
+            return false;
+        }
+    } else {
+        // Tämä ei ole lainkaan kelvollinen tietokanta
+        QMessageBox::critical(nullptr, tr("Tiedostoa %1 ei voi avata").arg(polku),
+                              tr("Valitsemasi tiedosto ei ole Kitsaan tietokanta, tai tiedosto on vahingoittunut."));
+        tietokanta_.close();
+        emit kp()->yhteysAvattu(nullptr);
+        return false;
+    }
+
+    // Merkitään avausaika
+    tietokanta_.exec("UPDATE Asetus SET arvo=CURRENT_TIMESTAMP WHERE avain='Avattu'");
+
+
     tiedostoPolku_ = polku;
 
     alusta();
@@ -160,6 +218,7 @@ void SQLiteModel::poistaListalta(const QString &polku)
     QDir portableDir( kp()->portableDir() );
     QString poistettava = kp()->portableDir().isEmpty() ? polku : portableDir.relativeFilePath(polku);
 
+    beginResetModel();
     QMutableListIterator<QVariant> iter( viimeiset_ );
     while( iter.hasNext())
     {
@@ -167,8 +226,9 @@ void SQLiteModel::poistaListalta(const QString &polku)
         if( poistettava == tamanpolku )
             iter.remove();
     }
-    kp()->settings()->setValue("ViimeTiedostot", viimeiset_);
     endResetModel();
+    kp()->settings()->setValue("ViimeTiedostot", viimeiset_);
+    emit kp()->yhteysAvattu(nullptr);
 
 }
 
@@ -245,7 +305,6 @@ void SQLiteModel::lisaaViimeisiin()
     viimeiset_.insert(0, map);
 
     kp()->settings()->setValue("ViimeTiedostot", viimeiset_);
-    kp()->settings()->setValue("Viimeisin", tiedostopolku());
     endResetModel();
 
 }

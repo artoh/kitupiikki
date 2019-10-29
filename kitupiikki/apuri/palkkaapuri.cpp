@@ -46,6 +46,11 @@ PalkkaApuri::~PalkkaApuri()
     delete ui;
 }
 
+void PalkkaApuri::otaFokus()
+{
+    ui->palkkaEdit->setFocus();
+}
+
 void PalkkaApuri::teeReset()
 {
     ui->tiliCombo->suodataTyypilla("ARP");

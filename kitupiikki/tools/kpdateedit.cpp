@@ -309,13 +309,11 @@ void KpDateEdit::paintEvent(QPaintEvent *event)
     QLineEdit::paintEvent(event);
     QPainter painter(this);
 
-
     painter.drawPixmap( width()-20, height() / 2 - 8,  16, 16, QPixmap(":/pic/kalenteri16.png") );
     if( nullMahdollinen_ )
     {
         painter.drawPixmap( width()-40, height() / 2 - 8,  16, 16, QPixmap(":/pic/clear16.png") );
     }
-
 
 }
 
