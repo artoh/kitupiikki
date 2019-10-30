@@ -38,7 +38,7 @@ qlonglong MarginaaliLaskelmaRivi::vero() const
     if( marginaali() <= 0)
         return 0;
     double dmarginaali = static_cast<double>(marginaali());
-    double verosnt = ( dmarginaali / 100 ) * ( 1 - verokanta() / (100 + verokanta())) * verokanta();
+    double verosnt =  dmarginaali / ( 100 + verokanta() ) *  verokanta();
     return qRound64( verosnt );
 }
 
