@@ -20,6 +20,7 @@
 #include <QSqlQuery>
 #include "db/kirjanpito.h"
 #include "db/tositetyyppimodel.h"
+#include "tositeselausmodel.h"
 
 #include <QDebug>
 
@@ -201,6 +202,10 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
         int tyyppi = map.value("tosite").toMap().value("tyyppi").toInt();
         return kp()->tositeTyypit()->kuvake(tyyppi);
     }
+    else if( role == TositeSelausModel::TositeTyyppiRooli) {
+        return map.value("tosite").toMap().value("tyyppi").toInt();
+    }
+
 
     return QVariant();
 }

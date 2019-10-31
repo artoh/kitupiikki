@@ -66,6 +66,9 @@ void TilinpaatosEditori::luoAktiot()
     aloitaUudelleenAktio_ = new QAction( QIcon(":/pic/uusitiedosto.png"), tr("Aloita uudelleen"), this);
     connect( aloitaUudelleenAktio_, SIGNAL(triggered(bool)), this, SLOT(aloitaAlusta()));
 
+    valmisAktio_ = new QAction( QIcon(":/pic/ok.png"), tr("Valmis"), this);
+    connect( valmisAktio_, &QAction::triggered, this, &TilinpaatosEditori::valmis);
+
     ohjeAktio_ = new QAction( QIcon(":/pic/ohje.png"), tr("Ohje"), this);
     connect( ohjeAktio_, SIGNAL(triggered(bool)), this, SLOT(ohje()));
 }
@@ -77,6 +80,8 @@ void TilinpaatosEditori::luoPalkit()
     tilinpaatosTb_->addSeparator();
     tilinpaatosTb_->addAction( esikatseleAction_ );
     tilinpaatosTb_->addAction( tallennaAktio_ );
+    tilinpaatosTb_->addSeparator();
+    tilinpaatosTb_->addAction( valmisAktio_);
     tilinpaatosTb_->addSeparator();
     tilinpaatosTb_->addAction( ohjeAktio_ );
     tilinpaatosTb_->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
@@ -138,12 +143,8 @@ void TilinpaatosEditori::uusiTp()
         else if( rivi.startsWith('@') && tulosta)
         {
             // Näillä tulostetaan erityisiä kenttiä
-            if( rivi == "@sha@")
-                ; //teksti.append( tilikausi_.json()->str("ArkistoSHA"));
-            else if( rivi == "@henkilosto@")
+            if( rivi == "@henkilosto@")
                 teksti.append( henkilostotaulukko());
-            else if( rivi == "@tositelajit@")
-                teksti.append( tositelajitaulukko() );
             else if( rivi == "@tulos@")
                 teksti.append( QString(" %L1 € ").arg( tilikausi_.tulos() ) );
             else
@@ -158,6 +159,7 @@ void TilinpaatosEditori::uusiTp()
         else if( tulosta )
             teksti.append(rivi);
     }
+    editori_->setFont( QFont("FreeSans", 12));
     editori_->setText(teksti);
 }
 
@@ -221,24 +223,6 @@ QString TilinpaatosEditori::henkilostotaulukko()
     return txt;
 }
 
-QString TilinpaatosEditori::tositelajitaulukko()
-{
-    QString kysymys = QString("select tositelaji.nimi, count(tosite.id)  from tosite, tositelaji where tosite.pvm between '%1' and '%21' and  tosite.laji=tositelaji.id group by tositelaji.id order by tositelaji.nimi")
-            .arg( tilikausi_.alkaa().toString(Qt::ISODate) )
-            .arg( tilikausi_.paattyy().toString(Qt::ISODate));
-
-
-    QString txt = tr("<table>");
-    QSqlQuery kysely(kysymys);
-    while(kysely.next())
-    {
-        txt.append( QString("<tr><td>%1 &nbsp;</td><td align=right>%2 kpl</td></tr>")
-                    .arg(kysely.value(0).toString())
-                    .arg(kysely.value(1).toInt()));
-    }
-    txt.append("</table>");
-    return txt;
-}
 
 bool TilinpaatosEditori::aloitaAlusta()
 {
@@ -265,6 +249,12 @@ void TilinpaatosEditori::tallenna()
     connect( tp, &TilinpaatosTulostaja::tallennettu, this, &TilinpaatosEditori::tallennettu);
     tp->tallenna();
 
+}
+
+void TilinpaatosEditori::valmis()
+{
+    tallenna();
+    close();
 }
 
 

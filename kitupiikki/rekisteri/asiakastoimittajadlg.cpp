@@ -30,6 +30,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QJsonDocument>
+#include <QPushButton>
 
 AsiakasToimittajaDlg::AsiakasToimittajaDlg(QWidget *parent) :
     QDialog (parent),
@@ -45,7 +46,10 @@ AsiakasToimittajaDlg::AsiakasToimittajaDlg(QWidget *parent) :
     connect( ui->yEdit, &QLineEdit::textEdited, this, &AsiakasToimittajaDlg::haeYTunnarilla);
     connect( ui->yEdit, &QLineEdit::editingFinished, this, &AsiakasToimittajaDlg::haeYTunnarilla);
 
+    connect( ui->nimiEdit, &QLineEdit::textChanged, this, &AsiakasToimittajaDlg::nimiMuuttuu);
+
     ui->tilitLista->setItemDelegate( new IbanDelegaatti(this) );
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 }
 
 AsiakasToimittajaDlg::~AsiakasToimittajaDlg()
@@ -73,13 +77,13 @@ QString AsiakasToimittajaDlg::alvToY(QString alvtunnus)
 void AsiakasToimittajaDlg::muokkaa(int id)
 {
     lataa(id);
+
 }
 
 void AsiakasToimittajaDlg::uusi(const QString &nimi)
 {
-    tauluun();
-    ui->nimiEdit->setText(nimi);
-
+    tauluun();    
+    ui->nimiEdit->setText(nimi);    
     exec();
 }
 
@@ -174,6 +178,11 @@ void AsiakasToimittajaDlg::haeToimipaikka()
     QString toimipaikka = Postinumerot::toimipaikka( ui->postinumeroEdit->text() );
     if( !toimipaikka.isEmpty() && ui->maaCombo->currentData(MaaModel::KoodiRooli).toString() == "fi")
         ui->kaupunkiEdit->setText(toimipaikka);
+}
+
+void AsiakasToimittajaDlg::nimiMuuttuu()
+{
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled( !ui->nimiEdit->text().isEmpty() );
 }
 
 void AsiakasToimittajaDlg::accept()

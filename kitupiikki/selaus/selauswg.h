@@ -90,6 +90,7 @@ protected:
 signals:
     void tositeValittu(int id);
 
+
 private:
     Ui::SelausWg *ui;
     SelausModel *model;

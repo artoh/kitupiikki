@@ -271,7 +271,7 @@ double LaskuRivitModel::yhteensa() const
     return summa / 100.0;
 }
 
-QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa, const QDate &jaksopaattyy) const
+QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa, const QDate &jaksopaattyy, const QString &otsikko) const
 {
     QVariantList lista;
 
@@ -322,6 +322,9 @@ QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa,
                 vienti.setKredit( summa );
             else
                 vienti.setDebet( 0 - summa);
+
+            vienti.setSelite( otsikko );
+
             lista.append(vienti);
         }
     }
@@ -353,6 +356,7 @@ QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa,
             verorivi.setAlvProsentti( map.value("alvprosentti").toInt() );
             verorivi.setAlvKoodi( map.value("alvkoodi").toInt() + AlvKoodi::ALVKIRJAUS );
             verorivi.setTyyppi( TositeVienti::ALVKIRJAUS + TositeVienti::MYYNTI );
+            verorivi.setSelite( otsikko + " ALV " + QString::number(map.value("alvprosentti").toInt()) );
             ulos.append(verorivi);
         } else {
             ulos.append(map);

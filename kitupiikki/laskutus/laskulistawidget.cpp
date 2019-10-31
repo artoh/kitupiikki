@@ -60,7 +60,8 @@ LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
     connect( ui->naytaNappi, &QPushButton::clicked, this, &LaskulistaWidget::naytaLasku);
 
     connect( ui->uusiNappi, &QPushButton::clicked, this, &LaskulistaWidget::uusilasku);
-    connect( ui->muokkaaNappi, &QPushButton::clicked, this, &LaskulistaWidget::muokkaa);
+    connect( ui->muokkaaNappi, &QPushButton::clicked, this, &LaskulistaWidget::muokkaa);    
+    connect( ui->view, &QTableView::doubleClicked, this, &LaskulistaWidget::muokkaa);
 }
 
 LaskulistaWidget::~LaskulistaWidget()

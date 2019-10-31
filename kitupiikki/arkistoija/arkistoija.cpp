@@ -462,13 +462,13 @@ QString Arkistoija::navipalkki(int indeksi) const
 
 
     if( indeksi > -1 && indeksi + 1 < tositeJono_.count() )
-        navi.append( tr("<li class=nappi><a href='%1'>Seuraava &rarr;</a></li>")
+        navi.append( tr("<li class=nappi><a href='%1.html'>Seuraava &rarr;</a></li>")
                      .arg( tositeJono_.value(indeksi+1).tiedostonnimi() ) );
     else
         navi.append( "<li class=nappi> </li>");
 
     if( indeksi > 0 )
-        navi.append( tr("<li class=nappi><a href='%1'>&larr; Edellinen</a></li>")
+        navi.append( tr("<li class=nappi><a href='%1.html'>&larr; Edellinen</a></li>")
                      .arg(tositeJono_.value(indeksi-1).tiedostonnimi()) );
     else
         navi.append("<li class=nappi> </li>");

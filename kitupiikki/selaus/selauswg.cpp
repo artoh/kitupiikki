@@ -28,6 +28,7 @@
 #include <QDebug>
 
 #include "tositeselausmodel.h"
+#include "laskutus/laskudialogi.h"
 
 SelausWg::SelausWg(QWidget *parent) :
     KitupiikkiSivu(parent),
@@ -236,7 +237,17 @@ void SelausWg::paivitaSummat(QVariant *data)
 void SelausWg::naytaTositeRivilta(QModelIndex index)
 {
     int id = index.data( Qt::UserRole).toInt();
-    emit tositeValittu( id );
+    int tyyppi = index.data(TositeSelausModel::TositeTyyppiRooli).toInt();
+
+    if( tyyppi >= TositeTyyppi::MYYNTILASKU && tyyppi < TositeTyyppi::SIIRTO) {
+        KpKysely *kysely = kpk( QString("/tositteet/%1").arg(id));
+        connect( kysely, &KpKysely::vastaus, [](QVariant* data) {
+            LaskuDialogi* dlg = new LaskuDialogi( data->toMap()  );
+            dlg->show();
+        });
+        kysely->kysy();
+    } else
+        emit tositeValittu( id );
 }
 
 void SelausWg::selaa(int tilinumero, const Tilikausi& tilikausi)

@@ -134,22 +134,25 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
     tietokanta_.exec("PRAGMA LOCKING_MODE = EXCLUSIVE");
 #endif
 
-    if( tietokanta_.lastError().isValid())
+    QSqlQuery query( tietokanta_ );
+    query.exec("SELECT arvo FROM Asetus WHERE avain='KpVersio'");
+
+    if( query.lastError().isValid() )
     {
         // Tietokanta on jo käytössä
         if( ilmoitavirheestaAvattaessa )
         {
-            if( tietokanta_.lastError().text().contains("locked"))
+            if( query.lastError().text().contains("locked"))
             {
-                QMessageBox::critical(nullptr, tr("Kitsas"),
-                                      tr("Kirjanpitotiedosto on jo käytössä.\n\n%1\n\n"
-                                         "Sulje kaikki Kitsas-ohjelman ikkunat ja yritä uudelleen.\n"
+                QMessageBox::critical(nullptr, tr("Kirjanpitoa ei voi avata"),
+                                      tr("Kirjanpitotiedosto %1 on jo käytössä.\n\n"
+                                         "Sulje kaikki Kitsas-ohjelman ikkunat ja yritä uudelleen.\n\n"
                                          "Ellei tämä auta, käynnistä tietokoneesi uudelleen.").arg(polku));
             }
             else
             {
                 QMessageBox::critical(nullptr, tr("Tiedostoa %1 ei voi avata").arg(polku),
-                                  tr("Sql-virhe: %1").arg(tietokanta_.lastError().text()));
+                                  tr("Sql-virhe: %1").arg(query.lastError().text()));
             }
         }
         tietokanta_.close();
@@ -157,8 +160,6 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
         return false;
     }
     // Tarkastetaan versio
-    QSqlQuery query( tietokanta_ );
-    query.exec("SELECT arvo FROM Asetus WHERE avain='KpVersio'");
     if( query.next()) {
         if( query.value(0).toInt() > Kirjanpito::TIETOKANTAVERSIO) {
             QMessageBox::critical(nullptr, tr("Kirjanpitoa %1 ei voi avata").arg(polku),
@@ -174,6 +175,7 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
         // Tämä ei ole lainkaan kelvollinen tietokanta
         QMessageBox::critical(nullptr, tr("Tiedostoa %1 ei voi avata").arg(polku),
                               tr("Valitsemasi tiedosto ei ole Kitsaan tietokanta, tai tiedosto on vahingoittunut."));
+        qDebug() << tietokanta_.lastError().text();
         tietokanta_.close();
         emit kp()->yhteysAvattu(nullptr);
         return false;

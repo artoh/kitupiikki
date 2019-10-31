@@ -196,27 +196,7 @@ void LaskuDialogi::perusteVaihtuu()
 }
 
 
-void LaskuDialogi::vieMalliin()
-{ /*
-    if( model->laskunSumma() > 0 && ui->perusteCombo->currentData().toInt() != LaskuModel::KATEISLASKU )
-        model->asetaErapaiva( ui->eraDate->date());
 
-    model->asetaLisatieto( ui->lisatietoEdit->toPlainText());
-    model->asetaOsoite(ui->osoiteEdit->toPlainText());
-    model->asetaEmail( ui->emailEdit->text());
-    model->asetaToimituspaiva(ui->toimitusDate->date());
-    model->asetaLaskunsaajannimi(ui->saajaEdit->text());
-    model->asetaKirjausperuste(ui->perusteCombo->currentData().toInt());
-    model->asetaAsiakkaanViite(ui->asViiteEdit->text());
-    model->asetaVerkkolaskuOsoite(ui->verkkoOsoiteEdit->text());
-    model->asetaVerkkolaskuValittaja(ui->verkkoValittajaEdit->text());
-    model->asetaViivastyskorko( ui->viivkorkoSpin->value() );
-
-    if( ui->ytunnus->hasAcceptableInput())
-        model->asetaYTunnus( ui->ytunnus->text());
-    else
-        model->asetaYTunnus(QString()); */
-}
 
 
 void LaskuDialogi::rivienKontekstiValikko(QPoint pos)
@@ -259,7 +239,6 @@ void LaskuDialogi::onkoPostiKaytossa()
 void LaskuDialogi::lahetaSahkopostilla()
 {
 
-    vieMalliin();
 
 
 
@@ -515,13 +494,23 @@ QVariantMap LaskuDialogi::data() const
     if( tunniste_)
         map.insert("tunniste", tunniste_);
 
+    QString laskutettava;
+    QString otsikko;
+
     if( ui->asiakas->id()) {
         map.insert("kumppani", ui->asiakas->id());
-        map.insert("otsikko", ui->asiakas->nimi());
+        laskutettava = ui->asiakas->nimi();
     } else {
-        map.insert("otsikko", ui->osoiteEdit->toPlainText().split('\n').value(0) );
+        laskutettava = ui->osoiteEdit->toPlainText().split('\n').value(0);
     }
 
+    if( ui->otsikkoEdit->text().isEmpty())
+        otsikko = laskutettava;
+    else
+        otsikko = ui->otsikkoEdit->text();
+
+
+    map.insert("otsikko", otsikko);
     map.insert("pvm", kp()->paivamaara() );
     map.insert("tyyppi",  TositeTyyppi::MYYNTILASKU);
     map.insert("rivit", rivit_->rivit());
@@ -551,14 +540,15 @@ QVariantMap LaskuDialogi::data() const
     lasku.insert("toimituspvm", ui->toimitusDate->date());
     lasku.insert("erapvm", ui->eraDate->date());
     lasku.insert("maksutapa", ui->maksuCombo->currentData());
+    lasku.insert("otsikko", ui->otsikkoEdit->text());
 
     map.insert("lasku", lasku);
 
 
     // Sitten pitäisi arpoa viennit
     QVariantList viennit;
-    viennit.append( vastakirjaus() );
-    viennit.append( rivit_->viennit( kp()->paivamaara(), ui->toimitusDate->date(), ui->jaksoDate->date() ) );
+    viennit.append( vastakirjaus( otsikko ) );
+    viennit.append( rivit_->viennit( kp()->paivamaara(), ui->toimitusDate->date(), ui->jaksoDate->date(), otsikko ) );
 
     map.insert("viennit", viennit);
 
@@ -635,7 +625,7 @@ void LaskuDialogi::lisaaRiviTab()
 
 }
 
-QVariantMap LaskuDialogi::vastakirjaus() const
+QVariantMap LaskuDialogi::vastakirjaus(const QString &otsikko) const
 {
     TositeVienti vienti;
 
@@ -668,6 +658,7 @@ QVariantMap LaskuDialogi::vastakirjaus() const
     }
 
     vienti.setTyyppi(TositeVienti::MYYNTI + TositeVienti::VASTAKIRJAUS);
+    vienti.setSelite( otsikko );
 
     return std::move(vienti);
 }
@@ -749,6 +740,7 @@ void LaskuDialogi::lataa(const QVariantMap &map)
     ui->maksuCombo->setCurrentIndex( ui->maksuCombo->findData( lasku.value("maksutapa").toInt() ));
     ui->toimitusDate->setDate( lasku.value("toimituspvm").toDate() );
     ui->eraDate->setDate( lasku.value("erapvm").toDate());
+    ui->otsikkoEdit->setText( lasku.value("otsikko").toString());
 
     if( map.value("tila").toInt() > Tosite::LUONNOS)
         ui->luonnosNappi->hide();
@@ -781,7 +773,7 @@ void LaskuDialogi::lataa(const QVariantMap &map)
                 break;
             }
         }
-        if( vienti.contains("era") &&
+        if( vienti.contains("era") && vienti.value("era").toMap().value("id").toInt() &&
                 qAbs(vienti.value("era").toMap().value("saldo").toDouble()) < 1e-5) {
             ui->maksettuCheck->show();
             ui->infoLabel->setText( tr("Maksettu "));

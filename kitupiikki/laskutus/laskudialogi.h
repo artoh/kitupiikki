@@ -75,10 +75,7 @@ private slots:
      */
     void perusteVaihtuu();
 
-    /**
-     * @brief Tallentaa lomaketiedot malliin
-     */
-    void vieMalliin();
+
 
     void rivienKontekstiValikko(QPoint pos);
 
@@ -118,7 +115,7 @@ private slots:
 private:
     void lataa(const QVariantMap& map);
     void lisaaRiviTab();
-    QVariantMap vastakirjaus() const;
+    QVariantMap vastakirjaus(const QString& otsikko) const;
 
     void alustaMaksutavat();
 

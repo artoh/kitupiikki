@@ -377,7 +377,12 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
     qreal ikkunakorkeus = ikkuna.y() + ikkuna.height() + 5 * mm;
 
     painter->setFont( QFont("Sans", 10));
-    QString lisatieto = map_.value("info").toString();
+
+    QString lisatieto = map_.value("otsikko").toString();
+    QString info = map_.value("into").toString();
+    if( !lisatieto.isEmpty() && !info.isEmpty())
+        lisatieto.append("\n\n");
+    lisatieto.append(info);
 
     QRectF lisatiedotRuudunalle = painter->boundingRect(QRectF(keskiviiva, ruutukorkeus + rk/2, leveys-keskiviiva, painter->window().height()), Qt::TextWordWrap, lisatieto );
     QRectF lisatietoIkkunanalle = painter->boundingRect(QRectF(0, ikkunakorkeus + rk ,painter->window().width(), painter->window().height()), Qt::TextWordWrap, lisatieto );

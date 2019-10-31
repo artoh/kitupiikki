@@ -54,6 +54,7 @@ private slots:
     void tarkastaTilit();
     void maaMuuttui();
     void haeToimipaikka();
+    void nimiMuuttuu();
 
     void accept() override;
     void dataSaapuu(QVariant* data);

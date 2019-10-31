@@ -53,6 +53,7 @@ public slots:
     void esikatselu();
     bool aloitaAlusta();
     void tallenna();
+    void valmis();
     void ohje();
 
 protected:
@@ -74,11 +75,6 @@ protected:
      */
     QString henkilostotaulukko();
 
-    /**
-     * @brief Taulukko, jossa käytetyt tositelajit ja kappalemäärät
-     * @return
-     */
-    QString tositelajitaulukko();
 
 protected:
     MRichTextEdit *editori_;
@@ -88,6 +84,7 @@ protected:
     QAction *tallennaAktio_;
     QAction *aloitaUudelleenAktio_;
     QAction *ohjeAktio_;
+    QAction *valmisAktio_;
 
     QToolBar *tilinpaatosTb_;
 

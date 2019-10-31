@@ -46,7 +46,7 @@ annetun asetuksen (PMA) pienyrityssäännöstöä.</p>
 <p>Taseeseen merkitys rahoitusleasing-hankinnat</p>
 #kvstand Laadinnassa käytetty kansainvälisiä tilinpäätösstandadeja
 <p>Laadinnassa on noudatettu .... (kansainväliset tilinpäätösstandardit)</p>
-#maksuperuste -PIEN -ISO Maksuperusteinen kirjanpito
+#maksuperuste -PIEN -ISO Maksuperusteinen tilinpäätös
 <p>Tilinpäätös on laadittu maksuperusteisesti.<p>
 <p>Menettely vaikuttaa tilikauden tulokseen ja taloudelliseen asemaan siten, että ... / Menettelyllä ei ole olennaista merkitystä tilikauden tulokseen ja taloudelliseen asemaan.</p>
 <p>Taseeseen merkitsemättömiä ostovelkoja on XX € ja myyntisaamisia XX €.</p>

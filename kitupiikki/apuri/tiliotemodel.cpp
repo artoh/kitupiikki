@@ -254,6 +254,7 @@ QVariantList TilioteModel::viennit(int tilinumero) const
             }
 
             tili.setKohdennus( rivi.kohdennus);
+
             if( rivi.eraId)
                 tili.setEra( rivi.eraId );
 
