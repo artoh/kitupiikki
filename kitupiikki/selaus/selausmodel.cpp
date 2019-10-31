@@ -84,9 +84,13 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
                                            map.value("tosite").toMap().value("pvm").toDate(),
                                            map.value("tosite").toMap().value("sarja").toString(),
                                            samakausi_,
-                                           role == Qt::EditRole );
+                                           role == Qt::EditRole );                            
 
-            case PVM: return QVariant( map.value("pvm").toDate() );
+            case PVM:
+            if( role == Qt::DisplayRole)
+                return QVariant( map.value("pvm").toDate() );
+            else
+                return QString("%1 %2").arg( map.value("pvm").toString() ).arg( map.value("id").toInt(), 8, 10, QChar('0') );
 
             case TILI:
             {
