@@ -29,14 +29,16 @@ UlkoasuMaaritys::UlkoasuMaaritys() :
 {
     ui->setupUi(this);
 
-    for(int i=8; i < 20; i++) {
+    for(int i=8; i < 21; i++) {
         ui->kokoCombo->addItem(QString("%1 pt").arg(i), i);
     }
+
     ui->kokoCombo->setCurrentIndex(4);
+    ui->fonttiCombo->setCurrentFont(QFont("FreeSans"));
 
     connect(ui->oletusfontti, &QRadioButton::clicked, this, &UlkoasuMaaritys::asetaFontti);
     connect(ui->omafontti, &QRadioButton::clicked, this, &UlkoasuMaaritys::asetaFontti);
-    connect(ui->fonttiCombo, &QFontComboBox::currentTextChanged, this, &UlkoasuMaaritys::asetaFontti);
+    connect(ui->fonttiCombo, &QFontComboBox::currentFontChanged, this, &UlkoasuMaaritys::asetaFontti);
     connect(ui->kokoCombo, &QComboBox::currentTextChanged, this, &UlkoasuMaaritys::asetaFontti);
 
 }
@@ -52,8 +54,10 @@ bool UlkoasuMaaritys::nollaa()
     QString fonttinimi = kp()->settings()->value("Fontti").toString();
     int koko = kp()->settings()->value("FonttiKoko").toInt();
 
-    if( fonttinimi.isEmpty())
+    if( fonttinimi.isEmpty()) {
         ui->oletusfontti->setChecked(true);
+
+    }
     else {
         ui->omafontti->setChecked(true);
         ui->fonttiCombo->setCurrentFont(QFont(fonttinimi));
