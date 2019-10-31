@@ -310,6 +310,15 @@ signals:
     void onni(const QString& teksti);
 
     /**
+     * @brief Näytetään ilmoitus tositteen tallentumisesta
+     * @param tunnus Tositteen tunnistenumero
+     * @param paiva Tositteen päivämäärä
+     * @param sarja Tositesarja
+     */
+    void tositeTallennettu(int tunnus, const QDate& paiva, const QString& sarja);
+    void piilotaTallennusWidget();
+
+    /**
      * @brief Pyytää näyttämään tositteen
      * @param tositeId
      */

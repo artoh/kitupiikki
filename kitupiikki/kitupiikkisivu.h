@@ -38,7 +38,7 @@ public:
     /**
      * @brief Kutsutaan, kun tälle sivulle ollaan siirtymässä
      */
-    virtual void siirrySivulle() {;}
+    virtual void siirrySivulle() {}
 
     /**
      * @brief Sivu, jonne ohje ohjaa ;)

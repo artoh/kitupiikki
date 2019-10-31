@@ -43,6 +43,7 @@ TallennettuWidget::~TallennettuWidget()
 
 void TallennettuWidget::nayta(int tunnus, const QDate &paiva, const QString &sarja)
 {
+
     timer_->start(60000);
 
     ui->tunnisteellaLabel->setVisible( tunnus );
@@ -57,6 +58,11 @@ void TallennettuWidget::nayta(int tunnus, const QDate &paiva, const QString &sar
     }
 
     setVisible(true);
+
+    QWidget* isi = qobject_cast<QWidget*>( parent() );
+
+    move( isi->width() / 2 - width() / 2,
+          isi->height() - height() );
     raise();
 
 }

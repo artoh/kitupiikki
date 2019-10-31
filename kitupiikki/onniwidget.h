@@ -11,7 +11,7 @@ class OnniWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit OnniWidget(QWidget *parent = 0);
+    explicit OnniWidget(QWidget *parent = nullptr);
 
 signals:
 

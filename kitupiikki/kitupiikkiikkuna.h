@@ -39,6 +39,8 @@ class AlvSivu;
 class QDateEdit;
 class QDockWidget;
 
+class TallennettuWidget;
+
 #include "db/tilikausi.h"
 #include "kitupiikkisivu.h"
 
@@ -120,6 +122,8 @@ protected:
     QDockWidget *harjoitusDock;
     QDockWidget *inboxDock;
 
+    TallennettuWidget* tallennettuWidget_;
+
     AloitusSivu *aloitussivu;
     KirjausSivu *kirjaussivu;
     LaskuSivu *laskutussivu;
@@ -135,6 +139,8 @@ protected:
     QAction* uusiKirjausAktio;
     QAction* uusiSelausAktio;
     QAction* uusiLaskuAktio;
+
+
 
 
 

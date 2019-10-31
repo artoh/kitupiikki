@@ -57,8 +57,8 @@
 #include "tilaus/tilauswizard.h"
 #include "versio.h"
 
-AloitusSivu::AloitusSivu() :
-    KitupiikkiSivu(nullptr)
+AloitusSivu::AloitusSivu(QWidget *parent) :
+    KitupiikkiSivu(parent)
 {
 
     ui = new Ui::Aloitus;

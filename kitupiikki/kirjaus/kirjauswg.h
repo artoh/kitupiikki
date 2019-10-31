@@ -35,7 +35,6 @@ class SelausWg;
 
 class Tosite;
 class ApuriWidget;
-class TallennettuWidget;
 
 /**
  * @brief Kirjausten muokkaus
@@ -167,7 +166,6 @@ protected:
 
     Tosite* tosite_;
     ApuriWidget* apuri_;
-    TallennettuWidget* tallennettuWidget_;
 
     QWidget* viennitTab_;
     QWidget* kommentitTab_;

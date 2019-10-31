@@ -49,6 +49,7 @@
 #include "arkisto/arkistosivu.h"
 #include "laskutus/laskusivu.h"
 #include "alv/alvsivu.h"
+#include "kirjaus/tallennettuwidget.h"
 
 #include "db/kirjanpito.h"
 
@@ -65,7 +66,16 @@
 #include "pilvi/pilvimodel.h"
 
 KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
+    tallennettuWidget_( new TallennettuWidget(this)),
+    aloitussivu( new AloitusSivu(this)),
+    laskutussivu( new LaskuSivu()),
+    selaussivu( new SelausWg(this)),
+    raporttisivu( new RaporttiSivu()),
+    maarityssivu( new MaaritysSivu()),
+    arkistosivu( new ArkistoSivu()),
+    alvsivu( new AlvSivu()),
     nykysivu(nullptr)
+
 {
 
     connect( Kirjanpito::db(), SIGNAL(tietokantaVaihtui()), this, SLOT(kirjanpitoLadattu()));
@@ -74,14 +84,7 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     setWindowIcon(QIcon(":/pic/Possu64.png"));
     setWindowTitle( tr("Kitsas %1").arg(qApp->applicationVersion()));
 
-    aloitussivu = new AloitusSivu();
-    selaussivu = new SelausWg();
     kirjaussivu =  new KirjausSivu(this, selaussivu);
-    laskutussivu = new LaskuSivu();
-    maarityssivu = new MaaritysSivu();
-    raporttisivu = new RaporttiSivu();
-    arkistosivu = new ArkistoSivu();
-    alvsivu = new AlvSivu();
 
     pino = new QStackedWidget;
     setCentralWidget(pino);
@@ -151,7 +154,8 @@ KitupiikkiIkkuna::KitupiikkiIkkuna(QWidget *parent) : QMainWindow(parent),
     toolbar->installEventFilter(this);
     toolbar->setContextMenuPolicy(Qt::PreventContextMenu);
 
-
+    connect( kp(), &Kirjanpito::tositeTallennettu, tallennettuWidget_, &TallennettuWidget::nayta);
+    connect( kp(), &Kirjanpito::piilotaTallennusWidget, tallennettuWidget_, &TallennettuWidget::piiloon);
 
 }
 

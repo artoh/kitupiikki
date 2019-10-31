@@ -41,7 +41,7 @@ class AloitusSivu : public KitupiikkiSivu
     Q_OBJECT
 
 public:
-    AloitusSivu();
+    AloitusSivu(QWidget *parent = nullptr);
     ~AloitusSivu() override;
 
     bool poistuSivulta(int minne) override;

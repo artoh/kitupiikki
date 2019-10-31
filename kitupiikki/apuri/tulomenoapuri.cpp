@@ -766,6 +766,7 @@ void TuloMenoApuri::alusta(bool meno)
     bool alv = kp()->asetukset()->onko( AsetusModel::ALV );
     ui->alvLabel->setVisible(alv);
     ui->alvCombo->setVisible(alv);
+    verolajiMuuttui();
 
     ui->erapaivaEdit->setDateRange(QDate(), QDate());
     ui->loppuEdit->setDateRange( kp()->tilitpaatetty().addDays(1), QDate() );

@@ -75,7 +75,6 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     : QWidget(parent),
       tosite_( new Tosite(this)),
       apuri_(nullptr),
-      tallennettuWidget_( new TallennettuWidget(this) ),
       selaus_(selaus),
       edellinenSeuraava_( qMakePair(0,0))
 {
@@ -370,7 +369,7 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
 
     salliMuokkaus( !( virheet & Tosite::PVMALV || virheet & Tosite::PVMLUKITTU  ) || !tosite_->data(Tosite::ID).toInt() );
     if( muokattu )
-        tallennettuWidget_->piiloon();
+        emit kp()->piilotaTallennusWidget();
 
 }
 
@@ -379,13 +378,9 @@ void KirjausWg::tallennettu(int /* id */, int tunniste, const QDate &pvm, const 
     if( ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli) == TositeTyyppi::TILIOTE)
         ui->tositetyyppiCombo->setCurrentIndex(0);
 
-    tallennettuWidget_->nayta(tunniste, pvm, sarja);
-
-    tallennettuWidget_->move( width() / 2 - tallennettuWidget_->width() / 2,
-                             height() - tallennettuWidget_->height() );
+    emit kp()->tositeTallennettu(tunniste, pvm, sarja);
     tyhjenna();
-
-
+    emit tositeKasitelty();
 }
 
 void KirjausWg::tallennusEpaonnistui(int virhe)

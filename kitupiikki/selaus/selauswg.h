@@ -52,7 +52,7 @@ public:
         VIENNIT = 2
     };
 
-    SelausWg();
+    SelausWg(QWidget *parent = nullptr);
     ~SelausWg() override;
 
     QPair<int,int> edellinenSeuraava(int tositeId);

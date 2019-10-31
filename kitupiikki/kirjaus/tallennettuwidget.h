@@ -34,9 +34,8 @@ public:
     ~TallennettuWidget() override;
 
 
-    void nayta(int tunnus, const QDate& paiva, const QString& sarja = QString());
-
 public slots:
+    void nayta(int tunnus, const QDate& paiva, const QString& sarja = QString());
     void piiloon();
 
 private:

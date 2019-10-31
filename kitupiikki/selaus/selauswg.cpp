@@ -29,8 +29,8 @@
 
 #include "tositeselausmodel.h"
 
-SelausWg::SelausWg() :
-    KitupiikkiSivu(nullptr),
+SelausWg::SelausWg(QWidget *parent) :
+    KitupiikkiSivu(parent),
     ui(new Ui::SelausWg)
 {
     ui->setupUi(this);
