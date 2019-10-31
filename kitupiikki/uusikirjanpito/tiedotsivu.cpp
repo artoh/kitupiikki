@@ -86,11 +86,11 @@ bool TiedotSivu::validatePage()
         velho->asetukset_.insert("AlvVelvollinen",true);
     }
 
-    if( !ui->tiliLine->text().isEmpty())
+    if( IbanValidator::kelpaako(ui->tiliLine->text()))
         for(int i=0; i < velho->tilit_.count(); i++) {
             if( velho->tilit_.at(i).toMap().value("tyyppi") == "ARP") {
                 QVariantMap map = velho->tilit_.at(i).toMap();
-                map.insert("IBAN", ui->tiliLine->text());
+                map.insert("IBAN", ui->tiliLine->text().remove(QChar(' ')));
                 velho->tilit_[i] = map;
                 break;
             }

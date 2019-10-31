@@ -65,6 +65,7 @@ bool SiirtoApuri::teeTositteelle()
     debet.setDebet( senttia );
     debet.set(TositeVienti::SELITE, otsikko);
     debet.setEra( ui->tililleEraCombo->valittuEra() );
+    debet.setTyyppi( TositeVienti::SIIRTO);
     viennit.append(debet);
 
     TositeVienti kredit;
@@ -73,6 +74,7 @@ bool SiirtoApuri::teeTositteelle()
     kredit.setKredit( senttia );
     kredit.set( TositeVienti::SELITE, otsikko);
     kredit.setEra( ui->tililtaEraCombo->valittuEra());
+    kredit.setTyyppi( TositeVienti::SIIRTO );
     viennit.append(kredit);
 
     tosite()->viennit()->asetaViennit(viennit);

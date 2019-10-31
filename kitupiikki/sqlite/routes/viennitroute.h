@@ -25,6 +25,7 @@ public:
     ViennitRoute(SQLiteModel* model);
 
     QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
+    QVariant vienti(int id);
 };
 
 #endif // VIENNITROUTE_H

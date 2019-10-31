@@ -55,6 +55,7 @@ public:
         OSTO = 100,
         MYYNTI = 200,
         SUORITUS = 300,
+        SIIRTO = 400,
         BRUTTOOIKAISU = 91091,
         POISTO = 99100,
         JAKSOTUS_TP = 99210,

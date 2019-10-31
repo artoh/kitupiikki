@@ -25,8 +25,11 @@ ViennitRoute::ViennitRoute(SQLiteModel* model) :
 
 }
 
-QVariant ViennitRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
+QVariant ViennitRoute::get(const QString &polku, const QUrlQuery &urlquery)
 {
+    if( polku.toInt())
+        return vienti(polku.toInt());
+
     QStringList ehdot;
     ehdot.append(QString("tila >= %1").arg(Tosite::KIRJANPIDOSSA));
 
@@ -68,4 +71,14 @@ QVariant ViennitRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
     taydennaEratJaMerkkaukset(viennit);
     return viennit;
 
+}
+
+QVariant ViennitRoute::vienti(int id)
+{
+    QString kysymys(QString("SELECT vienti.id, pvm, tili, selite, debetsnt, kreditsnt, kumppani.nimi as kumppani "
+                            "FROM Vienti LEFT OUTER JOIN Kumppani ON Vienti.kumppani=Kumppani.id WHERE Vienti.id=%1").arg(id));
+    QSqlQuery kysely( db());
+    kysely.exec(kysymys);
+
+    return resultMap(kysely);
 }

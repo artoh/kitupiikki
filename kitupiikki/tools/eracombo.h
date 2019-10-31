@@ -40,6 +40,7 @@ signals:
 
 private slots:
     void dataSaapuu(QVariant* data);
+    void vientiSaapuu(QVariant* data);
     void valintaMuuttui();
 
 private:

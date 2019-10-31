@@ -254,11 +254,15 @@ QVariantList TilioteModel::viennit(int tilinumero) const
             }
 
             tili.setKohdennus( rivi.kohdennus);
+            if( rivi.eraId)
+                tili.setEra( rivi.eraId );
 
-            if( rivi.kohdennus ) {
+            if( rivi.eraId && rivi.eraId > -1) {
                 pankki.setTyyppi( TositeVienti::SUORITUS + TositeVienti::VASTAKIRJAUS );
                 tili.setTyyppi( TositeVienti::SUORITUS + TositeVienti::KIRJAUS);
-
+            } else if( kp()->tilit()->tili(tili.tili())->onko(TiliLaji::TASE)) {
+                pankki.setTyyppi( TositeVienti::SIIRTO );
+                tili.setTyyppi( TositeVienti::SIIRTO );
             } else if( rivi.euro > 0.0 ) {
                 pankki.setTyyppi( TositeVienti::MYYNTI + TositeVienti::VASTAKIRJAUS );
                 tili.setTyyppi( TositeVienti::MYYNTI + TositeVienti::KIRJAUS);
@@ -266,10 +270,6 @@ QVariantList TilioteModel::viennit(int tilinumero) const
                 pankki.setTyyppi( TositeVienti::OSTO + TositeVienti::VASTAKIRJAUS);
                 tili.setTyyppi( TositeVienti::OSTO + TositeVienti::KIRJAUS);
             }
-
-
-            if( rivi.eraId)
-                tili.setEra( rivi.eraId );
 
             pankki.setSelite( rivi.selite );
             tili.setSelite( rivi.selite );

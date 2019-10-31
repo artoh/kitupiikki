@@ -77,6 +77,7 @@ private:
 
     KohdennusProxyModel* kohdennusProxy_;
     QSortFilterProxyModel* maksuProxy_;    
+    QSortFilterProxyModel* avoinProxy_;
 
     LaskuTauluTilioteProxylla *laskut_;
 

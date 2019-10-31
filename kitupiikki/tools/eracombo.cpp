@@ -48,7 +48,15 @@ void EraCombo::valitse(int eraid)
 {
     valittuna_ = eraid;
 
-    setCurrentIndex( findData(valittuna_) );
+    int indeksi = findData( valittuna_ );
+    if( indeksi > -1)
+        setCurrentIndex( findData(valittuna_) );
+    else {
+        // Tilataan erän tiedot
+        KpKysely* kysely = kpk(QString("/viennit/%1").arg(eraid));
+        connect(kysely, &KpKysely::vastaus, this, &EraCombo::vientiSaapuu);
+        kysely->kysy();
+    }
 }
 
 void EraCombo::dataSaapuu(QVariant *data)
@@ -70,6 +78,16 @@ void EraCombo::dataSaapuu(QVariant *data)
 
         setItemData( findData(map.value("eraid").toInt()), map.value("avoin"), AvoinnaRooli );
     }
+    setCurrentIndex( findData(valittuna_) );
+}
+
+void EraCombo::vientiSaapuu(QVariant *data)
+{
+    QVariantMap map = data->toMap();
+    addItem( QString("%1 %2")
+             .arg(map.value("pvm").toDate().toString("dd.MM.yyyy"))
+              .arg(map.value("selite").toString()  ),
+             map.value("id").toInt());
     setCurrentIndex( findData(valittuna_) );
 }
 
