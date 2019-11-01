@@ -44,7 +44,7 @@ AlvSivu::AlvSivu() :
     paivitaMaksuAlvTieto();
 
 
-    connect( ui->viimeisinEdit, SIGNAL(dateChanged(QDate)), this, SLOT(paivitaSeuraavat()));
+    connect( ui->viimeisinEdit, &QDateEdit::editingFinished, this, &AlvSivu::paivitaSeuraavat);
     connect(ui->kausiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(paivitaSeuraavat()));
     connect( ui->tilitaNappi, SIGNAL(clicked(bool)), this, SLOT(ilmoita()));
     connect( ui->tilitysNappi, SIGNAL(clicked(bool)), this, SLOT(naytaIlmoitus()));
@@ -59,6 +59,7 @@ void AlvSivu::siirrySivulle()
 {
     ui->kausiCombo->setCurrentIndex( ui->kausiCombo->findData( kp()->asetukset()->luku("AlvKausi") ) );
     ui->viimeisinEdit->setDate( kp()->asetukset()->pvm("AlvIlmoitus"));
+    paivitaSeuraavat();
     model->lataa();
     riviValittu();      // Jotta napit harmaantuvat
 

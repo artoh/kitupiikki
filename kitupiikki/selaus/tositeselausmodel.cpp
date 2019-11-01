@@ -97,7 +97,12 @@ QVariant TositeSelausModel::data(const QModelIndex &index, int role) const
                     .arg( rivi.tositeTunniste)
                     .arg( kp()->tilikaudet()->tilikausiPaivalle(rivi.pvm).kausitunnus() ));
         case PVM:
-            return QVariant( rivi.pvm );
+            if( role == Qt::DisplayRole)
+                return QVariant( rivi.pvm );
+            else
+                return QString("%1 %2")
+                        .arg(rivi.pvm.toString(Qt::ISODate))
+                        .arg(rivi.tositeId, 8, 10, QChar('0') );
 
         case TOSITELAJI:
             return kp()->tositelajit()->tositelaji( rivi.tositeLaji ).nimi();

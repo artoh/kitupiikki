@@ -84,7 +84,13 @@ QVariant SelausModel::data(const QModelIndex &index, int role) const
                     return rivi.lajiteltavaTositetunniste;
                 return QVariant( rivi.tositetunniste);
 
-            case PVM: return QVariant( rivi.pvm );
+            case PVM:
+                if( role == Qt::DisplayRole)
+                    return QVariant( rivi.pvm );
+                else
+                    return QString("%1 %2")
+                            .arg(rivi.pvm.toString(Qt::ISODate))
+                            .arg(rivi.vientiId, 8, 10, QChar('0') );
 
             case TILI:
                 if( role == Qt::EditRole)
