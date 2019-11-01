@@ -21,7 +21,6 @@
 
 #include "tiliotemodel.h"
 
-class KohdennusProxyModel;
 class LaskuTauluTilioteProxylla;
 class TilioteApuri;
 
@@ -61,7 +60,6 @@ private slots:
 
     void tyhjenna();
     void tarkastaTallennus();
-    void lataaMerkkaukset( QList<int> merkatut = QList<int>());
 
     void kumppaniValittu(int kumppaniId);
     void kumppaniTiedot(QVariant* data);
@@ -75,7 +73,6 @@ private:
 
     int menoa_ = false;
 
-    KohdennusProxyModel* kohdennusProxy_;
     QSortFilterProxyModel* maksuProxy_;    
     QSortFilterProxyModel* avoinProxy_;
 

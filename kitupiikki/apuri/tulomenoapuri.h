@@ -82,7 +82,6 @@ private:
     bool menoa_ = false;
 
     QSortFilterProxyModel* veroFiltteri_;
-    KohdennusProxyModel* kohdennusProxy_;
 
     static QString viimeMaksutapa__;
 

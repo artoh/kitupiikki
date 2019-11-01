@@ -40,13 +40,7 @@ PaakirjaRaportti::PaakirjaRaportti()
     ui->alkupvm->setDate(nykykausi.alkaa());
     ui->loppupvm->setDate(nykykausi.paattyy());
 
-    if( kp()->kohdennukset()->kohdennuksia())
-    {
-        ui->kohdennusCombo->setModel( kp()->kohdennukset());
-        ui->kohdennusCombo->setModelColumn( KohdennusModel::NIMI);
-    }
-    else
-    {
+    if( !kp()->kohdennukset()->kohdennuksia()) {
         ui->kohdennusCheck->setVisible(false);
         ui->kohdennusCombo->setVisible(false);
     }
@@ -80,7 +74,7 @@ void PaakirjaRaportti::esikatsele()
 
     int kohdennuksella = -1;
     if( ui->kohdennusCheck->isChecked())
-        kohdennuksella = ui->kohdennusCombo->currentData( KohdennusModel::IdRooli).toInt();
+        kohdennuksella = ui->kohdennusCombo->kohdennus();
     int tililta = 0;
     if( ui->tiliBox->isChecked())
         tililta = ui->tiliCombo->currentData().toInt();

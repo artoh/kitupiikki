@@ -19,6 +19,7 @@
 
 #include <QComboBox>
 #include <QStyledItemDelegate>
+#include <QDate>
 
 class QStandardItem;
 class QStandardItemModel;
@@ -37,7 +38,12 @@ public:
     QStandardItem* addItem(const QString& label, const QVariant& data, const Qt::CheckState checkState = Qt::Unchecked);
 
     QVariantList selectedDatas() const;
+    QList<int> selectedInts() const;
 
+public slots:
+    void haeMerkkaukset(const QDate& paivalle = QDate());
+    void setSelectedItems(const QList<int>& list);
+    void setSelectedItems(const QVariantList& list);
 
 private slots:
     void onModelDataChanged();

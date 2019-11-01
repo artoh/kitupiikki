@@ -22,7 +22,6 @@
 #include "model/tosite.h"
 #include "model/tositeviennit.h"
 #include "db/tositetyyppimodel.h"
-#include "kirjaus/kohdennusproxymodel.h"
 #include "rekisteri/asiakastoimittajadlg.h"
 
 #include <QSortFilterProxyModel>
@@ -32,9 +31,7 @@
 TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     ApuriWidget (parent, tosite),
     ui(new Ui::TuloMenoApuri),
-    rivit_(new TmRivit(this)),
-    kohdennusProxy_( new KohdennusProxyModel(this))
-
+    rivit_(new TmRivit(this))
 {
     ui->setupUi(this);
 
@@ -42,9 +39,6 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     veroFiltteri_->setFilterRole( VerotyyppiModel::KoodiTekstiRooli);
     veroFiltteri_->setSourceModel( kp()->alvTyypit());
     ui->alvCombo->setModel(veroFiltteri_);
-
-    ui->kohdennusCombo->setModel(kohdennusProxy_);
-    ui->kohdennusCombo->setModelColumn( KohdennusModel::NIMI);
 
     ui->alkuEdit->setNull();
     ui->loppuEdit->setNull();
@@ -68,7 +62,7 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->alvCombo, &QComboBox::currentTextChanged, this, &TuloMenoApuri::verolajiMuuttui);
     connect( ui->vahennysCheck, &QCheckBox::stateChanged, this, &TuloMenoApuri::alvVahennettavaMuuttui);
 
-    connect( ui->kohdennusCombo, &QComboBox::currentTextChanged, this, &TuloMenoApuri::kohdennusMuuttui);
+    connect( ui->kohdennusCombo, &KohdennusCombo::kohdennusVaihtui, this, &TuloMenoApuri::kohdennusMuuttui);
     connect( ui->merkkauksetCC, &CheckCombo::currentTextChanged, this, &TuloMenoApuri::merkkausMuuttui );
 
     connect( ui->alkuEdit, &KpDateEdit::dateChanged, this, &TuloMenoApuri::jaksoAlkaaMuuttui);
@@ -635,7 +629,7 @@ void TuloMenoApuri::vastatiliMuuttui()
 
 void TuloMenoApuri::kohdennusMuuttui()
 {
-    rivit_->setKohdennus( rivilla(), ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt());
+    rivit_->setKohdennus( rivilla(), ui->kohdennusCombo->kohdennus());
     tositteelle();    
 }
 
@@ -698,28 +692,18 @@ void TuloMenoApuri::haeKohdennukset()
     QVariantList merkatut =  rivit_->rowCount() ?  rivit_->merkkaukset( rivilla()) : QVariantList();
     QDate pvm = tosite()->data(Tosite::PVM).toDate();
 
-    kohdennusProxy_->asetaKohdennus( nykyinenKohdennus );
-    kohdennusProxy_->asetaPaiva( pvm );
+    ui->kohdennusCombo->valitseKohdennus(nykyinenKohdennus);
+    ui->kohdennusCombo->suodataPaivalla(pvm);
 
-    ui->kohdennusLabel->setVisible( kohdennusProxy_->rowCount() > 1);
-    ui->kohdennusCombo->setVisible( kohdennusProxy_->rowCount() > 1);
+    ui->kohdennusLabel->setVisible( ui->kohdennusCombo->count() > 1);
+    ui->kohdennusCombo->setVisible( ui->kohdennusCombo->count() > 1);
 
-    ui->kohdennusCombo->setCurrentIndex( ui->kohdennusCombo->findData(nykyinenKohdennus, KohdennusModel::IdRooli ));
+    ui->merkkauksetCC->haeMerkkaukset(pvm);
 
-    KohdennusProxyModel merkkausproxy(this, pvm, -1, KohdennusProxyModel::MERKKKAUKSET );
-    ui->merkkauksetCC->clear();
+    ui->merkkauksetLabel->setVisible( ui->merkkauksetCC->count());
+    ui->merkkauksetCC->setVisible( ui->merkkauksetCC->count());
 
-    ui->merkkauksetLabel->setVisible( merkkausproxy.rowCount());
-    ui->merkkauksetCC->setVisible( merkkausproxy.rowCount());
-
-    for(int i=0; i < merkkausproxy.rowCount(); i++) {
-        int koodi = merkkausproxy.data( merkkausproxy.index(i,0), KohdennusModel::IdRooli ).toInt();
-        QString nimi = merkkausproxy.data( merkkausproxy.index(i,0), KohdennusModel::NimiRooli ).toString();
-
-        Qt::CheckState state = merkatut.contains( koodi ) ? Qt::Checked : Qt::Unchecked;
-        ui->merkkauksetCC->addItem(nimi, koodi, state);
-    }
-
+    ui->merkkauksetCC->setSelectedItems( merkatut );
 }
 
 

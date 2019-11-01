@@ -37,7 +37,7 @@ private slots:
     void vaihtuu();
 
 signals:
-    void kohdennusValittu(int kohdennus);
+    void kohdennusVaihtui(int kohdennus);
 
 protected:
     KohdennusProxyModel *proxy_;

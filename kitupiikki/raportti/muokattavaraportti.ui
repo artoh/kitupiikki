@@ -190,7 +190,7 @@
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QComboBox" name="kohdennusCombo">
+      <widget class="KohdennusCombo" name="kohdennusCombo">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -234,6 +234,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KohdennusCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">tools/kohdennuscombo.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../pic/pic.qrc"/>
  </resources>

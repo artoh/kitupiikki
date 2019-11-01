@@ -23,6 +23,9 @@
 #include <QFocusEvent>
 #include <QDebug>
 
+#include "kirjaus/kohdennusproxymodel.h"
+#include "db/kohdennusmodel.h"
+
 CheckCombo::CheckCombo(QWidget *parent) :
     QComboBox (parent),
     model_( new QStandardItemModel(this))
@@ -68,6 +71,35 @@ QVariantList CheckCombo::selectedDatas() const
     return selected;
 }
 
+QList<int> CheckCombo::selectedInts() const
+{
+    QList<int> selected;
+    for (int i = 0; i < model_->rowCount(); i++)
+    {
+        if (model_->item(i)->checkState() == Qt::Checked)
+        {
+            selected.append( model_->item(i)->data().toInt() );
+        }
+    }
+    return selected;
+}
+
+void CheckCombo::haeMerkkaukset(const QDate &paivalle)
+{
+    KohdennusProxyModel merkkaukset(this, paivalle, -1, KohdennusProxyModel::MERKKKAUKSET);
+    QVariantList lista = selectedDatas();
+
+    clear();
+    for(int i=0; i < merkkaukset.rowCount(); i++) {
+        int koodi = merkkaukset.data( merkkaukset.index(i,0), KohdennusModel::IdRooli ).toInt();
+        QString nimi = merkkaukset.data( merkkaukset.index(i,0), KohdennusModel::NimiRooli ).toString();
+        addItem(nimi, koodi, Qt::Unchecked);
+    }
+
+    setSelectedItems( lista );
+    updateText();
+}
+
 void CheckCombo::updateText()
 {
     QString text;
@@ -84,6 +116,32 @@ void CheckCombo::updateText()
         }
     }
     lineEdit()->setText(text);
+}
+
+void CheckCombo::setSelectedItems(const QList<int> &list)
+{
+    for(int i=0; i < model_->rowCount(); i++) {
+        QStandardItem* item = model_->item(i);
+
+        if( list.contains( model_->item(i)->data().toInt() ) )
+            item->setCheckState( Qt::Checked );
+        else
+            item->setCheckState( Qt::Unchecked );
+    }
+    updateText();
+}
+
+void CheckCombo::setSelectedItems(const QVariantList &list)
+{
+    for(int i=0; i < model_->rowCount(); i++) {
+        QStandardItem* item = model_->item(i);
+
+        if( list.contains( model_->item(i)->data() ) )
+            item->setCheckState( Qt::Checked );
+        else
+            item->setCheckState( Qt::Unchecked );
+    }
+    updateText();
 }
 
 void CheckCombo::onModelDataChanged()

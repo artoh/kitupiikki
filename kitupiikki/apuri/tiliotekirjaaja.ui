@@ -119,7 +119,7 @@
       </widget>
      </item>
      <item row="5" column="1">
-      <widget class="QComboBox" name="kohdennusCombo"/>
+      <widget class="KohdennusCombo" name="kohdennusCombo"/>
      </item>
      <item row="6" column="0">
       <widget class="QLabel" name="merkkausLabel">
@@ -271,10 +271,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>AsiakasToimittajaValinta</class>
-   <extends>QWidget</extends>
-   <header location="global">rekisteri/asiakastoimittajavalinta.h</header>
-   <container>1</container>
+   <class>KohdennusCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">tools/kohdennuscombo.h</header>
   </customwidget>
   <customwidget>
    <class>KpDateEdit</class>
@@ -282,24 +281,30 @@
    <header location="global">tools/kpdateedit.h</header>
   </customwidget>
   <customwidget>
-   <class>TilinvalintaLine</class>
-   <extends>QLineEdit</extends>
-   <header location="global">db/tilinvalintaline.h</header>
-  </customwidget>
-  <customwidget>
    <class>KpEuroEdit</class>
    <extends>QLineEdit</extends>
    <header location="global">tools/kpeuroedit.h</header>
   </customwidget>
   <customwidget>
-   <class>EraCombo</class>
-   <extends>QComboBox</extends>
-   <header location="global">tools/eracombo.h</header>
-  </customwidget>
-  <customwidget>
    <class>CheckCombo</class>
    <extends>QComboBox</extends>
    <header location="global">tools/checkcombo.h</header>
+  </customwidget>
+  <customwidget>
+   <class>TilinvalintaLine</class>
+   <extends>QLineEdit</extends>
+   <header>db/tilinvalintaline.h</header>
+  </customwidget>
+  <customwidget>
+   <class>AsiakasToimittajaValinta</class>
+   <extends>QWidget</extends>
+   <header location="global">rekisteri/asiakastoimittajavalinta.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>EraCombo</class>
+   <extends>QComboBox</extends>
+   <header>tools/eracombo.h</header>
   </customwidget>
   <customwidget>
    <class>QTabBar</class>

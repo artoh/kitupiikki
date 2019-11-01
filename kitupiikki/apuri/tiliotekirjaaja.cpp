@@ -17,7 +17,6 @@
 #include "tiliotekirjaaja.h"
 #include "ui_tiliotekirjaaja.h"
 
-#include "kirjaus/kohdennusproxymodel.h"
 #include "laskutaulutilioteproxylla.h"
 
 #include <QPushButton>
@@ -30,7 +29,6 @@
 TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
     QDialog(apuri),
     ui(new Ui::TilioteKirjaaja),
-    kohdennusProxy_(new KohdennusProxyModel(this) ),
     maksuProxy_(new QSortFilterProxyModel(this)),
     avoinProxy_( new QSortFilterProxyModel(this)),
     laskut_( new LaskuTauluTilioteProxylla(this, apuri->model()))
@@ -44,8 +42,6 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
     ui->alaTabs->addTab(QIcon(":/pic/lisaa.png"), tr("Tulo"));
     ui->alaTabs->addTab(QIcon(":/pic/siirra.png"), tr("Siirto"));
 
-    ui->kohdennusCombo->setModel(kohdennusProxy_);
-    ui->kohdennusCombo->setModelColumn(KohdennusModel::NIMI);
 
     alaTabMuuttui(0);
 
@@ -77,6 +73,9 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
 
     connect( ui->euroEdit, &KpEuroEdit::textChanged, this, &TilioteKirjaaja::tarkastaTallennus);
     connect( ui->pvmEdit, &KpDateEdit::dateChanged, this, &TilioteKirjaaja::tarkastaTallennus);
+
+    connect( ui->pvmEdit, &KpDateEdit::dateChanged, ui->merkkausCC, &CheckCombo::haeMerkkaukset);
+
     connect( ui->tiliEdit, &TilinvalintaLine::textChanged, this, &TilioteKirjaaja::tarkastaTallennus);
     connect( ui->tiliEdit, &TilinvalintaLine::textChanged, this, &TilioteKirjaaja::tiliMuuttuu);
     connect( ui->maksuView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &TilioteKirjaaja::tarkastaTallennus);
@@ -108,10 +107,8 @@ TilioteModel::Tilioterivi TilioteKirjaaja::rivi()
 
     rivi.selite = ui->seliteEdit->text();
     rivi.tili = ui->tiliEdit->valittuTilinumero();
-    rivi.kohdennus = ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt();
-    rivi.merkkaukset.clear();
-    for(auto var : ui->merkkausCC->selectedDatas())
-        rivi.merkkaukset.append( var.toInt() );
+    rivi.kohdennus = ui->kohdennusCombo->kohdennus();
+    rivi.merkkaukset = ui->merkkausCC->selectedInts();
 
 
     if( ui->alaTabs->currentIndex() == MAKSU) {
@@ -168,8 +165,8 @@ void TilioteKirjaaja::muokkaaRivia(int riviNro)
     else
         ui->alaTabs->setCurrentIndex( TULOMENO );
 
-    ui->kohdennusCombo->setCurrentIndex(
-                ui->kohdennusCombo->findData( rivi.kohdennus, KohdennusModel::IdRooli));
+    ui->kohdennusCombo->valitseKohdennus( rivi.kohdennus );
+
 
     ui->tiliEdit->valitseTiliNumerolla( rivi.tili );
 
@@ -190,9 +187,10 @@ void TilioteKirjaaja::muokkaaRivia(int riviNro)
 
     ui->eraCombo->valitse( rivi.eraId );
 
-
     // MerkkausCC
-    lataaMerkkaukset( rivi.merkkaukset);
+    ui->merkkausCC->haeMerkkaukset( rivi.pvm );
+    ui->merkkausCC->setSelectedItems( rivi.merkkaukset );
+
     ui->asiakastoimittaja->set( rivi.saajamaksajaId,
                                 rivi.saajamaksaja);
 
@@ -336,7 +334,9 @@ void TilioteKirjaaja::tyhjenna()
     ui->eraCombo->valitse(0);
     ui->jaksoAlkaaEdit->setNull();
     ui->jaksoLoppuuEdit->setNull();
-    lataaMerkkaukset();
+
+    ui->merkkausCC->haeMerkkaukset();
+
     tarkastaTallennus();
     avoinProxy_->setFilterFixedString("€");
 }
@@ -349,22 +349,7 @@ void TilioteKirjaaja::tarkastaTallennus()
                   !ui->maksuView->selectionModel()->selectedRows().isEmpty() ));
 }
 
-void TilioteKirjaaja::lataaMerkkaukset(QList<int> merkatut)
-{
-    // Kohdennukset
-    kohdennusProxy_->asetaPaiva(ui->pvmEdit->date());
 
-    KohdennusProxyModel merkkausproxy(this, ui->pvmEdit->date(), -1, KohdennusProxyModel::MERKKKAUKSET );
-    ui->merkkausCC->clear();
-
-    for(int i=0; i < merkkausproxy.rowCount(); i++) {
-        int koodi = merkkausproxy.data( merkkausproxy.index(i,0), KohdennusModel::IdRooli ).toInt();
-        QString nimi = merkkausproxy.data( merkkausproxy.index(i,0), KohdennusModel::NimiRooli ).toString();
-
-            Qt::CheckState state = merkatut.contains( koodi ) ? Qt::Checked : Qt::Unchecked;
-            ui->merkkausCC->addItem(nimi, koodi, state);
-    }
-}
 
 void TilioteKirjaaja::kumppaniValittu(int kumppaniId)
 {

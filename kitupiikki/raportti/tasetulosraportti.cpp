@@ -45,12 +45,7 @@ TaseTulosRaportti::TaseTulosRaportti(Raportoija::RaportinTyyppi raportinTyyppi, 
         ui->muotoCombo->addItem( muotonimi, muoto );
     }
 
-    if( tyyppi()==Raportoija::TULOSLASKELMA && kp()->kohdennukset()->kohdennuksia())
-    {
-        ui->kohdennusCombo->setModel( kp()->kohdennukset());
-        ui->kohdennusCombo->setModelColumn( KohdennusModel::NIMI);
-    }
-    else
+    if( tyyppi()!=Raportoija::TULOSLASKELMA || !kp()->kohdennukset()->kohdennuksia())
     {
         ui->kohdennusCheck->setVisible(false);
         ui->kohdennusCombo->setVisible(false);
@@ -108,7 +103,7 @@ void TaseTulosRaportti::esikatsele()
 
     connect( raportoija, &Raportoija::valmis, this, &RaporttiWidget::nayta);
     raportoija->kirjoita( ui->erittelyCheck->isChecked(),
-                          ui->kohdennusCheck->isChecked() ? ui->kohdennusCombo->currentData(KohdennusModel::IdRooli).toInt() : -1);
+                          ui->kohdennusCheck->isChecked() ? ui->kohdennusCombo->kohdennus() : -1);
 
 }
 

@@ -49,7 +49,7 @@
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QComboBox" name="tililtaKohdennusCombo"/>
+         <widget class="KohdennusCombo" name="tililtaKohdennusCombo"/>
         </item>
         <item row="2" column="0">
          <widget class="QLabel" name="tililtaEraLabel">
@@ -144,7 +144,7 @@
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QComboBox" name="tililleKohdennusCombo"/>
+         <widget class="KohdennusCombo" name="tililleKohdennusCombo"/>
         </item>
         <item row="2" column="0">
          <widget class="QLabel" name="tililleEraLabel">
@@ -181,9 +181,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>TilinvalintaLine</class>
-   <extends>QLineEdit</extends>
-   <header location="global">db/tilinvalintaline.h</header>
+   <class>KohdennusCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">tools/kohdennuscombo.h</header>
   </customwidget>
   <customwidget>
    <class>KpEuroEdit</class>
@@ -191,14 +191,19 @@
    <header location="global">tools/kpeuroedit.h</header>
   </customwidget>
   <customwidget>
-   <class>EraCombo</class>
-   <extends>QComboBox</extends>
-   <header location="global">tools/eracombo.h</header>
-  </customwidget>
-  <customwidget>
    <class>CheckCombo</class>
    <extends>QComboBox</extends>
    <header location="global">tools/checkcombo.h</header>
+  </customwidget>
+  <customwidget>
+   <class>TilinvalintaLine</class>
+   <extends>QLineEdit</extends>
+   <header>db/tilinvalintaline.h</header>
+  </customwidget>
+  <customwidget>
+   <class>EraCombo</class>
+   <extends>QComboBox</extends>
+   <header>tools/eracombo.h</header>
   </customwidget>
  </customwidgets>
  <resources>

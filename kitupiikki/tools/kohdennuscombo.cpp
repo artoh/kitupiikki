@@ -54,5 +54,5 @@ void KohdennusCombo::suodataValilla(const QDate &alkaa, const QDate &paattyy)
 
 void KohdennusCombo::vaihtuu()
 {
-    emit kohdennusValittu( kohdennus() );
+    emit kohdennusVaihtui( kohdennus() );
 }
