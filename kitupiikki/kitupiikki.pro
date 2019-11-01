@@ -12,6 +12,10 @@ LIBS += -lpoppler-qt5
 LIBS += -lpoppler
 LIBS += -lzip
 
+windows {
+    LIBS += -lopenjp2
+    LIBS += -lbcrypt
+}
 
 macx {
     LIBS += -L/usr/local/opt/poppler/lib -lpoppler-qt5
