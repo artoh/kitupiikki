@@ -33,7 +33,7 @@ class TilinpaatosTulostaja : public QObject, public Esikatseltava
 {
     Q_OBJECT
 public:
-    TilinpaatosTulostaja(Tilikausi tilikausi, const QString& teksti, const QStringList& raportit, QObject* parent = nullptr);
+    TilinpaatosTulostaja(Tilikausi tilikausi, const QString& teksti, const QStringList& raportit, const QString& kieli, QObject* parent = nullptr);
     virtual ~TilinpaatosTulostaja() override;
 
     void nayta();
@@ -63,6 +63,7 @@ protected:
     QString teksti_;
     QStringList raportit_;
     bool tallenna_;
+    QString kieli_;
 
 };
 

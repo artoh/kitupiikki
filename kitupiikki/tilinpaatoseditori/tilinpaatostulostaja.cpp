@@ -38,8 +38,8 @@
 
 #include <cmath>
 
-TilinpaatosTulostaja::TilinpaatosTulostaja(Tilikausi tilikausi, const QString& teksti, const QStringList &raportit, QObject *parent)
-    : QObject(parent), tilikausi_(tilikausi), teksti_(teksti), raportit_(raportit)
+TilinpaatosTulostaja::TilinpaatosTulostaja(Tilikausi tilikausi, const QString& teksti, const QStringList &raportit, const QString& kieli, QObject *parent)
+    : QObject(parent), tilikausi_(tilikausi), teksti_(teksti), raportit_(raportit), kieli_(kieli)
 {
 
 }
@@ -174,7 +174,7 @@ void TilinpaatosTulostaja::tilaaRaportti(const QString &raportinnimi)
     int indeksi = kirjoittajat_.size();
     kirjoittajat_.append(RaportinKirjoittaja());
 
-    Raportoija* raportoija = new Raportoija(raportinnimi, "fi", this);
+    Raportoija* raportoija = new Raportoija(raportinnimi, kieli_ , this);
     if( raportoija->onkoTaseraportti())
         raportoija->lisaaTasepaiva( tilikausi_.paattyy() );
     else

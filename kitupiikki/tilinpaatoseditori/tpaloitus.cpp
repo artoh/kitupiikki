@@ -175,7 +175,7 @@ void TpAloitus::lataa()
         delete model;
 
     model = new QStandardItemModel;
-    QStringList kaava = kp()->asetukset()->lista("tppohja/" + kp()->asetus("tpkieli"));
+    QStringList kaava = kp()->asetukset()->lista("tppohja/" + ui->kieliCombo->currentData().toString());
 
     QRegularExpression valintaRe("#(?<tunnus>\\w+)(?<pois>(\\s-\\w+)*)\\s(?<naytto>.+)");
     valintaRe.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);
@@ -265,6 +265,8 @@ void TpAloitus::lataa()
 
 void TpAloitus::talleta()
 {
+    kp()->asetukset()->aseta("kpkieli", ui->kieliCombo->currentData().toString());
+
     QStringList valitut;
     for(int i=0; i < model->rowCount(QModelIndex()); i++)
     {
