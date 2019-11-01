@@ -105,6 +105,10 @@ QVariantList SQLiteRoute::resultList(QSqlQuery &kysely)
         for(int i=0; i < tietue.count(); i++) {
             QString kenttanimi = tietue.fieldName(i);
             // Jos kenttänimi esim. era_id, tulee era.id
+            if( tietue.value(i).toString().isEmpty() ||
+                tietue.value(i).toString() == "0")
+                continue;   // Ei tyhjiä kenttiä
+
             if( kenttanimi.contains(QChar('_'))) {
                 int viivanpaikka = kenttanimi.indexOf('_');
                 QString ryhma = kenttanimi.left(viivanpaikka);

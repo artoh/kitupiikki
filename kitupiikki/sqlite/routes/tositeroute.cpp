@@ -21,7 +21,6 @@
 
 #include <QJsonDocument>
 #include <QDate>
-
 #include <QSqlError>
 #include <QDebug>
 
@@ -344,6 +343,20 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
     return tositeid;
 }
 
+QVariantList TositeRoute::lokinpurku(QSqlQuery &kysely) const
+{
+    QVariantList lista;
+    while( kysely.next()) {
+        // Sijoitetaan ensin json-kenttä
+        QVariantMap map;
+        map.insert("data", QJsonDocument::fromJson( kysely.value("data").toString().toUtf8() ).toVariant().toMap());
+        map.insert("aika", kysely.value("aika"));
+        map.insert("tila", kysely.value("tila"));
+        lista.append(map);
+    }
+    return lista;
+}
+
 QVariant TositeRoute::hae(int tositeId)
 {
     QSqlQuery kysely(db());
@@ -373,9 +386,9 @@ QVariant TositeRoute::hae(int tositeId)
     tosite.insert("rivit", resultList(kysely));
 
     // Loki
-    kysely.exec(QString("SELECT aika, tila FROM Tositeloki WHERE tosite=%1 ORDER BY aika DESC")
-                .arg(tositeId));
-    tosite.insert("loki", resultList(kysely));
+    kysely.exec(QString("SELECT aika, tila, data FROM Tositeloki WHERE tosite=%1 ORDER BY aika DESC")
+                .arg(tositeId));        
+    tosite.insert("loki", lokinpurku(kysely));
 
     return tosite;
 }

@@ -31,6 +31,7 @@ public:
 
 protected:
     int lisaaTaiPaivita(const QVariant pyynto, int tositeid = 0);
+    QVariantList lokinpurku(QSqlQuery &kysely) const;
 
     QVariant hae(int tositeId);
 
