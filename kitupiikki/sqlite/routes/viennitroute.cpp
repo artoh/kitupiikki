@@ -16,7 +16,7 @@
 */
 #include "viennitroute.h"
 #include "tositeroute.h"
-
+#include "db/kirjanpito.h"
 #include "model/tosite.h"
 
 ViennitRoute::ViennitRoute(SQLiteModel* model) :
@@ -40,6 +40,7 @@ QVariant ViennitRoute::get(const QString &polku, const QUrlQuery &urlquery)
     if( urlquery.hasQueryItem("tili"))
         ehdot.append(QString("tili=%1").arg(urlquery.queryItemValue("tili")));
 
+
     // TODO Kohdennus ja merkkaus
 
     QString jarjestys;
@@ -58,8 +59,22 @@ QVariant ViennitRoute::get(const QString &polku, const QUrlQuery &urlquery)
                     "tosite.tyyppi as tosite_tyyppi, tosite.sarja as tosite_sarja, kumppani.id as kumppani_id, "
                     "kumppani.nimi as kumppani_nimi, "
                     "CAST( (SELECT COUNT(liite.id) FROM Liite WHERE liite.tosite=tosite.id) AS int) AS liitteita "
-                    "FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id "
-                    "LEFT OUTER JOIN Kumppani ON tosite.kumppani=kumppani.id "
+                    "FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id ");
+
+    if( urlquery.hasQueryItem("kohdennus")) {
+        Kohdennus kohdennus = kp()->kohdennukset()->kohdennus( urlquery.queryItemValue("kohdennus").toInt() );
+        if( kohdennus.tyyppi() == Kohdennus::PROJEKTI )
+            ehdot.append(QString("kohdennus=%1").arg(kohdennus.id()));
+        else if( kohdennus.tyyppi() == Kohdennus::MERKKAUS ) {
+            kysymys.append("JOIN Merkkaus ON Vienti.id=Merkkaus.vienti ");
+            ehdot.append(QString("merkkaus.kohdennus=%1").arg(kohdennus.id()));
+        } else {
+            kysymys.append("JOIN Kohdennus ON Vienti.kohdennus=Kohdennus.id ");
+            ehdot.append(QString("(Kohdennus.id=%1 OR Kohdennus.kuuluu=%1)").arg(kohdennus.id()));
+        }
+    }
+
+    kysymys.append("LEFT OUTER JOIN Kumppani ON tosite.kumppani=kumppani.id "
                     "WHERE ");
     kysymys.append( ehdot.join(" AND ") );
     kysymys.append(" ORDER BY " + jarjestys + "Vienti.pvm, Vienti.id ");

@@ -40,23 +40,16 @@ public:
     KohdennusProxyModel(QObject *parent = nullptr, QDate paiva = QDate(), int kohdennus = -1, Naytettavat naytetaan = KOHDENNUKSET_PROJEKTIT);
 
     void asetaPaiva(const QDate& paiva) { nykyinenPaiva = paiva; invalidate(); }
+    void asetaVali(const QDate& alkupvm, const QDate& loppupvm);
     void asetaKohdennus(int kohdennus) { nykyinenKohdennus = kohdennus; invalidate(); }
     void asetaNaytettavat(Naytettavat naytetaan) { naytettavat = naytetaan; invalidate(); }
-
-
-    /**
-     * @brief Valikko tägien valitsemiseen
-     * @param pvm Päivämäärä, jonka mukaan tägit valitaan
-     * @param valitut Lista valittujen tagien id:stä
-     * @return Valittujen tagit id-lista
-     */
-    static QVariantList tagiValikko(const QDate &pvm, const QVariantList &valitut = QVariantList(), QPoint sijainti = QCursor::pos());
 
 protected:
     virtual bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
 
 private:
     QDate nykyinenPaiva;
+    QDate nykyinenPaattyy;
     int nykyinenKohdennus;  // Nykykohdennus kelpaa aina
     Naytettavat naytettavat;
 };

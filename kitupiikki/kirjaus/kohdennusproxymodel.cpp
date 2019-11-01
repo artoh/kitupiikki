@@ -30,32 +30,11 @@ KohdennusProxyModel::KohdennusProxyModel(QObject *parent, QDate paiva, int kohde
     sort(KohdennusModel::NIMI);
 }
 
-QVariantList KohdennusProxyModel::tagiValikko(const QDate& pvm, const QVariantList& valitut, QPoint sijainti)
+void KohdennusProxyModel::asetaVali(const QDate &alkupvm, const QDate &loppupvm)
 {
-    // Valikko tägien valitsemiseen
-    QMenu tagvalikko;
-
-    KohdennusProxyModel proxy(nullptr, pvm, -1, MERKKKAUKSET);
-    for(int i=0; i < proxy.rowCount(QModelIndex()); i++)
-    {
-        QModelIndex pInd = proxy.index(i, 0);
-        QAction *aktio = tagvalikko.addAction( QIcon(":/pic/tag.png"), pInd.data(KohdennusModel::NimiRooli).toString());
-        aktio->setData( pInd.data(KohdennusModel::IdRooli) );
-        aktio->setCheckable(true);
-        if( valitut.contains( QVariant( pInd.data(KohdennusModel::IdRooli) ) ) )
-            aktio->setChecked(true);
-    }
-
-    tagvalikko.exec( sijainti );
-
-    // Uusi valinta, jossa valitut tagit
-    QVariantList uusivalinta;
-    for( QAction* aktio : tagvalikko.actions() )
-    {
-        if( aktio->isChecked())
-            uusivalinta.append( aktio->data());
-    }
-    return uusivalinta;
+    nykyinenPaiva = alkupvm;
+    nykyinenPaiva = loppupvm;
+    invalidate();
 }
 
 bool KohdennusProxyModel::filterAcceptsRow(int source_row, const QModelIndex & source_parent) const
@@ -68,11 +47,18 @@ bool KohdennusProxyModel::filterAcceptsRow(int source_row, const QModelIndex & s
     QDate alkaa = index.data(KohdennusModel::AlkaaRooli).toDate();
     QDate paattyy = index.data(KohdennusModel::PaattyyRooli).toDate();
 
-    // Ei näytetä, jos ennen alkupäivää taikka loppupäivän jälkeen!
-    if( alkaa.isValid() && nykyinenPaiva < alkaa)
-        return false;
-    if( paattyy.isValid() && nykyinenPaiva > paattyy)
-        return false;
+    if( paattyy.isValid()) {
+        if( alkaa.isValid() && nykyinenPaattyy < alkaa )
+            return false;
+        if( paattyy.isValid() && nykyinenPaiva > paattyy)
+            return false;
+    } else {
+        // Ei näytetä, jos ennen alkupäivää taikka loppupäivän jälkeen!
+        if( alkaa.isValid() && nykyinenPaiva < alkaa)
+            return false;
+        if( paattyy.isValid() && nykyinenPaiva > paattyy)
+            return false;
+    }
 
     int tyyppi = index.data(KohdennusModel::TyyppiRooli).toInt();
 

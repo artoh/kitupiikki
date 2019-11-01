@@ -70,6 +70,7 @@ SOURCES += \
     $$PWD/tilaus/tilauswizard.cpp \
     $$PWD/tools/checkcombo.cpp \
     $$PWD/tools/eracombo.cpp \
+    $$PWD/tools/kohdennuscombo.cpp \
     $$PWD/tools/kpeuroedit.cpp \
     $$PWD/tools/tilicombo.cpp \
     $$PWD/tuonti/tuonti.cpp \
@@ -281,6 +282,7 @@ HEADERS += \
     $$PWD/tilaus/tilauswizard.h \
     $$PWD/tools/checkcombo.h \
     $$PWD/tools/eracombo.h \
+    $$PWD/tools/kohdennuscombo.h \
     $$PWD/tools/kpeuroedit.h \
     $$PWD/tools/tilicombo.h \
     $$PWD/tuonti/tuonti.h \

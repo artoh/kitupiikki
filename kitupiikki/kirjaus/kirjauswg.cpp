@@ -448,27 +448,6 @@ bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
             }
         }
     }
-    else if( watched == ui->viennitView->viewport() )
-    {
-        // Merkkaus eli täggäys
-        // Kohdennus-sarakkeessa hiiren oikealla napilla valikko, josta voi valita tägit
-        if( event->type() == QEvent::MouseButtonPress)
-        {
-            QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
-            if( mouseEvent->button() == Qt::RightButton)
-            {
-                QModelIndex index = ui->viennitView->indexAt( mouseEvent->pos() );
-                if( index.column() == TositeViennit::KOHDENNUS && index.data(TositeViennit::PvmRooli).toDate().isValid() )
-                {
-
-                    tosite()->viennit()->setData(index, KohdennusProxyModel::tagiValikko( index.data(TositeViennit::PvmRooli).toDate(),
-                                                                                            index.data(TositeViennit::TagiIdListaRooli).toList()) ,
-                                                   TositeViennit::TagiIdListaRooli);
-                    return false;
-                }
-            }
-        }
-    }
 
     if( watched == ui->viennitView && event->type() == QEvent::KeyPress)
     {

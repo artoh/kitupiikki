@@ -47,13 +47,7 @@ PaivakirjaRaportti::PaivakirjaRaportti()
     ui->alkupvm->setDate(nykykausi.alkaa());
     ui->loppupvm->setDate(nykykausi.paattyy());
 
-    if( kp()->kohdennukset()->kohdennuksia())
-    {
-        ui->kohdennusCombo->setModel( kp()->kohdennukset());
-        ui->kohdennusCombo->setModelColumn( KohdennusModel::NIMI);
-    }
-    else
-    {
+    if( !kp()->kohdennukset()->kohdennuksia()) {
         ui->kohdennusCheck->setVisible(false);
         ui->kohdennusCombo->setVisible(false);
     }
@@ -80,10 +74,13 @@ void PaivakirjaRaportti::kirjoitaSummaRivi(RaportinKirjoittaja &rk, qlonglong de
 
 void PaivakirjaRaportti::esikatsele()
 {
-    int kohdennuksella = -1;
-    if( ui->kohdennusCheck->isChecked())
-        kohdennuksella = ui->kohdennusCombo->currentData( KohdennusModel::IdRooli).toInt();
     int optiot = 0;
+    int kohdennuksella = -1;
+    if( ui->kohdennusCheck->isChecked()) {
+        kohdennuksella = ui->kohdennusCombo->kohdennus();
+        optiot |= Paivakirja::Kohdennuksella;
+    }
+
 
     if( ui->tositejarjestysRadio->isChecked() )
         optiot |= Paivakirja::TositeJarjestyksessa;
