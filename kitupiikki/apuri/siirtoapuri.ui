@@ -51,7 +51,7 @@
         <item row="1" column="1">
          <widget class="KohdennusCombo" name="tililtaKohdennusCombo"/>
         </item>
-        <item row="2" column="0">
+        <item row="3" column="0">
          <widget class="QLabel" name="tililtaEraLabel">
           <property name="text">
            <string>Tase-erä</string>
@@ -61,8 +61,18 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="1">
+        <item row="3" column="1">
          <widget class="EraCombo" name="tililtaEraCombo"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="tililtaMerkkausLabel">
+          <property name="text">
+           <string>Merkkaus</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="CheckCombo" name="tililtaMerkkausCC"/>
         </item>
        </layout>
       </widget>
@@ -96,16 +106,6 @@
          </item>
          <item row="0" column="1">
           <widget class="KpEuroEdit" name="euroEdit"/>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="merkkausLabel">
-           <property name="text">
-            <string>Merkkaus</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="CheckCombo" name="merkkausCC"/>
          </item>
         </layout>
        </item>
@@ -146,7 +146,7 @@
         <item row="1" column="1">
          <widget class="KohdennusCombo" name="tililleKohdennusCombo"/>
         </item>
-        <item row="2" column="0">
+        <item row="3" column="0">
          <widget class="QLabel" name="tililleEraLabel">
           <property name="text">
            <string>Tase-erä</string>
@@ -156,8 +156,18 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="1">
+        <item row="3" column="1">
          <widget class="EraCombo" name="tililleEraCombo"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="tililleMerkkausLabel">
+          <property name="text">
+           <string>Merkkaus</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="CheckCombo" name="tililleMerkkausCC"/>
         </item>
        </layout>
       </widget>

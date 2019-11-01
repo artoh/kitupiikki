@@ -89,7 +89,7 @@ void TilinpaatosEditori::luoPalkit()
 
 void TilinpaatosEditori::uusiTp()
 {
-    QStringList pohja =  kp()->asetukset()->lista("tppohja/" + kp()->asetus("kieli"));
+    QStringList pohja =  kp()->asetukset()->lista("tppohja/" + kp()->asetus("tpkieli"));
 
     QStringList valinnat = kp()->asetukset()->asetus("tilinpaatosvalinnat").split(",");
     QRegularExpression tunnisteRe("#(?<tunniste>-?\\w+)(?<pois>(\\s-\\w+)*).*");

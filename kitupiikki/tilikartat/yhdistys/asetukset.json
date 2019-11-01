@@ -4,6 +4,7 @@
       "sv" : { "fi": "ruotsi", "sv": "svenska"}
   },
   "kieli": "fi",
+  "tpkieli": "fi",
   "muodot": {
     "ry": {
       "fi": "Yhdistys",

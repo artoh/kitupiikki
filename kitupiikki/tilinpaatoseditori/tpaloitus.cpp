@@ -45,7 +45,6 @@ TpAloitus::TpAloitus(Tilikausi kausi, QWidget *parent) :
 {
     ui->setupUi(this);
     ui->henkilostoSpin->setValue( tilikausi.henkilosto() );
-    tarkistaPMA();
 
     connect( model, SIGNAL(itemChanged(QStandardItem*)), this, SLOT(valintaMuuttui(QStandardItem*)));
     connect( ui->lataaNappi, SIGNAL(clicked(bool)), this, SLOT(lataaTiedosto()));
@@ -55,6 +54,19 @@ TpAloitus::TpAloitus(Tilikausi kausi, QWidget *parent) :
     connect( ui->mikroRadio, SIGNAL(clicked(bool)), this, SLOT(lataa()));
     connect( ui->pienRadio, SIGNAL(clicked(bool)), this, SLOT(lataa()));
     connect(ui->taysRadio, SIGNAL(clicked(bool)), this, SLOT(lataa()));
+
+    // Ladataan kielet
+    QStringList kielet = kp()->asetukset()->avaimet("tppohja/");
+    for(QString kieli : kielet) {
+        QString koodi = kieli.mid(8);
+        QString kielitxt = kp()->asetukset()->kieli(koodi);
+        ui->kieliCombo->addItem(QIcon(":/liput/" + koodi + ".png"), kielitxt, koodi);
+    }
+    // Sitten pitäisi valita nykyinen kieli
+    ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( kp()->asetus("tpkieli") ) );
+
+    tarkistaPMA();
+    connect( ui->kieliCombo, &QComboBox::currentTextChanged, this, &TpAloitus::lataa);
 }
 
 TpAloitus::~TpAloitus()
@@ -163,7 +175,7 @@ void TpAloitus::lataa()
         delete model;
 
     model = new QStandardItemModel;
-    QStringList kaava = kp()->asetukset()->lista("tppohja/" + kp()->asetus("kieli"));
+    QStringList kaava = kp()->asetukset()->lista("tppohja/" + kp()->asetus("tpkieli"));
 
     QRegularExpression valintaRe("#(?<tunnus>\\w+)(?<pois>(\\s-\\w+)*)\\s(?<naytto>.+)");
     valintaRe.setPatternOptions(QRegularExpression::UseUnicodePropertiesOption);

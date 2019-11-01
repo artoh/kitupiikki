@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>701</width>
-    <height>631</height>
+    <width>849</width>
+    <height>821</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,15 +25,31 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Tilinpäätöksen kieli</string>
+       </property>
+       <property name="buddy">
+        <cstring>kieliCombo</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QComboBox" name="kieliCombo"/>
+     </item>
+     <item row="1" column="0">
       <widget class="QLabel" name="label_2">
        <property name="text">
         <string>Henkilökuntaa keskimäärin</string>
        </property>
+       <property name="buddy">
+        <cstring>henkilostoSpin</cstring>
+       </property>
       </widget>
      </item>
-     <item>
+     <item row="1" column="1">
       <widget class="QSpinBox" name="henkilostoSpin">
        <property name="maximum">
         <number>99999</number>
@@ -165,8 +181,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>271</x>
-     <y>410</y>
+     <x>247</x>
+     <y>755</y>
     </hint>
     <hint type="destinationlabel">
      <x>133</x>
@@ -181,8 +197,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>466</x>
-     <y>411</y>
+     <x>544</x>
+     <y>755</y>
     </hint>
     <hint type="destinationlabel">
      <x>177</x>

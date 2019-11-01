@@ -31,16 +31,22 @@ SiirtoApuri::SiirtoApuri(QWidget *parent, Tosite *tosite) :
 {
     ui->setupUi(this);
 
-    bool merkkauksia = kp()->kohdennukset()->merkkauksia();
-    ui->merkkausCC->setVisible(merkkauksia);
-    ui->merkkausLabel->setVisible(merkkauksia);
-
     connect( ui->tililtaEdit, &TilinvalintaLine::textChanged, this, &SiirtoApuri::tililtaMuuttui);
     connect( ui->tililleEdit, &TilinvalintaLine::textChanged, this, &SiirtoApuri::tililleMuuttui);
     connect( ui->euroEdit, &KpEuroEdit::textChanged, this, &SiirtoApuri::tositteelle);
 
     connect( ui->tililtaEraCombo, &EraCombo::valittu, this, &SiirtoApuri::eraValittu);
     connect( ui->tililleEraCombo, &EraCombo::valittu, this, &SiirtoApuri::eraValittu);
+
+    ui->tililtaMerkkausCC->haeMerkkaukset( tosite->pvm() );
+    ui->tililleMerkkausCC->haeMerkkaukset( tosite->pvm() );
+    ui->tililtaKohdennusCombo->suodataPaivalla( tosite->pvm());
+    ui->tililleKohdennusCombo->suodataPaivalla( tosite->pvm());
+
+    connect( tosite, &Tosite::pvmMuuttui, ui->tililtaMerkkausCC, &CheckCombo::haeMerkkaukset );
+    connect( tosite, &Tosite::pvmMuuttui, ui->tililleMerkkausCC, &CheckCombo::haeMerkkaukset );
+    connect( tosite, &Tosite::pvmMuuttui, ui->tililtaKohdennusCombo, &KohdennusCombo::suodataPaivalla);
+    connect( tosite, &Tosite::pvmMuuttui, ui->tililleKohdennusCombo, &KohdennusCombo::suodataPaivalla);
 }
 
 SiirtoApuri::~SiirtoApuri()
@@ -124,11 +130,15 @@ void SiirtoApuri::tililtaMuuttui()
 {
     Tili tili = ui->tililtaEdit->valittuTili();
     bool kohdennukset = kp()->kohdennukset()->kohdennuksia() &&
-            tili.onko(TiliLaji::TULOS); // Tai kohdennettava tasetili;
+            tili.onko(TiliLaji::TULOS);
+    bool merkkaukset = kp()->kohdennukset()->merkkauksia() &&
+            tili.onko( TiliLaji::TULOS);
     bool erat = tili.eritellaankoTase();
 
     ui->tililtaKohdennusLabel->setVisible(kohdennukset);
     ui->tililtaKohdennusCombo->setVisible(kohdennukset);
+    ui->tililtaMerkkausLabel->setVisible(merkkaukset);
+    ui->tililtaMerkkausCC->setVisible(merkkaukset);
 
     ui->tililtaEraLabel->setVisible(erat);
     ui->tililtaEraCombo->setVisible(erat);
@@ -143,11 +153,15 @@ void SiirtoApuri::tililleMuuttui()
 {    
     Tili tili = ui->tililleEdit->valittuTili();
     bool kohdennukset = kp()->kohdennukset()->kohdennuksia() &&
-            tili.onko(TiliLaji::TULOS); // Tai kohdennettava tasetili;
+            tili.onko(TiliLaji::TULOS);
+    bool merkkaukset = kp()->kohdennukset()->merkkauksia() &&
+            tili.onko( TiliLaji::TULOS);
     bool erat = tili.eritellaankoTase();
 
     ui->tililleKohdennusLabel->setVisible(kohdennukset);
     ui->tililleKohdennusCombo->setVisible(kohdennukset);
+    ui->tililleMerkkausLabel->setVisible(merkkaukset);
+    ui->tililleMerkkausCC->setVisible(merkkaukset);
 
     ui->tililleEraLabel->setVisible(erat);
     ui->tililleEraCombo->setVisible(erat);
