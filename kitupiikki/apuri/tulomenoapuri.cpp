@@ -96,8 +96,10 @@ void TuloMenoApuri::otaFokus()
 
 void TuloMenoApuri::tuo(QVariantMap map)
 {
-    if( qAbs(map.value("summa").toDouble()) > 1e-5)
+    if( qAbs(map.value("summa").toDouble()) > 1e-5) {
         ui->maaraEdit->setValue( map.value("summa").toDouble());
+        emit ui->maaraEdit->textEdited( ui->maaraEdit->text() );
+    }
     if( !map.value("viite").toString().isEmpty())
         ui->viiteEdit->setText( map.value("viite").toString() );
 
@@ -106,6 +108,8 @@ void TuloMenoApuri::tuo(QVariantMap map)
 
     if( map.value("erapvm").isValid())
         ui->erapaivaEdit->setDate( map.value("erapvm").toDate());
+
+    tositteelle();
 }
 
 void TuloMenoApuri::teeReset()

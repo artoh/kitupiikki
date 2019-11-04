@@ -84,7 +84,7 @@ void AsiakasToimittajaDlg::uusi(const QString &nimi)
 {
     tauluun();    
     ui->nimiEdit->setText(nimi);    
-    exec();
+    show();
 }
 
 void AsiakasToimittajaDlg::ytunnuksella(const QString &ytunnus)
@@ -92,7 +92,7 @@ void AsiakasToimittajaDlg::ytunnuksella(const QString &ytunnus)
     tauluun();
     ui->yEdit->setText(ytunnus);
     haeYTunnarilla();
-    exec();
+    show();
 }
 
 void AsiakasToimittajaDlg::lataa(int id)
@@ -145,7 +145,7 @@ void AsiakasToimittajaDlg::tuonti(const QVariantMap &map)
     haeYTunnarilla();
 
     if( ui->nimiEdit->text().isEmpty() || ui->yEdit->text().isEmpty())
-        exec();
+        show();
     else
         accept();
 }
@@ -238,7 +238,7 @@ void AsiakasToimittajaDlg::accept()
 void AsiakasToimittajaDlg::dataSaapuu(QVariant *data)
 {     
     tauluun( data->toMap() );
-    exec();
+    show();
 }
 
 
