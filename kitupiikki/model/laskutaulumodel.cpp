@@ -112,6 +112,8 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
                     return tr("Tuloste");
                 case LaskuDialogi::SAHKOPOSTI:
                     return tr("Sähköposti");
+                case LaskuDialogi::PDF:
+                    return tr("PDF");
                 default:
                     return QVariant();
                 }

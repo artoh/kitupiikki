@@ -165,3 +165,11 @@ void Tilikausi::poista()
 
 }
 
+QVariantMap Tilikausi::data() const
+{
+    QVariantMap map = KantaVariantti::data();
+    map.insert("alkaa", alkaa_);
+    map.insert("loppuu", paattyy_);
+    return map;
+}
+

@@ -218,6 +218,7 @@ void KirjausWg::tyhjenna()
     ui->sarjaEdit->setVisible( kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN) );
     ui->sarjaLabel->setVisible( kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN) );
     paivitaLiiteNapit();
+    ui->tositePvmEdit->checkValidity();
 }
 
 void KirjausWg::tallenna()
@@ -393,8 +394,10 @@ void KirjausWg::tuonti(QVariant *data)
     QVariantMap map = data->toMap();
     if( map.contains("tyyppi"))
         ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( map.value("tyyppi") ) );
-    if( map.value("tositepvm").toDate().isValid())
+    if( map.value("tositepvm").toDate().isValid()) {
         ui->tositePvmEdit->setDate( map.value("tositepvm").toDate() );
+        ui->tositePvmEdit->checkValidity();
+    }
 
     if( apuri_)
         apuri_->tuo(map);
@@ -626,6 +629,7 @@ void KirjausWg::tiedotModelista()
         ui->seuraavaButton->setVisible(false);
         ui->vuosiLabel->setVisible(false);
     }
+    paivitaLiiteNapit();
 
 }
 
@@ -709,15 +713,16 @@ void KirjausWg::paivitaSarja(bool kateinen)
 
 void KirjausWg::liiteValinta(const QModelIndex &valittu)
 {
-    if( !valittu.isValid())
+    if( !valittu.isValid() )
     {
         ui->poistaLiiteNappi->setDisabled(true);
         emit liiteValittu( QByteArray());
     }
     else
     {
-        ui->poistaLiiteNappi->setEnabled(true);
         tosite_->liitteet()->nayta( valittu.row() );
+        ui->poistaLiiteNappi->setEnabled( true );
+
     }
 }
 
@@ -740,17 +745,18 @@ void KirjausWg::pvmVaihtuu()
 
 void KirjausWg::poistaLiite()
 {
-    /*
-    if( ui->liiteView->currentIndex().isValid() && model_->muokkausSallittu() )
+
+    if( ui->liiteView->currentIndex().isValid() )
     {
         if( QMessageBox::question(this, tr("Poista liite"),
-                                  tr("Poistetaanko liite %1. Poistettua liitettä ei voi palauttaa!").arg( ui->liiteView->currentIndex().data(LiiteModel::OtsikkoRooli).toString()),
+                                  tr("Poistetaanko liite %1. Poistettua liitettä ei voi palauttaa!").arg( ui->liiteView->currentIndex().data(Qt::DisplayRole).toString()),
                                   QMessageBox::Yes, QMessageBox::Cancel) == QMessageBox::Yes )
         {
-            model_->liiteModel()->poistaLiite( ui->liiteView->currentIndex().row() );
+            ui->poistaLiiteNappi->setEnabled(false);
+            tosite()->liitteet()->poista( ui->liiteView->currentIndex().row() );
         }
     }
-    ui->poistaLiiteNappi->setEnabled( model()->liiteModel()->rowCount(QModelIndex()) );
-    */
+
+
 }
 

@@ -92,6 +92,15 @@ void KpDateEdit::setDefaultDate(const QDate &date)
     setNullable( date.isValid() );
 }
 
+void KpDateEdit::checkValidity()
+{
+    if( (date() < minimumDate() && minimumDate().isValid()) || (date() > maximumDate() && maximumDate().isValid()) )
+        setStyleSheet("color: red;");
+    else {
+        setStyleSheet("");
+    }
+}
+
 void KpDateEdit::kalenteri()
 {
     if(kalenteri_)

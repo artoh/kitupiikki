@@ -194,7 +194,7 @@ bool TositeLiitteet::dropMimeData(const QMimeData *data, Qt::DropAction action, 
 
 int TositeLiitteet::tallennettaviaLiitteita() const
 {
-    int maara = poistetut_.count();
+    int maara = 0;
     for(auto liite : liitteet_)
         if( !liite.getLiiteId() && !liite.getLiitettava())
             maara++;
@@ -220,15 +220,30 @@ QVariantList TositeLiitteet::liitettavat() const
 
 void TositeLiitteet::nayta(int indeksi)
 {
-    QByteArray sisalto = liitteet_.at(indeksi).getSisalto();
-    if(sisalto.isEmpty()) {
-        KpKysely* kysely = kpk(QString("/liitteet/%1").arg( liitteet_.at(indeksi).getLiiteId() ));
-        connect( kysely, &KpKysely::vastaus, this, &TositeLiitteet::liitesaapuu);
-        kysely->kysy();
-    } else {
-        emit ( naytaliite(sisalto) );
+    if( indeksi < 0)
+        emit naytaliite( QByteArray());
+    else {
+        QByteArray sisalto = liitteet_.at(indeksi).getSisalto();
+        if(sisalto.isEmpty()) {
+            KpKysely* kysely = kpk(QString("/liitteet/%1").arg( liitteet_.at(indeksi).getLiiteId() ));
+            connect( kysely, &KpKysely::vastaus, this, &TositeLiitteet::liitesaapuu);
+            kysely->kysy();
+        } else {
+            emit ( naytaliite(sisalto) );
+        }
     }
+}
 
+void TositeLiitteet::poista(int indeksi)
+{
+    if( liitteet_.at(indeksi).getLiiteId()) {
+        // Liite on tallennettu
+        KpKysely* poisto = kpk( QString("/liitteet/%1").arg( liitteet_.at(indeksi).getLiiteId() ), KpKysely::DELETE);
+        poisto->kysy();
+    }
+    beginRemoveRows(QModelIndex(),indeksi, indeksi);
+    liitteet_.removeAt(indeksi);
+    endRemoveRows();
 }
 
 void TositeLiitteet::tallennaSeuraava()
@@ -251,19 +266,6 @@ void TositeLiitteet::tallennaSeuraava()
             return;
         }
     }
-    // Kun tänne tullaan, on kaikki jo tallennettu
-    // Jos on poistettavia, poistetaan ne
-
-    if( poistetut_.count() )
-    {
-        KpKysely* poisto = kpk( QString("/liitteet/%1").arg( poistetut_.takeFirst() ), KpKysely::DELETE);
-        connect( poisto, &KpKysely::vastaus, this, &TositeLiitteet::tallennaSeuraava);
-        poisto->kysy();
-        return;
-    }
-
-    // Koko tallennus valmis
-
     emit liitteetTallennettu();
 }
 

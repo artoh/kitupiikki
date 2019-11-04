@@ -26,6 +26,8 @@
 #include "naytin/naytinikkuna.h"
 #include <QDebug>
 
+#include "myyntilaskujentoimittaja.h"
+
 LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::LaskulistaWidget),
@@ -58,10 +60,14 @@ LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
     connect( kp(), &Kirjanpito::kirjanpitoaMuokattu, this, &LaskulistaWidget::paivita );
 
     connect( ui->naytaNappi, &QPushButton::clicked, this, &LaskulistaWidget::naytaLasku);
+    connect( ui->lahetaNappi, &QPushButton::clicked, this, &LaskulistaWidget::laheta);
 
     connect( ui->uusiNappi, &QPushButton::clicked, this, &LaskulistaWidget::uusilasku);
     connect( ui->muokkaaNappi, &QPushButton::clicked, this, &LaskulistaWidget::muokkaa);    
     connect( ui->view, &QTableView::doubleClicked, this, &LaskulistaWidget::muokkaa);
+
+    connect( ui->view->selectionModel(), &QItemSelectionModel::selectionChanged, this, &LaskulistaWidget::paivitaNapit);
+    connect( ui->view->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &LaskulistaWidget::paivitaNapit);
 }
 
 LaskulistaWidget::~LaskulistaWidget()
@@ -98,11 +104,33 @@ void LaskulistaWidget::paivita()
 
     laskut_->paivita( paalehti_ == OSTO || paalehti_  == TOIMITTAJA,
                       laji, ui->alkupvm->date(), ui->loppupvm->date() );
+
+    paivitaNapit();
 }
 
 void LaskulistaWidget::suodataAsiakas(const QString &nimi)
 {
     laskuAsiakasProxy_->setFilterFixedString(nimi);
+}
+
+void LaskulistaWidget::paivitaNapit()
+{
+    ui->lahetaNappi->setEnabled( ui->view->selectionModel()->selectedRows().count() );
+    ui->naytaNappi->setEnabled( ui->view->currentIndex().isValid());
+}
+
+void LaskulistaWidget::laheta()
+{
+    MyyntiLaskujenToimittaja *toimittaja = new MyyntiLaskujenToimittaja(this);
+    connect( toimittaja, &MyyntiLaskujenToimittaja::laskutToimitettu, this, &LaskulistaWidget::paivita );
+
+    QModelIndexList lista = ui->view->selectionModel()->selectedRows();
+    QList<int> idt;
+    for( auto item : lista)
+        idt.append( item.data(LaskuTauluModel::TositeIdRooli).toInt() );
+
+    toimittaja->toimitaLaskut( idt);
+
 }
 
 void LaskulistaWidget::alusta()

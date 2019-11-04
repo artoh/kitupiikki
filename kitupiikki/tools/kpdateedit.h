@@ -70,6 +70,7 @@ public:
     void setNull();
     bool isNullable() const { return nullMahdollinen_; }
     void setDefaultDate(const QDate& date);
+    void checkValidity();
 
 signals:
     /**

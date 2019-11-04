@@ -130,14 +130,15 @@ public:
 
     void asetaKausitunnus(const QString& kausitunnus);
 
-    QDate alkaa_;
-    QDate paattyy_;
 
     void tallenna();
     void poista();
 
-protected:
+    QVariantMap data() const;
 
+protected:
+    QDate alkaa_;
+    QDate paattyy_;
 
     QString kausitunnus_;
 };

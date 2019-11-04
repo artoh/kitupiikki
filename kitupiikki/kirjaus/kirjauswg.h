@@ -84,9 +84,6 @@ private slots:
      * @param selected
      */
     void liiteValinta(const QModelIndex& valittu);
-
-
-
     void pvmVaihtuu();
 
     void poistaLiite();

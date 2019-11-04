@@ -95,6 +95,16 @@ QVariant LiitteetRoute::byteArray(SQLiteKysely *kysely, const QByteArray &ba, co
     return palautus;
 }
 
+QVariant LiitteetRoute::doDelete(const QString &polku)
+{
+    int id = polku.toInt();
+    if( id ) {
+        QSqlQuery kysely( db());
+        kysely.exec( QString("DELETE FROM Liite WHERE id=%1").arg(id));
+    }
+    return QVariant();
+}
+
 QByteArray LiitteetRoute::hash(const QByteArray &ba)
 {
     QCryptographicHash laskin(QCryptographicHash::Sha256);

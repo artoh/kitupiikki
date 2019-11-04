@@ -29,17 +29,27 @@ public:
     MyyntiLaskujenToimittaja(QObject *parent = nullptr);
     bool toimitaLaskut( const QList<QVariantMap>& laskut );
 
+    void toimitaLaskut( const QList<int>& tositteet);
+
 signals:
     void laskutToimitettu();
+
 protected slots:
     void toimitettu();
+
+protected slots:
+    void tositeSaapuu(QVariant* data);
 
 protected:
     bool tulosta();
     bool tallenna();
     void merkkaaToimitetuksi(int tositeId);
 
+    void tilaaSeuraavaLasku();
+
 protected:
+    QList<QVariantMap> toimitettavat_;
+    QList<int> tilattavat_;
     QList<QVariantMap> tulostettavat_;
     QList<QVariantMap> tallennettavat_;
     int toimitetut_ = 0;

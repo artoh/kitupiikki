@@ -42,6 +42,9 @@ public slots:
     void paivita();
     void suodataAsiakas(const QString& nimi);
 
+    void paivitaNapit();
+
+    void laheta();
     void alusta();
 
     void uusilasku();
