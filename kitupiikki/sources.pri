@@ -8,6 +8,7 @@ SOURCES += \
     $$PWD/apuri/tmrivit.cpp \
     $$PWD/apuri/tulomenoapuri.cpp \
     $$PWD/apuri/siirtoapuri.cpp \
+    $$PWD/apuri/tulomenorivi.cpp \
     $$PWD/arkisto/jaksottaja.cpp \
     $$PWD/arkistoija/arkistoija.cpp \
     $$PWD/arkistoija/vanhaarkistoija.cpp \
@@ -220,6 +221,7 @@ HEADERS += \
     $$PWD/apuri/tmrivit.h \
     $$PWD/apuri/tulomenoapuri.h \
     $$PWD/apuri/siirtoapuri.h \
+    $$PWD/apuri/tulomenorivi.h \
     $$PWD/arkisto/jaksottaja.h \
     $$PWD/arkistoija/arkistoija.h \
     $$PWD/arkistoija/vanhaarkistoija.h \

@@ -90,6 +90,7 @@ public:
     int id() const { return data(ID).toInt();}
     QDate pvm() const;
     QString otsikko() const { return data(OTSIKKO).toString();}
+    int kumppani() const { return data(KUMPPANI).toInt();}
 
     void asetaOtsikko(const QString& otsikko);
     void asetaTyyppi(int tyyppi);

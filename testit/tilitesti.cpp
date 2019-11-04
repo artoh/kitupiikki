@@ -45,25 +45,19 @@ void TiliTesti::lueTili()
 {
     QByteArray teksti = R"(        {
                      "IBAN": "FI2112345600000785",
-                     "id": 105,
-                     "muokattu": "",
                      "nimi": {
                          "fi": "Pankkitili"
                      },
                      "numero": 1910,
-                     "tila": 1,
-                     "tyyppi": "ARP",
-                     "ysiluku": 191000009
+                     "laajuus": 1,
+                     "tyyppi": "ARP"
                  })";
     QVariantMap map = QJsonDocument::fromJson(teksti).toVariant().toMap();
-
     Tili tili(map);
 
-    QCOMPARE( tili.id(), 105 );
     QCOMPARE( tili.numero(), 1910);
     QCOMPARE( tili.nimi(), "Pankkitili");
     QCOMPARE( tili.tyyppi().koodi(), "ARP" );
     QCOMPARE( tili.tyyppi().onko(TiliLaji::VASTAAVAA), true);
-    QCOMPARE( tili.tila(), 1);
 
 }

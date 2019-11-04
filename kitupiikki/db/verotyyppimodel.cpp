@@ -47,6 +47,7 @@ VerotyyppiModel::VerotyyppiModel(QObject *parent)
     tyypit.append( VeroTyyppi(AlvKoodi::RAKENNUSPALVELU_OSTO,"Rakennuspalveluiden osto",":/pic/vasara.png"));
     tyypit.append( VeroTyyppi(AlvKoodi::MAKSETTAVAALV,"Maksettavan arvonlisäveron tilitys",":/pic/vero.png", true));
     tyypit.append(VeroTyyppi(AlvKoodi::TILITYS,"Tekninen kirjaus",":/pic/vero.png", true));
+    tyypit.append(VeroTyyppi(AlvKoodi::VAHENNYSKELVOTON,"Vähennyskelvottoman oston veron osuus", ":/pic/vero.png", true));
 
 }
 

@@ -186,6 +186,21 @@ void TositeVienti::setTasaerapoisto(int kuukautta)
     set( TASAERAPOISTO, kuukautta);
 }
 
+void TositeVienti::setId(int id)
+{
+    set( ID, id);
+}
+
+void TositeVienti::setBrutto(double brutto)
+{
+    set( BRUTTO, brutto);
+}
+
+void TositeVienti::setBrutto(qlonglong brutto)
+{
+    setBrutto( brutto / 100.0);
+}
+
 
 
 
@@ -211,5 +226,6 @@ std::map<int,QString> TositeVienti::avaimet__ = {
     { KUMPPANI, "kumppani"},
     { TYYPPI, "tyyppi"},
     { PALKKAKOODI, "palkkakoodi"},
-    { TASAERAPOISTO, "tasaerapoisto"}
+    { TASAERAPOISTO, "tasaerapoisto"},
+    { BRUTTO, "brutto"}
 };

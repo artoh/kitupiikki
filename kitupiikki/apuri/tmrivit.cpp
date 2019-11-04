@@ -17,11 +17,13 @@
 #include "tmrivit.h"
 
 #include "db/kirjanpito.h"
+#include "model/tositevienti.h"
+
 
 TmRivit::TmRivit(QObject *parent)
     : QAbstractTableModel(parent)
 {
-    lisaaRivi();    // Aloitetaan yhdellä tyhjällä rivillä
+
 }
 
 QVariant TmRivit::headerData(int section, Qt::Orientation orientation, int role) const
@@ -67,12 +69,16 @@ QVariant TmRivit::data(const QModelIndex &index, int role) const
 
     if( role == Qt::DisplayRole) {
         if( index.column() == TILI) {
-            Tili tili = kp()->tilit()->tiliNumerolla( rivit_.at( index.row() ).tilinumero );
-            if( tili.onkoValidi() )
-                return  tili.nimi() ;
+            Tili* tilini = kp()->tilit()->tili( rivit_.at(index.row()).tilinumero() );
+            if( tilini )
+                return  tilini->nimi() ;
         } else if( index.column() == EUROA)
-        {
-            qlonglong sentit = rivit_.at( index.row() ).maara;
+        {            
+            qlonglong sentit =
+                rivit_.at( index.row() ).naytaBrutto() ?
+                    rivit_.at( index.row() ).brutto() :
+                    rivit_.at( index.row() ).netto() ;
+
             if( sentit > 1e-5 )
                return QVariant( QString("%L1 €").arg(sentit / 100.0,0,'f',2));
         }
@@ -85,7 +91,44 @@ QVariant TmRivit::data(const QModelIndex &index, int role) const
             return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
 
     }
+    else if( role == Qt::DecorationRole && index.column() == EUROA) {
+        return kp()->alvTyypit()->kuvakeKoodilla( rivit_.at(index.row()).alvkoodi() );
+    }
     return QVariant();
+}
+
+void TmRivit::lisaa(const QVariantMap &map)
+{
+    TositeVienti vienti(map);
+
+    if( vienti.tyyppi() % 100 == TositeVienti::KIRJAUS)
+        rivit_.append( TulomenoRivi( vienti) );
+    else if( vienti.tyyppi() % 100 == TositeVienti::OSTO + TositeVienti::ALVKIRJAUS) {
+        rivit_[ rivit_.count() - 1 ].setAlvvahennys(true);
+    }
+    else if( vienti.tyyppi() == TositeVienti::OSTO + TositeVienti::MAAHANTUONTIVASTAKIRJAUS)
+        rivit_[ rivit_.count() - 1 ].setAlvkoodi( AlvKoodi::MAAHANTUONTI_VERO );
+
+}
+
+int TmRivit::lisaaRivi()
+{
+    beginInsertRows(QModelIndex(), rowCount(), rowCount());
+    rivit_.append(TulomenoRivi());
+    endInsertRows();
+    return rowCount() - 1;
+}
+
+void TmRivit::poistaRivi(int rivi)
+{
+    beginRemoveRows(QModelIndex(), rivi, rivi);
+    rivit_.removeAt(rivi);
+    endRemoveRows();
+}
+
+TulomenoRivi *TmRivit::rivi(int indeksi)
+{
+    return &rivit_[indeksi];
 }
 
 void TmRivit::clear()
@@ -95,151 +138,13 @@ void TmRivit::clear()
     endResetModel();
 }
 
-void TmRivit::setTili(int rivi, int tilinumero)
+QVariantList TmRivit::viennit(Tosite* tosite)
 {
-    rivit_[rivi].tilinumero = tilinumero;
-    emit dataChanged(index(rivi,TILI),index(rivi,TILI));
+    QVariantList lista;
+
+    for(int i=0; i < rowCount(); i++)
+        lista.append( rivit_.at(i).viennit(tosite) );
+
+    return lista;
 }
 
-Tili TmRivit::tili(int rivi) const
-{
-    return kp()->tilit()->tiliNumerolla( rivit_.at(rivi).tilinumero );
-}
-
-void TmRivit::setMaara(int rivi, qlonglong senttia)
-{
-    rivit_[rivi].maara = senttia;
-    emit dataChanged(index(rivi,EUROA),index(rivi,EUROA));
-}
-
-qlonglong TmRivit::maara(int rivi) const
-{
-    return rivit_.at(rivi).maara;
-}
-
-void TmRivit::setNetto(int rivi, qlonglong senttia)
-{
-    rivit_[rivi].netto = senttia;
-}
-
-qlonglong TmRivit::netto(int rivi) const
-{
-    return rivit_.at(rivi).netto;
-}
-
-void TmRivit::setAlvKoodi(int rivi, int koodi)
-{
-    rivit_[rivi].verokoodi = koodi;
-}
-
-int TmRivit::alvkoodi(int rivi) const
-{
-    return rivit_.at(rivi).verokoodi;
-}
-
-void TmRivit::setAlvProsentti(int rivi, double prosentti)
-{
-    rivit_[rivi].veroprosentti = prosentti;
-}
-
-double TmRivit::alvProsentti(int rivi) const
-{
-    return rivit_.at(rivi).veroprosentti;
-}
-
-void TmRivit::setSelite(int rivi, const QString &selite)
-{
-    rivit_[rivi].selite = selite;
-
-}
-
-void TmRivit::setEiVahennysta(int rivi, bool eivahennysta)
-{
-    rivit_[rivi].eivahennysta = eivahennysta;
-}
-
-bool TmRivit::eiVahennysta(int rivi) const
-{
-    return rivit_.at(rivi).eivahennysta;
-}
-
-void TmRivit::setKohdennus(int rivi, int kohdennus)
-{
-    rivit_[rivi].kohdennus = kohdennus;
-}
-
-int TmRivit::kohdennus(int rivi) const
-{
-    return rivit_.at(rivi).kohdennus;
-}
-
-void TmRivit::setMerkkaukset(int rivi, QVariantList merkkaukset)
-{
-    rivit_[rivi].merkkaukset = merkkaukset;
-}
-
-QVariantList TmRivit::merkkaukset(int rivi) const
-{
-    return  rivit_.at(rivi).merkkaukset;
-}
-
-void TmRivit::setJaksoalkaa(int rivi, const QDate &pvm)
-{
-    rivit_[rivi].jaksoalkaa = pvm;
-}
-
-QDate TmRivit::jaksoalkaa(int rivi) const
-{
-    return rivit_.at(rivi).jaksoalkaa;
-}
-
-void TmRivit::setJaksoloppuu(int rivi, const QDate &pvm)
-{
-    rivit_[rivi].jaksoloppuu = pvm;
-}
-
-QDate TmRivit::jaksoloppuu(int rivi) const
-{
-    return rivit_.at(rivi).jaksoloppuu;
-}
-
-QString TmRivit::selite(int rivi) const
-{
-    return rivit_.at(rivi).selite;
-}
-
-int TmRivit::lisaaRivi(int vientiid)
-{
-    beginInsertRows(QModelIndex(), rivit_.count(), rivit_.count());
-    rivit_.append( Rivi(vientiid) );
-    endInsertRows();
-    return rivit_.count()-1;
-}
-
-void TmRivit::poistaRivi(int rivi)
-{
-    beginInsertRows( QModelIndex(), rivi, rivi);
-    rivit_.removeAt(rivi);
-    endRemoveRows();
-}
-
-int TmRivit::vientiId(int rivi) const
-{
-    return rivit_.at(rivi).vientiid;
-}
-
-int TmRivit::poistoaika(int rivi) const
-{
-    return rivit_.at(rivi).poistoaika;
-}
-
-void TmRivit::setPoistoaika(int rivi, int kuukautta)
-{
-    rivit_[rivi].poistoaika = kuukautta;
-}
-
-TmRivit::Rivi::Rivi(int id) :
-    vientiid(id)
-{
-
-}

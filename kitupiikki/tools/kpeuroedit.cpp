@@ -158,10 +158,12 @@ void KpEuroEdit::keyPressEvent(QKeyEvent *event)
     else if( event->key() == Qt::Key_Backspace && kursorinpaikka == pilkunpaikka+1)
     {
         cursorBackward(false,1);
+        emit textEdited( text() );
     }
     else if( event->key() == Qt::Key_Delete && kursorinpaikka == pilkunpaikka)
     {
         cursorForward(false,1);
+        emit textEdited( text() );
     }
     else if( !event->text().isEmpty() && event->text().at(0).isDigit())
     {
@@ -172,18 +174,21 @@ void KpEuroEdit::keyPressEvent(QKeyEvent *event)
             {
                 setText( text().left(kursorinpaikka) + event->text() +
                          text().mid(kursorinpaikka+1));
-                setCursorPosition(kursorinpaikka+1);
+                setCursorPosition(kursorinpaikka+1);                
+                emit textEdited( text() );
                 return;
             }
         }
         else if( !cents_ ) {
             setText( event->text() + ",00 €");
             setCursorPosition(text().indexOf(','));
+            emit textEdited( text() );
             return;
         }
     }
 
     QLineEdit::keyPressEvent(event);
+    emit textEdited( text() );
 }
 
 

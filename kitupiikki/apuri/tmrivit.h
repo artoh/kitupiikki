@@ -19,8 +19,9 @@
 
 #include <QAbstractTableModel>
 
-#include "db/tili.h"
-
+#include "tulomenorivi.h"
+class Tili;
+class Tosite;
 
 class TmRivit : public QAbstractTableModel
 {
@@ -42,73 +43,20 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
+    void lisaa(const QVariantMap& map);
 
-    void clear();
-
-    void setTili(int rivi, int tili);
-    Tili tili(int rivi) const;
-
-    void setMaara(int rivi,qlonglong senttia);
-    qlonglong maara(int rivi) const;
-
-    void setNetto(int rivi, qlonglong senttia);
-    qlonglong netto(int rivi) const;
-
-    void setAlvKoodi(int rivi, int koodi);
-    int alvkoodi(int rivi) const;
-
-    void setAlvProsentti(int rivi, double prosentti);
-    double alvProsentti(int rivi) const;
-
-    void setSelite(int rivi, const QString& selite);
-    QString selite(int rivi) const;
-
-    void setEiVahennysta(int rivi, bool eivahennysta);
-    bool eiVahennysta(int rivi) const;
-
-    void setKohdennus(int rivi, int kohdennus);
-    int kohdennus(int rivi) const;
-
-    void setMerkkaukset(int rivi, QVariantList);
-    QVariantList merkkaukset(int rivi) const;
-
-    void setJaksoalkaa(int rivi, const QDate& pvm);
-    QDate jaksoalkaa(int rivi) const;
-
-    void setJaksoloppuu(int rivi, const QDate& pvm);
-    QDate jaksoloppuu(int rivi) const;
-
-
-    int lisaaRivi(int vientiid = 0);
+    int lisaaRivi();
     void poistaRivi(int rivi);
 
-    int vientiId(int rivi) const;
+    TulomenoRivi* rivi(int indeksi);
 
-    int poistoaika(int rivi) const;
-    void setPoistoaika(int rivi, int kuukautta);
 
+    void clear();
+    QVariantList viennit(Tosite *tosite);
 
 private:
 
-    struct Rivi {
-        Rivi(int id);
-
-        int tilinumero;
-        qlonglong maara = 0;
-        qlonglong netto = 0;
-        QString selite;
-        int verokoodi = 0;
-        double veroprosentti = 0.0;
-        bool eivahennysta = false;
-        int kohdennus = 0;
-        QVariantList merkkaukset;
-        QDate jaksoalkaa;
-        QDate jaksoloppuu;
-        int vientiid = 0;
-        int poistoaika = 0;
-    };
-
-    QList<Rivi> rivit_;
+    QList<TulomenoRivi> rivit_;
 };
 
 #endif // TMRIVIT_H

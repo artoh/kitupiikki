@@ -245,7 +245,7 @@ void TilinpaatosEditori::tallenna()
     tilikausi_.set("tilinpaatos", QDateTime::currentDateTime());
     tilikausi_.tallenna();
 
-    TilinpaatosTulostaja *tp = new TilinpaatosTulostaja(tilikausi_, editori_->toHtml(), raportit_, this);
+    TilinpaatosTulostaja *tp = new TilinpaatosTulostaja(tilikausi_, editori_->toHtml(), raportit_,  kp()->asetus("tpkieli") ,this);
     connect( tp, &TilinpaatosTulostaja::tallennettu, this, &TilinpaatosEditori::tallennettu);
     tp->tallenna();
 

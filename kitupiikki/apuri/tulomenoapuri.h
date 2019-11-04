@@ -23,6 +23,7 @@ class QSortFilterProxyModel;
 class TmRivit;
 class KohdennusProxyModel;
 class QCompleter;
+class TulomenoRivi;
 
 namespace Ui {
 class TuloMenoApuri;
@@ -70,14 +71,13 @@ protected:
 
     void alusta(bool meno);
     int rivilla() const;
+    TulomenoRivi *rivi();
+
 
 
 private:
     Ui::TuloMenoApuri *ui;
     TmRivit* rivit_;
-
-    qlonglong bruttoSnt_ = 0;
-    qlonglong nettoSnt_ = 0;
 
     bool menoa_ = false;
 

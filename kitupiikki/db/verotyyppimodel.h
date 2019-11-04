@@ -50,7 +50,8 @@ namespace AlvKoodi {
         MAKSUPERUSTEINEN_KOHDENTAMATON = 400,
         MAKSETTAVAALV = 900,
         TILITYS = 901,
-        MAAHANTUONTI_VERO = 927
+        MAAHANTUONTI_VERO = 927,
+        VAHENNYSKELVOTON = 932
     };
 
 };
