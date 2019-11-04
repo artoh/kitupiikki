@@ -147,22 +147,22 @@ void TuloMenoApuri::teeReset()
             ui->asiakasToimittaja->set( vienti.value("kumppani").toMap().value("id").toInt(),
                                     vienti.value("kumppani").toMap().value("nimi").toString());
 
-
             maksutapaMuuttui();
 
-        } else
+        } else {
             rivit_->lisaa(vienti);
+        }
 
     }
     if( !rivit_->rowCount())
         rivit_->lisaaRivi();
 
+
     alusta( menoa );
 
     ui->tilellaView->setVisible( rivit_->rowCount() > 1 );
     ui->poistaRiviNappi->setEnabled( rivit_->rowCount() > 1 );
-
-    ui->tilellaView->selectRow(0);
+    ui->tilellaView->selectRow(0);    
 
 }
 
@@ -248,10 +248,13 @@ void TuloMenoApuri::tiliMuuttui()
 
     // TODO: Vero-oletusten hakeminen
 
+
     if( kp()->asetukset()->onko(AsetusModel::ALV))
     {
         ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( tili.luku("alvlaji"), VerotyyppiModel::KoodiRooli ) );
         ui->alvSpin->setValue( tili.str("alvprosentti").toDouble() );
+    } else {
+        paivitaVerovalinnat();
     }
 
     emit rivit_->dataChanged( rivit_->index(TmRivit::TILI, rivilla()),
@@ -263,8 +266,13 @@ void TuloMenoApuri::tiliMuuttui()
 
 void TuloMenoApuri::verolajiMuuttui()
 {
-    int verolaji = ui->alvCombo->currentData(VerotyyppiModel::KoodiRooli).toInt();        
-    rivi()->setAlvkoodi( verolaji );
+    rivi()->setAlvkoodi( ui->alvCombo->currentData( VerotyyppiModel::KoodiRooli).toInt() );
+    paivitaVerovalinnat();
+    tositteelle();
+}
+
+void TuloMenoApuri::paivitaVerovalinnat()
+{
 
     bool naytaMaara = rivi()->naytaBrutto();
     bool naytaVeroton =  rivi()->naytaNetto();
@@ -490,6 +498,9 @@ void TuloMenoApuri::alusta(bool meno)
         veroFiltteri_->setFilterRegExp("^(0|1[1-79])");
         ui->toimittajaLabel->setText( tr("Asiakas"));
     }
+    tiliMuuttui();
+    paivitaVerovalinnat();
+
 
     // Alustetaan maksutapacombo
 
