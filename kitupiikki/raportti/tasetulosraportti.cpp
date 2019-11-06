@@ -117,10 +117,7 @@ void TaseTulosRaportti::paivitaKielet()
     ui->kieliCombo->clear();
 
     for(auto kieli : nimet.keys()) {
-        if( kieli == "fi")
-            ui->kieliCombo->addItem( QIcon(":/liput/fi.png"), tr("Suomi"), "fi");
-        else if( kieli == "sv")
-            ui->kieliCombo->addItem( QIcon(":/liput/se.png"), tr("Ruotsi"), "sv");
+        ui->kieliCombo->addItem( QIcon(":/liput/" + kieli + ".png"), kp()->asetukset()->kieli(kieli), kieli );
     }
 
 }
