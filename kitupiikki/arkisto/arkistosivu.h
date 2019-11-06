@@ -64,6 +64,7 @@ private:
     Ui::TilikausiMaaritykset *ui;
 
     bool teeZip(const Tilikausi& kausi);
+    bool vieHakemistoon(const Tilikausi& kausi);
 };
 
 #endif // ARKISTO_H

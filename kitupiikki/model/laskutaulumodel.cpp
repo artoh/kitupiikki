@@ -80,8 +80,6 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
             case PVM:
                 return map.value("pvm").toDate();
             case ERAPVM:
-    //            if( lasku.kirjausperuste == LaskuModel::KATEISLASKU ||  lasku.json.luku("Hyvityslasku"))
-    //                return QString();
                 return map.value("erapvm").toDate();
             case SUMMA:
                 if( role == Qt::DisplayRole)

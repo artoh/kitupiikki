@@ -235,6 +235,12 @@ void AsiakasToimittajaDlg::accept()
 
 }
 
+void AsiakasToimittajaDlg::reject()
+{
+    QDialog::reject();
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+}
+
 void AsiakasToimittajaDlg::dataSaapuu(QVariant *data)
 {     
     tauluun( data->toMap() );

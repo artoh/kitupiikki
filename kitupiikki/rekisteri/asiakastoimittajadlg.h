@@ -57,6 +57,7 @@ private slots:
     void nimiMuuttuu();
 
     void accept() override;
+    void reject() override;
     void dataSaapuu(QVariant* data);
 
     void haeYTunnarilla();

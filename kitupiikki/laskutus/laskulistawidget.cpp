@@ -128,9 +128,13 @@ void LaskulistaWidget::paivitaNapit()
     ui->kopioiNappi->setEnabled( index.isValid() );
     ui->naytaNappi->setEnabled( index.isValid() );
     ui->muokkaaNappi->setEnabled( index.isValid() );
-    ui->poistaNappi->setEnabled( index.isValid() &&
-                                 index.data( LaskuTauluModel::AvoinnaRooli ).toDouble() > 1e-5);
 
+    if( ui->tabs->currentIndex() >= KAIKKI )
+        ui->poistaNappi->setEnabled( index.isValid() &&
+                                     index.data( LaskuTauluModel::AvoinnaRooli ).toDouble() > 1e-5);
+    else
+        // Luonnoksen voi aina poistaa
+        ui->poistaNappi->setEnabled( index.isValid() );
 }
 
 void LaskulistaWidget::laheta()

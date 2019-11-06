@@ -242,6 +242,9 @@ void TuloMenoApuri::poistaRivi()
 
 void TuloMenoApuri::tiliMuuttui()
 {
+    if( !rivit_->rowCount())
+        return;
+
     Tili tili = ui->tiliEdit->valittuTili();
     rivi()->setTili(tili.numero());
 
@@ -540,6 +543,7 @@ void TuloMenoApuri::alusta(bool meno)
 
 int TuloMenoApuri::rivilla() const
 {
+
     if( ui->tilellaView->currentIndex().row() < 0 )
         return 0;
     return ui->tilellaView->currentIndex().row();
@@ -547,7 +551,7 @@ int TuloMenoApuri::rivilla() const
 }
 
 TulomenoRivi *TuloMenoApuri::rivi()
-{
+{    
     return rivit_->rivi(rivilla());
 }
 

@@ -711,12 +711,10 @@ void LaskuDialogi::tallennusValmis(QVariant *vastaus)
         MyyntiLaskujenToimittaja *toimittaja = new MyyntiLaskujenToimittaja(this);
         QList<QVariantMap> lista;
         lista.append(vastaus->toMap());
-
-        connect( toimittaja, &MyyntiLaskujenToimittaja::laskutToimitettu, this, &QDialog::accept);
         toimittaja->toimitaLaskut(lista);
-    } else
-        QDialog::accept();
+    }
 
+    QDialog::accept();
     emit kp()->kirjanpitoaMuokattu();
 
 }
@@ -784,6 +782,10 @@ void LaskuDialogi::lataa(const QVariantMap &map)
         }
 
     }
+    int tila = map.value("tila").toInt();
+    ui->luonnosNappi->setVisible( tila == Tosite::LUONNOS );
+    ui->tallennaNappi->setVisible( tila < Tosite::KIRJANPIDOSSA );
+
     paivitaNapit();
 
 }
