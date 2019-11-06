@@ -62,6 +62,13 @@ void NaytinIkkuna::nayta(const QByteArray& data)
     ikkuna->view()->nayta(data);
 }
 
+void NaytinIkkuna::nayta(const QString &teksti)
+{
+    NaytinIkkuna *ikkuna = new NaytinIkkuna;
+    ikkuna->show();
+    ikkuna->view()->nayta(teksti);
+}
+
 void NaytinIkkuna::naytaTiedosto(const QString &tiedostonnimi)
 {
     QByteArray data;

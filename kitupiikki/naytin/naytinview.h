@@ -55,6 +55,7 @@ public:
 public slots:
     void nayta(const QByteArray& data);
     void nayta(const RaportinKirjoittaja &raportti);
+    void nayta(const QString& teksti);
 
     Naytin::EsikatseluNaytin *esikatsele(Esikatseltava* katseltava);
 

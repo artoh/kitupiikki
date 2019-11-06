@@ -105,7 +105,7 @@ private slots:
      */
     void siirryTositteeseen();
 
-    void naytaSelvitys();    
+    void naytaLoki();
 
 private slots:
     void valmis();

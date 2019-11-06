@@ -29,6 +29,7 @@
 #include <QPrintDialog>
 #include <QPrinter>
 #include <QPainter>
+#include <QJsonDocument>
 
 #include <QShortcut>
 #include <QSettings>
@@ -163,6 +164,8 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     connect( ui->sarjaEdit, &QLineEdit::textChanged, [this] { this->tosite()->setData(Tosite::SARJA, ui->sarjaEdit->text()); });
 
     connect( tosite_, &Tosite::otsikkoMuuttui, [this] (const QString& otsikko) { if( otsikko != ui->otsikkoEdit->text()) this->ui->otsikkoEdit->setText(otsikko); });
+
+    connect( ui->lokiView, &QTableView::clicked, this, &KirjausWg::naytaLoki);
 
     // Tagivalikko
     ui->viennitView->viewport()->installEventFilter(this);
@@ -321,10 +324,13 @@ void KirjausWg::tulostaTosite()
     }
 }
 
-void KirjausWg::naytaSelvitys()
+void KirjausWg::naytaLoki()
 {
-    NaytinIkkuna *naytin = new NaytinIkkuna();
-//    naytin->naytaRaportti( model()->selvittelyTuloste() );
+    NaytinIkkuna *naytin = new NaytinIkkuna();    
+    QVariant var = ui->lokiView->currentIndex().data(Qt::UserRole);
+
+    QString data = QString::fromUtf8( QJsonDocument::fromVariant(var).toJson(QJsonDocument::Indented) );
+    naytin->nayta(data);
 }
 
 void KirjausWg::valmis()

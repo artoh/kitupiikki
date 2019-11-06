@@ -70,8 +70,9 @@ QVariant TositeLoki::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
+    QVariantMap map = data_.at(index.row()).toMap();
+
     if( role == Qt::DisplayRole) {
-        QVariantMap map = data_.at(index.row()).toMap();
         switch (index.column()) {
         case AIKA:
             return map.value("aika").toDateTime().toLocalTime();
@@ -80,6 +81,9 @@ QVariant TositeLoki::data(const QModelIndex &index, int role) const
         case TILA:
             return Tosite::tilateksti( map.value("tila").toInt() );
         }
-    }
+    }    
+    else if( role == Qt::UserRole)
+        return map.value("data");
+
     return QVariant();
 }
