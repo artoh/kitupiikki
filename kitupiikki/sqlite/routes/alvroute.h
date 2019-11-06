@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2017 Arto Hyvättinen
+   Copyright (C) 2019 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,31 +14,17 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
+#ifndef ALVROUTE_H
+#define ALVROUTE_H
 
-#ifndef PAIVAKIRJARAPORTTI_H
-#define PAIVAKIRJARAPORTTI_H
+#include "../sqliteroute.h"
 
-#include "raporttiwidget.h"
-#include "ui_paivakirja.h"
-
-/**
- * @brief Päiväkirjan tulostava raportti
- *
- * Päiväkirjassa on halutun päivämäärävälin viennit aikajärjestyksessä
- */
-class PaivakirjaRaportti : public RaporttiWidget
+class AlvRoute : public SQLiteRoute
 {
-    Q_OBJECT
 public:
-    PaivakirjaRaportti();
-    ~PaivakirjaRaportti() override;
+    AlvRoute(SQLiteModel *model);
 
-protected:
-    Ui::Paivakirja *ui;
-
-public slots:
-    virtual void esikatsele() override;
-
+    QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
 };
 
-#endif // PAIVAKIRJARAPORTTI_H
+#endif // ALVROUTE_H

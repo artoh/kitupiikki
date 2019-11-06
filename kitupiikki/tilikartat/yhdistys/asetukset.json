@@ -138,5 +138,6 @@
   "LaskuIkkunaY" : "40",
   "LaskuIkkunaLeveys" : "95",
   "LaskuIkkunaKorkeus" : "35",
-  "LaskuQR" : true
+  "LaskuQR" : true,
+  "AlvKausi" : 1
 }

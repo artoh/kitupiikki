@@ -39,6 +39,7 @@
 #include "budjettivertailu.h"
 #include "paakirjaraportti.h"
 #include "tasetulosraportti.h"
+#include "alvraporttiwidget.h"
 
 RaporttiSivu::RaporttiSivu(QWidget *parent) : KitupiikkiSivu(parent),
     nykyinen(nullptr)
@@ -153,6 +154,8 @@ void RaporttiSivu::raporttiValittu(QListWidgetItem *item)
         nykyinen = new TaseTulosRaportti(Raportoija::TASE);
     else if( raporttinimi == "Tuloslaskelma")
         nykyinen = new TaseTulosRaportti(Raportoija::TULOSLASKELMA);
+    else if( raporttinimi == "AlvErittely")
+        nykyinen = new AlvRaporttiWidget();
 
 
     if( nykyinen )

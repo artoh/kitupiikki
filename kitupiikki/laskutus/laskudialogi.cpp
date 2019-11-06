@@ -741,6 +741,7 @@ void LaskuDialogi::lataa(const QVariantMap &map)
     ui->toimitusDate->setDate( lasku.value("toimituspvm").toDate() );
     ui->eraDate->setDate( lasku.value("erapvm").toDate());
     ui->otsikkoEdit->setText( lasku.value("otsikko").toString());
+    ui->lisatietoEdit->setPlainText( map.value("info").toString());
 
     if( map.value("tila").toInt() > Tosite::LUONNOS)
         ui->luonnosNappi->hide();
@@ -779,6 +780,7 @@ void LaskuDialogi::lataa(const QVariantMap &map)
             ui->maksettuCheck->show();
             ui->infoLabel->setText( tr("Maksettu "));
             ui->infoLabel->setStyleSheet("color: green;");
+            ui->valmisNappi->hide();
         }
 
     }

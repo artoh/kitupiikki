@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2017 Arto Hyvättinen
+   Copyright (C) 2019 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,31 +14,28 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-
-#ifndef PAIVAKIRJARAPORTTI_H
-#define PAIVAKIRJARAPORTTI_H
+#ifndef ALVRAPORTTIWIDGET_H
+#define ALVRAPORTTIWIDGET_H
 
 #include "raporttiwidget.h"
 #include "ui_paivakirja.h"
 
 /**
- * @brief Päiväkirjan tulostava raportti
- *
- * Päiväkirjassa on halutun päivämäärävälin viennit aikajärjestyksessä
+ * @brief Alv-erittelyn tulostava raportti
  */
-class PaivakirjaRaportti : public RaporttiWidget
+class AlvRaporttiWidget : public RaporttiWidget
 {
     Q_OBJECT
 public:
-    PaivakirjaRaportti();
-    ~PaivakirjaRaportti() override;
+    AlvRaporttiWidget();
+    ~AlvRaporttiWidget() override;
 
 protected:
     Ui::Paivakirja *ui;
 
 public slots:
-    virtual void esikatsele() override;
+    void esikatsele() override;
 
 };
 
-#endif // PAIVAKIRJARAPORTTI_H
+#endif // ALVRAPORTTIWIDGET_H

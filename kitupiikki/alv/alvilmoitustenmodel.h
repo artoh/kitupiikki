@@ -37,7 +37,8 @@ public:
     {
         TositeIdRooli = Qt::UserRole,
         PaattyyRooli = Qt::UserRole + 1,
-        EraPvmRooli = Qt::UserRole + 2
+        EraPvmRooli = Qt::UserRole + 2,
+        AlkaaRooli = Qt::UserRole + 3
     };
 
     AlvIlmoitustenModel(QObject *parent = nullptr);

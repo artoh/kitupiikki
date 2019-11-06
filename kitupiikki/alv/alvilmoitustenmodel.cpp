@@ -97,6 +97,8 @@ QVariant AlvIlmoitustenModel::data(const QModelIndex &index, int role) const
         return  map.value("kausipaattyy");
     else if( role == EraPvmRooli)
         return AlvSivu::erapaiva( map.value("kausipaattyy").toDate() );
+    else if( role == AlkaaRooli)
+        return map.value("kausialkaa");
 
     return QVariant();
 
@@ -110,28 +112,6 @@ void AlvIlmoitustenModel::lataa()
 
     connect( kysely, &KpKysely::vastaus, this, &AlvIlmoitustenModel::dataSaapuu);
     kysely->kysy();
-
-    /*
-    beginResetModel();
-    tiedot_.clear();
-
-    QSqlQuery kysely("select id,json from tosite where laji=0 order by pvm desc");
-    while( kysely.next())
-    {
-        JsonKentta json;
-        json.fromJson( kysely.value("json").toByteArray());
-        if( json.date("AlvTilitysAlkaa").isValid())
-        {
-            AlvIlmoitusTieto ilmoitus;
-            ilmoitus.alkuPvm = json.date("AlvTilitysAlkaa");
-            ilmoitus.loppuPvm = json.date("AlvTilitysPaattyy");
-            ilmoitus.maksettavaVeroSnt = json.luku("MaksettavaAlv");
-            ilmoitus.tositeId = kysely.value("id").toInt();
-            tiedot_.append(ilmoitus);
-        }
-    }
-    endResetModel();
-    */
 }
 
 void AlvIlmoitustenModel::dataSaapuu(QVariant *data)

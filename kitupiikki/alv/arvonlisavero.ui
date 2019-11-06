@@ -72,12 +72,15 @@
             <item>
              <widget class="QLabel" name="maksuAlv">
               <property name="text">
-               <string>Ei käytössä</string>
+               <string>Ei käytettävissä tässä versiossa</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QPushButton" name="maksuperusteNappi">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="text">
                <string/>
               </property>
@@ -184,23 +187,6 @@
        </property>
        <property name="shortcut">
         <string>F9</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="erittelyNappi">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="text">
-        <string>Näytä &amp;erittely</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../pic/pic.qrc">
-         <normaloff>:/pic/tekstisivu.png</normaloff>:/pic/tekstisivu.png</iconset>
-       </property>
-       <property name="shortcut">
-        <string>F10</string>
        </property>
       </widget>
      </item>

@@ -69,6 +69,8 @@ void AlvLaskelma::kirjoitaYhteenveto()
     RaporttiRivi otsikko;
     otsikko.lisaa(tr("Arvonlisäveroilmoituksen tiedot"),4);
     otsikko.lihavoi();
+    otsikko.asetaKoko(14);
+
     rk.lisaaRivi(otsikko);
     rk.lisaaTyhjaRivi();
 
@@ -169,6 +171,15 @@ void AlvLaskelma::kirjaaVerot()
 
 void AlvLaskelma::kirjoitaErittely()
 {
+    RaporttiRivi otsikko;
+    otsikko.lisaa(tr("Erittely"),4);
+    otsikko.lihavoi();
+    otsikko.asetaKoko(14);
+
+    rk.lisaaRivi(otsikko);
+    rk.lisaaTyhjaRivi();
+
+
     QMapIterator<int, KoodiTaulu> koodiIter(taulu_.koodit);
     while( koodiIter.hasNext()) {
         koodiIter.next();
@@ -182,7 +193,7 @@ void AlvLaskelma::kirjoitaErittely()
 
             RaporttiRivi kantaOtsikko;
             kantaOtsikko.lisaa( kp()->alvTyypit()->yhdistelmaSeliteKoodilla(koodi), 3 );
-            kantaOtsikko.lisaa( QString("%L1").arg(verokanta,0,'f',2));
+            kantaOtsikko.lisaa( QString("%L1").arg(verokanta,0,'f',0));
             kantaOtsikko.lisaa( kantaIter.value().summa(debetistaKoodilla(koodi)) );
             kantaOtsikko.lihavoi();
             rk.lisaaRivi(kantaOtsikko);
@@ -200,7 +211,7 @@ void AlvLaskelma::kirjoitaErittely()
                     rivi.lisaa( vienti.value("pvm").toDate() );
                     rivi.lisaa( vienti.value("tosite").toMap().value("tunniste").toString() );
                     rivi.lisaa( vienti.value("selite").toString());
-                    rivi.lisaa(  QString("%L1").arg(verokanta,0,'f',2) );
+                    rivi.lisaa(  QString("%L1").arg(verokanta,0,'f',0) );
 
                     qlonglong debetsnt = qRound(vienti.value("debet").toDouble() * 100);
                     qlonglong kreditsnt = qRound( vienti.value("kredit").toDouble() * 100);
@@ -215,7 +226,7 @@ void AlvLaskelma::kirjoitaErittely()
                 // Tilin summa
                 RaporttiRivi tiliSumma;
                 tiliSumma.lisaa(QString(), 3);
-                tiliSumma.lisaa(  QString("%L1").arg(verokanta,0,'f',2) );
+                tiliSumma.lisaa(  QString("%L1").arg(verokanta,0,'f',0) );
                 tiliSumma.lisaa( tiliIter.value().summa( debetistaKoodilla(koodi) ) );
                 tiliSumma.viivaYlle();
                 rk.lisaaRivi(tiliSumma);
@@ -394,7 +405,7 @@ void AlvLaskelma::tallenna()
                      .arg(loppupvm_.toString("dd.MM.yyyy")));
     tosite_->setData( Tosite::TYYPPI, TositeTyyppi::ALVLASKELMA  );
 
-    tosite_->liitteet()->lisaa( rk.pdf(), "alv" );
+    tosite_->liitteet()->lisaa( rk.pdf(), "alv.pdf", "alv" );
 
     QVariantMap lisat;
     QVariantMap koodit;

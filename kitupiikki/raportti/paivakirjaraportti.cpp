@@ -17,21 +17,14 @@
 
 #include <QDateEdit>
 
-#include <QSqlQuery>
 
 #include "paivakirjaraportti.h"
-
 #include "db/kirjanpito.h"
 #include "db/tilikausi.h"
-
 #include "raportinkirjoittaja.h"
-
 #include "paivakirja.h"
-
 #include "naytin/naytinikkuna.h"
-
 #include <QDebug>
-#include <QSqlError>
 
 PaivakirjaRaportti::PaivakirjaRaportti()
     : RaporttiWidget(nullptr)
@@ -60,16 +53,6 @@ PaivakirjaRaportti::PaivakirjaRaportti()
 PaivakirjaRaportti::~PaivakirjaRaportti()
 {
     delete ui;
-}
-
-void PaivakirjaRaportti::kirjoitaSummaRivi(RaportinKirjoittaja &rk, qlonglong debet, qlonglong kredit, int sarakeleveys)
-{
-    RaporttiRivi rivi(RaporttiRivi::EICSV);
-    rivi.lisaa("Yhteensä", sarakeleveys );
-    rivi.lisaa( debet );
-    rivi.lisaa( kredit );
-    rivi.viivaYlle(true);
-    rk.lisaaRivi(rivi);
 }
 
 void PaivakirjaRaportti::esikatsele()
