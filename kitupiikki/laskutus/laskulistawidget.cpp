@@ -71,6 +71,10 @@ LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
 
     connect( ui->view->selectionModel(), &QItemSelectionModel::selectionChanged, this, &LaskulistaWidget::paivitaNapit);
     connect( ui->view->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &LaskulistaWidget::paivitaNapit);
+
+    // Nämä toistaiseksi poissa käytöstä
+    ui->hyvitysNappi->hide();
+    ui->muistutusNappi->hide();
 }
 
 LaskulistaWidget::~LaskulistaWidget()
