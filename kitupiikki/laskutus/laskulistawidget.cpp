@@ -65,6 +65,8 @@ LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
 
     connect( ui->uusiNappi, &QPushButton::clicked, this, &LaskulistaWidget::uusilasku);
     connect( ui->muokkaaNappi, &QPushButton::clicked, this, &LaskulistaWidget::muokkaa);    
+    connect( ui->poistaNappi, &QPushButton::clicked, this, &LaskulistaWidget::poista);
+
     connect( ui->view, &QTableView::doubleClicked, this, &LaskulistaWidget::muokkaa);
 
     connect( ui->view->selectionModel(), &QItemSelectionModel::selectionChanged, this, &LaskulistaWidget::paivitaNapit);
@@ -116,10 +118,15 @@ void LaskulistaWidget::suodataAsiakas(const QString &nimi)
 
 void LaskulistaWidget::paivitaNapit()
 {
-    ui->lahetaNappi->setEnabled( ui->view->selectionModel()->selectedRows().count() );
-    ui->kopioiNappi->setEnabled( ui->view->selectionModel()->selectedRows().count() );
-    ui->naytaNappi->setEnabled( ui->view->selectionModel()->selectedRows().count());
-    ui->muokkaaNappi->setEnabled( ui->view->selectionModel()->selectedRows().count());
+    QModelIndex index = ui->view->selectionModel()->selectedRows().value(0);
+
+    ui->lahetaNappi->setEnabled( index.isValid() );
+    ui->kopioiNappi->setEnabled( index.isValid() );
+    ui->naytaNappi->setEnabled( index.isValid() );
+    ui->muokkaaNappi->setEnabled( index.isValid() );
+    ui->poistaNappi->setEnabled( index.isValid() &&
+                                 index.data( LaskuTauluModel::AvoinnaRooli ).toDouble() > 1e-5);
+
 }
 
 void LaskulistaWidget::laheta()
@@ -183,6 +190,26 @@ void LaskulistaWidget::kopioi()
         connect(kysely, &KpKysely::vastaus, this, &LaskulistaWidget::haettuKopioitavaksi);
         kysely->kysy();
     }
+}
+
+void LaskulistaWidget::poista()
+{
+    QModelIndex index = ui->view->selectionModel()->selectedRows().value(0);
+    int tositeId = index.data(LaskuTauluModel::TositeIdRooli).toInt();
+    if( tositeId ) {
+        QString viitenumero = index.data(LaskuTauluModel::ViiteRooli).toString();
+        QString asiakas = index.data(LaskuTauluModel::AsiakasToimittajaNimiRooli).toString();
+        if( QMessageBox::question(this, tr("Laskun poistaminen"),
+                                  tr("Haluatko todella poistaa laskun%1%2?")
+                                  .arg( viitenumero.isEmpty() ? "" : tr(" viitenumerolla %1").arg(viitenumero)  )
+                                  .arg( asiakas.isEmpty() ? "" : tr(" asiakkaalle %1").arg(asiakas) ) )
+                == QMessageBox::Yes) {
+            KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tositeId), KpKysely::DELETE );
+            connect( kysely, &KpKysely::vastaus, this, &LaskulistaWidget::paivita );
+            kysely->kysy();
+        }
+    }
+
 }
 
 void LaskulistaWidget::naytaLasku()

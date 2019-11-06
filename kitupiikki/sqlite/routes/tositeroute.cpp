@@ -135,6 +135,22 @@ QVariant TositeRoute::patch(const QString &polku, const QVariant &data)
 
 }
 
+QVariant TositeRoute::doDelete(const QString &polku)
+{
+    int tositeid = polku.toInt();
+
+    QSqlQuery kysely(db());
+
+    if(!kysely.exec(QString("UPDATE Tosite SET tila=0 WHERE id=%1")
+                .arg(tositeid)))
+        throw SQLiteVirhe(kysely);
+
+    // Lisätään tositelokiin
+    kysely.prepare("INSERT INTO Tositeloki (tosite, tila) VALUES (?,0) ");
+    kysely.addBindValue(tositeid);
+    kysely.exec();
+}
+
 int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
 {
     QVariantMap map = pyynto.toMap();

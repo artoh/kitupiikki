@@ -28,6 +28,7 @@ public:
     QVariant post(const QString &polku, const QVariant &data) override;
     QVariant put(const QString &polku, const QVariant &data) override;
     QVariant patch(const QString &polku, const QVariant &data) override;
+    QVariant doDelete(const QString &polku) override;
 
 protected:
     int lisaaTaiPaivita(const QVariant pyynto, int tositeid = 0);

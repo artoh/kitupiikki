@@ -52,6 +52,7 @@ public slots:
 private slots:
     void muokkaa();
     void kopioi();
+    void poista();
 
     void naytaLasku();
     void naytaDialogi(QVariant* data);
