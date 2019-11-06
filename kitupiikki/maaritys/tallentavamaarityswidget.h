@@ -32,6 +32,7 @@
  */
 class TallentavaMaaritysWidget : public MaaritysWidget
 {
+    Q_OBJECT
 public:
     TallentavaMaaritysWidget(const QString& ohjesivu = QString(), QWidget *parent = nullptr);
 

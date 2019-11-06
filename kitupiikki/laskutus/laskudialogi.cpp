@@ -115,7 +115,7 @@ LaskuDialogi::LaskuDialogi( const QVariantMap& data) :
     if( !data.isEmpty())
         lataa(data);
     else {
-        ui->eraDate->setDate( kp()->paivamaara().addDays(14) );
+        ui->eraDate->setDate( kp()->paivamaara().addDays( kp()->asetukset()->luku("LaskuMaksuaika") ) );
         alustaMaksutavat();
     }
 
@@ -755,7 +755,8 @@ void LaskuDialogi::lataa(const QVariantMap &map)
     tallennettu_ = data();
     paivitaSumma();
 
-    setWindowTitle(tr("Lasku %1").arg(laskunnumero_));
+    if( laskunnumero_)
+        setWindowTitle(tr("Lasku %1").arg(laskunnumero_));
 
     if( !viite_.isEmpty()) {
         ui->viiteLabel->show();

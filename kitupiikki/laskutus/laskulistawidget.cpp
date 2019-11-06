@@ -60,6 +60,7 @@ LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
     connect( kp(), &Kirjanpito::kirjanpitoaMuokattu, this, &LaskulistaWidget::paivita );
 
     connect( ui->naytaNappi, &QPushButton::clicked, this, &LaskulistaWidget::naytaLasku);
+    connect( ui->kopioiNappi, &QPushButton::clicked, this, &LaskulistaWidget::kopioi);
     connect( ui->lahetaNappi, &QPushButton::clicked, this, &LaskulistaWidget::laheta);
 
     connect( ui->uusiNappi, &QPushButton::clicked, this, &LaskulistaWidget::uusilasku);
@@ -116,7 +117,9 @@ void LaskulistaWidget::suodataAsiakas(const QString &nimi)
 void LaskulistaWidget::paivitaNapit()
 {
     ui->lahetaNappi->setEnabled( ui->view->selectionModel()->selectedRows().count() );
-    ui->naytaNappi->setEnabled( ui->view->currentIndex().isValid());
+    ui->kopioiNappi->setEnabled( ui->view->selectionModel()->selectedRows().count() );
+    ui->naytaNappi->setEnabled( ui->view->selectionModel()->selectedRows().count());
+    ui->muokkaaNappi->setEnabled( ui->view->selectionModel()->selectedRows().count());
 }
 
 void LaskulistaWidget::laheta()
@@ -159,7 +162,7 @@ void LaskulistaWidget::uusilasku()
 void LaskulistaWidget::muokkaa()
 {
     // Hakee laskun tiedot ja näyttää dialogin
-    int tositeId = ui->view->currentIndex().data(LaskuTauluModel::TositeIdRooli).toInt();
+    int tositeId = ui->view->selectionModel()->selectedRows().value(0).data(LaskuTauluModel::TositeIdRooli).toInt();
     int tyyppi = ui->view->currentIndex().data(LaskuTauluModel::TyyppiRooli).toInt();
 
     if( tyyppi >= TositeTyyppi::MYYNTILASKU && tyyppi <= TositeTyyppi::MAKSUMUISTUTUS) {
@@ -172,9 +175,19 @@ void LaskulistaWidget::muokkaa()
     }
 }
 
+void LaskulistaWidget::kopioi()
+{
+    int tositeId = ui->view->selectionModel()->selectedRows().value(0).data(LaskuTauluModel::TositeIdRooli).toInt();
+    if( tositeId ) {
+        KpKysely* kysely = kpk( QString("/tositteet/%1").arg(tositeId));
+        connect(kysely, &KpKysely::vastaus, this, &LaskulistaWidget::haettuKopioitavaksi);
+        kysely->kysy();
+    }
+}
+
 void LaskulistaWidget::naytaLasku()
 {
-    int tositeId = ui->view->currentIndex().data(LaskuTauluModel::TositeIdRooli).toInt();
+    int tositeId = ui->view->selectionModel()->selectedRows().value(0).data(LaskuTauluModel::TositeIdRooli).toInt();
     int tyyppi = ui->view->currentIndex().data(LaskuTauluModel::TyyppiRooli).toInt();
     if( tyyppi >= TositeTyyppi::MYYNTILASKU && tyyppi <= TositeTyyppi::MAKSUMUISTUTUS && tositeId) {
         NaytinIkkuna::naytaLiite(tositeId,"lasku");
@@ -187,6 +200,29 @@ void LaskulistaWidget::naytaLasku()
 void LaskulistaWidget::naytaDialogi(QVariant *data)
 {
     LaskuDialogi* dlg = new LaskuDialogi(data->toMap());
+    dlg->show();
+}
+
+void LaskulistaWidget::haettuKopioitavaksi(QVariant *data)
+{
+    QVariantMap map = data->toMap();
+    map.remove("id");
+    map.insert("tila", Tosite::LUONNOS);
+    map.remove("viennit");
+    QVariantMap lmap = map.take("lasku").toMap();
+
+    QVariantMap umap;
+    umap.insert("kieli", lmap.value("kieli"));
+    umap.insert("laskutapa", lmap.value("laskutapa"));
+    umap.insert("maksutapa", lmap.value("maksutapa"));
+    umap.insert("otsikko", lmap.value("otsikko"));
+    umap.insert("osoite", lmap.value("osoite"));
+    umap.insert("email", lmap.value("email"));
+    umap.insert("toimituspvm", kp()->paivamaara());
+    umap.insert("erapvm", kp()->paivamaara().addDays( kp()->asetukset()->luku("LaskuMaksuaika") ));
+    map.insert("lasku", umap);
+
+    LaskuDialogi* dlg = new LaskuDialogi(map);
     dlg->show();
 }
 
