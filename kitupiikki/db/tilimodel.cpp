@@ -310,7 +310,6 @@ void TiliModel::lataa(QVariantList lista)
         tiliLista_.append( tili );
 
     }
-    laajuus_ = kp()->asetukset()->luku("laajuus",3);
 
     piilotetut_.clear();
     suosikit_.clear();
@@ -330,6 +329,7 @@ void TiliModel::lataa(QVariantList lista)
 
 void TiliModel::asetaSuosio(int tili, Tili::TiliTila tila)
 {
+
     if( tila == Tili::TILI_PIILOSSA)
         piilotetut_.insert(tili);
     else
@@ -390,6 +390,8 @@ void TiliModel::tyhjenna()
 void TiliModel::paivitaTilat()
 {
 
+    int laajuus = kp()->asetukset()->luku("laajuus",3);
+
     for(Tili* tili : tiliLista_) {
         if( tili->otsikkotaso()) {
             tili->asetaTila(Tili::TILI_PIILOSSA);
@@ -401,7 +403,7 @@ void TiliModel::paivitaTilat()
             tili->asetaTila(Tili::TILI_SUOSIKKI);
         else if( piilotetut_.contains(numero))
             tili->asetaTila(Tili::TILI_PIILOSSA);
-        else if( tili->laajuus() > laajuus_)
+        else if( tili->laajuus() > laajuus)
             tili->asetaTila(Tili::TILI_PIILOSSA);
         else
             tili->asetaTila(Tili::TILI_KAYTOSSA);
@@ -421,5 +423,6 @@ void TiliModel::paivitaTilat()
         }
 
     }
+    emit dataChanged( index(0,0), index(rowCount()-1,0), QVector<int>() << TilaRooli );
 }
 
