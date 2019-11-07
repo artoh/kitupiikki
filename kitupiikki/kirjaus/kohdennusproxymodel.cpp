@@ -47,7 +47,7 @@ bool KohdennusProxyModel::filterAcceptsRow(int source_row, const QModelIndex & s
     QDate alkaa = index.data(KohdennusModel::AlkaaRooli).toDate();
     QDate paattyy = index.data(KohdennusModel::PaattyyRooli).toDate();
 
-    if( paattyy.isValid()) {
+    if( nykyinenPaattyy.isValid()) {
         if( alkaa.isValid() && nykyinenPaattyy < alkaa )
             return false;
         if( paattyy.isValid() && nykyinenPaiva > paattyy)

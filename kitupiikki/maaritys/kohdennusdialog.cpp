@@ -112,7 +112,7 @@ void KohdennusDialog::lataa()
     ui->alkaaDate->setDate( kohdennus->alkaa());
     ui->paattyyDate->setDate( kohdennus->paattyy());
 
-    if( ui->tagRadio->isChecked())
+    if( ui->projektiRadio->isChecked())
         ui->kustannuspaikkaCombo->setCurrentIndex( ui->kustannuspaikkaCombo->findData( kohdennus->kuuluu(), KohdennusModel::IdRooli ) );
 }
 
