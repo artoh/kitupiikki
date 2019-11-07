@@ -81,7 +81,7 @@
           <string>Vastat&amp;ili</string>
          </property>
          <property name="buddy">
-          <cstring>vastatiliCombo</cstring>
+          <cstring>vastatiliLine</cstring>
          </property>
         </widget>
        </item>
@@ -99,7 +99,7 @@
         <widget class="EraCombo" name="eraCombo"/>
        </item>
        <item row="4" column="1">
-        <widget class="TiliCombo" name="vastatiliCombo"/>
+        <widget class="TilinvalintaLine" name="vastatiliLine"/>
        </item>
       </layout>
      </item>
@@ -403,11 +403,6 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>TiliCombo</class>
-   <extends>QComboBox</extends>
-   <header location="global">tools/tilicombo.h</header>
-  </customwidget>
-  <customwidget>
    <class>EraCombo</class>
    <extends>QComboBox</extends>
    <header>tools/eracombo.h</header>
@@ -418,7 +413,7 @@
   <tabstop>asiakasToimittaja</tabstop>
   <tabstop>viiteEdit</tabstop>
   <tabstop>erapaivaEdit</tabstop>
-  <tabstop>vastatiliCombo</tabstop>
+  <tabstop>vastatiliLine</tabstop>
   <tabstop>eraCombo</tabstop>
   <tabstop>tiliEdit</tabstop>
   <tabstop>maaraEdit</tabstop>

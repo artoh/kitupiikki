@@ -53,6 +53,7 @@
 
 #include <QJsonDocument>
 #include <QTimer>
+#include <QSortFilterProxyModel>
 
 #include "tilaus/tilauswizard.h"
 #include "versio.h"
@@ -79,7 +80,7 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
     connect(ui->muistiinpanotNappi, &QPushButton::clicked, this, &AloitusSivu::muistiinpanot);
     connect(ui->poistaNappi, &QPushButton::clicked, this, &AloitusSivu::poistaListalta);
 
-    connect( ui->tilikausiCombo, &QComboBox::currentTextChanged, this, &AloitusSivu::haeSaldot);
+    connect( ui->tilikausiCombo, &QComboBox::currentTextChanged, this, &AloitusSivu::haeSaldot);    
 
     connect( ui->selain, SIGNAL(anchorClicked(QUrl)), this, SLOT(linkki(QUrl)));
 
@@ -95,8 +96,6 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
 
     connect( ui->viimeisetView, &QListView::clicked,
              [] (const QModelIndex& index) { kp()->sqlite()->avaaTiedosto( index.data(SQLiteModel::PolkuRooli).toString() );} );
-    connect( ui->viimeisetView, &QListView::doubleClicked,
-             [] (const QModelIndex& index) { kp()->sqlite()->avaaTiedosto( index.data(SQLiteModel::PolkuRooli).toString() );} );
 
     connect( ui->pilviView, &QListView::clicked,
              [](const QModelIndex& index) { kp()->pilvi()->avaaPilvesta( index.data(PilviModel::IdRooli).toInt() ); } );
@@ -110,7 +109,11 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
 
     connect( kp(), &Kirjanpito::logoMuuttui, this, &AloitusSivu::logoMuuttui);
 
-    ui->viimeisetView->setModel( kp()->sqlite() );
+    QSortFilterProxyModel* sqliteproxy = new QSortFilterProxyModel(this);
+    sqliteproxy->setSourceModel( kp()->sqlite());
+    ui->viimeisetView->setModel( sqliteproxy );
+    sqliteproxy->setSortRole(Qt::DisplayRole);
+
     ui->pilviView->setModel( kp()->pilvi() );
     ui->tkpilviTab->setCurrentIndex( kp()->settings()->value("TietokonePilviValilehti").toInt() );
     ui->vaaraSalasana->setVisible(false);
@@ -144,7 +147,7 @@ void AloitusSivu::siirrySivulle()
 
     // Päivitetään aloitussivua
     if( kp()->yhteysModel() )
-    {
+    {        
         QString txt("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:/aloitus/aloitus.css\"></head><body>");
         txt.append( paivitysInfo );
 
@@ -155,6 +158,8 @@ void AloitusSivu::siirrySivulle()
             txt.append(summat());
         else
             txt.append("<p><img src=qrc:/pic/kitsas150.png></p>");
+
+        haeSaldot();
 
         ui->selain->setHtml(txt);
     }
@@ -258,8 +263,9 @@ void AloitusSivu::uusiTietokanta()
         if( velho.field("pilveen").toBool())
             kp()->pilvi()->uusiPilvi(velho.data());
         else {
-            if(kp()->sqlite()->uusiKirjanpito(velho.polku(), velho.data()))
+            if(kp()->sqlite()->uusiKirjanpito(velho.polku(), velho.data())) {
                 kp()->sqlite()->avaaTiedosto(velho.polku());
+            }
         }
     }
 }
@@ -385,7 +391,7 @@ void AloitusSivu::pyydaInfo()
 void AloitusSivu::saldotSaapuu(QVariant *data)
 {
     saldot_ = data->toMap();
-    siirrySivulle();
+
 
 }
 

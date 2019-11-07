@@ -169,7 +169,7 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
 
             apukysely.exec(QString("select vienti.eraid, sum(vienti.debetsnt) as sd, sum(vienti.kreditsnt) as sk, a.selite, tosite.pvm, tosite.sarja, tosite.tunniste  from  Vienti "
                                    "join Vienti as a on vienti.eraid = a.id "
-                                   "join Tosite on a.tosite=tosite.id "
+                                   "join Tosite on vienti.tosite=tosite.id "
                                    "WHERE vienti.tili=%1 AND vienti.pvm <= '%2'  AND Tosite.tila >= 100 GROUP BY vienti.eraid, a.selite, a.pvm, a.tili "
                                    "HAVING sum(vienti.debetsnt) <> sum(vienti.kreditsnt) OR sum(vienti.debetsnt) IS NULL OR sum(vienti.kreditsnt) IS NULL;"
                                    ).arg(tili->numero()).arg(pvm.toString(Qt::ISODate)));

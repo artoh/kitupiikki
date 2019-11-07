@@ -101,8 +101,6 @@ void Tosite::lataa(int tositeid)
 
 void Tosite::lataaData(QVariant *variant)
 {
-
-
     resetointiKaynnissa_ = true;
     data_ = variant->toMap();
 
@@ -115,10 +113,12 @@ void Tosite::lataaData(QVariant *variant)
         data_.insert("kumppani", kumppani);
 
     emit ladattu();
+
     tallennettu_ = tallennettava();
-    resetointiKaynnissa_ = false;
 
     tarkasta();
+    resetointiKaynnissa_ = false;
+
 
 }
 

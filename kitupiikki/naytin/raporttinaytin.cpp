@@ -17,6 +17,7 @@
 #include "raporttinaytin.h"
 
 #include <QPainter>
+#include <QDebug>
 
 Naytin::RaporttiNaytin::RaporttiNaytin(const RaportinKirjoittaja &raportti, QObject *parent)
     : PrintPreviewNaytin (parent),
@@ -54,4 +55,6 @@ void Naytin::RaporttiNaytin::tulosta(QPrinter *printer) const
 {
     QPainter painter(printer);
     raportti_.tulosta(printer, &painter, onkoRaidat());
+
+    qDebug() << printer->supportedResolutions();
 }

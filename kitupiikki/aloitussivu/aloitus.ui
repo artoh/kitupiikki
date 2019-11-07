@@ -121,7 +121,7 @@
      <item>
       <widget class="QTabWidget" name="tkpilviTab">
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="tab">
         <attribute name="icon">
@@ -150,7 +150,11 @@
           </widget>
          </item>
          <item>
-          <widget class="QListView" name="viimeisetView"/>
+          <widget class="QListView" name="viimeisetView">
+           <property name="editTriggers">
+            <set>QAbstractItemView::NoEditTriggers</set>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QPushButton" name="varmistaNappi">
