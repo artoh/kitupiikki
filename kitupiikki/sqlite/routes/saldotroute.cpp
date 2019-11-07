@@ -46,9 +46,9 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
         while (kysely.next()) {
             QString tilistr = kysely.value(0).toString();
             if( tilistr.startsWith(QChar('1')))
-                saldot.insert( tilistr, kysely.value(1).toLongLong() / 100.0 - kysely.value(2).toLongLong() / 100.0 );
+                saldot.insert( tilistr, (kysely.value(1).toLongLong() - kysely.value(2).toLongLong() ) / 100.0);
             else
-                saldot.insert( tilistr, kysely.value(2).toLongLong() / 100.0 - kysely.value(1).toLongLong() / 100.0 );
+                saldot.insert( tilistr, (kysely.value(2).toLongLong() - kysely.value(1).toLongLong() ) / 100.0 );
         }
 
         if( !urlquery.hasQueryItem("alkusaldot") && !urlquery.hasQueryItem("tili") ) {
@@ -57,7 +57,7 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
                                 "AND vienti.pvm<'%1' AND Tosite.tila >= 100").arg(kausi.alkaa().toString(Qt::ISODate)));
             if( kysely.next()) {
                 QString edtili = QString::number( kp()->tilit()->tiliTyypilla(TiliLaji::EDELLISTENTULOS).numero() ) ;
-                double saldo = saldot.value(edtili).toDouble() + kysely.value(0).toLongLong() / 100.0 - kysely.value(1).toLongLong() / 100.0;
+                double saldo = ( qRound64(saldot.value(edtili).toDouble()*100) + kysely.value(0).toLongLong() - kysely.value(1).toLongLong() ) / 100.0 ;
                 if( qAbs(saldo) > 1e-5)
                     saldot[edtili] = saldo;
             }
@@ -68,7 +68,7 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
                         .arg(pvm.toString(Qt::ISODate)));
             if( kysely.next()) {
                 QString tulostili = QString::number( kp()->tilit()->tiliTyypilla(TiliLaji::KAUDENTULOS).numero() ) ;
-                saldot.insert(tulostili, kysely.value(0).toLongLong() / 100.0 - kysely.value(1).toLongLong() / 100.0);
+                saldot.insert(tulostili, (kysely.value(0).toLongLong() - kysely.value(1).toLongLong()) / 100.0 );
             }
         }
     }
@@ -94,7 +94,7 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
             throw SQLiteVirhe(kysely);
 
         while( kysely.next()) {
-            saldot.insert( kysely.value(0).toString(), kysely.value(1).toLongLong() / 100.0 - kysely.value(2).toLongLong() / 100.0 );
+            saldot.insert( kysely.value(0).toString(), (kysely.value(1).toLongLong() - kysely.value(2).toLongLong() ) / 100.0 );
         }
     }
     return saldot;

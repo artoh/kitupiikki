@@ -213,8 +213,8 @@ void AlvLaskelma::kirjoitaErittely()
                     rivi.lisaa( vienti.value("selite").toString());
                     rivi.lisaa(  QString("%L1").arg(verokanta,0,'f',0) );
 
-                    qlonglong debetsnt = qRound(vienti.value("debet").toDouble() * 100);
-                    qlonglong kreditsnt = qRound( vienti.value("kredit").toDouble() * 100);
+                    qlonglong debetsnt = qRound64(vienti.value("debet").toDouble() * 100);
+                    qlonglong kreditsnt = qRound64( vienti.value("kredit").toDouble() * 100);
 
                     if( debetistaKoodilla( koodi ) )
                         rivi.lisaa( debetsnt - kreditsnt );
@@ -336,8 +336,8 @@ void AlvLaskelma::laskeHuojennus(QVariant *viennit)
             continue;
 
         int alvkoodi = vienti.alvKoodi();
-        qlonglong debet = qRound( vienti.debet() * 100);
-        qlonglong kredit = qRound( vienti.kredit() * 100);
+        qlonglong debet = qRound64( vienti.debet() * 100);
+        qlonglong kredit = qRound64( vienti.kredit() * 100);
 
         if( alvkoodi > 0 && alvkoodi < 100) {
             // Tämä on veron tai vähennyksen peruste
@@ -348,12 +348,12 @@ void AlvLaskelma::laskeHuojennus(QVariant *viennit)
                 liikevaihto_ += kredit - debet;
             } else if( alvkoodi == AlvKoodi::MYYNNIT_BRUTTO) {
                 qlonglong brutto = kredit - debet;
-                qlonglong netto = qRound( ( 100 * brutto / (100 + vienti.alvProsentti()) )) ;
+                qlonglong netto = qRound64( ( 100 * brutto / (100 + vienti.alvProsentti()) )) ;
                 liikevaihto_ += netto;
                 verohuojennukseen_ += brutto - netto;
             } else if( alvkoodi == AlvKoodi::OSTOT_BRUTTO) {
                 qlonglong brutto = debet - kredit;
-                qlonglong netto = qRound( ( 100 * brutto / (100 + vienti.alvProsentti()) )) ;
+                qlonglong netto = qRound64( ( 100 * brutto / (100 + vienti.alvProsentti()) )) ;
                 verohuojennukseen_ -= brutto - netto;
             }
         } else if( alvkoodi > 100 && alvkoodi < 200) {
@@ -591,11 +591,11 @@ qlonglong AlvLaskelma::TiliTaulu::summa(bool debetista) const
     qlonglong s = 0;
     for( auto vienti : viennit ) {
         if( debetista ) {
-            s += qRound( vienti.value("debet").toDouble() * 100.0 );
-            s -= qRound( vienti.value("kredit").toDouble() * 100.0);
+            s += qRound64( vienti.value("debet").toDouble() * 100.0 );
+            s -= qRound64( vienti.value("kredit").toDouble() * 100.0);
         } else {
-            s -= qRound( vienti.value("debet").toDouble() * 100.0 );
-            s += qRound( vienti.value("kredit").toDouble() * 100.0);
+            s -= qRound64( vienti.value("debet").toDouble() * 100.0 );
+            s += qRound64( vienti.value("kredit").toDouble() * 100.0);
         }
     }
     return s;

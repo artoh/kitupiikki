@@ -77,7 +77,7 @@ void Raportoija::dataSaapuu(int sarake, QVariant *variant)
     while( iter.hasNext()) {
         iter.next();
         int tili = iter.key().toInt();
-        qlonglong sentit = qRound( iter.value().toDouble() * 100 );
+        qlonglong sentit = qRound64( iter.value().toDouble() * 100 );
 
         if( !snt_.contains(tili) )
             snt_.insert(tili, QVector<qlonglong>(  sarakemaara_ ) );

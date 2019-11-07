@@ -128,7 +128,7 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
         case TILI:
             return rivi.tili;
         case EURO:
-            return qRound( rivi.euro * 100 );
+            return qRound64( rivi.euro * 100 );
         case KOHDENNUS:
             return rivi.kohdennus;
         case SAAJAMAKSAJA:

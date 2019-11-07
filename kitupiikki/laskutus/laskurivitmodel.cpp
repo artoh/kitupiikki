@@ -267,7 +267,7 @@ double LaskuRivitModel::yhteensa() const
 {
     double summa = 0;
     for(auto rivi : rivit_)
-        summa += qRound(riviSumma( rivi.toMap() ) * 100.0 );
+        summa += qRound64(riviSumma( rivi.toMap() ) * 100.0 );
     return summa / 100.0;
 }
 
@@ -336,7 +336,7 @@ QVariantList LaskuRivitModel::viennit(const QDate& pvm, const QDate &jaksoalkaa,
         QVariantMap map = rivi.toMap();
         if( map.value("alvkoodi").toInt() == AlvKoodi::MYYNNIT_NETTO) {
             double brutto = map.value("kredit",0).toDouble() - map.value("debet",0).toDouble();
-            double netto = qRound( brutto * 10000 / ( 100 + map.value("alvprosentti").toDouble() ) ) / 100.0;
+            double netto = qRound64( brutto * 10000 / ( 100 + map.value("alvprosentti").toDouble() ) ) / 100.0;
             double vero = brutto - netto;
 
             if( netto > 0)
@@ -411,6 +411,6 @@ double LaskuRivitModel::riviSumma(QVariantMap map)
                 maara * ahinta * ( 100 - alennus) / 100 :
                 maara * ahinta * ( 100 - alennus) * (100 + alvprossa) / 10000;
 
-    return qRound( brutto * 100 ) / 100.0;
+    return qRound64( brutto * 100.0 ) / 100.0;
 
 }

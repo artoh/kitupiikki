@@ -687,7 +687,7 @@ QString MyyntiLaskunTulostaja::code128() const
 
 QString MyyntiLaskunTulostaja::virtuaaliviivakoodi() const
 {
-    qlonglong summa = qRound( laskunSumma_ * 100);
+    qlonglong summa = qRound64( laskunSumma_ * 100);
 
     if( summa > 99999999 )  // Ylisuuri laskunsumma
         return QString();

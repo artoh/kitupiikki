@@ -173,66 +173,6 @@ void TositeSelausModel::lataa(const QDate &alkaa, const QDate &loppuu, bool luon
         connect( kysely, &KpKysely::vastaus, this, &TositeSelausModel::tietoSaapuu);
         kysely->kysy();
     }
-
-    return;
-    /*
-
-    QString kysymys = QString("SELECT tosite.id, tosite.pvm, tosite.otsikko, laji, tunniste, liite.id "
-                              "FROM tosite LEFT OUTER JOIN liite ON tosite.id=liite.tosite "
-                              "WHERE tosite.pvm BETWEEN \"%1\" AND \"%2\" "
-                              "ORDER BY tosite.pvm, tosite.id ")
-            .arg(alkaa.toString(Qt::ISODate)).arg(loppuu.toString(Qt::ISODate)) ;
-
-    beginResetModel();
-
-    rivit.clear();
-    kaytetytLajinimet.clear();
-
-    QSqlQuery kysely;
-    kysely.exec(kysymys);
-    int edellinenId = -1;
-
-    while( kysely.next())
-    {
-        if( kysely.value(0).toInt() == edellinenId)
-            continue;   // Jotta tosite ei toistu
-
-        TositeSelausRivi rivi;
-        rivi.tositeId = kysely.value(0).toInt();
-        rivi.pvm = kysely.value(1).toDate();
-        rivi.otsikko = kysely.value(2).toString();
-        rivi.tositeLaji = kysely.value(3).toInt();
-        rivi.tositeTunniste = kysely.value(4).toInt();
-        rivi.liitteita = !kysely.value(5).isNull();
-
-        edellinenId = rivi.tositeId;
-
-        // #138 Jotta viennittömät kirjaukset näytettäisiin, kysellään summat erikseen
-        QSqlQuery summakysely( QString("SELECT sum(debetsnt), sum(kreditsnt) FROM vienti WHERE tosite=%1").arg(rivi.tositeId));
-        if( summakysely.next())
-        {
-            qlonglong debet = summakysely.value(0).toLongLong();
-            qlonglong kredit = summakysely.value(1).toLongLong();
-
-            // Yleensä kreditin ja debetin pitäisi täsmätä ;)
-            if( debet > kredit)
-                rivi.summa = debet;
-            else
-                rivi.summa = kredit;
-        }
-
-        rivit.append(rivi);
-
-        // Listalla käytettyjen lajien tunnukset
-        QString tositelajinimi = kp()->tositelajit()->tositelajiVanha( rivi.tositeLaji ).nimi();
-        if( !kaytetytLajinimet.contains(tositelajinimi))
-            kaytetytLajinimet.append(tositelajinimi);
-
-    }
-
-    kaytetytLajinimet.sort();
-    endResetModel();
-    */
 }
 
 void TositeSelausModel::tietoSaapuu(QVariant *var)
@@ -244,31 +184,6 @@ void TositeSelausModel::tietoSaapuu(QVariant *var)
     for( QVariant item : lista_ ) {
         kaytetytTyypit_.insert( item.toMap().value("tyyppi").toInt() );
     }
-
-
-    /*
-    kaytetytLajinimet.clear();
-
-    for(QVariant item : map->value("tositteet").toList())
-    {
-        QVariantMap tosite = item.toMap();
-        TositeSelausRivi rivi;
-        rivi.tositeId = tosite.value("id").toInt();
-        rivi.pvm = tosite.value("pvm").toDate();
-        rivi.otsikko = tosite.value("otsikko").toString();
-        rivi.tositeLaji = tosite.value("tositelaji").toInt();
-        rivi.tositeTunniste = tosite.value("tunniste").toInt();
-        rivi.liitteita = tosite.value("liitteita").toInt() > 0;
-        rivi.summa = qRound( tosite.value("summa").toDouble() * 100.0 );
-
-        QString tositelajinimi = kp()->tositelajit()->tositelajiVanha( rivi.tositeLaji ).nimi();
-        if( !kaytetytLajinimet.contains(tositelajinimi))
-            kaytetytLajinimet.append(tositelajinimi);
-
-        rivit.append(rivi);
-    }
-    kaytetytLajinimet.sort();
-    */
 
     endResetModel();
 }

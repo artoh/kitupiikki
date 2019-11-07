@@ -49,7 +49,7 @@ void KpEuroEdit::setCents(qlonglong cents)
 
 void KpEuroEdit::setValue(double euros)
 {
-    setCents(qRound( euros * 100.0 ));
+    setCents(qRound64( euros * 100.0 ));
 }
 
 void KpEuroEdit::setMiinus(bool miinus)
