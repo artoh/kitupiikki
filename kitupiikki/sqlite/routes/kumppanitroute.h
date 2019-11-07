@@ -27,6 +27,8 @@ public:
     QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
     QVariant post(const QString &polku, const QVariant &data) override;
     QVariant put(const QString &polku, const QVariant &data) override;
+
+    QVariant doDelete(const QString &polku) override;
 };
 
 #endif // KUMPPANITROUTE_H

@@ -143,3 +143,11 @@ QVariant KumppanitRoute::put(const QString &polku, const QVariant &data)
 
     return kopio;
 }
+
+QVariant KumppanitRoute::doDelete(const QString &polku)
+{
+    QSqlQuery kysely(db());
+    kysely.exec(QString("DELETE FROM Kumppani WHERE id=%1").arg(polku.toInt()));
+    return QVariant();
+
+}
