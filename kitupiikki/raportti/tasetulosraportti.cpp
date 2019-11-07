@@ -49,7 +49,7 @@ TaseTulosRaportti::TaseTulosRaportti(Raportoija::RaportinTyyppi raportinTyyppi, 
     }
 
     QStringList tyyppiLista;
-    tyyppiLista << tr("Totetunut") << tr("Budjetti") << tr("Budjettiero €") << tr("Toteutunut %");
+    tyyppiLista << tr("Toteutunut") << tr("Budjetti") << tr("Budjettiero €") << tr("Toteutunut %");
     QStringListModel *tyyppiListaModel = new QStringListModel(this);
     tyyppiListaModel->setStringList(tyyppiLista);
 
