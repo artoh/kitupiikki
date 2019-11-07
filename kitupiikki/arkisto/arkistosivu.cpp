@@ -63,7 +63,6 @@ ArkistoSivu::ArkistoSivu()
     connect( ui->muokkaaNappi, SIGNAL(clicked(bool)), this, SLOT(muokkaa()));
     connect( ui->budjettiNappi, &QPushButton::clicked, this, &ArkistoSivu::budjetti);
     connect( ui->numeroiButton, &QPushButton::clicked, this, &ArkistoSivu::uudellenNumerointi);
-    connect( ui->view->selectionModel(), &QItemSelectionModel::selectionChanged, this, &ArkistoSivu::nykyinenVaihtuuPaivitaNapit);
 
     ui->numeroiButton->hide();      // Ei käytössä
 }
@@ -88,6 +87,8 @@ void ArkistoSivu::siirrySivulle()
     connect( ui->view->selectionModel() , SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(nykyinenVaihtuuPaivitaNapit()) );
 
     ui->view->selectRow( ui->view->model()->rowCount(QModelIndex()) - 1);
+    connect( ui->view->selectionModel(), &QItemSelectionModel::selectionChanged, this, &ArkistoSivu::nykyinenVaihtuuPaivitaNapit);
+
 }
 
 void ArkistoSivu::uusiTilikausi()
