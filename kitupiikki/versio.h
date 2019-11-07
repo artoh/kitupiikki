@@ -25,7 +25,7 @@
 */
 
 #define KITSAS_VERSIO "2.0-pre3"
-#define KITSAS_BUILD  "b" // "PORTABLE" //
+#define KITSAS_BUILD  "III" // "PORTABLE" //
 
 #define KITSAS_PORTABLE  // Windowsin Portable-versiossa (ei asenneta)
 // #define KITSAS_DEVEL
