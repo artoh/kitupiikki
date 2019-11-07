@@ -28,9 +28,18 @@ SaldotRoute::SaldotRoute(SQLiteModel* model) :
 
 QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
 {
-    QVariantMap saldot;
     QDate pvm = QDate::fromString(urlquery.queryItemValue("pvm"),Qt::ISODate);
     Tilikausi kausi = kp()->tilikaudet()->tilikausiPaivalle(pvm);
+    QDate kaudenalku = kausi.alkaa();
+    if( urlquery.hasQueryItem("alkupvm"))
+        kaudenalku = QDate::fromString( urlquery.queryItemValue("alkupvm"), Qt::ISODate );
+
+    if( urlquery.hasQueryItem("kustannuspaikat"))
+        return kustannuspaikat( kaudenalku, pvm, false );
+    if( urlquery.hasQueryItem("projektit"))
+        return kustannuspaikat( kaudenalku, pvm, true );
+
+    QVariantMap saldot;
 
     QSqlQuery kysely(db());
 
@@ -74,9 +83,6 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
     }
 
     if( !urlquery.hasQueryItem("tase")) {
-        QDate kaudenalku = kausi.alkaa();
-        if( urlquery.hasQueryItem("alkupvm"))
-            kaudenalku = QDate::fromString( urlquery.queryItemValue("alkupvm"), Qt::ISODate );
 
         QString kysymys("SELECT tili, SUM(kreditsnt), SUM(debetsnt) FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE vienti.pvm ");
         if( urlquery.hasQueryItem("alkusaldot"))
@@ -98,4 +104,50 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
         }
     }
     return saldot;
+}
+
+QVariant SaldotRoute::kustannuspaikat(const QDate &mista, const QDate &mihin, bool projektit)
+{
+    QVariantMap kohdennukset;
+
+    QSqlQuery kysely(db());
+    QString kysymys;
+
+    if( projektit)
+        kysymys = QString("SELECT kohdennus, tili, SUM(kreditsnt) as ks, SUM(debetsnt) as ds "
+                          "FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id "
+                          "JOIN Kohdennus ON Vienti.kohdennus=Kohdennus.id "
+                          "WHERE Tosite.tila >= 100 AND Kohdennus.tyyppi=2 AND CAST(tili as text) >= '3' "
+                          "AND Vienti.pvm BETWEEN '%1' AND '%2' "
+                          "GROUP BY kohdennus,tili ")
+                .arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate));
+    else
+        kysymys = QString("SELECT kohdennus, kuuluu, tili, SUM(kreditsnt) as ks, SUM(debetsnt) as ds "
+                          "FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id "
+                          "JOIN Kohdennus ON Vienti.kohdennus=Kohdennus.id "
+                          "WHERE Tosite.tila >= 100 AND CAST(tili as text) >= '3' "
+                          "AND Vienti.pvm BETWEEN '%1' AND '%2' "
+                          "GROUP BY kohdennus,tili ")
+                .arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate));
+
+    if( !kysely.exec(kysymys) )
+        throw SQLiteVirhe(kysely);
+
+    while( kysely.next()) {
+        QString kohdennus = kysely.value("kohdennus").toString();
+        if( !projektit && !kysely.value("kuuluu").isNull())
+            kohdennus = kysely.value("kuuluu").toString();
+
+        QString tilistr = kysely.value("tili").toString();
+
+        QVariantMap kmap = kohdennukset.value(kohdennus).toMap();
+        kmap.insert(tilistr, (  qRound64(kmap.value(tilistr).toDouble() ) +
+                                qRound64(kysely.value("ks").toDouble() ) -
+                                qRound64(kysely.value("ds").toDouble() )) / 100.0 );
+
+        kohdennukset.insert( kohdennus, kmap);
+    }
+
+
+    return kohdennukset;
 }
