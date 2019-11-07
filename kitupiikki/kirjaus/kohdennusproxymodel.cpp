@@ -62,9 +62,11 @@ bool KohdennusProxyModel::filterAcceptsRow(int source_row, const QModelIndex & s
 
     int tyyppi = index.data(KohdennusModel::TyyppiRooli).toInt();
 
-    if( naytettavat == KOHDENNUKSET_PROJEKTIT && tyyppi == Kohdennus::MERKKAUS )
+    if( (naytettavat == KOHDENNUKSET_PROJEKTIT || naytettavat == KUSTANNUSPAIKAT) && tyyppi == Kohdennus::MERKKAUS )
         return false;
     else if( naytettavat == MERKKKAUKSET && tyyppi != Kohdennus::MERKKAUS)
+        return false;
+    else if( naytettavat == KUSTANNUSPAIKAT && tyyppi == Kohdennus::PROJEKTI)
         return false;
 
 

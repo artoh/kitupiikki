@@ -55,7 +55,8 @@ public:
         VIRHEELLINEN = 0,
         TULOSLASKELMA = 1,
         TASE = 2,
-        KOHDENNUSLASKELMA = 3
+        KOHDENNUSLASKELMA = 3,
+        PROJEKTILASKELMA = 4
     };
 
     enum SarakeTyyppi
@@ -71,9 +72,12 @@ public:
      * @param raportinNimi Asetuksissa oleva raportin nimi
      */
     Raportoija(const QString& raportinNimi,
-               const QString& kieli = "fi",
-               QObject* parent = nullptr);
+               const QString& kieli = "fi",               
+               QObject* parent = nullptr,
+               RaportinTyyppi tyyppi = VIRHEELLINEN);
     ~Raportoija() override;
+
+
 
     /**
      * @brief Lisää raporttikauden (sarakkeen)
@@ -112,7 +116,7 @@ public:
      */
     bool onkoTaseraportti() const { return tyyppi_ == TASE;  }
 
-    void kirjoita(bool tulostaErittelyt = false, int kohdennuksella = 1);
+    void kirjoita(bool tulostaErittelyt = false, int kohdennuksella = -1);
 
     QString nimi() const;
 
@@ -146,6 +150,8 @@ protected:
     QVector<int> sarakeTyypit_;
 
     QHash<int, QVector<qlonglong> > snt_;   // tili -> sentit  (tot,tot,tot,bud,bud,bud)
+    QMap<int, QHash<int, QVector<qlonglong> > > kohdennetut_;
+
     QStringList tilit_;
 
     int tilausLaskuri_ = 0;

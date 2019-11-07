@@ -69,6 +69,11 @@ void RaporttiSivu::siirrySivulle()
     lisaaRaportti(tr("Tase"), "Tase", ":/pic/tekstisivu.png");
     lisaaRaportti(tr("Tuloslaskelma"), "Tuloslaskelma", ":/pic/tekstisivu.png");
 
+    if( kp()->kohdennukset()->kustannuspaikkoja())
+        lisaaRaportti(tr("Kustannuspaikat"), "Kustannuspaikat", ":/pic/kohdennus.png");
+    if( kp()->kohdennukset()->projekteja())
+        lisaaRaportti(tr("Projektit"), "Projektit", ":/pic/projekti.png");
+
     // Lisätään muokattavat raportit
     QStringList raporttilista;
 
@@ -154,6 +159,10 @@ void RaporttiSivu::raporttiValittu(QListWidgetItem *item)
         nykyinen = new TaseTulosRaportti(Raportoija::TASE);
     else if( raporttinimi == "Tuloslaskelma")
         nykyinen = new TaseTulosRaportti(Raportoija::TULOSLASKELMA);
+    else if( raporttinimi == "Kustannuspaikat")
+        nykyinen = new TaseTulosRaportti(Raportoija::KOHDENNUSLASKELMA);
+    else if( raporttinimi == "Projektit")
+        nykyinen = new TaseTulosRaportti(Raportoija::PROJEKTILASKELMA);
     else if( raporttinimi == "AlvErittely")
         nykyinen = new AlvRaporttiWidget();
 

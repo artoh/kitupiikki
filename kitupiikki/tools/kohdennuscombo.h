@@ -19,7 +19,7 @@
 
 #include <QComboBox>
 
-class KohdennusProxyModel;
+#include "kirjaus/kohdennusproxymodel.h"
 
 class KohdennusCombo : public QComboBox
 {
@@ -32,6 +32,7 @@ public slots:
     void valitseKohdennus(int kohdennus);
     void suodataPaivalla(const QDate& pvm);
     void suodataValilla(const QDate& alkaa, const QDate& paattyy);
+    void valitseNaytettavat(KohdennusProxyModel::Naytettavat naytettavat);
 
 private slots:
     void vaihtuu();

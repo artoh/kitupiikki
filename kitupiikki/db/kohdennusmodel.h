@@ -74,6 +74,10 @@ public:
      * @return
      */
     bool kohdennuksia() const;
+
+    bool projekteja() const;
+    bool kustannuspaikkoja() const;
+
     /**
      * @brief Onko määritelty merkkauksia
      * @return

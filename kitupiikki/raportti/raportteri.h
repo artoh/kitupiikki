@@ -29,6 +29,7 @@ public:
 
 signals:
     void valmis(RaportinKirjoittaja raportinKirjoittaja);
+    void tyhjaraportti();
 
 public slots:
 

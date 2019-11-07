@@ -34,10 +34,13 @@ public slots:
 
 protected slots:
     void paivitaKielet();
+    void paivitaMuodot();
+    void tyhjaraportti();
 
 protected:
     Raportoija::RaportinTyyppi tyyppi() const { return tyyppi_;}
     void paivitaUi();
+    QString kaava_;
 
     Ui::MuokattavaRaportti *ui;
     Raportoija::RaportinTyyppi tyyppi_;

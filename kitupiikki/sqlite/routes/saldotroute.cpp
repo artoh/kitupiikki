@@ -36,8 +36,12 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
 
     if( urlquery.hasQueryItem("kustannuspaikat"))
         return kustannuspaikat( kaudenalku, pvm, false );
-    if( urlquery.hasQueryItem("projektit"))
-        return kustannuspaikat( kaudenalku, pvm, true );
+    if( urlquery.hasQueryItem("projektit")) {
+        int kuuluu = -1;
+        if( urlquery.hasQueryItem("kohdennus"))
+            kuuluu = urlquery.queryItemValue("kohdennus").toInt();
+        return kustannuspaikat( kaudenalku, pvm, true, kuuluu );
+    }
 
     QVariantMap saldot;
 
@@ -106,21 +110,23 @@ QVariant SaldotRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
     return saldot;
 }
 
-QVariant SaldotRoute::kustannuspaikat(const QDate &mista, const QDate &mihin, bool projektit)
+QVariant SaldotRoute::kustannuspaikat(const QDate &mista, const QDate &mihin, bool projektit, int kuuluu)
 {
     QVariantMap kohdennukset;
 
     QSqlQuery kysely(db());
     QString kysymys;
 
-    if( projektit)
+    if( projektit) {
         kysymys = QString("SELECT kohdennus, tili, SUM(kreditsnt) as ks, SUM(debetsnt) as ds "
                           "FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id "
                           "JOIN Kohdennus ON Vienti.kohdennus=Kohdennus.id "
                           "WHERE Tosite.tila >= 100 AND Kohdennus.tyyppi=2 AND CAST(tili as text) >= '3' "
-                          "AND Vienti.pvm BETWEEN '%1' AND '%2' "
+                          "AND Vienti.pvm BETWEEN '%1' AND '%2' %3"
                           "GROUP BY kohdennus,tili ")
-                .arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate));
+                .arg(mista.toString(Qt::ISODate)).arg(mihin.toString(Qt::ISODate))
+                .arg( kuuluu > -1 ? QString("AND kuuluu=%1 ").arg(kuuluu) : "" );
+    }
     else
         kysymys = QString("SELECT kohdennus, kuuluu, tili, SUM(kreditsnt) as ks, SUM(debetsnt) as ds "
                           "FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id "

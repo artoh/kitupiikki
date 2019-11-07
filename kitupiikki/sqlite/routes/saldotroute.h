@@ -26,7 +26,7 @@ public:
     QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
 
 protected:
-    QVariant kustannuspaikat(const QDate& mista, const QDate& mihin, bool projektit = false);
+    QVariant kustannuspaikat(const QDate& mista, const QDate& mihin, bool projektit = false, int kuuluu = -1);
 };
 
 #endif // SALDOTROUTE_H

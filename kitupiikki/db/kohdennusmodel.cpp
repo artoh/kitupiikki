@@ -165,6 +165,22 @@ bool KohdennusModel::kohdennuksia() const
     return false;
 }
 
+bool KohdennusModel::projekteja() const
+{
+    for( const Kohdennus& kohdennus : kohdennukset_)
+        if( kohdennus.tyyppi() == Kohdennus::PROJEKTI)
+            return true;
+    return false;
+}
+
+bool KohdennusModel::kustannuspaikkoja() const
+{
+    for( const Kohdennus& kohdennus : kohdennukset_)
+        if( kohdennus.tyyppi() == Kohdennus::KUSTANNUSPAIKKA)
+            return true;
+    return false;
+}
+
 bool KohdennusModel::merkkauksia() const
 {
     for( const Kohdennus& kohdennus : kohdennukset_)

@@ -39,6 +39,7 @@ PaakirjaRaportti::PaakirjaRaportti()
 
     ui->alkupvm->setDate(nykykausi.alkaa());
     ui->loppupvm->setDate(nykykausi.paattyy());
+    ui->kohdennusCombo->valitseNaytettavat(KohdennusProxyModel::KAIKKI);
 
     if( !kp()->kohdennukset()->kohdennuksia()) {
         ui->kohdennusCheck->setVisible(false);
