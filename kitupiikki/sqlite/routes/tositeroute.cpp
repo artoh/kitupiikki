@@ -310,11 +310,8 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
         if( eraid < 0)
             kysely.exec(QString("UPDATE Vienti SET eraid=%1 WHERE id=%1").arg(vientiid) );
 
-
         if( vientiid )
             kysely.exec(QString("DELETE FROM Merkkaus WHERE vienti=%1").arg(vientiid));
-        else
-            vientiid = kysely.lastInsertId().toInt();
 
         // Merkkaukset
         for(auto merkkaus : merkkaukset) {

@@ -213,7 +213,7 @@ QVariant EraRoute::erittely(const QDate &mista, const QDate &pvm)
                 map.insert("pvm", apukysely.value(3).toDate());
                 map.insert("sarja", apukysely.value(4));
                 map.insert("tunniste", apukysely.value(5));
-                map.insert("selite", apukysely.value(2).toDate());
+                map.insert("selite", apukysely.value(2).toString());
                 map.insert("eur", summa / 100.0);
                 muutosyht += summa;
                 muutokset.append(map);
