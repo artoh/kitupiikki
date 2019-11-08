@@ -68,6 +68,7 @@ private slots:
 private:
     Ui::AsiakasToimittajaDlg *ui;
     int id_ = 0;
+    bool tultuytunnarilla_ = false;
 };
 
 #endif // TOIMITTAJADLG_H

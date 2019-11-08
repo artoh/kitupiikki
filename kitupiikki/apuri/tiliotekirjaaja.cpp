@@ -84,8 +84,6 @@ TilioteKirjaaja::TilioteKirjaaja(TilioteApuri *apuri) :
 
     connect( ui->asiakastoimittaja, &AsiakasToimittajaValinta::valittu, this, &TilioteKirjaaja::kumppaniValittu);
 
-    connect( new QShortcut(QKeySequence("F12"), this), &QShortcut::activated, this, &TilioteKirjaaja::accept);
-
 
 }
 
@@ -108,7 +106,7 @@ TilioteModel::Tilioterivi TilioteKirjaaja::rivi()
     rivi.selite = ui->seliteEdit->text();
     rivi.tili = ui->tiliEdit->valittuTilinumero();
     rivi.kohdennus = ui->kohdennusCombo->kohdennus();
-    rivi.merkkaukset = ui->merkkausCC->selectedInts();
+    rivi.merkkaukset = ui->merkkausCC->selectedDatas();
 
 
     if( ui->alaTabs->currentIndex() == MAKSU) {
@@ -198,6 +196,10 @@ void TilioteKirjaaja::muokkaaRivia(int riviNro)
     ui->euroEdit->setValue( rivi.euro );
     ui->seliteEdit->setText( rivi.selite );
 
+    ui->jaksoAlkaaEdit->setDate( rivi.jaksoalkaa);
+    ui->jaksoLoppuuEdit->setDate( rivi.jaksoloppuu);
+
+
 }
 
 
@@ -276,7 +278,7 @@ void TilioteKirjaaja::tiliMuuttuu()
     }
 
     bool jakso = tili.onko(TiliLaji::TULOS) &&
-            ui->ylaTab->currentIndex() == TULOMENO;
+            ui->alaTabs->currentIndex() == TULOMENO;
     ui->jaksotusLabel->setVisible(jakso);
     ui->jaksoAlkaaEdit->setVisible(jakso);
     ui->jaksoViivaLabel->setVisible(jakso);

@@ -160,7 +160,7 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     connect( ui->viennitView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
              this, SLOT(vientiValittu()));
     connect( ui->viennitView, SIGNAL(activated(QModelIndex)), this, SLOT( vientivwAktivoitu(QModelIndex)));
-    connect( ui->otsikkoEdit, &QLineEdit::textChanged, [this] { this->tosite()->setData(Tosite::OTSIKKO, ui->otsikkoEdit->text()); });
+    connect( ui->otsikkoEdit, &QLineEdit::textChanged, [this] { if( !this->tosite()->resetoidaanko())  this->tosite()->setData(Tosite::OTSIKKO, ui->otsikkoEdit->text()); });
     connect( ui->sarjaEdit, &QLineEdit::textChanged, [this] { this->tosite()->setData(Tosite::SARJA, ui->sarjaEdit->text()); });
 
     connect( tosite_, &Tosite::otsikkoMuuttui, [this] (const QString& otsikko) { if( otsikko != ui->otsikkoEdit->text()) this->ui->otsikkoEdit->setText(otsikko); });
@@ -706,7 +706,7 @@ void KirjausWg::vaihdaTositeTyyppi()
     else
         ui->tabWidget->setCurrentIndex(0);
 
-    if( ui->otsikkoEdit->text().startsWith("Tiliote") && tyyppiKoodi != TositeTyyppi::TILIOTE)
+    if( ui->otsikkoEdit->text().startsWith("Tiliote") && tyyppiKoodi != TositeTyyppi::TILIOTE && !tosite()->resetoidaanko())
         ui->otsikkoEdit->clear();    
 }
 

@@ -36,7 +36,7 @@ TulomenoRivi::TulomenoRivi(const QVariantMap &data)
     alvkoodi_ = vienti.alvKoodi();
     veroprosentti_ = vienti.alvProsentti();
     kohdennus_ = vienti.kohdennus();
-    merkkaukset_ = vienti.data(TositeVienti::MERKKAUKSET).toList();
+    merkkaukset_ = vienti.merkkaukset();
     jaksoalkaa_ = vienti.jaksoalkaa();
     jaksoloppuu_ = vienti.jaksoloppuu();
     poistoaika_ = vienti.tasaerapoisto();

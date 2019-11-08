@@ -109,7 +109,7 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
                 txt = kp()->kohdennukset()->kohdennus(rivi.kohdennus).nimi() + " ";
             QStringList merkkausList;
             for(auto mid : rivi.merkkaukset)
-                merkkausList.append( kp()->kohdennukset()->kohdennus(mid).nimi() );
+                merkkausList.append( kp()->kohdennukset()->kohdennus(mid.toInt()).nimi() );
             txt.append( merkkausList.join(", ") );
             return txt;
         }
@@ -119,7 +119,8 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
             return  rivi.selite;
         default:
             return QVariant();
-        }
+
+    }
     case Qt::EditRole :
         switch ( index.column())
         {
@@ -278,6 +279,9 @@ QVariantList TilioteModel::viennit(int tilinumero) const
             tili.setJaksoalkaa( rivi.jaksoalkaa );
             tili.setJaksoloppuu( rivi.jaksoloppuu );
 
+            tili.setMerkkaukset( rivi.merkkaukset);
+            tili.setKohdennus( rivi.kohdennus );
+
             // TODO: Arkistotunnus, tilinumero, viite yms. metatieto
             pankki.setArkistotunnus( rivi.arkistotunnus );
 
@@ -314,6 +318,8 @@ void TilioteModel::lataa(QVariantList lista)
         rivi.eraId = vienti.eraId();
         rivi.saajamaksaja = vienti.value("kumppani").toMap().value("nimi").toString();
         rivi.saajamaksajaId = vienti.value("kumppani").toMap().value("id").toInt();
+        rivi.jaksoalkaa = vienti.jaksoalkaa();
+        rivi.jaksoloppuu = vienti.jaksoloppuu();
 
         if( vienti.eraId() ) {
             rivi.laskupvm = vienti.value("era").toMap().value("pvm").toDate();

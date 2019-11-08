@@ -174,12 +174,12 @@ void SQLiteRoute::taydennaEratJaMerkkaukset(QVariantList &vientilista)
         }
 
         QVariantList merkkaukset;
-        kysely.exec(QString("SELECT kohdennus FROM Merkkaukset WHERE vienti=%1").arg(map.value("id").toInt()));
+        kysely.exec(QString("SELECT kohdennus FROM Merkkaus WHERE vienti=%1").arg(map.value("id").toInt()));
         while( kysely.next() )
             merkkaukset.append( kysely.value(0).toInt() );
         if( merkkaukset.count()) {
             map.insert("merkkaukset", merkkaukset);
-            vientilista[i] = map;
-        }
+            vientilista[i] = map;            
+        }        
     }
 }

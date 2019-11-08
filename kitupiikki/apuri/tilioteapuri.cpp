@@ -156,6 +156,9 @@ void TilioteApuri::naytaSummat()
 
 void TilioteApuri::tiliPvmMuutos()
 {
+    if( tosite()->resetoidaanko())
+        return;
+
     // Otsikon päivittäminen
     lataaHarmaat();
 

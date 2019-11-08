@@ -283,7 +283,6 @@ void SQLiteModel::reitita(SQLiteKysely *reititettavakysely, const QByteArray &ba
 void SQLiteModel::lisaaViimeisiin()
 {
 
-    bool loytyi = false;
     for( auto item : viimeiset_)
         if( item.toMap().value("polku").toString() == tiedostopolku())
             return;

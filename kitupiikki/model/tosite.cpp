@@ -116,9 +116,8 @@ void Tosite::lataaData(QVariant *variant)
 
     tallennettu_ = tallennettava();
 
-    tarkasta();
     resetointiKaynnissa_ = false;
-
+    tarkasta();
 
 }
 

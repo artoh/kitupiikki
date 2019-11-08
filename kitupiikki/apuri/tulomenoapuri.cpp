@@ -81,7 +81,7 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->asiakasToimittaja, &AsiakasToimittajaValinta::valittu, this, &TuloMenoApuri::kumppaniValittu);
 
     connect( ui->vastatiliLine, &TilinvalintaLine::textChanged, this, &TuloMenoApuri::vastatiliMuuttui);
-    connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::teeTositteelle);
+    connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::tositteelle);
 }
 
 TuloMenoApuri::~TuloMenoApuri()
@@ -118,6 +118,8 @@ void TuloMenoApuri::teeReset()
     // Haetaan tietoja mallista ;)
     bool menoa = tosite()->tyyppi() == TositeTyyppi::MENO ||
                  tosite()->tyyppi() == TositeTyyppi::KULULASKU;
+
+    alusta( menoa );
 
     ui->viiteEdit->clear();
     ui->erapaivaEdit->clear();
@@ -162,11 +164,13 @@ void TuloMenoApuri::teeReset()
         rivit_->lisaaRivi();
 
 
-    alusta( menoa );
-
     ui->tilellaView->setVisible( rivit_->rowCount() > 1 );
     ui->poistaRiviNappi->setEnabled( rivit_->rowCount() > 1 );
     ui->tilellaView->selectRow(0);    
+
+    tiliMuuttui();
+    paivitaVerovalinnat();
+
 
 }
 
@@ -505,9 +509,6 @@ void TuloMenoApuri::alusta(bool meno)
         veroFiltteri_->setFilterRegExp("^(0|1[1-79])");
         ui->toimittajaLabel->setText( tr("Asiakas"));
     }
-    tiliMuuttui();
-    paivitaVerovalinnat();
-
 
     // Alustetaan maksutapacombo
 
