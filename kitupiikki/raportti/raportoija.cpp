@@ -294,40 +294,16 @@ void Raportoija::kirjoitaDatasta()
             QString alku = tiliMats.captured("alku");
             QString loppu = tiliMats.captured("loppu");
 
-            // Sitten etsitään tilit listalle
+            if( loppu.isEmpty())
+                loppu = alku;
+
             int alkumerkit = alku.length();
+            int loppumerkit = loppu.length();
 
-            int alaraja = 1;
-            int ylaraja = tilit_.length() - 1;
-            int indeksi = 1 + (ylaraja-1) / 2;
-
-            while( indeksi && ylaraja != alaraja) {
-
-
-                if( tilit_[indeksi-1].left(alkumerkit) < alku && tilit_[indeksi].left(alkumerkit) >= alku )
-                    break;
-                // Nyt indeksissä on ensimmäinen sopiva tilinumero
-                if( tilit_[indeksi].left(alkumerkit) >= alku)
-                    ylaraja = indeksi;
-                else
-                    alaraja = indeksi+1;
-
-                indeksi = alaraja + (ylaraja - alaraja) / 2;
-            }
-
-            if( loppu.isEmpty() )
-            {
-                // Haetaan tilejä tietyllä tilinumeron alulla
-                while( indeksi < tilit_.length() &&  tilit_[indeksi].startsWith(alku))
-                {
-                    rivinTilit.append( tilit_[indeksi].toInt() );
-                    indeksi++;
-                }
-            } else {
-                while( indeksi < tilit_.length() && tilit_[indeksi].left(alkumerkit) <= loppu) {
-                    rivinTilit.append( tilit_[indeksi].toInt() );
-                    indeksi++;
-                }
+            // Sitten etsitään tilit listalle
+            for(QString tili : tilit_) {
+                if( tili.left(alkumerkit) >= alku && tili.left(loppumerkit) <= loppu )
+                    rivinTilit.append(tili.toInt());
             }
 
         }

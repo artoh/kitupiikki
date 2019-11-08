@@ -138,6 +138,8 @@ protected:
 
 
 
+
+
 protected:
     QVariantMap kmap_;
     QString kieli_;
