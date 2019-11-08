@@ -196,6 +196,9 @@ bool TuloMenoApuri::teeTositteelle()
         }
 
         TositeVienti vasta;
+        if( tosite()->viennit()->rowCount() && tosite()->viennit()->vienti(0).tyyppi() % 100 == TositeVienti::VASTAKIRJAUS)
+            vasta.setId( tosite()->viennit()->vienti(0).id() );
+
         vasta.setTyyppi( (menoa ? TositeVienti::OSTO : TositeVienti::MYYNTI) + TositeVienti::VASTAKIRJAUS );
         vasta.insert("pvm", tosite()->pvm());
         Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliLine->valittuTilinumero() );

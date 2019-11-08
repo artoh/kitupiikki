@@ -149,6 +149,8 @@ QVariant TositeRoute::doDelete(const QString &polku)
     kysely.prepare("INSERT INTO Tositeloki (tosite, tila) VALUES (?,0) ");
     kysely.addBindValue(tositeid);
     kysely.exec();
+
+    return QVariant();
 }
 
 int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
@@ -301,7 +303,9 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
 
         kysely.exec();
 
-        vientiid = kysely.lastInsertId().toInt();
+        if( !vientiid)
+            vientiid = kysely.lastInsertId().toInt();
+
         // Uusi erä käyttöön
         if( eraid < 0)
             kysely.exec(QString("UPDATE Vienti SET eraid=%1 WHERE id=%1").arg(vientiid) );
