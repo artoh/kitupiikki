@@ -147,9 +147,8 @@ void AlvSivu::riviValittu()
     QModelIndex index = ui->ilmoituksetView->selectionModel()->currentIndex();
 
     ui->tilitysNappi->setEnabled( index.isValid() );
-    ui->poistaTilitysNappi->setEnabled( index.isValid() &&
-                                        index.data(AlvIlmoitustenModel::PaattyyRooli).toDate() == kp()->asetukset()->pvm("AlvIlmoitus")  &&
-                                        index.data(AlvIlmoitustenModel::EraPvmRooli).toDate() >= kp()->paivamaara() );
+    ui->poistaTilitysNappi->setEnabled( index.isValid() &&                                        
+                                        index.data(AlvIlmoitustenModel::AlkaaRooli).toDate() > kp()->tilitpaatetty() );
 
 }
 
