@@ -53,6 +53,7 @@ SQLiteModel::SQLiteModel(QObject *parent)
     : YhteysModel(parent)
 {
     tietokanta_ = QSqlDatabase::addDatabase("QSQLITE", "KIRJANPITO");
+
     lisaaRoute(new TositeRoute(this));
     lisaaRoute(new ViennitRoute(this));
     lisaaRoute(new KumppanitRoute(this));

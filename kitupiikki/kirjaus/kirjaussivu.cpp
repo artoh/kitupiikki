@@ -40,6 +40,7 @@ KirjausSivu::KirjausSivu(KitupiikkiIkkuna *ikkuna, SelausWg *selaus) :
 
     liitewg = new NaytaliiteWg(this);
     kirjauswg = new KirjausWg(this, selaus);
+    kirjauswg->setObjectName("kirjausWg");
 
     splitter = new QSplitter(Qt::Vertical);
     splitter->addWidget(liitewg);

@@ -7,6 +7,7 @@
 #include "tuontitesti.h"
 #include "tilitesti.h"
 #include "tulomenorivitesti.h"
+#include "tulomenoapuritesti.h"
 
 int main(int argc, char *argv[])
 {
@@ -19,6 +20,7 @@ int main(int argc, char *argv[])
     tests.emplace("tuonti", std::make_unique<TuontiTesti>());
     tests.emplace("tili", std::make_unique<TiliTesti>());
     tests.emplace("tulomenorivi", std::make_unique<TuloMenoRiviTesti>());
+    tests.emplace("tulomenoapuri", std::make_unique<TulomenoApuriTesti>());
 
 
     // Mahdollisuus testin valintaan

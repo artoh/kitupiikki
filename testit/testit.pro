@@ -24,10 +24,17 @@ VPATH += $$PWD/../kitupiikki
 include(../kitupiikki/sources.pri)
 
 HEADERS += tuontitesti.h \
+    testiapu.h \
     tilitesti.h \
+    tulomenoapuritesti.h \
     tulomenorivitesti.h
 
 SOURCES +=  testit.cpp \
+	testiapu.cpp \
 	tilitesti.cpp \
+	tulomenoapuritesti.cpp \
 	tulomenorivitesti.cpp \
 	tuontitesti.cpp
+
+RESOURCES += \
+    data/testidata.qrc

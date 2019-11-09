@@ -33,7 +33,7 @@ KpEuroEdit::KpEuroEdit(QWidget *parent) :
     setValidator(validator);
     setMaxLength(20);
 
-    connect(this, &KpEuroEdit::textChanged, this, &KpEuroEdit::edited);
+    connect(this, &KpEuroEdit::textEdited, this, &KpEuroEdit::edited);
 }
 
 void KpEuroEdit::setCents(qlonglong cents)

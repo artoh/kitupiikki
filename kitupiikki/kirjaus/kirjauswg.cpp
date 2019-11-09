@@ -149,6 +149,7 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     connect( tosite_, &Tosite::tila, this, &KirjausWg::paivita);
     connect( tosite_, &Tosite::talletettu, this, &KirjausWg::tallennettu);
     connect( tosite_, &Tosite::tallennusvirhe, this, &KirjausWg::tallennusEpaonnistui);
+
     connect( tosite_, &Tosite::ladattu, this, &KirjausWg::tiedotModelista);
 
     connect( tosite_->liitteet(), &TositeLiitteet::naytaliite, this, &KirjausWg::liiteValittu);
