@@ -19,6 +19,8 @@
 #include "apuri/tulomenorivi.h"
 #include "db/verotyyppimodel.h"
 
+#include <QJsonDocument>
+
 TuloMenoRiviTesti::TuloMenoRiviTesti(QObject *parent) : QObject(parent)
 {
 
@@ -44,4 +46,47 @@ void TuloMenoRiviTesti::brutostaNetto()
     rivi.setBrutto( 12400 );
 
     QCOMPARE( rivi.netto(), 10000);
+}
+
+void TuloMenoRiviTesti::verottomanRiviLuku()
+{
+    QByteArray teksti = R"(
+                        {
+                        "id": 5,
+                        "kredit": 100,
+                        "pvm": "2019-11-09",
+                        "tili": 3000,
+                        "tyyppi": 201
+                    })";
+
+    QVariantMap map = QJsonDocument::fromJson(teksti).toVariant().toMap();
+    TulomenoRivi rivi(map);
+
+    QCOMPARE( rivi.netto(), 10000);
+    QCOMPARE( rivi.brutto(), 10000);
+    QCOMPARE( rivi.alvprosentti(), 0.0 );
+    QCOMPARE( rivi.alvkoodi(), 0 );
+    QCOMPARE( rivi.tilinumero(), 3000);
+}
+
+void TuloMenoRiviTesti::verollisenRivinLuku()
+{
+    QByteArray teksti = R"({
+                        "alvkoodi": 11,
+                        "alvprosentti": 24,
+                        "id": 2,
+                        "kredit": 100,
+                        "pvm": "2019-11-09",
+                        "selite": "Alvillista myyntiä",
+                        "tili": 7390,
+                        "tyyppi": 201
+                    })";
+
+    QVariantMap map = QJsonDocument::fromJson(teksti).toVariant().toMap();
+    TulomenoRivi rivi(map);
+
+    QCOMPARE( rivi.netto(), 10000);
+    QCOMPARE( rivi.brutto(), 12400);
+    QCOMPARE( rivi.alvprosentti(), 24.0 );
+    QCOMPARE( rivi.alvkoodi(), 11 );
 }

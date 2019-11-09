@@ -28,6 +28,8 @@ public:
 private slots:
     void kotimaaAlvLaskenta();
     void brutostaNetto();
+    void verottomanRiviLuku();
+    void verollisenRivinLuku();
 
 signals:
 
