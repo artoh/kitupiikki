@@ -42,7 +42,7 @@ KpDateEdit::KpDateEdit(QWidget *parent) :
 
     setInputMask("00.00.2\\000");
     setDate( kp()->paivamaara() );
-    setDefaultDate( date() );
+    oletuspaiva_ = date();
     setPlaceholderText( tr("pp.kk.vvvv") );
 
     connect( this, SIGNAL(textEdited(QString)), this, SLOT(editMuuttui(QString)));

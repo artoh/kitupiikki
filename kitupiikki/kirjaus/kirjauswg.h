@@ -75,8 +75,6 @@ private slots:
 
     void tunnisteVaihtui(int tunniste);
 
-
-
     void paivitaSarja(bool kateinen = false);
 
     /**

@@ -359,6 +359,7 @@ void KirjausWg::paivita(bool muokattu, int virheet, double debet, double kredit)
 
     // Nappien enablointi
     // Täällä pitäisi olla jossain myös oikeuksien tarkastus ;)
+    ui->tallennaButton->setVisible( tosite()->data(Tosite::TILA).toInt() < Tosite::KIRJANPIDOSSA );
     ui->tallennaButton->setEnabled( muokattu );
     ui->valmisNappi->setEnabled( (muokattu || tosite_->data(Tosite::TILA).toInt() < Tosite::KIRJANPIDOSSA  ) && !virheet);
 
@@ -583,6 +584,14 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
     tosite_->viennit()->asetaMuokattavissa( sallitaanko && !apuri_ );
     ui->lisaaRiviNappi->setVisible( !apuri_);
     ui->poistariviNappi->setVisible( !apuri_);
+
+    if( apuri_ && !sallitaanko) {
+        for( QObject* object : apuri_->children()) {
+            QWidget* widget = qobject_cast<QWidget*>(object);
+            if( widget && widget->objectName() != "tilellaView")
+                widget->setEnabled(false);
+        }
+    }
 }
 
 void KirjausWg::vaihdaTositeTyyppi()
@@ -648,6 +657,7 @@ void KirjausWg::tunnisteVaihtui(int tunniste)
     ui->tunnisteLabel->setVisible(tunniste);
     ui->tunnisteLabel->setText(QString::number(tunniste));
     ui->sarjaLabel->setVisible( (kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN)) && !tunniste );
+    ui->sarjaEdit->setVisible( (kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN)) && !tunniste );
 
     if( selaus_ && tosite_->id())
         edellinenSeuraava_ = selaus_->edellinenSeuraava( tosite_->id() );

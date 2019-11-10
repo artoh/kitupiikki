@@ -450,6 +450,7 @@ void TuloMenoApuri::haeRivi(const QModelIndex &index)
     tiliMuuttui();
 
     ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( rivi->alvkoodi(), VerotyyppiModel::KoodiRooli ) );
+    verolajiMuuttui();
     ui->maaraEdit->setCents( rivi->brutto() );
     ui->verotonEdit->setCents( rivi->netto());
 
