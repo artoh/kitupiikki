@@ -46,7 +46,7 @@ protected slots:
 
     void tiliMuuttui();
     void verolajiMuuttui();
-    void paivitaVerovalinnat();
+
     void maaraMuuttui();
     void verotonMuuttui();
     void veroprossaMuuttui();

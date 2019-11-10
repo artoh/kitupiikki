@@ -63,7 +63,7 @@ bool PalkkaFiTuonti::tuo(const QByteArray &data)
     while( rivit.length())
         tuoRivi( rivit.takeFirst() );
 
-    kirjausWg()->tiedotModelista();
+
 
     return true;
 }

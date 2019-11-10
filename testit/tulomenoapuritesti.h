@@ -40,6 +40,8 @@ private slots:
     void verollinenTuloKirjausWglla();
     void verollinenTuloKirjausSivulla();
 
+    void menonMuodostusTesti();
+
 
 protected:
     QVariant verollinenTuloTosite_;

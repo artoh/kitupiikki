@@ -30,10 +30,14 @@
 #include "lisaikkuna.h"
 #include "kirjaus/kirjaussivu.h"
 
+#include "model/tositeviennit.h"
+#include "model/tositevienti.h"
+
 #include <QJsonDocument>
 #include <QDebug>
 #include <QDoubleSpinBox>
 #include <QComboBox>
+#include <QLineEdit>
 
 #include <QTabWidget>
 #include <QSplitter>
@@ -293,7 +297,6 @@ void TulomenoApuriTesti::verollinenTuloKirjausWglla()
 void TulomenoApuriTesti::verollinenTuloKirjausSivulla()
 {
     KirjausSivu* sivu = new KirjausSivu(nullptr, nullptr);
-    sivu->show();
 
     KirjausWg *kwg = sivu->findChild<KirjausWg*>("kirjausWg");
     QVERIFY( kwg != nullptr);
@@ -319,6 +322,65 @@ void TulomenoApuriTesti::verollinenTuloKirjausSivulla()
     QCOMPARE( verotonEdit->asCents(), 10000 );
     QCOMPARE( alvSpin->value(), 24.00);
     QCOMPARE( alvCombo->currentData(VerotyyppiModel::KoodiRooli).toInt(), AlvKoodi::MYYNNIT_NETTO);
+
+
+}
+
+void TulomenoApuriTesti::menonMuodostusTesti()
+{
+    KirjausSivu* sivu = new KirjausSivu(nullptr, nullptr);
+    sivu->show();
+
+    KirjausWg *kwg = sivu->findChild<KirjausWg*>("kirjausWg");
+    QComboBox *tositetyyppiCombo = kwg->findChild<QComboBox*>("tositetyyppiCombo");
+    tositetyyppiCombo->setCurrentText("Meno");
+
+    QCOMPARE( tositetyyppiCombo->currentText(), "Meno" );
+    QCOMPARE( kwg->tosite()->tyyppi(), 100);
+
+
+    QTabWidget* tab = kwg->findChild<QTabWidget*>("tabWidget");
+    TuloMenoApuri *apuri = qobject_cast<TuloMenoApuri*> (tab->widget(0) );
+    QVERIFY( apuri  != nullptr );
+
+    KpDateEdit *tositePvmEdit = kwg->findChild<KpDateEdit*>("tositePvmEdit");
+    QLineEdit *otsikkoEdit = kwg->findChild<QLineEdit*>("otsikkoEdit");
+    QComboBox *maksutapaCombo = kwg->findChild<QComboBox*>("maksutapaCombo");
+    maksutapaCombo->setCurrentText("Käteinen");
+
+    QTest::keyClicks( tositePvmEdit, "15319" );
+    QTest::keyClicks( otsikkoEdit, "Menokokeilu");
+
+    QCOMPARE( kwg->tosite()->otsikko(), "Menokokeilu");
+    QCOMPARE( kwg->tosite()->pvm(), QDate(2019,3,15));
+
+    TilinvalintaLine *tiliEdit = apuri->findChild<TilinvalintaLine*>("tiliEdit");
+    KpEuroEdit *maaraEdit = apuri->findChild<KpEuroEdit*>("maaraEdit");
+
+
+    QTest::keyClicks( maaraEdit, "15,80");
+    QTest::keyClicks( tiliEdit, "4951");
+
+    QTest::mouseClick( otsikkoEdit, Qt::LeftButton);
+
+
+    TositeViennit *viennit = kwg->tosite()->viennit();
+    QCOMPARE( viennit->rowCount(), 2 );
+    TositeVienti vasta = kwg->tosite()->viennit()->vienti(0);
+    TositeVienti vienti = kwg->tosite()->viennit()->vienti(1);
+
+    qDebug() << vasta;
+    qDebug() << vienti;
+
+    QCOMPARE( vasta.tili(), 1900);
+    QCOMPARE( vasta.kredit(), 15.80);
+    QCOMPARE( vasta.selite(), "Menokokeilu");
+
+    QCOMPARE( vienti.tili(), 4951);
+    QCOMPARE( vienti.debet(), 15.80);
+    QCOMPARE( vienti.pvm(), QDate(2019,3,15));
+
+
 
 
 }

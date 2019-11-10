@@ -17,9 +17,11 @@
 #include "apuriwidget.h"
 #include "model/tosite.h"
 
+
+
 ApuriWidget::ApuriWidget(QWidget *parent, Tosite *pTosite) : QWidget(parent), pTosite_(pTosite)
 {
-   // connect( pTosite, &Tosite::ladattu, this, &ApuriWidget::reset);
+
 }
 
 void ApuriWidget::reset()
@@ -41,6 +43,12 @@ bool ApuriWidget::tositteelle()
 void ApuriWidget::tuo(QVariantMap /*map*/)
 {
 
+}
+
+bool ApuriWidget::resetoidaanko() const
+{
+    return resetointiKaynnissa_ ||
+           pTosite_->resetoidaanko();
 }
 
 void ApuriWidget::aloitaResetointi()

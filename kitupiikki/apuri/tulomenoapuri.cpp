@@ -168,8 +168,7 @@ void TuloMenoApuri::teeReset()
     ui->poistaRiviNappi->setEnabled( rivit_->rowCount() > 1 );
     ui->tilellaView->selectRow(0);    
 
-    tiliMuuttui();
-    paivitaVerovalinnat();
+    tiliMuuttui();    
 
 
 }
@@ -258,35 +257,32 @@ void TuloMenoApuri::tiliMuuttui()
     bool tasapoisto = tili.onko(TiliLaji::TASAERAPOISTO);
     ui->poistoLabel->setVisible(tasapoisto);
     ui->poistoSpin->setVisible(tasapoisto);
-    ui->poistoSpin->setValue( tili.luku("tasaerapoisto") / 12 );
 
-    // TODO: Vero-oletusten hakeminen
+    if( !resetoidaanko()) {
 
+        ui->poistoSpin->setValue( tili.luku("tasaerapoisto") / 12 );
 
-    if( kp()->asetukset()->onko(AsetusModel::ALV))
-    {
-        ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( tili.luku("alvlaji"), VerotyyppiModel::KoodiRooli ) );
-        ui->alvSpin->setValue( tili.str("alvprosentti").toDouble() );
-    } else {
-        paivitaVerovalinnat();
+        if( kp()->asetukset()->onko(AsetusModel::ALV) )
+        {
+            ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( tili.luku("alvlaji"), VerotyyppiModel::KoodiRooli ) );
+            ui->alvSpin->setValue( tili.str("alvprosentti").toDouble() );
+        }
+
+        emit rivit_->dataChanged( rivit_->index(TmRivit::TILI, rivilla()),
+                                  rivit_->index(TmRivit::TILI, rivilla()));
+
+        tositteelle();
     }
-
-    emit rivit_->dataChanged( rivit_->index(TmRivit::TILI, rivilla()),
-                              rivit_->index(TmRivit::TILI, rivilla()));
-
-    tositteelle();
 
 }
 
 void TuloMenoApuri::verolajiMuuttui()
-{
-    rivi()->setAlvkoodi( ui->alvCombo->currentData( VerotyyppiModel::KoodiRooli).toInt() );
-    paivitaVerovalinnat();
-    tositteelle();
-}
+{    
 
-void TuloMenoApuri::paivitaVerovalinnat()
-{
+    int alvkoodi = ui->alvCombo->currentData( VerotyyppiModel::KoodiRooli ).toInt();
+    rivi()->setAlvkoodi(  alvkoodi );
+
+    qDebug() << "alvkoodi " << alvkoodi;
 
     bool naytaMaara = rivi()->naytaBrutto();
     bool naytaVeroton =  rivi()->naytaNetto();
@@ -297,18 +293,15 @@ void TuloMenoApuri::paivitaVerovalinnat()
     ui->verotonLabel->setVisible(naytaVeroton);
     ui->verotonEdit->setVisible(naytaVeroton);
 
-
     ui->alvSpin->setVisible( !ui->alvCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool() );
     ui->vahennysCheck->setVisible( rivi()->naytaVahennysvalinta());
     ui->vahennysCheck->setChecked( false );
 
-    if( ui->alvCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool() )
-        rivi()->setAlvprosentti(0.0);
-    else
-    {
+    if( ui->alvCombo->currentData(VerotyyppiModel::NollaLajiRooli).toBool() ) {
+        ui->alvSpin->setValue(0.0);
+    } else  {
         if( ui->alvSpin->value() == 0.0)
             ui->alvSpin->setValue(24.0);
-        rivi()->setAlvprosentti( ui->alvSpin->value() );
     }
 
 
@@ -444,6 +437,8 @@ void TuloMenoApuri::haeRivi(const QModelIndex &index)
     TulomenoRivi* rivi = rivit_->rivi(rivilla);
     int tilinumero = rivi->tilinumero();
 
+    qDebug() << "Hae " << rivi->netto() << " " << rivi->alvkoodi() << " " << rivi->viennit( tosite() );
+
     if( !tilinumero) {
         if( tosite()->tyyppi() == TositeTyyppi::TULO )
             tilinumero = kp()->tilit()->tiliTyypilla(TiliLaji::LVTULO).numero();
@@ -454,10 +449,10 @@ void TuloMenoApuri::haeRivi(const QModelIndex &index)
     ui->tiliEdit->valitseTiliNumerolla( tilinumero );
     tiliMuuttui();
 
+    ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( rivi->alvkoodi(), VerotyyppiModel::KoodiRooli ) );
     ui->maaraEdit->setCents( rivi->brutto() );
     ui->verotonEdit->setCents( rivi->netto());
 
-    ui->alvCombo->setCurrentIndex( ui->alvCombo->findData( rivi->alvkoodi(), VerotyyppiModel::KoodiRooli ) );
     ui->vahennysCheck->setChecked( !rivi->alvvahennys() );
 
     ui->alvSpin->setValue( rivi->alvprosentti() );

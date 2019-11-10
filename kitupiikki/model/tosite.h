@@ -77,8 +77,6 @@ public:
     QVariant data(int kentta) const;
     void setData(int kentta, QVariant arvo);
 
-    int tyyppi() const { return data(TYYPPI).toInt();}
-
     TositeViennit* viennit() { return viennit_; }
     TositeLiitteet* liitteet() { return liitteet_;}
     TositeLoki* loki() { return loki_;}
@@ -88,13 +86,18 @@ public:
     static QString tilateksti(int tila);
 
     int id() const { return data(ID).toInt();}
+    int tyyppi() const { return data(TYYPPI).toInt();}
     QDate pvm() const;
     QString otsikko() const { return data(OTSIKKO).toString();}
     int kumppani() const { return data(KUMPPANI).toInt();}
+    int tunniste() const { return data(TUNNISTE).toInt();}
+    QString kommentti() const { return data(KOMMENTIT).toString();}
+    QString sarja() const { return data(SARJA).toString();}
 
     void asetaOtsikko(const QString& otsikko);
     void asetaTyyppi(int tyyppi);
     void asetaPvm(const QDate& pvm);
+    void asetaKommentti(const QString& kommentti);
 
     /**
      * @brief Tiedot tallennettavassa muodossa
@@ -107,8 +110,13 @@ signals:
     void talletettu(int id, int tunniste, const QDate& pvm, const QString& sarja);
     void tallennusvirhe(int virhe);
     void tila(bool muokattu, int virheet, double debet, double kredit);
+
     void pvmMuuttui(const QDate& pvm);
     void otsikkoMuuttui(const QString& otsikko);
+    void tunnisteMuuttui(const int tunniste);
+    void sarjaMuuttui(const QString& sarja);
+    void tyyppiMuuttui(int tyyppi);
+    void kommenttiMuuttui(const QString& kommentti);
 
     void tarkastaSarja(bool kateinen);
 

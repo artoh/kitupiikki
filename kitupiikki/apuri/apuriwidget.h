@@ -34,6 +34,8 @@ public:
 
     virtual void tuo(QVariantMap map);
 
+    bool resetoidaanko() const;
+
 public slots:
     virtual void reset();
     virtual bool tositteelle();

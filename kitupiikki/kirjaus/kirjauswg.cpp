@@ -88,7 +88,6 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     varastoTab_ = ui->tabWidget->widget(VARASTO);
     lokiTab_ = ui->tabWidget->widget(LOKI);
 
-
     // Tämä pitää säilyttää, jotta saadaan päivämäärä paikalleen
     ui->viennitView->setItemDelegateForColumn( TositeViennit::PVM, new PvmDelegaatti(ui->tositePvmEdit));
 
@@ -98,7 +97,6 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     connect( ui->valmisNappi, &QPushButton::clicked, [this] { if(apuri_) apuri_->tositteelle(); this->tosite_->tallenna(Tosite::KIRJANPIDOSSA);} );
 
     connect( ui->hylkaaNappi, SIGNAL(clicked(bool)), this, SLOT(hylkaa()));
-    connect( ui->kommentitEdit, SIGNAL(textChanged()), this, SLOT(paivitaKommenttiMerkki()));
 
     tyyppiProxy_ = new QSortFilterProxyModel(this);
     tyyppiProxy_->setSourceModel( kp()->tositeTyypit() );
@@ -106,11 +104,11 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     tyyppiProxy_->setFilterFixedString("K");
     ui->tositetyyppiCombo->setModel( tyyppiProxy_ );
 
+    connect( ui->tositetyyppiCombo, &QComboBox::currentTextChanged, this, &KirjausWg::vaihdaTositeTyyppi);
 
-    connect( ui->tositePvmEdit, SIGNAL(editingFinished()), this, SLOT(pvmVaihtuu()));
-    connect( ui->tositetyyppiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(vaihdaTositeTyyppi()));
+    connect( ui->lisaaliiteNappi, &QPushButton::clicked, [this]
+        { this->lisaaLiite(QFileDialog::getOpenFileName(this, tr("Lisää liite"),QString(),tr("Pdf-tiedosto (*.pdf);;Kuvat (*.png *.jpg);;CSV-tiedosto (*.csv);;Kaikki tiedostot (*.*)"))); });
 
-    connect( ui->lisaaliiteNappi, SIGNAL(clicked(bool)), this, SLOT(lisaaLiite()));
     connect( ui->avaaNappi, &QPushButton::clicked, this, &KirjausWg::avaaLiite);
     connect( ui->tulostaLiiteNappi, &QPushButton::clicked, this, &KirjausWg::tulostaLiite);
     connect( ui->poistaLiiteNappi, SIGNAL(clicked(bool)), this, SLOT(poistaLiite()));
@@ -132,11 +130,9 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     // Enterillä päiväyksestä eteenpäin
     ui->tositePvmEdit->installEventFilter(this);
     ui->otsikkoEdit->installEventFilter(this);
-    ui->tositetyyppiCombo->installEventFilter(this);
 
 
     // ---- tästä alkaen uutta ------
-
     tosite_ = new Tosite();
     ui->viennitView->setModel( tosite_->viennit() );
     ui->lokiView->setModel( tosite_->loki() );
@@ -150,25 +146,33 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     connect( tosite_, &Tosite::talletettu, this, &KirjausWg::tallennettu);
     connect( tosite_, &Tosite::tallennusvirhe, this, &KirjausWg::tallennusEpaonnistui);
 
-    connect( tosite_, &Tosite::ladattu, this, &KirjausWg::tiedotModelista);
-
+    connect( tosite()->liitteet(), &TositeLiitteet::modelReset, this, &KirjausWg::paivitaLiiteNapit);
     connect( tosite_->liitteet(), &TositeLiitteet::naytaliite, this, &KirjausWg::liiteValittu);
 
-    vaihdaTositeTyyppi();
 
     connect( ui->liiteView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
              this, SLOT(liiteValinta(QModelIndex)));
     connect( ui->viennitView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
              this, SLOT(vientiValittu()));
     connect( ui->viennitView, SIGNAL(activated(QModelIndex)), this, SLOT( vientivwAktivoitu(QModelIndex)));
-    connect( ui->otsikkoEdit, &QLineEdit::textChanged, [this] { if( !this->tosite()->resetoidaanko())  this->tosite()->setData(Tosite::OTSIKKO, ui->otsikkoEdit->text()); });
+
+    connect( ui->tositePvmEdit, &KpDateEdit::dateChanged, [this]  (const QDate& pvm) { this->tosite()->asetaPvm(pvm);} );
+    connect( ui->otsikkoEdit, &QLineEdit::textChanged, [this] { this->tosite()->setData(Tosite::OTSIKKO, ui->otsikkoEdit->text()); });
     connect( ui->sarjaEdit, &QLineEdit::textChanged, [this] { this->tosite()->setData(Tosite::SARJA, ui->sarjaEdit->text()); });
+    connect( ui->kommentitEdit, &QPlainTextEdit::textChanged, [this] { this->tosite()->asetaKommentti(ui->kommentitEdit->toPlainText());});
 
-    connect( tosite_, &Tosite::otsikkoMuuttui, [this] (const QString& otsikko) { if( otsikko != ui->otsikkoEdit->text()) this->ui->otsikkoEdit->setText(otsikko); });
-
+    connect( tosite_, &Tosite::otsikkoMuuttui, [this] (const QString& otsikko) { this->ui->otsikkoEdit->setText(otsikko); });
     connect( ui->lokiView, &QTableView::clicked, this, &KirjausWg::naytaLoki);
 
-    // Tagivalikko
+    connect( tosite(), &Tosite::pvmMuuttui, [this] (const QDate& pvm) { this->ui->tositePvmEdit->setDate(pvm);});
+    connect( tosite(), &Tosite::otsikkoMuuttui, [this] (const QString& otsikko) { this->ui->otsikkoEdit->setText(otsikko);});
+    connect( tosite(), &Tosite::tunnisteMuuttui, this, &KirjausWg::tunnisteVaihtui);
+    connect( tosite(), &Tosite::sarjaMuuttui, [this] (const QString& sarja) {
+        this->ui->sarjaEdit->setText(sarja);  });
+    connect( tosite(), &Tosite::tyyppiMuuttui, this, &KirjausWg::tositeTyyppiVaihtui);
+    connect( tosite(), &Tosite::kommenttiMuuttui, this, &KirjausWg::paivitaKommentti);
+
+
     ui->viennitView->viewport()->installEventFilter(this);
     ui->viennitView->setFocusPolicy(Qt::StrongFocus);
 
@@ -176,10 +180,16 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
 
     connect( tosite_, &Tosite::tarkastaSarja, this, &KirjausWg::paivitaSarja);
 
+    connect( kp(), &Kirjanpito::tietokantaVaihtui, [this] { this->tosite()->nollaa( kp()->paivamaara(), TositeTyyppi::MENO); } );
+
 
     // Tilapäisesti poistetaan Varasto
     // Voitaisiin tehdä niinkin, että poistetaan ja lisätään tarvittaessa ;)
     ui->tabWidget->removeTab( ui->tabWidget->indexOf( varastoTab_ ) );
+
+    tosite()->asetaTyyppi( ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt() );
+    tosite()->asetaPvm( ui->tositePvmEdit->date());
+
 }
 
 KirjausWg::~KirjausWg()
@@ -215,13 +225,8 @@ void KirjausWg::poistaRivi()
 void KirjausWg::tyhjenna()
 {
     tosite_->nollaa( ui->tositePvmEdit->date(), ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt() );
-    tiedotModelista();
-    ui->tallennaButton->setVisible(true);
     ui->tabWidget->setCurrentIndex(0);
     ui->tositetyyppiCombo->setFocus();
-    ui->sarjaEdit->setVisible( kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN) );
-    ui->sarjaLabel->setVisible( kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN) );
-    paivitaLiiteNapit();
     ui->tositePvmEdit->checkValidity();
 }
 
@@ -263,24 +268,6 @@ void KirjausWg::vientiValittu()
 
 }
 
-void KirjausWg::uusiPohjalta()
-{
-    Ui::KopioiDlg kui;
-    QDialog dlg;
-
-    kui.setupUi(&dlg);
-    kui.otsikkoEdit->setText( ui->otsikkoEdit->text() );
-    kui.pvmEdit->setDate( kp()->paivamaara() );
-    kui.pvmEdit->setDateRange( kp()->tilitpaatetty().addDays(1), kp()->tilikaudet()->kirjanpitoLoppuu() );
-
-    if( dlg.exec() == QDialog::Accepted)
-    {
-//        model_->uusiPohjalta( kui.pvmEdit->date(), kui.otsikkoEdit->text() );
-        tiedotModelista();
-        emit liiteValittu(QByteArray());
-    }
-
-}
 
 void KirjausWg::vientivwAktivoitu(QModelIndex indeksi)
 {
@@ -539,11 +526,11 @@ void KirjausWg::lataaTosite(int id)
 
 }
 
-void KirjausWg::paivitaKommenttiMerkki()
+void KirjausWg::paivitaKommentti(const QString &kommentti)
 {
     int kommenttiIndeksi = ui->tabWidget->indexOf(kommentitTab_);
 
-    if( ui->kommentitEdit->document()->toPlainText().isEmpty())
+    if( kommentti.isEmpty())
     {
         ui->tabWidget->setTabIcon(kommenttiIndeksi, QIcon(":/pic/kommentti-harmaa.png"));
     }
@@ -552,7 +539,8 @@ void KirjausWg::paivitaKommenttiMerkki()
         ui->tabWidget->setTabIcon(kommenttiIndeksi, QIcon(":/pic/kommentti.png"));
     }
 
-    tosite_->setData(Tosite::KOMMENTIT, ui->kommentitEdit->toPlainText());
+    if( kommentti != ui->kommentitEdit->toPlainText())
+        ui->kommentitEdit->setPlainText( kommentti );
 
 }
 
@@ -569,74 +557,12 @@ void KirjausWg::lisaaLiite(const QString& polku)
 
 }
 
-void KirjausWg::lisaaLiite()
-{
-    lisaaLiite(QFileDialog::getOpenFileName(this, tr("Lisää liite"),QString(),tr("Pdf-tiedosto (*.pdf);;Kuvat (*.png *.jpg);;CSV-tiedosto (*.csv);;Kaikki tiedostot (*.*)")));
-}
 
 void KirjausWg::lisaaLiiteDatasta(const QByteArray &data, const QString &nimi)
 {
       tosite()->liitteet()->lisaa(data, nimi);
       ui->liiteView->setCurrentIndex( tosite()->liitteet()->index( tosite()->liitteet()->rowCount() - 1 ) );
      paivitaLiiteNapit();
-
-}
-
-
-void KirjausWg::tiedotModelista()
-{
-
-    int tyyppi = tosite_->data(Tosite::TYYPPI).toInt();
-    bool lisattavatyyppi = kp()->tositeTyypit()->onkolisattavissa(tyyppi);
-
-    if( lisattavatyyppi )
-        ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( tosite_->data(Tosite::TYYPPI).toInt(), TositeTyyppiModel::KoodiRooli ) );
-    else
-        ui->tositetyyppiLabel->setText( kp()->tositeTyypit()->nimi(tyyppi) );
-    ui->tositetyyppiCombo->setVisible( lisattavatyyppi );
-    ui->tositetyyppiLabel->setVisible( !lisattavatyyppi );
-    vaihdaTositeTyyppi();
-
-    QDate tositepvm = tosite_->data(Tosite::PVM).toDate();
-
-    ui->tositePvmEdit->setDate( tositepvm );
-    ui->otsikkoEdit->setText( tosite_->data(Tosite::OTSIKKO).toString() );
-    ui->kommentitEdit->setPlainText( tosite_->data(Tosite::KOMMENTIT).toString());
-
-    ui->sarjaEdit->setText( tosite_->data(Tosite::SARJA).toString() );
-
-    int tunniste = tosite_->data(Tosite::TUNNISTE).toInt();
-    ui->sarjaLabel->setVisible( (kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN)) && !tunniste );
-
-
-    if( selaus_ && tosite_->id())
-        edellinenSeuraava_ = selaus_->edellinenSeuraava( tosite_->id() );
-    else
-        edellinenSeuraava_ = qMakePair(0,0);
-
-    if( tunniste ) {
-        ui->tunnisteLabel->setVisible(true);
-        ui->vuosiLabel->setVisible(true);
-        ui->edellinenButton->setVisible(true);
-        ui->tallennaButton->setVisible(false);
-
-        ui->tunnisteLabel->setText( QString::number( tunniste ) );
-        ui->vuosiLabel->setText( kp()->tilikaudet()->tilikausiPaivalle(tositepvm).pitkakausitunnus() );
-
-        if( selaus_) {
-            ui->seuraavaButton->setVisible(true);
-            ui->tunnisteLabel->setVisible(true);
-            ui->edellinenButton->setEnabled( edellinenSeuraava_.first );
-            ui->seuraavaButton->setEnabled( edellinenSeuraava_.second );
-        }
-
-    } else {
-        ui->edellinenButton->setVisible(false);
-        ui->tunnisteLabel->setVisible(false);
-        ui->seuraavaButton->setVisible(false);
-        ui->vuosiLabel->setVisible(false);
-    }
-    paivitaLiiteNapit();
 
 }
 
@@ -661,10 +587,11 @@ void KirjausWg::salliMuokkaus(bool sallitaanko)
 
 void KirjausWg::vaihdaTositeTyyppi()
 {
-    int tyyppiKoodi = tosite_->tyyppi();
-    if( kp()->tositeTyypit()->onkolisattavissa(tyyppiKoodi))
-        tyyppiKoodi = ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt() ;
+    tosite()->asetaTyyppi( ui->tositetyyppiCombo->currentData(TositeTyyppiModel::KoodiRooli).toInt() );
+}
 
+void KirjausWg::tositeTyyppiVaihtui(int tyyppiKoodi)
+{
     // Tässä voisi laittaa muutenkin apurit paikalleen
     if( apuri_ )
     {
@@ -672,7 +599,6 @@ void KirjausWg::vaihdaTositeTyyppi()
         apuri_->deleteLater();
     }
     apuri_ = nullptr;
-
 
     // Liitetiedoilla ei ole vientejä
     ui->tabWidget->setTabEnabled( ui->tabWidget->indexOf(viennitTab_) , tyyppiKoodi != TositeTyyppi::LIITETIETO);
@@ -691,8 +617,14 @@ void KirjausWg::vaihdaTositeTyyppi()
         apuri_ = new PalkkaApuri(this, tosite_);
     }
 
+    bool lisattavatyyppi = kp()->tositeTyypit()->onkolisattavissa(tyyppiKoodi);
+    if( lisattavatyyppi )
+        ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( tosite_->data(Tosite::TYYPPI).toInt(), TositeTyyppiModel::KoodiRooli ) );
+    else
+        ui->tositetyyppiLabel->setText( kp()->tositeTyypit()->nimi(tyyppiKoodi) );
+    ui->tositetyyppiCombo->setVisible( lisattavatyyppi );
+    ui->tositetyyppiLabel->setVisible( !lisattavatyyppi );
 
-    tosite_->setData(Tosite::TYYPPI, tyyppiKoodi);
     paivitaSarja();
 
     if( apuri_)
@@ -708,7 +640,43 @@ void KirjausWg::vaihdaTositeTyyppi()
         ui->tabWidget->setCurrentIndex(0);
 
     if( ui->otsikkoEdit->text().startsWith("Tiliote") && tyyppiKoodi != TositeTyyppi::TILIOTE && !tosite()->resetoidaanko())
-        ui->otsikkoEdit->clear();    
+        ui->otsikkoEdit->clear();
+}
+
+void KirjausWg::tunnisteVaihtui(int tunniste)
+{
+    ui->tunnisteLabel->setVisible(tunniste);
+    ui->tunnisteLabel->setText(QString::number(tunniste));
+    ui->sarjaLabel->setVisible( (kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN)) && !tunniste );
+
+    if( selaus_ && tosite_->id())
+        edellinenSeuraava_ = selaus_->edellinenSeuraava( tosite_->id() );
+    else
+        edellinenSeuraava_ = qMakePair(0,0);
+
+    if( tunniste ) {
+        ui->tunnisteLabel->setVisible(true);
+        ui->vuosiLabel->setVisible(true);
+        ui->edellinenButton->setVisible(true);
+        ui->tallennaButton->setVisible(false);
+
+        ui->tunnisteLabel->setText( QString::number( tunniste ) );
+        ui->vuosiLabel->setText( kp()->tilikaudet()->tilikausiPaivalle( tosite()->pvm() ).pitkakausitunnus() );
+
+        if( selaus_) {
+            ui->seuraavaButton->setVisible(true);
+            ui->tunnisteLabel->setVisible(true);
+            ui->edellinenButton->setEnabled( edellinenSeuraava_.first );
+            ui->seuraavaButton->setEnabled( edellinenSeuraava_.second );
+        }
+
+    } else {
+        ui->edellinenButton->setVisible(false);
+        ui->tunnisteLabel->setVisible(false);
+        ui->seuraavaButton->setVisible(false);
+        ui->vuosiLabel->setVisible(false);
+    }
+
 }
 
 void KirjausWg::paivitaSarja(bool kateinen)
@@ -733,22 +701,6 @@ void KirjausWg::liiteValinta(const QModelIndex &valittu)
     }
 }
 
-void KirjausWg::pvmVaihtuu()
-{
-
-    QDate paiva = ui->tositePvmEdit->date();
-    QDate vanhaPaiva = tosite_->data(Tosite::PVM).toDate();
-
-    tosite_->setData(Tosite::PVM, paiva);
-
-    if( kp()->tilikaudet()->tilikausiPaivalle(paiva).alkaa() != kp()->tilikaudet()->tilikausiPaivalle(vanhaPaiva).alkaa())
-    {
-        // Siirrytty toiselle tilikaudelle, vaihdetaan numerointia
-        // Tallennettaessa uusi numero palvelimelta
-        tosite_->setData( Tosite::TUNNISTE, QVariant() );
-    }
-
-}
 
 void KirjausWg::poistaLiite()
 {

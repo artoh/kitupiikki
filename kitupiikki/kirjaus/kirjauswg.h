@@ -25,12 +25,8 @@
 #include "naytaliitewg.h"
 
 
-
-
 class Kirjanpito;
-class ApuriVinkki;
 class QAction;
-class QSqlQueryModel;
 class SelausWg;
 
 class Tosite;
@@ -57,9 +53,8 @@ public:
 public slots:
     void lataaTosite(int id);
     void lisaaLiite(const QString &polku);
-    void lisaaLiite();
     void lisaaLiiteDatasta(const QByteArray& data, const QString& nimi);
-    void tiedotModelista();
+
     void tyhjenna();
 
 private slots:
@@ -72,11 +67,16 @@ private slots:
     void poistaTosite();
     void vientiValittu();
 
-    void uusiPohjalta();
-    void paivitaKommenttiMerkki();
+    void paivitaKommentti(const QString& kommentti);
     void salliMuokkaus(bool sallitaanko);
 
     void vaihdaTositeTyyppi();
+    void tositeTyyppiVaihtui(int tyyppiKoodi);
+
+    void tunnisteVaihtui(int tunniste);
+
+
+
     void paivitaSarja(bool kateinen = false);
 
     /**
@@ -84,8 +84,6 @@ private slots:
      * @param selected
      */
     void liiteValinta(const QModelIndex& valittu);
-    void pvmVaihtuu();
-
     void poistaLiite();
 
     /**
@@ -141,7 +139,6 @@ protected:
      * @brief Muokattuja toimintoja
      *
      * Pvm-kentästä eteenpäin enterillä
-     * tagivalikko
      * Seliteestä tablilla uusi rivi
      *
      * @param watched

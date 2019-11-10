@@ -105,8 +105,7 @@ void KirjausSivu::naytaTosite(int tositeId, int tositetyyppi)
     if( tositeId > -1)
         kirjauswg->lataaTosite(tositeId);
     if( tositetyyppi > -1) {
-        kirjauswg->tosite()->asetaTyyppi(tositetyyppi);
-        kirjauswg->tiedotModelista();
+        kirjausWg()->tosite()->nollaa( kp()->paivamaara(), tositetyyppi );
     }
 }
 

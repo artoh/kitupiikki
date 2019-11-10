@@ -45,6 +45,15 @@ QVariant Tosite::data(int kentta) const
 void Tosite::setData(int kentta, QVariant arvo)
 {
 
+    if( data_.value( avaimet__.at(kentta)).toString() == arvo.toString()) {
+        return;
+    }
+
+    // Jos päivämäärä muuttuu toiselle kaudelle, vaihdetaan tositteen tunnistetta
+    if( kentta == PVM &&
+        kp()->tilikaudet()->tilikausiPaivalle(arvo.toDate()).alkaa() != kp()->tilikaudet()->tilikausiPaivalle( data_.value( avaimet__.at(PVM) ).toDate() ).alkaa())
+        setData( Tosite::TUNNISTE, QVariant() );
+
     if( (arvo.toString().isEmpty() && arvo.type() != QVariant::Map) ||
         ( arvo.type() == QVariant::Int && arvo.toInt() == 0) )
         data_.remove( avaimet__.at(kentta) );
@@ -55,6 +64,14 @@ void Tosite::setData(int kentta, QVariant arvo)
         emit pvmMuuttui( arvo.toDate() );
     else if( kentta == OTSIKKO )
         emit otsikkoMuuttui( arvo.toString() );
+    else if( kentta == TUNNISTE)
+        emit tunnisteMuuttui( arvo.toInt());
+    else if( kentta == SARJA)
+        emit sarjaMuuttui( arvo.toString());
+    else if( kentta == TYYPPI)
+        emit tyyppiMuuttui( arvo.toInt());
+    else if( kentta == KOMMENTIT)
+        emit kommenttiMuuttui( arvo.toString());
 
     tarkasta();
 }
@@ -92,6 +109,11 @@ void Tosite::asetaPvm(const QDate &pvm)
     setData(PVM, pvm);
 }
 
+void Tosite::asetaKommentti(const QString &kommentti)
+{
+    setData(KOMMENTIT, kommentti);
+}
+
 void Tosite::lataa(int tositeid)
 {
     KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tositeid));
@@ -113,6 +135,13 @@ void Tosite::lataaData(QVariant *variant)
         data_.insert("kumppani", kumppani);
 
     emit ladattu();
+
+    emit tyyppiMuuttui( tyyppi());
+    emit pvmMuuttui( pvm() );
+    emit otsikkoMuuttui( otsikko() );
+    emit tunnisteMuuttui( tunniste() );
+    emit sarjaMuuttui( sarja() );
+    emit kommenttiMuuttui( kommentti());
 
     tallennettu_ = tallennettava();
 
@@ -170,6 +199,7 @@ void Tosite::tarkasta()
 
 void Tosite::nollaa(const QDate &pvm, int tyyppi)
 {
+
     resetointiKaynnissa_ = true;
     data_.clear();
     viennit_->asetaViennit(QVariantList());
@@ -179,6 +209,14 @@ void Tosite::nollaa(const QDate &pvm, int tyyppi)
     emit ladattu();
 
     tallennettu_ = tallennettava();
+
+    emit tyyppiMuuttui( this->tyyppi());
+    emit pvmMuuttui( this->pvm() );
+    emit otsikkoMuuttui( otsikko() );
+    emit tunnisteMuuttui( tunniste() );
+    emit sarjaMuuttui( sarja() );
+    emit kommenttiMuuttui( kommentti());
+
     resetointiKaynnissa_ = false;
     tarkasta();
 
