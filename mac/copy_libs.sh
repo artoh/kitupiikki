@@ -6,15 +6,16 @@
 #  Created by Petri Aarnio on 29/06/2018.
 #  
 
-APPCONTENTS=$1/kitupiikki.app/Contents
+APPNAME=kitsas
+APPCONTENTS=$1/$APPNAME.app/Contents
 APPDIR=$APPCONTENTS/MacOS
 LIBDIR=$APPCONTENTS/Libraries
 
 mkdir -p $LIBDIR/
 
 #app
-install_name_tool -change /usr/local/opt/poppler/lib/libpoppler-qt5.1.dylib @rpath/libpoppler-qt5.dylib $APPDIR/kitupiikki
-install_name_tool -change /usr/local/opt/libzip/lib/libzip.5.dylib @rpath/libzip.dylib $APPDIR/kitupiikki
+install_name_tool -change /usr/local/opt/poppler/lib/libpoppler-qt5.1.dylib @rpath/libpoppler-qt5.dylib $APPDIR/$APPNAME
+install_name_tool -change /usr/local/opt/libzip/lib/libzip.5.dylib @rpath/libzip.dylib $APPDIR/$APPNAME
 
 #libpoppler-qt5
 cp /usr/local/opt/poppler/lib/libpoppler-qt5.dylib $LIBDIR
