@@ -64,6 +64,7 @@ ArkistoSivu::ArkistoSivu()
     connect( ui->budjettiNappi, &QPushButton::clicked, this, &ArkistoSivu::budjetti);
     connect( ui->numeroiButton, &QPushButton::clicked, this, &ArkistoSivu::uudellenNumerointi);
 
+    ui->numeroiButton->hide();      // Ei käytössä
 }
 
 ArkistoSivu::~ArkistoSivu()
@@ -86,6 +87,8 @@ void ArkistoSivu::siirrySivulle()
     connect( ui->view->selectionModel() , SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(nykyinenVaihtuuPaivitaNapit()) );
 
     ui->view->selectRow( ui->view->model()->rowCount(QModelIndex()) - 1);
+    connect( ui->view->selectionModel(), &QItemSelectionModel::selectionChanged, this, &ArkistoSivu::nykyinenVaihtuuPaivitaNapit);
+
 }
 
 void ArkistoSivu::uusiTilikausi()
@@ -152,41 +155,13 @@ void ArkistoSivu::vieArkisto()
 
     if( dlgUi.hakemistoRadio->isChecked())
     {
-
-
-        QDir mista( kp()->arkistopolku() + "/" + kausi.arkistoHakemistoNimi() );
-        QStringList tiedostot = mista.entryList(QDir::Files);
-        QString hakemistoon = QFileDialog::getExistingDirectory(this, tr("Valitse hakemisto, jonne arkisto kopioidaan"),
-                                                                QDir::rootPath());
-        if( !hakemistoon.isEmpty())
-        {
-            QDir minne(hakemistoon);
-
-            QProgressDialog odota(tr("Kopioidaan arkistoa"), tr("Peruuta"),0, tiedostot.count(),this);
-            int kopioitu = 0;
-            for( const QString& tiedosto : tiedostot)
-            {
-                if( odota.wasCanceled())
-                    break;
-                if( !QFile::copy( mista.absoluteFilePath(tiedosto), minne.absoluteFilePath(tiedosto) ) )
-                {
-                    QMessageBox::critical(this, tr("Kopiointi ei onnistu"), tr("Tiedoston %1 kopiointi ei onnistunut.\n Kopiointi on keskeytetty.").arg(tiedosto));
-                    return;
-                }
-                odota.setValue(++kopioitu);
-            }
-        }
-        QMessageBox::information(this, tr("Arkiston kopiointi valmis"), tr("Arkisto on kopioitu hakemistoon %1.\n"
-                                                                           "Avaa selaimella hakemistossa oleva index.html-tiedosto.").arg(hakemistoon));
-
+        vieHakemistoon( kausi );
     }
     else if( dlgUi.zipButton->isChecked())
     {
         if( !teeZip(kausi))
             QMessageBox::critical(this, tr("Arkiston viennissä virhe"),
                                   tr("Arkiston vienti epäonnistui.") );
-
-
     }
 
 }
@@ -245,7 +220,7 @@ void ArkistoSivu::nykyinenVaihtuuPaivitaNapit()
         ui->tilinpaatosNappi->setEnabled(false);
         ui->arkistoNappi->setEnabled(false);
         ui->muokkaaNappi->setEnabled(false);
-        ui->numeroiButton->setEnabled(false);
+        // ui->numeroiButton->setEnabled(false);
     }
 }
 
@@ -394,5 +369,50 @@ bool ArkistoSivu::teeZip(const Tilikausi &kausi)
         QMessageBox::information(this, tr("Arkiston vienti valmis"),
                              tr("Arkisto viety tiedostoon %1").arg(arkisto));
     }
+    return true;
+}
+
+bool ArkistoSivu::vieHakemistoon(const Tilikausi &kausi)
+{
+    QDir mista( kp()->arkistopolku() + "/" + kausi.arkistoHakemistoNimi() );
+
+    QDirIterator iter( mista.path(),
+                       QDir::Files,
+                       QDirIterator::Subdirectories);
+    QStringList tiedostot;
+
+    while( iter.hasNext()) {
+        iter.next();
+        tiedostot.append(  mista.relativeFilePath(iter.filePath()) );
+    }
+
+    QString hakemistoon = QFileDialog::getExistingDirectory(this, tr("Valitse hakemisto, jonne arkisto kopioidaan"),
+                                                            QDir::rootPath());
+    if( !hakemistoon.isEmpty())
+    {
+
+        QDir minne( hakemistoon );
+        minne.mkdir("liitteet");
+        minne.mkdir("static");
+        minne.mkdir("tositteet");
+
+
+
+        QProgressDialog odota(tr("Kopioidaan arkistoa"), tr("Peruuta"),0, tiedostot.count(),this);
+        int kopioitu = 0;
+        for( const QString& tiedosto : tiedostot)
+        {
+            if( odota.wasCanceled())
+                break;
+            if( !QFile::copy( mista.absoluteFilePath(tiedosto), minne.absoluteFilePath(tiedosto) ) )
+            {
+                QMessageBox::critical(this, tr("Kopiointi ei onnistu"), tr("Tiedoston %1 kopiointi ei onnistunut.\n Kopiointi on keskeytetty.").arg(tiedosto) );
+                return false;
+            }
+            odota.setValue(++kopioitu);
+        }
+    }
+    QMessageBox::information(this, tr("Arkiston kopiointi valmis"), tr("Arkisto on kopioitu hakemistoon %1.\n"
+                                                                       "Avaa selaimella hakemistossa oleva index.html-tiedosto.").arg(hakemistoon));
     return true;
 }

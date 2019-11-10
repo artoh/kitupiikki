@@ -89,6 +89,8 @@ public:
 
     void asetaSuosio(int tili, Tili::TiliTila tila);
 
+    void paivitaTilat();
+
 public slots:
     void haeSaldot();
 
@@ -97,13 +99,12 @@ private slots:
 
 protected:
     void tyhjenna();
-    void paivitaTilat();
+
 
 protected:    
     QList<Tili*> tiliLista_;
     QHash<int,Tili*> nroHash_;
 
-    int laajuus_ = 2;
     QString muoto_;
     QSet<int> piilotetut_;
     QSet<int> suosikit_;

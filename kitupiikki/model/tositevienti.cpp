@@ -65,12 +65,9 @@ int TositeVienti::kumppaniId() const
     return value("kumppani").toMap().value("id").toInt();
 }
 
-QList<int> TositeVienti::merkkaukset() const
+QVariantList TositeVienti::merkkaukset() const
 {
-    QList<int> lista;
-    for(auto merkkaus : data(MERKKAUKSET).toList())
-        lista.append( merkkaus.toInt());
-    return lista;
+    return data(MERKKAUKSET).toList();
 }
 
 void TositeVienti::setPvm(const QDate &pvm)

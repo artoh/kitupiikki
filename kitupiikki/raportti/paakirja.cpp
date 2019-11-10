@@ -187,7 +187,7 @@ void Paakirja::aloitaTili(int tilinumero)
         rivi.lisaaLinkilla( RaporttiRiviSarake::TILI_LINKKI, nykytili_.numero(),
                             nykytili_.nimiNumero(), 5);
 
-        saldo_ = qRound( saldot_.value( QString::number(nykytili_.numero()) ).toDouble() *100);
+        saldo_ = qRound64( saldot_.value( QString::number(nykytili_.numero()) ).toDouble() *100);
         rivi.lisaa( saldo_ );
         rk.lisaaRivi(rivi);
 

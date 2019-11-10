@@ -102,7 +102,7 @@ bool TallentavaMaaritysWidget::nollaa()
         QDoubleSpinBox *dspin = qobject_cast<QDoubleSpinBox*>(widget);
         if( dspin ) {
             dspin->setValue( kp()->asetukset()->asetus(asetusavain).toDouble() );
-            connect( spin, SIGNAL(valueChanged(double)), this, SLOT(ilmoitaMuokattu()));
+            connect( dspin, SIGNAL(valueChanged(double)), this, SLOT(ilmoitaMuokattu()));
             continue;
         }
 

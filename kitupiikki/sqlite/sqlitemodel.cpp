@@ -45,6 +45,7 @@
 #include "routes/kohdennusroute.h"
 #include "routes/tuotteetroute.h"
 #include "routes/tilitroute.h"
+#include "routes/alvroute.h"
 
 #include "versio.h"
 
@@ -69,6 +70,7 @@ SQLiteModel::SQLiteModel(QObject *parent)
     lisaaRoute(new KohdennusRoute(this));
     lisaaRoute(new TuotteetRoute(this));
     lisaaRoute(new TilitRoute(this));
+    lisaaRoute(new AlvRoute(this));
 }
 
 SQLiteModel::~SQLiteModel()
@@ -281,19 +283,11 @@ void SQLiteModel::reitita(SQLiteKysely *reititettavakysely, const QByteArray &ba
 void SQLiteModel::lisaaViimeisiin()
 {
 
-    // Viimeisin poistetaan listalta, ja lisätään ensimmäiseksi
-
-    beginResetModel();
-    QMutableListIterator<QVariant> iter( viimeiset_ );
-    while( iter.hasNext())
-    {
-        QString polku = iter.next().toMap().value("polku").toString();
-        if( polku == tiedostopolku())
-            iter.remove();
-    }
+    for( auto item : viimeiset_)
+        if( item.toMap().value("polku").toString() == tiedostopolku())
+            return;
 
     QVariantMap map;
-
     // PORTABLE polut tallennetaan suhteessa portable-hakemistoon
     QDir portableDir( kp()->portableDir() );
     QString polku = tiedostopolku();
@@ -304,11 +298,12 @@ void SQLiteModel::lisaaViimeisiin()
     map.insert("polku", tiedostopolku() );
     map.insert("nimi", kp()->asetukset()->asetus("Nimi") );
 
-    viimeiset_.insert(0, map);
-
-    kp()->settings()->setValue("ViimeTiedostot", viimeiset_);
+    // Model resetoidaan, jottei edellinen jää valituksi
+    beginResetModel();
+    viimeiset_.append(map);
     endResetModel();
 
+    kp()->settings()->setValue("ViimeTiedostot", viimeiset_);
 }
 
 void SQLiteModel::lisaaRoute(SQLiteRoute *route)

@@ -28,6 +28,8 @@ public:
 
     QVariant byteArray(SQLiteKysely *kysely, const QByteArray &ba, const QMap<QString,QString> &meta) override;
 
+    QVariant doDelete(const QString &polku) override;
+
     static QByteArray hash(const QByteArray& ba);
 
 };

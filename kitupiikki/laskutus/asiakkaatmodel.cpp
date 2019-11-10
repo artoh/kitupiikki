@@ -84,6 +84,7 @@ QVariant AsiakkaatModel::headerData(int section, Qt::Orientation orientation, in
     return QVariant();
 }
 
+
 void AsiakkaatModel::paivita(int valinta)
 {
     valinta_ = valinta;

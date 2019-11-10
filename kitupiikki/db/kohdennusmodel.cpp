@@ -72,20 +72,20 @@ QVariant KohdennusModel::data(const QModelIndex &index, int role) const
     if( !index.isValid())
         return QVariant();
 
-    Kohdennus kohdennus = kohdennukset_[index.row()];
+    Kohdennus kohd = kohdennukset_[index.row()];
 
     if( role == IdRooli)
-        return QVariant( kohdennus.id() );
+        return QVariant( kohd.id() );
     else if( role == TyyppiRooli)
-        return QVariant( kohdennus.tyyppi() );
+        return QVariant( kohd.tyyppi() );
     else if( role == NimiRooli )
-        return kohdennus.nimi();
+        return kohd.nimi();
     else if( role == AlkaaRooli)
-        return kohdennus.alkaa();
+        return kohd.alkaa();
     else if( role == PaattyyRooli)
-        return kohdennus.paattyy();
+        return kohd.paattyy();
     else if( role == VientejaRooli)
-        return kohdennus.montakoVientia();
+        return kohd.montakoVientia();
 
     else if( role == Qt::TextAlignmentRole)
         return QVariant( Qt::AlignLeft | Qt::AlignVCenter);
@@ -93,14 +93,20 @@ QVariant KohdennusModel::data(const QModelIndex &index, int role) const
     {
         switch( index.column())
         {
-            case NIMI: return QVariant( kohdennus.nimi() );
-            case ALKAA: return QVariant(kohdennus.alkaa() );
-            case PAATTYY: return QVariant(kohdennus.paattyy());
+            case NIMI: {
+                if( role == Qt::DisplayRole)
+                    return QVariant( kohd.nimi() );
+                if( kohd.tyyppi() == Kohdennus::PROJEKTI )
+                    return kohdennus( kohd.kuuluu() ).nimi() + "/" + kohd.nimi();
+                return kohd.nimi();
+            }
+            case ALKAA: return QVariant(kohd.alkaa() );
+            case PAATTYY: return QVariant(kohd.paattyy());
         }
     }
     else if( role == Qt::DecorationRole && index.column() == NIMI)
     {
-        return kohdennus.tyyppiKuvake();
+        return kohd.tyyppiKuvake();
     }
 
     return QVariant();
@@ -155,6 +161,22 @@ bool KohdennusModel::kohdennuksia() const
     for( const Kohdennus& kohdennus : kohdennukset_)
         if( kohdennus.tyyppi() == Kohdennus::KUSTANNUSPAIKKA ||
             kohdennus.tyyppi() == Kohdennus::PROJEKTI)
+            return true;
+    return false;
+}
+
+bool KohdennusModel::projekteja() const
+{
+    for( const Kohdennus& kohdennus : kohdennukset_)
+        if( kohdennus.tyyppi() == Kohdennus::PROJEKTI)
+            return true;
+    return false;
+}
+
+bool KohdennusModel::kustannuspaikkoja() const
+{
+    for( const Kohdennus& kohdennus : kohdennukset_)
+        if( kohdennus.tyyppi() == Kohdennus::KUSTANNUSPAIKKA)
             return true;
     return false;
 }

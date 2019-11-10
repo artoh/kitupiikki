@@ -88,7 +88,10 @@ void AsiakasToimittajaValinta::set(int id, const QString &nimi)
 
 void AsiakasToimittajaValinta::clear()
 {
-    set(0);
+    id_ = 0;
+    ladattu_ = 0;
+    combo_->setCurrentIndex(-1);
+    combo_->setCurrentText(QString());
 
 }
 

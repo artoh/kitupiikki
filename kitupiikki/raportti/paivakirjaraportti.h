@@ -34,8 +34,6 @@ public:
     ~PaivakirjaRaportti() override;
 
 protected:
-    static void kirjoitaSummaRivi(RaportinKirjoittaja &rk, qlonglong debet, qlonglong kredit, int sarakeleveys);
-
     Ui::Paivakirja *ui;
 
 public slots:

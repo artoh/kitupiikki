@@ -50,7 +50,7 @@ QIcon Kohdennus::tyyppiKuvake() const
     else if( tyyppi() == MERKKAUS )
         return QIcon(":/pic/tag.png");
     else
-        return QIcon();
+        return QIcon(":/pic/tyhja.png");
 }
 
 

@@ -147,8 +147,8 @@ void Paivakirja::dataSaapuu(QVariant *data)
 
         rivi.lisaa( map.value("selite").toString() );
 
-        qlonglong debetsnt = qRound( map.value("debet").toDouble() * 100 );
-        qlonglong kreditsnt = qRound( map.value("kredit").toDouble() * 100);
+        qlonglong debetsnt = qRound64( map.value("debet").toDouble() * 100.0 );
+        qlonglong kreditsnt = qRound64( map.value("kredit").toDouble() * 100.0 );
 
         debetsumma += debetsnt;
         debetvalisumma += debetsnt;

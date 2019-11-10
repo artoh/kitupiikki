@@ -84,9 +84,6 @@ private slots:
      * @param selected
      */
     void liiteValinta(const QModelIndex& valittu);
-
-
-
     void pvmVaihtuu();
 
     void poistaLiite();
@@ -108,7 +105,7 @@ private slots:
      */
     void siirryTositteeseen();
 
-    void naytaSelvitys();    
+    void naytaLoki();
 
 private slots:
     void valmis();

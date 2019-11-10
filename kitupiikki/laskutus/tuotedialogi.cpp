@@ -102,7 +102,7 @@ void TuoteDialogi::laskeBrutto()
 {
     double netto = ui->nettoEdit->value();
     double brutto = netto * ( 100 + ui->alvCombo->veroProsentti() ) / 100.0;
-    if( qRound(brutto * 100) != ui->bruttoEdit->asCents())
+    if( qRound64(brutto * 100) != ui->bruttoEdit->asCents())
         ui->bruttoEdit->setValue(brutto);
     bool alv = ui->alvCombo->veroKoodi() == AlvKoodi::MYYNNIT_NETTO;
     ui->bruttoLabel->setVisible(alv);
@@ -113,7 +113,7 @@ void TuoteDialogi::laskeNetto()
 {
     double brutto = ui->bruttoEdit->value();
     double netto = (100 * brutto) / (100 + ui->alvCombo->veroProsentti());
-    if( qRound(netto*100) != ui->nettoEdit->asCents())
+    if( qRound64(netto*100) != ui->nettoEdit->asCents())
         ui->nettoEdit->setValue(netto);
 }
 

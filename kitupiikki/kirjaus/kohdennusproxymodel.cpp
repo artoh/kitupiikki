@@ -47,7 +47,7 @@ bool KohdennusProxyModel::filterAcceptsRow(int source_row, const QModelIndex & s
     QDate alkaa = index.data(KohdennusModel::AlkaaRooli).toDate();
     QDate paattyy = index.data(KohdennusModel::PaattyyRooli).toDate();
 
-    if( paattyy.isValid()) {
+    if( nykyinenPaattyy.isValid()) {
         if( alkaa.isValid() && nykyinenPaattyy < alkaa )
             return false;
         if( paattyy.isValid() && nykyinenPaiva > paattyy)
@@ -62,9 +62,11 @@ bool KohdennusProxyModel::filterAcceptsRow(int source_row, const QModelIndex & s
 
     int tyyppi = index.data(KohdennusModel::TyyppiRooli).toInt();
 
-    if( naytettavat == KOHDENNUKSET_PROJEKTIT && tyyppi == Kohdennus::MERKKAUS )
+    if( (naytettavat == KOHDENNUKSET_PROJEKTIT || naytettavat == KUSTANNUSPAIKAT) && tyyppi == Kohdennus::MERKKAUS )
         return false;
     else if( naytettavat == MERKKKAUKSET && tyyppi != Kohdennus::MERKKAUS)
+        return false;
+    else if( naytettavat == KUSTANNUSPAIKAT && tyyppi == Kohdennus::PROJEKTI)
         return false;
 
 

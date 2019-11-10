@@ -57,6 +57,7 @@ private slots:
     void nimiMuuttuu();
 
     void accept() override;
+    void reject() override;
     void dataSaapuu(QVariant* data);
 
     void haeYTunnarilla();
@@ -67,6 +68,7 @@ private slots:
 private:
     Ui::AsiakasToimittajaDlg *ui;
     int id_ = 0;
+    bool tultuytunnarilla_ = false;
 };
 
 #endif // TOIMITTAJADLG_H

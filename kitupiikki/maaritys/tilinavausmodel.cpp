@@ -277,6 +277,7 @@ bool TilinavausModel::tallenna()
             TositeVienti vienti;
             vienti.setPvm( tosite_->pvm() );
             vienti.setTili(tili);
+            vienti.setSelite( tr("Tilinavaus") );
 
             if( era.vienti() )
                 vienti.set(TositeVienti::ID, era.vienti());

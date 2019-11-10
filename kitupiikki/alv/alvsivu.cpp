@@ -46,11 +46,10 @@ AlvSivu::AlvSivu() :
     paivitaMaksuAlvTieto();
 
 
-    connect( ui->viimeisinEdit, SIGNAL(dateChanged(QDate)), this, SLOT(paivitaSeuraavat()));
+    connect( ui->viimeisinEdit, &QDateEdit::editingFinished, this, &AlvSivu::paivitaSeuraavat);
     connect(ui->kausiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(paivitaSeuraavat()));
     connect( ui->tilitaNappi, SIGNAL(clicked(bool)), this, SLOT(ilmoita()));
     connect( ui->tilitysNappi, SIGNAL(clicked(bool)), this, SLOT(naytaIlmoitus()));
-    connect( ui->erittelyNappi, SIGNAL(clicked(bool)), this, SLOT(naytaErittely()));
     connect(ui->ilmoituksetView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(riviValittu()));
     connect( ui->maksuperusteNappi, SIGNAL(clicked(bool)), this, SLOT(maksuAlv()));
     connect( ui->poistaTilitysNappi, &QPushButton::clicked, this, &AlvSivu::poistaIlmoitus);
@@ -125,13 +124,6 @@ void AlvSivu::naytaIlmoitus()
 
 }
 
-void AlvSivu::naytaErittely()
-{
-    // Erittely on tositteen toinen liite
-    int tositeId = model->data( ui->ilmoituksetView->selectionModel()->currentIndex() , AlvIlmoitustenModel::TositeIdRooli ).toInt();
-
-    NaytinIkkuna::naytaLiite(tositeId, "alv");
-}
 
 void AlvSivu::poistaIlmoitus()
 {
@@ -141,7 +133,12 @@ void AlvSivu::poistaIlmoitus()
                                                                           "Poistamisen jälkeen sinun on laadittava uusi alv-ilmoitus."),
                               QMessageBox::Yes | QMessageBox::Cancel) == QMessageBox::Yes   )
     {
-        ;       // TODO Tositteen poistaminen!!!
+        QDate alkupaiva = model->data( ui->ilmoituksetView->selectionModel()->currentIndex() , AlvIlmoitustenModel::AlkaaRooli ).toDate();
+        kp()->asetukset()->aseta("AlvIlmoitus", alkupaiva.addDays(-1) );
+        KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tositeId), KpKysely::DELETE);
+        connect( kysely, &KpKysely::vastaus, model, &AlvIlmoitustenModel::lataa);
+        kysely->kysy();
+
     }
 }
 
@@ -150,10 +147,8 @@ void AlvSivu::riviValittu()
     QModelIndex index = ui->ilmoituksetView->selectionModel()->currentIndex();
 
     ui->tilitysNappi->setEnabled( index.isValid() );
-    ui->erittelyNappi->setEnabled( index.isValid() );
-    ui->poistaTilitysNappi->setEnabled( index.isValid() &&
-                                        index.data(AlvIlmoitustenModel::PaattyyRooli).toDate() == kp()->asetukset()->pvm("AlvIlmoitus")  &&
-                                        index.data(AlvIlmoitustenModel::EraPvmRooli).toDate() >= kp()->paivamaara() );
+    ui->poistaTilitysNappi->setEnabled( index.isValid() &&                                        
+                                        index.data(AlvIlmoitustenModel::AlkaaRooli).toDate() > kp()->tilitpaatetty() );
 
 }
 

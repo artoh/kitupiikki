@@ -20,6 +20,7 @@
 #include <QJsonDocument>
 #include <QStringListModel>
 #include <QDebug>
+#include <QMessageBox>
 
 TaseTulosRaportti::TaseTulosRaportti(Raportoija::RaportinTyyppi raportinTyyppi, QWidget *parent) :
     RaporttiWidget (parent),
@@ -29,30 +30,26 @@ TaseTulosRaportti::TaseTulosRaportti(Raportoija::RaportinTyyppi raportinTyyppi, 
 {
     ui->setupUi( raporttiWidget );
 
-    QStringList muodot;
-    if(tyyppi() == Raportoija::TASE )
-        muodot = kp()->asetukset()->avaimet("tase/");
-    else if( tyyppi() == Raportoija::TULOSLASKELMA)
-             muodot = kp()->asetukset()->avaimet("tulos/");
+    paivitaMuodot();
+    paivitaKielet();
 
     connect( ui->muotoCombo, &QComboBox::currentTextChanged, this, &TaseTulosRaportti::paivitaKielet);
+    connect( ui->kieliCombo, &QComboBox::currentTextChanged, this, &TaseTulosRaportti::paivitaMuodot);
 
-    for( auto muoto : muodot ) {
-        QString kaava = kp()->asetukset()->asetus(muoto);
-        QJsonDocument doc = QJsonDocument::fromJson( kaava.toUtf8() );
-        QVariantMap map = doc.toVariant().toMap().value("muoto").toMap();
-        QString muotonimi = map.value("fi").toString();
-        ui->muotoCombo->addItem( muotonimi, muoto );
+    if( tyyppi() == Raportoija::PROJEKTILASKELMA) {
+        ui->kohdennusCheck->setVisible( kp()->kohdennukset()->kustannuspaikkoja() );
+        ui->kohdennusCombo->setVisible( kp()->kohdennukset()->kustannuspaikkoja());
+        ui->kohdennusCheck->setText( tr("Kustannuspaikalla"));
+        ui->kohdennusCombo->valitseNaytettavat(KohdennusProxyModel::KUSTANNUSPAIKAT);
     }
-
-    if( tyyppi()!=Raportoija::TULOSLASKELMA || !kp()->kohdennukset()->kohdennuksia())
+    else if( tyyppi()!=Raportoija::TULOSLASKELMA || !kp()->kohdennukset()->kohdennuksia())
     {
         ui->kohdennusCheck->setVisible(false);
         ui->kohdennusCombo->setVisible(false);
     }
 
     QStringList tyyppiLista;
-    tyyppiLista << tr("Totetunut") << tr("Budjetti") << tr("Budjettiero €") << tr("Toteutunut %");
+    tyyppiLista << tr("Toteutunut") << tr("Budjetti") << tr("Budjettiero €") << tr("Toteutunut %");
     QStringListModel *tyyppiListaModel = new QStringListModel(this);
     tyyppiListaModel->setStringList(tyyppiLista);
 
@@ -74,7 +71,9 @@ void TaseTulosRaportti::esikatsele()
 {
     Raportoija *raportoija = new Raportoija( ui->muotoCombo->currentData().toString(),
                                              ui->kieliCombo->currentData().toString(),
-                                             this);     
+                                             this,
+                                             tyyppi());
+
 
 
     if( raportoija->onkoKausiraportti())
@@ -98,31 +97,64 @@ void TaseTulosRaportti::esikatsele()
             raportoija->lisaaTasepaiva( ui->loppuu4Date->date());
     }
 
-//    if( raportoija->tyyppi() == Raportoija::KOHDENNUSLASKELMA && !ui->kohdennusCheck->isChecked())
-//        raportoija.etsiKohdennukset();
-
     connect( raportoija, &Raportoija::valmis, this, &RaporttiWidget::nayta);
+    connect( raportoija, &Raportoija::tyhjaraportti, this, &TaseTulosRaportti::tyhjaraportti);
+
     raportoija->kirjoita( ui->erittelyCheck->isChecked(),
                           ui->kohdennusCheck->isChecked() ? ui->kohdennusCombo->kohdennus() : -1);
 
 }
 
 void TaseTulosRaportti::paivitaKielet()
-{
+{    
     QString raportti = ui->muotoCombo->currentData().toString();
+
     QString kaava = kp()->asetukset()->asetus(raportti);
+
+    if( kaava == kaava_ || kaava.isEmpty())
+        return;
+    kaava_ = kaava;
+
     QJsonDocument doc = QJsonDocument::fromJson( kaava.toUtf8() );
-    QVariantMap nimet = doc.toVariant().toMap().value("nimi").toMap();
+
+    QVariantMap kielet = doc.toVariant().toMap().value("nimi").toMap();
 
     ui->kieliCombo->clear();
 
-    for(auto kieli : nimet.keys()) {
-        if( kieli == "fi")
-            ui->kieliCombo->addItem( QIcon(":/liput/fi.png"), tr("Suomi"), "fi");
-        else if( kieli == "sv")
-            ui->kieliCombo->addItem( QIcon(":/liput/se.png"), tr("Ruotsi"), "sv");
+    for(auto kieli : kielet.keys()) {
+        ui->kieliCombo->addItem( QIcon(":/liput/" + kieli + ".png"), kp()->asetukset()->kieli(kieli), kieli );
     }
 
+}
+
+void TaseTulosRaportti::paivitaMuodot()
+{
+    QStringList muodot;
+    if(tyyppi() == Raportoija::TASE )
+        muodot = kp()->asetukset()->avaimet("tase/");
+    else
+        muodot = kp()->asetukset()->avaimet("tulos/");
+
+    ui->muotoCombo->clear();
+
+    int nykyinen = ui->muotoCombo->currentIndex() > -1 ? ui->muotoCombo->currentIndex() : 0;
+    QString kieli = ui->kieliCombo->currentData().toString().isEmpty() ? "fi" : ui->kieliCombo->currentData().toString();
+
+    for( auto muoto : muodot ) {
+        QString kaava = kp()->asetukset()->asetus(muoto);
+        QJsonDocument doc = QJsonDocument::fromJson( kaava.toUtf8() );
+        QVariantMap map = doc.toVariant().toMap().value("muoto").toMap();
+        QString muotonimi = map.value( kieli ).toString();
+        ui->muotoCombo->addItem( muotonimi, muoto );
+    }
+
+    ui->muotoCombo->setCurrentIndex(nykyinen);
+}
+
+void TaseTulosRaportti::tyhjaraportti()
+{
+    QMessageBox::information(this, tr("Ei raportoitavaa"),
+                             tr("Tekemilläsi valinnoilla muodostuu tyhjä raportti"));
 }
 
 void TaseTulosRaportti::paivitaUi()

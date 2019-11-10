@@ -34,6 +34,7 @@ SOURCES += \
     $$PWD/model/tositeloki.cpp \
     $$PWD/model/tositeviennit.cpp \
     $$PWD/model/tositevienti.cpp \
+    $$PWD/raportti/alvraporttiwidget.cpp \
     $$PWD/raportti/paakirja.cpp \
     $$PWD/raportti/raportteri.cpp \
     $$PWD/raportti/raporttiwidget.cpp \
@@ -47,6 +48,7 @@ SOURCES += \
     $$PWD/rekisteri/ibandelegaatti.cpp \
     $$PWD/rekisteri/maamodel.cpp \
     $$PWD/rekisteri/postinumerot.cpp \
+    $$PWD/sqlite/routes/alvroute.cpp \
     $$PWD/sqlite/routes/asetuksetroute.cpp \
     $$PWD/sqlite/routes/asiakkaatroute.cpp \
     $$PWD/sqlite/routes/budjettiroute.cpp \
@@ -247,6 +249,7 @@ HEADERS += \
     $$PWD/model/tositeloki.h \
     $$PWD/model/tositeviennit.h \
     $$PWD/model/tositevienti.h \
+    $$PWD/raportti/alvraporttiwidget.h \
     $$PWD/raportti/paakirja.h \
     $$PWD/raportti/raportteri.h \
     $$PWD/raportti/raporttiwidget.h \
@@ -260,6 +263,7 @@ HEADERS += \
     $$PWD/rekisteri/ibandelegaatti.h \
     $$PWD/rekisteri/maamodel.h \
     $$PWD/rekisteri/postinumerot.h \
+    $$PWD/sqlite/routes/alvroute.h \
     $$PWD/sqlite/routes/asetuksetroute.h \
     $$PWD/sqlite/routes/asiakkaatroute.h \
     $$PWD/sqlite/routes/budjettiroute.h \

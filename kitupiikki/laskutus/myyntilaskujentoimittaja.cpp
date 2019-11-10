@@ -53,11 +53,29 @@ bool MyyntiLaskujenToimittaja::toimitaLaskut(const QList<QVariantMap> &laskut)
 
 }
 
+void MyyntiLaskujenToimittaja::toimitaLaskut(const QList<int> &tositteet)
+{
+    if( !tositteet.isEmpty()) {
+        tilattavat_ = tositteet;
+        tilaaSeuraavaLasku();
+    }
+}
+
 void MyyntiLaskujenToimittaja::toimitettu()
 {
     toimitetut_++;
     if( toimitetut_ == laskuja_)
         emit laskutToimitettu();
+}
+
+void MyyntiLaskujenToimittaja::tositeSaapuu(QVariant *data)
+{
+    QVariantMap map = data->toMap();
+    toimitettavat_.append(map);
+    if( tilattavat_.isEmpty())
+        toimitaLaskut( toimitettavat_ );
+    else
+        tilaaSeuraavaLasku();
 }
 
 bool MyyntiLaskujenToimittaja::tulosta()
@@ -109,6 +127,14 @@ void MyyntiLaskujenToimittaja::merkkaaToimitetuksi(int tositeId)
         map.insert("tila", Tosite::LAHETETTYLASKU);
         connect( kysely, &KpKysely::vastaus, this, &MyyntiLaskujenToimittaja::toimitettu);
         kysely->kysy(map);
+}
+
+void MyyntiLaskujenToimittaja::tilaaSeuraavaLasku()
+{
+    int id = tilattavat_.takeFirst();
+    KpKysely* kysely = kpk(QString("/tositteet/%1").arg(id));
+    connect( kysely, &KpKysely::vastaus, this, &MyyntiLaskujenToimittaja::tositeSaapuu );
+    kysely->kysy();
 }
 
 MyyntiLaskujenToimittaja::MyyntiLaskujenToimittaja(QObject *parent) : QObject(parent)

@@ -91,8 +91,8 @@ void AsiakasToimittajaDlg::ytunnuksella(const QString &ytunnus)
 {
     tauluun();
     ui->yEdit->setText(ytunnus);
-    haeYTunnarilla();
-    show();
+    tultuytunnarilla_ = true;
+    haeYTunnarilla();    
 }
 
 void AsiakasToimittajaDlg::lataa(int id)
@@ -235,6 +235,12 @@ void AsiakasToimittajaDlg::accept()
 
 }
 
+void AsiakasToimittajaDlg::reject()
+{
+    QDialog::reject();
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
+}
+
 void AsiakasToimittajaDlg::dataSaapuu(QVariant *data)
 {     
     tauluun( data->toMap() );
@@ -255,8 +261,11 @@ void AsiakasToimittajaDlg::yTietoSaapuu()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply*>( sender());
     QVariant var = QJsonDocument::fromJson( reply->readAll() ).toVariant();
-    if( var.toMap().value("results").toList().isEmpty())
+    if( var.toMap().value("results").toList().isEmpty()) {
+        if( tultuytunnarilla_)
+            show();
         return;
+    }
 
     QVariantMap tieto = var.toMap().value("results").toList().first().toMap();
 
@@ -267,6 +276,8 @@ void AsiakasToimittajaDlg::yTietoSaapuu()
     ui->postinumeroEdit->setText( osoite.value("postCode").toString() );
     ui->kaupunkiEdit->setText( osoite.value("city").toString());
 
+    if( tultuytunnarilla_ )
+        accept();
 
 }
 

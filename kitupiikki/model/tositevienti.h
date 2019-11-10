@@ -84,7 +84,7 @@ public:
     QString selite() const { return data(SELITE).toString();}
     int eraId() const;
     int kumppaniId() const;
-    QList<int> merkkaukset() const;
+    QVariantList merkkaukset() const;
     QString arkistotunnus() const { return data(ARKISTOTUNNUS).toString();}
     QString viite() const { return data(VIITE).toString();}
     QDate erapaiva() const { return data(ERAPAIVA).toDate();}

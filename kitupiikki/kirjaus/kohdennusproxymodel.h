@@ -28,7 +28,7 @@
 class KohdennusProxyModel : public QSortFilterProxyModel
 {
 public:
-    enum Naytettavat { KAIKKI, KOHDENNUKSET_PROJEKTIT, MERKKKAUKSET };
+    enum Naytettavat { KAIKKI, KOHDENNUKSET_PROJEKTIT, MERKKKAUKSET, KUSTANNUSPAIKAT };
 
     /**
      * @brief Kohdennuksia suodattava proxy

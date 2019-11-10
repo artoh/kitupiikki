@@ -54,8 +54,10 @@ void EraCombo::valitse(int eraid)
     else {
         // Tilataan erän tiedot
         KpKysely* kysely = kpk(QString("/viennit/%1").arg(eraid));
-        connect(kysely, &KpKysely::vastaus, this, &EraCombo::vientiSaapuu);
-        kysely->kysy();
+        if( kysely ) {
+            connect(kysely, &KpKysely::vastaus, this, &EraCombo::vientiSaapuu);
+            kysely->kysy();
+        }
     }
 }
 

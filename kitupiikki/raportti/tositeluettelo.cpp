@@ -105,7 +105,7 @@ void TositeLuettelo::dataSaapuu(QVariant *data)
             rivi.lisaa( tr("%1 kpl").arg( map.value("liitteita").toInt() ));
         else
             rivi.lisaa("");
-        qlonglong euro = qRound( map.value("summa").toDouble() * 100.0 );
+        qlonglong euro = qRound64( map.value("summa").toDouble() * 100.0 );
         rivi.lisaa( euro );
 
         lajisumma += euro;

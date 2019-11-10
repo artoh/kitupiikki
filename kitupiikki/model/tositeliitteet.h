@@ -78,6 +78,7 @@ public:
 
 public slots:
     void nayta(int indeksi);
+    void poista(int indeksi);
 
 signals:
     void liitteetTallennettu();
@@ -93,7 +94,6 @@ protected:
 
 private:
     QList<TositeLiite> liitteet_;
-    QList<int> poistetut_;
 
     int tositeId_ = -1;
     int tallennuksessa_ = -1;

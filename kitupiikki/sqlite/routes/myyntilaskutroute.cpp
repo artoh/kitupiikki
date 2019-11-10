@@ -32,7 +32,7 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
 {
     // Viite ja Laskutapa on json:n sisällä !
 
-    QString kysymys("select tosite.id as tosite, vienti.pvm as pvm, vienti.erapvm as erapvm, vienti.viite, vienti.json as json, "
+    QString kysymys("select tosite.id as tosite, vienti.pvm as pvm, vienti.erapvm as erapvm, vienti.viite, tosite.json as json, "
                         "debetsnt as summasnt, ds, ks, kumppani.nimi as asiakas, kumppani.id as asiakasid, vienti.eraid as eraid, vienti.tili as tili,"
                         "tosite.tyyppi as tyyppi, vienti.selite as selite  from "
                         "Tosite JOIN Vienti ON vienti.tosite=tosite.id ");
@@ -75,11 +75,9 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
         double ds = map.take("ds").toLongLong() / 100.0;
         double ks = map.take("ks").toLongLong() / 100.0;
 
-        QByteArray ba = map.take("json").toByteArray();
-        QVariant jsonvar = QJsonDocument::fromJson(ba).toVariant();
-        if( jsonvar.toMap().contains("lasku") &&
-            jsonvar.toMap().value("lasku").toMap().contains("laskutapa"))
-            map.insert("laskutapa", jsonvar.toMap().value("lasku").toMap().value("laskutapa"));
+        if( map.value("lasku").toMap().contains("laskutapa"))
+            map.insert("laskutapa", map.value("lasku").toMap().value("laskutapa").toInt());
+        map.take("lasku");
 
         map.insert("avoin", ds - ks);
         lista[i] = map;

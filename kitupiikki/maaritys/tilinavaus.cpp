@@ -38,6 +38,7 @@ Tilinavaus::Tilinavaus(QWidget *parent) : MaaritysWidget(parent)
 
     suodatus = new QSortFilterProxyModel(this);
     suodatus->setSourceModel(proxy);
+    suodatus->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
     ui->tiliView->setModel(suodatus);
     ui->siirryEdit->setValidator(new QIntValidator(this));

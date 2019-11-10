@@ -30,21 +30,27 @@
 
 #include <QJsonDocument>
 
-Raportoija::Raportoija(const QString &raportinNimi, const QString &kieli, QObject *parent) :
+Raportoija::Raportoija(const QString &raportinNimi, const QString &kieli, QObject *parent, RaportinTyyppi tyyppi) :
     Raportteri (parent),
     kieli_(kieli),    
-    tyyppi_ ( VIRHEELLINEN )
+    tyyppi_ ( tyyppi )
 {
-    if( raportinNimi.startsWith("tase/"))
-        tyyppi_ = TASE;
-    else if( raportinNimi.startsWith("tulos/"))
-        tyyppi_ = TULOSLASKELMA;
+    if( tyyppi_ == VIRHEELLINEN) {
+        if( raportinNimi.startsWith("tase/"))
+            tyyppi_ = TASE;
+        else if( raportinNimi.startsWith("tulos/"))
+            tyyppi_ = TULOSLASKELMA;
+    }
 
     QString kaava = kp()->asetukset()->asetus(raportinNimi);
     QJsonDocument doc = QJsonDocument::fromJson( kaava.toUtf8() );
     kmap_ = doc.toVariant().toMap();
 
     rk.asetaOtsikko( kmap_.value("nimi").toMap().value(kieli).toString() );
+    if( tyyppi == KOHDENNUSLASKELMA)
+        rk.asetaKausiteksti( tr("Kustannuspaikat") );
+    else if( tyyppi == PROJEKTILASKELMA)
+        rk.asetaKausiteksti( tr("Projektit") );
 
 
 }
@@ -73,25 +79,82 @@ void Raportoija::dataSaapuu(int sarake, QVariant *variant)
 {
     QVariantMap map = variant->toMap();
 
-    QMapIterator<QString,QVariant> iter(map);
-    while( iter.hasNext()) {
-        iter.next();
-        int tili = iter.key().toInt();
-        qlonglong sentit = qRound( iter.value().toDouble() * 100 );
+    if( tyyppi() == KOHDENNUSLASKELMA || tyyppi() == PROJEKTILASKELMA) {
+        // Jos haetaan kohdennusraportti, sijoitetaan eri kohdennukset omiin
+        // senttitaulukkoihinsa ja sitten puretaan aikanaan yksi
+        // kohdennus kerrallaan
+        QMapIterator<QString,QVariant> kiter(map);
+        while( kiter.hasNext()) {
+            kiter.next();
+            QHash<int, QVector<qlonglong> > snt;
+            QMapIterator<QString,QVariant> iter( kiter.value().toMap() );
+            while( iter.hasNext()) {
+                iter.next();
+                int tili = iter.key().toInt();
+                qlonglong sentit = qRound64( iter.value().toDouble() * 100 );
 
-        if( !snt_.contains(tili) )
-            snt_.insert(tili, QVector<qlonglong>(  sarakemaara_ ) );
+                if( !snt.contains(tili) )
+                    snt.insert(tili, QVector<qlonglong>(  sarakemaara_ ) );
 
-        snt_[tili][sarake] = sentit;
+                snt[tili][sarake] = sentit;
+            }
+            kohdennetut_.insert( kiter.key().toInt(), snt );
+        }
+
+
+    } else {
+        QMapIterator<QString,QVariant> iter(map);
+        while( iter.hasNext()) {
+            iter.next();
+            int tili = iter.key().toInt();
+            qlonglong sentit = qRound64( iter.value().toDouble() * 100 );
+
+            if( !snt_.contains(tili) )
+                snt_.insert(tili, QVector<qlonglong>(  sarakemaara_ ) );
+
+            snt_[tili][sarake] = sentit;
+        }
     }
 
     tilausLaskuri_--;
 
     // Jos ollaan nollassa, niin sitten päästään kirjoittamaan ;)
-    if( !tilausLaskuri_ && !snt_.isEmpty())
+    if( !tilausLaskuri_  )
     {
-        dataSaapunut();
-        kirjoitaDatasta();
+        if( snt_.isEmpty() && kohdennetut_.isEmpty()) {
+            emit tyhjaraportti();
+            return;
+        }
+
+        if( tyyppi() == KOHDENNUSLASKELMA || tyyppi() == PROJEKTILASKELMA) {
+            QMapIterator<int,QHash<int, QVector<qlonglong>>> kkiter( kohdennetut_ );
+            while( kkiter.hasNext()) {
+                kkiter.next();
+                snt_ = kkiter.value();
+
+                Kohdennus kohdennus = kp()->kohdennukset()->kohdennus( kkiter.key() );
+                RaporttiRivi korivi;
+                korivi.lisaa( kohdennus.nimi(kieli_), 2 );
+                korivi.asetaKoko(14);
+                rk.lisaaRivi(korivi);
+
+                if( kohdennus.tyyppi() == Kohdennus::PROJEKTI) {
+                    RaporttiRivi kprivi;
+                    kprivi.lisaa( kp()->kohdennukset()->kohdennus( kohdennus.kuuluu() ).nimi( kieli_ ), 2 );
+                    rk.lisaaRivi( kprivi);
+                }
+
+                rk.lisaaTyhjaRivi();
+
+                dataSaapunut();
+                kirjoitaDatasta();
+
+                rk.lisaaTyhjaRivi();
+            }
+        } else {
+            dataSaapunut();
+            kirjoitaDatasta();
+        }
         emit valmis( rk );
     }
 }
@@ -99,6 +162,7 @@ void Raportoija::dataSaapuu(int sarake, QVariant *variant)
 void Raportoija::dataSaapunut()
 {
     QList<int> tilinumerot = snt_.keys();
+    tilit_.clear();
     tilit_.reserve( tilinumerot.count() + 1 );
     tilit_.append("0"); // Aloitusindeksi
     for(int tilinumero : tilinumerot) {
@@ -230,40 +294,16 @@ void Raportoija::kirjoitaDatasta()
             QString alku = tiliMats.captured("alku");
             QString loppu = tiliMats.captured("loppu");
 
-            // Sitten etsitään tilit listalle
+            if( loppu.isEmpty())
+                loppu = alku;
+
             int alkumerkit = alku.length();
+            int loppumerkit = loppu.length();
 
-            int alaraja = 1;
-            int ylaraja = tilit_.length() - 1;
-            int indeksi = 1 + (ylaraja-1) / 2;
-
-            while( indeksi && ylaraja != alaraja) {
-
-
-                if( tilit_[indeksi-1].left(alkumerkit) < alku && tilit_[indeksi].left(alkumerkit) >= alku )
-                    break;
-                // Nyt indeksissä on ensimmäinen sopiva tilinumero
-                if( tilit_[indeksi].left(alkumerkit) >= alku)
-                    ylaraja = indeksi;
-                else
-                    alaraja = indeksi+1;
-
-                indeksi = alaraja + (ylaraja - alaraja) / 2;
-            }
-
-            if( loppu.isEmpty() )
-            {
-                // Haetaan tilejä tietyllä tilinumeron alulla
-                while( indeksi < tilit_.length() &&  tilit_[indeksi].startsWith(alku))
-                {
-                    rivinTilit.append( tilit_[indeksi].toInt() );
-                    indeksi++;
-                }
-            } else {
-                while( indeksi < tilit_.length() && tilit_[indeksi].left(alkumerkit) <= loppu) {
-                    rivinTilit.append( tilit_[indeksi].toInt() );
-                    indeksi++;
-                }
+            // Sitten etsitään tilit listalle
+            for(QString tili : tilit_) {
+                if( tili.left(alkumerkit) >= alku && tili.left(loppumerkit) <= loppu )
+                    rivinTilit.append(tili.toInt());
             }
 
         }
@@ -424,7 +464,7 @@ void Raportoija::kirjoita(bool tulostaErittelyt, int kohdennuksella)
     kirjoitaYlatunnisteet();
 
     if( kohdennuksella > -1)
-        rk.asetaOtsikko( rk.otsikko() + " (" + kp()->kohdennukset()->kohdennus(kohdennuksella).nimi(kieli_) + ")" );
+        rk.asetaOtsikko( rk.otsikko() + " (" + kp()->kohdennukset()->kohdennus(kohdennuksella).nimi(kieli_) + ")" );    
 
     QList<KpKysely*> kyselyt;
     // Sitten tilataan tarvittava data
@@ -439,7 +479,7 @@ void Raportoija::kirjoita(bool tulostaErittelyt, int kohdennuksella)
                     [this,sarake] (QVariant* vastaus) { this->dataSaapuu(sarake, vastaus); });
             kyselyt.append(kysely);
         }
-    } else if( tyyppi() == TULOSLASKELMA) {
+    } else  {
         for( int i=0; i < loppuPaivat_.count(); i++) {
 
             if( sarakeTyypit_[i] != BUDJETTI)
@@ -448,9 +488,16 @@ void Raportoija::kirjoita(bool tulostaErittelyt, int kohdennuksella)
                 KpKysely* kysely = kpk("/saldot");
                 kysely->lisaaAttribuutti("alkupvm", alkuPaivat_.value(i));
                 kysely->lisaaAttribuutti("pvm", loppuPaivat_.value(i));
-                kysely->lisaaAttribuutti("tuloslaskelma");
+
                 if( kohdennuksella > -1)
                     kysely->lisaaAttribuutti("kohdennus", kohdennuksella);
+                if( tyyppi() == KOHDENNUSLASKELMA )
+                    kysely->lisaaAttribuutti("kustannuspaikat");
+                else if( tyyppi() == PROJEKTILASKELMA )
+                    kysely->lisaaAttribuutti("projektit");
+                else
+                    kysely->lisaaAttribuutti("tuloslaskelma");
+
                 int sarake = ++sarakemaara_ -1;
                 connect(kysely, &KpKysely::vastaus,
                         [this,sarake] (QVariant* vastaus) { this->dataSaapuu(sarake, vastaus); });
@@ -462,6 +509,8 @@ void Raportoija::kirjoita(bool tulostaErittelyt, int kohdennuksella)
                 KpKysely* kysely = kpk( QString("/budjetti/%1").arg( loppuPaivat_.value(i).toString(Qt::ISODate) ));
                 if( kohdennuksella > -1)
                     kysely->lisaaAttribuutti("kohdennus", kohdennuksella);
+                if( tyyppi() == KOHDENNUSLASKELMA || tyyppi() == PROJEKTILASKELMA)
+                    kysely->lisaaAttribuutti("kohdennukset");
                 int sarake = ++sarakemaara_ -1;
                 connect(kysely, &KpKysely::vastaus,
                         [this,sarake] (QVariant* vastaus) { this->dataSaapuu(sarake, vastaus); });

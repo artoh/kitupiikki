@@ -52,6 +52,11 @@ void KohdennusCombo::suodataValilla(const QDate &alkaa, const QDate &paattyy)
     proxy_->asetaVali(alkaa, paattyy);
 }
 
+void KohdennusCombo::valitseNaytettavat(KohdennusProxyModel::Naytettavat naytettavat)
+{
+    proxy_->asetaNaytettavat(naytettavat);
+}
+
 void KohdennusCombo::vaihtuu()
 {
     emit kohdennusVaihtui( kohdennus() );

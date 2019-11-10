@@ -29,6 +29,7 @@
 #include <QPrintDialog>
 #include <QPrinter>
 #include <QPainter>
+#include <QJsonDocument>
 
 #include <QShortcut>
 #include <QSettings>
@@ -159,10 +160,12 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     connect( ui->viennitView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)),
              this, SLOT(vientiValittu()));
     connect( ui->viennitView, SIGNAL(activated(QModelIndex)), this, SLOT( vientivwAktivoitu(QModelIndex)));
-    connect( ui->otsikkoEdit, &QLineEdit::textChanged, [this] { this->tosite()->setData(Tosite::OTSIKKO, ui->otsikkoEdit->text()); });
+    connect( ui->otsikkoEdit, &QLineEdit::textChanged, [this] { if( !this->tosite()->resetoidaanko())  this->tosite()->setData(Tosite::OTSIKKO, ui->otsikkoEdit->text()); });
     connect( ui->sarjaEdit, &QLineEdit::textChanged, [this] { this->tosite()->setData(Tosite::SARJA, ui->sarjaEdit->text()); });
 
     connect( tosite_, &Tosite::otsikkoMuuttui, [this] (const QString& otsikko) { if( otsikko != ui->otsikkoEdit->text()) this->ui->otsikkoEdit->setText(otsikko); });
+
+    connect( ui->lokiView, &QTableView::clicked, this, &KirjausWg::naytaLoki);
 
     // Tagivalikko
     ui->viennitView->viewport()->installEventFilter(this);
@@ -218,6 +221,7 @@ void KirjausWg::tyhjenna()
     ui->sarjaEdit->setVisible( kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN) );
     ui->sarjaLabel->setVisible( kp()->asetukset()->onko(AsetusModel::ERISARJAAN) || kp()->asetukset()->onko(AsetusModel::KATEISSARJAAN) );
     paivitaLiiteNapit();
+    ui->tositePvmEdit->checkValidity();
 }
 
 void KirjausWg::tallenna()
@@ -320,10 +324,13 @@ void KirjausWg::tulostaTosite()
     }
 }
 
-void KirjausWg::naytaSelvitys()
+void KirjausWg::naytaLoki()
 {
-    NaytinIkkuna *naytin = new NaytinIkkuna();
-//    naytin->naytaRaportti( model()->selvittelyTuloste() );
+    NaytinIkkuna *naytin = new NaytinIkkuna();    
+    QVariant var = ui->lokiView->currentIndex().data(Qt::UserRole);
+
+    QString data = QString::fromUtf8( QJsonDocument::fromVariant(var).toJson(QJsonDocument::Indented) );
+    naytin->nayta(data);
 }
 
 void KirjausWg::valmis()
@@ -393,8 +400,10 @@ void KirjausWg::tuonti(QVariant *data)
     QVariantMap map = data->toMap();
     if( map.contains("tyyppi"))
         ui->tositetyyppiCombo->setCurrentIndex( ui->tositetyyppiCombo->findData( map.value("tyyppi") ) );
-    if( map.value("tositepvm").toDate().isValid())
+    if( map.value("tositepvm").toDate().isValid()) {
         ui->tositePvmEdit->setDate( map.value("tositepvm").toDate() );
+        ui->tositePvmEdit->checkValidity();
+    }
 
     if( apuri_)
         apuri_->tuo(map);
@@ -626,6 +635,7 @@ void KirjausWg::tiedotModelista()
         ui->seuraavaButton->setVisible(false);
         ui->vuosiLabel->setVisible(false);
     }
+    paivitaLiiteNapit();
 
 }
 
@@ -696,7 +706,7 @@ void KirjausWg::vaihdaTositeTyyppi()
     else
         ui->tabWidget->setCurrentIndex(0);
 
-    if( ui->otsikkoEdit->text().startsWith("Tiliote") && tyyppiKoodi != TositeTyyppi::TILIOTE)
+    if( ui->otsikkoEdit->text().startsWith("Tiliote") && tyyppiKoodi != TositeTyyppi::TILIOTE && !tosite()->resetoidaanko())
         ui->otsikkoEdit->clear();    
 }
 
@@ -709,15 +719,16 @@ void KirjausWg::paivitaSarja(bool kateinen)
 
 void KirjausWg::liiteValinta(const QModelIndex &valittu)
 {
-    if( !valittu.isValid())
+    if( !valittu.isValid() )
     {
         ui->poistaLiiteNappi->setDisabled(true);
         emit liiteValittu( QByteArray());
     }
     else
     {
-        ui->poistaLiiteNappi->setEnabled(true);
         tosite_->liitteet()->nayta( valittu.row() );
+        ui->poistaLiiteNappi->setEnabled( true );
+
     }
 }
 
@@ -740,17 +751,18 @@ void KirjausWg::pvmVaihtuu()
 
 void KirjausWg::poistaLiite()
 {
-    /*
-    if( ui->liiteView->currentIndex().isValid() && model_->muokkausSallittu() )
+
+    if( ui->liiteView->currentIndex().isValid() )
     {
         if( QMessageBox::question(this, tr("Poista liite"),
-                                  tr("Poistetaanko liite %1. Poistettua liitettä ei voi palauttaa!").arg( ui->liiteView->currentIndex().data(LiiteModel::OtsikkoRooli).toString()),
+                                  tr("Poistetaanko liite %1. Poistettua liitettä ei voi palauttaa!").arg( ui->liiteView->currentIndex().data(Qt::DisplayRole).toString()),
                                   QMessageBox::Yes, QMessageBox::Cancel) == QMessageBox::Yes )
         {
-            model_->liiteModel()->poistaLiite( ui->liiteView->currentIndex().row() );
+            ui->poistaLiiteNappi->setEnabled(false);
+            tosite()->liitteet()->poista( ui->liiteView->currentIndex().row() );
         }
     }
-    ui->poistaLiiteNappi->setEnabled( model()->liiteModel()->rowCount(QModelIndex()) );
-    */
+
+
 }
 

@@ -113,6 +113,11 @@ void NaytinView::nayta(const RaportinKirjoittaja& raportti)
     zoomFit();
 }
 
+void NaytinView::nayta(const QString &teksti)
+{
+    vaihdaNaytin( new Naytin::TekstiNaytin(teksti) );
+}
+
 Naytin::EsikatseluNaytin* NaytinView::esikatsele(Esikatseltava *katseltava)
 {
     Naytin::EsikatseluNaytin *naytin = new Naytin::EsikatseluNaytin(katseltava);

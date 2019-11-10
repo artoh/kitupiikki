@@ -14,34 +14,28 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef KOHDENNUSCOMBO_H
-#define KOHDENNUSCOMBO_H
+#ifndef ALVRAPORTTIWIDGET_H
+#define ALVRAPORTTIWIDGET_H
 
-#include <QComboBox>
+#include "raporttiwidget.h"
+#include "ui_paivakirja.h"
 
-#include "kirjaus/kohdennusproxymodel.h"
-
-class KohdennusCombo : public QComboBox
+/**
+ * @brief Alv-erittelyn tulostava raportti
+ */
+class AlvRaporttiWidget : public RaporttiWidget
 {
     Q_OBJECT
 public:
-    KohdennusCombo(QWidget* parent = nullptr);
-    int kohdennus() const;
-
-public slots:
-    void valitseKohdennus(int kohdennus);
-    void suodataPaivalla(const QDate& pvm);
-    void suodataValilla(const QDate& alkaa, const QDate& paattyy);
-    void valitseNaytettavat(KohdennusProxyModel::Naytettavat naytettavat);
-
-private slots:
-    void vaihtuu();
-
-signals:
-    void kohdennusVaihtui(int kohdennus);
+    AlvRaporttiWidget();
+    ~AlvRaporttiWidget() override;
 
 protected:
-    KohdennusProxyModel *proxy_;
+    Ui::Paivakirja *ui;
+
+public slots:
+    void esikatsele() override;
+
 };
 
-#endif // KOHDENNUSCOMBO_H
+#endif // ALVRAPORTTIWIDGET_H

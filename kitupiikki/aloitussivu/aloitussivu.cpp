@@ -53,6 +53,7 @@
 
 #include <QJsonDocument>
 #include <QTimer>
+#include <QSortFilterProxyModel>
 
 #include "tilaus/tilauswizard.h"
 #include "versio.h"
@@ -79,7 +80,7 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
     connect(ui->muistiinpanotNappi, &QPushButton::clicked, this, &AloitusSivu::muistiinpanot);
     connect(ui->poistaNappi, &QPushButton::clicked, this, &AloitusSivu::poistaListalta);
 
-    connect( ui->tilikausiCombo, &QComboBox::currentTextChanged, this, &AloitusSivu::haeSaldot);
+    connect( ui->tilikausiCombo, &QComboBox::currentTextChanged, this, &AloitusSivu::haeSaldot);    
 
     connect( ui->selain, SIGNAL(anchorClicked(QUrl)), this, SLOT(linkki(QUrl)));
 
@@ -108,7 +109,11 @@ AloitusSivu::AloitusSivu(QWidget *parent) :
 
     connect( kp(), &Kirjanpito::logoMuuttui, this, &AloitusSivu::logoMuuttui);
 
-    ui->viimeisetView->setModel( kp()->sqlite() );
+    QSortFilterProxyModel* sqliteproxy = new QSortFilterProxyModel(this);
+    sqliteproxy->setSourceModel( kp()->sqlite());
+    ui->viimeisetView->setModel( sqliteproxy );
+    sqliteproxy->setSortRole(Qt::DisplayRole);
+
     ui->pilviView->setModel( kp()->pilvi() );
     ui->tkpilviTab->setCurrentIndex( kp()->settings()->value("TietokonePilviValilehti").toInt() );
     ui->vaaraSalasana->setVisible(false);
@@ -142,7 +147,7 @@ void AloitusSivu::siirrySivulle()
 
     // Päivitetään aloitussivua
     if( kp()->yhteysModel() )
-    {
+    {        
         QString txt("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:/aloitus/aloitus.css\"></head><body>");
         txt.append( paivitysInfo );
 
@@ -153,6 +158,8 @@ void AloitusSivu::siirrySivulle()
             txt.append(summat());
         else
             txt.append("<p><img src=qrc:/pic/kitsas150.png></p>");
+
+        haeSaldot();
 
         ui->selain->setHtml(txt);
     }
@@ -256,8 +263,9 @@ void AloitusSivu::uusiTietokanta()
         if( velho.field("pilveen").toBool())
             kp()->pilvi()->uusiPilvi(velho.data());
         else {
-            if(kp()->sqlite()->uusiKirjanpito(velho.polku(), velho.data()))
+            if(kp()->sqlite()->uusiKirjanpito(velho.polku(), velho.data())) {
                 kp()->sqlite()->avaaTiedosto(velho.polku());
+            }
         }
     }
 }
@@ -383,7 +391,7 @@ void AloitusSivu::pyydaInfo()
 void AloitusSivu::saldotSaapuu(QVariant *data)
 {
     saldot_ = data->toMap();
-    siirrySivulle();
+
 
 }
 
@@ -543,7 +551,6 @@ QString AloitusSivu::vinkit()
         vinkki.append("<h3>Kirjanpidon aloittaminen</h3><ol>");
         vinkki.append("<li>Tarkista <a href=ktp:/maaritys/Perusvalinnat>perusvalinnat, logo ja arvonlisävelvollisuus</a> <a href='ohje:/maaritykset/perusvalinnat'>(Ohje)</a></li>");
         vinkki.append("<li>Tutustu <a href=ktp:/maaritys/Tilikartta>tilikarttaan</a> ja tee tarpeelliset muutokset <a href='ohje:/maaritykset/tilikartta'>(Ohje)</a></li>");
-        vinkki.append("<li>Tutustu <a href=ktp:/maaritys/Tositelajit>tositelajeihin</a> ja lisää tarvitsemasi tositelajit <a href='ohje:/maaritykset/tositelajit'>(Ohje)</a></li>");
         vinkki.append("<li>Lisää tarvitsemasi <a href=ktp:/maaritys/Kohdennukset>kohdennukset</a> <a href='ohje:/maaritykset/kohdennukset'>(Ohje)</a></li>");
         if( kp()->asetukset()->luku("Tilinavaus")==2)
             vinkki.append("<li>Tee <a href=ktp:/maaritys/Tilinavaus>tilinavaus</a> <a href='ohje:/maaritykset/tilinavaus'>(Ohje)</a></li>");

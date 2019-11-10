@@ -378,7 +378,7 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
 
     painter->setFont( QFont("Sans", 10));
 
-    QString lisatieto = map_.value("otsikko").toString();
+    QString lisatieto = map_.value("lasku").toMap().value("otsikko").toString();
     QString info = map_.value("into").toString();
     if( !lisatieto.isEmpty() && !info.isEmpty())
         lisatieto.append("\n\n");
@@ -687,7 +687,7 @@ QString MyyntiLaskunTulostaja::code128() const
 
 QString MyyntiLaskunTulostaja::virtuaaliviivakoodi() const
 {
-    qlonglong summa = qRound( laskunSumma_ * 100);
+    qlonglong summa = qRound64( laskunSumma_ * 100);
 
     if( summa > 99999999 )  // Ylisuuri laskunsumma
         return QString();

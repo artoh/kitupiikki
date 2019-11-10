@@ -14,34 +14,17 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef KOHDENNUSCOMBO_H
-#define KOHDENNUSCOMBO_H
+#ifndef ALVROUTE_H
+#define ALVROUTE_H
 
-#include <QComboBox>
+#include "../sqliteroute.h"
 
-#include "kirjaus/kohdennusproxymodel.h"
-
-class KohdennusCombo : public QComboBox
+class AlvRoute : public SQLiteRoute
 {
-    Q_OBJECT
 public:
-    KohdennusCombo(QWidget* parent = nullptr);
-    int kohdennus() const;
+    AlvRoute(SQLiteModel *model);
 
-public slots:
-    void valitseKohdennus(int kohdennus);
-    void suodataPaivalla(const QDate& pvm);
-    void suodataValilla(const QDate& alkaa, const QDate& paattyy);
-    void valitseNaytettavat(KohdennusProxyModel::Naytettavat naytettavat);
-
-private slots:
-    void vaihtuu();
-
-signals:
-    void kohdennusVaihtui(int kohdennus);
-
-protected:
-    KohdennusProxyModel *proxy_;
+    QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
 };
 
-#endif // KOHDENNUSCOMBO_H
+#endif // ALVROUTE_H

@@ -225,8 +225,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>257</x>
-     <y>375</y>
+     <x>618</x>
+     <y>688</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -241,8 +241,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>325</x>
-     <y>375</y>
+     <x>618</x>
+     <y>688</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -257,12 +257,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>71</x>
-     <y>214</y>
+     <x>85</x>
+     <y>543</y>
     </hint>
     <hint type="destinationlabel">
-     <x>140</x>
-     <y>236</y>
+     <x>341</x>
+     <y>589</y>
     </hint>
    </hints>
   </connection>
@@ -273,28 +273,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>52</x>
-     <y>212</y>
+     <x>66</x>
+     <y>543</y>
     </hint>
     <hint type="destinationlabel">
-     <x>147</x>
-     <y>266</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>projektiRadio</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>maaraaikainenCheck</receiver>
-   <slot>setChecked(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>28</x>
-     <y>107</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>21</x>
-     <y>208</y>
+     <x>348</x>
+     <y>635</y>
     </hint>
    </hints>
   </connection>

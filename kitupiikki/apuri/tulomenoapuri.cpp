@@ -71,7 +71,7 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     connect( ui->loppuEdit, &KpDateEdit::dateChanged, this, &TuloMenoApuri::jaksoLoppuuMuuttui);
 
     connect( ui->maksutapaCombo, &QComboBox::currentTextChanged, this, &TuloMenoApuri::maksutapaMuuttui);
-    connect( ui->vastatiliCombo, &TiliCombo::tiliValittu, this, &TuloMenoApuri::tositteelle);
+    connect( ui->vastatiliLine, &TilinvalintaLine::textChanged, this, &TuloMenoApuri::tositteelle);
 
     connect( ui->viiteEdit, &QLineEdit::textChanged, [this] (const QString& text) {this->tosite()->setData(Tosite::VIITE, text);});
     connect( ui->erapaivaEdit, &KpDateEdit::dateChanged, [this] (const QDate& date) {this->tosite()->setData(Tosite::ERAPVM, date);});
@@ -80,8 +80,8 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::haeKohdennukset );
     connect( ui->asiakasToimittaja, &AsiakasToimittajaValinta::valittu, this, &TuloMenoApuri::kumppaniValittu);
 
-    connect( ui->vastatiliCombo, &TiliCombo::tiliValittu, this, &TuloMenoApuri::vastatiliMuuttui);
-    connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::teeTositteelle);
+    connect( ui->vastatiliLine, &TilinvalintaLine::textChanged, this, &TuloMenoApuri::vastatiliMuuttui);
+    connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::tositteelle);
 }
 
 TuloMenoApuri::~TuloMenoApuri()
@@ -119,6 +119,8 @@ void TuloMenoApuri::teeReset()
     bool menoa = tosite()->tyyppi() == TositeTyyppi::MENO ||
                  tosite()->tyyppi() == TositeTyyppi::KULULASKU;
 
+    alusta( menoa );
+
     ui->viiteEdit->clear();
     ui->erapaivaEdit->clear();
     ui->asiakasToimittaja->clear();
@@ -135,7 +137,7 @@ void TuloMenoApuri::teeReset()
         if( vienti.tyyppi() % 100 == TositeVienti::VASTAKIRJAUS) {
             Tili* vastatili = kp()->tilit()->tili( vienti.tili());
 
-            ui->vastatiliCombo->valitseTili( vastatili->numero() );
+            ui->vastatiliLine->valitseTiliNumerolla( vastatili->numero() );
             if( vastatili->eritellaankoTase())
                 ui->eraCombo->valitse( vienti.eraId() );
 
@@ -162,11 +164,13 @@ void TuloMenoApuri::teeReset()
         rivit_->lisaaRivi();
 
 
-    alusta( menoa );
-
     ui->tilellaView->setVisible( rivit_->rowCount() > 1 );
     ui->poistaRiviNappi->setEnabled( rivit_->rowCount() > 1 );
     ui->tilellaView->selectRow(0);    
+
+    tiliMuuttui();
+    paivitaVerovalinnat();
+
 
 }
 
@@ -192,9 +196,12 @@ bool TuloMenoApuri::teeTositteelle()
         }
 
         TositeVienti vasta;
+        if( tosite()->viennit()->rowCount() && tosite()->viennit()->vienti(0).tyyppi() % 100 == TositeVienti::VASTAKIRJAUS)
+            vasta.setId( tosite()->viennit()->vienti(0).id() );
+
         vasta.setTyyppi( (menoa ? TositeVienti::OSTO : TositeVienti::MYYNTI) + TositeVienti::VASTAKIRJAUS );
         vasta.insert("pvm", tosite()->pvm());
-        Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliCombo->valittuTilinumero() );
+        Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliLine->valittuTilinumero() );
         vasta.insert("tili", vastatili.numero() );
 
         if( vastatili.eritellaankoTase())
@@ -242,6 +249,9 @@ void TuloMenoApuri::poistaRivi()
 
 void TuloMenoApuri::tiliMuuttui()
 {
+    if( !rivit_->rowCount())
+        return;
+
     Tili tili = ui->tiliEdit->valittuTili();
     rivi()->setTili(tili.numero());
 
@@ -358,10 +368,10 @@ void TuloMenoApuri::maksutapaMuuttui()
     int maksutapatili = ui->maksutapaCombo->currentData().toInt();
 
     if( maksutapatili)
-        ui->vastatiliCombo->valitseTili(maksutapatili);
+        ui->vastatiliLine->valitseTiliNumerolla(maksutapatili);
 
     ui->vastatiliLabel->setVisible( !maksutapatili  );
-    ui->vastatiliCombo->setVisible( !maksutapatili );
+    ui->vastatiliLine->setVisible( !maksutapatili );
 
     vastatiliMuuttui();
 
@@ -370,7 +380,7 @@ void TuloMenoApuri::maksutapaMuuttui()
 
 void TuloMenoApuri::vastatiliMuuttui()
 {
-    Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliCombo->valittuTilinumero() );
+    Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliLine->valittuTilinumero() );
 
     bool eritellankotaso = vastatili.eritellaankoTase() && !ui->maksutapaCombo->currentData(Qt::UserRole+1).isValid();
 
@@ -502,9 +512,6 @@ void TuloMenoApuri::alusta(bool meno)
         veroFiltteri_->setFilterRegExp("^(0|1[1-79])");
         ui->toimittajaLabel->setText( tr("Asiakas"));
     }
-    tiliMuuttui();
-    paivitaVerovalinnat();
-
 
     // Alustetaan maksutapacombo
 
@@ -526,7 +533,7 @@ void TuloMenoApuri::alusta(bool meno)
         ui->maksutapaCombo->setCurrentIndex(0);
 
 
-    ui->vastatiliCombo->suodataTyypilla("[AB]");
+    ui->vastatiliLine->suodataTyypilla("[AB]");
 
     bool alv = kp()->asetukset()->onko( AsetusModel::ALV );
     ui->alvLabel->setVisible(alv);
@@ -540,6 +547,7 @@ void TuloMenoApuri::alusta(bool meno)
 
 int TuloMenoApuri::rivilla() const
 {
+
     if( ui->tilellaView->currentIndex().row() < 0 )
         return 0;
     return ui->tilellaView->currentIndex().row();
@@ -547,7 +555,7 @@ int TuloMenoApuri::rivilla() const
 }
 
 TulomenoRivi *TuloMenoApuri::rivi()
-{
+{    
     return rivit_->rivi(rivilla());
 }
 

@@ -23,7 +23,6 @@
 
 TiliTesti::TiliTesti()
 {
-    Kirjanpito::asetaInstanssi(new Kirjanpito);
 }
 
 TiliTesti::~TiliTesti()

@@ -115,7 +115,7 @@ LaskuDialogi::LaskuDialogi( const QVariantMap& data) :
     if( !data.isEmpty())
         lataa(data);
     else {
-        ui->eraDate->setDate( kp()->paivamaara().addDays(14) );
+        ui->eraDate->setDate( kp()->paivamaara().addDays( kp()->asetukset()->luku("LaskuMaksuaika") ) );
         alustaMaksutavat();
     }
 
@@ -711,12 +711,10 @@ void LaskuDialogi::tallennusValmis(QVariant *vastaus)
         MyyntiLaskujenToimittaja *toimittaja = new MyyntiLaskujenToimittaja(this);
         QList<QVariantMap> lista;
         lista.append(vastaus->toMap());
-
-        connect( toimittaja, &MyyntiLaskujenToimittaja::laskutToimitettu, this, &QDialog::accept);
         toimittaja->toimitaLaskut(lista);
-    } else
-        QDialog::accept();
+    }
 
+    QDialog::accept();
     emit kp()->kirjanpitoaMuokattu();
 
 }
@@ -741,6 +739,7 @@ void LaskuDialogi::lataa(const QVariantMap &map)
     ui->toimitusDate->setDate( lasku.value("toimituspvm").toDate() );
     ui->eraDate->setDate( lasku.value("erapvm").toDate());
     ui->otsikkoEdit->setText( lasku.value("otsikko").toString());
+    ui->lisatietoEdit->setPlainText( map.value("info").toString());
 
     if( map.value("tila").toInt() > Tosite::LUONNOS)
         ui->luonnosNappi->hide();
@@ -755,7 +754,8 @@ void LaskuDialogi::lataa(const QVariantMap &map)
     tallennettu_ = data();
     paivitaSumma();
 
-    setWindowTitle(tr("Lasku %1").arg(laskunnumero_));
+    if( laskunnumero_)
+        setWindowTitle(tr("Lasku %1").arg(laskunnumero_));
 
     if( !viite_.isEmpty()) {
         ui->viiteLabel->show();
@@ -778,9 +778,14 @@ void LaskuDialogi::lataa(const QVariantMap &map)
             ui->maksettuCheck->show();
             ui->infoLabel->setText( tr("Maksettu "));
             ui->infoLabel->setStyleSheet("color: green;");
+            ui->valmisNappi->hide();
         }
 
     }
+    int tila = map.value("tila").toInt();
+    ui->luonnosNappi->setVisible( tila == Tosite::LUONNOS );
+    ui->tallennaNappi->setVisible( tila < Tosite::KIRJANPIDOSSA );
+
     paivitaNapit();
 
 }
