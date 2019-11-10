@@ -315,6 +315,10 @@
 		CB15845BF1BDF5780111BD44 /* moc_tulomenoapuri.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = 1AD200DAA83FD659A99FF5D0 /* moc_tulomenoapuri.cpp */; settings = {ATTRIBUTES = (); }; };
 		CB1997852376DDD100980D07 /* libzip.5.0.dylib in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = CB1997842376DDD100980D07 /* libzip.5.0.dylib */; };
 		CB1997862376DE0B00980D07 /* libzip.5.0.dylib in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CB1997842376DDD100980D07 /* libzip.5.0.dylib */; };
+		CB832AE223781496005523BB /* moc_alvraporttiwidget.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB832ADF23781495005523BB /* moc_alvraporttiwidget.cpp */; };
+		CB832AE323781496005523BB /* moc_tallentavamaarityswidget.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB832AE023781495005523BB /* moc_tallentavamaarityswidget.cpp */; };
+		CB832AE623781557005523BB /* alvraporttiwidget.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB832AE423781557005523BB /* alvraporttiwidget.cpp */; };
+		CB832AE9237815BA005523BB /* alvroute.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB832AE8237815BA005523BB /* alvroute.cpp */; };
 		CBAB529823769BE200497DB1 /* Images.xcassets in Copy Bundle Resources */ = {isa = PBXBuildFile; fileRef = CBAB529723769BE200497DB1 /* Images.xcassets */; };
 		CBAB52A12376A2DB00497DB1 /* poppler-qt5 in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 59DF697A1657BC82C49B8429 /* poppler-qt5 */; };
 		CBAB52A22376A2DE00497DB1 /* QtCore.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = 0174A3A868A4A77030F819D6 /* QtCore.framework */; };
@@ -1051,6 +1055,13 @@
 		CB1997842376DDD100980D07 /* libzip.5.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzip.5.0.dylib; path = /usr/local/Cellar/libzip/1.5.2/lib/libzip.5.0.dylib; sourceTree = "<absolute>"; };
 		CB46C6156F6B2BE5E898B3D9 /* tkpaivitys.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = tkpaivitys.ui; path = /Users/petri/git/kitupiikki/kitupiikki/uusikp/tkpaivitys.ui; sourceTree = "<absolute>"; };
 		CB49A155020B45B332976874 /* tilidelegaatti.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = tilidelegaatti.h; path = /Users/petri/git/kitupiikki/kitupiikki/kirjaus/tilidelegaatti.h; sourceTree = "<absolute>"; };
+		CB832ADF23781495005523BB /* moc_alvraporttiwidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = moc_alvraporttiwidget.cpp; sourceTree = "<group>"; };
+		CB832AE023781495005523BB /* moc_tallentavamaarityswidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = moc_tallentavamaarityswidget.cpp; sourceTree = "<group>"; };
+		CB832AE123781496005523BB /* moc_predefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moc_predefs.h; sourceTree = "<group>"; };
+		CB832AE423781557005523BB /* alvraporttiwidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = alvraporttiwidget.cpp; path = ../kitupiikki/raportti/alvraporttiwidget.cpp; sourceTree = "<group>"; };
+		CB832AE523781557005523BB /* alvraporttiwidget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = alvraporttiwidget.h; path = ../kitupiikki/raportti/alvraporttiwidget.h; sourceTree = "<group>"; };
+		CB832AE7237815BA005523BB /* alvroute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = alvroute.h; path = ../kitupiikki/sqlite/routes/alvroute.h; sourceTree = "<group>"; };
+		CB832AE8237815BA005523BB /* alvroute.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = alvroute.cpp; path = ../kitupiikki/sqlite/routes/alvroute.cpp; sourceTree = "<group>"; };
 		CBAB528F237699DD00497DB1 /* read_version.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = read_version.sh; sourceTree = "<group>"; };
 		CBAB5290237699DD00497DB1 /* update_project.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = update_project.sh; sourceTree = "<group>"; };
 		CBAB5291237699DD00497DB1 /* copy_plugins.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = copy_plugins.sh; sourceTree = "<group>"; };
@@ -1433,6 +1444,9 @@
 		25B08E2869634E9BCBA333A2 /* Generated Sources */ = {
 			isa = PBXGroup;
 			children = (
+				CB832ADF23781495005523BB /* moc_alvraporttiwidget.cpp */,
+				CB832AE123781496005523BB /* moc_predefs.h */,
+				CB832AE023781495005523BB /* moc_tallentavamaarityswidget.cpp */,
 				5D5DB09548302972476C7D04 /* qrc_sqlite.cpp */,
 				604073226717EC8265A508D7 /* qrc_tilikartat.cpp */,
 				E890CCA519797091507F5C50 /* qrc_pic.cpp */,
@@ -1865,6 +1879,8 @@
 		4D9C4BE85114B1BDC8FAE340 /* routes */ = {
 			isa = PBXGroup;
 			children = (
+				CB832AE8237815BA005523BB /* alvroute.cpp */,
+				CB832AE7237815BA005523BB /* alvroute.h */,
 				F06392A460537486F971327D /* asetuksetroute.cpp */,
 				A7DF6FD628CE08CD14CADA07 /* asiakkaatroute.cpp */,
 				38378AB31A0491293C1EF465 /* budjettiroute.cpp */,
@@ -1986,6 +2002,8 @@
 		5D327E776BB460622EB186B5 /* raportti */ = {
 			isa = PBXGroup;
 			children = (
+				CB832AE423781557005523BB /* alvraporttiwidget.cpp */,
+				CB832AE523781557005523BB /* alvraporttiwidget.h */,
 				40DF5D9B08F468AE8B7CEA58 /* paakirja.cpp */,
 				37E34E0A65AC7CB5D1AF34CD /* raportteri.cpp */,
 				457E1496A55497EAE1BE364E /* raporttiwidget.cpp */,
@@ -2572,7 +2590,7 @@
 				TargetAttributes = {
 					7F7AB7B89E6423FFC59032F6 = {
 						DevelopmentTeam = FJ2CG9GU7J;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					8DD5FA115ABDC7E753D1D4E8 = {
 						DevelopmentTeam = FJ2CG9GU7J;
@@ -2832,6 +2850,7 @@
 				D499B78C9B829730055151C7 /* tilimodel.cpp in Compile Sources */,
 				C28C288115C21158874B1190 /* kohdennusmodel.cpp in Compile Sources */,
 				D0E835357CF8DDC5FDEC0E82 /* kohdennus.cpp in Compile Sources */,
+				CB832AE9237815BA005523BB /* alvroute.cpp in Compile Sources */,
 				AC82A6683885A7361376A730 /* tilikausimodel.cpp in Compile Sources */,
 				7DE191D0A6B787A4D8FB3529 /* kitupiikkisivu.cpp in Compile Sources */,
 				FB23586B7FE5577B8F40C9F0 /* raportinkirjoittaja.cpp in Compile Sources */,
@@ -2860,6 +2879,7 @@
 				E28F0831B54F4E9C462D6010 /* liitetietokaavamuokkaus.cpp in Compile Sources */,
 				6BC0F7650E942B12C739E363 /* tpaloitus.cpp in Compile Sources */,
 				31F9377174539F4E112823EB /* mrichtextedit.cpp in Compile Sources */,
+				CB832AE223781496005523BB /* moc_alvraporttiwidget.cpp in Compile Sources */,
 				7D0DC0DCF597ED9FBE449EF0 /* mtextedit.cpp in Compile Sources */,
 				D77749B4935BE736E82651DF /* arkistosivu.cpp in Compile Sources */,
 				1DFBA886E96E03291B2D2009 /* maarityswidget.cpp in Compile Sources */,
@@ -3005,6 +3025,7 @@
 				E8882D599466F7EBCFF82DBD /* moc_perusvalinnat.cpp in Compile Sources */,
 				4FFED94E0D58DE6788270BDC /* moc_maarityssivu.cpp in Compile Sources */,
 				1E04D586DBB68F0FCBBBAE94 /* moc_kirjauswg.cpp in Compile Sources */,
+				CB832AE623781557005523BB /* alvraporttiwidget.cpp in Compile Sources */,
 				2087F2FB43A943B4A24A7FC5 /* moc_kirjaussivu.cpp in Compile Sources */,
 				4233896D0A4F73AE1888CF72 /* moc_tilidelegaatti.cpp in Compile Sources */,
 				879A45DD2D73B1DD3C5BCCDC /* moc_eurodelegaatti.cpp in Compile Sources */,
@@ -3061,6 +3082,7 @@
 				9A2282EBED012254E968BB00 /* moc_ibanvalidator.cpp in Compile Sources */,
 				8388AE839191DD420D19DA90 /* moc_laskuraportti.cpp in Compile Sources */,
 				9331DD6A8DAA36AA0C2B6BC8 /* moc_tuontimaarityswidget.cpp in Compile Sources */,
+				CB832AE323781496005523BB /* moc_tallentavamaarityswidget.cpp in Compile Sources */,
 				E37C9D0A9521EC8D16DCB920 /* moc_csvtuonti.cpp in Compile Sources */,
 				403AAD8A3053DB9D98E5FFB3 /* moc_tuontisarakedelegaatti.cpp in Compile Sources */,
 				B1F2625FE51B428D99DBF400 /* moc_devtool.cpp in Compile Sources */,
@@ -3325,7 +3347,7 @@
 					"$(inherited)",
 					/usr/local/Cellar/libzip/1.5.2/lib,
 				);
-				MARKETING_VERSION = "2.0-pre2";
+				MARKETING_VERSION = "2.0-pre3";
 				PRODUCT_BUNDLE_IDENTIFIER = fi.atfos.kitsas;
 				PRODUCT_NAME = Kitsas;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -3355,7 +3377,7 @@
 					"$(inherited)",
 					/usr/local/Cellar/libzip/1.5.2/lib,
 				);
-				MARKETING_VERSION = "2.0-pre2";
+				MARKETING_VERSION = "2.0-pre3";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = fi.atfos.kitsas;
 				PRODUCT_NAME = Kitsas;
