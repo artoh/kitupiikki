@@ -314,13 +314,13 @@
 		CAF04B363641F8DDE124ABC2 /* yhteystietowidget.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = 08A7352E161C8561EB60BC4C /* yhteystietowidget.cpp */; settings = {ATTRIBUTES = (); }; };
 		CB15845BF1BDF5780111BD44 /* moc_tulomenoapuri.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = 1AD200DAA83FD659A99FF5D0 /* moc_tulomenoapuri.cpp */; settings = {ATTRIBUTES = (); }; };
 		CB1997852376DDD100980D07 /* libzip.5.0.dylib in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = CB1997842376DDD100980D07 /* libzip.5.0.dylib */; };
-		CB1997862376DE0B00980D07 /* libzip.5.0.dylib in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CB1997842376DDD100980D07 /* libzip.5.0.dylib */; };
+		CB7777262379DF2200260EA4 /* QtDBus.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = CB7777242379DEFD00260EA4 /* QtDBus.framework */; };
+		CB7777272379DF2200260EA4 /* QtDBus.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CB7777242379DEFD00260EA4 /* QtDBus.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CB832AE223781496005523BB /* moc_alvraporttiwidget.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB832ADF23781495005523BB /* moc_alvraporttiwidget.cpp */; };
 		CB832AE323781496005523BB /* moc_tallentavamaarityswidget.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB832AE023781495005523BB /* moc_tallentavamaarityswidget.cpp */; };
 		CB832AE623781557005523BB /* alvraporttiwidget.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB832AE423781557005523BB /* alvraporttiwidget.cpp */; };
 		CB832AE9237815BA005523BB /* alvroute.cpp in Compile Sources */ = {isa = PBXBuildFile; fileRef = CB832AE8237815BA005523BB /* alvroute.cpp */; };
 		CBAB529823769BE200497DB1 /* Images.xcassets in Copy Bundle Resources */ = {isa = PBXBuildFile; fileRef = CBAB529723769BE200497DB1 /* Images.xcassets */; };
-		CBAB52A12376A2DB00497DB1 /* poppler-qt5 in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 59DF697A1657BC82C49B8429 /* poppler-qt5 */; };
 		CBAB52A22376A2DE00497DB1 /* QtCore.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = 0174A3A868A4A77030F819D6 /* QtCore.framework */; };
 		CBAB52A32376A2DE00497DB1 /* QtCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0174A3A868A4A77030F819D6 /* QtCore.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CBAB52A42376A2E100497DB1 /* QtGui.framework in Link Binary With Libraries */ = {isa = PBXBuildFile; fileRef = 05A6F51F3EB96EC65F55CD8F /* QtGui.framework */; };
@@ -440,10 +440,9 @@
 			files = (
 				CBAB52A32376A2DE00497DB1 /* QtCore.framework in Embed Frameworks */,
 				CBAB52AD2376A2EB00497DB1 /* QtSvg.framework in Embed Frameworks */,
-				CBAB52A12376A2DB00497DB1 /* poppler-qt5 in Embed Frameworks */,
+				CB7777272379DF2200260EA4 /* QtDBus.framework in Embed Frameworks */,
 				CBAB52AF2376A2EE00497DB1 /* QtWidgets.framework in Embed Frameworks */,
 				CBAB52B12376A2F000497DB1 /* QtXml.framework in Embed Frameworks */,
-				CB1997862376DE0B00980D07 /* libzip.5.0.dylib in Embed Frameworks */,
 				CBAB52A72376A2E400497DB1 /* QtNetwork.framework in Embed Frameworks */,
 				CBAB52A92376A2E700497DB1 /* QtPrintSupport.framework in Embed Frameworks */,
 				CBAB52AB2376A2E900497DB1 /* QtSql.framework in Embed Frameworks */,
@@ -1055,6 +1054,7 @@
 		CB1997842376DDD100980D07 /* libzip.5.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libzip.5.0.dylib; path = /usr/local/Cellar/libzip/1.5.2/lib/libzip.5.0.dylib; sourceTree = "<absolute>"; };
 		CB46C6156F6B2BE5E898B3D9 /* tkpaivitys.ui */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = tkpaivitys.ui; path = /Users/petri/git/kitupiikki/kitupiikki/uusikp/tkpaivitys.ui; sourceTree = "<absolute>"; };
 		CB49A155020B45B332976874 /* tilidelegaatti.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = tilidelegaatti.h; path = /Users/petri/git/kitupiikki/kitupiikki/kirjaus/tilidelegaatti.h; sourceTree = "<absolute>"; };
+		CB7777242379DEFD00260EA4 /* QtDBus.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtDBus.framework; path = ../../../Qt/5.13.2/clang_64/lib/QtDBus.framework; sourceTree = "<group>"; };
 		CB832ADF23781495005523BB /* moc_alvraporttiwidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = moc_alvraporttiwidget.cpp; sourceTree = "<group>"; };
 		CB832AE023781495005523BB /* moc_tallentavamaarityswidget.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = moc_tallentavamaarityswidget.cpp; sourceTree = "<group>"; };
 		CB832AE123781496005523BB /* moc_predefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = moc_predefs.h; sourceTree = "<group>"; };
@@ -1261,6 +1261,7 @@
 				A99B2AA0F9CBBDD12BA126A4 /* DiskArbitration.framework in Link Binary With Libraries */,
 				8D267F2E4776F0ECA2F49DC8 /* IOKit.framework in Link Binary With Libraries */,
 				8771A8C96E9C391044035D99 /* OpenGL.framework in Link Binary With Libraries */,
+				CB7777262379DF2200260EA4 /* QtDBus.framework in Link Binary With Libraries */,
 				CBAB52A82376A2E700497DB1 /* QtPrintSupport.framework in Link Binary With Libraries */,
 				CBAB52AC2376A2EB00497DB1 /* QtSvg.framework in Link Binary With Libraries */,
 				E45E51A644D5FC9F942ECE55 /* AGL.framework in Link Binary With Libraries */,
@@ -2326,6 +2327,7 @@
 		AF39DD055C3EF8226FBE929D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CB7777242379DEFD00260EA4 /* QtDBus.framework */,
 				CB1997842376DDD100980D07 /* libzip.5.0.dylib */,
 				59DF697A1657BC82C49B8429 /* poppler-qt5 */,
 				85760807C34DED2F8D3F108D /* QtPrintSupport.framework */,
@@ -2593,7 +2595,6 @@
 						ProvisioningStyle = Manual;
 					};
 					8DD5FA115ABDC7E753D1D4E8 = {
-						DevelopmentTeam = FJ2CG9GU7J;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -3170,6 +3171,7 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				LDPLUSPLUS = "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../Frameworks @loader_path/../Libraries";
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/opt/poppler/lib,
 					../../../Qt/5.13.2/clang_64/lib,
@@ -3269,6 +3271,7 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				LDPLUSPLUS = "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../Frameworks @loader_path/../Libraries";
 				LIBRARY_SEARCH_PATHS = (
 					/usr/local/opt/poppler/lib,
 					../../../Qt/5.13.2/clang_64/lib,
@@ -3369,7 +3372,7 @@
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = FJ2CG9GU7J;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
