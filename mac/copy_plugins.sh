@@ -6,7 +6,7 @@
 #  Created by Petri Aarnio on 28/09/2018.
 #  
 
-APPCONTENTS=$1/kitupiikki.app/Contents
+APPCONTENTS=$1/kitsas.app/Contents
 APPDIR=$APPCONTENTS/MacOS
 
 BEARER=$APPDIR/bearer
@@ -17,7 +17,7 @@ PRINTSUPPORT=$APPDIR/printsupport
 SQLDRIVERS=$APPDIR/sqldrivers
 STYLES=$APPDIR/styles
 
-QT_VERSION=5.11.0
+QT_VERSION=5.13.2
 
 mkdir -p $BEARER/
 mkdir -p $ICONENGINES/
