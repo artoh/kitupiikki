@@ -42,7 +42,7 @@ QVariant InitRoute::get(const QString & /*polku*/, const QUrlQuery& /*urlquery*/
     // Tilit
 
     kysely.exec( "select numero,tyyppi,json from ( select  cast(numero as text) as numero,'H'||taso as tyyppi,json,taso from otsikko "
-                 " union select cast (numero as text),tyyppi,json,null from tili order by numero,taso) as sub");
+                 " union select cast (numero as text),tyyppi,json,99 from tili order by numero,taso) as sub");
     map.insert("tilit", resultList(kysely));
 
 

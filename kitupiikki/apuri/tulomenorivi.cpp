@@ -191,12 +191,12 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
         if( kirjattava > 1e-5)
             vienti.setDebet(kirjattava);
         else
-            vienti.setKredit(kirjattava);
+            vienti.setKredit(0-kirjattava);
     } else {
         if( kirjattava > 1e-5)
             vienti.setKredit( kirjattava );
         else
-            vienti.setDebet( kirjattava );
+            vienti.setDebet( 0-kirjattava );
     }
 
     vientilista.append( vienti );
