@@ -151,7 +151,6 @@ SOURCES += \
     maaritys/kaavankorostin.cpp \
     kirjaus/kohdennusproxymodel.cpp \
     maaritys/tilikarttaohje.cpp \
-    uusikp/paivitakirjanpito.cpp \
     arkisto/tararkisto.cpp \
     tuonti/pdftuonti.cpp \
     validator/viitevalidator.cpp \
@@ -367,7 +366,6 @@ HEADERS += \
     maaritys/kaavankorostin.h \
     kirjaus/kohdennusproxymodel.h \
     maaritys/tilikarttaohje.h \
-    uusikp/paivitakirjanpito.h \
     arkisto/tararkisto.h \
     tuonti/pdftuonti.h \
     validator/viitevalidator.h \
@@ -435,7 +433,6 @@ RESOURCES += \
     $$PWD/sqlite/sqlite.qrc \
     tilikartat/tilikartat.qrc \
     pic/pic.qrc \
-    uusikp/sql.qrc \
     aloitussivu/qrc/aloitus.qrc \
     arkistoija/arkisto.qrc \
     laskutus/lasku.qrc
@@ -502,7 +499,6 @@ FORMS += \
     arkisto/muokkaatilikausi.ui \
     maaritys/tilikarttaohje.ui \
     aloitussivu/tervetuloa.ui \
-    uusikp/paivityskorvaa.ui \
     arkisto/arkistonvienti.ui \
     raportti/csvvientivalinnat.ui \
     raportti/laskuraportti.ui \

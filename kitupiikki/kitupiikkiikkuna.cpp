@@ -226,6 +226,7 @@ void KitupiikkiIkkuna::kirjanpitoLadattu()
 
     edellisetIndeksit.clear();  // Tyhjennetään "selaushistoria"
     piilotaAlvJosEiVerovelvollinen();
+    valitseSivu(ALOITUSSIVU);
 }
 
 void KitupiikkiIkkuna::palaaSivulta()

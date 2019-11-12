@@ -41,9 +41,6 @@
 
 #include "ui_laskumaaritys.h"
 
-
-#include "uusikp/paivitakirjanpito.h"
-
 #include <QDebug>
 
 MaaritysSivu::MaaritysSivu() :
@@ -95,9 +92,6 @@ MaaritysSivu::MaaritysSivu() :
     connect( kp(), SIGNAL(tilikausiPaatetty()), this, SLOT(paivitaNakyvat()));
 
     connect( kp(), &Kirjanpito::perusAsetusMuuttui, this, &MaaritysSivu::paivitaNakyvat);
-    connect( kp(), &Kirjanpito::tietokantaVaihtui, [this] { this->valitseSivu("perus"); });
-
-
 }
 
 void MaaritysSivu::siirrySivulle()
