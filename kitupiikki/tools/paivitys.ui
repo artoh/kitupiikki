@@ -43,21 +43,6 @@
     </layout>
    </item>
    <item>
-    <widget class="QRadioButton" name="sisainen">
-     <property name="text">
-      <string>Päivitä ohjelman sisäiseen tilikarttaan</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QRadioButton" name="tiedosto">
-     <property name="text">
-      <string>Päivitys tiedostossa olevaan tilikarttaan
-Varmista, että ktk-tiedosto sopii kirjanpitoosi!</string>
-     </property>
-    </widget>
-   </item>
-   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>

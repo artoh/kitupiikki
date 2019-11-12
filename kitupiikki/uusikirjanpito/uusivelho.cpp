@@ -67,51 +67,13 @@ UusiVelho::UusiVelho()
 
 void UusiVelho::lataaKartta(const QString &polku)
 {
-    // tilikartan tiedot
-    QFile asetukset(polku + "/tilikartta.json");
-    if( asetukset.open(QIODevice::ReadOnly))
-        asetukset_ = QJsonDocument::fromJson( asetukset.readAll() ).toVariant().toMap();
+    asetukset_ = asetukset(polku);
 
-    // json asetuksille
-    {
-        QFile asetukset(polku + "/asetukset.json");
-        if( asetukset.open(QIODevice::ReadOnly))
-            asetukset_.unite(QJsonDocument::fromJson( asetukset.readAll() ).toVariant().toMap());
-    }
-    // json-tiedosto raporteille
-    {
-        QFile raportit(polku + "/raportit.json");
-        if( raportit.open(QIODevice::ReadOnly))
-            asetukset_.unite( QJsonDocument::fromJson( raportit.readAll()).toVariant().toMap() );
-    }
     // Tilit oma json-tiedosto
     {
         QFile tilit(polku + "/tilit.json");
         if( tilit.open(QIODevice::ReadOnly) )
             tilit_ = QJsonDocument::fromJson( tilit.readAll() ).toVariant().toList();
-    }
-
-    // Tilinpäätöksen pohja on tekstitiedosto, jossa kielet on merkattu []-tageilla
-    // Luetaan osaksi asetuksia
-    {
-        QFile pohja(polku + "/tilinpaatos.txt");
-        QString kieli;
-        QStringList rivit;
-        if( pohja.open(QIODevice::ReadOnly)) {
-            QTextStream luku(&pohja);
-            luku.setCodec("utf-8");
-            while(!luku.atEnd()) {
-                QString rivi = luku.readLine();
-                if( rivi.startsWith("[") && rivi.endsWith("]")) {
-                    if( rivit.count() )
-                        asetukset_.insert("tppohja/" + kieli, rivit.join("\n"));
-                    rivit.clear();
-                    kieli=rivi.mid(1, rivi.length()-2);
-                } else
-                    rivit.append(rivi);
-            }
-            asetukset_.insert("tppohja/" + kieli, rivit.join("\n"));
-        }
     }
 
 }
@@ -160,6 +122,53 @@ int UusiVelho::nextId() const
         return LOPPU;
 
     return QWizard::nextId();
+}
+
+QVariantMap UusiVelho::asetukset(const QString &polku)
+{
+    QVariantMap map;
+
+    // tilikartan tiedot
+    QFile asetukset(polku + "/tilikartta.json");
+    if( asetukset.open(QIODevice::ReadOnly))
+        map = QJsonDocument::fromJson( asetukset.readAll() ).toVariant().toMap();
+
+    // json asetuksille
+    {
+        QFile asetukset(polku + "/asetukset.json");
+        if( asetukset.open(QIODevice::ReadOnly))
+            map.unite(QJsonDocument::fromJson( asetukset.readAll() ).toVariant().toMap());
+    }
+    // json-tiedosto raporteille
+    {
+        QFile raportit(polku + "/raportit.json");
+        if( raportit.open(QIODevice::ReadOnly))
+            map.unite( QJsonDocument::fromJson( raportit.readAll()).toVariant().toMap() );
+    }
+
+    // Tilinpäätöksen pohja on tekstitiedosto, jossa kielet on merkattu []-tageilla
+    // Luetaan osaksi asetuksia
+    {
+        QFile pohja(polku + "/tilinpaatos.txt");
+        QString kieli;
+        QStringList rivit;
+        if( pohja.open(QIODevice::ReadOnly)) {
+            QTextStream luku(&pohja);
+            luku.setCodec("utf-8");
+            while(!luku.atEnd()) {
+                QString rivi = luku.readLine();
+                if( rivi.startsWith("[") && rivi.endsWith("]")) {
+                    if( rivit.count() )
+                        map.insert("tppohja/" + kieli, rivit.join("\n"));
+                    rivit.clear();
+                    kieli=rivi.mid(1, rivi.length()-2);
+                } else
+                    rivit.append(rivi);
+            }
+            map.insert("tppohja/" + kieli, rivit.join("\n"));
+        }
+    }
+    return map;
 }
 
 

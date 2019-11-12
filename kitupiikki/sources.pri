@@ -27,6 +27,7 @@ SOURCES += \
     $$PWD/maaritys/avauserakantamodel.cpp \
     $$PWD/maaritys/avauseramodel.cpp \
     $$PWD/maaritys/avauskohdennusmodel.cpp \
+    $$PWD/maaritys/tilikarttapaivitys.cpp \
     $$PWD/maaritys/ulkoasumaaritys.cpp \
     $$PWD/model/laskutaulumodel.cpp \
     $$PWD/model/tosite.cpp \
@@ -242,6 +243,7 @@ HEADERS += \
     $$PWD/maaritys/avauserakantamodel.h \
     $$PWD/maaritys/avauseramodel.h \
     $$PWD/maaritys/avauskohdennusmodel.h \
+    $$PWD/maaritys/tilikarttapaivitys.h \
     $$PWD/maaritys/ulkoasumaaritys.h \
     $$PWD/model/laskutaulumodel.h \
     $$PWD/model/tosite.h \
@@ -447,11 +449,13 @@ FORMS += \
     $$PWD/laskutus/kumppanituotewidget.ui \
     $$PWD/laskutus/laskulistawidget.ui \
     $$PWD/laskutus/tuotedialogi.ui \
+    $$PWD/maaritys/tilikarttapaivitys.ui \
     $$PWD/maaritys/ulkoasumaaritys.ui \
     $$PWD/rekisteri/asiakastoimittajadlg.ui \
     $$PWD/tilaus/tilausvahvistus.ui \
     $$PWD/tilaus/tilausvalinta.ui \
     $$PWD/tilaus/tilausyhteys.ui \
+    $$PWD/tools/paivitys.ui \
     $$PWD/uusikirjanpito/numerointi.ui \
     $$PWD/uusikirjanpito/sijainti.ui \
     $$PWD/uusikirjanpito/tilikausi.ui \
@@ -498,7 +502,6 @@ FORMS += \
     arkisto/muokkaatilikausi.ui \
     maaritys/tilikarttaohje.ui \
     aloitussivu/tervetuloa.ui \
-    uusikp/tkpaivitys.ui \
     uusikp/paivityskorvaa.ui \
     arkisto/arkistonvienti.ui \
     raportti/csvvientivalinnat.ui \

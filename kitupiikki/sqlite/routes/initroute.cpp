@@ -16,6 +16,8 @@
 */
 #include "initroute.h"
 #include <QSqlQuery>
+#include <QDebug>
+#include <QJsonDocument>
 
 InitRoute::InitRoute(SQLiteModel *model) :
     SQLiteRoute(model,"/init")
@@ -55,4 +57,92 @@ QVariant InitRoute::get(const QString & /*polku*/, const QUrlQuery& /*urlquery*/
     map.insert("tilikaudet", resultList(kysely));
 
     return map;
+}
+
+QVariant InitRoute::patch(const QString & /*polku*/, const QVariant &data)
+{
+    QVariantMap map = data.toMap();
+    paivitaAsetukset( map.value("asetukset").toMap() );
+    paivitaTilit( map.value("tilit").toList());
+
+    return QVariant();
+}
+
+void InitRoute::paivitaAsetukset(const QVariantMap &map)
+{
+    QMapIterator<QString,QVariant> iter(map);
+    QStringList muokatut;
+
+    QSqlQuery qry(db());
+    qry.exec("SELECT avain FROM Asetus WHERE muokattu IS NOT NULL");
+    while (qry.next()) {
+        muokatut.append( qry.value(0).toString() );
+    }
+
+    qry.prepare("INSERT INTO Asetus (avain,arvo) VALUES (?,?) "
+                    "ON CONFLICT (avain) DO UPDATE SET arvo = EXCLUDED.arvo ");
+
+    while( iter.hasNext()) {
+        iter.next();
+        if( !muokatut.contains(iter.key()) ) {
+            qry.addBindValue( iter.key() );
+            if( iter.value().toString().isEmpty() )
+                qry.addBindValue( QString::fromUtf8( QJsonDocument::fromVariant( iter.value() ).toJson(QJsonDocument::Compact) )  );
+            else
+                qry.addBindValue( iter.value().toString() );
+            qry.exec();
+        }
+    }
+}
+
+void InitRoute::paivitaTilit(const QVariantList &list)
+{
+    QList<int> muokatutTilit;
+    QList<QPair<int,int>> muokatutOtsikot;
+
+    QSqlQuery qry(db());
+    qry.exec("SELECT numero FROM Tili WHERE muokattu IS NOT NULL");
+    while (qry.next()) {
+        muokatutTilit.append( qry.value(0).toInt() );
+    }
+
+    qry.exec("SELECT numero,taso FROM Otsikko WHERE muokattu IS NOT NULL");
+    while (qry.next()) {
+        muokatutOtsikot.append( qMakePair( qry.value(0).toInt(), qry.value(1).toInt() ) );
+    }
+
+    QSqlQuery tiliKysely(db());
+    QSqlQuery otsikkoKysely(db());
+
+    tiliKysely.prepare("INSERT INTO Tili (numero, tyyppi, json) VALUES "
+                       "(?,?,?) "
+                       "ON CONFLICT(numero) DO UPDATE SET "
+                       "tyyppi=EXCLUDED.tyyppi, json=EXCLUDED.json");
+    otsikkoKysely.prepare("INSERT INTO Otsikko (numero, taso, json) VALUES "
+                          "(?,?,?) "
+                          "ON CONFLICT(numero,taso) DO UPDATE SET "
+                          "json=EXCLUDED.json");
+
+
+    for( auto item : list) {
+        QVariantMap map = item.toMap();
+
+        int numero = map.take("numero").toInt();
+        QString tyyppi = map.take("tyyppi").toString();
+        QByteArray json = mapToJson(map);
+        if( tyyppi.startsWith('H')) {
+            int taso = tyyppi.mid(1).toInt();
+            if( muokatutOtsikot.contains( qMakePair(numero,taso) ))
+                continue;
+            otsikkoKysely.addBindValue(numero);
+            otsikkoKysely.addBindValue(taso);
+            otsikkoKysely.addBindValue(json);
+            otsikkoKysely.exec();
+        } else {
+            tiliKysely.addBindValue(numero);
+            tiliKysely.addBindValue(tyyppi);
+            tiliKysely.addBindValue(json);
+            tiliKysely.exec();
+        }
+    }
 }

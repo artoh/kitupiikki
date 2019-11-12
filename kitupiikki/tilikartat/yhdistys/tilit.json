@@ -851,16 +851,19 @@
     "numero": 1900,
     "tyyppi": "ARK",
     "nimi": {
-      "fi": "Käteisvarat"
+      "fi": "Käteisvarat",
+      "sv": "Kontanter",
+      "en": "Cash money"
     },
-    "laajuus": 1,
-    "laskulle": 1
+    "laajuus": 1
   },
   {
     "numero": 1910,
     "tyyppi": "ARP",
     "nimi": {
-      "fi": "Pankkitili"
+      "fi": "Pankkitili",
+      "sv": "Bankkonto",
+      "en": "Bank account"
     },
     "laajuus": 1
   },

@@ -63,6 +63,10 @@ bool Perusvalinnat::nollaa()
         ui->tsLabel->hide();
     }
 
+    ui->karttaInfo->setText( QString("%1 %2")
+                             .arg(kp()->asetus("Tilikartta"))
+                             .arg(kp()->asetukset()->pvm("TilikarttaPvm").toString("dd.MM.yyyy")));
+
     return true;
 }
 

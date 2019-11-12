@@ -14,23 +14,35 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef INITROUTE_H
-#define INITROUTE_H
+#ifndef TILIKARTTAPAIVITYS_H
+#define TILIKARTTAPAIVITYS_H
 
-#include "../sqliteroute.h"
+#include "maarityswidget.h"
 
-class InitRoute : public SQLiteRoute
+#include "ui_tilikarttapaivitys.h"
+
+class TilikarttaPaivitys : public MaaritysWidget
 {
+    Q_OBJECT
 public:
-    InitRoute(SQLiteModel *model);
+    TilikarttaPaivitys(QWidget *parent = nullptr);
 
-    QVariant get(const QString &polku, const QUrlQuery& urlquery = QUrlQuery()) override;
+    bool nollaa() override;
 
-    QVariant patch(const QString &polku, const QVariant &data) override;
+    bool naytetaankoTallennus() override { return false;}
+
+    static QDate paivitysPvm();
+    static bool onkoPaivitettavaa();
+
+public slots:
+    void paivita();
 
 protected:
-    void paivitaAsetukset(const QVariantMap& map);
-    void paivitaTilit(const QVariantList &list);
+    Ui::TilikarttaPaivitys *ui;
+
+    static QVariantMap lataaPaivitys(const QString& polku);
+
+
 };
 
-#endif // INITROUTE_H
+#endif // TILIKARTTAPAIVITYS_H
