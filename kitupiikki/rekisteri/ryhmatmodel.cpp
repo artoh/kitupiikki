@@ -56,8 +56,10 @@ QVariant RyhmatModel::data(const QModelIndex &index, int role) const
 void RyhmatModel::paivita()
 {
     KpKysely *kysely = kpk("/ryhmat");
-    connect(kysely, &KpKysely::vastaus, this, &RyhmatModel::tietoSaapuu);
-    kysely->kysy();
+    if( kysely ) {
+        connect(kysely, &KpKysely::vastaus, this, &RyhmatModel::tietoSaapuu);
+        kysely->kysy();
+    }
 }
 
 void RyhmatModel::tietoSaapuu(QVariant* var)

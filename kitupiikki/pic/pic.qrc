@@ -188,7 +188,7 @@
         <file>liput/pl.png</file>
         <file>liput/pt.png</file>
         <file>liput/ro.png</file>
-        <file alias="liput/sv.png">liput/se.png</file>
+        <file>liput/se.png</file>
         <file>liput/si.png</file>
         <file>liput/sk.png</file>
         <file>liput/el.png</file>
@@ -203,6 +203,7 @@
         <file>flat/key.png</file>
         <file>flat/teamwork.png</file>
         <file>flat/big-school-pen.png</file>
+        <file>liput/sv.png</file>
     </qresource>
     <qresource prefix="/flat"/>
 </RCC>
