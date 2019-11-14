@@ -44,6 +44,7 @@ public slots:
     void haeMerkkaukset(const QDate& paivalle = QDate());
     void setSelectedItems(const QList<int>& list);
     void setSelectedItems(const QVariantList& list);
+    void haeRyhmat();
 
 private slots:
     void onModelDataChanged();

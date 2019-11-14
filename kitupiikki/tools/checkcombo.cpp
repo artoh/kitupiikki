@@ -25,6 +25,8 @@
 
 #include "kirjaus/kohdennusproxymodel.h"
 #include "db/kohdennusmodel.h"
+#include "db/kirjanpito.h"
+#include "rekisteri/ryhmatmodel.h"
 
 CheckCombo::CheckCombo(QWidget *parent) :
     QComboBox (parent),
@@ -141,6 +143,21 @@ void CheckCombo::setSelectedItems(const QVariantList &list)
         else
             item->setCheckState( Qt::Unchecked );
     }
+    updateText();
+}
+
+void CheckCombo::haeRyhmat()
+{
+    QVariantList lista = selectedDatas();
+
+    clear();
+    for(int i=0; i < kp()->ryhmat()->rowCount(); i++ ) {
+        int koodi =  kp()->ryhmat()->index(i).data(RyhmatModel::IdRooli).toInt();
+        QString nimi = kp()->ryhmat()->index(i).data(Qt::DisplayRole).toString();
+        addItem(nimi, koodi, Qt::Unchecked);
+    }
+
+    setSelectedItems( lista );
     updateText();
 }
 

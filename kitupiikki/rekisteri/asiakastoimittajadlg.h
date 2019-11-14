@@ -41,6 +41,8 @@ public slots:
     void uusi(const QString& nimi = QString());
     void ytunnuksella(const QString& ytunnus);
     void tuonti(const QVariantMap& map);
+    void lisaaRyhmaan(int ryhma);
+
 
 signals:
     void tallennettu(int id, const QString& nimi);
@@ -63,6 +65,7 @@ private slots:
     void haeYTunnarilla();
     void yTietoSaapuu();
     void tallennusValmis(QVariant* data);
+    void naytaVerkkolasku();
 
 
 private:

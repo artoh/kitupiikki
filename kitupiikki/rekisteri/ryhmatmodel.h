@@ -14,21 +14,36 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#ifndef RYHMATROUTE_H
-#define RYHMATROUTE_H
+#ifndef RYHMATMODEL_H
+#define RYHMATMODEL_H
 
-#include "../sqliteroute.h"
+#include <QAbstractListModel>
 
-class RyhmatRoute : public SQLiteRoute
+class RyhmatModel : public QAbstractListModel
 {
+    Q_OBJECT
+
 public:
-    RyhmatRoute(SQLiteModel* model);
+    enum { IdRooli = Qt::UserRole };
 
-    QVariant get(const QString &polku, const QUrlQuery &urlquery = QUrlQuery()) override;
-    QVariant post(const QString &polku, const QVariant &data) override;
-    QVariant put(const QString &polku, const QVariant &data) override;
-    QVariant doDelete(const QString &polku) override;
+    explicit RyhmatModel(QObject *parent = nullptr);
 
+    // Header:
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
+
+    // Basic functionality:
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+
+public slots:
+    void paivita();
+
+protected slots:
+    void tietoSaapuu(QVariant *var);
+
+private:
+    QVariantList ryhmat_;
 };
 
-#endif // RYHMATROUTE_H
+#endif // RYHMATMODEL_H

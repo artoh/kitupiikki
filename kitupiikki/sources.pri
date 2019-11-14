@@ -49,6 +49,7 @@ SOURCES += \
     $$PWD/rekisteri/ibandelegaatti.cpp \
     $$PWD/rekisteri/maamodel.cpp \
     $$PWD/rekisteri/postinumerot.cpp \
+    $$PWD/rekisteri/ryhmatmodel.cpp \
     $$PWD/sqlite/routes/alvroute.cpp \
     $$PWD/sqlite/routes/asetuksetroute.cpp \
     $$PWD/sqlite/routes/asiakkaatroute.cpp \
@@ -265,6 +266,7 @@ HEADERS += \
     $$PWD/rekisteri/ibandelegaatti.h \
     $$PWD/rekisteri/maamodel.h \
     $$PWD/rekisteri/postinumerot.h \
+    $$PWD/rekisteri/ryhmatmodel.h \
     $$PWD/sqlite/routes/alvroute.h \
     $$PWD/sqlite/routes/asetuksetroute.h \
     $$PWD/sqlite/routes/asiakkaatroute.h \
