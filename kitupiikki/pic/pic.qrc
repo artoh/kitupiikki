@@ -204,6 +204,12 @@
         <file>flat/teamwork.png</file>
         <file>flat/big-school-pen.png</file>
         <file>liput/sv.png</file>
+        <file>maksutavat/kateinen.png</file>
+        <file>maksutavat/lasku.png</file>
+        <file>maksutavat/pankki.png</file>
+        <file>maksutavat/poista.png</file>
+        <file>maksutavat/siirra.png</file>
+        <file>maksutavat/luottokortti.png</file>
     </qresource>
     <qresource prefix="/flat"/>
 </RCC>

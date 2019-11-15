@@ -27,9 +27,12 @@ SOURCES += \
     $$PWD/maaritys/avauserakantamodel.cpp \
     $$PWD/maaritys/avauseramodel.cpp \
     $$PWD/maaritys/avauskohdennusmodel.cpp \
+    $$PWD/maaritys/maksutapamuokkaus.cpp \
+    $$PWD/maaritys/maksutapasivu.cpp \
     $$PWD/maaritys/tilikarttapaivitys.cpp \
     $$PWD/maaritys/ulkoasumaaritys.cpp \
     $$PWD/model/laskutaulumodel.cpp \
+    $$PWD/model/maksutapamodel.cpp \
     $$PWD/model/tosite.cpp \
     $$PWD/model/tositeliitteet.cpp \
     $$PWD/model/tositeloki.cpp \
@@ -213,7 +216,8 @@ SOURCES += \
     sqlite/sqlitemodel.cpp \
     apuri/tiliotekirjaaja.cpp\
     rekisteri/asiakastoimittajavalinta.cpp \
-    maaritys/avauseradlg.cpp
+    maaritys/avauseradlg.cpp\
+    maaritys/maksutapamuokkausdlg.cpp
 
 HEADERS += \
     $$PWD/alv/alvlaskelma.h \
@@ -244,9 +248,12 @@ HEADERS += \
     $$PWD/maaritys/avauserakantamodel.h \
     $$PWD/maaritys/avauseramodel.h \
     $$PWD/maaritys/avauskohdennusmodel.h \
+    $$PWD/maaritys/maksutapamuokkaus.h \
+    $$PWD/maaritys/maksutapasivu.h \
     $$PWD/maaritys/tilikarttapaivitys.h \
     $$PWD/maaritys/ulkoasumaaritys.h \
     $$PWD/model/laskutaulumodel.h \
+    $$PWD/model/maksutapamodel.h \
     $$PWD/model/tosite.h \
     $$PWD/model/tositeliitteet.h \
     $$PWD/model/tositeloki.h \
@@ -431,7 +438,8 @@ HEADERS += \
     sqlite/sqlitemodel.h \
     apuri/tiliotekirjaaja.h \
     rekisteri/asiakastoimittajavalinta.h \
-    maaritys/avauseradlg.h
+    maaritys/avauseradlg.h\
+    maaritys/maksutapamuokkausdlg.h
 
 RESOURCES += \
     $$PWD/sqlite/sqlite.qrc \
@@ -450,6 +458,8 @@ FORMS += \
     $$PWD/laskutus/kumppanituotewidget.ui \
     $$PWD/laskutus/laskulistawidget.ui \
     $$PWD/laskutus/tuotedialogi.ui \
+    $$PWD/maaritys/maksutapamuokkaus.ui \
+    $$PWD/maaritys/maksutapasivu.ui \
     $$PWD/maaritys/tilikarttapaivitys.ui \
     $$PWD/maaritys/ulkoasumaaritys.ui \
     $$PWD/rekisteri/asiakastoimittajadlg.ui \
@@ -527,4 +537,5 @@ FORMS += \
     pilvi/pilvilogindlg.ui \
     apuri/tiliotekirjaaja.ui \
     uusikirjanpito/uusiharjoitus.ui \
-    maaritys/avauseradlg.ui
+    maaritys/avauseradlg.ui\
+    maaritys/maksutapamuokkausdlg.ui

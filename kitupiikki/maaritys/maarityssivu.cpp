@@ -38,6 +38,7 @@
 #include "inboxmaaritys.h"
 #include "finvoicemaaritys.h"
 #include "tilikarttapaivitys.h"
+#include "maksutapasivu.h"
 
 #include "ui_laskumaaritys.h"
 
@@ -55,6 +56,7 @@ MaaritysSivu::MaaritysSivu() :
     lisaaSivu(tr("Kohdennukset"), KOHDENNUS, QIcon(":/pic/kohdennus.png"), "kohdennukset");
     lisaaSivu(tr("Tilinavaus"), TILINAVAUS, QIcon(":/pic/rahaa.png"), "tilinavaus");
     lisaaSivu(tr("Laskutus"), LASKUTUS, QIcon(":/pic/lasku.png"));
+    lisaaSivu(tr("Maksutavat"), MAKSUTAVAT, QIcon(":/pic/kateinen.png"), "maksutavat");
 //    lisaaSivu("Sähköpostin lähetys", SAHKOPOSTI, QIcon(":/pic/email.png"));
 //    lisaaSivu("Verkkolasku", VERKKOLASKU, QIcon(":/pic/verkkolasku.png"));
 //    lisaaSivu("Tuonti", TUONTI, QIcon(":/pic/tuotiedosto.png"));
@@ -201,6 +203,8 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         Ui::LaskuValinnat *ui = new Ui::LaskuValinnat;
         ui->setupUi(nykyinen);
     }
+    else if( sivu == MAKSUTAVAT)
+        nykyinen = new MaksutapaSivu;
     else if( sivu == TUONTI)
         nykyinen = new TuontiMaaritysWidget;
     else if(sivu == SAHKOPOSTI)

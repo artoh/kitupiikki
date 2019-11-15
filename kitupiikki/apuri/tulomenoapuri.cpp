@@ -23,6 +23,7 @@
 #include "model/tositeviennit.h"
 #include "db/tositetyyppimodel.h"
 #include "rekisteri/asiakastoimittajadlg.h"
+#include "model/maksutapamodel.h"
 
 #include <QSortFilterProxyModel>
 #include <QDebug>
@@ -31,7 +32,8 @@
 TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     ApuriWidget (parent, tosite),
     ui(new Ui::TuloMenoApuri),
-    rivit_(new TmRivit(this))
+    rivit_(new TmRivit(this)),
+    maksutapaModel_(new MaksutapaModel(this))
 {
     ui->setupUi(this);
 
@@ -44,6 +46,7 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
     ui->loppuEdit->setNull();
     ui->erapaivaEdit->setNull();
 
+    ui->maksutapaCombo->setModel( maksutapaModel_ );
 
     ui->tilellaView->setModel( rivit_);
     ui->tilellaView->horizontalHeader()->setSectionResizeMode(TmRivit::TILI, QHeaderView::Stretch);
@@ -141,12 +144,10 @@ void TuloMenoApuri::teeReset()
             if( vastatili->eritellaankoTase())
                 ui->eraCombo->valitse( vienti.eraId() );
 
-            for(int i=0; i < ui->maksutapaCombo->count(); i++) {
-                if( ui->maksutapaCombo->itemData(i).toInt() == vastatili->numero() ) {
-                    ui->maksutapaCombo->setCurrentIndex(i);
-                    break;
-                }
-            }
+            int maksutapaind = ui->maksutapaCombo->findData(vastatili->numero(), MaksutapaModel::TiliRooli);
+            if( maksutapaind >= 0)
+                ui->maksutapaCombo->setCurrentIndex(maksutapaind);
+
             ui->viiteEdit->setText( vienti.viite());
             ui->erapaivaEdit->setDate( vienti.erapaiva());
 
@@ -358,7 +359,7 @@ void TuloMenoApuri::seliteMuuttui()
 
 void TuloMenoApuri::maksutapaMuuttui()
 {
-    int maksutapatili = ui->maksutapaCombo->currentData().toInt();
+    int maksutapatili = ui->maksutapaCombo->currentData(MaksutapaModel::TiliRooli).toInt();
 
     if( maksutapatili)
         ui->vastatiliLine->valitseTiliNumerolla(maksutapatili);
@@ -375,13 +376,13 @@ void TuloMenoApuri::vastatiliMuuttui()
 {
     Tili vastatili = kp()->tilit()->tiliNumerolla( ui->vastatiliLine->valittuTilinumero() );
 
-    bool eritellankotaso = vastatili.eritellaankoTase() && !ui->maksutapaCombo->currentData(Qt::UserRole+1).isValid();
+    bool eritellankotaso = vastatili.eritellaankoTase() && !ui->maksutapaCombo->currentData(MaksutapaModel::UusiEraRooli).isValid();
 
     ui->eraLabel->setVisible( eritellankotaso);
     ui->eraCombo->setVisible( eritellankotaso);
     ui->eraCombo->lataa( vastatili.numero() );
     if( vastatili.eritellaankoTase() ) {
-        ui->eraCombo->valitse( ui->maksutapaCombo->currentData(Qt::UserRole+1).toInt() );
+        ui->eraCombo->valitse( ui->maksutapaCombo->currentData(MaksutapaModel::UusiEraRooli).toInt() );
     }
 
 
@@ -510,24 +511,12 @@ void TuloMenoApuri::alusta(bool meno)
     }
 
     // Alustetaan maksutapacombo
-
-    ui->maksutapaCombo->clear();
-    for(QVariant mtapa : QJsonDocument::fromJson( kp()->asetukset()->asetus( meno ? "maksutavat-" : "maksutavat+" ).toUtf8() ).toVariant().toList()  ) {
-        QVariantMap map( mtapa.toMap());
-        KieliKentta kk( map );
-        ui->maksutapaCombo->addItem( QIcon( map.contains("KUVA") ? ":/pic/" + map.value("KUVA").toString() + ".png" : ":/pic/tyhja.png"),
-                                     kk.teksti(),
-                                     map.value("TILI").toInt());
-        if( map.contains("ERA"))
-            ui->maksutapaCombo->setItemData( ui->maksutapaCombo->count()-1, map.value("ERA").toInt(), Qt::UserRole + 1 );
-    }
-    ui->maksutapaCombo->addItem( QIcon(":/pic/tyhja.png"), tr("Kaikki vastatilit"), 0 );        
+    maksutapaModel_->lataa( meno ? MaksutapaModel::MENO : MaksutapaModel::TULO );
 
     if( viimeMaksutapa__.length())
         ui->maksutapaCombo->setCurrentIndex( ui->maksutapaCombo->findText( viimeMaksutapa__ ));
     if( ui->maksutapaCombo->currentIndex() < 0)
         ui->maksutapaCombo->setCurrentIndex(0);
-
 
     ui->vastatiliLine->suodataTyypilla("[AB]");
 

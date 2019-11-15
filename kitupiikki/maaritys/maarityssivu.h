@@ -52,6 +52,7 @@ public:
         KOHDENNUS,
         TILINAVAUS,
         LASKUTUS,
+        MAKSUTAVAT,
         SAHKOPOSTI,
         VERKKOLASKU,
         TUONTI,
