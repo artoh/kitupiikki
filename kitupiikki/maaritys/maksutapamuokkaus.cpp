@@ -28,6 +28,8 @@ MaksutapaMuokkaus::MaksutapaMuokkaus(QWidget *parent) :
     ui(new Ui::MaksutapaMuokkaus)
 {
     ui->setupUi(this);
+
+    connect( ui->lisaaNappi, &QPushButton::clicked, this, &MaksutapaMuokkaus::uusi);
     connect( ui->muokkaaNappi, &QPushButton::clicked, this, &MaksutapaMuokkaus::muokkaa);
 }
 
@@ -41,6 +43,17 @@ void MaksutapaMuokkaus::setModel(MaksutapaModel *model)
     model_ = model;
     ui->view->setModel(model);
     ui->view->horizontalHeader()->setSectionResizeMode(MaksutapaModel::NIMI, QHeaderView::Stretch);
+    ui->view->selectRow(0);
+}
+
+void MaksutapaMuokkaus::uusi()
+{
+    MaksutapaMuokkausDlg dlg(this);
+    QVariantMap map = dlg.muokkaa();
+    if( map.contains("TILI"))
+        model_->lisaaRivi( ui->view->currentIndex().isValid() ?
+                           ui->view->currentIndex().row() :
+                           model_->rowCount()-1, map );
 }
 
 void MaksutapaMuokkaus::muokkaa()
@@ -48,6 +61,13 @@ void MaksutapaMuokkaus::muokkaa()
     if( ui->view->currentIndex().isValid()) {
         MaksutapaMuokkausDlg dlg(this);
         QVariantMap muokattu = dlg.muokkaa( model_->rivi( ui->view->currentIndex().row()  ) );
-        qDebug() << muokattu;
+        if( muokattu.contains("TILI"))
+            model_->muutaRivi( ui->view->currentIndex().row(), muokattu);
     }
+}
+
+void MaksutapaMuokkaus::poista()
+{
+    if( ui->view->currentIndex().isValid())
+        model_->poistaRivi(ui->view->currentIndex().row());
 }

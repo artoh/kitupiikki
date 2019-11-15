@@ -97,9 +97,42 @@ QVariantMap MaksutapaModel::rivi(int indeksi)
     return lista_.value(indeksi).toMap();
 }
 
+void MaksutapaModel::lisaaRivi(int indeksi, QVariantMap rivi)
+{
+    beginInsertRows(QModelIndex(), indeksi, indeksi);
+    lista_.insert(indeksi, rivi);
+    endInsertRows();
+    tallenna();
+}
+
+void MaksutapaModel::muutaRivi(int indeksi, QVariantMap rivi)
+{
+    lista_[indeksi] = rivi;
+    emit dataChanged(index(indeksi,0), index(indeksi,3));
+    tallenna();
+}
+
+void MaksutapaModel::poistaRivi(int indeksi)
+{
+    beginRemoveRows(QModelIndex(), indeksi, indeksi);
+    lista_.removeAt(indeksi);
+    endRemoveRows();
+    tallenna();
+}
+
 void MaksutapaModel::lataa(int tuloVaiMeno)
 {
+    tuloVaiMeno_ = tuloVaiMeno;
     beginResetModel();
     lista_ = QJsonDocument::fromJson( kp()->asetukset()->asetus( tuloVaiMeno == MENO ? "maksutavat-" : "maksutavat+" ).toUtf8() ).toVariant().toList();
     endResetModel();
+}
+
+void MaksutapaModel::tallenna()
+{
+    QString json = QString::fromUtf8(QJsonDocument::fromVariant( lista_ ).toJson());
+    if( tuloVaiMeno_ == MENO)
+        kp()->asetukset()->aseta("maksutavat-", json);
+    else if( tuloVaiMeno_ == TULO)
+        kp()->asetukset()->aseta("maksutavat+", json);
 }

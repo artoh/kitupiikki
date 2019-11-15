@@ -55,7 +55,7 @@ QVariantMap MaksutapaMuokkausDlg::muokkaa(const QVariantMap &ladattu)
         QString nimi = polku.mid(polku.lastIndexOf("/")+1);
         nimi = nimi.left( nimi.indexOf("."));
         QListWidgetItem *item = new QListWidgetItem( QIcon(polku), QString(), ui->kuvakeLista  );
-        item->setData(Qt::UserRole, kuva);
+        item->setData(Qt::UserRole, nimi);
         item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
         if( nimi == kuva)
             item->setSelected(true);

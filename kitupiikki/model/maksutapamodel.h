@@ -40,6 +40,9 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
     QVariantMap rivi(int indeksi);
+    void lisaaRivi(int indeksi, QVariantMap rivi);
+    void muutaRivi(int indeksi, QVariantMap rivi);
+    void poistaRivi(int indeksi);
 
 public slots:
     void lataa(int tuloVaiMeno);

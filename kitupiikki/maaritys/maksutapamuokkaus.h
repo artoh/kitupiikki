@@ -36,7 +36,9 @@ public:
     void setModel(MaksutapaModel *model);
 
 protected slots:
+    void uusi();
     void muokkaa();
+    void poista();
 
 private:
     Ui::MaksutapaMuokkaus *ui;
