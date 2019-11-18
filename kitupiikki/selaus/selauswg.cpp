@@ -37,6 +37,7 @@ SelausWg::SelausWg(QWidget *parent) :
     ui->setupUi(this);
 
     ui->valintaTab->addTab(QIcon(":/pic/tekstisivu.png"),tr("&Tositteet"));
+    ui->valintaTab->addTab(QIcon(":/pic/inbox.png"), tr("&Saapuneet"));
     ui->valintaTab->addTab(QIcon(":/pic/harmaa.png"), tr("&Luonnokset"));
     ui->valintaTab->addTab(QIcon(":/pic/vientilista.png"),tr("&Viennit"));
 
@@ -136,11 +137,14 @@ void SelausWg::paivita()
     {
         model->lataa( ui->alkuEdit->date(), ui->loppuEdit->date());
     }
+    else if( ui->valintaTab->currentIndex() == SAAPUNEET) {
+        tositeModel->lataa( ui->alkuEdit->date(), ui->loppuEdit->date(), TositeSelausModel::SAAPUNEET);
+    }
     else if( ui->valintaTab->currentIndex() == TOSITTEET )
     {
         tositeModel->lataa( ui->alkuEdit->date(), ui->loppuEdit->date());
-    } else {
-        tositeModel->lataa( ui->alkuEdit->date(), ui->loppuEdit->date(), true);
+    } else if( ui->valintaTab->currentIndex() == LUONNOKSET){
+        tositeModel->lataa( ui->alkuEdit->date(), ui->loppuEdit->date(), TositeSelausModel::LUONNOKSET);
     }
 
     if( lopussa )
@@ -302,10 +306,10 @@ void SelausWg::alkuPvmMuuttui()
 
 void SelausWg::selaa(int kumpi)
 {
-    if( kumpi == TOSITTEET || kumpi == LUONNOKSET)
-        selaaTositteita();
-    else
+    if( kumpi == VIENNIT)
         selaaVienteja();
+    else
+        selaaTositteita();
 
     ui->selausView->selectRow(0);
     ui->selausView->setFocus();

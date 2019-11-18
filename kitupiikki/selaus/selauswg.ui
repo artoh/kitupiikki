@@ -36,11 +36,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QDateEdit" name="alkuEdit">
-       <property name="calendarPopup">
-        <bool>true</bool>
-       </property>
-      </widget>
+      <widget class="KpDateEdit" name="alkuEdit"/>
      </item>
      <item>
       <widget class="QLabel" name="label">
@@ -50,11 +46,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QDateEdit" name="loppuEdit">
-       <property name="calendarPopup">
-        <bool>true</bool>
-       </property>
-      </widget>
+      <widget class="KpDateEdit" name="loppuEdit"/>
      </item>
      <item>
       <spacer name="horizontalSpacer_3">
@@ -131,6 +123,11 @@
    <extends>QWidget</extends>
    <header>QTabBar</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>KpDateEdit</class>
+   <extends>QLineEdit</extends>
+   <header location="global">tools/kpdateedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

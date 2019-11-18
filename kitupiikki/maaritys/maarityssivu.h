@@ -53,6 +53,7 @@ public:
         TILINAVAUS,
         LASKUTUS,
         MAKSUTAVAT,
+        TOSITESARJAT,
         SAHKOPOSTI,
         VERKKOLASKU,
         TUONTI,

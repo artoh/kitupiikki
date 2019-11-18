@@ -149,20 +149,7 @@ void AloitusSivu::siirrySivulle()
     // Päivitetään aloitussivua
     if( kp()->yhteysModel() )
     {        
-        QString txt("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:/aloitus/aloitus.css\"></head><body>");
-        txt.append( paivitysInfo );
-
-        txt.append( vinkit() );
-
-        // Ei tulosteta tyhjiä otsikoita vaan possu jos ei kirjauksia
-        if( kp()->asetukset()->onko("EkaTositeKirjattu") )
-            txt.append(summat());
-        else
-            txt.append("<p><img src=qrc:/pic/kitsas150.png></p>");
-
         haeSaldot();
-
-        ui->selain->setHtml(txt);
     }
     else
     {
@@ -393,7 +380,18 @@ void AloitusSivu::saldotSaapuu(QVariant *data)
 {
     saldot_ = data->toMap();
 
+    QString txt("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:/aloitus/aloitus.css\"></head><body>");
+    txt.append( paivitysInfo );
 
+    txt.append( vinkit() );
+
+    // Ei tulosteta tyhjiä otsikoita vaan possu jos ei kirjauksia
+    if( kp()->asetukset()->onko("EkaTositeKirjattu") )
+        txt.append(summat());
+    else
+        txt.append("<p><img src=qrc:/pic/kitsas150.png></p>");
+
+    ui->selain->setHtml(txt);
 }
 
 QDate AloitusSivu::buildDate()

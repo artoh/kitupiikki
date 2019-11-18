@@ -56,6 +56,12 @@ public:
         TositeTyyppiRooli = Qt::UserRole + 1,
     };
 
+    enum {
+        SAAPUNEET = 1,
+        LUONNOKSET = 2,
+        KIRJANPIDOSSA = 3
+    };
+
     TositeSelausModel();
 
     int rowCount(const QModelIndex &parent) const;
@@ -69,7 +75,7 @@ public:
     QStringList lajiLista() const { return kaytetytLajinimet; }
 
 public slots:
-    void lataa(const QDate& alkaa, const QDate& loppuu, bool luonnokset = false);
+    void lataa(const QDate& alkaa, const QDate& loppuu, int tila = KIRJANPIDOSSA);
     void tietoSaapuu(QVariant *var);
 
 protected:
@@ -79,7 +85,7 @@ protected:
     QVariantList lista_;
     QSet<int> kaytetytTyypit_;
 
-    bool luonnokset_ = false;
+    int tila_ = KIRJANPIDOSSA;
     bool samakausi_ = false;
 
 };

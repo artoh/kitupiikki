@@ -46,9 +46,12 @@ public:
 
 public slots:
     void lataa(int tuloVaiMeno);
+    void tallenna();
+
 
 private:
     QVariantList lista_;
+    int tuloVaiMeno_ = 0;
 };
 
 #endif // MAKSUTAPAMODEL_H

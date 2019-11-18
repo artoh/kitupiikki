@@ -30,6 +30,7 @@ SOURCES += \
     $$PWD/maaritys/maksutapamuokkaus.cpp \
     $$PWD/maaritys/maksutapasivu.cpp \
     $$PWD/maaritys/tilikarttapaivitys.cpp \
+    $$PWD/maaritys/tositesarjamaaritys.cpp \
     $$PWD/maaritys/ulkoasumaaritys.cpp \
     $$PWD/model/laskutaulumodel.cpp \
     $$PWD/model/maksutapamodel.cpp \
@@ -251,6 +252,7 @@ HEADERS += \
     $$PWD/maaritys/maksutapamuokkaus.h \
     $$PWD/maaritys/maksutapasivu.h \
     $$PWD/maaritys/tilikarttapaivitys.h \
+    $$PWD/maaritys/tositesarjamaaritys.h \
     $$PWD/maaritys/ulkoasumaaritys.h \
     $$PWD/model/laskutaulumodel.h \
     $$PWD/model/maksutapamodel.h \
@@ -461,6 +463,7 @@ FORMS += \
     $$PWD/maaritys/maksutapamuokkaus.ui \
     $$PWD/maaritys/maksutapasivu.ui \
     $$PWD/maaritys/tilikarttapaivitys.ui \
+    $$PWD/maaritys/tositesarjat.ui \
     $$PWD/maaritys/ulkoasumaaritys.ui \
     $$PWD/rekisteri/asiakastoimittajadlg.ui \
     $$PWD/tilaus/tilausvahvistus.ui \
@@ -481,7 +484,6 @@ FORMS += \
     selaus/selauswg.ui \
     raportti/paivakirja.ui \
     maaritys/tilinavaus.ui \
-    maaritys/tositelajit.ui \
     maaritys/tilikarttamuokkaus.ui \
     maaritys/tilinmuokkaus.ui \
     db/tilinvalintadialogi.ui \

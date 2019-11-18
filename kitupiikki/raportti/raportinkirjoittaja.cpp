@@ -104,7 +104,7 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
 
     int pienennys = sarakkeet_.count() > 4 && printer->pageSizeMM().width() < 300 ? 2 : 0;
 
-    QFont fontti("Sans", 10 - pienennys );
+    QFont fontti("FreeSans", 10 - pienennys );
     painter->setFont(fontti);
 
     int rivinkorkeus = painter->fontMetrics().height();

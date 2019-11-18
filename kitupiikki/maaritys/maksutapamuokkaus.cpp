@@ -31,6 +31,7 @@ MaksutapaMuokkaus::MaksutapaMuokkaus(QWidget *parent) :
 
     connect( ui->lisaaNappi, &QPushButton::clicked, this, &MaksutapaMuokkaus::uusi);
     connect( ui->muokkaaNappi, &QPushButton::clicked, this, &MaksutapaMuokkaus::muokkaa);
+    connect( ui->poistaNappi, &QPushButton::clicked, this, &MaksutapaMuokkaus::poista);
 }
 
 MaksutapaMuokkaus::~MaksutapaMuokkaus()
