@@ -50,6 +50,7 @@ public:
 public slots:
     static void uusiTilikausi();
 
+    void aineisto();
     void arkisto();
     void vieArkisto();
     void tilinpaatos();

@@ -40,6 +40,7 @@
 #include "arkistoija/vanhaarkistoija.h"
 #include "tilinpaatoseditori/tilinpaatoseditori.h"
 #include "tilinpaatoseditori/tpaloitus.h"
+#include "tilinpaatoseditori/aineistotulostaja.h"
 
 #include "tilinpaattaja.h"
 
@@ -57,12 +58,14 @@ ArkistoSivu::ArkistoSivu()
     ui->setupUi(this);
 
     connect( ui->uusiNappi, SIGNAL(clicked(bool)), this, SLOT(uusiTilikausi()));
+    connect( ui->aineistoNappi, &QPushButton::clicked, this, &ArkistoSivu::aineisto);
     connect( ui->arkistoNappi, SIGNAL(clicked(bool)), this, SLOT(arkisto()));
     connect( ui->vieNappi, SIGNAL(clicked(bool)), this, SLOT(vieArkisto()));
     connect( ui->tilinpaatosNappi, SIGNAL(clicked(bool)), this, SLOT(tilinpaatos()));
     connect( ui->muokkaaNappi, SIGNAL(clicked(bool)), this, SLOT(muokkaa()));
     connect( ui->budjettiNappi, &QPushButton::clicked, this, &ArkistoSivu::budjetti);
     connect( ui->numeroiButton, &QPushButton::clicked, this, &ArkistoSivu::uudellenNumerointi);
+    connect( kp()->tilikaudet(), &TilikausiModel::modelReset, [this] {  if(this->ui->view->model()) this->ui->view->selectRow( ui->view->model()->rowCount()-1 );});
 
     ui->numeroiButton->hide();      // Ei käytössä
 }
@@ -110,6 +113,16 @@ void ArkistoSivu::uusiTilikausi()
         uusi.tallenna();
     }
 
+}
+
+void ArkistoSivu::aineisto()
+{
+    if( ui->view->currentIndex().isValid())
+    {
+        Tilikausi kausi = kp()->tilikaudet()->tilikausiIndeksilla( ui->view->currentIndex().row() );
+        AineistoTulostaja *aineisto = new AineistoTulostaja(this);
+        aineisto->naytaAineisto(kausi, kp()->asetus("kieli"));
+    }
 }
 
 void ArkistoSivu::arkisto()

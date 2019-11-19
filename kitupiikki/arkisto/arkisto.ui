@@ -88,6 +88,17 @@
       </spacer>
      </item>
      <item>
+      <widget class="QPushButton" name="aineistoNappi">
+       <property name="text">
+        <string>Aineisto</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../pic/pic.qrc">
+         <normaloff>:/pic/Paivakirja64.png</normaloff>:/pic/Paivakirja64.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="arkistoNappi">
        <property name="text">
         <string>&amp;Arkisto</string>

@@ -32,6 +32,12 @@ public:
                         const QByteArray& data,
                         const QDate& pvm, const QString& sarja, int tunniste);
 
+    static bool tulostaKuvaLiite(QPagedPaintDevice *printer, QPainter* painter,
+                        const QByteArray& data,
+                        const QDate& pvm, const QString& sarja, int tunniste);
+
+
+
     static void tulostaYlatunniste(QPainter* painter, const QDate& pvm, const QString& sarja, int tunniste);
 
 
