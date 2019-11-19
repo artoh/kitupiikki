@@ -23,6 +23,7 @@
 #include "tilinpaattaja.h"
 #include "db/kirjanpito.h"
 #include "tilinpaatoseditori/tilinpaatoseditori.h"
+#include "tilinpaatoseditori/aineistotulostaja.h"
 
 #include "ui_tilinpaattaja.h"
 #include "ui_lukitsetilikausi.h"
@@ -34,6 +35,7 @@
 #include "arkisto/arkistosivu.h"
 
 #include "naytin/naytinikkuna.h"
+
 
 TilinPaattaja::TilinPaattaja(Tilikausi kausi,ArkistoSivu *arkisto , QWidget *parent) :
     QDialog(parent),
@@ -49,6 +51,7 @@ TilinPaattaja::TilinPaattaja(Tilikausi kausi,ArkistoSivu *arkisto , QWidget *par
     connect( ui->jaksotusNappi, &QPushButton::clicked, this, &TilinPaattaja::teeJaksotukset);
     connect( ui->tilinpaatosNappi, SIGNAL(clicked(bool)), this, SLOT(muokkaa()));
     connect( ui->tulostaNappi, SIGNAL(clicked(bool)), this, SLOT(esikatsele()));
+    connect( ui->mappiNappi, &QPushButton::clicked, this, &TilinPaattaja::mappi);
     connect( ui->vahvistaNappi, SIGNAL(clicked(bool)), this, SLOT(vahvista()));
 
     connect( ui->ohjeNappi, &QPushButton::clicked, [] { kp()->ohje("tilikaudet/tilinpaatos"); });
@@ -167,6 +170,16 @@ void TilinPaattaja::esikatsele()
 {
     // Avataan tilinpäätös
     NaytinIkkuna::naytaLiite(0, QString("TP_%1").arg(tilikausi.paattyy().toString(Qt::ISODate)) );
+}
+
+void TilinPaattaja::mappi()
+{
+    QString data = tilikausi.str("tilinpaatosteksti");
+    QStringList raportit = data.left( data.indexOf("\n")).split(" ");
+    QString teksti =  data.mid(data.indexOf("\n")+1);
+
+    AineistoTulostaja* tulostaja = new AineistoTulostaja(this);
+    tulostaja->naytaAineisto(tilikausi, kp()->asetus("tpkieli"));
 }
 
 void TilinPaattaja::vahvista()

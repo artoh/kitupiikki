@@ -36,6 +36,8 @@
 
 #include "raportti/raportoija.h"
 
+
+
 #include <cmath>
 
 TilinpaatosTulostaja::TilinpaatosTulostaja(Tilikausi tilikausi, const QString& teksti, const QStringList &raportit, const QString& kieli, QObject *parent)
@@ -61,6 +63,7 @@ void TilinpaatosTulostaja::tallenna()
     tilaaRaportit();
 }
 
+
 void TilinpaatosTulostaja::tulosta(QPagedPaintDevice *writer) const
 {
     writer->setPageSize( QPdfWriter::A4);
@@ -68,7 +71,7 @@ void TilinpaatosTulostaja::tulosta(QPagedPaintDevice *writer) const
     writer->setPageMargins( QMarginsF(25,10,10,10), QPageLayout::Millimeter );
     QPainter painter( writer );
 
-    tulostaKansilehti( &painter);
+    tulostaKansilehti( &painter, "Tilinpäätös", tilikausi_);
     int sivulla = 1;
 
     // Raportit
@@ -111,6 +114,7 @@ void TilinpaatosTulostaja::tulosta(QPagedPaintDevice *writer) const
         painter.restore();
         sivulla++;
     }
+
     painter.end();
 
 }
@@ -122,14 +126,14 @@ QString TilinpaatosTulostaja::otsikko() const
 
 void TilinpaatosTulostaja::tilaaRaportit()
 {
-    // Tilaa halutut raportit, jotta ne saadaan käyttöön
     tilattuja_ = raportit_.count();
+    // Tilaa halutut raportit, jotta ne saadaan käyttöön
     for(QString raportti : raportit_)
         tilaaRaportti(raportti);
 }
 
 
-void TilinpaatosTulostaja::tulostaKansilehti(QPainter *painter) const
+void TilinpaatosTulostaja::tulostaKansilehti(QPainter *painter, const QString otsikko, Tilikausi kausi)
 {
 
     painter->save();
@@ -157,8 +161,8 @@ void TilinpaatosTulostaja::tulostaKansilehti(QPainter *painter) const
     painter->drawText( QRectF(0, sivunkorkeus/3, sivunleveys, rivinkorkeus * 2), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter, kp()->asetukset()->asetus("Nimi"));
 
     painter->setFont(QFont("Sans",24));
-    painter->drawText( QRectF(0, sivunkorkeus/3 + rivinkorkeus * 4, sivunleveys, rivinkorkeus ), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter, kp()->tr("Tilinpäätös") );
-    painter->drawText( QRectF(0, sivunkorkeus/3 + rivinkorkeus * 5, sivunleveys, rivinkorkeus ), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter , tilikausi_.kausivaliTekstina());
+    painter->drawText( QRectF(0, sivunkorkeus/3 + rivinkorkeus * 4, sivunleveys, rivinkorkeus ), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter, otsikko );
+    painter->drawText( QRectF(0, sivunkorkeus/3 + rivinkorkeus * 5, sivunleveys, rivinkorkeus ), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter , kausi.kausivaliTekstina());
 
     painter->setFont(QFont("Sans",12));
     painter->drawText( QRectF(0,sivunkorkeus / 8 * 7, sivunleveys / 3, sivunkorkeus / 8), Qt::TextWordWrap, kp()->asetukset()->asetus("Osoite"));
@@ -175,14 +179,22 @@ void TilinpaatosTulostaja::tilaaRaportti(const QString &raportinnimi)
     kirjoittajat_.append(RaportinKirjoittaja());
 
     Raportoija* raportoija = new Raportoija(raportinnimi, kieli_ , this);
-    if( raportoija->onkoTaseraportti())
+    Tilikausi edellinen = kp()->tilikausiPaivalle( tilikausi_.alkaa().addDays(-1) );
+
+    if( raportoija->onkoTaseraportti()) {
         raportoija->lisaaTasepaiva( tilikausi_.paattyy() );
-    else
+        if( edellinen.alkaa().isValid())
+            raportoija->lisaaTasepaiva( edellinen.paattyy());
+    } else {
         raportoija->lisaaKausi(tilikausi_.alkaa(), tilikausi_.paattyy());
+        if( edellinen.alkaa().isValid())
+            raportoija->lisaaKausi(edellinen.alkaa(), edellinen.paattyy());
+    }
 
     connect( raportoija, &Raportoija::valmis, [this,indeksi] (RaportinKirjoittaja rk) { this->raporttiSaapuu(indeksi, rk); } );
     raportoija->kirjoita(false,-1);
 }
+
 
 void TilinpaatosTulostaja::raporttiSaapuu(int raportti, RaportinKirjoittaja rk)
 {
@@ -204,7 +216,4 @@ void TilinpaatosTulostaja::raporttiSaapuu(int raportti, RaportinKirjoittaja rk)
 
 }
 
-void TilinpaatosTulostaja::kirjoita()
-{
 
-}

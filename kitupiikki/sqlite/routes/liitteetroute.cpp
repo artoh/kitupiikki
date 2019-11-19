@@ -30,9 +30,19 @@ LiitteetRoute::LiitteetRoute(SQLiteModel *model) :
 
 }
 
-QVariant LiitteetRoute::get(const QString &polku, const QUrlQuery &/*urlquery*/)
+QVariant LiitteetRoute::get(const QString &polku, const QUrlQuery &urlquery)
 {
     QSqlQuery kysely(db());
+    if( polku.isEmpty()) {
+        QString kysymys = QString("SELECT tosite.pvm, tosite.sarja, tosite.tunniste, liite.id, liite.nimi, liite.tyyppi "
+                                  "FROM Tosite JOIN Liite ON Liite.tosite=Tosite.id WHERE Tosite.tila >= 100 AND "
+                                  "Tosite.pvm BETWEEN '%1' AND '%2' ORDER BY sarja, tunniste")
+                .arg(urlquery.queryItemValue("alkupvm"))
+                .arg(urlquery.queryItemValue("loppupvm"));
+        kysely.exec(kysymys);
+        return resultList(kysely);
+
+    }
     if( polku.toInt()) {
         if(!kysely.exec(QString("SELECT data FROM Liite WHERE id=%1").arg(polku.toInt()) ) )
             throw SQLiteVirhe(kysely);

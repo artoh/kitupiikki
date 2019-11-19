@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2017 Arto Hyvättinen
+   Copyright (C) 2019 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,61 +14,52 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
+#ifndef AINEISTOTULOSTAJA_H
+#define AINEISTOTULOSTAJA_H
 
-#ifndef TILINPAATOSTULOSTAJA_H
-#define TILINPAATOSTULOSTAJA_H
+#include <QObject>
+#include <QHash>
 
-#include <QTextDocument>
-#include <QPagedPaintDevice>
+#include "naytin/esikatseltava.h"
 #include "db/tilikausi.h"
 #include "raportti/raportinkirjoittaja.h"
-#include "naytin/esikatseltava.h"
 
-#include <QVector>
-#include <QPagedPaintDevice>
-/**
- * @brief Tilinpäätöksen tulostus
-*/
-class TilinpaatosTulostaja : public QObject, public Esikatseltava
+class AineistoTulostaja : public QObject, public Esikatseltava
 {
     Q_OBJECT
 public:
-    TilinpaatosTulostaja(Tilikausi tilikausi, const QString& teksti, const QStringList& raportit, const QString& kieli, QObject* parent = nullptr);
-    virtual ~TilinpaatosTulostaja() override;
+    AineistoTulostaja(QObject *parent = nullptr);
 
-    void nayta();
-    void tallenna();
-
+    void naytaAineisto(Tilikausi kausi, const QString& kieli = "fi");
 
     virtual void tulosta(QPagedPaintDevice *writer) const override;
     virtual QString otsikko() const override;
 
-    static void tulostaKansilehti(QPainter *painter, const QString otsikko, Tilikausi kausi);
-
 signals:
-    void tallennettu();
 
-private:
-    void tilaaRaportit();
-
+public slots:
 
 protected:
-    void tilaaRaportti(const QString& raportinnimi);
+    void tilaaRaportit();
+    void tilaaLiitteet();
+    void seuraavaLiite();
 
 protected slots:
     void raporttiSaapuu(int raportti, RaportinKirjoittaja rk);
+    void liiteListaSaapuu(QVariant *data);
+    void liiteSaapuu(int liiteid, QVariant* var);
 
 
 protected:
     Tilikausi tilikausi_;
     QVector<RaportinKirjoittaja> kirjoittajat_;
-    QVector<RaportinKirjoittaja> lisaKirjoittajat_;
-    int tilattuja_;
-    QString teksti_;
-    QStringList raportit_;
-    bool tallenna_;
+    QHash<int,QByteArray> liitedatat_;
+    QVariantList liitteet_;
     QString kieli_;
+
+    int tilattuja_;
+    int liitepnt_ = 0;
 
 };
 
-#endif // TILINPAATOSTULOSTAJA_H
+#endif // AINEISTOTULOSTAJA_H

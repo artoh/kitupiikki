@@ -39,6 +39,7 @@ SOURCES += \
     $$PWD/model/tositeloki.cpp \
     $$PWD/model/tositeviennit.cpp \
     $$PWD/model/tositevienti.cpp \
+    $$PWD/naytin/liitetulostaja.cpp \
     $$PWD/raportti/alvraporttiwidget.cpp \
     $$PWD/raportti/paakirja.cpp \
     $$PWD/raportti/raportteri.cpp \
@@ -78,6 +79,7 @@ SOURCES += \
     $$PWD/tilaus/planmodel.cpp \
     $$PWD/tilaus/tilausvalintasivu.cpp \
     $$PWD/tilaus/tilauswizard.cpp \
+    $$PWD/tilinpaatoseditori/aineistotulostaja.cpp \
     $$PWD/tools/checkcombo.cpp \
     $$PWD/tools/eracombo.cpp \
     $$PWD/tools/kohdennuscombo.cpp \
@@ -261,6 +263,7 @@ HEADERS += \
     $$PWD/model/tositeloki.h \
     $$PWD/model/tositeviennit.h \
     $$PWD/model/tositevienti.h \
+    $$PWD/naytin/liitetulostaja.h \
     $$PWD/raportti/alvraporttiwidget.h \
     $$PWD/raportti/paakirja.h \
     $$PWD/raportti/raportteri.h \
@@ -300,6 +303,7 @@ HEADERS += \
     $$PWD/tilaus/planmodel.h \
     $$PWD/tilaus/tilausvalintasivu.h \
     $$PWD/tilaus/tilauswizard.h \
+    $$PWD/tilinpaatoseditori/aineistotulostaja.h \
     $$PWD/tools/checkcombo.h \
     $$PWD/tools/eracombo.h \
     $$PWD/tools/kohdennuscombo.h \
