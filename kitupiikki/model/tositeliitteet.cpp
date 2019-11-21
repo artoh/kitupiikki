@@ -17,7 +17,6 @@
 #include "tositeliitteet.h"
 #include "db/kirjanpito.h"
 
-#include "tuonti/tuonti.h"
 
 #include <QIcon>
 #include <QFile>
@@ -27,6 +26,9 @@
 #include <QUrl>
 
 #include <QDebug>
+
+#include "tuonti/pdftuonti.h"
+#include "tuonti/csvtuonti.h"
 
 TositeLiitteet::TositeLiitteet(QObject *parent)
     : QAbstractListModel(parent)
@@ -132,8 +134,19 @@ bool TositeLiitteet::lisaaHeti(const QByteArray &liite, const QString &tiedoston
 
 
     // Ensimmäisestä liitteestä tuodaan tiedot
-    if( liitteet_.count() == 1)
-        connect( liitekysely, &KpKysely::vastaus, [this] (QVariant *data)  { emit this->tuonti(data); });
+    if( liitteet_.count() == 1) {
+
+        QString tyyppi = KpKysely::tiedostotyyppi(liite);
+        if( tyyppi == "application/pdf") {
+            QVariant tuotu = Tuonti::PdfTuonti::tuo(liite);
+            emit this->tuonti( &tuotu);
+        } else if( tyyppi == "text/csv") {
+            QVariant tuotu = Tuonti::CsvTuonti::tuo(liite);
+            KpKysely *kysely = kpk("/tuontitulkki", KpKysely::POST);
+            connect( kysely, &KpKysely::vastaus, this, &TositeLiitteet::tuonti);
+            kysely->kysy(tuotu);
+        }
+    }
 
     QMap<QString,QString> meta;
     meta.insert("Filename", tiedostonnimi);

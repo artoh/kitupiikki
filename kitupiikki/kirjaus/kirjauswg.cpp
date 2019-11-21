@@ -52,7 +52,6 @@
 
 #include "db/kirjanpito.h"
 
-#include "tuonti/vanhatuonti.h"
 #include "ui_numerosiirto.h"
 #include "naytin/naytinikkuna.h"
 #include "ui_kopioitosite.h"

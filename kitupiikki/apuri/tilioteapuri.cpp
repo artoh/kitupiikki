@@ -90,13 +90,19 @@ void TilioteApuri::tuo(QVariantMap map)
 {
     tuodaan_ = true;
 
+    qDebug() << map;
+
     if( map.contains("iban"))
         ui->tiliCombo->valitseTili( kp()->tilit()->tiliIbanilla(map.value("iban").toString()).numero() );
+    else if( map.contains("tili"))
+        ui->tiliCombo->valitseTili( map.value("tili").toInt());
 
     ui->alkuDate->setDate( map.value("alkupvm").toDate() );
     ui->loppuDate->setDate( map.value("loppupvm").toDate());
+    tosite()->asetaPvm( map.value("loppupvm").toDate() );
 
     model()->tuo( map.value("tapahtumat").toList() );
+
     tuodaan_ = false;
 
     tiliPvmMuutos();

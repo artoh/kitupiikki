@@ -18,9 +18,8 @@
 #ifndef PDFTUONTI_H
 #define PDFTUONTI_H
 
-#include <QMap>
+#include <QVariantMap>
 
-#include "vanhatuonti.h"
 
 namespace Poppler {
   class Document;

@@ -20,7 +20,6 @@
 
 #include <QStringList>
 
-#include "vanhatuonti.h"
 #include "ui_csvtuontidlg.h"
 
 /**

@@ -16,10 +16,11 @@
 */
 
 #include "titotuonti.h"
+#include <QDate>
+#include <QByteArray>
 
 
-TitoTuonti::TitoTuonti(KirjausWg *wg) :
-    VanhaTuonti( wg )
+TitoTuonti::TitoTuonti(KirjausWg *wg)
 {
 
 }
@@ -93,8 +94,6 @@ bool TitoTuonti::tuo(const QByteArray &data)
         {
             // Rivin tallentaminen
             int rivintaso = rivi.mid(187,1).simplified().toInt();
-            if( pvm.isValid() && rivintaso <= tasotunnus)
-                oterivi(pvm, sentit, iban, viite, arkistotunnus, selite);
 
             pvm = QDate();
             sentit = 0;
@@ -127,5 +126,5 @@ void TitoTuonti::ekarivi(const QString &rivi)
     QDate mista = QDate::fromString( rivi.mid(26,6),"yyMMdd" ).addYears(100);
     QDate mihin = QDate::fromString( rivi.mid(32,6),"yyMMdd").addYears(100);
     QString iban = rivi.mid(292,18);
-    tiliote(iban, mista, mihin);
+
 }

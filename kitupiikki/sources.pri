@@ -86,8 +86,6 @@ SOURCES += \
     $$PWD/tools/kohdennuscombo.cpp \
     $$PWD/tools/kpeuroedit.cpp \
     $$PWD/tools/tilicombo.cpp \
-    $$PWD/tuonti/tuonti.cpp \
-    $$PWD/tuonti/vanhatuonti.cpp \
     $$PWD/uusikirjanpito/sijaintisivu.cpp \
     $$PWD/uusikirjanpito/tiedotsivu.cpp \
     $$PWD/uusikirjanpito/tilikausisivu.cpp \
@@ -311,8 +309,6 @@ HEADERS += \
     $$PWD/tools/kohdennuscombo.h \
     $$PWD/tools/kpeuroedit.h \
     $$PWD/tools/tilicombo.h \
-    $$PWD/tuonti/tuonti.h \
-    $$PWD/tuonti/vanhatuonti.h \
     $$PWD/uusikirjanpito/sijaintisivu.h \
     $$PWD/uusikirjanpito/tiedotsivu.h \
     $$PWD/uusikirjanpito/tilikausisivu.h \

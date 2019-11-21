@@ -18,17 +18,18 @@
 #ifndef TITOTUONTI_H
 #define TITOTUONTI_H
 
-#include "vanhatuonti.h"
+#include <QByteArray>
+#include "kirjaus/kirjauswg.h"
 
 /**
  * @brief The Konekielisen TITO-tiliotteen tuominen
  */
-class TitoTuonti : public VanhaTuonti
+class TitoTuonti
 {
 public:
     TitoTuonti(KirjausWg *wg);
 
-    bool tuo(const QByteArray &data) override;
+    bool tuo(const QByteArray &data);
 
 protected:
     void ekarivi(const QString& rivi);

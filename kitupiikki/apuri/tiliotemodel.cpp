@@ -403,8 +403,8 @@ void TilioteModel::teeTuonti()
         rivi.euro = map.value("euro").toDouble();
         rivi.selite = map.value("selite").toString();
 
-        rivi.saajamaksaja = map.value("kumppaninimi").toString();
-        rivi.saajamaksajaId = map.value("kumppaniid").toInt();
+        rivi.saajamaksaja = map.value("saajamaksaja").toString();
+        rivi.saajamaksajaId = map.value("saajamaksajaid").toInt();
 
         rivi.arkistotunnus = map.value("arkistotunnus").toString();
 
