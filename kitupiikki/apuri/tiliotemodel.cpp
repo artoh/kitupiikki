@@ -99,11 +99,9 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
             return kp()->tilit()->tiliNumerolla( rivi.tili ).nimiNumero();
         case KOHDENNUS:
         {
-           if( rivi.eraId) {
-                if( rivi.laskupvm.isValid())
-                    return rivi.laskupvm;
-                return rivi.eraTunnus;
-            }
+            if( rivi.laskupvm.isValid())
+                return rivi.laskupvm;
+
             QString txt;
             if( rivi.kohdennus )
                 txt = kp()->kohdennukset()->kohdennus(rivi.kohdennus).nimi() + " ";
@@ -333,6 +331,11 @@ void TilioteModel::lataa(QVariantList lista)
     endResetModel();
 }
 
+void TilioteModel::tuo(const QVariantList tuotavat)
+{
+    tuotavat_ = tuotavat;
+}
+
 void TilioteModel::lataaHarmaat(int tili, const QDate &mista, const QDate &mihin)
 {
     KpKysely *kysely = kpk("/viennit");
@@ -373,11 +376,98 @@ void TilioteModel::harmaatSaapuu(QVariant *data)
         rivi.selite = map.value("selite").toString();
         rivi.saajamaksaja = map.value("kumppani").toMap().value("nimi").toString();
         rivi.saajamaksajaId = map.value("kumppani").toMap().value("id").toInt();
+        rivi.arkistotunnus = map.value("arkistotunnus").toString();
         rivi.harmaa = true;
 
         rivit_.append(rivi);
     }
 
+    if( !tuotavat_.isEmpty())
+        teeTuonti();
+
     endResetModel();
+}
+
+void TilioteModel::teeTuonti()
+{
+    // Lisätään ensin kaikki listalle
+    // ja sitten käydään vielä läpi harmaat ja tehdään niiden kautta poistamiset
+
+    int ennentuontia = rivit_.count();
+
+    for(auto item : tuotavat_) {
+        QVariantMap map = item.toMap();
+
+        Tilioterivi rivi;
+        rivi.pvm = map.value("pvm").toDate();
+        rivi.euro = map.value("euro").toDouble();
+        rivi.selite = map.value("selite").toString();
+
+        rivi.saajamaksaja = map.value("kumppaninimi").toString();
+        rivi.saajamaksajaId = map.value("kumppaniid").toInt();
+
+        rivi.arkistotunnus = map.value("arkistotunnus").toString();
+
+        rivi.eraId = map.value("eraid").toInt();
+        rivi.laskupvm = map.value("laskupvm").toDate();
+        rivi.tili = map.value("tili").toInt();
+        rivi.tilinumero = map.value("iban").toString();
+
+        rivit_.append(rivi);
+    }
+
+    // Siivotaan ne, jotka oli kirjattu käsin tililtä
+    for(int i=0; i < ennentuontia; i++)
+        if( rivit_.value(i).harmaa)
+            siivoa(i, ennentuontia + 1);
+}
+
+void TilioteModel::siivoa(int harmaarivi, int myohemmat)
+{
+    // Yritetään ensin arkistotunnuksella
+    // Näin pitäisi löytyä tuplasti tiliotteelta tuodut
+    QString arkistotunnus = rivi(harmaarivi).arkistotunnus;
+
+    if( !arkistotunnus.isEmpty()) {
+        for(int i=myohemmat; i < rivit_.count(); i++) {
+            if( arkistotunnus == rivi(i).arkistotunnus ) {
+                rivit_.removeAt(i);
+                return;
+            }
+        }
+    }
+
+    // Jos ei löydetty arkistotunnuksella, niin sitten yritetään päiväyksen ja määrän
+    // yhdistelmällä
+
+    QList<int> sopivat;
+
+    QDate pvm = rivi(harmaarivi).pvm;
+    double euro = rivi(harmaarivi).euro;
+
+    for( int i=myohemmat; i < rivit_.count(); i++) {
+        if( pvm == rivi(i).pvm && qAbs( euro - rivi(i).euro) < 1e-5 &&
+            rivi(i).arkistotunnus.isEmpty() )
+            sopivat.append(i);
+    }
+
+    if( sopivat.count() == 1) {
+        rivit_.removeAt( sopivat.first() );
+        return;
+    }
+
+    QList<int> ksopivat;
+
+    // Jos on useampia muuten sopivia, yritetään saada oikea kumppani
+    for( int sopiva : sopivat) {
+        if( rivi(sopiva).saajamaksajaId &&
+            rivi(sopiva).saajamaksajaId == rivi(harmaarivi).saajamaksajaId ) {
+            ksopivat.append(sopiva);
+        }
+    }
+
+    if( ksopivat.count() == 1) {
+        rivit_.removeAt( ksopivat.first() );
+    }
 }
 

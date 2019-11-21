@@ -47,6 +47,7 @@
 #include "routes/tilitroute.h"
 #include "routes/alvroute.h"
 #include "routes/ryhmatroute.h"
+#include "routes/tuontitulkki.h"
 
 #include "versio.h"
 
@@ -73,6 +74,7 @@ SQLiteModel::SQLiteModel(QObject *parent)
     lisaaRoute(new TuotteetRoute(this));
     lisaaRoute(new TilitRoute(this));
     lisaaRoute(new RyhmatRoute(this));
+    lisaaRoute(new TuontiTulkki(this));
     lisaaRoute(new AlvRoute(this));
 }
 

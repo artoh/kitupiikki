@@ -90,13 +90,13 @@ bool VanhaTuonti::tuo(const QString &tiedostonnimi, KirjausWg *wg)
     {
         TitoTuonti titotuonti(wg);
         return titotuonti.tuo(data);
-    }
+    } /*
     else if( CsvTuonti::onkoCsv(data))
     {
         CsvTuonti csvtuonti(wg);
         return csvtuonti.tuo(data);
     }
-
+*/
 
     return true;
 }

@@ -26,7 +26,12 @@
 /**
  * @brief csv-tiedoston tuominen
  */
-class CsvTuonti : public QDialog, VanhaTuonti
+
+namespace Tuonti {
+
+
+
+class CsvTuonti : public QDialog
 {
     Q_OBJECT
 public:
@@ -62,15 +67,17 @@ public:
         TILINIMI,
         BRUTTOALVP,
         ALVPROSENTTI,
-        ALVKOODI
+        ALVKOODI,
+        SAAJAMAKSAJA,
+        KTOKOODI
     };
 
     enum { TyyppiRooli = Qt::UserRole + 1};
 
-    CsvTuonti(KirjausWg *wg);
+    CsvTuonti();
     ~CsvTuonti();
 
-    bool tuo(const QByteArray& data);
+    static QVariantMap tuo(const QByteArray& data);
 
     /**
      * @brief Haistelee koodauksen ja palauttaa unicodea
@@ -108,6 +115,11 @@ public slots:
     void tarkistaTiliValittu();
 
 protected:
+    QVariantMap tuonti(const QByteArray& data);
+
+    QVariantMap kirjaukset();
+    QVariantMap tiliote();
+
     int tuoListaan(const QByteArray& data);
 
     QList<QStringList> csv_;
@@ -115,5 +127,7 @@ protected:
 
     Ui::CsvTuonti *ui;
 };
+
+}
 
 #endif // CSVTUONTI_H

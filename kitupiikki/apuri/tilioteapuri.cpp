@@ -86,6 +86,22 @@ TilioteApuri::~TilioteApuri()
 
 }
 
+void TilioteApuri::tuo(QVariantMap map)
+{
+    tuodaan_ = true;
+
+    if( map.contains("iban"))
+        ui->tiliCombo->valitseTili( kp()->tilit()->tiliIbanilla(map.value("iban").toString()).numero() );
+
+    ui->alkuDate->setDate( map.value("alkupvm").toDate() );
+    ui->loppuDate->setDate( map.value("loppupvm").toDate());
+
+    model()->tuo( map.value("tapahtumat").toList() );
+    tuodaan_ = false;
+
+    tiliPvmMuutos();
+}
+
 bool TilioteApuri::teeTositteelle()
 {
     tosite()->viennit()->asetaViennit( model_->viennit(  ui->tiliCombo->valittuTilinumero() ) );
@@ -156,7 +172,7 @@ void TilioteApuri::naytaSummat()
 
 void TilioteApuri::tiliPvmMuutos()
 {
-    if( tosite()->resetoidaanko())
+    if( tosite()->resetoidaanko() && tuodaan_)
         return;
 
     // Otsikon päivittäminen

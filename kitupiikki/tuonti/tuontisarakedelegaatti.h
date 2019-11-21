@@ -19,11 +19,16 @@
 #define TUONTISARAKEDELEGAATTI_H
 
 #include <QItemDelegate>
+#include <QComboBox>
 #include "tuonti/csvtuonti.h"
 
 /**
  * @brief CSV-tuonnin valintadelegaatti
  */
+
+namespace Tuonti {
+
+
 class TuontiSarakeDelegaatti : public QItemDelegate
 {
     Q_OBJECT
@@ -41,7 +46,11 @@ public:
 public slots:
     void asetaTyyppi(bool kirjauksia);
 protected:
+    static void comboon(QComboBox* combo, int tyyppi);
+
     bool tuokirjauksia_;
 };
+
+}
 
 #endif // TUONTISARAKEDELEGAATTI_H

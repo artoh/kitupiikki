@@ -1,0 +1,263 @@
+/*
+   Copyright (C) 2019 Arto Hyvättinen
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#include "tuontitulkki.h"
+
+#include "db/tositetyyppimodel.h"
+#include "model/tositevienti.h"
+#include "db/kirjanpito.h"
+
+#include <QRegularExpression>
+#include <QDebug>
+
+TuontiTulkki::TuontiTulkki(SQLiteModel *model) :
+    SQLiteRoute(model, "/tuontitulkki")
+{
+
+}
+
+QVariant TuontiTulkki::post(const QString &/*polku*/, const QVariant &data)
+{
+    QVariantMap map = data.toMap();
+
+    if( map.value("tyyppi").toInt() == TositeTyyppi::TILIOTE)
+        return tiliote(map);    
+
+    return QVariant();
+}
+
+QVariant TuontiTulkki::tiliote( QVariantMap &map)
+{
+    QVariantList tapahtumat = map.value("tapahtumat").toList();
+
+    QMutableListIterator<QVariant> iter(tapahtumat);
+    while( iter.hasNext()) {
+        QVariantMap tapahtuma = iter.next().toMap();
+        // TODO: RF-viitteen yksinkertaistaminen
+        if( tapahtuma.value("euro").toDouble() > 0)
+            tilioteTulorivi(tapahtuma);
+        else tilioteMenorivi(tapahtuma);
+
+        iter.setValue(tapahtuma);
+    }
+    map.insert("tapahtumat", tapahtumat);
+    return map;
+}
+
+void TuontiTulkki::tilioteTulorivi(QVariantMap &rivi)
+{
+    // Ensisijaisesti etsitään viitteellä
+    QSqlQuery kysely( db() );
+
+    kysely.exec( QString("SELECT Vienti.eraid, Vienti.tili, Vienti.kumppani, Kumppani.nimi, Tosite.pvm, Vienti.selite FROM Vienti "
+                         "JOIN Tosite ON Vienti.tosite=Tosite.id "
+                         "LEFT OUTER JOIN Kumppani ON Vienti.kumppani=Kumppani.id "
+                         "WHERE Vienti.tyyppi=%1 AND "
+                         "Vienti.Viite='%2' AND Tosite.tila >= 100")
+                 .arg(TositeVienti::MYYNTI + TositeVienti::VASTAKIRJAUS)
+                 .arg(rivi.value("viite").toString()));
+    if( kysely.next()) {
+       rivi.insert("saajamaksajaid", kysely.value(2));
+       rivi.insert("saajamaksaja", kysely.value(3));
+       rivi.insert("eraid", kysely.value(0));
+       rivi.insert("tili",kysely.value(1));
+       rivi.insert("laskupvm", kysely.value(4));
+       rivi.insert("selite", kysely.value(5));
+       return;
+    }
+
+    QPair<int, QString> kumppani = kumppaniNimella( rivi.value("saajamaksaja").toString() );
+    rivi.insert("saajamaksaja", kumppani.second);
+    if( kumppani.first)
+        rivi.insert("saajamaksajaid", kumppani.first);
+
+    // Korkotulot kirjataan KTO-koodin perusteella
+    if( rivi.value("ktokoodi").toInt() == 750) {
+        rivi.insert("tili", kp()->tilit()->tiliTyypilla("CBK").numero());
+        return;
+    }
+
+    if( kumppani.first) {
+
+        QSqlQuery apukysely( db() );
+        int tili = 0;
+        QDate pvm;
+        int era = 0;
+
+        // Yritetään löytää tähän kumppaniin liitetty oikean suuruinen erä
+        kysely.exec( QString("SELECT id, pvm, tili FROM Vienti WHERE tyyppi=%1 AND "
+                             "kumppani=%2 AND debetsnt=%3 AND pvm<'%4'")
+                     .arg(TositeVienti::MYYNTI + TositeVienti::VASTAKIRJAUS)
+                     .arg(kumppani.first)
+                     .arg( qRound64(rivi.value("euro").toDouble() * 100) )
+                     .arg( rivi.value("pvm").toDate().toString(Qt::ISODate)) );
+
+        qDebug() << kysely.lastQuery();
+
+        while( kysely.next()) {
+            apukysely.exec( QString("SELECT SUM(debetsnt), SUM(kreditsnt) FROM Vienti WHERE eraid=%1").arg(kysely.value(0).toInt()));
+            if( apukysely.next() && apukysely.value(0).toLongLong() == qRound64(rivi.value("euro").toDouble() * 100) &&
+                    apukysely.value(1).toLongLong() == 0l) {
+                if(!tili) {
+                    era = kysely.value(0).toInt();
+                    pvm = kysely.value(1).toDate();
+                    tili = kysely.value(2).toInt();
+                } else {
+                    tili = -1;      // Löydetty monta, joten ei valita niistä yhtäkään
+                }
+            }
+        }
+        if( tili > 0) {
+            rivi.insert("eraid", era);
+            rivi.insert("tili", tili);
+            rivi.insert("laskupvm",pvm);
+            return;
+        }
+
+        // Viimeisenä toivona etsitään sopivaa tulotiliä ;)
+
+        kysely.exec(QString("SELECT tili FROM Vienti WHERE tyyppi=%1 AND kumppani=%2 GROUP BY tili ORDER BY count(tili) LIMIT 1")
+                    .arg(TositeVienti::MYYNTI + TositeVienti::KIRJAUS).arg(kumppani.first));
+        if( kysely.next())
+            rivi.insert("tili", kysely.value(0));
+
+
+    }
+}
+
+void TuontiTulkki::tilioteMenorivi(QVariantMap &rivi)
+{
+    // Yritetään löytää vastapuoli ensisijaisesti tilinumerolla;
+    QPair<int,QString> kumppani;
+
+    if( rivi.contains("iban"))
+        kumppani = kumppaniIbanilla(rivi.value("iban").toString());
+    if( !kumppani.first )
+        kumppani = kumppaniNimella( rivi.value("saajamaksaja").toString());
+
+    if( kumppani.first) {
+        rivi.insert("saajamaksajaid", kumppani.first);
+        rivi.insert("saajamaksaja", kumppani.second);
+    }
+
+    // TODO: VEROHALLINNON TUNNISTAMINEN
+    // Tunnistetaan viitenumerosta, onko oma-aloitteista veroa vai ennakkoveroa
+
+    // Pankkimaksut
+    if( rivi.value("ktokoodi").toInt() == 730)
+        rivi.insert("tili", kp()->tilit()->tiliTyypilla("DBP").numero());
+    else if( rivi.value("ktokoodi").toInt() == 740)
+        rivi.insert("tili", kp()->tilit()->tiliTyypilla("DBK").numero());
+    else if( kumppani.first){
+
+        // 1) Viitemaksun etsiminen
+        QSqlQuery kysely( db() );
+
+        kysely.exec( QString("SELECT Vienti.eraid, Vienti.tili, Vienti.selite, Tosite.pvm FROM Vienti "
+                             "JOIN Tosite ON Vienti.tosite=Tosite.id "
+                             "WHERE Vienti.tyyppi=%1 AND "
+                             "Vienti.Viite='%2' AND Vienti.kumppani=%3 AND Tosite.tila >= 100")
+                     .arg(TositeVienti::OSTO + TositeVienti::VASTAKIRJAUS)
+                     .arg(rivi.value("viite").toString())
+                     .arg(kumppani.first));
+        if( kysely.next()) {
+           rivi.insert("eraid", kysely.value(0));
+           rivi.insert("tili",kysely.value(1));
+           rivi.insert("selite", kysely.value(2));
+           rivi.insert("laskupvm", kysely.value(3));
+           return;
+        }
+        // 2) Viitteettömän erän etsiminen
+        QSqlQuery apukysely( db() );
+        int tili = 0;
+        QDate pvm;
+        int era = 0;
+
+        // Yritetään löytää tähän kumppaniin liitetty oikean suuruinen erä
+        kysely.exec( QString("SELECT id, pvm, tili FROM Vienti WHERE tyyppi=%1 AND "
+                             "kumppani=%2 AND kreditsnt=%3 AND pvm<'%4'")
+                     .arg(TositeVienti::OSTO + TositeVienti::VASTAKIRJAUS)
+                     .arg(kumppani.first)
+                     .arg( qRound64(rivi.value("euro").toDouble() * 100) )
+                     .arg( rivi.value("pvm").toDate().toString(Qt::ISODate)) );
+
+        qDebug() << kysely.lastQuery();
+
+        while( kysely.next()) {
+            apukysely.exec( QString("SELECT SUM(debetsnt), SUM(kreditsnt) FROM Vienti WHERE eraid=%1").arg(kysely.value(0).toInt()));
+            if( apukysely.next() && apukysely.value(1).toLongLong() == qRound64(rivi.value("euro").toDouble() * 100) &&
+                    apukysely.value(0).toLongLong() == 0l) {
+                if(!tili) {
+                    era = kysely.value(0).toInt();
+                    pvm = kysely.value(1).toDate();
+                    tili = kysely.value(2).toInt();
+                } else {
+                    tili = -1;      // Löydetty monta, joten ei valita niistä yhtäkään
+                }
+            }
+        }
+        if( tili > 0) {
+            rivi.insert("eraid", era);
+            rivi.insert("tili", tili);
+            rivi.insert("laskupvm",pvm);
+            return;
+        }
+
+        // 3) Viimeisenä toivona etsitään sopivaa tulotiliä ;)
+
+        kysely.exec(QString("SELECT tili FROM Vienti WHERE tyyppi=%1 AND kumppani=%2 GROUP BY tili ORDER BY count(tili) LIMIT 1")
+                    .arg(TositeVienti::OSTO + TositeVienti::KIRJAUS).arg(kumppani.first));
+        if( kysely.next())
+            rivi.insert("tili", kysely.value(0));
+
+    }
+}
+
+QPair<int,QString> TuontiTulkki::kumppaniNimella(const QString &nimi)
+{
+    QSqlQuery kysely( db());
+
+    // Siivotaan skandeja, jotta saadaan merkkikokoriippumaton haku
+    QString hakunimi(nimi);
+    hakunimi.replace(QRegularExpression("[åäöÅÄÖ']"),"_");
+
+    kysely.exec( QString("SELECT id, nimi FROM Kumppani WHERE nimi LIKE '%1'").arg(hakunimi));
+    if( kysely.next()) {
+        return qMakePair( kysely.value(0).toInt(), kysely.value(1).toString() );
+    }
+
+    // Muuten tehdään nimihaku paloista, jolloin useimmat henkilönimet löytyvät
+    QStringList paloina = hakunimi.split(QRegularExpression("\\s"));
+    if( paloina.size() > 1) {
+        kysely.exec( "SELECT id,nimi FROM Kumppani WHERE nimi LIKE '%" + paloina.value(0)
+                     + "%' AND nimi LIKE '%" + paloina.value(1) + "%' ");
+        if( kysely.next()) {
+            return qMakePair( kysely.value(0).toInt(), kysely.value(1).toString() );
+        }
+    }
+
+    return qMakePair(0, nimi);
+}
+
+QPair<int, QString> TuontiTulkki::kumppaniIbanilla(const QString &iban)
+{
+    QSqlQuery kysely( db());
+    kysely.exec(QString("SELECT id, nimi FROM KumppaniIban JOIN Kumppani ON KumppaniIban.kumppani=Kumppani.id WHERE iban='%1'")
+                .arg(iban));
+    if( kysely.next())
+        return qMakePair(kysely.value(0).toInt(), kysely.value(1).toString());
+    return qMakePair(0, QString());
+}

@@ -14,17 +14,27 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
-#include "tuonti.h"
+#ifndef TUONTITULKKI_H
+#define TUONTITULKKI_H
 
-#include "pdftuonti.h"
-#include "csvtuonti.h"
+#include "../sqliteroute.h"
 
-QVariantMap Tuonti::tuo(const QByteArray &data)
+class TuontiTulkki : public SQLiteRoute
 {
-    if( data.startsWith("%PDF"))      
-          return PdfTuonti::tuo(data);
-    else if( CsvTuonti::onkoCsv(data))
-        return CsvTuonti::tuo(data);
+public:
+    TuontiTulkki( SQLiteModel *model);
 
-    return QVariantMap();
-}
+    QVariant post(const QString &polku, const QVariant &data) override;
+
+protected:
+    QVariant tiliote(QVariantMap &map);
+
+    void tilioteTulorivi(QVariantMap& rivi);
+
+    void tilioteMenorivi(QVariantMap& rivi);
+
+    QPair<int, QString> kumppaniNimella(const QString& nimi);
+    QPair<int, QString> kumppaniIbanilla(const QString& iban);
+};
+
+#endif // TUONTITULKKI_H

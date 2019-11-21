@@ -41,7 +41,6 @@ public:
         QString tilinumero;
         QString viite;
         int eraId = 0;
-        QString eraTunnus;
         QDate laskupvm;
         bool harmaa = false;
         QDate jaksoalkaa;
@@ -81,15 +80,22 @@ public:
     QVariantList viennit(int tilinumero) const;
     void lataa(QVariantList lista);
 
+    void tuo(const QVariantList tuotavat);
+
 public slots:
     void lataaHarmaat(int tili, const QDate& mista, const QDate& mihin);
 
 protected slots:
     void harmaatSaapuu(QVariant* data);
 
+protected:
+    void teeTuonti();
+    void siivoa(int harmaarivi, int myohemmat);
+
 private:
 
     QList<Tilioterivi> rivit_;
+    QVariantList tuotavat_;
 };
 
 #endif // TILIOTEMODEL_H
