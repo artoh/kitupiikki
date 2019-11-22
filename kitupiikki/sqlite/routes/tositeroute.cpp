@@ -160,6 +160,9 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
     QVariantMap map = pyynto.toMap();
     QByteArray lokiin = QJsonDocument::fromVariant(pyynto).toJson(QJsonDocument::Compact);
 
+    QSqlQuery kysely(db());
+    db().transaction();
+
     QDate pvm = map.take("pvm").toDate();
     int tyyppi = map.take("tyyppi").toInt();
     QVariantList viennit = map.take("viennit").toList();
@@ -171,8 +174,6 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
     QString sarja = map.take("sarja").toString();
     int tunniste = map.take("tunniste").toInt();
 
-    QSqlQuery kysely(db());
-    db().transaction();
 
     Tilikausi kausi = kp()->tilikaudet()->tilikausiPaivalle(pvm);
 
