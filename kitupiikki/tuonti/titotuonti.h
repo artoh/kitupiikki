@@ -21,18 +21,23 @@
 #include <QByteArray>
 #include "kirjaus/kirjauswg.h"
 
+namespace Tuonti {
+
+
+
 /**
  * @brief The Konekielisen TITO-tiliotteen tuominen
  */
 class TitoTuonti
 {
 public:
-    TitoTuonti(KirjausWg *wg);
+    TitoTuonti();
 
-    bool tuo(const QByteArray &data);
+    static QVariantMap tuo(const QByteArray &data);
 
 protected:
-    void ekarivi(const QString& rivi);
+    static QVariantMap ekarivi(const QString& rivi);
 };
 
+}
 #endif // TITOTUONTI_H
