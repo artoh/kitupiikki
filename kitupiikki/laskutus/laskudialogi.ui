@@ -33,7 +33,11 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="AsiakasToimittajaValinta" name="asiakas" native="true"/>
+        <widget class="AsiakasToimittajaValinta" name="asiakas" native="true">
+         <property name="MuokkaaUusi" stdset="0">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
        <item row="1" column="0">
         <widget class="QLabel" name="label_7">

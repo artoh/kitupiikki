@@ -169,7 +169,7 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
     int tila = map.contains("tila") ? map.take("tila").toInt() : Tosite::KIRJANPIDOSSA;
     QString otsikko = map.take("otsikko").toString();
     QVariantList rivit = map.take("rivit").toList();
-    int kumppani = map.take("kumppani").toInt();
+    int kumppani = kumppaniMapista(map);
     QVariantList liita = map.take("liita").toList();
     QString sarja = map.take("sarja").toString();
     int tunniste = map.take("tunniste").toInt();
@@ -261,7 +261,7 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
         qlonglong debet = qRound64( vientimap.take("debet").toDouble() * 100 );
         qlonglong kredit =  qRound64( vientimap.take("kredit").toDouble() * 100);
         QVariantList merkkaukset = vientimap.take("merkkaukset").toList();
-        int kumppani = vientimap.take("kumppani").toInt();
+        int kumppani = kumppaniMapista(vientimap);
         QDate jaksoalkaa = vientimap.take("jaksoalkaa").toDate();
         QDate jaksoloppuu = vientimap.take("jaksoloppuu").toDate();
         int vientityyppi = vientimap.take("tyyppi").toInt();
@@ -433,4 +433,26 @@ QString TositeRoute::viite(const QString &numero)
     }
     int tarkaste = ( 10 - summa % 10) % 10;
     return numero + QString::number(tarkaste);
+}
+
+int TositeRoute::kumppaniMapista(QVariantMap &map)
+{
+    QVariant kumppani = map.take("kumppani");
+    if( kumppani.isNull())
+        return 0;
+    else if( kumppani.type() == QVariant::String) {
+        if( kumppaniCache_.contains( kumppani.toString() ))
+            return kumppaniCache_.value(kumppani.toString());
+
+        // Lisätään uusi kumppani
+        QSqlQuery kysely( db());
+        kysely.prepare("INSERT INTO Kumppani (nimi) VALUES (?)");
+        kysely.addBindValue( kumppani.toString() );
+        kysely.exec();
+        int lisatty = kysely.lastInsertId().toInt();
+        kumppaniCache_.insert( kumppani.toString(), lisatty );
+        return lisatty;
+    }
+    else
+        return kumppani.toInt();
 }

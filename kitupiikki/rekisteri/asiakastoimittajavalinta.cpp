@@ -140,7 +140,8 @@ void AsiakasToimittajaValinta::nimiMuuttui()
 
 void AsiakasToimittajaValinta::syotettyNimi()
 {
-    if( !id_ && !combo_->currentText().isEmpty() && !YTunnusValidator::kelpaako( combo_->currentText() ))
+    if( !id_ && !combo_->currentText().isEmpty() && !YTunnusValidator::kelpaako( combo_->currentText() )
+            && property("MuokkaaUusi").toBool() )
         muokkaa();
 }
 

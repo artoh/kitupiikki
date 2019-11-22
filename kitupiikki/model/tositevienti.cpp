@@ -168,6 +168,11 @@ void TositeVienti::setKumppani(int kumppaniId)
     set( KUMPPANI, kumppaniId );
 }
 
+void TositeVienti::setKumppani(const QString &kumppani)
+{
+    set( KUMPPANI, kumppani);
+}
+
 void TositeVienti::setTyyppi(int tyyppi)
 {
     set( TYYPPI, tyyppi);

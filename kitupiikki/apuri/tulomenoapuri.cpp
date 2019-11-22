@@ -78,7 +78,6 @@ TuloMenoApuri::TuloMenoApuri(QWidget *parent, Tosite *tosite) :
 
     connect( ui->viiteEdit, &QLineEdit::textChanged, [this] (const QString& text) {this->tosite()->setData(Tosite::VIITE, text);});
     connect( ui->erapaivaEdit, &KpDateEdit::dateChanged, [this] (const QDate& date) {this->tosite()->setData(Tosite::ERAPVM, date);});
-    connect( ui->asiakasToimittaja, &AsiakasToimittajaValinta::valittu, [this] { this->tosite()->setData(Tosite::KUMPPANI, this->ui->asiakasToimittaja->id()); });
 
     connect( tosite, &Tosite::pvmMuuttui, this, &TuloMenoApuri::haeKohdennukset );
     connect( ui->asiakasToimittaja, &AsiakasToimittajaValinta::valittu, this, &TuloMenoApuri::kumppaniValittu);
@@ -222,9 +221,14 @@ bool TuloMenoApuri::teeTositteelle()
         // Asiakas tai toimittaja
         if( ui->asiakasToimittaja->id() > 0)
             vasta.setKumppani( ui->asiakasToimittaja->id() );
+        else if( !ui->asiakasToimittaja->nimi().isEmpty())
+            vasta.setKumppani( ui->asiakasToimittaja->nimi());
+
+        tosite()->setData(Tosite::KUMPPANI, vasta.data(TositeVienti::KUMPPANI));
 
         viennit.insert(0, vasta);
     }
+
 
     tosite()->viennit()->asetaViennit(viennit);
 

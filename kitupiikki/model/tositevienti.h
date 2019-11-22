@@ -113,6 +113,7 @@ public:
     void setViite(const QString& viite);
     void setErapaiva(const QDate& erapvm);
     void setKumppani(int kumppaniId);
+    void setKumppani(const QString& kumppani);
     void setTyyppi(int tyyppi);
     void setPalkkakoodi(const QString& palkkakoodi);
     void setTasaerapoisto(int kuukautta);
