@@ -40,7 +40,7 @@ public:
         QString arkistotunnus;
         QString tilinumero;
         QString viite;
-        int eraId = 0;
+        QVariantMap era;
         QDate laskupvm;
         bool harmaa = false;
         QDate jaksoalkaa;

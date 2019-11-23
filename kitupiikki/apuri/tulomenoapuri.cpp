@@ -204,7 +204,7 @@ bool TuloMenoApuri::teeTositteelle()
         vasta.insert("tili", vastatili.numero() );
 
         if( vastatili.eritellaankoTase())
-            vasta.setEra( ui->eraCombo->valittuEra() );
+            vasta.setEra( ui->eraCombo->eraMap() ) ;
 
         if( summa > 0)
             vasta.setDebet( summa );

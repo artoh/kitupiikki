@@ -134,18 +134,17 @@ QVariant TositeViennit::data(const QModelIndex &index, int role) const
             QVariantList merkkaukset = rivi.value("merkkaukset").toList();
             for( auto merkkaus : merkkaukset)
                 txt.append( kp()->kohdennukset()->kohdennus( merkkaus.toInt() ).nimi() + " " );
-
-            if( rivi.value("era").toMap().contains("tunniste")  )
+            if( rivi.eraId() == -1 )
+                txt.append(tr("Uusi erä"));
+            else if( rivi.value("era").toMap().contains("tunniste")  )
             {
                 if( rivi.value("era").toMap().value("tunniste") != rivi.value("tosite").toMap().value("tunniste") ||
                     rivi.value("era").toMap().value("pvm") != rivi.value("tosite").toMap().value("pvm")) {
-                    if( !txt.isEmpty())
-                        txt.append(" ");
-                    txt.append( QString("%1/%2")
-                            .arg( rivi.value("era").toMap().value("tunniste").toInt() )
-                            .arg( kp()->tilikaudet()->tilikausiPaivalle( rivi.value("era").toMap().value("pvm").toDate() ).kausitunnus()) );
+                    txt.append( kp()->tositeTunnus( rivi.value("era").toMap().value("tunniste").toInt(),
+                                                    rivi.value("era").toMap().value("pvm").toDate(),
+                                                    rivi.value("era").toMap().value("sarja").toString()) );
                 }
-            }
+            }            
             return txt;
 
         }
@@ -254,9 +253,10 @@ bool TositeViennit::setData(const QModelIndex &index, const QVariant &value, int
                         uusitili = TilinValintaDialogi::valitseTili( QString());
 
                     rivi.setTili( uusitili.numero());
-                    if( uusitili.eritellaankoTase())
-                        rivi.setEra( -1 );
-                    else
+                    if( uusitili.eritellaankoTase()) {
+                        rivi.setEra(-1);
+                        emit dataChanged( index.sibling(index.row(), TILI), index.sibling(index.row(), KOHDENNUS) );
+                    } else
                         rivi.setEra( 0);
                     break;
                 }
@@ -278,6 +278,27 @@ bool TositeViennit::setData(const QModelIndex &index, const QVariant &value, int
             }
 
             viennit_[index.row()] = rivi;
+        } else if( role == TositeViennit::EraMapRooli) {
+            TositeVienti rivi = vienti(index.row());
+            rivi.setEra( value.toMap() );
+            viennit_[index.row()] = rivi;
+
+            emit dataChanged(index, index, QVector<int>() << Qt::EditRole);
+        } else if( role == TositeViennit::AlvKoodiRooli) {
+            TositeVienti rivi = vienti(index.row());
+            rivi.setAlvKoodi( value.toInt());
+            viennit_[index.row()] = rivi;
+            emit dataChanged(index, index, QVector<int>() << Qt::EditRole);
+        } else if( role == TositeViennit::AlvProsenttiRooli) {
+            TositeVienti rivi = vienti(index.row());
+            rivi.setAlvProsentti( value.toDouble() );
+            viennit_[index.row()] = rivi;
+            emit dataChanged(index, index, QVector<int>() << Qt::EditRole);
+        } else if( role == TositeViennit::TagiIdListaRooli) {
+            TositeVienti rivi = vienti(index.row());
+            rivi.setMerkkaukset(value.toList());
+            viennit_[index.row()] = rivi;
+            emit dataChanged(index, index, QVector<int>() << Qt::EditRole);
         }
         emit dataChanged(index, index, QVector<int>() << role);
         return true;
@@ -296,7 +317,7 @@ Qt::ItemFlags TositeViennit::flags(const QModelIndex &index) const
     {
         TositeVienti rivi = vienti(index.row());
         Tili tili = kp()->tilit()->tiliNumerolla(rivi.tili());
-        if( !tili.onko(TiliLaji::TULOS))
+        if( !tili.onko(TiliLaji::TULOS) && !tili.onko(TiliLaji::POISTETTAVA) &&  !tili.eritellaankoTase())
             return Qt::ItemIsEnabled;
     }
 

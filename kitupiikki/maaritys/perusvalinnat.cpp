@@ -96,7 +96,6 @@ bool Perusvalinnat::tallenna()
     // Jos muoto tai laajuus vaihtuu, vaikuttaa se tilikarttaan ja ehkä myös alviin
     TallentavaMaaritysWidget::tallenna();
     emit kp()->perusAsetusMuuttui();     // Uusi lataus, koska nimi tai kuva saattoi vaihtua!    
-    ui->poistaLogoNappi->setEnabled( !kp()->logo().isNull() );
     kp()->tilit()->paivitaTilat();
 
     return true;

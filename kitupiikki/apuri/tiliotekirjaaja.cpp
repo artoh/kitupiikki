@@ -114,16 +114,19 @@ TilioteModel::Tilioterivi TilioteKirjaaja::rivi()
 
         rivi.saajamaksaja = index.data(LaskuTauluModel::AsiakasToimittajaNimiRooli).toString();
         rivi.saajamaksajaId = index.data(LaskuTauluModel::AsiakasToimittajaIdRooli).toInt();
-        rivi.eraId = index.data(LaskuTauluModel::EraIdRooli).toInt();
+
+
+        rivi.era = index.data(LaskuTauluModel::EraMapRooli).toMap();
         rivi.laskupvm = index.data(LaskuTauluModel::LaskuPvmRooli).toDate();
         rivi.tili = index.data(LaskuTauluModel::TiliRooli).toInt();
         if( rivi.selite.isEmpty())
             rivi.selite = index.data(LaskuTauluModel::AsiakasToimittajaNimiRooli ).toString();
 
-    } else if( ui->alaTabs->currentIndex() == TULOMENO ) {
+    } else {
         rivi.saajamaksajaId = ui->asiakastoimittaja->id();
         rivi.saajamaksaja = ui->asiakastoimittaja->nimi();
-        rivi.eraId = ui->eraCombo->valittuEra();
+        rivi.era = ui->eraCombo->eraMap();
+        rivi.laskupvm = ui->eraCombo->eraMap().value("pvm").toDate();
 
         if( rivi.selite.isEmpty())
             rivi.selite = rivi.saajamaksaja;
@@ -155,7 +158,7 @@ void TilioteKirjaaja::muokkaaRivia(int riviNro)
 
     ui->ylaTab->setCurrentIndex( rivi.euro < 0 );
 
-    if( rivi.eraId )
+    if( rivi.era.value("id").toInt() )
         ui->alaTabs->setCurrentIndex( MAKSU );
     else if( QString::number(rivi.tili).startsWith('1') ||
              QString::number(rivi.tili).startsWith('2'))
@@ -173,17 +176,17 @@ void TilioteKirjaaja::muokkaaRivia(int riviNro)
 
     bool maksu = false;
     for(int i=0; i < avoinProxy_->rowCount(); i++) {
-        if( avoinProxy_->data( avoinProxy_->index(i,0), LaskuTauluModel::EraIdRooli ).toInt() == rivi.eraId) {
+        if( avoinProxy_->data( avoinProxy_->index(i,0), LaskuTauluModel::EraIdRooli ).toInt() == rivi.era.value("id").toInt()) {
             ui->maksuView->selectRow(i);
             maksu = true;
             break;
         }        
     }
-    if( rivi.eraId && !maksu) {
+    if( rivi.era.value("id").toInt() && !maksu) {
         ui->alaTabs->setCurrentIndex( SIIRTO );
     }
 
-    ui->eraCombo->valitse( rivi.eraId );
+    ui->eraCombo->valitse( rivi.era.value("id").toInt() );
 
     // MerkkausCC
     ui->merkkausCC->haeMerkkaukset( rivi.pvm );

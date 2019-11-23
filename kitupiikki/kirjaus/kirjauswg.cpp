@@ -129,7 +129,7 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     // Enterillä päiväyksestä eteenpäin
     ui->tositePvmEdit->installEventFilter(this);
     ui->otsikkoEdit->installEventFilter(this);
-
+    ui->viennitView->viewport()->installEventFilter(this);
 
     // ---- tästä alkaen uutta ------
     tosite_ = new Tosite();
@@ -227,6 +227,11 @@ void KirjausWg::tyhjenna()
     ui->tabWidget->setCurrentIndex(0);
     ui->tositetyyppiCombo->setFocus();
     ui->tositePvmEdit->checkValidity();
+
+    if( kp()->asetukset()->onko(AsetusModel::ALV))
+        ui->viennitView->showColumn(TositeViennit::ALV);
+    else
+        ui->viennitView->hideColumn(TositeViennit::ALV);
 }
 
 void KirjausWg::tallenna()
@@ -282,11 +287,6 @@ void KirjausWg::vientivwAktivoitu(QModelIndex indeksi)
                 tosite()->viennit()->setData(indeksi, verodlg.alvKoodi() , TositeViennit::AlvKoodiRooli);
                 tosite()->viennit()->setData(indeksi, verodlg.alvProsentti() , TositeViennit::AlvProsenttiRooli);
             }
-        }
-        else if(indeksi.column() == TositeViennit::KOHDENNUS && indeksi.data(TositeViennit::TaseErittelyssaRooli).toBool())
-        {
-//            TaseEraValintaDialogi dlg(this);
-//            dlg.nayta( model_->vientiModel(), indeksi );
         }
     }
 }
@@ -446,7 +446,7 @@ bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
         }
     }
 
-    if( watched == ui->viennitView && event->type() == QEvent::KeyPress)
+    else if( watched == ui->viennitView && event->type() == QEvent::KeyPress)
     {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
         if( ( keyEvent->key() == Qt::Key_Enter ||
@@ -498,6 +498,28 @@ bool KirjausWg::eventFilter(QObject *watched, QEvent *event)
             }
 
 
+        }
+    }
+    else if( watched == ui->viennitView->viewport() && tosite()->viennit()->muokattavissa() )
+    {
+        // Merkkaus eli täggäys
+        // Kohdennus-sarakkeessa hiiren oikealla napilla valikko, josta voi valita tägit
+        if( event->type() == QEvent::MouseButtonPress)
+        {
+            QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
+            if( mouseEvent->button() == Qt::RightButton)
+            {
+                QModelIndex index = ui->viennitView->indexAt( mouseEvent->pos() );
+                if( index.column() == TositeViennit::KOHDENNUS && index.data(TositeViennit::PvmRooli).toDate().isValid() )
+                {
+
+                    tosite()->viennit()->setData(index, KohdennusProxyModel::tagiValikko( index.data(TositeViennit::PvmRooli).toDate(),
+                                                                                          index.data(TositeViennit::TagiIdListaRooli).toList(),
+                                                                                          mouseEvent->globalPos()) ,
+                                                   TositeViennit::TagiIdListaRooli);
+                    return false;
+                }
+            }
         }
     }
 

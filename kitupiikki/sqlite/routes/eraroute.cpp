@@ -38,13 +38,14 @@ QVariant EraRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
     QSqlQuery kysely( db() );
     QVariantList lista;
 
-    QString kysymys("select vienti.eraid as eraid, sum(vienti.debetsnt) as sd, sum(vienti.kreditsnt) as sk, a.selite as selite, a.pvm as pvm, a.tili as tili from  Vienti "
+    QString kysymys("select vienti.eraid as eraid, sum(vienti.debetsnt) as sd, sum(vienti.kreditsnt) as sk, a.selite as selite, tosite.pvm as pvm, a.tili as tili, "
+                    "tosite.tunniste as tunniste, tosite.sarja as sarja from  Vienti "
                     "join Vienti as a on vienti.eraid = a.id JOIN Tosite ON Vienti.Tosite=Tosite.id  WHERE Tosite.tila >= 100 ");
 
     if( urlquery.hasQueryItem("tili"))
         kysymys.append(QString("AND vienti.tili=%1 ").arg(urlquery.queryItemValue("tili")));
 
-    kysymys.append("GROUP BY vienti.eraid, a.selite, a.pvm, a.tili "
+    kysymys.append("GROUP BY vienti.eraid "
                    "HAVING sum(vienti.debetsnt) <> sum(vienti.kreditsnt) OR sum(vienti.debetsnt) IS NULL OR sum(vienti.kreditsnt) IS NULL");
 
     kysely.exec(kysymys);
@@ -57,11 +58,14 @@ QVariant EraRoute::get(const QString &/*polku*/, const QUrlQuery &urlquery)
                     kredit - debet;
 
         QVariantMap map;
-        map.insert("eraid", kysely.value(0).toInt());
+        map.insert("id", kysely.value(0).toInt());
         map.insert("tili", tili);
         map.insert("avoin", avoin);
         map.insert("selite", kysely.value("selite"));
         map.insert("pvm", kysely.value("pvm").toDate());
+        map.insert("tunniste", kysely.value("tunniste"));
+        if( !kysely.value("sarja").toString().isEmpty())
+            map.insert("sarja", kysely.value("sarja"));
         lista.append(map);
     }
     return lista;

@@ -254,10 +254,10 @@ QVariantList TilioteModel::viennit(int tilinumero) const
 
             tili.setKohdennus( rivi.kohdennus);
 
-            if( rivi.eraId)
-                tili.setEra( rivi.eraId );
+            if( rivi.era.value("id").toInt())
+                tili.setEra( rivi.era );
 
-            if( rivi.eraId && rivi.eraId > -1) {
+            if( rivi.era.contains("id") && rivi.era.value("id").toInt() > -1) {
                 pankki.setTyyppi( TositeVienti::SUORITUS + TositeVienti::VASTAKIRJAUS );
                 tili.setTyyppi( TositeVienti::SUORITUS + TositeVienti::KIRJAUS);
             } else if( kp()->tilit()->tili(tili.tili())->onko(TiliLaji::TASE)) {
@@ -316,7 +316,7 @@ void TilioteModel::lataa(QVariantList lista)
         rivi.tili = vienti.tili();
         rivi.kohdennus = vienti.kohdennus();
         rivi.merkkaukset = vienti.merkkaukset();
-        rivi.eraId = vienti.eraId();
+        rivi.era = vienti.era();
         rivi.saajamaksaja = vienti.value("kumppani").toMap().value("nimi").toString();
         rivi.saajamaksajaId = vienti.value("kumppani").toMap().value("id").toInt();
         rivi.jaksoalkaa = vienti.jaksoalkaa();
@@ -411,7 +411,7 @@ void TilioteModel::teeTuonti()
 
         rivi.arkistotunnus = map.value("arkistotunnus").toString();
 
-        rivi.eraId = map.value("eraid").toInt();
+        rivi.era = map.value("era").toMap();
         rivi.laskupvm = map.value("laskupvm").toDate();
         rivi.tili = map.value("tili").toInt();
         rivi.tilinumero = map.value("iban").toString();

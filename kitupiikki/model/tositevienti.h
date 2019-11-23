@@ -37,7 +37,7 @@ public:
         MERKKAUKSET,
         JAKSOALKAA,
         JAKSOLOPPUU,
-        ERAID,
+        ERA,
         ARKISTOTUNNUS,
         VIITE,
         ERAPAIVA,
@@ -82,6 +82,7 @@ public:
     double alvProsentti() const { return data(ALVPROSENTTI).toDouble();}
     int kohdennus() const { return  data(KOHDENNUS).toInt();}
     QString selite() const { return data(SELITE).toString();}
+    QVariantMap era() const;
     int eraId() const;
     int kumppaniId() const;
     QVariantList merkkaukset() const;
@@ -109,6 +110,7 @@ public:
     void setJaksoalkaa( const QDate& pvm);
     void setJaksoloppuu( const QDate& pvm );
     void setEra(int era);
+    void setEra(const QVariantMap& era);
     void setArkistotunnus(const QString& tunnus);
     void setViite(const QString& viite);
     void setErapaiva(const QDate& erapvm);

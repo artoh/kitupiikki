@@ -144,7 +144,6 @@ SOURCES += \
     tilinpaatoseditori/mrichtexteditor/mtextedit.cpp \
     arkisto/arkistosivu.cpp \
     maaritys/maarityswidget.cpp \
-    db/eranvalintamodel.cpp \
     kirjaus/verodialogi.cpp \
     db/tilityyppimodel.cpp \
     laskutus/laskudialogi.cpp \
@@ -367,7 +366,6 @@ HEADERS += \
     tilinpaatoseditori/mrichtexteditor/mrichtextedit.h \
     tilinpaatoseditori/mrichtexteditor/mtextedit.h \
     arkisto/arkistosivu.h \
-    db/eranvalintamodel.h \
     kirjaus/verodialogi.h \
     db/tilityyppimodel.h \
     laskutus/laskudialogi.h \

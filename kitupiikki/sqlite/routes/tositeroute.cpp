@@ -268,7 +268,7 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
         double alvprosentti = vientimap.value("alvprosentti",0.0).toDouble();
         vientimap.take("alvprosentti");
         int alvkoodi = vientimap.take("alvkoodi").toInt();
-        int eraid = vientimap.take("eraid").toInt();
+        int eraid = vientimap.take("era").toMap().value("id").toInt();
         QDate erapvm = vientimap.take("erapvm").toDate();
         QString viite = vientimap.take("viite").toString();
 

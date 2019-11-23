@@ -62,7 +62,7 @@ void TuontiTulkki::tilioteTulorivi(QVariantMap &rivi)
     // Ensisijaisesti etsitään viitteellä
     QSqlQuery kysely( db() );
 
-    kysely.exec( QString("SELECT Vienti.eraid, Vienti.tili, Vienti.kumppani, Kumppani.nimi, Tosite.pvm, Vienti.selite FROM Vienti "
+    kysely.exec( QString("SELECT Vienti.eraid, Vienti.tili, Vienti.kumppani, Kumppani.nimi, Tosite.pvm, Vienti.selite, Tosite.tunniste, Tosite.sarja FROM Vienti "
                          "JOIN Tosite ON Vienti.tosite=Tosite.id "
                          "LEFT OUTER JOIN Kumppani ON Vienti.kumppani=Kumppani.id "
                          "WHERE Vienti.tyyppi=%1 AND "
@@ -72,9 +72,13 @@ void TuontiTulkki::tilioteTulorivi(QVariantMap &rivi)
     if( kysely.next()) {
        rivi.insert("saajamaksajaid", kysely.value(2));
        rivi.insert("saajamaksaja", kysely.value(3));
-       rivi.insert("eraid", kysely.value(0));
+       QVariantMap eramap;
+       eramap.insert("id", kysely.value(0));
+       eramap.insert("pvm", kysely.value(4));
+       eramap.insert("tunniste", kysely.value(6));
+       eramap.insert("sarja", kysely.value(7));
+       rivi.insert("era", eramap);
        rivi.insert("tili",kysely.value(1));
-       rivi.insert("laskupvm", kysely.value(4));
        rivi.insert("selite", kysely.value(5));
        return;
     }
@@ -94,11 +98,10 @@ void TuontiTulkki::tilioteTulorivi(QVariantMap &rivi)
 
         QSqlQuery apukysely( db() );
         int tili = 0;
-        QDate pvm;
-        int era = 0;
+        QVariantMap era;
 
         // Yritetään löytää tähän kumppaniin liitetty oikean suuruinen erä
-        kysely.exec( QString("SELECT id, pvm, tili FROM Vienti WHERE tyyppi=%1 AND "
+        kysely.exec( QString("SELECT id, tosite.pvm, tili, tunniste, sarja FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE vienti.tyyppi=%1 AND "
                              "kumppani=%2 AND debetsnt=%3 AND pvm<'%4'")
                      .arg(TositeVienti::MYYNTI + TositeVienti::VASTAKIRJAUS)
                      .arg(kumppani.first)
@@ -112,8 +115,10 @@ void TuontiTulkki::tilioteTulorivi(QVariantMap &rivi)
             if( apukysely.next() && apukysely.value(0).toLongLong() == qRound64(rivi.value("euro").toDouble() * 100) &&
                     apukysely.value(1).toLongLong() == 0l) {
                 if(!tili) {
-                    era = kysely.value(0).toInt();
-                    pvm = kysely.value(1).toDate();
+                    era.insert("id", kysely.value(0));
+                    era.insert("pvm", kysely.value(1));
+                    era.insert("tunniste", kysely.value(2));
+                    era.insert("sarja", kysely.value(3));
                     tili = kysely.value(2).toInt();
                 } else {
                     tili = -1;      // Löydetty monta, joten ei valita niistä yhtäkään
@@ -121,9 +126,8 @@ void TuontiTulkki::tilioteTulorivi(QVariantMap &rivi)
             }
         }
         if( tili > 0) {
-            rivi.insert("eraid", era);
+            rivi.insert("era", era);
             rivi.insert("tili", tili);
-            rivi.insert("laskupvm",pvm);
             return;
         }
 
@@ -166,7 +170,7 @@ void TuontiTulkki::tilioteMenorivi(QVariantMap &rivi)
         // 1) Viitemaksun etsiminen
         QSqlQuery kysely( db() );
 
-        kysely.exec( QString("SELECT Vienti.eraid, Vienti.tili, Vienti.selite, Tosite.pvm FROM Vienti "
+        kysely.exec( QString("SELECT Vienti.eraid, Vienti.tili, Vienti.selite, Tosite.pvm, Tosite.tunniste, Tosite.sarja FROM Vienti "
                              "JOIN Tosite ON Vienti.tosite=Tosite.id "
                              "WHERE Vienti.tyyppi=%1 AND "
                              "Vienti.Viite='%2' AND Vienti.kumppani=%3 AND Tosite.tila >= 100")
@@ -174,21 +178,26 @@ void TuontiTulkki::tilioteMenorivi(QVariantMap &rivi)
                      .arg(rivi.value("viite").toString())
                      .arg(kumppani.first));
         if( kysely.next()) {
-           rivi.insert("eraid", kysely.value(0));
+           QVariantMap eramap;
+           eramap.insert("id", kysely.value(0));
+           eramap.insert("pvm", kysely.value(3));
+           eramap.insert("tunniste", kysely.value(4));
+           eramap.insert("sarja", kysely.value(5));
+           rivi.insert("era", eramap);
            rivi.insert("tili",kysely.value(1));
            rivi.insert("selite", kysely.value(2));
-           rivi.insert("laskupvm", kysely.value(3));
            return;
         }
         // 2) Viitteettömän erän etsiminen
         QSqlQuery apukysely( db() );
         int tili = 0;
         QDate pvm;
-        int era = 0;
+        QVariantMap era;
 
         // Yritetään löytää tähän kumppaniin liitetty oikean suuruinen erä
-        kysely.exec( QString("SELECT id, pvm, tili FROM Vienti WHERE tyyppi=%1 AND "
-                             "kumppani=%2 AND kreditsnt=%3 AND pvm<'%4'")
+        kysely.exec( QString("SELECT id, tosite.pvm, tili, tunniste, sarja FROM Vienti "
+                             "JOIN Tosite ON Vienti.tosite=Tosite.id WHERE vienti.tyyppi=%1 AND "
+                             "kumppani=%2 AND kreditsnt=%3 AND pvm<'%4' AND Tosite.tila>=100")
                      .arg(TositeVienti::OSTO + TositeVienti::VASTAKIRJAUS)
                      .arg(kumppani.first)
                      .arg( qRound64(rivi.value("euro").toDouble() * 100) )
@@ -201,8 +210,10 @@ void TuontiTulkki::tilioteMenorivi(QVariantMap &rivi)
             if( apukysely.next() && apukysely.value(1).toLongLong() == qRound64(rivi.value("euro").toDouble() * 100) &&
                     apukysely.value(0).toLongLong() == 0l) {
                 if(!tili) {
-                    era = kysely.value(0).toInt();
-                    pvm = kysely.value(1).toDate();
+                    era.insert("id", kysely.value(0));
+                    era.insert("pvm", kysely.value(1));
+                    era.insert("tunniste", kysely.value(3));
+                    era.insert("sarja", kysely.value(4));
                     tili = kysely.value(2).toInt();
                 } else {
                     tili = -1;      // Löydetty monta, joten ei valita niistä yhtäkään
@@ -210,7 +221,7 @@ void TuontiTulkki::tilioteMenorivi(QVariantMap &rivi)
             }
         }
         if( tili > 0) {
-            rivi.insert("eraid", era);
+            rivi.insert("era", era);
             rivi.insert("tili", tili);
             rivi.insert("laskupvm",pvm);
             return;

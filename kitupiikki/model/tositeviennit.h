@@ -47,7 +47,8 @@ public:
         EraIdRooli = Qt::UserRole + 13,
         PoistoKkRooli = Qt::UserRole + 14,
         TaseErittelyssaRooli = Qt::UserRole + 15,
-        TagiIdListaRooli = Qt::UserRole + 22
+        TagiIdListaRooli = Qt::UserRole + 22,
+        EraMapRooli = Qt::UserRole + 23
     };
 
     // Header:
@@ -84,6 +85,7 @@ public:
     QVariant tallennettavat() const;
 
     void asetaMuokattavissa(bool muokattavissa);
+    bool muokattavissa() const { return muokattavissa_;}
 
 
 private:
