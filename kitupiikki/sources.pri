@@ -178,7 +178,6 @@ SOURCES += \
     raportti/myyntiraportti.cpp \
     validator/ytunnusvalidator.cpp \
     laskutus/laskusivu.cpp \
-    laskutus/yhteystietowidget.cpp \
     naytin/naytinview.cpp \
     naytin/naytinikkuna.cpp \
     maaritys/tallentavamaarityswidget.cpp \
