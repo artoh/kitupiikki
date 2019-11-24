@@ -206,6 +206,10 @@ void AloitusSivu::kirjanpitoVaihtui()
         }
     }
 
+    if( !kp()->asetus("Tilikartta").isEmpty() )
+        kp()->settings()->setValue("Tilikartta", kp()->asetus("Tilikartta"));
+
+
     if( paivitysInfo.isEmpty())
         pyydaInfo();
 
@@ -354,21 +358,18 @@ void AloitusSivu::poistaListalta()
 void AloitusSivu::pyydaInfo()
 {
 
-    // Päivitysten näyttäminen
-    QSettings asetukset;
-
-    if( !asetukset.contains("Keksi"))
+    if( ! kp()->settings()->contains("Keksi"))
     {
-        asetukset.setValue("Keksi", Kirjanpito::satujono(10) );
+        kp()->settings()->setValue("Keksi", Kirjanpito::satujono(10) );
     }
 
     QString kysely = QString("http://paivitysinfo.kitupiikki.info/?v=%1&os=%2&u=%3&b=%4&d=%5&k=%6")
             .arg( qApp->applicationVersion() )
             .arg( QSysInfo::prettyProductName())
-            .arg( asetukset.value("Keksi").toString() )
+            .arg( kp()->settings()->value("Keksi").toString() )
             .arg( KITSAS_BUILD )
             .arg( buildDate().toString(Qt::ISODate) )
-            .arg( asetukset.value("Tilikartta").toString());
+            .arg( kp()->settings()->value("Tilikartta").toString());
 
     QNetworkRequest pyynto = QNetworkRequest( QUrl(kysely));
     pyynto.setAttribute( QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy  );

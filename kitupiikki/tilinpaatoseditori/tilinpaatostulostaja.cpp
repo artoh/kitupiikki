@@ -83,7 +83,7 @@ void TilinpaatosTulostaja::tulosta(QPagedPaintDevice *writer) const
 
 
     // Liitetiedot, allekirjoitukset yms
-    painter.setFont( QFont("Sans",10));
+    painter.setFont( QFont("FreeSans",10));
     int rivinkorkeus = painter.fontMetrics().height();
     RaportinKirjoittaja kirjoittaja;
     kirjoittaja.asetaOtsikko("TILINPÄÄTÖS");
@@ -137,7 +137,7 @@ void TilinpaatosTulostaja::tulostaKansilehti(QPainter *painter, const QString ot
 {
 
     painter->save();
-    painter->setFont(QFont("Sans",24,QFont::Bold));
+    painter->setFont(QFont("FreeSans",24,QFont::Bold));
 
     int sivunleveys = painter->window().width();
     int rivinkorkeus = painter->fontMetrics().height();
@@ -160,11 +160,11 @@ void TilinpaatosTulostaja::tulostaKansilehti(QPainter *painter, const QString ot
     }
     painter->drawText( QRectF(0, sivunkorkeus/3, sivunleveys, rivinkorkeus * 2), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter, kp()->asetukset()->asetus("Nimi"));
 
-    painter->setFont(QFont("Sans",24));
+    painter->setFont(QFont("FreeSans",24));
     painter->drawText( QRectF(0, sivunkorkeus/3 + rivinkorkeus * 4, sivunleveys, rivinkorkeus ), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter, otsikko );
     painter->drawText( QRectF(0, sivunkorkeus/3 + rivinkorkeus * 5, sivunleveys, rivinkorkeus ), Qt::TextWordWrap | Qt::AlignCenter | Qt::AlignHCenter , kausi.kausivaliTekstina());
 
-    painter->setFont(QFont("Sans",12));
+    painter->setFont(QFont("FreeSans",12));
     painter->drawText( QRectF(0,sivunkorkeus / 8 * 7, sivunleveys / 3, sivunkorkeus / 8), Qt::TextWordWrap, kp()->asetukset()->asetus("Osoite"));
     painter->drawText( QRectF( sivunleveys/3*2, sivunkorkeus / 8 * 7, sivunleveys / 3, rivinkorkeus), Qt::AlignLeft, kp()->tr("Y-tunnus: %1").arg(kp()->asetukset()->asetus("Ytunnus")));
     painter->drawText( QRectF( sivunleveys/3*2, sivunkorkeus / 8 * 7 + painter->fontMetrics().height(), sivunleveys / 3, rivinkorkeus), Qt::AlignLeft, kp()->tr("Kotipaikka: %1").arg(kp()->asetukset()->asetus("Kotipaikka")));

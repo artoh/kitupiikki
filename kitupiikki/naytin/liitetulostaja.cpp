@@ -37,7 +37,12 @@ bool LiiteTulostaja::tulostaLiite(QPagedPaintDevice *printer, QPainter *painter,
 bool LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *painter, const QByteArray &data, const QDate &pvm, const QString &sarja, int tunniste)
 {
     Poppler::Document *document = Poppler::Document::loadFromData(data);
+    document->setRenderHint(Poppler::Document::TextAntialiasing);
+    document->setRenderHint(Poppler::Document::Antialiasing);
+
+#ifndef Q_OS_WINDOWS
     document->setRenderBackend(Poppler::Document::ArthurBackend);
+#endif
 
     int pageCount = document->numPages();
     for(int i=0; i < pageCount; i++)
@@ -51,13 +56,16 @@ bool LiiteTulostaja::tulostaPdfLiite(QPagedPaintDevice *printer, QPainter *paint
 
         double resoluutio = vaakaResoluutio < pystyResoluutio ? vaakaResoluutio : pystyResoluutio;
 
+#ifndef Q_OS_WINDOWS
         page->renderToPainter( painter, resoluutio, resoluutio,
-                                            0, 0 - painter->fontMetrics().height() * 2 ,page->pageSize().width(), page->pageSize().height());
-
-
+                                           0, 0 - painter->fontMetrics().height() * 2 ,page->pageSize().width(), page->pageSize().height());
+#else
+        QImage image = page->renderToImage(resoluutio, resoluutio);
+        painter->drawImage(0,painter->fontMetrics().height() * 2,image);
+#endif
 
         if( i < pageCount - 1)
-            printer->newPage();
+            printer->newPage();       
 
         delete page;
     }
@@ -85,7 +93,8 @@ bool LiiteTulostaja::tulostaKuvaLiite(QPagedPaintDevice */*printer*/, QPainter *
 }
 
 void LiiteTulostaja::tulostaYlatunniste(QPainter *painter, const QDate &pvm, const QString &sarja, int tunniste)
-{
+{    
+    painter->setFont(QFont("FreeSans",10));
     int leveys = painter->window().width();
     int korkeus = painter->fontMetrics().height() * 2;
 
@@ -93,11 +102,10 @@ void LiiteTulostaja::tulostaYlatunniste(QPainter *painter, const QDate &pvm, con
     {
         painter->save();
         painter->setPen( QPen(Qt::green));
-        painter->setFont( QFont("Sans",14));
+        painter->setFont( QFont("FreeSans",14));
         painter->drawText(QRect(leveys / 16 * 10,0,leveys/4, korkeus ), Qt::AlignHCenter | Qt::AlignVCenter, QString("HARJOITUS") );
         painter->restore();
     }
-
 
     painter->setFont(QFont("FreeSans",10));
     QRectF rect(0, 0, leveys/3, korkeus * 2);
@@ -111,8 +119,5 @@ void LiiteTulostaja::tulostaYlatunniste(QPainter *painter, const QDate &pvm, con
     painter->setFont(QFont("FreeSans",18, QFont::Bold));
     QRectF tunnisteRect(leveys * 3 / 4, 0, leveys / 4, korkeus);
     painter->drawText( tunnisteRect, kp()->tositeTunnus(tunniste, pvm, sarja), QTextOption(Qt::AlignRight | Qt::AlignTop) );
-
-
-    painter->setFont(QFont("FreeSans",12));
-
+    painter->setFont(QFont("FreeSans",10));
 }

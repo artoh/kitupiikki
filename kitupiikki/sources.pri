@@ -399,7 +399,6 @@ HEADERS += \
     raportti/myyntiraportti.h \
     validator/ytunnusvalidator.h \
     laskutus/laskusivu.h \
-    laskutus/yhteystietowidget.h \
     naytin/naytinview.h \
     naytin/naytinikkuna.h \
     maaritys/tallentavamaarityswidget.h \

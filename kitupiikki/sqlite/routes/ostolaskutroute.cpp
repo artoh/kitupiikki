@@ -38,7 +38,7 @@ QVariant OstolaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlquer
 
     kysymys.append("JOIN ( SELECT eraid, sum(debetsnt) as ds, sum(kreditsnt) as ks FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE Tosite.tila >= 100 GROUP BY eraid");
 
-    if( urlquery.hasQueryItem("avoin"))
+    if( urlquery.hasQueryItem("avoin") || urlquery.hasQueryItem("eraantynyt"))
         kysymys.append(" HAVING sum(kreditsnt) <> sum(debetsnt) OR sum(debetsnt) IS NULL ");
     kysymys.append(QString(")  AS q  ON vienti.eraid=q.eraid LEFT OUTER JOIN "
                            "Kumppani ON vienti.kumppani=kumppani.id "
