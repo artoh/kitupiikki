@@ -6,29 +6,41 @@
   "kieli": "fi",
   "tpkieli": "fi",
   "muodot": {
-    "ry": {
-      "fi": "Elinkeinotoiminta",
-      "sv": "Näringverksamhet"
+    "oy": {
+      "fi": "Osakeyhtiö",
+      "sv": "Aktiebolag"
+    },
+    "osk" : {
+      "fi": "Osuuskunta"
+    },
+    "ay" : {
+      "fi": "Avoin yhtiö"
+    },
+    "tmi" : {
+      "fi": "Elinkeinonharjoittaja"
+    },
+    "ky" : {
+      "fi": "Kommandiittiyhtiö"
     }
   },
   "laajuudet": {
     "1": {
-      "fi": "Suppea"
+      "fi": "Suppea, ei varastoa"
     },
     "2": {
-      "fi": "Tavallinen, ei palkkoja"
+      "fi": "Suppea, varastolla"
     },
     "3": {
-      "fi": "Tavallinen, palkat"
+      "fi": "Tavallinen"
     },
     "4": {
-      "fi": "Laaja, kiinteää tai sijoitusomaisuutta"
+      "fi": "Laaja, ei konsernitilejä"
     },
     "5": {
-      "fi": "Elinkeinotoimintaa"
+      "fi": "Laaja, myös konsernitilit"
     },
     "6": {
-      "fi": "Kaikki tilit, myös konserni"
+      "fi": "Kaikki tilit"
     }
   },
   "laajuus": "3",
@@ -50,26 +62,26 @@
     "K": "K"
   },
   "palkkatilit": {
-    "EP" : 2986,
-    "SB" : 2986,
-    "AY" : 2988,
-    "KM" : 4741,
-    "PR" : 4751,
-    "AT" : 4761,
+    "EP" : 2920,
+    "SB" : 2920,
+    "AY" : 2925,
+    "KM" : 7870,
+    "PR" : 7880,
+    "AT" : 7910,
     "PA" : 5000,
-    "LK" : 5002,
-    "PI" : 5003,
-    "LS" : 5004,
-    "LU" : 5005,
-    "LV" : 5040,
-    "EL" : 5100,
-    "SV" : 5120,
-    "TV" : 5122
+    "LK" : 5110,
+    "PI" : 5200,
+    "LS" : 5350,
+    "LU" : 5440,
+    "LV" : 5990,
+    "EL" : 6130,
+    "SV" : 6300,
+    "TV" : 6410
   },
   "maksutavat+": [
     {
       "fi" : "Lasku",
-      "TILI" : 1700,
+      "TILI" : 1701,
       "KUVA" : "lasku",
       "ERA" : -1
     },
@@ -85,7 +97,7 @@
     },
     {
       "fi" : "Siirtosaaminen",
-      "TILI" : 1770,
+      "TILI" : 1849,
       "KUVA" : "siirra",
       "ERA" : -1
     }
@@ -94,7 +106,7 @@
   "maksutavat-": [
     {
       "fi" : "Lasku",
-      "TILI" : 2960,
+      "TILI" : 2871,
       "KUVA" : "lasku",
       "ERA": -1
     },
@@ -110,17 +122,17 @@
     },
     {
       "fi" : "Luottokortti",
-      "TILI" : 2963,
+      "TILI" : 2882,
       "KUVA" : "luottokortti"
     },
     {
       "fi" : "Hyvityslasku",
-      "TILI" : 2960,
+      "TILI" : 2871,
       "KUVA" : "poista"
     },
     {
       "fi" : "Siirtovelka",
-      "TILI" : 2990,
+      "TILI" : 2979,
       "KUVA" : "siirra",
       "ERA" : -1
     }
@@ -128,7 +140,7 @@
   "LaskuTilit" : "1910",
   "tilinpaatosvalinnat" : "toiminnantarkastus",
   "arkistoraportit" : "tase/PMA,tulos/yhdistys",
-  "LaskuSaatavatili" : "1700",
+  "LaskuSaatavatili" : "1701",
   "LaskuKateistili" : "1900",
   "LaskuMaksuaika" : "14",
   "LaskuSeuraavaId" : "1000",
