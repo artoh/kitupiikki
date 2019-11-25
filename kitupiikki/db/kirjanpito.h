@@ -58,6 +58,7 @@ class SQLiteModel;
 class YhteysModel;
 
 class TositeTyyppiModel;
+class RyhmatModel;
 
 class QNetworkAccessManager;
 
@@ -165,7 +166,8 @@ public:
      * Tuoteluettelosta voidaan laskutuksessa valita valmiita tuotteita
      * @return
      */
-    TuoteModel *tuotteet() const { return tuotteet_; }
+    TuoteModel *tuotteet() const { return tuotteet_; }    
+    RyhmatModel *ryhmat() const { return ryhmat_;}
 
     /**
      * @brief Sql-tietokanta
@@ -368,6 +370,7 @@ protected:
     VerotyyppiModel *veroTyypit_;
     TilityyppiModel *tiliTyypit_;
     TuoteModel *tuotteet_;
+    RyhmatModel *ryhmat_;
     QPrinter *printer_;
 
     QTemporaryDir *tempDir_;

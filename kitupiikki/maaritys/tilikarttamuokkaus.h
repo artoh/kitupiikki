@@ -31,8 +31,8 @@ class TilikarttaMuokkaus : public MaaritysWidget
 {
     Q_OBJECT
 public:
-    TilikarttaMuokkaus(QWidget *parent=0);
-    ~TilikarttaMuokkaus();
+    TilikarttaMuokkaus(QWidget *parent=nullptr);
+    ~TilikarttaMuokkaus() override;
 
     bool nollaa() override;
 

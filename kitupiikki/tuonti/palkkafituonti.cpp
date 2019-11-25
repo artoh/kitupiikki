@@ -23,8 +23,8 @@
 #include <QString>
 
 
-PalkkaFiTuonti::PalkkaFiTuonti(KirjausWg *wg)
-    : VanhaTuonti(wg)
+PalkkaFiTuonti::PalkkaFiTuonti()
+
 {
     // Haetaan muuntotaulukko
     QStringList muunnot = kp()->asetukset()->lista("PalkkaFiTuonti");

@@ -27,13 +27,19 @@ SOURCES += \
     $$PWD/maaritys/avauserakantamodel.cpp \
     $$PWD/maaritys/avauseramodel.cpp \
     $$PWD/maaritys/avauskohdennusmodel.cpp \
+    $$PWD/maaritys/maksutapamuokkaus.cpp \
+    $$PWD/maaritys/maksutapasivu.cpp \
+    $$PWD/maaritys/tilikarttapaivitys.cpp \
+    $$PWD/maaritys/tositesarjamaaritys.cpp \
     $$PWD/maaritys/ulkoasumaaritys.cpp \
     $$PWD/model/laskutaulumodel.cpp \
+    $$PWD/model/maksutapamodel.cpp \
     $$PWD/model/tosite.cpp \
     $$PWD/model/tositeliitteet.cpp \
     $$PWD/model/tositeloki.cpp \
     $$PWD/model/tositeviennit.cpp \
     $$PWD/model/tositevienti.cpp \
+    $$PWD/naytin/liitetulostaja.cpp \
     $$PWD/raportti/alvraporttiwidget.cpp \
     $$PWD/raportti/paakirja.cpp \
     $$PWD/raportti/raportteri.cpp \
@@ -48,6 +54,7 @@ SOURCES += \
     $$PWD/rekisteri/ibandelegaatti.cpp \
     $$PWD/rekisteri/maamodel.cpp \
     $$PWD/rekisteri/postinumerot.cpp \
+    $$PWD/rekisteri/ryhmatmodel.cpp \
     $$PWD/sqlite/routes/alvroute.cpp \
     $$PWD/sqlite/routes/asetuksetroute.cpp \
     $$PWD/sqlite/routes/asiakkaatroute.cpp \
@@ -59,11 +66,13 @@ SOURCES += \
     $$PWD/sqlite/routes/liitteetroute.cpp \
     $$PWD/sqlite/routes/myyntilaskutroute.cpp \
     $$PWD/sqlite/routes/ostolaskutroute.cpp \
+    $$PWD/sqlite/routes/ryhmatroute.cpp \
     $$PWD/sqlite/routes/saldotroute.cpp \
     $$PWD/sqlite/routes/tilikaudetroute.cpp \
     $$PWD/sqlite/routes/tilitroute.cpp \
     $$PWD/sqlite/routes/toimittajatroute.cpp \
     $$PWD/sqlite/routes/tositeroute.cpp \
+    $$PWD/sqlite/routes/tuontitulkki.cpp \
     $$PWD/sqlite/routes/tuotteetroute.cpp \
     $$PWD/sqlite/routes/viennitroute.cpp \
     $$PWD/sqlite/sqlitealustaja.cpp \
@@ -71,13 +80,12 @@ SOURCES += \
     $$PWD/tilaus/planmodel.cpp \
     $$PWD/tilaus/tilausvalintasivu.cpp \
     $$PWD/tilaus/tilauswizard.cpp \
+    $$PWD/tilinpaatoseditori/aineistotulostaja.cpp \
     $$PWD/tools/checkcombo.cpp \
     $$PWD/tools/eracombo.cpp \
     $$PWD/tools/kohdennuscombo.cpp \
     $$PWD/tools/kpeuroedit.cpp \
     $$PWD/tools/tilicombo.cpp \
-    $$PWD/tuonti/tuonti.cpp \
-    $$PWD/tuonti/vanhatuonti.cpp \
     $$PWD/uusikirjanpito/sijaintisivu.cpp \
     $$PWD/uusikirjanpito/tiedotsivu.cpp \
     $$PWD/uusikirjanpito/tilikausisivu.cpp \
@@ -136,7 +144,6 @@ SOURCES += \
     tilinpaatoseditori/mrichtexteditor/mtextedit.cpp \
     arkisto/arkistosivu.cpp \
     maaritys/maarityswidget.cpp \
-    db/eranvalintamodel.cpp \
     kirjaus/verodialogi.cpp \
     db/tilityyppimodel.cpp \
     laskutus/laskudialogi.cpp \
@@ -150,7 +157,6 @@ SOURCES += \
     maaritys/kaavankorostin.cpp \
     kirjaus/kohdennusproxymodel.cpp \
     maaritys/tilikarttaohje.cpp \
-    uusikp/paivitakirjanpito.cpp \
     arkisto/tararkisto.cpp \
     tuonti/pdftuonti.cpp \
     validator/viitevalidator.cpp \
@@ -172,7 +178,6 @@ SOURCES += \
     raportti/myyntiraportti.cpp \
     validator/ytunnusvalidator.cpp \
     laskutus/laskusivu.cpp \
-    laskutus/yhteystietowidget.cpp \
     naytin/naytinview.cpp \
     naytin/naytinikkuna.cpp \
     maaritys/tallentavamaarityswidget.cpp \
@@ -211,7 +216,8 @@ SOURCES += \
     sqlite/sqlitemodel.cpp \
     apuri/tiliotekirjaaja.cpp\
     rekisteri/asiakastoimittajavalinta.cpp \
-    maaritys/avauseradlg.cpp
+    maaritys/avauseradlg.cpp\
+    maaritys/maksutapamuokkausdlg.cpp
 
 HEADERS += \
     $$PWD/alv/alvlaskelma.h \
@@ -242,13 +248,19 @@ HEADERS += \
     $$PWD/maaritys/avauserakantamodel.h \
     $$PWD/maaritys/avauseramodel.h \
     $$PWD/maaritys/avauskohdennusmodel.h \
+    $$PWD/maaritys/maksutapamuokkaus.h \
+    $$PWD/maaritys/maksutapasivu.h \
+    $$PWD/maaritys/tilikarttapaivitys.h \
+    $$PWD/maaritys/tositesarjamaaritys.h \
     $$PWD/maaritys/ulkoasumaaritys.h \
     $$PWD/model/laskutaulumodel.h \
+    $$PWD/model/maksutapamodel.h \
     $$PWD/model/tosite.h \
     $$PWD/model/tositeliitteet.h \
     $$PWD/model/tositeloki.h \
     $$PWD/model/tositeviennit.h \
     $$PWD/model/tositevienti.h \
+    $$PWD/naytin/liitetulostaja.h \
     $$PWD/raportti/alvraporttiwidget.h \
     $$PWD/raportti/paakirja.h \
     $$PWD/raportti/raportteri.h \
@@ -263,6 +275,7 @@ HEADERS += \
     $$PWD/rekisteri/ibandelegaatti.h \
     $$PWD/rekisteri/maamodel.h \
     $$PWD/rekisteri/postinumerot.h \
+    $$PWD/rekisteri/ryhmatmodel.h \
     $$PWD/sqlite/routes/alvroute.h \
     $$PWD/sqlite/routes/asetuksetroute.h \
     $$PWD/sqlite/routes/asiakkaatroute.h \
@@ -274,11 +287,13 @@ HEADERS += \
     $$PWD/sqlite/routes/liitteetroute.h \
     $$PWD/sqlite/routes/myyntilaskutroute.h \
     $$PWD/sqlite/routes/ostolaskutroute.h \
+    $$PWD/sqlite/routes/ryhmatroute.h \
     $$PWD/sqlite/routes/saldotroute.h \
     $$PWD/sqlite/routes/tilikaudetroute.h \
     $$PWD/sqlite/routes/tilitroute.h \
     $$PWD/sqlite/routes/toimittajatroute.h \
     $$PWD/sqlite/routes/tositeroute.h \
+    $$PWD/sqlite/routes/tuontitulkki.h \
     $$PWD/sqlite/routes/tuotteetroute.h \
     $$PWD/sqlite/routes/viennitroute.h \
     $$PWD/sqlite/sqlitealustaja.h \
@@ -286,13 +301,12 @@ HEADERS += \
     $$PWD/tilaus/planmodel.h \
     $$PWD/tilaus/tilausvalintasivu.h \
     $$PWD/tilaus/tilauswizard.h \
+    $$PWD/tilinpaatoseditori/aineistotulostaja.h \
     $$PWD/tools/checkcombo.h \
     $$PWD/tools/eracombo.h \
     $$PWD/tools/kohdennuscombo.h \
     $$PWD/tools/kpeuroedit.h \
     $$PWD/tools/tilicombo.h \
-    $$PWD/tuonti/tuonti.h \
-    $$PWD/tuonti/vanhatuonti.h \
     $$PWD/uusikirjanpito/sijaintisivu.h \
     $$PWD/uusikirjanpito/tiedotsivu.h \
     $$PWD/uusikirjanpito/tilikausisivu.h \
@@ -351,7 +365,6 @@ HEADERS += \
     tilinpaatoseditori/mrichtexteditor/mrichtextedit.h \
     tilinpaatoseditori/mrichtexteditor/mtextedit.h \
     arkisto/arkistosivu.h \
-    db/eranvalintamodel.h \
     kirjaus/verodialogi.h \
     db/tilityyppimodel.h \
     laskutus/laskudialogi.h \
@@ -365,7 +378,6 @@ HEADERS += \
     maaritys/kaavankorostin.h \
     kirjaus/kohdennusproxymodel.h \
     maaritys/tilikarttaohje.h \
-    uusikp/paivitakirjanpito.h \
     arkisto/tararkisto.h \
     tuonti/pdftuonti.h \
     validator/viitevalidator.h \
@@ -387,7 +399,6 @@ HEADERS += \
     raportti/myyntiraportti.h \
     validator/ytunnusvalidator.h \
     laskutus/laskusivu.h \
-    laskutus/yhteystietowidget.h \
     naytin/naytinview.h \
     naytin/naytinikkuna.h \
     maaritys/tallentavamaarityswidget.h \
@@ -427,13 +438,13 @@ HEADERS += \
     sqlite/sqlitemodel.h \
     apuri/tiliotekirjaaja.h \
     rekisteri/asiakastoimittajavalinta.h \
-    maaritys/avauseradlg.h
+    maaritys/avauseradlg.h\
+    maaritys/maksutapamuokkausdlg.h
 
 RESOURCES += \
     $$PWD/sqlite/sqlite.qrc \
     tilikartat/tilikartat.qrc \
     pic/pic.qrc \
-    uusikp/sql.qrc \
     aloitussivu/qrc/aloitus.qrc \
     arkistoija/arkisto.qrc \
     laskutus/lasku.qrc
@@ -447,11 +458,16 @@ FORMS += \
     $$PWD/laskutus/kumppanituotewidget.ui \
     $$PWD/laskutus/laskulistawidget.ui \
     $$PWD/laskutus/tuotedialogi.ui \
+    $$PWD/maaritys/maksutapamuokkaus.ui \
+    $$PWD/maaritys/maksutapasivu.ui \
+    $$PWD/maaritys/tilikarttapaivitys.ui \
+    $$PWD/maaritys/tositesarjat.ui \
     $$PWD/maaritys/ulkoasumaaritys.ui \
     $$PWD/rekisteri/asiakastoimittajadlg.ui \
     $$PWD/tilaus/tilausvahvistus.ui \
     $$PWD/tilaus/tilausvalinta.ui \
     $$PWD/tilaus/tilausyhteys.ui \
+    $$PWD/tools/paivitys.ui \
     $$PWD/uusikirjanpito/numerointi.ui \
     $$PWD/uusikirjanpito/sijainti.ui \
     $$PWD/uusikirjanpito/tilikausi.ui \
@@ -466,7 +482,6 @@ FORMS += \
     selaus/selauswg.ui \
     raportti/paivakirja.ui \
     maaritys/tilinavaus.ui \
-    maaritys/tositelajit.ui \
     maaritys/tilikarttamuokkaus.ui \
     maaritys/tilinmuokkaus.ui \
     db/tilinvalintadialogi.ui \
@@ -498,8 +513,6 @@ FORMS += \
     arkisto/muokkaatilikausi.ui \
     maaritys/tilikarttaohje.ui \
     aloitussivu/tervetuloa.ui \
-    uusikp/tkpaivitys.ui \
-    uusikp/paivityskorvaa.ui \
     arkisto/arkistonvienti.ui \
     raportti/csvvientivalinnat.ui \
     raportti/laskuraportti.ui \
@@ -524,4 +537,5 @@ FORMS += \
     pilvi/pilvilogindlg.ui \
     apuri/tiliotekirjaaja.ui \
     uusikirjanpito/uusiharjoitus.ui \
-    maaritys/avauseradlg.ui
+    maaritys/avauseradlg.ui\
+    maaritys/maksutapamuokkausdlg.ui

@@ -37,6 +37,9 @@ protected:
     QVariant hae(int tositeId);
 
     static QString viite(const QString& numero);
+
+    int kumppaniMapista(QVariantMap &map);
+    QHash<QString,int> kumppaniCache_;
 };
 
 #endif // TOSITEROUTE_H

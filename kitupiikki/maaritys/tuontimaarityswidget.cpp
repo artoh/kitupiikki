@@ -17,7 +17,6 @@
 
 #include "tuontimaarityswidget.h"
 
-#include "tuonti/vanhatuonti.h"
 
 TuontiMaaritysWidget::TuontiMaaritysWidget()
     : MaaritysWidget(nullptr),
@@ -27,9 +26,9 @@ TuontiMaaritysWidget::TuontiMaaritysWidget()
 
     // ui->tositelajiCombo->setModel( kp()->tositelajit());
 
-    ui->perusteCombo->addItem(QIcon(":/pic/suorite.png"), tr("Suoriteperusteinen"), VanhaTuonti::SUORITEPERUSTEINEN);
-    ui->perusteCombo->addItem(QIcon(":/pic/kirje.png"), tr("Laskutusperusteinen"), VanhaTuonti::LASKUPERUSTEINEN);
-    ui->perusteCombo->addItem(QIcon(":/pic/euro.png"), tr("Maksuperusteinen"), VanhaTuonti::MAKSUPERUSTEINEN);
+//    ui->perusteCombo->addItem(QIcon(":/pic/suorite.png"), tr("Suoriteperusteinen"), VanhaTuonti::SUORITEPERUSTEINEN);
+//    ui->perusteCombo->addItem(QIcon(":/pic/kirje.png"), tr("Laskutusperusteinen"), VanhaTuonti::LASKUPERUSTEINEN);
+//    ui->perusteCombo->addItem(QIcon(":/pic/euro.png"), tr("Maksuperusteinen"), VanhaTuonti::MAKSUPERUSTEINEN);
 
     ui->velkatiliEdit->suodataTyypilla("BO");
 

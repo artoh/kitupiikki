@@ -20,7 +20,6 @@
 
 #include <QDate>
 #include <QMap>
-#include "vanhatuonti.h"
 
 
 /**
@@ -32,12 +31,12 @@
  * erotettuna ensin palkka.fi-tilinumero ja sitten Kitupiikissä käytettävä tilinumero
  *
  */
-class PalkkaFiTuonti : public VanhaTuonti
+class PalkkaFiTuonti
 {
 public:
-    PalkkaFiTuonti(KirjausWg *wg);
+    PalkkaFiTuonti();
 
-    bool tuo(const QByteArray &data) override;
+    bool tuo(const QByteArray &data) ;
 
 protected:
     void tuoRivi(const QString& rivi);

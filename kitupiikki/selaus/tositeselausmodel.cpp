@@ -55,7 +55,7 @@ QVariant TositeSelausModel::headerData(int section, Qt::Orientation orientation,
     {
         switch (section) {
         case TUNNISTE:
-            if( luonnokset_)
+            if( tila_ < KIRJANPIDOSSA)
                 return tr("Tila");
             else
                 return tr("Tosite");
@@ -87,7 +87,7 @@ QVariant TositeSelausModel::data(const QModelIndex &index, int role) const
         {
 
         case TUNNISTE:
-            if( luonnokset_)    // Tila
+            if( tila_ < KIRJANPIDOSSA)    // Tila
                 return Tosite::tilateksti( map.value("tila").toInt() );   // TODO Tilojen nimet
             return kp()->tositeTunnus( map.value("tunniste").toInt(),
                                        map.value("pvm").toDate(),
@@ -158,9 +158,9 @@ QList<int> TositeSelausModel::tyyppiLista() const
 
 
 
-void TositeSelausModel::lataa(const QDate &alkaa, const QDate &loppuu, bool luonnokset)
+void TositeSelausModel::lataa(const QDate &alkaa, const QDate &loppuu, int tila)
 {
-    luonnokset_ = luonnokset;    
+    tila_ = tila;
     samakausi_ = kp()->tilikausiPaivalle(alkaa).alkaa() == kp()->tilikausiPaivalle(loppuu).alkaa();
 
     if( kp()->yhteysModel())
@@ -168,8 +168,10 @@ void TositeSelausModel::lataa(const QDate &alkaa, const QDate &loppuu, bool luon
         KpKysely *kysely = kpk("/tositteet");
         kysely->lisaaAttribuutti("alkupvm", alkaa);
         kysely->lisaaAttribuutti("loppupvm", loppuu);
-        if( luonnokset )
+        if( tila == LUONNOKSET )
             kysely->lisaaAttribuutti("luonnos", QString());
+        else if( tila == SAAPUNEET)
+            kysely->lisaaAttribuutti("saapuneet", QString());
         connect( kysely, &KpKysely::vastaus, this, &TositeSelausModel::tietoSaapuu);
         kysely->kysy();
     }

@@ -85,6 +85,9 @@
      <property name="text">
       <string>Lähiosoite</string>
      </property>
+     <property name="buddy">
+      <cstring>osoiteEdit</cstring>
+     </property>
     </widget>
    </item>
    <item row="5" column="1">
@@ -114,14 +117,17 @@
      </item>
     </layout>
    </item>
-   <item row="9" column="0">
+   <item row="10" column="0">
     <widget class="QLabel" name="tilitLabel">
      <property name="text">
       <string>Pankkitilit</string>
      </property>
+     <property name="buddy">
+      <cstring>tilitLista</cstring>
+     </property>
     </widget>
    </item>
-   <item row="10" column="1">
+   <item row="12" column="1">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -134,7 +140,7 @@
      </property>
     </spacer>
    </item>
-   <item row="11" column="1">
+   <item row="13" column="1">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -144,7 +150,7 @@
      </property>
     </widget>
    </item>
-   <item row="9" column="1">
+   <item row="10" column="1">
     <widget class="QListWidget" name="tilitLista">
      <property name="editTriggers">
       <set>QAbstractItemView::AllEditTriggers</set>
@@ -154,28 +160,68 @@
      </property>
     </widget>
    </item>
-   <item row="7" column="0">
+   <item row="8" column="0">
     <widget class="QLabel" name="ovtLabel">
      <property name="text">
       <string>Verkkolaskuosoite</string>
      </property>
+     <property name="buddy">
+      <cstring>ovtEdit</cstring>
+     </property>
     </widget>
    </item>
-   <item row="8" column="0">
+   <item row="8" column="1">
+    <widget class="QLineEdit" name="ovtEdit"/>
+   </item>
+   <item row="7" column="0">
     <widget class="QLabel" name="valittajaLabel">
      <property name="text">
       <string>Välittäjätunnus</string>
      </property>
+     <property name="buddy">
+      <cstring>valittajaEdit</cstring>
+     </property>
     </widget>
    </item>
    <item row="7" column="1">
-    <widget class="QLineEdit" name="ovtEdit"/>
-   </item>
-   <item row="8" column="1">
     <widget class="QLineEdit" name="valittajaEdit"/>
+   </item>
+   <item row="11" column="1">
+    <widget class="CheckCombo" name="ryhmaCombo"/>
+   </item>
+   <item row="11" column="0">
+    <widget class="QLabel" name="ryhmatLabel">
+     <property name="text">
+      <string>Ryhmät</string>
+     </property>
+     <property name="buddy">
+      <cstring>ryhmaCombo</cstring>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CheckCombo</class>
+   <extends>QComboBox</extends>
+   <header location="global">tools/checkcombo.h</header>
+  </customwidget>
+ </customwidgets>
+ <tabstops>
+  <tabstop>nimiEdit</tabstop>
+  <tabstop>maaCombo</tabstop>
+  <tabstop>yEdit</tabstop>
+  <tabstop>alvEdit</tabstop>
+  <tabstop>emailEdit</tabstop>
+  <tabstop>osoiteEdit</tabstop>
+  <tabstop>postinumeroEdit</tabstop>
+  <tabstop>kaupunkiEdit</tabstop>
+  <tabstop>valittajaEdit</tabstop>
+  <tabstop>ovtEdit</tabstop>
+  <tabstop>tilitLista</tabstop>
+  <tabstop>ryhmaCombo</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

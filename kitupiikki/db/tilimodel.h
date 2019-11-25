@@ -82,6 +82,7 @@ public:
      * @return
      */
     Tili tiliTyypilla(TiliLaji::TiliLuonne tyyppi) const;
+    Tili tiliTyypilla(const QString& tyyppikoodi) const;
 
     [[deprecated]] QStringList laskuTilit() const;
 

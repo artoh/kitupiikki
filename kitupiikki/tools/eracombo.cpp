@@ -30,6 +30,24 @@ int EraCombo::valittuEra() const
     return currentData().toInt();
 }
 
+QVariantMap EraCombo::eraMap() const
+{
+    int valittuna = currentData().toInt();
+    if( !valittuna )
+        return QVariantMap();
+    if( valittuna == -1) {
+        QVariantMap map;
+        map.insert("id",-1);
+        return map;
+    }
+    for( auto item : data_) {
+        QVariantMap map = item.toMap();
+        if( map.value("id").toInt() == valittuna)
+            return map;
+    }
+    return QVariantMap();
+}
+
 void EraCombo::lataa(int tili)
 {
     if( tili )
@@ -69,14 +87,17 @@ void EraCombo::dataSaapuu(QVariant *data)
     addItem(tr("Uusi tase-erä"), -1);
 
     QVariantList lista = data->toList();
+    data_ = lista;
+
     for(auto item : lista) {
         QVariantMap map = item.toMap();
+        data_.append(map);
 
         addItem( QString("%1 %2 (%3)")
                  .arg(map.value("pvm").toDate().toString("dd.MM.yyyy"))
                  .arg(map.value("selite").toString())
                  .arg(map.value("avoin").toDouble(),0,'f',2),
-                 map.value("eraid").toInt());
+                 map.value("id").toInt());
 
         setItemData( findData(map.value("eraid").toInt()), map.value("avoin"), AvoinnaRooli );
     }

@@ -70,7 +70,7 @@ bool SiirtoApuri::teeTositteelle()
     debet.setTili( ui->tililleEdit->valittuTilinumero());
     debet.setDebet( senttia );
     debet.set(TositeVienti::SELITE, otsikko);
-    debet.setEra( ui->tililleEraCombo->valittuEra() );
+    debet.setEra( ui->tililleEraCombo->eraMap());
     debet.setTyyppi( TositeVienti::SIIRTO);
     viennit.append(debet);
 
@@ -79,7 +79,7 @@ bool SiirtoApuri::teeTositteelle()
     kredit.setTili( ui->tililtaEdit->valittuTilinumero());
     kredit.setKredit( senttia );
     kredit.set( TositeVienti::SELITE, otsikko);
-    kredit.setEra( ui->tililtaEraCombo->valittuEra());
+    kredit.setEra( ui->tililtaEraCombo->eraMap());
     kredit.setTyyppi( TositeVienti::SIIRTO );
     viennit.append(kredit);
 

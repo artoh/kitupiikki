@@ -101,7 +101,7 @@ void NaytinView::nayta(const QByteArray &data)
         if( !kuva.isNull()) {
             vaihdaNaytin( new Naytin::SceneNaytin( new Naytin::KuvaView(kuva) ));
         } else {
-            vaihdaNaytin( new Naytin::TekstiNaytin( CsvTuonti::haistettuKoodattu(data) ) );
+            vaihdaNaytin( new Naytin::TekstiNaytin( Tuonti::CsvTuonti::haistettuKoodattu(data) ) );
         }
     }
 

@@ -93,7 +93,10 @@ void Naytin::PdfView::tulosta(QPrinter *printer) const
 {
     QPainter painter(printer);
     Poppler::Document *document = Poppler::Document::loadFromData(data_);
+
+#ifndef Q_OS_WINDOWS
     document->setRenderBackend(Poppler::Document::ArthurBackend);
+#endif
 
     int pageCount = document->numPages();
     for(int i=0; i < pageCount; i++)
@@ -105,8 +108,13 @@ void Naytin::PdfView::tulosta(QPrinter *printer) const
 
         double resoluutio = vaakaResoluutio < pystyResoluutio ? vaakaResoluutio : pystyResoluutio;
 
+#ifndef Q_OS_WINDOWS
         page->renderToPainter( &painter, resoluutio, resoluutio,
-                                            0,0,page->pageSize().width(), page->pageSize().height());
+                                           0, 0, page->pageSize().width(), page->pageSize().height());
+#else
+        QImage image = page->renderToImage(resoluutio, resoluutio);
+        painter.drawImage(0,0,image);
+#endif
         if( i < pageCount - 1)
             printer->newPage();
 

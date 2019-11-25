@@ -115,10 +115,21 @@ void DevTool::kysely()
     if( !kp()->yhteysModel() )
         return;
 
-    KpKysely *kysely = kpk();
+    KpKysely::Metodi metodi = KpKysely::GET;
+    if( ui->postRadio->isChecked())
+        metodi = KpKysely::POST;
+    else if( ui->putRadio->isChecked())
+        metodi = KpKysely::PUT;
+    else if( ui->patchRadio->isChecked())
+        metodi = KpKysely::PATCH;
+    else if( ui->deleteRadio->isChecked())
+        metodi = KpKysely::DELETE;
+
+    KpKysely *kysely = kpk( QString(), metodi);
     kysely->asetaUrl(ui->kyselyLine->text());
-    connect( kysely, &KpKysely::vastaus, this, &DevTool::vastausSaapui);
-    kysely->kysy();
+
+    connect( kysely, &KpKysely::vastaus, this, &DevTool::vastausSaapui);        
+    kysely->kysy( QJsonDocument::fromJson( ui->jsonInput->toPlainText().toUtf8() ).toVariant());
 }
 
 void DevTool::vastausSaapui(QVariant *vastaus)

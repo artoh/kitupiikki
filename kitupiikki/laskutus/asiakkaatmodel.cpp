@@ -17,7 +17,7 @@ int AsiakkaatModel::rowCount(const QModelIndex &/*parent*/) const
 
 int AsiakkaatModel::columnCount(const QModelIndex &/*parent*/) const
 {
-    if( valinta_ == REKISTERI)
+    if( valinta_ == REKISTERI )
         return 1;
     return 4;
 }
@@ -27,7 +27,6 @@ QVariant AsiakkaatModel::data(const QModelIndex &index, int role) const
     if( !index.isValid())
         return QVariant();
 
-    AsiakasRivi rivi = rivit_.value(index.row());
     QVariantMap map = lista_.at(index.row()).toMap();
 
     if( role == Qt::DisplayRole || role == Qt::EditRole)
@@ -72,7 +71,8 @@ QVariant AsiakkaatModel::headerData(int section, Qt::Orientation orientation, in
     else if( role == Qt::DisplayRole && orientation == Qt::Horizontal)
     {
         switch (section) {
-        case NIMI: return tr("Nimi");
+        case NIMI:
+            return tr("Nimi");
         case YHTEENSA:
             return tr("Yhteensä");
         case AVOINNA:
@@ -94,12 +94,20 @@ void AsiakkaatModel::paivita(int valinta)
         utelu = kpk("/toimittajat");
     else if(valinta == ASIAKKAAT)
         utelu = kpk("/asiakkaat");
-    else
+    else if( valinta == REKISTERI)
         utelu = kpk("/kumppanit");
 
     connect( utelu, &KpKysely::vastaus, this, &AsiakkaatModel::tietoSaapuu);
     utelu->kysy();
 
+}
+
+void AsiakkaatModel::suodataRyhma(int ryhmaId)
+{
+    KpKysely *kysely = kpk("/kumppanit");
+    kysely->lisaaAttribuutti("ryhma", ryhmaId);
+    connect( kysely, &KpKysely::vastaus, this, &AsiakkaatModel::tietoSaapuu);
+    kysely->kysy();
 }
 
 void AsiakkaatModel::tietoSaapuu(QVariant *var)

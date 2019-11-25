@@ -50,6 +50,7 @@
 #include "sqlite/sqlitemodel.h"
 
 #include "uusikirjanpito/uusivelho.h"
+#include "maaritys/tilikarttapaivitys.h"
 
 #include <QJsonDocument>
 #include <QTimer>
@@ -148,20 +149,7 @@ void AloitusSivu::siirrySivulle()
     // Päivitetään aloitussivua
     if( kp()->yhteysModel() )
     {        
-        QString txt("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:/aloitus/aloitus.css\"></head><body>");
-        txt.append( paivitysInfo );
-
-        txt.append( vinkit() );
-
-        // Ei tulosteta tyhjiä otsikoita vaan possu jos ei kirjauksia
-        if( kp()->asetukset()->onko("EkaTositeKirjattu") )
-            txt.append(summat());
-        else
-            txt.append("<p><img src=qrc:/pic/kitsas150.png></p>");
-
         haeSaldot();
-
-        ui->selain->setHtml(txt);
     }
     else
     {
@@ -217,6 +205,10 @@ void AloitusSivu::kirjanpitoVaihtui()
             }
         }
     }
+
+    if( !kp()->asetus("Tilikartta").isEmpty() )
+        kp()->settings()->setValue("Tilikartta", kp()->asetus("Tilikartta"));
+
 
     if( paivitysInfo.isEmpty())
         pyydaInfo();
@@ -366,21 +358,18 @@ void AloitusSivu::poistaListalta()
 void AloitusSivu::pyydaInfo()
 {
 
-    // Päivitysten näyttäminen
-    QSettings asetukset;
-
-    if( !asetukset.contains("Keksi"))
+    if( ! kp()->settings()->contains("Keksi"))
     {
-        asetukset.setValue("Keksi", Kirjanpito::satujono(10) );
+        kp()->settings()->setValue("Keksi", Kirjanpito::satujono(10) );
     }
 
     QString kysely = QString("http://paivitysinfo.kitupiikki.info/?v=%1&os=%2&u=%3&b=%4&d=%5&k=%6")
             .arg( qApp->applicationVersion() )
             .arg( QSysInfo::prettyProductName())
-            .arg( asetukset.value("Keksi").toString() )
+            .arg( kp()->settings()->value("Keksi").toString() )
             .arg( KITSAS_BUILD )
             .arg( buildDate().toString(Qt::ISODate) )
-            .arg( asetukset.value("Tilikartta").toString());
+            .arg( kp()->settings()->value("Tilikartta").toString());
 
     QNetworkRequest pyynto = QNetworkRequest( QUrl(kysely));
     pyynto.setAttribute( QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::NoLessSafeRedirectPolicy  );
@@ -392,7 +381,18 @@ void AloitusSivu::saldotSaapuu(QVariant *data)
 {
     saldot_ = data->toMap();
 
+    QString txt("<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"qrc:/aloitus/aloitus.css\"></head><body>");
+    txt.append( paivitysInfo );
 
+    txt.append( vinkit() );
+
+    // Ei tulosteta tyhjiä otsikoita vaan possu jos ei kirjauksia
+    if( kp()->asetukset()->onko("EkaTositeKirjattu") )
+        txt.append(summat());
+    else
+        txt.append("<p><img src=qrc:/pic/kitsas150.png></p>");
+
+    ui->selain->setHtml(txt);
 }
 
 QDate AloitusSivu::buildDate()
@@ -534,32 +534,31 @@ void AloitusSivu::haeSaldot()
 QString AloitusSivu::vinkit()
 {
     QString vinkki;
-/*
-    QString tkpaivitys = PaivitaKirjanpito::sisainenPaivitys();
-    if( !tkpaivitys.isEmpty())
+
+
+    if( TilikarttaPaivitys::onkoPaivitettavaa() )
     {
-        vinkki.append(tr("<table class=info width=100%><tr><td><h3><a href=ktp:/paivitatilikartta>Päivitä tilikartta</a></h3>Tilikartasta saatavilla uudempi versio %1"
-                         "</td></tr></table>").arg(tkpaivitys) );
+        vinkki.append(tr("<table class=info width=100%><tr><td><h3><a href=ktp:/maaritys/paivita>Päivitä tilikartta</a></h3>Tilikartasta saatavilla uudempi versio %1"
+                         "</td></tr></table>").arg( TilikarttaPaivitys::paivitysPvm().toString("dd.MM.yyyy") ) );
 
     }
-*/
 
     // Ensin tietokannan alkutoimiin
     if( !kp()->asetukset()->onko("EkaTositeKirjattu") )
     {
         vinkki.append("<table class=vinkki width=100%><tr><td>");
         vinkki.append("<h3>Kirjanpidon aloittaminen</h3><ol>");
-        vinkki.append("<li>Tarkista <a href=ktp:/maaritys/Perusvalinnat>perusvalinnat, logo ja arvonlisävelvollisuus</a> <a href='ohje:/maaritykset/perusvalinnat'>(Ohje)</a></li>");
-        vinkki.append("<li>Tutustu <a href=ktp:/maaritys/Tilikartta>tilikarttaan</a> ja tee tarpeelliset muutokset <a href='ohje:/maaritykset/tilikartta'>(Ohje)</a></li>");
-        vinkki.append("<li>Lisää tarvitsemasi <a href=ktp:/maaritys/Kohdennukset>kohdennukset</a> <a href='ohje:/maaritykset/kohdennukset'>(Ohje)</a></li>");
+        vinkki.append("<li>Tarkista <a href=ktp:/maaritys/perus>perusvalinnat, logo ja arvonlisävelvollisuus</a> <a href='ohje:/maaritykset/perusvalinnat'>(Ohje)</a></li>");
+        vinkki.append("<li>Tutustu <a href=ktp:/maaritys/tilit>tilikarttaan</a> ja tee tarpeelliset muutokset <a href='ohje:/maaritykset/tilikartta'>(Ohje)</a></li>");
+        vinkki.append("<li>Lisää tarvitsemasi <a href=ktp:/maaritys/kohdennukset>kohdennukset</a> <a href='ohje:/maaritykset/kohdennukset'>(Ohje)</a></li>");
         if( kp()->asetukset()->luku("Tilinavaus")==2)
-            vinkki.append("<li>Tee <a href=ktp:/maaritys/Tilinavaus>tilinavaus</a> <a href='ohje:/maaritykset/tilinavaus'>(Ohje)</a></li>");
+            vinkki.append("<li>Tee <a href=ktp:/maaritys/tilinavaus>tilinavaus</a> <a href='ohje:/maaritykset/tilinavaus'>(Ohje)</a></li>");
         vinkki.append("<li>Voit aloittaa <a href=ktp:/kirjaa>kirjausten tekemisen</a> <a href='ohje:/kirjaus'>(Ohje)</a></li>");
         vinkki.append("</ol></td></tr></table>");
 
     }
     else if( kp()->asetukset()->luku("Tilinavaus")==2 && kp()->asetukset()->pvm("TilinavausPvm") <= kp()->tilitpaatetty() )
-        vinkki.append(tr("<table class=vinkki width=100%><tr><td><h3><a href=ktp:/maaritys/Tilinavaus>Tee tilinavaus</a></h3><p>Syötä viimeisimmältä tilinpäätökseltä tilien "
+        vinkki.append(tr("<table class=vinkki width=100%><tr><td><h3><a href=ktp:/maaritys/tilinavaus>Tee tilinavaus</a></h3><p>Syötä viimeisimmältä tilinpäätökseltä tilien "
                       "avaavat saldot %1 järjestelmään <a href='ohje:/maaritykset/tilinavaus'>(Ohje)</a></p></td></tr></table>").arg( kp()->asetukset()->pvm("TilinavausPvm").toString("dd.MM.yyyy") ) );
 
     // Muistutus arvonlisäverolaskelmasta

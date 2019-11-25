@@ -34,14 +34,14 @@ QVariant MyyntilaskutRoute::get(const QString &/*polku*/, const QUrlQuery &urlqu
 
     QString kysymys("select tosite.id as tosite, vienti.pvm as pvm, vienti.erapvm as erapvm, vienti.viite, tosite.json as json, "
                         "debetsnt as summasnt, ds, ks, kumppani.nimi as asiakas, kumppani.id as asiakasid, vienti.eraid as eraid, vienti.tili as tili,"
-                        "tosite.tyyppi as tyyppi, vienti.selite as selite  from "
+                        "tosite.tyyppi as tyyppi, vienti.selite as selite, tosite.tunniste as tunniste, tosite.sarja as sarja  from "
                         "Tosite JOIN Vienti ON vienti.tosite=tosite.id ");
 
     if( !urlquery.hasQueryItem("avoin") && !urlquery.hasQueryItem("eraantynyt"))
         kysymys.append("LEFT OUTER ");
 
     kysymys.append("JOIN (select eraid, sum(debetsnt) as ds, sum(kreditsnt) as ks FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id WHERE Tosite.tila >= 100 GROUP BY eraid ");
-    if( urlquery.hasQueryItem("avoin"))
+    if( urlquery.hasQueryItem("avoin") || urlquery.hasQueryItem("eraantynyt"))
         kysymys.append("HAVING SUM(kreditsnt) <> SUM(debetsnt) OR sum(kreditsnt) IS NULL ");
 
     kysymys.append(QString(") as q ON vienti.eraid=q.eraid LEFT OUTER JOIN "

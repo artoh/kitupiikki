@@ -52,13 +52,16 @@ public:
         KOHDENNUS,
         TILINAVAUS,
         LASKUTUS,
+        MAKSUTAVAT,
+        TOSITESARJAT,
         SAHKOPOSTI,
         VERKKOLASKU,
         TUONTI,
         INBOX,
         RAPORTIT,
         LIITETIETOKAAVA,
-        TILIKARTTAOHJE
+        TILIKARTTAOHJE,
+        PAIVITYS
 
     };
 
@@ -91,6 +94,8 @@ public slots:
      */
     void valitseSivu(const QString &otsikko);
 
+
+
     /**
      * @brief Päivittää määritysten mukaan sen, mitkä sivut näkyvät
      */
@@ -107,7 +112,10 @@ protected:
      * @param tallennaPeruNapit Näytetäänkö sivulla Tallenna- ja peru-napit
      */
     void lisaaSivu(const QString& otsikko, Sivut sivu,
-                   const QIcon& kuvake = QIcon());
+                   const QIcon& kuvake = QIcon(), const QString &nimi = QString());
+
+    QListWidgetItem *item(const QString nimi);
+    QListWidgetItem *item(int sivu);
 
 protected:
     QListWidget *lista;

@@ -104,7 +104,7 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
 
     int pienennys = sarakkeet_.count() > 4 && printer->pageSizeMM().width() < 300 ? 2 : 0;
 
-    QFont fontti("Sans", 10 - pienennys );
+    QFont fontti("FreeSans", 10 - pienennys );
     painter->setFont(fontti);
 
     int rivinkorkeus = painter->fontMetrics().height();
@@ -220,7 +220,7 @@ int RaportinKirjoittaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, 
             // Ollaan sivun alussa
 
             painter->save();
-            painter->setFont(QFont("Sans", 10 - pienennys));
+            painter->setFont(QFont("FreeSans", 10 - pienennys));
 
             // Tulostetaan ylätunniste
             if( !otsikko_.isEmpty())
@@ -518,7 +518,7 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu) const
     {
         painter->save();
         painter->setPen( QPen(Qt::green));
-        painter->setFont( QFont("Sans",14));
+        painter->setFont( QFont("FreeSans",14));
         painter->drawText(QRect(sivunleveys / 8 * 5,0,sivunleveys/4, rivinkorkeus*2 ), Qt::AlignHCenter | Qt::AlignVCenter, QString("HARJOITUS") );
         painter->restore();
     }
