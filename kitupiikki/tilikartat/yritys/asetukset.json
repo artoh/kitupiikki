@@ -1,0 +1,155 @@
+{
+  "kielet" : {
+      "fi" : { "fi": "suomi", "sv" : "finska"},
+      "sv" : { "fi": "ruotsi", "sv": "svenska"}
+  },
+  "kieli": "fi",
+  "tpkieli": "fi",
+  "muodot": {
+    "oy": {
+      "fi": "Osakeyhtiö",
+      "sv": "Aktiebolag"
+    },
+    "osk" : {
+      "fi": "Osuuskunta"
+    },
+    "ay" : {
+      "fi": "Avoin yhtiö"
+    },
+    "tmi" : {
+      "fi": "Elinkeinonharjoittaja"
+    },
+    "ky" : {
+      "fi": "Kommandiittiyhtiö"
+    }
+  },
+  "laajuudet": {
+    "1": {
+      "fi": "Suppea, ei varastoa"
+    },
+    "2": {
+      "fi": "Suppea, varastolla"
+    },
+    "3": {
+      "fi": "Tavallinen"
+    },
+    "4": {
+      "fi": "Laaja, ei konsernitilejä"
+    },
+    "5": {
+      "fi": "Laaja, myös konsernitilit"
+    },
+    "6": {
+      "fi": "Kaikki tilit"
+    }
+  },
+  "laajuus": "3",
+  "alvlaajuus": "1",
+  "tositesarjat": {
+    "0": "X",
+    "100": "OL",
+    "120": "KL",
+    "200": "ML",
+    "210": "ML",
+    "214": "ML",
+    "216": "ML",
+    "300": "X",
+    "400": "T",
+    "500": "P",
+    "700": "MT",
+    "800": "LT",
+    "*": "JT",
+    "K": "K"
+  },
+  "palkkatilit": {
+    "EP" : 2920,
+    "SB" : 2920,
+    "AY" : 2925,
+    "KM" : 7870,
+    "PR" : 7880,
+    "AT" : 7910,
+    "PA" : 5000,
+    "LK" : 5110,
+    "PI" : 5200,
+    "LS" : 5350,
+    "LU" : 5440,
+    "LV" : 5990,
+    "EL" : 6130,
+    "SV" : 6300,
+    "TV" : 6410
+  },
+  "maksutavat+": [
+    {
+      "fi" : "Lasku",
+      "TILI" : 1701,
+      "KUVA" : "lasku",
+      "ERA" : -1
+    },
+    {
+      "fi" : "Käteinen",
+      "TILI" : 1900,
+      "KUVA" : "kateinen"
+    },
+    {
+      "fi" : "Pankkitili",
+      "TILI" : 1910,
+      "KUVA" : "pankki"
+    },
+    {
+      "fi" : "Siirtosaaminen",
+      "TILI" : 1849,
+      "KUVA" : "siirra",
+      "ERA" : -1
+    }
+
+  ],
+  "maksutavat-": [
+    {
+      "fi" : "Lasku",
+      "TILI" : 2871,
+      "KUVA" : "lasku",
+      "ERA": -1
+    },
+    {
+      "fi" : "Käteinen",
+      "TILI" : 1900,
+      "KUVA" : "kateinen"
+    },
+    {
+      "fi" : "Pankkitili",
+      "TILI" : 1910,
+      "KUVA" : "pankki"
+    },
+    {
+      "fi" : "Luottokortti",
+      "TILI" : 2882,
+      "KUVA" : "luottokortti"
+    },
+    {
+      "fi" : "Hyvityslasku",
+      "TILI" : 2871,
+      "KUVA" : "poista"
+    },
+    {
+      "fi" : "Siirtovelka",
+      "TILI" : 2979,
+      "KUVA" : "siirra",
+      "ERA" : -1
+    }
+  ],
+  "LaskuTilit" : "1910",
+  "tilinpaatosvalinnat" : "toiminnantarkastus",
+  "arkistoraportit" : "tase/PMA,tulos/yhdistys",
+  "LaskuSaatavatili" : "1701",
+  "LaskuKateistili" : "1900",
+  "LaskuMaksuaika" : "14",
+  "LaskuSeuraavaId" : "1000",
+  "LaskuTili" : "1910",
+  "LaskuViivakoodi" : true,
+  "LaskuIkkunaX" : "18",
+  "LaskuIkkunaY" : "40",
+  "LaskuIkkunaLeveys" : "95",
+  "LaskuIkkunaKorkeus" : "35",
+  "LaskuQR" : true,
+  "AlvKausi" : 1
+}

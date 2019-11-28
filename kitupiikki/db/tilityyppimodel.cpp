@@ -69,6 +69,11 @@ TilityyppiModel::TilityyppiModel(QObject *parent)
     lisaa(TiliTyyppi("D","Menot",TiliLaji::MENO));
     lisaa(TiliTyyppi("DP","Poistot",TiliLaji::POISTO));
 
+    lisaa(TiliTyyppi("DBP", "Pankin palvelumaksut", TiliLaji::MENO));
+    lisaa(TiliTyyppi("DBK","Pankkitilin korko", TiliLaji::MENO));
+    lisaa(TiliTyyppi("DVE", "Ennakkoverot", TiliLaji::MENO));
+    lisaa(TiliTyyppi("CBK", "Pankkitilin korkotulot", TiliLaji::TULO));
+
 
 }
 

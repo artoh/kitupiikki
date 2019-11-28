@@ -52,6 +52,7 @@ private slots:
     void teeJaksotukset();
     void muokkaa();
     void esikatsele();
+    void mappi();
     void vahvista();
 
 protected slots:

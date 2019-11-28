@@ -150,8 +150,10 @@ void LaskuDialogi::paivitaNapit()
 
 void LaskuDialogi::tulosta(QPagedPaintDevice *printer) const
 {
-    QPainter painter( printer);
+    printer->setPageSize( QPdfWriter::A4);
+    printer->setPageMargins( QMarginsF(10,10,10,10), QPageLayout::Millimeter );
 
+    QPainter painter( printer);
     MyyntiLaskunTulostaja::tulosta( data(), printer, &painter, true );
 
     painter.end();

@@ -45,6 +45,8 @@ public:
     QVariantList tilit_;
     QVariantList tilikaudet_;
 
+    static QVariantMap asetukset( const QString& polku);
+
 protected:
 
     class Harjoitussivu : public QWizardPage {

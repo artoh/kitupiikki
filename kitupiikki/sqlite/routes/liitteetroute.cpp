@@ -22,17 +22,25 @@
 #include <QCryptographicHash>
 #include <QDebug>
 
-#include "tuonti/tuonti.h"
-
 LiitteetRoute::LiitteetRoute(SQLiteModel *model) :
     SQLiteRoute(model, "/liitteet")
 {
 
 }
 
-QVariant LiitteetRoute::get(const QString &polku, const QUrlQuery &/*urlquery*/)
+QVariant LiitteetRoute::get(const QString &polku, const QUrlQuery &urlquery)
 {
     QSqlQuery kysely(db());
+    if( polku.isEmpty()) {
+        QString kysymys = QString("SELECT tosite.pvm, tosite.sarja, tosite.tunniste, liite.id, liite.nimi, liite.tyyppi "
+                                  "FROM Tosite JOIN Liite ON Liite.tosite=Tosite.id WHERE Tosite.tila >= 100 AND "
+                                  "Tosite.pvm BETWEEN '%1' AND '%2' ORDER BY sarja, tunniste")
+                .arg(urlquery.queryItemValue("alkupvm"))
+                .arg(urlquery.queryItemValue("loppupvm"));
+        kysely.exec(kysymys);
+        return resultList(kysely);
+
+    }
     if( polku.toInt()) {
         if(!kysely.exec(QString("SELECT data FROM Liite WHERE id=%1").arg(polku.toInt()) ) )
             throw SQLiteVirhe(kysely);
@@ -68,7 +76,6 @@ QVariant LiitteetRoute::byteArray(SQLiteKysely *kysely, const QByteArray &ba, co
         } else {
             // Liite odottamaan tositetta
             query.addBindValue( QVariant());
-            palautus = Tuonti::tuo( ba );
         }
     } else if( kysely->metodi() == KpKysely::PUT)
     {

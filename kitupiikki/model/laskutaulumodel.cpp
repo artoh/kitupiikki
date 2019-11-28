@@ -154,6 +154,19 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
         return map.value("tosite");
     case TyyppiRooli:
         return map.value("tyyppi");
+    case TunnisteRooli:
+        return map.value("tunniste");
+    case SarjaRooli:
+        return map.value("sarja");
+    case EraMapRooli: {
+            QVariantMap era;
+            era.insert("id", map.value("eraid"));
+            era.insert("pvm", map.value("pvm"));
+            era.insert("tunniste", map.value("tunniste"));
+            era.insert("sarja", map.value("sarja"));
+            era.insert("saldo", map.value("avoin"));
+            return era;
+        }
     }
     return QVariant();
 }

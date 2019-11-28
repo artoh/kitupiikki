@@ -55,23 +55,7 @@ public:
 
 public slots:
     void paaTab(int indeksi);
-/*    void paivitaAsiakasSuodatus();
-    void paivitaLaskulista();
-    void asiakasValintaMuuttuu();
-    void laskuValintaMuuttuu();
 
-    void uusiLasku();
-    void naytaLasku();
-
-    void hyvityslasku();
-    void kopioiLasku();
-    void muokkaaLaskua();
-    void maksumuistutus();
-    void poistaLasku();
-
-private slots:
-    void naytaLaskuDlg(QVariant* data);
-*/
 
 private:
     void luoUi();
@@ -80,6 +64,7 @@ private:
     QSplitter *splitter_;
     QLineEdit* asiakasSuodatusEdit_;
 
+    KumppaniTuoteWidget* ryhmaWidget_;
     KumppaniTuoteWidget* kumppaniTuoteWidget_;
     LaskulistaWidget *laskuWidget_;
 

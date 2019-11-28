@@ -25,6 +25,12 @@ public:
     InitRoute(SQLiteModel *model);
 
     QVariant get(const QString &polku, const QUrlQuery& urlquery = QUrlQuery()) override;
+
+    QVariant patch(const QString &polku, const QVariant &data) override;
+
+protected:
+    void paivitaAsetukset(const QVariantMap& map);
+    void paivitaTilit(const QVariantList &list);
 };
 
 #endif // INITROUTE_H

@@ -45,11 +45,19 @@ AsiakasToimittajaDlg::AsiakasToimittajaDlg(QWidget *parent) :
 
     connect( ui->yEdit, &QLineEdit::textEdited, this, &AsiakasToimittajaDlg::haeYTunnarilla);
     connect( ui->yEdit, &QLineEdit::editingFinished, this, &AsiakasToimittajaDlg::haeYTunnarilla);
+    connect( ui->yEdit, &QLineEdit::textChanged, this, &AsiakasToimittajaDlg::naytaVerkkolasku);
 
     connect( ui->nimiEdit, &QLineEdit::textChanged, this, &AsiakasToimittajaDlg::nimiMuuttuu);
 
     ui->tilitLista->setItemDelegate( new IbanDelegaatti(this) );
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+
+    ui->ryhmaCombo->haeRyhmat();
+
+    ui->valittajaLabel->hide();
+    ui->valittajaEdit->hide();
+    ui->ovtLabel->hide();
+    ui->ovtEdit->hide();
 }
 
 AsiakasToimittajaDlg::~AsiakasToimittajaDlg()
@@ -131,6 +139,8 @@ void AsiakasToimittajaDlg::tauluun(QVariantMap map)
         item->setFlags( item->flags() | Qt::ItemIsEditable );
     }
 
+    ui->ryhmaCombo->setSelectedItems( map.value("ryhmat").toList() );
+
     maaMuuttui();
     tarkastaTilit();
 }
@@ -148,6 +158,22 @@ void AsiakasToimittajaDlg::tuonti(const QVariantMap &map)
         show();
     else
         accept();
+}
+
+void AsiakasToimittajaDlg::lisaaRyhmaan(int ryhma)
+{
+    ui->ryhmaCombo->setSelectedItems( QList<int>() << ryhma );
+}
+
+void AsiakasToimittajaDlg::naytaVerkkolasku()
+{
+    bool ytunnari = ui->maaCombo->currentData(MaaModel::KoodiRooli).toString() == "fi" &&
+            ui->yEdit->hasAcceptableInput();
+
+    ui->valittajaLabel->setVisible(ytunnari);
+    ui->valittajaEdit->setVisible(ytunnari);
+    ui->ovtLabel->setVisible(ytunnari);
+    ui->ovtEdit->setVisible(ytunnari);
 }
 
 void AsiakasToimittajaDlg::tarkastaTilit()
@@ -225,6 +251,9 @@ void AsiakasToimittajaDlg::accept()
         map.insert("ovt", ui->ovtEdit->text());
     if( !ui->valittajaEdit->text().isEmpty())
         map.insert("operaattori", ui->valittajaEdit->text());
+
+    if( !ui->ryhmaCombo->selectedDatas().isEmpty())
+        map.insert("ryhmat", ui->ryhmaCombo->selectedDatas());
 
     KpKysely* kysely = nullptr;    
         kysely = id_ ? kpk( QString("/kumppanit/%1").arg(id_) , KpKysely::PUT ) :

@@ -37,9 +37,9 @@ AlvSivu::AlvSivu() :
     ui->setupUi(this);
     model = new AlvIlmoitustenModel(this);
 
-    ui->kausiCombo->addItem("Kuukausi",QVariant(1));
-    ui->kausiCombo->addItem("Neljännesvuosi",QVariant(3));
-    ui->kausiCombo->addItem("Vuosi", QVariant(12));
+    ui->kausiCombo->addItem("Kuukausi",1);
+    ui->kausiCombo->addItem("Neljännesvuosi",3);
+    ui->kausiCombo->addItem("Vuosi", 12);
     ui->ilmoituksetView->setModel( model );
     ui->ilmoituksetView->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->ilmoituksetView->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -62,6 +62,7 @@ void AlvSivu::siirrySivulle()
     ui->viimeisinEdit->setDate( kp()->asetukset()->pvm("AlvIlmoitus"));
     model->lataa();
     riviValittu();      // Jotta napit harmaantuvat
+    paivitaSeuraavat();
 
     for(int i=0; i<3; i++)
         ui->ilmoituksetView->horizontalHeader()->resizeSection(i, ui->ilmoituksetView->width() / 4 );

@@ -1,0 +1,102 @@
+/*
+   Copyright (C) 2019 Arto Hyvättinen
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+#include "tilikarttapaivitys.h"
+
+#include "uusikirjanpito/uusivelho.h"
+
+#include "db/kirjanpito.h"
+#include "db/yhteysmodel.h"
+#include <QDate>
+
+#include <QJsonDocument>
+#include <QMap>
+#include <QMessageBox>
+#include <QDebug>
+
+
+TilikarttaPaivitys::TilikarttaPaivitys(QWidget *parent)
+    : MaaritysWidget(parent),
+      ui( new Ui::TilikarttaPaivitys)
+{
+    ui->setupUi(this);
+
+    connect( ui->paivitaNappi, &QPushButton::clicked, this, &TilikarttaPaivitys::paivita);
+}
+
+bool TilikarttaPaivitys::nollaa()
+{
+    ui->karttaNimi->setText( kp()->asetus("Tilikartta") );
+
+    QDate nykypvm = kp()->asetukset()->pvm("TilikarttaPvm");
+    QDate uusipvm = paivitysPvm();
+
+    ui->nykyPvm->setText( nykypvm.toString("dd.MM.yyyy"));
+    ui->uusiPvm->setText( uusipvm.toString("dd.MM.yyyy"));
+
+    ui->paivitaNappi->setEnabled( uusipvm > nykypvm );
+    return true;
+}
+
+QDate TilikarttaPaivitys::paivitysPvm()
+{
+    QString polku = ":/tilikartat/" + kp()->asetus("VakioTilikartta");
+    QFile kartta(polku + "/tilikartta.json");
+    if( kartta.open(QIODevice::ReadOnly))
+        return  QJsonDocument::fromJson( kartta.readAll() ).toVariant().toMap().value("TilikarttaPvm").toDate();
+    return QDate();
+}
+
+bool TilikarttaPaivitys::onkoPaivitettavaa()
+{
+    QDate nykypvm = kp()->asetukset()->pvm("TilikarttaPvm");
+    QDate uusipvm = paivitysPvm();
+    return uusipvm > nykypvm;
+}
+
+void TilikarttaPaivitys::paivita()
+{
+    KpKysely *kysely = kpk("/init", KpKysely::PATCH);
+
+    connect( kysely, &KpKysely::vastaus, [this] { QMessageBox::information( this,
+             tr("Tilikartta päivitetty"), tr("Tilikartta päivitetty uuteen versioon")); } );
+
+    connect( kysely, &KpKysely::vastaus, kp()->yhteysModel(), &YhteysModel::alusta);
+    connect( kysely, &KpKysely::vastaus, kp(), &Kirjanpito::perusAsetusMuuttui);
+
+
+    QString polku = ":/tilikartat/" + kp()->asetus("VakioTilikartta");
+
+    qDebug() << lataaPaivitys( polku );
+
+    kysely->kysy( lataaPaivitys( polku ) );
+}
+
+QVariantMap TilikarttaPaivitys::lataaPaivitys(const QString &polku)
+{
+    QVariantMap map;
+
+    map.insert("asetukset", UusiVelho::asetukset(polku) );
+
+    {
+        QFile tilit(polku + "/tilit.json");
+        if( tilit.open(QIODevice::ReadOnly) )
+            map.insert("tilit", QJsonDocument::fromJson( tilit.readAll() ).toVariant() );
+    }
+
+    return map;
+}
+

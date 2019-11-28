@@ -851,16 +851,19 @@
     "numero": 1900,
     "tyyppi": "ARK",
     "nimi": {
-      "fi": "Käteisvarat"
+      "fi": "Käteisvarat",
+      "sv": "Kontanter",
+      "en": "Cash money"
     },
-    "laajuus": 1,
-    "laskulle": 1
+    "laajuus": 1
   },
   {
     "numero": 1910,
     "tyyppi": "ARP",
     "nimi": {
-      "fi": "Pankkitili"
+      "fi": "Pankkitili",
+      "sv": "Bankkonto",
+      "en": "Bank account"
     },
     "laajuus": 1
   },
@@ -1403,7 +1406,7 @@
     },
     "laajuus": 3,
     "ohje": {
-      "fi": "Tähän kirjataan oma-aloitteiset verot () ja työnantajan sairausvakuutusmaksu, joita ei ole vielä maksettu."
+      "fi": "Tähän kirjataan oma-aloitteiset verot ja työnantajan sairausvakuutusmaksu, joita ei ole vielä maksettu."
     }
   },
   {
@@ -1960,7 +1963,7 @@
   },
   {
     "numero": 4921,
-    "tyyppi": "D",
+    "tyyppi": "DBP",
     "nimi": {
       "fi": "Rahaliikenteen kulut"
     },
@@ -2167,7 +2170,7 @@
     },
     "laajuus": 3,
     "ohje": {
-      "fi": "TyEL, YEL tms. lakisääteinen eläkevakuutusmaksu."
+      "fi": "TyEL tms. lakisääteinen eläkevakuutusmaksu."
     }
   },
   {
@@ -2438,6 +2441,14 @@
     "laajuus": 5
   },
   {
+    "numero": 7099,
+    "tyyppi": "DVE",
+    "nimi": {
+      "fi": "Tulovero elinkeinotoiminnasta"
+    },
+    "laajuus": 5
+  },
+  {
     "numero": 73,
     "tyyppi": "H3",
     "nimi": {
@@ -2647,7 +2658,7 @@
   },
   {
     "numero": 9050,
-    "tyyppi": "C",
+    "tyyppi": "CBK",
     "nimi": {
       "fi": "Korkotuotot"
     },
@@ -2678,7 +2689,7 @@
   },
   {
     "numero": 9150,
-    "tyyppi": "D",
+    "tyyppi": "DBK",
     "nimi": {
       "fi": "Korkokulut"
     },

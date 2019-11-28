@@ -20,7 +20,7 @@
 #include "db/kirjanpito.h"
 
 Naytin::PrintPreviewNaytin::PrintPreviewNaytin(QObject *parent)
-    : AbstraktiNaytin (parent), widget_{ new QPrintPreviewWidget( new QPrinter(QPrinter::HighResolution) ) }
+    : AbstraktiNaytin (parent), widget_{ new QPrintPreviewWidget( kp()->printer() ) }
 {
     connect( widget_, &QPrintPreviewWidget::paintRequested, this, &PrintPreviewNaytin::tulosta );
 }

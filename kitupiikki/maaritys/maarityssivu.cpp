@@ -37,11 +37,11 @@
 #include "tilikarttaohje.h"
 #include "inboxmaaritys.h"
 #include "finvoicemaaritys.h"
+#include "tilikarttapaivitys.h"
+#include "maksutapasivu.h"
+#include "tositesarjamaaritys.h"
 
 #include "ui_laskumaaritys.h"
-
-
-#include "uusikp/paivitakirjanpito.h"
 
 #include <QDebug>
 
@@ -51,12 +51,14 @@ MaaritysSivu::MaaritysSivu() :
 
     lista = new QListWidget;
 
-    lisaaSivu("Näyttöfontti", ULKOASU, QIcon(":/pic/teksti.png"));
-    lisaaSivu("Perusvalinnat", PERUSVALINNAT, QIcon(":/pic/asetusloota.png"));
-    lisaaSivu("Tilikartta", TILIKARTTA, QIcon(":/pic/valilehdet.png"));
-    lisaaSivu("Kohdennukset", KOHDENNUS, QIcon(":/pic/kohdennus.png"));
-    lisaaSivu("Tilinavaus", TILINAVAUS, QIcon(":/pic/rahaa.png"));
-    lisaaSivu("Laskutus", LASKUTUS, QIcon(":/pic/lasku.png"));
+    lisaaSivu(tr("Näyttöfontti"), ULKOASU, QIcon(":/pic/teksti.png"));
+    lisaaSivu(tr("Perusvalinnat"), PERUSVALINNAT, QIcon(":/pic/asetusloota.png"),"perus");
+    lisaaSivu(tr("Tililuettelo"), TILIKARTTA, QIcon(":/pic/valilehdet.png"), "tilit");
+    lisaaSivu(tr("Kohdennukset"), KOHDENNUS, QIcon(":/pic/kohdennus.png"), "kohdennukset");
+    lisaaSivu(tr("Tilinavaus"), TILINAVAUS, QIcon(":/pic/rahaa.png"), "tilinavaus");
+    lisaaSivu(tr("Laskutus"), LASKUTUS, QIcon(":/pic/lasku.png"));
+    lisaaSivu(tr("Maksutavat"), MAKSUTAVAT, QIcon(":/pic/kateinen.png"), "maksutavat");
+    lisaaSivu(tr("Tositesarjat"), TOSITESARJAT, QIcon(":/pic/arkisto64.png"),"tositesarjat");
 //    lisaaSivu("Sähköpostin lähetys", SAHKOPOSTI, QIcon(":/pic/email.png"));
 //    lisaaSivu("Verkkolasku", VERKKOLASKU, QIcon(":/pic/verkkolasku.png"));
 //    lisaaSivu("Tuonti", TUONTI, QIcon(":/pic/tuotiedosto.png"));
@@ -64,6 +66,9 @@ MaaritysSivu::MaaritysSivu() :
 //    lisaaSivu("Raportit", RAPORTIT, QIcon(":/pic/print.png"));
 //    lisaaSivu("Tilinpäätöksen malli", LIITETIETOKAAVA, QIcon(":/pic/tekstisivu.png"));
 //    lisaaSivu("Tilikartan ohje", TILIKARTTAOHJE, QIcon(":/pic/ohje.png"));
+    lisaaSivu("Tilikartan päivitys", PAIVITYS, QIcon(":/pic/paivita.png"),"paivita");
+
+
 
     connect( lista, SIGNAL(currentItemChanged(QListWidgetItem*,QListWidgetItem*)), this, SLOT(valitseSivu(QListWidgetItem*)));
 
@@ -90,9 +95,7 @@ MaaritysSivu::MaaritysSivu() :
     connect( tallennanappi, SIGNAL(clicked(bool)), this, SLOT(tallenna()));
     connect( kp(), SIGNAL(tilikausiPaatetty()), this, SLOT(paivitaNakyvat()));
 
-    connect( kp(), &Kirjanpito::tietokantaVaihtui, [this] { if(nykyinen) { delete nykyinen; nykyinen=nullptr; } lista->setCurrentRow(0); });
     connect( kp(), &Kirjanpito::perusAsetusMuuttui, this, &MaaritysSivu::paivitaNakyvat);
-
 }
 
 void MaaritysSivu::siirrySivulle()
@@ -202,6 +205,10 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         Ui::LaskuValinnat *ui = new Ui::LaskuValinnat;
         ui->setupUi(nykyinen);
     }
+    else if( sivu == MAKSUTAVAT)
+        nykyinen = new MaksutapaSivu;
+    else if( sivu == TOSITESARJAT)
+        nykyinen = new TositesarjaMaaritys;
     else if( sivu == TUONTI)
         nykyinen = new TuontiMaaritysWidget;
     else if(sivu == SAHKOPOSTI)
@@ -212,6 +219,8 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
         nykyinen = new InboxMaaritys;
     else if( sivu == VERKKOLASKU)
         nykyinen = new FinvoiceMaaritys;
+    else if( sivu == PAIVITYS)
+        nykyinen = new TilikarttaPaivitys;
     else
         nykyinen = new Perusvalinnat;   // Tilipäinen
 
@@ -233,17 +242,10 @@ void MaaritysSivu::valitseSivu(QListWidgetItem *item)
 
 void MaaritysSivu::valitseSivu(const QString& otsikko)
 {
-
-    for(int i=0; i < lista->count(); i++)
-    {
-        QListWidgetItem *item = lista->item(i);
-        if( item->text() == otsikko )
-        {
-            lista->setCurrentItem(item);
-            return;
-        }
-    }
+    valitseSivu( item(otsikko) );
 }
+
+
 
 void MaaritysSivu::paivitaNakyvat()
 {
@@ -252,17 +254,41 @@ void MaaritysSivu::paivitaNakyvat()
 
     // Tilinavaus
     // Jos tilit avattavissa eikä avaustilikautta ole vielä päätetty
-    QListWidgetItem *item = lista->item( TILINAVAUS );
-    item->setHidden( kp()->asetukset()->luku("Tilinavaus") == 0 || kp()->tilitpaatetty() > kp()->asetukset()->pvm("TilinavausPvm") );
+
+    item( TILINAVAUS )->setHidden( kp()->asetukset()->luku("Tilinavaus") == 0 || kp()->tilitpaatetty() > kp()->asetukset()->pvm("TilinavausPvm") );
+    item( PAIVITYS )->setHidden( !TilikarttaPaivitys::onkoPaivitettavaa() );
 
 }
 
 
-void MaaritysSivu::lisaaSivu(const QString &otsikko, MaaritysSivu::Sivut sivu, const QIcon &kuvake)
+void MaaritysSivu::lisaaSivu(const QString &otsikko, MaaritysSivu::Sivut sivu, const QIcon &kuvake, const QString& nimi)
 {
     QListWidgetItem *item = new QListWidgetItem();
     item->setText( otsikko );
     item->setIcon(kuvake);
     item->setData( Qt::UserRole, QVariant(sivu));
+    item->setData( Qt::UserRole + 1, nimi.isEmpty() ? otsikko : nimi);
     lista->addItem( item);
+}
+
+QListWidgetItem *MaaritysSivu::item(const QString nimi)
+{
+    for(int i=0; i < lista->count(); i++)
+    {
+        QListWidgetItem *item = lista->item(i);
+        if( item->data(Qt::UserRole+1).toString() == nimi )
+            return item;
+    }
+    return nullptr;
+}
+
+QListWidgetItem *MaaritysSivu::item(int sivu)
+{
+    for(int i=0; i < lista->count(); i++)
+    {
+        QListWidgetItem *item = lista->item(i);
+        if( item->data(Qt::UserRole).toInt() == sivu )
+            return item;
+    }
+    return nullptr;
 }

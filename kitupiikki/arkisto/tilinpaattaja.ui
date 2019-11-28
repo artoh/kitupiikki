@@ -211,7 +211,7 @@
      <property name="title">
       <string>Tilinpäätös</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout_2">
+     <layout class="QFormLayout" name="formLayout">
       <item row="0" column="0">
        <widget class="QLabel" name="label_5">
         <property name="text">
@@ -289,18 +289,33 @@
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QPushButton" name="tulostaNappi">
-        <property name="text">
-         <string>&amp;Esikatsele ja tulosta ...</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../pic/pic.qrc">
-          <normaloff>:/pic/print.png</normaloff>:/pic/print.png</iconset>
-        </property>
-        <property name="autoDefault">
-         <bool>false</bool>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <item>
+         <widget class="QPushButton" name="tulostaNappi">
+          <property name="text">
+           <string>&amp;Tilinpäätös</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../pic/pic.qrc">
+            <normaloff>:/pic/print.png</normaloff>:/pic/print.png</iconset>
+          </property>
+          <property name="autoDefault">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="mappiNappi">
+          <property name="text">
+           <string>Kirjanpito&amp;aineisto</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../pic/pic.qrc">
+            <normaloff>:/pic/arkisto64.png</normaloff>:/pic/arkisto64.png</iconset>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item row="3" column="0">
        <widget class="QLabel" name="label_8">

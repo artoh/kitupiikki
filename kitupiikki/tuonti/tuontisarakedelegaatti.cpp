@@ -20,6 +20,10 @@
 
 #include <QComboBox>
 
+namespace Tuonti {
+
+
+
 TuontiSarakeDelegaatti::TuontiSarakeDelegaatti(QObject *parent)
     : QItemDelegate(parent), tuokirjauksia_(true)
 {
@@ -41,45 +45,47 @@ QWidget *TuontiSarakeDelegaatti::createEditor(QWidget *parent, const QStyleOptio
 
     int tyyppi = index.data(CsvTuonti::TyyppiRooli).toInt();
 
-    combo->addItem(tr("Ei tuoda"), CsvTuonti::EITUODA);
+    comboon(combo, CsvTuonti::EITUODA);
+
 
     if(  tyyppi >= CsvTuonti::SUOMIPVM)
-        combo->addItem(tr("Päivämäärä"), CsvTuonti::PAIVAMAARA);
+        comboon(combo, CsvTuonti::PAIVAMAARA);
     else if( tuokirjauksia_ && ( tyyppi == CsvTuonti::LUKU || tyyppi == CsvTuonti::LUKUTEKSTI))
     {
-        combo->addItem(tr("Tilin numero"), CsvTuonti::TILINUMERO);
-        combo->addItem(tr("Arvonlisävero%"), CsvTuonti::ALVPROSENTTI);
-        combo->addItem(tr("Arvonlisäverokoodi"), CsvTuonti::ALVKOODI);
+        comboon(combo, CsvTuonti::TILINUMERO);
+        comboon(combo, CsvTuonti::ALVPROSENTTI);
+        comboon(combo, CsvTuonti::ALVKOODI);
     }
     else if( tuokirjauksia_ &&  tyyppi == CsvTuonti::RAHA)
     {
-        combo->addItem(tr("Debet euroa"), CsvTuonti::DEBETEURO);
-        combo->addItem(tr("Kredit euroa"), CsvTuonti::KREDITEURO);
-        combo->addItem(tr("Määrä euroa"), CsvTuonti::RAHAMAARA);
-        combo->addItem(tr("Arvonlisävero% (bruttokirjaus)"), CsvTuonti::BRUTTOALVP);
+        comboon(combo, CsvTuonti::DEBETEURO);
+        comboon(combo, CsvTuonti::KREDITEURO);
+        comboon(combo, CsvTuonti::RAHAMAARA);
+        comboon(combo, CsvTuonti::BRUTTOALVP);
     }
     else if( tyyppi == CsvTuonti::RAHA || tyyppi == CsvTuonti::LUKU)
     {
-        combo->addItem(tr("Määrä euroa"), CsvTuonti::RAHAMAARA);
+        comboon(combo, CsvTuonti::RAHAMAARA);
     }
     else if( !tuokirjauksia_ && tyyppi == CsvTuonti::VIITE)
-        combo->addItem(tr("Viitenumero"), CsvTuonti::VIITENRO);
+        comboon(combo, CsvTuonti::VIITENRO);
     else if( !tuokirjauksia_ && tyyppi == CsvTuonti::TILI )
-        combo->addItem(tr("IBAN-tilinumero"), CsvTuonti::IBAN);
-
+        comboon(combo, CsvTuonti::IBAN);
+    if( tyyppi == CsvTuonti::LUKU && !tuokirjauksia_)
+        comboon(combo, CsvTuonti::KTOKOODI);
     if( tyyppi == CsvTuonti::TEKSTI || tyyppi == CsvTuonti::LUKUTEKSTI
             || tyyppi == CsvTuonti::LUKU)
     {
-        combo->addItem("Selite", CsvTuonti::SELITE);
-        if( !tuokirjauksia_)
-            combo->addItem("Arkistotunnus", CsvTuonti::ARKISTOTUNNUS);
-        else
-        {
-            combo->addItem("Tositteen tunnus", CsvTuonti::TOSITETUNNUS);
+        comboon(combo, CsvTuonti::SELITE);
+        if( !tuokirjauksia_) {
+            comboon(combo, CsvTuonti::SAAJAMAKSAJA);
+            comboon(combo, CsvTuonti::ARKISTOTUNNUS);
+        } else {
+            comboon(combo, CsvTuonti::TOSITETUNNUS);
             if( tyyppi == CsvTuonti::TEKSTI)
             {
-                combo->addItem("Kohdennus", CsvTuonti::KOHDENNUS);
-                combo->addItem("Tilin nimi", CsvTuonti::TILINIMI);
+                comboon(combo, CsvTuonti::KOHDENNUS);
+                comboon(combo, CsvTuonti::TILINIMI);
             }
         }
     }
@@ -103,3 +109,9 @@ void TuontiSarakeDelegaatti::asetaTyyppi(bool kirjauksia)
     tuokirjauksia_ = kirjauksia;
 }
 
+void TuontiSarakeDelegaatti::comboon(QComboBox *combo, int tyyppi)
+{
+    combo->addItem( CsvTuonti::tuontiTeksti(tyyppi), tyyppi );
+}
+
+}

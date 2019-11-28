@@ -24,29 +24,6 @@
 
 #include "db/tili.h"
 #include "db/kohdennus.h"
-#include "db/eranvalintamodel.h"
-
-/**
- * @brief SelausModel:in yhden rivin (viennin) tiedot
- */
-struct SelausRivi
-{
-    int tositeId;
-    QDate pvm;
-    Tili tili;
-    Kohdennus kohdennus;
-
-    QString selite;
-    qlonglong debetSnt;
-    qlonglong kreditSnt;
-    TaseEra taseEra;
-    QString tositetunniste;
-    QString lajiteltavaTositetunniste;
-    QStringList tagit;
-    bool eraMaksettu = false;
-    int vientiId;
-    bool liitteita = false;
-};
 
 /**
  * @brief Selaussivun model vientien selaamiseen
@@ -77,7 +54,6 @@ public slots:
     void tietoSaapuu(QVariant *map);
 
 protected:
-    QList<SelausRivi> rivit;
     QStringList tileilla;
 
     QVariantList lista_;

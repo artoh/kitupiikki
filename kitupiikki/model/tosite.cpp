@@ -45,7 +45,8 @@ QVariant Tosite::data(int kentta) const
 void Tosite::setData(int kentta, QVariant arvo)
 {
 
-    if( data_.value( avaimet__.at(kentta)).toString() == arvo.toString()) {
+    if( data_.value( avaimet__.at(kentta)).toString() == arvo.toString() &&
+        !data_.value( avaimet__.at(kentta)).toString().isEmpty() ) {
         return;
     }
 
@@ -80,6 +81,7 @@ QString Tosite::tilateksti(int tila)
 {
     switch (tila) {
     case POISTETTU: return tr("Poistettu");
+    case SAAPUNUT: return tr("Saapunut");
     case LUONNOS: return tr("Luonnos");
     case VALMISLASKU: return tr("Lähettämättä");
     case KIRJANPIDOSSA: return tr("Kirjanpidossa");

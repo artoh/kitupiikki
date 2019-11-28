@@ -45,6 +45,7 @@
 #include "pilvi/pilvimodel.h"
 #include "sqlite/sqlitemodel.h"
 #include "tositetyyppimodel.h"
+#include "rekisteri/ryhmatmodel.h"
 
 Kirjanpito::Kirjanpito(const QString& portableDir) :
     QObject(nullptr),
@@ -56,6 +57,7 @@ Kirjanpito::Kirjanpito(const QString& portableDir) :
     veroTyypit_( new VerotyyppiModel(this)),
     tiliTyypit_( new TilityyppiModel(this)),
     tuotteet_( new TuoteModel(this)),
+    ryhmat_( new RyhmatModel(this)),
     tempDir_(nullptr),
     portableDir_(portableDir),
     pilviModel_(new PilviModel(this)),
@@ -269,6 +271,8 @@ void Kirjanpito::yhteysAvattu(YhteysModel *model)
         connect( logokysely, &KpKysely::vastaus, this, &Kirjanpito::logoSaapui);
         logokysely->kysy();
     }
+    tuotteet()->lataa();
+    ryhmat()->paivita();
 }
 
 bool Kirjanpito::lataaUudelleen()

@@ -174,8 +174,8 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
         verokoodi != AlvKoodi::YHTEISOMYYNTI_TAVARAT && verokoodi != AlvKoodi::YHTEISOMYYNTI_PALVELUT)
         vienti.setAlvProsentti( alvprosentti());
 
-    if( tosite->kumppani())
-        vienti.setKumppani( tosite->kumppani() );
+    if( !tosite->data(Tosite::KUMPPANI).isNull() )
+        vienti.set(TositeVienti::KUMPPANI, tosite->data(Tosite::KUMPPANI) );
 
     if( poistoaika())
         vienti.setTasaerapoisto( poistoaika());

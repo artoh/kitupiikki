@@ -56,5 +56,4 @@ void Naytin::RaporttiNaytin::tulosta(QPrinter *printer) const
     QPainter painter(printer);
     raportti_.tulosta(printer, &painter, onkoRaidat());
 
-    qDebug() << printer->supportedResolutions();
 }
