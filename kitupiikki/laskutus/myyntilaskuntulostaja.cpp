@@ -50,6 +50,8 @@ QByteArray MyyntiLaskunTulostaja::pdf(const QVariantMap &lasku, bool ikkunakuore
     buffer.open(QIODevice::WriteOnly);
 
     QPdfWriter writer(&buffer);
+    writer.setPageSize( QPdfWriter::A4);
+    writer.setPageMargins( QMarginsF(10,10,10,10), QPageLayout::Millimeter );
     QPainter painter(&writer);
 
     writer.setCreator(QString("%1 %2").arg( qApp->applicationName() ).arg( qApp->applicationVersion() ));
@@ -447,7 +449,7 @@ void MyyntiLaskunTulostaja::tilisiirto(QPagedPaintDevice *printer, QPainter *pai
     double mm = printer->width() * 1.00 / printer->widthMM();
 
     // QR-koodi
-    if( !kp()->asetukset()->onko("LaskuEiQR"))
+    if( kp()->asetukset()->onko("LaskuQR"))
     {
         QByteArray qrTieto = qrSvg();
         if( !qrTieto.isEmpty())
@@ -457,6 +459,14 @@ void MyyntiLaskunTulostaja::tilisiirto(QPagedPaintDevice *printer, QPainter *pai
         }
     }
 
+    double loppu = painter->window().width();
+    double pv = (loppu - 20 * mm) / 2 + 20 * mm;
+    double osle = (painter->window().width() - 20 * mm) / 2;
+    double viervi = pv + 20 * mm;
+    double eurv = (painter->window().width() - 20 * mm) * 3 / 4 + 20 * mm;
+
+
+
     painter->drawText( QRectF(0,0,mm*19,mm*16.9), Qt::AlignRight | Qt::AlignHCenter, t("bst"));
     painter->drawText( QRectF(0, mm*18, mm*19, mm*14.8), Qt::AlignRight | Qt::AlignHCenter, t("bsa"));
     painter->drawText( QRectF(0, mm*32.7, mm*19, mm*20), Qt::AlignRight | Qt::AlignTop, t("bmo"));
@@ -464,47 +474,47 @@ void MyyntiLaskunTulostaja::tilisiirto(QPagedPaintDevice *printer, QPainter *pai
     painter->drawText( QRectF(0, mm*62.3, mm*19, mm*8.5), Qt::AlignRight | Qt::AlignHCenter, t("btl"));
     painter->drawText( QRectF(mm * 22, 0, mm*20, mm*10), Qt::AlignLeft, t("iban"));
 
-    painter->drawText( QRectF(mm*112.4, mm*53.8, mm*15, mm*8.5), Qt::AlignLeft | Qt::AlignTop, t("bvn"));
-    painter->drawText( QRectF(mm*112.4, mm*62.3, mm*15, mm*8.5), Qt::AlignLeft | Qt::AlignTop, t("bep"));
-    painter->drawText( QRectF(mm*159, mm*62.3, mm*19, mm*8.5), Qt::AlignLeft, t("eur"));
+    painter->drawText( QRectF(pv + 2 * mm, mm*53.8, mm*15, mm*8.5), Qt::AlignLeft | Qt::AlignTop, t("bvn"));
+    painter->drawText( QRectF(pv + 2 * mm, mm*62.3, mm*15, mm*8.5), Qt::AlignLeft | Qt::AlignTop, t("bep"));
+    painter->drawText( QRectF(eurv + 2 * mm, mm*62.3, mm*19, mm*8.5), Qt::AlignLeft, t("eur"));
 
 
     painter->setFont(QFont("FreeSans",6));
-    painter->drawText( QRectF( mm * 140, mm * 72, mm * 60, mm * 20), Qt::AlignLeft | Qt::TextWordWrap, t("behto") );
+    painter->drawText( QRectF( loppu - mm * 60, mm * 72, mm * 60, mm * 20), Qt::AlignLeft | Qt::TextWordWrap, t("behto") );
     painter->setPen( QPen( QBrush(Qt::black), mm * 0.5));
-    painter->drawLine(QLineF(mm*111.4,0,mm*111.4,mm*69.8));
-    painter->drawLine(QLineF(0, mm*16.9, mm*111.4, mm*16.9));
-    painter->drawLine(QLineF(0, mm*31.7, mm*111.4, mm*31.7));
+    painter->drawLine(QLineF(pv,0,pv,mm*69.8));
+    painter->drawLine(QLineF(0, mm*16.9, pv, mm*16.9));
+    painter->drawLine(QLineF(0, mm*31.7, pv, mm*31.7));
     painter->drawLine(QLineF(mm*20, 0, mm*20, mm*31.7));
-    painter->drawLine(QLineF(0, mm*61.3, mm*200, mm*61.3));
-    painter->drawLine(QLineF(0, mm*69.8, mm*200, mm*69.8));
-    painter->drawLine(QLineF(mm*111.4, mm*52.8, mm*200, mm*52.8));
-    painter->drawLine(QLineF(mm*131.4, mm*52.8, mm*131.4, mm*69.8));
-    painter->drawLine(QLineF(mm*158, mm*61.3, mm*158, mm*69.8));
+    painter->drawLine(QLineF(0, mm*61.3, loppu, mm*61.3));
+    painter->drawLine(QLineF(0, mm*69.8, loppu, mm*69.8));
+    painter->drawLine(QLineF(pv, mm*52.8, loppu, mm*52.8));
+    painter->drawLine(QLineF(pv + mm * 19 , mm*52.8, pv + mm * 19, mm*69.8));
+    painter->drawLine(QLineF(eurv, mm*61.3, eurv, mm*69.8));
     painter->drawLine(QLineF(mm*20, mm*61.3, mm*20, mm*69.8));
 
     painter->setPen( QPen(QBrush(Qt::black), mm * 0.13));
-    painter->drawLine( QLineF( mm*22, mm*57.1, mm*108, mm*57.1));
+    painter->drawLine( QLineF( mm*22, mm*57.1, pv - 3 * mm, mm*57.1));
 
     painter->setPen( QPen(QBrush(Qt::black), mm * 0.13, Qt::DashLine));
-    painter->drawLine( QLineF( 0, -1 * mm, painter->window().width(), -1 * mm));
+    painter->drawLine( QLineF( 0, -1 * mm, loppu, -1 * mm));
 
     painter->setFont(QFont("FreeSans", 10));
 
-    painter->drawText(QRectF( mm*22, mm * 33, mm * 90, mm * 25), Qt::TextWordWrap,  map_.value("lasku").toMap().value("osoite").toString() );
+    painter->drawText(QRectF( mm*22, mm * 33, osle, mm * 25), Qt::TextWordWrap,  map_.value("lasku").toMap().value("osoite").toString() );
 
-    painter->drawText( QRectF(mm*133.4, mm*53.8, mm*60, mm*7.5), Qt::AlignLeft | Qt::AlignBottom, muotoiltuViite() );
+    painter->drawText( QRectF(viervi + 2 * mm, mm * 53.8 ,loppu - viervi - 4*mm, mm*7.5), Qt::AlignLeft | Qt::AlignBottom, muotoiltuViite() );
 
-    painter->drawText( QRectF(mm*133.4, mm*62.3, mm*30, mm*7.5), Qt::AlignLeft | Qt::AlignBottom, map_.value("lasku").toMap().value("erapvm").toDate().toString("dd.MM.yyyy") );
-    painter->drawText( QRectF(mm*165, mm*62.3, mm*30, mm*7.5), Qt::AlignRight | Qt::AlignBottom, QString("%L1").arg( laskunSumma_ ,0,'f',2) );
+    painter->drawText( QRectF(viervi + 2 * mm , mm*62.3, eurv - viervi - 4 * mm , mm*7.5), Qt::AlignLeft | Qt::AlignBottom, map_.value("lasku").toMap().value("erapvm").toDate().toString("dd.MM.yyyy") );
+    painter->drawText( QRectF(eurv, mm*62.3, loppu - eurv - 10 * mm, mm*7.5), Qt::AlignRight | Qt::AlignBottom, QString("%L1").arg( laskunSumma_ ,0,'f',2) );
 
-    painter->drawText( QRectF(mm*22, mm*17, mm*90, mm*13), Qt::AlignTop | Qt::TextWordWrap, kp()->asetus("Nimi") + "\n" + kp()->asetus("Osoite")  );
+    painter->drawText( QRectF(mm*22, mm*17, osle, mm*13), Qt::AlignTop | Qt::TextWordWrap, kp()->asetus("Nimi") + "\n" + kp()->asetus("Osoite")  );
 
     QString tilinumerot;
     for(auto iban : ibanit_)
         tilinumerot.append(valeilla(iban) + '\n');
 
-    painter->drawText( QRectF(mm*22, 0, mm*90, mm*17), Qt::AlignVCenter ,  tilinumerot  );
+    painter->drawText( QRectF(mm*22, 0, osle, mm*17), Qt::AlignVCenter ,  tilinumerot  );
 
 
     painter->save();
@@ -523,7 +533,7 @@ void MyyntiLaskunTulostaja::tilisiirto(QPagedPaintDevice *printer, QPainter *pai
         koodifontti.setLetterSpacing(QFont::AbsoluteSpacing, 0.0);
         painter->setFont( koodifontti);
         QString koodi( code128() );
-        painter->drawText( QRectF( mm*20, mm*72, mm*100, mm*13), Qt::AlignCenter, koodi  );
+        painter->drawText( QRectF( mm*10, mm*72, mm*100, mm*13), Qt::AlignCenter, koodi  );
 
         painter->restore();
     }
@@ -630,7 +640,7 @@ QByteArray MyyntiLaskunTulostaja::qrSvg() const
     // Esitettävä tieto
     QString data("BCD\n001\n1\nSCT\n");
 
-    QString bic = bicIbanilla(iban_);
+    QString bic = bicIbanilla(ibanit_.value(0));
     if( bic.isEmpty())
         return QByteArray();
     data.append(bic + "\n");

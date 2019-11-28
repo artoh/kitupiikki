@@ -61,9 +61,9 @@ public slots:
     virtual void paivita() const = 0;
     virtual void tulosta(QPrinter* printer) const = 0;
 
-    virtual void zoomIn() {;}
-    virtual void zoomOut() {;}
-    virtual void zoomFit() {;}
+    virtual void zoomIn() {}
+    virtual void zoomOut() {}
+    virtual void zoomFit() {}
 
 private:
     bool raidat_ {false};

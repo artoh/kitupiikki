@@ -27,7 +27,7 @@ QVariant AlvRoute::get(const QString &/*polku*/, const QUrlQuery &/*urlquery*/)
 {
     QSqlQuery kysely(db());
 
-    kysely.exec( QString("SELECT id, json FROM Tosite WHERE tyyppi=%1 "
+    kysely.exec( QString("SELECT id, json FROM Tosite WHERE tyyppi=%1 AND tila>=100 "
                          "ORDER BY pvm DESC").arg(TositeTyyppi::ALVLASKELMA));
 
     QVariantList kyselyntulos = resultList(kysely);

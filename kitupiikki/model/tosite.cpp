@@ -45,7 +45,8 @@ QVariant Tosite::data(int kentta) const
 void Tosite::setData(int kentta, QVariant arvo)
 {
 
-    if( data_.value( avaimet__.at(kentta)).toString() == arvo.toString()) {
+    if( data_.value( avaimet__.at(kentta)).toString() == arvo.toString() &&
+        !data_.value( avaimet__.at(kentta)).toString().isEmpty() ) {
         return;
     }
 
