@@ -142,6 +142,7 @@ int main(int argc, char *argv[])
 
     // Viivakoodifontti
     QFontDatabase::addApplicationFont(":/lasku/code128_XL.ttf");
+    QFontDatabase::addApplicationFont(":/aloitus/FreeSans.ttf");
 
     KitupiikkiIkkuna ikkuna;
 
