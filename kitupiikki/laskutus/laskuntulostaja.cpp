@@ -47,7 +47,7 @@ bool LaskunTulostaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, boo
     {
         painter->save();
         painter->setPen( QPen(Qt::green));
-        painter->setFont( QFont("Sans",14));
+        painter->setFont( QFont("FreeSans",14));
         painter->drawText(QRect( 0, 0, painter->window().width(), painter->window().height() ), Qt::AlignTop | Qt::AlignRight, QString("HARJOITUS") );
         painter->restore();
     }
@@ -78,7 +78,7 @@ bool LaskunTulostaja::tulosta(QPagedPaintDevice *printer, QPainter *painter, boo
                    .arg( model_->viittausLasku().pvm.toString("dd.MM.yyyy"))
                    .arg( model_->viittausLasku().erapvm.toString("dd.MM.yyyy"));
 
-        painter->setFont( QFont("Sans", 10));
+        painter->setFont( QFont("FreeSans", 10));
         QRectF ltRect = painter->boundingRect(QRect(0,0,painter->window().width(), painter->window().height()), Qt::TextWordWrap, maksutieto );
         painter->drawText(ltRect, Qt::TextWordWrap, maksutieto );
         painter->translate( 0, ltRect.height() + painter->fontMetrics().height());  // Vähän väliä
@@ -317,9 +317,9 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter,
     painter->setPen( QPen(QBrush(Qt::black), mm * 0.2));
 
     // Lasketaan rivinkorkeus. Tehdään painterin kautta, jotta toimii myös pdf-writerillä
-    painter->setFont( QFont("Sans",OTSAKEPT) );
+    painter->setFont( QFont("FreeSans",OTSAKEPT) );
     double rk = painter->fontMetrics().height();
-    painter->setFont(QFont("Sans",TEKSTIPT));
+    painter->setFont(QFont("FreeSans",TEKSTIPT));
     rk += painter->fontMetrics().height();
     rk += 2 * mm;
 
@@ -368,20 +368,20 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter,
         vasen += rk * 2.2 * skaala;
 
     }
-    painter->setFont(QFont("Sans",14));
+    painter->setFont(QFont("FreeSans",14));
     double pv = painter->fontMetrics().height();    
     QString nimi = kp()->asetukset()->onko("LogossaNimi") ? QString() : ( kp()->asetukset()->asetus("LaskuAputoiminimi").isEmpty() ? kp()->asetukset()->asetus("Nimi") : kp()->asetukset()->asetus("LaskuAputoiminimi") );   // Jos nimi logossa, sitä ei toisteta
     QRectF lahettajaRect = painter->boundingRect( QRectF( lahettajaAlue.x()+vasen, lahettajaAlue.y(),
                                                        lahettajaAlue.width()-vasen, 20 * mm), Qt::TextWordWrap, nimi );
     painter->drawText(QRectF( lahettajaRect), Qt::AlignLeft | Qt::TextWordWrap, nimi);
 
-    painter->setFont(QFont("Sans",9));
+    painter->setFont(QFont("FreeSans",9));
     QRectF lahettajaosoiteRect = painter->boundingRect( QRectF( lahettajaAlue.x()+vasen, lahettajaAlue.y() + lahettajaRect.height(),
                                                        lahettajaAlue.width()-vasen, 20 * mm), Qt::TextWordWrap, kp()->asetus("Osoite") );
     painter->drawText(lahettajaosoiteRect, Qt::AlignLeft, kp()->asetus("Osoite") );
 
     // Tulostetaan saajan osoite ikkunaan
-    painter->setFont(QFont("Sans", TEKSTIPT));
+    painter->setFont(QFont("FreeSans", TEKSTIPT));
     painter->drawText(ikkuna, Qt::TextWordWrap, model_->osoite());
 
     pv += rk ;     // pv = perusviiva
@@ -396,7 +396,7 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter,
 
     painter->drawLine(QLineF(puoliviiva, pv-rk, puoliviiva, pv));
 
-    painter->setFont( QFont("Sans",OTSAKEPT) );
+    painter->setFont( QFont("FreeSans",OTSAKEPT) );
 
     painter->drawLine(QLineF(keskiviiva, pv-rk, keskiviiva, pv + 2 * rk));
 
@@ -440,7 +440,7 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter,
         painter->drawLine(QLineF(puoliviiva, pv+rk, puoliviiva, pv+rk*2));
     }
 
-    painter->setFont(QFont("Sans", TEKSTIPT));
+    painter->setFont(QFont("FreeSans", TEKSTIPT));
 
     painter->drawText(QRectF( keskiviiva + mm, pv - rk, leveys / 4, rk-mm ), Qt::AlignBottom, kp()->paivamaara().toString("dd.MM.yyyy") );
     painter->drawText(QRectF( keskiviiva + mm, pv + mm, leveys / 4, rk-mm ), Qt::AlignBottom,  model_->toimituspaiva().toString("dd.MM.yyyy") );
@@ -463,9 +463,9 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter,
     {
         if( model_->tyyppi() == LaskuModel::MAKSUMUISTUTUS)
         {
-            painter->setFont( QFont("Sans", TEKSTIPT+2,QFont::Black));
+            painter->setFont( QFont("FreeSans", TEKSTIPT+2,QFont::Black));
             painter->drawText(QRectF( keskiviiva + mm, pv - rk * 2, (leveys - keskiviiva)/2, rk-mm ), Qt::AlignBottom,  t("maksumuistutus") );
-            painter->setFont(QFont("Sans", TEKSTIPT));
+            painter->setFont(QFont("FreeSans", TEKSTIPT));
         }
         else
             painter->drawText(QRectF( keskiviiva + mm, pv - rk * 2, (leveys -keskiviiva)/2, rk-mm ), Qt::AlignBottom,  t("laskuotsikko") );
@@ -483,7 +483,7 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter,
     qreal ruutukorkeus = model_->asiakkaanViite().isEmpty() ? pv + rk * 2 : pv + rk *3;
     qreal ikkunakorkeus = ikkuna.y() + ikkuna.height() + 5 * mm;
 
-    painter->setFont( QFont("Sans", 10));
+    painter->setFont( QFont("FreeSans", 10));
     QString lisatieto = model_->lisatieto();
 
     QRectF lisatiedotRuudunalle = painter->boundingRect(QRectF(keskiviiva, ruutukorkeus + rk/2, leveys-keskiviiva, painter->window().height()), Qt::TextWordWrap, lisatieto );
@@ -508,7 +508,7 @@ void LaskunTulostaja::ylaruudukko(QPagedPaintDevice *printer, QPainter *painter,
 qreal LaskunTulostaja::alatunniste(QPagedPaintDevice *printer, QPainter *painter)
 {
     painter->save();
-    painter->setFont( QFont("Sans",10));
+    painter->setFont( QFont("FreeSans",10));
     qreal rk = painter->fontMetrics().height();
     painter->translate(0, -4.5 * rk);
 
@@ -518,17 +518,17 @@ qreal LaskunTulostaja::alatunniste(QPagedPaintDevice *printer, QPainter *painter
     painter->setPen( QPen(QBrush(Qt::black), mm * 0.2));
     painter->drawRect(QRectF(leveys * 4 / 5, 0, leveys / 5, rk * 2));
 
-    painter->setFont( QFont("Sans",8));
+    painter->setFont( QFont("FreeSans",8));
     painter->drawText(QRectF(leveys * 4 / 5 + mm, 0 + mm, leveys / 5, rk), t("Yhteensa"));
-    painter->setFont( QFont("Sans", 11,QFont::Bold));
+    painter->setFont( QFont("FreeSans", 11,QFont::Bold));
     painter->drawText(QRectF(leveys * 4 / 5, 0, leveys / 5-mm, rk * 2), Qt::AlignBottom | Qt::AlignRight,QString("%L1 €").arg( (model_->laskunSumma() / 100.0) ,0,'f',2) );
 
     if( model_->laskunSumma()>0 )
     {
         painter->drawRect(QRectF(leveys * 3 / 5, 0, leveys / 5, rk * 2));
-        painter->setFont( QFont("Sans",8));
+        painter->setFont( QFont("FreeSans",8));
         painter->drawText(QRectF(leveys * 3 / 5 + mm, 0 + mm, leveys / 5, rk), t("erapvm"));
-        painter->setFont( QFont("Sans", 11));
+        painter->setFont( QFont("FreeSans", 11));
 
 
         if(model_->kirjausperuste() == LaskuModel::KATEISLASKU )
@@ -542,18 +542,18 @@ qreal LaskunTulostaja::alatunniste(QPagedPaintDevice *printer, QPainter *painter
             painter->drawRect(QRectF(leveys * 2 / 5, 0, leveys / 5, rk * 2));
             painter->drawRect(QRectF(0, 0, leveys * 2 / 5, rk * 2));
 
-            painter->setFont( QFont("Sans",8));
+            painter->setFont( QFont("FreeSans",8));
             painter->drawText(QRectF(leveys * 2 / 5 + mm, 0 + mm, leveys / 5, rk), t("viitenro"));
             painter->drawText(QRectF(mm, 0 + mm, leveys * 2 / 5, rk), t("iban"));
 
-            painter->setFont( QFont("Sans", 11));
+            painter->setFont( QFont("FreeSans", 11));
             painter->drawText(QRectF(leveys * 2 / 5, 0, leveys / 5-mm, rk * 2), Qt::AlignBottom | Qt::AlignRight,  muotoiltuViite() );
             painter->drawText(QRectF(0, 0, leveys * 2 / 5 -mm, rk * 2), Qt::AlignBottom | Qt::AlignRight, valeilla(iban) );
         }
     }
 
     painter->translate(0, 2.1 * rk );
-    painter->setFont(QFont("Sans",8));
+    painter->setFont(QFont("FreeSans",8));
     painter->drawText(QRectF(0,0,leveys/5*2,rk), Qt::AlignLeft, kp()->asetukset()->asetus("Nimi")  );
     painter->drawText(QRectF(0, painter->fontMetrics().height(),leveys/5*2,rk), Qt::AlignLeft, kp()->asetukset()->asetus("Sahkoposti")  );
 
@@ -627,12 +627,12 @@ void LaskunTulostaja::erittely(LaskuModel *model, QPagedPaintDevice *printer, QP
 
         if( alvLista.first().vero() > 1e-7)
         {
-            painter->setFont(QFont("Sans",8));
+            painter->setFont(QFont("FreeSans",8));
             painter->drawText(QRectF( leveys * 5 / 8, 0, leveys / 8, rk), Qt::AlignRight, t("veroton"));
             painter->drawText(QRectF( leveys * 6 / 8, 0, leveys / 8, rk), Qt::AlignRight, t("vero"));
             painter->drawText(QRectF( leveys * 7 / 8, 0, leveys / 8, rk), Qt::AlignRight, t("verollinen"));
             painter->translate(0, painter->fontMetrics().height());
-            painter->setFont(QFont("Sans",10));
+            painter->setFont(QFont("FreeSans",10));
         }
 
         painter->drawLine(QLineF(3*leveys / 8.0, 0, leveys, 0));
@@ -676,7 +676,7 @@ void LaskunTulostaja::erittely(LaskuModel *model, QPagedPaintDevice *printer, QP
 
 void LaskunTulostaja::erittelyOtsikko(QPagedPaintDevice *printer, QPainter *painter, bool alv)
 {    
-    painter->setFont( QFont("Sans",8));
+    painter->setFont( QFont("FreeSans",8));
     qreal rk = painter->fontMetrics().height();
     qreal leveys = painter->window().width();
     double mm = printer->width() * 1.00 / printer->widthMM();
@@ -700,13 +700,13 @@ void LaskunTulostaja::erittelyOtsikko(QPagedPaintDevice *printer, QPainter *pain
     painter->setPen( QPen(QBrush(Qt::black), mm * 0.13));
     painter->drawLine( QLineF( 0, rk, leveys, rk));
     painter->translate(0, rk * 1.1);
-    painter->setFont( QFont("Sans",10));
+    painter->setFont( QFont("FreeSans",10));
 
 }
 
 void LaskunTulostaja::tilisiirto(QPagedPaintDevice *printer, QPainter *painter)
 {
-    painter->setFont(QFont("Sans", 7));
+    painter->setFont(QFont("FreeSans", 7));
     double mm = printer->width() * 1.00 / printer->widthMM();
 
     // QR-koodi
@@ -724,7 +724,7 @@ void LaskunTulostaja::tilisiirto(QPagedPaintDevice *printer, QPainter *painter)
     QString virtViivakoodi = virtuaaliviivakoodi();
     if( virtViivakoodi.length() == 54)
     {
-        painter->setFont(QFont("Sans", 7));
+        painter->setFont(QFont("FreeSans", 7));
         painter->drawText( QRectF( mm * 112.5, mm * 43.5, mm * 30,  mm * 8.5), Qt::AlignLeft, t("virtviiv") + ":");
         painter->drawText( QRectF( mm * 112.5, mm * 46.5, mm * 110, mm * 8.5), Qt::AlignLeft, virtViivakoodi);
     }
@@ -741,7 +741,7 @@ void LaskunTulostaja::tilisiirto(QPagedPaintDevice *printer, QPainter *painter)
     painter->drawText( QRectF(mm*159, mm*62.3, mm*19, mm*8.5), Qt::AlignLeft, t("eur"));
 
 
-    painter->setFont(QFont("Sans",6));
+    painter->setFont(QFont("FreeSans",6));
     painter->drawText( QRectF( mm * 140, mm * 72, mm * 60, mm * 20), Qt::AlignLeft | Qt::TextWordWrap, t("behto") );
     painter->setPen( QPen( QBrush(Qt::black), mm * 0.5));
     painter->drawLine(QLineF(mm*111.4,0,mm*111.4,mm*69.8));
@@ -761,7 +761,7 @@ void LaskunTulostaja::tilisiirto(QPagedPaintDevice *printer, QPainter *painter)
     painter->setPen( QPen(QBrush(Qt::black), mm * 0.13, Qt::DashLine));
     painter->drawLine( QLineF( 0, -1 * mm, painter->window().width(), -1 * mm));
 
-    painter->setFont(QFont("Sans", 10));
+    painter->setFont(QFont("FreeSans", 10));
 
     painter->drawText(QRectF( mm*22, mm * 33, mm * 90, mm * 25), Qt::TextWordWrap, model_->osoite());
 
@@ -775,7 +775,7 @@ void LaskunTulostaja::tilisiirto(QPagedPaintDevice *printer, QPainter *painter)
 
 
     painter->save();
-    painter->setFont(QFont("Sans", 7));
+    painter->setFont(QFont("FreeSans", 7));
     painter->translate(mm * 2, mm* 60);
     painter->rotate(-90.0);
     painter->drawText(0,0,t("btilis"));

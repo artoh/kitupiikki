@@ -156,8 +156,7 @@ void AlvSivu::riviValittu()
     ui->tilitysNappi->setEnabled( index.isValid() );
     ui->erittelyNappi->setEnabled( index.isValid() );
     ui->poistaTilitysNappi->setEnabled( index.isValid() &&
-                                        index.data(AlvIlmoitustenModel::PaattyyRooli).toDate() == kp()->asetukset()->pvm("AlvIlmoitus")  &&
-                                        index.data(AlvIlmoitustenModel::EraPvmRooli).toDate() >= kp()->paivamaara() );
+                                        index.data(AlvIlmoitustenModel::PaattyyRooli).toDate() < kp()->tilitpaatetty() );
 
 }
 

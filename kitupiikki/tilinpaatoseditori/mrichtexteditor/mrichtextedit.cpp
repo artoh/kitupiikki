@@ -322,7 +322,7 @@ void MRichTextEdit::textStyle(int index) {
         cursor.select(QTextCursor::BlockUnderCursor);
         }
     QTextCharFormat fmt;
-    fmt.setFontFamily("Sans");
+    fmt.setFontFamily("FreeSans");
     cursor.setCharFormat(fmt);
     f_textedit->setCurrentCharFormat(fmt);
 

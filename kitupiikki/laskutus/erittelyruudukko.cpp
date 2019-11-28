@@ -89,12 +89,12 @@ void ErittelyRuudukko::tulostaErittely(QPagedPaintDevice *printer, QPainter *pai
     qreal sivunleveys = painter->window().width();
 
     // Aloitetaan otsikoista
-    painter->setFont( QFont("Sans",8));
+    painter->setFont( QFont("FreeSans",8));
     for( QString otsikko : otsikot_)
         leveydet_.append( painter->fontMetrics().width(otsikko) );
 
     // Sitten data
-    painter->setFont( QFont("Sans", 10));
+    painter->setFont( QFont("FreeSans", 10));
     for( const QStringList& rivi : ruudut_)
     {
         for(int i=0; i < rivi.count(); i++)
@@ -184,13 +184,13 @@ void ErittelyRuudukko::tulostaErittelyOtsikko(QPagedPaintDevice *printer, QPaint
 
     if(sivuntunniste)
     {
-        painter->setFont(QFont("Sans",10));
+        painter->setFont(QFont("FreeSans",10));
         painter->drawText( QRectF(0,0,sivunleveys/2,painter->fontMetrics().height()), Qt::AlignLeft, kp()->asetukset()->asetus("LaskuAputoiminimi").isEmpty() ? kp()->asetukset()->asetus("Nimi") : kp()->asetukset()->asetus("LaskuAputoiminimi"));
         painter->drawText( QRectF(sivunleveys/2,0,sivunleveys/2, painter->fontMetrics().height()), Qt::AlignRight, kp()->paivamaara().toString("dd.MM.yyyy"));
         painter->translate(0, painter->fontMetrics().height()*2);
     }
 
-    painter->setFont(QFont("Sans",8));
+    painter->setFont(QFont("FreeSans",8));
     qreal x = 0;
     for(int i=0; i<leveydet_.count(); i++)
     {
@@ -202,5 +202,5 @@ void ErittelyRuudukko::tulostaErittelyOtsikko(QPagedPaintDevice *printer, QPaint
     painter->translate(0, painter->fontMetrics().height());
     painter->drawLine(QLineF(0,0,sivunleveys,0));
     painter->translate(0, mm);
-    painter->setFont(QFont("Sans",10));
+    painter->setFont(QFont("FreeSans",10));
 }
