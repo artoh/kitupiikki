@@ -226,6 +226,7 @@ void KitupiikkiIkkuna::kirjanpitoLadattu()
 
     edellisetIndeksit.clear();  // Tyhjennetään "selaushistoria"
     piilotaAlvJosEiVerovelvollinen();
+    valitseSivu(ALOITUSSIVU);
 }
 
 void KitupiikkiIkkuna::palaaSivulta()
@@ -303,10 +304,7 @@ void KitupiikkiIkkuna::ktpKasky(const QString& kasky)
             arkistosivu->tilinpaatosKasky();
             // Varmistaa, että tilinpäätös kohdistuu oikealle tilikaudelle
     }
-    else if( kasky == "paivitatilikartta")
-    {
-        aloitussivu->siirrySivulle();   // Päivitä aloitussivu, jotta päivitysinfo katoaa
-    }
+
 }
 
 void KitupiikkiIkkuna::naytaOnni(const QString &teksti)

@@ -39,26 +39,30 @@ public:
     void nayta();
     void tallenna();
 
+
     virtual void tulosta(QPagedPaintDevice *writer) const override;
     virtual QString otsikko() const override;
+
+    static void tulostaKansilehti(QPainter *painter, const QString otsikko, Tilikausi kausi);
 
 signals:
     void tallennettu();
 
 private:
     void tilaaRaportit();
-    void tulostaKansilehti(QPainter *painter) const;
+
 
 protected:
     void tilaaRaportti(const QString& raportinnimi);
 
 protected slots:
     void raporttiSaapuu(int raportti, RaportinKirjoittaja rk);
-    void kirjoita();
+
 
 protected:
     Tilikausi tilikausi_;
     QVector<RaportinKirjoittaja> kirjoittajat_;
+    QVector<RaportinKirjoittaja> lisaKirjoittajat_;
     int tilattuja_;
     QString teksti_;
     QStringList raportit_;

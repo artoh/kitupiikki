@@ -23,13 +23,18 @@ KumppanitRoute::KumppanitRoute(SQLiteModel *model) :
 
 }
 
-QVariant KumppanitRoute::get(const QString &polku, const QUrlQuery &/*urlquery*/)
+QVariant KumppanitRoute::get(const QString &polku, const QUrlQuery &urlquery)
 {
     QSqlQuery kysely(db());
 
     if( polku.isEmpty())
     {
-        kysely.exec("SELECT id,nimi,alvtunnus FROM Kumppani ORDER BY nimi");
+        if( urlquery.hasQueryItem("ryhma"))
+            kysely.exec(QString("SELECT id,nimi,alvtunnus FROM Kumppani "
+                                "JOIN KumppaniRyhmassa ON Kumppani.id=KumppaniRyhmassa.kumppani "
+                                "WHERE ryhma=%1 ORDER BY nimi").arg(urlquery.queryItemValue("ryhma").toInt()));
+        else
+            kysely.exec("SELECT id,nimi,alvtunnus FROM Kumppani ORDER BY nimi");
         return resultList(kysely);
     }
 
@@ -61,6 +66,14 @@ QVariant KumppanitRoute::get(const QString &polku, const QUrlQuery &/*urlquery*/
     if( kysely.next())
         kumppani.insert("tulotili", kysely.value(0));
 
+    // Ryhmat
+    QVariantList ryhmat;
+    kysely.exec(QString("SELECT ryhma FROM KumppaniRyhmassa WHERE kumppani=%1").arg(kumppaniid));
+    while(kysely.next())
+        ryhmat.append(kysely.value(0));
+    if(!ryhmat.isEmpty())
+        kumppani.insert("ryhmat", ryhmat);
+
     return kumppani;
 }
 
@@ -72,6 +85,7 @@ QVariant KumppanitRoute::post(const QString &/*polku*/, const QVariant &data)
     QString nimi = map.take("nimi").toString();
     QString alvtunnus = map.take("alvtunnus").toString();
     QVariantList iban = map.take("iban").toList();
+    QVariantList ryhmat = map.take("ryhmat").toList();
 
     QSqlQuery kysely(db());
 
@@ -97,6 +111,17 @@ QVariant KumppanitRoute::post(const QString &/*polku*/, const QVariant &data)
             throw SQLiteVirhe(kysely);
         }
     }
+
+    kysely.prepare("INSERT INTO KumppaniRyhmassa (kumppani,ryhma) VALUES (?,?)");
+    for( QVariant ryhma : ryhmat) {
+        kysely.addBindValue(id);
+        kysely.addBindValue(ryhma.toInt());
+        if(!kysely.exec()) {
+            db().rollback();
+            throw SQLiteVirhe(kysely);
+        }
+    }
+
     db().commit();
 
     kopio.insert("id", id);
@@ -112,6 +137,7 @@ QVariant KumppanitRoute::put(const QString &polku, const QVariant &data)
     QString nimi = map.take("nimi").toString();
     QString alvtunnus = map.take("alvtunnus").toString();
     QVariantList iban = map.take("iban").toList();
+    QVariantList ryhmat = map.take("ryhmat").toList();
 
     QSqlQuery kysely(db());
 
@@ -139,6 +165,19 @@ QVariant KumppanitRoute::put(const QString &polku, const QVariant &data)
             throw SQLiteVirhe(kysely);
         }
     }
+
+    kysely.exec(QString("DELETE FROM KumppaniRyhmassa WHERE kumppani=%1").arg(id));
+
+    kysely.prepare("INSERT INTO KumppaniRyhmassa (kumppani,ryhma) VALUES (?,?)");
+    for( QVariant ryhma : ryhmat) {
+        kysely.addBindValue(id);
+        kysely.addBindValue(ryhma.toInt());
+        if(!kysely.exec()) {
+            db().rollback();
+            throw SQLiteVirhe(kysely);
+        }
+    }
+
     db().commit();
 
     return kopio;

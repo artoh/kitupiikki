@@ -18,6 +18,7 @@
 #define ERACOMBO_H
 
 #include <QComboBox>
+#include <QDate>
 
 class EraCombo : public QComboBox
 {
@@ -30,6 +31,7 @@ public:
     };
 
     int valittuEra() const;
+    QVariantMap eraMap() const;
 
 public slots:
     void lataa(int tili);
@@ -44,7 +46,9 @@ private slots:
     void valintaMuuttui();
 
 private:
-    int valittuna_;
+    int valittuna_;    
+    QVariantList data_;
+
 };
 
 #endif // ERACOMBO_H

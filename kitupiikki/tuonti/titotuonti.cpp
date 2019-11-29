@@ -16,15 +16,19 @@
 */
 
 #include "titotuonti.h"
+#include <QDate>
+#include <QByteArray>
+
+namespace Tuonti {
 
 
-TitoTuonti::TitoTuonti(KirjausWg *wg) :
-    VanhaTuonti( wg )
+
+TitoTuonti::TitoTuonti()
 {
 
 }
 
-bool TitoTuonti::tuo(const QByteArray &data)
+QVariantMap TitoTuonti::tuo(const QByteArray &data)
 {
     // Haistellaan tiedoston koodaus
     QString str = QString::fromLocal8Bit(data);
@@ -40,30 +44,28 @@ bool TitoTuonti::tuo(const QByteArray &data)
     QStringList rivit = str.split("\r\n");
 
     if( !rivit.count())
-        return false;
+        return QVariantMap();
 
-    ekarivi( rivit.takeFirst());
+    QVariantMap map = ekarivi( rivit.takeFirst());
+    QVariantList tapahtumat;
 
-    // Sitten käydään tiliote lävitse
-    QDate pvm;
-    qlonglong sentit = 0;
-    QString iban;
-    QString viite;
-    QString arkistotunnus;
-    QString selite;
+    // Sitten käydään tiliote lävitse    
     int tasotunnus = 0;
 
+    QVariantMap rmap;
+    QString selite;
+
     for( const QString& rivi : rivit )
-    {
+    {        
         if( rivi.startsWith("T11"))
         {            
             // Täydentävää tietoa - tästä poimitaan saajan IBAN
             if( rivi.midRef(6,2) == "11")
             {
-                iban = rivi.mid(43,35).simplified();
+                map.insert("iban", rivi.mid(43,35).simplified());
                 // Myös mahdollinen euromuotoinen viite
                 if( rivi.midRef(8,35).startsWith("RF"))
-                    viite = rivi.mid(8,35).simplified();
+                    rmap.insert("viite",rivi.mid(8,35).simplified());
             }
             // Vapaa lisätieto
             else if( rivi.midRef(6,2) == "00" )
@@ -71,7 +73,7 @@ bool TitoTuonti::tuo(const QByteArray &data)
                 // Koska OP ei käytä asianmukaisesti 11-tyypin tietuetta,
                 // poimitaan viite myös 00-tietueesta
                 if( rivi.midRef(8,35).startsWith("RF"))
-                    viite = rivi.mid(8,35).simplified();
+                    rmap.insert("viite",rivi.mid(8,35).simplified());
                 else
                 {
                     if( !selite.isEmpty() && !selite.right(1).isEmpty())
@@ -85,47 +87,51 @@ bool TitoTuonti::tuo(const QByteArray &data)
             {
                 if( !selite.isEmpty() && !selite.right(1).isEmpty())
                     selite.append(' ');
-                selite.append( QString("%1 kpl").arg( rivi.midRef(8,8).toInt() ) );
+                selite.append( QString("VIITEMAKSUJA %1 kpl").arg( rivi.midRef(8,8).toInt() ) );
             }
 
         }
         else
         {
             // Rivin tallentaminen
+            rmap.insert("selite", selite);
             int rivintaso = rivi.mid(187,1).simplified().toInt();
-            if( pvm.isValid() && rivintaso <= tasotunnus)
-                oterivi(pvm, sentit, iban, viite, arkistotunnus, selite);
+            if( rmap.value("pvm").toDate().isValid() && rivintaso <= tasotunnus)
+                tapahtumat.append(rmap);
 
-            pvm = QDate();
-            sentit = 0;
-            iban.clear();
-            viite.clear();
-            arkistotunnus.clear();
+            rmap.clear();
             selite.clear();
         }
 
         if( rivi.startsWith("T10") )
         {
-            pvm = QDate::fromString( rivi.mid(30,6), "yyMMdd" ).addYears(100);
-            sentit = rivi.mid(88,18).toLongLong();
+            rmap.insert("pvm",QDate::fromString( rivi.mid(30,6), "yyMMdd" ).addYears(100));
+            rmap.insert("ktokoodi", rivi.mid(49,3).toInt());
+            qlonglong sentit = rivi.mid(88,18).toLongLong();
             if( rivi.at(87) == QChar('-'))
-                sentit = 0-sentit;
-            viite = rivi.mid(159,20);
-            arkistotunnus = rivi.mid(12,18).simplified();
-            selite = rivi.mid(108,35).simplified();
-            if( selite.isEmpty())
-                selite = rivi.mid(52,35).simplified();
+                sentit = 0-sentit;            
+            rmap.insert("euro", sentit / 100.0);
+            rmap.insert("saajamaksaja", rivi.mid(108,35).simplified());
+            rmap.insert("viite",rivi.mid(159,20).simplified());
+            rmap.insert("arkistotunnus", rivi.mid(12,18).simplified());
             tasotunnus = rivi.mid(187,1).simplified().toInt();
         }
     }
-    return false;
+    map.insert("tapahtumat", tapahtumat);
+    return map;
 }
 
-void TitoTuonti::ekarivi(const QString &rivi)
+QVariantMap TitoTuonti::ekarivi(const QString &rivi)
 {
     // Aloittaa tiliotteen tuomisen
-    QDate mista = QDate::fromString( rivi.mid(26,6),"yyMMdd" ).addYears(100);
-    QDate mihin = QDate::fromString( rivi.mid(32,6),"yyMMdd").addYears(100);
-    QString iban = rivi.mid(292,18);
-    tiliote(iban, mista, mihin);
+    QVariantMap map;
+    map.insert("tyyppi",400);
+    map.insert("alkupvm", QDate::fromString( rivi.mid(26,6),"yyMMdd" ).addYears(100));
+    map.insert("loppupvm", QDate::fromString( rivi.mid(32,6),"yyMMdd").addYears(100));
+    map.insert("iban", rivi.mid(292,18));
+
+    return map;
+
+}
+
 }

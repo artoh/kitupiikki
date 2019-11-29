@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>633</width>
-    <height>703</height>
+    <width>609</width>
+    <height>905</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -37,7 +37,7 @@
       <item row="0" column="1">
        <widget class="QLabel" name="label_4">
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Kustannuspaikka&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Kustannuspaikat ovat yleensä pysyviä, kuten osastot, jaostot tai eri toiminnot&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Kustannuspaikka&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Kustannuspaikkoja voivat olla osastot, jaostot, toiminnot tai yksittäiset tapahtumat.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>

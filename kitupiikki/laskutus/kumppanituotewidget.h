@@ -35,11 +35,12 @@ public:
     explicit KumppaniTuoteWidget(QWidget *parent = nullptr);
     ~KumppaniTuoteWidget();
 
-    enum { REKISTERI, ASIAKKAAT, TOIMITTAJAT, TUOTTEET };
+    enum { REKISTERI, ASIAKKAAT, TOIMITTAJAT, TUOTTEET, RYHMAT };
 
 public slots:
     void nayta(int valilehti);
     void suodata(const QString& suodatus);
+    void suodataRyhma(int ryhma);
 
 private slots:
     void ilmoitaValinta();
@@ -50,15 +51,16 @@ private slots:
 
 signals:
     void kumppaniValittu(const QString& nimi);
+    void ryhmaValittu(int ryhma);
 
 private:
     Ui::KumppaniTuoteWidget *ui;
 
     QSortFilterProxyModel *proxy_;
     AsiakkaatModel* asiakkaat_;
-    TuoteModel* tuotteet_;
 
     int valilehti_;
+    int ryhma_ = 0;
 };
 
 #endif // KUMPPANITUOTEWIDGET_H

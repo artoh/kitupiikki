@@ -44,6 +44,8 @@ public:
     void asetaKohdennus(int kohdennus) { nykyinenKohdennus = kohdennus; invalidate(); }
     void asetaNaytettavat(Naytettavat naytetaan) { naytettavat = naytetaan; invalidate(); }
 
+    static QVariantList tagiValikko(const QDate& pvm, const QVariantList& valitut, QPoint sijainti);
+
 protected:
     virtual bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
 

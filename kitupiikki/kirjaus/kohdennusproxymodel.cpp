@@ -37,6 +37,34 @@ void KohdennusProxyModel::asetaVali(const QDate &alkupvm, const QDate &loppupvm)
     invalidate();
 }
 
+QVariantList KohdennusProxyModel::tagiValikko(const QDate &pvm, const QVariantList &valitut, QPoint sijainti)
+{
+    // Valikko tägien valitsemiseen
+        QMenu tagvalikko;
+
+        KohdennusProxyModel proxy(nullptr, pvm, -1, MERKKKAUKSET);
+        for(int i=0; i < proxy.rowCount(QModelIndex()); i++)
+        {
+            QModelIndex pInd = proxy.index(i, 0);
+            QAction *aktio = tagvalikko.addAction( QIcon(":/pic/tag.png"), pInd.data(KohdennusModel::NimiRooli).toString());
+            aktio->setData( pInd.data(KohdennusModel::IdRooli) );
+            aktio->setCheckable(true);
+            if( valitut.contains( QVariant( pInd.data(KohdennusModel::IdRooli) ) ) )
+                aktio->setChecked(true);
+        }
+
+        tagvalikko.exec( sijainti );
+
+        // Uusi valinta, jossa valitut tagit
+        QVariantList uusivalinta;
+        for( QAction* aktio : tagvalikko.actions() )
+        {
+            if( aktio->isChecked())
+                uusivalinta.append( aktio->data());
+        }
+        return uusivalinta;
+}
+
 bool KohdennusProxyModel::filterAcceptsRow(int source_row, const QModelIndex & source_parent) const
 {
     QModelIndex index = sourceModel()->index(source_row, 0, source_parent);

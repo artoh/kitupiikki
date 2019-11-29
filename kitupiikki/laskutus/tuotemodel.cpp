@@ -102,11 +102,10 @@ QVariantMap TuoteModel::tuoteMap(int indeksi) const
 void TuoteModel::lataa()
 {
     KpKysely *kys = kpk("/tuotteet");
-    connect( kys, &KpKysely::vastaus, this, &TuoteModel::dataSaapuu);
-    kys->kysy();
-
-    return;
-
+    if( kys ) {
+        connect( kys, &KpKysely::vastaus, this, &TuoteModel::dataSaapuu);
+        kys->kysy();
+    }
 }
 
 void TuoteModel::dataSaapuu(QVariant *data)

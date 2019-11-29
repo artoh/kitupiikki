@@ -215,7 +215,7 @@ void MRichTextEdit::textRemoveFormat() {
     fmt.setFontStrikeOut  (false);
     fmt.setFontItalic     (false);
     fmt.setFontPointSize  (9);
-    fmt.setFontFamily     ("Helvetica");
+    fmt.setFontFamily     ("FreeSans");
     fmt.setFontStyleHint  (QFont::SansSerif);
     fmt.setFontFixedPitch (true);
 
@@ -322,7 +322,7 @@ void MRichTextEdit::textStyle(int index) {
         cursor.select(QTextCursor::BlockUnderCursor);
         }
     QTextCharFormat fmt;
-    fmt.setFontFamily("Sans");
+    fmt.setFontFamily("FreeSans");
     cursor.setCharFormat(fmt);
     f_textedit->setCurrentCharFormat(fmt);
 

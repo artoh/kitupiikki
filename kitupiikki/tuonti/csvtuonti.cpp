@@ -25,16 +25,19 @@
 #include "tilimuuntomodel.h"
 #include "tuontiapu.h"
 #include "kirjaus/tilidelegaatti.h"
-
+#include "db/kirjanpito.h"
 
 #include "validator/ibanvalidator.h"
 #include "validator/viitevalidator.h"
 
-#include "kirjaus/kirjauswg.h"
 #include "ui_tilimuuntodlg.h"
 
-CsvTuonti::CsvTuonti(KirjausWg *wg)
-    : VanhaTuonti( wg ), ui( new Ui::CsvTuonti)
+namespace Tuonti {
+
+
+
+CsvTuonti::CsvTuonti()
+    : ui( new Ui::CsvTuonti)
 {
     ui->setupUi(this);
 }
@@ -44,16 +47,23 @@ CsvTuonti::~CsvTuonti()
     delete ui;
 }
 
-bool CsvTuonti::tuo(const QByteArray &data)
+QVariantMap CsvTuonti::tuo(const QByteArray &data)
 {
-    /*
+    CsvTuonti tuonti;
+    return tuonti.tuonti(data);
+}
+
+QVariantMap CsvTuonti::tuonti(const QByteArray &data)
+{
     tuoListaan( data );
     if( csv_.count() < 2)
-        return false;
+        return QVariantMap();
 
+    QVariantMap tuotu;
+    QVariantList tapahtumat;
 
     ui->tuontiTable->setRowCount( muodot_.count() );
-    ui->tiliEdit->suodataTyypilla("AR.*");
+    ui->tiliCombo->suodataTyypilla("ARP");
 
     TuontiSarakeDelegaatti* delegaatti = new TuontiSarakeDelegaatti();
     ui->tuontiTable->setItemDelegateForColumn(2, delegaatti);
@@ -62,7 +72,7 @@ bool CsvTuonti::tuo(const QByteArray &data)
 
     connect( ui->kirjausRadio, SIGNAL(toggled(bool)), delegaatti, SLOT(asetaTyyppi(bool)));
     connect( ui->kirjausRadio, SIGNAL(toggled(bool)), this, SLOT(tarkistaTiliValittu()));
-    connect( ui->tiliEdit, SIGNAL(editingFinished()), this, SLOT(tarkistaTiliValittu()));
+    connect( ui->tiliCombo, &TiliCombo::tiliValittu, this, &CsvTuonti::tarkistaTiliValittu);
 
     // Arvioidaan, onko tiliote vai kirjaus
     if( otsikot.contains("arkistointitunnus", Qt::CaseInsensitive) ||
@@ -98,230 +108,245 @@ bool CsvTuonti::tuo(const QByteArray &data)
     connect( ui->ohjeNappi, &QPushButton::clicked, []{ kp()->ohje("kirjaus/tuonti");});
 
 
-
     if( exec() == QDialog::Accepted )
     {
         if( ui->kirjausRadio->isChecked())  // Tuo kirjauksia
-        {
-            QMap<QString,int> muuntotaulukko;
-
-            if( ui->muuntoRadio->isChecked())
-            {
-                // Tuodaan kirjauksia
-                // Ensiksi muuntotaulukko
-                QList<QPair<int,QString>> tilinimet;
-                QRegularExpression tiliRe("(\\d+)\\s?(.*)");                
-
-                for(int r=1; r < csv_.count(); r++)
-                {
-                    int tilinro = 0;
-                    QString tilinimi;
-                    for( int c=0; c < muodot_.count(); c++)
-                    {
-                        if( c  >= csv_.at(r).count() )
-                            continue;   // Rivimäärä ei täsmää
-
-                        int tuonti = ui->tuontiTable->item(c,2)->data(Qt::EditRole).toInt();
-                        QString tieto = csv_.at(r).at(c);
-                        if( tuonti == TILINUMERO)
-                        {
-                            QRegularExpressionMatch mats = tiliRe.match(tieto);
-                            tilinro = mats.captured(1).toInt();
-                            if( mats.captured(2).length() > 2)
-                                tilinimi = mats.captured(2);
-                        }
-                        else if( tuonti == TILINIMI)
-                            tilinimi = tieto;
-                    }
-                    if( !tilinimet.contains(qMakePair(tilinro, tilinimi)))
-                        tilinimet.append(qMakePair(tilinro, tilinimi));
-                }
-
-                TiliMuuntoModel muuntomodel( tilinimet );
-
-                QDialog muuntoDlg;
-                Ui::TiliMuunto mUi;
-                mUi.setupUi(&muuntoDlg);
-
-                mUi.muuntoView->setModel( &muuntomodel);
-                mUi.muuntoView->setItemDelegateForColumn( TiliMuuntoModel::UUSI , new TiliDelegaatti());
-                mUi.muuntoView->horizontalHeader()->setStretchLastSection(true);
-                connect( mUi.ohjeNappi, &QPushButton::clicked, []{ kp()->ohje("kirjaus/tuonti");});
-
-
-                if( muuntoDlg.exec() != QDialog::Accepted )
-                    return false;
-
-                // Muuntotaulun haku
-                muuntotaulukko = muuntomodel.muunnettu();
-
-            }
-
-            QRegularExpression numRe("\\d+");
-
-            for(int r=1; r < csv_.count(); r++)
-            {
-
-                VientiRivi rivi;
-                QString tositetunnus;
-                QString selite;
-
-
-                for( int c=0; c < muodot_.count(); c++)
-                {
-                    if( c >= csv_.at(r).count() )
-                        continue;
-
-                    int tuonti = ui->tuontiTable->item(c,2)->data(Qt::EditRole).toInt();
-                    QString tieto = csv_.at(r).at(c);
-                    qlonglong sentit = TuontiApu::sentteina(tieto);
-
-                    if( tuonti == PAIVAMAARA )
-                        if( muodot_.at(c) == SUOMIPVM)
-                            rivi.pvm = QDate::fromString(tieto, "d.M.yyyy");
-                        else if( muodot_.at(c) == ISOPVM )
-                            rivi.pvm = QDate::fromString(tieto, Qt::ISODate);
-                        else
-                            rivi.pvm = QDate::fromString(tieto, Qt::RFC2822Date);
-                    else if( tuonti == TOSITETUNNUS)
-                        tositetunnus = tieto;
-                    else if( tuonti == SELITE && !tieto.isEmpty())
-                    {
-                        if( !selite.isEmpty())
-                            selite.append(" ");
-                        selite.append(tieto);
-                    }
-                    else if( tuonti == TILINUMERO)
-                    {
-                        int nro = numRe.match(tieto).captured().toInt();
-                        if( nro )
-                        {
-                            if( muuntotaulukko.isEmpty())
-                                rivi.tili = kp()->tilit()->tiliNumerolla( nro );
-                            else
-                                rivi.tili = kp()->tilit()->tiliNumerolla(  muuntotaulukko.value( QString::number(nro) ) );
-                        }
-                    }
-                    else if( tuonti == TILINIMI)
-                    {
-                        if( !rivi.tili.onkoValidi())
-                            rivi.tili = kp()->tilit()->tiliNumerolla( muuntotaulukko.value(tieto) );
-                    }
-                    else if( tuonti == DEBETEURO)
-                        rivi.debetSnt = sentit;
-                    else if( tuonti == KREDITEURO)
-                        rivi.kreditSnt = sentit;
-                    else if( tuonti == RAHAMAARA)
-                    {
-                        if( sentit > 0)
-                            rivi.debetSnt = sentit;
-                        else
-                            rivi.kreditSnt = 0 - sentit;
-                    }
-                    else if( tuonti == KOHDENNUS)
-                        rivi.kohdennus = kp()->kohdennukset()->kohdennus(tieto);
-                    else if( (tuonti == BRUTTOALVP || tuonti == ALVPROSENTTI) && sentit )
-                    {
-                        rivi.alvprosentti =  static_cast<int>(  sentit / 100 );
-                    }
-                    else if( tuonti == ALVKOODI && sentit)
-                    {
-                        rivi.alvkoodi = static_cast<int>(sentit / 100);
-                    }
-                }
-
-                if( !tositetunnus.isEmpty())
-                    rivi.selite = QString("%1 : %2").arg(tositetunnus).arg(selite);
-                else
-                    rivi.selite = selite;
-
-                if( rivi.alvprosentti && !rivi.alvkoodi)
-                {
-                    if( rivi.debetSnt )
-                        rivi.alvkoodi = AlvKoodi::OSTOT_BRUTTO;
-                    else if(rivi.kreditSnt)
-                        rivi.alvkoodi = AlvKoodi::MYYNNIT_BRUTTO;
-                }
-
-//                kirjausWg()->model()->vientiModel()->lisaaVienti(rivi);
-            }
-
-        }
+            return kirjaukset();
         else
+            return tiliote();
+    }    
+    return QVariantMap();
+
+}
+
+QVariantMap CsvTuonti::kirjaukset()
+{
+    /*
+    QMap<QString,int> muuntotaulukko;
+
+    if( ui->muuntoRadio->isChecked())
+    {
+        // Tuodaan kirjauksia
+        // Ensiksi muuntotaulukko
+        QList<QPair<int,QString>> tilinimet;
+        QRegularExpression tiliRe("(\\d+)\\s?(.*)");
+
+        for(int r=1; r < csv_.count(); r++)
         {
-            // Tiliote
-            // Aluksi ei tiedetä aikaväliä
-            tiliote( ui->tiliEdit->valittuTili());
-
-            QDate alkaa;
-            QDate loppuu;
-
-            for(int r=1; r < csv_.count(); r++)
+            int tilinro = 0;
+            QString tilinimi;
+            for( int c=0; c < muodot_.count(); c++)
             {
+                if( c  >= csv_.at(r).count() )
+                    continue;   // Rivimäärä ei täsmää
 
-                QDate pvm;
-                qlonglong sentit = 0;
-                QString iban;
-                QString viite;
-                QString arkistotunnus;
-                QString selite;
-
-
-                for( int c=0; c < muodot_.count(); c++)
+                int tuonti = ui->tuontiTable->item(c,2)->data(Qt::EditRole).toInt();
+                QString tieto = csv_.at(r).at(c);
+                if( tuonti == TILINUMERO)
                 {
-                    int tuonti = ui->tuontiTable->item(c,2)->data(Qt::EditRole).toInt();
-                    if( c >= csv_.at(r).count())
-                        continue;
-
-                    QString tieto = csv_.at(r).at(c);
-
-                    if( tuonti == PAIVAMAARA )
-                    {
-                        if( muodot_.at(c) == SUOMIPVM)
-                            pvm = QDate::fromString(tieto, "d.M.yyyy");
-                        else if( muodot_.at(c) == ISOPVM )
-                            pvm = QDate::fromString(tieto, Qt::ISODate);
-                        else
-                            pvm = QDate::fromString(tieto, Qt::RFC2822Date);
-                    }
-                    else if( tuonti == IBAN)
-                    {
-                        tieto.remove(' ');
-                        // Jos suomalainen IBAN, poimitaan vain se. Tämä siksi, että
-                        // samalla kentällä voi olla myös BIC-kenttä
-                        if( tieto.startsWith("FI"))
-                          tieto = tieto.left(18);
-                        iban = tieto;
-                    }
-                    else if( tuonti == VIITENRO )
-                        viite = tieto;
-                    else if( tuonti == RAHAMAARA)
-                    {
-                        sentit = TuontiApu::sentteina(tieto);
-                    }
-                    else if( tuonti == SELITE && !tieto.isEmpty())
-                    {
-                        if( !selite.isEmpty())
-                            selite.append(" ");
-                        selite.append(tieto);
-                    }
-                    else if( tuonti == ARKISTOTUNNUS)
-                        arkistotunnus = tieto;
-
+                    QRegularExpressionMatch mats = tiliRe.match(tieto);
+                    tilinro = mats.captured(1).toInt();
+                    if( mats.captured(2).length() > 2)
+                        tilinimi = mats.captured(2);
                 }
-                if( !alkaa.isValid() || pvm < alkaa)
-                    alkaa = pvm;
-                if( !loppuu.isValid() || pvm > loppuu)
-                    loppuu = pvm;
-
-                oterivi(pvm, sentit, iban, viite, arkistotunnus, selite);
+                else if( tuonti == TILINIMI)
+                    tilinimi = tieto;
             }
-            tiliote(ui->tiliEdit->valittuTili(), alkaa, loppuu);
+            if( !tilinimet.contains(qMakePair(tilinro, tilinimi)))
+                tilinimet.append(qMakePair(tilinro, tilinimi));
         }
+
+        TiliMuuntoModel muuntomodel( tilinimet );
+
+        QDialog muuntoDlg;
+        Ui::TiliMuunto mUi;
+        mUi.setupUi(&muuntoDlg);
+
+        mUi.muuntoView->setModel( &muuntomodel);
+        mUi.muuntoView->setItemDelegateForColumn( TiliMuuntoModel::UUSI , new TiliDelegaatti());
+        mUi.muuntoView->horizontalHeader()->setStretchLastSection(true);
+        connect( mUi.ohjeNappi, &QPushButton::clicked, []{ kp()->ohje("kirjaus/tuonti");});
+
+
+        if( muuntoDlg.exec() != QDialog::Accepted )
+            return QVariantMap();
+
+        // Muuntotaulun haku
+        muuntotaulukko = muuntomodel.muunnettu();
+
+    }
+
+    QRegularExpression numRe("\\d+");
+
+    for(int r=1; r < csv_.count(); r++)
+    {
+
+        VientiRivi rivi;
+        QString tositetunnus;
+        QString selite;
+
+
+        for( int c=0; c < muodot_.count(); c++)
+        {
+            if( c >= csv_.at(r).count() )
+                continue;
+
+            int tuonti = ui->tuontiTable->item(c,2)->data(Qt::EditRole).toInt();
+            QString tieto = csv_.at(r).at(c);
+            qlonglong sentit = TuontiApu::sentteina(tieto);
+
+            if( tuonti == PAIVAMAARA )
+                if( muodot_.at(c) == SUOMIPVM)
+                    rivi.pvm = QDate::fromString(tieto, "d.M.yyyy");
+                else if( muodot_.at(c) == ISOPVM )
+                    rivi.pvm = QDate::fromString(tieto, Qt::ISODate);
+                else
+                    rivi.pvm = QDate::fromString(tieto, Qt::RFC2822Date);
+            else if( tuonti == TOSITETUNNUS)
+                tositetunnus = tieto;
+            else if( tuonti == SELITE && !tieto.isEmpty())
+            {
+                if( !selite.isEmpty())
+                    selite.append(" ");
+                selite.append(tieto);
+            }
+            else if( tuonti == TILINUMERO)
+            {
+                int nro = numRe.match(tieto).captured().toInt();
+                if( nro )
+                {
+                    if( muuntotaulukko.isEmpty())
+                        rivi.tili = kp()->tilit()->tiliNumerolla( nro );
+                    else
+                        rivi.tili = kp()->tilit()->tiliNumerolla(  muuntotaulukko.value( QString::number(nro) ) );
+                }
+            }
+            else if( tuonti == TILINIMI)
+            {
+                if( !rivi.tili.onkoValidi())
+                    rivi.tili = kp()->tilit()->tiliNumerolla( muuntotaulukko.value(tieto) );
+            }
+            else if( tuonti == DEBETEURO)
+                rivi.debetSnt = sentit;
+            else if( tuonti == KREDITEURO)
+                rivi.kreditSnt = sentit;
+            else if( tuonti == RAHAMAARA)
+            {
+                if( sentit > 0)
+                    rivi.debetSnt = sentit;
+                else
+                    rivi.kreditSnt = 0 - sentit;
+            }
+            else if( tuonti == KOHDENNUS)
+                rivi.kohdennus = kp()->kohdennukset()->kohdennus(tieto);
+            else if( (tuonti == BRUTTOALVP || tuonti == ALVPROSENTTI) && sentit )
+            {
+                rivi.alvprosentti =  static_cast<int>(  sentit / 100 );
+            }
+            else if( tuonti == ALVKOODI && sentit)
+            {
+                rivi.alvkoodi = static_cast<int>(sentit / 100);
+            }
+        }
+
+        if( !tositetunnus.isEmpty())
+            rivi.selite = QString("%1 : %2").arg(tositetunnus).arg(selite);
+        else
+            rivi.selite = selite;
+
+        if( rivi.alvprosentti && !rivi.alvkoodi)
+        {
+            if( rivi.debetSnt )
+                rivi.alvkoodi = AlvKoodi::OSTOT_BRUTTO;
+            else if(rivi.kreditSnt)
+                rivi.alvkoodi = AlvKoodi::MYYNNIT_BRUTTO;
+        }
+
     }
     */
+    return QVariantMap();
+}
 
-    return true;   // CSV-tiedosto tallennetaan tositteeksi siinä missä muutkin
+QVariantMap CsvTuonti::tiliote()
+{
+    QVariantMap map;
+    QVariantList tapahtumat;
+
+    map.insert("tili", ui->tiliCombo->valittuTilinumero() );
+    QDate alkaa;
+    QDate loppuu;
+
+    for(int r=1; r < csv_.count(); r++)
+    {
+
+        QVariantMap rivi;
+        QDate pvm;
+
+        for( int c=0; c < muodot_.count(); c++)
+        {
+            int tuonti = ui->tuontiTable->item(c,2)->data(Qt::EditRole).toInt();
+            if( c >= csv_.at(r).count())
+                continue;
+
+            QString tieto = csv_.at(r).at(c);
+
+            if( tuonti == PAIVAMAARA )
+            {
+                if( muodot_.at(c) == SUOMIPVM)
+                    pvm = QDate::fromString(tieto, "d.M.yyyy");
+                else if( muodot_.at(c) == ISOPVM )
+                    pvm = QDate::fromString(tieto, Qt::ISODate);
+                else
+                    pvm = QDate::fromString(tieto, Qt::RFC2822Date);
+                rivi.insert("pvm", pvm);
+            }
+            else if( tuonti == IBAN)
+            {
+                tieto.remove(' ');
+                // Jos suomalainen IBAN, poimitaan vain se. Tämä siksi, että
+                // samalla kentällä voi olla myös BIC-kenttä
+                if( tieto.startsWith("FI"))
+                  tieto = tieto.left(18);
+                rivi.insert("iban", tieto);
+            }
+            else if( tuonti == VIITENRO ) {
+                tieto.remove(' ');
+                rivi.insert("viite", tieto);
+            } else if( tuonti == RAHAMAARA)
+            {
+                rivi.insert("euro", TuontiApu::sentteina(tieto) / 100.0 );
+            }
+            else if( tuonti == SELITE && !tieto.isEmpty())
+            {
+                QString selite = rivi.value("selite").toString();
+                if( !selite.isEmpty())
+                    selite.append(" ");
+                selite.append(tieto);
+                rivi.insert("selite", selite);
+            }
+            else if( tuonti == ARKISTOTUNNUS)
+                rivi.insert("arkistotunnus", tieto);
+            else if( tuonti == KTOKOODI)
+                rivi.insert("ktokoodi", tieto.toInt());
+            else if( tuonti == SAAJAMAKSAJA)
+                rivi.insert("saajamaksaja", tieto);
+
+        }
+        if( !alkaa.isValid() || pvm < alkaa)
+            alkaa = pvm;
+        if( !loppuu.isValid() || pvm > loppuu)
+            loppuu = pvm;
+
+        tapahtumat.append(rivi);
+
+    }
+    map.insert("tyyppi", 400);
+    map.insert("alkupvm", alkaa);
+    map.insert("loppupvm", loppuu);
+
+    map.insert("tapahtumat", tapahtumat);
+
+    return map;
 }
 
 QString CsvTuonti::haistettuKoodattu(const QByteArray &data)
@@ -484,6 +509,10 @@ QString CsvTuonti::tuontiTeksti(int tuominen)
         return tr("Tilin nimi");
     case BRUTTOALVP:
         return tr("Alv % Bruttokirjaus");
+    case SAAJAMAKSAJA:
+        return tr("Saajan/Maksajan nimi");
+    case KTOKOODI:
+        return tr("Tapahtuman lajikoodi");
 
     default:
         return QString();
@@ -593,11 +622,14 @@ void CsvTuonti::paivitaOletukset()
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, IBAN);
             else if( muoto == VIITE)
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, VIITENRO);
+            else if( muoto == LUKU && otsikko.contains("laji", Qt::CaseInsensitive))
+                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, KTOKOODI);
             else if( otsikko.contains("arkisto", Qt::CaseInsensitive))
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, ARKISTOTUNNUS);
+            else if(otsikko.contains("saaja", Qt::CaseInsensitive) ||
+                    otsikko.contains("maksaja", Qt::CaseInsensitive))
+                ui->tuontiTable->item(i,2)->setData(Qt::EditRole, SAAJAMAKSAJA);
             else if( otsikko.contains("selite", Qt::CaseInsensitive) ||
-                     otsikko.contains("selitys", Qt::CaseInsensitive)||
-                     otsikko.contains("saaja/maksaja", Qt::CaseInsensitive) ||
                      otsikko.contains("viesti", Qt::CaseInsensitive) ||
                      otsikko.contains("kuvaus", Qt::CaseInsensitive))
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, SELITE);
@@ -610,7 +642,7 @@ void CsvTuonti::paivitaOletukset()
 void CsvTuonti::tarkistaTiliValittu()
 {
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(
-                ui->kirjausRadio->isChecked() || ui->tiliEdit->valittuTili().onkoValidi());
+                ui->kirjausRadio->isChecked() ||  ui->tiliCombo->valittuTilinumero() );
 }
 
 int CsvTuonti::tuoListaan(const QByteArray &data)
@@ -684,5 +716,7 @@ int CsvTuonti::tuoListaan(const QByteArray &data)
     }
 
     return csv_.count();
+}
+
 }
 

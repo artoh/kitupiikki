@@ -4,21 +4,6 @@
 #include <QAbstractTableModel>
 #include <QList>
 
-
-/**
- * @brief Asiakkaan tiedot luettelossa
- */
-struct AsiakasRivi
-{
-    AsiakasRivi() {}
-
-    QString nimi;
-    qlonglong yhteensa = 0;
-    qlonglong avoinna = 0;
-    qlonglong eraantynyt = 0;
-};
-
-
 /**
  * @brief Asiakkaiden tai toimittajien model
  */
@@ -40,12 +25,12 @@ public:
 
 public slots:
     void paivita(int valinta);
+    void suodataRyhma(int ryhmaId);
 
 protected slots:
     void tietoSaapuu(QVariant* var);
 
 protected:
-    QList<AsiakasRivi> rivit_;
 
     QVariantList lista_;
 

@@ -35,6 +35,7 @@ namespace TositeTyyppi {
         PALKKA = 500,
         MUISTIO = 700,
         LIITETIETO = 800,
+        JARJESTELMATOSITE = 1000,
         TILINAVAUS = 9010,
         ALVLASKELMA = 9100,
         POISTOLASKELMA = 9910,
@@ -71,7 +72,7 @@ public:
         KATEISSARJA = 2
     };
 
-    int rowCount(const QModelIndex &parent) const override;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role) const override;
 
     QString nimi(int koodi) const;

@@ -34,6 +34,8 @@ public:
     TilioteApuri(QWidget *parent = nullptr, Tosite* tosite = nullptr);
     virtual ~TilioteApuri() override;
 
+    void tuo(QVariantMap map) override;
+
     TilioteModel* model() { return model_;}
 
 protected:
@@ -65,6 +67,7 @@ private:
 
     QSortFilterProxyModel *proxy_;
     double alkusaldo_;
+    bool tuodaan_ = false;
 };
 
 #endif // TILIOTEAPURI_H

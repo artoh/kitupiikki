@@ -1,0 +1,199 @@
+{
+  "tase/PMA": {
+    "nimi": {
+      "fi": "Tase",
+      "sv": "Balansräkning"
+    },
+    "muoto": {
+      "fi": "Pien- ja mikroyritys",
+      "sv": "Små- och mickroföretag"
+    },
+    "rivit": [
+      {
+        "fi": "VASTAAVAA",
+        "sv": "AKTIVA",
+        "M": "bold"
+      },
+      {
+        "fi": "PYSYVÄT VASTAAVAT",
+        "sv": "BESTÅENDE AKTIVA",
+        "L": "10..149"
+      },
+      {
+        "fi": "Aineettomat hyödykkeet",
+        "sv": "Immateriella tillgånger",
+        "L": "10 *",
+        "S": 1
+      },
+      {
+        "fi": "Aineelliset hyödykkeet",
+        "sv": "Materiella tillgånger",
+        "L": "11..23 *",
+        "S": 1
+      },
+      {
+        "fi": "Sijoitukset",
+        "sv": "Placeringarna",
+        "L": "14 *",
+        "S": 1
+      },
+      {
+        "fi": "VAIHTUVAT VASTAAVAT",
+        "sv": "RÖRLIGA AKTIVA",
+        "L": "15..19"
+      },
+      {
+        "fi": "Vaihto-omaisuus",
+        "sv": "Omsättningstillgångar",
+        "L": "15 *",
+        "S": 1
+      },
+      {
+        "fi": "Pitkäaikaiset saatavat",
+        "sv": "Långfristiga fordringar",
+        "L": "16 *",
+        "S": 1
+      },
+      {
+        "fi": "Lyhytaikaiset saamiset",
+        "sv": "Kortfristiga fordringar",
+        "L": "17..185 *",
+        "S": 1
+      },
+      {
+        "fi": "Rahoitusarvopaperit",
+        "sv": "Finansiella värdepapper",
+        "L": "186..189 *",
+        "S": 1
+      },
+      {
+        "fi": "Rahat ja pankkisaamiset",
+        "sv": "Kassa och bank",
+        "L": "19 *",
+        "S": 1
+      },
+      {
+        "fi": "Vastaavaa yhteensä",
+        "sv": "Aktiva sammanlagt",
+        "L": "1",
+        "M": "bold",
+        "V": 1
+      },
+      {
+        "fi": "VASTATTAVAA",
+        "sv": "PASSIVA",
+        "M": "bold",
+        "V": 2
+      },
+      {
+        "fi": "OMA PÄÄOMA",
+        "sv": "EGET KAPITAL",
+        "L": "20..23"
+      },
+      {
+        "fi": "Osake-, osuus- tai muu vastaava pääoma",
+        "sv": "Aktie- eller andelskapital eller annat motsvanrande kapital",
+        "L": "200,210 *",
+        "S": 1
+      },
+      {
+        "fi": "Ylikurssirahasto",
+        "sv": "Överkursfond",
+        "L": "202 *",
+        "S": 1
+      },
+      {
+        "fi": "Arvonkorotusrahasto",
+        "sv": "Uppskrivningsfond",
+        "L": "203 *",
+        "S": 1
+      },
+      {
+        "fi": "Muut rahastot",
+        "sv": "Övrika fonder",
+        "L": "204..209,214 *",
+        "S": 1
+      },
+      {
+        "fi": "Pääomapanokset",
+        "L": " 2 *",
+        "S": 1
+      },
+      {
+        "fi": "Äänettömät yhtiömiehet",
+        "L": " 218 *",
+        "S": 1
+      },
+      {
+        "fi": "Vastuunalaiset yhtiömiehet",
+        "L": " 217 *",
+        "S": 1
+      },
+      {
+        "fi": "Edellisten tilikausien voitto/tappio",
+        "sv": "Balanserad vinst (förlust) från tidigare räkenskapsperioder",
+        "L": "2251..232 *",
+        "S": 1
+      },
+      {
+        "fi": "Pääomavajaus",
+        "L": "233 *",
+        "S": 1
+      },
+      {
+        "fi": "Yksityistilit tilikaudella",
+        "L": "234..236 *",
+        "S": 1
+      },
+      {
+        "fi": "Tilikauden voitto/tappio",
+        "sv": "Räkenskapsperiodens vinst (förlust)",
+        "L": "2371",
+        "S": 1
+      },
+      {
+        "fi": "Pääomalainat",
+        "L": "238 *",
+        "S": 1
+      },
+      {
+        "fi": "VÄHEMMISTÖOSUUDET",
+        "L": "239 *"
+      },
+      {
+        "fi": "TILINPÄÄTÖSSIIRTOJEN KERTYMÄ",
+        "sv": "ACKUMULERADE BOKSLUTSDISPOSITIONER",
+        "L": "24 *"
+      },
+      {
+        "fi": "PAKOLLISET VARAUKSET",
+        "sv": "AVSÄTTNINGAR",
+        "L": "25 *"
+      },
+      {
+        "fi": "VIERAS PÄÄOMA",
+        "sv": "FRÄMMANDE KAPITAL",
+        "L": "26..29"
+      },
+      {
+        "fi": "Pitkäaikainen vieras pääoma",
+        "sv": "Långfristiga främmande kapital",
+        "L": "26..27 *",
+        "S": 1
+      },
+      {
+        "fi": "Lyhytaikainen vieras pääoma",
+        "sv": "Kortfristiga främmande kapital",
+        "L": "28..29 *",
+        "S": 1
+      },
+      {
+        "fi": "Vastattavaa yhteensä",
+        "sv": "Passiva sammanlagt",
+        "L": "2",
+        "M": "bold",
+        "V": 1
+      }
+    ]
+  }
+}

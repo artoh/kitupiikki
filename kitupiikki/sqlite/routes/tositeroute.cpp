@@ -38,6 +38,8 @@ QVariant TositeRoute::get(const QString &polku, const QUrlQuery &urlquery)
     // Muuten tositteiden lista
     QStringList ehdot;
     if( urlquery.hasQueryItem("luonnos") )
+        ehdot.append( QString("( tosite.tila => %1 and tosite.tila < %2 )").arg(Tosite::LUONNOS).arg(Tosite::KIRJANPIDOSSA) );
+    else if( urlquery.hasQueryItem("saapuneet"))
         ehdot.append( QString("( tosite.tila > %1 and tosite.tila < %2 )").arg(Tosite::POISTETTU).arg(Tosite::KIRJANPIDOSSA) );
     else
         ehdot.append( QString("tosite.tila >= %1").arg(Tosite::KIRJANPIDOSSA));
@@ -158,19 +160,20 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
     QVariantMap map = pyynto.toMap();
     QByteArray lokiin = QJsonDocument::fromVariant(pyynto).toJson(QJsonDocument::Compact);
 
+    QSqlQuery kysely(db());
+    db().transaction();
+
     QDate pvm = map.take("pvm").toDate();
     int tyyppi = map.take("tyyppi").toInt();
     QVariantList viennit = map.take("viennit").toList();
     int tila = map.contains("tila") ? map.take("tila").toInt() : Tosite::KIRJANPIDOSSA;
     QString otsikko = map.take("otsikko").toString();
     QVariantList rivit = map.take("rivit").toList();
-    int kumppani = map.take("kumppani").toInt();
+    int kumppani = kumppaniMapista(map);
     QVariantList liita = map.take("liita").toList();
     QString sarja = map.take("sarja").toString();
     int tunniste = map.take("tunniste").toInt();
 
-    QSqlQuery kysely(db());
-    db().transaction();
 
     Tilikausi kausi = kp()->tilikaudet()->tilikausiPaivalle(pvm);
 
@@ -258,14 +261,14 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
         qlonglong debet = qRound64( vientimap.take("debet").toDouble() * 100 );
         qlonglong kredit =  qRound64( vientimap.take("kredit").toDouble() * 100);
         QVariantList merkkaukset = vientimap.take("merkkaukset").toList();
-        int kumppani = vientimap.take("kumppani").toInt();
+        int kumppani = kumppaniMapista(vientimap);
         QDate jaksoalkaa = vientimap.take("jaksoalkaa").toDate();
         QDate jaksoloppuu = vientimap.take("jaksoloppuu").toDate();
         int vientityyppi = vientimap.take("tyyppi").toInt();
         double alvprosentti = vientimap.value("alvprosentti",0.0).toDouble();
         vientimap.take("alvprosentti");
         int alvkoodi = vientimap.take("alvkoodi").toInt();
-        int eraid = vientimap.take("eraid").toInt();
+        int eraid = vientimap.take("era").toMap().value("id").toInt();
         QDate erapvm = vientimap.take("erapvm").toDate();
         QString viite = vientimap.take("viite").toString();
 
@@ -430,4 +433,26 @@ QString TositeRoute::viite(const QString &numero)
     }
     int tarkaste = ( 10 - summa % 10) % 10;
     return numero + QString::number(tarkaste);
+}
+
+int TositeRoute::kumppaniMapista(QVariantMap &map)
+{
+    QVariant kumppani = map.take("kumppani");
+    if( kumppani.isNull())
+        return 0;
+    else if( kumppani.type() == QVariant::String) {
+        if( kumppaniCache_.contains( kumppani.toString() ))
+            return kumppaniCache_.value(kumppani.toString());
+
+        // Lisätään uusi kumppani
+        QSqlQuery kysely( db());
+        kysely.prepare("INSERT INTO Kumppani (nimi) VALUES (?)");
+        kysely.addBindValue( kumppani.toString() );
+        kysely.exec();
+        int lisatty = kysely.lastInsertId().toInt();
+        kumppaniCache_.insert( kumppani.toString(), lisatty );
+        return lisatty;
+    }
+    else
+        return kumppani.toInt();
 }

@@ -271,6 +271,15 @@ Tili TiliModel::tiliTyypilla(TiliLaji::TiliLuonne tyyppi) const
     return Tili();
 }
 
+Tili TiliModel::tiliTyypilla(const QString &tyyppikoodi) const
+{
+    for( Tili* tili : tiliLista_) {
+       if( tili->tyyppiKoodi() == tyyppikoodi)
+           return *tili;
+    }
+    return Tili();
+}
+
 QStringList TiliModel::laskuTilit() const
 {
     // Tämä siirtyy toisaalle

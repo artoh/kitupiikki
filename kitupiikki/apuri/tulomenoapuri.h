@@ -24,6 +24,7 @@ class TmRivit;
 class KohdennusProxyModel;
 class QCompleter;
 class TulomenoRivi;
+class MaksutapaModel;
 
 namespace Ui {
 class TuloMenoApuri;
@@ -83,6 +84,7 @@ private:
     bool menoa_ = false;
 
     QSortFilterProxyModel* veroFiltteri_;
+    MaksutapaModel *maksutapaModel_;
 
     static QString viimeMaksutapa__;
 

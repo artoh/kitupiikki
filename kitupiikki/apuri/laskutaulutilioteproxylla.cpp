@@ -49,12 +49,13 @@ void LaskuTauluTilioteProxylla::paivitaSuoritukset()
     suoritukset_.clear();
     for(int i=0; i < tiliote_->rowCount(); i++) {
         TilioteModel::Tilioterivi rivi = tiliote_->rivi(i);
-        if( rivi.eraId && !rivi.harmaa) {
+        if( !rivi.era.isEmpty() && !rivi.harmaa) {
             double suoritus = ostoja_ ?
                         0.0 - rivi.euro :
                         rivi.euro;
-            suoritukset_.insert( rivi.eraId,
-                                 suoritus + suoritukset_.value(rivi.eraId));
+            int eraid = rivi.era.value("id").toInt();
+            suoritukset_.insert( eraid,
+                                 suoritus + suoritukset_.value( eraid ));
         }
     }
     emit dataChanged( index(0, MAKSAMATTA),
