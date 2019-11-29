@@ -61,6 +61,7 @@ private:
     QDate seuraavaAlkaa;
     QDate seuraavaLoppuu;
     AlvIlmoitustenModel *model = new AlvIlmoitustenModel;
+    bool alustaa_ = false;
 };
 
 #endif // ALVMAARITYS_H

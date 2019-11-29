@@ -41,8 +41,6 @@ AlvSivu::AlvSivu() :
     ui->ilmoituksetView->setModel( model );
     ui->ilmoituksetView->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->ilmoituksetView->setSelectionBehavior(QAbstractItemView::SelectRows);
-    paivitaMaksuAlvTieto();
-
 
     connect( ui->viimeisinEdit, &QDateEdit::editingFinished, this, &AlvSivu::paivitaSeuraavat);
     connect(ui->kausiCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(paivitaSeuraavat()));
@@ -57,15 +55,18 @@ AlvSivu::AlvSivu() :
 
 void AlvSivu::siirrySivulle()
 {
+    alustaa_ = true;
     ui->kausiCombo->setCurrentIndex( ui->kausiCombo->findData( kp()->asetukset()->luku("AlvKausi") ) );
     ui->viimeisinEdit->setDate( kp()->asetukset()->pvm("AlvIlmoitus"));
+
     paivitaSeuraavat();
     model->lataa();
     riviValittu();      // Jotta napit harmaantuvat
+    paivitaMaksuAlvTieto();
 
     for(int i=0; i<3; i++)
         ui->ilmoituksetView->horizontalHeader()->resizeSection(i, ui->ilmoituksetView->width() / 4 );
-
+    alustaa_ = false;
 }
 
 
@@ -89,7 +90,7 @@ void AlvSivu::paivitaSeuraavat()
 
     ui->tilitaNappi->setEnabled( seuraavaLoppuu <= kp()->tilikaudet()->kirjanpitoLoppuu() );
 
-    if( ui->viimeisinEdit->date() >= kp()->tilikaudet()->kirjanpitoAlkaa().addYears(-1) )
+    if( ui->viimeisinEdit->date() >= kp()->tilikaudet()->kirjanpitoAlkaa().addYears(-1) && !alustaa_ )
     {
         kp()->asetukset()->aseta("AlvKausi", ui->kausiCombo->currentData().toInt());
         kp()->asetukset()->aseta("AlvIlmoitus", ui->viimeisinEdit->date());
