@@ -21,7 +21,6 @@
 #include "db/kirjanpito.h"
 #include "lisaikkuna.h"
 #include "naytin/naytinikkuna.h"
-#include "yhteystietowidget.h"
 
 #include "model/laskutaulumodel.h"
 
