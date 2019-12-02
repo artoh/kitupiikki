@@ -192,7 +192,6 @@ kitsas.xcodeproj/project.pbxproj: ../kitupiikki/kitupiikki.pro ../../../Qt/5.13.
 		../kitupiikki/sqlite/sqlite.qrc \
 		../kitupiikki/tilikartat/tilikartat.qrc \
 		../kitupiikki/pic/pic.qrc \
-		../kitupiikki/uusikp/sql.qrc \
 		../kitupiikki/aloitussivu/qrc/aloitus.qrc \
 		../kitupiikki/arkistoija/arkisto.qrc \
 		../kitupiikki/laskutus/lasku.qrc \
@@ -387,7 +386,6 @@ kitsas.xcodeproj/project.pbxproj: ../kitupiikki/kitupiikki.pro ../../../Qt/5.13.
 ../kitupiikki/sqlite/sqlite.qrc:
 ../kitupiikki/tilikartat/tilikartat.qrc:
 ../kitupiikki/pic/pic.qrc:
-../kitupiikki/uusikp/sql.qrc:
 ../kitupiikki/aloitussivu/qrc/aloitus.qrc:
 ../kitupiikki/arkistoija/arkisto.qrc:
 ../kitupiikki/laskutus/lasku.qrc:
