@@ -271,7 +271,8 @@ qrc_aloitus.cpp: ../kitupiikki/aloitussivu/qrc/aloitus.qrc \
 		../../../Qt/5.11.0/clang_64/bin/rcc \
 		../kitupiikki/aloitussivu/qrc/fi.qm \
 		../kitupiikki/aloitussivu/qrc/aloitus.css \
-		../kitupiikki/aloitussivu/qrc/tervetuloa.html
+		../kitupiikki/aloitussivu/qrc/tervetuloa.html \
+		../kitupiikki/aloitussivu/qrc/FreeSans.ttf
 	/Users/petri/Qt/5.11.0/clang_64/bin/rcc -name aloitus ../kitupiikki/aloitussivu/qrc/aloitus.qrc -o qrc_aloitus.cpp
 
 qrc_arkisto.cpp: ../kitupiikki/arkistoija/arkisto.qrc \
