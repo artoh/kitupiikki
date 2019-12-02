@@ -9,9 +9,9 @@
 Tuetut Windowsin versiot: Windows 7, 8 ja 10.
 
 !!! note ""
-    <span class="fa fa-windows"></span> [Kitupiikki 1.4.3 Windows asennusohjelma (11 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.4.3/kitupiikki-1.4.3-asennus.exe) <i class="fa fa-laptop"></i> Lataa ja suorita asennusohjelma. <i class="fa fa-user"></i> Vaatii pääkäyttäjän oikeudet.
+    <span class="fa fa-windows"></span> [Kitupiikki 1.4.3 Windows asennusohjelma (12 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.4.3/kitupiikki-1.4.3-asennus.exe) <i class="fa fa-laptop"></i> Lataa ja suorita asennusohjelma. <i class="fa fa-user"></i> Vaatii pääkäyttäjän oikeudet.
 
-     <span class="fa fa-windows"></span> [Kitupiikki 1.4.3 Windows suoritettava ohjelma (14 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.4.3/kitupiikki-1.4.3.exe) <i class="fa fa-briefcase"></i> Käynnistettävissä ilman asennusta esim. USB-muistilta.
+     <span class="fa fa-windows"></span> [Kitupiikki 1.4.3 Windows suoritettava ohjelma (15 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.4.3/kitupiikki-1.4.3.exe) <i class="fa fa-briefcase"></i> Käynnistettävissä ilman asennusta esim. USB-muistilta.
 
 
 ## <span class="fa fa-linux"></span> Linux
@@ -19,7 +19,7 @@ Tuetut Windowsin versiot: Windows 7, 8 ja 10.
 Toimii 64-bittisissä Linux-jakeluissa joissa graafinen työpöytä (esim. Ubuntu 16.04 ja uudemmat)
 
 !!! note ""
-    <span class="fa fa-linux"></span> [Kitupiikki 1.4.3 Linux AppImage (34 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.4.3/Kitupiikki-1.4.3-x86_64.AppImage)
+    <span class="fa fa-linux"></span> [Kitupiikki 1.4.3 Linux AppImage (79 MB)](https://github.com/artoh/kitupiikki/releases/download/v1.4.3/Kitupiikki-1.4.3-x86_64.AppImage)
 
 Kitupiikin Linux-versio toimitetaan AppImage-tiedostona, jota ei varsinaisesti edes tarvitse asentaa. Et tarvitse ylläpitäjän oikeuksia.
 
