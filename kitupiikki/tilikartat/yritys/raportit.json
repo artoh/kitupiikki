@@ -1,4 +1,233 @@
 {
+  "tulos/yleinen": {
+    "nimi" : {
+      "fi": "Tuloslaskelma",
+      "sv": "Resultbeträkning"
+    },
+    "muoto": {
+      "fi": "Yleinen",
+      "sv": "Allmän"
+    },
+    "rivit": [
+      {
+        "fi": "Liikevaihto",
+        "sv": "Omsättning",
+        "M": "bold",
+        "L": "30..35 S *"
+      },
+      {
+        "fi": "Valmiiden ja keskeneräisten tuotteiden varastojen muutos",
+        "sv": "Förändring av lager av färdiga varor och varor under tillverkning",
+        "L": "360..362 *",
+        "V": 1
+      },
+      {
+        "fi": "Valmistus omaan käyttöön",
+        "sv": "Tillverkning för eget bruk",
+        "L": "363..364 *"
+      },
+      {
+        "fi": "Liiketoiminnan muut tuotot",
+        "sv": "Övriga rörelseintäkter",
+        "L": "365..39 *"
+      },
+      {
+        "fi": "Materiaalit ja palvelut",
+        "sv": "Material och tjänster",
+        "L": "4",
+        "V": 1
+      },
+      {
+        "fi": "Aineet, tarvikkeet ja tavarat",
+        "sv": "Material, förnödenheter och varor",
+        "L": "40..444",
+        "S": 1
+      },
+      {
+        "fi": "Ostot tilikauden aikana",
+        "sv": "Inköp under räkenskapsperioden",
+        "L": "40..43 *",
+        "S": 2
+      },
+      {
+        "fi": "Varastojen lisäys tai vähennys",
+        "sv": "Förändring av lager",
+        "L": "440..444 *",
+        "S": 2
+      },
+      {
+        "fi": "Ulkopuoliset palvelut",
+        "sv": "Köpta tjänster",
+        "L": "445..49",
+        "S": 1
+      },
+      {
+        "fi": "Henkilöstökulut",
+        "sv": "Personalkostnader",
+        "L": "5..67",
+        "V": 1
+      },
+      {
+        "fi": "Palkat ja palkkiot",
+        "sv": "Löner och arvoden",
+        "L": "5 *",
+        "S": 1
+      },
+      {
+        "fi": "Henkilöstösivukulut",
+        "sv": "Lönebikostnader",
+        "L": "60..67",
+        "S": 1
+      },
+      {
+        "fi": "Eläkekulut",
+        "sv": "Pensionskostnader",
+        "L": "60..62 *",
+        "S": 2
+      },
+      {
+        "fi": "Muut henkilösivukulut",
+        "sv": "Övrika lönebikonstnader",
+        "L": "63..67 *",
+        "S": 2
+      },
+      {
+        "fi": "Poistot ja arvonalentumat",
+        "sv": "Avskrivningar och nedskrivningar",
+        "L": "68..69",
+        "V": 1
+      },
+      {
+        "fi": "Suunnitelman mukaiset poistot",
+        "sv": "Avskrivningar enligt plan",
+        "L": "68 *",
+        "S": 1
+      },
+      {
+        "fi": "Arvonalentumiset pysyvien vastaavien hyödykkeistä",
+        "sv": "Nedskrivningar av tillgångar bland bestående aktiva",
+        "L": "69..698 *",
+        "S": 1
+      },
+      {
+        "fi": "Vaihtuvien vastaavien poikkeukselliset arvonalentumiset",
+        "sv": "Exceptionella nedskrivningar av rörliga aktiva",
+        "L": "699 *",
+        "S": 1
+      },
+      {
+        "fi": "Liiketoiminnan muut kulut",
+        "sv": "Övriga rörelsekostnader",
+        "L": "7..8 *",
+        "V": 1
+      },
+      {
+        "fi": "Liikevoitto/tappio",
+        "sv": "Rörelsevinst/förlust",
+        "L": "=",
+        "M": "bold",
+        "V": 1
+      },
+      {
+        "fi": "Rahoitustuotot ja -kulut",
+        "sv": "Finansiella intäkter och kostnader",
+        "L": "90..96"
+      },
+      {
+        "fi": "Tuotot osuuksista saman konsernin yrityksissä",
+        "sv": "Intäkter från andelar i företag inom samma koncern",
+        "L": "900..903 *",
+        "S": 1
+      },
+      {
+        "fi": "Tuotot osuuksista omistusyhteysyrityksissä"
+        "sv": "Intäkter från andelar i ägarintresseföretag",
+        "L": "904..906 *",
+        "S": 1
+      },
+      {
+        "fi": "Tuotot muista pysyvien vastaavien sijoituksista",
+        "sv": "Intäkter från övriga placeringar bland bestående aktiva",
+        "L": "908..914 *",
+        "S": 1
+      },
+      {
+        "fi": "Muut korko- ja rahoitustuotot",
+        "sv": "Övriga ränteintäkter och finansiella intäkter",
+        "L": "91..92 *",
+        "S": 1
+      },
+      {
+        "fi": "Arvonalentumiset pysyvien vastaavien sijoituksista",
+        "sv": "Nedskrivningar av placeringar bland bestående aktiva",
+        "L": "930..936 *",
+        "S": 1
+      },
+      {
+        "fi": "Arvonalentumiset vaihtuvien vastaavien rahoitusarvopapereista",
+        "sv": "Nedskrivningar av finansiella värdepapper bland rörliga aktiva",
+        "L": "937..941 *",
+        "S": 1
+      },
+      {
+        "fi": "Korkokulut ja muut rahoituskulut",
+        "sv": "Räntekostnader och övriga finansiella kostnader",
+        "L": "942..969 *",
+        "S": 1
+      },
+      {
+        "fi": "Voitto/tappio ennen tilinpäätössiirtoja ja veroja",
+        "sv": "Vinst/förlust före bokslutsdispositioner ock skatter"
+        "L": "=",
+        "M": "bold",
+        "V": 1
+      },
+      {
+        "fi": "Tilinpäätössiirrot",
+        "sv": "bokslutsdispositioner",
+        "L": "98",
+        "V": 1
+      },
+      {
+        "fi": "Poistoeron lisäys (-) tai vähennys (+)",
+        "sv": "Förändring av avskrivningsdifferens",
+        "L": "98..983 *",
+        "S": 1
+      },
+      {
+        "fi": "Verotusperusteisten varausten lisäys (-) tai vähennys (+)",
+        "sv": "Förändring av skattemässiga reserver",
+        "L": "9891 *",
+        "S": 1
+      },
+      {
+        "fi": "Saadut (+) tai annetut (-) konserniavustukset",
+        "sv": "Koncernbidrag",
+        "L": "972 976 *",
+        "S": 1
+      },
+      {
+        "fi": "Tuloverot",
+        "sv": "Inkomstskatt",
+        "L": "99..996 *",
+        "V": 1
+      },
+      {
+        "fi": "Muut välittömät verot",
+        "sv": "Övriga direkta skatter",
+        "L": "998..999 *",
+        "V": 1
+      },
+      {
+        "fi": "Tilikauden voitto/tappio",
+        "sv": "Räkenskapsperiodens vinst/förlust",
+        "L": "= S"
+        "M": "bold",
+        "V": 1
+      }
+
+    ]
+  },
   "tase/PMA": {
     "nimi": {
       "fi": "Tase",
