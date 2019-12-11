@@ -8026,7 +8026,7 @@
  },
  {
   "numero": 8560,
-  "tyyppi": "D",
+  "tyyppi": "DBP",
   "nimi": {
    "fi:": "Rahaliikenteen kulut"
   },
@@ -8564,7 +8564,7 @@
  },
  {
   "numero": 9220,
-  "tyyppi": "C",
+  "tyyppi": "CBK",
   "nimi": {
    "fi:": "Korkotuotot pankkisaamisista"
   },
@@ -8799,7 +8799,7 @@
  },
  {
   "numero": 9460,
-  "tyyppi": "D",
+  "tyyppi": "DBK",
   "nimi": {
    "fi:": "Korkokulut rahoituslaitoslainoista"
   },

@@ -100,7 +100,7 @@ QVariant TilioteModel::data(const QModelIndex &index, int role) const
         case KOHDENNUS:
         {
             if( rivi.laskupvm.isValid())
-                return rivi.laskupvm;
+                return rivi.laskupvm;            
 
             QString txt;
             if( rivi.kohdennus )
@@ -412,7 +412,7 @@ void TilioteModel::teeTuonti()
         rivi.arkistotunnus = map.value("arkistotunnus").toString();
 
         rivi.era = map.value("era").toMap();
-        rivi.laskupvm = map.value("laskupvm").toDate();
+        rivi.laskupvm = map.value("era").toMap().value("pvm").toDate();
         rivi.tili = map.value("tili").toInt();
         rivi.tilinumero = map.value("iban").toString();
 

@@ -99,7 +99,7 @@ void TilioteApuri::tuo(QVariantMap map)
 
     ui->alkuDate->setDate( map.value("alkupvm").toDate() );
     ui->loppuDate->setDate( map.value("loppupvm").toDate());
-    tosite()->asetaPvm( map.value("loppupvm").toDate() );
+
 
     model()->tuo( map.value("tapahtumat").toList() );
 
@@ -192,6 +192,8 @@ void TilioteApuri::tiliPvmMuutos()
                        .arg( ui->alkuDate->date().toString("dd.MM.yyyy") )
                        .arg( ui->loppuDate->date().toString("dd.MM.yyyy"))
                        .arg(iban));
+
+    tosite()->setData(Tosite::PVM, ui->loppuDate->date());
 }
 
 void TilioteApuri::lataaHarmaat()
@@ -204,9 +206,11 @@ void TilioteApuri::lataaHarmaat()
 
 void TilioteApuri::laitaPaivat(const QDate &pvm)
 {
-    ui->loppuDate->setDate(pvm);
-    ui->alkuDate->setDate( pvm.addDays(1).addMonths(-1) );
-    tiliPvmMuutos();
+    if( pvm != ui->loppuDate->date()) {
+        ui->loppuDate->setDate(pvm);
+        ui->alkuDate->setDate( pvm.addDays(1).addMonths(-1) );
+        tiliPvmMuutos();
+    }
 }
 
 void TilioteApuri::kysyAlkusumma()

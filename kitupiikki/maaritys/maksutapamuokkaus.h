@@ -39,6 +39,7 @@ protected slots:
     void uusi();
     void muokkaa();
     void poista();
+    void paivitaNapit();
 
 private:
     Ui::MaksutapaMuokkaus *ui;

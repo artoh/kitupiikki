@@ -60,7 +60,7 @@ protected:
      */
     QVariantMap tuoPdfTiliote();
 
-    void tuoTiliTapahtumat(bool kirjausPvmRivit, int vuosiluku);
+    QVariantList tuoTiliTapahtumat(bool kirjausPvmRivit, int vuosiluku);
 
 
     /**

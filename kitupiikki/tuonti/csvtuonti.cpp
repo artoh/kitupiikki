@@ -613,7 +613,7 @@ void CsvTuonti::paivitaOletukset()
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, PAIVAMAARA);
                 pvmkaytetty = true;
             }
-            else if( muoto == RAHA && !rahakaytetty)
+            else if( (muoto == RAHA || muoto==LUKU) && !rahakaytetty)
             {
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, RAHAMAARA);
                 rahakaytetty = true;
@@ -626,8 +626,9 @@ void CsvTuonti::paivitaOletukset()
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, KTOKOODI);
             else if( otsikko.contains("arkisto", Qt::CaseInsensitive))
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, ARKISTOTUNNUS);
-            else if(otsikko.contains("saaja", Qt::CaseInsensitive) ||
-                    otsikko.contains("maksaja", Qt::CaseInsensitive))
+            else if((otsikko.contains("saaja", Qt::CaseInsensitive) ||
+                    otsikko.contains("maksaja", Qt::CaseInsensitive)) &&
+                    !otsikko.contains("tili", Qt::CaseInsensitive))
                 ui->tuontiTable->item(i,2)->setData(Qt::EditRole, SAAJAMAKSAJA);
             else if( otsikko.contains("selite", Qt::CaseInsensitive) ||
                      otsikko.contains("viesti", Qt::CaseInsensitive) ||

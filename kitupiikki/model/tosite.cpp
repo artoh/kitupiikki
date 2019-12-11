@@ -108,7 +108,8 @@ void Tosite::asetaTyyppi(int tyyppi)
 
 void Tosite::asetaPvm(const QDate &pvm)
 {
-    setData(PVM, pvm);
+    if( data_.value("pvm").toDate() != pvm)
+        setData(PVM, pvm);
 }
 
 void Tosite::asetaKommentti(const QString &kommentti)

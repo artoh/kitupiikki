@@ -255,7 +255,7 @@ Tili TiliModel::tiliIbanilla(const QString &iban) const
 {
     for(Tili* tili: tiliLista_)
     {
-        if( tili->str("iban") == iban)
+        if( tili->str("IBAN") == iban)
             return *tili;
     }
     return Tili();

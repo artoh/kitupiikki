@@ -172,7 +172,7 @@ void TilinMuokkausDialog::lataa()
     ui->tyyppiCombo->setCurrentIndex( ui->tyyppiCombo->findData( tili_->tyyppiKoodi()) );
 
 
-    ui->ibanLine->setText(tili_->str("iban"));
+    ui->ibanLine->setText(tili_->str("IBAN"));
     ui->veroSpin->setValue( tili_->luku("alvprosentti"));
 
     int alvlaji = tili_->luku("alvlaji");
