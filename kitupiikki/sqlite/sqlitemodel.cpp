@@ -140,6 +140,7 @@ bool SQLiteModel::avaaTiedosto(const QString &polku, bool ilmoitavirheestaAvatta
 #ifndef KITSAS_DEVEL
     tietokanta_.exec("PRAGMA LOCKING_MODE = EXCLUSIVE");
 #endif
+    tietokanta_.exec("PRAGMA JOURNAL_MODE = WAL");
 
     QSqlQuery query( tietokanta_ );
     query.exec("SELECT arvo FROM Asetus WHERE avain='KpVersio'");
@@ -248,7 +249,7 @@ KpKysely *SQLiteModel::kysely(const QString &polku, KpKysely::Metodi metodi)
 
 void SQLiteModel::sulje()
 {
-
+    tietokanta_.close();
 }
 
 bool SQLiteModel::onkoOikeutta(YhteysModel::Oikeus oikeus) const

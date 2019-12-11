@@ -400,6 +400,7 @@ void TiliModel::paivitaTilat()
 {
 
     int laajuus = kp()->asetukset()->luku("laajuus",3);
+    QString muoto = kp()->asetukset()->asetus("muoto");
 
     for(Tili* tili : tiliLista_) {
         if( tili->otsikkotaso()) {
@@ -412,10 +413,13 @@ void TiliModel::paivitaTilat()
             tili->asetaTila(Tili::TILI_SUOSIKKI);
         else if( piilotetut_.contains(numero))
             tili->asetaTila(Tili::TILI_PIILOSSA);
-        else if( tili->laajuus() > laajuus)
-            tili->asetaTila(Tili::TILI_PIILOSSA);
-        else
-            tili->asetaTila(Tili::TILI_KAYTOSSA);
+        else {
+            QVariantList muodot = tili->arvo("muodot").toList();
+            if( laajuus >= tili->laajuus() && ( muodot.isEmpty() || muodot.contains(muoto) ))
+                tili->asetaTila(Tili::TILI_KAYTOSSA);
+            else
+                tili->asetaTila(Tili::TILI_PIILOSSA);
+        }
 
 
         // Asetetaan kaikki otsikkotasot käyttöön

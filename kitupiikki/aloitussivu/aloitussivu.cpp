@@ -308,6 +308,10 @@ void AloitusSivu::infoSaapui()
 void AloitusSivu::varmuuskopioi()
 {
     QString tiedosto = kp()->sqlite()->tiedostopolku();
+
+    // Suljetaan tiedostoyhteys, jotta saadaan varmasti varmuuskopioitua kaikki
+    kp()->sqlite()->sulje();
+
     QFileInfo info(tiedosto);
     QString polku = QString("%1/%2-%3.kitsas")
             .arg(QDir::homePath())
@@ -328,6 +332,8 @@ void AloitusSivu::varmuuskopioi()
         else
             QMessageBox::critical(this, tr("Virhe"), tr("Tiedoston varmuuskopiointi epäonnistui."));
     }
+    // Avataan tiedosto uudestaan
+    kp()->sqlite()->avaaTiedosto(tiedosto);
 }
 
 void AloitusSivu::muistiinpanot()

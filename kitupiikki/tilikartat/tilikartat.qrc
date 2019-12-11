@@ -8,5 +8,10 @@
         <file>yhdistys/tilinpaatos.txt</file>
         <file>yhdistys/tilit.json</file>
         <file>yhdistys/tilikartta.json</file>
+        <file>yritys/asetukset.json</file>
+        <file>yritys/raportit.json</file>
+        <file>yritys/tilikartta.json</file>
+        <file>yritys/tilinpaatos.txt</file>
+        <file>yritys/tilit.json</file>
     </qresource>
 </RCC>

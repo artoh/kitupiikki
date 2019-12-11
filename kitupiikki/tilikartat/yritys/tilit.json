@@ -2357,7 +2357,7 @@
   },
   "erittely": 1,
   "laajuus": 3,
-  "muodot" :  ["osk"]
+  "muodot" : ["osk"]
  },
  {
   "numero": 215,
@@ -2414,7 +2414,7 @@
   },
   "erittely": 1,
   "laajuus": 1,
-  "muodot":  ["ky"]
+  "muodot": ["ky"]
  },
  {
   "numero": 2183,
