@@ -58,7 +58,6 @@ public:
         PVMLUKITTU      = 0b10,
         PVMALV          = 0b100,
         EITASMAA        = 0b1000,
-        NOLLA           = 0b10000,
         TILIPUUTTUU     = 0b100000,
         EIAVOINTAKUTTA  = 0b1000000
     };

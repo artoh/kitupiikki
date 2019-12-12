@@ -368,7 +368,7 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
     QRegularExpression arkistoRe("\\b([A-Za-z0-9]+\\s?)*");
     QRegularExpression seliteRe("[A-ö& \\-]{6,}");
     QRegularExpression pvmRe("(?<p>\\d{1,2})\\.?(?<k>\\d{1,2})\\.?(?<v>\\d{2}\\d{2}?)");
-    QRegularExpression ibanRe("\\b[A-Z]{2}[\\d{2}\\w\\s]{6,30}\\b");
+    QRegularExpression ibanRe("\\b[A-Z]{2}\\d{2}[\\w\\s]{6,30}\\b");
 
     QDate kirjauspvm;
 
@@ -524,12 +524,16 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
                        && sarake > arkistosarake + 5 && sarake < maarasarake - 5) {
                 QRegularExpressionMatch mats = viiteRe.match(teksti);
                 QString ehdokas = mats.captured("viite");
-                if( ViiteValidator::kelpaako(ehdokas))
+                if( ViiteValidator::kelpaako(ehdokas)) {
                     tapahtuma.insert("viite", ehdokas);
+                    if( tapahtuma.value("euro").toDouble() > 1e-5)
+                        tapahtuma.insert("ktokoodi", 705);
+                }
             } else if( tapahtumanrivi > 2 && sarake > arkistosarake + 5 && sarake < maarasarake - 5) {
                 if( teksti.contains(ibanRe)) {
                     QRegularExpressionMatch mats = ibanRe.match(teksti);
-                    tapahtuma.insert("iban",mats.captured(0));
+                    if( IbanValidator::kelpaako(mats.captured()))
+                        tapahtuma.insert("iban",mats.captured(0));
                 } else if ( !teksti.contains("viesti", Qt::CaseInsensitive)) {
                     if (!tapahtuma.value("selite").toString().isEmpty())
                         tapahtuma.insert("selite", tapahtuma.value("selite").toString() + " " + teksti);

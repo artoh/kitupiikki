@@ -140,7 +140,7 @@
         "S": 1
       },
       {
-        "fi": "Tuotot osuuksista omistusyhteysyrityksissä"
+        "fi": "Tuotot osuuksista omistusyhteysyrityksissä",
         "sv": "Intäkter från andelar i ägarintresseföretag",
         "L": "904..906 *",
         "S": 1
@@ -177,7 +177,7 @@
       },
       {
         "fi": "Voitto/tappio ennen tilinpäätössiirtoja ja veroja",
-        "sv": "Vinst/förlust före bokslutsdispositioner ock skatter"
+        "sv": "Vinst/förlust före bokslutsdispositioner ock skatter",
         "L": "=",
         "M": "bold",
         "V": 1
@@ -221,7 +221,7 @@
       {
         "fi": "Tilikauden voitto/tappio",
         "sv": "Räkenskapsperiodens vinst/förlust",
-        "L": "= S"
+        "L": "= S",
         "M": "bold",
         "V": 1
       }

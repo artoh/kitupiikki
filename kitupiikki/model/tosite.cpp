@@ -193,8 +193,6 @@ void Tosite::tarkasta()
     }
     if( qAbs(debet-kredit) > 1e-5 )
         virheet |= EITASMAA;
-    if( qAbs(debet)  < 1e-5 && qAbs(kredit) < 1e-5)
-        virheet |= NOLLA;
 
     emit tila(muutettu, virheet, debet, kredit);
 
