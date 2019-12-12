@@ -74,7 +74,10 @@ QVariantMap PdfTuonti::tuo(const QByteArray &data)
 QVariantMap PdfTuonti::tuoPdfLasku()
 {    
     QVariantMap data;
-    data.insert("tyyppi", TositeTyyppi::MENO );
+    if( etsi("kululasku",0,30))
+        data.insert("tyyppi", TositeTyyppi::KULULASKU);
+    else
+        data.insert("tyyppi", TositeTyyppi::MENO );
     QSet<QString> ibanit;
 
     // Tutkitaan, onko tässä tilisiirtolomaketta
@@ -113,7 +116,7 @@ QVariantMap PdfTuonti::tuoPdfLasku()
         } else {
             haettu = haeLahelta( ibansijainti / 100 + 11, ibansijainti % 100 - 2, 10, 10);
         }
-        if(haettu.value(0).length() > 6)
+        if(haettu.value(0).length() > 6 )
         {
             data.insert("kumppaninimi", haettu.value(0));
             QRegularExpression postiosoiteRe("(?<nro>\\d{5})\\s(?<kaupunki>\\w+)");
@@ -233,10 +236,16 @@ QVariantMap PdfTuonti::tuoPdfLasku()
     }
     if( !data.contains("kumppaninimi") )
     {
+        QStringList haetut;
         if( data.value("tyyppi").toInt() == TositeTyyppi::TULO)
-            data.insert("kumppaninimi", haeLahelta(15,0).value(0));
-        else if(!tekstit_.isEmpty())
-            data.insert("kumppaninimi",  tekstit_.values().first());
+            haetut = haeLahelta(15,0,50,50);
+        else
+            haetut = haeLahelta(0,0,50,50);
+        while (!haetut.isEmpty() &&
+               ( haetut.first().contains("lasku",Qt::CaseInsensitive) || haetut.first().contains( kp()->asetukset()->asetus("Nimi"), Qt::CaseInsensitive )))
+            haetut.removeAt(0);
+        if( !haetut.isEmpty())
+            data.insert("kumppaninimi", haetut.first());
     }
 
     QRegularExpression rahaRe("^\\d{1,10}[,.]\\d{2}(\\s?€)?$");
