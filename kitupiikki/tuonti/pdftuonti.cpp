@@ -59,8 +59,8 @@ QVariantMap PdfTuonti::tuo(const QByteArray &data)
         tuonti.haeTekstit(pdfDoc);
 
         if( tuonti.etsi("hyvityslasku",0,30))
-            {;}    // Hyvityslaskulle ei automaattista käsittelyä
-        else if( tuonti.etsi("lasku",0,30) /* && kp()->asetukset()->luku("TuontiOstolaskuPeruste") */)
+            {}    // Hyvityslaskulle ei automaattista käsittelyä
+        else if( tuonti.etsi("lasku",0,30) || tuonti.etsi("kuitti",0,30))
             return tuonti.tuoPdfLasku();
         else if( tuonti.etsi("tiliote",0,30) )
             return tuonti.tuoPdfTiliote();
@@ -97,18 +97,30 @@ QVariantMap PdfTuonti::tuoPdfLasku()
                 QString poimittu = ibanRe.match(t).captured(0);
                 if( !data.contains("tilinumero")  &&  IbanValidator::kelpaako(poimittu) )
                 {
-                    ibanit.insert( poimittu.remove(QRegularExpression("\\s")));
-                    break;
+                    QString iban = poimittu.remove(QRegularExpression("\\s"));
+                    if( kp()->tilit()->tiliIbanilla(iban).onkoValidi())
+                        data.insert("tyyppi", TositeTyyppi::TULO);
+                    else
+                        ibanit.insert(iban);
                 }
             }
         }
 
-        for( const QString& t : haeLahelta( ibansijainti / 100 + 11, ibansijainti % 100 - 2, 10, 10))
+        QStringList haettu;
+        if( data.value("tyyppi").toInt() == TositeTyyppi::TULO) {
+            int maksajasijainti = etsi("Maksajan", 130, 160, 0, 30);
+            haettu = haeLahelta(maksajasijainti / 100, maksajasijainti % 100 + 5, 10, 10);
+        } else {
+            haettu = haeLahelta( ibansijainti / 100 + 11, ibansijainti % 100 - 2, 10, 10);
+        }
+        if(haettu.value(0).length() > 6)
         {
-            if( t.length() > 5 && !t.contains(ibanRe))
-            {
-                data.insert("kumppaninimi", t);
-                break;
+            data.insert("kumppaninimi", haettu.value(0));
+            QRegularExpression postiosoiteRe("(?<nro>\\d{5})\\s(?<kaupunki>\\w+)");
+            QRegularExpressionMatch match = postiosoiteRe.match(haettu.value(2));
+            if( match.hasMatch()) {
+                data.insert("kumppaniosoite", haettu.value(1));
+                data.insert("kumppanipostinumero", match.captured("nro"));
             }
         }
 
@@ -219,9 +231,12 @@ QVariantMap PdfTuonti::tuoPdfLasku()
             }
         }
     }
-    if( !data.contains("kumppaninimi") && tekstit_.isEmpty())
+    if( !data.contains("kumppaninimi") )
     {
-        data.insert("kumppaninimi",  tekstit_.values().first());
+        if( data.value("tyyppi").toInt() == TositeTyyppi::TULO)
+            data.insert("kumppaninimi", haeLahelta(15,0).value(0));
+        else if(!tekstit_.isEmpty())
+            data.insert("kumppaninimi",  tekstit_.values().first());
     }
     if( !data.contains("summa") )
     {
@@ -255,8 +270,9 @@ QVariantMap PdfTuonti::tuoPdfLasku()
 
     if( !ibanit.isEmpty()) {
         QVariantList ibanlista;
-        for(QString str : ibanit.toList())
+        for(QString str : ibanit.toList()) {
             ibanlista << str;
+        }
         data.insert("iban", ibanlista);
     }
 
@@ -459,7 +475,7 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
                     teksti = teksti.mid(teksti.indexOf(' ')+1);
                 if( ktokoodi(teksti))
                     tapahtuma.insert("ktokoodi", ktokoodi(teksti));
-                else if( teksti.contains(seliteRe) && teksti.contains(' ') && !tapahtuma.contains("saajamaksaja"))
+                else if( teksti.contains(seliteRe) && teksti.contains(QRegularExpression("[ -&]")) && !tapahtuma.contains("saajamaksaja"))
                     tapahtuma.insert("saajamaksaja",teksti);
             }
             // Kakkosriville etsitään mm. ibania
@@ -523,6 +539,8 @@ int PdfTuonti::ktokoodi(const QString &teksti)
         return 721;
     else if(teksti.contains("PALVELUMAKSU"))
         return 730;
+    else if(teksti.contains("KORKOHYVITYS"))
+        return 750;
     return 0;
 }
 

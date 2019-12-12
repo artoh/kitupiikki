@@ -113,7 +113,7 @@ void AsiakasToimittajaValinta::tuonti(const QVariantMap &data)
         // Valitaan nimellä
         combo_->setCurrentIndex( combo_->findText( data.value("kumppaninimi").toString() ) );
     } else {
-        // Siirrytään dialogiin
+        // Siirrytään dialogiin        
         dlg_->tuonti(data);
     }
 }

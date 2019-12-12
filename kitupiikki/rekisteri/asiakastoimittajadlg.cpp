@@ -99,7 +99,6 @@ void AsiakasToimittajaDlg::ytunnuksella(const QString &ytunnus)
 {
     tauluun();
     ui->yEdit->setText(ytunnus);
-    tultuytunnarilla_ = true;
     haeYTunnarilla();    
 }
 
@@ -150,14 +149,16 @@ void AsiakasToimittajaDlg::tuonti(const QVariantMap &map)
     QVariantMap uusi;
     uusi.insert("nimi", map.value("kumppaninimi"));
     uusi.insert("iban", map.value("iban"));
+    uusi.insert("osoite", map.value("kumppaniosoite"));
+    uusi.insert("postinumero", map.value("kumppanipostinumero"));
     tauluun( uusi );
+    haeToimipaikka();
     ui->yEdit->setText( map.value("kumppaniytunnus").toString());
-    haeYTunnarilla();
-
-    if( ui->nimiEdit->text().isEmpty() || ui->yEdit->text().isEmpty())
-        show();
+    if( ui->yEdit->hasAcceptableInput())
+        haeYTunnarilla();
     else
-        accept();
+        show();
+
 }
 
 void AsiakasToimittajaDlg::lisaaRyhmaan(int ryhma)
@@ -291,7 +292,7 @@ void AsiakasToimittajaDlg::yTietoSaapuu()
     QNetworkReply *reply = qobject_cast<QNetworkReply*>( sender());
     QVariant var = QJsonDocument::fromJson( reply->readAll() ).toVariant();
     if( var.toMap().value("results").toList().isEmpty()) {
-        if( tultuytunnarilla_)
+        if( !isVisible())
             show();
         return;
     }
@@ -305,7 +306,7 @@ void AsiakasToimittajaDlg::yTietoSaapuu()
     ui->postinumeroEdit->setText( osoite.value("postCode").toString() );
     ui->kaupunkiEdit->setText( osoite.value("city").toString());
 
-    if( tultuytunnarilla_ )
+    if( !isVisible() )
         accept();
 
 }
