@@ -238,9 +238,29 @@ QVariantMap PdfTuonti::tuoPdfLasku()
         else if(!tekstit_.isEmpty())
             data.insert("kumppaninimi",  tekstit_.values().first());
     }
+
+    QRegularExpression rahaRe("^\\d{1,10}[,.]\\d{2}(\\s?€)?$");
+    // Etsitään ensin yhteensä-rahasummia
     if( !data.contains("summa") )
     {
-        QRegularExpression rahaRe("^\\d{1,10}[,.]\\d{2}$");
+        QMapIterator<int,QString> rIter(tekstit_);
+        while(rIter.hasNext()) {
+            rIter.next();
+            if( rIter.value().contains("yht", Qt::CaseInsensitive) && rIter.hasNext()) {
+                int edrivi = rIter.key() / 100;
+                rIter.next();
+                if( rahaRe.match(rIter.value()).hasMatch() && edrivi == rIter.key() / 100)
+                {
+                    double rahaa = TuontiApu::sentteina( rahaRe.match(rIter.value()).captured(0) ) / 100.0;
+                    if( rahaa > data.value("summa").toDouble() )
+                        data.insert("summa", rahaa);
+                }
+            }
+        }
+    }
+
+    if( !data.contains("summa") )
+    {
         // Etsitään isoin senttiluku
         for( const QString& teksti : tekstit_.values())
         {
