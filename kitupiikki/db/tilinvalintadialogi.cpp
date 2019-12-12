@@ -211,12 +211,13 @@ bool TilinValintaDialogi::eventFilter(QObject *object, QEvent *event)
 
 Tili TilinValintaDialogi::valitseTili(const QString &alku, const QString &tyyppiSuodatin, TiliModel *model)
 {
-    qDebug() << "TV " << alku;
-
-
     TilinValintaDialogi dlg;
     if( model )
         dlg.asetaModel( model );
+
+    dlg.show();
+    dlg.ui->suodatusEdit->setFocus();
+    dlg.ui->suodatusEdit->setSelection(0,0);
 
     if( alku.left(1) == '*')
     {
@@ -226,6 +227,7 @@ Tili TilinValintaDialogi::valitseTili(const QString &alku, const QString &tyyppi
         dlg.ui->suodatusEdit->setText(alku);
         dlg.suodataTyyppi(tyyppiSuodatin);
     }
+
 
     if( dlg.exec())
     {
