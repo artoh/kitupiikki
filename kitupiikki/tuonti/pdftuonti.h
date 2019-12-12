@@ -62,6 +62,7 @@ protected:
 
     QVariantList tuoTiliTapahtumat(bool kirjausPvmRivit, int vuosiluku);
 
+    int ktokoodi(const QString& teksti);
 
     /**
      * @brief Hakee pdf-dokumentit tekstit taulukkoon

@@ -329,13 +329,9 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
 
     QRegularExpression rahaRe("(?<etu>[+-])?(?<eur>(\\d+[ .])*\\d+),(?<snt>\\d{2})(?<taka>[+-])?");
     QRegularExpression viiteRe("((Viite|Reference)\\w*\\W*|\\b)(?<viite>(RF\\d{2}\\d{4,20}|\\d{4,20}))");
-    QRegularExpression arkistoRe("\\b([A-Za-z0-9]+\\s?)*\\b");
-    QRegularExpression seliteRe("\\b[A-ö& ]{8,}\\b");
-    QRegularExpression pvmRe("(?<p>\\d{1,2})\\.(?<k>\\d{1,2})\\.(?<v>\\d{2}\\d{2}?)");
-
-
-    IbanValidator ibanValidoija;
-    ViiteValidator viiteValidoija;
+    QRegularExpression arkistoRe("\\b([A-Za-z0-9]+\\s?)*");
+    QRegularExpression seliteRe("[A-ö& \\-]{6,}");
+    QRegularExpression pvmRe("(?<p>\\d{1,2})\\.?(?<k>\\d{1,2})\\.?(?<v>\\d{2}\\d{2}?)");
     QRegularExpression ibanRe("\\b[A-Z]{2}[\\d{2}\\w\\s]{6,30}\\b");
 
     QDate kirjauspvm;
@@ -348,7 +344,6 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
     int rivilla = -1;
     int sivulla = 0;
     int tapahtumanrivi = -1;
-    bool viestissa = false;
 
     QVariantMap tapahtuma;
 
@@ -424,7 +419,6 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
                                 sentit = 0 - sentit;
                             tapahtuma.insert("euro", sentit / 100.0);
                             tapahtuma.insert("pvm", kirjauspvm);
-                            viestissa = false;
                         }
                         tapahtumanrivi = 0;
                     }
@@ -439,50 +433,97 @@ QVariantList PdfTuonti::tuoTiliTapahtumat(bool kirjausPvmRivit = false, int vuos
                 teksti.contains(arkistoRe) && teksti.count(QRegularExpression("\\d")) > 4)
             {
                 QRegularExpressionMatch mats = arkistoRe.match(teksti);
-                QString tunnari = mats.captured();
+                QString tunnari = mats.captured().left(20);
                 if( !tunnari.contains("KIRJAUSPÄIVÄ", Qt::CaseInsensitive) &&
-                    !tunnari.contains("yhteen", Qt::CaseInsensitive))
+                    !tunnari.contains("yhteen", Qt::CaseInsensitive))                
 
                 tapahtuma.insert("arkistotunnus",mats.captured());
-            }
-            if( tapahtumanrivi == 1) {
-                if (teksti.contains("Palvelumaksu", Qt::CaseInsensitive))
-                    tapahtuma.insert("ktokoodi", 730);
+                if( teksti.length() > tunnari.length() + 10) {
+                    teksti = teksti.mid(tunnari.length() + 1);
+                    sarake += 7;
+                }
+            }            
+            if( !kirjausPvmRivit && teksti.contains(pvmRe)) {
+                QRegularExpressionMatch mats = pvmRe.match(teksti);
+                int vuosi = mats.captured("v").toInt();
+                if( !vuosi)
+                    vuosi = vuosiluku;
+                else if( vuosi < 100)
+                    vuosi += QDate::currentDate().year() / 100 * 100;
+                tapahtuma.insert("pvm",QDate( vuosi, mats.captured("k").toInt(), mats.captured("p").toInt()));
             }
 
+            if( tapahtumanrivi == 1 && sarake > arkistosarake + 5 && sarake < maarasarake - 2) {
+                QString alku = teksti.left(teksti.indexOf(' '));
+                if( alku.contains(QRegularExpression("\\d{1,2}\\.?\\d{1,2}")))
+                    teksti = teksti.mid(teksti.indexOf(' ')+1);
+                if( ktokoodi(teksti))
+                    tapahtuma.insert("ktokoodi", ktokoodi(teksti));
+                else if( teksti.contains(seliteRe) && teksti.contains(' ') && !tapahtuma.contains("saajamaksaja"))
+                    tapahtuma.insert("saajamaksaja",teksti);
+            }
             // Kakkosriville etsitään mm. ibania
-            if( tapahtumanrivi == 2 && sarake < arkistosarake + 5) {
+            if( tapahtumanrivi == 2 && sarake < arkistosarake + 5 ) {
                 QString alku = teksti.left(18);
                 if( IbanValidator::kelpaako(alku)) {
                     tapahtuma.insert("iban", alku);
                 }
                 QString loppu = teksti.mid(teksti.indexOf(' '));
-                if (loppu.contains(seliteRe))
+                if( ktokoodi(loppu))
+                    tapahtuma.insert("ktokoodi", ktokoodi(loppu));
+                else if (loppu.contains(seliteRe) && !tapahtuma.contains("saajamaksaja"))
                     tapahtuma.insert("saajamaksaja", loppu.simplified());
-            } else if( tapahtumanrivi == 2 && sarake > arkistosarake + 5 && teksti.contains(seliteRe) && !tapahtuma.contains("saajamaksaja")) {
+                else if( !loppu.contains("viesti",Qt::CaseInsensitive))
+                    tapahtuma.insert("selite", loppu);
+            } else if( tapahtumanrivi == 2 && sarake > arkistosarake + 5 &&
+                       sarake < maarasarake - 2 && teksti.contains(seliteRe) ) {
                 QString alku = teksti.left(teksti.indexOf(' '));
-                if( alku.contains(QRegularExpression("\\d{1,2}\\.\\d{1,2}")))
+                if( alku.contains(QRegularExpression("\\d{1,2}\\.?\\d{1,2}")))
                     teksti = teksti.mid(teksti.indexOf(' ')+1);
-                tapahtuma.insert("saajamaksaja", teksti);
-            } else if( teksti.contains("Viite:") && teksti.contains(viiteRe) && !tapahtuma.contains("viite") && sarake > arkistosarake + 5) {
+                if( ktokoodi(teksti))
+                    tapahtuma.insert("ktokoodi",ktokoodi(teksti));
+                else if( !tapahtuma.contains("saajamaksaja"))
+                    tapahtuma.insert("saajamaksaja", teksti);
+            } else if( teksti.contains("Viite") && teksti.contains(viiteRe) && !tapahtuma.contains("viite")
+                       && sarake > arkistosarake + 5 && sarake < maarasarake - 5) {
                 QRegularExpressionMatch mats = viiteRe.match(teksti);
                 QString ehdokas = mats.captured("viite");
                 if( ViiteValidator::kelpaako(ehdokas))
                     tapahtuma.insert("viite", ehdokas);
-            } else if( tapahtumanrivi > 2) {
-                if (viestissa) {
+            } else if( tapahtumanrivi > 2 && sarake > arkistosarake + 5 && sarake < maarasarake - 5) {
+                if( teksti.contains(ibanRe)) {
+                    QRegularExpressionMatch mats = ibanRe.match(teksti);
+                    tapahtuma.insert("iban",mats.captured(0));
+                } else if ( !teksti.contains("viesti", Qt::CaseInsensitive)) {
                     if (!tapahtuma.value("selite").toString().isEmpty())
                         tapahtuma.insert("selite", tapahtuma.value("selite").toString() + " " + teksti);
                     else
                         tapahtuma.insert("selite",teksti);
-                } else {
-                    if(teksti.contains("Viesti:", Qt::CaseInsensitive))
-                        viestissa = true;
                 }
             }
         }
     }  // Tekstien iterointi
     return tapahtumat;
+}
+
+int PdfTuonti::ktokoodi(const QString &teksti)
+{
+    QRegularExpression ktoRe("(?<kto>7[0-8][0-6])//s//w{4,10}");
+    if( teksti.contains(ktoRe)) {
+        QRegularExpressionMatch mats = ktoRe.match(teksti);
+        return mats.captured("kto").toInt();
+    }
+    if( teksti.contains("TILISIIRTO"))
+        return 700;
+    else if(teksti.contains("PANO"))
+        return 710;
+    else if(teksti.contains("OTTO") || teksti.contains("NOSTO"))
+        return 720;
+    else if(teksti.contains("KORTTIOSTO"))
+        return 721;
+    else if(teksti.contains("PALVELUMAKSU"))
+        return 730;
+    return 0;
 }
 
 
