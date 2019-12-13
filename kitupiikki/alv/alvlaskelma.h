@@ -26,6 +26,12 @@
 
 class Tosite;
 
+/**
+ * @brief Arvonlisälaskelman laatiminen
+ *
+ * @todo Maksuperusteisen alv:n erääntyneiden erien kirjaaminen
+ * @todo Voittomarginaaliverotus
+ */
 class AlvLaskelma : public Raportteri
 {               
     Q_OBJECT
