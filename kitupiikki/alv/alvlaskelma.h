@@ -93,12 +93,16 @@ protected:
     void yvRivi(int koodi, const QString& selite, qlonglong sentit);
     qlonglong kotimaanmyyntivero(int prosentinsadasosa);
 
+    void kasitteleMaksuperusteinen(const QVariantMap& map);
+
 protected:
     QDate alkupvm_;
     QDate loppupvm_;
 
     AlvTaulu taulu_;
     QMap<int,qlonglong> koodattu_;
+
+    QList<QPair<int,qlonglong>> maksuperusteiset_;
 
     qlonglong maksettava_ = 0l;
 

@@ -256,6 +256,23 @@ qlonglong AlvLaskelma::kotimaanmyyntivero(int prosentinsadasosa)
             taulu_.koodit.value(AlvKoodi::MYYNNIT_BRUTTO + AlvKoodi::ALVKIRJAUS).kannat.value(prosentinsadasosa).summa();
 }
 
+void AlvLaskelma::kasitteleMaksuperusteinen(const QVariantMap &map)
+{
+    // Myyntisaatavat ja ostosaatavat, jotka eivät ole
+    // aloita uutta tase-erää, saattavat olla maksuja
+
+    Tili* tili = kp()->tilit()->tili(map.value("tili").toInt());
+    if( map.value("era").toMap().value("id").toInt() != map.value("id").toInt() &&  tili ) {
+        int tositeId = map.value("tosite").toMap().value("id").toInt();
+        qlonglong debet = qRound64( map.value("debet").toDouble() * 100.0 );
+        qlonglong kredit = qRound64( map.value("kredit").toDouble() * 100.0 );
+
+        if( tili->onko(TiliLaji::MYYNTISAATAVA) || tili->onko(TiliLaji::OSTOVELKA)) {
+            maksuperusteiset_.append( qMakePair(tositeId, debet - kredit));
+        }
+    }
+}
+
 void AlvLaskelma::hae()
 {
     KpKysely* kysely = kpk("/viennit");
@@ -304,6 +321,7 @@ void AlvLaskelma::laske(const QDate &alkupvm, const QDate &loppupvm)
 
 void AlvLaskelma::viennitSaapuu(QVariant *viennit)
 {
+    bool maksuperusteinen = kp()->onkoMaksuperusteinenAlv(loppupvm_);
 
     taulu_.koodit.clear();
 
@@ -311,7 +329,9 @@ void AlvLaskelma::viennitSaapuu(QVariant *viennit)
     for(auto item : lista) {
         QVariantMap map = item.toMap();
         if( map.value("alvkoodi").toInt() )
-            taulu_.lisaa(map);
+            taulu_.lisaa(map);        
+        if( maksuperusteinen )
+            kasitteleMaksuperusteinen(map);
     }
 
     // Valmistelutoimet pitäisi tehdän vain jos ilmoitusta ei annettu
