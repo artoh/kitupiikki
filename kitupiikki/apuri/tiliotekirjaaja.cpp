@@ -140,7 +140,7 @@ TilioteModel::Tilioterivi TilioteKirjaaja::rivi()
 void TilioteKirjaaja::accept()
 {
     if( ui->okNappi->isEnabled() ) {
-        if( muokattavaRivi_) {
+        if( muokattavaRivi_ > -1) {
             apuri()->model()->muokkaaRivi( muokattavaRivi_, rivi());
             QDialog::accept();
         } else {

@@ -58,7 +58,7 @@ AlvSivu::AlvSivu() :
 
 void AlvSivu::siirrySivulle()
 {
-    ui->kausiCombo->setCurrentIndex( ui->kausiCombo->findData( kp()->asetukset()->luku("AlvKausi") ) );
+    ui->kausiCombo->setCurrentIndex( ui->kausiCombo->findData( kp()->asetukset()->asetus("AlvKausi") ) );
     ui->viimeisinEdit->setDate( kp()->asetukset()->pvm("AlvIlmoitus"));
     model->lataa();
     riviValittu();      // Jotta napit harmaantuvat
@@ -86,7 +86,7 @@ void AlvSivu::paivitaSeuraavat()
     seuraavaLoppuu = seuraavaAlkaa.addMonths( kausikk ).addDays(-1);
 
     ui->alkaaEdit->setDate(seuraavaAlkaa);
-    ui->paattyEdit->setDate(seuraavaLoppuu);
+    ui->paattyyEdit->setDate(seuraavaLoppuu);
     ui->tilitaNappi->setEnabled( seuraavaLoppuu <= kp()->tilikaudet()->kirjanpitoLoppuu() );
 
     if( ui->viimeisinEdit->date() >= kp()->tilikaudet()->kirjanpitoAlkaa().addYears(-1) )
@@ -111,7 +111,7 @@ void AlvSivu::ilmoita()
 
     connect(laskelma, &AlvLaskelma::valmis, dlg, &AlvIlmoitusDialog::naytaLaskelma);
     connect(laskelma, &AlvLaskelma::tallennettu, this, &AlvSivu::siirrySivulle);
-    laskelma->laske(seuraavaAlkaa, seuraavaLoppuu);
+    laskelma->laske(ui->alkaaEdit->date(), ui->paattyyEdit->date());
 
 }
 

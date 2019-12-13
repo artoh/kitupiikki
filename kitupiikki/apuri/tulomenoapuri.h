@@ -60,6 +60,7 @@ protected slots:
     void jaksoAlkaaMuuttui();
     void jaksoLoppuuMuuttui();
     void poistoAikaMuuttuu();
+    void paivitaVeroFiltterit(const QDate& pvm);
 
     void haeRivi(const QModelIndex& index);
     void haeKohdennukset();

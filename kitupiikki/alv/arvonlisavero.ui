@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>983</width>
+    <width>1116</width>
     <height>485</height>
    </rect>
   </property>
@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_7">
+    <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="1,1">
      <item>
       <widget class="QFrame" name="frame">
        <property name="frameShape">
@@ -72,14 +72,14 @@
             <item>
              <widget class="QLabel" name="maksuAlv">
               <property name="text">
-               <string>Ei käytettävissä tässä versiossa</string>
+               <string>-</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QPushButton" name="maksuperusteNappi">
               <property name="enabled">
-               <bool>false</bool>
+               <bool>true</bool>
               </property>
               <property name="text">
                <string/>
@@ -113,7 +113,7 @@
             <item row="0" column="0">
              <widget class="QLabel" name="label_3">
               <property name="text">
-               <string>Ilmoituskausi alkaa</string>
+               <string>Alv-ilmoitus alkaa</string>
               </property>
              </widget>
             </item>
@@ -137,12 +137,12 @@
             <item row="1" column="0">
              <widget class="QLabel" name="label_6">
               <property name="text">
-               <string>Ilmoituskausi päättyy</string>
+               <string>Alv-ilmoitus päättyy</string>
               </property>
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QDateEdit" name="paattyEdit"/>
+             <widget class="QDateEdit" name="paattyyEdit"/>
             </item>
            </layout>
           </item>

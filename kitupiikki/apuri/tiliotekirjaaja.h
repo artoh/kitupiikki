@@ -78,7 +78,7 @@ private:
 
     LaskuTauluTilioteProxylla *laskut_;
 
-    int muokattavaRivi_ = 0;
+    int muokattavaRivi_ = -1;
 };
 
 #endif // TILIOTEKIRJAAJA_H
