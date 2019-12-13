@@ -214,6 +214,7 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
         if( verokoodi == AlvKoodi::MAKSUPERUSTEINEN_OSTO) {
             palautus.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVSAATAVA).numero() );
             palautus.setAlvKoodi( AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_OSTO );
+            palautus.setEra(-1);
         } else {
             palautus.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).numero());
             palautus.setAlvKoodi( AlvKoodi::ALVVAHENNYS + verokoodi );
@@ -239,6 +240,7 @@ QVariantList TulomenoRivi::viennit(Tosite* tosite) const
         if( verokoodi == AlvKoodi::MAKSUPERUSTEINEN_MYYNTI) {
             verorivi.setTili( kp()->tilit()->tiliTyypilla( TiliLaji::KOHDENTAMATONALVVELKA ).numero() );
             verorivi.setAlvKoodi( AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_MYYNTI);
+            verorivi.setEra(-1);
         } else {
             verorivi.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).numero());
             verorivi.setAlvKoodi( AlvKoodi::ALVKIRJAUS + verokoodi);

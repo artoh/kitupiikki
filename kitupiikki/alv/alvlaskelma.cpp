@@ -256,21 +256,95 @@ qlonglong AlvLaskelma::kotimaanmyyntivero(int prosentinsadasosa)
             taulu_.koodit.value(AlvKoodi::MYYNNIT_BRUTTO + AlvKoodi::ALVKIRJAUS).kannat.value(prosentinsadasosa).summa();
 }
 
+void AlvLaskelma::tilaaMaksuperusteisenTosite()
+{
+    if( maksuperusteTositteet_.isEmpty()) {
+        viimeistele();
+    } else {
+        int tosite = maksuperusteTositteet_.takeLast();
+        int era = maksuperusteiset_.value(tosite).first;
+        qlonglong saldo = maksuperusteiset_.value(tosite).second;
+        KpKysely *kysely = kpk("/tositteet");
+        kysely->lisaaAttribuutti("vienti",era);
+
+        connect( kysely, &KpKysely::vastaus, [this, saldo] (QVariant* var) {this->maksuperusteTositesaapuu(var, saldo);});
+        kysely->kysy();
+    }
+}
+
 void AlvLaskelma::kasitteleMaksuperusteinen(const QVariantMap &map)
 {
     // Myyntisaatavat ja ostosaatavat, jotka eivät ole
     // aloita uutta tase-erää, saattavat olla maksuja
 
     Tili* tili = kp()->tilit()->tili(map.value("tili").toInt());
-    if( map.value("era").toMap().value("id").toInt() != map.value("id").toInt() &&  tili ) {
+    if( tili ) {
         int tositeId = map.value("tosite").toMap().value("id").toInt();
         qlonglong debet = qRound64( map.value("debet").toDouble() * 100.0 );
         qlonglong kredit = qRound64( map.value("kredit").toDouble() * 100.0 );
+        int era = map.value("era").toMap().value("id").toInt();
 
         if( tili->onko(TiliLaji::MYYNTISAATAVA) || tili->onko(TiliLaji::OSTOVELKA)) {
-            maksuperusteiset_.append( qMakePair(tositeId, debet - kredit));
+            maksuperusteiset_.insert( tositeId, qMakePair(era, debet - kredit));
+        } else if( tili->onko(TiliLaji::RAHAVARAT)) {
+            if( !maksuperusteTositteet_.contains(tositeId))
+                maksuperusteTositteet_.append(tositeId);
         }
     }
+}
+
+void AlvLaskelma::maksuperusteTositesaapuu(QVariant *variant, qlonglong sentit)
+{
+    QVariantMap map = variant->toMap();
+    if( sentit ) {
+        // Ensimmäisenä vientinä on vastakirjaus, jonka avulla voidaan laskea prosenttiosuudet
+        QVariantList viennit = map.value("viennit").toList();
+        TositeVienti vasta = viennit.value(0).toMap();
+        qlonglong vastasentit = qRound64( vasta.kredit() * 100.0 ) - qRound64( vasta.debet() * 100.0);
+
+        for(QVariant item : viennit) {
+            TositeVienti vienti = item.toMap();
+            if( vienti.alvKoodi() == AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_MYYNTI) {
+                TositeVienti kohdentamattomasta;
+                kohdentamattomasta.setTili(vienti.tili());
+                double eurot = qRound64(vienti.kredit() * 100 * sentit / vastasentit) / 100.0;
+                kohdentamattomasta.setDebet( eurot );
+                kohdentamattomasta.setEra(vienti.era());
+                kohdentamattomasta.setAlvProsentti(vienti.alvProsentti());
+                kohdentamattomasta.setSelite("Maksuperusteinen alv " + vienti.pvm().toString("dd.MM.yyyy") + " " + vienti.selite() );
+                kohdentamattomasta.setAlvKoodi(AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_MYYNTI);
+                lisaaKirjausVienti(kohdentamattomasta);
+
+                TositeVienti kohdennettuun;
+                kohdennettuun.setTili(kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).numero());
+                kohdennettuun.setKredit(eurot);
+                kohdennettuun.setSelite("Maksuperusteinen alv " + vienti.pvm().toString("dd.MM.yyyy") + " " + vienti.selite() );
+                kohdennettuun.setAlvProsentti(vienti.alvProsentti());
+                kohdennettuun.setAlvKoodi(AlvKoodi::MYYNNIT_NETTO + AlvKoodi::ALVKIRJAUS);
+                lisaaKirjausVienti(kohdennettuun);
+            } else if( vienti.alvKoodi() == AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_OSTO) {
+                TositeVienti kohdentamattomasta;
+                kohdentamattomasta.setTili(vienti.tili());
+                double eurot = qRound64(vienti.debet() * 100 * sentit / vastasentit) / 100.0;
+                kohdentamattomasta.setKredit( eurot );
+                kohdentamattomasta.setEra(vienti.era());
+                kohdentamattomasta.setAlvProsentti(vienti.alvProsentti());
+                kohdentamattomasta.setSelite("Maksuperusteinen alv " + vienti.pvm().toString("dd.MM.yyyy") + " " + vienti.selite() );
+                kohdentamattomasta.setAlvKoodi(AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_OSTO);
+                lisaaKirjausVienti(kohdentamattomasta);
+
+                TositeVienti kohdennettuun;
+                kohdennettuun.setTili(kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).numero());
+                kohdennettuun.setDebet(eurot);
+                kohdennettuun.setSelite("Maksuperusteinen alv " + vienti.pvm().toString("dd.MM.yyyy") + " " + vienti.selite() );
+                kohdennettuun.setAlvProsentti(vienti.alvProsentti());
+                kohdennettuun.setAlvKoodi(AlvKoodi::OSTOT_NETTO + AlvKoodi::ALVVAHENNYS);
+                lisaaKirjausVienti(kohdennettuun);
+            }
+        }
+
+    }
+    tilaaMaksuperusteisenTosite();
 }
 
 void AlvLaskelma::hae()
@@ -333,15 +407,8 @@ void AlvLaskelma::viennitSaapuu(QVariant *viennit)
         if( maksuperusteinen )
             kasitteleMaksuperusteinen(map);
     }
-
-    // Valmistelutoimet pitäisi tehdän vain jos ilmoitusta ei annettu
-    oikaiseBruttoKirjaukset();
-
-    kirjoitaLaskelma();
-
-    kirjaaVerot();
-
-    emit valmis( rk );
+    // Jos maksuperuste, käsitellään ko. tositteet
+    tilaaMaksuperusteisenTosite();
 }
 
 void AlvLaskelma::laskeHuojennus(QVariant *viennit)
@@ -395,6 +462,15 @@ void AlvLaskelma::tallennusValmis()
 {
     kp()->asetukset()->aseta("AlvIlmoitus", loppupvm_);
     emit tallennettu();
+}
+
+void AlvLaskelma::viimeistele()
+{
+    // Valmistelutoimet pitäisi tehdän vain jos ilmoitusta ei annettu
+    oikaiseBruttoKirjaukset();
+    kirjoitaLaskelma();
+    kirjaaVerot();
+    emit valmis( rk );
 }
 
 void AlvLaskelma::kirjaaHuojennus()

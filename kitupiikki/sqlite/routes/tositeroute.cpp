@@ -34,6 +34,8 @@ QVariant TositeRoute::get(const QString &polku, const QUrlQuery &urlquery)
 {
     if( !polku.isEmpty())
         return hae( polku.toInt() );
+    else if( urlquery.hasQueryItem("vienti"))
+        return hae( 0 - urlquery.queryItemValue("vienti").toInt());
 
     // Muuten tositteiden lista
     QStringList ehdot;
@@ -380,12 +382,20 @@ QVariantList TositeRoute::lokinpurku(QSqlQuery &kysely) const
 QVariant TositeRoute::hae(int tositeId)
 {
     QSqlQuery kysely(db());
-    kysely.exec(QString("SELECT tosite.id as id, pvm, tyyppi, tila, tunniste, sarja, otsikko, tosite.json as json, "
+    if( tositeId > 0)
+        kysely.exec(QString("SELECT tosite.id as id, pvm, tyyppi, tila, tunniste, sarja, otsikko, tosite.json as json, "
                         "kumppani.id as kumppani_id, kumppani.nimi as kumppani_nimi FROM Tosite "
                         " LEFT OUTER JOIN kumppani ON tosite.kumppani=kumppani.id "
                         "WHERE tosite.id=%1").arg(tositeId));
+    else
+        kysely.exec(QString("SELECT tosite.id as id, tosite.pvm as pvm, tosite.tyyppi as tosite, tila, tunniste, sarja, otsikko, tosite.json as json, "
+                        "kumppani.id as kumppani_id, kumppani.nimi as kumppani_nimi FROM Vienti JOIN Tosite ON Vienti.tosite=Tosite.id"
+                        " LEFT OUTER JOIN kumppani ON tosite.kumppani=kumppani.id "
+                        "WHERE vienti.id=%1").arg(0-tositeId));
+
 
     QVariantMap tosite = resultMap(kysely);
+    tositeId = tosite.value("id").toInt();
 
     // Viennit
     kysely.exec(QString("SELECT vienti.id as id, tyyppi, pvm, tili, kohdennus, selite, debetsnt, kreditsnt, eraid as era_id, alvprosentti, alvkoodi, "

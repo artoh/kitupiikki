@@ -22,6 +22,7 @@
 
 #include <QMap>
 #include <QVariantMap>
+#include <QHash>
 
 class Tosite;
 
@@ -81,6 +82,7 @@ protected slots:
     void tallennusValmis();
 
 protected:
+    void viimeistele();
     void hae();
     void lisaaKirjausVienti(TositeVienti vienti);
 
@@ -93,7 +95,9 @@ protected:
     void yvRivi(int koodi, const QString& selite, qlonglong sentit);
     qlonglong kotimaanmyyntivero(int prosentinsadasosa);
 
+    void tilaaMaksuperusteisenTosite();
     void kasitteleMaksuperusteinen(const QVariantMap& map);
+    void maksuperusteTositesaapuu(QVariant* variant, qlonglong sentit);
 
 protected:
     QDate alkupvm_;
@@ -102,7 +106,8 @@ protected:
     AlvTaulu taulu_;
     QMap<int,qlonglong> koodattu_;
 
-    QList<QPair<int,qlonglong>> maksuperusteiset_;
+    QHash<int,QPair<int,qlonglong>> maksuperusteiset_;
+    QList<int> maksuperusteTositteet_;
 
     qlonglong maksettava_ = 0l;
 

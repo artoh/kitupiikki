@@ -95,7 +95,7 @@ QString VerotyyppiModel::yhdistelmaSeliteKoodilla(int koodi) const
         return tr("VERON MÄÄRÄ %1").arg( seliteKoodilla(koodi % 100) );
     else if( koodi / 100 == 2)
         return tr("VÄHENNYKSEN MÄÄRÄ %1").arg( seliteKoodilla(koodi % 100));
-    else if( koodi / 100 == 300)
+    else if( koodi / 100 == 4)
         return tr("KOHDENTAMATON MAKSUPERUSTEINEN %1").arg(seliteKoodilla(koodi % 100));
     else
         return seliteKoodilla( koodi );
