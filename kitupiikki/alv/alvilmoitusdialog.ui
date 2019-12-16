@@ -44,16 +44,6 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QCheckBox" name="saatavaCheck">
-         <property name="text">
-          <string>Käytä aiempi verosaaminen tilitykseen</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QCheckBox" name="huojennusCheck">
          <property name="text">
           <string>Kirjaa alarajahuojennus laskelman mukaisesti</string>

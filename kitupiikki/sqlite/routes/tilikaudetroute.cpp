@@ -248,6 +248,9 @@ QVariant TilikaudetRoute::laskelma(const Tilikausi &kausi)
             map.insert("tunniste", kysely.value(9));
             jaksotukset.append(map);
         }
+
+        // TODO: Negatiivinen alv-velka jaksotetaan alv-saamiseksi tilinpäätökseen
+
         ulos.insert("jaksotukset", jaksotukset);
     }
 

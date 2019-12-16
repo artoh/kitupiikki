@@ -570,6 +570,7 @@ void AlvLaskelma::oikaiseBruttoKirjaukset()
             pois.setDebet( vero / 100.0 );
             pois.setAlvKoodi( AlvKoodi::MYYNNIT_BRUTTO );
             pois.setAlvProsentti( sadasosaprosentti / 100.0 );
+            pois.setTyyppi(TositeVienti::BRUTTOOIKAISU);
             pois.setSelite(selite);
             lisaaKirjausVienti( pois );
 
@@ -577,23 +578,24 @@ void AlvLaskelma::oikaiseBruttoKirjaukset()
             veroon.setTili( kp()->tilit()->tiliTyypilla( TiliLaji::ALVVELKA ).numero() );
             veroon.setKredit( vero / 100.0);
             veroon.setAlvKoodi( AlvKoodi::ALVKIRJAUS + AlvKoodi::MYYNNIT_BRUTTO);
+            veroon.setTyyppi( TositeVienti::BRUTTOOIKAISU );
             veroon.setAlvProsentti( sadasosaprosentti / 100.0);
             veroon.setSelite(selite);
             lisaaKirjausVienti( veroon );
         }
     }
 
-    QMapIterator<int,KantaTaulu> osto( taulu_.koodit.value( AlvKoodi::OSTOT_BRUTTO ).kannat );
-    while( myyntiIter.hasNext())
+    QMapIterator<int,KantaTaulu> ostoIter( taulu_.koodit.value( AlvKoodi::OSTOT_BRUTTO ).kannat );
+    while( ostoIter.hasNext())
     {
-        myyntiIter.next();
-        QMapIterator<int,TiliTaulu> tiliIter( myyntiIter.value().tilit );
+        ostoIter.next();
+        QMapIterator<int,TiliTaulu> tiliIter( ostoIter.value().tilit );
         while( tiliIter.hasNext())
         {
             tiliIter.next();
             int tili = tiliIter.key();
-            qlonglong brutto = tiliIter.value().summa();
-            int sadasosaprosentti = myyntiIter.key();
+            qlonglong brutto = tiliIter.value().summa(true);
+            int sadasosaprosentti = ostoIter.key();
 
             qlonglong netto = brutto * 10000 / ( 10000 + sadasosaprosentti);
             qlonglong vero = sadasosaprosentti * netto / 10000;
