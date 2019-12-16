@@ -104,6 +104,8 @@ protected:
     void tilaaMaksuperusteisenTosite();
     void kasitteleMaksuperusteinen(const QVariantMap& map);
     void maksuperusteTositesaapuu(QVariant* variant, qlonglong sentit);
+    void tilaaNollausLista(const QDate& pvm);
+    void nollaaMaksuperusteisetErat(QVariant* variant, const QDate &pvm);
 
 protected:
     QDate alkupvm_;
@@ -114,6 +116,9 @@ protected:
 
     QHash<int,QPair<int,qlonglong>> maksuperusteiset_;
     QList<int> maksuperusteTositteet_;
+    QList<QPair<int,qlonglong>> nollattavatErat_;
+    QSet<int> nollatutErat_;
+    int nollattavatHaut_ = 2;
 
     qlonglong maksettava_ = 0l;
 

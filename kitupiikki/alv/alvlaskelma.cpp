@@ -264,19 +264,40 @@ qlonglong AlvLaskelma::kotimaanmyyntivero(int prosentinsadasosa)
             taulu_.koodit.value(AlvKoodi::MAKSUPERUSTEINEN_MYYNTI + AlvKoodi::ALVKIRJAUS).kannat.value(prosentinsadasosa).summa();
 }
 
+
+
 void AlvLaskelma::tilaaMaksuperusteisenTosite()
 {
-    if( maksuperusteTositteet_.isEmpty()) {
-        viimeistele();
-    } else {
-        int tosite = maksuperusteTositteet_.takeLast();
-        int era = maksuperusteiset_.value(tosite).first;
-        qlonglong saldo = maksuperusteiset_.value(tosite).second;
+    if( !nollattavatErat_.isEmpty()) {
+        // Ajan perusteella nollattavaa
+        QPair<int,qlonglong> nollattava = nollattavatErat_.takeFirst();
         KpKysely *kysely = kpk("/tositteet");
-        kysely->lisaaAttribuutti("vienti",era);
-
-        connect( kysely, &KpKysely::vastaus, [this, saldo] (QVariant* var) {this->maksuperusteTositesaapuu(var, saldo);});
+        kysely->lisaaAttribuutti("vienti", nollattava.first);
+        connect( kysely, &KpKysely::vastaus, [this, nollattava] (QVariant* var) { this->maksuperusteTositesaapuu(var, nollattava.second);});
         kysely->kysy();
+        nollatutErat_.insert(nollattava.first);
+    } else {
+        int tosite = 0;
+        int era = 0;
+        qlonglong saldo = 0;
+
+        while (!maksuperusteTositteet_.isEmpty()) {
+            int tosite = maksuperusteTositteet_.takeLast();
+            int era = maksuperusteiset_.value(tosite).first;
+            qlonglong saldo = maksuperusteiset_.value(tosite).second;
+            if( !nollatutErat_.contains(era) && qAbs(saldo) > 1e-5)
+                break;
+        }
+        if( !tosite)
+            viimeistele();
+        else {
+
+            KpKysely *kysely = kpk("/tositteet");
+            kysely->lisaaAttribuutti("vienti",era);
+
+            connect( kysely, &KpKysely::vastaus, [this, saldo] (QVariant* var) {this->maksuperusteTositesaapuu(var, saldo);});
+            kysely->kysy();
+        }
     }
 }
 
@@ -304,66 +325,102 @@ void AlvLaskelma::kasitteleMaksuperusteinen(const QVariantMap &map)
 void AlvLaskelma::maksuperusteTositesaapuu(QVariant *variant, qlonglong sentit)
 {
     QVariantMap map = variant->toMap();
-    if( sentit ) {
-        // Ensimmäisenä vientinä on vastakirjaus, jonka avulla voidaan laskea prosenttiosuudet
-        QVariantList viennit = map.value("viennit").toList();
-        TositeVienti vasta = viennit.value(0).toMap();
-        qlonglong vastasentit = qRound64( vasta.kredit() * 100.0 ) - qRound64( vasta.debet() * 100.0);
+    QVariantList viennit = map.value("viennit").toList();
+    TositeVienti vasta = viennit.value(0).toMap();
+    qlonglong vastasentit = qRound64( vasta.kredit() * 100.0 ) - qRound64( vasta.debet() * 100.0);
 
-        for(QVariant item : viennit) {
-            TositeVienti vienti = item.toMap();
-            if( qAbs(vienti.era().value("saldo").toDouble()) < 1e-5) {
-                // Jos vero on jo maksettu, ei makseta uudelleen...
-            } else if( vienti.alvKoodi() == AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_MYYNTI) {
-                TositeVienti kohdentamattomasta;
-                kohdentamattomasta.setTili(vienti.tili());
-                double eurot = qRound64(vienti.kredit() * 100 * sentit / vastasentit) / 100.0;
-                kohdentamattomasta.setDebet( eurot );
-                kohdentamattomasta.setEra(vienti.era());
-                kohdentamattomasta.setAlvProsentti(vienti.alvProsentti());
-                kohdentamattomasta.setSelite("Maksuperusteinen alv " + vienti.pvm().toString("dd.MM.yyyy") + " " + vienti.selite() );
-                kohdentamattomasta.setAlvKoodi(AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_MYYNTI);
-                lisaaKirjausVienti(kohdentamattomasta);
+    for(QVariant item : viennit) {
+        TositeVienti vienti = item.toMap();
+        if( qAbs(vienti.era().value("saldo").toDouble()) < 1e-5) {
+            // Jos vero on jo maksettu, ei makseta uudelleen...
+        } else if( vienti.alvKoodi() == AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_MYYNTI) {
+            TositeVienti kohdentamattomasta;
+            kohdentamattomasta.setTili(vienti.tili());
+            double eurot = qRound64(vienti.kredit() * 100 * sentit / vastasentit) / 100.0;
+            kohdentamattomasta.setDebet( eurot );
+            kohdentamattomasta.setEra(vienti.era());
+            kohdentamattomasta.setAlvProsentti(vienti.alvProsentti());
+            kohdentamattomasta.setSelite("Maksuperusteinen alv " + vienti.pvm().toString("dd.MM.yyyy") + " " + vienti.selite() );
+            kohdentamattomasta.setAlvKoodi(AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_MYYNTI);
+            lisaaKirjausVienti(kohdentamattomasta);
 
-                TositeVienti kohdennettuun;
-                kohdennettuun.setTili(kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).numero());
-                kohdennettuun.setKredit(eurot);
-                kohdennettuun.setSelite("Maksuperusteinen alv " + vienti.pvm().toString("dd.MM.yyyy") + " " + vienti.selite() );
-                kohdennettuun.setAlvProsentti(vienti.alvProsentti());
-                kohdennettuun.setAlvKoodi(AlvKoodi::MAKSUPERUSTEINEN_MYYNTI + AlvKoodi::ALVKIRJAUS);
-                lisaaKirjausVienti(kohdennettuun);
-            } else if( vienti.alvKoodi() == AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_OSTO) {
-                TositeVienti kohdentamattomasta;
-                kohdentamattomasta.setTili(vienti.tili());
-                double eurot = qRound64(vienti.debet() * 100 * sentit / vastasentit) / 100.0;
-                kohdentamattomasta.setKredit( eurot );
-                kohdentamattomasta.setEra(vienti.era());
-                kohdentamattomasta.setAlvProsentti(vienti.alvProsentti());
-                kohdentamattomasta.setSelite("Maksuperusteinen alv " + vienti.pvm().toString("dd.MM.yyyy") + " " + vienti.selite() );
-                kohdentamattomasta.setAlvKoodi(AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_OSTO);
-                lisaaKirjausVienti(kohdentamattomasta);
+            TositeVienti kohdennettuun;
+            kohdennettuun.setTili(kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).numero());
+            kohdennettuun.setKredit(eurot);
+            kohdennettuun.setSelite("Maksuperusteinen alv " + vienti.pvm().toString("dd.MM.yyyy") + " " + vienti.selite() );
+            kohdennettuun.setAlvProsentti(vienti.alvProsentti());
+            kohdennettuun.setAlvKoodi(AlvKoodi::MAKSUPERUSTEINEN_MYYNTI + AlvKoodi::ALVKIRJAUS);
+            lisaaKirjausVienti(kohdennettuun);
+        } else if( vienti.alvKoodi() == AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_OSTO) {
+            TositeVienti kohdentamattomasta;
+            kohdentamattomasta.setTili(vienti.tili());
+            double eurot = qRound64(vienti.debet() * 100 * sentit / vastasentit) / 100.0;
+            kohdentamattomasta.setKredit( eurot );
+            kohdentamattomasta.setEra(vienti.era());
+            kohdentamattomasta.setAlvProsentti(vienti.alvProsentti());
+            kohdentamattomasta.setSelite("Maksuperusteinen alv " + vienti.pvm().toString("dd.MM.yyyy") + " " + vienti.selite() );
+            kohdentamattomasta.setAlvKoodi(AlvKoodi::MAKSUPERUSTEINEN_KOHDENTAMATON + AlvKoodi::MAKSUPERUSTEINEN_OSTO);
+            lisaaKirjausVienti(kohdentamattomasta);
 
-                TositeVienti kohdennettuun;
-                kohdennettuun.setTili(kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).numero());
-                kohdennettuun.setDebet(eurot);
-                kohdennettuun.setSelite("Maksuperusteinen alv " + vienti.pvm().toString("dd.MM.yyyy") + " " + vienti.selite() );
-                kohdennettuun.setAlvProsentti(vienti.alvProsentti());
-                kohdennettuun.setAlvKoodi(AlvKoodi::MAKSUPERUSTEINEN_OSTO + AlvKoodi::ALVVAHENNYS);
-                lisaaKirjausVienti(kohdennettuun);
-            }
+            TositeVienti kohdennettuun;
+            kohdennettuun.setTili(kp()->tilit()->tiliTyypilla(TiliLaji::ALVSAATAVA).numero());
+            kohdennettuun.setDebet(eurot);
+            kohdennettuun.setSelite("Maksuperusteinen alv " + vienti.pvm().toString("dd.MM.yyyy") + " " + vienti.selite() );
+            kohdennettuun.setAlvProsentti(vienti.alvProsentti());
+            kohdennettuun.setAlvKoodi(AlvKoodi::MAKSUPERUSTEINEN_OSTO + AlvKoodi::ALVVAHENNYS);
+            lisaaKirjausVienti(kohdennettuun);
         }
 
     }
     tilaaMaksuperusteisenTosite();
 }
 
+void AlvLaskelma::tilaaNollausLista(const QDate &pvm)
+{
+    KpKysely *kysely = kpk("/erat");
+    kysely->lisaaAttribuutti("tili", kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVVELKA).numero());
+    connect( kysely, &KpKysely::vastaus, [this,pvm] (QVariant *data) { this->nollaaMaksuperusteisetErat(data, pvm);} );
+    kysely->kysy();
+
+    kysely = kpk("/erat");
+    kysely->lisaaAttribuutti("tili", kp()->tilit()->tiliTyypilla(TiliLaji::KOHDENTAMATONALVSAATAVA).numero());
+    connect( kysely, &KpKysely::vastaus, [this,pvm] (QVariant *data) { this->nollaaMaksuperusteisetErat(data, pvm);} );
+    kysely->kysy();
+}
+
+void AlvLaskelma::nollaaMaksuperusteisetErat(QVariant *variant, const QDate& pvm)
+{
+    QVariantList list = variant->toList();
+    for( auto item : list) {
+        QVariantMap map = item.toMap();
+        if( map.value("pvm").toDate() > pvm)
+            continue;
+        int eraid = map.value("id").toInt();
+        qlonglong saldo = qRound64(map.value("avoin").toDouble() * 100.0);
+        nollattavatErat_.append(qMakePair(eraid, saldo));
+    }
+    nollattavatHaut_--;
+    if( !nollattavatHaut_)
+        hae();
+}
+
 void AlvLaskelma::hae()
 {
-    KpKysely* kysely = kpk("/viennit");
-    kysely->lisaaAttribuutti("alkupvm", alkupvm_);
-    kysely->lisaaAttribuutti("loppupvm", loppupvm_);
-    connect( kysely, &KpKysely::vastaus, this, &AlvLaskelma::viennitSaapuu);
-    kysely->kysy();
+    // Jos maksuperusteinen nollaus, tehdään se ensin
+    // Jos maksuperusteinen käytössä, ovat erääntyvät vuosi sitten tehdyt erät
+    if( kp()->onkoMaksuperusteinenAlv(loppupvm_) && nollattavatHaut_)
+        tilaaNollausLista(alkupvm_.addYears(-1));
+    else if( kp()->asetukset()->pvm("MaksuAlvLoppuu") == alkupvm_ && nollattavatHaut_)
+        // Kun maksuperusteinen alv päätetään, erääntyvät kaikki erät
+        tilaaNollausLista( alkupvm_);
+    else {
+
+        KpKysely* kysely = kpk("/viennit");
+        kysely->lisaaAttribuutti("alkupvm", alkupvm_);
+        kysely->lisaaAttribuutti("loppupvm", loppupvm_);
+        connect( kysely, &KpKysely::vastaus, this, &AlvLaskelma::viennitSaapuu);
+        kysely->kysy();
+    }
 }
 
 void AlvLaskelma::laske(const QDate &alkupvm, const QDate &loppupvm)
