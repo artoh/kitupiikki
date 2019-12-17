@@ -241,6 +241,9 @@ void AlvLaskelma::kirjoitaErittely()
             }
         }
     }
+    // Marginaalierittely
+    for( RaporttiRivi rivi : marginaaliRivit_)
+        rk.lisaaRivi(rivi);
 }
 
 void AlvLaskelma::yvRivi(int koodi, const QString &selite, qlonglong sentit)
@@ -404,6 +407,74 @@ void AlvLaskelma::nollaaMaksuperusteisetErat(QVariant *variant, const QDate& pvm
         hae();
 }
 
+void AlvLaskelma::laskeMarginaaliVerotus(int kanta)
+{
+    KoodiTaulu taulu = taulu_.koodit.value(AlvKoodi::MYYNNIT_MARGINAALI);
+    KantaTaulu ktaulu = taulu.kannat.value(kanta);
+    qlonglong myynti = ktaulu.summa();
+
+    KoodiTaulu ostotaulu = taulu_.koodit.value(AlvKoodi::OSTOT_MARGINAALI);
+    KantaTaulu oktaulu = ostotaulu.kannat.value(kanta);
+    qlonglong ostot = oktaulu.summa(true);
+
+    qlonglong marginaali = myynti - ostot;      // TODO: Alijäämän lisäys
+    qlonglong vero = qRound64(marginaali * 1.00 * kanta / (10000 + kanta));
+
+    if( myynti || ostot ) {
+        marginaaliRivit_.append(RaporttiRivi());
+        marginaaliRivi(tr("Voittomarginaalimenettely myynti"),kanta,myynti);
+        marginaaliRivi(tr("Voittomarginaalimenettely ostot"), kanta, ostot);
+        marginaaliRivi(tr("Marginaali"), kanta, marginaali);
+        marginaaliRivi(tr("Vero"),kanta,vero);
+    }
+
+    if( vero > 0) {
+        // Marginaalivero kirjataan kaikille marginaalitileille
+        QMapIterator<int,TiliTaulu> kirjausIter(ktaulu.tilit);
+        while( kirjausIter.hasNext()) {
+            kirjausIter.next();
+            int tili = kirjausIter.key();
+            qlonglong tilinmyynti = kirjausIter.value().summa();
+
+            QString selite = tr("Voittomarginaalivero (Verokanta %1 %, osuus %2 %)")
+                    .arg(kanta / 100.0, 0, 'f', 2)
+                    .arg(tilinmyynti * 100.0 / myynti, 0, 'f', 2);
+            TositeVienti tililta;
+            tililta.setTili(tili);
+            double eurot = qRound64(tilinmyynti * 1.0 / myynti * vero )/ 100.0;
+            tililta.setDebet( eurot );
+            tililta.setAlvProsentti(kanta / 100.0);
+            tililta.setSelite(selite);
+            tililta.setAlvKoodi(AlvKoodi::MYYNNIT_MARGINAALI + AlvKoodi::TILITYS);
+            tililta.setTyyppi(TositeVienti::BRUTTOOIKAISU);
+            lisaaKirjausVienti(tililta);
+
+            TositeVienti tilille;
+            tilille.setTili(kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).numero());
+            tilille.setKredit( eurot );
+            tilille.setAlvProsentti( kanta / 100.0);
+            tilille.setSelite( selite );
+            tilille.setAlvKoodi(AlvKoodi::MYYNNIT_MARGINAALI + AlvKoodi::ALVKIRJAUS);
+            lisaaKirjausVienti(tilille);
+        }
+
+    } else if( vero < 0) {
+        // Marginaaliveron alijäämä laitetaan muistiin
+    }
+
+}
+
+void AlvLaskelma::marginaaliRivi(const QString selite, int kanta, qlonglong summa)
+{
+    RaporttiRivi rr;
+    rr.lisaa("",2);
+    rr.lisaa(selite);
+    rr.lisaa(QString("%L1").arg(kanta / 100.0,0,'f',0) );
+    rr.lisaa(summa);
+    marginaaliRivit_.append(rr);
+
+}
+
 void AlvLaskelma::hae()
 {
     // Jos maksuperusteinen nollaus, tehdään se ensin
@@ -498,7 +569,7 @@ void AlvLaskelma::laskeHuojennus(QVariant *viennit)
             if( alvkoodi == AlvKoodi::MYYNNIT_NETTO ||
                     alvkoodi == AlvKoodi::YHTEISOMYYNTI_TAVARAT ||
                     alvkoodi == AlvKoodi::ALV0 ||
-                    alvkoodi == AlvKoodi::RAKENNUSPALVELU_MYYNTI) {
+                    alvkoodi == AlvKoodi::RAKENNUSPALVELU_MYYNTI ) {
                 liikevaihto_ += kredit - debet;
             } else if( alvkoodi == AlvKoodi::MYYNNIT_BRUTTO) {
                 qlonglong brutto = kredit - debet;
@@ -512,8 +583,16 @@ void AlvLaskelma::laskeHuojennus(QVariant *viennit)
             }
         } else if( alvkoodi > 100 && alvkoodi < 200) {
             // Tämä on maksettava vero
-            if( alvkoodi == AlvKoodi::MYYNNIT_NETTO + AlvKoodi::ALVKIRJAUS) {
+            if( alvkoodi == AlvKoodi::MYYNNIT_NETTO + AlvKoodi::ALVKIRJAUS ||
+                alvkoodi == AlvKoodi::MYYNNIT_BRUTTO + AlvKoodi::ALVKIRJAUS) {
+                verohuojennukseen_ += kredit - debet;                                
+            } else if( alvkoodi == AlvKoodi::MYYNNIT_MARGINAALI + AlvKoodi::ALVKIRJAUS) {
+                // Käytettyjen tavaroiden sekä taide-, keräily- ja antiikkiesineiden marginaaliverojärjestelmää
+                // ja matkatoimistopalvelujen marginaaliverojärjestelmää sovellettaessa liikevaihtoon
+                // luetaan ostajalta veloitettu myyntihinta vähennettynä myynnistä suoritetun
+                // arvonlisäveron osuudella.
                 verohuojennukseen_ += kredit - debet;
+                liikevaihto_ -= kredit - debet;
             }
         } else if( alvkoodi > 200 && alvkoodi < 300) {
             verohuojennukseen_ -= debet - kredit;
@@ -535,6 +614,9 @@ void AlvLaskelma::viimeistele()
 {
     // Valmistelutoimet pitäisi tehdän vain jos ilmoitusta ei annettu
     oikaiseBruttoKirjaukset();
+    laskeMarginaaliVerotus(2400);
+    laskeMarginaaliVerotus(1400);
+    laskeMarginaaliVerotus(1000);
     kirjoitaLaskelma();
     kirjaaVerot();
     emit valmis( rk );

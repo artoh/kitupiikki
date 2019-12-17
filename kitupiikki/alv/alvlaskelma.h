@@ -107,6 +107,9 @@ protected:
     void tilaaNollausLista(const QDate& pvm);
     void nollaaMaksuperusteisetErat(QVariant* variant, const QDate &pvm);
 
+    void laskeMarginaaliVerotus(int kanta);
+    void marginaaliRivi(const QString selite, int kanta, qlonglong summa);
+
 protected:
     QDate alkupvm_;
     QDate loppupvm_;
@@ -126,6 +129,8 @@ protected:
     qlonglong verohuojennukseen_ = 0l;
     int suhteutuskuukaudet_ = 12;
     qlonglong huojennus_ = 0;
+
+    QList<RaporttiRivi> marginaaliRivit_;
 
     Tosite* tosite_;
 
