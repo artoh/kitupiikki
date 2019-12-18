@@ -416,19 +416,26 @@ void AlvLaskelma::laskeMarginaaliVerotus(int kanta)
     KoodiTaulu ostotaulu = taulu_.koodit.value(AlvKoodi::OSTOT_MARGINAALI);
     KantaTaulu oktaulu = ostotaulu.kannat.value(kanta);
     qlonglong ostot = oktaulu.summa(true);
+    qlonglong alijaama = kp()->alvIlmoitukset()->marginaalialijaama(alkupvm_.addDays(-1), kanta);
 
-    qlonglong marginaali = myynti - ostot;      // TODO: Alijäämän lisäys
+    qlonglong marginaali = myynti - ostot - alijaama;      // TODO: Alijäämän lisäys
     qlonglong vero = qRound64(marginaali * 1.00 * kanta / (10000 + kanta));
 
     if( myynti || ostot ) {
         marginaaliRivit_.append(RaporttiRivi());
         marginaaliRivi(tr("Voittomarginaalimenettely myynti"),kanta,myynti);
         marginaaliRivi(tr("Voittomarginaalimenettely ostot"), kanta, ostot);
-        marginaaliRivi(tr("Marginaali"), kanta, marginaali);
-        marginaaliRivi(tr("Vero"),kanta,vero);
+        if( alijaama )
+            marginaaliRivi(tr("Aiempi alijäämä"), kanta, alijaama);
+        if( marginaali > 0 || kp()->asetukset()->onko("AlvMatkatoimisto")) {
+            marginaaliRivi(tr("Marginaali"), kanta, marginaali);
+            marginaaliRivi(tr("Vero"),kanta,vero);
+        } else if( marginaali < 0) {
+            marginaaliRivi(tr("Alijäämä"), kanta, 0-marginaali);
+        }
     }
 
-    if( vero > 0) {
+    if( vero > 0 || (vero < 0 && kp()->asetukset()->onko("AlvMatkatoimisto"))) {
         // Marginaalivero kirjataan kaikille marginaalitileille
         QMapIterator<int,TiliTaulu> kirjausIter(ktaulu.tilit);
         while( kirjausIter.hasNext()) {
@@ -442,7 +449,11 @@ void AlvLaskelma::laskeMarginaaliVerotus(int kanta)
             TositeVienti tililta;
             tililta.setTili(tili);
             double eurot = qRound64(tilinmyynti * 1.0 / myynti * vero )/ 100.0;
-            tililta.setDebet( eurot );
+            if( eurot > 0)
+                tililta.setDebet( eurot );
+            else
+                tililta.setKredit( 0-eurot);
+
             tililta.setAlvProsentti(kanta / 100.0);
             tililta.setSelite(selite);
             tililta.setAlvKoodi(AlvKoodi::MYYNNIT_MARGINAALI + AlvKoodi::TILITYS);
@@ -451,15 +462,19 @@ void AlvLaskelma::laskeMarginaaliVerotus(int kanta)
 
             TositeVienti tilille;
             tilille.setTili(kp()->tilit()->tiliTyypilla(TiliLaji::ALVVELKA).numero());
-            tilille.setKredit( eurot );
+            if( eurot > 0)
+                tilille.setKredit( eurot );
+            else
+                tilille.setDebet( 0-eurot);
             tilille.setAlvProsentti( kanta / 100.0);
             tilille.setSelite( selite );
             tilille.setAlvKoodi(AlvKoodi::MYYNNIT_MARGINAALI + AlvKoodi::ALVKIRJAUS);
             lisaaKirjausVienti(tilille);
         }
 
-    } else if( vero < 0) {
+    } else if( marginaali < 0) {
         // Marginaaliveron alijäämä laitetaan muistiin
+        marginaaliAlijaamat_.insert( QString::number(kanta / 100,'f',2), (0 - marginaali) / 100.0);
     }
 
 }
@@ -667,6 +682,8 @@ void AlvLaskelma::tallenna()
     lisat.insert("kausipaattyy", loppupvm_);
     lisat.insert("erapvm", AlvSivu::erapaiva(loppupvm_));
     lisat.insert("maksettava", maksettava() / 100.0);    
+    if( !marginaaliAlijaamat_.isEmpty() )
+        lisat.insert("marginaalialijaama", marginaaliAlijaamat_);
     tosite_->setData( Tosite::ALV, lisat);
 
 

@@ -25,7 +25,7 @@
 AlvIlmoitustenModel::AlvIlmoitustenModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
-    lataa();
+
 }
 
 int AlvIlmoitustenModel::rowCount(const QModelIndex &/*parent*/) const
@@ -102,6 +102,19 @@ QVariant AlvIlmoitustenModel::data(const QModelIndex &index, int role) const
 
     return QVariant();
 
+}
+
+qlonglong AlvIlmoitustenModel::marginaalialijaama(const QDate &paiva, int kanta) const
+{
+    for (QVariant item : tiedot_) {
+        QVariantMap map = item.toMap();
+        if( map.value("kausipaattyy").toDate() != paiva)
+            continue;
+        QVariantMap ajmap = map.value("marginaalialijaama").toMap();
+        double aj = ajmap.value(QString::number(kanta/100.0,'f',2)).toDouble();
+        return qRound64(aj * 100.0);
+    }
+    return 0;
 }
 
 void AlvIlmoitustenModel::lataa()

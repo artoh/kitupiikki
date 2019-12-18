@@ -28,7 +28,6 @@
 
 #include "db/kirjanpito.h"
 
-#include "marginaalilaskelma.h"
 
 #include "alvlaskelma.h"
 

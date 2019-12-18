@@ -45,6 +45,7 @@
 #include "pilvi/pilvimodel.h"
 #include "sqlite/sqlitemodel.h"
 #include "tositetyyppimodel.h"
+#include "alv/alvilmoitustenmodel.h"
 #include "rekisteri/ryhmatmodel.h"
 
 Kirjanpito::Kirjanpito(const QString& portableDir) :
@@ -58,6 +59,7 @@ Kirjanpito::Kirjanpito(const QString& portableDir) :
     tiliTyypit_( new TilityyppiModel(this)),
     tuotteet_( new TuoteModel(this)),
     ryhmat_( new RyhmatModel(this)),
+    alvIlmoitukset_( new AlvIlmoitustenModel(this)),
     tempDir_(nullptr),
     portableDir_(portableDir),
     pilviModel_(new PilviModel(this)),
@@ -273,6 +275,7 @@ void Kirjanpito::yhteysAvattu(YhteysModel *model)
     }
     tuotteet()->lataa();
     ryhmat()->paivita();
+    alvIlmoitukset()->lataa();
 }
 
 bool Kirjanpito::lataaUudelleen()

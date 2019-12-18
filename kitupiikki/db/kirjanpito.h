@@ -43,6 +43,7 @@
 #include "tilityyppimodel.h"
 
 
+
 #include "tilimodel.h"
 #include "tili.h"
 
@@ -59,6 +60,7 @@ class YhteysModel;
 
 class TositeTyyppiModel;
 class RyhmatModel;
+class AlvIlmoitustenModel;
 
 class QNetworkAccessManager;
 
@@ -168,6 +170,8 @@ public:
      */
     TuoteModel *tuotteet() const { return tuotteet_; }    
     RyhmatModel *ryhmat() const { return ryhmat_;}
+
+    AlvIlmoitustenModel *alvIlmoitukset() const { return alvIlmoitukset_;}
 
     /**
      * @brief Sql-tietokanta
@@ -371,6 +375,7 @@ protected:
     TilityyppiModel *tiliTyypit_;
     TuoteModel *tuotteet_;
     RyhmatModel *ryhmat_;
+    AlvIlmoitustenModel *alvIlmoitukset_;
     QPrinter *printer_;
 
     QTemporaryDir *tempDir_;

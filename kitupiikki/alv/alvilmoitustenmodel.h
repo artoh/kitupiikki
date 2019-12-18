@@ -49,6 +49,8 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     QVariant data(const QModelIndex &index, int role) const;
 
+    qlonglong marginaalialijaama(const QDate& paiva, int kanta) const;
+
 public slots:
     void lataa();
     void dataSaapuu(QVariant* data);

@@ -35,12 +35,11 @@ AlvSivu::AlvSivu() :
     ui(new Ui::AlvSivu)
 {
     ui->setupUi(this);
-    model = new AlvIlmoitustenModel(this);
 
     ui->kausiCombo->addItem("Kuukausi",1);
     ui->kausiCombo->addItem("Neljännesvuosi",3);
     ui->kausiCombo->addItem("Vuosi", 12);
-    ui->ilmoituksetView->setModel( model );
+    ui->ilmoituksetView->setModel( kp()->alvIlmoitukset() );
     ui->ilmoituksetView->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->ilmoituksetView->setSelectionBehavior(QAbstractItemView::SelectRows);
     paivitaMaksuAlvTieto();
@@ -60,7 +59,6 @@ void AlvSivu::siirrySivulle()
 {
     ui->kausiCombo->setCurrentIndex( ui->kausiCombo->findData( kp()->asetukset()->asetus("AlvKausi") ) );
     ui->viimeisinEdit->setDate( kp()->asetukset()->pvm("AlvIlmoitus"));
-    model->lataa();
     riviValittu();      // Jotta napit harmaantuvat
     paivitaSeuraavat();
 
@@ -118,7 +116,7 @@ void AlvSivu::ilmoita()
 void AlvSivu::naytaIlmoitus()
 {
     // Ilmoitus on tositteen ensimmäinen liite
-    int tositeId = model->data( ui->ilmoituksetView->selectionModel()->currentIndex() , AlvIlmoitustenModel::TositeIdRooli ).toInt();
+    int tositeId = kp()->alvIlmoitukset()->data( ui->ilmoituksetView->selectionModel()->currentIndex() , AlvIlmoitustenModel::TositeIdRooli ).toInt();
 
     NaytinIkkuna::naytaLiite(tositeId, "alv");
 
@@ -127,16 +125,16 @@ void AlvSivu::naytaIlmoitus()
 
 void AlvSivu::poistaIlmoitus()
 {
-    int tositeId = model->data( ui->ilmoituksetView->selectionModel()->currentIndex() , AlvIlmoitustenModel::TositeIdRooli ).toInt();
+    int tositeId = kp()->alvIlmoitukset()->data( ui->ilmoituksetView->selectionModel()->currentIndex() , AlvIlmoitustenModel::TositeIdRooli ).toInt();
 
     if( QMessageBox::question(this, tr("Alv-ilmoituksen poistaminen"), tr("Haluatko todellakin poistaa viimeisimmän alv-ilmoituksen?\n"
                                                                           "Poistamisen jälkeen sinun on laadittava uusi alv-ilmoitus."),
                               QMessageBox::Yes | QMessageBox::Cancel) == QMessageBox::Yes   )
     {
-        QDate alkupaiva = model->data( ui->ilmoituksetView->selectionModel()->currentIndex() , AlvIlmoitustenModel::AlkaaRooli ).toDate();
+        QDate alkupaiva = kp()->alvIlmoitukset()->data( ui->ilmoituksetView->selectionModel()->currentIndex() , AlvIlmoitustenModel::AlkaaRooli ).toDate();
         kp()->asetukset()->aseta("AlvIlmoitus", alkupaiva.addDays(-1) );
         KpKysely *kysely = kpk(QString("/tositteet/%1").arg(tositeId), KpKysely::DELETE);
-        connect( kysely, &KpKysely::vastaus, model, &AlvIlmoitustenModel::lataa);
+        connect( kysely, &KpKysely::vastaus, kp()->alvIlmoitukset(), &AlvIlmoitustenModel::lataa);
         kysely->kysy();
 
     }

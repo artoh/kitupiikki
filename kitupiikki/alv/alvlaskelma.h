@@ -131,6 +131,7 @@ protected:
     qlonglong huojennus_ = 0;
 
     QList<RaporttiRivi> marginaaliRivit_;
+    QVariantMap marginaaliAlijaamat_;
 
     Tosite* tosite_;
 
