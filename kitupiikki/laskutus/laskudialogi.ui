@@ -311,6 +311,20 @@ osoite</string>
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="tab">
+      <attribute name="icon">
+       <iconset resource="../pic/pic.qrc">
+        <normaloff>:/pic/kirje.png</normaloff>:/pic/kirje.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Saate</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QPlainTextEdit" name="saateEdit"/>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
    <item>

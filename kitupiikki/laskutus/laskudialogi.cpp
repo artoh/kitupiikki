@@ -115,8 +115,12 @@ LaskuDialogi::LaskuDialogi( const QVariantMap& data) :
     if( !data.isEmpty())
         lataa(data);
     else {
-        ui->eraDate->setDate( kp()->paivamaara().addDays( kp()->asetukset()->luku("LaskuMaksuaika") ) );
+        QDate erapvm = kp()->paivamaara().addDays( kp()->asetukset()->luku("LaskuMaksuaika") );
+        while( erapvm.dayOfWeek() > 5)
+            erapvm = erapvm.addDays(1);
+        ui->eraDate->setDate( erapvm );
         alustaMaksutavat();
+        ui->saateEdit->setPlainText( kp()->asetus("EmailSaate") );
     }
 
 }
@@ -231,88 +235,6 @@ void LaskuDialogi::tuotteidenKonteksiValikko(QPoint pos)
 }
 
 
-void LaskuDialogi::onkoPostiKaytossa()
-{
-    // Sähköpostin lähettäminen edellyttää smtp-asetusten laittamista
-//    ui->spostiNappi->setEnabled( !kp()->settings()->value("SmtpServer").toString().isEmpty()
-//                                 && ui->emailEdit->text().contains(QRegularExpression(".+@.+\\.\\w+")));
-}
-
-void LaskuDialogi::lahetaSahkopostilla()
-{
-
-
-
-
-    Smtp *smtp = new Smtp( kp()->settings()->value("SmtpUser").toString(), kp()->settings()->value("SmtpPassword").toString(),
-                     kp()->settings()->value("SmtpServer").toString(), kp()->settings()->value("SmtpPort", 465).toInt() );
-    connect( smtp, SIGNAL(status(QString)), this, SLOT(smtpViesti(QString)));
-
-
-    QString kenelta = QString("=?utf-8?B?%1?= <%2>").arg( QString(kp()->asetukset()->asetus("EmailNimi").toUtf8().toBase64())  )
-                                                .arg(kp()->asetukset()->asetus("EmailOsoite"));
-//    QString kenelle = QString("=?utf-8?B?%1?= <%2>").arg( QString( ui->saajaEdit->text().toUtf8().toBase64()) )
-//                                            .arg(ui->emailEdit->text() );
-
-//    smtp->lahetaLiitteella(kenelta, kenelle, tr("%3 %1 - %2").arg( model->viitenumero() ).arg( kp()->asetukset()->asetus("Nimi") ).arg(model->t("laskuotsikko")) ,
-//                           tulostaja->html(), tr("lasku%1.pdf").arg( model->viitenumero()), tulostaja->pdf(false));
-/*
-
-    if( kp()->asetukset()->onko("EmailKopio") )
-    {
-        // Lähetä kopio myös itsellesi
-        Smtp *kopioSmtp = new Smtp( kp()->settings()->value("SmtpUser").toString(), kp()->settings()->value("SmtpPassword").toString(),
-                         kp()->settings()->value("SmtpServer").toString(), kp()->settings()->value("SmtpPort", 465).toInt() );
-        kopioSmtp->lahetaLiitteella(kenelta, kenelta, tr("Kopio: Lasku %1 - %2").arg( model->viitenumero() ).arg( kp()->asetukset()->asetus("Nimi") ),
-                               tulostaja->html(), tr("lasku%1.pdf").arg( model->viitenumero()), tulostaja->pdf(false));
-    }
-*/
-}
-
-void LaskuDialogi::lahetaRyhmanSeuraava(const QString &viesti)
-{
-/*    smtpViesti(viesti);
-
-    if( viesti.endsWith('.'))   // Ei ole vielä lopettava viesti
-        return;
-    else if( viesti == tr("Sähköposti lähetetty"))
-        model->ryhmaModel()->sahkopostiLahetetty( ryhmaLahetys_.first() );
-
-    ryhmaLahetys_.removeFirst();
-    if( !ryhmaLahetys_.isEmpty() )
-    {
-        model->haeRyhmasta(ryhmaLahetys_.first());
-
-
-        Smtp *smtp = new Smtp( kp()->settings()->value("SmtpUser").toString(), kp()->settings()->value("SmtpPassword").toString(),
-                         kp()->settings()->value("SmtpServer").toString(), kp()->settings()->value("SmtpPort", 465).toInt() );
-        connect( smtp, &Smtp::status, this, &LaskuDialogi::lahetaRyhmanSeuraava);
-
-
-        QString kenelta = QString("=?utf-8?B?%1?= <%2>").arg( QString(kp()->asetukset()->asetus("EmailNimi").toUtf8().toBase64()) )
-                                                    .arg(kp()->asetukset()->asetus("EmailOsoite"));
-        QString kenelle = QString("=?utf-8?B?%1?= <%2>").arg( QString( model->laskunsaajanNimi().toUtf8().toBase64()) )
-                                                .arg(model->email() );
-
-        smtp->lahetaLiitteella(kenelta, kenelle, tr("%3 %1 - %2").arg( model->viitenumero() ).arg( kp()->asetukset()->asetus("Nimi")).arg(model->t("laskuotsikko") ),
-                               tulostaja->html(), tr("lasku%1.pdf").arg( model->viitenumero()), tulostaja->pdf(false));
-
-        if( kp()->asetukset()->onko("EmailKopio") )
-        {
-            // Lähetä kopio myös itsellesi
-            Smtp *kopioSmtp = new Smtp( kp()->settings()->value("SmtpUser").toString(), kp()->settings()->value("SmtpPassword").toString(),
-                             kp()->settings()->value("SmtpServer").toString(), kp()->settings()->value("SmtpPort", 465).toInt() );
-            kopioSmtp->lahetaLiitteella(kenelta, kenelta, tr("Kopio: Lasku %1 - %2").arg( model->viitenumero() ).arg( kp()->asetukset()->asetus("Nimi") ),
-                                   tulostaja->html(), tr("lasku%1.pdf").arg( model->viitenumero()), tulostaja->pdf(false));
-        }
-
-    }*/
-}
-
-void LaskuDialogi::smtpViesti(const QString &viesti)
-{
-
-}
 
 void LaskuDialogi::tulostaLasku()
 {
@@ -446,11 +368,9 @@ void LaskuDialogi::paivitaLaskutustavat()
 
     ui->laskutusCombo->addItem( QIcon(":/pic/tulosta.png"), tr("Tulosta lasku"), TULOSTETTAVA);
 
-/*  TÄLLÄ SAADAAN SÄHKÖPOSTIN LÄHETYS KÄYTTÖÖN
     QRegularExpression emailRe(R"(^([\w-]*(\.[\w-]+)?)+@(\w+\.\w+)(\.\w+)*$)");
     if( emailRe.match( ui->email->text()).hasMatch() )
             ui->laskutusCombo->addItem(QIcon(":/pic/email.png"), tr("Lähetä sähköpostilla"), SAHKOPOSTI);
-*/
     ui->laskutusCombo->addItem( QIcon(":/pic/pdf.png"), tr("Tallenna pdf-tiedostoon"), PDF);
 
     ui->laskutusCombo->setCurrentIndex(  ui->laskutusCombo->findData(nykyinen) );
@@ -543,6 +463,7 @@ QVariantMap LaskuDialogi::data() const
     lasku.insert("erapvm", ui->eraDate->date());
     lasku.insert("maksutapa", ui->maksuCombo->currentData());
     lasku.insert("otsikko", ui->otsikkoEdit->text());
+    lasku.insert("saate", ui->saateEdit->toPlainText());
 
     map.insert("lasku", lasku);
 
@@ -708,16 +629,16 @@ void LaskuDialogi::tallennusValmis(QVariant *vastaus)
 
     // Mahdollinen laskun toimittaminen
 
+    QDialog::accept();
+    emit kp()->kirjanpitoaMuokattu();
+
     if( tallennusTila_ == Tosite::KIRJANPIDOSSA) {
 
-        MyyntiLaskujenToimittaja *toimittaja = new MyyntiLaskujenToimittaja(this);
+        MyyntiLaskujenToimittaja *toimittaja = new MyyntiLaskujenToimittaja();
         QList<QVariantMap> lista;
         lista.append(vastaus->toMap());
         toimittaja->toimitaLaskut(lista);
     }
-
-    QDialog::accept();
-    emit kp()->kirjanpitoaMuokattu();
 
 }
 
@@ -742,6 +663,7 @@ void LaskuDialogi::lataa(const QVariantMap &map)
     ui->eraDate->setDate( lasku.value("erapvm").toDate());
     ui->otsikkoEdit->setText( lasku.value("otsikko").toString());
     ui->lisatietoEdit->setPlainText( map.value("info").toString());
+    ui->saateEdit->setPlainText(lasku.value("saate").toString());
 
     if( map.value("tila").toInt() > Tosite::LUONNOS)
         ui->luonnosNappi->hide();

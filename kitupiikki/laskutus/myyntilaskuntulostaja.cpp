@@ -64,6 +64,12 @@ QByteArray MyyntiLaskunTulostaja::pdf(const QVariantMap &lasku, bool ikkunakuore
     return array;
 }
 
+QString MyyntiLaskunTulostaja::virtuaaliviivakoodi(const QVariantMap &lasku)
+{
+    MyyntiLaskunTulostaja tulostaja(lasku);
+    return tulostaja.virtuaaliviivakoodi();
+}
+
 QString MyyntiLaskunTulostaja::valeilla(const QString &teksti)
 {
     QString palautettava;

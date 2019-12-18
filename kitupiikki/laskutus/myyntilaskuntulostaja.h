@@ -29,27 +29,32 @@ class MyyntiLaskunTulostaja : public QObject
 {
     Q_OBJECT
 public:
+    MyyntiLaskunTulostaja(const QVariantMap& map, QObject *parent = nullptr);
+
     static bool tulosta(const QVariantMap& lasku,
                  QPagedPaintDevice *printer,
                  QPainter *painter,
                  bool kuoreen = true);
 
     static QByteArray pdf(const QVariantMap& lasku, bool ikkunakuoreen = false);
-
+    static QString virtuaaliviivakoodi(const QVariantMap& lasku);
 
     static QString valeilla(const QString& teksti);
     static QString bicIbanilla(const QString& iban);
     QString t(const QString& avain) const;
 
 
+    QString virtuaaliviivakoodi() const;
+    QString muotoiltuViite() const;
+    QString iban() const { return valeilla(iban_);}
 
 signals:
 
 public slots:
 
 
-protected:
-    MyyntiLaskunTulostaja(const QVariantMap& map, QObject *parent = nullptr);
+protected:    
+
     void tulosta(QPagedPaintDevice *printer,
                  QPainter *painter,
                  bool kuoreen);
@@ -59,11 +64,9 @@ protected:
     qreal alatunniste(QPagedPaintDevice *printer, QPainter *painter);
 
 
-
     QByteArray qrSvg() const;
-    QString muotoiltuViite() const;
     QString code128() const;
-    QString virtuaaliviivakoodi() const;
+
 
 
 protected:

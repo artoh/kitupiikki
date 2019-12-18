@@ -83,11 +83,6 @@ private slots:
 
     void tuotteidenKonteksiValikko(QPoint pos);
 
-    void onkoPostiKaytossa();
-    void lahetaSahkopostilla();
-    void lahetaRyhmanSeuraava(const QString& viesti = {} );
-
-    void smtpViesti(const QString &viesti);
     void tulostaLasku();
     void ryhmaNapit(const QItemSelection& valinta);
 
