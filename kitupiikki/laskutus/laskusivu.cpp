@@ -43,9 +43,9 @@
 
 LaskuSivu::LaskuSivu() :
     KitupiikkiSivu () ,
-    ryhmaWidget_( new KumppaniTuoteWidget(this)),
-    kumppaniTuoteWidget_( new KumppaniTuoteWidget(this)),
-    laskuWidget_( new LaskulistaWidget(this))
+    ryhmaWidget_( new KumppaniTuoteWidget()),
+    kumppaniTuoteWidget_( new KumppaniTuoteWidget()),
+    laskuWidget_( new LaskulistaWidget())
 
 {
     luoUi();
@@ -62,7 +62,9 @@ LaskuSivu::LaskuSivu() :
 
 LaskuSivu::~LaskuSivu()
 {
-
+    delete ryhmaWidget_;
+    delete kumppaniTuoteWidget_;
+    delete laskuWidget_;
 }
 
 void LaskuSivu::siirrySivulle()
