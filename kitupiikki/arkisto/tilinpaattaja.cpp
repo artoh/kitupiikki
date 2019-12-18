@@ -35,6 +35,7 @@
 #include "arkisto/arkistosivu.h"
 
 #include "naytin/naytinikkuna.h"
+#include "alv/alvilmoitustenmodel.h"
 
 
 TilinPaattaja::TilinPaattaja(Tilikausi kausi,ArkistoSivu *arkisto , QWidget *parent) :
@@ -97,11 +98,10 @@ void TilinPaattaja::paivitaDialogi()
                               "varma siitä, että kaikki tilikaudelle kuuluvat kirjaukset on jo tehty."));
     }
 
-    if( kp()->asetukset()->onko("AlvVelvollinen") && kp()->asetukset()->pvm("AlvIlmoitus") < tilikausi.paattyy())
+    if( kp()->asetukset()->onko("AlvVelvollinen") && !kp()->alvIlmoitukset()->onkoIlmoitettu( tilikausi.paattyy() ) )
     {
         // Alv-ilmoitusta ei ole tehty koko tilikaudelle!
-        varoitukset.append( tr("<p><b>Arvonlisäveroilmoitus on tehty vasta %1 asti.</b></p>")
-                            .arg( kp()->asetukset()->pvm("AlvIlmoitus").toString("dd.MM.yyyy")));
+        varoitukset.append( tr("<p><b>Arvonlisäilmoitusta ei ole annettu tilikauden loppuun saakka.</b></p>") );
     }
 
     ui->varoKuvake->setVisible( !varoitukset.isEmpty() );

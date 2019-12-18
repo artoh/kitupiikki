@@ -41,33 +41,13 @@
            <widget class="QComboBox" name="kausiCombo"/>
           </item>
           <item row="1" column="0">
-           <widget class="QLabel" name="label_2">
-            <property name="text">
-             <string>Alv-kirjaukset lukittu</string>
-            </property>
-            <property name="buddy">
-             <cstring>viimeisinEdit</cstring>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QDateEdit" name="viimeisinEdit">
-            <property name="readOnly">
-             <bool>false</bool>
-            </property>
-            <property name="calendarPopup">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
            <widget class="QLabel" name="label_4">
             <property name="text">
              <string>Maksuperusteinen alv</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="1">
+          <item row="1" column="1">
            <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0">
             <item>
              <widget class="QLabel" name="maksuAlv">

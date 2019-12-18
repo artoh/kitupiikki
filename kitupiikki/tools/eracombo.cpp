@@ -81,6 +81,7 @@ void EraCombo::valitse(int eraid)
 
 void EraCombo::dataSaapuu(QVariant *data)
 {
+    latauksessa_ = true;
     clear();
 
     addItem( tr("Ei tase-erää"), 0);
@@ -91,17 +92,20 @@ void EraCombo::dataSaapuu(QVariant *data)
 
     for(auto item : lista) {
         QVariantMap map = item.toMap();
+        int eraid = map.value("id").toInt();
         data_.append(map);
 
         addItem( QString("%1 %2 (%3)")
                  .arg(map.value("pvm").toDate().toString("dd.MM.yyyy"))
                  .arg(map.value("selite").toString())
                  .arg(map.value("avoin").toDouble(),0,'f',2),
-                 map.value("id").toInt());
+                 eraid);
 
-        setItemData( findData(map.value("eraid").toInt()), map.value("avoin"), AvoinnaRooli );
+        setItemData( findData(eraid), map.value("avoin"), AvoinnaRooli );
+        setItemData( findData(eraid), map.value("selite").toString(), SeliteRooli);
     }
     setCurrentIndex( findData(valittuna_) );
+    latauksessa_ = false;
 }
 
 void EraCombo::vientiSaapuu(QVariant *data)
@@ -116,6 +120,9 @@ void EraCombo::vientiSaapuu(QVariant *data)
 
 void EraCombo::valintaMuuttui()
 {
+
     valittuna_ = currentData().toInt();
-    emit valittu( valittuna_, currentData(AvoinnaRooli).toDouble() );
+    if( !latauksessa_) {
+        emit valittu( valittuna_, currentData(AvoinnaRooli).toDouble(), currentData(SeliteRooli).toString() );
+    }
 }

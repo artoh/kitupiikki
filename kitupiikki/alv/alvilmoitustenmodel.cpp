@@ -78,7 +78,7 @@ QVariant AlvIlmoitustenModel::data(const QModelIndex &index, int role) const
         case PAATTYY:
             return map.value("kausipaattyy").toDate();
         case ERAPVM:
-            return AlvSivu::erapaiva( map.value("kausipaattyy").toDate() );
+            return erapaiva( map.value("kausipaattyy").toDate() );
         case VERO:
             return QString("%L1 €").arg( map.value("maksettava").toDouble() , 0,'f',2);
         }
@@ -96,7 +96,7 @@ QVariant AlvIlmoitustenModel::data(const QModelIndex &index, int role) const
     else if( role == PaattyyRooli)
         return  map.value("kausipaattyy");
     else if( role == EraPvmRooli)
-        return AlvSivu::erapaiva( map.value("kausipaattyy").toDate() );
+        return erapaiva( map.value("kausipaattyy").toDate() );
     else if( role == AlkaaRooli)
         return map.value("kausialkaa");
 
@@ -115,6 +115,43 @@ qlonglong AlvIlmoitustenModel::marginaalialijaama(const QDate &paiva, int kanta)
         return qRound64(aj * 100.0);
     }
     return 0;
+}
+
+bool AlvIlmoitustenModel::onkoIlmoitettu(const QDate &paiva) const
+{
+    for( QVariant item : tiedot_) {
+        QVariantMap map = item.toMap();
+        if( map.value("kausialkaa").toDate() <= paiva &&
+            map.value("kausipaattyy").toDate() >= paiva)
+            return true;
+    }
+    return false;
+}
+
+QDate AlvIlmoitustenModel::viimeinenIlmoitus() const
+{
+    QDate viimeinen = kp()->tilitpaatetty();
+    for(QVariant item : tiedot_) {
+        QVariantMap map = item.toMap();
+        QDate pvm = map.value("kausipaattyy").toDate();
+        if( pvm > viimeinen)
+            viimeinen = pvm;
+    }
+    return viimeinen;
+}
+
+QDate AlvIlmoitustenModel::erapaiva(const QDate &loppupaiva)
+{
+    QDate erapvm = loppupaiva.addDays(1).addMonths(1).addDays(11);
+
+    if( kp()->asetukset()->luku("AlvKausi") == 12 )
+        erapvm = loppupaiva.addMonths(2);
+
+    // Ei eräpäivää viikonloppuun
+    while( erapvm.dayOfWeek() > 5)
+        erapvm = erapvm.addDays(1);
+
+    return erapvm;
 }
 
 void AlvIlmoitustenModel::lataa()

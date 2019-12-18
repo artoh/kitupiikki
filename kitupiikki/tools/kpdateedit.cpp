@@ -166,9 +166,11 @@ void KpDateEdit::setDateInternal(const QDate &date)
 
         setCursorPosition(pos);
 
-        if( (date < minimumDate() && minimumDate().isValid()) || (date > maximumDate() && maximumDate().isValid()))
+        if( (date < minimumDate() && minimumDate().isValid()) || (date > maximumDate() && maximumDate().isValid())) {
             setStyleSheet("color: red;");
-        else {
+            date_ = QDate();
+            emit dateChanged(date_);
+        } else {
             setStyleSheet("");
             setDate( date );
         }

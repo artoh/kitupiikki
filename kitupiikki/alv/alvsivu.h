@@ -39,7 +39,8 @@ public:
     void siirrySivulle() override;
 
 public slots:
-    void paivitaSeuraavat();
+    void paivitaLoppu();
+    void paivitaErapaiva();
     void ilmoita();
     void naytaIlmoitus();
     void poistaIlmoitus();
@@ -47,13 +48,6 @@ public slots:
     void maksuAlv();
     void paivitaMaksuAlvTieto();  
 
-public:
-    /**
-     * @brief Alv-ilmoituksen eräpäivä
-     * @param loppupaiva Verokauden viimeinen päivä
-     * @return
-     */
-    static QDate erapaiva(const QDate& loppupaiva);
 
 private:
     Ui::AlvSivu *ui;

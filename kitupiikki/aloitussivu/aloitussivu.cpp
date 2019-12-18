@@ -51,6 +51,7 @@
 
 #include "uusikirjanpito/uusivelho.h"
 #include "maaritys/tilikarttapaivitys.h"
+#include "alv/alvilmoitustenmodel.h"
 
 #include <QJsonDocument>
 #include <QTimer>
@@ -570,9 +571,9 @@ QString AloitusSivu::vinkit()
     // Muistutus arvonlisäverolaskelmasta
     if(  kp()->asetukset()->onko("AlvVelvollinen") )
     {
-        QDate kausialkaa = kp()->asetukset()->pvm("AlvIlmoitus").addDays(1);
-        QDate kausipaattyy = kp()->asetukset()->pvm("AlvIlmoitus").addDays(1).addMonths( kp()->asetukset()->luku("AlvKausi")).addDays(-1);
-        QDate erapaiva = AlvSivu::erapaiva(kausipaattyy);
+        QDate kausialkaa = kp()->alvIlmoitukset()->viimeinenIlmoitus().addDays(1);
+        QDate kausipaattyy = kausialkaa.addDays(1).addMonths( kp()->asetukset()->luku("AlvKausi")).addDays(-1);
+        QDate erapaiva = AlvIlmoitustenModel::erapaiva(kausipaattyy);
 
         qlonglong paivaaIlmoitukseen = kp()->paivamaara().daysTo( erapaiva );
         if( paivaaIlmoitukseen < 0)
@@ -584,7 +585,7 @@ QString AloitusSivu::vinkit()
                            .arg(erapaiva.toString("dd.MM.yyyy")));
 
         }
-        else if( paivaaIlmoitukseen < 30)
+        else if( paivaaIlmoitukseen < 12)
         {
             vinkki.append( tr("<table class=vinkki width=100%><tr><td>"
                               "<h3><a href=ktp:/alvilmoitus>Tee arvonlisäverotilitys</a></h3>"

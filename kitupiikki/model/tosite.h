@@ -92,7 +92,7 @@ public:
     int kumppani() const { return data(KUMPPANI).toInt();}
     int tunniste() const { return data(TUNNISTE).toInt();}
     QString kommentti() const { return data(KOMMENTIT).toString();}
-    QString sarja() const { return data(SARJA).toString();}
+    QString sarja() const { return data(SARJA).toString();}    
 
     void asetaOtsikko(const QString& otsikko);
     void asetaTyyppi(int tyyppi);

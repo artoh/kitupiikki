@@ -27,7 +27,8 @@ public:
     EraCombo(QWidget *parent = nullptr);
 
     enum {
-        AvoinnaRooli = Qt::UserRole + 1
+        AvoinnaRooli = Qt::UserRole + 1,
+        SeliteRooli = Qt::UserRole + 2
     };
 
     int valittuEra() const;
@@ -38,7 +39,7 @@ public slots:
     void valitse(int eraid);
 
 signals:
-    void valittu(int eraid, double avoinna);
+    void valittu(int eraid, double avoinna, const QString& selite);
 
 private slots:
     void dataSaapuu(QVariant* data);
@@ -48,6 +49,7 @@ private slots:
 private:
     int valittuna_;    
     QVariantList data_;
+    bool latauksessa_ = false;
 
 };
 

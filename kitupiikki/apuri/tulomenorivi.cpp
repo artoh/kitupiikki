@@ -72,7 +72,7 @@ void TulomenoRivi::setAlvvahennys(bool vahennys)
 
 qlonglong TulomenoRivi::brutto() const
 {
-    if( netto_ ) {
+    if( !netto_ ) {
         return qRound64( ( 100 + veroprosentti_ ) * netto_ / 100.0);
     } else
         return brutto_;
@@ -80,7 +80,7 @@ qlonglong TulomenoRivi::brutto() const
 
 qlonglong TulomenoRivi::netto() const
 {
-    if( brutto_ ) {
+    if( !brutto_ ) {
         qlonglong vero = qRound64( brutto_ * veroprosentti_ / ( 100 + veroprosentti_) );
         return brutto_ - vero;
     } else
@@ -97,6 +97,11 @@ void TulomenoRivi::setNetto(qlonglong sentit)
 {
     netto_ = sentit;
     brutto_ = 0;
+}
+
+void TulomenoRivi::setNetonVero(qlonglong sentit)
+{
+    brutto_ = netto_ + sentit;
 }
 
 bool TulomenoRivi::naytaBrutto() const

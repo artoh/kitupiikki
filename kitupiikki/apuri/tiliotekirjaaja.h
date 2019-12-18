@@ -52,7 +52,7 @@ private slots:
     void euroMuuttuu();
     void ylaTabMuuttui(int tab);
     void tiliMuuttuu();
-    void eraValittu(int eraId, double avoinna);
+    void eraValittu(int eraId, double avoinna, const QString& selite);
     void jaksomuuttuu(const QDate& pvm);
 
     void valitseLasku();

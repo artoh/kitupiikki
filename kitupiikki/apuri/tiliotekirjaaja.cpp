@@ -288,10 +288,12 @@ void TilioteKirjaaja::tiliMuuttuu()
     ui->jaksoLoppuuEdit->setVisible(jakso);
 }
 
-void TilioteKirjaaja::eraValittu(int /* eraId */, double avoinna)
+void TilioteKirjaaja::eraValittu(int /* eraId */, double avoinna, const QString &selite)
 {
     if( !ui->euroEdit->asCents() && avoinna > 1e-5)
         ui->euroEdit->setValue(menoa_ ? 0 - avoinna : avoinna);
+    if( ui->seliteEdit->text().isEmpty())
+        ui->seliteEdit->setText(selite);
 
 }
 

@@ -264,7 +264,8 @@ qlonglong AlvLaskelma::kotimaanmyyntivero(int prosentinsadasosa)
 {
     return taulu_.koodit.value(AlvKoodi::MYYNNIT_NETTO + AlvKoodi::ALVKIRJAUS).kannat.value(prosentinsadasosa).summa() +
             taulu_.koodit.value(AlvKoodi::MYYNNIT_BRUTTO + AlvKoodi::ALVKIRJAUS).kannat.value(prosentinsadasosa).summa() +
-            taulu_.koodit.value(AlvKoodi::MAKSUPERUSTEINEN_MYYNTI + AlvKoodi::ALVKIRJAUS).kannat.value(prosentinsadasosa).summa();
+            taulu_.koodit.value(AlvKoodi::MAKSUPERUSTEINEN_MYYNTI + AlvKoodi::ALVKIRJAUS).kannat.value(prosentinsadasosa).summa() +
+            taulu_.koodit.value(AlvKoodi::MYYNNIT_MARGINAALI + AlvKoodi::ALVKIRJAUS).kannat.value(prosentinsadasosa).summa();
 }
 
 
@@ -621,7 +622,7 @@ void AlvLaskelma::laskeHuojennus(QVariant *viennit)
 
 void AlvLaskelma::tallennusValmis()
 {
-    kp()->asetukset()->aseta("AlvIlmoitus", loppupvm_);
+    kp()->alvIlmoitukset()->lataa();
     emit tallennettu();
 }
 
@@ -680,7 +681,7 @@ void AlvLaskelma::tallenna()
     lisat.insert("koodit", koodit);
     lisat.insert("kausialkaa", alkupvm_);
     lisat.insert("kausipaattyy", loppupvm_);
-    lisat.insert("erapvm", AlvSivu::erapaiva(loppupvm_));
+    lisat.insert("erapvm", AlvIlmoitustenModel::erapaiva(loppupvm_));
     lisat.insert("maksettava", maksettava() / 100.0);    
     if( !marginaaliAlijaamat_.isEmpty() )
         lisat.insert("marginaalialijaama", marginaaliAlijaamat_);

@@ -50,6 +50,16 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
 
     qlonglong marginaalialijaama(const QDate& paiva, int kanta) const;
+    bool onkoIlmoitettu(const QDate& paiva) const;
+
+    QDate viimeinenIlmoitus() const;
+
+    /**
+     * @brief Alv-ilmoituksen eräpäivä
+     * @param loppupaiva Verokauden viimeinen päivä
+     * @return
+     */
+    static QDate erapaiva(const QDate& loppupaiva);
 
 public slots:
     void lataa();
