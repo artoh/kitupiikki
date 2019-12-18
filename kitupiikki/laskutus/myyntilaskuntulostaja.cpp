@@ -241,24 +241,34 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
     // Lähettäjätiedot
 
     double vasen = 0.0;
+    double ylos = 0.0;
+    bool logossaNimi = kp()->asetukset()->onko("LogossaNimi");
+
     if( !kp()->logo().isNull() )
     {
         double logosuhde = (1.0 * kp()->logo().width() ) / kp()->logo().height();
-        double skaala = logosuhde < 5.00 ? logosuhde : 5.00;    // Logon sallittu suhde enintään 5:1
+        double skaala = logossaNimi ? logosuhde : (logosuhde < 5.00 ? logosuhde : 5.00);    // Logon sallittu suhde enintään 5:1
 
-        painter->drawImage( QRectF( lahettajaAlue.x()+mm, lahettajaAlue.y()+mm, rk*2*skaala, rk*2 ),  kp()->logo()  );
-        vasen += rk * 2.2 * skaala;
-
+        if( logossaNimi) {
+            painter->drawImage( QRectF( lahettajaAlue.x()+mm, lahettajaAlue.y()+mm, 12.5 * mm * skaala, 12.5 * mm ),  kp()->logo()  );
+            ylos += 12.5 * mm;
+        } else {
+            painter->drawImage( QRectF( lahettajaAlue.x()+mm, lahettajaAlue.y()+mm, rk*2*skaala, rk*2 ),  kp()->logo()  );
+            vasen += rk * 2.2 * skaala;
+        }
     }
     painter->setFont(QFont("FreeSans",14));
     double pv = painter->fontMetrics().height();
-    QString nimi = kp()->asetukset()->onko("LogossaNimi") ? QString() : ( kp()->asetukset()->asetus("LaskuAputoiminimi").isEmpty() ? kp()->asetukset()->asetus("Nimi") : kp()->asetukset()->asetus("LaskuAputoiminimi") );   // Jos nimi logossa, sitä ei toisteta
-    QRectF lahettajaRect = painter->boundingRect( QRectF( lahettajaAlue.x()+vasen, lahettajaAlue.y(),
+    if( !logossaNimi ) {
+        QString nimi = kp()->asetukset()->asetus("LaskuAputoiminimi").isEmpty() ? kp()->asetukset()->asetus("Nimi") : kp()->asetukset()->asetus("LaskuAputoiminimi") ;
+        QRectF lahettajaRect = painter->boundingRect( QRectF( lahettajaAlue.x()+vasen, lahettajaAlue.y(),
                                                        lahettajaAlue.width()-vasen, 20 * mm), Qt::TextWordWrap, nimi );
-    painter->drawText(QRectF( lahettajaRect), Qt::AlignLeft | Qt::TextWordWrap, nimi);
+        painter->drawText(QRectF( lahettajaRect), Qt::AlignLeft | Qt::TextWordWrap, nimi);
+        ylos += lahettajaRect.height();
+    }
 
     painter->setFont(QFont("FreeSans",9));
-    QRectF lahettajaosoiteRect = painter->boundingRect( QRectF( lahettajaAlue.x()+vasen, lahettajaAlue.y() + lahettajaRect.height(),
+    QRectF lahettajaosoiteRect = painter->boundingRect( QRectF( lahettajaAlue.x()+vasen, lahettajaAlue.y() + ylos,
                                                        lahettajaAlue.width()-vasen, 20 * mm), Qt::TextWordWrap, kp()->asetus("Osoite") );
     painter->drawText(lahettajaosoiteRect, Qt::AlignLeft, kp()->asetus("Osoite") );
 
