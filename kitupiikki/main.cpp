@@ -62,7 +62,7 @@ void lisaaLinuxinKaynnistysValikkoon()
     out << "Exec=" << qApp->applicationFilePath() << "\n";
     out << "TryExec=" << qApp->applicationFilePath() << "\n";
     out << "GenericName=Kirjanpito\n";
-    out << qApp->tr("Comment=Avoimen lähdekoodin kirjanpitäjä\n");
+    out << Kirjanpito::tr("Comment=Avoimen lähdekoodin kirjanpitäjä\n");
     out << "Categories=Office;Finance;Qt;\nTerminal=false";
 }
 

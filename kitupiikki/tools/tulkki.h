@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2018 Arto Hyvättinen
+   Copyright (C) 2019 Arto Hyvättinen
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,36 +14,25 @@
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
+#ifndef TULKKI_H
+#define TULKKI_H
 
-#ifndef PALKKAFITUONTI_H
-#define PALKKAFITUONTI_H
-
-#include <QDate>
+#include <QObject>
 #include <QMap>
-
+#include <QHash>
 
 /**
- * @brief Kirjanpitoaineiston tuonti palkka.fi-palvelusta
- *
- * Tuo csv-muotoisen kirjanpitotositteen palkka.fi-palvelusta
- *
- * Tilien muunnos tehdään tilikartan [PalkkaFiTuonti] määritteellä, jossa jokaisella rivillä on välilyönnillä
- * erotettuna ensin palkka.fi-tilinumero ja sitten Kitupiikissä käytettävä tilinumero
- *
+ * @brief Tekstien kääntäminen silloin kun ei voi käyttää tr
  */
-class PalkkaFiTuonti
-{    
+class Tulkki : QObject
+{
+    Q_OBJECT
 public:
-    PalkkaFiTuonti();
+    Tulkki(const QString& tiedostonnimi, QObject* parent = nullptr);
 
-    bool tuo(const QByteArray &data) ;
-
-protected:
-    void tuoRivi(const QString& rivi);
-
-    QDate pvm_;
-    QString otsikko_;
-    QMap<int,int> muunto_;
+    QString k(const QString& avain, const QString& kieli = QString());
+private:
+    QHash<QString,QMap<QString,QString>> kaannokset_;
 };
 
-#endif // PALKKAFITUONTI_H
+#endif // TULKKI_H

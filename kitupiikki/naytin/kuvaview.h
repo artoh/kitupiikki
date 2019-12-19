@@ -24,6 +24,7 @@ namespace Naytin {
 
 class KuvaView : public AbstraktiView
 {
+    Q_OBJECT
 public:
     KuvaView(const QImage& kuva);
 

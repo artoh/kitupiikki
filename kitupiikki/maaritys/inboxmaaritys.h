@@ -28,6 +28,7 @@ namespace Ui {
  */
 class InboxMaaritys : public TallentavaMaaritysWidget
 {
+    Q_OBJECT
 public:
     InboxMaaritys();
     ~InboxMaaritys() override;

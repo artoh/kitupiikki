@@ -38,6 +38,7 @@ struct TilinMuunnos
  */
 class TiliMuuntoModel : public QAbstractTableModel
 {
+    Q_OBJECT
 public:
     enum Sarake
     {

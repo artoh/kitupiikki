@@ -428,14 +428,14 @@ void KitupiikkiIkkuna::lisaaSivut()
     toolbar->setMovable(false);
 
     aktioryhma = new QActionGroup(this);
-    lisaaSivu("Aloita",":/pic/Possu64.png","Erilaisia ohjattuja toimia","Home", ALOITUSSIVU, aloitussivu);
-    lisaaSivu("Uusi\ntosite",":/pic/uusitosite.png","Kirjaa uusi tosite","F2", KIRJAUSSIVU, kirjaussivu);
-    lisaaSivu("Selaa",":/pic/Paivakirja64.png","Selaa kirjauksia aikajärjestyksessä","F3", SELAUSSIVU, selaussivu);
-    lisaaSivu("Laskut",":/pic/lasku.png","Laskuta ja selaa laskuja","F4",LASKUTUSSIVU, laskutussivu);
-    lisaaSivu("Raportit",":/pic/print.png","Tulosta erilaisia raportteja","F5", TULOSTESIVU, raporttisivu);
-    lisaaSivu("Tilikaudet",":/pic/kirja64.png","Tilinpäätös ja arkistot","F6", ARKISTOSIVU, arkistosivu);
-    lisaaSivu("ALV", ":/pic/vero64.png", "Arvonlisäveron ilmoittaminen", "Shift+F7",ALVSIVU, alvsivu );
-    lisaaSivu("Asetukset",":/pic/ratas.png","Kirjanpitoon liittyvät määritykset","F7", MAARITYSSIVU, maarityssivu);
+    lisaaSivu(tr("Aloita"),":/pic/Possu64.png",tr("Erilaisia ohjattuja toimia"),"Home", ALOITUSSIVU, aloitussivu);
+    lisaaSivu(tr("Uusi\ntosite"),":/pic/uusitosite.png",tr("Kirjaa uusi tosite"),"F2", KIRJAUSSIVU, kirjaussivu);
+    lisaaSivu(tr("Selaa"),":/pic/Paivakirja64.png",tr("Selaa kirjauksia aikajärjestyksessä"),"F3", SELAUSSIVU, selaussivu);
+    lisaaSivu(tr("Laskut"),":/pic/lasku.png",tr("Laskuta ja selaa laskuja"),"F4",LASKUTUSSIVU, laskutussivu);
+    lisaaSivu(tr("Raportit"),":/pic/print.png",tr("Tulosta erilaisia raportteja"),"F5", TULOSTESIVU, raporttisivu);
+    lisaaSivu(tr("Tilikaudet"),":/pic/kirja64.png",tr("Tilinpäätös ja arkistot"),"F6", ARKISTOSIVU, arkistosivu);
+    lisaaSivu(tr("ALV"), ":/pic/vero64.png", tr("Arvonlisäveron ilmoittaminen"), "Shift+F7",ALVSIVU, alvsivu );
+    lisaaSivu(tr("Asetukset"),":/pic/ratas.png",tr("Kirjanpitoon liittyvät määritykset"),"F7", MAARITYSSIVU, maarityssivu);
 
     // Possulla on tonttulakki tuomaanpäivästä loppiaiseen ;)
     if( (QDate::currentDate().month() == 12 && QDate::currentDate().day() >= 21) ||

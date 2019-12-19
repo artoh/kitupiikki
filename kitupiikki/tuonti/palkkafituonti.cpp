@@ -52,7 +52,7 @@ bool PalkkaFiTuonti::tuo(const QByteArray &data)
     // Tältä riviltä haetaan päättymispäivä, josta tulee tositepäivä
     pvm_ = QDate::fromString( ekarivi.at(6), "dd.MM.yyyy" );
 
-    otsikko_ = kp()->tr("Palkat %1 - %2").arg(ekarivi.at(5))
+    otsikko_ = QString("Palkat %1 - %2").arg(ekarivi.at(5))
                                     .arg(ekarivi.at(6));
 
 //    kirjausWg()->model()->asetaOtsikko( otsikko_ );

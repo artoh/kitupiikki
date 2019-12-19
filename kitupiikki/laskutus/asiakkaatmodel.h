@@ -9,6 +9,7 @@
  */
 class AsiakkaatModel : public QAbstractTableModel
 {
+    Q_OBJECT
 public:
     enum KumppaniValinta { REKISTERI, ASIAKKAAT, TOIMITTAJAT};
 

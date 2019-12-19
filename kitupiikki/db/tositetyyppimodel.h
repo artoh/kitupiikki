@@ -57,6 +57,7 @@ struct TositeTyyppiTietue
 
 class TositeTyyppiModel : public QAbstractListModel
 {
+    Q_OBJECT
 public:    
     TositeTyyppiModel(QObject *parent = nullptr);
 

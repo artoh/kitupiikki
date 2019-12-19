@@ -28,6 +28,7 @@ namespace Naytin {
  */
 class TekstiNaytin : public AbstraktiNaytin
 {
+    Q_OBJECT
 public:
     TekstiNaytin(const QString& teksti, QObject *parent = nullptr);
 
