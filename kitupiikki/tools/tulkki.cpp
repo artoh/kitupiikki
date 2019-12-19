@@ -15,9 +15,12 @@
    along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 #include "tulkki.h"
+#include "db/kirjanpito.h"
 #include <QFile>
 #include <QJsonDocument>
 #include <QVariantMap>
+
+#include <QComboBox>
 
 Tulkki::Tulkki(const QString &tiedostonnimi, QObject *parent)
     : QObject(parent)
@@ -40,10 +43,26 @@ Tulkki::Tulkki(const QString &tiedostonnimi, QObject *parent)
     }
 }
 
-QString Tulkki::k(const QString &avain, const QString &kieli)
+QString Tulkki::k(const QString &avain, const QString &kieli) const
 {
     QMap<QString,QString> map  = kaannokset_.value(avain);
     if( map.isEmpty())
         return avain;
     return map.value(kieli, avain);
+}
+
+void Tulkki::alustaKieliCombo(QComboBox *combo)
+{
+    combo->clear();
+    lisaaKieli(combo, "fi", "suomi");
+    lisaaKieli(combo, "sv", "ruotsi");
+    lisaaKieli(combo, "en", "englanti");
+
+    combo->setCurrentIndex( combo->findData( kp()->asetukset()->asetus("kieli") ) );
+
+}
+
+void Tulkki::lisaaKieli(QComboBox *combo, const QString &lyhenne, const QString &nimi)
+{
+    combo->addItem( QIcon(":/liput/" + lyhenne + ".png"), tulkkaa(nimi, kp()->asetukset()->asetus("kieli") ), lyhenne );
 }

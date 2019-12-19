@@ -21,6 +21,8 @@
 #include <QMap>
 #include <QHash>
 
+class QComboBox;
+
 /**
  * @brief Tekstien kääntäminen silloin kun ei voi käyttää tr
  */
@@ -30,8 +32,12 @@ class Tulkki : QObject
 public:
     Tulkki(const QString& tiedostonnimi, QObject* parent = nullptr);
 
-    QString k(const QString& avain, const QString& kieli = QString());
+    QString k(const QString& avain, const QString& kieli = QString()) const;
+
+    static void alustaKieliCombo(QComboBox *combo);
 private:
+    static void lisaaKieli(QComboBox *combo, const QString& lyhenne, const QString& nimi);
+
     QHash<QString,QMap<QString,QString>> kaannokset_;
 };
 

@@ -47,6 +47,7 @@
 #include "tositetyyppimodel.h"
 #include "alv/alvilmoitustenmodel.h"
 #include "rekisteri/ryhmatmodel.h"
+#include "tools/tulkki.h"
 
 Kirjanpito::Kirjanpito(const QString& portableDir) :
     QObject(nullptr),
@@ -65,7 +66,8 @@ Kirjanpito::Kirjanpito(const QString& portableDir) :
     pilviModel_(new PilviModel(this)),
     sqliteModel_( new SQLiteModel(this)),
     yhteysModel_(nullptr),
-    tositeTyypit_( new TositeTyyppiModel())
+    tositeTyypit_( new TositeTyyppiModel()),
+    tulkki_( new Tulkki(":/tr/tulkki.json", this))
 {
     if( portableDir.isEmpty())
         settings_ = new QSettings(this);
@@ -278,6 +280,11 @@ void Kirjanpito::yhteysAvattu(YhteysModel *model)
     alvIlmoitukset()->lataa();
 }
 
+QString Kirjanpito::kaanna(const QString &teksti, const QString &kieli) const
+{
+    return tulkki_->k(teksti, kieli);
+}
+
 bool Kirjanpito::lataaUudelleen()
 {
     return avaaTietokanta(kirjanpitoPolku());
@@ -357,4 +364,9 @@ KpKysely *kpk(const QString &polku, KpKysely::Metodi metodi)
 QIcon lippu(const QString &kielikoodi)
 {
     return QIcon(":/liput/" + kielikoodi + ".png");
+}
+
+QString tulkkaa(const QString &teksti, const QString &kieli)
+{
+    return kp()->kaanna(teksti, kieli);
 }

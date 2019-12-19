@@ -1,6 +1,22 @@
 {
+  "suomi" : {
+    "sv" : "finska",
+    "en" : "Finnish"
+  },
+  "ruotsi" : {
+    "sv" : "svenska",
+    "en" : "Swedish"
+  },
+  "englanti" : {
+    "sv" : "engelska",
+    "en" : "English"
+  },
   "Kotipaikka" : {
     "sv" : "Hemort",
     "en" : "Domicile"
+  },
+  "HARJOITUS" : {
+    "sv" : "ÖVNING",
+    "en" : "TRIAL"
   }
 }

@@ -519,7 +519,7 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu) const
         painter->save();
         painter->setPen( QPen(Qt::green));
         painter->setFont( QFont("FreeSans",14));
-        painter->drawText(QRect(sivunleveys / 8 * 5,0,sivunleveys/4, rivinkorkeus*2 ), Qt::AlignHCenter | Qt::AlignVCenter, QString("HARJOITUS") );
+        painter->drawText(QRect(sivunleveys / 8 * 5,0,sivunleveys/4, rivinkorkeus*2 ), Qt::AlignHCenter | Qt::AlignVCenter, kaanna("HARJOITUS") );
         painter->restore();
     }
 
@@ -539,4 +539,14 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu) const
 
     painter->setPen(QPen(QBrush(Qt::black),1.00));
 
+}
+
+void RaportinKirjoittaja::asetaKieli(const QString &kieli)
+{
+    kieli_ = kieli;
+}
+
+QString RaportinKirjoittaja::kaanna(const QString &teksti) const
+{
+    return tulkkaa(teksti, kieli_);
 }
