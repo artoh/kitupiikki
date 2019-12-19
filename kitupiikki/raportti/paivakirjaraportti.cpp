@@ -77,7 +77,7 @@ void PaivakirjaRaportti::esikatsele()
     if( ui->tulostasummat->isChecked() )
         optiot |= Paivakirja::TulostaSummat;
 
-    Paivakirja *kirja = new Paivakirja(this);
+    Paivakirja *kirja = new Paivakirja(this, ui->kieliCombo->currentData().toString());
     connect( kirja, &Paivakirja::valmis, this, &RaporttiWidget::nayta );
     kirja->kirjoita( ui->alkupvm->date(), ui->loppupvm->date(),
                      optiot, kohdennuksella);

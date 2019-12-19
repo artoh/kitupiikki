@@ -18,5 +18,40 @@
   "HARJOITUS" : {
     "sv" : "ÖVNING",
     "en" : "TRIAL"
+  },
+  "PÄIVÄKIRJA" : {
+    "sv" : "DAGBOK",
+    "en" : "JOURNAL"
+  },
+  "Pvm" : {
+    "sv" : "Datum",
+    "en" : "Date"
+  },
+  "Tosite" : {
+    "sv" : "Verifikat",
+    "en" : "Document"
+  },
+  "Tili" : {
+    "sv" : "Konto",
+    "en" : "Account"
+  },
+  "Kohdennus": {
+    "sv" : "Kostnadställe",
+    "en" : "Cost pool"
+  },
+  "Yhteensä" : {
+    "sv" : "Totalt",
+    "en" : "Total"
+  },
+  "Selite": {
+    "sv" : "Beskrivning",
+    "en" : "Description"
+  },
+  "Sivu %1": {
+    "sv" : "Sida %1",
+    "en" : "Page %1"
+  },
+  "Kredit €" : {
+    "en" : "Credit €"
   }
 }

@@ -502,7 +502,7 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu) const
         double skaala = ((double) kp()->logo().width()) / kp()->logo().height();
         double skaalattu = skaala < 5.0 ? skaala : 5.0;
         painter->drawPixmap( QRect(0,0,rivinkorkeus*2*skaalattu, rivinkorkeus*2), QPixmap::fromImage( kp()->logo() ) );
-        vasenreunus = rivinkorkeus * 2 * skaalattu + painter->fontMetrics().width("A");
+        vasenreunus = rivinkorkeus * 2 * skaalattu + painter->fontMetrics().width("A");        
     }
 
     QRectF nimiRect = painter->boundingRect( vasenreunus, 0, sivunleveys / 3 - vasenreunus, painter->viewport().height(),
@@ -523,15 +523,14 @@ void RaportinKirjoittaja::tulostaYlatunniste(QPainter *painter, int sivu) const
         painter->restore();
     }
 
-    painter->translate(0, nimiRect.height() > otsikkoRect.height() ? nimiRect.height() : otsikkoRect.height() );
+    QString ytunnus = Kirjanpito::db()->asetus("Ytunnus") ;
+    painter->drawText(QRect(vasenreunus,nimiRect.height(),sivunleveys/3, rivinkorkeus ), Qt::AlignLeft, ytunnus );
 
-    QString ytunnus = Kirjanpito::db()->asetus("Ytunnus") ;    
-
-    painter->drawText(QRect(vasenreunus,0,sivunleveys/3, rivinkorkeus ), Qt::AlignLeft, ytunnus );
+    painter->translate(0, nimiRect.height() > otsikkoRect.height() ? nimiRect.height() : otsikkoRect.height() );    
 
     painter->drawText(QRect(sivunleveys/3,0,sivunleveys/3, rivinkorkeus  ), Qt::AlignHCenter, kausiteksti_);
     if( sivu )
-        painter->drawText(QRect(sivunleveys*2/3, 0, sivunleveys/3, rivinkorkeus), Qt::AlignRight, QString("Sivu %1").arg(sivu));
+        painter->drawText(QRect(sivunleveys*2/3, 0, sivunleveys/3, rivinkorkeus), Qt::AlignRight, kaanna("Sivu %1").arg(sivu));
 
 
 

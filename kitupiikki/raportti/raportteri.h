@@ -25,7 +25,7 @@ class Raportteri : public QObject
 {
     Q_OBJECT
 public:
-    explicit Raportteri(QObject *parent = nullptr);
+    explicit Raportteri(QObject *parent = nullptr, const QString& kielikoodi = QString());
 
 signals:
     void valmis(RaportinKirjoittaja raportinKirjoittaja);
@@ -34,7 +34,11 @@ signals:
 public slots:
 
 protected:
+    QString kaanna(const QString& teksti) const;
+
+protected:
     RaportinKirjoittaja rk;
+    QString kielikoodi_;
 };
 
 #endif // RAPORTTERI_H
