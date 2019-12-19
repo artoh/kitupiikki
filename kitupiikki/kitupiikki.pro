@@ -40,8 +40,8 @@ DISTFILES += \
     aloitussivu/qrc/aloitus.css \
     uusikp/update3.sql
 
-TRANSLATIONS = kitsas_en.ts \
-               kitsas_sv.ts
+TRANSLATIONS = tr/kitsas_en.ts \
+               tr/kitsas_sv.ts
 
 RC_ICONS = kitupiikki.ico
 
