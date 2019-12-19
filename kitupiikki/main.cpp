@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
     // Käytetään ohjelmaan upotettua käännöstiedostoa, jotta varmasti mukana  
 
     QTranslator translator;
-    translator.load("fi.qm",":/aloitus/");
+    translator.load("fi.qm",":/tr/");
 
     a.installTranslator(&translator);
 

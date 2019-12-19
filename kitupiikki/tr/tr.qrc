@@ -1,2 +1,6 @@
-<!DOCTYPE RCC>
-<RCC version="1.0"/>
+<RCC>
+    <qresource prefix="/tr">
+        <file>tulkki.json</file>
+        <file>fi.qm</file>
+    </qresource>
+</RCC>

@@ -443,6 +443,7 @@ HEADERS += \
 
 RESOURCES += \
     $$PWD/sqlite/sqlite.qrc \
+    $$PWD/tr/tr.qrc \
     tilikartat/tilikartat.qrc \
     pic/pic.qrc \
     aloitussivu/qrc/aloitus.qrc \
