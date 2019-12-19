@@ -140,13 +140,18 @@ void TuloMenoApuri::teeReset()
         if( vienti.tyyppi() % 100 == TositeVienti::VASTAKIRJAUS) {
             Tili* vastatili = kp()->tilit()->tili( vienti.tili());
 
-            ui->vastatiliLine->valitseTiliNumerolla( vastatili->numero() );
-            if( vastatili->eritellaankoTase())
-                ui->eraCombo->valitse( vienti.eraId() );
-
             int maksutapaind = ui->maksutapaCombo->findData(vastatili->numero(), MaksutapaModel::TiliRooli);
             if( maksutapaind >= 0)
                 ui->maksutapaCombo->setCurrentIndex(maksutapaind);
+            else
+                ui->maksutapaCombo->setCurrentIndex(ui->maksutapaCombo->count()-1);
+
+            maksutapaMuuttui();
+            ui->vastatiliLine->valitseTiliNumerolla( vastatili->numero() );
+
+
+            if( vastatili->eritellaankoTase())
+                ui->eraCombo->valitse( vienti.eraId() );
 
             ui->viiteEdit->setText( vienti.viite());
             ui->erapaivaEdit->setDate( vienti.erapaiva());
@@ -154,7 +159,6 @@ void TuloMenoApuri::teeReset()
             ui->asiakasToimittaja->set( vienti.value("kumppani").toMap().value("id").toInt(),
                                     vienti.value("kumppani").toMap().value("nimi").toString());
 
-            maksutapaMuuttui();
 
         } else {
             rivit_->lisaa(vienti);

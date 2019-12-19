@@ -162,18 +162,21 @@ public:
 
     bool tyhja() const { return rivit_.isEmpty(); }
 
+    void asetaKieli(const QString& kieli);
+
 signals:
 
 public slots:
 
 protected:
-
+    QString kaanna(const QString& teksti) const;
 
 
 protected:
     QString otsikko_;
     QString kausiteksti_;
     bool csvKaytossa_;
+    QString kieli_;
 
     QList<RaporttiSarake> sarakkeet_;
     QList<RaporttiRivi> otsakkeet_;

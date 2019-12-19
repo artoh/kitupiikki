@@ -257,7 +257,7 @@
       {
         "fi": "Aineelliset hyödykkeet",
         "sv": "Materiella tillgånger",
-        "L": "11..23 *",
+        "L": "11..13 *",
         "S": 1
       },
       {
@@ -322,7 +322,7 @@
       {
         "fi": "Osake-, osuus- tai muu vastaava pääoma",
         "sv": "Aktie- eller andelskapital eller annat motsvanrande kapital",
-        "L": "200,210 *",
+        "L": "200,210,220 *",
         "S": 1
       },
       {
@@ -345,7 +345,7 @@
       },
       {
         "fi": "Pääomapanokset",
-        "L": " 2 *",
+        "L": " 215..219 *",
         "S": 1
       },
       {
