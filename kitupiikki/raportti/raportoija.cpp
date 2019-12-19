@@ -31,7 +31,7 @@
 #include <QJsonDocument>
 
 Raportoija::Raportoija(const QString &raportinNimi, const QString &kieli, QObject *parent, RaportinTyyppi tyyppi) :
-    Raportteri (parent),
+    Raportteri (parent, kieli),
     kieli_(kieli),    
     tyyppi_ ( tyyppi )
 {

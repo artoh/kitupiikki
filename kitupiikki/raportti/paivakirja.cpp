@@ -61,8 +61,8 @@ void Paivakirja::kirjoita(const QDate &mista, const QDate &mihin, int optiot, in
         if( optiot_ & TulostaKohdennukset)
             otsikko.lisaa(kaanna("Kohdennus"));
         otsikko.lisaa(kaanna("Selite"));
-        otsikko.lisaa("Debet €", 1, true);
-        otsikko.lisaa("Kredit €", 1, true);
+        otsikko.lisaa(kaanna("Debet €"), 1, true);
+        otsikko.lisaa(kaanna("Kredit €"), 1, true);
         rk.lisaaOtsake(otsikko);
     }
 
