@@ -50,7 +50,8 @@ public:
         KUMPPANI,
         KOMMENTIT,
         ALV,
-        SARJA
+        SARJA,
+        TILIOTE
     };
 
     enum Virheet {

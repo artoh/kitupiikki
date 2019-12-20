@@ -111,6 +111,11 @@ void TilioteApuri::tuo(QVariantMap map)
 bool TilioteApuri::teeTositteelle()
 {
     tosite()->viennit()->asetaViennit( model_->viennit(  ui->tiliCombo->valittuTilinumero() ) );
+    QVariantMap tilioteMap;
+    tilioteMap.insert("alkupvm", ui->alkuDate->date());
+    tilioteMap.insert("loppupvm", ui->loppuDate->date());
+    tilioteMap.insert("tili", ui->tiliCombo->valittuTilinumero());
+    tosite()->setData(Tosite::TILIOTE,tilioteMap);
     if( tosite()->data(Tosite::OTSIKKO).toString().isEmpty())
         tosite()->setData(Tosite::OTSIKKO, tr("Tiliote %1").arg(tosite()->data(Tosite::PVM).toDate().toString("dd.MM.yyyy")));
 
@@ -125,6 +130,12 @@ void TilioteApuri::teeReset()
     if( viennit.count() > 1) {
         TositeVienti ekarivi = viennit.first().toMap();
         ui->tiliCombo->valitseTili(ekarivi.tili());
+    }
+    QVariantMap tilioteMap = tosite()->data(Tosite::TILIOTE).toMap();
+    if( !tilioteMap.isEmpty()) {
+        ui->tiliCombo->valitseTili( tilioteMap.value("tili").toInt() );
+        ui->alkuDate->setDate( tilioteMap.value("alkupvm").toDate());
+        ui->loppuDate->setDate( tilioteMap.value("loppupvm").toDate() );
     }
     model_->lataa(viennit);
     lataaHarmaat();    
