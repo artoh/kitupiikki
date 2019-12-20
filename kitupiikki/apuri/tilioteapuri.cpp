@@ -99,13 +99,15 @@ void TilioteApuri::tuo(QVariantMap map)
 
     ui->alkuDate->setDate( map.value("alkupvm").toDate() );
     ui->loppuDate->setDate( map.value("loppupvm").toDate());
-
-
     model()->tuo( map.value("tapahtumat").toList() );
-
-    tuodaan_ = false;
-
     tiliPvmMuutos();
+
+    if( map.contains("kausitunnus")) {
+        QString tilinimi = kp()->tilit()->tiliIbanilla(map.value("iban").toString()).nimi();
+        tosite()->asetaOtsikko(tr("Tiliote %1 %2").arg(map.value("kausitunnus").toString()).arg(tilinimi));
+    }
+
+    tuodaan_ = false;    
 }
 
 bool TilioteApuri::teeTositteelle()
@@ -189,20 +191,22 @@ void TilioteApuri::naytaSummat()
 
 void TilioteApuri::tiliPvmMuutos()
 {
-    if( tosite()->resetoidaanko() && tuodaan_)
+    if( tosite()->resetoidaanko() )
         return;
 
     // Otsikon päivittäminen
     lataaHarmaat();
 
-    Tili tili = kp()->tilit()->tiliNumerolla( ui->tiliCombo->valittuTilinumero() );
-    QString iban = tili.str("iban");
+    Tili tili = kp()->tilit()->tiliNumerolla( ui->tiliCombo->valittuTilinumero() );    
 
-    tosite()->setData( Tosite::OTSIKKO,
+    QString otsikko = tosite()->otsikko();
+    if( otsikko.isEmpty() || otsikko.contains(QRegularExpression(R"(\d{2}.\d{2}.\d{4} - \d{2}.\d{2}.\d{4})"))) {
+        tosite()->setData( Tosite::OTSIKKO,
                        tr("Tiliote %1 - %2 %3")
                        .arg( ui->alkuDate->date().toString("dd.MM.yyyy") )
                        .arg( ui->loppuDate->date().toString("dd.MM.yyyy"))
-                       .arg(iban));
+                       .arg(tili.nimi()));
+    }
 
     tosite()->setData(Tosite::PVM, ui->loppuDate->date());
 }

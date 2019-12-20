@@ -160,11 +160,10 @@ KirjausWg::KirjausWg( QWidget *parent, SelausWg* selaus)
     connect( ui->sarjaEdit, &QLineEdit::textChanged, [this] { this->tosite()->setData(Tosite::SARJA, ui->sarjaEdit->text()); });
     connect( ui->kommentitEdit, &QPlainTextEdit::textChanged, [this] { this->tosite()->asetaKommentti(ui->kommentitEdit->toPlainText());});
 
-    connect( tosite_, &Tosite::otsikkoMuuttui, [this] (const QString& otsikko) { this->ui->otsikkoEdit->setText(otsikko); });
     connect( ui->lokiView, &QTableView::clicked, this, &KirjausWg::naytaLoki);
 
     connect( tosite(), &Tosite::pvmMuuttui, [this] (const QDate& pvm) { this->ui->tositePvmEdit->setDate(pvm);});
-    connect( tosite(), &Tosite::otsikkoMuuttui, [this] (const QString& otsikko) { this->ui->otsikkoEdit->setText(otsikko);});
+    connect( tosite(), &Tosite::otsikkoMuuttui, [this] (const QString& otsikko) { if(otsikko != this->ui->otsikkoEdit->text()) this->ui->otsikkoEdit->setText(otsikko);});
     connect( tosite(), &Tosite::tunnisteMuuttui, this, &KirjausWg::tunnisteVaihtui);
     connect( tosite(), &Tosite::sarjaMuuttui, [this] (const QString& sarja) {
         this->ui->sarjaEdit->setText(sarja);  });

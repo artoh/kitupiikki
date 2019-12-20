@@ -334,6 +334,18 @@ QVariantMap PdfTuonti::tuoPdfTiliote()
         }
     }
 
+    // Löytyy koko lailla sopivia kenttiä
+    int kauttasijainti = etsi("/", 0, 30, 70, 95);
+    QRegularExpression kauttaRe("\\d+/20\\d\\d");
+
+    for( const QString& t : haeLahelta( kauttasijainti / 100 , kauttasijainti % 100, 2, 2))
+    {
+        if( kauttaRe.match(t).hasMatch())
+        {
+            map.insert("kausitunnus", kauttaRe.match(t).captured());
+        }
+    }
+
 
     QRegularExpression valiRe("(?<p1>\\d{1,2})\\.(?<k1>\\d{1,2})\\.(?<v1>\\d{2,4})?\\W{1,3}(?<p2>\\d{1,2})\\.(?<k2>\\d{1,2})\\.(?<v2>\\d{2,4})");
     QRegularExpressionMatch valiMats = valiRe.match(kokoteksti);
