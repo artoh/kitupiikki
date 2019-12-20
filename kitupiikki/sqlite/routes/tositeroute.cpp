@@ -207,11 +207,12 @@ int TositeRoute::lisaaTaiPaivita(const QVariant pyynto, int tositeid)
         QVariantMap laskumap = map.value("lasku").toMap();
         kp()->asetukset()->aseta("LaskuSeuraavaId", laskunumero + 1);
         laskumap.insert("numero", laskunumero);
-        laskumap.insert("viite", viite(QString::number(laskunumero)) );
+        QString viitenumero = laskumap.value("viite", viite(QString::number(laskunumero))).toString();
+        laskumap.insert("viite", viitenumero );
         map.insert("lasku", laskumap);
 
         QVariantMap vmap = viennit.at(0).toMap();
-        vmap.insert("viite", viite(QString::number(laskunumero)));
+        vmap.insert("viite", viitenumero);
         viennit[0] = vmap;
     }
 
@@ -399,7 +400,7 @@ QVariant TositeRoute::hae(int tositeId)
 
     // Viennit
     kysely.exec(QString("SELECT vienti.id as id, tyyppi, pvm, tili, kohdennus, selite, debetsnt, kreditsnt, eraid as era_id, alvprosentti, alvkoodi, "
-                "kumppani.id as kumppani_id, kumppani.nimi as kumppani_nimi, jaksoalkaa, jaksoloppuu, vienti.json as json FROM Vienti "
+                "kumppani.id as kumppani_id, kumppani.nimi as kumppani_nimi, jaksoalkaa, jaksoloppuu, erapvm, viite, vienti.json as json FROM Vienti "
                 "LEFT OUTER JOIN kumppani ON vienti.kumppani=kumppani.id "
                 "WHERE tosite=%1 ORDER BY rivi").arg(tositeId) );
     QVariantList viennit = resultList(kysely);

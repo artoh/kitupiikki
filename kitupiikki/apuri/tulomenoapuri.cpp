@@ -126,11 +126,9 @@ void TuloMenoApuri::teeReset()
 
 
     rivit_->clear();
-
-    ui->viiteEdit->setText( tosite()->data(Tosite::VIITE).toString());
-    ui->erapaivaEdit->setDate( tosite()->data(Tosite::ERAPVM).toDate());
-    ui->asiakasToimittaja->set( tosite()->kumppani(),
-                            tosite()->kumppaninimi());
+    ui->viiteEdit->clear();
+    ui->erapaivaEdit->clear();
+    ui->asiakasToimittaja->set(tosite()->kumppani(), tosite()->kumppaninimi());
 
     QVariantList vientiLista = tosite()->viennit()->viennit().toList();
 
@@ -154,6 +152,9 @@ void TuloMenoApuri::teeReset()
 
             if( vastatili->eritellaankoTase())
                 ui->eraCombo->valitse( vienti.eraId() );
+
+            ui->erapaivaEdit->setDate(vienti.erapaiva());
+            ui->viiteEdit->setText(vienti.viite());
 
         } else {
             rivit_->lisaa(vienti);
