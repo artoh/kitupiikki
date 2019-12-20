@@ -159,6 +159,7 @@ void AsiakasToimittajaValinta::talletettu(int id, const QString& /*nimi*/)
 {
     ladattu_ = id;
     model_->lataa();
+    emit valittu(id);
 
 }
 

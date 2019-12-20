@@ -126,6 +126,7 @@ void AsiakasToimittajaDlg::tauluun(QVariantMap map)
         ui->yEdit->setText( alvToY( map.value("alvtunnus").toString() ));
     else
         ui->alvEdit->setText( map.value("alvtunnus").toString() );
+    maaMuuttui();
 
     ui->emailEdit->setText( map.value("email").toString() );
     ui->osoiteEdit->setPlainText( map.value("osoite").toString() );
@@ -143,15 +144,22 @@ void AsiakasToimittajaDlg::tauluun(QVariantMap map)
 
     ui->ryhmatWidget->valitseRyhmat( map.value("ryhmat").toList() );
 
-    maaMuuttui();
+    taydennaLaskutavat();
+
+    if( map.contains("kieli"))
+        ui->kieliCombo->setCurrentIndex( ui->kieliCombo->findData( map.value("kieli")) );
+    if( map.contains("laskutapa"))
+        ui->laskutapaCombo->setCurrentIndex( ui->laskutapaCombo->findData( map.value("laskutapa")));
+    ui->lisatietoEdit->setPlainText( map.value("lisatiedot").toString());
+
     tarkastaTilit();
 }
 
 void AsiakasToimittajaDlg::alustaKielet()
 {
-    ui->kieliCombo->addItem(QIcon(":/liput/fi.png"),tr("suomi"),"fi");
-    ui->kieliCombo->addItem(QIcon(":/liput/sv.png"),tr("ruotsi"),"sv");
-    ui->kieliCombo->addItem(QIcon(":/liput/en.png"),tr("englanti"),"en");
+    ui->kieliCombo->addItem(QIcon(":/liput/fi.png"),tr("suomi"),"FI");
+    ui->kieliCombo->addItem(QIcon(":/liput/sv.png"),tr("ruotsi"),"SV");
+    ui->kieliCombo->addItem(QIcon(":/liput/en.png"),tr("englanti"),"EN");
 }
 
 void AsiakasToimittajaDlg::tuonti(const QVariantMap &map)
@@ -273,6 +281,9 @@ void AsiakasToimittajaDlg::accept()
             tililista.append( ui->tilitLista->item(i)->data(Qt::EditRole) );
 
     map.insert("iban", tililista);
+    map.insert("kieli", ui->kieliCombo->currentData().toString());
+    map.insert("laskutapa", ui->laskutapaCombo->currentData().toInt());
+    map.insert("lisatiedot", ui->lisatietoEdit->toPlainText());
 
     if( !ui->ovtEdit->text().isEmpty() )
         map.insert("ovt", ui->ovtEdit->text());

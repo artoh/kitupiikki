@@ -83,9 +83,9 @@ LaskuDialogi::LaskuDialogi( const QVariantMap& data) :
     resize(800,600);
     restoreGeometry( kp()->settings()->value("LaskuDialogi").toByteArray());
 
-    ui->kieliCombo->addItem(QIcon(":/pic/fi.png"), tr("Suomi"), "FI");
-    ui->kieliCombo->addItem(QIcon(":/pic/se.png"), tr("Ruotsi"), "SE");
-    ui->kieliCombo->addItem(QIcon(":/pic/en.png"), tr("Englanti"), "EN");
+    ui->kieliCombo->addItem(QIcon(":/liput/fi.png"), tr("Suomi"), "FI");
+    ui->kieliCombo->addItem(QIcon(":/liput/sv.png"), tr("Ruotsi"), "SV");
+    ui->kieliCombo->addItem(QIcon(":/liput/en.png"), tr("Englanti"), "EN");
 
     ui->asiakas->alusta();
 
@@ -354,6 +354,8 @@ void LaskuDialogi::taytaAsiakasTiedot(QVariant *data)
                                   map.value("osoite").toString() + "\n" +
                                   map.value("postinumero").toString() + " " + map.value("kaupunki").toString());
     ui->email->setText( map.value("email").toString());
+    ui->kieliCombo->setCurrentIndex(ui->kieliCombo->findData(map.value("kieli").toString()));
+    ui->laskutusCombo->setCurrentIndex(ui->laskutusCombo->findData(map.value("laskutapa")));
 
     asAlvTunnus_ = map.value("alvtunnus").toString();
 

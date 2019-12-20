@@ -134,6 +134,8 @@ QVariant KumppanitRoute::put(const QString &polku, const QVariant &data)
     QVariantMap kopio(map);
 
     int id = polku.toInt();
+    kopio.insert("id", id);
+
     QString nimi = map.take("nimi").toString();
     QString alvtunnus = map.take("alvtunnus").toString();
     QVariantList iban = map.take("iban").toList();
