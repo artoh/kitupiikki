@@ -40,7 +40,8 @@ public:
          TyyppiRooli = Qt::UserRole + 11,
          TunnisteRooli = Qt::UserRole + 12,
          SarjaRooli = Qt::UserRole + 13,
-         EraMapRooli = Qt::UserRole + 14};
+         EraMapRooli = Qt::UserRole + 14,
+         NumeroRooli = Qt::UserRole + 15};
 
     explicit LaskuTauluModel(QObject *parent = nullptr);
 

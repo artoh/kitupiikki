@@ -568,11 +568,11 @@ QVariantMap LaskuDialogi::vastakirjaus(const QString &otsikko) const
     if( ui->maksuCombo->currentData().toInt() == KATEINEN)
         // TODO: Tilinvalinnat
         vienti.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::KATEINEN).numero());
-    else
+    else {
         vienti.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::MYYNTISAATAVA).numero() );
-
-    if( tallennusTila_ >= Tosite::VALMISLASKU)
-        vienti.setEra( -1 );
+        if( tallennusTila_ >= Tosite::VALMISLASKU)
+            vienti.setEra( -1 );
+    }
 
 
     if( ui->asiakas->id())

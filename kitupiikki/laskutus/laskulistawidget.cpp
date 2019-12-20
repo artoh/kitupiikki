@@ -129,7 +129,7 @@ void LaskulistaWidget::paivitaNapit()
     ui->kopioiNappi->setEnabled( index.isValid() );
     ui->hyvitysNappi->setVisible( index.isValid()
                                && index.data(LaskuTauluModel::TyyppiRooli).toInt() == TositeTyyppi::MYYNTILASKU
-                               && index.data(LaskuTauluModel::ViiteRooli).toLongLong());
+                               && index.data(LaskuTauluModel::TunnisteRooli).toLongLong());
     ui->naytaNappi->setEnabled( index.isValid() );
     ui->muokkaaNappi->setEnabled( index.isValid() );
 

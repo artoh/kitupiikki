@@ -169,16 +169,21 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
             era.insert("saldo", map.value("avoin"));
             return era;
         }
+    case NumeroRooli:
+        return map.value("numero");
     case Qt::DecorationRole: {
         if( index.column() == NUMERO) {
                 switch (map.value("tyyppi").toInt()) {
                 case TositeTyyppi::MYYNTILASKU:
+                    if( !map.contains("eraid") )
+                            return QIcon(":/pic/kateinen.png");
                     return QIcon(":/pic/lasku.png");
                 case TositeTyyppi::HYVITYSLASKU:
                     return QIcon(":/pic/poista.png");
                 case TositeTyyppi::MAKSUMUISTUTUS:
                     return QIcon(":/pic/punainenkuori.png");
                 }
+                return QIcon(":/pic/tyhja.png");
 
             }
         }
