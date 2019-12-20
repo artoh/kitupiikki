@@ -22,6 +22,7 @@
 
 #include "ibandelegaatti.h"
 #include "validator/ytunnusvalidator.h"
+#include "laskutus/laskudialogi.h"
 
 #include "db/kirjanpito.h"
 
@@ -48,16 +49,18 @@ AsiakasToimittajaDlg::AsiakasToimittajaDlg(QWidget *parent) :
     connect( ui->yEdit, &QLineEdit::textChanged, this, &AsiakasToimittajaDlg::naytaVerkkolasku);
 
     connect( ui->nimiEdit, &QLineEdit::textChanged, this, &AsiakasToimittajaDlg::nimiMuuttuu);
+    connect( ui->emailEdit, &QLineEdit::textChanged, this, &AsiakasToimittajaDlg::taydennaLaskutavat);
+    connect( ui->osoiteEdit, &QPlainTextEdit::textChanged, this, &AsiakasToimittajaDlg::taydennaLaskutavat);
+    connect( ui->kaupunkiEdit, &QLineEdit::textChanged, this, &AsiakasToimittajaDlg::taydennaLaskutavat);
+    connect( ui->ovtEdit, &QLineEdit::editingFinished, this, &AsiakasToimittajaDlg::taydennaLaskutavat);
+    connect( ui->valittajaEdit, &QLineEdit::editingFinished, this, &AsiakasToimittajaDlg::taydennaLaskutavat);
 
     ui->tilitLista->setItemDelegate( new IbanDelegaatti(this) );
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 
-    ui->ryhmaCombo->haeRyhmat();
-
-    ui->valittajaLabel->hide();
-    ui->valittajaEdit->hide();
-    ui->ovtLabel->hide();
-    ui->ovtEdit->hide();
+    ui->tabWidget->setTabEnabled(VERKKOLASKU, false);
+    alustaKielet();
+    taydennaLaskutavat();
 }
 
 AsiakasToimittajaDlg::~AsiakasToimittajaDlg()
@@ -138,10 +141,17 @@ void AsiakasToimittajaDlg::tauluun(QVariantMap map)
         item->setFlags( item->flags() | Qt::ItemIsEditable );
     }
 
-    ui->ryhmaCombo->setSelectedItems( map.value("ryhmat").toList() );
+    ui->ryhmatWidget->valitseRyhmat( map.value("ryhmat").toList() );
 
     maaMuuttui();
     tarkastaTilit();
+}
+
+void AsiakasToimittajaDlg::alustaKielet()
+{
+    ui->kieliCombo->addItem(QIcon(":/liput/fi.png"),tr("suomi"),"fi");
+    ui->kieliCombo->addItem(QIcon(":/liput/sv.png"),tr("ruotsi"),"sv");
+    ui->kieliCombo->addItem(QIcon(":/liput/en.png"),tr("englanti"),"en");
 }
 
 void AsiakasToimittajaDlg::tuonti(const QVariantMap &map)
@@ -163,7 +173,7 @@ void AsiakasToimittajaDlg::tuonti(const QVariantMap &map)
 
 void AsiakasToimittajaDlg::lisaaRyhmaan(int ryhma)
 {
-    ui->ryhmaCombo->setSelectedItems( QList<int>() << ryhma );
+    ui->ryhmatWidget->valitseRyhmat( QVariantList() << ryhma );
 }
 
 void AsiakasToimittajaDlg::naytaVerkkolasku()
@@ -171,10 +181,26 @@ void AsiakasToimittajaDlg::naytaVerkkolasku()
     bool ytunnari = ui->maaCombo->currentData(MaaModel::KoodiRooli).toString() == "fi" &&
             ui->yEdit->hasAcceptableInput();
 
-    ui->valittajaLabel->setVisible(ytunnari);
-    ui->valittajaEdit->setVisible(ytunnari);
-    ui->ovtLabel->setVisible(ytunnari);
-    ui->ovtEdit->setVisible(ytunnari);
+    ui->tabWidget->setTabEnabled(VERKKOLASKU, ytunnari);
+}
+
+void AsiakasToimittajaDlg::taydennaLaskutavat()
+{
+    int laskutapa = ui->laskutapaCombo->currentData().toInt();
+    ui->laskutapaCombo->clear();
+    ui->laskutapaCombo->addItem(QIcon(":/pic/tulosta.png"), tr("Tulostus"), LaskuDialogi::TULOSTETTAVA);
+    if( ui->osoiteEdit->toPlainText().length() > 2 && ui->kaupunkiEdit->text().length() > 1)
+        ui->laskutapaCombo->addItem(QIcon(":/pic/kirje.png"),tr("Postitus"), LaskuDialogi::POSTITUS);
+    QRegularExpression emailRe(R"(^([\w-]*(\.[\w-]+)?)+@(\w+\.\w+)(\.\w+)*$)");
+    if( emailRe.match( ui->emailEdit->text()).hasMatch() )
+        ui->laskutapaCombo->addItem(QIcon(":/pic/email.png"), tr("Sähköposti"), LaskuDialogi::SAHKOPOSTI);
+    if( ui->ovtEdit->text().length() > 11 && ui->valittajaEdit->text().length() > 6 )
+        ui->laskutapaCombo->addItem(QIcon(":/pic/verkkolasku.png"), tr("Verkkolasku"), LaskuDialogi::VERKKOLASKU);
+
+    int indeksi = ui->laskutapaCombo->findData(laskutapa);
+    if( indeksi > 0)
+        ui->laskutapaCombo->setCurrentIndex(indeksi);
+
 }
 
 void AsiakasToimittajaDlg::tarkastaTilit()
@@ -253,8 +279,9 @@ void AsiakasToimittajaDlg::accept()
     if( !ui->valittajaEdit->text().isEmpty())
         map.insert("operaattori", ui->valittajaEdit->text());
 
-    if( !ui->ryhmaCombo->selectedDatas().isEmpty())
-        map.insert("ryhmat", ui->ryhmaCombo->selectedDatas());
+    QVariantList valitutRyhmat = ui->ryhmatWidget->valitutRyhmat();
+    if( !valitutRyhmat.isEmpty())
+        map.insert("ryhmat", valitutRyhmat);
 
     KpKysely* kysely = nullptr;    
         kysely = id_ ? kpk( QString("/kumppanit/%1").arg(id_) , KpKysely::PUT ) :

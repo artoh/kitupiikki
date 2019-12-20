@@ -30,6 +30,8 @@ class AsiakasToimittajaDlg : public QDialog
     Q_OBJECT
 
 public:
+    enum {PERUSTIEDOT, RYHMAT, VERKKOLASKU, PANKKITILIT, LISATIEDOT};
+
     AsiakasToimittajaDlg(QWidget *parent);
     ~AsiakasToimittajaDlg() override;
 
@@ -50,6 +52,7 @@ signals:
 protected:
     void lataa(int id);
     void tauluun(QVariantMap map = QVariantMap());
+    void alustaKielet();
 
 
 private slots:    
@@ -66,6 +69,7 @@ private slots:
     void yTietoSaapuu();
     void tallennusValmis(QVariant* data);
     void naytaVerkkolasku();
+    void taydennaLaskutavat();
 
 
 private:
