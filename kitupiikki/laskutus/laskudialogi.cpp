@@ -447,9 +447,12 @@ QVariantMap LaskuDialogi::data() const
     QVariantMap lasku;
 
     if( laskunnumero_) {
-        lasku.insert("numero", laskunnumero_);
+        lasku.insert("numero", laskunnumero_);        
+    }
+    if( !viite_.isEmpty()) {
         lasku.insert("viite", viite_);
     }
+
     if( !asAlvTunnus_.isEmpty())
         lasku.insert("alvtunnus", asAlvTunnus_);
 
@@ -464,7 +467,8 @@ QVariantMap LaskuDialogi::data() const
     lasku.insert("viivkorko", ui->viivkorkoSpin->value());
     lasku.insert("laskutapa", ui->laskutusCombo->currentData());
     lasku.insert("toimituspvm", ui->toimitusDate->date());
-    lasku.insert("erapvm", ui->eraDate->date());
+    if( rivit_->yhteensa() > 1e-3)
+        lasku.insert("erapvm", ui->eraDate->date());
     lasku.insert("maksutapa", ui->maksuCombo->currentData());
     lasku.insert("otsikko", ui->otsikkoEdit->text());
     lasku.insert("saate", ui->saateEdit->toPlainText());
@@ -562,6 +566,7 @@ QVariantMap LaskuDialogi::vastakirjaus(const QString &otsikko) const
 
     vienti.setPvm( kp()->paivamaara() );
     if( ui->maksuCombo->currentData().toInt() == KATEINEN)
+        // TODO: Tilinvalinnat
         vienti.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::KATEINEN).numero());
     else
         vienti.setTili( kp()->tilit()->tiliTyypilla(TiliLaji::MYYNTISAATAVA).numero() );
@@ -569,15 +574,17 @@ QVariantMap LaskuDialogi::vastakirjaus(const QString &otsikko) const
     if( tallennusTila_ >= Tosite::VALMISLASKU)
         vienti.setEra( -1 );
 
-    vienti.setErapaiva( ui->eraDate->date() );
 
     if( ui->asiakas->id())
         vienti.insert("kumppani", ui->asiakas->id());
 
     double summa = rivit_->yhteensa();
-    if( summa > 0)
+    if( summa > 0) {
         vienti.setDebet(summa);
-    else
+        if( ui->maksuCombo->currentData().toInt() != KATEINEN) {
+            vienti.setErapaiva( ui->eraDate->date() );
+        }
+    } else
         vienti.setKredit(0-summa);
 
     if( !viite_.isEmpty())

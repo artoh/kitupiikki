@@ -31,7 +31,7 @@ QVariant LaskuTauluModel::headerData(int section, Qt::Orientation orientation, i
     else if( role == Qt::DisplayRole && orientation == Qt::Horizontal)
     {
         switch (section) {
-        case NUMERO: return tr("Viitenumero");
+        case NUMERO: return tr("Numero");
         case PVM: return tr("Laskun pvm");
         case ERAPVM: return tr("Eräpvm");
         case SUMMA: return tr("Summa");
@@ -76,6 +76,8 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
             switch (index.column())
             {
             case NUMERO:
+                if( map.contains("numero"))
+                    return map.value("numero");
                 return map.value("viite");
             case PVM:
                 return map.value("pvm").toDate();
@@ -85,7 +87,7 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
                 if( role == Qt::DisplayRole)
                 {
                     double summa = map.value("summa").toDouble();
-                    if( summa > 1e-5)
+                    if( qAbs(summa) > 1e-5)
                         return QString("%L1 €").arg(summa,0,'f',2);
                     else
                         return QVariant();  // Nollalle tyhjää
@@ -96,7 +98,7 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
                 if( role == Qt::DisplayRole)
                 {                                     
                     double avoin = map.value("avoin").toDouble();
-                    if( avoin > 1e-5)
+                    if( qAbs(avoin) > 1e-5)
                         return QString("%L1 €").arg( avoin ,0,'f',2);
                     else
                         return QVariant();  // Nollalle tyhjää
@@ -166,6 +168,19 @@ QVariant LaskuTauluModel::data(const QModelIndex &index, int role) const
             era.insert("sarja", map.value("sarja"));
             era.insert("saldo", map.value("avoin"));
             return era;
+        }
+    case Qt::DecorationRole: {
+        if( index.column() == NUMERO) {
+                switch (map.value("tyyppi").toInt()) {
+                case TositeTyyppi::MYYNTILASKU:
+                    return QIcon(":/pic/lasku.png");
+                case TositeTyyppi::HYVITYSLASKU:
+                    return QIcon(":/pic/poista.png");
+                case TositeTyyppi::MAKSUMUISTUTUS:
+                    return QIcon(":/pic/punainenkuori.png");
+                }
+
+            }
         }
     }
     return QVariant();
