@@ -367,8 +367,7 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
     }
     else if( tyyppi == TositeTyyppi::HYVITYSLASKU)
     {
-        painter->drawText(QRectF( keskiviiva + mm, pv - rk * 2, leveys - keskiviiva, rk-mm ), Qt::AlignBottom,  QString("%1 %2").arg(t("hlasku"))
-                          .arg( "TODO: VIITTAUSLASKU") );
+        painter->drawText(QRectF( keskiviiva + mm, pv - rk * 2, leveys - keskiviiva, rk-mm ), Qt::AlignBottom,  t("hlasku"));
     }
     else
     {
@@ -387,16 +386,26 @@ void MyyntiLaskunTulostaja::ylaruudukko( QPagedPaintDevice *printer, QPainter *p
         }
     }
     painter->drawText(QRectF( keskiviiva + mm, pv + rk, (leveys-keskiviiva) / 2, rk-mm ), Qt::AlignBottom,  kp()->asetus("LaskuHuomautusaika") );
-
-    painter->drawText(QRectF( keskiviiva + mm, pv + rk * 2, (leveys-keskiviiva) / 2, rk-mm ), Qt::AlignBottom,  asviite );
+    painter->drawText(QRectF( keskiviiva + mm, pv + rk * 2, leveys-keskiviiva, rk-mm ), Qt::AlignBottom,  asviite );
 
     // Kirjoittamista jatkettaan ruudukon jälkeen - taikka ikkunan, jos se on isompi
     qreal ruutukorkeus = asviite.isEmpty() ? pv + rk * 2 : pv + rk *3;
     qreal ikkunakorkeus = ikkuna.y() + ikkuna.height() + 5 * mm;
-
     painter->setFont( QFont("FreeSans", 10));
 
-    QString lisatieto = map_.value("lasku").toMap().value("otsikko").toString();
+
+    QString lisatieto;
+
+    // Lisätietoja voisi muotoilla vielä paremmin
+    if( tyyppi == TositeTyyppi::HYVITYSLASKU) {
+        lisatieto.append( t("hyvitysteksti").arg(map_.value("lasku").toMap().value("alkupNro").toLongLong())
+                                            .arg(map_.value("lasku").toMap().value("alkupPvm").toDate().toString("dd.MM.yyyy")));
+    }
+
+    QString otsikko = map_.value("lasku").toMap().value("otsikko").toString();
+    if( !otsikko.isEmpty() && !lisatieto.isEmpty())
+        lisatieto.append("\n\n");
+    lisatieto.append(otsikko);
     QString info = map_.value("into").toString();
     if( !lisatieto.isEmpty() && !info.isEmpty())
         lisatieto.append("\n\n");

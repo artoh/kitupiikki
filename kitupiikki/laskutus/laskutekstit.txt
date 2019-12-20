@@ -113,8 +113,8 @@ ENviivkorko Overdue fine
 kateinen Käteislasku / Kuitti
 SEkateinen Kvitto
 ENkateinen Cash receipt
-hlasku Hyvityslasku laskulle
-SEhlasku Kompensationtill faktura  
+hlasku Hyvityslasku
+SEhlasku Kompensation till faktura  
 ENhlasku Compensation for invoice
 maksumuistutus MAKSUMUISTUTUS
 SEmaksumuistutus BETALNINGSPÅMINNELSE

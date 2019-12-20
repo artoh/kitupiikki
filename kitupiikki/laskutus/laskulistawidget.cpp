@@ -67,13 +67,14 @@ LaskulistaWidget::LaskulistaWidget(QWidget *parent) :
     connect( ui->muokkaaNappi, &QPushButton::clicked, this, &LaskulistaWidget::muokkaa);    
     connect( ui->poistaNappi, &QPushButton::clicked, this, &LaskulistaWidget::poista);
 
+    connect( ui->hyvitysNappi, &QPushButton::clicked, this, &LaskulistaWidget::hyvita);
+
     connect( ui->view, &QTableView::doubleClicked, this, &LaskulistaWidget::muokkaa);
 
     connect( ui->view->selectionModel(), &QItemSelectionModel::selectionChanged, this, &LaskulistaWidget::paivitaNapit);
     connect( ui->view->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &LaskulistaWidget::paivitaNapit);
 
     // Nämä toistaiseksi poissa käytöstä
-    ui->hyvitysNappi->hide();
     ui->muistutusNappi->hide();
 }
 
@@ -126,6 +127,9 @@ void LaskulistaWidget::paivitaNapit()
 
     ui->lahetaNappi->setEnabled( index.isValid() );
     ui->kopioiNappi->setEnabled( index.isValid() );
+    ui->hyvitysNappi->setVisible( index.isValid()
+                               && index.data(LaskuTauluModel::TyyppiRooli).toInt() == TositeTyyppi::MYYNTILASKU
+                               && index.data(LaskuTauluModel::ViiteRooli).toLongLong());
     ui->naytaNappi->setEnabled( index.isValid() );
     ui->muokkaaNappi->setEnabled( index.isValid() );
 
@@ -200,6 +204,16 @@ void LaskulistaWidget::kopioi()
     }
 }
 
+void LaskulistaWidget::hyvita()
+{
+    int tositeId = ui->view->selectionModel()->selectedRows().value(0).data(LaskuTauluModel::TositeIdRooli).toInt();
+    if( tositeId ) {
+        KpKysely* kysely = kpk( QString("/tositteet/%1").arg(tositeId));
+        connect(kysely, &KpKysely::vastaus, this, &LaskulistaWidget::teeHyvitysLasku);
+        kysely->kysy();
+    }
+}
+
 void LaskulistaWidget::poista()
 {
     QModelIndex index = ui->view->selectionModel()->selectedRows().value(0);
@@ -244,6 +258,7 @@ void LaskulistaWidget::haettuKopioitavaksi(QVariant *data)
     map.remove("id");
     map.insert("tila", Tosite::LUONNOS);
     map.remove("viennit");
+    map.remove("loki");
     QVariantMap lmap = map.take("lasku").toMap();
 
     QVariantMap umap;
@@ -258,6 +273,42 @@ void LaskulistaWidget::haettuKopioitavaksi(QVariant *data)
     map.insert("lasku", umap);
 
     LaskuDialogi* dlg = new LaskuDialogi(map);
+    dlg->show();
+}
+
+void LaskulistaWidget::teeHyvitysLasku(QVariant *data)
+{
+    QVariantMap alkup = data->toMap();
+    QVariantMap hyvitys;
+
+
+    QVariantMap alkuplasku = alkup.value("lasku").toMap();
+    QVariantMap lasku;
+    lasku.insert("kieli", alkuplasku.value("kieli"));
+    lasku.insert("laskutapa", alkuplasku.value("laskutapa"));
+    lasku.insert("alkupNro", alkuplasku.value("numero"));
+    lasku.insert("osoite", alkuplasku.value("osoite"));
+    lasku.insert("email", alkuplasku.value("email"));
+    lasku.insert("alkupPvm", alkup.value("pvm"));
+    lasku.insert("viite", alkuplasku.value("viite"));
+    if(alkuplasku.contains("alvtunnus"))
+        lasku.insert("alvtunnus", alkuplasku.value("alvtunnus"));
+    lasku.insert("era", alkup.value("viennit").toList().value(0).toMap().value("id").toInt());
+    hyvitys.insert("lasku", lasku);
+
+    hyvitys.insert("kumppani", alkup.value("kumppani"));
+    hyvitys.insert("tyyppi", TositeTyyppi::HYVITYSLASKU);
+
+    QVariantList alkuprivit = alkup.value("rivit").toList();
+    QVariantList rivit;
+    for( auto item : alkuprivit) {
+        QVariantMap rmap = item.toMap();
+        rmap.insert("myyntikpl", 0-rmap.value("myyntikpl").toDouble());
+        rivit.append(rmap);
+    }
+    hyvitys.insert("rivit", rivit);
+
+    LaskuDialogi* dlg = new LaskuDialogi(hyvitys);
     dlg->show();
 }
 

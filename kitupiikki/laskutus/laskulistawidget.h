@@ -52,11 +52,13 @@ public slots:
 private slots:
     void muokkaa();
     void kopioi();
+    void hyvita();
     void poista();
 
     void naytaLasku();
     void naytaDialogi(QVariant* data);
     void haettuKopioitavaksi(QVariant* data);
+    void teeHyvitysLasku(QVariant *data);
 
 
 private:

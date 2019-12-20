@@ -134,9 +134,12 @@ void Tosite::lataaData(QVariant *variant)
     loki()->lataa( data_.take("loki").toList());
     liitteet()->lataa( data_.take("liitteet").toList());
 
-    int kumppani = data_.value("kumppani").toMap().value("id").toInt();
-    if( kumppani )
-        data_.insert("kumppani", kumppani);
+    if( data_.contains("kumppani")) {
+        kumppaninimi_ = data_.value("kumppani").toMap().value("nimi").toString();
+        int kumppani = data_.value("kumppani").toMap().value("id").toInt();
+        if( kumppani )
+            data_.insert("kumppani", kumppani);
+    }
 
     emit ladattu();
 

@@ -91,6 +91,7 @@ public:
     QDate pvm() const;
     QString otsikko() const { return data(OTSIKKO).toString();}
     int kumppani() const { return data(KUMPPANI).toInt();}
+    QString kumppaninimi() const { return kumppaninimi_;}
     int tunniste() const { return data(TUNNISTE).toInt();}
     QString kommentti() const { return data(KOMMENTIT).toString();}
     QString sarja() const { return data(SARJA).toString();}    
@@ -143,6 +144,7 @@ private:
     TositeViennit* viennit_;
     TositeLiitteet* liitteet_;
     TositeLoki* loki_;
+    QString kumppaninimi_;
 
     bool resetointiKaynnissa_ = false;
 

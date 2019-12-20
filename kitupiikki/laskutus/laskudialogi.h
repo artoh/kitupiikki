@@ -48,11 +48,10 @@ public:
     ~LaskuDialogi() override;
 
     enum Tabs { RIVIT, LISATIEDOT, RYHMAT};
-    enum Lahetys { TULOSTETTAVA, SAHKOPOSTI, VERKKOLASKU, PDF };
+    enum Lahetys { TULOSTETTAVA, SAHKOPOSTI, VERKKOLASKU, PDF, EITULOSTETA };
     enum Maksutapa { LASKU, KATEINEN };
 
-    static int laskuIkkunoita();
-
+    static int laskuIkkunoita();    
 
 
 private slots:
@@ -106,13 +105,16 @@ private slots:
     void tallenna(Tosite::Tila moodi);
     void tallennusValmis(QVariant* vastaus);
 
+    int tyyppi() const { return tyyppi_;}
 
 private:
     void lataa(const QVariantMap& map);
+    void paivitaNakyvat();
     void lisaaRiviTab();
     QVariantMap vastakirjaus(const QString& otsikko) const;
 
     void alustaMaksutavat();
+
 
 
 public slots:
@@ -136,6 +138,8 @@ private:
     QString asAlvTunnus_;
     int tunniste_ = 0;
     int era_ = 0;
+    int alkupLasku_ = 0;
+    QDate alkupPvm_;
 
     int tyyppi_ = TositeTyyppi::MYYNTILASKU;
     Tosite::Tila tallennusTila_ = Tosite::POISTETTU;

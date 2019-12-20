@@ -117,7 +117,7 @@
      <item>
       <widget class="QPushButton" name="hyvitysNappi">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="text">
         <string>Hyvityslasku</string>
@@ -131,7 +131,7 @@
      <item>
       <widget class="QPushButton" name="muistutusNappi">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="text">
         <string>Maksumuistutus</string>

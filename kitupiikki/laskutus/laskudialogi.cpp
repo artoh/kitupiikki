@@ -372,6 +372,7 @@ void LaskuDialogi::paivitaLaskutustavat()
     if( emailRe.match( ui->email->text()).hasMatch() )
             ui->laskutusCombo->addItem(QIcon(":/pic/email.png"), tr("Lähetä sähköpostilla"), SAHKOPOSTI);
     ui->laskutusCombo->addItem( QIcon(":/pic/pdf.png"), tr("Tallenna pdf-tiedostoon"), PDF);
+    ui->laskutusCombo->addItem( QIcon(":/pic/tyhja.png"), tr("Ei tulosteta"), EITULOSTETA);
 
     ui->laskutusCombo->setCurrentIndex(  ui->laskutusCombo->findData(nykyinen) );
     if( ui->laskutusCombo->currentIndex() < 0)
@@ -389,6 +390,9 @@ void LaskuDialogi::laskutusTapaMuuttui()
     } else if( laskutustapa == PDF) {
         ui->valmisNappi->setText( tr("Tallenna ja toimita"));
         ui->valmisNappi->setIcon(QIcon(":/pic/pdf.png"));
+    } else if( laskutustapa == EITULOSTETA) {
+        ui->valmisNappi->setText( tr("Tallenna reskontraan"));
+        ui->valmisNappi->setIcon(QIcon(":/pic/ok.png"));
     } else {
         ui->valmisNappi->setText( tr("Tallenna ja tulosta"));
         ui->valmisNappi->setIcon(QIcon(":/pic/tulosta.png"));
@@ -434,7 +438,7 @@ QVariantMap LaskuDialogi::data() const
 
     map.insert("otsikko", otsikko);
     map.insert("pvm", kp()->paivamaara() );
-    map.insert("tyyppi",  TositeTyyppi::MYYNTILASKU);
+    map.insert("tyyppi",  tyyppi_);
     map.insert("rivit", rivit_->rivit());
 
     if( !ui->lisatietoEdit->toPlainText().isEmpty())
@@ -464,6 +468,10 @@ QVariantMap LaskuDialogi::data() const
     lasku.insert("maksutapa", ui->maksuCombo->currentData());
     lasku.insert("otsikko", ui->otsikkoEdit->text());
     lasku.insert("saate", ui->saateEdit->toPlainText());
+    if( tyyppi_ != TositeTyyppi::MYYNTILASKU) {
+        lasku.insert("alkupNro", alkupLasku_);
+        lasku.insert("alkupPvm", alkupPvm_);
+    }
 
     map.insert("lasku", lasku);
 
@@ -576,7 +584,9 @@ QVariantMap LaskuDialogi::vastakirjaus(const QString &otsikko) const
         vienti.setViite( viite_ );
 
     if( era_ ) {
-        vienti.insert("id", era_);
+        if( tyyppi() == TositeTyyppi::MYYNTILASKU) {
+            vienti.insert("id", era_);
+        }
         vienti.setEra(era_);
     }
 
@@ -646,13 +656,14 @@ void LaskuDialogi::lataa(const QVariantMap &map)
 {
 
     QVariantMap vienti = map.value("viennit").toList().value(0).toMap();
-    tyyppi_ = map.value("tyyppi").toInt();
+    tyyppi_ = map.value("tyyppi").toInt();    
     alustaMaksutavat();
 
     ui->asiakas->set( map.value("kumppani").toMap().value("id").toInt(),
                       map.value("kumppani").toMap().value("nimi").toString());
 
     QVariantMap lasku = map.value("lasku").toMap();
+
     ui->osoiteEdit->setPlainText( lasku.value("osoite").toString());
     ui->email->setText( lasku.value("email").toString() );
     ui->asViiteEdit->setText( lasku.value("asviite").toString() );
@@ -670,16 +681,17 @@ void LaskuDialogi::lataa(const QVariantMap &map)
 
     tositeId_ = map.value("id").toInt();
     laskunnumero_ = lasku.value("numero").toLongLong();
+    alkupLasku_ = lasku.value("alkupNro").toInt();
+    alkupPvm_ = lasku.value("alkupPvm").toDate();
     viite_ = lasku.value("viite").toString();
     tunniste_ = map.value("tunniste").toInt();
-    era_ = vienti.value("id").toInt();
+    era_ = tyyppi_ == TositeTyyppi::MYYNTILASKU
+            ? vienti.value("id").toInt()
+            : lasku.value("era").toInt();
     asAlvTunnus_ = lasku.value("alvtunnus").toString();
 
     tallennettu_ = data();
     paivitaSumma();
-
-    if( laskunnumero_)
-        setWindowTitle(tr("Lasku %1").arg(laskunnumero_));
 
     if( !viite_.isEmpty()) {
         ui->viiteLabel->show();
@@ -710,7 +722,29 @@ void LaskuDialogi::lataa(const QVariantMap &map)
     ui->luonnosNappi->setVisible( tila == Tosite::LUONNOS );
     ui->tallennaNappi->setVisible( tila < Tosite::KIRJANPIDOSSA );
 
+    paivitaNakyvat();
     paivitaNapit();
+
+}
+
+void LaskuDialogi::paivitaNakyvat()
+{
+    setWindowTitle( kp()->tositeTyypit()->nimi(tyyppi_) + " " +
+                    (laskunnumero_ > 0 ? QString::number(laskunnumero_)
+                                      : ""));
+
+    if( tyyppi() == TositeTyyppi::HYVITYSLASKU ) {
+        setWindowTitle( windowTitle() + tr(" laskulle %1").arg(alkupLasku_) );
+        ui->toimituspvmLabel->setText( tr("Hyvityspäivä"));
+        ui->eraLabel->hide();
+        ui->eraDate->hide();
+        ui->viivkorkoLabel->hide();
+        ui->viivkorkoSpin->hide();
+    }
+    ui->maksuCombo->setVisible( tyyppi() == TositeTyyppi::MYYNTILASKU );
+    ui->jaksoViivaLabel->setVisible( tyyppi() == TositeTyyppi::MYYNTILASKU);
+    ui->jaksoDate->setVisible( tyyppi() == TositeTyyppi::MYYNTILASKU );
+
 
 }
 

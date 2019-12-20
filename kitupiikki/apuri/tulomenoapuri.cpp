@@ -124,10 +124,13 @@ void TuloMenoApuri::teeReset()
 
     alusta( menoa );
 
-    ui->viiteEdit->clear();
-    ui->erapaivaEdit->clear();
-    ui->asiakasToimittaja->clear();
+
     rivit_->clear();
+
+    ui->viiteEdit->setText( tosite()->data(Tosite::VIITE).toString());
+    ui->erapaivaEdit->setDate( tosite()->data(Tosite::ERAPVM).toDate());
+    ui->asiakasToimittaja->set( tosite()->kumppani(),
+                            tosite()->kumppaninimi());
 
     QVariantList vientiLista = tosite()->viennit()->viennit().toList();
 
@@ -149,16 +152,8 @@ void TuloMenoApuri::teeReset()
             maksutapaMuuttui();
             ui->vastatiliLine->valitseTiliNumerolla( vastatili->numero() );
 
-
             if( vastatili->eritellaankoTase())
                 ui->eraCombo->valitse( vienti.eraId() );
-
-            ui->viiteEdit->setText( vienti.viite());
-            ui->erapaivaEdit->setDate( vienti.erapaiva());
-
-            ui->asiakasToimittaja->set( vienti.value("kumppani").toMap().value("id").toInt(),
-                                    vienti.value("kumppani").toMap().value("nimi").toString());
-
 
         } else {
             rivit_->lisaa(vienti);

@@ -47,6 +47,8 @@ bool MyyntiLaskujenToimittaja::toimitaLaskut(const QList<QVariantMap> &laskut)
             tallennettavat_.append(lasku);
         else if(toimitustapa == LaskuDialogi::SAHKOPOSTI)
             sahkopostilla_.append(lasku);
+        else if(toimitustapa == LaskuDialogi::EITULOSTETA)
+            merkkaaToimitetuksi(lasku.value("id").toInt());
     }
 
     if( !tulostettavat_.isEmpty())
@@ -204,10 +206,15 @@ void MyyntiLaskujenToimittaja::merkkaaToimitetuksi(int tositeId)
 QString MyyntiLaskujenToimittaja::maksutiedot(const QVariantMap &data)
 {
     MyyntiLaskunTulostaja tulostaja(data);
+
+    double yhteensa = data.value("viennit").toList().value(0).toMap().value("debet").toDouble();
+    if( yhteensa < 1e-5)
+        return tulostaja.t("Ei maksettavaa");   // Ei maksettavaa
+
     QVariantMap lasku = data.value("lasku").toMap();
 
     QString txt = tulostaja.t("erapvm") + " " + lasku.value("erapvm").toDate().toString("dd.MM.yyyy") + "\n";
-    txt.append(tulostaja.t("Yhteensa") + " " + QString::number(data.value("viennit").toList().value(0).toMap().value("debet").toDouble(),'f',2) + " €\n");
+    txt.append(tulostaja.t("Yhteensa") + " " + QString::number(yhteensa,'f',2) + " €\n");
     txt.append(tulostaja.t("viitenro") + " " + tulostaja.muotoiltuViite() + "\n");
     txt.append(tulostaja.t("iban") + " " + tulostaja.iban() + "\n");
     txt.append(tulostaja.t("virtviiv") + " " + tulostaja.virtuaaliviivakoodi());
